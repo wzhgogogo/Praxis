@@ -1,0 +1,32 @@
+{
+  "name": "praxis-zhixing",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "test": "node --import tsx --test src/harness/*.test.ts src/core/*/*.test.ts src/domains/*/*.test.ts src/infrastructure/*/*.test.ts src/server/*.test.ts src/eval/*.test.ts",
+    "dev": "node --env-file-if-exists=.env --import tsx src/server/local-web-server.ts",
+    "eval:intent:fixture": "node --import tsx src/eval/run-restaurant-intent-fixture-eval.ts",
+    "eval:decision:preflight": "node --import tsx src/eval/run-restaurant-decision-eval-preflight.ts",
+    "eval:decision:preflight:complete": "node --import tsx src/eval/run-restaurant-decision-eval-preflight.ts --require-complete",
+    "eval:decision:fixture": "node --import tsx src/eval/run-restaurant-decision-fixture-eval.ts",
+    "eval:search:fixture": "node --import tsx src/eval/run-local-search-fixture-eval.ts",
+    "eval:intent:deepseek": "node --env-file-if-exists=.env --import tsx src/eval/run-restaurant-intent-deepseek-eval.ts",
+    "test:postgres:live": "node --env-file-if-exists=.env --import tsx src/infrastructure/postgres/postgres-live-smoke.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.4",
+    "@types/node": "^24.13.3",
+    "@types/pg": "^8.20.4",
+    "tsx": "^4.23.7",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "pg": "^8.22.0"
+  }
+}
