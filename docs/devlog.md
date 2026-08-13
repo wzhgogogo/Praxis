@@ -1,11 +1,28 @@
 # Development Log
 
 - Status: Accepted
-- Version: 4.14
+- Version: 4.15
 - Last updated: 2026-08-13
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Roadmap](roadmap.md), [Test Log](test-log.md)
+
+## 2026-08-13 — Version branch delivery convention
+
+### Why
+
+v15 的完整实现最初位于名称仍代表 v14 的工作分支上。即使提交内容正确，若继续按旧分支名交付，会混淆版本范围、评估结果和可回退历史；每次交付前也不应依赖用户重复口述分支选择。
+
+### Changes
+
+- 在`AGENTS.md`固定版本分支命名：新的已接受架构、主链路或不兼容 State / Schema / Eval 版本从已验证 HEAD 创建`codex/<scope>-v<major>`分支；前一版本分支保留为历史指针。
+- 同一已命名版本内的修复和验收补充继续使用原版本分支，避免为普通小改动制造无意义分支。
+- 在Post-change Verify增加交付检查：确认分支版本一致、暂存范围、`git diff --check`、本地提交和远端 push 的实际结果；远端推送仍需用户明确授权。
+- 从已验证的`714adcb`创建本地`codex/restaurant-decision-v15`，保留`codex/restaurant-decision-v14`不变。
+
+### Boundary
+
+这是一项Git与文档治理变更；没有改变Runtime、Restaurant状态、模型调用、外部工具或产品行为。
 
 ## 2026-08-13 — v15 DeepSeek Semantic Proposal regression runner
 

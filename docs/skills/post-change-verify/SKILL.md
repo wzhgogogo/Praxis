@@ -15,6 +15,12 @@ npm run build
 
 Runtime、Policy、Restaurant状态或Mock Adapter改动至少运行以上三项。PostgreSQL持久化改动在用户提供显式测试数据库写入授权后，另运行`npm run test:postgres:live`；PGlite结果不得替代该项。Stage 2B本地Fixture HTTP/SSE与Pilot Session Contract现包含在`npm test`，但不等同于生产身份、Browser视觉验证、Replay、真实PostgreSQL部署或真实平台验证；这些完成前不得报告通过。
 
+## Git 版本交付检查
+
+当交付包含新的已接受架构版本、主链路版本或不兼容的 State / Schema / Eval 口径版本时，先确认当前分支名是否仍代表旧版本。若是，必须从已验证 HEAD 创建`codex/<scope>-v<major>`新分支，保留旧版本分支；同一版本内的修复则继续使用该版本分支。
+
+在用户要求本地保存或远端交付时：暂存范围必须只包含本次改动，`git diff --check`必须通过，并在最终交接中分别报告本地 commit、当前分支和远端 push 的实际结果。远端 push 需要用户明确授权；被拒绝、失败或未尝试都不得写成已推送。
+
 ## 标准流程
 
 1. 识别改动文件和受影响层。

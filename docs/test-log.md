@@ -1,11 +1,27 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Version: 4.11
+- Version: 4.12
 - Last updated: 2026-08-13
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Test Skill](skills/test/SKILL.md), [Harness Design](harness/HARNESS-DESIGN.md)
+
+## 2026-08-13 — Version branch delivery convention verification
+
+### Scope
+
+Git 与文档治理变更：为 v15 从已验证提交建立独立版本分支，并将版本分支选择与交付检查写入`AGENTS.md`和Post-change Verify。没有运行时、状态、模型、Provider、Adapter或产品行为改动。
+
+### Checks
+
+- 创建前工作区干净，当前 v15 实现 HEAD 为`714adcb`。
+- 已从该提交创建`codex/restaurant-decision-v15`；`codex/restaurant-decision-v14`保留，未被重写。
+- `git diff --check`：通过。未运行TypeScript、Fixture、Replay或真实模型测试，因为没有可执行产品改动。
+
+### Modes and external effects
+
+没有Unit、Fixture、Mock Harness、Replay、Real Model、Live Read-only或Controlled Live-write。Git分支创建只改变本地仓库引用；远端 push 单独报告，且必须取得用户明确授权。
 
 ## 2026-08-13 — v15 DeepSeek Semantic Proposal regression verification
 
