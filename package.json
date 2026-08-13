@@ -14,6 +14,8 @@
     "eval:decision:preflight": "node --import tsx src/eval/run-restaurant-decision-eval-preflight.ts",
     "eval:decision:preflight:complete": "node --import tsx src/eval/run-restaurant-decision-eval-preflight.ts --require-complete",
     "eval:decision:fixture": "node --import tsx src/eval/run-restaurant-decision-fixture-eval.ts",
+    "eval:decision:model:fixture": "node --import tsx src/eval/run-restaurant-decision-fixture-model-eval.ts",
+    "eval:decision:deepseek:smoke": "node --env-file-if-exists=.env --import tsx src/eval/run-restaurant-decision-deepseek-smoke.ts",
     "eval:search:fixture": "node --import tsx src/eval/run-local-search-fixture-eval.ts",
     "eval:intent:deepseek": "node --env-file-if-exists=.env --import tsx src/eval/run-restaurant-intent-deepseek-eval.ts",
     "test:postgres:live": "node --env-file-if-exists=.env --import tsx src/infrastructure/postgres/postgres-live-smoke.ts",

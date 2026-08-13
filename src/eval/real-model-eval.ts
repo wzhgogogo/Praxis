@@ -150,7 +150,7 @@ function costFor(
 
 export function summarizeRealModelEval(
   records: readonly ModelInvocationRecord[],
-  evaluatedCases: number,
+  expectedPrimaryCalls: number,
   pricing: RealModelEvalPricing | undefined,
 ): RealModelEvalMetrics {
   const inputTokens = sumUsage(records, "inputTokens");
@@ -172,7 +172,7 @@ export function summarizeRealModelEval(
     modelCalls: records.length,
     successfulCalls: records.filter((record) => record.outcome === "SUCCEEDED").length,
     failedCalls: records.filter((record) => record.outcome === "FAILED").length,
-    retryCalls: Math.max(0, records.length - evaluatedCases),
+    retryCalls: Math.max(0, records.length - expectedPrimaryCalls),
     totalLatencyMs: records.reduce((sum, record) => sum + record.latencyMs, 0),
     providerModels: [...new Set(records.map((record) => `${record.provider}:${record.model}`))].sort(),
     usage,

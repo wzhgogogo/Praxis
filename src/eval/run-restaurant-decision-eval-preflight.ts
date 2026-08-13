@@ -1,5 +1,5 @@
 import { runRestaurantDecisionEvalPreflight } from "./restaurant-decision-eval-preflight.js";
-import { restaurantDecisionGoldenSeedV07 } from "./restaurant-decision-eval-seed.js";
+import { restaurantDecisionGoldenSeedV010 } from "./restaurant-decision-eval-seed.js";
 
 const allowedArguments = new Set(["--require-complete"]);
 const unsupportedArguments = process.argv.slice(2).filter((argument) => !allowedArguments.has(argument));
@@ -10,7 +10,7 @@ if (unsupportedArguments.length > 0) {
 const mode = process.argv.includes("--require-complete")
   ? "REQUIRE_COMPLETE"
   : "ANNOTATION_DRAFT";
-const report = runRestaurantDecisionEvalPreflight(restaurantDecisionGoldenSeedV07, mode);
+const report = runRestaurantDecisionEvalPreflight(restaurantDecisionGoldenSeedV010, mode);
 
 console.log(JSON.stringify(report, null, 2));
 

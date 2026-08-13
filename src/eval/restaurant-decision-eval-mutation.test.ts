@@ -14,10 +14,10 @@ import {
   type DecisionEvalStageId,
   type DecisionEvalTurnScore,
 } from "./restaurant-decision-eval-scorer.js";
-import { restaurantDecisionGoldenSeedV07 } from "./restaurant-decision-eval-seed.js";
+import { restaurantDecisionGoldenSeedV010 } from "./restaurant-decision-eval-seed.js";
 
 function clonedDataset(): DecisionEvalDataset {
-  return structuredClone(restaurantDecisionGoldenSeedV07);
+  return structuredClone(restaurantDecisionGoldenSeedV010);
 }
 
 function episodeById(dataset: DecisionEvalDataset, episodeId: string): DecisionEvalEpisode {
@@ -94,7 +94,14 @@ test("M03 S1 attributes an invented state fact to extraction", () => {
   const predictions = predictionsFromEpisode(episode);
   const prediction = predictions.get("DGS04-T03");
   assert.ok(prediction !== undefined);
-  prediction.statePatch = { add: { positivePreferences: ["quiet", "romantic"] } };
+  prediction.statePatch = {
+    add: {
+      preferences: [
+        { facet: "VIBE", value: "QUIET", polarity: "PREFER" },
+        { facet: "VIBE", value: "INTIMATE", polarity: "PREFER" },
+      ],
+    },
+  };
 
   assertFirstFailure(
     "M03",

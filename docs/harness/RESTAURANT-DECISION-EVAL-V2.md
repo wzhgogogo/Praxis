@@ -1,8 +1,8 @@
 # Restaurant Progressive Decision Eval v2
 
 - Status: Draft
-- Version: 1.4
-- Last updated: 2026-08-10
+- Version: 2.9
+- Last updated: 2026-08-13
 - Source of truth for: Restaurant低确定性需求、多轮偏好形成、推荐收敛的Eval计划、数据规则、评分与发布门槛
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md)
 - Related documents: [MVP PRD](../product/MVP-PRD.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md), [Eval Skill](../skills/eval/SKILL.md), [Harness Design](HARNESS-DESIGN.md), [Golden Seed Annotation](RESTAURANT-DECISION-GOLDEN-SEED-ANNOTATION.md), [Roadmap](../roadmap.md)
@@ -17,7 +17,29 @@ Eval v2评估的是这一渐进决策能力，不把“第一句话是否包含�
 
 当前8条`restaurant-intent-eval-v1`保留并改称`Single-turn Extraction Contract Set`，只验证结构、明确字段、Tokyo相对日期和当前Parser回归。2026-08-08运行的1条真实样本只算`REAL_MODEL CONNECTIVITY SMOKE`，不算Eval v2基线。
 
-Implementation status（2026-08-10）：Dataset/Fixture/Annotation Contract、7个Golden Seed Episode、7个Candidate Pool、S0 Dataset Preflight和CLI已实现；17个Turn均已完成人工Gold，Draft与严格Preflight均为`READY_FOR_EVALUATOR`。Eval-only Decision State Reducer及S1–S8确定性Scorer、首错/Blocked归因、Fixture Oracle CLI和18个S0–S8单点Mutation已实现并通过；当前Fixture含29个候选和417个Fact Ref。S6按固定Eligible集合检查检索，S7检查只能从已检索集合选择、数量和所需差异并识别Fixture多样性缺口，S8检查State/Candidate Fact引用、禁止声明及严重过敏卡片的“仍需餐厅确认”结构化披露。Harness-only Model Contract已提供版本化Prompt、严格JSON验证、一次Schema重试和Provider失败分离；完整Episode Model Runner、Scorecard聚合和真实模型Baseline尚未实现。
+Implementation status（2026-08-11）：Dataset/Fixture/Annotation Contract、7个Golden Seed Episode、7个Candidate Pool、S0 Dataset Preflight和CLI已实现；17个Turn均已完成人工Gold，Draft与严格Preflight均为`READY_FOR_EVALUATOR`。Eval-only Decision State Reducer及S1–S8确定性Scorer、首错/Blocked归因、Fixture Oracle CLI和18个S0–S8单点Mutation已实现并通过；当前Fixture含29个候选和417个Fact Ref。S6按固定Eligible集合检查检索，S7检查只能从已检索集合选择、数量和所需差异并识别Fixture多样性缺口，S8检查State/Candidate Fact引用、禁止声明及严重过敏卡片的“仍需餐厅确认”结构化披露。Harness-only Model Contract已提供版本化Prompt、严格JSON验证、一次Schema重试和Provider失败分离；完整Episode Runner现已实现，逐Turn将明确的Golden Fixture候选上下文、Proposal、S6 Fixture结果和S1–S8 Scorer组装，且不保存原始Prompt/Completion。仅在显式诊断开关下，这组静态虚构Golden Fixture的Completion可随本次终端输出供人工审阅，绝不进入普通遥测、数据库或文件。Runner的Golden Fixture路径已通过；前三次DeepSeek Smoke（Prompt v1和两次v2）均因`INVALID_MODEL_OUTPUT`停止；Prompt v3已使7个Turn全部进入评分、没有Schema Retry，但均首错于S1；Prompt v4将S1提升为6/7通过，仍有5个Turn首错于缺Grounding；Prompt v5移除静态Prompt中的Gold实体、地点、菜系与反馈示例，7个Turn仍全部结构合规且无Schema Retry，但S1为5/7通过，首错为两处State、一次State Accumulation、三次Grounding与一次不足候选解释。固定Smoke的`DGS01/DGS03/DGS05`及其结果已用于迭代Prompt v1–v5，当前CLI会标记为`DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`；所有既有Smoke仅是开发诊断，不可报告为语义基线或版本趋势。Scorecard聚合和真实模型Baseline尚未实现。
+
+2026-08-11首次`FULL_REGRESSION`真实模型诊断通过显式范围运行了当前全部7个Episode、17个Turn，全部达到`SCORED`。它暴露的可调问题包括State/State Accumulation、品牌与单店目标区分、Grounding和不足候选解释；当前所有Seed和结果均已暴露，故运行仍严格属于`DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`，不能报告为Baseline或版本趋势。
+
+Golden v0.8 / Prompt v6在Harness内把三类事实从模型输出移走：命名目标的`BRAND`/`RESTAURANT`只能来自带时间戳的`FIXTURE_DISCOVERY`解析结果；候选不足只能来自确定性的`retrievalSummary`；候选Fact引用与过敏确认披露由Runner在模型选择候选后装配。S1也改为比较Patch的状态效果，允许无害的重复写入但仍拒绝改变最终状态的提取错误。这个最小切片不接真实Discovery或Task Runtime；其Fixture验收是Preflight、Fixture Runner和Mutation保持可运行，而不是声称解决了真实搜索质量。
+
+2026-08-11的Prompt v6 `FULL_REGRESSION`真实模型诊断在显式付费开关下覆盖7个Episode、17个Turn：17次调用均成功，Runner记录0次Schema重试，P0为0；S1为6 Pass / 11 Fail，S2为4 Pass / 2 Fail / 11 Blocked，首错仅为11次State与2次State Accumulation。命名目标、Grounding和候选充分性不再是首错，说明Fixture Tool输入边界按预期抵消了相应的工程归因；它不证明真实Discovery质量或模型泛化。通用`modelMetrics.retryCalls: 10`来自将7个Episode作为17个Turn的分母，属于报告缺陷而非真实重试，必须在下一次运行前修正。
+
+为使首错可审阅而不仅是一个阶段计数，真实Eval CLI现在对当前静态、已暴露的Regression Seed在本机Git忽略的`.eval-artifacts/restaurant-decision/`落一个Markdown Artifact。每个Turn记录Fixture用户文本、候选上下文ID、期望/实际结构化Proposal、在同一Gold前序状态上的Patch效果差异、Gold/模型累计状态差异和全部S1–S8结果；它不记录System Prompt、自然语言Completion、Secret或生产用户数据。若Dataset含非`REGRESSION` Episode，CLI拒绝写出该Artifact，避免Holdout在调优前泄漏。`retryCalls`现按预期主调用数（本评测为Turn数）计数，历史v6的10只是已修正的报告错误。
+
+v6 `FULL_REGRESSION` Artifact记录4个完整通过Turn（DGS05全部四回合）与13个首错：10个S1、2个S2、1个S7。它将DGS03-T02和DGS04-T02证明为上游S1后的累计状态偏差，而不是本Turn的Patch错误；DGS02则在State通过后独立暴露`RECOMMENDATION_MISSING`。随后已确认的餐厅类别Canonicalization只接受`western food`/`western`、`japanese food`/`japanese`与`izakaya`的大小写；v9又单独加入有限地点Canonicalization。二者都只作用于S1/S2语义比较，店名、安全约束和其他自由文本仍严格。其余差异仍是待处理的真实语义错误，不得用模糊匹配掩盖。
+
+Prompt v7单独处理已暴露的Occasion错误：保留现有`SOLO | DATE | FRIENDS | FAMILY | TEAM | OTHER` Schema，不扩展生产状态；删除抽象缺字段示例中的`occasion: DATE`，并规定`DATE`只表示明确的浪漫约会/伴侣，`FRIENDS`、`FAMILY`和`TEAM`只表示用户明确的朋友、家人/亲属和工作同事/团队/部门。`ASK_CORE_FIELD.DATE`仍只表示日历日期；晚餐、日历日期、时段或未知社交情境均不得补猜`occasion`。静态规则没有加入任何Golden实体、地点、菜系、候选或话术。它尚未在真实模型上运行，且必须继续作为污染Regression的开发诊断，不能作为Baseline或泛化证据。
+
+Prompt v8 / Runner v3将固定参考时钟可确定的相对时间转为Eval可信输入，而非模型状态提取任务。当前仅识别英文`today`、`tomorrow`、`tonight`、`now`和`right now`，并使用每个Episode的`referenceTime`在`Asia/Tokyo`中得到日期；`tonight`和显式`evening/night/dinner`得到`DAYPART/DINNER`，`now/right now`得到该参考时刻的`APPROXIMATE`时间。若同句存在互斥日锚点或互斥Daypart，解析器不产出事实。Runner在调用前把可信时间写入模型累计State，并把它与模型Patch组合后再评分；诊断保留原始模型Patch、可信解析和有效Patch三者。此机制不读取真实时钟、不修改Golden、生产State或Runtime，也不证明模型泛化。
+
+Prompt v9 / Golden v0.9处理地点策略表示和有限比较：`FLEXIBLE`现在可带`anchorQuery`，用于表达“以某地为出发锚点且愿意移动”；无`anchorQuery`的`FLEXIBLE`仍只表示愿意出行，不满足推荐所需的可执行Location Strategy。S1/S2只把同一query的`AREA`与`NEAR_PLACE`视为等价，并做大小写/空白归一；`ADDRESS_OR_STREET`、不同query、`AREA`与`FLEXIBLE anchorQuery`仍严格区分。泛化`willing to travel`类scope由`FLEXIBLE`本身表达；`scope: "from/around X..."`仅作为旧结构兼容归入`anchorQuery`。该规则不调用地图、不判断真实行政区/车站/地标，也不掩盖漏写地点更新。
+
+Prompt v10不改变Golden、Schema或Scorer，只修正两类已暴露的状态抽取边界：社交用餐词只表示`occasion`，除非用户给出明确数字或范围，否则不得设置`party`；“would be good / maybe / preferably / I like / nice to have / not too”等软偏好只进入偏好数组，不能把开放目标提升成`CATEGORY`。这两类错误继续归因到S1 State Extraction，不通过canonicalization放宽。
+
+Prompt v11不改变Golden、Schema或Scorer，只修正S4动作路由边界：`BRAND`目标先走品牌分店解析，或在Exact/Window时间、Exact人数和具体Outlet候选已齐时查Availability，不走`CHECK_TARGET_RESTAURANT`；`RESTAURANT`目标继续走目标餐厅检查，不走品牌解析或通用推荐，即使候选上下文中已有多个Outlet；`OPEN/CATEGORY`才使用通用推荐流；可见选项反馈后使用`NARROW_FROM_FEEDBACK`。`APPROXIMATE`时间与宽泛`DAYPART`不得被当成Exact Availability。
+
+Prompt v14 / Proposal Schema 4 / Golden Schema 3把State Patch约束拆成清晰的Contract边界，而不增加新的编排层。模型仍直接输出不可信的Restaurant-owned typed `statePatch`；共享Contract模块提供机器可读JSON Schema、运行时Validator与语义Key，Reducer只有在校验通过后才合并。偏好不再是两个自由字符串数组，而是`facet + value + polarity`；禁烟和严重过敏采用封闭的Typed Hard Constraint。这样，`no smoking`是否属于硬约束、`nothing too formal`的canonical值以及移动意愿不能进入Preference，主要由输出类型和Validator约束，不再继续堆进Prompt。Prompt v14仅保留语义职责、关键边界和一个最小JSON示例；Kernel继续独立负责Readiness、路由、候选上限与Grounding。本次不引入Semantic Proposal编译器、通用Ontology、Workflow DSL或DeepSeek Beta Strict Function Calling。
 
 ## 2. 评测目标
 
@@ -105,16 +127,23 @@ type DecisionState = {
     | { kind: "AREA"; query: string }
     | { kind: "NEAR_PLACE"; query: string }
     | { kind: "ADDRESS_OR_STREET"; query: string }
-    | { kind: "FLEXIBLE"; scope?: string }
+    | { kind: "FLEXIBLE"; anchorQuery?: string; scope?: string }
     | { kind: "UNKNOWN" };
   target:
     | { kind: "OPEN" }
     | { kind: "CATEGORY"; query: string }
     | { kind: "BRAND"; query: string }
     | { kind: "RESTAURANT"; query: string; outletQuery?: string };
-  positivePreferences: string[];
-  negativePreferences: string[];
-  hardConstraints: string[];
+  preferences: Array<
+    | { facet: "CUISINE"; value: string; polarity: "PREFER" | "AVOID" }
+    | { facet: "VIBE"; value: "QUIET" | "INTIMATE"; polarity: "PREFER" | "AVOID" }
+    | { facet: "MENU_FORMAT"; value: "TASTING_MENU"; polarity: "PREFER" | "AVOID" }
+    | { facet: "FORMALITY"; value: "FORMAL"; polarity: "PREFER" | "AVOID" }
+  >;
+  hardConstraints: Array<
+    | { kind: "SMOKING_POLICY"; value: "FULLY_NON_SMOKING" }
+    | { kind: "ALLERGY"; allergen: string; severity: "SEVERE" }
+  >;
 };
 ```
 
@@ -125,8 +154,9 @@ type DecisionState = {
 - “和朋友吃晚饭”可保存为无日期的`DAYPART/DINNER`，日期仍保持未知并应被追问；`DAY / APPROXIMATE / WINDOW / EXACT`仍必须带日期；
 - “around 7:30pm”保存为`APPROXIMATE`和Preferred Time 19:30，不静默编译为Exact，也不发明19:00–20:00等有界Window；
 - “6–8人”保存Range，推荐筛选可用8人作为容量上限，但不能伪造最终预约人数；
-- “餐厅好就愿意过去”记录为`FLEXIBLE`意向，但若没有出发点、区域或其他地理锚点，仍是缺少可执行Location Strategy，必须追问；
-- “不想吃辣”是负向偏好/推荐排除，不自动升级为过敏；
+- “餐厅好就愿意过去”记录为`FLEXIBLE`意向，但若没有出发点、区域或其他地理锚点，仍是缺少可执行Location Strategy，必须追问；“从Ueno出发，也可以跑远”记录为`FLEXIBLE`并带`anchorQuery: "Ueno"`，不降级成普通`AREA`；
+- 可协商餐厅属性进入Typed Preference；不受支持的Facet不能以自由字符串混入State；
+- “不想吃辣”若未来进入本Contract，应作为负向偏好/推荐排除，不自动升级为过敏；当前最小Facet词表尚未纳入辣度，不允许模型临时发明类型；
 - “严重花生过敏”是条件触发的安全核心字段：未表达时不应阻塞初步推荐，一经表达即为Hard Constraint，不可被推荐多样性覆盖；
 - 对已声明过敏，S6–S8必须区分“未提供信息”“可接受请求”“来源说明有处理流程”和“明确不支持”；只有明确不支持才直接排除，其他状态必须在卡片中如实说明仍需餐厅确认，不得给出安全保证。详细产品规则以[Restaurant Booking Domain](../domains/RESTAURANT-BOOKING.md#过敏与特殊要求)为准；预约前Consent Card不属于当前Harness-only Eval v2的外部执行范围；
 - 用户明确修正时覆盖旧值；普通新增信息不删除未被否定的旧事实。
@@ -134,6 +164,10 @@ type DecisionState = {
 ## 7. Readiness规则
 
 Readiness由确定性规则评分，不由模型自由定义。
+
+### Eval-only Decision Kernel probe
+
+2026-08-12的最小探针把已归一的累计State、可信的Fixture/Search结果和候选Fact交给确定性Decision Kernel。它负责Readiness、下一步动作、核心澄清Topic、候选展示上限和结构化Grounding；模型只提出语义`statePatch`，并可在已提供的Candidate ID中给出排序意图。该探针不调用工具、不创建Task Event，也不是产品Task Runtime或可配置Workflow。Fixture/Search结果只进入Kernel，不能作为Gold标签、允许动作或评分提示交给模型。
 
 ### `RECOMMENDATION_READY`
 
@@ -213,12 +247,12 @@ type ProposedNextAction =
 | `S0 PREFLIGHT` | Dataset、版本、配置、Fixture和Scorer是否可运行 | 静态断言 | Dataset / Harness / Config |
 | `S1 STATE_EXTRACTION` | 本轮明确事实、否定和修正是否提取正确 | 结构化Precision / Recall / F1 | Model / Prompt / Parser Contract |
 | `S2 STATE_ACCUMULATION` | Patch是否按规则保留、覆盖和解决冲突 | 确定性Reducer测试 | Eval-only State Reducer |
-| `S3 READINESS` | 当前应为NOT、RECOMMENDATION还是AVAILABILITY READY | 确定性Gold比较 | Decision Policy |
-| `S4 ACTION_ROUTING` | 应追问、推荐、定位分店、查目标还是查空位 | Trigger Precision / Recall / F1 | Planner / Prompt |
+| `S3 READINESS` | 当前应为NOT、RECOMMENDATION还是AVAILABILITY READY | 确定性Gold比较 | Eval-only Decision Kernel |
+| `S4 ACTION_ROUTING` | 应追问、推荐、定位分店、查目标还是查空位 | Trigger Precision / Recall / F1 | Eval-only Decision Kernel |
 | `S5 CLARIFICATION` | 问哪些Topic、是否重复、是否一次问太多 | 结构化规则 | Dialogue Policy |
 | `S6 CANDIDATE_RETRIEVAL` | 固定池中是否找到满足硬约束的候选 | Candidate Precision / Recall | Fixture Retriever / Search Contract |
-| `S7 SELECTION_DIVERSITY` | 是否从合格池选出适量、有差异且吸收反馈的集合 | Oracle规则 | Ranker / Model |
-| `S8 RESPONSE_GROUNDING` | 决策过程和候选陈述是否有状态及Fixture依据 | 结构化引用 + 人工抽检 | Model / Context Delivery |
+| `S7 SELECTION_DIVERSITY` | 是否从合格池选出适量、有差异且吸收反馈的集合 | Oracle规则 | Model ranking intent / Decision Kernel |
+| `S8 RESPONSE_GROUNDING` | 决策过程和候选陈述是否有状态及Fixture依据 | 结构化引用 + 人工抽检 | Eval-only Decision Kernel |
 | `S9 JOURNEY_OUTCOME` | 多轮是否正确收敛且没有过度追问或过早行动 | Episode规则 | Integrated Journey |
 | `S10 OPERATIONS` | 调用、延迟、Token、成本、重试和Provider错误 | Telemetry | Provider / Runtime |
 
@@ -266,7 +300,7 @@ JOURNEY_CONVERGENCE_ERROR
 
 ```ts
 type DecisionEvalEpisode = {
-  schemaVersion: "2";
+  schemaVersion: "3";
   datasetVersion: string;
   id: string;
   split: "REGRESSION" | "HOLDOUT";
@@ -373,7 +407,7 @@ type DecisionEvalEpisode = {
 ### Split规则
 
 - `REGRESSION`用于Prompt、Schema和Evaluator日常迭代；
-- `HOLDOUT`不进入Prompt示例，不根据单次模型错误修改Label，只在候选版本评审时运行；
+- `HOLDOUT`不进入Prompt示例，不根据单次模型错误修改Label，只在候选版本评审时运行；具体的隔离与污染规则以[第16.1节](#161-防止测试集泄露答题作弊和过拟合)为准；
 - 真实Pilot Bad Case脱敏、人工重标后进入下一数据版本；
 - 修正Gold或评分规则必须提升Dataset/Evaluator版本并重跑基线，不能静默改历史分数。
 
@@ -586,8 +620,21 @@ Eval v2只有同时满足以下条件后才可称为`Progressive Decision Baseli
 7. 记录Provider/模型、调用数、延迟、Token、成本状态和失败样本ID；
 8. P0、Fixture Oracle、Real Model Mock World、Live Read-only和外部写入分别汇报；
 9. 原始敏感Prompt/Response不入库，失败样本只保存脱敏结构结果。
+10. 每份真实模型报告均声明`cohort`、`contaminationStatus`和`baselineEligible`；只有被冻结前保持`CLEAN_HOLDOUT`的样本可支持独立Baseline结论。
 
 “受控”表示固定变量、显式付费门禁、无产品状态写入和可复现报告；不表示数据天然代表所有真实用户。“Baseline”表示后续版本的比较起点；不等于已达到发布门槛。
+
+### 16.1 防止测试集泄露、答题作弊和过拟合
+
+本Harness把“模型在已知答案上变好”与“模型对未见场景变好”严格分开。以下规则同时约束Prompt、数据、诊断和报告：
+
+- `DEVELOPMENT_DIAGNOSTIC`：允许用于排查、修改Prompt/Schema/Fixture/Scorer的回归样本。可报告结构问题和定向诊断，但不能称为独立质量、Baseline或跨版本质量趋势。
+- `CLEAN_HOLDOUT`：在候选Prompt冻结前，Prompt作者和调参过程均未读取该Episode的用户文本、Candidate/Fact、Gold、Validator错误、Completion或分数；只有此状态的Holdout才可用于独立结论。
+- 任一Holdout的样本文本、实体名、候选ID/Fact、Gold状态、允许动作、评分错误或模型输出一旦进入Prompt、Prompt示例、调试记录或调参决策，即标为`PROMPT_EXPOSED`或`RESULT_EXPOSED`，立即降级为`DEVELOPMENT_DIAGNOSTIC`，不得通过再次运行“恢复”为Holdout。
+- Prompt示例只能说明抽象Schema和通用规则，不得包含任何Regression/Holdout的测试事实、样本实体或其正确答案。每Turn可交付的Candidate Context仅限该次运行的只读Fixture输入；它不能含Gold、Eligible/允许选择结论或评分提示。
+- 运行`CLEAN_HOLDOUT`前必须冻结Prompt、模型、Schema、参考时间、Case顺序和Evaluator版本；该轮结束后先归档报告，再决定是否查看结果或开始下一版本。任何Prompt或Evaluator变更都必须使用新的Prompt/Dataset版本和另一批未见Holdout。
+- 当前7个Golden Seed均为`REGRESSION`。固定Smoke的`DGS01/DGS03/DGS05`已经在Prompt v1–v5中被直接用于诊断和规则修正；2026-08-11的`FULL_REGRESSION`又已检查全部7个Episode。整个集合分类为`DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`。所有既有数值只记录为开发诊断，不得作为Baseline、质量趋势或发布证据。
+- 新建Holdout时，先由不参与Prompt编写的人或隔离流程完成样本与Gold，并在Prompt冻结前不向调参者暴露内容。发现泄露时保留该样本作Regression，并新建替代Holdout；不得修改Gold来迎合模型输出。
 
 ## 17. 实现顺序与验收
 
@@ -629,15 +676,16 @@ npm run eval:decision:fixture
 
 验收：Retrieval失败不重复归因为Selection失败；Gold Eligible Pool诊断能独立测试S7/S8；不存在候选事实不能被标为Grounded。
 
-### Step 4 — Harness-only Model Contract
+### Step 4 — Harness-only Model Contract, Decision Kernel probe and Episode Runner
 
-- Status: `in progress` — 2026-08-10。已实现版本化Proposal Prompt/Schema、严格输出Validator、最多一次无效Schema重试和`FAIL_CLOSED` Provider失败；尚未实现驱动完整Episode的Fixture/Real Model Runner。
+- Status: `implemented: typed Contract + Fixture Runner + Decision Kernel probe` — 2026-08-13。已实现版本化Proposal Prompt、机器可读JSON Schema、共享运行时Validator、最多一次无效Schema重试、`FAIL_CLOSED` Provider失败，以及严格Preflight后逐Episode/Turn运行的Runner。Prompt v14 / Proposal Schema 4只允许typed `statePatch`和可选已知Candidate ID排序；确定性Kernel装配Readiness、动作、候选上限和Grounding。本地Golden Fixture Gateway验证完整组装；DeepSeek Smoke仍要求显式付费开关。仅在静态Fixture专用的`PRAXIS_EVAL_SHOW_COMPLETIONS=1`下，CLI会把每次Completion和逐次Validator结果输出给当前终端，不保存正文。
 - 通过现有服务端Model Gateway运行版本化Eval-only Prompt；
+- 当前Prompt v14 / Proposal Schema 4保持Kernel职责不变；Prompt仅保留语义边界，Typed Preference与Hard Constraint由独立Contract模块定义和校验，不包含Regression实体或原句；
 - 输入仅包含脱敏Decision State、当前用户消息，以及阶段允许时的Fixture Candidate或上一轮Visible Options；
-- 输出只允许State Patch、Next Action、Candidate ID选择和结构化Fact Ref，不产生Task Event或副作用Command；Candidate Retrieval仍是单独评分的只读Fixture/Search阶段，模型输出不得伪造`retrievedCandidateIds`。
+- 输出只允许State Patch和可选Candidate ID排序，不产生Task Event或副作用Command；Candidate Retrieval仍是单独评分的只读Fixture/Search阶段，模型输出不得伪造`retrievedCandidateIds`。Kernel只接受可信检索结果和Candidate Fact，模型不接收检索充分性或评分标签。
 - 最多一次Schema重试，Provider失败fail closed。
 
-验收：Fixture Model路径可完整驱动Episode；产品Web、Parser和Runtime无改动。
+验收：Fixture Model路径可完整驱动Episode；每个Turn仅保存结构化Proposal、候选ID、评分和遥测，不保存原始Prompt/Completion；产品Web、Parser和Runtime无改动。
 
 ### Step 5 — Dataset扩充、消融与冻结
 

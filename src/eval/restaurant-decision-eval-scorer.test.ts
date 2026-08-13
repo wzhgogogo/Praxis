@@ -12,17 +12,17 @@ import {
   predictionFromGolden,
   scoreDecisionEpisode,
 } from "./restaurant-decision-eval-scorer.js";
-import { restaurantDecisionGoldenSeedV07 } from "./restaurant-decision-eval-seed.js";
+import { restaurantDecisionGoldenSeedV010 } from "./restaurant-decision-eval-seed.js";
 
 function episodeById(episodeId: string): DecisionEvalEpisode {
-  const episode = restaurantDecisionGoldenSeedV07.episodes.find((item) => item.id === episodeId);
+  const episode = restaurantDecisionGoldenSeedV010.episodes.find((item) => item.id === episodeId);
   assert.ok(episode !== undefined, `missing episode ${episodeId}`);
   return episode;
 }
 
 function poolFor(episode: DecisionEvalEpisode): RecommendationCandidatePool {
   assert.ok(episode.candidatePoolRef !== undefined, `${episode.id} requires a candidate pool`);
-  const pool = restaurantDecisionGoldenSeedV07.candidatePools.find(
+  const pool = restaurantDecisionGoldenSeedV010.candidatePools.find(
     (item) => item.id === episode.candidatePoolRef,
   );
   assert.ok(pool !== undefined, `missing pool ${episode.candidatePoolRef}`);
@@ -50,36 +50,40 @@ test("Eval-only reducer applies corrections, clears fields, and preserves unrela
     party: { min: 6, max: 8, precision: "RANGE" },
     location: { kind: "FLEXIBLE" },
     target: { kind: "OPEN" },
-    positivePreferences: ["Japanese food"],
-    negativePreferences: ["formal"],
-    hardConstraints: ["severe peanut allergy"],
+    preferences: [
+      { facet: "CUISINE", value: "Japanese food", polarity: "PREFER" },
+      { facet: "FORMALITY", value: "FORMAL", polarity: "AVOID" },
+    ],
+    hardConstraints: [{ kind: "ALLERGY", allergen: "PEANUT", severity: "SEVERE" }],
   };
 
   const next = applyDecisionStatePatch(current, {
     set: {
       party: { min: 5, max: 5, precision: "EXACT" },
-      location: { kind: "FLEXIBLE", scope: "from Ueno" },
+      location: { kind: "FLEXIBLE", anchorQuery: "Ueno" },
       time: null,
     },
-    add: { positivePreferences: ["quiet"] },
-    remove: { negativePreferences: ["formal"] },
+    add: { preferences: [{ facet: "VIBE", value: "QUIET", polarity: "PREFER" }] },
+    remove: { preferences: [{ facet: "FORMALITY", value: "FORMAL", polarity: "AVOID" }] },
   });
 
   assert.deepEqual(next, {
     occasion: "FRIENDS",
     party: { min: 5, max: 5, precision: "EXACT" },
-    location: { kind: "FLEXIBLE", scope: "from Ueno" },
+    location: { kind: "FLEXIBLE", anchorQuery: "Ueno" },
     target: { kind: "OPEN" },
-    positivePreferences: ["Japanese food", "quiet"],
-    negativePreferences: [],
-    hardConstraints: ["severe peanut allergy"],
+    preferences: [
+      { facet: "CUISINE", value: "Japanese food", polarity: "PREFER" },
+      { facet: "VIBE", value: "QUIET", polarity: "PREFER" },
+    ],
+    hardConstraints: [{ kind: "ALLERGY", allergen: "PEANUT", severity: "SEVERE" }],
   });
   assert.equal(current.time?.date, "2026-08-15");
   assert.deepEqual(current.party, { min: 6, max: 8, precision: "RANGE" });
 });
 
 test("Perfect Oracle passes every S1–S8 stage across the complete Golden Seed", () => {
-  for (const episode of restaurantDecisionGoldenSeedV07.episodes) {
+  for (const episode of restaurantDecisionGoldenSeedV010.episodes) {
     const episodeScore = score(episode, perfectPredictions(episode.id));
     assert.equal(episodeScore.rawJourneyPass, true, episode.id);
     assert.equal(episodeScore.controllableJourneyPass, true, episode.id);
@@ -124,8 +128,11 @@ test("S1–S5 single-point mutations have stable first-failure attribution", () 
   assert.ok(extractionPrediction !== undefined);
   extractionPrediction.statePatch = {
     add: {
-      positivePreferences: ["quiet", "romantic"],
-      hardConstraints: ["fully non-smoking"],
+      preferences: [
+        { facet: "VIBE", value: "QUIET", polarity: "PREFER" },
+        { facet: "VIBE", value: "INTIMATE", polarity: "PREFER" },
+      ],
+      hardConstraints: [{ kind: "SMOKING_POLICY", value: "FULLY_NON_SMOKING" }],
     },
   };
   const extractionScore = score(extractionEpisode, inventedFact);
@@ -136,6 +143,113 @@ test("S1–S5 single-point mutations have stable first-failure attribution", () 
     thirdTurn?.stages.find((stage) => stage.stage === "S2_STATE_ACCUMULATION")?.status,
     "BLOCKED_BY_UPSTREAM",
   );
+});
+
+test("S1 accepts a redundant no-op patch while S2 still checks the resulting state", () => {
+  const episode = episodeById("DGS06-e3-friends-correction-allergy");
+  const predictions = perfectPredictions(episode.id);
+  const prediction = predictions.get("DGS06-T04");
+  assert.ok(prediction !== undefined);
+  prediction.statePatch = {
+    set: { target: { kind: "OPEN" } },
+    add: {
+      preferences: [
+        { facet: "CUISINE", value: "Japanese food", polarity: "PREFER" },
+        { facet: "FORMALITY", value: "FORMAL", polarity: "AVOID" },
+      ],
+    },
+  };
+
+  const episodeScore = score(episode, predictions);
+  const turn = episodeScore.turns[3];
+  assert.equal(turn?.stages.find((stage) => stage.stage === "S1_STATE_EXTRACTION")?.status, "PASS");
+  assert.equal(turn?.stages.find((stage) => stage.stage === "S2_STATE_ACCUMULATION")?.status, "PASS");
+});
+
+test("S1 and S2 accept only approved restaurant-category aliases and casing", () => {
+  const westernEpisode = episodeById("DGS01-e1-category-ginza-western");
+  const westernPredictions = perfectPredictions(westernEpisode.id);
+  const westernPrediction = westernPredictions.get("DGS01-T01");
+  assert.ok(westernPrediction?.statePatch.set?.target?.kind === "CATEGORY");
+  westernPrediction.statePatch.set.target.query = "WESTERN";
+  const westernScore = score(westernEpisode, westernPredictions).turns[0];
+  assert.equal(westernScore?.firstFailureStage, undefined);
+
+  const izakayaEpisode = episodeById("DGS04-e2-team-izakaya");
+  const izakayaPredictions = perfectPredictions(izakayaEpisode.id);
+  const izakayaPrediction = izakayaPredictions.get("DGS04-T01");
+  assert.ok(izakayaPrediction?.statePatch.set?.target?.kind === "CATEGORY");
+  izakayaPrediction.statePatch.set.target.query = "IZAKAYA";
+  const izakayaScore = score(izakayaEpisode, izakayaPredictions).turns[0];
+  assert.equal(izakayaScore?.firstFailureStage, undefined);
+
+  const japaneseEpisode = episodeById("DGS06-e3-friends-correction-allergy");
+  const japanesePredictions = perfectPredictions(japaneseEpisode.id);
+  const japanesePrediction = japanesePredictions.get("DGS06-T04");
+  assert.ok(japanesePrediction?.statePatch.add?.preferences !== undefined);
+  japanesePrediction.statePatch.add.preferences = [
+    { facet: "CUISINE", value: "JAPANESE", polarity: "PREFER" },
+    { facet: "FORMALITY", value: "FORMAL", polarity: "AVOID" },
+  ];
+  const japaneseScore = score(japaneseEpisode, japanesePredictions).turns[3];
+  assert.equal(japaneseScore?.firstFailureStage, undefined);
+
+  const unrelatedPrediction = perfectPredictions(westernEpisode.id);
+  const unrelatedTarget = unrelatedPrediction.get("DGS01-T01");
+  assert.ok(unrelatedTarget?.statePatch.set?.target?.kind === "CATEGORY");
+  unrelatedTarget.statePatch.set.target.query = "Italian";
+  assert.equal(
+    score(westernEpisode, unrelatedPrediction).turns[0]?.firstFailureStage,
+    "S1_STATE_EXTRACTION",
+  );
+});
+
+test("S1 and S2 accept bounded location canonicalization without hiding missing location updates", () => {
+  const brandEpisode = episodeById("DGS07-e1-brand-zero-result-relaxation");
+  const areaNearPlacePredictions = perfectPredictions(brandEpisode.id);
+  const firstBrandPrediction = areaNearPlacePredictions.get("DGS07-T01");
+  assert.ok(firstBrandPrediction?.statePatch.set?.location?.kind === "AREA");
+  firstBrandPrediction.statePatch.set.location = { kind: "NEAR_PLACE", query: "KINSHICHO" };
+  const areaNearPlaceScore = score(brandEpisode, areaNearPlacePredictions).turns[0];
+  assert.equal(areaNearPlaceScore?.firstFailureStage, undefined);
+
+  const addressPredictions = perfectPredictions(brandEpisode.id);
+  const addressPrediction = addressPredictions.get("DGS07-T01");
+  assert.ok(addressPrediction?.statePatch.set?.location?.kind === "AREA");
+  addressPrediction.statePatch.set.location = {
+    kind: "ADDRESS_OR_STREET",
+    query: "Kinshicho",
+  };
+  const addressScore = score(brandEpisode, addressPredictions).turns[0];
+  assert.equal(addressScore?.firstFailureStage, "S1_STATE_EXTRACTION");
+
+  const flexibleEpisode = episodeById("DGS06-e3-friends-correction-allergy");
+  const genericScopePredictions = perfectPredictions(flexibleEpisode.id);
+  const secondFlexiblePrediction = genericScopePredictions.get("DGS06-T02");
+  assert.ok(secondFlexiblePrediction?.statePatch.set?.location?.kind === "FLEXIBLE");
+  secondFlexiblePrediction.statePatch.set.location = {
+    kind: "FLEXIBLE",
+    scope: "willing to travel",
+  };
+  const genericScopeScore = score(flexibleEpisode, genericScopePredictions).turns[1];
+  assert.equal(genericScopeScore?.firstFailureStage, undefined);
+
+  const legacyAnchorPredictions = perfectPredictions(flexibleEpisode.id);
+  const thirdFlexiblePrediction = legacyAnchorPredictions.get("DGS06-T03");
+  assert.ok(thirdFlexiblePrediction?.statePatch.set?.location?.kind === "FLEXIBLE");
+  thirdFlexiblePrediction.statePatch.set.location = {
+    kind: "FLEXIBLE",
+    scope: "start around Ueno and can travel farther",
+  };
+  const legacyAnchorScore = score(flexibleEpisode, legacyAnchorPredictions).turns[2];
+  assert.equal(legacyAnchorScore?.firstFailureStage, undefined);
+
+  const missingLocationPredictions = perfectPredictions(brandEpisode.id);
+  const secondBrandPrediction = missingLocationPredictions.get("DGS07-T02");
+  assert.ok(secondBrandPrediction !== undefined);
+  secondBrandPrediction.statePatch = {};
+  const missingLocationScore = score(brandEpisode, missingLocationPredictions).turns[1];
+  assert.equal(missingLocationScore?.firstFailureStage, "S1_STATE_EXTRACTION");
 });
 
 test("S6 rejects a retrieved restaurant that explicitly violates a hard allergy constraint", () => {

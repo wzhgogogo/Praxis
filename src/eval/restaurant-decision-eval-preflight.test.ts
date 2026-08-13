@@ -6,11 +6,11 @@ import type {
   DecisionEvalLabeledExpectation,
 } from "./restaurant-decision-eval-contract.js";
 import { runRestaurantDecisionEvalPreflight } from "./restaurant-decision-eval-preflight.js";
-import { restaurantDecisionGoldenSeedV07 as restaurantDecisionGoldenSeedV06 } from "./restaurant-decision-eval-seed.js";
+import { restaurantDecisionGoldenSeedV010 } from "./restaurant-decision-eval-seed.js";
 
 test("Golden Seed structural preflight is ready for evaluator development", () => {
   const report = runRestaurantDecisionEvalPreflight(
-    restaurantDecisionGoldenSeedV06,
+    restaurantDecisionGoldenSeedV010,
     "ANNOTATION_DRAFT",
   );
 
@@ -34,7 +34,7 @@ test("Golden Seed structural preflight is ready for evaluator development", () =
 
 test("Golden Seed strict preflight is ready for evaluator development", () => {
   const report = runRestaurantDecisionEvalPreflight(
-    restaurantDecisionGoldenSeedV06,
+    restaurantDecisionGoldenSeedV010,
     "REQUIRE_COMPLETE",
   );
 
@@ -42,8 +42,24 @@ test("Golden Seed strict preflight is ready for evaluator development", () => {
   assert.equal(report.issues.length, 0);
 });
 
+test("Named brand and restaurant Episodes require a timestamped Discovery resolution", () => {
+  const dataset = structuredClone(restaurantDecisionGoldenSeedV010);
+  const brandEpisode = dataset.episodes.find(
+    (episode) => episode.id === "DGS02-e1-brand-kinshicho",
+  );
+  assert.ok(brandEpisode);
+  delete brandEpisode.namedTargetResolution;
+
+  const report = runRestaurantDecisionEvalPreflight(dataset, "REQUIRE_COMPLETE");
+  assert.equal(report.status, "INVALID");
+  assert.equal(
+    report.issues.some((issue) => issue.rule === "NAMED_TARGET_RESOLUTION"),
+    true,
+  );
+});
+
 test("DGS01 Gold keeps dinner broad while allowing grounded fixture slots", () => {
-  const episode = restaurantDecisionGoldenSeedV06.episodes.find(
+  const episode = restaurantDecisionGoldenSeedV010.episodes.find(
     (item) => item.id === "DGS01-e1-category-ginza-western",
   );
   const turn = episode?.turns[0];
@@ -83,7 +99,7 @@ test("DGS01 Gold keeps dinner broad while allowing grounded fixture slots", () =
 });
 
 test("DGS02 Gold resolves the requested brand without relaxing constraints", () => {
-  const episode = restaurantDecisionGoldenSeedV06.episodes.find(
+  const episode = restaurantDecisionGoldenSeedV010.episodes.find(
     (item) => item.id === "DGS02-e1-brand-kinshicho",
   );
   const turn = episode?.turns[0];
@@ -115,7 +131,7 @@ test("DGS02 Gold resolves the requested brand without relaxing constraints", () 
 });
 
 test("DGS03 discovers outlets before availability and preserves approximate time", () => {
-  const episode = restaurantDecisionGoldenSeedV06.episodes.find(
+  const episode = restaurantDecisionGoldenSeedV010.episodes.find(
     (item) => item.id === "DGS03-e2-restaurant-sora-dining",
   );
   const firstTurn = episode?.turns[0];
@@ -153,7 +169,7 @@ test("DGS03 discovers outlets before availability and preserves approximate time
 });
 
 test("Approximate time cannot be silently compiled into a bounded window", () => {
-  const dataset = structuredClone(restaurantDecisionGoldenSeedV06);
+  const dataset = structuredClone(restaurantDecisionGoldenSeedV010);
   const turn = dataset.episodes.find(
     (item) => item.id === "DGS03-e2-restaurant-sora-dining",
   )?.turns[1];
@@ -167,7 +183,7 @@ test("Approximate time cannot be silently compiled into a bounded window", () =>
 });
 
 test("Date-less DAYPART preserves a known meal period while exact time still requires a date", () => {
-  const episode = restaurantDecisionGoldenSeedV06.episodes.find(
+  const episode = restaurantDecisionGoldenSeedV010.episodes.find(
     (item) => item.id === "DGS06-e3-friends-correction-allergy",
   );
   const firstTurn = episode?.turns[0];
@@ -177,7 +193,7 @@ test("Date-less DAYPART preserves a known meal period while exact time still req
     daypart: "DINNER",
   });
 
-  const exactWithoutDate = structuredClone(restaurantDecisionGoldenSeedV06);
+  const exactWithoutDate = structuredClone(restaurantDecisionGoldenSeedV010);
   const exactTurn = exactWithoutDate.episodes.find(
     (item) => item.id === "DGS02-e1-brand-kinshicho",
   )?.turns[0];
@@ -191,7 +207,7 @@ test("Date-less DAYPART preserves a known meal period while exact time still req
 });
 
 test("DGS04 waits for core fields, recommends capacity matches, then applies feedback", () => {
-  const episode = restaurantDecisionGoldenSeedV06.episodes.find(
+  const episode = restaurantDecisionGoldenSeedV010.episodes.find(
     (item) => item.id === "DGS04-e2-team-izakaya",
   );
   const firstTurn = episode?.turns[0];
@@ -223,8 +239,8 @@ test("DGS04 waits for core fields, recommends capacity matches, then applies fee
 
   assert.deepEqual(thirdTurn.expected.statePatch, {
     add: {
-      positivePreferences: ["quiet"],
-      hardConstraints: ["fully non-smoking"],
+      preferences: [{ facet: "VIBE", value: "QUIET", polarity: "PREFER" }],
+      hardConstraints: [{ kind: "SMOKING_POLICY", value: "FULLY_NON_SMOKING" }],
     },
   });
   assert.deepEqual(thirdTurn.expected.retrieval?.eligibleCandidateIds, [
@@ -243,7 +259,7 @@ test("DGS04 waits for core fields, recommends capacity matches, then applies fee
 });
 
 test("DGS05 recommends after core fields without inventing a food exclusion", () => {
-  const episode = restaurantDecisionGoldenSeedV06.episodes.find(
+  const episode = restaurantDecisionGoldenSeedV010.episodes.find(
     (item) => item.id === "DGS05-e3-date-ebisu",
   );
   const firstTurn = episode?.turns[0];
@@ -268,7 +284,7 @@ test("DGS05 recommends after core fields without inventing a food exclusion", ()
 
   assert.equal(thirdTurn.userMessage, "Around Ebisu.");
   assert.equal(thirdTurn.expected.readiness, "RECOMMENDATION_READY");
-  assert.deepEqual(thirdTurn.expected.accumulatedState.negativePreferences, []);
+  assert.deepEqual(thirdTurn.expected.accumulatedState.preferences, []);
   assert.deepEqual(thirdTurn.expected.retrieval?.eligibleCandidateIds, [
     "ebisu-date-lantern-room",
     "ebisu-date-verde-table",
@@ -284,8 +300,10 @@ test("DGS05 recommends after core fields without inventing a food exclusion", ()
 
   assert.deepEqual(fourthTurn.expected.statePatch, {
     add: {
-      positivePreferences: ["intimate"],
-      negativePreferences: ["tasting menu"],
+      preferences: [
+        { facet: "VIBE", value: "INTIMATE", polarity: "PREFER" },
+        { facet: "MENU_FORMAT", value: "TASTING_MENU", polarity: "AVOID" },
+      ],
     },
   });
   assert.deepEqual(fourthTurn.expected.retrieval?.eligibleCandidateIds, [
@@ -295,7 +313,7 @@ test("DGS05 recommends after core fields without inventing a food exclusion", ()
 });
 
 test("DGS06 retains a conditional allergy-request option and protects sensitive disclosure", () => {
-  const episode = restaurantDecisionGoldenSeedV06.episodes.find(
+  const episode = restaurantDecisionGoldenSeedV010.episodes.find(
     (item) => item.id === "DGS06-e3-friends-correction-allergy",
   );
   const firstTurn = episode?.turns[0];
@@ -326,7 +344,7 @@ test("DGS06 retains a conditional allergy-request option and protects sensitive 
   });
   assert.deepEqual(thirdTurn.expected.accumulatedState.location, {
     kind: "FLEXIBLE",
-    scope: "from Ueno",
+    anchorQuery: "Ueno",
   });
   assert.deepEqual(thirdTurn.expected.retrieval?.eligibleCandidateIds, [
     "flex-friends-kappo-haru",
@@ -368,8 +386,10 @@ test("DGS06 retains a conditional allergy-request option and protects sensitive 
 
   assert.deepEqual(fourthTurn.expected.statePatch, {
     add: {
-      positivePreferences: ["Japanese food"],
-      negativePreferences: ["formal"],
+      preferences: [
+        { facet: "CUISINE", value: "Japanese food", polarity: "PREFER" },
+        { facet: "FORMALITY", value: "FORMAL", polarity: "AVOID" },
+      ],
     },
   });
   assert.deepEqual(fourthTurn.expected.retrieval?.eligibleCandidateIds, [
@@ -380,7 +400,7 @@ test("DGS06 retains a conditional allergy-request option and protects sensitive 
 });
 
 test("DGS07 proposes two single-constraint fallbacks and waits for user choice", () => {
-  const episode = restaurantDecisionGoldenSeedV06.episodes.find(
+  const episode = restaurantDecisionGoldenSeedV010.episodes.find(
     (item) => item.id === "DGS07-e1-brand-zero-result-relaxation",
   );
   const firstTurn = episode?.turns[0];
@@ -414,7 +434,7 @@ test("DGS07 proposes two single-constraint fallbacks and waits for user choice",
 });
 
 test("Constraint relaxation fails closed without consent or a strict zero result", () => {
-  const withoutConsent = structuredClone(restaurantDecisionGoldenSeedV06);
+  const withoutConsent = structuredClone(restaurantDecisionGoldenSeedV010);
   const consentTurn = withoutConsent.episodes.find(
     (item) => item.id === "DGS07-e1-brand-zero-result-relaxation",
   )?.turns[0];
@@ -428,7 +448,7 @@ test("Constraint relaxation fails closed without consent or a strict zero result
   assert.equal(consentReport.status, "INVALID");
   assert.equal(consentReport.issues.some((issue) => issue.rule === "RELAXATION_CONSENT"), true);
 
-  const withStrictResult = structuredClone(restaurantDecisionGoldenSeedV06);
+  const withStrictResult = structuredClone(restaurantDecisionGoldenSeedV010);
   const strictTurn = withStrictResult.episodes.find(
     (item) => item.id === "DGS07-e1-brand-zero-result-relaxation",
   )?.turns[0];
@@ -439,7 +459,7 @@ test("Constraint relaxation fails closed without consent or a strict zero result
   assert.equal(strictReport.status, "INVALID");
   assert.equal(strictReport.issues.some((issue) => issue.rule === "STRICT_EMPTY_REQUIRED"), true);
 
-  const promotedFallback = structuredClone(restaurantDecisionGoldenSeedV06);
+  const promotedFallback = structuredClone(restaurantDecisionGoldenSeedV010);
   const promotionTurn = promotedFallback.episodes.find(
     (item) => item.id === "DGS07-e1-brand-zero-result-relaxation",
   )?.turns[0];
@@ -467,7 +487,7 @@ test("Constraint relaxation fails closed without consent or a strict zero result
 });
 
 test("Preflight rejects dangling candidate references and duplicate grounding facts", () => {
-  const dataset = structuredClone(restaurantDecisionGoldenSeedV06);
+  const dataset = structuredClone(restaurantDecisionGoldenSeedV010);
   const firstPool = dataset.candidatePools[0];
   const firstCandidate = firstPool?.candidates[0];
   const secondCandidate = firstPool?.candidates[1];
@@ -486,7 +506,7 @@ test("Preflight rejects dangling candidate references and duplicate grounding fa
 });
 
 test("Preflight requires allergy confirmation disclosures to cite the candidate attribute fact", () => {
-  const dataset = structuredClone(restaurantDecisionGoldenSeedV06);
+  const dataset = structuredClone(restaurantDecisionGoldenSeedV010);
   const thirdTurn = dataset.episodes.find(
     (item) => item.id === "DGS06-e3-friends-correction-allergy",
   )?.turns[2];
@@ -501,7 +521,7 @@ test("Preflight requires allergy confirmation disclosures to cite the candidate 
 });
 
 test("A fully labeled seed episode passes strict preflight", () => {
-  const dataset = structuredClone(restaurantDecisionGoldenSeedV06) as DecisionEvalDataset;
+  const dataset = structuredClone(restaurantDecisionGoldenSeedV010) as DecisionEvalDataset;
   const episode = dataset.episodes[0];
   const pool = dataset.candidatePools.find((item) => item.id === episode?.candidatePoolRef);
   const turn = episode?.turns[0];
@@ -517,8 +537,7 @@ test("A fully labeled seed episode passes strict preflight", () => {
     party: { min: 4, max: 4, precision: "EXACT" as const },
     location: { kind: "AREA" as const, query: "Ginza" },
     target: { kind: "CATEGORY" as const, query: "Western food" },
-    positivePreferences: [],
-    negativePreferences: [],
+    preferences: [],
     hardConstraints: [],
   };
   const label: DecisionEvalLabeledExpectation = {
@@ -572,7 +591,7 @@ test("A fully labeled seed episode passes strict preflight", () => {
 });
 
 test("Labeled expectations are checked at runtime instead of trusted from TypeScript", () => {
-  const dataset = structuredClone(restaurantDecisionGoldenSeedV06);
+  const dataset = structuredClone(restaurantDecisionGoldenSeedV010);
   const turn = dataset.episodes[0]?.turns[0];
   assert.ok(turn);
   turn.expected = { annotationStatus: "LABELED" } as unknown as typeof turn.expected;

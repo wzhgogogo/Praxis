@@ -1,8 +1,8 @@
 # Harness Design
 
 - Status: Accepted
-- Version: 2.3
-- Last updated: 2026-08-10
+- Version: 2.9
+- Last updated: 2026-08-13
 - Source of truth for: Agent Workspace、Task、Search和Browser的模拟、回放、断言与故障注入
 - Related ADRs: [ADR-0001](../decisions/0001-general-task-runtime.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md)
 - Related documents: [Golden Scenarios](GOLDEN-SCENARIOS.md), [Restaurant Progressive Decision Eval v2](RESTAURANT-DECISION-EVAL-V2.md), [Test Skill](../skills/test/SKILL.md)
@@ -15,7 +15,9 @@ Stage 2A已实现本地Fixture Search Harness：同一`RestaurantIntentParser`�
 
 Stage 2B的Agent Workspace Harness已实现为7个Local HTTP/SSE + PGlite场景：它驱动Pilot用户、Conversation、PostgreSQL Root Task、服务重启、第二个浏览器Session、SSE断线重连和Responsive页面Contract，并断言Projection不成为第二套权威状态。它没有执行真实浏览器视觉或交互测试，因此只证明HTTP/SSE行为和Mobile响应式标记，不证明跨浏览器视觉质量。
 
-Restaurant Progressive Decision Eval v2现为`Draft`计划：当前已实现Dataset/Fixture/Annotation Contract、7个Golden Seed Episode、7个Candidate Pool和S0 Dataset Preflight。Seed v0.7共17个Turn、29个虚构Candidate和417个Grounding Fact Ref，均已完成人工Gold并通过Draft与Strict Preflight。Eval-only Reducer与S1–S8确定性Scorer已可运行：它按Turn给出首错阶段和`BLOCKED_BY_UPSTREAM`，Fixture Oracle对17个Turn全部通过，S6/S7/S8分别检查固定Eligible集合、检索后选择/多样性与State/Candidate Fact/禁止声明。严重过敏的候选卡还必须输出引用`attributes` Fact的“仍需餐厅确认”结构化披露；这不是生产Consent Card或外部披露。18个S0–S8单点Mutation验证Dataset/Gold Reducer、状态、路由、澄清、检索、Hard Constraint、Fixture多样性缺口和Grounding的稳定首错归因。Eval-only Model Contract已实现为服务器Gateway上的版本化Proposal Prompt、严格Schema与最多一次无效输出重试；它禁止模型伪造候选检索，完整Episode Runner仍待实现。DGS06补充了无地理锚点的`FLEXIBLE`仍须追问、严重过敏候选卡如实呈现以及预约前敏感披露Consent边界；DGS05验证核心字段闭合后无需等待额外偏好即可推荐，并禁止把未表达的“不吃辣”伪造成过滤条件；DGS04覆盖最小追问、容量过滤以及安静偏好与全面禁烟硬约束分离后的收敛；DGS03把Outlet Discovery与Availability Eligibility分开，并以`APPROXIMATE`保留“around 19:30”而不发明Exact/Window；DGS02/DGS07形成严格结果非空/为空的Fallback配对。通过Fixture Oracle或Model Contract不代表产品支持多轮决策或真实模型质量。
+Restaurant Progressive Decision Eval v2现为`Draft`计划：当前已实现Dataset/Fixture/Annotation Contract、7个Golden Seed Episode、7个Candidate Pool和S0 Dataset Preflight。Seed v0.10 / Schema 3共17个Turn、29个虚构Candidate和417个Grounding Fact Ref，均已完成人工Gold并通过Draft与Strict Preflight。Eval-only Reducer与S1–S8确定性Scorer已可运行：它按Turn给出首错阶段和`BLOCKED_BY_UPSTREAM`，Fixture Oracle对17个Turn全部通过，S6/S7/S8分别检查固定Eligible集合、检索后选择/多样性与State/Candidate Fact/禁止声明。严重过敏的候选卡还必须输出引用`attributes` Fact的“仍需餐厅确认”结构化披露；这不是生产Consent Card或外部披露。18个S0–S8单点Mutation验证Dataset/Gold Reducer、状态、路由、澄清、检索、Hard Constraint、Fixture多样性缺口和Grounding的稳定首错归因。完整Episode Runner已实现；模型只提交不可信的typed `statePatch`和可选Candidate排序，共享Restaurant Contract模块提供JSON Schema、Validator与语义Key；Eval-only Decision Kernel probe以可信Fixture/Search结果、累计State和Candidate Fact确定Readiness、动作、候选展示上限和Grounding。它没有工具调用、状态写入、Semantic Proposal编译器或Workflow DSL，且Fixture检索充分性不进入模型输入。S1/S2比较仅对受控菜系别名、同query的`AREA`/`NEAR_PLACE`和泛化`FLEXIBLE` scope做确定性等价；不调用真实地图，不判断行政区/车站/地标，也不宽容臆测人数、目标提升或错误动作路由。真实Eval还会为当前静态Regression Fixture生成本机Git忽略的逐TurnMarkdown诊断；Harness不调用真实Discovery，也不把模型输出升级为产品状态。通过Fixture Oracle或Model Contract不代表产品支持多轮决策或真实模型质量。
+
+当前Prompt版本为v14 / Proposal Schema 4；它保持Decision Kernel职责不变，并把结构约束移入独立的typed Contract。Prompt只说明语义职责、关键边界和最小JSON示例，静态文本不包含Regression实体或原句。
 
 此外已实现20个PGlite数据库集成场景，验证Postgres SQL、事务Outbox、租约、Runtime重建、Restaurant Recovery Coordinator、Goal/Task Graph、Trigger/Scheduler以及两个合成Domain。它属于基础设施集成测试，不属于下方四种外部平台模式，也不能报告为真实PostgreSQL或Live Provider验证。
 

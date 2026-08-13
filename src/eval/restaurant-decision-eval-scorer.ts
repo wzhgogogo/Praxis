@@ -7,11 +7,13 @@ import type {
   DecisionEvalGroundingPrediction,
   DecisionEvalLabeledExpectation,
   DecisionEvalTurnPrediction,
+  DecisionHardConstraint,
   DecisionState,
   ProposedNextAction,
   RecommendationCandidateFixture,
   RecommendationCandidatePool,
 } from "./restaurant-decision-eval-contract.js";
+import { canonicalizeDecisionStateForComparison } from "./restaurant-decision-eval-canonicalization.js";
 import { applyDecisionStatePatch } from "./restaurant-decision-eval-reducer.js";
 
 export const DECISION_EVAL_STAGE_IDS = [
@@ -136,7 +138,22 @@ function hasHardConstraintConflict(
   candidate: RecommendationCandidateFixture,
   state: DecisionState,
 ): boolean {
-  return state.hardConstraints.some((constraint) => candidate.unsupportedConstraints.includes(constraint));
+  return state.hardConstraints.some((constraint) =>
+    candidate.unsupportedConstraints.some((unsupported) =>
+      unsupportedConstraintMatches(constraint, unsupported),
+    ),
+  );
+}
+
+function unsupportedConstraintMatches(
+  constraint: DecisionHardConstraint,
+  unsupported: string,
+): boolean {
+  const normalized = unsupported.trim().toLocaleLowerCase("en-US");
+  if (constraint.kind === "SMOKING_POLICY") {
+    return normalized === "fully non-smoking";
+  }
+  return normalized === `severe ${constraint.allergen.trim().toLocaleLowerCase("en-US")} allergy`;
 }
 
 function scoreCandidateRetrieval(
@@ -399,6 +416,30 @@ function scoreGrounding(
     : stage("S8_RESPONSE_GROUNDING", "FAIL", ...errorCodes);
 }
 
+/**
+ * A Patch is an instruction to change state, not a transcript. Repeating an
+ * already-stored value is redundant but has the same state effect, so S1 must
+ * not turn it into a false semantic extraction failure. A changed final state
+ * remains a strict mismatch.
+ */
+function samePatchEffect(
+  priorState: DecisionState,
+  expectedPatch: DecisionEvalTurnPrediction["statePatch"],
+  predictionPatch: DecisionEvalTurnPrediction["statePatch"],
+): boolean {
+  return sameDecisionState(
+    applyDecisionStatePatch(priorState, expectedPatch),
+    applyDecisionStatePatch(priorState, predictionPatch),
+  );
+}
+
+function sameDecisionState(left: DecisionState, right: DecisionState): boolean {
+  return sameValue(
+    canonicalizeDecisionStateForComparison(left),
+    canonicalizeDecisionStateForComparison(right),
+  );
+}
+
 function scoreTurn(
   turnId: string,
   expected: DecisionEvalLabeledExpectation,
@@ -407,18 +448,18 @@ function scoreTurn(
   priorPredictedState: DecisionState,
   pool: RecommendationCandidatePool | undefined,
 ): { score: DecisionEvalTurnScore; goldState: DecisionState; predictedState: DecisionState } {
-  const stateExtraction = sameValue(prediction.statePatch, expected.statePatch)
+  const stateExtraction = samePatchEffect(priorGoldState, expected.statePatch, prediction.statePatch)
     ? stage("S1_STATE_EXTRACTION", "PASS")
     : stage("S1_STATE_EXTRACTION", "FAIL", "STATE_PATCH_MISMATCH");
 
   const goldState = applyDecisionStatePatch(priorGoldState, expected.statePatch);
-  const goldReducerValid = sameValue(goldState, expected.accumulatedState);
+  const goldReducerValid = sameDecisionState(goldState, expected.accumulatedState);
   const predictedState = applyDecisionStatePatch(priorPredictedState, prediction.statePatch);
   const stateAccumulation = !goldReducerValid
     ? stage("S2_STATE_ACCUMULATION", "FAIL", "GOLD_REDUCER_MISMATCH")
     : stateExtraction.status === "FAIL"
       ? stage("S2_STATE_ACCUMULATION", "BLOCKED_BY_UPSTREAM", "BLOCKED_BY_S1")
-      : sameValue(predictedState, expected.accumulatedState)
+      : sameDecisionState(predictedState, expected.accumulatedState)
         ? stage("S2_STATE_ACCUMULATION", "PASS")
         : stage("S2_STATE_ACCUMULATION", "FAIL", "STATE_ACCUMULATION_MISMATCH");
 

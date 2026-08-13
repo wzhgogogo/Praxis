@@ -1,8 +1,8 @@
 # Praxis Build Roadmap
 
 - Status: Accepted
-- Version: 2.8
-- Last updated: 2026-08-10
+- Version: 3.8
+- Last updated: 2026-08-12
 - Source of truth for: 从开发前文档到Tokyo Pilot的阶段计划和退出条件
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [MVP PRD](product/MVP-PRD.md), [Agent Gateway and Workspace](architecture/AGENT-GATEWAY-AND-WORKSPACE.md), [Architecture Overview](architecture/OVERVIEW.md)
@@ -122,16 +122,23 @@ Status: `completed` — 2026-08-08。
 
 ### Stage 2C — One Live Discovery Source
 
-Progress（2026-08-10）：Eval v2 Dataset/Fixture/Annotation Contract、7个Golden Seed Episode和S0 Dataset Preflight已实现；17个Turn均已完成人工Gold，Draft与Strict Preflight均已通过。Eval-only Reducer、S1–S8阶段Scorer、首错/Blocked归因、Fixture Oracle和18个S0–S8 Mutation已实现；S6/S7/S8分别评分固定Eligible检索、检索后选择/多样性和State/Candidate Grounding。版本化Harness-only Model Contract现经服务端Gateway严格验证Proposal、只重试一次无效Schema，并禁止模型伪造候选检索；完整Episode Runner尚未实现。严重过敏候选卡已在Golden v0.7中要求引用`attributes` Fact并明确“仍需餐厅确认”；这仍不是产品Consent或预约路径。下一步为完整Episode Model Runner；Progressive Decision Real Model Baseline和Live Discovery仍未实现。
+Progress（2026-08-12）：Eval v2 Dataset/Fixture/Annotation Contract、7个Golden Seed Episode和S0 Dataset Preflight已实现；17个Turn均已完成人工Gold，Draft与Strict Preflight均已通过。Eval-only Reducer、S1–S8阶段Scorer、首错/Blocked归因、Fixture Oracle和18个S0–S8 Mutation已实现；S6/S7/S8分别评分固定Eligible检索、检索后选择/多样性和State/Candidate Grounding。Harness-only Episode Runner现会严格Preflight、逐Turn交付Golden Fixture候选上下文、经版本化Model Contract取得Proposal、由确定性Fixture结果填充S6并运行S1–S8评分；Schema/Provider失败会与语义分数分离且停止该Episode。本地Golden Fixture命令已通过。六次受控DeepSeek E1/E2/E3 Smoke均成功连接Provider：Prompt v1为7次调用/3次Schema重试，Prompt v2两次各为8次调用/3次Schema重试且E2、E3各有一个Turn通过结构校验；Prompt v3为7次调用、0次Schema重试并使全部7个Turn进入评分但全部首错于S1；Prompt v4为7次调用、0次Schema重试，S1为6/7通过；Prompt v5移除了静态Prompt中的Golden实体、地点、菜系、候选与反馈措辞，仍为7次调用、0次Schema重试，但S1为5/7通过，首错落在State、State Accumulation、Grounding与不足候选解释。Golden v0.8 / Prompt v6已将命名目标解析、候选充分性和Fact Grounding移至可信Fixture Tool/Runner；Prompt v8 / Runner v3已将固定参考时钟下的最小相对时间解析收回Harness可信侧；Prompt v9 / Golden v0.9已把`FLEXIBLE.anchorQuery`作为地点策略锚点，并限定S1/S2地点等价为同query的`AREA`/`NEAR_PLACE`和泛化travel scope；Prompt v10已收紧社交语境不推出人数、软偏好不提升target的抽取边界；Prompt v11已收紧`BRAND/RESTAURANT/OPEN/CATEGORY/CHECK_AVAILABILITY`动作路由矩阵。2026-08-12经用户明确授权的v11 FULL_REGRESSION已累计运行10次，合计174次DeepSeek API请求、4次Schema retry、0次Provider failure、P0为空；DGS03-T02、DGS04-T03和DGS06-T03分别稳定为10/10的S3、S1和S7首错，DGS06-T04与DGS07-T01均10/10不通过但首错阶段存在波动，一次性Schema越界和上游累计污染已单独归类。因此固定Smoke的`DGS01/DGS03/DGS05`、全量集合及其结果均已参与调优或诊断，CLI将它们分类为`DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`，不能用来声称质量提升、趋势或Baseline，也不得根据单次真实模型结果继续调参。严重过敏候选卡已要求引用`attributes` Fact并明确“仍需餐厅确认”；这仍不是产品Consent或预约路径。Progressive Decision Real Model Baseline和Live Discovery仍未实现。
 
+- v5的`FULL_REGRESSION`真实模型诊断已覆盖全部7个Episode、17个Turn并完成评分；全部Gold和结果均已暴露，故仍只是`DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`。本轮定位到State/Accumulation、品牌与单店目标区分、Grounding和不足候选解释，尚不修改生产路径；
+- Golden v0.8 / Prompt v6已把命名目标解析、检索充分性和证据装配收回Harness的可信侧：`FIXTURE_DISCOVERY`、`retrievalSummary`和确定性Grounding只定义未来只读Tool输入，不接入真实Discovery或产品Task。真实回归现在会产生只含结构化Patch/状态差异的本机诊断Artifact，且`retryCalls`已改按Turn计数；之后建立隔离Holdout，再核验一个真实Discovery来源；
+- Prompt v7已将`occasion`收紧为用户明确的社会用餐情境，删除缺字段示例的`occasion: DATE`默认值，并加入`FAMILY`与`TEAM`的抽象映射；日历日期Topic与浪漫约会枚举明确分离。未加入Gold实体或样例答案，也尚未运行真实模型；相对时间解析仍是独立问题；
+- Prompt v8 / Runner v3已在Harness内闭合最小相对时间解析：固定`referenceTime`和`Asia/Tokyo`下的`today`、`tomorrow`、`tonight`、`now`和`right now`成为可信State/Patch输入，冲突表达不猜测；日志同时显示原始模型Patch和有效Patch。它不使用真实时钟、不接产品Runtime，也未运行真实模型；更广泛的日期/时间自然语言解析仍须有真实需求后再扩展；
+- Prompt v9 / Golden v0.9已在Harness内闭合地点策略表示：`FLEXIBLE.anchorQuery`表达出发锚点加移动弹性；无锚点`FLEXIBLE`仍需追问；同query的`AREA`/`NEAR_PLACE`在S1/S2等价，`ADDRESS_OR_STREET`、不同query和漏地点更新仍严格失败。它不使用真实地图、不接Discovery或产品Runtime；
+- Prompt v10已在Harness-only Model Contract中收紧状态抽取：社交语境不推出`party`，软偏好不提升`target`；这不改变Golden、Schema、Scorer或真实产品Runtime；
+- Prompt v11已在Harness-only Model Contract中收紧动作路由：品牌分店解析、目标餐厅检查、通用推荐和Exact Availability各自分离；这不改变Golden、Schema、Scorer或真实产品Runtime；
 - 在不修改产品运行路径的前提下，先实现[Restaurant Progressive Decision Eval v2](harness/RESTAURANT-DECISION-EVAL-V2.md)：E1/E2/E3多轮Episode、S0–S10阶段评分、首错归因、路由正负例、候选检索/选择解耦和Scorer验证；现有8条只保留为Single-turn Extraction Contract；
-- 以E1/E2/E3各1个Episode完成受控DeepSeek Smoke，再经明确付费授权建立完整Progressive Decision Baseline；Harness-only结果不得声称Web已支持该行为；
+- 当前固定Smoke仅保留为Regression诊断；先由隔离流程新建、人工标注并保密Holdout，冻结候选Prompt/模型/Schema/Case顺序后一次性运行。只有`CLEAN_HOLDOUT`可建立完整Progressive Decision Baseline；任何样本或结果泄露到调优过程即降级为Regression并另建Holdout；
 - Baseline完成后、接真实Discovery前，定义Restaurant Domain内部的最小Entity Observation和Interaction Event Contract：前者保存Source、Source Entity ID、`observedAt`、Freshness和使用限制；后者记录结构化需求、动作、检索、曝光、反馈、选择和Verified Outcome引用；
 - 只接一个经过能力核验的真实Discovery来源，首选Google Places；
 - 使用Freshness-aware查询复用仍有效的Observation，过期或高风险字段按用途刷新；Source查询、实体合并和硬过滤不依赖模型重复阅读完整结果；
 - 保存来源、ObservedAt和能力限制，建立Live Read-only检查；Stage 2C数据只用于Trace、回放和离线分析，不自动修改生产排序、Prompt或Policy。
 
-完成标准：Eval v2的Dataset、Evaluator、Reducer、Fixture和Model Contract按计划冻结；Evaluator Mutation归因通过并生成包含首错阶段、Blocked下游、Raw/Controllable/Appropriate Intermediate结果的Real Model Baseline；真实英文查询能返回带来源和Freshness的餐厅实体；最小Interaction Event能串联需求、展示、反馈与Outcome引用；Fixture Oracle、Real Model Mock World和Live Read-only结果分别记录。此时仍不宣称Web已支持渐进决策，也不宣称餐厅“可订”。Baseline完成后再单独决定是否以及如何修改生产对话状态与User Flow。
+完成标准：Eval v2的Dataset、Evaluator、Reducer、Fixture和Model Contract按计划冻结；Evaluator Mutation归因通过，并以未泄露的`CLEAN_HOLDOUT`生成包含首错阶段、Blocked下游、Raw/Controllable/Appropriate Intermediate结果的Real Model Baseline；真实英文查询能返回带来源和Freshness的餐厅实体；最小Interaction Event能串联需求、展示、反馈与Outcome引用；Fixture Oracle、Real Model Mock World和Live Read-only结果分别记录。此时仍不宣称Web已支持渐进决策，也不宣称餐厅“可订”。Baseline完成后再单独决定是否以及如何修改生产对话状态与User Flow。
 
 ### Stage 2D — One Live Availability Path
 

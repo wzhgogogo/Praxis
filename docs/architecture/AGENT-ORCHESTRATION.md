@@ -1,8 +1,8 @@
 # Agent Orchestration
 
 - Status: Accepted
-- Version: 1.6
-- Last updated: 2026-08-10
+- Version: 3.0
+- Last updated: 2026-08-13
 - Source of truth for: Agent Workspace中的模型职责、有界Loop、前后台运行与Multi-Agent边界
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md), [ADR-0003](../decisions/0003-single-agent-orchestration.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md)
 - Related documents: [Agent Gateway and Workspace](AGENT-GATEWAY-AND-WORKSPACE.md), [Task Runtime](TASK-RUNTIME.md), [Policy & Execution](POLICY-EXECUTION-VERIFICATION.md)
@@ -58,7 +58,23 @@ failure_explain_v1
 
 当前已实现Restaurant Intent Draft Schema Validator、Fixture/Replay Eval Harness、服务端`ModelGateway`、DeepSeek HTTP Provider Contract和`RestaurantIntentParser`。Stage 2A/2B产品路径仍由Local-only Fixture ModelGateway驱动同一Parser和`UNDERSTANDING / NEEDS_INPUT`状态路径，不发送真实模型请求。Gateway固定使用非流式Chat Completion、受请求级超时约束；Parser要求JSON、限定500个输出Token、关闭Thinking、拒绝非`STOP`完成，并仅对JSON/Schema无效输出重试一次。2026-08-08已完成1条受控真实DeepSeek Intent Connectivity Smoke，只证明Key、Gateway、Parser和Schema链路可用，不代表单轮或渐进决策质量Baseline。Tool Call Contract仍未实现；真实模型配置只存在Git忽略的服务端本地环境，未接入Web产品路径。
 
-Restaurant低确定性需求、多轮偏好形成和推荐收敛的新评测规则现定义在Draft [Progressive Decision Eval v2](../harness/RESTAURANT-DECISION-EVAL-V2.md)。Dataset/Fixture/Annotation Contract、7个Golden Seed Episode和S0 Dataset Preflight已实现，17个Turn已完成人工Gold并通过Strict Preflight；Eval-only Reducer、S1–S8 Scorer、首错/Blocked归因、Fixture Oracle和18个S0–S8单点Mutation已可运行。S6–S8把固定池Eligible检索、检索后选择/多样性以及State/Candidate Fact/禁止声明分开评分；严重过敏候选卡还必须输出“仍需餐厅确认”的结构化披露，但不会创建生产Consent、Authorization或外部请求。Eval-only Model Contract现通过现有服务端Gateway提供版本化Prompt、严格Proposal Schema、最多一次无效输出重试和`FAIL_CLOSED`失败；它禁止模型自称完成候选检索，完整Episode Runner仍待实现。该路径保持Harness-only；即使后续通过也不能直接改变Task State，或被报告为产品能力。
+Restaurant低确定性需求、多轮偏好形成和推荐收敛的新评测规则现定义在Draft [Progressive Decision Eval v2](../harness/RESTAURANT-DECISION-EVAL-V2.md)。Dataset/Fixture/Annotation Contract、7个Golden Seed Episode和S0 Dataset Preflight已实现，17个Turn已完成人工Gold并通过Strict Preflight；Eval-only Reducer、S1–S8 Scorer、首错/Blocked归因、Fixture Oracle和18个S0–S8单点Mutation已可运行。S6–S8把固定池Eligible检索、检索后选择/多样性以及State/Candidate Fact/禁止声明分开评分；严重过敏候选卡还必须输出“仍需餐厅确认”的结构化披露，但不会创建生产Consent、Authorization或外部请求。Eval-only Model Contract现通过现有服务端Gateway提供版本化Prompt v11、严格Proposal Schema 2、最多一次无效输出重试和`FAIL_CLOSED`失败；静态Prompt只保留抽象Schema/规则，不含Golden实体、地点、菜系、候选或反馈措辞。Episode Runner已用明确的Golden Fixture上下文逐Turn组装Proposal、S6和S1–S8评分，并将Schema/Provider失败从语义结果中分离。`ModelGateway`普通遥测永不保留正文；真实Eval CLI只会为当前静态、已暴露的Regression Fixture在本机Git忽略目录记录结构化逐Turn诊断（状态Patch与评分差异），并明确排除原始Prompt/Completion。任何含Holdout的Dataset均拒绝持久化这类Artifact。显式开关仍可仅在进程内向本次终端交付Completion诊断，不能用于真实用户输入或持久化。全部Golden已暴露，CLI将其输出标为`DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`；它们不能代表独立模型质量。该路径保持Harness-only；即使后续通过也不能直接改变Task State，或被报告为产品能力。
+
+2026-08-11的v5 `FULL_REGRESSION`诊断显式覆盖全部7个Episode、17个Turn，均完成Harness评分。已观察到的失败类别是State/Accumulation、将品牌误当作单店目标、Grounding和不足候选解释。此后v6在相同范围的17次调用均成功且Schema重试为0；首错只剩11次State与2次Accumulation，P0为0。它是Harness/Prompt候选的开发诊断，不能改变上述生产边界或被称为独立模型质量。
+
+Prompt v8保留v6/v7的Harness-only输入边界：未解析的命名目标由只读`FIXTURE_DISCOVERY`上下文解析，而非模型常识；检索完整性由`retrievalSummary`声明；候选Fact与过敏确认披露由可信Runner在模型选择后装配。`occasion`仍只来自用户显式社会用餐情境。新的Eval专用可信相对时间解析器只使用每个Episode固定的`referenceTime`与`Asia/Tokyo`，处理`today`、`tomorrow`、`tonight`、`now`和`right now`；它在模型调用前进入累计状态，并在有效Patch中保留由此得到的日期。相互冲突的相对表达不猜测。模型可见该可信状态，但不能靠省略日期将其抹掉；诊断同时区分原始模型Patch与有效Patch。该切片不接真实时钟、DeepSeek Tool Call、真实Discovery或任何Runtime写入。
+
+Prompt v9只扩展Harness-only地点状态表达：`FLEXIBLE.anchorQuery`用于“从某地出发且愿意移动”，无锚点`FLEXIBLE`仍需追问；S1/S2仅对同query的`AREA`/`NEAR_PLACE`做受控等价。模型不能据此调用地图、改写真实Task State或跳过未来Discovery grounding；`ADDRESS_OR_STREET`、不同query、`AREA`与`FLEXIBLE anchorQuery`仍严格区分。
+
+Prompt v10不改变Schema，只收紧Proposal层的抽取边界：社交语境不能推出人数，软偏好不能提升为`target`。`occasion`、`party`、`target`和`positivePreferences/negativePreferences`仍是Eval-only Proposal；模型输出不得直接写入Task State。
+
+Prompt v11不改变Schema，只收紧Proposal层的动作路由矩阵：`BRAND`、`RESTAURANT`、`OPEN/CATEGORY`和`CHECK_AVAILABILITY`的触发条件必须分开；模型不能把品牌当目标餐厅检查，也不能把指定餐厅流程退化为通用推荐列表。
+
+Prompt v12 / Schema 3把这类稳定的决策职责从Proposal层收回Eval-only Decision Kernel probe：模型仅输出语义`statePatch`及可选的已提供Candidate ID排序；Kernel从累计State、可信Fixture/Search结果和Candidate Fact确定Readiness、动作、核心澄清Topic、候选展示上限和Grounding。该探针没有工具调用、状态写入、Domain依赖或Workflow DSL，不能视作Task Runtime实现；它的目的仅是让已暴露Regression不再通过继续堆叠Prompt来模拟确定性Policy。
+
+Prompt v13保持Schema 3和Kernel边界不变，只收紧模型仍负责的State Patch语义Contract：先按语义角色区分可协商偏好、专用状态字段和不可妥协硬约束；出行距离与移动弹性只属于Location Strategy；用户接受会话中提出的地点时必须更新Location，不能因确认式措辞而写入Preference。Prompt不包含已暴露Regression的实体或原句。
+
+Prompt v14 / Proposal Schema 4进一步把结构规则从Prompt移入Restaurant-owned Contract模块：模型仍直接输出不可信typed `statePatch`，Validator通过后Reducer才合并；Preference使用`facet + value + polarity`，禁烟和严重过敏使用判别式Hard Constraint。Kernel仍只负责确定性决策。没有新增Semantic Proposal中间表示、编译器、通用Ontology、Subagent编排或Workflow DSL；若未来证据表明模型能稳定理解语义但持续无法正确表达Patch操作，再单独评估是否值得增加编译层。
 
 ## Loop类型
 

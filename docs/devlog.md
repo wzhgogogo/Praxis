@@ -1,11 +1,396 @@
 # Development Log
 
 - Status: Accepted
-- Version: 3.3
-- Last updated: 2026-08-10
+- Version: 4.11
+- Last updated: 2026-08-13
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Roadmap](roadmap.md), [Test Log](test-log.md)
+
+## 2026-08-13 — Prompt v14 and typed Restaurant Decision Patch Contract
+
+### Why
+
+Prompt v13仍要求模型在自由字符串数组中同时表达语义类别、正负极性和canonical词形，导致禁烟软硬分类、`too formal`/`FORMAL`以及移动意愿误入Preference等问题互相缠绕。继续追加自然语言规则会让Prompt承担Schema、Normalizer和Policy三种职责。
+
+### Changes
+
+- 新增Restaurant-owned机器可读JSON Schema与共享运行时Validator；Model Contract和Golden Preflight使用同一校验边界，错误保留可观测的细分Rule Code。
+- `DecisionState`迁移为Typed Preference（`facet / value / polarity`）与Typed Hard Constraint；Reducer按语义Key执行集合式add/remove，S1/S2比较不再受数组顺序、菜系批准别名或过敏原大小写影响。
+- Golden迁移到dataset v0.10 / Schema 3，Proposal Output Schema升为4；旧`positivePreferences / negativePreferences`字符串结构直接删除，不增加兼容层。
+- Prompt v14压缩为2917字符，只保留模型职责、互斥语义角色、关键字段语义和一个最小JSON示例；Readiness、路由、候选数量与Grounding继续由Decision Kernel负责。
+- 明确停止点：未新增Semantic Proposal编译器、通用Ontology、Workflow DSL、Subagent编排、DeepSeek Beta Strict Function Calling或生产Runtime路径。只有后续证据显示“语义理解稳定正确、Patch操作表达持续失败”时，才重新评估编译层。
+
+### Boundary
+
+本轮只修改Harness-only Eval Contract、Golden、Prompt和相关文档。没有调用DeepSeek、真实Discovery、地图、Availability、数据库、Task Runtime或外部写操作。现有17个Regression Turn仍全部暴露，后续真实调用不能被称为Baseline或泛化验证。
+
+## 2026-08-12 — Prompt v13 State Patch semantic roles
+
+Prompt升为v13，Schema 3、Kernel、Gold、Reducer、Scorer和canonicalization均不变。新增通用语义角色规则：可协商餐厅属性才是Preference；地点、移动弹性等写入专用字段；明确不可妥协的饮食、过敏、无障碍、环境或安全要求写入Hard Constraint；确认式地点接受必须更新Location。Prompt不含当前Regression实体或原句。Model Contract测试8/8、typecheck和`git diff --check`通过；未调用DeepSeek。
+
+## 2026-08-12 — Eval-only Decision Kernel probe / Prompt v12
+
+### Why
+
+同一已暴露Regression上持续把Readiness、路由、候选数和Grounding规则写进Prompt，会把确定性Policy与语义理解混在一起，并放大对Golden的邻近过拟合风险。10次v11诊断也表明S3、S4、S7/S8不应继续作为模型自由生成的字段。
+
+### Changes
+
+- 新增`src/eval/restaurant-decision-eval-decision-kernel.ts`：只在Eval中，以累计State、可信Fixture/Search结果和Candidate Fact确定Readiness、动作、核心澄清Topic、候选展示上限与Grounding。
+- Prompt升为v12，Output Schema升为3；Proposal只允许语义`statePatch`和可选已知Candidate ID排序，删除模型输入中的`retrievalSummary`。
+- Runner v4保存模型原始Patch/排序意图，再由Kernel生成实际的S3/S4/S7/S8预测；可信命名目标解析与相对时间仍明确记录为Harness贡献。
+- 这不是产品Runtime、Workflow DSL、Tool Loop或外部调用：不改Restaurant Domain、Task State、Web、Discovery、Availability或Authorization。
+
+### Anti-overfitting boundary
+
+- Kernel规则只来自已有Readiness/动作/Fixture证据Contract，不含Golden实体、用户措辞、允许动作标签或评分提示。
+- Fixture/Search结果只进入Kernel；模型仅看到允许的Candidate Fact与ID，不能看到检索充分性或Gold Oracle。
+- 当前17个Turn已全部暴露，任何后续真实模型结果仍仅是`DEVELOPMENT_DIAGNOSTIC`；Kernel通过也不构成泛化或产品能力证据。
+
+### Verification
+
+`npm run typecheck`、Kernel / Model Contract / Runner定向测试15/15、Strict Preflight、Fixture Oracle、Fixture Episode Runner、完整`npm test` 133/133、`npm run build`和`git diff --check`均通过。首次受限沙箱下完整测试的7个Local Web/SSE用例均因`listen EPERM 127.0.0.1`失败，其余126个通过；以本机监听权限重跑后133/133通过，未归因为代码断言失败。本条不包含DeepSeek调用。
+
+## 2026-08-12 — Prompt v11 action routing matrix
+
+### Why
+
+v8真实模型诊断中有3个独立S4首错，且S1/S2/S3均通过：模型把`BRAND`错误路由到`CHECK_TARGET_RESTAURANT`，把`RESTAURANT`错误路由到`RESOLVE_BRAND_OUTLET`，并在指定餐厅后续补充人数/时间时退化为通用`SHOW_RECOMMENDATIONS`。
+
+### Changes
+
+- `RESTAURANT_DECISION_EVAL_PROMPT_VERSION`升为`v11`；输出Schema保持`2`，因为没有新增结构字段。
+- Prompt新增抽象Routing Matrix：`BRAND`走`RESOLVE_BRAND_OUTLET`，或在Exact/Window时间、Exact人数和具体Outlet候选已齐时走`CHECK_AVAILABILITY`；不得走`CHECK_TARGET_RESTAURANT`。
+- `RESTAURANT`走`CHECK_TARGET_RESTAURANT`，即使候选上下文里有多个同名Outlet或用户刚补充人数/时间；不得走`RESOLVE_BRAND_OUTLET`或`SHOW_RECOMMENDATIONS`。
+- `OPEN/CATEGORY`达到推荐条件后走`SHOW_RECOMMENDATIONS`；可见选项反馈后走`NARROW_FROM_FEEDBACK`；`APPROXIMATE`或宽泛`DAYPART`不等于Exact Availability。
+- Model Contract测试新增路由矩阵断言，且继续检查静态Prompt不含已暴露Golden实体。
+
+### Boundary
+
+仍是Harness-only Prompt修正。没有改Gold、Reducer、Scorer、Runtime、Discovery、地图、Availability或外部写入；错误动作仍归因S4，不通过Harness改写为正确动作。
+
+### Verification
+
+`npm run typecheck`、Model Contract定向测试8/8、`npm run eval:decision:model:fixture`、`npm run eval:decision:fixture`、`npm run build`和`git diff --check`均通过。真实模型Mock World首次在sandbox内全部为`NETWORK`且没有语义分数；用户明确批准调用DeepSeek并接受当前Regression评测数据出境后，FULL_REGRESSION重跑成功：17个Turn全部完成、0次Schema retry、P0为0，12/17个Turn无首错。v8中3个S4路由首错均不再直接失败。随后用户要求同一v11累计运行10次用于稳定性观察：总计174次DeepSeek API请求、4次Schema retry、0次Provider failure、P0为空；DGS03-T02为10/10 `S3_READINESS`，DGS04-T03为10/10 `S1_STATE_EXTRACTION`，DGS06-T03为10/10 `S7_SELECTION_DIVERSITY`，DGS06-T04为10/10不通过但首错阶段不稳定，DGS07-T01为10/10不通过且一次从S3波动到S1。结论改为按10次矩阵的稳定失败优先处理，不能基于单次结果继续调Prompt。
+
+## 2026-08-12 — Prompt v10 state extraction boundary tightening
+
+### Why
+
+v8真实模型诊断中DGS06仍有两类状态抽取错误：把“with friends”等社交语境臆测为具体人数，以及把“would be good”类软偏好提升为`target: CATEGORY`。用户确认这两类Gold口径正确，不能通过放宽Scorer或canonicalization解决。
+
+### Changes
+
+- `RESTAURANT_DECISION_EVAL_PROMPT_VERSION`升为`v10`；输出Schema保持`2`，因为没有新增结构字段。
+- Prompt明确规定`friends/family/team/department/date/partner`等词只能支持`occasion`，除非用户给出明确数字或有界范围，否则不得设置`party`。
+- Prompt明确规定`would be good/maybe/preferably/I like/nice to have/not too`等软偏好进入`positivePreferences`或`negativePreferences`，不得把`target: OPEN`提升为`CATEGORY`。
+- Model Contract测试新增这些Prompt边界断言；Gold、Reducer、Scorer和地点canonicalization均不变。
+
+### Boundary
+
+仍是Harness-only Prompt修正。没有真实模型调用、Discovery、地图、Availability或Runtime写入；这两类错误仍归因到S1 State Extraction，不作为可接受等价。
+
+### Verification
+
+`npm run typecheck`、Model Contract定向测试8/8、`npm run eval:decision:model:fixture`、`npm run eval:decision:fixture`、`npm run build`和`git diff --check`均通过。完整`npm test`本轮未运行，因为没有改Runtime、Web、Reducer或Scorer；当前完整基线仍为2026-08-12的131 tests / 5 suites。
+
+## 2026-08-12 — Prompt v9 / Golden v0.9 location strategy semantics
+
+### Why
+
+v8全量诊断里多个首错并不是缺真实餐厅数据，而是地点语义表示过窄：`AREA`与`NEAR_PLACE`在没有地图grounding时会对同一地名产生合理粒度差异；“从Ueno出发且愿意跑远”也不应被迫压成普通`AREA Ueno`或自由文本`FLEXIBLE.scope`。
+
+### Changes
+
+- Golden Seed升级为v0.9，DGS06将“从Ueno出发且愿意移动”表示为`{ kind: "FLEXIBLE", anchorQuery: "Ueno" }`；无锚点的`FLEXIBLE`仍然不是可执行Location Strategy，仍需追问。
+- `DecisionLocation`允许`FLEXIBLE.anchorQuery`；Model Contract升为Prompt v9、输出Schema `2`，要求模型用`FLEXIBLE + anchorQuery`保留“出发锚点 + 出行弹性”，不要降级为`AREA`。
+- S1/S2 canonicalization新增受控地点规则：同query的`AREA`/`NEAR_PLACE`等价，query只做大小写与空白归一；`ADDRESS_OR_STREET`不参与该等价；泛化travel scope被视为`FLEXIBLE`本身，`scope: "from/around X..."`可兼容为anchor。
+- 诊断日志的canonical equivalent说明改为通用Eval比较规则，避免继续只写“菜系别名”。
+
+### Boundary
+
+仍是Harness-only。没有接真实地图或Discovery；没有让harness猜地点事实；没有放过漏地点更新。`Kameido is fine`若模型不写location仍是S1失败，`AREA Ueno`也不会等价于`FLEXIBLE anchorQuery Ueno`，因为前者丢失了愿意移动的策略。
+
+### Verification
+
+Typecheck、Strict Preflight、Fixture Oracle、Fixture Episode Runner、定向35个node:test、完整`npm test` 131/131和build均通过。未发起新的DeepSeek调用。
+
+## 2026-08-11 — Prompt v8 Full Regression real-model diagnostic
+
+### Why
+
+相对时间的可信Harness闭环后，用户明确授权重新运行全部已暴露Regression，以确认真实模型交互、逐Turn诊断和原始/有效Patch分离在同一条受控路径上工作。该集合已参与开发，运行目的仅为定位后续问题，不是建立质量Baseline。
+
+### Result
+
+- 7个Episode、17个Turn全部完成，17次DeepSeek调用、0次Schema retry；7个Turn完全通过。
+- 余下10个首错为7个S1状态解释与3个S4路由。S4集中在`BRAND`与`RESTAURANT`的后续检查动作混淆；S1包括把全面禁烟降为偏好、臆测朋友人数，以及`FLEXIBLE from Ueno`与`AREA Ueno`的语义分歧。
+- `today/tomorrow/tonight`相关Turn的Artifact已显示可信解析与原始/有效Patch；它们不是本次首错来源。
+
+### Boundary
+
+本次仅调用真实模型，候选世界仍为Golden Fixture，不访问真实Discovery/Availability，也不修改产品State、Task Runtime或任何外部世界。Artifact落在Git忽略的`.eval-artifacts/restaurant-decision/`，不保存原始Prompt、Completion或密钥。
+
+## 2026-08-11 — Prompt v8 trusted relative-time normalization
+
+### Why
+
+`referenceTime`此前只作为模型上下文传入，没有确定性地转换`tonight`等表达；同时`DAYPART`允许无日期，导致模型的结构合法输出仍会漏掉可由参考时钟确定的日期。用户要求将该类解析收回Harness，而非继续堆叠Prompt。
+
+### Changes
+
+- 新增Restaurant Decision Eval专用纯函数，只使用传入的`referenceTime`和`Asia/Tokyo`，不读取机器时钟或网络。当前最小词表为`today`、`tomorrow`、`tonight`、`now`和`right now`；`now/right now`得到参考时刻的`APPROXIMATE`时间。
+- 互斥日期锚点、`tomorrow`与即时表达冲突、或多个不相容Daypart时返回未知，不使用启发式猜测。后续用户补充相对日期时保留已有Daypart，并用新的日期完成它。
+- Runner v3在模型调用前把可信时间写入累计State，并在评分前将它与模型原始Patch合成为有效Patch。`RESTAURANT_DECISION_EVAL_PROMPT_VERSION`升为`v8`，只要求模型保留这类可信状态。
+- 逐Turn诊断现在同时保留可信相对时间解析、原始模型Patch和有效Patch，避免将Harness贡献误报为模型输出。
+
+### Boundary
+
+仅限Eval Harness；不改生产Restaurant State、Task Runtime、真实时钟、Discovery、数据库、预约或外部写入。它不是通用日期库，也不覆盖任意自然语言、绝对日期或模糊日期；新增语义必须有真实需求和独立测试后才扩展。
+
+### Verification
+
+- 5个纯函数场景覆盖Tokyo日期、`today/tomorrow/tonight/now/right now`、时区转换、冲突拒绝、已有Daypart合并和模型漏日期修补；Runner回归确认DGS04的date-less模型Patch被可信解析补齐且日志保留两种Patch。
+- Typecheck、Strict Preflight、17-turn Fixture Runner和build均通过。完整测试首轮在PGlite WebAssembly清理时发生Node/V8原生崩溃；同一命令立即重跑为130/130通过，因此未归因为代码断言失败。
+- 没有发起新的DeepSeek调用；v8仍需用户明确授权的污染Regression运行才可观察真实模型交互，且不能作为Baseline。
+
+## 2026-08-11 — Prompt v7 explicit restaurant occasion mapping
+
+### Why
+
+逐TurnRegression Artifact显示模型把`friends`和`department dinner`都错误写成`occasion: DATE`，并会在未提及同伴时补猜`DATE`。原因不是缺乏真实餐厅数据，而是Prompt同时把`DATE`用作日历日期Topic和浪漫约会枚举，且缺字段抽象示例错误地把`occasion: DATE`作为默认Patch。
+
+### Changes
+
+- `RESTAURANT_DECISION_EVAL_PROMPT_VERSION`升为`v7`。删除抽象缺字段示例里的`occasion: DATE`；`ASK_CORE_FIELD.DATE`明确仅为日历日期。
+- 增加实体无关的Occasion规则：只有用户明确表达时才设置；`SOLO`对应独自、`DATE`仅对应浪漫约会/伴侣、`FRIENDS`对应朋友、`FAMILY`对应家人/亲属、`TEAM`对应工作同事/团队/部门。晚餐、日历日期、时段或缺失社会情境一律不推断`DATE`。
+- 新增Prompt Contract断言，确认规则与`FAMILY`映射存在、缺字段示例不含`"occasion":"DATE"`，并继续禁止静态Prompt含Golden实体、地点、菜系、候选或反馈措辞。
+
+### Boundary
+
+只改Harness-only Model Contract、文档和测试；不改生产Restaurant State、Task Runtime、真实Discovery、数据库、预约路径或Model Gateway遥测。此举消除已暴露数据揭示的通用词义冲突，但不能证明模型泛化；相对时间解析仍保持独立待处理。
+
+### Verification
+
+- Model Contract定向测试：8/8通过，验证`FAMILY`/`FRIENDS`/`TEAM`/浪漫`DATE`的抽象规则存在，且缺字段示例不再包含`occasion: DATE`。
+- Strict Preflight、17-turn Fixture Episode Runner、TypeScript typecheck与build均通过；完整自动化基线为124/124通过。
+- 未发起新的DeepSeek调用；真实Regression仍须由用户明确授权，且只能报告为已污染Dataset的开发诊断。
+
+## 2026-08-11 — Eval-only restaurant category canonicalization
+
+### Why
+
+逐TurnArtifact确认`Western food`/`Western`、`Japanese food`/`Japanese`和`Izakaya`的大小写不是语义差异。用户要求先消除这些评分误报，将Occasion与相对日期留作独立问题处理。
+
+### Changes
+
+- 新增显式、Eval-only类别别名表。它只归一`CATEGORY.target.query`与正向菜系偏好中的批准值：`western food/western`、`japanese food/japanese`和`izakaya`任意大小写。
+- S1 Patch-effect和S2累计状态比较使用该规范视图；Gold、模型结构化Proposal、诊断中的原始文本、生产Restaurant State和模型输入不被改写。
+- 任意未列别名、品牌/店名、地点、`FLEXIBLE.scope`、负偏好和Hard Constraint仍严格比较。避免以模糊匹配掩盖“无烟”或过敏等安全语义。
+
+### Result
+
+- `WESTERN`、`IZAKAYA`和`JAPANESE`分别通过对应Golden Turn的S1/S2；`Italian`替换`Western food`仍稳定首错S1。
+- 没有发起新的DeepSeek请求。此前真实Artifact的原始差异保留为历史证据；下一次模型运行才使用新评分口径。
+
+### Verification
+
+- `npm run typecheck`、`npm run build`：通过。
+- `npm run eval:decision:preflight:complete`：Golden v0.8仍为`READY_FOR_EVALUATOR`。
+- `npm run eval:decision:model:fixture`：17个Turn均完成评分，S1–S8通过，P0为0。
+- `npm test`：124 tests / 5 suites / 0 failed。
+
+## 2026-08-11 — v6 full Regression with per-turn diagnostic artifact
+
+## 2026-08-11 — v6 full Regression with per-turn diagnostic artifact
+
+### Why
+
+用户要求不再只报告S1/S2阶段计数，而是直接运行v6并检查每个模型Patch与Gold状态的具体差异。
+
+### Result
+
+- 在用户明确授权下，`FULL_REGRESSION`再次运行7个Episode、17个Turn；17次调用均完成，Runner记录0次Schema重试。日志落在本机Git忽略路径`.eval-artifacts/restaurant-decision/2026-08-11T03-59-28-429Z-full_regression.md`；没有数据库、Discovery、预约或其他外部写操作。
+- 4个Turn（DGS05全部四回合）完整通过；13个Turn首错为10次`S1_STATE_EXTRACTION`、2次`S2_STATE_ACCUMULATION`和1次`S7_SELECTION_DIVERSITY / RECOMMENDATION_MISSING`，未出现P0。
+- 可复查的根因不是单一“状态提取差”：模型把`friends`和`department dinner`错误枚举为`DATE`、漏掉Sora Dining的“tomorrow night”、没有把`tonight`落到日期；把“no smoking”当作普通负偏好而非Hard Constraint；把“from Ueno, can travel”误作`NEAR_PLACE`而非`FLEXIBLE`；DGS07第二回合漏写Kameido；DGS02虽已得到确定性检索结果却没有填`recommendation`。这些是下一轮Prompt/Contract待审查的问题。
+- 同时，若干S1差异仅是当前Gold/State Canonicalization未定义的文字归一：`Western food`/`Western`、`Izakaya`/`izakaya`、`Japanese food`/`Japanese`，以及Gold没有保留的`FLEXIBLE.scope`。不能把它们直接当作模型语义失败；应先决定Domain canonicalization规则，再动Prompt。DGS03-T02和DGS04-T02的S2是前一轮错误的累计后果，并非这轮本身的Patch错误。
+
+### Boundary
+
+本次仍为`DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`。Artifact暴露的是已污染静态Regression的Gold与结构化Proposal，不能用于Holdout、质量趋势或生产数据。
+
+## 2026-08-11 — Progressive Decision per-turn diagnostic artifact
+
+## 2026-08-11 — Progressive Decision per-turn diagnostic artifact
+
+### Why
+
+阶段汇总只能报告“11个Turn首错S1、2个首错S2”，不能让操作者看到模型实际写了什么Patch，因而不能区分当前Turn提取错误与此前累计偏差。用户要求每次Eval都留下可审阅证据。
+
+### Changes
+
+- Episode Runner新增仅Eval使用的逐Turn结构化Witness：Fixture用户文本、候选上下文ID、模型输入状态、Gold前序状态、期望Patch/状态、模型Patch的同前序状态效果、模型累计状态和S1–S8评分。观察器异常被隔离，不能改变Eval的fail-closed语义结果。
+- 真实DeepSeek CLI将Witness渲染为`.eval-artifacts/restaurant-decision/<timestamp>-<scope>.md`并在JSON摘要中打印路径；目录被Git忽略。Artifact刻意不含System Prompt、自然语言Completion、API Key、普通Gateway遥测或生产用户数据。
+- CLI只允许当前静态`REGRESSION` Seed写出该Artifact；一旦Dataset含非Regression（例如未来Holdout）即拒绝写入，防止诊断日志本身造成测试泄漏。
+- 修复通用真实Eval指标的调用分母：Progressive Decision按预期主调用Turn数而不是Episode数计算`retryCalls`。历史v6输出的10次“重试”是统计错误，实际逐TurnSchema重试始终为0。
+
+### Result
+
+- 新的Runner回归用一个故意错误的`target` Patch验证Artifact会显示`state.target.kind`差异并定位`S1_STATE_EXTRACTION / STATE_PATCH_MISMATCH`。
+- 随后的用户授权v6 full Regression已生成真实模型Artifact；逐Turn结果与具体差异记录在上方独立条目。
+
+### Verification
+
+- `npm run typecheck`：通过。
+- `node --import tsx --test src/eval/restaurant-decision-eval-runner.test.ts src/eval/real-model-eval.test.ts`：7/7通过。
+
+## 2026-08-11 — v6 Fixture Tool boundary iteration
+
+## 2026-08-11 — v6 Fixture Tool boundary iteration
+
+### Why
+
+v5全量Regression说明`BRAND`/`RESTAURANT`、候选不足和Grounding不应继续靠Prompt猜测。用户确认其中前三类主要是Harness/工程输入问题，第四类只有在检索系统给出“结果集是否充分”的事实后才是模型表达问题。
+
+### Changes
+
+- Golden Seed升级为v0.8。`BRAND`和`RESTAURANT` Episode必须带有时间戳的`FIXTURE_DISCOVERY`命名目标解析；Strict Preflight拒绝缺少、类型不匹配或无来源的解析结果。Prompt v6只复制该只读结果，不再以名称、参数知识或候选数量猜测实体类型。
+- Runner把可展示候选的充分性作为`retrievalSummary`交给模型。只有其`LIMITED`时，模型才应声明不足；这仍是Fixture Retriever的输入，不是对真实东京候选耗尽的声称。
+- 候选Fact引用和“仍需餐厅确认”的过敏披露改由可信Runner在模型选择候选后确定性装配。模型不再被鼓励填可选的Grounding数组；S8继续验证引用与披露，但不再把证据绑定这一工程任务误判为模型知识缺失。
+- S1改为比较Patch对已有状态的语义效果，允许不改变结果的冗余写入，同时继续拒绝任何改变最终状态的错误Patch。
+
+### Result
+
+- Prompt v6、Runner v2和Golden v0.8先在Fixture Model中验证；7个Episode、17个Turn的S1–S8全部通过，P0为0。新增两个回归测试：命名目标解析缺失必须被Preflight拒绝；无害no-op Patch不再造成S1误报。
+- 随后在用户明确授权下，以`FULL_REGRESSION`运行全部7个Episode、17个Turn：17次DeepSeek调用均成功、0次Schema重试、28,543ms、34,750输入Token、2,199输出Token、36,949总Token、成本`NOT_CONFIGURED`，P0为0。S1为6 Pass / 11 Fail，S2为4 Pass / 2 Fail / 11 Blocked；11个首错为State、2个为State Accumulation。命名目标、Grounding和候选不足不再成为首错，但这只定位当前已见样本上的问题，不构成质量提升或泛化证据。
+- 此次没有接入真实Discovery、Availability、Task Runtime或外部写路径；DeepSeek只接收静态虚构Golden Fixture的当前Turn与允许Candidate Context。外层通用指标把7个Episode误作17个Turn的分母，因而输出了`modelMetrics.retryCalls: 10`；Runner的逐Turn统计确认实际Schema重试为0。该汇总字段是报告缺陷，必须在下次运行前修正，不能解读为真实重试。
+
+### Verification
+
+- `npm run typecheck`、`npm run build`：通过。
+- `npm run eval:decision:preflight:complete`：`READY_FOR_EVALUATOR`，Golden v0.8共7个Episode、17个Labeled Turn。
+- `npm run eval:decision:model:fixture`：17个Turn完成评分，S1–S8均通过，P0为0。
+- `npm test`：122 tests / 5 suites / 0 failed。
+- `PRAXIS_ALLOW_LIVE_MODEL_EVAL=1 PRAXIS_DECISION_EVAL_SCOPE=FULL_REGRESSION PRAXIS_LIVE_MODEL_EVAL_CASE_LIMIT=7 npm run eval:decision:deepseek:smoke`：完成上述受控、只读的v6开发诊断；原始Prompt/Completion未输出或持久化。
+
+## 2026-08-11 — v5 full Regression diagnostic
+
+### Why
+
+用户要求不再只看固定的E1/E2/E3三条Smoke，而是把已人工标注的全部Golden Regression Episode完整运行，再依据问题决定下一轮Prompt调整。
+
+### Changes
+
+- `eval:decision:deepseek:smoke`新增`PRAXIS_DECISION_EVAL_SCOPE`：默认`SMOKE`维持3个Episode，显式`FULL_REGRESSION`从Dataset选择全部当前`REGRESSION` Episode，并要求与选择数相等的`PRAXIS_LIVE_MODEL_EVAL_CASE_LIMIT`。本数据集当前为7个Episode、17个Turn。
+- 输出的`evaluationClassification`现在同时记录所选范围和数量。两种范围均固定为`DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`；没有把全量回归伪装成Holdout。
+- README、Eval Skill、Eval Plan、Annotation Guide、Roadmap和架构说明同步了完整诊断入口和报告边界。
+
+### Result
+
+- 在用户明确授权下，Prompt v5以`FULL_REGRESSION`运行全部7个Episode、17个Turn；每个Episode状态均为`SCORED`。DeepSeek只接收静态虚构Golden Fixture的当前Turn与允许Candidate Context；没有Task、Authorization、数据库、Discovery、餐厅平台或其他写操作。
+- 回归诊断确认了下一轮应解决的真实问题：State与多轮累积仍会偏离Gold；“用户想去的单店”规则被泛化过度，令品牌请求可能被标成`RESTAURANT`；推荐结果经常不附Fact Grounding；候选数不足时也会漏掉解释。这些是Prompt/Contract诊断，不是模型质量统计结论。
+- 没有在本轮后继续改Prompt；先保留问题清单，等待下一轮明确的v6范围，避免根据同一已见集合反复拟合。
+
+### Verification
+
+- `npm run typecheck`：通过。
+- `npm test`：120 tests / 5 suites / 0 failed。
+- `git diff --check`：通过。
+
+## 2026-08-11 — Prompt v5 static-example decontamination smoke
+
+### Why
+
+Prompt v4把固定Regression的店名、地点、菜系和反馈措辞写成worked examples，因而无法区分通用规则收益与对已见题目的提示。用户要求删去这类具体实体后重新运行相同受控Smoke，验证结构能力与固定样本成绩对具体例子的敏感性。
+
+### Changes
+
+- `RESTAURANT_DECISION_EVAL_PROMPT_VERSION`升为`v5`。保留Schema词表、命名店铺为`RESTAURANT`、多分店不推断`BRAND`以及正/负偏好同步记录等抽象规则；删除静态Prompt中的Gold店名、地区、菜系、候选、日期/人数和反馈措辞。
+- 新增Model Contract断言：静态System Prompt必须不含`Sora Dining`、Ginza、西餐类别、原反馈句或候选占位符，同时仍含抽象Restaurant与偏好规则。运行时用户消息和只读Candidate Context仍会按当前Turn交付；这不是泄漏，而是模型作答所需输入。
+- Smoke分类理由更新为Prompt v1–v5均已使用固定`DGS01/DGS03/DGS05`及其结果；本次报告继续为`DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`。
+
+### Result
+
+- v5真实Smoke：7次成功DeepSeek调用、0次Provider失败、0次Schema Retry、15,548ms、14,704输入Token、918输出Token、15,622总Token，成本`NOT_CONFIGURED`，P0为0。7个Turn均完成结构校验和评分。
+- S1为5 Pass / 2 Fail；S2为4 Pass / 1 Fail / 2 Blocked；S3/S4各4 Pass / 3 Blocked；S7为1 Pass / 1 Fail / 3 Blocked / 2 NA；S8为0 Pass / 3个`GROUNDING_MISSING` / 4 Blocked。首错为两处State Patch、一次State Accumulation、三次Grounding和一次不足候选解释。
+- 命名店铺仍被正确分类为`RESTAURANT`，证明该抽象规则仍可用；但完整类别短语被截短，以及额外场景字段导致State差异。与v4的单次结果相比，不能推出统计质量下降，但可确定v4的固定样本分数受其worked examples影响，不能作为泛化证据。
+
+### Decisions and boundaries
+
+- 本轮仅去除泄漏并观察，不根据这三条固定样本继续做v6调整。下一个Prompt候选应先通过抽象规则审查，再在新的隔离Holdout上评测。
+- 真实调用只访问DeepSeek，候选世界仍是虚构Golden Fixture；没有Task、Authorization、数据库、Discovery、餐厅平台、预约或其他外部写入。
+
+### Verification
+
+- 定向Model Contract + Runner：11/11通过；`npm run typecheck`、`npm run build`、`npm run eval:decision:preflight:complete`和`npm run eval:decision:model:fixture`：通过。
+- 全量`npm test`：120 tests / 5 suites / 0 failed（在允许临时`127.0.0.1`监听后）；`git diff --check`：通过。本次真实Smoke按用户明确授权执行。
+
+## 2026-08-11 — Progressive Decision Eval anti-leakage and baseline governance
+
+### Why
+
+固定的E1/E2/E3 Smoke在v1–v5期间已被反复查看，并把样本事实、Gold差异和Validator/评分结果直接转化为Prompt规则。继续把这些样本上的改善称为模型质量提升，会把“对已知题目答得更像答案”误当成泛化能力。需要在下一轮Prompt或真实模型运行前固化防测试集泄露、答题作弊和过拟合边界。
+
+### Changes
+
+- `eval:decision:deepseek:smoke`的JSON输出新增`evaluationClassification`：固定`DGS01/DGS03/DGS05`为`DEVELOPMENT_DIAGNOSTIC`、`PROMPT_AND_RESULT_EXPOSED`和`baselineEligible:false`。该命令仍是付费、只读、无持久化原文的诊断入口；新增字段不改变模型调用、评分或产品状态。
+- Eval v2协议新增§16.1：定义Development Diagnostic、Clean Holdout和污染降级；禁止把样本文本、实体、Candidate/Fact、Gold、Validator错误、Completion或评分结果转写进Prompt后仍将其当作Holdout；任何泄露不可通过重跑恢复独立性。
+- 规定Prompt示例只能使用抽象Schema/规则，运行时Candidate Context只限允许的只读输入且不得携带Gold、允许选择或评分提示；真实模型报告必须写明`cohort`、`contaminationStatus`和`baselineEligible`。
+- 当前7个Golden Seed均明确为Regression，五次已发生的固定Smoke全部重新定性为开发诊断，不再允许作为Baseline、质量趋势或发布证据。路线图、评测Skill、Annotation Guide、架构说明和README同步为“先建立隔离的新Holdout并冻结候选版本，再运行独立评测”。
+
+### Decisions and boundaries
+
+- 开发诊断仍可用来发现Schema或语义问题，但其分数只回答“这个已见问题是否被修复”，不回答“模型是否泛化”。
+- `CLEAN_HOLDOUT`应由不参与Prompt编写的人或隔离流程完成标注，在Prompt/模型/Schema/Evaluator/Case顺序冻结前不向调参者暴露内容；查看结果后若继续改动，必须使用另一批未见Holdout。
+- 本轮不再调用DeepSeek，也不修改Web、Task Runtime、生产Restaurant State、Authorization、Adapter、数据库或外部写路径。
+
+### Verification
+
+- `npm run typecheck`、`npm run build`：通过。
+- `npm test`：119 tests / 5 suites / 0 failed；本机HTTP/SSE测试在允许临时`127.0.0.1`监听后通过。
+- `npm run eval:decision:preflight:complete`：通过，7个Episode、17个Labeled Turn均为`READY_FOR_EVALUATOR`；`npm run eval:decision:model:fixture`：通过，17个Fixture Turn全部评分、P0为0。
+- `git diff --check`：通过。未运行真实Smoke，故没有DeepSeek请求或新的模型结果。
+
+### Next
+
+先确定隔离Holdout的作者/保管方式并新建样本，在候选Prompt冻结前不查看其内容；当前v5的专用Smoke不再继续作为调优或独立质量依据。
+
+## 2026-08-11 — Harness-only Episode Model Runner, Prompt v2 smoke and completion diagnostics
+
+### Why
+
+需要在真实模型质量评估前把完整多轮Episode组装成一个可观察、可停止且不触碰产品Runtime的Harness路径。首次受控Provider运行还证明：模型连接成功并不代表输出已满足严格嵌套Schema；这种错误必须与语义失败分开，并在花费更多调用前先修正Contract。
+
+### Changes
+
+- 新增`runRestaurantDecisionEvalEpisodes`：它先执行Strict Preflight，再按Episode/Turn将累计Eval State、当前消息和明确允许的Golden Fixture候选上下文送入现有`RestaurantDecisionEvalModelContract`。模型输出仍不能伪造`retrievedCandidateIds`；S6由确定性Fixture结果填充后才运行既有S1–S8 Scorer。
+- 新增本地`GoldenDecisionEvalFixtureGateway`和`npm run eval:decision:model:fixture`，用17个Golden Turn验证Preflight、候选上下文、Contract、一次Schema Retry、失败分离和评分组装；新增3个Runner测试，覆盖完整Fixture路径、Provider失败停止Episode和Preflight阻断调用。
+- 新增`npm run eval:decision:deepseek:smoke`，固定运行E1/E2/E3各一个完整Episode，必须有`PRAXIS_ALLOW_LIVE_MODEL_EVAL=1`和`PRAXIS_LIVE_MODEL_EVAL_CASE_LIMIT=3`；候选世界始终为Golden Fixture，不访问真实Discovery、Availability或任何写路径。
+- 首次Prompt v1 Smoke已实际运行：Provider成功返回7次（其中3次为无效Schema后的允许重试），但三个Episode都以`INVALID_MODEL_OUTPUT`停止，未进入S1–S8语义评分。根据稳定Validator错误，Prompt升级为`v2`，补充嵌套State、Action和可选Recommendation的精确字段规则。
+- Prompt v2 Smoke已在相同E1/E2/E3范围实际运行：8次成功Provider调用、3次Schema Retry；E2-T01和E3-T01通过结构校验，但E1-T01、E2-T02和E3-T02仍因时间、地点或动作枚举/组合无效而停止，因此没有Episode进入S1–S8语义评分。
+- 新增静态Golden Fixture专用的`PRAXIS_EVAL_SHOW_COMPLETIONS=1`诊断开关：它仅把每次模型Completion、回合和逐次Validator结果交给本次Smoke终端输出，不进入ModelGateway普通遥测、数据库或文件；未开启时不观察或保留Completion。新增Contract测试覆盖无效及成功重试的诊断关联。
+- 已用该开关再次运行Prompt v2：8次成功Provider调用、3次Schema Retry、20,225ms、12,922 Token。原始Completion确认E1稳定输出`DAY`/`EVENING`、`location.type`和`RECOMMEND`，而Contract要求不同的时间、`location.kind`及动作枚举；E2把时间精度写成`DATE`或省略；E3写出`NIGHT`和布尔`preferred`。当前重试只提示“无效”，没有交付这些字段错误，所以没有纠正输出。
+- Prompt v3将精确词表、合法Time/Location/Action对象示例及Validator错误反馈纳入一次重试。受控重测以7次成功调用、0次Schema Retry使全部7个Turn通过结构校验并进入S1–S8，但均在S1首错：v3要求输出空`add`/`remove`，而Gold no-op Patch要求省略；其余Completion还显示Restaurant被当成Brand、DATE场景的occasion/target未提取、反馈中的负偏好未正确加入。Prompt版本不可重写，后续修正必须为v4。
+- Prompt v4省略no-op Patch、明确指定餐厅即使有分店仍为`RESTAURANT`、补充DATE场景与否定偏好示例。受控重测保持7次成功调用、0次Schema Retry，并将S1从0/7提升为6/7、S3为5/7、S4/S6/S7各5/7或3/7 Pass。`Sora Dining`和反馈Patch均已正确；剩余首错为5个缺失的Grounding、E3首回合遗漏`target: OPEN`、以及Sora补齐人数/时间后错误追问地点。后续修正必须为v5。
+
+### Decisions and boundaries
+
+- Runner报告只保留结构化Proposal处理结果、候选ID、评分、Provider/模型、延迟、Token和稳定错误码；不保存或输出原始Prompt/Completion。静态Fixture Smoke的显式终端诊断是唯一例外，且不持久化。
+- `REAL_MODEL_MOCK_WORLD`只评估真实模型对固定虚构候选世界的决策能力，不是Live Discovery、真实Availability、Web功能或产品能力证明。
+- Provider/Schema失败会停止当前Episode而不是用Golden输出补齐；首次Smoke的无效输出不是P0，也不计为模型语义零分。
+- 本轮没有修改Web、Task Runtime、Restaurant生产State、Authorization、Adapter、数据库Schema或外部写路径。
+
+### Verification
+
+- `npm run eval:decision:preflight:complete`、`npm run eval:decision:fixture`和`npm run eval:decision:model:fixture`：通过；Fixture Runner完整运行7个Episode、17个Turn，P0为0。
+- 定向Model Contract + Runner：10/10通过；`npm run typecheck`、`npm run build`：通过。
+- `npm test`：119 tests / 5 suites / 0 failed（在允许本机`127.0.0.1`监听后）。
+- 三次受控DeepSeek Smoke均无Provider失败且没有Task/数据库/平台写入。v1为7个成功调用、3次Schema Retry、24,083ms、9,479 Token；首次v2为8个成功调用、3次Schema Retry、20,731ms、13,137 Token；诊断v2为8个成功调用、3次Schema Retry、20,225ms、12,922 Token。价格未配置，成本均为`NOT_CONFIGURED`。
+
+### Next
+
+先以Completion诊断人工审阅v2失败输出并决定最小Contract调整；只有结果结构稳定且人工审阅通过后，才扩充并冻结Dataset，再经明确付费授权运行完整Progressive Decision Baseline。
 
 ## 2026-08-10 — Harness-only Progressive Decision Model Contract
 

@@ -69,6 +69,20 @@ export const DECISION_CORE_TOPICS = [
   "LOCATION_STRATEGY",
 ] as const;
 
+export const DECISION_PREFERENCE_POLARITIES = ["PREFER", "AVOID"] as const;
+
+export const DECISION_PREFERENCE_FACETS = [
+  "CUISINE",
+  "VIBE",
+  "MENU_FORMAT",
+  "FORMALITY",
+] as const;
+
+export const DECISION_VIBE_VALUES = ["QUIET", "INTIMATE"] as const;
+export const DECISION_MENU_FORMAT_VALUES = ["TASTING_MENU"] as const;
+export const DECISION_FORMALITY_VALUES = ["FORMAL"] as const;
+export const DECISION_HARD_CONSTRAINT_KINDS = ["SMOKING_POLICY", "ALLERGY"] as const;
+
 export const DECISION_DIVERSITY_AXES = [
   "CUISINE",
   "PRICE_BAND",
@@ -91,6 +105,8 @@ export type DecisionActionType = (typeof DECISION_ACTION_TYPES)[number];
 export type DecisionRelaxationType = (typeof DECISION_RELAXATION_TYPES)[number];
 export type DecisionCoreTopic = (typeof DECISION_CORE_TOPICS)[number];
 export type DecisionDiversityAxis = (typeof DECISION_DIVERSITY_AXES)[number];
+export type DecisionPreferencePolarity = (typeof DECISION_PREFERENCE_POLARITIES)[number];
+export type DecisionPreferenceFacet = (typeof DECISION_PREFERENCE_FACETS)[number];
 
 export interface DecisionTime {
   date?: string;
@@ -111,7 +127,7 @@ export type DecisionLocation =
   | { kind: "AREA"; query: string }
   | { kind: "NEAR_PLACE"; query: string }
   | { kind: "ADDRESS_OR_STREET"; query: string }
-  | { kind: "FLEXIBLE"; scope?: string }
+  | { kind: "FLEXIBLE"; anchorQuery?: string; scope?: string }
   | { kind: "UNKNOWN" };
 
 export type DecisionTarget =
@@ -120,15 +136,56 @@ export type DecisionTarget =
   | { kind: "BRAND"; query: string }
   | { kind: "RESTAURANT"; query: string; outletQuery?: string };
 
+/**
+ * Restaurant-owned preference vocabulary proven by the current vertical
+ * slice. CUISINE stays open-text because real cuisines are not a closed enum;
+ * the other facets are intentionally limited to concepts already required by
+ * the product/eval contract.
+ */
+export type DecisionPreference =
+  | { facet: "CUISINE"; value: string; polarity: DecisionPreferencePolarity }
+  | {
+      facet: "VIBE";
+      value: (typeof DECISION_VIBE_VALUES)[number];
+      polarity: DecisionPreferencePolarity;
+    }
+  | {
+      facet: "MENU_FORMAT";
+      value: (typeof DECISION_MENU_FORMAT_VALUES)[number];
+      polarity: DecisionPreferencePolarity;
+    }
+  | {
+      facet: "FORMALITY";
+      value: (typeof DECISION_FORMALITY_VALUES)[number];
+      polarity: DecisionPreferencePolarity;
+    };
+
+export type DecisionHardConstraint =
+  | { kind: "SMOKING_POLICY"; value: "FULLY_NON_SMOKING" }
+  | { kind: "ALLERGY"; allergen: string; severity: "SEVERE" };
+
+/**
+ * Read-only named-target resolution supplied by Discovery. It is kept outside
+ * the model's proposal so a model never has to infer whether an arbitrary name
+ * denotes a brand or one particular restaurant from parametric knowledge.
+ */
+export interface DecisionEvalNamedTargetResolution {
+  query: string;
+  target: Extract<DecisionTarget, { kind: "BRAND" | "RESTAURANT" }>;
+  source: {
+    mode: "FIXTURE_DISCOVERY";
+    observedAt: string;
+  };
+}
+
 export interface DecisionState {
   occasion?: DecisionOccasion;
   time?: DecisionTime;
   party?: DecisionParty;
   location?: DecisionLocation;
   target: DecisionTarget;
-  positivePreferences: string[];
-  negativePreferences: string[];
-  hardConstraints: string[];
+  preferences: DecisionPreference[];
+  hardConstraints: DecisionHardConstraint[];
 }
 
 export interface DecisionStatePatch {
@@ -140,14 +197,12 @@ export interface DecisionStatePatch {
     target?: DecisionTarget;
   };
   add?: {
-    positivePreferences?: string[];
-    negativePreferences?: string[];
-    hardConstraints?: string[];
+    preferences?: DecisionPreference[];
+    hardConstraints?: DecisionHardConstraint[];
   };
   remove?: {
-    positivePreferences?: string[];
-    negativePreferences?: string[];
-    hardConstraints?: string[];
+    preferences?: DecisionPreference[];
+    hardConstraints?: DecisionHardConstraint[];
   };
 }
 
@@ -303,7 +358,7 @@ export interface DecisionEvalTurn {
 }
 
 export interface DecisionEvalEpisode {
-  schemaVersion: "2";
+  schemaVersion: "3";
   datasetVersion: string;
   id: string;
   split: "REGRESSION" | "HOLDOUT";
@@ -313,12 +368,14 @@ export interface DecisionEvalEpisode {
   timezone: "Asia/Tokyo";
   tags: string[];
   candidatePoolRef?: string;
+  /** Optional read-only Discovery result for a user-named target. */
+  namedTargetResolution?: DecisionEvalNamedTargetResolution;
   initialState: DecisionState;
   turns: DecisionEvalTurn[];
 }
 
 export interface DecisionEvalDataset {
-  schemaVersion: "2";
+  schemaVersion: "3";
   datasetId: string;
   datasetVersion: string;
   evaluatorTargetVersion: "2";

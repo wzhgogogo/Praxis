@@ -1,11 +1,449 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Version: 3.0
-- Last updated: 2026-08-10
+- Version: 4.8
+- Last updated: 2026-08-13
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Test Skill](skills/test/SKILL.md), [Harness Design](harness/HARNESS-DESIGN.md)
+
+## 2026-08-13 — Prompt v14 / typed Patch Contract verification
+
+### Scope
+
+Harness-only Restaurant Progressive Decision Eval：typed Preference/Hard Constraint、JSON Schema、共享Validator、Reducer语义集合、Golden v0.10 / Schema 3与Prompt v14。未改产品Restaurant State、Task Runtime、Web、Provider Adapter或外部执行路径。
+
+### Checks
+
+- `npm run typecheck`：通过。
+- Contract、Model Contract、Preflight、Mutation、Reducer/Scorer、Decision Kernel与Runner定向测试：65/65通过。
+- `npm run eval:decision:preflight:complete`：`READY_FOR_EVALUATOR`，7个Episode / 17个Labeled Turn / 29个Candidate / 417个Fact，dataset v0.10。
+- `npm run eval:decision:model:fixture`：Runner v4 / Prompt v14 / Proposal Schema 4，17次Fixture调用、0次Schema retry；S1–S4与S8均17/17通过，S5 5个适用Turn通过，S6 11个适用Turn通过，S7 10个适用Turn通过，P0为空。
+- `npm test`：受限沙箱首次运行时131个非HTTP用例通过，7个Local Web/SSE场景仅因`listen EPERM 127.0.0.1`失败；允许本机监听后原命令重跑为138/138通过、0失败。
+- `npm run build`：通过。
+- `git diff --check`：通过。
+
+### Modes and external effects
+
+只运行Unit/Contract、Preflight和Golden Fixture Model；没有调用DeepSeek、真实Discovery、Availability、地图或预约平台，没有数据库或其他外部写入。当前Golden和Prompt相关结果已暴露，不能作为Baseline或Holdout。
+
+## 2026-08-12 — Prompt v13 State Patch Contract verification
+
+只修改Harness-only Prompt及其Contract断言；Schema、Kernel、Gold、Reducer、Scorer和canonicalization未变。`node --import tsx --test src/eval/restaurant-decision-eval-model-contract.test.ts`为8/8通过，`npm run typecheck`与`git diff --check`通过。静态Prompt测试明确拒绝当前四条Regression原句和既有Fixture实体。未运行DeepSeek、完整Golden Regression、真实Discovery、Availability或任何外部写入。
+
+## 2026-08-12 — Eval-only Decision Kernel probe / Prompt v12 verification
+
+### Scope
+
+只修改Progressive Decision Eval的Harness：Proposal Schema 3只接受语义`statePatch`和可选Candidate排序，Eval-only Decision Kernel从累计State、可信Fixture/Search结果和Candidate Fact生成Readiness、下一步动作、候选展示上限与Grounding。没有改Restaurant产品Domain、Task Runtime、Web、真实Discovery、地图、Availability、预约或外部写入。
+
+### Checks
+
+- `npm run typecheck`：通过。
+- `node --import tsx --test src/eval/restaurant-decision-eval-decision-kernel.test.ts src/eval/restaurant-decision-eval-model-contract.test.ts src/eval/restaurant-decision-eval-runner.test.ts`：15/15通过；覆盖命名目标/严格零结果路由、有限候选Grounding、Schema拒绝旧Policy字段及Runner不向模型发送`retrievalSummary`。
+- `npm run eval:decision:preflight:complete`：通过，7个Episode / 17个Labeled Turn，`READY_FOR_EVALUATOR`。
+- `npm run eval:decision:fixture`与`npm run eval:decision:model:fixture`：通过；Fixture Runner v4 / Prompt v12 / Schema 3，17次Fixture调用、0次Schema retry，S1–S8全部通过。
+- `npm run build`与`git diff --check`：通过。
+- 完整`npm test`：受限沙箱首跑中7个Local Web/SSE用例因`listen EPERM 127.0.0.1`失败，其余126个通过；以本机监听权限重跑后133/133通过，0 failed。该差异是沙箱网络权限，不是本次代码断言失败。
+
+### Modes and external effects
+
+已运行Unit/Contract、Fixture Oracle与Fixture Episode Runner；没有发起DeepSeek调用，未访问真实站点、Discovery、Availability或预约平台。当前Golden与结果已暴露，后续任何真实模型重跑仍只能报告为`DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`。
+
+## 2026-08-12 — Prompt v11 action routing verification
+
+### Scope
+
+只修改Progressive Decision Eval的Harness-only Prompt动作路由边界：`BRAND`、`RESTAURANT`、`OPEN/CATEGORY`和`CHECK_AVAILABILITY`的触发条件显式分开。Gold、Reducer、Scorer、输出Schema、真实Discovery、地图、Availability、预约平台和产品Runtime均未修改。
+
+### Checks
+
+- `npm run typecheck`：通过。
+- `node --import tsx --test src/eval/restaurant-decision-eval-model-contract.test.ts`：8/8通过；Prompt Contract断言覆盖Routing Matrix、`BRAND`不得走`CHECK_TARGET_RESTAURANT`、`RESTAURANT`不得走`RESOLVE_BRAND_OUTLET`或`SHOW_RECOMMENDATIONS`，以及`APPROXIMATE/DAYPART`不等于Exact Availability。
+- `npm run eval:decision:model:fixture`：Runner v3、Fixture Model、17次调用、0次Schema retry；Model Contract使用`promptVersion: v11`与输出Schema `2`，S1–S8全部通过。
+- `npm run eval:decision:fixture`：Golden v0.9 Fixture Oracle 17个Turn的S1–S8全部通过，P0为0。
+- `npm run build`：通过。
+- `git diff --check`：通过。
+
+### Real Model Mock World
+
+- 首次`PRAXIS_ALLOW_LIVE_MODEL_EVAL=1 PRAXIS_DECISION_EVAL_SCOPE=FULL_REGRESSION PRAXIS_LIVE_MODEL_EVAL_CASE_LIMIT=7 npm run eval:decision:deepseek:smoke`在sandbox内完成Preflight但7个Episode均为`MODEL_FAILURE / NETWORK`，`modelCalls: 0`，没有产生语义评分；诊断文件为`.eval-artifacts/restaurant-decision/2026-08-12T08-21-31-195Z-full_regression.md`。
+- 用户随后明确批准调用DeepSeek并接受当前Regression评测数据发送给DeepSeek后，使用同一命令以外部网络权限重跑成功：7个Episode、17个Turn全部到达DeepSeek并完成评分，17次调用、0次Schema retry、0次Provider failure、P0为0，`totalLatencyMs: 35293`，Token为45,262 input / 2,125 output / 47,387 total，成本仍为`NOT_CONFIGURED`。
+- 诊断文件：`.eval-artifacts/restaurant-decision/2026-08-12T08-37-35-090Z-full_regression.md`。
+- 分类保持`DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`，因为当前Golden Seed与结果已参与Prompt迭代。
+- 12/17个Turn无首错；剩余5个首错为`S3_READINESS: 2`、`S1_STATE_EXTRACTION: 2`、`S7_SELECTION_DIVERSITY: 1`。`S4_ACTION_ROUTING`直接失败为0；v8中DGS02-T01、DGS03-T01和DGS03-T02的3个S4路由首错均不再作为首错出现。
+- 代表性剩余问题：
+  - DGS03-T02：状态正确、动作已为`CHECK_TARGET_RESTAURANT`，但readiness输出`NOT_READY`，Gold为`RECOMMENDATION_READY`。
+  - DGS04-T03：`no smoking`仍被写成`negativePreferences: ["smoking"]`，Gold要求`hardConstraints: ["fully non-smoking"]`。
+  - DGS06-T03：推荐2个候选，Gold要求3个候选，首错`RECOMMENDATION_CANDIDATE_COUNT`。
+  - DGS06-T04：`nothing too formal`被写为`negativePreferences: ["too formal"]`，Gold要求`["formal"]`。
+  - DGS07-T01：状态正确，但严格结果为空时readiness输出`NOT_READY`，Gold为`AVAILABILITY_READY`并要求`PROPOSE_CONSTRAINT_RELAXATION`。
+- 用户同意后对相同v11 Prompt、Golden v0.9和`FULL_REGRESSION`范围继续重复运行，最终形成10次真实模型Mock World诊断；10次均保持`DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`，不能作为质量Baseline或趋势证据。
+- 追加9次诊断Artifact与调用数：
+  - `.eval-artifacts/restaurant-decision/2026-08-12T08-54-41-045Z-full_regression.md`：18次调用、1次Schema retry。
+  - `.eval-artifacts/restaurant-decision/2026-08-12T08-55-29-151Z-full_regression.md`：18次调用、1次Schema retry；DGS05-T04出现`INVALID_MODEL_OUTPUT`，原因是模型输出了不受Schema支持的顶层`explainsInsufficientCandidates`。
+  - `.eval-artifacts/restaurant-decision/2026-08-12T08-56-06-749Z-full_regression.md`：17次调用、0次Schema retry。
+  - `.eval-artifacts/restaurant-decision/2026-08-12T10-09-14-283Z-full_regression.md`：17次调用、0次Schema retry。
+  - `.eval-artifacts/restaurant-decision/2026-08-12T10-10-03-944Z-full_regression.md`：19次调用、2次Schema retry。
+  - `.eval-artifacts/restaurant-decision/2026-08-12T10-10-53-066Z-full_regression.md`：17次调用、0次Schema retry。
+  - `.eval-artifacts/restaurant-decision/2026-08-12T10-11-30-967Z-full_regression.md`：17次调用、0次Schema retry。
+  - `.eval-artifacts/restaurant-decision/2026-08-12T10-12-12-973Z-full_regression.md`：17次调用、0次Schema retry。
+  - `.eval-artifacts/restaurant-decision/2026-08-12T10-13-30-090Z-full_regression.md`：17次调用、0次Schema retry。
+- 10次矩阵显示：DGS03-T02为10/10 `S3_READINESS`；DGS04-T03为10/10 `S1_STATE_EXTRACTION`；DGS06-T03为10/10 `S7_SELECTION_DIVERSITY`；DGS06-T04为10/10不通过，但首错阶段不稳定（2次`S1`、7次`S7`、1次`S4`）；DGS07-T01为10/10不通过，其中9次`S3_READINESS`、1次`S1_STATE_EXTRACTION`。DGS05-T04只有1次Schema越界；DGS06-T02只有1次臆造`FLEXIBLE.anchorQuery: "current location"`；DGS07-T02只有1次`S2_STATE_ACCUMULATION`，且确认是同次DGS07-T01把`at 7pm`写成`APPROXIMATE`导致的累计污染，不是T02本身的新错误。
+- 首跑的“直接S4失败为0”不能当作稳定结论；10次中出现过1次DGS06-T04反馈路由`S4_ACTION_ROUTING`，但v8中DGS02-T01、DGS03-T01和DGS03-T02的3个固定路由首错没有复现为直接S4。后续不得基于单次真实模型运行继续调Prompt；应优先处理10/10稳定不通过的问题，并把一次性Schema越界、臆造anchor和上游累计污染单独归类。
+
+### Modes
+
+- Unit/Contract、Fixture Oracle、Fixture Episode Runner：通过。
+- Real Model Mock World：经用户明确授权后通过DeepSeek完成；结果仅为已暴露Regression开发诊断。
+- Replay、Live Read-only和Controlled Live-write：本轮未运行；没有访问真实网站或预约平台。
+
+### External side effects
+
+无生产外部副作用；未访问live sites、真实Discovery、地图、Availability或预约平台。外部副作用仅限经用户明确授权后的DeepSeek模型调用；本v11记录中的10次成功/诊断运行合计174次DeepSeek API请求，其中包含4次Schema retry请求。
+
+## 2026-08-12 — Prompt v10 extraction boundary verification
+
+### Scope
+
+只修改Progressive Decision Eval的Harness-only Prompt边界：社交语境不得推出人数，软偏好不得把`target: OPEN`提升为`CATEGORY`。Gold、Reducer、Scorer、输出Schema、真实Discovery、地图、Availability、预约平台和产品Runtime均未修改。
+
+### Checks
+
+- `npm run typecheck`：通过。
+- `node --import tsx --test src/eval/restaurant-decision-eval-model-contract.test.ts`：8/8通过；Prompt Contract断言覆盖“不从社交语境推断party”和“软偏好保留为preferences”。
+- `npm run eval:decision:model:fixture`：Runner v3、Fixture Model、17次调用、0次Schema retry；Model Contract使用`promptVersion: v10`与输出Schema `2`，S1–S8全部通过。
+- `npm run eval:decision:fixture`：Golden v0.9 Fixture Oracle 17个Turn的S1–S8全部通过，P0为0。
+- `npm run build`：通过。
+- `git diff --check`：通过。
+
+### Modes
+
+- Unit/Contract、Fixture Oracle、Fixture Episode Runner：通过。
+- 完整`npm test`：本轮未运行；改动只限Prompt文本、Prompt Contract测试和文档，没有修改Runtime、Web、Reducer或Scorer。当前完整基线仍为2026-08-12的131 tests / 5 suites。
+- Real Model Mock World、Replay、Live Read-only和Controlled Live-write：本轮未运行；没有新的DeepSeek请求。
+
+### External side effects
+
+无生产外部副作用；没有网络模型调用。
+
+## 2026-08-12 — Prompt v9 / Golden v0.9 location strategy verification
+
+### Scope
+
+只修改Progressive Decision Eval的Harness-only地点语义表示与比较：`FLEXIBLE`可带`anchorQuery`表达“从某地出发且愿意移动”，S1/S2对同一query的`AREA`/`NEAR_PLACE`做受控等价，并忽略泛化“willing to travel”类scope。未接真实地图、Discovery、Availability、预约平台或产品Runtime写入。
+
+### Checks
+
+- `npm run typecheck`：通过。
+- `npm run eval:decision:preflight:complete`：Golden v0.9，7个Episode、17个Labeled Turn，`READY_FOR_EVALUATOR`。
+- `npm run eval:decision:fixture`：17个Turn的S1–S8全部通过，P0为0。
+- `npm run eval:decision:model:fixture`：Runner v3、Fixture Model、17次调用、0次Schema retry；Model Contract使用`promptVersion: v9`与输出Schema `2`。
+- `node --import tsx --test src/eval/restaurant-decision-eval-scorer.test.ts src/eval/restaurant-decision-eval-model-contract.test.ts src/eval/restaurant-decision-eval-preflight.test.ts`：35/35通过。
+- `npm test`：首次在sandbox内7个Local HTTP/SSE用例因`listen EPERM 127.0.0.1`失败，其余124个已通过；使用批准的`npm test`本机监听权限重跑后131 tests / 5 suites / 0 failed。
+- `npm run build`：通过。
+
+### Modes
+
+- Unit/Contract、Fixture Oracle、Fixture Episode Runner：通过。
+- Real Model Mock World、Replay、Live Read-only和Controlled Live-write：本轮未运行；没有新的DeepSeek请求。
+
+### External side effects
+
+无生产外部副作用。完整测试只临时监听本机`127.0.0.1`。
+
+## 2026-08-11 — Prompt v8 Full Regression real-model diagnostic
+
+### Scope
+
+用户明确授权后，以`REAL_MODEL_MOCK_WORLD`运行全部7个已暴露的Regression Episode、17个Turn。候选仍为Golden Fixture；不访问真实Discovery/Availability，不执行预约、购买、取消、支付或任何产品Runtime写入。本次结果按`DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`记录，不能作为模型质量或泛化证据。
+
+### Checks
+
+- `PRAXIS_ALLOW_LIVE_MODEL_EVAL=1 PRAXIS_DECISION_EVAL_SCOPE=FULL_REGRESSION PRAXIS_LIVE_MODEL_EVAL_CASE_LIMIT=7 npm run eval:decision:deepseek:smoke`：17/17真实DeepSeek调用完成，Schema retry为0。
+- 7个Turn没有首错；其余10个首错为7个`S1_STATE_EXTRACTION`和3个`S4_ACTION_ROUTING`。没有由相对时间归一导致的首错。
+- 本机Git忽略诊断Artifact：[2026-08-11T09-53-25-270Z-full_regression.md](../../.eval-artifacts/restaurant-decision/2026-08-11T09-53-25-270Z-full_regression.md)；它包含可信相对时间、原始/有效Patch及阶段差异，不包含原始Prompt、自然语言Completion、API Key或生产用户数据。
+
+### Modes
+
+- Real Model Mock World：已运行。
+- Unit/Contract、Fixture Oracle、Fixture Episode Runner：见同日v8验证记录；Replay、Live Read-only和Controlled Live-write：未运行。
+
+### External side effects
+
+17次明确授权的付费DeepSeek只读模型调用，以及一个本地Git忽略诊断文件；没有生产外部写入。
+
+## 2026-08-11 — Prompt v8 trusted relative-time normalization verification
+
+### Scope
+
+新增仅限Progressive Decision Eval的确定性相对时间解析与Runner v3：在固定`referenceTime`、`Asia/Tokyo`下，将`today`、`tomorrow`、`tonight`、`now`和`right now`并入可信State和有效Patch；诊断输出原始模型Patch、解析结果和有效Patch。不改生产Restaurant State、Task Runtime、真实时钟、Discovery、数据库、预约或外部写入。
+
+### Checks
+
+- `node --import tsx --test src/eval/restaurant-decision-eval-relative-time.test.ts src/eval/restaurant-decision-eval-runner.test.ts src/eval/restaurant-decision-eval-model-contract.test.ts`：18/18通过。覆盖Tokyo时区、五个相对表达、冲突不解析、跨回合Daypart保留、date-less模型`DAYPART`补齐，以及诊断中原始/有效Patch分离。
+- `npm run typecheck`、`npm run eval:decision:preflight:complete`、`npm run eval:decision:model:fixture`、`npm run build`：通过；Fixture Runner为v3，17个Turn的S1–S8通过，P0为0，Model Contract使用`promptVersion: v8`。
+- `npm test`：首次在PGlite WebAssembly的Node/V8清理阶段原生中止，尚未到断言级失败；同一命令立即重跑后为130 tests / 5 suites / 0 failed。
+
+### Modes
+
+- Unit/Contract、Fixture Oracle、Fixture Episode Runner：通过。
+- Real Model Mock World、Replay、Live Read-only和Controlled Live-write：本轮未运行；没有新的DeepSeek请求。
+
+### External side effects
+
+无；完整测试仅临时监听本机`127.0.0.1`。
+
+## 2026-08-11 — Prompt v7 occasion mapping verification
+
+### Scope
+
+只修改Progressive Decision Eval的Harness-only Model Contract：移除缺字段示例的`occasion: DATE`默认值，明确`FAMILY`、`FRIENDS`、`TEAM`与浪漫`DATE`的显式场景映射，并将`ASK_CORE_FIELD.DATE`与`occasion.DATE`的含义分开。不改生产Restaurant State、Task Runtime、Discovery、数据库、预约或任何外部写路径。
+
+### Checks
+
+- `node --import tsx --test src/eval/restaurant-decision-eval-model-contract.test.ts`：8/8通过。新断言确认Prompt包含抽象`FAMILY`、`FRIENDS`、`TEAM`、浪漫`DATE`规则，不含`"occasion":"DATE"`缺字段示例，且无Golden实体或样例事实。
+- `npm run eval:decision:preflight:complete`：Golden v0.8，7个Episode、17个Labeled Turn，`READY_FOR_EVALUATOR`。
+- `npm run eval:decision:model:fixture`：17个Turn完成评分，S1–S8通过，P0为0；所有Fixture调用携带`promptVersion: v7`。
+- `npm run typecheck`、`npm run build`：通过。
+- `npm test`：124 tests / 5 suites / 0 failed。初次沙箱运行的7个本机Web/SSE监听用例因`listen EPERM`无法启动；使用仅允许`127.0.0.1`临时监听的同一命令重跑后全部通过。
+
+### Modes
+
+- Unit/Contract、Fixture Oracle、Fixture Episode Runner：通过。
+- Real Model Mock World、Replay、Live Read-only和Controlled Live-write：本轮未运行；没有新的DeepSeek请求。
+
+### External side effects
+
+无。
+
+## 2026-08-11 — Eval-only restaurant category canonicalization verification
+
+### Scope
+
+只修改Progressive Decision Eval的S1/S2语义比较：受控类别别名和大小写视为等价。未改生产Restaurant State、Task Runtime、模型输入、Discovery、数据库或外部平台。
+
+### Checks
+
+- `npm run typecheck`、`npm run build`：通过。
+- `npm run eval:decision:preflight:complete`：Golden v0.8，7个Episode、17个Labeled Turn，`READY_FOR_EVALUATOR`。
+- `npm run eval:decision:model:fixture`：17个Turn完成评分，S1–S8通过，P0为0。
+- `npm test`：124 tests / 5 suites / 0 failed。新增回归验证`WESTERN`、`IZAKAYA`、`JAPANESE`通过S1/S2，而非批准类别`Italian`仍为S1失败。
+
+### Modes
+
+- Unit/Contract、Fixture Oracle、Fixture Episode Runner：通过。
+- Real Model Mock World、Replay、Live Read-only和Controlled Live-write：本轮未运行；没有新的DeepSeek请求。
+
+### External side effects
+
+无。
+
+## 2026-08-11 — v6 full Regression diagnostic artifact run
+
+## 2026-08-11 — v6 full Regression diagnostic artifact run
+
+### Scope
+
+用户明确授权后，以Prompt v6运行全部7个静态Regression Episode、17个Turn，并读取本机逐TurnMarkdown Artifact。该调用只访问DeepSeek，Candidate World保持虚构Golden Fixture。
+
+### Checks
+
+- `PRAXIS_ALLOW_LIVE_MODEL_EVAL=1 PRAXIS_DECISION_EVAL_SCOPE=FULL_REGRESSION PRAXIS_LIVE_MODEL_EVAL_CASE_LIMIT=7 npm run eval:decision:deepseek:smoke`：完成17次模型调用；Artifact记录0次Schema重试、4个完整通过Turn和13个首错（S1=10、S2=2、S7=1），未发现`P0_`错误。
+- Artifact：`.eval-artifacts/restaurant-decision/2026-08-11T03-59-28-429Z-full_regression.md`。它逐条验证S1 Patch效果与S2累计状态确实可区分：DGS03-T02、DGS04-T02是上游偏差的S2后果；DGS02是独立的`RECOMMENDATION_MISSING`；其他10个首错为可见的S1字段差异。
+
+### Modes
+
+- Real Model Mock World：完成，固定标记`DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`。
+- Unit/Contract、Fixture、Replay、Live Read-only和Controlled Live-write：本轮未运行。
+
+### External side effects
+
+17次受控、只读DeepSeek API调用，可能产生供应商费用；本机写入一个Git忽略的诊断Markdown；无数据库、Discovery、餐厅平台、预约、支付或其他外部写操作。
+
+## 2026-08-11 — Progressive Decision diagnostic artifact verification
+
+## 2026-08-11 — Progressive Decision diagnostic artifact verification
+
+### Scope
+
+新增当前静态Golden Regression的逐Turn诊断Artifact和真实Eval重试指标修正。范围仅限`src/eval/`与本机Git忽略的`.eval-artifacts/`输出；不改变生产状态、Task Runtime、Model Gateway遥测、数据库、Discovery或外部写入。
+
+### Checks
+
+- `npm run typecheck`：通过。
+- `node --import tsx --test src/eval/restaurant-decision-eval-runner.test.ts src/eval/real-model-eval.test.ts`：7/7通过。回归场景故意令DGS01的`target`变为`OPEN`，确认诊断Markdown显示`state.target.kind`的期望/实际差异与`S1_STATE_EXTRACTION / STATE_PATCH_MISMATCH`。
+- 指标回归验证：两条独立Turn主调用、两条Invocation Record时`retryCalls`为0；同一Case的两条调用仍正确计为一次重试。
+
+### Modes
+
+- Unit/Contract、Fixture Episode Runner：通过。
+- Real Model Mock World：随后在同日的v6 full Regression diagnostic artifact run中运行，见上方独立记录。
+- Replay、Live Read-only和Controlled Live-write：未运行；没有新的DeepSeek请求。
+
+### External side effects
+
+无。真实CLI的Artifact写入尚未在本轮实际触发；下次显式付费Regression Eval仅在本机`.eval-artifacts/`创建文件，不写数据库或普通遥测。
+
+## 2026-08-11 — v6 full Regression diagnostic verification
+
+## 2026-08-11 — v6 full Regression diagnostic verification
+
+### Scope
+
+在Golden v0.8 / Prompt v6的Fixture边界验证后，按用户明确授权运行全部7个已暴露`REGRESSION` Episode、17个Turn。此命令只向DeepSeek发送静态虚构Fixture和允许的当前Turn上下文；没有真实Discovery、Availability、Task、数据库或平台写入。
+
+### Checks
+
+- `PRAXIS_ALLOW_LIVE_MODEL_EVAL=1 PRAXIS_DECISION_EVAL_SCOPE=FULL_REGRESSION PRAXIS_LIVE_MODEL_EVAL_CASE_LIMIT=7 npm run eval:decision:deepseek:smoke`：`COMPLETED`，7/7 Episode为`SCORED`，17/17模型调用成功，0次Provider失败，Runner记录0次Schema重试，总延迟28,543ms；输入34,750、输出2,199、合计36,949 Token；成本`NOT_CONFIGURED`；P0为空。
+- S1为6 Pass / 11 Fail；S2为4 Pass / 2 Fail / 11 Blocked。首错仅为11次`S1_STATE_EXTRACTION`和2次`S2_STATE_ACCUMULATION`；命名目标、Grounding和候选充分性不再是首错。
+- 外层`modelMetrics.retryCalls`显示10，是通用汇总以7个Episode而不是17个有模型调用的Turn计算的已知报告缺陷；不得当作真实重试。逐TurnRunner的`schemaRetryCalls: 0`才是本次Schema重试结果。
+
+### Modes
+
+- Real Model Mock World：完成，`DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`；结果不可作为Baseline、版本趋势或发布证据。
+- Unit/Contract、Fixture Oracle和Fixture Episode Runner：采用本次v6边界验证结果；本次真实运行后未改代码，未重复执行。
+- Replay、Live Read-only和Controlled Live-write：未运行。
+
+### External side effects
+
+17次受控、只读DeepSeek API调用，可能产生供应商费用；无数据库、Discovery、餐厅平台、预约、支付或其他外部写操作。
+
+## 2026-08-11 — v6 Fixture Tool boundary verification
+
+### Scope
+
+Golden v0.8 / Prompt v6把命名目标解析、候选充分性和证据装配收回到Harness可信侧。改动限于Eval Contract、Preflight、Runner、Scorer、Golden Fixture和对应测试；未修改生产Restaurant State、Task Runtime、Adapter、Web、数据库或外部平台。
+
+### Checks
+
+- 定向Eval Contract / Preflight / Runner / Scorer / Mutation：54/54通过；包括缺少`FIXTURE_DISCOVERY`解析时Strict Preflight失败、品牌解析传入模型、有限结果的`retrievalSummary`传入模型、可信Grounding装配和语义no-op Patch。
+- `npm run typecheck`、`npm run build`：通过。
+- `npm run eval:decision:preflight:complete`：Golden v0.8，`READY_FOR_EVALUATOR`，7个Episode、17个Labeled Turn。
+- `npm run eval:decision:model:fixture`：`FIXTURE_MODEL`下17个Turn均完成评分；S1–S8均通过，P0为0。
+- `npm test`：122 tests / 5 suites / 0 failed。
+
+### Modes
+
+- Unit/Contract、Fixture Oracle、Fixture Episode Runner：通过。
+- Real Model Mock World：随后在同日的v6 full Regression diagnostic中运行，见上方独立记录。
+- Replay、Live Read-only和Controlled Live-write：未运行。
+
+### External side effects
+
+无。
+
+## 2026-08-11 — v5 full Regression diagnostic verification
+
+### Scope
+
+在不修改生产路径的前提下，显式运行当前全部7个`REGRESSION` Episode。新增的Scope选择只影响Harness-only CLI的Episode集；默认三条Smoke仍保持不变。
+
+### Checks
+
+- `PRAXIS_ALLOW_LIVE_MODEL_EVAL=1 PRAXIS_DECISION_EVAL_SCOPE=FULL_REGRESSION PRAXIS_LIVE_MODEL_EVAL_CASE_LIMIT=7 PRAXIS_EVAL_SHOW_COMPLETIONS=1 npm run eval:decision:deepseek:smoke`：Prompt v5完成7个Episode、17个Turn，所有Episode均为`SCORED`。本次诊断在终端显示每个Completion与结构结果；原始正文按设计没有写入数据库、普通遥测或文件。
+- `npm run typecheck`：通过。
+- `npm test`：120 tests / 5 suites / 0 failed。
+- `git diff --check`：通过。
+
+### Modes
+
+- Real Model Mock World：完成，结果标记为`DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`；不能作为Baseline、趋势或发布证据。
+- Unit/Contract、Fixture Runner：本轮未重跑定向命令；全量`npm test`覆盖它们。
+- Replay、Live Read-only和Controlled Live-write：未运行。
+
+### External side effects
+
+17次受控、只读DeepSeek模型调用；无数据库、餐厅平台、预约、支付或其他外部写操作。
+
+## 2026-08-11 — Prompt v5 decontamination and controlled smoke verification
+
+### Scope
+
+Prompt v5只删除静态System Prompt中来自Golden Regression的worked examples：店名、地点、菜系、候选、日期/人数与反馈措辞均替换为抽象规则；新增防泄漏Contract断言，并按用户明确授权重跑固定E1/E2/E3 DeepSeek Smoke。没有改变Task Runtime、生产Parser、状态、Schema、Authorization、Adapter、Web、数据库或外部写路径。
+
+### Checks
+
+- `node --import tsx --test src/eval/restaurant-decision-eval-model-contract.test.ts src/eval/restaurant-decision-eval-runner.test.ts`：11/11通过；覆盖v5不含`Sora Dining`、Ginza、西餐类别、原反馈措辞与候选占位符，且保留抽象命名店铺/偏好规则。
+- `npm run typecheck`、`npm run build`：通过。
+- `npm run eval:decision:preflight:complete`：通过，7个Episode、17个Labeled Turn为`READY_FOR_EVALUATOR`；`npm run eval:decision:model:fixture`：通过，17个Fixture Turn完成评分，P0为0。
+- `PRAXIS_ALLOW_LIVE_MODEL_EVAL=1 PRAXIS_LIVE_MODEL_EVAL_CASE_LIMIT=3 PRAXIS_EVAL_SHOW_COMPLETIONS=1 npm run eval:decision:deepseek:smoke`：Prompt v5共7次成功调用、0次Provider失败、0次Schema Retry、15,548ms、14,704输入Token、918输出Token、15,622总Token，成本`NOT_CONFIGURED`，P0为0。7个Turn均结构合规并进入评分；S1为5 Pass / 2 Fail，S2为4 Pass / 1 Fail / 2 Blocked，S8为0 Pass / 3个`GROUNDING_MISSING` / 4 Blocked。首错另包括一次State Accumulation和一次不足候选解释。
+- 全量`npm test`：120 tests / 5 suites / 0 failed（在允许临时`127.0.0.1`监听后）；`git diff --check`：通过。
+
+### Modes
+
+- Unit/Contract、Strict Complete、Fixture Episode Runner：通过。
+- Real Model Mock World：Prompt v5完成；结果为`DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`，不报告为质量Baseline或趋势。
+- Replay、Live Read-only和Controlled Live-write：未运行。
+
+### Safety
+
+- v5静态Prompt不再含当前Golden Regression事实；模型仍仅可接收当前Turn的用户消息与允许的只读Fixture Candidate Context，不能伪造Retrieval、写Task、Authorization、Attempt或Outcome。
+- Completion诊断只输出至本次终端，未写入普通Gateway遥测、数据库或文件。所有真实调用只读DeepSeek；没有数据库、餐厅平台、预约、支付或其他外部写操作。
+
+### External side effects
+
+7次受控、只读DeepSeek模型调用；无其他外部副作用。
+
+## 2026-08-11 — Progressive Decision anti-leakage governance verification
+
+### Scope
+
+固定DeepSeek Smoke的报告分类和评测防泄漏协议：把已经用于Prompt v1–v5调优的`DGS01/DGS03/DGS05`明确降级为开发诊断，禁止将既有六次Smoke作为独立质量Baseline、趋势或发布证据。没有运行模型、Web、数据库或外部平台。
+
+### Checks
+
+- `npm run typecheck`、`npm run build`：通过。
+- `npm test`：119 tests / 5 suites / 0 failed；最初Sandbox阻止本机`127.0.0.1`监听，按同一命令允许临时本机监听后全部通过。
+- `npm run eval:decision:preflight:complete`：通过，Dataset为`READY_FOR_EVALUATOR`（7个Episode、17个Labeled Turn）；`npm run eval:decision:model:fixture`：通过，17个Fixture Turn均已评分、P0为0。
+- `git diff --check`：通过。`evaluationClassification`随受控Smoke JSON输出编译进入CLI；为避免付费网络调用，本轮不实际执行该CLI。
+
+### Modes
+
+- Governance documentation / static CLI metadata：通过TypeScript编译、Fixture回归与差异检查验证；真实Smoke未运行。
+- Fixture Oracle、Real Model Mock World、Replay、Live Read-only和Controlled Live-write：本轮未运行。
+
+### Safety
+
+- 该分类字段只随CLI报告输出，不保存Prompt/Completion，不影响Fail-closed、Task State、Authorization、Attempt或Outcome。
+- 当前所有7个Golden Seed均为Regression；固定Smoke的三样本和结果已暴露给调优过程，报告为`DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`。
+
+### External side effects
+
+无。没有发起模型调用，也没有数据库、餐厅平台、预约、支付或其他外部写操作。
+
+## 2026-08-11 — Episode Runner, controlled Progressive Decision smoke and completion diagnostic verification
+
+### Scope
+
+Harness-only Episode Runner：Strict Preflight、Golden Fixture候选上下文、版本化Model Contract、确定性S6、S1–S8评分、Schema/Provider失败隔离、静态Fixture专用Completion诊断，以及五次受控DeepSeek E1/E2/E3 Smoke。没有改动Web、Task Runtime、数据库、Authorization、Adapter或外部写路径。
+
+### Checks
+
+- `npm run eval:decision:preflight:complete`、`npm run eval:decision:fixture`和`npm run eval:decision:model:fixture`：通过。Fixture Model完整运行7个Episode、17个Turn；S1–S4/S8各17个Pass，S5为5个Pass，S6为11个Pass，S7为10个Pass，其余为设计上的`NOT_APPLICABLE`；P0为0。
+- `node --import tsx --test src/eval/restaurant-decision-eval-model-contract.test.ts src/eval/restaurant-decision-eval-runner.test.ts`：10/10通过，覆盖Prompt v2嵌套Schema约束、显式进程内Completion诊断、完整Fixture路径、Provider失败停止Episode和Preflight阻断调用。
+- `npm run typecheck`、`npm run build`：通过。
+- `npm test`：119 tests / 5 suites / 0 failed；Web/SSE Fixture用例在允许本机`127.0.0.1`监听后通过。
+- `PRAXIS_ALLOW_LIVE_MODEL_EVAL=1 PRAXIS_LIVE_MODEL_EVAL_CASE_LIMIT=3 npm run eval:decision:deepseek:smoke`：Prompt v1真实Provider连接成功，7次调用全部到达DeepSeek，0次Provider失败，3次Schema Retry，24,083ms总延迟，7,863输入Token、1,616输出Token、9,479总Token；三个Episode均以`INVALID_MODEL_OUTPUT`停止，未产生S1–S8语义分数。
+- 相同范围的Prompt v2 Smoke：8次调用全部到达DeepSeek，0次Provider失败，3次Schema Retry，20,731ms总延迟，11,337输入Token、1,800输出Token、13,137总Token；E2-T01和E3-T01通过结构校验，E1-T01、E2-T02和E3-T02仍以`INVALID_MODEL_OUTPUT`停止，故没有完整Episode进入S1–S8语义评分。价格未配置，成本为`NOT_CONFIGURED`。
+- 静态Fixture Completion诊断的第二次Prompt v2 Smoke：8次调用全部到达DeepSeek，0次Provider失败，3次Schema Retry，20,225ms总延迟，11,337输入Token、1,585输出Token、12,922总Token。E1两次均输出不受支持的`DAY`/`EVENING`、`location.type`和`RECOMMEND`；E2-T02用`DATE`或缺失的时间精度；E3-T02用`NIGHT`和布尔`preferred`。这些是Schema词表/字段组合错误，不是Provider或语义评分错误。
+- 静态Fixture Completion诊断的Prompt v3 Smoke：7次调用全部到达DeepSeek，0次Provider失败、0次Schema Retry，12,573ms总延迟，13,389输入Token、812输出Token、14,201总Token。全部7个Turn结构合规并进入评分，但S1均为`STATE_PATCH_MISMATCH`；v3强制空`add`/`remove`而Gold no-op Patch省略它们，另有明确Restaurant当作Brand、DATE的occasion/target遗漏和反馈负偏好遗漏。结果不能作为语义质量Baseline；P0为0，成本仍为`NOT_CONFIGURED`。
+- 静态Fixture Completion诊断的Prompt v4 Smoke：7次调用全部到达DeepSeek，0次Provider失败、0次Schema Retry，13,226ms总延迟，15,372输入Token、886输出Token、16,258总Token。全部7个Turn结构合规；S1为6 Pass/1 Fail、S2为6 Pass/1 Blocked、S3为5 Pass/1 Fail/1 Blocked、S4为5 Pass/2 Blocked，S6/S7各3 Pass/2 Blocked/2 NA，S8为5个`GROUNDING_MISSING`和2个Blocked。`Sora Dining`正确分类为`RESTAURANT`，反馈正确加入正/负偏好；P0为0，成本仍为`NOT_CONFIGURED`。
+
+### Modes
+
+- Dataset Annotation、Strict Complete、Fixture Oracle、Fixture Episode Runner、Core/Contract、PGlite Integration和本机HTTP/SSE：通过。
+- Real Model Mock World：Prompt v1/v2均完成连接与Telemetry验证但Schema不稳定；Prompt v3已稳定结构输出却出现Gold State Patch和语义差异；Prompt v4进一步推进至Grounding、Readiness和单个State Patch 首错，仍不能报告为语义质量Baseline。静态Fixture Completion诊断已完成。
+- Replay、Live Read-only和Controlled Live-write：未运行。
+
+### Safety
+
+- 真实Smoke仅使用虚构Golden候选，模型没有Task、Authorization、Attempt、Outcome、Discovery或写Tool；失败按`INVALID_MODEL_OUTPUT`停止，未以Golden数据替代模型结果。
+- 普通Gateway遥测、Runner报告和文件均不输出或保存Prompt/Completion和Secret；仅在显式`PRAXIS_EVAL_SHOW_COMPLETIONS=1`下，静态虚构Golden Fixture的Completion与逐次校验结果会交给本次终端，不写入持久化日志。价格未配置时成本保持`NOT_CONFIGURED`。
+
+### External side effects
+
+五次Smoke共37次受控、只读DeepSeek模型调用；没有数据库、餐厅平台、预约、支付或其他外部写操作。
 
 ## 2026-08-10 — Progressive Decision Model Contract verification
 

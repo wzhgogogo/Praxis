@@ -1,8 +1,8 @@
 # Interfaces and Schemas
 
 - Status: Accepted
-- Version: 1.4
-- Last updated: 2026-08-09
+- Version: 1.5
+- Last updated: 2026-08-13
 - Source of truth for: 公共接口、DTO、内部Tool、实现状态和版本规则
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Task Runtime](TASK-RUNTIME.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md)
@@ -19,6 +19,7 @@
 | `ActionProposal`、`Authorization`、`PolicyDecision` | `implemented: MVP subset` | [`src/core/policy`](../../src/core/policy/contracts.ts) |
 | Restaurant Intent、Offer、Candidate、Event与Command | `implemented: Fixture Web vertical slice` | [`Restaurant contracts`](../../src/domains/restaurant/contracts.ts) |
 | Restaurant Intent Draft Validator与Eval Harness | `implemented: fixture/replay scoring` | [`src/eval`](../../src/eval/restaurant-intent-eval.ts) |
+| Restaurant Decision typed Patch Contract | `implemented: harness-only` | [`restaurant-decision-patch-contract.ts`](../../src/eval/restaurant-decision-patch-contract.ts)；JSON Schema、Validator与语义Key共同约束不可信模型Proposal，不是生产Task State Schema |
 | Restaurant Intent Parser与受控Real Model Eval Runner | `implemented; 1-case connectivity smoke` | [`intent-parser.ts`](../../src/domains/restaurant/intent-parser.ts)、[`run-restaurant-intent-deepseek-eval.ts`](../../src/eval/run-restaurant-intent-deepseek-eval.ts) |
 | Restaurant `BookingProofBundle`与Completion Verifier | `implemented: Mock vertical slice` | [`booking-verifier.ts`](../../src/domains/restaurant/booking-verifier.ts) |
 | Restaurant Harness Run Artifact | `implemented: mock only` | [`restaurant-harness.ts`](../../src/harness/restaurant-harness.ts) |

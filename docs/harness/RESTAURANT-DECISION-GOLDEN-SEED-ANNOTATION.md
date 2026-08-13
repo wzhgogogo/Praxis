@@ -1,20 +1,20 @@
 # Restaurant Decision Golden Seed Annotation Guide
 
 - Status: Draft
-- Version: 0.8
-- Last updated: 2026-08-10
+- Version: 1.5
+- Last updated: 2026-08-13
 - Source of truth for: Restaurant Progressive Decision Eval v2首批Golden Seed人工标注流程
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
 - Related documents: [Eval v2 Plan](RESTAURANT-DECISION-EVAL-V2.md), [Harness Design](HARNESS-DESIGN.md), [Eval Skill](../skills/eval/SKILL.md)
 
 ## 当前标注包
 
-机器可读Source位于[`restaurant-decision-eval-seed.ts`](../../src/eval/restaurant-decision-eval-seed.ts)，Contract位于[`restaurant-decision-eval-contract.ts`](../../src/eval/restaurant-decision-eval-contract.ts)。当前Golden Seed v0.7包含：
+机器可读Source位于[`restaurant-decision-eval-seed.ts`](../../src/eval/restaurant-decision-eval-seed.ts)，类型Contract位于[`restaurant-decision-eval-contract.ts`](../../src/eval/restaurant-decision-eval-contract.ts)，JSON Schema与运行时Validator位于[`restaurant-decision-patch-contract.ts`](../../src/eval/restaurant-decision-patch-contract.ts)。当前Golden Seed v0.10 / Schema 3包含：
 
 - 7个Episode、17个Turn；E1 3个、E2 2个、E3 2个；
 - `OPEN` 2个、`CATEGORY` 2个、`BRAND` 2个、`RESTAURANT` 1个；
 - 7个Candidate Pool、29个虚构Restaurant/Outlet Fixture、417个结构化Fact Ref；
-- 7个Episode、17个Turn均已完成人工Gold；Draft与严格Preflight均为`READY_FOR_EVALUATOR`。Eval-only Reducer与S1–S8 Fixture Oracle及18个S0–S8单点Mutation已可运行；Harness-only Model Contract已完成，完整Episode Runner与真实模型Baseline尚未完成。
+- 7个Episode、17个Turn均已完成人工Gold，且全部为`REGRESSION`；Draft与严格Preflight均为`READY_FOR_EVALUATOR`。Eval-only Reducer与S1–S8 Fixture Oracle及18个S0–S8单点Mutation已可运行；Harness-only Episode Runner已完成并通过本地Golden Fixture验证。v0.10把正/负自由字符串偏好迁移为Typed Preference，并把禁烟与严重过敏迁移为Typed Hard Constraint；这是破坏性Contract变更，不保留旧Schema兼容分支。全部既有样本均已暴露，不得充当Baseline或Holdout。
 
 运行结构检查：
 
@@ -30,6 +30,8 @@ npm run eval:decision:preflight:complete
 
 严格检查在任一Turn仍待标注、Gold引用悬空、动作冲突或候选Oracle不可满足时返回非零退出码。
 
+`FULL_REGRESSION`会以当前7个`REGRESSION` Episode运行一次完整诊断，必须显式设定`PRAXIS_LIVE_MODEL_EVAL_CASE_LIMIT=7`。既有运行已覆盖17个Turn；其输出也已属于开发过程的一部分，不能回转为Holdout或Baseline。Golden v0.8补充命名目标的独立`FIXTURE_DISCOVERY`结果，v0.9改变地点策略表达，v0.10迁移Typed State Contract；它们均不新增Holdout样本。
+
 ## 标注单位
 
 逐Turn标注，不写固定回复文案。每个Turn需要确定：
@@ -44,7 +46,7 @@ npm run eval:decision:preflight:complete
 8. `recommendation`：只有需要展示或收敛候选时填写数量、允许/禁止候选和多样性轴；
 9. `grounding`：允许引用的State Fact、Candidate Fact以及明确禁止声称的现实事实；如人工确认卡片必须显示安全提示，再写`requiredCandidateDisclosures`。
 
-数组值采用简洁、规范化的英文语义标签，例如`quiet`、`non-spicy meal`、`severe peanut allergy`。不要把场景常识补进Gold；只有用户明确表达的事实才进入State。
+Preference必须使用受Contract支持的`facet / value / polarity`结构；Hard Constraint必须使用受支持的判别联合类型。`CUISINE`暂时允许简洁英文自由文本，其余Facet使用封闭枚举。不要把场景常识补进Gold；只有用户明确表达的事实才进入State。若真实场景出现当前词表不支持的概念，先作为Contract缺口审阅，不能让模型或标注者临时创造同义字符串。
 
 ## 批量审阅流程
 
@@ -76,7 +78,7 @@ npm run eval:decision:preflight:complete
 | `DGS06-e3-friends-correction-allergy` | E3 | OPEN | 4/4 Labeled | 位置锚点、Party修正、严重过敏、敏感披露Consent |
 | `DGS07-e1-brand-zero-result-relaxation` | E1 | BRAND | 2/2 Labeled | 严格零结果、单约束Fallback、用户明确选择 |
 
-首批Gold已完成。下一步实现Eval-only Decision State Reducer与S1–S9阶段Scorer；任何真实模型Baseline仍须在它们和Mutation验证完成后单独运行。
+首批Gold已完成。当前不再用固定Smoke样本继续调Prompt或声称质量趋势；它们保留为Regression诊断。下一步是由隔离流程或不参与Prompt编写的人新建、标注并保密一批Holdout，在候选Prompt冻结后一次性运行。若阅读了该Holdout的样本、Gold、错误或结果来修改Prompt，它立即降级为Regression，必须新建另一批Holdout。完整规则见[Eval v2 §16.1](RESTAURANT-DECISION-EVAL-V2.md#161-防止测试集泄露答题作弊和过拟合)。
 
 ## Labeled结构模板
 
@@ -101,8 +103,7 @@ expected: {
   },
   accumulatedState: {
     target: { kind: "OPEN" },
-    positivePreferences: [],
-    negativePreferences: [],
+    preferences: [],
     hardConstraints: [],
   },
   readiness: "NOT_READY",
@@ -193,7 +194,7 @@ expected: {
 
 - T01保留朋友聚餐和宽泛`DINNER`，但日期、人数和地点仍未知，只问日期与人数；`DAYPART`可以没有日期，避免丢失用户已说出的晚餐时段；
 - T02保存`2026-08-15 / DINNER / Party 6–8`和愿意出行的`FLEXIBLE`意向，但没有地理锚点仍为`NOT_READY`，只追问出发点或优先区域；
-- T03把人数修正为5，以Ueno为出发点并保留可出行策略；严重花生过敏成为Hard Constraint。明确不支持的Yakitori Matsu排除；Kappo Haru、Garden Room与可提交过敏请求的Sakana Table均可展示，但卡片必须明确仍需餐厅确认，任何一家都不得被表述为安全保证；
+- T03把人数修正为5，以Ueno为出发锚点并保留可出行策略，标注为`FLEXIBLE.anchorQuery = Ueno`而不是普通`AREA Ueno`；严重花生过敏成为Hard Constraint。明确不支持的Yakitori Matsu排除；Kappo Haru、Garden Room与可提交过敏请求的Sakana Table均可展示，但卡片必须明确仍需餐厅确认，任何一家都不得被表述为安全保证；
 - T04新增日料正向偏好和不正式负向偏好。Kappo、Sakana与Garden分别代表日料但正式、轻松日料但待餐厅确认、轻松且有流程但非日料的真实取舍；不得伪造完美匹配或把内部证据分级交给用户决策；
 - T03/T04的三张候选卡均带`ALLERGY_CONFIRMATION_REQUIRED`结构化披露，并引用各自`attributes` Fact；因此必须明确“仍需餐厅确认”，而不是把来源流程或可提交请求说成安全保证。
 - 用户选择带严重过敏要求的候选后，未来预订流程必须先显示单独Consent Card，明确餐厅、日期、时间、人数、将披露的严重过敏信息及仍待餐厅确认的事实。未确认前不得提交预约或过敏请求；具体产品规则见[Restaurant Booking Domain](../domains/RESTAURANT-BOOKING.md#过敏与特殊要求)。

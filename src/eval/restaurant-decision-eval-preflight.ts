@@ -1,18 +1,18 @@
 import {
   DECISION_ACTION_TYPES,
   DECISION_CORE_TOPICS,
-  DECISION_DAYPARTS,
   DECISION_DIVERSITY_AXES,
-  DECISION_LOCATION_KINDS,
-  DECISION_OCCASIONS,
   DECISION_READINESS,
   DECISION_RELAXATION_TYPES,
   DECISION_TARGET_KINDS,
-  DECISION_TIME_PRECISIONS,
   PENDING_HUMAN_LABEL,
   type DecisionActionType,
   type DecisionEvalDataset,
 } from "./restaurant-decision-eval-contract.js";
+import {
+  validateDecisionStateContract,
+  validateDecisionStatePatchContract,
+} from "./restaurant-decision-patch-contract.js";
 
 export type DecisionEvalPreflightMode = "ANNOTATION_DRAFT" | "REQUIRE_COMPLETE";
 export type DecisionEvalPreflightStatus =
@@ -122,80 +122,6 @@ function validateStringSet(
   return true;
 }
 
-function validateTime(value: unknown, path: string, issues: DecisionEvalPreflightIssue[]): void {
-  if (!isRecord(value)) {
-    pushInvalid(issues, path, "TIME_OBJECT", "must be an object");
-    return;
-  }
-  if (!hasOnlyKeys(value, ["date", "precision", "daypart", "preferred", "earliest", "latest"])) {
-    pushInvalid(issues, path, "SUPPORTED_FIELDS", "contains unsupported fields");
-  }
-  if (!isOneOf(value.precision, DECISION_TIME_PRECISIONS)) {
-    pushInvalid(issues, `${path}.precision`, "TIME_PRECISION", "must be a supported precision");
-    return;
-  }
-  if (value.date !== undefined && !isDate(value.date)) {
-    pushInvalid(issues, `${path}.date`, "CALENDAR_DATE", "must use a valid YYYY-MM-DD date");
-  }
-  if (value.daypart !== undefined && !isOneOf(value.daypart, DECISION_DAYPARTS)) {
-    pushInvalid(issues, `${path}.daypart`, "DAYPART", "must be a supported daypart");
-  }
-  if (value.preferred !== undefined && !isTime(value.preferred)) {
-    pushInvalid(issues, `${path}.preferred`, "CLOCK_TIME", "must use HH:mm");
-  }
-  if (value.earliest !== undefined && !isTime(value.earliest)) {
-    pushInvalid(issues, `${path}.earliest`, "CLOCK_TIME", "must use HH:mm");
-  }
-  if (value.latest !== undefined && !isTime(value.latest)) {
-    pushInvalid(issues, `${path}.latest`, "CLOCK_TIME", "must use HH:mm");
-  }
-  if (
-    typeof value.earliest === "string" &&
-    typeof value.latest === "string" &&
-    value.earliest > value.latest
-  ) {
-    pushInvalid(issues, path, "ORDERED_TIME", "earliest must not be later than latest");
-  }
-  if (value.precision === "UNKNOWN") {
-    if (
-      value.date !== undefined ||
-      value.daypart !== undefined ||
-      value.preferred !== undefined ||
-      value.earliest !== undefined ||
-      value.latest !== undefined
-    ) {
-      pushInvalid(issues, path, "UNKNOWN_TIME", "UNKNOWN precision cannot carry time facts");
-    }
-  } else if (value.precision !== "DAYPART" && !isDate(value.date)) {
-    pushInvalid(
-      issues,
-      `${path}.date`,
-      "PRECISION_REQUIRES_DATE",
-      "known precision other than DAYPART requires a date",
-    );
-  }
-  if (value.precision === "DAYPART" && !isOneOf(value.daypart, DECISION_DAYPARTS)) {
-    pushInvalid(issues, `${path}.daypart`, "DAYPART_REQUIRED", "DAYPART precision requires daypart");
-  }
-  if (value.precision === "APPROXIMATE") {
-    if (!isTime(value.preferred)) {
-      pushInvalid(issues, `${path}.preferred`, "APPROXIMATE_TIME_REQUIRED", "APPROXIMATE precision requires a preferred time");
-    }
-    if (value.earliest !== undefined || value.latest !== undefined) {
-      pushInvalid(issues, path, "APPROXIMATE_NOT_BOUNDED", "APPROXIMATE precision cannot invent a bounded window");
-    }
-  } else if (value.preferred !== undefined) {
-    pushInvalid(issues, `${path}.preferred`, "PREFERRED_TIME_PRECISION", "preferred is only valid for APPROXIMATE precision");
-  }
-  if (value.precision === "WINDOW" || value.precision === "EXACT") {
-    if (!isTime(value.earliest) || !isTime(value.latest)) {
-      pushInvalid(issues, path, "TIME_WINDOW_REQUIRED", `${value.precision} requires earliest and latest`);
-    } else if (value.precision === "EXACT" && value.earliest !== value.latest) {
-      pushInvalid(issues, path, "EXACT_TIME", "EXACT precision requires equal earliest and latest");
-    }
-  }
-}
-
 function validateParty(value: unknown, path: string, issues: DecisionEvalPreflightIssue[]): void {
   if (
     !isRecord(value) ||
@@ -219,25 +145,6 @@ function validateParty(value: unknown, path: string, issues: DecisionEvalPreflig
   }
 }
 
-function validateLocation(value: unknown, path: string, issues: DecisionEvalPreflightIssue[]): void {
-  if (!isRecord(value) || !isOneOf(value.kind, DECISION_LOCATION_KINDS)) {
-    pushInvalid(issues, path, "LOCATION", "must contain a supported location kind");
-    return;
-  }
-  const allowed = value.kind === "FLEXIBLE" ? ["kind", "scope"] : value.kind === "UNKNOWN" ? ["kind"] : ["kind", "query"];
-  if (!hasOnlyKeys(value, allowed)) {
-    pushInvalid(issues, path, "SUPPORTED_FIELDS", "contains unsupported location fields");
-  }
-  if (["AREA", "NEAR_PLACE", "ADDRESS_OR_STREET"].includes(value.kind)) {
-    if (!isNonEmptyString(value.query)) {
-      pushInvalid(issues, `${path}.query`, "LOCATION_QUERY", "must be a non-empty string");
-    }
-  }
-  if (value.scope !== undefined && !isNonEmptyString(value.scope)) {
-    pushInvalid(issues, `${path}.scope`, "FLEXIBLE_SCOPE", "must be a non-empty string");
-  }
-}
-
 function validateTarget(value: unknown, path: string, issues: DecisionEvalPreflightIssue[]): void {
   if (!isRecord(value) || !isOneOf(value.kind, DECISION_TARGET_KINDS)) {
     pushInvalid(issues, path, "TARGET", "must contain a supported target kind");
@@ -255,92 +162,63 @@ function validateTarget(value: unknown, path: string, issues: DecisionEvalPrefli
   }
 }
 
-function validateDecisionState(
+function validateNamedTargetResolution(
   value: unknown,
   path: string,
   issues: DecisionEvalPreflightIssue[],
 ): void {
   if (!isRecord(value)) {
-    pushInvalid(issues, path, "DECISION_STATE", "must be an object");
+    pushInvalid(issues, path, "NAMED_TARGET_RESOLUTION", "must be a read-only Discovery result");
     return;
   }
-  if (
-    !hasOnlyKeys(value, [
-      "occasion",
-      "time",
-      "party",
-      "location",
-      "target",
-      "positivePreferences",
-      "negativePreferences",
-      "hardConstraints",
-    ])
-  ) {
-    pushInvalid(issues, path, "SUPPORTED_FIELDS", "contains unsupported Decision State fields");
+  if (!hasOnlyKeys(value, ["query", "target", "source"])) {
+    pushInvalid(issues, path, "SUPPORTED_FIELDS", "contains unsupported resolution fields");
   }
-  if (value.occasion !== undefined && !isOneOf(value.occasion, DECISION_OCCASIONS)) {
-    pushInvalid(issues, `${path}.occasion`, "OCCASION", "must be a supported occasion");
+  if (!isNonEmptyString(value.query)) {
+    pushInvalid(issues, `${path}.query`, "TARGET_QUERY", "must be a non-empty string");
   }
-  if (value.time !== undefined) validateTime(value.time, `${path}.time`, issues);
-  if (value.party !== undefined) validateParty(value.party, `${path}.party`, issues);
-  if (value.location !== undefined) validateLocation(value.location, `${path}.location`, issues);
   validateTarget(value.target, `${path}.target`, issues);
-  validateStringSet(value.positivePreferences, `${path}.positivePreferences`, issues);
-  validateStringSet(value.negativePreferences, `${path}.negativePreferences`, issues);
-  validateStringSet(value.hardConstraints, `${path}.hardConstraints`, issues);
+  if (
+    isRecord(value.target) &&
+    (value.target.kind !== "BRAND" && value.target.kind !== "RESTAURANT")
+  ) {
+    pushInvalid(issues, `${path}.target.kind`, "NAMED_TARGET_KIND", "must resolve to BRAND or RESTAURANT");
+  }
+  if (
+    isRecord(value.target) &&
+    isNonEmptyString(value.query) &&
+    value.target.query !== value.query
+  ) {
+    pushInvalid(issues, path, "NAMED_TARGET_QUERY_MATCH", "resolution query must match the resolved target query");
+  }
+  if (
+    !isRecord(value.source) ||
+    !hasOnlyKeys(value.source, ["mode", "observedAt"]) ||
+    value.source.mode !== "FIXTURE_DISCOVERY" ||
+    !isIsoDateTime(value.source.observedAt)
+  ) {
+    pushInvalid(issues, `${path}.source`, "FIXTURE_DISCOVERY_SOURCE", "must be a timestamped fixture Discovery source");
+  }
+}
+
+function validateDecisionState(
+  value: unknown,
+  path: string,
+  issues: DecisionEvalPreflightIssue[],
+): void {
+  for (const contractIssue of validateDecisionStateContract(value, path)) {
+    pushInvalid(issues, contractIssue.path, contractIssue.rule ?? "DECISION_STATE", contractIssue.message);
+  }
 }
 
 function validateStatePatch(value: unknown, path: string, issues: DecisionEvalPreflightIssue[]): void {
-  if (!isRecord(value) || !hasOnlyKeys(value, ["set", "add", "remove"])) {
-    pushInvalid(issues, path, "STATE_PATCH", "must be an object with only set/add/remove");
-    return;
-  }
-  if (value.set !== undefined) {
-    if (!isRecord(value.set) || !hasOnlyKeys(value.set, ["occasion", "time", "party", "location", "target"])) {
-      pushInvalid(issues, `${path}.set`, "PATCH_SET", "contains unsupported set fields");
-    } else {
-      if (
-        value.set.occasion !== undefined &&
-        value.set.occasion !== null &&
-        !isOneOf(value.set.occasion, DECISION_OCCASIONS)
-      ) {
-        pushInvalid(issues, `${path}.set.occasion`, "OCCASION", "must be supported or null");
-      }
-      if (value.set.time !== undefined && value.set.time !== null) {
-        validateTime(value.set.time, `${path}.set.time`, issues);
-      }
-      if (value.set.party !== undefined && value.set.party !== null) {
-        validateParty(value.set.party, `${path}.set.party`, issues);
-      }
-      if (value.set.location !== undefined && value.set.location !== null) {
-        validateLocation(value.set.location, `${path}.set.location`, issues);
-      }
-      if (value.set.target !== undefined) {
-        validateTarget(value.set.target, `${path}.set.target`, issues);
-      }
-    }
-  }
-  const listFields = ["positivePreferences", "negativePreferences", "hardConstraints"];
-  for (const operation of ["add", "remove"] as const) {
-    const block = value[operation];
-    if (block === undefined) continue;
-    if (!isRecord(block) || !hasOnlyKeys(block, listFields)) {
-      pushInvalid(issues, `${path}.${operation}`, "PATCH_LISTS", "contains unsupported list fields");
-      continue;
-    }
-    for (const field of listFields) {
-      if (block[field] !== undefined) {
-        validateStringSet(block[field], `${path}.${operation}.${field}`, issues);
-      }
-    }
-  }
-  if (isRecord(value.add) && isRecord(value.remove)) {
-    for (const field of listFields) {
-      const added = isStringArray(value.add[field]) ? value.add[field] : [];
-      const removed = new Set(isStringArray(value.remove[field]) ? value.remove[field] : []);
-      if (added.some((item) => removed.has(item))) {
-        pushInvalid(issues, path, "PATCH_CONFLICT", `${field} cannot add and remove the same value`);
-      }
+  const validation = validateDecisionStatePatchContract(value);
+  if (!validation.valid) {
+    for (const contractIssue of validation.issues) {
+      const suffix = contractIssue.path === "statePatch"
+        ? ""
+        : contractIssue.path.slice("statePatch".length);
+      pushInvalid(issues, `${path}${suffix}`, contractIssue.rule ?? "STATE_PATCH", contractIssue.message);
     }
   }
 }
@@ -791,8 +669,8 @@ export function runRestaurantDecisionEvalPreflight(
   if (!hasOnlyKeys(input, ["schemaVersion", "datasetId", "datasetVersion", "evaluatorTargetVersion", "mode", "candidatePools", "episodes"])) {
     pushInvalid(issues, "$", "SUPPORTED_FIELDS", "dataset contains unsupported fields");
   }
-  if (input.schemaVersion !== "2") {
-    pushInvalid(issues, "$.schemaVersion", "SCHEMA_VERSION", "must be 2");
+  if (input.schemaVersion !== "3") {
+    pushInvalid(issues, "$.schemaVersion", "SCHEMA_VERSION", "must be 3");
   }
   if (!isIdentifier(input.datasetId)) {
     pushInvalid(issues, "$.datasetId", "IDENTIFIER", "must be a stable identifier");
@@ -863,11 +741,11 @@ export function runRestaurantDecisionEvalPreflight(
         pushInvalid(issues, episodePath, "EPISODE", "must be an object");
         continue;
       }
-      if (!hasOnlyKeys(episode, ["schemaVersion", "datasetVersion", "id", "split", "initialClarity", "targetKind", "referenceTime", "timezone", "tags", "candidatePoolRef", "initialState", "turns"])) {
+      if (!hasOnlyKeys(episode, ["schemaVersion", "datasetVersion", "id", "split", "initialClarity", "targetKind", "referenceTime", "timezone", "tags", "candidatePoolRef", "namedTargetResolution", "initialState", "turns"])) {
         pushInvalid(issues, episodePath, "SUPPORTED_FIELDS", "contains unsupported episode fields");
       }
-      if (episode.schemaVersion !== "2") {
-        pushInvalid(issues, `${episodePath}.schemaVersion`, "EPISODE_SCHEMA", "must be 2");
+      if (episode.schemaVersion !== "3") {
+        pushInvalid(issues, `${episodePath}.schemaVersion`, "EPISODE_SCHEMA", "must be 3");
       }
       if (episode.datasetVersion !== input.datasetVersion) {
         pushInvalid(issues, `${episodePath}.datasetVersion`, "DATASET_VERSION_MATCH", "must match dataset version");
@@ -891,6 +769,32 @@ export function runRestaurantDecisionEvalPreflight(
         pushInvalid(issues, `${episodePath}.targetKind`, "TARGET_KIND", "must be supported");
       } else {
         stats.byTargetKind[episode.targetKind] += 1;
+      }
+      if (episode.targetKind === "BRAND" || episode.targetKind === "RESTAURANT") {
+        validateNamedTargetResolution(
+          episode.namedTargetResolution,
+          `${episodePath}.namedTargetResolution`,
+          issues,
+        );
+        if (
+          isRecord(episode.namedTargetResolution) &&
+          isRecord(episode.namedTargetResolution.target) &&
+          episode.namedTargetResolution.target.kind !== episode.targetKind
+        ) {
+          pushInvalid(
+            issues,
+            `${episodePath}.namedTargetResolution.target.kind`,
+            "EPISODE_TARGET_KIND_MATCH",
+            "resolution target kind must match the episode target kind",
+          );
+        }
+      } else if (episode.namedTargetResolution !== undefined) {
+        pushInvalid(
+          issues,
+          `${episodePath}.namedTargetResolution`,
+          "UNEXPECTED_NAMED_TARGET_RESOLUTION",
+          "only BRAND or RESTAURANT episodes may include named target resolution",
+        );
       }
       if (!isIsoDateTime(episode.referenceTime)) {
         pushInvalid(issues, `${episodePath}.referenceTime`, "REFERENCE_TIME", "must be an ISO timestamp");

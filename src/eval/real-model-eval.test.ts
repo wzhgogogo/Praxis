@@ -128,4 +128,39 @@ test("real model Eval metrics retain provider metadata, retries, usage and expli
       outputUsdPerMillionTokens: 2,
     },
   });
+  assert.equal(
+    summarizeRealModelEval(
+      [
+        {
+          invocationId: "turn-one",
+          taskId: "eval:decision:E01:T01",
+          purpose: "restaurant_progressive_decision_eval",
+          promptVersion: "v6",
+          fallback: "FAIL_CLOSED",
+          provider: "DEEPSEEK",
+          model: "deepseek-v4-flash",
+          responseFormat: "JSON_OBJECT",
+          outputSchema: { name: "restaurant-progressive-decision-eval-proposal", version: "1" },
+          outcome: "SUCCEEDED",
+          latencyMs: 1,
+        },
+        {
+          invocationId: "turn-two",
+          taskId: "eval:decision:E01:T02",
+          purpose: "restaurant_progressive_decision_eval",
+          promptVersion: "v6",
+          fallback: "FAIL_CLOSED",
+          provider: "DEEPSEEK",
+          model: "deepseek-v4-flash",
+          responseFormat: "JSON_OBJECT",
+          outputSchema: { name: "restaurant-progressive-decision-eval-proposal", version: "1" },
+          outcome: "SUCCEEDED",
+          latencyMs: 1,
+        },
+      ],
+      2,
+      undefined,
+    ).retryCalls,
+    0,
+  );
 });

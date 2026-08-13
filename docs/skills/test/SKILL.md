@@ -13,10 +13,11 @@ npm test
 npm run build
 npm run test:postgres:live    # 需要显式测试数据库配置与写入确认
 npm run eval:decision:preflight
+npm run eval:decision:model:fixture
 npm run eval:search:fixture
 ```
 
-`npm test`当前运行Core Unit/Contract、Restaurant Verifier、11个Restaurant Mock Harness场景、20个Runtime PGlite数据库集成场景（含G01/G02合成Harness）、3个Fixture Intent Eval Contract场景、16个Progressive Decision Seed Preflight场景、7个Eval-only Reducer/Scorer场景、18个Evaluator Verification Mutation场景、6个Eval-only Model Contract场景、5个DeepSeek Gateway Connector Contract场景、4个Intent Parser场景、3个Real Model Eval Contract场景、1个Fixture Search Eval Contract和7个使用PGlite的Stage 2B Local HTTP/SSE场景；2026-08-10全量基线为115 tests / 5 suites。Decision Seed Preflight、Fixture Oracle、Mutation Set和Model Contract只证明Contract、Fixture引用、人工标注门禁和S1–S8评分管线；Fixture Search和Web Workspace只证明本地Fixture与Embedded-postgres路径；生产身份、Browser视觉、Replay、Live Read-only、Progressive Decision真实Model Eval和Controlled Live-write仍未运行，不得混报。
+`npm test`当前运行Core Unit/Contract、Restaurant Verifier、11个Restaurant Mock Harness场景、20个Runtime PGlite数据库集成场景（含G01/G02合成Harness）、3个Fixture Intent Eval Contract场景、17个Progressive Decision Seed Preflight场景、10个Eval-only Reducer/Scorer场景、5个Typed Patch Contract场景、18个Evaluator Verification Mutation场景、8个Eval-only Model Contract场景、5个Relative-time Resolver场景、5个Episode Runner场景、5个DeepSeek Gateway Connector Contract场景、4个Intent Parser场景、3个Real Model Eval Contract场景、1个Fixture Search Eval Contract和7个使用PGlite的Stage 2B Local HTTP/SSE场景；2026-08-13全量基线为138 tests / 5 suites。Decision Seed Preflight、Fixture Oracle、Mutation Set、Typed Contract、Model Contract、Relative-time Resolver和Fixture Episode Runner只证明Contract、Fixture引用、人工标注门禁和S1–S8评分管线；Fixture Search和Web Workspace只证明本地Fixture与Embedded-postgres路径；生产身份、Browser视觉、Replay、Live Read-only、Progressive Decision真实Model Baseline和Controlled Live-write仍未运行，不得混报。
 
 PGlite结果必须报告为`embedded-postgres integration`，不能报告为真实PostgreSQL。真实PostgreSQL smoke从Git忽略的本地`.env`（由`.env.example`建立）或进程环境读取`PRAXIS_TEST_DATABASE_URL`与`PRAXIS_ALLOW_TEST_DATABASE_WRITE=1`，且只能指向可写入、允许创建Praxis表的测试数据库。`npm test`不加载`.env`，不能因本地Secret或真实数据库配置改变测试结果。
 

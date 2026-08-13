@@ -154,8 +154,7 @@ function fixtureCandidate(input: CandidateInput): RecommendationCandidateFixture
 function emptyDecisionState(): DecisionState {
   return {
     target: { kind: "OPEN" },
-    positivePreferences: [],
-    negativePreferences: [],
+    preferences: [],
     hardConstraints: [],
   };
 }
@@ -190,10 +189,10 @@ function allergyConfirmationDisclosuresFor(candidateIds: readonly string[]) {
   }));
 }
 
-export const restaurantDecisionGoldenSeedV07: DecisionEvalDataset = {
-  schemaVersion: "2",
+export const restaurantDecisionGoldenSeedV010: DecisionEvalDataset = {
+  schemaVersion: "3",
   datasetId: "restaurant-progressive-decision-golden-seed",
-  datasetVersion: "0.7",
+  datasetVersion: "0.10",
   evaluatorTargetVersion: "2",
   mode: "GOLDEN_SEED",
   candidatePools: [
@@ -640,8 +639,8 @@ export const restaurantDecisionGoldenSeedV07: DecisionEvalDataset = {
   ],
   episodes: [
     {
-      schemaVersion: "2",
-      datasetVersion: "0.7",
+      schemaVersion: "3",
+      datasetVersion: "0.10",
       id: "DGS01-e1-category-ginza-western",
       split: "REGRESSION",
       initialClarity: "E1",
@@ -678,8 +677,7 @@ export const restaurantDecisionGoldenSeedV07: DecisionEvalDataset = {
               party: { min: 4, max: 4, precision: "EXACT" },
               location: { kind: "AREA", query: "Ginza" },
               target: { kind: "CATEGORY", query: "Western food" },
-              positivePreferences: [],
-              negativePreferences: [],
+              preferences: [],
               hardConstraints: [],
             },
             readiness: "RECOMMENDATION_READY",
@@ -727,8 +725,8 @@ export const restaurantDecisionGoldenSeedV07: DecisionEvalDataset = {
       ],
     },
     {
-      schemaVersion: "2",
-      datasetVersion: "0.7",
+      schemaVersion: "3",
+      datasetVersion: "0.10",
       id: "DGS02-e1-brand-kinshicho",
       split: "REGRESSION",
       initialClarity: "E1",
@@ -737,6 +735,11 @@ export const restaurantDecisionGoldenSeedV07: DecisionEvalDataset = {
       timezone: "Asia/Tokyo",
       tags: ["core-ready", "brand", "exact-time", "outlet-resolution"],
       candidatePoolRef: "pool-kinshicho-mori-burger",
+      namedTargetResolution: {
+        query: "Mori Burger",
+        target: { kind: "BRAND", query: "Mori Burger" },
+        source: { mode: "FIXTURE_DISCOVERY", observedAt: FIXTURE_OBSERVED_AT },
+      },
       initialState: emptyDecisionState(),
       turns: [
         {
@@ -767,8 +770,7 @@ export const restaurantDecisionGoldenSeedV07: DecisionEvalDataset = {
               party: { min: 6, max: 6, precision: "EXACT" },
               location: { kind: "AREA", query: "Kinshicho" },
               target: { kind: "BRAND", query: "Mori Burger" },
-              positivePreferences: [],
-              negativePreferences: [],
+              preferences: [],
               hardConstraints: [],
             },
             readiness: "AVAILABILITY_READY",
@@ -822,8 +824,8 @@ export const restaurantDecisionGoldenSeedV07: DecisionEvalDataset = {
       ],
     },
     {
-      schemaVersion: "2",
-      datasetVersion: "0.7",
+      schemaVersion: "3",
+      datasetVersion: "0.10",
       id: "DGS03-e2-restaurant-sora-dining",
       split: "REGRESSION",
       initialClarity: "E2",
@@ -832,6 +834,11 @@ export const restaurantDecisionGoldenSeedV07: DecisionEvalDataset = {
       timezone: "Asia/Tokyo",
       tags: ["partial", "restaurant", "missing-party", "outlet-ambiguity"],
       candidatePoolRef: "pool-sora-dining",
+      namedTargetResolution: {
+        query: "Sora Dining",
+        target: { kind: "RESTAURANT", query: "Sora Dining" },
+        source: { mode: "FIXTURE_DISCOVERY", observedAt: FIXTURE_OBSERVED_AT },
+      },
       initialState: emptyDecisionState(),
       turns: [
         {
@@ -856,8 +863,7 @@ export const restaurantDecisionGoldenSeedV07: DecisionEvalDataset = {
                 daypart: "DINNER",
               },
               target: { kind: "RESTAURANT", query: "Sora Dining" },
-              positivePreferences: [],
-              negativePreferences: [],
+              preferences: [],
               hardConstraints: [],
             },
             readiness: "NOT_READY",
@@ -917,8 +923,7 @@ export const restaurantDecisionGoldenSeedV07: DecisionEvalDataset = {
               },
               party: { min: 3, max: 3, precision: "EXACT" },
               target: { kind: "RESTAURANT", query: "Sora Dining" },
-              positivePreferences: [],
-              negativePreferences: [],
+              preferences: [],
               hardConstraints: [],
             },
             readiness: "RECOMMENDATION_READY",
@@ -963,8 +968,8 @@ export const restaurantDecisionGoldenSeedV07: DecisionEvalDataset = {
       ],
     },
     {
-      schemaVersion: "2",
-      datasetVersion: "0.7",
+      schemaVersion: "3",
+      datasetVersion: "0.10",
       id: "DGS04-e2-team-izakaya",
       split: "REGRESSION",
       initialClarity: "E2",
@@ -999,8 +1004,7 @@ export const restaurantDecisionGoldenSeedV07: DecisionEvalDataset = {
                 daypart: "DINNER",
               },
               target: { kind: "CATEGORY", query: "Izakaya" },
-              positivePreferences: [],
-              negativePreferences: [],
+              preferences: [],
               hardConstraints: [],
             },
             readiness: "NOT_READY",
@@ -1055,8 +1059,7 @@ export const restaurantDecisionGoldenSeedV07: DecisionEvalDataset = {
               party: { min: 8, max: 8, precision: "EXACT" },
               location: { kind: "AREA", query: "Shimbashi" },
               target: { kind: "CATEGORY", query: "Izakaya" },
-              positivePreferences: [],
-              negativePreferences: [],
+              preferences: [],
               hardConstraints: [],
             },
             readiness: "RECOMMENDATION_READY",
@@ -1117,8 +1120,8 @@ export const restaurantDecisionGoldenSeedV07: DecisionEvalDataset = {
             annotationStatus: "LABELED",
             statePatch: {
               add: {
-                positivePreferences: ["quiet"],
-                hardConstraints: ["fully non-smoking"],
+                preferences: [{ facet: "VIBE", value: "QUIET", polarity: "PREFER" }],
+                hardConstraints: [{ kind: "SMOKING_POLICY", value: "FULLY_NON_SMOKING" }],
               },
             },
             accumulatedState: {
@@ -1131,9 +1134,8 @@ export const restaurantDecisionGoldenSeedV07: DecisionEvalDataset = {
               party: { min: 8, max: 8, precision: "EXACT" },
               location: { kind: "AREA", query: "Shimbashi" },
               target: { kind: "CATEGORY", query: "Izakaya" },
-              positivePreferences: ["quiet"],
-              negativePreferences: [],
-              hardConstraints: ["fully non-smoking"],
+              preferences: [{ facet: "VIBE", value: "QUIET", polarity: "PREFER" }],
+              hardConstraints: [{ kind: "SMOKING_POLICY", value: "FULLY_NON_SMOKING" }],
             },
             readiness: "RECOMMENDATION_READY",
             acceptableNextActions: [{ type: "NARROW_FROM_FEEDBACK" }],
@@ -1167,7 +1169,7 @@ export const restaurantDecisionGoldenSeedV07: DecisionEvalDataset = {
                 "state.party",
                 "state.location",
                 "state.target",
-                "state.positivePreferences",
+                "state.preferences",
                 "state.hardConstraints",
               ],
               allowedCandidateFactRefs: fixtureFactRefsFor(
@@ -1187,8 +1189,8 @@ export const restaurantDecisionGoldenSeedV07: DecisionEvalDataset = {
       ],
     },
     {
-      schemaVersion: "2",
-      datasetVersion: "0.7",
+      schemaVersion: "3",
+      datasetVersion: "0.10",
       id: "DGS05-e3-date-ebisu",
       split: "REGRESSION",
       initialClarity: "E3",
@@ -1213,8 +1215,7 @@ export const restaurantDecisionGoldenSeedV07: DecisionEvalDataset = {
             accumulatedState: {
               occasion: "DATE",
               target: { kind: "OPEN" },
-              positivePreferences: [],
-              negativePreferences: [],
+              preferences: [],
               hardConstraints: [],
             },
             readiness: "NOT_READY",
@@ -1273,8 +1274,7 @@ export const restaurantDecisionGoldenSeedV07: DecisionEvalDataset = {
               },
               party: { min: 2, max: 2, precision: "EXACT" },
               target: { kind: "OPEN" },
-              positivePreferences: [],
-              negativePreferences: [],
+              preferences: [],
               hardConstraints: [],
             },
             readiness: "NOT_READY",
@@ -1328,8 +1328,7 @@ export const restaurantDecisionGoldenSeedV07: DecisionEvalDataset = {
               party: { min: 2, max: 2, precision: "EXACT" },
               location: { kind: "AREA", query: "Ebisu" },
               target: { kind: "OPEN" },
-              positivePreferences: [],
-              negativePreferences: [],
+              preferences: [],
               hardConstraints: [],
             },
             readiness: "RECOMMENDATION_READY",
@@ -1388,8 +1387,10 @@ export const restaurantDecisionGoldenSeedV07: DecisionEvalDataset = {
             annotationStatus: "LABELED",
             statePatch: {
               add: {
-                positivePreferences: ["intimate"],
-                negativePreferences: ["tasting menu"],
+                preferences: [
+                  { facet: "VIBE", value: "INTIMATE", polarity: "PREFER" },
+                  { facet: "MENU_FORMAT", value: "TASTING_MENU", polarity: "AVOID" },
+                ],
               },
             },
             accumulatedState: {
@@ -1402,8 +1403,10 @@ export const restaurantDecisionGoldenSeedV07: DecisionEvalDataset = {
               party: { min: 2, max: 2, precision: "EXACT" },
               location: { kind: "AREA", query: "Ebisu" },
               target: { kind: "OPEN" },
-              positivePreferences: ["intimate"],
-              negativePreferences: ["tasting menu"],
+              preferences: [
+                { facet: "VIBE", value: "INTIMATE", polarity: "PREFER" },
+                { facet: "MENU_FORMAT", value: "TASTING_MENU", polarity: "AVOID" },
+              ],
               hardConstraints: [],
             },
             readiness: "RECOMMENDATION_READY",
@@ -1438,8 +1441,7 @@ export const restaurantDecisionGoldenSeedV07: DecisionEvalDataset = {
                 "state.party",
                 "state.location",
                 "state.target",
-                "state.positivePreferences",
-                "state.negativePreferences",
+                "state.preferences",
               ],
               allowedCandidateFactRefs: fixtureFactRefsFor(
                 EBISU_NARROWED_RECOMMENDATION_IDS,
@@ -1458,8 +1460,8 @@ export const restaurantDecisionGoldenSeedV07: DecisionEvalDataset = {
       ],
     },
     {
-      schemaVersion: "2",
-      datasetVersion: "0.7",
+      schemaVersion: "3",
+      datasetVersion: "0.10",
       id: "DGS06-e3-friends-correction-allergy",
       split: "REGRESSION",
       initialClarity: "E3",
@@ -1494,8 +1496,7 @@ export const restaurantDecisionGoldenSeedV07: DecisionEvalDataset = {
               occasion: "FRIENDS",
               time: { precision: "DAYPART", daypart: "DINNER" },
               target: { kind: "OPEN" },
-              positivePreferences: [],
-              negativePreferences: [],
+              preferences: [],
               hardConstraints: [],
             },
             readiness: "NOT_READY",
@@ -1557,8 +1558,7 @@ export const restaurantDecisionGoldenSeedV07: DecisionEvalDataset = {
               party: { min: 6, max: 8, precision: "RANGE" },
               location: { kind: "FLEXIBLE" },
               target: { kind: "OPEN" },
-              positivePreferences: [],
-              negativePreferences: [],
+              preferences: [],
               hardConstraints: [],
             },
             readiness: "NOT_READY",
@@ -1581,7 +1581,7 @@ export const restaurantDecisionGoldenSeedV07: DecisionEvalDataset = {
               mustNotAsk: ["DATE", "TIME", "PARTY"],
             },
             grounding: {
-              allowedStateFactRefs: ["state.occasion", "state.time", "state.party", "state.location"],
+              allowedStateFactRefs: ["state.occasion", "state.time", "state.party", "state.location", "state.target"],
               allowedCandidateFactRefs: [],
               forbiddenClaims: [
                 "willingness to travel identifies a search area or starting point",
@@ -1602,10 +1602,10 @@ export const restaurantDecisionGoldenSeedV07: DecisionEvalDataset = {
             statePatch: {
               set: {
                 party: { min: 5, max: 5, precision: "EXACT" },
-                location: { kind: "FLEXIBLE", scope: "from Ueno" },
+                location: { kind: "FLEXIBLE", anchorQuery: "Ueno" },
               },
               add: {
-                hardConstraints: ["severe peanut allergy"],
+                hardConstraints: [{ kind: "ALLERGY", allergen: "PEANUT", severity: "SEVERE" }],
               },
             },
             accumulatedState: {
@@ -1616,11 +1616,10 @@ export const restaurantDecisionGoldenSeedV07: DecisionEvalDataset = {
                 daypart: "DINNER",
               },
               party: { min: 5, max: 5, precision: "EXACT" },
-              location: { kind: "FLEXIBLE", scope: "from Ueno" },
+              location: { kind: "FLEXIBLE", anchorQuery: "Ueno" },
               target: { kind: "OPEN" },
-              positivePreferences: [],
-              negativePreferences: [],
-              hardConstraints: ["severe peanut allergy"],
+              preferences: [],
+              hardConstraints: [{ kind: "ALLERGY", allergen: "PEANUT", severity: "SEVERE" }],
             },
             readiness: "RECOMMENDATION_READY",
             acceptableNextActions: [{ type: "SHOW_RECOMMENDATIONS" }],
@@ -1682,8 +1681,10 @@ export const restaurantDecisionGoldenSeedV07: DecisionEvalDataset = {
             annotationStatus: "LABELED",
             statePatch: {
               add: {
-                positivePreferences: ["Japanese food"],
-                negativePreferences: ["formal"],
+                preferences: [
+                  { facet: "CUISINE", value: "Japanese food", polarity: "PREFER" },
+                  { facet: "FORMALITY", value: "FORMAL", polarity: "AVOID" },
+                ],
               },
             },
             accumulatedState: {
@@ -1694,11 +1695,13 @@ export const restaurantDecisionGoldenSeedV07: DecisionEvalDataset = {
                 daypart: "DINNER",
               },
               party: { min: 5, max: 5, precision: "EXACT" },
-              location: { kind: "FLEXIBLE", scope: "from Ueno" },
+              location: { kind: "FLEXIBLE", anchorQuery: "Ueno" },
               target: { kind: "OPEN" },
-              positivePreferences: ["Japanese food"],
-              negativePreferences: ["formal"],
-              hardConstraints: ["severe peanut allergy"],
+              preferences: [
+                { facet: "CUISINE", value: "Japanese food", polarity: "PREFER" },
+                { facet: "FORMALITY", value: "FORMAL", polarity: "AVOID" },
+              ],
+              hardConstraints: [{ kind: "ALLERGY", allergen: "PEANUT", severity: "SEVERE" }],
             },
             readiness: "RECOMMENDATION_READY",
             acceptableNextActions: [{ type: "NARROW_FROM_FEEDBACK" }],
@@ -1732,8 +1735,7 @@ export const restaurantDecisionGoldenSeedV07: DecisionEvalDataset = {
                 "state.party",
                 "state.location",
                 "state.target",
-                "state.positivePreferences",
-                "state.negativePreferences",
+                "state.preferences",
                 "state.hardConstraints",
               ],
               allowedCandidateFactRefs: fixtureFactRefsFor(
@@ -1760,8 +1762,8 @@ export const restaurantDecisionGoldenSeedV07: DecisionEvalDataset = {
       ],
     },
     {
-      schemaVersion: "2",
-      datasetVersion: "0.7",
+      schemaVersion: "3",
+      datasetVersion: "0.10",
       id: "DGS07-e1-brand-zero-result-relaxation",
       split: "REGRESSION",
       initialClarity: "E1",
@@ -1777,6 +1779,11 @@ export const restaurantDecisionGoldenSeedV07: DecisionEvalDataset = {
         "explicit-user-choice",
       ],
       candidatePoolRef: "pool-kinshicho-brand-fallback",
+      namedTargetResolution: {
+        query: "Mori Burger",
+        target: { kind: "BRAND", query: "Mori Burger" },
+        source: { mode: "FIXTURE_DISCOVERY", observedAt: FIXTURE_OBSERVED_AT },
+      },
       initialState: emptyDecisionState(),
       turns: [
         {
@@ -1807,8 +1814,7 @@ export const restaurantDecisionGoldenSeedV07: DecisionEvalDataset = {
               party: { min: 6, max: 6, precision: "EXACT" },
               location: { kind: "AREA", query: "Kinshicho" },
               target: { kind: "BRAND", query: "Mori Burger" },
-              positivePreferences: [],
-              negativePreferences: [],
+              preferences: [],
               hardConstraints: [],
             },
             readiness: "AVAILABILITY_READY",
@@ -1884,8 +1890,7 @@ export const restaurantDecisionGoldenSeedV07: DecisionEvalDataset = {
               party: { min: 6, max: 6, precision: "EXACT" },
               location: { kind: "AREA", query: "Kameido" },
               target: { kind: "BRAND", query: "Mori Burger" },
-              positivePreferences: [],
-              negativePreferences: [],
+              preferences: [],
               hardConstraints: [],
             },
             readiness: "AVAILABILITY_READY",

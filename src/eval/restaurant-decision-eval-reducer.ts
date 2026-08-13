@@ -2,20 +2,25 @@ import type {
   DecisionState,
   DecisionStatePatch,
 } from "./restaurant-decision-eval-contract.js";
+import {
+  decisionHardConstraintKey,
+  decisionPreferenceKey,
+} from "./restaurant-decision-patch-contract.js";
 
 function hasOwn(value: object, key: string): boolean {
   return Object.prototype.hasOwnProperty.call(value, key);
 }
 
-function mergeStringSet(
-  current: readonly string[],
-  additions: readonly string[] | undefined,
-  removals: readonly string[] | undefined,
-): string[] {
-  const next = new Set(current);
-  for (const value of removals ?? []) next.delete(value);
-  for (const value of additions ?? []) next.add(value);
-  return [...next];
+function mergeSemanticSet<T>(
+  current: readonly T[],
+  additions: readonly T[] | undefined,
+  removals: readonly T[] | undefined,
+  keyFor: (value: T) => string,
+): T[] {
+  const next = new Map(current.map((value) => [keyFor(value), structuredClone(value)]));
+  for (const value of removals ?? []) next.delete(keyFor(value));
+  for (const value of additions ?? []) next.set(keyFor(value), structuredClone(value));
+  return [...next.values()];
 }
 
 /**
@@ -43,20 +48,17 @@ export function applyDecisionStatePatch(
 
   const next: DecisionState = {
     target: structuredClone(target),
-    positivePreferences: mergeStringSet(
-      current.positivePreferences,
-      patch.add?.positivePreferences,
-      patch.remove?.positivePreferences,
+    preferences: mergeSemanticSet(
+      current.preferences,
+      patch.add?.preferences,
+      patch.remove?.preferences,
+      decisionPreferenceKey,
     ),
-    negativePreferences: mergeStringSet(
-      current.negativePreferences,
-      patch.add?.negativePreferences,
-      patch.remove?.negativePreferences,
-    ),
-    hardConstraints: mergeStringSet(
+    hardConstraints: mergeSemanticSet(
       current.hardConstraints,
       patch.add?.hardConstraints,
       patch.remove?.hardConstraints,
+      decisionHardConstraintKey,
     ),
   };
   if (occasion !== undefined) next.occasion = occasion;
