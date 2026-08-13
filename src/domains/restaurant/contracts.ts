@@ -11,9 +11,14 @@ export const RESTAURANT_BLOCKING_FIELDS = [
 
 export type RestaurantBlockingField = (typeof RESTAURANT_BLOCKING_FIELDS)[number];
 
+export interface RestaurantTarget {
+  query: string;
+}
+
 export interface RestaurantIntentDraft {
   schemaVersion: "1";
   timezone: "Asia/Tokyo";
+  target?: RestaurantTarget;
   date?: string;
   timeWindow?: { earliest: string; latest: string };
   partySize?: number;
@@ -27,6 +32,7 @@ export interface RestaurantIntentDraft {
 
 export interface RestaurantBookingIntent {
   timezone: "Asia/Tokyo";
+  target?: RestaurantTarget;
   date: string;
   timeWindow: { earliest: string; latest: string };
   partySize: number;
@@ -157,10 +163,11 @@ export interface VerifiedReservation {
 }
 
 export interface RestaurantTaskState {
-  schemaVersion: "3";
+  schemaVersion: "4";
   phase: RestaurantPhase;
   intentDraft?: RestaurantIntentDraft;
   intent?: RestaurantBookingIntent;
+  semanticConflict?: RestaurantSemanticConflict;
   candidates: ExecutableCandidate[];
   searchRevision: number;
   selectedCandidateId?: string;
@@ -178,8 +185,41 @@ export type RestaurantOutcome =
   | { status: "OUTCOME_UNKNOWN"; attemptId: string }
   | { status: "FAILED"; reason: string };
 
+export interface RestaurantIntentPatch {
+  schemaVersion: "1";
+  target?: RestaurantTarget | null;
+  date?: string | null;
+  timeWindow?: { earliest: string; latest: string } | null;
+  partySize?: number | null;
+  area?: { query: string } | null;
+  budgetPerPerson?: { max: number; currency: "JPY" } | null;
+  addCuisines?: string[];
+  removeCuisines?: string[];
+  addHardConstraints?: string[];
+  removeHardConstraints?: string[];
+  addSoftPreferences?: string[];
+  removeSoftPreferences?: string[];
+}
+
+export interface RestaurantSemanticConflict {
+  code: "CONTRADICTORY_PROPOSAL" | "UNSUPPORTED_SEMANTIC_EXPRESSION";
+  affectedFields: string[];
+  message: string;
+}
+
+export type RestaurantDecision =
+  | { type: "ASK_USER"; missingRequiredFields: RestaurantBlockingField[] }
+  | { type: "SEARCH" }
+  | { type: "PRESENT_CANDIDATES" }
+  | { type: "PROPOSE_RESERVATION" }
+  | { type: "COMPLETE" }
+  | { type: "NEED_ADJUSTMENT"; reason: string }
+  | { type: "NEED_REINTERPRETATION"; conflict: RestaurantSemanticConflict };
+
 export type RestaurantEvent =
-  | (DomainEvent & { type: "INTENT_PARSED"; draft: RestaurantIntentDraft })
+  | (DomainEvent & { type: "SEMANTIC_PROPOSAL_COMPILED"; patch: RestaurantIntentPatch })
+  | (DomainEvent & { type: "SEMANTIC_CONFLICT_RECORDED"; conflict: RestaurantSemanticConflict })
+  | (DomainEvent & { type: "RESTAURANT_DECISION_MADE"; decision: RestaurantDecision })
   | (DomainEvent & { type: "SEARCH_COMPLETED"; candidates: ExecutableCandidate[] })
   | (DomainEvent & { type: "SEARCH_FAILED"; reason: string })
   | (DomainEvent & { type: "SELECT_CANDIDATE"; candidateId: string })
@@ -202,6 +242,9 @@ export type RestaurantEvent =
   | (DomainEvent & { type: "VERIFICATION_INCONCLUSIVE"; evidence?: BookingProofBundle });
 
 export type RestaurantCommand =
+  | (DomainCommand & {
+      type: "DECIDE_RESTAURANT_NEXT";
+    })
   | (DomainCommand & {
       type: "SEARCH_RESTAURANTS";
       intent: RestaurantBookingIntent;

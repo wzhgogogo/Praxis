@@ -1,10 +1,10 @@
 # Architecture Overview
 
 - Status: Accepted
-- Version: 0.6
-- Last updated: 2026-08-08
+- Version: 0.7
+- Last updated: 2026-08-13
 - Source of truth for: 总体架构、层次、依赖方向和扩展边界
-- Related ADRs: [ADR-0001](../decisions/0001-general-task-runtime.md), [ADR-0003](../decisions/0003-single-agent-orchestration.md), [ADR-0005](../decisions/0005-modular-monolith.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md)
+- Related ADRs: [ADR-0001](../decisions/0001-general-task-runtime.md), [ADR-0003](../decisions/0003-single-agent-orchestration.md), [ADR-0005](../decisions/0005-modular-monolith.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0007](../decisions/0007-semantic-proposal-compiler-and-decision-kernel.md)
 - Related documents: [Agent Gateway and Workspace](AGENT-GATEWAY-AND-WORKSPACE.md), [Task Runtime](TASK-RUNTIME.md), [Agent Orchestration](AGENT-ORCHESTRATION.md)
 
 ## 核心结构
@@ -19,7 +19,7 @@ Responsive Web / Mobile Web
         │     ├── Case List / Case Detail
         │     ├── Activity / Domain Artifact
         │     └── Pending User Action
-        ├── DeepSeek Model Gateway
+        ├── Model Gateway
         ├── Durable Case Runtime
         │     ├── Goal / Task Store
         │     ├── Event / Command Dispatcher
@@ -35,10 +35,34 @@ Responsive Web / Mobile Web
 
 Domain Packages
         ├── restaurant
+        │     ├── Semantic Interpreter / Proposal Contract
+        │     ├── Semantic Compiler / Reducer
+        │     └── Decision Kernel
         ├── shopping (future)
         ├── travel (future)
         └── case-management (future)
 ```
+
+## v15 Restaurant semantic-to-execution path
+
+Restaurant v15 fixes the language-to-state and decision boundaries before further Provider or Tool expansion. The Semantic Interpreter is the only LLM step that reads the user's new natural-language message. It returns an untrusted Restaurant Semantic Proposal, not an internal State Patch or action.
+
+```text
+User Message
+→ Workspace / Application Orchestrator
+→ Semantic Interpreter [LLM]
+→ Semantic Proposal Contract
+→ Restaurant Semantic Compiler
+→ Task Runtime → Reducer → Authoritative State
+→ Restaurant Decision Kernel (State + Trusted Evidence)
+→ Runtime Command / Execution Action Proposal
+→ Policy / Authorization when required
+→ Execution Router → Tool / Adapter
+→ Observation / Evidence → Verifier → Outcome Event
+→ Task Runtime → Reducer → Decision Kernel
+```
+
+`NEED_REINTERPRETATION` is a Decision Kernel result, not a model instruction or a State mutation. In v15 it records a conflict and asks the user or takes a safe fallback; it never automatically reinterprets a message or overwrites State. LLM response text can explain an outcome or propose an adjustment, but a suggested adjustment only becomes input after an explicit new user message traverses the same semantic chain.
 
 ## 四类任务骨架
 
@@ -69,10 +93,13 @@ DeepSeek 可以提出子任务拆解，只有 Runtime 可以创建、激活和�
 | 模块 | 负责 | 不负责 |
 |---|---|---|
 | Agent Gateway / Workspace | 用户身份边界、Conversation、Case导航、Activity、Artifact、前台Session和跨设备恢复 | 权威Domain State、授权、外部提交和Outcome |
-| DeepSeek | 语言理解、追问、查询扩展、解释、未知页面辅助判断 | 权限、状态写入、最终提交、Outcome 判定 |
-| Task Runtime | Durable Case的Graph、状态、事件、命令、等待和恢复 | Conversation、前台Session、UI Projection、Domain业务排序和平台点击细节 |
+| Semantic Interpreter [LLM] | 解释本轮用户表达的目标、时间、人数、地点、偏好、约束、修正、否定和确认 | `StatePatch`、Event、Readiness、Action、授权、Tool Call和Outcome |
+| Semantic Proposal Contract | 校验Proposal结构、封闭词表和允许表达 | 断言模型语义正确或改变状态 |
+| Restaurant Semantic Compiler | 确定性地将合法Proposal翻译为Restaurant Event/State Patch | 模型调用、实时查询、Policy或执行 |
+| Task Runtime / Reducer | Durable Case的Graph、状态、事件、命令、等待、恢复与权威State归约 | Conversation、前台Session、UI Projection、自然语言判断和平台点击细节 |
+| Restaurant Decision Kernel | 根据Authoritative State和Trusted Evidence决定下一步 | 解释自由文本、改State、直接调用Tool或判定现实结果 |
 | Search Runtime | 并发、预算、批次、缓存、Trace | 餐厅或商品的业务模型 |
-| Policy Engine | 硬规则和授权范围 | 自然语言判断 |
+| Policy Engine / Authorization | 动作许可、授权范围与副作用门禁 | 自然语言判断 |
 | Adapter | API/Browser 实际交互 | 决定用户是否授权 |
 | Verifier | 根据 Evidence 判定现实结果 | 生成推荐或修改政策 |
 
@@ -88,8 +115,8 @@ src/core/task-runtime/     通用 Goal/Task/Event/Command
 src/core/policy/           Action、Authorization、硬规则
 src/core/execution/        Execution Router、Attempt、Verifier
 src/core/search/           通用 Search Runtime
-src/core/model/            DeepSeek Gateway与任务版本
-src/domains/restaurant/    餐厅 Intent、Search Strategy、状态机
+src/core/model/            Model Gateway与任务版本；不含Restaurant语义
+src/domains/restaurant/    Semantic Interpreter Contract、Compiler、Reducer、Decision Kernel、Search Strategy、状态机
 src/integrations/          外部 API 与 Browser Adapter
 src/infrastructure/postgres/ PostgreSQL迁移、Workspace Store、Task Store、Goal Graph和Outbox
 src/infrastructure/deepseek/ DeepSeek HTTP Provider Adapter（不含业务Parser）
@@ -101,11 +128,14 @@ src/harness/               Scenario Runner、Fixture、Oracle
 ```text
 Web → Agent Gateway API
 Agent Gateway → Application / Domain / Core contracts
-Application → Runtime / Policy / Model Gateway
+Application → Restaurant semantic boundary / Runtime / Policy / Model Gateway
+Restaurant Semantic Interpreter → Model Gateway contract
+Restaurant Semantic Compiler / Decision Kernel → Restaurant state and Core contracts
 Domain → Core contracts
 Integrations → Domain/Core ports
 Core Runtime ─X→ concrete Domain
 Domain A ─X→ Domain B
+LLM ─X→ Task State / Tool / Adapter
 ```
 
 ## 部署边界

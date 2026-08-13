@@ -15,11 +15,12 @@ import type {
   RestaurantBookingIntent,
   RestaurantCommand,
   RestaurantEvent,
-  RestaurantIntentDraft,
+  RestaurantIntentPatch,
   RestaurantOutcome,
   RestaurantTaskState,
 } from "../domains/restaurant/contracts.js";
 import { verifyBookingCompletion } from "../domains/restaurant/booking-verifier.js";
+import { decideRestaurantNext } from "../domains/restaurant/decision-kernel.js";
 import { restaurantBookingTaskDefinition } from "../domains/restaurant/task-definition.js";
 import {
   MockAvailabilityAdapter,
@@ -125,20 +126,23 @@ export class RestaurantHarness {
 
   async start(intent: RestaurantBookingIntent) {
     this.runtime.createTask(this.taskId, {}, { runId: this.runId });
-    const draft: RestaurantIntentDraft = {
+    const patch: RestaurantIntentPatch = {
       schemaVersion: "1",
-      timezone: intent.timezone,
+      ...(intent.target ? { target: structuredClone(intent.target) } : {}),
       date: intent.date,
       timeWindow: structuredClone(intent.timeWindow),
       partySize: intent.partySize,
-      area: structuredClone(intent.area),
-      cuisines: structuredClone(intent.cuisines),
+      area: { query: intent.area.query },
       ...(intent.budgetPerPerson ? { budgetPerPerson: structuredClone(intent.budgetPerPerson) } : {}),
-      hardConstraints: structuredClone(intent.hardConstraints),
-      softPreferences: structuredClone(intent.softPreferences),
-      missingRequiredFields: [],
+      ...(intent.cuisines.length > 0 ? { addCuisines: structuredClone(intent.cuisines) } : {}),
+      ...(intent.hardConstraints.length > 0
+        ? { addHardConstraints: structuredClone(intent.hardConstraints) }
+        : {}),
+      ...(intent.softPreferences.length > 0
+        ? { addSoftPreferences: structuredClone(intent.softPreferences) }
+        : {}),
     };
-    await this.send({ type: "INTENT_PARSED", draft });
+    await this.send({ type: "SEMANTIC_PROPOSAL_COMPILED", patch });
     return this.snapshot();
   }
 
@@ -265,7 +269,12 @@ export class RestaurantHarness {
           ...(envelope.trace.attemptId ? { attemptId: envelope.trace.attemptId } : {}),
           correlationId: envelope.trace.correlationId,
           causationId: envelope.id,
-          actor: envelope.command.category === "POLICY" ? "POLICY" : "ADAPTER",
+          actor:
+            envelope.command.category === "POLICY"
+              ? "POLICY"
+              : envelope.command.type === "DECIDE_RESTAURANT_NEXT"
+                ? "SYSTEM"
+                : "ADAPTER",
         },
       });
       queue.push(...result.commands);
@@ -277,6 +286,11 @@ export class RestaurantHarness {
   ): Promise<RestaurantEvent> {
     const command = envelope.command;
     switch (command.type) {
+      case "DECIDE_RESTAURANT_NEXT":
+        return {
+          type: "RESTAURANT_DECISION_MADE",
+          decision: decideRestaurantNext(this.snapshot().domainState),
+        };
       case "SEARCH_RESTAURANTS": {
         try {
           const candidates = await this.searchAdapter.search(command.intent);

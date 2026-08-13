@@ -1,10 +1,10 @@
 # Restaurant Progressive Decision Eval v2
 
 - Status: Draft
-- Version: 2.9
+- Version: 3.0
 - Last updated: 2026-08-13
 - Source of truth for: Restaurant低确定性需求、多轮偏好形成、推荐收敛的Eval计划、数据规则、评分与发布门槛
-- Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md)
+- Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0007](../decisions/0007-semantic-proposal-compiler-and-decision-kernel.md)
 - Related documents: [MVP PRD](../product/MVP-PRD.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md), [Eval Skill](../skills/eval/SKILL.md), [Harness Design](HARNESS-DESIGN.md), [Golden Seed Annotation](RESTAURANT-DECISION-GOLDEN-SEED-ANNOTATION.md), [Roadmap](../roadmap.md)
 
 ## 1. 结论与边界
@@ -39,7 +39,7 @@ Prompt v10不改变Golden、Schema或Scorer，只修正两类已暴露的状态�
 
 Prompt v11不改变Golden、Schema或Scorer，只修正S4动作路由边界：`BRAND`目标先走品牌分店解析，或在Exact/Window时间、Exact人数和具体Outlet候选已齐时查Availability，不走`CHECK_TARGET_RESTAURANT`；`RESTAURANT`目标继续走目标餐厅检查，不走品牌解析或通用推荐，即使候选上下文中已有多个Outlet；`OPEN/CATEGORY`才使用通用推荐流；可见选项反馈后使用`NARROW_FROM_FEEDBACK`。`APPROXIMATE`时间与宽泛`DAYPART`不得被当成Exact Availability。
 
-Prompt v14 / Proposal Schema 4 / Golden Schema 3把State Patch约束拆成清晰的Contract边界，而不增加新的编排层。模型仍直接输出不可信的Restaurant-owned typed `statePatch`；共享Contract模块提供机器可读JSON Schema、运行时Validator与语义Key，Reducer只有在校验通过后才合并。偏好不再是两个自由字符串数组，而是`facet + value + polarity`；禁烟和严重过敏采用封闭的Typed Hard Constraint。这样，`no smoking`是否属于硬约束、`nothing too formal`的canonical值以及移动意愿不能进入Preference，主要由输出类型和Validator约束，不再继续堆进Prompt。Prompt v14仅保留语义职责、关键边界和一个最小JSON示例；Kernel继续独立负责Readiness、路由、候选上限与Grounding。本次不引入Semantic Proposal编译器、通用Ontology、Workflow DSL或DeepSeek Beta Strict Function Calling。
+Prompt v14 / Proposal Schema 4 / Golden Schema 3把State Patch约束拆成清晰的Contract边界，而不增加新的编排层。模型仍直接输出不可信的Restaurant-owned typed `statePatch`；共享Contract模块提供机器可读JSON Schema、运行时Validator与语义Key，Reducer只有在校验通过后才合并。偏好不再是两个自由字符串数组，而是`facet + value + polarity`；禁烟和严重过敏采用封闭的Typed Hard Constraint。这样，`no smoking`是否属于硬约束、`nothing too formal`的canonical值以及移动意愿不能进入Preference，主要由输出类型和Validator约束，不再继续堆进Prompt。Prompt v14仅保留语义职责、关键边界和一个最小JSON示例；Kernel继续独立负责Readiness、路由、候选上限与Grounding。这仍是Harness-only v14实现。ADR-0007随后接受Restaurant-owned Semantic Proposal与Semantic Compiler作为v15产品主链；本Eval不实现该产品路径，也不引入通用Ontology、跨Domain Compiler、Workflow DSL或DeepSeek Beta Strict Function Calling。
 
 ## 2. 评测目标
 

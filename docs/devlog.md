@@ -1,11 +1,67 @@
 # Development Log
 
 - Status: Accepted
-- Version: 4.11
+- Version: 4.14
 - Last updated: 2026-08-13
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Roadmap](roadmap.md), [Test Log](test-log.md)
+
+## 2026-08-13 — v15 DeepSeek Semantic Proposal regression runner
+
+### Why
+
+产品语义路径已经改为v15，但原有真实DeepSeek回归仍调用Harness-only v14 `statePatch` Contract，无法验证新Semantic Interpreter、Proposal Contract、Compiler、Reducer和Decision Kernel的修复效果。
+
+### Changes
+
+- 新增`restaurant-semantic-regression-v1`：7个静态、人工标注回合覆盖完整输入、增量补全、人数/地点修正、菜系否定和命名餐厅目标。
+- 新增受控`npm run eval:semantic:deepseek`。它调用真实`RestaurantSemanticInterpreter`，随后仅在内存中运行Compiler、Task Runtime/Reducer、Decision Kernel和Fixture Search；不创建产品Task、不执行真实Tool或外部写操作。
+- 新Runner按`SEMANTIC_PROPOSAL_CONTRACT`、`COMPILER`、`SEMANTIC_RESULT`、`DECISION_KERNEL`和`RUNTIME`记录首错。语义比较以编译后的权威Draft及Decision为准，而非v14内部Patch。
+- 第一次预调试发现Prompt缺少各`value.kind`精确形状，导致AREA、PARTY_SIZE和BUDGET_PER_PERSON Contract失败；补全通用形状说明和命名目标规则。Prompt内容升为v2。
+
+### Boundary
+
+10次真实运行仅使用已暴露的静态Regression文本，均标记为`DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`。它验证当前7回合的结构化输出、确定性编译、累积和决策稳定性，不证明开放需求、未见表达、真实餐厅事实或产品预约质量。
+
+## 2026-08-13 — v15 Restaurant semantic/search product slice
+
+### Why
+
+ADR-0007 fixed the language-to-state boundary, so the existing Fixture product route could no longer let a model produce a complete internal Intent Draft or derive its own missing fields. The first vertical slice must make Proposal validation, compilation, reduction and next-step decision independently observable without enabling real DeepSeek, Tool access or automatic reinterpretation.
+
+### Changes
+
+- Replaced the local and persistent Stage 2A/2B product path with `RestaurantSemanticInterpreter → Semantic Proposal Contract → Restaurant Semantic Compiler → Task Runtime/Reducer → Restaurant Decision Kernel`.
+- Added closed Proposal schema `1` for user-turn facts and `ASSERT` / `CORRECT` / `NEGATE` / `CONFIRM` operations. It rejects `statePatch`, Event, decision, command, tool and other non-semantic fields.
+- Added a pure Restaurant Compiler that emits versioned `RestaurantIntentPatch` data. A same-turn contradiction emits `SEMANTIC_CONFLICT_RECORDED`; it cannot alter prior facts, call a model or reach a Tool.
+- Reducer now derives missing blocking fields from authoritative values, accumulates corrections/negations, and writes `SEMANTIC_PROPOSAL_COMPILED` rather than model-generated `INTENT_PARSED`. Restaurant State and Task Definition advance to schema/version `4` because no Pilot data exists.
+- Added `DECIDE_RESTAURANT_NEXT` and recorded `RESTAURANT_DECISION_MADE` for the implemented semantic/search decisions: `ASK_USER`、`SEARCH`、`PRESENT_CANDIDATES`、`NEED_ADJUSTMENT`、`NEED_REINTERPRETATION`。
+- `NEED_REINTERPRETATION` records a structured conflict and asks the user. It has no automatic second model call and does not overwrite State. `PROPOSE_RESERVATION` and `COMPLETE` remain reserved Kernel types; existing booking execution transitions stay deterministic and are not migrated in this slice.
+- Migrated Fixture ModelGateway, Harness and PGlite Runtime scenarios to the new Event/Command chain. The old `RestaurantIntentParser` remains Eval/real-connectivity-only and is no longer called from product applications.
+
+### Boundary
+
+No DeepSeek request, real Discovery/Availability call, Authorization, external write, replay, Live Read-only or Controlled Live-write was run. Fixture mode remains explicitly local-only. This slice does not implement LLM response/adjustment generation, Tool Call Contract, automatic re-interpretation or a generic cross-Domain compiler.
+
+## 2026-08-13 — Accepted v15 semantic-to-execution architecture
+
+### Why
+
+真实DeepSeek诊断已将两种失败分开暴露：Provider Completion可能不满足结构Contract；结构合法的输出仍可能错误表达用户新增、修正、否定、确认或目标粒度。现有Harness-only v14让模型直接输出内部`statePatch`，把语义理解与系统状态协议混在一起，无法作为稳定产品主链。
+
+### Changes
+
+- 新增Accepted ADR-0007，固定`Semantic Interpreter → Semantic Proposal Contract → Restaurant Semantic Compiler → Runtime/Reducer → Decision Kernel → Execution → Verifier`主链。
+- 明确Semantic Interpreter只输出本轮用户语义，不输出`StatePatch`、Event、Readiness、Tool Call、Authorization或Outcome；Contract通过只代表结构合法。
+- Compiler与Decision Kernel固定为Restaurant-owned确定性代码；不创建通用Ontology、跨Domain Compiler或Workflow DSL。
+- 固定`NEED_REINTERPRETATION`为v15预留Kernel Decision：只记录conflict并询问用户或安全降级，不自动重新解释或改变State。
+- LLM Response/Adjustment只能解释或建议；建议需经用户的新消息确认后才重回正式语义链。禁止`LLM → Tool`、`LLM → State`和`Verifier → LLM → Tool`旁路。
+- 同步Overview、Agent Orchestration、Restaurant Domain、Interfaces、Arch Guard、Planning、Eval、Harness和Post-change Verify，使后续实现按相同边界规划和验证。
+
+### Boundary
+
+本轮只固化架构Source of Truth和工程规则；未实现Semantic Interpreter、Semantic Proposal Contract、Restaurant Compiler、产品Decision Kernel或`NEED_REINTERPRETATION`。现有Fixture Intent Parser与Harness-only v14 `statePatch`路径保持其真实实现状态，不被报告为v15产品能力。没有DeepSeek、数据库、Discovery、Availability或外部写入。
 
 ## 2026-08-13 — Prompt v14 and typed Restaurant Decision Patch Contract
 

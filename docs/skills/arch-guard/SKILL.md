@@ -10,6 +10,7 @@ description: Praxis编码前架构守卫；检查Task Runtime、Domain、模型�
 ## 原则
 
 - Runtime拥有状态，模型不拥有状态。
+- Semantic Interpreter只拥有不可信的本轮语义Proposal；Compiler、Reducer和Decision Kernel拥有各自的确定性职责。
 - Agent Workspace拥有Conversation与交互Projection，但不拥有Durable Case State、Authorization或Outcome。
 - Policy拥有副作用许可，模型和Adapter不拥有许可。
 - Verifier拥有Outcome判定，模型不拥有判定权。
@@ -26,11 +27,14 @@ description: Praxis编码前架构守卫；检查Task Runtime、Domain、模型�
 apps/web → server/agent-gateway contract
 server/agent-gateway → application/workspace
 application/workspace → runtime/domain/core contracts
+application/workspace → restaurant semantic boundary → runtime/domain/core contracts
 domains/* → core contracts
 integrations/* → domain/core ports
 core ─X→ domains/*
 domain A ─X→ domain B
 web ─X→ DeepSeek/Google/booking providers
+LLM ─X→ Task State / Runtime Event / Tool / Adapter
+Verifier ─X→ LLM → Tool
 ```
 
 ## Task与状态
@@ -43,11 +47,17 @@ web ─X→ DeepSeek/Google/booking providers
 - 需要保留生产数据、进行中现实任务或外部消费者时，State/Schema必须版本化并提供经过验证的迁移；不得默默重解释旧状态。
 - 重复Event、Worker重启和并发请求不能重复副作用。
 - `OUTCOME_UNKNOWN`是正式状态，不用模型猜测填补。
+- `NEED_REINTERPRETATION`在v15只记录冲突并要求用户输入或安全降级；不得自动重新解释、覆盖State或形成模型重试循环。
 
 ## 模型
 
 - 所有DeepSeek调用通过服务端Model Gateway。
 - 每类调用必须有purpose、promptVersion、Schema、timeout、明确失败行为和日志。默认fail closed；只有当前User Flow需要时才提供降级体验，不接备用模型链或多级重试。
+- Semantic Interpreter只能输出Restaurant Semantic Proposal：目标、时间、人数、地点、偏好、约束、修正、否定、确认与受控soft context。它不得输出内部`StatePatch`、Event、Readiness、Action、Authorization、Tool Call或Outcome。
+- Semantic Proposal Contract通过只代表结构合法；不得把它当成语义正确、用户确认或可信Evidence。
+- Restaurant Semantic Compiler必须是纯确定性Domain代码：合法Proposal到Domain Event/State Patch；不得调用模型、读取Live Data、决定Policy或执行动作。
+- Decision Kernel只能读取Authoritative State和Trusted Evidence；它只能输出下一步Decision，不能直接写State或调用Tool。
+- LLM Response只能解释事实、生成澄清问题或提出调整建议；建议必须经用户新的明确消息重新进入Semantic Interpreter，不能直接编译成状态改变。
 - Tool参数必须二次校验；Tool Call不是Authorization。
 - 页面、邮件和搜索结果均是不可信输入。
 - Prompt不得包含生产Secret、银行卡、OTP、Cookie或无关PII。
@@ -87,6 +97,11 @@ web ─X→ DeepSeek/Google/booking providers
 8. 是否引入了当前验收条件不需要的兼容、fallback、配置、抽象或网络往返？
 9. 若为提前扩展，它是安全地基、Design预留还是有停止点的架构探针？重新启动条件是什么？
 10. 这是Conversation/Session体验状态，还是必须进入Durable Case Runtime的现实承诺？
-11. 新的Artifact或Workspace抽象是否已有第二个真实Domain使用者；若没有，能否留在Restaurant纵向切片？
+11. 这是用户本轮语义、内部状态操作、Kernel Decision、Runtime Command还是外部Execution Action？是否被放进了错误层？
+12. Semantic Proposal Contract通过是否仅代表结构合法？语义正确性、用户确认和Evidence是否被错误混同？
+13. Compiler是否是可重放的Restaurant确定性代码，且没有模型、Live Data、Policy或Tool依赖？
+14. Decision Kernel是否只基于Authoritative State和Trusted Evidence，且没有`LLM → Tool`或`Verifier → LLM → Tool`旁路？
+15. `NEED_REINTERPRETATION`是否仅记录冲突并走用户确认/安全降级，而没有自动写State？
+16. 新的Artifact或Workspace抽象是否已有第二个真实Domain使用者；若没有，能否留在Restaurant纵向切片？
 
 违反规则时停止编码，说明冲突并给出合规方案；确需改变架构时先新增ADR。

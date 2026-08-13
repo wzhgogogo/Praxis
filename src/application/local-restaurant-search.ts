@@ -1,7 +1,9 @@
 import { StaleTaskVersionError } from "../core/task-runtime/errors.js";
 import type { CommandEnvelope, TaskSnapshot } from "../core/task-runtime/contracts.js";
 import { InMemoryTaskRuntime } from "../core/task-runtime/in-memory-task-runtime.js";
-import { RestaurantIntentParser } from "../domains/restaurant/intent-parser.js";
+import { decideRestaurantNext } from "../domains/restaurant/decision-kernel.js";
+import { compileRestaurantSemanticProposal } from "../domains/restaurant/semantic-compiler.js";
+import { RestaurantSemanticInterpreter } from "../domains/restaurant/semantic-interpreter.js";
 import { restaurantBookingTaskDefinition } from "../domains/restaurant/task-definition.js";
 import type {
   ExecutableCandidate,
@@ -58,7 +60,7 @@ function view(snapshot: TaskSnapshot<RestaurantTaskState, RestaurantOutcome>): L
 
 export class LocalRestaurantSearchApplication {
   private readonly runtime: LocalRuntime;
-  private readonly parser = new RestaurantIntentParser(new FixtureModelGateway());
+  private readonly interpreter = new RestaurantSemanticInterpreter(new FixtureModelGateway());
   private readonly search = new FixtureRestaurantSearch();
   private readonly taskIds = new Set<string>();
   private sequence = 0;
@@ -87,17 +89,25 @@ export class LocalRestaurantSearchApplication {
     if (snapshot.version !== expectedVersion) {
       throw new StaleTaskVersionError(expectedVersion, snapshot.version);
     }
-    const parsed = await this.parser.parse({
+    const interpreted = await this.interpreter.interpret({
       taskId,
       message,
       referenceTime: "2026-08-05T09:00:00+09:00",
       timezone: "Asia/Tokyo",
+      ...(snapshot.domainState.intentDraft
+        ? { currentDraft: snapshot.domainState.intentDraft }
+        : {}),
     });
-    if (parsed.status !== "PARSED") {
-      throw new Error(`Fixture parser did not produce an intent: ${parsed.status}`);
+    if (interpreted.status !== "PROPOSED") {
+      throw new Error(`Fixture semantic interpreter did not produce a proposal: ${interpreted.status}`);
     }
+    const compilation = compileRestaurantSemanticProposal(interpreted.proposal);
+    const event: RestaurantEvent =
+      compilation.status === "COMPILED"
+        ? { type: "SEMANTIC_PROPOSAL_COMPILED", patch: compilation.patch }
+        : { type: "SEMANTIC_CONFLICT_RECORDED", conflict: compilation.conflict };
     const result = this.runtime.dispatch(
-      this.userEvent(taskId, { type: "INTENT_PARSED", draft: parsed.draft }),
+      this.userEvent(taskId, event),
       expectedVersion,
     );
     await this.drainReadCommands(result.commands);
@@ -153,18 +163,28 @@ export class LocalRestaurantSearchApplication {
         continue;
       }
       let event: RestaurantEvent;
+      let actor: "SYSTEM" | "ADAPTER";
       switch (command.command.type) {
+        case "DECIDE_RESTAURANT_NEXT":
+          event = {
+            type: "RESTAURANT_DECISION_MADE",
+            decision: decideRestaurantNext(this.requireTask(command.taskId).domainState),
+          };
+          actor = "SYSTEM";
+          break;
         case "SEARCH_RESTAURANTS":
           event = {
             type: "SEARCH_COMPLETED",
             candidates: await this.search.search(command.command.intent),
           };
+          actor = "ADAPTER";
           break;
         case "REVALIDATE_OFFER":
           event = {
             type: "OFFER_REVALIDATED",
             candidate: await this.search.revalidate(command.command.candidate),
           };
+          actor = "ADAPTER";
           break;
         default:
           throw new Error(`Stage 2A cannot execute ${command.command.type}`);
@@ -180,7 +200,7 @@ export class LocalRestaurantSearchApplication {
           runId: command.trace.runId,
           correlationId: command.trace.correlationId,
           causationId: command.id,
-          actor: "ADAPTER",
+          actor,
         },
       });
       queue.push(...result.commands);

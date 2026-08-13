@@ -1,11 +1,66 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Version: 4.8
+- Version: 4.11
 - Last updated: 2026-08-13
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Test Skill](skills/test/SKILL.md), [Harness Design](harness/HARNESS-DESIGN.md)
+
+## 2026-08-13 — v15 DeepSeek Semantic Proposal regression verification
+
+### Scope
+
+新增独立于Harness-only v14 `statePatch` Eval的v15真实模型回归。DeepSeek只产生Semantic Proposal；Proposal Contract、Compiler、In-memory Runtime/Reducer、Decision Kernel和Fixture Search依次执行。Dataset为7个静态、已暴露的Regression Turn；没有产品持久化State、真实Discovery、Availability、Authorization或外部写操作。
+
+### Checks
+
+- `npm run typecheck`、`npm run build`与v15 Runner Fixture Test：通过。
+- `npm test`：`147/147`通过，包括新增v15 Runner Fixture Test及完整Runtime、Harness、PGlite、HTTP/SSE基线。
+- 初次预调试：发现Prompt未明确每个`value.kind`的完整封闭JSON形状，DeepSeek出现AREA、PARTY_SIZE和BUDGET_PER_PERSON Contract失败；该轮不纳入矩阵。
+- 补齐Prompt形状后，受控真实DeepSeek运行10次：每次7/7通过，合计`70/70`通过；0个`SEMANTIC_PROPOSAL_CONTRACT`、`COMPILER`、`SEMANTIC_RESULT`、`DECISION_KERNEL`或`RUNTIME`首错；0次结构重试、0次Provider失败或P0。
+- 模型：`DEEPSEEK:deepseek-v4-flash`；累计输入39,290 Token、输出6,990 Token、总模型延迟125,360ms（均值12,536ms/运行）；价格环境未配置，成本状态为`NOT_CONFIGURED`。
+- Prompt内容在正式十次前已修正，但请求遥测仍标`v1`；随后代码将其正确升为`v2`。因此十次结果证明该最终内容的行为，不构成按`v2`标识可复现的Baseline。
+
+### Modes and external effects
+
+`REAL_MODEL_MOCK_WORLD`与Fixture Search运行，结果单独报告。没有Replay、Live Read-only或Controlled Live-write。每次运行将静态Proposal诊断写入Git忽略的`.eval-artifacts/restaurant-semantic/`；无生产用户文本、Prompt正文或Key被持久化。
+
+## 2026-08-13 — v15 Restaurant semantic/search product slice verification
+
+### Scope
+
+Fixture-only implementation of `Semantic Interpreter → Proposal Contract → Compiler → Reducer → Decision Kernel → Runtime Command → Fixture Search`. It changes Restaurant state/event/command schema to `4`, migrates the product Fixture applications and Harness, and leaves real DeepSeek, external Tool/Adapter execution and automatic re-interpretation disabled.
+
+### Checks
+
+- `npm run typecheck`: passed.
+- Semantic Contract / Interpreter / Compiler / Reducer / Kernel unit tests: passed. They separately prove closed schema rejection, no internal state/tool protocol, deterministic correction/negation compilation, authoritative missing-field derivation and `NEED_REINTERPRETATION` safe reserve behavior.
+- Fixture product / Mock Harness / PGlite Runtime regression: `48/48` passed, including local full-input, clarification and selection flow, booking safety invariants, Restaurant Event replay and durable-command recovery.
+- `npm test`: `146/146` passed after running the HTTP/SSE cases in a permitted local-listener environment. The multi-session version assertion was migrated from `2` to `4`, reflecting the newly durable Proposal, Decision, Search observation and candidate-presentation Decision events.
+- `npm run build`: passed.
+- `git diff --check`: passed.
+
+### Modes and external effects
+
+Unit, Fixture product, Mock Harness and PGlite persistence were run and reported separately. Replay, Real Model, Live Read-only and Controlled Live-write were not run. No DeepSeek, Discovery, Availability, reservation, authorization or external write request was made.
+
+## 2026-08-13 — v15 semantic-to-execution architecture governance verification
+
+### Scope
+
+Documentation-only architecture governance change. ADR-0007 fixes the Restaurant v15 target chain: Semantic Interpreter, Semantic Proposal Contract, Restaurant Semantic Compiler, Runtime/Reducer, Decision Kernel, execution control and Verifier. No TypeScript, Runtime, Parser, Web, Harness behavior, Provider configuration or external integration changed.
+
+### Checks
+
+- Documentation consistency review: ADR, Architecture Overview, Agent Orchestration, Restaurant Domain, Interfaces, Arch Guard, Planning, Eval, Harness and Post-change Verify all identify the Semantic Interpreter output as an untrusted Proposal rather than a State Patch/Event/Tool Call.
+- Documentation consistency review: each source preserves the required Runtime/Policy/Authorization/Execution Router/Verifier control path and prohibits `LLM → Tool`, `LLM → State`, and `Verifier → LLM → Tool`.
+- Documentation consistency review: `NEED_REINTERPRETATION` is a v15 reserved Decision Kernel result, records conflict and asks the user or safely degrades; no automatic state overwrite or model retry loop is authorized.
+- `git diff --check`: passed after final documentation review.
+
+### Modes and external effects
+
+No Unit, Fixture, Replay, Real Model Mock World, Live Read-only or Controlled Live-write run because this change has no executable code. No DeepSeek, database, Discovery, Availability, reservation or other external request was made.
 
 ## 2026-08-13 — Prompt v14 / typed Patch Contract verification
 

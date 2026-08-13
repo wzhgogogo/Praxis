@@ -9,43 +9,59 @@ import type {
 } from "../../core/task-runtime/contracts.js";
 import type {
   ExecutableCandidate,
-  RestaurantBookingIntent,
   RestaurantCommand,
   RestaurantEvent,
-  RestaurantIntentDraft,
   RestaurantOutcome,
   RestaurantPhase,
   RestaurantTaskState,
 } from "./contracts.js";
-
-function completeIntent(draft: RestaurantIntentDraft): RestaurantBookingIntent | null {
-  if (
-    draft.missingRequiredFields.length > 0 ||
-    !draft.date ||
-    !draft.timeWindow ||
-    !draft.partySize ||
-    !draft.area
-  ) {
-    return null;
-  }
-  return {
-    timezone: draft.timezone,
-    date: draft.date,
-    timeWindow: structuredClone(draft.timeWindow),
-    partySize: draft.partySize,
-    area: structuredClone(draft.area),
-    cuisines: structuredClone(draft.cuisines),
-    ...(draft.budgetPerPerson ? { budgetPerPerson: structuredClone(draft.budgetPerPerson) } : {}),
-    hardConstraints: structuredClone(draft.hardConstraints),
-    softPreferences: structuredClone(draft.softPreferences),
-    missingRequiredFields: [],
-  };
-}
+import { applyRestaurantIntentPatch, completeRestaurantIntent } from "./intent-state.js";
+import { restaurantIntentPatchHasChanges } from "./semantic-compiler.js";
 
 function requirePhase(state: Readonly<RestaurantTaskState>, allowed: RestaurantPhase[], eventType: string) {
   if (!allowed.includes(state.phase)) {
     throw new Error(`Event ${eventType} is invalid while restaurant task is ${state.phase}`);
   }
+}
+
+function requireSemanticMutablePhase(
+  state: Readonly<RestaurantTaskState>,
+  eventType: string,
+): void {
+  requirePhase(
+    state,
+    ["UNDERSTANDING", "NEEDS_INPUT", "AWAITING_SELECTION", "SELECTION_REQUIRED", "AWAITING_AUTHORIZATION"],
+    eventType,
+  );
+}
+
+function decideCommand(context: TaskContext): RestaurantCommand {
+  return {
+    type: "DECIDE_RESTAURANT_NEXT",
+    category: "READ",
+    idempotencyKey: `${context.taskId}:decide:${context.createId("decision")}`,
+  };
+}
+
+function resetForSemanticUpdate(
+  state: Readonly<RestaurantTaskState>,
+  intentDraft: RestaurantTaskState["intentDraft"],
+): RestaurantTaskState {
+  const {
+    intent: _intent,
+    candidates: _candidates,
+    selectedCandidateId: _selectedCandidateId,
+    proposal: _proposal,
+    authorization: _authorization,
+    semanticConflict: _semanticConflict,
+    ...remaining
+  } = state;
+  return {
+    ...remaining,
+    phase: "UNDERSTANDING",
+    ...(intentDraft ? { intentDraft } : {}),
+    candidates: [],
+  };
 }
 
 function selectedCandidate(state: Readonly<RestaurantTaskState>): ExecutableCandidate {
@@ -157,38 +173,88 @@ function transition(
   context: TaskContext,
 ): TransitionResult<RestaurantTaskState, RestaurantCommand> {
   switch (event.type) {
-    case "INTENT_PARSED": {
-      requirePhase(state, ["UNDERSTANDING", "NEEDS_INPUT"], event.type);
-      const intent = completeIntent(event.draft);
-      if (!intent) {
-        return {
-          state: {
-            ...state,
-            phase: "NEEDS_INPUT",
-            intentDraft: structuredClone(event.draft),
-          },
-          commands: [],
-        };
+    case "SEMANTIC_PROPOSAL_COMPILED": {
+      requireSemanticMutablePhase(state, event.type);
+      if (!restaurantIntentPatchHasChanges(event.patch)) {
+        return { state: structuredClone(state), commands: [] };
       }
-      const searchRevision = state.searchRevision + 1;
+      const intentDraft = applyRestaurantIntentPatch(state.intentDraft, event.patch);
+      return {
+        state: resetForSemanticUpdate(state, intentDraft),
+        commands: [decideCommand(context)],
+      };
+    }
+
+    case "SEMANTIC_CONFLICT_RECORDED":
+      requireSemanticMutablePhase(state, event.type);
       return {
         state: {
-          ...state,
-          phase: "SEARCHING",
-          intentDraft: structuredClone(event.draft),
-          intent,
-          searchRevision,
+          ...resetForSemanticUpdate(state, state.intentDraft ? structuredClone(state.intentDraft) : undefined),
+          phase: "NEEDS_INPUT",
+          semanticConflict: structuredClone(event.conflict),
         },
-        commands: [
-          {
-            type: "SEARCH_RESTAURANTS",
-            category: "READ",
-            idempotencyKey: `${context.taskId}:search:${searchRevision}`,
-            intent,
-            searchRevision,
-          },
-        ],
+        commands: [decideCommand(context)],
       };
+
+    case "RESTAURANT_DECISION_MADE": {
+      switch (event.decision.type) {
+        case "ASK_USER":
+          requirePhase(state, ["UNDERSTANDING", "NEEDS_INPUT"], event.type);
+          return { state: { ...state, phase: "NEEDS_INPUT" }, commands: [] };
+        case "SEARCH": {
+          requirePhase(state, ["UNDERSTANDING", "NEEDS_INPUT"], event.type);
+          const intent = completeRestaurantIntent(state.intentDraft);
+          if (!intent) {
+            throw new Error("SEARCH decision requires a complete authoritative Restaurant intent");
+          }
+          const searchRevision = state.searchRevision + 1;
+          return {
+            state: {
+              ...state,
+              phase: "SEARCHING",
+              intent,
+              searchRevision,
+            },
+            commands: [
+              {
+                type: "SEARCH_RESTAURANTS",
+                category: "READ",
+                idempotencyKey: `${context.taskId}:search:${searchRevision}`,
+                intent,
+                searchRevision,
+              },
+            ],
+          };
+        }
+        case "PRESENT_CANDIDATES":
+          requirePhase(state, ["SEARCHING"], event.type);
+          if (state.candidates.length === 0) {
+            throw new Error("PRESENT_CANDIDATES decision requires candidates");
+          }
+          return { state: { ...state, phase: "AWAITING_SELECTION" }, commands: [] };
+        case "NEED_ADJUSTMENT":
+          requirePhase(state, ["SEARCHING"], event.type);
+          if (state.candidates.length > 0) {
+            throw new Error("NEED_ADJUSTMENT decision requires no candidates");
+          }
+          return {
+            state: {
+              ...state,
+              phase: "SELECTION_REQUIRED",
+              failure: { code: "NO_CANDIDATES", message: event.decision.reason },
+            },
+            commands: [],
+          };
+        case "NEED_REINTERPRETATION":
+          requirePhase(state, ["NEEDS_INPUT"], event.type);
+          if (!state.semanticConflict) {
+            throw new Error("NEED_REINTERPRETATION decision requires a recorded semantic conflict");
+          }
+          return { state: structuredClone(state), commands: [] };
+        case "PROPOSE_RESERVATION":
+        case "COMPLETE":
+          throw new Error(`${event.decision.type} is reserved outside the v15 semantic/search slice`);
+      }
     }
 
     case "SEARCH_COMPLETED":
@@ -196,13 +262,9 @@ function transition(
       return {
         state: {
           ...state,
-          phase: event.candidates.length > 0 ? "AWAITING_SELECTION" : "SELECTION_REQUIRED",
           candidates: event.candidates.slice(0, 3),
-          ...(event.candidates.length === 0
-            ? { failure: { code: "NO_CANDIDATES", message: "No executable candidates were found" } }
-            : {}),
         },
-        commands: [],
+        commands: [decideCommand(context)],
       };
 
     case "SEARCH_FAILED":
@@ -441,10 +503,10 @@ export const restaurantBookingTaskDefinition: TaskDefinition<
   RestaurantOutcome
 > = {
   type: "restaurant.booking",
-  version: "3",
+  version: "4",
   create() {
     return {
-      schemaVersion: "3",
+      schemaVersion: "4",
       phase: "UNDERSTANDING",
       candidates: [],
       searchRevision: 0,

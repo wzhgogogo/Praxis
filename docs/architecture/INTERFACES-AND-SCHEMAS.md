@@ -1,10 +1,10 @@
 # Interfaces and Schemas
 
 - Status: Accepted
-- Version: 1.5
+- Version: 1.6
 - Last updated: 2026-08-13
 - Source of truth for: 公共接口、DTO、内部Tool、实现状态和版本规则
-- Related ADRs: [ADR Index](../decisions/README.md)
+- Related ADRs: [ADR Index](../decisions/README.md), [ADR-0007](../decisions/0007-semantic-proposal-compiler-and-decision-kernel.md)
 - Related documents: [Task Runtime](TASK-RUNTIME.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md)
 
 接口必须逐项标记状态，不得用局部原型暗示完整API或平台能力已经存在。
@@ -20,6 +20,10 @@
 | Restaurant Intent、Offer、Candidate、Event与Command | `implemented: Fixture Web vertical slice` | [`Restaurant contracts`](../../src/domains/restaurant/contracts.ts) |
 | Restaurant Intent Draft Validator与Eval Harness | `implemented: fixture/replay scoring` | [`src/eval`](../../src/eval/restaurant-intent-eval.ts) |
 | Restaurant Decision typed Patch Contract | `implemented: harness-only` | [`restaurant-decision-patch-contract.ts`](../../src/eval/restaurant-decision-patch-contract.ts)；JSON Schema、Validator与语义Key共同约束不可信模型Proposal，不是生产Task State Schema |
+| Restaurant v15 Semantic Interpreter / Proposal Contract | `implemented: Fixture product path` | ADR-0007边界已替换产品的Fixture Intent Parser路径；真实模型仍只在评测中使用 |
+| Restaurant Semantic Compiler | `implemented: Restaurant product path` | 纯确定性Proposal → `RestaurantIntentPatch` → Domain Event翻译；不建立Core通用Compiler |
+| Restaurant Decision Kernel | `implemented: semantic/search product slice` | 当前产品负责澄清、搜索、候选展示、调整与冲突安全降级；预约后的Decision迁移仍未实现 |
+| `NEED_REINTERPRETATION` | `implemented: reserved safe decision` | 记录语义冲突并询问用户；不自动重解释或改State |
 | Restaurant Intent Parser与受控Real Model Eval Runner | `implemented; 1-case connectivity smoke` | [`intent-parser.ts`](../../src/domains/restaurant/intent-parser.ts)、[`run-restaurant-intent-deepseek-eval.ts`](../../src/eval/run-restaurant-intent-deepseek-eval.ts) |
 | Restaurant `BookingProofBundle`与Completion Verifier | `implemented: Mock vertical slice` | [`booking-verifier.ts`](../../src/domains/restaurant/booking-verifier.ts) |
 | Restaurant Harness Run Artifact | `implemented: mock only` | [`restaurant-harness.ts`](../../src/harness/restaurant-harness.ts) |
@@ -245,6 +249,30 @@ type RestaurantIntentParseResult =
 ```
 
 Parser是Restaurant Domain代码，经注入的`ModelGateway`调用模型。它不写Task State；上层必须根据`PARSED`或`STRUCTURED_FORM`决定下一步。模型输出必须是JSON、`finishReason=STOP`且通过`RestaurantIntentDraft` Validator；无效输出只允许一次受限重试。真实Eval入口还要求`PRAXIS_ALLOW_LIVE_MODEL_EVAL=1`，并可用`PRAXIS_LIVE_MODEL_EVAL_CASE_LIMIT`限制样本数。
+
+## Restaurant v15 semantic boundary
+
+Status: `implemented: Fixture product path`. This replaces `RestaurantIntentParser` in the local and persistent Stage 2A/2B product routes. `RestaurantIntentParser` and the Harness-only v14 typed `statePatch` contract remain separate evaluation paths.
+
+```text
+Semantic Interpreter [LLM]
+→ RestaurantSemanticProposal
+→ RestaurantSemanticProposalContract
+→ RestaurantSemanticCompiler
+→ Domain Event / State Patch
+→ Task Runtime / Reducer
+→ RestaurantDecisionKernel
+```
+
+`RestaurantSemanticProposal` represents only the user's expression in the current turn: target, time, party, location, preference, constraint, correction, negation, confirmation, and optional bounded soft semantic context. It deliberately does not contain `StatePatch`, Event, missing-field calculation, readiness, action routing, Tool input, Authorization, Evidence, or Outcome.
+
+The Proposal Contract is versioned and closed. It validates structure, typed values, allowed semantic roles, and allowed corrections/negations/confirmations. Its successful result means `STRUCTURALLY_VALID`, never `SEMANTICALLY_TRUE`, `USER_CONFIRMED`, or `TRUSTED_EVIDENCE`.
+
+`RestaurantSemanticCompiler` has a versioned deterministic input/output contract. It receives only a valid Proposal and returns a `RestaurantIntentPatch`, wrapped as `SEMANTIC_PROPOSAL_COMPILED`; a contradiction becomes `SEMANTIC_CONFLICT_RECORDED`. It cannot call a model, query live data, evaluate Policy, or invoke a Tool.
+
+`RestaurantDecisionKernel` reads Authoritative State and Trusted Evidence only. It returns one of `ASK_USER`, `SEARCH`, `PRESENT_CANDIDATES`, `PROPOSE_RESERVATION`, `COMPLETE`, `NEED_ADJUSTMENT`, or `NEED_REINTERPRETATION`. In the implemented semantic/search slice it becomes `DECIDE_RESTAURANT_NEXT` followed by `RESTAURANT_DECISION_MADE`; it is not a Tool Call. `NEED_REINTERPRETATION` records the conflict and has no automatic loop. `PROPOSE_RESERVATION` and `COMPLETE` are type-level reserved decisions until the later booking-stage migration.
+
+`Semantic Proposal` is intentionally distinct from the Core `ActionProposal`: the former describes language-level meaning, while the latter represents a potentially side-effecting execution action subject to Policy and Authorization.
 
 ## Adapter
 

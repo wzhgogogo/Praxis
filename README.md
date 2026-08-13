@@ -44,11 +44,11 @@ Praxis 已建立开发前 Source of Truth，后续 planning、coding 和 verific
 
 ## 当前实现
 
-Stage 1已完成最小控制面和Harness，Stage 2A完成本地Fixture Search闭环，Stage 2B现已完成Persistent Agent Shell。英文请求经服务端`RestaurantIntentParser`和PostgreSQL `TaskRuntime`推进；Pilot用户可在Desktop/Mobile Web恢复同一Conversation与Restaurant Case，查看候选、下一步和由权威Event生成的Activity，并通过可重连SSE接收最新Case Snapshot。选择候选后仍停在授权前。
+Stage 1已完成最小控制面和 Harness，Stage 2A完成本地 Fixture Search 闭环，Stage 2B完成 Persistent Agent Shell。当前 Restaurant v15 已将不可信模型输出收敛为明确的受控链路：`Semantic Interpreter → Semantic Proposal Contract → Compiler → Task Runtime / Reducer → Decision Kernel`；LLM 只能提出语义 Proposal，不能直接修改权威 State 或执行外部动作。完整边界与事件流见 [ADR-0007](./docs/decisions/0007-semantic-proposal-compiler-and-decision-kernel.md)。
 
-当前全量自动化基线为138个测试，其中包括17个Progressive Decision Golden Seed Preflight场景、15个Eval-only Reducer/Scorer与Typed Patch Contract场景、18个Evaluator Verification Mutation场景、8个Eval-only Model Contract场景、5个Relative-time Resolver场景和5个Episode Runner场景，以及11个Restaurant Mock Harness场景、20个Runtime嵌入式Postgres集成场景、7个Stage 2B Web/API/SSE场景和Fixture Intent/Search Eval Contract。W01–W05覆盖服务重启恢复、第二设备Session、跨用户拒绝、SSE幂等重连和Conversation不能伪造Outcome；本地In-app Browser已完成1280px Desktop与390px Mobile手动QA。真实DeepSeek已完成1条Intent Connectivity Smoke、六次渐进决策E1/E2/E3 Smoke、两次v6全量Regression、一次v8全量Regression和一次v11全量Regression；这些全部是已暴露Regression上的`DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`，不是质量趋势或Baseline。Prompt v14 / Proposal Schema 4现由独立Restaurant typed Contract约束不可信State Patch；Decision Kernel继续负责Readiness、路由、候选上限和Grounding。当前真实Eval每次会在Git忽略的`.eval-artifacts/restaurant-decision/`生成逐Turn诊断 Markdown，显示期望/实际Patch、状态差异和首错；不保存原始Prompt或自然语言Completion。Progressive Decision clean Holdout Baseline、真实平台、跨浏览器和真实移动设备验证仍未运行。
+当前全量自动化基线为 **147 个测试**，覆盖语义 Proposal Contract、Compiler、Reducer、Decision Kernel、Fixture Harness、嵌入式 PostgreSQL 集成及 Stage 2B Web/API/SSE。v15 另提供真实模型语义回归：`DeepSeek → Interpreter → Contract → Compiler → Runtime/Reducer → Kernel → Fixture Search`；它只验证理解和确定性状态链路，不创建持久任务，也不调用外部写工具。最近连续 10 次 DeepSeek Regression 均为 7/7（合计 70/70）通过，属于已暴露样本的 `DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`，不能作为模型质量趋势或 Clean Holdout Baseline。详细口径、结果与版本注意事项见 [Test Log](./docs/test-log.md) 和 [DevLog](./docs/devlog.md)。
 
-下一步是Stage 2C：先由隔离流程新建并保密一批Holdout，冻结候选Prompt/模型/Schema后一次性运行，防止把当前Regression样本的答案写进Prompt而误判为质量提升。只有`CLEAN_HOLDOUT`可建立Progressive Decision真实模型Baseline；一旦查看并据此调优，就降级为Regression并换用新的Holdout。随后才核验并接入一个真实只读Discovery来源。Stage 2D才选择一个经过能力验证的只读Availability路径。跨Domain Registry、自动激活和更多合成Runtime能力暂不扩建。
+Pilot 用户可在 Desktop/Mobile Web 恢复同一 Conversation 与 Restaurant Case，查看候选、下一步和由权威 Event 生成的 Activity，并通过可重连 SSE 接收最新 Case Snapshot。选择候选后仍停在授权前。真实平台、跨浏览器和真实移动设备验证仍未运行；下一步的真实模型质量结论必须来自冻结模型、Prompt 与 Schema 后的新建 `CLEAN_HOLDOUT`，而非本回归集。
 
 生产数据库Adapter使用`pg`；PGlite用于快速嵌入式数据库集成验证，不能替代真实PostgreSQL。2026-08-07已在隔离本机PostgreSQL 17数据库上通过真实Smoke，覆盖Runtime、迁移、Goal/Task Graph和Scheduler；后续可对专用测试库显式运行：
 
@@ -68,7 +68,7 @@ npm run test:postgres:live
 cp -n .env.example .env
 ```
 
-`.env`被Git忽略，浏览器不会读取其中变量；只有`npm run dev`、`npm run eval:intent:deepseek`和`npm run test:postgres:live`会以Node原生方式加载它。`npm test`、构建、Fixture Eval和Decision Seed Preflight不会加载`.env`，因此不会意外使用真实Key或触发付费模型请求。
+`.env`被Git忽略，浏览器不会读取其中变量；只有`npm run dev`、真实模型 Eval（包括`npm run eval:semantic:deepseek`与`npm run eval:intent:deepseek`）和`npm run test:postgres:live`会以Node原生方式加载它。`npm test`、构建、Fixture Eval和Decision Seed Preflight不会加载`.env`，因此不会意外使用真实Key或触发付费模型请求。
 
 ```bash
 npm install
@@ -88,9 +88,10 @@ npm run dev
 
 然后在浏览器打开`http://127.0.0.1:3000`，使用本地Fixture Token `praxis-fixture-a`。可通过服务端`PRAXIS_PILOT_ACCESS_JSON`覆盖Pilot用户列表；不要把真实Secret放进前端。页面清楚标记为`Fixture mode`，它不是Live Search、生产身份或预约演示。
 
-`eval:intent:fixture`验证固定数据集、Schema和计分器，输出`mode: FIXTURE`，不代表真实模型质量。`eval:intent:deepseek`会复用同一数据集；在`.env`配置服务端`DEEPSEEK_API_KEY`、`DEEPSEEK_MODEL`后，只有把`PRAXIS_ALLOW_LIVE_MODEL_EVAL`显式改为`1`才会发起付费网络请求。建议先将`PRAXIS_LIVE_MODEL_EVAL_CASE_LIMIT`设为`1`控制成本，然后运行：
+`eval:semantic:deepseek`是 v15 主链的真实语义 Regression：它验证 `Semantic Interpreter → Contract → Compiler → Runtime/Reducer → Kernel → Fixture Search`，不创建持久任务或外部副作用。`eval:intent:fixture`与`eval:intent:deepseek`保留为旧 Intent Parser 的 Eval/连通性工具，不代表 v15 产品路径。在`.env`配置服务端`DEEPSEEK_API_KEY`、`DEEPSEEK_MODEL`后，只有把`PRAXIS_ALLOW_LIVE_MODEL_EVAL`显式改为`1`才会发起付费网络请求。建议先将`PRAXIS_LIVE_MODEL_EVAL_CASE_LIMIT`设为`1`控制成本，然后运行：
 
 ```bash
+npm run eval:semantic:deepseek
 npm run eval:intent:deepseek
 ```
 

@@ -224,7 +224,9 @@ test("W02 resumes the same case from a second mobile-web session", async () => {
         mobileCookie,
         `/api/cases/${encodeURIComponent(created.case.caseId)}`,
       );
-      assert.equal((resumed.payload.view as RestaurantCaseView).case.taskVersion, 2);
+      // A complete Fixture request records Proposal, SEARCH decision, search observation and
+      // candidate-presentation decision; version numbers reflect authoritative transitions.
+      assert.equal((resumed.payload.view as RestaurantCaseView).case.taskVersion, 4);
     } finally {
       await running.close();
     }

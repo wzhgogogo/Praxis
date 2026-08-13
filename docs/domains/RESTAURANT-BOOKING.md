@@ -1,21 +1,33 @@
 # Restaurant Booking Domain
 
 - Status: Accepted
-- Version: 0.7
-- Last updated: 2026-08-10
+- Version: 0.8
+- Last updated: 2026-08-13
 - Source of truth for: 餐厅预约Domain模型、状态、搜索和完成条件
-- Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md)
+- Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0007](../decisions/0007-semantic-proposal-compiler-and-decision-kernel.md)
 - Related documents: [MVP PRD](../product/MVP-PRD.md), [User Flows](../product/USER-FLOWS.md), [Policy & Execution](../architecture/POLICY-EXECUTION-VERIFICATION.md), [Data, Context & Security](../architecture/DATA-CONTEXT-SECURITY.md), [Search Service](../architecture/SEARCH-SERVICE.md)
 
 ## Implementation Status
 
-Restaurant Mock预约切片已实现完整Intent之后的流程：`SEARCHING → AWAITING_SELECTION → REVALIDATING → AWAITING_AUTHORIZATION → EXECUTING → VERIFYING`，并覆盖`BOOKED_VERIFIED`、`SELECTION_REQUIRED`与`OUTCOME_UNKNOWN`。当前State Schema为`3`；Pilot前没有真实Task数据，旧Schema迁移路径已经删除。
+Restaurant Mock预约切片已实现完整Intent之后的流程：`SEARCHING → AWAITING_SELECTION → REVALIDATING → AWAITING_AUTHORIZATION → EXECUTING → VERIFYING`，并覆盖`BOOKED_VERIFIED`、`SELECTION_REQUIRED`与`OUTCOME_UNKNOWN`。当前State Schema为`4`；Pilot前没有真实Task数据，旧Schema迁移路径已经删除。
 
-Stage 2A已实现自然语言入口和本地Web路径：`UNDERSTANDING → NEEDS_INPUT | SEARCHING → AWAITING_SELECTION`。服务端使用同一`RestaurantIntentParser`，但注入Local-only的Fixture ModelGateway；其输出仍须通过JSON、`finish_reason=STOP`与Domain Schema，之后才作为`INTENT_PARSED` Event写入Task Runtime。完整Intent由Fixture Search返回三个Fixture候选；用户选择后只完成Fixture revalidation，并停在`AWAITING_AUTHORIZATION`。本路径没有真实模型、搜索、空位、Authorization或预约。
+Stage 2A已实现自然语言入口和本地Web路径：`UNDERSTANDING → NEEDS_INPUT | SEARCHING → AWAITING_SELECTION`。服务端注入Local-only Fixture ModelGateway到`RestaurantSemanticInterpreter`；其Proposal须通过JSON、`finish_reason=STOP`和封闭的Semantic Proposal Contract，再由纯Restaurant Compiler产生`SEMANTIC_PROPOSAL_COMPILED`或`SEMANTIC_CONFLICT_RECORDED` Event。Reducer推导`missingRequiredFields`，Decision Kernel通过`DECIDE_RESTAURANT_NEXT`决定澄清、搜索、候选展示、无候选调整或安全的`NEED_REINTERPRETATION`。完整Intent由Fixture Search返回三个Fixture候选；用户选择后只完成Fixture revalidation，并停在`AWAITING_AUTHORIZATION`。本路径没有真实模型、搜索、空位、Authorization或预约。
+
+ADR-0007已固定v15产品目标。其Semantic Interpreter、Semantic Proposal Contract、Restaurant Semantic Compiler和语义/搜索Decision Kernel已在Fixture产品路径实现；Harness-only v14 `statePatch` Contract仍不接入产品Task State。预约阶段的`PROPOSE_RESERVATION`与`COMPLETE`尚未迁移到Kernel命令，继续沿用既有确定性状态机。
 
 真实Search Source、Availability、Request Booking、Human Takeover、取消、变更与路线仍为`proposed`。当前本地代码见 [`Restaurant Task Definition`](../../src/domains/restaurant/task-definition.ts)、[`Local Search Application`](../../src/application/local-restaurant-search.ts) 和 [`Local Web Server`](../../src/server/local-web-server.ts)。
 
-## Intent
+## v15 Semantic Proposal, Compiler and Decision Kernel
+
+Restaurant是Semantic Proposal与Compiler的唯一当前真实使用者。Semantic Interpreter只描述用户本轮表达的`target`、`time`、`party`、`location`、`preference`、`constraint`、`correction`、`negation`、`confirmation`和可选受控soft semantic context；它不输出`StatePatch`、Event、Readiness、Tool input或Outcome。
+
+Restaurant Semantic Proposal Contract只验证这些表达的结构与Domain词表。通过校验不证明模型正确理解用户，也不是用户确认或可信外部事实。Restaurant Semantic Compiler是纯确定性Domain代码，负责将合法Proposal翻译成可由Task Runtime处理的Restaurant Event或State Patch。它不得调用模型、读取实时平台数据、决定Authorization或调用Adapter。
+
+Reducer继续以`Old State + Event → New Authoritative State`维护权威事实。Restaurant Decision Kernel只基于该State与Trusted Evidence返回`ASK_USER`、`SEARCH`、`PRESENT_CANDIDATES`、`PROPOSE_RESERVATION`、`COMPLETE`、`NEED_ADJUSTMENT`或`NEED_REINTERPRETATION`。后一项是v15预留Decision，不是新的State：初始行为仅记录conflict并请求用户澄清或走安全降级，不会自动重新解释、覆盖State或触发Tool。
+
+任何LLM对结果的解释、澄清问题或条件调整建议都不是Semantic Proposal的替代品。建议必须由用户在新消息中明确确认或修改，才能再次进入正式的Interpreter → Contract → Compiler链。
+
+## Current fixture Intent
 
 ```ts
 type RestaurantBookingIntent = {
@@ -85,7 +97,7 @@ type ExecutableCandidate = {
 
 ## Domain State
 
-完整MVP目标状态如下；并非全部已经实现：
+完整MVP目标状态如下；并非全部已经实现。`NEED_REINTERPRETATION`是Decision Kernel结果而非Domain State，不加入此状态机：
 
 ```text
 UNDERSTANDING

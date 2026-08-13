@@ -50,7 +50,15 @@ Prompt v12 / Schema 3不再要求模型决定Readiness、动作、候选数量�
 
 Prompt v13保持Schema 3不变，只修改State Patch语义Contract：可协商的餐厅属性才进入Preference；时间、人数、地点、移动意愿和Target进入各自字段；明确不可妥协的饮食、过敏、无障碍、环境或安全要求进入Hard Constraint；用户接受一个会话中提出的地点时必须更新Location。静态Prompt不得包含当前Regression实体或原句。v13尚未运行真实模型。
 
-Prompt v14 / Proposal Schema 4 / Golden Schema 3将结构约束移入Restaurant-owned typed Contract：模型直接提出不可信`statePatch`，共享JSON Schema/Validator通过后Reducer才合并；Preference为`facet + value + polarity`，禁烟和严重过敏为判别联合类型。Kernel职责不变。不要为了新错误继续扩写Prompt，也不要无证据增加Semantic Proposal编译器、通用Ontology或Workflow层；先判断问题属于语义理解、Contract表达、确定性Policy还是Fixture/Search输入。Golden v0.10已完成破坏性迁移，不保留旧字符串数组兼容路径。v14尚未调用真实模型；任何真实运行仍需单独明确授权并只能作为已暴露Regression诊断。
+Prompt v14 / Proposal Schema 4 / Golden Schema 3将结构约束移入Restaurant-owned typed Contract：模型直接提出不可信`statePatch`，共享JSON Schema/Validator通过后Reducer才合并；Preference为`facet + value + polarity`，禁烟和严重过敏为判别联合类型。Kernel职责不变。它仍是Harness-only路径。ADR-0007已接受Restaurant Semantic Proposal与Semantic Compiler为v15产品目标，因此不要再以“没有Compiler”为理由维持旧产品路径；也不得将该Restaurant边界泛化为通用Ontology或Workflow层。评测应先判断失败属于语义理解、Proposal Contract、Compiler、Reducer、Decision Kernel、Fixture/Search输入或Provider。Golden v0.10已完成破坏性迁移，不保留旧字符串数组兼容路径。v14尚未调用真实模型；任何真实运行仍需单独明确授权并只能作为已暴露Regression诊断。
+
+v15产品语义链有独立的静态Regression入口，不复用上述v14 `statePatch` Runner：
+
+```bash
+PRAXIS_ALLOW_LIVE_MODEL_EVAL=1 PRAXIS_LIVE_MODEL_EVAL_CASE_LIMIT=7 npm run eval:semantic:deepseek
+```
+
+它调用`RestaurantSemanticInterpreter`，再按`Semantic Proposal Contract → Restaurant Semantic Compiler → In-memory Task Runtime/Reducer → Restaurant Decision Kernel`评测7个回合：完整请求、增量补全、修正、否定与命名目标。它只使用静态用户文本、内存Runtime和Fixture Search，不创建持久化Task、不触发真实Discovery/Availability/预约。报告分开标记`SEMANTIC_PROPOSAL_CONTRACT`、`COMPILER`、`SEMANTIC_RESULT`、`DECISION_KERNEL`和`RUNTIME`首错；`SEMANTIC_RESULT`比较编译后的权威Draft而非要求模型复述内部Patch。2026-08-13在补齐所有`value.kind`精确JSON形状后的Prompt内容上运行10次，共70个回合全通过、0次结构重试、0次Provider失败；输入39,290、输出6,990 Token，累计模型延迟125,360ms。该集合及其结果均为`DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`，不能与v14或未来Holdout混报。初次预调试的同一新链在缺少这些精确值形状提示时出现Contract失败；该次不计入10次矩阵。Prompt内容随后升为v2；10次请求的遥测标识仍为v1，因版本号修正晚于调用，未被宣称为可复现的v2 Baseline。
 
 当前S1/S2对显式批准的餐厅类别别名作语义等价：`western food`/`western`、`japanese food`/`japanese`以及`izakaya`的任意大小写。该规则只用于`CATEGORY`目标和`CUISINE`偏好比较；不改写Gold、模型原文、生产状态或模型输入。别名表以外的值继续严格失败，不能用模糊匹配掩盖语义错误。地点比较只限v9列出的结构化规则；店名与安全约束仍严格。
 

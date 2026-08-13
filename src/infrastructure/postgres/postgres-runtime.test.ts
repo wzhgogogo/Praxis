@@ -34,6 +34,7 @@ import {
   fixtureIntent,
 } from "../../harness/restaurant-fixtures.js";
 import { restaurantBookingTaskDefinition } from "../../domains/restaurant/task-definition.js";
+import type { RestaurantIntentPatch } from "../../domains/restaurant/contracts.js";
 import { restaurantRecoveryEventFactory } from "../../domains/restaurant/recovery.js";
 import { applyPostgresMigrations } from "./migrations.js";
 import { PostgresCommandOutbox } from "./postgres-command-outbox.js";
@@ -60,6 +61,16 @@ type TestCommand =
 
 type TestEventEnvelope<Event extends DomainEvent> = Omit<EventEnvelope<Event>, "trace"> & {
   trace?: TraceMetadata;
+};
+
+const fixtureSemanticPatch: RestaurantIntentPatch = {
+  schemaVersion: "1",
+  date: fixtureIntent.date,
+  timeWindow: fixtureIntent.timeWindow,
+  partySize: fixtureIntent.partySize,
+  area: { query: fixtureIntent.area.query },
+  addCuisines: fixtureIntent.cuisines,
+  ...(fixtureIntent.budgetPerPerson ? { budgetPerPerson: fixtureIntent.budgetPerPerson } : {}),
 };
 
 const definition: TaskDefinition<TestState, TestEvent, TestCommand, number | null> = {
@@ -605,11 +616,20 @@ describe("PostgresTaskRuntime with PGlite", () => {
         id: "restaurant-event-1",
         taskId: "restaurant-task-1",
         event: {
-          type: "INTENT_PARSED",
-          draft: { schemaVersion: "1", ...fixtureIntent },
+          type: "SEMANTIC_PROPOSAL_COMPILED",
+          patch: fixtureSemanticPatch,
         },
         occurredAt: clock.now().toISOString(),
       });
+      await firstRuntime.dispatch(
+        {
+          id: "restaurant-event-2",
+          taskId: "restaurant-task-1",
+          event: { type: "RESTAURANT_DECISION_MADE", decision: { type: "SEARCH" } },
+          occurredAt: clock.now().toISOString(),
+        },
+        1,
+      );
 
       let secondSequence = 0;
       const restartedRuntime = withTestTrace(new PostgresTaskRuntime(
@@ -623,16 +643,16 @@ describe("PostgresTaskRuntime with PGlite", () => {
         id: "restaurant-event-1",
         taskId: "restaurant-task-1",
         event: {
-          type: "INTENT_PARSED",
-          draft: { schemaVersion: "1", ...fixtureIntent },
+          type: "SEMANTIC_PROPOSAL_COMPILED",
+          patch: fixtureSemanticPatch,
         },
         occurredAt: clock.now().toISOString(),
       });
 
       assert.equal(restored.runId, "restaurant-run-1");
-      assert.equal(restored.domainState.schemaVersion, "3");
+      assert.equal(restored.domainState.schemaVersion, "4");
       assert.equal(restored.domainState.phase, "SEARCHING");
-      assert.equal(restored.version, 1);
+      assert.equal(restored.version, 2);
       assert.equal(duplicate.duplicateEvent, true);
       assert.equal(duplicate.commands.length, 0);
     });
@@ -658,11 +678,20 @@ describe("PostgresTaskRuntime with PGlite", () => {
         id: "restaurant-recovery-start",
         taskId: "restaurant-recovery-1",
         event: {
-          type: "INTENT_PARSED",
-          draft: { schemaVersion: "1", ...fixtureIntent },
+          type: "SEMANTIC_PROPOSAL_COMPILED",
+          patch: fixtureSemanticPatch,
         },
         occurredAt: clock.now().toISOString(),
       });
+      await runtime.dispatch(
+        {
+          id: "restaurant-recovery-decision-search",
+          taskId: "restaurant-recovery-1",
+          event: { type: "RESTAURANT_DECISION_MADE", decision: { type: "SEARCH" } },
+          occurredAt: clock.now().toISOString(),
+        },
+        1,
+      );
       await runtime.dispatch(
         {
           id: "restaurant-recovery-search",
@@ -670,7 +699,16 @@ describe("PostgresTaskRuntime with PGlite", () => {
           event: { type: "SEARCH_COMPLETED", candidates: fixtureCandidates },
           occurredAt: clock.now().toISOString(),
         },
-        1,
+        2,
+      );
+      await runtime.dispatch(
+        {
+          id: "restaurant-recovery-decision-present",
+          taskId: "restaurant-recovery-1",
+          event: { type: "RESTAURANT_DECISION_MADE", decision: { type: "PRESENT_CANDIDATES" } },
+          occurredAt: clock.now().toISOString(),
+        },
+        3,
       );
       await runtime.dispatch(
         {
@@ -679,7 +717,7 @@ describe("PostgresTaskRuntime with PGlite", () => {
           event: { type: "SELECT_CANDIDATE", candidateId: fixtureCandidates[0]!.restaurant.id },
           occurredAt: clock.now().toISOString(),
         },
-        2,
+        4,
       );
       await runtime.dispatch(
         {
@@ -688,7 +726,7 @@ describe("PostgresTaskRuntime with PGlite", () => {
           event: { type: "OFFER_REVALIDATED", candidate: fixtureCandidates[0]! },
           occurredAt: clock.now().toISOString(),
         },
-        3,
+        5,
       );
       const awaitingAuthorization = await runtime.snapshot("restaurant-recovery-1");
       const proposal = awaitingAuthorization.domainState.proposal;
@@ -709,7 +747,7 @@ describe("PostgresTaskRuntime with PGlite", () => {
           },
           occurredAt: clock.now().toISOString(),
         },
-        4,
+        6,
       );
       const approved = await runtime.dispatch(
         {
@@ -718,7 +756,7 @@ describe("PostgresTaskRuntime with PGlite", () => {
           event: { type: "POLICY_APPROVED" },
           occurredAt: clock.now().toISOString(),
         },
-        5,
+        7,
       );
       const commitCommand = approved.commands.find(
         (command) => command.command.type === "COMMIT_BOOKING",
@@ -761,7 +799,7 @@ describe("PostgresTaskRuntime with PGlite", () => {
       const snapshot = await runtime.snapshot("restaurant-recovery-1");
       assert.equal(snapshot.domainState.phase, "OUTCOME_UNKNOWN");
       assert.equal(snapshot.outcome?.status, "OUTCOME_UNKNOWN");
-      assert.equal(snapshot.version, 7);
+      assert.equal(snapshot.version, 9);
       assert.deepEqual(await coordinator.runOnce("recovery-worker"), { status: "IDLE" });
 
       const commands = await runtime.listCommands("restaurant-recovery-1");

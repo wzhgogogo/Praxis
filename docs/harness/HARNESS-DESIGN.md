@@ -1,21 +1,21 @@
 # Harness Design
 
 - Status: Accepted
-- Version: 2.9
+- Version: 3.0
 - Last updated: 2026-08-13
 - Source of truth for: Agent Workspace、Task、Search和Browser的模拟、回放、断言与故障注入
-- Related ADRs: [ADR-0001](../decisions/0001-general-task-runtime.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md)
+- Related ADRs: [ADR-0001](../decisions/0001-general-task-runtime.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0007](../decisions/0007-semantic-proposal-compiler-and-decision-kernel.md)
 - Related documents: [Golden Scenarios](GOLDEN-SCENARIOS.md), [Restaurant Progressive Decision Eval v2](RESTAURANT-DECISION-EVAL-V2.md), [Test Skill](../skills/test/SKILL.md)
 
 ## Implementation Status
 
 `mock`模式的Restaurant Task Harness已实现：Fake Clock、Mock Search/Availability/Execution/Verification、Command自动派发、Side Effect Ledger、Causal Trace、Booking Proof、Run Artifact和11个启动场景。入口为 [`RestaurantHarness`](../../src/harness/restaurant-harness.ts)。
 
-Stage 2A已实现本地Fixture Search Harness：同一`RestaurantIntentParser`由Fixture ModelGateway驱动，Fixture Search返回三家演示候选，HTTP测试覆盖完整输入、缺信息和候选选择；`npm run eval:search:fixture`断言同一纵向路径。Browser Fixture、Fault Injector、Replay、Live Read-only和Controlled Live-write仍为`proposed`。Recurring Shopping与Long-running Case合成Domain已经实现；Coordination目前只通过Goal Graph场景验证，没有独立状态机。Fixture通过不代表任何真实平台能力已验证。
+Stage 2A已实现本地Fixture Search Harness：`RestaurantSemanticInterpreter`由Fixture ModelGateway驱动，Proposal Contract、Restaurant Compiler、Reducer和产品Decision Kernel依次处理，Fixture Search返回三家演示候选；HTTP测试覆盖完整输入、缺信息和候选选择，`npm run eval:search:fixture`断言同一纵向路径。`RestaurantIntentParser`仅用于旧Fixture/Replay与真实连通性评测。Browser Fixture、Fault Injector、Replay、Live Read-only和Controlled Live-write仍为`proposed`。Recurring Shopping与Long-running Case合成Domain已经实现；Coordination目前只通过Goal Graph场景验证，没有独立状态机。Fixture通过不代表任何真实平台能力已验证。
 
 Stage 2B的Agent Workspace Harness已实现为7个Local HTTP/SSE + PGlite场景：它驱动Pilot用户、Conversation、PostgreSQL Root Task、服务重启、第二个浏览器Session、SSE断线重连和Responsive页面Contract，并断言Projection不成为第二套权威状态。它没有执行真实浏览器视觉或交互测试，因此只证明HTTP/SSE行为和Mobile响应式标记，不证明跨浏览器视觉质量。
 
-Restaurant Progressive Decision Eval v2现为`Draft`计划：当前已实现Dataset/Fixture/Annotation Contract、7个Golden Seed Episode、7个Candidate Pool和S0 Dataset Preflight。Seed v0.10 / Schema 3共17个Turn、29个虚构Candidate和417个Grounding Fact Ref，均已完成人工Gold并通过Draft与Strict Preflight。Eval-only Reducer与S1–S8确定性Scorer已可运行：它按Turn给出首错阶段和`BLOCKED_BY_UPSTREAM`，Fixture Oracle对17个Turn全部通过，S6/S7/S8分别检查固定Eligible集合、检索后选择/多样性与State/Candidate Fact/禁止声明。严重过敏的候选卡还必须输出引用`attributes` Fact的“仍需餐厅确认”结构化披露；这不是生产Consent Card或外部披露。18个S0–S8单点Mutation验证Dataset/Gold Reducer、状态、路由、澄清、检索、Hard Constraint、Fixture多样性缺口和Grounding的稳定首错归因。完整Episode Runner已实现；模型只提交不可信的typed `statePatch`和可选Candidate排序，共享Restaurant Contract模块提供JSON Schema、Validator与语义Key；Eval-only Decision Kernel probe以可信Fixture/Search结果、累计State和Candidate Fact确定Readiness、动作、候选展示上限和Grounding。它没有工具调用、状态写入、Semantic Proposal编译器或Workflow DSL，且Fixture检索充分性不进入模型输入。S1/S2比较仅对受控菜系别名、同query的`AREA`/`NEAR_PLACE`和泛化`FLEXIBLE` scope做确定性等价；不调用真实地图，不判断行政区/车站/地标，也不宽容臆测人数、目标提升或错误动作路由。真实Eval还会为当前静态Regression Fixture生成本机Git忽略的逐TurnMarkdown诊断；Harness不调用真实Discovery，也不把模型输出升级为产品状态。通过Fixture Oracle或Model Contract不代表产品支持多轮决策或真实模型质量。
+Restaurant Progressive Decision Eval v2现为`Draft`计划：当前已实现Dataset/Fixture/Annotation Contract、7个Golden Seed Episode、7个Candidate Pool和S0 Dataset Preflight。Seed v0.10 / Schema 3共17个Turn、29个虚构Candidate和417个Grounding Fact Ref，均已完成人工Gold并通过Draft与Strict Preflight。Eval-only Reducer与S1–S8确定性Scorer已可运行：它按Turn给出首错阶段和`BLOCKED_BY_UPSTREAM`，Fixture Oracle对17个Turn全部通过，S6/S7/S8分别检查固定Eligible集合、检索后选择/多样性与State/Candidate Fact/禁止声明。严重过敏的候选卡还必须输出引用`attributes` Fact的“仍需餐厅确认”结构化披露；这不是生产Consent Card或外部披露。18个S0–S8单点Mutation验证Dataset/Gold Reducer、状态、路由、澄清、检索、Hard Constraint、Fixture多样性缺口和Grounding的稳定首错归因。完整Episode Runner已实现；模型只提交不可信的typed `statePatch`和可选Candidate排序，共享Restaurant Contract模块提供JSON Schema、Validator与语义Key；Eval-only Decision Kernel probe以可信Fixture/Search结果、累计State和Candidate Fact确定Readiness、动作、候选展示上限和Grounding。该Harness路径没有产品Semantic Proposal Compiler或产品Task State写入；ADR-0007已将它们固定为后续v15产品架构，而不是把现有Harness实现误写为已上线。Fixture检索充分性不进入模型输入。S1/S2比较仅对受控菜系别名、同query的`AREA`/`NEAR_PLACE`和泛化`FLEXIBLE` scope做确定性等价；不调用真实地图，不判断行政区/车站/地标，也不宽容臆测人数、目标提升或错误动作路由。真实Eval还会为当前静态Regression Fixture生成本机Git忽略的逐TurnMarkdown诊断；Harness不调用真实Discovery，也不把模型输出升级为产品状态。通过Fixture Oracle或Model Contract不代表产品支持多轮决策或真实模型质量。
 
 当前Prompt版本为v14 / Proposal Schema 4；它保持Decision Kernel职责不变，并把结构约束移入独立的typed Contract。Prompt只说明语义职责、关键边界和最小JSON示例，静态文本不包含Regression实体或原句。
 

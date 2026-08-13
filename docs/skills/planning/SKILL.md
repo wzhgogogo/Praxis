@@ -23,6 +23,7 @@ description: Praxis实现前规划流程；读取Source of Truth，界定Domain�
 Goal
 Current state
 Affected layers
+Semantic interpretation / proposal contract / compiler / reducer / decision-kernel ownership
 State/Event/Command changes
 API/Schema changes
 Policy/Authorization changes
@@ -36,6 +37,15 @@ Documentation updates
 
 - 这是通用Runtime能力还是Domain能力？
 - 模型是否真的必要，普通代码能否可靠完成？
+- 这段输入是用户本轮语义、内部状态操作、Kernel Decision、Runtime Command还是Execution Action？
+- Semantic Interpreter是否只提取用户表达，而没有生成`StatePatch`、Event、Readiness、Action、Tool Call或Outcome？
+- Semantic Proposal的Schema/version、封闭词表、允许的修正/否定/确认表达，以及结构无效和语义冲突的行为是什么？
+- Contract通过是否只代表结构合法？语义正确性将如何独立评测，不能被Schema通过率掩盖？
+- 哪些字段由Interpreter提供，哪些由Compiler确定性生成，哪些由Reducer推导，哪些只可来自Trusted Evidence？
+- Compiler是否为Domain-owned、纯确定性、可Replay代码？它输出哪些Domain Event/State Patch，拒绝哪些Proposal？
+- Decision Kernel是否只读取Authoritative State与Trusted Evidence？它的Decision如何成为Runtime Command而不是直接Tool Call？
+- `NEED_REINTERPRETATION`如何记录冲突、询问用户或安全降级？本切片是否禁止自动重解释和State覆盖？
+- LLM Response/Adjustment是否只提供解释或建议？用户是否必须用新消息确认，才能重新进入正式Proposal链？
 - 新Tool是只读、提议还是副作用？
 - 副作用如何授权、幂等和验证？
 - 提交前失败与提交后不明确如何区分？
@@ -49,7 +59,7 @@ Documentation updates
 
 ## ADR触发
 
-改变模型供应商、单/多Agent、候选授权、部署边界、Runtime/Domain依赖、Outcome权威或关键数据政策时，先新增ADR。局部实现选择无需ADR，但应在Design或Dev Log记录。
+改变模型供应商、Semantic Interpreter/Contract/Compiler/Decision Kernel职责边界、单/多Agent、候选授权、部署边界、Runtime/Domain依赖、Outcome权威或关键数据政策时，先新增ADR。局部实现选择无需ADR，但应在Design或Dev Log记录。
 
 ## 开发就绪标准
 
