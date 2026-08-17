@@ -4,16 +4,19 @@ import { test } from "node:test";
 import { RestaurantSemanticRegressionFixtureInterpreter } from "./fixture-interpreter.js";
 import { restaurantSemanticRegressionV1 } from "./fixtures.js";
 import { runRestaurantSemanticRegression } from "./regression.js";
+import { compileRestaurantSemanticProposal } from "../../domains/restaurant/semantic-compiler.js";
 
 test("v15 semantic regression runs Proposal, Compiler, Runtime/Reducer, and Kernel in order", async () => {
   const interpreter = new RestaurantSemanticRegressionFixtureInterpreter();
 
   const report = await runRestaurantSemanticRegression(interpreter, {
     mode: "FIXTURE",
+    attributionLevel: "DEVELOPMENT_STAGE_ORACLES",
     dataset: restaurantSemanticRegressionV1,
   });
 
   assert.equal(report.status, "COMPLETED");
+  assert.equal(report.attributionLevel, "DEVELOPMENT_STAGE_ORACLES");
   assert.deepEqual(report.summary, {
     totalTurns: 7,
     modelEvaluatedTurns: 7,
@@ -24,4 +27,75 @@ test("v15 semantic regression runs Proposal, Compiler, Runtime/Reducer, and Kern
   assert.deepEqual(report.turns.map((turn) => turn.status), Array(7).fill("PASS"));
   assert.equal(interpreter.inputs[1]?.currentDraft?.partySize, 2);
   assert.equal(interpreter.inputs[1]?.currentDraft?.area?.query, "Shinjuku");
+});
+
+test("development attribution stops at Compiler before Reducer and Kernel", async () => {
+  const report = await runRestaurantSemanticRegression(
+    new RestaurantSemanticRegressionFixtureInterpreter(),
+    {
+      mode: "FIXTURE",
+      attributionLevel: "DEVELOPMENT_STAGE_ORACLES",
+      dataset: {
+        ...restaurantSemanticRegressionV1,
+        sessions: [restaurantSemanticRegressionV1.sessions[3]!],
+      },
+      dependencies: {
+        compile(proposal) {
+          const compiled = compileRestaurantSemanticProposal(proposal);
+          return compiled.status === "COMPILED"
+            ? { status: "COMPILED", patch: { ...compiled.patch, partySize: 99 } }
+            : compiled;
+        },
+      },
+    },
+  );
+  assert.equal(report.turns[0]?.firstFailureStage, "COMPILER");
+});
+
+test("development attribution reaches Kernel only after authoritative Draft matches", async () => {
+  const report = await runRestaurantSemanticRegression(
+    new RestaurantSemanticRegressionFixtureInterpreter(),
+    {
+      mode: "FIXTURE",
+      attributionLevel: "DEVELOPMENT_STAGE_ORACLES",
+      dataset: {
+        ...restaurantSemanticRegressionV1,
+        sessions: [restaurantSemanticRegressionV1.sessions[3]!],
+      },
+      dependencies: {
+        decide: () => ({
+          type: "ASK_USER",
+          missingRequiredFields: ["date"],
+        }),
+      },
+    },
+  );
+  assert.equal(report.turns[0]?.firstFailureStage, "DECISION_KERNEL");
+});
+
+test("invalid model JSON is attributed to Proposal Contract and blocks downstream turns", async () => {
+  const report = await runRestaurantSemanticRegression(
+    {
+      async interpret() {
+        return {
+          status: "INVALID_MODEL_OUTPUT" as const,
+          errors: ["Model response is not valid JSON"],
+          fallback: "STRUCTURED_FORM" as const,
+          attempts: [],
+        };
+      },
+    },
+    {
+      mode: "FIXTURE",
+      attributionLevel: "DEVELOPMENT_STAGE_ORACLES",
+      dataset: {
+        ...restaurantSemanticRegressionV1,
+        sessions: [restaurantSemanticRegressionV1.sessions[0]!],
+      },
+    },
+  );
+
+  assert.equal(report.turns[0]?.firstFailureStage, "SEMANTIC_PROPOSAL_CONTRACT");
+  assert.equal(report.turns[1]?.status, "BLOCKED_BY_UPSTREAM");
+  assert.deepEqual(report.summary.firstFailureStages, { SEMANTIC_PROPOSAL_CONTRACT: 1 });
 });

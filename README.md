@@ -67,6 +67,7 @@ cp -n .env.example .env
 
 ```bash
 npm install
+npm run arch:check
 npm run typecheck
 npm test
 npm run test:probes

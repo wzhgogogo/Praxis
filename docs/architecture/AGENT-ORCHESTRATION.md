@@ -1,8 +1,8 @@
 # Agent Orchestration
 
 - Status: Accepted
-- Version: 3.2
-- Last updated: 2026-08-16
+- Version: 3.3
+- Last updated: 2026-08-17
 - Source of truth for: Agent Workspace中的模型职责、有界Loop、前后台运行与Multi-Agent边界
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md), [ADR-0003](../decisions/0003-single-agent-orchestration.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0007](../decisions/0007-semantic-proposal-compiler-and-decision-kernel.md)
 - Related documents: [Agent Gateway and Workspace](AGENT-GATEWAY-AND-WORKSPACE.md), [Task Runtime](TASK-RUNTIME.md), [Policy & Execution](POLICY-EXECUTION-VERIFICATION.md)
@@ -47,7 +47,7 @@ LLM Response / Adjustment可以解释事实、生成澄清问题或提出非权�
 
 所有模型调用经服务端`ModelGateway`；首个Provider为DeepSeek。每次请求必须声明`taskId`、purpose、promptVersion、outputSchema、timeout和失败行为。Gateway只记录Provider、模型、Prompt/Schema版本、延迟、Token、Provider request ID、状态码和错误码；不记录Prompt或Completion正文。Key只存在服务端Secret。
 
-当前Restaurant Semantic Interpreter固定为非流式JSON、500输出Token、温度0、Thinking关闭，拒绝非`STOP`结果；JSON/Contract无效时最多再尝试一次，Provider失败不在Interpreter内盲重试。Prompt为`v2`，Proposal Schema为`1`。
+当前Restaurant Semantic Interpreter固定为非流式、500输出Token、温度0、Thinking关闭。Domain把完整机器可读Proposal Schema放入通用Model Request；DeepSeek Gateway用Beta strict function作为仅传输结构的强制信封，不注册或执行Runtime Tool。Gateway必须得到唯一匹配的`tool_calls` arguments，本地Proposal Validator仍再次校验；结构合法不代表语义正确。Contract无效时最多再尝试一次，Provider失败不盲重试或降级为自由文本。Prompt仍为`v2`，Proposal Schema仍为`1`。
 
 ## 有界Loop
 

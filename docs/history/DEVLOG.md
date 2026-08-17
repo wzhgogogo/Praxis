@@ -1,13 +1,32 @@
 # Development Log
 
 - Status: Accepted
-- Version: 4.20
-- Last updated: 2026-08-16
+- Version: 4.21
+- Last updated: 2026-08-17
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## 2026-08-17 — v15 architecture cleanup and hardening
+
+### Why
+
+The frozen v15 responsibility chain was sound, but the implementation still sent only a Schema name/version to the model Provider, collapsed some Eval failure stages, persisted derivable readiness, allowed ambiguous collection operations, duplicated Fixture orchestration and mixed durable architecture rules with version-specific procedures.
+
+### Changes
+
+- Added a generic machine-readable Schema payload to `ModelRequest`. Restaurant owns the complete Proposal JSON Schema; DeepSeek translates it to a forced Beta strict-function transport envelope and never executes that envelope as a Tool. Local Domain validation remains mandatory and no free-text fallback was added.
+- Added explicit Eval attribution levels. Exposed Regression uses Proposal/Patch development oracles to distinguish Interpreter, Compiler, Reducer and Kernel; Clean Holdout remains product-semantic and reports only final Draft/Decision precision.
+- Removed stored `missingRequiredFields` from Restaurant Draft and complete Intent, fixed the regular Draft Validator to accept and validate `target`, and made Kernel/projections compute blocking fields from authoritative values.
+- Defined collection operations deterministically: ASSERT adds, CORRECT replaces, NEGATE removes; collection CONFIRM is rejected. Singleton CONFIRM remains a no-state confirmation.
+- Extracted Restaurant-specific message/read-command orchestration, injected Interpreter/Search/Clock into the persistent application, moved the lightweight local search driver under Eval, removed the unreachable legacy Fixture parser branch, and extracted inline Web markup from the HTTP server.
+- Added `npm run arch:check` and reduced Arch Guard to durable authority and dependency boundaries.
+
+### Boundary
+
+ADR-0007 responsibilities, Decision Kernel authority, Semantic Proposal fields/schema version, Prompt version, Restaurant Harness and frozen Goal/Scheduler probes were retained. The private 30-query Holdout was not inspected, used for optimization, or run against DeepSeek. No live Provider, Discovery, Availability or external write was invoked.
 
 ## 2026-08-16 — Remove obsolete v14 and legacy Eval paths
 

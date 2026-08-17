@@ -84,7 +84,7 @@ Accepted ADR
 
 ## 项目 Skills
 
-- [Arch Guard](skills/arch-guard/SKILL.md)
+- [Arch Guard](skills/arch-guard/SKILL.md)：长期依赖、状态权威、执行权限与Outcome边界；版本和Eval细节不在此重复。
 - [Planning](skills/planning/SKILL.md)
 - [Test](skills/test/SKILL.md)
 - [Eval](skills/eval/SKILL.md)

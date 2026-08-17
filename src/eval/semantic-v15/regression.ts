@@ -1,5 +1,6 @@
 import type { RuntimeActor } from "../../core/task-runtime/contracts.js";
 import { InMemoryTaskRuntime } from "../../core/task-runtime/in-memory-task-runtime.js";
+import { isDeepStrictEqual } from "node:util";
 import type {
   RestaurantDecision,
   RestaurantCommand,
@@ -24,6 +25,7 @@ import {
   restaurantSemanticRegressionV1,
 } from "./fixtures.js";
 import { scoreRestaurantSemanticTurn } from "./scorer.js";
+import { restaurantSemanticRegressionProposalFor } from "./stage-oracles.js";
 
 export type RestaurantSemanticRegressionInterpreter = Pick<
   RestaurantSemanticInterpreter,
@@ -34,7 +36,9 @@ export type RestaurantSemanticRegressionFirstFailure =
   | "INPUT"
   | "MODEL_GATEWAY"
   | "SEMANTIC_PROPOSAL_CONTRACT"
+  | "SEMANTIC_INTERPRETER"
   | "COMPILER"
+  | "REDUCER"
   | "SEMANTIC_RESULT"
   | "DECISION_KERNEL"
   | "RUNTIME";
@@ -58,6 +62,7 @@ export interface RestaurantSemanticRegressionReport {
   datasetId: string;
   datasetVersion: string;
   mode: "REAL_MODEL_MOCK_WORLD" | "FIXTURE";
+  attributionLevel: "DEVELOPMENT_STAGE_ORACLES" | "PRODUCT_SEMANTIC_ONLY";
   status: "COMPLETED";
   turns: RestaurantSemanticRegressionTurnResult[];
   summary: {
@@ -83,12 +88,19 @@ export async function runRestaurantSemanticRegression(
   interpreter: RestaurantSemanticRegressionInterpreter,
   input: {
     mode: RestaurantSemanticRegressionReport["mode"];
+    attributionLevel: RestaurantSemanticRegressionReport["attributionLevel"];
     dataset?: RestaurantSemanticRegressionDataset;
+    dependencies?: {
+      compile?: typeof compileRestaurantSemanticProposal;
+      decide?: typeof decideRestaurantNext;
+    };
   },
 ): Promise<RestaurantSemanticRegressionReport> {
   const dataset = input.dataset ?? restaurantSemanticRegressionV1;
   const clock = new FakeClock(dataset.referenceTime);
   const search = new FixtureRestaurantSearch();
+  const compile = input.dependencies?.compile ?? compileRestaurantSemanticProposal;
+  const decide = input.dependencies?.decide ?? decideRestaurantNext;
   const results: RestaurantSemanticRegressionTurnResult[] = [];
   let sequence = 0;
 
@@ -174,7 +186,38 @@ export async function runRestaurantSemanticRegression(
         continue;
       }
 
-      const compiled = compileRestaurantSemanticProposal(interpreted.proposal);
+      const expectedProposal =
+        input.attributionLevel === "DEVELOPMENT_STAGE_ORACLES"
+          ? restaurantSemanticRegressionProposalFor(turn.message)
+          : undefined;
+      if (
+        input.attributionLevel === "DEVELOPMENT_STAGE_ORACLES" &&
+        expectedProposal === undefined
+      ) {
+        throw new Error(`Missing development-stage Proposal oracle for ${turn.id}`);
+      }
+      if (expectedProposal && !isDeepStrictEqual(interpreted.proposal, expectedProposal)) {
+        results.push(
+          result({
+            sessionId: session.id,
+            turnId: turn.id,
+            status: "FAIL",
+            firstFailureStage: "SEMANTIC_INTERPRETER",
+            modelStatus: interpreted.status,
+            errors: ["Semantic Proposal does not match the development-stage interpretation oracle"],
+            proposal: interpreted.proposal,
+          }),
+        );
+        blocked = true;
+        continue;
+      }
+      const compiled = compile(interpreted.proposal);
+      const expectedCompilation = expectedProposal
+        ? compileRestaurantSemanticProposal(expectedProposal)
+        : undefined;
+      if (expectedCompilation?.status === "CONFLICT") {
+        throw new Error(`Development-stage Proposal oracle conflicts for ${turn.id}`);
+      }
       if (compiled.status === "CONFLICT") {
         dispatch({ type: "SEMANTIC_CONFLICT_RECORDED", conflict: compiled.conflict }, "MODEL");
         results.push(
@@ -186,6 +229,25 @@ export async function runRestaurantSemanticRegression(
             modelStatus: interpreted.status,
             errors: [compiled.conflict.message],
             proposal: interpreted.proposal,
+          }),
+        );
+        blocked = true;
+        continue;
+      }
+      if (
+        expectedCompilation?.status === "COMPILED" &&
+        !isDeepStrictEqual(compiled.patch, expectedCompilation.patch)
+      ) {
+        results.push(
+          result({
+            sessionId: session.id,
+            turnId: turn.id,
+            status: "FAIL",
+            firstFailureStage: "COMPILER",
+            modelStatus: interpreted.status,
+            errors: ["Compiled patch does not match the deterministic development-stage oracle"],
+            proposal: interpreted.proposal,
+            compiledPatch: compiled.patch,
           }),
         );
         blocked = true;
@@ -220,8 +282,14 @@ export async function runRestaurantSemanticRegression(
         continue;
       }
 
-      const decision = decideRestaurantNext(compiledState);
+      const decision = decide(compiledState);
       const score = scoreRestaurantSemanticTurn({
+        actualProposal: interpreted.proposal,
+        ...(expectedProposal ? { expectedProposal } : {}),
+        actualCompiledPatch: compiled.patch,
+        ...(expectedCompilation?.status === "COMPILED"
+          ? { expectedCompiledPatch: expectedCompilation.patch }
+          : {}),
         actualDraft: compiledState.intentDraft,
         expectedDraft: turn.expectedDraft,
         actualDecision: decision,
@@ -272,7 +340,7 @@ export async function runRestaurantSemanticRegression(
             { type: "SEARCH_COMPLETED", candidates: await search.search(searching.intent) },
             "ADAPTER",
           );
-          const presentCandidates = decideRestaurantNext(runtime.snapshot(taskId).domainState);
+          const presentCandidates = decide(runtime.snapshot(taskId).domainState);
           if (presentCandidates.type !== "PRESENT_CANDIDATES") {
             throw new Error("Fixture search did not lead to PRESENT_CANDIDATES");
           }
@@ -322,6 +390,7 @@ export async function runRestaurantSemanticRegression(
     datasetId: dataset.id,
     datasetVersion: dataset.version,
     mode: input.mode,
+    attributionLevel: input.attributionLevel,
     status: "COMPLETED",
     turns: results,
     summary: {

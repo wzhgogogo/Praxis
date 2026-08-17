@@ -9,6 +9,7 @@ description: Praxis改动后验证与归档；按范围运行检查并同步架�
 
 ```bash
 npm run typecheck
+npm run arch:check
 npm test
 npm run build
 ```

@@ -28,9 +28,7 @@ export interface RestaurantSemanticRegressionDataset {
 }
 
 function draft(
-  input: Omit<RestaurantIntentDraft, "schemaVersion" | "timezone" | "missingRequiredFields"> & {
-    missingRequiredFields: RestaurantIntentDraft["missingRequiredFields"];
-  },
+  input: Omit<RestaurantIntentDraft, "schemaVersion" | "timezone">,
 ): RestaurantIntentDraft {
   return {
     schemaVersion: "1",
@@ -65,7 +63,6 @@ export const restaurantSemanticRegressionV1: RestaurantSemanticRegressionDataset
             budgetPerPerson: { max: 5000, currency: "JPY" },
             hardConstraints: [],
             softPreferences: [],
-            missingRequiredFields: [],
           }),
           expectedDecision: { type: "SEARCH" },
         },
@@ -81,7 +78,6 @@ export const restaurantSemanticRegressionV1: RestaurantSemanticRegressionDataset
             budgetPerPerson: { max: 5000, currency: "JPY" },
             hardConstraints: [],
             softPreferences: [],
-            missingRequiredFields: [],
           }),
           expectedDecision: { type: "SEARCH" },
         },
@@ -99,7 +95,6 @@ export const restaurantSemanticRegressionV1: RestaurantSemanticRegressionDataset
             cuisines: [],
             hardConstraints: [],
             softPreferences: [],
-            missingRequiredFields: ["date", "timeWindow"],
           }),
           expectedDecision: { type: "ASK_USER", missingRequiredFields: ["date", "timeWindow"] },
         },
@@ -114,7 +109,6 @@ export const restaurantSemanticRegressionV1: RestaurantSemanticRegressionDataset
             cuisines: [],
             hardConstraints: [],
             softPreferences: [],
-            missingRequiredFields: [],
           }),
           expectedDecision: { type: "SEARCH" },
         },
@@ -131,7 +125,6 @@ export const restaurantSemanticRegressionV1: RestaurantSemanticRegressionDataset
             cuisines: [],
             hardConstraints: [],
             softPreferences: [],
-            missingRequiredFields: ["date", "timeWindow", "partySize", "area"],
           }),
           expectedDecision: {
             type: "ASK_USER",
@@ -150,7 +143,6 @@ export const restaurantSemanticRegressionV1: RestaurantSemanticRegressionDataset
             cuisines: [],
             hardConstraints: [],
             softPreferences: [],
-            missingRequiredFields: [],
           }),
           expectedDecision: { type: "SEARCH" },
         },
@@ -170,7 +162,6 @@ export const restaurantSemanticRegressionV1: RestaurantSemanticRegressionDataset
             cuisines: ["Japanese"],
             hardConstraints: [],
             softPreferences: [],
-            missingRequiredFields: [],
           }),
           expectedDecision: { type: "SEARCH" },
         },

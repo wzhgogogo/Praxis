@@ -3,7 +3,7 @@ import { test } from "node:test";
 
 import type { RestaurantTaskState } from "./contracts.js";
 import { decideRestaurantNext } from "./decision-kernel.js";
-import { applyRestaurantIntentPatch } from "./intent-state.js";
+import { applyRestaurantIntentPatch, missingBlockingFields } from "./intent-state.js";
 
 const incompleteState: RestaurantTaskState = {
   schemaVersion: "4",
@@ -27,8 +27,8 @@ test("Reducer derives missing fields and accumulates a correction deterministica
     removeCuisines: ["yakiniku"],
   });
 
-  assert.deepEqual(first.missingRequiredFields, ["timeWindow", "area"]);
-  assert.deepEqual(corrected.missingRequiredFields, []);
+  assert.deepEqual(missingBlockingFields(first), ["timeWindow", "area"]);
+  assert.deepEqual(missingBlockingFields(corrected), []);
   assert.equal(corrected.partySize, 3);
   assert.equal(corrected.area?.query, "Shibuya");
   assert.deepEqual(corrected.cuisines, []);
@@ -50,6 +50,15 @@ test("Decision Kernel derives a safe clarification, search, and v15 re-interpret
   assert.deepEqual(
     decideRestaurantNext({ ...incompleteState, phase: "NEEDS_INPUT", intentDraft: completeDraft }),
     { type: "SEARCH" },
+  );
+  const removedArea = applyRestaurantIntentPatch(completeDraft, {
+    schemaVersion: "1",
+    area: null,
+  });
+  assert.deepEqual(missingBlockingFields(removedArea), ["area"]);
+  assert.deepEqual(
+    decideRestaurantNext({ ...incompleteState, phase: "NEEDS_INPUT", intentDraft: removedArea }),
+    { type: "ASK_USER", missingRequiredFields: ["area"] },
   );
 
   const conflictState: RestaurantTaskState = {

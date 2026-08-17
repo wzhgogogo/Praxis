@@ -1,19 +1,22 @@
-import { StaleTaskVersionError } from "../core/task-runtime/errors.js";
-import type { CommandEnvelope, TaskSnapshot } from "../core/task-runtime/contracts.js";
-import { InMemoryTaskRuntime } from "../core/task-runtime/in-memory-task-runtime.js";
-import { decideRestaurantNext } from "../domains/restaurant/decision-kernel.js";
-import { compileRestaurantSemanticProposal } from "../domains/restaurant/semantic-compiler.js";
-import { RestaurantSemanticInterpreter } from "../domains/restaurant/semantic-interpreter.js";
-import { restaurantBookingTaskDefinition } from "../domains/restaurant/task-definition.js";
+import { StaleTaskVersionError } from "../../core/task-runtime/errors.js";
+import type { CommandEnvelope, TaskSnapshot } from "../../core/task-runtime/contracts.js";
+import { InMemoryTaskRuntime } from "../../core/task-runtime/in-memory-task-runtime.js";
+import { RestaurantSemanticInterpreter } from "../../domains/restaurant/semantic-interpreter.js";
+import { restaurantBookingTaskDefinition } from "../../domains/restaurant/task-definition.js";
+import { missingBlockingFields } from "../../domains/restaurant/intent-state.js";
 import type {
   ExecutableCandidate,
   RestaurantCommand,
   RestaurantEvent,
   RestaurantOutcome,
   RestaurantTaskState,
-} from "../domains/restaurant/contracts.js";
-import { FixtureModelGateway } from "../infrastructure/fixture/fixture-model-gateway.js";
-import { FixtureRestaurantSearch } from "../infrastructure/fixture/fixture-restaurant-search.js";
+} from "../../domains/restaurant/contracts.js";
+import { FixtureModelGateway } from "../../infrastructure/fixture/fixture-model-gateway.js";
+import { FixtureRestaurantSearch } from "../../infrastructure/fixture/fixture-restaurant-search.js";
+import {
+  executeRestaurantReadCommand,
+  restaurantEventForMessage,
+} from "../../application/restaurant-orchestration.js";
 
 export const LOCAL_FIXTURE_MODE = "FIXTURE" as const;
 
@@ -48,7 +51,7 @@ function view(snapshot: TaskSnapshot<RestaurantTaskState, RestaurantOutcome>): L
     taskId: snapshot.id,
     taskVersion: snapshot.version,
     phase: snapshot.domainState.phase,
-    missingRequiredFields: [...(snapshot.domainState.intentDraft?.missingRequiredFields ?? [])],
+    missingRequiredFields: missingBlockingFields(snapshot.domainState.intentDraft ?? {}),
     candidates: structuredClone(snapshot.domainState.candidates),
     ...(snapshot.domainState.selectedCandidateId
       ? { selectedCandidateId: snapshot.domainState.selectedCandidateId }
@@ -58,7 +61,7 @@ function view(snapshot: TaskSnapshot<RestaurantTaskState, RestaurantOutcome>): L
   };
 }
 
-export class LocalRestaurantSearchApplication {
+export class FixtureRestaurantSearchApplication {
   private readonly runtime: LocalRuntime;
   private readonly interpreter = new RestaurantSemanticInterpreter(new FixtureModelGateway());
   private readonly search = new FixtureRestaurantSearch();
@@ -89,7 +92,7 @@ export class LocalRestaurantSearchApplication {
     if (snapshot.version !== expectedVersion) {
       throw new StaleTaskVersionError(expectedVersion, snapshot.version);
     }
-    const interpreted = await this.interpreter.interpret({
+    const event = await restaurantEventForMessage(this.interpreter, {
       taskId,
       message,
       referenceTime: "2026-08-05T09:00:00+09:00",
@@ -98,14 +101,6 @@ export class LocalRestaurantSearchApplication {
         ? { currentDraft: snapshot.domainState.intentDraft }
         : {}),
     });
-    if (interpreted.status !== "PROPOSED") {
-      throw new Error(`Fixture semantic interpreter did not produce a proposal: ${interpreted.status}`);
-    }
-    const compilation = compileRestaurantSemanticProposal(interpreted.proposal);
-    const event: RestaurantEvent =
-      compilation.status === "COMPILED"
-        ? { type: "SEMANTIC_PROPOSAL_COMPILED", patch: compilation.patch }
-        : { type: "SEMANTIC_CONFLICT_RECORDED", conflict: compilation.conflict };
     const result = this.runtime.dispatch(
       this.userEvent(taskId, event),
       expectedVersion,
@@ -162,33 +157,11 @@ export class LocalRestaurantSearchApplication {
       if (!command) {
         continue;
       }
-      let event: RestaurantEvent;
-      let actor: "SYSTEM" | "ADAPTER";
-      switch (command.command.type) {
-        case "DECIDE_RESTAURANT_NEXT":
-          event = {
-            type: "RESTAURANT_DECISION_MADE",
-            decision: decideRestaurantNext(this.requireTask(command.taskId).domainState),
-          };
-          actor = "SYSTEM";
-          break;
-        case "SEARCH_RESTAURANTS":
-          event = {
-            type: "SEARCH_COMPLETED",
-            candidates: await this.search.search(command.command.intent),
-          };
-          actor = "ADAPTER";
-          break;
-        case "REVALIDATE_OFFER":
-          event = {
-            type: "OFFER_REVALIDATED",
-            candidate: await this.search.revalidate(command.command.candidate),
-          };
-          actor = "ADAPTER";
-          break;
-        default:
-          throw new Error(`Stage 2A cannot execute ${command.command.type}`);
-      }
+      const { event, actor } = await executeRestaurantReadCommand(
+        command.command,
+        this.requireTask(command.taskId).domainState,
+        this.search,
+      );
       const eventId = `event:${++this.sequence}`;
       const result = this.runtime.dispatch({
         id: eventId,

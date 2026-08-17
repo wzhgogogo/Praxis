@@ -1,5 +1,5 @@
 import type { RestaurantDecision, RestaurantTaskState } from "./contracts.js";
-import { completeRestaurantIntent } from "./intent-state.js";
+import { completeRestaurantIntent, missingBlockingFields } from "./intent-state.js";
 
 /**
  * Pure, Domain-owned next-step selection. It consumes authoritative Restaurant state only;
@@ -23,12 +23,7 @@ export function decideRestaurantNext(state: Readonly<RestaurantTaskState>): Rest
   if (!intent) {
     return {
       type: "ASK_USER",
-      missingRequiredFields: [...(state.intentDraft?.missingRequiredFields ?? [
-        "date",
-        "timeWindow",
-        "partySize",
-        "area",
-      ])],
+      missingRequiredFields: missingBlockingFields(state.intentDraft ?? {}),
     };
   }
   return { type: "SEARCH" };

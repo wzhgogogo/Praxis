@@ -12,6 +12,9 @@ import {
   type PilotAccessEntry,
 } from "../application/persistent-restaurant-agent.js";
 import { FakeClock } from "../harness/fake-clock.js";
+import { RestaurantSemanticInterpreter } from "../domains/restaurant/semantic-interpreter.js";
+import { FixtureModelGateway } from "../infrastructure/fixture/fixture-model-gateway.js";
+import { FixtureRestaurantSearch } from "../infrastructure/fixture/fixture-restaurant-search.js";
 import { applyPostgresMigrations } from "../infrastructure/postgres/migrations.js";
 import type {
   SqlDatabase,
@@ -58,7 +61,12 @@ interface TestServer {
 }
 
 async function startServer(database: SqlDatabase, clock: FakeClock): Promise<TestServer> {
-  const application = new PersistentRestaurantAgentApplication({ database, clock });
+  const application = new PersistentRestaurantAgentApplication({
+    database,
+    clock,
+    semanticInterpreter: new RestaurantSemanticInterpreter(new FixtureModelGateway()),
+    restaurantSearch: new FixtureRestaurantSearch(),
+  });
   const sessions = new PilotSessionService(application.store, ACCESS, clock);
   const server = createLocalWebServer({ application, sessions });
   server.listen(0, "127.0.0.1");

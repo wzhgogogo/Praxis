@@ -20,7 +20,7 @@ npm run eval:semantic:holdout:preflight:complete
 npm run eval:search:fixture
 ```
 
-- `eval:semantic:fixture`只用7个已暴露Regression Turn验证Evaluator管线，固定为`baselineEligible:false`。
+- `eval:semantic:fixture`只用7个已暴露Regression Turn与开发Oracle验证Evaluator管线和深层首错，固定为`attributionLevel: DEVELOPMENT_STAGE_ORACLES`及`baselineEligible:false`。
 - 标注中Preflight允许空集合并返回`READY_FOR_ANNOTATION`。
 - 严格Preflight要求完整Gold并返回`READY_FOR_BASELINE`。
 - `eval:search:fixture`只证明本地Fixture产品路径，不证明真实平台质量。
@@ -32,7 +32,7 @@ npm run eval:search:fixture
 - `holdout.template.json`：可提交的空模板，不含样本。
 - `.eval-private/restaurant-semantic-holdout-v1.json`：实际标注文件，Git忽略。
 - `holdout.ts`：Eval-only Dataset Contract、冻结清单和Preflight；不增加产品Proposal字段。
-- `scorer.ts`：先比较完整累计Draft，再比较Decision Kernel。
+- `scorer.ts`：Regression可比较Proposal、Patch、Draft、Decision；Holdout只比较产品语义Draft与Decision并报告`PRODUCT_SEMANTIC_ONLY`。
 - `run-holdout.ts`：受控的一次性真实Baseline入口。
 
 完整规则见[Eval Skill](../../docs/skills/eval/SKILL.md)和[v15 Holdout Guide](../../docs/harness/RESTAURANT-SEMANTIC-HOLDOUT-V1.md)。

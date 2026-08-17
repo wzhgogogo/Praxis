@@ -1,6 +1,4 @@
 import {
-  RESTAURANT_BLOCKING_FIELDS,
-  type RestaurantBlockingField,
   type RestaurantIntentDraft,
 } from "./contracts.js";
 
@@ -16,13 +14,6 @@ function isStringArray(value: unknown): value is string[] {
   return (
     Array.isArray(value) &&
     value.every((item) => typeof item === "string" && item.trim().length > 0)
-  );
-}
-
-function isBlockingField(value: unknown): value is RestaurantBlockingField {
-  return (
-    typeof value === "string" &&
-    (RESTAURANT_BLOCKING_FIELDS as readonly string[]).includes(value)
   );
 }
 
@@ -51,6 +42,7 @@ export function validateRestaurantIntentDraft(input: unknown): RestaurantIntentV
     !hasOnlyKeys(input, [
       "schemaVersion",
       "timezone",
+      "target",
       "date",
       "timeWindow",
       "partySize",
@@ -59,7 +51,6 @@ export function validateRestaurantIntentDraft(input: unknown): RestaurantIntentV
       "budgetPerPerson",
       "hardConstraints",
       "softPreferences",
-      "missingRequiredFields",
     ])
   ) {
     errors.push("Intent draft contains unsupported fields");
@@ -69,6 +60,16 @@ export function validateRestaurantIntentDraft(input: unknown): RestaurantIntentV
   }
   if (input.timezone !== "Asia/Tokyo") {
     errors.push("timezone must be Asia/Tokyo");
+  }
+  if (input.target !== undefined) {
+    if (
+      !isRecord(input.target) ||
+      !hasOnlyKeys(input.target, ["query"]) ||
+      typeof input.target.query !== "string" ||
+      input.target.query.trim().length === 0
+    ) {
+      errors.push("target must contain one non-empty query");
+    }
   }
   if (input.date !== undefined && !isDate(input.date)) {
     errors.push("date must use YYYY-MM-DD");
@@ -116,12 +117,6 @@ export function validateRestaurantIntentDraft(input: unknown): RestaurantIntentV
   if (!isStringArray(input.softPreferences)) {
     errors.push("softPreferences must be a string array");
   }
-  if (
-    !Array.isArray(input.missingRequiredFields) ||
-    !input.missingRequiredFields.every(isBlockingField)
-  ) {
-    errors.push("missingRequiredFields contains an unsupported field");
-  }
   if (input.budgetPerPerson !== undefined) {
     if (
       !isRecord(input.budgetPerPerson) ||
@@ -132,18 +127,6 @@ export function validateRestaurantIntentDraft(input: unknown): RestaurantIntentV
       input.budgetPerPerson.currency !== "JPY"
     ) {
       errors.push("budgetPerPerson must contain a positive JPY max");
-    }
-  }
-  if (Array.isArray(input.missingRequiredFields) && input.missingRequiredFields.every(isBlockingField)) {
-    for (const field of RESTAURANT_BLOCKING_FIELDS) {
-      const valueIsPresent = input[field] !== undefined;
-      const markedMissing = input.missingRequiredFields.includes(field);
-      if (valueIsPresent && markedMissing) {
-        errors.push(`missingRequiredFields must not include populated ${field}`);
-      }
-      if (!valueIsPresent && !markedMissing) {
-        errors.push(`missingRequiredFields must include absent ${field}`);
-      }
     }
   }
   if (errors.length > 0) {

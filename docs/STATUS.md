@@ -1,22 +1,22 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Version: 1.3
-- Last updated: 2026-08-16
+- Version: 1.4
+- Last updated: 2026-08-17
 - Source of truth for: 已实现能力、已验证范围、明确未验证项与下一道门槛
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Documentation Index](INDEX.md), [Roadmap](roadmap.md), [Verification History](history/TEST-LOG.md)
 
 ## 一句话状态
 
-Restaurant v15 已完成可运行的 **Fixture 语义到搜索**纵向链路，并已冻结职责边界、Prompt `v2`、Proposal Schema `1`及Holdout Evaluator；私有Clean Holdout仍待人工标注，尚无真实模型Baseline或真实餐厅平台接入。
+Restaurant v15 已完成可运行的 **Fixture 语义到搜索**纵向链路和同版本架构加固：DeepSeek strict structured transport、可证明层级的Eval首错、单一派生readiness与注入式应用依赖均已实现；职责边界、Prompt `v2`和Proposal字段集合未变。私有30-query Clean Holdout仍在人工标注，尚无真实模型Baseline或真实餐厅平台接入。
 
 ## 已实现
 
 | 能力 | 当前范围 | 权威说明 |
 |---|---|---|
 | Web / Workspace | 本地 Fixture、持久 Conversation / Case、HTTP/SSE 恢复与候选选择；停在授权前 | [MVP PRD](product/MVP-PRD.md)、[Workspace](architecture/AGENT-GATEWAY-AND-WORKSPACE.md) |
-| 语义主链 | `Semantic Interpreter → Proposal Contract → Compiler → Runtime/Reducer → Decision Kernel`；模型不能直接改 State 或调用 Tool | [ADR-0007](decisions/0007-semantic-proposal-compiler-and-decision-kernel.md)、[Orchestration](architecture/AGENT-ORCHESTRATION.md) |
+| 语义主链 | `Semantic Interpreter → Proposal Contract → Compiler → Runtime/Reducer → Decision Kernel`；完整Domain JSON Schema经strict transport发送，随后仍本地校验；模型不能直接改 State 或调用 Tool | [ADR-0007](decisions/0007-semantic-proposal-compiler-and-decision-kernel.md)、[Orchestration](architecture/AGENT-ORCHESTRATION.md) |
 | 决策与搜索 | `ASK_USER`、`SEARCH`、`PRESENT_CANDIDATES`、调整与安全冲突降级；Fixture Search 最多三家候选 | [Restaurant Domain](domains/RESTAURANT-BOOKING.md) |
 | 执行安全基础 | Runtime、Policy、Authorization、Verifier 与 `OUTCOME_UNKNOWN` 的 Mock / Embedded-postgres 闭环已存在 | [Policy & Verification](architecture/POLICY-EXECUTION-VERIFICATION.md)、[Task Runtime](architecture/TASK-RUNTIME.md) |
 
@@ -24,7 +24,7 @@ Restaurant v15 已完成可运行的 **Fixture 语义到搜索**纵向链路，�
 
 | 模式 | 结论 | 不代表什么 |
 |---|---|---|
-| 当前产品 Unit / Fixture / Mock / Embedded-postgres | 默认基线`65/65`通过，且typecheck与build通过 | 冻结探针、真实PostgreSQL、真实Provider、Clean Holdout质量或浏览器视觉 |
+| 当前产品 Unit / Fixture / Mock / Embedded-postgres | 默认基线`74/74`通过，且arch:check、typecheck与build通过 | 冻结探针、真实PostgreSQL、真实Provider、Clean Holdout质量或浏览器视觉 |
 | 冻结架构探针 | 独立`test:probes`为`8/8` | Restaurant当前产品质量或Stage完成度 |
 | `REAL_MODEL_MOCK_WORLD` | v15 `eval:semantic:deepseek` 连续 10 次均为 `7/7`，合计 `70/70`；链路止于 Fixture Search | 泛化质量、真实餐厅事实、预约质量或模型 Baseline |
 | 隔离本机 PostgreSQL Smoke | 曾验证 Runtime、迁移、Goal/Task Graph 与 Scheduler | 生产数据库部署或持续运行可靠性 |
@@ -37,7 +37,7 @@ Restaurant v15 已完成可运行的 **Fixture 语义到搜索**纵向链路，�
 - 当前产品 Prompt 固定为 `v2`，Proposal Schema 固定为 `1`。同一版本内可修复不改变 Contract 的缺陷；新增字段或不兼容语义必须先重新评审版本与 ADR，不能由单个 Eval Case 静默推动。
 - v14 Decision Harness与旧单轮Intent Parser的可执行代码、命令和测试已删除；7 Episode / 17 Turn及旧连通性结果只保留在Git与历史文档，不再进入当前基线。
 - 下一份独立Baseline只评估当前v15产品语义链；历史结果与Fixture Search不能替代它。
-- v15 Holdout的空模板、私有数据入口、Preflight、确定性Scorer、固定运行清单和一次性真实Runner已实现；实际数据仍为空，不得把工程就绪报告成Baseline完成。
+- v15 Holdout的空模板、私有数据入口、Preflight、确定性Scorer、固定运行清单和一次性真实Runner已实现；30-query私有集合正在人工标注且未运行，不得把标注进度报告成Baseline完成。
 
 ## 明确未验证 / 未实现
 

@@ -33,7 +33,7 @@ src/eval/
 npm run eval:semantic:fixture
 ```
 
-它用7个已暴露Turn验证Evaluator是否按`Proposal → Contract → Compiler → Runtime/Reducer → Kernel → Fixture Search`执行，固定报告为`DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`。它证明管线连通，不证明模型泛化或真实餐厅质量。
+它用7个已暴露Turn和开发阶段Proposal/Patch Oracle验证Evaluator是否按`Proposal → Contract → Compiler → Runtime/Reducer → Kernel → Fixture Search`执行，固定报告`attributionLevel: DEVELOPMENT_STAGE_ORACLES`及`DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`。它证明管线和分层归因，不证明模型泛化或真实餐厅质量。
 
 受控真实模型Regression：
 
@@ -73,19 +73,21 @@ npm run eval:semantic:holdout:preflight:complete
 
 ## 评分与首错
 
-固定顺序：
+开发Regression的固定顺序：
 
 ```text
 INPUT / MODEL_GATEWAY
 → SEMANTIC_PROPOSAL_CONTRACT
+→ SEMANTIC_INTERPRETER
 → COMPILER
-→ SEMANTIC_RESULT
-→ RUNTIME
+→ REDUCER
 → DECISION_KERNEL
+→ RUNTIME
 ```
 
 - Contract通过只代表结构合法，不代表语义正确。
-- `SEMANTIC_RESULT`比较编译并累计后的完整权威Draft，不要求Gold复述模型Proposal或内部Patch。
+- Regression开发Oracle可区分Proposal语义、Compiler Patch和Reducer累计状态。
+- Clean Holdout不标内部Proposal/Patch，只能证明最终`SEMANTIC_RESULT`与Decision，必须报告`PRODUCT_SEMANTIC_ONLY`，不得伪造深层精度。
 - Scorer先判Draft，再判Kernel；上游错误不会在下游重复扣分。
 - 多轮Session上游失败后，后续Turn标记`BLOCKED_BY_UPSTREAM`，不伪造分数。
 - Evaluator不得调用LLM Judge来替代确定性Gold、P0或首错门禁。
@@ -93,7 +95,7 @@ INPUT / MODEL_GATEWAY
 ## 防泄漏规则
 
 - Regression可以用于开发和调试；一旦文本、Gold、错误或结果被查看，就只能是`DEVELOPMENT_DIAGNOSTIC`。
-- Holdout内容或结果一旦进入Prompt、示例、调参或诊断，立即成为`RESULT_EXPOSED`或`PROMPT_EXPOSED`，不得靠重跑恢复。
+- 人工创建和标注本身不污染被测模型；Holdout内容、Gold、输出或失败一旦用于优化Prompt、Contract、实现或Scorer，立即成为`RESULT_EXPOSED`或`PROMPT_EXPOSED`，不得靠重跑恢复。
 - Prompt示例只能解释抽象Schema和通用规则，不能包含Regression或Holdout事实。
 - 真实报告必须输出`cohort`、`contaminationStatus`、`baselineEligible`、版本清单、调用数、延迟、Token、成本状态和Dataset哈希。
 

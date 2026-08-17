@@ -89,13 +89,18 @@ try {
   });
   const report = await runRestaurantSemanticRegression(
     new RestaurantSemanticInterpreter(gateway),
-    { mode: "REAL_MODEL_MOCK_WORLD", dataset: preflight.dataset },
+    {
+      mode: "REAL_MODEL_MOCK_WORLD",
+      attributionLevel: "PRODUCT_SEMANTIC_ONLY",
+      dataset: preflight.dataset,
+    },
   );
   const manifestConformant = invocationRecords.every(
     (record) =>
       record.provider === RESTAURANT_SEMANTIC_HOLDOUT_MANIFEST.provider &&
       record.model === RESTAURANT_SEMANTIC_HOLDOUT_MANIFEST.model &&
       record.promptVersion === RESTAURANT_SEMANTIC_HOLDOUT_MANIFEST.promptVersion &&
+      record.responseFormat === RESTAURANT_SEMANTIC_HOLDOUT_MANIFEST.responseFormat &&
       record.outputSchema.name === RESTAURANT_SEMANTIC_HOLDOUT_MANIFEST.proposalSchema.name &&
       record.outputSchema.version === RESTAURANT_SEMANTIC_HOLDOUT_MANIFEST.proposalSchema.version,
   );

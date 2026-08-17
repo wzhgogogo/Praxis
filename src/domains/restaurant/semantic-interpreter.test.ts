@@ -3,6 +3,7 @@ import { test } from "node:test";
 
 import type { ModelGateway, ModelRequest, ModelResponse } from "../../core/model/contracts.js";
 import { RestaurantSemanticInterpreter } from "./semantic-interpreter.js";
+import { RESTAURANT_SEMANTIC_PROPOSAL_JSON_SCHEMA } from "./semantic-proposal.js";
 
 class QueuedGateway implements ModelGateway {
   readonly calls: ModelRequest[] = [];
@@ -23,7 +24,7 @@ function response(outputText: string): ModelResponse {
     provider: "DEEPSEEK",
     model: "deepseek-v4-flash",
     outputText,
-    finishReason: "STOP",
+    finishReason: "TOOL_CALLS",
     latencyMs: 42,
   };
 }
@@ -57,7 +58,6 @@ test("Semantic Interpreter requests a closed proposal and never asks for state o
       cuisines: [],
       hardConstraints: [],
       softPreferences: [],
-      missingRequiredFields: ["date", "timeWindow", "area"],
     },
   });
 
@@ -66,7 +66,12 @@ test("Semantic Interpreter requests a closed proposal and never asks for state o
   const request = gateway.calls[0]!;
   assert.equal(request.purpose, "restaurant_semantic_interpret");
   assert.equal(request.promptVersion, "v2");
-  assert.deepEqual(request.outputSchema, { name: "restaurant-semantic-proposal", version: "1" });
+  assert.deepEqual(request.outputSchema, {
+    name: "restaurant-semantic-proposal",
+    version: "1",
+    jsonSchema: RESTAURANT_SEMANTIC_PROPOSAL_JSON_SCHEMA,
+  });
+  assert.equal(request.responseFormat, "JSON_SCHEMA");
   assert.match(request.messages[0]!.content, /Do not create provider identifiers/);
   assert.match(request.messages[0]!.content, /state patches, events, decisions, commands, tool inputs/);
   assert.equal(

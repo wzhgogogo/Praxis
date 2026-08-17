@@ -27,7 +27,6 @@ export interface RestaurantIntentDraft {
   budgetPerPerson?: { max: number; currency: "JPY" };
   hardConstraints: string[];
   softPreferences: string[];
-  missingRequiredFields: RestaurantBlockingField[];
 }
 
 export interface RestaurantBookingIntent {
@@ -41,7 +40,6 @@ export interface RestaurantBookingIntent {
   budgetPerPerson?: { max: number; currency: "JPY" };
   hardConstraints: string[];
   softPreferences: string[];
-  missingRequiredFields: RestaurantBlockingField[];
 }
 
 export interface RestaurantOutlet {
@@ -194,10 +192,13 @@ export interface RestaurantIntentPatch {
   area?: { query: string } | null;
   budgetPerPerson?: { max: number; currency: "JPY" } | null;
   addCuisines?: string[];
+  replaceCuisines?: string[];
   removeCuisines?: string[];
   addHardConstraints?: string[];
+  replaceHardConstraints?: string[];
   removeHardConstraints?: string[];
   addSoftPreferences?: string[];
+  replaceSoftPreferences?: string[];
   removeSoftPreferences?: string[];
 }
 

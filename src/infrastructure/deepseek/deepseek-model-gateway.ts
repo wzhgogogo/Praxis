@@ -11,6 +11,7 @@ import {
 import { ModelGatewayError } from "../../core/model/errors.js";
 
 const DEEPSEEK_CHAT_COMPLETIONS_URL = "https://api.deepseek.com/chat/completions";
+const DEEPSEEK_BETA_CHAT_COMPLETIONS_URL = "https://api.deepseek.com/beta/chat/completions";
 
 export interface DeepSeekGatewayConfig {
   apiKey: string;
@@ -24,6 +25,7 @@ interface DeepSeekResponseChoice {
   finish_reason?: unknown;
   message?: {
     content?: unknown;
+    tool_calls?: unknown;
   };
 }
 
@@ -110,7 +112,42 @@ function parseUsage(value: unknown): ModelUsage | undefined {
   return Object.keys(usage).length === 0 ? undefined : usage;
 }
 
-function parseCompletion(body: unknown): {
+function parseStructuredArguments(
+  choice: DeepSeekResponseChoice,
+  request: ModelRequest,
+): string {
+  if (choice.finish_reason !== "tool_calls" || !Array.isArray(choice.message?.tool_calls)) {
+    throw new ModelGatewayError(
+      "Model provider did not return the required structured output call",
+      "MALFORMED_RESPONSE",
+      false,
+    );
+  }
+  if (choice.message.tool_calls.length !== 1) {
+    throw new ModelGatewayError(
+      "Model provider returned an unexpected number of structured output calls",
+      "MALFORMED_RESPONSE",
+      false,
+    );
+  }
+  const call = choice.message.tool_calls[0];
+  if (
+    !isRecord(call) ||
+    call.type !== "function" ||
+    !isRecord(call.function) ||
+    call.function.name !== request.outputSchema.name ||
+    typeof call.function.arguments !== "string"
+  ) {
+    throw new ModelGatewayError(
+      "Model provider returned the wrong structured output function",
+      "MALFORMED_RESPONSE",
+      false,
+    );
+  }
+  return call.function.arguments;
+}
+
+function parseCompletion(body: unknown, request: ModelRequest): {
   providerRequestId?: string;
   model: string;
   outputText: string;
@@ -128,7 +165,16 @@ function parseCompletion(body: unknown): {
     throw new ModelGatewayError("Model provider response is missing choices", "MALFORMED_RESPONSE", false);
   }
   const choice = response.choices[0] as DeepSeekResponseChoice | undefined;
-  if (typeof choice?.message?.content !== "string") {
+  if (!choice) {
+    throw new ModelGatewayError("Model provider response is missing a choice", "MALFORMED_RESPONSE", false);
+  }
+  const outputText =
+    request.responseFormat === "JSON_SCHEMA"
+      ? parseStructuredArguments(choice, request)
+      : typeof choice.message?.content === "string"
+        ? choice.message.content
+        : undefined;
+  if (outputText === undefined) {
     throw new ModelGatewayError(
       "Model provider response does not contain text completion content",
       "MALFORMED_RESPONSE",
@@ -141,7 +187,7 @@ function parseCompletion(body: unknown): {
       ? { providerRequestId: response.id }
       : {}),
     model: response.model,
-    outputText: choice.message.content,
+    outputText,
     finishReason: mapFinishReason(choice.finish_reason),
     ...(usage !== undefined ? { usage } : {}),
   };
@@ -201,7 +247,10 @@ export class DeepSeekModelGateway implements ModelGateway {
     }, request.timeoutMs);
 
     try {
-      const response = await this.fetchImplementation(DEEPSEEK_CHAT_COMPLETIONS_URL, {
+      const structuredOutput = request.responseFormat === "JSON_SCHEMA";
+      const response = await this.fetchImplementation(
+        structuredOutput ? DEEPSEEK_BETA_CHAT_COMPLETIONS_URL : DEEPSEEK_CHAT_COMPLETIONS_URL,
+        {
         method: "POST",
         headers: {
           Authorization: `Bearer ${this.config.apiKey}`,
@@ -210,9 +259,29 @@ export class DeepSeekModelGateway implements ModelGateway {
         body: JSON.stringify({
           model: this.config.model,
           messages: request.messages,
-          response_format: {
-            type: request.responseFormat === "JSON_OBJECT" ? "json_object" : "text",
-          },
+          ...(structuredOutput
+            ? {
+                tools: [
+                  {
+                    type: "function",
+                    function: {
+                      name: request.outputSchema.name,
+                      description: `Return ${request.outputSchema.name} schema ${request.outputSchema.version}`,
+                      strict: true,
+                      parameters: request.outputSchema.jsonSchema,
+                    },
+                  },
+                ],
+                tool_choice: {
+                  type: "function",
+                  function: { name: request.outputSchema.name },
+                },
+              }
+            : {
+                response_format: {
+                  type: request.responseFormat === "JSON_OBJECT" ? "json_object" : "text",
+                },
+              }),
           stream: false,
           ...(request.maxOutputTokens !== undefined
             ? { max_tokens: request.maxOutputTokens }
@@ -220,8 +289,9 @@ export class DeepSeekModelGateway implements ModelGateway {
           ...(request.temperature !== undefined ? { temperature: request.temperature } : {}),
           ...(request.thinking !== undefined ? { thinking: { type: request.thinking } } : {}),
         }),
-        signal: abortController.signal,
-      });
+          signal: abortController.signal,
+        },
+      );
       if (!response.ok) {
         throw providerErrorForStatus(response.status);
       }
@@ -237,7 +307,7 @@ export class DeepSeekModelGateway implements ModelGateway {
           response.status,
         );
       }
-      const completion = parseCompletion(body);
+      const completion = parseCompletion(body, request);
       const result: ModelResponse = {
         invocationId,
         provider: "DEEPSEEK",
@@ -259,7 +329,10 @@ export class DeepSeekModelGateway implements ModelGateway {
         provider: "DEEPSEEK",
         model: result.model,
         responseFormat: request.responseFormat,
-        outputSchema: request.outputSchema,
+        outputSchema: {
+          name: request.outputSchema.name,
+          version: request.outputSchema.version,
+        },
         outcome: "SUCCEEDED",
         latencyMs: result.latencyMs,
         providerStatus: response.status,
@@ -307,7 +380,10 @@ export class DeepSeekModelGateway implements ModelGateway {
       provider: "DEEPSEEK",
       model: this.config.model,
       responseFormat: request.responseFormat,
-      outputSchema: request.outputSchema,
+      outputSchema: {
+        name: request.outputSchema.name,
+        version: request.outputSchema.version,
+      },
       outcome: "FAILED",
       latencyMs: Math.max(0, this.now() - startedAt),
       errorCode: error.code,

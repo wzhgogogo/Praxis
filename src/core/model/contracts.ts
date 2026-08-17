@@ -7,7 +7,7 @@ export interface ModelMessage {
   content: string;
 }
 
-export type ModelResponseFormat = "TEXT" | "JSON_OBJECT";
+export type ModelResponseFormat = "TEXT" | "JSON_OBJECT" | "JSON_SCHEMA";
 
 export type ModelFallback = "STRUCTURED_FORM" | "FAIL_CLOSED";
 
@@ -17,16 +17,21 @@ export interface ModelOutputSchemaRef {
   version: string;
 }
 
+/** Generic JSON Schema owned by the calling Domain and transported without Infrastructure imports. */
+export interface ModelOutputSchema extends ModelOutputSchemaRef {
+  jsonSchema?: Readonly<Record<string, unknown>>;
+}
+
 export interface ModelRequest {
   /** Internal Task identifier. It is retained in Praxis telemetry and never sent to the provider. */
   taskId: string;
-  /** Stable feature name, for example `restaurant_intent_parse`. */
+  /** Stable feature name, for example `restaurant_semantic_interpret`. */
   purpose: string;
   /** Immutable prompt revision, for example `v1`. */
   promptVersion: string;
   messages: readonly ModelMessage[];
   responseFormat: ModelResponseFormat;
-  outputSchema: ModelOutputSchemaRef;
+  outputSchema: ModelOutputSchema;
   timeoutMs: number;
   fallback: ModelFallback;
   maxOutputTokens?: number;
@@ -118,6 +123,15 @@ export function validateModelRequest(request: ModelRequest): string[] {
   }
   if (!isNonBlankString(request.outputSchema.version)) {
     errors.push("outputSchema.version must be non-empty");
+  }
+  if (
+    request.responseFormat === "JSON_SCHEMA" &&
+    (request.outputSchema.jsonSchema === undefined ||
+      typeof request.outputSchema.jsonSchema !== "object" ||
+      request.outputSchema.jsonSchema === null ||
+      Array.isArray(request.outputSchema.jsonSchema))
+  ) {
+    errors.push("outputSchema.jsonSchema must be an object for JSON_SCHEMA responses");
   }
   if (!Number.isInteger(request.timeoutMs) || request.timeoutMs <= 0) {
     errors.push("timeoutMs must be a positive integer");

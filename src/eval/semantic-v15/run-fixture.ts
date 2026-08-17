@@ -4,7 +4,11 @@ import { runRestaurantSemanticRegression } from "./regression.js";
 
 const report = await runRestaurantSemanticRegression(
   new RestaurantSemanticRegressionFixtureInterpreter(),
-  { mode: "FIXTURE", dataset: restaurantSemanticRegressionV1 },
+  {
+    mode: "FIXTURE",
+    attributionLevel: "DEVELOPMENT_STAGE_ORACLES",
+    dataset: restaurantSemanticRegressionV1,
+  },
 );
 
 console.log(
@@ -20,6 +24,7 @@ console.log(
         datasetId: report.datasetId,
         datasetVersion: report.datasetVersion,
         mode: report.mode,
+        attributionLevel: report.attributionLevel,
         status: report.status,
         summary: report.summary,
       },

@@ -1,17 +1,37 @@
 import type {
   RestaurantBookingIntent,
+  RestaurantBlockingField,
   RestaurantIntentDraft,
   RestaurantIntentPatch,
 } from "./contracts.js";
-import { missingBlockingFields } from "./semantic-proposal.js";
+
+export function missingBlockingFields(input: {
+  date?: unknown;
+  timeWindow?: unknown;
+  partySize?: unknown;
+  area?: unknown;
+}): RestaurantBlockingField[] {
+  return [
+    ...(input.date === undefined ? (["date"] as const) : []),
+    ...(input.timeWindow === undefined ? (["timeWindow"] as const) : []),
+    ...(input.partySize === undefined ? (["partySize"] as const) : []),
+    ...(input.area === undefined ? (["area"] as const) : []),
+  ];
+}
 
 function hasOwn(input: object, key: string): boolean {
   return Object.prototype.hasOwnProperty.call(input, key);
 }
 
-function mergeValues(existing: string[], additions: string[] | undefined, removals: string[] | undefined) {
+function mergeValues(
+  existing: string[],
+  additions: string[] | undefined,
+  removals: string[] | undefined,
+  replacement: string[] | undefined,
+) {
   const removed = new Set(removals ?? []);
-  return [...new Set([...existing.filter((item) => !removed.has(item)), ...(additions ?? [])])];
+  const base = replacement ?? existing;
+  return [...new Set([...base.filter((item) => !removed.has(item)), ...(additions ?? [])])];
 }
 
 /** Reducer-owned projection. Missing fields are derived from authoritative values, never model output. */
@@ -19,7 +39,7 @@ export function applyRestaurantIntentPatch(
   current: RestaurantIntentDraft | undefined,
   patch: RestaurantIntentPatch,
 ): RestaurantIntentDraft {
-  const next: Omit<RestaurantIntentDraft, "missingRequiredFields"> = {
+  const next: RestaurantIntentDraft = {
     schemaVersion: "1",
     timezone: "Asia/Tokyo",
     ...(current?.target ? { target: structuredClone(current.target) } : {}),
@@ -59,22 +79,26 @@ export function applyRestaurantIntentPatch(
     if (patch.budgetPerPerson === null) delete next.budgetPerPerson;
     else if (patch.budgetPerPerson) next.budgetPerPerson = structuredClone(patch.budgetPerPerson);
   }
-  next.cuisines = mergeValues(next.cuisines, patch.addCuisines, patch.removeCuisines);
+  next.cuisines = mergeValues(
+    next.cuisines,
+    patch.addCuisines,
+    patch.removeCuisines,
+    patch.replaceCuisines,
+  );
   next.hardConstraints = mergeValues(
     next.hardConstraints,
     patch.addHardConstraints,
     patch.removeHardConstraints,
+    patch.replaceHardConstraints,
   );
   next.softPreferences = mergeValues(
     next.softPreferences,
     patch.addSoftPreferences,
     patch.removeSoftPreferences,
+    patch.replaceSoftPreferences,
   );
 
-  return {
-    ...next,
-    missingRequiredFields: missingBlockingFields(next),
-  };
+  return next;
 }
 
 export function completeRestaurantIntent(
@@ -82,7 +106,7 @@ export function completeRestaurantIntent(
 ): RestaurantBookingIntent | null {
   if (
     !draft ||
-    draft.missingRequiredFields.length > 0 ||
+    missingBlockingFields(draft).length > 0 ||
     !draft.date ||
     !draft.timeWindow ||
     !draft.partySize ||
@@ -101,6 +125,5 @@ export function completeRestaurantIntent(
     ...(draft.budgetPerPerson ? { budgetPerPerson: structuredClone(draft.budgetPerPerson) } : {}),
     hardConstraints: structuredClone(draft.hardConstraints),
     softPreferences: structuredClone(draft.softPreferences),
-    missingRequiredFields: [],
   };
 }

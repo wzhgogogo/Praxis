@@ -1,8 +1,8 @@
 # Harness Design
 
 - Status: Accepted
-- Version: 3.3
-- Last updated: 2026-08-16
+- Version: 3.4
+- Last updated: 2026-08-17
 - Source of truth for: Agent Workspace、Task、Search和Browser的模拟、回放、断言与故障注入
 - Related ADRs: [ADR-0001](../decisions/0001-general-task-runtime.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0007](../decisions/0007-semantic-proposal-compiler-and-decision-kernel.md)
 - Related documents: [Golden Scenarios](GOLDEN-SCENARIOS.md), [Restaurant Progressive Decision Eval v2](RESTAURANT-DECISION-EVAL-V2.md), [Test Skill](../skills/test/SKILL.md)
@@ -77,7 +77,7 @@ Stage 2A覆盖完整/缺失Intent、最多3个Fixture候选和选择后停在授
 
 ### Progressive Decision Eval Harness
 
-当前v15按`INPUT / MODEL_GATEWAY → SEMANTIC_PROPOSAL_CONTRACT → COMPILER → SEMANTIC_RESULT → RUNTIME → DECISION_KERNEL`首错归因。Fixture Regression只验证Evaluator管线；私有Holdout才可产生独立Baseline。Live Read-only仍单独证明真实来源连接与数据质量。
+当前v15 Regression用开发Oracle按`INPUT / MODEL_GATEWAY → SEMANTIC_PROPOSAL_CONTRACT → SEMANTIC_INTERPRETER → COMPILER → REDUCER → DECISION_KERNEL → RUNTIME`首错归因；上游失败阻断下游。Clean Holdout不标Proposal或Patch，只报告`PRODUCT_SEMANTIC_ONLY`层级的最终语义Draft与Decision，不伪造Interpreter/Compiler/Reducer精度。Fixture Regression只验证Evaluator管线；私有Holdout才可产生独立Baseline。Live Read-only仍单独证明真实来源连接与数据质量。
 
 ### Runtime Compatibility Harness
 

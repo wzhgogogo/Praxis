@@ -1,13 +1,35 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Version: 4.17
-- Last updated: 2026-08-16
+- Version: 4.18
+- Last updated: 2026-08-17
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## 2026-08-17 — v15 architecture cleanup and hardening verification
+
+### Scope
+
+Provider structured-output transport, Eval first-failure attribution, derived readiness removal, semantic operation semantics, Restaurant application dependency injection, lightweight architecture checking, and repository/document cleanup. No new Semantic Proposal field, Decision Kernel responsibility, Holdout case behavior or external side effect is in scope.
+
+### Checks
+
+- `npm run arch:check`: passed with 0 forbidden source dependencies.
+- `npm run typecheck`: passed.
+- Focused Domain/DeepSeek/Eval/Search tests: 32/32 passed before the full baseline.
+- `npm test`: 74/74 passed, 0 skipped and 0 failed in a permitted local-listener environment.
+- `npm run test:probes`: 8/8 frozen probes passed.
+- `npm run eval:semantic:fixture`: 7/7 exposed Turns passed with `DEVELOPMENT_STAGE_ORACLES` and `baselineEligible:false`.
+- `npm run eval:search:fixture`: 3/3 passed.
+- `npm run build`: passed.
+- Final reference scan, ignored Holdout confirmation and `git diff --check`: passed.
+
+### Modes and external effects
+
+Only Unit, Contract, Fixture, Mock Harness and embedded PGlite verification ran. No real DeepSeek request, Clean Holdout baseline, Replay, Live Read-only, Controlled Live-write, Discovery, Availability, authorization or reservation ran. The private Holdout was not modified or semantically inspected.
 
 ## 2026-08-16 — Obsolete Eval and probe cleanup verification
 

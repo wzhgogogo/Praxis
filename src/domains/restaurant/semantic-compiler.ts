@@ -167,7 +167,7 @@ function compileFact(patch: RestaurantIntentPatch, fact: RestaurantSemanticFact)
     }
     case "CUISINE": {
       const value = valueFor(fact, "CUISINE");
-      add(patch, "addCuisines", value.value);
+      add(patch, fact.operation === "CORRECT" ? "replaceCuisines" : "addCuisines", value.value);
       return;
     }
     case "BUDGET_PER_PERSON": {
@@ -177,12 +177,20 @@ function compileFact(patch: RestaurantIntentPatch, fact: RestaurantSemanticFact)
     }
     case "HARD_CONSTRAINT": {
       const value = valueFor(fact, "HARD_CONSTRAINT");
-      add(patch, "addHardConstraints", value.value);
+      add(
+        patch,
+        fact.operation === "CORRECT" ? "replaceHardConstraints" : "addHardConstraints",
+        value.value,
+      );
       return;
     }
     case "SOFT_PREFERENCE": {
       const value = valueFor(fact, "SOFT_PREFERENCE");
-      add(patch, "addSoftPreferences", value.value);
+      add(
+        patch,
+        fact.operation === "CORRECT" ? "replaceSoftPreferences" : "addSoftPreferences",
+        value.value,
+      );
       return;
     }
   }

@@ -8,6 +8,7 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
+    "arch:check": "node --import tsx scripts/arch-check.ts",
     "test": "node --import tsx --test src/harness/*.test.ts src/core/*/*.test.ts src/domains/*/*.test.ts src/infrastructure/*/*.test.ts src/server/*.test.ts src/eval/semantic-v15/*.test.ts src/eval/search-fixture/*.test.ts src/eval/shared/*.test.ts",
     "test:probes": "PRAXIS_RUN_FROZEN_PROBES=1 node --import tsx --test src/infrastructure/postgres/postgres-runtime.test.ts",
     "dev": "node --env-file-if-exists=.env --import tsx src/server/local-web-server.ts",

@@ -14,6 +14,7 @@ import { scoreRestaurantSemanticTurn } from "./scorer.js";
 const completeDraft: RestaurantIntentDraft = {
   schemaVersion: "1",
   timezone: "Asia/Tokyo",
+  target: { query: "Sushi Dai" },
   date: "2026-08-21",
   timeWindow: { earliest: "19:00", latest: "19:30" },
   partySize: 2,
@@ -21,7 +22,6 @@ const completeDraft: RestaurantIntentDraft = {
   cuisines: [],
   hardConstraints: [],
   softPreferences: [],
-  missingRequiredFields: [],
 };
 
 function dataset() {
@@ -77,6 +77,7 @@ test("v15 Holdout preflight accepts a complete labelled dataset with the frozen 
   assert.equal(report.status, "READY_FOR_BASELINE");
   assert.deepEqual(report.stats, { sessions: 1, turns: 1 });
   assert.equal(report.dataset?.sessions[0]?.turns[0]?.expectedDraft.date, "2026-08-21");
+  assert.equal(report.dataset?.sessions[0]?.turns[0]?.expectedDraft.target?.query, "Sushi Dai");
 });
 
 test("v15 Holdout preflight rejects duplicates, manifest drift, and inconsistent Gold", () => {

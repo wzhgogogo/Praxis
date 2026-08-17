@@ -3,6 +3,7 @@ import { test } from "node:test";
 
 import { compileRestaurantSemanticProposal } from "./semantic-compiler.js";
 import type { RestaurantSemanticProposal } from "./semantic-proposal.js";
+import { applyRestaurantIntentPatch } from "./intent-state.js";
 
 test("Restaurant Semantic Compiler deterministically translates corrections and negations", () => {
   const proposal: RestaurantSemanticProposal = {
@@ -36,6 +37,33 @@ test("Restaurant Semantic Compiler deterministically translates corrections and 
       removeCuisines: ["yakiniku"],
     },
   });
+});
+
+test("collection ASSERT adds, CORRECT replaces, and NEGATE removes deterministically", () => {
+  const korean = compileRestaurantSemanticProposal({
+    schemaVersion: "1",
+    facts: [{ field: "CUISINE", operation: "ASSERT", value: { kind: "CUISINE", value: "Korean" } }],
+  });
+  assert.equal(korean.status, "COMPILED");
+  if (korean.status !== "COMPILED") return;
+  const first = applyRestaurantIntentPatch(undefined, korean.patch);
+
+  const thai = compileRestaurantSemanticProposal({
+    schemaVersion: "1",
+    facts: [{ field: "CUISINE", operation: "CORRECT", value: { kind: "CUISINE", value: "Thai" } }],
+  });
+  assert.equal(thai.status, "COMPILED");
+  if (thai.status !== "COMPILED") return;
+  const corrected = applyRestaurantIntentPatch(first, thai.patch);
+  assert.deepEqual(corrected.cuisines, ["Thai"]);
+
+  const removeThai = compileRestaurantSemanticProposal({
+    schemaVersion: "1",
+    facts: [{ field: "CUISINE", operation: "NEGATE", value: { kind: "CUISINE", value: "Thai" } }],
+  });
+  assert.equal(removeThai.status, "COMPILED");
+  if (removeThai.status !== "COMPILED") return;
+  assert.deepEqual(applyRestaurantIntentPatch(corrected, removeThai.patch).cuisines, []);
 });
 
 test("Restaurant Semantic Compiler records one-turn contradictions without mutating state", () => {

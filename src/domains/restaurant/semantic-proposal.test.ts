@@ -44,3 +44,12 @@ test("Semantic Proposal Contract rejects internal protocols and invalid operatio
     assert.match(invalid.errors.join(" "), /not allowed when negating a singleton/);
   }
 });
+
+test("Semantic Proposal Contract rejects collection CONFIRM because it has no deterministic effect", () => {
+  const result = validateRestaurantSemanticProposal({
+    schemaVersion: "1",
+    facts: [{ field: "CUISINE", operation: "CONFIRM" }],
+  });
+  assert.equal(result.valid, false);
+  if (!result.valid) assert.match(result.errors.join(" "), /CONFIRM is unsupported/);
+});

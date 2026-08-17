@@ -7,6 +7,7 @@ import {
   type RestaurantIntentDraft,
 } from "../../domains/restaurant/contracts.js";
 import { validateRestaurantIntentDraft } from "../../domains/restaurant/intent-draft.js";
+import { missingBlockingFields } from "../../domains/restaurant/intent-state.js";
 import {
   RESTAURANT_SEMANTIC_PROPOSAL_PROMPT_VERSION,
   RESTAURANT_SEMANTIC_PROPOSAL_SCHEMA,
@@ -30,6 +31,8 @@ export const RESTAURANT_SEMANTIC_HOLDOUT_MANIFEST = {
   model: "deepseek-v4-flash",
   promptVersion: RESTAURANT_SEMANTIC_PROPOSAL_PROMPT_VERSION,
   proposalSchema: RESTAURANT_SEMANTIC_PROPOSAL_SCHEMA,
+  responseFormat: "JSON_SCHEMA",
+  structuredTransport: "DEEPSEEK_STRICT_FUNCTION_BETA",
   temperature: 0,
   thinking: "disabled",
   maxOutputTokens: 500,
@@ -144,27 +147,13 @@ function validateExpectedDraft(
       "budgetPerPerson",
       "hardConstraints",
       "softPreferences",
-      "missingRequiredFields",
     ])
   ) {
     return {
       issues: [issue("INVALID_EXPECTED_DRAFT", path, "expectedDraft contains unsupported fields")],
     };
   }
-  const target = value.target;
-  if (
-    target !== undefined &&
-    (!isRecord(target) ||
-      !hasOnlyKeys(target, ["query"]) ||
-      !isNonBlankString(target.query))
-  ) {
-    return {
-      issues: [issue("INVALID_EXPECTED_DRAFT", `${path}.target`, "target must contain one non-empty query")],
-    };
-  }
-  const draftWithoutTarget = { ...value };
-  delete draftWithoutTarget.target;
-  const validation = validateRestaurantIntentDraft(draftWithoutTarget);
+  const validation = validateRestaurantIntentDraft(value);
   if (!validation.valid) {
     return {
       issues: validation.errors.map((message) =>
@@ -172,25 +161,7 @@ function validateExpectedDraft(
       ),
     };
   }
-  const canonicalMissing = RESTAURANT_BLOCKING_FIELDS.filter((field) => value[field] === undefined);
-  if (JSON.stringify(value.missingRequiredFields) !== JSON.stringify(canonicalMissing)) {
-    return {
-      issues: [
-        issue(
-          "INVALID_EXPECTED_DRAFT",
-          `${path}.missingRequiredFields`,
-          "missingRequiredFields must list every absent blocking field once in canonical order",
-        ),
-      ],
-    };
-  }
-  return {
-    draft: {
-      ...validation.value,
-      ...(target === undefined ? {} : { target: structuredClone(target) as { query: string } }),
-    },
-    issues: [],
-  };
+  return { draft: validation.value, issues: [] };
 }
 
 function validateExpectedDecision(
@@ -209,7 +180,7 @@ function validateExpectedDecision(
         issues: [issue("INVALID_EXPECTED_DECISION", path, "SEARCH cannot contain other fields")],
       };
     }
-    if (expectedDraft && expectedDraft.missingRequiredFields.length > 0) {
+    if (expectedDraft && missingBlockingFields(expectedDraft).length > 0) {
       return {
         issues: [issue("INVALID_EXPECTED_DECISION", path, "SEARCH requires a complete expectedDraft")],
       };
@@ -239,10 +210,10 @@ function validateExpectedDecision(
       issues: [issue("INVALID_EXPECTED_DECISION", path, "missingRequiredFields is invalid")],
     };
   }
-  const missingRequiredFields = value.missingRequiredFields as RestaurantIntentDraft["missingRequiredFields"];
+  const missingRequiredFields = value.missingRequiredFields as (typeof RESTAURANT_BLOCKING_FIELDS)[number][];
   if (
     expectedDraft &&
-    JSON.stringify(missingRequiredFields) !== JSON.stringify(expectedDraft.missingRequiredFields)
+    JSON.stringify(missingRequiredFields) !== JSON.stringify(missingBlockingFields(expectedDraft))
   ) {
     return {
       issues: [

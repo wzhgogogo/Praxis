@@ -1,8 +1,8 @@
 # Restaurant Booking Domain
 
 - Status: Accepted
-- Version: 0.8
-- Last updated: 2026-08-13
+- Version: 0.9
+- Last updated: 2026-08-17
 - Source of truth for: 餐厅预约Domain模型、状态、搜索和完成条件
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0007](../decisions/0007-semantic-proposal-compiler-and-decision-kernel.md)
 - Related documents: [MVP PRD](../product/MVP-PRD.md), [User Flows](../product/USER-FLOWS.md), [Policy & Execution](../architecture/POLICY-EXECUTION-VERIFICATION.md), [Data, Context & Security](../architecture/DATA-CONTEXT-SECURITY.md), [Search Service](../architecture/SEARCH-SERVICE.md)
@@ -11,11 +11,11 @@
 
 Restaurant Mock预约切片已实现完整Intent之后的流程：`SEARCHING → AWAITING_SELECTION → REVALIDATING → AWAITING_AUTHORIZATION → EXECUTING → VERIFYING`，并覆盖`BOOKED_VERIFIED`、`SELECTION_REQUIRED`与`OUTCOME_UNKNOWN`。当前State Schema为`4`；Pilot前没有真实Task数据，旧Schema迁移路径已经删除。
 
-Stage 2A已实现自然语言入口和本地Web路径：`UNDERSTANDING → NEEDS_INPUT | SEARCHING → AWAITING_SELECTION`。服务端注入Local-only Fixture ModelGateway到`RestaurantSemanticInterpreter`；其Proposal须通过JSON、`finish_reason=STOP`和封闭的Semantic Proposal Contract，再由纯Restaurant Compiler产生`SEMANTIC_PROPOSAL_COMPILED`或`SEMANTIC_CONFLICT_RECORDED` Event。Reducer推导`missingRequiredFields`，Decision Kernel通过`DECIDE_RESTAURANT_NEXT`决定澄清、搜索、候选展示、无候选调整或安全的`NEED_REINTERPRETATION`。完整Intent由Fixture Search返回三个Fixture候选；用户选择后只完成Fixture revalidation，并停在`AWAITING_AUTHORIZATION`。本路径没有真实模型、搜索、空位、Authorization或预约。
+Stage 2A已实现自然语言入口和本地Web路径：`UNDERSTANDING → NEEDS_INPUT | SEARCHING → AWAITING_SELECTION`。应用层注入Model Gateway、Restaurant Search和Clock；真实DeepSeek传输使用强制strict structured-output envelope，随后仍由封闭的Semantic Proposal Contract本地校验，再由纯Restaurant Compiler产生`SEMANTIC_PROPOSAL_COMPILED`或`SEMANTIC_CONFLICT_RECORDED` Event。阻塞字段由权威Draft即时推导，Decision Kernel通过`DECIDE_RESTAURANT_NEXT`决定澄清、搜索、候选展示、无候选调整或安全的`NEED_REINTERPRETATION`。Fixture Search返回三个演示候选；用户选择后只完成Fixture revalidation，并停在`AWAITING_AUTHORIZATION`。本路径没有真实搜索、空位、Authorization或预约。
 
 ADR-0007已固定v15产品目标。其Semantic Interpreter、Semantic Proposal Contract、Restaurant Semantic Compiler和语义/搜索Decision Kernel已在Fixture产品路径实现；Harness-only v14 `statePatch` Contract仍不接入产品Task State。预约阶段的`PROPOSE_RESERVATION`与`COMPLETE`尚未迁移到Kernel命令，继续沿用既有确定性状态机。
 
-真实Search Source、Availability、Request Booking、Human Takeover、取消、变更与路线仍为`proposed`。当前本地代码见 [`Restaurant Task Definition`](../../src/domains/restaurant/task-definition.ts)、[`Local Search Application`](../../src/application/local-restaurant-search.ts) 和 [`Local Web Server`](../../src/server/local-web-server.ts)。
+真实Search Source、Availability、Request Booking、Human Takeover、取消、变更与路线仍为`proposed`。当前产品应用见[`Persistent Restaurant Agent`](../../src/application/persistent-restaurant-agent.ts)，轻量Fixture Driver只位于[`src/eval/search-fixture`](../../src/eval/search-fixture/fixture-application.ts)。
 
 ## v15 Semantic Proposal, Compiler and Decision Kernel
 
@@ -32,19 +32,20 @@ Reducer继续以`Old State + Event → New Authoritative State`维护权威事�
 ```ts
 type RestaurantBookingIntent = {
   timezone: "Asia/Tokyo";
-  date?: string;
-  timeWindow?: { earliest: string; latest: string };
-  partySize?: number;
-  area?: { query: string; placeId?: string; radiusMeters?: number };
+  date: string;
+  timeWindow: { earliest: string; latest: string };
+  partySize: number;
+  area: { query: string; placeId?: string; radiusMeters?: number };
   cuisines: string[];
   budgetPerPerson?: { max: number; currency: "JPY" };
   hardConstraints: string[];
   softPreferences: string[];
-  missingRequiredFields: string[];
 };
 ```
 
-模型输出先进入可缺阻塞字段的`RestaurantIntentDraft`：`date`、`timeWindow`、`partySize`、`area`可以为空，但必须通过Schema Validator；`missingRequiredFields`只允许这四项，且必须与实际缺失字段严格一致。未知字段、无效日历日期、空字符串、错误JPY预算和嵌套未知字段一律拒绝。只有它们齐全且缺失列表为空，Runtime才可创建完整`RestaurantBookingIntent`并开始搜索。
+Reducer维护可缺阻塞字段的`RestaurantIntentDraft`：`date`、`timeWindow`、`partySize`、`area`可以为空，但必须通过同一Domain Validator。`missingBlockingFields(draft)`从这四个权威值即时计算，不持久化第二份readiness。未知字段、无效日历日期、空字符串、错误JPY预算和嵌套未知字段一律拒绝；四项齐全时Runtime才可创建完整`RestaurantBookingIntent`并开始搜索。
+
+Semantic Operation固定为：singleton `ASSERT/CORRECT=set`、`NEGATE=clear`、`CONFIRM=no state mutation`；collection `ASSERT=add`、`CORRECT=replace collection`、`NEGATE=remove named item`，不允许collection `CONFIRM`。
 
 阻塞字段是日期、时间、人数和区域。菜系与预算未提供时可搜索，但必须透明说明。
 

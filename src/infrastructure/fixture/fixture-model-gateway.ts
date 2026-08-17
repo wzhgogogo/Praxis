@@ -1,36 +1,7 @@
 import type { ModelGateway, ModelRequest, ModelResponse } from "../../core/model/contracts.js";
-import type { RestaurantIntentDraft } from "../../domains/restaurant/contracts.js";
 import type { RestaurantSemanticProposal } from "../../domains/restaurant/semantic-proposal.js";
 
 const REFERENCE_DATE = "2026-08-05";
-
-function fixtureDraftFor(message: string): RestaurantIntentDraft {
-  const normalized = message.toLowerCase();
-  const hasArea = normalized.includes("shinjuku");
-  const hasTime = normalized.includes("7pm") || normalized.includes("7 pm") || normalized.includes("19:00");
-  const hasParty = /\b(two|2)\b/.test(normalized);
-  const hasCuisine = normalized.includes("yakiniku");
-  const missingRequiredFields: RestaurantIntentDraft["missingRequiredFields"] = [
-    ...(hasTime ? [] : ["date", "timeWindow"] as const),
-    ...(hasParty ? [] : ["partySize"] as const),
-    ...(hasArea ? [] : ["area"] as const),
-  ];
-
-  return {
-    schemaVersion: "1",
-    timezone: "Asia/Tokyo",
-    ...(hasTime ? { date: REFERENCE_DATE, timeWindow: { earliest: "19:00", latest: "19:30" } } : {}),
-    ...(hasParty ? { partySize: 2 } : {}),
-    ...(hasArea ? { area: { query: "Shinjuku", radiusMeters: 2_000 } } : {}),
-    cuisines: hasCuisine ? ["yakiniku"] : [],
-    ...(normalized.includes("5000") || normalized.includes("5,000")
-      ? { budgetPerPerson: { max: 5_000, currency: "JPY" as const } }
-      : {}),
-    hardConstraints: [],
-    softPreferences: [],
-    missingRequiredFields,
-  };
-}
 
 function userMessage(request: ModelRequest, prefix: string): string {
   const content = request.messages.find((message) => message.role === "user")?.content;
@@ -96,8 +67,7 @@ function fixtureSemanticProposalFor(message: string): RestaurantSemanticProposal
 }
 
 /**
- * Local-only deterministic model double. Product code uses the v15 semantic path;
- * the legacy intent-draft request remains available only for fixture/replay evaluation.
+ * Local-only deterministic model double for the current v15 semantic path.
  */
 export class FixtureModelGateway implements ModelGateway {
   private sequence = 0;
@@ -108,10 +78,6 @@ export class FixtureModelGateway implements ModelGateway {
         const message = userMessage(request, "User restaurant message as JSON string: ");
         return fixtureSemanticProposalFor(message);
       }
-      if (request.purpose === "restaurant_intent_parse") {
-        const message = userMessage(request, "User restaurant request as JSON string: ");
-        return fixtureDraftFor(message);
-      }
       throw new Error(`Fixture model gateway does not support ${request.purpose}`);
     })();
     this.sequence += 1;
@@ -120,7 +86,7 @@ export class FixtureModelGateway implements ModelGateway {
       provider: "FIXTURE",
       model: "fixture-restaurant-semantic-v1",
       outputText: JSON.stringify(output),
-      finishReason: "STOP",
+      finishReason: request.responseFormat === "JSON_SCHEMA" ? "TOOL_CALLS" : "STOP",
       latencyMs: 0,
     };
   }

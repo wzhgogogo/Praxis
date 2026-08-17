@@ -11,7 +11,7 @@
 
 | Provider | Discovery | Availability | Execute | Cancel | Verify | Takeover | Status / 限制 |
 |---|---|---|---|---|---|---|---|
-| DeepSeek API | — | — | Tool Call提议 | — | 仅辅助抽取 | — | `verified`；服务端 Chat Completion Adapter 与 v15 Semantic Regression 已完成受控真实连接。最近10次已暴露Fixture Regression为70/70，不能作为模型质量Baseline；模型不直接执行工具或写状态 |
+| DeepSeek API | — | — | Tool Call提议 | — | 仅辅助抽取 | — | `verified`连接；标准JSON Output只保证合法JSON，v15现用Beta strict function承载完整Proposal Schema，但本地Validator与语义Eval仍必需。历史70/70已暴露Regression不能作为Baseline；模型不直接执行工具或写状态 |
 | Google Places | 地点与基础信息 | 否 | 否 | 否 | 否 | 否 | `verified`；保存和展示受政策限制，Place ID可保存 |
 | Google Routes | — | 交通路线 | 否 | 否 | Route响应 | 否 | `verified`；支持Transit到达/出发时间 |
 | Hot Pepper Web Service | 餐厅、区域、预算等 | 未见公开库存API | 未见公开Consumer Booking API | 否 | 否 | 否 | `verified` Discovery；预约需网页或合作能力 |
@@ -29,7 +29,7 @@
 - [Tool Calls](https://api-docs.deepseek.com/guides/tool_calls)
 - [Models and Pricing](https://api-docs.deepseek.com/quick_start/pricing/)
 
-DeepSeek返回Tool Call参数，实际函数由Praxis执行。当前`DeepSeekModelGateway`只支持非流式text/JSON completion，尚未开启Tool Call；模型名和能力可能变化，接入时必须用`DEEPSEEK_MODEL`固定并记录版本。根据官方Chat Completion文档，JSON Output须在消息中明确要求JSON，且`finish_reason=length`可能导致输出截断；当前`RestaurantSemanticInterpreter`使用版本化Prompt、拒绝非`STOP`结果，并以Proposal Schema Validator处理不可信输出。
+DeepSeek标准JSON Output只保证生成合法JSON，不接收完整`json_schema`。官方Beta strict function calling可校验Function JSON Schema；v15因此用一个强制、不可执行的function envelope传输Restaurant Proposal，并要求唯一匹配的`tool_calls`。这不是`LLM → Tool`执行路径：Gateway只提取arguments，本地Proposal Validator仍处理不可信输出，语义正确性由Eval单独判断。模型名和能力可能变化，运行时必须固定并记录版本。
 
 ### Google
 

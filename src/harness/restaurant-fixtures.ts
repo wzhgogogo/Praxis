@@ -13,7 +13,6 @@ export const fixtureIntent: RestaurantBookingIntent = {
   budgetPerPerson: { max: 5_000, currency: "JPY" },
   hardConstraints: [],
   softPreferences: [],
-  missingRequiredFields: [],
 };
 
 function candidate(index: number): ExecutableCandidate {

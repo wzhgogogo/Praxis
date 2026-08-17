@@ -1,8 +1,8 @@
 # Interfaces and Schemas
 
 - Status: Accepted
-- Version: 1.7
-- Last updated: 2026-08-14
+- Version: 1.8
+- Last updated: 2026-08-17
 - Source of truth for: 公共接口、DTO、内部Tool、实现状态和版本规则
 - Related ADRs: [ADR Index](../decisions/README.md), [ADR-0007](../decisions/0007-semantic-proposal-compiler-and-decision-kernel.md)
 - Related documents: [Task Runtime](TASK-RUNTIME.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md)
@@ -225,14 +225,18 @@ type ModelRequest = {
   purpose: string;
   promptVersion: string;
   messages: ModelMessage[];
-  responseFormat: "TEXT" | "JSON_OBJECT";
-  outputSchema: { name: string; version: string };
+  responseFormat: "TEXT" | "JSON_OBJECT" | "JSON_SCHEMA";
+  outputSchema: {
+    name: string;
+    version: string;
+    jsonSchema?: Record<string, unknown>;
+  };
   timeoutMs: number;
   fallback: "STRUCTURED_FORM" | "FAIL_CLOSED";
 };
 ```
 
-`DeepSeekModelGateway`固定调用`POST /chat/completions`，不把内部`taskId`发给Provider；显式配置`DEEPSEEK_API_KEY`和`DEEPSEEK_MODEL`后才能创建实例。非2xx、429、超时、网络错误和畸形Provider响应均会转为稳定的`ModelGatewayError`，不会写Task State。`ModelInvocationRecord`故意不含Prompt或Completion正文。
+普通Text/JSON Object走标准`POST /chat/completions`；`JSON_SCHEMA`走DeepSeek Beta strict function transport，强制一个只承载结构化输出、从不执行的function envelope。Domain提供完整JSON Schema，Infrastructure不导入Restaurant类型；Gateway提取arguments后，本地Domain Validator仍为权威门禁且语义正确性另行评分。内部`taskId`、Schema正文、Prompt和Completion都不进入普通Telemetry。非2xx、429、超时、网络错误和畸形响应转为稳定`ModelGatewayError`，不静默降级成自由文本。
 
 ## Restaurant v15 semantic boundary
 

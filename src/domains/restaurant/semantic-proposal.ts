@@ -1,5 +1,3 @@
-import type { RestaurantBlockingField } from "./contracts.js";
-
 export const RESTAURANT_SEMANTIC_PROPOSAL_PURPOSE = "restaurant_semantic_interpret";
 export const RESTAURANT_SEMANTIC_PROPOSAL_PROMPT_VERSION = "v2";
 export const RESTAURANT_SEMANTIC_PROPOSAL_SCHEMA = {
@@ -100,6 +98,92 @@ function isCollectionField(field: RestaurantSemanticField): boolean {
   return field === "CUISINE" || field === "HARD_CONSTRAINT" || field === "SOFT_PREFERENCE";
 }
 
+function strictObject(
+  properties: Record<string, unknown>,
+  required: readonly string[] = Object.keys(properties),
+): Record<string, unknown> {
+  return { type: "object", properties, required, additionalProperties: false };
+}
+
+function valueSchema(field: RestaurantSemanticField): Record<string, unknown> {
+  const kind = { type: "string", enum: [field] };
+  switch (field) {
+    case "TARGET":
+    case "AREA":
+      return strictObject({ kind, query: { type: "string", minLength: 1 } });
+    case "DATE":
+      return strictObject({
+        kind,
+        value: { type: "string", pattern: "^\\d{4}-\\d{2}-\\d{2}$" },
+      });
+    case "TIME_WINDOW":
+      return strictObject({
+        kind,
+        earliest: { type: "string", pattern: "^([01]\\d|2[0-3]):[0-5]\\d$" },
+        latest: { type: "string", pattern: "^([01]\\d|2[0-3]):[0-5]\\d$" },
+      });
+    case "PARTY_SIZE":
+      return strictObject({ kind, value: { type: "integer", minimum: 1 } });
+    case "CUISINE":
+    case "HARD_CONSTRAINT":
+    case "SOFT_PREFERENCE":
+      return strictObject({ kind, value: { type: "string", minLength: 1 } });
+    case "BUDGET_PER_PERSON":
+      return strictObject({
+        kind,
+        max: { type: "integer", minimum: 1 },
+        currency: { type: "string", enum: ["JPY"] },
+      });
+  }
+}
+
+function factSchema(
+  field: RestaurantSemanticField,
+  operations: readonly RestaurantSemanticOperation[],
+  withValue: boolean,
+): Record<string, unknown> {
+  return strictObject({
+    field: { type: "string", enum: [field] },
+    operation: { type: "string", enum: operations },
+    ...(withValue ? { value: valueSchema(field) } : {}),
+  });
+}
+
+const SINGLETON_FIELDS = [
+  "TARGET",
+  "DATE",
+  "TIME_WINDOW",
+  "PARTY_SIZE",
+  "AREA",
+  "BUDGET_PER_PERSON",
+] as const satisfies readonly RestaurantSemanticField[];
+
+const COLLECTION_FIELDS = [
+  "CUISINE",
+  "HARD_CONSTRAINT",
+  "SOFT_PREFERENCE",
+] as const satisfies readonly RestaurantSemanticField[];
+
+/** Complete provider-transport schema; the runtime validator below remains authoritative. */
+export const RESTAURANT_SEMANTIC_PROPOSAL_JSON_SCHEMA: Readonly<Record<string, unknown>> =
+  strictObject({
+    schemaVersion: { type: "string", enum: ["1"] },
+    facts: {
+      type: "array",
+      items: {
+        anyOf: [
+          ...SINGLETON_FIELDS.flatMap((field) => [
+            factSchema(field, ["ASSERT", "CORRECT"], true),
+            factSchema(field, ["NEGATE", "CONFIRM"], false),
+          ]),
+          ...COLLECTION_FIELDS.map((field) =>
+            factSchema(field, ["ASSERT", "CORRECT", "NEGATE"], true),
+          ),
+        ],
+      },
+    },
+  });
+
 function valueMatchesField(field: RestaurantSemanticField, value: unknown): boolean {
   if (!isRecord(value) || typeof value.kind !== "string" || value.kind !== field) return false;
   switch (field) {
@@ -149,6 +233,9 @@ function validateFact(input: unknown, index: number): string[] {
   if (!isSemanticField(input.field) || !isSemanticOperation(input.operation)) return errors;
 
   if (input.operation === "CONFIRM") {
+    if (isCollectionField(input.field)) {
+      errors.push(`${prefix}.operation CONFIRM is unsupported for collection fields`);
+    }
     if (input.value !== undefined) errors.push(`${prefix}.value is not allowed for CONFIRM`);
     return errors;
   }
@@ -180,18 +267,4 @@ export function validateRestaurantSemanticProposal(
   }
   if (errors.length > 0) return { valid: false, errors };
   return { valid: true, value: structuredClone(input) as unknown as RestaurantSemanticProposal };
-}
-
-export function missingBlockingFields(input: {
-  date?: unknown;
-  timeWindow?: unknown;
-  partySize?: unknown;
-  area?: unknown;
-}): RestaurantBlockingField[] {
-  return [
-    ...(input.date === undefined ? (["date"] as const) : []),
-    ...(input.timeWindow === undefined ? (["timeWindow"] as const) : []),
-    ...(input.partySize === undefined ? (["partySize"] as const) : []),
-    ...(input.area === undefined ? (["area"] as const) : []),
-  ];
 }

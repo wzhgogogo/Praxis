@@ -35,7 +35,11 @@ const gateway = DeepSeekModelGateway.fromEnvironment(process.env, {
 });
 const report = await runRestaurantSemanticRegression(
   new RestaurantSemanticInterpreter(gateway),
-  { mode: "REAL_MODEL_MOCK_WORLD", dataset: restaurantSemanticRegressionV1 },
+  {
+    mode: "REAL_MODEL_MOCK_WORLD",
+    attributionLevel: "DEVELOPMENT_STAGE_ORACLES",
+    dataset: restaurantSemanticRegressionV1,
+  },
 );
 const evaluationClassification = {
   cohort: "DEVELOPMENT_DIAGNOSTIC",

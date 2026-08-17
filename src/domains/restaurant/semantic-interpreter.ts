@@ -10,6 +10,7 @@ import type { RestaurantIntentDraft } from "./contracts.js";
 import {
   RESTAURANT_SEMANTIC_PROPOSAL_PROMPT_VERSION,
   RESTAURANT_SEMANTIC_PROPOSAL_PURPOSE,
+  RESTAURANT_SEMANTIC_PROPOSAL_JSON_SCHEMA,
   RESTAURANT_SEMANTIC_PROPOSAL_SCHEMA,
   type RestaurantSemanticProposal,
   validateRestaurantSemanticProposal,
@@ -125,7 +126,7 @@ function modelContext(draft: RestaurantIntentDraft | undefined): Record<string, 
 function validateModelOutput(response: ModelResponse):
   | { valid: true; proposal: RestaurantSemanticProposal }
   | { valid: false; errors: string[] } {
-  if (response.finishReason !== "STOP") {
+  if (response.finishReason !== "TOOL_CALLS") {
     return {
       valid: false,
       errors: [`Model response finished with ${response.finishReason} and cannot be trusted`],
@@ -159,7 +160,7 @@ Reference time: ${input.referenceTime}. Timezone: ${input.timezone}.
 Current authoritative context is supplied only to understand corrections and negations: ${JSON.stringify(modelContext(input.currentDraft))}.
 Use YYYY-MM-DD dates, 24-hour HH:mm times, and JPY budgets. Do not create provider identifiers, search criteria, missing fields, state patches, events, decisions, commands, tool inputs, authorizations, evidence, or outcomes.
 Return exactly {"schemaVersion":"1","facts":[]}. Each fact is {"field":"TARGET|DATE|TIME_WINDOW|PARTY_SIZE|AREA|CUISINE|BUDGET_PER_PERSON|HARD_CONSTRAINT|SOFT_PREFERENCE","operation":"ASSERT|CORRECT|NEGATE|CONFIRM","value":...}.
-ASSERT and CORRECT include a value matching the field. NEGATE includes a value only for CUISINE, HARD_CONSTRAINT, or SOFT_PREFERENCE; it clears any singleton field without a value. CONFIRM has no value.
+ASSERT and CORRECT include a value matching the field. For collection fields ASSERT adds and CORRECT replaces the collection. NEGATE includes a value only for CUISINE, HARD_CONSTRAINT, or SOFT_PREFERENCE; it clears any singleton field without a value. CONFIRM is allowed only for a singleton already present in context, has no value, and does not change stored state.
 For every non-CONFIRM fact, value.kind must exactly equal field. Use only these exact value shapes:
 - TARGET: {"kind":"TARGET","query":"Restaurant Name"}
 - DATE: {"kind":"DATE","value":"YYYY-MM-DD"}
@@ -215,8 +216,11 @@ export class RestaurantSemanticInterpreter {
               content: `User restaurant message as JSON string: ${JSON.stringify(input.message)}`,
             },
           ],
-          responseFormat: "JSON_OBJECT",
-          outputSchema: RESTAURANT_SEMANTIC_PROPOSAL_SCHEMA,
+          responseFormat: "JSON_SCHEMA",
+          outputSchema: {
+            ...RESTAURANT_SEMANTIC_PROPOSAL_SCHEMA,
+            jsonSchema: RESTAURANT_SEMANTIC_PROPOSAL_JSON_SCHEMA,
+          },
           timeoutMs: 10_000,
           fallback: "STRUCTURED_FORM",
           maxOutputTokens: 500,

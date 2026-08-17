@@ -7,14 +7,23 @@ import { DeepSeekModelGateway } from "./deepseek-model-gateway.js";
 
 const request: ModelRequest = {
   taskId: "task-intent-001",
-  purpose: "restaurant_intent_parse",
+  purpose: "restaurant_semantic_interpret",
   promptVersion: "v1",
   messages: [
     { role: "system", content: "Return JSON only." },
     { role: "user", content: "Tonight at 7pm in Shinjuku for two." },
   ],
-  responseFormat: "JSON_OBJECT",
-  outputSchema: { name: "restaurant-intent-draft", version: "1" },
+  responseFormat: "JSON_SCHEMA",
+  outputSchema: {
+    name: "restaurant_semantic_proposal",
+    version: "1",
+    jsonSchema: {
+      type: "object",
+      properties: { schemaVersion: { type: "string", enum: ["1"] } },
+      required: ["schemaVersion"],
+      additionalProperties: false,
+    },
+  },
   timeoutMs: 100,
   fallback: "STRUCTURED_FORM",
   maxOutputTokens: 256,
@@ -22,7 +31,7 @@ const request: ModelRequest = {
   thinking: "disabled",
 };
 
-test("DeepSeek gateway sends a bounded server-side JSON completion and records redacted metadata", async () => {
+test("DeepSeek gateway sends the complete schema through strict structured output and records redacted metadata", async () => {
   let capturedInput: RequestInfo | URL | undefined;
   let capturedInit: RequestInit | undefined;
   const records: ModelInvocationRecord[] = [];
@@ -47,8 +56,20 @@ test("DeepSeek gateway sends a bounded server-side JSON completion and records r
           model: "deepseek-v4-flash",
           choices: [
             {
-              finish_reason: "stop",
-              message: { content: '{"partySize":2}' },
+              finish_reason: "tool_calls",
+              message: {
+                content: null,
+                tool_calls: [
+                  {
+                    id: "call-1",
+                    type: "function",
+                    function: {
+                      name: "restaurant_semantic_proposal",
+                      arguments: '{"schemaVersion":"1"}',
+                    },
+                  },
+                ],
+              },
             },
           ],
           usage: {
@@ -65,13 +86,27 @@ test("DeepSeek gateway sends a bounded server-side JSON completion and records r
 
   const result = await gateway.complete(request);
 
-  assert.equal(capturedInput, "https://api.deepseek.com/chat/completions");
+  assert.equal(capturedInput, "https://api.deepseek.com/beta/chat/completions");
   assert.equal(new Headers(capturedInit?.headers).get("Authorization"), "Bearer test-key");
   const body = JSON.parse(String(capturedInit?.body)) as Record<string, unknown>;
   assert.deepEqual(body, {
     model: "deepseek-v4-flash",
     messages: request.messages,
-    response_format: { type: "json_object" },
+    tools: [
+      {
+        type: "function",
+        function: {
+          name: "restaurant_semantic_proposal",
+          description: "Return restaurant_semantic_proposal schema 1",
+          strict: true,
+          parameters: request.outputSchema.jsonSchema,
+        },
+      },
+    ],
+    tool_choice: {
+      type: "function",
+      function: { name: "restaurant_semantic_proposal" },
+    },
     stream: false,
     max_tokens: 256,
     temperature: 0,
@@ -79,8 +114,8 @@ test("DeepSeek gateway sends a bounded server-side JSON completion and records r
   });
   assert.equal("taskId" in body, false);
   assert.equal(result.provider, "DEEPSEEK");
-  assert.equal(result.outputText, '{"partySize":2}');
-  assert.equal(result.finishReason, "STOP");
+  assert.equal(result.outputText, '{"schemaVersion":"1"}');
+  assert.equal(result.finishReason, "TOOL_CALLS");
   assert.deepEqual(result.usage, {
     inputTokens: 12,
     outputTokens: 8,
@@ -91,13 +126,13 @@ test("DeepSeek gateway sends a bounded server-side JSON completion and records r
   assert.deepEqual(records[0], {
     invocationId: result.invocationId,
     taskId: "task-intent-001",
-    purpose: "restaurant_intent_parse",
+    purpose: "restaurant_semantic_interpret",
     promptVersion: "v1",
     fallback: "STRUCTURED_FORM",
     provider: "DEEPSEEK",
     model: "deepseek-v4-flash",
-    responseFormat: "JSON_OBJECT",
-    outputSchema: { name: "restaurant-intent-draft", version: "1" },
+    responseFormat: "JSON_SCHEMA",
+    outputSchema: { name: "restaurant_semantic_proposal", version: "1" },
     outcome: "SUCCEEDED",
     latencyMs: 1,
     providerStatus: 200,
