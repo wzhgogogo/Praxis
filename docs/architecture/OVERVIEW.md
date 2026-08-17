@@ -43,9 +43,9 @@ Domain Packages
         └── case-management (future)
 ```
 
-## v15 Restaurant semantic-to-execution path
+## v16 Restaurant semantic-to-execution path
 
-Restaurant v15 fixes the language-to-state and decision boundaries before further Provider or Tool expansion. The Semantic Interpreter is the only LLM step that reads the user's new natural-language message. It returns an untrusted Restaurant Semantic Proposal, not an internal State Patch or action.
+Restaurant v16 retains v15's language-to-state and decision boundaries while replacing unstable criteria classification with open `CRITERION{text, polarity, strength}`. The Semantic Interpreter is the only LLM step that reads the user's new natural-language message. It returns an untrusted Restaurant Semantic Proposal, not an internal State Patch or action.
 
 ```text
 User Message
@@ -62,7 +62,7 @@ User Message
 → Task Runtime → Reducer → Decision Kernel
 ```
 
-`NEED_REINTERPRETATION` is a Decision Kernel result, not a model instruction or a State mutation. In v15 it records a conflict and asks the user or takes a safe fallback; it never automatically reinterprets a message or overwrites State. LLM response text can explain an outcome or propose an adjustment, but a suggested adjustment only becomes input after an explicit new user message traverses the same semantic chain.
+`NEED_REINTERPRETATION` is a Decision Kernel result, not a model instruction or a State mutation. In v16 it records a conflict and asks the user or takes a safe fallback; it never automatically reinterprets a message or overwrites State. LLM response text can explain an outcome or propose an adjustment, but a suggested adjustment only becomes input after an explicit new user message traverses the same semantic chain.
 
 ## 四类任务骨架
 

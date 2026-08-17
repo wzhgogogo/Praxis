@@ -13,16 +13,16 @@ import {
   RESTAURANT_SEMANTIC_PROPOSAL_SCHEMA,
 } from "../../domains/restaurant/semantic-proposal.js";
 
-export const RESTAURANT_SEMANTIC_HOLDOUT_DATASET_ID = "restaurant-semantic-holdout-v1";
-export const RESTAURANT_SEMANTIC_HOLDOUT_DATASET_VERSION = "1";
+export const RESTAURANT_SEMANTIC_HOLDOUT_DATASET_ID = "restaurant-semantic-holdout-v2";
+export const RESTAURANT_SEMANTIC_HOLDOUT_DATASET_VERSION = "2";
 export const RESTAURANT_SEMANTIC_HOLDOUT_REFERENCE_TIME = "2026-08-20T09:00:00+09:00";
 export const RESTAURANT_SEMANTIC_HOLDOUT_DEFAULT_PATH =
-  ".eval-private/restaurant-semantic-holdout-v1.json";
+  ".eval-private/restaurant-semantic-holdout-v2.json";
 
 export const RESTAURANT_SEMANTIC_HOLDOUT_MANIFEST = {
-  protocolVersion: "1",
-  evaluatorVersion: "1",
-  datasetSchemaVersion: "1",
+  protocolVersion: "2",
+  evaluatorVersion: "2",
+  datasetSchemaVersion: "2",
   datasetId: RESTAURANT_SEMANTIC_HOLDOUT_DATASET_ID,
   datasetVersion: RESTAURANT_SEMANTIC_HOLDOUT_DATASET_VERSION,
   referenceTime: RESTAURANT_SEMANTIC_HOLDOUT_REFERENCE_TIME,
@@ -69,7 +69,7 @@ export interface RestaurantSemanticHoldoutSession {
 }
 
 export interface RestaurantSemanticHoldoutDataset {
-  schemaVersion: "1";
+  schemaVersion: "2";
   id: typeof RESTAURANT_SEMANTIC_HOLDOUT_DATASET_ID;
   version: typeof RESTAURANT_SEMANTIC_HOLDOUT_DATASET_VERSION;
   cohort: "HOLDOUT";
@@ -98,7 +98,7 @@ export interface RestaurantSemanticHoldoutPreflightIssue {
 }
 
 export interface RestaurantSemanticHoldoutPreflightReport {
-  preflightVersion: "1";
+  preflightVersion: "2";
   mode: "DRAFT" | "REQUIRE_COMPLETE";
   status: "READY_FOR_ANNOTATION" | "READY_FOR_BASELINE" | "NOT_READY";
   datasetPath: string;
@@ -143,10 +143,8 @@ function validateExpectedDraft(
       "timeWindow",
       "partySize",
       "area",
-      "cuisines",
+      "criteria",
       "budgetPerPerson",
-      "hardConstraints",
-      "softPreferences",
     ])
   ) {
     return {
@@ -235,7 +233,7 @@ export function preflightRestaurantSemanticHoldout(
   const issues: RestaurantSemanticHoldoutPreflightIssue[] = [];
   if (!isRecord(input)) {
     return {
-      preflightVersion: "1",
+      preflightVersion: "2",
       mode: options.mode,
       status: "NOT_READY",
       datasetPath: options.datasetPath,
@@ -258,7 +256,7 @@ export function preflightRestaurantSemanticHoldout(
     issues.push(issue("INVALID_DATASET_SHAPE", "$", "Holdout dataset contains unsupported fields"));
   }
   const frozenFields = [
-    ["schemaVersion", "1"],
+    ["schemaVersion", "2"],
     ["id", RESTAURANT_SEMANTIC_HOLDOUT_DATASET_ID],
     ["version", RESTAURANT_SEMANTIC_HOLDOUT_DATASET_VERSION],
     ["cohort", "HOLDOUT"],
@@ -352,7 +350,7 @@ export function preflightRestaurantSemanticHoldout(
   }
 
   const report: RestaurantSemanticHoldoutPreflightReport = {
-    preflightVersion: "1",
+    preflightVersion: "2",
     mode: options.mode,
     status:
       issues.length === 0
@@ -366,7 +364,7 @@ export function preflightRestaurantSemanticHoldout(
   };
   if (issues.length === 0) {
     report.dataset = {
-      schemaVersion: "1",
+      schemaVersion: "2",
       id: RESTAURANT_SEMANTIC_HOLDOUT_DATASET_ID,
       version: RESTAURANT_SEMANTIC_HOLDOUT_DATASET_VERSION,
       cohort: "HOLDOUT",
@@ -390,7 +388,7 @@ export async function loadRestaurantSemanticHoldout(
   } catch (error) {
     const code = isRecord(error) ? error.code : undefined;
     return {
-      preflightVersion: "1",
+      preflightVersion: "2",
       mode,
       status: "NOT_READY",
       datasetPath,
@@ -409,7 +407,7 @@ export async function loadRestaurantSemanticHoldout(
     parsed = JSON.parse(source);
   } catch {
     return {
-      preflightVersion: "1",
+      preflightVersion: "2",
       mode,
       status: "NOT_READY",
       datasetPath,

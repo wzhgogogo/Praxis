@@ -35,7 +35,7 @@ const turnCount = restaurantSemanticHoldoutTurnCount(preflight.dataset);
 const configuration = requireRealModelEvalConfiguration(process.env, turnCount);
 if (configuration.caseLimit !== turnCount) {
   throw new Error(
-    `v15 Semantic Holdout requires exactly ${turnCount} turns. ` +
+    `v16 Semantic Holdout requires exactly ${turnCount} turns. ` +
       `Set PRAXIS_LIVE_MODEL_EVAL_CASE_LIMIT=${turnCount} or omit it.`,
   );
 }
@@ -111,7 +111,7 @@ try {
     postRunStatus: "RESULT_EXPOSED",
     reusableAsCleanHoldout: false,
     reason: manifestConformant
-      ? "The first run used the frozen v15 manifest and the private Holdout had passed complete preflight."
+      ? "The first run used the frozen v16 manifest and the private Holdout had passed complete preflight."
       : "At least one recorded model invocation did not conform to the frozen manifest.",
   } as const;
   const artifact = {

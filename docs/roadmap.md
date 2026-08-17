@@ -35,9 +35,9 @@ Mock端到端可运行
 
 ## 当前 Stage 2 状态
 
-Stage 2A / 2B 的 Fixture 产品路径已迁移到 v15 `Semantic Interpreter → Proposal Contract → Compiler → Runtime/Reducer → Decision Kernel`。Stage 2C冻结这条产品职责边界、Prompt `v2`与 Proposal Schema `1`；已暴露样本上的真实 DeepSeek 语义 Regression只能证明该受控链路的当前稳定性，不能代替 Clean Holdout Baseline。历史 `decision-v14` 可执行Harness已删除，仅在Git与历史文档中保留记录，不再是产品Baseline门槛。Stage 2C的下一道门槛是当前v15产品语义链的小型Clean Holdout，之后验证一个真实只读Discovery来源；详细已实现与未验证项只在[当前状态](STATUS.md)维护。
+Stage 2A / 2B 的 Fixture 产品路径已迁移到 v16 `Semantic Interpreter → Proposal Contract → Compiler → Runtime/Reducer → Decision Kernel`。Stage 2C冻结这条职责边界、Prompt `v3`、Proposal / Draft / Eval Schema `2`与开放`criteria`；已暴露样本上的历史v15真实DeepSeek Regression不能代替v16 Clean Holdout Baseline。历史 `decision-v14` 可执行Harness已删除，仅在Git与历史文档中保留记录，不再是产品Baseline门槛。下一道门槛是当前v16产品语义链的小型Clean Holdout，之后验证一个真实只读Discovery来源；详细已实现与未验证项只在[当前状态](STATUS.md)维护。
 
-v15 Holdout的空模板、私有数据入口、Preflight、确定性Scorer、冻结运行清单和一次性Runner已经实现；当前停止点是人工创建未见样本并完成Gold标注，尚未运行真实模型。
+v16 Holdout的空模板、私有数据入口、Preflight、确定性Scorer、冻结运行清单和一次性Runner已经实现；当前停止点是人工创建未见样本并完成Gold标注，尚未运行真实模型。
 
 ## 扩展性与当前交付的平衡
 
@@ -107,7 +107,7 @@ Status: `in progress`。
 Status: `completed` — 2026-08-07。
 
 - 已删除没有真实数据消费者的Restaurant旧State迁移和缺失Trace兼容路径；
-- 英文Web输入、Backend API、当前v15 Semantic Interpreter、Fixture ModelGateway、Fixture Search和候选选择界面已连通；
+- 英文Web输入、Backend API、当前v16 Semantic Interpreter、Fixture ModelGateway、Fixture Search和候选选择界面已连通；
 - 已补齐`UNDERSTANDING / NEEDS_INPUT / SEARCHING / AWAITING_SELECTION`主路径，并在选择后停在`AWAITING_AUTHORIZATION`；
 - 新增本地HTTP端到端测试和3项Fixture Search Eval；本阶段不创建Authorization或`EXTERNAL_WRITE` Command。
 
@@ -128,9 +128,9 @@ Status: `completed` — 2026-08-08。
 
 ### Stage 2C — One Live Discovery Source
 
-Freeze decision（2026-08-16更新）：当前产品语义主链固定为v15职责边界、Prompt `v2`和Proposal Schema `1`。v14的7个Episode / 17个Turn已完成架构探针与开发诊断使命，可执行Harness、命令和测试已经删除；历史只从Git与日志追溯。新的独立Baseline只评估当前v15产品语义链；单个未支持表达不会自动触发Contract或架构改版。
+Freeze decision（2026-08-17更新）：当前产品语义主链固定为v16职责边界、Prompt `v3`、Proposal / Draft / Eval Schema `2`和开放`criteria`。v14的7个Episode / 17个Turn已完成架构探针与开发诊断使命，可执行Harness、命令和测试已经删除；历史只从Git与日志追溯。新的独立Baseline只评估当前v16产品语义链；单个未支持表达不会自动触发taxonomy、Provider mapping或架构改版。
 
-Progress（截至冻结）：v14 Dataset、17个人工Gold Turn、Preflight、Fixture Oracle、Reducer/Scorer、Mutation和真实模型开发诊断均已完成并记录在历史日志；它们不再是活跃Stage门槛。v15 Fixture产品链和7个已暴露语义Regression Turn已完成；v15 Clean Holdout Baseline与Live Discovery仍未实现。
+Progress（截至冻结）：v14 Dataset、17个人工Gold Turn、Preflight、Fixture Oracle、Reducer/Scorer、Mutation和真实模型开发诊断均已完成并记录在历史日志；它们不再是活跃Stage门槛。v16 Fixture产品链和7个已暴露语义Regression Turn已完成；v16 Clean Holdout Baseline与Live Discovery仍未实现。
 
 - v5的`FULL_REGRESSION`真实模型诊断已覆盖全部7个Episode、17个Turn并完成评分；全部Gold和结果均已暴露，故仍只是`DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`。本轮定位到State/Accumulation、品牌与单店目标区分、Grounding和不足候选解释，尚不修改生产路径；
 - Golden v0.8 / Prompt v6已把命名目标解析、检索充分性和证据装配收回Harness的可信侧：`FIXTURE_DISCOVERY`、`retrievalSummary`和确定性Grounding只定义未来只读Tool输入，不接入真实Discovery或产品Task。真实回归现在会产生只含结构化Patch/状态差异的本机诊断Artifact，且`retryCalls`已改按Turn计数；之后建立隔离Holdout，再核验一个真实Discovery来源；
@@ -140,13 +140,13 @@ Progress（截至冻结）：v14 Dataset、17个人工Gold Turn、Preflight、Fi
 - Prompt v10已在Harness-only Model Contract中收紧状态抽取：社交语境不推出`party`，软偏好不提升`target`；这不改变Golden、Schema、Scorer或真实产品Runtime；
 - Prompt v11已在Harness-only Model Contract中收紧动作路由：品牌分店解析、目标餐厅检查、通用推荐和Exact Availability各自分离；这不改变Golden、Schema、Scorer或真实产品Runtime；
 - 历史[Restaurant Progressive Decision Eval v2](harness/RESTAURANT-DECISION-EVAL-V2.md)已完成v14 Harness探针并冻结；其E1/E2/E3、S1–S8、Candidate Fixture和Grounding结果只保留为已暴露Regression，不再驱动产品Contract或Stage退出；
-- 当前v15固定Regression只保留为开发诊断；先建立只接受当前`message → expectedDraft → expectedDecision`边界的隔离评测入口，再由不参与Prompt编写的人或隔离流程创建、标注并保密小型Holdout。冻结模型、Prompt `v2`、Proposal Schema `1`、Evaluator和Case顺序后一次性运行；任何样本或结果泄露到调优过程即降级为Regression并另建Holdout；
+- 当前v16固定Regression只保留为开发诊断；先建立只接受当前`message → expectedDraft → expectedDecision`边界的隔离评测入口，再由不参与Prompt编写的人或隔离流程创建、标注并保密小型Holdout。冻结模型、Prompt `v3`、Proposal / Draft / Eval Schema `2`、Evaluator和Case顺序后一次性运行；任何样本或结果泄露到调优过程即降级为Regression并另建Holdout；
 - Baseline完成后、接真实Discovery前，定义Restaurant Domain内部的最小Entity Observation和Interaction Event Contract：前者保存Source、Source Entity ID、`observedAt`、Freshness和使用限制；后者记录结构化需求、动作、检索、曝光、反馈、选择和Verified Outcome引用；
 - 只接一个经过能力核验的真实Discovery来源，首选Google Places；
 - 使用Freshness-aware查询复用仍有效的Observation，过期或高风险字段按用途刷新；Source查询、实体合并和硬过滤不依赖模型重复阅读完整结果；
 - 保存来源、ObservedAt和能力限制，建立Live Read-only检查；Stage 2C数据只用于Trace、回放和离线分析，不自动修改生产排序、Prompt或Policy。
 
-完成标准：v15职责边界、Prompt `v2`、Proposal Schema `1`与Evaluator被冻结；以未泄露的v15 `CLEAN_HOLDOUT`生成按Proposal Contract、Compiler、权威Draft、Decision Kernel和Runtime分层的Real Model Baseline；真实英文查询能返回带来源和Freshness的餐厅实体；最小Interaction Event能串联需求、展示、反馈与Outcome引用；Fixture、Real Model Mock World和Live Read-only结果分别记录。此时仍不宣称Web已支持v14所描述的完整渐进决策，也不宣称餐厅“可订”。
+完成标准：v16职责边界、Prompt `v3`、Proposal / Draft / Eval Schema `2`与Evaluator被冻结；以未泄露的v16 `CLEAN_HOLDOUT`生成按Proposal Contract、Compiler、权威Draft、Decision Kernel和Runtime分层的Real Model Baseline；真实英文查询能返回带来源和Freshness的餐厅实体；最小Interaction Event能串联需求、展示、反馈与Outcome引用；Fixture、Real Model Mock World和Live Read-only结果分别记录。此时仍不宣称Web已支持v14所描述的完整渐进决策，也不宣称餐厅“可订”。
 
 ### Stage 2D — One Live Availability Path
 

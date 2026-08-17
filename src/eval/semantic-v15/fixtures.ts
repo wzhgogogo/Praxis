@@ -4,8 +4,8 @@ import type {
 } from "../../domains/restaurant/contracts.js";
 
 export const RESTAURANT_SEMANTIC_REGRESSION_DATASET_ID =
-  "restaurant-semantic-regression-v1";
-export const RESTAURANT_SEMANTIC_REGRESSION_DATASET_VERSION = "1";
+  "restaurant-semantic-regression-v2";
+export const RESTAURANT_SEMANTIC_REGRESSION_DATASET_VERSION = "2";
 export const RESTAURANT_SEMANTIC_REGRESSION_REFERENCE_TIME = "2026-08-05T09:00:00+09:00";
 
 export interface RestaurantSemanticRegressionTurn {
@@ -30,19 +30,15 @@ export interface RestaurantSemanticRegressionDataset {
 function draft(
   input: Omit<RestaurantIntentDraft, "schemaVersion" | "timezone">,
 ): RestaurantIntentDraft {
-  return {
-    schemaVersion: "1",
-    timezone: "Asia/Tokyo",
-    ...input,
-  };
+  return { schemaVersion: "2", timezone: "Asia/Tokyo", ...input };
 }
 
 /**
- * Static, manually labelled regression set for the v15 language-to-state boundary.
- * It deliberately covers complete requests, incremental completion, correction,
- * negation, and a named restaurant target without any live restaurant facts.
+ * Static, manually labelled development regression for the v16 language-to-state boundary.
+ * It covers complete requests, incremental completion, correction, criterion removal,
+ * and a named restaurant target without any live restaurant facts.
  */
-export const restaurantSemanticRegressionV1: RestaurantSemanticRegressionDataset = {
+export const restaurantSemanticRegressionV2: RestaurantSemanticRegressionDataset = {
   id: RESTAURANT_SEMANTIC_REGRESSION_DATASET_ID,
   version: RESTAURANT_SEMANTIC_REGRESSION_DATASET_VERSION,
   referenceTime: RESTAURANT_SEMANTIC_REGRESSION_REFERENCE_TIME,
@@ -59,10 +55,8 @@ export const restaurantSemanticRegressionV1: RestaurantSemanticRegressionDataset
             timeWindow: { earliest: "19:00", latest: "19:30" },
             partySize: 2,
             area: { query: "Shinjuku" },
-            cuisines: ["yakiniku"],
+            criteria: [{ text: "yakiniku", polarity: "POSITIVE", strength: "UNSPECIFIED" }],
             budgetPerPerson: { max: 5000, currency: "JPY" },
-            hardConstraints: [],
-            softPreferences: [],
           }),
           expectedDecision: { type: "SEARCH" },
         },
@@ -74,10 +68,8 @@ export const restaurantSemanticRegressionV1: RestaurantSemanticRegressionDataset
             timeWindow: { earliest: "19:00", latest: "19:30" },
             partySize: 3,
             area: { query: "Shibuya" },
-            cuisines: [],
+            criteria: [],
             budgetPerPerson: { max: 5000, currency: "JPY" },
-            hardConstraints: [],
-            softPreferences: [],
           }),
           expectedDecision: { type: "SEARCH" },
         },
@@ -89,13 +81,7 @@ export const restaurantSemanticRegressionV1: RestaurantSemanticRegressionDataset
         {
           id: "SR02-T01",
           message: "I need a table in Shinjuku for two people.",
-          expectedDraft: draft({
-            partySize: 2,
-            area: { query: "Shinjuku" },
-            cuisines: [],
-            hardConstraints: [],
-            softPreferences: [],
-          }),
+          expectedDraft: draft({ partySize: 2, area: { query: "Shinjuku" }, criteria: [] }),
           expectedDecision: { type: "ASK_USER", missingRequiredFields: ["date", "timeWindow"] },
         },
         {
@@ -106,9 +92,7 @@ export const restaurantSemanticRegressionV1: RestaurantSemanticRegressionDataset
             timeWindow: { earliest: "19:00", latest: "19:30" },
             partySize: 2,
             area: { query: "Shinjuku" },
-            cuisines: [],
-            hardConstraints: [],
-            softPreferences: [],
+            criteria: [],
           }),
           expectedDecision: { type: "SEARCH" },
         },
@@ -120,12 +104,7 @@ export const restaurantSemanticRegressionV1: RestaurantSemanticRegressionDataset
         {
           id: "SR03-T01",
           message: "I want Sushi Dai.",
-          expectedDraft: draft({
-            target: { query: "Sushi Dai" },
-            cuisines: [],
-            hardConstraints: [],
-            softPreferences: [],
-          }),
+          expectedDraft: draft({ target: { query: "Sushi Dai" }, criteria: [] }),
           expectedDecision: {
             type: "ASK_USER",
             missingRequiredFields: ["date", "timeWindow", "partySize", "area"],
@@ -140,9 +119,7 @@ export const restaurantSemanticRegressionV1: RestaurantSemanticRegressionDataset
             timeWindow: { earliest: "19:00", latest: "19:30" },
             partySize: 2,
             area: { query: "Tsukiji" },
-            cuisines: [],
-            hardConstraints: [],
-            softPreferences: [],
+            criteria: [],
           }),
           expectedDecision: { type: "SEARCH" },
         },
@@ -159,9 +136,7 @@ export const restaurantSemanticRegressionV1: RestaurantSemanticRegressionDataset
             timeWindow: { earliest: "18:00", latest: "18:30" },
             partySize: 4,
             area: { query: "Ginza" },
-            cuisines: ["Japanese"],
-            hardConstraints: [],
-            softPreferences: [],
+            criteria: [{ text: "Japanese food", polarity: "POSITIVE", strength: "UNSPECIFIED" }],
           }),
           expectedDecision: { type: "SEARCH" },
         },
@@ -170,7 +145,7 @@ export const restaurantSemanticRegressionV1: RestaurantSemanticRegressionDataset
   ],
 };
 
-export const restaurantSemanticRegressionTurnCount = restaurantSemanticRegressionV1.sessions.reduce(
+export const restaurantSemanticRegressionTurnCount = restaurantSemanticRegressionV2.sessions.reduce(
   (count, session) => count + session.turns.length,
   0,
 );

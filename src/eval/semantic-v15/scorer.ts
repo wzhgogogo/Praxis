@@ -2,6 +2,7 @@ import { isDeepStrictEqual } from "node:util";
 
 import type {
   RestaurantDecision,
+  RestaurantCriterion,
   RestaurantIntentDraft,
   RestaurantIntentPatch,
 } from "../../domains/restaurant/contracts.js";
@@ -31,8 +32,27 @@ function compareStrings(left: string, right: string): number {
   return left < right ? -1 : left > right ? 1 : 0;
 }
 
-function canonicalStringSet(values: string[] | undefined): string[] | undefined {
-  return values === undefined ? undefined : [...new Set(values)].sort(compareStrings);
+function canonicalCriterion(criterion: RestaurantCriterion): RestaurantCriterion {
+  return { ...criterion, text: criterion.text.trim().toLowerCase() };
+}
+
+function criterionKey(criterion: RestaurantCriterion): string {
+  const canonical = canonicalCriterion(criterion);
+  return `${canonical.text}\u0000${canonical.polarity}\u0000${canonical.strength}`;
+}
+
+function canonicalCriterionSet(
+  criteria: RestaurantCriterion[] | undefined,
+): RestaurantCriterion[] | undefined {
+  if (criteria === undefined) return undefined;
+  const unique = new Map<string, RestaurantCriterion>();
+  for (const criterion of criteria) {
+    const canonical = canonicalCriterion(criterion);
+    unique.set(criterionKey(canonical), canonical);
+  }
+  return [...unique.entries()]
+    .sort(([left], [right]) => compareStrings(left, right))
+    .map(([, criterion]) => criterion);
 }
 
 function semanticValueKey(value: RestaurantSemanticValue | undefined): string {
@@ -42,9 +62,6 @@ function semanticValueKey(value: RestaurantSemanticValue | undefined): string {
     case "AREA":
       return `${value.kind}:${value.query}`;
     case "DATE":
-    case "CUISINE":
-    case "HARD_CONSTRAINT":
-    case "SOFT_PREFERENCE":
       return `${value.kind}:${value.value}`;
     case "TIME_WINDOW":
       return `${value.kind}:${value.earliest}:${value.latest}`;
@@ -52,6 +69,8 @@ function semanticValueKey(value: RestaurantSemanticValue | undefined): string {
       return `${value.kind}:${value.value}`;
     case "BUDGET_PER_PERSON":
       return `${value.kind}:${value.max}:${value.currency}`;
+    case "CRITERION":
+      return `${value.kind}:${criterionKey(value)}`;
   }
 }
 
@@ -59,10 +78,18 @@ function semanticFactKey(fact: RestaurantSemanticFact): string {
   return `${fact.field}:${fact.operation}:${semanticValueKey(fact.value)}`;
 }
 
+function canonicalFact(fact: RestaurantSemanticFact): RestaurantSemanticFact {
+  if (fact.value?.kind !== "CRITERION") return fact;
+  return { ...fact, value: { ...fact.value, ...canonicalCriterion(fact.value) } };
+}
+
 function canonicalProposal(proposal: RestaurantSemanticProposal | undefined) {
   if (!proposal) return proposal;
   const facts = new Map<string, RestaurantSemanticFact>();
-  for (const fact of proposal.facts) facts.set(semanticFactKey(fact), fact);
+  for (const fact of proposal.facts) {
+    const canonical = canonicalFact(fact);
+    facts.set(semanticFactKey(canonical), canonical);
+  }
   return {
     ...proposal,
     facts: [...facts.entries()]
@@ -75,30 +102,12 @@ function canonicalPatch(patch: RestaurantIntentPatch | undefined) {
   if (!patch) return patch;
   return {
     ...patch,
-    ...(patch.addCuisines !== undefined ? { addCuisines: canonicalStringSet(patch.addCuisines) } : {}),
-    ...(patch.replaceCuisines !== undefined
-      ? { replaceCuisines: canonicalStringSet(patch.replaceCuisines) }
+    ...(patch.addCriteria !== undefined ? { addCriteria: canonicalCriterionSet(patch.addCriteria) } : {}),
+    ...(patch.replaceCriteria !== undefined
+      ? { replaceCriteria: canonicalCriterionSet(patch.replaceCriteria) }
       : {}),
-    ...(patch.removeCuisines !== undefined
-      ? { removeCuisines: canonicalStringSet(patch.removeCuisines) }
-      : {}),
-    ...(patch.addHardConstraints !== undefined
-      ? { addHardConstraints: canonicalStringSet(patch.addHardConstraints) }
-      : {}),
-    ...(patch.replaceHardConstraints !== undefined
-      ? { replaceHardConstraints: canonicalStringSet(patch.replaceHardConstraints) }
-      : {}),
-    ...(patch.removeHardConstraints !== undefined
-      ? { removeHardConstraints: canonicalStringSet(patch.removeHardConstraints) }
-      : {}),
-    ...(patch.addSoftPreferences !== undefined
-      ? { addSoftPreferences: canonicalStringSet(patch.addSoftPreferences) }
-      : {}),
-    ...(patch.replaceSoftPreferences !== undefined
-      ? { replaceSoftPreferences: canonicalStringSet(patch.replaceSoftPreferences) }
-      : {}),
-    ...(patch.removeSoftPreferences !== undefined
-      ? { removeSoftPreferences: canonicalStringSet(patch.removeSoftPreferences) }
+    ...(patch.removeCriteria !== undefined
+      ? { removeCriteria: canonicalCriterionSet(patch.removeCriteria) }
       : {}),
   };
 }
@@ -107,9 +116,7 @@ function canonicalDraft(draft: RestaurantIntentDraft | undefined) {
   if (!draft) return draft;
   return {
     ...draft,
-    cuisines: canonicalStringSet(draft.cuisines)!,
-    hardConstraints: canonicalStringSet(draft.hardConstraints)!,
-    softPreferences: canonicalStringSet(draft.softPreferences)!,
+    criteria: canonicalCriterionSet(draft.criteria)!,
   };
 }
 
@@ -136,7 +143,7 @@ export function equalRestaurantIntentDrafts(
 }
 
 /**
- * Deterministic v15 Gold scorer. Draft semantics are scored before the Kernel
+ * Deterministic v16 Gold scorer. Draft semantics are scored before the Kernel
  * decision so one wrong interpretation is never counted again downstream.
  */
 export function scoreRestaurantSemanticTurn(input: {

@@ -17,7 +17,7 @@ Stage 2A已实现本地Fixture Search Harness：`RestaurantSemanticInterpreter`�
 
 Stage 2B的Agent Workspace Harness已实现为7个Local HTTP/SSE + PGlite场景：它驱动Pilot用户、Conversation、PostgreSQL Root Task、服务重启、第二个浏览器Session、SSE断线重连和Responsive页面Contract，并断言Projection不成为第二套权威状态。它没有执行真实浏览器视觉或交互测试，因此只证明HTTP/SSE行为和Mobile响应式标记，不证明跨浏览器视觉质量。
 
-历史Restaurant Progressive Decision Eval v2的7个Episode / 17个Turn、Fixture Oracle、Mutation和真实模型诊断已经完成其架构探针使命；可执行代码已删除，设计与结果只在历史文档和Git中保留。当前语义评测只走v15 Regression与私有Holdout，不再维护两套Evaluator。
+历史Restaurant Progressive Decision Eval v2的7个Episode / 17个Turn、Fixture Oracle、Mutation和真实模型诊断已经完成其架构探针使命；可执行代码已删除，设计与结果只在历史文档和Git中保留。当前语义评测只走v16 Regression与私有Holdout，不再维护两套Evaluator。
 
 默认产品基线包含12个PGlite数据库集成场景，验证Postgres SQL、事务Outbox、租约、Runtime重建和Restaurant Recovery Coordinator。Goal/Task Graph、Trigger/Scheduler及两个合成Domain的8个冻结探针由`npm run test:probes`单独运行。两者都不是下方外部平台模式，也不能报告为真实PostgreSQL或Live Provider验证。
 
@@ -77,7 +77,7 @@ Stage 2A覆盖完整/缺失Intent、最多3个Fixture候选和选择后停在授
 
 ### Progressive Decision Eval Harness
 
-当前v15 Regression用开发Oracle按`INPUT / MODEL_GATEWAY → SEMANTIC_PROPOSAL_CONTRACT → SEMANTIC_INTERPRETER → COMPILER → REDUCER → DECISION_KERNEL → RUNTIME`首错归因；上游失败阻断下游。Proposal facts、Patch集合和Draft集合按去重排序后的集合语义比较，singleton与Decision仍精确比较，避免无关数组顺序制造假失败。Clean Holdout不标Proposal或Patch，只报告`PRODUCT_SEMANTIC_ONLY`层级的最终语义Draft与Decision，不伪造Interpreter/Compiler/Reducer精度。Fixture Regression只验证Evaluator管线；私有Holdout才可产生独立Baseline。Live Read-only仍单独证明真实来源连接与数据质量。
+当前v16 Regression用开发Oracle按`INPUT / MODEL_GATEWAY → SEMANTIC_PROPOSAL_CONTRACT → SEMANTIC_INTERPRETER → COMPILER → REDUCER → DECISION_KERNEL → RUNTIME`首错归因；上游失败阻断下游。Proposal facts、Patch集合和Draft的开放`criteria`按去重排序后的集合语义比较；Criterion文本只按trim/case等价，polarity/strength与singleton/Decision保持精确比较，避免无关数组顺序制造假失败。Clean Holdout不标Proposal或Patch，只报告`PRODUCT_SEMANTIC_ONLY`层级的最终语义Draft与Decision，不伪造Interpreter/Compiler/Reducer精度。Fixture Regression只验证Evaluator管线；私有Holdout才可产生独立Baseline。Live Read-only仍单独证明真实来源连接与数据质量。
 
 ### Runtime Compatibility Harness
 

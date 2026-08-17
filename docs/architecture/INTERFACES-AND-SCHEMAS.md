@@ -18,7 +18,7 @@
 | 乐观版本检查、Event去重、Command记录 | `implemented: in-memory prototype` | [`InMemoryTaskRuntime`](../../src/core/task-runtime/in-memory-task-runtime.ts) |
 | `ActionProposal`、`Authorization`、`PolicyDecision` | `implemented: MVP subset` | [`src/core/policy`](../../src/core/policy/contracts.ts) |
 | Restaurant Intent、Offer、Candidate、Event与Command | `implemented: Fixture Web vertical slice` | [`Restaurant contracts`](../../src/domains/restaurant/contracts.ts) |
-| Restaurant v15 Semantic Interpreter / Proposal Contract | `implemented: Fixture product path` | ADR-0007边界已替换产品的Fixture Intent Parser路径；真实模型仍只在评测中使用 |
+| Restaurant v16 Semantic Interpreter / Proposal Contract | `implemented: Fixture product path` | ADR-0007职责链与ADR-0008开放`criteria`已替换产品的Fixture Intent Parser路径；真实模型仍只在评测中使用 |
 | Restaurant Semantic Compiler | `implemented: Restaurant product path` | 纯确定性Proposal → `RestaurantIntentPatch` → Domain Event翻译；不建立Core通用Compiler |
 | Restaurant Decision Kernel | `implemented: semantic/search product slice` | 当前产品负责澄清、搜索、候选展示、调整与冲突安全降级；预约后的Decision迁移仍未实现 |
 | `NEED_REINTERPRETATION` | `implemented: reserved safe decision` | 记录语义冲突并询问用户；不自动重解释或改State |
@@ -238,7 +238,7 @@ type ModelRequest = {
 
 普通Text/JSON Object走标准`POST /chat/completions`；`JSON_SCHEMA`走DeepSeek Beta strict function transport，强制一个只承载结构化输出、从不执行的function envelope。Domain提供完整JSON Schema，但该Schema只使用当前strict transport支持的子集；例如non-blank仍由本地Domain Validator而非不支持的`minLength`保证。Infrastructure不导入Restaurant类型；Gateway提取arguments后，本地Domain Validator仍为权威门禁且语义正确性另行评分。内部`taskId`、Schema正文、Prompt和Completion都不进入普通Telemetry。非2xx、429、超时、网络错误和畸形响应转为稳定`ModelGatewayError`，不静默降级成自由文本。
 
-## Restaurant v15 semantic boundary
+## Restaurant v16 semantic boundary
 
 Status: `implemented: Fixture product path`. This is the only current Restaurant language-to-state path. The old Intent Parser and Harness-only v14 typed `statePatch` path have been removed from executable code.
 
@@ -252,7 +252,7 @@ Semantic Interpreter [LLM]
 → RestaurantDecisionKernel
 ```
 
-`RestaurantSemanticProposal` represents only the user's expression in the current turn: target, time, party, location, preference, constraint, correction, negation, confirmation, and optional bounded soft semantic context. It deliberately does not contain `StatePatch`, Event, missing-field calculation, readiness, action routing, Tool input, Authorization, Evidence, or Outcome.
+`RestaurantSemanticProposal` represents only the user's current-turn expression: stable slots plus open `CRITERION{text, polarity, strength}`, correction, negation and confirmation. It does not classify criteria into cuisine, constraint or preference and deliberately does not contain `StatePatch`, Event, missing-field calculation, readiness, action routing, Tool input, Authorization, Evidence, or Outcome.
 
 The Proposal Contract is versioned and closed. It validates structure, typed values, allowed semantic roles, and allowed corrections/negations/confirmations. Its successful result means `STRUCTURALLY_VALID`, never `SEMANTICALLY_TRUE`, `USER_CONFIRMED`, or `TRUSTED_EVIDENCE`.
 

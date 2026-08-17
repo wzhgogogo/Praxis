@@ -5,35 +5,29 @@ import { compileRestaurantSemanticProposal } from "./semantic-compiler.js";
 import type { RestaurantSemanticProposal } from "./semantic-proposal.js";
 import { applyRestaurantIntentPatch } from "./intent-state.js";
 
-test("Restaurant Semantic Compiler translates independent corrections and negations", () => {
+const criterion = (
+  text: string,
+  polarity: "POSITIVE" | "NEGATIVE" = "POSITIVE",
+  strength: "REQUIRED" | "PREFERRED" | "UNSPECIFIED" = "UNSPECIFIED",
+) => ({ kind: "CRITERION" as const, text, polarity, strength });
+
+test("Restaurant Semantic Compiler translates independent corrections and criterion negations", () => {
   const proposal: RestaurantSemanticProposal = {
-    schemaVersion: "1",
+    schemaVersion: "2",
     facts: [
-      {
-        field: "PARTY_SIZE",
-        operation: "CORRECT",
-        value: { kind: "PARTY_SIZE", value: 3 },
-      },
-      {
-        field: "AREA",
-        operation: "CORRECT",
-        value: { kind: "AREA", query: "Shibuya" },
-      },
-      {
-        field: "CUISINE",
-        operation: "NEGATE",
-        value: { kind: "CUISINE", value: "yakiniku" },
-      },
+      { field: "PARTY_SIZE", operation: "CORRECT", value: { kind: "PARTY_SIZE", value: 3 } },
+      { field: "AREA", operation: "CORRECT", value: { kind: "AREA", query: "Shibuya" } },
+      { field: "CRITERION", operation: "NEGATE", value: criterion("yakiniku") },
     ],
   };
 
   assert.deepEqual(compileRestaurantSemanticProposal(proposal), {
     status: "COMPILED",
     patch: {
-      schemaVersion: "1",
+      schemaVersion: "2",
       partySize: 3,
       area: { query: "Shibuya" },
-      removeCuisines: ["yakiniku"],
+      removeCriteria: [{ text: "yakiniku", polarity: "POSITIVE", strength: "UNSPECIFIED" }],
     },
   });
 });
@@ -46,57 +40,59 @@ test("Restaurant Semantic Compiler rejects singleton clear-and-set combinations 
   };
   const areaClear = { field: "AREA" as const, operation: "NEGATE" as const };
 
-  for (const facts of [
-    [areaClear, areaSet],
-    [areaSet, areaClear],
-  ]) {
-    assert.deepEqual(
-      compileRestaurantSemanticProposal({ schemaVersion: "1", facts }),
-      {
-        status: "CONFLICT",
-        conflict: {
-          code: "CONTRADICTORY_PROPOSAL",
-          affectedFields: ["AREA"],
-          message: "The proposal both clears and sets AREA in one user turn",
-        },
+  for (const facts of [[areaClear, areaSet], [areaSet, areaClear]]) {
+    assert.deepEqual(compileRestaurantSemanticProposal({ schemaVersion: "2", facts }), {
+      status: "CONFLICT",
+      conflict: {
+        code: "CONTRADICTORY_PROPOSAL",
+        affectedFields: ["AREA"],
+        message: "The proposal both clears and sets AREA in one user turn",
       },
-    );
+    });
   }
 });
 
-test("collection ASSERT adds, CORRECT replaces, and NEGATE removes deterministically", () => {
-  const korean = compileRestaurantSemanticProposal({
-    schemaVersion: "1",
-    facts: [{ field: "CUISINE", operation: "ASSERT", value: { kind: "CUISINE", value: "Korean" } }],
+test("criterion ASSERT adds, CORRECT replaces, and NEGATE removes deterministically", () => {
+  const omakase = compileRestaurantSemanticProposal({
+    schemaVersion: "2",
+    facts: [{ field: "CRITERION", operation: "ASSERT", value: criterion("omakase") }],
   });
-  assert.equal(korean.status, "COMPILED");
-  if (korean.status !== "COMPILED") return;
-  const first = applyRestaurantIntentPatch(undefined, korean.patch);
+  assert.equal(omakase.status, "COMPILED");
+  if (omakase.status !== "COMPILED") return;
+  const first = applyRestaurantIntentPatch(undefined, omakase.patch);
 
-  const thai = compileRestaurantSemanticProposal({
-    schemaVersion: "1",
-    facts: [{ field: "CUISINE", operation: "CORRECT", value: { kind: "CUISINE", value: "Thai" } }],
+  const quietPrivateRoom = compileRestaurantSemanticProposal({
+    schemaVersion: "2",
+    facts: [
+      { field: "CRITERION", operation: "CORRECT", value: criterion("quiet", "POSITIVE", "PREFERRED") },
+      { field: "CRITERION", operation: "CORRECT", value: criterion("private room", "POSITIVE", "PREFERRED") },
+    ],
   });
-  assert.equal(thai.status, "COMPILED");
-  if (thai.status !== "COMPILED") return;
-  const corrected = applyRestaurantIntentPatch(first, thai.patch);
-  assert.deepEqual(corrected.cuisines, ["Thai"]);
+  assert.equal(quietPrivateRoom.status, "COMPILED");
+  if (quietPrivateRoom.status !== "COMPILED") return;
+  const corrected = applyRestaurantIntentPatch(first, quietPrivateRoom.patch);
+  assert.deepEqual(corrected.criteria, [
+    { text: "quiet", polarity: "POSITIVE", strength: "PREFERRED" },
+    { text: "private room", polarity: "POSITIVE", strength: "PREFERRED" },
+  ]);
 
-  const removeThai = compileRestaurantSemanticProposal({
-    schemaVersion: "1",
-    facts: [{ field: "CUISINE", operation: "NEGATE", value: { kind: "CUISINE", value: "Thai" } }],
+  const removeQuiet = compileRestaurantSemanticProposal({
+    schemaVersion: "2",
+    facts: [{ field: "CRITERION", operation: "NEGATE", value: criterion("quiet", "POSITIVE", "PREFERRED") }],
   });
-  assert.equal(removeThai.status, "COMPILED");
-  if (removeThai.status !== "COMPILED") return;
-  assert.deepEqual(applyRestaurantIntentPatch(corrected, removeThai.patch).cuisines, []);
+  assert.equal(removeQuiet.status, "COMPILED");
+  if (removeQuiet.status !== "COMPILED") return;
+  assert.deepEqual(applyRestaurantIntentPatch(corrected, removeQuiet.patch).criteria, [
+    { text: "private room", polarity: "POSITIVE", strength: "PREFERRED" },
+  ]);
 });
 
 test("Restaurant Semantic Compiler records one-turn contradictions without mutating state", () => {
   const result = compileRestaurantSemanticProposal({
-    schemaVersion: "1",
+    schemaVersion: "2",
     facts: [
-      { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } },
-      { field: "PARTY_SIZE", operation: "CORRECT", value: { kind: "PARTY_SIZE", value: 3 } },
+      { field: "CRITERION", operation: "ASSERT", value: criterion("no spicy", "NEGATIVE", "REQUIRED") },
+      { field: "CRITERION", operation: "NEGATE", value: criterion("no spicy", "NEGATIVE", "REQUIRED") },
     ],
   });
 
@@ -104,8 +100,8 @@ test("Restaurant Semantic Compiler records one-turn contradictions without mutat
     status: "CONFLICT",
     conflict: {
       code: "CONTRADICTORY_PROPOSAL",
-      affectedFields: ["PARTY_SIZE"],
-      message: "The proposal supplies conflicting PARTY_SIZE values in one user turn",
+      affectedFields: ["CRITERION"],
+      message: "The proposal both adds and negates the same CRITERION value",
     },
   });
 });

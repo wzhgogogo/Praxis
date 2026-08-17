@@ -2,18 +2,18 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 
 import { RestaurantSemanticRegressionFixtureInterpreter } from "./fixture-interpreter.js";
-import { restaurantSemanticRegressionV1 } from "./fixtures.js";
+import { restaurantSemanticRegressionV2 } from "./fixtures.js";
 import { runRestaurantSemanticRegression } from "./regression.js";
 import { compileRestaurantSemanticProposal } from "../../domains/restaurant/semantic-compiler.js";
 import { restaurantSemanticRegressionProposalFor } from "./stage-oracles.js";
 
-test("v15 semantic regression runs Proposal, Compiler, Runtime/Reducer, and Kernel in order", async () => {
+test("v16 semantic regression runs Proposal, Compiler, Runtime/Reducer, and Kernel in order", async () => {
   const interpreter = new RestaurantSemanticRegressionFixtureInterpreter();
 
   const report = await runRestaurantSemanticRegression(interpreter, {
     mode: "FIXTURE",
     attributionLevel: "DEVELOPMENT_STAGE_ORACLES",
-    dataset: restaurantSemanticRegressionV1,
+    dataset: restaurantSemanticRegressionV2,
   });
 
   assert.equal(report.status, "COMPLETED");
@@ -37,8 +37,8 @@ test("development attribution stops at Compiler before Reducer and Kernel", asyn
       mode: "FIXTURE",
       attributionLevel: "DEVELOPMENT_STAGE_ORACLES",
       dataset: {
-        ...restaurantSemanticRegressionV1,
-        sessions: [restaurantSemanticRegressionV1.sessions[3]!],
+        ...restaurantSemanticRegressionV2,
+        sessions: [restaurantSemanticRegressionV2.sessions[3]!],
       },
       dependencies: {
         compile(proposal) {
@@ -60,8 +60,8 @@ test("development attribution reaches Kernel only after authoritative Draft matc
       mode: "FIXTURE",
       attributionLevel: "DEVELOPMENT_STAGE_ORACLES",
       dataset: {
-        ...restaurantSemanticRegressionV1,
-        sessions: [restaurantSemanticRegressionV1.sessions[3]!],
+        ...restaurantSemanticRegressionV2,
+        sessions: [restaurantSemanticRegressionV2.sessions[3]!],
       },
       dependencies: {
         decide: () => ({
@@ -90,8 +90,8 @@ test("invalid model JSON is attributed to Proposal Contract and blocks downstrea
       mode: "FIXTURE",
       attributionLevel: "DEVELOPMENT_STAGE_ORACLES",
       dataset: {
-        ...restaurantSemanticRegressionV1,
-        sessions: [restaurantSemanticRegressionV1.sessions[0]!],
+        ...restaurantSemanticRegressionV2,
+        sessions: [restaurantSemanticRegressionV2.sessions[0]!],
       },
     },
   );
@@ -118,8 +118,8 @@ test("development attribution accepts a semantically equivalent Proposal with re
       mode: "FIXTURE",
       attributionLevel: "DEVELOPMENT_STAGE_ORACLES",
       dataset: {
-        ...restaurantSemanticRegressionV1,
-        sessions: [restaurantSemanticRegressionV1.sessions[3]!],
+        ...restaurantSemanticRegressionV2,
+        sessions: [restaurantSemanticRegressionV2.sessions[3]!],
       },
     },
   );

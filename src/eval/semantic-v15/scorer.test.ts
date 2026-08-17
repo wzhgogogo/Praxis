@@ -13,17 +13,15 @@ import {
 import { scoreRestaurantSemanticTurn } from "./scorer.js";
 
 const expectedProposal: RestaurantSemanticProposal = {
-  schemaVersion: "1",
+  schemaVersion: "2",
   facts: [{ field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } }],
 };
-const expectedPatch: RestaurantIntentPatch = { schemaVersion: "1", partySize: 2 };
+const expectedPatch: RestaurantIntentPatch = { schemaVersion: "2", partySize: 2 };
 const expectedDraft: RestaurantIntentDraft = {
-  schemaVersion: "1",
+  schemaVersion: "2",
   timezone: "Asia/Tokyo",
   partySize: 2,
-  cuisines: [],
-  hardConstraints: [],
-  softPreferences: [],
+  criteria: [],
 };
 const expectedDecision: Extract<RestaurantDecision, { type: "ASK_USER" }> = {
   type: "ASK_USER",
@@ -32,14 +30,14 @@ const expectedDecision: Extract<RestaurantDecision, { type: "ASK_USER" }> = {
 
 test("stage scorer assigns valid but wrong meaning to Semantic Interpreter", () => {
   const wrongMeaning: RestaurantSemanticProposal = {
-    schemaVersion: "1",
+    schemaVersion: "2",
     facts: [{ field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 3 } }],
   };
   assert.equal(validateRestaurantSemanticProposal(wrongMeaning).valid, true);
   const score = scoreRestaurantSemanticTurn({
     actualProposal: wrongMeaning,
     expectedProposal,
-    actualCompiledPatch: { schemaVersion: "1", partySize: 3 },
+    actualCompiledPatch: { schemaVersion: "2", partySize: 3 },
     expectedCompiledPatch: expectedPatch,
     actualDraft: { ...expectedDraft, partySize: 3 },
     expectedDraft,
@@ -53,7 +51,7 @@ test("stage scorer assigns a wrong deterministic translation to Compiler", () =>
   const score = scoreRestaurantSemanticTurn({
     actualProposal: expectedProposal,
     expectedProposal,
-    actualCompiledPatch: { schemaVersion: "1", partySize: 3 },
+    actualCompiledPatch: { schemaVersion: "2", partySize: 3 },
     expectedCompiledPatch: expectedPatch,
     actualDraft: { ...expectedDraft, partySize: 3 },
     expectedDraft,
@@ -91,47 +89,66 @@ test("stage scorer assigns wrong next step after correct state to Decision Kerne
   assert.equal(score.status === "FAIL" ? score.firstFailureStage : undefined, "DECISION_KERNEL");
 });
 
-test("stage scorer treats unordered facts, patches, and Draft collections as semantically equal", () => {
+test("stage scorer treats unordered criteria and facts with case/whitespace-only text changes as equal", () => {
   const expected: RestaurantSemanticProposal = {
-    schemaVersion: "1",
+    schemaVersion: "2",
     facts: [
-      { field: "CUISINE", operation: "ASSERT", value: { kind: "CUISINE", value: "Thai" } },
       {
-        field: "HARD_CONSTRAINT",
+        field: "CRITERION",
         operation: "ASSERT",
-        value: { kind: "HARD_CONSTRAINT", value: "no spicy" },
+        value: { kind: "CRITERION", text: "no spicy", polarity: "NEGATIVE", strength: "REQUIRED" },
       },
       {
-        field: "HARD_CONSTRAINT",
+        field: "CRITERION",
         operation: "ASSERT",
-        value: { kind: "HARD_CONSTRAINT", value: "no hot pot" },
+        value: { kind: "CRITERION", text: "quiet", polarity: "POSITIVE", strength: "PREFERRED" },
       },
     ],
   };
   const score = scoreRestaurantSemanticTurn({
-    actualProposal: { ...expected, facts: [...expected.facts].reverse() },
+    actualProposal: {
+      ...expected,
+      facts: [
+        {
+          field: "CRITERION",
+          operation: "ASSERT",
+          value: { kind: "CRITERION", text: " QUIET ", polarity: "POSITIVE", strength: "PREFERRED" },
+        },
+        {
+          field: "CRITERION",
+          operation: "ASSERT",
+          value: { kind: "CRITERION", text: "NO SPICY", polarity: "NEGATIVE", strength: "REQUIRED" },
+        },
+      ],
+    },
     expectedProposal: expected,
     actualCompiledPatch: {
-      schemaVersion: "1",
-      addCuisines: ["Thai"],
-      addHardConstraints: ["no hot pot", "no spicy"],
+      schemaVersion: "2",
+      addCriteria: [
+        { text: "quiet", polarity: "POSITIVE", strength: "PREFERRED" },
+        { text: "no spicy", polarity: "NEGATIVE", strength: "REQUIRED" },
+      ],
     },
     expectedCompiledPatch: {
-      schemaVersion: "1",
-      addCuisines: ["Thai"],
-      addHardConstraints: ["no spicy", "no hot pot"],
+      schemaVersion: "2",
+      addCriteria: [
+        { text: "no spicy", polarity: "NEGATIVE", strength: "REQUIRED" },
+        { text: "quiet", polarity: "POSITIVE", strength: "PREFERRED" },
+      ],
     },
     actualDraft: {
       ...expectedDraft,
-      cuisines: ["Thai", "Thai"],
-      hardConstraints: ["no hot pot", "no spicy"],
-      softPreferences: ["quiet", "quiet"],
+      criteria: [
+        { text: " QUIET ", polarity: "POSITIVE", strength: "PREFERRED" },
+        { text: "NO SPICY", polarity: "NEGATIVE", strength: "REQUIRED" },
+      ],
     },
     expectedDraft: {
       ...expectedDraft,
-      cuisines: ["Thai"],
-      hardConstraints: ["no spicy", "no hot pot"],
-      softPreferences: ["quiet"],
+      criteria: [
+        { text: "no spicy", polarity: "NEGATIVE", strength: "REQUIRED" },
+        { text: "quiet", polarity: "POSITIVE", strength: "PREFERRED" },
+      ],
     },
     actualDecision: expectedDecision,
     expectedDecision,

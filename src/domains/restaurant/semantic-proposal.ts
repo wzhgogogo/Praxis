@@ -1,8 +1,14 @@
+import {
+  RESTAURANT_CRITERION_POLARITIES,
+  RESTAURANT_CRITERION_STRENGTHS,
+  type RestaurantCriterion,
+} from "./contracts.js";
+
 export const RESTAURANT_SEMANTIC_PROPOSAL_PURPOSE = "restaurant_semantic_interpret";
-export const RESTAURANT_SEMANTIC_PROPOSAL_PROMPT_VERSION = "v2";
+export const RESTAURANT_SEMANTIC_PROPOSAL_PROMPT_VERSION = "v3";
 export const RESTAURANT_SEMANTIC_PROPOSAL_SCHEMA = {
   name: "restaurant-semantic-proposal",
-  version: "1",
+  version: "2",
 } as const;
 
 export const RESTAURANT_SEMANTIC_FIELDS = [
@@ -11,10 +17,8 @@ export const RESTAURANT_SEMANTIC_FIELDS = [
   "TIME_WINDOW",
   "PARTY_SIZE",
   "AREA",
-  "CUISINE",
   "BUDGET_PER_PERSON",
-  "HARD_CONSTRAINT",
-  "SOFT_PREFERENCE",
+  "CRITERION",
 ] as const;
 
 export type RestaurantSemanticField = (typeof RESTAURANT_SEMANTIC_FIELDS)[number];
@@ -34,10 +38,8 @@ export type RestaurantSemanticValue =
   | { kind: "TIME_WINDOW"; earliest: string; latest: string }
   | { kind: "PARTY_SIZE"; value: number }
   | { kind: "AREA"; query: string }
-  | { kind: "CUISINE"; value: string }
   | { kind: "BUDGET_PER_PERSON"; max: number; currency: "JPY" }
-  | { kind: "HARD_CONSTRAINT"; value: string }
-  | { kind: "SOFT_PREFERENCE"; value: string };
+  | ({ kind: "CRITERION" } & RestaurantCriterion);
 
 export interface RestaurantSemanticFact {
   field: RestaurantSemanticField;
@@ -50,7 +52,7 @@ export interface RestaurantSemanticFact {
  * Event, readiness assessment, command, action proposal, or a record of real-world facts.
  */
 export interface RestaurantSemanticProposal {
-  schemaVersion: "1";
+  schemaVersion: "2";
   facts: RestaurantSemanticFact[];
 }
 
@@ -95,7 +97,7 @@ function isSemanticOperation(value: unknown): value is RestaurantSemanticOperati
 }
 
 function isCollectionField(field: RestaurantSemanticField): boolean {
-  return field === "CUISINE" || field === "HARD_CONSTRAINT" || field === "SOFT_PREFERENCE";
+  return field === "CRITERION";
 }
 
 function strictObject(
@@ -126,15 +128,18 @@ function valueSchema(field: RestaurantSemanticField): Record<string, unknown> {
       });
     case "PARTY_SIZE":
       return strictObject({ kind, value: { type: "integer", minimum: 1 } });
-    case "CUISINE":
-    case "HARD_CONSTRAINT":
-    case "SOFT_PREFERENCE":
-      return strictObject({ kind, value: { type: "string" } });
     case "BUDGET_PER_PERSON":
       return strictObject({
         kind,
         max: { type: "integer", minimum: 1 },
         currency: { type: "string", enum: ["JPY"] },
+      });
+    case "CRITERION":
+      return strictObject({
+        kind,
+        text: { type: "string" },
+        polarity: { type: "string", enum: RESTAURANT_CRITERION_POLARITIES },
+        strength: { type: "string", enum: RESTAURANT_CRITERION_STRENGTHS },
       });
   }
 }
@@ -160,16 +165,12 @@ const SINGLETON_FIELDS = [
   "BUDGET_PER_PERSON",
 ] as const satisfies readonly RestaurantSemanticField[];
 
-const COLLECTION_FIELDS = [
-  "CUISINE",
-  "HARD_CONSTRAINT",
-  "SOFT_PREFERENCE",
-] as const satisfies readonly RestaurantSemanticField[];
+const COLLECTION_FIELDS = ["CRITERION"] as const satisfies readonly RestaurantSemanticField[];
 
 /** Complete provider-transport schema; the runtime validator below remains authoritative. */
 export const RESTAURANT_SEMANTIC_PROPOSAL_JSON_SCHEMA: Readonly<Record<string, unknown>> =
   strictObject({
-    schemaVersion: { type: "string", enum: ["1"] },
+    schemaVersion: { type: "string", enum: ["2"] },
     facts: {
       type: "array",
       items: {
@@ -208,10 +209,6 @@ function valueMatchesField(field: RestaurantSemanticField, value: unknown): bool
         Number.isInteger(value.value) &&
         value.value > 0
       );
-    case "CUISINE":
-    case "HARD_CONSTRAINT":
-    case "SOFT_PREFERENCE":
-      return hasOnlyKeys(value, ["kind", "value"]) && isNonBlankString(value.value);
     case "BUDGET_PER_PERSON":
       return (
         hasOnlyKeys(value, ["kind", "max", "currency"]) &&
@@ -219,6 +216,15 @@ function valueMatchesField(field: RestaurantSemanticField, value: unknown): bool
         Number.isInteger(value.max) &&
         value.max > 0 &&
         value.currency === "JPY"
+      );
+    case "CRITERION":
+      return (
+        hasOnlyKeys(value, ["kind", "text", "polarity", "strength"]) &&
+        isNonBlankString(value.text) &&
+        typeof value.polarity === "string" &&
+        (RESTAURANT_CRITERION_POLARITIES as readonly string[]).includes(value.polarity) &&
+        typeof value.strength === "string" &&
+        (RESTAURANT_CRITERION_STRENGTHS as readonly string[]).includes(value.strength)
       );
   }
 }
@@ -261,7 +267,7 @@ export function validateRestaurantSemanticProposal(
   if (!hasOnlyKeys(input, ["schemaVersion", "facts"])) {
     errors.push("Semantic proposal contains unsupported fields");
   }
-  if (input.schemaVersion !== "1") errors.push("schemaVersion must be 1");
+  if (input.schemaVersion !== "2") errors.push("schemaVersion must be 2");
   if (!Array.isArray(input.facts)) {
     errors.push("facts must be an array");
   } else {

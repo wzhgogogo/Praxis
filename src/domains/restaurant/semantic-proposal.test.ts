@@ -6,20 +6,21 @@ import {
   validateRestaurantSemanticProposal,
 } from "./semantic-proposal.js";
 
-test("Semantic Proposal Contract accepts only the closed language-level schema", () => {
+test("Semantic Proposal Contract accepts stable slots and open criteria without a taxonomy", () => {
   const valid = validateRestaurantSemanticProposal({
-    schemaVersion: "1",
+    schemaVersion: "2",
     facts: [
-      {
-        field: "PARTY_SIZE",
-        operation: "CORRECT",
-        value: { kind: "PARTY_SIZE", value: 3 },
-      },
+      { field: "PARTY_SIZE", operation: "CORRECT", value: { kind: "PARTY_SIZE", value: 3 } },
       { field: "AREA", operation: "NEGATE" },
       {
-        field: "CUISINE",
-        operation: "NEGATE",
-        value: { kind: "CUISINE", value: "yakiniku" },
+        field: "CRITERION",
+        operation: "ASSERT",
+        value: { kind: "CRITERION", text: "omakase", polarity: "POSITIVE", strength: "UNSPECIFIED" },
+      },
+      {
+        field: "CRITERION",
+        operation: "ASSERT",
+        value: { kind: "CRITERION", text: "no spicy", polarity: "NEGATIVE", strength: "REQUIRED" },
       },
       { field: "DATE", operation: "CONFIRM" },
     ],
@@ -30,7 +31,7 @@ test("Semantic Proposal Contract accepts only the closed language-level schema",
 
 test("Semantic Proposal Contract rejects internal protocols and invalid operation/value combinations", () => {
   const invalid = validateRestaurantSemanticProposal({
-    schemaVersion: "1",
+    schemaVersion: "2",
     facts: [
       {
         field: "AREA",
@@ -50,8 +51,8 @@ test("Semantic Proposal Contract rejects internal protocols and invalid operatio
 
 test("Semantic Proposal Contract rejects collection CONFIRM because it has no deterministic effect", () => {
   const result = validateRestaurantSemanticProposal({
-    schemaVersion: "1",
-    facts: [{ field: "CUISINE", operation: "CONFIRM" }],
+    schemaVersion: "2",
+    facts: [{ field: "CRITERION", operation: "CONFIRM" }],
   });
   assert.equal(result.valid, false);
   if (!result.valid) assert.match(result.errors.join(" "), /CONFIRM is unsupported/);
@@ -63,9 +64,15 @@ test("DeepSeek transport schema uses only supported string constraints while loc
   assert.equal(serializedSchema.includes("maxLength"), false);
 
   const result = validateRestaurantSemanticProposal({
-    schemaVersion: "1",
-    facts: [{ field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "   " } }],
+    schemaVersion: "2",
+    facts: [
+      {
+        field: "CRITERION",
+        operation: "ASSERT",
+        value: { kind: "CRITERION", text: "   ", polarity: "POSITIVE", strength: "UNSPECIFIED" },
+      },
+    ],
   });
   assert.equal(result.valid, false);
-  if (!result.valid) assert.match(result.errors.join(" "), /must match AREA/);
+  if (!result.valid) assert.match(result.errors.join(" "), /must match CRITERION/);
 });

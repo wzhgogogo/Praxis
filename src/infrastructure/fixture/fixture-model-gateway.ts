@@ -51,10 +51,24 @@ function fixtureSemanticProposalFor(message: string): RestaurantSemanticProposal
   if (normalized.includes("shibuya")) {
     add({ field: "AREA", operation, value: { kind: "AREA", query: "Shibuya" } });
   }
-  if (normalized.includes("no yakiniku") || normalized.includes("not yakiniku")) {
-    add({ field: "CUISINE", operation: "NEGATE", value: { kind: "CUISINE", value: "yakiniku" } });
+  if (normalized.includes("remove yakiniku")) {
+    add({
+      field: "CRITERION",
+      operation: "NEGATE",
+      value: { kind: "CRITERION", text: "yakiniku", polarity: "POSITIVE", strength: "UNSPECIFIED" },
+    });
+  } else if (normalized.includes("no yakiniku") || normalized.includes("not yakiniku")) {
+    add({
+      field: "CRITERION",
+      operation: "ASSERT",
+      value: { kind: "CRITERION", text: "yakiniku", polarity: "NEGATIVE", strength: "REQUIRED" },
+    });
   } else if (normalized.includes("yakiniku")) {
-    add({ field: "CUISINE", operation, value: { kind: "CUISINE", value: "yakiniku" } });
+    add({
+      field: "CRITERION",
+      operation,
+      value: { kind: "CRITERION", text: "yakiniku", polarity: "POSITIVE", strength: "UNSPECIFIED" },
+    });
   }
   if (normalized.includes("5000") || normalized.includes("5,000")) {
     add({
@@ -63,11 +77,11 @@ function fixtureSemanticProposalFor(message: string): RestaurantSemanticProposal
       value: { kind: "BUDGET_PER_PERSON", max: 5_000, currency: "JPY" },
     });
   }
-  return { schemaVersion: "1", facts };
+  return { schemaVersion: "2", facts };
 }
 
 /**
- * Local-only deterministic model double for the current v15 semantic path.
+ * Local-only deterministic model double for the current v16 semantic path.
  */
 export class FixtureModelGateway implements ModelGateway {
   private sequence = 0;
@@ -84,7 +98,7 @@ export class FixtureModelGateway implements ModelGateway {
     return {
       invocationId: `fixture-model-${this.sequence}`,
       provider: "FIXTURE",
-      model: "fixture-restaurant-semantic-v1",
+      model: "fixture-restaurant-semantic-v2",
       outputText: JSON.stringify(output),
       finishReason: request.responseFormat === "JSON_SCHEMA" ? "TOOL_CALLS" : "STOP",
       latencyMs: 0,

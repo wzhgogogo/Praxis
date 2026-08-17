@@ -64,12 +64,12 @@ type TestEventEnvelope<Event extends DomainEvent> = Omit<EventEnvelope<Event>, "
 };
 
 const fixtureSemanticPatch: RestaurantIntentPatch = {
-  schemaVersion: "1",
+  schemaVersion: "2",
   date: fixtureIntent.date,
   timeWindow: fixtureIntent.timeWindow,
   partySize: fixtureIntent.partySize,
   area: { query: fixtureIntent.area.query },
-  addCuisines: fixtureIntent.cuisines,
+  addCriteria: fixtureIntent.criteria,
   ...(fixtureIntent.budgetPerPerson ? { budgetPerPerson: fixtureIntent.budgetPerPerson } : {}),
 };
 
@@ -661,7 +661,7 @@ describe("PostgresTaskRuntime with PGlite", () => {
       });
 
       assert.equal(restored.runId, "restaurant-run-1");
-      assert.equal(restored.domainState.schemaVersion, "4");
+      assert.equal(restored.domainState.schemaVersion, "5");
       assert.equal(restored.domainState.phase, "SEARCHING");
       assert.equal(restored.version, 2);
       assert.equal(duplicate.duplicateEvent, true);

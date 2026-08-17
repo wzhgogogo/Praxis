@@ -9,10 +9,8 @@ export const fixtureIntent: RestaurantBookingIntent = {
   timeWindow: { earliest: "19:00", latest: "19:30" },
   partySize: 2,
   area: { query: "Shinjuku", radiusMeters: 2_000 },
-  cuisines: ["yakiniku"],
+  criteria: [{ text: "yakiniku", polarity: "POSITIVE", strength: "UNSPECIFIED" }],
   budgetPerPerson: { max: 5_000, currency: "JPY" },
-  hardConstraints: [],
-  softPreferences: [],
 };
 
 function candidate(index: number): ExecutableCandidate {

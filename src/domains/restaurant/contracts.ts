@@ -15,18 +15,33 @@ export interface RestaurantTarget {
   query: string;
 }
 
+export const RESTAURANT_CRITERION_POLARITIES = ["POSITIVE", "NEGATIVE"] as const;
+export type RestaurantCriterionPolarity = (typeof RESTAURANT_CRITERION_POLARITIES)[number];
+
+export const RESTAURANT_CRITERION_STRENGTHS = [
+  "REQUIRED",
+  "PREFERRED",
+  "UNSPECIFIED",
+] as const;
+export type RestaurantCriterionStrength = (typeof RESTAURANT_CRITERION_STRENGTHS)[number];
+
+/** A user-expressed restaurant selection criterion; intentionally not an ontology category. */
+export interface RestaurantCriterion {
+  text: string;
+  polarity: RestaurantCriterionPolarity;
+  strength: RestaurantCriterionStrength;
+}
+
 export interface RestaurantIntentDraft {
-  schemaVersion: "1";
+  schemaVersion: "2";
   timezone: "Asia/Tokyo";
   target?: RestaurantTarget;
   date?: string;
   timeWindow?: { earliest: string; latest: string };
   partySize?: number;
   area?: { query: string; placeId?: string; radiusMeters?: number };
-  cuisines: string[];
+  criteria: RestaurantCriterion[];
   budgetPerPerson?: { max: number; currency: "JPY" };
-  hardConstraints: string[];
-  softPreferences: string[];
 }
 
 export interface RestaurantBookingIntent {
@@ -36,10 +51,8 @@ export interface RestaurantBookingIntent {
   timeWindow: { earliest: string; latest: string };
   partySize: number;
   area: { query: string; placeId?: string; radiusMeters?: number };
-  cuisines: string[];
+  criteria: RestaurantCriterion[];
   budgetPerPerson?: { max: number; currency: "JPY" };
-  hardConstraints: string[];
-  softPreferences: string[];
 }
 
 export interface RestaurantOutlet {
@@ -161,7 +174,7 @@ export interface VerifiedReservation {
 }
 
 export interface RestaurantTaskState {
-  schemaVersion: "4";
+  schemaVersion: "5";
   phase: RestaurantPhase;
   intentDraft?: RestaurantIntentDraft;
   intent?: RestaurantBookingIntent;
@@ -184,22 +197,16 @@ export type RestaurantOutcome =
   | { status: "FAILED"; reason: string };
 
 export interface RestaurantIntentPatch {
-  schemaVersion: "1";
+  schemaVersion: "2";
   target?: RestaurantTarget | null;
   date?: string | null;
   timeWindow?: { earliest: string; latest: string } | null;
   partySize?: number | null;
   area?: { query: string } | null;
   budgetPerPerson?: { max: number; currency: "JPY" } | null;
-  addCuisines?: string[];
-  replaceCuisines?: string[];
-  removeCuisines?: string[];
-  addHardConstraints?: string[];
-  replaceHardConstraints?: string[];
-  removeHardConstraints?: string[];
-  addSoftPreferences?: string[];
-  replaceSoftPreferences?: string[];
-  removeSoftPreferences?: string[];
+  addCriteria?: RestaurantCriterion[];
+  replaceCriteria?: RestaurantCriterion[];
+  removeCriteria?: RestaurantCriterion[];
 }
 
 export interface RestaurantSemanticConflict {

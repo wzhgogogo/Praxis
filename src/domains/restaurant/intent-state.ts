@@ -1,6 +1,7 @@
 import type {
   RestaurantBookingIntent,
   RestaurantBlockingField,
+  RestaurantCriterion,
   RestaurantIntentDraft,
   RestaurantIntentPatch,
 } from "./contracts.js";
@@ -23,15 +24,40 @@ function hasOwn(input: object, key: string): boolean {
   return Object.prototype.hasOwnProperty.call(input, key);
 }
 
-function mergeValues(
-  existing: string[],
-  additions: string[] | undefined,
-  removals: string[] | undefined,
-  replacement: string[] | undefined,
-) {
-  const removed = new Set(removals ?? []);
-  const base = replacement ?? existing;
-  return [...new Set([...base.filter((item) => !removed.has(item)), ...(additions ?? [])])];
+/** Stable identity for collection semantics; text is case- and trim-insensitive. */
+export function restaurantCriterionKey(criterion: RestaurantCriterion): string {
+  return [
+    criterion.text.trim().toLowerCase(),
+    criterion.polarity,
+    criterion.strength,
+  ].join("\u0000");
+}
+
+function normalizedCriterion(criterion: RestaurantCriterion): RestaurantCriterion {
+  return { ...criterion, text: criterion.text.trim() };
+}
+
+function mergeCriteria(
+  existing: RestaurantCriterion[],
+  additions: RestaurantCriterion[] | undefined,
+  removals: RestaurantCriterion[] | undefined,
+  replacement: RestaurantCriterion[] | undefined,
+): RestaurantCriterion[] {
+  const removed = new Set((removals ?? []).map(restaurantCriterionKey));
+  const merged = new Map<string, RestaurantCriterion>();
+  for (const criterion of replacement ?? existing) {
+    const normalized = normalizedCriterion(criterion);
+    if (!removed.has(restaurantCriterionKey(normalized))) {
+      merged.set(restaurantCriterionKey(normalized), normalized);
+    }
+  }
+  for (const criterion of additions ?? []) {
+    const normalized = normalizedCriterion(criterion);
+    if (!removed.has(restaurantCriterionKey(normalized))) {
+      merged.set(restaurantCriterionKey(normalized), normalized);
+    }
+  }
+  return [...merged.values()];
 }
 
 /** Reducer-owned projection. Missing fields are derived from authoritative values, never model output. */
@@ -40,19 +66,17 @@ export function applyRestaurantIntentPatch(
   patch: RestaurantIntentPatch,
 ): RestaurantIntentDraft {
   const next: RestaurantIntentDraft = {
-    schemaVersion: "1",
+    schemaVersion: "2",
     timezone: "Asia/Tokyo",
     ...(current?.target ? { target: structuredClone(current.target) } : {}),
     ...(current?.date ? { date: current.date } : {}),
     ...(current?.timeWindow ? { timeWindow: structuredClone(current.timeWindow) } : {}),
     ...(current?.partySize ? { partySize: current.partySize } : {}),
     ...(current?.area ? { area: structuredClone(current.area) } : {}),
-    cuisines: structuredClone(current?.cuisines ?? []),
+    criteria: structuredClone(current?.criteria ?? []),
     ...(current?.budgetPerPerson
       ? { budgetPerPerson: structuredClone(current.budgetPerPerson) }
       : {}),
-    hardConstraints: structuredClone(current?.hardConstraints ?? []),
-    softPreferences: structuredClone(current?.softPreferences ?? []),
   };
 
   if (hasOwn(patch, "target")) {
@@ -79,23 +103,11 @@ export function applyRestaurantIntentPatch(
     if (patch.budgetPerPerson === null) delete next.budgetPerPerson;
     else if (patch.budgetPerPerson) next.budgetPerPerson = structuredClone(patch.budgetPerPerson);
   }
-  next.cuisines = mergeValues(
-    next.cuisines,
-    patch.addCuisines,
-    patch.removeCuisines,
-    patch.replaceCuisines,
-  );
-  next.hardConstraints = mergeValues(
-    next.hardConstraints,
-    patch.addHardConstraints,
-    patch.removeHardConstraints,
-    patch.replaceHardConstraints,
-  );
-  next.softPreferences = mergeValues(
-    next.softPreferences,
-    patch.addSoftPreferences,
-    patch.removeSoftPreferences,
-    patch.replaceSoftPreferences,
+  next.criteria = mergeCriteria(
+    next.criteria,
+    patch.addCriteria,
+    patch.removeCriteria,
+    patch.replaceCriteria,
   );
 
   return next;
@@ -121,9 +133,7 @@ export function completeRestaurantIntent(
     timeWindow: structuredClone(draft.timeWindow),
     partySize: draft.partySize,
     area: structuredClone(draft.area),
-    cuisines: structuredClone(draft.cuisines),
+    criteria: structuredClone(draft.criteria),
     ...(draft.budgetPerPerson ? { budgetPerPerson: structuredClone(draft.budgetPerPerson) } : {}),
-    hardConstraints: structuredClone(draft.hardConstraints),
-    softPreferences: structuredClone(draft.softPreferences),
   };
 }

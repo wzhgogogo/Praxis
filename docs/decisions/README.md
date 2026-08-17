@@ -1,8 +1,8 @@
 # Architecture Decision Records
 
 - Status: Accepted
-- Version: 0.3
-- Last updated: 2026-08-13
+- Version: 0.4
+- Last updated: 2026-08-17
 - Source of truth for: 已接受架构决策及其替代关系
 - Related ADRs: 本目录
 - Related documents: [Architecture Overview](../architecture/OVERVIEW.md)
@@ -18,6 +18,7 @@
 | [0005](0005-modular-monolith.md) | Accepted | Pilot采用模块化单体 |
 | [0006](0006-web-first-agent-workspace.md) | Accepted | Web-first Agent Workspace、Durable Case与Action Control Plane分层 |
 | [0007](0007-semantic-proposal-compiler-and-decision-kernel.md) | Accepted | v15 Semantic Proposal、Restaurant Compiler与确定性Decision Kernel |
+| [0008](0008-open-restaurant-criteria-contract.md) | Accepted | v16开放Restaurant Criterion Contract；保留ADR-0007职责链 |
 
 ## 规则
 

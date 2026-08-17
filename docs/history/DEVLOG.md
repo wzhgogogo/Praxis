@@ -9,6 +9,23 @@
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
+## 2026-08-17 — v16 open Restaurant Criterion Contract
+
+### Why
+
+The v15 language boundary made the model classify a user expression as cuisine, hard constraint or soft preference before it could preserve it. That unstable ontology created avoidable ambiguity in Gold, prompt behavior and state accumulation, so annotation must not continue against that Contract.
+
+### Changes
+
+- Created ADR-0008 and the incompatible `codex/restaurant-decision-v16` line while retaining ADR-0007's Interpreter → Contract → Compiler → Runtime/Reducer → Kernel responsibility chain.
+- Replaced the three classified arrays in Proposal, Patch, Draft and complete Intent with `criteria: RestaurantCriterion[]`, including explicit `text`, `polarity` and `strength`; bumped Proposal/Draft/Eval Schema to `2`, Restaurant State to `5`, Prompt to `v3` and Regression evaluator to `2`.
+- Kept the Compiler deterministic: criteria add, replace or remove as a collection; state identity uses trim/case-insensitive text and exact polarity/strength. No search taxonomy, provider mapping, policy change or extra model call was introduced.
+- Migrated the exposed seven-turn Regression and Fixture model double, Holdout preflight/template, deterministic scorer and annotation guide. The former v15 Holdout guide is historical; a new private v16 dataset is required.
+
+### Boundary
+
+No real DeepSeek, Clean Holdout, Discovery, Availability or external write ran. User-owned untracked annotation files were neither read nor changed. The earlier v15 real-model Smoke remains historical transport evidence only and cannot establish v16 quality or transport compatibility.
+
 ## 2026-08-17 — v15 strict transport and semantic-equivalence hardening
 
 ### Why

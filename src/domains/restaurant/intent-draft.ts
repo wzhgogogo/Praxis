@@ -1,4 +1,6 @@
 import {
+  RESTAURANT_CRITERION_POLARITIES,
+  RESTAURANT_CRITERION_STRENGTHS,
   type RestaurantIntentDraft,
 } from "./contracts.js";
 
@@ -10,10 +12,20 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
-function isStringArray(value: unknown): value is string[] {
+function isCriterionArray(value: unknown): boolean {
   return (
     Array.isArray(value) &&
-    value.every((item) => typeof item === "string" && item.trim().length > 0)
+    value.every(
+      (item) =>
+        isRecord(item) &&
+        hasOnlyKeys(item, ["text", "polarity", "strength"]) &&
+        typeof item.text === "string" &&
+        item.text.trim().length > 0 &&
+        typeof item.polarity === "string" &&
+        (RESTAURANT_CRITERION_POLARITIES as readonly string[]).includes(item.polarity) &&
+        typeof item.strength === "string" &&
+        (RESTAURANT_CRITERION_STRENGTHS as readonly string[]).includes(item.strength),
+    )
   );
 }
 
@@ -47,16 +59,14 @@ export function validateRestaurantIntentDraft(input: unknown): RestaurantIntentV
       "timeWindow",
       "partySize",
       "area",
-      "cuisines",
+      "criteria",
       "budgetPerPerson",
-      "hardConstraints",
-      "softPreferences",
     ])
   ) {
     errors.push("Intent draft contains unsupported fields");
   }
-  if (input.schemaVersion !== "1") {
-    errors.push("schemaVersion must be 1");
+  if (input.schemaVersion !== "2") {
+    errors.push("schemaVersion must be 2");
   }
   if (input.timezone !== "Asia/Tokyo") {
     errors.push("timezone must be Asia/Tokyo");
@@ -108,14 +118,8 @@ export function validateRestaurantIntentDraft(input: unknown): RestaurantIntentV
       errors.push("area must contain a non-empty query and valid optional location fields");
     }
   }
-  if (!isStringArray(input.cuisines)) {
-    errors.push("cuisines must be a string array");
-  }
-  if (!isStringArray(input.hardConstraints)) {
-    errors.push("hardConstraints must be a string array");
-  }
-  if (!isStringArray(input.softPreferences)) {
-    errors.push("softPreferences must be a string array");
+  if (!isCriterionArray(input.criteria)) {
+    errors.push("criteria must be a valid criterion array");
   }
   if (input.budgetPerPerson !== undefined) {
     if (

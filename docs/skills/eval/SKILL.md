@@ -1,11 +1,11 @@
 ---
 name: praxis-eval
-description: Praxis质量评估；衡量当前v15语义链、搜索、Outcome准确性、成本和安全回归。
+description: Praxis质量评估；衡量当前v16语义链、搜索、Outcome准确性、成本和安全回归。
 ---
 
 # Praxis Eval
 
-Eval评估模型与端到端质量，不替代功能测试。当前唯一产品语义评测对象是Restaurant v15；已经退出产品主链的v14 Decision Harness和单轮Intent Parser可执行代码已删除，历史设计与结果只在Git历史、Harness历史文档和Test Log中保留。
+Eval评估模型与端到端质量，不替代功能测试。当前唯一产品语义评测对象是Restaurant v16；已经退出产品主链的v14 Decision Harness、单轮Intent Parser和v15分类Criteria Contract只在历史文档与Git中保留。
 
 ## 当前目录
 
@@ -21,11 +21,11 @@ src/eval/
 ## Stage 2C冻结口径
 
 - 产品职责固定为`Semantic Interpreter → Proposal Contract → Compiler → Runtime/Reducer → Decision Kernel`。
-- Prompt固定为`v2`，Proposal Schema固定为`1`。不得为单个Eval Case新增产品Contract字段或重新分配职责。
+- Prompt固定为`v3`，Proposal / Draft / Eval Schema固定为`2`。稳定槽位外只允许开放`CRITERION{text, polarity, strength}`；不得为单个Eval Case新增taxonomy、Provider mapping或重新分配职责。
 - v14的7个Episode / 17个Turn及旧单轮Intent Eval已经完成架构探针使命；其可执行代码、命令和默认测试已删除。需要追溯时读历史文档或Git，不恢复兼容路径。
-- 下一份独立Baseline只评估v15，并使用私有`CLEAN_HOLDOUT`。
+- 下一份独立Baseline只评估v16，并使用私有`CLEAN_HOLDOUT`。
 
-## 已暴露v15 Regression
+## 已暴露v16 Regression
 
 本地Fixture管线：
 
@@ -47,9 +47,9 @@ npm run eval:semantic:deepseek
 
 当strict Schema、Gateway transport或Provider模型配置在首次Clean Holdout前发生变化时，必须先运行一次这个已暴露Regression，确认没有Schema/API transport失败；它只验证已暴露样本的连接和结构化传输，不能替代Clean Holdout。
 
-## v15 Clean Holdout
+## v16 Clean Holdout
 
-标注规范、固定格式和污染边界见[Restaurant v15 Semantic Holdout v1](../../harness/RESTAURANT-SEMANTIC-HOLDOUT-V1.md)。实际数据位于Git忽略的`.eval-private/restaurant-semantic-holdout-v1.json`；Prompt、Regression、聊天诊断和开发日志不得复制其内容。
+标注规范、固定格式和污染边界见[Restaurant v16 Semantic Holdout v2](../../harness/RESTAURANT-SEMANTIC-HOLDOUT-V2.md)。实际数据位于Git忽略的`.eval-private/restaurant-semantic-holdout-v2.json`；Prompt、Regression、聊天诊断和开发日志不得复制其内容。
 
 标注中结构检查：
 
@@ -66,7 +66,7 @@ npm run eval:semantic:holdout:preflight:complete
 只有`READY_FOR_BASELINE`才允许真实Runner继续。真实`eval:semantic:holdout`固定：
 
 - `DEEPSEEK:deepseek-v4-flash`；
-- Prompt`v2`、Proposal Schema`1`、Evaluator`1`；
+- Prompt`v3`、Proposal / Draft / Eval Schema`2`；
 - 温度0、Thinking关闭、最多2次Schema尝试、0次Provider重试；
 - 固定Tokyo参考时间与Dataset顺序；
 - 完整Turn数量、Dataset SHA-256与一次性运行记录。
@@ -90,7 +90,7 @@ INPUT / MODEL_GATEWAY
 - Contract通过只代表结构合法，不代表语义正确。
 - Regression开发Oracle可区分Proposal语义、Compiler Patch和Reducer累计状态。
 - Clean Holdout不标内部Proposal/Patch，只能证明最终`SEMANTIC_RESULT`与Decision，必须报告`PRODUCT_SEMANTIC_ONLY`，不得伪造深层精度。
-- Proposal facts、Patch集合与Draft的`cuisines`、`hardConstraints`、`softPreferences`按去重排序后的集合语义比较；singleton和Decision保持精确比较。
+- Proposal facts、Patch集合与Draft的`criteria`按去重排序后的集合语义比较；Criterion文本只按trim/case等价，polarity和strength精确比较；singleton和Decision保持精确比较。
 - Scorer先判Draft，再判Kernel；上游错误不会在下游重复扣分。
 - 多轮Session上游失败后，后续Turn标记`BLOCKED_BY_UPSTREAM`，不伪造分数。
 - Evaluator不得调用LLM Judge来替代确定性Gold、P0或首错门禁。

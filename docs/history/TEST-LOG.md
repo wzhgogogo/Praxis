@@ -9,6 +9,28 @@
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
+## 2026-08-17 — v16 open Restaurant Criterion Contract verification
+
+### Scope
+
+Restaurant semantic Contract migration from classified cuisine / hard-constraint / soft-preference arrays to open criteria, plus the dependent Compiler, Reducer, Fixture Regression, Holdout preflight, deterministic scorer and documents. No real model or private Holdout content is in scope.
+
+### Checks
+
+- `npm run typecheck`: passed.
+- Focused Restaurant Domain, v16 Eval, Harness, PGlite Runtime and Fixture Search tests: `54/54` passed, 0 skipped and 0 failed.
+- `npm run eval:semantic:fixture`: `7/7` exposed v16 Regression Turns passed with `DEVELOPMENT_STAGE_ORACLES`, Regression Dataset `2` and Evaluator `2`; `baselineEligible:false`.
+- `npm run eval:search:fixture`: `3/3` passed.
+- `npm run arch:check`: passed with 0 forbidden source dependencies.
+- `npm run build`: passed.
+- `npm test`: `78/78` passed, 0 skipped and 0 failed in a permitted local-listener environment, including HTTP/SSE.
+- `npm run test:probes`: `8/8` passed.
+- `git diff --check`: passed after all code and documentation updates.
+
+### Modes and external effects
+
+Only Unit, Contract, Fixture, Mock Harness and embedded PGlite verification ran. No DeepSeek or other real model, Clean Holdout, Replay, Live Read-only, Controlled Live-write, Discovery, Availability, authorization or reservation ran. User-owned untracked annotation files were not read or modified.
+
 ## 2026-08-17 — v15 strict transport and semantic-equivalence hardening verification
 
 ### Scope

@@ -12,21 +12,19 @@ import {
 import { scoreRestaurantSemanticTurn } from "./scorer.js";
 
 const completeDraft: RestaurantIntentDraft = {
-  schemaVersion: "1",
+  schemaVersion: "2",
   timezone: "Asia/Tokyo",
   target: { query: "Sushi Dai" },
   date: "2026-08-21",
   timeWindow: { earliest: "19:00", latest: "19:30" },
   partySize: 2,
   area: { query: "Shinjuku" },
-  cuisines: [],
-  hardConstraints: [],
-  softPreferences: [],
+  criteria: [],
 };
 
 function dataset() {
   return {
-    schemaVersion: "1",
+    schemaVersion: "2",
     id: RESTAURANT_SEMANTIC_HOLDOUT_DATASET_ID,
     version: RESTAURANT_SEMANTIC_HOLDOUT_DATASET_VERSION,
     cohort: "HOLDOUT",
@@ -49,7 +47,7 @@ function dataset() {
   };
 }
 
-test("v15 Holdout template contains no exposed sample and complete preflight rejects it", async () => {
+test("v16 Holdout template contains no exposed sample and complete preflight rejects it", async () => {
   const template = JSON.parse(
     await readFile(new URL("./holdout.template.json", import.meta.url), "utf8"),
   ) as unknown;
@@ -68,7 +66,7 @@ test("v15 Holdout template contains no exposed sample and complete preflight rej
   assert.deepEqual(complete.issues.map((item) => item.code), ["EMPTY_HOLDOUT"]);
 });
 
-test("v15 Holdout preflight accepts a complete labelled dataset with the frozen manifest", () => {
+test("v16 Holdout preflight accepts a complete labelled dataset with the frozen manifest", () => {
   const report = preflightRestaurantSemanticHoldout(dataset(), {
     mode: "REQUIRE_COMPLETE",
     datasetPath: "private.json",
@@ -80,7 +78,7 @@ test("v15 Holdout preflight accepts a complete labelled dataset with the frozen 
   assert.equal(report.dataset?.sessions[0]?.turns[0]?.expectedDraft.target?.query, "Sushi Dai");
 });
 
-test("v15 Holdout preflight rejects duplicates, manifest drift, and inconsistent Gold", () => {
+test("v16 Holdout preflight rejects duplicates, manifest drift, and inconsistent Gold", () => {
   const invalid = structuredClone(dataset()) as unknown as Record<string, unknown>;
   invalid.model = "unfrozen";
   invalid.referenceTime = "2026-08-22T09:00:00+09:00";
@@ -101,7 +99,7 @@ test("v15 Holdout preflight rejects duplicates, manifest drift, and inconsistent
   assert.ok(report.issues.some((item) => item.code === "INVALID_EXPECTED_DECISION"));
 });
 
-test("v15 deterministic scorer attributes Draft mismatch before Kernel mismatch", () => {
+test("v16 deterministic scorer attributes Draft mismatch before Kernel mismatch", () => {
   const wrongDraft = { ...completeDraft, partySize: 3 };
   const result = scoreRestaurantSemanticTurn({
     actualDraft: wrongDraft,

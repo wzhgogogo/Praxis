@@ -1,29 +1,29 @@
 # Restaurant Booking Domain
 
 - Status: Accepted
-- Version: 1.0
+- Version: 1.1
 - Last updated: 2026-08-17
 - Source of truth for: 餐厅预约Domain模型、状态、搜索和完成条件
-- Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0007](../decisions/0007-semantic-proposal-compiler-and-decision-kernel.md)
+- Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0007](../decisions/0007-semantic-proposal-compiler-and-decision-kernel.md), [ADR-0008](../decisions/0008-open-restaurant-criteria-contract.md)
 - Related documents: [MVP PRD](../product/MVP-PRD.md), [User Flows](../product/USER-FLOWS.md), [Policy & Execution](../architecture/POLICY-EXECUTION-VERIFICATION.md), [Data, Context & Security](../architecture/DATA-CONTEXT-SECURITY.md), [Search Service](../architecture/SEARCH-SERVICE.md)
 
 ## Implementation Status
 
-Restaurant Mock预约切片已实现完整Intent之后的流程：`SEARCHING → AWAITING_SELECTION → REVALIDATING → AWAITING_AUTHORIZATION → EXECUTING → VERIFYING`，并覆盖`BOOKED_VERIFIED`、`SELECTION_REQUIRED`与`OUTCOME_UNKNOWN`。当前State Schema为`4`；Pilot前没有真实Task数据，旧Schema迁移路径已经删除。
+Restaurant Mock预约切片已实现完整Intent之后的流程：`SEARCHING → AWAITING_SELECTION → REVALIDATING → AWAITING_AUTHORIZATION → EXECUTING → VERIFYING`，并覆盖`BOOKED_VERIFIED`、`SELECTION_REQUIRED`与`OUTCOME_UNKNOWN`。当前State Schema为`5`；Pilot前没有真实Task数据，旧Schema迁移路径已经删除。
 
 Stage 2A已实现自然语言入口和本地Web路径：`UNDERSTANDING → NEEDS_INPUT | SEARCHING → AWAITING_SELECTION`。应用层注入Model Gateway、Restaurant Search和Clock；真实DeepSeek传输使用强制strict structured-output envelope，随后仍由封闭的Semantic Proposal Contract本地校验，再由纯Restaurant Compiler产生`SEMANTIC_PROPOSAL_COMPILED`或`SEMANTIC_CONFLICT_RECORDED` Event。阻塞字段由权威Draft即时推导，Decision Kernel通过`DECIDE_RESTAURANT_NEXT`决定澄清、搜索、候选展示、无候选调整或安全的`NEED_REINTERPRETATION`。Fixture Search返回三个演示候选；用户选择后只完成Fixture revalidation，并停在`AWAITING_AUTHORIZATION`。本路径没有真实搜索、空位、Authorization或预约。
 
-ADR-0007已固定v15产品目标。其Semantic Interpreter、Semantic Proposal Contract、Restaurant Semantic Compiler和语义/搜索Decision Kernel已在Fixture产品路径实现；Harness-only v14 `statePatch` Contract仍不接入产品Task State。预约阶段的`PROPOSE_RESERVATION`与`COMPLETE`尚未迁移到Kernel命令，继续沿用既有确定性状态机。
+ADR-0007固定职责链，ADR-0008将其Restaurant payload升级为v16开放`criteria`。Semantic Interpreter、Semantic Proposal Contract、Restaurant Semantic Compiler和语义/搜索Decision Kernel已在Fixture产品路径实现；Harness-only v14 `statePatch` Contract仍不接入产品Task State。预约阶段的`PROPOSE_RESERVATION`与`COMPLETE`尚未迁移到Kernel命令，继续沿用既有确定性状态机。
 
 真实Search Source、Availability、Request Booking、Human Takeover、取消、变更与路线仍为`proposed`。当前产品应用见[`Persistent Restaurant Agent`](../../src/application/persistent-restaurant-agent.ts)，轻量Fixture Driver只位于[`src/eval/search-fixture`](../../src/eval/search-fixture/fixture-application.ts)。
 
-## v15 Semantic Proposal, Compiler and Decision Kernel
+## v16 Semantic Proposal, Compiler and Decision Kernel
 
-Restaurant是Semantic Proposal与Compiler的唯一当前真实使用者。Semantic Interpreter只描述用户本轮表达的`target`、`time`、`party`、`location`、`preference`、`constraint`、`correction`、`negation`、`confirmation`和可选受控soft semantic context；它不输出`StatePatch`、Event、Readiness、Tool input或Outcome。
+Restaurant是Semantic Proposal与Compiler的唯一当前真实使用者。Semantic Interpreter只描述用户本轮的稳定槽位和开放Restaurant Criterion；它不对cuisine、amenity、ambience或safety类别建模，也不输出`StatePatch`、Event、Readiness、Tool input或Outcome。
 
 Restaurant Semantic Proposal Contract只验证这些表达的结构与Domain词表。通过校验不证明模型正确理解用户，也不是用户确认或可信外部事实。Restaurant Semantic Compiler是纯确定性Domain代码，负责将合法Proposal翻译成可由Task Runtime处理的Restaurant Event或State Patch。它不得调用模型、读取实时平台数据、决定Authorization或调用Adapter。
 
-Reducer继续以`Old State + Event → New Authoritative State`维护权威事实。Restaurant Decision Kernel只基于该State与Trusted Evidence返回`ASK_USER`、`SEARCH`、`PRESENT_CANDIDATES`、`PROPOSE_RESERVATION`、`COMPLETE`、`NEED_ADJUSTMENT`或`NEED_REINTERPRETATION`。后一项是v15预留Decision，不是新的State：初始行为仅记录conflict并请求用户澄清或走安全降级，不会自动重新解释、覆盖State或触发Tool。
+Reducer继续以`Old State + Event → New Authoritative State`维护权威事实。Restaurant Decision Kernel只基于该State与Trusted Evidence返回`ASK_USER`、`SEARCH`、`PRESENT_CANDIDATES`、`PROPOSE_RESERVATION`、`COMPLETE`、`NEED_ADJUSTMENT`或`NEED_REINTERPRETATION`。后一项是v16预留Decision，不是新的State：初始行为仅记录conflict并请求用户澄清或走安全降级，不会自动重新解释、覆盖State或触发Tool。
 
 任何LLM对结果的解释、澄清问题或条件调整建议都不是Semantic Proposal的替代品。建议必须由用户在新消息中明确确认或修改，才能再次进入正式的Interpreter → Contract → Compiler链。
 
@@ -36,16 +36,18 @@ type RestaurantBookingIntent = {
   timeWindow: { earliest: string; latest: string };
   partySize: number;
   area: { query: string; placeId?: string; radiusMeters?: number };
-  cuisines: string[];
+  criteria: Array<{
+    text: string;
+    polarity: "POSITIVE" | "NEGATIVE";
+    strength: "REQUIRED" | "PREFERRED" | "UNSPECIFIED";
+  }>;
   budgetPerPerson?: { max: number; currency: "JPY" };
-  hardConstraints: string[];
-  softPreferences: string[];
 };
 ```
 
 Reducer维护可缺阻塞字段的`RestaurantIntentDraft`：`date`、`timeWindow`、`partySize`、`area`可以为空，但必须通过同一Domain Validator。`missingBlockingFields(draft)`从这四个权威值即时计算，不持久化第二份readiness。未知字段、无效日历日期、空字符串、错误JPY预算和嵌套未知字段一律拒绝；四项齐全时Runtime才可创建完整`RestaurantBookingIntent`并开始搜索。
 
-Semantic Operation固定为：singleton `ASSERT/CORRECT=set`、`NEGATE=clear`、`CONFIRM=no state mutation`；同一turn对同一singleton同时`NEGATE`与`ASSERT/CORRECT`是`CONTRADICTORY_PROPOSAL`，绝不按facts数组顺序决定State。collection `ASSERT=add`、`CORRECT=replace collection`、`NEGATE=remove named item`，不允许collection `CONFIRM`。
+Semantic Operation固定为：singleton `ASSERT/CORRECT=set`、`NEGATE=clear`、`CONFIRM=no state mutation`；同一turn对同一singleton同时`NEGATE`与`ASSERT/CORRECT`是`CONTRADICTORY_PROPOSAL`，绝不按facts数组顺序决定State。唯一collection `CRITERION`为`ASSERT=add`、`CORRECT=replace collection`、`NEGATE=remove matching criterion`，不允许collection `CONFIRM`。Criterion文本保留简洁用户措辞，身份按text trim/case与polarity/strength精确值决定。
 
 阻塞字段是日期、时间、人数和区域。菜系与预算未提供时可搜索，但必须透明说明。
 

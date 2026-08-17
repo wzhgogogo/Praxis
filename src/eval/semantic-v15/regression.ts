@@ -21,7 +21,7 @@ import { FakeClock } from "../../harness/fake-clock.js";
 import {
   type RestaurantSemanticRegressionDataset,
   type RestaurantSemanticRegressionTurn,
-  restaurantSemanticRegressionV1,
+  restaurantSemanticRegressionV2,
 } from "./fixtures.js";
 import {
   equalRestaurantIntentPatches,
@@ -61,7 +61,7 @@ export interface RestaurantSemanticRegressionTurnResult {
 }
 
 export interface RestaurantSemanticRegressionReport {
-  evaluatorVersion: "1";
+  evaluatorVersion: "2";
   datasetId: string;
   datasetVersion: string;
   mode: "REAL_MODEL_MOCK_WORLD" | "FIXTURE";
@@ -84,7 +84,7 @@ function result(
 }
 
 /**
- * v15 regression runner. The DeepSeek call can create only a Semantic Proposal;
+ * v16 regression runner. The DeepSeek call can create only a Semantic Proposal;
  * every state change below is replayable in-memory Runtime code and Fixture Search.
  */
 export async function runRestaurantSemanticRegression(
@@ -99,7 +99,7 @@ export async function runRestaurantSemanticRegression(
     };
   },
 ): Promise<RestaurantSemanticRegressionReport> {
-  const dataset = input.dataset ?? restaurantSemanticRegressionV1;
+  const dataset = input.dataset ?? restaurantSemanticRegressionV2;
   const clock = new FakeClock(dataset.referenceTime);
   const search = new FixtureRestaurantSearch();
   const compile = input.dependencies?.compile ?? compileRestaurantSemanticProposal;
@@ -389,7 +389,7 @@ export async function runRestaurantSemanticRegression(
     }
   }
   return {
-    evaluatorVersion: "1",
+    evaluatorVersion: "2",
     datasetId: dataset.id,
     datasetVersion: dataset.version,
     mode: input.mode,

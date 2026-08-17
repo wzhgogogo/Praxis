@@ -33,7 +33,7 @@ test("Semantic Interpreter requests a closed proposal and never asks for state o
   const gateway = new QueuedGateway([
     response(
       JSON.stringify({
-        schemaVersion: "1",
+        schemaVersion: "2",
         facts: [
           {
             field: "PARTY_SIZE",
@@ -52,12 +52,10 @@ test("Semantic Interpreter requests a closed proposal and never asks for state o
     referenceTime: "2026-08-05T09:00:00+09:00",
     timezone: "Asia/Tokyo",
     currentDraft: {
-      schemaVersion: "1",
+      schemaVersion: "2",
       timezone: "Asia/Tokyo",
       partySize: 2,
-      cuisines: [],
-      hardConstraints: [],
-      softPreferences: [],
+      criteria: [],
     },
   });
 
@@ -65,10 +63,10 @@ test("Semantic Interpreter requests a closed proposal and never asks for state o
   assert.equal(gateway.calls.length, 1);
   const request = gateway.calls[0]!;
   assert.equal(request.purpose, "restaurant_semantic_interpret");
-  assert.equal(request.promptVersion, "v2");
+  assert.equal(request.promptVersion, "v3");
   assert.deepEqual(request.outputSchema, {
     name: "restaurant-semantic-proposal",
-    version: "1",
+    version: "2",
     jsonSchema: RESTAURANT_SEMANTIC_PROPOSAL_JSON_SCHEMA,
   });
   assert.equal(request.responseFormat, "JSON_SCHEMA");
@@ -82,8 +80,8 @@ test("Semantic Interpreter requests a closed proposal and never asks for state o
 
 test("Semantic Interpreter rejects a structurally valid-looking state patch", async () => {
   const gateway = new QueuedGateway([
-    response(JSON.stringify({ schemaVersion: "1", facts: [], statePatch: { phase: "SEARCHING" } })),
-    response(JSON.stringify({ schemaVersion: "1", facts: [], statePatch: { phase: "SEARCHING" } })),
+    response(JSON.stringify({ schemaVersion: "2", facts: [], statePatch: { phase: "SEARCHING" } })),
+    response(JSON.stringify({ schemaVersion: "2", facts: [], statePatch: { phase: "SEARCHING" } })),
   ]);
   const interpreter = new RestaurantSemanticInterpreter(gateway);
 

@@ -1,13 +1,15 @@
-# Restaurant v15 Semantic Holdout v1
+# Historical Restaurant v15 Semantic Holdout v1
 
-- Status: Accepted
+- Status: Superseded by [Restaurant v16 Semantic Holdout v2](RESTAURANT-SEMANTIC-HOLDOUT-V2.md)
 - Version: 1.1
 - Last updated: 2026-08-17
-- Source of truth for: v15 Clean Holdout 的私有标注格式、冻结清单、Preflight和单次Baseline运行协议
-- Related ADRs: [ADR-0007](../decisions/0007-semantic-proposal-compiler-and-decision-kernel.md)
+- Source of truth for: 已废弃v15标注格式的历史记录；不得用于当前标注或Baseline
+- Related ADRs: [ADR-0008](../decisions/0008-open-restaurant-criteria-contract.md)
 - Related documents: [Current Status](../STATUS.md), [Eval Skill](../skills/eval/SKILL.md), [Eval Directory](../../src/eval/README.md)
 
-## 当前状态
+> v16以开放`criteria`替换了本文件的三种分类数组。保留本文只用于解释旧标注为何不能进入新的Clean Holdout；当前格式和协议只以[v2](RESTAURANT-SEMANTIC-HOLDOUT-V2.md)为准。
+
+## 历史状态
 
 评测工程已准备完成，私有30-query Holdout正在人工标注，尚未运行真实模型Baseline。模板位于[`src/eval/semantic-v15/holdout.template.json`](../../src/eval/semantic-v15/holdout.template.json)，实际标注文件位于Git忽略的`.eval-private/restaurant-semantic-holdout-v1.json`。实际文件不得提交、复制进Prompt、Regression、聊天诊断或开发日志。
 

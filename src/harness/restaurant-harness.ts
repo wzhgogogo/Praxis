@@ -127,20 +127,14 @@ export class RestaurantHarness {
   async start(intent: RestaurantBookingIntent) {
     this.runtime.createTask(this.taskId, {}, { runId: this.runId });
     const patch: RestaurantIntentPatch = {
-      schemaVersion: "1",
+      schemaVersion: "2",
       ...(intent.target ? { target: structuredClone(intent.target) } : {}),
       date: intent.date,
       timeWindow: structuredClone(intent.timeWindow),
       partySize: intent.partySize,
       area: { query: intent.area.query },
       ...(intent.budgetPerPerson ? { budgetPerPerson: structuredClone(intent.budgetPerPerson) } : {}),
-      ...(intent.cuisines.length > 0 ? { addCuisines: structuredClone(intent.cuisines) } : {}),
-      ...(intent.hardConstraints.length > 0
-        ? { addHardConstraints: structuredClone(intent.hardConstraints) }
-        : {}),
-      ...(intent.softPreferences.length > 0
-        ? { addSoftPreferences: structuredClone(intent.softPreferences) }
-        : {}),
+      ...(intent.criteria.length > 0 ? { addCriteria: structuredClone(intent.criteria) } : {}),
     };
     await this.send({ type: "SEMANTIC_PROPOSAL_COMPILED", patch });
     return this.snapshot();
