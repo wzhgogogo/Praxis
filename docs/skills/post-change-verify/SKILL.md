@@ -30,9 +30,9 @@ Runtime、Policy、Restaurant状态或Mock Adapter改动至少运行以上三项
 5. Adapter改动运行Browser Fixture和Replay；需要时单独运行Live Read-only。
 6. 只有用户明确授权时运行Controlled Live-write，并验证清理。
 7. 检查Secret、PII、Mock生产防护和外部副作用。
-8. 同步文档并更新Test/Dev Log。
+8. 同步文档；追加`docs/history/DEVLOG.md`与`docs/history/TEST-LOG.md`，并在能力、证据或下一道门槛变化时更新`docs/STATUS.md`。
 
-Golden Seed按范围验证：纯Gold数据或文案更新只需定向Eval Contract和Draft Preflight；Contract、Schema、Preflight、Reducer或Scorer变化才运行Typecheck、Build和全量稳定基线。严格Complete Preflight只在全部Gold完成或准备进入Evaluator/Baseline门禁时运行。
+v15 Holdout按范围验证：纯私有Gold更新只运行Draft Preflight；Holdout Contract、Preflight或Scorer变化才运行Typecheck、Build、定向v15测试和当前产品基线。严格Complete Preflight只在全部Gold完成或准备进入Baseline门禁时运行。
 
 涉及v15语义主链的改动，验证必须按层分别报告，不能用端到端通过掩盖上游错误：
 
@@ -50,13 +50,13 @@ Semantic Interpreter → Semantic Proposal Contract → Compiler → Reducer →
 
 | 改动 | 同步文档 |
 |---|---|
-| 产品行为或确认点 | MVP PRD、User Flows、Dev Log |
-| 架构边界 | Architecture、ADR、Arch Guard |
-| Semantic Interpreter / Contract / Compiler / Kernel | Agent Orchestration、Restaurant Domain、Interfaces、Planning/Eval/Post-change Verify、Harness与Dev/Test Log |
+| 产品行为或确认点 | MVP PRD、User Flows、STATUS、Dev Log |
+| 架构边界 | Architecture、ADR、Arch Guard、STATUS |
+| Semantic Interpreter / Contract / Compiler / Kernel | Agent Orchestration、Restaurant Domain、Interfaces、Planning/Eval/Post-change Verify、Harness、STATUS与Dev/Test Log |
 | API/Schema/State | Interfaces、Task Runtime、迁移说明 |
-| Provider/Adapter | Capability Matrix、Domain、Harness |
-| Prompt/模型 | Agent Orchestration、Eval、Dev Log |
-| 测试命令/覆盖 | Test Skill、Test Log |
+| Provider/Adapter | Capability Matrix、Domain、Harness、STATUS |
+| Prompt/模型 | Agent Orchestration、Eval、STATUS、Dev Log |
+| 测试命令/覆盖 | Test Skill、Test Log；必要时 STATUS |
 | 安全或保留策略 | Data/Security、ADR（如跨决策） |
 
 ## 报告格式

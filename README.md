@@ -34,21 +34,16 @@ Praxis 已建立开发前 Source of Truth，后续 planning、coding 和 verific
 
 推荐阅读顺序：
 
-1. [Tokyo Restaurant Agent MVP PRD](./docs/product/MVP-PRD.md)
-2. [MVP User Flows](./docs/product/USER-FLOWS.md)
-3. [Architecture Overview](./docs/architecture/OVERVIEW.md)
-4. [ADR Index](./docs/decisions/README.md)
-5. [Roadmap](./docs/roadmap.md)
+1. [当前状态](./docs/STATUS.md)
+2. [开发文档索引](./docs/INDEX.md)
+3. [MVP PRD](./docs/product/MVP-PRD.md) 与 [User Flows](./docs/product/USER-FLOWS.md)
+4. [Architecture Overview](./docs/architecture/OVERVIEW.md) 与 [ADR Index](./docs/decisions/README.md)
 
 根目录按日期命名的文件继续保留为研究与决策背景；`docs/` 是进入 Build 阶段后的稳定实施依据。后续 Agent 修改代码前必须遵循 [`AGENTS.md`](./AGENTS.md) 和项目 skills。
 
 ## 当前实现
 
-Stage 1已完成最小控制面和 Harness，Stage 2A完成本地 Fixture Search 闭环，Stage 2B完成 Persistent Agent Shell。当前 Restaurant v15 已将不可信模型输出收敛为明确的受控链路：`Semantic Interpreter → Semantic Proposal Contract → Compiler → Task Runtime / Reducer → Decision Kernel`；LLM 只能提出语义 Proposal，不能直接修改权威 State 或执行外部动作。完整边界与事件流见 [ADR-0007](./docs/decisions/0007-semantic-proposal-compiler-and-decision-kernel.md)。
-
-当前全量自动化基线为 **147 个测试**，覆盖语义 Proposal Contract、Compiler、Reducer、Decision Kernel、Fixture Harness、嵌入式 PostgreSQL 集成及 Stage 2B Web/API/SSE。v15 另提供真实模型语义回归：`DeepSeek → Interpreter → Contract → Compiler → Runtime/Reducer → Kernel → Fixture Search`；它只验证理解和确定性状态链路，不创建持久任务，也不调用外部写工具。最近连续 10 次 DeepSeek Regression 均为 7/7（合计 70/70）通过，属于已暴露样本的 `DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`，不能作为模型质量趋势或 Clean Holdout Baseline。详细口径、结果与版本注意事项见 [Test Log](./docs/test-log.md) 和 [DevLog](./docs/devlog.md)。
-
-Pilot 用户可在 Desktop/Mobile Web 恢复同一 Conversation 与 Restaurant Case，查看候选、下一步和由权威 Event 生成的 Activity，并通过可重连 SSE 接收最新 Case Snapshot。选择候选后仍停在授权前。真实平台、跨浏览器和真实移动设备验证仍未运行；下一步的真实模型质量结论必须来自冻结模型、Prompt 与 Schema 后的新建 `CLEAN_HOLDOUT`，而非本回归集。
+Restaurant v15 已完成 Fixture 语义到搜索的受控链路：`Semantic Interpreter → Proposal Contract → Compiler → Task Runtime / Reducer → Decision Kernel`；模型不能直接修改权威 State 或执行外部动作。当前可用能力、验证证据、明确未验证项与下一道门槛统一维护在 [当前状态](./docs/STATUS.md)，避免 README 与细节文档重复维护。
 
 生产数据库Adapter使用`pg`；PGlite用于快速嵌入式数据库集成验证，不能替代真实PostgreSQL。2026-08-07已在隔离本机PostgreSQL 17数据库上通过真实Smoke，覆盖Runtime、迁移、Goal/Task Graph和Scheduler；后续可对专用测试库显式运行：
 
@@ -68,14 +63,15 @@ npm run test:postgres:live
 cp -n .env.example .env
 ```
 
-`.env`被Git忽略，浏览器不会读取其中变量；只有`npm run dev`、真实模型 Eval（包括`npm run eval:semantic:deepseek`与`npm run eval:intent:deepseek`）和`npm run test:postgres:live`会以Node原生方式加载它。`npm test`、构建、Fixture Eval和Decision Seed Preflight不会加载`.env`，因此不会意外使用真实Key或触发付费模型请求。
+`.env`被Git忽略，浏览器不会读取其中变量；只有`npm run dev`、真实v15模型Eval和`npm run test:postgres:live`会以Node原生方式加载它。`npm test`、`npm run test:probes`、构建、Fixture Eval和Holdout Preflight不会加载`.env`，因此不会意外使用真实Key或触发付费模型请求。
 
 ```bash
 npm install
 npm run typecheck
 npm test
-npm run eval:intent:fixture
-npm run eval:decision:preflight
+npm run test:probes
+npm run eval:semantic:fixture
+npm run eval:semantic:holdout:preflight
 npm run eval:search:fixture
 npm run build
 ```
@@ -88,20 +84,13 @@ npm run dev
 
 然后在浏览器打开`http://127.0.0.1:3000`，使用本地Fixture Token `praxis-fixture-a`。可通过服务端`PRAXIS_PILOT_ACCESS_JSON`覆盖Pilot用户列表；不要把真实Secret放进前端。页面清楚标记为`Fixture mode`，它不是Live Search、生产身份或预约演示。
 
-`eval:semantic:deepseek`是 v15 主链的真实语义 Regression：它验证 `Semantic Interpreter → Contract → Compiler → Runtime/Reducer → Kernel → Fixture Search`，不创建持久任务或外部副作用。`eval:intent:fixture`与`eval:intent:deepseek`保留为旧 Intent Parser 的 Eval/连通性工具，不代表 v15 产品路径。在`.env`配置服务端`DEEPSEEK_API_KEY`、`DEEPSEEK_MODEL`后，只有把`PRAXIS_ALLOW_LIVE_MODEL_EVAL`显式改为`1`才会发起付费网络请求。建议先将`PRAXIS_LIVE_MODEL_EVAL_CASE_LIMIT`设为`1`控制成本，然后运行：
+## Eval 与验证
 
-```bash
-npm run eval:semantic:deepseek
-npm run eval:intent:deepseek
-```
+默认只运行 Fixture / Mock / Embedded-postgres 命令。完整命令矩阵、每种模式的证明范围与历史结果见 [Test Skill](./docs/skills/test/SKILL.md)、[Eval Skill](./docs/skills/eval/SKILL.md) 和 [Test Log](./docs/history/TEST-LOG.md)。
 
-执行完一轮付费评估后，将开关恢复为`0`。可选的`PRAXIS_DEEPSEEK_INPUT_USD_PER_MILLION_TOKENS`和`PRAXIS_DEEPSEEK_OUTPUT_USD_PER_MILLION_TOKENS`必须一起提供；否则报告将透明标记成本为`NOT_CONFIGURED`，不会猜测价格。
+`eval:semantic:deepseek`是 v15 主链的真实语义 Regression：`Interpreter → Contract → Compiler → Runtime/Reducer → Kernel → Fixture Search`。它不创建持久任务或外部副作用；运行前须在 `.env` 配置服务端 `DEEPSEEK_API_KEY` / `DEEPSEEK_MODEL`，并显式设置 `PRAXIS_ALLOW_LIVE_MODEL_EVAL=1`。历史v14 Decision Harness和旧Intent Parser的可执行代码及命令已删除，历史结果只从Git和日志追溯。
 
-`eval:decision:preflight`与`npm run eval:decision:preflight:complete`检查7个Progressive Decision Golden Seed Episode的结构、Outlet Discovery、Candidate Fixture、无锚点Flexible、过敏披露门禁、单约束Fallback和引用；当前均返回`READY_FOR_EVALUATOR`。这只允许运行Harness-only Evaluator，不代表已通过真实模型Baseline；标注按完整Episode批量审阅，流程见[Golden Seed Annotation Guide](./docs/harness/RESTAURANT-DECISION-GOLDEN-SEED-ANNOTATION.md)。
-
-`npm run eval:decision:fixture`已可用：它以Golden结构化输出验证Eval-only State Reducer和S1–S8阶段评分，当前Fixture Oracle全部通过。`npm run eval:decision:model:fixture`再用本地Golden Fixture Gateway贯通完整Episode Runner；它严格Preflight、交付明确候选上下文、调用Model Contract、组装S6并评分，仍不是模型质量结果。Golden v0.9 / Prompt v11把命名目标解析、候选不足、Fact引用、相对时间、结构化地点策略、状态抽取边界和动作路由矩阵都限定在Harness/Fixture边界内；这不是接入真实Discovery或地图。`PRAXIS_ALLOW_LIVE_MODEL_EVAL=1 PRAXIS_LIVE_MODEL_EVAL_CASE_LIMIT=3 npm run eval:decision:deepseek:smoke`固定运行E1/E2/E3各一个Episode；如需覆盖当前全部Regression，可显式运行`PRAXIS_ALLOW_LIVE_MODEL_EVAL=1 PRAXIS_DECISION_EVAL_SCOPE=FULL_REGRESSION PRAXIS_LIVE_MODEL_EVAL_CASE_LIMIT=7 npm run eval:decision:deepseek:smoke`，它会运行7个Episode、17个Turn。两种范围都会标记为`DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`，因为当前全部Golden Seed及其结果都已参与Prompt开发。2026-08-12的v11全量Regression在用户明确授权DeepSeek数据出境后完成17个Turn评分，17次调用、0次Schema retry、P0为0；12/17个Turn无首错，剩余首错为2个S3、2个S1和1个S7。仅在静态Golden Fixture诊断时可额外设`PRAXIS_EVAL_SHOW_COMPLETIONS=1`，把每次Completion和逐次校验错误打印到本次终端，不写入文件或普通遥测。
-
-实现状态和后续边界见：[Task Runtime](./docs/architecture/TASK-RUNTIME.md)、[Restaurant Domain](./docs/domains/RESTAURANT-BOOKING.md)与[Roadmap](./docs/roadmap.md)。
+所有真实模型 Regression 都是已暴露样本，不能用于质量趋势或 Clean Holdout Baseline；当前进度与下一道门槛见 [当前状态](./docs/STATUS.md)。
 
 ## 记录方式
 

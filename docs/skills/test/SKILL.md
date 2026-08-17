@@ -10,14 +10,18 @@ description: Praxis测试策略；覆盖纯函数、状态机、Connector Contra
 ```bash
 npm run typecheck
 npm test
+npm run test:probes          # 冻结的Goal/Scheduler合成探针，不属于当前产品门禁
 npm run build
 npm run test:postgres:live    # 需要显式测试数据库配置与写入确认
-npm run eval:decision:preflight
-npm run eval:decision:model:fixture
 npm run eval:search:fixture
+npm run eval:semantic:fixture
+npm run eval:semantic:holdout:preflight
+npm run eval:semantic:deepseek # 需要显式真实模型开关；不是默认测试
 ```
 
-`npm test`当前运行Core Unit/Contract、Restaurant Verifier、11个Restaurant Mock Harness场景、20个Runtime PGlite数据库集成场景（含G01/G02合成Harness）、3个Fixture Intent Eval Contract场景、17个Progressive Decision Seed Preflight场景、10个Eval-only Reducer/Scorer场景、5个Typed Patch Contract场景、18个Evaluator Verification Mutation场景、8个Eval-only Model Contract场景、5个Relative-time Resolver场景、5个Episode Runner场景、5个DeepSeek Gateway Connector Contract场景、4个Intent Parser场景、3个Real Model Eval Contract场景、1个Fixture Search Eval Contract和7个使用PGlite的Stage 2B Local HTTP/SSE场景；2026-08-13全量基线为138 tests / 5 suites。Decision Seed Preflight、Fixture Oracle、Mutation Set、Typed Contract、Model Contract、Relative-time Resolver和Fixture Episode Runner只证明Contract、Fixture引用、人工标注门禁和S1–S8评分管线；Fixture Search和Web Workspace只证明本地Fixture与Embedded-postgres路径；生产身份、Browser视觉、Replay、Live Read-only、Progressive Decision真实Model Baseline和Controlled Live-write仍未运行，不得混报。
+`npm test`当前产品基线为 **65/65**（2026-08-16）：覆盖Core Unit/Contract、Restaurant Verifier、Mock Harness、当前12个PGlite Runtime/Recovery场景、Fixture Web/API/SSE、v15 Semantic Proposal / Compiler / Reducer / Kernel / Holdout Preflight与Scorer、Fixture Search及真实模型付费门禁/计量。历史v14和旧Intent Parser测试已删除，不再混入当前基线。
+
+`npm run test:probes`为独立的**8/8**冻结探针基线：Goal Graph、Trigger/Scheduler、Recurring Shopping与Long-running Case。它保护仍保留的有界架构探针，但不作为Restaurant当前Stage的产品门禁。Fixture与Embedded-postgres都不证明生产身份、真实PostgreSQL、Browser视觉、Replay、Live Read-only、真实模型Baseline或Controlled Live-write；完整历史见[Test Log](../../history/TEST-LOG.md)。
 
 PGlite结果必须报告为`embedded-postgres integration`，不能报告为真实PostgreSQL。真实PostgreSQL smoke从Git忽略的本地`.env`（由`.env.example`建立）或进程环境读取`PRAXIS_TEST_DATABASE_URL`与`PRAXIS_ALLOW_TEST_DATABASE_WRITE=1`，且只能指向可写入、允许创建Praxis表的测试数据库。`npm test`不加载`.env`，不能因本地Secret或真实数据库配置改变测试结果。
 
@@ -44,7 +48,8 @@ PGlite结果必须报告为`embedded-postgres integration`，不能报告为真�
 
 | 改动 | 最小验证 |
 |---|---|
-| Task Runtime | Unit + State Contract + 3个合成Domain |
+| Task Runtime当前产品路径 | Unit + State Contract + Restaurant PGlite |
+| 冻结Goal/Scheduler探针 | `npm run test:probes` |
 | Search Strategy/排序 | Unit + Search Harness + Replay |
 | DeepSeek Prompt/Parser | Schema Unit +固定Eval集 |
 | Policy/Authorization | Unit +所有Forbidden Action场景 |
@@ -52,10 +57,10 @@ PGlite结果必须报告为`embedded-postgres integration`，不能报告为真�
 | Verifier | Evidence Unit +提交不明确场景 |
 | Scheduler | Fake Clock +重复Trigger +恢复 |
 | Web流程 | 组件/交互 + API契约 +主要User Flow |
-| Golden Seed纯数据/文案 | 定向Eval Contract + Draft Preflight |
-| Golden Seed Contract/Preflight | Typecheck + 定向Eval Contract + Build + 全量稳定基线 |
+| v15 Holdout纯数据 | Holdout Preflight；完成后严格Preflight |
+| v15 Holdout Contract/Preflight | Typecheck + 定向Eval Test + Build + 当前产品基线 |
 
-`eval:decision:preflight:complete`只在全部人工Gold完成或准备进入Reducer/Scorer/Baseline门禁时运行；不在每个Episode后重复验证已知Pending。
+`eval:semantic:holdout:preflight:complete`只在全部Gold完成或准备进入Baseline门禁时运行；不在每个Session后重复验证已知空集合。
 
 ## 安全断言
 
@@ -76,4 +81,4 @@ PGlite结果必须报告为`embedded-postgres integration`，不能报告为真�
 
 ## 汇报
 
-分开报告Mock、Replay、Live Read-only和Controlled Live-write。说明通过、失败、跳过、原因、外部副作用和清理结果，并更新`docs/test-log.md`。
+分开报告Mock、Replay、Live Read-only和Controlled Live-write。说明通过、失败、跳过、原因、外部副作用和清理结果，并更新`docs/history/TEST-LOG.md`；若能力、证据或下一道门槛变化，同时更新`docs/STATUS.md`。

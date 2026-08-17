@@ -231,8 +231,19 @@ function createLongRunningCaseRuntime(database: SqlDatabase, clock: FakeClock) {
   >(database, longRunningCaseTaskDefinition, clock, (prefix) => `${prefix}-${++sequence}`));
 }
 
+type TestBody = () => void | Promise<void>;
+const runFrozenProbes = process.env.PRAXIS_RUN_FROZEN_PROBES === "1";
+
+function currentTest(name: string, body: TestBody): void {
+  if (!runFrozenProbes) test(name, body);
+}
+
+function probeTest(name: string, body: TestBody): void {
+  if (runFrozenProbes) test(name, body);
+}
+
 describe("PostgresTaskRuntime with PGlite", () => {
-  test("atomically stores task state, event and outbox command", async () => {
+  currentTest("atomically stores task state, event and outbox command", async () => {
     await withDatabase(async ({ database, clock }) => {
       const runtime = createRuntime(database, clock);
       await runtime.createTask("task-1", {}, { runId: "run-1" });
@@ -267,7 +278,7 @@ describe("PostgresTaskRuntime with PGlite", () => {
     });
   });
 
-  test("deduplicates a persisted event without emitting another command", async () => {
+  currentTest("deduplicates a persisted event without emitting another command", async () => {
     await withDatabase(async ({ database, clock }) => {
       const runtime = createRuntime(database, clock);
       await runtime.createTask("task-1", {});
@@ -288,7 +299,7 @@ describe("PostgresTaskRuntime with PGlite", () => {
     });
   });
 
-  test("rejects a stale expected version", async () => {
+  currentTest("rejects a stale expected version", async () => {
     await withDatabase(async ({ database, clock }) => {
       const runtime = createRuntime(database, clock);
       await runtime.createTask("task-1", {});
@@ -314,7 +325,7 @@ describe("PostgresTaskRuntime with PGlite", () => {
     });
   });
 
-  test("rolls back state and event when outbox insertion fails", async () => {
+  currentTest("rolls back state and event when outbox insertion fails", async () => {
     await withDatabase(async ({ database, clock }) => {
       const invalidDefinition: TaskDefinition<
         TestState,
@@ -362,7 +373,7 @@ describe("PostgresTaskRuntime with PGlite", () => {
     });
   });
 
-  test("releases an expired read lease for another worker", async () => {
+  currentTest("releases an expired read lease for another worker", async () => {
     await withDatabase(async ({ database, clock }) => {
       const runtime = createRuntime(database, clock);
       const outbox = new PostgresCommandOutbox<TestCommand>(database);
@@ -397,7 +408,7 @@ describe("PostgresTaskRuntime with PGlite", () => {
     });
   });
 
-  test("never re-leases an expired external write without a result event", async () => {
+  currentTest("never re-leases an expired external write without a result event", async () => {
     await withDatabase(async ({ database, clock }) => {
       const runtime = createRuntime(database, clock);
       const outbox = new PostgresCommandOutbox<TestCommand>(database);
@@ -434,7 +445,7 @@ describe("PostgresTaskRuntime with PGlite", () => {
     });
   });
 
-  test("reconciles an expired external write when its result event was persisted", async () => {
+  currentTest("reconciles an expired external write when its result event was persisted", async () => {
     await withDatabase(async ({ database, clock }) => {
       const runtime = createRuntime(database, clock);
       const outbox = new PostgresCommandOutbox<TestCommand>(database);
@@ -480,7 +491,7 @@ describe("PostgresTaskRuntime with PGlite", () => {
     });
   });
 
-  test("worker persists a deterministic result event before completing the command", async () => {
+  currentTest("worker persists a deterministic result event before completing the command", async () => {
     await withDatabase(async ({ database, clock }) => {
       const runtime = createRuntime(database, clock);
       const outbox = new PostgresCommandOutbox<TestCommand>(database);
@@ -517,7 +528,7 @@ describe("PostgresTaskRuntime with PGlite", () => {
     });
   });
 
-  test("worker schedules a failed read command for bounded retry", async () => {
+  currentTest("worker schedules a failed read command for bounded retry", async () => {
     await withDatabase(async ({ database, clock }) => {
       const runtime = createRuntime(database, clock);
       const outbox = new PostgresCommandOutbox<TestCommand>(database);
@@ -560,7 +571,7 @@ describe("PostgresTaskRuntime with PGlite", () => {
     });
   });
 
-  test("worker never retries a failed external-write handler blindly", async () => {
+  currentTest("worker never retries a failed external-write handler blindly", async () => {
     await withDatabase(async ({ database, clock }) => {
       const runtime = createRuntime(database, clock);
       const outbox = new PostgresCommandOutbox<TestCommand>(database);
@@ -600,7 +611,7 @@ describe("PostgresTaskRuntime with PGlite", () => {
     });
   });
 
-  test("restores a Restaurant task through a new runtime instance", async () => {
+  currentTest("restores a Restaurant task through a new runtime instance", async () => {
     await withDatabase(async ({ database, clock }) => {
       let firstSequence = 0;
       const firstRuntime = withTestTrace(new PostgresTaskRuntime(
@@ -658,7 +669,7 @@ describe("PostgresTaskRuntime with PGlite", () => {
     });
   });
 
-  test("routes an uncertain Restaurant external write into verification without retrying commit", async () => {
+  currentTest("routes an uncertain Restaurant external write into verification without retrying commit", async () => {
     await withDatabase(async ({ database, clock }) => {
       let sequence = 0;
       const runtime = withTestTrace(new PostgresTaskRuntime(
@@ -820,7 +831,7 @@ describe("PostgresTaskRuntime with PGlite", () => {
     });
   });
 
-  test("G03 completes a Goal only after both critical child tasks succeed", async () => {
+  probeTest("G03 completes a Goal only after both critical child tasks succeed", async () => {
     await withDatabase(async ({ database, clock }) => {
       const runtime = createRuntime(database, clock);
       const graph = new PostgresGoalGraph(database, clock);
@@ -908,7 +919,7 @@ describe("PostgresTaskRuntime with PGlite", () => {
     });
   });
 
-  test("blocks an unsatisfiable dependency and rejects cycles", async () => {
+  probeTest("blocks an unsatisfiable dependency and rejects cycles", async () => {
     await withDatabase(async ({ database, clock }) => {
       const runtime = createRuntime(database, clock);
       const graph = new PostgresGoalGraph(database, clock);
@@ -953,7 +964,7 @@ describe("PostgresTaskRuntime with PGlite", () => {
     });
   });
 
-  test("dispatches a due trigger once and preserves its causal event ID", async () => {
+  probeTest("dispatches a due trigger once and preserves its causal event ID", async () => {
     await withDatabase(async ({ database, clock }) => {
       const runtime = createRuntime(database, clock);
       const triggers = new PostgresTriggerStore<{ value: number }>(database);
@@ -1005,7 +1016,7 @@ describe("PostgresTaskRuntime with PGlite", () => {
     });
   });
 
-  test("G01 recurring shopping waits for every user confirmation across persisted trigger cycles", async () => {
+  probeTest("G01 recurring shopping waits for every user confirmation across persisted trigger cycles", async () => {
     await withDatabase(async ({ database, clock }) => {
       const runtime = createRecurringShoppingRuntime(database, clock);
       const triggers = new PostgresTriggerStore<RecurringShoppingTriggerPayload>(database);
@@ -1116,7 +1127,7 @@ describe("PostgresTaskRuntime with PGlite", () => {
     });
   });
 
-  test("G02 long-running case waits for external events and material before resubmitting", async () => {
+  probeTest("G02 long-running case waits for external events and material before resubmitting", async () => {
     await withDatabase(async ({ database, clock }) => {
       const runtime = createLongRunningCaseRuntime(database, clock);
       const taskId = "case-long-running-1";
@@ -1220,7 +1231,7 @@ describe("PostgresTaskRuntime with PGlite", () => {
     });
   });
 
-  test("recovers an expired trigger lease and lets another scheduler deliver it", async () => {
+  probeTest("recovers an expired trigger lease and lets another scheduler deliver it", async () => {
     await withDatabase(async ({ database, clock }) => {
       const runtime = createRuntime(database, clock);
       const triggers = new PostgresTriggerStore<{ value: number }>(database);
@@ -1267,7 +1278,7 @@ describe("PostgresTaskRuntime with PGlite", () => {
     });
   });
 
-  test("marks a trigger obsolete when its expected Task version is stale", async () => {
+  probeTest("marks a trigger obsolete when its expected Task version is stale", async () => {
     await withDatabase(async ({ database, clock }) => {
       const runtime = createRuntime(database, clock);
       const triggers = new PostgresTriggerStore<{ value: number }>(database);
@@ -1314,7 +1325,7 @@ describe("PostgresTaskRuntime with PGlite", () => {
     });
   });
 
-  test("bounds a trigger mapping failure instead of retrying forever", async () => {
+  probeTest("bounds a trigger mapping failure instead of retrying forever", async () => {
     await withDatabase(async ({ database, clock }) => {
       const runtime = createRuntime(database, clock);
       const triggers = new PostgresTriggerStore<{}>(database);

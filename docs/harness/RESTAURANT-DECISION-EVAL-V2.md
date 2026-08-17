@@ -1,11 +1,15 @@
 # Restaurant Progressive Decision Eval v2
 
-- Status: Draft
-- Version: 3.0
-- Last updated: 2026-08-13
-- Source of truth for: Restaurant低确定性需求、多轮偏好形成、推荐收敛的Eval计划、数据规则、评分与发布门槛
+- Status: Superseded
+- Version: 3.2
+- Last updated: 2026-08-16
+- Source of truth for: 已删除的v14 Harness-only评测的历史设计与结果记录
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0007](../decisions/0007-semantic-proposal-compiler-and-decision-kernel.md)
 - Related documents: [MVP PRD](../product/MVP-PRD.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md), [Eval Skill](../skills/eval/SKILL.md), [Harness Design](HARNESS-DESIGN.md), [Golden Seed Annotation](RESTAURANT-DECISION-GOLDEN-SEED-ANNOTATION.md), [Roadmap](../roadmap.md)
+
+## Lifecycle
+
+本设计已完成其v14 Harness架构探针与开发诊断使命。2026-08-16已删除`src/eval/decision-v14/`、对应数据、测试和npm命令；Git历史与本文保留当时的设计和结果证据，但本文后续路径、命令和实现状态均不可作为当前可执行能力。当前产品Baseline与Stage 2C门槛只属于ADR-0007接受的v15 `Semantic Interpreter → Proposal Contract → Compiler → Runtime/Reducer → Decision Kernel`链路；本文件不得覆盖该产品Contract或推动其新增字段。
 
 ## 1. 结论与边界
 
@@ -15,9 +19,9 @@ Eval v2评估的是这一渐进决策能力，不把“第一句话是否包含�
 
 本计划只定义Harness、数据和评分，不修改当前Web、Task Runtime、Restaurant State、生产Parser、Search或预约路径。Eval v2实现结果必须标记为`HARNESS_ONLY`；通过不能报告为产品已具备多轮决策能力。
 
-当前8条`restaurant-intent-eval-v1`保留并改称`Single-turn Extraction Contract Set`，只验证结构、明确字段、Tokyo相对日期和当前Parser回归。2026-08-08运行的1条真实样本只算`REAL_MODEL CONNECTIVITY SMOKE`，不算Eval v2基线。
+历史8条`restaurant-intent-eval-v1`及其旧Parser路径也已于2026-08-16删除。2026-08-08运行的1条真实样本只算历史`REAL_MODEL CONNECTIVITY SMOKE`，不算当前基线。
 
-Implementation status（2026-08-11）：Dataset/Fixture/Annotation Contract、7个Golden Seed Episode、7个Candidate Pool、S0 Dataset Preflight和CLI已实现；17个Turn均已完成人工Gold，Draft与严格Preflight均为`READY_FOR_EVALUATOR`。Eval-only Decision State Reducer及S1–S8确定性Scorer、首错/Blocked归因、Fixture Oracle CLI和18个S0–S8单点Mutation已实现并通过；当前Fixture含29个候选和417个Fact Ref。S6按固定Eligible集合检查检索，S7检查只能从已检索集合选择、数量和所需差异并识别Fixture多样性缺口，S8检查State/Candidate Fact引用、禁止声明及严重过敏卡片的“仍需餐厅确认”结构化披露。Harness-only Model Contract已提供版本化Prompt、严格JSON验证、一次Schema重试和Provider失败分离；完整Episode Runner现已实现，逐Turn将明确的Golden Fixture候选上下文、Proposal、S6 Fixture结果和S1–S8 Scorer组装，且不保存原始Prompt/Completion。仅在显式诊断开关下，这组静态虚构Golden Fixture的Completion可随本次终端输出供人工审阅，绝不进入普通遥测、数据库或文件。Runner的Golden Fixture路径已通过；前三次DeepSeek Smoke（Prompt v1和两次v2）均因`INVALID_MODEL_OUTPUT`停止；Prompt v3已使7个Turn全部进入评分、没有Schema Retry，但均首错于S1；Prompt v4将S1提升为6/7通过，仍有5个Turn首错于缺Grounding；Prompt v5移除静态Prompt中的Gold实体、地点、菜系与反馈示例，7个Turn仍全部结构合规且无Schema Retry，但S1为5/7通过，首错为两处State、一次State Accumulation、三次Grounding与一次不足候选解释。固定Smoke的`DGS01/DGS03/DGS05`及其结果已用于迭代Prompt v1–v5，当前CLI会标记为`DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`；所有既有Smoke仅是开发诊断，不可报告为语义基线或版本趋势。Scorecard聚合和真实模型Baseline尚未实现。
+Historical implementation status（2026-08-11，删除前快照）：Dataset/Fixture/Annotation Contract、7个Golden Seed Episode、7个Candidate Pool、S0 Dataset Preflight和CLI已实现；17个Turn均已完成人工Gold，Draft与严格Preflight均为`READY_FOR_EVALUATOR`。Eval-only Decision State Reducer及S1–S8确定性Scorer、首错/Blocked归因、Fixture Oracle CLI和18个S0–S8单点Mutation已实现并通过；当前Fixture含29个候选和417个Fact Ref。S6按固定Eligible集合检查检索，S7检查只能从已检索集合选择、数量和所需差异并识别Fixture多样性缺口，S8检查State/Candidate Fact引用、禁止声明及严重过敏卡片的“仍需餐厅确认”结构化披露。Harness-only Model Contract已提供版本化Prompt、严格JSON验证、一次Schema重试和Provider失败分离；完整Episode Runner现已实现，逐Turn将明确的Golden Fixture候选上下文、Proposal、S6 Fixture结果和S1–S8 Scorer组装，且不保存原始Prompt/Completion。仅在显式诊断开关下，这组静态虚构Golden Fixture的Completion可随本次终端输出供人工审阅，绝不进入普通遥测、数据库或文件。Runner的Golden Fixture路径已通过；前三次DeepSeek Smoke（Prompt v1和两次v2）均因`INVALID_MODEL_OUTPUT`停止；Prompt v3已使7个Turn全部进入评分、没有Schema Retry，但均首错于S1；Prompt v4将S1提升为6/7通过，仍有5个Turn首错于缺Grounding；Prompt v5移除静态Prompt中的Gold实体、地点、菜系与反馈示例，7个Turn仍全部结构合规且无Schema Retry，但S1为5/7通过，首错为两处State、一次State Accumulation、三次Grounding与一次不足候选解释。固定Smoke的`DGS01/DGS03/DGS05`及其结果已用于迭代Prompt v1–v5，当前CLI会标记为`DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`；所有既有Smoke仅是开发诊断，不可报告为语义基线或版本趋势。Scorecard聚合和真实模型Baseline尚未实现。
 
 2026-08-11首次`FULL_REGRESSION`真实模型诊断通过显式范围运行了当前全部7个Episode、17个Turn，全部达到`SCORED`。它暴露的可调问题包括State/State Accumulation、品牌与单店目标区分、Grounding和不足候选解释；当前所有Seed和结果均已暴露，故运行仍严格属于`DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`，不能报告为Baseline或版本趋势。
 
@@ -646,7 +650,7 @@ Status: `implemented: annotation draft` — 2026-08-09。
 - 写36个Episode前先完成6个代表性样本，并增加1个严格零结果配对Episode，覆盖E1/E2/E3、四种Target Kind和单约束Fallback；
 - 实现S0 Preflight；Validator拒绝矛盾Gold、悬空Fixture引用、缺失Readiness依据、无效时间和无法满足的Recommendation Oracle。
 
-当前结果：`npm run eval:decision:preflight`和`npm run eval:decision:preflight:complete`均对7个Episode、17个Labeled Turn、0个Pending Turn、29个Candidate Fixture返回`READY_FOR_EVALUATOR`。无模型调用即可验证数据集结构、最小澄清、核心字段闭合即推荐、无锚点Flexible追问、容量过滤、过敏信息呈现/敏感披露门禁、反馈收敛、Outlet Discovery、Approximate Time、Fallback同意门禁与运行配置；故意错误Fixture在发起网络请求前被拒绝并得到稳定错误码。
+删除前结果：Draft与严格Preflight均对7个Episode、17个Labeled Turn、0个Pending Turn、29个Candidate Fixture返回`READY_FOR_EVALUATOR`。无模型调用即可验证数据集结构、最小澄清、核心字段闭合即推荐、无锚点Flexible追问、容量过滤、过敏信息呈现/敏感披露门禁、反馈收敛、Outlet Discovery、Approximate Time、Fallback同意门禁与运行配置；故意错误Fixture在发起网络请求前被拒绝并得到稳定错误码。对应命令现已删除。
 
 ### Step 2 — Reducer、Stage Scorer与归因
 
@@ -661,9 +665,7 @@ Status: `in progress` — 2026-08-10。当前完成Reducer、S1–S8、首错/Bl
 
 当前运行：
 
-```bash
-npm run eval:decision:fixture
-```
+删除前曾通过v14 Fixture命令运行；该命令现已不存在。
 
 该命令先运行Strict Preflight，再用Golden结构化输出作为Fixture Oracle；当前S1–S4各17个Turn通过，S5为5个通过/12个`NOT_APPLICABLE`，S6为11个通过/6个`NOT_APPLICABLE`，S7为10个通过/7个`NOT_APPLICABLE`，S8为17个通过。它只验证评测管线，不产生模型质量分数、Task Event、Authorization或外部请求。
 

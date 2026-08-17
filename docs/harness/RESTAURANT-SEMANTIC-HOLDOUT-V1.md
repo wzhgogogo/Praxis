@@ -1,0 +1,121 @@
+# Restaurant v15 Semantic Holdout v1
+
+- Status: Accepted
+- Version: 1.0
+- Last updated: 2026-08-14
+- Source of truth for: v15 Clean Holdout 的私有标注格式、冻结清单、Preflight和单次Baseline运行协议
+- Related ADRs: [ADR-0007](../decisions/0007-semantic-proposal-compiler-and-decision-kernel.md)
+- Related documents: [Current Status](../STATUS.md), [Eval Skill](../skills/eval/SKILL.md), [Eval Directory](../../src/eval/README.md)
+
+## 当前状态
+
+评测工程已准备完成，Holdout内容仍为空。模板位于[`src/eval/semantic-v15/holdout.template.json`](../../src/eval/semantic-v15/holdout.template.json)，实际标注文件位于Git忽略的`.eval-private/restaurant-semantic-holdout-v1.json`。实际文件不得提交、复制进Prompt、Regression、聊天诊断或开发日志。
+
+这份数据只评估已冻结的v15链路：
+
+```text
+User message
+→ Semantic Interpreter
+→ Proposal Contract
+→ Restaurant Compiler
+→ Runtime / Reducer
+→ Decision Kernel
+```
+
+它不评估真实餐厅搜索、Availability、推荐排序或预约，也不新增任何产品Contract字段。
+
+## 你需要标注什么
+
+一个`session`是一段独立会话；一个`turn`是一条用户消息。每个Turn只标三项：
+
+1. `message`：英文用户原话；
+2. `expectedDraft`：处理完本轮后的**完整累计权威Draft**，不是本轮Patch；
+3. `expectedDecision`：核心字段缺失时为`ASK_USER`，全部齐全时为`SEARCH`。
+
+不标注模型应该输出的Semantic Proposal，不标注`ambiguities`，不写评分解释、错误码或Prompt提示。这样Gold描述产品应理解出的结果，不反向教模型如何生成内部结构。
+
+## 固定格式
+
+数据集顶层字段已经冻结，不要修改：
+
+```json
+{
+  "schemaVersion": "1",
+  "id": "restaurant-semantic-holdout-v1",
+  "version": "1",
+  "cohort": "HOLDOUT",
+  "contaminationStatus": "CLEAN_HOLDOUT",
+  "referenceTime": "2026-08-20T09:00:00+09:00",
+  "timezone": "Asia/Tokyo",
+  "sessions": []
+}
+```
+
+Turn结构如下。这里只展示字段形状；不要复制示例文字或值作为Holdout题目：
+
+```json
+{
+  "id": "SH01-T01",
+  "message": "<your unseen user message>",
+  "expectedDraft": {
+    "schemaVersion": "1",
+    "timezone": "Asia/Tokyo",
+    "cuisines": [],
+    "hardConstraints": [],
+    "softPreferences": [],
+    "missingRequiredFields": ["date", "timeWindow", "partySize", "area"]
+  },
+  "expectedDecision": {
+    "type": "ASK_USER",
+    "missingRequiredFields": ["date", "timeWindow", "partySize", "area"]
+  }
+}
+```
+
+`expectedDraft`允许的可选字段只有：`target`、`date`、`timeWindow`、`partySize`、`area`、`budgetPerPerson`。三个数组`cuisines`、`hardConstraints`、`softPreferences`和`missingRequiredFields`必须始终存在，即使为空。
+
+`missingRequiredFields`只允许`date`、`timeWindow`、`partySize`、`area`，并按这个固定顺序填写。任一字段已经有值就不能同时标为missing；没有值就必须标为missing。
+
+## 多轮标注
+
+- 每个Turn的`expectedDraft`包含此前Turn保留的事实和本轮新增、修正或删除后的最终结果。
+- 修正后的值替换旧值；否定集合项后从相应数组中删除。
+- `expectedDecision.missingRequiredFields`必须与同一Turn的Draft完全一致。
+- 不要为保持“题目难度”而故意留下自相矛盾的Gold。
+
+## Clean Holdout边界
+
+- 只写你尚未拿来调Prompt、改Contract或诊断模型的新表达。
+- 现有`semantic-v15/fixtures.ts`的7个Turn、v14 Golden、文档示例以及本对话已经讨论过的具体`nearby`表达都不能进入这份Clean Holdout；它们只能作为Regression。
+- 可以覆盖完整请求、逐步补全、修正、否定、命名目标和欠明确请求等能力类别，但不要从现有样本改几个词制造“新题”。
+- 标注期间不要运行真实模型，也不要把内容发给参与Prompt开发的人或模型进行语义审阅。
+- Preflight只检查结构与Gold内部一致性，不读取模型输出，也不会判断你的语义标注是否合理。
+- 第一次真实Baseline开始后，该Dataset立即不能再次作为Clean Holdout使用；无论运行成功还是中途失败，CLI都会保留一次性运行记录。
+
+## 标注与检查
+
+标注过程中运行：
+
+```bash
+npm run eval:semantic:holdout:preflight
+```
+
+它允许空Session集合，并返回`READY_FOR_ANNOTATION`。完成全部标注后运行：
+
+```bash
+npm run eval:semantic:holdout:preflight:complete
+```
+
+只有`READY_FOR_BASELINE`才允许真实Baseline入口继续。该入口还会在联网前核验固定模型`deepseek-v4-flash`、Prompt`v2`、Proposal Schema`1`、Evaluator`1`、参考时间、Case顺序和完整Turn数量；真实运行必须另行获得付费网络授权，不能在标注阶段执行。
+
+## 已冻结的评分顺序
+
+1. 输入与Model Gateway；
+2. Semantic Proposal Contract；
+3. Compiler；
+4. 编译并累计后的权威Draft；
+5. Runtime命令；
+6. Decision Kernel；
+7. 本地Fixture Search后的Runtime闭环。
+
+Scorer按首错归因：Draft错误时不再把由它造成的Decision错误重复计分。报告必须保留`cohort`、`contaminationStatus`、`baselineEligible`、Dataset哈希、模型调用、延迟、Token、成本状态和一次性运行记录；Fixture与真实模型结果不能混报。

@@ -13,7 +13,7 @@
 - 分支命名使用 `codex/<scope>-v<major>`；例如 Restaurant Decision 的 v15 使用 `codex/restaurant-decision-v15`。
 - 当一次交付引入新的已接受架构版本、主链路版本或不兼容的 State / Schema / Eval 口径版本时，必须从已验证的当前 HEAD 新建对应版本分支；保留前一版本分支作为可比较、可回退的历史指针，不把新版本继续推送到名称仍代表旧版本的分支。
 - 同一已命名版本内的缺陷修复、文档同步和验收补充沿用该版本分支，不为每个小改动新建分支。
-- 创建分支或推送前，确认当前分支名与交付版本一致、工作区无非预期改动，并按改动范围同步 README、Dev Log、Test Log 和 required verification。远端推送仍须由用户明确授权；授权被拒绝或推送失败时，只报告本地提交已保存，不能报告为已交付远端。
+- 创建分支或推送前，确认当前分支名与交付版本一致、工作区无非预期改动，并按改动范围同步 README、`docs/STATUS.md`、`docs/history/DEVLOG.md`、`docs/history/TEST-LOG.md` 和 required verification。远端推送仍须由用户明确授权；授权被拒绝或推送失败时，只报告本地提交已保存，不能报告为已交付远端。
 
 ## 强制边界
 

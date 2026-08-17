@@ -1,36 +1,28 @@
 # Restaurant Decision Golden Seed Annotation Guide
 
-- Status: Draft
-- Version: 1.5
-- Last updated: 2026-08-13
-- Source of truth for: Restaurant Progressive Decision Eval v2首批Golden Seed人工标注流程
+- Status: Superseded
+- Version: 1.8
+- Last updated: 2026-08-16
+- Source of truth for: 已删除的v14 Golden Seed人工标注历史记录
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
 - Related documents: [Eval v2 Plan](RESTAURANT-DECISION-EVAL-V2.md), [Harness Design](HARNESS-DESIGN.md), [Eval Skill](../skills/eval/SKILL.md)
 
-## 当前标注包
+## Lifecycle
 
-机器可读Source位于[`restaurant-decision-eval-seed.ts`](../../src/eval/restaurant-decision-eval-seed.ts)，类型Contract位于[`restaurant-decision-eval-contract.ts`](../../src/eval/restaurant-decision-eval-contract.ts)，JSON Schema与运行时Validator位于[`restaurant-decision-patch-contract.ts`](../../src/eval/restaurant-decision-patch-contract.ts)。当前Golden Seed v0.10 / Schema 3包含：
+首批7个Episode、17个Turn曾全部标注并冻结为`REGRESSION`。2026-08-16已删除v14机器可读数据、Contract、测试和npm命令；本指南只保留人工判断与历史验收口径，文中的旧路径和命令不可执行。当前独立Baseline必须使用v15产品语义链的单独数据与Evaluator。
+
+## 历史标注包（已删除）
+
+原机器可读Source、类型Contract和运行时Validator已从当前工作树删除，只能从Git历史取回。以下内容记录Golden Seed v0.10 / Schema 3删除前的规模：
 
 - 7个Episode、17个Turn；E1 3个、E2 2个、E3 2个；
 - `OPEN` 2个、`CATEGORY` 2个、`BRAND` 2个、`RESTAURANT` 1个；
 - 7个Candidate Pool、29个虚构Restaurant/Outlet Fixture、417个结构化Fact Ref；
 - 7个Episode、17个Turn均已完成人工Gold，且全部为`REGRESSION`；Draft与严格Preflight均为`READY_FOR_EVALUATOR`。Eval-only Reducer与S1–S8 Fixture Oracle及18个S0–S8单点Mutation已可运行；Harness-only Episode Runner已完成并通过本地Golden Fixture验证。v0.10把正/负自由字符串偏好迁移为Typed Preference，并把禁烟与严重过敏迁移为Typed Hard Constraint；这是破坏性Contract变更，不保留旧Schema兼容分支。全部既有样本均已暴露，不得充当Baseline或Holdout。
 
-运行结构检查：
+历史`eval:decision:*`检查命令已随v14 Harness删除，不再属于当前命令面。
 
-```bash
-npm run eval:decision:preflight
-```
-
-仅在全部标注完成后运行严格检查：
-
-```bash
-npm run eval:decision:preflight:complete
-```
-
-严格检查在任一Turn仍待标注、Gold引用悬空、动作冲突或候选Oracle不可满足时返回非零退出码。
-
-`FULL_REGRESSION`会以当前7个`REGRESSION` Episode运行一次完整诊断，必须显式设定`PRAXIS_LIVE_MODEL_EVAL_CASE_LIMIT=7`。既有运行已覆盖17个Turn；其输出也已属于开发过程的一部分，不能回转为Holdout或Baseline。Golden v0.8补充命名目标的独立`FIXTURE_DISCOVERY`结果，v0.9改变地点策略表达，v0.10迁移Typed State Contract；它们均不新增Holdout样本。
+历史`FULL_REGRESSION`命令曾以当前7个`REGRESSION` Episode运行完整诊断；既有运行已覆盖17个Turn，其输出也已属于开发过程的一部分，不能回转为Holdout或Baseline。该付费命令不再属于当前Stage流程。Golden v0.8补充命名目标的独立`FIXTURE_DISCOVERY`结果，v0.9改变地点策略表达，v0.10迁移Typed State Contract；它们均不新增Holdout样本。
 
 ## 标注单位
 
@@ -62,7 +54,7 @@ Preference必须使用受Contract支持的`facet / value / polarity`结构；Har
 
 - 纯Gold数据和文案、现有Contract足够：只运行Draft Preflight和定向Eval Contract测试；
 - Contract/Schema、Preflight、Reducer、Scorer或生产代码变化：运行Typecheck、Build和全量稳定基线；
-- `eval:decision:preflight:complete`只在全部Gold完成、准备Reducer/Scorer或Baseline门禁时运行，不在每个Episode后重复确认已知Pending。
+- 删除前的流程只在全部Gold完成时运行严格Preflight，不在每个Episode后重复确认已知Pending；该命令现已不存在。
 
 当数据扩到36个以上Episode时，再以本地标注页面替代对话审阅，提供候选勾选、累计状态、冲突提示和一键导出；当前不提前建设该UI。
 
@@ -78,7 +70,7 @@ Preference必须使用受Contract支持的`facet / value / polarity`结构；Har
 | `DGS06-e3-friends-correction-allergy` | E3 | OPEN | 4/4 Labeled | 位置锚点、Party修正、严重过敏、敏感披露Consent |
 | `DGS07-e1-brand-zero-result-relaxation` | E1 | BRAND | 2/2 Labeled | 严格零结果、单约束Fallback、用户明确选择 |
 
-首批Gold已完成。当前不再用固定Smoke样本继续调Prompt或声称质量趋势；它们保留为Regression诊断。下一步是由隔离流程或不参与Prompt编写的人新建、标注并保密一批Holdout，在候选Prompt冻结后一次性运行。若阅读了该Holdout的样本、Gold、错误或结果来修改Prompt，它立即降级为Regression，必须新建另一批Holdout。完整规则见[Eval v2 §16.1](RESTAURANT-DECISION-EVAL-V2.md#161-防止测试集泄露答题作弊和过拟合)。
+首批Gold已完成。当前不再用固定Smoke样本继续调Prompt或声称质量趋势；它们只保留为冻结的Regression诊断。不得继续为本v14 Harness新建Holdout；下一批隔离样本属于v15产品语义链，并使用其单独的Dataset与Evaluator。通用防泄漏规则仍见[Eval v2 §16.1](RESTAURANT-DECISION-EVAL-V2.md#161-防止测试集泄露答题作弊和过拟合)。
 
 ## Labeled结构模板
 

@@ -1,8 +1,8 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Version: 0.3
-- Last updated: 2026-08-07
+- Version: 0.4
+- Last updated: 2026-08-13
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
 - Related documents: [Restaurant Domain](../domains/RESTAURANT-BOOKING.md), [Data & Security](../architecture/DATA-CONTEXT-SECURITY.md)
@@ -11,7 +11,7 @@
 
 | Provider | Discovery | Availability | Execute | Cancel | Verify | Takeover | Status / 限制 |
 |---|---|---|---|---|---|---|---|
-| DeepSeek API | — | — | Tool Call提议 | — | 仅辅助抽取 | — | `verified`；服务端Chat Completion Adapter、Restaurant Intent Parser和受控Eval Runner已完成Fake Fetch/Contract验证，尚未使用真实Key进行连通或模型质量验证；模型不直接执行工具或写状态 |
+| DeepSeek API | — | — | Tool Call提议 | — | 仅辅助抽取 | — | `verified`；服务端 Chat Completion Adapter 与 v15 Semantic Regression 已完成受控真实连接。最近10次已暴露Fixture Regression为70/70，不能作为模型质量Baseline；模型不直接执行工具或写状态 |
 | Google Places | 地点与基础信息 | 否 | 否 | 否 | 否 | 否 | `verified`；保存和展示受政策限制，Place ID可保存 |
 | Google Routes | — | 交通路线 | 否 | 否 | Route响应 | 否 | `verified`；支持Transit到达/出发时间 |
 | Hot Pepper Web Service | 餐厅、区域、预算等 | 未见公开库存API | 未见公开Consumer Booking API | 否 | 否 | 否 | `verified` Discovery；预约需网页或合作能力 |
@@ -29,7 +29,7 @@
 - [Tool Calls](https://api-docs.deepseek.com/guides/tool_calls)
 - [Models and Pricing](https://api-docs.deepseek.com/quick_start/pricing/)
 
-DeepSeek返回Tool Call参数，实际函数由Praxis执行。当前`DeepSeekModelGateway`只支持非流式text/JSON completion，尚未开启Tool Call；模型名和能力可能变化，接入时必须用`DEEPSEEK_MODEL`固定并记录版本。根据官方Chat Completion文档，JSON Output须在消息中明确要求JSON，且`finish_reason=length`可能导致输出截断；`RestaurantIntentParser`已把这些要求写入版本化Prompt、将非`STOP`结果拒绝，并继续用Schema Validator处理不可信输出。
+DeepSeek返回Tool Call参数，实际函数由Praxis执行。当前`DeepSeekModelGateway`只支持非流式text/JSON completion，尚未开启Tool Call；模型名和能力可能变化，接入时必须用`DEEPSEEK_MODEL`固定并记录版本。根据官方Chat Completion文档，JSON Output须在消息中明确要求JSON，且`finish_reason=length`可能导致输出截断；当前`RestaurantSemanticInterpreter`使用版本化Prompt、拒绝非`STOP`结果，并以Proposal Schema Validator处理不可信输出。
 
 ### Google
 

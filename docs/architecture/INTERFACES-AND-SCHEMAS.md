@@ -1,8 +1,8 @@
 # Interfaces and Schemas
 
 - Status: Accepted
-- Version: 1.6
-- Last updated: 2026-08-13
+- Version: 1.7
+- Last updated: 2026-08-14
 - Source of truth for: 公共接口、DTO、内部Tool、实现状态和版本规则
 - Related ADRs: [ADR Index](../decisions/README.md), [ADR-0007](../decisions/0007-semantic-proposal-compiler-and-decision-kernel.md)
 - Related documents: [Task Runtime](TASK-RUNTIME.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md)
@@ -18,13 +18,10 @@
 | 乐观版本检查、Event去重、Command记录 | `implemented: in-memory prototype` | [`InMemoryTaskRuntime`](../../src/core/task-runtime/in-memory-task-runtime.ts) |
 | `ActionProposal`、`Authorization`、`PolicyDecision` | `implemented: MVP subset` | [`src/core/policy`](../../src/core/policy/contracts.ts) |
 | Restaurant Intent、Offer、Candidate、Event与Command | `implemented: Fixture Web vertical slice` | [`Restaurant contracts`](../../src/domains/restaurant/contracts.ts) |
-| Restaurant Intent Draft Validator与Eval Harness | `implemented: fixture/replay scoring` | [`src/eval`](../../src/eval/restaurant-intent-eval.ts) |
-| Restaurant Decision typed Patch Contract | `implemented: harness-only` | [`restaurant-decision-patch-contract.ts`](../../src/eval/restaurant-decision-patch-contract.ts)；JSON Schema、Validator与语义Key共同约束不可信模型Proposal，不是生产Task State Schema |
 | Restaurant v15 Semantic Interpreter / Proposal Contract | `implemented: Fixture product path` | ADR-0007边界已替换产品的Fixture Intent Parser路径；真实模型仍只在评测中使用 |
 | Restaurant Semantic Compiler | `implemented: Restaurant product path` | 纯确定性Proposal → `RestaurantIntentPatch` → Domain Event翻译；不建立Core通用Compiler |
 | Restaurant Decision Kernel | `implemented: semantic/search product slice` | 当前产品负责澄清、搜索、候选展示、调整与冲突安全降级；预约后的Decision迁移仍未实现 |
 | `NEED_REINTERPRETATION` | `implemented: reserved safe decision` | 记录语义冲突并询问用户；不自动重解释或改State |
-| Restaurant Intent Parser与受控Real Model Eval Runner | `implemented; 1-case connectivity smoke` | [`intent-parser.ts`](../../src/domains/restaurant/intent-parser.ts)、[`run-restaurant-intent-deepseek-eval.ts`](../../src/eval/run-restaurant-intent-deepseek-eval.ts) |
 | Restaurant `BookingProofBundle`与Completion Verifier | `implemented: Mock vertical slice` | [`booking-verifier.ts`](../../src/domains/restaurant/booking-verifier.ts) |
 | Restaurant Harness Run Artifact | `implemented: mock only` | [`restaurant-harness.ts`](../../src/harness/restaurant-harness.ts) |
 | PostgreSQL迁移与`pg`事务Adapter | `implemented; local real smoke verified` | [`src/infrastructure/postgres`](../../src/infrastructure/postgres/node-postgres-database.ts) |
@@ -237,22 +234,9 @@ type ModelRequest = {
 
 `DeepSeekModelGateway`固定调用`POST /chat/completions`，不把内部`taskId`发给Provider；显式配置`DEEPSEEK_API_KEY`和`DEEPSEEK_MODEL`后才能创建实例。非2xx、429、超时、网络错误和畸形Provider响应均会转为稳定的`ModelGatewayError`，不会写Task State。`ModelInvocationRecord`故意不含Prompt或Completion正文。
 
-## Restaurant Intent Parser
-
-Status: `implemented; 1-case real-model connectivity smoke`。该结果不属于Progressive Decision Eval v2 Baseline。
-
-```ts
-type RestaurantIntentParseResult =
-  | { status: "PARSED"; draft: RestaurantIntentDraft; attempts: ModelAttempt[] }
-  | { status: "INPUT_INVALID" | "INVALID_MODEL_OUTPUT"; fallback: "STRUCTURED_FORM" }
-  | { status: "MODEL_FAILURE"; errorCode: string; fallback: "STRUCTURED_FORM" };
-```
-
-Parser是Restaurant Domain代码，经注入的`ModelGateway`调用模型。它不写Task State；上层必须根据`PARSED`或`STRUCTURED_FORM`决定下一步。模型输出必须是JSON、`finishReason=STOP`且通过`RestaurantIntentDraft` Validator；无效输出只允许一次受限重试。真实Eval入口还要求`PRAXIS_ALLOW_LIVE_MODEL_EVAL=1`，并可用`PRAXIS_LIVE_MODEL_EVAL_CASE_LIMIT`限制样本数。
-
 ## Restaurant v15 semantic boundary
 
-Status: `implemented: Fixture product path`. This replaces `RestaurantIntentParser` in the local and persistent Stage 2A/2B product routes. `RestaurantIntentParser` and the Harness-only v14 typed `statePatch` contract remain separate evaluation paths.
+Status: `implemented: Fixture product path`. This is the only current Restaurant language-to-state path. The old Intent Parser and Harness-only v14 typed `statePatch` path have been removed from executable code.
 
 ```text
 Semantic Interpreter [LLM]
