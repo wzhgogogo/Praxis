@@ -20,7 +20,7 @@ npm run eval:semantic:holdout:preflight
 npm run eval:semantic:deepseek # 需要显式真实模型开关；不是默认测试
 ```
 
-`npm test`当前产品基线为 **74/74**（2026-08-17）：覆盖Core Unit/Contract、Restaurant Verifier、Mock Harness、当前12个PGlite Runtime/Recovery场景、Fixture Web/API/SSE、v15 Semantic Proposal / Compiler / Reducer / Kernel / Holdout Preflight与分层Scorer、Fixture Search及真实模型付费门禁/计量。历史v14和旧Intent Parser测试已删除，不再混入当前基线。
+`npm test`当前产品基线为 **78/78**（2026-08-17）：覆盖Core Unit/Contract、Restaurant Verifier、Mock Harness、当前12个PGlite Runtime/Recovery场景、Fixture Web/API/SSE、v15 Semantic Proposal / Compiler / Reducer / Kernel / Holdout Preflight与分层Scorer、Fixture Search及真实模型付费门禁/计量。新增断言证明strict Schema不发送不支持的字符串约束、Eval对集合顺序语义等价、以及同轮singleton清空加设置必为冲突。历史v14和旧Intent Parser测试已删除，不再混入当前基线。
 
 `npm run test:probes`为独立的**8/8**冻结探针基线：Goal Graph、Trigger/Scheduler、Recurring Shopping与Long-running Case。它保护仍保留的有界架构探针，但不作为Restaurant当前Stage的产品门禁。Fixture与Embedded-postgres都不证明生产身份、真实PostgreSQL、Browser视觉、Replay、Live Read-only、真实模型Baseline或Controlled Live-write；完整历史见[Test Log](../../history/TEST-LOG.md)。
 

@@ -27,6 +27,8 @@ npm run eval:search:fixture
 
 受控真实命令`eval:semantic:deepseek`和`eval:semantic:holdout`都需要显式付费门禁；后者还要求Clean确认、固定模型和一次性运行记录。标注阶段不得运行真实Holdout。
 
+首次Clean Holdout前，如strict Schema、Gateway transport或Provider模型配置有改动，必须先运行一次已暴露的`eval:semantic:deepseek`，确认真实Schema/API transport可用；该Smoke不能替代Holdout。
+
 ## v15 Holdout文件
 
 - `holdout.template.json`：可提交的空模板，不含样本。

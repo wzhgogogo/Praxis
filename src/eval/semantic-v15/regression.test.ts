@@ -5,6 +5,7 @@ import { RestaurantSemanticRegressionFixtureInterpreter } from "./fixture-interp
 import { restaurantSemanticRegressionV1 } from "./fixtures.js";
 import { runRestaurantSemanticRegression } from "./regression.js";
 import { compileRestaurantSemanticProposal } from "../../domains/restaurant/semantic-compiler.js";
+import { restaurantSemanticRegressionProposalFor } from "./stage-oracles.js";
 
 test("v15 semantic regression runs Proposal, Compiler, Runtime/Reducer, and Kernel in order", async () => {
   const interpreter = new RestaurantSemanticRegressionFixtureInterpreter();
@@ -98,4 +99,30 @@ test("invalid model JSON is attributed to Proposal Contract and blocks downstrea
   assert.equal(report.turns[0]?.firstFailureStage, "SEMANTIC_PROPOSAL_CONTRACT");
   assert.equal(report.turns[1]?.status, "BLOCKED_BY_UPSTREAM");
   assert.deepEqual(report.summary.firstFailureStages, { SEMANTIC_PROPOSAL_CONTRACT: 1 });
+});
+
+test("development attribution accepts a semantically equivalent Proposal with reordered facts", async () => {
+  const report = await runRestaurantSemanticRegression(
+    {
+      async interpret(input) {
+        const proposal = restaurantSemanticRegressionProposalFor(input.message);
+        if (!proposal) throw new Error("Unexpected regression message");
+        return {
+          status: "PROPOSED" as const,
+          proposal: { ...proposal, facts: [...proposal.facts].reverse() },
+          attempts: [],
+        };
+      },
+    },
+    {
+      mode: "FIXTURE",
+      attributionLevel: "DEVELOPMENT_STAGE_ORACLES",
+      dataset: {
+        ...restaurantSemanticRegressionV1,
+        sessions: [restaurantSemanticRegressionV1.sessions[3]!],
+      },
+    },
+  );
+
+  assert.equal(report.turns[0]?.status, "PASS");
 });

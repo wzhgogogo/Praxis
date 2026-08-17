@@ -1,13 +1,30 @@
 # Development Log
 
 - Status: Accepted
-- Version: 4.21
+- Version: 4.23
 - Last updated: 2026-08-17
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## 2026-08-17 — v15 strict transport and semantic-equivalence hardening
+
+### Why
+
+The first Clean Holdout must not be consumed by an unverified strict transport Schema. The current Proposal Schema contained unsupported string `minLength` constraints, while Eval treated unordered semantic collections and facts as ordered arrays. The Compiler also allowed a singleton clear and set in one turn to depend on model fact order.
+
+### Changes
+
+- Removed unsupported `minLength` constraints from the strict transport Schema. The existing local Domain validator remains the authority for non-blank strings.
+- Made Eval compare Proposal facts, collection Patch values and Draft collections as deduplicated sorted semantic sets; singleton values and Decisions remain exact. Regression and Scorer share that comparison.
+- Made a singleton `NEGATE` plus `ASSERT` or `CORRECT` in one Proposal a deterministic `CONTRADICTORY_PROPOSAL`, independent of facts array order.
+- Removed the stale `nearby` Holdout exclusion and documented the required exposed Regression Smoke before a Clean Holdout when strict transport configuration changes.
+
+### Boundary
+
+No Proposal field, Prompt content/version, responsibility boundary, Kernel behavior, Holdout Gold or private annotation file changed. An explicitly authorized exposed Regression Smoke subsequently verified the repaired transport; no Clean Holdout, Discovery, Availability or external write ran.
 
 ## 2026-08-17 — v15 architecture cleanup and hardening
 

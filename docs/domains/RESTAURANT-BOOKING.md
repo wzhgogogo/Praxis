@@ -1,7 +1,7 @@
 # Restaurant Booking Domain
 
 - Status: Accepted
-- Version: 0.9
+- Version: 1.0
 - Last updated: 2026-08-17
 - Source of truth for: 餐厅预约Domain模型、状态、搜索和完成条件
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0007](../decisions/0007-semantic-proposal-compiler-and-decision-kernel.md)
@@ -45,7 +45,7 @@ type RestaurantBookingIntent = {
 
 Reducer维护可缺阻塞字段的`RestaurantIntentDraft`：`date`、`timeWindow`、`partySize`、`area`可以为空，但必须通过同一Domain Validator。`missingBlockingFields(draft)`从这四个权威值即时计算，不持久化第二份readiness。未知字段、无效日历日期、空字符串、错误JPY预算和嵌套未知字段一律拒绝；四项齐全时Runtime才可创建完整`RestaurantBookingIntent`并开始搜索。
 
-Semantic Operation固定为：singleton `ASSERT/CORRECT=set`、`NEGATE=clear`、`CONFIRM=no state mutation`；collection `ASSERT=add`、`CORRECT=replace collection`、`NEGATE=remove named item`，不允许collection `CONFIRM`。
+Semantic Operation固定为：singleton `ASSERT/CORRECT=set`、`NEGATE=clear`、`CONFIRM=no state mutation`；同一turn对同一singleton同时`NEGATE`与`ASSERT/CORRECT`是`CONTRADICTORY_PROPOSAL`，绝不按facts数组顺序决定State。collection `ASSERT=add`、`CORRECT=replace collection`、`NEGATE=remove named item`，不允许collection `CONFIRM`。
 
 阻塞字段是日期、时间、人数和区域。菜系与预算未提供时可搜索，但必须透明说明。
 

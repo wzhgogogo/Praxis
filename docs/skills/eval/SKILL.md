@@ -45,6 +45,8 @@ npm run eval:semantic:deepseek
 
 该命令只使用已暴露静态文本、内存Runtime和Fixture Search，不创建产品Task，不访问真实Discovery/Availability，不执行预约。任何再次运行都需要单独付费授权，结果仍不能成为Baseline。
 
+当strict Schema、Gateway transport或Provider模型配置在首次Clean Holdout前发生变化时，必须先运行一次这个已暴露Regression，确认没有Schema/API transport失败；它只验证已暴露样本的连接和结构化传输，不能替代Clean Holdout。
+
 ## v15 Clean Holdout
 
 标注规范、固定格式和污染边界见[Restaurant v15 Semantic Holdout v1](../../harness/RESTAURANT-SEMANTIC-HOLDOUT-V1.md)。实际数据位于Git忽略的`.eval-private/restaurant-semantic-holdout-v1.json`；Prompt、Regression、聊天诊断和开发日志不得复制其内容。
@@ -88,6 +90,7 @@ INPUT / MODEL_GATEWAY
 - Contract通过只代表结构合法，不代表语义正确。
 - Regression开发Oracle可区分Proposal语义、Compiler Patch和Reducer累计状态。
 - Clean Holdout不标内部Proposal/Patch，只能证明最终`SEMANTIC_RESULT`与Decision，必须报告`PRODUCT_SEMANTIC_ONLY`，不得伪造深层精度。
+- Proposal facts、Patch集合与Draft的`cuisines`、`hardConstraints`、`softPreferences`按去重排序后的集合语义比较；singleton和Decision保持精确比较。
 - Scorer先判Draft，再判Kernel；上游错误不会在下游重复扣分。
 - 多轮Session上游失败后，后续Turn标记`BLOCKED_BY_UPSTREAM`，不伪造分数。
 - Evaluator不得调用LLM Judge来替代确定性Gold、P0或首错门禁。

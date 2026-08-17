@@ -11,7 +11,7 @@
 
 | Provider | Discovery | Availability | Execute | Cancel | Verify | Takeover | Status / 限制 |
 |---|---|---|---|---|---|---|---|
-| DeepSeek API | — | — | Tool Call提议 | — | 仅辅助抽取 | — | `verified`连接；标准JSON Output只保证合法JSON，v15现用Beta strict function承载完整Proposal Schema，但本地Validator与语义Eval仍必需。历史70/70已暴露Regression不能作为Baseline；模型不直接执行工具或写状态 |
+| DeepSeek API | — | — | Tool Call提议 | — | 仅辅助抽取 | — | `verified`连接；标准JSON Output只保证合法JSON，v15现用Beta strict function承载完整Proposal Schema。Schema只使用DeepSeek strict支持的子集，non-blank等其余规则由本地Validator保证；语义Eval仍必需。历史70/70已暴露Regression不能作为Baseline；模型不直接执行工具或写状态 |
 | Google Places | 地点与基础信息 | 否 | 否 | 否 | 否 | 否 | `verified`；保存和展示受政策限制，Place ID可保存 |
 | Google Routes | — | 交通路线 | 否 | 否 | Route响应 | 否 | `verified`；支持Transit到达/出发时间 |
 | Hot Pepper Web Service | 餐厅、区域、预算等 | 未见公开库存API | 未见公开Consumer Booking API | 否 | 否 | 否 | `verified` Discovery；预约需网页或合作能力 |
@@ -29,7 +29,7 @@
 - [Tool Calls](https://api-docs.deepseek.com/guides/tool_calls)
 - [Models and Pricing](https://api-docs.deepseek.com/quick_start/pricing/)
 
-DeepSeek标准JSON Output只保证生成合法JSON，不接收完整`json_schema`。官方Beta strict function calling可校验Function JSON Schema；v15因此用一个强制、不可执行的function envelope传输Restaurant Proposal，并要求唯一匹配的`tool_calls`。这不是`LLM → Tool`执行路径：Gateway只提取arguments，本地Proposal Validator仍处理不可信输出，语义正确性由Eval单独判断。模型名和能力可能变化，运行时必须固定并记录版本。
+DeepSeek标准JSON Output只保证生成合法JSON，不接收完整`json_schema`。官方Beta strict function calling可校验Function JSON Schema；v15因此用一个强制、不可执行的function envelope传输Restaurant Proposal，并要求唯一匹配的`tool_calls`。Schema不得使用strict不支持的约束（例如string的`minLength`/`maxLength`）；本地Proposal Validator仍处理这些无法在传输层表达的语义和不可信输出，语义正确性由Eval单独判断。这不是`LLM → Tool`执行路径：Gateway只提取arguments。模型名和能力可能变化，运行时必须固定并记录版本。
 
 ### Google
 

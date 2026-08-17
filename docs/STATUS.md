@@ -1,7 +1,7 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Version: 1.4
+- Version: 1.6
 - Last updated: 2026-08-17
 - Source of truth for: 已实现能力、已验证范围、明确未验证项与下一道门槛
 - Related ADRs: [ADR Index](decisions/README.md)
@@ -9,7 +9,7 @@
 
 ## 一句话状态
 
-Restaurant v15 已完成可运行的 **Fixture 语义到搜索**纵向链路和同版本架构加固：DeepSeek strict structured transport、可证明层级的Eval首错、单一派生readiness与注入式应用依赖均已实现；职责边界、Prompt `v2`和Proposal字段集合未变。私有30-query Clean Holdout仍在人工标注，尚无真实模型Baseline或真实餐厅平台接入。
+Restaurant v15 已完成可运行的 **Fixture 语义到搜索**纵向链路和同版本架构加固：DeepSeek strict structured transport使用Provider支持的Schema子集、Eval对集合顺序语义等价、单一派生readiness与注入式应用依赖均已实现；当前Schema的真实DeepSeek Regression Smoke已通过。职责边界、Prompt `v2`和Proposal字段集合未变。私有30-query Clean Holdout仍在人工标注，尚无独立Baseline或真实餐厅平台接入。
 
 ## 已实现
 
@@ -24,9 +24,9 @@ Restaurant v15 已完成可运行的 **Fixture 语义到搜索**纵向链路和�
 
 | 模式 | 结论 | 不代表什么 |
 |---|---|---|
-| 当前产品 Unit / Fixture / Mock / Embedded-postgres | 默认基线`74/74`通过，且arch:check、typecheck与build通过 | 冻结探针、真实PostgreSQL、真实Provider、Clean Holdout质量或浏览器视觉 |
+| 当前产品 Unit / Fixture / Mock / Embedded-postgres | 默认基线`78/78`通过，且arch:check、typecheck与build通过 | 冻结探针、真实PostgreSQL、真实Provider、Clean Holdout质量或浏览器视觉 |
 | 冻结架构探针 | 独立`test:probes`为`8/8` | Restaurant当前产品质量或Stage完成度 |
-| `REAL_MODEL_MOCK_WORLD` | v15 `eval:semantic:deepseek` 连续 10 次均为 `7/7`，合计 `70/70`；链路止于 Fixture Search | 泛化质量、真实餐厅事实、预约质量或模型 Baseline |
+| `REAL_MODEL_MOCK_WORLD` | 当前strict Schema修复后，已暴露v15 Regression Smoke为`7/7`：7 calls全成功、0 retry、15,493 ms、18,955 tokens；链路止于 Fixture Search | 泛化质量、真实餐厅事实、预约质量或模型 Baseline |
 | 隔离本机 PostgreSQL Smoke | 曾验证 Runtime、迁移、Goal/Task Graph 与 Scheduler | 生产数据库部署或持续运行可靠性 |
 
 真实模型 Regression 样本及结果已暴露，统一标记为 `DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`。完整命令、失败口径和历史结果只在 [Test Log](history/TEST-LOG.md) 维护。
@@ -49,7 +49,7 @@ Restaurant v15 已完成可运行的 **Fixture 语义到搜索**纵向链路和�
 
 ## 下一道门槛
 
-1. 在Git忽略的私有文件中人工标注新的v15 `CLEAN_HOLDOUT`，通过严格Preflight后按已冻结清单仅运行一次；
+1. 在Git忽略的私有文件中完成新的v15 `CLEAN_HOLDOUT`人工标注，通过严格Preflight后按已冻结清单仅运行一次；
 2. 只在该 Baseline 已单独报告后，核验一个真实只读 Discovery 来源；
 3. 再进入 Availability 与预约执行阶段。不得以当前 Fixture 或已暴露 Regression 代替上述门槛。
 

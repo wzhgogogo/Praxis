@@ -85,7 +85,7 @@ Turn结构如下。这里只展示字段形状；不要复制示例文字或值�
 ## Clean Holdout边界
 
 - 只写你尚未拿来调Prompt、改Contract或诊断模型的新表达。
-- 现有`semantic-v15/fixtures.ts`的7个Turn、v14 Golden、文档示例以及本对话已经讨论过的具体`nearby`表达都不能进入这份Clean Holdout；它们只能作为Regression。
+- 现有`semantic-v15/fixtures.ts`的7个Turn、v14 Golden和文档示例都不能进入这份Clean Holdout；它们只能作为Regression。
 - 可以覆盖完整请求、逐步补全、修正、否定、命名目标和欠明确请求等能力类别，但不要从现有样本改几个词制造“新题”。
 - 人工创建Query和Gold本身不会污染被测模型。污染发生在用Query、Gold、模型输出或失败结果优化被测Prompt、Contract、实现或Scorer时；为保持盲测，标注内容仍只留在私有文件，不提供给负责上述优化的人或模型。
 - Preflight只检查结构与Gold内部一致性，不读取模型输出，也不会判断你的语义标注是否合理。
@@ -105,7 +105,7 @@ npm run eval:semantic:holdout:preflight
 npm run eval:semantic:holdout:preflight:complete
 ```
 
-只有`READY_FOR_BASELINE`才允许真实Baseline入口继续。该入口还会在联网前核验固定模型`deepseek-v4-flash`、Prompt`v2`、Proposal Schema`1`、Evaluator`1`、参考时间、Case顺序和完整Turn数量；真实运行必须另行获得付费网络授权，不能在标注阶段执行。
+只有`READY_FOR_BASELINE`才允许真实Baseline入口继续。若strict Schema、Gateway transport或Provider模型配置在此次Baseline前发生变更，必须先对已暴露的7-turn Regression运行一次真实DeepSeek Smoke，确认Schema/API transport可用；这不读取Holdout，也不能替代Baseline。该入口还会在联网前核验固定模型`deepseek-v4-flash`、Prompt`v2`、Proposal Schema`1`、Evaluator`1`、参考时间、Case顺序和完整Turn数量；真实运行必须另行获得付费网络授权，不能在标注阶段执行。
 
 ## 已冻结的评分顺序
 

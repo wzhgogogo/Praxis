@@ -90,3 +90,51 @@ test("stage scorer assigns wrong next step after correct state to Decision Kerne
   });
   assert.equal(score.status === "FAIL" ? score.firstFailureStage : undefined, "DECISION_KERNEL");
 });
+
+test("stage scorer treats unordered facts, patches, and Draft collections as semantically equal", () => {
+  const expected: RestaurantSemanticProposal = {
+    schemaVersion: "1",
+    facts: [
+      { field: "CUISINE", operation: "ASSERT", value: { kind: "CUISINE", value: "Thai" } },
+      {
+        field: "HARD_CONSTRAINT",
+        operation: "ASSERT",
+        value: { kind: "HARD_CONSTRAINT", value: "no spicy" },
+      },
+      {
+        field: "HARD_CONSTRAINT",
+        operation: "ASSERT",
+        value: { kind: "HARD_CONSTRAINT", value: "no hot pot" },
+      },
+    ],
+  };
+  const score = scoreRestaurantSemanticTurn({
+    actualProposal: { ...expected, facts: [...expected.facts].reverse() },
+    expectedProposal: expected,
+    actualCompiledPatch: {
+      schemaVersion: "1",
+      addCuisines: ["Thai"],
+      addHardConstraints: ["no hot pot", "no spicy"],
+    },
+    expectedCompiledPatch: {
+      schemaVersion: "1",
+      addCuisines: ["Thai"],
+      addHardConstraints: ["no spicy", "no hot pot"],
+    },
+    actualDraft: {
+      ...expectedDraft,
+      cuisines: ["Thai", "Thai"],
+      hardConstraints: ["no hot pot", "no spicy"],
+      softPreferences: ["quiet", "quiet"],
+    },
+    expectedDraft: {
+      ...expectedDraft,
+      cuisines: ["Thai"],
+      hardConstraints: ["no spicy", "no hot pot"],
+      softPreferences: ["quiet"],
+    },
+    actualDecision: expectedDecision,
+    expectedDecision,
+  });
+  assert.deepEqual(score, { status: "PASS" });
+});

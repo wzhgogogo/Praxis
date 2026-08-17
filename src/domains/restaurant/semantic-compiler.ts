@@ -36,14 +36,22 @@ function findConflict(proposal: RestaurantSemanticProposal): RestaurantSemanticC
     "BUDGET_PER_PERSON",
   ];
   for (const field of singletonFields) {
-    const values = new Set(
-      setValueFacts(proposal, field).map((fact) => semanticValueKey(fact.value!)),
-    );
+    const values = new Set(setValueFacts(proposal, field).map((fact) => semanticValueKey(fact.value!)));
     if (values.size > 1) {
       return {
         code: "CONTRADICTORY_PROPOSAL",
         affectedFields: [field],
         message: `The proposal supplies conflicting ${field} values in one user turn`,
+      };
+    }
+    const negatesSingleton = proposal.facts.some(
+      (fact) => fact.field === field && fact.operation === "NEGATE",
+    );
+    if (negatesSingleton && values.size > 0) {
+      return {
+        code: "CONTRADICTORY_PROPOSAL",
+        affectedFields: [field],
+        message: `The proposal both clears and sets ${field} in one user turn`,
       };
     }
   }

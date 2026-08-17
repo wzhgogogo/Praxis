@@ -110,7 +110,9 @@ function valueSchema(field: RestaurantSemanticField): Record<string, unknown> {
   switch (field) {
     case "TARGET":
     case "AREA":
-      return strictObject({ kind, query: { type: "string", minLength: 1 } });
+      // The strict transport does not support minLength. The local Domain
+      // validator below remains authoritative for non-blank strings.
+      return strictObject({ kind, query: { type: "string" } });
     case "DATE":
       return strictObject({
         kind,
@@ -127,7 +129,7 @@ function valueSchema(field: RestaurantSemanticField): Record<string, unknown> {
     case "CUISINE":
     case "HARD_CONSTRAINT":
     case "SOFT_PREFERENCE":
-      return strictObject({ kind, value: { type: "string", minLength: 1 } });
+      return strictObject({ kind, value: { type: "string" } });
     case "BUDGET_PER_PERSON":
       return strictObject({
         kind,

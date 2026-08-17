@@ -1,7 +1,10 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 
-import { validateRestaurantSemanticProposal } from "./semantic-proposal.js";
+import {
+  RESTAURANT_SEMANTIC_PROPOSAL_JSON_SCHEMA,
+  validateRestaurantSemanticProposal,
+} from "./semantic-proposal.js";
 
 test("Semantic Proposal Contract accepts only the closed language-level schema", () => {
   const valid = validateRestaurantSemanticProposal({
@@ -52,4 +55,17 @@ test("Semantic Proposal Contract rejects collection CONFIRM because it has no de
   });
   assert.equal(result.valid, false);
   if (!result.valid) assert.match(result.errors.join(" "), /CONFIRM is unsupported/);
+});
+
+test("DeepSeek transport schema uses only supported string constraints while local validation rejects blanks", () => {
+  const serializedSchema = JSON.stringify(RESTAURANT_SEMANTIC_PROPOSAL_JSON_SCHEMA);
+  assert.equal(serializedSchema.includes("minLength"), false);
+  assert.equal(serializedSchema.includes("maxLength"), false);
+
+  const result = validateRestaurantSemanticProposal({
+    schemaVersion: "1",
+    facts: [{ field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "   " } }],
+  });
+  assert.equal(result.valid, false);
+  if (!result.valid) assert.match(result.errors.join(" "), /must match AREA/);
 });

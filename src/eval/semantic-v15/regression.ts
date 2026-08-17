@@ -1,6 +1,5 @@
 import type { RuntimeActor } from "../../core/task-runtime/contracts.js";
 import { InMemoryTaskRuntime } from "../../core/task-runtime/in-memory-task-runtime.js";
-import { isDeepStrictEqual } from "node:util";
 import type {
   RestaurantDecision,
   RestaurantCommand,
@@ -24,7 +23,11 @@ import {
   type RestaurantSemanticRegressionTurn,
   restaurantSemanticRegressionV1,
 } from "./fixtures.js";
-import { scoreRestaurantSemanticTurn } from "./scorer.js";
+import {
+  equalRestaurantIntentPatches,
+  equalRestaurantSemanticProposals,
+  scoreRestaurantSemanticTurn,
+} from "./scorer.js";
 import { restaurantSemanticRegressionProposalFor } from "./stage-oracles.js";
 
 export type RestaurantSemanticRegressionInterpreter = Pick<
@@ -196,7 +199,7 @@ export async function runRestaurantSemanticRegression(
       ) {
         throw new Error(`Missing development-stage Proposal oracle for ${turn.id}`);
       }
-      if (expectedProposal && !isDeepStrictEqual(interpreted.proposal, expectedProposal)) {
+      if (expectedProposal && !equalRestaurantSemanticProposals(interpreted.proposal, expectedProposal)) {
         results.push(
           result({
             sessionId: session.id,
@@ -236,7 +239,7 @@ export async function runRestaurantSemanticRegression(
       }
       if (
         expectedCompilation?.status === "COMPILED" &&
-        !isDeepStrictEqual(compiled.patch, expectedCompilation.patch)
+        !equalRestaurantIntentPatches(compiled.patch, expectedCompilation.patch)
       ) {
         results.push(
           result({

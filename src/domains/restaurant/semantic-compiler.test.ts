@@ -5,7 +5,7 @@ import { compileRestaurantSemanticProposal } from "./semantic-compiler.js";
 import type { RestaurantSemanticProposal } from "./semantic-proposal.js";
 import { applyRestaurantIntentPatch } from "./intent-state.js";
 
-test("Restaurant Semantic Compiler deterministically translates corrections and negations", () => {
+test("Restaurant Semantic Compiler translates independent corrections and negations", () => {
   const proposal: RestaurantSemanticProposal = {
     schemaVersion: "1",
     facts: [
@@ -14,7 +14,6 @@ test("Restaurant Semantic Compiler deterministically translates corrections and 
         operation: "CORRECT",
         value: { kind: "PARTY_SIZE", value: 3 },
       },
-      { field: "AREA", operation: "NEGATE" },
       {
         field: "AREA",
         operation: "CORRECT",
@@ -37,6 +36,32 @@ test("Restaurant Semantic Compiler deterministically translates corrections and 
       removeCuisines: ["yakiniku"],
     },
   });
+});
+
+test("Restaurant Semantic Compiler rejects singleton clear-and-set combinations independent of fact order", () => {
+  const areaSet = {
+    field: "AREA" as const,
+    operation: "CORRECT" as const,
+    value: { kind: "AREA" as const, query: "Shibuya" },
+  };
+  const areaClear = { field: "AREA" as const, operation: "NEGATE" as const };
+
+  for (const facts of [
+    [areaClear, areaSet],
+    [areaSet, areaClear],
+  ]) {
+    assert.deepEqual(
+      compileRestaurantSemanticProposal({ schemaVersion: "1", facts }),
+      {
+        status: "CONFLICT",
+        conflict: {
+          code: "CONTRADICTORY_PROPOSAL",
+          affectedFields: ["AREA"],
+          message: "The proposal both clears and sets AREA in one user turn",
+        },
+      },
+    );
+  }
 });
 
 test("collection ASSERT adds, CORRECT replaces, and NEGATE removes deterministically", () => {

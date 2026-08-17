@@ -1,13 +1,35 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Version: 4.18
+- Version: 4.20
 - Last updated: 2026-08-17
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## 2026-08-17 — v15 strict transport and semantic-equivalence hardening verification
+
+### Scope
+
+Provider-compatible strict Schema constraints, Eval collection/fact semantic equality, deterministic singleton clear-and-set conflict handling, and Clean Holdout boundary wording. No Prompt, Proposal field, Holdout Gold, real Provider or external platform behavior is in scope.
+
+### Checks
+
+- `npm run typecheck`: passed.
+- Focused Proposal / Compiler / DeepSeek Gateway / Scorer / Regression / Holdout tests: 27/27 passed.
+- `npm run eval:semantic:fixture`: 7/7 exposed Regression Turns passed with `DEVELOPMENT_STAGE_ORACLES` and `baselineEligible:false`.
+- `npm run arch:check`: passed with 0 forbidden source dependencies.
+- `npm test`: 78/78 passed, 0 skipped and 0 failed in a permitted local-listener environment.
+- `npm run test:probes`: 8/8 frozen probes passed.
+- `npm run eval:search:fixture`: 3/3 passed.
+- `npm run build`: passed.
+- `PRAXIS_ALLOW_LIVE_MODEL_EVAL=1 PRAXIS_LIVE_MODEL_EVAL_CASE_LIMIT=7 npm run eval:semantic:deepseek`: passed with the repaired strict Schema: 7/7 exposed Turns, 7 successful calls, 0 retry, 0 failed, 15,493 ms and 18,955 reported tokens. Classification remains `DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`.
+
+### Modes and external effects
+
+Unit, Contract, Fixture, Mock Harness and embedded PGlite verification ran, plus one paid real DeepSeek request sequence against the 7 already-exposed Regression Turns. No Clean Holdout baseline, Replay, Live Read-only, Controlled Live-write, Discovery, Availability, authorization or reservation ran. The private Holdout was not read or modified.
 
 ## 2026-08-17 — v15 architecture cleanup and hardening verification
 
