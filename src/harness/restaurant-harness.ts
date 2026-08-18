@@ -127,7 +127,7 @@ export class RestaurantHarness {
   async start(intent: RestaurantBookingIntent) {
     this.runtime.createTask(this.taskId, {}, { runId: this.runId });
     const patch: RestaurantIntentPatch = {
-      schemaVersion: "2",
+      schemaVersion: "3",
       ...(intent.target ? { target: structuredClone(intent.target) } : {}),
       date: intent.date,
       timeWindow: structuredClone(intent.timeWindow),

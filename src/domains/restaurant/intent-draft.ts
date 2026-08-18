@@ -65,8 +65,8 @@ export function validateRestaurantIntentDraft(input: unknown): RestaurantIntentV
   ) {
     errors.push("Intent draft contains unsupported fields");
   }
-  if (input.schemaVersion !== "2") {
-    errors.push("schemaVersion must be 2");
+  if (input.schemaVersion !== "3") {
+    errors.push("schemaVersion must be 3");
   }
   if (input.timezone !== "Asia/Tokyo") {
     errors.push("timezone must be Asia/Tokyo");

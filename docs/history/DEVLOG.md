@@ -1,13 +1,45 @@
 # Development Log
 
 - Status: Accepted
-- Version: 4.23
-- Last updated: 2026-08-17
+- Version: 4.24
+- Last updated: 2026-08-18
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## 2026-08-18 — Prompt v5 exposed-Holdout regression record
+
+### Why
+
+Prompt v4的唯一Clean Holdout结果已经暴露；用户要求在相同数据上做一次真实Prompt v5诊断，比较字段级变化和多轮能否越过原先首错，同时不得把该运行重新包装成Baseline。
+
+### Changes
+
+- 新增受控`eval:semantic:holdout:exposed-regression`：严格Preflight、核对Dataset SHA与不可变v4 artifact、固定完整25-turn调用上限，并以独立`EXPOSED_HOLDOUT_REGRESSION / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false` artifact持久化运行前代码快照、原始逐turn结果和模型指标。
+- 比较器将v4的15个实际模型调用作为唯一同口径子集，另行报告v5全25 turn的覆盖，避免把上游阻断减少造成的样本变化误计为质量提升。
+- 首次分析发现criteria文本不匹配会被重复计入polarity/strength的纯诊断错误；修复后新增回归测试，并由无模型调用的`field-analysis-v2` sidecar重新计算。原始模型结果和Baseline artifact均未改写。
+
+### Boundary
+
+未修改Gold、Prompt v5文本、Proposal / Draft Contract、Scorer、Compiler、Reducer、Decision Kernel或readiness policy。此运行只访问已暴露私有数据和DeepSeek结构化输出，不访问真实餐厅平台，也不产生Authorization、预约或其它业务外部写入。
+
+## 2026-08-18 — Restaurant Semantic Prompt v5
+
+### Why
+
+The completed v4 Clean Holdout is `RESULT_EXPOSED` and cannot be rerun. The user supplied a revised general semantic-interpreter prompt that clarifies open criteria, semantic strength, time precision, closed-party inference, relative location preservation, and named-target handling without adding a Domain field or changing authority boundaries.
+
+### Changes
+
+- Replaced the Restaurant Semantic Interpreter system prompt with the user-supplied v5 text and advanced only the Prompt version from `v4` to `v5`.
+- Kept Proposal / Draft / Eval Schema `3`, Restaurant State `6`, Scorer `3`, Compiler, Runtime/Reducer, Decision Kernel, Model transport, temperature, retries, and Provider behavior unchanged.
+- Added focused prompt-contract assertions and synchronized current Status, Orchestration, Eval guidance, Holdout protocol, Eval README, and Roadmap: the v4 artifact remains historical and any v5 baseline requires a new unseen dataset.
+
+### Boundary
+
+No Gold, Prompt example drawn from private data, Scorer, Contract, public fixture content, real-model call, Holdout invocation, Discovery, Availability, authorization, or external write occurred.
 
 ## 2026-08-17 — v16 open Restaurant Criterion Contract
 
@@ -1497,3 +1529,28 @@ Praxis 已从方向讨论进入产品定义和原型实施前阶段，需要在c
 ### Next
 
 按Roadmap进入Stage 1：先建立Runtime和Harness，再接真实搜索与预约平台。
+# 2026-08-18 — Restaurant Semantic v17 Strength Contract and Holdout Audit
+
+### Why
+
+v16的开放`criteria`仍以词面`REQUIRED` / `PREFERRED`表达强度，无法表达“违反即实质错误”与“可权衡偏好”的产品语义。首份私有Clean Holdout还需要明确、不可逆的曝光状态和可审计配置，而不引入新的服务或状态系统。
+
+### Changes
+
+- 新增ADR-0009并以其取代ADR-0008的强度决策：Criterion strength改为`HARD` / `SOFT` / `UNSPECIFIED`，并把相对时间、相对地点、闭合参与者集合和近似预算的通用解释固定在v17 Prompt policy中。
+- Proposal / Draft / Eval Schema升为`3`，Restaurant State升为`6`，Prompt升为`v4`，Scorer升为`3`；旧未发布路径直接替换，不保留兼容分支。
+- 扩展已暴露的合成Regression至15个turn，覆盖HARD、SOFT、否定、相对时间、人数推断、修正、条件删除与地点覆盖。
+- 在既有exclusive baseline artifact上增加`datasetStatus: EXPOSED` / `exposedAt`，并记录Dataset SHA-256、git commit SHA、scorer版本和prompt/schema hash；已有artifact时runner拒绝再次作为`CLEAN_HOLDOUT`运行。
+- 增加只做字段和形状变换的私有标注adapter，以及不读取Gold语义的JSON document-stream结构解析。
+
+### Decisions and boundaries
+
+- 新版本使用`codex/restaurant-decision-v17`，保留v16分支作为可比较历史。
+- Semantic Interpreter仍只输出不可信Proposal；Compiler、Runtime/Reducer、Decision Kernel、Policy、Authorization和Provider能力边界不变。
+- 私有数据、artifact和错误详情均保持Git忽略；结构Preflight不会用于Prompt或实现的case-specific调优。
+
+### Next
+
+已修复私有多轮标注的数组结构；严格Preflight现可解析15个session、25个turn。随后确认10个重复ID来自simplified单条case adapter把同一source ID同时作为session和turn ID，已改为生成结构性session ID，未改动Gold。经用户授权完成一处最终Gold一致性修正后，strict Preflight为15 session / 25 turn / 0 issue；私有case和字段详情不进入Git记录。
+
+唯一Clean Holdout Baseline已按冻结配置运行。runner在首次模型调用前写入`EXPOSED` marker；25个turn中15个实际模型调用全部成功，但0个turn通过、15个首错为`SEMANTIC_RESULT`、10个为上游阻断。结果现为`RESULT_EXPOSED`，不得重跑或用于同一数据集调优。

@@ -13,12 +13,12 @@ import {
 import { scoreRestaurantSemanticTurn } from "./scorer.js";
 
 const expectedProposal: RestaurantSemanticProposal = {
-  schemaVersion: "2",
+  schemaVersion: "3",
   facts: [{ field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } }],
 };
-const expectedPatch: RestaurantIntentPatch = { schemaVersion: "2", partySize: 2 };
+const expectedPatch: RestaurantIntentPatch = { schemaVersion: "3", partySize: 2 };
 const expectedDraft: RestaurantIntentDraft = {
-  schemaVersion: "2",
+  schemaVersion: "3",
   timezone: "Asia/Tokyo",
   partySize: 2,
   criteria: [],
@@ -30,14 +30,14 @@ const expectedDecision: Extract<RestaurantDecision, { type: "ASK_USER" }> = {
 
 test("stage scorer assigns valid but wrong meaning to Semantic Interpreter", () => {
   const wrongMeaning: RestaurantSemanticProposal = {
-    schemaVersion: "2",
+    schemaVersion: "3",
     facts: [{ field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 3 } }],
   };
   assert.equal(validateRestaurantSemanticProposal(wrongMeaning).valid, true);
   const score = scoreRestaurantSemanticTurn({
     actualProposal: wrongMeaning,
     expectedProposal,
-    actualCompiledPatch: { schemaVersion: "2", partySize: 3 },
+    actualCompiledPatch: { schemaVersion: "3", partySize: 3 },
     expectedCompiledPatch: expectedPatch,
     actualDraft: { ...expectedDraft, partySize: 3 },
     expectedDraft,
@@ -51,7 +51,7 @@ test("stage scorer assigns a wrong deterministic translation to Compiler", () =>
   const score = scoreRestaurantSemanticTurn({
     actualProposal: expectedProposal,
     expectedProposal,
-    actualCompiledPatch: { schemaVersion: "2", partySize: 3 },
+    actualCompiledPatch: { schemaVersion: "3", partySize: 3 },
     expectedCompiledPatch: expectedPatch,
     actualDraft: { ...expectedDraft, partySize: 3 },
     expectedDraft,
@@ -91,17 +91,17 @@ test("stage scorer assigns wrong next step after correct state to Decision Kerne
 
 test("stage scorer treats unordered criteria and facts with case/whitespace-only text changes as equal", () => {
   const expected: RestaurantSemanticProposal = {
-    schemaVersion: "2",
+    schemaVersion: "3",
     facts: [
       {
         field: "CRITERION",
         operation: "ASSERT",
-        value: { kind: "CRITERION", text: "no spicy", polarity: "NEGATIVE", strength: "REQUIRED" },
+        value: { kind: "CRITERION", text: "no spicy", polarity: "NEGATIVE", strength: "HARD" },
       },
       {
         field: "CRITERION",
         operation: "ASSERT",
-        value: { kind: "CRITERION", text: "quiet", polarity: "POSITIVE", strength: "PREFERRED" },
+        value: { kind: "CRITERION", text: "quiet", polarity: "POSITIVE", strength: "SOFT" },
       },
     ],
   };
@@ -112,42 +112,42 @@ test("stage scorer treats unordered criteria and facts with case/whitespace-only
         {
           field: "CRITERION",
           operation: "ASSERT",
-          value: { kind: "CRITERION", text: " QUIET ", polarity: "POSITIVE", strength: "PREFERRED" },
+          value: { kind: "CRITERION", text: " QUIET ", polarity: "POSITIVE", strength: "SOFT" },
         },
         {
           field: "CRITERION",
           operation: "ASSERT",
-          value: { kind: "CRITERION", text: "NO SPICY", polarity: "NEGATIVE", strength: "REQUIRED" },
+          value: { kind: "CRITERION", text: "NO SPICY", polarity: "NEGATIVE", strength: "HARD" },
         },
       ],
     },
     expectedProposal: expected,
     actualCompiledPatch: {
-      schemaVersion: "2",
+      schemaVersion: "3",
       addCriteria: [
-        { text: "quiet", polarity: "POSITIVE", strength: "PREFERRED" },
-        { text: "no spicy", polarity: "NEGATIVE", strength: "REQUIRED" },
+        { text: "quiet", polarity: "POSITIVE", strength: "SOFT" },
+        { text: "no spicy", polarity: "NEGATIVE", strength: "HARD" },
       ],
     },
     expectedCompiledPatch: {
-      schemaVersion: "2",
+      schemaVersion: "3",
       addCriteria: [
-        { text: "no spicy", polarity: "NEGATIVE", strength: "REQUIRED" },
-        { text: "quiet", polarity: "POSITIVE", strength: "PREFERRED" },
+        { text: "no spicy", polarity: "NEGATIVE", strength: "HARD" },
+        { text: "quiet", polarity: "POSITIVE", strength: "SOFT" },
       ],
     },
     actualDraft: {
       ...expectedDraft,
       criteria: [
-        { text: " QUIET ", polarity: "POSITIVE", strength: "PREFERRED" },
-        { text: "NO SPICY", polarity: "NEGATIVE", strength: "REQUIRED" },
+        { text: " QUIET ", polarity: "POSITIVE", strength: "SOFT" },
+        { text: "NO SPICY", polarity: "NEGATIVE", strength: "HARD" },
       ],
     },
     expectedDraft: {
       ...expectedDraft,
       criteria: [
-        { text: "no spicy", polarity: "NEGATIVE", strength: "REQUIRED" },
-        { text: "quiet", polarity: "POSITIVE", strength: "PREFERRED" },
+        { text: "no spicy", polarity: "NEGATIVE", strength: "HARD" },
+        { text: "quiet", polarity: "POSITIVE", strength: "SOFT" },
       ],
     },
     actualDecision: expectedDecision,

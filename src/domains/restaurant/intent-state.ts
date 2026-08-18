@@ -66,7 +66,7 @@ export function applyRestaurantIntentPatch(
   patch: RestaurantIntentPatch,
 ): RestaurantIntentDraft {
   const next: RestaurantIntentDraft = {
-    schemaVersion: "2",
+    schemaVersion: "3",
     timezone: "Asia/Tokyo",
     ...(current?.target ? { target: structuredClone(current.target) } : {}),
     ...(current?.date ? { date: current.date } : {}),

@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted — 2026-08-17
+Superseded by ADR-0009 — 2026-08-18
 
 ## Context
 
@@ -44,5 +44,6 @@ type RestaurantCriterion = {
 ## Related documents
 
 - [ADR-0007](0007-semantic-proposal-compiler-and-decision-kernel.md)
+- [ADR-0009](0009-semantic-strength-and-clean-holdout-baseline.md)
 - [Restaurant Booking](../domains/RESTAURANT-BOOKING.md)
 - [Restaurant v16 Semantic Holdout](../harness/RESTAURANT-SEMANTIC-HOLDOUT-V2.md)

@@ -6,7 +6,7 @@ import { RestaurantSemanticInterpreter } from "../../domains/restaurant/semantic
 import { DeepSeekModelGateway } from "../../infrastructure/deepseek/deepseek-model-gateway.js";
 import {
   restaurantSemanticRegressionTurnCount,
-  restaurantSemanticRegressionV2,
+  restaurantSemanticRegressionV3,
 } from "./fixtures.js";
 import { runRestaurantSemanticRegression } from "./regression.js";
 import {
@@ -20,7 +20,7 @@ const configuration = requireRealModelEvalConfiguration(
 );
 if (configuration.caseLimit !== restaurantSemanticRegressionTurnCount) {
   throw new Error(
-    `v16 Semantic Regression requires exactly ${restaurantSemanticRegressionTurnCount} turns. ` +
+    `v17 Semantic Regression requires exactly ${restaurantSemanticRegressionTurnCount} turns. ` +
       `Set PRAXIS_LIVE_MODEL_EVAL_CASE_LIMIT=${restaurantSemanticRegressionTurnCount} or omit it.`,
   );
 }
@@ -38,7 +38,7 @@ const report = await runRestaurantSemanticRegression(
   {
     mode: "REAL_MODEL_MOCK_WORLD",
     attributionLevel: "DEVELOPMENT_STAGE_ORACLES",
-    dataset: restaurantSemanticRegressionV2,
+    dataset: restaurantSemanticRegressionV3,
   },
 );
 const evaluationClassification = {
@@ -46,12 +46,12 @@ const evaluationClassification = {
   contaminationStatus: "PROMPT_AND_RESULT_EXPOSED",
   baselineEligible: false,
   reason:
-    "The static v16 Semantic Regression labels are used for current architecture and prompt development.",
+    "The static v17 Semantic Regression labels are used for current architecture and prompt development.",
 } as const;
 const artifactDirectory = resolve(".eval-artifacts", "restaurant-semantic");
 const artifactPath = resolve(
   artifactDirectory,
-  `${new Date().toISOString().replace(/[:.]/g, "-")}-v16-semantic-regression.json`,
+  `${new Date().toISOString().replace(/[:.]/g, "-")}-v17-semantic-regression.json`,
 );
 await mkdir(artifactDirectory, { recursive: true });
 await writeFile(
@@ -80,9 +80,11 @@ console.log(
       diagnosticLog: {
         format: "JSON",
         path: artifactPath,
-        privacy: "STATIC_V16_REGRESSION_PROPOSALS_ONLY",
+        privacy: "STATIC_V17_REGRESSION_PROPOSALS_ONLY",
       },
     },
     null,
   ),
 );
+
+if (report.summary.passedTurns !== report.summary.totalTurns) process.exitCode = 1;

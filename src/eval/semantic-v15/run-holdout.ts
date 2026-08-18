@@ -1,6 +1,8 @@
 import { createHash } from "node:crypto";
+import { execFile } from "node:child_process";
 import { mkdir, open, readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
+import { promisify } from "node:util";
 
 import type { ModelInvocationRecord } from "../../core/model/contracts.js";
 import { RestaurantSemanticInterpreter } from "../../domains/restaurant/semantic-interpreter.js";
@@ -8,6 +10,7 @@ import { DeepSeekModelGateway } from "../../infrastructure/deepseek/deepseek-mod
 import {
   RESTAURANT_SEMANTIC_HOLDOUT_MANIFEST,
   loadRestaurantSemanticHoldout,
+  restaurantSemanticHoldoutFrozenAudit,
   restaurantSemanticHoldoutTurnCount,
 } from "./holdout.js";
 import { runRestaurantSemanticRegression } from "./regression.js";
@@ -15,6 +18,23 @@ import {
   requireRealModelEvalConfiguration,
   summarizeRealModelEval,
 } from "../shared/real-model.js";
+
+const execFileAsync = promisify(execFile);
+
+async function currentGitCommitSha(): Promise<string> {
+  try {
+    const { stdout } = await execFileAsync("git", ["rev-parse", "HEAD"]);
+    const sha = stdout.trim();
+    if (!/^[0-9a-f]{40}$/i.test(sha)) throw new Error("git did not return a full commit SHA");
+    return sha;
+  } catch (error) {
+    throw new Error(
+      `Clean Holdout baseline requires the checked-out git commit SHA before model invocation: ${
+        error instanceof Error ? error.message : String(error)
+      }`,
+    );
+  }
+}
 
 const preflight = await loadRestaurantSemanticHoldout(undefined, "REQUIRE_COMPLETE");
 if (preflight.status !== "READY_FOR_BASELINE" || !preflight.dataset) {
@@ -35,13 +55,15 @@ const turnCount = restaurantSemanticHoldoutTurnCount(preflight.dataset);
 const configuration = requireRealModelEvalConfiguration(process.env, turnCount);
 if (configuration.caseLimit !== turnCount) {
   throw new Error(
-    `v16 Semantic Holdout requires exactly ${turnCount} turns. ` +
+    `v17 Semantic Holdout requires exactly ${turnCount} turns. ` +
       `Set PRAXIS_LIVE_MODEL_EVAL_CASE_LIMIT=${turnCount} or omit it.`,
   );
 }
 
 const datasetSource = await readFile(preflight.datasetPath, "utf8");
 const datasetSha256 = createHash("sha256").update(datasetSource).digest("hex");
+const gitCommitSha = await currentGitCommitSha();
+const frozenAudit = restaurantSemanticHoldoutFrozenAudit();
 const artifactDirectory = resolve(".eval-artifacts", "restaurant-semantic-holdout");
 const artifactPath = resolve(
   artifactDirectory,
@@ -56,19 +78,27 @@ try {
   const code = typeof error === "object" && error !== null && "code" in error ? error.code : undefined;
   if (code === "EEXIST") {
     throw new Error(
-      `This Holdout version already has a run record at ${artifactPath}. ` +
+      `This Holdout version is already marked EXPOSED by its run record at ${artifactPath}. ` +
         "Do not rerun it as CLEAN_HOLDOUT; create a new unseen dataset version.",
     );
   }
   throw error;
 }
+const exposedAt = new Date().toISOString();
+const frozenConfiguration = {
+  gitCommitSha,
+  ...frozenAudit,
+};
 await lock.writeFile(
   JSON.stringify(
     {
       status: "STARTED",
-      startedAt: new Date().toISOString(),
+      datasetStatus: "EXPOSED",
+      exposedAt,
+      startedAt: exposedAt,
       datasetSha256,
       manifest: RESTAURANT_SEMANTIC_HOLDOUT_MANIFEST,
+      frozenConfiguration,
       preflight: { stats: preflight.stats, issues: preflight.issues },
     },
     null,
@@ -111,15 +141,18 @@ try {
     postRunStatus: "RESULT_EXPOSED",
     reusableAsCleanHoldout: false,
     reason: manifestConformant
-      ? "The first run used the frozen v16 manifest and the private Holdout had passed complete preflight."
+      ? "The first run used the frozen v17 manifest and the private Holdout had passed complete preflight."
       : "At least one recorded model invocation did not conform to the frozen manifest.",
   } as const;
   const artifact = {
     status: "COMPLETED",
-    startedAt: JSON.parse(await readFile(artifactPath, "utf8")).startedAt as unknown,
+    datasetStatus: "EXPOSED",
+    exposedAt,
+    startedAt: exposedAt,
     completedAt: new Date().toISOString(),
     datasetSha256,
     manifest: RESTAURANT_SEMANTIC_HOLDOUT_MANIFEST,
+    frozenConfiguration,
     evaluationClassification,
     preflight: { stats: preflight.stats, issues: preflight.issues },
     report,
@@ -160,9 +193,13 @@ try {
     JSON.stringify(
       {
         status: "FAILED_AFTER_START",
+        datasetStatus: "EXPOSED",
+        exposedAt,
+        startedAt: exposedAt,
         failedAt: new Date().toISOString(),
         datasetSha256,
         manifest: RESTAURANT_SEMANTIC_HOLDOUT_MANIFEST,
+        frozenConfiguration,
         reusableAsCleanHoldout: false,
         error: error instanceof Error ? error.message : String(error),
       },

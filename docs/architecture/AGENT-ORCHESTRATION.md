@@ -1,7 +1,7 @@
 # Agent Orchestration
 
 - Status: Accepted
-- Version: 3.3
+- Version: 3.4
 - Last updated: 2026-08-17
 - Source of truth for: Agent Workspace中的模型职责、有界Loop、前后台运行与Multi-Agent边界
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md), [ADR-0003](../decisions/0003-single-agent-orchestration.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0007](../decisions/0007-semantic-proposal-compiler-and-decision-kernel.md)
@@ -25,13 +25,13 @@ User Message
 → Runtime / Reducer / Decision Kernel
 ```
 
-## v16语义与决策边界
+## v17语义与决策边界
 
 Semantic Interpreter只回答“用户本轮表达了什么”：稳定槽位、开放`CRITERION{text, polarity, strength}`、修正、否定和确认。它不对Criterion建立cuisine / constraint / preference taxonomy，也不能产生内部State Patch/Event、缺失字段、Readiness、动作路由、Authorization、Tool Call或Outcome。
 
 Contract只证明Proposal结构与词表合法，不证明理解正确。Restaurant Compiler确定性地把合法Proposal翻译为Domain Patch/Event；Runtime与Reducer写权威状态；Decision Kernel只基于Authoritative State与Trusted Evidence决定下一步。
 
-Kernel可返回`ASK_USER`、`SEARCH`、`PRESENT_CANDIDATES`、`PROPOSE_RESERVATION`、`COMPLETE`、`NEED_ADJUSTMENT`或`NEED_REINTERPRETATION`。v16的`NEED_REINTERPRETATION`只记录冲突并询问用户或安全降级，不重新调用模型或覆盖State。
+Kernel可返回`ASK_USER`、`SEARCH`、`PRESENT_CANDIDATES`、`PROPOSE_RESERVATION`、`COMPLETE`、`NEED_ADJUSTMENT`或`NEED_REINTERPRETATION`。v17的`NEED_REINTERPRETATION`只记录冲突并询问用户或安全降级，不重新调用模型或覆盖State。
 
 LLM Response / Adjustment可以解释事实、生成澄清问题或提出非权威调整建议；只有用户的新消息可以重新进入Semantic Interpreter。禁止`LLM → Tool`、`LLM → State`和`Verifier → LLM → Tool`。
 
@@ -47,7 +47,7 @@ LLM Response / Adjustment可以解释事实、生成澄清问题或提出非权�
 
 所有模型调用经服务端`ModelGateway`；首个Provider为DeepSeek。每次请求必须声明`taskId`、purpose、promptVersion、outputSchema、timeout和失败行为。Gateway只记录Provider、模型、Prompt/Schema版本、延迟、Token、Provider request ID、状态码和错误码；不记录Prompt或Completion正文。Key只存在服务端Secret。
 
-当前Restaurant Semantic Interpreter固定为非流式、500输出Token、温度0、Thinking关闭。Domain把完整机器可读Proposal Schema放入通用Model Request；该Schema只使用当前strict transport支持的JSON Schema子集，无法由传输层表达的non-blank规则仍由本地Domain Validator校验。DeepSeek Gateway用Beta strict function作为仅传输结构的强制信封，不注册或执行Runtime Tool。Gateway必须得到唯一匹配的`tool_calls` arguments，本地Proposal Validator仍再次校验；结构合法不代表语义正确。Contract无效时最多再尝试一次，Provider失败不盲重试或降级为自由文本。Prompt为`v3`，Proposal / Draft / Eval Schema为`2`；未来Provider Search Criteria Compiler必须是独立确定性边界，当前未实现。
+当前Restaurant Semantic Interpreter固定为非流式、500输出Token、温度0、Thinking关闭。Domain把完整机器可读Proposal Schema放入通用Model Request；该Schema只使用当前strict transport支持的JSON Schema子集，无法由传输层表达的non-blank规则仍由本地Domain Validator校验。DeepSeek Gateway用Beta strict function作为仅传输结构的强制信封，不注册或执行Runtime Tool。Gateway必须得到唯一匹配的`tool_calls` arguments，本地Proposal Validator仍再次校验；结构合法不代表语义正确。Contract无效时最多再尝试一次，Provider失败不盲重试或降级为自由文本。Prompt为`v5`，Proposal / Draft / Eval Schema为`3`；Criterion strength按用户意图为`HARD` / `SOFT` / `UNSPECIFIED`，未来Provider Search Criteria Compiler必须是独立确定性边界，当前未实现。
 
 ## 有界Loop
 

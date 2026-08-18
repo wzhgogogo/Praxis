@@ -71,7 +71,7 @@ Accepted ADR
 - [Golden Scenarios](harness/GOLDEN-SCENARIOS.md)
 - [Restaurant Progressive Decision Eval v2](harness/RESTAURANT-DECISION-EVAL-V2.md)：v14 Harness-only历史设计；可执行代码已删除，只用于追溯，不是当前命令或Baseline门槛。
 - [Restaurant Decision Golden Seed Annotation Guide](harness/RESTAURANT-DECISION-GOLDEN-SEED-ANNOTATION.md)：v14首批7个Episode历史标注记录；数据与执行入口已删除。
-- [Restaurant v16 Semantic Holdout v2](harness/RESTAURANT-SEMANTIC-HOLDOUT-V2.md)：当前私有Clean Holdout的空模板、开放`criteria`标注格式、冻结清单、Preflight与一次性Baseline协议。
+- [Restaurant v17 Semantic Holdout v2](harness/RESTAURANT-SEMANTIC-HOLDOUT-V2.md)：当前私有Clean Holdout的空模板、开放`criteria`标注格式、冻结清单、Preflight与一次性Baseline协议。
 - [Roadmap](roadmap.md)：后续阶段及退出条件，不记录每次实施细节。
 - [Dev Log](history/DEVLOG.md)：仅保留按时间的设计、实现与取舍追溯。
 - [Test Log](history/TEST-LOG.md)：仅保留按时间的验证命令、模式、结果与未覆盖项。

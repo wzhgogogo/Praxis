@@ -7,12 +7,14 @@ import {
   RESTAURANT_SEMANTIC_HOLDOUT_DATASET_ID,
   RESTAURANT_SEMANTIC_HOLDOUT_DATASET_VERSION,
   RESTAURANT_SEMANTIC_HOLDOUT_REFERENCE_TIME,
+  parseRestaurantSemanticHoldoutSource,
   preflightRestaurantSemanticHoldout,
+  restaurantSemanticHoldoutFrozenAudit,
 } from "./holdout.js";
 import { scoreRestaurantSemanticTurn } from "./scorer.js";
 
 const completeDraft: RestaurantIntentDraft = {
-  schemaVersion: "2",
+  schemaVersion: "3",
   timezone: "Asia/Tokyo",
   target: { query: "Sushi Dai" },
   date: "2026-08-21",
@@ -24,7 +26,7 @@ const completeDraft: RestaurantIntentDraft = {
 
 function dataset() {
   return {
-    schemaVersion: "2",
+    schemaVersion: "3",
     id: RESTAURANT_SEMANTIC_HOLDOUT_DATASET_ID,
     version: RESTAURANT_SEMANTIC_HOLDOUT_DATASET_VERSION,
     cohort: "HOLDOUT",
@@ -47,7 +49,7 @@ function dataset() {
   };
 }
 
-test("v16 Holdout template contains no exposed sample and complete preflight rejects it", async () => {
+test("v17 Holdout template contains no exposed sample and complete preflight rejects it", async () => {
   const template = JSON.parse(
     await readFile(new URL("./holdout.template.json", import.meta.url), "utf8"),
   ) as unknown;
@@ -66,19 +68,20 @@ test("v16 Holdout template contains no exposed sample and complete preflight rej
   assert.deepEqual(complete.issues.map((item) => item.code), ["EMPTY_HOLDOUT"]);
 });
 
-test("v16 Holdout preflight accepts a complete labelled dataset with the frozen manifest", () => {
+test("v17 Holdout preflight accepts a complete labelled dataset with the frozen manifest", () => {
   const report = preflightRestaurantSemanticHoldout(dataset(), {
     mode: "REQUIRE_COMPLETE",
     datasetPath: "private.json",
   });
 
   assert.equal(report.status, "READY_FOR_BASELINE");
+  assert.equal(report.preflightVersion, "3");
   assert.deepEqual(report.stats, { sessions: 1, turns: 1 });
   assert.equal(report.dataset?.sessions[0]?.turns[0]?.expectedDraft.date, "2026-08-21");
   assert.equal(report.dataset?.sessions[0]?.turns[0]?.expectedDraft.target?.query, "Sushi Dai");
 });
 
-test("v16 Holdout preflight rejects duplicates, manifest drift, and inconsistent Gold", () => {
+test("v17 Holdout preflight rejects duplicates, manifest drift, and inconsistent Gold", () => {
   const invalid = structuredClone(dataset()) as unknown as Record<string, unknown>;
   invalid.model = "unfrozen";
   invalid.referenceTime = "2026-08-22T09:00:00+09:00";
@@ -99,7 +102,115 @@ test("v16 Holdout preflight rejects duplicates, manifest drift, and inconsistent
   assert.ok(report.issues.some((item) => item.code === "INVALID_EXPECTED_DECISION"));
 });
 
-test("v16 deterministic scorer attributes Draft mismatch before Kernel mismatch", () => {
+test("v17 Holdout adapts the simplified private annotation shape without changing its meaning", () => {
+  const report = preflightRestaurantSemanticHoldout(
+    {
+      schemaVersion: "3",
+      id: RESTAURANT_SEMANTIC_HOLDOUT_DATASET_ID,
+      version: RESTAURANT_SEMANTIC_HOLDOUT_DATASET_VERSION,
+      cohort: "HOLDOUT",
+      contaminationStatus: "CLEAN_HOLDOUT",
+      referenceTime: RESTAURANT_SEMANTIC_HOLDOUT_REFERENCE_TIME,
+      timezone: "Asia/Tokyo",
+      cases: [
+        {
+          id: "SH-SIMPLE",
+          turns: [
+            {
+              id: "SH-SIMPLE-T01",
+              content: "A synthetic private message",
+              criteria: [{ text: "quiet", polarity: "POSITIVE", strength: "SOFT" }],
+              date: "2026-08-21",
+              timeWindow: "19:00",
+              partySize: 2,
+              area: "near me",
+              decision: "SEARCH",
+            },
+          ],
+        },
+      ],
+    },
+    { mode: "REQUIRE_COMPLETE", datasetPath: "private.json" },
+  );
+
+  assert.equal(report.status, "READY_FOR_BASELINE");
+  const draft = report.dataset?.sessions[0]?.turns[0]?.expectedDraft;
+  assert.deepEqual(draft?.timeWindow, { earliest: "19:00", latest: "19:00" });
+  assert.deepEqual(draft?.area, { query: "near me" });
+  assert.deepEqual(draft?.criteria, [{ text: "quiet", polarity: "POSITIVE", strength: "SOFT" }]);
+});
+
+test("v17 Holdout gives a standalone simplified case its own structural session id", () => {
+  const report = preflightRestaurantSemanticHoldout(
+    {
+      schemaVersion: "3",
+      id: RESTAURANT_SEMANTIC_HOLDOUT_DATASET_ID,
+      version: RESTAURANT_SEMANTIC_HOLDOUT_DATASET_VERSION,
+      cohort: "HOLDOUT",
+      contaminationStatus: "CLEAN_HOLDOUT",
+      referenceTime: RESTAURANT_SEMANTIC_HOLDOUT_REFERENCE_TIME,
+      timezone: "Asia/Tokyo",
+      cases: [
+        {
+          id: "SH-STANDALONE",
+          content: "A synthetic standalone private message",
+          criteria: [{ text: "quiet", polarity: "POSITIVE", strength: "SOFT" }],
+          date: "2026-08-21",
+          timeWindow: "19:00",
+          partySize: 2,
+          area: "near me",
+          decision: "SEARCH",
+        },
+      ],
+    },
+    { mode: "REQUIRE_COMPLETE", datasetPath: "private.json" },
+  );
+
+  assert.equal(report.status, "READY_FOR_BASELINE");
+  assert.equal(report.dataset?.sessions[0]?.id, "source-session-1");
+  assert.equal(report.dataset?.sessions[0]?.turns[0]?.id, "SH-STANDALONE");
+});
+
+test("v17 Holdout manifest audit identifies scorer, schema, and prompt configuration", () => {
+  const audit = restaurantSemanticHoldoutFrozenAudit();
+  assert.equal(audit.scorerVersion, "3");
+  assert.match(audit.proposalSchemaSha256, /^[a-f0-9]{64}$/);
+  assert.match(audit.promptTemplateSha256, /^[a-f0-9]{64}$/);
+});
+
+test("v17 Holdout parser accepts a stream of structural annotation documents", () => {
+  const source = [
+    JSON.stringify({
+      content: "A synthetic stream message",
+      criteria: [],
+      date: "2026-08-21",
+      timeWindow: "19:00",
+      partySize: 2,
+      area: "nearby",
+      decision: "SEARCH",
+    }),
+    JSON.stringify({
+      content: "Another synthetic stream message",
+      criteria: [],
+      date: "2026-08-22",
+      timeWindow: "20:00",
+      partySize: 2,
+      area: "nearby",
+      decision: "SEARCH",
+    }),
+  ].join("\n");
+  const malformedArraySource = `[\n${source}\n]`;
+  const parsed = parseRestaurantSemanticHoldoutSource(malformedArraySource);
+  const report = preflightRestaurantSemanticHoldout(parsed, {
+    mode: "REQUIRE_COMPLETE",
+    datasetPath: "private.json",
+  });
+
+  assert.equal(report.status, "READY_FOR_BASELINE");
+  assert.deepEqual(report.stats, { sessions: 2, turns: 2 });
+});
+
+test("v17 deterministic scorer attributes Draft mismatch before Kernel mismatch", () => {
   const wrongDraft = { ...completeDraft, partySize: 3 };
   const result = scoreRestaurantSemanticTurn({
     actualDraft: wrongDraft,

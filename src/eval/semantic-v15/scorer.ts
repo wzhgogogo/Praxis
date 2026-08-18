@@ -13,6 +13,8 @@ import type {
 } from "../../domains/restaurant/semantic-proposal.js";
 import type { RestaurantSemanticHoldoutDecision } from "./holdout.js";
 
+export const RESTAURANT_SEMANTIC_SCORER_VERSION = "3";
+
 export type RestaurantSemanticScoreFailure =
   | "SEMANTIC_INTERPRETER"
   | "COMPILER"
@@ -143,7 +145,7 @@ export function equalRestaurantIntentDrafts(
 }
 
 /**
- * Deterministic v16 Gold scorer. Draft semantics are scored before the Kernel
+ * Deterministic v17 Gold scorer. Draft semantics are scored before the Kernel
  * decision so one wrong interpretation is never counted again downstream.
  */
 export function scoreRestaurantSemanticTurn(input: {

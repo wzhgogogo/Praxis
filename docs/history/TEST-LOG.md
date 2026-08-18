@@ -1,13 +1,34 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Version: 4.20
-- Last updated: 2026-08-17
+- Version: 4.21
+- Last updated: 2026-08-18
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## 2026-08-18 — Prompt v5 exposed-Holdout regression verification
+
+### Scope
+
+一次受用户授权的Prompt v5真实回归，仅使用已经`EXPOSED / RESULT_EXPOSED`的私有v4 Holdout。原始Clean Baseline artifact、Gold、Prompt文本、Contract、Scorer与readiness policy不在修改范围。
+
+### Checks
+
+- `npm run eval:semantic:holdout:preflight:complete`：`READY_FOR_BASELINE`，15 session / 25 turn / 0 issue；这只是结构与Gold一致性检查，不使数据恢复Clean资格。
+- `npm run typecheck`：通过。
+- `npm run eval:semantic:fixture`：15 / 15通过，`DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`。
+- `npm run arch:check`：通过，0 forbidden source dependencies。
+- `npm test`：85 / 85通过，0 failed；HTTP/SSE用允许本地监听的环境验证。
+- `npm run build`与`git diff --check`：通过。
+- `PRAXIS_ALLOW_LIVE_MODEL_EVAL=1 PRAXIS_CONFIRM_EXPOSED_HOLDOUT_REGRESSION=1 PRAXIS_LIVE_MODEL_EVAL_CASE_LIMIT=25 DEEPSEEK_MODEL=deepseek-v4-flash npm run eval:semantic:holdout:exposed-regression`：完成，16 successful calls、0 retry、37,102 ms、56,122 reported tokens、cost `NOT_CONFIGURED`。全25 turn为3 pass、13个`SEMANTIC_RESULT`、9个`BLOCKED_BY_UPSTREAM`；归类固定为`EXPOSED_HOLDOUT_REGRESSION / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`。
+- 初版字段诊断重复计数criteria文本不匹配为polarity/strength不匹配。修复分析器后，新增该边界的单测；`npm run eval:semantic:holdout:exposed-regression:analyze <artifact>`在不调用模型的情况下写入`field-analysis-v2` sidecar，保留原始运行记录。v4同口径15 turn的字段差异为criteria text `-1`、strength `-5`、timeWindow `-1`、area `-1`，date `+3`、partySize `+1`、decision `+1`（负号表示v5减少mismatch）。
+
+### Modes and external effects
+
+Unit、Fixture、Mock Harness和embedded PGlite验证均通过；另有16次付费DeepSeek调用，仅针对已暴露私有Holdout，使用内存Runtime和Fixture Search。没有真实Discovery、Availability、Authorization、预约、Replay、Live Read-only或Controlled Live-write。
 
 ## 2026-08-17 — v16 open Restaurant Criterion Contract verification
 
@@ -1665,3 +1686,43 @@ TypeScript Task Runtime、Policy、Restaurant状态机、Mock Adapters、Side Ef
 ### Limitations
 
 文档初始化验证当时，目录没有可被Git识别的`.git`元数据，且尚无代码、package或测试命令，因此不能报告typecheck、unit、build或smoke通过。后续实现和验证结果见本文件顶部的新记录。
+# 2026-08-18 — Restaurant Semantic v17 Contract and Clean Holdout Gate
+
+### Scope
+
+v17 Criterion strength、Prompt / Proposal / Draft / State / Scorer版本、公开合成Regression、Clean Holdout exposure artifact和私有标注Preflight adapter；没有真实餐厅平台、Authorization、预约或其他外部业务写入。
+
+### Checks
+
+- `npm run typecheck`：通过。
+- `npm test`：通过，81 tests / 5 suites / 0 failed；localhost Fixture server测试在允许本地监听的环境中运行。
+- `npm run arch:check`：通过，0 forbidden source dependencies。
+- `npm run build`：通过。
+- `npm run eval:semantic:fixture`：通过，`DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`，15 / 15 turn通过。
+- `PRAXIS_ALLOW_LIVE_MODEL_EVAL=1 PRAXIS_LIVE_MODEL_EVAL_CASE_LIMIT=15 DEEPSEEK_MODEL=deepseek-v4-flash npm run eval:semantic:deepseek`：通过，`REAL_MODEL_MOCK_WORLD`公开Regression 15 / 15；15 successful calls、0 retry、28,817 ms、44,466 reported tokens、cost `NOT_CONFIGURED`。这是公开Development Diagnostic，不是Clean Holdout Baseline。
+- 获授权后仅修复私有多轮标注的一处数组分隔结构，未修改任何字段值或Gold语义。
+- 10个`DUPLICATE_ID`确认均由simplified单条case adapter把同一source ID用于session和turn所致；adapter现为这种结构生成确定性session ID，保留source ID作为turn ID。新增相应回归测试。
+- `node --import tsx --test src/eval/semantic-v15/holdout.test.ts`：通过，8 / 8。
+- `npm test`：通过，82 tests / 5 suites / 0 failed；localhost Fixture server测试在允许本地监听的环境中运行。
+- 修复adapter后重跑`npm run eval:semantic:holdout:preflight:complete`：仍为`NOT_READY`，但15个session、25个turn仅剩一项Gold/readiness一致性问题；没有模型调用或baseline artifact。
+- 经用户授权完成一处最终Gold一致性修正后，`npm run eval:semantic:holdout:preflight:complete`为`READY_FOR_BASELINE`，15 session / 25 turn / 0 issue；私有case和字段详情不进入Git记录。
+- `PRAXIS_ALLOW_LIVE_MODEL_EVAL=1 PRAXIS_CONFIRM_CLEAN_HOLDOUT=1 PRAXIS_LIVE_MODEL_EVAL_CASE_LIMIT=25 DEEPSEEK_MODEL=deepseek-v4-flash npm run eval:semantic:holdout`：唯一Baseline完成。15次真实模型调用全成功、0 retry、34,607 ms、44,405 reported tokens、cost `NOT_CONFIGURED`；25个turn中0 pass、15个`SEMANTIC_RESULT`失败、10个`BLOCKED_BY_UPSTREAM`。artifact在首个模型请求前持久化`EXPOSED`，完成后为`RESULT_EXPOSED / reusableAsCleanHoldout:false`。
+- Prompt v5：仅替换Semantic Interpreter的用户提供通用文本并更新Prompt版本；Proposal / Draft / Eval Schema、Gold、Scorer、Compiler、Reducer和Decision Kernel均未改动。
+- `npm run typecheck`、`node --import tsx --test src/domains/restaurant/semantic-interpreter.test.ts`、`npm run eval:semantic:fixture`与`npm run arch:check`：通过；定向测试2 / 2，已暴露Fixture Regression 15 / 15。
+- `npm test`：通过，82 tests / 5 suites / 0 failed；`npm run build`与`git diff --check`：通过。
+
+### Modes
+
+- Fixture / Mock / Embedded-postgres：通过；不代表真实Provider或真实PostgreSQL。
+- Real Model Mock World：通过；仅已暴露的开发Regression。
+- Clean Holdout：已按冻结配置运行一次，现为`RESULT_EXPOSED`，不得重跑为Clean。
+- Live Read-only / Controlled Live-write：未运行。
+
+### Safety
+
+- Clean runner将在首个模型请求前持久化`EXPOSED` marker和冻结审计元数据；此轮因Preflight失败没有创建该artifact。
+- 未访问真实餐厅平台、没有Authorization或外部业务写入。
+
+### Limitation
+
+必须由数据所有者修复私有标注的结构，或确认可采用的Gold会话边界；在此之前不可合法地运行一次性Baseline。

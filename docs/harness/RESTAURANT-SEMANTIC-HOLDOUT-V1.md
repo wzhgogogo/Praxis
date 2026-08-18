@@ -1,13 +1,13 @@
 # Historical Restaurant v15 Semantic Holdout v1
 
-- Status: Superseded by [Restaurant v16 Semantic Holdout v2](RESTAURANT-SEMANTIC-HOLDOUT-V2.md)
+- Status: Superseded by [Restaurant v17 Semantic Holdout v2](RESTAURANT-SEMANTIC-HOLDOUT-V2.md)
 - Version: 1.1
 - Last updated: 2026-08-17
 - Source of truth for: 已废弃v15标注格式的历史记录；不得用于当前标注或Baseline
 - Related ADRs: [ADR-0008](../decisions/0008-open-restaurant-criteria-contract.md)
 - Related documents: [Current Status](../STATUS.md), [Eval Skill](../skills/eval/SKILL.md), [Eval Directory](../../src/eval/README.md)
 
-> v16以开放`criteria`替换了本文件的三种分类数组。保留本文只用于解释旧标注为何不能进入新的Clean Holdout；当前格式和协议只以[v2](RESTAURANT-SEMANTIC-HOLDOUT-V2.md)为准。
+> v17以开放`criteria`替换了本文件的三种分类数组。保留本文只用于解释旧标注为何不能进入新的Clean Holdout；当前格式和协议只以[v2](RESTAURANT-SEMANTIC-HOLDOUT-V2.md)为准。
 
 ## 历史状态
 

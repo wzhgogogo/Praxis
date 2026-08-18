@@ -19,8 +19,8 @@ export const RESTAURANT_CRITERION_POLARITIES = ["POSITIVE", "NEGATIVE"] as const
 export type RestaurantCriterionPolarity = (typeof RESTAURANT_CRITERION_POLARITIES)[number];
 
 export const RESTAURANT_CRITERION_STRENGTHS = [
-  "REQUIRED",
-  "PREFERRED",
+  "HARD",
+  "SOFT",
   "UNSPECIFIED",
 ] as const;
 export type RestaurantCriterionStrength = (typeof RESTAURANT_CRITERION_STRENGTHS)[number];
@@ -33,7 +33,7 @@ export interface RestaurantCriterion {
 }
 
 export interface RestaurantIntentDraft {
-  schemaVersion: "2";
+  schemaVersion: "3";
   timezone: "Asia/Tokyo";
   target?: RestaurantTarget;
   date?: string;
@@ -174,7 +174,7 @@ export interface VerifiedReservation {
 }
 
 export interface RestaurantTaskState {
-  schemaVersion: "5";
+  schemaVersion: "6";
   phase: RestaurantPhase;
   intentDraft?: RestaurantIntentDraft;
   intent?: RestaurantBookingIntent;
@@ -197,7 +197,7 @@ export type RestaurantOutcome =
   | { status: "FAILED"; reason: string };
 
 export interface RestaurantIntentPatch {
-  schemaVersion: "2";
+  schemaVersion: "3";
   target?: RestaurantTarget | null;
   date?: string | null;
   timeWindow?: { earliest: string; latest: string } | null;

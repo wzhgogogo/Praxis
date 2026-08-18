@@ -8,7 +8,7 @@ import {
 
 test("Semantic Proposal Contract accepts stable slots and open criteria without a taxonomy", () => {
   const valid = validateRestaurantSemanticProposal({
-    schemaVersion: "2",
+    schemaVersion: "3",
     facts: [
       { field: "PARTY_SIZE", operation: "CORRECT", value: { kind: "PARTY_SIZE", value: 3 } },
       { field: "AREA", operation: "NEGATE" },
@@ -20,7 +20,7 @@ test("Semantic Proposal Contract accepts stable slots and open criteria without 
       {
         field: "CRITERION",
         operation: "ASSERT",
-        value: { kind: "CRITERION", text: "no spicy", polarity: "NEGATIVE", strength: "REQUIRED" },
+        value: { kind: "CRITERION", text: "no spicy", polarity: "NEGATIVE", strength: "HARD" },
       },
       { field: "DATE", operation: "CONFIRM" },
     ],
@@ -31,7 +31,7 @@ test("Semantic Proposal Contract accepts stable slots and open criteria without 
 
 test("Semantic Proposal Contract rejects internal protocols and invalid operation/value combinations", () => {
   const invalid = validateRestaurantSemanticProposal({
-    schemaVersion: "2",
+    schemaVersion: "3",
     facts: [
       {
         field: "AREA",
@@ -51,7 +51,7 @@ test("Semantic Proposal Contract rejects internal protocols and invalid operatio
 
 test("Semantic Proposal Contract rejects collection CONFIRM because it has no deterministic effect", () => {
   const result = validateRestaurantSemanticProposal({
-    schemaVersion: "2",
+    schemaVersion: "3",
     facts: [{ field: "CRITERION", operation: "CONFIRM" }],
   });
   assert.equal(result.valid, false);
@@ -64,7 +64,7 @@ test("DeepSeek transport schema uses only supported string constraints while loc
   assert.equal(serializedSchema.includes("maxLength"), false);
 
   const result = validateRestaurantSemanticProposal({
-    schemaVersion: "2",
+    schemaVersion: "3",
     facts: [
       {
         field: "CRITERION",

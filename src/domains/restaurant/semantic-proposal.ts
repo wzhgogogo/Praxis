@@ -5,10 +5,10 @@ import {
 } from "./contracts.js";
 
 export const RESTAURANT_SEMANTIC_PROPOSAL_PURPOSE = "restaurant_semantic_interpret";
-export const RESTAURANT_SEMANTIC_PROPOSAL_PROMPT_VERSION = "v3";
+export const RESTAURANT_SEMANTIC_PROPOSAL_PROMPT_VERSION = "v5";
 export const RESTAURANT_SEMANTIC_PROPOSAL_SCHEMA = {
   name: "restaurant-semantic-proposal",
-  version: "2",
+  version: "3",
 } as const;
 
 export const RESTAURANT_SEMANTIC_FIELDS = [
@@ -52,7 +52,7 @@ export interface RestaurantSemanticFact {
  * Event, readiness assessment, command, action proposal, or a record of real-world facts.
  */
 export interface RestaurantSemanticProposal {
-  schemaVersion: "2";
+  schemaVersion: "3";
   facts: RestaurantSemanticFact[];
 }
 
@@ -170,7 +170,7 @@ const COLLECTION_FIELDS = ["CRITERION"] as const satisfies readonly RestaurantSe
 /** Complete provider-transport schema; the runtime validator below remains authoritative. */
 export const RESTAURANT_SEMANTIC_PROPOSAL_JSON_SCHEMA: Readonly<Record<string, unknown>> =
   strictObject({
-    schemaVersion: { type: "string", enum: ["2"] },
+    schemaVersion: { type: "string", enum: ["3"] },
     facts: {
       type: "array",
       items: {
@@ -267,7 +267,7 @@ export function validateRestaurantSemanticProposal(
   if (!hasOnlyKeys(input, ["schemaVersion", "facts"])) {
     errors.push("Semantic proposal contains unsupported fields");
   }
-  if (input.schemaVersion !== "2") errors.push("schemaVersion must be 2");
+  if (input.schemaVersion !== "3") errors.push("schemaVersion must be 3");
   if (!Array.isArray(input.facts)) {
     errors.push("facts must be an array");
   } else {

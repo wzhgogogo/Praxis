@@ -17,6 +17,8 @@
     "eval:semantic:holdout:preflight": "node --import tsx src/eval/semantic-v15/run-holdout-preflight.ts",
     "eval:semantic:holdout:preflight:complete": "node --import tsx src/eval/semantic-v15/run-holdout-preflight.ts --require-complete",
     "eval:semantic:holdout": "node --env-file-if-exists=.env --import tsx src/eval/semantic-v15/run-holdout.ts",
+    "eval:semantic:holdout:exposed-regression": "node --env-file-if-exists=.env --import tsx src/eval/semantic-v15/run-exposed-holdout-regression.ts",
+    "eval:semantic:holdout:exposed-regression:analyze": "node --import tsx src/eval/semantic-v15/run-exposed-holdout-regression-analysis.ts",
     "eval:search:fixture": "node --import tsx src/eval/search-fixture/run.ts",
     "test:postgres:live": "node --env-file-if-exists=.env --import tsx src/infrastructure/postgres/postgres-live-smoke.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit"

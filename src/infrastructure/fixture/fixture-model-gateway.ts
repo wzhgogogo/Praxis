@@ -61,7 +61,7 @@ function fixtureSemanticProposalFor(message: string): RestaurantSemanticProposal
     add({
       field: "CRITERION",
       operation: "ASSERT",
-      value: { kind: "CRITERION", text: "yakiniku", polarity: "NEGATIVE", strength: "REQUIRED" },
+      value: { kind: "CRITERION", text: "yakiniku", polarity: "NEGATIVE", strength: "HARD" },
     });
   } else if (normalized.includes("yakiniku")) {
     add({
@@ -77,11 +77,11 @@ function fixtureSemanticProposalFor(message: string): RestaurantSemanticProposal
       value: { kind: "BUDGET_PER_PERSON", max: 5_000, currency: "JPY" },
     });
   }
-  return { schemaVersion: "2", facts };
+  return { schemaVersion: "3", facts };
 }
 
 /**
- * Local-only deterministic model double for the current v16 semantic path.
+ * Local-only deterministic model double for the current v17 semantic path.
  */
 export class FixtureModelGateway implements ModelGateway {
   private sequence = 0;

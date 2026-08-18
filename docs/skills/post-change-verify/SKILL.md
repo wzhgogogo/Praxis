@@ -33,7 +33,7 @@ Runtime、Policy、Restaurant状态或Mock Adapter改动至少运行以上三项
 7. 检查Secret、PII、Mock生产防护和外部副作用。
 8. 同步文档；追加`docs/history/DEVLOG.md`与`docs/history/TEST-LOG.md`，并在能力、证据或下一道门槛变化时更新`docs/STATUS.md`。
 
-v15 Holdout按范围验证：纯私有Gold更新只运行Draft Preflight；Holdout Contract、Preflight或Scorer变化才运行Typecheck、Build、定向v15测试和当前产品基线。严格Complete Preflight只在全部Gold完成或准备进入Baseline门禁时运行。
+v17 Holdout按范围验证：纯私有Gold更新只运行Draft Preflight；Holdout Contract、Preflight或Scorer变化才运行Typecheck、Build、定向v17测试和当前产品基线。严格Complete Preflight只在全部Gold完成或准备进入Baseline门禁时运行。
 
 涉及v15语义主链的改动，验证必须按层分别报告，不能用端到端通过掩盖上游错误：
 

@@ -201,7 +201,7 @@ export function compileRestaurantSemanticProposal(
   const conflict = findConflict(proposal);
   if (conflict) return { status: "CONFLICT", conflict };
 
-  const patch: RestaurantIntentPatch = { schemaVersion: "2" };
+  const patch: RestaurantIntentPatch = { schemaVersion: "3" };
   proposal.facts.forEach((fact) => compileFact(patch, fact));
   return { status: "COMPILED", patch };
 }

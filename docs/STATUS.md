@@ -1,22 +1,22 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Version: 1.7
-- Last updated: 2026-08-17
+- Version: 1.8
+- Last updated: 2026-08-18
 - Source of truth for: 已实现能力、已验证范围、明确未验证项与下一道门槛
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Documentation Index](INDEX.md), [Roadmap](roadmap.md), [Verification History](history/TEST-LOG.md)
 
 ## 一句话状态
 
-Restaurant v16 已完成可运行的 **Fixture 语义到搜索**纵向链路：它保留v15的职责边界，但以开放`CRITERION`取代不稳定的`CUISINE` / `HARD_CONSTRAINT` / `SOFT_PREFERENCE`分类。Prompt为`v3`、Proposal / Draft / Eval Schema为`2`、Restaurant State为`5`。旧v15真实Smoke只证明旧Schema transport，不能作为v16证据；v16私有Clean Holdout需要重新标注，尚无独立Baseline或真实餐厅平台接入。
+Restaurant v17 已完成可运行的 **Fixture 语义到搜索**纵向链路：它保留v15的职责边界，以开放`CRITERION`取代不稳定的分类，并以语义`HARD` / `SOFT` / `UNSPECIFIED`表达强度。当前Prompt为`v5`、Proposal / Draft / Eval Schema为`3`、Restaurant State为`6`。首份私有Clean Holdout在Prompt `v4`下已按冻结配置运行一次，现为`RESULT_EXPOSED`；尚无真实餐厅平台接入。
 
 ## 已实现
 
 | 能力 | 当前范围 | 权威说明 |
 |---|---|---|
 | Web / Workspace | 本地 Fixture、持久 Conversation / Case、HTTP/SSE 恢复与候选选择；停在授权前 | [MVP PRD](product/MVP-PRD.md)、[Workspace](architecture/AGENT-GATEWAY-AND-WORKSPACE.md) |
-| 语义主链 | `Semantic Interpreter → Proposal Contract → Compiler → Runtime/Reducer → Decision Kernel`；稳定槽位加开放`criteria`，完整Domain JSON Schema经strict transport发送，随后仍本地校验；模型不能直接改 State 或调用 Tool | [ADR-0007](decisions/0007-semantic-proposal-compiler-and-decision-kernel.md)、[ADR-0008](decisions/0008-open-restaurant-criteria-contract.md)、[Orchestration](architecture/AGENT-ORCHESTRATION.md) |
+| 语义主链 | `Semantic Interpreter → Proposal Contract → Compiler → Runtime/Reducer → Decision Kernel`；稳定槽位加开放`criteria`，完整Domain JSON Schema经strict transport发送，随后仍本地校验；模型不能直接改 State 或调用 Tool | [ADR-0007](decisions/0007-semantic-proposal-compiler-and-decision-kernel.md)、[ADR-0009](decisions/0009-semantic-strength-and-clean-holdout-baseline.md)、[Orchestration](architecture/AGENT-ORCHESTRATION.md) |
 | 决策与搜索 | `ASK_USER`、`SEARCH`、`PRESENT_CANDIDATES`、调整与安全冲突降级；Fixture Search 最多三家候选 | [Restaurant Domain](domains/RESTAURANT-BOOKING.md) |
 | 执行安全基础 | Runtime、Policy、Authorization、Verifier 与 `OUTCOME_UNKNOWN` 的 Mock / Embedded-postgres 闭环已存在 | [Policy & Verification](architecture/POLICY-EXECUTION-VERIFICATION.md)、[Task Runtime](architecture/TASK-RUNTIME.md) |
 
@@ -24,24 +24,27 @@ Restaurant v16 已完成可运行的 **Fixture 语义到搜索**纵向链路：�
 
 | 模式 | 结论 | 不代表什么 |
 |---|---|---|
-| 当前产品 Unit / Fixture / Mock / Embedded-postgres | v16完整基线`78/78`、冻结探针`8/8`、typecheck、arch:check与build均通过 | 真实PostgreSQL、真实Provider、Clean Holdout质量或浏览器视觉 |
+| 当前产品 Unit / Fixture / Mock / Embedded-postgres | v17完整基线`85/85`、冻结探针`8/8`、typecheck、arch:check与build均通过 | 真实PostgreSQL、真实Provider、Clean Holdout质量或浏览器视觉 |
+| `REAL_MODEL_MOCK_WORLD` | 已暴露v17 DeepSeek Regression为`15/15`：15 calls全成功、0 retry、28,817 ms、44,466 reported tokens；它只证明当前公开样本的transport与语义回归 | Clean Holdout、泛化质量、真实餐厅事实、预约质量或模型 Baseline |
+| `HOLDOUT_BASELINE` | 首份私有Baseline严格Preflight为15 session / 25 turn / 0 issue后只运行一次：15次模型调用全成功、0 pass、15个`SEMANTIC_RESULT`失败、10个上游阻断；artifact标记为`EXPOSED / RESULT_EXPOSED` | 不能以已暴露结果继续调优后宣称其仍是Clean，也不证明真实餐厅事实、预约质量或浏览器视觉 |
+| `EXPOSED_HOLDOUT_REGRESSION` | Prompt v5对同一已暴露数据只运行一次诊断：16 calls全成功、3 / 25 exact pass、9个上游阻断；v4可比15 turn为0 → 2 exact pass。版本化字段分析记录保留原始结果且不重跑模型 | Clean Holdout、v5泛化质量、真实餐厅事实、预约质量或模型 Baseline |
 | 冻结架构探针 | 独立`test:probes`为`8/8` | Restaurant当前产品质量或Stage完成度 |
-| `REAL_MODEL_MOCK_WORLD` | v15已暴露Regression Smoke为`7/7`：7 calls全成功、0 retry、15,493 ms、18,955 tokens；因Prompt/Schema已升至v16，它现在只保留为历史transport证据 | v16 transport、泛化质量、真实餐厅事实、预约质量或模型 Baseline |
+| `REAL_MODEL_MOCK_WORLD` | v15已暴露Regression Smoke为`7/7`：7 calls全成功、0 retry、15,493 ms、18,955 tokens；因Prompt/Schema已升至v17，它现在只保留为历史transport证据 | v17 transport、泛化质量、真实餐厅事实、预约质量或模型 Baseline |
 | 隔离本机 PostgreSQL Smoke | 曾验证 Runtime、迁移、Goal/Task Graph 与 Scheduler | 生产数据库部署或持续运行可靠性 |
 
 真实模型 Regression 样本及结果已暴露，统一标记为 `DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`。完整命令、失败口径和历史结果只在 [Test Log](history/TEST-LOG.md) 维护。
 
-## Stage 2C v16 冻结口径
+## Stage 2C v17 冻结口径
 
-- v16产品主链固定为 `Semantic Interpreter → Proposal Contract → Compiler → Runtime/Reducer → Decision Kernel`；Stage 2C不重新分配这些职责。
-- 当前产品 Prompt固定为`v3`，Proposal / Draft / Eval Schema固定为`2`，Restaurant State固定为`5`。`CRITERION{text, polarity, strength}`是唯一开放集合，不建taxonomy、Provider mapping或Search Criteria Compiler。同一版本内可修复不改变Contract的缺陷；新增字段或不兼容语义必须先重新评审版本与ADR。
+- v17产品主链固定为 `Semantic Interpreter → Proposal Contract → Compiler → Runtime/Reducer → Decision Kernel`；Stage 2C不重新分配这些职责。
+- 当前产品 Prompt为`v5`，Proposal / Draft / Eval Schema固定为`3`，Restaurant State固定为`6`。`CRITERION{text, polarity, strength}`是唯一开放集合，strength固定为`HARD` / `SOFT` / `UNSPECIFIED`，不建taxonomy、Provider mapping或Search Criteria Compiler。v5保留相对时间、相对地点、闭合参与者集合和近似预算的职责边界，并明确用餐目的词本身不产生时间窗口；新增字段或不兼容语义必须先重新评审版本与ADR。
 - v14 Decision Harness与旧单轮Intent Parser的可执行代码、命令和测试已删除；7 Episode / 17 Turn及旧连通性结果只保留在Git与历史文档，不再进入当前基线。
-- 下一份独立Baseline只评估当前v16产品语义链；历史结果与Fixture Search不能替代它。
-- v15未运行的私有标注不兼容v16 Contract，不能迁入或报告为当前Holdout。v16空模板、私有入口、Preflight、确定性Scorer、固定运行清单和一次性真实Runner已实现；新的私有集合尚待人工标注。
+- v4 Baseline的结果不得用于改动后重跑；v5的任何质量结论均需要另一份未见Holdout。
+- v15未运行的私有标注不兼容v17 Contract，不能迁入或报告为当前Holdout。v17空模板、私有入口、结构适配Preflight、确定性Scorer和一次性真实Runner已实现；runner在首个模型请求前写入Git忽略的`EXPOSED` artifact，并记录Dataset SHA、git SHA、scorer与prompt/schema hash。
 
 ## 明确未验证 / 未实现
 
-- 完成人工标注并首次运行的 `CLEAN_HOLDOUT` 真实模型 Baseline；
+- 当前Prompt v5已完成本地、已暴露Fixture和已暴露Holdout诊断；需要另建未见 `CLEAN_HOLDOUT` 才能形成新的质量评价；
 - 任一真实 Discovery / Availability 来源的 Live Read-only；
 - 真实 Authorization、Booking、取消、支付或 Controlled Live-write；
 - 真实浏览器兼容性、真实移动设备、生产身份与生产 PostgreSQL 部署；
@@ -49,9 +52,9 @@ Restaurant v16 已完成可运行的 **Fixture 语义到搜索**纵向链路：�
 
 ## 下一道门槛
 
-1. 在Git忽略的私有文件中完成新的v16 `CLEAN_HOLDOUT`人工标注；Prompt/Schema改动后先跑已暴露Regression的真实DeepSeek Smoke，再通过严格Preflight按冻结清单仅运行一次；
-2. 只在该 Baseline 已单独报告后，核验一个真实只读 Discovery 来源；
-3. 再进入 Availability 与预约执行阶段。不得以当前 Fixture 或已暴露 Regression 代替上述门槛。
+1. 为Prompt v5建立新的未见Holdout；不得基于v4结果修改后重跑同一数据集；
+2. 在产品质量方向明确后，核验一个真实只读 Discovery 来源；
+3. 再进入 Availability 与预约执行阶段。不得以当前 Fixture、已暴露 Regression 或已暴露 Holdout 代替新的质量门槛。
 
 ## 按问题阅读
 

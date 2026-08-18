@@ -503,10 +503,10 @@ export const restaurantBookingTaskDefinition: TaskDefinition<
   RestaurantOutcome
 > = {
   type: "restaurant.booking",
-  version: "5",
+  version: "6",
   create() {
     return {
-      schemaVersion: "5",
+      schemaVersion: "6",
       phase: "UNDERSTANDING",
       candidates: [],
       searchRevision: 0,

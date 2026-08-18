@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
@@ -10,8 +11,11 @@ import { validateRestaurantIntentDraft } from "../../domains/restaurant/intent-d
 import { missingBlockingFields } from "../../domains/restaurant/intent-state.js";
 import {
   RESTAURANT_SEMANTIC_PROPOSAL_PROMPT_VERSION,
+  RESTAURANT_SEMANTIC_PROPOSAL_JSON_SCHEMA,
   RESTAURANT_SEMANTIC_PROPOSAL_SCHEMA,
 } from "../../domains/restaurant/semantic-proposal.js";
+import { buildRestaurantSemanticInterpreterSystemPrompt } from "../../domains/restaurant/semantic-interpreter.js";
+import { RESTAURANT_SEMANTIC_SCORER_VERSION } from "./scorer.js";
 
 export const RESTAURANT_SEMANTIC_HOLDOUT_DATASET_ID = "restaurant-semantic-holdout-v2";
 export const RESTAURANT_SEMANTIC_HOLDOUT_DATASET_VERSION = "2";
@@ -20,9 +24,9 @@ export const RESTAURANT_SEMANTIC_HOLDOUT_DEFAULT_PATH =
   ".eval-private/restaurant-semantic-holdout-v2.json";
 
 export const RESTAURANT_SEMANTIC_HOLDOUT_MANIFEST = {
-  protocolVersion: "2",
-  evaluatorVersion: "2",
-  datasetSchemaVersion: "2",
+  protocolVersion: "3",
+  evaluatorVersion: "3",
+  datasetSchemaVersion: "3",
   datasetId: RESTAURANT_SEMANTIC_HOLDOUT_DATASET_ID,
   datasetVersion: RESTAURANT_SEMANTIC_HOLDOUT_DATASET_VERSION,
   referenceTime: RESTAURANT_SEMANTIC_HOLDOUT_REFERENCE_TIME,
@@ -69,7 +73,7 @@ export interface RestaurantSemanticHoldoutSession {
 }
 
 export interface RestaurantSemanticHoldoutDataset {
-  schemaVersion: "2";
+  schemaVersion: "3";
   id: typeof RESTAURANT_SEMANTIC_HOLDOUT_DATASET_ID;
   version: typeof RESTAURANT_SEMANTIC_HOLDOUT_DATASET_VERSION;
   cohort: "HOLDOUT";
@@ -77,6 +81,12 @@ export interface RestaurantSemanticHoldoutDataset {
   referenceTime: typeof RESTAURANT_SEMANTIC_HOLDOUT_REFERENCE_TIME;
   timezone: "Asia/Tokyo";
   sessions: readonly RestaurantSemanticHoldoutSession[];
+}
+
+export interface RestaurantSemanticHoldoutFrozenAudit {
+  scorerVersion: typeof RESTAURANT_SEMANTIC_SCORER_VERSION;
+  proposalSchemaSha256: string;
+  promptTemplateSha256: string;
 }
 
 export type RestaurantSemanticHoldoutPreflightIssueCode =
@@ -98,7 +108,7 @@ export interface RestaurantSemanticHoldoutPreflightIssue {
 }
 
 export interface RestaurantSemanticHoldoutPreflightReport {
-  preflightVersion: "2";
+  preflightVersion: "3";
   mode: "DRAFT" | "REQUIRE_COMPLETE";
   status: "READY_FOR_ANNOTATION" | "READY_FOR_BASELINE" | "NOT_READY";
   datasetPath: string;
@@ -117,6 +127,144 @@ function hasOnlyKeys(value: Record<string, unknown>, allowed: readonly string[])
 
 function isNonBlankString(value: unknown): value is string {
   return typeof value === "string" && value.trim().length > 0;
+}
+
+function sha256(value: string): string {
+  return createHash("sha256").update(value).digest("hex");
+}
+
+function skipWhitespace(source: string, index: number): number {
+  while (index < source.length && /\s/.test(source[index]!)) index += 1;
+  return index;
+}
+
+function parseJsonObjectDocuments(source: string): unknown[] {
+  const documents: unknown[] = [];
+  let start: number | undefined;
+  let depth = 0;
+  let inString = false;
+  let escaped = false;
+  for (let index = 0; index < source.length; index += 1) {
+    const character = source[index]!;
+    if (inString) {
+      if (escaped) escaped = false;
+      else if (character === "\\") escaped = true;
+      else if (character === '"') inString = false;
+      continue;
+    }
+    if (character === '"') {
+      inString = true;
+      continue;
+    }
+    if (character === "{") {
+      if (depth === 0) start = index;
+      depth += 1;
+      continue;
+    }
+    if (character === "}") {
+      depth -= 1;
+      if (depth < 0) throw new Error("Holdout source has unbalanced JSON object delimiters");
+      if (depth === 0 && start !== undefined) {
+        documents.push(JSON.parse(source.slice(start, index + 1)));
+        start = undefined;
+      }
+    }
+  }
+  if (depth !== 0 || inString) throw new Error("Holdout source ended before a JSON object closed");
+  if (documents.length === 0) throw new Error("Holdout source did not contain a JSON object document");
+  return documents;
+}
+
+/** Parses a JSON stream of complete object/array documents without inspecting their semantics. */
+export function parseRestaurantSemanticHoldoutSource(source: string): unknown {
+  try {
+    return JSON.parse(source);
+  } catch {
+    let documents: unknown[] = [];
+    try {
+      let index = skipWhitespace(source, 0);
+      while (index < source.length) {
+        const start = index;
+        const first = source[index];
+        if (first !== "{" && first !== "[") throw new Error("Holdout source is not a JSON document stream");
+        const stack: string[] = [];
+        let inString = false;
+        let escaped = false;
+        for (; index < source.length; index += 1) {
+          const character = source[index]!;
+          if (inString) {
+            if (escaped) escaped = false;
+            else if (character === "\\") escaped = true;
+            else if (character === '"') inString = false;
+            continue;
+          }
+          if (character === '"') {
+            inString = true;
+            continue;
+          }
+          if (character === "{" || character === "[") {
+            stack.push(character);
+            continue;
+          }
+          if (character === "}" || character === "]") {
+            const opened = stack.pop();
+            if (
+              opened === undefined ||
+              (opened === "{" && character !== "}") ||
+              (opened === "[" && character !== "]")
+            ) {
+              throw new Error("Holdout source has unbalanced JSON delimiters");
+            }
+            if (stack.length === 0) {
+              documents.push(JSON.parse(source.slice(start, index + 1)));
+              index = skipWhitespace(source, index + 1);
+              break;
+            }
+          }
+        }
+        if (stack.length > 0 || inString) throw new Error("Holdout source ended before a JSON document closed");
+      }
+    } catch {
+      documents = parseJsonObjectDocuments(source);
+    }
+    if (documents.length === 0) throw new Error("Holdout source did not contain a JSON document");
+    if (documents.length === 1) return documents[0];
+
+    const metadata = documents.find(
+      (document) =>
+        isRecord(document) &&
+        ("referenceTime" in document || "timezone" in document) &&
+        !("content" in document) &&
+        !("turns" in document),
+    );
+    const cases = documents.filter((document) => document !== metadata);
+    const sourceMetadata = isRecord(metadata) ? metadata : {};
+    return {
+      schemaVersion: sourceMetadata.schemaVersion ?? "3",
+      id: sourceMetadata.id ?? RESTAURANT_SEMANTIC_HOLDOUT_DATASET_ID,
+      version: sourceMetadata.version ?? RESTAURANT_SEMANTIC_HOLDOUT_DATASET_VERSION,
+      cohort: sourceMetadata.cohort ?? "HOLDOUT",
+      contaminationStatus: sourceMetadata.contaminationStatus ?? "CLEAN_HOLDOUT",
+      referenceTime: sourceMetadata.referenceTime ?? RESTAURANT_SEMANTIC_HOLDOUT_REFERENCE_TIME,
+      timezone: sourceMetadata.timezone ?? "Asia/Tokyo",
+      cases,
+    };
+  }
+}
+
+/** Versioned, content-addressed audit fields for the frozen clean-baseline configuration. */
+export function restaurantSemanticHoldoutFrozenAudit(): RestaurantSemanticHoldoutFrozenAudit {
+  return {
+    scorerVersion: RESTAURANT_SEMANTIC_SCORER_VERSION,
+    proposalSchemaSha256: sha256(JSON.stringify(RESTAURANT_SEMANTIC_PROPOSAL_JSON_SCHEMA)),
+    promptTemplateSha256: sha256(
+      buildRestaurantSemanticInterpreterSystemPrompt({
+        referenceTime: RESTAURANT_SEMANTIC_HOLDOUT_REFERENCE_TIME,
+        timezone: "Asia/Tokyo",
+        retryAttempt: 1,
+      }),
+    ),
+  };
 }
 
 function issue(
@@ -226,14 +374,99 @@ function validateExpectedDecision(
   return { decision: { type: "ASK_USER", missingRequiredFields: [...missingRequiredFields] }, issues: [] };
 }
 
+function normalizeSimpleTimeWindow(value: unknown): unknown {
+  if (typeof value === "string" && /^([01]\d|2[0-3]):[0-5]\d$/.test(value)) {
+    return { earliest: value, latest: value };
+  }
+  return value;
+}
+
+function normalizeSimpleArea(value: unknown): unknown {
+  return typeof value === "string" ? { query: value } : value;
+}
+
+function normalizeSimpleDecision(value: unknown, missingRequiredFields: unknown): unknown {
+  if (value === "ASK") return { type: "ASK_USER", missingRequiredFields };
+  if (value === "SEARCH") return { type: "SEARCH" };
+  if (isRecord(value) && value.type === "ASK") {
+    return { type: "ASK_USER", missingRequiredFields: value.missingRequiredFields };
+  }
+  return value;
+}
+
+function adaptSimpleTurn(value: unknown, sessionIndex: number, turnIndex: number): unknown {
+  if (!isRecord(value) || "expectedDraft" in value || "expectedDecision" in value) return value;
+  return {
+    id: value.id ?? `session-${sessionIndex + 1}-turn-${turnIndex + 1}`,
+    message: value.content,
+    expectedDraft: {
+      schemaVersion: "3",
+      timezone: "Asia/Tokyo",
+      ...(value.date !== undefined ? { date: value.date } : {}),
+      ...(value.timeWindow !== undefined
+        ? { timeWindow: normalizeSimpleTimeWindow(value.timeWindow) }
+        : {}),
+      ...(value.partySize !== undefined ? { partySize: value.partySize } : {}),
+      ...(value.area !== undefined ? { area: normalizeSimpleArea(value.area) } : {}),
+      criteria: value.criteria,
+    },
+    expectedDecision: normalizeSimpleDecision(value.decision, value.missingRequiredFields),
+  };
+}
+
+/**
+ * Structural-only adapter for the user annotation format. It maps names and exact
+ * shapes but intentionally neither infers Gold meaning nor modifies annotated values.
+ */
+function adaptRestaurantSemanticHoldout(input: unknown): unknown {
+  if (!isRecord(input)) return input;
+  const rawSessions = Array.isArray(input.sessions)
+    ? input.sessions
+    : Array.isArray(input.cases)
+      ? input.cases
+      : undefined;
+  if (!rawSessions) return input;
+  const isSimple = rawSessions.some(
+    (session) =>
+      isRecord(session) &&
+      (("content" in session && !("turns" in session)) ||
+        (Array.isArray(session.turns) &&
+          session.turns.some((turn) => isRecord(turn) && "content" in turn))),
+  );
+  if (!isSimple) return input;
+
+  return {
+    schemaVersion: input.schemaVersion,
+    id: input.id,
+    version: input.version,
+    cohort: input.cohort,
+    contaminationStatus: input.contaminationStatus,
+    referenceTime: input.referenceTime,
+    timezone: input.timezone,
+    sessions: rawSessions.map((session, sessionIndex) => {
+      if (!isRecord(session)) return session;
+      const sourceTurns = session.turns;
+      const hasSourceTurns = Array.isArray(sourceTurns);
+      const turns: unknown[] = Array.isArray(sourceTurns) ? sourceTurns : [session];
+      return {
+        // A one-turn source case supplies one case/turn id, not a separate session id.
+        // Keep that id on the turn and introduce a deterministic structural wrapper id.
+        id: hasSourceTurns ? (session.id ?? `session-${sessionIndex + 1}`) : `source-session-${sessionIndex + 1}`,
+        turns: turns.map((turn, turnIndex) => adaptSimpleTurn(turn, sessionIndex, turnIndex)),
+      };
+    }),
+  };
+}
+
 export function preflightRestaurantSemanticHoldout(
   input: unknown,
   options: { mode: RestaurantSemanticHoldoutPreflightReport["mode"]; datasetPath: string },
 ): RestaurantSemanticHoldoutPreflightReport {
+  input = adaptRestaurantSemanticHoldout(input);
   const issues: RestaurantSemanticHoldoutPreflightIssue[] = [];
   if (!isRecord(input)) {
     return {
-      preflightVersion: "2",
+      preflightVersion: "3",
       mode: options.mode,
       status: "NOT_READY",
       datasetPath: options.datasetPath,
@@ -256,7 +489,7 @@ export function preflightRestaurantSemanticHoldout(
     issues.push(issue("INVALID_DATASET_SHAPE", "$", "Holdout dataset contains unsupported fields"));
   }
   const frozenFields = [
-    ["schemaVersion", "2"],
+    ["schemaVersion", "3"],
     ["id", RESTAURANT_SEMANTIC_HOLDOUT_DATASET_ID],
     ["version", RESTAURANT_SEMANTIC_HOLDOUT_DATASET_VERSION],
     ["cohort", "HOLDOUT"],
@@ -350,7 +583,7 @@ export function preflightRestaurantSemanticHoldout(
   }
 
   const report: RestaurantSemanticHoldoutPreflightReport = {
-    preflightVersion: "2",
+    preflightVersion: "3",
     mode: options.mode,
     status:
       issues.length === 0
@@ -364,7 +597,7 @@ export function preflightRestaurantSemanticHoldout(
   };
   if (issues.length === 0) {
     report.dataset = {
-      schemaVersion: "2",
+      schemaVersion: "3",
       id: RESTAURANT_SEMANTIC_HOLDOUT_DATASET_ID,
       version: RESTAURANT_SEMANTIC_HOLDOUT_DATASET_VERSION,
       cohort: "HOLDOUT",
@@ -388,7 +621,7 @@ export async function loadRestaurantSemanticHoldout(
   } catch (error) {
     const code = isRecord(error) ? error.code : undefined;
     return {
-      preflightVersion: "2",
+      preflightVersion: "3",
       mode,
       status: "NOT_READY",
       datasetPath,
@@ -404,10 +637,10 @@ export async function loadRestaurantSemanticHoldout(
   }
   let parsed: unknown;
   try {
-    parsed = JSON.parse(source);
+    parsed = parseRestaurantSemanticHoldoutSource(source);
   } catch {
     return {
-      preflightVersion: "2",
+      preflightVersion: "3",
       mode,
       status: "NOT_READY",
       datasetPath,

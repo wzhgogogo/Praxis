@@ -1,11 +1,11 @@
 ---
 name: praxis-eval
-description: Praxis质量评估；衡量当前v16语义链、搜索、Outcome准确性、成本和安全回归。
+description: Praxis质量评估；衡量当前v17语义链、搜索、Outcome准确性、成本和安全回归。
 ---
 
 # Praxis Eval
 
-Eval评估模型与端到端质量，不替代功能测试。当前唯一产品语义评测对象是Restaurant v16；已经退出产品主链的v14 Decision Harness、单轮Intent Parser和v15分类Criteria Contract只在历史文档与Git中保留。
+Eval评估模型与端到端质量，不替代功能测试。当前唯一产品语义评测对象是Restaurant v17；已经退出产品主链的v14 Decision Harness、单轮Intent Parser和v15分类Criteria Contract只在历史文档与Git中保留。
 
 ## 当前目录
 
@@ -21,11 +21,11 @@ src/eval/
 ## Stage 2C冻结口径
 
 - 产品职责固定为`Semantic Interpreter → Proposal Contract → Compiler → Runtime/Reducer → Decision Kernel`。
-- Prompt固定为`v3`，Proposal / Draft / Eval Schema固定为`2`。稳定槽位外只允许开放`CRITERION{text, polarity, strength}`；不得为单个Eval Case新增taxonomy、Provider mapping或重新分配职责。
+- 当前Prompt为`v5`，Proposal / Draft / Eval Schema固定为`3`。稳定槽位外只允许开放`CRITERION{text, polarity, strength}`，strength固定为`HARD` / `SOFT` / `UNSPECIFIED`；不得为单个Eval Case新增taxonomy、Provider mapping或重新分配职责。已运行的v4 Baseline保持`RESULT_EXPOSED`，不能用来验证v5。
 - v14的7个Episode / 17个Turn及旧单轮Intent Eval已经完成架构探针使命；其可执行代码、命令和默认测试已删除。需要追溯时读历史文档或Git，不恢复兼容路径。
-- 下一份独立Baseline只评估v16，并使用私有`CLEAN_HOLDOUT`。
+- v5的下一份独立Baseline必须使用新的私有`CLEAN_HOLDOUT`。
 
-## 已暴露v16 Regression
+## 已暴露v17 Regression
 
 本地Fixture管线：
 
@@ -47,9 +47,9 @@ npm run eval:semantic:deepseek
 
 当strict Schema、Gateway transport或Provider模型配置在首次Clean Holdout前发生变化时，必须先运行一次这个已暴露Regression，确认没有Schema/API transport失败；它只验证已暴露样本的连接和结构化传输，不能替代Clean Holdout。
 
-## v16 Clean Holdout
+## v17 Clean Holdout
 
-标注规范、固定格式和污染边界见[Restaurant v16 Semantic Holdout v2](../../harness/RESTAURANT-SEMANTIC-HOLDOUT-V2.md)。实际数据位于Git忽略的`.eval-private/restaurant-semantic-holdout-v2.json`；Prompt、Regression、聊天诊断和开发日志不得复制其内容。
+标注规范、固定格式和污染边界见[Restaurant v17 Semantic Holdout v2](../../harness/RESTAURANT-SEMANTIC-HOLDOUT-V2.md)。实际数据位于Git忽略的`.eval-private/restaurant-semantic-holdout-v2.json`；Prompt、Regression、聊天诊断和开发日志不得复制其内容。
 
 标注中结构检查：
 
@@ -63,15 +63,27 @@ npm run eval:semantic:holdout:preflight
 npm run eval:semantic:holdout:preflight:complete
 ```
 
-只有`READY_FOR_BASELINE`才允许真实Runner继续。真实`eval:semantic:holdout`固定：
+只有`READY_FOR_BASELINE`才允许真实Runner继续。v4历史Baseline固定：
 
 - `DEEPSEEK:deepseek-v4-flash`；
-- Prompt`v3`、Proposal / Draft / Eval Schema`2`；
+- Prompt`v4`、Proposal / Draft / Eval Schema`3`；
 - 温度0、Thinking关闭、最多2次Schema尝试、0次Provider重试；
 - 固定Tokyo参考时间与Dataset顺序；
 - 完整Turn数量、Dataset SHA-256与一次性运行记录。
 
-它要求`PRAXIS_ALLOW_LIVE_MODEL_EVAL=1`和`PRAXIS_CONFIRM_CLEAN_HOLDOUT=1`。第一条模型请求前创建不可覆盖的运行记录；无论成功或中断，该Dataset都不能再次称为Clean Holdout。
+它要求`PRAXIS_ALLOW_LIVE_MODEL_EVAL=1`和`PRAXIS_CONFIRM_CLEAN_HOLDOUT=1`。第一条模型请求前创建不可覆盖的运行记录，持久化`datasetStatus: EXPOSED`和`exposedAt`；无论成功或中断，该Dataset都不能再次称为Clean Holdout。任何Prompt v5 Baseline必须冻结新的数据集版本与运行清单，不能复用v4 artifact或数据集。
+
+已暴露v2数据如果用于诊断Prompt v5，只能以`EXPOSED_HOLDOUT_REGRESSION / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`运行：
+
+```bash
+PRAXIS_ALLOW_LIVE_MODEL_EVAL=1 \
+PRAXIS_CONFIRM_EXPOSED_HOLDOUT_REGRESSION=1 \
+PRAXIS_LIVE_MODEL_EVAL_CASE_LIMIT=25 \
+DEEPSEEK_MODEL=deepseek-v4-flash \
+npm run eval:semantic:holdout:exposed-regression
+```
+
+该入口严格核对当前Dataset SHA与不可变v4 artifact，启动即写入独立的Git忽略JSON运行记录。它保留完整逐turn诊断、与v4实际模型可达的同一turn集合的field-level delta、此前`BLOCKED_BY_UPSTREAM`的续跑结果、调用指标和运行前代码快照；不得覆盖Baseline或把全25 turn与v4的15个实际调用混作同口径改善。
 
 ## 评分与首错
 
@@ -100,7 +112,7 @@ INPUT / MODEL_GATEWAY
 - Regression可以用于开发和调试；一旦文本、Gold、错误或结果被查看，就只能是`DEVELOPMENT_DIAGNOSTIC`。
 - 人工创建和标注本身不污染被测模型；Holdout内容、Gold、输出或失败一旦用于优化Prompt、Contract、实现或Scorer，立即成为`RESULT_EXPOSED`或`PROMPT_EXPOSED`，不得靠重跑恢复。
 - Prompt示例只能解释抽象Schema和通用规则，不能包含Regression或Holdout事实。
-- 真实报告必须输出`cohort`、`contaminationStatus`、`baselineEligible`、版本清单、调用数、延迟、Token、成本状态和Dataset哈希。
+- 真实报告必须输出`cohort`、`contaminationStatus`、`baselineEligible`、版本清单、调用数、延迟、Token、成本状态、Dataset哈希、git commit SHA、scorer版本和prompt/schema hash。
 
 ## Search与外部执行
 

@@ -18,7 +18,8 @@
 | [0005](0005-modular-monolith.md) | Accepted | Pilot采用模块化单体 |
 | [0006](0006-web-first-agent-workspace.md) | Accepted | Web-first Agent Workspace、Durable Case与Action Control Plane分层 |
 | [0007](0007-semantic-proposal-compiler-and-decision-kernel.md) | Accepted | v15 Semantic Proposal、Restaurant Compiler与确定性Decision Kernel |
-| [0008](0008-open-restaurant-criteria-contract.md) | Accepted | v16开放Restaurant Criterion Contract；保留ADR-0007职责链 |
+| [0008](0008-open-restaurant-criteria-contract.md) | Superseded by ADR-0009 | v16开放Restaurant Criterion Contract；强度语义已替换 |
+| [0009](0009-semantic-strength-and-clean-holdout-baseline.md) | Accepted | v17语义强度、相对语义与可审计的一次性Clean Holdout Baseline |
 
 ## 规则
 
