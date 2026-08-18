@@ -63,7 +63,7 @@ test("Semantic Interpreter requests a closed proposal and never asks for state o
   assert.equal(gateway.calls.length, 1);
   const request = gateway.calls[0]!;
   assert.equal(request.purpose, "restaurant_semantic_interpret");
-  assert.equal(request.promptVersion, "v5");
+  assert.equal(request.promptVersion, "v7");
   assert.deepEqual(request.outputSchema, {
     name: "restaurant-semantic-proposal",
     version: "3",
@@ -73,7 +73,10 @@ test("Semantic Interpreter requests a closed proposal and never asks for state o
   assert.match(request.messages[0]!.content, /tool inputs, provider identifiers, authorizations/);
   assert.match(request.messages[0]!.content, /state patches, events/);
   assert.match(request.messages[0]!.content, /UNSPECIFIED is not the default/);
+  assert.match(request.messages[0]!.content, /Generic request language such as "good", "good options"/);
+  assert.match(request.messages[0]!.content, /Emit DATE whenever the current message determines the dining date/);
   assert.match(request.messages[0]!.content, /Meal-purpose words such as breakfast, lunch, or dinner alone/);
+  assert.match(request.messages[0]!.content, /closed dining party whose total can be counted with high confidence/);
   assert.match(request.messages[0]!.content, /Relative location expressions are valid AREA values/);
   assert.equal(
     request.messages[1]!.content,

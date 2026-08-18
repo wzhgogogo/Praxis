@@ -21,9 +21,9 @@ src/eval/
 ## Stage 2C冻结口径
 
 - 产品职责固定为`Semantic Interpreter → Proposal Contract → Compiler → Runtime/Reducer → Decision Kernel`。
-- 当前Prompt为`v5`，Proposal / Draft / Eval Schema固定为`3`。稳定槽位外只允许开放`CRITERION{text, polarity, strength}`，strength固定为`HARD` / `SOFT` / `UNSPECIFIED`；不得为单个Eval Case新增taxonomy、Provider mapping或重新分配职责。已运行的v4 Baseline保持`RESULT_EXPOSED`，不能用来验证v5。
+- 当前Prompt为`v7`，Proposal / Draft / Eval Schema固定为`3`。稳定槽位外只允许开放`CRITERION{text, polarity, strength}`，strength固定为`HARD` / `SOFT` / `UNSPECIFIED`；不得为单个Eval Case新增taxonomy、Provider mapping或重新分配职责。已运行的v4 Baseline保持`RESULT_EXPOSED`，不能用来验证v7。
 - v14的7个Episode / 17个Turn及旧单轮Intent Eval已经完成架构探针使命；其可执行代码、命令和默认测试已删除。需要追溯时读历史文档或Git，不恢复兼容路径。
-- v5的下一份独立Baseline必须使用新的私有`CLEAN_HOLDOUT`。
+- v7的下一份独立Baseline必须使用新的私有`CLEAN_HOLDOUT`。
 
 ## 已暴露v17 Regression
 
@@ -71,9 +71,9 @@ npm run eval:semantic:holdout:preflight:complete
 - 固定Tokyo参考时间与Dataset顺序；
 - 完整Turn数量、Dataset SHA-256与一次性运行记录。
 
-它要求`PRAXIS_ALLOW_LIVE_MODEL_EVAL=1`和`PRAXIS_CONFIRM_CLEAN_HOLDOUT=1`。第一条模型请求前创建不可覆盖的运行记录，持久化`datasetStatus: EXPOSED`和`exposedAt`；无论成功或中断，该Dataset都不能再次称为Clean Holdout。任何Prompt v5 Baseline必须冻结新的数据集版本与运行清单，不能复用v4 artifact或数据集。
+它要求`PRAXIS_ALLOW_LIVE_MODEL_EVAL=1`和`PRAXIS_CONFIRM_CLEAN_HOLDOUT=1`。第一条模型请求前创建不可覆盖的运行记录，持久化`datasetStatus: EXPOSED`和`exposedAt`；无论成功或中断，该Dataset都不能再次称为Clean Holdout。任何Prompt v7 Baseline必须冻结新的数据集版本与运行清单，不能复用v4 artifact或当前已暴露数据集。
 
-已暴露v2数据如果用于诊断Prompt v5，只能以`EXPOSED_HOLDOUT_REGRESSION / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`运行：
+已暴露v2数据如果用于诊断Prompt变化，始终不得作为Baseline。Dataset仍与v4 artifact SHA一致时，使用`EXPOSED_HOLDOUT_REGRESSION / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`：
 
 ```bash
 PRAXIS_ALLOW_LIVE_MODEL_EVAL=1 \
@@ -84,6 +84,20 @@ npm run eval:semantic:holdout:exposed-regression
 ```
 
 该入口严格核对当前Dataset SHA与不可变v4 artifact，启动即写入独立的Git忽略JSON运行记录。它保留完整逐turn诊断、与v4实际模型可达的同一turn集合的field-level delta、此前`BLOCKED_BY_UPSTREAM`的续跑结果、调用指标和运行前代码快照；不得覆盖Baseline或把全25 turn与v4的15个实际调用混作同口径改善。
+
+如果已暴露Dataset经过明确的canonical Gold更新，Runner必须显式确认该版本，并引用当前Prompt直接前一版本的已暴露Regression artifact；两份artifact的Dataset SHA不一致时，Runner在模型调用前拒绝运行。此时分类固定为`EXPOSED_GOLD_ACCEPTANCE_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`，绝不生成或宣称Clean Baseline，也绝不与v4全量比较：
+
+```bash
+PRAXIS_ALLOW_LIVE_MODEL_EVAL=1 \
+PRAXIS_CONFIRM_EXPOSED_HOLDOUT_REGRESSION=1 \
+PRAXIS_CONFIRM_CURRENT_EXPOSED_GOLD_VERSION=1 \
+PRAXIS_PREVIOUS_EXPOSED_REGRESSION_ARTIFACT=<previous-exposed-regression-artifact> \
+PRAXIS_LIVE_MODEL_EVAL_CASE_LIMIT=25 \
+DEEPSEEK_MODEL=deepseek-v4-flash \
+npm run eval:semantic:holdout:exposed-regression
+```
+
+它只对比`COMMON_UNCHANGED_TURNS`：以当前和前一artifact的Gold Draft / Decision均相同的turn为集合，排除全部annotation-changed或无前序快照的turn；报告必须清楚标注该限定，不能把它外推成whole-dataset或Clean Baseline结论。
 
 ## 评分与首错
 

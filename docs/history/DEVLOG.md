@@ -1,13 +1,44 @@
 # Development Log
 
 - Status: Accepted
-- Version: 4.24
+- Version: 4.26
 - Last updated: 2026-08-18
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## 2026-08-18 — Prompt v7 v5-slot / v6-criteria diagnostic
+
+### Why
+
+用户将当前Prompt定名为v7：时间、区域和人数指引保留v5文本，criteria边界保留v6文本。需要在不改变Gold、Contract、Schema、Scorer或Decision Kernel的前提下，对同一canonical exposed Gold进行一次可审计诊断。
+
+### Changes
+
+- 仅将当前组合Prompt版本从`v6`推进到`v7`，并将Prompt Contract断言与运行清单同步到当前正文；没有改写用户已经提供的Prompt段落。
+- 已暴露Runner的前序artifact门禁改为只接受当前Prompt的直接前一版本；若其Dataset SHA不同，在任何模型请求前拒绝混合cohort。v7读取v6的`COMMON_UNCHANGED_TURNS`快照，因此继续排除没有可比快照的H007。
+
+### Boundary
+
+没有修改Gold、Proposal / Draft Schema、Contract、Compiler、Runtime/Reducer、Scorer、Decision Kernel或readiness policy；运行保持`EXPOSED_GOLD_ACCEPTANCE_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`，不是新的Clean Baseline。
+
+## 2026-08-18 — Prompt v6 canonical-Gold acceptance diagnostic
+
+### Why
+
+用户明确将已暴露私有数据的当前Gold保留为canonical版本，并要求以Prompt v6运行一次接受诊断；此前的v4 Clean Baseline与v5 Regression使用不同的Gold版本，不能再做整集直接比较或被重新包装为Clean结果。
+
+### Changes
+
+- 将Restaurant Semantic Prompt更新为用户提供的v6文本；Proposal / Draft / Eval Schema `3`、Compiler、Runtime/Reducer、Decision Kernel、Scorer与readiness policy保持不变。
+- 扩展已暴露Runner的最小版本谱系检查：current Gold与v4 SHA不同时，需要显式canonical确认及前一份已暴露Regression artifact；运行分类固定为`EXPOSED_GOLD_ACCEPTANCE_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`。
+- 比较器只保留`COMMON_UNCHANGED_TURNS`：以当前Gold和前一artifact Gold均相同的turn为集合，排除annotation-changed或无前序快照的turn；不生成v4/v5整集比较，也不覆盖任何既有artifact。
+
+### Boundary
+
+当前canonical Gold未被恢复或改写；没有创建或声称新的Clean Baseline。该次真实模型运行仅访问已暴露私有数据与DeepSeek结构化输出，不访问真实餐厅平台，也不产生Authorization、预约或其他业务外部写入。
 
 ## 2026-08-18 — Prompt v5 exposed-Holdout regression record
 

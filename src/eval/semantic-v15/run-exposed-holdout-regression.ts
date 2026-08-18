@@ -8,7 +8,9 @@ import type { ModelInvocationRecord } from "../../core/model/contracts.js";
 import { RestaurantSemanticInterpreter } from "../../domains/restaurant/semantic-interpreter.js";
 import { DeepSeekModelGateway } from "../../infrastructure/deepseek/deepseek-model-gateway.js";
 import {
+  compareRestaurantSemanticCommonUnchangedTurns,
   compareRestaurantSemanticExposedRegression,
+  type RestaurantSemanticExpectedTurnSnapshot,
   type RestaurantSemanticExposedRegressionComparison,
 } from "./exposed-regression.js";
 import {
@@ -28,6 +30,8 @@ import {
 
 const execFileAsync = promisify(execFile);
 const EXPOSED_REGRESSION_CONFIRMATION_ENV = "PRAXIS_CONFIRM_EXPOSED_HOLDOUT_REGRESSION";
+const CURRENT_CANONICAL_GOLD_CONFIRMATION_ENV = "PRAXIS_CONFIRM_CURRENT_EXPOSED_GOLD_VERSION";
+const PREVIOUS_EXPOSED_REGRESSION_ARTIFACT_ENV = "PRAXIS_PREVIOUS_EXPOSED_REGRESSION_ARTIFACT";
 
 function sha256(value: string): string {
   return createHash("sha256").update(value).digest("hex");
@@ -71,6 +75,44 @@ function isRegressionReport(value: unknown): value is RestaurantSemanticRegressi
   );
 }
 
+function record(value: unknown, message: string): Record<string, unknown> {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) throw new Error(message);
+  return value as Record<string, unknown>;
+}
+
+function expectedTurnSnapshotsFromPreviousAnalysis(value: unknown): RestaurantSemanticExpectedTurnSnapshot[] {
+  if (!Array.isArray(value)) {
+    throw new Error("Previous exposed regression analysis does not contain promptV5Overall diagnostics");
+  }
+  return value.map((item, index) => {
+    const diagnostic = record(item, `Invalid previous diagnostic at index ${index}`);
+    if (
+      typeof diagnostic.sessionId !== "string" ||
+      typeof diagnostic.turnId !== "string" ||
+      typeof diagnostic.expectedDraft !== "object" ||
+      diagnostic.expectedDraft === null ||
+      typeof diagnostic.expectedDecision !== "object" ||
+      diagnostic.expectedDecision === null
+    ) {
+      throw new Error(`Invalid expected-turn snapshot at index ${index}`);
+    }
+    return {
+      sessionId: diagnostic.sessionId,
+      turnId: diagnostic.turnId,
+      expectedDraft: diagnostic.expectedDraft as RestaurantSemanticExpectedTurnSnapshot["expectedDraft"],
+      expectedDecision: diagnostic.expectedDecision as RestaurantSemanticExpectedTurnSnapshot["expectedDecision"],
+    };
+  });
+}
+
+function previousPromptVersionFor(currentPromptVersion: string): string {
+  const match = /^v([1-9][0-9]*)$/.exec(currentPromptVersion);
+  if (!match || Number(match[1]) <= 1) {
+    throw new Error(`Cannot determine the predecessor for prompt version ${currentPromptVersion}`);
+  }
+  return `v${Number(match[1]) - 1}`;
+}
+
 function comparisonSummary(comparison: RestaurantSemanticExposedRegressionComparison) {
   return {
     comparableTurns: comparison.comparableTurnIds.length,
@@ -97,6 +139,26 @@ function comparisonSummary(comparison: RestaurantSemanticExposedRegressionCompar
       promptV5StillBlockedFormerlyBlockedTurns:
         comparison.multiTurnContinuation.promptV5StillBlockedFormerlyBlockedTurns.length,
     },
+  };
+}
+
+function commonUnchangedTurnsSummary(
+  comparison: ReturnType<typeof compareRestaurantSemanticCommonUnchangedTurns>,
+) {
+  return {
+    comparisonScope: comparison.comparisonScope,
+    commonTurns: comparison.commonTurnIds.length,
+    annotationChangedTurns: comparison.annotationChangedTurnIds.length,
+    unavailableInPreviousSnapshotTurns: comparison.unavailableInPreviousSnapshotTurnIds.length,
+    previous: {
+      exactPassedTurns: comparison.previous.exactPassedTurns,
+      fieldMismatches: comparison.previous.fieldMismatches,
+    },
+    current: {
+      exactPassedTurns: comparison.current.exactPassedTurns,
+      fieldMismatches: comparison.current.fieldMismatches,
+    },
+    previousToCurrentFieldMismatchDelta: comparison.previousToCurrentFieldMismatchDelta,
   };
 }
 
@@ -139,31 +201,128 @@ const baselineArtifact = JSON.parse(baselineSource) as Record<string, unknown>;
 if (baselineArtifact.status !== "COMPLETED" || baselineArtifact.datasetStatus !== "EXPOSED") {
   throw new Error(`Baseline artifact is not a completed exposed result: ${baselineArtifactPath}`);
 }
-if (baselineArtifact.datasetSha256 !== datasetSha256) {
+const matchesOriginalBaselineDataset = baselineArtifact.datasetSha256 === datasetSha256;
+const usesCurrentCanonicalGold = !matchesOriginalBaselineDataset;
+if (
+  usesCurrentCanonicalGold &&
+  process.env[CURRENT_CANONICAL_GOLD_CONFIRMATION_ENV] !== "1"
+) {
   throw new Error(
-    "The private dataset SHA differs from the completed baseline artifact; do not compare or rerun until the data change is explained.",
+    `The private dataset SHA differs from the completed baseline artifact. ` +
+      `Set ${CURRENT_CANONICAL_GOLD_CONFIRMATION_ENV}=1 only after explicitly accepting the current exposed Gold as canonical.`,
   );
 }
 if (!isRegressionReport(baselineArtifact.report)) {
   throw new Error(`Baseline artifact does not contain a readable regression report: ${baselineArtifactPath}`);
 }
 
+const previousArtifactPath = usesCurrentCanonicalGold
+  ? process.env[PREVIOUS_EXPOSED_REGRESSION_ARTIFACT_ENV]
+  : undefined;
+if (usesCurrentCanonicalGold && !previousArtifactPath) {
+  throw new Error(
+    `${PREVIOUS_EXPOSED_REGRESSION_ARTIFACT_ENV} must identify the prior exposed regression ` +
+      "so the current canonical Gold can be compared only on COMMON_UNCHANGED_TURNS.",
+  );
+}
+const previousExposedRegression = previousArtifactPath
+  ? await (async () => {
+      const artifactPath = resolve(previousArtifactPath);
+      const artifactSource = await readFile(artifactPath, "utf8");
+      const artifact = record(JSON.parse(artifactSource), "Previous exposed regression artifact must be an object");
+      if (artifact.status !== "COMPLETED" || !isRegressionReport(artifact.report)) {
+        throw new Error(`Previous exposed regression is not completed: ${artifactPath}`);
+      }
+      const promptVersion = record(artifact.manifest, "Previous exposed regression has no manifest").promptVersion;
+      const expectedPreviousPromptVersion = previousPromptVersionFor(
+        RESTAURANT_SEMANTIC_HOLDOUT_MANIFEST.promptVersion,
+      );
+      if (promptVersion !== expectedPreviousPromptVersion) {
+        throw new Error(
+          `Previous exposed regression must be Prompt ${expectedPreviousPromptVersion}, received ${String(promptVersion)}`,
+        );
+      }
+      if (artifact.datasetSha256 !== datasetSha256) {
+        throw new Error(
+          "The current dataset SHA differs from the previous exposed regression artifact; " +
+            "confirm the Gold lineage before running instead of mixing cohorts.",
+        );
+      }
+      const analysisPath = artifactPath.replace(/\.json$/, "-field-analysis-v2.json");
+      let expectedTurns: RestaurantSemanticExpectedTurnSnapshot[];
+      let expectedTurnSnapshotPath: string;
+      let expectedTurnSnapshotSource: string;
+      if (promptVersion === "v5") {
+        const analysisSource = await readFile(analysisPath, "utf8");
+        const analysis = record(JSON.parse(analysisSource), "Previous exposed regression analysis must be an object");
+        const analysisComparison = record(
+          analysis.comparison,
+          "Previous exposed regression analysis has no comparison",
+        );
+        const promptV5Overall = record(
+          analysisComparison.promptV5Overall,
+          "Previous exposed regression analysis has no promptV5Overall",
+        );
+        expectedTurns = expectedTurnSnapshotsFromPreviousAnalysis(promptV5Overall.diagnostics);
+        expectedTurnSnapshotPath = analysisPath;
+        expectedTurnSnapshotSource = analysisSource;
+      } else {
+        const commonComparison = record(
+          artifact.commonUnchangedTurnsComparison,
+          "Previous exposed regression has no common-unchanged comparison",
+        );
+        const current = record(
+          commonComparison.current,
+          "Previous exposed regression common-unchanged comparison has no current diagnostics",
+        );
+        expectedTurns = expectedTurnSnapshotsFromPreviousAnalysis(current.diagnostics);
+        expectedTurnSnapshotPath = artifactPath;
+        expectedTurnSnapshotSource = artifactSource;
+      }
+      return {
+        artifactPath,
+        artifactSource,
+        report: artifact.report,
+        expectedTurnSnapshotPath,
+        expectedTurnSnapshotSource,
+        expectedTurns,
+      };
+    })()
+  : undefined;
+
 const frozenAudit = restaurantSemanticHoldoutFrozenAudit();
 const startedAt = new Date().toISOString();
 const runId = `exposed-regression-${randomUUID()}`;
 const artifactDirectory = resolve(".eval-artifacts", "restaurant-semantic-exposed-regression");
 const artifactPath = resolve(artifactDirectory, `${runId}.json`);
-const evaluationClassification = {
-  cohort: "EXPOSED_HOLDOUT_REGRESSION",
-  contaminationStatus: "PROMPT_AND_RESULT_EXPOSED",
-  baselineEligible: false,
-  sourceDatasetStatus: "EXPOSED",
-  reason:
-    "This is a paid Prompt v5 diagnostic against the already exposed v4 holdout. It is not and cannot become a Clean Holdout baseline.",
-} as const;
+const evaluationClassification = usesCurrentCanonicalGold
+  ? {
+      cohort: "EXPOSED_GOLD_ACCEPTANCE_DIAGNOSTIC",
+      contaminationStatus: "PROMPT_AND_RESULT_EXPOSED",
+      baselineEligible: false,
+      sourceDatasetStatus: "EXPOSED",
+      reason:
+        `The current Gold SHA was explicitly accepted as canonical after the v4/v5 cohort. This is not a Clean Holdout and only compares to ${previousPromptVersionFor(RESTAURANT_SEMANTIC_HOLDOUT_MANIFEST.promptVersion)} on COMMON_UNCHANGED_TURNS.`,
+    }
+  : {
+      cohort: "EXPOSED_HOLDOUT_REGRESSION",
+      contaminationStatus: "PROMPT_AND_RESULT_EXPOSED",
+      baselineEligible: false,
+      sourceDatasetStatus: "EXPOSED",
+      reason:
+        "This is a paid exposed-data diagnostic against the already exposed v4 holdout. It is not and cannot become a Clean Holdout baseline.",
+    };
 const frozenConfiguration = {
   ...codeSnapshot,
   ...frozenAudit,
+};
+const datasetLineage = {
+  currentDatasetSha256: datasetSha256,
+  originalCleanBaselineDatasetSha256: baselineArtifact.datasetSha256,
+  currentGoldStatus: usesCurrentCanonicalGold ? "CANONICAL_EXPOSED_GOLD" : "ORIGINAL_EXPOSED_GOLD",
+  comparisonPolicy: usesCurrentCanonicalGold
+    ? "COMMON_UNCHANGED_TURNS_ONLY"
+    : "V4_BASELINE_MODEL_EVALUATED_TURNS",
 };
 
 await mkdir(artifactDirectory, { recursive: true });
@@ -177,6 +336,17 @@ await writeFile(
       sourceDatasetStatus: "EXPOSED",
       datasetSha256,
       baselineArtifact: { path: baselineArtifactPath, sha256: sha256(baselineSource) },
+      datasetLineage,
+      ...(previousExposedRegression
+        ? {
+            previousExposedRegression: {
+              path: previousExposedRegression.artifactPath,
+              sha256: sha256(previousExposedRegression.artifactSource),
+              expectedTurnSnapshotPath: previousExposedRegression.expectedTurnSnapshotPath,
+              expectedTurnSnapshotSha256: sha256(previousExposedRegression.expectedTurnSnapshotSource),
+            },
+          }
+        : {}),
       manifest: RESTAURANT_SEMANTIC_HOLDOUT_MANIFEST,
       frozenConfiguration,
       evaluationClassification,
@@ -214,11 +384,17 @@ try {
       record.outputSchema.name === RESTAURANT_SEMANTIC_HOLDOUT_MANIFEST.proposalSchema.name &&
       record.outputSchema.version === RESTAURANT_SEMANTIC_HOLDOUT_MANIFEST.proposalSchema.version,
   );
-  const comparison = compareRestaurantSemanticExposedRegression(
-    preflight.dataset,
-    baselineArtifact.report,
-    report,
-  );
+  const baselineComparison = matchesOriginalBaselineDataset
+    ? compareRestaurantSemanticExposedRegression(preflight.dataset, baselineArtifact.report, report)
+    : undefined;
+  const commonUnchangedTurnsComparison = previousExposedRegression
+    ? compareRestaurantSemanticCommonUnchangedTurns(
+        preflight.dataset,
+        previousExposedRegression.report,
+        report,
+        previousExposedRegression.expectedTurns,
+      )
+    : undefined;
   const artifact = {
     status: "COMPLETED",
     runId,
@@ -227,6 +403,17 @@ try {
     sourceDatasetStatus: "EXPOSED",
     datasetSha256,
     baselineArtifact: { path: baselineArtifactPath, sha256: sha256(baselineSource) },
+    datasetLineage,
+    ...(previousExposedRegression
+      ? {
+          previousExposedRegression: {
+            path: previousExposedRegression.artifactPath,
+            sha256: sha256(previousExposedRegression.artifactSource),
+            expectedTurnSnapshotPath: previousExposedRegression.expectedTurnSnapshotPath,
+            expectedTurnSnapshotSha256: sha256(previousExposedRegression.expectedTurnSnapshotSource),
+          },
+        }
+      : {}),
     manifest: RESTAURANT_SEMANTIC_HOLDOUT_MANIFEST,
     frozenConfiguration,
     evaluationClassification: {
@@ -235,7 +422,8 @@ try {
     },
     preflight: { stats: preflight.stats, issues: preflight.issues },
     report,
-    baselineComparison: comparison,
+    ...(baselineComparison ? { baselineComparison } : {}),
+    ...(commonUnchangedTurnsComparison ? { commonUnchangedTurnsComparison } : {}),
     modelMetrics: summarizeRealModelEval(
       invocationRecords,
       report.summary.modelEvaluatedTurns,
@@ -261,7 +449,14 @@ try {
           status: report.status,
           summary: report.summary,
         },
-        baselineComparison: comparisonSummary(comparison),
+        ...(baselineComparison ? { baselineComparison: comparisonSummary(baselineComparison) } : {}),
+        ...(commonUnchangedTurnsComparison
+          ? {
+              commonUnchangedTurnsComparison: commonUnchangedTurnsSummary(
+                commonUnchangedTurnsComparison,
+              ),
+            }
+          : {}),
         modelMetrics: artifact.modelMetrics,
         durableRecord: { path: artifactPath, ...artifact.durableRecord },
       },
@@ -281,6 +476,17 @@ try {
         sourceDatasetStatus: "EXPOSED",
         datasetSha256,
         baselineArtifact: { path: baselineArtifactPath, sha256: sha256(baselineSource) },
+        datasetLineage,
+        ...(previousExposedRegression
+          ? {
+              previousExposedRegression: {
+                path: previousExposedRegression.artifactPath,
+                sha256: sha256(previousExposedRegression.artifactSource),
+                expectedTurnSnapshotPath: previousExposedRegression.expectedTurnSnapshotPath,
+                expectedTurnSnapshotSha256: sha256(previousExposedRegression.expectedTurnSnapshotSource),
+              },
+            }
+          : {}),
         manifest: RESTAURANT_SEMANTIC_HOLDOUT_MANIFEST,
         frozenConfiguration,
         evaluationClassification,

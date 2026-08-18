@@ -9,7 +9,7 @@
 
 ## 当前状态
 
-首份v17 Clean Holdout已在Prompt `v4`与strict Preflight的15 session / 25 turn / 0 issue后按冻结配置运行一次；其Git忽略artifact现为`EXPOSED / RESULT_EXPOSED`，不得再次作为Clean Holdout运行。当前Prompt为`v5`，任何后续Baseline必须使用另一份Git忽略的未见标注文件和新的冻结运行清单。实际文件不得提交、复制进Prompt、Regression、聊天诊断或开发日志。
+首份v17 Clean Holdout已在Prompt `v4`与strict Preflight的15 session / 25 turn / 0 issue后按冻结配置运行一次；其Git忽略artifact现为`EXPOSED / RESULT_EXPOSED`，不得再次作为Clean Holdout运行。当前Prompt为`v7`，任何后续Baseline必须使用另一份Git忽略的未见标注文件和新的冻结运行清单。实际文件不得提交、复制进Prompt、Regression、聊天诊断或开发日志。
 
 本数据只评估已冻结的职责链：
 

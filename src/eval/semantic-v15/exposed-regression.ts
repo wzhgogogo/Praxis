@@ -10,6 +10,7 @@ import type {
   RestaurantSemanticRegressionReport,
   RestaurantSemanticRegressionTurnResult,
 } from "./regression.js";
+import { equalRestaurantIntentDrafts } from "./scorer.js";
 
 export const RESTAURANT_SEMANTIC_EXPOSED_REGRESSION_COMPARISON_VERSION = "1";
 
@@ -90,6 +91,23 @@ export interface RestaurantSemanticExposedRegressionComparison {
     promptV5ModelEvaluatedFormerlyBlockedTurns: string[];
     promptV5StillBlockedFormerlyBlockedTurns: string[];
   };
+}
+
+export interface RestaurantSemanticExpectedTurnSnapshot {
+  sessionId: string;
+  turnId: string;
+  expectedDraft: RestaurantIntentDraft;
+  expectedDecision: RestaurantDecision;
+}
+
+export interface RestaurantSemanticCommonUnchangedTurnsComparison {
+  comparisonScope: "COMMON_UNCHANGED_TURNS";
+  commonTurnIds: string[];
+  annotationChangedTurnIds: string[];
+  unavailableInPreviousSnapshotTurnIds: string[];
+  previous: RestaurantSemanticFieldDiagnosticSummary;
+  current: RestaurantSemanticFieldDiagnosticSummary;
+  previousToCurrentFieldMismatchDelta: RestaurantSemanticFieldMismatchCounts;
 }
 
 interface ExpectedTurn {
@@ -349,6 +367,63 @@ function fieldMismatchDelta(
     result[field] = baseline[field] - current[field];
   }
   return result;
+}
+
+/**
+ * Compares only turns whose current Gold Draft and Decision retain the previous
+ * annotation's semantics. This deliberately never turns a new Gold version into
+ * a baseline comparison.
+ */
+export function compareRestaurantSemanticCommonUnchangedTurns(
+  currentDataset: RestaurantSemanticHoldoutDataset,
+  previousReport: RestaurantSemanticRegressionReport,
+  currentReport: RestaurantSemanticRegressionReport,
+  previousExpectedTurns: readonly RestaurantSemanticExpectedTurnSnapshot[],
+): RestaurantSemanticCommonUnchangedTurnsComparison {
+  const previousExpectedByTurn = new Map(
+    previousExpectedTurns.map((turn) => [keyOf(turn.sessionId, turn.turnId), turn]),
+  );
+  const commonTurnIds = new Set<string>();
+  const annotationChangedTurnIds: string[] = [];
+  const unavailableInPreviousSnapshotTurnIds: string[] = [];
+  for (const current of expectedTurnsFor(currentDataset).values()) {
+    const turnId = keyOf(current.sessionId, current.turnId);
+    const previous = previousExpectedByTurn.get(turnId);
+    if (!previous) {
+      unavailableInPreviousSnapshotTurnIds.push(turnId);
+      continue;
+    }
+    if (
+      equalRestaurantIntentDrafts(current.expectedDraft, previous.expectedDraft) &&
+      isDeepStrictEqual(current.expectedDecision, previous.expectedDecision)
+    ) {
+      commonTurnIds.add(turnId);
+    } else {
+      annotationChangedTurnIds.push(turnId);
+    }
+  }
+  const previousSummary = diagnoseRestaurantSemanticRegression(
+    currentDataset,
+    previousReport,
+    commonTurnIds,
+  );
+  const currentSummary = diagnoseRestaurantSemanticRegression(
+    currentDataset,
+    currentReport,
+    commonTurnIds,
+  );
+  return {
+    comparisonScope: "COMMON_UNCHANGED_TURNS",
+    commonTurnIds: [...commonTurnIds].sort(),
+    annotationChangedTurnIds: annotationChangedTurnIds.sort(),
+    unavailableInPreviousSnapshotTurnIds: unavailableInPreviousSnapshotTurnIds.sort(),
+    previous: previousSummary,
+    current: currentSummary,
+    previousToCurrentFieldMismatchDelta: fieldMismatchDelta(
+      previousSummary.fieldMismatches,
+      currentSummary.fieldMismatches,
+    ),
+  };
 }
 
 /**

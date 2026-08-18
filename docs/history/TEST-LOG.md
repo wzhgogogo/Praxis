@@ -1,13 +1,52 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Version: 4.21
+- Version: 4.23
 - Last updated: 2026-08-18
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## 2026-08-18 — Prompt v7 canonical-Gold exposed regression verification
+
+### Scope
+
+一次受用户授权的Prompt v7真实诊断，使用已暴露的current canonical Gold；不改Gold、Contract、Schema、Scorer或Decision Kernel。它不是Clean Holdout，仅报告与Prompt v6的`COMMON_UNCHANGED_TURNS`比较。
+
+### Checks
+
+- 当前Dataset SHA与v6 artifact均为`9f067e2826e248971c206d379107505e72e3cdff42574eb9730219e71fa6976c`；v6为`COMPLETED` / Prompt `v6`，并含24个可比快照。若SHA不同，Runner会在模型调用前拒绝。
+- `npm run typecheck`、`npm run eval:semantic:holdout:preflight:complete`（`READY_FOR_BASELINE`，15 session / 25 turn / 0 issue）、`npm run eval:semantic:fixture`（15/15）、`npm run arch:check`与`npm run build`：通过。
+- `npm test`：86/86通过，0 failed；HTTP/SSE使用允许本地监听的环境验证。
+- `PRAXIS_ALLOW_LIVE_MODEL_EVAL=1 PRAXIS_CONFIRM_EXPOSED_HOLDOUT_REGRESSION=1 PRAXIS_CONFIRM_CURRENT_EXPOSED_GOLD_VERSION=1 PRAXIS_PREVIOUS_EXPOSED_REGRESSION_ARTIFACT=<v6-artifact> PRAXIS_LIVE_MODEL_EVAL_CASE_LIMIT=25 DEEPSEEK_MODEL=deepseek-v4-flash npm run eval:semantic:holdout:exposed-regression`：16 successful calls、0 retry、32,892 ms、56,436 reported tokens、cost `NOT_CONFIGURED`。全25 turn为4 pass、12个`SEMANTIC_RESULT`、9个`BLOCKED_BY_UPSTREAM`；归类为`EXPOSED_GOLD_ACCEPTANCE_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`。
+- `COMMON_UNCHANGED_TURNS`为24个；H007缺少v6可比快照而排除。v6 → v7字段mismatch为criteria text `6 → 8`、polarity `0 → 0`、strength `2 → 2`、date `4 → 4`、timeWindow `1 → 2`、partySize `5 → 2`、area `7 → 8`、decision `7 → 6`。这只是已暴露数据的受限诊断，不是泛化、Baseline或Parser close的质量结论。
+
+### Modes and external effects
+
+Unit、Fixture、Mock Harness和embedded PGlite验证均通过；另有16次付费DeepSeek调用，仅针对已暴露canonical Gold，使用内存Runtime和Fixture Search。没有新的Clean Holdout、真实Discovery、Availability、Authorization、预约、Replay、Live Read-only或Controlled Live-write。
+
+## 2026-08-18 — Prompt v6 canonical-Gold acceptance diagnostic verification
+
+### Scope
+
+一次受用户授权的Prompt v6真实诊断，使用明确保留为canonical的已暴露私有Gold。它不是Clean Holdout，也不与v4 Clean Baseline或v5 Regression作整集比较；仅报告`COMMON_UNCHANGED_TURNS`。
+
+### Checks
+
+- `npm run typecheck`：通过。
+- Exposed Regression focused tests：`4/4`通过；Prompt Contract tests：`2/2`通过。
+- `npm run eval:semantic:holdout:preflight:complete`：`READY_FOR_BASELINE`，15 session / 25 turn / 0 issue；这是结构门禁，不恢复任何Clean资格。
+- `npm run eval:semantic:fixture`：`15/15`通过，`DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`。
+- `npm run arch:check`、`npm run build`和`git diff --check`：通过。
+- `npm test`：`86/86`通过，0 failed；HTTP/SSE使用允许本地监听的环境验证。
+- `PRAXIS_ALLOW_LIVE_MODEL_EVAL=1 PRAXIS_CONFIRM_EXPOSED_HOLDOUT_REGRESSION=1 PRAXIS_CONFIRM_CURRENT_EXPOSED_GOLD_VERSION=1 PRAXIS_PREVIOUS_EXPOSED_REGRESSION_ARTIFACT=<v5-artifact> PRAXIS_LIVE_MODEL_EVAL_CASE_LIMIT=25 DEEPSEEK_MODEL=deepseek-v4-flash npm run eval:semantic:holdout:exposed-regression`：完成，16 successful calls、0 retry、35,296 ms、56,986 reported tokens、cost `NOT_CONFIGURED`。全25 turn为4 pass、12个`SEMANTIC_RESULT`、9个`BLOCKED_BY_UPSTREAM`；归类固定为`EXPOSED_GOLD_ACCEPTANCE_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`。
+- `COMMON_UNCHANGED_TURNS`共有24 turn；1个annotation-changed turn排除。两次均实际评估15个公共turn，exact pass均为3。v5 → v6的mismatch为criteria text `8 → 6`、polarity `0 → 0`、strength `2 → 2`、date `4 → 4`、timeWindow `2 → 1`、partySize `3 → 5`、area `4 → 7`、decision `6 → 7`。这只是已暴露数据的受限诊断，不是泛化或Baseline结论。
+
+### Modes and external effects
+
+Unit、Fixture、Mock Harness和embedded PGlite验证均通过；另有16次付费DeepSeek调用，仅针对当前已暴露canonical Gold，使用内存Runtime和Fixture Search。没有新的Clean Holdout、真实Discovery、Availability、Authorization、预约、Replay、Live Read-only或Controlled Live-write。
 
 ## 2026-08-18 — Prompt v5 exposed-Holdout regression verification
 

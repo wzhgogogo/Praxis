@@ -3,6 +3,7 @@ import { test } from "node:test";
 
 import type { RestaurantIntentDraft } from "../../domains/restaurant/contracts.js";
 import {
+  compareRestaurantSemanticCommonUnchangedTurns,
   compareRestaurantSemanticExposedRegression,
   diagnoseRestaurantSemanticRegression,
 } from "./exposed-regression.js";
@@ -199,4 +200,68 @@ test("baseline comparison keeps the v4 subset separate and reports newly continu
   assert.deepEqual(comparison.multiTurnContinuation.promptV5ModelEvaluatedFormerlyBlockedTurns, [
     "S1\u0000T2",
   ]);
+});
+
+test("common-unchanged comparison excludes a changed Gold turn instead of comparing it", () => {
+  const prior = report([
+    {
+      sessionId: "S1",
+      turnId: "T1",
+      status: "PASS",
+      errors: [],
+      actualDraft: dataset.sessions[0]!.turns[0]!.expectedDraft,
+      actualDecision: { type: "SEARCH" },
+    },
+    {
+      sessionId: "S1",
+      turnId: "T2",
+      status: "PASS",
+      errors: [],
+      actualDraft: dataset.sessions[0]!.turns[1]!.expectedDraft,
+      actualDecision: { type: "ASK_USER", missingRequiredFields: ["timeWindow"] },
+    },
+  ]);
+  const currentDataset = structuredClone(dataset);
+  currentDataset.sessions[0]!.turns[1]!.expectedDraft = draft({
+    date: "2026-08-21",
+    partySize: 3,
+    area: { query: "Ginza" },
+    criteria: [{ text: "view", polarity: "POSITIVE", strength: "SOFT" }],
+  });
+  const current = report([
+    {
+      sessionId: "S1",
+      turnId: "T1",
+      status: "PASS",
+      errors: [],
+      actualDraft: currentDataset.sessions[0]!.turns[0]!.expectedDraft,
+      actualDecision: { type: "SEARCH" },
+    },
+    {
+      sessionId: "S1",
+      turnId: "T2",
+      status: "PASS",
+      errors: [],
+      actualDraft: currentDataset.sessions[0]!.turns[1]!.expectedDraft,
+      actualDecision: { type: "ASK_USER", missingRequiredFields: ["timeWindow"] },
+    },
+  ]);
+
+  const comparison = compareRestaurantSemanticCommonUnchangedTurns(
+    currentDataset,
+    prior,
+    current,
+    dataset.sessions.flatMap((session) =>
+      session.turns.map((turn) => ({
+        sessionId: session.id,
+        turnId: turn.id,
+        expectedDraft: turn.expectedDraft,
+        expectedDecision: turn.expectedDecision,
+      })),
+    ),
+  );
+
+  assert.deepEqual(comparison.commonTurnIds, ["S1\u0000T1"]);
+  assert.deepEqual(comparison.annotationChangedTurnIds, ["S1\u0000T2"]);
+  assert.equal(comparison.current.totalTurnsInScope, 1);
 });
