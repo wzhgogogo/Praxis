@@ -82,12 +82,30 @@ export interface AvailabilityOffer {
   expiresAt: string;
 }
 
-export interface ExecutableCandidate {
+/** Discovery result. It deliberately does not assert present availability. */
+export interface RestaurantCandidate {
   restaurant: RestaurantOutlet;
-  offer: AvailabilityOffer;
   matchReasons: string[];
   warnings: string[];
   executionConfidence: "HIGH" | "MEDIUM" | "LOW";
+}
+
+export interface RestaurantSearchRequest {
+  /** Must exactly preserve the authoritative intent; a hint may only adjust retrieval. */
+  intent: RestaurantBookingIntent;
+  retrievalHint?: string;
+}
+
+export interface RestaurantAvailabilityRequest {
+  candidateIds: string[];
+  date: string;
+  timeWindow: { earliest: string; latest: string };
+  partySize: number;
+}
+
+export interface RestaurantBookingSelection {
+  candidate: RestaurantCandidate;
+  offer: AvailabilityOffer;
 }
 
 export type BookingProofField =
@@ -156,8 +174,6 @@ export type RestaurantPhase =
   | "UNDERSTANDING"
   | "NEEDS_INPUT"
   | "SEARCHING"
-  | "AWAITING_SELECTION"
-  | "REVALIDATING"
   | "AWAITING_AUTHORIZATION"
   | "EXECUTING"
   | "VERIFYING"
@@ -174,14 +190,17 @@ export interface VerifiedReservation {
 }
 
 export interface RestaurantTaskState {
-  schemaVersion: "6";
+  schemaVersion: "7";
   phase: RestaurantPhase;
   intentDraft?: RestaurantIntentDraft;
   intent?: RestaurantBookingIntent;
   semanticConflict?: RestaurantSemanticConflict;
-  candidates: ExecutableCandidate[];
+  candidates: RestaurantCandidate[];
+  availability: Record<string, AvailabilityOffer[]>;
   searchRevision: number;
   selectedCandidateId?: string;
+  selectedOfferId?: string;
+  pendingUserQuestion?: { question: string; relatedFields?: string[] };
   proposal?: ActionProposal;
   authorization?: Authorization;
   activeAttemptId?: string;
@@ -215,24 +234,29 @@ export interface RestaurantSemanticConflict {
   message: string;
 }
 
-export type RestaurantDecision =
+/** Historical semantic-evaluation annotation. It is not an Agent action or a runtime Decision. */
+export type RestaurantSemanticExpectedDecision =
   | { type: "ASK_USER"; missingRequiredFields: RestaurantBlockingField[] }
-  | { type: "SEARCH" }
-  | { type: "PRESENT_CANDIDATES" }
-  | { type: "PROPOSE_RESERVATION" }
-  | { type: "COMPLETE" }
-  | { type: "NEED_ADJUSTMENT"; reason: string }
-  | { type: "NEED_REINTERPRETATION"; conflict: RestaurantSemanticConflict };
+  | { type: "SEARCH" };
 
 export type RestaurantEvent =
   | (DomainEvent & { type: "SEMANTIC_PROPOSAL_COMPILED"; patch: RestaurantIntentPatch })
   | (DomainEvent & { type: "SEMANTIC_CONFLICT_RECORDED"; conflict: RestaurantSemanticConflict })
-  | (DomainEvent & { type: "RESTAURANT_DECISION_MADE"; decision: RestaurantDecision })
-  | (DomainEvent & { type: "SEARCH_COMPLETED"; candidates: ExecutableCandidate[] })
+  | (DomainEvent & { type: "AGENT_ASKED_USER"; question: string; relatedFields?: string[] })
+  | (DomainEvent & { type: "AGENT_DECISION_FAILED"; reason: string })
+  | (DomainEvent & {
+      type: "SEARCH_COMPLETED";
+      request: RestaurantSearchRequest;
+      candidates: RestaurantCandidate[];
+    })
   | (DomainEvent & { type: "SEARCH_FAILED"; reason: string })
-  | (DomainEvent & { type: "SELECT_CANDIDATE"; candidateId: string })
-  | (DomainEvent & { type: "OFFER_REVALIDATED"; candidate: ExecutableCandidate })
-  | (DomainEvent & { type: "OFFER_UNAVAILABLE"; candidateId: string })
+  | (DomainEvent & {
+      type: "AVAILABILITY_CHECKED";
+      request: RestaurantAvailabilityRequest;
+      offers: AvailabilityOffer[];
+    })
+  | (DomainEvent & { type: "CANDIDATE_SELECTED"; candidateId: string; offerId?: string })
+  | (DomainEvent & { type: "BOOKING_PROPOSED"; candidateId: string; offerId: string })
   | (DomainEvent & { type: "AUTHORIZE"; authorization: Authorization })
   | (DomainEvent & { type: "POLICY_APPROVED" })
   | (DomainEvent & { type: "POLICY_DENIED"; code: PolicyDenialCode })
@@ -251,18 +275,6 @@ export type RestaurantEvent =
 
 export type RestaurantCommand =
   | (DomainCommand & {
-      type: "DECIDE_RESTAURANT_NEXT";
-    })
-  | (DomainCommand & {
-      type: "SEARCH_RESTAURANTS";
-      intent: RestaurantBookingIntent;
-      searchRevision: number;
-    })
-  | (DomainCommand & {
-      type: "REVALIDATE_OFFER";
-      candidate: ExecutableCandidate;
-    })
-  | (DomainCommand & {
       type: "EVALUATE_BOOKING_POLICY";
       proposal: ActionProposal;
       authorization: Authorization;
@@ -273,11 +285,11 @@ export type RestaurantCommand =
       attemptId: string;
       proposal: ActionProposal;
       authorization: Authorization;
-      candidate: ExecutableCandidate;
+      selection: RestaurantBookingSelection;
     })
   | (DomainCommand & {
       type: "VERIFY_BOOKING";
       attemptId: string;
-      candidate: ExecutableCandidate;
+      selection: RestaurantBookingSelection;
       executionResult: ExecutionResult;
     });

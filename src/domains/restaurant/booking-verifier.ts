@@ -4,7 +4,7 @@ import type {
   BookingProofField,
   BookingVerificationObservation,
   ConfirmedBookingProof,
-  ExecutableCandidate,
+  RestaurantBookingSelection,
   RestaurantVerificationResult,
 } from "./contracts.js";
 
@@ -23,7 +23,7 @@ function isMissing(value: unknown): boolean {
 
 function assessProof(
   proof: BookingProofBundle,
-  candidate: ExecutableCandidate,
+  selection: RestaurantBookingSelection,
   executionResult: ExecutionResult,
 ): BookingProofBundle {
   const missing = new Set<BookingProofField>();
@@ -57,17 +57,17 @@ function assessProof(
     {
       field: "restaurantId",
       actual: proof.claims.restaurantId,
-      expected: candidate.restaurant.id,
+      expected: selection.candidate.restaurant.id,
     },
     {
       field: "dateTime",
       actual: proof.claims.dateTime,
-      expected: candidate.offer.dateTime,
+      expected: selection.offer.dateTime,
     },
     {
       field: "partySize",
       actual: proof.claims.partySize,
-      expected: candidate.offer.partySize,
+      expected: selection.offer.partySize,
     },
     { field: "status", actual: proof.claims.status, expected: "CONFIRMED" },
   ];
@@ -91,7 +91,7 @@ function assessProof(
 }
 
 export function verifyBookingCompletion(input: {
-  candidate: ExecutableCandidate;
+  selection: RestaurantBookingSelection;
   executionResult: ExecutionResult;
   observation: BookingVerificationObservation;
 }): RestaurantVerificationResult {
@@ -104,7 +104,7 @@ export function verifyBookingCompletion(input: {
     return { status: "INCONCLUSIVE", checkedAt: input.observation.checkedAt };
   }
 
-  const assessed = assessProof(proof, input.candidate, input.executionResult);
+  const assessed = assessProof(proof, input.selection, input.executionResult);
   const isComplete =
     input.observation.status === "EVIDENCE" &&
     assessed.strength === "STRONG" &&

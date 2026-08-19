@@ -43,7 +43,7 @@ Praxis 已建立开发前 Source of Truth，后续 planning、coding 和 verific
 
 ## 当前实现
 
-Restaurant v17 已完成 Fixture 语义到搜索的受控链路：`Semantic Interpreter → Proposal Contract → Compiler → Task Runtime / Reducer → Decision Kernel`。稳定槽位以外的用户表达使用开放`CRITERION{text, polarity, strength}`，不让模型选择cuisine / constraint / preference taxonomy；模型不能直接修改权威 State 或执行外部动作。当前Prompt为`v7`；可用能力、验证证据、明确未验证项与下一道门槛统一维护在 [当前状态](./docs/STATUS.md)。
+Restaurant v18 已完成 Fixture / Mock Agent Loop：`Semantic Interpreter → Proposal Contract → Compiler → Task Runtime / Reducer → Restaurant Agent Decision → Action Validator → Execution Router`。Agent选择下一业务动作但不能修改权威State、调用Provider或执行副作用；Discovery Candidate与Availability Offer分离，Policy / Authorization / Verifier继续是权威控制点。当前Semantic Prompt为`v7`、Agent Decision Prompt为v1；可用能力、验证证据、明确未验证项与下一道门槛统一维护在 [当前状态](./docs/STATUS.md)。
 
 生产数据库Adapter使用`pg`；PGlite用于快速嵌入式数据库集成验证，不能替代真实PostgreSQL。2026-08-07已在隔离本机PostgreSQL 17数据库上通过真实Smoke，覆盖Runtime、迁移、Goal/Task Graph和Scheduler；后续可对专用测试库显式运行：
 
@@ -89,7 +89,7 @@ npm run dev
 
 默认只运行 Fixture / Mock / Embedded-postgres 命令。完整命令矩阵、每种模式的证明范围与历史结果见 [Test Skill](./docs/skills/test/SKILL.md)、[Eval Skill](./docs/skills/eval/SKILL.md) 和 [Test Log](./docs/history/TEST-LOG.md)。
 
-`eval:semantic:deepseek`是 v17 主链的真实语义 Regression：`Interpreter → Contract → Compiler → Runtime/Reducer → Kernel → Fixture Search`。它不创建持久任务或外部副作用；运行前须在 `.env` 配置服务端 `DEEPSEEK_API_KEY` / `DEEPSEEK_MODEL`，并显式设置 `PRAXIS_ALLOW_LIVE_MODEL_EVAL=1`。历史v14 Decision Harness、旧Intent Parser和v15分类Criteria Contract只从Git和日志追溯。
+`eval:semantic:deepseek`继续只评估语义边界：`Interpreter → Contract → Compiler → Runtime/Reducer`，不评估或驱动v18 Agent决策，不创建持久任务或外部副作用；运行前须在 `.env` 配置服务端 `DEEPSEEK_API_KEY` / `DEEPSEEK_MODEL`，并显式设置 `PRAXIS_ALLOW_LIVE_MODEL_EVAL=1`。历史v14 Decision Harness、旧Intent Parser和v17确定性next-step标注只从Git和日志追溯。
 
 所有真实模型 Regression 都是已暴露样本，不能用于质量趋势或 Clean Holdout Baseline；首份v17 Clean Holdout已按一次性协议运行，结果也已暴露。v7最近一次运行固定为`EXPOSED_GOLD_ACCEPTANCE_DIAGNOSTIC`，只与v6的`COMMON_UNCHANGED_TURNS`比较，不创建新的Baseline；后续质量门槛必须使用新的未见数据集。当前进度与下一道门槛见 [当前状态](./docs/STATUS.md)。
 

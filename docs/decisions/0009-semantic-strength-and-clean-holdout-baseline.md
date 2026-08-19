@@ -4,6 +4,8 @@
 
 Accepted — 2026-08-18
 
+ADR-0010 supersedes this ADR's former assumption that the semantic evaluator's deterministic next-step label corresponds to a product Runtime decision. The open `criteria` and Clean Holdout controls remain accepted.
+
 ## Context
 
 ADR-0008 correctly replaced unstable Restaurant criterion categories with an open collection, but its `REQUIRED` / `PREFERRED` strength labels and lexical trigger guidance do not express the product distinction needed by the v17 semantic specification. A criterion can be materially necessary without one of a short list of words, while approximate language is normally tradeable.
@@ -33,7 +35,7 @@ For the private Clean Holdout, immediately before a first real model request the
 - Existing source, fixtures, schemas, scorer expectations, and private Gold must use `HARD` / `SOFT` / `UNSPECIFIED`; old values are not accepted.
 - The public development regression remains exposed and receives synthetic coverage for the new general semantics before any private baseline runs.
 - The private dataset is never copied into a prompt, public fixture, development log, or committed artifact. Its first started real run irreversibly changes its evaluation status to `EXPOSED`.
-- Compiler, Runtime, Reducer, Decision Kernel, Policy, Authorization, and Provider capabilities retain their existing responsibilities. This ADR adds no model call, Tool, adapter, or external side effect.
+- Compiler, Runtime, Reducer, Policy, Authorization, and Provider capabilities retain their existing responsibilities. In v18, semantic `expectedDecision` is historical evaluation metadata only; the Restaurant Agent and Action Validator are governed by ADR-0010. This ADR adds no model call, Tool, adapter, or external side effect.
 
 ## Alternatives considered
 

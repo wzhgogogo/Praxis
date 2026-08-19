@@ -1,5 +1,5 @@
 import type {
-  RestaurantDecision,
+  RestaurantSemanticExpectedDecision,
   RestaurantIntentDraft,
 } from "../../domains/restaurant/contracts.js";
 
@@ -12,7 +12,7 @@ export interface RestaurantSemanticRegressionTurn {
   id: string;
   message: string;
   expectedDraft: RestaurantIntentDraft;
-  expectedDecision: Extract<RestaurantDecision, { type: "ASK_USER" | "SEARCH" }>;
+  expectedDecision: Extract<RestaurantSemanticExpectedDecision, { type: "ASK_USER" | "SEARCH" }>;
 }
 
 export interface RestaurantSemanticRegressionSession {

@@ -11,10 +11,10 @@
 
 首份v17 Clean Holdout已在Prompt `v4`与strict Preflight的15 session / 25 turn / 0 issue后按冻结配置运行一次；其Git忽略artifact现为`EXPOSED / RESULT_EXPOSED`，不得再次作为Clean Holdout运行。当前Prompt为`v7`，任何后续Baseline必须使用另一份Git忽略的未见标注文件和新的冻结运行清单。实际文件不得提交、复制进Prompt、Regression、聊天诊断或开发日志。
 
-本数据只评估已冻结的职责链：
+本数据只评估已冻结的语义职责链：
 
 ```text
-User message → Semantic Interpreter → Proposal Contract → Restaurant Compiler → Runtime / Reducer → Decision Kernel
+User message → Semantic Interpreter → Proposal Contract → Restaurant Compiler → Runtime / Reducer
 ```
 
 它不评估真实餐厅搜索、Availability、推荐排序或预约，也不引入Provider taxonomy或搜索过滤器。
@@ -25,9 +25,9 @@ User message → Semantic Interpreter → Proposal Contract → Restaurant Compi
 
 1. `message`：英文用户原话；
 2. `expectedDraft`：本轮后的完整累计权威Draft；
-3. `expectedDecision`：阻塞槽位缺失时`ASK_USER`，齐全时`SEARCH`。
+3. `expectedDecision`：历史v17标注字段；保留在私有格式中以便审计，但v18语义Scorer不评分，也不驱动Runtime。
 
-不标内部Semantic Proposal、Patch、`ambiguities`、评分解释或Prompt提示。Gold描述用户表达在产品State中的结果，不能反向规定模型内部步骤。
+不标内部Semantic Proposal、Patch、`ambiguities`、Agent Action、评分解释或Prompt提示。Gold描述用户表达在产品State中的结果，不能反向规定模型内部步骤。
 
 ## 固定格式
 

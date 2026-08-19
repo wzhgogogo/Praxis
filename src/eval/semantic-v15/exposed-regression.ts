@@ -2,7 +2,7 @@ import { isDeepStrictEqual } from "node:util";
 
 import type {
   RestaurantCriterion,
-  RestaurantDecision,
+  RestaurantSemanticExpectedDecision,
   RestaurantIntentDraft,
 } from "../../domains/restaurant/contracts.js";
 import type { RestaurantSemanticHoldoutDataset } from "./holdout.js";
@@ -41,9 +41,9 @@ export interface RestaurantSemanticExposedTurnDiagnosis {
   scorable: boolean;
   firstFailureStage?: RestaurantSemanticRegressionTurnResult["firstFailureStage"];
   expectedDraft: RestaurantIntentDraft;
-  expectedDecision: RestaurantDecision;
+  expectedDecision: RestaurantSemanticExpectedDecision;
   actualDraft?: RestaurantIntentDraft;
-  actualDecision?: RestaurantDecision;
+  actualDecision?: RestaurantSemanticExpectedDecision;
   mismatchedFields: RestaurantSemanticFieldDimension[];
 }
 
@@ -97,7 +97,7 @@ export interface RestaurantSemanticExpectedTurnSnapshot {
   sessionId: string;
   turnId: string;
   expectedDraft: RestaurantIntentDraft;
-  expectedDecision: RestaurantDecision;
+  expectedDecision: RestaurantSemanticExpectedDecision;
 }
 
 export interface RestaurantSemanticCommonUnchangedTurnsComparison {
@@ -114,7 +114,7 @@ interface ExpectedTurn {
   sessionId: string;
   turnId: string;
   expectedDraft: RestaurantIntentDraft;
-  expectedDecision: RestaurantDecision;
+  expectedDecision: RestaurantSemanticExpectedDecision;
 }
 
 function keyOf(sessionId: string, turnId: string): string {
@@ -167,9 +167,9 @@ function expectedTurnsFor(dataset: RestaurantSemanticHoldoutDataset): Map<string
 
 function mismatchedFields(
   expectedDraft: RestaurantIntentDraft,
-  expectedDecision: RestaurantDecision,
+  expectedDecision: RestaurantSemanticExpectedDecision,
   actualDraft: RestaurantIntentDraft,
-  actualDecision: RestaurantDecision,
+  actualDecision: RestaurantSemanticExpectedDecision,
 ): RestaurantSemanticFieldDimension[] {
   const mismatches: RestaurantSemanticFieldDimension[] = [];
   const expectedCriteria = criterionByText(expectedDraft.criteria);

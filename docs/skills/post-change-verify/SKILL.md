@@ -38,13 +38,13 @@ v17 Holdout按范围验证：纯私有Gold更新只运行Draft Preflight；Holdo
 涉及v15语义主链的改动，验证必须按层分别报告，不能用端到端通过掩盖上游错误：
 
 ```text
-Semantic Interpreter → Semantic Proposal Contract → Compiler → Reducer → Decision Kernel
+Semantic Interpreter → Semantic Proposal Contract → Compiler → Reducer → Agent Action → Action Validator → Execution Router
 ```
 
 - Contract测试证明结构、版本和封闭词表；不代表模型语义正确。
 - Compiler测试必须证明同一合法Proposal稳定产生同一Restaurant Event/State Patch，且不调用模型、Live Data、Policy或Tool。
 - Reducer测试必须覆盖修正、否定、确认、Replay和重复Event。
-- Kernel测试必须只使用Authoritative State与Trusted Evidence，并覆盖`NEED_REINTERPRETATION`只记录冲突、询问用户或安全降级的v15行为。
+- Action Validator测试必须只使用Authoritative State与Trusted Evidence，并覆盖结构无效、过期Offer、未授权Booking和`OUTCOME_UNKNOWN`的fail-closed行为。
 - Interpreter真实模型结果、Fixture Oracle、Replay、Live Read-only和Controlled Live-write必须分开报告；`LLM Response / Adjustment`不得被当成用户确认。
 
 ## 文档同步矩阵
@@ -53,7 +53,7 @@ Semantic Interpreter → Semantic Proposal Contract → Compiler → Reducer →
 |---|---|
 | 产品行为或确认点 | MVP PRD、User Flows、STATUS、Dev Log |
 | 架构边界 | Architecture、ADR、Arch Guard、STATUS |
-| Semantic Interpreter / Contract / Compiler / Kernel | Agent Orchestration、Restaurant Domain、Interfaces、Planning/Eval/Post-change Verify、Harness、STATUS与Dev/Test Log |
+| Semantic Interpreter / Contract / Compiler / Agent Loop / Action Validator | Agent Orchestration、Restaurant Domain、Interfaces、Planning/Eval/Post-change Verify、Harness、STATUS与Dev/Test Log |
 | API/Schema/State | Interfaces、Task Runtime、迁移说明 |
 | Provider/Adapter | Capability Matrix、Domain、Harness、STATUS |
 | Prompt/模型 | Agent Orchestration、Eval、STATUS、Dev Log |

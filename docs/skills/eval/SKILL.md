@@ -1,17 +1,17 @@
 ---
 name: praxis-eval
-description: Praxis质量评估；衡量当前v17语义链、搜索、Outcome准确性、成本和安全回归。
+description: Praxis质量评估；衡量v18中的语义链、Agent动作、搜索、Outcome准确性、成本和安全回归。
 ---
 
 # Praxis Eval
 
-Eval评估模型与端到端质量，不替代功能测试。当前唯一产品语义评测对象是Restaurant v17；已经退出产品主链的v14 Decision Harness、单轮Intent Parser和v15分类Criteria Contract只在历史文档与Git中保留。
+Eval评估模型与端到端质量，不替代功能测试。当前产品是Restaurant v18：语义Eval只评估其保留的 Interpreter → Compiler → Reducer 边界，Agent动作由独立Action Validator与Harness验证。已经退出产品主链的v14 Decision Harness、单轮Intent Parser和v15分类Criteria Contract只在历史文档与Git中保留。
 
 ## 当前目录
 
 ```text
 src/eval/
-├── semantic-v15/    当前Proposal → Compiler → Runtime/Reducer → Kernel评测
+├── semantic-v15/    历史命名目录；当前只评测Proposal → Compiler → Runtime/Reducer语义边界
 ├── search-fixture/  本地Fixture产品搜索纵向检查
 └── shared/          真实模型付费门禁、成本与调用汇总
 ```
@@ -20,12 +20,12 @@ src/eval/
 
 ## Stage 2C冻结口径
 
-- 产品职责固定为`Semantic Interpreter → Proposal Contract → Compiler → Runtime/Reducer → Decision Kernel`。
+- 产品职责固定为`Semantic Interpreter → Proposal Contract → Compiler → Runtime/Reducer → Agent Decision → Action Validator → Execution Router`；语义Eval只在Interpreter/Compiler/Reducer边界归因，不把历史v17 next-step标注当作产品Runtime。
 - 当前Prompt为`v7`，Proposal / Draft / Eval Schema固定为`3`。稳定槽位外只允许开放`CRITERION{text, polarity, strength}`，strength固定为`HARD` / `SOFT` / `UNSPECIFIED`；不得为单个Eval Case新增taxonomy、Provider mapping或重新分配职责。已运行的v4 Baseline保持`RESULT_EXPOSED`，不能用来验证v7。
 - v14的7个Episode / 17个Turn及旧单轮Intent Eval已经完成架构探针使命；其可执行代码、命令和默认测试已删除。需要追溯时读历史文档或Git，不恢复兼容路径。
 - v7的下一份独立Baseline必须使用新的私有`CLEAN_HOLDOUT`。
 
-## 已暴露v17 Regression
+## 已暴露语义 Regression
 
 本地Fixture管线：
 
@@ -33,7 +33,7 @@ src/eval/
 npm run eval:semantic:fixture
 ```
 
-它用7个已暴露Turn和开发阶段Proposal/Patch Oracle验证Evaluator是否按`Proposal → Contract → Compiler → Runtime/Reducer → Kernel → Fixture Search`执行，固定报告`attributionLevel: DEVELOPMENT_STAGE_ORACLES`及`DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`。它证明管线和分层归因，不证明模型泛化或真实餐厅质量。
+它用已暴露Turn和开发阶段Proposal/Patch Oracle验证Evaluator是否按`Proposal → Contract → Compiler → Runtime/Reducer`执行，固定报告`attributionLevel: DEVELOPMENT_STAGE_ORACLES`及`DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`。它证明语义管线和分层归因，不证明模型泛化、Agent规划或真实餐厅质量。
 
 受控真实模型Regression：
 
@@ -47,7 +47,7 @@ npm run eval:semantic:deepseek
 
 当strict Schema、Gateway transport或Provider模型配置在首次Clean Holdout前发生变化时，必须先运行一次这个已暴露Regression，确认没有Schema/API transport失败；它只验证已暴露样本的连接和结构化传输，不能替代Clean Holdout。
 
-## v17 Clean Holdout
+## 语义 Clean Holdout
 
 标注规范、固定格式和污染边界见[Restaurant v17 Semantic Holdout v2](../../harness/RESTAURANT-SEMANTIC-HOLDOUT-V2.md)。实际数据位于Git忽略的`.eval-private/restaurant-semantic-holdout-v2.json`；Prompt、Regression、聊天诊断和开发日志不得复制其内容。
 
@@ -97,7 +97,7 @@ DEEPSEEK_MODEL=deepseek-v4-flash \
 npm run eval:semantic:holdout:exposed-regression
 ```
 
-它只对比`COMMON_UNCHANGED_TURNS`：以当前和前一artifact的Gold Draft / Decision均相同的turn为集合，排除全部annotation-changed或无前序快照的turn；报告必须清楚标注该限定，不能把它外推成whole-dataset或Clean Baseline结论。
+它只对比`COMMON_UNCHANGED_TURNS`：以当前和前一artifact的Gold Draft相同的turn为集合，排除全部annotation-changed或无前序快照的turn；历史Decision标注不参与v18比较。报告必须清楚标注该限定，不能把它外推成whole-dataset或Clean Baseline结论。
 
 ## 评分与首错
 
@@ -109,15 +109,14 @@ INPUT / MODEL_GATEWAY
 → SEMANTIC_INTERPRETER
 → COMPILER
 → REDUCER
-→ DECISION_KERNEL
 → RUNTIME
 ```
 
 - Contract通过只代表结构合法，不代表语义正确。
 - Regression开发Oracle可区分Proposal语义、Compiler Patch和Reducer累计状态。
-- Clean Holdout不标内部Proposal/Patch，只能证明最终`SEMANTIC_RESULT`与Decision，必须报告`PRODUCT_SEMANTIC_ONLY`，不得伪造深层精度。
-- Proposal facts、Patch集合与Draft的`criteria`按去重排序后的集合语义比较；Criterion文本只按trim/case等价，polarity和strength精确比较；singleton和Decision保持精确比较。
-- Scorer先判Draft，再判Kernel；上游错误不会在下游重复扣分。
+- Clean Holdout不标内部Proposal/Patch，只能证明最终`SEMANTIC_RESULT` Draft，必须报告`PRODUCT_SEMANTIC_ONLY`，不得伪造深层精度。
+- Proposal facts、Patch集合与Draft的`criteria`按去重排序后的集合语义比较；Criterion文本只按trim/case等价，polarity和strength与singleton精确比较。
+- Scorer先判Draft；上游错误不会在下游重复扣分。历史`expectedDecision`仅供旧artifact审计。
 - 多轮Session上游失败后，后续Turn标记`BLOCKED_BY_UPSTREAM`，不伪造分数。
 - Evaluator不得调用LLM Judge来替代确定性Gold、P0或首错门禁。
 

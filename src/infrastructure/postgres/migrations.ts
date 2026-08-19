@@ -188,6 +188,33 @@ export const POSTGRES_MIGRATIONS: PostgresMigration[] = [
         ON conversation_messages (conversation_id, created_at, id)`,
     ],
   },
+  {
+    id: "0006-restaurant-agent-trajectory",
+    statements: [
+      `CREATE TABLE IF NOT EXISTS restaurant_agent_trajectory_steps (
+        id TEXT PRIMARY KEY,
+        task_id TEXT NOT NULL REFERENCES tasks(id) ON DELETE CASCADE,
+        step_number INTEGER NOT NULL CHECK (step_number > 0),
+        occurred_at TIMESTAMPTZ NOT NULL,
+        state_version_before INTEGER NOT NULL CHECK (state_version_before >= 0),
+        state_hash_before TEXT NOT NULL,
+        evidence_refs JSONB NOT NULL,
+        capabilities JSONB NOT NULL,
+        agent_action JSONB,
+        decision_summary TEXT,
+        model_attempt JSONB,
+        kernel_verdict JSONB,
+        execution_route TEXT,
+        observation JSONB,
+        state_version_after INTEGER,
+        state_hash_after TEXT,
+        step_outcome TEXT NOT NULL,
+        UNIQUE (task_id, step_number)
+      )`,
+      `CREATE INDEX IF NOT EXISTS restaurant_agent_trajectory_task_idx
+        ON restaurant_agent_trajectory_steps (task_id, step_number)`,
+    ],
+  },
 ];
 
 export async function applyPostgresMigrations(database: SqlDatabase): Promise<void> {

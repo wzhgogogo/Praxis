@@ -1,13 +1,32 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Version: 4.23
-- Last updated: 2026-08-18
+- Version: 4.24
+- Last updated: 2026-08-19
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## 2026-08-19 — Restaurant v18 Agent Loop verification
+
+### Scope
+
+Single-Agent Restaurant action loop, candidate/offer separation, deterministic action validation, trajectory persistence, Fixture Workspace integration, and existing Mock Booking safety controls. Browser automation, Live Providers and E2E scoring are out of scope.
+
+### Checks
+
+- `npm run typecheck`: passed.
+- `npm run arch:check`: passed with 0 forbidden source dependencies.
+- `npm run build`: passed.
+- `npm run test:probes`: `8/8` passed; frozen probes are reported separately from the product baseline.
+- `npm test`: `89/89` passed, 0 failed, including 13 Restaurant Mock Harness scenarios, 12 embedded-PGlite Runtime/Recovery scenarios, Fixture Web/API/SSE, semantic boundary tests and Fixture Search.
+- `git diff --check`: passed after all code and documentation updates.
+
+### Modes and external effects
+
+Only Unit, Contract, Fixture, Mock Harness, local HTTP/SSE and embedded-PGlite verification ran. No real model call, Clean Holdout, Replay, Live Read-only, Controlled Live-write, real Authorization, booking, payment or cancellation occurred. Embedded PGlite is not evidence of a real PostgreSQL deployment.
 
 ## 2026-08-18 — Prompt v7 canonical-Gold exposed regression verification
 

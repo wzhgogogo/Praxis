@@ -1,10 +1,10 @@
 # Architecture Overview
 
 - Status: Accepted
-- Version: 0.7
-- Last updated: 2026-08-13
+- Version: 0.8
+- Last updated: 2026-08-19
 - Source of truth for: 总体架构、层次、依赖方向和扩展边界
-- Related ADRs: [ADR-0001](../decisions/0001-general-task-runtime.md), [ADR-0003](../decisions/0003-single-agent-orchestration.md), [ADR-0005](../decisions/0005-modular-monolith.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0007](../decisions/0007-semantic-proposal-compiler-and-decision-kernel.md)
+- Related ADRs: [ADR-0001](../decisions/0001-general-task-runtime.md), [ADR-0003](../decisions/0003-single-agent-orchestration.md), [ADR-0005](../decisions/0005-modular-monolith.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md)
 - Related documents: [Agent Gateway and Workspace](AGENT-GATEWAY-AND-WORKSPACE.md), [Task Runtime](TASK-RUNTIME.md), [Agent Orchestration](AGENT-ORCHESTRATION.md)
 
 ## 核心结构
@@ -37,15 +37,16 @@ Domain Packages
         ├── restaurant
         │     ├── Semantic Interpreter / Proposal Contract
         │     ├── Semantic Compiler / Reducer
-        │     └── Decision Kernel
+        │     ├── Restaurant Agent Loop
+        │     └── Action Validator / Capability Catalog
         ├── shopping (future)
         ├── travel (future)
         └── case-management (future)
 ```
 
-## v17 Restaurant semantic-to-execution path
+## v18 Restaurant agent-to-execution path
 
-Restaurant v17 retains v15's language-to-state and decision boundaries while replacing unstable criteria classification with open `CRITERION{text, polarity, strength}`. Strength is semantic `HARD` / `SOFT` / `UNSPECIFIED`, not a lexical-only label. The Semantic Interpreter is the only LLM step that reads the user's new natural-language message. It returns an untrusted Restaurant Semantic Proposal, not an internal State Patch or action.
+Restaurant v18 preserves the v17 semantic boundary: the Semantic Interpreter is the only LLM step that reads a new user message, returning an untrusted Proposal that compiles into authoritative state. A separate single Restaurant Agent then chooses one constrained action from the static Restaurant capability catalog. It may observe state and trusted fixture/provider results, but it cannot mutate state, bypass authorization, invoke an adapter, or decide an Outcome.
 
 ```text
 User Message
@@ -54,15 +55,18 @@ User Message
 → Semantic Proposal Contract
 → Restaurant Semantic Compiler
 → Task Runtime → Reducer → Authoritative State
-→ Restaurant Decision Kernel (State + Trusted Evidence)
-→ Runtime Command / Execution Action Proposal
+→ Restaurant Agent [LLM, one constrained action]
+→ Deterministic Action Validator (State + Trusted Evidence)
+→ Execution Router (read-only search / availability only)
+→ Task Runtime → Reducer → Authoritative State
+→ Booking proposal (only after validated selection + offer)
 → Policy / Authorization when required
 → Execution Router → Tool / Adapter
 → Observation / Evidence → Verifier → Outcome Event
-→ Task Runtime → Reducer → Decision Kernel
+→ Task Runtime → Reducer
 ```
 
-`NEED_REINTERPRETATION` is a Decision Kernel result, not a model instruction or a State mutation. In v17 it records a conflict and asks the user or takes a safe fallback; it never automatically reinterprets a message or overwrites State. LLM response text can explain an outcome or propose an adjustment, but a suggested adjustment only becomes input after an explicit new user message traverses the same semantic chain.
+The Agent may select only `ASK_USER`, `SEARCH_RESTAURANTS`, `CHECK_AVAILABILITY`, `SELECT_CANDIDATE`, `BOOK_RESERVATION`, or `COMPLETE`. The validator rejects structurally invalid, stale, unauthorized, or state-incompatible actions. Rejections and model failures become durable safe events; the loop is bounded. User language remains the only input to the semantic chain.
 
 ## 四类任务骨架
 
@@ -97,7 +101,8 @@ DeepSeek 可以提出子任务拆解，只有 Runtime 可以创建、激活和�
 | Semantic Proposal Contract | 校验Proposal结构、封闭词表和允许表达 | 断言模型语义正确或改变状态 |
 | Restaurant Semantic Compiler | 确定性地将合法Proposal翻译为Restaurant Event/State Patch | 模型调用、实时查询、Policy或执行 |
 | Task Runtime / Reducer | Durable Case的Graph、状态、事件、命令、等待、恢复与权威State归约 | Conversation、前台Session、UI Projection、自然语言判断和平台点击细节 |
-| Restaurant Decision Kernel | 根据Authoritative State和Trusted Evidence决定下一步 | 解释自由文本、改State、直接调用Tool或判定现实结果 |
+| Restaurant Agent | 在静态能力目录内从Authoritative State和Trusted Evidence选择下一动作 | 改State、直接调用Tool、绕过Policy/Authorization或判定现实结果 |
+| Restaurant Action Validator | 确定性验证Agent动作是否结构正确、与状态/证据相容并满足安全前提 | 解释自由文本、做开放式推荐或执行Adapter |
 | Search Runtime | 并发、预算、批次、缓存、Trace | 餐厅或商品的业务模型 |
 | Policy Engine / Authorization | 动作许可、授权范围与副作用门禁 | 自然语言判断 |
 | Adapter | API/Browser 实际交互 | 决定用户是否授权 |
@@ -116,7 +121,7 @@ src/core/policy/           Action、Authorization、硬规则
 src/core/execution/        Execution Router、Attempt、Verifier
 src/core/search/           通用 Search Runtime
 src/core/model/            Model Gateway与任务版本；不含Restaurant语义
-src/domains/restaurant/    Semantic Interpreter Contract、Compiler、Reducer、Decision Kernel、Search Strategy、状态机
+src/domains/restaurant/    Semantic Interpreter Contract、Compiler、Reducer、Restaurant Agent动作/Validator、Capability Catalog、状态机
 src/integrations/          外部 API 与 Browser Adapter
 src/infrastructure/postgres/ PostgreSQL迁移、Workspace Store、Task Store、Goal Graph和Outbox
 src/infrastructure/deepseek/ DeepSeek HTTP Provider Adapter（不含业务Parser）
@@ -128,9 +133,9 @@ src/harness/               Scenario Runner、Fixture、Oracle
 ```text
 Web → Agent Gateway API
 Agent Gateway → Application / Domain / Core contracts
-Application → Restaurant semantic boundary / Runtime / Policy / Model Gateway
+Application → Restaurant semantic boundary / Agent Loop / Runtime / Policy / Model Gateway
 Restaurant Semantic Interpreter → Model Gateway contract
-Restaurant Semantic Compiler / Decision Kernel → Restaurant state and Core contracts
+Restaurant Semantic Compiler / Action Validator → Restaurant state and Core contracts
 Domain → Core contracts
 Integrations → Domain/Core ports
 Core Runtime ─X→ concrete Domain

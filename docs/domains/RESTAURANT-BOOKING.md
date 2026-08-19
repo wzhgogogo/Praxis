@@ -1,29 +1,29 @@
 # Restaurant Booking Domain
 
 - Status: Accepted
-- Version: 1.1
-- Last updated: 2026-08-18
+- Version: 1.2
+- Last updated: 2026-08-19
 - Source of truth for: 餐厅预约Domain模型、状态、搜索和完成条件
-- Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0007](../decisions/0007-semantic-proposal-compiler-and-decision-kernel.md), [ADR-0009](../decisions/0009-semantic-strength-and-clean-holdout-baseline.md)
+- Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0009](../decisions/0009-semantic-strength-and-clean-holdout-baseline.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md)
 - Related documents: [MVP PRD](../product/MVP-PRD.md), [User Flows](../product/USER-FLOWS.md), [Policy & Execution](../architecture/POLICY-EXECUTION-VERIFICATION.md), [Data, Context & Security](../architecture/DATA-CONTEXT-SECURITY.md), [Search Service](../architecture/SEARCH-SERVICE.md)
 
 ## Implementation Status
 
-Restaurant Mock预约切片已实现完整Intent之后的流程：`SEARCHING → AWAITING_SELECTION → REVALIDATING → AWAITING_AUTHORIZATION → EXECUTING → VERIFYING`，并覆盖`BOOKED_VERIFIED`、`SELECTION_REQUIRED`与`OUTCOME_UNKNOWN`。当前State Schema为`6`；Pilot前没有真实Task数据，旧Schema迁移路径已经删除。
+Restaurant v18 Mock预约切片已实现：`Semantic Interpreter → Compiler → Reducer → Restaurant Agent Action → Action Validator → Fixture Discovery / Availability → Agent Selection → Authorization checkpoint → Policy → Mock Commit → Verifier`。当前State Schema为`7`；Pilot前没有真实Task数据，旧Schema迁移路径已经删除。
 
-Stage 2A已实现自然语言入口和本地Web路径：`UNDERSTANDING → NEEDS_INPUT | SEARCHING → AWAITING_SELECTION`。应用层注入Model Gateway、Restaurant Search和Clock；真实DeepSeek传输使用强制strict structured-output envelope，随后仍由封闭的Semantic Proposal Contract本地校验，再由纯Restaurant Compiler产生`SEMANTIC_PROPOSAL_COMPILED`或`SEMANTIC_CONFLICT_RECORDED` Event。阻塞字段由权威Draft即时推导，Decision Kernel通过`DECIDE_RESTAURANT_NEXT`决定澄清、搜索、候选展示、无候选调整或安全的`NEED_REINTERPRETATION`。Fixture Search返回三个演示候选；用户选择后只完成Fixture revalidation，并停在`AWAITING_AUTHORIZATION`。本路径没有真实搜索、空位、Authorization或预约。
+Discovery保存`RestaurantCandidate`，Availability按`candidateId → AvailabilityOffer[]`独立保存。单一Restaurant Agent决定何时搜索、检查哪些候选、选择哪个组合或何时再次搜索；Validator不再选择下一步。Fixture路径使用真正的`RestaurantAgentDecision` ModelGateway Contract，Harness可用Scripted Decision Port重复验证Trajectory。Policy、Authorization、Commit和Verifier仍是确定性权威边界。
 
-ADR-0007固定职责链，ADR-0009将Restaurant payload升级为v17开放`criteria`和语义`HARD` / `SOFT`强度。Semantic Interpreter、Semantic Proposal Contract、Restaurant Semantic Compiler和语义/搜索Decision Kernel已在Fixture产品路径实现；Harness-only v14 `statePatch` Contract仍不接入产品Task State。预约阶段的`PROPOSE_RESERVATION`与`COMPLETE`尚未迁移到Kernel命令，继续沿用既有确定性状态机。
+ADR-0009继续定义开放`criteria`与`HARD` / `SOFT`强度；ADR-0010取代ADR-0007的确定性next-step部分。Harness-only v14 `statePatch` Contract仍不接入产品Task State。
 
 真实Search Source、Availability、Request Booking、Human Takeover、取消、变更与路线仍为`proposed`。当前产品应用见[`Persistent Restaurant Agent`](../../src/application/persistent-restaurant-agent.ts)，轻量Fixture Driver只位于[`src/eval/search-fixture`](../../src/eval/search-fixture/fixture-application.ts)。
 
-## v17 Semantic Proposal, Compiler and Decision Kernel
+## v18 Semantic Proposal, Compiler, Agent and Action Validator
 
 Restaurant是Semantic Proposal与Compiler的唯一当前真实使用者。Semantic Interpreter只描述用户本轮的稳定槽位和开放Restaurant Criterion；它不对cuisine、amenity、ambience或safety类别建模，也不输出`StatePatch`、Event、Readiness、Tool input或Outcome。
 
 Restaurant Semantic Proposal Contract只验证这些表达的结构与Domain词表。通过校验不证明模型正确理解用户，也不是用户确认或可信外部事实。Restaurant Semantic Compiler是纯确定性Domain代码，负责将合法Proposal翻译成可由Task Runtime处理的Restaurant Event或State Patch。它不得调用模型、读取实时平台数据、决定Authorization或调用Adapter。
 
-Reducer继续以`Old State + Event → New Authoritative State`维护权威事实。Restaurant Decision Kernel只基于该State与Trusted Evidence返回`ASK_USER`、`SEARCH`、`PRESENT_CANDIDATES`、`PROPOSE_RESERVATION`、`COMPLETE`、`NEED_ADJUSTMENT`或`NEED_REINTERPRETATION`。后一项是v17预留Decision，不是新的State：初始行为仅记录conflict并请求用户澄清或走安全降级，不会自动重新解释、覆盖State或触发Tool。
+Reducer继续以`Old State + Event → New Authoritative State`维护权威事实。Restaurant Agent只能提出一个业务动作，Action Validator只允许、拒绝或要求Authorization；两者都不能写State或调用Provider。`NEED_REINTERPRETATION`继续是安全交互行为：不自动重新解释、覆盖State或触发Tool。
 
 任何LLM对结果的解释、澄清问题或条件调整建议都不是Semantic Proposal的替代品。建议必须由用户在新消息中明确确认或修改，才能再次进入正式的Interpreter → Contract → Compiler链。
 
@@ -87,27 +87,24 @@ type AvailabilityOffer = {
   expiresAt: string;
 };
 
-type ExecutableCandidate = {
+type RestaurantCandidate = {
   restaurant: RestaurantOutlet;
-  offer: AvailabilityOffer;
   matchReasons: string[];
   warnings: string[];
   executionConfidence: "HIGH" | "MEDIUM" | "LOW";
 };
 ```
 
-候选必须有实时Offer和支持的Execution Path。`availability_unknown`餐厅不能进入主候选列表。
+`SEARCH_RESTAURANTS`只产生`RestaurantCandidate`。`CHECK_AVAILABILITY`才产生`AvailabilityOffer`并按`candidateId`保存；没有新鲜匹配Offer的Candidate不得进入Booking Proposal。
 
 ## Domain State
 
-完整MVP目标状态如下；并非全部已经实现。`NEED_REINTERPRETATION`是Decision Kernel结果而非Domain State，不加入此状态机：
+完整MVP目标状态如下；并非全部已经实现。`NEED_REINTERPRETATION`是交互安全行为而非Domain State，不加入此状态机：
 
 ```text
 UNDERSTANDING
 NEEDS_INPUT
 SEARCHING
-AWAITING_SELECTION
-REVALIDATING
 AWAITING_AUTHORIZATION
 EXECUTING
 HUMAN_TAKEOVER
@@ -123,9 +120,9 @@ CANCELLED_VERIFIED
 
 关键转换：
 
-- Intent完整→`SEARCHING`。
-- 候选就绪→`AWAITING_SELECTION`。
-- 用户点击`Book this`→`REVALIDATING`。
+- Intent完整后由Agent选择`SEARCH_RESTAURANTS`→`SEARCHING`。
+- Agent可在Discovery后独立调用`CHECK_AVAILABILITY`、`SELECT_CANDIDATE`和`BOOK_RESERVATION`。
+- `BOOK_RESERVATION`只创建Action Proposal并进入`AWAITING_AUTHORIZATION`。
 - Offer失效或明确失败→`SELECTION_REQUIRED`，不自动换店。
 - 提交后结果不明→`OUTCOME_UNKNOWN`，不允许新预约。
 

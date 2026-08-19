@@ -13,7 +13,7 @@ description: Praxis编码前架构守卫；只保护长期依赖、状态权威�
 - LLM只产生不可信Proposal或解释，不直接写State、Event、Authorization、Outcome，也不直接执行Tool。
 - Domain拥有业务语义；Core不得依赖Concrete Domain，Domain之间不得直接依赖。
 - Semantic Compiler是Domain-owned纯确定性代码，不依赖模型、Live Data、Policy、Tool或Adapter。
-- Decision Kernel只读取Authoritative State与Trusted Evidence，只产生Decision，不写State或调用Tool。
+- Restaurant Action Validator只读取Authoritative State与Trusted Evidence，只产生`ALLOWED` / `REJECTED` / `REQUIRES_AUTHORIZATION` verdict，不选择下一步、不写State或调用Tool。Agent Action仍是不可信Proposal。
 - Policy拥有副作用许可；Tool Call、模型建议和UI操作都不是Authorization。
 - Verifier拥有现实Outcome解释权；提交后结果不明进入`OUTCOME_UNKNOWN`，不得盲目重试。
 - Web/client不得持有Provider Secret、权威业务状态或直接依赖Provider实现。
@@ -51,7 +51,7 @@ LLM ─X→ authoritative state / execution
 npm run arch:check
 ```
 
-自动检查只覆盖可可靠判断的import依赖：Core逆向依赖、跨Domain依赖、Web到Provider实现、Restaurant Compiler/Kernel到模型或Adapter。以下仍需人工审阅：
+自动检查只覆盖可可靠判断的import依赖：Core逆向依赖、跨Domain依赖、Web到Provider实现、Restaurant Compiler/Action Validator到模型或Adapter。以下仍需人工审阅：
 
 1. 是否改变Accepted ADR或权威职责；
 2. 模型输出是否被误当作语义正确、用户确认或可信Evidence；

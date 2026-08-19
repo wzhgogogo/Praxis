@@ -2,11 +2,11 @@ import assert from "node:assert/strict";
 import { describe, test } from "node:test";
 
 import type { ExecutionResult } from "../../core/execution/contracts.js";
-import { fixtureCandidates } from "../../harness/restaurant-fixtures.js";
+import { fixtureCandidates, fixtureOffers } from "../../harness/restaurant-fixtures.js";
 import type { BookingProofBundle } from "./contracts.js";
 import { verifyBookingCompletion } from "./booking-verifier.js";
 
-const candidate = fixtureCandidates[0]!;
+const selection = { candidate: fixtureCandidates[0]!, offer: fixtureOffers[0]! };
 const executionResult: ExecutionResult = {
   status: "SUBMITTED",
   attemptId: "attempt-1",
@@ -25,9 +25,9 @@ function proof(overrides: Partial<BookingProofBundle> = {}): BookingProofBundle 
     claims: {
       status: "CONFIRMED",
       providerReference: "reservation-1",
-      restaurantId: candidate.restaurant.id,
-      dateTime: candidate.offer.dateTime,
-      partySize: candidate.offer.partySize,
+      restaurantId: selection.candidate.restaurant.id,
+      dateTime: selection.offer.dateTime,
+      partySize: selection.offer.partySize,
     },
     matchedFields: [],
     missingFields: [],
@@ -39,7 +39,7 @@ function proof(overrides: Partial<BookingProofBundle> = {}): BookingProofBundle 
 describe("verifyBookingCompletion", () => {
   test("confirms strong evidence only when every completion field matches", () => {
     const result = verifyBookingCompletion({
-      candidate,
+      selection,
       executionResult,
       observation: {
         status: "EVIDENCE",
@@ -65,7 +65,7 @@ describe("verifyBookingCompletion", () => {
 
   test("keeps weak evidence inconclusive even when its claims match", () => {
     const result = verifyBookingCompletion({
-      candidate,
+      selection,
       executionResult,
       observation: {
         status: "EVIDENCE",
@@ -79,7 +79,7 @@ describe("verifyBookingCompletion", () => {
 
   test("rejects evidence produced for a different execution attempt", () => {
     const result = verifyBookingCompletion({
-      candidate,
+      selection,
       executionResult,
       observation: {
         status: "EVIDENCE",
@@ -96,7 +96,7 @@ describe("verifyBookingCompletion", () => {
 
   test("reports mismatched restaurant, time and party size as conflicts", () => {
     const result = verifyBookingCompletion({
-      candidate,
+      selection,
       executionResult,
       observation: {
         status: "EVIDENCE",

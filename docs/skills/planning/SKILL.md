@@ -43,7 +43,7 @@ Documentation updates
 - Contract通过是否只代表结构合法？语义正确性将如何独立评测，不能被Schema通过率掩盖？
 - 哪些字段由Interpreter提供，哪些由Compiler确定性生成，哪些由Reducer推导，哪些只可来自Trusted Evidence？
 - Compiler是否为Domain-owned、纯确定性、可Replay代码？它输出哪些Domain Event/State Patch，拒绝哪些Proposal？
-- Decision Kernel是否只读取Authoritative State与Trusted Evidence？它的Decision如何成为Runtime Command而不是直接Tool Call？
+- Agent是否只提出不可信业务Action，而Action Validator是否只读取Authoritative State与Trusted Evidence、只返回verdict、不选择下一步？已验证Action如何成为受控Runtime/Router工作而不是直接Tool Call？
 - `NEED_REINTERPRETATION`如何记录冲突、询问用户或安全降级？本切片是否禁止自动重解释和State覆盖？
 - LLM Response/Adjustment是否只提供解释或建议？用户是否必须用新消息确认，才能重新进入正式Proposal链？
 - 新Tool是只读、提议还是副作用？
@@ -59,7 +59,7 @@ Documentation updates
 
 ## ADR触发
 
-改变模型供应商、Semantic Interpreter/Contract/Compiler/Decision Kernel职责边界、单/多Agent、候选授权、部署边界、Runtime/Domain依赖、Outcome权威或关键数据政策时，先新增ADR。局部实现选择无需ADR，但应在Design或Dev Log记录。
+改变模型供应商、Semantic Interpreter/Contract/Compiler/Agent Loop/Action Validator职责边界、单/多Agent、候选授权、部署边界、Runtime/Domain依赖、Outcome权威或关键数据政策时，先新增ADR。局部实现选择无需ADR，但应在Design或Dev Log记录。
 
 ## 开发就绪标准
 

@@ -80,6 +80,48 @@ function fixtureSemanticProposalFor(message: string): RestaurantSemanticProposal
   return { schemaVersion: "3", facts };
 }
 
+function fixtureAgentAction(request: ModelRequest): Record<string, unknown> {
+  const content = request.messages.find((message) => message.role === "user")?.content;
+  if (!content) throw new Error("Fixture model gateway expected Restaurant Agent context");
+  const context = JSON.parse(content) as { authoritativeState?: Record<string, unknown> };
+  const state = context.authoritativeState;
+  if (!state) throw new Error("Fixture model gateway expected authoritative state");
+  const draft = state.intentDraft as Record<string, unknown> | undefined;
+  const complete = draft && draft.date && draft.timeWindow && draft.partySize && draft.area;
+  if (!complete) {
+    return {
+      type: "ASK_USER",
+      question: "Please share the date, time, party size, and area needed for the restaurant search.",
+      decisionSummary: "blocking details are incomplete",
+    };
+  }
+  const { schemaVersion: _schemaVersion, ...intent } = draft;
+  const candidates = Array.isArray(state.candidates) ? state.candidates as Array<{ restaurant?: { id?: string } }> : [];
+  if (candidates.length === 0) {
+    return { type: "SEARCH_RESTAURANTS", request: { intent }, decisionSummary: "discover candidates" };
+  }
+  const availability = state.availability as Record<string, Array<{ id?: string }>> | undefined;
+  const candidateIds = candidates.map((candidate) => candidate.restaurant?.id).filter((id): id is string => typeof id === "string");
+  const availableIds = candidateIds.filter((candidateId) => (availability?.[candidateId]?.length ?? 0) > 0);
+  if (availableIds.length === 0) {
+    return {
+      type: "CHECK_AVAILABILITY",
+      request: { candidateIds, date: draft.date, timeWindow: draft.timeWindow, partySize: draft.partySize },
+      decisionSummary: "check discovered candidates",
+    };
+  }
+  const selectedCandidateId = typeof state.selectedCandidateId === "string" ? state.selectedCandidateId : undefined;
+  const selectedOfferId = typeof state.selectedOfferId === "string" ? state.selectedOfferId : undefined;
+  if (!selectedCandidateId || !selectedOfferId) {
+    const candidateId = availableIds[0]!;
+    const offerId = availability?.[candidateId]?.[0]?.id;
+    if (typeof offerId !== "string") throw new Error("Fixture availability is missing offer ID");
+    return { type: "SELECT_CANDIDATE", candidateId, offerId, decisionSummary: "select a fresh fixture offer" };
+  }
+  if (state.phase === "BOOKED_VERIFIED") return { type: "COMPLETE", decisionSummary: "verified booking is terminal" };
+  return { type: "BOOK_RESERVATION", candidateId: selectedCandidateId, offerId: selectedOfferId, decisionSummary: "request authorization checkpoint" };
+}
+
 /**
  * Local-only deterministic model double for the current v17 semantic path.
  */
@@ -91,6 +133,9 @@ export class FixtureModelGateway implements ModelGateway {
       if (request.purpose === "restaurant_semantic_interpret") {
         const message = userMessage(request, "User restaurant message as JSON string: ");
         return fixtureSemanticProposalFor(message);
+      }
+      if (request.purpose === "restaurant_agent_decide") {
+        return fixtureAgentAction(request);
       }
       throw new Error(`Fixture model gateway does not support ${request.purpose}`);
     })();

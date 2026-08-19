@@ -4,7 +4,7 @@ import { resolve } from "node:path";
 
 import {
   RESTAURANT_BLOCKING_FIELDS,
-  type RestaurantDecision,
+  type RestaurantSemanticExpectedDecision,
   type RestaurantIntentDraft,
 } from "../../domains/restaurant/contracts.js";
 import { validateRestaurantIntentDraft } from "../../domains/restaurant/intent-draft.js";
@@ -51,12 +51,11 @@ export const RESTAURANT_SEMANTIC_HOLDOUT_MANIFEST = {
     "SEMANTIC_PROPOSAL_CONTRACT",
     "RESTAURANT_SEMANTIC_COMPILER",
     "TASK_RUNTIME_REDUCER",
-    "RESTAURANT_DECISION_KERNEL",
   ],
 } as const;
 
 export type RestaurantSemanticHoldoutDecision = Extract<
-  RestaurantDecision,
+  RestaurantSemanticExpectedDecision,
   { type: "ASK_USER" | "SEARCH" }
 >;
 

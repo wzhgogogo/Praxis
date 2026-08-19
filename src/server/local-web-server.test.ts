@@ -13,6 +13,7 @@ import {
 } from "../application/persistent-restaurant-agent.js";
 import { FakeClock } from "../harness/fake-clock.js";
 import { RestaurantSemanticInterpreter } from "../domains/restaurant/semantic-interpreter.js";
+import { RestaurantAgentDecision } from "../domains/restaurant/agent-decision.js";
 import { FixtureModelGateway } from "../infrastructure/fixture/fixture-model-gateway.js";
 import { FixtureRestaurantSearch } from "../infrastructure/fixture/fixture-restaurant-search.js";
 import { applyPostgresMigrations } from "../infrastructure/postgres/migrations.js";
@@ -61,11 +62,15 @@ interface TestServer {
 }
 
 async function startServer(database: SqlDatabase, clock: FakeClock): Promise<TestServer> {
+  const model = new FixtureModelGateway();
+  const restaurant = new FixtureRestaurantSearch();
   const application = new PersistentRestaurantAgentApplication({
     database,
     clock,
-    semanticInterpreter: new RestaurantSemanticInterpreter(new FixtureModelGateway()),
-    restaurantSearch: new FixtureRestaurantSearch(),
+    semanticInterpreter: new RestaurantSemanticInterpreter(model),
+    agentDecision: new RestaurantAgentDecision(model),
+    restaurantSearch: restaurant,
+    restaurantAvailability: restaurant,
   });
   const sessions = new PilotSessionService(application.store, ACCESS, clock);
   const server = createLocalWebServer({ application, sessions });
@@ -194,7 +199,7 @@ test("W01 restores a conversation, case and task after server restart", async ()
     const first = await startServer(database, clock);
     const cookie = await login(first.baseUrl, "token-a");
     const created = await createCase(first.baseUrl, cookie);
-    assert.equal(created.case.phase, "AWAITING_SELECTION");
+    assert.equal(created.case.phase, "AWAITING_AUTHORIZATION");
     assert.equal(created.restaurant.candidates.length, 3);
     await first.close();
 
@@ -232,9 +237,8 @@ test("W02 resumes the same case from a second mobile-web session", async () => {
         mobileCookie,
         `/api/cases/${encodeURIComponent(created.case.caseId)}`,
       );
-      // A complete Fixture request records Proposal, SEARCH decision, search observation and
-      // candidate-presentation decision; version numbers reflect authoritative transitions.
-      assert.equal((resumed.payload.view as RestaurantCaseView).case.taskVersion, 4);
+      // v18 records semantic compilation plus Agent search, availability, selection and proposal events.
+      assert.equal((resumed.payload.view as RestaurantCaseView).case.taskVersion, 5);
     } finally {
       await running.close();
     }
@@ -264,7 +268,7 @@ test("W03 denies cross-user case and event-stream access", async () => {
   });
 });
 
-test("W04 SSE reconnect sends an idempotent snapshot and later authoritative activity once", async () => {
+test("W04 SSE reconnect sends an idempotent Agent-loop snapshot", async () => {
   await withDatabase(async ({ database, clock }) => {
     const running = await startServer(database, clock);
     try {
@@ -283,29 +287,14 @@ test("W04 SSE reconnect sends an idempotent snapshot and later authoritative act
         first.activities.map((item) => item.activityId),
       );
 
-      const candidateId = created.restaurant.candidates[0]!.restaurant.id;
-      const selected = await api(
-        running.baseUrl,
-        cookie,
-        `/api/cases/${encodeURIComponent(created.case.caseId)}/select`,
-        {
-          method: "POST",
-          body: JSON.stringify({
-            candidateId,
-            taskVersion: created.case.taskVersion,
-            requestId: "request-select",
-          }),
-        },
-      );
-      assert.equal(selected.response.status, 200);
       const latest = await readFirstCaseEvent(running.baseUrl, cookie, created.case.caseId);
       assert.equal(latest.case.phase, "AWAITING_AUTHORIZATION");
       assert.equal(
         new Set(latest.activities.map((item) => item.activityId)).size,
         latest.activities.length,
       );
-      assert.equal(latest.activities.filter((item) => item.type === "SELECT_CANDIDATE").length, 1);
-      assert.equal(latest.activities.filter((item) => item.type === "OFFER_REVALIDATED").length, 1);
+      assert.equal(latest.activities.filter((item) => item.type === "CANDIDATE_SELECTED").length, 1);
+      assert.equal(latest.activities.filter((item) => item.type === "AVAILABILITY_CHECKED").length, 1);
     } finally {
       await running.close();
     }
@@ -336,7 +325,7 @@ test("W05 conversation claims cannot change authoritative task state or outcome"
         `/api/cases/${encodeURIComponent(created.case.caseId)}`,
       );
       const view = fetched.payload.view as RestaurantCaseView;
-      assert.equal(view.case.phase, "AWAITING_SELECTION");
+      assert.equal(view.case.phase, "AWAITING_AUTHORIZATION");
       assert.equal(view.case.taskVersion, created.case.taskVersion);
       assert.equal(view.artifacts.some((item) => item.type === "OUTCOME"), false);
       assert.equal(
@@ -395,7 +384,7 @@ test("Stage 2B continues an incomplete request and enforces optimistic concurren
         },
       );
       assert.equal(revised.response.status, 200);
-      assert.equal((revised.payload.view as RestaurantCaseView).case.phase, "AWAITING_SELECTION");
+      assert.equal((revised.payload.view as RestaurantCaseView).case.phase, "AWAITING_AUTHORIZATION");
     } finally {
       await running.close();
     }

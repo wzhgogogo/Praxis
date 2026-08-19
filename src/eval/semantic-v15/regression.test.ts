@@ -7,7 +7,7 @@ import { runRestaurantSemanticRegression } from "./regression.js";
 import { compileRestaurantSemanticProposal } from "../../domains/restaurant/semantic-compiler.js";
 import { restaurantSemanticRegressionProposalFor } from "./stage-oracles.js";
 
-test("v17 semantic regression runs Proposal, Compiler, Runtime/Reducer, and Kernel in order", async () => {
+test("v18 semantic regression runs Proposal, Compiler, and Runtime/Reducer in order", async () => {
   const interpreter = new RestaurantSemanticRegressionFixtureInterpreter();
 
   const report = await runRestaurantSemanticRegression(interpreter, {
@@ -30,7 +30,7 @@ test("v17 semantic regression runs Proposal, Compiler, Runtime/Reducer, and Kern
   assert.equal(interpreter.inputs[1]?.currentDraft?.area?.query, "Shinjuku");
 });
 
-test("development attribution stops at Compiler before Reducer and Kernel", async () => {
+test("development attribution stops at Compiler before Reducer", async () => {
   const report = await runRestaurantSemanticRegression(
     new RestaurantSemanticRegressionFixtureInterpreter(),
     {
@@ -53,7 +53,7 @@ test("development attribution stops at Compiler before Reducer and Kernel", asyn
   assert.equal(report.turns[0]?.firstFailureStage, "COMPILER");
 });
 
-test("development attribution reaches Kernel only after authoritative Draft matches", async () => {
+test("development attribution stops at the semantic reducer boundary", async () => {
   const report = await runRestaurantSemanticRegression(
     new RestaurantSemanticRegressionFixtureInterpreter(),
     {
@@ -63,15 +63,9 @@ test("development attribution reaches Kernel only after authoritative Draft matc
         ...restaurantSemanticRegressionV3,
         sessions: [restaurantSemanticRegressionV3.sessions[3]!],
       },
-      dependencies: {
-        decide: () => ({
-          type: "ASK_USER",
-          missingRequiredFields: ["date"],
-        }),
-      },
     },
   );
-  assert.equal(report.turns[0]?.firstFailureStage, "DECISION_KERNEL");
+  assert.equal(report.turns[0]?.status, "PASS");
 });
 
 test("invalid model JSON is attributed to Proposal Contract and blocks downstream turns", async () => {

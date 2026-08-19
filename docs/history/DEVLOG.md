@@ -1,13 +1,30 @@
 # Development Log
 
 - Status: Accepted
-- Version: 4.26
-- Last updated: 2026-08-18
+- Version: 4.27
+- Last updated: 2026-08-19
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## 2026-08-19 — Restaurant v18 Agent Loop
+
+### Why
+
+v17's deterministic next-step kernel coupled Discovery candidates to Availability offers and encoded retry/selection workflow in Runtime code. The next vertical slice needs one bounded Restaurant Agent to choose business actions while retaining deterministic State, authorization, side-effect and Outcome controls.
+
+### Changes
+
+- Added ADR-0010 and the `codex/restaurant-decision-v18` branch. Replaced deterministic next-step commands with a static six-action Restaurant capability catalog, ModelGateway-backed Agent Decision, deterministic Action Validator and bounded coordinator.
+- Split `RestaurantCandidate` from `AvailabilityOffer`; Discovery and Availability are independent read-only routes. Agent selection of a candidate/offer creates only a deterministic booking proposal, after which the existing Policy, one-time Authorization, Commit, Verifier and `OUTCOME_UNKNOWN` protections remain authoritative.
+- Added structured Agent trajectory storage (including state hashes, action, verdict, route and observation) for PostgreSQL and Mock artifacts. Removed the user candidate-selection endpoint and obsolete `AWAITING_SELECTION` path.
+- Reworked Fixture/Mock Harness and local Workspace paths. New Harness scenarios prove second-search and unavailable-A-to-B availability strategy originate from Scripted Agent actions rather than deterministic fallback.
+
+### Boundary
+
+No Browser automation, Live Provider, Replay, real model request, Live Read-only, Authorization, booking, payment, cancellation or Controlled Live-write occurred. User-owned untracked evaluation directories were not read or modified.
 
 ## 2026-08-18 — Prompt v7 v5-slot / v6-criteria diagnostic
 

@@ -2,7 +2,9 @@
 
 ## Status
 
-Accepted — 2026-08-13
+Superseded by ADR-0010 — 2026-08-19
+
+The Semantic Interpreter, Proposal Contract, and deterministic Restaurant Compiler decisions remain in force. ADR-0010 replaces this ADR's v17 deterministic next-step selection by the Restaurant Decision Kernel.
 
 ## Context
 

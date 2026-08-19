@@ -10,6 +10,7 @@ import {
 } from "../application/persistent-restaurant-agent.js";
 import type { RestaurantCaseView, WorkspaceUser } from "../application/agent-workspace.js";
 import { RestaurantSemanticInterpreter } from "../domains/restaurant/semantic-interpreter.js";
+import { RestaurantAgentDecision } from "../domains/restaurant/agent-decision.js";
 import { FixtureModelGateway } from "../infrastructure/fixture/fixture-model-gateway.js";
 import { FixtureRestaurantSearch } from "../infrastructure/fixture/fixture-restaurant-search.js";
 import { applyPostgresMigrations } from "../infrastructure/postgres/migrations.js";
@@ -179,20 +180,6 @@ export function createLocalWebServer(options: LocalWebServerOptions): Server {
         json(response, 200, { view });
         return;
       }
-      const selectMatch = /^\/api\/cases\/([^/]+)\/select$/.exec(url.pathname);
-      if (method === "POST" && selectMatch) {
-        const body = await readJson(request);
-        const view = await options.application.selectCandidate({
-          userId: user.id,
-          caseId: decodeURIComponent(selectMatch[1]!),
-          candidateId: requireString(body, "candidateId"),
-          requestId: requireString(body, "requestId"),
-          expectedVersion: requireVersion(body),
-        });
-        hub.publish(view);
-        json(response, 200, { view });
-        return;
-      }
       const eventMatch = /^\/api\/cases\/([^/]+)\/events$/.exec(url.pathname);
       if (method === "GET" && eventMatch) {
         const caseId = decodeURIComponent(eventMatch[1]!);
@@ -247,10 +234,14 @@ async function start(): Promise<void> {
   if (!connectionString) throw new Error("DATABASE_URL is required for the Stage 2B persistent workspace");
   const database = new NodePostgresDatabase({ connectionString });
   await applyPostgresMigrations(database);
+  const fixtureModel = new FixtureModelGateway();
+  const fixtureRestaurant = new FixtureRestaurantSearch();
   const application = new PersistentRestaurantAgentApplication({
     database,
-    semanticInterpreter: new RestaurantSemanticInterpreter(new FixtureModelGateway()),
-    restaurantSearch: new FixtureRestaurantSearch(),
+    semanticInterpreter: new RestaurantSemanticInterpreter(fixtureModel),
+    agentDecision: new RestaurantAgentDecision(fixtureModel),
+    restaurantSearch: fixtureRestaurant,
+    restaurantAvailability: fixtureRestaurant,
   });
   const sessions = new PilotSessionService(application.store, pilotEntriesFromEnvironment(), {
     now: () => new Date(),

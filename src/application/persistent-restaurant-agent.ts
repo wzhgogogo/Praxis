@@ -1,6 +1,5 @@
 import { createHash, randomBytes, randomUUID } from "node:crypto";
 
-import { DurableCommandWorker } from "../core/task-runtime/durable-command-worker.js";
 import type {
   IdFactory,
   RecordedEventEnvelope,
@@ -8,6 +7,9 @@ import type {
   TaskSnapshot,
 } from "../core/task-runtime/contracts.js";
 import { StaleTaskVersionError } from "../core/task-runtime/errors.js";
+import type {
+  RestaurantAgentDecisionPort,
+} from "../domains/restaurant/agent-decision.js";
 import type {
   RestaurantCommand,
   RestaurantEvent,
@@ -20,8 +22,11 @@ import {
   type ConversationRecord,
   PostgresAgentWorkspaceStore,
 } from "../infrastructure/postgres/postgres-agent-workspace-store.js";
-import { PostgresCommandOutbox } from "../infrastructure/postgres/postgres-command-outbox.js";
 import { PostgresTaskRuntime } from "../infrastructure/postgres/postgres-task-runtime.js";
+import {
+  PostgresRestaurantAgentTrajectoryStore,
+  type RestaurantAgentTrajectoryStep,
+} from "../infrastructure/postgres/restaurant-agent-trajectory-store.js";
 import type { SqlDatabase } from "../infrastructure/postgres/sql-database.js";
 import {
   AGENT_WORKSPACE_MODE,
@@ -34,13 +39,13 @@ import {
   pendingAction,
 } from "./agent-workspace.js";
 import {
-  executeRestaurantReadCommand,
   restaurantEventForMessage,
+  RestaurantExecutionRouter,
+  type RestaurantAvailabilityPort,
   type RestaurantSearchPort,
   type RestaurantSemanticInterpreterPort,
 } from "./restaurant-orchestration.js";
-
-const MAX_DRAINED_COMMANDS = 20;
+import { RestaurantAgentLoopCoordinator } from "./restaurant-agent-loop.js";
 
 type RestaurantRuntime = PostgresTaskRuntime<
   RestaurantTaskState,
@@ -71,27 +76,26 @@ function eventActivity(
         };
       case "SEMANTIC_CONFLICT_RECORDED":
         return { title: "Clarification needed", detail: event.event.conflict.message };
-      case "RESTAURANT_DECISION_MADE":
-        return {
-          title: "Next step decided",
-          detail: event.event.decision.type.replaceAll("_", " ").toLowerCase(),
-        };
+      case "AGENT_ASKED_USER":
+        return { title: "Agent asks for input", detail: event.event.question };
+      case "AGENT_DECISION_FAILED":
+        return { title: "Agent needs help", detail: event.event.reason };
       case "SEARCH_COMPLETED":
         return {
           title: "Fixture search completed",
-          detail: `${event.event.candidates.length} deterministic candidates are ready.`,
+          detail: `${event.event.candidates.length} fixture discovery candidates are ready.`,
         };
-      case "SELECT_CANDIDATE":
+      case "CANDIDATE_SELECTED":
         return { title: "Candidate selected", detail: event.event.candidateId };
-      case "OFFER_REVALIDATED":
+      case "AVAILABILITY_CHECKED":
         return {
-          title: "Fixture offer revalidated",
-          detail: "No live availability lookup or reservation was performed.",
+          title: "Fixture availability checked",
+          detail: `${event.event.offers.length} fixture offers were observed.`,
         };
       case "SEARCH_FAILED":
         return { title: "Search failed", detail: event.event.reason };
-      case "OFFER_UNAVAILABLE":
-        return { title: "Offer unavailable", detail: event.event.candidateId };
+      case "BOOKING_PROPOSED":
+        return { title: "Authorization requested", detail: "A deterministic booking proposal is ready." };
       case "AUTHORIZE":
       case "POLICY_APPROVED":
       case "POLICY_DENIED":
@@ -120,16 +124,17 @@ function eventActivity(
 function assistantSummary(state: RestaurantTaskState): string {
   switch (state.phase) {
     case "NEEDS_INPUT":
+      if (state.pendingUserQuestion) return state.pendingUserQuestion.question;
       if (state.semanticConflict) {
         return "I found conflicting details in that message. Please clarify the restaurant, date, time, party size, or area you want to keep.";
       }
       return `Please add: ${missingBlockingFields(state.intentDraft ?? {}).join(", ")}.`;
-    case "AWAITING_SELECTION":
-      return `I found ${state.candidates.length} fixture candidates. Choose one to continue.`;
     case "AWAITING_AUTHORIZATION":
-      return "The selected fixture offer was revalidated. Authorization and booking are not enabled in Stage 2B.";
+      return state.proposal
+        ? `A booking proposal for ${state.proposal.target.counterparty ?? state.proposal.target.id} is ready. Your one-time authorization is required before any booking attempt.`
+        : "A booking proposal is awaiting authorization.";
     case "SELECTION_REQUIRED":
-      return "The current candidate cannot continue. Please choose another fixture candidate.";
+      return "The current candidate cannot continue. The Agent will evaluate another safe option.";
     default:
       return `The case is now ${state.phase.toLowerCase().replaceAll("_", " ")}.`;
   }
@@ -193,15 +198,17 @@ export interface PersistentRestaurantAgentOptions {
   clock?: RuntimeClock;
   createId?: IdFactory;
   semanticInterpreter: RestaurantSemanticInterpreterPort;
+  agentDecision: RestaurantAgentDecisionPort;
   restaurantSearch: RestaurantSearchPort;
+  restaurantAvailability: RestaurantAvailabilityPort;
 }
 
 export class PersistentRestaurantAgentApplication {
   readonly store: PostgresAgentWorkspaceStore;
   private readonly runtime: RestaurantRuntime;
   private readonly interpreter: RestaurantSemanticInterpreterPort;
-  private readonly search: RestaurantSearchPort;
-  private readonly worker: DurableCommandWorker<RestaurantCommand, RestaurantEvent>;
+  private readonly agentLoop: RestaurantAgentLoopCoordinator;
+  private readonly trajectories: PostgresRestaurantAgentTrajectoryStore;
   private readonly clock: RuntimeClock;
   private readonly createId: IdFactory;
 
@@ -209,7 +216,6 @@ export class PersistentRestaurantAgentApplication {
     this.clock = options.clock ?? { now: () => new Date() };
     this.createId = options.createId ?? ((prefix) => `${prefix}:${randomUUID()}`);
     this.interpreter = options.semanticInterpreter;
-    this.search = options.restaurantSearch;
     this.store = new PostgresAgentWorkspaceStore(options.database);
     this.runtime = new PostgresTaskRuntime(
       options.database,
@@ -217,13 +223,16 @@ export class PersistentRestaurantAgentApplication {
       this.clock,
       this.createId,
     );
-    this.worker = new DurableCommandWorker({
-      queue: new PostgresCommandOutbox(options.database),
-      runtime: this.runtime,
-      clock: this.clock,
-      leaseDurationMs: 30_000,
-      retryDelayMs: 1_000,
-    });
+    this.trajectories = new PostgresRestaurantAgentTrajectoryStore(options.database);
+    this.agentLoop = new RestaurantAgentLoopCoordinator(
+      this.runtime,
+      options.agentDecision,
+      new RestaurantExecutionRouter(options.restaurantSearch, options.restaurantAvailability),
+      this.trajectories,
+      this.clock,
+      {},
+      this.createId,
+    );
   }
 
   async createCase(
@@ -280,27 +289,6 @@ export class PersistentRestaurantAgentApplication {
     return this.project(record);
   }
 
-  async selectCandidate(input: {
-    userId: string;
-    caseId: string;
-    candidateId: string;
-    requestId: string;
-    expectedVersion: number;
-  }): Promise<RestaurantCaseView> {
-    const record = await this.requireCase(input.userId, input.caseId);
-    const snapshot = await this.runtime.snapshot(record.rootTaskId);
-    await this.runtime.dispatch(
-      this.userEvent(snapshot, input.requestId, {
-        type: "SELECT_CANDIDATE",
-        candidateId: input.candidateId,
-      }),
-      input.expectedVersion,
-    );
-    await this.drainReadCommands();
-    await this.appendAssistant(record, input.requestId);
-    return this.project(record);
-  }
-
   async getCase(userId: string, caseId: string): Promise<RestaurantCaseView> {
     return this.project(await this.requireCase(userId, caseId));
   }
@@ -308,6 +296,11 @@ export class PersistentRestaurantAgentApplication {
   async listCases(userId: string): Promise<RestaurantCaseSummary[]> {
     const records = await this.store.listConversationsForUser(userId);
     return Promise.all(records.map(async (record) => (await this.project(record)).case));
+  }
+
+  async listAgentTrajectory(userId: string, caseId: string): Promise<RestaurantAgentTrajectoryStep[]> {
+    const record = await this.requireCase(userId, caseId);
+    return this.trajectories.list(record.rootTaskId);
   }
 
   private async applyMessage(
@@ -338,7 +331,7 @@ export class PersistentRestaurantAgentApplication {
       requestId: `user:${requestId}`,
       createdAt: this.clock.now().toISOString(),
     });
-    await this.drainReadCommands();
+    await this.agentLoop.run(record.rootTaskId);
     await this.appendAssistant(record, requestId);
   }
 
@@ -372,21 +365,6 @@ export class PersistentRestaurantAgentApplication {
         actor: "USER" as const,
       },
     };
-  }
-
-  private async drainReadCommands(): Promise<void> {
-    const workerId = this.createId("fixture-read-worker");
-    for (let count = 0; count < MAX_DRAINED_COMMANDS; count += 1) {
-      const result = await this.worker.runOnce(workerId, async (leased) => {
-        const snapshot = await this.runtime.snapshot(leased.taskId);
-        return executeRestaurantReadCommand(leased.command, snapshot.domainState, this.search);
-      });
-      if (result.status === "IDLE") return;
-      if (result.status !== "SUCCEEDED") {
-        throw new Error(`Fixture command ${result.commandId} ended with ${result.status}`);
-      }
-    }
-    throw new Error(`Fixture command drain exceeded ${MAX_DRAINED_COMMANDS} commands`);
   }
 
   private async requireConversation(
@@ -431,7 +409,7 @@ export class PersistentRestaurantAgentApplication {
         domain: "restaurant",
         type: "CANDIDATES",
         sourceVersion: snapshot.version,
-        data: { candidates: structuredClone(state.candidates) },
+        data: { candidates: structuredClone(state.candidates), availability: structuredClone(state.availability) },
       });
     }
     if (state.phase === "AWAITING_AUTHORIZATION" && state.proposal) {
@@ -469,6 +447,7 @@ export class PersistentRestaurantAgentApplication {
       restaurant: {
         missingRequiredFields: missingBlockingFields(state.intentDraft ?? {}),
         candidates: structuredClone(state.candidates),
+        availability: structuredClone(state.availability),
         ...(state.selectedCandidateId ? { selectedCandidateId: state.selectedCandidateId } : {}),
       },
       artifacts,

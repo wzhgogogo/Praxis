@@ -1,14 +1,13 @@
 import type { RuntimeActor } from "../../core/task-runtime/contracts.js";
 import { InMemoryTaskRuntime } from "../../core/task-runtime/in-memory-task-runtime.js";
 import type {
-  RestaurantDecision,
   RestaurantCommand,
   RestaurantEvent,
+  RestaurantSemanticExpectedDecision,
   RestaurantIntentDraft,
   RestaurantOutcome,
   RestaurantTaskState,
 } from "../../domains/restaurant/contracts.js";
-import { decideRestaurantNext } from "../../domains/restaurant/decision-kernel.js";
 import { compileRestaurantSemanticProposal } from "../../domains/restaurant/semantic-compiler.js";
 import {
   RestaurantSemanticInterpreter,
@@ -16,7 +15,6 @@ import {
   type RestaurantSemanticInterpretResult,
 } from "../../domains/restaurant/semantic-interpreter.js";
 import { restaurantBookingTaskDefinition } from "../../domains/restaurant/task-definition.js";
-import { FixtureRestaurantSearch } from "../../infrastructure/fixture/fixture-restaurant-search.js";
 import { FakeClock } from "../../harness/fake-clock.js";
 import {
   type RestaurantSemanticRegressionDataset,
@@ -43,7 +41,6 @@ export type RestaurantSemanticRegressionFirstFailure =
   | "COMPILER"
   | "REDUCER"
   | "SEMANTIC_RESULT"
-  | "DECISION_KERNEL"
   | "RUNTIME";
 
 export interface RestaurantSemanticRegressionTurnResult {
@@ -54,7 +51,7 @@ export interface RestaurantSemanticRegressionTurnResult {
   errors: string[];
   modelStatus?: RestaurantSemanticInterpretResult["status"];
   actualDraft?: RestaurantIntentDraft;
-  actualDecision?: RestaurantDecision;
+  actualDecision?: RestaurantSemanticExpectedDecision;
   /** Static regression diagnostics only; ordinary production telemetry never retains this. */
   proposal?: unknown;
   compiledPatch?: unknown;
@@ -95,15 +92,12 @@ export async function runRestaurantSemanticRegression(
     dataset?: RestaurantSemanticRegressionDataset;
     dependencies?: {
       compile?: typeof compileRestaurantSemanticProposal;
-      decide?: typeof decideRestaurantNext;
     };
   },
 ): Promise<RestaurantSemanticRegressionReport> {
   const dataset = input.dataset ?? restaurantSemanticRegressionV3;
   const clock = new FakeClock(dataset.referenceTime);
-  const search = new FixtureRestaurantSearch();
   const compile = input.dependencies?.compile ?? compileRestaurantSemanticProposal;
-  const decide = input.dependencies?.decide ?? decideRestaurantNext;
   const results: RestaurantSemanticRegressionTurnResult[] = [];
   let sequence = 0;
 
@@ -258,14 +252,10 @@ export async function runRestaurantSemanticRegression(
       }
 
       let compiledState: RestaurantTaskState;
-      let issuedDecisionCommand = false;
       try {
         const compiledDispatch = dispatch(
           { type: "SEMANTIC_PROPOSAL_COMPILED", patch: compiled.patch },
           "MODEL",
-        );
-        issuedDecisionCommand = compiledDispatch.commands.some(
-          (command) => command.command.type === "DECIDE_RESTAURANT_NEXT",
         );
         compiledState = compiledDispatch.snapshot.domainState;
       } catch (error) {
@@ -285,7 +275,6 @@ export async function runRestaurantSemanticRegression(
         continue;
       }
 
-      const decision = decide(compiledState);
       const score = scoreRestaurantSemanticTurn({
         actualProposal: interpreted.proposal,
         ...(expectedProposal ? { expectedProposal } : {}),
@@ -295,8 +284,6 @@ export async function runRestaurantSemanticRegression(
           : {}),
         actualDraft: compiledState.intentDraft,
         expectedDraft: turn.expectedDraft,
-        actualDecision: decision,
-        expectedDecision: turn.expectedDecision,
       });
       if (score.status === "FAIL") {
         results.push(
@@ -308,7 +295,6 @@ export async function runRestaurantSemanticRegression(
             modelStatus: interpreted.status,
             errors: [score.error],
             ...(compiledState.intentDraft ? { actualDraft: compiledState.intentDraft } : {}),
-            actualDecision: decision,
             proposal: interpreted.proposal,
             compiledPatch: compiled.patch,
           }),
@@ -316,58 +302,6 @@ export async function runRestaurantSemanticRegression(
         blocked = true;
         continue;
       }
-      if (!issuedDecisionCommand) {
-        results.push(
-          result({
-            sessionId: session.id,
-            turnId: turn.id,
-            status: "FAIL",
-            firstFailureStage: "RUNTIME",
-            modelStatus: interpreted.status,
-            errors: ["A state-changing semantic result did not issue DECIDE_RESTAURANT_NEXT"],
-            ...(compiledState.intentDraft ? { actualDraft: compiledState.intentDraft } : {}),
-            actualDecision: decision,
-            proposal: interpreted.proposal,
-            compiledPatch: compiled.patch,
-          }),
-        );
-        blocked = true;
-        continue;
-      }
-      try {
-        dispatch({ type: "RESTAURANT_DECISION_MADE", decision }, "SYSTEM");
-        if (decision.type === "SEARCH") {
-          const searching = runtime.snapshot(taskId).domainState;
-          if (!searching.intent) throw new Error("SEARCH decision did not create an executable intent");
-          dispatch(
-            { type: "SEARCH_COMPLETED", candidates: await search.search(searching.intent) },
-            "ADAPTER",
-          );
-          const presentCandidates = decide(runtime.snapshot(taskId).domainState);
-          if (presentCandidates.type !== "PRESENT_CANDIDATES") {
-            throw new Error("Fixture search did not lead to PRESENT_CANDIDATES");
-          }
-          dispatch({ type: "RESTAURANT_DECISION_MADE", decision: presentCandidates }, "SYSTEM");
-        }
-      } catch (error) {
-        results.push(
-          result({
-            sessionId: session.id,
-            turnId: turn.id,
-            status: "FAIL",
-            firstFailureStage: "RUNTIME",
-            modelStatus: interpreted.status,
-            errors: [error instanceof Error ? error.message : String(error)],
-            ...(compiledState.intentDraft ? { actualDraft: compiledState.intentDraft } : {}),
-            actualDecision: decision,
-            proposal: interpreted.proposal,
-            compiledPatch: compiled.patch,
-          }),
-        );
-        blocked = true;
-        continue;
-      }
-
       results.push(
         result({
           sessionId: session.id,
@@ -375,7 +309,6 @@ export async function runRestaurantSemanticRegression(
           status: "PASS",
           modelStatus: interpreted.status,
           ...(compiledState.intentDraft ? { actualDraft: compiledState.intentDraft } : {}),
-          actualDecision: decision,
         }),
       );
     }

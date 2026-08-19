@@ -1,6 +1,7 @@
 import type {
-  ExecutableCandidate,
+  AvailabilityOffer,
   RestaurantBookingIntent,
+  RestaurantCandidate,
 } from "../domains/restaurant/contracts.js";
 
 export const fixtureIntent: RestaurantBookingIntent = {
@@ -8,41 +9,40 @@ export const fixtureIntent: RestaurantBookingIntent = {
   date: "2026-08-05",
   timeWindow: { earliest: "19:00", latest: "19:30" },
   partySize: 2,
-  area: { query: "Shinjuku", radiusMeters: 2_000 },
-  criteria: [{ text: "yakiniku", polarity: "POSITIVE", strength: "UNSPECIFIED" }],
+  area: { query: "Shinjuku" },
+  criteria: [{ text: "yakiniku", polarity: "POSITIVE", strength: "HARD" }],
   budgetPerPerson: { max: 5_000, currency: "JPY" },
 };
 
-function candidate(index: number): ExecutableCandidate {
+function candidate(index: number): RestaurantCandidate {
   const restaurantId = `restaurant-${index}`;
   return {
     restaurant: {
       id: restaurantId,
-      outletName: `Mock Yakiniku Shinjuku ${index}`,
-      sourceIds: { mock: `mock-${index}` },
+      outletName: `Restaurant ${index}`,
+      sourceIds: { fixture: `source-${index}` },
       address: `${index}-1 Shinjuku, Tokyo`,
-      coordinates: { lat: 35.69 + index / 1_000, lng: 139.7 + index / 1_000 },
-      provenance: { outletName: "mock", address: "mock" },
+      provenance: { outletName: "fixture", address: "fixture" },
     },
-    offer: {
-      id: `offer-${index}`,
-      restaurantId,
-      source: "mock",
-      dateTime: "2026-08-05T19:00:00+09:00",
-      timezone: "Asia/Tokyo",
-      partySize: 2,
-      seating: "TABLE",
-      price: { amount: 4_500 + index * 100, currency: "JPY", basis: "PER_PERSON" },
-      cancellationTerms: "Free cancellation until 17:00 JST",
-      bookingMode: "INSTANT",
-      executionMode: "API",
-      checkedAt: "2026-08-05T09:00:00.000Z",
-      expiresAt: "2026-08-05T09:30:00.000Z",
-    },
-    matchReasons: ["Available in the requested time window", "Within budget"],
+    matchReasons: ["Matches hard fixture criterion"],
     warnings: [],
     executionConfidence: "HIGH",
   };
 }
 
-export const fixtureCandidates = [candidate(1), candidate(2), candidate(3)];
+export const fixtureCandidates = [candidate(1), candidate(2), candidate(3), candidate(4)];
+
+export const fixtureOffers: AvailabilityOffer[] = fixtureCandidates.map((candidate, index) => ({
+  id: `offer-${index + 1}`,
+  restaurantId: candidate.restaurant.id,
+  source: "fixture",
+  dateTime: "2026-08-05T19:00:00+09:00",
+  timezone: "Asia/Tokyo",
+  partySize: 2,
+  price: { amount: 4_000 + index * 500, currency: "JPY", basis: "PER_PERSON" },
+  cancellationTerms: "Fixture cancellation terms",
+  bookingMode: "INSTANT",
+  executionMode: "API",
+  checkedAt: "2026-08-05T09:00:00.000Z",
+  expiresAt: "2026-08-05T10:00:00.000Z",
+}));

@@ -1,8 +1,8 @@
 import { isDeepStrictEqual } from "node:util";
 
 import type {
-  RestaurantDecision,
   RestaurantCriterion,
+  RestaurantSemanticExpectedDecision,
   RestaurantIntentDraft,
   RestaurantIntentPatch,
 } from "../../domains/restaurant/contracts.js";
@@ -11,7 +11,6 @@ import type {
   RestaurantSemanticProposal,
   RestaurantSemanticValue,
 } from "../../domains/restaurant/semantic-proposal.js";
-import type { RestaurantSemanticHoldoutDecision } from "./holdout.js";
 
 export const RESTAURANT_SEMANTIC_SCORER_VERSION = "3";
 
@@ -19,8 +18,7 @@ export type RestaurantSemanticScoreFailure =
   | "SEMANTIC_INTERPRETER"
   | "COMPILER"
   | "REDUCER"
-  | "SEMANTIC_RESULT"
-  | "DECISION_KERNEL";
+  | "SEMANTIC_RESULT";
 
 export type RestaurantSemanticScore =
   | { status: "PASS" }
@@ -145,8 +143,7 @@ export function equalRestaurantIntentDrafts(
 }
 
 /**
- * Deterministic v17 Gold scorer. Draft semantics are scored before the Kernel
- * decision so one wrong interpretation is never counted again downstream.
+ * Semantic scorer for the Interpreter → Compiler → Reducer boundary.
  */
 export function scoreRestaurantSemanticTurn(input: {
   actualProposal?: RestaurantSemanticProposal;
@@ -155,8 +152,9 @@ export function scoreRestaurantSemanticTurn(input: {
   expectedCompiledPatch?: RestaurantIntentPatch;
   actualDraft: RestaurantIntentDraft | undefined;
   expectedDraft: RestaurantIntentDraft;
-  actualDecision: RestaurantDecision;
-  expectedDecision: RestaurantSemanticHoldoutDecision;
+  /** Deprecated v17 eval labels, intentionally ignored by v18 semantic scoring. */
+  actualDecision?: RestaurantSemanticExpectedDecision;
+  expectedDecision?: RestaurantSemanticExpectedDecision;
 }): RestaurantSemanticScore {
   const hasStageOracle = input.expectedProposal !== undefined;
   if (
@@ -186,13 +184,6 @@ export function scoreRestaurantSemanticTurn(input: {
       error: hasStageOracle
         ? "Authoritative Draft differs after a correct Proposal and compiled patch"
         : "Compiled authoritative draft does not match the labelled semantic result",
-    };
-  }
-  if (!isDeepStrictEqual(input.actualDecision, input.expectedDecision)) {
-    return {
-      status: "FAIL",
-      firstFailureStage: "DECISION_KERNEL",
-      error: "Decision Kernel result does not match the labelled next step",
     };
   }
   return { status: "PASS" };

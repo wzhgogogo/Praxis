@@ -1,6 +1,7 @@
 import type { TaskLifecycleState } from "../core/task-runtime/contracts.js";
 import type {
-  ExecutableCandidate,
+  AvailabilityOffer,
+  RestaurantCandidate,
   RestaurantOutcome,
   RestaurantPhase,
 } from "../domains/restaurant/contracts.js";
@@ -43,7 +44,7 @@ export type AgentArtifact =
       domain: "restaurant";
       type: "CANDIDATES";
       sourceVersion: number;
-      data: { candidates: ExecutableCandidate[] };
+      data: { candidates: RestaurantCandidate[]; availability: Record<string, AvailabilityOffer[]> };
     }
   | {
       artifactId: string;
@@ -91,7 +92,8 @@ export interface RestaurantCaseView {
   };
   restaurant: {
     missingRequiredFields: string[];
-    candidates: ExecutableCandidate[];
+    candidates: RestaurantCandidate[];
+    availability: Record<string, AvailabilityOffer[]>;
     selectedCandidateId?: string;
   };
   artifacts: AgentArtifact[];
@@ -120,9 +122,6 @@ export function pendingAction(phase: RestaurantPhase): PendingUserAction | undef
   switch (phase) {
     case "NEEDS_INPUT":
       return "PROVIDE_DETAILS";
-    case "AWAITING_SELECTION":
-    case "SELECTION_REQUIRED":
-      return "SELECT_CANDIDATE";
     case "AWAITING_AUTHORIZATION":
       return "AUTHORIZE";
     case "OUTCOME_UNKNOWN":

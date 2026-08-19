@@ -1,8 +1,8 @@
 # Golden Scenarios
 
 - Status: Accepted
-- Version: 0.8
-- Last updated: 2026-08-08
+- Version: 0.9
+- Last updated: 2026-08-19
 - Source of truth for: 首批Harness场景目录和核心断言
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md)
 - Related documents: [Harness Design](HARNESS-DESIGN.md), [MVP PRD](../product/MVP-PRD.md)
@@ -11,7 +11,7 @@
 
 ## 当前自动化基线
 
-当前Mock切片已实现11个Bootstrap Harness场景，覆盖：授权成功预约、最多3个候选、未选择/未授权禁止提交、明确失败返回选择、弱Evidence进入`OUTCOME_UNKNOWN`、Unknown禁止换候选、Command重放不重复副作用、预约字段冲突、错误Attempt Evidence，以及Run Artifact因果链完整性。测试位于 [`restaurant-harness.test.ts`](../../src/harness/restaurant-harness.test.ts)。
+当前Mock切片已实现13个Bootstrap Harness场景，覆盖：授权成功预约、最多3个候选、未授权禁止提交、明确失败返回选择、弱Evidence进入`OUTCOME_UNKNOWN`、Unknown禁止换候选、Command重放不重复副作用、预约字段冲突、错误Attempt Evidence、Run Artifact因果链完整性，以及Agent发起的第二次搜索与A→B Availability策略。测试位于 [`restaurant-harness.test.ts`](../../src/harness/restaurant-harness.test.ts)。
 
 `G03-coordination-parent-child`已作为PGlite Runtime Graph场景实现：两个关键子任务成功后Goal才进入`ACHIEVED`；未满足依赖为`WAITING`、失败上游为`BLOCKED`、环依赖被拒绝。它不代表跨Domain Child Task Command或自动启动已经实现。
 
@@ -19,7 +19,7 @@
 
 这些Bootstrap场景覆盖下方部分Golden要求和通用安全不变量，但不表示45个目录项已经全部实现；目录项仍需按原ID逐步补齐。
 
-Stage 2A新增本地Fixture Search基线：一条完整英文请求经HTTP API进入`AWAITING_SELECTION`并返回3个候选；一条缺日期/时间/人数请求进入`NEEDS_INPUT`且仅列出这三个字段；选择候选后停在`AWAITING_AUTHORIZATION`，不创建Authorization或外部写操作。它是`FIXTURE`纵向路径，不可报告为R12真实可执行候选或真实模型质量。
+Stage 2A/2B的v18 Fixture基线：一条完整英文请求经HTTP API由Agent依次完成Discovery、Availability、Candidate/Offer选择并进入`AWAITING_AUTHORIZATION`；一条缺日期/时间/人数请求进入`NEEDS_INPUT`且仅列出这三个字段。该路径不创建Authorization或外部写操作，是`FIXTURE`纵向路径，不可报告为R12真实可执行候选或真实模型质量。
 
 Stage 2B的`W01–W05`已作为Local HTTP/SSE + PGlite集成场景实现并通过；另有Responsive页面Contract和陈旧版本场景。它们证明Fixture Workspace的持久恢复、用户隔离和非权威Projection，不证明真实PostgreSQL部署、真实浏览器视觉、生产身份或真实Provider。
 

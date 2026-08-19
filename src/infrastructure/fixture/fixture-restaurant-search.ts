@@ -1,11 +1,13 @@
 import type {
-  ExecutableCandidate,
+  AvailabilityOffer,
+  RestaurantAvailabilityRequest,
   RestaurantBookingIntent,
+  RestaurantCandidate,
+  RestaurantSearchRequest,
 } from "../../domains/restaurant/contracts.js";
 
-function candidate(intent: RestaurantBookingIntent, index: number): ExecutableCandidate {
+function candidate(_intent: RestaurantBookingIntent, index: number): RestaurantCandidate {
   const restaurantId = `fixture-restaurant-${index}`;
-  const earliest = intent.timeWindow.earliest;
   return {
     restaurant: {
       id: restaurantId,
@@ -15,22 +17,7 @@ function candidate(intent: RestaurantBookingIntent, index: number): ExecutableCa
       coordinates: { lat: 35.69 + index / 1_000, lng: 139.7 + index / 1_000 },
       provenance: { outletName: "fixture", address: "fixture" },
     },
-    offer: {
-      id: `fixture-offer-${index}`,
-      restaurantId,
-      source: "fixture",
-      dateTime: `${intent.date}T${earliest}:00+09:00`,
-      timezone: "Asia/Tokyo",
-      partySize: intent.partySize,
-      seating: "TABLE",
-      price: { amount: 4_400 + index * 200, currency: "JPY", basis: "PER_PERSON" },
-      cancellationTerms: "Fixture only — no real reservation or cancellation terms.",
-      bookingMode: "INSTANT",
-      executionMode: "DEEPLINK",
-      checkedAt: "2026-08-05T09:00:00.000Z",
-      expiresAt: "2026-08-05T09:30:00.000Z",
-    },
-    matchReasons: ["Fixture match for the requested area", "Fixture availability for the requested time"],
+    matchReasons: ["Fixture match for the requested area"],
     warnings: ["Fixture data only — availability is not real."],
     executionConfidence: "LOW",
   };
@@ -38,11 +25,25 @@ function candidate(intent: RestaurantBookingIntent, index: number): ExecutableCa
 
 /** Local-only read adapter for the Stage 2A vertical slice. */
 export class FixtureRestaurantSearch {
-  async search(intent: RestaurantBookingIntent): Promise<ExecutableCandidate[]> {
-    return [candidate(intent, 1), candidate(intent, 2), candidate(intent, 3)];
+  async search(request: RestaurantSearchRequest): Promise<RestaurantCandidate[]> {
+    return [candidate(request.intent, 1), candidate(request.intent, 2), candidate(request.intent, 3)];
   }
 
-  async revalidate(candidate: ExecutableCandidate): Promise<ExecutableCandidate> {
-    return structuredClone(candidate);
+  async check(request: RestaurantAvailabilityRequest): Promise<AvailabilityOffer[]> {
+    return request.candidateIds.map((restaurantId, index) => ({
+      id: `fixture-offer-${restaurantId}`,
+      restaurantId,
+      source: "fixture",
+      dateTime: `${request.date}T${request.timeWindow.earliest}:00+09:00`,
+      timezone: "Asia/Tokyo",
+      partySize: request.partySize,
+      seating: "TABLE",
+      price: { amount: 4_400 + index * 200, currency: "JPY", basis: "PER_PERSON" },
+      cancellationTerms: "Fixture only — no real reservation or cancellation terms.",
+      bookingMode: "INSTANT",
+      executionMode: "DEEPLINK",
+      checkedAt: "2026-08-19T09:00:00.000Z",
+      expiresAt: "2026-12-31T23:59:00.000Z",
+    }));
   }
 }

@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 
 import type {
-  RestaurantDecision,
+  RestaurantSemanticExpectedDecision,
   RestaurantIntentDraft,
   RestaurantIntentPatch,
 } from "../../domains/restaurant/contracts.js";
@@ -23,7 +23,7 @@ const expectedDraft: RestaurantIntentDraft = {
   partySize: 2,
   criteria: [],
 };
-const expectedDecision: Extract<RestaurantDecision, { type: "ASK_USER" }> = {
+const expectedDecision: Extract<RestaurantSemanticExpectedDecision, { type: "ASK_USER" }> = {
   type: "ASK_USER",
   missingRequiredFields: ["date", "timeWindow", "area"],
 };
@@ -75,7 +75,7 @@ test("stage scorer assigns wrong accumulated state after correct compilation to 
   assert.equal(score.status === "FAIL" ? score.firstFailureStage : undefined, "REDUCER");
 });
 
-test("stage scorer assigns wrong next step after correct state to Decision Kernel", () => {
+test("semantic scorer ignores the retired v17 next-step annotation", () => {
   const score = scoreRestaurantSemanticTurn({
     actualProposal: expectedProposal,
     expectedProposal,
@@ -86,7 +86,7 @@ test("stage scorer assigns wrong next step after correct state to Decision Kerne
     actualDecision: { type: "SEARCH" },
     expectedDecision,
   });
-  assert.equal(score.status === "FAIL" ? score.firstFailureStage : undefined, "DECISION_KERNEL");
+  assert.equal(score.status, "PASS");
 });
 
 test("stage scorer treats unordered criteria and facts with case/whitespace-only text changes as equal", () => {

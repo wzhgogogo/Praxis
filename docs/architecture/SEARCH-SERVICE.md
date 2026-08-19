@@ -1,15 +1,15 @@
 # Search Service
 
 - Status: Accepted
-- Version: 0.2
-- Last updated: 2026-08-10
+- Version: 0.3
+- Last updated: 2026-08-19
 - Source of truth for: 搜索运行框架、Domain搜索责任和实时候选生成
 - Related ADRs: [ADR-0001](../decisions/0001-general-task-runtime.md)
 - Related documents: [Restaurant Domain](../domains/RESTAURANT-BOOKING.md), [Capability Matrix](../integrations/CAPABILITY-MATRIX.md)
 
 ## 目标
 
-Search的产物不是普通推荐列表，而是带实时Offer和执行路径的`ExecutableCandidate`。Restaurant MVP优化“约30秒内找到最多3家真实可订候选”，不追求搜全。
+Discovery的产物是`RestaurantCandidate`，不是Availability结论。`CHECK_AVAILABILITY`独立产生按`candidateId → AvailabilityOffer[]`保存的实时Observation；只有经Agent选择、具有新鲜匹配Offer的组合才能形成Booking Proposal。Restaurant MVP仍优化“约30秒内找到最多3家真实可订候选”，不追求搜全。
 
 ## 分层
 
@@ -59,10 +59,10 @@ SearchIntent
 → Brand与Outlet实体解析
 → 硬约束过滤
 → Top 10–15预排序
-→ 首批5家并行查空位和执行能力
-→ 不足3家时继续下一批
-→ 到3家或30秒Deadline
-→ Final Rank和候选解释
+→ 返回RestaurantCandidate Discovery Observation
+→ Restaurant Agent选择候选和时机进行Availability检查
+→ 返回AvailabilityOffer Observation
+→ Agent选择可订组合或调整Retrieval
 ```
 
 目标时间预算：
@@ -121,7 +121,7 @@ Stage 2C只实现Restaurant Domain内部的最小Entity Observation和Source Map
 
 ## Freshness
 
-- AvailabilityOffer必须有`checkedAt`和`expiresAt`。
+- AvailabilityOffer必须有`checkedAt`和`expiresAt`，且不得被Discovery结果隐式携带。
 - MVP默认Offer TTL目标为2分钟，具体来源可更短。
 - 用户点击`Book this`后必须重新验证。
 - Google及其他来源缓存遵守各自政策；Availability不做长期缓存。
