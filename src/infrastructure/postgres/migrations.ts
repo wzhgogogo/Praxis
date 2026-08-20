@@ -203,7 +203,7 @@ export const POSTGRES_MIGRATIONS: PostgresMigration[] = [
         agent_action JSONB,
         decision_summary TEXT,
         model_attempt JSONB,
-        kernel_verdict JSONB,
+        action_validation JSONB,
         execution_route TEXT,
         observation JSONB,
         state_version_after INTEGER,

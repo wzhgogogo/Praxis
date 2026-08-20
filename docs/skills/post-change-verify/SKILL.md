@@ -16,9 +16,9 @@ npm run build
 
 Runtime、Policy、Restaurant状态或Mock Adapter改动至少运行以上三项。PostgreSQL持久化改动在用户提供显式测试数据库写入授权后，另运行`npm run test:postgres:live`；PGlite结果不得替代该项。Stage 2B本地Fixture HTTP/SSE与Pilot Session Contract现包含在`npm test`，但不等同于生产身份、Browser视觉验证、Replay、真实PostgreSQL部署或真实平台验证；这些完成前不得报告通过。
 
-## Git 版本交付检查
+## Repository交付检查
 
-当交付包含新的已接受架构版本、主链路版本或不兼容的 State / Schema / Eval 口径版本时，先确认当前分支名是否仍代表旧版本。若是，必须从已验证 HEAD 创建`codex/<scope>-v<major>`新分支，保留旧版本分支；同一版本内的修复则继续使用该版本分支。
+branch、tag、版本、文件和命令命名统一遵循[Repository Conventions](../../REPOSITORY-CONVENTIONS.md)。工作分支表达任务，不使用`-vN`归档State、Schema、Prompt或Eval版本；不兼容变化通过ADR、对应组件版本和迁移说明表达。
 
 在用户要求本地保存或远端交付时：暂存范围必须只包含本次改动，`git diff --check`必须通过，并在最终交接中分别报告本地 commit、当前分支和远端 push 的实际结果。远端 push 需要用户明确授权；被拒绝、失败或未尝试都不得写成已推送。
 
@@ -33,9 +33,9 @@ Runtime、Policy、Restaurant状态或Mock Adapter改动至少运行以上三项
 7. 检查Secret、PII、Mock生产防护和外部副作用。
 8. 同步文档；追加`docs/history/DEVLOG.md`与`docs/history/TEST-LOG.md`，并在能力、证据或下一道门槛变化时更新`docs/STATUS.md`。
 
-v17 Holdout按范围验证：纯私有Gold更新只运行Draft Preflight；Holdout Contract、Preflight或Scorer变化才运行Typecheck、Build、定向v17测试和当前产品基线。严格Complete Preflight只在全部Gold完成或准备进入Baseline门禁时运行。
+Semantic Holdout按范围验证：纯私有Gold更新只运行Draft Preflight；Holdout Contract、Preflight或Scorer变化才运行Typecheck、Build、定向语义测试和当前产品基线。严格Complete Preflight只在全部Gold完成或准备进入Baseline门禁时运行。
 
-涉及v15语义主链的改动，验证必须按层分别报告，不能用端到端通过掩盖上游错误：
+涉及当前语义主链的改动，验证必须按层分别报告，不能用端到端通过掩盖上游错误：
 
 ```text
 Semantic Interpreter → Semantic Proposal Contract → Compiler → Reducer → Agent Action → Action Validator → Execution Router

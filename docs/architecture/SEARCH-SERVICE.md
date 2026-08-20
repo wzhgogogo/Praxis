@@ -1,7 +1,7 @@
 # Search Service
 
 - Status: Accepted
-- Version: 0.3
+- Document revision: 0.3
 - Last updated: 2026-08-19
 - Source of truth for: 搜索运行框架、Domain搜索责任和实时候选生成
 - Related ADRs: [ADR-0001](../decisions/0001-general-task-runtime.md)

@@ -50,6 +50,6 @@ export const RESTAURANT_AGENT_CAPABILITIES: readonly RestaurantAgentCapability[]
     purpose: "Finish only after the authoritative verifier confirms the booking outcome.",
     inputSchema: "none",
     resultMeaning: "Ends the bounded Agent loop without changing outcome state.",
-    importantConstraints: ["Only BOOKED_VERIFIED is completable in v18."],
+    importantConstraints: ["Only BOOKED_VERIFIED is completable."],
   },
 ];

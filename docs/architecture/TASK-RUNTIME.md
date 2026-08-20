@@ -1,7 +1,7 @@
 # Task Runtime
 
 - Status: Accepted
-- Version: 1.1
+- Document revision: 1.1
 - Last updated: 2026-08-08
 - Source of truth for: 通用任务生命周期、状态推进、触发和父子依赖
 - Related ADRs: [ADR-0001](../decisions/0001-general-task-runtime.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md)

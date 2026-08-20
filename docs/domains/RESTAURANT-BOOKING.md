@@ -1,7 +1,7 @@
 # Restaurant Booking Domain
 
 - Status: Accepted
-- Version: 1.2
+- Document revision: 1.2
 - Last updated: 2026-08-19
 - Source of truth for: 餐厅预约Domain模型、状态、搜索和完成条件
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0009](../decisions/0009-semantic-strength-and-clean-holdout-baseline.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md)
@@ -9,15 +9,15 @@
 
 ## Implementation Status
 
-Restaurant v18 Mock预约切片已实现：`Semantic Interpreter → Compiler → Reducer → Restaurant Agent Action → Action Validator → Fixture Discovery / Availability → Agent Selection → Authorization checkpoint → Policy → Mock Commit → Verifier`。当前State Schema为`7`；Pilot前没有真实Task数据，旧Schema迁移路径已经删除。
+ADR-0010的Restaurant Mock预约切片已实现：`Semantic Interpreter → Compiler → Reducer → Restaurant Agent Action → Action Validator → Fixture Discovery / Availability → Agent Selection → Authorization checkpoint → Policy → Mock Commit → Verifier`。当前State标识为`restaurant-state@7`；Pilot前没有真实Task数据，旧Schema迁移路径已经删除。
 
 Discovery保存`RestaurantCandidate`，Availability按`candidateId → AvailabilityOffer[]`独立保存。单一Restaurant Agent决定何时搜索、检查哪些候选、选择哪个组合或何时再次搜索；Validator不再选择下一步。Fixture路径使用真正的`RestaurantAgentDecision` ModelGateway Contract，Harness可用Scripted Decision Port重复验证Trajectory。Policy、Authorization、Commit和Verifier仍是确定性权威边界。
 
-ADR-0009继续定义开放`criteria`与`HARD` / `SOFT`强度；ADR-0010取代ADR-0007的确定性next-step部分。Harness-only v14 `statePatch` Contract仍不接入产品Task State。
+ADR-0009继续定义开放`criteria`与`HARD` / `SOFT`强度；ADR-0010取代ADR-0007的确定性next-step部分。已冻结的Progressive Decision Harness `statePatch` Contract仍不接入产品Task State。
 
-真实Search Source、Availability、Request Booking、Human Takeover、取消、变更与路线仍为`proposed`。当前产品应用见[`Persistent Restaurant Agent`](../../src/application/persistent-restaurant-agent.ts)，轻量Fixture Driver只位于[`src/eval/search-fixture`](../../src/eval/search-fixture/fixture-application.ts)。
+真实Search Source、Availability、Request Booking、Human Takeover、取消、变更与路线仍为`proposed`。当前产品应用见[`Persistent Restaurant Agent`](../../src/application/persistent-restaurant-agent.ts)，轻量Fixture Driver只位于[`src/eval/restaurant/search-fixture`](../../src/eval/restaurant/search-fixture/fixture-application.ts)。
 
-## v18 Semantic Proposal, Compiler, Agent and Action Validator
+## Semantic Proposal, Compiler, Agent and Action Validator
 
 Restaurant是Semantic Proposal与Compiler的唯一当前真实使用者。Semantic Interpreter只描述用户本轮的稳定槽位和开放Restaurant Criterion；它不对cuisine、amenity、ambience或safety类别建模，也不输出`StatePatch`、Event、Readiness、Tool input或Outcome。
 

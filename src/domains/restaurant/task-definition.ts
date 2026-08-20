@@ -10,7 +10,6 @@ import type {
 import type {
   AvailabilityOffer,
   RestaurantBookingSelection,
-  RestaurantCandidate,
   RestaurantCommand,
   RestaurantEvent,
   RestaurantOutcome,

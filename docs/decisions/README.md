@@ -1,7 +1,7 @@
 # Architecture Decision Records
 
 - Status: Accepted
-- Version: 0.4
+- Document revision: 0.4
 - Last updated: 2026-08-19
 - Source of truth for: 已接受架构决策及其替代关系
 - Related ADRs: 本目录
@@ -20,7 +20,7 @@
 | [0007](0007-semantic-proposal-compiler-and-decision-kernel.md) | Superseded by ADR-0010 | v15 Semantic Proposal、Restaurant Compiler与确定性Decision Kernel |
 | [0008](0008-open-restaurant-criteria-contract.md) | Superseded by ADR-0009 | v16开放Restaurant Criterion Contract；强度语义已替换 |
 | [0009](0009-semantic-strength-and-clean-holdout-baseline.md) | Accepted | v17语义强度、相对语义与可审计的一次性Clean Holdout Baseline |
-| [0010](0010-restaurant-agent-loop-action-validation.md) | Accepted | v18单一Restaurant Agent Loop、动作校验与独立Availability |
+| [0010](0010-restaurant-agent-loop-action-validation.md) | Accepted | 单一Restaurant Agent Loop、动作校验与独立Availability |
 
 ## 规则
 

@@ -1,13 +1,34 @@
 # Development Log
 
 - Status: Accepted
-- Version: 4.27
-- Last updated: 2026-08-19
+- Document revision: 4.28
+- Last updated: 2026-08-20
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## 2026-08-20 — Repository naming and version normalization
+
+### Why
+
+Branch names, architecture generations, State/Schema/Prompt versions and Eval datasets had accumulated on one global `Restaurant vN` axis. The same version number was being used as a branch archive, architecture label, directory name and file suffix, making it unclear what had actually changed and forcing ordinary work toward `v18` without a product release.
+
+### Changes
+
+- Added `docs/REPOSITORY-CONVENTIONS.md` as the sole naming/version Source of Truth. `AGENTS.md` now contains only the mandatory summary and reading step; Arch Guard remains limited to architecture, state authority, execution and safety boundaries.
+- Renamed the local working branch from `codex/restaurant-decision-v18` to `codex/adr-0010-restaurant-agent-loop` and removed its stale upstream association. The existing remote branch was not changed or deleted.
+- Reorganized Eval under `src/eval/restaurant/{semantic,agent-loop,search-fixture}` and `src/eval/shared`; moved semantic entry points into `semantic/runners`; replaced versioned directories, files with spaces and extensionless draft names; normalized npm Eval scripts to `eval:restaurant:<object>:<mode>`.
+- Replaced current global version labels with object-owned identifiers such as `ADR-0010`, `restaurant-state@7`, `restaurant-semantic-proposal@3`, `restaurant-semantic-prompt@7`, `restaurant-semantic-holdout@2` and `restaurant-semantic-scorer@3`. Document headers now use `Document revision`.
+- Renamed source responsibilities from Decision Kernel / orchestration terminology to Action Validator, Message Handler and Execution Router. Moved frozen Progressive Decision and categorized-Holdout documents into `docs/superseded/harness/` under responsibility-based filenames, while preserving ADRs, history and artifact identities.
+- Clarified the mandatory repository lifecycle boundary in `AGENTS.md`: historical thinking, Eval plans, annotation guides, Golden/Regression sets, manifests, scoring contracts and run evidence are retained or archived with lifecycle/contamination labels; replaced executable code and duplicate paths are removed after callers and verification are updated, with Git history used for recovery.
+- Added Brainstorming and Superseded archive indexes, and classified Eval paths as `current executable`, `current baseline input template`, `draft / not integrated`, `private / git-ignored` or `superseded retrospective`. Unintegrated Agent Loop and Semantic materials moved under explicit `drafts/` directories without changing their content.
+- Removed three unused type imports and five ignored `.DS_Store` files. No historical Plan, Golden/Regression material, log, private Holdout source or executable Eval path was deleted.
+
+### Boundary
+
+This normalization does not change product behavior, Prompt text, Dataset content, provider integration or external side effects. Historical ADRs, logs, Git commits and artifact identifiers retain their original names for auditability.
 
 ## 2026-08-19 — Restaurant v18 Agent Loop
 

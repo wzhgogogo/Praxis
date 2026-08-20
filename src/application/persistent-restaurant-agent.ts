@@ -39,12 +39,14 @@ import {
   pendingAction,
 } from "./agent-workspace.js";
 import {
-  restaurantEventForMessage,
   RestaurantExecutionRouter,
   type RestaurantAvailabilityPort,
   type RestaurantSearchPort,
+} from "./restaurant-execution-router.js";
+import {
+  restaurantEventForMessage,
   type RestaurantSemanticInterpreterPort,
-} from "./restaurant-orchestration.js";
+} from "./restaurant-message-handler.js";
 import { RestaurantAgentLoopCoordinator } from "./restaurant-agent-loop.js";
 
 type RestaurantRuntime = PostgresTaskRuntime<

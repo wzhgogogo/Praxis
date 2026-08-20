@@ -1,7 +1,7 @@
 # Agent Gateway and Workspace
 
 - Status: Accepted
-- Version: 0.1
+- Document revision: 0.1
 - Last updated: 2026-08-08
 - Source of truth for: Web/Mobile Web入口、Conversation/Session/Case边界、用户可见Activity与Domain Workspace
 - Related ADRs: [ADR-0006](../decisions/0006-web-first-agent-workspace.md)

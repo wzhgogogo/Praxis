@@ -1,8 +1,8 @@
 # Praxis Build Roadmap
 
 - Status: Accepted
-- Version: 4.2
-- Last updated: 2026-08-14
+- Document revision: 4.2
+- Last updated: 2026-08-20
 - Source of truth for: 从开发前文档到Tokyo Pilot的阶段计划和退出条件
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [MVP PRD](product/MVP-PRD.md), [Agent Gateway and Workspace](architecture/AGENT-GATEWAY-AND-WORKSPACE.md), [Architecture Overview](architecture/OVERVIEW.md)
@@ -35,9 +35,9 @@ Mock端到端可运行
 
 ## 当前 Stage 2 状态
 
-Stage 2A / 2B 的 Fixture 产品路径已迁移到 v18 `Semantic Interpreter → Proposal Contract → Compiler → Runtime/Reducer → Agent Decision → Action Validator → Execution Router`。Stage 2C冻结语义职责边界、Proposal / Draft / Eval Schema `3`与开放`criteria` / `HARD` / `SOFT`强度；当前Prompt为`v7`。Prompt `v4`的首份Clean Holdout已运行并暴露，不能代替或验证v7。当前canonical Gold上的v6/v7运行是已暴露Acceptance Diagnostic，不能代替Clean Holdout。历史 `decision-v14` 可执行Harness已删除，仅在Git与历史文档中保留记录，不再是产品Baseline门槛。下一道门槛是为v7建立新的小型Clean Holdout，之后验证一个真实只读Discovery来源；详细已实现与未验证项只在[当前状态](STATUS.md)维护。
+Stage 2A / 2B 的Fixture产品路径已迁移到ADR-0010定义的`Semantic Interpreter → Proposal Contract → Compiler → Runtime/Reducer → Agent Decision → Action Validator → Execution Router`。Stage 2C冻结`restaurant-semantic-proposal@3`与开放`criteria` / `HARD` / `SOFT`强度；当前Prompt标识为`restaurant-semantic-prompt@7`。Prompt `@4`的首份Clean Holdout已运行并暴露，不能代替或验证Prompt `@7`。当前canonical Gold上的Prompt `@6/@7`运行是已暴露Acceptance Diagnostic，不能代替Clean Holdout。历史Decision Harness可执行代码已删除，仅在Git与历史记录中保留，不再是产品Baseline门槛。下一道门槛是为Prompt `@7`建立新的小型Clean Holdout，之后验证一个真实只读Discovery来源；详细已实现与未验证项只在[当前状态](STATUS.md)维护。
 
-v17 Holdout的空模板、私有数据入口、Preflight、确定性Scorer、冻结运行清单和一次性Runner已经实现；v4 Baseline已完成并标记为`RESULT_EXPOSED`。当前停止点是为Prompt v7建立新的未见数据集，不能复用既有私有标注或当前canonical Gold。
+`restaurant-semantic-holdout@2`的空模板、私有数据入口、Preflight、确定性Scorer、冻结运行清单和一次性Runner已经实现；Prompt `@4` Baseline已完成并标记为`RESULT_EXPOSED`。当前停止点是为Prompt `@7`建立新的未见Dataset，不能复用既有私有标注或当前canonical Gold。
 
 ## 扩展性与当前交付的平衡
 
@@ -128,25 +128,25 @@ Status: `completed` — 2026-08-08。
 
 ### Stage 2C — One Live Discovery Source
 
-Freeze decision（2026-08-19更新）：当前产品语义主链固定为`Semantic Interpreter → Proposal Contract → Compiler → Runtime/Reducer`、Prompt `v7`、Proposal / Draft / Eval Schema `3`和开放`criteria` / `HARD` / `SOFT`强度；业务推进固定为单一Restaurant Agent经Action Validator的受限Loop。v14的7个Episode / 17个Turn已完成架构探针与开发诊断使命，可执行Harness、命令和测试已经删除；历史只从Git与日志追溯。新的独立Baseline只评估当前语义链；单个未支持表达不会自动触发taxonomy、Provider mapping或架构改版。
+Freeze decision（2026-08-19更新）：当前产品语义主链固定为`Semantic Interpreter → Proposal Contract → Compiler → Runtime/Reducer`、`restaurant-semantic-prompt@7`、`restaurant-semantic-proposal@3`、`restaurant-semantic-scorer@3`和开放`criteria` / `HARD` / `SOFT`强度；业务推进固定为单一Restaurant Agent经Action Validator的受限Loop。历史Progressive Decision Harness的7个Episode / 17个Turn已完成架构探针与开发诊断使命，可执行Harness、命令和测试已经删除；历史只从Git与日志追溯。新的独立Baseline只评估当前语义链；单个未支持表达不会自动触发taxonomy、Provider mapping或架构改版。
 
-Progress（截至冻结）：v14 Dataset、17个人工Gold Turn、Preflight、Fixture Oracle、Reducer/Scorer、Mutation和真实模型开发诊断均已完成并记录在历史日志；它们不再是活跃Stage门槛。v17 Fixture产品链和15个已暴露语义Regression Turn已完成；Prompt v4的Clean Holdout Baseline已完成并暴露，Prompt v7在当前canonical Gold上只完成了Acceptance Diagnostic，仍未有独立Baseline，Live Discovery仍未实现。
+Progress（截至冻结）：历史Progressive Decision Dataset、17个人工Gold Turn、Preflight、Fixture Oracle、Reducer/Scorer、Mutation和真实模型开发诊断均已完成并记录在历史日志；它们不再是活跃Stage门槛。当前Fixture产品链和`restaurant-semantic-regression@3`的15个已暴露Turn已完成；`restaurant-semantic-prompt@4`的Clean Holdout Baseline已完成并暴露，`restaurant-semantic-prompt@7`在当前canonical Gold上只完成了Acceptance Diagnostic，仍未有独立Baseline，Live Discovery仍未实现。
 
 - v5的`FULL_REGRESSION`真实模型诊断已覆盖全部7个Episode、17个Turn并完成评分；全部Gold和结果均已暴露，故仍只是`DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`。本轮定位到State/Accumulation、品牌与单店目标区分、Grounding和不足候选解释，尚不修改生产路径；
-- Golden v0.8 / Prompt v6已把命名目标解析、检索充分性和证据装配收回Harness的可信侧：`FIXTURE_DISCOVERY`、`retrievalSummary`和确定性Grounding只定义未来只读Tool输入，不接入真实Discovery或产品Task。真实回归现在会产生只含结构化Patch/状态差异的本机诊断Artifact，且`retryCalls`已改按Turn计数；之后建立隔离Holdout，再核验一个真实Discovery来源；
-- Prompt v7已将`occasion`收紧为用户明确的社会用餐情境，删除缺字段示例的`occasion: DATE`默认值，并加入`FAMILY`与`TEAM`的抽象映射；日历日期Topic与浪漫约会枚举明确分离。未加入Gold实体或样例答案，也尚未运行真实模型；相对时间解析仍是独立问题；
-- Prompt v8 / Runner v3已在Harness内闭合最小相对时间解析：固定`referenceTime`和`Asia/Tokyo`下的`today`、`tomorrow`、`tonight`、`now`和`right now`成为可信State/Patch输入，冲突表达不猜测；日志同时显示原始模型Patch和有效Patch。它不使用真实时钟、不接产品Runtime，也未运行真实模型；更广泛的日期/时间自然语言解析仍须有真实需求后再扩展；
-- Prompt v9 / Golden v0.9已在Harness内闭合地点策略表示：`FLEXIBLE.anchorQuery`表达出发锚点加移动弹性；无锚点`FLEXIBLE`仍需追问；同query的`AREA`/`NEAR_PLACE`在S1/S2等价，`ADDRESS_OR_STREET`、不同query和漏地点更新仍严格失败。它不使用真实地图、不接Discovery或产品Runtime；
-- Prompt v10已在Harness-only Model Contract中收紧状态抽取：社交语境不推出`party`，软偏好不提升`target`；这不改变Golden、Schema、Scorer或真实产品Runtime；
-- Prompt v11已在Harness-only Model Contract中收紧动作路由：品牌分店解析、目标餐厅检查、通用推荐和Exact Availability各自分离；这不改变Golden、Schema、Scorer或真实产品Runtime；
-- 历史[Restaurant Progressive Decision Eval v2](harness/RESTAURANT-DECISION-EVAL-V2.md)已完成v14 Harness探针并冻结；其E1/E2/E3、S1–S8、Candidate Fixture和Grounding结果只保留为已暴露Regression，不再驱动产品Contract或Stage退出；
-- 当前语义Regression只保留为开发诊断；当前canonical Gold上的Prompt `v7`运行固定为`EXPOSED_GOLD_ACCEPTANCE_DIAGNOSTIC`，只允许与v6的`COMMON_UNCHANGED_TURNS`比较，不可与v4/v5/v6整集或Baseline混报。为Prompt `v7`建立只接受当前`message → expectedDraft`边界的隔离评测入口；历史`expectedDecision`不参与v18评分。再由不参与Prompt编写的人或隔离流程创建、标注并保密小型Holdout。冻结模型、Prompt、Proposal / Draft / Eval Schema `3`、Evaluator和Case顺序后一次性运行；任何样本或结果泄露到调优过程即降级为Regression并另建Holdout；
+- 历史`progressive-decision-golden@0.8` / `progressive-decision-prompt@6`已把命名目标解析、检索充分性和证据装配收回Harness的可信侧：`FIXTURE_DISCOVERY`、`retrievalSummary`和确定性Grounding只定义未来只读Tool输入，不接入真实Discovery或产品Task。真实回归现在会产生只含结构化Patch/状态差异的本机诊断Artifact，且`retryCalls`已改按Turn计数；之后建立隔离Holdout，再核验一个真实Discovery来源；
+- `restaurant-semantic-prompt@7`已将`occasion`收紧为用户明确的社会用餐情境，删除缺字段示例的`occasion: DATE`默认值，并加入`FAMILY`与`TEAM`的抽象映射；日历日期Topic与浪漫约会枚举明确分离。未加入Gold实体或样例答案，也尚未运行真实模型；相对时间解析仍是独立问题；
+- 历史`progressive-decision-prompt@8` / `progressive-decision-runner@3`已在Harness内闭合最小相对时间解析：固定`referenceTime`和`Asia/Tokyo`下的`today`、`tomorrow`、`tonight`、`now`和`right now`成为可信State/Patch输入，冲突表达不猜测；日志同时显示原始模型Patch和有效Patch。它不使用真实时钟、不接产品Runtime，也未运行真实模型；更广泛的日期/时间自然语言解析仍须有真实需求后再扩展；
+- 历史`progressive-decision-prompt@9` / `progressive-decision-golden@0.9`已在Harness内闭合地点策略表示：`FLEXIBLE.anchorQuery`表达出发锚点加移动弹性；无锚点`FLEXIBLE`仍需追问；同query的`AREA`/`NEAR_PLACE`在S1/S2等价，`ADDRESS_OR_STREET`、不同query和漏地点更新仍严格失败。它不使用真实地图、不接Discovery或产品Runtime；
+- 历史`progressive-decision-prompt@10`已在Harness-only Model Contract中收紧状态抽取：社交语境不推出`party`，软偏好不提升`target`；这不改变Golden、Schema、Scorer或真实产品Runtime；
+- 历史`progressive-decision-prompt@11`已在Harness-only Model Contract中收紧动作路由：品牌分店解析、目标餐厅检查、通用推荐和Exact Availability各自分离；这不改变Golden、Schema、Scorer或真实产品Runtime；
+- 历史[Restaurant Progressive Decision Eval](superseded/harness/RESTAURANT-PROGRESSIVE-DECISION-EVAL.md)已完成Harness探针并冻结；其E1/E2/E3、S1–S8、Candidate Fixture和Grounding结果只保留为已暴露Regression，不再驱动产品Contract或Stage退出；
+- 当前语义Regression只保留为开发诊断；当前canonical Gold上的Prompt `@7`运行固定为`EXPOSED_GOLD_ACCEPTANCE_DIAGNOSTIC`，只允许与Prompt `@6`的`COMMON_UNCHANGED_TURNS`比较，不可与Prompt `@4/@5/@6`整集或Baseline混报。为Prompt `@7`建立只接受当前`message → expectedDraft`边界的隔离评测入口；历史`expectedDecision`不参与当前评分。再由不参与Prompt编写的人或隔离流程创建、标注并保密小型Holdout。冻结模型、Prompt、`restaurant-semantic-proposal@3`、Evaluator和Case顺序后一次性运行；任何样本或结果泄露到调优过程即降级为Regression并另建Holdout；
 - Baseline完成后、接真实Discovery前，定义Restaurant Domain内部的最小Entity Observation和Interaction Event Contract：前者保存Source、Source Entity ID、`observedAt`、Freshness和使用限制；后者记录结构化需求、动作、检索、曝光、反馈、选择和Verified Outcome引用；
 - 只接一个经过能力核验的真实Discovery来源，首选Google Places；
 - 使用Freshness-aware查询复用仍有效的Observation，过期或高风险字段按用途刷新；Source查询、实体合并和硬过滤不依赖模型重复阅读完整结果；
 - 保存来源、ObservedAt和能力限制，建立Live Read-only检查；Stage 2C数据只用于Trace、回放和离线分析，不自动修改生产排序、Prompt或Policy。
 
-完成标准：语义职责边界、Prompt `v7`、Proposal / Draft / Eval Schema `3`与Evaluator被冻结；以未泄露的`CLEAN_HOLDOUT`生成按Proposal Contract、Compiler、权威Draft和Runtime分层的Real Model Baseline；真实英文查询能返回带来源和Freshness的餐厅实体；最小Interaction Event能串联需求、展示、反馈、Agent选择和Verified Outcome引用；Fixture、Real Model Mock World和Live Read-only结果分别记录。此时仍不宣称Web已支持v14所描述的完整渐进决策，也不宣称餐厅“可订”。
+完成标准：语义职责边界、`restaurant-semantic-prompt@7`、`restaurant-semantic-proposal@3`与`restaurant-semantic-scorer@3`被冻结；以未泄露的`CLEAN_HOLDOUT`生成按Proposal Contract、Compiler、权威Draft和Runtime分层的Real Model Baseline；真实英文查询能返回带来源和Freshness的餐厅实体；最小Interaction Event能串联需求、展示、反馈、Agent选择和Verified Outcome引用；Fixture、Real Model Mock World和Live Read-only结果分别记录。此时仍不宣称Web已支持历史Progressive Decision Harness描述的完整渐进决策，也不宣称餐厅“可订”。
 
 ### Stage 2D — One Live Availability Path
 

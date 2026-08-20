@@ -14,13 +14,13 @@ npm test
 npm run test:probes          # 冻结的Goal/Scheduler合成探针，不属于当前产品门禁
 npm run build
 npm run test:postgres:live    # 需要显式测试数据库配置与写入确认
-npm run eval:search:fixture
-npm run eval:semantic:fixture
-npm run eval:semantic:holdout:preflight
-npm run eval:semantic:deepseek # 需要显式真实模型开关；不是默认测试
+npm run eval:restaurant:search:fixture
+npm run eval:restaurant:semantic:fixture
+npm run eval:restaurant:semantic:holdout:preflight
+npm run eval:restaurant:semantic:deepseek # 需要显式真实模型开关；不是默认测试
 ```
 
-`npm test`当前产品基线为 **89/89**（2026-08-19）：覆盖Core Unit/Contract、Restaurant Verifier、13个Mock Agent Loop Harness场景、当前12个PGlite Runtime/Recovery场景、Fixture Web/API/SSE、语义 Proposal / Compiler / Reducer / Holdout Preflight与分层Scorer、Fixture Search及真实模型付费门禁/计量。新增断言证明Agent发起第二次搜索及A→B Availability策略、Action Validator拒绝无效/过期/未授权动作，并覆盖开放`criteria`的语义等价。历史v14、旧Intent Parser和v15分类Contract不再混入当前基线。
+`npm test`当前产品基线为 **89/89**（2026-08-19）：覆盖Core Unit/Contract、Restaurant Verifier、13个Mock Agent Loop Harness场景、当前12个PGlite Runtime/Recovery场景、Fixture Web/API/SSE、语义 Proposal / Compiler / Reducer / Holdout Preflight与分层Scorer、Fixture Search及真实模型付费门禁/计量。新增断言证明Agent发起第二次搜索及A→B Availability策略、Action Validator拒绝无效/过期/未授权动作，并覆盖开放`criteria`的语义等价。历史Decision Harness、旧Intent Parser和分类Criteria Contract不再混入当前基线。
 
 `npm run test:probes`为独立的**8/8**冻结探针基线：Goal Graph、Trigger/Scheduler、Recurring Shopping与Long-running Case。它保护仍保留的有界架构探针，但不作为Restaurant当前Stage的产品门禁。Fixture与Embedded-postgres都不证明生产身份、真实PostgreSQL、Browser视觉、Replay、Live Read-only、真实模型Baseline或Controlled Live-write；完整历史见[Test Log](../../history/TEST-LOG.md)。
 
@@ -61,7 +61,7 @@ PGlite结果必须报告为`embedded-postgres integration`，不能报告为真�
 | 语义 Holdout纯数据 | Holdout Preflight；完成后严格Preflight |
 | 语义 Holdout Contract/Preflight | Typecheck + 定向Eval Test + Build + 当前产品基线 |
 
-`eval:semantic:holdout:preflight:complete`只在全部Gold完成或准备进入Baseline门禁时运行；不在每个Session后重复验证已知空集合。
+`eval:restaurant:semantic:holdout:preflight:complete`只在全部Gold完成或准备进入Baseline门禁时运行；不在每个Session后重复验证已知空集合。
 
 ## 安全断言
 

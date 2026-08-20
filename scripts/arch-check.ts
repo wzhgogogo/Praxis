@@ -55,12 +55,12 @@ function violation(importer: string, imported: string): string | undefined {
   }
 
   if (
-    importer === "domains/restaurant/decision-kernel.ts" &&
+    importer === "domains/restaurant/action-validator.ts" &&
     (imported.startsWith("infrastructure/") ||
       imported.startsWith("integrations/") ||
       imported.startsWith("core/model/"))
   ) {
-    return "Restaurant Decision Kernel must not depend on model, tool, or adapter implementations";
+    return "Restaurant Action Validator must not depend on model, tool, or adapter implementations";
   }
   return undefined;
 }

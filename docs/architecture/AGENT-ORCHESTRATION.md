@@ -1,7 +1,7 @@
 # Agent Orchestration
 
 - Status: Accepted
-- Version: 3.5
+- Document revision: 3.5
 - Last updated: 2026-08-19
 - Source of truth for: Agent Workspace中的模型职责、有界Loop、前后台运行与Multi-Agent边界
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md), [ADR-0003](../decisions/0003-single-agent-orchestration.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md)
@@ -25,7 +25,7 @@ User Message
 → Runtime / Reducer → Restaurant Agent Decision
 ```
 
-## v18语义、Agent与动作边界
+## ADR-0010语义、Agent与动作边界
 
 Semantic Interpreter只回答“用户本轮表达了什么”：稳定槽位、开放`CRITERION{text, polarity, strength}`、修正、否定和确认。它不对Criterion建立cuisine / constraint / preference taxonomy，也不能产生内部State Patch/Event、缺失字段、Readiness、动作路由、Authorization、Tool Call或Outcome。
 
@@ -47,9 +47,9 @@ LLM Response / Adjustment可以解释事实、生成澄清问题或提出非权�
 
 所有模型调用经服务端`ModelGateway`；首个Provider为DeepSeek。每次请求必须声明`taskId`、purpose、promptVersion、outputSchema、timeout和失败行为。Gateway只记录Provider、模型、Prompt/Schema版本、延迟、Token、Provider request ID、状态码和错误码；不记录Prompt或Completion正文。Key只存在服务端Secret。
 
-当前Restaurant Semantic Interpreter固定为非流式、500输出Token、温度0、Thinking关闭。Domain把完整机器可读Proposal Schema放入通用Model Request；该Schema只使用当前strict transport支持的JSON Schema子集，无法由传输层表达的non-blank规则仍由本地Domain Validator校验。DeepSeek Gateway用Beta strict function作为仅传输结构的强制信封，不注册或执行Runtime Tool。Gateway必须得到唯一匹配的`tool_calls` arguments，本地Proposal Validator仍再次校验；结构合法不代表语义正确。Contract无效时最多再尝试一次，Provider失败不盲重试或降级为自由文本。Prompt为`v7`，Proposal / Draft / Eval Schema为`3`；Criterion strength按用户意图为`HARD` / `SOFT` / `UNSPECIFIED`，未来Provider Search Criteria Compiler必须是独立确定性边界，当前未实现。
+当前Restaurant Semantic Interpreter固定为非流式、500输出Token、温度0、Thinking关闭。Domain把完整机器可读Proposal Schema放入通用Model Request；该Schema只使用当前strict transport支持的JSON Schema子集，无法由传输层表达的non-blank规则仍由本地Domain Validator校验。DeepSeek Gateway用Beta strict function作为仅传输结构的强制信封，不注册或执行Runtime Tool。Gateway必须得到唯一匹配的`tool_calls` arguments，本地Proposal Validator仍再次校验；结构合法不代表语义正确。Contract无效时最多再尝试一次，Provider失败不盲重试或降级为自由文本。当前标识为`restaurant-semantic-prompt@7`与`restaurant-semantic-proposal@3`；Criterion strength按用户意图为`HARD` / `SOFT` / `UNSPECIFIED`，未来Provider Search Criteria Compiler必须是独立确定性边界，当前未实现。
 
-Restaurant Agent Decision使用同一服务端Gateway和受限JSON Schema，purpose为`restaurant_agent_decide`、Prompt为v1；输出仅为一个业务动作和可选短`decisionSummary`。结构合法不代表动作获准，必须继续经过Action Validator。
+Restaurant Agent Decision使用同一服务端Gateway和受限JSON Schema，purpose为`restaurant_agent_decide`、Prompt标识为`restaurant-agent-decision-prompt@1`；输出仅为一个业务动作和可选短`decisionSummary`。结构合法不代表动作获准，必须继续经过Action Validator。
 
 ## 有界Loop
 

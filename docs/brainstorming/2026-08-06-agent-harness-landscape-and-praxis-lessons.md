@@ -1,7 +1,7 @@
 # Agent Harness 生态项目调研与 Praxis 启示
 
 - Status: Draft
-- Version: 0.2
+- Document revision: 0.2
 - Last updated: 2026-08-08
 - Source of truth for: 2026-08-06 外部 Agent Harness 项目调研记录；不是 Praxis 架构决策依据
 - Related ADRs: [ADR-0001](../decisions/0001-general-task-runtime.md), [ADR-0003](../decisions/0003-single-agent-orchestration.md)

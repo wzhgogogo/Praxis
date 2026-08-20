@@ -23,7 +23,7 @@ description: Praxis实现前规划流程；读取Source of Truth，界定Domain�
 Goal
 Current state
 Affected layers
-Semantic interpretation / proposal contract / compiler / reducer / decision-kernel ownership
+Semantic interpretation / proposal contract / compiler / reducer / agent-action / validator ownership
 State/Event/Command changes
 API/Schema changes
 Policy/Authorization changes
@@ -37,7 +37,7 @@ Documentation updates
 
 - 这是通用Runtime能力还是Domain能力？
 - 模型是否真的必要，普通代码能否可靠完成？
-- 这段输入是用户本轮语义、内部状态操作、Kernel Decision、Runtime Command还是Execution Action？
+- 这段输入是用户本轮语义、内部状态操作、Agent Action Proposal、Validator Verdict、Runtime Command还是Execution Action？
 - Semantic Interpreter是否只提取用户表达，而没有生成`StatePatch`、Event、Readiness、Action、Tool Call或Outcome？
 - Semantic Proposal的Schema/version、封闭词表、允许的修正/否定/确认表达，以及结构无效和语义冲突的行为是什么？
 - Contract通过是否只代表结构合法？语义正确性将如何独立评测，不能被Schema通过率掩盖？

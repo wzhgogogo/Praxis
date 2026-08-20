@@ -1,7 +1,7 @@
 import type { RestaurantAgentAction } from "../../domains/restaurant/agent-action.js";
 import type { RestaurantAgentModelAttempt } from "../../domains/restaurant/agent-decision.js";
 import type { RestaurantAgentCapability } from "../../domains/restaurant/restaurant-capabilities.js";
-import type { RestaurantActionValidation } from "../../domains/restaurant/decision-kernel.js";
+import type { RestaurantActionValidation } from "../../domains/restaurant/action-validator.js";
 import type { SqlDatabase } from "./sql-database.js";
 
 export interface RestaurantAgentTrajectoryStep {
@@ -16,7 +16,7 @@ export interface RestaurantAgentTrajectoryStep {
   agentAction?: RestaurantAgentAction;
   decisionSummary?: string;
   modelAttempt?: RestaurantAgentModelAttempt;
-  kernelVerdict?: RestaurantActionValidation;
+  actionValidation?: RestaurantActionValidation;
   executionRoute?: "FIXTURE_STRUCTURED" | "RUNTIME" | "POLICY_CHECKPOINT";
   observation?: { type: string; detail: string };
   stateVersionAfter?: number;
@@ -41,7 +41,7 @@ interface TrajectoryRow {
   agent_action: unknown | null;
   decision_summary: string | null;
   model_attempt: unknown | null;
-  kernel_verdict: unknown | null;
+  action_validation: unknown | null;
   execution_route: RestaurantAgentTrajectoryStep["executionRoute"] | null;
   observation: unknown | null;
   state_version_after: number | null;
@@ -65,7 +65,7 @@ export class PostgresRestaurantAgentTrajectoryStore implements RestaurantAgentTr
       `INSERT INTO restaurant_agent_trajectory_steps (
         id, task_id, step_number, occurred_at, state_version_before, state_hash_before,
         evidence_refs, capabilities, agent_action, decision_summary, model_attempt,
-        kernel_verdict, execution_route, observation, state_version_after, state_hash_after, step_outcome
+        action_validation, execution_route, observation, state_version_after, state_hash_after, step_outcome
       ) VALUES (
         $1, $2, $3, $4, $5, $6, $7::jsonb, $8::jsonb, $9::jsonb, $10, $11::jsonb,
         $12::jsonb, $13, $14::jsonb, $15, $16, $17
@@ -74,7 +74,7 @@ export class PostgresRestaurantAgentTrajectoryStore implements RestaurantAgentTr
         step.id, step.taskId, step.stepNumber, step.occurredAt, step.stateVersionBefore, step.stateHashBefore,
         JSON.stringify(step.evidenceRefs), JSON.stringify(step.capabilities), step.agentAction ? JSON.stringify(step.agentAction) : null,
         step.decisionSummary ?? null, step.modelAttempt ? JSON.stringify(step.modelAttempt) : null,
-        step.kernelVerdict ? JSON.stringify(step.kernelVerdict) : null, step.executionRoute ?? null,
+        step.actionValidation ? JSON.stringify(step.actionValidation) : null, step.executionRoute ?? null,
         step.observation ? JSON.stringify(step.observation) : null, step.stateVersionAfter ?? null,
         step.stateHashAfter ?? null, step.stepOutcome,
       ],
@@ -85,7 +85,7 @@ export class PostgresRestaurantAgentTrajectoryStore implements RestaurantAgentTr
     const result = await this.database.query<TrajectoryRow>(
       `SELECT id, task_id, step_number, occurred_at, state_version_before, state_hash_before,
               evidence_refs, capabilities, agent_action, decision_summary, model_attempt,
-              kernel_verdict, execution_route, observation, state_version_after, state_hash_after, step_outcome
+              action_validation, execution_route, observation, state_version_after, state_hash_after, step_outcome
          FROM restaurant_agent_trajectory_steps
         WHERE task_id = $1
         ORDER BY step_number ASC`,
@@ -103,7 +103,7 @@ export class PostgresRestaurantAgentTrajectoryStore implements RestaurantAgentTr
       ...(row.agent_action ? { agentAction: parseJson<RestaurantAgentAction>(row.agent_action) } : {}),
       ...(row.decision_summary ? { decisionSummary: row.decision_summary } : {}),
       ...(row.model_attempt ? { modelAttempt: parseJson<RestaurantAgentModelAttempt>(row.model_attempt) } : {}),
-      ...(row.kernel_verdict ? { kernelVerdict: parseJson<RestaurantActionValidation>(row.kernel_verdict) } : {}),
+      ...(row.action_validation ? { actionValidation: parseJson<RestaurantActionValidation>(row.action_validation) } : {}),
       ...(row.execution_route ? { executionRoute: row.execution_route } : {}),
       ...(row.observation ? { observation: parseJson<{ type: string; detail: string }>(row.observation) } : {}),
       ...(row.state_version_after !== null ? { stateVersionAfter: row.state_version_after } : {}),

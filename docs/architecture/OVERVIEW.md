@@ -1,7 +1,7 @@
 # Architecture Overview
 
 - Status: Accepted
-- Version: 0.8
+- Document revision: 0.8
 - Last updated: 2026-08-19
 - Source of truth for: 总体架构、层次、依赖方向和扩展边界
 - Related ADRs: [ADR-0001](../decisions/0001-general-task-runtime.md), [ADR-0003](../decisions/0003-single-agent-orchestration.md), [ADR-0005](../decisions/0005-modular-monolith.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md)
@@ -44,9 +44,9 @@ Domain Packages
         └── case-management (future)
 ```
 
-## v18 Restaurant agent-to-execution path
+## ADR-0010 Restaurant agent-to-execution path
 
-Restaurant v18 preserves the v17 semantic boundary: the Semantic Interpreter is the only LLM step that reads a new user message, returning an untrusted Proposal that compiles into authoritative state. A separate single Restaurant Agent then chooses one constrained action from the static Restaurant capability catalog. It may observe state and trusted fixture/provider results, but it cannot mutate state, bypass authorization, invoke an adapter, or decide an Outcome.
+ADR-0010 preserves the semantic boundary accepted by ADR-0007/0009: the Semantic Interpreter is the only LLM step that reads a new user message, returning an untrusted Proposal that compiles into authoritative state. A separate single Restaurant Agent then chooses one constrained action from the static Restaurant capability catalog. It may observe state and trusted fixture/provider results, but it cannot mutate state, bypass authorization, invoke an adapter, or decide an Outcome.
 
 ```text
 User Message

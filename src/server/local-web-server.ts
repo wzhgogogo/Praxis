@@ -8,7 +8,7 @@ import {
   WorkspaceCaseNotFoundError,
   type PilotAccessEntry,
 } from "../application/persistent-restaurant-agent.js";
-import type { RestaurantCaseView, WorkspaceUser } from "../application/agent-workspace.js";
+import type { RestaurantCaseView } from "../application/agent-workspace.js";
 import { RestaurantSemanticInterpreter } from "../domains/restaurant/semantic-interpreter.js";
 import { RestaurantAgentDecision } from "../domains/restaurant/agent-decision.js";
 import { FixtureModelGateway } from "../infrastructure/fixture/fixture-model-gateway.js";

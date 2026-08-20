@@ -44,7 +44,7 @@ test("real model Eval metrics retain provider metadata, retries, usage and expli
     [
       {
         invocationId: "one",
-        taskId: "eval:semantic:SH01:T01",
+        taskId: "eval:restaurant:semantic:SH01:T01",
         purpose: "restaurant_semantic_interpret",
         promptVersion: "v2",
         fallback: "STRUCTURED_FORM",
@@ -59,7 +59,7 @@ test("real model Eval metrics retain provider metadata, retries, usage and expli
       },
       {
         invocationId: "two",
-        taskId: "eval:semantic:SH01:T01",
+        taskId: "eval:restaurant:semantic:SH01:T01",
         purpose: "restaurant_semantic_interpret",
         promptVersion: "v2",
         fallback: "STRUCTURED_FORM",
@@ -103,7 +103,7 @@ test("real model Eval metrics retain provider metadata, retries, usage and expli
       [
         {
           invocationId: "turn-one",
-          taskId: "eval:semantic:SH01:T01",
+          taskId: "eval:restaurant:semantic:SH01:T01",
           purpose: "restaurant_semantic_interpret",
           promptVersion: "v2",
           fallback: "FAIL_CLOSED",
@@ -116,7 +116,7 @@ test("real model Eval metrics retain provider metadata, retries, usage and expli
         },
         {
           invocationId: "turn-two",
-          taskId: "eval:semantic:SH01:T02",
+          taskId: "eval:restaurant:semantic:SH01:T02",
           purpose: "restaurant_semantic_interpret",
           promptVersion: "v2",
           fallback: "FAIL_CLOSED",

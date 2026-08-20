@@ -12,7 +12,7 @@ Restaurant is still the only real Domain user. The new path must preserve the Ru
 
 ## Decision
 
-The v18 Restaurant main path is:
+The ADR-0010 Restaurant main path is:
 
 ```text
 User Message
@@ -36,14 +36,14 @@ User Message
 - Search discovers `RestaurantCandidate` records. Availability is independently checked and stored as `candidateId → AvailabilityOffer[]`; only a selected candidate plus a fresh matching offer can form a booking proposal.
 - Open-ended work—whether to search again, adjust retrieval hints, which candidates to check, and what to do after observations—is selected by the Restaurant Agent. Reducers may still emit only mandatory safety commands: Policy approval may issue one Commit, and Commit success or uncertainty must issue Verify.
 - `BOOK_RESERVATION` never contains an Authorization, terms hash, risk classification, or Adapter detail. The reducer deterministically creates the Core ActionProposal from the selected candidate and offer; Policy and a valid one-time Authorization are still required before Commit.
-- The Execution Router receives only a validated business action. v18 implements the Fixture/Mock structured route and explicit unsupported outcomes. Browser, Live Provider, dynamic tool registry, and fallback-provider frameworks remain design-only.
+- The Execution Router receives only a validated business action. The current slice implements the Fixture/Mock structured route and explicit unsupported outcomes. Browser, Live Provider, dynamic tool registry, and fallback-provider frameworks remain design-only.
 - Every Agent step is persisted as a Restaurant-specific structured trajectory record linking state versions/hashes, exposed capabilities, model metadata, action, validator verdict, execution route/observation, and final step outcome. It contains no chain-of-thought and does not treat model summaries as authority.
 - A bounded loop enforces maximum steps, timeout, model failure handling, and repeated-rejection limits. `COMPLETE` is only valid after `BOOKED_VERIFIED`; no Agent response can declare a real-world success.
 
 ## Consequences
 
-- The v18 vertical slice can show model-selected discovery, availability, candidate selection, authorization checkpoint, Mock Commit, and deterministic verification without a Browser or Live Provider.
-- The prior `DECIDE_RESTAURANT_NEXT` / `RESTAURANT_DECISION_MADE` main chain and the coupled `ExecutableCandidate` contract are removed. There is no pilot data or external contract, so all fixtures and callers move directly to the v18 schema with no compatibility path.
+- The ADR-0010 vertical slice can show model-selected discovery, availability, candidate selection, authorization checkpoint, Mock Commit, and deterministic verification without a Browser or Live Provider.
+- The prior `DECIDE_RESTAURANT_NEXT` / `RESTAURANT_DECISION_MADE` main chain and the coupled `ExecutableCandidate` contract are removed. There is no pilot data or external contract, so all fixtures and callers move directly to the current schema with no compatibility path.
 - Agent behavior can be evaluated using outcomes, grounded observations, safety assertions, latency, and trajectories without encoding one required action order as the Golden.
 - New Domain actions need explicit validator rules and trajectory coverage. Generalizing this into a cross-Domain planner, tool registry, or learning platform remains prohibited until a second real Domain demonstrates the need.
 
@@ -52,7 +52,7 @@ User Message
 - Keep the v17 deterministic decision kernel and add model-written explanations: rejected because it does not let the Agent select open-ended work.
 - Let the Agent call Search or Booking adapters directly: rejected because it would bypass validation, Policy, Authorization, and Runtime auditability.
 - Introduce separate planner, search, booking, and critic agents: rejected because the required behavior fits one bounded Restaurant Agent and multi-agent coordination is not a current product need.
-- Build a generic Browser/Provider registry now: rejected because v18's Fixture/Mock route is the sole current implementation user.
+- Build a generic Browser/Provider registry now: rejected because ADR-0010's Fixture/Mock route is the sole current implementation user.
 
 ## Related documents
 

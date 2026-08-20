@@ -237,7 +237,7 @@ test("W02 resumes the same case from a second mobile-web session", async () => {
         mobileCookie,
         `/api/cases/${encodeURIComponent(created.case.caseId)}`,
       );
-      // v18 records semantic compilation plus Agent search, availability, selection and proposal events.
+      // ADR-0010 records semantic compilation plus Agent search, availability, selection and proposal events.
       assert.equal((resumed.payload.view as RestaurantCaseView).case.taskVersion, 5);
     } finally {
       await running.close();

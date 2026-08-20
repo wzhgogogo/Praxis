@@ -1,7 +1,7 @@
 # Policy, Execution and Verification
 
 - Status: Accepted
-- Version: 0.2
+- Document revision: 0.2
 - Last updated: 2026-08-07
 - Source of truth for: 授权、副作用控制、执行路由、验证和恢复
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md)

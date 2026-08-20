@@ -1,0 +1,580 @@
+{
+  "id": "H001",
+  "content": "Looking for an omakase spot near Shibuya for 2 people tonight at 7 PM.",
+  "criteria": [
+    {
+      "text": "omakase",
+      "polarity": "POSITIVE",
+      "strength": "HARD"
+    }
+  ],
+  "date": "2026-08-20",
+  "timeWindow": "19:00",
+  "partySize": 2,
+  "area": "Shibuya",
+  "missingRequiredFields": [],
+  "decision": "SEARCH"
+}
+
+{
+  "id": "H002",
+  "content": "Recommend a first-date restaurant near Higashi-Ginza for this Saturday at 6:30 PM. Around 10,000 yen per person. No spicy food, no hot pot.",
+  "criteria": [
+    {
+      "text": "good for a first date",
+      "polarity": "POSITIVE",
+      "strength": "SOFT"
+    },
+    {
+      "text": "around 10,000 yen per person",
+      "polarity": "POSITIVE",
+      "strength": "SOFT"
+    },
+    {
+      "text": "spicy food",
+      "polarity": "NEGATIVE",
+      "strength": "HARD"
+    },
+    {
+      "text": "hot pot",
+      "polarity": "NEGATIVE",
+      "strength": "HARD"
+    }
+  ],
+  "date": "2026-08-22",
+  "timeWindow": "18:30",
+  "partySize": 2,
+  "area": "Higashi-Ginza",
+  "missingRequiredFields": [],
+  "decision": "SEARCH"
+}
+
+{
+  "id": "H003",
+  "content": "Need a place for a team dinner nearby this Friday after work. 10 people, around 3,000 yen per person, good for drinks, ideally with a private room.",
+  "criteria": [
+    {
+      "text": "team dinner",
+      "polarity": "POSITIVE",
+      "strength": "HARD"
+    },
+    {
+      "text": "around 3,000 yen per person",
+      "polarity": "POSITIVE",
+      "strength": "SOFT"
+    },
+    {
+      "text": "good for drinks",
+      "polarity": "POSITIVE",
+      "strength": "HARD"
+    },
+    {
+      "text": "private room",
+      "polarity": "POSITIVE",
+      "strength": "SOFT"
+    }
+  ],
+  "date": "2026-08-21",
+  "timeWindow": {
+    "earliest": "18:00",
+    "latest": "20:00"
+  },
+  "partySize": 10,
+  "area": "nearby",
+  "missingRequiredFields": [],
+  "decision": "SEARCH"
+}
+
+{
+  "id": "H004",
+  "content": "Good cafes nearby to meet up with a friend this afternoon.",
+  "criteria": [
+    {
+      "text": "cafe",
+      "polarity": "POSITIVE",
+      "strength": "HARD"
+    },
+    {
+      "text": "good for meeting up with a friend",
+      "polarity": "POSITIVE",
+      "strength": "SOFT"
+    }
+  ],
+  "date": "2026-08-20",
+  "timeWindow": {
+    "earliest": "13:00",
+    "latest": "17:00"
+  },
+  "partySize": 2,
+  "area": "nearby",
+  "missingRequiredFields": [],
+  "decision": "SEARCH"
+}
+
+{
+  "id": "H005",
+  "content": "Any spots nearby with open tables right now for 4 people? Local food only, no fast food.",
+  "criteria": [
+    {
+      "text": "local food",
+      "polarity": "POSITIVE",
+      "strength": "HARD"
+    },
+    {
+      "text": "fast food",
+      "polarity": "NEGATIVE",
+      "strength": "HARD"
+    }
+  ],
+  "date": "2026-08-20",
+  "timeWindow": "09:00",
+  "partySize": 4,
+  "area": "nearby",
+  "missingRequiredFields": [],
+  "decision": "SEARCH"
+}
+
+{
+  "id": "H006",
+  "content": "Dinner with friends this Saturday night, 4 people. We're near Tokyo Skytree in Sumida, and they live in Minato. Any good restaurant halfway between us? Any cuisine is fine.",
+  "criteria": [
+    {
+      "text": "dinner with friends",
+      "polarity": "POSITIVE",
+      "strength": "HARD"
+    }
+  ],
+  "date": "2026-08-22",
+  "timeWindow": {
+    "earliest": "19:00",
+    "latest": "22:00"
+  },
+  "partySize": 4,
+  "area": "halfway between Tokyo Skytree in Sumida and Minato",
+  "missingRequiredFields": [],
+  "decision": "SEARCH"
+}
+
+{
+  "id": "H007",
+  "content": "Where's a good place for a family dinner? My parents are visiting my wife and me.",
+  "criteria": [
+    {
+      "text": "family dinner",
+      "polarity": "POSITIVE",
+      "strength": "HARD"
+    }
+  ],
+  "missingRequiredFields": [
+    "date",
+    "timeWindow",
+    "partySize",
+    "area"
+  ],
+  "decision": "ASK"
+}
+
+{
+  "id": "H008",
+  "content": "I'm treating a senior colleague to dinner near our office. He's quite traditional—what kind of food would be a good choice?",
+  "criteria": [
+    {
+      "text": "suitable for treating a senior colleague",
+      "polarity": "POSITIVE",
+      "strength": "HARD"
+    },
+    {
+      "text": "traditional",
+      "polarity": "POSITIVE",
+      "strength": "SOFT"
+    }
+  ],
+  "partySize": 2,
+  "area": "near our office",
+  "missingRequiredFields": [
+    "date",
+    "timeWindow"
+  ],
+  "decision": "ASK"
+}
+
+{
+  "id": "HO-009",
+  "content": "Any good restaurants around the office lately?",
+  "criteria": [
+    {
+      "text": "currently good / recommended",
+      "polarity": "POSITIVE",
+      "strength": "SOFT"
+    }
+  ],
+  "area": "around the office",
+  "missingRequiredFields": [
+    "date",
+    "timeWindow",
+    "partySize"
+  ],
+  "decision": "ASK"
+}
+
+{
+  "id": "HO-010",
+  "content": "Any new Western restaurants recently opened in Ginza?",
+  "criteria": [
+    {
+      "text": "Western restaurant",
+      "polarity": "POSITIVE",
+      "strength": "HARD"
+    },
+    {
+      "text": "recently opened",
+      "polarity": "POSITIVE",
+      "strength": "HARD"
+    }
+  ],
+  "area": "Ginza",
+  "missingRequiredFields": [
+    "date",
+    "timeWindow",
+    "partySize"
+  ],
+  "decision": "ASK"
+}
+
+
+
+{
+  "id": "H012",
+  "turns": [
+    {
+      "id": "H012-T01",
+      "content": "I'm having dinner with friends tomorrow night near Azabudai. Any good options?",
+      "criteria": [
+        {
+          "text": "dinner with friends",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "date": "2026-08-21",
+      "timeWindow": {
+        "earliest": "19:00",
+        "latest": "22:00"
+      },
+      "area": "Azabudai",
+      "missingRequiredFields": [
+        "partySize"
+      ],
+      "decision": "ASK"
+    },
+    {
+      "id": "H012-T02",
+      "content": "I don't want sushi.",
+      "criteria": [
+        {
+          "text": "dinner with friends",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        },
+        {
+          "text": "sushi",
+          "polarity": "NEGATIVE",
+          "strength": "HARD"
+        }
+      ],
+      "date": "2026-08-21",
+      "timeWindow": {
+        "earliest": "19:00",
+        "latest": "22:00"
+      },
+      "area": "Azabudai",
+      "missingRequiredFields": [
+        "partySize"
+      ],
+      "decision": "ASK"
+    },
+    {
+      "id": "H012-T03",
+      "content": "There are three of us, all women.",
+      "criteria": [
+        {
+          "text": "dinner with friends",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        },
+        {
+          "text": "sushi",
+          "polarity": "NEGATIVE",
+          "strength": "HARD"
+        }
+      ],
+      "date": "2026-08-21",
+      "timeWindow": {
+        "earliest": "19:00",
+        "latest": "22:00"
+      },
+      "partySize": 3,
+      "area": "Azabudai",
+      "missingRequiredFields": [],
+      "decision": "SEARCH"
+    },
+    {
+      "id": "H012-T04",
+      "content": "The places you recommended are a bit too expensive.",
+      "criteria": [
+        {
+          "text": "dinner with friends",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        },
+        {
+          "text": "sushi",
+          "polarity": "NEGATIVE",
+          "strength": "HARD"
+        },
+        {
+          "text": "less expensive than the previous recommendations",
+          "polarity": "POSITIVE",
+          "strength": "SOFT"
+        }
+      ],
+      "date": "2026-08-21",
+      "timeWindow": {
+        "earliest": "19:00",
+        "latest": "22:00"
+      },
+      "partySize": 3,
+      "area": "Azabudai",
+      "missingRequiredFields": [],
+      "decision": "SEARCH"
+    }
+  ]
+}
+
+{
+  "id": "H011",
+  "turns": [
+    {
+  "id": "H011-T01",
+  "content": "I feel like having ramen after work. Anything good nearby?",
+  "criteria": [
+    {
+      "text": "ramen",
+      "polarity": "POSITIVE",
+      "strength": "HARD"
+    }
+  ],
+  "date": "2026-08-20",
+  "timeWindow": {
+    "earliest": "18:00",
+    "latest": "20:00"
+  },
+  "partySize": 1,
+  "area": "nearby",
+  "missingRequiredFields": [],
+  "decision": "SEARCH"
+},
+    {
+      "id": "H011-T02",
+      "content": "A friend is joining me and will be here in about 30 minutes. We just want to have burgers. Any Mori's burgers near and available?",
+      "criteria": [
+        {
+          "text": "Mori's Burger",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "date": "2026-08-20",
+      "timeWindow": {
+        "earliest": "09:30",
+        "latest": "09:30"
+      },
+      "partySize": 2,
+      "area": "nearby",
+      "missingRequiredFields": [],
+      "decision": "SEARCH"
+    }
+  ]
+}
+
+{
+  "id": "H013",
+  "turns": [
+    {
+      "id": "H013-T01",
+      "content": "I need to take my department head out for dinner.",
+      "criteria": [
+        {
+          "text": "suitable for dinner with a department head",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "partySize": 2,
+      "missingRequiredFields": [
+        "date",
+        "timeWindow",
+        "area"
+      ],
+      "decision": "ASK"
+    },
+    {
+      "id": "H013-T02",
+      "content": "It'll be my department head and a few senior colleagues.",
+      "criteria": [
+        {
+          "text": "suitable for dinner with a department head and senior colleagues",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "missingRequiredFields": [
+        "date",
+        "timeWindow",
+        "partySize",
+        "area"
+      ],
+      "decision": "ASK"
+    },
+    {
+      "id": "H013-T03",
+      "content": "Three senior colleagues.",
+      "criteria": [
+        {
+          "text": "suitable for dinner with a department head and senior colleagues",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "partySize": 5,
+      "missingRequiredFields": [
+        "date",
+        "timeWindow",
+        "area"
+      ],
+      "decision": "ASK"
+    },
+    {
+      "id": "H013-T04",
+      "content": "Actually, plans changed. There'll be four senior colleagues.",
+      "criteria": [
+        {
+          "text": "suitable for dinner with a department head and senior colleagues",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "partySize": 6,
+      "missingRequiredFields": [
+        "date",
+        "timeWindow",
+        "area"
+      ],
+      "decision": "ASK"
+    }
+  ]
+}
+
+{
+  "id": "H014",
+  "turns": [
+    {
+      "id": "H014-T01",
+      "content": "Are there any restaurants nearby that are open right now?",
+      "criteria": [],
+      "date": "2026-08-20",
+      "timeWindow": {
+        "earliest": "09:00",
+        "latest": "09:00"
+      },
+      "area": "nearby",
+      "missingRequiredFields": [
+        "partySize"
+      ],
+      "decision": "ASK"
+    },
+    {
+      "id": "H014-T02",
+      "content": "We have a young child with us.",
+      "criteria": [
+        {
+          "text": "suitable for a young child",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "date": "2026-08-20",
+      "timeWindow": {
+        "earliest": "09:00",
+        "latest": "09:00"
+      },
+      "area": "nearby",
+      "missingRequiredFields": [
+        "partySize"
+      ],
+      "decision": "ASK"
+    },
+    {
+      "id": "H014-T03",
+      "content": "Nothing spicy. The child is two years old.",
+      "criteria": [
+        {
+          "text": "suitable for a two-year-old child",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        },
+        {
+          "text": "spicy food",
+          "polarity": "NEGATIVE",
+          "strength": "HARD"
+        }
+      ],
+      "date": "2026-08-20",
+      "timeWindow": {
+        "earliest": "09:00",
+        "latest": "09:00"
+      },
+      "area": "nearby",
+      "missingRequiredFields": [
+        "partySize"
+      ],
+      "decision": "ASK"
+    }
+  ]
+}
+
+{
+  "id": "H018",
+  "turns": [
+    {
+      "id": "H018-T01",
+      "content": "Can you find somewhere near Roppongi for dinner tonight?",
+      "criteria": [],
+      "date": "2026-08-20",
+      "timeWindow": {
+        "earliest": "18:00",
+        "latest": "21:00"
+      },
+      "area": "near Roppongi",
+      "missingRequiredFields": [
+        "partySize"
+      ],
+      "decision": "ASK"
+    },
+    {
+      "id": "H018-T02",
+      "content": "Actually, Shinjuku might be easier for everyone.",
+      "criteria": [],
+      "date": "2026-08-20",
+      "timeWindow": {
+        "earliest": "18:00",
+        "latest": "21:00"
+      },
+      "area": "Shinjuku",
+      "missingRequiredFields": [
+        "partySize"
+      ],
+      "decision": "ASK"
+    }
+  ]
+}

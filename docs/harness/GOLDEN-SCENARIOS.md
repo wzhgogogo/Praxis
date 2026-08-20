@@ -1,7 +1,7 @@
 # Golden Scenarios
 
 - Status: Accepted
-- Version: 0.9
+- Document revision: 0.9
 - Last updated: 2026-08-19
 - Source of truth for: 首批Harness场景目录和核心断言
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md)
@@ -19,7 +19,7 @@
 
 这些Bootstrap场景覆盖下方部分Golden要求和通用安全不变量，但不表示45个目录项已经全部实现；目录项仍需按原ID逐步补齐。
 
-Stage 2A/2B的v18 Fixture基线：一条完整英文请求经HTTP API由Agent依次完成Discovery、Availability、Candidate/Offer选择并进入`AWAITING_AUTHORIZATION`；一条缺日期/时间/人数请求进入`NEEDS_INPUT`且仅列出这三个字段。该路径不创建Authorization或外部写操作，是`FIXTURE`纵向路径，不可报告为R12真实可执行候选或真实模型质量。
+Stage 2A/2B的ADR-0010 Fixture基线：一条完整英文请求经HTTP API由Agent依次完成Discovery、Availability、Candidate/Offer选择并进入`AWAITING_AUTHORIZATION`；一条缺日期/时间/人数请求进入`NEEDS_INPUT`且仅列出这三个字段。该路径不创建Authorization或外部写操作，是`FIXTURE`纵向路径，不可报告为R12真实可执行候选或真实模型质量。
 
 Stage 2B的`W01–W05`已作为Local HTTP/SSE + PGlite集成场景实现并通过；另有Responsive页面Contract和陈旧版本场景。它们证明Fixture Workspace的持久恢复、用户隔离和非权威Projection，不证明真实PostgreSQL部署、真实浏览器视觉、生产身份或真实Provider。
 

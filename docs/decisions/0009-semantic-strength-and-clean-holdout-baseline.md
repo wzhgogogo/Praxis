@@ -35,7 +35,7 @@ For the private Clean Holdout, immediately before a first real model request the
 - Existing source, fixtures, schemas, scorer expectations, and private Gold must use `HARD` / `SOFT` / `UNSPECIFIED`; old values are not accepted.
 - The public development regression remains exposed and receives synthetic coverage for the new general semantics before any private baseline runs.
 - The private dataset is never copied into a prompt, public fixture, development log, or committed artifact. Its first started real run irreversibly changes its evaluation status to `EXPOSED`.
-- Compiler, Runtime, Reducer, Policy, Authorization, and Provider capabilities retain their existing responsibilities. In v18, semantic `expectedDecision` is historical evaluation metadata only; the Restaurant Agent and Action Validator are governed by ADR-0010. This ADR adds no model call, Tool, adapter, or external side effect.
+- Compiler, Runtime, Reducer, Policy, Authorization, and Provider capabilities retain their existing responsibilities. Under ADR-0010, semantic `expectedDecision` is historical evaluation metadata only; the Restaurant Agent and Action Validator are governed by that later decision. This ADR adds no model call, Tool, adapter, or external side effect.
 
 ## Alternatives considered
 
@@ -48,5 +48,5 @@ For the private Clean Holdout, immediately before a first real model request the
 - [ADR-0007](0007-semantic-proposal-compiler-and-decision-kernel.md)
 - [ADR-0008](0008-open-restaurant-criteria-contract.md)
 - [Restaurant Booking](../domains/RESTAURANT-BOOKING.md)
-- [Restaurant Semantic Holdout](../harness/RESTAURANT-SEMANTIC-HOLDOUT-V2.md)
+- [Restaurant Semantic Holdout](../harness/RESTAURANT-SEMANTIC-HOLDOUT.md)
 - [Eval Skill](../skills/eval/SKILL.md)

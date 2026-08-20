@@ -123,7 +123,7 @@ function fixtureAgentAction(request: ModelRequest): Record<string, unknown> {
 }
 
 /**
- * Local-only deterministic model double for the current v17 semantic path.
+ * Local-only deterministic model double for the current Restaurant semantic path.
  */
 export class FixtureModelGateway implements ModelGateway {
   private sequence = 0;

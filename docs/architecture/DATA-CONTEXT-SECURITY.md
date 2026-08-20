@@ -1,7 +1,7 @@
 # Data, Context and Security
 
 - Status: Accepted
-- Version: 1.0
+- Document revision: 1.0
 - Last updated: 2026-08-10
 - Source of truth for: 数据归属、Context分层、隐私、安全和保留策略
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md), [ADR-0005](../decisions/0005-modular-monolith.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md)

@@ -31,7 +31,7 @@ core ─X→ domains/* / infrastructure/*
 domain A ─X→ domain B
 web ─X→ provider/adapter implementations
 semantic compiler ─X→ model gateway / tool / adapter
-decision kernel ─X→ model gateway / tool / adapter
+action validator ─X→ model gateway / tool / adapter
 LLM ─X→ authoritative state / execution
 ```
 

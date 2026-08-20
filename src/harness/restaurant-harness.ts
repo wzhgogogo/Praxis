@@ -10,7 +10,7 @@ import type {
 } from "../core/task-runtime/contracts.js";
 import { InMemoryTaskRuntime } from "../core/task-runtime/in-memory-task-runtime.js";
 import { RestaurantAgentLoopCoordinator } from "../application/restaurant-agent-loop.js";
-import { RestaurantExecutionRouter } from "../application/restaurant-orchestration.js";
+import { RestaurantExecutionRouter } from "../application/restaurant-execution-router.js";
 import { ScriptedRestaurantAgentDecisionPort } from "../domains/restaurant/agent-decision.js";
 import type { RestaurantAgentAction } from "../domains/restaurant/agent-action.js";
 import { verifyBookingCompletion } from "../domains/restaurant/booking-verifier.js";

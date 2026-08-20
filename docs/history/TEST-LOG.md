@@ -1,13 +1,36 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Version: 4.24
-- Last updated: 2026-08-19
+- Document revision: 4.25
+- Last updated: 2026-08-20
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## 2026-08-20 — Repository naming normalization verification
+
+### Scope
+
+Naming/version governance, evidence lifecycle classification, local branch identity, source and Eval path moves, npm Eval entry points, Brainstorming/Superseded archive indexes and Markdown references. No product behavior, Eval content or external integration was intentionally changed.
+
+### Checks
+
+- `npm run typecheck`: passed.
+- `npm run arch:check`: passed with 0 forbidden source dependencies.
+- `npm run build`: passed.
+- `npm run test:probes`: frozen Goal/Scheduler probes passed `8/8`, 0 failed; they remain separate from the current product gate.
+- `npm test`: the sandboxed run passed 82 tests and the 7 local HTTP/SSE cases could not bind `127.0.0.1` (`EPERM`); the same command rerun with local-listen permission passed `89/89`, 0 failed.
+- `npm run eval:restaurant:semantic:fixture`: passed `15/15`, reported only `DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`.
+- `npm run eval:restaurant:search:fixture`: passed `3/3` Fixture cases.
+- `npm run eval:restaurant:semantic:holdout:preflight`: Draft Preflight passed with 15 sessions / 25 turns / 0 issues; it did not run a model or restore Clean eligibility.
+- Eval JSON/YAML parsing, Markdown local-link validation across 56 files, `git diff --check`, filename/extension scans and stale-name searches passed.
+- Strict TypeScript unused-symbol check (`--noUnusedLocals --noUnusedParameters`) passed after removing three unused type imports; no zero-value historical evidence was treated as executable code.
+
+### Modes and external effects
+
+Only static checks, Unit/Contract tests, Fixture/Mock Harness, local HTTP/SSE, embedded PGlite and Draft Preflight ran. No real model call, Complete/Baseline Holdout run, Replay, Live Read-only, Controlled Live-write, real PostgreSQL deployment, Authorization, booking, payment or cancellation occurred.
 
 ## 2026-08-19 — Restaurant v18 Agent Loop verification
 

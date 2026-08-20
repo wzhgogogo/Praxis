@@ -1,8 +1,8 @@
 # Praxis 开发文档索引
 
 - Status: Accepted
-- Version: 0.7
-- Last updated: 2026-08-13
+- Document revision: 0.9
+- Last updated: 2026-08-20
 - Source of truth for: 开发文档导航、阅读路径、文档职责和冲突处理
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Project Positioning](PROJECT-POSITIONING.md)
@@ -28,20 +28,22 @@ Accepted ADR
 ## 阅读路径
 
 1. [当前状态](STATUS.md)：已经实现、已经验证、明确未验证，以及下一道门槛。
-2. [MVP PRD](product/MVP-PRD.md) 与 [User Flows](product/USER-FLOWS.md)：用户承诺与范围。
-3. [Architecture Overview](architecture/OVERVIEW.md) 与 [ADR Index](decisions/README.md)：主结构与不可静默改变的决策。
-4. 根据改动范围进入下方对应的 Domain、接口、Harness 或平台文档。
-5. 编码前必须读 [Arch Guard](skills/arch-guard/SKILL.md) 与 [Planning](skills/planning/SKILL.md)；完成后读 [Post-change Verify](skills/post-change-verify/SKILL.md)。
+2. [Repository Conventions](REPOSITORY-CONVENTIONS.md)：branch、tag、版本、目录、文件、Eval数据与文档命名。
+3. [MVP PRD](product/MVP-PRD.md) 与 [User Flows](product/USER-FLOWS.md)：用户承诺与范围。
+4. [Architecture Overview](architecture/OVERVIEW.md) 与 [ADR Index](decisions/README.md)：主结构与不可静默改变的决策。
+5. 根据改动范围进入下方对应的 Domain、接口、Harness 或平台文档。
+6. 编码前必须读 [Arch Guard](skills/arch-guard/SKILL.md) 与 [Planning](skills/planning/SKILL.md)；完成后读 [Post-change Verify](skills/post-change-verify/SKILL.md)。
 
 历史过程不用于判断当前实现状态：需要追溯时才阅读 [Dev Log](history/DEVLOG.md) 与 [Test Log](history/TEST-LOG.md)。
 
 ### 修改前必读
 
 1. [当前状态](STATUS.md) 与 [项目定位](PROJECT-POSITIONING.md)
-2. [MVP PRD](product/MVP-PRD.md) 与 [用户流程](product/USER-FLOWS.md)
-3. [架构概览](architecture/OVERVIEW.md) 与 [ADR Index](decisions/README.md)
-4. Web/Session/Case 改动先读 [Agent Gateway and Workspace](architecture/AGENT-GATEWAY-AND-WORKSPACE.md)；其余改动读对应的架构、Domain、Harness 或 Capability 文档
-5. [Arch Guard](skills/arch-guard/SKILL.md) 与 [Planning Skill](skills/planning/SKILL.md)
+2. [Repository Conventions](REPOSITORY-CONVENTIONS.md)
+3. [MVP PRD](product/MVP-PRD.md) 与 [用户流程](product/USER-FLOWS.md)
+4. [架构概览](architecture/OVERVIEW.md) 与 [ADR Index](decisions/README.md)
+5. Web/Session/Case 改动先读 [Agent Gateway and Workspace](architecture/AGENT-GATEWAY-AND-WORKSPACE.md)；其余改动读对应的架构、Domain、Harness 或 Capability 文档
+6. [Arch Guard](skills/arch-guard/SKILL.md) 与 [Planning Skill](skills/planning/SKILL.md)
 
 ## 产品
 
@@ -69,17 +71,23 @@ Accepted ADR
 
 - [Harness Design](harness/HARNESS-DESIGN.md)
 - [Golden Scenarios](harness/GOLDEN-SCENARIOS.md)
-- [Restaurant Progressive Decision Eval v2](harness/RESTAURANT-DECISION-EVAL-V2.md)：v14 Harness-only历史设计；可执行代码已删除，只用于追溯，不是当前命令或Baseline门槛。
-- [Restaurant Decision Golden Seed Annotation Guide](harness/RESTAURANT-DECISION-GOLDEN-SEED-ANNOTATION.md)：v14首批7个Episode历史标注记录；数据与执行入口已删除。
-- [Restaurant v17 Semantic Holdout v2](harness/RESTAURANT-SEMANTIC-HOLDOUT-V2.md)：当前私有Clean Holdout的空模板、开放`criteria`标注格式、冻结清单、Preflight与一次性Baseline协议。
+- [Restaurant Semantic Holdout](harness/RESTAURANT-SEMANTIC-HOLDOUT.md)：`restaurant-semantic-holdout@2`的空模板、开放`criteria`标注格式、冻结清单、Preflight与一次性Baseline协议。
 - [Roadmap](roadmap.md)：后续阶段及退出条件，不记录每次实施细节。
 - [Dev Log](history/DEVLOG.md)：仅保留按时间的设计、实现与取舍追溯。
 - [Test Log](history/TEST-LOG.md)：仅保留按时间的验证命令、模式、结果与未覆盖项。
+
+## Superseded Archive
+
+- [Archive Index](superseded/README.md)：已退出当前主链、但仍用于Retro和Review的历史材料及使用边界。
+- [Restaurant Progressive Decision Eval](superseded/harness/RESTAURANT-PROGRESSIVE-DECISION-EVAL.md)：已删除的Progressive Decision Harness历史设计。
+- [Restaurant Progressive Decision Golden Seed](superseded/harness/RESTAURANT-PROGRESSIVE-DECISION-GOLDEN-SEED.md)：首批7个Episode的历史标注记录。
+- [Restaurant Categorized Semantic Holdout](superseded/harness/RESTAURANT-CATEGORIZED-SEMANTIC-HOLDOUT.md)：开放`criteria`之前的历史Holdout格式。
 
 ## Research 与讨论记录
 
 本节内容提供研究背景，不高于Accepted ADR和当前产品/架构Source of Truth。
 
+- [Brainstorming Index](brainstorming/README.md)：历史思考、市场证据和讨论记录的完整索引与使用边界。
 - [Agent Harness生态项目调研与Praxis启示](brainstorming/2026-08-06-agent-harness-landscape-and-praxis-lessons.md)：外部Coding Agent、Runtime、安全、Evidence和Harness项目的可迁移机制与当前不采用项。
 
 ## 项目 Skills
@@ -90,13 +98,17 @@ Accepted ADR
 - [Eval](skills/eval/SKILL.md)
 - [Post-change Verify](skills/post-change-verify/SKILL.md)
 
+## 仓库治理
+
+- [Repository Naming and Version Conventions](REPOSITORY-CONVENTIONS.md)：Git branch/tag、版本轴、源码、Eval、文档和命令命名的唯一Source of Truth。
+
 ## 文档治理
 
 设计文档统一使用以下页头：
 
 ```text
 Status: Draft | Accepted | Superseded
-Version: 0.1
+Document revision: 0.1
 Last updated: YYYY-MM-DD
 Source of truth for:
 Related ADRs:
@@ -111,4 +123,5 @@ Related documents:
 - 平台能力变化：更新 Capability Matrix 与 `STATUS.md`。
 - Prompt、模型或评测口径变化：更新 Eval Skill、`STATUS.md`与 Test Log。
 - 验证流程变化：更新 Test/Post-change Skill 与 Test Log。
+- branch、版本、文件、目录或命令命名变化：只更新 Repository Conventions，并在AGENTS保留必要强制摘要；不得写入Arch Guard。
 - 非 trivial 实现：更新 Dev Log；若改变当前能力或门槛，同步 `STATUS.md`。

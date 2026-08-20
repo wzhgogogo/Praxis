@@ -1,7 +1,7 @@
 # Interfaces and Schemas
 
 - Status: Accepted
-- Version: 1.9
+- Document revision: 1.9
 - Last updated: 2026-08-19
 - Source of truth for: 公共接口、DTO、内部Tool、实现状态和版本规则
 - Related ADRs: [ADR Index](../decisions/README.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md)
@@ -17,11 +17,11 @@
 | Event/Command Causal Trace | `implemented: in-memory prototype` | [`InMemoryTaskRuntime`](../../src/core/task-runtime/in-memory-task-runtime.ts) |
 | 乐观版本检查、Event去重、Command记录 | `implemented: in-memory prototype` | [`InMemoryTaskRuntime`](../../src/core/task-runtime/in-memory-task-runtime.ts) |
 | `ActionProposal`、`Authorization`、`PolicyDecision` | `implemented: MVP subset` | [`src/core/policy`](../../src/core/policy/contracts.ts) |
-| Restaurant Intent、Discovery Candidate、Availability、Event与Command | `implemented: v18 Fixture / Mock vertical slice` | [`Restaurant contracts`](../../src/domains/restaurant/contracts.ts) |
-| Restaurant v17 Semantic Interpreter / Proposal Contract | `implemented: Fixture product path` | ADR-0007职责链与ADR-0009的开放`criteria` / `HARD` / `SOFT`强度已替换产品的Fixture Intent Parser路径；真实模型仍只在评测中使用 |
+| Restaurant Intent、Discovery Candidate、Availability、Event与Command | `implemented: ADR-0010 Fixture / Mock vertical slice` | [`Restaurant contracts`](../../src/domains/restaurant/contracts.ts) |
+| Restaurant Semantic Interpreter / Proposal Contract | `implemented: Fixture product path` | ADR-0007职责链与ADR-0009的开放`criteria` / `HARD` / `SOFT`强度已替换产品的Fixture Intent Parser路径；真实模型仍只在评测中使用 |
 | Restaurant Semantic Compiler | `implemented: Restaurant product path` | 纯确定性Proposal → `RestaurantIntentPatch` → Domain Event翻译；不建立Core通用Compiler |
 | Restaurant Agent Action / Capability / Decision | `implemented: Fixture product and Mock Harness slice` | 单一Agent经ModelGateway提出业务动作；静态Capability Catalog不暴露Provider细节 |
-| Restaurant Action Validator | `implemented: v18` | 仅允许、拒绝或要求Authorization；不选择下一步，不调用Tool |
+| Restaurant Action Validator | `implemented: ADR-0010` | 仅允许、拒绝或要求Authorization；不选择下一步，不调用Tool |
 | Restaurant Agent Trajectory | `implemented: Restaurant-specific PostgreSQL + Mock artifact` | 每步关联state/action/verdict/route/observation，不保存Chain-of-Thought |
 | `NEED_REINTERPRETATION` | `implemented: reserved safe decision` | 记录语义冲突并询问用户；不自动重解释或改State |
 | Restaurant `BookingProofBundle`与Completion Verifier | `implemented: Mock vertical slice` | [`booking-verifier.ts`](../../src/domains/restaurant/booking-verifier.ts) |
@@ -239,9 +239,9 @@ type ModelRequest = {
 
 普通Text/JSON Object走标准`POST /chat/completions`；`JSON_SCHEMA`走DeepSeek Beta strict function transport，强制一个只承载结构化输出、从不执行的function envelope。Domain提供完整JSON Schema，但该Schema只使用当前strict transport支持的子集；例如non-blank仍由本地Domain Validator而非不支持的`minLength`保证。Infrastructure不导入Restaurant类型；Gateway提取arguments后，本地Domain Validator仍为权威门禁且语义正确性另行评分。内部`taskId`、Schema正文、Prompt和Completion都不进入普通Telemetry。非2xx、429、超时、网络错误和畸形响应转为稳定`ModelGatewayError`，不静默降级成自由文本。
 
-## Restaurant v18 semantic and action boundary
+## Restaurant semantic and ADR-0010 action boundary
 
-Status: `implemented: Fixture product path`. This is the only current Restaurant language-to-state path. The old Intent Parser and Harness-only v14 typed `statePatch` path have been removed from executable code.
+Status: `implemented: Fixture product path`. This is the only current Restaurant language-to-state path. The old Intent Parser and Progressive Decision Harness typed `statePatch` path have been removed from executable code.
 
 ```text
 Semantic Interpreter [LLM]

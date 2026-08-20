@@ -1,7 +1,7 @@
 # Future Domains
 
 - Status: Accepted
-- Version: 0.3
+- Document revision: 0.3
 - Last updated: 2026-08-07
 - Source of truth for: 通用Runtime未来扩展边界与非目标
 - Related ADRs: [ADR-0001](../decisions/0001-general-task-runtime.md), [ADR-0003](../decisions/0003-single-agent-orchestration.md)

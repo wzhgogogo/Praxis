@@ -8,7 +8,7 @@ import type {
   TaskSnapshot,
 } from "../core/task-runtime/contracts.js";
 import type { RestaurantAgentDecisionPort } from "../domains/restaurant/agent-decision.js";
-import { validateRestaurantAction } from "../domains/restaurant/decision-kernel.js";
+import { validateRestaurantAction } from "../domains/restaurant/action-validator.js";
 import type {
   RestaurantCommand,
   RestaurantEvent,
@@ -17,7 +17,7 @@ import type {
 } from "../domains/restaurant/contracts.js";
 import { RESTAURANT_AGENT_CAPABILITIES } from "../domains/restaurant/restaurant-capabilities.js";
 import type { RestaurantAgentTrajectoryStore } from "../infrastructure/postgres/restaurant-agent-trajectory-store.js";
-import { RestaurantExecutionRouter } from "./restaurant-orchestration.js";
+import { RestaurantExecutionRouter } from "./restaurant-execution-router.js";
 
 export interface RestaurantAgentLoopRuntime {
   snapshot(taskId: string): Promise<TaskSnapshot<RestaurantTaskState, RestaurantOutcome>>;
@@ -78,7 +78,7 @@ export class RestaurantAgentLoopCoordinator {
     let lastRejection: { code: string; reason: string } | undefined;
     const recentExecutionHistory: Array<{ type: string; detail: string }> = priorSteps.slice(-12).map((step) => ({
       type: step.stepOutcome,
-      detail: step.observation?.detail ?? step.kernelVerdict?.status ?? "No observation",
+      detail: step.observation?.detail ?? step.actionValidation?.status ?? "No observation",
     }));
 
     for (let step = 0; step < this.maxSteps; step += 1) {
@@ -130,7 +130,7 @@ export class RestaurantAgentLoopCoordinator {
           agentAction: decision.action,
           ...(decision.decisionSummary ? { decisionSummary: decision.decisionSummary } : {}),
           modelAttempt: decision.modelAttempt,
-          kernelVerdict: verdict,
+          actionValidation: verdict,
           stateVersionAfter: snapshot.version,
           stateHashAfter: stateHash(snapshot.domainState),
           stepOutcome: "REJECTED",
@@ -157,7 +157,7 @@ export class RestaurantAgentLoopCoordinator {
           agentAction: decision.action,
           ...(decision.decisionSummary ? { decisionSummary: decision.decisionSummary } : {}),
           modelAttempt: decision.modelAttempt,
-          kernelVerdict: verdict,
+          actionValidation: verdict,
           stateVersionAfter: after.version,
           stateHashAfter: stateHash(after.domainState),
           stepOutcome: "MODEL_FAILURE",
@@ -178,7 +178,7 @@ export class RestaurantAgentLoopCoordinator {
         agentAction: decision.action,
         ...(decision.decisionSummary ? { decisionSummary: decision.decisionSummary } : {}),
         modelAttempt: decision.modelAttempt,
-        kernelVerdict: verdict,
+        actionValidation: verdict,
         executionRoute: execution.route,
         ...(execution.observation ? { observation: execution.observation } : {}),
         stateVersionAfter: after.version,
