@@ -26,6 +26,7 @@ export interface RestaurantAgentTrajectoryStep {
   actionValidation?: RestaurantActionValidation;
   executionRoute?: "FIXTURE_STRUCTURED" | "RUNTIME" | "POLICY_CHECKPOINT";
   observation?: { type: string; detail: string };
+  proposalId?: string;
   stateVersionAfter?: number;
   stateHashAfter?: string;
   stepOutcome:
@@ -60,6 +61,7 @@ interface TrajectoryRow {
   action_validation: unknown | null;
   execution_route: RestaurantAgentTrajectoryStep["executionRoute"] | null;
   observation: unknown | null;
+  proposal_id: string | null;
   state_version_after: number | null;
   state_hash_after: string | null;
   step_outcome: RestaurantAgentTrajectoryStep["stepOutcome"];
@@ -81,18 +83,18 @@ export class PostgresRestaurantAgentTrajectoryStore implements RestaurantAgentTr
       `INSERT INTO restaurant_agent_trajectory_steps (
         id, task_id, step_number, occurred_at, state_version_before, state_hash_before,
         causal_refs, capabilities, agent_action, decision_summary, model_attempt,
-        action_validation, execution_route, observation, state_version_after, state_hash_after, step_outcome
+        action_validation, execution_route, observation, proposal_id, state_version_after, state_hash_after, step_outcome
       ) VALUES (
         $1, $2, $3, $4, $5, $6, $7::jsonb, $8::jsonb, $9::jsonb, $10, $11::jsonb,
-        $12::jsonb, $13, $14::jsonb, $15, $16, $17
+        $12::jsonb, $13, $14::jsonb, $15, $16, $17, $18
       )`,
       [
         step.id, step.taskId, step.stepNumber, step.occurredAt, step.stateVersionBefore, step.stateHashBefore,
         JSON.stringify(step.causalRefs), JSON.stringify(step.capabilities), step.agentAction ? JSON.stringify(step.agentAction) : null,
         step.decisionSummary ?? null, step.modelAttempt ? JSON.stringify(step.modelAttempt) : null,
         step.actionValidation ? JSON.stringify(step.actionValidation) : null, step.executionRoute ?? null,
-        step.observation ? JSON.stringify(step.observation) : null, step.stateVersionAfter ?? null,
-        step.stateHashAfter ?? null, step.stepOutcome,
+        step.observation ? JSON.stringify(step.observation) : null, step.proposalId ?? null,
+        step.stateVersionAfter ?? null, step.stateHashAfter ?? null, step.stepOutcome,
       ],
     );
   }
@@ -101,7 +103,7 @@ export class PostgresRestaurantAgentTrajectoryStore implements RestaurantAgentTr
     const result = await this.database.query<TrajectoryRow>(
       `SELECT id, task_id, step_number, occurred_at, state_version_before, state_hash_before,
               causal_refs, capabilities, agent_action, decision_summary, model_attempt,
-              action_validation, execution_route, observation, state_version_after, state_hash_after, step_outcome
+              action_validation, execution_route, observation, proposal_id, state_version_after, state_hash_after, step_outcome
          FROM restaurant_agent_trajectory_steps
         WHERE task_id = $1
         ORDER BY step_number ASC`,
@@ -122,6 +124,7 @@ export class PostgresRestaurantAgentTrajectoryStore implements RestaurantAgentTr
       ...(row.action_validation ? { actionValidation: parseJson<RestaurantActionValidation>(row.action_validation) } : {}),
       ...(row.execution_route ? { executionRoute: row.execution_route } : {}),
       ...(row.observation ? { observation: parseJson<{ type: string; detail: string }>(row.observation) } : {}),
+      ...(row.proposal_id ? { proposalId: row.proposal_id } : {}),
       ...(row.state_version_after !== null ? { stateVersionAfter: row.state_version_after } : {}),
       ...(row.state_hash_after ? { stateHashAfter: row.state_hash_after } : {}),
       stepOutcome: row.step_outcome,

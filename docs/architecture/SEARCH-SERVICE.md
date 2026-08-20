@@ -1,10 +1,10 @@
 # Search Service
 
 - Status: Accepted
-- Document revision: 0.4
+- Document revision: 0.5
 - Last updated: 2026-08-20
 - Source of truth for: 搜索运行框架、Domain搜索责任和实时候选生成
-- Related ADRs: [ADR-0001](../decisions/0001-general-task-runtime.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md)
+- Related ADRs: [ADR-0001](../decisions/0001-general-task-runtime.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md)
 - Related documents: [Restaurant Domain](../domains/RESTAURANT-BOOKING.md), [Capability Matrix](../integrations/CAPABILITY-MATRIX.md)
 
 ## 目标
@@ -50,6 +50,8 @@ interface DomainSearchStrategy<Intent, SourceHit, Entity, Candidate> {
   hasEnough(candidates: Candidate[]): boolean;
 }
 ```
+
+`hasEnough`只回答Domain的**Discovery阶段**是否已收集到满足当前检索预算的Grounded Candidate集合。`true`允许Search Runtime停止继续拉取本轮Source或Enrichment；它不代表任何Candidate在指定时段可订、不创建Booking Proposal、不结束Agent Loop，也不阻止Agent在看到新的失败/Availability Observation后提出下一次检索。Availability充分性只能由独立的`CHECK_AVAILABILITY` Observation表示，何时继续检索仍由Agent决定。
 
 ## Restaurant Pipeline
 

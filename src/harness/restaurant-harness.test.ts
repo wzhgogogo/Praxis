@@ -155,7 +155,7 @@ describe("restaurant booking mock harness", () => {
       ],
     });
 
-    assert.equal(artifact.schemaVersion, "3");
+    assert.equal(artifact.schemaVersion, "4");
     assert.equal(artifact.mode, "mock");
     assert.equal(artifact.scenarioId, "H11-causal-run-artifact");
     assert.equal(artifact.finalSnapshot.outcome?.status, "BOOKED_VERIFIED");
@@ -187,7 +187,12 @@ describe("restaurant booking mock harness", () => {
     }
 
     const commit = artifact.commands.find((command) => command.command.type === "COMMIT_BOOKING");
-    assert.ok(commit);
+    assert.ok(commit && commit.command.type === "COMMIT_BOOKING");
+    const bookingStep = artifact.trajectories.find((step) => step.agentAction?.type === "BOOK_RESERVATION");
+    assert.ok(bookingStep?.proposalId);
+    assert.equal(bookingStep.proposalId, artifact.authorizations[0]?.proposalId);
+    assert.equal(bookingStep.proposalId, artifact.policyDecisions[0]?.proposalId);
+    assert.equal(bookingStep.proposalId, commit.command.proposal.id);
     assert.equal(artifact.evidence[0]?.attemptId, commit.trace.attemptId);
   });
 

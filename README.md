@@ -43,7 +43,7 @@ Praxis 已建立开发前 Source of Truth，后续 planning、coding 和 verific
 
 ## 当前实现
 
-ADR-0011收口的Restaurant Agent Loop已完成Fixture / Mock纵向切片：`Semantic Interpreter → Proposal Contract → Compiler → Task Runtime / Reducer → Restaurant Agent Decision → Action Validator → Execution Router`。Agent选择下一业务动作但不能修改权威State、调用Provider或执行副作用；Router绑定权威Search/Availability参数，Discovery Candidate与Availability Offer分离，Policy / Authorization / Verifier继续是权威控制点。当前组件标识、验证证据、明确未验证项与下一道门槛统一维护在 [当前状态](./docs/STATUS.md)。
+ADR-0012收口的Restaurant Agent Loop已完成Fixture / Mock纵向切片：`Semantic Interpreter → Proposal Contract → Compiler → Task Runtime / Reducer → Restaurant Agent Context → Decision → Action Validator → Execution Router`。Agent选择下一业务动作但不能修改权威State、调用Provider或执行副作用；Router绑定并限时执行权威Search/Availability请求，Discovery Candidate与Availability Offer分离，Policy / Authorization / Verifier继续是权威控制点。当前组件标识、验证证据、明确未验证项与下一道门槛统一维护在 [当前状态](./docs/STATUS.md)。
 
 生产数据库Adapter使用`pg`；PGlite用于快速嵌入式数据库集成验证，不能替代真实PostgreSQL。2026-08-07已在隔离本机PostgreSQL 17数据库上通过真实Smoke，覆盖Runtime、迁移、Goal/Task Graph和Scheduler；后续可对专用测试库显式运行：
 
@@ -63,7 +63,7 @@ npm run test:postgres:live
 cp -n .env.example .env
 ```
 
-`.env`被Git忽略，浏览器不会读取其中变量；只有`npm run dev`、真实语义模型Eval和`npm run test:postgres:live`会以Node原生方式加载它。`npm test`、`npm run test:probes`、构建、Fixture Eval和Holdout Preflight不会加载`.env`，因此不会意外使用真实Key或触发付费模型请求。
+`.env`被Git忽略，浏览器不会读取其中变量；只有`npm run dev`、真实语义模型Eval、`npm run test:postgres:live`和显式开发数据重置命令会以Node原生方式加载它。`npm test`、`npm run test:probes`、构建、Fixture Eval和Holdout Preflight不会加载`.env`，因此不会意外使用真实Key或触发付费模型请求。
 
 ```bash
 npm install
@@ -82,6 +82,8 @@ npm run build
 ```bash
 npm run dev
 ```
+
+如本机开发库仍有不兼容的`restaurant-state@7` Task，先在库外备份所需调试信息；再显式设定`PRAXIS_ALLOW_DEV_RESTAURANT_STATE_RESET=1`，并执行`npm run reset:dev:restaurant-state`。它只接受localhost数据库，删除对应Restaurant Task及其级联本地记录；绝不能用于Pilot、staging或生产数据。
 
 然后在浏览器打开`http://127.0.0.1:3000`，使用本地Fixture Token `praxis-fixture-a`。可通过服务端`PRAXIS_PILOT_ACCESS_JSON`覆盖Pilot用户列表；不要把真实Secret放进前端。页面清楚标记为`Fixture mode`，它不是Live Search、生产身份或预约演示。
 

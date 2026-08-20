@@ -1,10 +1,10 @@
 # Agent Orchestration
 
 - Status: Accepted
-- Document revision: 3.6
+- Document revision: 3.7
 - Last updated: 2026-08-20
 - Source of truth for: Agent Workspace中的模型职责、有界Loop、前后台运行与Multi-Agent边界
-- Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md), [ADR-0003](../decisions/0003-single-agent-orchestration.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md)
+- Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md), [ADR-0003](../decisions/0003-single-agent-orchestration.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md)
 - Related documents: [Agent Gateway and Workspace](AGENT-GATEWAY-AND-WORKSPACE.md), [Task Runtime](TASK-RUNTIME.md), [Policy & Execution](POLICY-EXECUTION-VERIFICATION.md)
 
 ## 原则
@@ -25,7 +25,7 @@ User Message
 → Runtime / Reducer → Restaurant Agent Decision
 ```
 
-## ADR-0011语义、Agent与动作边界
+## ADR-0012语义、Agent与动作边界
 
 Semantic Interpreter只回答“用户本轮表达了什么”：稳定槽位、开放`CRITERION{text, polarity, strength}`、修正、否定和确认。它不对Criterion建立cuisine / constraint / preference taxonomy，也不能产生内部State Patch/Event、缺失字段、Readiness、动作路由、Authorization、Tool Call或Outcome。
 
@@ -33,7 +33,7 @@ Contract只证明Proposal结构与词表合法，不证明理解正确。Restaur
 
 `SEARCH_RESTAURANTS`只可包含可选`retrievalHint`，`CHECK_AVAILABILITY`只可包含`candidateIds`。Validator验证这些不可信字段的结构和State相容性；Execution Router在调用只读Adapter前从权威State绑定完整Intent、日期、时段和人数。它们绝不由Agent重复提交。是否再次搜索、开放式检索策略、检查哪家空位和如何利用失败Observation均由这个单一Restaurant Agent选择。
 
-Restaurant Action Validator只读取Authoritative State与Trusted Evidence，返回`ALLOWED`、`REJECTED`或`REQUIRES_AUTHORIZATION`，绝不选择下一步。它保护完整Intent、Hard Constraint、Candidate/Offer归属、时间人数、Offer新鲜度、活动Attempt和`OUTCOME_UNKNOWN`。`SELECTION_REQUIRED`仍是Agent可恢复的`RUNNING`状态，不是等待用户；只有明确提问、Authorization checkpoint或语义输入缺失才投影为`WAITING_USER`。
+Restaurant Agent不再接收完整Task State，而是只接收Domain-owned `restaurant-agent-context@1`：Intent Draft、派生缺失字段、展示安全的Candidate/Offer、当前选择、phase及稳定failure code。Authorization、Proposal terms、原始Provider结果、Execution Result、Evidence Artifact和Reservation不会进入模型上下文。Restaurant Action Validator仍只读取完整Authoritative State与Trusted Evidence，返回`ALLOWED`、`REJECTED`或`REQUIRES_AUTHORIZATION`，绝不选择下一步。它保护完整Intent、Hard Constraint、Candidate/Offer归属、时间人数、Offer新鲜度、活动Attempt和`OUTCOME_UNKNOWN`。`SELECTION_REQUIRED`仍是Agent可恢复的`RUNNING`状态，不是等待用户；只有明确提问、Authorization checkpoint或语义输入缺失才投影为`WAITING_USER`。
 
 LLM Response / Adjustment可以解释事实、生成澄清问题或提出非权威调整建议；只有用户的新消息可以重新进入Semantic Interpreter。禁止`LLM → Tool`、`LLM → State`和`Verifier → LLM → Tool`。每一步保存结构化trajectory；不保存Chain-of-Thought，也不把Summary作为权威事实。
 
@@ -51,12 +51,12 @@ LLM Response / Adjustment可以解释事实、生成澄清问题或提出非权�
 
 当前Restaurant Semantic Interpreter固定为非流式、500输出Token、温度0、Thinking关闭。Domain把完整机器可读Proposal Schema放入通用Model Request；该Schema只使用当前strict transport支持的JSON Schema子集，无法由传输层表达的non-blank规则仍由本地Domain Validator校验。DeepSeek Gateway用Beta strict function作为仅传输结构的强制信封，不注册或执行Runtime Tool。Gateway必须得到唯一匹配的`tool_calls` arguments，本地Proposal Validator仍再次校验；结构合法不代表语义正确。Contract无效时最多再尝试一次，Provider失败不盲重试或降级为自由文本。当前标识为`restaurant-semantic-prompt@7`与`restaurant-semantic-proposal@3`；Criterion strength按用户意图为`HARD` / `SOFT` / `UNSPECIFIED`，未来Provider Search Criteria Compiler必须是独立确定性边界，当前未实现。
 
-Restaurant Agent Decision使用同一服务端Gateway和受限JSON Schema，purpose为`restaurant_agent_decide`、Prompt标识为`restaurant-agent-decision-prompt@1`；输出仅为一个业务动作和可选短`decisionSummary`。结构合法不代表动作获准，必须继续经过Action Validator。
+Restaurant Agent Decision使用同一服务端Gateway和受限JSON Schema，purpose为`restaurant_agent_decide`、Prompt标识为`restaurant-agent-decision-prompt@2`；输入为`restaurant-agent-context@1`，输出仅为一个业务动作和可选短`decisionSummary`。结构合法不代表动作获准，必须继续经过Action Validator。
 
 ## 有界Loop
 
 - 对话补充：核心字段不完整时询问用户，直到完整、取消或达到上限。
-- Restaurant Agent Loop：在最大步数、超时、重复非法动作上限内，一次提出并验证一个动作；终态、User等待点和Authorization checkpoint立即停止。超时、步数上限与连续拒绝各写入`AGENT_LOOP_TERMINATED`及终止原因，并形成对应trajectory step。模型失败写`AGENT_DECISION_FAILED`；Adapter Provider失败写`SEARCH_FAILED`或`AVAILABILITY_FAILED`，两者绝不混同。
+- Restaurant Agent Loop：在最大步数、超时、重复非法动作上限内，一次提出并验证一个动作；终态、User等待点和Authorization checkpoint立即停止。每次Discovery/Availability read由Router以可中止deadline包裹，默认8秒；超时、步数上限与连续拒绝各写入`AGENT_LOOP_TERMINATED`及终止原因，并形成对应trajectory step。模型失败写`AGENT_DECISION_FAILED`；Adapter Provider失败（含read deadline）写`SEARCH_FAILED`或`AVAILABILITY_FAILED`，两者绝不混同。
 - Model-assisted Observation：当前未启用。未来若启用，必须使用独立只读Proposal Contract、Runtime Command与Policy，不能复用Semantic Proposal直接调用Tool。
 - Browser Interpretation：只能在允许域名内观察并走到提交前Checkpoint；最终提交不在模型Loop内。
 

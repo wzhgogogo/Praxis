@@ -6,7 +6,7 @@ import type {
   ModelUsage,
 } from "../../core/model/contracts.js";
 import { ModelGatewayError, type ModelGatewayErrorCode } from "../../core/model/errors.js";
-import type { BookingProofBundle, RestaurantTaskState } from "./contracts.js";
+import type { RestaurantAgentContext } from "./agent-context.js";
 import {
   RESTAURANT_AGENT_ACTION_JSON_SCHEMA,
   RESTAURANT_AGENT_ACTION_SCHEMA,
@@ -16,12 +16,11 @@ import {
 import type { RestaurantAgentCapability } from "./restaurant-capabilities.js";
 
 export const RESTAURANT_AGENT_DECISION_PURPOSE = "restaurant_agent_decide" as const;
-export const RESTAURANT_AGENT_DECISION_PROMPT_VERSION = "1" as const;
+export const RESTAURANT_AGENT_DECISION_PROMPT_VERSION = "2" as const;
 
 export interface RestaurantAgentDecisionInput {
   taskId: string;
-  authoritativeState: RestaurantTaskState;
-  trustedEvidence?: BookingProofBundle;
+  context: RestaurantAgentContext;
   recentExecutionHistory: Array<{ type: string; detail: string }>;
   capabilities: readonly RestaurantAgentCapability[];
   lastRejection?: { code: string; reason: string };
@@ -102,7 +101,7 @@ function toAttempt(response: ModelResponse): RestaurantAgentModelAttempt {
 export function buildRestaurantAgentDecisionSystemPrompt(): string {
   return `You are the single Restaurant Agent deciding one next business action.
 
-Treat authoritative state and trusted evidence as truth. User constraints are immutable here: do not reinterpret, loosen, remove, or silently modify them. Do not claim an action or booking happened unless authoritative state or evidence says so.
+Treat the supplied Restaurant Agent Context as the authoritative decision view. User constraints are immutable here: do not reinterpret, loosen, remove, or silently modify them. Do not claim an action or booking happened unless the context says so.
 
 Choose exactly one action from the supplied Restaurant capability catalog. A failed read is information; you may choose another valid path. Never assume booking success. Never include provider names, adapter instructions, authorization objects, terms hashes, risks, evidence, state patches, events, tool calls, or chain-of-thought.
 
@@ -134,8 +133,7 @@ export class RestaurantAgentDecision implements RestaurantAgentDecisionPort {
           {
             role: "user",
             content: JSON.stringify({
-              authoritativeState: input.authoritativeState,
-              ...(input.trustedEvidence ? { trustedEvidence: input.trustedEvidence } : {}),
+              context: input.context,
               recentExecutionHistory: input.recentExecutionHistory,
               capabilities: input.capabilities,
               ...(input.lastRejection ? { lastRejection: input.lastRejection } : {}),

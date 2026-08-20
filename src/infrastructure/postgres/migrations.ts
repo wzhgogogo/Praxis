@@ -1,8 +1,26 @@
 import type { SqlDatabase } from "./sql-database.js";
+import type { SqlExecutor } from "./sql-database.js";
 
 interface PostgresMigration {
   id: string;
-  statements: string[];
+  statements?: string[];
+  apply?: (transaction: SqlExecutor) => Promise<void>;
+}
+
+async function tableHasColumn(
+  transaction: SqlExecutor,
+  tableName: string,
+  columnName: string,
+): Promise<boolean> {
+  const result = await transaction.query<{ column_name: string }>(
+    `SELECT column_name
+       FROM information_schema.columns
+      WHERE table_schema = current_schema()
+        AND table_name = $1
+        AND column_name = $2`,
+    [tableName, columnName],
+  );
+  return result.rows.length > 0;
 }
 
 export const POSTGRES_MIGRATIONS: PostgresMigration[] = [
@@ -198,7 +216,7 @@ export const POSTGRES_MIGRATIONS: PostgresMigration[] = [
         occurred_at TIMESTAMPTZ NOT NULL,
         state_version_before INTEGER NOT NULL CHECK (state_version_before >= 0),
         state_hash_before TEXT NOT NULL,
-        causal_refs JSONB NOT NULL,
+        evidence_refs JSONB NOT NULL,
         capabilities JSONB NOT NULL,
         agent_action JSONB,
         decision_summary TEXT,
@@ -214,6 +232,33 @@ export const POSTGRES_MIGRATIONS: PostgresMigration[] = [
       `CREATE INDEX IF NOT EXISTS restaurant_agent_trajectory_task_idx
         ON restaurant_agent_trajectory_steps (task_id, step_number)`,
     ],
+  },
+  {
+    id: "0007-restaurant-agent-trajectory-causal-refs",
+    async apply(transaction) {
+      const tableName = "restaurant_agent_trajectory_steps";
+      const hasCausalRefs = await tableHasColumn(transaction, tableName, "causal_refs");
+      const hasEvidenceRefs = await tableHasColumn(transaction, tableName, "evidence_refs");
+
+      if (!hasCausalRefs) {
+        await transaction.query(`ALTER TABLE ${tableName} ADD COLUMN causal_refs JSONB`);
+      }
+      if (hasEvidenceRefs) {
+        await transaction.query(
+          `UPDATE ${tableName}
+              SET causal_refs = jsonb_build_object(
+                'eventIds', '[]'::jsonb,
+                'commandIds', '[]'::jsonb,
+                'attemptIds', '[]'::jsonb,
+                'evidenceIds', COALESCE(evidence_refs, '[]'::jsonb)
+              )
+            WHERE causal_refs IS NULL`,
+        );
+        await transaction.query(`ALTER TABLE ${tableName} DROP COLUMN evidence_refs`);
+      }
+      await transaction.query(`ALTER TABLE ${tableName} ALTER COLUMN causal_refs SET NOT NULL`);
+      await transaction.query(`ALTER TABLE ${tableName} ADD COLUMN IF NOT EXISTS proposal_id TEXT`);
+    },
   },
 ];
 
@@ -234,9 +279,10 @@ export async function applyPostgresMigrations(database: SqlDatabase): Promise<vo
       if (existing.rows.length > 0) {
         continue;
       }
-      for (const statement of migration.statements) {
+      for (const statement of migration.statements ?? []) {
         await transaction.query(statement);
       }
+      await migration.apply?.(transaction);
       await transaction.query(
         "INSERT INTO praxis_schema_migrations (id) VALUES ($1)",
         [migration.id],

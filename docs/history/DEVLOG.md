@@ -1,13 +1,31 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.29
+- Document revision: 4.30
 - Last updated: 2026-08-20
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## 2026-08-20 — ADR-0012 migration integrity and Agent Loop hardening
+
+### Why
+
+ADR-0011曾原地改写已发布的`0006`迁移，使已有数据库的迁移历史不可复现；本机还可能残留无法由`restaurant-state@8`安全解释的`restaurant-state@7`开发Task。Agent仍收到过宽的完整State，Provider只读调用缺少强制deadline，BOOK step也不能稳定连接到后续Outcome。`hasEnough`的Discovery含义需要与Availability和Loop结束解耦。
+
+### Changes
+
+- 新增Accepted ADR-0012，并将工作线切换为`codex/adr-0012-migration-and-loop-hardening`。恢复`0006-restaurant-agent-trajectory`的原始`evidence_refs`定义，新增不可变的`0007-restaurant-agent-trajectory-causal-refs`：升级旧evidence引用、补充`causal_refs`与`proposal_id`，且兼容短暂存在的已因果化本机开发形态。
+- 明确`restaurant-state@7`只属于开发期不兼容数据：绝不自动转换或启动时删除；仅在本机`DATABASE_URL`且显式设置`PRAXIS_ALLOW_DEV_RESTAURANT_STATE_RESET=1`时，才可用`npm run reset:dev:restaurant-state`删除对应Restaurant Task及其级联依赖。未执行任何重置；Pilot、staging和production禁止该命令。
+- 新增`restaurant-agent-context@1`的Domain-owned投影，Decision Prompt升级为`restaurant-agent-decision-prompt@2`。模型只接收意图、缺失字段、显示安全的候选/Offer、选择和稳定失败码；Authorization、Proposal terms、原始Provider输出、Execution Result、Evidence与Reservation不进入模型输入。
+- Execution Router为每次Provider read传递`AbortSignal`并强制8秒deadline；即使Adapter忽略中止，deadline race仍以可归因的Provider failure返回。`restaurant-agent-trajectory@3`的BOOK step持久化`proposalId`，Harness artifact升为`restaurant-harness-artifact@4`，可以显式连接Proposal、Authorization、Command、Attempt、Evidence与Outcome。
+- 将`DomainSearchStrategy.hasEnough`限定为Discovery阶段的确定性检索预算阈值；它不代表Availability、Booking授权、Loop终止，也不阻止Agent在观察结果后提出下一次检索。
+
+### Boundary
+
+没有实现或执行真实Provider、Browser Agent、Human Takeover、真实PostgreSQL写入、真实Authorization、Booking、取消、支付、Replay、Live Read-only或Controlled Live-write。
 
 ## 2026-08-20 — ADR-0011 Restaurant Agent Loop control refinement
 

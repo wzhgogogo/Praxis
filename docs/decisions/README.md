@@ -1,8 +1,8 @@
 # Architecture Decision Records
 
 - Status: Accepted
-- Document revision: 0.4
-- Last updated: 2026-08-19
+- Document revision: 0.5
+- Last updated: 2026-08-20
 - Source of truth for: 已接受架构决策及其替代关系
 - Related ADRs: 本目录
 - Related documents: [Architecture Overview](../architecture/OVERVIEW.md)
@@ -22,6 +22,7 @@
 | [0009](0009-semantic-strength-and-clean-holdout-baseline.md) | Accepted | v17语义强度、相对语义与可审计的一次性Clean Holdout Baseline |
 | [0010](0010-restaurant-agent-loop-action-validation.md) | Superseded in part by ADR-0011 | 单一Restaurant Agent Loop、动作校验与独立Availability |
 | [0011](0011-restaurant-agent-loop-control-refinement.md) | Accepted | Agent Action绑定、失败归因、Loop终止与Trajectory因果引用 |
+| [0012](0012-migration-and-agent-loop-hardening.md) | Accepted | Migration不可变性、开发State重置、Agent Context与Loop审计收口 |
 
 ## 规则
 

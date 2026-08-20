@@ -8,6 +8,7 @@ import type {
   TaskSnapshot,
 } from "../core/task-runtime/contracts.js";
 import type { RestaurantAgentDecisionPort } from "../domains/restaurant/agent-decision.js";
+import { projectRestaurantAgentContext } from "../domains/restaurant/agent-context.js";
 import { validateRestaurantAction } from "../domains/restaurant/action-validator.js";
 import type {
   RestaurantAgentLoopTermination,
@@ -120,7 +121,9 @@ export class RestaurantAgentLoopCoordinator {
     const startedAt = this.clock.now().valueOf();
     const recentExecutionHistory: Array<{ type: string; detail: string }> = priorSteps.slice(-12).map((step) => ({
       type: step.stepOutcome,
-      detail: step.observation?.detail ?? step.actionValidation?.status ?? "No observation",
+      detail: step.stepOutcome === "EXECUTION_FAILURE"
+        ? step.observation?.type ?? "Provider read failed"
+        : step.observation?.detail ?? step.actionValidation?.status ?? "No observation",
     }));
 
     for (let step = 0; step < this.maxSteps; step += 1) {
@@ -135,8 +138,7 @@ export class RestaurantAgentLoopCoordinator {
 
       const decision = await this.decision.decide({
         taskId,
-        authoritativeState: snapshot.domainState,
-        ...(snapshot.domainState.evidence ? { trustedEvidence: snapshot.domainState.evidence } : {}),
+        context: projectRestaurantAgentContext(snapshot.domainState),
         recentExecutionHistory,
         capabilities: RESTAURANT_AGENT_CAPABILITIES,
         ...(lastRejection ? { lastRejection } : {}),
@@ -246,12 +248,19 @@ export class RestaurantAgentLoopCoordinator {
         actionValidation: verdict,
         executionRoute: execution.route,
         ...(execution.observation ? { observation: execution.observation } : {}),
+        ...(decision.action.type === "BOOK_RESERVATION" && after.snapshot.domainState.proposal
+          ? { proposalId: after.snapshot.domainState.proposal.id }
+          : {}),
         causalRefs: mergeCausalRefs(base.causalRefs, after.causalRefs),
         stateVersionAfter: after.snapshot.version,
         stateHashAfter: stateHash(after.snapshot.domainState),
         stepOutcome: outcome,
       });
-      if (execution.observation) recentExecutionHistory.push(execution.observation);
+      if (execution.failure) {
+        recentExecutionHistory.push({ type: execution.failure.code, detail: "Provider read failed" });
+      } else if (execution.observation) {
+        recentExecutionHistory.push(execution.observation);
+      }
       if (outcome === "TERMINAL") return { status: "TERMINAL", steps: step + 1 };
       if (outcome === "WAITING_USER") return { status: "WAITING_USER", steps: step + 1 };
       lastRejection = undefined;

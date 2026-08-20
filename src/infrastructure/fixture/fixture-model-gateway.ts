@@ -83,9 +83,9 @@ function fixtureSemanticProposalFor(message: string): RestaurantSemanticProposal
 function fixtureAgentAction(request: ModelRequest): Record<string, unknown> {
   const content = request.messages.find((message) => message.role === "user")?.content;
   if (!content) throw new Error("Fixture model gateway expected Restaurant Agent context");
-  const context = JSON.parse(content) as { authoritativeState?: Record<string, unknown> };
-  const state = context.authoritativeState;
-  if (!state) throw new Error("Fixture model gateway expected authoritative state");
+  const context = JSON.parse(content) as { context?: Record<string, unknown> };
+  const state = context.context;
+  if (!state) throw new Error("Fixture model gateway expected Restaurant Agent context");
   const draft = state.intentDraft as Record<string, unknown> | undefined;
   const complete = draft && draft.date && draft.timeWindow && draft.partySize && draft.area;
   if (!complete) {
@@ -95,12 +95,12 @@ function fixtureAgentAction(request: ModelRequest): Record<string, unknown> {
       decisionSummary: "blocking details are incomplete",
     };
   }
-  const candidates = Array.isArray(state.candidates) ? state.candidates as Array<{ restaurant?: { id?: string } }> : [];
+  const candidates = Array.isArray(state.candidates) ? state.candidates as Array<{ id?: string }> : [];
   if (candidates.length === 0) {
     return { type: "SEARCH_RESTAURANTS", decisionSummary: "discover candidates" };
   }
   const availability = state.availability as Record<string, Array<{ id?: string }>> | undefined;
-  const candidateIds = candidates.map((candidate) => candidate.restaurant?.id).filter((id): id is string => typeof id === "string");
+  const candidateIds = candidates.map((candidate) => candidate.id).filter((id): id is string => typeof id === "string");
   const availableIds = candidateIds.filter((candidateId) => (availability?.[candidateId]?.length ?? 0) > 0);
   if (availableIds.length === 0) {
     return {

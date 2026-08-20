@@ -37,7 +37,7 @@ import {
 import { restaurantBookingTaskDefinition } from "../../domains/restaurant/task-definition.js";
 import type { RestaurantIntentPatch } from "../../domains/restaurant/contracts.js";
 import { restaurantRecoveryEventFactory } from "../../domains/restaurant/recovery.js";
-import { applyPostgresMigrations } from "./migrations.js";
+import { applyPostgresMigrations, POSTGRES_MIGRATIONS } from "./migrations.js";
 import { PostgresCommandOutbox } from "./postgres-command-outbox.js";
 import { PostgresGoalGraph } from "./postgres-goal-graph.js";
 import { PostgresTaskRuntime } from "./postgres-task-runtime.js";
@@ -174,6 +174,28 @@ async function withDatabase(
   }
 }
 
+async function applyMigrationsThrough(database: SqlDatabase, count: number): Promise<void> {
+  await database.transaction(async (transaction) => {
+    await transaction.query(
+      `CREATE TABLE IF NOT EXISTS praxis_schema_migrations (
+        id TEXT PRIMARY KEY,
+        applied_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+      )`,
+    );
+    for (const migration of POSTGRES_MIGRATIONS.slice(0, count)) {
+      for (const statement of migration.statements ?? []) {
+        await transaction.query(statement);
+      }
+      await migration.apply?.(transaction);
+      await transaction.query("INSERT INTO praxis_schema_migrations (id) VALUES ($1)", [migration.id]);
+    }
+  });
+}
+
+function parseDatabaseJson<Value>(value: unknown): Value {
+  return (typeof value === "string" ? JSON.parse(value) : structuredClone(value)) as Value;
+}
+
 function withTestTrace<State, Event extends DomainEvent, Command extends DomainCommand, Outcome>(
   runtime: PostgresTaskRuntime<State, Event, Command, Outcome>,
 ) {
@@ -244,6 +266,121 @@ function probeTest(name: string, body: TestBody): void {
 }
 
 describe("PostgresTaskRuntime with PGlite", () => {
+  currentTest("upgrades immutable trajectory migration 0006 with causal refs and proposal joins", async () => {
+    const pglite = await PGlite.create();
+    const database = new PGliteSqlDatabase(pglite);
+    try {
+      const legacyMigration = POSTGRES_MIGRATIONS.find((migration) => migration.id === "0006-restaurant-agent-trajectory");
+      assert.ok(legacyMigration?.statements?.some((statement) => statement.includes("evidence_refs JSONB NOT NULL")));
+      assert.equal(legacyMigration?.statements?.some((statement) => statement.includes("causal_refs")), false);
+
+      await applyMigrationsThrough(database, 6);
+      await database.query(
+        `INSERT INTO tasks (
+          id, run_id, task_type, definition_version, lifecycle_state,
+          domain_state_schema_version, domain_state, outcome, version, created_at, updated_at
+        ) VALUES (
+          'legacy-restaurant-task', 'legacy-run', 'restaurant.booking', '7', 'RUNNING',
+          '7', '{"schemaVersion":"7"}'::jsonb, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+        )`,
+      );
+      await database.query(
+        `INSERT INTO restaurant_agent_trajectory_steps (
+          id, task_id, step_number, occurred_at, state_version_before, state_hash_before,
+          evidence_refs, capabilities, step_outcome
+        ) VALUES (
+          'legacy-trajectory', 'legacy-restaurant-task', 1, CURRENT_TIMESTAMP, 0, 'legacy-hash',
+          '["evidence-legacy"]'::jsonb, '[]'::jsonb, 'EXECUTED'
+        )`,
+      );
+
+      await applyPostgresMigrations(database);
+      const migrated = await database.query<{ causal_refs: unknown; proposal_id: string | null }>(
+        "SELECT causal_refs, proposal_id FROM restaurant_agent_trajectory_steps WHERE id = 'legacy-trajectory'",
+      );
+      assert.deepEqual(parseDatabaseJson(migrated.rows[0]?.causal_refs), {
+        eventIds: [],
+        commandIds: [],
+        attemptIds: [],
+        evidenceIds: ["evidence-legacy"],
+      });
+      assert.equal(migrated.rows[0]?.proposal_id, null);
+      const oldColumn = await database.query<{ column_name: string }>(
+        `SELECT column_name FROM information_schema.columns
+          WHERE table_schema = current_schema()
+            AND table_name = 'restaurant_agent_trajectory_steps'
+            AND column_name = 'evidence_refs'`,
+      );
+      assert.equal(oldColumn.rows.length, 0);
+    } finally {
+      await pglite.close();
+    }
+  });
+
+  currentTest("keeps the short-lived causal-ref development form of already-applied migration 0006", async () => {
+    const pglite = await PGlite.create();
+    const database = new PGliteSqlDatabase(pglite);
+    try {
+      await applyMigrationsThrough(database, 5);
+      await database.query(
+        `CREATE TABLE restaurant_agent_trajectory_steps (
+          id TEXT PRIMARY KEY,
+          task_id TEXT NOT NULL REFERENCES tasks(id) ON DELETE CASCADE,
+          step_number INTEGER NOT NULL CHECK (step_number > 0),
+          occurred_at TIMESTAMPTZ NOT NULL,
+          state_version_before INTEGER NOT NULL CHECK (state_version_before >= 0),
+          state_hash_before TEXT NOT NULL,
+          causal_refs JSONB NOT NULL,
+          capabilities JSONB NOT NULL,
+          agent_action JSONB,
+          decision_summary TEXT,
+          model_attempt JSONB,
+          action_validation JSONB,
+          execution_route TEXT,
+          observation JSONB,
+          state_version_after INTEGER,
+          state_hash_after TEXT,
+          step_outcome TEXT NOT NULL,
+          UNIQUE (task_id, step_number)
+        )`,
+      );
+      await database.query("INSERT INTO praxis_schema_migrations (id) VALUES ('0006-restaurant-agent-trajectory')");
+      await database.query(
+        `INSERT INTO tasks (
+          id, run_id, task_type, definition_version, lifecycle_state,
+          domain_state_schema_version, domain_state, outcome, version, created_at, updated_at
+        ) VALUES (
+          'causal-dev-task', 'causal-dev-run', 'restaurant.booking', '8', 'RUNNING',
+          '8', '{"schemaVersion":"8"}'::jsonb, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+        )`,
+      );
+      await database.query(
+        `INSERT INTO restaurant_agent_trajectory_steps (
+          id, task_id, step_number, occurred_at, state_version_before, state_hash_before,
+          causal_refs, capabilities, step_outcome
+        ) VALUES (
+          'causal-dev-trajectory', 'causal-dev-task', 1, CURRENT_TIMESTAMP, 0, 'causal-dev-hash',
+          '{"eventIds":["event-1"],"commandIds":[],"attemptIds":[],"evidenceIds":[]}'::jsonb,
+          '[]'::jsonb, 'EXECUTED'
+        )`,
+      );
+
+      await applyPostgresMigrations(database);
+      const migrated = await database.query<{ causal_refs: unknown; proposal_id: string | null }>(
+        "SELECT causal_refs, proposal_id FROM restaurant_agent_trajectory_steps WHERE id = 'causal-dev-trajectory'",
+      );
+      assert.deepEqual(parseDatabaseJson(migrated.rows[0]?.causal_refs), {
+        eventIds: ["event-1"],
+        commandIds: [],
+        attemptIds: [],
+        evidenceIds: [],
+      });
+      assert.equal(migrated.rows[0]?.proposal_id, null);
+    } finally {
+      await pglite.close();
+    }
+  });
+
   currentTest("atomically stores task state, event and outbox command", async () => {
     await withDatabase(async ({ database, clock }) => {
       const runtime = createRuntime(database, clock);

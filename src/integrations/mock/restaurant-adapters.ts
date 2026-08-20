@@ -26,7 +26,7 @@ export class MockRestaurantSearchAdapter {
     private readonly failure?: string,
   ) {}
 
-  async search(_request: RestaurantSearchRequest): Promise<RestaurantCandidate[]> {
+  async search(_request: RestaurantSearchRequest, _signal: AbortSignal): Promise<RestaurantCandidate[]> {
     if (this.failure) throw new Error(this.failure);
     return structuredClone(this.candidates);
   }
@@ -39,7 +39,7 @@ export class MockAvailabilityAdapter {
     private readonly failure?: string,
   ) {}
 
-  async check(request: RestaurantAvailabilityRequest): Promise<AvailabilityOffer[]> {
+  async check(request: RestaurantAvailabilityRequest, _signal: AbortSignal): Promise<AvailabilityOffer[]> {
     if (this.failure) throw new Error(this.failure);
     return this.offers
       .filter((offer) => request.candidateIds.includes(offer.restaurantId))

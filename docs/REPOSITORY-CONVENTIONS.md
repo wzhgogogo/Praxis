@@ -1,7 +1,7 @@
 # Repository Naming and Version Conventions
 
 - Status: Accepted
-- Document revision: 1.1
+- Document revision: 1.2
 - Last updated: 2026-08-20
 - Source of truth for: Git branch/tag、版本标识、目录、文件、Eval数据和文档命名
 - Related ADRs: [ADR Index](decisions/README.md)
@@ -20,7 +20,7 @@
 | 对象 | 规范标识 | 何时变化 | 不用于 |
 |---|---|---|---|
 | 产品发布 | `praxis-v0.2.0` | 形成经过验证、可交付的产品Release | 普通开发分支、ADR迭代 |
-| 架构决策 | `ADR-0011` | 接受或替代架构决策 | Schema、Prompt或Dataset版本 |
+| 架构决策 | `ADR-0012` | 接受或替代架构决策 | Schema、Prompt或Dataset版本 |
 | 持久State | `restaurant-state@8` | 持久结构或语义不兼容变化 | 分支名、产品Release |
 | Contract/Schema | `restaurant-semantic-proposal@3` | 机器契约不兼容变化 | Prompt实验、文档修订 |
 | Prompt | `restaurant-semantic-prompt@7` | Prompt文本或行为口径变化 | State或Dataset版本 |
@@ -56,6 +56,13 @@ codex/docs-repository-conventions
 - 工作分支应在验证后进入`main`；`main`代表当前已验证集成线。只有真实并行维护的已发布Release才建立长期Release branch，Pilot前默认不建立。
 - 历史检查点使用不可移动的annotated tag，例如`checkpoint/adr-0010`；产品交付使用`praxis-v<semver>`。Tag只能指向已验证提交。
 - 旧`codex/restaurant-decision-v14`至`v17`分支是历史指针，不继续承载新工作，也不据此推导当前能力。
+
+## Migration与开发数据重置
+
+- 已进入`POSTGRES_MIGRATIONS`的Migration ID及其SQL语义不可原地修改。修复Schema必须追加新的Migration；即使当前只有本地开发库，也不得改写已经被其他开发环境应用的历史ID。
+- `restaurant-state@7`与当前`restaurant-state@8`不兼容。它只可能存在于Pilot前的本地开发数据中，绝不自动转换、重放或在应用启动时删除。
+- 如需继续使用同一台本机开发数据库，先备份所需调试信息，再显式执行`PRAXIS_ALLOW_DEV_RESTAURANT_STATE_RESET=1 npm run reset:dev:restaurant-state`。该命令只接受localhost `DATABASE_URL`，且只删除schema version为`7`的`restaurant.booking` Task及其级联本地记录。
+- 该重置命令不是迁移工具，不得用于Pilot、staging、production或任何含真实进行中Task的数据。出现这类数据时，必须先设计并接受专门的迁移/保留方案。
 
 ## 目录与文件
 

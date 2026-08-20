@@ -5,7 +5,7 @@ description: Praxis质量评估；衡量当前语义链、Agent动作、搜索�
 
 # Praxis Eval
 
-Eval评估模型与端到端质量，不替代功能测试。当前产品架构由ADR-0010及其ADR-0011控制细化定义：语义Eval只评估保留的 Interpreter → Compiler → Reducer 边界，Agent动作由独立Action Validator与Harness验证。已经退出产品主链的Decision Harness、单轮Intent Parser和分类Criteria Contract只在历史文档与Git中保留。
+Eval评估模型与端到端质量，不替代功能测试。当前产品架构由ADR-0010、ADR-0011及ADR-0012控制定义：语义Eval只评估保留的 Interpreter → Compiler → Reducer 边界；Agent动作由独立Action Validator、最小Restaurant Agent Context、Router deadline与Harness验证。已经退出产品主链的Decision Harness、单轮Intent Parser和分类Criteria Contract只在历史文档与Git中保留。
 
 ## 当前目录
 

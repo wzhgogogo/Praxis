@@ -61,7 +61,7 @@ export interface HarnessOracleAssertion { name: string; passed: boolean; details
 export interface RestaurantHarnessPolicyRecord { commandId: string; proposalId: string; authorizationId: string; decision: PolicyDecision }
 
 export interface RestaurantHarnessRunArtifact {
-  schemaVersion: "3";
+  schemaVersion: "4";
   mode: "mock";
   scenarioId?: string;
   runId: string;
@@ -175,7 +175,7 @@ export class RestaurantHarness {
     const snapshot = this.snapshot();
     const evidence = this.runtime.eventLog.flatMap((envelope) => envelope.event.type === "BOOKING_VERIFIED" ? [envelope.event.evidence] : envelope.event.type === "VERIFICATION_INCONCLUSIVE" && envelope.event.evidence ? [envelope.event.evidence] : []);
     const authorizations = this.runtime.eventLog.flatMap((envelope) => envelope.event.type === "AUTHORIZE" ? [envelope.event.authorization] : []);
-    return { schemaVersion: "3", mode: "mock", ...(input.scenarioId ? { scenarioId: input.scenarioId } : {}), runId: snapshot.runId, taskId: snapshot.id, startedAt: snapshot.createdAt, generatedAt: this.clock.now().toISOString(), fixture: structuredClone(this.fixtureSummary), events: structuredClone(this.runtime.eventLog), commands: structuredClone(this.runtime.commandLog), trajectories: structuredClone(this.trajectories.steps), policyDecisions: structuredClone(this.policyDecisionRecords), authorizations: structuredClone(authorizations), evidence: structuredClone(evidence), sideEffects: structuredClone(this.ledger.records), finalSnapshot: structuredClone(snapshot), oracleAssertions: structuredClone(input.oracleAssertions ?? []) };
+    return { schemaVersion: "4", mode: "mock", ...(input.scenarioId ? { scenarioId: input.scenarioId } : {}), runId: snapshot.runId, taskId: snapshot.id, startedAt: snapshot.createdAt, generatedAt: this.clock.now().toISOString(), fixture: structuredClone(this.fixtureSummary), events: structuredClone(this.runtime.eventLog), commands: structuredClone(this.runtime.commandLog), trajectories: structuredClone(this.trajectories.steps), policyDecisions: structuredClone(this.policyDecisionRecords), authorizations: structuredClone(authorizations), evidence: structuredClone(evidence), sideEffects: structuredClone(this.ledger.records), finalSnapshot: structuredClone(snapshot), oracleAssertions: structuredClone(input.oracleAssertions ?? []) };
   }
 
   async replayLastCommit(): Promise<boolean> {

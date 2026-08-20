@@ -1,10 +1,10 @@
 # Task Runtime
 
 - Status: Accepted
-- Document revision: 1.1
-- Last updated: 2026-08-08
+- Document revision: 1.2
+- Last updated: 2026-08-20
 - Source of truth for: 通用任务生命周期、状态推进、触发和父子依赖
-- Related ADRs: [ADR-0001](../decisions/0001-general-task-runtime.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md)
+- Related ADRs: [ADR-0001](../decisions/0001-general-task-runtime.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md)
 - Related documents: [Agent Gateway and Workspace](AGENT-GATEWAY-AND-WORKSPACE.md), [Overview](OVERVIEW.md), [Interfaces](INTERFACES-AND-SCHEMAS.md)
 
 ## Implementation Status
@@ -200,4 +200,5 @@ EXTERNAL_WRITE lease失效且无结果Event
 - Goal、Task、Event和Domain State均有Schema版本。
 - Trace Metadata当前为Schema `1`；所有Event输入都必须携带Trace并匹配Task Run，Runtime不再为旧Fixture补默认值。
 - 当前尚未进入生产Pilot，也没有需要保留的真实Task数据。Schema变化默认同步修改代码和Fixture并删除旧路径，不增加仅用于本地原型的兼容层。
+- 已应用的PostgreSQL Migration仍不可改写；未发布的结构变化也必须以新Migration追加。当前Restaurant的`restaurant-state@7 → @8`没有State transform：不兼容的本机开发Task通过显式、双重开关的reset命令删除，绝不在Runtime中自动重解释或清除。
 - 一旦存在生产数据、进行中的现实任务或外部消费者，才启用版本迁移链和恢复测试；无法迁移时进入明确错误状态，不静默丢弃或重解释旧状态。

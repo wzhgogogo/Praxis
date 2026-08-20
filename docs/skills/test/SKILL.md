@@ -20,7 +20,7 @@ npm run eval:restaurant:semantic:holdout:preflight
 npm run eval:restaurant:semantic:deepseek # 需要显式真实模型开关；不是默认测试
 ```
 
-`npm test`当前产品基线为 **92/92**（2026-08-20）：覆盖Core Unit/Contract、Restaurant Verifier、16个Mock Agent Loop Harness场景、当前12个PGlite Runtime/Recovery场景、Fixture Web/API/SSE、语义 Proposal / Compiler / Reducer / Holdout Preflight与分层Scorer、Fixture Search及真实模型付费门禁/计量。新增断言证明Router绑定权威只读参数、Provider失败不归因为模型、`SELECTION_REQUIRED`保持Agent可恢复，以及timeout/step/rejection限制均留下持久状态和trajectory；历史Decision Harness、旧Intent Parser和分类Criteria Contract不再混入当前基线。
+`npm test`当前产品基线为 **98/98**（2026-08-20）：覆盖Core Unit/Contract、Restaurant Verifier、16个Mock Agent Loop Harness场景、3个Provider Router参数/Deadline场景、14个PGlite Runtime/Recovery/Migration场景、Fixture Web/API/SSE、语义 Proposal / Compiler / Reducer / Holdout Preflight与分层Scorer、Fixture Search及真实模型付费门禁/计量。新增断言证明Router绑定权威只读参数、Provider失败不归因为模型，且协作或忽略abort的Provider read都会被Router deadline有界截断；`SELECTION_REQUIRED`保持Agent可恢复，以及timeout/step/rejection限制均留下持久状态和trajectory；历史Decision Harness、旧Intent Parser和分类Criteria Contract不再混入当前基线。
 
 `npm run test:probes`为独立的**8/8**冻结探针基线：Goal Graph、Trigger/Scheduler、Recurring Shopping与Long-running Case。它保护仍保留的有界架构探针，但不作为Restaurant当前Stage的产品门禁。Fixture与Embedded-postgres都不证明生产身份、真实PostgreSQL、Browser视觉、Replay、Live Read-only、真实模型Baseline或Controlled Live-write；完整历史见[Test Log](../../history/TEST-LOG.md)。
 

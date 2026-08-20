@@ -25,11 +25,11 @@ function candidate(_intent: RestaurantBookingIntent, index: number): RestaurantC
 
 /** Local-only read adapter for the Stage 2A vertical slice. */
 export class FixtureRestaurantSearch {
-  async search(request: RestaurantSearchRequest): Promise<RestaurantCandidate[]> {
+  async search(request: RestaurantSearchRequest, _signal: AbortSignal): Promise<RestaurantCandidate[]> {
     return [candidate(request.intent, 1), candidate(request.intent, 2), candidate(request.intent, 3)];
   }
 
-  async check(request: RestaurantAvailabilityRequest): Promise<AvailabilityOffer[]> {
+  async check(request: RestaurantAvailabilityRequest, _signal: AbortSignal): Promise<AvailabilityOffer[]> {
     return request.candidateIds.map((restaurantId, index) => ({
       id: `fixture-offer-${restaurantId}`,
       restaurantId,

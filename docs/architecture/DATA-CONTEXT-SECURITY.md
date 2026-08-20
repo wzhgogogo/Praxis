@@ -1,10 +1,10 @@
 # Data, Context and Security
 
 - Status: Accepted
-- Document revision: 1.0
-- Last updated: 2026-08-10
+- Document revision: 1.1
+- Last updated: 2026-08-20
 - Source of truth for: 数据归属、Context分层、隐私、安全和保留策略
-- Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md), [ADR-0005](../decisions/0005-modular-monolith.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md)
+- Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md), [ADR-0005](../decisions/0005-modular-monolith.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md)
 - Related documents: [Restaurant Booking](../domains/RESTAURANT-BOOKING.md), [Capability Matrix](../integrations/CAPABILITY-MATRIX.md)
 
 ## 数据实体
@@ -111,6 +111,8 @@ Entity Observation的长期资产是Praxis自己的实体映射、来源选择�
 Context Resolver按任务需要选择最小上下文，保留来源、版本和时间。不得把全部历史、完整DOM或无关PII发送给模型。
 
 前台Interaction Session可以读取有限近期Conversation与当前Case摘要。后台Trigger和Follow-up不得恢复完整Conversation；它们从最新Task Snapshot、必要Attempt/Authorization引用和最小Domain Context重建。Conversation中的模型解释、Working Plan和“已经完成”文本不能覆盖Task State或Outcome。
+
+Restaurant Agent Decision只接收Domain-owned的`restaurant-agent-context@1`，而不是完整Task State。该投影只包含当前Intent Draft、派生缺失字段、显示安全Candidate/Offer、选择、phase和稳定failure code；Authorization、Proposal terms、原始Provider输出、Execution Result、Evidence Artifact和Reservation不得进入模型输入。完整权威State仍只供Runtime、Action Validator、Router、Policy和Verifier使用。
 
 发送给DeepSeek：用户需求、结构化约束、脱敏候选、必要页面标签和错误。默认不发送银行卡、密码、Cookie、验证码、完整联系方式或与任务无关的历史。
 

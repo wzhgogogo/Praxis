@@ -21,6 +21,7 @@
     "eval:restaurant:semantic:holdout:exposed-regression:analyze": "node --import tsx src/eval/restaurant/semantic/runners/run-exposed-holdout-regression-analysis.ts",
     "eval:restaurant:search:fixture": "node --import tsx src/eval/restaurant/search-fixture/run.ts",
     "test:postgres:live": "node --env-file-if-exists=.env --import tsx src/infrastructure/postgres/postgres-live-smoke.ts",
+    "reset:dev:restaurant-state": "node --env-file-if-exists=.env --import tsx src/infrastructure/postgres/reset-restaurant-dev-data.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "devDependencies": {

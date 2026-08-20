@@ -10,11 +10,15 @@ import type {
 import { completeRestaurantIntent } from "../domains/restaurant/intent-state.js";
 
 export interface RestaurantSearchPort {
-  search(request: RestaurantSearchRequest): Promise<RestaurantCandidate[]>;
+  search(request: RestaurantSearchRequest, signal: AbortSignal): Promise<RestaurantCandidate[]>;
 }
 
 export interface RestaurantAvailabilityPort {
-  check(request: RestaurantAvailabilityRequest): Promise<AvailabilityOffer[]>;
+  check(request: RestaurantAvailabilityRequest, signal: AbortSignal): Promise<AvailabilityOffer[]>;
+}
+
+export interface RestaurantExecutionRouterOptions {
+  providerReadTimeoutMs?: number;
 }
 
 export interface RestaurantActionExecution {
@@ -52,10 +56,15 @@ function authoritativeAvailabilityRequest(
  * to the Agent and deliberately has no direct Commit implementation.
  */
 export class RestaurantExecutionRouter {
+  private readonly providerReadTimeoutMs: number;
+
   constructor(
     private readonly search: RestaurantSearchPort,
     private readonly availability: RestaurantAvailabilityPort,
-  ) {}
+    options: RestaurantExecutionRouterOptions = {},
+  ) {
+    this.providerReadTimeoutMs = options.providerReadTimeoutMs ?? 8_000;
+  }
 
   async execute(
     action: RestaurantAgentAction,
@@ -71,7 +80,10 @@ export class RestaurantExecutionRouter {
       case "SEARCH_RESTAURANTS": {
         const request = authoritativeSearchRequest(state, action.retrievalHint);
         try {
-          const candidates = await this.search.search(request);
+          const candidates = await this.withProviderReadDeadline(
+            "Restaurant search",
+            (signal) => this.search.search(request, signal),
+          );
           return {
             route: "FIXTURE_STRUCTURED",
             event: { type: "SEARCH_COMPLETED", request, candidates },
@@ -90,7 +102,10 @@ export class RestaurantExecutionRouter {
       case "CHECK_AVAILABILITY": {
         const request = authoritativeAvailabilityRequest(state, action.candidateIds);
         try {
-          const offers = await this.availability.check(request);
+          const offers = await this.withProviderReadDeadline(
+            "Restaurant availability",
+            (signal) => this.availability.check(request, signal),
+          );
           return {
             route: "FIXTURE_STRUCTURED",
             event: { type: "AVAILABILITY_CHECKED", request, offers },
@@ -119,5 +134,29 @@ export class RestaurantExecutionRouter {
           observation: { type: "BOOKING_PROPOSAL", detail: `${action.candidateId}:${action.offerId}` },
         };
     }
+  }
+
+  private async withProviderReadDeadline<Value>(
+    operationName: string,
+    operation: (signal: AbortSignal) => Promise<Value>,
+  ): Promise<Value> {
+    const controller = new AbortController();
+    return new Promise<Value>((resolve, reject) => {
+      const timeout = setTimeout(() => {
+        const error = new Error(`${operationName} timed out after ${this.providerReadTimeoutMs}ms`);
+        controller.abort(error);
+        reject(error);
+      }, this.providerReadTimeoutMs);
+      void Promise.resolve().then(() => operation(controller.signal)).then(
+        (value) => {
+          clearTimeout(timeout);
+          resolve(value);
+        },
+        (error: unknown) => {
+          clearTimeout(timeout);
+          reject(error);
+        },
+      );
+    });
   }
 }

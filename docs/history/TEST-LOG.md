@@ -1,13 +1,33 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.26
+- Document revision: 4.27
 - Last updated: 2026-08-20
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## 2026-08-20 — ADR-0012 migration integrity and Agent Loop hardening verification
+
+### Scope
+
+Immutable migration recovery, explicit local-only `restaurant-state@7` reset policy, minimal Agent Context projection, bounded Provider reads, BOOK-to-Outcome proposal join and Discovery-only `hasEnough` semantics. No real database reset, external provider or browser automation is in scope.
+
+### Checks
+
+- `npm run typecheck`: passed.
+- `npm run arch:check`: passed with 0 forbidden source dependencies.
+- `npm test`: passed `98/98`, 0 failed, in a permitted local-listener environment. This includes 16 Restaurant Mock Agent Loop Harness scenarios, 3 Provider Router parameter/deadline scenarios, 14 embedded-PGlite Runtime/Recovery/Migration scenarios and Fixture Web/API/SSE.
+- `npm run test:probes`: passed `8/8`; frozen Goal/Scheduler probes remain separate from the current product gate. The new migration tests are current-product tests and therefore do not alter that frozen baseline.
+- `npm run build`: passed.
+- `git diff --check`: passed.
+- PGlite migration coverage proves both the original `0006` `evidence_refs` form upgrades through `0007` and the short-lived already-causal local development form remains readable before `proposal_id` is added. Agent-context coverage proves authorization, proposal, execution, evidence and reservation data do not reach the decision input. Router coverage proves authority-bound availability arguments, cooperative abort and an abort-ignoring Provider deadline.
+
+### Modes and external effects
+
+Only Unit, Contract, Fixture, Mock Harness, local HTTP/SSE and embedded-PGlite verification ran. No reset command was run and no durable development data was deleted. Real PostgreSQL smoke was not run because no explicit writable test-database authorization or configuration was provided; embedded-PGlite does not replace it. No real model call, Replay, Live Read-only, Controlled Live-write, real Provider, Browser Agent, Human Takeover, Authorization, booking, payment or cancellation occurred.
 
 ## 2026-08-20 — ADR-0011 Restaurant Agent Loop control refinement verification
 
