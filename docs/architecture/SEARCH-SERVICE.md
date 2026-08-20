@@ -1,10 +1,10 @@
 # Search Service
 
 - Status: Accepted
-- Document revision: 0.3
-- Last updated: 2026-08-19
+- Document revision: 0.4
+- Last updated: 2026-08-20
 - Source of truth for: 搜索运行框架、Domain搜索责任和实时候选生成
-- Related ADRs: [ADR-0001](../decisions/0001-general-task-runtime.md)
+- Related ADRs: [ADR-0001](../decisions/0001-general-task-runtime.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md)
 - Related documents: [Restaurant Domain](../domains/RESTAURANT-BOOKING.md), [Capability Matrix](../integrations/CAPABILITY-MATRIX.md)
 
 ## 目标
@@ -24,11 +24,13 @@ Discovery的产物是`RestaurantCandidate`，不是Availability结论。`CHECK_A
 - 缓存、熔断、Trace和Replay；
 - 来源健康度和部分失败隔离。
 
-### Domain Search Strategy
+### Domain Search Strategy and Agent retrieval strategy
+
+Domain Search Strategy负责把已绑定的权威Intent确定性地转换为Source查询、实体和候选；它不决定开放式检索过程。单一Restaurant Agent负责何时搜索、是否扩大或收窄检索、何时停止以及如何依据失败Observation恢复，并只能以可选`retrievalHint`表达本步策略。
 
 Domain负责：
 
-- Intent与Query；
+- 将权威Intent与Agent retrieval hint绑定为Query；
 - Entity结构和合并规则；
 - 硬过滤；
 - 预排序和最终排序；
@@ -52,7 +54,7 @@ interface DomainSearchStrategy<Intent, SourceHit, Entity, Candidate> {
 ## Restaurant Pipeline
 
 ```text
-SearchIntent
+Authoritative SearchIntent + Agent retrieval hint
 → 日英查询词与地理范围
 → Google / Hot Pepper / approved sources并行Discovery
 → Source normalization

@@ -1,13 +1,33 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.25
+- Document revision: 4.26
 - Last updated: 2026-08-20
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## 2026-08-20 — ADR-0011 Restaurant Agent Loop control refinement verification
+
+### Scope
+
+Restaurant Agent Action Contract、权威Search/Availability参数绑定、Provider/Router/模型失败归因、Loop终止、`SELECTION_REQUIRED` lifecycle、trajectory causal refs、Mock Adapter故障注入、PGlite持久化恢复和对应文档。没有真实平台或浏览器自动化。
+
+### Checks
+
+- `npm run typecheck`: passed.
+- `npm run arch:check`: passed with 0 forbidden source dependencies.
+- `npm test`: passed `92/92`, 0 failed, in a permitted local-listener environment. This includes 16 Restaurant Mock Agent Loop Harness scenarios, 12 embedded-PGlite Runtime/Recovery scenarios and Fixture Web/API/SSE.
+- `npm run test:probes`: passed `8/8`; frozen Goal/Scheduler probes remain separate from the current product gate.
+- `npm run build`: passed.
+- `git diff --check`: passed.
+- New Harness assertions cover Router binding of authoritative read parameters, Provider failure as `SEARCH_FAILED` rather than model failure, `SELECTION_REQUIRED → RUNNING` with no pending user question, and durable timeout / step-limit / rejection-limit state plus trajectory outcomes and causal refs.
+
+### Modes and external effects
+
+Only Unit, Contract, Fixture, Mock Harness, local HTTP/SSE and embedded-PGlite verification ran. No real model call, Clean Holdout, Replay, Live Read-only, Controlled Live-write, real PostgreSQL smoke, Authorization, booking, payment or cancellation occurred. Real PostgreSQL smoke was not run because no explicit writable test-database authorization or configuration was provided; embedded-PGlite does not replace it.
 
 ## 2026-08-20 — Repository naming normalization verification
 

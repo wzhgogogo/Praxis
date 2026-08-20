@@ -1,10 +1,10 @@
 # Policy, Execution and Verification
 
 - Status: Accepted
-- Document revision: 0.2
-- Last updated: 2026-08-07
+- Document revision: 0.3
+- Last updated: 2026-08-20
 - Source of truth for: 授权、副作用控制、执行路由、验证和恢复
-- Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md)
+- Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md)
 - Related documents: [Task Runtime](TASK-RUNTIME.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md)
 
 ## Action与授权
@@ -49,22 +49,27 @@ Prompt中的安全要求不是Policy。
 
 ## Execution Router
 
-按Capability选择：
+Restaurant Agent只提出业务动作，永不选择Provider或Browser路线。Execution Router在Action Validator通过后，以权威State和Capability确定执行路线；对`SEARCH_RESTAURANTS`绑定完整Intent，对`CHECK_AVAILABILITY`绑定日期、时段和人数。Router和Adapter的失败是执行/Provider失败，不是模型失败。
 
 ```text
-Partner API
-→ Verified Browser Adapter
-→ Human Takeover
-→ Deep Link
+Validated business action
+→ Execution Router / route selection
+  ├── Structured Adapter
+  │     Partner API / verified source-specific browser adapter
+  ├── Generic Browser Agent
+  │     untrusted page interpretation, bounded single-step navigation,
+  │     never owns authorization, commit, or outcome
+  └── Human Takeover
+        user performs login, CAPTCHA, payment, 3DS, or accepts new high-risk terms
 ```
 
-API和Browser Adapter实现统一的prepare/commit/verify/cancel边界。`prepare`可自动执行，`commit`必须持有有效Authorization。
+当前Restaurant切片只实现Harness Mock中的Structured Adapter read route；Generic Browser Agent和Human Takeover是后续Stage的明确架构路线，不表示已经接入。三类路线均使用统一的prepare/commit/verify/cancel边界：`prepare`可自动执行，`commit`必须持有有效Authorization。Generic Browser Agent只能在确定性Checkpoint之间提出下一浏览器步，不能将页面文字提升为授权或成功结果。
 
 ## Browser与Takeover
 
 - 每个Attempt使用隔离浏览器Profile。
-- Verified Adapter优先使用语义选择器和页面Invariant。
-- 未知页面模型只能提出单步Action。
+- Structured Adapter优先使用语义选择器和页面Invariant。
+- Generic Browser Agent在未知页面只能提出单步Action，必须由Router校验域名、阶段和Checkpoint。
 - 登录、验证码、银行卡、3DS、CAPTCHA和新增高风险条款触发接管。
 - 接管期间停止敏感DOM、截图和按键日志采集。
 - 用户结束接管后Adapter重新验证Checkpoint。

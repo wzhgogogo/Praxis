@@ -1,10 +1,10 @@
 # Interfaces and Schemas
 
 - Status: Accepted
-- Document revision: 1.9
-- Last updated: 2026-08-19
+- Document revision: 2.0
+- Last updated: 2026-08-20
 - Source of truth for: 公共接口、DTO、内部Tool、实现状态和版本规则
-- Related ADRs: [ADR Index](../decisions/README.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md)
+- Related ADRs: [ADR Index](../decisions/README.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md)
 - Related documents: [Task Runtime](TASK-RUNTIME.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md)
 
 接口必须逐项标记状态，不得用局部原型暗示完整API或平台能力已经存在。
@@ -17,12 +17,12 @@
 | Event/Command Causal Trace | `implemented: in-memory prototype` | [`InMemoryTaskRuntime`](../../src/core/task-runtime/in-memory-task-runtime.ts) |
 | 乐观版本检查、Event去重、Command记录 | `implemented: in-memory prototype` | [`InMemoryTaskRuntime`](../../src/core/task-runtime/in-memory-task-runtime.ts) |
 | `ActionProposal`、`Authorization`、`PolicyDecision` | `implemented: MVP subset` | [`src/core/policy`](../../src/core/policy/contracts.ts) |
-| Restaurant Intent、Discovery Candidate、Availability、Event与Command | `implemented: ADR-0010 Fixture / Mock vertical slice` | [`Restaurant contracts`](../../src/domains/restaurant/contracts.ts) |
+| Restaurant Intent、Discovery Candidate、Availability、Event与Command | `implemented: ADR-0011 Fixture / Mock vertical slice` | [`Restaurant contracts`](../../src/domains/restaurant/contracts.ts) |
 | Restaurant Semantic Interpreter / Proposal Contract | `implemented: Fixture product path` | ADR-0007职责链与ADR-0009的开放`criteria` / `HARD` / `SOFT`强度已替换产品的Fixture Intent Parser路径；真实模型仍只在评测中使用 |
 | Restaurant Semantic Compiler | `implemented: Restaurant product path` | 纯确定性Proposal → `RestaurantIntentPatch` → Domain Event翻译；不建立Core通用Compiler |
-| Restaurant Agent Action / Capability / Decision | `implemented: Fixture product and Mock Harness slice` | 单一Agent经ModelGateway提出业务动作；静态Capability Catalog不暴露Provider细节 |
-| Restaurant Action Validator | `implemented: ADR-0010` | 仅允许、拒绝或要求Authorization；不选择下一步，不调用Tool |
-| Restaurant Agent Trajectory | `implemented: Restaurant-specific PostgreSQL + Mock artifact` | 每步关联state/action/verdict/route/observation，不保存Chain-of-Thought |
+| Restaurant Agent Action / Capability / Decision | `implemented: Fixture product and Mock Harness slice` | 单一Agent经ModelGateway提出五种业务动作；Search只可带retrieval hint、Availability只可带candidate IDs，Router绑定权威请求参数 |
+| Restaurant Action Validator | `implemented: ADR-0011` | 仅允许、拒绝或要求Authorization；不选择下一步，不调用Tool |
+| Restaurant Agent Trajectory | `implemented: Restaurant-specific PostgreSQL + Mock artifact` | 每步关联state/action/verdict/route/observation及Event/Command/Attempt/Evidence causal refs，不保存Chain-of-Thought |
 | `NEED_REINTERPRETATION` | `implemented: reserved safe decision` | 记录语义冲突并询问用户；不自动重解释或改State |
 | Restaurant `BookingProofBundle`与Completion Verifier | `implemented: Mock vertical slice` | [`booking-verifier.ts`](../../src/domains/restaurant/booking-verifier.ts) |
 | Restaurant Harness Run Artifact | `implemented: mock only` | [`restaurant-harness.ts`](../../src/harness/restaurant-harness.ts) |
@@ -239,7 +239,7 @@ type ModelRequest = {
 
 普通Text/JSON Object走标准`POST /chat/completions`；`JSON_SCHEMA`走DeepSeek Beta strict function transport，强制一个只承载结构化输出、从不执行的function envelope。Domain提供完整JSON Schema，但该Schema只使用当前strict transport支持的子集；例如non-blank仍由本地Domain Validator而非不支持的`minLength`保证。Infrastructure不导入Restaurant类型；Gateway提取arguments后，本地Domain Validator仍为权威门禁且语义正确性另行评分。内部`taskId`、Schema正文、Prompt和Completion都不进入普通Telemetry。非2xx、429、超时、网络错误和畸形响应转为稳定`ModelGatewayError`，不静默降级成自由文本。
 
-## Restaurant semantic and ADR-0010 action boundary
+## Restaurant semantic and ADR-0010/0011 action boundary
 
 Status: `implemented: Fixture product path`. This is the only current Restaurant language-to-state path. The old Intent Parser and Progressive Decision Harness typed `statePatch` path have been removed from executable code.
 
@@ -260,7 +260,7 @@ The Proposal Contract is versioned and closed. It validates structure, typed val
 
 `RestaurantSemanticCompiler` has a versioned deterministic input/output contract. It receives only a valid Proposal and returns a `RestaurantIntentPatch`, wrapped as `SEMANTIC_PROPOSAL_COMPILED`; a contradiction becomes `SEMANTIC_CONFLICT_RECORDED`. It cannot call a model, query live data, evaluate Policy, or invoke a Tool.
 
-`RestaurantAgentDecision` receives only authoritative State, trusted Evidence, compact execution history and a static business Capability Catalog. Its constrained JSON output is an untrusted `RestaurantAgentAction`; it cannot contain State patches, Provider details, Authorization, terms hashes, Adapter calls or Outcome claims. `RestaurantActionValidator` checks action-specific invariants and returns `ALLOWED`, `REJECTED`, or `REQUIRES_AUTHORIZATION`; it never selects a next action. The bounded coordinator stores a structured trajectory step before continuing, waiting, or terminating.
+`RestaurantAgentDecision` receives only authoritative State, trusted Evidence, compact execution history and a static business Capability Catalog. Its constrained JSON output is an untrusted `RestaurantAgentAction`; it cannot contain State patches, Provider details, Authorization, terms hashes, Adapter calls or Outcome claims. `SEARCH_RESTAURANTS` contains only an optional retrieval hint and `CHECK_AVAILABILITY` only candidate IDs; the Execution Router binds complete authoritative requests. `RestaurantActionValidator` checks action-specific invariants and returns `ALLOWED`, `REJECTED`, or `REQUIRES_AUTHORIZATION`; it never selects a next action. The bounded coordinator stores a structured trajectory step, including causal refs to emitted Events, Commands, Attempts and Evidence, before continuing, waiting, or terminating.
 
 `Semantic Proposal` is intentionally distinct from the Core `ActionProposal`: the former describes language-level meaning, while the latter represents a potentially side-effecting execution action subject to Policy and Authorization.
 

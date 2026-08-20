@@ -4,6 +4,13 @@ import type { RestaurantAgentCapability } from "../../domains/restaurant/restaur
 import type { RestaurantActionValidation } from "../../domains/restaurant/action-validator.js";
 import type { SqlDatabase } from "./sql-database.js";
 
+export interface RestaurantAgentTrajectoryCausalRefs {
+  eventIds: string[];
+  commandIds: string[];
+  attemptIds: string[];
+  evidenceIds: string[];
+}
+
 export interface RestaurantAgentTrajectoryStep {
   id: string;
   taskId: string;
@@ -11,7 +18,7 @@ export interface RestaurantAgentTrajectoryStep {
   occurredAt: string;
   stateVersionBefore: number;
   stateHashBefore: string;
-  evidenceRefs: string[];
+  causalRefs: RestaurantAgentTrajectoryCausalRefs;
   capabilities: readonly RestaurantAgentCapability[];
   agentAction?: RestaurantAgentAction;
   decisionSummary?: string;
@@ -21,7 +28,16 @@ export interface RestaurantAgentTrajectoryStep {
   observation?: { type: string; detail: string };
   stateVersionAfter?: number;
   stateHashAfter?: string;
-  stepOutcome: "EXECUTED" | "REJECTED" | "WAITING_USER" | "TERMINAL" | "MODEL_FAILURE";
+  stepOutcome:
+    | "EXECUTED"
+    | "REJECTED"
+    | "WAITING_USER"
+    | "TERMINAL"
+    | "MODEL_FAILURE"
+    | "EXECUTION_FAILURE"
+    | "TIMEOUT"
+    | "STEP_LIMIT"
+    | "REJECTION_LIMIT";
 }
 
 export interface RestaurantAgentTrajectoryStore {
@@ -36,7 +52,7 @@ interface TrajectoryRow {
   occurred_at: unknown;
   state_version_before: number;
   state_hash_before: string;
-  evidence_refs: unknown;
+  causal_refs: unknown;
   capabilities: unknown;
   agent_action: unknown | null;
   decision_summary: string | null;
@@ -64,7 +80,7 @@ export class PostgresRestaurantAgentTrajectoryStore implements RestaurantAgentTr
     await this.database.query(
       `INSERT INTO restaurant_agent_trajectory_steps (
         id, task_id, step_number, occurred_at, state_version_before, state_hash_before,
-        evidence_refs, capabilities, agent_action, decision_summary, model_attempt,
+        causal_refs, capabilities, agent_action, decision_summary, model_attempt,
         action_validation, execution_route, observation, state_version_after, state_hash_after, step_outcome
       ) VALUES (
         $1, $2, $3, $4, $5, $6, $7::jsonb, $8::jsonb, $9::jsonb, $10, $11::jsonb,
@@ -72,7 +88,7 @@ export class PostgresRestaurantAgentTrajectoryStore implements RestaurantAgentTr
       )`,
       [
         step.id, step.taskId, step.stepNumber, step.occurredAt, step.stateVersionBefore, step.stateHashBefore,
-        JSON.stringify(step.evidenceRefs), JSON.stringify(step.capabilities), step.agentAction ? JSON.stringify(step.agentAction) : null,
+        JSON.stringify(step.causalRefs), JSON.stringify(step.capabilities), step.agentAction ? JSON.stringify(step.agentAction) : null,
         step.decisionSummary ?? null, step.modelAttempt ? JSON.stringify(step.modelAttempt) : null,
         step.actionValidation ? JSON.stringify(step.actionValidation) : null, step.executionRoute ?? null,
         step.observation ? JSON.stringify(step.observation) : null, step.stateVersionAfter ?? null,
@@ -84,7 +100,7 @@ export class PostgresRestaurantAgentTrajectoryStore implements RestaurantAgentTr
   async list(taskId: string): Promise<RestaurantAgentTrajectoryStep[]> {
     const result = await this.database.query<TrajectoryRow>(
       `SELECT id, task_id, step_number, occurred_at, state_version_before, state_hash_before,
-              evidence_refs, capabilities, agent_action, decision_summary, model_attempt,
+              causal_refs, capabilities, agent_action, decision_summary, model_attempt,
               action_validation, execution_route, observation, state_version_after, state_hash_after, step_outcome
          FROM restaurant_agent_trajectory_steps
         WHERE task_id = $1
@@ -98,7 +114,7 @@ export class PostgresRestaurantAgentTrajectoryStore implements RestaurantAgentTr
       occurredAt: toIsoString(row.occurred_at),
       stateVersionBefore: row.state_version_before,
       stateHashBefore: row.state_hash_before,
-      evidenceRefs: parseJson<string[]>(row.evidence_refs),
+      causalRefs: parseJson<RestaurantAgentTrajectoryCausalRefs>(row.causal_refs),
       capabilities: parseJson<RestaurantAgentCapability[]>(row.capabilities),
       ...(row.agent_action ? { agentAction: parseJson<RestaurantAgentAction>(row.agent_action) } : {}),
       ...(row.decision_summary ? { decisionSummary: row.decision_summary } : {}),

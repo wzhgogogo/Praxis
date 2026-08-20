@@ -1,10 +1,10 @@
 # Architecture Overview
 
 - Status: Accepted
-- Document revision: 0.8
-- Last updated: 2026-08-19
+- Document revision: 0.9
+- Last updated: 2026-08-20
 - Source of truth for: 总体架构、层次、依赖方向和扩展边界
-- Related ADRs: [ADR-0001](../decisions/0001-general-task-runtime.md), [ADR-0003](../decisions/0003-single-agent-orchestration.md), [ADR-0005](../decisions/0005-modular-monolith.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md)
+- Related ADRs: [ADR-0001](../decisions/0001-general-task-runtime.md), [ADR-0003](../decisions/0003-single-agent-orchestration.md), [ADR-0005](../decisions/0005-modular-monolith.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md)
 - Related documents: [Agent Gateway and Workspace](AGENT-GATEWAY-AND-WORKSPACE.md), [Task Runtime](TASK-RUNTIME.md), [Agent Orchestration](AGENT-ORCHESTRATION.md)
 
 ## 核心结构
@@ -44,7 +44,7 @@ Domain Packages
         └── case-management (future)
 ```
 
-## ADR-0010 Restaurant agent-to-execution path
+## ADR-0011 Restaurant agent-to-execution path
 
 ADR-0010 preserves the semantic boundary accepted by ADR-0007/0009: the Semantic Interpreter is the only LLM step that reads a new user message, returning an untrusted Proposal that compiles into authoritative state. A separate single Restaurant Agent then chooses one constrained action from the static Restaurant capability catalog. It may observe state and trusted fixture/provider results, but it cannot mutate state, bypass authorization, invoke an adapter, or decide an Outcome.
 
@@ -66,7 +66,7 @@ User Message
 → Task Runtime → Reducer
 ```
 
-The Agent may select only `ASK_USER`, `SEARCH_RESTAURANTS`, `CHECK_AVAILABILITY`, `SELECT_CANDIDATE`, `BOOK_RESERVATION`, or `COMPLETE`. The validator rejects structurally invalid, stale, unauthorized, or state-incompatible actions. Rejections and model failures become durable safe events; the loop is bounded. User language remains the only input to the semantic chain.
+The Agent may select only `ASK_USER`, `SEARCH_RESTAURANTS`, `CHECK_AVAILABILITY`, `SELECT_CANDIDATE`, or `BOOK_RESERVATION`. It provides an optional retrieval hint for search and candidate IDs for availability; the Router binds all authoritative intent and schedule fields immediately before an Adapter call. The validator rejects structurally invalid, stale, unauthorized, or state-incompatible actions. Model decision failures, Router execution failures and Provider read failures become distinct durable events; timeout, step and rejection limits each have a durable termination trajectory. User language remains the only input to the semantic chain.
 
 ## 四类任务骨架
 

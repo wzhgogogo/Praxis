@@ -1,13 +1,31 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.28
+- Document revision: 4.29
 - Last updated: 2026-08-20
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## 2026-08-20 — ADR-0011 Restaurant Agent Loop control refinement
+
+### Why
+
+ADR-0010的首个Loop让不可信Agent输出重复权威Intent和预约时段字段，暴露了不可达的`COMPLETE`动作，并把Provider/Router问题混同为模型失败。其终止、`SELECTION_REQUIRED` lifecycle和trajectory的因果审计也不足以说明一次Agent step实际产生了什么。
+
+### Changes
+
+- 新增Accepted ADR-0011，并将当前工作线切换为`codex/adr-0011-restaurant-agent-loop-controls`。Action Contract升级为`restaurant-agent-action@2`：删除`COMPLETE`，Search只接收可选retrieval hint，Availability只接收candidate IDs；Router在执行前绑定权威Intent、日期、时段与人数。
+- Restaurant State升级为`restaurant-state@8`，Agent trajectory升级为`restaurant-agent-trajectory@2`。每步保存Event、Command、Attempt和Evidence causal refs；Provider read、Router执行和模型决策失败分别记录为不同事件和trajectory outcome。
+- timeout、step limit和rejection limit统一写入`AGENT_LOOP_TERMINATED`，形成明确`NEEDS_INPUT`状态及终止trajectory。`SELECTION_REQUIRED`改投影为`RUNNING`，并移除旧`SELECT_CANDIDATE` pending-user residue。
+- 扩展Mock Harness：验证权威请求绑定、Provider失败不会被归因为模型、三类Loop终止、Agent恢复lifecycle与因果引用。Mock Adapter只增加受控读失败注入，不新增真实Provider或Browser路径。
+- 同步Search架构中“开放式检索策略归Agent”、Execution架构中Structured Adapter / Generic Browser Agent / Human Takeover三条路线，并明确后二者仍未实现。同步README、状态、接口、Harness、命名约定和测试基线，删除README中的裸当前版本称谓。
+
+### Boundary
+
+没有实现Browser自动化、Live Provider、Replay、真实模型调用、Live Read-only、Authorization、Booking、支付、取消或Controlled Live-write。Generic Browser Agent和Human Takeover只更新为后续架构路线，当前实现仍是Fixture/Mock Structured Adapter。
 
 ## 2026-08-20 — Repository naming and version normalization
 

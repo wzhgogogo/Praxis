@@ -1,20 +1,14 @@
-import type {
-  RestaurantAvailabilityRequest,
-  RestaurantSearchRequest,
-} from "./contracts.js";
-
 export const RESTAURANT_AGENT_ACTION_SCHEMA = {
   name: "restaurant_agent_action",
-  version: "1",
+  version: "2",
 } as const;
 
 export type RestaurantAgentAction =
   | { type: "ASK_USER"; question: string; relatedFields?: string[] }
-  | { type: "SEARCH_RESTAURANTS"; request: RestaurantSearchRequest }
-  | { type: "CHECK_AVAILABILITY"; request: RestaurantAvailabilityRequest }
+  | { type: "SEARCH_RESTAURANTS"; retrievalHint?: string }
+  | { type: "CHECK_AVAILABILITY"; candidateIds: string[] }
   | { type: "SELECT_CANDIDATE"; candidateId: string; offerId?: string }
-  | { type: "BOOK_RESERVATION"; candidateId: string; offerId: string }
-  | { type: "COMPLETE" };
+  | { type: "BOOK_RESERVATION"; candidateId: string; offerId: string };
 
 export const RESTAURANT_AGENT_ACTION_JSON_SCHEMA: Record<string, unknown> = {
   type: "object",
@@ -29,12 +23,12 @@ export const RESTAURANT_AGENT_ACTION_JSON_SCHEMA: Record<string, unknown> = {
         "CHECK_AVAILABILITY",
         "SELECT_CANDIDATE",
         "BOOK_RESERVATION",
-        "COMPLETE",
       ],
     },
     question: { type: "string" },
     relatedFields: { type: "array", items: { type: "string" } },
-    request: { type: "object" },
+    retrievalHint: { type: "string" },
+    candidateIds: { type: "array", items: { type: "string" } },
     candidateId: { type: "string" },
     offerId: { type: "string" },
     decisionSummary: { type: "string" },
@@ -57,31 +51,6 @@ function nonBlank(value: unknown): value is string {
 function stringList(value: unknown): string[] | null {
   if (!Array.isArray(value) || !value.every((item) => nonBlank(item))) return null;
   return value.map((item) => item.trim());
-}
-
-function asSearchRequest(value: unknown): RestaurantSearchRequest | null {
-  if (!isRecord(value) || !isRecord(value.intent)) return null;
-  if (value.retrievalHint !== undefined && !nonBlank(value.retrievalHint)) return null;
-  return {
-    intent: structuredClone(value.intent) as unknown as RestaurantSearchRequest["intent"],
-    ...(nonBlank(value.retrievalHint) ? { retrievalHint: value.retrievalHint.trim() } : {}),
-  };
-}
-
-function asAvailabilityRequest(value: unknown): RestaurantAvailabilityRequest | null {
-  if (!isRecord(value) || !Array.isArray(value.candidateIds) || !value.candidateIds.every(nonBlank)) {
-    return null;
-  }
-  if (!nonBlank(value.date) || !isRecord(value.timeWindow) || !nonBlank(value.timeWindow.earliest) || !nonBlank(value.timeWindow.latest)) {
-    return null;
-  }
-  if (typeof value.partySize !== "number" || !Number.isInteger(value.partySize) || value.partySize <= 0) return null;
-  return {
-    candidateIds: value.candidateIds.map((candidateId) => candidateId.trim()),
-    date: value.date.trim(),
-    timeWindow: { earliest: value.timeWindow.earliest.trim(), latest: value.timeWindow.latest.trim() },
-    partySize: value.partySize,
-  };
 }
 
 /** Validates only the untrusted action's shape. State-dependent permission is Kernel-owned. */
@@ -111,16 +80,25 @@ export function validateRestaurantAgentAction(
       };
     }
     case "SEARCH_RESTAURANTS": {
-      const request = asSearchRequest(value.request);
-      return request
-        ? { valid: true, value: { action: { type: "SEARCH_RESTAURANTS", request }, ...(decisionSummary ? { decisionSummary } : {}) } }
-        : { valid: false, errors: ["SEARCH_RESTAURANTS requires a request with an intent"] };
+      if (value.retrievalHint !== undefined && !nonBlank(value.retrievalHint)) {
+        return { valid: false, errors: ["SEARCH_RESTAURANTS retrievalHint must be non-empty when provided"] };
+      }
+      return {
+        valid: true,
+        value: {
+          action: {
+            type: "SEARCH_RESTAURANTS",
+            ...(nonBlank(value.retrievalHint) ? { retrievalHint: value.retrievalHint.trim() } : {}),
+          },
+          ...(decisionSummary ? { decisionSummary } : {}),
+        },
+      };
     }
     case "CHECK_AVAILABILITY": {
-      const request = asAvailabilityRequest(value.request);
-      return request
-        ? { valid: true, value: { action: { type: "CHECK_AVAILABILITY", request }, ...(decisionSummary ? { decisionSummary } : {}) } }
-        : { valid: false, errors: ["CHECK_AVAILABILITY requires candidateIds, date, timeWindow, and partySize"] };
+      const candidateIds = stringList(value.candidateIds);
+      return candidateIds && candidateIds.length > 0
+        ? { valid: true, value: { action: { type: "CHECK_AVAILABILITY", candidateIds }, ...(decisionSummary ? { decisionSummary } : {}) } }
+        : { valid: false, errors: ["CHECK_AVAILABILITY requires one or more candidateIds"] };
     }
     case "SELECT_CANDIDATE":
       return nonBlank(value.candidateId) && (value.offerId === undefined || nonBlank(value.offerId))
@@ -130,8 +108,6 @@ export function validateRestaurantAgentAction(
       return nonBlank(value.candidateId) && nonBlank(value.offerId)
         ? { valid: true, value: { action: { type: "BOOK_RESERVATION", candidateId: value.candidateId.trim(), offerId: value.offerId.trim() }, ...(decisionSummary ? { decisionSummary } : {}) } }
         : { valid: false, errors: ["BOOK_RESERVATION requires candidateId and offerId"] };
-    case "COMPLETE":
-      return { valid: true, value: { action: { type: "COMPLETE" }, ...(decisionSummary ? { decisionSummary } : {}) } };
     default:
       return { valid: false, errors: [`Unsupported Restaurant Agent action: ${value.type}`] };
   }

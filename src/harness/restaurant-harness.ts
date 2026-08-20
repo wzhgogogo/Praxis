@@ -9,7 +9,11 @@ import type {
   TaskSnapshot,
 } from "../core/task-runtime/contracts.js";
 import { InMemoryTaskRuntime } from "../core/task-runtime/in-memory-task-runtime.js";
-import { RestaurantAgentLoopCoordinator } from "../application/restaurant-agent-loop.js";
+import {
+  RestaurantAgentLoopCoordinator,
+  type RestaurantAgentLoopOptions,
+  type RestaurantAgentLoopResult,
+} from "../application/restaurant-agent-loop.js";
 import { RestaurantExecutionRouter } from "../application/restaurant-execution-router.js";
 import { ScriptedRestaurantAgentDecisionPort } from "../domains/restaurant/agent-decision.js";
 import type { RestaurantAgentAction } from "../domains/restaurant/agent-action.js";
@@ -45,6 +49,9 @@ export interface RestaurantHarnessFixture {
   offers: AvailabilityOffer[];
   agentActions?: RestaurantAgentAction[];
   unavailableRestaurantIds?: ReadonlySet<string>;
+  searchFailure?: string;
+  availabilityFailure?: string;
+  agentLoopOptions?: RestaurantAgentLoopOptions;
   commitMode?: MockCommitMode;
   verificationMode?: MockVerificationMode;
   initialTime?: string;
@@ -54,7 +61,7 @@ export interface HarnessOracleAssertion { name: string; passed: boolean; details
 export interface RestaurantHarnessPolicyRecord { commandId: string; proposalId: string; authorizationId: string; decision: PolicyDecision }
 
 export interface RestaurantHarnessRunArtifact {
-  schemaVersion: "2";
+  schemaVersion: "3";
   mode: "mock";
   scenarioId?: string;
   runId: string;
@@ -78,6 +85,7 @@ export class RestaurantHarness {
   readonly ledger = new SideEffectLedger();
   readonly runtime: InMemoryTaskRuntime<RestaurantTaskState, RestaurantEvent, RestaurantCommand, RestaurantOutcome>;
   readonly trajectories = new InMemoryRestaurantAgentTrajectoryStore();
+  lastAgentLoopResult?: RestaurantAgentLoopResult;
   private readonly taskId = "task-restaurant-1";
   private readonly runId = "run:restaurant-harness-1";
   private readonly searchAdapter: MockRestaurantSearchAdapter;
@@ -97,8 +105,12 @@ export class RestaurantHarness {
     const verificationMode = fixture.verificationMode ?? "CONFIRMED";
     this.clock = new FakeClock(initialTime);
     this.fixtureSummary = { candidateIds: fixture.candidates.map((candidate) => candidate.restaurant.id), unavailableRestaurantIds: [...(fixture.unavailableRestaurantIds ?? new Set())], commitMode, verificationMode, initialTime };
-    this.searchAdapter = new MockRestaurantSearchAdapter(fixture.candidates);
-    this.availabilityAdapter = new MockAvailabilityAdapter(fixture.offers, fixture.unavailableRestaurantIds);
+    this.searchAdapter = new MockRestaurantSearchAdapter(fixture.candidates, fixture.searchFailure);
+    this.availabilityAdapter = new MockAvailabilityAdapter(
+      fixture.offers,
+      fixture.unavailableRestaurantIds,
+      fixture.availabilityFailure,
+    );
     this.executor = new MockBookingExecutor(this.ledger, commitMode);
     this.verifier = new MockBookingVerifier(verificationMode);
     this.runtime = new InMemoryTaskRuntime(restaurantBookingTaskDefinition, this.clock, (prefix) => `${prefix}-${++this.sequence}`);
@@ -122,8 +134,8 @@ export class RestaurantHarness {
       ? this.fixture.offers.find((offer) => offer.restaurantId === firstCandidate.restaurant.id)
       : undefined;
     const actions = this.fixture.agentActions ?? (firstCandidate && firstOffer ? [
-      { type: "SEARCH_RESTAURANTS", request: { intent } },
-      { type: "CHECK_AVAILABILITY", request: { candidateIds: this.fixture.candidates.slice(0, 3).map((candidate) => candidate.restaurant.id), date: intent.date, timeWindow: intent.timeWindow, partySize: intent.partySize } },
+      { type: "SEARCH_RESTAURANTS" },
+      { type: "CHECK_AVAILABILITY", candidateIds: this.fixture.candidates.slice(0, 3).map((candidate) => candidate.restaurant.id) },
       { type: "SELECT_CANDIDATE", candidateId: firstCandidate.restaurant.id, offerId: firstOffer.id },
       { type: "BOOK_RESERVATION", candidateId: firstCandidate.restaurant.id, offerId: firstOffer.id },
     ] satisfies RestaurantAgentAction[] : [{ type: "ASK_USER", question: "No fixture candidate is available." }]);
@@ -133,10 +145,10 @@ export class RestaurantHarness {
       new RestaurantExecutionRouter(this.searchAdapter, this.availabilityAdapter),
       this.trajectories,
       this.clock,
-      {},
+      this.fixture.agentLoopOptions,
       (prefix) => `${prefix}-${++this.sequence}`,
     );
-    await coordinator.run(this.taskId);
+    this.lastAgentLoopResult = await coordinator.run(this.taskId);
     return this.snapshot();
   }
 
@@ -163,7 +175,7 @@ export class RestaurantHarness {
     const snapshot = this.snapshot();
     const evidence = this.runtime.eventLog.flatMap((envelope) => envelope.event.type === "BOOKING_VERIFIED" ? [envelope.event.evidence] : envelope.event.type === "VERIFICATION_INCONCLUSIVE" && envelope.event.evidence ? [envelope.event.evidence] : []);
     const authorizations = this.runtime.eventLog.flatMap((envelope) => envelope.event.type === "AUTHORIZE" ? [envelope.event.authorization] : []);
-    return { schemaVersion: "2", mode: "mock", ...(input.scenarioId ? { scenarioId: input.scenarioId } : {}), runId: snapshot.runId, taskId: snapshot.id, startedAt: snapshot.createdAt, generatedAt: this.clock.now().toISOString(), fixture: structuredClone(this.fixtureSummary), events: structuredClone(this.runtime.eventLog), commands: structuredClone(this.runtime.commandLog), trajectories: structuredClone(this.trajectories.steps), policyDecisions: structuredClone(this.policyDecisionRecords), authorizations: structuredClone(authorizations), evidence: structuredClone(evidence), sideEffects: structuredClone(this.ledger.records), finalSnapshot: structuredClone(snapshot), oracleAssertions: structuredClone(input.oracleAssertions ?? []) };
+    return { schemaVersion: "3", mode: "mock", ...(input.scenarioId ? { scenarioId: input.scenarioId } : {}), runId: snapshot.runId, taskId: snapshot.id, startedAt: snapshot.createdAt, generatedAt: this.clock.now().toISOString(), fixture: structuredClone(this.fixtureSummary), events: structuredClone(this.runtime.eventLog), commands: structuredClone(this.runtime.commandLog), trajectories: structuredClone(this.trajectories.steps), policyDecisions: structuredClone(this.policyDecisionRecords), authorizations: structuredClone(authorizations), evidence: structuredClone(evidence), sideEffects: structuredClone(this.ledger.records), finalSnapshot: structuredClone(snapshot), oracleAssertions: structuredClone(input.oracleAssertions ?? []) };
   }
 
   async replayLastCommit(): Promise<boolean> {

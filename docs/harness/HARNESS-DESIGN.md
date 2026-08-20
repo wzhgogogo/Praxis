@@ -1,10 +1,10 @@
 # Harness Design
 
 - Status: Accepted
-- Document revision: 3.5
-- Last updated: 2026-08-19
+- Document revision: 3.6
+- Last updated: 2026-08-20
 - Source of truth for: Agent Workspace、Task、Search和Browser的模拟、回放、断言与故障注入
-- Related ADRs: [ADR-0001](../decisions/0001-general-task-runtime.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md)
+- Related ADRs: [ADR-0001](../decisions/0001-general-task-runtime.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md)
 - Related documents: [Golden Scenarios](GOLDEN-SCENARIOS.md), [Superseded Progressive Decision Eval](../superseded/harness/RESTAURANT-PROGRESSIVE-DECISION-EVAL.md), [Test Skill](../skills/test/SKILL.md)
 
 ## Implementation Status
@@ -13,7 +13,7 @@ Evaluation code is organized by evaluation boundary in [src/eval/README.md](../.
 
 `mock`模式的Restaurant Task Harness已实现：Fake Clock、Scripted Restaurant Agent Decision、Mock Discovery/Availability/Execution/Verification、Action Validator、Command自动派发、Side Effect Ledger、Causal Trace、Booking Proof、Run Artifact和Agent Trajectory。入口为 [`RestaurantHarness`](../../src/harness/restaurant-harness.ts)。
 
-ADR-0010本地Fixture路径由Semantic Interpreter和Restaurant Agent Decision共同经Fixture ModelGateway驱动：Agent依次提出Discovery、Availability、选择和Booking Proposal，Action Validator逐步检查，最终停在Authorization checkpoint。Harness还证明第二次搜索策略与A不可用后独立检查B来自Scripted Agent Action，而不是确定性fallback。Browser Fixture、Fault Injector、Replay、Live Read-only和Controlled Live-write仍为`proposed`。Fixture通过不代表任何真实平台能力已验证。
+ADR-0011本地Fixture路径由Semantic Interpreter和Restaurant Agent Decision共同经Fixture ModelGateway驱动：Agent依次提出Discovery、Availability、选择和Booking Proposal，Action Validator逐步检查，最终停在Authorization checkpoint。Harness还证明Router绑定权威Search/Availability参数、Provider失败不归因为模型、`SELECTION_REQUIRED`仍可由Agent恢复，以及timeout/step/rejection limit留下状态和trajectory。Browser Fixture、Fault Injector、Replay、Live Read-only和Controlled Live-write仍为`proposed`。Fixture通过不代表任何真实平台能力已验证。
 
 Stage 2B的Agent Workspace Harness已实现为7个Local HTTP/SSE + PGlite场景：它驱动Pilot用户、Conversation、PostgreSQL Root Task、服务重启、第二个浏览器Session、SSE断线重连和Responsive页面Contract，并断言Projection不成为第二套权威状态。它没有执行真实浏览器视觉或交互测试，因此只证明HTTP/SSE行为和Mobile响应式标记，不证明跨浏览器视觉质量。
 
@@ -120,7 +120,7 @@ type Scenario = {
 
 Status: `implemented: Restaurant mock only`。
 
-`RestaurantHarness.createRunArtifact()`当前返回内存对象，不写入磁盘。Artifact Schema `2`包含：
+`RestaurantHarness.createRunArtifact()`当前返回内存对象，不写入磁盘。Artifact Schema `restaurant-harness-artifact@3`包含：
 
 ```text
 Scenario / Mock Fixture摘要
@@ -128,7 +128,7 @@ Run / Task / 时间
 Recorded Events + Causal Trace
 Commands + Causal Trace
 Policy Decisions / Authorizations
-Agent Trajectory（state/action/verdict/route/observation linkage）
+Agent Trajectory（state/action/verdict/route/observation，以及Event/Command/Attempt/Evidence causal refs）
 Booking Proof Bundles
 Side Effect Ledger
 Final Snapshot / Outcome

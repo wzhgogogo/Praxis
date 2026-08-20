@@ -20,7 +20,8 @@
 | [0007](0007-semantic-proposal-compiler-and-decision-kernel.md) | Superseded by ADR-0010 | v15 Semantic Proposal、Restaurant Compiler与确定性Decision Kernel |
 | [0008](0008-open-restaurant-criteria-contract.md) | Superseded by ADR-0009 | v16开放Restaurant Criterion Contract；强度语义已替换 |
 | [0009](0009-semantic-strength-and-clean-holdout-baseline.md) | Accepted | v17语义强度、相对语义与可审计的一次性Clean Holdout Baseline |
-| [0010](0010-restaurant-agent-loop-action-validation.md) | Accepted | 单一Restaurant Agent Loop、动作校验与独立Availability |
+| [0010](0010-restaurant-agent-loop-action-validation.md) | Superseded in part by ADR-0011 | 单一Restaurant Agent Loop、动作校验与独立Availability |
+| [0011](0011-restaurant-agent-loop-control-refinement.md) | Accepted | Agent Action绑定、失败归因、Loop终止与Trajectory因果引用 |
 
 ## 规则
 

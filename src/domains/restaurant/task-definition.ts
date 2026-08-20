@@ -12,6 +12,7 @@ import type {
   RestaurantBookingSelection,
   RestaurantCommand,
   RestaurantEvent,
+  RestaurantAgentLoopTermination,
   RestaurantOutcome,
   RestaurantPhase,
   RestaurantTaskState,
@@ -129,14 +130,25 @@ function lifecycleFor(phase: RestaurantPhase): TaskLifecycleState {
   switch (phase) {
     case "UNDERSTANDING": return "CREATED";
     case "SEARCHING":
+    case "SELECTION_REQUIRED":
     case "EXECUTING":
     case "VERIFYING": return "RUNNING";
     case "AWAITING_AUTHORIZATION":
-    case "NEEDS_INPUT":
-    case "SELECTION_REQUIRED": return "WAITING_USER";
+    case "NEEDS_INPUT": return "WAITING_USER";
     case "OUTCOME_UNKNOWN": return "NEEDS_ATTENTION";
     case "BOOKED_VERIFIED": return "SUCCEEDED";
     case "FAILED": return "FAILED";
+  }
+}
+
+function terminationQuestion(termination: RestaurantAgentLoopTermination): string {
+  switch (termination) {
+    case "TIMEOUT":
+      return "I reached the time limit while evaluating safe options. Please clarify how you would like to proceed.";
+    case "STEP_LIMIT":
+      return "I reached the maximum number of safe planning steps. Please clarify how you would like to proceed.";
+    case "REJECTION_LIMIT":
+      return "I could not find a valid next action after several rejected proposals. Please clarify how you would like to proceed.";
   }
 }
 
@@ -196,6 +208,28 @@ function transition(
         },
         commands: [],
       };
+    case "AGENT_EXECUTION_FAILED":
+      requirePhase(state, ["UNDERSTANDING", "NEEDS_INPUT", "SEARCHING", "SELECTION_REQUIRED"], event.type);
+      return {
+        state: {
+          ...state,
+          phase: "NEEDS_INPUT",
+          pendingUserQuestion: { question: "I could not safely execute that step. Please clarify how you would like to proceed." },
+          failure: { code: "AGENT_EXECUTION_FAILED", message: event.reason },
+        },
+        commands: [],
+      };
+    case "AGENT_LOOP_TERMINATED":
+      requirePhase(state, ["UNDERSTANDING", "NEEDS_INPUT", "SEARCHING", "SELECTION_REQUIRED"], event.type);
+      return {
+        state: {
+          ...state,
+          phase: "NEEDS_INPUT",
+          pendingUserQuestion: { question: terminationQuestion(event.termination) },
+          failure: { code: `AGENT_LOOP_${event.termination}`, message: event.reason },
+        },
+        commands: [],
+      };
     case "SEARCH_COMPLETED":
       requirePhase(state, ["UNDERSTANDING", "NEEDS_INPUT", "SEARCHING", "SELECTION_REQUIRED"], event.type);
       {
@@ -222,6 +256,12 @@ function transition(
       requirePhase(state, ["UNDERSTANDING", "NEEDS_INPUT", "SEARCHING", "SELECTION_REQUIRED"], event.type);
       return {
         state: { ...state, phase: "SEARCHING", failure: { code: "SEARCH_FAILED", message: event.reason } },
+        commands: [],
+      };
+    case "AVAILABILITY_FAILED":
+      requirePhase(state, ["SEARCHING", "SELECTION_REQUIRED"], event.type);
+      return {
+        state: { ...state, phase: "SEARCHING", failure: { code: "AVAILABILITY_FAILED", message: event.reason } },
         commands: [],
       };
     case "AVAILABILITY_CHECKED": {
@@ -316,9 +356,9 @@ function transition(
 
 export const restaurantBookingTaskDefinition: TaskDefinition<RestaurantTaskState, RestaurantEvent, RestaurantCommand, RestaurantOutcome> = {
   type: "restaurant.booking",
-  version: "7",
+  version: "8",
   create() {
-    return { schemaVersion: "7", phase: "UNDERSTANDING", candidates: [], availability: {}, searchRevision: 0 };
+    return { schemaVersion: "8", phase: "UNDERSTANDING", candidates: [], availability: {}, searchRevision: 0 };
   },
   transition,
   getLifecycleState(state) { return lifecycleFor(state.phase); },

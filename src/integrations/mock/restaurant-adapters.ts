@@ -21,9 +21,13 @@ export type MockVerificationMode =
   | "WRONG_ATTEMPT";
 
 export class MockRestaurantSearchAdapter {
-  constructor(private readonly candidates: RestaurantCandidate[]) {}
+  constructor(
+    private readonly candidates: RestaurantCandidate[],
+    private readonly failure?: string,
+  ) {}
 
   async search(_request: RestaurantSearchRequest): Promise<RestaurantCandidate[]> {
+    if (this.failure) throw new Error(this.failure);
     return structuredClone(this.candidates);
   }
 }
@@ -32,9 +36,11 @@ export class MockAvailabilityAdapter {
   constructor(
     private readonly offers: AvailabilityOffer[],
     private readonly unavailableRestaurantIds: ReadonlySet<string> = new Set(),
+    private readonly failure?: string,
   ) {}
 
   async check(request: RestaurantAvailabilityRequest): Promise<AvailabilityOffer[]> {
+    if (this.failure) throw new Error(this.failure);
     return this.offers
       .filter((offer) => request.candidateIds.includes(offer.restaurantId))
       .filter((offer) => !this.unavailableRestaurantIds.has(offer.restaurantId))

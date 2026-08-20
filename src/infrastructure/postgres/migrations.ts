@@ -198,7 +198,7 @@ export const POSTGRES_MIGRATIONS: PostgresMigration[] = [
         occurred_at TIMESTAMPTZ NOT NULL,
         state_version_before INTEGER NOT NULL CHECK (state_version_before >= 0),
         state_hash_before TEXT NOT NULL,
-        evidence_refs JSONB NOT NULL,
+        causal_refs JSONB NOT NULL,
         capabilities JSONB NOT NULL,
         agent_action JSONB,
         decision_summary TEXT,

@@ -12,7 +12,6 @@ export type CaseStatus = "ACTIVE" | "NEEDS_YOU" | "WAITING" | "COMPLETED";
 
 export type PendingUserAction =
   | "PROVIDE_DETAILS"
-  | "SELECT_CANDIDATE"
   | "AUTHORIZE"
   | "REVIEW_ATTENTION";
 

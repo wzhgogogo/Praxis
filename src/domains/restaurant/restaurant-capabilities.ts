@@ -20,16 +20,16 @@ export const RESTAURANT_AGENT_CAPABILITIES: readonly RestaurantAgentCapability[]
   {
     name: "SEARCH_RESTAURANTS",
     purpose: "Discover matching restaurant outlets.",
-    inputSchema: "authoritative intent plus an optional retrievalHint",
+    inputSchema: "optional retrievalHint; the router binds authoritative intent",
     resultMeaning: "Returns RestaurantCandidate records only, without availability claims.",
-    importantConstraints: ["The intent must exactly preserve authoritative user constraints."],
+    importantConstraints: ["Cannot modify, repeat, or loosen authoritative user constraints."],
   },
   {
     name: "CHECK_AVAILABILITY",
     purpose: "Read availability for known candidates at the authoritative date, time window, and party size.",
-    inputSchema: "candidateIds, date, timeWindow, partySize",
+    inputSchema: "candidateIds; the router binds authoritative date, time window, and party size",
     resultMeaning: "Returns fresh AvailabilityOffer records associated with candidate IDs.",
-    importantConstraints: ["Only known candidates and exact authoritative scheduling values are valid."],
+    importantConstraints: ["Only known candidates are valid; scheduling values are never Agent-supplied."],
   },
   {
     name: "SELECT_CANDIDATE",
@@ -44,12 +44,5 @@ export const RESTAURANT_AGENT_CAPABILITIES: readonly RestaurantAgentCapability[]
     inputSchema: "candidateId, offerId",
     resultMeaning: "Creates a deterministic ActionProposal and waits for valid user authorization.",
     importantConstraints: ["Cannot authorize, commit, or claim success."],
-  },
-  {
-    name: "COMPLETE",
-    purpose: "Finish only after the authoritative verifier confirms the booking outcome.",
-    inputSchema: "none",
-    resultMeaning: "Ends the bounded Agent loop without changing outcome state.",
-    importantConstraints: ["Only BOOKED_VERIFIED is completable."],
   },
 ];

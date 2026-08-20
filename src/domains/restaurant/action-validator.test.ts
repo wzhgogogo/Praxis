@@ -6,7 +6,7 @@ import { validateRestaurantAction } from "./action-validator.js";
 import { applyRestaurantIntentPatch, missingBlockingFields } from "./intent-state.js";
 
 const incompleteState: RestaurantTaskState = {
-  schemaVersion: "7",
+  schemaVersion: "8",
   phase: "UNDERSTANDING",
   candidates: [],
   availability: {},
@@ -24,17 +24,17 @@ test("Reducer derives missing fields and accumulates a criterion correction dete
   assert.deepEqual(corrected.criteria, []);
 });
 
-test("Action validator rejects incomplete and constraint-changing search actions", () => {
+test("Action validator binds search to complete authoritative intent", () => {
   assert.deepEqual(
-    validateRestaurantAction(incompleteState, { type: "SEARCH_RESTAURANTS", request: { intent: {} as never } }, now),
+    validateRestaurantAction(incompleteState, { type: "SEARCH_RESTAURANTS" }, now),
     { status: "REJECTED", code: "INTENT_INCOMPLETE", reason: "Restaurant intent is missing required fields" },
   );
   const draft = applyRestaurantIntentPatch(undefined, { schemaVersion: "3", date: "2026-08-05", timeWindow: { earliest: "19:00", latest: "19:30" }, partySize: 2, area: { query: "Shinjuku" }, addCriteria: [{ text: "omakase", polarity: "POSITIVE", strength: "HARD" }] });
   const state = { ...incompleteState, intentDraft: draft };
-  assert.equal(validateRestaurantAction(state, { type: "SEARCH_RESTAURANTS", request: { intent: { ...draft, date: "2026-08-06" } as never } }, now).status, "REJECTED");
+  assert.equal(validateRestaurantAction(state, { type: "SEARCH_RESTAURANTS", retrievalHint: "broaden omakase search" }, now).status, "ALLOWED");
 });
 
-test("Action validator blocks unknown candidates, schedule mismatches, stale offers, and unverified completion", () => {
+test("Action validator blocks unknown candidates, stale offers, and booking schedule mismatches", () => {
   const draft = applyRestaurantIntentPatch(undefined, { schemaVersion: "3", date: "2026-08-05", timeWindow: { earliest: "19:00", latest: "19:30" }, partySize: 2, area: { query: "Shinjuku" } });
   const state: RestaurantTaskState = {
     ...incompleteState,
@@ -44,7 +44,6 @@ test("Action validator blocks unknown candidates, schedule mismatches, stale off
     availability: { a: [{ id: "stale", restaurantId: "a", source: "fixture", dateTime: "2026-08-05T19:00:00+09:00", timezone: "Asia/Tokyo", partySize: 2, bookingMode: "INSTANT", executionMode: "API", checkedAt: now, expiresAt: now }] },
   };
   assert.equal(validateRestaurantAction(state, { type: "SELECT_CANDIDATE", candidateId: "missing" }, now).status, "REJECTED");
-  assert.equal(validateRestaurantAction(state, { type: "CHECK_AVAILABILITY", request: { candidateIds: ["a"], date: "2026-08-06", timeWindow: { earliest: "19:00", latest: "19:30" }, partySize: 2 } }, now).status, "REJECTED");
+  assert.equal(validateRestaurantAction(state, { type: "CHECK_AVAILABILITY", candidateIds: ["missing"] }, now).status, "REJECTED");
   assert.equal(validateRestaurantAction(state, { type: "SELECT_CANDIDATE", candidateId: "a", offerId: "stale" }, now).status, "REJECTED");
-  assert.equal(validateRestaurantAction(state, { type: "COMPLETE" }, now).status, "REJECTED");
 });

@@ -34,7 +34,7 @@ describe("restaurant booking mock harness", () => {
     assert.equal(harness.ledger.records.length, 0);
   });
 
-  test("H03 does not execute when the user has not selected a candidate", async () => {
+  test("H03 does not execute before the Agent-proposed booking is authorized", async () => {
     const harness = createHarness();
 
     const snapshot = await harness.start(fixtureIntent);
@@ -61,6 +61,8 @@ describe("restaurant booking mock harness", () => {
     const snapshot = await harness.authorizeCurrent();
 
     assert.equal(snapshot.domainState.phase, "SELECTION_REQUIRED");
+    assert.equal(snapshot.lifecycleState, "RUNNING");
+    assert.equal(snapshot.domainState.pendingUserQuestion, undefined);
     assert.equal(snapshot.domainState.failure?.code, "COMMIT_FAILED");
     assert.equal(harness.countCommands("COMMIT_BOOKING"), 1);
     assert.equal(harness.ledger.records.length, 1);
@@ -153,7 +155,7 @@ describe("restaurant booking mock harness", () => {
       ],
     });
 
-    assert.equal(artifact.schemaVersion, "2");
+    assert.equal(artifact.schemaVersion, "3");
     assert.equal(artifact.mode, "mock");
     assert.equal(artifact.scenarioId, "H11-causal-run-artifact");
     assert.equal(artifact.finalSnapshot.outcome?.status, "BOOKED_VERIFIED");
@@ -165,6 +167,13 @@ describe("restaurant booking mock harness", () => {
     assert.equal(artifact.oracleAssertions.every((assertion) => assertion.passed), true);
 
     const eventIds = new Set(artifact.events.map((event) => event.id));
+    for (const trajectory of artifact.trajectories) {
+      assert.equal(Array.isArray(trajectory.causalRefs.eventIds), true);
+      assert.equal(Array.isArray(trajectory.causalRefs.commandIds), true);
+      assert.equal(Array.isArray(trajectory.causalRefs.attemptIds), true);
+      assert.equal(Array.isArray(trajectory.causalRefs.evidenceIds), true);
+      assert.equal(trajectory.causalRefs.eventIds.every((eventId) => eventIds.has(eventId)), true);
+    }
     for (const command of artifact.commands) {
       assert.equal(command.trace.runId, artifact.runId);
       assert.equal(eventIds.has(command.trace.causationId), true);
@@ -185,8 +194,8 @@ describe("restaurant booking mock harness", () => {
   test("Agent chooses a second search strategy after an unhelpful first discovery", async () => {
     const harness = createHarness({
       agentActions: [
-        { type: "SEARCH_RESTAURANTS", request: { intent: fixtureIntent, retrievalHint: "initial narrow query" } },
-        { type: "SEARCH_RESTAURANTS", request: { intent: fixtureIntent, retrievalHint: "broaden Japanese retrieval terms" } },
+        { type: "SEARCH_RESTAURANTS", retrievalHint: "initial narrow query" },
+        { type: "SEARCH_RESTAURANTS", retrievalHint: "broaden Japanese retrieval terms" },
         { type: "ASK_USER", question: "Would you like me to continue with these fixture options?" },
       ],
     });
@@ -202,9 +211,9 @@ describe("restaurant booking mock harness", () => {
     const harness = createHarness({
       unavailableRestaurantIds: new Set([fixtureCandidates[0]!.restaurant.id]),
       agentActions: [
-        { type: "SEARCH_RESTAURANTS", request: { intent: fixtureIntent } },
-        { type: "CHECK_AVAILABILITY", request: { candidateIds: [fixtureCandidates[0]!.restaurant.id], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: fixtureIntent.partySize } },
-        { type: "CHECK_AVAILABILITY", request: { candidateIds: [second.restaurant.id], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: fixtureIntent.partySize } },
+        { type: "SEARCH_RESTAURANTS" },
+        { type: "CHECK_AVAILABILITY", candidateIds: [fixtureCandidates[0]!.restaurant.id] },
+        { type: "CHECK_AVAILABILITY", candidateIds: [second.restaurant.id] },
         { type: "SELECT_CANDIDATE", candidateId: second.restaurant.id, offerId: secondOffer.id },
         { type: "BOOK_RESERVATION", candidateId: second.restaurant.id, offerId: secondOffer.id },
       ],
@@ -212,10 +221,71 @@ describe("restaurant booking mock harness", () => {
     const snapshot = await harness.start(fixtureIntent);
     const trajectories = await harness.trajectories.list(snapshot.id);
     assert.deepEqual(
-      trajectories.flatMap((step) => step.agentAction?.type === "CHECK_AVAILABILITY" ? [step.agentAction.request.candidateIds] : []),
+      trajectories.flatMap((step) => step.agentAction?.type === "CHECK_AVAILABILITY" ? [step.agentAction.candidateIds] : []),
       [[fixtureCandidates[0]!.restaurant.id], [second.restaurant.id]],
     );
     assert.equal(snapshot.domainState.selectedCandidateId, second.restaurant.id);
     assert.equal(snapshot.domainState.phase, "AWAITING_AUTHORIZATION");
+  });
+
+  test("Harness binds search and availability requests from authoritative task state", async () => {
+    const harness = createHarness();
+    await harness.start(fixtureIntent);
+
+    const search = harness.runtime.eventLog.find((item) => item.event.type === "SEARCH_COMPLETED");
+    const availability = harness.runtime.eventLog.find((item) => item.event.type === "AVAILABILITY_CHECKED");
+    assert.ok(search && search.event.type === "SEARCH_COMPLETED");
+    assert.ok(availability && availability.event.type === "AVAILABILITY_CHECKED");
+    assert.deepEqual(search.event.request.intent, fixtureIntent);
+    assert.deepEqual(availability.event.request, {
+      candidateIds: fixtureCandidates.slice(0, 3).map((candidate) => candidate.restaurant.id),
+      date: fixtureIntent.date,
+      timeWindow: fixtureIntent.timeWindow,
+      partySize: fixtureIntent.partySize,
+    });
+  });
+
+  test("Provider failure is durable execution evidence, not a model failure", async () => {
+    const harness = createHarness({
+      searchFailure: "fixture search provider unavailable",
+      agentActions: [
+        { type: "SEARCH_RESTAURANTS" },
+        { type: "ASK_USER", question: "The search provider is unavailable. Would you like to retry later?" },
+      ],
+    });
+    const snapshot = await harness.start(fixtureIntent);
+
+    assert.equal(harness.lastAgentLoopResult?.status, "WAITING_USER");
+    assert.equal(snapshot.domainState.failure?.code, "SEARCH_FAILED");
+    assert.equal(harness.runtime.eventLog.some((item) => item.event.type === "AGENT_DECISION_FAILED"), false);
+    assert.equal(harness.trajectories.steps[0]?.stepOutcome, "EXECUTION_FAILURE");
+    assert.equal(harness.trajectories.steps[0]?.observation?.type, "DISCOVERY_FAILED");
+  });
+
+  test("Timeout, step limit, and rejection limit terminate with durable state and trajectory", async () => {
+    const timeoutHarness = createHarness({ agentLoopOptions: { timeoutMs: 0 } });
+    const timeoutSnapshot = await timeoutHarness.start(fixtureIntent);
+    assert.equal(timeoutHarness.lastAgentLoopResult?.status, "TIMEOUT");
+    assert.equal(timeoutSnapshot.domainState.failure?.code, "AGENT_LOOP_TIMEOUT");
+    assert.equal(timeoutHarness.trajectories.steps.at(-1)?.stepOutcome, "TIMEOUT");
+
+    const stepHarness = createHarness({
+      agentLoopOptions: { maxSteps: 1 },
+      agentActions: [{ type: "SEARCH_RESTAURANTS" }],
+    });
+    const stepSnapshot = await stepHarness.start(fixtureIntent);
+    assert.equal(stepHarness.lastAgentLoopResult?.status, "STEP_LIMIT");
+    assert.equal(stepSnapshot.domainState.failure?.code, "AGENT_LOOP_STEP_LIMIT");
+    assert.equal(stepHarness.trajectories.steps.at(-1)?.stepOutcome, "STEP_LIMIT");
+
+    const rejectionHarness = createHarness({
+      agentLoopOptions: { maxRejectedActions: 1 },
+      agentActions: [{ type: "BOOK_RESERVATION", candidateId: fixtureCandidates[0]!.restaurant.id, offerId: fixtureOffers[0]!.id }],
+    });
+    const rejectionSnapshot = await rejectionHarness.start(fixtureIntent);
+    assert.equal(rejectionHarness.lastAgentLoopResult?.status, "REJECTION_LIMIT");
+    assert.equal(rejectionSnapshot.domainState.failure?.code, "AGENT_LOOP_REJECTION_LIMIT");
+    assert.equal(rejectionHarness.trajectories.steps.at(-1)?.stepOutcome, "REJECTION_LIMIT");
+    assert.equal(rejectionHarness.trajectories.steps.at(-1)?.causalRefs.eventIds.length, 1);
   });
 });

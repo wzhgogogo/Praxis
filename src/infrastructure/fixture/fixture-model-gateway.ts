@@ -95,10 +95,9 @@ function fixtureAgentAction(request: ModelRequest): Record<string, unknown> {
       decisionSummary: "blocking details are incomplete",
     };
   }
-  const { schemaVersion: _schemaVersion, ...intent } = draft;
   const candidates = Array.isArray(state.candidates) ? state.candidates as Array<{ restaurant?: { id?: string } }> : [];
   if (candidates.length === 0) {
-    return { type: "SEARCH_RESTAURANTS", request: { intent }, decisionSummary: "discover candidates" };
+    return { type: "SEARCH_RESTAURANTS", decisionSummary: "discover candidates" };
   }
   const availability = state.availability as Record<string, Array<{ id?: string }>> | undefined;
   const candidateIds = candidates.map((candidate) => candidate.restaurant?.id).filter((id): id is string => typeof id === "string");
@@ -106,7 +105,7 @@ function fixtureAgentAction(request: ModelRequest): Record<string, unknown> {
   if (availableIds.length === 0) {
     return {
       type: "CHECK_AVAILABILITY",
-      request: { candidateIds, date: draft.date, timeWindow: draft.timeWindow, partySize: draft.partySize },
+      candidateIds,
       decisionSummary: "check discovered candidates",
     };
   }
@@ -118,7 +117,6 @@ function fixtureAgentAction(request: ModelRequest): Record<string, unknown> {
     if (typeof offerId !== "string") throw new Error("Fixture availability is missing offer ID");
     return { type: "SELECT_CANDIDATE", candidateId, offerId, decisionSummary: "select a fresh fixture offer" };
   }
-  if (state.phase === "BOOKED_VERIFIED") return { type: "COMPLETE", decisionSummary: "verified booking is terminal" };
   return { type: "BOOK_RESERVATION", candidateId: selectedCandidateId, offerId: selectedOfferId, decisionSummary: "request authorization checkpoint" };
 }
 

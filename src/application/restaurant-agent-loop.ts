@@ -10,13 +10,18 @@ import type {
 import type { RestaurantAgentDecisionPort } from "../domains/restaurant/agent-decision.js";
 import { validateRestaurantAction } from "../domains/restaurant/action-validator.js";
 import type {
+  RestaurantAgentLoopTermination,
   RestaurantCommand,
   RestaurantEvent,
   RestaurantOutcome,
   RestaurantTaskState,
 } from "../domains/restaurant/contracts.js";
 import { RESTAURANT_AGENT_CAPABILITIES } from "../domains/restaurant/restaurant-capabilities.js";
-import type { RestaurantAgentTrajectoryStore } from "../infrastructure/postgres/restaurant-agent-trajectory-store.js";
+import type {
+  RestaurantAgentTrajectoryCausalRefs,
+  RestaurantAgentTrajectoryStep,
+  RestaurantAgentTrajectoryStore,
+} from "../infrastructure/postgres/restaurant-agent-trajectory-store.js";
 import { RestaurantExecutionRouter } from "./restaurant-execution-router.js";
 
 export interface RestaurantAgentLoopRuntime {
@@ -30,13 +35,22 @@ export interface RestaurantAgentLoopRuntime {
 export interface RestaurantAgentLoopOptions {
   maxSteps?: number;
   maxRejectedActions?: number;
+  timeoutMs?: number;
 }
 
 export type RestaurantAgentLoopResult =
   | { status: "WAITING_USER"; steps: number }
   | { status: "TERMINAL"; steps: number }
+  | { status: "TIMEOUT"; steps: number }
   | { status: "STEP_LIMIT"; steps: number }
-  | { status: "MODEL_FAILURE"; steps: number };
+  | { status: "REJECTION_LIMIT"; steps: number }
+  | { status: "MODEL_FAILURE"; steps: number }
+  | { status: "EXECUTION_FAILURE"; steps: number };
+
+type TrajectoryBase = Pick<
+  RestaurantAgentTrajectoryStep,
+  "id" | "taskId" | "stepNumber" | "occurredAt" | "stateVersionBefore" | "stateHashBefore" | "causalRefs" | "capabilities"
+>;
 
 function stateHash(state: RestaurantTaskState): string {
   return createHash("sha256").update(JSON.stringify(state)).digest("hex");
@@ -51,10 +65,36 @@ function terminal(state: RestaurantTaskState): boolean {
   return state.phase === "BOOKED_VERIFIED" || state.phase === "OUTCOME_UNKNOWN" || state.phase === "FAILED";
 }
 
+function unique(values: string[]): string[] {
+  return [...new Set(values)];
+}
+
+function causalRefsForState(state: RestaurantTaskState): RestaurantAgentTrajectoryCausalRefs {
+  return {
+    eventIds: [],
+    commandIds: [],
+    attemptIds: state.activeAttemptId ? [state.activeAttemptId] : [],
+    evidenceIds: state.evidence ? [state.evidence.evidenceId] : [],
+  };
+}
+
+function mergeCausalRefs(
+  left: RestaurantAgentTrajectoryCausalRefs,
+  right: RestaurantAgentTrajectoryCausalRefs,
+): RestaurantAgentTrajectoryCausalRefs {
+  return {
+    eventIds: unique([...left.eventIds, ...right.eventIds]),
+    commandIds: unique([...left.commandIds, ...right.commandIds]),
+    attemptIds: unique([...left.attemptIds, ...right.attemptIds]),
+    evidenceIds: unique([...left.evidenceIds, ...right.evidenceIds]),
+  };
+}
+
 /** Bounded coordinator: only this layer turns an Agent proposal into a validated routed action. */
 export class RestaurantAgentLoopCoordinator {
   private readonly maxSteps: number;
   private readonly maxRejectedActions: number;
+  private readonly timeoutMs: number;
   private readonly createId: IdFactory;
 
   constructor(
@@ -68,6 +108,7 @@ export class RestaurantAgentLoopCoordinator {
   ) {
     this.maxSteps = options.maxSteps ?? 12;
     this.maxRejectedActions = options.maxRejectedActions ?? 3;
+    this.timeoutMs = options.timeoutMs ?? 30_000;
     this.createId = createId;
   }
 
@@ -76,6 +117,7 @@ export class RestaurantAgentLoopCoordinator {
     let stepNumber = priorSteps.length;
     let rejectedActions = 0;
     let lastRejection: { code: string; reason: string } | undefined;
+    const startedAt = this.clock.now().valueOf();
     const recentExecutionHistory: Array<{ type: string; detail: string }> = priorSteps.slice(-12).map((step) => ({
       type: step.stepOutcome,
       detail: step.observation?.detail ?? step.actionValidation?.status ?? "No observation",
@@ -85,6 +127,11 @@ export class RestaurantAgentLoopCoordinator {
       const snapshot = await this.runtime.snapshot(taskId);
       if (terminal(snapshot.domainState)) return { status: "TERMINAL", steps: step };
       if (waitingForUser(snapshot.domainState)) return { status: "WAITING_USER", steps: step };
+      if (this.timedOut(startedAt)) {
+        stepNumber += 1;
+        await this.terminate(snapshot, this.base(taskId, stepNumber, snapshot), "TIMEOUT", `Agent loop exceeded ${this.timeoutMs}ms`);
+        return { status: "TIMEOUT", steps: step };
+      }
 
       const decision = await this.decision.decide({
         taskId,
@@ -95,16 +142,26 @@ export class RestaurantAgentLoopCoordinator {
         ...(lastRejection ? { lastRejection } : {}),
       });
       stepNumber += 1;
-      const base = {
-        id: `trajectory:${taskId}:${stepNumber}`,
-        taskId,
-        stepNumber,
-        occurredAt: this.clock.now().toISOString(),
-        stateVersionBefore: snapshot.version,
-        stateHashBefore: stateHash(snapshot.domainState),
-        evidenceRefs: snapshot.domainState.evidence ? [snapshot.domainState.evidence.evidenceId] : [],
-        capabilities: RESTAURANT_AGENT_CAPABILITIES,
-      };
+      const base = this.base(taskId, stepNumber, snapshot);
+
+      if (this.timedOut(startedAt)) {
+        await this.terminate(
+          snapshot,
+          base,
+          "TIMEOUT",
+          `Agent loop exceeded ${this.timeoutMs}ms while awaiting a decision`,
+          decision.status === "PROPOSED"
+            ? {
+                agentAction: decision.action,
+                ...(decision.decisionSummary ? { decisionSummary: decision.decisionSummary } : {}),
+                modelAttempt: decision.modelAttempt,
+              }
+            : decision.status === "INVALID_MODEL_OUTPUT" && decision.modelAttempt
+              ? { modelAttempt: decision.modelAttempt }
+              : {},
+        );
+        return { status: "TIMEOUT", steps: step + 1 };
+      }
 
       if (decision.status !== "PROPOSED") {
         const reason = decision.status === "MODEL_FAILURE"
@@ -114,8 +171,9 @@ export class RestaurantAgentLoopCoordinator {
         await this.trajectories.append({
           ...base,
           ...(decision.status === "INVALID_MODEL_OUTPUT" && decision.modelAttempt ? { modelAttempt: decision.modelAttempt } : {}),
-          stateVersionAfter: after.version,
-          stateHashAfter: stateHash(after.domainState),
+          causalRefs: mergeCausalRefs(base.causalRefs, after.causalRefs),
+          stateVersionAfter: after.snapshot.version,
+          stateHashAfter: stateHash(after.snapshot.domainState),
           stepOutcome: "MODEL_FAILURE",
         });
         return { status: "MODEL_FAILURE", steps: step + 1 };
@@ -137,11 +195,15 @@ export class RestaurantAgentLoopCoordinator {
         });
         recentExecutionHistory.push({ type: verdict.code, detail: verdict.reason });
         if (rejectedActions >= this.maxRejectedActions) {
-          await this.dispatch(snapshot, {
-            type: "AGENT_DECISION_FAILED",
-            reason: `Agent exceeded ${this.maxRejectedActions} rejected actions; last rejection: ${verdict.code}`,
-          }, "SYSTEM");
-          return { status: "MODEL_FAILURE", steps: step + 1 };
+          const current = await this.runtime.snapshot(taskId);
+          stepNumber += 1;
+          await this.terminate(
+            current,
+            this.base(taskId, stepNumber, current),
+            "REJECTION_LIMIT",
+            `Agent exceeded ${this.maxRejectedActions} rejected actions; last rejection: ${verdict.code}`,
+          );
+          return { status: "REJECTION_LIMIT", steps: step + 1 };
         }
         continue;
       }
@@ -151,28 +213,31 @@ export class RestaurantAgentLoopCoordinator {
         execution = await this.router.execute(decision.action, snapshot.domainState);
       } catch (error) {
         const reason = error instanceof Error ? error.message : "Restaurant action execution failed";
-        const after = await this.dispatch(snapshot, { type: "AGENT_DECISION_FAILED", reason }, "SYSTEM");
+        const after = await this.dispatch(snapshot, { type: "AGENT_EXECUTION_FAILED", reason }, "SYSTEM");
         await this.trajectories.append({
           ...base,
           agentAction: decision.action,
           ...(decision.decisionSummary ? { decisionSummary: decision.decisionSummary } : {}),
           modelAttempt: decision.modelAttempt,
           actionValidation: verdict,
-          stateVersionAfter: after.version,
-          stateHashAfter: stateHash(after.domainState),
-          stepOutcome: "MODEL_FAILURE",
+          causalRefs: mergeCausalRefs(base.causalRefs, after.causalRefs),
+          stateVersionAfter: after.snapshot.version,
+          stateHashAfter: stateHash(after.snapshot.domainState),
+          stepOutcome: "EXECUTION_FAILURE",
         });
-        return { status: "MODEL_FAILURE", steps: step + 1 };
+        return { status: "EXECUTION_FAILURE", steps: step + 1 };
       }
 
       const after = execution.event
         ? await this.dispatch(snapshot, execution.event, execution.route === "FIXTURE_STRUCTURED" ? "ADAPTER" : "SYSTEM")
-        : snapshot;
-      const outcome = terminal(after.domainState)
-        ? "TERMINAL"
-        : waitingForUser(after.domainState)
-          ? "WAITING_USER"
-          : "EXECUTED";
+        : { snapshot, causalRefs: causalRefsForState(snapshot.domainState) };
+      const outcome = execution.failure
+        ? "EXECUTION_FAILURE"
+        : terminal(after.snapshot.domainState)
+          ? "TERMINAL"
+          : waitingForUser(after.snapshot.domainState)
+            ? "WAITING_USER"
+            : "EXECUTED";
       await this.trajectories.append({
         ...base,
         agentAction: decision.action,
@@ -181,8 +246,9 @@ export class RestaurantAgentLoopCoordinator {
         actionValidation: verdict,
         executionRoute: execution.route,
         ...(execution.observation ? { observation: execution.observation } : {}),
-        stateVersionAfter: after.version,
-        stateHashAfter: stateHash(after.domainState),
+        causalRefs: mergeCausalRefs(base.causalRefs, after.causalRefs),
+        stateVersionAfter: after.snapshot.version,
+        stateHashAfter: stateHash(after.snapshot.domainState),
         stepOutcome: outcome,
       });
       if (execution.observation) recentExecutionHistory.push(execution.observation);
@@ -191,14 +257,62 @@ export class RestaurantAgentLoopCoordinator {
       lastRejection = undefined;
       rejectedActions = 0;
     }
+
+    const snapshot = await this.runtime.snapshot(taskId);
+    stepNumber += 1;
+    await this.terminate(
+      snapshot,
+      this.base(taskId, stepNumber, snapshot),
+      "STEP_LIMIT",
+      `Agent loop reached its ${this.maxSteps} step limit`,
+    );
     return { status: "STEP_LIMIT", steps: this.maxSteps };
+  }
+
+  private timedOut(startedAt: number): boolean {
+    return this.clock.now().valueOf() - startedAt >= this.timeoutMs;
+  }
+
+  private base(
+    taskId: string,
+    stepNumber: number,
+    snapshot: TaskSnapshot<RestaurantTaskState, RestaurantOutcome>,
+  ): TrajectoryBase {
+    return {
+      id: `trajectory:${taskId}:${stepNumber}`,
+      taskId,
+      stepNumber,
+      occurredAt: this.clock.now().toISOString(),
+      stateVersionBefore: snapshot.version,
+      stateHashBefore: stateHash(snapshot.domainState),
+      causalRefs: causalRefsForState(snapshot.domainState),
+      capabilities: RESTAURANT_AGENT_CAPABILITIES,
+    };
+  }
+
+  private async terminate(
+    snapshot: TaskSnapshot<RestaurantTaskState, RestaurantOutcome>,
+    base: TrajectoryBase,
+    termination: RestaurantAgentLoopTermination,
+    reason: string,
+    extra: Pick<RestaurantAgentTrajectoryStep, "agentAction" | "decisionSummary" | "modelAttempt" | "actionValidation"> | Record<string, never> = {},
+  ): Promise<void> {
+    const after = await this.dispatch(snapshot, { type: "AGENT_LOOP_TERMINATED", termination, reason }, "SYSTEM");
+    await this.trajectories.append({
+      ...base,
+      ...extra,
+      causalRefs: mergeCausalRefs(base.causalRefs, after.causalRefs),
+      stateVersionAfter: after.snapshot.version,
+      stateHashAfter: stateHash(after.snapshot.domainState),
+      stepOutcome: termination,
+    });
   }
 
   private async dispatch(
     snapshot: TaskSnapshot<RestaurantTaskState, RestaurantOutcome>,
     event: RestaurantEvent,
     actor: "SYSTEM" | "ADAPTER",
-  ): Promise<TaskSnapshot<RestaurantTaskState, RestaurantOutcome>> {
+  ): Promise<{ snapshot: TaskSnapshot<RestaurantTaskState, RestaurantOutcome>; causalRefs: RestaurantAgentTrajectoryCausalRefs }> {
     const id = this.createId("event:restaurant-agent");
     const result = await this.runtime.dispatch({
       id,
@@ -207,6 +321,17 @@ export class RestaurantAgentLoopCoordinator {
       occurredAt: this.clock.now().toISOString(),
       trace: { schemaVersion: "1", runId: snapshot.runId, correlationId: id, actor },
     }, snapshot.version);
-    return result.snapshot;
+    return {
+      snapshot: result.snapshot,
+      causalRefs: {
+        eventIds: [id],
+        commandIds: result.commands.map((command) => command.id),
+        attemptIds: unique(result.commands.flatMap((command) => [
+          ...(command.command.attemptId ? [command.command.attemptId] : []),
+          ...(command.trace.attemptId ? [command.trace.attemptId] : []),
+        ])),
+        evidenceIds: result.snapshot.domainState.evidence ? [result.snapshot.domainState.evidence.evidenceId] : [],
+      },
+    };
   }
 }

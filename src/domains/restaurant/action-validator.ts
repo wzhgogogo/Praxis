@@ -1,5 +1,3 @@
-import { isDeepStrictEqual } from "node:util";
-
 import type { RestaurantAgentAction } from "./agent-action.js";
 import type { AvailabilityOffer, RestaurantTaskState } from "./contracts.js";
 import { completeRestaurantIntent } from "./intent-state.js";
@@ -7,7 +5,6 @@ import { completeRestaurantIntent } from "./intent-state.js";
 export type RestaurantActionRejectionCode =
   | "TASK_TERMINAL"
   | "INTENT_INCOMPLETE"
-  | "INTENT_MISMATCH"
   | "CANDIDATE_UNKNOWN"
   | "OFFER_UNKNOWN"
   | "OFFER_CANDIDATE_MISMATCH"
@@ -15,8 +12,7 @@ export type RestaurantActionRejectionCode =
   | "OFFER_STALE"
   | "SELECTION_REQUIRED"
   | "ACTIVE_ATTEMPT"
-  | "OUTCOME_UNKNOWN"
-  | "COMPLETION_UNVERIFIED";
+  | "OUTCOME_UNKNOWN";
 
 export type RestaurantActionValidation =
   | { status: "ALLOWED" }
@@ -71,11 +67,6 @@ export function validateRestaurantAction(
   action: RestaurantAgentAction,
   now: string,
 ): RestaurantActionValidation {
-  if (action.type === "COMPLETE") {
-    return state.phase === "BOOKED_VERIFIED"
-      ? { status: "ALLOWED" }
-      : rejected("COMPLETION_UNVERIFIED", "Only a verifier-confirmed booking can complete the task");
-  }
   if (state.phase === "OUTCOME_UNKNOWN") {
     return rejected("OUTCOME_UNKNOWN", "An unknown booking outcome must be verified before any new action");
   }
@@ -86,24 +77,14 @@ export function validateRestaurantAction(
   if (!intent.valid) return intent.verdict;
 
   if (action.type === "SEARCH_RESTAURANTS") {
-    return isDeepStrictEqual(action.request.intent, intent.intent)
-      ? { status: "ALLOWED" }
-      : rejected("INTENT_MISMATCH", "Search must preserve the complete authoritative intent exactly");
+    return { status: "ALLOWED" };
   }
 
   if (action.type === "CHECK_AVAILABILITY") {
-    const request = action.request;
-    if (
-      request.date !== intent.intent.date ||
-      !isDeepStrictEqual(request.timeWindow, intent.intent.timeWindow) ||
-      request.partySize !== intent.intent.partySize
-    ) {
-      return rejected("SCHEDULE_MISMATCH", "Availability must use the authoritative date, time window, and party size");
-    }
-    if (request.candidateIds.length === 0 || new Set(request.candidateIds).size !== request.candidateIds.length) {
+    if (action.candidateIds.length === 0 || new Set(action.candidateIds).size !== action.candidateIds.length) {
       return rejected("CANDIDATE_UNKNOWN", "Availability requires one or more unique known candidate IDs");
     }
-    return request.candidateIds.every((candidateId) => candidate(state, candidateId))
+    return action.candidateIds.every((candidateId) => candidate(state, candidateId))
       ? { status: "ALLOWED" }
       : rejected("CANDIDATE_UNKNOWN", "Availability can only be checked for known candidates");
   }

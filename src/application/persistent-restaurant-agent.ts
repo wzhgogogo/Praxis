@@ -81,7 +81,11 @@ function eventActivity(
       case "AGENT_ASKED_USER":
         return { title: "Agent asks for input", detail: event.event.question };
       case "AGENT_DECISION_FAILED":
-        return { title: "Agent needs help", detail: event.event.reason };
+        return { title: "Agent model decision failed", detail: event.event.reason };
+      case "AGENT_EXECUTION_FAILED":
+        return { title: "Agent execution failed", detail: event.event.reason };
+      case "AGENT_LOOP_TERMINATED":
+        return { title: "Agent loop stopped", detail: `${event.event.termination}: ${event.event.reason}` };
       case "SEARCH_COMPLETED":
         return {
           title: "Fixture search completed",
@@ -96,6 +100,8 @@ function eventActivity(
         };
       case "SEARCH_FAILED":
         return { title: "Search failed", detail: event.event.reason };
+      case "AVAILABILITY_FAILED":
+        return { title: "Availability check failed", detail: event.event.reason };
       case "BOOKING_PROPOSED":
         return { title: "Authorization requested", detail: "A deterministic booking proposal is ready." };
       case "AUTHORIZE":

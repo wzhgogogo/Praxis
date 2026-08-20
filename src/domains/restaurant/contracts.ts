@@ -190,7 +190,7 @@ export interface VerifiedReservation {
 }
 
 export interface RestaurantTaskState {
-  schemaVersion: "7";
+  schemaVersion: "8";
   phase: RestaurantPhase;
   intentDraft?: RestaurantIntentDraft;
   intent?: RestaurantBookingIntent;
@@ -234,6 +234,8 @@ export interface RestaurantSemanticConflict {
   message: string;
 }
 
+export type RestaurantAgentLoopTermination = "TIMEOUT" | "STEP_LIMIT" | "REJECTION_LIMIT";
+
 /** Historical semantic-evaluation annotation. It is not an Agent action or a runtime Decision. */
 export type RestaurantSemanticExpectedDecision =
   | { type: "ASK_USER"; missingRequiredFields: RestaurantBlockingField[] }
@@ -244,12 +246,15 @@ export type RestaurantEvent =
   | (DomainEvent & { type: "SEMANTIC_CONFLICT_RECORDED"; conflict: RestaurantSemanticConflict })
   | (DomainEvent & { type: "AGENT_ASKED_USER"; question: string; relatedFields?: string[] })
   | (DomainEvent & { type: "AGENT_DECISION_FAILED"; reason: string })
+  | (DomainEvent & { type: "AGENT_EXECUTION_FAILED"; reason: string })
+  | (DomainEvent & { type: "AGENT_LOOP_TERMINATED"; termination: RestaurantAgentLoopTermination; reason: string })
   | (DomainEvent & {
       type: "SEARCH_COMPLETED";
       request: RestaurantSearchRequest;
       candidates: RestaurantCandidate[];
     })
   | (DomainEvent & { type: "SEARCH_FAILED"; reason: string })
+  | (DomainEvent & { type: "AVAILABILITY_FAILED"; reason: string })
   | (DomainEvent & {
       type: "AVAILABILITY_CHECKED";
       request: RestaurantAvailabilityRequest;
