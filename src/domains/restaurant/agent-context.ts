@@ -8,11 +8,11 @@ import { missingBlockingFields } from "./intent-state.js";
 
 export const RESTAURANT_AGENT_CONTEXT_SCHEMA = {
   name: "restaurant_agent_context",
-  version: "1",
+  version: "2",
 } as const;
 
 export interface RestaurantAgentContext {
-  schemaVersion: "1";
+  schemaVersion: "2";
   phase: RestaurantPhase;
   intentDraft?: RestaurantIntentDraft;
   intent?: RestaurantBookingIntent;
@@ -36,6 +36,11 @@ export interface RestaurantAgentContext {
     executionMode: "API" | "BROWSER" | "TAKEOVER" | "DEEPLINK";
     expiresAt: string;
   }>>;
+  /** Business-only summary. Provider, URL, browser, DOM and evidence internals stay out. */
+  availabilityChecks: Record<string, {
+    status: "AVAILABLE" | "UNAVAILABLE" | "UNKNOWN" | "SOURCE_UNSUPPORTED";
+    reasonCode?: string;
+  }>;
   selectedCandidateId?: string;
   selectedOfferId?: string;
   failure?: { code: string };
@@ -46,7 +51,7 @@ export function projectRestaurantAgentContext(
   state: Readonly<RestaurantTaskState>,
 ): RestaurantAgentContext {
   return {
-    schemaVersion: "1",
+    schemaVersion: "2",
     phase: state.phase,
     ...(state.intentDraft ? { intentDraft: structuredClone(state.intentDraft) } : {}),
     ...(state.intent ? { intent: structuredClone(state.intent) } : {}),
@@ -73,6 +78,15 @@ export function projectRestaurantAgentContext(
           executionMode: offer.executionMode,
           expiresAt: offer.expiresAt,
         })),
+      ]),
+    ),
+    availabilityChecks: Object.fromEntries(
+      Object.entries(state.availabilityChecks).map(([candidateId, check]) => [
+        candidateId,
+        {
+          status: check.status,
+          ...(check.reasonCode ? { reasonCode: check.reasonCode } : {}),
+        },
       ]),
     ),
     ...(state.selectedCandidateId ? { selectedCandidateId: state.selectedCandidateId } : {}),

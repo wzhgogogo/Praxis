@@ -220,7 +220,7 @@ describe("restaurant booking mock harness", () => {
       ],
     });
 
-    assert.equal(artifact.schemaVersion, "5");
+    assert.equal(artifact.schemaVersion, "6");
     assert.equal(artifact.mode, "mock");
     assert.equal(artifact.scenarioId, "H11-causal-run-artifact");
     assert.equal(artifact.finalSnapshot.outcome?.status, "BOOKED_VERIFIED");
@@ -238,8 +238,8 @@ describe("restaurant booking mock harness", () => {
       assert.equal(Array.isArray(trajectory.causalRefs.attemptIds), true);
       assert.equal(Array.isArray(trajectory.causalRefs.evidenceIds), true);
       assert.equal(trajectory.causalRefs.eventIds.every((eventId) => eventIds.has(eventId)), true);
-      assert.equal(trajectory.contextSchemaVersion, "1");
-      assert.equal(trajectory.decisionContext?.schemaVersion, "1");
+      assert.equal(trajectory.contextSchemaVersion, "2");
+      assert.equal(trajectory.decisionContext?.schemaVersion, "2");
       assert.equal("authorization" in (trajectory.decisionContext ?? {}), false);
       assert.equal("proposal" in (trajectory.decisionContext ?? {}), false);
       assert.equal("lastExecutionResult" in (trajectory.decisionContext ?? {}), false);
@@ -316,6 +316,7 @@ describe("restaurant booking mock harness", () => {
     assert.deepEqual(search.event.request.intent, fixtureIntent);
     assert.deepEqual(availability.event.request, {
       candidateIds: fixtureCandidates.slice(0, 3).map((candidate) => candidate.restaurant.id),
+      candidates: fixtureCandidates.slice(0, 3),
       date: fixtureIntent.date,
       timeWindow: fixtureIntent.timeWindow,
       partySize: fixtureIntent.partySize,
@@ -337,6 +338,22 @@ describe("restaurant booking mock harness", () => {
     assert.equal(harness.runtime.eventLog.some((item) => item.event.type === "AGENT_DECISION_FAILED"), false);
     assert.equal(harness.trajectories.steps[0]?.stepOutcome, "EXECUTION_FAILURE");
     assert.equal(harness.trajectories.steps[0]?.observation?.type, "DISCOVERY_FAILED");
+  });
+
+  test("GENERIC_BROWSER availability observations retain the external adapter trace actor", async () => {
+    const harness = createHarness({
+      availabilityRoute: "GENERIC_BROWSER",
+      agentActions: [
+        { type: "SEARCH_RESTAURANTS" },
+        { type: "CHECK_AVAILABILITY", candidateIds: [fixtureCandidates[0]!.restaurant.id] },
+        { type: "ASK_USER", question: "What would you like to do next?" },
+      ],
+    });
+    await harness.start(fixtureIntent);
+    const availability = harness.runtime.eventLog.find((entry) => entry.event.type === "AVAILABILITY_CHECKED");
+    assert.equal(availability?.trace.actor, "ADAPTER");
+    const step = harness.trajectories.steps.find((entry) => entry.agentAction?.type === "CHECK_AVAILABILITY");
+    assert.equal(step?.executionRoute, "GENERIC_BROWSER");
   });
 
   test("Timeout, step limit, and rejection limit terminate with durable state and trajectory", async () => {

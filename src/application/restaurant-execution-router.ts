@@ -1,32 +1,43 @@
 import type { RestaurantAgentAction } from "../domains/restaurant/agent-action.js";
 import type {
-  AvailabilityOffer,
+  RestaurantAvailabilityCheck,
+  RestaurantAvailabilityRead,
   RestaurantAvailabilityRequest,
-  RestaurantCandidate,
   RestaurantEvent,
   RestaurantExecutionRoute,
+  RestaurantReadExecutionMetadata,
+  RestaurantSearchRead,
   RestaurantSearchRequest,
   RestaurantTaskState,
 } from "../domains/restaurant/contracts.js";
 import { completeRestaurantIntent } from "../domains/restaurant/intent-state.js";
 
 export interface RestaurantSearchPort {
-  search(request: RestaurantSearchRequest, signal: AbortSignal): Promise<RestaurantCandidate[]>;
+  readonly executionRoute: "STRUCTURED_ADAPTER";
+  search(request: RestaurantSearchRequest, signal: AbortSignal): Promise<RestaurantSearchRead>;
 }
 
 export interface RestaurantAvailabilityPort {
-  check(request: RestaurantAvailabilityRequest, signal: AbortSignal): Promise<AvailabilityOffer[]>;
+  readonly executionRoute: "STRUCTURED_ADAPTER" | "GENERIC_BROWSER";
+  check(request: RestaurantAvailabilityRequest, signal: AbortSignal): Promise<RestaurantAvailabilityRead>;
 }
 
 export interface RestaurantExecutionRouterOptions {
-  providerReadTimeoutMs?: number;
+  structuredReadTimeoutMs?: number;
+  browserReadTimeoutMs?: number;
 }
 
 export interface RestaurantActionExecution {
   route?: RestaurantExecutionRoute;
   event?: RestaurantEvent;
   observation?: { type: string; detail: string };
-  failure?: { source: "PROVIDER"; code: "SEARCH_FAILED" | "AVAILABILITY_FAILED"; reason: string };
+  executionMetadata?: RestaurantReadExecutionMetadata;
+  failure?: { source: "PROVIDER"; code: string; reason: string };
+}
+
+function stableFailureCode(error: unknown, fallback: string): string {
+  if (error && typeof error === "object" && "code" in error && typeof error.code === "string") return error.code;
+  return fallback;
 }
 
 function authoritativeSearchRequest(
@@ -46,6 +57,11 @@ function authoritativeAvailabilityRequest(
   if (!intent) throw new Error("Validated Restaurant availability requires a complete authoritative intent");
   return {
     candidateIds: [...candidateIds],
+    candidates: candidateIds.map((candidateId) => {
+      const candidate = state.candidates.find((item) => item.restaurant.id === candidateId);
+      if (!candidate) throw new Error(`Validated availability request cannot bind unknown candidate ${candidateId}`);
+      return structuredClone(candidate);
+    }),
     date: intent.date,
     timeWindow: structuredClone(intent.timeWindow),
     partySize: intent.partySize,
@@ -57,14 +73,16 @@ function authoritativeAvailabilityRequest(
  * to the Agent and deliberately has no direct Commit implementation.
  */
 export class RestaurantExecutionRouter {
-  private readonly providerReadTimeoutMs: number;
+  private readonly structuredReadTimeoutMs: number;
+  private readonly browserReadTimeoutMs: number;
 
   constructor(
     private readonly search: RestaurantSearchPort,
     private readonly availability: RestaurantAvailabilityPort,
     options: RestaurantExecutionRouterOptions = {},
   ) {
-    this.providerReadTimeoutMs = options.providerReadTimeoutMs ?? 8_000;
+    this.structuredReadTimeoutMs = options.structuredReadTimeoutMs ?? 8_000;
+    this.browserReadTimeoutMs = options.browserReadTimeoutMs ?? 20_000;
   }
 
   async execute(
@@ -80,44 +98,84 @@ export class RestaurantExecutionRouter {
       case "SEARCH_RESTAURANTS": {
         const request = authoritativeSearchRequest(state, action.retrievalHint);
         try {
-          const candidates = await this.withProviderReadDeadline(
+          const read = await this.withProviderReadDeadline(
             "Restaurant search",
+            this.structuredReadTimeoutMs,
             (signal) => this.search.search(request, signal),
           );
           return {
             route: "STRUCTURED_ADAPTER",
-            event: { type: "SEARCH_COMPLETED", request, candidates },
-            observation: { type: "DISCOVERY", detail: `${candidates.length} candidates discovered` },
+            event: { type: "SEARCH_COMPLETED", request, ...read },
+            observation: { type: "DISCOVERY", detail: `${read.candidates.length} candidates discovered` },
+            executionMetadata: read.metadata,
           };
         } catch (error) {
           const reason = error instanceof Error ? error.message : "Unknown Restaurant search failure";
+          const code = stableFailureCode(error, "SEARCH_FAILED");
           return {
             route: "STRUCTURED_ADAPTER",
             event: { type: "SEARCH_FAILED", reason },
             observation: { type: "DISCOVERY_FAILED", detail: reason },
-            failure: { source: "PROVIDER", code: "SEARCH_FAILED", reason },
+            failure: { source: "PROVIDER", code, reason },
           };
         }
       }
       case "CHECK_AVAILABILITY": {
         const request = authoritativeAvailabilityRequest(state, action.candidateIds);
         try {
-          const offers = await this.withProviderReadDeadline(
+          const read = await this.withProviderReadDeadline(
             "Restaurant availability",
+            this.availability.executionRoute === "GENERIC_BROWSER"
+              ? this.browserReadTimeoutMs
+              : this.structuredReadTimeoutMs,
             (signal) => this.availability.check(request, signal),
           );
           return {
-            route: "STRUCTURED_ADAPTER",
-            event: { type: "AVAILABILITY_CHECKED", request, offers },
-            observation: { type: "AVAILABILITY", detail: `${offers.length} offers observed` },
+            route: this.availability.executionRoute,
+            event: { type: "AVAILABILITY_CHECKED", request, ...read },
+            observation: { type: "AVAILABILITY", detail: `${read.offers.length} offers observed` },
+            executionMetadata: read.metadata,
           };
         } catch (error) {
           const reason = error instanceof Error ? error.message : "Unknown Restaurant availability failure";
+          const code = stableFailureCode(
+            error,
+            this.availability.executionRoute === "GENERIC_BROWSER" && /timed out/i.test(reason)
+              ? "BROWSER_TIMEOUT"
+              : "BROWSER_RUNTIME_FAILED",
+          );
+          const checkedAt = new Date().toISOString();
+          const availabilityChecks: Record<string, RestaurantAvailabilityCheck> = Object.fromEntries(
+            request.candidateIds.map((candidateId) => [candidateId, {
+              status: "UNKNOWN",
+              checkedAt,
+              evidenceIds: [],
+              reasonCode: code,
+            }]),
+          );
           return {
-            route: "STRUCTURED_ADAPTER",
-            event: { type: "AVAILABILITY_FAILED", reason },
-            observation: { type: "AVAILABILITY_FAILED", detail: reason },
-            failure: { source: "PROVIDER", code: "AVAILABILITY_FAILED", reason },
+            route: this.availability.executionRoute,
+            event: {
+              type: "AVAILABILITY_CHECKED",
+              request,
+              offers: [],
+              availabilityChecks,
+              evidence: [],
+              metadata: {
+                provider: this.availability.executionRoute === "GENERIC_BROWSER" ? "TABELOG" : "FIXTURE",
+                route: this.availability.executionRoute,
+                latencyMs: 0,
+                failureCode: code,
+              },
+            },
+            observation: { type: "AVAILABILITY_UNKNOWN", detail: reason },
+            executionMetadata: {
+              provider: this.availability.executionRoute === "GENERIC_BROWSER" ? "TABELOG" : "FIXTURE",
+              route: this.availability.executionRoute,
+              latencyMs: 0,
+              failureCode: code,
+            },
+            failure: { source: "PROVIDER", code, reason },
           };
         }
       }
@@ -136,15 +194,16 @@ export class RestaurantExecutionRouter {
 
   private async withProviderReadDeadline<Value>(
     operationName: string,
+    timeoutMs: number,
     operation: (signal: AbortSignal) => Promise<Value>,
   ): Promise<Value> {
     const controller = new AbortController();
     return new Promise<Value>((resolve, reject) => {
       const timeout = setTimeout(() => {
-        const error = new Error(`${operationName} timed out after ${this.providerReadTimeoutMs}ms`);
+        const error = new Error(`${operationName} timed out after ${timeoutMs}ms`);
         controller.abort(error);
         reject(error);
-      }, this.providerReadTimeoutMs);
+      }, timeoutMs);
       void Promise.resolve().then(() => operation(controller.signal)).then(
         (value) => {
           clearTimeout(timeout);

@@ -7,12 +7,14 @@ import { projectRestaurantAgentContext } from "./agent-context.js";
 
 test("Restaurant Agent context is minimal and excludes execution authority and provider artifacts", () => {
   const state: RestaurantTaskState = {
-    schemaVersion: "8",
+    schemaVersion: "9",
     phase: "SEARCHING",
     intentDraft: { ...fixtureIntent, schemaVersion: "3" },
     intent: fixtureIntent,
     candidates: fixtureCandidates,
     availability: { [fixtureCandidates[0]!.restaurant.id]: [fixtureOffers[0]!] },
+    availabilityChecks: { [fixtureCandidates[0]!.restaurant.id]: { status: "AVAILABLE", checkedAt: "2026-08-05T09:00:00.000Z", evidenceIds: [] } },
+    readEvidence: [],
     searchRevision: 1,
     selectedCandidateId: fixtureCandidates[0]!.restaurant.id,
     selectedOfferId: fixtureOffers[0]!.id,
@@ -65,6 +67,9 @@ test("Restaurant Agent context is minimal and excludes execution authority and p
 
   assert.deepEqual(context.missingBlockingFields, []);
   assert.deepEqual(context.failure, { code: "SEARCH_FAILED" });
+  assert.deepEqual(context.availabilityChecks, {
+    [fixtureCandidates[0]!.restaurant.id]: { status: "AVAILABLE" },
+  });
   assert.deepEqual(context.candidates[0], {
     id: fixtureCandidates[0]!.restaurant.id,
     outletName: fixtureCandidates[0]!.restaurant.outletName,
@@ -79,4 +84,5 @@ test("Restaurant Agent context is minimal and excludes execution authority and p
   assert.equal("activeAttemptId" in context, false);
   assert.equal("evidence" in context, false);
   assert.equal("reservation" in context, false);
+  assert.equal(JSON.stringify(context).includes("TABELOG"), false);
 });

@@ -6,10 +6,12 @@ import { validateRestaurantAction } from "./action-validator.js";
 import { applyRestaurantIntentPatch, missingBlockingFields } from "./intent-state.js";
 
 const incompleteState: RestaurantTaskState = {
-  schemaVersion: "8",
+  schemaVersion: "9",
   phase: "UNDERSTANDING",
   candidates: [],
   availability: {},
+  availabilityChecks: {},
+  readEvidence: [],
   searchRevision: 0,
 };
 

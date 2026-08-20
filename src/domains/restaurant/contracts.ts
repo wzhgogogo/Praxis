@@ -82,6 +82,51 @@ export interface AvailabilityOffer {
   expiresAt: string;
 }
 
+/** The result of one bounded availability read, distinct from its returned slots. */
+export type RestaurantAvailabilityCheckStatus =
+  | "AVAILABLE"
+  | "UNAVAILABLE"
+  | "UNKNOWN"
+  | "SOURCE_UNSUPPORTED";
+
+export interface RestaurantAvailabilityCheck {
+  status: RestaurantAvailabilityCheckStatus;
+  checkedAt: string;
+  expiresAt?: string;
+  evidenceIds: string[];
+  reasonCode?: string;
+}
+
+export type RestaurantReadEvidenceKind =
+  | "DISCOVERY"
+  | "RESTAURANT_FACT"
+  | "ENTITY_MATCH"
+  | "AVAILABILITY";
+
+export type RestaurantReadEvidenceProvider = "GOOGLE_PLACES" | "TABELOG";
+
+/**
+ * Small Domain-owned record of a grounded external read. It intentionally holds
+ * normalized claims, never a provider payload, full HTML page, secret, or model reasoning.
+ */
+export interface RestaurantReadEvidence {
+  evidenceId: string;
+  kind: RestaurantReadEvidenceKind;
+  provider: RestaurantReadEvidenceProvider;
+  candidateId?: string;
+  sourceEntityId?: string;
+  sourceUrl?: string;
+  observedAt: string;
+  expiresAt?: string;
+  requestFingerprint: string;
+  claims: Record<string, string | number | boolean | string[]>;
+  entityMatch?: {
+    confidence: "HIGH" | "MEDIUM" | "LOW";
+    matchedBy: string[];
+  };
+  artifactRef?: { kind: "DOM_EXCERPT" | "SCREENSHOT" | "API_RESPONSE"; reference: string; sha256?: string };
+}
+
 /** Discovery result. It deliberately does not assert present availability. */
 export interface RestaurantCandidate {
   restaurant: RestaurantOutlet;
@@ -98,9 +143,36 @@ export interface RestaurantSearchRequest {
 
 export interface RestaurantAvailabilityRequest {
   candidateIds: string[];
+  /** Bound by Router from authoritative State; never supplied by the Agent. */
+  candidates: RestaurantCandidate[];
   date: string;
   timeWindow: { earliest: string; latest: string };
   partySize: number;
+}
+
+export interface RestaurantReadExecutionMetadata {
+  provider: "GOOGLE_PLACES" | "TABELOG" | "FIXTURE";
+  route: RestaurantExecutionRoute;
+  latencyMs: number;
+  failureCode?: string;
+  browser?: {
+    runtimeProvider: "CLOUDFLARE_BROWSER_RUN";
+    engine: "KITESURF" | "CHROMIUM";
+    sessionId?: string;
+  };
+}
+
+export interface RestaurantSearchRead {
+  candidates: RestaurantCandidate[];
+  evidence: RestaurantReadEvidence[];
+  metadata: RestaurantReadExecutionMetadata;
+}
+
+export interface RestaurantAvailabilityRead {
+  offers: AvailabilityOffer[];
+  availabilityChecks: Record<string, RestaurantAvailabilityCheck>;
+  evidence: RestaurantReadEvidence[];
+  metadata: RestaurantReadExecutionMetadata;
 }
 
 /** Long-lived external execution taxonomy; fixture/live are run metadata, not route kinds. */
@@ -196,13 +268,15 @@ export interface VerifiedReservation {
 }
 
 export interface RestaurantTaskState {
-  schemaVersion: "8";
+  schemaVersion: "9";
   phase: RestaurantPhase;
   intentDraft?: RestaurantIntentDraft;
   intent?: RestaurantBookingIntent;
   semanticConflict?: RestaurantSemanticConflict;
   candidates: RestaurantCandidate[];
   availability: Record<string, AvailabilityOffer[]>;
+  availabilityChecks: Record<string, RestaurantAvailabilityCheck>;
+  readEvidence: RestaurantReadEvidence[];
   searchRevision: number;
   selectedCandidateId?: string;
   selectedOfferId?: string;
@@ -258,6 +332,8 @@ export type RestaurantEvent =
       type: "SEARCH_COMPLETED";
       request: RestaurantSearchRequest;
       candidates: RestaurantCandidate[];
+      evidence: RestaurantReadEvidence[];
+      metadata: RestaurantReadExecutionMetadata;
     })
   | (DomainEvent & { type: "SEARCH_FAILED"; reason: string })
   | (DomainEvent & { type: "AVAILABILITY_FAILED"; reason: string })
@@ -265,6 +341,9 @@ export type RestaurantEvent =
       type: "AVAILABILITY_CHECKED";
       request: RestaurantAvailabilityRequest;
       offers: AvailabilityOffer[];
+      availabilityChecks: Record<string, RestaurantAvailabilityCheck>;
+      evidence: RestaurantReadEvidence[];
+      metadata: RestaurantReadExecutionMetadata;
     })
   | (DomainEvent & { type: "CANDIDATE_SELECTED"; candidateId: string; offerId?: string })
   | (DomainEvent & { type: "BOOKING_PROPOSED"; candidateId: string; offerId: string })

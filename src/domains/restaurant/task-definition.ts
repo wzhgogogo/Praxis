@@ -8,6 +8,7 @@ import type {
   TransitionResult,
 } from "../../core/task-runtime/contracts.js";
 import type {
+  RestaurantAvailabilityCheck,
   AvailabilityOffer,
   RestaurantBookingSelection,
   RestaurantCommand,
@@ -42,6 +43,8 @@ function resetForSemanticUpdate(
     intent: _intent,
     candidates: _candidates,
     availability: _availability,
+    availabilityChecks: _availabilityChecks,
+    readEvidence: _readEvidence,
     selectedCandidateId: _selectedCandidateId,
     selectedOfferId: _selectedOfferId,
     pendingUserQuestion: _pendingUserQuestion,
@@ -57,6 +60,8 @@ function resetForSemanticUpdate(
     ...(intentDraft ? { intentDraft } : {}),
     candidates: [],
     availability: {},
+    availabilityChecks: {},
+    readEvidence: [],
   };
 }
 
@@ -155,7 +160,13 @@ function terminationQuestion(termination: RestaurantAgentLoopTermination): strin
 function ensureAvailabilityObservation(
   request: Extract<RestaurantEvent, { type: "AVAILABILITY_CHECKED" }> ["request"],
   offers: AvailabilityOffer[],
+  availabilityChecks: Record<string, RestaurantAvailabilityCheck>,
 ): void {
+  for (const candidateId of request.candidateIds) {
+    if (!availabilityChecks[candidateId]) {
+      throw new Error(`Availability observation is missing a check result for ${candidateId}`);
+    }
+  }
   for (const offer of offers) {
     if (!request.candidateIds.includes(offer.restaurantId)) {
       throw new Error(`Availability observation includes unrequested candidate ${offer.restaurantId}`);
@@ -166,6 +177,9 @@ function ensureAvailabilityObservation(
     const time = offer.dateTime.slice(11, 16);
     if (time < request.timeWindow.earliest || time > request.timeWindow.latest) {
       throw new Error("Availability observation does not match its requested time window");
+    }
+    if (availabilityChecks[offer.restaurantId]?.status !== "AVAILABLE") {
+      throw new Error("Availability offer requires an AVAILABLE availability check");
     }
   }
 }
@@ -247,6 +261,8 @@ function transition(
           intent: structuredClone(event.request.intent),
           candidates: event.candidates.slice(0, 3).map((candidate) => structuredClone(candidate)),
           availability: {},
+          availabilityChecks: {},
+          readEvidence: event.evidence.map((item) => structuredClone(item)),
           searchRevision: state.searchRevision + 1,
         },
         commands: [],
@@ -266,16 +282,27 @@ function transition(
       };
     case "AVAILABILITY_CHECKED": {
       requirePhase(state, ["SEARCHING", "SELECTION_REQUIRED"], event.type);
-      ensureAvailabilityObservation(event.request, event.offers);
+      ensureAvailabilityObservation(event.request, event.offers, event.availabilityChecks);
       const availability = structuredClone(state.availability);
+      const availabilityChecks = structuredClone(state.availabilityChecks);
       for (const candidateId of event.request.candidateIds) {
         availability[candidateId] = event.offers
           .filter((offer) => offer.restaurantId === candidateId)
           .map((offer) => structuredClone(offer));
+        availabilityChecks[candidateId] = structuredClone(event.availabilityChecks[candidateId]!);
       }
       {
         const { failure: _failure, ...remaining } = state;
-        return { state: { ...remaining, phase: "SEARCHING", availability }, commands: [] };
+        return {
+          state: {
+            ...remaining,
+            phase: "SEARCHING",
+            availability,
+            availabilityChecks,
+            readEvidence: [...state.readEvidence, ...event.evidence.map((item) => structuredClone(item))],
+          },
+          commands: [],
+        };
       }
     }
     case "CANDIDATE_SELECTED": {
@@ -359,9 +386,17 @@ function transition(
 
 export const restaurantBookingTaskDefinition: TaskDefinition<RestaurantTaskState, RestaurantEvent, RestaurantCommand, RestaurantOutcome> = {
   type: "restaurant.booking",
-  version: "8",
+  version: "9",
   create() {
-    return { schemaVersion: "8", phase: "UNDERSTANDING", candidates: [], availability: {}, searchRevision: 0 };
+    return {
+      schemaVersion: "9",
+      phase: "UNDERSTANDING",
+      candidates: [],
+      availability: {},
+      availabilityChecks: {},
+      readEvidence: [],
+      searchRevision: 0,
+    };
   },
   transition,
   getLifecycleState(state) { return lifecycleFor(state.phase); },

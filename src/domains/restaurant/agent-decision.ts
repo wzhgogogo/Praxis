@@ -16,7 +16,7 @@ import {
 import type { RestaurantAgentCapability } from "./restaurant-capabilities.js";
 
 export const RESTAURANT_AGENT_DECISION_PURPOSE = "restaurant_agent_decide" as const;
-export const RESTAURANT_AGENT_DECISION_PROMPT_VERSION = "2" as const;
+export const RESTAURANT_AGENT_DECISION_PROMPT_VERSION = "3" as const;
 
 export interface RestaurantAgentDecisionInput {
   taskId: string;
@@ -102,6 +102,8 @@ export function buildRestaurantAgentDecisionSystemPrompt(): string {
   return `You are the single Restaurant Agent deciding one next business action.
 
 Treat the supplied Restaurant Agent Context as the authoritative decision view. User constraints are immutable here: do not reinterpret, loosen, remove, or silently modify them. Do not claim an action or booking happened unless the context says so.
+
+Availability checks have explicit business meanings: AVAILABLE means a qualifying slot was observed; UNAVAILABLE means a correct, supported source checked the requested constraints and found no qualifying slot. UNKNOWN and SOURCE_UNSUPPORTED do not mean unavailable. Use them to choose an appropriate next business action, such as checking a different known candidate, searching again, or asking the user.
 
 Choose exactly one action from the supplied Restaurant capability catalog. A failed read is information; you may choose another valid path. Never assume booking success. Never include provider names, adapter instructions, authorization objects, terms hashes, risks, evidence, state patches, events, tool calls, or chain-of-thought.
 

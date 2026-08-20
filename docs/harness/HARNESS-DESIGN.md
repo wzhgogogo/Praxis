@@ -1,7 +1,7 @@
 # Harness Design
 
 - Status: Accepted
-- Document revision: 3.8
+- Document revision: 3.9
 - Last updated: 2026-08-20
 - Source of truth for: Agent Workspace、Task、Search和Browser的模拟、回放、断言与故障注入
 - Related ADRs: [ADR-0001](../decisions/0001-general-task-runtime.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md)
@@ -120,7 +120,7 @@ type Scenario = {
 
 Status: `implemented: Restaurant mock only`。
 
-`RestaurantHarness.createRunArtifact()`当前返回内存对象，不写入磁盘。Artifact Schema `restaurant-harness-artifact@5`包含：
+`RestaurantHarness.createRunArtifact()`当前返回内存对象，不写入磁盘。Artifact Schema `restaurant-harness-artifact@6`包含：
 
 ```text
 Scenario / Mock Fixture摘要
@@ -128,7 +128,7 @@ Run / Task / 时间
 Recorded Events + Causal Trace
 Commands + Causal Trace
 Policy Decisions / Authorizations
-Agent Trajectory（模型实际收到的脱敏Context + contextSchemaVersion、state/action/verdict/`STRUCTURED_ADAPTER` route/observation、BOOK proposalId，以及Event/Command/Attempt/Evidence causal refs；不含raw prompt或Chain-of-Thought）
+Agent Trajectory（模型实际收到的脱敏Context + contextSchemaVersion、state/action/verdict/route/observation/execution metadata、BOOK proposalId，以及Event/Command/Attempt/Evidence causal refs；不含raw prompt或Chain-of-Thought）
 Booking Proof Bundles
 Side Effect Ledger
 Final Snapshot / Outcome

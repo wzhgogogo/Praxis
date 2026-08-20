@@ -1,7 +1,7 @@
 # Policy, Execution and Verification
 
 - Status: Accepted
-- Document revision: 0.5
+- Document revision: 0.6
 - Last updated: 2026-08-20
 - Source of truth for: 授权、副作用控制、执行路由、验证和恢复
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md)
@@ -63,7 +63,7 @@ Validated business action
         user performs login, CAPTCHA, payment, 3DS, or accepts new high-risk terms
 ```
 
-当前Restaurant切片只实现Harness Mock中的`STRUCTURED_ADAPTER` read route；Fixture/Mock/Live是execution mode或provider metadata，不是长期route taxonomy。每个Discovery或Availability调用均携带Router提供的`AbortSignal`并受默认8秒deadline约束。Router同时竞速该deadline，因此不遵守取消的Adapter也不能无限占用Agent Loop。`GENERIC_BROWSER`和`HUMAN_TAKEOVER`是后续Stage的明确架构路线，不表示已经接入。三类路线均使用统一的prepare/commit/verify/cancel边界：`prepare`可自动执行，`commit`必须持有有效Authorization。Generic Browser Agent只能在确定性Checkpoint之间提出下一浏览器步，不能将页面文字提升为授权或成功结果。
+当前Restaurant切片实现了`STRUCTURED_ADAPTER`的Google Places Discovery与`GENERIC_BROWSER`的Tabelog只读Availability route；真实兼容性仍未验证。Fixture/Mock/Live是execution mode或provider metadata，不是长期route taxonomy。每个read均携带Router提供的`AbortSignal`；Structured与Browser read分别采用有界deadline，Router同时竞速deadline，因此不遵守取消的Provider也不能无限占用Agent Loop。`GENERIC_BROWSER`经Cloudflare Browser Run CDP运行确定性Playwright操作，Kitesurf只在一次可识别兼容/运行时失败后机械回退Chromium；这不是Agent业务决策。Browser Observation始终以`ADAPTER` Trace actor进入Runtime，不是SYSTEM事实。三类路线均使用统一的prepare/commit/verify/cancel边界：`prepare`可自动执行，`commit`必须持有有效Authorization。Browser Runtime不能授权、提交或写State。
 
 ## Browser与Takeover
 

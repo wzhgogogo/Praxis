@@ -1,13 +1,32 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.28
+- Document revision: 4.31
 - Last updated: 2026-08-20
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## 2026-08-20 — Live / Hybrid Restaurant read path verification
+
+### Scope
+
+`restaurant-state@9` read evidence and availability status, Google Places Text Search adapter, Cloudflare Browser Run Runtime, bounded Tabelog read-only executor, Grounding, temporal case materialization, opt-in probe/Hybrid runners and trajectory metadata. No external side effect is in scope.
+
+### Checks
+
+- `npm run typecheck`: passed.
+- `npm run arch:check`: passed with 0 forbidden source dependencies.
+- `npm test`: passed `121/121`, 0 failed, in a permitted local-listener environment. This includes Google request/FieldMask/location-bias/search-budget/provider-failure/timeout Contract tests, Browser Runtime fallback/abort tests, Tabelog entity/grounding/no-submit/session-budget tests, materializer tests, Router/Harness safety tests, local HTTP/SSE and embedded PGlite migration persistence.
+- `npm run test:probes`: passed `8/8`; this is the separate frozen Goal/Scheduler probe suite, not Browser compatibility evidence.
+- `npm run build`: passed.
+- `git diff --check`: passed.
+
+### Modes and external effects
+
+Only Unit, Contract, Fixture, Mock Harness, local HTTP/SSE and embedded PGlite verification ran. The environment inspection found `PRAXIS_ALLOW_LIVE_RESTAURANT_READ=0`, `PRAXIS_ALLOW_BROWSER_RUN=0`, no Google key, no Cloudflare account/token and no Tabelog probe URLs; therefore no Browser probe, Google Discovery smoke or Hybrid h001 run was attempted. `PRAXIS_ALLOW_LIVE_MODEL_EVAL=1` alone is insufficient and did not make a model request. No real PostgreSQL smoke, model call, Provider call, Browser session, Authorization, booking, payment, cancellation or PII submission occurred. Embedded PGlite does not replace real PostgreSQL verification.
 
 ## 2026-08-20 — ADR-0013 Agent Loop final hardening verification
 

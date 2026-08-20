@@ -1,13 +1,32 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.31
+- Document revision: 4.33
 - Last updated: 2026-08-20
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## 2026-08-20 — Live / Hybrid Restaurant read path implementation
+
+### Why
+
+The ADR-0013 Agent Loop needed its first real-read vertical slice without weakening the invariant that the Agent proposes business actions only, Grounding establishes facts, Runtime is the sole State writer, and no booking-related external write may occur.
+
+### Changes
+
+- Advanced the persistent Restaurant State to `restaurant-state@9`, appending immutable migration `0009-restaurant-live-read-trajectory`. The state records per-candidate availability status (`AVAILABLE` / `UNAVAILABLE` / `UNKNOWN` / `SOURCE_UNSUPPORTED`) and compact, normalized Read Evidence; an availability error can no longer be represented as unavailable.
+- Advanced the Decision Context to `restaurant-agent-context@2`, Decision Prompt to `restaurant-agent-decision-prompt@3`, trajectory to `restaurant-agent-trajectory@5` and Harness artifact to `restaurant-harness-artifact@6`. Only stable business availability status/reason reaches the Agent; Provider, Browser, URL and raw source observations remain outside it. Generic-browser trajectory entries are traced as external Adapter work.
+- Added a minimal Google Places API (New) Text Search client with an explicit FieldMask, authoritative-intent query construction, optional runner-supplied `NEAR_USER` location bias, bounded result count and structural Grounding. The implementation never promotes retrieval relevance into cuisine, price or availability facts.
+- Added the first Browser Runtime boundary using Cloudflare Browser Run CDP with Kitesurf first and one Chromium fallback; it supports bounded navigate/snapshot/select operations, closes sessions on AbortSignal and stores only execution metadata. Added the bounded, read-only Tabelog executor with deterministic outlet resolution, no submit action, and fail-closed handling for bot challenges, uncertain entities, redirects, unsupported online flow and extraction failures.
+- Added frozen-case materialization for relative Tokyo dates, an opt-in Browser compatibility probe, and an opt-in Hybrid runner. Every runner requires explicit environment gates, emits only Git-ignored local artifacts, records resolved location context when provided, has no Authorization, booking, payment, cancellation or personal-information submission path. The Hybrid runner imposes each-case limits of two Google searches, zero Place Details enrichments, three Browser/availability reads, five Tabelog matches and one runtime fallback. The repository E2E rubric remains `draft / not integrated`, so the runner explicitly records the absence of an executable agreed scorer.
+- Preserved the user-added h004/h005 cases and made the source a valid multi-document YAML stream by adding document separators only. Updated current architecture, Domain, security, capability, roadmap and configuration documentation.
+
+### Boundary
+
+No real Provider, browser session, model call, reservation, payment, cancellation, PII submission, reset command, real PostgreSQL write or controlled external write was run. Real credentials and the two Live-read gates were absent; only source, Contract, Fixture, Mock and Embedded-postgres evidence exists.
 
 ## 2026-08-20 — ADR-0013 Agent Loop final hardening
 

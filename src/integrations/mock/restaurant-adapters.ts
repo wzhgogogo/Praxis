@@ -1,7 +1,6 @@
 import type { ExecutionResult } from "../../core/execution/contracts.js";
 import { SideEffectLedger } from "../../core/execution/side-effect-ledger.js";
 import type {
-  AvailabilityOffer,
   BookingProofBundle,
   BookingVerificationObservation,
   RestaurantAvailabilityRequest,
@@ -21,30 +20,52 @@ export type MockVerificationMode =
   | "WRONG_ATTEMPT";
 
 export class MockRestaurantSearchAdapter {
+  readonly executionRoute = "STRUCTURED_ADAPTER" as const;
   constructor(
     private readonly candidates: RestaurantCandidate[],
     private readonly failure?: string,
   ) {}
 
-  async search(_request: RestaurantSearchRequest, _signal: AbortSignal): Promise<RestaurantCandidate[]> {
+  async search(_request: RestaurantSearchRequest, _signal: AbortSignal) {
     if (this.failure) throw new Error(this.failure);
-    return structuredClone(this.candidates);
+    return {
+      candidates: structuredClone(this.candidates),
+      evidence: [],
+      metadata: { provider: "FIXTURE" as const, route: this.executionRoute, latencyMs: 0 },
+    };
   }
 }
 
 export class MockAvailabilityAdapter {
+  readonly executionRoute: "STRUCTURED_ADAPTER" | "GENERIC_BROWSER";
   constructor(
-    private readonly offers: AvailabilityOffer[],
+    private readonly offers: import("../../domains/restaurant/contracts.js").AvailabilityOffer[],
     private readonly unavailableRestaurantIds: ReadonlySet<string> = new Set(),
     private readonly failure?: string,
-  ) {}
+    executionRoute: "STRUCTURED_ADAPTER" | "GENERIC_BROWSER" = "STRUCTURED_ADAPTER",
+  ) { this.executionRoute = executionRoute; }
 
-  async check(request: RestaurantAvailabilityRequest, _signal: AbortSignal): Promise<AvailabilityOffer[]> {
+  async check(request: RestaurantAvailabilityRequest, _signal: AbortSignal) {
     if (this.failure) throw new Error(this.failure);
-    return this.offers
+    const offers = this.offers
       .filter((offer) => request.candidateIds.includes(offer.restaurantId))
       .filter((offer) => !this.unavailableRestaurantIds.has(offer.restaurantId))
       .map((offer) => structuredClone(offer));
+    const checkedAt = offers[0]?.checkedAt ?? "2026-08-05T09:00:00.000Z";
+    return {
+      offers,
+      availabilityChecks: Object.fromEntries(request.candidateIds.map((candidateId) => {
+        const candidateOffer = offers.find((offer) => offer.restaurantId === candidateId);
+        return [candidateId, {
+          status: candidateOffer ? "AVAILABLE" as const : "UNAVAILABLE" as const,
+          checkedAt,
+          ...(candidateOffer ? { expiresAt: candidateOffer.expiresAt } : {}),
+          evidenceIds: [],
+        }];
+      })),
+      evidence: [],
+      metadata: { provider: "FIXTURE" as const, route: this.executionRoute, latencyMs: 0 },
+    };
   }
 }
 

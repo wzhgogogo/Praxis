@@ -269,6 +269,13 @@ export const POSTGRES_MIGRATIONS: PostgresMigration[] = [
         ADD COLUMN IF NOT EXISTS decision_context JSONB`,
     ],
   },
+  {
+    id: "0009-restaurant-live-read-trajectory",
+    statements: [
+      `ALTER TABLE restaurant_agent_trajectory_steps
+        ADD COLUMN IF NOT EXISTS execution_metadata JSONB`,
+    ],
+  },
 ];
 
 export async function applyPostgresMigrations(database: SqlDatabase): Promise<void> {

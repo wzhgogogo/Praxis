@@ -1,7 +1,7 @@
 # Interfaces and Schemas
 
 - Status: Accepted
-- Document revision: 2.2
+- Document revision: 2.3
 - Last updated: 2026-08-20
 - Source of truth for: 公共接口、DTO、内部Tool、实现状态和版本规则
 - Related ADRs: [ADR Index](../decisions/README.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md)
@@ -17,12 +17,12 @@
 | Event/Command Causal Trace | `implemented: in-memory prototype` | [`InMemoryTaskRuntime`](../../src/core/task-runtime/in-memory-task-runtime.ts) |
 | 乐观版本检查、Event去重、Command记录 | `implemented: in-memory prototype` | [`InMemoryTaskRuntime`](../../src/core/task-runtime/in-memory-task-runtime.ts) |
 | `ActionProposal`、`Authorization`、`PolicyDecision` | `implemented: MVP subset` | [`src/core/policy`](../../src/core/policy/contracts.ts) |
-| Restaurant Intent、Discovery Candidate、Availability、Event与Command | `implemented: ADR-0011 Fixture / Mock vertical slice` | [`Restaurant contracts`](../../src/domains/restaurant/contracts.ts) |
+| Restaurant Intent、Discovery Candidate、Availability、Availability Check、Read Evidence、Event与Command | `implemented: Fixture + Live Read contracts` | [`Restaurant contracts`](../../src/domains/restaurant/contracts.ts) |
 | Restaurant Semantic Interpreter / Proposal Contract | `implemented: Fixture product path` | ADR-0007职责链与ADR-0009的开放`criteria` / `HARD` / `SOFT`强度已替换产品的Fixture Intent Parser路径；真实模型仍只在评测中使用 |
 | Restaurant Semantic Compiler | `implemented: Restaurant product path` | 纯确定性Proposal → `RestaurantIntentPatch` → Domain Event翻译；不建立Core通用Compiler |
-| Restaurant Agent Context / Action / Capability / Decision | `implemented: Fixture product and Mock Harness slice` | `restaurant-agent-context@1`仅投影可决策字段；单一Agent提出五种业务动作，Search只可带retrieval hint、Availability只可带candidate IDs，Router绑定权威请求参数 |
+| Restaurant Agent Context / Action / Capability / Decision | `implemented: Fixture product and Live Read slice` | `restaurant-agent-context@2`只投影可决策字段及Availability的业务状态，不含Provider/Browser详情；单一Agent提出五种业务动作，Search只可带retrieval hint、Availability只可带candidate IDs，Router绑定权威请求参数 |
 | Restaurant Action Validator | `implemented: ADR-0011` | 仅允许、拒绝或要求Authorization；不选择下一步，不调用Tool |
-| Restaurant Agent Trajectory | `implemented: Restaurant-specific PostgreSQL + Mock artifact` | `restaurant-agent-trajectory@4`保存模型实际收到的脱敏`restaurant-agent-context@1`和`contextSchemaVersion`，并关联state/action/verdict/route/observation、Proposal ID及Event/Command/Attempt/Evidence causal refs；不保存raw prompt或Chain-of-Thought |
+| Restaurant Agent Trajectory | `implemented: Restaurant-specific PostgreSQL + Mock artifact` | `restaurant-agent-trajectory@5`保存模型实际收到的脱敏`restaurant-agent-context@2`和`contextSchemaVersion`，并关联state/action/verdict/route/执行元数据/observation、Proposal ID及Event/Command/Attempt/Evidence causal refs；不保存raw prompt或Chain-of-Thought |
 | `NEED_REINTERPRETATION` | `implemented: reserved safe decision` | 记录语义冲突并询问用户；不自动重解释或改State |
 | Restaurant `BookingProofBundle`与Completion Verifier | `implemented: Mock vertical slice` | [`booking-verifier.ts`](../../src/domains/restaurant/booking-verifier.ts) |
 | Restaurant Harness Run Artifact | `implemented: mock only` | [`restaurant-harness.ts`](../../src/harness/restaurant-harness.ts) |
@@ -37,7 +37,7 @@
 | SSE可重连Case Snapshot | `implemented: Stage 2B Fixture subset` | [`local-web-server.ts`](../../src/server/local-web-server.ts) |
 | `ModelGateway`与DeepSeek HTTP Provider Contract | `implemented: connector contract only` | [`src/core/model`](../../src/core/model/contracts.ts)、[`DeepSeekModelGateway`](../../src/infrastructure/deepseek/deepseek-model-gateway.ts) |
 | Model Tool Contract | `proposed` | 尚未暴露任何Tool给模型 |
-| 通用真实平台`ActionAdapter` | `proposed` | 当前只有Harness Mock Adapter |
+| Google Places Discovery / Cloudflare Browser Runtime / Tabelog Availability | `implemented: source + offline contract tests; live unverified` | 仅限显式Live read开关；无Booking或其他外部写路径 |
 
 ## Stage 2B Local Agent Workspace API
 
@@ -260,7 +260,7 @@ The Proposal Contract is versioned and closed. It validates structure, typed val
 
 `RestaurantSemanticCompiler` has a versioned deterministic input/output contract. It receives only a valid Proposal and returns a `RestaurantIntentPatch`, wrapped as `SEMANTIC_PROPOSAL_COMPILED`; a contradiction becomes `SEMANTIC_CONFLICT_RECORDED`. It cannot call a model, query live data, evaluate Policy, or invoke a Tool.
 
-`RestaurantAgentDecision` receives a Restaurant-owned `restaurant-agent-context@1`, compact execution history and a static business Capability Catalog. The context excludes Authorization, Proposal terms, raw Provider output, execution result, Evidence artifact and Reservation data. Its constrained JSON output is an untrusted `RestaurantAgentAction`; it cannot contain State patches, Provider details, Authorization, terms hashes, Adapter calls or Outcome claims. `SEARCH_RESTAURANTS` contains only an optional retrieval hint and `CHECK_AVAILABILITY` only candidate IDs; the Execution Router binds complete authoritative requests and supplies an abortable read deadline. `RestaurantActionValidator` checks action-specific invariants and returns `ALLOWED`, `REJECTED`, or `REQUIRES_AUTHORIZATION`; it never selects a next action. The bounded coordinator stores a structured trajectory step, including a `proposalId` for BOOK and causal refs to emitted Events, Commands, Attempts and Evidence, before continuing, waiting, or terminating.
+`RestaurantAgentDecision` receives a Restaurant-owned `restaurant-agent-context@2`, compact execution history and a static business Capability Catalog. The context excludes Authorization, Proposal terms, raw Provider output, execution result, Evidence artifact, Reservation and provider/browser/URL implementation details. Its constrained JSON output is an untrusted `RestaurantAgentAction`; it cannot contain State patches, Provider details, Authorization, terms hashes, Adapter calls or Outcome claims. `SEARCH_RESTAURANTS` contains only an optional retrieval hint and `CHECK_AVAILABILITY` only candidate IDs; the Execution Router binds complete authoritative requests and supplies an abortable, route-specific read deadline. `RestaurantActionValidator` checks action-specific invariants and returns `ALLOWED`, `REJECTED`, or `REQUIRES_AUTHORIZATION`; it never selects a next action. The bounded coordinator stores a structured trajectory step, including a `proposalId` for BOOK, execution metadata and causal refs to emitted Events, Commands, Attempts and Evidence, before continuing, waiting, or terminating.
 
 `Semantic Proposal` is intentionally distinct from the Core `ActionProposal`: the former describes language-level meaning, while the latter represents a potentially side-effecting execution action subject to Policy and Authorization.
 

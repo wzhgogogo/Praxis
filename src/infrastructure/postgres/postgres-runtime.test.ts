@@ -396,8 +396,8 @@ describe("PostgresTaskRuntime with PGlite", () => {
           id, run_id, task_type, definition_version, lifecycle_state,
           domain_state_schema_version, domain_state, outcome, version, created_at, updated_at
         ) VALUES (
-          'trajectory-context-task', 'trajectory-context-run', 'restaurant.booking', '8', 'RUNNING',
-          '8', '{"schemaVersion":"8"}'::jsonb, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+          'trajectory-context-task', 'trajectory-context-run', 'restaurant.booking', '9', 'RUNNING',
+          '9', '{"schemaVersion":"9"}'::jsonb, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
         )`,
       );
       const store = new PostgresRestaurantAgentTrajectoryStore(database);
@@ -410,13 +410,14 @@ describe("PostgresTaskRuntime with PGlite", () => {
         stateHashBefore: "context-hash",
         causalRefs: { eventIds: [], commandIds: [], attemptIds: [], evidenceIds: [] },
         capabilities: [],
-        contextSchemaVersion: "1",
+        contextSchemaVersion: "2",
         decisionContext: {
-          schemaVersion: "1",
+          schemaVersion: "2",
           phase: "SEARCHING",
           missingBlockingFields: [],
           candidates: [],
           availability: {},
+          availabilityChecks: {},
         },
         executionRoute: "STRUCTURED_ADAPTER",
         observation: { type: "DISCOVERY", detail: "0 candidates discovered" },
@@ -424,13 +425,14 @@ describe("PostgresTaskRuntime with PGlite", () => {
       });
 
       const [step] = await store.list("trajectory-context-task");
-      assert.equal(step?.contextSchemaVersion, "1");
+      assert.equal(step?.contextSchemaVersion, "2");
       assert.deepEqual(step?.decisionContext, {
-        schemaVersion: "1",
+        schemaVersion: "2",
         phase: "SEARCHING",
         missingBlockingFields: [],
         candidates: [],
         availability: {},
+        availabilityChecks: {},
       });
       assert.equal(step?.executionRoute, "STRUCTURED_ADAPTER");
     });
@@ -829,7 +831,7 @@ describe("PostgresTaskRuntime with PGlite", () => {
         {
           id: "restaurant-event-2",
           taskId: "restaurant-task-1",
-          event: { type: "SEARCH_COMPLETED", request: { intent: fixtureIntent }, candidates: fixtureCandidates },
+          event: { type: "SEARCH_COMPLETED", request: { intent: fixtureIntent }, candidates: fixtureCandidates, evidence: [], metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 } },
           occurredAt: clock.now().toISOString(),
         },
         1,
@@ -854,7 +856,7 @@ describe("PostgresTaskRuntime with PGlite", () => {
       });
 
       assert.equal(restored.runId, "restaurant-run-1");
-      assert.equal(restored.domainState.schemaVersion, "8");
+      assert.equal(restored.domainState.schemaVersion, "9");
       assert.equal(restored.domainState.phase, "SEARCHING");
       assert.equal(restored.version, 2);
       assert.equal(duplicate.duplicateEvent, true);
@@ -891,7 +893,7 @@ describe("PostgresTaskRuntime with PGlite", () => {
         {
           id: "restaurant-recovery-decision-search",
           taskId: "restaurant-recovery-1",
-          event: { type: "SEARCH_COMPLETED", request: { intent: fixtureIntent }, candidates: fixtureCandidates },
+          event: { type: "SEARCH_COMPLETED", request: { intent: fixtureIntent }, candidates: fixtureCandidates, evidence: [], metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 } },
           occurredAt: clock.now().toISOString(),
         },
         1,
@@ -902,8 +904,11 @@ describe("PostgresTaskRuntime with PGlite", () => {
           taskId: "restaurant-recovery-1",
           event: {
             type: "AVAILABILITY_CHECKED",
-            request: { candidateIds: [fixtureCandidates[0]!.restaurant.id], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: fixtureIntent.partySize },
+            request: { candidateIds: [fixtureCandidates[0]!.restaurant.id], candidates: [fixtureCandidates[0]!], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: fixtureIntent.partySize },
             offers: [fixtureOffers[0]!],
+            availabilityChecks: { [fixtureCandidates[0]!.restaurant.id]: { status: "AVAILABLE", checkedAt: clock.now().toISOString(), evidenceIds: [] } },
+            evidence: [],
+            metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 },
           },
           occurredAt: clock.now().toISOString(),
         },

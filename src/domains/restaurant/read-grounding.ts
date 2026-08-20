@@ -1,0 +1,200 @@
+import { createHash } from "node:crypto";
+
+import type {
+  AvailabilityOffer,
+  RestaurantAvailabilityCheck,
+  RestaurantAvailabilityRequest,
+  RestaurantCandidate,
+  RestaurantReadEvidence,
+} from "./contracts.js";
+
+export interface UntrustedGooglePlaceObservation {
+  placeId?: string;
+  displayName?: string;
+  formattedAddress?: string;
+  location?: { latitude?: number; longitude?: number };
+  types?: string[];
+  primaryType?: string;
+  googleMapsUri?: string;
+}
+
+export interface UntrustedTabelogAvailabilityObservation {
+  candidateId: string;
+  sourceEntityId?: string;
+  sourceUrl?: string;
+  observedAt: string;
+  entityMatch: { confidence: "HIGH" | "MEDIUM" | "LOW"; matchedBy: string[] };
+  requestedDate?: string;
+  requestedPartySize?: number;
+  visibleSlots?: string[];
+  pageState:
+    | "AVAILABLE"
+    | "NO_MATCHING_SLOT"
+    | "SOURCE_UNSUPPORTED"
+    | "BOT_CHALLENGE"
+    | "UNEXPECTED_PAGE"
+    | "EXTRACTION_FAILED";
+  excerpt?: string;
+  failureCode?: string;
+}
+
+export type GroundedGoogleDiscovery =
+  | { accepted: true; candidate: RestaurantCandidate; evidence: RestaurantReadEvidence }
+  | { accepted: false; reasonCode: string };
+
+export interface GroundedAvailability {
+  offers: AvailabilityOffer[];
+  check: RestaurantAvailabilityCheck;
+  evidence: RestaurantReadEvidence[];
+}
+
+function fingerprint(value: unknown): string {
+  return createHash("sha256").update(JSON.stringify(value)).digest("hex");
+}
+
+function evidenceId(kind: string, value: unknown): string {
+  return `evidence:restaurant:${kind}:${fingerprint(value).slice(0, 24)}`;
+}
+
+function stableCandidateId(placeId: string): string {
+  return `praxis:restaurant:${createHash("sha256").update(placeId).digest("hex").slice(0, 24)}`;
+}
+
+function usableRestaurant(place: UntrustedGooglePlaceObservation): boolean {
+  const types = new Set([...(place.types ?? []), ...(place.primaryType ? [place.primaryType] : [])]);
+  return types.has("restaurant") || types.has("cafe") || types.has("food");
+}
+
+/**
+ * Converts the minimal Google response into a candidate only when the returned
+ * structural facts support it. Retrieval relevance never becomes a cuisine claim.
+ */
+export function groundGoogleDiscovery(
+  observation: UntrustedGooglePlaceObservation,
+  input: { requestFingerprint: string; observedAt: string },
+): GroundedGoogleDiscovery {
+  if (!observation.placeId?.trim()) return { accepted: false, reasonCode: "GOOGLE_PLACE_ID_MISSING" };
+  if (!observation.displayName?.trim()) return { accepted: false, reasonCode: "GOOGLE_NAME_MISSING" };
+  if (!observation.formattedAddress?.trim()) return { accepted: false, reasonCode: "GOOGLE_ADDRESS_MISSING" };
+  if (!usableRestaurant(observation)) return { accepted: false, reasonCode: "GOOGLE_PLACE_TYPE_UNUSABLE" };
+  const candidateId = stableCandidateId(observation.placeId);
+  const evidence: RestaurantReadEvidence = {
+    evidenceId: evidenceId("google-discovery", { placeId: observation.placeId, observedAt: input.observedAt }),
+    kind: "DISCOVERY",
+    provider: "GOOGLE_PLACES",
+    candidateId,
+    sourceEntityId: observation.placeId,
+    ...(observation.googleMapsUri ? { sourceUrl: observation.googleMapsUri } : {}),
+    observedAt: input.observedAt,
+    requestFingerprint: input.requestFingerprint,
+    claims: {
+      placeId: observation.placeId,
+      outletName: observation.displayName,
+      address: observation.formattedAddress,
+      types: [...(observation.types ?? [])],
+      ...(observation.primaryType ? { primaryType: observation.primaryType } : {}),
+    },
+  };
+  return {
+    accepted: true,
+    candidate: {
+      restaurant: {
+        id: candidateId,
+        outletName: observation.displayName.trim(),
+        sourceIds: { googlePlaces: observation.placeId },
+        address: observation.formattedAddress.trim(),
+        ...(observation.location?.latitude !== undefined && observation.location.longitude !== undefined
+          ? { coordinates: { lat: observation.location.latitude, lng: observation.location.longitude } }
+          : {}),
+        provenance: { outletName: evidence.evidenceId, address: evidence.evidenceId, sourceIds: evidence.evidenceId },
+      },
+      matchReasons: ["Returned by the requested place discovery"],
+      warnings: [],
+      executionConfidence: "LOW",
+    },
+    evidence,
+  };
+}
+
+function checkForFailure(
+  observation: UntrustedTabelogAvailabilityObservation,
+): RestaurantAvailabilityCheck {
+  const checkedAt = observation.observedAt;
+  if (observation.entityMatch.confidence !== "HIGH") {
+    return { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: "ENTITY_MATCH_UNCERTAIN" };
+  }
+  switch (observation.pageState) {
+    case "SOURCE_UNSUPPORTED": return { status: "SOURCE_UNSUPPORTED", checkedAt, evidenceIds: [], reasonCode: observation.failureCode ?? "SOURCE_UNSUPPORTED" };
+    case "NO_MATCHING_SLOT": return { status: "UNAVAILABLE", checkedAt, evidenceIds: [] };
+    case "BOT_CHALLENGE": return { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: "BOT_CHALLENGE" };
+    case "UNEXPECTED_PAGE": return { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: "UNEXPECTED_PAGE" };
+    case "EXTRACTION_FAILED": return { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: observation.failureCode ?? "EXTRACTION_FAILED" };
+    case "AVAILABLE": return { status: "AVAILABLE", checkedAt, evidenceIds: [] };
+  }
+}
+
+/**
+ * Ground one untrusted page observation. Only a HIGH outlet match, matching
+ * schedule, visible qualifying slot and fresh timestamp can produce an offer.
+ */
+export function groundTabelogAvailability(
+  candidate: RestaurantCandidate,
+  request: RestaurantAvailabilityRequest,
+  observation: UntrustedTabelogAvailabilityObservation,
+  now: string,
+  offerTtlMs = 2 * 60 * 1_000,
+): GroundedAvailability {
+  let check = checkForFailure(observation);
+  if (observation.candidateId !== candidate.restaurant.id) {
+    return { offers: [], check: { status: "UNKNOWN", checkedAt: observation.observedAt, evidenceIds: [], reasonCode: "ENTITY_MATCH_UNCERTAIN" }, evidence: [] };
+  }
+  if (observation.entityMatch.confidence !== "HIGH") return { offers: [], check, evidence: [] };
+  if (observation.pageState !== "AVAILABLE" && observation.pageState !== "NO_MATCHING_SLOT") {
+    return { offers: [], check, evidence: [] };
+  }
+  if (observation.requestedDate !== request.date || observation.requestedPartySize !== request.partySize) {
+    return { offers: [], check: { status: "UNKNOWN", checkedAt: observation.observedAt, evidenceIds: [], reasonCode: "REQUEST_MISMATCH" }, evidence: [] };
+  }
+  if (Date.parse(now) - Date.parse(observation.observedAt) > offerTtlMs || Number.isNaN(Date.parse(observation.observedAt))) {
+    return { offers: [], check: { status: "UNKNOWN", checkedAt: observation.observedAt, evidenceIds: [], reasonCode: "STALE_OBSERVATION" }, evidence: [] };
+  }
+  const withinWindow = (observation.visibleSlots ?? []).filter((slot) =>
+    /^\d{2}:\d{2}$/.test(slot) && slot >= request.timeWindow.earliest && slot <= request.timeWindow.latest,
+  );
+  if (observation.pageState === "AVAILABLE" && withinWindow.length === 0) {
+    return { offers: [], check: { status: "UNKNOWN", checkedAt: observation.observedAt, evidenceIds: [], reasonCode: "EXTRACTION_FAILED" }, evidence: [] };
+  }
+  const evidence: RestaurantReadEvidence[] = observation.entityMatch.confidence === "HIGH" ? [{
+    evidenceId: evidenceId("tabelog-availability", { candidateId: candidate.restaurant.id, sourceEntityId: observation.sourceEntityId, observedAt: observation.observedAt, slots: withinWindow }),
+    kind: "AVAILABILITY",
+    provider: "TABELOG",
+    candidateId: candidate.restaurant.id,
+    ...(observation.sourceEntityId ? { sourceEntityId: observation.sourceEntityId } : {}),
+    ...(observation.sourceUrl ? { sourceUrl: observation.sourceUrl } : {}),
+    observedAt: observation.observedAt,
+    expiresAt: new Date(Date.parse(observation.observedAt) + offerTtlMs).toISOString(),
+    requestFingerprint: fingerprint(request),
+    claims: { date: request.date, partySize: request.partySize, visibleSlots: withinWindow },
+    entityMatch: { confidence: "HIGH", matchedBy: [...observation.entityMatch.matchedBy] },
+    ...(observation.excerpt ? { artifactRef: { kind: "DOM_EXCERPT", reference: `sha256:${fingerprint(observation.excerpt)}` } } : {}),
+  }] : [];
+  check = { ...check, evidenceIds: evidence.map((item) => item.evidenceId), ...(evidence[0]?.expiresAt ? { expiresAt: evidence[0].expiresAt } : {}) };
+  if (check.status !== "AVAILABLE") return { offers: [], check, evidence };
+  const expiresAt = evidence[0]?.expiresAt ?? new Date(Date.parse(observation.observedAt) + offerTtlMs).toISOString();
+  return {
+    offers: withinWindow.map((slot) => ({
+      id: `offer:tabelog:${candidate.restaurant.id}:${request.date}:${slot}:${request.partySize}`,
+      restaurantId: candidate.restaurant.id,
+      source: "TABELOG",
+      dateTime: `${request.date}T${slot}:00+09:00`,
+      timezone: "Asia/Tokyo",
+      partySize: request.partySize,
+      bookingMode: "REQUEST",
+      executionMode: "BROWSER",
+      checkedAt: observation.observedAt,
+      expiresAt,
+    })),
+    check,
+    evidence,
+  };
+}

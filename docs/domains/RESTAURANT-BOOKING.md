@@ -1,7 +1,7 @@
 # Restaurant Booking Domain
 
 - Status: Accepted
-- Document revision: 1.5
+- Document revision: 1.6
 - Last updated: 2026-08-20
 - Source of truth for: 餐厅预约Domain模型、状态、搜索和完成条件
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0009](../decisions/0009-semantic-strength-and-clean-holdout-baseline.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md)
@@ -9,7 +9,7 @@
 
 ## Implementation Status
 
-ADR-0013冻结的Restaurant Mock预约切片已实现：`Semantic Interpreter → Compiler → Reducer → Restaurant Agent Context → Decision → Action Validator → Fixture Discovery / Availability → Agent Selection → Authorization checkpoint → Policy → Mock Commit → Verifier`。当前State标识为`restaurant-state@8`；Pilot前没有真实Task数据，旧Schema迁移路径已经删除。
+ADR-0013冻结的Restaurant Mock预约切片已实现：`Semantic Interpreter → Compiler → Reducer → Restaurant Agent Context → Decision → Action Validator → Fixture Discovery / Availability → Agent Selection → Authorization checkpoint → Policy → Mock Commit → Verifier`。`restaurant-state@9`已增加Live Read所需的Availability Check与最小Restaurant Read Evidence；Google/Tabelog外部观察必须先经Grounding后才作为Candidate、Offer或Availability Check进入State。Pilot前没有真实Task数据，旧Schema迁移路径已经删除。
 
 Discovery保存`RestaurantCandidate`，Availability按`candidateId → AvailabilityOffer[]`独立保存。单一Restaurant Agent决定何时搜索、开放式检索策略、检查哪些候选、选择哪个组合或何时再次搜索；Validator不再选择下一步。`SEARCH_RESTAURANTS`不重复Intent，`CHECK_AVAILABILITY`不重复日期/时段/人数；Router在调用Adapter前绑定这些权威参数。Fixture路径使用真正的`RestaurantAgentDecision` ModelGateway Contract，Harness可用Scripted Decision Port重复验证Trajectory。Policy、Authorization、Commit和Verifier仍是确定性权威边界。
 
@@ -25,9 +25,9 @@ Restaurant Semantic Proposal Contract只验证这些表达的结构与Domain词�
 
 Reducer继续以`Old State + Event → New Authoritative State`维护权威事实。Restaurant Agent只能提出一个业务动作，Action Validator只允许、拒绝或要求Authorization；两者都不能写State或调用Provider。`NEED_REINTERPRETATION`继续是安全交互行为：不自动重新解释、覆盖State或触发Tool。
 
-模型只接收`restaurant-agent-context@1`投影：当前Intent Draft、派生缺失字段、展示安全Candidate/Offer、选择、phase和failure code。完整Task State中的Authorization、Proposal、Attempt、Provider执行结果、Evidence和Reservation继续只由Runtime、Policy、Router和Verifier读取。每个Decision trajectory保存模型实际看到的脱敏Context及其`contextSchemaVersion`，但不保存raw prompt或Chain-of-Thought。`BOOK_RESERVATION`的trajectory持久化其`proposalId`，用于和后续Authorization、Command、Attempt、Evidence与Outcome审计连接；它不使Agent拥有这些对象的写权或Outcome解释权。
+模型只接收`restaurant-agent-context@2`投影：当前Intent Draft、派生缺失字段、展示安全Candidate/Offer、业务含义的`AVAILABLE` / `UNAVAILABLE` / `UNKNOWN` / `SOURCE_UNSUPPORTED` Check、选择、phase和failure code。Provider、Tabelog、浏览器引擎、URL、DOM和原始Evidence不进入模型Context。完整Task State中的Authorization、Proposal、Attempt、Provider执行结果、Evidence和Reservation继续只由Runtime、Policy、Router和Verifier读取。每个Decision trajectory保存模型实际看到的脱敏Context及其`contextSchemaVersion`，但不保存raw prompt或Chain-of-Thought。`BOOK_RESERVATION`的trajectory持久化其`proposalId`，用于和后续Authorization、Command、Attempt、Evidence与Outcome审计连接；它不使Agent拥有这些对象的写权或Outcome解释权。
 
-`restaurant-state@7`的本地开发Task不迁移到当前`restaurant-state@8`。需要保留该类调试数据时先在外部备份；不再需要时只能用双重显式开关的本机开发重置命令删除，详见[Repository Conventions](../REPOSITORY-CONVENTIONS.md#migration与开发数据重置)。
+`restaurant-state@7/@8`的本地开发Task不迁移到当前`restaurant-state@9`。需要保留该类调试数据时先在外部备份；不再需要时只能用双重显式开关的本机开发重置命令删除，详见[Repository Conventions](../REPOSITORY-CONVENTIONS.md#migration与开发数据重置)。
 
 任何LLM对结果的解释、澄清问题或条件调整建议都不是Semantic Proposal的替代品。建议必须由用户在新消息中明确确认或修改，才能再次进入正式的Interpreter → Contract → Compiler链。
 
@@ -100,6 +100,8 @@ type RestaurantCandidate = {
 ```
 
 `SEARCH_RESTAURANTS`只产生`RestaurantCandidate`。`CHECK_AVAILABILITY`才产生`AvailabilityOffer`并按`candidateId`保存；没有新鲜匹配Offer的Candidate不得进入Booking Proposal。
+
+`availabilityChecks[candidateId]`独立于Offer保存`AVAILABLE`、`UNAVAILABLE`、`UNKNOWN`或`SOURCE_UNSUPPORTED`、检查时间、Evidence引用及稳定原因码。只有相同Outlet的HIGH Entity Match、正确日期/人数/Asia-Tokyo时段、可见且新鲜的slot才可产生Offer；超时、bot challenge、页面/抽取异常、未找到可靠Outlet和外部跳转永远不是`UNAVAILABLE`。
 
 ## Domain State
 

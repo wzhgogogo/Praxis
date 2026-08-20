@@ -1,7 +1,7 @@
 # Praxis Build Roadmap
 
 - Status: Accepted
-- Document revision: 4.3
+- Document revision: 4.4
 - Last updated: 2026-08-20
 - Source of truth for: 从开发前文档到Tokyo Pilot的阶段计划和退出条件
 - Related ADRs: [ADR Index](decisions/README.md)
@@ -130,7 +130,7 @@ Status: `completed` — 2026-08-08。
 
 Freeze decision（2026-08-19更新）：当前产品语义主链固定为`Semantic Interpreter → Proposal Contract → Compiler → Runtime/Reducer`、`restaurant-semantic-prompt@7`、`restaurant-semantic-proposal@3`、`restaurant-semantic-scorer@3`和开放`criteria` / `HARD` / `SOFT`强度；业务推进固定为单一Restaurant Agent经Action Validator的受限Loop。历史Progressive Decision Harness的7个Episode / 17个Turn已完成架构探针与开发诊断使命，可执行Harness、命令和测试已经删除；历史只从Git与日志追溯。新的独立Baseline只评估当前语义链；单个未支持表达不会自动触发taxonomy、Provider mapping或架构改版。
 
-Progress（截至冻结）：历史Progressive Decision Dataset、17个人工Gold Turn、Preflight、Fixture Oracle、Reducer/Scorer、Mutation和真实模型开发诊断均已完成并记录在历史日志；它们不再是活跃Stage门槛。当前Fixture产品链和`restaurant-semantic-regression@3`的15个已暴露Turn已完成；`restaurant-semantic-prompt@4`的Clean Holdout Baseline已完成并暴露，`restaurant-semantic-prompt@7`在当前canonical Gold上只完成了Acceptance Diagnostic，仍未有独立Baseline，Live Discovery仍未实现。
+Progress（截至冻结）：历史Progressive Decision Dataset、17个人工Gold Turn、Preflight、Fixture Oracle、Reducer/Scorer、Mutation和真实模型开发诊断均已完成并记录在历史日志；它们不再是活跃Stage门槛。当前Fixture产品链和`restaurant-semantic-regression@3`的15个已暴露Turn已完成；`restaurant-semantic-prompt@4`的Clean Holdout Baseline已完成并暴露，`restaurant-semantic-prompt@7`在当前canonical Gold上只完成了Acceptance Diagnostic，仍未有独立Baseline。Google Live Discovery、Browser Runtime和Tabelog只读代码路径已实现，但尚未用真实Provider完成实测。
 
 - v5的`FULL_REGRESSION`真实模型诊断已覆盖全部7个Episode、17个Turn并完成评分；全部Gold和结果均已暴露，故仍只是`DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`。本轮定位到State/Accumulation、品牌与单店目标区分、Grounding和不足候选解释，尚不修改生产路径；
 - 历史`progressive-decision-golden@0.8` / `progressive-decision-prompt@6`已把命名目标解析、检索充分性和证据装配收回Harness的可信侧：`FIXTURE_DISCOVERY`、`retrievalSummary`和确定性Grounding只定义未来只读Tool输入，不接入真实Discovery或产品Task。真实回归现在会产生只含结构化Patch/状态差异的本机诊断Artifact，且`retryCalls`已改按Turn计数；之后建立隔离Holdout，再核验一个真实Discovery来源；
@@ -145,6 +145,8 @@ Progress（截至冻结）：历史Progressive Decision Dataset、17个人工Gol
 - 只接一个经过能力核验的真实Discovery来源，首选Google Places；
 - 使用Freshness-aware查询复用仍有效的Observation，过期或高风险字段按用途刷新；Source查询、实体合并和硬过滤不依赖模型重复阅读完整结果；
 - 保存来源、ObservedAt和能力限制，建立Live Read-only检查；Stage 2C数据只用于Trace、回放和离线分析，不自动修改生产排序、Prompt或Policy。
+
+Live Read implementation（2026-08-20）：已增加`restaurant-state@9` Availability Check/Read Evidence、Google Places API (New) Text Search、Cloudflare Browser Run CDP Runtime、Kitesurf→Chromium单次机械回退、受限Tabelog Availability Executor、HIGH-only Outlet Entity Resolution、Runtime Grounding、Hybrid runner及Browser compatibility probe。所有外部执行仍需显式环境开关；本次尚未运行真实Provider、Browser或模型调用，故它们仅是source + offline contract evidence。h001–h005源材料保持不改语义，并在运行时materialize相对日期；既有E2E rubric仍是`draft / not integrated`，不能报告为已完成Scorer。
 
 完成标准：Agent Loop architecture freeze后完成真实模型Agent Decision、真实英文查询的Live read-only Discovery与Availability、以及Mock Booking/Verification的Hybrid E2E preparation，并运行h001–h005 E2E；最小Interaction Event能串联需求、展示、反馈、Agent选择和Verified Outcome引用；Fixture、Real Model Mock World和Live Read-only结果分别记录。新的未泄露`CLEAN_HOLDOUT`继续作为独立parser/semantic质量工作。此时仍不宣称真实Booking、完整Browser自动化或历史Progressive Decision Harness描述的完整渐进决策。
 

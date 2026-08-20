@@ -6,11 +6,13 @@ import type { RestaurantTaskState } from "../domains/restaurant/contracts.js";
 import { fixtureCandidates, fixtureIntent } from "./restaurant-fixtures.js";
 
 const state: RestaurantTaskState = {
-  schemaVersion: "8",
+  schemaVersion: "9",
   phase: "UNDERSTANDING",
   intentDraft: { ...fixtureIntent, schemaVersion: "3" },
   candidates: [],
   availability: {},
+  availabilityChecks: {},
+  readEvidence: [],
   searchRevision: 0,
 };
 
@@ -18,6 +20,7 @@ test("Execution Router aborts and bounds a Provider search read that exceeds its
   let sawAbort = false;
   const router = new RestaurantExecutionRouter(
     {
+      executionRoute: "STRUCTURED_ADAPTER",
       async search(_request, signal) {
         return new Promise((_, reject) => {
           signal.addEventListener("abort", () => {
@@ -27,8 +30,8 @@ test("Execution Router aborts and bounds a Provider search read that exceeds its
         });
       },
     },
-    { async check() { return []; } },
-    { providerReadTimeoutMs: 1 },
+    { executionRoute: "STRUCTURED_ADAPTER", async check() { return { offers: [], availabilityChecks: {}, evidence: [], metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 } }; } },
+    { structuredReadTimeoutMs: 1 },
   );
 
   const execution = await router.execute({ type: "SEARCH_RESTAURANTS" }, state);
@@ -46,12 +49,13 @@ test("Execution Router aborts and bounds a Provider search read that exceeds its
 test("Execution Router returns at its deadline even when a Provider ignores abort", async () => {
   const router = new RestaurantExecutionRouter(
     {
+      executionRoute: "STRUCTURED_ADAPTER",
       async search() {
         return new Promise(() => {});
       },
     },
-    { async check() { return []; } },
-    { providerReadTimeoutMs: 1 },
+    { executionRoute: "STRUCTURED_ADAPTER", async check() { return { offers: [], availabilityChecks: {}, evidence: [], metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 } }; } },
+    { structuredReadTimeoutMs: 1 },
   );
 
   const execution = await router.execute({ type: "SEARCH_RESTAURANTS" }, state);
@@ -65,12 +69,18 @@ test("Execution Router passes only bound availability arguments and its deadline
   let receivedSignal: AbortSignal | undefined;
   let receivedRequest: unknown;
   const router = new RestaurantExecutionRouter(
-    { async search() { return fixtureCandidates; } },
+    { executionRoute: "STRUCTURED_ADAPTER", async search() { return { candidates: fixtureCandidates, evidence: [], metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 } }; } },
     {
+      executionRoute: "STRUCTURED_ADAPTER",
       async check(request, signal) {
         receivedRequest = request;
         receivedSignal = signal;
-        return [];
+        return {
+          offers: [],
+          availabilityChecks: Object.fromEntries(request.candidateIds.map((candidateId) => [candidateId, { status: "UNAVAILABLE" as const, checkedAt: "2026-08-05T09:00:00.000Z", evidenceIds: [] }])),
+          evidence: [],
+          metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 },
+        };
       },
     },
   );
@@ -89,6 +99,7 @@ test("Execution Router passes only bound availability arguments and its deadline
   assert.equal(execution.route, "STRUCTURED_ADAPTER");
   assert.deepEqual(receivedRequest, {
     candidateIds: [fixtureCandidates[0]!.restaurant.id],
+    candidates: [fixtureCandidates[0]!],
     date: fixtureIntent.date,
     timeWindow: fixtureIntent.timeWindow,
     partySize: fixtureIntent.partySize,

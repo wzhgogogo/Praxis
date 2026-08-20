@@ -3,8 +3,13 @@ import type { RestaurantAgentContext } from "../../domains/restaurant/agent-cont
 import type { RestaurantAgentModelAttempt } from "../../domains/restaurant/agent-decision.js";
 import type { RestaurantAgentCapability } from "../../domains/restaurant/restaurant-capabilities.js";
 import type { RestaurantActionValidation } from "../../domains/restaurant/action-validator.js";
-import type { RestaurantExecutionRoute } from "../../domains/restaurant/contracts.js";
+import type { RestaurantExecutionRoute, RestaurantReadExecutionMetadata } from "../../domains/restaurant/contracts.js";
 import type { SqlDatabase } from "./sql-database.js";
+
+export const RESTAURANT_AGENT_TRAJECTORY_SCHEMA = {
+  name: "restaurant_agent_trajectory",
+  version: "5",
+} as const;
 
 export interface RestaurantAgentTrajectoryCausalRefs {
   eventIds: string[];
@@ -29,6 +34,7 @@ export interface RestaurantAgentTrajectoryStep {
   modelAttempt?: RestaurantAgentModelAttempt;
   actionValidation?: RestaurantActionValidation;
   executionRoute?: RestaurantExecutionRoute;
+  executionMetadata?: RestaurantReadExecutionMetadata;
   observation?: { type: string; detail: string };
   proposalId?: string;
   stateVersionAfter?: number;
@@ -66,6 +72,7 @@ interface TrajectoryRow {
   model_attempt: unknown | null;
   action_validation: unknown | null;
   execution_route: RestaurantAgentTrajectoryStep["executionRoute"] | null;
+  execution_metadata: unknown | null;
   observation: unknown | null;
   proposal_id: string | null;
   state_version_after: number | null;
@@ -89,10 +96,10 @@ export class PostgresRestaurantAgentTrajectoryStore implements RestaurantAgentTr
       `INSERT INTO restaurant_agent_trajectory_steps (
         id, task_id, step_number, occurred_at, state_version_before, state_hash_before,
         causal_refs, capabilities, context_schema_version, decision_context, agent_action, decision_summary, model_attempt,
-        action_validation, execution_route, observation, proposal_id, state_version_after, state_hash_after, step_outcome
+        action_validation, execution_route, execution_metadata, observation, proposal_id, state_version_after, state_hash_after, step_outcome
       ) VALUES (
         $1, $2, $3, $4, $5, $6, $7::jsonb, $8::jsonb, $9, $10::jsonb, $11::jsonb, $12, $13::jsonb,
-        $14::jsonb, $15, $16::jsonb, $17, $18, $19, $20
+        $14::jsonb, $15, $16::jsonb, $17::jsonb, $18, $19, $20, $21
       )`,
       [
         step.id, step.taskId, step.stepNumber, step.occurredAt, step.stateVersionBefore, step.stateHashBefore,
@@ -100,6 +107,7 @@ export class PostgresRestaurantAgentTrajectoryStore implements RestaurantAgentTr
         step.decisionContext ? JSON.stringify(step.decisionContext) : null, step.agentAction ? JSON.stringify(step.agentAction) : null,
         step.decisionSummary ?? null, step.modelAttempt ? JSON.stringify(step.modelAttempt) : null,
         step.actionValidation ? JSON.stringify(step.actionValidation) : null, step.executionRoute ?? null,
+        step.executionMetadata ? JSON.stringify(step.executionMetadata) : null,
         step.observation ? JSON.stringify(step.observation) : null, step.proposalId ?? null,
         step.stateVersionAfter ?? null, step.stateHashAfter ?? null, step.stepOutcome,
       ],
@@ -110,7 +118,7 @@ export class PostgresRestaurantAgentTrajectoryStore implements RestaurantAgentTr
     const result = await this.database.query<TrajectoryRow>(
       `SELECT id, task_id, step_number, occurred_at, state_version_before, state_hash_before,
               causal_refs, capabilities, context_schema_version, decision_context, agent_action, decision_summary, model_attempt,
-              action_validation, execution_route, observation, proposal_id, state_version_after, state_hash_after, step_outcome
+              action_validation, execution_route, execution_metadata, observation, proposal_id, state_version_after, state_hash_after, step_outcome
          FROM restaurant_agent_trajectory_steps
         WHERE task_id = $1
         ORDER BY step_number ASC`,
@@ -132,6 +140,7 @@ export class PostgresRestaurantAgentTrajectoryStore implements RestaurantAgentTr
       ...(row.model_attempt ? { modelAttempt: parseJson<RestaurantAgentModelAttempt>(row.model_attempt) } : {}),
       ...(row.action_validation ? { actionValidation: parseJson<RestaurantActionValidation>(row.action_validation) } : {}),
       ...(row.execution_route ? { executionRoute: row.execution_route } : {}),
+      ...(row.execution_metadata ? { executionMetadata: parseJson<RestaurantReadExecutionMetadata>(row.execution_metadata) } : {}),
       ...(row.observation ? { observation: parseJson<{ type: string; detail: string }>(row.observation) } : {}),
       ...(row.proposal_id ? { proposalId: row.proposal_id } : {}),
       ...(row.state_version_after !== null ? { stateVersionAfter: row.state_version_after } : {}),

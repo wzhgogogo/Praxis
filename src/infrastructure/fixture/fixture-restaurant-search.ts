@@ -25,12 +25,18 @@ function candidate(_intent: RestaurantBookingIntent, index: number): RestaurantC
 
 /** Local-only read adapter for the Stage 2A vertical slice. */
 export class FixtureRestaurantSearch {
-  async search(request: RestaurantSearchRequest, _signal: AbortSignal): Promise<RestaurantCandidate[]> {
-    return [candidate(request.intent, 1), candidate(request.intent, 2), candidate(request.intent, 3)];
+  readonly executionRoute = "STRUCTURED_ADAPTER" as const;
+
+  async search(request: RestaurantSearchRequest, _signal: AbortSignal) {
+    return {
+      candidates: [candidate(request.intent, 1), candidate(request.intent, 2), candidate(request.intent, 3)],
+      evidence: [],
+      metadata: { provider: "FIXTURE" as const, route: this.executionRoute, latencyMs: 0 },
+    };
   }
 
-  async check(request: RestaurantAvailabilityRequest, _signal: AbortSignal): Promise<AvailabilityOffer[]> {
-    return request.candidateIds.map((restaurantId, index) => ({
+  async check(request: RestaurantAvailabilityRequest, _signal: AbortSignal) {
+    const offers: AvailabilityOffer[] = request.candidateIds.map((restaurantId, index) => ({
       id: `fixture-offer-${restaurantId}`,
       restaurantId,
       source: "fixture",
@@ -45,5 +51,16 @@ export class FixtureRestaurantSearch {
       checkedAt: "2026-08-19T09:00:00.000Z",
       expiresAt: "2026-12-31T23:59:00.000Z",
     }));
+    return {
+      offers,
+      availabilityChecks: Object.fromEntries(request.candidateIds.map((candidateId) => [candidateId, {
+        status: "AVAILABLE" as const,
+        checkedAt: "2026-08-19T09:00:00.000Z",
+        expiresAt: "2026-12-31T23:59:00.000Z",
+        evidenceIds: [],
+      }])),
+      evidence: [],
+      metadata: { provider: "FIXTURE" as const, route: this.executionRoute, latencyMs: 0 },
+    };
   }
 }

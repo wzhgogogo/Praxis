@@ -9,7 +9,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "arch:check": "node --import tsx scripts/arch-check.ts",
-    "test": "node --import tsx --test src/harness/*.test.ts src/core/*/*.test.ts src/domains/*/*.test.ts src/infrastructure/*/*.test.ts src/server/*.test.ts src/eval/restaurant/semantic/*.test.ts src/eval/restaurant/search-fixture/*.test.ts src/eval/shared/*.test.ts",
+    "test": "node --import tsx --test src/harness/*.test.ts src/core/*/*.test.ts src/domains/*/*.test.ts src/infrastructure/*/*.test.ts src/integrations/*/*.test.ts src/server/*.test.ts src/eval/restaurant/semantic/*.test.ts src/eval/restaurant/search-fixture/*.test.ts src/eval/restaurant/agent-loop/*.test.ts src/eval/shared/*.test.ts",
     "test:probes": "PRAXIS_RUN_FROZEN_PROBES=1 node --import tsx --test src/infrastructure/postgres/postgres-runtime.test.ts",
     "dev": "node --env-file-if-exists=.env --import tsx src/server/local-web-server.ts",
     "eval:restaurant:semantic:deepseek": "node --env-file-if-exists=.env --import tsx src/eval/restaurant/semantic/runners/run-deepseek-regression.ts",
@@ -20,6 +20,8 @@
     "eval:restaurant:semantic:holdout:exposed-regression": "node --env-file-if-exists=.env --import tsx src/eval/restaurant/semantic/runners/run-exposed-holdout-regression.ts",
     "eval:restaurant:semantic:holdout:exposed-regression:analyze": "node --import tsx src/eval/restaurant/semantic/runners/run-exposed-holdout-regression-analysis.ts",
     "eval:restaurant:search:fixture": "node --import tsx src/eval/restaurant/search-fixture/run.ts",
+    "probe:browser:tabelog": "node --env-file-if-exists=.env --import tsx src/eval/restaurant/agent-loop/runners/run-browser-tabelog-probe.ts",
+    "eval:restaurant:agent-loop:hybrid-live-read": "node --env-file-if-exists=.env --import tsx src/eval/restaurant/agent-loop/runners/run-hybrid-live-read.ts",
     "test:postgres:live": "node --env-file-if-exists=.env --import tsx src/infrastructure/postgres/postgres-live-smoke.ts",
     "reset:dev:restaurant-state": "node --env-file-if-exists=.env --import tsx src/infrastructure/postgres/reset-restaurant-dev-data.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit"
@@ -32,6 +34,8 @@
     "typescript": "^7.0.2"
   },
   "dependencies": {
-    "pg": "^8.22.0"
+    "pg": "^8.22.0",
+    "playwright-core": "^1.62.1",
+    "yaml": "^2.9.0"
   }
 }

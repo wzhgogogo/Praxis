@@ -10,9 +10,9 @@ function requireLocalDevelopmentDatabase(connectionString: string): void {
   }
 }
 
-async function resetRestaurantStateVersionSeven(): Promise<void> {
+async function resetIncompatibleRestaurantDevelopmentState(): Promise<void> {
   if (process.env[DEV_RESET_GATE] !== "1") {
-    throw new Error(`Set ${DEV_RESET_GATE}=1 to reset incompatible restaurant-state@7 development data`);
+    throw new Error(`Set ${DEV_RESET_GATE}=1 to reset incompatible restaurant-state@7/@8 development data`);
   }
   const connectionString = process.env.DATABASE_URL;
   if (!connectionString) throw new Error("DATABASE_URL is required for Restaurant development-state reset");
@@ -24,17 +24,17 @@ async function resetRestaurantStateVersionSeven(): Promise<void> {
     const deleted = await database.transaction((transaction) => transaction.query<{ id: string }>(
       `DELETE FROM tasks
         WHERE task_type = 'restaurant.booking'
-          AND domain_state_schema_version = '7'
+        AND domain_state_schema_version IN ('7', '8')
         RETURNING id`,
     ));
-    console.log(`Reset ${deleted.affectedRows} restaurant-state@7 development task(s).`);
+    console.log(`Reset ${deleted.affectedRows} incompatible restaurant-state@7/@8 development task(s).`);
   } finally {
     await database.close();
   }
 }
 
 if (process.argv[1] && import.meta.url === `file://${process.argv[1]}`) {
-  void resetRestaurantStateVersionSeven().catch((error) => {
+  void resetIncompatibleRestaurantDevelopmentState().catch((error) => {
     console.error(error instanceof Error ? error.message : error);
     process.exitCode = 1;
   });

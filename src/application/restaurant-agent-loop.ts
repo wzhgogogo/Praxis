@@ -235,7 +235,7 @@ export class RestaurantAgentLoopCoordinator {
       }
 
       const after = execution.event
-        ? await this.dispatch(snapshot, execution.event, execution.route === "STRUCTURED_ADAPTER" ? "ADAPTER" : "SYSTEM")
+        ? await this.dispatch(snapshot, execution.event, execution.route === "STRUCTURED_ADAPTER" || execution.route === "GENERIC_BROWSER" ? "ADAPTER" : "SYSTEM")
         : { snapshot, causalRefs: causalRefsForState(snapshot.domainState) };
       const outcome = execution.failure
         ? "EXECUTION_FAILURE"
@@ -251,6 +251,7 @@ export class RestaurantAgentLoopCoordinator {
         modelAttempt: decision.modelAttempt,
         actionValidation: verdict,
         ...(execution.route ? { executionRoute: execution.route } : {}),
+        ...(execution.executionMetadata ? { executionMetadata: execution.executionMetadata } : {}),
         ...(execution.observation ? { observation: execution.observation } : {}),
         ...(decision.action.type === "BOOK_RESERVATION" && after.snapshot.domainState.proposal
           ? { proposalId: after.snapshot.domainState.proposal.id }
