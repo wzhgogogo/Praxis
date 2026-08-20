@@ -80,12 +80,13 @@ test("Execution Router passes only bound availability arguments and its deadline
     candidates: fixtureCandidates,
   };
 
-  await router.execute(
+  const execution = await router.execute(
     { type: "CHECK_AVAILABILITY", candidateIds: [fixtureCandidates[0]!.restaurant.id] },
     searchedState,
   );
 
   assert.ok(receivedSignal instanceof AbortSignal);
+  assert.equal(execution.route, "STRUCTURED_ADAPTER");
   assert.deepEqual(receivedRequest, {
     candidateIds: [fixtureCandidates[0]!.restaurant.id],
     date: fixtureIntent.date,

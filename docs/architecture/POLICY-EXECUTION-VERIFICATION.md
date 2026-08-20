@@ -1,10 +1,10 @@
 # Policy, Execution and Verification
 
 - Status: Accepted
-- Document revision: 0.4
+- Document revision: 0.5
 - Last updated: 2026-08-20
 - Source of truth for: 授权、副作用控制、执行路由、验证和恢复
-- Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md)
+- Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md)
 - Related documents: [Task Runtime](TASK-RUNTIME.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md)
 
 ## Action与授权
@@ -63,7 +63,7 @@ Validated business action
         user performs login, CAPTCHA, payment, 3DS, or accepts new high-risk terms
 ```
 
-当前Restaurant切片只实现Harness Mock中的Structured Adapter read route；每个Discovery或Availability调用均携带Router提供的`AbortSignal`并受默认8秒deadline约束。Router同时竞速该deadline，因此不遵守取消的Adapter也不能无限占用Agent Loop。Generic Browser Agent和Human Takeover是后续Stage的明确架构路线，不表示已经接入。三类路线均使用统一的prepare/commit/verify/cancel边界：`prepare`可自动执行，`commit`必须持有有效Authorization。Generic Browser Agent只能在确定性Checkpoint之间提出下一浏览器步，不能将页面文字提升为授权或成功结果。
+当前Restaurant切片只实现Harness Mock中的`STRUCTURED_ADAPTER` read route；Fixture/Mock/Live是execution mode或provider metadata，不是长期route taxonomy。每个Discovery或Availability调用均携带Router提供的`AbortSignal`并受默认8秒deadline约束。Router同时竞速该deadline，因此不遵守取消的Adapter也不能无限占用Agent Loop。`GENERIC_BROWSER`和`HUMAN_TAKEOVER`是后续Stage的明确架构路线，不表示已经接入。三类路线均使用统一的prepare/commit/verify/cancel边界：`prepare`可自动执行，`commit`必须持有有效Authorization。Generic Browser Agent只能在确定性Checkpoint之间提出下一浏览器步，不能将页面文字提升为授权或成功结果。
 
 ## Browser与Takeover
 

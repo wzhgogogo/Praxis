@@ -4,6 +4,8 @@
 
 Accepted — 2026-08-05
 
+The one-authorization-to-one-concrete-proposal invariant remains Accepted. The requirement to wait for a user to select again after a definitive failure is superseded by [ADR-0010](0010-restaurant-agent-loop-action-validation.md) and [ADR-0013](0013-agent-loop-final-hardening.md): the bounded Agent may recover candidates, but every resulting proposal requires a new one-time authorization.
+
 ## Context
 
 MVP没有跨任务Memory和Personalization。自动按顺序替用户尝试多家餐厅会降低控制感，并扩大条款变化和错误预约风险。
@@ -31,4 +33,3 @@ Search返回最多3家可执行候选。用户通过`Book this`只选择并授�
 - [MVP PRD](../product/MVP-PRD.md)
 - [User Flows](../product/USER-FLOWS.md)
 - [Restaurant Domain](../domains/RESTAURANT-BOOKING.md)
-

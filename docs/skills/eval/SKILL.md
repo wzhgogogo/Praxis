@@ -5,7 +5,7 @@ description: Praxis质量评估；衡量当前语义链、Agent动作、搜索�
 
 # Praxis Eval
 
-Eval评估模型与端到端质量，不替代功能测试。当前产品架构由ADR-0010、ADR-0011及ADR-0012控制定义：语义Eval只评估保留的 Interpreter → Compiler → Reducer 边界；Agent动作由独立Action Validator、最小Restaurant Agent Context、Router deadline与Harness验证。已经退出产品主链的Decision Harness、单轮Intent Parser和分类Criteria Contract只在历史文档与Git中保留。
+Eval评估模型与端到端质量，不替代功能测试。当前产品架构由ADR-0010、ADR-0011、ADR-0012及ADR-0013控制定义：语义Eval只评估保留的 Interpreter → Compiler → Reducer 边界；Agent动作由独立Action Validator、最小Restaurant Agent Context、Router deadline与Harness验证。已经退出产品主链的Decision Harness、单轮Intent Parser和分类Criteria Contract只在历史文档与Git中保留。
 
 ## 当前目录
 
@@ -27,7 +27,7 @@ Eval材料按`current executable`、`frozen regression`、`superseded retrospect
 - 产品职责固定为`Semantic Interpreter → Proposal Contract → Compiler → Runtime/Reducer → Agent Decision → Action Validator → Execution Router`；语义Eval只在Interpreter/Compiler/Reducer边界归因，不把ADR-0007的历史next-step标注当作产品Runtime。
 - 当前标识为`restaurant-semantic-prompt@7`与`restaurant-semantic-proposal@3`。稳定槽位外只允许开放`CRITERION{text, polarity, strength}`，strength固定为`HARD` / `SOFT` / `UNSPECIFIED`；不得为单个Eval Case新增taxonomy、Provider mapping或重新分配职责。已运行的Prompt `@4` Baseline保持`RESULT_EXPOSED`，不能用来验证Prompt `@7`。
 - 历史Decision Harness的7个Episode / 17个Turn及旧单轮Intent Eval已经完成架构探针使命；其可执行代码、命令和默认测试已删除。需要追溯时读历史文档或Git，不恢复兼容路径。
-- Prompt `@7`的下一份独立Baseline必须使用新的私有`CLEAN_HOLDOUT`。
+- Prompt `@7`的下一份独立Baseline必须使用新的私有`CLEAN_HOLDOUT`；它是parser/semantic质量工作，不阻塞Hybrid E2E preparation。
 
 ## 已暴露语义 Regression
 

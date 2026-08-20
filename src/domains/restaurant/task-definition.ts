@@ -93,11 +93,11 @@ function termsHash(selection: RestaurantBookingSelection): string {
   return createHash("sha256").update(terms).digest("hex");
 }
 
-function createProposal(taskId: string, selection: RestaurantBookingSelection): ActionProposal {
+function createProposal(context: TaskContext, selection: RestaurantBookingSelection): ActionProposal {
   const { candidate, offer } = selection;
   const proposal: ActionProposal = {
-    id: `proposal:${taskId}:${offer.id}:${termsHash(selection).slice(0, 16)}`,
-    taskId,
+    id: context.createId("proposal"),
+    taskId: context.taskId,
     actionType: "BOOK",
     target: {
       type: "RESTAURANT_OUTLET",
@@ -297,11 +297,14 @@ function transition(
         throw new Error("Booking proposal requires the selected candidate and offer");
       }
       const selection = selectedBooking(state);
-      return { state: { ...state, phase: "AWAITING_AUTHORIZATION", proposal: createProposal(context.taskId, selection) }, commands: [] };
+      return { state: { ...state, phase: "AWAITING_AUTHORIZATION", proposal: createProposal(context, selection) }, commands: [] };
     }
     case "AUTHORIZE": {
       requirePhase(state, ["AWAITING_AUTHORIZATION"], event.type);
       if (!state.proposal) throw new Error("Cannot authorize without an action proposal");
+      if (event.authorization.proposalId !== state.proposal.id) {
+        throw new Error("Authorization must bind the current booking proposal");
+      }
       const selection = selectedBooking(state);
       return {
         state: { ...state, authorization: event.authorization },

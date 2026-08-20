@@ -1,10 +1,10 @@
 # Interfaces and Schemas
 
 - Status: Accepted
-- Document revision: 2.1
+- Document revision: 2.2
 - Last updated: 2026-08-20
 - Source of truth for: 公共接口、DTO、内部Tool、实现状态和版本规则
-- Related ADRs: [ADR Index](../decisions/README.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md)
+- Related ADRs: [ADR Index](../decisions/README.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md)
 - Related documents: [Task Runtime](TASK-RUNTIME.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md)
 
 接口必须逐项标记状态，不得用局部原型暗示完整API或平台能力已经存在。
@@ -22,11 +22,11 @@
 | Restaurant Semantic Compiler | `implemented: Restaurant product path` | 纯确定性Proposal → `RestaurantIntentPatch` → Domain Event翻译；不建立Core通用Compiler |
 | Restaurant Agent Context / Action / Capability / Decision | `implemented: Fixture product and Mock Harness slice` | `restaurant-agent-context@1`仅投影可决策字段；单一Agent提出五种业务动作，Search只可带retrieval hint、Availability只可带candidate IDs，Router绑定权威请求参数 |
 | Restaurant Action Validator | `implemented: ADR-0011` | 仅允许、拒绝或要求Authorization；不选择下一步，不调用Tool |
-| Restaurant Agent Trajectory | `implemented: Restaurant-specific PostgreSQL + Mock artifact` | `restaurant-agent-trajectory@3`每步关联state/action/verdict/route/observation、Proposal ID及Event/Command/Attempt/Evidence causal refs，不保存Chain-of-Thought |
+| Restaurant Agent Trajectory | `implemented: Restaurant-specific PostgreSQL + Mock artifact` | `restaurant-agent-trajectory@4`保存模型实际收到的脱敏`restaurant-agent-context@1`和`contextSchemaVersion`，并关联state/action/verdict/route/observation、Proposal ID及Event/Command/Attempt/Evidence causal refs；不保存raw prompt或Chain-of-Thought |
 | `NEED_REINTERPRETATION` | `implemented: reserved safe decision` | 记录语义冲突并询问用户；不自动重解释或改State |
 | Restaurant `BookingProofBundle`与Completion Verifier | `implemented: Mock vertical slice` | [`booking-verifier.ts`](../../src/domains/restaurant/booking-verifier.ts) |
 | Restaurant Harness Run Artifact | `implemented: mock only` | [`restaurant-harness.ts`](../../src/harness/restaurant-harness.ts) |
-| PostgreSQL迁移与`pg`事务Adapter | `implemented; local real smoke verified` | Migration ID不可改写；`0007`从`0006`的legacy evidence refs追加升级到causal refs / proposal ID，详见[`migrations.ts`](../../src/infrastructure/postgres/migrations.ts) |
+| PostgreSQL迁移与`pg`事务Adapter | `implemented; local real smoke verified` | Migration ID不可改写；`0007`从`0006`的legacy evidence refs追加causal refs / proposal ID，`0008`再追加trajectory Decision Context字段，详见[`migrations.ts`](../../src/infrastructure/postgres/migrations.ts) |
 | PostgreSQL Task/Event/Command Outbox | `implemented; PGlite integration verified` | [`PostgresTaskRuntime`](../../src/infrastructure/postgres/postgres-task-runtime.ts) |
 | Command租约与Durable Worker | `implemented; PGlite integration verified` | [`DurableCommandWorker`](../../src/core/task-runtime/durable-command-worker.ts) |
 | Recovery Coordinator与Restaurant Recovery Mapping | `implemented; PGlite integration verified` | [`RecoveryCoordinator`](../../src/core/task-runtime/recovery-coordinator.ts) |

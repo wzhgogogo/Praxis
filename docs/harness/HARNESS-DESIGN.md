@@ -1,10 +1,10 @@
 # Harness Design
 
 - Status: Accepted
-- Document revision: 3.7
+- Document revision: 3.8
 - Last updated: 2026-08-20
 - Source of truth for: Agent Workspace、Task、Search和Browser的模拟、回放、断言与故障注入
-- Related ADRs: [ADR-0001](../decisions/0001-general-task-runtime.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md)
+- Related ADRs: [ADR-0001](../decisions/0001-general-task-runtime.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md)
 - Related documents: [Golden Scenarios](GOLDEN-SCENARIOS.md), [Superseded Progressive Decision Eval](../superseded/harness/RESTAURANT-PROGRESSIVE-DECISION-EVAL.md), [Test Skill](../skills/test/SKILL.md)
 
 ## Implementation Status
@@ -13,13 +13,13 @@ Evaluation code is organized by evaluation boundary in [src/eval/README.md](../.
 
 `mock`模式的Restaurant Task Harness已实现：Fake Clock、Scripted Restaurant Agent Decision、Mock Discovery/Availability/Execution/Verification、Action Validator、Command自动派发、Side Effect Ledger、Causal Trace、Booking Proof、Run Artifact和Agent Trajectory。入口为 [`RestaurantHarness`](../../src/harness/restaurant-harness.ts)。
 
-ADR-0012本地Fixture路径由Semantic Interpreter和Restaurant Agent Decision共同经Fixture ModelGateway驱动：Agent依次提出Discovery、Availability、选择和Booking Proposal，Action Validator逐步检查，最终停在Authorization checkpoint。Harness证明Router绑定权威Search/Availability参数、Provider失败不归因为模型、`SELECTION_REQUIRED`仍可由Agent恢复、timeout/step/rejection limit留下状态和trajectory，并验证Agent Context过滤、abortable Provider deadline、migration upgrade及BOOK `proposalId`到Outcome的审计join。Browser Fixture、Fault Injector、Replay、Live Read-only和Controlled Live-write仍为`proposed`。Fixture通过不代表任何真实平台能力已验证。
+ADR-0013本地Fixture路径由Semantic Interpreter和Restaurant Agent Decision共同经Fixture ModelGateway驱动：Agent依次提出Discovery、Availability、选择和Booking Proposal，Action Validator逐步检查，最终停在Authorization checkpoint。Harness证明Router绑定权威Search/Availability参数、Provider失败不归因为模型、`COMMIT_FAILED`和`BOOKING_ABSENT`完成mandatory chain后从`SELECTION_REQUIRED`恢复Agent、且新的proposal不能复用旧Authorization；timeout/step/rejection limit留下状态和trajectory，并验证Agent Context过滤、真实deadline、migration append及BOOK `proposalId`到Outcome的审计join。trajectory保存模型收到的脱敏Decision Context和schema version，route为`STRUCTURED_ADAPTER`。Browser Fixture、Fault Injector、Replay、Live Read-only和Controlled Live-write仍为`proposed`。Fixture通过不代表任何真实平台能力已验证。
 
 Stage 2B的Agent Workspace Harness已实现为7个Local HTTP/SSE + PGlite场景：它驱动Pilot用户、Conversation、PostgreSQL Root Task、服务重启、第二个浏览器Session、SSE断线重连和Responsive页面Contract，并断言Projection不成为第二套权威状态。它没有执行真实浏览器视觉或交互测试，因此只证明HTTP/SSE行为和Mobile响应式标记，不证明跨浏览器视觉质量。
 
 历史Restaurant Progressive Decision Eval的7个Episode / 17个Turn、Fixture Oracle、Mutation和真实模型诊断已经完成其架构探针使命；可执行代码已删除，设计与结果只在历史文档和Git中保留。当前语义评测只走`restaurant-semantic-regression@3`与`restaurant-semantic-holdout@2`，不再维护两套Evaluator。
 
-默认产品基线包含12个PGlite数据库集成场景，验证Postgres SQL、事务Outbox、租约、Runtime重建和Restaurant Recovery Coordinator。Goal/Task Graph、Trigger/Scheduler及两个合成Domain的8个冻结探针由`npm run test:probes`单独运行。两者都不是下方外部平台模式，也不能报告为真实PostgreSQL或Live Provider验证。
+默认产品基线包含15个PGlite数据库集成场景，验证Postgres SQL、事务Outbox、租约、Runtime重建、Restaurant Recovery Coordinator与trajectory Decision Context持久化。Goal/Task Graph、Trigger/Scheduler及两个合成Domain的8个冻结探针由`npm run test:probes`单独运行。两者都不是下方外部平台模式，也不能报告为真实PostgreSQL或Live Provider验证。
 
 ## 定义
 
@@ -110,7 +110,7 @@ type Scenario = {
 ## 安全不变量
 
 - 未授权不得出现Commit Ledger记录。
-- 单候选失败后不得提交第二候选。
+- 单候选失败后，未产生新proposal并获得新的Authorization前不得提交第二候选。
 - 提交结果不明时同一Action最多一次写Attempt。
 - `BOOKED_VERIFIED`必须有Strong Evidence。
 - 跨用户Task、Takeover URL和Profile隔离。
@@ -120,7 +120,7 @@ type Scenario = {
 
 Status: `implemented: Restaurant mock only`。
 
-`RestaurantHarness.createRunArtifact()`当前返回内存对象，不写入磁盘。Artifact Schema `restaurant-harness-artifact@4`包含：
+`RestaurantHarness.createRunArtifact()`当前返回内存对象，不写入磁盘。Artifact Schema `restaurant-harness-artifact@5`包含：
 
 ```text
 Scenario / Mock Fixture摘要
@@ -128,7 +128,7 @@ Run / Task / 时间
 Recorded Events + Causal Trace
 Commands + Causal Trace
 Policy Decisions / Authorizations
-Agent Trajectory（state/action/verdict/route/observation、BOOK proposalId，以及Event/Command/Attempt/Evidence causal refs）
+Agent Trajectory（模型实际收到的脱敏Context + contextSchemaVersion、state/action/verdict/`STRUCTURED_ADAPTER` route/observation、BOOK proposalId，以及Event/Command/Attempt/Evidence causal refs；不含raw prompt或Chain-of-Thought）
 Booking Proof Bundles
 Side Effect Ledger
 Final Snapshot / Outcome

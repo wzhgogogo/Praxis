@@ -1,13 +1,32 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.30
+- Document revision: 4.31
 - Last updated: 2026-08-20
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## 2026-08-20 — ADR-0013 Agent Loop final hardening
+
+### Why
+
+Definitive `COMMIT_FAILED` and `BOOKING_ABSENT` already reached `SELECTION_REQUIRED`, but the completed mandatory command chain did not return control to the bounded Agent Loop. The previous Authorization also needed to be unusable for a recovery candidate. Trajectory lacked the exact sanitized context seen by the Agent, and `FIXTURE_STRUCTURED` incorrectly made execution mode part of a long-lived route taxonomy.
+
+### Changes
+
+- Added Accepted ADR-0013. ADR-0003 retains the single-logical-Agent boundary while its deterministic Restaurant next-action detail remains superseded by ADR-0010. ADR-0004 retains one Authorization per concrete proposal; its manual-reselection recovery detail is superseded by the Agent Loop recovery path. PRD source requirements were not rewritten.
+- Added `resumeAfterMandatoryCommandChain` to the Restaurant application loop and invoked it from the current Fixture/Mock orchestrator after Policy/Commit/Verify finishes. It resumes only from `SELECTION_REQUIRED`; `OUTCOME_UNKNOWN`, terminal states and authorization checkpoints never auto-resume.
+- Made each recovery `BOOK_RESERVATION` generate a fresh proposal ID and made the reducer reject an Authorization whose `proposalId` does not equal the current proposal. `COMMIT_FAILED` and `BOOKING_ABSENT` clear the prior proposal, Authorization and active attempt before recovery. The Harness proves both failure routes and old-Authorization rejection before Policy/Commit.
+- Replaced `FIXTURE_STRUCTURED` with the long-lived `STRUCTURED_ADAPTER` route. Fixture/Mock/Live remain execution mode or provider metadata; `GENERIC_BROWSER` and `HUMAN_TAKEOVER` remain explicit future route boundaries only.
+- Advanced trajectory to `restaurant-agent-trajectory@4` and Harness artifact to `restaurant-harness-artifact@5`. Appended immutable migration `0008-restaurant-agent-trajectory-decision-context` to store `context_schema_version` and sanitized `decision_context`; no previously published migration was changed. Each decision now records `Context → Action → Validation → Execution → Observation → State/Outcome` without raw prompt or chain-of-thought.
+- Synchronized Status, Roadmap, architecture, Domain, security, interface, Harness and test sources of truth. Hybrid E2E preparation is now the next gate; a new semantic Clean Holdout remains independent parser/semantic quality work. `semantic conflict gating remains intentionally unchanged pending real Agent/E2E observation.`
+
+### Boundary
+
+No real provider, browser route, Human Takeover, real model call, Live Read-only, real Authorization, booking, payment, cancellation, reset command or controlled external write was run. `GENERIC_BROWSER` and `HUMAN_TAKEOVER` were documented as future taxonomy values only.
 
 ## 2026-08-20 — ADR-0012 migration integrity and Agent Loop hardening
 

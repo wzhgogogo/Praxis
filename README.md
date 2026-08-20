@@ -43,7 +43,7 @@ Praxis 已建立开发前 Source of Truth，后续 planning、coding 和 verific
 
 ## 当前实现
 
-ADR-0012收口的Restaurant Agent Loop已完成Fixture / Mock纵向切片：`Semantic Interpreter → Proposal Contract → Compiler → Task Runtime / Reducer → Restaurant Agent Context → Decision → Action Validator → Execution Router`。Agent选择下一业务动作但不能修改权威State、调用Provider或执行副作用；Router绑定并限时执行权威Search/Availability请求，Discovery Candidate与Availability Offer分离，Policy / Authorization / Verifier继续是权威控制点。当前组件标识、验证证据、明确未验证项与下一道门槛统一维护在 [当前状态](./docs/STATUS.md)。
+ADR-0013冻结的Restaurant Agent Loop已完成Fixture / Mock纵向切片：`Semantic Interpreter → Proposal Contract → Compiler → Task Runtime / Reducer → Restaurant Agent Context → Decision → Action Validator → Execution Router`。Agent选择下一业务动作但不能修改权威State、调用Provider或执行副作用；Router绑定并限时执行权威Search/Availability请求，Discovery Candidate与Availability Offer分离，definitive booking failure会清除旧授权后恢复到新的Proposal / Authorization checkpoint，Policy / Authorization / Verifier继续是权威控制点。当前组件标识、验证证据、明确未验证项与下一道门槛统一维护在 [当前状态](./docs/STATUS.md)。
 
 生产数据库Adapter使用`pg`；PGlite用于快速嵌入式数据库集成验证，不能替代真实PostgreSQL。2026-08-07已在隔离本机PostgreSQL 17数据库上通过真实Smoke，覆盖Runtime、迁移、Goal/Task Graph和Scheduler；后续可对专用测试库显式运行：
 

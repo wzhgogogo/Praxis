@@ -20,7 +20,7 @@ npm run eval:restaurant:semantic:holdout:preflight
 npm run eval:restaurant:semantic:deepseek # 需要显式真实模型开关；不是默认测试
 ```
 
-`npm test`当前产品基线为 **98/98**（2026-08-20）：覆盖Core Unit/Contract、Restaurant Verifier、16个Mock Agent Loop Harness场景、3个Provider Router参数/Deadline场景、14个PGlite Runtime/Recovery/Migration场景、Fixture Web/API/SSE、语义 Proposal / Compiler / Reducer / Holdout Preflight与分层Scorer、Fixture Search及真实模型付费门禁/计量。新增断言证明Router绑定权威只读参数、Provider失败不归因为模型，且协作或忽略abort的Provider read都会被Router deadline有界截断；`SELECTION_REQUIRED`保持Agent可恢复，以及timeout/step/rejection限制均留下持久状态和trajectory；历史Decision Harness、旧Intent Parser和分类Criteria Contract不再混入当前基线。
+`npm test`当前产品基线为 **100/100**（2026-08-20）：覆盖Core Unit/Contract、Restaurant Verifier、17个Mock Agent Loop Harness场景、3个Provider Router参数/Deadline场景、15个PGlite Runtime/Recovery/Migration场景、Fixture Web/API/SSE、语义 Proposal / Compiler / Reducer / Holdout Preflight与分层Scorer、Fixture Search及真实模型付费门禁/计量。新增断言证明Router绑定权威只读参数、Provider失败不归因为模型，且协作或忽略abort的Provider read都会被Router deadline有界截断；`COMMIT_FAILED`和`BOOKING_ABSENT`能在mandatory chain后恢复Agent，但新proposal必须取得新Authorization、旧Authorization被Reducer拒绝；trajectory持久化脱敏Decision Context；timeout/step/rejection限制均留下持久状态和trajectory；历史Decision Harness、旧Intent Parser和分类Criteria Contract不再混入当前基线。
 
 `npm run test:probes`为独立的**8/8**冻结探针基线：Goal Graph、Trigger/Scheduler、Recurring Shopping与Long-running Case。它保护仍保留的有界架构探针，但不作为Restaurant当前Stage的产品门禁。Fixture与Embedded-postgres都不证明生产身份、真实PostgreSQL、Browser视觉、Replay、Live Read-only、真实模型Baseline或Controlled Live-write；完整历史见[Test Log](../../history/TEST-LOG.md)。
 
@@ -66,7 +66,7 @@ PGlite结果必须报告为`embedded-postgres integration`，不能报告为真�
 ## 安全断言
 
 - 未授权Commit为0。
-- 单候选失败后第二候选Commit为0。
+- 单候选失败后，在没有新proposal和新Authorization时第二候选Commit为0。
 - 同一幂等键外部写入最多1次。
 - 弱Evidence不产生Verified Outcome。
 - OUTCOME_UNKNOWN不自动重试。

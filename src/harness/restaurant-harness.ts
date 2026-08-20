@@ -61,7 +61,7 @@ export interface HarnessOracleAssertion { name: string; passed: boolean; details
 export interface RestaurantHarnessPolicyRecord { commandId: string; proposalId: string; authorizationId: string; decision: PolicyDecision }
 
 export interface RestaurantHarnessRunArtifact {
-  schemaVersion: "4";
+  schemaVersion: "5";
   mode: "mock";
   scenarioId?: string;
   runId: string;
@@ -96,6 +96,7 @@ export class RestaurantHarness {
   private readonly policyDecisionRecords: RestaurantHarnessPolicyRecord[] = [];
   private readonly fixtureSummary: RestaurantHarnessRunArtifact["fixture"];
   private readonly fixture: RestaurantHarnessFixture;
+  private readonly agentLoop: RestaurantAgentLoopCoordinator;
   private sequence = 0;
 
   constructor(fixture: RestaurantHarnessFixture) {
@@ -114,6 +115,25 @@ export class RestaurantHarness {
     this.executor = new MockBookingExecutor(this.ledger, commitMode);
     this.verifier = new MockBookingVerifier(verificationMode);
     this.runtime = new InMemoryTaskRuntime(restaurantBookingTaskDefinition, this.clock, (prefix) => `${prefix}-${++this.sequence}`);
+    const firstCandidate = fixture.candidates[0];
+    const firstOffer = firstCandidate
+      ? fixture.offers.find((offer) => offer.restaurantId === firstCandidate.restaurant.id)
+      : undefined;
+    const actions = fixture.agentActions ?? (firstCandidate && firstOffer ? [
+      { type: "SEARCH_RESTAURANTS" },
+      { type: "CHECK_AVAILABILITY", candidateIds: fixture.candidates.slice(0, 3).map((candidate) => candidate.restaurant.id) },
+      { type: "SELECT_CANDIDATE", candidateId: firstCandidate.restaurant.id, offerId: firstOffer.id },
+      { type: "BOOK_RESERVATION", candidateId: firstCandidate.restaurant.id, offerId: firstOffer.id },
+    ] satisfies RestaurantAgentAction[] : [{ type: "ASK_USER", question: "No fixture candidate is available." }]);
+    this.agentLoop = new RestaurantAgentLoopCoordinator(
+      { snapshot: async (taskId) => this.runtime.snapshot(taskId), dispatch: async (envelope, expectedVersion) => this.runtime.dispatch(envelope, expectedVersion) },
+      new ScriptedRestaurantAgentDecisionPort(actions),
+      new RestaurantExecutionRouter(this.searchAdapter, this.availabilityAdapter),
+      this.trajectories,
+      this.clock,
+      this.fixture.agentLoopOptions,
+      (prefix) => `${prefix}-${++this.sequence}`,
+    );
   }
 
   async start(intent: RestaurantBookingIntent) {
@@ -129,26 +149,7 @@ export class RestaurantHarness {
       ...(intent.criteria.length ? { addCriteria: structuredClone(intent.criteria) } : {}),
     };
     await this.send({ type: "SEMANTIC_PROPOSAL_COMPILED", patch });
-    const firstCandidate = this.fixture.candidates[0];
-    const firstOffer = firstCandidate
-      ? this.fixture.offers.find((offer) => offer.restaurantId === firstCandidate.restaurant.id)
-      : undefined;
-    const actions = this.fixture.agentActions ?? (firstCandidate && firstOffer ? [
-      { type: "SEARCH_RESTAURANTS" },
-      { type: "CHECK_AVAILABILITY", candidateIds: this.fixture.candidates.slice(0, 3).map((candidate) => candidate.restaurant.id) },
-      { type: "SELECT_CANDIDATE", candidateId: firstCandidate.restaurant.id, offerId: firstOffer.id },
-      { type: "BOOK_RESERVATION", candidateId: firstCandidate.restaurant.id, offerId: firstOffer.id },
-    ] satisfies RestaurantAgentAction[] : [{ type: "ASK_USER", question: "No fixture candidate is available." }]);
-    const coordinator = new RestaurantAgentLoopCoordinator(
-      { snapshot: async (taskId) => this.runtime.snapshot(taskId), dispatch: async (envelope, expectedVersion) => this.runtime.dispatch(envelope, expectedVersion) },
-      new ScriptedRestaurantAgentDecisionPort(actions),
-      new RestaurantExecutionRouter(this.searchAdapter, this.availabilityAdapter),
-      this.trajectories,
-      this.clock,
-      this.fixture.agentLoopOptions,
-      (prefix) => `${prefix}-${++this.sequence}`,
-    );
-    this.lastAgentLoopResult = await coordinator.run(this.taskId);
+    await this.runAgentLoop();
     return this.snapshot();
   }
 
@@ -158,6 +159,8 @@ export class RestaurantHarness {
     const approvedAt = this.clock.now();
     const authorization: Authorization = { id: `authorization:${state.proposal.id}`, proposalId: state.proposal.id, scope: "ONE_TIME", approvedAt: approvedAt.toISOString(), expiresAt: new Date(approvedAt.valueOf() + ttlMilliseconds).toISOString() };
     await this.send({ type: "AUTHORIZE", authorization });
+    const resumed = await this.agentLoop.resumeAfterMandatoryCommandChain(this.taskId);
+    if (resumed) this.lastAgentLoopResult = resumed;
     return this.snapshot();
   }
 
@@ -175,7 +178,7 @@ export class RestaurantHarness {
     const snapshot = this.snapshot();
     const evidence = this.runtime.eventLog.flatMap((envelope) => envelope.event.type === "BOOKING_VERIFIED" ? [envelope.event.evidence] : envelope.event.type === "VERIFICATION_INCONCLUSIVE" && envelope.event.evidence ? [envelope.event.evidence] : []);
     const authorizations = this.runtime.eventLog.flatMap((envelope) => envelope.event.type === "AUTHORIZE" ? [envelope.event.authorization] : []);
-    return { schemaVersion: "4", mode: "mock", ...(input.scenarioId ? { scenarioId: input.scenarioId } : {}), runId: snapshot.runId, taskId: snapshot.id, startedAt: snapshot.createdAt, generatedAt: this.clock.now().toISOString(), fixture: structuredClone(this.fixtureSummary), events: structuredClone(this.runtime.eventLog), commands: structuredClone(this.runtime.commandLog), trajectories: structuredClone(this.trajectories.steps), policyDecisions: structuredClone(this.policyDecisionRecords), authorizations: structuredClone(authorizations), evidence: structuredClone(evidence), sideEffects: structuredClone(this.ledger.records), finalSnapshot: structuredClone(snapshot), oracleAssertions: structuredClone(input.oracleAssertions ?? []) };
+    return { schemaVersion: "5", mode: "mock", ...(input.scenarioId ? { scenarioId: input.scenarioId } : {}), runId: snapshot.runId, taskId: snapshot.id, startedAt: snapshot.createdAt, generatedAt: this.clock.now().toISOString(), fixture: structuredClone(this.fixtureSummary), events: structuredClone(this.runtime.eventLog), commands: structuredClone(this.runtime.commandLog), trajectories: structuredClone(this.trajectories.steps), policyDecisions: structuredClone(this.policyDecisionRecords), authorizations: structuredClone(authorizations), evidence: structuredClone(evidence), sideEffects: structuredClone(this.ledger.records), finalSnapshot: structuredClone(snapshot), oracleAssertions: structuredClone(input.oracleAssertions ?? []) };
   }
 
   async replayLastCommit(): Promise<boolean> {
@@ -195,6 +198,10 @@ export class RestaurantHarness {
       const result = this.runtime.dispatch({ id: eventId, taskId: this.taskId, event, occurredAt: this.clock.now().toISOString(), trace: { schemaVersion: "1", runId: envelope.trace.runId, ...(envelope.trace.attemptId ? { attemptId: envelope.trace.attemptId } : {}), correlationId: envelope.trace.correlationId, causationId: envelope.id, actor: envelope.command.category === "POLICY" ? "POLICY" : "ADAPTER" } });
       queue.push(...result.commands);
     }
+  }
+
+  private async runAgentLoop(): Promise<void> {
+    this.lastAgentLoopResult = await this.agentLoop.run(this.taskId);
   }
 
   private async execute(envelope: CommandEnvelope<RestaurantCommand>): Promise<RestaurantEvent> {

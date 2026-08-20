@@ -4,6 +4,7 @@ import type {
   RestaurantAvailabilityRequest,
   RestaurantCandidate,
   RestaurantEvent,
+  RestaurantExecutionRoute,
   RestaurantSearchRequest,
   RestaurantTaskState,
 } from "../domains/restaurant/contracts.js";
@@ -22,7 +23,7 @@ export interface RestaurantExecutionRouterOptions {
 }
 
 export interface RestaurantActionExecution {
-  route: "FIXTURE_STRUCTURED" | "RUNTIME" | "POLICY_CHECKPOINT";
+  route?: RestaurantExecutionRoute;
   event?: RestaurantEvent;
   observation?: { type: string; detail: string };
   failure?: { source: "PROVIDER"; code: "SEARCH_FAILED" | "AVAILABILITY_FAILED"; reason: string };
@@ -73,7 +74,6 @@ export class RestaurantExecutionRouter {
     switch (action.type) {
       case "ASK_USER":
         return {
-          route: "RUNTIME",
           event: { type: "AGENT_ASKED_USER", question: action.question, ...(action.relatedFields ? { relatedFields: action.relatedFields } : {}) },
           observation: { type: "USER_QUESTION", detail: action.question },
         };
@@ -85,14 +85,14 @@ export class RestaurantExecutionRouter {
             (signal) => this.search.search(request, signal),
           );
           return {
-            route: "FIXTURE_STRUCTURED",
+            route: "STRUCTURED_ADAPTER",
             event: { type: "SEARCH_COMPLETED", request, candidates },
             observation: { type: "DISCOVERY", detail: `${candidates.length} candidates discovered` },
           };
         } catch (error) {
           const reason = error instanceof Error ? error.message : "Unknown Restaurant search failure";
           return {
-            route: "FIXTURE_STRUCTURED",
+            route: "STRUCTURED_ADAPTER",
             event: { type: "SEARCH_FAILED", reason },
             observation: { type: "DISCOVERY_FAILED", detail: reason },
             failure: { source: "PROVIDER", code: "SEARCH_FAILED", reason },
@@ -107,14 +107,14 @@ export class RestaurantExecutionRouter {
             (signal) => this.availability.check(request, signal),
           );
           return {
-            route: "FIXTURE_STRUCTURED",
+            route: "STRUCTURED_ADAPTER",
             event: { type: "AVAILABILITY_CHECKED", request, offers },
             observation: { type: "AVAILABILITY", detail: `${offers.length} offers observed` },
           };
         } catch (error) {
           const reason = error instanceof Error ? error.message : "Unknown Restaurant availability failure";
           return {
-            route: "FIXTURE_STRUCTURED",
+            route: "STRUCTURED_ADAPTER",
             event: { type: "AVAILABILITY_FAILED", reason },
             observation: { type: "AVAILABILITY_FAILED", detail: reason },
             failure: { source: "PROVIDER", code: "AVAILABILITY_FAILED", reason },
@@ -123,13 +123,11 @@ export class RestaurantExecutionRouter {
       }
       case "SELECT_CANDIDATE":
         return {
-          route: "RUNTIME",
           event: { type: "CANDIDATE_SELECTED", candidateId: action.candidateId, ...(action.offerId ? { offerId: action.offerId } : {}) },
           observation: { type: "CANDIDATE_SELECTED", detail: action.candidateId },
         };
       case "BOOK_RESERVATION":
         return {
-          route: "POLICY_CHECKPOINT",
           event: { type: "BOOKING_PROPOSED", candidateId: action.candidateId, offerId: action.offerId },
           observation: { type: "BOOKING_PROPOSAL", detail: `${action.candidateId}:${action.offerId}` },
         };

@@ -103,6 +103,12 @@ export interface RestaurantAvailabilityRequest {
   partySize: number;
 }
 
+/** Long-lived external execution taxonomy; fixture/live are run metadata, not route kinds. */
+export type RestaurantExecutionRoute =
+  | "STRUCTURED_ADAPTER"
+  | "GENERIC_BROWSER"
+  | "HUMAN_TAKEOVER";
+
 export interface RestaurantBookingSelection {
   candidate: RestaurantCandidate;
   offer: AvailabilityOffer;

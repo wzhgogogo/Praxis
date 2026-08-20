@@ -1,7 +1,7 @@
 # Praxis Build Roadmap
 
 - Status: Accepted
-- Document revision: 4.2
+- Document revision: 4.3
 - Last updated: 2026-08-20
 - Source of truth for: 从开发前文档到Tokyo Pilot的阶段计划和退出条件
 - Related ADRs: [ADR Index](decisions/README.md)
@@ -35,9 +35,9 @@ Mock端到端可运行
 
 ## 当前 Stage 2 状态
 
-Stage 2A / 2B 的Fixture产品路径已迁移到ADR-0010定义的`Semantic Interpreter → Proposal Contract → Compiler → Runtime/Reducer → Agent Decision → Action Validator → Execution Router`。Stage 2C冻结`restaurant-semantic-proposal@3`与开放`criteria` / `HARD` / `SOFT`强度；当前Prompt标识为`restaurant-semantic-prompt@7`。Prompt `@4`的首份Clean Holdout已运行并暴露，不能代替或验证Prompt `@7`。当前canonical Gold上的Prompt `@6/@7`运行是已暴露Acceptance Diagnostic，不能代替Clean Holdout。历史Decision Harness可执行代码已删除，仅在Git与历史记录中保留，不再是产品Baseline门槛。下一道门槛是为Prompt `@7`建立新的小型Clean Holdout，之后验证一个真实只读Discovery来源；详细已实现与未验证项只在[当前状态](STATUS.md)维护。
+Stage 2A / 2B 的Fixture产品路径已迁移到ADR-0013冻结的`Semantic Interpreter → Proposal Contract → Compiler → Runtime/Reducer → Agent Decision → Action Validator → Execution Router`。Stage 2C冻结`restaurant-semantic-proposal@3`与开放`criteria` / `HARD` / `SOFT`强度；当前Prompt标识为`restaurant-semantic-prompt@7`。Prompt `@4`的首份Clean Holdout已运行并暴露，不能代替或验证Prompt `@7`。当前canonical Gold上的Prompt `@6/@7`运行是已暴露Acceptance Diagnostic，不能代替Clean Holdout。历史Decision Harness可执行代码已删除，仅在Git与历史记录中保留，不再是产品Baseline门槛。下一门槛是Hybrid E2E preparation：真实模型Agent Decision、Live read-only Discovery、Live read-only Availability和Mock Booking/Verification，随后运行h001–h005 E2E；详细已实现与未验证项只在[当前状态](STATUS.md)维护。
 
-`restaurant-semantic-holdout@2`的空模板、私有数据入口、Preflight、确定性Scorer、冻结运行清单和一次性Runner已经实现；Prompt `@4` Baseline已完成并标记为`RESULT_EXPOSED`。当前停止点是为Prompt `@7`建立新的未见Dataset，不能复用既有私有标注或当前canonical Gold。
+`restaurant-semantic-holdout@2`的空模板、私有数据入口、Preflight、确定性Scorer、冻结运行清单和一次性Runner已经实现；Prompt `@4` Baseline已完成并标记为`RESULT_EXPOSED`。Prompt `@7`的新未见Dataset仍是独立parser/semantic质量工作，不能复用既有私有标注或当前canonical Gold；它不阻塞Hybrid E2E preparation。
 
 ## 扩展性与当前交付的平衡
 
@@ -141,12 +141,12 @@ Progress（截至冻结）：历史Progressive Decision Dataset、17个人工Gol
 - 历史`progressive-decision-prompt@11`已在Harness-only Model Contract中收紧动作路由：品牌分店解析、目标餐厅检查、通用推荐和Exact Availability各自分离；这不改变Golden、Schema、Scorer或真实产品Runtime；
 - 历史[Restaurant Progressive Decision Eval](superseded/harness/RESTAURANT-PROGRESSIVE-DECISION-EVAL.md)已完成Harness探针并冻结；其E1/E2/E3、S1–S8、Candidate Fixture和Grounding结果只保留为已暴露Regression，不再驱动产品Contract或Stage退出；
 - 当前语义Regression只保留为开发诊断；当前canonical Gold上的Prompt `@7`运行固定为`EXPOSED_GOLD_ACCEPTANCE_DIAGNOSTIC`，只允许与Prompt `@6`的`COMMON_UNCHANGED_TURNS`比较，不可与Prompt `@4/@5/@6`整集或Baseline混报。为Prompt `@7`建立只接受当前`message → expectedDraft`边界的隔离评测入口；历史`expectedDecision`不参与当前评分。再由不参与Prompt编写的人或隔离流程创建、标注并保密小型Holdout。冻结模型、Prompt、`restaurant-semantic-proposal@3`、Evaluator和Case顺序后一次性运行；任何样本或结果泄露到调优过程即降级为Regression并另建Holdout；
-- Baseline完成后、接真实Discovery前，定义Restaurant Domain内部的最小Entity Observation和Interaction Event Contract：前者保存Source、Source Entity ID、`observedAt`、Freshness和使用限制；后者记录结构化需求、动作、检索、曝光、反馈、选择和Verified Outcome引用；
+- Hybrid E2E preparation期间，定义Restaurant Domain内部的最小Entity Observation和Interaction Event Contract：前者保存Source、Source Entity ID、`observedAt`、Freshness和使用限制；后者记录结构化需求、动作、检索、曝光、反馈、选择和Verified Outcome引用；
 - 只接一个经过能力核验的真实Discovery来源，首选Google Places；
 - 使用Freshness-aware查询复用仍有效的Observation，过期或高风险字段按用途刷新；Source查询、实体合并和硬过滤不依赖模型重复阅读完整结果；
 - 保存来源、ObservedAt和能力限制，建立Live Read-only检查；Stage 2C数据只用于Trace、回放和离线分析，不自动修改生产排序、Prompt或Policy。
 
-完成标准：语义职责边界、`restaurant-semantic-prompt@7`、`restaurant-semantic-proposal@3`与`restaurant-semantic-scorer@3`被冻结；以未泄露的`CLEAN_HOLDOUT`生成按Proposal Contract、Compiler、权威Draft和Runtime分层的Real Model Baseline；真实英文查询能返回带来源和Freshness的餐厅实体；最小Interaction Event能串联需求、展示、反馈、Agent选择和Verified Outcome引用；Fixture、Real Model Mock World和Live Read-only结果分别记录。此时仍不宣称Web已支持历史Progressive Decision Harness描述的完整渐进决策，也不宣称餐厅“可订”。
+完成标准：Agent Loop architecture freeze后完成真实模型Agent Decision、真实英文查询的Live read-only Discovery与Availability、以及Mock Booking/Verification的Hybrid E2E preparation，并运行h001–h005 E2E；最小Interaction Event能串联需求、展示、反馈、Agent选择和Verified Outcome引用；Fixture、Real Model Mock World和Live Read-only结果分别记录。新的未泄露`CLEAN_HOLDOUT`继续作为独立parser/semantic质量工作。此时仍不宣称真实Booking、完整Browser自动化或历史Progressive Decision Harness描述的完整渐进决策。
 
 ### Stage 2D — One Live Availability Path
 

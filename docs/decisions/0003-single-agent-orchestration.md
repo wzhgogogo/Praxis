@@ -4,6 +4,8 @@
 
 Accepted — 2026-08-05
 
+The single logical Agent decision remains Accepted. Its deterministic Restaurant next-action orchestration detail is superseded by [ADR-0010](0010-restaurant-agent-loop-action-validation.md); this record remains the source for the no-Multi-Agent boundary.
+
 ## Context
 
 搜索、Browser操作和验证可被描述为多个专业角色，但Multi-Agent会引入状态冲突、额外模型成本和更复杂的授权边界。Restaurant流程的主路径是已知的。
@@ -28,4 +30,3 @@ MVP只有一个用户级Praxis Agent。主任务使用确定性Task Graph；Deep
 
 - [Agent Orchestration](../architecture/AGENT-ORCHESTRATION.md)
 - [Harness Design](../harness/HARNESS-DESIGN.md)
-

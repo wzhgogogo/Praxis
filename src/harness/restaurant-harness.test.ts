@@ -54,18 +54,83 @@ describe("restaurant booking mock harness", () => {
     assert.equal(harness.ledger.records.length, 0);
   });
 
-  test("H05 returns to selection after a definitive commit failure", async () => {
-    const harness = createHarness({ commitMode: "FAILURE" });
+  test("H05 resumes the Agent after a definitive commit failure and requires a new authorization", async () => {
+    const first = fixtureCandidates[0]!;
+    const second = fixtureCandidates[1]!;
+    const firstOffer = fixtureOffers[0]!;
+    const secondOffer = fixtureOffers[1]!;
+    const harness = createHarness({
+      commitMode: "FAILURE",
+      agentActions: [
+        { type: "SEARCH_RESTAURANTS" },
+        { type: "CHECK_AVAILABILITY", candidateIds: fixtureCandidates.slice(0, 3).map((candidate) => candidate.restaurant.id) },
+        { type: "SELECT_CANDIDATE", candidateId: first.restaurant.id, offerId: firstOffer.id },
+        { type: "BOOK_RESERVATION", candidateId: first.restaurant.id, offerId: firstOffer.id },
+        { type: "SELECT_CANDIDATE", candidateId: second.restaurant.id, offerId: secondOffer.id },
+        { type: "BOOK_RESERVATION", candidateId: second.restaurant.id, offerId: secondOffer.id },
+        { type: "ASK_USER", question: "The second fixture booking also failed. What would you like to try next?" },
+      ],
+    });
 
     await harness.start(fixtureIntent);
-    const snapshot = await harness.authorizeCurrent();
+    const firstProposalId = harness.snapshot().domainState.proposal?.id;
+    assert.ok(firstProposalId);
+    const resumed = await harness.authorizeCurrent();
+    const secondProposalId = resumed.domainState.proposal?.id;
 
-    assert.equal(snapshot.domainState.phase, "SELECTION_REQUIRED");
-    assert.equal(snapshot.lifecycleState, "RUNNING");
-    assert.equal(snapshot.domainState.pendingUserQuestion, undefined);
-    assert.equal(snapshot.domainState.failure?.code, "COMMIT_FAILED");
+    assert.equal(resumed.domainState.phase, "AWAITING_AUTHORIZATION");
+    assert.equal(resumed.domainState.selectedCandidateId, second.restaurant.id);
+    assert.ok(secondProposalId);
+    assert.notEqual(secondProposalId, firstProposalId);
+    assert.equal(resumed.domainState.authorization, undefined);
     assert.equal(harness.countCommands("COMMIT_BOOKING"), 1);
     assert.equal(harness.ledger.records.length, 1);
+
+    const firstAuthorization = harness.runtime.eventLog.find((entry) => entry.event.type === "AUTHORIZE")?.event;
+    assert.ok(firstAuthorization && firstAuthorization.type === "AUTHORIZE");
+    await assert.rejects(
+      harness.send({ type: "AUTHORIZE", authorization: firstAuthorization.authorization }),
+      /Authorization must bind the current booking proposal/,
+    );
+
+    const afterSecondAuthorization = await harness.authorizeCurrent();
+    const authorizations = harness.runtime.eventLog
+      .flatMap((entry) => entry.event.type === "AUTHORIZE" ? [entry.event.authorization] : []);
+    assert.equal(authorizations.length, 2);
+    assert.notEqual(authorizations[0]?.proposalId, authorizations[1]?.proposalId);
+    assert.equal(afterSecondAuthorization.domainState.phase, "NEEDS_INPUT");
+    assert.equal(harness.countCommands("COMMIT_BOOKING"), 2);
+  });
+
+  test("Agent resumes after BOOKING_ABSENT with a new candidate proposal awaiting authorization", async () => {
+    const first = fixtureCandidates[0]!;
+    const second = fixtureCandidates[1]!;
+    const firstOffer = fixtureOffers[0]!;
+    const secondOffer = fixtureOffers[1]!;
+    const harness = createHarness({
+      commitMode: "SUCCESS",
+      verificationMode: "ABSENT",
+      agentActions: [
+        { type: "SEARCH_RESTAURANTS" },
+        { type: "CHECK_AVAILABILITY", candidateIds: fixtureCandidates.slice(0, 3).map((candidate) => candidate.restaurant.id) },
+        { type: "SELECT_CANDIDATE", candidateId: first.restaurant.id, offerId: firstOffer.id },
+        { type: "BOOK_RESERVATION", candidateId: first.restaurant.id, offerId: firstOffer.id },
+        { type: "SELECT_CANDIDATE", candidateId: second.restaurant.id, offerId: secondOffer.id },
+        { type: "BOOK_RESERVATION", candidateId: second.restaurant.id, offerId: secondOffer.id },
+      ],
+    });
+
+    await harness.start(fixtureIntent);
+    const firstProposalId = harness.snapshot().domainState.proposal?.id;
+    const snapshot = await harness.authorizeCurrent();
+
+    assert.equal(snapshot.domainState.phase, "AWAITING_AUTHORIZATION");
+    assert.equal(snapshot.domainState.failure?.code, "BOOKING_ABSENT");
+    assert.equal(snapshot.domainState.selectedCandidateId, second.restaurant.id);
+    assert.ok(snapshot.domainState.proposal?.id);
+    assert.notEqual(snapshot.domainState.proposal?.id, firstProposalId);
+    assert.equal(snapshot.domainState.authorization, undefined);
+    assert.equal(harness.countCommands("COMMIT_BOOKING"), 1);
   });
 
   test("H06 weak evidence after submit becomes OUTCOME_UNKNOWN", async () => {
@@ -155,7 +220,7 @@ describe("restaurant booking mock harness", () => {
       ],
     });
 
-    assert.equal(artifact.schemaVersion, "4");
+    assert.equal(artifact.schemaVersion, "5");
     assert.equal(artifact.mode, "mock");
     assert.equal(artifact.scenarioId, "H11-causal-run-artifact");
     assert.equal(artifact.finalSnapshot.outcome?.status, "BOOKED_VERIFIED");
@@ -173,6 +238,13 @@ describe("restaurant booking mock harness", () => {
       assert.equal(Array.isArray(trajectory.causalRefs.attemptIds), true);
       assert.equal(Array.isArray(trajectory.causalRefs.evidenceIds), true);
       assert.equal(trajectory.causalRefs.eventIds.every((eventId) => eventIds.has(eventId)), true);
+      assert.equal(trajectory.contextSchemaVersion, "1");
+      assert.equal(trajectory.decisionContext?.schemaVersion, "1");
+      assert.equal("authorization" in (trajectory.decisionContext ?? {}), false);
+      assert.equal("proposal" in (trajectory.decisionContext ?? {}), false);
+      assert.equal("lastExecutionResult" in (trajectory.decisionContext ?? {}), false);
+      assert.equal("evidence" in (trajectory.decisionContext ?? {}), false);
+      assert.equal("reservation" in (trajectory.decisionContext ?? {}), false);
     }
     for (const command of artifact.commands) {
       assert.equal(command.trace.runId, artifact.runId);

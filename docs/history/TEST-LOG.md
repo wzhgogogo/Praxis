@@ -1,13 +1,33 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.27
+- Document revision: 4.28
 - Last updated: 2026-08-20
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## 2026-08-20 — ADR-0013 Agent Loop final hardening verification
+
+### Scope
+
+Post-authorization Agent resume after `COMMIT_FAILED` / `BOOKING_ABSENT`, fresh proposal and Authorization enforcement, long-lived execution-route naming, sanitized Decision Context trajectory persistence, immutable `0008` migration and Hybrid E2E gate documentation. Semantic conflict gating intentionally remains unchanged. No real platform or external write is in scope.
+
+### Checks
+
+- `npm run typecheck`: passed.
+- `npm run arch:check`: passed with 0 forbidden source dependencies.
+- `npm test`: passed `100/100`, 0 failed, in a permitted local-listener environment. This includes 17 Restaurant Mock Agent Loop Harness scenarios, 3 Provider Router parameter/deadline scenarios, 15 embedded-PGlite Runtime/Recovery/Migration scenarios and Fixture Web/API/SSE.
+- `npm run test:probes`: passed `8/8`; frozen Goal/Scheduler probes remain separate from the current product gate.
+- `npm run build`: passed.
+- `git diff --check`: passed.
+- New Harness coverage proves `COMMIT_FAILED` and `BOOKING_ABSENT` both return through the mandatory chain to an Agent recovery decision, create a different proposal, require a new Authorization and reject an old `proposalId` before Policy/Commit. PostgreSQL coverage proves migration `0008` persists exactly the sanitized `restaurant-agent-context@1`, its schema version and `STRUCTURED_ADAPTER` route. Trajectory assertions exclude Authorization, proposal terms, execution result, evidence and reservation data from the decision context.
+
+### Modes and external effects
+
+Only Unit, Contract, Fixture, Mock Harness, local HTTP/SSE and embedded-PGlite verification ran. The first sandboxed `npm test` run passed 93 non-listener tests and could not bind the seven HTTP/SSE fixtures to `127.0.0.1` (`EPERM`); the permitted-local-listener rerun passed the complete `100/100`. No real PostgreSQL smoke, model call, Replay, Live Read-only, Controlled Live-write, real Provider, Browser Agent, Human Takeover, Authorization, booking, payment or cancellation occurred. Embedded PGlite does not replace real PostgreSQL verification.
 
 ## 2026-08-20 — ADR-0012 migration integrity and Agent Loop hardening verification
 

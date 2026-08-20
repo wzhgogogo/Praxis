@@ -1,17 +1,17 @@
 # Task Runtime
 
 - Status: Accepted
-- Document revision: 1.2
+- Document revision: 1.3
 - Last updated: 2026-08-20
 - Source of truth for: 通用任务生命周期、状态推进、触发和父子依赖
-- Related ADRs: [ADR-0001](../decisions/0001-general-task-runtime.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md)
+- Related ADRs: [ADR-0001](../decisions/0001-general-task-runtime.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md)
 - Related documents: [Agent Gateway and Workspace](AGENT-GATEWAY-AND-WORKSPACE.md), [Overview](OVERVIEW.md), [Interfaces](INTERFACES-AND-SCHEMAS.md)
 
 ## Implementation Status
 
 Stage 1已实现两种Runtime：[`InMemoryTaskRuntime`](../../src/core/task-runtime/in-memory-task-runtime.ts)用于快速Mock Harness；[`PostgresTaskRuntime`](../../src/infrastructure/postgres/postgres-task-runtime.ts)使用同一`TaskDefinition`，在单一事务内写入Task State、Event和Command Outbox。两者均支持乐观版本、重复Event去重和`runId / attemptId / correlationId / causationId / actor / schemaVersion`因果Trace。
 
-已实现Source包括SQL迁移、`pg`事务Adapter、Outbox租约、确定性Command结果Event、`DurableCommandWorker`、Recovery Coordinator、持久化Goal/Task Graph和Trigger/Scheduler。PGlite集成测试已验证SQL事务回滚、去重、租约过期、Runtime实例重建、Restaurant External Write不明确时自动进入`OUTCOME_UNKNOWN`、两个关键子任务完成后Goal聚合为`ACHIEVED`、定时Trigger到期/重领/失效/有界失败，以及Recurring Shopping/Long-running Case合成Harness的等待语义；`npm run test:postgres:live`已在隔离本机PostgreSQL 17上通过。该Smoke不替代生产权限、网络、备份或并发负载验证。
+已实现Source包括SQL迁移、`pg`事务Adapter、Outbox租约、确定性Command结果Event、`DurableCommandWorker`、Recovery Coordinator、持久化Goal/Task Graph和Trigger/Scheduler。PGlite集成测试已验证SQL事务回滚、去重、租约过期、Runtime实例重建、Restaurant External Write不明确时自动进入`OUTCOME_UNKNOWN`、trajectory Decision Context追加迁移、两个关键子任务完成后Goal聚合为`ACHIEVED`、定时Trigger到期/重领/失效/有界失败，以及Recurring Shopping/Long-running Case合成Harness的等待语义；`npm run test:postgres:live`已在隔离本机PostgreSQL 17上通过。该Smoke不替代生产权限、网络、备份或并发负载验证。
 
 以下仍为`proposed`且不阻塞Stage 2：跨Domain的`CREATE_CHILD_TASK` Command/Task Definition Registry、依赖满足后的自动激活、生产Domain的Trigger Event Factory、生产Scheduler进程、Schema Migration Runner的并发部署门禁、Coordination合成Domain状态机和生产Queue进程。只有真实Restaurant闭环或第二个真实Domain产生需求后才实现。Recurring Shopping的Harness Trigger Factory与Long-running Case的Harness状态机已实现，仅用于验证Runtime，不构成产品能力。
 

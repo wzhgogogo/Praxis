@@ -260,6 +260,15 @@ export const POSTGRES_MIGRATIONS: PostgresMigration[] = [
       await transaction.query(`ALTER TABLE ${tableName} ADD COLUMN IF NOT EXISTS proposal_id TEXT`);
     },
   },
+  {
+    id: "0008-restaurant-agent-trajectory-decision-context",
+    statements: [
+      `ALTER TABLE restaurant_agent_trajectory_steps
+        ADD COLUMN IF NOT EXISTS context_schema_version TEXT`,
+      `ALTER TABLE restaurant_agent_trajectory_steps
+        ADD COLUMN IF NOT EXISTS decision_context JSONB`,
+    ],
+  },
 ];
 
 export async function applyPostgresMigrations(database: SqlDatabase): Promise<void> {

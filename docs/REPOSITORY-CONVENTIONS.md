@@ -1,7 +1,7 @@
 # Repository Naming and Version Conventions
 
 - Status: Accepted
-- Document revision: 1.2
+- Document revision: 1.3
 - Last updated: 2026-08-20
 - Source of truth for: Git branch/tag、版本标识、目录、文件、Eval数据和文档命名
 - Related ADRs: [ADR Index](decisions/README.md)
@@ -20,7 +20,7 @@
 | 对象 | 规范标识 | 何时变化 | 不用于 |
 |---|---|---|---|
 | 产品发布 | `praxis-v0.2.0` | 形成经过验证、可交付的产品Release | 普通开发分支、ADR迭代 |
-| 架构决策 | `ADR-0012` | 接受或替代架构决策 | Schema、Prompt或Dataset版本 |
+| 架构决策 | `ADR-0013` | 接受或替代架构决策 | Schema、Prompt或Dataset版本 |
 | 持久State | `restaurant-state@8` | 持久结构或语义不兼容变化 | 分支名、产品Release |
 | Contract/Schema | `restaurant-semantic-proposal@3` | 机器契约不兼容变化 | Prompt实验、文档修订 |
 | Prompt | `restaurant-semantic-prompt@7` | Prompt文本或行为口径变化 | State或Dataset版本 |

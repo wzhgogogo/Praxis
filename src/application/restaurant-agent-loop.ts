@@ -8,7 +8,10 @@ import type {
   TaskSnapshot,
 } from "../core/task-runtime/contracts.js";
 import type { RestaurantAgentDecisionPort } from "../domains/restaurant/agent-decision.js";
-import { projectRestaurantAgentContext } from "../domains/restaurant/agent-context.js";
+import {
+  projectRestaurantAgentContext,
+  type RestaurantAgentContext,
+} from "../domains/restaurant/agent-context.js";
 import { validateRestaurantAction } from "../domains/restaurant/action-validator.js";
 import type {
   RestaurantAgentLoopTermination,
@@ -50,7 +53,7 @@ export type RestaurantAgentLoopResult =
 
 type TrajectoryBase = Pick<
   RestaurantAgentTrajectoryStep,
-  "id" | "taskId" | "stepNumber" | "occurredAt" | "stateVersionBefore" | "stateHashBefore" | "causalRefs" | "capabilities"
+  "id" | "taskId" | "stepNumber" | "occurredAt" | "stateVersionBefore" | "stateHashBefore" | "causalRefs" | "capabilities" | "contextSchemaVersion" | "decisionContext"
 >;
 
 function stateHash(state: RestaurantTaskState): string {
@@ -136,15 +139,16 @@ export class RestaurantAgentLoopCoordinator {
         return { status: "TIMEOUT", steps: step };
       }
 
+      const context = projectRestaurantAgentContext(snapshot.domainState);
       const decision = await this.decision.decide({
         taskId,
-        context: projectRestaurantAgentContext(snapshot.domainState),
+        context,
         recentExecutionHistory,
         capabilities: RESTAURANT_AGENT_CAPABILITIES,
         ...(lastRejection ? { lastRejection } : {}),
       });
       stepNumber += 1;
-      const base = this.base(taskId, stepNumber, snapshot);
+      const base = this.base(taskId, stepNumber, snapshot, context);
 
       if (this.timedOut(startedAt)) {
         await this.terminate(
@@ -231,7 +235,7 @@ export class RestaurantAgentLoopCoordinator {
       }
 
       const after = execution.event
-        ? await this.dispatch(snapshot, execution.event, execution.route === "FIXTURE_STRUCTURED" ? "ADAPTER" : "SYSTEM")
+        ? await this.dispatch(snapshot, execution.event, execution.route === "STRUCTURED_ADAPTER" ? "ADAPTER" : "SYSTEM")
         : { snapshot, causalRefs: causalRefsForState(snapshot.domainState) };
       const outcome = execution.failure
         ? "EXECUTION_FAILURE"
@@ -246,7 +250,7 @@ export class RestaurantAgentLoopCoordinator {
         ...(decision.decisionSummary ? { decisionSummary: decision.decisionSummary } : {}),
         modelAttempt: decision.modelAttempt,
         actionValidation: verdict,
-        executionRoute: execution.route,
+        ...(execution.route ? { executionRoute: execution.route } : {}),
         ...(execution.observation ? { observation: execution.observation } : {}),
         ...(decision.action.type === "BOOK_RESERVATION" && after.snapshot.domainState.proposal
           ? { proposalId: after.snapshot.domainState.proposal.id }
@@ -278,6 +282,14 @@ export class RestaurantAgentLoopCoordinator {
     return { status: "STEP_LIMIT", steps: this.maxSteps };
   }
 
+  /** Called by the application orchestrator after a mandatory Policy/Commit/Verify chain completes. */
+  async resumeAfterMandatoryCommandChain(taskId: string): Promise<RestaurantAgentLoopResult | undefined> {
+    const snapshot = await this.runtime.snapshot(taskId);
+    return snapshot.domainState.phase === "SELECTION_REQUIRED"
+      ? this.run(taskId)
+      : undefined;
+  }
+
   private timedOut(startedAt: number): boolean {
     return this.clock.now().valueOf() - startedAt >= this.timeoutMs;
   }
@@ -286,6 +298,7 @@ export class RestaurantAgentLoopCoordinator {
     taskId: string,
     stepNumber: number,
     snapshot: TaskSnapshot<RestaurantTaskState, RestaurantOutcome>,
+    decisionContext?: RestaurantAgentContext,
   ): TrajectoryBase {
     return {
       id: `trajectory:${taskId}:${stepNumber}`,
@@ -296,6 +309,10 @@ export class RestaurantAgentLoopCoordinator {
       stateHashBefore: stateHash(snapshot.domainState),
       causalRefs: causalRefsForState(snapshot.domainState),
       capabilities: RESTAURANT_AGENT_CAPABILITIES,
+      ...(decisionContext ? {
+        contextSchemaVersion: decisionContext.schemaVersion,
+        decisionContext: structuredClone(decisionContext),
+      } : {}),
     };
   }
 

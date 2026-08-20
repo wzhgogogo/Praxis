@@ -40,6 +40,7 @@ import { restaurantRecoveryEventFactory } from "../../domains/restaurant/recover
 import { applyPostgresMigrations, POSTGRES_MIGRATIONS } from "./migrations.js";
 import { PostgresCommandOutbox } from "./postgres-command-outbox.js";
 import { PostgresGoalGraph } from "./postgres-goal-graph.js";
+import { PostgresRestaurantAgentTrajectoryStore } from "./restaurant-agent-trajectory-store.js";
 import { PostgresTaskRuntime } from "./postgres-task-runtime.js";
 import { PostgresTriggerStore } from "./postgres-trigger-store.js";
 import type { SqlDatabase, SqlExecutor, SqlQueryResult } from "./sql-database.js";
@@ -295,8 +296,13 @@ describe("PostgresTaskRuntime with PGlite", () => {
       );
 
       await applyPostgresMigrations(database);
-      const migrated = await database.query<{ causal_refs: unknown; proposal_id: string | null }>(
-        "SELECT causal_refs, proposal_id FROM restaurant_agent_trajectory_steps WHERE id = 'legacy-trajectory'",
+      const migrated = await database.query<{
+        causal_refs: unknown;
+        proposal_id: string | null;
+        context_schema_version: string | null;
+        decision_context: unknown | null;
+      }>(
+        "SELECT causal_refs, proposal_id, context_schema_version, decision_context FROM restaurant_agent_trajectory_steps WHERE id = 'legacy-trajectory'",
       );
       assert.deepEqual(parseDatabaseJson(migrated.rows[0]?.causal_refs), {
         eventIds: [],
@@ -305,6 +311,8 @@ describe("PostgresTaskRuntime with PGlite", () => {
         evidenceIds: ["evidence-legacy"],
       });
       assert.equal(migrated.rows[0]?.proposal_id, null);
+      assert.equal(migrated.rows[0]?.context_schema_version, null);
+      assert.equal(migrated.rows[0]?.decision_context, null);
       const oldColumn = await database.query<{ column_name: string }>(
         `SELECT column_name FROM information_schema.columns
           WHERE table_schema = current_schema()
@@ -379,6 +387,53 @@ describe("PostgresTaskRuntime with PGlite", () => {
     } finally {
       await pglite.close();
     }
+  });
+
+  currentTest("persists the sanitized Agent decision context with its schema version", async () => {
+    await withDatabase(async ({ database }) => {
+      await database.query(
+        `INSERT INTO tasks (
+          id, run_id, task_type, definition_version, lifecycle_state,
+          domain_state_schema_version, domain_state, outcome, version, created_at, updated_at
+        ) VALUES (
+          'trajectory-context-task', 'trajectory-context-run', 'restaurant.booking', '8', 'RUNNING',
+          '8', '{"schemaVersion":"8"}'::jsonb, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+        )`,
+      );
+      const store = new PostgresRestaurantAgentTrajectoryStore(database);
+      await store.append({
+        id: "trajectory-context-step",
+        taskId: "trajectory-context-task",
+        stepNumber: 1,
+        occurredAt: "2026-08-20T00:00:00.000Z",
+        stateVersionBefore: 0,
+        stateHashBefore: "context-hash",
+        causalRefs: { eventIds: [], commandIds: [], attemptIds: [], evidenceIds: [] },
+        capabilities: [],
+        contextSchemaVersion: "1",
+        decisionContext: {
+          schemaVersion: "1",
+          phase: "SEARCHING",
+          missingBlockingFields: [],
+          candidates: [],
+          availability: {},
+        },
+        executionRoute: "STRUCTURED_ADAPTER",
+        observation: { type: "DISCOVERY", detail: "0 candidates discovered" },
+        stepOutcome: "EXECUTED",
+      });
+
+      const [step] = await store.list("trajectory-context-task");
+      assert.equal(step?.contextSchemaVersion, "1");
+      assert.deepEqual(step?.decisionContext, {
+        schemaVersion: "1",
+        phase: "SEARCHING",
+        missingBlockingFields: [],
+        candidates: [],
+        availability: {},
+      });
+      assert.equal(step?.executionRoute, "STRUCTURED_ADAPTER");
+    });
   });
 
   currentTest("atomically stores task state, event and outbox command", async () => {
