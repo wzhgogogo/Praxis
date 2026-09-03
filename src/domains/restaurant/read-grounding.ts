@@ -12,6 +12,7 @@ export interface UntrustedGooglePlaceObservation {
   placeId?: string;
   displayName?: string;
   formattedAddress?: string;
+  addressComponents?: Array<{ longText: string; shortText?: string; types: string[] }>;
   location?: { latitude?: number; longitude?: number };
   types?: string[];
   primaryType?: string;
@@ -68,6 +69,29 @@ function usableRestaurant(place: UntrustedGooglePlaceObservation): boolean {
   return types.has("restaurant") || types.has("cafe") || types.has("food");
 }
 
+function normalized(value: string): string {
+  return value.normalize("NFKC").trim().toLocaleLowerCase("en-US").replace(/\s+/g, " ");
+}
+
+function requestedAreaName(areaQuery: string): string | undefined {
+  const match = areaQuery.trim().match(/^near\s+(.+)$/i);
+  const value = (match?.[1] ?? areaQuery).trim();
+  return value ? value : undefined;
+}
+
+function matchingAddressComponent(
+  observation: UntrustedGooglePlaceObservation,
+  areaQuery: string,
+): { longText: string; types: string[] } | undefined {
+  const requested = requestedAreaName(areaQuery);
+  if (!requested) return undefined;
+  const target = normalized(requested);
+  return observation.addressComponents?.find((component) =>
+    component.types.some((type) => type === "locality" || type.startsWith("sublocality") || type.startsWith("administrative_area")) &&
+    (normalized(component.longText) === target || (component.shortText !== undefined && normalized(component.shortText) === target)),
+  );
+}
+
 /**
  * Converts the minimal Google response into a candidate only when the returned
  * structural facts support it. Retrieval relevance never becomes a cuisine claim.
@@ -80,8 +104,8 @@ export function groundGoogleDiscovery(
   if (!observation.displayName?.trim()) return { accepted: false, reasonCode: "GOOGLE_NAME_MISSING" };
   if (!observation.formattedAddress?.trim()) return { accepted: false, reasonCode: "GOOGLE_ADDRESS_MISSING" };
   if (!usableRestaurant(observation)) return { accepted: false, reasonCode: "GOOGLE_PLACE_TYPE_UNUSABLE" };
-  const normalizedArea = input.areaQuery.trim().toLocaleLowerCase("en-US");
-  const areaMatch = normalizedArea.length > 0 && observation.formattedAddress.toLocaleLowerCase("en-US").includes(normalizedArea);
+  const areaComponent = matchingAddressComponent(observation, input.areaQuery);
+  const areaMatch = areaComponent !== undefined;
   const candidateId = stableCandidateId(observation.placeId);
   const evidence: RestaurantReadEvidence = {
     evidenceId: evidenceId("google-discovery", { placeId: observation.placeId, observedAt: input.observedAt }),
@@ -99,6 +123,11 @@ export function groundGoogleDiscovery(
       types: [...(observation.types ?? [])],
       areaQuery: input.areaQuery,
       areaMatch,
+      ...(areaComponent ? {
+        areaMatchBasis: "GOOGLE_ADDRESS_COMPONENT",
+        matchedAddressComponent: areaComponent.longText,
+        matchedAddressComponentTypes: [...areaComponent.types],
+      } : {}),
       ...(observation.primaryType ? { primaryType: observation.primaryType } : {}),
     },
   };

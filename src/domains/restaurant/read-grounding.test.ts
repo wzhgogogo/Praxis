@@ -23,6 +23,43 @@ test("Google discovery accepts structurally valid restaurant places without clai
   assert.equal(result.evidence.provider, "GOOGLE_PLACES");
 });
 
+test("Google discovery grounds near Shibuya through an explicit address component, not text query relevance", () => {
+  const result = groundGoogleDiscovery({
+    placeId: "google-shibuya", displayName: "Example Omakase", formattedAddress: "5-11 Maruyamacho, Shibuya, Tokyo, Japan",
+    addressComponents: [
+      { longText: "Tokyo", types: ["administrative_area_level_1", "political"] },
+      { longText: "Shibuya", types: ["sublocality_level_1", "sublocality", "political"] },
+    ],
+    types: ["restaurant", "food"],
+  }, { requestFingerprint: "request", observedAt: now, areaQuery: "near Shibuya" });
+  assert.equal(result.accepted, true);
+  if (!result.accepted) return;
+  assert.deepEqual(result.evidence.claims, {
+    placeId: "google-shibuya",
+    outletName: "Example Omakase",
+    address: "5-11 Maruyamacho, Shibuya, Tokyo, Japan",
+    types: ["restaurant", "food"],
+    areaQuery: "near Shibuya",
+    areaMatch: true,
+    areaMatchBasis: "GOOGLE_ADDRESS_COMPONENT",
+    matchedAddressComponent: "Shibuya",
+    matchedAddressComponentTypes: ["sublocality_level_1", "sublocality", "political"],
+  });
+  assert.deepEqual(result.candidate.matchReasons, ["Address explicitly matches requested area: near Shibuya"]);
+});
+
+test("Google discovery does not turn a formatted-address keyword into area evidence when the component is absent", () => {
+  const result = groundGoogleDiscovery({
+    placeId: "google-keyword", displayName: "Example Omakase", formattedAddress: "5 Shibuya Avenue, Tokyo, Japan",
+    addressComponents: [{ longText: "Tokyo", types: ["administrative_area_level_1", "political"] }],
+    types: ["restaurant", "food"],
+  }, { requestFingerprint: "request", observedAt: now, areaQuery: "near Shibuya" });
+  assert.equal(result.accepted, true);
+  if (!result.accepted) return;
+  assert.equal(result.evidence.claims.areaMatch, false);
+  assert.equal(result.evidence.claims.areaMatchBasis, undefined);
+});
+
 test("availability grounding accepts only high-confidence matching outlet, schedule and visible slot", () => {
   const result = groundTabelogAvailability(candidate, request, {
     candidateId: candidate.restaurant.id, sourceEntityId: "A1301/x", sourceUrl: "https://tabelog.com/tokyo/A1301/x/",

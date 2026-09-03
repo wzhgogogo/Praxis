@@ -5,7 +5,7 @@ import { fixtureCandidates, fixtureIntent } from "../../harness/restaurant-fixtu
 import type { BrowserRuntime, BrowserSession, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
 import { resolveTabelogEntity } from "./tabelog-entity-resolver.js";
 import { TabelogBrowserAvailability } from "./tabelog-browser-availability.js";
-import { parseTabelogAvailabilitySlots } from "./tabelog-page-parser.js";
+import { parseTabelogAvailabilitySlots, parseTabelogOutletIdentity, parseTabelogSearchOutlets } from "./tabelog-page-parser.js";
 
 const candidate = fixtureCandidates[0]!;
 
@@ -28,6 +28,34 @@ test("Tabelog entity resolver fails closed when an otherwise similar outlet has 
     sourceEntityId: "x", sourceUrl: "https://tabelog.com/tokyo/A1304/x/", outletName: "Restaurant 1", address: "1-1 Shinjuku, Tokyo", phone: "03-9999-8888",
   }]);
   assert.notEqual(resolved.confidence, "HIGH");
+});
+
+test("Tabelog relative search links are enriched with page identity before an exact phone creates a HIGH outlet match", () => {
+  const phoneCandidate = {
+    ...candidate,
+    restaurant: { ...candidate.restaurant, outletName: "Sushisho Isseki Sancho", sourceIds: { ...candidate.restaurant.sourceIds, phone: "03-6427-8577" } },
+  };
+  const search = parseTabelogSearchOutlets({
+    url: "https://tabelog.com/rstLst/?sk=Sushisho", title: "search", text: "Sushisho", html: [
+      '<a href="/">Tabelog home</a>',
+      '<a class="list-rst__rst-name-target" href="/tokyo/A1303/A130301/132590/">Sushisho Isseki Sancho</a>',
+    ].join(""),
+  });
+  assert.equal(search.length, 1);
+  assert.equal(search[0]?.sourceUrl, "https://tabelog.com/tokyo/A1303/A130301/132590/");
+  const enriched = parseTabelogOutletIdentity({
+    url: search[0]!.sourceUrl, title: "鮨 尚充", text: "鮨 尚充 03-6427-8577 東京都渋谷区丸山町5-11", html: [
+      '<link rel="canonical" href="/tokyo/A1303/A130301/132590/">',
+      '<p class="rstinfo-table__address">東京都渋谷区丸山町5-11</p>',
+      '<a href="tel:03-6427-8577">03-6427-8577</a>',
+    ].join(""),
+  }, search[0]!);
+  assert.equal(enriched.phone, "03-6427-8577");
+  assert.equal(enriched.address, "東京都渋谷区丸山町5-11");
+  assert.equal(enriched.sourceEntityId, "tokyo/A1303/A130301/132590");
+  assert.deepEqual(resolveTabelogEntity(phoneCandidate, [enriched]), {
+    confidence: "HIGH", outlet: enriched, matchedBy: ["EXACT_PHONE"],
+  });
 });
 
 test("Tabelog slot parser ignores prose times and trusts only explicit available controls", () => {

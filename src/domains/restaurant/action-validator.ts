@@ -13,6 +13,7 @@ export type RestaurantActionRejectionCode =
   | "SELECTION_REQUIRED"
   | "ACTIVE_ATTEMPT"
   | "OUTCOME_UNKNOWN"
+  | "AVAILABILITY_ALREADY_CHECKED"
   | "PRESENTATION_EVIDENCE_MISSING";
 
 export type RestaurantActionValidation =
@@ -133,9 +134,13 @@ export function validateRestaurantAction(
     if (action.candidateIds.length === 0 || new Set(action.candidateIds).size !== action.candidateIds.length) {
       return rejected("CANDIDATE_UNKNOWN", "Availability requires one or more unique known candidate IDs");
     }
-    return action.candidateIds.every((candidateId) => candidate(state, candidateId))
+    if (!action.candidateIds.every((candidateId) => candidate(state, candidateId))) {
+      return rejected("CANDIDATE_UNKNOWN", "Availability can only be checked for known candidates");
+    }
+    const alreadyChecked = action.candidateIds.filter((candidateId) => state.availabilityChecks[candidateId] !== undefined);
+    return alreadyChecked.length === 0
       ? { status: "ALLOWED" }
-      : rejected("CANDIDATE_UNKNOWN", "Availability can only be checked for known candidates");
+      : rejected("AVAILABILITY_ALREADY_CHECKED", `Availability was already checked for ${alreadyChecked.join(", ")} under the current authoritative search and schedule`);
   }
 
   if (action.type === "PRESENT_RESULTS") {

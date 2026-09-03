@@ -1,13 +1,29 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.35
+- Document revision: 4.36
 - Last updated: 2026-09-03
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## 2026-09-03 — H001 live-read identity, area and no-progress repair
+
+### Why
+
+首次真实H001已经排除DeepSeek Provider拒绝，但Google地址中的Shibuya未成为area evidence，Tabelog搜索页的相对门店链接没有被解析到可核验门店页，且Agent可重复执行同一availability read直至预算耗尽。
+
+### Changes
+
+- Google Text Search FieldMask增加结构化`addressComponents`；`near <area>`只在一个locality/sublocality/administrative address component精确匹配时成为`areaMatch:true`，Evidence同时保存匹配组件、类型和`GOOGLE_ADDRESS_COMPONENT`依据。格式化地址的词面命中不再作为地点证明。
+- Tabelog搜索解析只接受可识别的restaurant-result anchor，并把相对链接正规化为Tabelog canonical URL；门店页从JSON-LD及地址/电话/tel/canonical markup补全identity。Resolver仍只接受exact phone或normalized name+address，电话号码冲突和歧义继续fail closed。
+- `CHECK_AVAILABILITY`若包含当前权威search/schedule已有Check的候选，会在Action Validator中以`AVAILABILITY_ALREADY_CHECKED`拒绝；Prompt `restaurant-agent-decision-prompt@6`同时要求Agent仅检查未读候选或改用另一安全策略。没有提升步数或read预算，也未改变写路径。
+
+### Live observation
+
+本轮唯一一次H001 Live Read-only在进入候选Discovery前，两次Google Places read均被Router的8秒硬deadline终止；第三次被既有Google search预算拒绝，Agent随后`ASK_USER`并以`WAITING_USER`退出。没有获得Google候选或Tabelog页面观测，因此本轮不能声称身份、area或availability已在真实页面上成功；新的单一阻塞是Google Discovery的端到端超时。
 
 ## 2026-09-03 — H001 DeepSeek strict Agent transport repair
 

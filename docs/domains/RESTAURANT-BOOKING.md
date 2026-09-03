@@ -1,7 +1,7 @@
 # Restaurant Booking Domain
 
 - Status: Accepted
-- Document revision: 1.7
+- Document revision: 1.8
 - Last updated: 2026-09-03
 - Source of truth for: 餐厅预约Domain模型、状态、搜索和完成条件
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0009](../decisions/0009-semantic-strength-and-clean-holdout-baseline.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md), [ADR-0014](../decisions/0014-search-only-results-completion.md)
@@ -11,7 +11,7 @@
 
 ADR-0013冻结的Restaurant Mock预约切片已实现：`Semantic Interpreter → Compiler → Reducer → Restaurant Agent Context → Decision → Action Validator → Fixture Discovery / Availability → Agent Selection → Authorization checkpoint → Policy → Mock Commit → Verifier`。ADR-0014在`restaurant-state@10`增加了只读终态`PRESENT_RESULTS`与其结果引用；Google/Tabelog外部观察必须先经Grounding后才作为Candidate、Offer或Availability Check进入State。Pilot前没有真实Task数据，旧Schema迁移路径已经删除。
 
-Discovery保存`RestaurantCandidate`，Availability按`candidateId → AvailabilityOffer[]`独立保存。单一Restaurant Agent决定何时搜索、开放式检索策略、检查哪些候选、选择哪个组合或何时再次搜索；Validator不再选择下一步。`SEARCH_RESTAURANTS`不重复Intent，`CHECK_AVAILABILITY`不重复日期/时段/人数；Router在调用Adapter前绑定这些权威参数。Fixture路径使用真正的`RestaurantAgentDecision` ModelGateway Contract，Harness可用Scripted Decision Port重复验证Trajectory。Policy、Authorization、Commit和Verifier仍是确定性权威边界。
+Discovery保存`RestaurantCandidate`，Availability按`candidateId → AvailabilityOffer[]`独立保存。单一Restaurant Agent决定何时搜索、开放式检索策略、检查哪些候选、选择哪个组合或何时再次搜索；Validator不再选择下一步。`SEARCH_RESTAURANTS`不重复Intent，`CHECK_AVAILABILITY`不重复日期/时段/人数，且不得再次包含当前search/schedule下已有Check的候选；Router在调用Adapter前绑定这些权威参数。Fixture路径使用真正的`RestaurantAgentDecision` ModelGateway Contract，Harness可用Scripted Decision Port重复验证Trajectory。Policy、Authorization、Commit和Verifier仍是确定性权威边界。
 
 ADR-0009继续定义开放`criteria`与`HARD` / `SOFT`强度；ADR-0010取代ADR-0007的确定性next-step部分，ADR-0011取代其中的Action Contract与Loop控制细节，ADR-0012定义不可变Migration、最小Agent Context和Proposal join，ADR-0013定义definitive failure后的Agent恢复、新Proposal/Authorization与Decision Context审计。已冻结的Progressive Decision Harness `statePatch` Contract仍不接入产品Task State。
 
@@ -101,7 +101,7 @@ type RestaurantCandidate = {
 
 `SEARCH_RESTAURANTS`只产生`RestaurantCandidate`。`CHECK_AVAILABILITY`才产生`AvailabilityOffer`并按`candidateId`保存；没有新鲜匹配Offer的Candidate不得进入Booking Proposal。
 
-`availabilityChecks[candidateId]`独立于Offer保存`AVAILABLE`、`UNAVAILABLE`、`UNKNOWN`或`SOURCE_UNSUPPORTED`、检查时间、Evidence引用及稳定原因码。只有相同Outlet的HIGH Entity Match、正确日期/人数/Asia-Tokyo时段、可见且新鲜的slot才可产生Offer；超时、bot challenge、页面/抽取异常、未找到可靠Outlet和外部跳转永远不是`UNAVAILABLE`。
+`availabilityChecks[candidateId]`独立于Offer保存`AVAILABLE`、`UNAVAILABLE`、`UNKNOWN`或`SOURCE_UNSUPPORTED`、检查时间、Evidence引用及稳定原因码。Google area HARD evidence只可来自与请求地点相等的结构化address component；格式化地址中的任意关键词不构成地点证明。Tabelog从结果页的canonical/relative outlet URL进入门店页，并使用exact phone或normalized name+address建立HIGH outlet match；只有相同Outlet的HIGH Entity Match、正确日期/人数/Asia-Tokyo时段、可见且新鲜的slot才可产生Offer；超时、bot challenge、页面/抽取异常、未找到可靠Outlet和外部跳转永远不是`UNAVAILABLE`。
 
 ## Domain State
 

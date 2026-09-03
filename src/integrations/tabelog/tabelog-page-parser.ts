@@ -13,19 +13,54 @@ export function hasBotChallenge(snapshot: BrowserSnapshot): boolean {
   return /captcha|verify you are human|access denied|unusual traffic|robot/i.test(`${snapshot.title}\n${snapshot.text}`);
 }
 
+function sourceEntityId(sourceUrl: string): string {
+  return sourceUrl.replace(/^https:\/\/(?:www\.)?tabelog\.com\//i, "").replace(/\/$/, "");
+}
+
+function absoluteTabelogUrl(value: string, baseUrl: string): string | undefined {
+  try {
+    const url = new URL(value, baseUrl);
+    url.hash = "";
+    url.search = "";
+    return isTabelogUrl(url.toString()) ? url.toString() : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+function firstElementText(html: string, marker: RegExp): string | undefined {
+  const element = new RegExp(`<(?<tag>[a-z0-9]+)[^>]*${marker.source}[^>]*>(?<content>[\\s\\S]{0,2000}?)<\\/\\k<tag>>`, marker.flags.replace("g", ""));
+  const match = html.match(element);
+  const value = match?.groups?.content?.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+  return value || undefined;
+}
+
+function firstPhone(html: string): string | undefined {
+  const tel = html.match(/href=["']tel:([^"'?\s]+)/i)?.[1];
+  if (tel) return tel;
+  return firstElementText(html, /(?:class|id)=["'][^"']*(?:tel|phone)[^"']*["']/i);
+}
+
+function canonicalTabelogUrl(snapshot: BrowserSnapshot): string | undefined {
+  const value = snapshot.html.match(/<link[^>]+rel=["']canonical["'][^>]+href=["']([^"']+)["']/i)?.[1]
+    ?? snapshot.html.match(/<link[^>]+href=["']([^"']+)["'][^>]+rel=["']canonical["']/i)?.[1];
+  return value ? absoluteTabelogUrl(value, snapshot.url) : undefined;
+}
+
 export function parseTabelogSearchOutlets(snapshot: BrowserSnapshot): TabelogOutletObservation[] {
   const results = new Map<string, TabelogOutletObservation>();
-  const link = /<a[^>]+href=["'](https?:\/\/(?:www\.)?tabelog\.com\/[^"'#?]+)[^"']*["'][^>]*>([\s\S]*?)<\/a>/gi;
+  const link = /<a[^>]+href=["']([^"'#?]+)[^"']*["'][^>]*>([\s\S]*?)<\/a>/gi;
   for (const match of snapshot.html.matchAll(link)) {
-    const sourceUrl = match[1];
+    const sourceUrl = absoluteTabelogUrl(match[1] ?? "", snapshot.url);
     const label = match[2]?.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
     if (!sourceUrl || !label || !isTabelogUrl(sourceUrl)) continue;
-    const sourceEntityId = sourceUrl.replace(/^https:\/\/(?:www\.)?tabelog\.com\//i, "").replace(/\/$/, "");
     const tag = match[0] ?? "";
+    if (!/data-(?:address|phone)=|class=["'][^"']*(?:list-rst|rst-name|restaurant[^"']*(?:name|title))[^"']*["']/i.test(tag)) continue;
+    const entityId = sourceEntityId(sourceUrl);
     const address = tag.match(/data-address=["']([^"']+)["']/i)?.[1];
     const phone = tag.match(/data-phone=["']([^"']+)["']/i)?.[1];
-    results.set(sourceEntityId, {
-      sourceEntityId,
+    results.set(entityId, {
+      sourceEntityId: entityId,
       sourceUrl,
       outletName: label,
       ...(address ? { address } : {}),
@@ -61,9 +96,23 @@ export function parseTabelogOutletIdentity(snapshot: BrowserSnapshot, fallback: 
     : addressValue && typeof addressValue === "object"
       ? ["postalCode", "addressRegion", "addressLocality", "streetAddress"].map((key) => (addressValue as Record<string, unknown>)[key]).filter((value): value is string => typeof value === "string").join(" ")
       : undefined;
-  const phone = typeof localBusiness?.telephone === "string" ? localBusiness.telephone : undefined;
-  const outletName = typeof localBusiness?.name === "string" && localBusiness.name.trim() ? localBusiness.name.trim() : fallback.outletName;
-  return { ...fallback, outletName, ...(address ? { address } : {}), ...(phone ? { phone } : {}) };
+  const phone = typeof localBusiness?.telephone === "string" ? localBusiness.telephone : firstPhone(snapshot.html);
+  const pageAddress = firstElementText(snapshot.html, /(?:class|id|itemprop)=["'][^"']*address[^"']*["']/i);
+  const pageName = firstElementText(snapshot.html, /(?:class|id)=["'][^"']*(?:rstinfo|restaurant)[^"']*(?:name|title)[^"']*["']/i);
+  const outletName = typeof localBusiness?.name === "string" && localBusiness.name.trim()
+    ? localBusiness.name.trim()
+    : pageName ?? fallback.outletName;
+  const canonicalUrl = canonicalTabelogUrl(snapshot);
+  const sourceUrl = canonicalUrl ?? fallback.sourceUrl;
+  const resolvedAddress = address ?? pageAddress;
+  return {
+    ...fallback,
+    sourceUrl,
+    sourceEntityId: sourceEntityId(sourceUrl),
+    outletName,
+    ...(resolvedAddress ? { address: resolvedAddress } : {}),
+    ...(phone ? { phone } : {}),
+  };
 }
 
 export function detectExternalReservationRedirect(snapshot: BrowserSnapshot): boolean {

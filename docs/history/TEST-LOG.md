@@ -1,13 +1,29 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.33
+- Document revision: 4.34
 - Last updated: 2026-09-03
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## 2026-09-03 — H001 identity, area and no-progress offline verification
+
+### Scope
+
+Google structure-backed `near Shibuya` grounding、Tabelog relative/canonical page identity enrichment和重复availability read拒绝；不改变HARD evidence门槛、预约或其他写路径。
+
+### Checks
+
+- Focused tests：通过`43/43`。覆盖relative Tabelog result URL、门店页电话/地址提取和exact-phone HIGH identity；结构化Google address component area evidence与格式化地址关键词拒绝；重复candidate availability action在Router之前被拒绝。
+- `npm test`：通过`134/134`，0 failed（允许localhost fixture listener）。
+- `npm run typecheck`、`npm run arch:check`（0 forbidden source dependencies）与`npm run build`：通过。
+
+### Modes and external effects
+
+以上离线验证覆盖Unit、Contract、Fixture、Mock Harness、Embedded PGlite和local HTTP/SSE。随后仅运行一次`npm run eval:restaurant:agent-loop:hybrid-live-read -- --case h001`：Semantic与4次Agent decision均HTTP 200；两次Google Discovery在Router的8秒deadline失败，第三次为`GOOGLE_SEARCH_BUDGET_EXCEEDED`，Agent安全地`ASK_USER`并以`WAITING_USER`退出。没有候选、Tabelog读取、Availability Check或`PRESENT_RESULTS`，所以本次不能把离线身份/area修复报告成真实Provider成功。没有Authorization、预约、付款、取消、个人信息提交或其他外部写操作；`sideEffects`为0。
 
 ## 2026-09-03 — H001 DeepSeek strict Agent transport verification
 

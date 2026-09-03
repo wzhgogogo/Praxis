@@ -305,6 +305,24 @@ describe("restaurant booking mock harness", () => {
     assert.equal(snapshot.domainState.phase, "AWAITING_AUTHORIZATION");
   });
 
+  test("Agent cannot execute a duplicate availability read after the candidate already has a check", async () => {
+    const first = fixtureCandidates[0]!;
+    const harness = createHarness({
+      agentActions: [
+        { type: "SEARCH_RESTAURANTS" },
+        { type: "CHECK_AVAILABILITY", candidateIds: [first.restaurant.id] },
+        { type: "CHECK_AVAILABILITY", candidateIds: [first.restaurant.id] },
+        { type: "ASK_USER", question: "No unchecked candidates remain. Would you like to change the request?" },
+      ],
+    });
+    const snapshot = await harness.start(fixtureIntent);
+    assert.equal(snapshot.domainState.phase, "NEEDS_INPUT");
+    assert.equal(harness.runtime.eventLog.filter((entry) => entry.event.type === "AVAILABILITY_CHECKED").length, 1);
+    const rejected = harness.trajectories.steps.find((step) => step.actionValidation?.status === "REJECTED");
+    assert.equal(rejected?.actionValidation?.status, "REJECTED");
+    if (rejected?.actionValidation?.status === "REJECTED") assert.equal(rejected.actionValidation.code, "AVAILABILITY_ALREADY_CHECKED");
+  });
+
   test("Harness binds search and availability requests from authoritative task state", async () => {
     const harness = createHarness();
     await harness.start(fixtureIntent);

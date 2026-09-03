@@ -51,6 +51,26 @@ test("Action validator blocks unknown candidates, stale offers, and booking sche
   assert.equal(validateRestaurantAction(state, { type: "SELECT_CANDIDATE", candidateId: "a", offerId: "stale" }, now).status, "REJECTED");
 });
 
+test("Action validator rejects availability reads that would repeat a candidate already checked for the current search", () => {
+  const draft = applyRestaurantIntentPatch(undefined, { schemaVersion: "3", date: "2026-08-05", timeWindow: { earliest: "19:00", latest: "19:30" }, partySize: 2, area: { query: "Shinjuku" } });
+  const state: RestaurantTaskState = {
+    ...incompleteState,
+    phase: "SEARCHING",
+    intentDraft: draft,
+    candidates: [
+      { restaurant: { id: "a", outletName: "A", sourceIds: {}, address: "Tokyo", provenance: {} }, matchReasons: [], warnings: [], executionConfidence: "LOW" },
+      { restaurant: { id: "b", outletName: "B", sourceIds: {}, address: "Tokyo", provenance: {} }, matchReasons: [], warnings: [], executionConfidence: "LOW" },
+    ],
+    availabilityChecks: { a: { status: "UNKNOWN", checkedAt: now, evidenceIds: [], reasonCode: "ENTITY_MATCH_UNCERTAIN" } },
+  };
+  assert.deepEqual(
+    validateRestaurantAction(state, { type: "CHECK_AVAILABILITY", candidateIds: ["a"] }, now),
+    { status: "REJECTED", code: "AVAILABILITY_ALREADY_CHECKED", reason: "Availability was already checked for a under the current authoritative search and schedule" },
+  );
+  assert.equal(validateRestaurantAction(state, { type: "CHECK_AVAILABILITY", candidateIds: ["b"] }, now).status, "ALLOWED");
+  assert.equal(validateRestaurantAction(state, { type: "CHECK_AVAILABILITY", candidateIds: ["a", "b"] }, now).status, "REJECTED");
+});
+
 test("PRESENT_RESULTS fails closed until area, HARD criterion, identity, and availability are evidenced", () => {
   const candidate = { restaurant: { id: "a", outletName: "A", sourceIds: {}, address: "Shinjuku, Tokyo", provenance: {} }, matchReasons: [], warnings: [], executionConfidence: "HIGH" as const };
   const draft = applyRestaurantIntentPatch(undefined, {

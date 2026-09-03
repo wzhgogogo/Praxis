@@ -5,6 +5,7 @@ export const GOOGLE_PLACES_RESTAURANT_FIELD_MASK = [
   "places.id",
   "places.displayName",
   "places.formattedAddress",
+  "places.addressComponents",
   "places.location",
   "places.types",
   "places.primaryType",
@@ -27,6 +28,7 @@ export interface GooglePlacesRawPlace {
   id?: unknown;
   displayName?: { text?: unknown };
   formattedAddress?: unknown;
+  addressComponents?: unknown;
   location?: { latitude?: unknown; longitude?: unknown };
   types?: unknown;
   primaryType?: unknown;

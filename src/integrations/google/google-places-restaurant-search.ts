@@ -16,10 +16,26 @@ function coordinates(place: GooglePlacesRawPlace): { latitude?: number; longitud
   return typeof latitude === "number" && typeof longitude === "number" ? { latitude, longitude } : undefined;
 }
 
+function addressComponents(place: GooglePlacesRawPlace): UntrustedGooglePlaceObservation["addressComponents"] {
+  if (!Array.isArray(place.addressComponents)) return undefined;
+  const components = place.addressComponents.flatMap((component) => {
+    if (!component || typeof component !== "object" || Array.isArray(component)) return [];
+    const value = component as Record<string, unknown>;
+    const longText = string(value.longText);
+    const shortText = string(value.shortText);
+    const types = Array.isArray(value.types) && value.types.every((item) => typeof item === "string")
+      ? value.types as string[]
+      : undefined;
+    return longText && types ? [{ longText, ...(shortText ? { shortText } : {}), types }] : [];
+  });
+  return components.length ? components : undefined;
+}
+
 function rawObservation(place: GooglePlacesRawPlace): UntrustedGooglePlaceObservation {
   const placeId = string(place.id);
   const displayName = string(place.displayName?.text);
   const formattedAddress = string(place.formattedAddress);
+  const components = addressComponents(place);
   const location = coordinates(place);
   const primaryType = string(place.primaryType);
   const googleMapsUri = string(place.googleMapsUri);
@@ -28,6 +44,7 @@ function rawObservation(place: GooglePlacesRawPlace): UntrustedGooglePlaceObserv
     ...(placeId ? { placeId } : {}),
     ...(displayName ? { displayName } : {}),
     ...(formattedAddress ? { formattedAddress } : {}),
+    ...(components ? { addressComponents: components } : {}),
     ...(location ? { location } : {}),
     ...(Array.isArray(place.types) && place.types.every((item) => typeof item === "string") ? { types: place.types as string[] } : {}),
     ...(primaryType ? { primaryType } : {}),
