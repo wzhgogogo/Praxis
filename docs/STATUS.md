@@ -1,7 +1,7 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 2.6
+- Document revision: 2.7
 - Last updated: 2026-09-03
 - Source of truth for: 已实现能力、已验证范围、明确未验证项与下一道门槛
 - Related ADRs: [ADR Index](decisions/README.md)
@@ -9,7 +9,7 @@
 
 ## 一句话状态
 
-ADR-0014定义了H001所需的只读终态：Semantic Interpreter继续经Compiler/Reducer写入权威State；单一Restaurant Agent只接收最小Decision Context，Action Validator守护不变量，Router绑定且限时执行权威只读请求。`restaurant-state@10`保存Availability Check、最小Read Evidence和`PRESENT_RESULTS`。Google deadline、Tabelog slot-level parsing、HIGH-only outlet identity和HARD-evidence gates已有离线覆盖；真实Provider/Browser凭证与开关当前仍未配置，故尚无真实H001轨迹。
+ADR-0014定义了H001所需的只读终态：Semantic Interpreter继续经Compiler/Reducer写入权威State；单一Restaurant Agent只接收最小Decision Context，Action Validator守护不变量，Router绑定且限时执行权威只读请求。`restaurant-state@10`保存Availability Check、最小Read Evidence和`PRESENT_RESULTS`。Google deadline、Tabelog slot-level parsing、HIGH-only outlet identity和HARD-evidence gates已有离线覆盖；DeepSeek strict Agent transport已通过一次真实H001修复验证，但该次运行因Tabelog门店身份未能确认而fail closed，未抵达`PRESENT_RESULTS`。
 
 ## 当前标识
 
@@ -20,7 +20,7 @@ ADR-0014定义了H001所需的只读终态：Semantic Interpreter继续经Compil
 | Restaurant State | `restaurant-state@10` |
 | Semantic Proposal / Draft / Eval Schema | `restaurant-semantic-proposal@3` |
 | Semantic Prompt | `restaurant-semantic-prompt@7`；Artifact字段仍记录`promptVersion: "v7"` |
-| Agent Context / Decision Prompt / Action / Trajectory / Harness Artifact | `restaurant-agent-context@2` / `restaurant-agent-decision-prompt@4` / `restaurant-agent-action@3` / `restaurant-agent-trajectory@5` / `restaurant-harness-artifact@6` |
+| Agent Context / Decision Prompt / Action / Trajectory / Harness Artifact | `restaurant-agent-context@2` / `restaurant-agent-decision-prompt@5` / `restaurant-agent-action@3` / `restaurant-agent-trajectory@5` / `restaurant-harness-artifact@6` |
 | Regression / Holdout / Scorer | `restaurant-semantic-regression@3` / `restaurant-semantic-holdout@2` / `restaurant-semantic-scorer@3` |
 
 ## 已实现
@@ -59,7 +59,7 @@ ADR-0014定义了H001所需的只读终态：Semantic Interpreter继续经Compil
 - 每个Agent decision step保存state版本/hash、capability、模型实际收到的脱敏`restaurant-agent-context@2`与`contextSchemaVersion`、action、verdict、route、observation、执行metadata、after-state链接、BOOK `proposalId`及Event/Command/Attempt/Evidence causal refs；不保存raw prompt或Chain-of-Thought。完整链为`Context → Action → Validation → Execution → Observation → State/Outcome`。
 - 长期Execution Route仅为`STRUCTURED_ADAPTER`、未来`GENERIC_BROWSER`或未来`HUMAN_TAKEOVER`；Fixture/Mock/Live是运行模式或Provider metadata，Runtime/Policy checkpoint不是外部execution route。
 - Migration `0006`保持原始evidence refs形态，`0007`追加因果引用与Proposal ID，`0008`追加Decision Context字段，`0009`追加read execution metadata；不会再改写Migration。`restaurant-state@7`和`@8`开发Task不能被当前Runtime解释，必须先备份后用双重开关的本机重置命令删除，绝不自动迁移或用于真实数据。
-- 当前标识固定为`restaurant-semantic-prompt@7`、`restaurant-semantic-proposal@3`与`restaurant-state@10`。`CRITERION{text, polarity, strength}`是唯一开放集合，strength固定为`HARD` / `SOFT` / `UNSPECIFIED`。Agent Context为`@2`、Decision Prompt为`@4`、Action为`@3`、Trajectory为`@5`；不建taxonomy、Provider mapping或动态Tool Registry。
+- 当前标识固定为`restaurant-semantic-prompt@7`、`restaurant-semantic-proposal@3`与`restaurant-state@10`。`CRITERION{text, polarity, strength}`是唯一开放集合，strength固定为`HARD` / `SOFT` / `UNSPECIFIED`。Agent Context为`@2`、Decision Prompt为`@5`、Action为`@3`、Trajectory为`@5`；不建taxonomy、Provider mapping或动态Tool Registry。
 - ADR-0007的`DECIDE_RESTAURANT_NEXT` / `RESTAURANT_DECISION_MADE`以及耦合Offer的`ExecutableCandidate`可执行路径已删除；历史next-step标注只保留为语义评测审计输入，不再代表产品Runtime。
 - `restaurant-semantic-prompt@4` Baseline的结果不得用于改动后重跑；Prompt `@7`的任何质量结论均需要另一份未见Holdout。当前Gold更新后的诊断只能标记为`EXPOSED_GOLD_ACCEPTANCE_DIAGNOSTIC`，Prompt `@7`与`@6`只比较`COMMON_UNCHANGED_TURNS`。
 - 旧分类Criteria Contract下未运行的私有标注不兼容`restaurant-semantic-proposal@3`，不能迁入或报告为当前Holdout。当前空模板、私有入口、结构适配Preflight、确定性Scorer和一次性真实Runner已实现；runner在首个模型请求前写入Git忽略的`EXPOSED` artifact，并记录Dataset SHA、git SHA、scorer与prompt/schema hash。

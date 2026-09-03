@@ -4,6 +4,7 @@ import { resolve } from "node:path";
 import { RestaurantAgentLoopCoordinator } from "../../../../application/restaurant-agent-loop.js";
 import { RestaurantExecutionRouter } from "../../../../application/restaurant-execution-router.js";
 import { InMemoryTaskRuntime } from "../../../../core/task-runtime/in-memory-task-runtime.js";
+import type { ModelInvocationRecord } from "../../../../core/model/contracts.js";
 import { RestaurantAgentDecision } from "../../../../domains/restaurant/agent-decision.js";
 import { compileRestaurantSemanticProposal } from "../../../../domains/restaurant/semantic-compiler.js";
 import { RestaurantSemanticInterpreter } from "../../../../domains/restaurant/semantic-interpreter.js";
@@ -71,7 +72,10 @@ const runtime = new InMemoryTaskRuntime<RestaurantTaskState, RestaurantEvent, Re
 );
 runtime.createTask(taskId, {}, { runId });
 const trajectories = new InMemoryRestaurantAgentTrajectoryStore();
-const model = DeepSeekModelGateway.fromEnvironment();
+const modelInvocations: ModelInvocationRecord[] = [];
+const model = DeepSeekModelGateway.fromEnvironment(process.env, {
+  observer: { observe: (record) => { modelInvocations.push(structuredClone(record)); } },
+});
 const interpreter = new RestaurantSemanticInterpreter(model);
 const semantic = await interpreter.interpret({
   taskId,
@@ -125,6 +129,7 @@ const artifact = {
   rawRequest: materialized.content,
   materializedCase: materialized,
   semantic,
+  modelInvocations,
   events: runtime.eventLog,
   trajectories: trajectories.steps,
   finalSnapshot,

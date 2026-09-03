@@ -1,8 +1,8 @@
 # Interfaces and Schemas
 
 - Status: Accepted
-- Document revision: 2.3
-- Last updated: 2026-08-20
+- Document revision: 2.4
+- Last updated: 2026-09-03
 - Source of truth for: 公共接口、DTO、内部Tool、实现状态和版本规则
 - Related ADRs: [ADR Index](../decisions/README.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md)
 - Related documents: [Task Runtime](TASK-RUNTIME.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md)
@@ -237,7 +237,7 @@ type ModelRequest = {
 };
 ```
 
-普通Text/JSON Object走标准`POST /chat/completions`；`JSON_SCHEMA`走DeepSeek Beta strict function transport，强制一个只承载结构化输出、从不执行的function envelope。Domain提供完整JSON Schema，但该Schema只使用当前strict transport支持的子集；例如non-blank仍由本地Domain Validator而非不支持的`minLength`保证。Infrastructure不导入Restaurant类型；Gateway提取arguments后，本地Domain Validator仍为权威门禁且语义正确性另行评分。内部`taskId`、Schema正文、Prompt和Completion都不进入普通Telemetry。非2xx、429、超时、网络错误和畸形响应转为稳定`ModelGatewayError`，不静默降级成自由文本。
+普通Text/JSON Object走标准`POST /chat/completions`；`JSON_SCHEMA`走DeepSeek Beta strict function transport，强制一个只承载结构化输出、从不执行的function envelope。Domain提供canonical JSON Schema，并可为严格传输提供兼容wire schema；例如DeepSeek要求每个object的所有properties都在`required`且`additionalProperties:false`，因此wire空字符串/空数组会在Domain内恢复为canonical可选字段。non-blank仍由本地Domain Validator而非不支持的`minLength`保证。Infrastructure不导入Restaurant类型；Gateway提取arguments后，本地Domain Validator仍为权威门禁且语义正确性另行评分。内部`taskId`、Schema正文、Prompt和Completion都不进入普通Telemetry。非2xx、429、超时、网络错误和畸形响应转为稳定`ModelGatewayError`，并只记录安全的HTTP status、provider request ID、error code/type及截断脱敏消息，不静默降级成自由文本。
 
 ## Restaurant semantic and ADR-0010/0011 action boundary
 

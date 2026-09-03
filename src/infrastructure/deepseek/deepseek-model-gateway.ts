@@ -8,7 +8,7 @@ import {
   type ModelUsage,
   validateModelRequest,
 } from "../../core/model/contracts.js";
-import { ModelGatewayError } from "../../core/model/errors.js";
+import { ModelGatewayError, type ModelProviderErrorDiagnostic } from "../../core/model/errors.js";
 
 const DEEPSEEK_CHAT_COMPLETIONS_URL = "https://api.deepseek.com/chat/completions";
 const DEEPSEEK_BETA_CHAT_COMPLETIONS_URL = "https://api.deepseek.com/beta/chat/completions";
@@ -193,13 +193,46 @@ function parseCompletion(body: unknown, request: ModelRequest): {
   };
 }
 
-function providerErrorForStatus(status: number): ModelGatewayError {
-  const rateLimited = status === 429;
+function nonBlankString(value: unknown): string | undefined {
+  return typeof value === "string" && value.trim().length > 0 ? value.trim() : undefined;
+}
+
+function sanitizedProviderMessage(value: unknown): string | undefined {
+  const message = nonBlankString(value);
+  if (!message) return undefined;
+  return message
+    .replace(/\b(?:bearer\s+)?(?:sk|key|token)_[a-z0-9_-]+\b/gi, "[redacted]")
+    .replace(/\s+/g, " ")
+    .slice(0, 240);
+}
+
+function providerRequestId(response: Response): string | undefined {
+  return response.headers.get("x-request-id")?.trim()
+    || response.headers.get("request-id")?.trim()
+    || response.headers.get("x-ratelimit-request-id")?.trim()
+    || undefined;
+}
+
+async function providerErrorForResponse(response: Response): Promise<ModelGatewayError> {
+  let diagnostic: ModelProviderErrorDiagnostic | undefined;
+  try {
+    const body: unknown = await response.json();
+    const root = isRecord(body) && isRecord(body.error) ? body.error : isRecord(body) ? body : undefined;
+    if (root) {
+      const code = nonBlankString(root.code);
+      const type = nonBlankString(root.type);
+      const message = sanitizedProviderMessage(root.message);
+      if (code || type || message) diagnostic = { ...(code ? { code } : {}), ...(type ? { type } : {}), ...(message ? { message } : {}) };
+    }
+  } catch { /* A failed provider response may not be JSON; status remains diagnostic. */ }
+  const rateLimited = response.status === 429;
   return new ModelGatewayError(
-    `DeepSeek rejected the completion request with HTTP ${status}`,
+    `DeepSeek rejected the completion request with HTTP ${response.status}`,
     rateLimited ? "PROVIDER_RATE_LIMITED" : "PROVIDER_REJECTED",
-    rateLimited || status >= 500,
-    status,
+    rateLimited || response.status >= 500,
+    response.status,
+    providerRequestId(response),
+    diagnostic,
   );
 }
 
@@ -293,7 +326,7 @@ export class DeepSeekModelGateway implements ModelGateway {
         },
       );
       if (!response.ok) {
-        throw providerErrorForStatus(response.status);
+        throw await providerErrorForResponse(response);
       }
 
       let body: unknown;
@@ -388,6 +421,8 @@ export class DeepSeekModelGateway implements ModelGateway {
       latencyMs: Math.max(0, this.now() - startedAt),
       errorCode: error.code,
       ...(error.providerStatus !== undefined ? { providerStatus: error.providerStatus } : {}),
+      ...(error.providerRequestId ? { providerRequestId: error.providerRequestId } : {}),
+      ...(error.providerError ? { providerError: error.providerError } : {}),
     });
   }
 

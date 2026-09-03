@@ -1,13 +1,31 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.34
+- Document revision: 4.35
 - Last updated: 2026-09-03
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## 2026-09-03 — H001 DeepSeek strict Agent transport repair
+
+### Why
+
+真实H001的Semantic调用成功，但首次`restaurant_agent_decide`被DeepSeek拒绝，且原有Artifact只保留稳定失败分类，无法诊断Provider非2xx细节。
+
+### Changes
+
+- 保持`restaurant_agent_action@3` canonical Schema和本地Action Validator不变；新增仅供DeepSeek Beta strict function transport使用的wire schema。其顶层关闭additional properties，且每个字段均写入`required`；不用的canonical可选字段以空字符串或空数组编码，并在Domain内严格恢复为canonical动作。
+- Decision Prompt升为`restaurant-agent-decision-prompt@5`，明确wire占位字段不得承载其他动作的有效值。恢复后仍通过原有parser和Validator；字段错位或非空的无关字段继续fail closed。
+- DeepSeek Gateway对非2xx安全保存HTTP status、provider request ID、error code/type与截断脱敏message；不保存API key、Authorization、原始Prompt、Completion或Response body。Hybrid artifact增加对应的安全`modelInvocations`记录。
+
+### Evidence and boundary
+
+DeepSeek官方Beta strict function规则要求每个object property都在`required`中且`additionalProperties:false`，并不支持string `minLength` / `maxLength`等约束；原canonical Action Schema仅`type`必填，因而最可能被Provider拒绝。Beta endpoint原已正确使用。此改动不触及Google、Cloudflare、Tabelog、HARD Grounding或`PRESENT_RESULTS`业务逻辑，也不添加任何写操作。
+
+一次真实H001随后完成Semantic和6次`restaurant_agent_decide`（均HTTP 200），确认已越过原MODEL_FAILURE；之后Tabelog对三个Google候选均记录`ENTITY_MATCH_UNCERTAIN`，Agent重复同一availability action，最终`STEP_LIMIT / NEEDS_INPUT`。没有抵达`PRESENT_RESULTS`，也没有重跑。
 
 ## 2026-09-03 — H001 live read evidence completion
 

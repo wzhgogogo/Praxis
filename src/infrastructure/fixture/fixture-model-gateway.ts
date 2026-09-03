@@ -120,6 +120,20 @@ function fixtureAgentAction(request: ModelRequest): Record<string, unknown> {
   return { type: "BOOK_RESERVATION", candidateId: selectedCandidateId, offerId: selectedOfferId, decisionSummary: "request authorization checkpoint" };
 }
 
+/** Mirrors the all-required strict transport envelope without changing the canonical Action fixture. */
+function strictAgentWire(action: Record<string, unknown>): Record<string, unknown> {
+  return {
+    type: action.type,
+    question: typeof action.question === "string" ? action.question : "",
+    relatedFields: Array.isArray(action.relatedFields) ? action.relatedFields : [],
+    retrievalHint: typeof action.retrievalHint === "string" ? action.retrievalHint : "",
+    candidateIds: Array.isArray(action.candidateIds) ? action.candidateIds : [],
+    candidateId: typeof action.candidateId === "string" ? action.candidateId : "",
+    offerId: typeof action.offerId === "string" ? action.offerId : "",
+    decisionSummary: typeof action.decisionSummary === "string" ? action.decisionSummary : "",
+  };
+}
+
 /**
  * Local-only deterministic model double for the current Restaurant semantic path.
  */
@@ -133,7 +147,7 @@ export class FixtureModelGateway implements ModelGateway {
         return fixtureSemanticProposalFor(message);
       }
       if (request.purpose === "restaurant_agent_decide") {
-        return fixtureAgentAction(request);
+        return strictAgentWire(fixtureAgentAction(request));
       }
       throw new Error(`Fixture model gateway does not support ${request.purpose}`);
     })();

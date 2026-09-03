@@ -1,13 +1,32 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.32
+- Document revision: 4.33
 - Last updated: 2026-09-03
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## 2026-09-03 — H001 DeepSeek strict Agent transport verification
+
+### Scope
+
+`restaurant_agent_decide` 的DeepSeek Beta strict function wire compatibility、非2xx安全诊断和canonical `restaurant_agent_action@3`恢复；不改变外部Provider读路径或任何写操作。
+
+### Checks
+
+- Focused tests：通过`10/10`，覆盖全字段required/`additionalProperties:false`的strict wire schema、wire到canonical恢复、无关有效字段fail-closed、Beta endpoint/function strict shape，以及provider非2xx的status/request ID/code/type/脱敏message诊断。
+- `npm test`：通过`129/129`，0 failed（在允许localhost fixture listener的环境中）。
+- `npm run typecheck`：通过。
+- `npm run arch:check`：通过，0 forbidden source dependencies。
+- `npm run build`：通过。
+- `npm run eval:restaurant:agent-loop:hybrid-live-read -- --case h001`：仅执行一次真实Live Read-only。Semantic与6次`restaurant_agent_decide`均为HTTP 200；模型问题已越过。Google Discovery完成10个候选；首次Tabelog availability对前3个候选均fail closed为`ENTITY_MATCH_UNCERTAIN`，后续重复检查触发`READ_BUDGET_EXCEEDED`，最终为`STEP_LIMIT / NEEDS_INPUT`，未进入`PRESENT_RESULTS`。
+
+### Modes and external effects
+
+Unit、Contract、Fixture、Mock Harness、Embedded PGlite和local HTTP/SSE均通过；另有一次真实模型、Google Places与Tabelog/Browser read-only运行。该运行没有Authorization、预约提交、付款、取消、个人信息提交或其他外部写操作；`sideEffects`为0。H001仍未完成，其下一项阻塞是可证明的Google→Tabelog门店身份匹配，而非DeepSeek模型调用。
 
 ## 2026-09-03 — H001 read-only completion hardening verification
 

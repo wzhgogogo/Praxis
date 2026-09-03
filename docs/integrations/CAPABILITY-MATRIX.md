@@ -1,7 +1,7 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 0.6
+- Document revision: 0.7
 - Last updated: 2026-09-03
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
@@ -11,7 +11,7 @@
 
 | Provider | Discovery | Availability | Execute | Cancel | Verify | Takeover | Status / 限制 |
 |---|---|---|---|---|---|---|---|
-| DeepSeek API | — | — | Tool Call提议 | — | 仅辅助抽取 | — | `verified`连接；`restaurant-semantic-proposal@3`以Beta strict function承载完整Proposal Schema。Schema只使用DeepSeek strict支持的子集，non-blank等其余规则由本地Validator保证；语义Eval仍必需。已暴露Regression不能作为`restaurant-semantic-holdout@2` Baseline；模型不直接执行工具或写状态 |
+| DeepSeek API | — | — | Tool Call提议 | — | 仅辅助抽取 | — | `verified`连接；Semantic与Agent使用Beta strict function。strict wire object的所有字段均为required并关闭additional properties，Domain再恢复canonical可选字段；non-blank等其余规则由本地Validator保证。安全诊断保留status/request ID/code/type/脱敏message，模型不直接执行工具或写状态 |
 | Google Places API (New) | Live Text Search Discovery（代码实现；尚未在本分支实测） | 否 | 否 | 否 | 否 | 否 | `verified`官方HTTP/FieldMask契约；Praxis只请求最小字段和电话作门店核验；整个fetch/body路径有hard deadline，Place ID可保存，内容保存和展示仍受Google政策限制 |
 | Cloudflare Browser Run | 浏览器基础设施（代码实现；尚未实测） | 通过受限Browser Executor读取 | 否 | 否 | 否 | 否 | CDP远程浏览器；Kitesurf为首选Beta引擎，发生一次兼容/运行时失败才回退Chromium；不绕过bot challenge |
 | Tabelog Web | 来源页 | 只读开发期Availability Executor（代码实现；兼容性未验证） | 否 | 否 | 否 | 否 | 仅限Tabelog域名；逐门店页补全身份，只有exact phone或name+address可HIGH匹配，已知电话号码冲突直接拒绝；只接受明确标记available的slot控件。实体非HIGH、CAPTCHA、页面异常、未确认的日期/人数、超时或外部跳转均不是`UNAVAILABLE`。生产适用性须经兼容性、可靠性和法律约束单独验证 |
@@ -31,7 +31,7 @@
 - [Tool Calls](https://api-docs.deepseek.com/guides/tool_calls)
 - [Models and Pricing](https://api-docs.deepseek.com/quick_start/pricing/)
 
-DeepSeek标准JSON Output只保证生成合法JSON，不接收完整`json_schema`。官方Beta strict function calling可校验Function JSON Schema；`restaurant-semantic-proposal@3`因此用一个强制、不可执行的function envelope传输Restaurant Proposal，并要求唯一匹配的`tool_calls`。Schema不得使用strict不支持的约束（例如string的`minLength`/`maxLength`）；本地Proposal Validator仍处理这些无法在传输层表达的语义和不可信输出，语义正确性由Eval单独判断。这不是`LLM → Tool`执行路径：Gateway只提取arguments。模型名和能力可能变化，运行时必须固定并记录版本。
+DeepSeek标准JSON Output只保证生成合法JSON，不接收完整`json_schema`。官方Beta strict function calling可校验Function JSON Schema；Semantic与Agent都使用强制、不可执行的function envelope并要求唯一匹配的`tool_calls`。严格模式只支持其文档列出的子集，所有object properties必须写进`required`并设`additionalProperties:false`；Domain canonical schema有可选字段时，使用全字段required的provider wire schema并在本地恢复。Schema不得使用strict不支持的约束（例如string的`minLength`/`maxLength`）；本地Validator仍处理这些无法在传输层表达的语义和不可信输出，语义正确性由Eval单独判断。这不是`LLM → Tool`执行路径：Gateway只提取arguments。模型名和能力可能变化，运行时必须固定并记录版本。
 
 ### Google
 

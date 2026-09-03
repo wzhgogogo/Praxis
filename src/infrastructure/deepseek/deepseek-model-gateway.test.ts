@@ -163,7 +163,9 @@ test("DeepSeek gateway classifies provider rejection without exposing response b
       },
     },
     fetchImplementation: async () =>
-      new Response(JSON.stringify({ error: { message: "credential detail" } }), { status: 429 }),
+      new Response(JSON.stringify({ error: { code: "rate_limit", type: "invalid_request", message: "Bearer sk_secret-token must not be retained" } }), {
+        status: 429, headers: { "x-request-id": "provider-request-123" },
+      }),
   });
 
   await assert.rejects(
@@ -173,11 +175,20 @@ test("DeepSeek gateway classifies provider rejection without exposing response b
       error.code === "PROVIDER_RATE_LIMITED" &&
       error.retryable &&
       error.providerStatus === 429 &&
-      !error.message.includes("credential detail"),
+      error.providerRequestId === "provider-request-123" &&
+      error.providerError?.code === "rate_limit" &&
+      error.providerError?.type === "invalid_request" &&
+      error.providerError?.message === "[redacted] must not be retained" &&
+      !error.message.includes("sk_secret-token"),
   );
   assert.equal(records.length, 1);
   assert.equal(records[0]?.outcome, "FAILED");
   assert.equal(records[0]?.errorCode, "PROVIDER_RATE_LIMITED");
+  assert.equal(records[0]?.providerStatus, 429);
+  assert.equal(records[0]?.providerRequestId, "provider-request-123");
+  assert.deepEqual(records[0]?.providerError, {
+    code: "rate_limit", type: "invalid_request", message: "[redacted] must not be retained",
+  });
 });
 
 test("DeepSeek gateway turns an aborted bounded request into a timeout", async () => {

@@ -1,8 +1,8 @@
 # Data, Context and Security
 
 - Status: Accepted
-- Document revision: 1.3
-- Last updated: 2026-08-20
+- Document revision: 1.4
+- Last updated: 2026-09-03
 - Source of truth for: 数据归属、Context分层、隐私、安全和保留策略
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md), [ADR-0005](../decisions/0005-modular-monolith.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md)
 - Related documents: [Restaurant Booking](../domains/RESTAURANT-BOOKING.md), [Capability Matrix](../integrations/CAPABILITY-MATRIX.md)
@@ -121,7 +121,7 @@ Restaurant Agent Decision只接收Domain-owned的`restaurant-agent-context@2`，
 - DeepSeek、Google和平台Key只在服务端Secret Manager或受部署环境管理的服务端变量；Web不读取这些变量。
 - 当前`DeepSeekModelGateway.fromEnvironment`只读取`DEEPSEEK_API_KEY`与`DEEPSEEK_MODEL`。两者缺失时fail-closed；本地`dev`、真实模型Eval和真实PostgreSQL smoke可由Node原生`--env-file-if-exists=.env`读取Git忽略的`.env`，但`npm test`、构建和Fixture Eval不读取它。部署环境仍使用受管理的服务端变量；不存在前端注入或日志输出Key的实现。
 - 真实模型Eval额外要求`PRAXIS_ALLOW_LIVE_MODEL_EVAL=1`；可选的价格变量只用于本地估算Token成本，不含凭证。没有这个开关时，命令在构造Gateway前退出。
-- `ModelInvocationRecord`不保存Prompt或Completion正文；真实Eval的控制台报告不输出输入消息，只输出聚合指标与每条样例ID。
+- `ModelInvocationRecord`不保存Prompt或Completion正文；对Provider非2xx只保存HTTP status、provider request ID、error code/type和截断脱敏的provider message，绝不保存Authorization header、Key或原始错误body。真实Eval的控制台报告不输出输入消息，只输出聚合指标与每条样例ID。
 - Web不接触生产Secret，不直接调用供应商API。
 - 所有Conversation、Case、Activity、Authorization和Attempt读取均按可信服务端`userId`隔离；客户端Case ID或Deep Link不能替代鉴权。
 - 生产姓名、电话、邮箱和地址采用字段级加密，密钥与数据库分离。Stage 2B只允许本地Fixture身份和非真实显示名；生产身份与PII加密尚未实现，不能存放真实用户资料。

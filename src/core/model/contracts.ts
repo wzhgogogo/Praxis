@@ -67,6 +67,13 @@ export interface ModelResponse {
 
 export type ModelInvocationOutcome = "SUCCEEDED" | "FAILED";
 
+/** Safe, bounded provider diagnostics. Never contains headers, prompts, or credentials. */
+export interface ModelProviderErrorDiagnostic {
+  code?: string;
+  type?: string;
+  message?: string;
+}
+
 /**
  * Deliberately excludes prompt and completion content. Those can contain user data and
  * must not be copied into ordinary application logs.
@@ -87,6 +94,7 @@ export interface ModelInvocationRecord {
   providerRequestId?: string;
   providerStatus?: number;
   errorCode?: string;
+  providerError?: ModelProviderErrorDiagnostic;
 }
 
 export interface ModelInvocationObserver {

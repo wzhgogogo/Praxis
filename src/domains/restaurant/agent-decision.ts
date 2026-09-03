@@ -8,15 +8,16 @@ import type {
 import { ModelGatewayError, type ModelGatewayErrorCode } from "../../core/model/errors.js";
 import type { RestaurantAgentContext } from "./agent-context.js";
 import {
-  RESTAURANT_AGENT_ACTION_JSON_SCHEMA,
   RESTAURANT_AGENT_ACTION_SCHEMA,
+  RESTAURANT_AGENT_ACTION_STRICT_WIRE_JSON_SCHEMA,
   type RestaurantAgentAction,
+  normalizeRestaurantAgentActionStrictWire,
   validateRestaurantAgentAction,
 } from "./agent-action.js";
 import type { RestaurantAgentCapability } from "./restaurant-capabilities.js";
 
 export const RESTAURANT_AGENT_DECISION_PURPOSE = "restaurant_agent_decide" as const;
-export const RESTAURANT_AGENT_DECISION_PROMPT_VERSION = "4" as const;
+export const RESTAURANT_AGENT_DECISION_PROMPT_VERSION = "5" as const;
 
 export interface RestaurantAgentDecisionInput {
   taskId: string;
@@ -107,6 +108,8 @@ Availability checks have explicit business meanings: AVAILABLE means a qualifyin
 
 Use PRESENT_RESULTS only for candidates that the context shows as AVAILABLE with a fresh matching offer and explicit matchReasons for the requested area and every HARD criterion. If any such support is absent, do not present the candidate; continue safely or ask the user. PRESENT_RESULTS ends a read-only search and never selects, authorizes, or submits a booking.
 
+The strict response transport always requires every wire field. For fields that do not apply to your selected action, return an empty string or an empty array exactly as the schema permits; never put a meaningful value in a field for another action.
+
 Choose exactly one action from the supplied Restaurant capability catalog. A failed read is information; you may choose another valid path. Never assume booking success. Never include provider names, adapter instructions, authorization objects, terms hashes, risks, evidence, state patches, events, tool calls, or chain-of-thought.
 
 Return exactly one JSON object with action fields and an optional short decisionSummary. The summary is for trajectory debugging only and must not contain hidden reasoning.`;
@@ -147,7 +150,7 @@ export class RestaurantAgentDecision implements RestaurantAgentDecisionPort {
         responseFormat: "JSON_SCHEMA",
         outputSchema: {
           ...RESTAURANT_AGENT_ACTION_SCHEMA,
-          jsonSchema: RESTAURANT_AGENT_ACTION_JSON_SCHEMA,
+          jsonSchema: RESTAURANT_AGENT_ACTION_STRICT_WIRE_JSON_SCHEMA,
         },
         timeoutMs: 10_000,
         fallback: "FAIL_CLOSED",
@@ -176,7 +179,11 @@ export class RestaurantAgentDecision implements RestaurantAgentDecisionPort {
     } catch {
       return { status: "INVALID_MODEL_OUTPUT", errors: ["Model response is not valid JSON"], modelAttempt };
     }
-    const validation = validateRestaurantAgentAction(parsed);
+    const wire = normalizeRestaurantAgentActionStrictWire(parsed);
+    if (!wire.valid) {
+      return { status: "INVALID_MODEL_OUTPUT", errors: wire.errors, modelAttempt };
+    }
+    const validation = validateRestaurantAgentAction(wire.value);
     if (!validation.valid) {
       return { status: "INVALID_MODEL_OUTPUT", errors: validation.errors, modelAttempt };
     }
