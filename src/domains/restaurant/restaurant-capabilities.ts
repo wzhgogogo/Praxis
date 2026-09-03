@@ -32,6 +32,13 @@ export const RESTAURANT_AGENT_CAPABILITIES: readonly RestaurantAgentCapability[]
     importantConstraints: ["Only known candidates are valid; scheduling values are never Agent-supplied."],
   },
   {
+    name: "PRESENT_RESULTS",
+    purpose: "Complete a read-only restaurant task by presenting candidates whose required facts and availability are grounded.",
+    inputSchema: "candidateIds; validator derives the required evidence from authoritative State",
+    resultMeaning: "Writes a search-only terminal result; it does not select, authorize, or submit a booking.",
+    importantConstraints: ["Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."],
+  },
+  {
     name: "SELECT_CANDIDATE",
     purpose: "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
     inputSchema: "candidateId, optional offerId",

@@ -16,6 +16,7 @@ export interface UntrustedGooglePlaceObservation {
   types?: string[];
   primaryType?: string;
   googleMapsUri?: string;
+  nationalPhoneNumber?: string;
 }
 
 export interface UntrustedTabelogAvailabilityObservation {
@@ -27,6 +28,7 @@ export interface UntrustedTabelogAvailabilityObservation {
   requestedDate?: string;
   requestedPartySize?: number;
   visibleSlots?: string[];
+  verifiedHardCriteria?: string[];
   pageState:
     | "AVAILABLE"
     | "NO_MATCHING_SLOT"
@@ -46,6 +48,7 @@ export interface GroundedAvailability {
   offers: AvailabilityOffer[];
   check: RestaurantAvailabilityCheck;
   evidence: RestaurantReadEvidence[];
+  candidateFactUpdate?: { candidateId: string; matchReasons: string[]; evidenceIds: string[] };
 }
 
 function fingerprint(value: unknown): string {
@@ -71,12 +74,14 @@ function usableRestaurant(place: UntrustedGooglePlaceObservation): boolean {
  */
 export function groundGoogleDiscovery(
   observation: UntrustedGooglePlaceObservation,
-  input: { requestFingerprint: string; observedAt: string },
+  input: { requestFingerprint: string; observedAt: string; areaQuery: string },
 ): GroundedGoogleDiscovery {
   if (!observation.placeId?.trim()) return { accepted: false, reasonCode: "GOOGLE_PLACE_ID_MISSING" };
   if (!observation.displayName?.trim()) return { accepted: false, reasonCode: "GOOGLE_NAME_MISSING" };
   if (!observation.formattedAddress?.trim()) return { accepted: false, reasonCode: "GOOGLE_ADDRESS_MISSING" };
   if (!usableRestaurant(observation)) return { accepted: false, reasonCode: "GOOGLE_PLACE_TYPE_UNUSABLE" };
+  const normalizedArea = input.areaQuery.trim().toLocaleLowerCase("en-US");
+  const areaMatch = normalizedArea.length > 0 && observation.formattedAddress.toLocaleLowerCase("en-US").includes(normalizedArea);
   const candidateId = stableCandidateId(observation.placeId);
   const evidence: RestaurantReadEvidence = {
     evidenceId: evidenceId("google-discovery", { placeId: observation.placeId, observedAt: input.observedAt }),
@@ -92,6 +97,8 @@ export function groundGoogleDiscovery(
       outletName: observation.displayName,
       address: observation.formattedAddress,
       types: [...(observation.types ?? [])],
+      areaQuery: input.areaQuery,
+      areaMatch,
       ...(observation.primaryType ? { primaryType: observation.primaryType } : {}),
     },
   };
@@ -101,15 +108,15 @@ export function groundGoogleDiscovery(
       restaurant: {
         id: candidateId,
         outletName: observation.displayName.trim(),
-        sourceIds: { googlePlaces: observation.placeId },
+        sourceIds: { googlePlaces: observation.placeId, ...(observation.nationalPhoneNumber ? { phone: observation.nationalPhoneNumber } : {}) },
         address: observation.formattedAddress.trim(),
         ...(observation.location?.latitude !== undefined && observation.location.longitude !== undefined
           ? { coordinates: { lat: observation.location.latitude, lng: observation.location.longitude } }
           : {}),
         provenance: { outletName: evidence.evidenceId, address: evidence.evidenceId, sourceIds: evidence.evidenceId },
       },
-      matchReasons: ["Returned by the requested place discovery"],
-      warnings: [],
+      matchReasons: areaMatch ? [`Address explicitly matches requested area: ${input.areaQuery}`] : [],
+      warnings: areaMatch ? [] : [`Requested area ${input.areaQuery} is not explicitly supported by this discovery result.`],
       executionConfidence: "LOW",
     },
     evidence,
@@ -164,7 +171,31 @@ export function groundTabelogAvailability(
   if (observation.pageState === "AVAILABLE" && withinWindow.length === 0) {
     return { offers: [], check: { status: "UNKNOWN", checkedAt: observation.observedAt, evidenceIds: [], reasonCode: "EXTRACTION_FAILED" }, evidence: [] };
   }
-  const evidence: RestaurantReadEvidence[] = observation.entityMatch.confidence === "HIGH" ? [{
+  const entityEvidence: RestaurantReadEvidence = {
+    evidenceId: evidenceId("tabelog-entity-match", { candidateId: candidate.restaurant.id, sourceEntityId: observation.sourceEntityId, observedAt: observation.observedAt }),
+    kind: "ENTITY_MATCH",
+    provider: "TABELOG",
+    candidateId: candidate.restaurant.id,
+    ...(observation.sourceEntityId ? { sourceEntityId: observation.sourceEntityId } : {}),
+    ...(observation.sourceUrl ? { sourceUrl: observation.sourceUrl } : {}),
+    observedAt: observation.observedAt,
+    requestFingerprint: fingerprint({ candidateId: candidate.restaurant.id, sourceEntityId: observation.sourceEntityId }),
+    claims: { outletName: candidate.restaurant.outletName },
+    entityMatch: { confidence: "HIGH", matchedBy: [...observation.entityMatch.matchedBy] },
+  };
+  const factEvidence: RestaurantReadEvidence | undefined = observation.verifiedHardCriteria?.length ? {
+    evidenceId: evidenceId("tabelog-hard-criteria", { candidateId: candidate.restaurant.id, observedAt: observation.observedAt, criteria: observation.verifiedHardCriteria }),
+    kind: "RESTAURANT_FACT",
+    provider: "TABELOG",
+    candidateId: candidate.restaurant.id,
+    ...(observation.sourceEntityId ? { sourceEntityId: observation.sourceEntityId } : {}),
+    ...(observation.sourceUrl ? { sourceUrl: observation.sourceUrl } : {}),
+    observedAt: observation.observedAt,
+    requestFingerprint: fingerprint({ candidateId: candidate.restaurant.id, criteria: observation.verifiedHardCriteria }),
+    claims: { verifiedHardCriteria: [...observation.verifiedHardCriteria] },
+    entityMatch: { confidence: "HIGH", matchedBy: [...observation.entityMatch.matchedBy] },
+  } : undefined;
+  const availabilityEvidence: RestaurantReadEvidence = {
     evidenceId: evidenceId("tabelog-availability", { candidateId: candidate.restaurant.id, sourceEntityId: observation.sourceEntityId, observedAt: observation.observedAt, slots: withinWindow }),
     kind: "AVAILABILITY",
     provider: "TABELOG",
@@ -177,9 +208,15 @@ export function groundTabelogAvailability(
     claims: { date: request.date, partySize: request.partySize, visibleSlots: withinWindow },
     entityMatch: { confidence: "HIGH", matchedBy: [...observation.entityMatch.matchedBy] },
     ...(observation.excerpt ? { artifactRef: { kind: "DOM_EXCERPT", reference: `sha256:${fingerprint(observation.excerpt)}` } } : {}),
-  }] : [];
+  };
+  const evidence = [entityEvidence, ...(factEvidence ? [factEvidence] : []), availabilityEvidence];
   check = { ...check, evidenceIds: evidence.map((item) => item.evidenceId), ...(evidence[0]?.expiresAt ? { expiresAt: evidence[0].expiresAt } : {}) };
-  if (check.status !== "AVAILABLE") return { offers: [], check, evidence };
+  const candidateFactUpdate = factEvidence ? {
+    candidateId: candidate.restaurant.id,
+    matchReasons: observation.verifiedHardCriteria!.map((criterion) => `Verified HARD criterion from source: ${criterion}`),
+    evidenceIds: [factEvidence.evidenceId],
+  } : undefined;
+  if (check.status !== "AVAILABLE") return { offers: [], check, evidence, ...(candidateFactUpdate ? { candidateFactUpdate } : {}) };
   const expiresAt = evidence[0]?.expiresAt ?? new Date(Date.parse(observation.observedAt) + offerTtlMs).toISOString();
   return {
     offers: withinWindow.map((slot) => ({
@@ -196,5 +233,6 @@ export function groundTabelogAvailability(
     })),
     check,
     evidence,
+    ...(candidateFactUpdate ? { candidateFactUpdate } : {}),
   };
 }

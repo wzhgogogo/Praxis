@@ -36,9 +36,17 @@ export class GooglePlacesClient {
     const controller = new AbortController();
     const relayAbort = () => controller.abort(signal.reason);
     signal.addEventListener("abort", relayAbort, { once: true });
-    const timeout = setTimeout(() => controller.abort(new Error("Google Places request timed out")), this.timeoutMs);
+    let rejectDeadline: ((error: GooglePlacesError) => void) | undefined;
+    const deadline = new Promise<never>((_resolve, reject) => {
+      rejectDeadline = reject;
+    });
+    const timeout = setTimeout(() => {
+      controller.abort(new Error("Google Places request timed out"));
+      rejectDeadline?.(new GooglePlacesError("GOOGLE_TIMEOUT", "Google Places request timed out"));
+    }, this.timeoutMs);
     try {
-      const response = await this.fetchImplementation(GOOGLE_PLACES_TEXT_SEARCH_URL, {
+      return await Promise.race([Promise.resolve().then(async () => {
+        const response = await this.fetchImplementation(GOOGLE_PLACES_TEXT_SEARCH_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -58,18 +66,19 @@ export class GooglePlacesClient {
           } : {}),
         }),
         signal: controller.signal,
-      });
-      if (!response.ok) throw new GooglePlacesError("GOOGLE_SEARCH_FAILED", `Google Places returned HTTP ${response.status}`);
-      let payload: GooglePlacesTextSearchResponse;
-      try {
-        payload = await response.json() as GooglePlacesTextSearchResponse;
-      } catch {
-        throw new GooglePlacesError("GOOGLE_MALFORMED_RESPONSE", "Google Places returned invalid JSON");
-      }
-      if (payload.places !== undefined && !Array.isArray(payload.places)) {
-        throw new GooglePlacesError("GOOGLE_MALFORMED_RESPONSE", "Google Places response has invalid places");
-      }
-      return payload.places ?? [];
+        });
+        if (!response.ok) throw new GooglePlacesError("GOOGLE_SEARCH_FAILED", `Google Places returned HTTP ${response.status}`);
+        let payload: GooglePlacesTextSearchResponse;
+        try {
+          payload = await response.json() as GooglePlacesTextSearchResponse;
+        } catch {
+          throw new GooglePlacesError("GOOGLE_MALFORMED_RESPONSE", "Google Places returned invalid JSON");
+        }
+        if (payload.places !== undefined && !Array.isArray(payload.places)) {
+          throw new GooglePlacesError("GOOGLE_MALFORMED_RESPONSE", "Google Places response has invalid places");
+        }
+        return payload.places ?? [];
+      }), deadline]);
     } catch (error) {
       if (error instanceof GooglePlacesError) throw error;
       if (controller.signal.aborted) {

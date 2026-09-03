@@ -1,13 +1,31 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.33
-- Last updated: 2026-08-20
+- Document revision: 4.34
+- Last updated: 2026-09-03
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## 2026-09-03 — H001 live read evidence completion
+
+### Why
+
+H001 needs one actual read-only terminal result, not a heuristic time extraction or a loop that merely stops after reading availability. Task-critical area, HARD criterion, exact outlet and requested availability facts must be independently grounded and fail closed.
+
+### Changes
+
+- Added ADR-0014 and advanced to `restaurant-state@10`, `restaurant-agent-action@3` and `restaurant-agent-decision-prompt@4`. `PRESENT_RESULTS` is a non-booking terminal action/state: the Agent may propose candidate IDs only; the Validator derives the required proof and the Runtime writes `RESULTS_PRESENTED`.
+- Made Google Places Text Search use a Promise-race hard deadline across both fetch and response body parsing, including non-cooperative fetch implementations.
+- Replaced broad Tabelog time scraping with explicit slot-control parsing after confirmed date and party selection. Ordinary opening-hours/prose time strings cannot create availability; bot challenges, uncertain selection, redirect, unsupported flow and extraction failures remain non-available.
+- Enriched each candidate Tabelog page before resolution. A result is HIGH only for exact phone or normalized outlet name plus address; ambiguous branches fail closed. Availability grounding now records separate `ENTITY_MATCH`, `RESTAURANT_FACT` and `AVAILABILITY` evidence and only source-labelled hard-criterion text may add a candidate fact.
+- Updated the H001 runner to validate Live configuration before a paid model call, persist an artifact on any executed run, and exit successfully only at terminal `PRESENT_RESULTS`.
+
+### Boundary
+
+No real provider, model or browser session was reached: the attempted H001 runner stopped at the required `PRAXIS_ALLOW_LIVE_RESTAURANT_READ=1` gate, and the current environment also lacks Google Places and Cloudflare credentials. No booking, payment, cancellation, PII submission or other external write path was added or run.
 
 ## 2026-08-20 — Live / Hybrid Restaurant read path implementation
 

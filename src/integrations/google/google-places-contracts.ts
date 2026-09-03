@@ -8,6 +8,7 @@ export const GOOGLE_PLACES_RESTAURANT_FIELD_MASK = [
   "places.location",
   "places.types",
   "places.primaryType",
+  "places.nationalPhoneNumber",
   "places.googleMapsUri",
 ].join(",");
 
@@ -29,6 +30,7 @@ export interface GooglePlacesRawPlace {
   location?: { latitude?: unknown; longitude?: unknown };
   types?: unknown;
   primaryType?: unknown;
+  nationalPhoneNumber?: unknown;
   googleMapsUri?: unknown;
 }
 

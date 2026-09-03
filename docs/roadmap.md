@@ -146,7 +146,7 @@ Progress（截至冻结）：历史Progressive Decision Dataset、17个人工Gol
 - 使用Freshness-aware查询复用仍有效的Observation，过期或高风险字段按用途刷新；Source查询、实体合并和硬过滤不依赖模型重复阅读完整结果；
 - 保存来源、ObservedAt和能力限制，建立Live Read-only检查；Stage 2C数据只用于Trace、回放和离线分析，不自动修改生产排序、Prompt或Policy。
 
-Live Read implementation（2026-08-20）：已增加`restaurant-state@9` Availability Check/Read Evidence、Google Places API (New) Text Search、Cloudflare Browser Run CDP Runtime、Kitesurf→Chromium单次机械回退、受限Tabelog Availability Executor、HIGH-only Outlet Entity Resolution、Runtime Grounding、Hybrid runner及Browser compatibility probe。所有外部执行仍需显式环境开关；本次尚未运行真实Provider、Browser或模型调用，故它们仅是source + offline contract evidence。h001–h005源材料保持不改语义，并在运行时materialize相对日期；既有E2E rubric仍是`draft / not integrated`，不能报告为已完成Scorer。
+Live Read H001 implementation（2026-09-03）：已升级为`restaurant-state@10`，包含Availability Check/Read Evidence和只读`PRESENT_RESULTS`。Google Places API (New) Text Search使用不依赖合作Abort的hard deadline；Tabelog Executor只读取明确标为available的slot控件，逐页补全门店身份并以HIGH-only resolution fail closed；area、每个positive HARD criterion、门店identity和指定日期/时段/人数availability都需要Evidence才能结束。所有外部执行仍需显式环境开关；尚未运行真实Provider、Browser或模型调用，故它们仍只是source + offline contract evidence。H002–H005和Scorer仍不在本阶段范围。
 
 完成标准：Agent Loop architecture freeze后完成真实模型Agent Decision、真实英文查询的Live read-only Discovery与Availability、以及Mock Booking/Verification的Hybrid E2E preparation，并运行h001–h005 E2E；最小Interaction Event能串联需求、展示、反馈、Agent选择和Verified Outcome引用；Fixture、Real Model Mock World和Live Read-only结果分别记录。新的未泄露`CLEAN_HOLDOUT`继续作为独立parser/semantic质量工作。此时仍不宣称真实Booking、完整Browser自动化或历史Progressive Decision Harness描述的完整渐进决策。
 

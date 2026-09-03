@@ -320,6 +320,7 @@ describe("restaurant booking mock harness", () => {
       date: fixtureIntent.date,
       timeWindow: fixtureIntent.timeWindow,
       partySize: fixtureIntent.partySize,
+      hardCriteria: ["yakiniku"],
     });
   });
 

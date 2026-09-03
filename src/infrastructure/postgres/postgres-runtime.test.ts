@@ -856,7 +856,7 @@ describe("PostgresTaskRuntime with PGlite", () => {
       });
 
       assert.equal(restored.runId, "restaurant-run-1");
-      assert.equal(restored.domainState.schemaVersion, "9");
+      assert.equal(restored.domainState.schemaVersion, "10");
       assert.equal(restored.domainState.phase, "SEARCHING");
       assert.equal(restored.version, 2);
       assert.equal(duplicate.duplicateEvent, true);
@@ -904,7 +904,7 @@ describe("PostgresTaskRuntime with PGlite", () => {
           taskId: "restaurant-recovery-1",
           event: {
             type: "AVAILABILITY_CHECKED",
-            request: { candidateIds: [fixtureCandidates[0]!.restaurant.id], candidates: [fixtureCandidates[0]!], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: fixtureIntent.partySize },
+            request: { candidateIds: [fixtureCandidates[0]!.restaurant.id], candidates: [fixtureCandidates[0]!], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: fixtureIntent.partySize, hardCriteria: ["yakiniku"] },
             offers: [fixtureOffers[0]!],
             availabilityChecks: { [fixtureCandidates[0]!.restaurant.id]: { status: "AVAILABLE", checkedAt: clock.now().toISOString(), evidenceIds: [] } },
             evidence: [],

@@ -12,7 +12,8 @@ export type RestaurantActionRejectionCode =
   | "OFFER_STALE"
   | "SELECTION_REQUIRED"
   | "ACTIVE_ATTEMPT"
-  | "OUTCOME_UNKNOWN";
+  | "OUTCOME_UNKNOWN"
+  | "PRESENTATION_EVIDENCE_MISSING";
 
 export type RestaurantActionValidation =
   | { status: "ALLOWED" }
@@ -24,7 +25,55 @@ function rejected(code: RestaurantActionRejectionCode, reason: string): Restaura
 }
 
 function isTerminal(state: Readonly<RestaurantTaskState>): boolean {
-  return state.phase === "BOOKED_VERIFIED" || state.phase === "OUTCOME_UNKNOWN" || state.phase === "FAILED";
+  return state.phase === "BOOKED_VERIFIED" || state.phase === "PRESENT_RESULTS" || state.phase === "OUTCOME_UNKNOWN" || state.phase === "FAILED";
+}
+
+function normalized(value: string): string {
+  return value.trim().toLocaleLowerCase("en-US").replace(/\s+/g, " ");
+}
+
+function stringClaim(evidence: RestaurantTaskState["readEvidence"][number], key: string): string | undefined {
+  const value = evidence.claims[key];
+  return typeof value === "string" ? value : undefined;
+}
+
+function stringListClaim(evidence: RestaurantTaskState["readEvidence"][number], key: string): string[] {
+  const value = evidence.claims[key];
+  return Array.isArray(value) && value.every((item) => typeof item === "string") ? value : [];
+}
+
+function presentationEvidenceIds(
+  state: Readonly<RestaurantTaskState>,
+  candidateId: string,
+  intent: NonNullable<ReturnType<typeof completeRestaurantIntent>>,
+  now: string,
+): { valid: true; evidenceIds: string[] } | { valid: false; reason: string } {
+  const candidateEvidence = state.readEvidence.filter((evidence) => evidence.candidateId === candidateId);
+  const entity = candidateEvidence.find((evidence) => evidence.kind === "ENTITY_MATCH" && evidence.entityMatch?.confidence === "HIGH");
+  if (!entity) return { valid: false, reason: `Candidate ${candidateId} has no HIGH outlet identity evidence` };
+  const area = candidateEvidence.find((evidence) =>
+    evidence.kind === "DISCOVERY" && evidence.claims.areaMatch === true && normalized(stringClaim(evidence, "areaQuery") ?? "") === normalized(intent.area.query),
+  );
+  if (!area) return { valid: false, reason: `Candidate ${candidateId} has no evidence that it satisfies ${intent.area.query}` };
+  for (const criterion of intent.criteria.filter((item) => item.polarity === "POSITIVE" && item.strength === "HARD")) {
+    const supported = candidateEvidence.some((evidence) =>
+      evidence.kind === "RESTAURANT_FACT" && stringListClaim(evidence, "verifiedHardCriteria").some((value) => normalized(value) === normalized(criterion.text)),
+    );
+    if (!supported) return { valid: false, reason: `Candidate ${candidateId} has no evidence for HARD criterion ${criterion.text}` };
+  }
+  const offer = state.availability[candidateId]?.find((item) =>
+    Date.parse(item.expiresAt) > Date.parse(now) && item.partySize === intent.partySize && item.dateTime.slice(0, 10) === intent.date &&
+    item.dateTime.slice(11, 16) >= intent.timeWindow.earliest && item.dateTime.slice(11, 16) <= intent.timeWindow.latest,
+  );
+  const availability = candidateEvidence.find((evidence) =>
+    evidence.kind === "AVAILABILITY" && stringClaim(evidence, "date") === intent.date && evidence.claims.partySize === intent.partySize,
+  );
+  if (!offer || state.availabilityChecks[candidateId]?.status !== "AVAILABLE" || !availability) {
+    return { valid: false, reason: `Candidate ${candidateId} lacks fresh evidenced availability for the authoritative request` };
+  }
+  return { valid: true, evidenceIds: [...new Set([entity.evidenceId, area.evidenceId, availability.evidenceId, ...candidateEvidence
+    .filter((evidence) => evidence.kind === "RESTAURANT_FACT")
+    .map((evidence) => evidence.evidenceId)])] };
 }
 
 function candidate(state: Readonly<RestaurantTaskState>, candidateId: string) {
@@ -87,6 +136,18 @@ export function validateRestaurantAction(
     return action.candidateIds.every((candidateId) => candidate(state, candidateId))
       ? { status: "ALLOWED" }
       : rejected("CANDIDATE_UNKNOWN", "Availability can only be checked for known candidates");
+  }
+
+  if (action.type === "PRESENT_RESULTS") {
+    if (action.candidateIds.length === 0 || new Set(action.candidateIds).size !== action.candidateIds.length) {
+      return rejected("CANDIDATE_UNKNOWN", "Presenting results requires one or more unique known candidate IDs");
+    }
+    for (const candidateId of action.candidateIds) {
+      if (!candidate(state, candidateId)) return rejected("CANDIDATE_UNKNOWN", "Results can only include known candidates");
+      const evidence = presentationEvidenceIds(state, candidateId, intent.intent, now);
+      if (!evidence.valid) return rejected("PRESENTATION_EVIDENCE_MISSING", evidence.reason);
+    }
+    return { status: "ALLOWED" };
   }
 
   if (!candidate(state, action.candidateId)) {

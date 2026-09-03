@@ -1,13 +1,33 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.31
-- Last updated: 2026-08-20
+- Document revision: 4.32
+- Last updated: 2026-09-03
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## 2026-09-03 — H001 read-only completion hardening verification
+
+### Scope
+
+`restaurant-state@10` search-only completion, Google hard deadline, Tabelog slot-level availability and identity grounding, HARD evidence gates, and the opt-in H001 Hybrid runner. No booking action is in scope.
+
+### Checks
+
+- Targeted Domain/Google/Tabelog checks: passed `12/12`, including non-cooperative fetch and non-resolving response-body deadlines, prose-time rejection, HIGH-only branch resolution/conflicting-phone rejection, and `PRESENT_RESULTS` reducer/outcome behavior.
+- `npm run typecheck`: passed.
+- `npm run arch:check`: passed with 0 forbidden source dependencies.
+- `npm test`: passed `125/125`, 0 failed, using the permitted localhost-only fixture listener. This includes PGlite persistence, Router/Harness, Browser fixture and HTTP/SSE suites.
+- `npm run build`: passed.
+- `git diff --check`: passed.
+- `npm run eval:restaurant:agent-loop:hybrid-live-read -- --case h001`: deliberately fail-closed before any model or provider request because `PRAXIS_ALLOW_LIVE_RESTAURANT_READ` is not `1`.
+
+### Modes and external effects
+
+Unit, Contract, Fixture, Mock Harness, Embedded PGlite and local HTTP/SSE checks passed. The attempted Live Read-only H001 did not start a provider/browser/model request. Current configuration has no active live-read/browser gates and no Google Places or Cloudflare credentials, so a real H001 evidence artifact and `PRESENT_RESULTS` trajectory cannot yet be claimed. No external write occurred.
 
 ## 2026-08-20 — Live / Hybrid Restaurant read path verification
 

@@ -51,7 +51,7 @@ LLM Response / Adjustment可以解释事实、生成澄清问题或提出非权�
 
 当前Restaurant Semantic Interpreter固定为非流式、500输出Token、温度0、Thinking关闭。Domain把完整机器可读Proposal Schema放入通用Model Request；该Schema只使用当前strict transport支持的JSON Schema子集，无法由传输层表达的non-blank规则仍由本地Domain Validator校验。DeepSeek Gateway用Beta strict function作为仅传输结构的强制信封，不注册或执行Runtime Tool。Gateway必须得到唯一匹配的`tool_calls` arguments，本地Proposal Validator仍再次校验；结构合法不代表语义正确。Contract无效时最多再尝试一次，Provider失败不盲重试或降级为自由文本。当前标识为`restaurant-semantic-prompt@7`与`restaurant-semantic-proposal@3`；Criterion strength按用户意图为`HARD` / `SOFT` / `UNSPECIFIED`，未来Provider Search Criteria Compiler必须是独立确定性边界，当前未实现。
 
-Restaurant Agent Decision使用同一服务端Gateway和受限JSON Schema，purpose为`restaurant_agent_decide`、Prompt标识为`restaurant-agent-decision-prompt@3`；输入为`restaurant-agent-context@2`，输出仅为一个业务动作和可选短`decisionSummary`。结构合法不代表动作获准，必须继续经过Action Validator。
+Restaurant Agent Decision使用同一服务端Gateway和受限JSON Schema，purpose为`restaurant_agent_decide`、Prompt标识为`restaurant-agent-decision-prompt@4`；输入为`restaurant-agent-context@2`，输出仅为一个业务动作和可选短`decisionSummary`。`PRESENT_RESULTS`只适用于有当前area、HARD criterion、HIGH outlet identity和matching availability evidence的只读结果；结构合法不代表动作获准，必须继续经过Action Validator。
 
 ## 有界Loop
 

@@ -21,6 +21,10 @@ function requiredGate(key: string): void {
   if (process.env[key] !== "1") throw new Error(`Set ${key}=1 to run a Live / Hybrid read diagnostic`);
 }
 
+function requiredValue(key: string): void {
+  if (!process.env[key]?.trim()) throw new Error(`${key} is required for the H001 live read diagnostic`);
+}
+
 function caseIdFromArgs(): string {
   const index = process.argv.indexOf("--case");
   return index >= 0 && process.argv[index + 1] ? process.argv[index + 1]! : "h001";
@@ -33,6 +37,10 @@ function requiresLocation(caseValue: unknown): boolean {
 requiredGate("PRAXIS_ALLOW_LIVE_RESTAURANT_READ");
 requiredGate("PRAXIS_ALLOW_BROWSER_RUN");
 requiredGate("PRAXIS_ALLOW_LIVE_MODEL_EVAL");
+requiredValue("DEEPSEEK_API_KEY");
+requiredValue("GOOGLE_MAPS_API_KEY");
+requiredValue("CLOUDFLARE_ACCOUNT_ID");
+requiredValue("CLOUDFLARE_API_TOKEN");
 const sourcePath = resolve("src/eval/restaurant/agent-loop/drafts/e2e-cases.yaml");
 const selectedId = caseIdFromArgs();
 const source = await loadFrozenLiveCases(sourcePath);
@@ -129,4 +137,7 @@ const directory = resolve(".eval-artifacts", "restaurant-hybrid-live-read");
 await mkdir(directory, { recursive: true });
 const path = resolve(directory, `${startedAt.toISOString().replace(/[:.]/g, "-")}-${materialized.id}.json`);
 await writeFile(path, JSON.stringify(artifact, null, 2), "utf8");
+if (finalSnapshot.domainState.phase !== "PRESENT_RESULTS" || loop.status !== "TERMINAL") {
+  throw new Error(`H001 did not reach evidence-grounded PRESENT_RESULTS (phase=${finalSnapshot.domainState.phase}, loop=${loop.status}); artifact: ${path}`);
+}
 console.log(JSON.stringify({ mode: artifact.mode, caseId: materialized.id, loop, artifactPath: path, latencyMs: artifact.latencyMs, scorerStatus: artifact.scorerStatus }, null, 2));

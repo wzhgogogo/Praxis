@@ -20,6 +20,7 @@ import type {
 } from "./contracts.js";
 import { applyRestaurantIntentPatch } from "./intent-state.js";
 import { restaurantIntentPatchHasChanges } from "./semantic-compiler.js";
+import { validateRestaurantAction } from "./action-validator.js";
 
 function requirePhase(state: Readonly<RestaurantTaskState>, allowed: RestaurantPhase[], eventType: string) {
   if (!allowed.includes(state.phase)) {
@@ -47,6 +48,7 @@ function resetForSemanticUpdate(
     readEvidence: _readEvidence,
     selectedCandidateId: _selectedCandidateId,
     selectedOfferId: _selectedOfferId,
+    presentedResults: _presentedResults,
     pendingUserQuestion: _pendingUserQuestion,
     proposal: _proposal,
     authorization: _authorization,
@@ -142,6 +144,7 @@ function lifecycleFor(phase: RestaurantPhase): TaskLifecycleState {
     case "NEEDS_INPUT": return "WAITING_USER";
     case "OUTCOME_UNKNOWN": return "NEEDS_ATTENTION";
     case "BOOKED_VERIFIED": return "SUCCEEDED";
+    case "PRESENT_RESULTS": return "SUCCEEDED";
     case "FAILED": return "FAILED";
   }
 }
@@ -250,6 +253,7 @@ function transition(
         const {
           selectedCandidateId: _selectedCandidateId,
           selectedOfferId: _selectedOfferId,
+          presentedResults: _presentedResults,
           pendingUserQuestion: _pendingUserQuestion,
           failure: _failure,
           ...remaining
@@ -285,11 +289,20 @@ function transition(
       ensureAvailabilityObservation(event.request, event.offers, event.availabilityChecks);
       const availability = structuredClone(state.availability);
       const availabilityChecks = structuredClone(state.availabilityChecks);
+      const candidates = structuredClone(state.candidates);
       for (const candidateId of event.request.candidateIds) {
         availability[candidateId] = event.offers
           .filter((offer) => offer.restaurantId === candidateId)
           .map((offer) => structuredClone(offer));
         availabilityChecks[candidateId] = structuredClone(event.availabilityChecks[candidateId]!);
+      }
+      for (const update of event.candidateFactUpdates ?? []) {
+        const candidate = candidates.find((item) => item.restaurant.id === update.candidateId);
+        if (!candidate) throw new Error(`Candidate fact update references unknown candidate ${update.candidateId}`);
+        if (!update.evidenceIds.every((id) => event.evidence.some((evidence) => evidence.evidenceId === id && evidence.candidateId === update.candidateId))) {
+          throw new Error("Candidate fact update must reference evidence from the same availability observation");
+        }
+        candidate.matchReasons = [...new Set([...candidate.matchReasons, ...update.matchReasons])];
       }
       {
         const { failure: _failure, ...remaining } = state;
@@ -299,11 +312,31 @@ function transition(
             phase: "SEARCHING",
             availability,
             availabilityChecks,
+            candidates,
             readEvidence: [...state.readEvidence, ...event.evidence.map((item) => structuredClone(item))],
           },
           commands: [],
         };
       }
+    }
+    case "RESULTS_PRESENTED": {
+      requirePhase(state, ["SEARCHING", "SELECTION_REQUIRED"], event.type);
+      const validation = validateRestaurantAction(state, { type: "PRESENT_RESULTS", candidateIds: event.candidateIds }, context.now);
+      if (validation.status !== "ALLOWED") {
+        throw new Error(`Results presentation is not grounded: ${validation.status === "REJECTED" ? validation.reason : "authorization is not applicable"}`);
+      }
+      const availableEvidence = new Set(state.readEvidence.map((item) => item.evidenceId));
+      if (event.evidenceIds.length === 0 || !event.evidenceIds.every((id) => availableEvidence.has(id))) {
+        throw new Error("Results presentation must reference current authoritative evidence");
+      }
+      return {
+        state: {
+          ...state,
+          phase: "PRESENT_RESULTS",
+          presentedResults: { candidateIds: [...event.candidateIds], evidenceIds: [...event.evidenceIds], presentedAt: context.now },
+        },
+        commands: [],
+      };
     }
     case "CANDIDATE_SELECTED": {
       requirePhase(state, ["SEARCHING", "SELECTION_REQUIRED"], event.type);
@@ -386,10 +419,10 @@ function transition(
 
 export const restaurantBookingTaskDefinition: TaskDefinition<RestaurantTaskState, RestaurantEvent, RestaurantCommand, RestaurantOutcome> = {
   type: "restaurant.booking",
-  version: "9",
+  version: "10",
   create() {
     return {
-      schemaVersion: "9",
+      schemaVersion: "10",
       phase: "UNDERSTANDING",
       candidates: [],
       availability: {},
@@ -402,6 +435,11 @@ export const restaurantBookingTaskDefinition: TaskDefinition<RestaurantTaskState
   getLifecycleState(state) { return lifecycleFor(state.phase); },
   evaluateOutcome(state) {
     if (state.phase === "BOOKED_VERIFIED" && state.reservation) return { status: "BOOKED_VERIFIED", reservation: state.reservation };
+    if (state.phase === "PRESENT_RESULTS" && state.presentedResults) return {
+      status: "PRESENT_RESULTS",
+      candidateIds: [...state.presentedResults.candidateIds],
+      evidenceIds: [...state.presentedResults.evidenceIds],
+    };
     if (state.phase === "OUTCOME_UNKNOWN" && state.activeAttemptId) return { status: "OUTCOME_UNKNOWN", attemptId: state.activeAttemptId };
     if (state.phase === "FAILED" && state.failure) return { status: "FAILED", reason: state.failure.message };
     return null;

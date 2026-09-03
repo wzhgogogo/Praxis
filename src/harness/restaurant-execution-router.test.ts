@@ -6,7 +6,7 @@ import type { RestaurantTaskState } from "../domains/restaurant/contracts.js";
 import { fixtureCandidates, fixtureIntent } from "./restaurant-fixtures.js";
 
 const state: RestaurantTaskState = {
-  schemaVersion: "9",
+  schemaVersion: "10",
   phase: "UNDERSTANDING",
   intentDraft: { ...fixtureIntent, schemaVersion: "3" },
   candidates: [],
@@ -103,5 +103,6 @@ test("Execution Router passes only bound availability arguments and its deadline
     date: fixtureIntent.date,
     timeWindow: fixtureIntent.timeWindow,
     partySize: fixtureIntent.partySize,
+    hardCriteria: ["yakiniku"],
   });
 });

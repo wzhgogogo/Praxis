@@ -148,6 +148,8 @@ export interface RestaurantAvailabilityRequest {
   date: string;
   timeWindow: { earliest: string; latest: string };
   partySize: number;
+  /** Router-bound positive HARD criteria; the browser can only report source-supported facts. */
+  hardCriteria: string[];
 }
 
 export interface RestaurantReadExecutionMetadata {
@@ -173,6 +175,14 @@ export interface RestaurantAvailabilityRead {
   availabilityChecks: Record<string, RestaurantAvailabilityCheck>;
   evidence: RestaurantReadEvidence[];
   metadata: RestaurantReadExecutionMetadata;
+  candidateFactUpdates?: RestaurantCandidateFactUpdate[];
+}
+
+/** Trusted candidate-facing facts grounded during an availability read. */
+export interface RestaurantCandidateFactUpdate {
+  candidateId: string;
+  matchReasons: string[];
+  evidenceIds: string[];
 }
 
 /** Long-lived external execution taxonomy; fixture/live are run metadata, not route kinds. */
@@ -256,6 +266,7 @@ export type RestaurantPhase =
   | "EXECUTING"
   | "VERIFYING"
   | "BOOKED_VERIFIED"
+  | "PRESENT_RESULTS"
   | "SELECTION_REQUIRED"
   | "OUTCOME_UNKNOWN"
   | "FAILED";
@@ -268,7 +279,7 @@ export interface VerifiedReservation {
 }
 
 export interface RestaurantTaskState {
-  schemaVersion: "9";
+  schemaVersion: "10";
   phase: RestaurantPhase;
   intentDraft?: RestaurantIntentDraft;
   intent?: RestaurantBookingIntent;
@@ -280,6 +291,7 @@ export interface RestaurantTaskState {
   searchRevision: number;
   selectedCandidateId?: string;
   selectedOfferId?: string;
+  presentedResults?: { candidateIds: string[]; evidenceIds: string[]; presentedAt: string };
   pendingUserQuestion?: { question: string; relatedFields?: string[] };
   proposal?: ActionProposal;
   authorization?: Authorization;
@@ -292,6 +304,7 @@ export interface RestaurantTaskState {
 
 export type RestaurantOutcome =
   | { status: "BOOKED_VERIFIED"; reservation: VerifiedReservation }
+  | { status: "PRESENT_RESULTS"; candidateIds: string[]; evidenceIds: string[] }
   | { status: "OUTCOME_UNKNOWN"; attemptId: string }
   | { status: "FAILED"; reason: string };
 
@@ -335,6 +348,7 @@ export type RestaurantEvent =
       evidence: RestaurantReadEvidence[];
       metadata: RestaurantReadExecutionMetadata;
     })
+  | (DomainEvent & { type: "RESULTS_PRESENTED"; candidateIds: string[]; evidenceIds: string[] })
   | (DomainEvent & { type: "SEARCH_FAILED"; reason: string })
   | (DomainEvent & { type: "AVAILABILITY_FAILED"; reason: string })
   | (DomainEvent & {
@@ -344,6 +358,7 @@ export type RestaurantEvent =
       availabilityChecks: Record<string, RestaurantAvailabilityCheck>;
       evidence: RestaurantReadEvidence[];
       metadata: RestaurantReadExecutionMetadata;
+      candidateFactUpdates?: RestaurantCandidateFactUpdate[];
     })
   | (DomainEvent & { type: "CANDIDATE_SELECTED"; candidateId: string; offerId?: string })
   | (DomainEvent & { type: "BOOKING_PROPOSED"; candidateId: string; offerId: string })

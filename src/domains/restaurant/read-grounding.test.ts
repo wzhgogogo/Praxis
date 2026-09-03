@@ -7,7 +7,7 @@ import { groundGoogleDiscovery, groundTabelogAvailability } from "./read-groundi
 const candidate = fixtureCandidates[0]!;
 const request = {
   candidateIds: [candidate.restaurant.id], candidates: [candidate], date: fixtureIntent.date,
-  timeWindow: fixtureIntent.timeWindow, partySize: fixtureIntent.partySize,
+  timeWindow: fixtureIntent.timeWindow, partySize: fixtureIntent.partySize, hardCriteria: ["yakiniku"],
 };
 const now = "2026-08-05T09:00:00.000Z";
 
@@ -15,7 +15,7 @@ test("Google discovery accepts structurally valid restaurant places without clai
   const result = groundGoogleDiscovery({
     placeId: "google-1", displayName: "Example Omakase", formattedAddress: "Shibuya, Tokyo",
     location: { latitude: 35.66, longitude: 139.7 }, types: ["restaurant", "food"],
-  }, { requestFingerprint: "request", observedAt: now });
+  }, { requestFingerprint: "request", observedAt: now, areaQuery: "Shibuya" });
   assert.equal(result.accepted, true);
   if (!result.accepted) return;
   assert.equal(result.candidate.restaurant.id.startsWith("praxis:restaurant:"), true);
@@ -33,7 +33,8 @@ test("availability grounding accepts only high-confidence matching outlet, sched
   assert.equal(result.check.status, "AVAILABLE");
   assert.equal(result.offers.length, 1);
   assert.equal(result.offers[0]?.dateTime, "2026-08-05T19:00:00+09:00");
-  assert.equal(result.evidence.length, 1);
+  assert.equal(result.evidence.length, 2);
+  assert.deepEqual(result.evidence.map((item) => item.kind), ["ENTITY_MATCH", "AVAILABILITY"]);
 });
 
 test("ambiguous, stale, wrong request, browser failure and unsupported observations never become unavailable", () => {

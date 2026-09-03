@@ -84,7 +84,7 @@ class CloudflareBrowserSession implements BrowserSession {
 
   async click(target: string): Promise<void> { await this.run(() => this.page.locator(target).click()); }
   async fill(target: string, value: string): Promise<void> { await this.run(() => this.page.locator(target).fill(value)); }
-  async select(target: string, value: string): Promise<void> { await this.run(() => this.page.locator(target).selectOption(value)); }
+  async select(target: string, value: string): Promise<string[]> { return this.run(() => this.page.locator(target).selectOption(value)); }
   async waitFor(target: string, timeoutMs?: number): Promise<void> {
     await this.run(() => this.page.locator(target).waitFor(timeoutMs === undefined ? {} : { timeout: timeoutMs }));
   }

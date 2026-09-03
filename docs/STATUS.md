@@ -1,26 +1,26 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 2.5
-- Last updated: 2026-08-20
+- Document revision: 2.6
+- Last updated: 2026-09-03
 - Source of truth for: 已实现能力、已验证范围、明确未验证项与下一道门槛
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Documentation Index](INDEX.md), [Roadmap](roadmap.md), [Verification History](history/TEST-LOG.md)
 
 ## 一句话状态
 
-ADR-0013冻结的Restaurant Agent Loop已完成可运行的 Fixture/Mock纵向切片，并已实现尚未实测的Live Read代码路径：Semantic Interpreter继续经Compiler/Reducer写入权威State；单一Restaurant Agent只接收最小Decision Context，Action Validator守护不变量，Router绑定且限时执行权威只读请求。`restaurant-state@9`增加Availability Check与最小Read Evidence；Google Places API (New)、Cloudflare Browser Run和Tabelog bounded executor均须通过显式开关运行。首份私有Clean Holdout仍为`RESULT_EXPOSED`；本分支尚未产生真实Provider或Browser Probe证据。
+ADR-0014定义了H001所需的只读终态：Semantic Interpreter继续经Compiler/Reducer写入权威State；单一Restaurant Agent只接收最小Decision Context，Action Validator守护不变量，Router绑定且限时执行权威只读请求。`restaurant-state@10`保存Availability Check、最小Read Evidence和`PRESENT_RESULTS`。Google deadline、Tabelog slot-level parsing、HIGH-only outlet identity和HARD-evidence gates已有离线覆盖；真实Provider/Browser凭证与开关当前仍未配置，故尚无真实H001轨迹。
 
 ## 当前标识
 
 | 对象 | 当前标识 |
 |---|---|
 | 产品Release | 尚未发布；package为`0.1.0` |
-| 当前架构决策 | `ADR-0013` Agent Loop Final Hardening |
-| Restaurant State | `restaurant-state@9` |
+| 当前架构决策 | `ADR-0014` Search-only Results Completion |
+| Restaurant State | `restaurant-state@10` |
 | Semantic Proposal / Draft / Eval Schema | `restaurant-semantic-proposal@3` |
 | Semantic Prompt | `restaurant-semantic-prompt@7`；Artifact字段仍记录`promptVersion: "v7"` |
-| Agent Context / Decision Prompt / Action / Trajectory / Harness Artifact | `restaurant-agent-context@2` / `restaurant-agent-decision-prompt@3` / `restaurant-agent-action@2` / `restaurant-agent-trajectory@5` / `restaurant-harness-artifact@6` |
+| Agent Context / Decision Prompt / Action / Trajectory / Harness Artifact | `restaurant-agent-context@2` / `restaurant-agent-decision-prompt@4` / `restaurant-agent-action@3` / `restaurant-agent-trajectory@5` / `restaurant-harness-artifact@6` |
 | Regression / Holdout / Scorer | `restaurant-semantic-regression@3` / `restaurant-semantic-holdout@2` / `restaurant-semantic-scorer@3` |
 
 ## 已实现
@@ -31,7 +31,7 @@ ADR-0013冻结的Restaurant Agent Loop已完成可运行的 Fixture/Mock纵向�
 | 语义主链 | `Semantic Interpreter → Proposal Contract → Compiler → Runtime/Reducer`；稳定槽位加开放`criteria`，完整Domain JSON Schema经strict transport发送，随后仍本地校验；模型不能直接改 State 或调用 Tool | [ADR-0009](decisions/0009-semantic-strength-and-clean-holdout-baseline.md)、[ADR-0010](decisions/0010-restaurant-agent-loop-action-validation.md)、[ADR-0011](decisions/0011-restaurant-agent-loop-control-refinement.md)、[Orchestration](architecture/AGENT-ORCHESTRATION.md) |
 | Agent、搜索与轨迹 | 单一Agent的最小`Agent Context → Action Proposal → Action Validator → Execution Router`有界循环；Router绑定权威Search/Availability参数并中止超时read，Discovery Candidate与Availability Offer分离，三类Loop终止、BOOK proposal ID和Event/Command/Attempt/Evidence causal refs已持久化 | [Restaurant Domain](domains/RESTAURANT-BOOKING.md)、[Search Service](architecture/SEARCH-SERVICE.md) |
 | 执行安全基础 | Runtime、Policy、Authorization、Verifier 与 `OUTCOME_UNKNOWN` 的 Mock / Embedded-postgres 闭环已存在 | [Policy & Verification](architecture/POLICY-EXECUTION-VERIFICATION.md)、[Task Runtime](architecture/TASK-RUNTIME.md) |
-| Live Read implementation | Google Places Text Search最小FieldMask、Cloudflare CDP Browser Runtime（Kitesurf→一次Chromium fallback）、Tabelog read-only Executor、Entity Resolution、Runtime Grounding、Read Evidence、Live Case materializer与隔离Hybrid runner均已实现并以Fixture覆盖；runner对每case固定Google搜索、Browser会话、Tabelog匹配/availability和fallback上限 | [Restaurant Domain](domains/RESTAURANT-BOOKING.md)、[Capability Matrix](integrations/CAPABILITY-MATRIX.md) |
+| Live Read implementation | Google Places hard deadline、Cloudflare CDP Browser Runtime（Kitesurf→一次Chromium fallback）、Tabelog slot-level read-only Executor、enriched HIGH-only Entity Resolution、Runtime Grounding、HARD evidence、`PRESENT_RESULTS`、Live Case materializer与隔离Hybrid runner均已实现并以Fixture覆盖；runner对每case固定Google搜索、Browser会话、Tabelog匹配/availability和fallback上限 | [Restaurant Domain](domains/RESTAURANT-BOOKING.md)、[Capability Matrix](integrations/CAPABILITY-MATRIX.md) |
 
 ## 已验证的证据
 
@@ -59,7 +59,7 @@ ADR-0013冻结的Restaurant Agent Loop已完成可运行的 Fixture/Mock纵向�
 - 每个Agent decision step保存state版本/hash、capability、模型实际收到的脱敏`restaurant-agent-context@2`与`contextSchemaVersion`、action、verdict、route、observation、执行metadata、after-state链接、BOOK `proposalId`及Event/Command/Attempt/Evidence causal refs；不保存raw prompt或Chain-of-Thought。完整链为`Context → Action → Validation → Execution → Observation → State/Outcome`。
 - 长期Execution Route仅为`STRUCTURED_ADAPTER`、未来`GENERIC_BROWSER`或未来`HUMAN_TAKEOVER`；Fixture/Mock/Live是运行模式或Provider metadata，Runtime/Policy checkpoint不是外部execution route。
 - Migration `0006`保持原始evidence refs形态，`0007`追加因果引用与Proposal ID，`0008`追加Decision Context字段，`0009`追加read execution metadata；不会再改写Migration。`restaurant-state@7`和`@8`开发Task不能被当前Runtime解释，必须先备份后用双重开关的本机重置命令删除，绝不自动迁移或用于真实数据。
-- 当前标识固定为`restaurant-semantic-prompt@7`、`restaurant-semantic-proposal@3`与`restaurant-state@9`。`CRITERION{text, polarity, strength}`是唯一开放集合，strength固定为`HARD` / `SOFT` / `UNSPECIFIED`。Agent Context为`@2`、Decision Prompt为`@3`、Action为`@2`、Trajectory为`@5`；不建taxonomy、Provider mapping或动态Tool Registry。
+- 当前标识固定为`restaurant-semantic-prompt@7`、`restaurant-semantic-proposal@3`与`restaurant-state@10`。`CRITERION{text, polarity, strength}`是唯一开放集合，strength固定为`HARD` / `SOFT` / `UNSPECIFIED`。Agent Context为`@2`、Decision Prompt为`@4`、Action为`@3`、Trajectory为`@5`；不建taxonomy、Provider mapping或动态Tool Registry。
 - ADR-0007的`DECIDE_RESTAURANT_NEXT` / `RESTAURANT_DECISION_MADE`以及耦合Offer的`ExecutableCandidate`可执行路径已删除；历史next-step标注只保留为语义评测审计输入，不再代表产品Runtime。
 - `restaurant-semantic-prompt@4` Baseline的结果不得用于改动后重跑；Prompt `@7`的任何质量结论均需要另一份未见Holdout。当前Gold更新后的诊断只能标记为`EXPOSED_GOLD_ACCEPTANCE_DIAGNOSTIC`，Prompt `@7`与`@6`只比较`COMMON_UNCHANGED_TURNS`。
 - 旧分类Criteria Contract下未运行的私有标注不兼容`restaurant-semantic-proposal@3`，不能迁入或报告为当前Holdout。当前空模板、私有入口、结构适配Preflight、确定性Scorer和一次性真实Runner已实现；runner在首个模型请求前写入Git忽略的`EXPOSED` artifact，并记录Dataset SHA、git SHA、scorer与prompt/schema hash。
@@ -67,7 +67,7 @@ ADR-0013冻结的Restaurant Agent Loop已完成可运行的 Fixture/Mock纵向�
 ## 明确未验证 / 未实现
 
 - `restaurant-semantic-prompt@7`已完成本地、已暴露Fixture和当前canonical Gold诊断；需要另建未见 `CLEAN_HOLDOUT` 才能形成新的质量评价；
-- 任一真实 Discovery / Availability 来源的 Live Read-only（代码路径已实现，但尚未用凭证/目标站点实测）；
+- H001真实 Discovery / Availability 来源的 Live Read-only（实现和离线Contract已通过，但尚未用凭证/目标站点实测）；
 - 真实 Authorization、Booking、取消、支付或 Controlled Live-write；
 - 真实浏览器兼容性、真实移动设备、生产身份与生产 PostgreSQL 部署；
 - `NEED_REINTERPRETATION` 的自动重解释。当前只记录冲突并询问用户或安全降级。

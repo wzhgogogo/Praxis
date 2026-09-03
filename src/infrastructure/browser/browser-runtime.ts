@@ -22,7 +22,8 @@ export interface BrowserSession {
   snapshot(): Promise<BrowserSnapshot>;
   click(target: string): Promise<void>;
   fill(target: string, value: string): Promise<void>;
-  select(target: string, value: string): Promise<void>;
+  /** Returns the values the remote browser reports as selected. */
+  select(target: string, value: string): Promise<string[]>;
   waitFor(target: string, timeoutMs?: number): Promise<void>;
   screenshot(): Promise<Uint8Array>;
   close(): Promise<void>;

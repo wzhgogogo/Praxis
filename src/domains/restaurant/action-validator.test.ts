@@ -4,9 +4,10 @@ import { test } from "node:test";
 import type { RestaurantTaskState } from "./contracts.js";
 import { validateRestaurantAction } from "./action-validator.js";
 import { applyRestaurantIntentPatch, missingBlockingFields } from "./intent-state.js";
+import { restaurantBookingTaskDefinition } from "./task-definition.js";
 
 const incompleteState: RestaurantTaskState = {
-  schemaVersion: "9",
+  schemaVersion: "10",
   phase: "UNDERSTANDING",
   candidates: [],
   availability: {},
@@ -48,4 +49,35 @@ test("Action validator blocks unknown candidates, stale offers, and booking sche
   assert.equal(validateRestaurantAction(state, { type: "SELECT_CANDIDATE", candidateId: "missing" }, now).status, "REJECTED");
   assert.equal(validateRestaurantAction(state, { type: "CHECK_AVAILABILITY", candidateIds: ["missing"] }, now).status, "REJECTED");
   assert.equal(validateRestaurantAction(state, { type: "SELECT_CANDIDATE", candidateId: "a", offerId: "stale" }, now).status, "REJECTED");
+});
+
+test("PRESENT_RESULTS fails closed until area, HARD criterion, identity, and availability are evidenced", () => {
+  const candidate = { restaurant: { id: "a", outletName: "A", sourceIds: {}, address: "Shinjuku, Tokyo", provenance: {} }, matchReasons: [], warnings: [], executionConfidence: "HIGH" as const };
+  const draft = applyRestaurantIntentPatch(undefined, {
+    schemaVersion: "3", date: "2026-08-05", timeWindow: { earliest: "19:00", latest: "19:30" }, partySize: 2,
+    area: { query: "Shinjuku" }, addCriteria: [{ text: "omakase", polarity: "POSITIVE", strength: "HARD" }],
+  });
+  const base: RestaurantTaskState = {
+    ...incompleteState, phase: "SEARCHING", intentDraft: draft, candidates: [candidate],
+    availability: { a: [{ id: "fresh", restaurantId: "a", source: "TABELOG", dateTime: "2026-08-05T19:00:00+09:00", timezone: "Asia/Tokyo", partySize: 2, bookingMode: "REQUEST", executionMode: "BROWSER", checkedAt: now, expiresAt: "2026-08-05T09:02:00.000Z" }] },
+    availabilityChecks: { a: { status: "AVAILABLE", checkedAt: now, evidenceIds: ["availability"] } },
+  };
+  assert.equal(validateRestaurantAction(base, { type: "PRESENT_RESULTS", candidateIds: ["a"] }, now).status, "REJECTED");
+  const grounded: RestaurantTaskState = {
+    ...base,
+    readEvidence: [
+      { evidenceId: "discovery", kind: "DISCOVERY", provider: "GOOGLE_PLACES", candidateId: "a", observedAt: now, requestFingerprint: "x", claims: { areaQuery: "Shinjuku", areaMatch: true } },
+      { evidenceId: "entity", kind: "ENTITY_MATCH", provider: "TABELOG", candidateId: "a", observedAt: now, requestFingerprint: "x", claims: {}, entityMatch: { confidence: "HIGH", matchedBy: ["NORMALIZED_NAME_AND_ADDRESS"] } },
+      { evidenceId: "fact", kind: "RESTAURANT_FACT", provider: "TABELOG", candidateId: "a", observedAt: now, requestFingerprint: "x", claims: { verifiedHardCriteria: ["omakase"] } },
+      { evidenceId: "availability", kind: "AVAILABILITY", provider: "TABELOG", candidateId: "a", observedAt: now, expiresAt: "2026-08-05T09:02:00.000Z", requestFingerprint: "x", claims: { date: "2026-08-05", partySize: 2 } },
+    ],
+  };
+  assert.deepEqual(validateRestaurantAction(grounded, { type: "PRESENT_RESULTS", candidateIds: ["a"] }, now), { status: "ALLOWED" });
+  const transition = restaurantBookingTaskDefinition.transition(grounded, {
+    type: "RESULTS_PRESENTED", candidateIds: ["a"], evidenceIds: grounded.readEvidence.map((item) => item.evidenceId),
+  }, { taskId: "task", runId: "run", now, createId: (prefix) => prefix });
+  assert.equal(transition.state.phase, "PRESENT_RESULTS");
+  assert.deepEqual(restaurantBookingTaskDefinition.evaluateOutcome(transition.state), {
+    status: "PRESENT_RESULTS", candidateIds: ["a"], evidenceIds: grounded.readEvidence.map((item) => item.evidenceId),
+  });
 });

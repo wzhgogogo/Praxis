@@ -1,12 +1,13 @@
 export const RESTAURANT_AGENT_ACTION_SCHEMA = {
   name: "restaurant_agent_action",
-  version: "2",
+  version: "3",
 } as const;
 
 export type RestaurantAgentAction =
   | { type: "ASK_USER"; question: string; relatedFields?: string[] }
   | { type: "SEARCH_RESTAURANTS"; retrievalHint?: string }
   | { type: "CHECK_AVAILABILITY"; candidateIds: string[] }
+  | { type: "PRESENT_RESULTS"; candidateIds: string[] }
   | { type: "SELECT_CANDIDATE"; candidateId: string; offerId?: string }
   | { type: "BOOK_RESERVATION"; candidateId: string; offerId: string };
 
@@ -21,6 +22,7 @@ export const RESTAURANT_AGENT_ACTION_JSON_SCHEMA: Record<string, unknown> = {
         "ASK_USER",
         "SEARCH_RESTAURANTS",
         "CHECK_AVAILABILITY",
+        "PRESENT_RESULTS",
         "SELECT_CANDIDATE",
         "BOOK_RESERVATION",
       ],
@@ -99,6 +101,12 @@ export function validateRestaurantAgentAction(
       return candidateIds && candidateIds.length > 0
         ? { valid: true, value: { action: { type: "CHECK_AVAILABILITY", candidateIds }, ...(decisionSummary ? { decisionSummary } : {}) } }
         : { valid: false, errors: ["CHECK_AVAILABILITY requires one or more candidateIds"] };
+    }
+    case "PRESENT_RESULTS": {
+      const candidateIds = stringList(value.candidateIds);
+      return candidateIds && candidateIds.length > 0
+        ? { valid: true, value: { action: { type: "PRESENT_RESULTS", candidateIds }, ...(decisionSummary ? { decisionSummary } : {}) } }
+        : { valid: false, errors: ["PRESENT_RESULTS requires one or more candidateIds"] };
     }
     case "SELECT_CANDIDATE":
       return nonBlank(value.candidateId) && (value.offerId === undefined || nonBlank(value.offerId))

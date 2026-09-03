@@ -23,6 +23,7 @@ function rawObservation(place: GooglePlacesRawPlace): UntrustedGooglePlaceObserv
   const location = coordinates(place);
   const primaryType = string(place.primaryType);
   const googleMapsUri = string(place.googleMapsUri);
+  const nationalPhoneNumber = string(place.nationalPhoneNumber);
   return {
     ...(placeId ? { placeId } : {}),
     ...(displayName ? { displayName } : {}),
@@ -31,6 +32,7 @@ function rawObservation(place: GooglePlacesRawPlace): UntrustedGooglePlaceObserv
     ...(Array.isArray(place.types) && place.types.every((item) => typeof item === "string") ? { types: place.types as string[] } : {}),
     ...(primaryType ? { primaryType } : {}),
     ...(googleMapsUri ? { googleMapsUri } : {}),
+    ...(nationalPhoneNumber ? { nationalPhoneNumber } : {}),
   };
 }
 
@@ -77,7 +79,11 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort {
     }, signal);
     const observedAt = this.now();
     const requestFingerprint = createHash("sha256").update(JSON.stringify({ textQuery, area: request.intent.area })).digest("hex");
-    const grounded = places.map((place) => groundGoogleDiscovery(rawObservation(place), { requestFingerprint, observedAt }));
+    const grounded = places.map((place) => groundGoogleDiscovery(rawObservation(place), {
+      requestFingerprint,
+      observedAt,
+      areaQuery: request.intent.area.query,
+    }));
     return {
       candidates: grounded.flatMap((result) => result.accepted ? [result.candidate] : []),
       evidence: grounded.flatMap((result) => result.accepted ? [result.evidence] : []),

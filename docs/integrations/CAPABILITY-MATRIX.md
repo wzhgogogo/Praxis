@@ -1,8 +1,8 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 0.5
-- Last updated: 2026-08-20
+- Document revision: 0.6
+- Last updated: 2026-09-03
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
 - Related documents: [Restaurant Domain](../domains/RESTAURANT-BOOKING.md), [Data & Security](../architecture/DATA-CONTEXT-SECURITY.md)
@@ -12,9 +12,9 @@
 | Provider | Discovery | Availability | Execute | Cancel | Verify | Takeover | Status / 限制 |
 |---|---|---|---|---|---|---|---|
 | DeepSeek API | — | — | Tool Call提议 | — | 仅辅助抽取 | — | `verified`连接；`restaurant-semantic-proposal@3`以Beta strict function承载完整Proposal Schema。Schema只使用DeepSeek strict支持的子集，non-blank等其余规则由本地Validator保证；语义Eval仍必需。已暴露Regression不能作为`restaurant-semantic-holdout@2` Baseline；模型不直接执行工具或写状态 |
-| Google Places API (New) | Live Text Search Discovery（代码实现；尚未在本分支实测） | 否 | 否 | 否 | 否 | 否 | `verified`官方HTTP/FieldMask契约；Praxis只请求最小字段，Place ID可保存，内容保存和展示仍受Google政策限制 |
+| Google Places API (New) | Live Text Search Discovery（代码实现；尚未在本分支实测） | 否 | 否 | 否 | 否 | 否 | `verified`官方HTTP/FieldMask契约；Praxis只请求最小字段和电话作门店核验；整个fetch/body路径有hard deadline，Place ID可保存，内容保存和展示仍受Google政策限制 |
 | Cloudflare Browser Run | 浏览器基础设施（代码实现；尚未实测） | 通过受限Browser Executor读取 | 否 | 否 | 否 | 否 | CDP远程浏览器；Kitesurf为首选Beta引擎，发生一次兼容/运行时失败才回退Chromium；不绕过bot challenge |
-| Tabelog Web | 来源页 | 只读开发期Availability Executor（代码实现；兼容性未验证） | 否 | 否 | 否 | 否 | 仅限Tabelog域名；实体置信度非HIGH、CAPTCHA、页面异常、超时或外部跳转均不是`UNAVAILABLE`。生产适用性须经兼容性、可靠性和法律约束单独验证 |
+| Tabelog Web | 来源页 | 只读开发期Availability Executor（代码实现；兼容性未验证） | 否 | 否 | 否 | 否 | 仅限Tabelog域名；逐门店页补全身份，只有exact phone或name+address可HIGH匹配，已知电话号码冲突直接拒绝；只接受明确标记available的slot控件。实体非HIGH、CAPTCHA、页面异常、未确认的日期/人数、超时或外部跳转均不是`UNAVAILABLE`。生产适用性须经兼容性、可靠性和法律约束单独验证 |
 | Google Routes | — | 交通路线 | 否 | 否 | Route响应 | 否 | `verified`；支持Transit到达/出发时间 |
 | Hot Pepper Web Service | 餐厅、区域、预算等 | 未见公开库存API | 未见公开Consumer Booking API | 否 | 否 | 否 | `verified` Discovery；预约需网页或合作能力 |
 | Hot Pepper Web | 餐厅页 | 网页可查 | Browser | Browser/管理链接 | 成功页、邮件、订单状态 | 登录/验证/支付 | `assumed`，需逐流程Adapter验证；Request Booking不是即时成功 |

@@ -24,7 +24,7 @@ async function resetIncompatibleRestaurantDevelopmentState(): Promise<void> {
     const deleted = await database.transaction((transaction) => transaction.query<{ id: string }>(
       `DELETE FROM tasks
         WHERE task_type = 'restaurant.booking'
-        AND domain_state_schema_version IN ('7', '8')
+        AND domain_state_schema_version IN ('7', '8', '9')
         RETURNING id`,
     ));
     console.log(`Reset ${deleted.affectedRows} incompatible restaurant-state@7/@8 development task(s).`);

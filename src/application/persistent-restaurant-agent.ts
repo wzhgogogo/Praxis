@@ -98,6 +98,11 @@ function eventActivity(
           title: "Fixture availability checked",
           detail: `${event.event.offers.length} fixture offers were observed.`,
         };
+      case "RESULTS_PRESENTED":
+        return {
+          title: "Read-only results presented",
+          detail: `${event.event.candidateIds.length} evidence-grounded result(s) are ready.`,
+        };
       case "SEARCH_FAILED":
         return { title: "Search failed", detail: event.event.reason };
       case "AVAILABILITY_FAILED":

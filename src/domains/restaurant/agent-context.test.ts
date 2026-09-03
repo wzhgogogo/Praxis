@@ -7,7 +7,7 @@ import { projectRestaurantAgentContext } from "./agent-context.js";
 
 test("Restaurant Agent context is minimal and excludes execution authority and provider artifacts", () => {
   const state: RestaurantTaskState = {
-    schemaVersion: "9",
+    schemaVersion: "10",
     phase: "SEARCHING",
     intentDraft: { ...fixtureIntent, schemaVersion: "3" },
     intent: fixtureIntent,

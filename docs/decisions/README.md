@@ -1,8 +1,8 @@
 # Architecture Decision Records
 
 - Status: Accepted
-- Document revision: 0.6
-- Last updated: 2026-08-20
+- Document revision: 0.7
+- Last updated: 2026-09-03
 - Source of truth for: 已接受架构决策及其替代关系
 - Related ADRs: 本目录
 - Related documents: [Architecture Overview](../architecture/OVERVIEW.md)
@@ -24,6 +24,7 @@
 | [0011](0011-restaurant-agent-loop-control-refinement.md) | Accepted | Agent Action绑定、失败归因、Loop终止与Trajectory因果引用 |
 | [0012](0012-migration-and-agent-loop-hardening.md) | Accepted | Migration不可变性、开发State重置、Agent Context与Loop审计收口 |
 | [0013](0013-agent-loop-final-hardening.md) | Accepted | 失败后Agent恢复、route taxonomy、Decision Context trajectory与Hybrid E2E门槛 |
+| [0014](0014-search-only-results-completion.md) | Accepted | 只读搜索以证据受限的`PRESENT_RESULTS`结束，不改变预约完成规则 |
 
 ## 规则
 

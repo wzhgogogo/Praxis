@@ -83,7 +83,7 @@ npm run build
 npm run dev
 ```
 
-如本机开发库仍有不兼容的`restaurant-state@7` Task，先在库外备份所需调试信息；再显式设定`PRAXIS_ALLOW_DEV_RESTAURANT_STATE_RESET=1`，并执行`npm run reset:dev:restaurant-state`。它只接受localhost数据库，删除对应Restaurant Task及其级联本地记录；绝不能用于Pilot、staging或生产数据。
+如本机开发库仍有不兼容的`restaurant-state@7/@8/@9` Task，先在库外备份所需调试信息；再显式设定`PRAXIS_ALLOW_DEV_RESTAURANT_STATE_RESET=1`，并执行`npm run reset:dev:restaurant-state`。它只接受localhost数据库，删除对应Restaurant Task及其级联本地记录；绝不能用于Pilot、staging或生产数据。
 
 然后在浏览器打开`http://127.0.0.1:3000`，使用本地Fixture Token `praxis-fixture-a`。可通过服务端`PRAXIS_PILOT_ACCESS_JSON`覆盖Pilot用户列表；不要把真实Secret放进前端。页面清楚标记为`Fixture mode`，它不是Live Search、生产身份或预约演示。
 

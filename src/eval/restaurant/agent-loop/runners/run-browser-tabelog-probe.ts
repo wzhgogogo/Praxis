@@ -6,7 +6,7 @@ import {
   detectExternalReservationRedirect,
   hasBotChallenge,
   hasReservationControls,
-  parseVisibleTimeSlots,
+  parseTabelogAvailabilitySlots,
 } from "../../../../integrations/tabelog/tabelog-page-parser.js";
 
 if (process.env.PRAXIS_ALLOW_LIVE_RESTAURANT_READ !== "1" || process.env.PRAXIS_ALLOW_BROWSER_RUN !== "1") {
@@ -37,7 +37,7 @@ for (const engineMode of ["KITESURF_ONLY", "CHROMIUM_ONLY"] as const) {
         bookingControlsDetectable: controls,
         dateSelectorUsable: controls && /(?:date|日付)/i.test(snapshot.html),
         partySizeSelectorUsable: controls && /(?:party|person|人数|guest)/i.test(snapshot.html),
-        timeSlotsReadable: parseVisibleTimeSlots(snapshot).length > 0,
+        timeSlotsReadable: parseTabelogAvailabilitySlots(snapshot).availableSlots.length > 0,
         redirected: snapshot.url !== url,
         botChallenge: hasBotChallenge(snapshot),
         unexpectedPage: detectExternalReservationRedirect(snapshot),

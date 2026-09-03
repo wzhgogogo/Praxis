@@ -65,6 +65,7 @@ function authoritativeAvailabilityRequest(
     date: intent.date,
     timeWindow: structuredClone(intent.timeWindow),
     partySize: intent.partySize,
+    hardCriteria: intent.criteria.filter((criterion) => criterion.polarity === "POSITIVE" && criterion.strength === "HARD").map((criterion) => criterion.text),
   };
 }
 
@@ -178,6 +179,15 @@ export class RestaurantExecutionRouter {
             failure: { source: "PROVIDER", code, reason },
           };
         }
+      }
+      case "PRESENT_RESULTS": {
+        const evidenceIds = state.readEvidence
+          .filter((evidence) => action.candidateIds.includes(evidence.candidateId ?? ""))
+          .map((evidence) => evidence.evidenceId);
+        return {
+          event: { type: "RESULTS_PRESENTED", candidateIds: [...action.candidateIds], evidenceIds },
+          observation: { type: "RESULTS_PRESENTED", detail: `${action.candidateIds.length} grounded restaurant result(s) presented` },
+        };
       }
       case "SELECT_CANDIDATE":
         return {

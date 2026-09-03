@@ -30,6 +30,7 @@ export interface TabelogAvailabilityPageObservation {
     | "UNEXPECTED_PAGE"
     | "EXTRACTION_FAILED";
   visibleSlots?: string[];
+  verifiedHardCriteria?: string[];
   excerpt?: string;
   failureCode?: string;
 }

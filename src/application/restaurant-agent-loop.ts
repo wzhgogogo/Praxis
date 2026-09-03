@@ -66,7 +66,7 @@ function waitingForUser(state: RestaurantTaskState): boolean {
 }
 
 function terminal(state: RestaurantTaskState): boolean {
-  return state.phase === "BOOKED_VERIFIED" || state.phase === "OUTCOME_UNKNOWN" || state.phase === "FAILED";
+  return state.phase === "BOOKED_VERIFIED" || state.phase === "PRESENT_RESULTS" || state.phase === "OUTCOME_UNKNOWN" || state.phase === "FAILED";
 }
 
 function unique(values: string[]): string[] {
