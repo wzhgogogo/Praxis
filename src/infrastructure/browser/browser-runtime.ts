@@ -1,4 +1,4 @@
-export type BrowserRuntimeProvider = "CLOUDFLARE_BROWSER_RUN";
+export type BrowserRuntimeProvider = "CLOUDFLARE_BROWSER_RUN" | "LOCAL_PLAYWRIGHT_CHROMIUM";
 export type BrowserEngine = "KITESURF" | "CHROMIUM";
 export type BrowserEngineMode = "AUTO" | "KITESURF_ONLY" | "CHROMIUM_ONLY";
 

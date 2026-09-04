@@ -10,7 +10,7 @@ import { compileRestaurantSemanticProposal } from "../../../../domains/restauran
 import { RestaurantSemanticInterpreter } from "../../../../domains/restaurant/semantic-interpreter.js";
 import type { RestaurantCommand, RestaurantEvent, RestaurantOutcome, RestaurantTaskState } from "../../../../domains/restaurant/contracts.js";
 import { restaurantBookingTaskDefinition } from "../../../../domains/restaurant/task-definition.js";
-import { CloudflareBrowserRun } from "../../../../infrastructure/browser/cloudflare-browser-run.js";
+import { browserRuntimeFromEnvironment } from "../../../../infrastructure/browser/browser-runtime-factory.js";
 import { DeepSeekModelGateway } from "../../../../infrastructure/deepseek/deepseek-model-gateway.js";
 import { GooglePlacesClient } from "../../../../integrations/google/google-places-client.js";
 import { GooglePlacesRestaurantSearch } from "../../../../integrations/google/google-places-restaurant-search.js";
@@ -40,8 +40,10 @@ requiredGate("PRAXIS_ALLOW_BROWSER_RUN");
 requiredGate("PRAXIS_ALLOW_LIVE_MODEL_EVAL");
 requiredValue("DEEPSEEK_API_KEY");
 requiredValue("GOOGLE_MAPS_API_KEY");
-requiredValue("CLOUDFLARE_ACCOUNT_ID");
-requiredValue("CLOUDFLARE_API_TOKEN");
+if (process.env.PRAXIS_BROWSER_ENGINE !== "LOCAL_CHROMIUM") {
+  requiredValue("CLOUDFLARE_ACCOUNT_ID");
+  requiredValue("CLOUDFLARE_API_TOKEN");
+}
 const sourcePath = resolve("src/eval/restaurant/agent-loop/drafts/e2e-cases.yaml");
 const selectedId = caseIdFromArgs();
 const source = await loadFrozenLiveCases(sourcePath);
@@ -103,7 +105,7 @@ const search = new GooglePlacesRestaurantSearch(
   { ...(evaluationLocation ? { evaluationLocation } : {}), maxSearches: liveReadLimits.maxGoogleSearches },
 );
 const availability = new TabelogBrowserAvailability(
-  CloudflareBrowserRun.fromEnvironment(),
+  browserRuntimeFromEnvironment(),
   undefined,
   liveReadLimits.maxTabelogCandidateMatches,
   { maxBrowserSessions: liveReadLimits.maxBrowserSessions },

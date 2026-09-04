@@ -1,7 +1,7 @@
 import type { RestaurantAvailabilityPort } from "../../application/restaurant-execution-router.js";
 import { groundTabelogAvailability } from "../../domains/restaurant/read-grounding.js";
 import type { RestaurantAvailabilityRequest } from "../../domains/restaurant/contracts.js";
-import type { BrowserRuntime, BrowserSession } from "../../infrastructure/browser/browser-runtime.js";
+import type { BrowserRuntime, BrowserSession, BrowserSessionMetadata } from "../../infrastructure/browser/browser-runtime.js";
 import { BrowserRuntimeError } from "../../infrastructure/browser/browser-runtime-errors.js";
 import { resolveTabelogEntity } from "./tabelog-entity-resolver.js";
 import {
@@ -80,7 +80,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityPort {
     evidence: import("../../domains/restaurant/contracts.js").RestaurantReadEvidence[];
     check: import("../../domains/restaurant/contracts.js").RestaurantAvailabilityCheck;
     candidateFactUpdate?: { candidateId: string; matchReasons: string[]; evidenceIds: string[] };
-    browser?: { runtimeProvider: "CLOUDFLARE_BROWSER_RUN"; engine: "KITESURF" | "CHROMIUM"; sessionId?: string };
+    browser?: BrowserSessionMetadata;
   }> {
     let session: BrowserSession | undefined;
     const observedAt = this.now();
@@ -163,7 +163,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityPort {
     candidate: RestaurantAvailabilityRequest["candidates"][number],
     request: RestaurantAvailabilityRequest,
     observation: TabelogAvailabilityPageObservation,
-    metadata?: { runtimeProvider: "CLOUDFLARE_BROWSER_RUN"; engine: "KITESURF" | "CHROMIUM"; sessionId?: string },
+    metadata?: BrowserSessionMetadata,
   ) {
     const grounded = groundTabelogAvailability(candidate, request, {
       candidateId: candidate.restaurant.id,

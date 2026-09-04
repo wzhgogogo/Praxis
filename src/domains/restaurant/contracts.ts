@@ -158,7 +158,7 @@ export interface RestaurantReadExecutionMetadata {
   latencyMs: number;
   failureCode?: string;
   browser?: {
-    runtimeProvider: "CLOUDFLARE_BROWSER_RUN";
+    runtimeProvider: "CLOUDFLARE_BROWSER_RUN" | "LOCAL_PLAYWRIGHT_CHROMIUM";
     engine: "KITESURF" | "CHROMIUM";
     sessionId?: string;
   };
