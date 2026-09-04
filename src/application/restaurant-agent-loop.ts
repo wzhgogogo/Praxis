@@ -268,6 +268,16 @@ export class RestaurantAgentLoopCoordinator {
       }
       if (outcome === "TERMINAL") return { status: "TERMINAL", steps: step + 1 };
       if (outcome === "WAITING_USER") return { status: "WAITING_USER", steps: step + 1 };
+      if (execution.failure?.terminal) {
+        stepNumber += 1;
+        await this.terminate(
+          after.snapshot,
+          this.base(taskId, stepNumber, after.snapshot),
+          "EXECUTION_FAILURE",
+          execution.failure.reason,
+        );
+        return { status: "EXECUTION_FAILURE", steps: step + 1 };
+      }
       lastRejection = undefined;
       rejectedActions = 0;
     }

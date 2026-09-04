@@ -157,6 +157,8 @@ function terminationQuestion(termination: RestaurantAgentLoopTermination): strin
       return "I reached the maximum number of safe planning steps. Please clarify how you would like to proceed.";
     case "REJECTION_LIMIT":
       return "I could not find a valid next action after several rejected proposals. Please clarify how you would like to proceed.";
+    case "EXECUTION_FAILURE":
+      return "A required external read failed before it could be safely evaluated.";
   }
 }
 
@@ -238,6 +240,17 @@ function transition(
       };
     case "AGENT_LOOP_TERMINATED":
       requirePhase(state, ["UNDERSTANDING", "NEEDS_INPUT", "SEARCHING", "SELECTION_REQUIRED"], event.type);
+      if (event.termination === "EXECUTION_FAILURE") {
+        const { pendingUserQuestion: _pendingUserQuestion, ...remaining } = state;
+        return {
+          state: {
+            ...remaining,
+            phase: "FAILED",
+            failure: { code: "AGENT_LOOP_EXECUTION_FAILURE", message: event.reason },
+          },
+          commands: [],
+        };
+      }
       return {
         state: {
           ...state,

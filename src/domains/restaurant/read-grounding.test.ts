@@ -90,6 +90,19 @@ test("ambiguous, stale, wrong request, browser failure and unsupported observati
   assert.equal([ambiguous, wrongParty, stale, challenge, unsupported].every((result) => result.offers.length === 0), true);
 });
 
+test("browser startup failures are preserved rather than misclassified as uncertain entity matches", () => {
+  const result = groundTabelogAvailability(candidate, request, {
+    candidateId: candidate.restaurant.id,
+    observedAt: now,
+    entityMatch: { confidence: "LOW", matchedBy: [] },
+    pageState: "EXTRACTION_FAILED",
+    failureCode: "BROWSER_RUNTIME_FAILED",
+  }, now);
+  assert.equal(result.check.status, "UNKNOWN");
+  assert.equal(result.check.reasonCode, "BROWSER_RUNTIME_FAILED");
+  assert.equal(result.offers.length, 0);
+});
+
 test("a completed slot extraction with no qualifying slot becomes UNAVAILABLE", () => {
   const result = groundTabelogAvailability(candidate, request, {
     candidateId: candidate.restaurant.id, observedAt: now, requestedDate: fixtureIntent.date, requestedPartySize: 2,

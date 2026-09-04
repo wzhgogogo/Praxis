@@ -106,3 +106,58 @@ test("Execution Router passes only bound availability arguments and its deadline
     hardCriteria: ["yakiniku"],
   });
 });
+
+test("Execution Router marks a shared browser startup failure terminal after all requested candidates fail", async () => {
+  const router = new RestaurantExecutionRouter(
+    { executionRoute: "STRUCTURED_ADAPTER", async search() { return { candidates: fixtureCandidates, evidence: [], metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 } }; } },
+    {
+      executionRoute: "GENERIC_BROWSER",
+      async check(request) {
+        return {
+          offers: [],
+          availabilityChecks: Object.fromEntries(request.candidateIds.map((candidateId) => [candidateId, { status: "UNKNOWN" as const, checkedAt: "2026-08-05T09:00:00.000Z", evidenceIds: [], reasonCode: "BROWSER_RUNTIME_FAILED" }])),
+          evidence: [],
+          metadata: { provider: "TABELOG", route: "GENERIC_BROWSER", latencyMs: 1, failureCode: "BROWSER_RUNTIME_FAILED" },
+        };
+      },
+    },
+  );
+  const execution = await router.execute(
+    { type: "CHECK_AVAILABILITY", candidateIds: [fixtureCandidates[0]!.restaurant.id] },
+    { ...state, phase: "SEARCHING", candidates: fixtureCandidates },
+  );
+  assert.equal(execution.failure?.code, "BROWSER_RUNTIME_FAILED");
+  assert.equal(execution.failure?.terminal, true);
+});
+
+test("Execution Router preserves an all-provider browser failure as terminal after source fallback is exhausted", async () => {
+  const router = new RestaurantExecutionRouter(
+    { executionRoute: "STRUCTURED_ADAPTER", async search() { return { candidates: fixtureCandidates, evidence: [], metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 } }; } },
+    {
+      executionRoute: "GENERIC_BROWSER",
+      async check(request) {
+        return {
+          offers: [],
+          availabilityChecks: Object.fromEntries(request.candidateIds.map((candidateId) => [candidateId, { status: "UNKNOWN" as const, checkedAt: "2026-08-05T09:00:00.000Z", evidenceIds: [], reasonCode: "AVAILABILITY_SOURCES_EXHAUSTED" }])),
+          evidence: [],
+          metadata: {
+            provider: "AVAILABILITY_SOURCE_RESOLVER",
+            route: "GENERIC_BROWSER",
+            latencyMs: 1,
+            failureCode: "AVAILABILITY_SOURCES_EXHAUSTED",
+            providerAttempts: request.candidateIds.flatMap((candidateId) => [
+              { candidateId, provider: "TABLECHECK" as const, outcome: "PROVIDER_FAILURE" as const, failureCode: "BROWSER_RUNTIME_FAILED" },
+              { candidateId, provider: "TABELOG" as const, outcome: "PROVIDER_FAILURE" as const, failureCode: "BROWSER_RUNTIME_FAILED" },
+            ]),
+          },
+        };
+      },
+    },
+  );
+  const execution = await router.execute(
+    { type: "CHECK_AVAILABILITY", candidateIds: [fixtureCandidates[0]!.restaurant.id] },
+    { ...state, phase: "SEARCHING", candidates: fixtureCandidates },
+  );
+  assert.equal(execution.failure?.code, "BROWSER_RUNTIME_FAILED");
+  assert.equal(execution.failure?.terminal, true);
+});

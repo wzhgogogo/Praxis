@@ -14,7 +14,11 @@ import { browserRuntimeFromEnvironment } from "../../../../infrastructure/browse
 import { DeepSeekModelGateway } from "../../../../infrastructure/deepseek/deepseek-model-gateway.js";
 import { GooglePlacesClient } from "../../../../integrations/google/google-places-client.js";
 import { GooglePlacesRestaurantSearch } from "../../../../integrations/google/google-places-restaurant-search.js";
+import { AvailabilitySourceResolver } from "../../../../integrations/restaurant-availability/availability-source-resolver.js";
+import { TableCheckBrowserAvailability } from "../../../../integrations/tablecheck/tablecheck-browser-availability.js";
+import type { TableCheckIdentityDiagnostic } from "../../../../integrations/tablecheck/tablecheck-contracts.js";
 import { TabelogBrowserAvailability } from "../../../../integrations/tabelog/tabelog-browser-availability.js";
+import type { TabelogIdentityDiagnostic } from "../../../../integrations/tabelog/tabelog-contracts.js";
 import { InMemoryRestaurantAgentTrajectoryStore } from "../../../../infrastructure/postgres/restaurant-agent-trajectory-store.js";
 import { loadFrozenLiveCases, materializeLiveCase } from "../live-case-materializer.js";
 
@@ -58,7 +62,8 @@ const materialized = materializeLiveCase(frozen, startedAt.toISOString());
 const liveReadLimits = {
   maxGoogleSearches: 2,
   maxGooglePlaceDetails: 0,
-  maxBrowserSessions: 3,
+  maxTableCheckBrowserSessions: 3,
+  maxTabelogBrowserSessions: 3,
   maxTabelogCandidateMatches: 5,
   maxAvailabilityReads: 3,
   maxBrowserRuntimeFallbacks: 1,
@@ -104,12 +109,27 @@ const search = new GooglePlacesRestaurantSearch(
   10,
   { ...(evaluationLocation ? { evaluationLocation } : {}), maxSearches: liveReadLimits.maxGoogleSearches },
 );
-const availability = new TabelogBrowserAvailability(
-  browserRuntimeFromEnvironment(),
+const tabelogIdentityDiagnostics: TabelogIdentityDiagnostic[] = [];
+const tableCheckIdentityDiagnostics: TableCheckIdentityDiagnostic[] = [];
+const browser = browserRuntimeFromEnvironment();
+const tableCheck = new TableCheckBrowserAvailability(
+  browser,
+  undefined,
+  {
+    maxBrowserSessions: liveReadLimits.maxTableCheckBrowserSessions,
+    onIdentityDiagnostic: (diagnostic) => tableCheckIdentityDiagnostics.push(diagnostic),
+  },
+);
+const tabelog = new TabelogBrowserAvailability(
+  browser,
   undefined,
   liveReadLimits.maxTabelogCandidateMatches,
-  { maxBrowserSessions: liveReadLimits.maxBrowserSessions },
+  {
+    maxBrowserSessions: liveReadLimits.maxTabelogBrowserSessions,
+    onIdentityDiagnostic: (diagnostic) => tabelogIdentityDiagnostics.push(diagnostic),
+  },
 );
+const availability = new AvailabilitySourceResolver(tableCheck, tabelog);
 const coordinator = new RestaurantAgentLoopCoordinator(
   {
     snapshot: async (id) => runtime.snapshot(id),
@@ -134,6 +154,7 @@ const artifact = {
   modelInvocations,
   events: runtime.eventLog,
   trajectories: trajectories.steps,
+  diagnostics: { tablecheckIdentity: tableCheckIdentityDiagnostics, tabelogIdentity: tabelogIdentityDiagnostics },
   finalSnapshot,
   loop,
   resolvedEvalLocation: evaluationLocation,

@@ -1,5 +1,11 @@
 import type { BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
-import type { TabelogOutletObservation } from "./tabelog-contracts.js";
+import type {
+  TabelogIdentityEvidenceSource,
+  TabelogIdentityFieldDiagnostic,
+  TabelogOutletIdentityExtraction,
+  TabelogOutletObservation,
+} from "./tabelog-contracts.js";
+import { normalizeTabelogIdentity, normalizeTabelogPhone } from "./tabelog-entity-resolver.js";
 
 const TABELOG_URL = /^https:\/\/(?:www\.)?tabelog\.com\//i;
 
@@ -10,7 +16,7 @@ function excerpt(input: string): string {
 export function isTabelogUrl(url: string): boolean { return TABELOG_URL.test(url); }
 
 export function hasBotChallenge(snapshot: BrowserSnapshot): boolean {
-  return /captcha|verify you are human|access denied|unusual traffic|robot/i.test(`${snapshot.title}\n${snapshot.text}`);
+  return /captcha|verify you are human|access denied|unusual traffic|robot|just a moment/i.test(`${snapshot.title}\n${snapshot.text}`);
 }
 
 function sourceEntityId(sourceUrl: string): string {
@@ -35,10 +41,11 @@ function firstElementText(html: string, marker: RegExp): string | undefined {
   return value || undefined;
 }
 
-function firstPhone(html: string): string | undefined {
+function firstPhone(html: string): { value?: string; source: TabelogIdentityEvidenceSource } {
   const tel = html.match(/href=["']tel:([^"'?\s]+)/i)?.[1];
-  if (tel) return tel;
-  return firstElementText(html, /(?:class|id)=["'][^"']*(?:tel|phone)[^"']*["']/i);
+  if (tel) return { value: tel, source: "TEL_LINK" };
+  const value = firstElementText(html, /(?:class|id)=["'][^"']*(?:tel|phone)[^"']*["']/i);
+  return value ? { value, source: "DOM" } : { source: "ABSENT" };
 }
 
 function canonicalTabelogUrl(snapshot: BrowserSnapshot): string | undefined {
@@ -88,31 +95,54 @@ function jsonLdObjects(html: string): Record<string, unknown>[] {
   return values;
 }
 
+function field(value: string | undefined, source: TabelogIdentityEvidenceSource, normalize: (value: string | undefined) => string): TabelogIdentityFieldDiagnostic {
+  return value ? { value, normalizedValue: normalize(value), source } : { source: "ABSENT" };
+}
+
 /** Enriches a Tabelog result from the candidate page's structured identity data. */
-export function parseTabelogOutletIdentity(snapshot: BrowserSnapshot, fallback: TabelogOutletObservation): TabelogOutletObservation {
+export function parseTabelogOutletIdentityWithEvidence(
+  snapshot: BrowserSnapshot,
+  fallback: TabelogOutletObservation,
+): TabelogOutletIdentityExtraction {
   const localBusiness = jsonLdObjects(snapshot.html).find((item) => typeof item.name === "string" && (item.address !== undefined || item.telephone !== undefined));
   const addressValue = localBusiness?.address;
   const address = typeof addressValue === "string" ? addressValue
     : addressValue && typeof addressValue === "object"
       ? ["postalCode", "addressRegion", "addressLocality", "streetAddress"].map((key) => (addressValue as Record<string, unknown>)[key]).filter((value): value is string => typeof value === "string").join(" ")
       : undefined;
-  const phone = typeof localBusiness?.telephone === "string" ? localBusiness.telephone : firstPhone(snapshot.html);
+  const phoneFromPage = firstPhone(snapshot.html);
+  const jsonLdName = typeof localBusiness?.name === "string" && localBusiness.name.trim() ? localBusiness.name.trim() : undefined;
+  const jsonLdPhone = typeof localBusiness?.telephone === "string" && localBusiness.telephone.trim() ? localBusiness.telephone.trim() : undefined;
   const pageAddress = firstElementText(snapshot.html, /(?:class|id|itemprop)=["'][^"']*address[^"']*["']/i);
   const pageName = firstElementText(snapshot.html, /(?:class|id)=["'][^"']*(?:rstinfo|restaurant)[^"']*(?:name|title)[^"']*["']/i);
-  const outletName = typeof localBusiness?.name === "string" && localBusiness.name.trim()
-    ? localBusiness.name.trim()
-    : pageName ?? fallback.outletName;
+  const outletName = jsonLdName ?? pageName ?? fallback.outletName;
+  const outletNameSource: TabelogIdentityEvidenceSource = jsonLdName ? "JSON_LD" : pageName ? "DOM" : "SEARCH_RESULT";
   const canonicalUrl = canonicalTabelogUrl(snapshot);
   const sourceUrl = canonicalUrl ?? fallback.sourceUrl;
-  const resolvedAddress = address ?? pageAddress;
+  const resolvedAddress = address ?? pageAddress ?? fallback.address;
+  const addressSource: TabelogIdentityEvidenceSource = address ? "JSON_LD" : pageAddress ? "DOM" : fallback.address ? "SEARCH_RESULT" : "ABSENT";
+  const phone = jsonLdPhone ?? phoneFromPage.value ?? fallback.phone;
+  const phoneSource: TabelogIdentityEvidenceSource = jsonLdPhone ? "JSON_LD" : phoneFromPage.value ? phoneFromPage.source : fallback.phone ? "SEARCH_RESULT" : "ABSENT";
   return {
-    ...fallback,
-    sourceUrl,
-    sourceEntityId: sourceEntityId(sourceUrl),
-    outletName,
-    ...(resolvedAddress ? { address: resolvedAddress } : {}),
-    ...(phone ? { phone } : {}),
+    outlet: {
+      ...fallback,
+      sourceUrl,
+      sourceEntityId: sourceEntityId(sourceUrl),
+      outletName,
+      ...(resolvedAddress ? { address: resolvedAddress } : {}),
+      ...(phone ? { phone } : {}),
+    },
+    ...(canonicalUrl ? { canonicalUrl } : {}),
+    fields: {
+      outletName: field(outletName, outletNameSource, normalizeTabelogIdentity),
+      address: field(resolvedAddress, addressSource, normalizeTabelogIdentity),
+      phone: field(phone, phoneSource, normalizeTabelogPhone),
+    },
   };
+}
+
+export function parseTabelogOutletIdentity(snapshot: BrowserSnapshot, fallback: TabelogOutletObservation): TabelogOutletObservation {
+  return parseTabelogOutletIdentityWithEvidence(snapshot, fallback).outlet;
 }
 
 export function detectExternalReservationRedirect(snapshot: BrowserSnapshot): boolean {

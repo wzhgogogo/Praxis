@@ -1,8 +1,8 @@
 # Agent Orchestration
 
 - Status: Accepted
-- Document revision: 3.11
-- Last updated: 2026-09-03
+- Document revision: 3.13
+- Last updated: 2026-09-04
 - Source of truth for: Agent Workspace中的模型职责、有界Loop、前后台运行与Multi-Agent边界
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md), [ADR-0003](../decisions/0003-single-agent-orchestration.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md)
 - Related documents: [Agent Gateway and Workspace](AGENT-GATEWAY-AND-WORKSPACE.md), [Task Runtime](TASK-RUNTIME.md), [Policy & Execution](POLICY-EXECUTION-VERIFICATION.md)
@@ -56,9 +56,9 @@ Restaurant Agent Decision使用同一服务端Gateway和受限JSON Schema，purp
 ## 有界Loop
 
 - 对话补充：核心字段不完整时询问用户，直到完整、取消或达到上限。
-- Restaurant Agent Loop：在最大步数、超时、重复非法动作上限内，一次提出并验证一个动作；终态、User等待点和Authorization checkpoint立即停止。每次Discovery/Availability read由Router以可中止deadline包裹；Structured与Browser可分别配置有界超时。超时、步数上限与连续拒绝各写入`AGENT_LOOP_TERMINATED`及终止原因，并形成对应trajectory step。模型失败写`AGENT_DECISION_FAILED`；Discovery失败与Availability的`UNKNOWN`/`SOURCE_UNSUPPORTED`观察不会被归为模型失败，更不能改写为`UNAVAILABLE`。完成一条mandatory Policy/Commit/Verify chain后，Orchestrator只在`SELECTION_REQUIRED`调用bounded resume；`COMMIT_FAILED`或`BOOKING_ABSENT`已清除旧proposal/authorization/attempt，新的`BOOK_RESERVATION`必须先产生新proposal并等待新Authorization，`OUTCOME_UNKNOWN`绝不自动恢复。
+- Restaurant Agent Loop：在最大步数、超时、重复非法动作上限内，一次提出并验证一个动作；终态、User等待点和Authorization checkpoint立即停止。每次Discovery/Availability read由Router以可中止deadline包裹；Structured与Browser可分别配置有界超时。超时、步数上限与连续拒绝各写入`AGENT_LOOP_TERMINATED`及终止原因，并形成对应trajectory step。模型失败写`AGENT_DECISION_FAILED`；Discovery失败与Availability的`UNKNOWN`/`SOURCE_UNSUPPORTED`观察不会被归为模型失败，更不能改写为`UNAVAILABLE`。若本次所有请求候选都在建立Browser Run会话前发生同一`BROWSER_RUNTIME_FAILED`或`BROWSER_TIMEOUT`，Router标记为终端内部read failure，Loop写`AGENT_LOOP_TERMINATED(EXECUTION_FAILURE)`并进入`FAILED`，不得让Agent以`ASK_USER`把基础设施故障交给用户解决。完成一条mandatory Policy/Commit/Verify chain后，Orchestrator只在`SELECTION_REQUIRED`调用bounded resume；`COMMIT_FAILED`或`BOOKING_ABSENT`已清除旧proposal/authorization/attempt，新的`BOOK_RESERVATION`必须先产生新proposal并等待新Authorization，`OUTCOME_UNKNOWN`绝不自动恢复。
 - Model-assisted Observation：当前未启用。未来若启用，必须使用独立只读Proposal Contract、Runtime Command与Policy，不能复用Semantic Proposal直接调用Tool。
-- Browser Interpretation：只能在允许域名内观察并走到提交前Checkpoint；最终提交不在模型Loop内。
+- Browser Interpretation：只能在允许域名内观察并走到提交前Checkpoint；最终提交不在模型Loop内。Hybrid Live Read可通过`PRAXIS_BROWSER_ENGINE=LOCAL_CHROMIUM`显式选择只用于开发/eval的本地Playwright backend；该选择不访问Cloudflare、不改变AUTO的Kitesurf→Chromium顺序，并仍受既有live-read gate与Browser deadline约束。
 
 ## Tool与Multi-Agent
 

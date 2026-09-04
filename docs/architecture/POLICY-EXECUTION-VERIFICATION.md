@@ -1,7 +1,7 @@
 # Policy, Execution and Verification
 
 - Status: Accepted
-- Document revision: 0.6
+- Document revision: 0.7
 - Last updated: 2026-08-20
 - Source of truth for: 授权、副作用控制、执行路由、验证和恢复
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md)
@@ -63,7 +63,7 @@ Validated business action
         user performs login, CAPTCHA, payment, 3DS, or accepts new high-risk terms
 ```
 
-当前Restaurant切片实现了`STRUCTURED_ADAPTER`的Google Places Discovery与`GENERIC_BROWSER`的Tabelog只读Availability route；真实兼容性仍未验证。Fixture/Mock/Live是execution mode或provider metadata，不是长期route taxonomy。每个read均携带Router提供的`AbortSignal`；Structured与Browser read分别采用有界deadline，Router同时竞速deadline，因此不遵守取消的Provider也不能无限占用Agent Loop。`GENERIC_BROWSER`经Cloudflare Browser Run CDP运行确定性Playwright操作，Kitesurf只在一次可识别兼容/运行时失败后机械回退Chromium；这不是Agent业务决策。Browser Observation始终以`ADAPTER` Trace actor进入Runtime，不是SYSTEM事实。三类路线均使用统一的prepare/commit/verify/cancel边界：`prepare`可自动执行，`commit`必须持有有效Authorization。Browser Runtime不能授权、提交或写State。
+当前Restaurant切片实现了`STRUCTURED_ADAPTER`的Google Places Discovery与`GENERIC_BROWSER`的TableCheck→Tabelog只读Availability source chain；真实兼容性仍未验证。Router固定来源顺序，Agent只提出`CHECK_AVAILABILITY(candidate)`，不选择provider；一个来源的challenge、页面不可用、session/runtime或解析失败只使该来源失败，不能在另一个来源可用前终止候选。Fixture/Mock/Live是execution mode或provider metadata，不是长期route taxonomy。每个read均携带Router提供的`AbortSignal`；Structured与Browser read分别采用有界deadline，Router同时竞速deadline，因此不遵守取消的Provider也不能无限占用Agent Loop。`GENERIC_BROWSER`经Cloudflare Browser Run CDP或显式local Playwright运行确定性、来源专用的只读操作；这不是Agent业务决策。Browser Observation始终以`ADAPTER` Trace actor进入Runtime，不是SYSTEM事实。三类路线均使用统一的prepare/commit/verify/cancel边界：`prepare`可自动执行，`commit`必须持有有效Authorization。Browser Runtime不能授权、提交或写State。
 
 ## Browser与Takeover
 

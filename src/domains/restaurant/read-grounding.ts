@@ -20,7 +20,7 @@ export interface UntrustedGooglePlaceObservation {
   nationalPhoneNumber?: string;
 }
 
-export interface UntrustedTabelogAvailabilityObservation {
+export interface UntrustedProviderAvailabilityObservation {
   candidateId: string;
   sourceEntityId?: string;
   sourceUrl?: string;
@@ -40,6 +40,9 @@ export interface UntrustedTabelogAvailabilityObservation {
   excerpt?: string;
   failureCode?: string;
 }
+
+export type UntrustedTabelogAvailabilityObservation = UntrustedProviderAvailabilityObservation;
+export type UntrustedTableCheckAvailabilityObservation = UntrustedProviderAvailabilityObservation;
 
 export type GroundedGoogleDiscovery =
   | { accepted: true; candidate: RestaurantCandidate; evidence: RestaurantReadEvidence }
@@ -156,13 +159,27 @@ function checkForFailure(
   observation: UntrustedTabelogAvailabilityObservation,
 ): RestaurantAvailabilityCheck {
   const checkedAt = observation.observedAt;
+  // A browser session failure occurs before Tabelog identity evidence exists.
+  // Do not mislabel that infrastructure failure as an outlet mismatch.
+  if (observation.pageState === "EXTRACTION_FAILED" && (
+    observation.failureCode === "BROWSER_RUNTIME_FAILED" || observation.failureCode === "BROWSER_TIMEOUT"
+  )) {
+    return { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: observation.failureCode };
+  }
+  // A bot challenge is an observed page-level failure, not an outlet identity claim.
+  if (observation.pageState === "BOT_CHALLENGE") {
+    return { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: "BOT_CHALLENGE" };
+  }
+  // A provider-declared unavailable page precedes outlet comparison; it may be
+  // safely followed by another availability source.
+  if (observation.pageState === "SOURCE_UNSUPPORTED") {
+    return { status: "SOURCE_UNSUPPORTED", checkedAt, evidenceIds: [], reasonCode: observation.failureCode ?? "SOURCE_UNSUPPORTED" };
+  }
   if (observation.entityMatch.confidence !== "HIGH") {
     return { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: "ENTITY_MATCH_UNCERTAIN" };
   }
   switch (observation.pageState) {
-    case "SOURCE_UNSUPPORTED": return { status: "SOURCE_UNSUPPORTED", checkedAt, evidenceIds: [], reasonCode: observation.failureCode ?? "SOURCE_UNSUPPORTED" };
     case "NO_MATCHING_SLOT": return { status: "UNAVAILABLE", checkedAt, evidenceIds: [] };
-    case "BOT_CHALLENGE": return { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: "BOT_CHALLENGE" };
     case "UNEXPECTED_PAGE": return { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: "UNEXPECTED_PAGE" };
     case "EXTRACTION_FAILED": return { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: observation.failureCode ?? "EXTRACTION_FAILED" };
     case "AVAILABLE": return { status: "AVAILABLE", checkedAt, evidenceIds: [] };
@@ -173,10 +190,11 @@ function checkForFailure(
  * Ground one untrusted page observation. Only a HIGH outlet match, matching
  * schedule, visible qualifying slot and fresh timestamp can produce an offer.
  */
-export function groundTabelogAvailability(
+export function groundProviderAvailability(
+  provider: Extract<RestaurantReadEvidence["provider"], "TABLECHECK" | "TABELOG">,
   candidate: RestaurantCandidate,
   request: RestaurantAvailabilityRequest,
-  observation: UntrustedTabelogAvailabilityObservation,
+  observation: UntrustedProviderAvailabilityObservation,
   now: string,
   offerTtlMs = 2 * 60 * 1_000,
 ): GroundedAvailability {
@@ -201,9 +219,9 @@ export function groundTabelogAvailability(
     return { offers: [], check: { status: "UNKNOWN", checkedAt: observation.observedAt, evidenceIds: [], reasonCode: "EXTRACTION_FAILED" }, evidence: [] };
   }
   const entityEvidence: RestaurantReadEvidence = {
-    evidenceId: evidenceId("tabelog-entity-match", { candidateId: candidate.restaurant.id, sourceEntityId: observation.sourceEntityId, observedAt: observation.observedAt }),
+    evidenceId: evidenceId(`${provider.toLocaleLowerCase("en-US")}-entity-match`, { candidateId: candidate.restaurant.id, sourceEntityId: observation.sourceEntityId, observedAt: observation.observedAt }),
     kind: "ENTITY_MATCH",
-    provider: "TABELOG",
+    provider,
     candidateId: candidate.restaurant.id,
     ...(observation.sourceEntityId ? { sourceEntityId: observation.sourceEntityId } : {}),
     ...(observation.sourceUrl ? { sourceUrl: observation.sourceUrl } : {}),
@@ -213,9 +231,9 @@ export function groundTabelogAvailability(
     entityMatch: { confidence: "HIGH", matchedBy: [...observation.entityMatch.matchedBy] },
   };
   const factEvidence: RestaurantReadEvidence | undefined = observation.verifiedHardCriteria?.length ? {
-    evidenceId: evidenceId("tabelog-hard-criteria", { candidateId: candidate.restaurant.id, observedAt: observation.observedAt, criteria: observation.verifiedHardCriteria }),
+    evidenceId: evidenceId(`${provider.toLocaleLowerCase("en-US")}-hard-criteria`, { candidateId: candidate.restaurant.id, observedAt: observation.observedAt, criteria: observation.verifiedHardCriteria }),
     kind: "RESTAURANT_FACT",
-    provider: "TABELOG",
+    provider,
     candidateId: candidate.restaurant.id,
     ...(observation.sourceEntityId ? { sourceEntityId: observation.sourceEntityId } : {}),
     ...(observation.sourceUrl ? { sourceUrl: observation.sourceUrl } : {}),
@@ -225,9 +243,9 @@ export function groundTabelogAvailability(
     entityMatch: { confidence: "HIGH", matchedBy: [...observation.entityMatch.matchedBy] },
   } : undefined;
   const availabilityEvidence: RestaurantReadEvidence = {
-    evidenceId: evidenceId("tabelog-availability", { candidateId: candidate.restaurant.id, sourceEntityId: observation.sourceEntityId, observedAt: observation.observedAt, slots: withinWindow }),
+    evidenceId: evidenceId(`${provider.toLocaleLowerCase("en-US")}-availability`, { candidateId: candidate.restaurant.id, sourceEntityId: observation.sourceEntityId, observedAt: observation.observedAt, slots: withinWindow }),
     kind: "AVAILABILITY",
-    provider: "TABELOG",
+    provider,
     candidateId: candidate.restaurant.id,
     ...(observation.sourceEntityId ? { sourceEntityId: observation.sourceEntityId } : {}),
     ...(observation.sourceUrl ? { sourceUrl: observation.sourceUrl } : {}),
@@ -249,9 +267,9 @@ export function groundTabelogAvailability(
   const expiresAt = evidence[0]?.expiresAt ?? new Date(Date.parse(observation.observedAt) + offerTtlMs).toISOString();
   return {
     offers: withinWindow.map((slot) => ({
-      id: `offer:tabelog:${candidate.restaurant.id}:${request.date}:${slot}:${request.partySize}`,
+      id: `offer:${provider.toLocaleLowerCase("en-US")}:${candidate.restaurant.id}:${request.date}:${slot}:${request.partySize}`,
       restaurantId: candidate.restaurant.id,
-      source: "TABELOG",
+      source: provider,
       dateTime: `${request.date}T${slot}:00+09:00`,
       timezone: "Asia/Tokyo",
       partySize: request.partySize,
@@ -264,4 +282,24 @@ export function groundTabelogAvailability(
     evidence,
     ...(candidateFactUpdate ? { candidateFactUpdate } : {}),
   };
+}
+
+export function groundTabelogAvailability(
+  candidate: RestaurantCandidate,
+  request: RestaurantAvailabilityRequest,
+  observation: UntrustedTabelogAvailabilityObservation,
+  now: string,
+  offerTtlMs = 2 * 60 * 1_000,
+): GroundedAvailability {
+  return groundProviderAvailability("TABELOG", candidate, request, observation, now, offerTtlMs);
+}
+
+export function groundTableCheckAvailability(
+  candidate: RestaurantCandidate,
+  request: RestaurantAvailabilityRequest,
+  observation: UntrustedTableCheckAvailabilityObservation,
+  now: string,
+  offerTtlMs = 2 * 60 * 1_000,
+): GroundedAvailability {
+  return groundProviderAvailability("TABLECHECK", candidate, request, observation, now, offerTtlMs);
 }

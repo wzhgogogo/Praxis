@@ -103,7 +103,7 @@ export type RestaurantReadEvidenceKind =
   | "ENTITY_MATCH"
   | "AVAILABILITY";
 
-export type RestaurantReadEvidenceProvider = "GOOGLE_PLACES" | "TABELOG";
+export type RestaurantReadEvidenceProvider = "GOOGLE_PLACES" | "TABLECHECK" | "TABELOG";
 
 /**
  * Small Domain-owned record of a grounded external read. It intentionally holds
@@ -153,10 +153,17 @@ export interface RestaurantAvailabilityRequest {
 }
 
 export interface RestaurantReadExecutionMetadata {
-  provider: "GOOGLE_PLACES" | "TABELOG" | "FIXTURE";
+  provider: "GOOGLE_PLACES" | "TABLECHECK" | "TABELOG" | "AVAILABILITY_SOURCE_RESOLVER" | "FIXTURE";
   route: RestaurantExecutionRoute;
   latencyMs: number;
   failureCode?: string;
+  /** Internal read-only source chain trace; never projected into Agent context. */
+  providerAttempts?: Array<{
+    candidateId: string;
+    provider: "TABLECHECK" | "TABELOG";
+    outcome: "AVAILABLE" | "UNAVAILABLE" | "PROVIDER_FAILURE";
+    failureCode?: string;
+  }>;
   browser?: {
     runtimeProvider: "CLOUDFLARE_BROWSER_RUN" | "LOCAL_PLAYWRIGHT_CHROMIUM";
     engine: "KITESURF" | "CHROMIUM";
@@ -327,7 +334,7 @@ export interface RestaurantSemanticConflict {
   message: string;
 }
 
-export type RestaurantAgentLoopTermination = "TIMEOUT" | "STEP_LIMIT" | "REJECTION_LIMIT";
+export type RestaurantAgentLoopTermination = "TIMEOUT" | "STEP_LIMIT" | "REJECTION_LIMIT" | "EXECUTION_FAILURE";
 
 /** Historical semantic-evaluation annotation. It is not an Agent action or a runtime Decision. */
 export type RestaurantSemanticExpectedDecision =

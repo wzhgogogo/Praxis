@@ -1,15 +1,15 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 2.8
-- Last updated: 2026-09-03
+- Document revision: 3.1
+- Last updated: 2026-09-04
 - Source of truth for: 已实现能力、已验证范围、明确未验证项与下一道门槛
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Documentation Index](INDEX.md), [Roadmap](roadmap.md), [Verification History](history/TEST-LOG.md)
 
 ## 一句话状态
 
-ADR-0014定义了H001所需的只读终态：Semantic Interpreter继续经Compiler/Reducer写入权威State；单一Restaurant Agent只接收最小Decision Context，Action Validator守护不变量，Router绑定且限时执行权威只读请求。`restaurant-state@10`保存Availability Check、最小Read Evidence和`PRESENT_RESULTS`。Google address-component area evidence、Tabelog相对结果链接与门店页身份补全、HIGH-only outlet identity、slot-level availability和重复read拒绝均已有离线覆盖；最新真实H001在Google Discovery 8秒硬截止前超时，故尚未获得可验证这条完整证据链的真实候选。
+ADR-0014定义了H001所需的只读终态：Semantic Interpreter继续经Compiler/Reducer写入权威State；单一Restaurant Agent只接收最小Decision Context，Action Validator守护不变量，Router绑定且限时执行权威只读请求。`restaurant-state@10`保存Availability Check、最小Read Evidence和`PRESENT_RESULTS`。Google address-component area evidence、HIGH-only outlet identity、slot-level availability和重复read拒绝均已有离线覆盖。H001 Availability Source Resolver固定先试TableCheck、再试Tabelog；provider失败不会伪报成门店identity或终止仍有其他可用来源的候选。2026-09-04的一次LOCAL_CHROMIUM H001中，三个TableCheck guide URL候选都返回`403 Forbidden`（现稳定归类为`TABLECHECK_PAGE_UNAVAILABLE`），Tabelog搜索均为`Just a moment...` / `BOT_CHALLENGE`；因此三个候选都以`AVAILABILITY_SOURCES_EXHAUSTED`安全结束。没有HIGH identity、slot、availability或`PRESENT_RESULTS`。artifact保留脱敏的来源identity diagnostics和provider attempts，不保存HTML、凭证或挑战token。
 
 ## 当前标识
 
@@ -31,13 +31,13 @@ ADR-0014定义了H001所需的只读终态：Semantic Interpreter继续经Compil
 | 语义主链 | `Semantic Interpreter → Proposal Contract → Compiler → Runtime/Reducer`；稳定槽位加开放`criteria`，完整Domain JSON Schema经strict transport发送，随后仍本地校验；模型不能直接改 State 或调用 Tool | [ADR-0009](decisions/0009-semantic-strength-and-clean-holdout-baseline.md)、[ADR-0010](decisions/0010-restaurant-agent-loop-action-validation.md)、[ADR-0011](decisions/0011-restaurant-agent-loop-control-refinement.md)、[Orchestration](architecture/AGENT-ORCHESTRATION.md) |
 | Agent、搜索与轨迹 | 单一Agent的最小`Agent Context → Action Proposal → Action Validator → Execution Router`有界循环；Router绑定权威Search/Availability参数并中止超时read，Discovery Candidate与Availability Offer分离，三类Loop终止、BOOK proposal ID和Event/Command/Attempt/Evidence causal refs已持久化 | [Restaurant Domain](domains/RESTAURANT-BOOKING.md)、[Search Service](architecture/SEARCH-SERVICE.md) |
 | 执行安全基础 | Runtime、Policy、Authorization、Verifier 与 `OUTCOME_UNKNOWN` 的 Mock / Embedded-postgres 闭环已存在 | [Policy & Verification](architecture/POLICY-EXECUTION-VERIFICATION.md)、[Task Runtime](architecture/TASK-RUNTIME.md) |
-| Live Read implementation | Google Places hard deadline、Cloudflare CDP Browser Runtime（Kitesurf→一次Chromium fallback）、Tabelog slot-level read-only Executor、enriched HIGH-only Entity Resolution、Runtime Grounding、HARD evidence、`PRESENT_RESULTS`、Live Case materializer与隔离Hybrid runner均已实现并以Fixture覆盖；runner对每case固定Google搜索、Browser会话、Tabelog匹配/availability和fallback上限 | [Restaurant Domain](domains/RESTAURANT-BOOKING.md)、[Capability Matrix](integrations/CAPABILITY-MATRIX.md) |
+| Live Read implementation | Google Places hard deadline、Cloudflare CDP Browser Runtime（Kitesurf→一次Chromium fallback）、仅开发/eval的本地Playwright Chromium Runtime、TableCheck→Tabelog固定Availability Source Resolver、两个来源各自的HIGH-only Entity Resolution与显式slot Grounding、HARD evidence、`PRESENT_RESULTS`、Live Case materializer与隔离Hybrid runner均已实现并以Fixture覆盖；TableCheck provider失败会透明进入受限Tabelog fallback，两个来源均失败时为候选级`AVAILABILITY_SOURCES_EXHAUSTED`；artifact保留脱敏的TableCheck/Tabelog identity及provider-attempt诊断，challenge token不落盘；`PRAXIS_BROWSER_ENGINE=LOCAL_CHROMIUM`不触达Cloudflare | [Restaurant Domain](domains/RESTAURANT-BOOKING.md)、[Capability Matrix](integrations/CAPABILITY-MATRIX.md) |
 
 ## 已验证的证据
 
 | 模式 | 结论 | 不代表什么 |
 |---|---|---|
-| 当前产品 Unit / Fixture / Mock / Embedded-postgres | 包含Live Read离线Contract的完整基线`121/121`、冻结探针`8/8`、typecheck、arch:check与build均通过 | 真实PostgreSQL、真实Provider、Clean Holdout质量或浏览器视觉 |
+| 当前产品 Unit / Fixture / Mock / Embedded-postgres | 包含TableCheck→Tabelog source chain离线Contract的完整基线`156/156`、typecheck、arch:check与build均通过 | 真实PostgreSQL、真实Provider、Clean Holdout质量或浏览器视觉 |
 | `REAL_MODEL_MOCK_WORLD` | 已暴露`restaurant-semantic-prompt@7` Regression为`15/15`：15 calls全成功、0 retry、28,817 ms、44,466 reported tokens；它只证明当前公开样本的transport与语义回归 | Clean Holdout、泛化质量、真实餐厅事实、预约质量或模型 Baseline |
 | `HOLDOUT_BASELINE` | 首份私有Baseline严格Preflight为15 session / 25 turn / 0 issue后只运行一次：15次模型调用全成功、0 pass、15个`SEMANTIC_RESULT`失败、10个上游阻断；artifact标记为`EXPOSED / RESULT_EXPOSED` | 不能以已暴露结果继续调优后宣称其仍是Clean，也不证明真实餐厅事实、预约质量或浏览器视觉 |
 | `EXPOSED_HOLDOUT_REGRESSION` | `restaurant-semantic-prompt@5`对同一已暴露数据只运行一次诊断：16 calls全成功、3 / 25 exact pass、9个上游阻断；`restaurant-semantic-prompt@4`可比15 turn为0 → 2 exact pass。版本化字段分析记录保留原始结果且不重跑模型 | Clean Holdout、Prompt `@5`泛化质量、真实餐厅事实、预约质量或模型 Baseline |
@@ -67,7 +67,7 @@ ADR-0014定义了H001所需的只读终态：Semantic Interpreter继续经Compil
 ## 明确未验证 / 未实现
 
 - `restaurant-semantic-prompt@7`已完成本地、已暴露Fixture和当前canonical Gold诊断；需要另建未见 `CLEAN_HOLDOUT` 才能形成新的质量评价；
-- H001真实 Discovery / Availability 来源的 Live Read-only（实现和离线Contract已通过，但尚未用凭证/目标站点实测）；
+- H001已完成一次`LOCAL_CHROMIUM` TableCheck→Tabelog source-chain Live Read-only：Google Discovery成功，但TableCheck的公开guide页为403、Tabelog为challenge，尚无同Outlet identity、availability或`PRESENT_RESULTS`证据链；
 - 真实 Authorization、Booking、取消、支付或 Controlled Live-write；
 - 真实浏览器兼容性、真实移动设备、生产身份与生产 PostgreSQL 部署；
 - `NEED_REINTERPRETATION` 的自动重解释。当前只记录冲突并询问用户或安全降级。

@@ -1,13 +1,77 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.34
-- Last updated: 2026-09-03
+- Document revision: 4.36
+- Last updated: 2026-09-04
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## 2026-09-04 — H001 TableCheck→Tabelog source-chain verification
+
+### Scope
+
+Restaurant-only deterministic TableCheck-first/Tabelog-fallback read chain、TableCheck HIGH outlet identity and explicit slot grounding、provider failure isolation and 403 attribution。没有改变Agent action、HARD evidence、预约或其他写路径。
+
+### Checks
+
+- Focused source resolver、TableCheck adapter、Tabelog adapter、Grounding与Router tests：通过`33/33`。覆盖确定性优先级、TableCheck failure→Tabelog fallback、Tabelog `BOT_CHALLENGE`仍为provider-level、所有来源耗尽fail closed、exact phone/name+address、name-only拒绝、显式slot、无click/fill/submit、TableCheck 403不伪报identity以及所有来源相同browser failure的内部terminal处理。
+- `npm test`：通过`156/156`，0 failed（获准localhost fixture listener环境）。
+- `npm run typecheck`、`npm run arch:check`（0 forbidden source dependencies）、`npm run build`和`git diff --check`：通过。
+
+### Modes and external effects
+
+仅在完整离线门禁后运行一次`PRAXIS_BROWSER_ENGINE=LOCAL_CHROMIUM npm run eval:restaurant:agent-loop:hybrid-live-read -- --case h001`。artifact为`2026-09-04T08-32-54-786Z-h001.json`：Google Discovery为10个候选，Agent在同一个`CHECK_AVAILABILITY`中检查前三个；每个候选先收到TableCheck `403 Forbidden`，后收到Tabelog `Just a moment...`，最终`NEEDS_INPUT / WAITING_USER`和`AVAILABILITY_SOURCES_EXHAUSTED`。未获得同Outlet HIGH identity、availability或`PRESENT_RESULTS`。之后只做离线403归因修正，未重跑H001。没有Authorization、预约、付款、取消、个人信息提交或其他外部写操作；artifact的`sideEffects`全为0。
+
+## 2026-09-04 — H001 identity diagnostics and Tabelog challenge attribution
+
+### Scope
+
+Eval-only Google→Tabelog identity diagnostic retention and correct fail-closed attribution of browser-visible Tabelog anti-bot challenges. No change to HIGH identity policy, availability semantics, H001 HARD evidence or any write path.
+
+### Checks
+
+- Focused Tabelog adapter and read-grounding tests: passed `19/19`. Covers search/detail/canonical diagnostics, JSON-LD/DOM/tel provenance, normalized phone conflict reporting, challenge-query sanitization, `Just a moment...` recognition and `BOT_CHALLENGE` grounding precedence.
+- `npm test`: passed `146/146`, 0 failed (in the approved localhost-listener environment).
+- `npm run typecheck`, `npm run arch:check` (0 forbidden source dependencies), `npm run build` and `git diff --check`: passed.
+
+### Modes and external effects
+
+One and only one `PRAXIS_BROWSER_ENGINE=LOCAL_CHROMIUM npm run eval:restaurant:agent-loop:hybrid-live-read -- --case h001` run occurred. Artifact `2026-09-04T08-00-55-386Z-h001.json` showed successful Google discovery and a local browser reaching Tabelog, but all three search pages were the Cloudflare `Just a moment...` challenge before any result or detail page could be parsed. The run ended `NEEDS_INPUT / WAITING_USER`; it did not prove HIGH identity, availability evidence or `PRESENT_RESULTS`. No Authorization, booking, payment, cancellation, PII submission or other external write occurred.
+
+## 2026-09-04 — Local Playwright Chromium runtime verification
+
+### Scope
+
+新增仅开发/eval的`PRAXIS_BROWSER_ENGINE=LOCAL_CHROMIUM` BrowserRuntime；保持Cloudflare AUTO/Kitesurf/Chromium选择、Tabelog逻辑、HARD evidence和所有写路径不变。
+
+### Checks
+
+- Focused Browser Runtime/Tabelog checks：通过`16/16`。覆盖LOCAL选择不要求或构造Cloudflare、AUTO/KITESURF/CHROMIUM继续为Cloudflare、local session的snapshot与page/context/browser cleanup，以及launch失败到`BROWSER_RUNTIME_FAILED`的映射。
+- `npm test`：通过`142/142`，0 failed（获准本机listener环境）。
+- `npm run typecheck`、`npm run arch:check`（0 forbidden source dependencies）与`npm run build`：通过。
+
+### Modes and external effects
+
+首次isolated local probe因缺少Playwright Chromium binary明确失败；安装binary后发现并修复裸`chromium.launch`丢失BrowserType绑定的问题，focused tests仍为`16/16`、完整基线仍为`142/142`。修复后的`example.com` probe成功启动、导航、读取`Example Domain`并关闭。本轮随后只运行一次`PRAXIS_BROWSER_ENGINE=LOCAL_CHROMIUM npm run eval:restaurant:agent-loop:hybrid-live-read -- --case h001`，artifact为`2026-09-04T07-35-19-762Z-h001.json`：Google Discovery成功，三次Tabelog read带`LOCAL_PLAYWRIGHT_CHROMIUM` metadata、总耗时约6.3秒，均为真实`ENTITY_MATCH_UNCERTAIN`；没有HIGH identity、availability evidence或`PRESENT_RESULTS`。没有Cloudflare访问、Authorization、预约、付款、取消、个人信息提交或其他外部写操作。
+
+## 2026-09-04 — H001 browser attribution and fail-closed terminal handling
+
+### Scope
+
+只修复Cloudflare Browser Run会话建立失败被误分类为`ENTITY_MATCH_UNCERTAIN`，以及所有候选同一浏览器基础设施失败后Agent向用户提问的路径；不放宽Google→Tabelog HIGH identity、HARD evidence或任何预约/写路径。
+
+### Checks
+
+- Focused grounding、Tabelog adapter、Router与Harness tests：通过`39/39`；覆盖browser startup reason保留、metadata可观察性、共享browser failure的terminal Router标记及无`ASK_USER`的`FAILED`结束。
+- `npm test`：通过`138/138`，0 failed（首次沙箱运行仅因127.0.0.1 listener受限，使用获准本机权限重跑通过）。
+- `npm run typecheck`、`npm run arch:check`（0 forbidden source dependencies）、`npm run build`与`git diff --check`：通过。
+
+### Modes and external effects
+
+仅运行一次`npm run eval:restaurant:agent-loop:hybrid-live-read -- --case h001`，artifact为`2026-09-04T01-35-21-558Z-h001.json`。Semantic与Agent决策成功；两次Google Discovery在8秒deadline超时，第三次为Google搜索预算耗尽，最终`NEEDS_INPUT / WAITING_USER`。没有候选、Browser session、Tabelog搜索/详情页、availability evidence或`PRESENT_RESULTS`，因此不能把identity修复报告为真实页面成功。没有Authorization、预约、付款、取消、个人信息提交或其他外部写操作；`sideEffects`为0。
 
 ## 2026-09-03 — H001 identity, area and no-progress offline verification
 

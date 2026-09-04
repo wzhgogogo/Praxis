@@ -375,6 +375,23 @@ describe("restaurant booking mock harness", () => {
     assert.equal(step?.executionRoute, "GENERIC_BROWSER");
   });
 
+  test("a terminal browser read failure stops internally without asking the user to resolve it", async () => {
+    const harness = createHarness({
+      availabilityRoute: "GENERIC_BROWSER",
+      availabilityFailure: "browser session unavailable",
+      agentActions: [
+        { type: "SEARCH_RESTAURANTS" },
+        { type: "CHECK_AVAILABILITY", candidateIds: [fixtureCandidates[0]!.restaurant.id] },
+        { type: "ASK_USER", question: "This must not be reached." },
+      ],
+    });
+    const snapshot = await harness.start(fixtureIntent);
+    assert.equal(harness.lastAgentLoopResult?.status, "EXECUTION_FAILURE");
+    assert.equal(snapshot.domainState.phase, "FAILED");
+    assert.equal(snapshot.domainState.pendingUserQuestion, undefined);
+    assert.equal(harness.runtime.eventLog.some((entry) => entry.event.type === "AGENT_ASKED_USER"), false);
+  });
+
   test("Timeout, step limit, and rejection limit terminate with durable state and trajectory", async () => {
     const timeoutHarness = createHarness({ agentLoopOptions: { timeoutMs: 0 } });
     const timeoutSnapshot = await timeoutHarness.start(fixtureIntent);

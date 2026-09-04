@@ -1,9 +1,9 @@
-import type { RestaurantAvailabilityPort } from "../../application/restaurant-execution-router.js";
 import { groundTabelogAvailability } from "../../domains/restaurant/read-grounding.js";
 import type { RestaurantAvailabilityRequest } from "../../domains/restaurant/contracts.js";
 import type { BrowserRuntime, BrowserSession, BrowserSessionMetadata } from "../../infrastructure/browser/browser-runtime.js";
+import type { RestaurantAvailabilityProvider } from "../restaurant-availability/contracts.js";
 import { BrowserRuntimeError } from "../../infrastructure/browser/browser-runtime-errors.js";
-import { resolveTabelogEntity } from "./tabelog-entity-resolver.js";
+import { inspectTabelogEntity } from "./tabelog-entity-resolver.js";
 import {
   detectExternalReservationRedirect,
   hasBotChallenge,
@@ -12,13 +12,26 @@ import {
   pageExcerpt,
   parseTabelogSearchOutlets,
   parseTabelogAvailabilitySlots,
-  parseTabelogOutletIdentity,
+  parseTabelogOutletIdentityWithEvidence,
   parseTabelogVerifiedHardCriteria,
 } from "./tabelog-page-parser.js";
-import type { TabelogAvailabilityPageObservation } from "./tabelog-contracts.js";
+import type { TabelogAvailabilityPageObservation, TabelogIdentityDiagnostic, TabelogOutletIdentityExtraction } from "./tabelog-contracts.js";
 
 function searchUrl(candidateName: string): string {
   return `https://tabelog.com/rstLst/?sk=${encodeURIComponent(candidateName)}`;
+}
+
+/** Browser redirects may append short-lived challenge tokens; never persist them in eval diagnostics. */
+function diagnosticUrl(value: string): string {
+  try {
+    const url = new URL(value);
+    const searchQuery = url.pathname === "/rstLst/" ? url.searchParams.get("sk") : undefined;
+    url.search = searchQuery === null || searchQuery === undefined ? "" : `?sk=${encodeURIComponent(searchQuery)}`;
+    url.hash = "";
+    return url.toString();
+  } catch {
+    return "<invalid-url>";
+  }
 }
 
 function selectedDateField(snapshotHtml: string): string | undefined {
@@ -31,7 +44,8 @@ function selectedPartyField(snapshotHtml: string): string | undefined {
     ? "select[name*='party'], select[name*='person'], select[name*='guest']" : undefined;
 }
 
-export class TabelogBrowserAvailability implements RestaurantAvailabilityPort {
+export class TabelogBrowserAvailability implements RestaurantAvailabilityProvider {
+  readonly provider = "TABELOG" as const;
   readonly executionRoute = "GENERIC_BROWSER" as const;
   private sessionsOpened = 0;
 
@@ -39,8 +53,20 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityPort {
     private readonly browser: BrowserRuntime,
     private readonly now: () => string = () => new Date().toISOString(),
     private readonly maxCandidateMatches = 5,
-    private readonly options: { maxBrowserSessions?: number } = {},
+    private readonly options: {
+      maxBrowserSessions?: number;
+      /** Eval-only sink for sanitized identity diagnostics; it never changes Domain State or grounding. */
+      onIdentityDiagnostic?: (diagnostic: TabelogIdentityDiagnostic) => void;
+    } = {},
   ) {}
+
+  private recordIdentityDiagnostic(diagnostic: TabelogIdentityDiagnostic): void {
+    try {
+      this.options.onIdentityDiagnostic?.(structuredClone(diagnostic));
+    } catch {
+      // Diagnostics cannot alter the result of an external read.
+    }
+  }
 
   async check(request: RestaurantAvailabilityRequest, signal: AbortSignal) {
     const startedAt = Date.now();
@@ -57,6 +83,13 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityPort {
       availabilityChecks[candidate.restaurant.id] = result.check;
       lastMetadata = result.browser;
     }
+    const failureCodes = request.candidateIds
+      .map((candidateId) => availabilityChecks[candidateId]?.reasonCode)
+      .filter((code): code is string => code !== undefined);
+    const commonFailureCode = failureCodes.length === request.candidateIds.length &&
+      failureCodes.every((code) => code === failureCodes[0])
+      ? failureCodes[0]
+      : undefined;
     return {
       offers,
       availabilityChecks,
@@ -66,6 +99,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityPort {
         provider: "TABELOG" as const,
         route: this.executionRoute,
         latencyMs: Date.now() - startedAt,
+        ...(commonFailureCode ? { failureCode: commonFailureCode } : {}),
         ...(lastMetadata ? { browser: lastMetadata } : {}),
       },
     };
@@ -95,20 +129,95 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityPort {
       this.sessionsOpened += 1;
       session = await this.browser.openSession({ signal });
       const browser = { ...session.metadata };
-      await session.navigate(searchUrl(candidate.restaurant.outletName));
+      const requestedSearchUrl = searchUrl(candidate.restaurant.outletName);
+      await session.navigate(requestedSearchUrl);
       const search = await session.snapshot();
-      if (hasBotChallenge(search)) return this.ground(candidate, request, { candidate, observedAt, entityMatch: { confidence: "LOW", matchedBy: [] }, pageState: "BOT_CHALLENGE", excerpt: pageExcerpt(search) }, browser);
+      if (hasBotChallenge(search)) {
+        const inspection = inspectTabelogEntity(candidate, []);
+        this.recordIdentityDiagnostic({
+          ...inspection.diagnostic,
+          resolution: { ...inspection.diagnostic.resolution, reason: "SEARCH_BOT_CHALLENGE" },
+          search: {
+            query: candidate.restaurant.outletName,
+            requestedUrl: diagnosticUrl(requestedSearchUrl),
+            finalUrl: diagnosticUrl(search.url),
+            title: search.title,
+            parsedResultCount: 0,
+            inspectedResultCount: 0,
+          },
+          searchResults: [],
+          details: [],
+        });
+        return this.ground(candidate, request, { candidate, observedAt, entityMatch: { confidence: "LOW", matchedBy: [] }, pageState: "BOT_CHALLENGE", excerpt: pageExcerpt(search) }, browser);
+      }
       const outlets = parseTabelogSearchOutlets(search).slice(0, this.maxCandidateMatches);
       const outletPages = new Map<string, import("../../infrastructure/browser/browser-runtime.js").BrowserSnapshot>();
       const enrichedOutlets = [] as typeof outlets;
+      const detailDiagnostics = [] as TabelogIdentityDiagnostic["details"];
+      const extractionByEntityId = new Map<string, TabelogOutletIdentityExtraction>();
       for (const outlet of outlets) {
         await session.navigate(outlet.sourceUrl);
         const outletPage = await session.snapshot();
-        if (hasBotChallenge(outletPage)) continue;
+        if (hasBotChallenge(outletPage)) {
+          detailDiagnostics.push({
+            searchResultSourceEntityId: outlet.sourceEntityId,
+            requestedUrl: outlet.sourceUrl,
+            finalUrl: outletPage.url,
+            title: outletPage.title,
+            botChallenge: true,
+          });
+          continue;
+        }
         outletPages.set(outlet.sourceUrl, outletPage);
-        enrichedOutlets.push(parseTabelogOutletIdentity(outletPage, outlet));
+        const extraction = parseTabelogOutletIdentityWithEvidence(outletPage, outlet);
+        enrichedOutlets.push(extraction.outlet);
+        extractionByEntityId.set(extraction.outlet.sourceEntityId, extraction);
+        detailDiagnostics.push({
+          searchResultSourceEntityId: outlet.sourceEntityId,
+          requestedUrl: outlet.sourceUrl,
+          finalUrl: outletPage.url,
+          title: outletPage.title,
+          ...(extraction.canonicalUrl ? { canonicalUrl: extraction.canonicalUrl } : {}),
+          botChallenge: false,
+          extracted: extraction.fields,
+        });
       }
-      const resolved = resolveTabelogEntity(candidate, enrichedOutlets);
+      const inspection = inspectTabelogEntity(candidate, enrichedOutlets);
+      const detailBotChallenge = outlets.length > 0 && enrichedOutlets.length === 0 && detailDiagnostics.every((detail) => detail.botChallenge);
+      const extractionFields = new Map([...extractionByEntityId.entries()].map(([entityId, extraction]) => [entityId, extraction.fields]));
+      this.recordIdentityDiagnostic({
+        ...inspection.diagnostic,
+        search: {
+          query: candidate.restaurant.outletName,
+          requestedUrl: diagnosticUrl(requestedSearchUrl),
+          finalUrl: diagnosticUrl(search.url),
+          title: search.title,
+          parsedResultCount: outlets.length,
+          inspectedResultCount: enrichedOutlets.length,
+        },
+        searchResults: outlets.map((outlet) => structuredClone(outlet)),
+        details: detailDiagnostics.map((detail) => ({
+          ...detail,
+          requestedUrl: diagnosticUrl(detail.requestedUrl),
+          finalUrl: diagnosticUrl(detail.finalUrl),
+          ...(detail.canonicalUrl ? { canonicalUrl: diagnosticUrl(detail.canonicalUrl) } : {}),
+        })),
+        comparedOutlets: inspection.diagnostic.comparedOutlets.map((outlet) => {
+          const extracted = extractionFields.get(outlet.sourceEntityId);
+          return extracted ? { ...outlet, outletName: extracted.outletName, address: extracted.address, phone: extracted.phone } : outlet;
+        }),
+        ...(detailBotChallenge
+          ? { resolution: { ...inspection.diagnostic.resolution, reason: "DETAIL_BOT_CHALLENGE" as const } }
+          : {}),
+      });
+      if (detailBotChallenge) return this.ground(candidate, request, {
+        candidate,
+        observedAt,
+        entityMatch: { confidence: "LOW", matchedBy: [] },
+        pageState: "BOT_CHALLENGE",
+        excerpt: pageExcerpt(search),
+      }, browser);
+      const resolved = inspection.resolution;
       if (resolved.confidence !== "HIGH" || !resolved.outlet) return this.ground(candidate, request, { candidate, observedAt, entityMatch: resolved, pageState: "EXTRACTION_FAILED", failureCode: "ENTITY_MATCH_UNCERTAIN", excerpt: pageExcerpt(search) }, browser);
       if (!isTabelogUrl(resolved.outlet.sourceUrl)) return this.ground(candidate, request, { candidate, observedAt, entityMatch: resolved, pageState: "SOURCE_UNSUPPORTED", failureCode: "EXTERNAL_BOOKING_PROVIDER_REQUIRED" }, browser);
       let page = outletPages.get(resolved.outlet.sourceUrl);

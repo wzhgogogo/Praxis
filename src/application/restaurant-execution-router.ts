@@ -32,7 +32,29 @@ export interface RestaurantActionExecution {
   event?: RestaurantEvent;
   observation?: { type: string; detail: string };
   executionMetadata?: RestaurantReadExecutionMetadata;
-  failure?: { source: "PROVIDER"; code: string; reason: string };
+  failure?: { source: "PROVIDER"; code: string; reason: string; terminal?: boolean };
+}
+
+function terminalBrowserReadFailure(
+  read: RestaurantAvailabilityRead,
+  candidateIds: string[],
+): "BROWSER_RUNTIME_FAILED" | "BROWSER_TIMEOUT" | undefined {
+  const providerAttempts = read.metadata.providerAttempts;
+  if (providerAttempts?.length) {
+    const code = providerAttempts[0]?.failureCode;
+    if (
+      (code === "BROWSER_RUNTIME_FAILED" || code === "BROWSER_TIMEOUT") &&
+      providerAttempts.length >= candidateIds.length &&
+      providerAttempts.every((attempt) => attempt.failureCode === code)
+    ) return code;
+  }
+  const codes = candidateIds.map((candidateId) => read.availabilityChecks[candidateId]?.reasonCode);
+  const code = codes[0];
+  return codes.length > 0 &&
+    (code === "BROWSER_RUNTIME_FAILED" || code === "BROWSER_TIMEOUT") &&
+    codes.every((item) => item === code)
+    ? code
+    : undefined;
 }
 
 function stableFailureCode(error: unknown, fallback: string): string {
@@ -131,11 +153,20 @@ export class RestaurantExecutionRouter {
               : this.structuredReadTimeoutMs,
             (signal) => this.availability.check(request, signal),
           );
+          const terminalFailureCode = terminalBrowserReadFailure(read, request.candidateIds);
           return {
             route: this.availability.executionRoute,
             event: { type: "AVAILABILITY_CHECKED", request, ...read },
             observation: { type: "AVAILABILITY", detail: `${read.offers.length} offers observed` },
             executionMetadata: read.metadata,
+            ...(terminalFailureCode ? {
+              failure: {
+                source: "PROVIDER" as const,
+                code: terminalFailureCode,
+                reason: `Tabelog browser read could not establish a safe session: ${terminalFailureCode}`,
+                terminal: true,
+              },
+            } : {}),
           };
         } catch (error) {
           const reason = error instanceof Error ? error.message : "Unknown Restaurant availability failure";
@@ -176,7 +207,7 @@ export class RestaurantExecutionRouter {
               latencyMs: 0,
               failureCode: code,
             },
-            failure: { source: "PROVIDER", code, reason },
+            failure: { source: "PROVIDER", code, reason, ...(this.availability.executionRoute === "GENERIC_BROWSER" ? { terminal: true } : {}) },
           };
         }
       }

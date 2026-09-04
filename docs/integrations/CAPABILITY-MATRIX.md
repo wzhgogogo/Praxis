@@ -1,8 +1,8 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 0.8
-- Last updated: 2026-09-03
+- Document revision: 1.1
+- Last updated: 2026-09-04
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
 - Related documents: [Restaurant Domain](../domains/RESTAURANT-BOOKING.md), [Data & Security](../architecture/DATA-CONTEXT-SECURITY.md)
@@ -13,13 +13,14 @@
 |---|---|---|---|---|---|---|---|
 | DeepSeek API | — | — | Tool Call提议 | — | 仅辅助抽取 | — | `verified`连接；Semantic与Agent使用Beta strict function。strict wire object的所有字段均为required并关闭additional properties，Domain再恢复canonical可选字段；non-blank等其余规则由本地Validator保证。安全诊断保留status/request ID/code/type/脱敏message，模型不直接执行工具或写状态 |
 | Google Places API (New) | Live Text Search Discovery（代码实现；尚待完整H001证据链实测） | 否 | 否 | 否 | 否 | 否 | `verified`官方HTTP/FieldMask契约；Praxis只请求最小字段、结构化address components和电话作门店核验；整个fetch/body路径有hard deadline，area HARD evidence必须由匹配的结构化address component建立，Place ID可保存，内容保存和展示仍受Google政策限制 |
-| Cloudflare Browser Run | 浏览器基础设施（代码实现；尚未实测） | 通过受限Browser Executor读取 | 否 | 否 | 否 | 否 | CDP远程浏览器；Kitesurf为首选Beta引擎，发生一次兼容/运行时失败才回退Chromium；不绕过bot challenge |
-| Tabelog Web | 来源页 | 只读开发期Availability Executor（代码实现；兼容性未验证） | 否 | 否 | 否 | 否 | 仅限Tabelog域名；结果页只接受可识别的restaurant-result链接，relative/canonical outlet URL在门店页补全身份，只有exact phone或name+address可HIGH匹配，已知电话号码冲突直接拒绝；只接受明确标记available的slot控件。实体非HIGH、CAPTCHA、页面异常、未确认的日期/人数、超时或外部跳转均不是`UNAVAILABLE`。生产适用性须经兼容性、可靠性和法律约束单独验证 |
+| Cloudflare Browser Run | 浏览器基础设施（代码实现；一次live会话建立失败已记录） | 通过受限Browser Executor读取 | 否 | 否 | 否 | 否 | CDP远程浏览器；Kitesurf为首选Beta引擎，发生一次兼容/运行时失败才回退Chromium；不绕过bot challenge。会话未建立的稳定失败为`BROWSER_RUNTIME_FAILED`/`BROWSER_TIMEOUT`，不得伪报为目标网页或门店identity事实 |
+| Local Playwright Chromium | 仅开发/eval浏览器基础设施 | 通过同一受限Browser Executor读取 | 否 | 否 | 否 | 否 | 仅当`PRAXIS_BROWSER_ENGINE=LOCAL_CHROMIUM`显式选择；不访问Cloudflare、不读取其凭证、不改变Cloudflare AUTO。要求本机已安装Playwright Chromium binary；缺失时稳定`BROWSER_RUNTIME_FAILED`，不回退远端Provider。本机`example.com` probe及一次H001 Tabelog browser read已成功启动；不代表Tabelog identity或availability已验证 |
+| Tabelog Web | 来源页 | 只读开发期Availability Executor（代码实现；页面兼容性未验证） | 否 | 否 | 否 | 否 | 仅限Tabelog域名；结果页只接受可识别的restaurant-result链接，relative/canonical outlet URL在门店页补全身份，只有exact phone或name+address可HIGH匹配，已知电话号码冲突直接拒绝；只接受明确标记available的slot控件。实体非HIGH、CAPTCHA/`Just a moment...` challenge、页面异常、未确认的日期/人数、超时或外部跳转均不是`UNAVAILABLE`；challenge先于identity归类为`BOT_CHALLENGE`。H001 local-browser实测当前三次搜索均被challenge阻断，尚无Tabelog结果/详情页事实；eval artifact仅保存脱敏identity diagnostics（URL去除临时challenge token），不保存HTML。Browser会话建立失败不构成实体不确定。生产适用性须经兼容性、可靠性和法律约束单独验证 |
 | Google Routes | — | 交通路线 | 否 | 否 | Route响应 | 否 | `verified`；支持Transit到达/出发时间 |
 | Hot Pepper Web Service | 餐厅、区域、预算等 | 未见公开库存API | 未见公开Consumer Booking API | 否 | 否 | 否 | `verified` Discovery；预约需网页或合作能力 |
 | Hot Pepper Web | 餐厅页 | 网页可查 | Browser | Browser/管理链接 | 成功页、邮件、订单状态 | 登录/验证/支付 | `assumed`，需逐流程Adapter验证；Request Booking不是即时成功 |
 | TableCheck API | 有集成能力 | 可能 | 可能 | 可能 | 可能 | 取决于流程 | `requires partnership`；不作为MVP无条件依赖 |
-| TableCheck Web | 预约页 | 网页可查 | Browser | Browser/管理入口 | 成功页、邮件 | 登录/卡/3DS | `assumed`，需受控实测与Adapter健康检查 |
+| TableCheck Web | 公开guide页的确定性URL hint（不是Discovery事实） | H001只读Browser Adapter（代码实现；一次live验证为provider page failure） | 否 | 否 | 否 | 否 | 固定优先于Tabelog。仅用公开guide页的JSON-LD/DOM/tel link与Google exact phone或name+full address建立HIGH同Outlet身份；随后只访问带`start_date`/`pax`的公开reservation GET页，且只接受明确bookable的slot控件。没有登录、个人资料、支付、点击确认或提交。2026-09-04 H001的三个guide URL候选均返回`403 Forbidden`，现归类为`TABLECHECK_PAGE_UNAVAILABLE`而非identity failure，随后安全fallback到Tabelog。identity、日期/人数或slot语义不确定时fail closed。TableCheck API仍`requires partnership` |
 | Restaurant Website | 链接/页面 | 视网站 | Verified Browser Adapter | 视网站 | 视网站 | 常见 | `assumed`；未知网站降级为Takeover或Deep Link |
 | Phone-only Restaurant | 可能 | 电话 | 否 | 否 | 用户/餐厅确认 | 用户 | `unsupported`于MVP |
 

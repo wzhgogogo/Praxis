@@ -1,13 +1,85 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.36
-- Last updated: 2026-09-03
+- Document revision: 4.38
+- Last updated: 2026-09-04
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## 2026-09-04 — H001 TableCheck→Tabelog read-only availability source chain
+
+### Why
+
+Tabelog的反爬挑战不能成为H001唯一Availability来源；同一`CHECK_AVAILABILITY`需要在不扩大Agent权限或放宽同门店证明的前提下，确定性尝试另一个真实预约来源。
+
+### Changes
+
+- 新增Restaurant-only `RestaurantAvailabilityProvider`和固定`AvailabilitySourceResolver`，只接受两个当前真实使用者：TableCheck先行、Tabelog后备。Agent action、Decision Context和HARD Validator均不包含provider名称；resolver把来源尝试仅保存在execution metadata。
+- 新增只读TableCheck Browser Adapter：由候选名生成受限的公开guide URL hint，以JSON-LD/DOM/tel link同Google exact phone或name+full address建立HIGH Outlet，之后仅访问带`start_date`和`pax`的公开reservation GET页，读取明确bookable slot。没有登录、个人信息、支付、确认或预约提交。
+- 所有来源共用原有Grounding不变量。一个provider的challenge、403/页面不可用、runtime或解析失败会继续后备来源；所有来源均不能得出安全结论时，候选为`AVAILABILITY_SOURCES_EXHAUSTED`。新增TableCheck 403归因，避免把公共错误页解析为餐厅或`ENTITY_MATCH_UNCERTAIN`。
+
+### Live observation
+
+只运行一次LOCAL_CHROMIUM H001（`2026-09-04T08-32-54-786Z-h001.json`）：Google Discovery成功，三个候选的TableCheck guide URL均返回`403 Forbidden`，Tabelog三个搜索页均为`Just a moment...` challenge。resolver每个候选都先记录TableCheck provider failure、再记录Tabelog `BOT_CHALLENGE`，最终安全`AVAILABILITY_SOURCES_EXHAUSTED`；未获得HIGH identity、slot、availability或`PRESENT_RESULTS`。
+
+### Boundary
+
+没有新增动态registry、LLM provider选择、挑战绕过、Google Discovery变化、booking、Authorization、支付、个人信息输入或任何外部写入。
+
+## 2026-09-04 — H001 Tabelog identity diagnostics and challenge attribution
+
+### Why
+
+LOCAL_CHROMIUM H001 reported `ENTITY_MATCH_UNCERTAIN`, but its artifact retained neither the selected search result/detail identity chain nor the field-by-field comparison needed to distinguish parser, normalization, wrong-branch and source-access failures.
+
+### Changes
+
+- Added an eval-only identity diagnostic sink around the existing Tabelog read adapter. It records sanitized search title/URL, selected result and requested/final/canonical detail URLs, extracted name/address/phone and their JSON-LD/DOM/tel-link provenance, normalized values, field comparisons and the resolver's HIGH/non-HIGH reason. It does not enter Restaurant Domain evidence or Agent decision context.
+- Parser extraction retains field provenance and canonical URL without retaining raw HTML. Diagnostic URLs strip untrusted query parameters other than the search term, so transient challenge tokens are not written to subsequent artifacts.
+- Recognize Tabelog's `Just a moment...` challenge at search/detail acquisition and return fail-closed `BOT_CHALLENGE` before the identity gate. Grounding now preserves that stable failure reason instead of misattributing a browser-visible challenge as `ENTITY_MATCH_UNCERTAIN`.
+
+### Live observation
+
+Exactly one `LOCAL_CHROMIUM` H001 run produced `2026-09-04T08-00-55-386Z-h001.json`. Google discovery returned three candidates and their national phone numbers, but every Tabelog search page was `Just a moment...`; parsed result count, inspected result count and detail-page count were all zero. Therefore no Tabelog phone, address, JSON-LD, canonical detail page, branch choice or Google↔Tabelog field comparison was available. The blocker is source anti-bot access before identity acquisition, not a reason to relax HIGH matching or expand Google fields.
+
+### Boundary
+
+No identity threshold, Google FieldMask, availability parsing, H001 HARD constraint, browser-provider behavior or write path was weakened or broadened. The run made only read-only Google/Tabelog requests and performed no Authorization, booking, payment, cancellation or PII submission.
+
+## 2026-09-04 — Local Playwright Chromium H001 eval backend
+
+### Why
+
+Cloudflare Quick Action和独立CDP probe可用，但Hybrid H001的多次Browser Session可能遭遇瞬时429/容量失败；需要在不移除远端Runtime、也不改变Tabelog业务边界的前提下，隔离本地浏览器与页面解析问题。
+
+### Changes
+
+- 增加`LocalPlaywrightChromium`，以headless local Playwright Chromium实现既有`BrowserRuntime` / `BrowserSession`的navigate、snapshot、click、fill、select、wait和screenshot接口，并在close时关闭page、context和browser。它不持有或读取Cloudflare凭证。
+- `browserRuntimeFromEnvironment`仅在`PRAXIS_BROWSER_ENGINE=LOCAL_CHROMIUM`时选择本地Runtime；`AUTO`、`KITESURF`和`CHROMIUM`继续直接使用现有Cloudflare Runtime和AUTO fallback语义。Hybrid runner保持已有live-read gates；本地模式不再要求Cloudflare账号或token。
+- 本地browser binary缺失、launch和页面操作均映射到既有fail-closed `BROWSER_RUNTIME_FAILED`；不静默回退Cloudflare。无Tabelog identity/availability、HARD constraint、步数预算或写路径变动。
+
+### Local probe
+
+首次probe发现browser binary缺失，安装项目现有`playwright-core`对应Chromium后暴露Local Runtime把`chromium.launch`作为裸函数调用而丢失`BrowserType`绑定的问题。修复为通过BrowserType对象调用后，isolated `example.com` probe成功。随后仅运行一次`LOCAL_CHROMIUM` H001：Google Discovery成功，本地浏览器实际读取Tabelog约6.3秒，三家候选仍真实`ENTITY_MATCH_UNCERTAIN`，未进入`PRESENT_RESULTS`。没有Cloudflare访问或任何外部写操作。
+
+## 2026-09-04 — H001 browser failure attribution and terminal read handling
+
+### Why
+
+历史H001 Artifact把三个`ENTITY_MATCH_UNCERTAIN`当作Google→Tabelog身份问题；但Artifact没有任何Tabelog search/detail/JSON-LD/browser metadata，availability read约1ms完成。独立只读复现确认Cloudflare Browser Run在建立会话前失败，低置信度占位identity被Grounding优先映射，掩盖了真正的浏览器基础设施故障。
+
+### Changes
+
+- Grounding优先保留`EXTRACTION_FAILED + BROWSER_RUNTIME_FAILED/BROWSER_TIMEOUT`的稳定原因码；真正未能核实的门店仍保持`ENTITY_MATCH_UNCERTAIN`，没有降低HIGH门槛或接受name-only。
+- Tabelog adapter在所有本次候选共享同一失败码时写入安全的read metadata；Router仅对“所有请求候选均同一浏览器启动失败”标记terminal Provider failure。Loop持久化`AGENT_LOOP_TERMINATED(EXECUTION_FAILURE)`并进入`FAILED`，不再把内部Provider故障交由Agent `ASK_USER`。
+- 不修改Google FieldMask：三家原候选均已返回`nationalPhoneNumber`，阻塞在Tabelog页前，扩展字段无助于此失败。
+
+### Live observation
+
+按一次限制重跑H001后，Semantic和Agent决策继续成功，但Google Discovery两次在8秒deadline超时，第三次被搜索预算拒绝；没有Candidate、Browser session或Tabelog页面读取，Agent随后以`ASK_USER / WAITING_USER`停止。故本轮浏览器归因修复没有获得真实Tabelog identity/availability成功证明；当前单一阻塞是Google Discovery端到端超时。
 
 ## 2026-09-03 — H001 live-read identity, area and no-progress repair
 
