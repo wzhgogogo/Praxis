@@ -49,6 +49,21 @@ test("Action validator blocks unknown candidates, stale offers, and booking sche
   assert.equal(validateRestaurantAction(state, { type: "SELECT_CANDIDATE", candidateId: "missing" }, now).status, "REJECTED");
   assert.equal(validateRestaurantAction(state, { type: "CHECK_AVAILABILITY", candidateIds: ["missing"] }, now).status, "REJECTED");
   assert.equal(validateRestaurantAction(state, { type: "SELECT_CANDIDATE", candidateId: "a", offerId: "stale" }, now).status, "REJECTED");
+  const fresh = { ...state.availability.a![0]!, id: "fresh", expiresAt: "2026-08-05T09:02:00.000Z" };
+  const selected = { ...state, selectedCandidateId: "a", selectedOfferId: "fresh" };
+  const book = { type: "BOOK_RESERVATION" as const, candidateId: "a", offerId: "fresh" };
+  assert.equal(validateRestaurantAction({ ...selected, availability: { a: [fresh] } }, book, now).status, "REQUIRES_AUTHORIZATION");
+  for (const [label, patch] of [
+    ["wrong date", { dateTime: "2026-08-06T19:00:00+09:00" }],
+    ["wrong party", { partySize: 3 }],
+    ["too early", { dateTime: "2026-08-05T18:59:00+09:00" }],
+    ["too late", { dateTime: "2026-08-05T19:31:00+09:00" }],
+  ] as const) {
+    const verdict = validateRestaurantAction({ ...selected, availability: { a: [{ ...fresh, ...patch }] } }, book, now);
+    assert.equal(verdict.status, "REJECTED", label);
+    if (verdict.status === "REJECTED") assert.equal(verdict.code, "SCHEDULE_MISMATCH", label);
+  }
+
 });
 
 test("Action validator rejects availability reads that would repeat a candidate already checked for the current search", () => {
@@ -93,6 +108,12 @@ test("PRESENT_RESULTS fails closed until area, HARD criterion, identity, and ava
     ],
   };
   assert.deepEqual(validateRestaurantAction(grounded, { type: "PRESENT_RESULTS", candidateIds: ["a"] }, now), { status: "ALLOWED" });
+  for (const omitted of grounded.readEvidence) {
+    const verdict = validateRestaurantAction({ ...grounded, readEvidence: grounded.readEvidence.filter((item) => item !== omitted) }, { type: "PRESENT_RESULTS", candidateIds: ["a"] }, now);
+    assert.equal(verdict.status, "REJECTED", `missing ${omitted.kind}`);
+    if (verdict.status === "REJECTED") assert.equal(verdict.code, "PRESENTATION_EVIDENCE_MISSING", omitted.kind);
+  }
+
   const transition = restaurantBookingTaskDefinition.transition(grounded, {
     type: "RESULTS_PRESENTED", candidateIds: ["a"], evidenceIds: grounded.readEvidence.map((item) => item.evidenceId),
   }, { taskId: "task", runId: "run", now, createId: (prefix) => prefix });

@@ -12,6 +12,7 @@ export interface BrowserSnapshot {
 export interface BrowserSessionMetadata {
   runtimeProvider: BrowserRuntimeProvider;
   engine: BrowserEngine;
+  /** Opaque local/remote browser-session identifier; never a cookie or credential. */
   sessionId?: string;
   startedAt: string;
 }

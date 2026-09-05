@@ -1,15 +1,15 @@
 # Restaurant Booking Domain
 
 - Status: Accepted
-- Document revision: 2.1
-- Last updated: 2026-09-04
+- Document revision: 2.2
+- Last updated: 2026-09-05
 - Source of truth for: 餐厅预约Domain模型、状态、搜索和完成条件
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0009](../decisions/0009-semantic-strength-and-clean-holdout-baseline.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md), [ADR-0014](../decisions/0014-search-only-results-completion.md)
 - Related documents: [MVP PRD](../product/MVP-PRD.md), [User Flows](../product/USER-FLOWS.md), [Policy & Execution](../architecture/POLICY-EXECUTION-VERIFICATION.md), [Data, Context & Security](../architecture/DATA-CONTEXT-SECURITY.md), [Search Service](../architecture/SEARCH-SERVICE.md)
 
 ## Implementation Status
 
-ADR-0013冻结的Restaurant Mock预约切片已实现：`Semantic Interpreter → Compiler → Reducer → Restaurant Agent Context → Decision → Action Validator → Fixture Discovery / Availability → Agent Selection → Authorization checkpoint → Policy → Mock Commit → Verifier`。ADR-0014在`restaurant-state@10`增加了只读终态`PRESENT_RESULTS`与其结果引用；Google、TableCheck和Tabelog外部观察必须先经Grounding后才作为Candidate、Offer或Availability Check进入State。Pilot前没有真实Task数据，旧Schema迁移路径已经删除。
+ADR-0013冻结的Restaurant Mock预约切片已实现：`Semantic Interpreter → Compiler → Reducer → Restaurant Agent Context → Decision → Action Validator → Fixture Discovery / Availability → Agent Selection → Authorization checkpoint → Policy → Mock Commit → Verifier`。ADR-0015明确受支持预约来源的身份与空位证据范围；ADR-0014在`restaurant-state@10`增加了只读终态`PRESENT_RESULTS`与其结果引用；Google、TableCheck和Tabelog外部观察必须先经Grounding后才作为Candidate、Offer或Availability Check进入State。Pilot前没有真实Task数据，旧Schema迁移路径已经删除。
 
 Discovery保存`RestaurantCandidate`，Availability按`candidateId → AvailabilityOffer[]`独立保存。单一Restaurant Agent决定何时搜索、开放式检索策略、检查哪些候选、选择哪个组合或何时再次搜索；Validator不再选择下一步。`SEARCH_RESTAURANTS`不重复Intent，`CHECK_AVAILABILITY`不重复日期/时段/人数，且不得再次包含当前search/schedule下已有Check的候选；Router在调用Adapter前绑定这些权威参数。Fixture路径使用真正的`RestaurantAgentDecision` ModelGateway Contract，Harness可用Scripted Decision Port重复验证Trajectory。Policy、Authorization、Commit和Verifier仍是确定性权威边界。
 
@@ -101,7 +101,7 @@ type RestaurantCandidate = {
 
 `SEARCH_RESTAURANTS`只产生`RestaurantCandidate`。`CHECK_AVAILABILITY`才产生`AvailabilityOffer`并按`candidateId`保存；没有新鲜匹配Offer的Candidate不得进入Booking Proposal。
 
-`availabilityChecks[candidateId]`独立于Offer保存`AVAILABLE`、`UNAVAILABLE`、`UNKNOWN`或`SOURCE_UNSUPPORTED`、检查时间、Evidence引用及稳定原因码。Google area HARD evidence只可来自与请求地点相等的结构化address component；格式化地址中的任意关键词不构成地点证明。H001的Availability Source Resolver固定先试TableCheck、再试Tabelog；这是Router内部的确定性来源链，Agent action不含provider。每个来源都必须用exact phone或normalized name+address建立同一Outlet的HIGH match，并确认正确日期/人数/Asia-Tokyo时段及可见新鲜slot才可产生Offer。`BOT_CHALLENGE`、页面/抽取异常、未找到可靠Outlet、外部跳转和浏览器失败只代表该provider失败，另一个可用来源仍可尝试；两个来源均不能安全产生结论时才以`AVAILABILITY_SOURCES_EXHAUSTED`成为候选级`UNKNOWN`。已观察到的Tabelog challenge必须先于identity判定成为`BOT_CHALLENGE`，不允许“零结果”占位改写成`ENTITY_MATCH_UNCERTAIN`。Cloudflare和开发/eval-only的本地Playwright Chromium都只实现同一BrowserRuntime观察接口，绝不包含来源业务规则或写操作。会话尚未建立时的`BROWSER_RUNTIME_FAILED`/`BROWSER_TIMEOUT`先于identity判定保留，绝不能被低置信度占位match误写为`ENTITY_MATCH_UNCERTAIN`；当所有可用来源均为同一浏览器基础设施失败时，Router仍以内部`EXECUTION_FAILURE`进入`FAILED`，不询问用户如何解决内部Provider故障。
+`availabilityChecks[candidateId]`独立于Offer保存`AVAILABLE`、`UNAVAILABLE`、`UNKNOWN`或`SOURCE_UNSUPPORTED`、检查时间、Evidence引用及稳定原因码。Google area HARD evidence只可来自与请求地点相等的结构化address component；格式化地址中的任意关键词不构成地点证明。H001的Availability Source Resolver固定先试TableCheck、再试Tabelog；这是Router内部的确定性来源链，Agent action不含provider。每个来源都必须用exact phone或normalized name+address建立同一Outlet的HIGH match，并确认正确日期/人数/Asia-Tokyo时段及可见新鲜slot才可产生Offer。`BOT_CHALLENGE`、页面/抽取异常、未找到可靠Outlet、外部跳转和浏览器失败只代表该provider失败，另一个可用来源仍可尝试；两个来源均不能安全产生结论时才以`AVAILABILITY_SOURCES_EXHAUSTED`成为候选级`UNKNOWN`。已观察到的Tabelog challenge必须先于identity判定成为`BOT_CHALLENGE`，不允许“零结果”占位改写成`ENTITY_MATCH_UNCERTAIN`。只有显式eval的local persistent session可在`BOT_CHALLENGE`后以脱敏`USER_INTERVENTION_REQUIRED`暂停，等人手完成站点要求；恢复只snapshot同一page，不自动navigate/retry，challenge未消失仍返回`BOT_CHALLENGE`。这不是Agent语义澄清、不是Domain Evidence、不是生产Human Takeover Surface，也不降低HIGH identity或slot规则。Cloudflare和开发/eval-only的本地Playwright Chromium都只实现同一BrowserRuntime观察接口，绝不包含来源业务规则或写操作。会话尚未建立时的`BROWSER_RUNTIME_FAILED`/`BROWSER_TIMEOUT`先于identity判定保留，绝不能被低置信度占位match误写为`ENTITY_MATCH_UNCERTAIN`；当所有可用来源均为同一浏览器基础设施失败时，Router仍以内部`EXECUTION_FAILURE`进入`FAILED`，不询问用户如何解决内部Provider故障。
 
 ## Domain State
 

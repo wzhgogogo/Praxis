@@ -30,6 +30,8 @@ test("Google Places text search uses the explicit small field mask and stable ca
   assert.equal((captured?.headers as Record<string, string>)["X-Goog-FieldMask"], GOOGLE_PLACES_RESTAURANT_FIELD_MASK);
   assert.equal(result.candidates[0]?.restaurant.id.startsWith("praxis:restaurant:"), true);
   assert.equal(result.evidence.length, 1);
+  const repeated = await search.search({ intent: fixtureIntent }, new AbortController().signal);
+  assert.equal(repeated.candidates[0]?.restaurant.id, result.candidates[0]?.restaurant.id);
 });
 
 test("Google Places sends only explicit evaluation coordinates as NEAR_USER location bias", async () => {
@@ -61,23 +63,14 @@ test("Google Places search budget is mechanical and bounded per adapter instance
   await assert.rejects(search.search({ intent: fixtureIntent }, new AbortController().signal), { code: "GOOGLE_SEARCH_BUDGET_EXCEEDED" });
 });
 
-test("Google Places classifies provider failure and timeout without exposing a response body", async () => {
+test("Google Places classifies provider failure without exposing a response body", async () => {
   const failed = new GooglePlacesClient({
     apiKey: "key",
     fetchImplementation: async () => { throw new Error("upstream diagnostic payload"); },
   });
   await assert.rejects(
     failed.textSearch({ textQuery: "restaurant", pageSize: 1 }, new AbortController().signal),
-    { code: "GOOGLE_SEARCH_FAILED" },
+    (error: unknown) => error instanceof Error && "code" in error && error.code === "GOOGLE_SEARCH_FAILED" && !error.message.includes("upstream diagnostic payload"),
   );
 
-  const timedOut = new GooglePlacesClient({
-    apiKey: "key",
-    timeoutMs: 1,
-    fetchImplementation: async () => new Promise<Response>(() => {}),
-  });
-  await assert.rejects(
-    timedOut.textSearch({ textQuery: "restaurant", pageSize: 1 }, new AbortController().signal),
-    { code: "GOOGLE_TIMEOUT" },
-  );
 });

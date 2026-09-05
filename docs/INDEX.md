@@ -2,7 +2,7 @@
 
 - Status: Accepted
 - Document revision: 0.9
-- Last updated: 2026-08-20
+- Last updated: 2026-09-05
 - Source of truth for: 开发文档导航、阅读路径、文档职责和冲突处理
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Project Positioning](PROJECT-POSITIONING.md)
@@ -27,23 +27,17 @@ Accepted ADR
 
 ## 阅读路径
 
-1. [当前状态](STATUS.md)：已经实现、已经验证、明确未验证，以及下一道门槛。
-2. [Repository Conventions](REPOSITORY-CONVENTIONS.md)：branch、tag、版本、目录、文件、Eval数据与文档命名。
-3. [MVP PRD](product/MVP-PRD.md) 与 [User Flows](product/USER-FLOWS.md)：用户承诺与范围。
-4. [Architecture Overview](architecture/OVERVIEW.md) 与 [ADR Index](decisions/README.md)：主结构与不可静默改变的决策。
-5. 根据改动范围进入下方对应的 Domain、接口、Harness 或平台文档。
-6. 编码前必须读 [Arch Guard](skills/arch-guard/SKILL.md) 与 [Planning](skills/planning/SKILL.md)；完成后读 [Post-change Verify](skills/post-change-verify/SKILL.md)。
+入口顺序：INDEX → Repository Conventions → Arch Guard → STATUS。根据下表进入本次范围；同一会话已读且未变化的文档可复用。历史日志只在追溯时读取。
 
-历史过程不用于判断当前实现状态：需要追溯时才阅读 [Dev Log](history/DEVLOG.md) 与 [Test Log](history/TEST-LOG.md)。
+| 本次工作 | 追加阅读 |
+|---|---|
+| 产品/交互 | Project Positioning、MVP PRD、User Flows；Web/Case再读Agent Gateway and Workspace |
+| 架构/State/执行 | Overview、相关Accepted ADR、Task Runtime或Policy/Execution/Verification、相关Domain |
+| Provider/Browser | Restaurant Domain、Capability Matrix、Agent Orchestration、Data/Security、相关ADR |
+| 测试/评测 | Test Skill；模型质量读Eval；具体Harness协议按需读取，不自动读取标注或私有数据 |
+| 文档/配置/入口整理 | 对应权威文档、package scripts、配置读取实现 |
 
-### 修改前必读
-
-1. [当前状态](STATUS.md) 与 [项目定位](PROJECT-POSITIONING.md)
-2. [Repository Conventions](REPOSITORY-CONVENTIONS.md)
-3. [MVP PRD](product/MVP-PRD.md) 与 [用户流程](product/USER-FLOWS.md)
-4. [架构概览](architecture/OVERVIEW.md) 与 [ADR Index](decisions/README.md)
-5. Web/Session/Case 改动先读 [Agent Gateway and Workspace](architecture/AGENT-GATEWAY-AND-WORKSPACE.md)；其余改动读对应的架构、Domain、Harness 或 Capability 文档
-6. [Arch Guard](skills/arch-guard/SKILL.md) 与 [Planning Skill](skills/planning/SKILL.md)
+非trivial实施按[Planning](skills/planning/SKILL.md)选择诊断/局部/架构计划，验证按[Test](skills/test/SKILL.md)，交付按[Post-change](skills/post-change-verify/SKILL.md)。纯链接和说明修正不需要完整产品/语义问卷。
 
 ## 产品
 
@@ -75,6 +69,7 @@ Accepted ADR
 - [Roadmap](roadmap.md)：后续阶段及退出条件，不记录每次实施细节。
 - [Dev Log](history/DEVLOG.md)：仅保留按时间的设计、实现与取舍追溯。
 - [Test Log](history/TEST-LOG.md)：仅保留按时间的验证命令、模式、结果与未覆盖项。
+- [2026-09-05全量测试审查](history/TEST-SUITE-REVIEW-2026-09-05.md)：2026-09-06完成的逐文件/逐测试历史快照，不是需随每次改动维护的门禁清单。
 
 ## Superseded Archive
 
@@ -82,6 +77,7 @@ Accepted ADR
 - [Restaurant Progressive Decision Eval](superseded/harness/RESTAURANT-PROGRESSIVE-DECISION-EVAL.md)：已删除的Progressive Decision Harness历史设计。
 - [Restaurant Progressive Decision Golden Seed](superseded/harness/RESTAURANT-PROGRESSIVE-DECISION-GOLDEN-SEED.md)：首批7个Episode的历史标注记录。
 - [Restaurant Categorized Semantic Holdout](superseded/harness/RESTAURANT-CATEGORIZED-SEMANTIC-HOLDOUT.md)：开放`criteria`之前的历史Holdout格式。
+- [Restaurant Semantic Clean Holdout Baseline Plan](superseded/harness/RESTAURANT-SEMANTIC-CLEAN-HOLDOUT-BASELINE-PLAN.md)：已完成的历史Clean Holdout执行计划；当前协议见[Restaurant Semantic Holdout](harness/RESTAURANT-SEMANTIC-HOLDOUT.md)。
 
 ## Research 与讨论记录
 
@@ -101,6 +97,7 @@ Accepted ADR
 ## 仓库治理
 
 - [Repository Naming and Version Conventions](REPOSITORY-CONVENTIONS.md)：Git branch/tag、版本轴、源码、Eval、文档和命令命名的唯一Source of Truth。
+- [Repository Improvement Plan](REPOSITORY-IMPROVEMENT-PLAN.md)：2026-09-05仓库Review的整改执行进度与延后项，不替代当前权威设计，不包含人工标注数据和已有测试artifact的修改。
 
 ## 文档治理
 
@@ -125,3 +122,7 @@ Related documents:
 - 验证流程变化：更新 Test/Post-change Skill 与 Test Log。
 - branch、版本、文件、目录或命令命名变化：只更新 Repository Conventions，并在AGENTS保留必要强制摘要；不得写入Arch Guard。
 - 非 trivial 实现：更新 Dev Log；若改变当前能力或门槛，同步 `STATUS.md`。
+
+## 单页浏览器诊断
+
+[Browser Read Diagnostics](harness/BROWSER-READ-DIAGNOSTICS.md)维护独立入口、证据字段与测试映射。LOCAL_CHROMIUM单独interactive使用临时profile；interactive与manual-intervention同时开启才使用ADR-0016专用持久eval profile。真实Chromium本地Fixture不等于真实来源验证；单页观察不写Task State、不产出Offer。

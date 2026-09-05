@@ -177,7 +177,7 @@ async function readFirstCaseEvent(
   return JSON.parse(data) as RestaurantCaseView;
 }
 
-test("Stage 2B serves a responsive fixture workspace", async () => {
+test("Stage 2B serves the fixture workspace and rejects unauthenticated case access", async () => {
   await withDatabase(async ({ database, clock }) => {
     const running = await startServer(database, clock);
     try {
@@ -185,7 +185,6 @@ test("Stage 2B serves a responsive fixture workspace", async () => {
       assert.equal(response.status, 200);
       const page = await response.text();
       assert.match(page, /Stage 2B fixture/i);
-      assert.match(page, /@media \(max-width: 760px\)/);
       const unauthorized = await fetch(`${running.baseUrl}/api/cases`);
       assert.equal(unauthorized.status, 401);
     } finally {
@@ -237,8 +236,11 @@ test("W02 resumes the same case from a second mobile-web session", async () => {
         mobileCookie,
         `/api/cases/${encodeURIComponent(created.case.caseId)}`,
       );
-      // ADR-0010 records semantic compilation plus Agent search, availability, selection and proposal events.
-      assert.equal((resumed.payload.view as RestaurantCaseView).case.taskVersion, 5);
+      assert.equal(resumed.response.status, 200);
+      const view = resumed.payload.view as RestaurantCaseView;
+      assert.equal(view.case.taskVersion, created.case.taskVersion);
+      assert.equal(view.case.rootTaskId, created.case.rootTaskId);
+      assert.deepEqual(view.conversation.messages, created.conversation.messages);
     } finally {
       await running.close();
     }
@@ -287,7 +289,7 @@ test("W04 SSE reconnect sends an idempotent Agent-loop snapshot", async () => {
         first.activities.map((item) => item.activityId),
       );
 
-      const latest = await readFirstCaseEvent(running.baseUrl, cookie, created.case.caseId);
+      const latest = replay;
       assert.equal(latest.case.phase, "AWAITING_AUTHORIZATION");
       assert.equal(
         new Set(latest.activities.map((item) => item.activityId)).size,

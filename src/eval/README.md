@@ -56,6 +56,6 @@ npm run eval:restaurant:semantic:holdout:exposed-regression
 
 `semantic/cases/holdout-template.json`是不含样本的可提交模板；实际私有数据仍位于Git忽略的`.eval-private/restaurant-semantic-holdout-v2.json`。完整标注和一次性运行规则见[Restaurant Semantic Holdout](../../docs/harness/RESTAURANT-SEMANTIC-HOLDOUT.md)。
 
-`agent-loop/drafts/`和`semantic/drafts/`目前只是未接入的设计证据，不得报告为可执行Eval或Baseline。
+`agent-loop`已有只读诊断与Hybrid Runner，完整Rubric/Scorer尚未集成。Hybrid读取drafts/e2e-cases.yaml是已知路径约定缺口；因标注数据不在本次改动范围，保留原文件。执行状态、评分状态和污染/基线资格分别记录；semantic/drafts/仍为设计证据。
 
 历史Decision Harness、旧Intent Parser和分类Criteria Contract只从Git、ADR与历史日志追溯，不恢复旧源码目录、兼容命令或并行Evaluator。

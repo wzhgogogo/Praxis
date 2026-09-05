@@ -1,10 +1,17 @@
+import { randomUUID } from "node:crypto";
+import { resolve } from "node:path";
+
 import { chromium, type Browser, type BrowserContext, type Page } from "playwright-core";
 
 import type { BrowserRuntime, BrowserSession, BrowserSessionMetadata, BrowserSnapshot } from "./browser-runtime.js";
 import { BrowserRuntimeError } from "./browser-runtime-errors.js";
 
 export interface LocalPlaywrightChromiumConfig {
-  browserType?: Pick<typeof chromium, "launch">;
+  browserType?: Pick<typeof chromium, "launch"> & Partial<Pick<typeof chromium, "launchPersistentContext">>;
+  /** Defaults to headless; interactive eval explicitly opts into headed Chromium. */
+  headless?: boolean;
+  /** A dedicated, gitignored eval profile makes cookies persist across local eval sessions. */
+  userDataDir?: string;
 }
 
 async function closeQuietly(value: { close(): Promise<void> } | undefined): Promise<void> {
@@ -16,13 +23,15 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
   readonly metadata: BrowserSessionMetadata = {
     runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM",
     engine: "CHROMIUM",
+    sessionId: `local:${randomUUID()}`,
     startedAt: new Date().toISOString(),
   };
 
   constructor(
-    private readonly browser: Browser,
+    private readonly browser: Browser | undefined,
     private readonly context: BrowserContext,
     private readonly page: Page,
+    private readonly contextOwnsBrowser: boolean,
   ) {}
 
   async navigate(url: string, options: { waitUntil?: "domcontentloaded" | "load"; timeoutMs?: number } = {}): Promise<void> {
@@ -54,7 +63,7 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
     this.closed = true;
     await closeQuietly(this.page);
     await closeQuietly(this.context);
-    await closeQuietly(this.browser);
+    if (!this.contextOwnsBrowser) await closeQuietly(this.browser);
   }
 
   private async run<Value>(operation: () => Promise<Value>): Promise<Value> {
@@ -72,8 +81,16 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
 export class LocalPlaywrightChromium implements BrowserRuntime {
   constructor(private readonly config: LocalPlaywrightChromiumConfig = {}) {}
 
-  static fromEnvironment(_environment: NodeJS.ProcessEnv = process.env): LocalPlaywrightChromium {
-    return new LocalPlaywrightChromium();
+  static fromEnvironment(environment: NodeJS.ProcessEnv = process.env): LocalPlaywrightChromium {
+    const interactive = environment.PRAXIS_LOCAL_CHROMIUM_INTERACTIVE === "1";
+    const persistent = interactive && environment.PRAXIS_EVAL_ALLOW_TABELOG_MANUAL_INTERVENTION === "1";
+    return new LocalPlaywrightChromium(interactive
+      ? {
+          headless: false,
+          // This directory is gitignored and deliberately never points to a user Chrome profile.
+          ...(persistent ? { userDataDir: resolve(".eval-artifacts", "local-chromium-profile") } : {}),
+        }
+      : {});
   }
 
   async openSession(input: { signal: AbortSignal }): Promise<BrowserSession> {
@@ -81,17 +98,32 @@ export class LocalPlaywrightChromium implements BrowserRuntime {
     let browser: Browser | undefined;
     let context: BrowserContext | undefined;
     let page: Page | undefined;
+    let contextOwnsBrowser = false;
     try {
-      browser = await (this.config.browserType ?? chromium).launch({ headless: true });
-      context = await browser.newContext();
+      const browserType = this.config.browserType ?? chromium;
+      if (this.config.userDataDir) {
+        if (!browserType.launchPersistentContext) {
+          throw new Error("The configured Playwright browser type does not support persistent contexts");
+        }
+        context = await browserType.launchPersistentContext(this.config.userDataDir, { headless: this.config.headless ?? true });
+        contextOwnsBrowser = true;
+      } else {
+        browser = await browserType.launch({ headless: this.config.headless ?? true });
+        context = await browser.newContext();
+      }
       page = await context.newPage();
-      const session = new LocalPlaywrightChromiumSession(browser, context, page);
+      const session = new LocalPlaywrightChromiumSession(browser, context, page, contextOwnsBrowser);
+      if (input.signal.aborted) {
+        await session.close();
+        throw new BrowserRuntimeError("BROWSER_ABORTED", "Local browser creation was aborted");
+      }
       input.signal.addEventListener("abort", () => { void session.close(); }, { once: true });
       return session;
     } catch (error) {
       await closeQuietly(page);
       await closeQuietly(context);
-      await closeQuietly(browser);
+      if (!contextOwnsBrowser) await closeQuietly(browser);
+      if (error instanceof BrowserRuntimeError) throw error;
       throw new BrowserRuntimeError(
         "BROWSER_RUNTIME_FAILED",
         "Local Playwright Chromium could not launch a browser; install a Playwright Chromium browser binary before using PRAXIS_BROWSER_ENGINE=LOCAL_CHROMIUM",

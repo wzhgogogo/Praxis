@@ -13,14 +13,14 @@ Eval评估模型与端到端质量，不替代功能测试。当前产品架构�
 src/eval/
 ├── restaurant/
 │   ├── semantic/       当前语义Evaluator；drafts/不进入Runner
-│   ├── agent-loop/     drafts/保留E2E Case与Rubric，尚无Runner
+│   ├── agent-loop/     有界只读诊断与Hybrid Runner；完整Rubric/Scorer尚未集成
 │   └── search-fixture/ 本地Fixture产品搜索纵向检查
 └── shared/             真实模型付费门禁、成本与调用汇总
 ```
 
 不得把已暴露Regression、Fixture Search、Mock、Replay、Live Read-only或Controlled Live-write互相替代或混报。
 
-Eval材料按`current executable`、`frozen regression`、`superseded retrospective`和`draft / not integrated`管理。历史Plan、Golden/Regression Set、Manifest、评分口径和运行证据保留；退出当前主链的可执行实现不因此长期保留。`drafts/`中的内容没有Runner/Scorer门禁，不得当作当前数据集、测试覆盖或质量结论。
+Eval材料按`current executable`、`frozen regression`、`superseded retrospective`和`draft / not integrated`管理。历史Plan、Golden/Regression Set、Manifest、评分口径和运行证据保留；退出当前主链的可执行实现不因此长期保留。执行、评分、污染/基线资格分别记录。当前Hybrid Runner实际读取agent-loop/drafts/e2e-cases.yaml，但完整Scorer未集成；这是路径与命名约定的不一致，因本轮排除标注数据而保留，不移动或修改输入。可运行诊断不等于可评分Baseline。
 
 ## Stage 2C冻结口径
 
@@ -47,7 +47,7 @@ PRAXIS_LIVE_MODEL_EVAL_CASE_LIMIT=7 \
 npm run eval:restaurant:semantic:deepseek
 ```
 
-该命令只使用已暴露静态文本、内存Runtime和Fixture Search，不创建产品Task，不访问真实Discovery/Availability，不执行预约。任何再次运行都需要单独付费授权，结果仍不能成为Baseline。
+该命令只使用已暴露静态文本、内存Runtime和Fixture Search，不创建产品Task，不访问真实Discovery/Availability，不执行预约。付费实验需用户授权；授权可明确案例、最大调用数或费用，已授权范围内可继续，超出范围再确认。开关不代替授权，结果仍不能成为Baseline。
 
 当strict Schema、Gateway transport或Provider模型配置在首次Clean Holdout前发生变化时，必须先运行一次这个已暴露Regression，确认没有Schema/API transport失败；它只验证已暴露样本的连接和结构化传输，不能替代Clean Holdout。
 
@@ -138,3 +138,9 @@ npm run eval:restaurant:search:fixture
 ```
 
 该命令只证明本地Fixture Web链的完整输入、缺字段澄清和候选选择停在授权前。真实Discovery、Availability、预约和外部写入必须分别进入Live Read-only或Controlled Live-write阶段，不能由语义Holdout代替。
+
+## 诊断运行与证据
+
+实际实验开始前写入独占的开始记录，成功、失败或取消保存独立结果；未正常收尾的开始记录表示运行未完成。阶段区分执行、失败、未到达，早期模型失败不能伪造下游故障。只保存脱敏原因、已有调用指标和必要环境摘要；日志不记录Cookie、挑战token、接管输入或原始Provider错误。
+
+Browser检测、尝试、生效验证分别报告；静态禁止写入声明不作为实测副作用计数。网络路径和profile来源说明用户声明与实际观察的区别。新的诊断记录不得覆盖任何既有artifact。具体功能检查引用[Test](../test/SKILL.md)。

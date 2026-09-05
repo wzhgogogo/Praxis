@@ -24,32 +24,13 @@ describe("restaurant booking mock harness", () => {
     assert.equal(harness.ledger.records.length, 1);
   });
 
-  test("H02 returns at most three executable candidates", async () => {
+  // H02/H03/H04 share the same current Agent-to-authorization checkpoint.
+  test("H02/H03/H04 cap executable candidates and stop the proposed booking before authorization", async () => {
     const harness = createHarness();
-
     const snapshot = await harness.start(fixtureIntent);
 
     assert.equal(snapshot.domainState.phase, "AWAITING_AUTHORIZATION");
     assert.equal(snapshot.domainState.candidates.length, 3);
-    assert.equal(harness.ledger.records.length, 0);
-  });
-
-  test("H03 does not execute before the Agent-proposed booking is authorized", async () => {
-    const harness = createHarness();
-
-    const snapshot = await harness.start(fixtureIntent);
-
-    assert.equal(snapshot.domainState.phase, "AWAITING_AUTHORIZATION");
-    assert.equal(harness.countCommands("COMMIT_BOOKING"), 0);
-    assert.equal(harness.ledger.records.length, 0);
-  });
-
-  test("H04 does not execute a selected candidate without authorization", async () => {
-    const harness = createHarness();
-
-    const snapshot = await harness.start(fixtureIntent);
-
-    assert.equal(snapshot.domainState.phase, "AWAITING_AUTHORIZATION");
     assert.equal(harness.countCommands("COMMIT_BOOKING"), 0);
     assert.equal(harness.ledger.records.length, 0);
   });
@@ -268,7 +249,7 @@ describe("restaurant booking mock harness", () => {
     assert.equal(artifact.evidence[0]?.attemptId, commit.trace.attemptId);
   });
 
-  test("Agent chooses a second search strategy after an unhelpful first discovery", async () => {
+  test("Agent can request a second search strategy after the first discovery", async () => {
     const harness = createHarness({
       agentActions: [
         { type: "SEARCH_RESTAURANTS", retrievalHint: "initial narrow query" },

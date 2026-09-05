@@ -42,7 +42,7 @@ Everyday tasks are rarely difficult because of a single step. They are difficult
 
 现有 Copilot、竞品评测和用户研究数据证明了 Local 等生活需求具有足够大的相邻市场，也显示了现有 AI 在行动与持续跟进方面的不足；但这些数据不直接等同于 Praxis 的产品市场匹配。日本 Local Build 的目标，就是把这一方向从合理假设推进到真实用户验证。
 
-当前 MVP 优先采用 API；无可用 API 时使用经过验证的 Browser Adapter，并在登录、验证码、银行卡或高风险条款处由用户临时接管。未知或未验证的网站降级为 Human Takeover 或 Deep Link，不以100%自动操作所有网站和 App 为前提。
+无API网站的浏览与受控操作是Praxis持续建设的核心能力；有可用API时可以优先使用；无可用 API 时使用经过验证的 Browser Adapter，并在登录、验证码、银行卡或高风险条款处由用户临时接管。未知或未验证的网站降级为 Human Takeover 或 Deep Link，不以100%自动操作所有网站和 App 为前提。
 
 ## 产品承诺
 

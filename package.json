@@ -20,11 +20,12 @@
     "eval:restaurant:semantic:holdout:exposed-regression": "node --env-file-if-exists=.env --import tsx src/eval/restaurant/semantic/runners/run-exposed-holdout-regression.ts",
     "eval:restaurant:semantic:holdout:exposed-regression:analyze": "node --import tsx src/eval/restaurant/semantic/runners/run-exposed-holdout-regression-analysis.ts",
     "eval:restaurant:search:fixture": "node --import tsx src/eval/restaurant/search-fixture/run.ts",
-    "probe:browser:tabelog": "node --env-file-if-exists=.env --import tsx src/eval/restaurant/agent-loop/runners/run-browser-tabelog-probe.ts",
     "eval:restaurant:agent-loop:hybrid-live-read": "node --env-file-if-exists=.env --import tsx src/eval/restaurant/agent-loop/runners/run-hybrid-live-read.ts",
     "test:postgres:live": "node --env-file-if-exists=.env --import tsx src/infrastructure/postgres/postgres-live-smoke.ts",
     "reset:dev:restaurant-state": "node --env-file-if-exists=.env --import tsx src/infrastructure/postgres/reset-restaurant-dev-data.ts",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "probe:restaurant:browser:read": "node --env-file-if-exists=.env --import tsx src/eval/restaurant/agent-loop/runners/run-browser-read-probe.ts",
+    "test:browser:fixture": "node --import tsx --test src/harness/browser/*.test.ts"
   },
   "devDependencies": {
     "@electric-sql/pglite": "^0.5.4",

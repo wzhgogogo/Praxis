@@ -38,7 +38,9 @@ LLM ─X→ authoritative state / execution
 ## 执行与安全
 
 - 外部写入必须经过最新PolicyDecision与有效Authorization，并具备幂等和Outcome验证。
-- 登录、验证码、支付、3DS、CAPTCHA和新增高风险条款进入Human Takeover。
+- 登录、验证码、支付、3DS、CAPTCHA和新增高风险条款进入Human Takeover；恢复后重新核验门店、请求条件和必要Evidence，接管不扩大Authorization。
+- 模型可以提出受约束的操作建议，校验后由执行层执行；当前未实现的Browser模型观察契约不得因此视为已启用。页面等待、重新观察、失败重试与重复提交分别处理；副作用按现实效果判断，不只看HTTP方法或按钮名称。
+- 产品Profile按用户/Task隔离并在终态销毁；本地eval持久化仅适用[ADR-0016](../../decisions/0016-local-eval-browser-profile-lifecycle.md)，不自动推广到产品。
 - Secret只存在服务端环境或Secret Manager；日志与Artifact不得保存Secret或无关PII。
 - Mock、Replay、Live Read-only与Controlled Live-write必须分开运行和汇报。
 - Pilot前无生产数据或外部消费者时，直接替换旧路径并删除旧代码，不建立兼容层。
@@ -51,7 +53,7 @@ LLM ─X→ authoritative state / execution
 npm run arch:check
 ```
 
-自动检查只覆盖可可靠判断的import依赖：Core逆向依赖、跨Domain依赖、Web到Provider实现、Restaurant Compiler/Action Validator到模型或Adapter。以下仍需人工审阅：
+自动检查只覆盖正则可识别的相对静态import，不覆盖动态导入、完整传递依赖或所有组合入口；当前检查项为：Core逆向依赖、跨Domain依赖、Web到Provider实现、Restaurant Compiler/Action Validator到模型或Adapter。以下仍需人工审阅：
 
 1. 是否改变Accepted ADR或权威职责；
 2. 模型输出是否被误当作语义正确、用户确认或可信Evidence；

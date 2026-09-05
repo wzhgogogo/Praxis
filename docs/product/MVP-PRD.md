@@ -2,7 +2,7 @@
 
 - Status: Accepted
 - Document revision: 0.3
-- Last updated: 2026-08-10
+- Last updated: 2026-09-05
 - Source of truth for: 第一版产品范围、用户承诺和验收标准
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md)
 - Related documents: [User Flows](USER-FLOWS.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md), [Data, Context & Security](../architecture/DATA-CONTEXT-SECURITY.md)
@@ -49,7 +49,7 @@ Praxis第一版是一个Responsive English Web Agent，同时支持Desktop与Mob
 5. 只展示已验证空位且存在预约路径的可执行候选；不足 3 家时透明返回实际数量。
 6. 用户只选择并授权一家，不授权自动换店。
 7. 提交前重新验证空位和条款；发生实质变化时重新确认。
-8. API 优先；无 API 时使用支持的 Browser Adapter；登录、验证码、银行卡、3DS、CAPTCHA 和新增高风险条款触发 Human Takeover。
+8. 无API网站的浏览与受控操作是核心建设方向；有API可优先使用，无API时使用支持的Browser Adapter；登录、验证码、银行卡、3DS、CAPTCHA 和新增高风险条款触发 Human Takeover。
 9. 只有强完成信号存在时进入 `BOOKED_VERIFIED`。
 10. 预约失败或空位消失时刷新候选并让用户重新选择。
 11. 支持取消；修改统一为“创建并验证新预约，再取消旧预约”。

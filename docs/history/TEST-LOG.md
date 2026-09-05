@@ -1,13 +1,36 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.36
-- Last updated: 2026-09-04
+- Document revision: 4.38
+- Last updated: 2026-09-05
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## 2026-09-05 — Draft repository improvement plan: documentation-only verification
+
+- 范围：新增[Repository Improvement Plan](../REPOSITORY-IMPROVEMENT-PLAN.md)、INDEX入口和本次DEVLOG/TEST-LOG记录；整改项仍为`draft / not integrated`。
+- 前序静态Review：43份当前文档/入口无失效相对链接；现有测试文件均被npm test路径规则匹配。这不代表测试已运行或功能通过。
+- 本次交付检查：核对新清单链接、14个工作项及其索引；检查本次diff空白与原有未提交改动保留情况。
+- Mock/Unit、Replay、build、Live Read-only、Controlled Live-write及付费模型Eval均未运行：本次仅整理文档，没有代码或测试行为变更。未修改人工标注、Golden Set、私有数据或已有artifact。
+
+## 2026-09-04 — Eval-only Tabelog explicit human challenge resume experiment
+
+### Scope
+
+仅开发/eval的LOCAL_CHROMIUM headed persistent profile和Tabelog manual challenge pause。没有产品Desktop/Mobile surface、stealth、CAPTCHA自动化、预约或写路径变更。
+
+### Checks
+
+- Focused Browser Runtime、factory、Tabelog adapter、source resolver和Router tests：通过`27/27`。覆盖headed persistent context/profile关闭、缺失browser binary的稳定失败、`USER_INTERVENTION_REQUIRED`、浏览器在pause期间保持打开、同一session/page恢复、无自动search retry、challenge仍在时fail closed、challenge清除后继续既有identity/availability读取。
+- `npm test`：在允许本机HTTP/SSE fixture listener的环境中通过`159/159`，0 failed。首次沙箱运行仅7个本地server测试因`listen EPERM 127.0.0.1`失败；其余152项及本次focused均通过，随后同一命令在受控本机listener环境完整通过。
+- `npm run typecheck`、`npm run arch:check`、`npm run build`和`git diff --check`：通过；Architecture check为0 forbidden dependency。
+
+### Live Read-only
+
+在离线门禁后仅运行一次：`PRAXIS_BROWSER_ENGINE=LOCAL_CHROMIUM PRAXIS_LOCAL_CHROMIUM_INTERACTIVE=1 PRAXIS_EVAL_ALLOW_TABELOG_MANUAL_INTERVENTION=1 npm run eval:restaurant:agent-loop:hybrid-live-read -- --case h001`。Semantic Interpreter在第一步返回`MODEL_FAILURE`，runner在Google discovery、Browser launch、Tabelog或人工暂停之前退出，因而无新的artifact。没有外部写、Authorization、Booking、payment、cancellation或PII submission；此结果不证明真实challenge能被恢复。
 
 ## 2026-09-04 — H001 TableCheck→Tabelog source-chain verification
 
@@ -2005,3 +2028,20 @@ v17 Criterion strength、Prompt / Proposal / Draft / State / Scorer版本、公�
 ### Limitation
 
 必须由数据所有者修复私有标注的结构，或确认可采用的Gold会话边界；在此之前不可合法地运行一次性Baseline。
+
+## 2026-09-05 — 仓库整改验证
+
+typecheck、arch:check（0 forbidden dependencies）、build通过；npm test 164/164通过；test:browser:fixture 3/3通过，包含缺失ready标记必须返回BROWSER_TIMEOUT，浏览器启动错误不会误通过。5个项目Skill的quick_validate全部通过。首次沙箱执行中本地Web监听EPERM（7项）及Chromium启动权限失败；获准在沙箱外重跑上述测试后全部通过。Fixture页面由本地响应拦截提供，不是Replay或真实来源验证。未执行付费模型、私有Holdout、Live来源读写、原始H001或真实PostgreSQLSmoke；未改已有测试artifact。
+
+## 2026-09-05 — 测试去重后验证
+
+默认测试从164项合并为162项，npm test为162/162通过（约9.5秒）；减少的是两次相同Harness初始化和重复断言，不宣称显著性能提升。typecheck、arch:check、build、git diff --check通过；Test/Planning/Post-change三个Skill的quick_validate通过。完整离线测试在获准环境运行以允许本地Web监听。此次仅测试和文档调整，没有新增测试；本地真实浏览器Fixture未受影响，未重复运行，前次3/3仍只是此前证据。未运行Live、付费模型或私有Holdout，未改既有artifact。
+
+## 2026-09-06 — 全量测试正文审查验证
+
+- 默认Unit/Fixture/Mock/PGlite：npm test 159/159通过，约9.8秒；相对本轮起点162减少3个独立重复项，没有新增独立测试；前轮164→162另有历史记录。
+- 冻结探针：npm run test:probes 8/8通过；不计入当前产品完成度。
+- 真实Chromium + 本地Fixture：npm run test:browser:fixture 3/3通过；不访问真实来源。
+- typecheck、arch:check、build、git diff --check通过。
+- 独立Live Smoke脚本：对实际源码stripTypeScriptTypes后在隔离VM以假数据库/Runtime注入，success、cleanup-failure、assertion-and-cleanup-failure共3种通过；验证每种均尝试4次行清理及连接关闭，失败不打印pass，同时保留测试与清理错误。临时验证工具位于本机临时目录，未新增长期测试框架。真实PostgreSQL未运行。
+- 未运行付费模型、真实来源读写或私有Holdout；Golden及既有artifact未改。审查逐项记录：[TEST-SUITE-REVIEW-2026-09-05](TEST-SUITE-REVIEW-2026-09-05.md)。

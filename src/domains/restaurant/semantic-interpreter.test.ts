@@ -29,7 +29,7 @@ function response(outputText: string): ModelResponse {
   };
 }
 
-test("Semantic Interpreter requests a closed proposal and never asks for state or tool protocol", async () => {
+test("Semantic Interpreter sends the proposal schema and separates user data from system context", async () => {
   const gateway = new QueuedGateway([
     response(
       JSON.stringify({
@@ -70,14 +70,10 @@ test("Semantic Interpreter requests a closed proposal and never asks for state o
     jsonSchema: RESTAURANT_SEMANTIC_PROPOSAL_JSON_SCHEMA,
   });
   assert.equal(request.responseFormat, "JSON_SCHEMA");
-  assert.match(request.messages[0]!.content, /tool inputs, provider identifiers, authorizations/);
-  assert.match(request.messages[0]!.content, /state patches, events/);
-  assert.match(request.messages[0]!.content, /UNSPECIFIED is not the default/);
-  assert.match(request.messages[0]!.content, /Generic request language such as "good", "good options"/);
-  assert.match(request.messages[0]!.content, /Emit DATE whenever the current message determines the dining date/);
-  assert.match(request.messages[0]!.content, /Meal-purpose words such as breakfast, lunch, or dinner alone/);
-  assert.match(request.messages[0]!.content, /closed dining party whose total can be counted with high confidence/);
-  assert.match(request.messages[0]!.content, /Relative location expressions are valid AREA values/);
+  assert.deepEqual(request.messages.map((message) => message.role), ["system", "user"]);
+  assert.ok(request.messages[0]!.content.includes("2026-08-05T09:00:00+09:00"));
+  assert.ok(request.messages[0]!.content.includes(JSON.stringify({ partySize: 2 })));
+  assert.ok(!request.messages[0]!.content.includes("Make it three."));
   assert.equal(
     request.messages[1]!.content,
     'User restaurant message as JSON string: "Make it three."',

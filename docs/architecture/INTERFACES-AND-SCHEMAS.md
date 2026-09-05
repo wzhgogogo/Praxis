@@ -1,7 +1,7 @@
 # Interfaces and Schemas
 
 - Status: Accepted
-- Document revision: 2.8
+- Document revision: 2.9
 - Last updated: 2026-09-04
 - Source of truth for: 公共接口、DTO、内部Tool、实现状态和版本规则
 - Related ADRs: [ADR Index](../decisions/README.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md)
@@ -37,7 +37,7 @@
 | SSE可重连Case Snapshot | `implemented: Stage 2B Fixture subset` | [`local-web-server.ts`](../../src/server/local-web-server.ts) |
 | `ModelGateway`与DeepSeek HTTP Provider Contract | `implemented: connector contract only` | [`src/core/model`](../../src/core/model/contracts.ts)、[`DeepSeekModelGateway`](../../src/infrastructure/deepseek/deepseek-model-gateway.ts) |
 | Model Tool Contract | `proposed` | 尚未暴露任何Tool给模型 |
-| Google Places Discovery / Cloudflare Browser Runtime / Local Playwright Chromium Runtime / TableCheck→Tabelog Availability | `implemented: source + offline contract tests; live unverified` | `RestaurantAvailabilityProvider`仅有TableCheck与Tabelog两个真实实现；固定resolver把provider failure保留在execution metadata，并只在所有来源耗尽后产生候选级稳定失败。本地Runtime仅由显式`LOCAL_CHROMIUM`选择，不能接触Cloudflare；所有路径仅限Live read开关，无Booking或其他外部写路径 |
+| Google Places Discovery / Cloudflare Browser Runtime / Local Playwright Chromium Runtime / TableCheck→Tabelog Availability | `implemented: source + offline contract tests; live unverified` | `RestaurantAvailabilityProvider`仅有TableCheck与Tabelog两个真实实现；固定resolver把provider failure保留在execution metadata，并只在所有来源耗尽后产生候选级稳定失败。本地Runtime仅由显式`LOCAL_CHROMIUM`选择，不能接触Cloudflare；在两条eval-only interactive gate下，Tabelog可发出脱敏`USER_INTERVENTION_REQUIRED` pause metadata并保持同一local persistent session/page到终端人手恢复，challenge未清除仍fail closed；所有路径仅限Live read开关，无Booking或其他外部写路径 |
 
 ## Stage 2B Local Agent Workspace API
 
@@ -318,3 +318,7 @@ INTERNAL_ERROR
 - Event、Command、Domain State、Prompt和Adapter分别版本化。
 - 当前尚未进入生产Pilot，也没有必须保留的真实Task数据。未发布接口或Schema发生变化时同步更新所有调用方与Fixture，并删除旧路径，不建立兼容层。
 - 出现生产数据、进行中的现实任务或外部消费者后，改变语义或删除字段才必须升级版本并提供迁移；Task Snapshot和Event必须可Replay，禁止用当前代码默默重解释旧Event。
+
+## 单页浏览器诊断
+
+[Browser Read Diagnostics](../harness/BROWSER-READ-DIAGNOSTICS.md)维护独立入口、证据字段与测试映射。LOCAL_CHROMIUM单独interactive使用临时profile；interactive与manual-intervention同时开启才使用ADR-0016专用持久eval profile。真实Chromium本地Fixture不等于真实来源验证；单页观察不写Task State、不产出Offer。

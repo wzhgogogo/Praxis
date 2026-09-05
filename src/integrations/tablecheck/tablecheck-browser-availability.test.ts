@@ -78,6 +78,8 @@ test("TableCheck identity uses exact phone or name and full address, never name 
   assert.equal(extraction.fields.address.source, "DOM");
   assert.equal(extraction.fields.phone.source, "TEL_LINK");
   assert.equal(inspectTableCheckEntity(candidate, extraction.outlet).resolution.confidence, "HIGH");
+  const { phone: _knownPhone, ...withoutPhone } = extraction.outlet;
+  assert.equal(inspectTableCheckEntity(candidate, withoutPhone).resolution.confidence, "HIGH");
   const { address: _address, phone: _phone, ...nameOnly } = extraction.outlet;
   assert.notEqual(inspectTableCheckEntity(candidate, nameOnly).resolution.confidence, "HIGH");
 });

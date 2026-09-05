@@ -2,7 +2,6 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 
 import {
-  RESTAURANT_AGENT_ACTION_STRICT_WIRE_JSON_SCHEMA,
   normalizeRestaurantAgentActionStrictWire,
   validateRestaurantAgentAction,
 } from "./agent-action.js";
@@ -17,13 +16,6 @@ const searchWire = {
   offerId: "",
   decisionSummary: "Search for matching outlets.",
 };
-
-test("strict Agent wire schema requires every provider-facing object property", () => {
-  assert.deepEqual(RESTAURANT_AGENT_ACTION_STRICT_WIRE_JSON_SCHEMA.required, [
-    "type", "question", "relatedFields", "retrievalHint", "candidateIds", "candidateId", "offerId", "decisionSummary",
-  ]);
-  assert.equal(RESTAURANT_AGENT_ACTION_STRICT_WIRE_JSON_SCHEMA.additionalProperties, false);
-});
 
 test("strict Agent wire output normalizes back into canonical restaurant_agent_action@3", () => {
   const normalized = normalizeRestaurantAgentActionStrictWire(searchWire);

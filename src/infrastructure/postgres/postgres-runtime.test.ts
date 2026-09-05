@@ -389,7 +389,7 @@ describe("PostgresTaskRuntime with PGlite", () => {
     }
   });
 
-  currentTest("persists the sanitized Agent decision context with its schema version", async () => {
+  currentTest("round-trips the supplied Agent decision context and schema version", async () => {
     await withDatabase(async ({ database }) => {
       await database.query(
         `INSERT INTO tasks (
@@ -697,6 +697,12 @@ describe("PostgresTaskRuntime with PGlite", () => {
         event: { type: "TRIGGER_READ" },
         occurredAt: clock.now().toISOString(),
       });
+      const complete = outbox.complete.bind(outbox);
+      outbox.complete = async (input) => {
+        const events = await runtime.listEvents("task-1");
+        assert.ok(events.some((event) => event.id === `event:command:${input.commandId}`), "result must be persisted before completing the outbox entry");
+        await complete(input);
+      };
       const worker = new DurableCommandWorker<TestCommand, TestEvent>({
         queue: outbox,
         runtime,
@@ -723,7 +729,7 @@ describe("PostgresTaskRuntime with PGlite", () => {
     });
   });
 
-  currentTest("worker schedules a failed read command for bounded retry", async () => {
+  currentTest("worker delays a failed read command until its retry time", async () => {
     await withDatabase(async ({ database, clock }) => {
       const runtime = createRuntime(database, clock);
       const outbox = new PostgresCommandOutbox<TestCommand>(database);

@@ -1,22 +1,28 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 3.1
-- Last updated: 2026-09-04
+- Document revision: 3.5
+- Last updated: 2026-09-06
 - Source of truth for: 已实现能力、已验证范围、明确未验证项与下一道门槛
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Documentation Index](INDEX.md), [Roadmap](roadmap.md), [Verification History](history/TEST-LOG.md)
 
 ## 一句话状态
 
-ADR-0014定义了H001所需的只读终态：Semantic Interpreter继续经Compiler/Reducer写入权威State；单一Restaurant Agent只接收最小Decision Context，Action Validator守护不变量，Router绑定且限时执行权威只读请求。`restaurant-state@10`保存Availability Check、最小Read Evidence和`PRESENT_RESULTS`。Google address-component area evidence、HIGH-only outlet identity、slot-level availability和重复read拒绝均已有离线覆盖。H001 Availability Source Resolver固定先试TableCheck、再试Tabelog；provider失败不会伪报成门店identity或终止仍有其他可用来源的候选。2026-09-04的一次LOCAL_CHROMIUM H001中，三个TableCheck guide URL候选都返回`403 Forbidden`（现稳定归类为`TABLECHECK_PAGE_UNAVAILABLE`），Tabelog搜索均为`Just a moment...` / `BOT_CHALLENGE`；因此三个候选都以`AVAILABILITY_SOURCES_EXHAUSTED`安全结束。没有HIGH identity、slot、availability或`PRESENT_RESULTS`。artifact保留脱敏的来源identity diagnostics和provider attempts，不保存HTML、凭证或挑战token。
+ADR-0014定义了H001所需的只读终态：Semantic Interpreter继续经Compiler/Reducer写入权威State；单一Restaurant Agent只接收最小Decision Context，Action Validator守护不变量，Router绑定且限时执行权威只读请求。`restaurant-state@10`保存Availability Check、最小Read Evidence和`PRESENT_RESULTS`。Google address-component area evidence、HIGH-only outlet identity、slot-level availability和重复read拒绝均已有离线覆盖。H001 Availability Source Resolver固定先试TableCheck、再试Tabelog；provider失败不会伪报成门店identity或终止仍有其他可用来源的候选。2026-09-04的一次LOCAL_CHROMIUM H001中，三个TableCheck guide URL候选都返回`403 Forbidden`（现稳定归类为`TABLECHECK_PAGE_UNAVAILABLE`），Tabelog搜索均为`Just a moment...` / `BOT_CHALLENGE`；因此三个候选都以`AVAILABILITY_SOURCES_EXHAUSTED`安全结束。没有HIGH identity、slot、availability或`PRESENT_RESULTS`。在两个显式eval开关下，本地浏览器现可用headed持久profile在同一Session/Page暂停，等待人手完成站点验证后只重新读取当前页；它不自动绕过、重试或放宽Grounding。首个此模式H001实验被Semantic Interpreter `MODEL_FAILURE`阻断在浏览器前，未触发人工介入。artifact保留脱敏的来源identity diagnostics、provider attempts和intervention metadata，不保存HTML、凭证或挑战token。
+
+## 2026-09-05整改与最新人工对照
+
+用户报告普通Chrome可打开Tabelog；关闭VPS并使用无痕后可打开TableCheck。后者同时改变网络与会话条件，仅证明该组合可访问，不证明单一原因，也不构成Praxis Adapter的Live通过证据。用户还报告后续H001已越过Semantic/Agent、停在Tabelog挑战页；前述MODEL_FAILURE属于此前实验记录，不再作为当前稳定阻塞判断。
+
+仓库规则、配置与路线已收敛。独立[单页诊断](harness/BROWSER-READ-DIAGNOSTICS.md)无需模型或Google，保留开始/结果记录并区分页面观察与业务验证。真实Chromium + 本地动态Fixture为3/3通过；普通基线159/159、typecheck、arch:check、build通过。未重跑付费模型、私有Holdout、真实来源或H001；TableCheck/Tabelog当前页面兼容性及完整只读搜索结果仍未验证。C类职责重构按[整改清单](REPOSITORY-IMPROVEMENT-PLAN.md)延后。
 
 ## 当前标识
 
 | 对象 | 当前标识 |
 |---|---|
 | 产品Release | 尚未发布；package为`0.1.0` |
-| 当前架构决策 | `ADR-0014` Search-only Results Completion |
+| 当前架构决策 | `ADR-0014` + `ADR-0015`来源证据范围 + `ADR-0016`本地eval profile |
 | Restaurant State | `restaurant-state@10` |
 | Semantic Proposal / Draft / Eval Schema | `restaurant-semantic-proposal@3` |
 | Semantic Prompt | `restaurant-semantic-prompt@7`；Artifact字段仍记录`promptVersion: "v7"` |
@@ -31,13 +37,13 @@ ADR-0014定义了H001所需的只读终态：Semantic Interpreter继续经Compil
 | 语义主链 | `Semantic Interpreter → Proposal Contract → Compiler → Runtime/Reducer`；稳定槽位加开放`criteria`，完整Domain JSON Schema经strict transport发送，随后仍本地校验；模型不能直接改 State 或调用 Tool | [ADR-0009](decisions/0009-semantic-strength-and-clean-holdout-baseline.md)、[ADR-0010](decisions/0010-restaurant-agent-loop-action-validation.md)、[ADR-0011](decisions/0011-restaurant-agent-loop-control-refinement.md)、[Orchestration](architecture/AGENT-ORCHESTRATION.md) |
 | Agent、搜索与轨迹 | 单一Agent的最小`Agent Context → Action Proposal → Action Validator → Execution Router`有界循环；Router绑定权威Search/Availability参数并中止超时read，Discovery Candidate与Availability Offer分离，三类Loop终止、BOOK proposal ID和Event/Command/Attempt/Evidence causal refs已持久化 | [Restaurant Domain](domains/RESTAURANT-BOOKING.md)、[Search Service](architecture/SEARCH-SERVICE.md) |
 | 执行安全基础 | Runtime、Policy、Authorization、Verifier 与 `OUTCOME_UNKNOWN` 的 Mock / Embedded-postgres 闭环已存在 | [Policy & Verification](architecture/POLICY-EXECUTION-VERIFICATION.md)、[Task Runtime](architecture/TASK-RUNTIME.md) |
-| Live Read implementation | Google Places hard deadline、Cloudflare CDP Browser Runtime（Kitesurf→一次Chromium fallback）、仅开发/eval的本地Playwright Chromium Runtime、TableCheck→Tabelog固定Availability Source Resolver、两个来源各自的HIGH-only Entity Resolution与显式slot Grounding、HARD evidence、`PRESENT_RESULTS`、Live Case materializer与隔离Hybrid runner均已实现并以Fixture覆盖；TableCheck provider失败会透明进入受限Tabelog fallback，两个来源均失败时为候选级`AVAILABILITY_SOURCES_EXHAUSTED`；artifact保留脱敏的TableCheck/Tabelog identity及provider-attempt诊断，challenge token不落盘；`PRAXIS_BROWSER_ENGINE=LOCAL_CHROMIUM`不触达Cloudflare | [Restaurant Domain](domains/RESTAURANT-BOOKING.md)、[Capability Matrix](integrations/CAPABILITY-MATRIX.md) |
+| Live Read implementation | Google Places hard deadline、Cloudflare CDP Browser Runtime（Kitesurf→一次Chromium fallback）、仅开发/eval的本地Playwright Chromium Runtime、TableCheck→Tabelog固定Availability Source Resolver、两个来源各自的HIGH-only Entity Resolution与显式slot Grounding、HARD evidence、`PRESENT_RESULTS`、Live Case materializer与隔离Hybrid runner均已实现并以Fixture覆盖；TableCheck provider失败会透明进入受限Tabelog fallback，两个来源均失败时为候选级`AVAILABILITY_SOURCES_EXHAUSTED`；明确`LOCAL_CHROMIUM` interactive + Tabelog manual-intervention eval保持同一页面等待人手完成站点验证，恢复后仍用既有HIGH/slot检查；artifact保留脱敏的identity、provider-attempt和intervention诊断，challenge token不落盘；`PRAXIS_BROWSER_ENGINE=LOCAL_CHROMIUM`不触达Cloudflare | [Restaurant Domain](domains/RESTAURANT-BOOKING.md)、[Capability Matrix](integrations/CAPABILITY-MATRIX.md) |
 
 ## 已验证的证据
 
 | 模式 | 结论 | 不代表什么 |
 |---|---|---|
-| 当前产品 Unit / Fixture / Mock / Embedded-postgres | 包含TableCheck→Tabelog source chain离线Contract的完整基线`156/156`、typecheck、arch:check与build均通过 | 真实PostgreSQL、真实Provider、Clean Holdout质量或浏览器视觉 |
+| 当前产品 Unit / Fixture / Mock / Embedded-postgres | 包含TableCheck→Tabelog source chain及explicit same-session Tabelog intervention离线Contract的完整基线`159/159`、typecheck、arch:check与build均通过 | 真实PostgreSQL、真实Provider、Clean Holdout质量或浏览器视觉 |
 | `REAL_MODEL_MOCK_WORLD` | 已暴露`restaurant-semantic-prompt@7` Regression为`15/15`：15 calls全成功、0 retry、28,817 ms、44,466 reported tokens；它只证明当前公开样本的transport与语义回归 | Clean Holdout、泛化质量、真实餐厅事实、预约质量或模型 Baseline |
 | `HOLDOUT_BASELINE` | 首份私有Baseline严格Preflight为15 session / 25 turn / 0 issue后只运行一次：15次模型调用全成功、0 pass、15个`SEMANTIC_RESULT`失败、10个上游阻断；artifact标记为`EXPOSED / RESULT_EXPOSED` | 不能以已暴露结果继续调优后宣称其仍是Clean，也不证明真实餐厅事实、预约质量或浏览器视觉 |
 | `EXPOSED_HOLDOUT_REGRESSION` | `restaurant-semantic-prompt@5`对同一已暴露数据只运行一次诊断：16 calls全成功、3 / 25 exact pass、9个上游阻断；`restaurant-semantic-prompt@4`可比15 turn为0 → 2 exact pass。版本化字段分析记录保留原始结果且不重跑模型 | Clean Holdout、Prompt `@5`泛化质量、真实餐厅事实、预约质量或模型 Baseline |
@@ -68,6 +74,7 @@ ADR-0014定义了H001所需的只读终态：Semantic Interpreter继续经Compil
 
 - `restaurant-semantic-prompt@7`已完成本地、已暴露Fixture和当前canonical Gold诊断；需要另建未见 `CLEAN_HOLDOUT` 才能形成新的质量评价；
 - H001已完成一次`LOCAL_CHROMIUM` TableCheck→Tabelog source-chain Live Read-only：Google Discovery成功，但TableCheck的公开guide页为403、Tabelog为challenge，尚无同Outlet identity、availability或`PRESENT_RESULTS`证据链；
+- eval-only Tabelog人工验证恢复路径已通过Fixture；一次headed persistent LOCAL_CHROMIUM H001实验已在Semantic Interpreter `MODEL_FAILURE`处停止，未建立浏览器/页面，故尚未证明真实站点同一Session解除challenge后可继续读取；
 - 真实 Authorization、Booking、取消、支付或 Controlled Live-write；
 - 真实浏览器兼容性、真实移动设备、生产身份与生产 PostgreSQL 部署；
 - `NEED_REINTERPRETATION` 的自动重解释。当前只记录冲突并询问用户或安全降级。
@@ -102,3 +109,11 @@ h001–h005 diagnostic
 | 如何测试或跑 Eval？ | [Test Skill](skills/test/SKILL.md)、[Eval Skill](skills/eval/SKILL.md)、[Harness Design](harness/HARNESS-DESIGN.md) |
 | 外部能力是否真实可用？ | [Capability Matrix](integrations/CAPABILITY-MATRIX.md) |
 | 历史上为什么这么改、跑过什么？ | [Dev Log](history/DEVLOG.md)、[Test Log](history/TEST-LOG.md) |
+
+## 测试维护
+
+2026-09-05测试Review合并H02/H03/H04相同初始化流程，保留全部独立断言和场景ID；移除Web测试对固定CSS断点的源码匹配。默认离线基线162/162通过，不以数量下降宣称覆盖提升。测试增删与退役规则统一见[Test Skill](skills/test/SKILL.md#测试维护与退役)。
+
+## 2026-09-06全量测试审查收尾
+
+已全文审查35个测试文件的173项声明（当时默认162、冻结8、浏览器3）及独立PostgreSQL Live Smoke。默认当前159/159、冻结8/8、真实浏览器本地Fixture 3/3通过；typecheck、arch:check、build通过。删除或合并3项确定重复，并在既有测试补准独立安全断言；未新增独立测试。逐项结论见[全量审查快照](history/TEST-SUITE-REVIEW-2026-09-05.md)。Live Smoke清理失败不再吞掉或提前报告pass；以隔离VM假数据库进行3种故障注入通过，未运行真实PostgreSQL。未调用Live来源、付费模型或私有Holdout。

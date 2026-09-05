@@ -66,6 +66,7 @@ const routeTaskId = `postgres-smoke:route:${randomUUID()}`;
 const goalId = `postgres-smoke:goal:${randomUUID()}`;
 let sequence = 0;
 const fixedNow = "2026-08-07T09:00:00.000Z";
+const failures: unknown[] = [];
 
 try {
   await applyPostgresMigrations(database);
@@ -164,11 +165,15 @@ try {
   if ((await graph.reconcileGoal(goalId)).status !== "ACHIEVED") {
     throw new Error("Real PostgreSQL smoke expected Goal to be achieved");
   }
-  console.log("real-postgres-smoke: pass");
+} catch (error) {
+  failures.push(error);
 } finally {
-  await database.query("DELETE FROM goals WHERE id = $1", [goalId]).catch(() => undefined);
-  await database.query("DELETE FROM tasks WHERE id = $1", [taskId]).catch(() => undefined);
-  await database.query("DELETE FROM tasks WHERE id = $1", [bookingTaskId]).catch(() => undefined);
-  await database.query("DELETE FROM tasks WHERE id = $1", [routeTaskId]).catch(() => undefined);
-  await database.close();
+  // Attempt every owned-row cleanup; success includes cleanup, not just assertions.
+  await database.query("DELETE FROM goals WHERE id = $1", [goalId]).catch((error) => { failures.push(error); });
+  for (const ownedTaskId of [taskId, bookingTaskId, routeTaskId]) {
+    await database.query("DELETE FROM tasks WHERE id = $1", [ownedTaskId]).catch((error) => { failures.push(error); });
+  }
+  await database.close().catch((error) => { failures.push(error); });
 }
+if (failures.length > 0) throw new AggregateError(failures, "Real PostgreSQL smoke or cleanup failed");
+console.log("real-postgres-smoke: pass");

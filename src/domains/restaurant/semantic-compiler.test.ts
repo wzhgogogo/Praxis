@@ -87,7 +87,7 @@ test("criterion ASSERT adds, CORRECT replaces, and NEGATE removes deterministica
   ]);
 });
 
-test("Restaurant Semantic Compiler records one-turn contradictions without mutating state", () => {
+test("Restaurant Semantic Compiler reports contradictory criterion additions and negations", () => {
   const result = compileRestaurantSemanticProposal({
     schemaVersion: "3",
     facts: [

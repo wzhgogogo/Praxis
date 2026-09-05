@@ -1,6 +1,6 @@
 import { groundTabelogAvailability } from "../../domains/restaurant/read-grounding.js";
 import type { RestaurantAvailabilityRequest } from "../../domains/restaurant/contracts.js";
-import type { BrowserRuntime, BrowserSession, BrowserSessionMetadata } from "../../infrastructure/browser/browser-runtime.js";
+import type { BrowserRuntime, BrowserSession, BrowserSessionMetadata, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
 import type { RestaurantAvailabilityProvider } from "../restaurant-availability/contracts.js";
 import { BrowserRuntimeError } from "../../infrastructure/browser/browser-runtime-errors.js";
 import { inspectTabelogEntity } from "./tabelog-entity-resolver.js";
@@ -15,7 +15,12 @@ import {
   parseTabelogOutletIdentityWithEvidence,
   parseTabelogVerifiedHardCriteria,
 } from "./tabelog-page-parser.js";
-import type { TabelogAvailabilityPageObservation, TabelogIdentityDiagnostic, TabelogOutletIdentityExtraction } from "./tabelog-contracts.js";
+import type {
+  TabelogAvailabilityPageObservation,
+  TabelogIdentityDiagnostic,
+  TabelogOutletIdentityExtraction,
+  TabelogUserInterventionHandler,
+} from "./tabelog-contracts.js";
 
 function searchUrl(candidateName: string): string {
   return `https://tabelog.com/rstLst/?sk=${encodeURIComponent(candidateName)}`;
@@ -57,6 +62,8 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
       maxBrowserSessions?: number;
       /** Eval-only sink for sanitized identity diagnostics; it never changes Domain State or grounding. */
       onIdentityDiagnostic?: (diagnostic: TabelogIdentityDiagnostic) => void;
+      /** Eval-only explicit pause; absence preserves the ordinary fail-closed BOT_CHALLENGE path. */
+      onUserInterventionRequired?: TabelogUserInterventionHandler;
     } = {},
   ) {}
 
@@ -66,6 +73,34 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
     } catch {
       // Diagnostics cannot alter the result of an external read.
     }
+  }
+
+  /**
+   * The handler only pauses for a human. We deliberately neither navigate nor
+   * retry here: the post-intervention snapshot is from the same page/session.
+   */
+  private async resumeAfterUserIntervention(
+    candidate: RestaurantAvailabilityRequest["candidates"][number],
+    request: RestaurantAvailabilityRequest,
+    session: BrowserSession,
+    page: BrowserSnapshot,
+    stage: "SEARCH" | "DETAIL" | "AVAILABILITY",
+  ): Promise<BrowserSnapshot> {
+    if (!hasBotChallenge(page) || !this.options.onUserInterventionRequired) return page;
+    await this.options.onUserInterventionRequired({
+      state: "USER_INTERVENTION_REQUIRED",
+      provider: "TABELOG",
+      stage,
+      candidate: { id: candidate.restaurant.id, outletName: candidate.restaurant.outletName },
+      requestedSchedule: {
+        date: request.date,
+        timeWindow: structuredClone(request.timeWindow),
+        partySize: request.partySize,
+      },
+      browser: structuredClone(session.metadata),
+      page: { url: diagnosticUrl(page.url), title: page.title },
+    });
+    return session.snapshot();
   }
 
   async check(request: RestaurantAvailabilityRequest, signal: AbortSignal) {
@@ -131,7 +166,8 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
       const browser = { ...session.metadata };
       const requestedSearchUrl = searchUrl(candidate.restaurant.outletName);
       await session.navigate(requestedSearchUrl);
-      const search = await session.snapshot();
+      let search = await session.snapshot();
+      search = await this.resumeAfterUserIntervention(candidate, request, session, search, "SEARCH");
       if (hasBotChallenge(search)) {
         const inspection = inspectTabelogEntity(candidate, []);
         this.recordIdentityDiagnostic({
@@ -157,7 +193,8 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
       const extractionByEntityId = new Map<string, TabelogOutletIdentityExtraction>();
       for (const outlet of outlets) {
         await session.navigate(outlet.sourceUrl);
-        const outletPage = await session.snapshot();
+        let outletPage = await session.snapshot();
+        outletPage = await this.resumeAfterUserIntervention(candidate, request, session, outletPage, "DETAIL");
         if (hasBotChallenge(outletPage)) {
           detailDiagnostics.push({
             searchResultSourceEntityId: outlet.sourceEntityId,
@@ -225,6 +262,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
         await session.navigate(resolved.outlet.sourceUrl);
         page = await session.snapshot();
       }
+      page = await this.resumeAfterUserIntervention(candidate, request, session, page, "AVAILABILITY");
       if (hasBotChallenge(page)) return this.ground(candidate, request, { candidate, observedAt, sourceEntityId: resolved.outlet.sourceEntityId, sourceUrl: page.url, entityMatch: resolved, pageState: "BOT_CHALLENGE", excerpt: pageExcerpt(page) }, browser);
       if (detectExternalReservationRedirect(page)) return this.ground(candidate, request, { candidate, observedAt, sourceEntityId: resolved.outlet.sourceEntityId, sourceUrl: page.url, entityMatch: resolved, pageState: "SOURCE_UNSUPPORTED", failureCode: "EXTERNAL_BOOKING_PROVIDER_REQUIRED", excerpt: pageExcerpt(page) }, browser);
       if (!hasReservationControls(page)) return this.ground(candidate, request, { candidate, observedAt, sourceEntityId: resolved.outlet.sourceEntityId, sourceUrl: page.url, entityMatch: resolved, pageState: "SOURCE_UNSUPPORTED", failureCode: "ONLINE_AVAILABILITY_UNSUPPORTED", excerpt: pageExcerpt(page) }, browser);
@@ -236,6 +274,8 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
       const selectedDate = await session.select(date, request.date);
       if (!selectedDate.includes(request.date)) return this.ground(candidate, request, { candidate, observedAt, sourceEntityId: resolved.outlet.sourceEntityId, sourceUrl: page.url, entityMatch: resolved, pageState: "EXTRACTION_FAILED", failureCode: "DATE_SELECTION_UNCONFIRMED", excerpt: pageExcerpt(page) }, browser);
       page = await session.snapshot();
+      page = await this.resumeAfterUserIntervention(candidate, request, session, page, "AVAILABILITY");
+      if (hasBotChallenge(page)) return this.ground(candidate, request, { candidate, observedAt: this.now(), sourceEntityId: resolved.outlet.sourceEntityId, sourceUrl: page.url, entityMatch: resolved, pageState: "BOT_CHALLENGE", excerpt: pageExcerpt(page) }, browser);
       const slotParse = parseTabelogAvailabilitySlots(page);
       const slots = slotParse.availableSlots;
       const hasQualifyingSlot = slots.some((slot) => slot >= request.timeWindow.earliest && slot <= request.timeWindow.latest);

@@ -20,17 +20,6 @@ test("Tabelog entity resolver is outlet-safe and rejects ambiguous branch matche
   assert.notEqual(ambiguous.confidence, "HIGH");
 });
 
-test("Tabelog entity resolver fails closed when an otherwise similar outlet has a conflicting known phone", () => {
-  const phoneCandidate = {
-    ...candidate,
-    restaurant: { ...candidate.restaurant, sourceIds: { ...candidate.restaurant.sourceIds, phone: "03-1111-2222" } },
-  };
-  const resolved = resolveTabelogEntity(phoneCandidate, [{
-    sourceEntityId: "x", sourceUrl: "https://tabelog.com/tokyo/A1304/x/", outletName: "Restaurant 1", address: "1-1 Shinjuku, Tokyo", phone: "03-9999-8888",
-  }]);
-  assert.notEqual(resolved.confidence, "HIGH");
-});
-
 test("Tabelog entity inspection retains the normalized comparison and explicit non-HIGH reason", () => {
   const phoneCandidate = {
     ...candidate,
@@ -40,6 +29,9 @@ test("Tabelog entity inspection retains the normalized comparison and explicit n
     sourceEntityId: "x", sourceUrl: "https://tabelog.com/tokyo/A1304/x/", outletName: "Restaurant 1", address: "1-1 Shinjuku, Tokyo", phone: "03-9999-8888",
   }]);
   assert.equal(inspection.resolution.confidence, "LOW");
+  assert.deepEqual(resolveTabelogEntity(phoneCandidate, [{
+    sourceEntityId: "x", sourceUrl: "https://tabelog.com/tokyo/A1304/x/", outletName: "Restaurant 1", address: "1-1 Shinjuku, Tokyo", phone: "03-9999-8888",
+  }]), inspection.resolution);
   assert.equal(inspection.diagnostic.google.phone.normalizedValue, "0311112222");
   assert.equal(inspection.diagnostic.comparedOutlets[0]?.phone.normalizedValue, "0399998888");
   assert.equal(inspection.diagnostic.comparedOutlets[0]?.comparison.phone, "CONFLICT");
@@ -80,7 +72,7 @@ test("Tabelog relative search links are enriched with page identity before an ex
   });
 });
 
-test("Tabelog identity parser marks JSON-LD identity fields without retaining raw HTML", () => {
+test("Tabelog identity parser extracts JSON-LD identity field provenance", () => {
   const extraction = parseTabelogOutletIdentityWithEvidence({
     url: "https://tabelog.com/tokyo/A1304/A130401/123/",
     title: "Restaurant 1",
@@ -102,16 +94,62 @@ test("Tabelog slot parser ignores prose times and trusts only explicit available
 
 class FixtureBrowserSession implements BrowserSession {
   readonly metadata = { runtimeProvider: "CLOUDFLARE_BROWSER_RUN" as const, engine: "KITESURF" as const, startedAt: "2026-08-05T09:00:00.000Z" };
+  clicks = 0;
+  fills = 0;
   private current = -1;
   constructor(private readonly pages: BrowserSnapshot[]) {}
   async navigate(): Promise<void> { this.current = Math.min(this.current + 1, this.pages.length - 1); }
   async snapshot(): Promise<BrowserSnapshot> { return this.pages[this.current]!; }
+  async click(): Promise<void> { this.clicks += 1; }
+  async fill(): Promise<void> { this.fills += 1; }
+  async select(_target: string, value: string): Promise<string[]> { return [value]; }
+  async waitFor(): Promise<void> {}
+  async screenshot(): Promise<Uint8Array> { return new Uint8Array(); }
+  async close(): Promise<void> {}
+}
+
+class ChallengeResumeSession implements BrowserSession {
+  readonly metadata = {
+    runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM" as const,
+    engine: "CHROMIUM" as const,
+    sessionId: "local:persistent-eval-session",
+    startedAt: "2026-08-05T09:00:00.000Z",
+  };
+  readonly navigated: string[] = [];
+  closed = false;
+  private current: BrowserSnapshot = {
+    url: "https://tabelog.com/rstLst/?sk=Restaurant%201",
+    title: "Just a moment...",
+    text: "Just a moment...",
+    html: "",
+  };
+
+  private readonly search: BrowserSnapshot = {
+    url: "https://tabelog.com/rstLst/?sk=Restaurant%201",
+    title: "Tabelog search",
+    text: "Restaurant 1",
+    html: '<a href="https://tabelog.com/tokyo/A1304/A130401/123/" data-address="1-1 Shinjuku, Tokyo">Restaurant 1</a>',
+  };
+
+  private readonly detail: BrowserSnapshot = {
+    url: "https://tabelog.com/tokyo/A1304/A130401/123/",
+    title: "Restaurant 1",
+    text: "Restaurant 1 予約 人数 19:00",
+    html: '<select name="party"><option value="2">2</option></select><select name="date"><option value="2026-08-05">2026-08-05</option></select><button class="slot is-available" data-time="19:00">19:00</button>',
+  };
+
+  async navigate(url: string): Promise<void> {
+    this.navigated.push(url);
+    if (url.includes("/tokyo/")) this.current = this.detail;
+  }
+  async snapshot(): Promise<BrowserSnapshot> { return structuredClone(this.current); }
   async click(): Promise<void> {}
   async fill(): Promise<void> {}
   async select(_target: string, value: string): Promise<string[]> { return [value]; }
   async waitFor(): Promise<void> {}
   async screenshot(): Promise<Uint8Array> { return new Uint8Array(); }
-  async close(): Promise<void> {}
+  async close(): Promise<void> { this.closed = true; }
+  clearChallenge(): void { this.current = this.search; }
 }
 
 test("Tabelog executor grounds a deterministic browser observation and never submits", async () => {
@@ -119,12 +157,15 @@ test("Tabelog executor grounds a deterministic browser observation and never sub
     { url: "https://tabelog.com/rstLst/?sk=Restaurant", title: "search", text: "Restaurant 1", html: '<a href="https://tabelog.com/tokyo/A1304/A130401/123/" data-address="1-1 Shinjuku, Tokyo">Restaurant 1</a>' },
     { url: "https://tabelog.com/tokyo/A1304/A130401/123/", title: "Restaurant 1", text: "予約 人数 19:00", html: '<select name="party"><option value="2">2</option></select><select name="date"><option value="2026-08-05">2026-08-05</option></select><button class="slot is-available" data-time="19:00">19:00</button><div class="genre">yakiniku</div>' },
   ];
-  const browser: BrowserRuntime = { openSession: async () => new FixtureBrowserSession(pages) };
+  const session = new FixtureBrowserSession(pages);
+  const browser: BrowserRuntime = { openSession: async () => session };
   const adapter = new TabelogBrowserAvailability(browser, () => "2026-08-05T09:00:00.000Z");
   const result = await adapter.check({ candidateIds: [candidate.restaurant.id], candidates: [candidate], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: 2, hardCriteria: ["yakiniku"] }, new AbortController().signal);
   assert.equal(result.metadata.route, "GENERIC_BROWSER");
   assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE");
   assert.equal(result.offers.length, 1);
+  assert.equal(session.clicks, 0);
+  assert.equal(session.fills, 0);
 });
 
 test("Tabelog bot challenge and external booking redirect remain non-available results", async () => {
@@ -139,6 +180,61 @@ test("Tabelog bot challenge and external booking redirect remain non-available r
   assert.equal(challenge.availabilityChecks[candidate.restaurant.id]?.status, "UNKNOWN");
   assert.equal(justAMoment.availabilityChecks[candidate.restaurant.id]?.reasonCode, "BOT_CHALLENGE");
   assert.equal(redirect.availabilityChecks[candidate.restaurant.id]?.status, "SOURCE_UNSUPPORTED");
+});
+
+test("Tabelog pauses a challenged local session for explicit human intervention, then resumes the same page/session without an automated retry", async () => {
+  const session = new ChallengeResumeSession();
+  let intervention: {
+    state: string;
+    provider: string;
+    stage: string;
+    candidate: { id: string };
+    requestedSchedule: { date: string; partySize: number };
+    browser: { sessionId?: string };
+  } | undefined;
+  const result = await new TabelogBrowserAvailability(
+    { openSession: async () => session },
+    () => "2026-08-05T09:00:00.000Z",
+    5,
+    {
+      onUserInterventionRequired: async (input) => {
+        intervention = input;
+        assert.equal(session.closed, false, "the browser must remain open while the human verifies the page");
+        session.clearChallenge();
+      },
+    },
+  ).check(
+    { candidateIds: [candidate.restaurant.id], candidates: [candidate], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: 2, hardCriteria: ["yakiniku"] },
+    new AbortController().signal,
+  );
+  assert.equal(intervention?.state, "USER_INTERVENTION_REQUIRED");
+  assert.equal(intervention?.provider, "TABELOG");
+  assert.equal(intervention?.stage, "SEARCH");
+  assert.equal(intervention?.candidate.id, candidate.restaurant.id);
+  assert.deepEqual(intervention?.requestedSchedule, { date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: 2 });
+  assert.equal(intervention?.browser.sessionId, session.metadata.sessionId);
+  assert.equal(result.metadata.browser?.sessionId, session.metadata.sessionId);
+  assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE");
+  assert.equal(session.navigated.filter((url) => url.includes("/rstLst/")).length, 1, "resume must not re-navigate or automatically retry the challenged search");
+  assert.equal(session.closed, true, "the resumed read must cleanly close its session after completion");
+});
+
+test("Tabelog fails closed when the challenge remains after an explicit resume signal", async () => {
+  const session = new ChallengeResumeSession();
+  let pauses = 0;
+  const result = await new TabelogBrowserAvailability(
+    { openSession: async () => session },
+    () => "2026-08-05T09:00:00.000Z",
+    5,
+    { onUserInterventionRequired: async () => { pauses += 1; } },
+  ).check(
+    { candidateIds: [candidate.restaurant.id], candidates: [candidate], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: 2, hardCriteria: ["yakiniku"] },
+    new AbortController().signal,
+  );
+  assert.equal(pauses, 1);
+  assert.equal(result.availabilityChecks[candidate.restaurant.id]?.reasonCode, "BOT_CHALLENGE");
+  assert.equal(session.navigated.length, 1, "a still-challenged page is not retried automatically");
+  assert.equal(session.closed, true);
 });
 
 test("Tabelog browser session budget returns UNKNOWN rather than reusing or over-opening a session", async () => {

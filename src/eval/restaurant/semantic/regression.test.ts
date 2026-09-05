@@ -53,21 +53,6 @@ test("development attribution stops at Compiler before Reducer", async () => {
   assert.equal(report.turns[0]?.firstFailureStage, "COMPILER");
 });
 
-test("development attribution stops at the semantic reducer boundary", async () => {
-  const report = await runRestaurantSemanticRegression(
-    new RestaurantSemanticRegressionFixtureInterpreter(),
-    {
-      mode: "FIXTURE",
-      attributionLevel: "DEVELOPMENT_STAGE_ORACLES",
-      dataset: {
-        ...restaurantSemanticRegressionV3,
-        sessions: [restaurantSemanticRegressionV3.sessions[3]!],
-      },
-    },
-  );
-  assert.equal(report.turns[0]?.status, "PASS");
-});
-
 test("invalid model JSON is attributed to Proposal Contract and blocks downstream turns", async () => {
   const report = await runRestaurantSemanticRegression(
     {

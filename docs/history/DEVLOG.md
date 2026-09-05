@@ -1,13 +1,36 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.38
-- Last updated: 2026-09-04
+- Document revision: 4.40
+- Last updated: 2026-09-05
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## 2026-09-05 — Repository review findings consolidated into a draft improvement plan
+
+- 按用户要求，将AGENTS、项目Skills、文档、配置、浏览器诊断和局部源码职责的Review合并为[Repository Improvement Plan](../REPOSITORY-IMPROVEMENT-PLAN.md)，标记为`draft / not integrated`。
+- 清单包含14项工作，按先修正文档与规则、随下一浏览器切片落实、按实际需要重构排序，并列出文件范围、验收和停止条件。
+- 排除人工标注数据、Golden Set、私有Holdout与已有测试artifact；前轮涉及移动标注输入的建议明确留待专项范围，不在本次实施。
+- 本次只整理清单、添加INDEX入口和本条记录，不实施清单中的整改，不改变Accepted ADR、代码、当前能力或现有未提交实现。
+
+## 2026-09-04 — Eval-only Tabelog explicit human challenge resume experiment
+
+### Why
+
+H001的LOCAL_CHROMIUM可建立浏览器，但Tabelog在读取搜索页前显示`Just a moment...`。需要先验证“用户主动完成网站要求后，Praxis能否保持同一Browser Session/Page并继续只读Grounding”，而不是加入stealth、CAPTCHA自动化或产品接管UI。
+
+### Changes
+
+- `PRAXIS_LOCAL_CHROMIUM_INTERACTIVE=1`使显式`LOCAL_CHROMIUM`使用headed Playwright `launchPersistentContext`和gitignored `.eval-artifacts/local-chromium-profile`；正常结束只关闭page/context，不自动删除profile，也从不读取用户既有Chrome profile。
+- `PRAXIS_EVAL_ALLOW_TABELOG_MANUAL_INTERVENTION=1`才启用Tabelog的脱敏`USER_INTERVENTION_REQUIRED` pause。它保留candidate、请求日期/时段/人数、provider、session metadata和当前安全URL/title；终端只等待用户回车，adapter随后只对同一page做一次snapshot。它不导航、不自动重试、不接收cookie/token/HTML，也不提供CAPTCHA操作能力。
+- challenge仍在时保持`BOT_CHALLENGE`；challenge解除后仍走既有search/detail identity、高置信度同Outlet和slot-level availability路径。Hybrid runner仅在这两个eval门禁同时开启时移除本次Browser read deadline，并将协调器时间留给明确的人工暂停；默认Local/Cloudflare行为不变。
+
+### Result
+
+一次且仅一次headed persistent H001启动命令在Semantic Interpreter返回`MODEL_FAILURE`后、任何Google/Browser/Tabelog请求前退出。没有生成新live artifact，也没有进入`USER_INTERVENTION_REQUIRED`；因此真实同会话恢复尚未证明。没有Authorization、Booking、付款、取消、PII提交或其他外部写操作。
 
 ## 2026-09-04 — H001 TableCheck→Tabelog read-only availability source chain
 
@@ -1821,3 +1844,21 @@ v16的开放`criteria`仍以词面`REQUIRED` / `PREFERRED`表达强度，无法�
 已修复私有多轮标注的数组结构；严格Preflight现可解析15个session、25个turn。随后确认10个重复ID来自simplified单条case adapter把同一source ID同时作为session和turn ID，已改为生成结构性session ID，未改动Gold。经用户授权完成一处最终Gold一致性修正后，strict Preflight为15 session / 25 turn / 0 issue；私有case和字段详情不进入Git记录。
 
 唯一Clean Holdout Baseline已按冻结配置运行。runner在首次模型调用前写入`EXPOSED` marker；25个turn中15个实际模型调用全部成功，但0个turn通过、15个首错为`SEMANTIC_RESULT`、10个为上游阻断。结果现为`RESULT_EXPOSED`，不得重跑或用于同一数据集调优。
+
+## 2026-09-05 — 仓库整改与浏览器诊断最小切片
+
+落实整改清单A类，新增ADR-0015来源证据范围与ADR-0016本地eval持久profile例外；精简Skills阅读/验证职责，校正README、配置及Roadmap，保留历史路线归档。单页探针替代旧多URL入口，复用Runtime，增加开始/结果记录；Hybrid早期失败按阶段留痕。修正interactive单开关的临时profile行为，增加真实Chromium动态Fixture。保留原有未提交修改；未改Golden、Holdout、既有artifact或模型Prompt。C类重构及真实页面适配待后续切片。
+
+## 2026-09-05 — 自动化测试去重与维护规则
+
+盘点35个测试文件的入口与场景声明，重点核对Harness授权、Policy/Verifier跨层覆盖、Scorer/Runner、Provider/Router与Web断言；本次不是全部测试逐行冗余证明。确认H03/H04步骤和断言完全相同，H02同一路径仅增加候选数量断言，合并为H02/H03/H04一个测试，保留全部独立断言和场景标识。移除Web固定760px CSS源码断言并修正测试名称，保留页面返回/Fixture标识/未登录401；响应式表现仍需真实浏览器视觉验证。
+
+保留的相似覆盖各有不同故障入口：Policy规则与Harness接入；Verifier证据冲突与Runtime OUTCOME_UNKNOWN；Parser门店识别与Adapter在识别失败时阻止空位输出；Router直接失败与Resolver耗尽后的失败归因；Scorer纯评分与Runner阶段停止。数据库迁移测试保护仍支持的真实旧Schema，不按“旧版本”字样删掉。冻结探针与真实浏览器Fixture继续使用既有独立入口，不通过隐藏测试缩小默认数量。
+
+Test Skill新增维护/退役规则：先查已有覆盖、说明独立失败依据、避免按模块机械新增、替换路径同步删旧、跨层按故障机制保留、交付说明覆盖去向。AGENTS、Planning与Post-change引用该职责，不加数量配额或新治理工具。Golden、Holdout、既有artifact未改，生产实现未改。
+
+## 2026-09-06 — 全量测试正文审查
+
+补齐前轮范围不足：35个测试文件、5808行正文、173个测试声明逐项审查，另读独立PostgreSQL Live Smoke。完整处置与保留理由见[审查快照](TEST-SUITE-REVIEW-2026-09-05.md)，该历史记录不要求后续每次开发维护全表。
+
+删除重复schema常量测试、伪称Reducer故障的成功子集、合并Tabelog同phone冲突setup；删除重复Google挂起fetch和第三次相同SSE读取。既有测试补Booking schedule、逐项Evidence缺失、持久profile四种开关、结果落库先于outbox完成、身份无phone与稳定ID等断言；去除Prompt原文匹配与固定Task事件版本依赖，修正名称过度承诺。Smoke清理全部尝试并聚合失败，只在测试与清理成功后报告pass。Golden、私有Holdout、已有artifact和产品实现不变；测试入口脚本的失败汇报行为已修正。未提交或推送。

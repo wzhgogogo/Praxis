@@ -1,6 +1,6 @@
 # ADR-0014: Search-only results completion
 
-- Status: Accepted
+- Status: Accepted; provider identity scope superseded by ADR-0015
 - Document revision: 1.0
 - Last updated: 2026-09-03
 - Source of truth for: read-only Restaurant search completion

@@ -1,8 +1,8 @@
 # Agent Orchestration
 
 - Status: Accepted
-- Document revision: 3.13
-- Last updated: 2026-09-04
+- Document revision: 3.14
+- Last updated: 2026-09-05
 - Source of truth for: Agent Workspace中的模型职责、有界Loop、前后台运行与Multi-Agent边界
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md), [ADR-0003](../decisions/0003-single-agent-orchestration.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md)
 - Related documents: [Agent Gateway and Workspace](AGENT-GATEWAY-AND-WORKSPACE.md), [Task Runtime](TASK-RUNTIME.md), [Policy & Execution](POLICY-EXECUTION-VERIFICATION.md)
@@ -56,9 +56,15 @@ Restaurant Agent Decision使用同一服务端Gateway和受限JSON Schema，purp
 ## 有界Loop
 
 - 对话补充：核心字段不完整时询问用户，直到完整、取消或达到上限。
-- Restaurant Agent Loop：在最大步数、超时、重复非法动作上限内，一次提出并验证一个动作；终态、User等待点和Authorization checkpoint立即停止。每次Discovery/Availability read由Router以可中止deadline包裹；Structured与Browser可分别配置有界超时。超时、步数上限与连续拒绝各写入`AGENT_LOOP_TERMINATED`及终止原因，并形成对应trajectory step。模型失败写`AGENT_DECISION_FAILED`；Discovery失败与Availability的`UNKNOWN`/`SOURCE_UNSUPPORTED`观察不会被归为模型失败，更不能改写为`UNAVAILABLE`。若本次所有请求候选都在建立Browser Run会话前发生同一`BROWSER_RUNTIME_FAILED`或`BROWSER_TIMEOUT`，Router标记为终端内部read failure，Loop写`AGENT_LOOP_TERMINATED(EXECUTION_FAILURE)`并进入`FAILED`，不得让Agent以`ASK_USER`把基础设施故障交给用户解决。完成一条mandatory Policy/Commit/Verify chain后，Orchestrator只在`SELECTION_REQUIRED`调用bounded resume；`COMMIT_FAILED`或`BOOKING_ABSENT`已清除旧proposal/authorization/attempt，新的`BOOK_RESERVATION`必须先产生新proposal并等待新Authorization，`OUTCOME_UNKNOWN`绝不自动恢复。
+- Restaurant Agent Loop：在最大步数、超时、重复非法动作上限内，一次提出并验证一个动作；终态、User等待点和Authorization checkpoint立即停止。每次Discovery/Availability read由Router以可中止deadline包裹；Structured与Browser可分别配置有界超时。超时、步数上限与连续拒绝各写入`AGENT_LOOP_TERMINATED`及终止原因，并形成对应trajectory step。模型失败写`AGENT_DECISION_FAILED`；Discovery失败与Availability的`UNKNOWN`/`SOURCE_UNSUPPORTED`观察不会被归为模型失败，更不能改写为`UNAVAILABLE`。若本次所有请求候选都在建立Browser Run会话前发生同一`BROWSER_RUNTIME_FAILED`或`BROWSER_TIMEOUT`，Router标记为终端内部read failure，Loop写`AGENT_LOOP_TERMINATED(EXECUTION_FAILURE)`并进入`FAILED`，不得让Agent以`ASK_USER`把基础设施故障交给用户解决。唯一例外是显式的eval-only local Tabelog challenge pause：同一BrowserSession/Page保持打开、终端等待人手完成站点验证，随后只读取该页面一次；它不是模型`ASK_USER`、不自动重试，并且challenge仍存在时仍返回`BOT_CHALLENGE`。此模式才可将该次Browser deadline设为无自动超时，且只由Hybrid eval runner在两个本地interactive门禁同时开启时使用。完成一条mandatory Policy/Commit/Verify chain后，Orchestrator只在`SELECTION_REQUIRED`调用bounded resume；`COMMIT_FAILED`或`BOOKING_ABSENT`已清除旧proposal/authorization/attempt，新的`BOOK_RESERVATION`必须先产生新proposal并等待新Authorization，`OUTCOME_UNKNOWN`绝不自动恢复。
 - Model-assisted Observation：当前未启用。未来若启用，必须使用独立只读Proposal Contract、Runtime Command与Policy，不能复用Semantic Proposal直接调用Tool。
-- Browser Interpretation：只能在允许域名内观察并走到提交前Checkpoint；最终提交不在模型Loop内。Hybrid Live Read可通过`PRAXIS_BROWSER_ENGINE=LOCAL_CHROMIUM`显式选择只用于开发/eval的本地Playwright backend；该选择不访问Cloudflare、不改变AUTO的Kitesurf→Chromium顺序，并仍受既有live-read gate与Browser deadline约束。
+- Browser Interpretation：只能在允许域名内观察并走到提交前Checkpoint；最终提交不在模型Loop内。Hybrid Live Read可通过`PRAXIS_BROWSER_ENGINE=LOCAL_CHROMIUM`显式选择只用于开发/eval的本地Playwright backend；该选择不访问Cloudflare、不改变AUTO的Kitesurf→Chromium顺序。仅当`PRAXIS_LOCAL_CHROMIUM_INTERACTIVE=1`与`PRAXIS_EVAL_ALLOW_TABELOG_MANUAL_INTERVENTION=1`同时开启时，它会启动headed Chromium和gitignored持久profile，允许人手验证后在同一Session恢复；不属于Desktop/Mobile产品Surface或通用challenge bypass。
+
+## Browser操作边界
+
+无API来源的浏览与受控操作是产品建设方向；当前已实现的是确定性只读Adapter，不能据此声称已有任意页面Browser Agent。未来模型观察/动作契约仍须独立设计，动作经校验和受控Executor执行，网页不作为指令或授权。正常页面就绪等待、同页重新观察、失败重试和业务重复提交分别设限；人工接管后继续前重验门店、请求与Evidence。
+
+只读结果的来源范围由[ADR-0015](../decisions/0015-supported-source-search-evidence.md)定义；local interactive单开关只启动headed临时会话，双开关持久恢复的生命周期由[ADR-0016](../decisions/0016-local-eval-browser-profile-lifecycle.md)定义。
 
 ## Tool与Multi-Agent
 

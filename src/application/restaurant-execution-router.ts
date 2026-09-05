@@ -24,7 +24,8 @@ export interface RestaurantAvailabilityPort {
 
 export interface RestaurantExecutionRouterOptions {
   structuredReadTimeoutMs?: number;
-  browserReadTimeoutMs?: number;
+  /** `null` is eval-only: an explicit human browser pause owns its own wait. */
+  browserReadTimeoutMs?: number | null;
 }
 
 export interface RestaurantActionExecution {
@@ -97,7 +98,7 @@ function authoritativeAvailabilityRequest(
  */
 export class RestaurantExecutionRouter {
   private readonly structuredReadTimeoutMs: number;
-  private readonly browserReadTimeoutMs: number;
+  private readonly browserReadTimeoutMs: number | null;
 
   constructor(
     private readonly search: RestaurantSearchPort,
@@ -105,7 +106,7 @@ export class RestaurantExecutionRouter {
     options: RestaurantExecutionRouterOptions = {},
   ) {
     this.structuredReadTimeoutMs = options.structuredReadTimeoutMs ?? 8_000;
-    this.browserReadTimeoutMs = options.browserReadTimeoutMs ?? 20_000;
+    this.browserReadTimeoutMs = options.browserReadTimeoutMs === null ? null : options.browserReadTimeoutMs ?? 20_000;
   }
 
   async execute(
@@ -235,9 +236,10 @@ export class RestaurantExecutionRouter {
 
   private async withProviderReadDeadline<Value>(
     operationName: string,
-    timeoutMs: number,
+    timeoutMs: number | null,
     operation: (signal: AbortSignal) => Promise<Value>,
   ): Promise<Value> {
+    if (timeoutMs === null) return operation(new AbortController().signal);
     const controller = new AbortController();
     return new Promise<Value>((resolve, reject) => {
       const timeout = setTimeout(() => {

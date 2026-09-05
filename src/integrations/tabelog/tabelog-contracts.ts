@@ -1,4 +1,5 @@
 import type { RestaurantCandidate } from "../../domains/restaurant/contracts.js";
+import type { BrowserSessionMetadata } from "../../infrastructure/browser/browser-runtime.js";
 
 export interface TabelogOutletObservation {
   sourceEntityId: string;
@@ -100,6 +101,30 @@ export interface TabelogIdentityDiagnostic extends TabelogEntityResolutionDiagno
     extracted?: TabelogOutletIdentityExtraction["fields"];
   }>;
 }
+
+/**
+ * Eval-only execution pause. It carries enough safe state to resume the exact
+ * browser page after a human completes a site-provided verification.
+ */
+export interface TabelogUserInterventionRequired {
+  state: "USER_INTERVENTION_REQUIRED";
+  provider: "TABELOG";
+  stage: "SEARCH" | "DETAIL" | "AVAILABILITY";
+  candidate: { id: string; outletName: string };
+  requestedSchedule: {
+    date: string;
+    timeWindow: { earliest: string; latest: string };
+    partySize: number;
+  };
+  browser: BrowserSessionMetadata;
+  page: { url: string; title: string };
+}
+
+/**
+ * An explicit human-only pause hook. It never receives page HTML, cookies,
+ * challenge tokens, credentials, or a mechanism to automate verification.
+ */
+export type TabelogUserInterventionHandler = (input: TabelogUserInterventionRequired) => Promise<void>;
 
 export interface TabelogAvailabilityPageObservation {
   candidate: RestaurantCandidate;

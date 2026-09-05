@@ -2,7 +2,7 @@
 
 - Status: Accepted
 - Document revision: 1.4
-- Last updated: 2026-09-03
+- Last updated: 2026-09-05
 - Source of truth for: 数据归属、Context分层、隐私、安全和保留策略
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md), [ADR-0005](../decisions/0005-modular-monolith.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md)
 - Related documents: [Restaurant Booking](../domains/RESTAURANT-BOOKING.md), [Capability Matrix](../integrations/CAPABILITY-MATRIX.md)
@@ -131,10 +131,10 @@ Restaurant Agent Decision只接收Domain-owned的`restaurant-agent-context@2`，
 
 ## Browser隔离
 
-- 每Task/Attempt隔离Profile和容器。
+- 产品每用户、Task/Attempt隔离Profile和容器；本地开发例外只适用[ADR-0016](../decisions/0016-local-eval-browser-profile-lifecycle.md)。
 - Egress限制在Capability允许的域名及必要子域。
 - Takeover URL单次、短期、绑定用户与Attempt。
-- 终态后销毁Profile；证据截图先脱敏。
+- 产品终态后销毁临时Profile；证据截图先脱敏。仅双开关的本地人工恢复eval可保留专用Profile至实验系列结束，由操作者关闭后显式清理；不读取日常Chrome Profile，不自动删除已有实验资料。
 - 网页内容一律作为不可信数据处理。
 
 ## Google Places
@@ -147,7 +147,7 @@ Restaurant Agent Decision只接收Domain-owned的`restaurant-agent-context@2`，
 
 Pilot默认目标：
 
-- 临时浏览器Profile：终态后立即销毁。
+- 产品临时浏览器Profile：终态后立即销毁。开发期持久Profile的归属、保留与清理由ADR-0016定义，不作为生产默认。
 - Availability与实时页面数据：按来源政策和短TTL。
 - 脱敏执行证据：30天。
 - 审计元数据：90天。

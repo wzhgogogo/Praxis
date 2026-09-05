@@ -1,79 +1,31 @@
 ---
 name: praxis-post-change-verify
-description: Praxis改动后验证与归档；按范围运行检查并同步架构、能力、测试和开发记录。
+description: 按Praxis Test矩阵完成改动验证、文档同步与交付，保留真实证据和未验证边界。
 ---
 
 # Praxis Post-change Verify
 
-当前已实现以下基础命令：
+验证要求只由[Test](../test/SKILL.md)维护。本文件负责适用检查、事实同步与交付，不复制测试矩阵。
 
-```bash
-npm run typecheck
-npm run arch:check
-npm test
-npm run build
-```
+1. 确认本次diff与已有用户改动的边界，复核实际影响的ADR和安全规则；已读且未变化的材料可复用。
+2. 按Test矩阵运行必要检查，修复本次引入的问题；既有失败和环境阻塞单独报告，不声称未运行的模式通过。
+3. 核对状态权威、外部写入授权、结果不明确、PII和敏感数据；Mock通过不能替代实际审阅。
+4. 只更新内容确实变化的权威文档；当前能力/证据/下一门槛变化时更新STATUS，非trivial实现与验证分别追加DEVLOG、TEST-LOG。
+5. 涉及测试时按Test维护规则检查重复覆盖与旧测试退役，交付注明覆盖去向。检查diff和命名，概述行为、验证和限制。提交/推送遵守[Conventions](../../REPOSITORY-CONVENTIONS.md)，只暂存本次范围；未获授权不推送，区分本地commit与远端结果。
 
-Runtime、Policy、Restaurant状态或Mock Adapter改动至少运行以上三项。PostgreSQL持久化改动在用户提供显式测试数据库写入授权后，另运行`npm run test:postgres:live`；PGlite结果不得替代该项。Stage 2B本地Fixture HTTP/SSE与Pilot Session Contract现包含在`npm test`，但不等同于生产身份、Browser视觉验证、Replay、真实PostgreSQL部署或真实平台验证；这些完成前不得报告通过。
+## 文档归属
 
-## Repository交付检查
-
-branch、tag、版本、文件和命令命名统一遵循[Repository Conventions](../../REPOSITORY-CONVENTIONS.md)。工作分支表达任务，不使用`-vN`归档State、Schema、Prompt或Eval版本；不兼容变化通过ADR、对应组件版本和迁移说明表达。
-
-在用户要求本地保存或远端交付时：暂存范围必须只包含本次改动，`git diff --check`必须通过，并在最终交接中分别报告本地 commit、当前分支和远端 push 的实际结果。远端 push 需要用户明确授权；被拒绝、失败或未尝试都不得写成已推送。
-
-## 标准流程
-
-1. 识别改动文件和受影响层。
-2. 重读Arch Guard及相关ADR。
-3. 运行最小相关Unit/Contract/Harness。
-4. 跨Runtime、Policy、Schema或P0流程时运行完整稳定基线。
-5. Adapter改动运行Browser Fixture和Replay；需要时单独运行Live Read-only。
-6. 只有用户明确授权时运行Controlled Live-write，并验证清理。
-7. 检查Secret、PII、Mock生产防护和外部副作用。
-8. 同步文档；追加`docs/history/DEVLOG.md`与`docs/history/TEST-LOG.md`，并在能力、证据或下一道门槛变化时更新`docs/STATUS.md`。
-
-Semantic Holdout按范围验证：纯私有Gold更新只运行Draft Preflight；Holdout Contract、Preflight或Scorer变化才运行Typecheck、Build、定向语义测试和当前产品基线。严格Complete Preflight只在全部Gold完成或准备进入Baseline门禁时运行。
-
-涉及当前语义主链的改动，验证必须按层分别报告，不能用端到端通过掩盖上游错误：
-
-```text
-Semantic Interpreter → Semantic Proposal Contract → Compiler → Reducer → Agent Action → Action Validator → Execution Router
-```
-
-- Contract测试证明结构、版本和封闭词表；不代表模型语义正确。
-- Compiler测试必须证明同一合法Proposal稳定产生同一Restaurant Event/State Patch，且不调用模型、Live Data、Policy或Tool。
-- Reducer测试必须覆盖修正、否定、确认、Replay和重复Event。
-- Action Validator测试必须只使用Authoritative State与Trusted Evidence，并覆盖结构无效、过期Offer、未授权Booking和`OUTCOME_UNKNOWN`的fail-closed行为。
-- Interpreter真实模型结果、Fixture Oracle、Replay、Live Read-only和Controlled Live-write必须分开报告；`LLM Response / Adjustment`不得被当成用户确认。
-
-## 文档同步矩阵
-
-| 改动 | 同步文档 |
+| 实际变化 | 对应文档 |
 |---|---|
-| 产品行为或确认点 | MVP PRD、User Flows、STATUS、Dev Log |
-| 架构边界 | Architecture、ADR、Arch Guard、STATUS |
-| Semantic Interpreter / Contract / Compiler / Agent Loop / Action Validator | Agent Orchestration、Restaurant Domain、Interfaces、Planning/Eval/Post-change Verify、Harness、STATUS与Dev/Test Log |
-| API/Schema/State | Interfaces、Task Runtime、迁移说明 |
-| Provider/Adapter | Capability Matrix、Domain、Harness、STATUS |
-| Prompt/模型 | Agent Orchestration、Eval、STATUS、Dev Log |
-| 测试命令/覆盖 | Test Skill、Test Log；必要时 STATUS |
-| 安全或保留策略 | Data/Security、ADR（如跨决策） |
+| 产品承诺、交互或确认点 | PRD / User Flows |
+| 职责、权限、依赖、数据政策 | 对应Architecture；改变Accepted Decision时新增ADR；长期不变量才同步Arch Guard |
+| Domain语义或DTO | Domain / Interfaces |
+| 平台能力和证明范围 | Capability Matrix / Harness |
+| 测试、评分或运行协议 | Test / Eval / 对应Harness协议 |
+| 入口、变量和命令 | README / .env.example；命名规则只归Conventions |
 
-## 报告格式
+不因目录改动机械更新全部文档。历史ADR、日志、标注和artifact不按当前命名重写，用户排除的数据保持原样。
 
-```text
-Conclusion: pass / blocked
-Scope:
-Checks:
-- typecheck:
-- unit/contract:
-- harness mock/replay:
-- build/smoke:
-- live-readonly/live-write:
-Safety:
-Docs updated:
-Skipped and reason:
-```
+## 交付报告
 
-红灯必须定位并修复或明确阻断，不得为了完成流程而跳过。Mock、Replay和Real结果不得混报。
+说明范围、行为、实际检查、失败/未运行及原因、模式与副作用、文档同步。涉及语义链时按Interpreter、Contract、Compiler、Reducer、Agent、Validator、Router分别归因；端到端结果不能掩盖上游错误。报告长度与改动相称。

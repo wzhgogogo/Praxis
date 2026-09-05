@@ -1,85 +1,65 @@
 ---
 name: praxis-test
-description: Praxis测试策略；覆盖纯函数、状态机、Connector Contract、Harness、Browser、API和受控真实执行。
+description: 为Praxis改动选择必要的功能与安全验证，明确Mock、真实浏览器Fixture、Replay和Live的证据范围。
 ---
 
 # Praxis Test
 
-当前仓库已建立TypeScript Mock垂直切片。以下命令已实现：
+本文件唯一维护验证矩阵；当前通过数量见[STATUS](../../STATUS.md)，运行命令、失败和证据见[TEST-LOG](../../history/TEST-LOG.md)。模型质量另见[Eval](../eval/SKILL.md)。
 
-```bash
-npm run typecheck
-npm run arch:check
-npm test
-npm run test:probes          # 冻结的Goal/Scheduler合成探针，不属于当前产品门禁
-npm run build
-npm run test:postgres:live    # 需要显式测试数据库配置与写入确认
-npm run eval:restaurant:search:fixture
-npm run eval:restaurant:semantic:fixture
-npm run eval:restaurant:semantic:holdout:preflight
-npm run eval:restaurant:semantic:deepseek # 需要显式真实模型开关；不是默认测试
-```
+## 验证矩阵
 
-`npm test`当前产品基线为 **100/100**（2026-08-20）：覆盖Core Unit/Contract、Restaurant Verifier、17个Mock Agent Loop Harness场景、3个Provider Router参数/Deadline场景、15个PGlite Runtime/Recovery/Migration场景、Fixture Web/API/SSE、语义 Proposal / Compiler / Reducer / Holdout Preflight与分层Scorer、Fixture Search及真实模型付费门禁/计量。新增断言证明Router绑定权威只读参数、Provider失败不归因为模型，且协作或忽略abort的Provider read都会被Router deadline有界截断；`COMMIT_FAILED`和`BOOKING_ABSENT`能在mandatory chain后恢复Agent，但新proposal必须取得新Authorization、旧Authorization被Reducer拒绝；trajectory持久化脱敏Decision Context；timeout/step/rejection限制均留下持久状态和trajectory；历史Decision Harness、旧Intent Parser和分类Criteria Contract不再混入当前基线。
-
-`npm run test:probes`为独立的**8/8**冻结探针基线：Goal Graph、Trigger/Scheduler、Recurring Shopping与Long-running Case。它保护仍保留的有界架构探针，但不作为Restaurant当前Stage的产品门禁。Fixture与Embedded-postgres都不证明生产身份、真实PostgreSQL、Browser视觉、Replay、Live Read-only、真实模型Baseline或Controlled Live-write；完整历史见[Test Log](../../history/TEST-LOG.md)。
-
-PGlite结果必须报告为`embedded-postgres integration`，不能报告为真实PostgreSQL。真实PostgreSQL smoke从Git忽略的本地`.env`（由`.env.example`建立）或进程环境读取`PRAXIS_TEST_DATABASE_URL`与`PRAXIS_ALLOW_TEST_DATABASE_WRITE=1`，且只能指向可写入、允许创建Praxis表的测试数据库。`npm test`不加载`.env`，不能因本地Secret或真实数据库配置改变测试结果。
-
-## 测试层级
-
-1. Unit：Reducer、Policy、排序、Schema、Verifier纯函数。
-2. State Contract：Event→State+Command、幂等、父子依赖和迁移。
-3. Connector Contract：正常、错误、限流、字段缺失和版本变化。
-4. Harness Mock：Golden Scenarios稳定基线。
-5. Replay：脱敏真实API/DOM轨迹。
-6. Browser E2E：Fixture页面、Checkpoint、Takeover和提交保护。
-7. Live Read-only：真实Discovery/Availability，不写入。
-8. Controlled Live-write：人工授权的真实预约和清理。
-
-## 测试投入原则
-
-- 测试数量不是Stage完成标准；必须先有该Stage承诺的可运行纵向结果。
-- 优先覆盖用户可观察行为、Domain状态转换、Provider Contract和不可逆副作用安全边界。
-- 不为已删除的Pilot前Schema、兼容分支或私有实现细节保留测试。
-- 同一风险已在更接近真实运行的层级稳定覆盖时，不机械复制等价分支；保留更快的Unit测试只应服务定位速度。
-- 低概率低影响错误允许统一失败；授权、金钱、隐私、重复写入和False Success即使低概率也必须有明确断言。
-
-## 改动矩阵
-
-| 改动 | 最小验证 |
+| 改动 | 必要验证 |
 |---|---|
-| Task Runtime当前产品路径 | Unit + State Contract + Restaurant PGlite |
-| 冻结Goal/Scheduler探针 | `npm run test:probes` |
-| Search Strategy/排序 | Unit + Search Harness + Replay |
-| DeepSeek Prompt/Parser | Schema Unit +固定Eval集 |
-| Policy/Authorization | Unit +所有Forbidden Action场景 |
-| Adapter | Contract + Browser Fixture +Capability更新 |
-| Verifier | Evidence Unit +提交不明确场景 |
-| Scheduler | Fake Clock +重复Trigger +恢复 |
-| Web流程 | 组件/交互 + API契约 +主要User Flow |
-| 语义 Holdout纯数据 | Holdout Preflight；完成后严格Preflight |
-| 语义 Holdout Contract/Preflight | Typecheck + 定向Eval Test + Build + 当前产品基线 |
+| 纯文档/配置说明 | 链接、命令/变量引用、权威一致性、diff；不运行付费或Live测试 |
+| 局部实现/重构 | typecheck、arch:check、相关行为测试、build；共享路径受影响时运行npm test |
+| Runtime、Policy、授权、State/Schema、Verifier、P0路径 | typecheck、arch:check、npm test、build及对应状态/副作用不变量 |
+| Provider/Browser Adapter | Contract；操作DOM时加真实浏览器本地Fixture；有合法样本时Replay；改变平台能力声明时单独Live Read-only |
+| Search/排序 | Unit与Search Harness；真实响应兼容性变化时Replay或明确缺口 |
+| Web交互 | 客户端检查、相关HTTP/API与关键浏览器交互；响应式标记不能替代视觉/设备验证 |
+| 语义Prompt/Contract/Scorer | 对应Unit、固定开发Regression及Eval协议要求；不自动运行或读取私有Holdout |
+| Holdout纯标注数据 | 仅在任务允许修改数据时按Holdout协议做Preflight；完成后才做严格Preflight |
+| PostgreSQL持久化 | PGlite集成；另经测试数据库写入授权运行真实PostgreSQL smoke |
+| 冻结Goal/Scheduler探针 | 仅影响该路径时运行npm run test:probes；不属于当前Restaurant默认产品门禁 |
 
-`eval:restaurant:semantic:holdout:preflight:complete`只在全部Gold完成或准备进入Baseline门禁时运行；不在每个Session后重复验证已知空集合。
+四条离线代码门禁是`npm run typecheck`、`npm run arch:check`、`npm test`、`npm run build`。通过后仅在新改动、失败或未解决风险需要时重复，不按测试数量扩张范围。
 
-## 安全断言
+## 每种测试证明什么
 
-- 未授权Commit为0。
-- 单候选失败后，在没有新proposal和新Authorization时第二候选Commit为0。
-- 同一幂等键外部写入最多1次。
-- 弱Evidence不产生Verified Outcome。
-- OUTCOME_UNKNOWN不自动重试。
-- 跨用户数据和Takeover访问被拒绝。
+| 模式 | 证明范围 | 不证明 |
+|---|---|---|
+| Unit / Adapter Mock | 参数、解析、状态/错误分支、授权与幂等 | 真实页面DOM与网络行为 |
+| 真实浏览器 + 本地Fixture | 实际控件操作、异步状态、等待和恢复 | 当前网站可访问或可预约 |
+| Replay | 脱敏真实响应的回归 | 当前站点状态与库存 |
+| Live Read-only | 此次环境下连接、门店、请求条件与空位 | 真实提交成功或长期可靠性 |
+| Controlled Live-write | 授权范围内真实写入及验证/清理 | 未测平台或任意网站自动化 |
+| Embedded-postgres integration | PGlite的SQL/事务/恢复 | 真实PostgreSQL部署 |
 
-## Fixture规则
+首次接入没有Replay样本时明确记录缺口，先做受控只读观察，再按来源政策建立脱敏回归。合成HTML不命名为Replay。未来Golden目录项不自动成为当前Stage必过项。
 
-- 对齐真实Schema，不用`any`绕过。
-- 时间通过Fake Clock，不依赖系统当前时间。
-- 外部响应带Source、ObservedAt和版本。
-- Record/Replay必须脱敏。
-- 测试不得在CI创建真实预约。
+## 关键行为
 
-## 汇报
+- 优先测试外部行为与状态转换，不重复等价私有分支，不因覆盖率保留旧实现测试。
+- 未授权Commit、重复提交、错误候选/Attempt Evidence导致的成功均为0；`OUTCOME_UNKNOWN`禁止再次提交和换店。
+- 新Proposal必须有新Authorization；跨用户Case、Takeover和Profile访问被拒绝；Projection不改变权威State。
+- Browser条件修改后观察新请求对应结果；旧slot、加载中、challenge或未知页面不能形成AVAILABLE/UNAVAILABLE结论。
+- 检测到控件、尝试操作、观察到生效分别记录；未实测为未验证。静态只读限制不冒充副作用实测计数。
+- 确定性时间逻辑用Fake Clock；浏览器deadline另做有界异步验证，空waitFor不证明浏览器行为。
 
-分开报告Mock、Replay、Live Read-only和Controlled Live-write。说明通过、失败、跳过、原因、外部副作用和清理结果，并更新`docs/history/TEST-LOG.md`；若能力、证据或下一道门槛变化，同时更新`docs/STATUS.md`。
+## 测试维护与退役
+
+- 新增自动化测试前搜索同一行为的既有覆盖，优先扩展所属测试。说明新增测试能捕获什么现有测试漏掉的失败；无需为每个模块、函数或改动机械新增测试文件。
+- 同一输入、同一执行路径、同一失败后果只保留一处主覆盖。等价数据变体使用带案例名称的参数化断言；不同故障机制不要为了降低数量塞进一个大测试。
+- Unit负责规则与边界，集成测试负责规则接入、事务和真实协议；跨层重复只有在能捕获不同故障时保留，不把Unit的全部组合复制到Harness/Web。
+- 替换实现或修复缺陷时，同一改动中检查相关旧测试：更新仍有效的行为断言，删除被替代路径及重复回归，保留真实状态所需的迁移验证。新增缺陷用例优先并入所属行为测试，不无限追加独立回归文件。
+- 不绑定无契约意义的私有调用次数、文案、CSS断点或源码形状；时间/重试预算、Secret隔离、授权和副作用次数属于真实契约，应保留。脆弱测试修复等待与观察条件，不通过重试或放宽断言掩盖失败。
+- 默认套件只收当前产品及其维护所需的离线行为测试；浏览器、冻结探针和Live按现有独立入口运行，不为减少报告数字隐藏当前必需测试。
+- 涉及测试变更的交付简记新增/合并/删除及覆盖去向，关注重复setup、运行耗时、偶发失败和维护成本。数量与覆盖率不是增长目标，也不设强制删除配额；只审查当前受影响范围，不每次全仓盘点。
+
+## 运行边界
+
+普通测试不加载.env，不调用付费模型或外部生产服务，不创建真实预约。`test:browser:fixture`只启动本机浏览器和本地Fixture，不读取站点Cookie或个人profile；缺少浏览器时明确失败，不伪装为通过。
+
+真实PostgreSQL仅使用授权专用测试库和`PRAXIS_ALLOW_TEST_DATABASE_WRITE=1`；Live/付费实验还需对应开关与用户授权范围。Controlled Live-write不能在CI运行，完成后记录取消/清理。环境开关不等于授权。
+
+报告通过、失败、未运行、不适用及原因，分别列运行模式；不能证明真实结果或清理失败时明确保留限制。
