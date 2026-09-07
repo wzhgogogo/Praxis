@@ -6,11 +6,17 @@ import type { BrowserRuntime, BrowserSession, BrowserSnapshot } from "../../infr
 import { TableCheckBrowserAvailability } from "./tablecheck-browser-availability.js";
 import { inspectTableCheckEntity } from "./tablecheck-entity-resolver.js";
 import {
+  inspectTableCheckPageUnavailable,
+  hasTableCheckSelectedRequest,
   parseTableCheckAvailabilitySlots,
+  parseTableCheckDiscoveryOutletUrls,
   parseTableCheckOutletIdentityWithEvidence,
-  tableCheckGuideUrls,
-  tableCheckReservationUrl,
+  resolveTableCheckReservationTarget,
+  tableCheckDiscoveryUrl,
+  tableCheckRequestedReservationUrl,
 } from "./tablecheck-page-parser.js";
+import { BrowserTaskExecutor, type BrowserExecutionDiagnostic } from "../../infrastructure/browser/browser-task-executor.js";
+import type { BrowserReadActionDecisionPort } from "../../infrastructure/browser/browser-action-decision.js";
 
 const candidate = {
   ...fixtureCandidates[0]!,
@@ -20,6 +26,26 @@ const candidate = {
     sourceIds: { ...fixtureCandidates[0]!.restaurant.sourceIds, phone: "03-1111-2222" },
   },
 };
+
+test("TableCheck recognizes the public booking-widget date and party readback across a rendered calendar", () => {
+  const snapshot: BrowserSnapshot = {
+    url: "https://www.tablecheck.com/en/restaurant1",
+    title: "Restaurant 1",
+    html: "",
+    text: "Restaurant 1 Book a table Sep 7th September 2026 Sun Mon Tue Wed Thu Fri Sat 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 2 guests 19:00 Find more availability",
+  };
+  assert.equal(hasTableCheckSelectedRequest(snapshot, "2026-09-07", 2), true);
+  assert.equal(hasTableCheckSelectedRequest(snapshot, "2026-09-08", 2), false);
+});
+
+test("TableCheck recognizes its explicit public no-table widget state but not ordinary restaurant prose", () => {
+  const noTable: BrowserSnapshot = {
+    url: "https://www.tablecheck.com/en/restaurant1", title: "Restaurant 1", html: "",
+    text: "Book a table Sep 7th September 2026 2 guests We could not find a table on Sep 7th for the selected mealtime, please try again with another time or day",
+  };
+  assert.deepEqual(parseTableCheckAvailabilitySlots(noTable), { availableSlots: [], hasExplicitSlotUi: true });
+  assert.deepEqual(parseTableCheckAvailabilitySlots({ ...noTable, text: "Restaurant reviews say we could not find a table last year." }), { availableSlots: [], hasExplicitSlotUi: false });
+});
 
 class FixtureBrowserSession implements BrowserSession {
   readonly metadata = { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM" as const, engine: "CHROMIUM" as const, startedAt: "2026-08-05T09:00:00.000Z" };
@@ -33,7 +59,7 @@ class FixtureBrowserSession implements BrowserSession {
 
   async navigate(url: string): Promise<void> { this.navigations.push(url); this.current = Math.min(this.current + 1, this.pages.length - 1); }
   async snapshot(): Promise<BrowserSnapshot> { return this.pages[this.current]!; }
-  async click(): Promise<void> { this.clicks += 1; }
+  async click(): Promise<void> { this.clicks += 1; this.current = Math.min(this.current + 1, this.pages.length - 1); }
   async fill(): Promise<void> { this.fills += 1; }
   async select(_target: string, value: string): Promise<string[]> { return [value]; }
   async waitFor(): Promise<void> {}
@@ -50,14 +76,36 @@ const request = {
   hardCriteria: ["omakase"],
 };
 
-test("TableCheck deterministic guide attempts and reservation URL are read-only hints", () => {
-  assert.deepEqual(tableCheckGuideUrls("Sushi Inase"), [
+test("TableCheck discovers public guide pages by restaurant name and coordinates, never by slug guessing", () => {
+  const searchCandidate = { ...candidate, restaurant: { ...candidate.restaurant, outletName: "Sushi Inase", coordinates: { lat: 35.6555319, lng: 139.705986 } } };
+  const url = new URL(tableCheckDiscoveryUrl(searchCandidate));
+  assert.equal(url.pathname, "/en/japan/search");
+  assert.equal(url.searchParams.get("search_text"), "Sushi Inase");
+  assert.equal(url.searchParams.get("geo_latitude"), "35.6555319");
+  const snapshot: BrowserSnapshot = {
+    url: url.toString(), title: "Map Search - Japan", text: "50+ venues found",
+    html: [
+      '<a href="/en/sushiinase?search_text=Sushi+Inase">Sushi Inase</a>',
+      '<a href="/en/sushiinase-shinjuku?search_text=Sushi+Inase">Shinjuku Sushi Inase</a>',
+      '<a href="/en/sushiinase/reserve/landing?start_date=2026-08-06">9/6</a>',
+    ].join(""),
+  };
+  assert.deepEqual(parseTableCheckDiscoveryOutletUrls(snapshot, "Sushi Inase"), [
     "https://www.tablecheck.com/en/sushiinase",
-    "https://www.tablecheck.com/en/sushi-inase",
+    "https://www.tablecheck.com/en/sushiinase-shinjuku",
   ]);
+});
+
+test("TableCheck resolves a real linked reservation page and only sets read parameters", () => {
+  const outlet = { sourceEntityId: "restaurant1", sourceUrl: "https://www.tablecheck.com/en/restaurant1", outletName: "Restaurant 1" };
+  const target = resolveTableCheckReservationTarget({
+    url: outlet.sourceUrl, title: "Restaurant 1", text: "Book a table",
+    html: '<a href="/en/restaurant1/reserve/landing?utm_source=tablecheck_portal">Book a table</a>',
+  }, outlet);
+  assert.deepEqual(target, { kind: "LINKED_PAGE", url: "https://www.tablecheck.com/en/restaurant1/reserve/landing?utm_source=tablecheck_portal" });
   assert.equal(
-    tableCheckReservationUrl("https://www.tablecheck.com/en/sushiinase", "2026-08-05", 2),
-    "https://www.tablecheck.com/en/sushiinase/reserve?start_date=2026-08-05&pax=2",
+    tableCheckRequestedReservationUrl(target!, "2026-08-05", 2),
+    "https://www.tablecheck.com/en/restaurant1/reserve/landing?utm_source=tablecheck_portal&start_date=2026-08-05&pax=2",
   );
 });
 
@@ -70,13 +118,14 @@ test("TableCheck identity uses exact phone or name and full address, never name 
       '<link rel="canonical" href="/en/restaurant1">',
       '<h1>Restaurant 1</h1>',
       '<p class="address">1-1 Shinjuku, Tokyo</p>',
-      '<a href="tel:03-1111-2222">03-1111-2222</a>',
+      '<a href="tel:+81-3-1111-2222">+81-3-1111-2222</a>',
     ].join(""),
   };
   const extraction = parseTableCheckOutletIdentityWithEvidence(snapshot, snapshot.url);
   assert.ok(extraction);
   assert.equal(extraction.fields.address.source, "DOM");
   assert.equal(extraction.fields.phone.source, "TEL_LINK");
+  assert.equal(extraction.fields.phone.normalizedValue, "0311112222");
   assert.equal(inspectTableCheckEntity(candidate, extraction.outlet).resolution.confidence, "HIGH");
   const { phone: _knownPhone, ...withoutPhone } = extraction.outlet;
   assert.equal(inspectTableCheckEntity(candidate, withoutPhone).resolution.confidence, "HIGH");
@@ -96,19 +145,32 @@ test("TableCheck slot parser ignores prose and accepts only explicitly bookable 
   assert.deepEqual(controls, { availableSlots: ["19:00"], hasExplicitSlotUi: true });
 });
 
-test("TableCheck executor grounds same-outlet identity, requested schedule and explicit slots without booking actions", async () => {
+function discoveryPage(...links: Array<{ href: string; text: string }>): BrowserSnapshot {
+  return {
+    url: "https://www.tablecheck.com/en/japan/search?search_text=Restaurant+1", title: "Map Search - Japan", text: "50+ venues found",
+    html: links.map((link) => `<a href="${link.href}">${link.text}</a>`).join(""),
+  };
+}
+
+function matchingOutletPage(url = "https://www.tablecheck.com/en/restaurant1"): BrowserSnapshot {
+  return {
+    url,
+    title: "Restaurant 1 - TableCheck",
+    text: "Restaurant 1\nAddress\n1-1 Shinjuku, Tokyo\nPhone\n03-1111-2222",
+    html: [
+      '<link rel="canonical" href="/en/restaurant1">',
+      '<h1>Restaurant 1</h1>',
+      '<p class="address">1-1 Shinjuku, Tokyo</p>',
+      '<a href="tel:03-1111-2222">03-1111-2222</a>',
+      '<a href="/en/restaurant1/reserve/landing?utm_source=tablecheck_portal">Book a table</a>',
+    ].join(""),
+  };
+}
+
+test("TableCheck executor grounds a discovered same-outlet page and real linked reservation page without booking actions", async () => {
   const session = new FixtureBrowserSession([
-    {
-      url: "https://www.tablecheck.com/en/restaurant1",
-      title: "Restaurant 1 - TableCheck",
-      text: "Restaurant 1\nAddress\n1-1 Shinjuku, Tokyo\nPhone\n03-1111-2222",
-      html: [
-        '<link rel="canonical" href="/en/restaurant1">',
-        '<h1>Restaurant 1</h1>',
-        '<p class="address">1-1 Shinjuku, Tokyo</p>',
-        '<a href="tel:03-1111-2222">03-1111-2222</a>',
-      ].join(""),
-    },
+    discoveryPage({ href: "/en/restaurant1?search_text=Restaurant+1", text: "Restaurant 1" }),
+    matchingOutletPage(),
     {
       url: "https://www.tablecheck.com/en/restaurant1/reserve/landing",
       title: "Restaurant 1 reservation",
@@ -127,31 +189,242 @@ test("TableCheck executor grounds same-outlet identity, requested schedule and e
   assert.equal(result.offers[0]?.source, "TABLECHECK");
   assert.deepEqual(result.evidence.map((item) => item.kind), ["ENTITY_MATCH", "RESTAURANT_FACT", "AVAILABILITY"]);
   assert.equal(result.evidence.every((item) => item.provider === "TABLECHECK"), true);
-  assert.equal(session.navigations.length, 2);
-  assert.equal(session.navigations[1]?.includes("start_date=2026-08-05&pax=2"), true);
+  assert.equal(session.navigations.length, 3);
+  assert.equal(session.navigations[0]?.includes("/en/japan/search?"), true);
+  assert.equal(session.navigations[1], "https://www.tablecheck.com/en/restaurant1");
+  assert.equal(session.navigations[2]?.includes("start_date=2026-08-05&pax=2"), true);
   assert.equal(session.clicks, 0);
   assert.equal(session.fills, 0);
   assert.equal(session.closed, true);
 });
 
-test("TableCheck rejects a same-name page with a conflicting known phone before reading availability", async () => {
-  const session = new FixtureBrowserSession([{
-    url: "https://www.tablecheck.com/en/restaurant1",
-    title: "Restaurant 1 - TableCheck",
-    text: "Restaurant 1\nAddress\n1-1 Shinjuku, Tokyo\nPhone\n03-9999-8888",
-    html: '<h1>Restaurant 1</h1><p class="address">1-1 Shinjuku, Tokyo</p><a href="tel:03-9999-8888">03-9999-8888</a>',
-  }]);
+test("TableCheck continues in one session when the standard method is incomplete and accepts slots only after model actions visibly confirm date and party", async () => {
+  const session = new FixtureBrowserSession([
+    discoveryPage({ href: "/en/restaurant1?search_text=Restaurant+1", text: "Restaurant 1" }),
+    {
+      url: "https://www.tablecheck.com/en/restaurant1", title: "Restaurant 1 availability", text: "Restaurant 1 Choose party size",
+      html: '<div data-testid="Venue Availability"></div><h1>Restaurant 1</h1><p class="address">1-1 Shinjuku, Tokyo</p><a href="tel:03-1111-2222">03-1111-2222</a><button id="party" data-praxis-read-only="true">2 guests</button>',
+    },
+    {
+      url: "https://www.tablecheck.com/en/restaurant1", title: "Restaurant 1 availability", text: "Restaurant 1 Choose date",
+      html: '<div data-testid="Venue Availability"></div><h1>Restaurant 1</h1><p class="address">1-1 Shinjuku, Tokyo</p><a href="tel:03-1111-2222">03-1111-2222</a><button id="date" data-praxis-read-only="true">2026-08-05</button>',
+    },
+    {
+      url: "https://www.tablecheck.com/en/restaurant1", title: "Restaurant 1 availability", text: "Restaurant 1 2 guests Aug 5 2026",
+      html: '<div data-testid="Venue Availability" data-selected-date="2026-08-05" data-pax="2"></div><h1>Restaurant 1</h1><p class="address">1-1 Shinjuku, Tokyo</p><a href="tel:03-1111-2222">03-1111-2222</a><section class="featured-menu">Omakase course</section><button class="time-slot is-available" data-time="19:00">19:00</button>',
+    },
+  ]);
+  let modelCalls = 0;
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {
+    modelDecision: {
+      async decide(input) {
+        modelCalls += 1;
+        assert.match(input.skills.generic, /re-observe/);
+        assert.match(input.skills.source, /TableCheck/);
+        const wanted = modelCalls === 1 ? "2 guests" : "2026-08-05";
+        const target = input.observation.targets.find((item) => item.label === wanted);
+        assert.ok(target);
+        return { type: "CLICK", targetRef: target.ref, reason: `Set authoritative ${modelCalls === 1 ? "party" : "date"} through observed control` };
+      },
+    },
+  });
+  const result = await new TableCheckBrowserAvailability(executor, () => "2026-08-05T09:00:00.000Z").check(request, new AbortController().signal);
+  assert.equal(modelCalls, 2);
+  assert.equal(session.clicks, 2);
+  assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE");
+  assert.match(result.offers[0]?.dateTime ?? "", /T19:00/);
+  await executor.close();
+});
+
+test("TableCheck continues in the same session from confirmed conditions to an explicitly marked slot UI", async () => {
+  const session = new FixtureBrowserSession([
+    discoveryPage({ href: "/en/restaurant1?search_text=Restaurant+1", text: "Restaurant 1" }),
+    {
+      url: "https://www.tablecheck.com/en/restaurant1", title: "Restaurant 1 availability",
+      text: "Restaurant 1 Book a table Aug 5th August 2026 Sun Mon Tue Wed Thu Fri Sat 1 2 3 4 5 2 guests 19:00 Find more availability",
+      html: '<div data-testid="Venue Availability"></div><h1>Restaurant 1</h1><p class="address">1-1 Shinjuku, Tokyo</p><a href="tel:03-1111-2222">03-1111-2222</a><button id="more" formmethod="get">Find more availability</button>',
+    },
+    {
+      url: "https://www.tablecheck.com/en/restaurant1", title: "Restaurant 1 availability",
+      text: "Restaurant 1 Book a table Aug 5th 2 guests 19:00",
+      html: '<div data-testid="Venue Availability" data-selected-date="2026-08-05" data-pax="2"></div><h1>Restaurant 1</h1><p class="address">1-1 Shinjuku, Tokyo</p><a href="tel:03-1111-2222">03-1111-2222</a><button class="time-slot is-available" data-time="19:00">19:00</button>',
+    },
+  ]);
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {
+    modelDecision: {
+      async decide(input) {
+        const target = input.observation.targets.find((item) => item.label === "Find more availability");
+        assert.ok(target);
+        return { type: "CLICK", targetRef: target.ref, reason: "Reveal the public slot controls." };
+      },
+    },
+  });
+  const result = await new TableCheckBrowserAvailability(executor, () => "2026-08-05T09:00:00.000Z").check(request, new AbortController().signal);
+  assert.equal(session.clicks, 1);
+  assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE");
+  await executor.close();
+});
+
+test("TableCheck uses the one exact-phone outlet among multiple discovered same-name pages", async () => {
+  const session = new FixtureBrowserSession([
+    discoveryPage(
+      { href: "/en/restaurant1-other?search_text=Restaurant+1", text: "Restaurant 1 Midtown" },
+      { href: "/en/restaurant1?search_text=Restaurant+1", text: "Restaurant 1" },
+    ),
+    {
+      url: "https://www.tablecheck.com/en/restaurant1-other",
+      title: "Restaurant 1 Midtown - TableCheck",
+      text: "Restaurant 1\nAddress\n1-1 Shinjuku, Tokyo\nPhone\n03-9999-8888",
+      html: '<h1>Restaurant 1</h1><p class="address">1-1 Shinjuku, Tokyo</p><a href="tel:03-9999-8888">03-9999-8888</a>',
+    },
+    matchingOutletPage(),
+    {
+      url: "https://www.tablecheck.com/en/restaurant1/reserve/landing",
+      title: "Restaurant 1 reservation",
+      text: "Restaurant 1 2 guest 2026-08-05 19:00 Omakase course",
+      html: '<div data-selected-date="2026-08-05" data-pax="2"></div><section class="featured-menu">Omakase course</section><button class="time-slot is-available" data-time="19:00">19:00</button>',
+    },
+  ]);
   const result = await new TableCheckBrowserAvailability({ openSession: async () => session }, () => "2026-08-05T09:00:00.000Z").check(request, new AbortController().signal);
-  assert.equal(result.availabilityChecks[candidate.restaurant.id]?.reasonCode, "ENTITY_MATCH_UNCERTAIN");
+  assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE");
+  assert.deepEqual(session.navigations.slice(1, 3), [
+    "https://www.tablecheck.com/en/restaurant1-other",
+    "https://www.tablecheck.com/en/restaurant1",
+  ]);
+});
+
+test("TableCheck fails closed when discovered same-name branches have no HIGH identity evidence", async () => {
+  const diagnostics: unknown[] = [];
+  const session = new FixtureBrowserSession([
+    discoveryPage(
+      { href: "/en/restaurant1-east?search_text=Restaurant+1", text: "Restaurant 1 East" },
+      { href: "/en/restaurant1-west?search_text=Restaurant+1", text: "Restaurant 1 West" },
+    ),
+    {
+      url: "https://www.tablecheck.com/en/restaurant1-east",
+      title: "Restaurant 1 East - TableCheck",
+      text: "Restaurant 1",
+      html: "<h1>Restaurant 1</h1>",
+    },
+    {
+      url: "https://www.tablecheck.com/en/restaurant1-west",
+      title: "Restaurant 1 West - TableCheck",
+      text: "Restaurant 1",
+      html: "<h1>Restaurant 1</h1>",
+    },
+  ]);
+  const result = await new TableCheckBrowserAvailability({ openSession: async () => session }, () => "2026-08-05T09:00:00.000Z", {
+    onIdentityDiagnostic: (diagnostic) => diagnostics.push(diagnostic),
+  }).check(request, new AbortController().signal);
+  assert.equal(result.availabilityChecks[candidate.restaurant.id]?.reasonCode, "TABLECHECK_ENTITY_MATCH_UNCERTAIN");
   assert.equal(result.offers.length, 0);
-  assert.equal(session.navigations.length, 2);
+  const diagnostic = diagnostics[0] as { discovery: { discoveredOutletUrls: string[] }; resolution: { reason: string } };
+  assert.equal(diagnostic.discovery.discoveredOutletUrls.length, 2);
+  assert.equal(diagnostic.resolution.reason, "TABLECHECK_ENTITY_MATCH_UNCERTAIN");
   assert.equal(session.clicks, 0);
 });
 
-test("TableCheck public 403 documents are provider-page failures, not outlet identity failures", async () => {
+test("TableCheck discovery distinguishes a public no-result page from parser failure", async () => {
   const diagnostics: unknown[] = [];
   const session = new FixtureBrowserSession([{
-    url: "https://www.tablecheck.com/en/restaurant1",
+    url: "https://www.tablecheck.com/en/japan/search?search_text=Restaurant+1",
+    title: "Map Search - Japan",
+    text: "No venues found",
+    html: "<main>No venues found</main>",
+  }]);
+  const result = await new TableCheckBrowserAvailability({ openSession: async () => session }, () => "2026-08-05T09:00:00.000Z", {
+    onIdentityDiagnostic: (diagnostic) => diagnostics.push(diagnostic),
+  }).check(request, new AbortController().signal);
+  assert.equal(result.availabilityChecks[candidate.restaurant.id]?.reasonCode, "TABLECHECK_DISCOVERY_NO_RESULT");
+  const diagnostic = diagnostics[0] as { discovery: { status: string }; resolution: { reason: string } };
+  assert.equal(diagnostic.discovery.status, "NO_RESULT");
+  assert.equal(diagnostic.resolution.reason, "TABLECHECK_DISCOVERY_NO_RESULT");
+});
+
+test("TableCheck error-page classification does not treat normal result copy or numbers as an unavailable document", () => {
+  const normal = inspectTableCheckPageUnavailable({
+    url: "https://www.tablecheck.com/en/japan/search", title: "Map Search - Japan",
+    text: "404 restaurants were reviewed; a venue was not found in one past search.",
+    html: "<h1>Map Search - Japan</h1><p>404 restaurants were reviewed; a venue was not found in one past search.</p>",
+  });
+  assert.equal(normal.pageUnavailable, false);
+  assert.deepEqual(normal.matchedSignals, []);
+  const error = inspectTableCheckPageUnavailable({
+    url: "https://www.tablecheck.com/en/japan/search", title: "404 Not Found",
+    text: "Try again later", html: "<h1>404 Not Found</h1>",
+  });
+  assert.equal(error.pageUnavailable, true);
+  assert.deepEqual(error.matchedSignals, [
+    { source: "TITLE", value: "404 Not Found" },
+    { source: "PRIMARY_HEADING", value: "404 Not Found" },
+  ]);
+});
+
+test("TableCheck hands an extractable-search gap to the model in the same session and verifies the resulting observation", async () => {
+  const session = new FixtureBrowserSession([
+    {
+      url: "https://www.tablecheck.com/en/japan/search?search_text=Restaurant+1", title: "Map Search - Japan", text: "Search restaurants",
+      html: '<button id="show" data-praxis-read-only="true">Show results</button>',
+    },
+    discoveryPage({ href: "/en/restaurant1?search_text=Restaurant+1", text: "Restaurant 1" }),
+    matchingOutletPage(),
+    {
+      url: "https://www.tablecheck.com/en/restaurant1/reserve/landing", title: "Restaurant 1 reservation",
+      text: "Restaurant 1 2 guest 2026-08-05 19:00 Omakase course",
+      html: '<div data-selected-date="2026-08-05" data-pax="2"></div><section class="featured-menu">Omakase course</section><button class="time-slot is-available" data-time="19:00">19:00</button>',
+    },
+  ]);
+  const diagnostics: BrowserExecutionDiagnostic[] = [];
+  let decisions = 0;
+  const modelDecision: BrowserReadActionDecisionPort = {
+    async decide(input) {
+      decisions += 1;
+      if (decisions === 1) {
+        const target = input.observation.targets.find((item) => item.label === "Show results");
+        assert.ok(target);
+        return { type: "CLICK", targetRef: target.ref, reason: "Reveal observed public results" };
+      }
+      return { type: "COMPLETE", reason: "A deterministic parser can inspect the observed result link" };
+    },
+  };
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { modelDecision, onDiagnostic: (item) => diagnostics.push(item) });
+  const result = await new TableCheckBrowserAvailability(executor, () => "2026-08-05T09:00:00.000Z").check(request, new AbortController().signal);
+  assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE");
+  assert.equal(session.clicks, 1);
+  assert.equal(diagnostics.filter((item) => item.event === "SESSION_OPENED").length, 1);
+  const handoff = diagnostics.find((item) => item.event === "SKILL_STARTED");
+  assert.equal(handoff?.detail, "TableCheck discovery has no extractable public outlet link yet.");
+  assert.equal(handoff?.observation?.targets[0]?.label, "Show results");
+  assert.match(diagnostics.find((item) => item.event === "MODEL_ACTION")?.detail ?? "", /CLICK/);
+  assert.equal(diagnostics.some((item) => item.event === "POST_ACTION_VERIFIED"), true);
+  await executor.close();
+  assert.equal(session.closed, true);
+});
+
+test("TableCheck classifies exhausted recoverable discovery separately from an unavailable provider page", async () => {
+  const session = new FixtureBrowserSession([{
+    url: "https://www.tablecheck.com/en/japan/search?search_text=Restaurant+1", title: "Map Search - Japan", text: "Search restaurants", html: "<main>Search restaurants</main>",
+  }]);
+  const identityDiagnostics: unknown[] = [];
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {
+    modelDecision: { async decide() { return { type: "REQUEST_HUMAN_HELP", reason: "No observed public result target" }; } },
+  });
+  const result = await new TableCheckBrowserAvailability(executor, () => "2026-08-05T09:00:00.000Z", {
+    onIdentityDiagnostic: (diagnostic) => identityDiagnostics.push(diagnostic),
+  }).check(request, new AbortController().signal);
+  assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "UNKNOWN");
+  assert.equal(result.availabilityChecks[candidate.restaurant.id]?.reasonCode, "TABLECHECK_DISCOVERY_INCOMPLETE");
+  const diagnostic = identityDiagnostics[0] as { discovery: { status: string; handoff?: { outcome: string } }; resolution: { reason: string } };
+  assert.equal(diagnostic.discovery.status, "EXPLORATION_EXHAUSTED");
+  assert.equal(diagnostic.discovery.handoff?.outcome, "REQUESTED_HUMAN_HELP");
+  assert.equal(diagnostic.resolution.reason, "TABLECHECK_DISCOVERY_INCOMPLETE");
+  await executor.close();
+});
+
+test("TableCheck discovery 403 documents are provider-page failures, not outlet identity failures", async () => {
+  const diagnostics: unknown[] = [];
+  const session = new FixtureBrowserSession([{
+    url: "https://www.tablecheck.com/en/japan/search?search_text=Restaurant+1",
     title: "403 Forbidden",
     text: "403 Forbidden",
     html: "<h1>403 Forbidden</h1>",
@@ -161,7 +434,8 @@ test("TableCheck public 403 documents are provider-page failures, not outlet ide
   }).check(request, new AbortController().signal);
   assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "SOURCE_UNSUPPORTED");
   assert.equal(result.availabilityChecks[candidate.restaurant.id]?.reasonCode, "TABLECHECK_PAGE_UNAVAILABLE");
-  const diagnostic = diagnostics[0] as { resolution: { reason: string }; attemptedPages: Array<{ pageUnavailable?: boolean; extracted?: unknown }> };
+  const diagnostic = diagnostics[0] as { discovery: { status: string }; resolution: { reason: string }; attemptedPages: Array<{ pageUnavailable?: boolean; extracted?: unknown }> };
+  assert.equal(diagnostic.discovery.status, "PAGE_UNAVAILABLE");
   assert.equal(diagnostic.resolution.reason, "TABLECHECK_PAGE_UNAVAILABLE");
-  assert.equal(diagnostic.attemptedPages.every((page) => page.pageUnavailable === true && page.extracted === undefined), true);
+  assert.equal(diagnostic.attemptedPages.length, 0);
 });

@@ -1,4 +1,5 @@
 import type { BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
+import type { RestaurantCandidate } from "../../domains/restaurant/contracts.js";
 import type {
   TableCheckIdentityEvidenceSource,
   TableCheckIdentityField,
@@ -13,7 +14,13 @@ export function normalizeTableCheckIdentity(value: string | undefined): string {
 }
 
 export function normalizeTableCheckPhone(value: string | undefined): string {
-  return (value ?? "").replace(/\D/g, "");
+  const raw = (value ?? "").normalize("NFKC").trim();
+  const digits = raw.replace(/\D/g, "");
+  // Google normally returns Japan's domestic leading zero while public JSON-LD
+  // commonly uses +81. Canonicalize only an explicit international prefix.
+  return /^(?:\+|00)81(?:[\s().-]*\d)/.test(raw) && digits.startsWith("81")
+    ? `0${digits.slice(2).replace(/^0+/, "")}`
+    : digits;
 }
 
 export function isTableCheckUrl(value: string): boolean { return TABLECHECK_URL.test(value); }
@@ -22,14 +29,38 @@ export function hasTableCheckBotChallenge(snapshot: BrowserSnapshot): boolean {
   return /captcha|verify you are human|access denied|unusual traffic|robot|just a moment/i.test(`${snapshot.title}\n${snapshot.text}`);
 }
 
-/** A public error document has no outlet identity and must not be parsed as one. */
+export interface TableCheckPageUnavailableInspection {
+  pageUnavailable: boolean;
+  /** Exact title or primary-heading evidence only; arbitrary result text is never an error-page signal. */
+  matchedSignals: Array<{ source: "TITLE" | "PRIMARY_HEADING"; value: string }>;
+}
+
+const TABLECHECK_ERROR_DOCUMENT = /^(?:(?:error|http error)\s*)?(?:403\s*(?:forbidden)?|404\s*(?:not found)?|410\s*(?:gone)?|429\s*(?:too many requests)?|500\s*(?:internal server error)?|502\s*(?:bad gateway)?|503\s*(?:service unavailable)?|forbidden|not found|service unavailable)(?:\s*[-|:].*)?$/i;
+
+function primaryHeading(snapshot: BrowserSnapshot): string | undefined {
+  return plainText(snapshot.html.match(/<h1\b[^>]*>([\s\S]{0,500}?)<\/h1>/i)?.[1] ?? "") || undefined;
+}
+
+/**
+ * A public error document has no outlet identity and must not be parsed as one.
+ * Error classification deliberately excludes arbitrary page text: result counts, reviews,
+ * and restaurant copy can contain status-looking numbers or phrases such as "not found".
+ */
+export function inspectTableCheckPageUnavailable(snapshot: BrowserSnapshot): TableCheckPageUnavailableInspection {
+  const signals = [
+    { source: "TITLE" as const, value: snapshot.title.trim() },
+    { source: "PRIMARY_HEADING" as const, value: primaryHeading(snapshot) ?? "" },
+  ].filter((signal) => signal.value.length > 0 && TABLECHECK_ERROR_DOCUMENT.test(signal.value));
+  return { pageUnavailable: signals.length > 0, matchedSignals: signals };
+}
+
 export function hasTableCheckPageUnavailable(snapshot: BrowserSnapshot): boolean {
-  return /\b(?:403|404|410|429|500|502|503)\b|forbidden|not found|service unavailable/i.test(`${snapshot.title}\n${snapshot.text}`);
+  return inspectTableCheckPageUnavailable(snapshot).pageUnavailable;
 }
 
 function absoluteTableCheckUrl(value: string, baseUrl: string): string | undefined {
   try {
-    const url = new URL(value, baseUrl);
+    const url = new URL(value.replaceAll("&amp;", "&"), baseUrl);
     url.hash = "";
     return isTableCheckUrl(url.toString()) ? url.toString() : undefined;
   } catch {
@@ -119,12 +150,63 @@ function phoneFromPage(snapshot: BrowserSnapshot): { value?: string; source: Tab
   return value ? { value, source: "DOM" } : { source: "ABSENT" };
 }
 
-/** Candidate URL attempts are deterministic hints only; page identity is still mandatory. */
-export function tableCheckGuideUrls(candidateName: string): string[] {
-  const tokens = candidateName.normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase("en-US").match(/[a-z0-9]+/g);
-  if (!tokens?.length) return [];
-  const slugs = [...new Set([tokens.join(""), tokens.join("-")])];
-  return slugs.map((slug) => `https://www.tablecheck.com/en/${slug}`);
+const TABLECHECK_DISCOVERY_EXCLUDED_SLUGS = new Set([
+  "account", "auth-callback", "discover", "japan", "join", "landing", "lists", "login", "not-found", "policy", "promo", "search",
+]);
+
+function discoveryLinkText(value: string): string { return plainText(value); }
+
+function isTableCheckVenueGuide(url: URL): boolean {
+  const parts = url.pathname.split("/").filter(Boolean);
+  return parts.length === 2
+    && ["en", "ja"].includes(parts[0] ?? "")
+    && !TABLECHECK_DISCOVERY_EXCLUDED_SLUGS.has(parts[1] ?? "");
+}
+
+function relatedDiscoveryName(candidateName: string, resultText: string): boolean {
+  const candidate = normalizeTableCheckIdentity(candidateName);
+  const result = normalizeTableCheckIdentity(resultText);
+  return candidate.length >= 3 && result.length >= 3 && (result.includes(candidate) || candidate.includes(result));
+}
+
+/** The documented public venue search is discovery-only; it establishes no outlet identity by itself. */
+export function tableCheckDiscoveryUrl(candidate: RestaurantCandidate): string {
+  const url = new URL("https://www.tablecheck.com/en/japan/search");
+  url.searchParams.set("service_mode", "dining");
+  url.searchParams.set("sort_by", "relevance");
+  url.searchParams.set("venue_type", "tc");
+  url.searchParams.set("search_text", candidate.restaurant.outletName);
+  const coordinates = candidate.restaurant.coordinates;
+  if (coordinates) {
+    url.searchParams.set("geo_latitude", String(coordinates.lat));
+    url.searchParams.set("geo_longitude", String(coordinates.lng));
+    url.searchParams.set("geo_distance", "5km");
+    url.searchParams.set("auto_geolocate", "false");
+  }
+  return url.toString();
+}
+
+/** Extract public guide pages from TableCheck's rendered result cards, never reservation slot links. */
+export function parseTableCheckDiscoveryOutletUrls(snapshot: BrowserSnapshot, candidateName: string): string[] {
+  if (!isTableCheckUrl(snapshot.url)) return [];
+  let pageUrl: URL;
+  try { pageUrl = new URL(snapshot.url); } catch { return []; }
+  if (!/^\/(?:en|ja)\/japan\/search\/?$/.test(pageUrl.pathname)) return [];
+  const candidates = [...snapshot.html.matchAll(/<a\b[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi)]
+    .flatMap((match) => {
+      const url = absoluteTableCheckUrl(match[1] ?? "", snapshot.url);
+      if (!url) return [];
+      const parsed = new URL(url);
+      return isTableCheckVenueGuide(parsed) ? [{ url: `${parsed.origin}${parsed.pathname}`, text: discoveryLinkText(match[2] ?? "") }] : [];
+    });
+  const unique = [...new Map(candidates.map((item) => [item.url, item])).values()];
+  const related = unique.filter((item) => relatedDiscoveryName(candidateName, item.text));
+  // Name relevance only limits public pages inspected; HIGH still requires detail-page identity evidence.
+  return (related.length ? related : unique).slice(0, 5).map((item) => item.url);
+}
+
+export function hasTableCheckDiscoveryNoResult(snapshot: BrowserSnapshot): boolean {
+  return /\b(?:no|0)\s+(?:venues?|results?)\s+(?:found|match(?:es)?)/i.test(snapshot.text);
 }
 
 export function parseTableCheckOutletIdentityWithEvidence(
@@ -162,18 +244,39 @@ export function parseTableCheckOutletIdentityWithEvidence(
   };
 }
 
-export function tableCheckReservationUrl(outletUrl: string, date: string, partySize: number): string | undefined {
-  try {
-    const url = new URL(outletUrl);
-    if (!isTableCheckUrl(url.toString())) return undefined;
-    if (!/\/reserve(?:\/landing)?\/?$/.test(url.pathname)) url.pathname = `${url.pathname.replace(/\/$/, "")}/reserve`;
-    url.search = "";
-    url.searchParams.set("start_date", date);
-    url.searchParams.set("pax", String(partySize));
-    return url.toString();
-  } catch {
-    return undefined;
+export interface TableCheckReservationTarget {
+  kind: "EMBEDDED_AVAILABILITY" | "LINKED_PAGE";
+  url: string;
+}
+
+/** Resolve the public reservation surface from rendered outlet-page structure; never derive a slug. */
+export function resolveTableCheckReservationTarget(
+  snapshot: BrowserSnapshot,
+  outlet: TableCheckOutletObservation,
+): TableCheckReservationTarget | undefined {
+  if (/data-testid=["']Venue Availability["']/i.test(snapshot.html)) {
+    return { kind: "EMBEDDED_AVAILABILITY", url: outlet.sourceUrl };
   }
+  let outletUrl: URL;
+  try { outletUrl = new URL(outlet.sourceUrl); } catch { return undefined; }
+  for (const match of snapshot.html.matchAll(/<a\b[^>]*href=["']([^"']+)["'][^>]*>/gi)) {
+    const link = absoluteTableCheckUrl(match[1] ?? "", snapshot.url);
+    if (!link) continue;
+    const target = new URL(link);
+    if (target.pathname.startsWith(`${outletUrl.pathname.replace(/\/$/, "")}/reserve`)) {
+      return { kind: "LINKED_PAGE", url: target.toString() };
+    }
+  }
+  return undefined;
+}
+
+/** A linked public reservation page remains provider-owned; only the requested read parameters are set. */
+export function tableCheckRequestedReservationUrl(target: TableCheckReservationTarget, date: string, partySize: number): string {
+  if (target.kind === "EMBEDDED_AVAILABILITY") return target.url;
+  const url = new URL(target.url);
+  url.searchParams.set("start_date", date);
+  url.searchParams.set("pax", String(partySize));
+  return url.toString();
 }
 
 function selectedValue(html: string, names: string[]): string | undefined {
@@ -197,7 +300,12 @@ export function hasTableCheckSelectedRequest(snapshot: BrowserSnapshot, date: st
   const month = requested.toLocaleString("en-US", { month: "short", timeZone: "UTC" });
   const day = requested.getUTCDate();
   const selectedSummary = new RegExp(`(?:${partySize}\\s*(?:guest|guests|人))[^\\n]{0,80}(?:${month}\\.?\\s*${day}(?:st|nd|rd|th)?)|(?:${month}\\.?\\s*${day}(?:st|nd|rd|th)?)[^\\n]{0,80}(?:${partySize}\\s*(?:guest|guests|人))`, "i");
-  return selectedSummary.test(snapshot.text);
+  if (selectedSummary.test(snapshot.text)) return true;
+  // Current TableCheck guide pages place the selected date in the public "Book a table"
+  // control, then render the full calendar before the selected party. This is a single
+  // reservation-widget readback, not arbitrary restaurant prose.
+  const widgetSummary = new RegExp(`book\\s+a\\s+table\\s+${month}\\.?\\s*${day}(?:st|nd|rd|th)?[\\s\\S]{0,360}?\\b${partySize}\\s*(?:guest|guests)\\b`, "i");
+  return widgetSummary.test(snapshot.text);
 }
 
 export interface TableCheckSlotParse { availableSlots: string[]; hasExplicitSlotUi: boolean; }
@@ -211,7 +319,10 @@ function explicitAvailability(value: string): boolean {
 /** A time is a slot only when the reservation UI explicitly marks it bookable. */
 export function parseTableCheckAvailabilitySlots(snapshot: BrowserSnapshot): TableCheckSlotParse {
   const slots = new Set<string>();
-  let hasExplicitSlotUi = false;
+  // The public TableCheck widget has an explicit empty-result state without emitting
+  // individual disabled slot buttons. The caller separately verifies the current date
+  // and party size before treating this state as UNAVAILABLE.
+  let hasExplicitSlotUi = /we\s+could\s+not\s+find\s+a\s+table\s+on\s+.+?\s+for\s+the\s+selected\s+mealtime/i.test(snapshot.text);
   const element = /<(button|a)[^>]*?(?:data-(?:time|start-time|slot)|class=["'][^"']*(?:slot|time|availability)[^"']*)[^>]*>([\s\S]{0,500}?)<\/\1>/gi;
   for (const match of snapshot.html.matchAll(element)) {
     const whole = match[0] ?? "";

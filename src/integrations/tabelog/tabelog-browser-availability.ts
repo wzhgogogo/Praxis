@@ -3,6 +3,7 @@ import type { RestaurantAvailabilityRequest } from "../../domains/restaurant/con
 import type { BrowserRuntime, BrowserSession, BrowserSessionMetadata, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
 import type { RestaurantAvailabilityProvider } from "../restaurant-availability/contracts.js";
 import { BrowserRuntimeError } from "../../infrastructure/browser/browser-runtime-errors.js";
+import { BrowserTaskExecutor } from "../../infrastructure/browser/browser-task-executor.js";
 import { inspectTabelogEntity } from "./tabelog-entity-resolver.js";
 import {
   detectExternalReservationRedirect,
@@ -23,15 +24,15 @@ import type {
 } from "./tabelog-contracts.js";
 
 function searchUrl(candidateName: string): string {
-  return `https://tabelog.com/rstLst/?sk=${encodeURIComponent(candidateName)}`;
+  return `https://tabelog.com/en/rstLst/?sw=${encodeURIComponent(candidateName)}`;
 }
 
 /** Browser redirects may append short-lived challenge tokens; never persist them in eval diagnostics. */
 function diagnosticUrl(value: string): string {
   try {
     const url = new URL(value);
-    const searchQuery = url.pathname === "/rstLst/" ? url.searchParams.get("sk") : undefined;
-    url.search = searchQuery === null || searchQuery === undefined ? "" : `?sk=${encodeURIComponent(searchQuery)}`;
+    const searchQuery = url.pathname === "/en/rstLst/" ? url.searchParams.get("sw") : undefined;
+    url.search = searchQuery === null || searchQuery === undefined ? "" : `?sw=${encodeURIComponent(searchQuery)}`;
     url.hash = "";
     return url.toString();
   } catch {
@@ -53,9 +54,11 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
   readonly provider = "TABELOG" as const;
   readonly executionRoute = "GENERIC_BROWSER" as const;
   private sessionsOpened = 0;
+  private readonly executor: BrowserTaskExecutor;
+  private readonly ownsExecutor: boolean;
 
   constructor(
-    private readonly browser: BrowserRuntime,
+    browser: BrowserRuntime | BrowserTaskExecutor,
     private readonly now: () => string = () => new Date().toISOString(),
     private readonly maxCandidateMatches = 5,
     private readonly options: {
@@ -65,7 +68,15 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
       /** Eval-only explicit pause; absence preserves the ordinary fail-closed BOT_CHALLENGE path. */
       onUserInterventionRequired?: TabelogUserInterventionHandler;
     } = {},
-  ) {}
+  ) {
+    if (browser instanceof BrowserTaskExecutor) {
+      this.ownsExecutor = false;
+      this.executor = browser;
+    } else {
+      this.ownsExecutor = true;
+      this.executor = new BrowserTaskExecutor(browser);
+    }
+  }
 
   private recordIdentityDiagnostic(diagnostic: TabelogIdentityDiagnostic): void {
     try {
@@ -85,6 +96,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
     session: BrowserSession,
     page: BrowserSnapshot,
     stage: "SEARCH" | "DETAIL" | "AVAILABILITY",
+    signal: AbortSignal,
   ): Promise<BrowserSnapshot> {
     if (!hasBotChallenge(page) || !this.options.onUserInterventionRequired) return page;
     await this.options.onUserInterventionRequired({
@@ -100,7 +112,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
       browser: structuredClone(session.metadata),
       page: { url: diagnosticUrl(page.url), title: page.title },
     });
-    return session.snapshot();
+    return this.executor.snapshot({ source: "TABELOG", stage: stage === "DETAIL" ? "IDENTITY" : stage === "SEARCH" ? "DISCOVERY" : "AVAILABILITY", signal, session });
   }
 
   async check(request: RestaurantAvailabilityRequest, signal: AbortSignal) {
@@ -162,12 +174,15 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
         };
       }
       this.sessionsOpened += 1;
-      session = await this.browser.openSession({ signal });
+      this.executor.beginCandidate(candidate.restaurant.id);
+      session = await this.executor.acquire(signal, "TABELOG", "DISCOVERY");
       const browser = { ...session.metadata };
       const requestedSearchUrl = searchUrl(candidate.restaurant.outletName);
-      await session.navigate(requestedSearchUrl);
-      let search = await session.snapshot();
-      search = await this.resumeAfterUserIntervention(candidate, request, session, search, "SEARCH");
+      await this.executor.navigate({
+        source: "TABELOG", stage: "DISCOVERY", signal, allowedOrigins: ["https://tabelog.com"], session, url: requestedSearchUrl,
+      });
+      let search = await this.executor.snapshot({ source: "TABELOG", stage: "DISCOVERY", signal, session });
+      search = await this.resumeAfterUserIntervention(candidate, request, session, search, "SEARCH", signal);
       if (hasBotChallenge(search)) {
         const inspection = inspectTabelogEntity(candidate, []);
         this.recordIdentityDiagnostic({
@@ -186,15 +201,36 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
         });
         return this.ground(candidate, request, { candidate, observedAt, entityMatch: { confidence: "LOW", matchedBy: [] }, pageState: "BOT_CHALLENGE", excerpt: pageExcerpt(search) }, browser);
       }
-      const outlets = parseTabelogSearchOutlets(search).slice(0, this.maxCandidateMatches);
+      let outlets = parseTabelogSearchOutlets(search).slice(0, this.maxCandidateMatches);
+      if (!outlets.length) {
+        const generic = await this.executor.runSkill({
+          taskId: `browser-read:${candidate.restaurant.id}`,
+          source: "TABELOG",
+          stage: "DISCOVERY",
+          session,
+          signal,
+          allowedOrigins: ["https://tabelog.com"],
+          authoritative: { date: request.date, partySize: request.partySize },
+          objective: "Reveal public Tabelog restaurant search results without booking or logging in.",
+          methodReason: "Tabelog discovery has no extractable restaurant result yet.",
+          completion: (page) => ({
+            complete: parseTabelogSearchOutlets(page).length > 0,
+            reason: "Continue until an observed public restaurant result is available; do not use navigation, login, or booking links.",
+          }),
+        });
+        search = generic.snapshot;
+        outlets = parseTabelogSearchOutlets(search).slice(0, this.maxCandidateMatches);
+      }
       const outletPages = new Map<string, import("../../infrastructure/browser/browser-runtime.js").BrowserSnapshot>();
       const enrichedOutlets = [] as typeof outlets;
       const detailDiagnostics = [] as TabelogIdentityDiagnostic["details"];
       const extractionByEntityId = new Map<string, TabelogOutletIdentityExtraction>();
       for (const outlet of outlets) {
-        await session.navigate(outlet.sourceUrl);
-        let outletPage = await session.snapshot();
-        outletPage = await this.resumeAfterUserIntervention(candidate, request, session, outletPage, "DETAIL");
+        await this.executor.navigate({
+          source: "TABELOG", stage: "IDENTITY", signal, allowedOrigins: ["https://tabelog.com"], session, url: outlet.sourceUrl, observed: true,
+        });
+        let outletPage = await this.executor.snapshot({ source: "TABELOG", stage: "IDENTITY", signal, session });
+        outletPage = await this.resumeAfterUserIntervention(candidate, request, session, outletPage, "DETAIL", signal);
         if (hasBotChallenge(outletPage)) {
           detailDiagnostics.push({
             searchResultSourceEntityId: outlet.sourceEntityId,
@@ -259,22 +295,28 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
       if (!isTabelogUrl(resolved.outlet.sourceUrl)) return this.ground(candidate, request, { candidate, observedAt, entityMatch: resolved, pageState: "SOURCE_UNSUPPORTED", failureCode: "EXTERNAL_BOOKING_PROVIDER_REQUIRED" }, browser);
       let page = outletPages.get(resolved.outlet.sourceUrl);
       if (!page) {
-        await session.navigate(resolved.outlet.sourceUrl);
-        page = await session.snapshot();
+        await this.executor.navigate({
+          source: "TABELOG", stage: "AVAILABILITY", signal, allowedOrigins: ["https://tabelog.com"], session, url: resolved.outlet.sourceUrl, observed: true,
+        });
+        page = await this.executor.snapshot({ source: "TABELOG", stage: "AVAILABILITY", signal, session });
       }
-      page = await this.resumeAfterUserIntervention(candidate, request, session, page, "AVAILABILITY");
+      page = await this.resumeAfterUserIntervention(candidate, request, session, page, "AVAILABILITY", signal);
       if (hasBotChallenge(page)) return this.ground(candidate, request, { candidate, observedAt, sourceEntityId: resolved.outlet.sourceEntityId, sourceUrl: page.url, entityMatch: resolved, pageState: "BOT_CHALLENGE", excerpt: pageExcerpt(page) }, browser);
       if (detectExternalReservationRedirect(page)) return this.ground(candidate, request, { candidate, observedAt, sourceEntityId: resolved.outlet.sourceEntityId, sourceUrl: page.url, entityMatch: resolved, pageState: "SOURCE_UNSUPPORTED", failureCode: "EXTERNAL_BOOKING_PROVIDER_REQUIRED", excerpt: pageExcerpt(page) }, browser);
       if (!hasReservationControls(page)) return this.ground(candidate, request, { candidate, observedAt, sourceEntityId: resolved.outlet.sourceEntityId, sourceUrl: page.url, entityMatch: resolved, pageState: "SOURCE_UNSUPPORTED", failureCode: "ONLINE_AVAILABILITY_UNSUPPORTED", excerpt: pageExcerpt(page) }, browser);
       const party = selectedPartyField(page.html);
       const date = selectedDateField(page.html);
       if (!party || !date) return this.ground(candidate, request, { candidate, observedAt, sourceEntityId: resolved.outlet.sourceEntityId, sourceUrl: page.url, entityMatch: resolved, pageState: "EXTRACTION_FAILED", failureCode: "EXTRACTION_FAILED", excerpt: pageExcerpt(page) }, browser);
-      const selectedParty = await session.select(party, String(request.partySize));
+      const selectedParty = await this.executor.select({
+        source: "TABELOG", stage: "AVAILABILITY", signal, session, selector: party, value: String(request.partySize), authoritativeValue: String(request.partySize),
+      });
       if (!selectedParty.includes(String(request.partySize))) return this.ground(candidate, request, { candidate, observedAt, sourceEntityId: resolved.outlet.sourceEntityId, sourceUrl: page.url, entityMatch: resolved, pageState: "EXTRACTION_FAILED", failureCode: "PARTY_SELECTION_UNCONFIRMED", excerpt: pageExcerpt(page) }, browser);
-      const selectedDate = await session.select(date, request.date);
+      const selectedDate = await this.executor.select({
+        source: "TABELOG", stage: "AVAILABILITY", signal, session, selector: date, value: request.date, authoritativeValue: request.date,
+      });
       if (!selectedDate.includes(request.date)) return this.ground(candidate, request, { candidate, observedAt, sourceEntityId: resolved.outlet.sourceEntityId, sourceUrl: page.url, entityMatch: resolved, pageState: "EXTRACTION_FAILED", failureCode: "DATE_SELECTION_UNCONFIRMED", excerpt: pageExcerpt(page) }, browser);
-      page = await session.snapshot();
-      page = await this.resumeAfterUserIntervention(candidate, request, session, page, "AVAILABILITY");
+      page = await this.executor.snapshot({ source: "TABELOG", stage: "AVAILABILITY", signal, session });
+      page = await this.resumeAfterUserIntervention(candidate, request, session, page, "AVAILABILITY", signal);
       if (hasBotChallenge(page)) return this.ground(candidate, request, { candidate, observedAt: this.now(), sourceEntityId: resolved.outlet.sourceEntityId, sourceUrl: page.url, entityMatch: resolved, pageState: "BOT_CHALLENGE", excerpt: pageExcerpt(page) }, browser);
       const slotParse = parseTabelogAvailabilitySlots(page);
       const slots = slotParse.availableSlots;
@@ -304,7 +346,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
         failureCode,
       }, session ? { ...session.metadata } : undefined);
     } finally {
-      await session?.close();
+      if (this.ownsExecutor) await this.executor.close();
     }
   }
 
