@@ -1,7 +1,7 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.1
+- Document revision: 4.3
 - Last updated: 2026-09-09
 - Source of truth for: 已实现能力、已验证范围、明确未验证项与下一道门槛
 - Related ADRs: [ADR Index](decisions/README.md)
@@ -45,7 +45,9 @@ ADR-0017仍为`Draft / authorized local-eval implementation`，不改写既有Ac
 
 Hybrid runner现会保留执行artifact后生成独立的`restaurant-hybrid-read-diagnostic-evaluator@2`报告；它逐个presented candidate检查实际引用的evidence/offer、HIGH identity/source关联、完整请求、当时有效期、真实轨迹Provider attempts、重复执行和完整资源记录，缺记录明确为`NOT_EVALUATED`，不把产品`PRESENT_RESULTS`或同类证据存在当作质量通过。正常成功、失败和取消收尾均在保存execution artifact后尝试评价；评价故障另存sidecar且不覆盖执行错误。已对2026-09-08成功artifact及一个历史失败artifact离线补评：成功记录独立得到`taskProducedQualifiedResult=YES`与`evidenceSufficiency=SUFFICIENT_FOR_PRESENTED_RESULT`；历史失败记录保留为`NOT_EVALUATED`，并定位其TableCheck/Tabelog provider failures与缺少resource accounting。完整E2E rubric仍未集成；否定HARD来源契约亦未评估。未来run会记录非敏感git/工作树、浏览器、Skill hash、预算与模型调用元数据；不落盘原始用户输入、Cookie、token或Secret。
 
-H002–H005静态物化预检确认相对日期现同时替换结构化参数和人类可读eligibility文本。尚未获这些场景的独立Live预算：H002的负向HARD与价格/first-date事实、H003/H004/H005的`NEAR_USER`位置与来源支持均无可用Live evidence；H004还要求非预约的营业状态事实。它们因此均为`NOT_EVALUATED`，不是失败或通过。Local Web Live仍被本机PostgreSQL缺失阻塞：当前`.env`的`DATABASE_URL`不是PostgreSQL URL，且历史专用本机端口55432未监听；服务端现会在迁移前明确拒绝这类URL。
+H002–H005静态物化预检确认相对日期现同时替换结构化参数和人类可读eligibility文本。尚未获这些场景的独立Live预算：H002的负向HARD与价格/first-date事实、H003/H004/H005的`NEAR_USER`位置与来源支持均无可用Live evidence；H004还要求非预约的营业状态事实。它们因此均为`NOT_EVALUATED`，不是失败或通过。本机 PostgreSQL 17 现已启动：专用`praxis_smoke`已通过一次真实 Migration/Runtime/Goal/Scheduler smoke 并清理临时Task，`praxis_web`已应用0001–0009且Fixture首页可访问。当前`.env`的`DATABASE_URL`仍不是PostgreSQL URL，未被本轮改写；因此常规`npm run dev`与 Local Web Live仍需环境所有者改为正确的本机连接串后才可启动。服务端会在迁移前明确拒绝这类URL。
+
+本机实际浏览器已对`praxis_web`上的Fixture Workspace完成一次Desktop/Mobile窄视口验收：以Fixture Pilot Token登录、提交完整Restaurant需求、看到3个候选、3条evidence-grounded availability、`NEEDS_YOU / AUTHORIZE`以及Activity Timeline；刷新后Conversation、Case、Artifact和Activity均从服务端恢复。该Case仅为本地开发验收数据；没有模型、真实来源、Live Read、Authorization、预约或其他外部写入。此结果验证当前Fixture Web产品路径，不构成Web Live页面真实来源交互或真实移动设备兼容性证据。
 
 ## 当前标识
 
@@ -80,7 +82,7 @@ H002–H005静态物化预检确认相对日期现同时替换结构化参数和
 | `EXPOSED_GOLD_ACCEPTANCE_DIAGNOSTIC` | 当前canonical Gold上的`restaurant-semantic-prompt@6/@7`诊断均为16 calls全成功、4 / 25 exact pass、9个上游阻断；Prompt `@7`仅以24个`COMMON_UNCHANGED_TURNS`比较Prompt `@6`，exact pass为3 → 3，H007因没有Prompt `@6`快照继续排除 | Clean Holdout、与Prompt `@4`整集直接对比、Prompt `@7`泛化质量、真实餐厅事实、预约质量或模型 Baseline |
 | 冻结架构探针 | 独立`test:probes`为`8/8` | Restaurant当前产品质量或Stage完成度 |
 | `REAL_MODEL_MOCK_WORLD` | 历史Semantic Proposal Contract的Regression Smoke为`7/7`：7 calls全成功、0 retry、15,493 ms、18,955 tokens；因Prompt/Schema已替换，它现在只保留为历史transport证据 | 当前`restaurant-semantic-proposal@3` transport、泛化质量、真实餐厅事实、预约质量或模型 Baseline |
-| 隔离本机 PostgreSQL Smoke | 曾验证 Runtime、迁移、Goal/Task Graph 与 Scheduler | 生产数据库部署或持续运行可靠性 |
+| 隔离本机 PostgreSQL Smoke | 2026-09-09以专用本机库验证 Runtime、迁移、Goal/Task Graph 与 Scheduler，并确认临时Task清理 | 生产数据库部署、备份、恢复、权限或持续运行可靠性 |
 
 真实模型 Regression 样本及结果已暴露，统一标记为 `DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`。完整命令、失败口径和历史结果只在 [Test Log](history/TEST-LOG.md) 维护。
 

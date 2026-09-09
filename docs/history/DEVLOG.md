@@ -1912,3 +1912,7 @@ Hybrid runner现在记录非敏感git SHA/dirty状态、浏览器环境、Skill�
 Review证明`@1`只检查证据类别存在，错误日期、人数、时段、LOW identity和过期evidence仍可通过；它还误读了不存在的`diagnostics.providerAttempts`，并把缺失轨迹或空resource object当作正常。`restaurant-hybrid-read-diagnostic-evaluator@2`改为只检查presentation实际引用的candidate-scoped records：同一candidate、HIGH identity、provider/sourceEntity关联、area、正向HARD、完整日期/适用人数/完整time window、offer source和以`presentedAt`判断的freshness。明确冲突为`NOT_SATISFIED`，缺记录/无已接受契约为`NOT_EVALUATED`；不再从产品终态反推正确性。
 
 Provider attempts现在从当前runner实际写出的`trajectories[].executionMetadata.providerAttempts`读取，并输出稳定路径引用，局部失败即使在最终成功时也保留。runner的成功与catch收尾都先保存execution artifact、再调用同一个after-finish evaluator；评价故障只生成独立失败sidecar。完整rubric、主观质量、价格和否定HARD来源证据没有扩建，保持未评估。未运行Live、付费模型、浏览器或任何外部写路径。
+
+## 2026-09-09 — 本机 PostgreSQL 开发与 Smoke 接线
+
+本机已有的 PostgreSQL 17 数据目录已启动；创建仅供本地持久Workspace使用的`praxis_web`数据库，并复用既有专用`praxis_smoke`数据库。`praxis_web`已应用不可变的0001–0009 Migration，Fixture Workspace首页可由命令级本机连接串启动；真实Smoke验证Runtime、迁移、Goal/Task Graph与Scheduler，并在结束后删除全部临时Task。本轮没有修改源码、Migration、`.env`或任何Secret，也没有执行Live来源、模型、预约、支付、取消或其他外部业务写入。`praxis_smoke`不是生产、staging或Pilot数据库；本机服务可用不等于生产部署、备份/恢复、权限或持续运行验证。

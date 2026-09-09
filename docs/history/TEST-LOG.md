@@ -2108,3 +2108,16 @@ typecheck、arch:check（0 forbidden dependencies）、build通过；npm test 16
 - Focused：`npm run typecheck && node --import tsx --test src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts`通过`9/9`。覆盖当前runner形状的`executionMetadata.providerAttempts`、正确历史结果、错日期/人数/时段、LOW identity、呈现时已过期、跨candidate借证据、缺trajectory/空resource、请求版本变更后的合法重查与同一请求的重复执行、完整time window与不适用party字段，以及执行artifact已保存后评价失败仍不覆盖原记录。
 - 离线补评：对既有H001成功artifact生成新的`@2` sidecar，逐引用得到`YES / SUPPORTED_BY_EVIDENCE / SUFFICIENT_FOR_PRESENTED_RESULT`；对历史失败artifact生成新的`@2` sidecar，得到`UNKNOWN / NOT_EVALUATED / NOT_EVALUATED`，并以trajectory的稳定引用定位`REQUEST_SELECTION_UNCONFIRMED`与`EXTERNAL_BOOKING_PROVIDER_REQUIRED`。原artifact保持不变；未调用模型、浏览器、Google或Provider。
 - Shared path：`npm test`在本机localhost listener环境为`205/205`；`npm run typecheck`、`npm run arch:check`、`npm run build`与`git diff --check`通过。首次沙箱运行的7个本地Web listener失败均为`listen EPERM 127.0.0.1`，获准环境重跑同一测试后通过；没有把该环境限制归因为产品失败。未运行Live或付费模型。
+
+## 2026-09-09 — Local PostgreSQL 17 smoke
+
+- Real PostgreSQL smoke：在已启动的本机 PostgreSQL 17、专用`praxis_smoke`数据库中，以`PRAXIS_ALLOW_TEST_DATABASE_WRITE=1`运行`npm run test:postgres:live`，通过。该脚本应用0001–0009 Migration，写入并验证3个临时Task与1个Goal的Runtime、Goal Graph和Scheduler链路；随后查询确认`postgres-smoke:%`临时Task为0。此模式只证明该次本机真实数据库连接与SQL行为，不证明生产部署、备份/恢复、权限或持续可用性。
+- Local workspace migration/startup：以命令级`DATABASE_URL`连接`praxis_web`启动Fixture Workspace，首页HTTP 200；`praxis_schema_migrations`含0001–0009全部ID。未创建Case、未执行Live Read、未调用模型或Provider。
+- Embedded-postgres integration：`node --import tsx --test src/infrastructure/postgres/postgres-runtime.test.ts`为15/15通过。`npm run typecheck`、`npm run arch:check`、`npm run build`与`git diff --check`通过。
+- `.env`未修改；其现有`DATABASE_URL`仍不适用于PostgreSQL，常规`npm run dev`与Local Web Live需要环境所有者设置正确本机连接串。没有生产、staging、Pilot、真实用户或外部业务写入。
+
+## 2026-09-09 — Local Fixture Web browser acceptance
+
+- 实际浏览器：在运行中的本机`http://127.0.0.1:3210` Fixture Workspace使用页面显示的本地Fixture Pilot Token登录，提交完整Restaurant请求。页面可见1个`NEEDS_YOU · AUTHORIZE` Case、3个候选、3条evidence-grounded availability、授权提示与Activity Timeline；未显示错误、Live来源或外部写入口。
+- 持久化恢复：浏览器刷新后，已认证Session、Conversation、Case状态、候选Artifact和Activity完整恢复，证明此路径从`praxis_web` PostgreSQL读取而非仅保留前端内存。窄视口截图中页面保持单列可操作布局。
+- 边界：本次创建了1个仅本机开发验收用的Fixture Case；没有调用模型、Provider或浏览器外部页面，没有Authorization、预约、支付、取消、PII提交或其他外部业务写入。它不替代Web Live页面真实来源交互或真实移动设备验证。

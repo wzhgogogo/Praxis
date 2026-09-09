@@ -22,13 +22,22 @@ npm run build
 
 ## 本地Web Fixture
 
+先启动一个仅供本机开发的 PostgreSQL 实例，并创建分离的开发库；以下 Homebrew 示例不包含用户名、密码或任何凭据。其他 PostgreSQL 安装方式只需提供等价的本机连接串。
+
+```bash
+brew services start postgresql@17
+createdb praxis_web
+```
+
 ```bash
 cp -n .env.example .env
-# 在.env填写专用开发PostgreSQL的DATABASE_URL
+# 在.env填写：DATABASE_URL=postgresql://127.0.0.1:5432/praxis_web
 npm run dev
 ```
 
 启动会应用数据库Migration。打开`http://127.0.0.1:3000`，本地Fixture Token为`praxis-fixture-a`；可通过服务端`PRAXIS_PILOT_ACCESS_JSON`覆盖。页面是Fixture模式，不能据此宣称Live搜索或预约成功。Secret只在服务端使用，个人`.env`不提交。
+
+真实 PostgreSQL smoke 必须使用另一专用库，避免与开发Workspace混用：`createdb praxis_smoke`，再临时设置`PRAXIS_TEST_DATABASE_URL=postgresql://127.0.0.1:5432/praxis_smoke`和`PRAXIS_ALLOW_TEST_DATABASE_WRITE=1`后运行`npm run test:postgres:live`。该脚本会迁移该测试库并清理自身临时记录；它不能用于生产、staging、Pilot或任何真实进行中Task数据库。
 
 ### 本地 Web Live Read-only
 
