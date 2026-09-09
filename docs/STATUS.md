@@ -41,6 +41,12 @@ ADR-0017仍为`Draft / authorized local-eval implementation`，不改写既有Ac
 
 本轮先通过当前工作区的全量离线门禁（`npm test` 195/195、typecheck、arch:check、build、`git diff --check`）及真实 Chromium 本地 Fixture 5/5。随后仅运行一次原始冻结 H001：`.eval-artifacts/restaurant-hybrid-live-read/2026-09-08T07-41-45-298Z-3bd0ad52-bdc3-4fe1-8bb1-e19fd41737bc.result.json`。DeepSeek Semantic、6 次 Restaurant Agent decision 和 9 次 browser read decision 均完成；总耗时 232,348 ms。业务 Agent 先搜索 10 家、连续检查四个至多三家的批次，前 9 家分别保留明确无位或来源级失败，未重复检查或要求用户替系统解决内部来源问题。第 10 家 KINKA Sushi Bar Izakaya 渋谷由 TableCheck exact phone 完成 HIGH outlet identity，来源页支持 `omakase`，且公开结果给出同一请求 `2026-09-08`、2 人、19:00 slot；确定性 Grounding 生成 Offer 后 Agent 执行 `PRESENT_RESULTS`。全程没有登录、个人资料、预约提交、支付、取消或其他外部写入。H001 已通过其原始 read-only 标准；Web Live 仍只完成服务端组合/HTTP-SSE Fixture，尚未单独报告一次 Web 页面真实来源交互。
 
+## 2026-09-09 运行诊断与跨场景预检
+
+Hybrid runner现会保留执行artifact后生成独立的`restaurant-hybrid-read-diagnostic-evaluator@1`报告；它检查权威条件传递、证据类别、重复调查、最终声明与资源记录，但完整E2E rubric仍未集成。已对2026-09-08成功artifact及两个失败artifact做离线补评：成功记录独立得到`taskProducedQualifiedResult=YES`与`evidenceSufficiency=SUFFICIENT_FOR_PRESENTED_RESULT`；失败记录保留为无合格结果而非改写为成功。未来run会记录非敏感git/工作树、浏览器、Skill hash、预算与模型调用元数据；不落盘原始用户输入、Cookie、token或Secret。
+
+H002–H005静态物化预检确认相对日期现同时替换结构化参数和人类可读eligibility文本。尚未获这些场景的独立Live预算：H002的负向HARD与价格/first-date事实、H003/H004/H005的`NEAR_USER`位置与来源支持均无可用Live evidence；H004还要求非预约的营业状态事实。它们因此均为`NOT_EVALUATED`，不是失败或通过。Local Web Live仍被本机PostgreSQL缺失阻塞：当前`.env`的`DATABASE_URL`不是PostgreSQL URL，且历史专用本机端口55432未监听；服务端现会在迁移前明确拒绝这类URL。
+
 ## 当前标识
 
 | 对象 | 当前标识 |

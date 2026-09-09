@@ -22,7 +22,7 @@ import type {
   SqlExecutor,
   SqlQueryResult,
 } from "../infrastructure/postgres/sql-database.js";
-import { assertLocalLiveReadEnvironment, createLocalWebServer, localRestaurantProviderMode } from "./local-web-server.js";
+import { assertLocalLiveReadEnvironment, createLocalWebServer, localPostgresConnectionString, localRestaurantProviderMode } from "./local-web-server.js";
 
 const COMPLETE_REQUEST =
   "Tonight at 7pm near Shinjuku for two, yakiniku, around 5000 yen each.";
@@ -218,6 +218,17 @@ test("local workspace Live mode rejects missing server-only gates and accepts LO
     PRAXIS_ALLOW_LIVE_RESTAURANT_READ: "1", PRAXIS_ALLOW_BROWSER_RUN: "1",
     DEEPSEEK_API_KEY: "test", DEEPSEEK_MODEL: "test", GOOGLE_MAPS_API_KEY: "test", PRAXIS_BROWSER_ENGINE: "LOCAL_CHROMIUM",
   }));
+});
+
+test("local workspace rejects copied non-PostgreSQL URLs before migrations", () => {
+  assert.throws(
+    () => localPostgresConnectionString({ DATABASE_URL: "https://api.example.test" }),
+    /must use postgresql/i,
+  );
+  assert.equal(
+    localPostgresConnectionString({ DATABASE_URL: "postgresql://localhost:55432/praxis_web" }),
+    "postgresql://localhost:55432/praxis_web",
+  );
 });
 
 test("W01 restores a conversation, case and task after server restart", async () => {

@@ -51,7 +51,9 @@ function resolveRelativeDate(expression: string | undefined, now: Date): string 
 
 function replaceDateValues(value: unknown, sourceDate: string | undefined, resolvedDate: string | undefined): unknown {
   if (!sourceDate || !resolvedDate || sourceDate === resolvedDate) return structuredClone(value);
-  if (typeof value === "string") return value === sourceDate ? resolvedDate : value;
+  // Frozen scenario prose is itself an assertion surface. Keep dates in both
+  // structured arguments and human-readable eligibility requirements aligned.
+  if (typeof value === "string") return value.replaceAll(sourceDate, resolvedDate);
   if (Array.isArray(value)) return value.map((item) => replaceDateValues(item, sourceDate, resolvedDate));
   if (value && typeof value === "object") {
     return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, replaceDateValues(item, sourceDate, resolvedDate)]));

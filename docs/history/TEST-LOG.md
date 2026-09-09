@@ -2097,3 +2097,8 @@ typecheck、arch:check（0 forbidden dependencies）、build通过；npm test 16
 - Full offline：`npm test`在本机localhost listener环境为`195/195`；`npm run typecheck`、`npm run arch:check`、`npm run build`和`git diff --check`均通过。`npm run test:browser:fixture`使用本机真实Chromium和本地动态Fixture为`5/5`；它不访问第三方来源，也不证明真实库存。
 - Live Read-only：冻结H001命令仅运行一次，artifact为`.eval-artifacts/restaurant-hybrid-live-read/2026-09-08T07-41-45-298Z-3bd0ad52-bdc3-4fe1-8bb1-e19fd41737bc.result.json`。它调查10个去重候选、批次为3/3/3/1，并在第10家形成包含同门店、完整日期、人数、目标时间与新鲜结果来源的TableCheck slot Evidence；loop为`SUCCEEDED`且终态为`PRESENT_RESULTS`。这是外部public-page read-only观测，不执行预约或其他写入；它不等同于Web页面的实际用户交互验收。
 - Web Live启动验收：尝试在`127.0.0.1:3210`启动现有`LIVE_READ` workspace前，安全配置检查发现`.env`的`DATABASE_URL`解析为`https://api.deepseek.com/`，不是PostgreSQL连接串；迁移初始化报`Connection terminated unexpectedly`，服务未监听、未创建Web任务、未调用模型/Google/来源浏览器，也未写入任务数据。该配置阻塞需由环境所有者提供正确的本地PostgreSQL连接串后重试；本次没有修改`.env`。
+## TEST-2026-09-09-HYBRID-DIAGNOSTICS — evaluator、物化与配置前置检查
+
+- Unit：`diagnostic-evaluator.test.ts`覆盖证据完整的terminal result、错误`PRESENT_RESULTS`、重复调查、显式无位与来源耗尽、以及历史artifact缺少资源字段时`NOT_EVALUATED`；`live-case-materializer.test.ts`覆盖结构化和可读eligibility日期同步；Local Web测试覆盖非PostgreSQL URL在迁移前拒绝。
+- 离线补评：成功H001 artifact独立输出`YES / SUPPORTED_BY_EVIDENCE / SUFFICIENT_FOR_PRESENTED_RESULT`；两个既有失败artifact保留`NO / INSUFFICIENT`，没有触发模型、浏览器、Google或Provider调用。每次补评生成新的Git忽略evaluation文件，未覆盖原artifact。
+- 本机只读数据库诊断：历史专用`127.0.0.1:55432/praxis_smoke`未监听；未修改`.env`、未启动/清库数据库、未创建Web任务，故Web Live和H002–H005 Live仍未运行。H002–H005的静态相对日期物化检查通过，但不构成外部来源、库存或产品通过证据。

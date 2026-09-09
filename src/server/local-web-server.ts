@@ -33,6 +33,25 @@ export const DEFAULT_FIXTURE_PILOT_ACCESS: PilotAccessEntry[] = [
 
 export type LocalRestaurantProviderMode = "FIXTURE" | "LIVE_READ";
 
+/** The local workspace is persistent; reject a copied provider URL before migrations touch it. */
+export function localPostgresConnectionString(environment: NodeJS.ProcessEnv = process.env): string {
+  const value = environment.DATABASE_URL?.trim();
+  if (!value) throw new Error("DATABASE_URL is required for the local persistent workspace");
+  let url: URL;
+  try {
+    url = new URL(value);
+  } catch {
+    throw new Error("DATABASE_URL must be a PostgreSQL connection URL for the local persistent workspace");
+  }
+  if (url.protocol !== "postgres:" && url.protocol !== "postgresql:") {
+    throw new Error("DATABASE_URL must use postgresql:// (not an API or browser URL) for the local persistent workspace");
+  }
+  if (!url.hostname || !url.pathname || url.pathname === "/") {
+    throw new Error("DATABASE_URL must name a PostgreSQL host and database for the local persistent workspace");
+  }
+  return value;
+}
+
 /** Explicit mode selection prevents a broken Live configuration from displaying fixture cards. */
 export function localRestaurantProviderMode(environment: NodeJS.ProcessEnv = process.env): LocalRestaurantProviderMode {
   const configured = environment.PRAXIS_RESTAURANT_PROVIDER_MODE ?? "FIXTURE";
@@ -260,8 +279,7 @@ function pilotEntriesFromEnvironment(): PilotAccessEntry[] {
 }
 
 async function start(): Promise<void> {
-  const connectionString = process.env.DATABASE_URL;
-  if (!connectionString) throw new Error("DATABASE_URL is required for the Stage 2B persistent workspace");
+  const connectionString = localPostgresConnectionString();
   const database = new NodePostgresDatabase({ connectionString });
   await applyPostgresMigrations(database);
   const providerMode = localRestaurantProviderMode();

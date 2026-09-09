@@ -1,3 +1,6 @@
+import { execFileSync } from "node:child_process";
+import { createHash } from "node:crypto";
+import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { createInterface } from "node:readline/promises";
 
@@ -20,6 +23,7 @@ import type { TableCheckIdentityDiagnostic } from "../../../../integrations/tabl
 import type { TabelogIdentityDiagnostic, TabelogUserInterventionRequired } from "../../../../integrations/tabelog/tabelog-contracts.js";
 import { InMemoryRestaurantAgentTrajectoryStore } from "../../../../infrastructure/postgres/restaurant-agent-trajectory-store.js";
 import { loadFrozenLiveCases, materializeLiveCase } from "../live-case-materializer.js";
+import { evaluateArtifactFile, RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION } from "../diagnostic-evaluator.js";
 import { diagnosticFailureCode, startDiagnosticRun } from "../../../shared/diagnostic-run.js";
 
 function requiredGate(key: string): void {
@@ -50,6 +54,20 @@ function requiresLocation(caseValue: unknown): boolean {
 
 function manualTabelogInterventionEnabled(environment: NodeJS.ProcessEnv = process.env): boolean {
   return environment.PRAXIS_EVAL_ALLOW_TABELOG_MANUAL_INTERVENTION === "1";
+}
+
+function safeGitContext(): { commitSha: string; worktree: "CLEAN" | "DIRTY" | "UNKNOWN" } {
+  try {
+    const commitSha = execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim();
+    const dirty = execFileSync("git", ["status", "--porcelain"], { encoding: "utf8" }).trim().length > 0;
+    return { commitSha, worktree: dirty ? "DIRTY" : "CLEAN" };
+  } catch {
+    return { commitSha: "UNKNOWN", worktree: "UNKNOWN" };
+  }
+}
+
+function fileSha256(path: string): string {
+  return createHash("sha256").update(readFileSync(resolve(path))).digest("hex");
 }
 
 async function waitForManualTabelogIntervention(input: TabelogUserInterventionRequired): Promise<void> {
@@ -95,6 +113,17 @@ if (requiresLocation(frozen) && (!process.env.PRAXIS_EVAL_USER_LAT || !process.e
 
 const startedAt = new Date();
 const materialized = materializeLiveCase(frozen, startedAt.toISOString());
+const { content: rawRequest, ...materializedCase } = materialized;
+const runtimeContext = {
+  ...safeGitContext(),
+  browserEngine: process.env.PRAXIS_BROWSER_ENGINE ?? "AUTO",
+  nodeVersion: process.version,
+  skillHashes: {
+    browserRead: fileSha256("web-skills/browser-read/SKILL.md"),
+    tablecheck: fileSha256("web-skills/tablecheck/SKILL.md"),
+    tabelog: fileSha256("web-skills/tabelog/SKILL.md"),
+  },
+};
 const liveReadLimits = {
   // H001 diagnostic budget only. These are hard ceilings, not default Web values.
   maxGoogleSearches: 3,
@@ -123,7 +152,9 @@ const trajectories = new InMemoryRestaurantAgentTrajectoryStore();
 const modelInvocations: ModelInvocationRecord[] = [];
 const journal = await startDiagnosticRun(resolve(".eval-artifacts", "restaurant-hybrid-live-read"), {
   mode: "HYBRID_LIVE_READ", caseId: materialized.id,
-  scorerStatus: "NOT_INTEGRATED_REPOSITORY_DRAFT_ONLY",
+  scorerStatus: "FULL_RUBRIC_NOT_INTEGRATED",
+  diagnosticEvaluator: { version: RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, rubricVersion: RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION },
+  runtimeContext,
   safety: { policy: "READ_ONLY_CODE_PATH", externalSideEffectCount: "NOT_MEASURED" },
 });
 let stage = "SEMANTIC";
@@ -233,10 +264,12 @@ try {
   const artifact = {
     schemaVersion: "1",
     mode: "HYBRID_LIVE_READ",
-    scorerStatus: "NOT_INTEGRATED_REPOSITORY_DRAFT_ONLY",
+    scorerStatus: "FULL_RUBRIC_NOT_INTEGRATED",
+    diagnosticEvaluator: { version: RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, rubricVersion: RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION },
     limits: liveReadLimits,
-    rawRequest: materialized.content,
-    materializedCase: materialized,
+    requestMetadata: { sha256: createHash("sha256").update(String(rawRequest)).digest("hex"), characterCount: String(rawRequest).length },
+    materializedCase,
+    runtimeContext,
     semantic,
     modelInvocations,
     events: runtime.eventLog,
@@ -256,7 +289,14 @@ try {
   };
   const completed = finalSnapshot.domainState.phase === "PRESENT_RESULTS" && loop.status === "TERMINAL";
   await journal.finish({ ...artifact, status: completed ? "SUCCEEDED" : "FAILED", stage: "AGENT_LOOP", failureCode: completed ? null : "H001_NOT_COMPLETED" });
-  console.log(JSON.stringify({ mode: artifact.mode, caseId: materialized.id, loop, resourceUsage, artifactPath: journal.resultPath, latencyMs: artifact.latencyMs, scorerStatus: artifact.scorerStatus }, null, 2));
+  let evaluationPath: string | undefined;
+  let evaluationFailure: string | undefined;
+  try {
+    evaluationPath = (await evaluateArtifactFile(journal.resultPath)).outputPath;
+  } catch (error) {
+    evaluationFailure = diagnosticFailureCode(error);
+  }
+  console.log(JSON.stringify({ mode: artifact.mode, caseId: materialized.id, loop, resourceUsage, artifactPath: journal.resultPath, evaluationPath, evaluationFailure, latencyMs: artifact.latencyMs, scorerStatus: artifact.scorerStatus }, null, 2));
   if (!completed) process.exitCode = 1;
 } catch (error) {
   await journal.finish({

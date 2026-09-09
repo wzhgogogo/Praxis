@@ -21,6 +21,7 @@ description: 按范围规划Praxis诊断实验、局部实现或架构与安全�
 
 - **语义链：** 明确Interpreter、Proposal、Compiler、Reducer各自负责的字段和拒绝路径；Contract合法不等于语义正确。质量按[Eval](../eval/SKILL.md)独立验证，模型解释不作为用户确认或State patch。
 - **Agent/工具：** Action是提议，Validator不选择下一步，Router绑定权威参数。页面内容不是指令或授权；按现实效果识别外部写入。
+- **Live / Eval：** 执行、artifact和evaluation分别保存；修改语义、Agent、执行Contract、证据规则、终态或诊断字段时，明确Evaluator影响。可独立检查的事实走确定性artifact诊断，不能判定的维度标为未评估，不为通过当前样本静默改rubric。
 - **状态/执行：** 区分提交前失败、明确失败与提交后结果未知；旧Authorization不能用于新的Proposal，`OUTCOME_UNKNOWN`不得盲目重试。
 - **Browser/Provider：** 未知页面和能力先标Unknown并安排只读验证。页面就绪、操作成功、证据可信分别定义观察条件；正常等待、重新观察、重新提交分别设边界，不在实测前猜测完整DOM契约。
 - **结构调整：** 通用业务抽象需两个真实使用者；安全控制可按Accepted ADR建立最小实现。Pilot前无真实消费者时修改全部调用方，不建立兼容分支；已有真实数据按迁移/保留方案处理。

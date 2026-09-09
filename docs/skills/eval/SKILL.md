@@ -144,3 +144,13 @@ npm run eval:restaurant:search:fixture
 实际实验开始前写入独占的开始记录，成功、失败或取消保存独立结果；未正常收尾的开始记录表示运行未完成。阶段区分执行、失败、未到达，早期模型失败不能伪造下游故障。只保存脱敏原因、已有调用指标和必要环境摘要；日志不记录Cookie、挑战token、接管输入或原始Provider错误。
 
 Browser检测、尝试、生效验证分别报告；静态禁止写入声明不作为实测副作用计数。网络路径和profile来源说明用户声明与实际观察的区别。新的诊断记录不得覆盖任何既有artifact。具体功能检查引用[Test](../test/SKILL.md)。
+
+## Hybrid Live artifact 诊断 evaluator
+
+`restaurant-hybrid-read-diagnostic-evaluator@1`是当前Hybrid runner的最小确定性诊断，不是完整E2E评分器，也不调用LLM Judge。执行结束后先保存原始`.result.json`，再写入一个不覆盖原记录的evaluation文件；也可显式补评已有artifact：
+
+```bash
+npm run eval:restaurant:agent-loop:artifact -- <artifact.result.json>
+```
+
+它独立检查权威日期/人数/时段/区域/HARD条件是否保留、呈现门店是否有同门店/HARD/availability证据、候选是否重复调查、终态是否与offer相符、以及可用的时间/调用量记录。每个发现必须带阶段、要求、观察、直接原因、根因假设及确定程度、证据引用和下游影响。历史artifact字段不足时标记`NOT_EVALUATED`，不填零或把产品自己的`PRESENT_RESULTS`直接当质量通过。主观排名、长期来源可靠性、真实费用（缺少显式价格输入时）和完整rubric仍为未评估；变更评分语义、场景期望或门槛必须人工review。

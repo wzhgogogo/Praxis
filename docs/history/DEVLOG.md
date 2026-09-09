@@ -1901,3 +1901,8 @@ Test Skill新增维护/退役规则：先查已有覆盖、说明独立失败依
 本切片保留既有Google、TableCheck、Tabelog与受控浏览器边界，将业务Agent的可用性检查限制为每批最多三家，候选池仍保留全部去重发现结果；前三批未形成合格结果后，Agent在同一冻结条件、同一总预算内继续调查第四批，而不是清空既有检查记录、重复前三家或要求用户改变条件。餐厅Agent strict 结构化回复的上限从300调整为512 token，以容纳10个候选的不可截断工具参数；本地Action Validator仍是权威边界。Browser任务共享整轮模型调用计数，Router在每个读循环开始/结束显式初始化该计数，因此换批或换来源不能刷新总额。
 
 原始H001仅在完成这些诊断修正后运行一次：artifact为`.eval-artifacts/restaurant-hybrid-live-read/2026-09-08T07-41-45-298Z-3bd0ad52-bdc3-4fe1-8bb1-e19fd41737bc.result.json`。Google发现10个去重候选；Agent依次检查3、3、3、1家，最终对KINKA Sushi Bar Izakaya 渋谷以Google place ID `ChIJz9NsIKmMGGAR6LA78zkpeGY` 的结构化Shibuya地址和TableCheck exact phone建立HIGH，同一公开来源回读2026-09-08、2人和19:00 slot，形成read Evidence与Offer，随后`PRESENT_RESULTS`。全程232,348ms、6次Restaurant Agent决策、9次Browser Model决策；没有登录、PII、预约提交、付款、取消或其他外部写入。该时点库存结果不证明通用Web UI已做真实交互验收，也不代表其他日期/餐厅可用。
+## DEV-2026-09-09-HYBRID-DIAGNOSTICS — 可复现执行诊断与本地持久化前置检查
+
+触发证据是H001已有真实`PRESENT_RESULTS`但没有独立rubric归因、Web Live启动将错误的`DATABASE_URL`交给迁移。新增`restaurant-hybrid-read-diagnostic-evaluator@1`：它只读取已保存Hybrid artifact，独立检查权威条件、证据、重复候选调查、最终声明与资源记录；每项输出阶段、观察、原因、根因假设、确定程度、证据引用和影响。执行与评估分别写文件，补评不改原artifact，评估故障也不改变执行结果；完整rubric、主观排名和价格未知仍明确未评估。
+
+Hybrid runner现在记录非敏感git SHA/dirty状态、浏览器环境、Skill哈希、预算、模型调用和请求摘要哈希，不再保存原始用户输入。Local workspace在迁移前验证`DATABASE_URL`必须是带主机和数据库名的PostgreSQL URL，避免把API URL误交给`pg`。相对日期物化也改为同步替换冻结场景中所有依赖日期的文本断言，修复H002/H003的结构化日期与eligibility描述分离。未新增Provider、模型、浏览器框架、外部写路径或H001专用规则。
