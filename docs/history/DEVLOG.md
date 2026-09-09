@@ -1906,3 +1906,9 @@ Test Skill新增维护/退役规则：先查已有覆盖、说明独立失败依
 触发证据是H001已有真实`PRESENT_RESULTS`但没有独立rubric归因、Web Live启动将错误的`DATABASE_URL`交给迁移。新增`restaurant-hybrid-read-diagnostic-evaluator@1`：它只读取已保存Hybrid artifact，独立检查权威条件、证据、重复候选调查、最终声明与资源记录；每项输出阶段、观察、原因、根因假设、确定程度、证据引用和影响。执行与评估分别写文件，补评不改原artifact，评估故障也不改变执行结果；完整rubric、主观排名和价格未知仍明确未评估。
 
 Hybrid runner现在记录非敏感git SHA/dirty状态、浏览器环境、Skill哈希、预算、模型调用和请求摘要哈希，不再保存原始用户输入。Local workspace在迁移前验证`DATABASE_URL`必须是带主机和数据库名的PostgreSQL URL，避免把API URL误交给`pg`。相对日期物化也改为同步替换冻结场景中所有依赖日期的文本断言，修复H002/H003的结构化日期与eligibility描述分离。未新增Provider、模型、浏览器框架、外部写路径或H001专用规则。
+
+## DEV-2026-09-09-HYBRID-DIAGNOSTICS-V2 — artifact事实关联与异常收尾
+
+Review证明`@1`只检查证据类别存在，错误日期、人数、时段、LOW identity和过期evidence仍可通过；它还误读了不存在的`diagnostics.providerAttempts`，并把缺失轨迹或空resource object当作正常。`restaurant-hybrid-read-diagnostic-evaluator@2`改为只检查presentation实际引用的candidate-scoped records：同一candidate、HIGH identity、provider/sourceEntity关联、area、正向HARD、完整日期/适用人数/完整time window、offer source和以`presentedAt`判断的freshness。明确冲突为`NOT_SATISFIED`，缺记录/无已接受契约为`NOT_EVALUATED`；不再从产品终态反推正确性。
+
+Provider attempts现在从当前runner实际写出的`trajectories[].executionMetadata.providerAttempts`读取，并输出稳定路径引用，局部失败即使在最终成功时也保留。runner的成功与catch收尾都先保存execution artifact、再调用同一个after-finish evaluator；评价故障只生成独立失败sidecar。完整rubric、主观质量、价格和否定HARD来源证据没有扩建，保持未评估。未运行Live、付费模型、浏览器或任何外部写路径。

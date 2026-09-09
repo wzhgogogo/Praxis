@@ -23,7 +23,7 @@ import type { TableCheckIdentityDiagnostic } from "../../../../integrations/tabl
 import type { TabelogIdentityDiagnostic, TabelogUserInterventionRequired } from "../../../../integrations/tabelog/tabelog-contracts.js";
 import { InMemoryRestaurantAgentTrajectoryStore } from "../../../../infrastructure/postgres/restaurant-agent-trajectory-store.js";
 import { loadFrozenLiveCases, materializeLiveCase } from "../live-case-materializer.js";
-import { evaluateArtifactFile, RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION } from "../diagnostic-evaluator.js";
+import { evaluateArtifactAfterFinish, RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION } from "../diagnostic-evaluator.js";
 import { diagnosticFailureCode, startDiagnosticRun } from "../../../shared/diagnostic-run.js";
 
 function requiredGate(key: string): void {
@@ -289,23 +289,19 @@ try {
   };
   const completed = finalSnapshot.domainState.phase === "PRESENT_RESULTS" && loop.status === "TERMINAL";
   await journal.finish({ ...artifact, status: completed ? "SUCCEEDED" : "FAILED", stage: "AGENT_LOOP", failureCode: completed ? null : "H001_NOT_COMPLETED" });
-  let evaluationPath: string | undefined;
-  let evaluationFailure: string | undefined;
-  try {
-    evaluationPath = (await evaluateArtifactFile(journal.resultPath)).outputPath;
-  } catch (error) {
-    evaluationFailure = diagnosticFailureCode(error);
-  }
-  console.log(JSON.stringify({ mode: artifact.mode, caseId: materialized.id, loop, resourceUsage, artifactPath: journal.resultPath, evaluationPath, evaluationFailure, latencyMs: artifact.latencyMs, scorerStatus: artifact.scorerStatus }, null, 2));
+  const evaluation = await evaluateArtifactAfterFinish(journal.resultPath);
+  console.log(JSON.stringify({ mode: artifact.mode, caseId: materialized.id, loop, resourceUsage, artifactPath: journal.resultPath, evaluationPath: evaluation.outputPath, evaluationFailure: evaluation.evaluationFailure, evaluationFailurePath: evaluation.failurePath, latencyMs: artifact.latencyMs, scorerStatus: artifact.scorerStatus }, null, 2));
   if (!completed) process.exitCode = 1;
 } catch (error) {
+  const failureCode = diagnosticFailureCode(error);
   await journal.finish({
-    status: "FAILED", stage, failureCode: diagnosticFailureCode(error),
+    status: failureCode === "CANCELLED" ? "CANCELLED" : "FAILED", stage, failureCode,
     semanticStatus: semantic?.status ?? "NOT_RETURNED", modelInvocations,
     events: runtime.eventLog, trajectories: trajectories.steps,
     downstream: stage === "SEMANTIC" ? "GOOGLE_BROWSER_AGENT_NOT_REACHED" : "SEE_EXECUTED_EVENTS",
     latencyMs: Date.now() - startedAt.valueOf(),
   });
-  console.error(JSON.stringify({ failureCode: diagnosticFailureCode(error), stage, artifactPath: journal.resultPath }));
+  const evaluation = await evaluateArtifactAfterFinish(journal.resultPath);
+  console.error(JSON.stringify({ failureCode, stage, artifactPath: journal.resultPath, evaluationPath: evaluation.outputPath, evaluationFailure: evaluation.evaluationFailure, evaluationFailurePath: evaluation.failurePath }));
   process.exitCode = 1;
 }

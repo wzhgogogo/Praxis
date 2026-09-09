@@ -147,10 +147,10 @@ Browser检测、尝试、生效验证分别报告；静态禁止写入声明不�
 
 ## Hybrid Live artifact 诊断 evaluator
 
-`restaurant-hybrid-read-diagnostic-evaluator@1`是当前Hybrid runner的最小确定性诊断，不是完整E2E评分器，也不调用LLM Judge。执行结束后先保存原始`.result.json`，再写入一个不覆盖原记录的evaluation文件；也可显式补评已有artifact：
+`restaurant-hybrid-read-diagnostic-evaluator@2`是当前Hybrid runner的最小确定性诊断，不是完整E2E评分器，也不调用LLM Judge。执行结束后先保存原始`.result.json`，再写入一个不覆盖原记录的evaluation文件；成功、失败、取消和可收尾的超时路径均在保存后尝试该步骤。评价本身失败时另写不可变的失败sidecar，绝不覆盖执行结果；强杀后仍可显式补评已有artifact：
 
 ```bash
 npm run eval:restaurant:agent-loop:artifact -- <artifact.result.json>
 ```
 
-它独立检查权威日期/人数/时段/区域/HARD条件是否保留、呈现门店是否有同门店/HARD/availability证据、候选是否重复调查、终态是否与offer相符、以及可用的时间/调用量记录。每个发现必须带阶段、要求、观察、直接原因、根因假设及确定程度、证据引用和下游影响。历史artifact字段不足时标记`NOT_EVALUATED`，不填零或把产品自己的`PRESENT_RESULTS`直接当质量通过。主观排名、长期来源可靠性、真实费用（缺少显式价格输入时）和完整rubric仍为未评估；变更评分语义、场景期望或门槛必须人工review。
+它逐个presented candidate检查其实际引用的evidence/offer：同一candidate、HIGH身份和来源关联、完整日期/适用人数/完整时段窗口、area、适用HARD条件、offer来源和以当时`presentedAt`判断的有效期。它也读取真实runner的`trajectories[].executionMetadata.providerAttempts`，保留局部Provider失败及稳定记录引用。缺轨迹、空/不完整资源对象、缺少presentation引用或尚无已接受evidence contract时是`NOT_EVALUATED`；明确冲突才是`NOT_SATISFIED`。重复检查只统计确实执行且请求版本相同的read，不能用“未发现重复”反推记录完整。主观排名、长期来源可靠性、真实费用（缺少显式价格输入时）、否定HARD的来源契约和完整rubric仍为未评估；变更评分语义、场景期望或门槛必须人工review。

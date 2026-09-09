@@ -1,8 +1,8 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.0
-- Last updated: 2026-09-08
+- Document revision: 4.1
+- Last updated: 2026-09-09
 - Source of truth for: 已实现能力、已验证范围、明确未验证项与下一道门槛
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Documentation Index](INDEX.md), [Roadmap](roadmap.md), [Verification History](history/TEST-LOG.md)
@@ -43,7 +43,7 @@ ADR-0017仍为`Draft / authorized local-eval implementation`，不改写既有Ac
 
 ## 2026-09-09 运行诊断与跨场景预检
 
-Hybrid runner现会保留执行artifact后生成独立的`restaurant-hybrid-read-diagnostic-evaluator@1`报告；它检查权威条件传递、证据类别、重复调查、最终声明与资源记录，但完整E2E rubric仍未集成。已对2026-09-08成功artifact及两个失败artifact做离线补评：成功记录独立得到`taskProducedQualifiedResult=YES`与`evidenceSufficiency=SUFFICIENT_FOR_PRESENTED_RESULT`；失败记录保留为无合格结果而非改写为成功。未来run会记录非敏感git/工作树、浏览器、Skill hash、预算与模型调用元数据；不落盘原始用户输入、Cookie、token或Secret。
+Hybrid runner现会保留执行artifact后生成独立的`restaurant-hybrid-read-diagnostic-evaluator@2`报告；它逐个presented candidate检查实际引用的evidence/offer、HIGH identity/source关联、完整请求、当时有效期、真实轨迹Provider attempts、重复执行和完整资源记录，缺记录明确为`NOT_EVALUATED`，不把产品`PRESENT_RESULTS`或同类证据存在当作质量通过。正常成功、失败和取消收尾均在保存execution artifact后尝试评价；评价故障另存sidecar且不覆盖执行错误。已对2026-09-08成功artifact及一个历史失败artifact离线补评：成功记录独立得到`taskProducedQualifiedResult=YES`与`evidenceSufficiency=SUFFICIENT_FOR_PRESENTED_RESULT`；历史失败记录保留为`NOT_EVALUATED`，并定位其TableCheck/Tabelog provider failures与缺少resource accounting。完整E2E rubric仍未集成；否定HARD来源契约亦未评估。未来run会记录非敏感git/工作树、浏览器、Skill hash、预算与模型调用元数据；不落盘原始用户输入、Cookie、token或Secret。
 
 H002–H005静态物化预检确认相对日期现同时替换结构化参数和人类可读eligibility文本。尚未获这些场景的独立Live预算：H002的负向HARD与价格/first-date事实、H003/H004/H005的`NEAR_USER`位置与来源支持均无可用Live evidence；H004还要求非预约的营业状态事实。它们因此均为`NOT_EVALUATED`，不是失败或通过。Local Web Live仍被本机PostgreSQL缺失阻塞：当前`.env`的`DATABASE_URL`不是PostgreSQL URL，且历史专用本机端口55432未监听；服务端现会在迁移前明确拒绝这类URL。
 
