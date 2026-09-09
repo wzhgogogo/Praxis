@@ -99,6 +99,8 @@ function eventActivity(
           title: "Availability checked",
           detail: `${event.event.offers.length} evidence-grounded availability offer(s) were observed.`,
         };
+      case "AVAILABILITY_REFRESH_REQUESTED":
+        return { title: "Availability refresh requested", detail: "Previously presented candidates will be rechecked read-only." };
       case "RESULTS_PRESENTED":
         return {
           title: "Read-only results presented",
@@ -121,6 +123,11 @@ function eventActivity(
       case "VERIFICATION_INCONCLUSIVE":
         return {
           title: event.event.type.replaceAll("_", " ").toLowerCase(),
+          detail: "Recorded by the authoritative task runtime.",
+        };
+      default:
+        return {
+          title: "Recorded event",
           detail: "Recorded by the authoritative task runtime.",
         };
     }
@@ -149,6 +156,10 @@ function assistantSummary(state: RestaurantTaskState): string {
         : "A booking proposal is awaiting authorization.";
     case "SELECTION_REQUIRED":
       return "The current candidate cannot continue. The Agent will evaluate another safe option.";
+    case "FAILED":
+      return state.failure
+        ? `The read-only investigation stopped: ${state.failure.message} No verified availability result was presented.`
+        : "The read-only investigation stopped. No verified availability result was presented.";
     default:
       return `The case is now ${state.phase.toLowerCase().replaceAll("_", " ")}.`;
   }
@@ -311,6 +322,34 @@ export class PersistentRestaurantAgentApplication {
 
   async getCase(userId: string, caseId: string): Promise<RestaurantCaseView> {
     return this.project(await this.requireCase(userId, caseId));
+  }
+
+  /** A user-visible refresh reopens only previously presented candidates for read-only checks. */
+  async refreshAvailability(input: {
+    userId: string;
+    caseId: string;
+    requestId: string;
+    expectedVersion: number;
+  }): Promise<RestaurantCaseView> {
+    const record = await this.requireCase(input.userId, input.caseId);
+    const snapshot = await this.runtime.snapshot(record.rootTaskId);
+    const candidateIds = snapshot.domainState.presentedResults?.candidateIds;
+    if (!candidateIds?.length) throw new Error("Availability refresh requires currently presented read-only results");
+    await this.runtime.dispatch(
+      this.userEvent(snapshot, input.requestId, { type: "AVAILABILITY_REFRESH_REQUESTED", candidateIds: [...candidateIds] }),
+      input.expectedVersion,
+    );
+    await this.store.appendMessage({
+      id: `message:0:${hash(`${record.id}:${input.requestId}`).slice(0, 24)}`,
+      conversationId: record.id,
+      role: "USER",
+      content: "Refresh availability",
+      requestId: `user:${input.requestId}`,
+      createdAt: this.clock.now().toISOString(),
+    });
+    await this.agentLoop.run(record.rootTaskId);
+    await this.appendAssistant(record, input.requestId);
+    return this.project(record);
   }
 
   async listCases(userId: string): Promise<RestaurantCaseSummary[]> {

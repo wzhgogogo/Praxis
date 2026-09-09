@@ -240,8 +240,8 @@ describe("restaurant booking mock harness", () => {
       assert.equal(Array.isArray(trajectory.causalRefs.attemptIds), true);
       assert.equal(Array.isArray(trajectory.causalRefs.evidenceIds), true);
       assert.equal(trajectory.causalRefs.eventIds.every((eventId) => eventIds.has(eventId)), true);
-      assert.equal(trajectory.contextSchemaVersion, "2");
-      assert.equal(trajectory.decisionContext?.schemaVersion, "2");
+      assert.equal(trajectory.contextSchemaVersion, "3");
+      assert.equal(trajectory.decisionContext?.schemaVersion, "3");
       assert.equal("authorization" in (trajectory.decisionContext ?? {}), false);
       assert.equal("proposal" in (trajectory.decisionContext ?? {}), false);
       assert.equal("lastExecutionResult" in (trajectory.decisionContext ?? {}), false);
@@ -433,6 +433,8 @@ describe("restaurant booking mock harness", () => {
     const timeoutHarness = createHarness({ agentLoopOptions: { timeoutMs: 0 } });
     const timeoutSnapshot = await timeoutHarness.start(fixtureIntent);
     assert.equal(timeoutHarness.lastAgentLoopResult?.status, "TIMEOUT");
+    assert.equal(timeoutSnapshot.domainState.phase, "FAILED");
+    assert.equal(timeoutSnapshot.domainState.pendingUserQuestion, undefined);
     assert.equal(timeoutSnapshot.domainState.failure?.code, "AGENT_LOOP_TIMEOUT");
     assert.equal(timeoutHarness.trajectories.steps.at(-1)?.stepOutcome, "TIMEOUT");
 
@@ -442,6 +444,8 @@ describe("restaurant booking mock harness", () => {
     });
     const stepSnapshot = await stepHarness.start(fixtureIntent);
     assert.equal(stepHarness.lastAgentLoopResult?.status, "STEP_LIMIT");
+    assert.equal(stepSnapshot.domainState.phase, "FAILED");
+    assert.equal(stepSnapshot.domainState.pendingUserQuestion, undefined);
     assert.equal(stepSnapshot.domainState.failure?.code, "AGENT_LOOP_STEP_LIMIT");
     assert.equal(stepHarness.trajectories.steps.at(-1)?.stepOutcome, "STEP_LIMIT");
 
@@ -451,6 +455,8 @@ describe("restaurant booking mock harness", () => {
     });
     const rejectionSnapshot = await rejectionHarness.start(fixtureIntent);
     assert.equal(rejectionHarness.lastAgentLoopResult?.status, "REJECTION_LIMIT");
+    assert.equal(rejectionSnapshot.domainState.phase, "FAILED");
+    assert.equal(rejectionSnapshot.domainState.pendingUserQuestion, undefined);
     assert.equal(rejectionSnapshot.domainState.failure?.code, "AGENT_LOOP_REJECTION_LIMIT");
     assert.equal(rejectionHarness.trajectories.steps.at(-1)?.stepOutcome, "REJECTION_LIMIT");
     assert.equal(rejectionHarness.trajectories.steps.at(-1)?.causalRefs.eventIds.length, 1);

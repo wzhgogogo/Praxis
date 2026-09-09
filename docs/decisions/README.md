@@ -28,6 +28,7 @@
 | [0015](0015-supported-source-search-evidence.md) | Accepted | 受支持来源的HIGH门店身份与请求对应空位证据，不降低只读结果门槛 |
 | [0016](0016-local-eval-browser-profile-lifecycle.md) | Accepted | 本地eval持久profile窄例外，产品隔离与销毁规则保持 |
 | [0017](0017-controlled-browser-read-executor.md) | Draft / authorized local-eval implementation | 两来源共享受控浏览器只读执行；模型只提议已观察元素动作 |
+| [0018](0018-availability-display-freshness-and-recheck.md) | Accepted | 展示新鲜度与预订前核查分离；以理由受限的只读重查替代永久已检查 |
 
 ## 规则
 

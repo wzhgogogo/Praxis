@@ -7,6 +7,7 @@ import type {
   RestaurantCandidate,
   RestaurantReadEvidence,
 } from "./contracts.js";
+import { availabilityFreshnessWindow, isDisplayFresh } from "./availability-freshness.js";
 
 export interface UntrustedGooglePlaceObservation {
   placeId?: string;
@@ -25,6 +26,8 @@ export interface UntrustedProviderAvailabilityObservation {
   sourceEntityId?: string;
   sourceUrl?: string;
   observedAt: string;
+  /** Only an explicit provider deadline may be carried into booking-policy expiry. */
+  sourceExpiresAt?: string;
   entityMatch: { confidence: "HIGH" | "MEDIUM" | "LOW"; matchedBy: string[] };
   requestedDate?: string;
   requestedPartySize?: number;
@@ -199,7 +202,6 @@ export function groundProviderAvailability(
   request: RestaurantAvailabilityRequest,
   observation: UntrustedProviderAvailabilityObservation,
   now: string,
-  offerTtlMs = 2 * 60 * 1_000,
 ): GroundedAvailability {
   let check = checkForFailure(observation);
   if (observation.candidateId !== candidate.restaurant.id) {
@@ -212,7 +214,10 @@ export function groundProviderAvailability(
   if (observation.requestedDate !== request.date || observation.requestedPartySize !== request.partySize) {
     return { offers: [], check: { status: "UNKNOWN", checkedAt: observation.observedAt, evidenceIds: [], reasonCode: "REQUEST_MISMATCH" }, evidence: [] };
   }
-  if (Date.parse(now) - Date.parse(observation.observedAt) > offerTtlMs || Number.isNaN(Date.parse(observation.observedAt))) {
+  const freshness = Number.isNaN(Date.parse(observation.observedAt))
+    ? undefined
+    : availabilityFreshnessWindow(observation.observedAt, observation.sourceExpiresAt);
+  if (!freshness || !isDisplayFresh(freshness.displayExpiresAt, now)) {
     return { offers: [], check: { status: "UNKNOWN", checkedAt: observation.observedAt, evidenceIds: [], reasonCode: "STALE_OBSERVATION" }, evidence: [] };
   }
   const withinWindow = (observation.visibleSlots ?? []).filter((slot) =>
@@ -253,21 +258,31 @@ export function groundProviderAvailability(
     ...(observation.sourceEntityId ? { sourceEntityId: observation.sourceEntityId } : {}),
     ...(observation.sourceUrl ? { sourceUrl: observation.sourceUrl } : {}),
     observedAt: observation.observedAt,
-    expiresAt: new Date(Date.parse(observation.observedAt) + offerTtlMs).toISOString(),
+    displayExpiresAt: freshness.displayExpiresAt,
+    ...(freshness.sourceExpiresAt ? { sourceExpiresAt: freshness.sourceExpiresAt } : {}),
+    freshnessPolicyVersion: freshness.policyVersion,
     requestFingerprint: fingerprint(request),
     claims: { date: request.date, partySize: request.partySize, visibleSlots: withinWindow },
     entityMatch: { confidence: "HIGH", matchedBy: [...observation.entityMatch.matchedBy] },
     ...(observation.excerpt ? { artifactRef: { kind: "DOM_EXCERPT", reference: `sha256:${fingerprint(observation.excerpt)}` } } : {}),
   };
   const evidence = [entityEvidence, ...(factEvidence ? [factEvidence] : []), availabilityEvidence];
-  check = { ...check, evidenceIds: evidence.map((item) => item.evidenceId), ...(evidence[0]?.expiresAt ? { expiresAt: evidence[0].expiresAt } : {}) };
+  check = {
+    ...check,
+    evidenceIds: evidence.map((item) => item.evidenceId),
+    displayExpiresAt: freshness.displayExpiresAt,
+    freshnessPolicyVersion: freshness.policyVersion,
+    ...(freshness.sourceExpiresAt ? { expiresAt: freshness.sourceExpiresAt } : {}),
+  };
   const candidateFactUpdate = factEvidence ? {
     candidateId: candidate.restaurant.id,
     matchReasons: observation.verifiedHardCriteria!.map((criterion) => `Verified HARD criterion from source: ${criterion}`),
     evidenceIds: [factEvidence.evidenceId],
   } : undefined;
   if (check.status !== "AVAILABLE") return { offers: [], check, evidence, ...(candidateFactUpdate ? { candidateFactUpdate } : {}) };
-  const expiresAt = evidence[0]?.expiresAt ?? new Date(Date.parse(observation.observedAt) + offerTtlMs).toISOString();
+  // A read-only observation without a provider deadline is displayable, but it
+  // cannot be reused as a booking-ready offer without the later mandated recheck.
+  const expiresAt = freshness.sourceExpiresAt ?? observation.observedAt;
   return {
     offers: withinWindow.map((slot) => ({
       id: `offer:${provider.toLocaleLowerCase("en-US")}:${candidate.restaurant.id}:${request.date}:${slot}:${request.partySize}`,
@@ -279,6 +294,9 @@ export function groundProviderAvailability(
       bookingMode: "REQUEST",
       executionMode: "BROWSER",
       checkedAt: observation.observedAt,
+      displayExpiresAt: freshness.displayExpiresAt,
+      ...(freshness.sourceExpiresAt ? { sourceExpiresAt: freshness.sourceExpiresAt } : {}),
+      bookingRecheckRequired: freshness.sourceExpiresAt === undefined,
       expiresAt,
     })),
     check,
@@ -292,9 +310,8 @@ export function groundTabelogAvailability(
   request: RestaurantAvailabilityRequest,
   observation: UntrustedTabelogAvailabilityObservation,
   now: string,
-  offerTtlMs = 2 * 60 * 1_000,
 ): GroundedAvailability {
-  return groundProviderAvailability("TABELOG", candidate, request, observation, now, offerTtlMs);
+  return groundProviderAvailability("TABELOG", candidate, request, observation, now);
 }
 
 export function groundTableCheckAvailability(
@@ -302,7 +319,6 @@ export function groundTableCheckAvailability(
   request: RestaurantAvailabilityRequest,
   observation: UntrustedTableCheckAvailabilityObservation,
   now: string,
-  offerTtlMs = 2 * 60 * 1_000,
 ): GroundedAvailability {
-  return groundProviderAvailability("TABLECHECK", candidate, request, observation, now, offerTtlMs);
+  return groundProviderAvailability("TABLECHECK", candidate, request, observation, now);
 }

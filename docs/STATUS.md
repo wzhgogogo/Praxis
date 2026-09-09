@@ -1,7 +1,7 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.3
+- Document revision: 4.4
 - Last updated: 2026-09-09
 - Source of truth for: 已实现能力、已验证范围、明确未验证项与下一道门槛
 - Related ADRs: [ADR Index](decisions/README.md)
@@ -9,7 +9,7 @@
 
 ## 一句话状态
 
-ADR-0014定义了H001所需的只读终态：Semantic Interpreter继续经Compiler/Reducer写入权威State；单一Restaurant Agent只接收最小Decision Context，Action Validator守护不变量，Router绑定权威只读请求。`restaurant-state@10`保存Availability Check、最小Read Evidence和`PRESENT_RESULTS`。2026-09-08 的原始冻结 LOCAL_CHROMIUM H001 从 Google Discovery 调查 10 个去重候选，按 3/3/3/1 批次继续；其中 KINKA Sushi Bar Izakaya 渋谷以 Google 结构化地址组件支持 `near Shibuya`、TableCheck exact phone 达到 HIGH、来源页验证 `omakase` HARD criterion，并读取同一 2026-09-08、2 人、19:00 的公开 slot。Runtime 已进入 `PRESENT_RESULTS`；artifact 只保存脱敏 identity/provider/browser diagnostics 和 evidence 引用，不保存 HTML、凭证、Cookie 或挑战 token。该次 Live Read-only 不代表每个门店/日期均可用，也不代表 Web 页面上的真实交互已经验证。
+ADR-0014定义了H001所需的只读终态：Semantic Interpreter继续经Compiler/Reducer写入权威State；单一Restaurant Agent只接收最小Decision Context，Action Validator守护不变量，Router绑定权威只读请求。`restaurant-state@10`保存Availability Check、最小Read Evidence和`PRESENT_RESULTS`。2026-09-08 的原始冻结 LOCAL_CHROMIUM H001 从 Google Discovery 调查 10 个去重候选，按 3/3/3/1 批次继续；其中 KINKA Sushi Bar Izakaya 渋谷以 Google 结构化地址组件支持 `near Shibuya`、TableCheck exact phone 达到 HIGH、来源页验证 `omakase` HARD criterion，并读取同一 2026-09-08、2 人、19:00 的公开 slot。Runtime 已进入 `PRESENT_RESULTS`；artifact 只保存脱敏 identity/provider/browser diagnostics 和 evidence 引用，不保存 HTML、凭证、Cookie 或挑战 token。2026-09-09另有一次独立的真实 Web Live Read-only：从页面提交未来Shibuya omakase请求，记录模型、Google与TableCheck/Tabelog调用后在5分钟预算到期进入`NEEDS_INPUT`；它证明Web真实路径会fail closed，不以H001或Fixture替代，也不代表任何门店/日期可用或`PRESENT_RESULTS`成功。
 
 ## 2026-09-05整改与最新人工对照
 
@@ -33,21 +33,39 @@ Adapter已改用`/en/rstLst/?sw=<encoded outlet name>`，同步诊断URL脱敏�
 
 ADR-0017仍为`Draft / authorized local-eval implementation`，不改写既有Accepted授权或预约决策。两个来源现在经同一`BrowserTaskExecutor`复用一个会话；站点方法和受控模型动作均受来源、观察版本、权威日期/人数、只读控件、操作次数、模型次数、总自动时限与父级取消约束。模型只可提议由代码生成的当前元素引用，不能给出selector、自由URL、JavaScript、凭据或提交动作；网页文本不作为指令。Router超时会取消并等待来源收束后才返回，不会留下后台点击。LOCAL_CHROMIUM真实动态Fixture证明此机制及无站点专用方法的路径，但该Fixture不等同于真实来源成功。
 
-本地Web新增明确`PRAXIS_RESTAURANT_PROVIDER_MODE=LIVE_READ`服务端组合；默认仍是`FIXTURE`，缺少Live gate、DeepSeek/Google或所选浏览器运行时配置会启动失败，绝不回落或混入Fixture候选。Web与H001共用同一Live availability组合，显示证据结果、来源链接或稳定失败原因；没有登录、授权、预约、支付、取消、PII提交、远程接管或公网部署。该接线已由本地HTTP/SSE Fixture及配置Contract验证，尚未把Web页面上的一次交互报告为真实来源成功。
+本地Web新增明确`PRAXIS_RESTAURANT_PROVIDER_MODE=LIVE_READ`服务端组合；默认仍是`FIXTURE`，缺少Live gate、DeepSeek/Google或所选浏览器运行时配置会启动失败，绝不回落或混入Fixture候选。Web与H001共用同一Live availability组合，显示证据结果、来源链接或稳定失败原因；没有登录、授权、预约、支付、取消、PII提交、远程接管或公网部署。该接线已由本地HTTP/SSE Fixture及配置Contract验证，并于2026-09-09完成一次独立Web页面真实来源交互；该次终态为超时后的`NEEDS_INPUT`，不是成功结果。
 
 本轮只读TableCheck单页探针为`CONTENT_OBSERVED`，没有控件操作或业务结论。随后H001在严格wire占位适配及日本`+81`/国内号码正规化修复后，Google Discovery成功，三个候选均有结构化`near Shibuya`证据；Sushisho Isseki Sancho与其Tabelog详情以`EXACT_PHONE`达到HIGH。其availability跳转到当前不支持的外部预约提供方；其他两个候选未能达到HIGH，TableCheck动态搜索页仍为`TABLECHECK_PAGE_UNAVAILABLE`。因此没有slot、Offer或read Evidence，Case保持`NEEDS_INPUT`，并未进入`PRESENT_RESULTS`。这次Live失败不表示无空位，也不构成H001通过。
 
 ## 2026-09-08 H001 完整 Live Read-only
 
-本轮先通过当前工作区的全量离线门禁（`npm test` 195/195、typecheck、arch:check、build、`git diff --check`）及真实 Chromium 本地 Fixture 5/5。随后仅运行一次原始冻结 H001：`.eval-artifacts/restaurant-hybrid-live-read/2026-09-08T07-41-45-298Z-3bd0ad52-bdc3-4fe1-8bb1-e19fd41737bc.result.json`。DeepSeek Semantic、6 次 Restaurant Agent decision 和 9 次 browser read decision 均完成；总耗时 232,348 ms。业务 Agent 先搜索 10 家、连续检查四个至多三家的批次，前 9 家分别保留明确无位或来源级失败，未重复检查或要求用户替系统解决内部来源问题。第 10 家 KINKA Sushi Bar Izakaya 渋谷由 TableCheck exact phone 完成 HIGH outlet identity，来源页支持 `omakase`，且公开结果给出同一请求 `2026-09-08`、2 人、19:00 slot；确定性 Grounding 生成 Offer 后 Agent 执行 `PRESENT_RESULTS`。全程没有登录、个人资料、预约提交、支付、取消或其他外部写入。H001 已通过其原始 read-only 标准；Web Live 仍只完成服务端组合/HTTP-SSE Fixture，尚未单独报告一次 Web 页面真实来源交互。
+本轮先通过当前工作区的全量离线门禁（`npm test` 195/195、typecheck、arch:check、build、`git diff --check`）及真实 Chromium 本地 Fixture 5/5。随后仅运行一次原始冻结 H001：`.eval-artifacts/restaurant-hybrid-live-read/2026-09-08T07-41-45-298Z-3bd0ad52-bdc3-4fe1-8bb1-e19fd41737bc.result.json`。DeepSeek Semantic、6 次 Restaurant Agent decision 和 9 次 browser read decision 均完成；总耗时 232,348 ms。业务 Agent 先搜索 10 家、连续检查四个至多三家的批次，前 9 家分别保留明确无位或来源级失败，未重复检查或要求用户替系统解决内部来源问题。第 10 家 KINKA Sushi Bar Izakaya 渋谷由 TableCheck exact phone 完成 HIGH outlet identity，来源页支持 `omakase`，且公开结果给出同一请求 `2026-09-08`、2 人、19:00 slot；确定性 Grounding 生成 Offer 后 Agent 执行 `PRESENT_RESULTS`。全程没有登录、个人资料、预约提交、支付、取消或其他外部写入。H001 已通过其原始 read-only 标准；与2026-09-09的Web Live页面真实交互相互独立，后者在超时后安全停在`NEEDS_INPUT`，不以H001成功替代Web结果。
 
 ## 2026-09-09 运行诊断与跨场景预检
 
-Hybrid runner现会保留执行artifact后生成独立的`restaurant-hybrid-read-diagnostic-evaluator@2`报告；它逐个presented candidate检查实际引用的evidence/offer、HIGH identity/source关联、完整请求、当时有效期、真实轨迹Provider attempts、重复执行和完整资源记录，缺记录明确为`NOT_EVALUATED`，不把产品`PRESENT_RESULTS`或同类证据存在当作质量通过。正常成功、失败和取消收尾均在保存execution artifact后尝试评价；评价故障另存sidecar且不覆盖执行错误。已对2026-09-08成功artifact及一个历史失败artifact离线补评：成功记录独立得到`taskProducedQualifiedResult=YES`与`evidenceSufficiency=SUFFICIENT_FOR_PRESENTED_RESULT`；历史失败记录保留为`NOT_EVALUATED`，并定位其TableCheck/Tabelog provider failures与缺少resource accounting。完整E2E rubric仍未集成；否定HARD来源契约亦未评估。未来run会记录非敏感git/工作树、浏览器、Skill hash、预算与模型调用元数据；不落盘原始用户输入、Cookie、token或Secret。
+Hybrid runner现会保留执行artifact后生成独立的`restaurant-hybrid-read-diagnostic-evaluator@3`报告；它逐个presented candidate检查实际引用的evidence/offer、HIGH identity/source关联、完整请求、每个offer与同源`visibleSlots`的精确时间关联、`observedAt ≤ presentedAt < expiresAt`、真实轨迹Provider attempts、重复执行和完整资源记录。最终条件只比较`finalSnapshot.domainState.intentDraft`；该权威记录缺失时是`NOT_EVALUATED`而非条件冲突。缺记录明确为`NOT_EVALUATED`，不把产品`PRESENT_RESULTS`或同类证据存在当作质量通过。正常成功、失败和取消收尾均在保存execution artifact后尝试评价；评价故障另存sidecar且不覆盖执行错误。已对2026-09-08成功artifact及一个历史失败artifact离线补评：成功记录独立得到`taskProducedQualifiedResult=YES`与`evidenceSufficiency=SUFFICIENT_FOR_PRESENTED_RESULT`；历史失败记录保留为`NOT_EVALUATED`，并定位其TableCheck/Tabelog provider failures与缺少resource accounting。完整E2E rubric仍未集成；否定HARD来源契约亦未评估。未来run会记录非敏感git/工作树、浏览器、Skill hash、预算与模型调用元数据；不落盘原始用户输入、Cookie、token或Secret。
 
 H002–H005静态物化预检确认相对日期现同时替换结构化参数和人类可读eligibility文本。尚未获这些场景的独立Live预算：H002的负向HARD与价格/first-date事实、H003/H004/H005的`NEAR_USER`位置与来源支持均无可用Live evidence；H004还要求非预约的营业状态事实。它们因此均为`NOT_EVALUATED`，不是失败或通过。本机 PostgreSQL 17 现已启动：专用`praxis_smoke`已通过一次真实 Migration/Runtime/Goal/Scheduler smoke 并清理临时Task，`praxis_web`已应用0001–0009且Fixture首页可访问。当前`.env`的`DATABASE_URL`仍不是PostgreSQL URL，未被本轮改写；因此常规`npm run dev`与 Local Web Live仍需环境所有者改为正确的本机连接串后才可启动。服务端会在迁移前明确拒绝这类URL。
 
 本机实际浏览器已对`praxis_web`上的Fixture Workspace完成一次Desktop/Mobile窄视口验收：以Fixture Pilot Token登录、提交完整Restaurant需求、看到3个候选、3条evidence-grounded availability、`NEEDS_YOU / AUTHORIZE`以及Activity Timeline；刷新后Conversation、Case、Artifact和Activity均从服务端恢复。该Case仅为本地开发验收数据；没有模型、真实来源、Live Read、Authorization、预约或其他外部写入。此结果验证当前Fixture Web产品路径，不构成Web Live页面真实来源交互或真实移动设备兼容性证据。
+
+## 2026-09-09 Web Live Read-only 实际页面验收
+
+独立启动`LIVE_READ` Workspace后，以浏览器从新Case提交“Tomorrow at 7pm near Shibuya for two, omakase.”。页面明确显示Live Read-only，不复用历史Fixture Case的候选。持久轨迹记录5个模型决策；Google Discovery产出10个候选；4轮受控浏览器availability route记录17条TableCheck/Tabelog provider outcome，其中包括`UNAVAILABLE`、`AVAILABLE`与明确的来源失败。页面展示Sushi Inase的TableCheck来源、Sushisho Isseki Sancho的TableCheck 19:00观察、Sushi Teppen的Google来源，以及`UNAVAILABLE`/`AVAILABILITY_SOURCES_EXHAUSTED`而非未经验证的可订结论。5分钟Agent预算耗尽后，Case为`WAITING_USER / NEEDS_INPUT`，页面说明超时并要求用户澄清；刷新后同一Case、来源链接、Activity与失败终态均从PostgreSQL恢复。没有登录第三方、提交预约、支付、取消、PII输入或其他外部写入。它是一次真实Web Live路径的安全失败验收，既不是Fixture替代，也不是H001成功或qualified availability展示成功。
+
+## 2026-09-09 Shared Live investigation budget and failure attribution
+
+Web与H001已改为共用`LIVE_READ_INVESTIGATION_BUDGET`：30个Agent步骤、每候选20次浏览器模型调用、整轮120次、每候选80次浏览器操作及20分钟总时限；Google和浏览器来源上限也由同一常量提供，避免两条实际调用路径漂移。`AGENT_DECISION_FAILED`、`AGENT_EXECUTION_FAILED`及所有`AGENT_LOOP_TERMINATED`（包括`TIMEOUT`、`STEP_LIMIT`与`REJECTION_LIMIT`）现在均进入`FAILED`并保留真实失败码，只有语义缺字段或Agent明确`ASK_USER`才进入`NEEDS_INPUT`。这不降低`PRESENT_RESULTS`的Evidence门槛。
+
+新的独立Web Live Read-only从浏览器再次提交同一语义需求，运行约4分18秒后以`AGENT_LOOP_REJECTION_LIMIT`结束：Agent连续5次提出缺少证据的`PRESENT_RESULTS`，确定性Validator每次以`PRESENTATION_EVIDENCE_MISSING`拒绝。页面显示`COMPLETED / FAILED / REVIEW_ATTENTION`及该原因，而不要求用户澄清；候选保留真实TableCheck/Google链接和`UNAVAILABLE`、来源耗尽、未grounded观察。重新打开页面后同一失败状态、消息、Activity和来源链接由PostgreSQL恢复。没有Fixture、H001 artifact复用、预约、登录、支付、取消、PII输入或其他外部写入；这证明Web真实调用与正确失败归因，不证明qualified availability或`PRESENT_RESULTS`成功。
+
+## 2026-09-09 空位展示时效与只读重查（当前切片）
+
+ADR-0018已接受并实现：`restaurant-availability-display-freshness@1`从实际观察起提供10分钟展示窗口，来源声明的更短期限优先；展示、读取或重载持久State不会续期。展示与未来预订前核查已分离，当前Live来源未声明可安全沿用的预约期限时，未来预订必须重新核查，不以展示TTL授权提交。
+
+Web只在已有`PRESENT_RESULTS`时显示一个显式“Refresh availability”入口；刷新仅重新检查此前展示的候选，保留旧观察并链接新证据。过期、明确无位和来源/核查失败保持不同状态。Agent Context已升级为`@3`并包含当前时间、展示资格、缺失证据和受限重查理由；出现合格结果即要求展示，同一被拒绝动作不再循环重试。本轮仍未新增预约、支付、自动换店提交、周期刷新、浏览器框架或通用预订编排。
+
+真实浏览器已完成输入→模型/Google/TableCheck→`PRESENT_RESULTS`，并在刷新中确认真实来源重查、新观察与持久证据关联；但该刷新运行暴露并修复了两处执行链缺陷（旧观察直接重呈现、刷新标记未清除）。最终“单次刷新后回到页面`PRESENT_RESULTS`”只由离线回归覆盖，尚未在最终代码上再次消耗Live预算复验，不能报告为该验收完成。
 
 ## 当前标识
 
@@ -58,7 +76,7 @@ H002–H005静态物化预检确认相对日期现同时替换结构化参数和
 | Restaurant State | `restaurant-state@10` |
 | Semantic Proposal / Draft / Eval Schema | `restaurant-semantic-proposal@3` |
 | Semantic Prompt | `restaurant-semantic-prompt@7`；Artifact字段仍记录`promptVersion: "v7"` |
-| Agent Context / Decision Prompt / Action / Trajectory / Harness Artifact | `restaurant-agent-context@2` / `restaurant-agent-decision-prompt@6` / `restaurant-agent-action@3` / `restaurant-agent-trajectory@5` / `restaurant-harness-artifact@6` |
+| Agent Context / Decision Prompt / Action / Trajectory / Harness Artifact | `restaurant-agent-context@3` / `restaurant-agent-decision-prompt@7` / `restaurant-agent-action@3` / `restaurant-agent-trajectory@5` / `restaurant-harness-artifact@6` |
 | Regression / Holdout / Scorer | `restaurant-semantic-regression@3` / `restaurant-semantic-holdout@2` / `restaurant-semantic-scorer@3` |
 
 ## 已实现
@@ -105,7 +123,7 @@ H002–H005静态物化预检确认相对日期现同时替换结构化参数和
 ## 明确未验证 / 未实现
 
 - `restaurant-semantic-prompt@7`已完成本地、已暴露Fixture和当前canonical Gold诊断；需要另建未见 `CLEAN_HOLDOUT` 才能形成新的质量评价；
-- H001 已有一次完整 Live Read-only 成功，但它是时间敏感库存观察，不证明任意未来运行、门店或日期；仍需单列的 Web 页面真实来源交互与移动设备兼容性验证；
+- H001 已有一次完整 Live Read-only成功，Web页面也已有一次独立真实来源交互，但二者均为时间敏感的单次观察；Web页面该次以`TIMEOUT / NEEDS_INPUT`结束，仍未证明qualified `PRESENT_RESULTS`、任意未来运行、门店或日期可用，且真实移动设备兼容性仍未验证；
 - eval-only Tabelog人工验证恢复路径已通过Fixture；一次headed persistent LOCAL_CHROMIUM H001实验已在Semantic Interpreter `MODEL_FAILURE`处停止，未建立浏览器/页面，故尚未证明真实站点同一Session解除challenge后可继续读取；
 - 真实 Authorization、Booking、取消、支付或 Controlled Live-write；
 - 真实浏览器兼容性、真实移动设备、生产身份与生产 PostgreSQL 部署；
@@ -125,7 +143,7 @@ single candidate Google → Tabelog availability probe
 ↓
 materialized h001 Hybrid diagnostic（已通过）
 ↓
-Web Live 页面交互验证
+Web Live qualified-result / failure taxonomy cross-scenario verification
 ↓
 h002–h005 diagnostic
 ```

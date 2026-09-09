@@ -49,6 +49,7 @@ export class FixtureRestaurantSearch {
       bookingMode: "INSTANT",
       executionMode: "DEEPLINK",
       checkedAt: "2026-08-19T09:00:00.000Z",
+      displayExpiresAt: "2026-08-19T09:10:00.000Z",
       expiresAt: "2026-12-31T23:59:00.000Z",
     }));
     return {
@@ -56,6 +57,7 @@ export class FixtureRestaurantSearch {
       availabilityChecks: Object.fromEntries(request.candidateIds.map((candidateId) => [candidateId, {
         status: "AVAILABLE" as const,
         checkedAt: "2026-08-19T09:00:00.000Z",
+        displayExpiresAt: "2026-08-19T09:10:00.000Z",
         expiresAt: "2026-12-31T23:59:00.000Z",
         evidenceIds: [],
       }])),

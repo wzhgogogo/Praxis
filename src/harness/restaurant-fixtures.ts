@@ -44,5 +44,6 @@ export const fixtureOffers: AvailabilityOffer[] = fixtureCandidates.map((candida
   bookingMode: "INSTANT",
   executionMode: "API",
   checkedAt: "2026-08-05T09:00:00.000Z",
+  displayExpiresAt: "2026-08-05T09:10:00.000Z",
   expiresAt: "2026-08-05T10:00:00.000Z",
 }));

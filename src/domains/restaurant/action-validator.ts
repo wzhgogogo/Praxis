@@ -1,6 +1,7 @@
 import type { RestaurantAgentAction } from "./agent-action.js";
 import type { AvailabilityOffer, RestaurantTaskState } from "./contracts.js";
 import { completeRestaurantIntent } from "./intent-state.js";
+import { isDisplayFresh } from "./availability-freshness.js";
 
 export type RestaurantActionRejectionCode =
   | "TASK_TERMINAL"
@@ -14,6 +15,8 @@ export type RestaurantActionRejectionCode =
   | "ACTIVE_ATTEMPT"
   | "OUTCOME_UNKNOWN"
   | "AVAILABILITY_ALREADY_CHECKED"
+  | "REFRESH_TARGET_REQUIRED"
+  | "PRESENTATION_READY"
   | "AVAILABILITY_BATCH_LIMIT"
   | "PRESENTATION_EVIDENCE_MISSING";
 
@@ -47,6 +50,13 @@ function stringListClaim(evidence: RestaurantTaskState["readEvidence"][number], 
   return Array.isArray(value) && value.every((item) => typeof item === "string") ? value : [];
 }
 
+export interface RestaurantPresentationReadiness {
+  candidateId: string;
+  eligible: boolean;
+  missingReason?: string;
+  recheckReason?: "DISPLAY_EVIDENCE_EXPIRED" | "USER_REQUESTED_REFRESH";
+}
+
 function presentationEvidenceIds(
   state: Readonly<RestaurantTaskState>,
   candidateId: string,
@@ -67,11 +77,14 @@ function presentationEvidenceIds(
     if (!supported) return { valid: false, reason: `Candidate ${candidateId} has no evidence for HARD criterion ${criterion.text}` };
   }
   const offer = state.availability[candidateId]?.find((item) =>
-    Date.parse(item.expiresAt) > Date.parse(now) && item.partySize === intent.partySize && item.dateTime.slice(0, 10) === intent.date &&
+    isDisplayFresh(item.displayExpiresAt, now) && item.partySize === intent.partySize && item.dateTime.slice(0, 10) === intent.date &&
     item.dateTime.slice(11, 16) >= intent.timeWindow.earliest && item.dateTime.slice(11, 16) <= intent.timeWindow.latest,
   );
   const availability = candidateEvidence.find((evidence) =>
-    evidence.kind === "AVAILABILITY" && stringClaim(evidence, "date") === intent.date && evidence.claims.partySize === intent.partySize,
+    evidence.kind === "AVAILABILITY" &&
+      isDisplayFresh(evidence.displayExpiresAt, now) &&
+      stringClaim(evidence, "date") === intent.date && evidence.claims.partySize === intent.partySize &&
+      offer !== undefined && stringListClaim(evidence, "visibleSlots").includes(offer.dateTime.slice(11, 16)),
   );
   if (!offer || state.availabilityChecks[candidateId]?.status !== "AVAILABLE" || !availability) {
     return { valid: false, reason: `Candidate ${candidateId} lacks fresh evidenced availability for the authoritative request` };
@@ -79,6 +92,39 @@ function presentationEvidenceIds(
   return { valid: true, evidenceIds: [...new Set([entity.evidenceId, area.evidenceId, availability.evidenceId, ...candidateEvidence
     .filter((evidence) => evidence.kind === "RESTAURANT_FACT")
     .map((evidence) => evidence.evidenceId)])] };
+}
+
+/** Code-derived read eligibility is the only availability status exposed to the Agent. */
+export function restaurantPresentationReadiness(
+  state: Readonly<RestaurantTaskState>,
+  now: string,
+): RestaurantPresentationReadiness[] {
+  const intent = completeRestaurantIntent(state.intentDraft);
+  if (!intent) return [];
+  return state.candidates.map((candidate) => {
+    const candidateId = candidate.restaurant.id;
+    const userRequestedRefresh = state.refreshRequestedCandidateIds?.includes(candidateId) ?? false;
+    if (userRequestedRefresh) {
+      return {
+        candidateId,
+        eligible: false,
+        missingReason: "A user-requested read-only refresh is pending",
+        recheckReason: "USER_REQUESTED_REFRESH" as const,
+      };
+    }
+    const evidence = presentationEvidenceIds(state, candidateId, intent, now);
+    if (evidence.valid) return { candidateId, eligible: true };
+    const check = state.availabilityChecks[candidateId];
+    const hasExpiredDisplayEvidence = check?.status === "AVAILABLE" && !isDisplayFresh(check.displayExpiresAt, now);
+    return {
+      candidateId,
+      eligible: false,
+      missingReason: evidence.reason,
+      ...(userRequestedRefresh
+        ? { recheckReason: "USER_REQUESTED_REFRESH" as const }
+        : hasExpiredDisplayEvidence ? { recheckReason: "DISPLAY_EVIDENCE_EXPIRED" as const } : {}),
+    };
+  });
 }
 
 function candidate(state: Readonly<RestaurantTaskState>, candidateId: string) {
@@ -102,6 +148,9 @@ function freshOffer(
   }
   if (Date.parse(found.expiresAt) <= Date.parse(now)) {
     return rejected("OFFER_STALE", `Offer ${offerId} has expired`);
+  }
+  if (found.bookingRecheckRequired) {
+    return rejected("OFFER_STALE", `Offer ${offerId} requires a fresh pre-booking availability and terms check`);
   }
   return found;
 }
@@ -135,6 +184,14 @@ export function validateRestaurantAction(
   }
 
   if (action.type === "CHECK_AVAILABILITY") {
+    const presentation = restaurantPresentationReadiness(state, now);
+    const refreshTargets = state.refreshRequestedCandidateIds ?? [];
+    if (refreshTargets.length > 0 && !action.candidateIds.every((candidateId) => refreshTargets.includes(candidateId))) {
+      return rejected("REFRESH_TARGET_REQUIRED", "A pending user refresh may only check its previously presented candidate targets");
+    }
+    if (presentation.some((item) => item.eligible)) {
+      return rejected("PRESENTATION_READY", "A fresh evidence-grounded result is ready; present it before investigating more candidates");
+    }
     if (action.candidateIds.length === 0 || new Set(action.candidateIds).size !== action.candidateIds.length) {
       return rejected("CANDIDATE_UNKNOWN", "Availability requires one or more unique known candidate IDs");
     }
@@ -144,10 +201,16 @@ export function validateRestaurantAction(
     if (action.candidateIds.length > MAX_AVAILABILITY_CHECK_BATCH) {
       return rejected("AVAILABILITY_BATCH_LIMIT", `Availability checks are limited to ${MAX_AVAILABILITY_CHECK_BATCH} candidates per batch`);
     }
-    const alreadyChecked = action.candidateIds.filter((candidateId) => state.availabilityChecks[candidateId] !== undefined);
-    return alreadyChecked.length === 0
+    const recheckable = new Map(
+      restaurantPresentationReadiness(state, now)
+        .flatMap((item) => item.recheckReason ? [[item.candidateId, item.recheckReason] as const] : []),
+    );
+    const unavailable = action.candidateIds.filter((candidateId) =>
+      state.availabilityChecks[candidateId] !== undefined && !recheckable.has(candidateId),
+    );
+    return unavailable.length === 0
       ? { status: "ALLOWED" }
-      : rejected("AVAILABILITY_ALREADY_CHECKED", `Availability was already checked for ${alreadyChecked.join(", ")} under the current authoritative search and schedule`);
+      : rejected("AVAILABILITY_ALREADY_CHECKED", `Availability was already checked for ${unavailable.join(", ")} and no expiry or user refresh permits a recheck`);
   }
 
   if (action.type === "PRESENT_RESULTS") {
@@ -156,6 +219,9 @@ export function validateRestaurantAction(
     }
     for (const candidateId of action.candidateIds) {
       if (!candidate(state, candidateId)) return rejected("CANDIDATE_UNKNOWN", "Results can only include known candidates");
+      if (state.refreshRequestedCandidateIds?.includes(candidateId)) {
+        return rejected("PRESENTATION_EVIDENCE_MISSING", `Candidate ${candidateId} requires its requested read-only refresh before it can be presented again`);
+      }
       const evidence = presentationEvidenceIds(state, candidateId, intent.intent, now);
       if (!evidence.valid) return rejected("PRESENTATION_EVIDENCE_MISSING", evidence.reason);
     }

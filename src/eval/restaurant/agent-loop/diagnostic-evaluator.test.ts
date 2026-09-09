@@ -111,6 +111,35 @@ test("complete time windows and no-party cases are evaluated without H001 assump
   assert.equal(finding(result, "REQUIRED_EVIDENCE").status, "SATISFIED");
 });
 
+test("an offer inside a time window must be one of the cited availability slots", () => {
+  const artifact: any = completeArtifact();
+  artifact.materializedCase.semantic.time = { start: "18:00", end: "20:00" };
+  artifact.finalSnapshot.domainState.intentDraft.timeWindow = { earliest: "18:00", latest: "20:00" };
+  artifact.finalSnapshot.domainState.availability["candidate-a"][0].dateTime = "2026-09-08T19:00:00+09:00";
+  artifact.finalSnapshot.domainState.readEvidence.find((item: any) => item.evidenceId === "availability-a").claims.visibleSlots = ["18:00"];
+  const result = evaluateRestaurantHybridLiveArtifact(artifact, source);
+  assert.equal(finding(result, "REQUIRED_EVIDENCE").status, "NOT_SATISFIED");
+  assert.match(finding(result, "REQUIRED_EVIDENCE").observations.join("\n"), /offer time is not present/);
+});
+
+test("evidence observed after presentation is a conflict while a missing observation is not evaluated", () => {
+  const future: any = completeArtifact();
+  future.finalSnapshot.domainState.readEvidence.find((item: any) => item.evidenceId === "availability-a").observedAt = "2099-01-01T00:00:00.000Z";
+  assert.equal(finding(evaluateRestaurantHybridLiveArtifact(future, source), "REQUIRED_EVIDENCE").status, "NOT_SATISFIED");
+  const missing: any = completeArtifact();
+  delete missing.finalSnapshot.domainState.readEvidence.find((item: any) => item.evidenceId === "availability-a").observedAt;
+  assert.equal(finding(evaluateRestaurantHybridLiveArtifact(missing, source), "REQUIRED_EVIDENCE").status, "NOT_EVALUATED");
+});
+
+test("a missing final authoritative intentDraft is not evidence of a condition conflict", () => {
+  const artifact: any = completeArtifact();
+  delete artifact.finalSnapshot.domainState.intentDraft;
+  const result = evaluateRestaurantHybridLiveArtifact(artifact, source);
+  assert.equal(finding(result, "AUTHORITATIVE_CONDITIONS").status, "NOT_EVALUATED");
+  assert.equal(finding(result, "FINAL_CLAIM").status, "NOT_EVALUATED");
+  assert.match(finding(result, "AUTHORITATIVE_CONDITIONS").directCause, /lacks a required authority record/);
+});
+
 test("evaluation failure creates a separate immutable failure sidecar", async () => {
   const directory = await mkdtemp(join(tmpdir(), "praxis-eval-"));
   const artifactPath = join(directory, "run.result.json");

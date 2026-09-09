@@ -59,6 +59,7 @@ export class MockAvailabilityAdapter {
         return [candidateId, {
           status: candidateOffer ? "AVAILABLE" as const : "UNAVAILABLE" as const,
           checkedAt,
+          ...(candidateOffer?.displayExpiresAt ? { displayExpiresAt: candidateOffer.displayExpiresAt } : {}),
           ...(candidateOffer ? { expiresAt: candidateOffer.expiresAt } : {}),
           evidenceIds: [],
         }];

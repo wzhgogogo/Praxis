@@ -1,8 +1,8 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.39
-- Last updated: 2026-09-08
+- Document revision: 4.40
+- Last updated: 2026-09-09
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
@@ -2109,6 +2109,12 @@ typecheck、arch:check（0 forbidden dependencies）、build通过；npm test 16
 - 离线补评：对既有H001成功artifact生成新的`@2` sidecar，逐引用得到`YES / SUPPORTED_BY_EVIDENCE / SUFFICIENT_FOR_PRESENTED_RESULT`；对历史失败artifact生成新的`@2` sidecar，得到`UNKNOWN / NOT_EVALUATED / NOT_EVALUATED`，并以trajectory的稳定引用定位`REQUEST_SELECTION_UNCONFIRMED`与`EXTERNAL_BOOKING_PROVIDER_REQUIRED`。原artifact保持不变；未调用模型、浏览器、Google或Provider。
 - Shared path：`npm test`在本机localhost listener环境为`205/205`；`npm run typecheck`、`npm run arch:check`、`npm run build`与`git diff --check`通过。首次沙箱运行的7个本地Web listener失败均为`listen EPERM 127.0.0.1`，获准环境重跑同一测试后通过；没有把该环境限制归因为产品失败。未运行Live或付费模型。
 
+## TEST-2026-09-09-HYBRID-DIAGNOSTICS-V3 — precise slot、时间顺序与权威intent缺失
+
+- Focused：`npm run typecheck && node --import tsx --test src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts`通过`12/12`。新增覆盖：18:00–20:00窗口中“evidence只有18:00、Offer为19:00”必须拒绝；`observedAt`晚于presentation必须拒绝、缺少observation为未评估；以及缺失最终`intentDraft`为未评估而不是条件冲突。
+- 离线补评：既有成功H001 artifact生成新的`@3` sidecar，仍为`YES / SUPPORTED_BY_EVIDENCE / SUFFICIENT_FOR_PRESENTED_RESULT`。仅以内存副本验证slot mismatch和authority缺失；原artifact没有改动。未调用模型、浏览器、Google或Provider。
+- Shared path：`npm test`在本机localhost listener环境为`208/208`；`npm run typecheck`、`npm run arch:check`、`npm run build`与`git diff --check`通过。未运行Live或付费模型。
+
 ## 2026-09-09 — Local PostgreSQL 17 smoke
 
 - Real PostgreSQL smoke：在已启动的本机 PostgreSQL 17、专用`praxis_smoke`数据库中，以`PRAXIS_ALLOW_TEST_DATABASE_WRITE=1`运行`npm run test:postgres:live`，通过。该脚本应用0001–0009 Migration，写入并验证3个临时Task与1个Goal的Runtime、Goal Graph和Scheduler链路；随后查询确认`postgres-smoke:%`临时Task为0。此模式只证明该次本机真实数据库连接与SQL行为，不证明生产部署、备份/恢复、权限或持续可用性。
@@ -2121,3 +2127,30 @@ typecheck、arch:check（0 forbidden dependencies）、build通过；npm test 16
 - 实际浏览器：在运行中的本机`http://127.0.0.1:3210` Fixture Workspace使用页面显示的本地Fixture Pilot Token登录，提交完整Restaurant请求。页面可见1个`NEEDS_YOU · AUTHORIZE` Case、3个候选、3条evidence-grounded availability、授权提示与Activity Timeline；未显示错误、Live来源或外部写入口。
 - 持久化恢复：浏览器刷新后，已认证Session、Conversation、Case状态、候选Artifact和Activity完整恢复，证明此路径从`praxis_web` PostgreSQL读取而非仅保留前端内存。窄视口截图中页面保持单列可操作布局。
 - 边界：本次创建了1个仅本机开发验收用的Fixture Case；没有调用模型、Provider或浏览器外部页面，没有Authorization、预约、支付、取消、PII提交或其他外部业务写入。它不替代Web Live页面真实来源交互或真实移动设备验证。
+
+## 2026-09-09 — Local Web Live Read-only browser acceptance
+
+- 授权/预算与模式：用户明确授权一次真实只读Web验收。启动进程以命令级`DATABASE_URL`、`PRAXIS_RESTAURANT_PROVIDER_MODE=LIVE_READ`、`PRAXIS_ALLOW_LIVE_RESTAURANT_READ=1`、`PRAXIS_ALLOW_BROWSER_RUN=1`和`PRAXIS_BROWSER_ENGINE=LOCAL_CHROMIUM`覆盖；现有服务器端DeepSeek、Google与浏览器配置均存在。应用边界为12个Agent step、12次浏览器模型调用、每候选6次、总自动时限300,000ms；没有改写`.env`或打印凭据。
+- 实际页面路径：真实浏览器在Live标识的Workspace中新建Case并提交“Tomorrow at 7pm near Shibuya for two, omakase.”。页面活动显示10个Discovery候选、4轮availability check；持久轨迹只读核对为5个`recorded_model_attempt`、4个`GENERIC_BROWSER`步骤与17条TableCheck/Tabelog provider outcome。页面展示真实TableCheck与Google来源链接，未呈现Fixture卡片为Live结果。
+- 结果与恢复：约5分钟后Agent Loop以`TIMEOUT: Agent loop exceeded 300000ms`终止；Case为`WAITING_USER / NEEDS_INPUT`，页面要求澄清。候选中显示明确`UNAVAILABLE`、`AVAILABILITY_SOURCES_EXHAUSTED`和未grounded的TableCheck观察，而非可订成功；刷新后Case、Conversation、来源链接和Activity均恢复。该记录与H001 runner artifact独立，不能把H001的`PRESENT_RESULTS`归因给Web。
+- 副作用边界：此为Live Read-only；没有预约、授权提交、付款、取消、第三方登录、验证码处理或PII输入。没有重试或创建第二个Live Case。未运行完整离线套件；本次证明真实Web配置、调用、fail-closed展示与持久恢复，不证明Qualified结果、真实移动设备或长期来源可用性。
+
+## 2026-09-09 — Shared Web/H001 budget and Live terminal-attribution recheck
+
+- Shared limits：Web和H001均从`LIVE_READ_INVESTIGATION_BUDGET`读取30 Agent steps、5 rejected actions、20分钟外层／浏览器deadline、每候选20次Browser model call、整轮120次和每候选80次操作；Google和来源会话上限也统一。此为本次明确授权的受控Live验收上限，不是产品SLA或持续费用授权。
+- Focused regression：`node --import tsx --test src/harness/restaurant-harness.test.ts src/server/local-web-server.test.ts`在本机localhost监听环境31/31通过；覆盖timeout、step limit、rejection limit均为`FAILED`且不含`pendingUserQuestion`。沙箱内同一Web测试曾因`listen EPERM 127.0.0.1`失败，获准本机监听环境重跑后通过。
+- Full offline：`npm test`在本机localhost监听环境208/208通过；`npm run typecheck`、`npm run arch:check`、`npm run build`和`git diff --check`通过。
+- Web Live Read-only：以命令级`DATABASE_URL=postgresql://127.0.0.1:5432/praxis_web`、`LIVE_READ`、两项Read gates及`LOCAL_CHROMIUM`启动，浏览器新Case提交“Tomorrow at 7pm near Shibuya for two, omakase.”。约4分18秒后，连续5个`PRESENT_RESULTS` proposal因`PRESENTATION_EVIDENCE_MISSING`被确定性拒绝，Loop以`AGENT_LOOP_REJECTION_LIMIT`终止。页面与只读PostgreSQL均为`FAILED`，页面原因与Activity显示该稳定码和最后拒绝原因；重新打开页面仍恢复同一状态、候选、来源链接与Activity。没有Fixture、H001 artifact复用、预约、付款、取消、第三方登录、验证码处理、PII输入或其他外部写入。结果不证明可用slot或`PRESENT_RESULTS`成功。
+
+## TEST-2026-09-09-AVAILABILITY-FRESHNESS — offline regression
+
+- Static gates：`git diff --check`、`npm run typecheck`、`npm run arch:check`和`npm run build`通过。
+- Focused regression：Action Validator/Reducer、Agent Context、Grounding、Router、Harness和diagnostic evaluator覆盖展示证据过期后允许受限重查、展示合格结果阻止继续调查、用户刷新仅重开已展示候选且保留历史evidence、请求变化重置旧证据、来源失败保持UNKNOWN、精确slot与历史`presentedAt` freshness校验，以及重复无效Action终止。受限沙箱下HTTP监听用例不能绑定`127.0.0.1`（`EPERM`），不归因于产品；完整矩阵将在获准本机监听环境重跑。
+- Live Read-only：尚未运行。本切片不会把Fixture、离线回归、H001 runner或此前两次Web Live失败记录报告为Web Live展示/刷新成功。
+
+## TEST-2026-09-09-AVAILABILITY-FRESHNESS-V2 — Web Live observations
+
+- Final offline：本机localhost环境`npm test`为`210/210`；`npm run typecheck`、`npm run arch:check`、`npm run build`和`git diff --check`通过。
+- Actual Web Live：浏览器新建Case并提交“Tomorrow at 7pm near Shibuya for two, omakase.”。首次短8秒Google deadline三次超时，准确记录为`SEARCH_FAILED`后才由Agent请求新条件；修复为共享的30秒structured-read上限后，新Case真实调用模型、Google与TableCheck，页面以`PRESENT_RESULTS`展示Sushisho Isseki Sancho、TableCheck来源链接、2026-09-10 19:00、2人和`omakase`证据。初始搜索约57秒，唯一Availability read约1秒。
+- Refresh：第一次页面刷新暴露旧fresh evidence可被直接重呈现；第二次暴露刷新标记未从Reducer清除，实际TableCheck重查产生多条新观察（约10–27秒，`USER_REQUESTED_REFRESH`、新evidence ID、policy版本和前序evidence关联），随后因旧进程未加载清理修复而重复读取。已停止该本机开发进程以避免继续消耗预算；最终代码的刷新标记清理由Reducer回归覆盖。故“真实来源重查可执行并可落盘”已验证；“加载最终修复后的单次刷新恢复到页面`PRESENT_RESULTS`”仍未在新的Live调用中复验，不能报告为完成。
+- 边界：没有Fixture替代、H001替代、第三方登录、预约、授权、支付、取消、PII输入或外部写操作。

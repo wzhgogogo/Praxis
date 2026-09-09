@@ -11,6 +11,8 @@ import type {
   RestaurantTaskState,
 } from "../domains/restaurant/contracts.js";
 import { completeRestaurantIntent } from "../domains/restaurant/intent-state.js";
+import { restaurantPresentationReadiness } from "../domains/restaurant/action-validator.js";
+import { RESTAURANT_AVAILABILITY_DISPLAY_FRESHNESS } from "../domains/restaurant/availability-freshness.js";
 
 export interface RestaurantSearchPort {
   readonly executionRoute: "STRUCTURED_ADAPTER";
@@ -78,9 +80,15 @@ function authoritativeSearchRequest(
 function authoritativeAvailabilityRequest(
   state: Readonly<RestaurantTaskState>,
   candidateIds: string[],
+  now: string,
 ): RestaurantAvailabilityRequest {
   const intent = completeRestaurantIntent(state.intentDraft);
   if (!intent) throw new Error("Validated Restaurant availability requires a complete authoritative intent");
+  const eligibility = new Map(restaurantPresentationReadiness(state, now).map((item) => [item.candidateId, item]));
+  const recheckReasons = candidateIds
+    .map((candidateId) => eligibility.get(candidateId))
+    .filter((item): item is NonNullable<typeof item> => item?.recheckReason !== undefined);
+  const previousEvidenceIds = [...new Set(candidateIds.flatMap((candidateId) => state.availabilityChecks[candidateId]?.evidenceIds ?? []))];
   return {
     candidateIds: [...candidateIds],
     candidates: candidateIds.map((candidateId) => {
@@ -92,6 +100,12 @@ function authoritativeAvailabilityRequest(
     timeWindow: structuredClone(intent.timeWindow),
     partySize: intent.partySize,
     hardCriteria: intent.criteria.filter((criterion) => criterion.polarity === "POSITIVE" && criterion.strength === "HARD").map((criterion) => criterion.text),
+    ...(recheckReasons.length ? {
+      recheck: {
+        reason: recheckReasons[0]!.recheckReason!,
+        previousEvidenceIds,
+      },
+    } : {}),
   };
 }
 
@@ -120,6 +134,7 @@ export class RestaurantExecutionRouter {
   async execute(
     action: RestaurantAgentAction,
     state: Readonly<RestaurantTaskState>,
+    now = new Date().toISOString(),
   ): Promise<RestaurantActionExecution> {
     switch (action.type) {
       case "ASK_USER":
@@ -153,7 +168,7 @@ export class RestaurantExecutionRouter {
         }
       }
       case "CHECK_AVAILABILITY": {
-        const request = authoritativeAvailabilityRequest(state, action.candidateIds);
+        const request = authoritativeAvailabilityRequest(state, action.candidateIds, now);
         try {
           const read = await this.withProviderReadDeadline(
             "Restaurant availability",
@@ -164,11 +179,16 @@ export class RestaurantExecutionRouter {
             this.availability.executionRoute === "GENERIC_BROWSER",
           );
           const terminalFailureCode = terminalBrowserReadFailure(read, request.candidateIds);
+          const metadata: RestaurantReadExecutionMetadata = {
+            ...read.metadata,
+            freshnessPolicyVersion: RESTAURANT_AVAILABILITY_DISPLAY_FRESHNESS.version,
+            ...(request.recheck ? { recheckReason: request.recheck.reason } : {}),
+          };
           return {
             route: this.availability.executionRoute,
-            event: { type: "AVAILABILITY_CHECKED", request, ...read },
+            event: { type: "AVAILABILITY_CHECKED", request, ...read, metadata },
             observation: { type: "AVAILABILITY", detail: `${read.offers.length} offers observed` },
-            executionMetadata: read.metadata,
+            executionMetadata: metadata,
             ...(terminalFailureCode ? {
               failure: {
                 source: "PROVIDER" as const,
@@ -186,7 +206,7 @@ export class RestaurantExecutionRouter {
               ? "BROWSER_TIMEOUT"
               : "BROWSER_RUNTIME_FAILED",
           );
-          const checkedAt = new Date().toISOString();
+          const checkedAt = now;
           const availabilityChecks: Record<string, RestaurantAvailabilityCheck> = Object.fromEntries(
             request.candidateIds.map((candidateId) => [candidateId, {
               status: "UNKNOWN",
@@ -208,6 +228,8 @@ export class RestaurantExecutionRouter {
                 route: this.availability.executionRoute,
                 latencyMs: 0,
                 failureCode: code,
+                freshnessPolicyVersion: RESTAURANT_AVAILABILITY_DISPLAY_FRESHNESS.version,
+                ...(request.recheck ? { recheckReason: request.recheck.reason } : {}),
               },
             },
             observation: { type: "AVAILABILITY_UNKNOWN", detail: reason },
@@ -216,6 +238,8 @@ export class RestaurantExecutionRouter {
               route: this.availability.executionRoute,
               latencyMs: 0,
               failureCode: code,
+              freshnessPolicyVersion: RESTAURANT_AVAILABILITY_DISPLAY_FRESHNESS.version,
+              ...(request.recheck ? { recheckReason: request.recheck.reason } : {}),
             },
             failure: { source: "PROVIDER", code, reason, ...(this.availability.executionRoute === "GENERIC_BROWSER" ? { terminal: true } : {}) },
           };

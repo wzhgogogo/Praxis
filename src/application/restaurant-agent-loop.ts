@@ -130,6 +130,7 @@ export class RestaurantAgentLoopCoordinator {
     let stepNumber = priorSteps.length;
     let rejectedActions = 0;
     let lastRejection: { code: string; reason: string } | undefined;
+    let lastRejectedAction: string | undefined;
     const startedAt = this.clock.now().valueOf();
     const recentExecutionHistory: Array<{ type: string; detail: string }> = priorSteps.slice(-12).map((step) => ({
       type: step.stepOutcome,
@@ -148,7 +149,7 @@ export class RestaurantAgentLoopCoordinator {
         return { status: "TIMEOUT", steps: step };
       }
 
-      const context = projectRestaurantAgentContext(snapshot.domainState);
+      const context = projectRestaurantAgentContext(snapshot.domainState, this.clock.now().toISOString());
       const decision = await this.decision.decide({
         taskId,
         context,
@@ -198,6 +199,8 @@ export class RestaurantAgentLoopCoordinator {
       if (verdict.status === "REJECTED") {
         rejectedActions += 1;
         lastRejection = { code: verdict.code, reason: verdict.reason };
+        const repeated = lastRejectedAction === JSON.stringify(decision.action);
+        lastRejectedAction = JSON.stringify(decision.action);
         await this.trajectories.append({
           ...base,
           agentAction: decision.action,
@@ -209,14 +212,16 @@ export class RestaurantAgentLoopCoordinator {
           stepOutcome: "REJECTED",
         });
         recentExecutionHistory.push({ type: verdict.code, detail: verdict.reason });
-        if (rejectedActions >= this.maxRejectedActions) {
+        if (repeated || rejectedActions >= this.maxRejectedActions) {
           const current = await this.runtime.snapshot(taskId);
           stepNumber += 1;
           await this.terminate(
             current,
             this.base(taskId, stepNumber, current),
             "REJECTION_LIMIT",
-            `Agent exceeded ${this.maxRejectedActions} rejected actions; last rejection: ${verdict.code}`,
+            repeated
+              ? `Agent repeated the same rejected action after ${verdict.code}; corrective action was required`
+              : `Agent exceeded ${this.maxRejectedActions} rejected actions; last rejection: ${verdict.code}`,
           );
           return { status: "REJECTION_LIMIT", steps: step + 1 };
         }
@@ -225,7 +230,7 @@ export class RestaurantAgentLoopCoordinator {
 
       let execution;
       try {
-        execution = await this.router.execute(decision.action, snapshot.domainState);
+        execution = await this.router.execute(decision.action, snapshot.domainState, this.clock.now().toISOString());
       } catch (error) {
         const reason = error instanceof Error ? error.message : "Restaurant action execution failed";
         const after = await this.dispatch(snapshot, { type: "AGENT_EXECUTION_FAILED", reason }, "SYSTEM");
@@ -288,6 +293,7 @@ export class RestaurantAgentLoopCoordinator {
         return { status: "EXECUTION_FAILURE", steps: step + 1 };
       }
       lastRejection = undefined;
+      lastRejectedAction = undefined;
       rejectedActions = 0;
     }
 

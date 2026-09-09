@@ -79,6 +79,13 @@ export interface AvailabilityOffer {
   bookingMode: "INSTANT" | "REQUEST";
   executionMode: "API" | "BROWSER" | "TAKEOVER" | "DEEPLINK";
   checkedAt: string;
+  /** Product display policy; it never grants a booking right or locks a slot. */
+  displayExpiresAt?: string;
+  /** A source-declared deadline, when observed. It may only shorten display freshness. */
+  sourceExpiresAt?: string;
+  /** Live browser observations without a provider booking deadline require a new pre-booking read. */
+  bookingRecheckRequired?: boolean;
+  /** Existing proposal/policy expiry. It is not used to decide read-only display freshness. */
   expiresAt: string;
 }
 
@@ -93,6 +100,8 @@ export interface RestaurantAvailabilityCheck {
   status: RestaurantAvailabilityCheckStatus;
   checkedAt: string;
   expiresAt?: string;
+  displayExpiresAt?: string;
+  freshnessPolicyVersion?: string;
   evidenceIds: string[];
   reasonCode?: string;
 }
@@ -118,6 +127,11 @@ export interface RestaurantReadEvidence {
   sourceUrl?: string;
   observedAt: string;
   expiresAt?: string;
+  displayExpiresAt?: string;
+  sourceExpiresAt?: string;
+  freshnessPolicyVersion?: string;
+  /** Earlier evidence for the same candidate that this bounded recheck supersedes. */
+  supersedesEvidenceIds?: string[];
   requestFingerprint: string;
   claims: Record<string, string | number | boolean | string[]>;
   entityMatch?: {
@@ -150,6 +164,11 @@ export interface RestaurantAvailabilityRequest {
   partySize: number;
   /** Router-bound positive HARD criteria; the browser can only report source-supported facts. */
   hardCriteria: string[];
+  /** Code-derived; never supplied by the Agent or a provider. */
+  recheck?: {
+    reason: "DISPLAY_EVIDENCE_EXPIRED" | "USER_REQUESTED_REFRESH";
+    previousEvidenceIds: string[];
+  };
 }
 
 export interface RestaurantReadExecutionMetadata {
@@ -157,6 +176,8 @@ export interface RestaurantReadExecutionMetadata {
   route: RestaurantExecutionRoute;
   latencyMs: number;
   failureCode?: string;
+  freshnessPolicyVersion?: string;
+  recheckReason?: NonNullable<RestaurantAvailabilityRequest["recheck"]>["reason"];
   /** Internal read-only source chain trace; never projected into Agent context. */
   providerAttempts?: Array<{
     candidateId: string;
@@ -299,6 +320,8 @@ export interface RestaurantTaskState {
   selectedCandidateId?: string;
   selectedOfferId?: string;
   presentedResults?: { candidateIds: string[]; evidenceIds: string[]; presentedAt: string };
+  /** An explicit user refresh only rechecks previously displayed candidates. */
+  refreshRequestedCandidateIds?: string[];
   pendingUserQuestion?: { question: string; relatedFields?: string[] };
   proposal?: ActionProposal;
   authorization?: Authorization;
@@ -356,6 +379,7 @@ export type RestaurantEvent =
       metadata: RestaurantReadExecutionMetadata;
     })
   | (DomainEvent & { type: "RESULTS_PRESENTED"; candidateIds: string[]; evidenceIds: string[] })
+  | (DomainEvent & { type: "AVAILABILITY_REFRESH_REQUESTED"; candidateIds: string[] })
   | (DomainEvent & { type: "SEARCH_FAILED"; reason: string })
   | (DomainEvent & { type: "AVAILABILITY_FAILED"; reason: string })
   | (DomainEvent & {

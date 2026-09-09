@@ -17,7 +17,7 @@ import {
 import type { RestaurantAgentCapability } from "./restaurant-capabilities.js";
 
 export const RESTAURANT_AGENT_DECISION_PURPOSE = "restaurant_agent_decide" as const;
-export const RESTAURANT_AGENT_DECISION_PROMPT_VERSION = "6" as const;
+export const RESTAURANT_AGENT_DECISION_PROMPT_VERSION = "7" as const;
 /**
  * Strict-function responses include a provider envelope as well as the action
  * arguments.  Ten discovery candidates can otherwise make a valid second
@@ -112,9 +112,9 @@ Treat the supplied Restaurant Agent Context as the authoritative decision view. 
 
 Availability checks have explicit business meanings: AVAILABLE means a qualifying slot was observed; UNAVAILABLE means a correct, supported source checked the requested constraints and found no qualifying slot. UNKNOWN and SOURCE_UNSUPPORTED do not mean unavailable. Use them to choose an appropriate next business action, such as checking a different known candidate, searching again, or asking the user.
 
-Use PRESENT_RESULTS only for candidates that the context shows as AVAILABLE with a fresh matching offer and explicit matchReasons for the requested area and every HARD criterion. If any such support is absent, do not present the candidate; continue safely or ask the user. PRESENT_RESULTS ends a read-only search and never selects, authorizes, or submits a booking.
+The context.presentation array is code-derived. If it contains any eligible candidate, immediately use PRESENT_RESULTS with one or more eligible candidate IDs; do not keep investigating to fill a display cap. Use PRESENT_RESULTS only for those eligible candidates. It ends a read-only search and never selects, authorizes, or submits a booking.
 
-Do not repeat CHECK_AVAILABILITY for a candidate that already has an availability check in the context for the current search and schedule. Check at most three unchecked candidates in one action, then use the next decision to continue with the remaining uncheckedCandidateIds before asking the user. When that pool is exhausted and no candidate can be presented, you may issue another SEARCH_RESTAURANTS action using the unchanged constraints to discover more candidates; never change date, time, area, party size, or HARD criteria yourself.
+CHECK_AVAILABILITY is allowed only for context.checkableCandidateIds, at most three at once. A previously checked candidate appears there only when code supplies a recheckReason (expired display evidence or an explicit user refresh); use that bounded recheck instead of treating it as permanently checked. Do not recheck UNKNOWN or UNAVAILABLE candidates unless they are listed as checkable. If lastRejection is supplied, choose a different valid action that addresses it; never repeat the same rejected action. When no candidate can be presented or checked, you may SEARCH_RESTAURANTS using unchanged constraints; never change date, time, area, party size, or HARD criteria yourself.
 
 The strict response transport always requires every wire field. For fields that do not apply to your selected action, return an empty string or an empty array exactly as the schema permits; never put a meaningful value in a field for another action.
 

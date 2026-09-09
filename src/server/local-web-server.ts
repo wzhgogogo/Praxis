@@ -8,6 +8,7 @@ import {
   WorkspaceCaseNotFoundError,
   type PilotAccessEntry,
 } from "../application/persistent-restaurant-agent.js";
+import { LIVE_READ_INVESTIGATION_BUDGET } from "../application/live-read-investigation-budget.js";
 import type { RestaurantCaseView } from "../application/agent-workspace.js";
 import { RestaurantSemanticInterpreter } from "../domains/restaurant/semantic-interpreter.js";
 import { RestaurantAgentDecision } from "../domains/restaurant/agent-decision.js";
@@ -215,6 +216,19 @@ export function createLocalWebServer(options: LocalWebServerOptions): Server {
         });
         return;
       }
+      const refreshMatch = /^\/api\/cases\/([^/]+)\/refresh$/.exec(url.pathname);
+      if (method === "POST" && refreshMatch) {
+        const body = await readJson(request);
+        const view = await options.application.refreshAvailability({
+          userId: user.id,
+          caseId: decodeURIComponent(refreshMatch[1]!),
+          requestId: requireString(body, "requestId"),
+          expectedVersion: requireVersion(body),
+        });
+        hub.publish(view);
+        json(response, 200, { view });
+        return;
+      }
       const messageMatch = /^\/api\/conversations\/([^/]+)\/messages$/.exec(url.pathname);
       if (method === "POST" && messageMatch) {
         const body = await readJson(request);
@@ -288,17 +302,22 @@ async function start(): Promise<void> {
   const model = fixtureMode ? new FixtureModelGateway() : DeepSeekModelGateway.fromEnvironment();
   const restaurantSearch = fixtureMode
     ? new FixtureRestaurantSearch()
-    : new GooglePlacesRestaurantSearch(new GooglePlacesClient({ apiKey: process.env.GOOGLE_MAPS_API_KEY ?? "" }));
+    : new GooglePlacesRestaurantSearch(
+        new GooglePlacesClient({ apiKey: process.env.GOOGLE_MAPS_API_KEY ?? "", timeoutMs: LIVE_READ_INVESTIGATION_BUDGET.maxStructuredReadMs }),
+        undefined,
+        10,
+        { maxSearches: LIVE_READ_INVESTIGATION_BUDGET.maxGoogleSearches },
+      );
   const restaurantAvailability = fixtureMode
     ? new FixtureRestaurantSearch()
     : new LiveBrowserAvailability(browserRuntimeFromEnvironment(), model, {
-        maxTableCheckBrowserSessions: 3,
-        maxTabelogBrowserSessions: 3,
-        maxTabelogCandidateMatches: 5,
-        maxModelCallsPerCandidate: 6,
-        maxModelCallsTotal: 12,
-        maxOperationsPerCandidate: 24,
-        maxAutomaticElapsedMs: 300_000,
+        maxTableCheckBrowserSessions: LIVE_READ_INVESTIGATION_BUDGET.maxTableCheckBrowserSessions,
+        maxTabelogBrowserSessions: LIVE_READ_INVESTIGATION_BUDGET.maxTabelogBrowserSessions,
+        maxTabelogCandidateMatches: LIVE_READ_INVESTIGATION_BUDGET.maxTabelogCandidateMatches,
+        maxModelCallsPerCandidate: LIVE_READ_INVESTIGATION_BUDGET.maxBrowserModelCallsPerCandidate,
+        maxModelCallsTotal: LIVE_READ_INVESTIGATION_BUDGET.maxBrowserModelCallsTotal,
+        maxOperationsPerCandidate: LIVE_READ_INVESTIGATION_BUDGET.maxBrowserOperationsPerCandidate,
+        maxAutomaticElapsedMs: LIVE_READ_INVESTIGATION_BUDGET.maxAutomaticBrowserMs,
       });
   const application = new PersistentRestaurantAgentApplication({
     database,
@@ -308,9 +327,15 @@ async function start(): Promise<void> {
     restaurantAvailability,
     workspaceMode: providerMode,
     ...(fixtureMode ? {} : {
-      executionRouterOptions: { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 300_000 },
-      // This is local Live Read-only behavior, not the broader H001 debug allowance.
-      agentLoopOptions: { maxSteps: 12, maxRejectedActions: 3, timeoutMs: 300_000 },
+      executionRouterOptions: {
+        structuredReadTimeoutMs: LIVE_READ_INVESTIGATION_BUDGET.maxStructuredReadMs,
+        browserReadTimeoutMs: LIVE_READ_INVESTIGATION_BUDGET.maxAutomaticBrowserMs,
+      },
+      agentLoopOptions: {
+        maxSteps: LIVE_READ_INVESTIGATION_BUDGET.maxAgentSteps,
+        maxRejectedActions: LIVE_READ_INVESTIGATION_BUDGET.maxRejectedActions,
+        timeoutMs: LIVE_READ_INVESTIGATION_BUDGET.maxAutomaticBrowserMs,
+      },
     }),
   });
   const sessions = new PilotSessionService(application.store, pilotEntriesFromEnvironment(), {

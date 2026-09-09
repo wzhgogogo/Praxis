@@ -6,6 +6,7 @@ import { createInterface } from "node:readline/promises";
 
 import { RestaurantAgentLoopCoordinator } from "../../../../application/restaurant-agent-loop.js";
 import { RestaurantExecutionRouter } from "../../../../application/restaurant-execution-router.js";
+import { LIVE_READ_INVESTIGATION_BUDGET } from "../../../../application/live-read-investigation-budget.js";
 import { InMemoryTaskRuntime } from "../../../../core/task-runtime/in-memory-task-runtime.js";
 import type { ModelInvocationRecord } from "../../../../core/model/contracts.js";
 import { RestaurantAgentDecision } from "../../../../domains/restaurant/agent-decision.js";
@@ -124,20 +125,7 @@ const runtimeContext = {
     tabelog: fileSha256("web-skills/tabelog/SKILL.md"),
   },
 };
-const liveReadLimits = {
-  // H001 diagnostic budget only. These are hard ceilings, not default Web values.
-  maxGoogleSearches: 3,
-  maxGooglePlaceDetails: 0,
-  maxTableCheckBrowserSessions: 3,
-  maxTabelogBrowserSessions: 3,
-  maxTabelogCandidateMatches: 3,
-  maxAvailabilityReads: 20,
-  maxBrowserRuntimeFallbacks: 1,
-  maxBrowserModelCallsPerCandidate: 20,
-  maxBrowserModelCallsTotal: 120,
-  maxBrowserOperationsPerCandidate: 80,
-  maxAutomaticBrowserMs: 20 * 60_000,
-} as const;
+const liveReadLimits = LIVE_READ_INVESTIGATION_BUDGET;
 const taskId = `hybrid-live:${materialized.id}:${startedAt.valueOf()}`;
 const runId = `run:${taskId}`;
 const clock = { now: () => new Date() };
@@ -186,7 +174,7 @@ try {
     ? { latitude: Number(process.env.PRAXIS_EVAL_USER_LAT), longitude: Number(process.env.PRAXIS_EVAL_USER_LNG) }
     : undefined;
   const search = new GooglePlacesRestaurantSearch(
-    new GooglePlacesClient({ apiKey: process.env.GOOGLE_MAPS_API_KEY ?? "" }),
+    new GooglePlacesClient({ apiKey: process.env.GOOGLE_MAPS_API_KEY ?? "", timeoutMs: liveReadLimits.maxStructuredReadMs }),
     undefined,
     candidateLimit,
     { ...(evaluationLocation ? { evaluationLocation } : {}), maxSearches: liveReadLimits.maxGoogleSearches },
@@ -223,14 +211,18 @@ try {
     },
     new RestaurantAgentDecision(model),
     new RestaurantExecutionRouter(search, availability, {
-      structuredReadTimeoutMs: 8_000,
+      structuredReadTimeoutMs: liveReadLimits.maxStructuredReadMs,
       // An explicit human pause is outside the automatic browser-read deadline.
       // The H001 outer-loop deadline is the whole diagnostic cap, not a product SLA.
       browserReadTimeoutMs: manualTabelogIntervention ? null : liveReadLimits.maxAutomaticBrowserMs,
     }),
     trajectories,
     clock,
-    { maxSteps: 30, maxRejectedActions: 5, timeoutMs: 20 * 60_000 },
+    {
+      maxSteps: liveReadLimits.maxAgentSteps,
+      maxRejectedActions: liveReadLimits.maxRejectedActions,
+      timeoutMs: liveReadLimits.maxAutomaticBrowserMs,
+    },
   );
   stage = "AGENT_LOOP";
   console.log(JSON.stringify({

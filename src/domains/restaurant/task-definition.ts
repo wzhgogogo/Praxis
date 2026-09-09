@@ -54,6 +54,7 @@ function resetForSemanticUpdate(
     authorization: _authorization,
     semanticConflict: _semanticConflict,
     failure: _failure,
+    refreshRequestedCandidateIds: _refreshRequestedCandidateIds,
     ...remaining
   } = state;
   return {
@@ -173,19 +174,6 @@ function lifecycleFor(phase: RestaurantPhase): TaskLifecycleState {
   }
 }
 
-function terminationQuestion(termination: RestaurantAgentLoopTermination): string {
-  switch (termination) {
-    case "TIMEOUT":
-      return "I reached the time limit while evaluating safe options. Please clarify how you would like to proceed.";
-    case "STEP_LIMIT":
-      return "I reached the maximum number of safe planning steps. Please clarify how you would like to proceed.";
-    case "REJECTION_LIMIT":
-      return "I could not find a valid next action after several rejected proposals. Please clarify how you would like to proceed.";
-    case "EXECUTION_FAILURE":
-      return "A required external read failed before it could be safely evaluated.";
-  }
-}
-
 function ensureAvailabilityObservation(
   request: Extract<RestaurantEvent, { type: "AVAILABILITY_CHECKED" }> ["request"],
   offers: AvailabilityOffer[],
@@ -242,48 +230,43 @@ function transition(
       };
     case "AGENT_DECISION_FAILED":
       requirePhase(state, ["UNDERSTANDING", "NEEDS_INPUT", "SEARCHING", "SELECTION_REQUIRED"], event.type);
+      {
+        const { pendingUserQuestion: _pendingUserQuestion, ...remaining } = state;
       return {
         state: {
-          ...state,
-          phase: "NEEDS_INPUT",
-          pendingUserQuestion: { question: "I could not determine a safe next step. Please clarify how you would like to proceed." },
+          ...remaining,
+          phase: "FAILED",
           failure: { code: "AGENT_DECISION_FAILED", message: event.reason },
         },
         commands: [],
       };
+      }
     case "AGENT_EXECUTION_FAILED":
       requirePhase(state, ["UNDERSTANDING", "NEEDS_INPUT", "SEARCHING", "SELECTION_REQUIRED"], event.type);
+      {
+        const { pendingUserQuestion: _pendingUserQuestion, ...remaining } = state;
       return {
         state: {
-          ...state,
-          phase: "NEEDS_INPUT",
-          pendingUserQuestion: { question: "I could not safely execute that step. Please clarify how you would like to proceed." },
+          ...remaining,
+          phase: "FAILED",
           failure: { code: "AGENT_EXECUTION_FAILED", message: event.reason },
         },
         commands: [],
       };
+      }
     case "AGENT_LOOP_TERMINATED":
       requirePhase(state, ["UNDERSTANDING", "NEEDS_INPUT", "SEARCHING", "SELECTION_REQUIRED"], event.type);
-      if (event.termination === "EXECUTION_FAILURE") {
+      {
         const { pendingUserQuestion: _pendingUserQuestion, ...remaining } = state;
         return {
           state: {
             ...remaining,
             phase: "FAILED",
-            failure: { code: "AGENT_LOOP_EXECUTION_FAILURE", message: event.reason },
+            failure: { code: `AGENT_LOOP_${event.termination}`, message: event.reason },
           },
           commands: [],
         };
       }
-      return {
-        state: {
-          ...state,
-          phase: "NEEDS_INPUT",
-          pendingUserQuestion: { question: terminationQuestion(event.termination) },
-          failure: { code: `AGENT_LOOP_${event.termination}`, message: event.reason },
-        },
-        commands: [],
-      };
     case "SEARCH_COMPLETED":
       requirePhase(state, ["UNDERSTANDING", "NEEDS_INPUT", "SEARCHING", "SELECTION_REQUIRED"], event.type);
       {
@@ -322,6 +305,20 @@ function transition(
         state: { ...state, phase: "SEARCHING", failure: { code: "AVAILABILITY_FAILED", message: event.reason } },
         commands: [],
       };
+    case "AVAILABILITY_REFRESH_REQUESTED": {
+      requirePhase(state, ["PRESENT_RESULTS"], event.type);
+      if (!state.presentedResults || event.candidateIds.length === 0 || new Set(event.candidateIds).size !== event.candidateIds.length) {
+        throw new Error("Availability refresh requires unique previously presented candidates");
+      }
+      if (!event.candidateIds.every((candidateId) => state.presentedResults!.candidateIds.includes(candidateId))) {
+        throw new Error("Availability refresh is limited to previously presented candidates");
+      }
+      const { presentedResults: _presentedResults, failure: _failure, ...remaining } = state;
+      return {
+        state: { ...remaining, phase: "SEARCHING", refreshRequestedCandidateIds: [...event.candidateIds] },
+        commands: [],
+      };
+    }
     case "AVAILABILITY_CHECKED": {
       requirePhase(state, ["SEARCHING", "SELECTION_REQUIRED"], event.type);
       ensureAvailabilityObservation(event.request, event.offers, event.availabilityChecks);
@@ -343,7 +340,12 @@ function transition(
         candidate.matchReasons = [...new Set([...candidate.matchReasons, ...update.matchReasons])];
       }
       {
-        const { failure: _failure, ...remaining } = state;
+        const { failure: _failure, refreshRequestedCandidateIds: priorRefreshRequestedCandidateIds, ...remaining } = state;
+        const refreshed = new Set(event.request.candidateIds);
+        const remainingRefresh = priorRefreshRequestedCandidateIds?.filter((candidateId) => !refreshed.has(candidateId)) ?? [];
+        const evidence = event.evidence.map((item) => item.candidateId && event.request.recheck
+          ? { ...item, supersedesEvidenceIds: [...event.request.recheck.previousEvidenceIds] }
+          : structuredClone(item));
         return {
           state: {
             ...remaining,
@@ -351,7 +353,8 @@ function transition(
             availability,
             availabilityChecks,
             candidates,
-            readEvidence: [...state.readEvidence, ...event.evidence.map((item) => structuredClone(item))],
+            readEvidence: [...state.readEvidence, ...evidence],
+            ...(remainingRefresh.length ? { refreshRequestedCandidateIds: remainingRefresh } : {}),
           },
           commands: [],
         };
@@ -452,6 +455,8 @@ function transition(
     case "VERIFICATION_INCONCLUSIVE":
       requirePhase(state, ["VERIFYING", "OUTCOME_UNKNOWN"], event.type);
       return { state: { ...state, phase: "OUTCOME_UNKNOWN", ...(event.evidence ? { evidence: event.evidence } : {}), failure: { code: "OUTCOME_UNKNOWN", message: "Booking result could not be verified" } }, commands: [] };
+    default:
+      throw new Error(`Unsupported restaurant event: ${(event as { type: string }).type}`);
   }
 }
 

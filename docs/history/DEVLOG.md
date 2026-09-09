@@ -1,8 +1,8 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.41
-- Last updated: 2026-09-08
+- Document revision: 4.42
+- Last updated: 2026-09-09
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
@@ -1913,6 +1913,30 @@ Review证明`@1`只检查证据类别存在，错误日期、人数、时段、L
 
 Provider attempts现在从当前runner实际写出的`trajectories[].executionMetadata.providerAttempts`读取，并输出稳定路径引用，局部失败即使在最终成功时也保留。runner的成功与catch收尾都先保存execution artifact、再调用同一个after-finish evaluator；评价故障只生成独立失败sidecar。完整rubric、主观质量、价格和否定HARD来源证据没有扩建，保持未评估。未运行Live、付费模型、浏览器或任何外部写路径。
 
+## DEV-2026-09-09-HYBRID-DIAGNOSTICS-V3 — slot、观察时间与权威记录边界
+
+Review继续证明`@2`会把“证据窗口内有任意slot”与“实际Offer的slot已被证据支持”混为一谈，也只检查expiry而不验证observation时间。`@3`要求每个Offer的时间存在于同一provider/sourceEntity availability evidence的`visibleSlots`，并以`observedAt ≤ presentedAt < expiresAt`校验evidence，Offer则以`checkedAt`进行相同顺序校验。缺字段不伪造冲突，明确未来观察、无效排序或过期才拒绝。
+
+同时最终条件比较只认`finalSnapshot.domainState.intentDraft`（Restaurant Runtime当前权威intent字段）；它缺失时标记`NOT_EVALUATED`，不从trajectory的历史context或`PRESENT_RESULTS`反推“条件传错”。这改变诊断语义，故Evaluator与rubric均升为`@3`；旧evaluation不被覆盖。未改产品Evidence/Verifier/Provider标准，未运行Live或付费模型。
+
 ## 2026-09-09 — 本机 PostgreSQL 开发与 Smoke 接线
 
 本机已有的 PostgreSQL 17 数据目录已启动；创建仅供本地持久Workspace使用的`praxis_web`数据库，并复用既有专用`praxis_smoke`数据库。`praxis_web`已应用不可变的0001–0009 Migration，Fixture Workspace首页可由命令级本机连接串启动；真实Smoke验证Runtime、迁移、Goal/Task Graph与Scheduler，并在结束后删除全部临时Task。本轮没有修改源码、Migration、`.env`或任何Secret，也没有执行Live来源、模型、预约、支付、取消或其他外部业务写入。`praxis_smoke`不是生产、staging或Pilot数据库；本机服务可用不等于生产部署、备份/恢复、权限或持续运行验证。
+
+## 2026-09-09 — Local Web Live Read-only actual acceptance
+
+在命令级显式`LIVE_READ`、两项Live gate和`LOCAL_CHROMIUM`下，停止已有Fixture server并以同一`praxis_web`启动Local Workspace；不改写`.env`、不落盘凭据。真实浏览器新建Case并提交未来Shibuya omakase需求。该流程的持久轨迹保存5个模型决策、Google Discovery产生的10个候选，及4轮`GENERIC_BROWSER`受控来源读取中的17条TableCheck/Tabelog outcome；Provider的`AVAILABLE`、`UNAVAILABLE`和failure均继续由Domain Grounding判断，Web未将其中任一条未完整grounded的观察渲染成可预订结果。总5分钟预算到期后Loop记录`TIMEOUT`、Task进入`WAITING_USER / NEEDS_INPUT`；浏览器刷新从PostgreSQL恢复该终态、候选、来源链接与Activity。没有预约提交、第三方登录、付款、取消、PII输入或其他外部写入；此结果不等同于H001的成功artifact，也不宣称Web Live qualified result成功。
+
+## 2026-09-09 — Shared Web/H001 Live budget and correct terminal attribution
+
+此前Web组合硬编码12步、12次Browser model call、每候选6次和300秒，而H001独立runner使用30步、120次、每候选20次与20分钟；同一语义请求因此没有相同调查机会。新建`LIVE_READ_INVESTIGATION_BUDGET`作为两个实际调用方的唯一预算来源，包含Google、来源会话、浏览器模型／操作和Agent loop上限；没有扩建Provider、写路径、重试或兼容分支。
+
+Review还确认Reducer把`TIMEOUT`、`STEP_LIMIT`和`REJECTION_LIMIT`错误映射为`NEEDS_INPUT`并生成澄清文案，且模型／执行失败也错误要求用户解决系统问题。现在这些系统终止都转为`FAILED`、删除`pendingUserQuestion`、持久保存稳定failure code及真实reason；`NEEDS_INPUT`只保留给缺失或冲突的需求以及明确`ASK_USER`。`PRESENT_RESULTS` Validator没有放宽。
+
+## 2026-09-09 — Availability display freshness and read-only recheck
+
+ADR-0018把原先混用的`expiresAt`语义拆开：`restaurant-availability-display-freshness@1`以每条实际观察为起点提供10分钟展示窗口，来源期限只能缩短；展示、Offer构造和持久State重读不能续期。未来预订仍必须重新核查门店、日期、人数、时段、套餐、价格及重要条款，未建设提交能力。
+
+Runtime保留旧观察，重查证据通过前序evidence引用关联；展示过期、明确无位与来源失败不再互相覆盖。只允许展示证据过期或用户显式刷新已展示候选时进行受限只读重查，沿用现有浏览器/预算/取消/无进展链路，不新增定时刷新或站点fallback。Agent Context升为`@3`，由代码给出当前时间、展示资格、缺口和重查理由；合格结果优先展示，同一被拒绝动作立即停止而不循环耗尽预算。Local Web加入只在`PRESENT_RESULTS`显示的刷新按钮和受版本保护的API；无预约、支付、换店提交或PII路径。
+
+真实Web验收还发现并修复两个执行链问题：Google Client与Router遗留的8秒独立deadline改为共享30秒structured-read上限；刷新pending状态优先覆盖旧展示资格，且一次`AVAILABILITY_CHECKED`后从State清除，避免旧证据重呈现或同一刷新循环。实际来源trace证明新观察、`USER_REQUESTED_REFRESH`、策略版本与前序证据关联均已写入；最后的清理修复只完成离线回归，尚未再消耗Live预算复验单次页面恢复。
