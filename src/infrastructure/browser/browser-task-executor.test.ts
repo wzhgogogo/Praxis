@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 
-import type { BrowserRuntime, BrowserSession, BrowserSnapshot } from "./browser-runtime.js";
+import type { BrowserPageControl, BrowserRuntime, BrowserSession, BrowserSnapshot } from "./browser-runtime.js";
 import { BrowserTaskExecutor } from "./browser-task-executor.js";
 import { BrowserReadDecisionError, type BrowserReadActionDecisionPort, type BrowserReadDecisionInput } from "./browser-action-decision.js";
 
@@ -16,10 +16,27 @@ class FixtureSession implements BrowserSession {
 
   async navigate(): Promise<void> { this.index = Math.min(this.index + 1, this.pages.length - 1); }
   async snapshot(): Promise<BrowserSnapshot> { return this.pages[this.index]!; }
+  async observeControls(): Promise<BrowserPageControl[]> {
+    const html = this.pages[this.index]!.html;
+    const controls: BrowserPageControl[] = [];
+    for (const match of html.matchAll(/<(a|button|input|select)\b([^>]*)>([^<]*)/gi)) {
+      const tag = match[1]!.toLowerCase(); const attrs = match[2] ?? ""; const label = (match[3] ?? attrs.match(/aria-label=["']([^"']+)/i)?.[1] ?? "").trim();
+      const value = attrs.match(/(?:data-date|data-value|value)=["']([^"']+)/i)?.[1];
+      const href = attrs.match(/href=["']([^"']+)/i)?.[1];
+      const type = attrs.match(/type=["']([^"']+)/i)?.[1];
+      let absoluteHref: string | undefined; try { absoluteHref = href ? new URL(href, this.pages[this.index]!.url).toString() : undefined; } catch { /* malformed markup is not a control */ }
+      controls.push({ id: `fixture:${this.index}:${controls.length}`, stableKey: `${tag}|${label}|${value ?? ""}|${controls.length}`, kind: tag === "a" ? "LINK" : tag === "select" ? "SELECT" : tag === "input" ? "INPUT" : "BUTTON", role: tag === "a" ? "link" : tag === "button" ? "button" : tag, label, ...(value ? { value } : {}), ...(absoluteHref ? { href: absoluteHref } : {}), ...(attrs.match(/formmethod=["']post/i) ? { formMethod: "POST" as const } : attrs.match(/formmethod=["']get/i) ? { formMethod: "GET" as const } : {}), ...(type ? { type } : {}), disabled: /disabled|aria-disabled=["']true/i.test(attrs), visible: true });
+    }
+    return controls;
+  }
   async click(): Promise<void> { this.clicks += 1; this.index = Math.min(this.index + 1, this.pages.length - 1); }
   async fill(): Promise<void> {}
   async select(_target: string, value: string): Promise<string[]> { this.selected.push(value); return [value]; }
   async waitFor(): Promise<void> {}
+  async waitForChange(previous: Pick<BrowserSnapshot, "url" | "title" | "text">): Promise<boolean> {
+    const current = this.pages[this.index]!;
+    return current.url !== previous.url || current.title !== previous.title || current.text !== previous.text;
+  }
   async screenshot(): Promise<Uint8Array> { return new Uint8Array(); }
   async close(): Promise<void> { this.closed += 1; }
 }
@@ -32,7 +49,7 @@ function input(session: BrowserSession, signal = new AbortController().signal) {
     session,
     signal,
     allowedOrigins: ["https://www.tablecheck.com"],
-    authoritative: { date: "2026-09-10", partySize: 2 },
+    goal: { outlet: { name: "Sushi Inase" }, date: "2026-09-10", partySize: 2, timeWindow: { earliest: "19:00", latest: "19:00" }, hardCriteria: ["omakase"] },
     objective: "Reveal public search results.",
     completion: (snapshot: BrowserSnapshot) => ({ complete: /Sushi Inase/.test(snapshot.text), reason: "A public result is not yet visible." }),
   };
@@ -53,6 +70,29 @@ test("BrowserTaskExecutor shares one browser session across source work and clos
   assert.equal(opens, 1);
   await executor.close();
   assert.equal(session.closed, 1);
+});
+
+test("BrowserTaskExecutor keeps a model-call ceiling across sequential candidate executors", async () => {
+  const budget = { totalModelCalls: 0 };
+  let decisions = 0;
+  const modelDecision: BrowserReadActionDecisionPort = {
+    async decide() {
+      decisions += 1;
+      return { type: "REQUEST_HUMAN_HELP", reason: "fixture stop" };
+    },
+  };
+  const firstSession = new FixtureSession([{ url: "https://www.tablecheck.com/en/japan/search", title: "search", text: "", html: "" }]);
+  const first = new BrowserTaskExecutor({ openSession: async () => firstSession }, { modelDecision, maxModelCallsTotal: 1, budget });
+  const acquiredFirst = await first.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY");
+  assert.equal((await first.runSkill({ ...input(acquiredFirst), completion: () => ({ complete: false, reason: "continue" }) })).status, "REQUESTED_HUMAN_HELP");
+  await first.close();
+
+  const secondSession = new FixtureSession([{ url: "https://www.tablecheck.com/en/japan/search", title: "search", text: "", html: "" }]);
+  const second = new BrowserTaskExecutor({ openSession: async () => secondSession }, { modelDecision, maxModelCallsTotal: 1, budget });
+  const acquiredSecond = await second.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY");
+  assert.equal((await second.runSkill({ ...input(acquiredSecond), completion: () => ({ complete: false, reason: "continue" }) })).status, "BUDGET_EXCEEDED");
+  assert.equal(decisions, 1);
+  await second.close();
 });
 
 test("BrowserTaskExecutor accepts only observed, read-only targets and invalidates old references after every observation", async () => {
@@ -146,6 +186,26 @@ test("BrowserTaskExecutor permits only an exact non-submit calendar button for a
   });
   const acquired = await executor.acquire(new AbortController().signal, "TABLECHECK", "AVAILABILITY");
   const result = await executor.runSkill({ ...input(acquired), stage: "AVAILABILITY", completion: (snapshot) => ({ complete: /applied/.test(snapshot.text), reason: "Date has not been visibly applied." }) });
+  assert.equal(result.status, "COMPLETED");
+  assert.equal(session.clicks, 1);
+  await executor.close();
+});
+
+test("BrowserTaskExecutor permits a non-submit calendar control nested in a POST form", async () => {
+  const session = new FixtureSession([
+    {
+      url: "https://www.tablecheck.com/en/sushi", title: "availability", text: "Choose date",
+      html: '<button formmethod="post" type="button" data-date="2026-9-10">Monday 10</button>',
+    },
+    { url: "https://www.tablecheck.com/en/sushi", title: "availability", text: "Requested date applied", html: "" },
+  ]);
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {
+    modelDecision: decisions(async (value) => ({
+      type: "CLICK_AUTHORITATIVE", targetRef: value.observation.targets[0]!.ref, field: "DATE", reason: "Select the exact visible date.",
+    })),
+  });
+  const acquired = await executor.acquire(new AbortController().signal, "TABLECHECK", "AVAILABILITY");
+  const result = await executor.runSkill({ ...input(acquired), stage: "AVAILABILITY", completion: (snapshot) => ({ complete: /applied/.test(snapshot.text), reason: "Date is not applied." }) });
   assert.equal(result.status, "COMPLETED");
   assert.equal(session.clicks, 1);
   await executor.close();

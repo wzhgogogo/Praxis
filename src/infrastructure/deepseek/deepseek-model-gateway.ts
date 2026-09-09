@@ -121,6 +121,12 @@ function parseStructuredArguments(
       "Model provider did not return the required structured output call",
       "MALFORMED_RESPONSE",
       false,
+      undefined,
+      undefined,
+      {
+        type: "STRUCTURED_OUTPUT_SHAPE",
+        message: `finish_reason=${typeof choice.finish_reason === "string" ? choice.finish_reason : "<non-string>"}; tool_calls=${Array.isArray(choice.message?.tool_calls) ? choice.message.tool_calls.length : 0}`,
+      },
     );
   }
   if (choice.message.tool_calls.length !== 1) {

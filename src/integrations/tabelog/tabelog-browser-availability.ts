@@ -210,7 +210,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
           session,
           signal,
           allowedOrigins: ["https://tabelog.com"],
-          authoritative: { date: request.date, partySize: request.partySize },
+          goal: { outlet: { name: candidate.restaurant.outletName, address: candidate.restaurant.address }, date: request.date, partySize: request.partySize, timeWindow: request.timeWindow, hardCriteria: request.hardCriteria },
           objective: "Reveal public Tabelog restaurant search results without booking or logging in.",
           methodReason: "Tabelog discovery has no extractable restaurant result yet.",
           completion: (page) => ({

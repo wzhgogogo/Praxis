@@ -2,13 +2,14 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 
 import { fixtureCandidates, fixtureIntent } from "../../harness/restaurant-fixtures.js";
-import type { BrowserRuntime, BrowserSession, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
+import type { BrowserPageControl, BrowserRuntime, BrowserSession, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
 import { TableCheckBrowserAvailability } from "./tablecheck-browser-availability.js";
 import { inspectTableCheckEntity } from "./tablecheck-entity-resolver.js";
 import {
   inspectTableCheckPageUnavailable,
   hasTableCheckSelectedRequest,
   parseTableCheckAvailabilitySlots,
+  parseTableCheckControlAvailability,
   parseTableCheckDiscoveryOutletUrls,
   parseTableCheckOutletIdentityWithEvidence,
   resolveTableCheckReservationTarget,
@@ -27,24 +28,63 @@ const candidate = {
   },
 };
 
-test("TableCheck recognizes the public booking-widget date and party readback across a rendered calendar", () => {
+test("TableCheck binds a request only to explicit complete date and party control state", () => {
   const snapshot: BrowserSnapshot = {
     url: "https://www.tablecheck.com/en/restaurant1",
     title: "Restaurant 1",
-    html: "",
+    html: '<div data-selected-date="2026-09-07" data-pax="2"></div>',
     text: "Restaurant 1 Book a table Sep 7th September 2026 Sun Mon Tue Wed Thu Fri Sat 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 2 guests 19:00 Find more availability",
   };
   assert.equal(hasTableCheckSelectedRequest(snapshot, "2026-09-07", 2), true);
   assert.equal(hasTableCheckSelectedRequest(snapshot, "2026-09-08", 2), false);
+  assert.equal(hasTableCheckSelectedRequest({ ...snapshot, html: '<div data-selected-date="2025-09-07" data-pax="2"></div>' }, "2026-09-07", 2), false);
+  assert.equal(hasTableCheckSelectedRequest({ ...snapshot, html: '<div data-selected-date="2026-09-07" data-pax="3"></div>' }, "2026-09-07", 2), false);
+  assert.equal(hasTableCheckSelectedRequest({ ...snapshot, html: '<div data-selected-date="2026-09-07"></div><div data-pax="2"></div>' }, "2026-09-07", 2), false);
 });
 
 test("TableCheck recognizes its explicit public no-table widget state but not ordinary restaurant prose", () => {
   const noTable: BrowserSnapshot = {
-    url: "https://www.tablecheck.com/en/restaurant1", title: "Restaurant 1", html: "",
+    url: "https://www.tablecheck.com/en/restaurant1", title: "Restaurant 1", html: '<section data-availability-state="empty"></section>',
     text: "Book a table Sep 7th September 2026 2 guests We could not find a table on Sep 7th for the selected mealtime, please try again with another time or day",
   };
-  assert.deepEqual(parseTableCheckAvailabilitySlots(noTable), { availableSlots: [], hasExplicitSlotUi: true });
-  assert.deepEqual(parseTableCheckAvailabilitySlots({ ...noTable, text: "Restaurant reviews say we could not find a table last year." }), { availableSlots: [], hasExplicitSlotUi: false });
+  assert.deepEqual(parseTableCheckAvailabilitySlots(noTable), { availableSlots: [], hasExplicitSlotUi: true, explicitlyEmpty: true, queryComplete: true });
+  assert.deepEqual(parseTableCheckAvailabilitySlots({ ...noTable, html: "", text: "Restaurant reviews say we could not find a table last year." }), { availableSlots: [], hasExplicitSlotUi: false, explicitlyEmpty: false, queryComplete: false });
+});
+
+test("TableCheck does not treat a partial or stale slot list as a completed query result", () => {
+  const partial: BrowserSnapshot = {
+    url: "https://www.tablecheck.com/en/restaurant1", title: "Restaurant 1",
+    html: '<div data-selected-date="2026-09-07" data-pax="2"></div><button class="time-slot is-available" data-time="19:00">19:00</button>',
+    text: "Restaurant 1 19:00",
+  };
+  assert.equal(hasTableCheckSelectedRequest(partial, "2026-09-07", 2), true);
+  assert.deepEqual(parseTableCheckAvailabilitySlots(partial), {
+    availableSlots: ["19:00"], hasExplicitSlotUi: true, explicitlyEmpty: false, queryComplete: false,
+  });
+});
+
+test("TableCheck binds a public slot result only when its reservation link carries the exact request", () => {
+  const snapshot: BrowserSnapshot = {
+    url: "https://www.tablecheck.com/en/restaurant1", title: "Restaurant 1", text: "19:00 19:30",
+    html: [
+      '<a href="/en/shops/restaurant1/reserve?start_date=2026-09-07&start_time=19:00&num_people=2">19:00</a>',
+      '<a href="/en/shops/restaurant1/reserve?start_date=2025-09-07&start_time=19:30&num_people=2">19:30</a>',
+    ].join(""),
+  };
+  assert.equal(hasTableCheckSelectedRequest(snapshot, "2026-09-07", 2), true);
+  assert.equal(hasTableCheckSelectedRequest(snapshot, "2026-09-07", 3), false);
+  assert.deepEqual(parseTableCheckAvailabilitySlots(snapshot, { date: "2026-09-07", partySize: 2 }), {
+    availableSlots: ["19:00"], hasExplicitSlotUi: true, explicitlyEmpty: false, queryComplete: true,
+  });
+});
+
+test("TableCheck reads the same exact request binding from live DOM controls when hydration omits it from HTML", () => {
+  assert.deepEqual(parseTableCheckControlAvailability([
+    { id: "slot", stableKey: "slot", kind: "LINK", role: "link", label: "19:00", href: "https://www.tablecheck.com/en/shops/restaurant1/reserve?start_date=2026-09-07&start_time=19:00&num_people=2", disabled: false, visible: true },
+    { id: "stale", stableKey: "stale", kind: "LINK", role: "link", label: "19:30", href: "https://www.tablecheck.com/en/shops/restaurant1/reserve?start_date=2025-09-07&start_time=19:30&num_people=2", disabled: false, visible: true },
+  ], "2026-09-07", 2), {
+    availableSlots: ["19:00"], hasExplicitSlotUi: true, explicitlyEmpty: false, queryComplete: true,
+  });
 });
 
 class FixtureBrowserSession implements BrowserSession {
@@ -59,10 +99,21 @@ class FixtureBrowserSession implements BrowserSession {
 
   async navigate(url: string): Promise<void> { this.navigations.push(url); this.current = Math.min(this.current + 1, this.pages.length - 1); }
   async snapshot(): Promise<BrowserSnapshot> { return this.pages[this.current]!; }
+  async observeControls(): Promise<BrowserPageControl[]> {
+    const page = this.pages[this.current]!;
+    const controls: BrowserPageControl[] = [];
+    for (const match of page.html.matchAll(/<(a|button|input|select)\b([^>]*)>([^<]*)/gi)) {
+      const tag = match[1]!.toLowerCase(); const attrs = match[2] ?? ""; const label = (match[3] ?? attrs.match(/aria-label=["']([^"']+)/i)?.[1] ?? "").trim();
+      const value = attrs.match(/(?:data-date|data-value|value)=["']([^"']+)/i)?.[1]; const href = attrs.match(/href=["']([^"']+)/i)?.[1]; const type = attrs.match(/type=["']([^"']+)/i)?.[1];
+      controls.push({ id: `fixture:${this.current}:${controls.length}`, stableKey: `${tag}|${attrs}`, kind: tag === "a" ? "LINK" : tag === "select" ? "SELECT" : tag === "input" ? "INPUT" : "BUTTON", role: tag === "a" ? "link" : tag === "button" ? "button" : tag, label, ...(value ? { value } : {}), ...(href ? { href: new URL(href, page.url).toString() } : {}), ...(attrs.match(/formmethod=["']post/i) ? { formMethod: "POST" as const } : attrs.match(/formmethod=["']get/i) ? { formMethod: "GET" as const } : {}), ...(type ? { type } : {}), disabled: /disabled|aria-disabled=["']true/i.test(attrs), visible: true });
+    }
+    return controls;
+  }
   async click(): Promise<void> { this.clicks += 1; this.current = Math.min(this.current + 1, this.pages.length - 1); }
   async fill(): Promise<void> { this.fills += 1; }
   async select(_target: string, value: string): Promise<string[]> { return [value]; }
   async waitFor(): Promise<void> {}
+  async waitForChange(): Promise<boolean> { return true; }
   async screenshot(): Promise<Uint8Array> { return new Uint8Array(); }
   async close(): Promise<void> { this.closed = true; }
 }
@@ -141,8 +192,8 @@ test("TableCheck slot parser ignores prose and accepts only explicitly bookable 
       '<button class="time-slot" data-time="19:30" aria-disabled="true">19:30</button>',
     ].join(""),
   });
-  assert.deepEqual(prose, { availableSlots: [], hasExplicitSlotUi: false });
-  assert.deepEqual(controls, { availableSlots: ["19:00"], hasExplicitSlotUi: true });
+  assert.deepEqual(prose, { availableSlots: [], hasExplicitSlotUi: false, explicitlyEmpty: false, queryComplete: false });
+  assert.deepEqual(controls, { availableSlots: ["19:00"], hasExplicitSlotUi: true, explicitlyEmpty: false, queryComplete: false });
 });
 
 function discoveryPage(...links: Array<{ href: string; text: string }>): BrowserSnapshot {
@@ -178,7 +229,7 @@ test("TableCheck executor grounds a discovered same-outlet page and real linked 
       html: [
         '<div data-selected-date="2026-08-05" data-pax="2"></div>',
         '<section class="featured-menu">Omakase course</section>',
-        '<button class="time-slot is-available" data-time="19:00">19:00</button>',
+        '<section data-availability-state="complete"><button class="time-slot is-available" data-time="19:00">19:00</button></section>',
       ].join(""),
     },
   ]);
@@ -211,7 +262,7 @@ test("TableCheck continues in one session when the standard method is incomplete
     },
     {
       url: "https://www.tablecheck.com/en/restaurant1", title: "Restaurant 1 availability", text: "Restaurant 1 2 guests Aug 5 2026",
-      html: '<div data-testid="Venue Availability" data-selected-date="2026-08-05" data-pax="2"></div><h1>Restaurant 1</h1><p class="address">1-1 Shinjuku, Tokyo</p><a href="tel:03-1111-2222">03-1111-2222</a><section class="featured-menu">Omakase course</section><button class="time-slot is-available" data-time="19:00">19:00</button>',
+      html: '<div data-testid="Venue Availability" data-selected-date="2026-08-05" data-pax="2"></div><h1>Restaurant 1</h1><p class="address">1-1 Shinjuku, Tokyo</p><a href="tel:03-1111-2222">03-1111-2222</a><section class="featured-menu">Omakase course</section><section data-availability-state="complete"><button class="time-slot is-available" data-time="19:00">19:00</button></section>',
     },
   ]);
   let modelCalls = 0;
@@ -247,7 +298,7 @@ test("TableCheck continues in the same session from confirmed conditions to an e
     {
       url: "https://www.tablecheck.com/en/restaurant1", title: "Restaurant 1 availability",
       text: "Restaurant 1 Book a table Aug 5th 2 guests 19:00",
-      html: '<div data-testid="Venue Availability" data-selected-date="2026-08-05" data-pax="2"></div><h1>Restaurant 1</h1><p class="address">1-1 Shinjuku, Tokyo</p><a href="tel:03-1111-2222">03-1111-2222</a><button class="time-slot is-available" data-time="19:00">19:00</button>',
+      html: '<div data-testid="Venue Availability" data-selected-date="2026-08-05" data-pax="2"></div><h1>Restaurant 1</h1><p class="address">1-1 Shinjuku, Tokyo</p><a href="tel:03-1111-2222">03-1111-2222</a><section data-availability-state="complete"><button class="time-slot is-available" data-time="19:00">19:00</button></section>',
     },
   ]);
   const executor = new BrowserTaskExecutor({ openSession: async () => session }, {
@@ -282,7 +333,7 @@ test("TableCheck uses the one exact-phone outlet among multiple discovered same-
       url: "https://www.tablecheck.com/en/restaurant1/reserve/landing",
       title: "Restaurant 1 reservation",
       text: "Restaurant 1 2 guest 2026-08-05 19:00 Omakase course",
-      html: '<div data-selected-date="2026-08-05" data-pax="2"></div><section class="featured-menu">Omakase course</section><button class="time-slot is-available" data-time="19:00">19:00</button>',
+      html: '<div data-selected-date="2026-08-05" data-pax="2"></div><section class="featured-menu">Omakase course</section><section data-availability-state="complete"><button class="time-slot is-available" data-time="19:00">19:00</button></section>',
     },
   ]);
   const result = await new TableCheckBrowserAvailability({ openSession: async () => session }, () => "2026-08-05T09:00:00.000Z").check(request, new AbortController().signal);
@@ -371,7 +422,7 @@ test("TableCheck hands an extractable-search gap to the model in the same sessio
     {
       url: "https://www.tablecheck.com/en/restaurant1/reserve/landing", title: "Restaurant 1 reservation",
       text: "Restaurant 1 2 guest 2026-08-05 19:00 Omakase course",
-      html: '<div data-selected-date="2026-08-05" data-pax="2"></div><section class="featured-menu">Omakase course</section><button class="time-slot is-available" data-time="19:00">19:00</button>',
+      html: '<div data-selected-date="2026-08-05" data-pax="2"></div><section class="featured-menu">Omakase course</section><section data-availability-state="complete"><button class="time-slot is-available" data-time="19:00">19:00</button></section>',
     },
   ]);
   const diagnostics: BrowserExecutionDiagnostic[] = [];

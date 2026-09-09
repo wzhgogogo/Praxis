@@ -1,8 +1,8 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.38
-- Last updated: 2026-09-05
+- Document revision: 4.39
+- Last updated: 2026-09-08
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
@@ -2045,3 +2045,55 @@ typecheck、arch:check（0 forbidden dependencies）、build通过；npm test 16
 - typecheck、arch:check、build、git diff --check通过。
 - 独立Live Smoke脚本：对实际源码stripTypeScriptTypes后在隔离VM以假数据库/Runtime注入，success、cleanup-failure、assertion-and-cleanup-failure共3种通过；验证每种均尝试4次行清理及连接关闭，失败不打印pass，同时保留测试与清理错误。临时验证工具位于本机临时目录，未新增长期测试框架。真实PostgreSQL未运行。
 - 未运行付费模型、真实来源读写或私有Holdout；Golden及既有artifact未改。审查逐项记录：[TEST-SUITE-REVIEW-2026-09-05](TEST-SUITE-REVIEW-2026-09-05.md)。
+
+## 2026-09-06 — Tabelog / TableCheck单页Live Read-only对照
+
+- 既有探针：`PRAXIS_ALLOW_LIVE_RESTAURANT_READ=1 PRAXIS_ALLOW_BROWSER_RUN=1 PRAXIS_BROWSER_ENGINE=LOCAL_CHROMIUM npm run probe:restaurant:browser:read -- --url 'https://tabelog.com/rstLst/?sk=Ginza' --network-path UNKNOWN --timeout-ms 20000`。沙箱内启动失败`BROWSER_RUNTIME_FAILED`；获准沙箱外运行后`BOT_CHALLENGE`。不得把沙箱失败归因网站。
+- 临时脚本：`node .eval-artifacts/tabelog-network-diagnostic/probe.mjs`，另运行同入口`--path-check`。Live Read-only，Chromium 151.0.7922.34，fresh headed；Tabelog搜索带query/无query均307→403及`cf-mitigated: challenge`；Tabelog首页200、正文7372字符；TableCheck首页301→200到`/en/japan`、正文2162字符。没有点击、填写、刷新或处理验证码。浏览器会话均关闭；没有读取日常profile，未删除既有eval资料。
+- 证据：`.eval-artifacts/tabelog-network-diagnostic/result-1788687890382.json`与`result-1788687987117.json`；既有探针独立start/result保留在原目录。当前网络标记UNKNOWN；只读配置证据显示Xray及TUN中两站有direct规则，不能替代实际出口测量。尚无challenge子域请求证据，分流不一致仅是假设。
+- 本轮仅诊断脚本和文档；脚本语法及`git diff --check`检查。未改变生产路径，未重跑Unit/Mock、本地Fixture、Replay、模型、Holdout、H001或Controlled Live-write；本结果不证明identity、slot和availability，也不证明普通Chrome相同搜索URL可访问。
+
+## 2026-09-06 — Tabelog英文入口后续控制实验与修复验收
+
+模式分开：下列网络观察为Live Read-only；离线回归为Unit/Mock/Fixture/PGlite，无Replay或Controlled Live-write。
+
+- 用户原始英文地区URL：fresh headed Chromium 200；证据`result-1788688239312.json`。仅给旧`sk=Ginza` URL加`/en/`：200；证据`result-1788688282472.json`。均位于`.eval-artifacts/tabelog-network-diagnostic/`，同一当前网络但未独立测量出口。
+- `node --import tsx .eval-artifacts/tabelog-network-diagnostic/probe.mjs --keyword-check`：2次public GET导航，`sw=Ginza`名称匹配，`sw=PraxisDiagnosticNoRestaurant928471`零餐厅链接，两者200；证据`result-1788688373289.json`。旧解析器误收`list-rst__rvw-count-target`评论数，本轮按观察修复。
+- 修复后`node --import tsx .eval-artifacts/tabelog-network-diagnostic/probe.mjs --fixed-smoke`：1次fresh headless导航200，5个解析结果均为餐厅名称与详情链接，未收评论页；证据`result-1788688472300.json`。保留默认webdriver/headless信号；无个人profile、持久Cookie、验证码处理、点击/填写/提交/重试。会话正常关闭。脚本后续导入当前TS解析器，现需`--import tsx`，前段历史无此参数命令对应当时脚本。
+- `npm run typecheck`、`npm run arch:check`、`npm run build`通过。`npm test`沙箱首次因本地HTTP监听EPERM失败；批准沙箱外重跑159/159通过，9379 ms，日志`.eval-artifacts/tabelog-network-diagnostic/npm-test.log`。`git diff --check`通过。
+- 复用既有Tabelog Contract测试：新增实际导航URL断言与评论/图片链接负例；更新英文search URL和sw的脱敏/接管Fixture。无新增独立测试、无旧可执行fallback。控件操作未变，本轮不重跑真实浏览器本地控件Fixture；未运行付费模型、私有Holdout、H001、详情identity或availability，不以搜索200宣称完整预约来源通过。
+
+## 2026-09-06 — TableCheck公开发现切片验证
+
+- Focused：`node --test --import tsx src/integrations/tablecheck/tablecheck-browser-availability.test.ts src/integrations/restaurant-availability/availability-source-resolver.test.ts src/domains/restaurant/read-grounding.test.ts`通过`19/19`。覆盖公开名称/坐标发现、真实结果链接提取、同名分店精确电话选择、无HIGH fail closed、真实reservation link解析、no-result、page-unavailable、parse failure与原有来源fallback。
+- `npm run typecheck`、`npm run arch:check`（0 forbidden dependencies）、`npm run build`及`git diff --check`通过。`npm test`初次受沙箱`listen EPERM 127.0.0.1`影响，只有7个本地server测试失败；获准在本机listener环境重跑后`162/162`通过，0 failed。
+- Live Read-only观察：受控Local Chromium打开公开TableCheck搜索与两个guide页。名称加Google坐标的Sushi Inase结果含`/en/sushiinase`、Shinjuku同名分店及真实`/reserve/landing`链接；Sushisho Issekisancho也出现在同一结果集。只读取公开页面，没有登录、填写、点击、提交、预约、付款或PII。
+- Live H001：离线门禁后只运行一次`PRAXIS_BROWSER_ENGINE=LOCAL_CHROMIUM npm run eval:restaurant:agent-loop:hybrid-live-read -- --case h001`。artifact为`.eval-artifacts/restaurant-hybrid-live-read/2026-09-06T10-03-54-484Z-ac62a317-37ef-446a-b3e7-5e0c2fc71cf1.result.json`；Semantic和两次Agent决定200，Google discovery成功。动态TableCheck搜索用尽25秒Browser deadline，最终三个候选均`BROWSER_TIMEOUT`、Loop `EXECUTION_FAILURE / FAILED`。没有详情页、reservation、HIGH identity、slot、availability或`PRESENT_RESULTS`；没有任何外部写操作。此Live结果不能代替TableCheck完整路径的成功证据。
+
+## 2026-09-07 — Controlled Browser Executor / Local Live Web / H001
+
+### Offline Unit / Fixture / Mock / Local HTTP-SSE
+
+- Focused：`npm run typecheck && node --import tsx --test src/infrastructure/browser/browser-action-decision.test.ts src/infrastructure/browser/browser-task-executor.test.ts src/integrations/restaurant-availability/live-browser-availability.test.ts src/integrations/tablecheck/tablecheck-browser-availability.test.ts src/integrations/tabelog/tabelog-browser-availability.test.ts`通过；最终扩展为含Grounding与Web Live配置Contract的`37/37`。覆盖共享会话/关闭、旧/伪造目标引用拒绝、只读与权威参数、strict wire placeholder→canonical、`+81`国内号码等价、TableCheck/Tabelog现有fail-closed行为和Live模式不回落Fixture。
+- 完整`npm test`在获准localhost listener环境通过；`npm run typecheck`、`npm run arch:check`（0 forbidden dependencies）、`npm run build`和`git diff --check`通过。
+- `npm run test:browser:fixture`：真实本机Chromium + 本地动态Fixture为`4/4`；包含无站点专用Adapter方法的受控通用页面动作。该项只证明本地机制，不访问真实来源。
+- Replay、真实PostgreSQL、私有Holdout、Controlled Live-write均未运行。
+
+### Live Read-only
+
+- 单页探针：`PRAXIS_BROWSER_ENGINE=LOCAL_CHROMIUM npm run probe:restaurant:browser:read -- --url 'https://www.tablecheck.com/en/japan/search?...' --network-path UNKNOWN --timeout-ms 20000`返回`CONTENT_OBSERVED`，浏览器为`LOCAL_PLAYWRIGHT_CHROMIUM`；没有点击、填写、slot结论或业务Evidence。
+- H001先后只在明确代码修正后重跑，不作无假设重试：strict browser wire placeholder修复后的artifact为`.eval-artifacts/restaurant-hybrid-live-read/2026-09-07T03-02-19-358Z-9380b99e-537c-4ebb-a476-0275c0c3fdc1.result.json`；日本国际电话格式修复后的最终artifact为`.eval-artifacts/restaurant-hybrid-live-read/2026-09-07T03-07-31-815Z-e7b534bb-1e13-4e2a-aab2-befc6e8c1ea2.result.json`。
+- 最终artifact：Semantic、三个Restaurant Agent decision和一次browser decision均为DeepSeek HTTP 200；Google发现10候选并以结构化address component支持`near Shibuya`。Sushisho Isseki Sancho的Tabelog详情达到`HIGH_EXACT_PHONE`；其availability为`EXTERNAL_BOOKING_PROVIDER_REQUIRED`，另两候选非HIGH；三个TableCheck动态搜索均为`TABLECHECK_PAGE_UNAVAILABLE`。没有日期/人数回读、明确slot、Offer、read Evidence或`PRESENT_RESULTS`，最终`NEEDS_INPUT / WAITING_USER`与`H001_NOT_COMPLETED`。这不是无空位结论。
+- 所有运行均为public-page read-only；没有登录、个人资料、预约提交、付款、取消、Authorization或其他外部写操作。Local Web的Live组合仅作离线配置/HTTP-SSE Contract验证，未把它报告为一次真实来源Web成功。
+
+## 2026-09-07 — TableCheck可恢复发现与原始H001复验
+
+- Focused：`npm run typecheck && node --import tsx --test src/infrastructure/browser/browser-task-executor.test.ts src/integrations/tablecheck/tablecheck-browser-availability.test.ts`通过`15/15`。新增覆盖普通正文数字／`not found`不构成错误页、明确title/heading错误信号、同session的受控发现交接与动作后验证、及探索耗尽独立归因。
+- 完整离线：`npm test`、`npm run typecheck`、`npm run arch:check`（0 forbidden dependencies）、`npm run build`、`npm run test:browser:fixture`（`4/4`）和`git diff --check`通过。Fixture只访问本地页面。
+- Live Read-only：一次原始`PRAXIS_BROWSER_ENGINE=LOCAL_CHROMIUM npm run eval:restaurant:agent-loop:hybrid-live-read -- --case h001`，artifact为`.eval-artifacts/restaurant-hybrid-live-read/2026-09-07T07-25-17-542Z-8a9de9b6-9b94-4788-a1bf-21dc41d31953.result.json`。本次三页TableCheck搜索均由固定解析直接得到guide URL，因此没有实际模型接管；Sushisho Issekisancho、Sushi Inase为`HIGH_EXACT_PHONE`，但前两者`REQUEST_SELECTION_UNCONFIRMED`，第三家`TABLECHECK_ENTITY_MATCH_UNCERTAIN`。Tabelog仍分别为外部预约Provider或identity不确定。没有slot、Offer、`PRESENT_RESULTS`或外部写操作；H001为`H001_NOT_COMPLETED`。
+## 2026-09-08 — 连续候选调查 / H001 Live Read-only
+
+- Focused：Restaurant Agent的strict输出预算、每批三家检查上限，以及两个BrowserTaskExecutor共享模型总预算的覆盖均通过。
+- Full offline：`npm test`在本机localhost listener环境为`195/195`；`npm run typecheck`、`npm run arch:check`、`npm run build`和`git diff --check`均通过。`npm run test:browser:fixture`使用本机真实Chromium和本地动态Fixture为`5/5`；它不访问第三方来源，也不证明真实库存。
+- Live Read-only：冻结H001命令仅运行一次，artifact为`.eval-artifacts/restaurant-hybrid-live-read/2026-09-08T07-41-45-298Z-3bd0ad52-bdc3-4fe1-8bb1-e19fd41737bc.result.json`。它调查10个去重候选、批次为3/3/3/1，并在第10家形成包含同门店、完整日期、人数、目标时间与新鲜结果来源的TableCheck slot Evidence；loop为`SUCCEEDED`且终态为`PRESENT_RESULTS`。这是外部public-page read-only观测，不执行预约或其他写入；它不等同于Web页面的实际用户交互验收。
+- Web Live启动验收：尝试在`127.0.0.1:3210`启动现有`LIVE_READ` workspace前，安全配置检查发现`.env`的`DATABASE_URL`解析为`https://api.deepseek.com/`，不是PostgreSQL连接串；迁移初始化报`Connection terminated unexpectedly`，服务未监听、未创建Web任务、未调用模型/Google/来源浏览器，也未写入任务数据。该配置阻塞需由环境所有者提供正确的本地PostgreSQL连接串后重试；本次没有修改`.env`。

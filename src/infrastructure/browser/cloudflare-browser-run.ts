@@ -3,12 +3,14 @@ import { chromium, type Browser, type Page } from "playwright-core";
 import type {
   BrowserEngine,
   BrowserEngineMode,
+  BrowserPageControl,
   BrowserRuntime,
   BrowserSession,
   BrowserSessionMetadata,
   BrowserSnapshot,
 } from "./browser-runtime.js";
 import { BrowserRuntimeError } from "./browser-runtime-errors.js";
+import { PlaywrightControlRegistry, waitForVisibleChange } from "./playwright-browser-controls.js";
 
 export interface CloudflareBrowserRunConfig {
   accountId: string;
@@ -46,6 +48,7 @@ async function closeQuietly(browser: Browser): Promise<void> {
 
 class CloudflareBrowserSession implements BrowserSession {
   private closed = false;
+  private readonly controls = new PlaywrightControlRegistry();
   readonly metadata: BrowserSessionMetadata;
 
   private constructor(private readonly browser: Browser, engine: BrowserEngine, private readonly page: Page) {
@@ -82,11 +85,22 @@ class CloudflareBrowserSession implements BrowserSession {
     }));
   }
 
-  async click(target: string): Promise<void> { await this.run(() => this.page.locator(target).click()); }
+  async observeControls(): Promise<BrowserPageControl[]> { return this.run(() => this.controls.observe(this.page)); }
+  async click(target: string): Promise<void> {
+    await this.run(async () => {
+      const locator = this.controls.locator(target);
+      // Only BrowserTaskExecutor passes opaque `dom:` references. Existing deterministic
+      // adapter code keeps its explicit, code-owned locator capability.
+      await (locator ?? this.page.locator(target)).click();
+    });
+  }
   async fill(target: string, value: string): Promise<void> { await this.run(() => this.page.locator(target).fill(value)); }
   async select(target: string, value: string): Promise<string[]> { return this.run(() => this.page.locator(target).selectOption(value)); }
   async waitFor(target: string, timeoutMs?: number): Promise<void> {
     await this.run(() => this.page.locator(target).waitFor(timeoutMs === undefined ? {} : { timeout: timeoutMs }));
+  }
+  async waitForChange(previous: Pick<BrowserSnapshot, "url" | "title" | "text">, timeoutMs = 2_500): Promise<boolean> {
+    return this.run(() => waitForVisibleChange(this.page, previous, timeoutMs));
   }
   async screenshot(): Promise<Uint8Array> { return this.run(() => this.page.screenshot()); }
 

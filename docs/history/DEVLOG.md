@@ -1,8 +1,8 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.40
-- Last updated: 2026-09-05
+- Document revision: 4.41
+- Last updated: 2026-09-08
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
@@ -1862,3 +1862,42 @@ Test Skill新增维护/退役规则：先查已有覆盖、说明独立失败依
 补齐前轮范围不足：35个测试文件、5808行正文、173个测试声明逐项审查，另读独立PostgreSQL Live Smoke。完整处置与保留理由见[审查快照](TEST-SUITE-REVIEW-2026-09-05.md)，该历史记录不要求后续每次开发维护全表。
 
 删除重复schema常量测试、伪称Reducer故障的成功子集、合并Tabelog同phone冲突setup；删除重复Google挂起fetch和第三次相同SSE读取。既有测试补Booking schedule、逐项Evidence缺失、持久profile四种开关、结果落库先于outbox完成、身份无phone与稳定ID等断言；去除Prompt原文匹配与固定Task事件版本依赖，修正名称过度承诺。Smoke清理全部尝试并聚合失败，只在测试与清理成功后报告pass。Golden、私有Holdout、已有artifact和产品实现不变；测试入口脚本的失败汇报行为已修正。未提交或推送。
+
+## 2026-09-06 — Tabelog搜索路径有界诊断
+
+用户授权排查v2rayN routing调整后Tabelog仍挑战的问题。复用单页探针，并在Git忽略的`.eval-artifacts/tabelog-network-diagnostic/probe.mjs`编写一次性只读脚本；固定当前网络、fresh Chromium profile，记录document状态、Cloudflare challenge响应标记和少量浏览器信号，不保存HTML、Cookie、token、节点配置或个人profile。默认三次导航，`--path-check`另一次无query对照，每次导航20秒、启动10秒及启动后25秒关闭上限；遇challenge停止该次访问。未修改生产Adapter、用户routing或持久profile。已定位搜索路径403 challenge与首页200的差异；网络/IP和自动化信号的单独贡献仍未建立。
+
+## 2026-09-06 — Tabelog英文搜索入口与候选链接修复
+
+后续用户提供TUN下Chrome成功搜索tokyo的准确英文URL。同一fresh headed Chromium成功打开该URL；只给旧query添加`/en/`也从403变200，随后`sw=Ginza`及无匹配测试词分别返回名称匹配餐厅与零链接，确认英文关键词参数。直接替换Adapter旧`/rstLst/?sk=`为`/en/rstLst/?sw=`，不添加旧路径fallback；同步脱敏规则仅保留英文关键词。
+
+真实页面还暴露`list-rst`通配将评论数链接识别为餐厅，占据最多5个候选的预算；收紧到名称标记，保留已支持的明确identity data属性。既有测试加入评论/图片负例、实际导航URL断言并同步challenge脱敏Fixture，无新测试文件、无数量增长。修复后fresh headless单页200并解析5个餐厅详情URL。未改浏览器指纹、profile、网络分流、State、授权或slot规则；无需ADR。此次切片验收为英文搜索可读和餐厅链接抽取，完整H001/身份/空位仍待独立验证。
+
+## 2026-09-06 — TableCheck公开发现与真实reservation surface
+
+旧TableCheck Adapter把候选英文名称拼成两个guide slug，并继续拼接reservation路径；历史H001证明该策略既不是发现，也不能可靠到达同一门店。本切片改为TableCheck公开`/en/japan/search`，携带候选名称及已有Google坐标，只从渲染结果卡收集guide URL；名称相关性仅限制只读详情页数量，不构成实体证据。
+
+每个发现页面仍由详情JSON-LD/DOM/tel link与Google exact phone或normalized name+full address建立HIGH。详情页只可使用实际`reserve`链接，或明确的嵌入Availability结构；不再派生任何guide/reservation slug。诊断加入搜索页、发现结果URL、实际/规范详情URL、字段来源和规范化比较、reservation target与四类来源失败码。Grounding只对`TABLECHECK_*`保留这些provider失败码，原有Tabelog generic entity行为不变。
+
+本机只读观察验证带坐标的Sushi Inase搜索可返回正确Shibuya与Shinjuku同名分店、Sushisho Issekisancho也出现在结果中；两家已读guide页公开电话与Google一致。完整H001只运行一次：Semantic、Agent和Google成功，但第一个动态TableCheck搜索耗尽既有25秒Browser deadline。未进入详情/预约页，故未形成HIGH、slot、availability或`PRESENT_RESULTS`。本切片未修改Tabelog代码、Browser预算、HARD规则、Authorization或任何写路径。
+
+## 2026-09-07 — 受控浏览器执行与本地 Live Read-only 组合
+
+按`BROWSER-EXECUTION-AND-LIVE-SEARCH-PLAN`的A/C切片实现两来源共用`BrowserTaskExecutor`与最小`browser_read_action@1`。执行器只向模型暴露脱敏文本和观察版本绑定的目标引用；代码继续控制来源、导航、只读点击、权威日期/人数、预算、取消和关闭。站点方法与通用路径复用同一会话，Router取消改为等待来源收束，避免timer race后后台动作。ADR-0017记录为`Draft / authorized local-eval implementation`，没有改变Accepted预约或授权设计。
+
+为DeepSeek strict wire 的全字段要求增加了canonical适配：`COMPLETE`/`REQUEST_HUMAN_HELP`可携带当前观察引用作为传输占位，但只在引用真实且没有权威字段时剥离；伪造引用仍拒绝。真实H001随后揭示Google国内`03-...`与Tabelog JSON-LD`+81-3-...`被错误判冲突，故在两个来源的既有phone normalizer中只转换显式日本国际前缀；仍只有exact phone或name+full address可达HIGH。
+
+本地Web增设显式`FIXTURE`/`LIVE_READ`服务端组合：Live缺gate或必需服务端配置立即失败，默认Fixture保持不变；Web与H001使用同一Google/Browser availability组合，显示grounded结果或稳定失败，不提供预约、登录、PII、支付、远程接管或部署。没有新增通用Browser框架、Provider、写路径、模型供应商或Domain。
+
+最终H001 Live Read-only真实读取Google、TableCheck/Tabelog与现有DeepSeek。Google区域证据正常，Sushisho Isseki Sancho在Tabelog详情以规范化exact phone达到HIGH；TableCheck动态搜索页仍不可用，Tabelog availability转至当前不支持的外部Provider。没有slot、Offer或`PRESENT_RESULTS`，不能报告H001成功。未提交、推送或创建远端分支。
+
+## 2026-09-07 — TableCheck可恢复搜索页交接与错误页归因
+
+收紧TableCheck `PAGE_UNAVAILABLE`：只接受title或primary heading的明确HTTP错误文档，不再扫描整页正文，因此结果数字或普通`not found`文案不会误终止。搜索页可读但固定提取没有guide链接时，provider保留同一`BrowserTaskExecutor` session交给已有受控模型路径；诊断记录交接原因、脱敏观察、模型动作和动作后重观察。若仍无可验证门店，使用`TABLECHECK_DISCOVERY_INCOMPLETE`，与真正页面不可用、无结果、模型失败和预算耗尽分开。没有新增Provider、执行框架、写路径或降低identity/HARD/slot规则。
+
+本次原始H001实际不需要TableCheck接管：三个搜索页直接提供guide链接。两个候选以Google exact phone达到TableCheck HIGH，流程继续到嵌入Availability页面；日期/人数后置确认仍失败，故没有slot或Offer。该结果证明固定发现已恢复，不证明模型接管或H001成功。未提交、推送或创建远端分支。
+## 2026-09-08 — H001 连续候选调查与可信展示
+
+本切片保留既有Google、TableCheck、Tabelog与受控浏览器边界，将业务Agent的可用性检查限制为每批最多三家，候选池仍保留全部去重发现结果；前三批未形成合格结果后，Agent在同一冻结条件、同一总预算内继续调查第四批，而不是清空既有检查记录、重复前三家或要求用户改变条件。餐厅Agent strict 结构化回复的上限从300调整为512 token，以容纳10个候选的不可截断工具参数；本地Action Validator仍是权威边界。Browser任务共享整轮模型调用计数，Router在每个读循环开始/结束显式初始化该计数，因此换批或换来源不能刷新总额。
+
+原始H001仅在完成这些诊断修正后运行一次：artifact为`.eval-artifacts/restaurant-hybrid-live-read/2026-09-08T07-41-45-298Z-3bd0ad52-bdc3-4fe1-8bb1-e19fd41737bc.result.json`。Google发现10个去重候选；Agent依次检查3、3、3、1家，最终对KINKA Sushi Bar Izakaya 渋谷以Google place ID `ChIJz9NsIKmMGGAR6LA78zkpeGY` 的结构化Shibuya地址和TableCheck exact phone建立HIGH，同一公开来源回读2026-09-08、2人和19:00 slot，形成read Evidence与Offer，随后`PRESENT_RESULTS`。全程232,348ms、6次Restaurant Agent决策、9次Browser Model决策；没有登录、PII、预约提交、付款、取消或其他外部写入。该时点库存结果不证明通用Web UI已做真实交互验收，也不代表其他日期/餐厅可用。

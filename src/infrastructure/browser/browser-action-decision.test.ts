@@ -11,13 +11,13 @@ const input = {
   objective: "Read public search results.",
   progress: "A public result is not yet visible.",
   skills: { generic: "observe then re-observe", source: "use public results" },
-  authoritative: { date: "2026-09-10", partySize: 2 },
+  goal: { outlet: { name: "Sushi Inase" }, date: "2026-09-10", partySize: 2, timeWindow: { earliest: "19:00", latest: "19:00" }, hardCriteria: ["omakase"] },
   observation: {
     revision: 1,
     url: "https://www.tablecheck.com/en/japan/search",
     title: "Search",
     visibleText: "No result",
-    targets: [{ ref: "observation:1:target:1", kind: "BUTTON" as const, label: "Show results", readOnlyHint: true }],
+    targets: [{ ref: "observation:1:target:1", kind: "BUTTON" as const, role: "button", label: "Show results" }],
   },
 };
 

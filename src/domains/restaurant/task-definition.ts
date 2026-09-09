@@ -67,6 +67,30 @@ function resetForSemanticUpdate(
   };
 }
 
+const MAX_DISCOVERY_CANDIDATE_POOL = 12;
+
+function sameSearchIntent(left: RestaurantTaskState["intent"], right: RestaurantTaskState["intent"]): boolean {
+  return JSON.stringify(left) === JSON.stringify(right);
+}
+
+function mergeCandidates(
+  existing: RestaurantTaskState["candidates"],
+  incoming: RestaurantTaskState["candidates"],
+): RestaurantTaskState["candidates"] {
+  const byId = new Map(existing.map((candidate) => [candidate.restaurant.id, structuredClone(candidate)]));
+  for (const candidate of incoming) if (!byId.has(candidate.restaurant.id)) byId.set(candidate.restaurant.id, structuredClone(candidate));
+  return [...byId.values()].slice(0, MAX_DISCOVERY_CANDIDATE_POOL);
+}
+
+function mergeEvidence(
+  existing: RestaurantTaskState["readEvidence"],
+  incoming: RestaurantTaskState["readEvidence"],
+): RestaurantTaskState["readEvidence"] {
+  const byId = new Map(existing.map((evidence) => [evidence.evidenceId, structuredClone(evidence)]));
+  for (const evidence of incoming) byId.set(evidence.evidenceId, structuredClone(evidence));
+  return [...byId.values()];
+}
+
 function selectedBooking(state: Readonly<RestaurantTaskState>): RestaurantBookingSelection {
   const candidate = state.candidates.find((item) => item.restaurant.id === state.selectedCandidateId);
   const offer = state.selectedCandidateId && state.selectedOfferId
@@ -271,15 +295,16 @@ function transition(
           failure: _failure,
           ...remaining
         } = state;
+      const continuation = sameSearchIntent(state.intent, event.request.intent);
       return {
         state: {
           ...remaining,
           phase: "SEARCHING",
           intent: structuredClone(event.request.intent),
-          candidates: event.candidates.slice(0, 3).map((candidate) => structuredClone(candidate)),
-          availability: {},
-          availabilityChecks: {},
-          readEvidence: event.evidence.map((item) => structuredClone(item)),
+          candidates: continuation ? mergeCandidates(state.candidates, event.candidates) : event.candidates.slice(0, MAX_DISCOVERY_CANDIDATE_POOL).map((candidate) => structuredClone(candidate)),
+          availability: continuation ? structuredClone(state.availability) : {},
+          availabilityChecks: continuation ? structuredClone(state.availabilityChecks) : {},
+          readEvidence: continuation ? mergeEvidence(state.readEvidence, event.evidence) : event.evidence.map((item) => structuredClone(item)),
           searchRevision: state.searchRevision + 1,
         },
         commands: [],

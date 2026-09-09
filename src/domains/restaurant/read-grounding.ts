@@ -176,7 +176,10 @@ function checkForFailure(
     return { status: "SOURCE_UNSUPPORTED", checkedAt, evidenceIds: [], reasonCode: observation.failureCode ?? "SOURCE_UNSUPPORTED" };
   }
   if (observation.entityMatch.confidence !== "HIGH") {
-    return { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: "ENTITY_MATCH_UNCERTAIN" };
+    // TableCheck discovery has provider-specific, fail-closed outcomes that must
+    // remain observable instead of being collapsed into a generic identity result.
+    const tableCheckFailure = observation.failureCode?.startsWith("TABLECHECK_") ? observation.failureCode : undefined;
+    return { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: tableCheckFailure ?? "ENTITY_MATCH_UNCERTAIN" };
   }
   switch (observation.pageState) {
     case "NO_MATCHING_SLOT": return { status: "UNAVAILABLE", checkedAt, evidenceIds: [] };

@@ -3,8 +3,9 @@ import { resolve } from "node:path";
 
 import { chromium, type Browser, type BrowserContext, type Page } from "playwright-core";
 
-import type { BrowserRuntime, BrowserSession, BrowserSessionMetadata, BrowserSnapshot } from "./browser-runtime.js";
+import type { BrowserPageControl, BrowserRuntime, BrowserSession, BrowserSessionMetadata, BrowserSnapshot } from "./browser-runtime.js";
 import { BrowserRuntimeError } from "./browser-runtime-errors.js";
+import { PlaywrightControlRegistry, waitForVisibleChange } from "./playwright-browser-controls.js";
 
 export interface LocalPlaywrightChromiumConfig {
   browserType?: Pick<typeof chromium, "launch"> & Partial<Pick<typeof chromium, "launchPersistentContext">>;
@@ -20,6 +21,7 @@ async function closeQuietly(value: { close(): Promise<void> } | undefined): Prom
 
 class LocalPlaywrightChromiumSession implements BrowserSession {
   private closed = false;
+  private readonly controls = new PlaywrightControlRegistry();
   readonly metadata: BrowserSessionMetadata = {
     runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM",
     engine: "CHROMIUM",
@@ -50,11 +52,22 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
     }));
   }
 
-  async click(target: string): Promise<void> { await this.run(() => this.page.locator(target).click()); }
+  async observeControls(): Promise<BrowserPageControl[]> { return this.run(() => this.controls.observe(this.page)); }
+  async click(target: string): Promise<void> {
+    await this.run(async () => {
+      const locator = this.controls.locator(target);
+      // Only BrowserTaskExecutor passes opaque `dom:` references. Existing deterministic
+      // adapter and local-fixture code keeps its explicit, code-owned locator capability.
+      await (locator ?? this.page.locator(target)).click();
+    });
+  }
   async fill(target: string, value: string): Promise<void> { await this.run(() => this.page.locator(target).fill(value)); }
   async select(target: string, value: string): Promise<string[]> { return this.run(() => this.page.locator(target).selectOption(value)); }
   async waitFor(target: string, timeoutMs?: number): Promise<void> {
     await this.run(() => this.page.locator(target).waitFor(timeoutMs === undefined ? {} : { timeout: timeoutMs }));
+  }
+  async waitForChange(previous: Pick<BrowserSnapshot, "url" | "title" | "text">, timeoutMs = 2_500): Promise<boolean> {
+    return this.run(() => waitForVisibleChange(this.page, previous, timeoutMs));
   }
   async screenshot(): Promise<Uint8Array> { return this.run(() => this.page.screenshot()); }
 

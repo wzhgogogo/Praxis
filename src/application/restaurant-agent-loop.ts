@@ -117,6 +117,15 @@ export class RestaurantAgentLoopCoordinator {
   }
 
   async run(taskId: string): Promise<RestaurantAgentLoopResult> {
+    this.router.beginReadRun();
+    try {
+      return await this.runWithinReadBudget(taskId);
+    } finally {
+      this.router.endReadRun();
+    }
+  }
+
+  private async runWithinReadBudget(taskId: string): Promise<RestaurantAgentLoopResult> {
     const priorSteps = await this.trajectories.list(taskId);
     let stepNumber = priorSteps.length;
     let rejectedActions = 0;

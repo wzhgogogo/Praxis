@@ -29,7 +29,7 @@ export const RESTAURANT_AGENT_CAPABILITIES: readonly RestaurantAgentCapability[]
     purpose: "Read availability for known candidates at the authoritative date, time window, and party size.",
     inputSchema: "candidateIds; the router binds authoritative date, time window, and party size",
     resultMeaning: "Returns fresh AvailabilityOffer records associated with candidate IDs.",
-    importantConstraints: ["Only known candidates are valid; scheduling values are never Agent-supplied."],
+    importantConstraints: ["Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."],
   },
   {
     name: "PRESENT_RESULTS",

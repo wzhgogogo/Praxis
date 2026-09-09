@@ -29,7 +29,7 @@ import {
 } from "../infrastructure/postgres/restaurant-agent-trajectory-store.js";
 import type { SqlDatabase } from "../infrastructure/postgres/sql-database.js";
 import {
-  AGENT_WORKSPACE_MODE,
+  type AgentWorkspaceMode,
   type ActivityItem,
   type AgentArtifact,
   type RestaurantCaseSummary,
@@ -42,12 +42,13 @@ import {
   RestaurantExecutionRouter,
   type RestaurantAvailabilityPort,
   type RestaurantSearchPort,
+  type RestaurantExecutionRouterOptions,
 } from "./restaurant-execution-router.js";
 import {
   restaurantEventForMessage,
   type RestaurantSemanticInterpreterPort,
 } from "./restaurant-message-handler.js";
-import { RestaurantAgentLoopCoordinator } from "./restaurant-agent-loop.js";
+import { RestaurantAgentLoopCoordinator, type RestaurantAgentLoopOptions } from "./restaurant-agent-loop.js";
 
 type RestaurantRuntime = PostgresTaskRuntime<
   RestaurantTaskState,
@@ -88,15 +89,15 @@ function eventActivity(
         return { title: "Agent loop stopped", detail: `${event.event.termination}: ${event.event.reason}` };
       case "SEARCH_COMPLETED":
         return {
-          title: "Fixture search completed",
-          detail: `${event.event.candidates.length} fixture discovery candidates are ready.`,
+          title: "Restaurant search completed",
+          detail: `${event.event.candidates.length} discovery candidate(s) are ready for evidence checks.`,
         };
       case "CANDIDATE_SELECTED":
         return { title: "Candidate selected", detail: event.event.candidateId };
       case "AVAILABILITY_CHECKED":
         return {
-          title: "Fixture availability checked",
-          detail: `${event.event.offers.length} fixture offers were observed.`,
+          title: "Availability checked",
+          detail: `${event.event.offers.length} evidence-grounded availability offer(s) were observed.`,
         };
       case "RESULTS_PRESENTED":
         return {
@@ -214,6 +215,10 @@ export interface PersistentRestaurantAgentOptions {
   agentDecision: RestaurantAgentDecisionPort;
   restaurantSearch: RestaurantSearchPort;
   restaurantAvailability: RestaurantAvailabilityPort;
+  workspaceMode?: AgentWorkspaceMode;
+  executionRouterOptions?: RestaurantExecutionRouterOptions;
+  /** Local Live composition may need a longer read-only loop than Fixture workflows. */
+  agentLoopOptions?: RestaurantAgentLoopOptions;
 }
 
 export class PersistentRestaurantAgentApplication {
@@ -224,10 +229,12 @@ export class PersistentRestaurantAgentApplication {
   private readonly trajectories: PostgresRestaurantAgentTrajectoryStore;
   private readonly clock: RuntimeClock;
   private readonly createId: IdFactory;
+  private readonly workspaceMode: AgentWorkspaceMode;
 
   constructor(options: PersistentRestaurantAgentOptions) {
     this.clock = options.clock ?? { now: () => new Date() };
     this.createId = options.createId ?? ((prefix) => `${prefix}:${randomUUID()}`);
+    this.workspaceMode = options.workspaceMode ?? "FIXTURE";
     this.interpreter = options.semanticInterpreter;
     this.store = new PostgresAgentWorkspaceStore(options.database);
     this.runtime = new PostgresTaskRuntime(
@@ -240,10 +247,10 @@ export class PersistentRestaurantAgentApplication {
     this.agentLoop = new RestaurantAgentLoopCoordinator(
       this.runtime,
       options.agentDecision,
-      new RestaurantExecutionRouter(options.restaurantSearch, options.restaurantAvailability),
+      new RestaurantExecutionRouter(options.restaurantSearch, options.restaurantAvailability, options.executionRouterOptions),
       this.trajectories,
       this.clock,
-      {},
+      options.agentLoopOptions,
       this.createId,
     );
   }
@@ -454,19 +461,23 @@ export class PersistentRestaurantAgentApplication {
       });
     }
     return {
-      mode: AGENT_WORKSPACE_MODE,
+      mode: this.workspaceMode,
       case: summary,
       conversation: { id: record.id, messages },
       restaurant: {
         missingRequiredFields: missingBlockingFields(state.intentDraft ?? {}),
         candidates: structuredClone(state.candidates),
         availability: structuredClone(state.availability),
+        availabilityChecks: structuredClone(state.availabilityChecks),
+        readEvidence: structuredClone(state.readEvidence),
+        ...(state.presentedResults ? { presentedCandidateIds: [...state.presentedResults.candidateIds] } : {}),
         ...(state.selectedCandidateId ? { selectedCandidateId: state.selectedCandidateId } : {}),
       },
       artifacts,
       activities: events.map((event) => eventActivity(snapshot.id, event)),
-      note:
-        "Fixture mode only. No real model, live availability, authorization, notification, or reservation is performed.",
+      note: this.workspaceMode === "FIXTURE"
+        ? "Fixture mode only. No real model, live availability, authorization, notification, or reservation is performed."
+        : "Live read-only mode. Results require current source evidence; no authorization, booking, payment, cancellation, or personal-data submission is available.",
     };
   }
 }

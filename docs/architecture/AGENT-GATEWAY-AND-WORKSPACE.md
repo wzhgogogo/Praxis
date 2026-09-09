@@ -1,8 +1,8 @@
 # Agent Gateway and Workspace
 
 - Status: Accepted
-- Document revision: 0.1
-- Last updated: 2026-08-08
+- Document revision: 0.2
+- Last updated: 2026-09-07
 - Source of truth for: Web/Mobile Web入口、Conversation/Session/Case边界、用户可见Activity与Domain Workspace
 - Related ADRs: [ADR-0006](../decisions/0006-web-first-agent-workspace.md)
 - Related documents: [Architecture Overview](OVERVIEW.md), [Task Runtime](TASK-RUNTIME.md), [Data, Context and Security](DATA-CONTEXT-SECURITY.md)
@@ -101,6 +101,6 @@ Restaurant在当前纵向切片内直接拥有自己的Artifact类型和Web组�
 
 ## Implementation Status
 
-Status: `implemented: Stage 2B Fixture subset`。当前模块化单体已经实现Pilot Session、PostgreSQL Conversation、`Conversation → Case → Root Task`映射、Case列表/详情、Domain Artifact、Event Activity和可重连SSE；Desktop/Mobile Web共享同一后端状态。Case仍是一对一Root Task投影，未新增通用Case Graph。
+Status: `implemented: Stage 2B Fixture subset + local Live Read-only composition`。当前模块化单体已经实现Pilot Session、PostgreSQL Conversation、`Conversation → Case → Root Task`映射、Case列表/详情、Domain Artifact、Event Activity和可重连SSE；Desktop/Mobile Web共享同一后端状态。`PRAXIS_RESTAURANT_PROVIDER_MODE`默认`FIXTURE`；显式`LIVE_READ`时服务端注入与H001相同的DeepSeek、Google和受控浏览器availability组合，缺任一gate/服务端配置会拒绝启动，绝不回落Fixture。Case仍是一对一Root Task投影，未新增通用Case Graph。
 
-当前未实现生产身份提供方、后台主动通知、跨任务Memory、真实Provider、Authorization UI、Takeover或执行进度。SSE重连采用“先发送最新完整Snapshot”的简单协议，不是持久消息队列；Activity由持久化Event ID确定性生成，从而允许客户端替换和去重。
+当前未实现生产身份提供方、后台主动通知、跨任务Memory、Authorization UI、远程Takeover或生产执行进度。Live Read-only页面只展示已grounded的结果、来源链接和稳定失败原因；它没有预约、付款、取消、登录、PII提交、远程验证码控制或公网部署承诺。SSE重连采用“先发送最新完整Snapshot”的简单协议，不是持久消息队列；Activity由持久化Event ID确定性生成，从而允许客户端替换和去重。

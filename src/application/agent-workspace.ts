@@ -1,12 +1,14 @@
 import type { TaskLifecycleState } from "../core/task-runtime/contracts.js";
 import type {
   AvailabilityOffer,
+  RestaurantAvailabilityCheck,
   RestaurantCandidate,
   RestaurantOutcome,
   RestaurantPhase,
+  RestaurantReadEvidence,
 } from "../domains/restaurant/contracts.js";
 
-export const AGENT_WORKSPACE_MODE = "FIXTURE" as const;
+export type AgentWorkspaceMode = "FIXTURE" | "LIVE_READ";
 
 export type CaseStatus = "ACTIVE" | "NEEDS_YOU" | "WAITING" | "COMPLETED";
 
@@ -83,7 +85,7 @@ export interface RestaurantCaseSummary {
 }
 
 export interface RestaurantCaseView {
-  mode: typeof AGENT_WORKSPACE_MODE;
+  mode: AgentWorkspaceMode;
   case: RestaurantCaseSummary;
   conversation: {
     id: string;
@@ -93,6 +95,10 @@ export interface RestaurantCaseView {
     missingRequiredFields: string[];
     candidates: RestaurantCandidate[];
     availability: Record<string, AvailabilityOffer[]>;
+    availabilityChecks: Record<string, RestaurantAvailabilityCheck>;
+    /** Safe, structured read evidence only; raw DOM and browser credentials are excluded. */
+    readEvidence: RestaurantReadEvidence[];
+    presentedCandidateIds?: string[];
     selectedCandidateId?: string;
   };
   artifacts: AgentArtifact[];

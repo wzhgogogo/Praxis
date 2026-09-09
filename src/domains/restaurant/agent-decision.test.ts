@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 
 import type { RestaurantAgentContext } from "./agent-context.js";
-import { RestaurantAgentDecision } from "./agent-decision.js";
+import { RESTAURANT_AGENT_DECISION_MAX_OUTPUT_TOKENS, RestaurantAgentDecision } from "./agent-decision.js";
 import { RESTAURANT_AGENT_CAPABILITIES } from "./restaurant-capabilities.js";
 import { DeepSeekModelGateway } from "../../infrastructure/deepseek/deepseek-model-gateway.js";
 
@@ -41,6 +41,7 @@ test("Restaurant Agent sends a DeepSeek-strict compatible wire schema and restor
   assert.equal(endpoint, "https://api.deepseek.com/beta/chat/completions");
   const tools = requestBody?.tools as Array<{ function: { strict: boolean; parameters: Record<string, unknown> } }>;
   assert.equal(tools[0]?.function.strict, true);
+  assert.equal(requestBody?.max_tokens, RESTAURANT_AGENT_DECISION_MAX_OUTPUT_TOKENS);
   assert.equal(tools[0]?.function.parameters.additionalProperties, false);
   assert.deepEqual(tools[0]?.function.parameters.required, ["type", "question", "relatedFields", "retrievalHint", "candidateIds", "candidateId", "offerId", "decisionSummary"]);
   assert.equal(result.status, "PROPOSED");

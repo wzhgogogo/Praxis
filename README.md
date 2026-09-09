@@ -30,6 +30,10 @@ npm run dev
 
 启动会应用数据库Migration。打开`http://127.0.0.1:3000`，本地Fixture Token为`praxis-fixture-a`；可通过服务端`PRAXIS_PILOT_ACCESS_JSON`覆盖。页面是Fixture模式，不能据此宣称Live搜索或预约成功。Secret只在服务端使用，个人`.env`不提交。
 
+### 本地 Web Live Read-only
+
+仅在本机、有明确授权的演示中，将`.env`中的`PRAXIS_RESTAURANT_PROVIDER_MODE=LIVE_READ`、`PRAXIS_ALLOW_LIVE_RESTAURANT_READ=1`和`PRAXIS_ALLOW_BROWSER_RUN=1`与DeepSeek、Google及所选浏览器运行时的服务端配置一起设置后再运行`npm run dev`。缺少任一配置会直接启动失败；不会回退到Fixture或混入假候选。Live模式只执行搜索和页面读取，页面会显示经过证据验证的结果、来源链接或准确失败原因；不提供授权、预约、登录、支付、取消或个人资料提交。远程验证码接管和公网部署不在此范围。
+
 ## 验证与诊断
 
 完整范围与命令以[Test Skill](docs/skills/test/SKILL.md)、[Eval Skill](docs/skills/eval/SKILL.md)为准。

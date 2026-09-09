@@ -14,7 +14,11 @@ export type RestaurantActionRejectionCode =
   | "ACTIVE_ATTEMPT"
   | "OUTCOME_UNKNOWN"
   | "AVAILABILITY_ALREADY_CHECKED"
+  | "AVAILABILITY_BATCH_LIMIT"
   | "PRESENTATION_EVIDENCE_MISSING";
+
+/** A browser/read batch is bounded separately from the discovery pool and UI. */
+export const MAX_AVAILABILITY_CHECK_BATCH = 3;
 
 export type RestaurantActionValidation =
   | { status: "ALLOWED" }
@@ -136,6 +140,9 @@ export function validateRestaurantAction(
     }
     if (!action.candidateIds.every((candidateId) => candidate(state, candidateId))) {
       return rejected("CANDIDATE_UNKNOWN", "Availability can only be checked for known candidates");
+    }
+    if (action.candidateIds.length > MAX_AVAILABILITY_CHECK_BATCH) {
+      return rejected("AVAILABILITY_BATCH_LIMIT", `Availability checks are limited to ${MAX_AVAILABILITY_CHECK_BATCH} candidates per batch`);
     }
     const alreadyChecked = action.candidateIds.filter((candidateId) => state.availabilityChecks[candidateId] !== undefined);
     return alreadyChecked.length === 0

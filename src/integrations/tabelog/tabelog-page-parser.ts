@@ -62,7 +62,7 @@ export function parseTabelogSearchOutlets(snapshot: BrowserSnapshot): TabelogOut
     const label = match[2]?.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
     if (!sourceUrl || !label || !isTabelogUrl(sourceUrl)) continue;
     const tag = match[0] ?? "";
-    if (!/data-(?:address|phone)=|class=["'][^"']*(?:list-rst|rst-name|restaurant[^"']*(?:name|title))[^"']*["']/i.test(tag)) continue;
+    if (!/data-(?:address|phone)=|class=["'][^"']*(?:rst-name|restaurant[^"']*(?:name|title))[^"']*["']/i.test(tag)) continue;
     const entityId = sourceEntityId(sourceUrl);
     const address = tag.match(/data-address=["']([^"']+)["']/i)?.[1];
     const phone = tag.match(/data-phone=["']([^"']+)["']/i)?.[1];

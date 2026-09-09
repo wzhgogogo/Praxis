@@ -41,6 +41,8 @@ export interface RestaurantAgentContext {
     status: "AVAILABLE" | "UNAVAILABLE" | "UNKNOWN" | "SOURCE_UNSUPPORTED";
     reasonCode?: string;
   }>;
+  /** Candidate-pool state lets the Agent continue investigation without repeating a read. */
+  uncheckedCandidateIds?: string[];
   selectedCandidateId?: string;
   selectedOfferId?: string;
   failure?: { code: string };
@@ -89,6 +91,9 @@ export function projectRestaurantAgentContext(
         },
       ]),
     ),
+    uncheckedCandidateIds: state.candidates
+      .map((candidate) => candidate.restaurant.id)
+      .filter((candidateId) => state.availabilityChecks[candidateId] === undefined),
     ...(state.selectedCandidateId ? { selectedCandidateId: state.selectedCandidateId } : {}),
     ...(state.selectedOfferId ? { selectedOfferId: state.selectedOfferId } : {}),
     ...(state.failure ? { failure: { code: state.failure.code } } : {}),

@@ -2,6 +2,8 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import { chromium } from "playwright-core";
 import { LocalPlaywrightChromium } from "../../infrastructure/browser/local-playwright-chromium.js";
+import { BrowserTaskExecutor } from "../../infrastructure/browser/browser-task-executor.js";
+import type { BrowserReadActionDecisionPort } from "../../infrastructure/browser/browser-action-decision.js";
 import { inspectProbePage, runBrowserReadProbe } from "../../eval/restaurant/agent-loop/browser-read-probe.js";
 
 const url = "https://www.tablecheck.com/en/fixture";
@@ -65,4 +67,76 @@ test("a requested ready marker that never appears fails within the probe deadlin
   try {
     await assert.rejects(runBrowserReadProbe({ openSession: async () => session }, { url, readySelector: "#never-ready", timeoutMs: 1_500 }), { code: "BROWSER_TIMEOUT" });
   } finally { await session.close(); }
+});
+
+test("generic controlled browser path completes a local read-only page task without a site-specific adapter method", async () => {
+  const runtime = localFixture(`<title>Search</title><button id="show" data-praxis-read-only="true">Show results</button>
+    <main id="result">Loading</main><script>document.getElementById('show').onclick=()=>{document.title='Results'; document.getElementById('result').textContent='Sushi Inase';};</script>`);
+  let step = 0;
+  const decision: BrowserReadActionDecisionPort = {
+    async decide(input) {
+      step += 1;
+      if (step === 1) {
+        const target = input.observation.targets.find((item) => item.label === "Show results");
+        assert.ok(target, "model only receives observed target references");
+        return { type: "CLICK", targetRef: target.ref, reason: "reveal read-only search results" };
+      }
+      return { type: "COMPLETE", reason: "results are visible for deterministic parsing" };
+    },
+  };
+  const executor = new BrowserTaskExecutor(runtime, { modelDecision: decision });
+  const session = await executor.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY");
+  try {
+    await executor.navigate({ source: "TABLECHECK", stage: "DISCOVERY", session, signal: new AbortController().signal, allowedOrigins: ["https://www.tablecheck.com"], url });
+  const result = await executor.runSkill({
+      taskId: "fixture:generic-browser",
+      source: "TABLECHECK",
+      stage: "DISCOVERY",
+      session,
+      signal: new AbortController().signal,
+      allowedOrigins: ["https://www.tablecheck.com"],
+      goal: { outlet: { name: "Fixture Restaurant" }, date: "2026-09-07", partySize: 2, timeWindow: { earliest: "19:00", latest: "19:00" }, hardCriteria: [] },
+      objective: "Show local public search results.",
+      completion: (snapshot) => ({ complete: /Sushi Inase/.test(snapshot.text), reason: "The local public result is not yet visible." }),
+    });
+    assert.equal(result.status, "COMPLETED");
+    assert.equal(result.snapshot.title, "Results");
+    assert.match(result.snapshot.text, /Sushi Inase/);
+  } finally {
+    await executor.close();
+  }
+});
+
+test("real DOM observation exposes an unlabelled-id role button and calendar navigation without permitting submission", async () => {
+  const runtime = localFixture(`<title>Calendar</title><div role="button" tabindex="0" aria-label="Next month">›</div><main>August</main>
+    <script>
+      document.querySelector('[role=button]').onclick=()=>{document.body.innerHTML='<button data-date="2026-09-07" aria-label="September 7, 2026">7</button><main>September</main>'; document.querySelector('button').onclick=()=>{document.title='Availability Results'; document.body.innerHTML='<div data-selected-date="2026-09-07" data-pax="2"></div><section data-availability-state="complete"><button class="time-slot is-available" data-time="19:00">19:00</button></section>';};};
+    </script>`);
+  let step = 0;
+  const executor = new BrowserTaskExecutor(runtime, { modelDecision: {
+    async decide(input) {
+      step += 1;
+      if (step === 1) {
+        const next = input.observation.targets.find((target) => target.role === "button" && target.label === "Next month");
+        assert.ok(next);
+        return { type: "CLICK", targetRef: next.ref, reason: "show the requested calendar month" };
+      }
+      const day = input.observation.targets.find((target) => target.value === "2026-09-07");
+      assert.ok(day);
+      return { type: "CLICK_AUTHORITATIVE", targetRef: day.ref, field: "DATE", reason: "select the Router-bound date" };
+    },
+  } });
+  const session = await executor.acquire(new AbortController().signal, "TABLECHECK", "AVAILABILITY");
+  try {
+    await executor.navigate({ source: "TABLECHECK", stage: "AVAILABILITY", session, signal: new AbortController().signal, allowedOrigins: ["https://www.tablecheck.com"], url });
+    const result = await executor.runSkill({
+      taskId: "fixture:calendar", source: "TABLECHECK", stage: "AVAILABILITY", session, signal: new AbortController().signal,
+      allowedOrigins: ["https://www.tablecheck.com"],
+      goal: { outlet: { name: "Fixture Restaurant" }, date: "2026-09-07", partySize: 2, timeWindow: { earliest: "19:00", latest: "19:00" }, hardCriteria: [] },
+      objective: "Select the verified date and wait for the public slot result.",
+      completion: (snapshot) => ({ complete: snapshot.title === "Availability Results", reason: "The public result is not ready." }),
+    });
+    assert.equal(result.status, "COMPLETED");
+    assert.equal(step, 2);
+  } finally { await executor.close(); }
 });

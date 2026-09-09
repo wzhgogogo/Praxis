@@ -19,6 +19,9 @@ export interface RestaurantSearchPort {
 
 export interface RestaurantAvailabilityPort {
   readonly executionRoute: "STRUCTURED_ADAPTER" | "GENERIC_BROWSER";
+  /** Optional per-Agent-loop budget lifecycle; adapters never receive Task State. */
+  beginReadRun?(): void;
+  endReadRun?(): void;
   check(request: RestaurantAvailabilityRequest, signal: AbortSignal): Promise<RestaurantAvailabilityRead>;
 }
 
@@ -109,6 +112,11 @@ export class RestaurantExecutionRouter {
     this.browserReadTimeoutMs = options.browserReadTimeoutMs === null ? null : options.browserReadTimeoutMs ?? 20_000;
   }
 
+  /** Keeps source-level cumulative budgets aligned with one outer Agent run. */
+  beginReadRun(): void { this.availability.beginReadRun?.(); }
+
+  endReadRun(): void { this.availability.endReadRun?.(); }
+
   async execute(
     action: RestaurantAgentAction,
     state: Readonly<RestaurantTaskState>,
@@ -153,6 +161,7 @@ export class RestaurantExecutionRouter {
               ? this.browserReadTimeoutMs
               : this.structuredReadTimeoutMs,
             (signal) => this.availability.check(request, signal),
+            this.availability.executionRoute === "GENERIC_BROWSER",
           );
           const terminalFailureCode = terminalBrowserReadFailure(read, request.candidateIds);
           return {
@@ -238,25 +247,33 @@ export class RestaurantExecutionRouter {
     operationName: string,
     timeoutMs: number | null,
     operation: (signal: AbortSignal) => Promise<Value>,
+    /** A browser executor owns interactive actions and must close before timeout returns. */
+    settleAfterAbort = false,
   ): Promise<Value> {
     if (timeoutMs === null) return operation(new AbortController().signal);
     const controller = new AbortController();
-    return new Promise<Value>((resolve, reject) => {
-      const timeout = setTimeout(() => {
-        const error = new Error(`${operationName} timed out after ${timeoutMs}ms`);
-        controller.abort(error);
-        reject(error);
-      }, timeoutMs);
-      void Promise.resolve().then(() => operation(controller.signal)).then(
-        (value) => {
-          clearTimeout(timeout);
-          resolve(value);
-        },
-        (error: unknown) => {
-          clearTimeout(timeout);
-          reject(error);
-        },
-      );
-    });
+    let deadlineExceeded = false;
+    let rejectDeadline: ((reason: Error) => void) | undefined;
+    const deadline = new Promise<never>((_resolve, reject) => { rejectDeadline = reject; });
+    const timeout = setTimeout(() => {
+      deadlineExceeded = true;
+      const error = new Error(`${operationName} timed out after ${timeoutMs}ms`);
+      controller.abort(error);
+      rejectDeadline?.(error);
+    }, timeoutMs);
+    try {
+      const work = operation(controller.signal);
+      // A generic browser must settle after AbortSignal so its executor closes before
+      // control returns. Structured read-only retrieval has no browser action and may
+      // be bounded at the Router even if a broken provider ignores abort.
+      const value = await (settleAfterAbort ? work : Promise.race([work, deadline]));
+      if (deadlineExceeded) throw new Error(`${operationName} timed out after ${timeoutMs}ms`);
+      return value;
+    } catch (error) {
+      if (deadlineExceeded) throw new Error(`${operationName} timed out after ${timeoutMs}ms`);
+      throw error;
+    } finally {
+      clearTimeout(timeout);
+    }
   }
 }

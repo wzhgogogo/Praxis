@@ -12,6 +12,7 @@ import {
   inspectTableCheckPageUnavailable,
   hasTableCheckSelectedRequest,
   parseTableCheckAvailabilitySlots,
+  parseTableCheckControlAvailability,
   parseTableCheckDiscoveryOutletUrls,
   parseTableCheckOutletIdentityWithEvidence,
   parseTableCheckVerifiedHardCriteria,
@@ -173,7 +174,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
           session,
           signal,
           allowedOrigins: ["https://www.tablecheck.com"],
-          authoritative: { date: request.date, partySize: request.partySize },
+          goal: { outlet: { name: candidate.restaurant.outletName, address: candidate.restaurant.address }, date: request.date, partySize: request.partySize, timeWindow: request.timeWindow, hardCriteria: request.hardCriteria },
           objective: "Reveal public TableCheck restaurant search results without submitting a reservation.",
           methodReason: "TableCheck discovery has no extractable public outlet link yet.",
           completion: (page) => ({
@@ -311,19 +312,29 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         candidate, observedAt, sourceEntityId: selected.extraction.outlet.sourceEntityId, sourceUrl: selected.extraction.outlet.sourceUrl,
         entityMatch: selected.inspection.resolution, pageState: "BOT_CHALLENGE", failureCode: "BOT_CHALLENGE", excerpt: tableCheckPageExcerpt(page),
       }, browser);
-      const schedule = await this.executor.runSkill({
+      const availabilityRead = await this.executor.runSkill({
         taskId: `browser-read:${candidate.restaurant.id}`,
         source: "TABLECHECK",
         stage: "AVAILABILITY",
         session,
         signal,
         allowedOrigins: ["https://www.tablecheck.com"],
-        authoritative: { date: request.date, partySize: request.partySize },
-        objective: "Set the requested date and party size on this already identity-grounded public TableCheck page, then wait until the latest page visibly confirms both before reading slots.",
-        methodReason: "The current public availability page has not yet visibly confirmed the authoritative date and party size.",
+        goal: { outlet: { name: candidate.restaurant.outletName, address: candidate.restaurant.address }, date: request.date, partySize: request.partySize, timeWindow: request.timeWindow, hardCriteria: request.hardCriteria },
+        objective: "For the already identity-grounded outlet, set and verify the requested date, party size, and time window, then read the latest explicit public availability result. Do not submit a reservation.",
+        methodReason: "The verifier has not yet established a completed availability result for the full Router-bound request.",
         completion: (current) => ({
-          complete: hasTableCheckBotChallenge(current) || hasTableCheckSelectedRequest(current, request.date, request.partySize),
-          reason: "The latest page must visibly confirm both the authoritative date and party size; successful control interaction alone is insufficient.",
+          complete: hasTableCheckBotChallenge(current)
+            || (hasTableCheckSelectedRequest(current, request.date, request.partySize) && (() => {
+              const result = parseTableCheckAvailabilitySlots(current, { date: request.date, partySize: request.partySize });
+              return result.queryComplete && (
+                result.availableSlots.some((slot) => slot >= request.timeWindow.earliest && slot <= request.timeWindow.latest)
+                || result.explicitlyEmpty
+                || result.hasExplicitSlotUi
+              );
+            })()),
+          reason: hasTableCheckSelectedRequest(current, request.date, request.partySize)
+            ? "The request is selected, but its result is missing, loading, or only partially rendered. Wait for a completed result region or reveal it with an observed safe control."
+            : "The latest page must explicitly confirm the complete authoritative date and party size before any result can be used.",
         }),
         shortcut: {
           name: "OBSERVED_STANDARD_DATE_PARTY_FIELDS",
@@ -342,44 +353,30 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
           },
         },
       });
-      page = schedule.snapshot;
+      page = availabilityRead.snapshot;
       if (hasTableCheckBotChallenge(page)) return this.ground(candidate, request, {
         candidate, observedAt, sourceEntityId: selected.extraction.outlet.sourceEntityId, sourceUrl: selected.extraction.outlet.sourceUrl,
         entityMatch: selected.inspection.resolution, pageState: "BOT_CHALLENGE", failureCode: "BOT_CHALLENGE", excerpt: tableCheckPageExcerpt(page),
       }, browser);
-      if (schedule.status !== "COMPLETED" || !hasTableCheckSelectedRequest(page, request.date, request.partySize)) return this.ground(candidate, request, {
+      const controlSlots = parseTableCheckControlAvailability(availabilityRead.controls, request.date, request.partySize);
+      const requestConfirmed = hasTableCheckSelectedRequest(page, request.date, request.partySize) || controlSlots.queryComplete;
+      if (availabilityRead.status !== "COMPLETED" || !requestConfirmed) return this.ground(candidate, request, {
         candidate, observedAt, sourceEntityId: selected.extraction.outlet.sourceEntityId, sourceUrl: selected.extraction.outlet.sourceUrl,
         entityMatch: selected.inspection.resolution, pageState: "EXTRACTION_FAILED", failureCode: "REQUEST_SELECTION_UNCONFIRMED",
       }, browser);
-      let slots = parseTableCheckAvailabilitySlots(page);
-      if (!slots.hasExplicitSlotUi) {
-        const slotRead = await this.executor.runSkill({
-          taskId: `browser-read:${candidate.restaurant.id}`,
-          source: "TABLECHECK",
-          stage: "AVAILABILITY",
-          session,
-          signal,
-          allowedOrigins: ["https://www.tablecheck.com"],
-          authoritative: { date: request.date, partySize: request.partySize },
-          objective: "Read explicitly marked public availability slots for the already confirmed date and party size. Do not submit a booking.",
-          methodReason: "The requested date and party size are visibly confirmed, but no explicit public slot state is yet available for deterministic parsing.",
-          completion: (current) => ({
-            complete: hasTableCheckBotChallenge(current) || parseTableCheckAvailabilitySlots(current).hasExplicitSlotUi,
-            reason: "Continue until the latest page visibly exposes explicit available or unavailable slot controls for the confirmed request.",
-          }),
-        });
-        page = slotRead.snapshot;
-        if (hasTableCheckBotChallenge(page)) return this.ground(candidate, request, {
-          candidate, observedAt, sourceEntityId: selected.extraction.outlet.sourceEntityId, sourceUrl: selected.extraction.outlet.sourceUrl,
-          entityMatch: selected.inspection.resolution, pageState: "BOT_CHALLENGE", failureCode: "BOT_CHALLENGE", excerpt: tableCheckPageExcerpt(page),
-        }, browser);
-        slots = parseTableCheckAvailabilitySlots(page);
-      }
-      const qualifying = slots.availableSlots.some((slot) => slot >= request.timeWindow.earliest && slot <= request.timeWindow.latest);
+      const parsedSlots = parseTableCheckAvailabilitySlots(page, { date: request.date, partySize: request.partySize });
+      const slots = {
+        availableSlots: [...new Set([...parsedSlots.availableSlots, ...controlSlots.availableSlots])].sort(),
+        hasExplicitSlotUi: parsedSlots.hasExplicitSlotUi || controlSlots.hasExplicitSlotUi,
+        explicitlyEmpty: parsedSlots.explicitlyEmpty,
+        queryComplete: parsedSlots.queryComplete || controlSlots.queryComplete,
+      };
+      const qualifying = slots.queryComplete
+        && slots.availableSlots.some((slot) => slot >= request.timeWindow.earliest && slot <= request.timeWindow.latest);
       return this.ground(candidate, request, {
         candidate, observedAt: this.now(), sourceEntityId: selected.extraction.outlet.sourceEntityId, sourceUrl: selected.extraction.outlet.sourceUrl,
         entityMatch: selected.inspection.resolution, requestedDate: request.date, requestedPartySize: request.partySize,
-        pageState: qualifying ? "AVAILABLE" : slots.hasExplicitSlotUi ? "NO_MATCHING_SLOT" : "EXTRACTION_FAILED",
+        pageState: qualifying ? "AVAILABLE" : slots.queryComplete && (slots.explicitlyEmpty || slots.hasExplicitSlotUi) ? "NO_MATCHING_SLOT" : "EXTRACTION_FAILED",
         visibleSlots: slots.availableSlots,
         verifiedHardCriteria: parseTableCheckVerifiedHardCriteria(page, request.hardCriteria),
         excerpt: tableCheckPageExcerpt(page),

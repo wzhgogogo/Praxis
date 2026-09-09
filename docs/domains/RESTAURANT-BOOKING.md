@@ -1,8 +1,8 @@
 # Restaurant Booking Domain
 
 - Status: Accepted
-- Document revision: 2.2
-- Last updated: 2026-09-05
+- Document revision: 2.3
+- Last updated: 2026-09-07
 - Source of truth for: 餐厅预约Domain模型、状态、搜索和完成条件
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0009](../decisions/0009-semantic-strength-and-clean-holdout-baseline.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md), [ADR-0014](../decisions/0014-search-only-results-completion.md)
 - Related documents: [MVP PRD](../product/MVP-PRD.md), [User Flows](../product/USER-FLOWS.md), [Policy & Execution](../architecture/POLICY-EXECUTION-VERIFICATION.md), [Data, Context & Security](../architecture/DATA-CONTEXT-SECURITY.md), [Search Service](../architecture/SEARCH-SERVICE.md)
@@ -101,7 +101,7 @@ type RestaurantCandidate = {
 
 `SEARCH_RESTAURANTS`只产生`RestaurantCandidate`。`CHECK_AVAILABILITY`才产生`AvailabilityOffer`并按`candidateId`保存；没有新鲜匹配Offer的Candidate不得进入Booking Proposal。
 
-`availabilityChecks[candidateId]`独立于Offer保存`AVAILABLE`、`UNAVAILABLE`、`UNKNOWN`或`SOURCE_UNSUPPORTED`、检查时间、Evidence引用及稳定原因码。Google area HARD evidence只可来自与请求地点相等的结构化address component；格式化地址中的任意关键词不构成地点证明。H001的Availability Source Resolver固定先试TableCheck、再试Tabelog；这是Router内部的确定性来源链，Agent action不含provider。每个来源都必须用exact phone或normalized name+address建立同一Outlet的HIGH match，并确认正确日期/人数/Asia-Tokyo时段及可见新鲜slot才可产生Offer。`BOT_CHALLENGE`、页面/抽取异常、未找到可靠Outlet、外部跳转和浏览器失败只代表该provider失败，另一个可用来源仍可尝试；两个来源均不能安全产生结论时才以`AVAILABILITY_SOURCES_EXHAUSTED`成为候选级`UNKNOWN`。已观察到的Tabelog challenge必须先于identity判定成为`BOT_CHALLENGE`，不允许“零结果”占位改写成`ENTITY_MATCH_UNCERTAIN`。只有显式eval的local persistent session可在`BOT_CHALLENGE`后以脱敏`USER_INTERVENTION_REQUIRED`暂停，等人手完成站点要求；恢复只snapshot同一page，不自动navigate/retry，challenge未消失仍返回`BOT_CHALLENGE`。这不是Agent语义澄清、不是Domain Evidence、不是生产Human Takeover Surface，也不降低HIGH identity或slot规则。Cloudflare和开发/eval-only的本地Playwright Chromium都只实现同一BrowserRuntime观察接口，绝不包含来源业务规则或写操作。会话尚未建立时的`BROWSER_RUNTIME_FAILED`/`BROWSER_TIMEOUT`先于identity判定保留，绝不能被低置信度占位match误写为`ENTITY_MATCH_UNCERTAIN`；当所有可用来源均为同一浏览器基础设施失败时，Router仍以内部`EXECUTION_FAILURE`进入`FAILED`，不询问用户如何解决内部Provider故障。
+`availabilityChecks[candidateId]`独立于Offer保存`AVAILABLE`、`UNAVAILABLE`、`UNKNOWN`或`SOURCE_UNSUPPORTED`、检查时间、Evidence引用及稳定原因码。Google area HARD evidence只可来自与请求地点相等的结构化address component；格式化地址中的任意关键词不构成地点证明。H001的Availability Source Resolver固定先试TableCheck、再试Tabelog；这是Router内部的确定性来源链，Agent action不含provider。两个来源的站点方法与受控通用页面动作经同一有界会话执行器；模型只能提议当前观察到的只读元素，无法决定来源、State、门店、日期、人数或Evidence。每个来源都必须用exact phone（日本显式`+81`与国内写法规范后比较）或normalized name+address建立同一Outlet的HIGH match，并确认正确日期/人数/Asia-Tokyo时段及可见新鲜slot才可产生Offer。`BOT_CHALLENGE`、页面/抽取异常、未找到可靠Outlet、外部跳转和浏览器失败只代表该provider失败，另一个可用来源仍可尝试；两个来源均不能安全产生结论时才以`AVAILABILITY_SOURCES_EXHAUSTED`成为候选级`UNKNOWN`。已观察到的Tabelog challenge必须先于identity判定成为`BOT_CHALLENGE`，不允许“零结果”占位改写成`ENTITY_MATCH_UNCERTAIN`。只有显式eval的local persistent session可在`BOT_CHALLENGE`后以脱敏`USER_INTERVENTION_REQUIRED`暂停，等人手完成站点要求；恢复只snapshot同一page，不自动navigate/retry，challenge未消失仍返回`BOT_CHALLENGE`。这不是Agent语义澄清、不是Domain Evidence、不是生产Human Takeover Surface，也不降低HIGH identity或slot规则。Cloudflare和开发/eval-only的本地Playwright Chromium都只实现同一BrowserRuntime观察接口，绝不包含来源业务规则或写操作。会话尚未建立时的`BROWSER_RUNTIME_FAILED`/`BROWSER_TIMEOUT`先于identity判定保留，绝不能被低置信度占位match误写为`ENTITY_MATCH_UNCERTAIN`；当所有可用来源均为同一浏览器基础设施失败时，Router仍以内部`EXECUTION_FAILURE`进入`FAILED`，不询问用户如何解决内部Provider故障。
 
 ## Domain State
 
@@ -178,7 +178,7 @@ Consent Card至少应：
 ## Adapter行为
 
 - Partner API：有合法凭证和Consumer Booking权限时使用。
-- TableCheck Web：H001只读Browser Adapter先读公开guide页建立Outlet identity，再以日期/人数预填的公开reservation GET页读取显式可订slot；不登录、不输入个人资料、不提交或确认预约。API不作为无条件依赖。
+- TableCheck Web：H001只读Browser Adapter先以候选名称和Google坐标读取公开搜索结果，再逐个读取真实guide页建立Outlet identity；搜索结果不是identity事实。预约surface只从已HIGH的详情页真实链接或嵌入结构解析，不派生slug；随后以日期/人数读取显式可订slot。不登录、不输入个人资料、不提交或确认预约。`TABLECHECK_DISCOVERY_NO_RESULT`、`TABLECHECK_ENTITY_MATCH_UNCERTAIN`、`TABLECHECK_PAGE_UNAVAILABLE`与`TABLECHECK_PARSE_FAILED`保留为来源级失败。API不作为无条件依赖。
 - Hot Pepper：公开API用于Discovery；Availability/Booking通过网页或合作接口。
 - 官网：仅Capability Registry中健康的Adapter允许自动提交。
 - Request Booking：进入等待状态，不宣称已确认。

@@ -18,6 +18,12 @@ import type { RestaurantAgentCapability } from "./restaurant-capabilities.js";
 
 export const RESTAURANT_AGENT_DECISION_PURPOSE = "restaurant_agent_decide" as const;
 export const RESTAURANT_AGENT_DECISION_PROMPT_VERSION = "6" as const;
+/**
+ * Strict-function responses include a provider envelope as well as the action
+ * arguments.  Ten discovery candidates can otherwise make a valid second
+ * decision hit DeepSeek's output cap before the tool call is complete.
+ */
+export const RESTAURANT_AGENT_DECISION_MAX_OUTPUT_TOKENS = 512;
 
 export interface RestaurantAgentDecisionInput {
   taskId: string;
@@ -108,7 +114,7 @@ Availability checks have explicit business meanings: AVAILABLE means a qualifyin
 
 Use PRESENT_RESULTS only for candidates that the context shows as AVAILABLE with a fresh matching offer and explicit matchReasons for the requested area and every HARD criterion. If any such support is absent, do not present the candidate; continue safely or ask the user. PRESENT_RESULTS ends a read-only search and never selects, authorizes, or submits a booking.
 
-Do not repeat CHECK_AVAILABILITY for a candidate that already has an availability check in the context for the current search and schedule. Select only candidates with no prior check; if none remain and no candidate can be presented, ask the user rather than retrying the same read.
+Do not repeat CHECK_AVAILABILITY for a candidate that already has an availability check in the context for the current search and schedule. Check at most three unchecked candidates in one action, then use the next decision to continue with the remaining uncheckedCandidateIds before asking the user. When that pool is exhausted and no candidate can be presented, you may issue another SEARCH_RESTAURANTS action using the unchanged constraints to discover more candidates; never change date, time, area, party size, or HARD criteria yourself.
 
 The strict response transport always requires every wire field. For fields that do not apply to your selected action, return an empty string or an empty array exactly as the schema permits; never put a meaningful value in a field for another action.
 
@@ -156,7 +162,7 @@ export class RestaurantAgentDecision implements RestaurantAgentDecisionPort {
         },
         timeoutMs: 10_000,
         fallback: "FAIL_CLOSED",
-        maxOutputTokens: 300,
+        maxOutputTokens: RESTAURANT_AGENT_DECISION_MAX_OUTPUT_TOKENS,
         temperature: 0,
         thinking: "disabled",
       });

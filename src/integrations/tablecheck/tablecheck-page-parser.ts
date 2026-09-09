@@ -1,4 +1,4 @@
-import type { BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
+import type { BrowserPageControl, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
 import type { RestaurantCandidate } from "../../domains/restaurant/contracts.js";
 import type {
   TableCheckIdentityEvidenceSource,
@@ -279,36 +279,41 @@ export function tableCheckRequestedReservationUrl(target: TableCheckReservationT
   return url.toString();
 }
 
-function selectedValue(html: string, names: string[]): string | undefined {
+function selectedAttribute(attrs: string, names: string[]): string | undefined {
   for (const name of names) {
     const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    const data = html.match(new RegExp(`data-${escaped}=["']([^"']+)["']`, "i"))?.[1];
-    if (data) return data;
-    const input = html.match(new RegExp(`<input[^>]+(?:name|id)=["'][^"']*${escaped}[^"']*["'][^>]+value=["']([^"']+)["']`, "i"))?.[1];
-    if (input) return input;
-    const serialized = html.match(new RegExp(`["'](?:${escaped.replace(/-/g, "[-_]")}|${escaped.replace(/-/g, "")})["']\\s*[:=]\\s*["']?([^"',}&\\s]+)`, "i"))?.[1];
-    if (serialized) return serialized;
+    const value = attrs.match(new RegExp(`\\bdata-${escaped}=["']([^"']+)["']`, "i"))?.[1];
+    if (value) return value;
   }
   return undefined;
 }
 
+/**
+ * The provider must expose one explicit current-request component. Combining a date
+ * found in one unrelated control with a party size found elsewhere can bind stale
+ * results to a new request, so page-wide value co-occurrence is deliberately invalid.
+ */
 export function hasTableCheckSelectedRequest(snapshot: BrowserSnapshot, date: string, partySize: number): boolean {
-  const selectedDate = selectedValue(snapshot.html, ["selected-date", "start-date", "date"]);
-  const selectedParty = selectedValue(snapshot.html, ["party-size", "pax", "guests", "party"]);
-  if (selectedDate === date && selectedParty === String(partySize)) return true;
-  const requested = new Date(`${date}T00:00:00Z`);
-  const month = requested.toLocaleString("en-US", { month: "short", timeZone: "UTC" });
-  const day = requested.getUTCDate();
-  const selectedSummary = new RegExp(`(?:${partySize}\\s*(?:guest|guests|人))[^\\n]{0,80}(?:${month}\\.?\\s*${day}(?:st|nd|rd|th)?)|(?:${month}\\.?\\s*${day}(?:st|nd|rd|th)?)[^\\n]{0,80}(?:${partySize}\\s*(?:guest|guests|人))`, "i");
-  if (selectedSummary.test(snapshot.text)) return true;
-  // Current TableCheck guide pages place the selected date in the public "Book a table"
-  // control, then render the full calendar before the selected party. This is a single
-  // reservation-widget readback, not arbitrary restaurant prose.
-  const widgetSummary = new RegExp(`book\\s+a\\s+table\\s+${month}\\.?\\s*${day}(?:st|nd|rd|th)?[\\s\\S]{0,360}?\\b${partySize}\\s*(?:guest|guests)\\b`, "i");
-  return widgetSummary.test(snapshot.text);
+  for (const element of snapshot.html.matchAll(/<(?:form|section|div|main)[^>]*>/gi)) {
+    const attrs = element[0] ?? "";
+    const selectedDate = selectedAttribute(attrs, ["selected-date", "start-date", "date"]);
+    const selectedParty = selectedAttribute(attrs, ["party-size", "pax", "guests", "party"]);
+    if (selectedDate === date && selectedParty === String(partySize)) return true;
+  }
+  // TableCheck's public guide can render the current query only on its slot links.
+  // An exact same-origin reservation-link parameter set is a structured result binding,
+  // unlike a date/guest string found somewhere in page prose.
+  return tableCheckReservationLinks(snapshot, date, partySize).length > 0;
 }
 
-export interface TableCheckSlotParse { availableSlots: string[]; hasExplicitSlotUi: boolean; }
+export interface TableCheckSlotParse {
+  availableSlots: string[];
+  hasExplicitSlotUi: boolean;
+  /** A result container explicitly reports that the current completed query has no matching table. */
+  explicitlyEmpty: boolean;
+  /** The provider marks the result set complete, not merely still loading or partially rendered. */
+  queryComplete: boolean;
+}
 
 function timeIn(value: string): string | undefined { return value.match(/\b([01]\d|2[0-3]):[0-5]\d\b/)?.[0]; }
 function unavailable(value: string): boolean { return /disabled|aria-disabled=["']true|unavailable|sold[\s-]?out|full|満席|予約不可/i.test(value); }
@@ -317,12 +322,26 @@ function explicitAvailability(value: string): boolean {
 }
 
 /** A time is a slot only when the reservation UI explicitly marks it bookable. */
-export function parseTableCheckAvailabilitySlots(snapshot: BrowserSnapshot): TableCheckSlotParse {
+export function parseTableCheckAvailabilitySlots(
+  snapshot: BrowserSnapshot,
+  request?: { date: string; partySize: number },
+): TableCheckSlotParse {
   const slots = new Set<string>();
-  // The public TableCheck widget has an explicit empty-result state without emitting
-  // individual disabled slot buttons. The caller separately verifies the current date
-  // and party size before treating this state as UNAVAILABLE.
-  let hasExplicitSlotUi = /we\s+could\s+not\s+find\s+a\s+table\s+on\s+.+?\s+for\s+the\s+selected\s+mealtime/i.test(snapshot.text);
+  let hasExplicitSlotUi = false;
+  let explicitlyEmpty = false;
+  let queryComplete = false;
+  // A page-wide phrase or a stray time must never be treated as a query result. The
+  // provider needs an explicit result-state element; the caller binds it to the current
+  // request component before accepting the result.
+  for (const match of snapshot.html.matchAll(/<(?:section|div|main)[^>]+(?:data-(?:availability|query|result)-(?:state|status)|aria-live)[^>]*>/gi)) {
+    const attrs = match[0] ?? "";
+    if (/data-(?:availability|query|result)-(?:state|status)=["'](?:empty|no[_-]?results|unavailable)["']/i.test(attrs)) {
+      hasExplicitSlotUi = true;
+      explicitlyEmpty = true;
+      queryComplete = true;
+    }
+    if (/data-(?:availability|query|result)-(?:state|status)=["'](?:complete|ready|empty|no[_-]?results|unavailable)["']|data-availability-complete=["']true["']/i.test(attrs)) queryComplete = true;
+  }
   const element = /<(button|a)[^>]*?(?:data-(?:time|start-time|slot)|class=["'][^"']*(?:slot|time|availability)[^"']*)[^>]*>([\s\S]{0,500}?)<\/\1>/gi;
   for (const match of snapshot.html.matchAll(element)) {
     const whole = match[0] ?? "";
@@ -331,7 +350,54 @@ export function parseTableCheckAvailabilitySlots(snapshot: BrowserSnapshot): Tab
     if (explicitAvailability(whole) || unavailable(whole)) hasExplicitSlotUi = true;
     if (explicitAvailability(whole) && !unavailable(whole)) slots.add(time);
   }
-  return { availableSlots: [...slots].sort(), hasExplicitSlotUi };
+  if (request) {
+    const linkedSlots = tableCheckReservationLinks(snapshot, request.date, request.partySize);
+    for (const slot of linkedSlots) slots.add(slot);
+    // A public slot link includes the provider's exact request parameters and is a
+    // completed result for that request. It is read as evidence only; never opened.
+    if (linkedSlots.length > 0) {
+      hasExplicitSlotUi = true;
+      queryComplete = true;
+    }
+  }
+  return { availableSlots: [...slots].sort(), hasExplicitSlotUi, explicitlyEmpty, queryComplete };
+}
+
+function tableCheckReservationLinks(snapshot: BrowserSnapshot, date: string, partySize: number): string[] {
+  const slots = new Set<string>();
+  for (const match of snapshot.html.matchAll(/<a\b[^>]*href=["']([^"']+)["'][^>]*>([\s\S]{0,2400}?)<\/a>/gi)) {
+    const href = absoluteTableCheckUrl(match[1] ?? "", snapshot.url);
+    if (!href) continue;
+    const url = new URL(href);
+    if (!/\/reserve(?:\/|$)/.test(url.pathname)) continue;
+    const selectedDate = url.searchParams.get("start_date") ?? url.searchParams.get("date");
+    const selectedParty = url.searchParams.get("num_people") ?? url.searchParams.get("pax") ?? url.searchParams.get("party_size");
+    if (selectedDate !== date || selectedParty !== String(partySize)) continue;
+    const time = url.searchParams.get("start_time") ?? timeIn(plainText(match[2] ?? ""));
+    if (time && /^([01]\d|2[0-3]):[0-5]\d$/.test(time)) slots.add(time);
+  }
+  return [...slots].sort();
+}
+
+/** Same public result evidence as the HTML parser, acquired from the live DOM only. */
+export function parseTableCheckControlAvailability(
+  controls: BrowserPageControl[],
+  date: string,
+  partySize: number,
+): TableCheckSlotParse {
+  const slots = new Set<string>();
+  for (const control of controls) {
+    if (control.kind !== "LINK" || !control.href || control.disabled) continue;
+    let url: URL;
+    try { url = new URL(control.href); } catch { continue; }
+    if (!isTableCheckUrl(url.toString()) || !/\/reserve(?:\/|$)/.test(url.pathname)) continue;
+    const selectedDate = url.searchParams.get("start_date") ?? url.searchParams.get("date");
+    const selectedParty = url.searchParams.get("num_people") ?? url.searchParams.get("pax") ?? url.searchParams.get("party_size");
+    const time = url.searchParams.get("start_time") ?? timeIn(control.label);
+    if (selectedDate === date && selectedParty === String(partySize) && time && /^([01]\d|2[0-3]):[0-5]\d$/.test(time)) slots.add(time);
+  }
+  const availableSlots = [...slots].sort();
+  return { availableSlots, hasExplicitSlotUi: availableSlots.length > 0, explicitlyEmpty: false, queryComplete: availableSlots.length > 0 };
 }
 
 function aliases(criterion: string): string[] {

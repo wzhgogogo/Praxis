@@ -222,3 +222,29 @@ test("DeepSeek gateway rejects a malformed provider completion before it reaches
       error instanceof ModelGatewayError && error.code === "MALFORMED_RESPONSE" && !error.retryable,
   );
 });
+
+test("DeepSeek gateway records only the safe structured-output shape when a tool call is absent", async () => {
+  const records: ModelInvocationRecord[] = [];
+  const gateway = new DeepSeekModelGateway({
+    apiKey: "test-key",
+    model: "deepseek-v4-flash",
+    observer: { observe: (record) => { records.push(record); } },
+    fetchImplementation: async () =>
+      new Response(JSON.stringify({
+        model: "deepseek-v4-flash",
+        choices: [{ finish_reason: "stop", message: { content: '{"secret":"must-not-log"}' } }],
+      }), { status: 200 }),
+  });
+
+  await assert.rejects(
+    () => gateway.complete(request),
+    (error: unknown) => error instanceof ModelGatewayError
+      && error.code === "MALFORMED_RESPONSE"
+      && error.providerError?.type === "STRUCTURED_OUTPUT_SHAPE"
+      && error.providerError.message === "finish_reason=stop; tool_calls=0",
+  );
+  assert.deepEqual(records[0]?.providerError, {
+    type: "STRUCTURED_OUTPUT_SHAPE", message: "finish_reason=stop; tool_calls=0",
+  });
+  assert.equal(JSON.stringify(records[0]).includes("must-not-log"), false);
+});

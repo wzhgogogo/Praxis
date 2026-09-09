@@ -22,7 +22,7 @@ import type {
   SqlExecutor,
   SqlQueryResult,
 } from "../infrastructure/postgres/sql-database.js";
-import { createLocalWebServer } from "./local-web-server.js";
+import { assertLocalLiveReadEnvironment, createLocalWebServer, localRestaurantProviderMode } from "./local-web-server.js";
 
 const COMPLETE_REQUEST =
   "Tonight at 7pm near Shinjuku for two, yakiniku, around 5000 yen each.";
@@ -184,13 +184,40 @@ test("Stage 2B serves the fixture workspace and rejects unauthenticated case acc
       const response = await fetch(running.baseUrl);
       assert.equal(response.status, 200);
       const page = await response.text();
-      assert.match(page, /Stage 2B fixture/i);
+      assert.match(page, /Fixture only/i);
       const unauthorized = await fetch(`${running.baseUrl}/api/cases`);
       assert.equal(unauthorized.status, 401);
     } finally {
       await running.close();
     }
   });
+});
+
+test("local workspace Live mode is explicit and never falls back to fixture on a misspelled provider mode", () => {
+  assert.equal(localRestaurantProviderMode({}), "FIXTURE");
+  assert.equal(localRestaurantProviderMode({ PRAXIS_RESTAURANT_PROVIDER_MODE: "LIVE_READ" }), "LIVE_READ");
+  assert.throws(
+    () => localRestaurantProviderMode({ PRAXIS_RESTAURANT_PROVIDER_MODE: "live" }),
+    /FIXTURE or LIVE_READ/,
+  );
+});
+
+test("local workspace Live mode rejects missing server-only gates and accepts LOCAL_CHROMIUM without Cloudflare credentials", () => {
+  assert.throws(
+    () => assertLocalLiveReadEnvironment({ PRAXIS_ALLOW_BROWSER_RUN: "1" }),
+    /PRAXIS_ALLOW_LIVE_RESTAURANT_READ=1/,
+  );
+  assert.throws(
+    () => assertLocalLiveReadEnvironment({
+      PRAXIS_ALLOW_LIVE_RESTAURANT_READ: "1", PRAXIS_ALLOW_BROWSER_RUN: "1",
+      DEEPSEEK_API_KEY: "test", DEEPSEEK_MODEL: "test", GOOGLE_MAPS_API_KEY: "test", PRAXIS_BROWSER_ENGINE: "AUTO",
+    }),
+    /CLOUDFLARE_ACCOUNT_ID/,
+  );
+  assert.doesNotThrow(() => assertLocalLiveReadEnvironment({
+    PRAXIS_ALLOW_LIVE_RESTAURANT_READ: "1", PRAXIS_ALLOW_BROWSER_RUN: "1",
+    DEEPSEEK_API_KEY: "test", DEEPSEEK_MODEL: "test", GOOGLE_MAPS_API_KEY: "test", PRAXIS_BROWSER_ENGINE: "LOCAL_CHROMIUM",
+  }));
 });
 
 test("W01 restores a conversation, case and task after server restart", async () => {

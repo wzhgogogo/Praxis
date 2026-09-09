@@ -25,14 +25,35 @@ describe("restaurant booking mock harness", () => {
   });
 
   // H02/H03/H04 share the same current Agent-to-authorization checkpoint.
-  test("H02/H03/H04 cap executable candidates and stop the proposed booking before authorization", async () => {
+  test("H02/H03/H04 retain the bounded discovered candidate pool and stop the proposed booking before authorization", async () => {
     const harness = createHarness();
     const snapshot = await harness.start(fixtureIntent);
 
     assert.equal(snapshot.domainState.phase, "AWAITING_AUTHORIZATION");
-    assert.equal(snapshot.domainState.candidates.length, 3);
+    assert.equal(snapshot.domainState.candidates.length, 4);
     assert.equal(harness.countCommands("COMMIT_BOOKING"), 0);
     assert.equal(harness.ledger.records.length, 0);
+  });
+
+  test("continues from three unavailable candidates to a fourth discovered candidate without changing the request", async () => {
+    const fourth = fixtureCandidates[3]!;
+    const fourthOffer = fixtureOffers[3]!;
+    const harness = createHarness({
+      offers: [fourthOffer],
+      unavailableRestaurantIds: new Set(fixtureCandidates.slice(0, 3).map((candidate) => candidate.restaurant.id)),
+      agentActions: [
+        { type: "SEARCH_RESTAURANTS" },
+        { type: "CHECK_AVAILABILITY", candidateIds: fixtureCandidates.slice(0, 3).map((candidate) => candidate.restaurant.id) },
+        { type: "CHECK_AVAILABILITY", candidateIds: [fourth.restaurant.id] },
+        { type: "SELECT_CANDIDATE", candidateId: fourth.restaurant.id, offerId: fourthOffer.id },
+        { type: "BOOK_RESERVATION", candidateId: fourth.restaurant.id, offerId: fourthOffer.id },
+      ],
+    });
+    const snapshot = await harness.start(fixtureIntent);
+    assert.equal(snapshot.domainState.phase, "AWAITING_AUTHORIZATION");
+    assert.equal(snapshot.domainState.selectedCandidateId, fourth.restaurant.id);
+    assert.equal(snapshot.domainState.availabilityChecks[fixtureCandidates[0]!.restaurant.id]?.status, "UNAVAILABLE");
+    assert.equal(snapshot.domainState.availabilityChecks[fourth.restaurant.id]?.status, "AVAILABLE");
   });
 
   test("H05 resumes the Agent after a definitive commit failure and requires a new authorization", async () => {
@@ -261,6 +282,41 @@ describe("restaurant booking mock harness", () => {
     const actions = (await harness.trajectories.list(snapshot.id)).map((step) => step.agentAction?.type);
     assert.deepEqual(actions, ["SEARCH_RESTAURANTS", "SEARCH_RESTAURANTS", "ASK_USER"]);
     assert.equal(snapshot.domainState.phase, "NEEDS_INPUT");
+  });
+
+  test("a same-request supplementary search preserves completed checks and deduplicates the candidate pool", async () => {
+    const first = fixtureCandidates[0]!;
+    const harness = createHarness({
+      unavailableRestaurantIds: new Set([first.restaurant.id]),
+      agentActions: [
+        { type: "SEARCH_RESTAURANTS", retrievalHint: "initial public search" },
+        { type: "CHECK_AVAILABILITY", candidateIds: [first.restaurant.id] },
+        { type: "SEARCH_RESTAURANTS", retrievalHint: "supplement public results without changing intent" },
+        { type: "ASK_USER", question: "The remaining candidates are still available for investigation." },
+      ],
+    });
+    const snapshot = await harness.start(fixtureIntent);
+    assert.equal(snapshot.domainState.candidates.length, fixtureCandidates.length);
+    assert.equal(snapshot.domainState.availabilityChecks[first.restaurant.id]?.status, "UNAVAILABLE");
+    assert.equal(snapshot.domainState.candidates.filter((candidate) => candidate.restaurant.id === first.restaurant.id).length, 1);
+  });
+
+  test("a changed authoritative condition invalidates prior candidate and availability evidence", async () => {
+    const harness = createHarness({
+      agentActions: [
+        { type: "SEARCH_RESTAURANTS" },
+        { type: "CHECK_AVAILABILITY", candidateIds: [fixtureCandidates[0]!.restaurant.id] },
+        { type: "ASK_USER", question: "Initial request checked." },
+      ],
+    });
+    await harness.start(fixtureIntent);
+    await harness.send({ type: "SEMANTIC_PROPOSAL_COMPILED", patch: { schemaVersion: "3", partySize: 3 } });
+    const changed = harness.snapshot().domainState;
+    assert.equal(changed.intent, undefined);
+    assert.equal(changed.intentDraft?.partySize, 3);
+    assert.deepEqual(changed.candidates, []);
+    assert.deepEqual(changed.availabilityChecks, {});
+    assert.deepEqual(changed.readEvidence, []);
   });
 
   test("Agent checks an unavailable candidate then independently checks and selects another", async () => {

@@ -12,7 +12,13 @@ export function normalizeTabelogIdentity(value: string | undefined): string {
 }
 
 export function normalizeTabelogPhone(value: string | undefined): string {
-  return (value ?? "").replace(/\D/g, "");
+  const raw = (value ?? "").normalize("NFKC").trim();
+  const digits = raw.replace(/\D/g, "");
+  // Google normally returns Japan's domestic leading zero while public JSON-LD
+  // commonly uses +81. Canonicalize only an explicit international prefix.
+  return /^(?:\+|00)81(?:[\s().-]*\d)/.test(raw) && digits.startsWith("81")
+    ? `0${digits.slice(2).replace(/^0+/, "")}`
+    : digits;
 }
 
 function strongNameMatch(left: string, right: string): boolean {

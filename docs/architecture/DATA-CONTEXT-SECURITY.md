@@ -1,8 +1,8 @@
 # Data, Context and Security
 
 - Status: Accepted
-- Document revision: 1.4
-- Last updated: 2026-09-05
+- Document revision: 1.5
+- Last updated: 2026-09-07
 - Source of truth for: 数据归属、Context分层、隐私、安全和保留策略
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md), [ADR-0005](../decisions/0005-modular-monolith.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md)
 - Related documents: [Restaurant Booking](../domains/RESTAURANT-BOOKING.md), [Capability Matrix](../integrations/CAPABILITY-MATRIX.md)
@@ -61,6 +61,8 @@ Unknown           无法从公开或用户数据确定的事实
 ```
 
 第一版没有跨任务Memory和个性化排序。只使用当前任务内用户明确提供的信息；`privateMemoryRefs`接口预留但为空。
+
+受控浏览器页面内容属于不可信Live Data，不会直接进入Restaurant Agent Context或持久Domain Evidence。local/eval的浏览器辅助模型只接收脱敏、长度受限的可见文本与执行器生成的元素引用；普通日志/trajectory只保留来源、阶段、脱敏URL、耗时和稳定失败码，不保存HTML、Cookie、session token、Authorization header、浏览器profile内容或模型Completion。HIGH identity、HARD criteria、请求条件和slot仍由确定性解析与Grounding从最小证据写入State。
 
 ## 长期知识与Memory分层
 

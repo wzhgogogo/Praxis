@@ -11,13 +11,12 @@ import { RestaurantSemanticInterpreter } from "../../../../domains/restaurant/se
 import type { RestaurantCommand, RestaurantEvent, RestaurantOutcome, RestaurantTaskState } from "../../../../domains/restaurant/contracts.js";
 import { restaurantBookingTaskDefinition } from "../../../../domains/restaurant/task-definition.js";
 import { browserRuntimeFromEnvironment } from "../../../../infrastructure/browser/browser-runtime-factory.js";
+import type { BrowserExecutionDiagnostic } from "../../../../infrastructure/browser/browser-task-executor.js";
 import { DeepSeekModelGateway } from "../../../../infrastructure/deepseek/deepseek-model-gateway.js";
 import { GooglePlacesClient } from "../../../../integrations/google/google-places-client.js";
 import { GooglePlacesRestaurantSearch } from "../../../../integrations/google/google-places-restaurant-search.js";
-import { AvailabilitySourceResolver } from "../../../../integrations/restaurant-availability/availability-source-resolver.js";
-import { TableCheckBrowserAvailability } from "../../../../integrations/tablecheck/tablecheck-browser-availability.js";
+import { LiveBrowserAvailability } from "../../../../integrations/restaurant-availability/live-browser-availability.js";
 import type { TableCheckIdentityDiagnostic } from "../../../../integrations/tablecheck/tablecheck-contracts.js";
-import { TabelogBrowserAvailability } from "../../../../integrations/tabelog/tabelog-browser-availability.js";
 import type { TabelogIdentityDiagnostic, TabelogUserInterventionRequired } from "../../../../integrations/tabelog/tabelog-contracts.js";
 import { InMemoryRestaurantAgentTrajectoryStore } from "../../../../infrastructure/postgres/restaurant-agent-trajectory-store.js";
 import { loadFrozenLiveCases, materializeLiveCase } from "../live-case-materializer.js";
@@ -34,6 +33,15 @@ function requiredValue(key: string): void {
 function caseIdFromArgs(): string {
   const index = process.argv.indexOf("--case");
   return index >= 0 && process.argv[index + 1] ? process.argv[index + 1]! : "h001";
+}
+
+/** Eval-only discovery cap; the frozen case input itself is unchanged. */
+function candidateLimitFromArgs(): number {
+  const index = process.argv.indexOf("--candidate-limit");
+  if (index < 0) return 10;
+  const value = Number(process.argv[index + 1]);
+  if (!Number.isInteger(value) || value < 1 || value > 20) throw new Error("--candidate-limit must be an integer from 1 to 20");
+  return value;
 }
 
 function requiresLocation(caseValue: unknown): boolean {
@@ -77,6 +85,7 @@ if (manualTabelogIntervention && !process.stdin.isTTY) {
 }
 const sourcePath = resolve("src/eval/restaurant/agent-loop/drafts/e2e-cases.yaml");
 const selectedId = caseIdFromArgs();
+const candidateLimit = candidateLimitFromArgs();
 const source = await loadFrozenLiveCases(sourcePath);
 const frozen = source.find((entry) => entry.id === selectedId);
 if (!frozen) throw new Error(`Unknown frozen E2E case: ${selectedId}`);
@@ -87,13 +96,18 @@ if (requiresLocation(frozen) && (!process.env.PRAXIS_EVAL_USER_LAT || !process.e
 const startedAt = new Date();
 const materialized = materializeLiveCase(frozen, startedAt.toISOString());
 const liveReadLimits = {
-  maxGoogleSearches: 2,
+  // H001 diagnostic budget only. These are hard ceilings, not default Web values.
+  maxGoogleSearches: 3,
   maxGooglePlaceDetails: 0,
   maxTableCheckBrowserSessions: 3,
   maxTabelogBrowserSessions: 3,
-  maxTabelogCandidateMatches: 5,
-  maxAvailabilityReads: 3,
+  maxTabelogCandidateMatches: 3,
+  maxAvailabilityReads: 20,
   maxBrowserRuntimeFallbacks: 1,
+  maxBrowserModelCallsPerCandidate: 20,
+  maxBrowserModelCallsTotal: 120,
+  maxBrowserOperationsPerCandidate: 80,
+  maxAutomaticBrowserMs: 20 * 60_000,
 } as const;
 const taskId = `hybrid-live:${materialized.id}:${startedAt.valueOf()}`;
 const runId = `run:${taskId}`;
@@ -143,39 +157,34 @@ try {
   const search = new GooglePlacesRestaurantSearch(
     new GooglePlacesClient({ apiKey: process.env.GOOGLE_MAPS_API_KEY ?? "" }),
     undefined,
-    10,
+    candidateLimit,
     { ...(evaluationLocation ? { evaluationLocation } : {}), maxSearches: liveReadLimits.maxGoogleSearches },
   );
   const tabelogIdentityDiagnostics: TabelogIdentityDiagnostic[] = [];
   const tableCheckIdentityDiagnostics: TableCheckIdentityDiagnostic[] = [];
   const tabelogUserInterventions: TabelogUserInterventionRequired[] = [];
+  const browserExecutionDiagnostics: BrowserExecutionDiagnostic[] = [];
   const browser = browserRuntimeFromEnvironment();
-  const tableCheck = new TableCheckBrowserAvailability(
-    browser,
-    undefined,
-    {
-      maxBrowserSessions: liveReadLimits.maxTableCheckBrowserSessions,
-      onIdentityDiagnostic: (diagnostic) => tableCheckIdentityDiagnostics.push(diagnostic),
-    },
-  );
-  const tabelog = new TabelogBrowserAvailability(
-    browser,
-    undefined,
-    liveReadLimits.maxTabelogCandidateMatches,
-    {
-      maxBrowserSessions: liveReadLimits.maxTabelogBrowserSessions,
-      onIdentityDiagnostic: (diagnostic) => tabelogIdentityDiagnostics.push(diagnostic),
-      ...(manualTabelogIntervention
-        ? {
-            onUserInterventionRequired: async (intervention: TabelogUserInterventionRequired) => {
-              tabelogUserInterventions.push(structuredClone(intervention));
-              await waitForManualTabelogIntervention(intervention);
-            },
-          }
-        : {}),
-    },
-  );
-  const availability = new AvailabilitySourceResolver(tableCheck, tabelog);
+  const availability = new LiveBrowserAvailability(browser, model, {
+    maxTableCheckBrowserSessions: liveReadLimits.maxTableCheckBrowserSessions,
+    maxTabelogBrowserSessions: liveReadLimits.maxTabelogBrowserSessions,
+    maxTabelogCandidateMatches: liveReadLimits.maxTabelogCandidateMatches,
+    maxModelCallsPerCandidate: liveReadLimits.maxBrowserModelCallsPerCandidate,
+    maxModelCallsTotal: liveReadLimits.maxBrowserModelCallsTotal,
+    maxOperationsPerCandidate: liveReadLimits.maxBrowserOperationsPerCandidate,
+    maxAutomaticElapsedMs: liveReadLimits.maxAutomaticBrowserMs,
+    onBrowserDiagnostic: (diagnostic) => browserExecutionDiagnostics.push(structuredClone(diagnostic)),
+    onTableCheckIdentityDiagnostic: (diagnostic) => tableCheckIdentityDiagnostics.push(diagnostic),
+    onTabelogIdentityDiagnostic: (diagnostic) => tabelogIdentityDiagnostics.push(diagnostic),
+    ...(manualTabelogIntervention
+      ? {
+          onTabelogUserInterventionRequired: async (intervention: TabelogUserInterventionRequired) => {
+            tabelogUserInterventions.push(structuredClone(intervention));
+            await waitForManualTabelogIntervention(intervention);
+          },
+        }
+      : {}),
+  });
   const coordinator = new RestaurantAgentLoopCoordinator(
     {
       snapshot: async (id) => runtime.snapshot(id),
@@ -184,16 +193,43 @@ try {
     new RestaurantAgentDecision(model),
     new RestaurantExecutionRouter(search, availability, {
       structuredReadTimeoutMs: 8_000,
-      // An explicit human pause is outside the automated browser-read deadline.
-      browserReadTimeoutMs: manualTabelogIntervention ? null : 25_000,
+      // An explicit human pause is outside the automatic browser-read deadline.
+      // The H001 outer-loop deadline is the whole diagnostic cap, not a product SLA.
+      browserReadTimeoutMs: manualTabelogIntervention ? null : liveReadLimits.maxAutomaticBrowserMs,
     }),
     trajectories,
     clock,
-    { maxSteps: 6, maxRejectedActions: 2, timeoutMs: manualTabelogIntervention ? 15 * 60_000 : 90_000 },
+    { maxSteps: 30, maxRejectedActions: 5, timeoutMs: 20 * 60_000 },
   );
   stage = "AGENT_LOOP";
+  console.log(JSON.stringify({
+    mode: "HYBRID_LIVE_READ",
+    caseId: materialized.id,
+    browserEngine: process.env.PRAXIS_BROWSER_ENGINE ?? "AUTO",
+    candidateLimit,
+    profileMode: manualTabelogIntervention ? "PERSISTENT_EVAL" : "TEMPORARY",
+    limits: liveReadLimits,
+    safety: "READ_ONLY_CODE_PATH",
+  }));
   const loop = await coordinator.run(taskId);
   const finalSnapshot = runtime.snapshot(taskId);
+  const browserOperationsByCandidate = browserExecutionDiagnostics.reduce<Record<string, number>>((counts, diagnostic) => {
+    if (diagnostic.event === "SITE_METHOD" && diagnostic.candidateId) {
+      counts[diagnostic.candidateId] = (counts[diagnostic.candidateId] ?? 0) + 1;
+    }
+    return counts;
+  }, {});
+  const resourceUsage = {
+    discoveryCandidates: finalSnapshot.domainState.candidates.length,
+    candidatesChecked: Object.keys(finalSnapshot.domainState.availabilityChecks).length,
+    agentDecisions: trajectories.steps.filter((step) => step.modelAttempt?.purpose === "restaurant_agent_decide").length,
+    browserModelCalls: modelInvocations.filter((invocation) => invocation.purpose === "browser_read_decide").length,
+    /** All executor calls, including reads; model-initiated clicks/navigation are listed separately. */
+    browserRuntimeCalls: browserExecutionDiagnostics.filter((diagnostic) => diagnostic.event === "SITE_METHOD").length,
+    browserOperationsByCandidate,
+    browserModelActions: browserExecutionDiagnostics.filter((diagnostic) => diagnostic.event === "MODEL_ACTION").length,
+    elapsedMs: Date.now() - startedAt.valueOf(),
+  };
   const artifact = {
     schemaVersion: "1",
     mode: "HYBRID_LIVE_READ",
@@ -209,16 +245,18 @@ try {
       tablecheckIdentity: tableCheckIdentityDiagnostics,
       tabelogIdentity: tabelogIdentityDiagnostics,
       tabelogUserInterventions,
+      browserExecution: browserExecutionDiagnostics,
     },
     finalSnapshot,
     loop,
+    resourceUsage,
     resolvedEvalLocation: evaluationLocation,
-    latencyMs: Date.now() - startedAt.valueOf(),
+    latencyMs: resourceUsage.elapsedMs,
     safety: { policy: "READ_ONLY_CODE_PATH", externalSideEffectCount: "NOT_MEASURED" },
   };
   const completed = finalSnapshot.domainState.phase === "PRESENT_RESULTS" && loop.status === "TERMINAL";
   await journal.finish({ ...artifact, status: completed ? "SUCCEEDED" : "FAILED", stage: "AGENT_LOOP", failureCode: completed ? null : "H001_NOT_COMPLETED" });
-  console.log(JSON.stringify({ mode: artifact.mode, caseId: materialized.id, loop, artifactPath: journal.resultPath, latencyMs: artifact.latencyMs, scorerStatus: artifact.scorerStatus }, null, 2));
+  console.log(JSON.stringify({ mode: artifact.mode, caseId: materialized.id, loop, resourceUsage, artifactPath: journal.resultPath, latencyMs: artifact.latencyMs, scorerStatus: artifact.scorerStatus }, null, 2));
   if (!completed) process.exitCode = 1;
 } catch (error) {
   await journal.finish({

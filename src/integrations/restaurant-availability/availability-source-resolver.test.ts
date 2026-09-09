@@ -65,7 +65,7 @@ test("source resolver falls back from a TableCheck provider failure to Tabelog",
 test("Tabelog bot challenge remains provider-scoped and all providers exhausted fail closed", async () => {
   const calls: string[] = [];
   const result = await new AvailabilitySourceResolver(
-    provider("TABLECHECK", { status: "UNKNOWN", reasonCode: "TABLECHECK_OUTLET_UNRESOLVED" }, calls),
+    provider("TABLECHECK", { status: "UNKNOWN", reasonCode: "TABLECHECK_DISCOVERY_NO_RESULT" }, calls),
     provider("TABELOG", { status: "UNKNOWN", reasonCode: "BOT_CHALLENGE" }, calls),
   ).check(request, new AbortController().signal);
   assert.deepEqual(calls, ["TABLECHECK", "TABELOG"]);

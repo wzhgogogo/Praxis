@@ -13,6 +13,11 @@ import { RestaurantSemanticInterpreter } from "../domains/restaurant/semantic-in
 import { RestaurantAgentDecision } from "../domains/restaurant/agent-decision.js";
 import { FixtureModelGateway } from "../infrastructure/fixture/fixture-model-gateway.js";
 import { FixtureRestaurantSearch } from "../infrastructure/fixture/fixture-restaurant-search.js";
+import { DeepSeekModelGateway } from "../infrastructure/deepseek/deepseek-model-gateway.js";
+import { browserRuntimeFromEnvironment } from "../infrastructure/browser/browser-runtime-factory.js";
+import { GooglePlacesClient } from "../integrations/google/google-places-client.js";
+import { GooglePlacesRestaurantSearch } from "../integrations/google/google-places-restaurant-search.js";
+import { LiveBrowserAvailability } from "../integrations/restaurant-availability/live-browser-availability.js";
 import { applyPostgresMigrations } from "../infrastructure/postgres/migrations.js";
 import { NodePostgresDatabase } from "../infrastructure/postgres/node-postgres-database.js";
 import { LOCAL_WORKSPACE_PAGE } from "../web/local-workspace-page.js";
@@ -25,6 +30,31 @@ const PORT = Number.parseInt(process.env.PORT ?? "3000", 10);
 export const DEFAULT_FIXTURE_PILOT_ACCESS: PilotAccessEntry[] = [
   { accessToken: "praxis-fixture-a", id: "pilot-a", displayName: "Pilot A" },
 ];
+
+export type LocalRestaurantProviderMode = "FIXTURE" | "LIVE_READ";
+
+/** Explicit mode selection prevents a broken Live configuration from displaying fixture cards. */
+export function localRestaurantProviderMode(environment: NodeJS.ProcessEnv = process.env): LocalRestaurantProviderMode {
+  const configured = environment.PRAXIS_RESTAURANT_PROVIDER_MODE ?? "FIXTURE";
+  if (configured === "FIXTURE" || configured === "LIVE_READ") return configured;
+  throw new Error("PRAXIS_RESTAURANT_PROVIDER_MODE must be FIXTURE or LIVE_READ");
+}
+
+/** Live mode must fail at startup rather than render Fixture data under a Live label. */
+export function assertLocalLiveReadEnvironment(environment: NodeJS.ProcessEnv): void {
+  const gates = ["PRAXIS_ALLOW_LIVE_RESTAURANT_READ", "PRAXIS_ALLOW_BROWSER_RUN"] as const;
+  for (const gate of gates) {
+    if (environment[gate] !== "1") throw new Error(`Set ${gate}=1 before starting the local Live read-only workspace`);
+  }
+  for (const key of ["DEEPSEEK_API_KEY", "DEEPSEEK_MODEL", "GOOGLE_MAPS_API_KEY"] as const) {
+    if (!environment[key]?.trim()) throw new Error(`${key} is required for PRAXIS_RESTAURANT_PROVIDER_MODE=LIVE_READ`);
+  }
+  if (environment.PRAXIS_BROWSER_ENGINE !== "LOCAL_CHROMIUM") {
+    for (const key of ["CLOUDFLARE_ACCOUNT_ID", "CLOUDFLARE_API_TOKEN"] as const) {
+      if (!environment[key]?.trim()) throw new Error(`${key} is required unless PRAXIS_BROWSER_ENGINE=LOCAL_CHROMIUM`);
+    }
+  }
+}
 
 class CaseEventHub {
   private readonly subscribers = new Map<string, Set<(view: RestaurantCaseView) => void>>();
@@ -234,21 +264,43 @@ async function start(): Promise<void> {
   if (!connectionString) throw new Error("DATABASE_URL is required for the Stage 2B persistent workspace");
   const database = new NodePostgresDatabase({ connectionString });
   await applyPostgresMigrations(database);
-  const fixtureModel = new FixtureModelGateway();
-  const fixtureRestaurant = new FixtureRestaurantSearch();
+  const providerMode = localRestaurantProviderMode();
+  const fixtureMode = providerMode === "FIXTURE";
+  if (!fixtureMode) assertLocalLiveReadEnvironment(process.env);
+  const model = fixtureMode ? new FixtureModelGateway() : DeepSeekModelGateway.fromEnvironment();
+  const restaurantSearch = fixtureMode
+    ? new FixtureRestaurantSearch()
+    : new GooglePlacesRestaurantSearch(new GooglePlacesClient({ apiKey: process.env.GOOGLE_MAPS_API_KEY ?? "" }));
+  const restaurantAvailability = fixtureMode
+    ? new FixtureRestaurantSearch()
+    : new LiveBrowserAvailability(browserRuntimeFromEnvironment(), model, {
+        maxTableCheckBrowserSessions: 3,
+        maxTabelogBrowserSessions: 3,
+        maxTabelogCandidateMatches: 5,
+        maxModelCallsPerCandidate: 6,
+        maxModelCallsTotal: 12,
+        maxOperationsPerCandidate: 24,
+        maxAutomaticElapsedMs: 300_000,
+      });
   const application = new PersistentRestaurantAgentApplication({
     database,
-    semanticInterpreter: new RestaurantSemanticInterpreter(fixtureModel),
-    agentDecision: new RestaurantAgentDecision(fixtureModel),
-    restaurantSearch: fixtureRestaurant,
-    restaurantAvailability: fixtureRestaurant,
+    semanticInterpreter: new RestaurantSemanticInterpreter(model),
+    agentDecision: new RestaurantAgentDecision(model),
+    restaurantSearch,
+    restaurantAvailability,
+    workspaceMode: providerMode,
+    ...(fixtureMode ? {} : {
+      executionRouterOptions: { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 300_000 },
+      // This is local Live Read-only behavior, not the broader H001 debug allowance.
+      agentLoopOptions: { maxSteps: 12, maxRejectedActions: 3, timeoutMs: 300_000 },
+    }),
   });
   const sessions = new PilotSessionService(application.store, pilotEntriesFromEnvironment(), {
     now: () => new Date(),
   });
   const server = createLocalWebServer({ application, sessions });
   server.listen(PORT, "127.0.0.1", () => {
-    console.log(`Praxis Stage 2B fixture workspace is running at http://127.0.0.1:${PORT}`);
+    console.log(`Praxis ${providerMode === "FIXTURE" ? "fixture" : "Live read-only"} workspace is running at http://127.0.0.1:${PORT}`);
   });
   const shutdown = () => server.close(() => void database.close());
   process.once("SIGINT", shutdown);

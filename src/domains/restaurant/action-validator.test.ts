@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 
 import type { RestaurantTaskState } from "./contracts.js";
-import { validateRestaurantAction } from "./action-validator.js";
+import { MAX_AVAILABILITY_CHECK_BATCH, validateRestaurantAction } from "./action-validator.js";
 import { applyRestaurantIntentPatch, missingBlockingFields } from "./intent-state.js";
 import { restaurantBookingTaskDefinition } from "./task-definition.js";
 
@@ -84,6 +84,21 @@ test("Action validator rejects availability reads that would repeat a candidate 
   );
   assert.equal(validateRestaurantAction(state, { type: "CHECK_AVAILABILITY", candidateIds: ["b"] }, now).status, "ALLOWED");
   assert.equal(validateRestaurantAction(state, { type: "CHECK_AVAILABILITY", candidateIds: ["a", "b"] }, now).status, "REJECTED");
+});
+
+test("Action validator keeps investigation batches bounded without truncating the candidate pool", () => {
+  const draft = applyRestaurantIntentPatch(undefined, { schemaVersion: "3", date: "2026-08-05", timeWindow: { earliest: "19:00", latest: "19:30" }, partySize: 2, area: { query: "Shinjuku" } });
+  const state: RestaurantTaskState = {
+    ...incompleteState,
+    phase: "SEARCHING",
+    intentDraft: draft,
+    candidates: Array.from({ length: MAX_AVAILABILITY_CHECK_BATCH + 1 }, (_, index) => ({ restaurant: { id: `candidate-${index}`, outletName: `Candidate ${index}`, sourceIds: {}, address: "Tokyo", provenance: {} }, matchReasons: [], warnings: [], executionConfidence: "LOW" as const })),
+  };
+  assert.equal(validateRestaurantAction(state, { type: "CHECK_AVAILABILITY", candidateIds: state.candidates.slice(0, MAX_AVAILABILITY_CHECK_BATCH).map((item) => item.restaurant.id) }, now).status, "ALLOWED");
+  assert.deepEqual(
+    validateRestaurantAction(state, { type: "CHECK_AVAILABILITY", candidateIds: state.candidates.map((item) => item.restaurant.id) }, now),
+    { status: "REJECTED", code: "AVAILABILITY_BATCH_LIMIT", reason: `Availability checks are limited to ${MAX_AVAILABILITY_CHECK_BATCH} candidates per batch` },
+  );
 });
 
 test("PRESENT_RESULTS fails closed until area, HARD criterion, identity, and availability are evidenced", () => {
