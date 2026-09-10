@@ -1954,3 +1954,5 @@ Runtime保留旧观察，重查证据通过前序evidence引用关联；展示�
 H002新增版本化、案例专属的类型排除口径（hot pot / shabu shabu / sukiyaki；Sichuan / Hunan），只根据来源的明确主营类型/菜系判断；匹配禁止类型为冲突、没有适用事实为未知，绝不使用店名或网页缺关键词推断。东银座公共坐标仅传入H003–H005 eval runner，并在artifact标注`EVALUATION_LOCATION_RADIUS`；产品Web新增一次设备定位输入、精度/采集时刻绑定Case，位置拒绝或失败由普通手输地点继续，Activity不记录精确坐标。没有新增Provider、站点专属fallback、预约/付款/登录、后台调度或浏览器框架。
 
 复核artifact后纠正了先前“只写started”的错误判断：三个H003运行都写入了完整`.result.json`和evaluation sidecar，因错误重复运行而违反每例一次授权，现停止继续运行。三次均为30步、12个候选、12次TableCheck和12次Tabelog只读尝试后`STEP_LIMIT / FAILED`；每个候选是`UNKNOWN / AVAILABILITY_SOURCES_EXHAUSTED`，不是无位。它们还一致暴露Semantic把冻结HARD的`team dinner`/`good for drinks`改写或降为SOFT，独立诊断的权威条件为`NOT_SATISFIED`，最终展示和所需证据均为`NOT_EVALUATED`。H002/H004/H005尚未启动。离线切片完成后未改写历史Live artifact、Fixture、凭据或个人位置。
+
+H002在最终代码上执行一次完整只读诊断（55,618ms）：Semantic漏掉冻结`party_size`并把`first date`改写为`suitable for a first date`，使条件诊断为`NOT_SATISFIED`。Google只发现一条没有适用Higashi-Ginza事实的候选；三次Google读取额度耗尽后，Agent仍重复同请求搜索至30步，未触发预约来源读取。终态为`FAILED / STEP_LIMIT`，没有候选展示、Offer、空位或无位结论。H004/H005未启动。
