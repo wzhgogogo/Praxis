@@ -180,3 +180,18 @@ test("User refresh reopens only displayed candidates and preserves prior evidenc
   assert.equal(checked.refreshRequestedCandidateIds, undefined);
   assert.equal(checked.availabilityChecks.a?.status, "UNKNOWN");
 });
+
+test("A completed refresh target does not block another target or permit partial presentation", () => {
+  const state: RestaurantTaskState = {
+    ...incompleteState,
+    phase: "SEARCHING",
+    intentDraft: applyRestaurantIntentPatch(undefined, { schemaVersion: "3", date: "2026-08-05", timeWindow: { earliest: "19:00", latest: "19:30" }, partySize: 2, area: { query: "Shinjuku" } }),
+    candidates: ["a", "b"].map((id) => ({ restaurant: { id, outletName: id.toUpperCase(), sourceIds: {}, address: "Tokyo", provenance: {} }, matchReasons: [], warnings: [], executionConfidence: "HIGH" as const })),
+    refreshRequestedCandidateIds: ["b"],
+  };
+  assert.equal(validateRestaurantAction(state, { type: "CHECK_AVAILABILITY", candidateIds: ["b"] }, now).status, "ALLOWED");
+  const partial = validateRestaurantAction(state, { type: "PRESENT_RESULTS", candidateIds: ["a"] }, now);
+  assert.equal(partial.status, "REJECTED");
+  if (partial.status === "REJECTED") assert.equal(partial.code, "PRESENTATION_EVIDENCE_MISSING");
+  assert.equal(validateRestaurantAction(state, { type: "CHECK_AVAILABILITY", candidateIds: ["a"] }, now).status, "REJECTED");
+});

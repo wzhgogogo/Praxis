@@ -189,7 +189,10 @@ export function validateRestaurantAction(
     if (refreshTargets.length > 0 && !action.candidateIds.every((candidateId) => refreshTargets.includes(candidateId))) {
       return rejected("REFRESH_TARGET_REQUIRED", "A pending user refresh may only check its previously presented candidate targets");
     }
-    if (presentation.some((item) => item.eligible)) {
+    // A user explicitly asked to refresh the full previously presented set.  A
+    // newly fresh A must not prevent the remaining B target from receiving its
+    // bounded read; partial presentation would silently abandon that request.
+    if (refreshTargets.length === 0 && presentation.some((item) => item.eligible)) {
       return rejected("PRESENTATION_READY", "A fresh evidence-grounded result is ready; present it before investigating more candidates");
     }
     if (action.candidateIds.length === 0 || new Set(action.candidateIds).size !== action.candidateIds.length) {
@@ -217,11 +220,11 @@ export function validateRestaurantAction(
     if (action.candidateIds.length === 0 || new Set(action.candidateIds).size !== action.candidateIds.length) {
       return rejected("CANDIDATE_UNKNOWN", "Presenting results requires one or more unique known candidate IDs");
     }
+    if ((state.refreshRequestedCandidateIds?.length ?? 0) > 0) {
+      return rejected("PRESENTATION_EVIDENCE_MISSING", "All user-requested refresh targets require one new availability observation before results can be presented");
+    }
     for (const candidateId of action.candidateIds) {
       if (!candidate(state, candidateId)) return rejected("CANDIDATE_UNKNOWN", "Results can only include known candidates");
-      if (state.refreshRequestedCandidateIds?.includes(candidateId)) {
-        return rejected("PRESENTATION_EVIDENCE_MISSING", `Candidate ${candidateId} requires its requested read-only refresh before it can be presented again`);
-      }
       const evidence = presentationEvidenceIds(state, candidateId, intent.intent, now);
       if (!evidence.valid) return rejected("PRESENTATION_EVIDENCE_MISSING", evidence.reason);
     }

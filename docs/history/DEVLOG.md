@@ -1940,3 +1940,9 @@ ADR-0018把原先混用的`expiresAt`语义拆开：`restaurant-availability-dis
 Runtime保留旧观察，重查证据通过前序evidence引用关联；展示过期、明确无位与来源失败不再互相覆盖。只允许展示证据过期或用户显式刷新已展示候选时进行受限只读重查，沿用现有浏览器/预算/取消/无进展链路，不新增定时刷新或站点fallback。Agent Context升为`@3`，由代码给出当前时间、展示资格、缺口和重查理由；合格结果优先展示，同一被拒绝动作立即停止而不循环耗尽预算。Local Web加入只在`PRESENT_RESULTS`显示的刷新按钮和受版本保护的API；无预约、支付、换店提交或PII路径。
 
 真实Web验收还发现并修复两个执行链问题：Google Client与Router遗留的8秒独立deadline改为共享30秒structured-read上限；刷新pending状态优先覆盖旧展示资格，且一次`AVAILABILITY_CHECKED`后从State清除，避免旧证据重呈现或同一刷新循环。实际来源trace证明新观察、`USER_REQUESTED_REFRESH`、策略版本与前序证据关联均已写入；最后的清理修复只完成离线回归，尚未再消耗Live预算复验单次页面恢复。
+
+## 2026-09-10 — Refresh closure and H002–H005 static diagnostic
+
+刷新目标现在是一个明确的完整集合：存在未完成用户刷新目标时，Validator允许只检查剩余目标而不被另一个新鲜结果阻断，同时拒绝部分`PRESENT_RESULTS`，每个候选收到新的AVAILABLE、UNAVAILABLE或UNKNOWN检查后只清除自身标记。Router把同候选的历史availability evidence全部带入重查关联，避免中间UNKNOWN覆盖最新check后丢失审计链。未新增Provider、fallback、后台任务框架或任何写路径。
+
+最终代码在新的3211本机Live Workspace完成浏览器验收：未来Shibuya omakase请求以真实模型、Google与TableCheck进入`PRESENT_RESULTS`；一次页面“Refresh availability”触发新的TableCheck读取并再次进入`PRESENT_RESULTS`，浏览器reload从PostgreSQL恢复结果、来源链接与Activity。H002的负向HARD（无辣、无火锅）尚无可审计的排除事实契约；H003–H005要求`NEAR_USER`但冻结案例没有经授权坐标，故只完成静态预检，未冒充运行或假定位置。

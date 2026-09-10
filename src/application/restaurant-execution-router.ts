@@ -88,7 +88,11 @@ function authoritativeAvailabilityRequest(
   const recheckReasons = candidateIds
     .map((candidateId) => eligibility.get(candidateId))
     .filter((item): item is NonNullable<typeof item> => item?.recheckReason !== undefined);
-  const previousEvidenceIds = [...new Set(candidateIds.flatMap((candidateId) => state.availabilityChecks[candidateId]?.evidenceIds ?? []))];
+  // Keep the new observation auditable even if an intervening UNKNOWN check
+  // replaced the latest check's evidence list.
+  const previousEvidenceIds = [...new Set(state.readEvidence
+    .filter((evidence) => evidence.kind === "AVAILABILITY" && candidateIds.includes(evidence.candidateId ?? ""))
+    .map((evidence) => evidence.evidenceId))];
   return {
     candidateIds: [...candidateIds],
     candidates: candidateIds.map((candidateId) => {

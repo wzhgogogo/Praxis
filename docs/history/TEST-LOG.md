@@ -2154,3 +2154,9 @@ typecheck、arch:check（0 forbidden dependencies）、build通过；npm test 16
 - Actual Web Live：浏览器新建Case并提交“Tomorrow at 7pm near Shibuya for two, omakase.”。首次短8秒Google deadline三次超时，准确记录为`SEARCH_FAILED`后才由Agent请求新条件；修复为共享的30秒structured-read上限后，新Case真实调用模型、Google与TableCheck，页面以`PRESENT_RESULTS`展示Sushisho Isseki Sancho、TableCheck来源链接、2026-09-10 19:00、2人和`omakase`证据。初始搜索约57秒，唯一Availability read约1秒。
 - Refresh：第一次页面刷新暴露旧fresh evidence可被直接重呈现；第二次暴露刷新标记未从Reducer清除，实际TableCheck重查产生多条新观察（约10–27秒，`USER_REQUESTED_REFRESH`、新evidence ID、policy版本和前序evidence关联），随后因旧进程未加载清理修复而重复读取。已停止该本机开发进程以避免继续消耗预算；最终代码的刷新标记清理由Reducer回归覆盖。故“真实来源重查可执行并可落盘”已验证；“加载最终修复后的单次刷新恢复到页面`PRESENT_RESULTS`”仍未在新的Live调用中复验，不能报告为完成。
 - 边界：没有Fixture替代、H001替代、第三方登录、预约、授权、支付、取消、PII输入或外部写操作。
+
+## TEST-2026-09-10-REFRESH-CLOSURE — final Web Live and scenario preflight
+
+- Focused：`npm run typecheck`、`node --import tsx --test src/domains/restaurant/action-validator.test.ts src/application/restaurant-execution-router.test.ts`（9/9）、`npm run arch:check`、`npm run build`与`git diff --check`通过。新增回归证明：仍待处理的刷新B不会被已完成A阻断，且存在未完成刷新目标时拒绝部分展示；UNKNOWN检查清除其自身刷新标记的既有Reducer回归继续覆盖。
+- Web Live Read-only：确认3000/3210/3211均无旧监听后，以`298ce3a`加本轮未提交修复、命令级本机PostgreSQL、`LIVE_READ`、两个read gate和`LOCAL_CHROMIUM`启动3211服务。实际浏览器提交“Tomorrow at 7pm near Shibuya for two, omakase.”，真实模型、Google和TableCheck产生1个2026-09-11 19:00、2人的Sushisho Isseki Sancho结果并进入`PRESENT_RESULTS`（约81秒）。点击一次页面刷新后，Activity记录`AVAILABILITY_REFRESH_REQUESTED`、一次新Availability check和新的`RESULTS_PRESENTED`（约24秒）；reload后仍显示`PRESENT_RESULTS`、TableCheck来源链接与完整Activity。无Fixture、H001替代、登录、预约、支付、取消、PII或其他外部写入。
+- H002–H005 static preflight：相对日期会在Asia/Tokyo物化；H002的spicy food/hot pot为NEGATIVE HARD但当前Evidence契约没有可审计的“明确不提供/不含”事实，价格与first-date也只有soft事实要求，不能评完整结果。H003/H004/H005均为`NEAR_USER`，但冻结case未提供`PRAXIS_EVAL_USER_LAT/LNG`；H004另需独立营业时间来源，不可拿预约slot替代。因此本轮未运行H002–H005的Live调用，不伪造位置、缺失证据或结果。
