@@ -24,10 +24,14 @@ export class MockRestaurantSearchAdapter {
   constructor(
     private readonly candidates: RestaurantCandidate[],
     private readonly failure?: string,
+    private readonly failureCode?: string,
   ) {}
 
   async search(_request: RestaurantSearchRequest, _signal: AbortSignal) {
-    if (this.failure) throw new Error(this.failure);
+    if (this.failure) {
+      const error = Object.assign(new Error(this.failure), this.failureCode ? { code: this.failureCode } : {});
+      throw error;
+    }
     return {
       candidates: structuredClone(this.candidates),
       evidence: [],

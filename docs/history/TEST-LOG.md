@@ -2175,3 +2175,9 @@ typecheck、arch:check（0 forbidden dependencies）、build通过；npm test 16
 - Focused coverage：目标而非人数决定事实／空位展示、空位目标缺人数、Google预算耗尽后换词被拒绝、Context脱敏的来源可用状态、通用负向HARD的满足／冲突／未知、以及Evaluator按`target.goal`独立复核，均纳入现有Domain、Grounding、Evaluator和Fixture回归。
 - Full offline：获准loopback监听环境运行`npm test`，`226/226`通过；单独`src/server/*.test.ts`为`12/12`通过。初始受限沙箱的`listen EPERM 127.0.0.1`只影响本地Web listener，获准环境重跑后无产品失败。
 - Live / paid model：未运行。H002/H003/H004历史artifact保持原样，H005未启动；Fixture和离线通过不被报告为新的Web Live验收。
+
+## TEST-2026-09-10-NO-PROGRESS-CLOSURE — offline regression
+
+- 新增Harness回归：Google discovery在零候选前返回`GOOGLE_SEARCH_BUDGET_EXCEEDED`时，只发生一次失败读取，随后持久化`AGENT_LOOP_NO_PROGRESS`；预置的改写检索动作没有执行，也没有转成`NEEDS_INPUT`。
+- 完整验证：受准本机loopback环境`npm test`为`227/227`通过；`npm run typecheck`、`npm run arch:check`、`npm run build`和`git diff --check`通过。普通受限沙箱中的完整测试仍只因`127.0.0.1`监听被拒绝而有9项server测试失败，获准环境重跑后全部通过。
+- Live / paid model：未运行；不改变或替代既有H001/H002/H003/H004 artifact，也没有启动H005。

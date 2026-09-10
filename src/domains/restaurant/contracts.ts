@@ -363,7 +363,7 @@ export interface RestaurantSemanticConflict {
   message: string;
 }
 
-export type RestaurantAgentLoopTermination = "TIMEOUT" | "STEP_LIMIT" | "REJECTION_LIMIT" | "EXECUTION_FAILURE";
+export type RestaurantAgentLoopTermination = "TIMEOUT" | "STEP_LIMIT" | "REJECTION_LIMIT" | "EXECUTION_FAILURE" | "NO_PROGRESS";
 
 /** Historical semantic-evaluation annotation. It is not an Agent action or a runtime Decision. */
 export type RestaurantSemanticExpectedDecision =

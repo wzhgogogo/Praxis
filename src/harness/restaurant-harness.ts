@@ -50,6 +50,7 @@ export interface RestaurantHarnessFixture {
   agentActions?: RestaurantAgentAction[];
   unavailableRestaurantIds?: ReadonlySet<string>;
   searchFailure?: string;
+  searchFailureCode?: string;
   availabilityFailure?: string;
   availabilityRoute?: "STRUCTURED_ADAPTER" | "GENERIC_BROWSER";
   agentLoopOptions?: RestaurantAgentLoopOptions;
@@ -107,7 +108,7 @@ export class RestaurantHarness {
     const verificationMode = fixture.verificationMode ?? "CONFIRMED";
     this.clock = new FakeClock(initialTime);
     this.fixtureSummary = { candidateIds: fixture.candidates.map((candidate) => candidate.restaurant.id), unavailableRestaurantIds: [...(fixture.unavailableRestaurantIds ?? new Set())], commitMode, verificationMode, initialTime };
-    this.searchAdapter = new MockRestaurantSearchAdapter(fixture.candidates, fixture.searchFailure);
+    this.searchAdapter = new MockRestaurantSearchAdapter(fixture.candidates, fixture.searchFailure, fixture.searchFailureCode);
     this.availabilityAdapter = new MockAvailabilityAdapter(
       fixture.offers,
       fixture.unavailableRestaurantIds,

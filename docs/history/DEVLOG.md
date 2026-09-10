@@ -1962,3 +1962,7 @@ H002在最终代码上执行一次完整只读诊断（55,618ms）：Semantic漏
 ADR-0020将`partySize`从交付标准中移除：Semantic Proposal的`TARGET`明确保存`RECOMMENDATION`或`AVAILABILITY`；前者可在人数存在时仍按地点、HIGH identity、HARD来源事实和适用营业时间展示，后者缺人数则要求补充而不会降级。删除Hybrid runner的`applyCaseScopedCriteriaPolicy`及H002 Eval case-fact policy；Frozen H002澄清改为普通用户条件，执行和评价不再按案例编号写业务分支。
 
 Google检索继续只使用正向发现词，负向HARD条件只在候选后的来源事实层处理。具体`primaryType`对显式类型／菜系范围可记录同源`verifiedNegativeCriteria`或`violatedNegativeCriteria`及判断依据；宽泛类型和缺关键词保持未知。Agent Context加入稳定的Google discovery可用状态；`GOOGLE_SEARCH_BUDGET_EXCEEDED`写入任务失败信息且Validator阻止换词继续调用。没有新增Provider、浏览器框架、预约、支付、登录、定时任务或外部写入。本轮不重跑已消耗授权的Live。
+
+## 2026-09-10 — Exhausted discovery no-progress closure
+
+补齐此前只依赖Agent Prompt和Validator的最后一层停止保护：若Google发现预算耗尽且本次运行尚未产生任何候选，Coordinator不再请求下一次模型决策，而是记录`AGENT_LOOP_NO_PROGRESS`并进入`FAILED`。该错误说明没有合法的剩余只读路径，不是用户条件不清楚；它不重置预算、不追加Provider调用，也不改变已经产生候选的正常后续调查路径。Mock Adapter仅新增可注入稳定失败码，以验证真实Router错误归因，不参与产品执行。

@@ -48,6 +48,7 @@ export type RestaurantAgentLoopResult =
   | { status: "TIMEOUT"; steps: number }
   | { status: "STEP_LIMIT"; steps: number }
   | { status: "REJECTION_LIMIT"; steps: number }
+  | { status: "NO_PROGRESS"; steps: number }
   | { status: "MODEL_FAILURE"; steps: number }
   | { status: "EXECUTION_FAILURE"; steps: number };
 
@@ -67,6 +68,16 @@ function waitingForUser(state: RestaurantTaskState): boolean {
 
 function terminal(state: RestaurantTaskState): boolean {
   return state.phase === "BOOKED_VERIFIED" || state.phase === "PRESENT_RESULTS" || state.phase === "OUTCOME_UNKNOWN" || state.phase === "FAILED";
+}
+
+/**
+ * A provider budget is a run-scoped capability boundary, not a user-input
+ * problem.  Once discovery has failed before yielding any candidate, there is
+ * no legal read action left: wording changes cannot replenish the provider.
+ * Stop before asking the model to improvise repeated searches.
+ */
+function noExecutableDiscoveryPath(state: RestaurantTaskState): boolean {
+  return state.failure?.code === "GOOGLE_SEARCH_BUDGET_EXCEEDED" && state.candidates.length === 0;
 }
 
 function unique(values: string[]): string[] {
@@ -143,6 +154,16 @@ export class RestaurantAgentLoopCoordinator {
       const snapshot = await this.runtime.snapshot(taskId);
       if (terminal(snapshot.domainState)) return { status: "TERMINAL", steps: step };
       if (waitingForUser(snapshot.domainState)) return { status: "WAITING_USER", steps: step };
+      if (noExecutableDiscoveryPath(snapshot.domainState)) {
+        stepNumber += 1;
+        await this.terminate(
+          snapshot,
+          this.base(taskId, stepNumber, snapshot),
+          "NO_PROGRESS",
+          "Google discovery budget is exhausted before any candidate was found; no valid read action remains",
+        );
+        return { status: "NO_PROGRESS", steps: step };
+      }
       if (this.timedOut(startedAt)) {
         stepNumber += 1;
         await this.terminate(snapshot, this.base(taskId, stepNumber, snapshot), "TIMEOUT", `Agent loop exceeded ${this.timeoutMs}ms`);

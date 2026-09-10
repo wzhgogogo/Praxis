@@ -73,6 +73,8 @@ ADR-0020取代ADR-0019中“人数决定证据profile”及H002案例注入的�
 
 Google Places现记录来源类型及常规营业时间，并仅在可解析的目标星期/时段重叠时产生事实证据；它不把“现在营业”、普通每周时间或无预约入口解释为空位。Hybrid诊断器升为`restaurant-hybrid-read-diagnostic-evaluator@5`，按保存的目标分别核对事实型结果和空位结果，且`NEAR_USER`只接受任务设备半径或显式评估半径的区域事实。实际设备权限点击尚未验收。
 
+发现预算在尚未获得候选时耗尽，会以`AGENT_LOOP_NO_PROGRESS`持久结束；它不再让模型通过改写检索词反复调用已不可用的Google发现能力。此停止码是系统/来源限制，不会被包装为用户输入不足，也不会宣称展示结果。
+
 H002–H005尚无合格的完整Live结果。H003实际完成了三次完整Live运行——这是超出“每例最多一次”授权的执行错误，后续不再重跑；三次都在30步后以`STEP_LIMIT / FAILED`结束。每次都物化东银座评估坐标、读取12个候选并尝试两种已支持的预约来源；所有候选均为`UNKNOWN / AVAILABILITY_SOURCES_EXHAUSTED`，不是无位。独立评价还发现Semantic把冻结的HARD `team dinner`/`good for drinks`改写或降为SOFT，故权威条件为`NOT_SATISFIED`；没有结果、Offer或可展示证据。H002完成一次55.6秒Live：语义漏掉冻结的`party_size`且改写`first date`，Google只返回一个无适用区域事实的候选；三次Google预算耗尽后Agent继续同请求搜索至`STEP_LIMIT`，未读预约来源。H004另有一次完整Live，但错误走了空位调查链并在约301秒`STEP_LIMIT / FAILED`，没有事实型展示；H005未启动。本轮未重跑任何Live，离线修复不能替代其验收。此前H001/Web Live刷新验收保持独立，不替代本组案例。
 
 ## 当前标识

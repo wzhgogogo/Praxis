@@ -404,6 +404,25 @@ describe("restaurant booking mock harness", () => {
     assert.equal(harness.trajectories.steps[0]?.observation?.type, "DISCOVERY_FAILED");
   });
 
+  test("exhausted discovery without candidates terminates instead of retrying rewritten searches", async () => {
+    const harness = createHarness({
+      candidates: [],
+      searchFailure: "Google Places search budget is exhausted for this diagnostic",
+      searchFailureCode: "GOOGLE_SEARCH_BUDGET_EXCEEDED",
+      agentActions: [
+        { type: "SEARCH_RESTAURANTS" },
+        { type: "SEARCH_RESTAURANTS", retrievalHint: "different words must not be attempted" },
+      ],
+    });
+    const snapshot = await harness.start(fixtureIntent);
+
+    assert.equal(harness.lastAgentLoopResult?.status, "NO_PROGRESS");
+    assert.equal(snapshot.domainState.phase, "FAILED");
+    assert.equal(snapshot.domainState.failure?.code, "AGENT_LOOP_NO_PROGRESS");
+    assert.equal(harness.trajectories.steps.at(-1)?.stepOutcome, "NO_PROGRESS");
+    assert.equal(harness.runtime.eventLog.filter((entry) => entry.event.type === "SEARCH_FAILED").length, 1);
+  });
+
   test("GENERIC_BROWSER availability observations retain the external adapter trace actor", async () => {
     const harness = createHarness({
       availabilityRoute: "GENERIC_BROWSER",

@@ -48,7 +48,8 @@ export interface RestaurantAgentTrajectoryStep {
     | "EXECUTION_FAILURE"
     | "TIMEOUT"
     | "STEP_LIMIT"
-    | "REJECTION_LIMIT";
+    | "REJECTION_LIMIT"
+    | "NO_PROGRESS";
 }
 
 export interface RestaurantAgentTrajectoryStore {
