@@ -10,7 +10,7 @@ import type {
   RestaurantSearchRequest,
   RestaurantTaskState,
 } from "../domains/restaurant/contracts.js";
-import { completeRestaurantIntent } from "../domains/restaurant/intent-state.js";
+import { completeRestaurantIntent, completeRestaurantSearchIntent } from "../domains/restaurant/intent-state.js";
 import { restaurantPresentationReadiness } from "../domains/restaurant/action-validator.js";
 import { RESTAURANT_AVAILABILITY_DISPLAY_FRESHNESS } from "../domains/restaurant/availability-freshness.js";
 
@@ -72,7 +72,7 @@ function authoritativeSearchRequest(
   state: Readonly<RestaurantTaskState>,
   retrievalHint: string | undefined,
 ): RestaurantSearchRequest {
-  const intent = completeRestaurantIntent(state.intentDraft);
+  const intent = completeRestaurantSearchIntent(state.intentDraft);
   if (!intent) throw new Error("Validated Restaurant search requires a complete authoritative intent");
   return { intent, ...(retrievalHint ? { retrievalHint } : {}) };
 }

@@ -1,12 +1,12 @@
 import type {
   AvailabilityOffer,
   RestaurantAvailabilityRequest,
-  RestaurantBookingIntent,
+  RestaurantSearchIntent,
   RestaurantCandidate,
   RestaurantSearchRequest,
 } from "../../domains/restaurant/contracts.js";
 
-function candidate(_intent: RestaurantBookingIntent, index: number): RestaurantCandidate {
+function candidate(_intent: RestaurantSearchIntent, index: number): RestaurantCandidate {
   const restaurantId = `fixture-restaurant-${index}`;
   return {
     restaurant: {

@@ -1,6 +1,6 @@
 import type { RestaurantAgentAction } from "./agent-action.js";
 import type { AvailabilityOffer, RestaurantTaskState } from "./contracts.js";
-import { completeRestaurantIntent } from "./intent-state.js";
+import { completeRestaurantIntent, completeRestaurantSearchIntent } from "./intent-state.js";
 import { isDisplayFresh } from "./availability-freshness.js";
 
 export type RestaurantActionRejectionCode =
@@ -60,12 +60,11 @@ export interface RestaurantPresentationReadiness {
 function presentationEvidenceIds(
   state: Readonly<RestaurantTaskState>,
   candidateId: string,
-  intent: NonNullable<ReturnType<typeof completeRestaurantIntent>>,
+  intent: NonNullable<ReturnType<typeof completeRestaurantSearchIntent>>,
   now: string,
 ): { valid: true; evidenceIds: string[] } | { valid: false; reason: string } {
   const candidateEvidence = state.readEvidence.filter((evidence) => evidence.candidateId === candidateId);
-  const entity = candidateEvidence.find((evidence) => evidence.kind === "ENTITY_MATCH" && evidence.entityMatch?.confidence === "HIGH");
-  if (!entity) return { valid: false, reason: `Candidate ${candidateId} has no HIGH outlet identity evidence` };
+  const entities = candidateEvidence.filter((evidence) => evidence.kind === "ENTITY_MATCH" && evidence.entityMatch?.confidence === "HIGH");
   const area = candidateEvidence.find((evidence) =>
     evidence.kind === "DISCOVERY" && evidence.claims.areaMatch === true && normalized(stringClaim(evidence, "areaQuery") ?? "") === normalized(intent.area.query),
   );
@@ -76,16 +75,47 @@ function presentationEvidenceIds(
     );
     if (!supported) return { valid: false, reason: `Candidate ${candidateId} has no evidence for HARD criterion ${criterion.text}` };
   }
+  for (const criterion of intent.criteria.filter((item) => item.polarity === "NEGATIVE" && item.strength === "HARD")) {
+    const violated = candidateEvidence.some((evidence) =>
+      evidence.kind === "RESTAURANT_FACT" && stringListClaim(evidence, "violatedNegativeCriteria").some((value) => normalized(value) === normalized(criterion.text)),
+    );
+    if (violated) return { valid: false, reason: `Candidate ${candidateId} violates negative criterion ${criterion.text}` };
+    const supported = candidateEvidence.some((evidence) =>
+      evidence.kind === "RESTAURANT_FACT" && stringListClaim(evidence, "verifiedNegativeCriteria").some((value) => normalized(value) === normalized(criterion.text)),
+    );
+    if (!supported) return { valid: false, reason: `Candidate ${candidateId} has no source fact supporting negative criterion ${criterion.text}` };
+  }
+  const bookingIntent = completeRestaurantIntent(state.intentDraft);
+  if (!bookingIntent) {
+    const entity = entities[0];
+    if (!entity) return { valid: false, reason: `Candidate ${candidateId} has no HIGH outlet identity evidence` };
+    const openingHours = candidateEvidence.find((evidence) =>
+      evidence.kind === "RESTAURANT_FACT" && evidence.claims.openingHoursMatch === true,
+    );
+    if (!openingHours) {
+      return { valid: false, reason: `Candidate ${candidateId} has no opening-hours evidence for the requested visit window` };
+    }
+    return {
+      valid: true,
+      evidenceIds: [...new Set([entity.evidenceId, area.evidenceId, openingHours.evidenceId, ...candidateEvidence
+        .filter((evidence) => evidence.kind === "RESTAURANT_FACT")
+        .map((evidence) => evidence.evidenceId)])],
+    };
+  }
   const offer = state.availability[candidateId]?.find((item) =>
-    isDisplayFresh(item.displayExpiresAt, now) && item.partySize === intent.partySize && item.dateTime.slice(0, 10) === intent.date &&
+    isDisplayFresh(item.displayExpiresAt, now) && item.partySize === bookingIntent.partySize && item.dateTime.slice(0, 10) === intent.date &&
     item.dateTime.slice(11, 16) >= intent.timeWindow.earliest && item.dateTime.slice(11, 16) <= intent.timeWindow.latest,
   );
   const availability = candidateEvidence.find((evidence) =>
     evidence.kind === "AVAILABILITY" &&
       isDisplayFresh(evidence.displayExpiresAt, now) &&
-      stringClaim(evidence, "date") === intent.date && evidence.claims.partySize === intent.partySize &&
+      stringClaim(evidence, "date") === intent.date && evidence.claims.partySize === bookingIntent.partySize &&
       offer !== undefined && stringListClaim(evidence, "visibleSlots").includes(offer.dateTime.slice(11, 16)),
   );
+  const entity = availability
+    ? entities.find((item) => item.provider === availability.provider && item.sourceEntityId === availability.sourceEntityId)
+    : undefined;
+  if (!entity) return { valid: false, reason: `Candidate ${candidateId} has no HIGH outlet identity evidence associated with its availability source` };
   if (!offer || state.availabilityChecks[candidateId]?.status !== "AVAILABLE" || !availability) {
     return { valid: false, reason: `Candidate ${candidateId} lacks fresh evidenced availability for the authoritative request` };
   }
@@ -99,7 +129,7 @@ export function restaurantPresentationReadiness(
   state: Readonly<RestaurantTaskState>,
   now: string,
 ): RestaurantPresentationReadiness[] {
-  const intent = completeRestaurantIntent(state.intentDraft);
+  const intent = completeRestaurantSearchIntent(state.intentDraft);
   if (!intent) return [];
   return state.candidates.map((candidate) => {
     const candidateId = candidate.restaurant.id;
@@ -164,6 +194,15 @@ function requireCompleteIntent(state: Readonly<RestaurantTaskState>):
     : { valid: false, verdict: rejected("INTENT_INCOMPLETE", "Restaurant intent is missing required fields") };
 }
 
+function requireCompleteSearchIntent(state: Readonly<RestaurantTaskState>):
+  | { valid: true; intent: NonNullable<ReturnType<typeof completeRestaurantSearchIntent>> }
+  | { valid: false; verdict: RestaurantActionValidation } {
+  const intent = completeRestaurantSearchIntent(state.intentDraft);
+  return intent
+    ? { valid: true, intent }
+    : { valid: false, verdict: rejected("INTENT_INCOMPLETE", "Restaurant search intent is missing required fields") };
+}
+
 /** Domain-owned invariant guard. It never chooses an action and never invokes a provider. */
 export function validateRestaurantAction(
   state: Readonly<RestaurantTaskState>,
@@ -176,14 +215,14 @@ export function validateRestaurantAction(
   if (isTerminal(state)) return rejected("TASK_TERMINAL", `Task is terminal in ${state.phase}`);
   if (action.type === "ASK_USER") return { status: "ALLOWED" };
 
-  const intent = requireCompleteIntent(state);
-  if (!intent.valid) return intent.verdict;
-
   if (action.type === "SEARCH_RESTAURANTS") {
-    return { status: "ALLOWED" };
+    const intent = requireCompleteSearchIntent(state);
+    return intent.valid ? { status: "ALLOWED" } : intent.verdict;
   }
 
   if (action.type === "CHECK_AVAILABILITY") {
+    const intent = requireCompleteIntent(state);
+    if (!intent.valid) return intent.verdict;
     const presentation = restaurantPresentationReadiness(state, now);
     const refreshTargets = state.refreshRequestedCandidateIds ?? [];
     if (refreshTargets.length > 0 && !action.candidateIds.every((candidateId) => refreshTargets.includes(candidateId))) {
@@ -217,6 +256,8 @@ export function validateRestaurantAction(
   }
 
   if (action.type === "PRESENT_RESULTS") {
+    const intent = requireCompleteSearchIntent(state);
+    if (!intent.valid) return intent.verdict;
     if (action.candidateIds.length === 0 || new Set(action.candidateIds).size !== action.candidateIds.length) {
       return rejected("CANDIDATE_UNKNOWN", "Presenting results requires one or more unique known candidate IDs");
     }
@@ -239,6 +280,9 @@ export function validateRestaurantAction(
     const checkedOffer = freshOffer(state, action.candidateId, action.offerId, now);
     return "status" in checkedOffer ? checkedOffer : { status: "ALLOWED" };
   }
+
+  const intent = requireCompleteIntent(state);
+  if (!intent.valid) return intent.verdict;
 
   if (state.activeAttemptId) return rejected("ACTIVE_ATTEMPT", "A booking attempt is already active");
   if (state.selectedCandidateId !== action.candidateId || state.selectedOfferId !== action.offerId) {

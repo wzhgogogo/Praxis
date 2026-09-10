@@ -360,7 +360,7 @@ describe("restaurant booking mock harness", () => {
     if (rejected?.actionValidation?.status === "REJECTED") assert.equal(rejected.actionValidation.code, "AVAILABILITY_ALREADY_CHECKED");
   });
 
-  test("Harness binds search and availability requests from authoritative task state", async () => {
+  test("Harness binds shared search facts and availability-only party size from authoritative task state", async () => {
     const harness = createHarness();
     await harness.start(fixtureIntent);
 
@@ -368,7 +368,14 @@ describe("restaurant booking mock harness", () => {
     const availability = harness.runtime.eventLog.find((item) => item.event.type === "AVAILABILITY_CHECKED");
     assert.ok(search && search.event.type === "SEARCH_COMPLETED");
     assert.ok(availability && availability.event.type === "AVAILABILITY_CHECKED");
-    assert.deepEqual(search.event.request.intent, fixtureIntent);
+    assert.deepEqual(search.event.request.intent, {
+      timezone: fixtureIntent.timezone,
+      date: fixtureIntent.date,
+      timeWindow: fixtureIntent.timeWindow,
+      area: fixtureIntent.area,
+      criteria: fixtureIntent.criteria,
+      budgetPerPerson: fixtureIntent.budgetPerPerson,
+    });
     assert.deepEqual(availability.event.request, {
       candidateIds: fixtureCandidates.slice(0, 3).map((candidate) => candidate.restaurant.id),
       candidates: fixtureCandidates.slice(0, 3),

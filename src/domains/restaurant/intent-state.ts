@@ -20,6 +20,19 @@ export function missingBlockingFields(input: {
   ];
 }
 
+/** Discovery can answer a non-reservation request without collecting party size. */
+export function missingSearchFields(input: {
+  date?: unknown;
+  timeWindow?: unknown;
+  area?: unknown;
+}): Array<"date" | "timeWindow" | "area"> {
+  return [
+    ...(input.date === undefined ? (["date"] as const) : []),
+    ...(input.timeWindow === undefined ? (["timeWindow"] as const) : []),
+    ...(input.area === undefined ? (["area"] as const) : []),
+  ];
+}
+
 function hasOwn(input: object, key: string): boolean {
   return Object.prototype.hasOwnProperty.call(input, key);
 }
@@ -132,6 +145,29 @@ export function completeRestaurantIntent(
     date: draft.date,
     timeWindow: structuredClone(draft.timeWindow),
     partySize: draft.partySize,
+    area: structuredClone(draft.area),
+    criteria: structuredClone(draft.criteria),
+    ...(draft.budgetPerPerson ? { budgetPerPerson: structuredClone(draft.budgetPerPerson) } : {}),
+  };
+}
+
+export function completeRestaurantSearchIntent(
+  draft: RestaurantIntentDraft | undefined,
+): Omit<RestaurantBookingIntent, "partySize"> | null {
+  if (
+    !draft ||
+    missingSearchFields(draft).length > 0 ||
+    !draft.date ||
+    !draft.timeWindow ||
+    !draft.area
+  ) {
+    return null;
+  }
+  return {
+    timezone: draft.timezone,
+    ...(draft.target ? { target: structuredClone(draft.target) } : {}),
+    date: draft.date,
+    timeWindow: structuredClone(draft.timeWindow),
     area: structuredClone(draft.area),
     criteria: structuredClone(draft.criteria),
     ...(draft.budgetPerPerson ? { budgetPerPerson: structuredClone(draft.budgetPerPerson) } : {}),

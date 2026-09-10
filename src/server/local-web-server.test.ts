@@ -26,6 +26,8 @@ import { assertLocalLiveReadEnvironment, createLocalWebServer, localPostgresConn
 
 const COMPLETE_REQUEST =
   "Tonight at 7pm near Shinjuku for two, yakiniku, around 5000 yen each.";
+const COMPLETE_NEARBY_REQUEST =
+  "Tonight at 7pm nearby for two, yakiniku, around 5000 yen each.";
 const ACCESS: PilotAccessEntry[] = [
   { accessToken: "token-a", id: "user-a", displayName: "User A" },
   { accessToken: "token-b", id: "user-b", displayName: "User B" },
@@ -375,6 +377,43 @@ test("W05 conversation claims cannot change authoritative task state or outcome"
     } finally {
       await running.close();
     }
+  });
+});
+
+test("Web location is bound once to the authenticated nearby case and is rejected for a named area", async () => {
+  await withDatabase(async ({ database, clock }) => {
+    const running = await startServer(database, clock);
+    try {
+      const cookie = await login(running.baseUrl, "token-a");
+      const createdResult = await api(running.baseUrl, cookie, "/api/cases", { method: "POST", body: JSON.stringify({ message: COMPLETE_NEARBY_REQUEST, requestId: "location-case" }) });
+      assert.equal(createdResult.response.status, 201);
+      const created = createdResult.payload.view as RestaurantCaseView;
+      const located = await api(running.baseUrl, cookie, `/api/cases/${encodeURIComponent(created.case.caseId)}/location`, { method: "POST", body: JSON.stringify({ taskVersion: created.case.taskVersion, requestId: "device-location", latitude: 35.6697, longitude: 139.767, accuracyMeters: 25 }) });
+      assert.equal(located.response.status, 200, String(located.payload.error));
+      const view = located.payload.view as RestaurantCaseView;
+      assert.equal(view.restaurant.intentDraft?.area?.coordinates?.source, "DEVICE");
+      assert.equal(view.restaurant.intentDraft?.area?.coordinates?.latitude, 35.6697);
+      const namedArea = await createCase(running.baseUrl, cookie, "named-area");
+      const rejected = await api(running.baseUrl, cookie, `/api/cases/${encodeURIComponent(namedArea.case.caseId)}/location`, { method: "POST", body: JSON.stringify({ taskVersion: namedArea.case.taskVersion, requestId: "named-location", latitude: 35.6697, longitude: 139.767 }) });
+      assert.equal(rejected.response.status, 400);
+      assert.match(String(rejected.payload.error), /only for a nearby request/i);
+    } finally { await running.close(); }
+  });
+});
+
+test("Web nearby fallback accepts a manually supplied place through the normal message path", async () => {
+  await withDatabase(async ({ database, clock }) => {
+    const running = await startServer(database, clock);
+    try {
+      const cookie = await login(running.baseUrl, "token-a");
+      const createdResult = await api(running.baseUrl, cookie, "/api/cases", { method: "POST", body: JSON.stringify({ message: COMPLETE_NEARBY_REQUEST, requestId: "manual-place-case" }) });
+      const created = createdResult.payload.view as RestaurantCaseView;
+      const continued = await api(running.baseUrl, cookie, `/api/conversations/${encodeURIComponent(created.conversation.id)}/messages`, { method: "POST", body: JSON.stringify({ taskVersion: created.case.taskVersion, requestId: "manual-place", message: "Use Higashi-Ginza instead." }) });
+      assert.equal(continued.response.status, 200, String(continued.payload.error));
+      const view = continued.payload.view as RestaurantCaseView;
+      assert.equal(view.restaurant.intentDraft?.area?.query, "Higashi-Ginza");
+      assert.equal(view.restaurant.intentDraft?.area?.coordinates, undefined);
+    } finally { await running.close(); }
   });
 });
 

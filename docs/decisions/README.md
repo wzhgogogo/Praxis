@@ -1,8 +1,8 @@
 # Architecture Decision Records
 
 - Status: Accepted
-- Document revision: 0.7
-- Last updated: 2026-09-07
+- Document revision: 0.8
+- Last updated: 2026-09-10
 - Source of truth for: 已接受架构决策及其替代关系
 - Related ADRs: 本目录
 - Related documents: [Architecture Overview](../architecture/OVERVIEW.md)
@@ -29,6 +29,7 @@
 | [0016](0016-local-eval-browser-profile-lifecycle.md) | Accepted | 本地eval持久profile窄例外，产品隔离与销毁规则保持 |
 | [0017](0017-controlled-browser-read-executor.md) | Draft / authorized local-eval implementation | 两来源共享受控浏览器只读执行；模型只提议已观察元素动作 |
 | [0018](0018-availability-display-freshness-and-recheck.md) | Accepted | 展示新鲜度与预订前核查分离；以理由受限的只读重查替代永久已检查 |
+| [0019](0019-fact-grounded-read-only-recommendations.md) | Accepted | 无预约需求时以门店/地点/类型/营业事实完成只读推荐，空位仍为独立证据 |
 
 ## 规则
 

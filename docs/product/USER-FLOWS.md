@@ -1,8 +1,8 @@
 # MVP User Flows
 
 - Status: Accepted
-- Document revision: 0.3
-- Last updated: 2026-09-05
+- Document revision: 0.4
+- Last updated: 2026-09-10
 - Source of truth for: 用户可见流程、确认点和终态
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md)
 - Related documents: [MVP PRD](MVP-PRD.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md)
@@ -77,6 +77,12 @@ flowchart TD
 ```
 
 恢复页面不得只重放聊天文本来推断当前状态。陈旧Case版本、已使用Authorization或已结束Attempt必须显示服务端最新结果，不能再次提交。
+
+## 附近与不要求预约的推荐
+
+当用户说“附近”而当前Case没有位置时，Web只读取一次设备坐标、精度和采集时间并绑定本Case；不会用服务器、VPS或代理位置代替用户，也不持续追踪。浏览器拒绝或无法取得位置时，页面提示用户在普通消息框输入站点、地址或地区，随后沿同一语义/搜索路径继续。精确坐标不显示在公开Activity或日志中。
+
+不要求预约的请求（例如下午与朋友见面的咖啡馆）不询问人数或强制查询空位。系统展示的每家店仍须具有门店身份、附近、咖啡馆类型和目标时段营业事实；营业不等于有桌。若在剩余预算内额外查到空位，则另行标注其门店、日期、人数和时段；失败、无入口或没有slot不阻塞核心推荐。
 
 ## 取消
 

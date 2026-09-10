@@ -40,6 +40,8 @@ function rawObservation(place: GooglePlacesRawPlace): UntrustedGooglePlaceObserv
   const primaryType = string(place.primaryType);
   const googleMapsUri = string(place.googleMapsUri);
   const nationalPhoneNumber = string(place.nationalPhoneNumber);
+  const regularOpeningHours = Array.isArray(place.regularOpeningHours?.weekdayDescriptions) && place.regularOpeningHours.weekdayDescriptions.every((item) => typeof item === "string")
+    ? place.regularOpeningHours.weekdayDescriptions as string[] : undefined;
   return {
     ...(placeId ? { placeId } : {}),
     ...(displayName ? { displayName } : {}),
@@ -50,6 +52,7 @@ function rawObservation(place: GooglePlacesRawPlace): UntrustedGooglePlaceObserv
     ...(primaryType ? { primaryType } : {}),
     ...(googleMapsUri ? { googleMapsUri } : {}),
     ...(nationalPhoneNumber ? { nationalPhoneNumber } : {}),
+    ...(regularOpeningHours ? { regularOpeningHours } : {}),
   };
 }
 
@@ -75,7 +78,7 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort {
     private readonly now: () => string = () => new Date().toISOString(),
     private readonly maxResults = 10,
     private readonly options: {
-      evaluationLocation?: { latitude: number; longitude: number; radiusMeters?: number };
+      evaluationLocation?: { latitude: number; longitude: number; radiusMeters?: number; label?: string };
       maxSearches?: number;
     } = {},
   ) {}
@@ -87,11 +90,17 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort {
     this.searchesPerformed += 1;
     const startedAt = Date.now();
     const textQuery = buildGooglePlacesTextQuery(request);
+    const taskLocation = request.intent.area.coordinates;
+    const locationContext = taskLocation
+      ? { latitude: taskLocation.latitude, longitude: taskLocation.longitude, radiusMeters: request.intent.area.radiusMeters ?? 3_000, label: request.intent.area.query, areaMatchBasis: "TASK_LOCATION_RADIUS" as const }
+      : request.intent.area.query.trim().toLowerCase() === "nearby" && this.options.evaluationLocation
+        ? { latitude: this.options.evaluationLocation.latitude, longitude: this.options.evaluationLocation.longitude, radiusMeters: this.options.evaluationLocation.radiusMeters ?? 3_000, label: this.options.evaluationLocation.label ?? "explicit evaluation location", areaMatchBasis: "EVALUATION_LOCATION_RADIUS" as const }
+        : undefined;
     const places = await this.client.textSearch({
       textQuery,
       pageSize: this.maxResults,
-      ...(request.intent.area.query.trim().toLowerCase() === "nearby" && this.options.evaluationLocation
-        ? { locationBias: this.options.evaluationLocation }
+      ...(locationContext
+        ? { locationBias: locationContext }
         : {}),
     }, signal);
     const observedAt = this.now();
@@ -100,10 +109,19 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort {
       requestFingerprint,
       observedAt,
       areaQuery: request.intent.area.query,
+      requiredTypeCriteria: request.intent.criteria
+        .filter((criterion) => criterion.polarity === "POSITIVE" && criterion.strength === "HARD")
+        .map((criterion) => criterion.text),
+      negativeTypeCriteria: request.intent.criteria
+        .filter((criterion) => criterion.polarity === "NEGATIVE" && criterion.strength === "HARD" && criterion.typeExclusionTerms?.length)
+        .map((criterion) => ({ text: criterion.text, typeExclusionTerms: criterion.typeExclusionTerms! })),
+      requestedDate: request.intent.date,
+      requestedTimeWindow: request.intent.timeWindow,
+      ...(locationContext ? { evaluationLocation: locationContext } : {}),
     }));
     return {
       candidates: grounded.flatMap((result) => result.accepted ? [result.candidate] : []),
-      evidence: grounded.flatMap((result) => result.accepted ? [result.evidence] : []),
+      evidence: grounded.flatMap((result) => result.accepted ? [result.evidence, ...result.additionalEvidence] : []),
       metadata: { provider: "GOOGLE_PLACES" as const, route: this.executionRoute, latencyMs: Date.now() - startedAt },
     };
   }

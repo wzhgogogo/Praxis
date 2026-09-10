@@ -147,7 +147,7 @@ Browser检测、尝试、生效验证分别报告；静态禁止写入声明不�
 
 ## Hybrid Live artifact 诊断 evaluator
 
-`restaurant-hybrid-read-diagnostic-evaluator@3`是当前Hybrid runner的最小确定性诊断，不是完整E2E评分器，也不调用LLM Judge。执行结束后先保存原始`.result.json`，再写入一个不覆盖原记录的evaluation文件；成功、失败、取消和可收尾的超时路径均在保存后尝试该步骤。评价本身失败时另写不可变的失败sidecar，绝不覆盖执行结果；强杀后仍可显式补评已有artifact：
+`restaurant-hybrid-read-diagnostic-evaluator@4`是当前Hybrid runner的最小确定性诊断，不是完整E2E评分器，也不调用LLM Judge。它分别检查预约空位展示与ADR-0019的事实型展示；H002仅按版本化、案例限定的餐厅类型事实评价`no hot pot`/`no spicy`，无事实保持`UNKNOWN`，不从关键词缺失推导满足。执行结束后先保存原始`.result.json`，再写入一个不覆盖原记录的evaluation文件；成功、失败、取消和可收尾的超时路径均在保存后尝试该步骤。评价本身失败时另写不可变的失败sidecar，绝不覆盖执行结果；强杀后仍可显式补评已有artifact：
 
 ```bash
 npm run eval:restaurant:agent-loop:artifact -- <artifact.result.json>

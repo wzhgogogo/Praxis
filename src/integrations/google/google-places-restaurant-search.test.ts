@@ -29,7 +29,8 @@ test("Google Places text search uses the explicit small field mask and stable ca
   const result = await search.search({ intent: fixtureIntent }, new AbortController().signal);
   assert.equal((captured?.headers as Record<string, string>)["X-Goog-FieldMask"], GOOGLE_PLACES_RESTAURANT_FIELD_MASK);
   assert.equal(result.candidates[0]?.restaurant.id.startsWith("praxis:restaurant:"), true);
-  assert.equal(result.evidence.length, 1);
+  assert.equal(result.evidence.length, 3);
+  assert.deepEqual(result.evidence.map((item) => item.kind), ["DISCOVERY", "ENTITY_MATCH", "RESTAURANT_FACT"]);
   const repeated = await search.search({ intent: fixtureIntent }, new AbortController().signal);
   assert.equal(repeated.candidates[0]?.restaurant.id, result.candidates[0]?.restaurant.id);
 });

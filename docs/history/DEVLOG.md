@@ -1946,3 +1946,11 @@ Runtime保留旧观察，重查证据通过前序evidence引用关联；展示�
 刷新目标现在是一个明确的完整集合：存在未完成用户刷新目标时，Validator允许只检查剩余目标而不被另一个新鲜结果阻断，同时拒绝部分`PRESENT_RESULTS`，每个候选收到新的AVAILABLE、UNAVAILABLE或UNKNOWN检查后只清除自身标记。Router把同候选的历史availability evidence全部带入重查关联，避免中间UNKNOWN覆盖最新check后丢失审计链。未新增Provider、fallback、后台任务框架或任何写路径。
 
 最终代码在新的3211本机Live Workspace完成浏览器验收：未来Shibuya omakase请求以真实模型、Google与TableCheck进入`PRESENT_RESULTS`；一次页面“Refresh availability”触发新的TableCheck读取并再次进入`PRESENT_RESULTS`，浏览器reload从PostgreSQL恢复结果、来源链接与Activity。H002的负向HARD（无辣、无火锅）尚无可审计的排除事实契约；H003–H005要求`NEAR_USER`但冻结案例没有经授权坐标，故只完成静态预检，未冒充运行或假定位置。
+
+## 2026-09-10 — Fact-grounded read-only H002–H005 slice
+
+本轮以ADR-0019把不要求预约的餐厅推荐与空位搜索分为同一执行链上的两种证据profile：前者不再要求人数、空位检查或Offer，而由Validator和诊断器要求HIGH identity、区域、每项HARD事实与目标时段适用的来源营业时间；后者的slot、Offer和展示时效要求不变。Google Places的最小读取字段新增常规营业时间，Grounding同时生成HIGH Google identity、显式主营类型和可解析时段的营业事实；“现在营业”、未解析时间或无slot都不产生空位结论。
+
+H002新增版本化、案例专属的类型排除口径（hot pot / shabu shabu / sukiyaki；Sichuan / Hunan），只根据来源的明确主营类型/菜系判断；匹配禁止类型为冲突、没有适用事实为未知，绝不使用店名或网页缺关键词推断。东银座公共坐标仅传入H003–H005 eval runner，并在artifact标注`EVALUATION_LOCATION_RADIUS`；产品Web新增一次设备定位输入、精度/采集时刻绑定Case，位置拒绝或失败由普通手输地点继续，Activity不记录精确坐标。没有新增Provider、站点专属fallback、预约/付款/登录、后台调度或浏览器框架。
+
+复核artifact后纠正了先前“只写started”的错误判断：三个H003运行都写入了完整`.result.json`和evaluation sidecar，因错误重复运行而违反每例一次授权，现停止继续运行。三次均为30步、12个候选、12次TableCheck和12次Tabelog只读尝试后`STEP_LIMIT / FAILED`；每个候选是`UNKNOWN / AVAILABILITY_SOURCES_EXHAUSTED`，不是无位。它们还一致暴露Semantic把冻结HARD的`team dinner`/`good for drinks`改写或降为SOFT，独立诊断的权威条件为`NOT_SATISFIED`，最终展示和所需证据均为`NOT_EVALUATED`。H002/H004/H005尚未启动。离线切片完成后未改写历史Live artifact、Fixture、凭据或个人位置。

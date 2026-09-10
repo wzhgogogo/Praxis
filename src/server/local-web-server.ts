@@ -131,6 +131,12 @@ function requireVersion(input: Record<string, unknown>): number {
   return value as number;
 }
 
+function requireFiniteNumber(input: Record<string, unknown>, key: string): number {
+  const value = input[key];
+  if (typeof value !== "number" || !Number.isFinite(value)) throw new Error(`${key} must be a finite number`);
+  return value;
+}
+
 function cookies(request: IncomingMessage): Map<string, string> {
   const result = new Map<string, string>();
   for (const part of (request.headers.cookie ?? "").split(";")) {
@@ -228,6 +234,12 @@ export function createLocalWebServer(options: LocalWebServerOptions): Server {
         hub.publish(view);
         json(response, 200, { view });
         return;
+      }
+      const locationMatch = /^\/api\/cases\/([^/]+)\/location$/.exec(url.pathname);
+      if (method === "POST" && locationMatch) {
+        const body = await readJson(request);
+        const view = await options.application.recordLocation({ userId: user.id, caseId: decodeURIComponent(locationMatch[1]!), requestId: requireString(body, "requestId"), expectedVersion: requireVersion(body), latitude: requireFiniteNumber(body, "latitude"), longitude: requireFiniteNumber(body, "longitude"), ...(typeof body.accuracyMeters === "number" ? { accuracyMeters: body.accuracyMeters } : {}) });
+        hub.publish(view); json(response, 200, { view }); return;
       }
       const messageMatch = /^\/api\/conversations\/([^/]+)\/messages$/.exec(url.pathname);
       if (method === "POST" && messageMatch) {

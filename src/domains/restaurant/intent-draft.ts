@@ -18,13 +18,18 @@ function isCriterionArray(value: unknown): boolean {
     value.every(
       (item) =>
         isRecord(item) &&
-        hasOnlyKeys(item, ["text", "polarity", "strength"]) &&
+        hasOnlyKeys(item, ["text", "polarity", "strength", "typeExclusionTerms"]) &&
         typeof item.text === "string" &&
         item.text.trim().length > 0 &&
         typeof item.polarity === "string" &&
         (RESTAURANT_CRITERION_POLARITIES as readonly string[]).includes(item.polarity) &&
         typeof item.strength === "string" &&
-        (RESTAURANT_CRITERION_STRENGTHS as readonly string[]).includes(item.strength),
+        (RESTAURANT_CRITERION_STRENGTHS as readonly string[]).includes(item.strength) &&
+        (item.typeExclusionTerms === undefined || (
+          item.polarity === "NEGATIVE" && item.strength === "HARD" &&
+          Array.isArray(item.typeExclusionTerms) && item.typeExclusionTerms.length > 0 &&
+          item.typeExclusionTerms.every((term) => typeof term === "string" && term.trim().length > 0)
+        )),
     )
   );
 }
@@ -106,14 +111,21 @@ export function validateRestaurantIntentDraft(input: unknown): RestaurantIntentV
   if (input.area !== undefined) {
     if (
       !isRecord(input.area) ||
-      !hasOnlyKeys(input.area, ["query", "placeId", "radiusMeters"]) ||
+      !hasOnlyKeys(input.area, ["query", "placeId", "radiusMeters", "coordinates"]) ||
       typeof input.area.query !== "string" ||
       input.area.query.trim().length === 0 ||
       (input.area.placeId !== undefined && typeof input.area.placeId !== "string") ||
       (input.area.radiusMeters !== undefined &&
         (typeof input.area.radiusMeters !== "number" ||
           !Number.isInteger(input.area.radiusMeters) ||
-          input.area.radiusMeters <= 0))
+          input.area.radiusMeters <= 0)) ||
+      (input.area.coordinates !== undefined && (!isRecord(input.area.coordinates) ||
+        !hasOnlyKeys(input.area.coordinates, ["latitude", "longitude", "accuracyMeters", "observedAt", "source"]) ||
+        typeof input.area.coordinates.latitude !== "number" || !Number.isFinite(input.area.coordinates.latitude) ||
+        typeof input.area.coordinates.longitude !== "number" || !Number.isFinite(input.area.coordinates.longitude) ||
+        (input.area.coordinates.accuracyMeters !== undefined && (typeof input.area.coordinates.accuracyMeters !== "number" || input.area.coordinates.accuracyMeters < 0)) ||
+        typeof input.area.coordinates.observedAt !== "string" || Number.isNaN(Date.parse(input.area.coordinates.observedAt)) ||
+        (input.area.coordinates.source !== "DEVICE" && input.area.coordinates.source !== "MANUAL_PLACE")))
     ) {
       errors.push("area must contain a non-empty query and valid optional location fields");
     }

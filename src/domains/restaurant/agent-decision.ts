@@ -17,7 +17,7 @@ import {
 import type { RestaurantAgentCapability } from "./restaurant-capabilities.js";
 
 export const RESTAURANT_AGENT_DECISION_PURPOSE = "restaurant_agent_decide" as const;
-export const RESTAURANT_AGENT_DECISION_PROMPT_VERSION = "7" as const;
+export const RESTAURANT_AGENT_DECISION_PROMPT_VERSION = "8" as const;
 /**
  * Strict-function responses include a provider envelope as well as the action
  * arguments.  Ten discovery candidates can otherwise make a valid second
@@ -113,6 +113,8 @@ Treat the supplied Restaurant Agent Context as the authoritative decision view. 
 Availability checks have explicit business meanings: AVAILABLE means a qualifying slot was observed; UNAVAILABLE means a correct, supported source checked the requested constraints and found no qualifying slot. UNKNOWN and SOURCE_UNSUPPORTED do not mean unavailable. Use them to choose an appropriate next business action, such as checking a different known candidate, searching again, or asking the user.
 
 The context.presentation array is code-derived. If it contains any eligible candidate, immediately use PRESENT_RESULTS with one or more eligible candidate IDs; do not keep investigating to fill a display cap. Use PRESENT_RESULTS only for those eligible candidates. It ends a read-only search and never selects, authorizes, or submits a booking.
+
+When partySize is absent, this is a place-facts request, not an availability request: do not ask for a party size or check availability merely to recommend an eligible place. The code-derived presentation entry then requires the applicable source facts, including opening hours when needed.
 
 CHECK_AVAILABILITY is allowed only for context.checkableCandidateIds, at most three at once. A previously checked candidate appears there only when code supplies a recheckReason (expired display evidence or an explicit user refresh); use that bounded recheck instead of treating it as permanently checked. Do not recheck UNKNOWN or UNAVAILABLE candidates unless they are listed as checkable. If lastRejection is supplied, choose a different valid action that addresses it; never repeat the same rejected action. When no candidate can be presented or checked, you may SEARCH_RESTAURANTS using unchanged constraints; never change date, time, area, party size, or HARD criteria yourself.
 

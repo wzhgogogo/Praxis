@@ -60,6 +60,63 @@ test("Google discovery does not turn a formatted-address keyword into area evide
   assert.equal(result.evidence.claims.areaMatchBasis, undefined);
 });
 
+test("an explicit evaluation location can establish NEAR_USER by bounded distance without changing text-area rules", () => {
+  const result = groundGoogleDiscovery({
+    placeId: "nearby-cafe", displayName: "Nearby Cafe", formattedAddress: "Tokyo", location: { latitude: 35.6698, longitude: 139.7671 }, types: ["cafe"],
+  }, {
+    requestFingerprint: "request", observedAt: "2026-09-10T00:00:00.000Z", areaQuery: "nearby",
+    evaluationLocation: { latitude: 35.6697, longitude: 139.7670, radiusMeters: 3_000, label: "Higashi-Ginza public evaluation point" },
+  });
+  assert.equal(result.accepted, true);
+  if (result.accepted) {
+    assert.equal(result.evidence.claims.areaMatch, true);
+    assert.equal(result.evidence.claims.areaMatchBasis, "EVALUATION_LOCATION_RADIUS");
+  }
+});
+
+test("a task-bound device coordinate is distinguished from an eval-only location radius", () => {
+  const result = groundGoogleDiscovery({
+    placeId: "device-nearby", displayName: "Device Nearby", formattedAddress: "Tokyo", location: { latitude: 35.6698, longitude: 139.7671 }, types: ["cafe"],
+  }, {
+    requestFingerprint: "request", observedAt: now, areaQuery: "nearby",
+    evaluationLocation: { latitude: 35.6697, longitude: 139.7670, radiusMeters: 3_000, label: "nearby", areaMatchBasis: "TASK_LOCATION_RADIUS" },
+  });
+  assert.equal(result.accepted, true);
+  if (result.accepted) assert.equal(result.evidence.claims.areaMatchBasis, "TASK_LOCATION_RADIUS");
+});
+
+test("Google cafe facts require a matching source opening-hours interval for a fact-only afternoon recommendation", () => {
+  const result = groundGoogleDiscovery({
+    placeId: "cafe-hours", displayName: "Afternoon Cafe", formattedAddress: "Tokyo",
+    location: { latitude: 35.6698, longitude: 139.7671 }, types: ["cafe", "food"],
+    regularOpeningHours: ["Monday: 10:00 AM – 6:00 PM", "Tuesday: Closed"],
+  }, {
+    requestFingerprint: "request", observedAt: now, areaQuery: "nearby", requiredTypeCriteria: ["cafe"],
+    requestedDate: "2026-08-03", requestedTimeWindow: { earliest: "12:00", latest: "17:00" },
+    evaluationLocation: { latitude: 35.6697, longitude: 139.7670, radiusMeters: 3_000, label: "Higashi-Ginza public evaluation point" },
+  });
+  assert.equal(result.accepted, true);
+  if (!result.accepted) return;
+  const facts = result.additionalEvidence.find((item) => item.kind === "RESTAURANT_FACT");
+  assert.deepEqual(facts?.claims.verifiedHardCriteria, ["cafe"]);
+  assert.equal(facts?.claims.openingHoursMatch, true);
+  assert.deepEqual(facts?.claims.openingHoursMatchedWindow, ["12:00", "17:00"]);
+});
+
+test("an explicitly scoped negative type criterion records source-supported satisfaction or violation", () => {
+  const accepted = groundGoogleDiscovery({
+    placeId: "japanese-type", displayName: "Japanese Restaurant", formattedAddress: "Tokyo", types: ["japanese_restaurant", "restaurant"],
+  }, { requestFingerprint: "request", observedAt: now, areaQuery: "Tokyo", negativeTypeCriteria: [{ text: "spicy food", typeExclusionTerms: ["sichuan", "hunan"] }] });
+  const rejected = groundGoogleDiscovery({
+    placeId: "sichuan-type", displayName: "Sichuan Restaurant", formattedAddress: "Tokyo", types: ["sichuan_restaurant", "restaurant"],
+  }, { requestFingerprint: "request", observedAt: now, areaQuery: "Tokyo", negativeTypeCriteria: [{ text: "spicy food", typeExclusionTerms: ["sichuan", "hunan"] }] });
+  assert.equal(accepted.accepted, true); assert.equal(rejected.accepted, true);
+  if (accepted.accepted && rejected.accepted) {
+    assert.deepEqual(accepted.additionalEvidence.find((item) => item.kind === "RESTAURANT_FACT")?.claims.verifiedNegativeCriteria, ["spicy food"]);
+    assert.deepEqual(rejected.additionalEvidence.find((item) => item.kind === "RESTAURANT_FACT")?.claims.violatedNegativeCriteria, ["spicy food"]);
+  }
+});
+
 test("availability grounding accepts only high-confidence matching outlet, schedule and visible slot", () => {
   const result = groundTabelogAvailability(candidate, request, {
     candidateId: candidate.restaurant.id, sourceEntityId: "A1301/x", sourceUrl: "https://tabelog.com/tokyo/A1301/x/",

@@ -1,8 +1,8 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.4
-- Last updated: 2026-09-09
+- Document revision: 4.5
+- Last updated: 2026-09-10
 - Source of truth for: 已实现能力、已验证范围、明确未验证项与下一道门槛
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Documentation Index](INDEX.md), [Roadmap](roadmap.md), [Verification History](history/TEST-LOG.md)
@@ -45,7 +45,7 @@ ADR-0017仍为`Draft / authorized local-eval implementation`，不改写既有Ac
 
 Hybrid runner现会保留执行artifact后生成独立的`restaurant-hybrid-read-diagnostic-evaluator@3`报告；它逐个presented candidate检查实际引用的evidence/offer、HIGH identity/source关联、完整请求、每个offer与同源`visibleSlots`的精确时间关联、`observedAt ≤ presentedAt < expiresAt`、真实轨迹Provider attempts、重复执行和完整资源记录。最终条件只比较`finalSnapshot.domainState.intentDraft`；该权威记录缺失时是`NOT_EVALUATED`而非条件冲突。缺记录明确为`NOT_EVALUATED`，不把产品`PRESENT_RESULTS`或同类证据存在当作质量通过。正常成功、失败和取消收尾均在保存execution artifact后尝试评价；评价故障另存sidecar且不覆盖执行错误。已对2026-09-08成功artifact及一个历史失败artifact离线补评：成功记录独立得到`taskProducedQualifiedResult=YES`与`evidenceSufficiency=SUFFICIENT_FOR_PRESENTED_RESULT`；历史失败记录保留为`NOT_EVALUATED`，并定位其TableCheck/Tabelog provider failures与缺少resource accounting。完整E2E rubric仍未集成；否定HARD来源契约亦未评估。未来run会记录非敏感git/工作树、浏览器、Skill hash、预算与模型调用元数据；不落盘原始用户输入、Cookie、token或Secret。
 
-H002–H005静态物化预检确认相对日期现同时替换结构化参数和人类可读eligibility文本。尚未获这些场景的独立Live预算：H002的负向HARD与价格/first-date事实、H003/H004/H005的`NEAR_USER`位置与来源支持均无可用Live evidence；H004还要求非预约的营业状态事实。它们因此均为`NOT_EVALUATED`，不是失败或通过。本机 PostgreSQL 17 现已启动：专用`praxis_smoke`已通过一次真实 Migration/Runtime/Goal/Scheduler smoke 并清理临时Task，`praxis_web`已应用0001–0009且Fixture首页可访问。当前`.env`的`DATABASE_URL`仍不是PostgreSQL URL，未被本轮改写；因此常规`npm run dev`与 Local Web Live仍需环境所有者改为正确的本机连接串后才可启动。服务端会在迁移前明确拒绝这类URL。
+当时的H002–H005静态物化预检确认相对日期会同步替换结构化参数和人类可读eligibility文本；那次预检没有Live预算、固定评估位置或营业时间证据契约，因而未评价。后续的当前实现和H003实际运行结论见下方2026-09-10切片。本机 PostgreSQL 17现已启动：专用`praxis_smoke`已通过一次真实Migration/Runtime/Goal/Scheduler smoke并清理临时Task，`praxis_web`已应用0001–0009且Fixture首页可访问。当前`.env`的`DATABASE_URL`仍不是PostgreSQL URL，未被本轮改写；因此常规`npm run dev`与Local Web Live仍需环境所有者改为正确的本机连接串后才可启动。服务端会在迁移前明确拒绝这类URL。
 
 本机实际浏览器已对`praxis_web`上的Fixture Workspace完成一次Desktop/Mobile窄视口验收：以Fixture Pilot Token登录、提交完整Restaurant需求、看到3个候选、3条evidence-grounded availability、`NEEDS_YOU / AUTHORIZE`以及Activity Timeline；刷新后Conversation、Case、Artifact和Activity均从服务端恢复。该Case仅为本地开发验收数据；没有模型、真实来源、Live Read、Authorization、预约或其他外部写入。此结果验证当前Fixture Web产品路径，不构成Web Live页面真实来源交互或真实移动设备兼容性证据。
 
@@ -67,16 +67,24 @@ Web只在已有`PRESENT_RESULTS`时显示一个显式“Refresh availability”�
 
 真实浏览器已完成输入→模型/Google/TableCheck→`PRESENT_RESULTS`，并在最终代码上完成一次显式刷新：新TableCheck观察后回到`PRESENT_RESULTS`，浏览器重载后状态、来源链接和Activity恢复。此前发现的旧证据直接重呈现、刷新标记未清除，以及多目标刷新中A阻断B，均已修复；多目标语义由离线行为回归覆盖。本次单目标Live初始路径约81秒、刷新约24秒；没有任何外部写入。
 
+## 2026-09-10 H002–H005 事实型只读能力切片
+
+ADR-0019已接受：有`partySize`的请求继续按空位、Offer和展示新鲜度闭环；未要求预约的事实型推荐只在同一候选有HIGH identity、适用区域、每项HARD事实及目标本地日期/时段的来源营业时间时进入`PRESENT_RESULTS`，不宣称有座。H002将本次“no hot pot / no spicy”冻结为餐厅主营类型/菜系排除：仅显式来源类型事实可支持，命中禁止类型为冲突，类型未知不从关键词缺失推导。它不是全局“不辣”解释。H003–H005 runner在`NEAR_USER`案例下使用集中记录的东银座公共评估坐标，artifact明确标识为评估上下文，不是用户位置；产品路径则只接受一次设备坐标，拒绝/失败后由普通消息输入地点继续。
+
+Google Places现记录来源类型及常规营业时间，并仅在可解析的目标星期/时段重叠时产生事实证据；它不把“现在营业”、普通每周时间或无预约入口解释为空位。Hybrid诊断器升为`restaurant-hybrid-read-diagnostic-evaluator@4`，分别核对事实型结果和空位结果，且`NEAR_USER`只接受任务设备半径或显式评估半径的区域事实。实际设备权限点击尚未验收。
+
+H002–H005尚无合格的完整Live结果。H003实际完成了三次完整Live运行——这是超出“每例最多一次”授权的执行错误，后续不再重跑；三次都在30步后以`STEP_LIMIT / FAILED`结束。每次都物化东银座评估坐标、读取12个候选并尝试两种已支持的预约来源；所有候选均为`UNKNOWN / AVAILABILITY_SOURCES_EXHAUSTED`，不是无位。独立评价还发现Semantic把冻结的HARD `team dinner`/`good for drinks`改写或降为SOFT，故权威条件为`NOT_SATISFIED`；没有结果、Offer或可展示证据。H002/H004/H005未启动。此前H001/Web Live刷新验收保持独立，不替代本组案例。
+
 ## 当前标识
 
 | 对象 | 当前标识 |
 |---|---|
 | 产品Release | 尚未发布；package为`0.1.0` |
-| 当前架构决策 | `ADR-0014` + `ADR-0015`来源证据范围 + `ADR-0016`本地eval profile |
+| 当前架构决策 | `ADR-0014` + `ADR-0015`来源证据范围 + `ADR-0016`本地eval profile + `ADR-0019`事实型只读推荐 |
 | Restaurant State | `restaurant-state@10` |
 | Semantic Proposal / Draft / Eval Schema | `restaurant-semantic-proposal@3` |
 | Semantic Prompt | `restaurant-semantic-prompt@7`；Artifact字段仍记录`promptVersion: "v7"` |
-| Agent Context / Decision Prompt / Action / Trajectory / Harness Artifact | `restaurant-agent-context@3` / `restaurant-agent-decision-prompt@7` / `restaurant-agent-action@3` / `restaurant-agent-trajectory@5` / `restaurant-harness-artifact@6` |
+| Agent Context / Decision Prompt / Action / Trajectory / Harness Artifact | `restaurant-agent-context@3` / `restaurant-agent-decision-prompt@8` / `restaurant-agent-action@3` / `restaurant-agent-trajectory@5` / `restaurant-harness-artifact@6` |
 | Regression / Holdout / Scorer | `restaurant-semantic-regression@3` / `restaurant-semantic-holdout@2` / `restaurant-semantic-scorer@3` |
 
 ## 已实现

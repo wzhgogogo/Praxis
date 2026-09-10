@@ -2,8 +2,10 @@ import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { basename, dirname, resolve } from "node:path";
 
-export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@3";
-export const RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION = "restaurant-hybrid-read-diagnostic-rubric@3";
+import { assessH002NegativeTypeCriterion } from "./case-fact-policy.js";
+
+export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@4";
+export const RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION = "restaurant-hybrid-read-diagnostic-rubric@4";
 
 type JsonRecord = Record<string, unknown>;
 export type DiagnosticEvaluationStatus = "SATISFIED" | "NOT_SATISFIED" | "NOT_EVALUATED";
@@ -90,6 +92,13 @@ function validDuringPresentation(observedAt: unknown, expiresAt: unknown, presen
   if (observedMs > presentationMs) return "FUTURE_OBSERVATION";
   return expiryMs > presentationMs ? "VALID" : "EXPIRED";
 }
+function observedOnOrBeforePresentation(observedAt: unknown, presentedAt: unknown): "VALID" | "MISSING" | "INVALID" | "FUTURE_OBSERVATION" {
+  const observed = asString(observedAt); const presentation = asString(presentedAt);
+  if (!observed || !presentation) return "MISSING";
+  const observedMs = Date.parse(observed); const presentationMs = Date.parse(presentation);
+  if (Number.isNaN(observedMs) || Number.isNaN(presentationMs)) return "INVALID";
+  return observedMs <= presentationMs ? "VALID" : "FUTURE_OBSERVATION";
+}
 function criterionSet(value: unknown): string[] {
   return asArray(value).map(asRecord).flatMap((criterion) => {
     if (!criterion) return [];
@@ -101,6 +110,7 @@ function criterionSet(value: unknown): string[] {
 }
 
 interface RequestShape {
+  caseId?: string;
   date?: string;
   partySize?: number;
   timeWindow?: { earliest: string; latest: string };
@@ -114,12 +124,14 @@ function requestFromMaterialized(value: JsonRecord): RequestShape {
   const semantic = asRecord(value.semantic) ?? {}; const time = asRecord(semantic.time) ?? {}; const location = asRecord(semantic.location);
   const timeValue = parseTime(time.value); const start = parseTime(time.start); const end = parseTime(time.end);
   const criteria = criterionSet(semantic.criteria);
+  const caseId = asString(value.id);
   const unsupportedHardCriteria = asArray(semantic.criteria).map(asRecord).flatMap((criterion) => {
     const text = asString(criterion?.value);
-    return criterion?.strength === "HARD" && criterion.polarity !== "POSITIVE" && text ? [text] : [];
+    const supportedH002Negative = caseId === "h002" && (text === "hot pot" || text === "spicy food");
+    return criterion?.strength === "HARD" && criterion.polarity !== "POSITIVE" && text && !supportedH002Negative ? [text] : [];
   });
   const date = parseDate(asRecord(semantic.date)?.value); const party = partySize(semantic.party_size); const locationValue = asString(location?.value); const relation = asString(location?.relation);
-  const result: RequestShape = { ...(date ? { date } : {}), ...(party !== undefined ? { partySize: party } : {}), ...(timeValue ? { timeWindow: { earliest: timeValue, latest: timeValue } } : start && end ? { timeWindow: { earliest: start, latest: end } } : {}), ...(locationValue ? { location: { value: locationValue, ...(relation ? { relation } : {}) } } : {}), criteria, unsupportedHardCriteria, missing: [] };
+  const result: RequestShape = { ...(caseId ? { caseId } : {}), ...(date ? { date } : {}), ...(party !== undefined ? { partySize: party } : {}), ...(timeValue ? { timeWindow: { earliest: timeValue, latest: timeValue } } : start && end ? { timeWindow: { earliest: start, latest: end } } : {}), ...(locationValue ? { location: { value: locationValue, ...(relation ? { relation } : {}) } } : {}), criteria, unsupportedHardCriteria, missing: [] };
   if (!result.date) result.missing.push("date");
   if (!result.timeWindow) result.missing.push("timeWindow");
   if (!result.location) result.missing.push("location");
@@ -191,31 +203,63 @@ function assessPresentedCandidate(candidateId: string, domain: JsonRecord, reque
   const offers = asArray(availability[candidateId]).map(asRecord).filter((item): item is JsonRecord => Boolean(item));
   const listedEvidence = allEvidence.filter((item) => item.candidateId === candidateId && presentedEvidenceIds.has(asString(item.evidenceId) ?? ""));
   const requiredRefs = strings(check?.evidenceIds); const observations: string[] = []; const refs: string[] = []; const missing: string[] = []; const conflicts: string[] = [];
-  if (!check) missing.push("availability check"); else if (check.status !== "AVAILABLE") conflicts.push(`availability check status=${String(check.status)}`);
-  if (offers.length === 0) missing.push("offer"); if (presentedEvidenceIds.size === 0) missing.push("presented evidenceIds"); if (requiredRefs.length === 0) missing.push("check evidenceIds");
-  for (const evidenceId of requiredRefs) if (!presentedEvidenceIds.has(evidenceId)) conflicts.push(`check evidence ${evidenceId} was not cited by presentation`);
+  const factOnly = request.partySize === undefined;
+  if (!factOnly) {
+    if (!check) missing.push("availability check"); else if (check.status !== "AVAILABLE") conflicts.push(`availability check status=${String(check.status)}`);
+    if (offers.length === 0) missing.push("offer"); if (requiredRefs.length === 0) missing.push("check evidenceIds");
+    for (const evidenceId of requiredRefs) if (!presentedEvidenceIds.has(evidenceId)) conflicts.push(`check evidence ${evidenceId} was not cited by presentation`);
+  }
+  if (presentedEvidenceIds.size === 0) missing.push("presented evidenceIds");
   if (listedEvidence.length === 0) missing.push("candidate-scoped cited evidence");
   const byKind = (kind: string) => listedEvidence.filter((item) => item.kind === kind); const entity = byKind("ENTITY_MATCH"); const facts = byKind("RESTAURANT_FACT"); const availabilityEvidence = byKind("AVAILABILITY"); const discovery = byKind("DISCOVERY");
   if (entity.length === 0) missing.push("HIGH entity evidence"); if (entity.some((item) => asRecord(item.entityMatch)?.confidence !== "HIGH")) conflicts.push("entity confidence is not HIGH");
-  const identity = entity.find((item) => asRecord(item.entityMatch)?.confidence === "HIGH"); const sourceProvider = asString(identity?.provider); const sourceEntityId = asString(identity?.sourceEntityId);
-  if (identity && (!sourceProvider || !sourceEntityId)) missing.push("entity source association");
-  for (const item of [...facts, ...availabilityEvidence]) if (identity && (item.provider !== sourceProvider || item.sourceEntityId !== sourceEntityId)) conflicts.push(`grounding evidence ${asString(item.evidenceId) ?? "unknown"} is not associated with identity source`);
-  if (discovery.length === 0) missing.push("area discovery evidence"); else if (!discovery.some((item) => asRecord(item.claims)?.areaMatch === true && normalized(asString(asRecord(item.claims)?.areaQuery)) === normalized(`near ${request.location?.value ?? ""}`))) conflicts.push("cited discovery evidence does not establish the requested area");
+  const identities = entity.filter((item) => asRecord(item.entityMatch)?.confidence === "HIGH");
+  if (identities.some((item) => !asString(item.provider) || !asString(item.sourceEntityId))) missing.push("entity source association");
+  for (const item of [...facts, ...availabilityEvidence]) {
+    const associated = identities.some((identity) => item.provider === identity.provider && item.sourceEntityId === identity.sourceEntityId);
+    if (!associated) conflicts.push(`grounding evidence ${asString(item.evidenceId) ?? "unknown"} is not associated with an identity source`);
+  }
+  if (discovery.length === 0) missing.push("area discovery evidence"); else if (!discovery.some((item) => {
+    const claims = asRecord(item.claims) ?? {};
+    if (claims.areaMatch !== true) return false;
+    if (request.location?.relation === "NEAR_USER") return claims.areaMatchBasis === "TASK_LOCATION_RADIUS" || claims.areaMatchBasis === "EVALUATION_LOCATION_RADIUS";
+    return normalized(asString(claims.areaQuery)) === normalized(`near ${request.location?.value ?? ""}`);
+  })) conflicts.push("cited discovery evidence does not establish the requested area");
   const positiveHard = request.criteria.filter((criterion) => criterion.endsWith("|POSITIVE|HARD")).map((criterion) => criterion.split("|")[0]!);
   for (const hardCriterion of positiveHard) if (!facts.some((item) => strings(asRecord(item.claims)?.verifiedHardCriteria).some((value) => normalized(value) === hardCriterion))) missing.push(`HARD criterion ${hardCriterion}`);
-  if (availabilityEvidence.length === 0) missing.push("availability evidence");
-  for (const item of availabilityEvidence) {
-    const claims = asRecord(item.claims) ?? {}; if (claims.date !== request.date) conflicts.push("availability evidence date conflicts with request"); if (claims.partySize !== request.partySize) conflicts.push("availability evidence party size conflicts with request");
-    const visibleSlots = asArray(claims.visibleSlots).map(parseTime).filter((slot): slot is string => Boolean(slot)); if (request.timeWindow && !visibleSlots.some((slot) => slot >= request.timeWindow!.earliest && slot <= request.timeWindow!.latest)) conflicts.push("availability evidence has no slot in requested time window");
-    const freshness = validDuringPresentation(item.observedAt, item.displayExpiresAt ?? item.expiresAt, presentedAt); if (freshness === "MISSING") missing.push("availability evidence observation/display freshness"); if (freshness === "INVALID") conflicts.push("availability evidence display-freshness ordering is invalid"); if (freshness === "FUTURE_OBSERVATION") conflicts.push("availability evidence was observed after presentation"); if (freshness === "EXPIRED") conflicts.push("availability evidence was expired when presented");
+  if (request.caseId === "h002") {
+    const typeFacts = facts.flatMap((item) => strings(asRecord(item.claims)?.restaurantTypeFacts));
+    for (const criterion of request.criteria.filter((item) => item.endsWith("|NEGATIVE|HARD")).map((item) => item.split("|")[0]!)) {
+      if (criterion !== "hot pot" && criterion !== "spicy food") continue;
+      const assessment = assessH002NegativeTypeCriterion(criterion, typeFacts);
+      if (assessment === "VIOLATES") conflicts.push(`H002 negative type criterion ${criterion} is contradicted by source restaurant type facts`);
+      if (assessment === "UNKNOWN") missing.push(`H002 negative type criterion ${criterion} has no applicable source restaurant type fact`);
+    }
   }
-  for (const offer of offers) {
-    if (offer.restaurantId !== candidateId) conflicts.push("offer restaurant does not match presented candidate"); if (dateFromDateTime(offer.dateTime) !== request.date) conflicts.push("offer date conflicts with request"); if (offer.partySize !== request.partySize) conflicts.push("offer party size conflicts with request");
-    const time = timeFromDateTime(offer.dateTime); if (!time || (request.timeWindow && (time < request.timeWindow.earliest || time > request.timeWindow.latest))) conflicts.push("offer time conflicts with requested time window");
-    const matchingAvailabilityEvidence = availabilityEvidence.filter((item) => item.provider === offer.source && item.sourceEntityId === sourceEntityId);
-    if (availabilityEvidence.length > 0 && matchingAvailabilityEvidence.length === 0) conflicts.push("offer source is not represented by cited availability evidence");
-    if (time && matchingAvailabilityEvidence.length > 0 && !matchingAvailabilityEvidence.some((item) => strings(asRecord(item.claims)?.visibleSlots).includes(time))) conflicts.push("offer time is not present in its cited availability evidence");
-    const freshness = validDuringPresentation(offer.checkedAt, offer.displayExpiresAt ?? offer.expiresAt, presentedAt); if (freshness === "MISSING") missing.push("offer observation/display freshness"); if (freshness === "INVALID") conflicts.push("offer display-freshness ordering is invalid"); if (freshness === "FUTURE_OBSERVATION") conflicts.push("offer was checked after presentation"); if (freshness === "EXPIRED") conflicts.push("offer was expired when presented");
+  if (factOnly) {
+    const applicableHours = facts.filter((item) => asRecord(item.claims)?.openingHoursMatch === true);
+    if (applicableHours.length === 0) missing.push("applicable opening-hours fact");
+    for (const item of applicableHours) {
+      const observation = observedOnOrBeforePresentation(item.observedAt, presentedAt);
+      if (observation === "MISSING") missing.push("opening-hours observation time");
+      if (observation === "INVALID") conflicts.push("opening-hours observation time is invalid");
+      if (observation === "FUTURE_OBSERVATION") conflicts.push("opening-hours fact was observed after presentation");
+    }
+  } else {
+    if (availabilityEvidence.length === 0) missing.push("availability evidence");
+    for (const item of availabilityEvidence) {
+      const claims = asRecord(item.claims) ?? {}; if (claims.date !== request.date) conflicts.push("availability evidence date conflicts with request"); if (claims.partySize !== request.partySize) conflicts.push("availability evidence party size conflicts with request");
+      const visibleSlots = asArray(claims.visibleSlots).map(parseTime).filter((slot): slot is string => Boolean(slot)); if (request.timeWindow && !visibleSlots.some((slot) => slot >= request.timeWindow!.earliest && slot <= request.timeWindow!.latest)) conflicts.push("availability evidence has no slot in requested time window");
+      const freshness = validDuringPresentation(item.observedAt, item.displayExpiresAt ?? item.expiresAt, presentedAt); if (freshness === "MISSING") missing.push("availability evidence observation/display freshness"); if (freshness === "INVALID") conflicts.push("availability evidence display-freshness ordering is invalid"); if (freshness === "FUTURE_OBSERVATION") conflicts.push("availability evidence was observed after presentation"); if (freshness === "EXPIRED") conflicts.push("availability evidence was expired when presented");
+    }
+    for (const offer of offers) {
+      if (offer.restaurantId !== candidateId) conflicts.push("offer restaurant does not match presented candidate"); if (dateFromDateTime(offer.dateTime) !== request.date) conflicts.push("offer date conflicts with request"); if (offer.partySize !== request.partySize) conflicts.push("offer party size conflicts with request");
+      const time = timeFromDateTime(offer.dateTime); if (!time || (request.timeWindow && (time < request.timeWindow.earliest || time > request.timeWindow.latest))) conflicts.push("offer time conflicts with requested time window");
+      const matchingAvailabilityEvidence = availabilityEvidence.filter((item) => item.provider === offer.source && identities.some((identity) => identity.provider === item.provider && identity.sourceEntityId === item.sourceEntityId));
+      if (availabilityEvidence.length > 0 && matchingAvailabilityEvidence.length === 0) conflicts.push("offer source is not represented by cited availability evidence");
+      if (time && matchingAvailabilityEvidence.length > 0 && !matchingAvailabilityEvidence.some((item) => strings(asRecord(item.claims)?.visibleSlots).includes(time))) conflicts.push("offer time is not present in its cited availability evidence");
+      const freshness = validDuringPresentation(offer.checkedAt, offer.displayExpiresAt ?? offer.expiresAt, presentedAt); if (freshness === "MISSING") missing.push("offer observation/display freshness"); if (freshness === "INVALID") conflicts.push("offer display-freshness ordering is invalid"); if (freshness === "FUTURE_OBSERVATION") conflicts.push("offer was checked after presentation"); if (freshness === "EXPIRED") conflicts.push("offer was expired when presented");
+    }
   }
   observations.push(`candidate=${candidateId}`, `citedEvidence=${listedEvidence.length}`, `offers=${offers.length}`, ...missing.map((item) => `missing=${item}`), ...conflicts.map((item) => `conflict=${item}`));
   listedEvidence.forEach((item) => refs.push(ref(`finalSnapshot.domainState.readEvidence[evidenceId=${asString(item.evidenceId) ?? "missing"}]`))); offers.forEach((item) => refs.push(ref(`finalSnapshot.domainState.availability[${candidateId}][id=${asString(item.id) ?? "missing"}]`)));

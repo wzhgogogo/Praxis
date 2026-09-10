@@ -24,6 +24,8 @@ import type { TableCheckIdentityDiagnostic } from "../../../../integrations/tabl
 import type { TabelogIdentityDiagnostic, TabelogUserInterventionRequired } from "../../../../integrations/tabelog/tabelog-contracts.js";
 import { InMemoryRestaurantAgentTrajectoryStore } from "../../../../infrastructure/postgres/restaurant-agent-trajectory-store.js";
 import { loadFrozenLiveCases, materializeLiveCase } from "../live-case-materializer.js";
+import { HIGASHI_GINZA_EVALUATION_LOCATION } from "../live-evaluation-location.js";
+import { H002_NEGATIVE_TYPE_POLICY, RESTAURANT_CASE_FACT_POLICY_VERSION } from "../case-fact-policy.js";
 import { evaluateArtifactAfterFinish, RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION } from "../diagnostic-evaluator.js";
 import { diagnosticFailureCode, startDiagnosticRun } from "../../../shared/diagnostic-run.js";
 
@@ -55,6 +57,20 @@ function requiresLocation(caseValue: unknown): boolean {
 
 function manualTabelogInterventionEnabled(environment: NodeJS.ProcessEnv = process.env): boolean {
   return environment.PRAXIS_EVAL_ALLOW_TABELOG_MANUAL_INTERVENTION === "1";
+}
+
+/** Frozen-eval input only: carries the user's clarified H002 type scope into State. */
+function applyCaseScopedCriteriaPolicy(caseId: string, patch: Extract<ReturnType<typeof compileRestaurantSemanticProposal>, { status: "COMPILED" }> ["patch"]): void {
+  if (caseId !== "h002") return;
+  for (const key of ["addCriteria", "replaceCriteria"] as const) {
+    const criteria = patch[key];
+    if (!criteria) continue;
+    patch[key] = criteria.map((criterion) => {
+      if (criterion.polarity !== "NEGATIVE" || criterion.strength !== "HARD") return criterion;
+      const rule = H002_NEGATIVE_TYPE_POLICY.rules.find((item) => item.criterion === criterion.text);
+      return rule ? { ...criterion, typeExclusionTerms: [...rule.acceptedCuisineFacts] } : criterion;
+    });
+  }
 }
 
 function safeGitContext(): { commitSha: string; worktree: "CLEAN" | "DIRTY" | "UNKNOWN" } {
@@ -108,8 +124,8 @@ const candidateLimit = candidateLimitFromArgs();
 const source = await loadFrozenLiveCases(sourcePath);
 const frozen = source.find((entry) => entry.id === selectedId);
 if (!frozen) throw new Error(`Unknown frozen E2E case: ${selectedId}`);
-if (requiresLocation(frozen) && (!process.env.PRAXIS_EVAL_USER_LAT || !process.env.PRAXIS_EVAL_USER_LNG)) {
-  throw new Error("PRAXIS_EVAL_USER_LAT and PRAXIS_EVAL_USER_LNG are required for NEAR_USER Live cases");
+if ((process.env.PRAXIS_EVAL_USER_LAT && !process.env.PRAXIS_EVAL_USER_LNG) || (!process.env.PRAXIS_EVAL_USER_LAT && process.env.PRAXIS_EVAL_USER_LNG)) {
+  throw new Error("PRAXIS_EVAL_USER_LAT and PRAXIS_EVAL_USER_LNG must be set together");
 }
 
 const startedAt = new Date();
@@ -145,6 +161,11 @@ const journal = await startDiagnosticRun(resolve(".eval-artifacts", "restaurant-
   runtimeContext,
   safety: { policy: "READ_ONLY_CODE_PATH", externalSideEffectCount: "NOT_MEASURED" },
 });
+// Some browser/provider implementations leave only unref'ed work while a
+// promise is still pending. Keep this diagnostic process alive until its
+// result artifact has been finalized; an orphaned STARTED record is neither a
+// usable live result nor a diagnosable failure.
+const lifecycleKeepAlive = setInterval(() => undefined, 30_000);
 let stage = "SEMANTIC";
 let semantic: Awaited<ReturnType<RestaurantSemanticInterpreter["interpret"]>> | undefined;
 try {
@@ -161,6 +182,7 @@ try {
   if (semantic.status !== "PROPOSED") throw Object.assign(new Error("Semantic Interpreter did not produce a proposal"), { code: semantic.status });
   stage = "COMPILE_AND_DISPATCH";
   const compilation = compileRestaurantSemanticProposal(semantic.proposal);
+  if (compilation.status === "COMPILED") applyCaseScopedCriteriaPolicy(materialized.id, compilation.patch);
   const semanticEvent: RestaurantEvent = compilation.status === "COMPILED"
     ? { type: "SEMANTIC_PROPOSAL_COMPILED", patch: compilation.patch }
     : { type: "SEMANTIC_CONFLICT_RECORDED", conflict: compilation.conflict };
@@ -170,9 +192,9 @@ try {
   });
 
   stage = "PROVIDER_SETUP";
-  const evaluationLocation = process.env.PRAXIS_EVAL_USER_LAT && process.env.PRAXIS_EVAL_USER_LNG
+const evaluationLocation = process.env.PRAXIS_EVAL_USER_LAT && process.env.PRAXIS_EVAL_USER_LNG
     ? { latitude: Number(process.env.PRAXIS_EVAL_USER_LAT), longitude: Number(process.env.PRAXIS_EVAL_USER_LNG) }
-    : undefined;
+    : requiresLocation(frozen) ? HIGASHI_GINZA_EVALUATION_LOCATION : undefined;
   const search = new GooglePlacesRestaurantSearch(
     new GooglePlacesClient({ apiKey: process.env.GOOGLE_MAPS_API_KEY ?? "", timeoutMs: liveReadLimits.maxStructuredReadMs }),
     undefined,
@@ -261,6 +283,7 @@ try {
     limits: liveReadLimits,
     requestMetadata: { sha256: createHash("sha256").update(String(rawRequest)).digest("hex"), characterCount: String(rawRequest).length },
     materializedCase,
+    ...(materialized.id === "h002" ? { caseFactPolicyVersion: RESTAURANT_CASE_FACT_POLICY_VERSION } : {}),
     runtimeContext,
     semantic,
     modelInvocations,
@@ -280,7 +303,7 @@ try {
     safety: { policy: "READ_ONLY_CODE_PATH", externalSideEffectCount: "NOT_MEASURED" },
   };
   const completed = finalSnapshot.domainState.phase === "PRESENT_RESULTS" && loop.status === "TERMINAL";
-  await journal.finish({ ...artifact, status: completed ? "SUCCEEDED" : "FAILED", stage: "AGENT_LOOP", failureCode: completed ? null : "H001_NOT_COMPLETED" });
+  await journal.finish({ ...artifact, status: completed ? "SUCCEEDED" : "FAILED", stage: "AGENT_LOOP", failureCode: completed ? null : "LIVE_CASE_NOT_COMPLETED" });
   const evaluation = await evaluateArtifactAfterFinish(journal.resultPath);
   console.log(JSON.stringify({ mode: artifact.mode, caseId: materialized.id, loop, resourceUsage, artifactPath: journal.resultPath, evaluationPath: evaluation.outputPath, evaluationFailure: evaluation.evaluationFailure, evaluationFailurePath: evaluation.failurePath, latencyMs: artifact.latencyMs, scorerStatus: artifact.scorerStatus }, null, 2));
   if (!completed) process.exitCode = 1;
@@ -296,4 +319,6 @@ try {
   const evaluation = await evaluateArtifactAfterFinish(journal.resultPath);
   console.error(JSON.stringify({ failureCode, stage, artifactPath: journal.resultPath, evaluationPath: evaluation.outputPath, evaluationFailure: evaluation.evaluationFailure, evaluationFailurePath: evaluation.failurePath }));
   process.exitCode = 1;
+} finally {
+  clearInterval(lifecycleKeepAlive);
 }

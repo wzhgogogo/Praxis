@@ -30,6 +30,11 @@ export interface RestaurantCriterion {
   text: string;
   polarity: RestaurantCriterionPolarity;
   strength: RestaurantCriterionStrength;
+  /**
+   * An explicitly clarified, case-scoped interpretation for a negative
+   * restaurant-type request. It is absent for ordinary negative language.
+   */
+  typeExclusionTerms?: string[];
 }
 
 export interface RestaurantIntentDraft {
@@ -39,20 +44,25 @@ export interface RestaurantIntentDraft {
   date?: string;
   timeWindow?: { earliest: string; latest: string };
   partySize?: number;
-  area?: { query: string; placeId?: string; radiusMeters?: number };
+  area?: { query: string; placeId?: string; radiusMeters?: number; coordinates?: { latitude: number; longitude: number; accuracyMeters?: number; observedAt: string; source: "DEVICE" | "MANUAL_PLACE" } };
   criteria: RestaurantCriterion[];
   budgetPerPerson?: { max: number; currency: "JPY" };
 }
 
-export interface RestaurantBookingIntent {
+/** Facts needed for a read-only place recommendation. Availability is optional. */
+export interface RestaurantSearchIntent {
   timezone: "Asia/Tokyo";
   target?: RestaurantTarget;
   date: string;
   timeWindow: { earliest: string; latest: string };
-  partySize: number;
-  area: { query: string; placeId?: string; radiusMeters?: number };
+  area: { query: string; placeId?: string; radiusMeters?: number; coordinates?: { latitude: number; longitude: number; accuracyMeters?: number; observedAt: string; source: "DEVICE" | "MANUAL_PLACE" } };
   criteria: RestaurantCriterion[];
   budgetPerPerson?: { max: number; currency: "JPY" };
+}
+
+/** A reservation/availability read adds party size to the read-only search facts. */
+export interface RestaurantBookingIntent extends RestaurantSearchIntent {
+  partySize: number;
 }
 
 export interface RestaurantOutlet {
@@ -151,7 +161,7 @@ export interface RestaurantCandidate {
 
 export interface RestaurantSearchRequest {
   /** Must exactly preserve the authoritative intent; a hint may only adjust retrieval. */
-  intent: RestaurantBookingIntent;
+  intent: RestaurantSearchIntent;
   retrievalHint?: string;
 }
 
@@ -310,7 +320,7 @@ export interface RestaurantTaskState {
   schemaVersion: "10";
   phase: RestaurantPhase;
   intentDraft?: RestaurantIntentDraft;
-  intent?: RestaurantBookingIntent;
+  intent?: RestaurantSearchIntent;
   semanticConflict?: RestaurantSemanticConflict;
   candidates: RestaurantCandidate[];
   availability: Record<string, AvailabilityOffer[]>;
@@ -344,7 +354,7 @@ export interface RestaurantIntentPatch {
   date?: string | null;
   timeWindow?: { earliest: string; latest: string } | null;
   partySize?: number | null;
-  area?: { query: string } | null;
+  area?: { query: string; placeId?: string; radiusMeters?: number; coordinates?: { latitude: number; longitude: number; accuracyMeters?: number; observedAt: string; source: "DEVICE" | "MANUAL_PLACE" } } | null;
   budgetPerPerson?: { max: number; currency: "JPY" } | null;
   addCriteria?: RestaurantCriterion[];
   replaceCriteria?: RestaurantCriterion[];

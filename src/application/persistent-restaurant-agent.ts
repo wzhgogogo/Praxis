@@ -352,6 +352,29 @@ export class PersistentRestaurantAgentApplication {
     return this.project(record);
   }
 
+  /** A browser-supplied, one-shot location is user input, not a server lookup. */
+  async recordLocation(input: {
+    userId: string; caseId: string; requestId: string; expectedVersion: number;
+    latitude: number; longitude: number; accuracyMeters?: number;
+  }): Promise<RestaurantCaseView> {
+    const record = await this.requireCase(input.userId, input.caseId);
+    const snapshot = await this.runtime.snapshot(record.rootTaskId);
+    const area = snapshot.domainState.intentDraft?.area;
+    if (!area) throw new Error("Location can be recorded after a location request is understood");
+    if (area.query.trim().toLocaleLowerCase("en-US") !== "nearby") {
+      throw new Error("Device location is accepted only for a nearby request; enter a place name to change an explicit area");
+    }
+    const now = this.clock.now().toISOString();
+    await this.runtime.dispatch(this.userEvent(snapshot, input.requestId, {
+      type: "SEMANTIC_PROPOSAL_COMPILED",
+      patch: { schemaVersion: "3", area: { ...area, coordinates: { latitude: input.latitude, longitude: input.longitude, ...(input.accuracyMeters !== undefined ? { accuracyMeters: input.accuracyMeters } : {}), observedAt: now, source: "DEVICE" } } },
+    }), input.expectedVersion);
+    await this.store.appendMessage({ id: `message:0:${hash(`${record.id}:${input.requestId}`).slice(0, 24)}`, conversationId: record.id, role: "USER", content: "Device location shared for this search", requestId: `user:${input.requestId}`, createdAt: now });
+    await this.agentLoop.run(record.rootTaskId);
+    await this.appendAssistant(record, input.requestId);
+    return this.project(record);
+  }
+
   async listCases(userId: string): Promise<RestaurantCaseSummary[]> {
     const records = await this.store.listConversationsForUser(userId);
     return Promise.all(records.map(async (record) => (await this.project(record)).case));
@@ -504,6 +527,7 @@ export class PersistentRestaurantAgentApplication {
       case: summary,
       conversation: { id: record.id, messages },
       restaurant: {
+        ...(state.intentDraft ? { intentDraft: structuredClone(state.intentDraft) } : {}),
         missingRequiredFields: missingBlockingFields(state.intentDraft ?? {}),
         candidates: structuredClone(state.candidates),
         availability: structuredClone(state.availability),

@@ -19,6 +19,7 @@ export interface UntrustedGooglePlaceObservation {
   primaryType?: string;
   googleMapsUri?: string;
   nationalPhoneNumber?: string;
+  regularOpeningHours?: string[];
 }
 
 export interface UntrustedProviderAvailabilityObservation {
@@ -48,7 +49,7 @@ export type UntrustedTabelogAvailabilityObservation = UntrustedProviderAvailabil
 export type UntrustedTableCheckAvailabilityObservation = UntrustedProviderAvailabilityObservation;
 
 export type GroundedGoogleDiscovery =
-  | { accepted: true; candidate: RestaurantCandidate; evidence: RestaurantReadEvidence }
+  | { accepted: true; candidate: RestaurantCandidate; evidence: RestaurantReadEvidence; additionalEvidence: RestaurantReadEvidence[] }
   | { accepted: false; reasonCode: string };
 
 export interface GroundedAvailability {
@@ -98,20 +99,82 @@ function matchingAddressComponent(
   );
 }
 
+function supportedTypeCriteria(types: string[] | undefined, criteria: string[] | undefined): string[] {
+  const sourceTypes = new Set((types ?? []).map((value) => normalized(value.replace(/_/g, " "))));
+  return (criteria ?? []).filter((criterion) => sourceTypes.has(normalized(criterion)));
+}
+
+/** Provider type labels are retained as source facts, never inferred from a name or query. */
+function sourceRestaurantTypeFacts(observation: UntrustedGooglePlaceObservation): string[] {
+  return [...new Set([...(observation.types ?? []), ...(observation.primaryType ? [observation.primaryType] : [])]
+    .map((value) => normalized(value.replace(/_/g, " ")))
+    .filter(Boolean))];
+}
+
+function minutes(value: string): number | undefined {
+  const matched = value.trim().match(/^(\d{1,2})(?::(\d{2}))?\s*(AM|PM)?$/i);
+  if (!matched) return undefined;
+  let hour = Number(matched[1]);
+  const minute = Number(matched[2] ?? "0");
+  const suffix = matched[3]?.toUpperCase();
+  if (hour > 23 || minute > 59) return undefined;
+  if (suffix) {
+    if (hour < 1 || hour > 12) return undefined;
+    if (hour === 12) hour = 0;
+    if (suffix === "PM") hour += 12;
+  }
+  return hour * 60 + minute;
+}
+
+function hhmm(value: number): string {
+  return `${String(Math.floor(value / 60)).padStart(2, "0")}:${String(value % 60).padStart(2, "0")}`;
+}
+
+/** Parses only the source's explicit weekly interval notation; unparseable text is unknown. */
+function openingHoursForRequest(
+  descriptions: string[] | undefined,
+  date: string | undefined,
+  timeWindow: { earliest: string; latest: string } | undefined,
+): { matches: boolean; window?: string[] } | undefined {
+  if (!descriptions || !date || !timeWindow) return undefined;
+  const day = new Intl.DateTimeFormat("en-US", { weekday: "long", timeZone: "Asia/Tokyo" })
+    .format(new Date(`${date}T12:00:00+09:00`));
+  const entry = descriptions.find((item) => normalized(item).startsWith(`${normalized(day)}:`));
+  if (!entry) return undefined;
+  if (/open\s*24\s*hours/i.test(entry)) return { matches: true, window: [timeWindow.earliest, timeWindow.latest] };
+  if (/closed/i.test(entry)) return { matches: false };
+  const requestedStart = minutes(timeWindow.earliest);
+  const requestedEnd = minutes(timeWindow.latest);
+  if (requestedStart === undefined || requestedEnd === undefined || requestedEnd < requestedStart) return undefined;
+  const intervals = [...entry.matchAll(/(\d{1,2}(?::\d{2})?\s*(?:AM|PM)?)\s*[–-]\s*(\d{1,2}(?::\d{2})?\s*(?:AM|PM)?)/gi)]
+    .flatMap((match) => {
+      const start = minutes(match[1]!); const end = minutes(match[2]!);
+      return start === undefined || end === undefined || end <= start ? [] : [[start, end] as const];
+    });
+  const matching = intervals.find(([start, end]) => start <= requestedEnd && end >= requestedStart);
+  return matching ? { matches: true, window: [hhmm(Math.max(matching[0], requestedStart)), hhmm(Math.min(matching[1], requestedEnd))] } : { matches: false };
+}
+
 /**
  * Converts the minimal Google response into a candidate only when the returned
  * structural facts support it. Retrieval relevance never becomes a cuisine claim.
  */
 export function groundGoogleDiscovery(
   observation: UntrustedGooglePlaceObservation,
-  input: { requestFingerprint: string; observedAt: string; areaQuery: string },
+  input: { requestFingerprint: string; observedAt: string; areaQuery: string; evaluationLocation?: { latitude: number; longitude: number; radiusMeters: number; label: string; areaMatchBasis?: "TASK_LOCATION_RADIUS" | "EVALUATION_LOCATION_RADIUS" }; requiredTypeCriteria?: string[]; negativeTypeCriteria?: Array<{ text: string; typeExclusionTerms: string[] }>; requestedDate?: string; requestedTimeWindow?: { earliest: string; latest: string } },
 ): GroundedGoogleDiscovery {
   if (!observation.placeId?.trim()) return { accepted: false, reasonCode: "GOOGLE_PLACE_ID_MISSING" };
   if (!observation.displayName?.trim()) return { accepted: false, reasonCode: "GOOGLE_NAME_MISSING" };
   if (!observation.formattedAddress?.trim()) return { accepted: false, reasonCode: "GOOGLE_ADDRESS_MISSING" };
   if (!usableRestaurant(observation)) return { accepted: false, reasonCode: "GOOGLE_PLACE_TYPE_UNUSABLE" };
   const areaComponent = matchingAddressComponent(observation, input.areaQuery);
-  const areaMatch = areaComponent !== undefined;
+  const latitude = observation.location?.latitude;
+  const longitude = observation.location?.longitude;
+  const distanceMeters = input.evaluationLocation && latitude !== undefined && longitude !== undefined
+    ? Math.round(111_320 * Math.hypot(latitude - input.evaluationLocation.latitude, (longitude - input.evaluationLocation.longitude) * Math.cos(input.evaluationLocation.latitude * Math.PI / 180)))
+    : undefined;
+  const locationMatch = distanceMeters !== undefined && input.evaluationLocation !== undefined && distanceMeters <= input.evaluationLocation.radiusMeters;
+  const areaMatch = areaComponent !== undefined || locationMatch;
   const candidateId = stableCandidateId(observation.placeId);
   const evidence: RestaurantReadEvidence = {
     evidenceId: evidenceId("google-discovery", { placeId: observation.placeId, observedAt: input.observedAt }),
@@ -134,9 +197,51 @@ export function groundGoogleDiscovery(
         matchedAddressComponent: areaComponent.longText,
         matchedAddressComponentTypes: [...areaComponent.types],
       } : {}),
+      ...(locationMatch ? { areaMatchBasis: input.evaluationLocation!.areaMatchBasis ?? "EVALUATION_LOCATION_RADIUS", evaluationLocationLabel: input.evaluationLocation!.label, distanceMeters: distanceMeters! } : {}),
       ...(observation.primaryType ? { primaryType: observation.primaryType } : {}),
+      ...(observation.regularOpeningHours ? { regularOpeningHours: [...observation.regularOpeningHours] } : {}),
     },
   };
+  const entityEvidence: RestaurantReadEvidence = {
+    evidenceId: evidenceId("google-entity", { placeId: observation.placeId, observedAt: input.observedAt }),
+    kind: "ENTITY_MATCH",
+    provider: "GOOGLE_PLACES",
+    candidateId,
+    sourceEntityId: observation.placeId,
+    ...(observation.googleMapsUri ? { sourceUrl: observation.googleMapsUri } : {}),
+    observedAt: input.observedAt,
+    requestFingerprint: input.requestFingerprint,
+    claims: { placeId: observation.placeId, outletName: observation.displayName, address: observation.formattedAddress },
+    entityMatch: { confidence: "HIGH", matchedBy: ["GOOGLE_PLACE_ID"] },
+  };
+  const restaurantTypeFacts = sourceRestaurantTypeFacts(observation);
+  const verifiedHardCriteria = supportedTypeCriteria(restaurantTypeFacts, input.requiredTypeCriteria);
+  const materialTypeFacts = restaurantTypeFacts.filter((fact) => !["restaurant", "food", "point of interest", "establishment"].includes(fact));
+  const negativeTypeAssessment = (input.negativeTypeCriteria ?? []).reduce<{ verified: string[]; violated: string[] }>((result, criterion) => {
+    if (!materialTypeFacts.length) return result;
+    const violates = criterion.typeExclusionTerms.some((term) => materialTypeFacts.some((fact) => fact === normalized(term) || fact.includes(normalized(term))));
+    if (violates) result.violated.push(criterion.text); else result.verified.push(criterion.text);
+    return result;
+  }, { verified: [], violated: [] });
+  const openingHours = openingHoursForRequest(observation.regularOpeningHours, input.requestedDate, input.requestedTimeWindow);
+  const facts: RestaurantReadEvidence[] = restaurantTypeFacts.length || openingHours !== undefined ? [{
+    evidenceId: evidenceId("google-facts", { placeId: observation.placeId, observedAt: input.observedAt, verifiedHardCriteria, openingHours }),
+    kind: "RESTAURANT_FACT",
+    provider: "GOOGLE_PLACES",
+    candidateId,
+    sourceEntityId: observation.placeId,
+    ...(observation.googleMapsUri ? { sourceUrl: observation.googleMapsUri } : {}),
+    observedAt: input.observedAt,
+    requestFingerprint: input.requestFingerprint,
+    claims: {
+      ...(verifiedHardCriteria.length ? { verifiedHardCriteria } : {}),
+      ...(negativeTypeAssessment.verified.length ? { verifiedNegativeCriteria: negativeTypeAssessment.verified } : {}),
+      ...(negativeTypeAssessment.violated.length ? { violatedNegativeCriteria: negativeTypeAssessment.violated } : {}),
+      restaurantTypeFacts,
+      ...(observation.regularOpeningHours ? { regularOpeningHours: [...observation.regularOpeningHours] } : {}),
+      ...(openingHours ? { openingHoursMatch: openingHours.matches, ...(openingHours.window ? { openingHoursMatchedWindow: openingHours.window } : {}) } : {}),
+    },
+  }] : [];
   return {
     accepted: true,
     candidate: {
@@ -155,6 +260,7 @@ export function groundGoogleDiscovery(
       executionConfidence: "LOW",
     },
     evidence,
+    additionalEvidence: [entityEvidence, ...facts],
   };
 }
 

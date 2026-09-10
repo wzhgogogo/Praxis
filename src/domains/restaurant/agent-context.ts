@@ -1,10 +1,10 @@
 import type {
-  RestaurantBookingIntent,
+  RestaurantSearchIntent,
   RestaurantIntentDraft,
   RestaurantPhase,
   RestaurantTaskState,
 } from "./contracts.js";
-import { missingBlockingFields } from "./intent-state.js";
+import { completeRestaurantIntent, missingSearchFields } from "./intent-state.js";
 import { restaurantPresentationReadiness } from "./action-validator.js";
 
 export const RESTAURANT_AGENT_CONTEXT_SCHEMA = {
@@ -17,7 +17,7 @@ export interface RestaurantAgentContext {
   now: string;
   phase: RestaurantPhase;
   intentDraft?: RestaurantIntentDraft;
-  intent?: RestaurantBookingIntent;
+  intent?: RestaurantSearchIntent;
   missingBlockingFields: string[];
   candidates: Array<{
     id: string;
@@ -69,7 +69,7 @@ export function projectRestaurantAgentContext(
     phase: state.phase,
     ...(state.intentDraft ? { intentDraft: structuredClone(state.intentDraft) } : {}),
     ...(state.intent ? { intent: structuredClone(state.intent) } : {}),
-    missingBlockingFields: missingBlockingFields(state.intentDraft ?? {}),
+    missingBlockingFields: missingSearchFields(state.intentDraft ?? {}),
     candidates: state.candidates.map((candidate) => ({
       id: candidate.restaurant.id,
       outletName: candidate.restaurant.outletName,
@@ -104,9 +104,11 @@ export function projectRestaurantAgentContext(
       ]),
     ),
     presentation,
-    checkableCandidateIds: presentation
-      .filter((item) => state.availabilityChecks[item.candidateId] === undefined || item.recheckReason !== undefined)
-      .map((item) => item.candidateId),
+    ...(completeRestaurantIntent(state.intentDraft) ? {
+      checkableCandidateIds: presentation
+        .filter((item) => state.availabilityChecks[item.candidateId] === undefined || item.recheckReason !== undefined)
+        .map((item) => item.candidateId),
+    } : {}),
     ...(state.selectedCandidateId ? { selectedCandidateId: state.selectedCandidateId } : {}),
     ...(state.selectedOfferId ? { selectedOfferId: state.selectedOfferId } : {}),
     ...(state.failure ? { failure: { code: state.failure.code } } : {}),

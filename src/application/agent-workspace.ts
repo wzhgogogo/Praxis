@@ -92,6 +92,8 @@ export interface RestaurantCaseView {
     messages: ConversationMessage[];
   };
   restaurant: {
+    /** Current task-local request projection; coordinates are only returned to its authenticated owner. */
+    intentDraft?: import("../domains/restaurant/contracts.js").RestaurantIntentDraft;
     missingRequiredFields: string[];
     candidates: RestaurantCandidate[];
     availability: Record<string, AvailabilityOffer[]>;

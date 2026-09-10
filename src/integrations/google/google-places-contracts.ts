@@ -11,6 +11,7 @@ export const GOOGLE_PLACES_RESTAURANT_FIELD_MASK = [
   "places.primaryType",
   "places.nationalPhoneNumber",
   "places.googleMapsUri",
+  "places.regularOpeningHours",
 ].join(",");
 
 export interface GooglePlacesTextSearchRequest {
@@ -34,6 +35,7 @@ export interface GooglePlacesRawPlace {
   primaryType?: unknown;
   nationalPhoneNumber?: unknown;
   googleMapsUri?: unknown;
+  regularOpeningHours?: { weekdayDescriptions?: unknown };
 }
 
 export interface GooglePlacesTextSearchResponse {

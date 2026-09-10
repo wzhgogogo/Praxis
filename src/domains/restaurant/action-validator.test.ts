@@ -30,11 +30,30 @@ test("Reducer derives missing fields and accumulates a criterion correction dete
 test("Action validator binds search to complete authoritative intent", () => {
   assert.deepEqual(
     validateRestaurantAction(incompleteState, { type: "SEARCH_RESTAURANTS" }, now),
-    { status: "REJECTED", code: "INTENT_INCOMPLETE", reason: "Restaurant intent is missing required fields" },
+    { status: "REJECTED", code: "INTENT_INCOMPLETE", reason: "Restaurant search intent is missing required fields" },
   );
   const draft = applyRestaurantIntentPatch(undefined, { schemaVersion: "3", date: "2026-08-05", timeWindow: { earliest: "19:00", latest: "19:30" }, partySize: 2, area: { query: "Shinjuku" }, addCriteria: [{ text: "omakase", polarity: "POSITIVE", strength: "HARD" }] });
   const state = { ...incompleteState, intentDraft: draft };
   assert.equal(validateRestaurantAction(state, { type: "SEARCH_RESTAURANTS", retrievalHint: "broaden omakase search" }, now).status, "ALLOWED");
+});
+
+test("A fact-only cafe request can present opening-hours-grounded results without party size or availability", () => {
+  const candidateId = "cafe-a";
+  const draft = applyRestaurantIntentPatch(undefined, {
+    schemaVersion: "3", date: "2026-08-05", timeWindow: { earliest: "12:00", latest: "17:00" },
+    area: { query: "nearby" }, addCriteria: [{ text: "cafe", polarity: "POSITIVE", strength: "HARD" }],
+  });
+  const state: RestaurantTaskState = {
+    ...incompleteState, phase: "SEARCHING", intentDraft: draft,
+    candidates: [{ restaurant: { id: candidateId, outletName: "Cafe A", sourceIds: { googlePlaces: "place-a" }, address: "Tokyo", provenance: {} }, matchReasons: [], warnings: [], executionConfidence: "HIGH" }],
+    readEvidence: [
+      { evidenceId: "area", kind: "DISCOVERY", provider: "GOOGLE_PLACES", candidateId, sourceEntityId: "place-a", observedAt: now, requestFingerprint: "request", claims: { areaQuery: "nearby", areaMatch: true } },
+      { evidenceId: "entity", kind: "ENTITY_MATCH", provider: "GOOGLE_PLACES", candidateId, sourceEntityId: "place-a", observedAt: now, requestFingerprint: "request", claims: {}, entityMatch: { confidence: "HIGH", matchedBy: ["GOOGLE_PLACE_ID"] } },
+      { evidenceId: "facts", kind: "RESTAURANT_FACT", provider: "GOOGLE_PLACES", candidateId, sourceEntityId: "place-a", observedAt: now, requestFingerprint: "request", claims: { verifiedHardCriteria: ["cafe"], openingHoursMatch: true, openingHoursMatchedWindow: ["12:00", "17:00"] } },
+    ],
+  };
+  assert.equal(validateRestaurantAction(state, { type: "CHECK_AVAILABILITY", candidateIds: [candidateId] }, now).status, "REJECTED");
+  assert.deepEqual(validateRestaurantAction(state, { type: "PRESENT_RESULTS", candidateIds: [candidateId] }, now), { status: "ALLOWED" });
 });
 
 test("Action validator blocks unknown candidates, stale offers, and booking schedule mismatches", () => {

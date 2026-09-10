@@ -51,6 +51,12 @@ function fixtureSemanticProposalFor(message: string): RestaurantSemanticProposal
   if (normalized.includes("shibuya")) {
     add({ field: "AREA", operation, value: { kind: "AREA", query: "Shibuya" } });
   }
+  if (normalized.includes("higashi-ginza") || normalized.includes("higashi ginza")) {
+    add({ field: "AREA", operation, value: { kind: "AREA", query: "Higashi-Ginza" } });
+  }
+  if (normalized.includes("nearby")) {
+    add({ field: "AREA", operation, value: { kind: "AREA", query: "nearby" } });
+  }
   if (normalized.includes("remove yakiniku")) {
     add({
       field: "CRITERION",
