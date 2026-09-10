@@ -111,6 +111,31 @@ function sourceRestaurantTypeFacts(observation: UntrustedGooglePlaceObservation)
     .filter(Boolean))];
 }
 
+/** A generic, source-bound judgment for explicitly type-scoped exclusions.
+ * It never treats missing words as proof: a concrete Google primary type must
+ * either overlap the avoided type/cuisine or identify a different main type. */
+function negativeTypeFacts(
+  primaryType: string | undefined,
+  criteria: string[] | undefined,
+): { verified: string[]; violated: string[]; judgments: string[] } {
+  const normalizedPrimary = primaryType ? normalized(primaryType.replace(/_/g, " ")) : undefined;
+  if (!normalizedPrimary || ["restaurant", "cafe", "food"].includes(normalizedPrimary)) {
+    return { verified: [], violated: [], judgments: [] };
+  }
+  const primaryTerms = new Set(normalizedPrimary.split(/[^\p{L}\p{N}]+/u).filter(Boolean));
+  const typeScoped = (criteria ?? []).filter((criterion) => /\b(restaurant|cuisine|dining type)\b/i.test(criterion));
+  const result = { verified: [] as string[], violated: [] as string[], judgments: [] as string[] };
+  for (const criterion of typeScoped) {
+    const criterionTerms = normalized(criterion).split(/[^\p{L}\p{N}]+/u).filter((term) => term.length > 2 && !["restaurant", "cuisine", "dining", "type"].includes(term));
+    if (criterionTerms.length === 0) continue;
+    const overlaps = criterionTerms.some((term) => primaryTerms.has(term));
+    if (overlaps) result.violated.push(criterion);
+    else result.verified.push(criterion);
+    result.judgments.push(`${criterion}<=primaryType:${normalizedPrimary}`);
+  }
+  return result;
+}
+
 function minutes(value: string): number | undefined {
   const matched = value.trim().match(/^(\d{1,2})(?::(\d{2}))?\s*(AM|PM)?$/i);
   if (!matched) return undefined;
@@ -161,7 +186,7 @@ function openingHoursForRequest(
  */
 export function groundGoogleDiscovery(
   observation: UntrustedGooglePlaceObservation,
-  input: { requestFingerprint: string; observedAt: string; areaQuery: string; evaluationLocation?: { latitude: number; longitude: number; radiusMeters: number; label: string; areaMatchBasis?: "TASK_LOCATION_RADIUS" | "EVALUATION_LOCATION_RADIUS" }; requiredTypeCriteria?: string[]; negativeTypeCriteria?: Array<{ text: string; typeExclusionTerms: string[] }>; requestedDate?: string; requestedTimeWindow?: { earliest: string; latest: string } },
+  input: { requestFingerprint: string; observedAt: string; areaQuery: string; evaluationLocation?: { latitude: number; longitude: number; radiusMeters: number; label: string; areaMatchBasis?: "TASK_LOCATION_RADIUS" | "EVALUATION_LOCATION_RADIUS" }; requiredTypeCriteria?: string[]; negativeCriteria?: string[]; requestedDate?: string; requestedTimeWindow?: { earliest: string; latest: string } },
 ): GroundedGoogleDiscovery {
   if (!observation.placeId?.trim()) return { accepted: false, reasonCode: "GOOGLE_PLACE_ID_MISSING" };
   if (!observation.displayName?.trim()) return { accepted: false, reasonCode: "GOOGLE_NAME_MISSING" };
@@ -216,13 +241,7 @@ export function groundGoogleDiscovery(
   };
   const restaurantTypeFacts = sourceRestaurantTypeFacts(observation);
   const verifiedHardCriteria = supportedTypeCriteria(restaurantTypeFacts, input.requiredTypeCriteria);
-  const materialTypeFacts = restaurantTypeFacts.filter((fact) => !["restaurant", "food", "point of interest", "establishment"].includes(fact));
-  const negativeTypeAssessment = (input.negativeTypeCriteria ?? []).reduce<{ verified: string[]; violated: string[] }>((result, criterion) => {
-    if (!materialTypeFacts.length) return result;
-    const violates = criterion.typeExclusionTerms.some((term) => materialTypeFacts.some((fact) => fact === normalized(term) || fact.includes(normalized(term))));
-    if (violates) result.violated.push(criterion.text); else result.verified.push(criterion.text);
-    return result;
-  }, { verified: [], violated: [] });
+  const negativeTypes = negativeTypeFacts(observation.primaryType, input.negativeCriteria);
   const openingHours = openingHoursForRequest(observation.regularOpeningHours, input.requestedDate, input.requestedTimeWindow);
   const facts: RestaurantReadEvidence[] = restaurantTypeFacts.length || openingHours !== undefined ? [{
     evidenceId: evidenceId("google-facts", { placeId: observation.placeId, observedAt: input.observedAt, verifiedHardCriteria, openingHours }),
@@ -235,8 +254,9 @@ export function groundGoogleDiscovery(
     requestFingerprint: input.requestFingerprint,
     claims: {
       ...(verifiedHardCriteria.length ? { verifiedHardCriteria } : {}),
-      ...(negativeTypeAssessment.verified.length ? { verifiedNegativeCriteria: negativeTypeAssessment.verified } : {}),
-      ...(negativeTypeAssessment.violated.length ? { violatedNegativeCriteria: negativeTypeAssessment.violated } : {}),
+      ...(negativeTypes.verified.length ? { verifiedNegativeCriteria: negativeTypes.verified } : {}),
+      ...(negativeTypes.violated.length ? { violatedNegativeCriteria: negativeTypes.violated } : {}),
+      ...(negativeTypes.judgments.length ? { negativeCriterionJudgments: negativeTypes.judgments } : {}),
       restaurantTypeFacts,
       ...(observation.regularOpeningHours ? { regularOpeningHours: [...observation.regularOpeningHours] } : {}),
       ...(openingHours ? { openingHoursMatch: openingHours.matches, ...(openingHours.window ? { openingHoursMatchedWindow: openingHours.window } : {}) } : {}),

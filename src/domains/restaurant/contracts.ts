@@ -11,9 +11,10 @@ export const RESTAURANT_BLOCKING_FIELDS = [
 
 export type RestaurantBlockingField = (typeof RESTAURANT_BLOCKING_FIELDS)[number];
 
-export interface RestaurantTarget {
-  query: string;
-}
+/** The desired outcome controls required evidence; party size only parameterizes availability. */
+export const RESTAURANT_READ_GOALS = ["RECOMMENDATION", "AVAILABILITY"] as const;
+export type RestaurantReadGoal = (typeof RESTAURANT_READ_GOALS)[number];
+export interface RestaurantTarget { goal: RestaurantReadGoal; query: string; }
 
 export const RESTAURANT_CRITERION_POLARITIES = ["POSITIVE", "NEGATIVE"] as const;
 export type RestaurantCriterionPolarity = (typeof RESTAURANT_CRITERION_POLARITIES)[number];
@@ -30,11 +31,6 @@ export interface RestaurantCriterion {
   text: string;
   polarity: RestaurantCriterionPolarity;
   strength: RestaurantCriterionStrength;
-  /**
-   * An explicitly clarified, case-scoped interpretation for a negative
-   * restaurant-type request. It is absent for ordinary negative language.
-   */
-  typeExclusionTerms?: string[];
 }
 
 export interface RestaurantIntentDraft {
@@ -390,7 +386,7 @@ export type RestaurantEvent =
     })
   | (DomainEvent & { type: "RESULTS_PRESENTED"; candidateIds: string[]; evidenceIds: string[] })
   | (DomainEvent & { type: "AVAILABILITY_REFRESH_REQUESTED"; candidateIds: string[] })
-  | (DomainEvent & { type: "SEARCH_FAILED"; reason: string })
+  | (DomainEvent & { type: "SEARCH_FAILED"; reason: string; code?: string })
   | (DomainEvent & { type: "AVAILABILITY_FAILED"; reason: string })
   | (DomainEvent & {
       type: "AVAILABILITY_CHECKED";

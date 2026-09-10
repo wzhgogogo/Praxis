@@ -112,9 +112,9 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort {
       requiredTypeCriteria: request.intent.criteria
         .filter((criterion) => criterion.polarity === "POSITIVE" && criterion.strength === "HARD")
         .map((criterion) => criterion.text),
-      negativeTypeCriteria: request.intent.criteria
-        .filter((criterion) => criterion.polarity === "NEGATIVE" && criterion.strength === "HARD" && criterion.typeExclusionTerms?.length)
-        .map((criterion) => ({ text: criterion.text, typeExclusionTerms: criterion.typeExclusionTerms! })),
+      negativeCriteria: request.intent.criteria
+        .filter((criterion) => criterion.polarity === "NEGATIVE" && criterion.strength === "HARD")
+        .map((criterion) => criterion.text),
       requestedDate: request.intent.date,
       requestedTimeWindow: request.intent.timeWindow,
       ...(locationContext ? { evaluationLocation: locationContext } : {}),

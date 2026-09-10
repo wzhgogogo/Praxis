@@ -27,6 +27,10 @@ function fixtureSemanticProposalFor(message: string): RestaurantSemanticProposal
   const facts: RestaurantSemanticProposal["facts"] = [];
   const add = (fact: RestaurantSemanticProposal["facts"][number]) => facts.push(fact);
 
+  if (/\b(bookable table|need a table|available table)\b/.test(normalized)) {
+    add({ field: "TARGET", operation, value: { kind: "TARGET", goal: "AVAILABILITY", query: "find a bookable table" } });
+  }
+
   if (normalized.includes("tonight") || normalized.includes("2026-08-05")) {
     add({ field: "DATE", operation, value: { kind: "DATE", value: REFERENCE_DATE } });
   }

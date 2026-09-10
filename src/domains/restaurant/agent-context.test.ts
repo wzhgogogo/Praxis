@@ -66,6 +66,8 @@ test("Restaurant Agent context is minimal and excludes execution authority and p
   const context = projectRestaurantAgentContext(state);
 
   assert.deepEqual(context.missingBlockingFields, []);
+  assert.equal(context.schemaVersion, "4");
+  assert.deepEqual(context.searchAvailability, { available: true });
   assert.deepEqual(context.failure, { code: "SEARCH_FAILED" });
   assert.deepEqual(context.availabilityChecks, {
     [fixtureCandidates[0]!.restaurant.id]: { status: "AVAILABLE" },
@@ -85,4 +87,13 @@ test("Restaurant Agent context is minimal and excludes execution authority and p
   assert.equal("evidence" in context, false);
   assert.equal("reservation" in context, false);
   assert.equal(JSON.stringify(context).includes("TABELOG"), false);
+});
+
+test("Restaurant Agent context exposes a stable exhausted-discovery state without provider internals", () => {
+  const context = projectRestaurantAgentContext({
+    schemaVersion: "10", phase: "SEARCHING", candidates: [], availability: {}, availabilityChecks: {}, readEvidence: [], searchRevision: 1,
+    failure: { code: "GOOGLE_SEARCH_BUDGET_EXCEEDED", message: "provider-specific private detail" },
+  });
+  assert.deepEqual(context.searchAvailability, { available: false, reason: "GOOGLE_SEARCH_BUDGET_EXCEEDED" });
+  assert.equal(JSON.stringify(context).includes("provider-specific private detail"), false);
 });

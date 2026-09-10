@@ -103,19 +103,31 @@ test("Google cafe facts require a matching source opening-hours interval for a f
   assert.deepEqual(facts?.claims.openingHoursMatchedWindow, ["12:00", "17:00"]);
 });
 
-test("an explicitly scoped negative type criterion records source-supported satisfaction or violation", () => {
+test("Google primary-type facts support or conflict with a type-scoped negative criterion without using keyword absence", () => {
   const accepted = groundGoogleDiscovery({
-    placeId: "japanese-type", displayName: "Japanese Restaurant", formattedAddress: "Tokyo", types: ["japanese_restaurant", "restaurant"],
-  }, { requestFingerprint: "request", observedAt: now, areaQuery: "Tokyo", negativeTypeCriteria: [{ text: "spicy food", typeExclusionTerms: ["sichuan", "hunan"] }] });
-  const rejected = groundGoogleDiscovery({
-    placeId: "sichuan-type", displayName: "Sichuan Restaurant", formattedAddress: "Tokyo", types: ["sichuan_restaurant", "restaurant"],
-  }, { requestFingerprint: "request", observedAt: now, areaQuery: "Tokyo", negativeTypeCriteria: [{ text: "spicy food", typeExclusionTerms: ["sichuan", "hunan"] }] });
-  assert.equal(accepted.accepted, true); assert.equal(rejected.accepted, true);
-  if (accepted.accepted && rejected.accepted) {
-    assert.deepEqual(accepted.additionalEvidence.find((item) => item.kind === "RESTAURANT_FACT")?.claims.verifiedNegativeCriteria, ["spicy food"]);
-    assert.deepEqual(rejected.additionalEvidence.find((item) => item.kind === "RESTAURANT_FACT")?.claims.violatedNegativeCriteria, ["spicy food"]);
-  }
+    placeId: "place-japanese", displayName: "Japanese Dining", formattedAddress: "Higashi-Ginza, Tokyo",
+    addressComponents: [{ longText: "Higashi-Ginza", types: ["sublocality_level_1"] }], types: ["restaurant"], primaryType: "japanese_restaurant",
+  }, { requestFingerprint: "request", observedAt: now, areaQuery: "near Higashi-Ginza", negativeCriteria: ["hot pot restaurant", "Sichuan/Hunan cuisine"] });
+  assert.equal(accepted.accepted, true);
+  if (!accepted.accepted) return;
+  const facts = accepted.additionalEvidence.find((item) => item.kind === "RESTAURANT_FACT");
+  assert.deepEqual(facts?.claims.verifiedNegativeCriteria, ["hot pot restaurant", "Sichuan/Hunan cuisine"]);
+  const conflict = groundGoogleDiscovery({
+    placeId: "place-sichuan", displayName: "Sichuan Dining", formattedAddress: "Higashi-Ginza, Tokyo",
+    addressComponents: [{ longText: "Higashi-Ginza", types: ["sublocality_level_1"] }], types: ["restaurant"], primaryType: "sichuan_restaurant",
+  }, { requestFingerprint: "request", observedAt: now, areaQuery: "near Higashi-Ginza", negativeCriteria: ["Sichuan/Hunan cuisine"] });
+  assert.equal(conflict.accepted, true);
+  if (!conflict.accepted) return;
+  assert.deepEqual(conflict.additionalEvidence.find((item) => item.kind === "RESTAURANT_FACT")?.claims.violatedNegativeCriteria, ["Sichuan/Hunan cuisine"]);
+  const unknown = groundGoogleDiscovery({
+    placeId: "place-generic", displayName: "Restaurant", formattedAddress: "Higashi-Ginza, Tokyo",
+    addressComponents: [{ longText: "Higashi-Ginza", types: ["sublocality_level_1"] }], types: ["restaurant"], primaryType: "restaurant",
+  }, { requestFingerprint: "request", observedAt: now, areaQuery: "near Higashi-Ginza", negativeCriteria: ["hot pot restaurant"] });
+  assert.equal(unknown.accepted, true);
+  if (!unknown.accepted) return;
+  assert.equal(unknown.additionalEvidence.find((item) => item.kind === "RESTAURANT_FACT")?.claims.verifiedNegativeCriteria, undefined);
 });
+
 
 test("availability grounding accepts only high-confidence matching outlet, schedule and visible slot", () => {
   const result = groundTabelogAvailability(candidate, request, {

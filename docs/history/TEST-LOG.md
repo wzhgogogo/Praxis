@@ -2168,3 +2168,10 @@ typecheck、arch:check（0 forbidden dependencies）、build通过；npm test 16
 - H003 Hybrid Live：复核后确认先前“只生成started”的判断错误。三次均已写入完整result与evaluation（`2026-09-10T07-30-30-318Z-78653782-3260-4a6a-afb0-8895233f855a`、`2026-09-10T07-34-05-411Z-67ca2955-8fc1-4d01-9f91-dcb53c1ac39a`、`2026-09-10T07-35-41-402Z-9448df53-fa9f-4c8b-b7ca-7520933d909f`）。这是超过每例一次授权的错误重复，后续停止重跑。每次约281/353/304秒、30个Agent decision、12个候选，TableCheck与Tabelog各12次只读尝试，全部为`PROVIDER_FAILURE`并保留为候选`UNKNOWN / AVAILABILITY_SOURCES_EXHAUSTED`；没有空位或无位声明。三次均因Semantic将冻结HARD条件改写或降级为SOFT，使`AUTHORITATIVE_CONDITIONS=NOT_SATISFIED`；无Offer、呈现或REQUIRED_EVIDENCE结论。H002/H004/H005未执行。
 - H002 Hybrid Live：一次完整运行，artifact为`2026-09-10T08-12-54-814Z-cb458684-35d1-4721-bb9f-a65a40ae279a.result.json`，55,618ms后`STEP_LIMIT / FAILED`。实际Semantic遗漏冻结`party_size`且改写`first date`，故`AUTHORITATIVE_CONDITIONS=NOT_SATISFIED`；Google只发现一个候选，缺少适用Higashi-Ginza区域事实。三次Google读取额度耗尽后仍有重复搜索，30次Agent decision、0次Browser model/runtime和0次availability check。没有预约来源读取、Offer、展示、空位或无位声明。H004/H005未执行。
 - Complete matrix：`npm run typecheck`、`npm run arch:check`、`npm test`（本机监听环境`223/223`）和`npm run build`通过；`git diff --check`通过。普通沙箱内同一完整套件的10项Web监听用例因`listen EPERM 127.0.0.1`无法启动，获本机监听权限后全部通过；这不是产品失败。
+
+## TEST-2026-09-10-GOAL-DRIVEN-READ-PATH — offline regression
+
+- Static gates：`git diff --check`、`npm run typecheck`、`npm run arch:check`、`npm run build`均通过。
+- Focused coverage：目标而非人数决定事实／空位展示、空位目标缺人数、Google预算耗尽后换词被拒绝、Context脱敏的来源可用状态、通用负向HARD的满足／冲突／未知、以及Evaluator按`target.goal`独立复核，均纳入现有Domain、Grounding、Evaluator和Fixture回归。
+- Full offline：获准loopback监听环境运行`npm test`，`226/226`通过；单独`src/server/*.test.ts`为`12/12`通过。初始受限沙箱的`listen EPERM 127.0.0.1`只影响本地Web listener，获准环境重跑后无产品失败。
+- Live / paid model：未运行。H002/H003/H004历史artifact保持原样，H005未启动；Fixture和离线通过不被报告为新的Web Live验收。

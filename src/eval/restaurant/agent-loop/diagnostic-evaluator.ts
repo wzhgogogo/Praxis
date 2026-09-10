@@ -2,10 +2,9 @@ import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { basename, dirname, resolve } from "node:path";
 
-import { assessH002NegativeTypeCriterion } from "./case-fact-policy.js";
 
-export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@4";
-export const RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION = "restaurant-hybrid-read-diagnostic-rubric@4";
+export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@5";
+export const RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION = "restaurant-hybrid-read-diagnostic-rubric@5";
 
 type JsonRecord = Record<string, unknown>;
 export type DiagnosticEvaluationStatus = "SATISFIED" | "NOT_SATISFIED" | "NOT_EVALUATED";
@@ -111,6 +110,7 @@ function criterionSet(value: unknown): string[] {
 
 interface RequestShape {
   caseId?: string;
+  goal?: "RECOMMENDATION" | "AVAILABILITY";
   date?: string;
   partySize?: number;
   timeWindow?: { earliest: string; latest: string };
@@ -120,18 +120,19 @@ interface RequestShape {
   missing: string[];
 }
 function partySize(value: unknown): number | undefined { return asNumber(value) ?? asNumber(asRecord(value)?.value); }
+function goal(value: unknown): "RECOMMENDATION" | "AVAILABILITY" | undefined {
+  const valueGoal = asString(asRecord(value)?.goal);
+  return valueGoal === "RECOMMENDATION" || valueGoal === "AVAILABILITY" ? valueGoal : undefined;
+}
 function requestFromMaterialized(value: JsonRecord): RequestShape {
   const semantic = asRecord(value.semantic) ?? {}; const time = asRecord(semantic.time) ?? {}; const location = asRecord(semantic.location);
   const timeValue = parseTime(time.value); const start = parseTime(time.start); const end = parseTime(time.end);
   const criteria = criterionSet(semantic.criteria);
   const caseId = asString(value.id);
-  const unsupportedHardCriteria = asArray(semantic.criteria).map(asRecord).flatMap((criterion) => {
-    const text = asString(criterion?.value);
-    const supportedH002Negative = caseId === "h002" && (text === "hot pot" || text === "spicy food");
-    return criterion?.strength === "HARD" && criterion.polarity !== "POSITIVE" && text && !supportedH002Negative ? [text] : [];
-  });
+  const expectedGoal = goal(semantic.target);
   const date = parseDate(asRecord(semantic.date)?.value); const party = partySize(semantic.party_size); const locationValue = asString(location?.value); const relation = asString(location?.relation);
-  const result: RequestShape = { ...(caseId ? { caseId } : {}), ...(date ? { date } : {}), ...(party !== undefined ? { partySize: party } : {}), ...(timeValue ? { timeWindow: { earliest: timeValue, latest: timeValue } } : start && end ? { timeWindow: { earliest: start, latest: end } } : {}), ...(locationValue ? { location: { value: locationValue, ...(relation ? { relation } : {}) } } : {}), criteria, unsupportedHardCriteria, missing: [] };
+  const result: RequestShape = { ...(caseId ? { caseId } : {}), ...(expectedGoal ? { goal: expectedGoal } : {}), ...(date ? { date } : {}), ...(party !== undefined ? { partySize: party } : {}), ...(timeValue ? { timeWindow: { earliest: timeValue, latest: timeValue } } : start && end ? { timeWindow: { earliest: start, latest: end } } : {}), ...(locationValue ? { location: { value: locationValue, ...(relation ? { relation } : {}) } } : {}), criteria, unsupportedHardCriteria: [], missing: [] };
+  if (!result.goal) result.missing.push("target.goal");
   if (!result.date) result.missing.push("date");
   if (!result.timeWindow) result.missing.push("timeWindow");
   if (!result.location) result.missing.push("location");
@@ -141,7 +142,9 @@ function requestFromMaterialized(value: JsonRecord): RequestShape {
 function requestFromFinalIntent(value: JsonRecord): RequestShape {
   const window = asRecord(value.timeWindow); const earliest = parseTime(window?.earliest); const latest = parseTime(window?.latest); const area = asRecord(value.area);
   const date = parseDate(value.date); const party = partySize(value.partySize); const areaQuery = asString(area?.query);
-  const result: RequestShape = { ...(date ? { date } : {}), ...(party !== undefined ? { partySize: party } : {}), ...(earliest && latest ? { timeWindow: { earliest, latest } } : {}), ...(areaQuery ? { location: { value: areaQuery.replace(/^near\s+/i, ""), relation: "NEAR" } } : {}), criteria: criterionSet(value.criteria), unsupportedHardCriteria: [], missing: [] };
+  const actualGoal = goal(value.target);
+  const result: RequestShape = { ...(actualGoal ? { goal: actualGoal } : {}), ...(date ? { date } : {}), ...(party !== undefined ? { partySize: party } : {}), ...(earliest && latest ? { timeWindow: { earliest, latest } } : {}), ...(areaQuery ? { location: { value: areaQuery.replace(/^near\s+/i, ""), relation: "NEAR" } } : {}), criteria: criterionSet(value.criteria), unsupportedHardCriteria: [], missing: [] };
+  if (!result.goal) result.missing.push("target.goal");
   if (!result.date) result.missing.push("date");
   if (!result.timeWindow) result.missing.push("timeWindow");
   if (!result.location) result.missing.push("location");
@@ -150,6 +153,7 @@ function requestFromFinalIntent(value: JsonRecord): RequestShape {
 }
 function conditionMismatches(expected: RequestShape, actual: RequestShape): string[] {
   const mismatches = [...expected.missing, ...actual.missing];
+  if (expected.goal && actual.goal && expected.goal !== actual.goal) mismatches.push("target.goal");
   if (expected.date && actual.date && expected.date !== actual.date) mismatches.push("date");
   if (expected.partySize !== undefined && actual.partySize !== undefined && expected.partySize !== actual.partySize) mismatches.push("partySize");
   if (expected.partySize !== undefined && actual.partySize === undefined) mismatches.push("partySize");
@@ -203,7 +207,7 @@ function assessPresentedCandidate(candidateId: string, domain: JsonRecord, reque
   const offers = asArray(availability[candidateId]).map(asRecord).filter((item): item is JsonRecord => Boolean(item));
   const listedEvidence = allEvidence.filter((item) => item.candidateId === candidateId && presentedEvidenceIds.has(asString(item.evidenceId) ?? ""));
   const requiredRefs = strings(check?.evidenceIds); const observations: string[] = []; const refs: string[] = []; const missing: string[] = []; const conflicts: string[] = [];
-  const factOnly = request.partySize === undefined;
+  const factOnly = request.goal === "RECOMMENDATION";
   if (!factOnly) {
     if (!check) missing.push("availability check"); else if (check.status !== "AVAILABLE") conflicts.push(`availability check status=${String(check.status)}`);
     if (offers.length === 0) missing.push("offer"); if (requiredRefs.length === 0) missing.push("check evidenceIds");
@@ -227,13 +231,12 @@ function assessPresentedCandidate(candidateId: string, domain: JsonRecord, reque
   })) conflicts.push("cited discovery evidence does not establish the requested area");
   const positiveHard = request.criteria.filter((criterion) => criterion.endsWith("|POSITIVE|HARD")).map((criterion) => criterion.split("|")[0]!);
   for (const hardCriterion of positiveHard) if (!facts.some((item) => strings(asRecord(item.claims)?.verifiedHardCriteria).some((value) => normalized(value) === hardCriterion))) missing.push(`HARD criterion ${hardCriterion}`);
-  if (request.caseId === "h002") {
-    const typeFacts = facts.flatMap((item) => strings(asRecord(item.claims)?.restaurantTypeFacts));
-    for (const criterion of request.criteria.filter((item) => item.endsWith("|NEGATIVE|HARD")).map((item) => item.split("|")[0]!)) {
-      if (criterion !== "hot pot" && criterion !== "spicy food") continue;
-      const assessment = assessH002NegativeTypeCriterion(criterion, typeFacts);
-      if (assessment === "VIOLATES") conflicts.push(`H002 negative type criterion ${criterion} is contradicted by source restaurant type facts`);
-      if (assessment === "UNKNOWN") missing.push(`H002 negative type criterion ${criterion} has no applicable source restaurant type fact`);
+  const negativeHard = request.criteria.filter((criterion) => criterion.endsWith("|NEGATIVE|HARD")).map((criterion) => criterion.split("|")[0]!);
+  for (const hardCriterion of negativeHard) {
+    if (facts.some((item) => strings(asRecord(item.claims)?.violatedNegativeCriteria).some((value) => normalized(value) === hardCriterion))) {
+      conflicts.push(`negative HARD criterion ${hardCriterion} is violated by cited source fact`);
+    } else if (!facts.some((item) => strings(asRecord(item.claims)?.verifiedNegativeCriteria).some((value) => normalized(value) === hardCriterion))) {
+      missing.push(`negative HARD criterion ${hardCriterion}`);
     }
   }
   if (factOnly) {

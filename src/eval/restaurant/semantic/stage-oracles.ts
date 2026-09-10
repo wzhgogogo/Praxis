@@ -46,7 +46,7 @@ const proposals: Readonly<Record<string, RestaurantSemanticProposal>> = {
   },
   "I want Sushi Dai.": {
     schemaVersion: "3",
-    facts: [{ field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", query: "Sushi Dai" } }],
+    facts: [{ field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "RECOMMENDATION", query: "Sushi Dai" } }],
   },
   "Tomorrow between 19:00 and 19:30 for two people in Tsukiji.": {
     schemaVersion: "3",

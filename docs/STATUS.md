@@ -69,22 +69,22 @@ Web只在已有`PRESENT_RESULTS`时显示一个显式“Refresh availability”�
 
 ## 2026-09-10 H002–H005 事实型只读能力切片
 
-ADR-0019已接受：有`partySize`的请求继续按空位、Offer和展示新鲜度闭环；未要求预约的事实型推荐只在同一候选有HIGH identity、适用区域、每项HARD事实及目标本地日期/时段的来源营业时间时进入`PRESENT_RESULTS`，不宣称有座。H002将本次“no hot pot / no spicy”冻结为餐厅主营类型/菜系排除：仅显式来源类型事实可支持，命中禁止类型为冲突，类型未知不从关键词缺失推导。它不是全局“不辣”解释。H003–H005 runner在`NEAR_USER`案例下使用集中记录的东银座公共评估坐标，artifact明确标识为评估上下文，不是用户位置；产品路径则只接受一次设备坐标，拒绝/失败后由普通消息输入地点继续。
+ADR-0020取代ADR-0019中“人数决定证据profile”及H002案例注入的范围：`target.goal`为`RECOMMENDATION`时，同一候选有HIGH identity、适用区域、每项HARD事实及目标本地日期/时段的来源营业时间即可进入`PRESENT_RESULTS`，不宣称有座；`AVAILABILITY`才额外要求人数、Offer和展示新鲜度。H002的澄清被记录为普通“火锅餐厅／川湘主导菜系”负向HARD条件；具体Google primary type可以产生同源满足或冲突，宽泛类型和关键词缺失保持未知，不把此解释推广为全局“不辣”规则。H003–H005 runner在`NEAR_USER`案例下使用集中记录的东银座公共评估坐标，artifact明确标识为评估上下文，不是用户位置；产品路径则只接受一次设备坐标，拒绝/失败后由普通消息输入地点继续。
 
-Google Places现记录来源类型及常规营业时间，并仅在可解析的目标星期/时段重叠时产生事实证据；它不把“现在营业”、普通每周时间或无预约入口解释为空位。Hybrid诊断器升为`restaurant-hybrid-read-diagnostic-evaluator@4`，分别核对事实型结果和空位结果，且`NEAR_USER`只接受任务设备半径或显式评估半径的区域事实。实际设备权限点击尚未验收。
+Google Places现记录来源类型及常规营业时间，并仅在可解析的目标星期/时段重叠时产生事实证据；它不把“现在营业”、普通每周时间或无预约入口解释为空位。Hybrid诊断器升为`restaurant-hybrid-read-diagnostic-evaluator@5`，按保存的目标分别核对事实型结果和空位结果，且`NEAR_USER`只接受任务设备半径或显式评估半径的区域事实。实际设备权限点击尚未验收。
 
-H002–H005尚无合格的完整Live结果。H003实际完成了三次完整Live运行——这是超出“每例最多一次”授权的执行错误，后续不再重跑；三次都在30步后以`STEP_LIMIT / FAILED`结束。每次都物化东银座评估坐标、读取12个候选并尝试两种已支持的预约来源；所有候选均为`UNKNOWN / AVAILABILITY_SOURCES_EXHAUSTED`，不是无位。独立评价还发现Semantic把冻结的HARD `team dinner`/`good for drinks`改写或降为SOFT，故权威条件为`NOT_SATISFIED`；没有结果、Offer或可展示证据。H002完成一次55.6秒Live：语义漏掉冻结的`party_size`且改写`first date`，Google只返回一个无适用区域事实的候选；三次Google预算耗尽后Agent继续同请求搜索至`STEP_LIMIT`，未读预约来源。它也为`FAILED`，不是“不辣/非火锅”通过或无位。H004/H005未启动。此前H001/Web Live刷新验收保持独立，不替代本组案例。
+H002–H005尚无合格的完整Live结果。H003实际完成了三次完整Live运行——这是超出“每例最多一次”授权的执行错误，后续不再重跑；三次都在30步后以`STEP_LIMIT / FAILED`结束。每次都物化东银座评估坐标、读取12个候选并尝试两种已支持的预约来源；所有候选均为`UNKNOWN / AVAILABILITY_SOURCES_EXHAUSTED`，不是无位。独立评价还发现Semantic把冻结的HARD `team dinner`/`good for drinks`改写或降为SOFT，故权威条件为`NOT_SATISFIED`；没有结果、Offer或可展示证据。H002完成一次55.6秒Live：语义漏掉冻结的`party_size`且改写`first date`，Google只返回一个无适用区域事实的候选；三次Google预算耗尽后Agent继续同请求搜索至`STEP_LIMIT`，未读预约来源。H004另有一次完整Live，但错误走了空位调查链并在约301秒`STEP_LIMIT / FAILED`，没有事实型展示；H005未启动。本轮未重跑任何Live，离线修复不能替代其验收。此前H001/Web Live刷新验收保持独立，不替代本组案例。
 
 ## 当前标识
 
 | 对象 | 当前标识 |
 |---|---|
 | 产品Release | 尚未发布；package为`0.1.0` |
-| 当前架构决策 | `ADR-0014` + `ADR-0015`来源证据范围 + `ADR-0016`本地eval profile + `ADR-0019`事实型只读推荐 |
+| 当前架构决策 | `ADR-0014` + `ADR-0015`来源证据范围 + `ADR-0016`本地eval profile + `ADR-0020`目标驱动只读推荐 |
 | Restaurant State | `restaurant-state@10` |
 | Semantic Proposal / Draft / Eval Schema | `restaurant-semantic-proposal@3` |
-| Semantic Prompt | `restaurant-semantic-prompt@7`；Artifact字段仍记录`promptVersion: "v7"` |
-| Agent Context / Decision Prompt / Action / Trajectory / Harness Artifact | `restaurant-agent-context@3` / `restaurant-agent-decision-prompt@8` / `restaurant-agent-action@3` / `restaurant-agent-trajectory@5` / `restaurant-harness-artifact@6` |
+| Semantic Prompt | `restaurant-semantic-prompt@8`；历史Artifact字段保持原`promptVersion` |
+| Agent Context / Decision Prompt / Action / Trajectory / Harness Artifact | `restaurant-agent-context@4` / `restaurant-agent-decision-prompt@9` / `restaurant-agent-action@3` / `restaurant-agent-trajectory@5` / `restaurant-harness-artifact@6` |
 | Regression / Holdout / Scorer | `restaurant-semantic-regression@3` / `restaurant-semantic-holdout@2` / `restaurant-semantic-scorer@3` |
 
 ## 已实现
@@ -123,7 +123,7 @@ H002–H005尚无合格的完整Live结果。H003实际完成了三次完整Live
 - 每个Agent decision step保存state版本/hash、capability、模型实际收到的脱敏`restaurant-agent-context@2`与`contextSchemaVersion`、action、verdict、route、observation、执行metadata、after-state链接、BOOK `proposalId`及Event/Command/Attempt/Evidence causal refs；不保存raw prompt或Chain-of-Thought。完整链为`Context → Action → Validation → Execution → Observation → State/Outcome`。
 - 长期Execution Route仅为`STRUCTURED_ADAPTER`、未来`GENERIC_BROWSER`或未来`HUMAN_TAKEOVER`；Fixture/Mock/Live是运行模式或Provider metadata，Runtime/Policy checkpoint不是外部execution route。
 - Migration `0006`保持原始evidence refs形态，`0007`追加因果引用与Proposal ID，`0008`追加Decision Context字段，`0009`追加read execution metadata；不会再改写Migration。`restaurant-state@7`和`@8`开发Task不能被当前Runtime解释，必须先备份后用双重开关的本机重置命令删除，绝不自动迁移或用于真实数据。
-- 当前标识固定为`restaurant-semantic-prompt@7`、`restaurant-semantic-proposal@3`与`restaurant-state@10`。`CRITERION{text, polarity, strength}`是唯一开放集合，strength固定为`HARD` / `SOFT` / `UNSPECIFIED`。Agent Context为`@2`、Decision Prompt为`@6`、Action为`@3`、Trajectory为`@5`；不建taxonomy、Provider mapping或动态Tool Registry。
+- 当前标识固定为`restaurant-semantic-prompt@8`、`restaurant-semantic-proposal@3`与`restaurant-state@10`。`CRITERION{text, polarity, strength}`是唯一开放集合，strength固定为`HARD` / `SOFT` / `UNSPECIFIED`；`TARGET.goal`决定推荐或空位展示的证据标准。Agent Context为`@4`、Decision Prompt为`@9`、Action为`@3`、Trajectory为`@5`；不建taxonomy、Provider mapping或动态Tool Registry。
 - ADR-0007的`DECIDE_RESTAURANT_NEXT` / `RESTAURANT_DECISION_MADE`以及耦合Offer的`ExecutableCandidate`可执行路径已删除；历史next-step标注只保留为语义评测审计输入，不再代表产品Runtime。
 - `restaurant-semantic-prompt@4` Baseline的结果不得用于改动后重跑；Prompt `@7`的任何质量结论均需要另一份未见Holdout。当前Gold更新后的诊断只能标记为`EXPOSED_GOLD_ACCEPTANCE_DIAGNOSTIC`，Prompt `@7`与`@6`只比较`COMMON_UNCHANGED_TURNS`。
 - 旧分类Criteria Contract下未运行的私有标注不兼容`restaurant-semantic-proposal@3`，不能迁入或报告为当前Holdout。当前空模板、私有入口、结构适配Preflight、确定性Scorer和一次性真实Runner已实现；runner在首个模型请求前写入Git忽略的`EXPOSED` artifact，并记录Dataset SHA、git SHA、scorer与prompt/schema hash。

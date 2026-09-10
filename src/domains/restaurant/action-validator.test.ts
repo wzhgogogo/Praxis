@@ -40,7 +40,7 @@ test("Action validator binds search to complete authoritative intent", () => {
 test("A fact-only cafe request can present opening-hours-grounded results without party size or availability", () => {
   const candidateId = "cafe-a";
   const draft = applyRestaurantIntentPatch(undefined, {
-    schemaVersion: "3", date: "2026-08-05", timeWindow: { earliest: "12:00", latest: "17:00" },
+    schemaVersion: "3", target: { goal: "RECOMMENDATION", query: "recommend a cafe" }, date: "2026-08-05", timeWindow: { earliest: "12:00", latest: "17:00" }, partySize: 2,
     area: { query: "nearby" }, addCriteria: [{ text: "cafe", polarity: "POSITIVE", strength: "HARD" }],
   });
   const state: RestaurantTaskState = {
@@ -54,6 +54,49 @@ test("A fact-only cafe request can present opening-hours-grounded results withou
   };
   assert.equal(validateRestaurantAction(state, { type: "CHECK_AVAILABILITY", candidateIds: [candidateId] }, now).status, "REJECTED");
   assert.deepEqual(validateRestaurantAction(state, { type: "PRESENT_RESULTS", candidateIds: [candidateId] }, now), { status: "ALLOWED" });
+});
+
+test("The requested goal, not party size, determines whether availability evidence is required", () => {
+  const candidateId = "cafe-a";
+  const common = {
+    schemaVersion: "3" as const, date: "2026-08-05", timeWindow: { earliest: "12:00", latest: "17:00" }, partySize: 2,
+    area: { query: "nearby" }, addCriteria: [{ text: "cafe", polarity: "POSITIVE" as const, strength: "HARD" as const }],
+  };
+  const state: RestaurantTaskState = {
+    ...incompleteState, phase: "SEARCHING",
+    candidates: [{ restaurant: { id: candidateId, outletName: "Cafe A", sourceIds: { googlePlaces: "place-a" }, address: "Tokyo", provenance: {} }, matchReasons: [], warnings: [], executionConfidence: "HIGH" }],
+    readEvidence: [
+      { evidenceId: "area", kind: "DISCOVERY", provider: "GOOGLE_PLACES", candidateId, sourceEntityId: "place-a", observedAt: now, requestFingerprint: "request", claims: { areaQuery: "nearby", areaMatch: true } },
+      { evidenceId: "entity", kind: "ENTITY_MATCH", provider: "GOOGLE_PLACES", candidateId, sourceEntityId: "place-a", observedAt: now, requestFingerprint: "request", claims: {}, entityMatch: { confidence: "HIGH", matchedBy: ["GOOGLE_PLACE_ID"] } },
+      { evidenceId: "facts", kind: "RESTAURANT_FACT", provider: "GOOGLE_PLACES", candidateId, sourceEntityId: "place-a", observedAt: now, requestFingerprint: "request", claims: { verifiedHardCriteria: ["cafe"], openingHoursMatch: true } },
+    ],
+  };
+  const recommendation = { ...state, intentDraft: applyRestaurantIntentPatch(undefined, { ...common, target: { goal: "RECOMMENDATION", query: "recommend a cafe" } }) };
+  const availability = { ...state, intentDraft: applyRestaurantIntentPatch(undefined, { ...common, target: { goal: "AVAILABILITY", query: "find a bookable cafe" } }) };
+  assert.equal(validateRestaurantAction(recommendation, { type: "PRESENT_RESULTS", candidateIds: [candidateId] }, now).status, "ALLOWED");
+  assert.deepEqual(validateRestaurantAction(availability, { type: "PRESENT_RESULTS", candidateIds: [candidateId] }, now), {
+    status: "REJECTED", code: "PRESENTATION_EVIDENCE_MISSING", reason: `Candidate ${candidateId} has no HIGH outlet identity evidence associated with its availability source`,
+  });
+});
+
+test("An availability goal missing party size asks for input rather than searching as a recommendation", () => {
+  const draft = applyRestaurantIntentPatch(undefined, {
+    schemaVersion: "3", target: { goal: "AVAILABILITY", query: "find a table" }, date: "2026-08-05",
+    timeWindow: { earliest: "19:00", latest: "20:00" }, area: { query: "Shinjuku" },
+  });
+  assert.deepEqual(validateRestaurantAction({ ...incompleteState, intentDraft: draft }, { type: "SEARCH_RESTAURANTS" }, now), {
+    status: "REJECTED", code: "INTENT_INCOMPLETE", reason: "Availability requested but party size is missing",
+  });
+});
+
+test("A depleted Google discovery budget cannot be bypassed by a new retrieval hint", () => {
+  const draft = applyRestaurantIntentPatch(undefined, {
+    schemaVersion: "3", target: { goal: "RECOMMENDATION", query: "recommend a cafe" }, date: "2026-08-05",
+    timeWindow: { earliest: "12:00", latest: "17:00" }, area: { query: "Shinjuku" },
+  });
+  assert.deepEqual(validateRestaurantAction({ ...incompleteState, intentDraft: draft, failure: { code: "GOOGLE_SEARCH_BUDGET_EXCEEDED", message: "budget exhausted" } }, { type: "SEARCH_RESTAURANTS", retrievalHint: "different wording" }, now), {
+    status: "REJECTED", code: "DISCOVERY_UNAVAILABLE", reason: "Google discovery budget is exhausted for this run; changing retrieval wording cannot restore it",
+  });
 });
 
 test("Action validator blocks unknown candidates, stale offers, and booking schedule mismatches", () => {
@@ -123,7 +166,7 @@ test("Action validator keeps investigation batches bounded without truncating th
 test("PRESENT_RESULTS fails closed until area, HARD criterion, identity, and availability are evidenced", () => {
   const candidate = { restaurant: { id: "a", outletName: "A", sourceIds: {}, address: "Shinjuku, Tokyo", provenance: {} }, matchReasons: [], warnings: [], executionConfidence: "HIGH" as const };
   const draft = applyRestaurantIntentPatch(undefined, {
-    schemaVersion: "3", date: "2026-08-05", timeWindow: { earliest: "19:00", latest: "19:30" }, partySize: 2,
+    schemaVersion: "3", target: { goal: "AVAILABILITY", query: "find a table" }, date: "2026-08-05", timeWindow: { earliest: "19:00", latest: "19:30" }, partySize: 2,
     area: { query: "Shinjuku" }, addCriteria: [{ text: "omakase", polarity: "POSITIVE", strength: "HARD" }],
   });
   const base: RestaurantTaskState = {

@@ -296,7 +296,7 @@ function transition(
     case "SEARCH_FAILED":
       requirePhase(state, ["UNDERSTANDING", "NEEDS_INPUT", "SEARCHING", "SELECTION_REQUIRED"], event.type);
       return {
-        state: { ...state, phase: "SEARCHING", failure: { code: "SEARCH_FAILED", message: event.reason } },
+        state: { ...state, phase: "SEARCHING", failure: { code: event.code ?? "SEARCH_FAILED", message: event.reason } },
         commands: [],
       };
     case "AVAILABILITY_FAILED":

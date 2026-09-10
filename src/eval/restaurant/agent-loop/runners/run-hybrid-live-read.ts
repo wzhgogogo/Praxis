@@ -25,7 +25,6 @@ import type { TabelogIdentityDiagnostic, TabelogUserInterventionRequired } from 
 import { InMemoryRestaurantAgentTrajectoryStore } from "../../../../infrastructure/postgres/restaurant-agent-trajectory-store.js";
 import { loadFrozenLiveCases, materializeLiveCase } from "../live-case-materializer.js";
 import { HIGASHI_GINZA_EVALUATION_LOCATION } from "../live-evaluation-location.js";
-import { H002_NEGATIVE_TYPE_POLICY, RESTAURANT_CASE_FACT_POLICY_VERSION } from "../case-fact-policy.js";
 import { evaluateArtifactAfterFinish, RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION } from "../diagnostic-evaluator.js";
 import { diagnosticFailureCode, startDiagnosticRun } from "../../../shared/diagnostic-run.js";
 
@@ -57,20 +56,6 @@ function requiresLocation(caseValue: unknown): boolean {
 
 function manualTabelogInterventionEnabled(environment: NodeJS.ProcessEnv = process.env): boolean {
   return environment.PRAXIS_EVAL_ALLOW_TABELOG_MANUAL_INTERVENTION === "1";
-}
-
-/** Frozen-eval input only: carries the user's clarified H002 type scope into State. */
-function applyCaseScopedCriteriaPolicy(caseId: string, patch: Extract<ReturnType<typeof compileRestaurantSemanticProposal>, { status: "COMPILED" }> ["patch"]): void {
-  if (caseId !== "h002") return;
-  for (const key of ["addCriteria", "replaceCriteria"] as const) {
-    const criteria = patch[key];
-    if (!criteria) continue;
-    patch[key] = criteria.map((criterion) => {
-      if (criterion.polarity !== "NEGATIVE" || criterion.strength !== "HARD") return criterion;
-      const rule = H002_NEGATIVE_TYPE_POLICY.rules.find((item) => item.criterion === criterion.text);
-      return rule ? { ...criterion, typeExclusionTerms: [...rule.acceptedCuisineFacts] } : criterion;
-    });
-  }
 }
 
 function safeGitContext(): { commitSha: string; worktree: "CLEAN" | "DIRTY" | "UNKNOWN" } {
@@ -182,7 +167,6 @@ try {
   if (semantic.status !== "PROPOSED") throw Object.assign(new Error("Semantic Interpreter did not produce a proposal"), { code: semantic.status });
   stage = "COMPILE_AND_DISPATCH";
   const compilation = compileRestaurantSemanticProposal(semantic.proposal);
-  if (compilation.status === "COMPILED") applyCaseScopedCriteriaPolicy(materialized.id, compilation.patch);
   const semanticEvent: RestaurantEvent = compilation.status === "COMPILED"
     ? { type: "SEMANTIC_PROPOSAL_COMPILED", patch: compilation.patch }
     : { type: "SEMANTIC_CONFLICT_RECORDED", conflict: compilation.conflict };
@@ -283,7 +267,6 @@ const evaluationLocation = process.env.PRAXIS_EVAL_USER_LAT && process.env.PRAXI
     limits: liveReadLimits,
     requestMetadata: { sha256: createHash("sha256").update(String(rawRequest)).digest("hex"), characterCount: String(rawRequest).length },
     materializedCase,
-    ...(materialized.id === "h002" ? { caseFactPolicyVersion: RESTAURANT_CASE_FACT_POLICY_VERSION } : {}),
     runtimeContext,
     semantic,
     modelInvocations,

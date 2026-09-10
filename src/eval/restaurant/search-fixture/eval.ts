@@ -1,7 +1,7 @@
 import { FixtureRestaurantSearchApplication } from "./fixture-application.js";
 
 const COMPLETE_REQUEST =
-  "Tonight at 7pm near Shinjuku for two, yakiniku, around 5000 yen each.";
+  "Find a bookable table tonight at 7pm near Shinjuku for two, yakiniku, around 5000 yen each.";
 
 export interface LocalSearchFixtureEvalResult {
   mode: "FIXTURE";
@@ -22,7 +22,7 @@ export async function runLocalSearchFixtureEval(): Promise<LocalSearchFixtureEva
     fullView.phase === "AWAITING_AUTHORIZATION" && fullView.candidates.length === 3;
 
   const incompleteSearch = new FixtureRestaurantSearchApplication();
-  const incompleteView = await incompleteSearch.createTask("Find yakiniku in Shinjuku.");
+  const incompleteView = await incompleteSearch.createTask("Find a bookable yakiniku table in Shinjuku.");
   const incompleteRequestRequestsOnlyMissingFields =
     incompleteView.phase === "NEEDS_INPUT" &&
     incompleteView.missingRequiredFields.join(",") === "date,timeWindow,partySize";

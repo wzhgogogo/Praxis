@@ -1956,3 +1956,9 @@ H002新增版本化、案例专属的类型排除口径（hot pot / shabu shabu 
 复核artifact后纠正了先前“只写started”的错误判断：三个H003运行都写入了完整`.result.json`和evaluation sidecar，因错误重复运行而违反每例一次授权，现停止继续运行。三次均为30步、12个候选、12次TableCheck和12次Tabelog只读尝试后`STEP_LIMIT / FAILED`；每个候选是`UNKNOWN / AVAILABILITY_SOURCES_EXHAUSTED`，不是无位。它们还一致暴露Semantic把冻结HARD的`team dinner`/`good for drinks`改写或降为SOFT，独立诊断的权威条件为`NOT_SATISFIED`，最终展示和所需证据均为`NOT_EVALUATED`。H002/H004/H005尚未启动。离线切片完成后未改写历史Live artifact、Fixture、凭据或个人位置。
 
 H002在最终代码上执行一次完整只读诊断（55,618ms）：Semantic漏掉冻结`party_size`并把`first date`改写为`suitable for a first date`，使条件诊断为`NOT_SATISFIED`。Google只发现一条没有适用Higashi-Ginza事实的候选；三次Google读取额度耗尽后，Agent仍重复同请求搜索至30步，未触发预约来源读取。终态为`FAILED / STEP_LIMIT`，没有候选展示、Offer、空位或无位结论。H004/H005未启动。
+
+## 2026-09-10 — Goal-driven Restaurant read path
+
+ADR-0020将`partySize`从交付标准中移除：Semantic Proposal的`TARGET`明确保存`RECOMMENDATION`或`AVAILABILITY`；前者可在人数存在时仍按地点、HIGH identity、HARD来源事实和适用营业时间展示，后者缺人数则要求补充而不会降级。删除Hybrid runner的`applyCaseScopedCriteriaPolicy`及H002 Eval case-fact policy；Frozen H002澄清改为普通用户条件，执行和评价不再按案例编号写业务分支。
+
+Google检索继续只使用正向发现词，负向HARD条件只在候选后的来源事实层处理。具体`primaryType`对显式类型／菜系范围可记录同源`verifiedNegativeCriteria`或`violatedNegativeCriteria`及判断依据；宽泛类型和缺关键词保持未知。Agent Context加入稳定的Google discovery可用状态；`GOOGLE_SEARCH_BUDGET_EXCEEDED`写入任务失败信息且Validator阻止换词继续调用。没有新增Provider、浏览器框架、预约、支付、登录、定时任务或外部写入。本轮不重跑已消耗授权的Live。

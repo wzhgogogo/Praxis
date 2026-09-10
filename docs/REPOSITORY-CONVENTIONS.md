@@ -23,7 +23,7 @@
 | 架构决策 | `ADR-0013` | 接受或替代架构决策 | Schema、Prompt或Dataset版本 |
 | 持久State | `restaurant-state@10` | 持久结构或语义不兼容变化 | 分支名、产品Release |
 | Contract/Schema | `restaurant-semantic-proposal@3` | 机器契约不兼容变化 | Prompt实验、文档修订 |
-| Prompt | `restaurant-semantic-prompt@7` | Prompt文本或行为口径变化 | State或Dataset版本 |
+| Prompt | `restaurant-semantic-prompt@8` | Prompt文本或行为口径变化 | State或Dataset版本 |
 | Dataset | `restaurant-semantic-holdout@2` | Case集合或Gold语义变化 | Evaluator实现版本 |
 | Evaluator/Scorer | `restaurant-semantic-scorer@3` | 评分语义或归因口径变化 | Dataset版本 |
 | 文档 | `Document revision: 1.0` | 文档结构或说明显著变化 | 产品、架构或代码版本 |

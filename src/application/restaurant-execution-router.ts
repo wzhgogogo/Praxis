@@ -165,7 +165,7 @@ export class RestaurantExecutionRouter {
           const code = stableFailureCode(error, "SEARCH_FAILED");
           return {
             route: "STRUCTURED_ADAPTER",
-            event: { type: "SEARCH_FAILED", reason },
+            event: { type: "SEARCH_FAILED", reason, code },
             observation: { type: "DISCOVERY_FAILED", detail: reason },
             failure: { source: "PROVIDER", code, reason },
           };

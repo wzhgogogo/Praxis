@@ -30,6 +30,7 @@
 | [0017](0017-controlled-browser-read-executor.md) | Draft / authorized local-eval implementation | 两来源共享受控浏览器只读执行；模型只提议已观察元素动作 |
 | [0018](0018-availability-display-freshness-and-recheck.md) | Accepted | 展示新鲜度与预订前核查分离；以理由受限的只读重查替代永久已检查 |
 | [0019](0019-fact-grounded-read-only-recommendations.md) | Accepted | 无预约需求时以门店/地点/类型/营业事实完成只读推荐，空位仍为独立证据 |
+| [0020](0020-goal-driven-restaurant-read-path.md) | Accepted | 交付目标决定推荐或空位证据；移除案例注入并限制耗尽来源重试 |
 
 ## 规则
 

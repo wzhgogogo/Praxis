@@ -104,7 +104,7 @@ export const restaurantSemanticRegressionV3: RestaurantSemanticRegressionDataset
         {
           id: "SR03-T01",
           message: "I want Sushi Dai.",
-          expectedDraft: draft({ target: { query: "Sushi Dai" }, criteria: [] }),
+          expectedDraft: draft({ target: { goal: "RECOMMENDATION", query: "Sushi Dai" }, criteria: [] }),
           expectedDecision: {
             type: "ASK_USER",
             missingRequiredFields: ["date", "timeWindow", "partySize", "area"],
@@ -114,7 +114,7 @@ export const restaurantSemanticRegressionV3: RestaurantSemanticRegressionDataset
           id: "SR03-T02",
           message: "Tomorrow between 19:00 and 19:30 for two people in Tsukiji.",
           expectedDraft: draft({
-            target: { query: "Sushi Dai" },
+            target: { goal: "RECOMMENDATION", query: "Sushi Dai" },
             date: "2026-08-06",
             timeWindow: { earliest: "19:00", latest: "19:30" },
             partySize: 2,

@@ -18,18 +18,13 @@ function isCriterionArray(value: unknown): boolean {
     value.every(
       (item) =>
         isRecord(item) &&
-        hasOnlyKeys(item, ["text", "polarity", "strength", "typeExclusionTerms"]) &&
+        hasOnlyKeys(item, ["text", "polarity", "strength"]) &&
         typeof item.text === "string" &&
         item.text.trim().length > 0 &&
         typeof item.polarity === "string" &&
         (RESTAURANT_CRITERION_POLARITIES as readonly string[]).includes(item.polarity) &&
         typeof item.strength === "string" &&
-        (RESTAURANT_CRITERION_STRENGTHS as readonly string[]).includes(item.strength) &&
-        (item.typeExclusionTerms === undefined || (
-          item.polarity === "NEGATIVE" && item.strength === "HARD" &&
-          Array.isArray(item.typeExclusionTerms) && item.typeExclusionTerms.length > 0 &&
-          item.typeExclusionTerms.every((term) => typeof term === "string" && term.trim().length > 0)
-        )),
+        (RESTAURANT_CRITERION_STRENGTHS as readonly string[]).includes(item.strength),
     )
   );
 }
@@ -79,11 +74,12 @@ export function validateRestaurantIntentDraft(input: unknown): RestaurantIntentV
   if (input.target !== undefined) {
     if (
       !isRecord(input.target) ||
-      !hasOnlyKeys(input.target, ["query"]) ||
+      !hasOnlyKeys(input.target, ["goal", "query"]) ||
+      (input.target.goal !== "RECOMMENDATION" && input.target.goal !== "AVAILABILITY") ||
       typeof input.target.query !== "string" ||
       input.target.query.trim().length === 0
     ) {
-      errors.push("target must contain one non-empty query");
+      errors.push("target must contain a supported goal and one non-empty query");
     }
   }
   if (input.date !== undefined && !isDate(input.date)) {

@@ -32,6 +32,17 @@ test("Restaurant Semantic Compiler translates independent corrections and criter
   });
 });
 
+test("Restaurant Semantic Compiler preserves the user delivery goal independently of party size", () => {
+  const result = compileRestaurantSemanticProposal({
+    schemaVersion: "3",
+    facts: [{ field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "RECOMMENDATION", query: "afternoon cafe for two" } }],
+  });
+  assert.deepEqual(result, {
+    status: "COMPILED",
+    patch: { schemaVersion: "3", target: { goal: "RECOMMENDATION", query: "afternoon cafe for two" } },
+  });
+});
+
 test("Restaurant Semantic Compiler rejects singleton clear-and-set combinations independent of fact order", () => {
   const areaSet = {
     field: "AREA" as const,

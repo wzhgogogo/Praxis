@@ -16,11 +16,11 @@ function completeArtifact() {
   return {
     status: "SUCCEEDED", stage: "AGENT_LOOP", caseId: "h001", runId: "run:h001", finishedAt: "2026-09-08T07:45:37.000Z",
     limits: { maxSteps: 30, maxBrowserModelCallsTotal: 120 },
-    materializedCase: { semantic: { date: { value: "2026-09-08" }, party_size: 2, time: { value: "19:00" }, location: { value: "Shibuya", relation: "NEAR" }, criteria: [{ value: "omakase", polarity: "POSITIVE", strength: "HARD" }] } },
+    materializedCase: { semantic: { target: { goal: "AVAILABILITY" }, date: { value: "2026-09-08" }, party_size: 2, time: { value: "19:00" }, location: { value: "Shibuya", relation: "NEAR" }, criteria: [{ value: "omakase", polarity: "POSITIVE", strength: "HARD" }] } },
     loop: { status: "TERMINAL" }, resourceUsage: { elapsedMs: 100, agentDecisions: 3, browserModelCalls: 2 },
     trajectories: [{ stateHashBefore: "request-v1", agentAction: { type: "CHECK_AVAILABILITY", candidateIds: [candidateId] }, executionMetadata: { providerAttempts: [{ candidateId, provider: "TABLECHECK", outcome: "AVAILABLE" }] } }],
     finalSnapshot: { domainState: {
-      phase: "PRESENT_RESULTS", intentDraft: { date: "2026-09-08", partySize: 2, timeWindow: { earliest: "19:00", latest: "19:00" }, area: { query: "near Shibuya" }, criteria: [{ text: "omakase", polarity: "POSITIVE", strength: "HARD" }] },
+      phase: "PRESENT_RESULTS", intentDraft: { target: { goal: "AVAILABILITY", query: "find a table" }, date: "2026-09-08", partySize: 2, timeWindow: { earliest: "19:00", latest: "19:00" }, area: { query: "near Shibuya" }, criteria: [{ text: "omakase", polarity: "POSITIVE", strength: "HARD" }] },
       candidates: [{ restaurant: { id: candidateId, outletName: "A" } }],
       availabilityChecks: { [candidateId]: { status: "AVAILABLE", evidenceIds: ["discovery-a", "identity-a", "hard-a", "availability-a"] } },
       availability: { [candidateId]: [{ id: "offer-a", restaurantId: candidateId, source: "TABLECHECK", dateTime: "2026-09-08T19:00:00+09:00", partySize: 2, checkedAt: "2026-09-08T07:45:00.000Z", expiresAt: "2026-09-08T07:47:00.000Z" }] },
@@ -113,13 +113,14 @@ test("H004 fact-only presentation requires applicable opening hours, not an avai
   artifact.caseId = "h004";
   artifact.materializedCase.id = "h004";
   artifact.materializedCase.semantic = {
+    target: { goal: "RECOMMENDATION" },
     date: { value: "2026-09-08" },
     time: { start: "12:00", end: "17:00" },
     location: { value: "nearby", relation: "NEAR_USER" },
     criteria: [{ value: "cafe", polarity: "POSITIVE", strength: "HARD" }, { value: "good for meeting a friend", polarity: "POSITIVE", strength: "SOFT" }],
   };
   const domain = artifact.finalSnapshot.domainState;
-  domain.intentDraft = { date: "2026-09-08", timeWindow: { earliest: "12:00", latest: "17:00" }, area: { query: "near Higashi-Ginza" }, criteria: [{ text: "cafe", polarity: "POSITIVE", strength: "HARD" }, { text: "good for meeting a friend", polarity: "POSITIVE", strength: "SOFT" }] };
+  domain.intentDraft = { target: { goal: "RECOMMENDATION", query: "recommend a cafe" }, date: "2026-09-08", timeWindow: { earliest: "12:00", latest: "17:00" }, area: { query: "near Higashi-Ginza" }, criteria: [{ text: "cafe", polarity: "POSITIVE", strength: "HARD" }, { text: "good for meeting a friend", polarity: "POSITIVE", strength: "SOFT" }] };
   domain.availabilityChecks = {};
   domain.availability = {};
   domain.presentedResults = { candidateIds: ["candidate-a"], evidenceIds: ["discovery-a", "identity-a", "hard-a"], presentedAt: "2026-09-08T07:45:37.000Z" };
@@ -139,28 +140,17 @@ test("H004 fact-only presentation requires applicable opening hours, not an avai
   assert.equal(finding(evaluateRestaurantHybridLiveArtifact(artifact, source), "REQUIRED_EVIDENCE").status, "NOT_EVALUATED");
 });
 
-test("H002 evaluates clarified restaurant-type exclusions from source facts, not keyword absence", () => {
+test("generic negative HARD criteria require a cited source judgment and preserve a conflict", () => {
   const artifact: any = completeArtifact();
-  artifact.caseId = "h002";
-  artifact.materializedCase.id = "h002";
-  artifact.materializedCase.semantic.location = { value: "Higashi-Ginza", relation: "NEAR" };
-  artifact.materializedCase.semantic.criteria = [
-    { value: "spicy food", polarity: "NEGATIVE", strength: "HARD" },
-    { value: "hot pot", polarity: "NEGATIVE", strength: "HARD" },
-  ];
-  artifact.finalSnapshot.domainState.intentDraft.area = { query: "near Higashi-Ginza" };
-  artifact.finalSnapshot.domainState.intentDraft.criteria = [
-    { text: "spicy food", polarity: "NEGATIVE", strength: "HARD" },
-    { text: "hot pot", polarity: "NEGATIVE", strength: "HARD" },
-  ];
-  artifact.finalSnapshot.domainState.readEvidence.find((item: any) => item.evidenceId === "discovery-a").claims.areaQuery = "near Higashi-Ginza";
+  artifact.materializedCase.semantic.criteria = [{ value: "hot pot restaurant", polarity: "NEGATIVE", strength: "HARD" }];
+  artifact.finalSnapshot.domainState.intentDraft.criteria = [{ text: "hot pot restaurant", polarity: "NEGATIVE", strength: "HARD" }];
   const facts = artifact.finalSnapshot.domainState.readEvidence.find((item: any) => item.evidenceId === "hard-a");
-  facts.claims = { restaurantTypeFacts: ["japanese restaurant"] };
-  const accepted = evaluateRestaurantHybridLiveArtifact(artifact, source);
-  assert.equal(finding(accepted, "REQUIRED_EVIDENCE").status, "SATISFIED");
-  facts.claims = { restaurantTypeFacts: ["sichuan restaurant"] };
-  const rejected = evaluateRestaurantHybridLiveArtifact(artifact, source);
-  assert.equal(finding(rejected, "REQUIRED_EVIDENCE").status, "NOT_SATISFIED");
+  facts.claims = { verifiedNegativeCriteria: ["hot pot restaurant"] };
+  assert.equal(finding(evaluateRestaurantHybridLiveArtifact(artifact, source), "REQUIRED_EVIDENCE").status, "SATISFIED");
+  facts.claims = { violatedNegativeCriteria: ["hot pot restaurant"] };
+  assert.equal(finding(evaluateRestaurantHybridLiveArtifact(artifact, source), "REQUIRED_EVIDENCE").status, "NOT_SATISFIED");
+  facts.claims = { restaurantTypeFacts: ["restaurant"] };
+  assert.equal(finding(evaluateRestaurantHybridLiveArtifact(artifact, source), "REQUIRED_EVIDENCE").status, "NOT_EVALUATED");
 });
 
 test("an offer inside a time window must be one of the cited availability slots", () => {

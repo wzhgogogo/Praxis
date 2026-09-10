@@ -240,8 +240,8 @@ describe("restaurant booking mock harness", () => {
       assert.equal(Array.isArray(trajectory.causalRefs.attemptIds), true);
       assert.equal(Array.isArray(trajectory.causalRefs.evidenceIds), true);
       assert.equal(trajectory.causalRefs.eventIds.every((eventId) => eventIds.has(eventId)), true);
-      assert.equal(trajectory.contextSchemaVersion, "3");
-      assert.equal(trajectory.decisionContext?.schemaVersion, "3");
+      assert.equal(trajectory.contextSchemaVersion, "4");
+      assert.equal(trajectory.decisionContext?.schemaVersion, "4");
       assert.equal("authorization" in (trajectory.decisionContext ?? {}), false);
       assert.equal("proposal" in (trajectory.decisionContext ?? {}), false);
       assert.equal("lastExecutionResult" in (trajectory.decisionContext ?? {}), false);
@@ -370,6 +370,7 @@ describe("restaurant booking mock harness", () => {
     assert.ok(availability && availability.event.type === "AVAILABILITY_CHECKED");
     assert.deepEqual(search.event.request.intent, {
       timezone: fixtureIntent.timezone,
+      target: fixtureIntent.target,
       date: fixtureIntent.date,
       timeWindow: fixtureIntent.timeWindow,
       area: fixtureIntent.area,

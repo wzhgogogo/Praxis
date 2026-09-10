@@ -32,7 +32,7 @@ src/eval/
 源码目录不携带架构、Prompt或Schema版本。当前机器身份分别由代码或Manifest记录：
 
 - `restaurant-semantic-proposal@3`；
-- `restaurant-semantic-prompt@7`，历史Artifact仍保存原始`promptVersion: "v7"`格式；
+- `restaurant-semantic-prompt@8`，历史Artifact仍保存原始`promptVersion`格式；
 - `restaurant-semantic-regression@3`；
 - `restaurant-semantic-holdout@2`；
 - `restaurant-semantic-scorer@3`。

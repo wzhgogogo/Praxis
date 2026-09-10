@@ -43,6 +43,7 @@ test("Execution Router aborts and bounds a Provider search read that exceeds its
   assert.deepEqual(execution.event, {
     type: "SEARCH_FAILED",
     reason: "Restaurant search timed out after 1ms",
+    code: "SEARCH_FAILED",
   });
 });
 

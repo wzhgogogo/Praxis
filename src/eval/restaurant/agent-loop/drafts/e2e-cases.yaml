@@ -8,6 +8,9 @@ content: >
 
 
 semantic:
+  target:
+    goal: AVAILABILITY
+
   location:
     value: Shibuya
     relation: NEAR
@@ -111,10 +114,14 @@ reference_time: "2026-08-19T16:22:00+08:00"
 
 content: >
   Recommend a first-date restaurant near Higashi-Ginza for this Saturday
-  at 6:30 PM. Around 10,000 yen per person. No spicy food, no hot pot.
+  at 6:30 PM. Around 10,000 yen per person. No hot-pot restaurants and no
+  Sichuan/Hunan-style cuisine where spicy food is the main focus.
 
 
 semantic:
+  target:
+    goal: RECOMMENDATION
+
   location:
     value: Higashi-Ginza
     relation: NEAR
@@ -139,11 +146,11 @@ semantic:
       polarity: POSITIVE
       strength: SOFT
 
-    - value: spicy food
+    - value: Sichuan/Hunan cuisine
       polarity: NEGATIVE
       strength: HARD
 
-    - value: hot pot
+    - value: hot pot restaurant
       polarity: NEGATIVE
       strength: HARD
 
@@ -248,6 +255,9 @@ content: >
 
 
 semantic:
+  target:
+    goal: AVAILABILITY
+
   location:
     value: nearby
     relation: NEAR_USER
@@ -392,6 +402,9 @@ content: >
 
 
 semantic:
+  target:
+    goal: RECOMMENDATION
+
   location:
     value: nearby
     relation: NEAR_USER
@@ -512,6 +525,9 @@ content: >
 
 
 semantic:
+  target:
+    goal: AVAILABILITY
+
   location:
     value: nearby
     relation: NEAR_USER

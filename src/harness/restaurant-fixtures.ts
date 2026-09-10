@@ -6,6 +6,7 @@ import type {
 
 export const fixtureIntent: RestaurantBookingIntent = {
   timezone: "Asia/Tokyo",
+  target: { goal: "AVAILABILITY", query: "find a bookable restaurant" },
   date: "2026-08-05",
   timeWindow: { earliest: "19:00", latest: "19:30" },
   partySize: 2,

@@ -18,7 +18,8 @@ export type RestaurantActionRejectionCode =
   | "REFRESH_TARGET_REQUIRED"
   | "PRESENTATION_READY"
   | "AVAILABILITY_BATCH_LIMIT"
-  | "PRESENTATION_EVIDENCE_MISSING";
+  | "PRESENTATION_EVIDENCE_MISSING"
+  | "DISCOVERY_UNAVAILABLE";
 
 /** A browser/read batch is bounded separately from the discovery pool and UI. */
 export const MAX_AVAILABILITY_CHECK_BATCH = 3;
@@ -85,8 +86,8 @@ function presentationEvidenceIds(
     );
     if (!supported) return { valid: false, reason: `Candidate ${candidateId} has no source fact supporting negative criterion ${criterion.text}` };
   }
-  const bookingIntent = completeRestaurantIntent(state.intentDraft);
-  if (!bookingIntent) {
+  const requiresAvailability = intent.target?.goal === "AVAILABILITY";
+  if (!requiresAvailability) {
     const entity = entities[0];
     if (!entity) return { valid: false, reason: `Candidate ${candidateId} has no HIGH outlet identity evidence` };
     const openingHours = candidateEvidence.find((evidence) =>
@@ -102,6 +103,8 @@ function presentationEvidenceIds(
         .map((evidence) => evidence.evidenceId)])],
     };
   }
+  const bookingIntent = completeRestaurantIntent(state.intentDraft);
+  if (!bookingIntent) return { valid: false, reason: "Availability requested but party size is missing" };
   const offer = state.availability[candidateId]?.find((item) =>
     isDisplayFresh(item.displayExpiresAt, now) && item.partySize === bookingIntent.partySize && item.dateTime.slice(0, 10) === intent.date &&
     item.dateTime.slice(11, 16) >= intent.timeWindow.earliest && item.dateTime.slice(11, 16) <= intent.timeWindow.latest,
@@ -216,8 +219,15 @@ export function validateRestaurantAction(
   if (action.type === "ASK_USER") return { status: "ALLOWED" };
 
   if (action.type === "SEARCH_RESTAURANTS") {
+    if (state.failure?.code === "GOOGLE_SEARCH_BUDGET_EXCEEDED") {
+      return rejected("DISCOVERY_UNAVAILABLE", "Google discovery budget is exhausted for this run; changing retrieval wording cannot restore it");
+    }
     const intent = requireCompleteSearchIntent(state);
-    return intent.valid ? { status: "ALLOWED" } : intent.verdict;
+    if (!intent.valid) return intent.verdict;
+    if (intent.intent.target?.goal === "AVAILABILITY" && !completeRestaurantIntent(state.intentDraft)) {
+      return rejected("INTENT_INCOMPLETE", "Availability requested but party size is missing");
+    }
+    return { status: "ALLOWED" };
   }
 
   if (action.type === "CHECK_AVAILABILITY") {

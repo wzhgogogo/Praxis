@@ -4,16 +4,16 @@ import type {
   RestaurantPhase,
   RestaurantTaskState,
 } from "./contracts.js";
-import { completeRestaurantIntent, missingSearchFields } from "./intent-state.js";
+import { completeRestaurantIntent, missingBlockingFields, missingSearchFields } from "./intent-state.js";
 import { restaurantPresentationReadiness } from "./action-validator.js";
 
 export const RESTAURANT_AGENT_CONTEXT_SCHEMA = {
   name: "restaurant_agent_context",
-  version: "3",
+  version: "4",
 } as const;
 
 export interface RestaurantAgentContext {
-  schemaVersion: "3";
+  schemaVersion: "4";
   now: string;
   phase: RestaurantPhase;
   intentDraft?: RestaurantIntentDraft;
@@ -52,6 +52,7 @@ export interface RestaurantAgentContext {
   }>;
   /** Candidates allowed for the next bounded availability read, including justified rechecks. */
   checkableCandidateIds?: string[];
+  searchAvailability: { available: boolean; reason?: string };
   selectedCandidateId?: string;
   selectedOfferId?: string;
   failure?: { code: string };
@@ -64,12 +65,14 @@ export function projectRestaurantAgentContext(
 ): RestaurantAgentContext {
   const presentation = restaurantPresentationReadiness(state, now);
   return {
-    schemaVersion: "3",
+    schemaVersion: "4",
     now,
     phase: state.phase,
     ...(state.intentDraft ? { intentDraft: structuredClone(state.intentDraft) } : {}),
     ...(state.intent ? { intent: structuredClone(state.intent) } : {}),
-    missingBlockingFields: missingSearchFields(state.intentDraft ?? {}),
+    missingBlockingFields: state.intentDraft?.target?.goal === "AVAILABILITY"
+      ? missingBlockingFields(state.intentDraft)
+      : missingSearchFields(state.intentDraft ?? {}),
     candidates: state.candidates.map((candidate) => ({
       id: candidate.restaurant.id,
       outletName: candidate.restaurant.outletName,
@@ -104,7 +107,10 @@ export function projectRestaurantAgentContext(
       ]),
     ),
     presentation,
-    ...(completeRestaurantIntent(state.intentDraft) ? {
+    searchAvailability: state.failure?.code === "GOOGLE_SEARCH_BUDGET_EXCEEDED"
+      ? { available: false, reason: "GOOGLE_SEARCH_BUDGET_EXCEEDED" }
+      : { available: true },
+    ...(state.intentDraft?.target?.goal === "AVAILABILITY" && completeRestaurantIntent(state.intentDraft) ? {
       checkableCandidateIds: presentation
         .filter((item) => state.availabilityChecks[item.candidateId] === undefined || item.recheckReason !== undefined)
         .map((item) => item.candidateId),

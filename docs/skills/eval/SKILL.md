@@ -25,9 +25,9 @@ Eval材料按`current executable`、`frozen regression`、`superseded retrospect
 ## Stage 2C冻结口径
 
 - 产品职责固定为`Semantic Interpreter → Proposal Contract → Compiler → Runtime/Reducer → Agent Decision → Action Validator → Execution Router`；语义Eval只在Interpreter/Compiler/Reducer边界归因，不把ADR-0007的历史next-step标注当作产品Runtime。
-- 当前标识为`restaurant-semantic-prompt@7`与`restaurant-semantic-proposal@3`。稳定槽位外只允许开放`CRITERION{text, polarity, strength}`，strength固定为`HARD` / `SOFT` / `UNSPECIFIED`；不得为单个Eval Case新增taxonomy、Provider mapping或重新分配职责。已运行的Prompt `@4` Baseline保持`RESULT_EXPOSED`，不能用来验证Prompt `@7`。
+- 当前标识为`restaurant-semantic-prompt@8`与`restaurant-semantic-proposal@3`。稳定槽位外只允许开放`CRITERION{text, polarity, strength}`，strength固定为`HARD` / `SOFT` / `UNSPECIFIED`；不得为单个Eval Case新增taxonomy、Provider mapping或重新分配职责。已运行的Prompt `@4` Baseline保持`RESULT_EXPOSED`，不能用来验证Prompt `@8`。
 - 历史Decision Harness的7个Episode / 17个Turn及旧单轮Intent Eval已经完成架构探针使命；其可执行代码、命令和默认测试已删除。需要追溯时读历史文档或Git，不恢复兼容路径。
-- Prompt `@7`的下一份独立Baseline必须使用新的私有`CLEAN_HOLDOUT`；它是parser/semantic质量工作，不阻塞Hybrid E2E preparation。
+- Prompt `@8`的下一份独立Baseline必须使用新的私有`CLEAN_HOLDOUT`；它是parser/semantic质量工作，不阻塞Hybrid E2E preparation。
 
 ## 已暴露语义 Regression
 
@@ -147,7 +147,7 @@ Browser检测、尝试、生效验证分别报告；静态禁止写入声明不�
 
 ## Hybrid Live artifact 诊断 evaluator
 
-`restaurant-hybrid-read-diagnostic-evaluator@4`是当前Hybrid runner的最小确定性诊断，不是完整E2E评分器，也不调用LLM Judge。它分别检查预约空位展示与ADR-0019的事实型展示；H002仅按版本化、案例限定的餐厅类型事实评价`no hot pot`/`no spicy`，无事实保持`UNKNOWN`，不从关键词缺失推导满足。执行结束后先保存原始`.result.json`，再写入一个不覆盖原记录的evaluation文件；成功、失败、取消和可收尾的超时路径均在保存后尝试该步骤。评价本身失败时另写不可变的失败sidecar，绝不覆盖执行结果；强杀后仍可显式补评已有artifact：
+`restaurant-hybrid-read-diagnostic-evaluator@5`是当前Hybrid runner的最小确定性诊断，不是完整E2E评分器，也不调用LLM Judge。它按保存的`target.goal`分别检查预约空位展示与事实型展示；每项正向或负向HARD条件都需要同一候选的来源事实，负向条件的明确冲突保持冲突、缺事实保持`UNKNOWN`，不从关键词缺失推导满足。它不按`caseId`补充或修改执行语义。执行结束后先保存原始`.result.json`，再写入一个不覆盖原记录的evaluation文件；成功、失败、取消和可收尾的超时路径均在保存后尝试该步骤。评价本身失败时另写不可变的失败sidecar，绝不覆盖执行结果；强杀后仍可显式补评已有artifact：
 
 ```bash
 npm run eval:restaurant:agent-loop:artifact -- <artifact.result.json>

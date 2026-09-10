@@ -16,7 +16,7 @@ import { scoreRestaurantSemanticTurn } from "./scorer.js";
 const completeDraft: RestaurantIntentDraft = {
   schemaVersion: "3",
   timezone: "Asia/Tokyo",
-  target: { query: "Sushi Dai" },
+  target: { goal: "AVAILABILITY", query: "Sushi Dai" },
   date: "2026-08-21",
   timeWindow: { earliest: "19:00", latest: "19:30" },
   partySize: 2,

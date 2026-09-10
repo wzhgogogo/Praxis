@@ -410,9 +410,9 @@ describe("PostgresTaskRuntime with PGlite", () => {
         stateHashBefore: "context-hash",
         causalRefs: { eventIds: [], commandIds: [], attemptIds: [], evidenceIds: [] },
         capabilities: [],
-        contextSchemaVersion: "3",
+        contextSchemaVersion: "4",
         decisionContext: {
-          schemaVersion: "3",
+          schemaVersion: "4",
           now: "2026-08-20T00:00:00.000Z",
           phase: "SEARCHING",
           missingBlockingFields: [],
@@ -420,6 +420,7 @@ describe("PostgresTaskRuntime with PGlite", () => {
           availability: {},
           availabilityChecks: {},
           presentation: [],
+          searchAvailability: { available: true },
         },
         executionRoute: "STRUCTURED_ADAPTER",
         observation: { type: "DISCOVERY", detail: "0 candidates discovered" },
@@ -427,9 +428,9 @@ describe("PostgresTaskRuntime with PGlite", () => {
       });
 
       const [step] = await store.list("trajectory-context-task");
-      assert.equal(step?.contextSchemaVersion, "3");
+      assert.equal(step?.contextSchemaVersion, "4");
       assert.deepEqual(step?.decisionContext, {
-        schemaVersion: "3",
+        schemaVersion: "4",
         now: "2026-08-20T00:00:00.000Z",
         phase: "SEARCHING",
         missingBlockingFields: [],
@@ -437,6 +438,7 @@ describe("PostgresTaskRuntime with PGlite", () => {
         availability: {},
         availabilityChecks: {},
         presentation: [],
+        searchAvailability: { available: true },
       });
       assert.equal(step?.executionRoute, "STRUCTURED_ADAPTER");
     });

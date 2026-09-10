@@ -159,7 +159,7 @@ function compileFact(patch: RestaurantIntentPatch, fact: RestaurantSemanticFact)
   switch (fact.field) {
     case "TARGET": {
       const value = valueFor(fact, "TARGET");
-      patch.target = { query: value.query };
+      patch.target = { goal: value.goal, query: value.query };
       return;
     }
     case "DATE": {

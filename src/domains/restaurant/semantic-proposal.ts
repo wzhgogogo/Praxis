@@ -1,11 +1,11 @@
 import {
   RESTAURANT_CRITERION_POLARITIES,
   RESTAURANT_CRITERION_STRENGTHS,
-  type RestaurantCriterion,
+  type RestaurantCriterion, type RestaurantReadGoal,
 } from "./contracts.js";
 
 export const RESTAURANT_SEMANTIC_PROPOSAL_PURPOSE = "restaurant_semantic_interpret";
-export const RESTAURANT_SEMANTIC_PROPOSAL_PROMPT_VERSION = "v7";
+export const RESTAURANT_SEMANTIC_PROPOSAL_PROMPT_VERSION = "v8";
 export const RESTAURANT_SEMANTIC_PROPOSAL_SCHEMA = {
   name: "restaurant-semantic-proposal",
   version: "3",
@@ -33,7 +33,7 @@ export const RESTAURANT_SEMANTIC_OPERATIONS = [
 export type RestaurantSemanticOperation = (typeof RESTAURANT_SEMANTIC_OPERATIONS)[number];
 
 export type RestaurantSemanticValue =
-  | { kind: "TARGET"; query: string }
+  | { kind: "TARGET"; goal: RestaurantReadGoal; query: string }
   | { kind: "DATE"; value: string }
   | { kind: "TIME_WINDOW"; earliest: string; latest: string }
   | { kind: "PARTY_SIZE"; value: number }
@@ -111,9 +111,10 @@ function valueSchema(field: RestaurantSemanticField): Record<string, unknown> {
   const kind = { type: "string", enum: [field] };
   switch (field) {
     case "TARGET":
-    case "AREA":
       // The strict transport does not support minLength. The local Domain
       // validator below remains authoritative for non-blank strings.
+      return strictObject({ kind, goal: { type: "string", enum: ["RECOMMENDATION", "AVAILABILITY"] }, query: { type: "string" } });
+    case "AREA":
       return strictObject({ kind, query: { type: "string" } });
     case "DATE":
       return strictObject({
@@ -191,6 +192,9 @@ function valueMatchesField(field: RestaurantSemanticField, value: unknown): bool
   if (!isRecord(value) || typeof value.kind !== "string" || value.kind !== field) return false;
   switch (field) {
     case "TARGET":
+      return hasOnlyKeys(value, ["kind", "goal", "query"]) &&
+        (value.goal === "RECOMMENDATION" || value.goal === "AVAILABILITY") &&
+        isNonBlankString(value.query);
     case "AREA":
       return hasOnlyKeys(value, ["kind", "query"]) && isNonBlankString(value.query);
     case "DATE":

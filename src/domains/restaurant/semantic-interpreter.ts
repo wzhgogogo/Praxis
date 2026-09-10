@@ -111,7 +111,7 @@ function toAttempt(response: ModelResponse): RestaurantSemanticModelAttempt {
 function modelContext(draft: RestaurantIntentDraft | undefined): Record<string, unknown> {
   if (!draft) return {};
   return {
-    ...(draft.target ? { target: { query: draft.target.query } } : {}),
+    ...(draft.target ? { target: { goal: draft.target.goal, query: draft.target.query } } : {}),
     ...(draft.date ? { date: draft.date } : {}),
     ...(draft.timeWindow ? { timeWindow: draft.timeWindow } : {}),
     ...(draft.partySize ? { partySize: draft.partySize } : {}),
@@ -189,6 +189,15 @@ CRITERION is the only collection:
 CONFIRM is allowed only when the user explicitly confirms a singleton already present in context. It has no value and does not change stored state.
 
 Do not re-emit unchanged context facts.
+
+## TARGET
+
+TARGET records the delivery goal for this request. For a new restaurant request,
+emit TARGET even when the user does not name a particular restaurant. Use
+AVAILABILITY only when the user explicitly asks whether a matching table or slot
+can be booked. Otherwise use RECOMMENDATION. A party size by itself never turns
+a recommendation into an availability request. TARGET.query is a short faithful
+summary of the requested outcome, or the named restaurant when one is named.
 
 ## CRITERIA
 
@@ -303,7 +312,9 @@ Do not add or remove relational wording when doing so changes the user's locatio
 
 ## TARGET
 
-Use TARGET only when the user clearly intends a particular restaurant as the specific restaurant being requested.
+TARGET records the user's delivery goal. Use AVAILABILITY only when the user explicitly asks whether a matching table/slot can be booked; otherwise use RECOMMENDATION. A party size alone never changes a recommendation into an availability request. An AVAILABILITY target without party size must lead to a clarification, not a weaker recommendation.
+
+Use a named TARGET query only when the user clearly intends a particular restaurant as the specific restaurant being requested.
 
 A proper name, brand, chain, or restaurant-like phrase is not automatically a TARGET. If a named entity functions as a restaurant-selection condition or search constraint rather than the exact destination, represent that meaning as a CRITERION instead.
 
@@ -312,7 +323,7 @@ A proper name, brand, chain, or restaurant-like phrase is not automatically a TA
 For every non-CONFIRM fact, value must be present and value.kind must exactly match field.
 
 TARGET:
-{"kind":"TARGET","query":"Restaurant Name"}
+{"kind":"TARGET","goal":"RECOMMENDATION|AVAILABILITY","query":"Restaurant Name or user goal summary"}
 
 DATE:
 {"kind":"DATE","value":"YYYY-MM-DD"}
