@@ -369,6 +369,8 @@ export interface RestaurantTaskState {
   presentedResults?: { candidateIds: string[]; evidenceIds: string[]; presentedAt: string };
   /** An explicit user refresh only rechecks previously displayed candidates. */
   refreshRequestedCandidateIds?: string[];
+  /** An explicit recommendation refresh only re-reads facts for displayed candidates. */
+  factRefreshRequestedCandidateIds?: string[];
   pendingUserQuestion?: { question: string; relatedFields?: string[] };
   proposal?: ActionProposal;
   authorization?: Authorization;
@@ -427,6 +429,7 @@ export type RestaurantEvent =
     })
   | (DomainEvent & { type: "RESULTS_PRESENTED"; candidateIds: string[]; evidenceIds: string[] })
   | (DomainEvent & { type: "AVAILABILITY_REFRESH_REQUESTED"; candidateIds: string[] })
+  | (DomainEvent & { type: "CANDIDATE_FACTS_REFRESH_REQUESTED"; candidateIds: string[] })
   | (DomainEvent & { type: "SEARCH_FAILED"; reason: string; code?: string })
   | (DomainEvent & { type: "AVAILABILITY_FAILED"; reason: string })
   | (DomainEvent & {

@@ -295,6 +295,29 @@ test("User refresh reopens only displayed candidates and preserves prior evidenc
   assert.equal(checked.availabilityChecks.a?.status, "UNKNOWN");
 });
 
+test("Recommendation refresh reopens displayed facts without routing through availability", () => {
+  const candidate = { restaurant: { id: "a", outletName: "Cafe A", sourceIds: {}, address: "Tokyo", provenance: {} }, matchReasons: [], warnings: [], executionConfidence: "HIGH" as const };
+  const state: RestaurantTaskState = {
+    ...incompleteState, phase: "PRESENT_RESULTS",
+    intentDraft: applyRestaurantIntentPatch(undefined, { schemaVersion: "3", target: { goal: "RECOMMENDATION", query: "recommend a cafe" }, area: { query: "Tokyo" } }),
+    candidates: [candidate], presentedResults: { candidateIds: ["a"], evidenceIds: ["old-facts"], presentedAt: now },
+    factChecks: { a: { status: "COMPLETED", checkedAt: now, evidenceIds: ["old-facts"] } },
+    readEvidence: [{ evidenceId: "old-facts", kind: "RESTAURANT_FACT", provider: "GOOGLE_PLACES", candidateId: "a", observedAt: now, requestFingerprint: "old", claims: { verifiedHardCriteria: ["cafe"] } }],
+  };
+  const refreshed = restaurantBookingTaskDefinition.transition(state, { type: "CANDIDATE_FACTS_REFRESH_REQUESTED", candidateIds: ["a"] }, { taskId: "task", runId: "run", now, createId: (prefix) => prefix }).state;
+  assert.equal(refreshed.phase, "SEARCHING");
+  assert.deepEqual(refreshed.factRefreshRequestedCandidateIds, ["a"]);
+  assert.equal(validateRestaurantAction(refreshed, { type: "CHECK_AVAILABILITY", candidateIds: ["a"] }, now).status, "REJECTED");
+  assert.equal(validateRestaurantAction(refreshed, { type: "INVESTIGATE_CANDIDATE_FACTS", candidateIds: ["a"] }, now).status, "ALLOWED");
+  assert.equal(validateRestaurantAction(refreshed, { type: "PRESENT_RESULTS", candidateIds: ["a"] }, now).status, "REJECTED");
+  const completed = restaurantBookingTaskDefinition.transition(refreshed, {
+    type: "CANDIDATE_FACTS_CHECKED", request: { candidateIds: ["a"], candidates: [candidate], intent: { timezone: "Asia/Tokyo", target: { goal: "RECOMMENDATION", query: "recommend a cafe" }, area: { query: "Tokyo" }, criteria: [] } },
+    factChecks: { a: { status: "UNKNOWN", checkedAt: now, evidenceIds: [], reasonCode: "WEBSITE_FACT_READ_FAILED" } }, evidence: [], metadata: { provider: "RESTAURANT_WEBSITE", route: "GENERIC_BROWSER", latencyMs: 1 },
+  }, { taskId: "task", runId: "run", now, createId: (prefix) => prefix }).state;
+  assert.equal(completed.factRefreshRequestedCandidateIds, undefined);
+  assert.equal(completed.factChecks?.a?.status, "UNKNOWN");
+});
+
 test("A completed refresh target does not block another target or permit partial presentation", () => {
   const state: RestaurantTaskState = {
     ...incompleteState,

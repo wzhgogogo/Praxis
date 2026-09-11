@@ -56,6 +56,7 @@ function resetForSemanticUpdate(
     semanticConflict: _semanticConflict,
     failure: _failure,
     refreshRequestedCandidateIds: _refreshRequestedCandidateIds,
+    factRefreshRequestedCandidateIds: _factRefreshRequestedCandidateIds,
     sourceReadState: _sourceReadState,
     ...remaining
   } = state;
@@ -343,13 +344,16 @@ function transition(
           throw new Error("Candidate fact check must reference evidence from the same observation");
         }
       }
-      const { failure: _failure, ...remaining } = state;
+      const { failure: _failure, factRefreshRequestedCandidateIds: priorFactRefreshRequestedCandidateIds, ...remaining } = state;
+      const refreshed = new Set(event.request.candidateIds);
+      const remainingFactRefresh = priorFactRefreshRequestedCandidateIds?.filter((candidateId) => !refreshed.has(candidateId)) ?? [];
       return {
         state: {
           ...remaining,
           phase: "SEARCHING",
           factChecks: { ...(state.factChecks ?? {}), ...structuredClone(event.factChecks) },
           readEvidence: mergeEvidence(state.readEvidence, event.evidence),
+          ...(remainingFactRefresh.length ? { factRefreshRequestedCandidateIds: remainingFactRefresh } : {}),
           ...(event.metadata.failureCode === "GOOGLE_SEARCH_BUDGET_EXCEEDED"
             ? {
                 failure: { code: event.metadata.failureCode, message: "Google discovery budget is exhausted for this run" },
@@ -373,6 +377,17 @@ function transition(
         state: { ...remaining, phase: "SEARCHING", refreshRequestedCandidateIds: [...event.candidateIds] },
         commands: [],
       };
+    }
+    case "CANDIDATE_FACTS_REFRESH_REQUESTED": {
+      requirePhase(state, ["PRESENT_RESULTS"], event.type);
+      if (!state.presentedResults || event.candidateIds.length === 0 || new Set(event.candidateIds).size !== event.candidateIds.length) {
+        throw new Error("Recommendation refresh requires unique previously presented candidates");
+      }
+      if (!event.candidateIds.every((candidateId) => state.presentedResults!.candidateIds.includes(candidateId))) {
+        throw new Error("Recommendation refresh is limited to previously presented candidates");
+      }
+      const { presentedResults: _presentedResults, failure: _failure, ...remaining } = state;
+      return { state: { ...remaining, phase: "SEARCHING", factRefreshRequestedCandidateIds: [...event.candidateIds] }, commands: [] };
     }
     case "AVAILABILITY_CHECKED": {
       requirePhase(state, ["SEARCHING", "SELECTION_REQUIRED"], event.type);

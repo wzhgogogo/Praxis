@@ -243,7 +243,11 @@ export function validateRestaurantAction(
     if (action.candidateIds.length > MAX_AVAILABILITY_CHECK_BATCH) {
       return rejected("AVAILABILITY_BATCH_LIMIT", `Fact investigations are limited to ${MAX_AVAILABILITY_CHECK_BATCH} candidates per batch`);
     }
-    const alreadyChecked = action.candidateIds.filter((candidateId) => state.factChecks?.[candidateId] !== undefined);
+    const refreshTargets = state.factRefreshRequestedCandidateIds ?? [];
+    if (refreshTargets.length > 0 && !action.candidateIds.every((candidateId) => refreshTargets.includes(candidateId))) {
+      return rejected("REFRESH_TARGET_REQUIRED", "A pending recommendation refresh may only inspect its previously presented candidate targets");
+    }
+    const alreadyChecked = action.candidateIds.filter((candidateId) => state.factChecks?.[candidateId] !== undefined && !refreshTargets.includes(candidateId));
     if (alreadyChecked.length) return rejected("FACTS_ALREADY_CHECKED", `Facts were already checked for ${alreadyChecked.join(", ")} in this request`);
     return { status: "ALLOWED" };
   }
@@ -291,6 +295,9 @@ export function validateRestaurantAction(
     }
     if ((state.refreshRequestedCandidateIds?.length ?? 0) > 0) {
       return rejected("PRESENTATION_EVIDENCE_MISSING", "All user-requested refresh targets require one new availability observation before results can be presented");
+    }
+    if ((state.factRefreshRequestedCandidateIds?.length ?? 0) > 0) {
+      return rejected("PRESENTATION_EVIDENCE_MISSING", "All user-requested recommendation refresh targets require one new fact observation before results can be presented");
     }
     for (const candidateId of action.candidateIds) {
       if (!candidate(state, candidateId)) return rejected("CANDIDATE_UNKNOWN", "Results can only include known candidates");

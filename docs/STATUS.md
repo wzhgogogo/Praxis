@@ -87,9 +87,9 @@ H002–H005尚无合格的完整Live结果。H003实际完成了三次完整Live
 
 事实调查改为缺口驱动：Google Place Details已提供充分事实时不会无意义打开网站；否则可沿已观察到的Google-listed `websiteUri`进入既有受控Browser Executor，即使Google本run额度已耗尽。JSON-LD和候选绑定的窄范围可见主页事实都可提供主营/营业证据；身份要求名称加地址包含或同序门牌组件，冲突或不足仍为`UNKNOWN`。该网址只是来源线索，不标为官网；Google Maps、页面可见内容、模型判断和最终事实保持可区分的来源关联。
 
-H002类型排除模型判断只引用已经观察到的具体类型事实，宽泛`restaurant`等标签或关键词缺失不能通过负向HARD。调用量与可得token用量现在附在读取的执行元数据中；普通模型决策仍由既有trajectory记录。诊断器将带`USER_REQUESTED_REFRESH`/时效理由的实际重查视为合法重查，不再误判为重复调用。页面对事实推荐不再显示“availability not checked”，失败摘要也不会把推荐失败说成空位结果。
+H002类型排除模型判断只引用已经观察到的具体类型事实，宽泛`restaurant`等标签或关键词缺失不能通过负向HARD。调用量与可得token用量现在附在读取的执行元数据中；普通模型决策仍由既有trajectory记录。诊断器将带`USER_REQUESTED_REFRESH`/时效理由的实际重查视为合法重查，不再误判为重复调用。事实推荐与空位结果各有相应刷新：前者只重读已展示候选的来源事实，后者才重查空位；任一未完成刷新目标都会阻止旧证据直接重新展示。页面对事实推荐不再显示“availability not checked”，失败摘要也不会把推荐失败说成空位结果。
 
-离线全矩阵在获准localhost监听环境为`247/247`，并通过typecheck、architecture check、build和`git diff --check`。本切片没有运行新的模型、Google、Browser或Web Live调用；此前H002/H004的各一次Web Live授权已经消耗，故不能以此处离线结果宣称它们已复验。当前持久Web仍同步等待一次调查完成；数据库持久化不等于服务重启后后台任务可靠续跑，异步执行/取消/恢复仍是后续独立产品切片。
+离线全矩阵在获准localhost监听环境为`248/248`，并通过typecheck、architecture check、build和`git diff --check`。本切片没有运行新的模型、Google、Browser或Web Live调用；此前H002/H004的各一次Web Live授权已经消耗，故不能以此处离线结果宣称它们已复验。当前持久Web仍同步等待一次调查完成；数据库持久化不等于服务重启后后台任务可靠续跑，异步执行/取消/恢复仍是后续独立产品切片。
 
 ## 当前标识
 

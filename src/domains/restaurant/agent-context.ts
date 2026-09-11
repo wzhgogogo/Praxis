@@ -120,7 +120,9 @@ export function projectRestaurantAgentContext(
     ...(state.intentDraft?.target?.goal === "RECOMMENDATION" ? {
       factInvestigableCandidateIds: presentation
         .filter((item) => {
-          if (item.eligible || state.factChecks?.[item.candidateId] !== undefined) return false;
+          const factRefresh = state.factRefreshRequestedCandidateIds?.includes(item.candidateId) ?? false;
+          if (!factRefresh && (item.eligible || state.factChecks?.[item.candidateId] !== undefined)) return false;
+          if (state.factRefreshRequestedCandidateIds?.length && !factRefresh) return false;
           const candidate = state.candidates.find((value) => value.restaurant.id === item.candidateId);
           return state.sourceReadState?.googlePlacesSearchBudget !== "EXHAUSTED" || Boolean(candidate?.restaurant.sourceIds.googleWebsiteUri);
         })

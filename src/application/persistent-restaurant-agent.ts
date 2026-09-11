@@ -88,6 +88,8 @@ function eventActivity(
         return { title: "Agent execution failed", detail: event.event.reason };
       case "AGENT_LOOP_TERMINATED":
         return { title: "Agent loop stopped", detail: `${event.event.termination}: ${event.event.reason}` };
+      case "CANDIDATE_FACTS_REFRESH_REQUESTED":
+        return { title: "Refresh recommendation facts", detail: `${event.event.candidateIds.length} displayed candidate(s) will be re-read.` };
       case "SEARCH_COMPLETED":
         return {
           title: "Restaurant search completed",
@@ -333,7 +335,7 @@ export class PersistentRestaurantAgentApplication {
     return this.project(await this.requireCase(userId, caseId));
   }
 
-  /** A user-visible refresh reopens only previously presented candidates for read-only checks. */
+  /** A user-visible refresh reopens displayed availability or recommendation facts, never booking. */
   async refreshAvailability(input: {
     userId: string;
     caseId: string;
@@ -342,20 +344,20 @@ export class PersistentRestaurantAgentApplication {
   }): Promise<RestaurantCaseView> {
     const record = await this.requireCase(input.userId, input.caseId);
     const snapshot = await this.runtime.snapshot(record.rootTaskId);
-    if (snapshot.domainState.intentDraft?.target?.goal !== "AVAILABILITY") {
-      throw new Error("Availability refresh is unavailable for a fact-only recommendation");
-    }
     const candidateIds = snapshot.domainState.presentedResults?.candidateIds;
-    if (!candidateIds?.length) throw new Error("Availability refresh requires currently presented read-only results");
+    if (!candidateIds?.length) throw new Error("Refresh requires currently presented read-only results");
+    const factOnly = snapshot.domainState.intentDraft?.target?.goal === "RECOMMENDATION";
     await this.runtime.dispatch(
-      this.userEvent(snapshot, input.requestId, { type: "AVAILABILITY_REFRESH_REQUESTED", candidateIds: [...candidateIds] }),
+      this.userEvent(snapshot, input.requestId, factOnly
+        ? { type: "CANDIDATE_FACTS_REFRESH_REQUESTED", candidateIds: [...candidateIds] }
+        : { type: "AVAILABILITY_REFRESH_REQUESTED", candidateIds: [...candidateIds] }),
       input.expectedVersion,
     );
     await this.store.appendMessage({
       id: `message:0:${hash(`${record.id}:${input.requestId}`).slice(0, 24)}`,
       conversationId: record.id,
       role: "USER",
-      content: "Refresh availability",
+      content: factOnly ? "Refresh recommendation facts" : "Refresh availability",
       requestId: `user:${input.requestId}`,
       createdAt: this.clock.now().toISOString(),
     });
