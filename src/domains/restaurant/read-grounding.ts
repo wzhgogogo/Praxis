@@ -18,6 +18,8 @@ export interface UntrustedGooglePlaceObservation {
   types?: string[];
   primaryType?: string;
   googleMapsUri?: string;
+  /** A Google-provided website pointer. It is not itself an official-page fact. */
+  websiteUri?: string;
   nationalPhoneNumber?: string;
   regularOpeningHours?: string[];
 }
@@ -111,10 +113,14 @@ function sourceRestaurantTypeFacts(observation: UntrustedGooglePlaceObservation)
     .filter(Boolean))];
 }
 
-/** A generic, source-bound judgment for explicitly type-scoped exclusions.
- * It never treats missing words as proof: a concrete Google primary type must
- * either overlap the avoided type/cuisine or identify a different main type. */
-function negativeTypeFacts(
+/**
+ * A Google primary type can establish an explicit conflict, but cannot prove
+ * that a restaurant satisfies a negative cuisine/type constraint.  In
+ * particular, "japanese_restaurant" does not prove "not hot pot", and a
+ * missing term never proves a negative.  A positive exclusion judgment needs
+ * an applicable, identity-bound source fact instead.
+ */
+function negativeTypeConflicts(
   primaryType: string | undefined,
   criteria: string[] | undefined,
 ): { verified: string[]; violated: string[]; judgments: string[] } {
@@ -129,9 +135,10 @@ function negativeTypeFacts(
     const criterionTerms = normalized(criterion).split(/[^\p{L}\p{N}]+/u).filter((term) => term.length > 2 && !["restaurant", "cuisine", "dining", "type"].includes(term));
     if (criterionTerms.length === 0) continue;
     const overlaps = criterionTerms.some((term) => primaryTerms.has(term));
-    if (overlaps) result.violated.push(criterion);
-    else result.verified.push(criterion);
-    result.judgments.push(`${criterion}<=primaryType:${normalizedPrimary}`);
+    if (overlaps) {
+      result.violated.push(criterion);
+      result.judgments.push(`${criterion}<=primaryType:${normalizedPrimary}`);
+    }
   }
   return result;
 }
@@ -156,7 +163,7 @@ function hhmm(value: number): string {
 }
 
 /** Parses only the source's explicit weekly interval notation; unparseable text is unknown. */
-function openingHoursForRequest(
+export function openingHoursForRequest(
   descriptions: string[] | undefined,
   date: string | undefined,
   timeWindow: { earliest: string; latest: string } | undefined,
@@ -178,6 +185,56 @@ function openingHoursForRequest(
     });
   const matching = intervals.find(([start, end]) => start <= requestedEnd && end >= requestedStart);
   return matching ? { matches: true, window: [hhmm(Math.max(matching[0], requestedStart)), hhmm(Math.min(matching[1], requestedEnd))] } : { matches: false };
+}
+
+export interface UntrustedRestaurantWebsiteObservation {
+  candidateId: string;
+  sourceUrl: string;
+  observedAt: string;
+  entityMatch: { confidence: "HIGH" | "MEDIUM" | "LOW"; matchedBy: string[] };
+  restaurantTypeFacts?: string[];
+  regularOpeningHours?: string[];
+}
+
+/**
+ * Grounds structured website data only after a deterministic, candidate-bound
+ * identity check.  A Google-listed URL is merely a pointer; it is not an
+ * official-source assertion and visible prose is never promoted by a model.
+ */
+export function groundRestaurantWebsiteFacts(
+  candidate: RestaurantCandidate,
+  intent: { area: { query: string }; criteria: Array<{ text: string; polarity: "POSITIVE" | "NEGATIVE"; strength: "HARD" | "SOFT" | "UNSPECIFIED" }>; date: string; timeWindow: { earliest: string; latest: string } },
+  observation: UntrustedRestaurantWebsiteObservation,
+): { evidence: RestaurantReadEvidence[]; status: "COMPLETED" | "UNKNOWN"; reasonCode?: string } {
+  if (observation.candidateId !== candidate.restaurant.id || observation.entityMatch.confidence !== "HIGH") {
+    return { evidence: [], status: "UNKNOWN", reasonCode: "WEBSITE_ENTITY_MATCH_UNCERTAIN" };
+  }
+  const sourceEntityId = `website:${fingerprint(observation.sourceUrl).slice(0, 24)}`;
+  const entityEvidence: RestaurantReadEvidence = {
+    evidenceId: evidenceId("website-entity", { candidateId: candidate.restaurant.id, sourceUrl: observation.sourceUrl, observedAt: observation.observedAt }),
+    kind: "ENTITY_MATCH", provider: "RESTAURANT_WEBSITE", candidateId: candidate.restaurant.id, sourceEntityId, sourceUrl: observation.sourceUrl,
+    observedAt: observation.observedAt, requestFingerprint: fingerprint({ candidateId: candidate.restaurant.id, sourceUrl: observation.sourceUrl }),
+    claims: { outletName: candidate.restaurant.outletName, sourceAssociation: "GOOGLE_LISTED_WEBSITE_URI", officialWebsiteVerified: false },
+    entityMatch: { confidence: "HIGH", matchedBy: [...observation.entityMatch.matchedBy] },
+  };
+  const types = [...new Set((observation.restaurantTypeFacts ?? []).map(normalized).filter(Boolean))];
+  const positive = supportedTypeCriteria(types, intent.criteria.filter((item) => item.polarity === "POSITIVE" && item.strength === "HARD").map((item) => item.text));
+  const negative = negativeTypeConflicts(types.join(" "), intent.criteria.filter((item) => item.polarity === "NEGATIVE" && item.strength === "HARD").map((item) => item.text));
+  const openingHours = openingHoursForRequest(observation.regularOpeningHours, intent.date, intent.timeWindow);
+  const facts: RestaurantReadEvidence[] = types.length || openingHours !== undefined ? [{
+    evidenceId: evidenceId("website-facts", { candidateId: candidate.restaurant.id, sourceUrl: observation.sourceUrl, observedAt: observation.observedAt, types, openingHours }),
+    kind: "RESTAURANT_FACT", provider: "RESTAURANT_WEBSITE", candidateId: candidate.restaurant.id, sourceEntityId, sourceUrl: observation.sourceUrl,
+    observedAt: observation.observedAt, requestFingerprint: fingerprint({ candidateId: candidate.restaurant.id, sourceUrl: observation.sourceUrl, intent }),
+    claims: {
+      restaurantTypeFacts: types,
+      ...(positive.length ? { verifiedHardCriteria: positive } : {}),
+      ...(negative.violated.length ? { violatedNegativeCriteria: negative.violated } : {}),
+      ...(negative.judgments.length ? { negativeCriterionJudgments: negative.judgments } : {}),
+      ...(observation.regularOpeningHours ? { regularOpeningHours: [...observation.regularOpeningHours] } : {}),
+      ...(openingHours ? { openingHoursMatch: openingHours.matches, ...(openingHours.window ? { openingHoursMatchedWindow: openingHours.window } : {}) } : {}),
+    }, entityMatch: { confidence: "HIGH", matchedBy: [...observation.entityMatch.matchedBy] },
+  }] : [];
+  return { evidence: [entityEvidence, ...facts], status: "COMPLETED" };
 }
 
 /**
@@ -241,7 +298,7 @@ export function groundGoogleDiscovery(
   };
   const restaurantTypeFacts = sourceRestaurantTypeFacts(observation);
   const verifiedHardCriteria = supportedTypeCriteria(restaurantTypeFacts, input.requiredTypeCriteria);
-  const negativeTypes = negativeTypeFacts(observation.primaryType, input.negativeCriteria);
+  const negativeTypes = negativeTypeConflicts(observation.primaryType, input.negativeCriteria);
   const openingHours = openingHoursForRequest(observation.regularOpeningHours, input.requestedDate, input.requestedTimeWindow);
   const facts: RestaurantReadEvidence[] = restaurantTypeFacts.length || openingHours !== undefined ? [{
     evidenceId: evidenceId("google-facts", { placeId: observation.placeId, observedAt: input.observedAt, verifiedHardCriteria, openingHours }),
@@ -259,6 +316,7 @@ export function groundGoogleDiscovery(
       ...(negativeTypes.judgments.length ? { negativeCriterionJudgments: negativeTypes.judgments } : {}),
       restaurantTypeFacts,
       ...(observation.regularOpeningHours ? { regularOpeningHours: [...observation.regularOpeningHours] } : {}),
+      ...(observation.websiteUri ? { websiteUri: observation.websiteUri } : {}),
       ...(openingHours ? { openingHoursMatch: openingHours.matches, ...(openingHours.window ? { openingHoursMatchedWindow: openingHours.window } : {}) } : {}),
     },
   }] : [];
@@ -268,7 +326,13 @@ export function groundGoogleDiscovery(
       restaurant: {
         id: candidateId,
         outletName: observation.displayName.trim(),
-        sourceIds: { googlePlaces: observation.placeId, ...(observation.nationalPhoneNumber ? { phone: observation.nationalPhoneNumber } : {}) },
+        sourceIds: {
+          googlePlaces: observation.placeId,
+          ...(observation.nationalPhoneNumber ? { phone: observation.nationalPhoneNumber } : {}),
+          // This is an unverified discovery pointer.  It cannot by itself make
+          // the URL an official source or ground a RestaurantFact.
+          ...(observation.websiteUri ? { googleWebsiteUri: observation.websiteUri } : {}),
+        },
         address: observation.formattedAddress.trim(),
         ...(observation.location?.latitude !== undefined && observation.location.longitude !== undefined
           ? { coordinates: { lat: observation.location.latitude, lng: observation.location.longitude } }

@@ -19,6 +19,8 @@ import { browserRuntimeFromEnvironment } from "../infrastructure/browser/browser
 import { GooglePlacesClient } from "../integrations/google/google-places-client.js";
 import { GooglePlacesRestaurantSearch } from "../integrations/google/google-places-restaurant-search.js";
 import { LiveBrowserAvailability } from "../integrations/restaurant-availability/live-browser-availability.js";
+import { GoogleListedWebsiteFactRead } from "../integrations/restaurant-facts/google-listed-website-facts.js";
+import { GoogleThenWebsiteFactRead } from "../integrations/restaurant-facts/google-then-website-facts.js";
 import { applyPostgresMigrations } from "../infrastructure/postgres/migrations.js";
 import { NodePostgresDatabase } from "../infrastructure/postgres/node-postgres-database.js";
 import { LOCAL_WORKSPACE_PAGE } from "../web/local-workspace-page.js";
@@ -320,9 +322,10 @@ async function start(): Promise<void> {
         10,
         { maxSearches: LIVE_READ_INVESTIGATION_BUDGET.maxGoogleSearches },
       );
+  const browserRuntime = fixtureMode ? undefined : browserRuntimeFromEnvironment();
   const restaurantAvailability = fixtureMode
     ? new FixtureRestaurantSearch()
-    : new LiveBrowserAvailability(browserRuntimeFromEnvironment(), model, {
+    : new LiveBrowserAvailability(browserRuntime!, model, {
         maxTableCheckBrowserSessions: LIVE_READ_INVESTIGATION_BUDGET.maxTableCheckBrowserSessions,
         maxTabelogBrowserSessions: LIVE_READ_INVESTIGATION_BUDGET.maxTabelogBrowserSessions,
         maxTabelogCandidateMatches: LIVE_READ_INVESTIGATION_BUDGET.maxTabelogCandidateMatches,
@@ -337,7 +340,12 @@ async function start(): Promise<void> {
     agentDecision: new RestaurantAgentDecision(model),
     restaurantSearch,
     restaurantAvailability,
-    restaurantFacts: fixtureMode ? restaurantSearch : restaurantSearch as GooglePlacesRestaurantSearch,
+    restaurantFacts: fixtureMode
+      ? restaurantSearch
+      : new GoogleThenWebsiteFactRead(
+          restaurantSearch as GooglePlacesRestaurantSearch,
+          new GoogleListedWebsiteFactRead(browserRuntime!),
+        ),
     workspaceMode: providerMode,
     ...(fixtureMode ? {} : {
       executionRouterOptions: {

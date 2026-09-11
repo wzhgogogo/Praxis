@@ -78,10 +78,11 @@ function stableFailureCode(error: unknown, fallback: string): string {
 function authoritativeSearchRequest(
   state: Readonly<RestaurantTaskState>,
   retrievalHint: string | undefined,
+  readRunId: string | undefined,
 ): RestaurantSearchRequest {
   const intent = completeRestaurantSearchIntent(state.intentDraft);
   if (!intent) throw new Error("Validated Restaurant search requires a complete authoritative intent");
-  return { intent, ...(retrievalHint ? { retrievalHint } : {}) };
+  return { intent, ...(retrievalHint ? { retrievalHint } : {}), ...(readRunId ? { readRunId } : {}) };
 }
 
 function authoritativeAvailabilityRequest(
@@ -147,6 +148,8 @@ export class RestaurantExecutionRouter {
     action: RestaurantAgentAction,
     state: Readonly<RestaurantTaskState>,
     now = new Date().toISOString(),
+    /** Bound by the coordinator; never Agent-controlled. */
+    readRunId?: string,
   ): Promise<RestaurantActionExecution> {
     switch (action.type) {
       case "ASK_USER":
@@ -155,7 +158,7 @@ export class RestaurantExecutionRouter {
           observation: { type: "USER_QUESTION", detail: action.question },
         };
       case "SEARCH_RESTAURANTS": {
-        const request = authoritativeSearchRequest(state, action.retrievalHint);
+        const request = authoritativeSearchRequest(state, action.retrievalHint, readRunId);
         try {
           const read = await this.withProviderReadDeadline(
             "Restaurant search",
@@ -196,6 +199,7 @@ export class RestaurantExecutionRouter {
             return structuredClone(candidate);
           }),
           intent,
+          ...(readRunId ? { readRunId } : {}),
         };
         try {
           const read = await this.withProviderReadDeadline(

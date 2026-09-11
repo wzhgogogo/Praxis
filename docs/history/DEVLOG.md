@@ -1974,3 +1974,11 @@ Google检索继续只使用正向发现词，负向HARD条件只在候选后的�
 若共享Google额度在事实读取前已经耗尽，Adapter不再发出第二个请求；它为该候选记录`GOOGLE_SEARCH_BUDGET_EXCEEDED / UNKNOWN`，Reducer同步稳定的任务失败码，使Agent Context立即关闭新的Discovery入口。已有合格展示证据不被此状态改写，仍可按Validator完成展示。
 
 所有当前composition（Fixture、Mock Harness、Local Web、Hybrid Live）现都注入candidate fact Port：Fixture/Mock没有真实来源页时返回明确的candidate-scoped `UNKNOWN`，而不是把模型允许的动作变成`AGENT_EXECUTION_FAILED`。Live仍使用Google同源事实读取；这不把Fixture声明为来源事实，也不触发任何Live调用。
+
+## 2026-09-11 — Stable source facts and task-scoped Google budgets
+
+Google candidate fact reads now use Place Details by the saved Place ID, not a second name/address Text Search. `websiteUri` is retained only as a Google-listed pointer. A bounded `GoogleThenWebsiteFactRead` then reuses the existing BrowserTaskExecutor for that URL and accepts JSON-LD facts only after exact candidate name/address binding; Google Maps URLs, visible prose and model output cannot produce a restaurant fact. This adds no write, login, reservation or site-specific fallback path.
+
+The negative-HARD grounding error is removed: a non-overlapping `primaryType` no longer verifies a negative cuisine/type condition. Google state is task-run scoped (`sourceReadState`) instead of inferred from whichever last failure happened to be stored, and a process-wide local-web Google adapter can no longer exhaust a second task's counter.
+
+Two final-code Web Live runs then exposed an independent prior gap: the product's named-area path has no place-resolution evidence. Google returned `Ginza` address components for both `Higashi-Ginza` requests; fail-closed equality correctly prevented presentation, but also prevented the candidate-fact/website stage. This is not addressed by widening the type/website TTL or by asking the user to repeat the same location. It needs a small, evidence-bound place-resolution slice; no rerun is authorized automatically.

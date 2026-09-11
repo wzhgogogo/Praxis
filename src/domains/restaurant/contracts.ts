@@ -118,7 +118,7 @@ export type RestaurantReadEvidenceKind =
   | "ENTITY_MATCH"
   | "AVAILABILITY";
 
-export type RestaurantReadEvidenceProvider = "GOOGLE_PLACES" | "TABLECHECK" | "TABELOG";
+export type RestaurantReadEvidenceProvider = "GOOGLE_PLACES" | "RESTAURANT_WEBSITE" | "TABLECHECK" | "TABELOG";
 
 /**
  * Small Domain-owned record of a grounded external read. It intentionally holds
@@ -159,6 +159,8 @@ export interface RestaurantSearchRequest {
   /** Must exactly preserve the authoritative intent; a hint may only adjust retrieval. */
   intent: RestaurantSearchIntent;
   retrievalHint?: string;
+  /** Runtime-bound persistent task run identity for provider budget isolation. */
+  readRunId?: string;
 }
 
 export interface RestaurantAvailabilityRequest {
@@ -183,6 +185,8 @@ export interface RestaurantCandidateFactRequest {
   /** Bound by the Router from authoritative State; never supplied by the Agent. */
   candidates: RestaurantCandidate[];
   intent: RestaurantSearchIntent;
+  /** Runtime-bound persistent task run identity for provider budget isolation. */
+  readRunId?: string;
 }
 
 export interface RestaurantCandidateFactCheck {
@@ -199,7 +203,7 @@ export interface RestaurantCandidateFactRead {
 }
 
 export interface RestaurantReadExecutionMetadata {
-  provider: "GOOGLE_PLACES" | "TABLECHECK" | "TABELOG" | "AVAILABILITY_SOURCE_RESOLVER" | "FIXTURE";
+  provider: "GOOGLE_PLACES" | "RESTAURANT_WEBSITE" | "TABLECHECK" | "TABELOG" | "AVAILABILITY_SOURCE_RESOLVER" | "FIXTURE";
   route: RestaurantExecutionRoute;
   latencyMs: number;
   failureCode?: string;
@@ -344,6 +348,8 @@ export interface RestaurantTaskState {
   availabilityChecks: Record<string, RestaurantAvailabilityCheck>;
   /** Bounded fact reads prevent retrying the same missing evidence without a new request. */
   factChecks?: Record<string, RestaurantCandidateFactCheck>;
+  /** Provider capability state is durable within this task run; it is not the last arbitrary failure. */
+  sourceReadState?: { googlePlacesSearchBudget: "AVAILABLE" | "EXHAUSTED" };
   readEvidence: RestaurantReadEvidence[];
   searchRevision: number;
   selectedCandidateId?: string;

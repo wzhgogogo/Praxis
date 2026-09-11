@@ -93,6 +93,7 @@ test("Restaurant Agent context exposes a stable exhausted-discovery state withou
   const context = projectRestaurantAgentContext({
     schemaVersion: "10", phase: "SEARCHING", candidates: [], availability: {}, availabilityChecks: {}, readEvidence: [], searchRevision: 1,
     failure: { code: "GOOGLE_SEARCH_BUDGET_EXCEEDED", message: "provider-specific private detail" },
+    sourceReadState: { googlePlacesSearchBudget: "EXHAUSTED" },
   });
   assert.deepEqual(context.searchAvailability, { available: false, reason: "GOOGLE_SEARCH_BUDGET_EXCEEDED" });
   assert.equal(JSON.stringify(context).includes("provider-specific private detail"), false);

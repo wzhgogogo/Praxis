@@ -11,8 +11,8 @@ import { loadBrowserReadSkills } from "./browser-read-skills.js";
 
 export interface BrowserExecutionDiagnostic {
   candidateId?: string;
-  source: "TABLECHECK" | "TABELOG";
-  stage: "DISCOVERY" | "IDENTITY" | "AVAILABILITY";
+  source: "TABLECHECK" | "TABELOG" | "WEBSITE";
+  stage: "DISCOVERY" | "IDENTITY" | "AVAILABILITY" | "FACTS";
   event: "SESSION_OPENED" | "OBSERVED" | "SITE_METHOD" | "SKILL_STARTED" | "METHOD_INCOMPLETE" | "MODEL_ACTION" | "MODEL_STOP" | "ASYNC_WAIT" | "POST_ACTION_VERIFIED" | "REJECTED" | "CLOSED";
   elapsedMs: number;
   url?: string;
@@ -42,8 +42,8 @@ export interface BrowserExecutionBudget {
 
 export interface BrowserSkillReadInput {
   taskId: string;
-  source: "TABLECHECK" | "TABELOG";
-  stage: "DISCOVERY" | "IDENTITY" | "AVAILABILITY";
+  source: "TABLECHECK" | "TABELOG" | "WEBSITE";
+  stage: "DISCOVERY" | "IDENTITY" | "AVAILABILITY" | "FACTS";
   session: BrowserSession;
   signal: AbortSignal;
   allowedOrigins: readonly string[];
@@ -224,12 +224,15 @@ export class BrowserTaskExecutor {
           this.record({ source: input.source, stage: input.stage, event: "METHOD_INCOMPLETE", url: snapshot.url, detail: progress });
         }
       }
-      if (!this.options.modelDecision) return { status: "NO_SAFE_ACTION", snapshot, controls: [] };
+      // Website fact reads deliberately never delegate page interpretation or
+      // navigation to the model.  They may use acquire/navigate/snapshot only
+      // and parse the resulting structured data in their adapter.
+      if (!this.options.modelDecision || input.source === "WEBSITE") return { status: "NO_SAFE_ACTION", snapshot, controls: [] };
       const observation = await this.observe(input, snapshot);
       if (!postAction) {
         this.record({
           source: input.source,
-          stage: input.stage,
+          stage: input.stage as "DISCOVERY" | "IDENTITY" | "AVAILABILITY",
           event: "SKILL_STARTED",
           url: snapshot.url,
           detail: progress,
@@ -255,7 +258,7 @@ export class BrowserTaskExecutor {
         action = await this.options.modelDecision.decide({
           taskId: input.taskId,
           source: input.source,
-          stage: input.stage,
+          stage: input.stage as "DISCOVERY" | "IDENTITY" | "AVAILABILITY",
           objective: input.objective,
           progress,
           skills: loadBrowserReadSkills(input.source),

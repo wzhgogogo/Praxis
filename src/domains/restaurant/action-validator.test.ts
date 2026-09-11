@@ -94,7 +94,7 @@ test("A depleted Google discovery budget cannot be bypassed by a new retrieval h
     schemaVersion: "3", target: { goal: "RECOMMENDATION", query: "recommend a cafe" }, date: "2026-08-05",
     timeWindow: { earliest: "12:00", latest: "17:00" }, area: { query: "Shinjuku" },
   });
-  assert.deepEqual(validateRestaurantAction({ ...incompleteState, intentDraft: draft, failure: { code: "GOOGLE_SEARCH_BUDGET_EXCEEDED", message: "budget exhausted" } }, { type: "SEARCH_RESTAURANTS", retrievalHint: "different wording" }, now), {
+  assert.deepEqual(validateRestaurantAction({ ...incompleteState, intentDraft: draft, failure: { code: "GOOGLE_SEARCH_BUDGET_EXCEEDED", message: "budget exhausted" }, sourceReadState: { googlePlacesSearchBudget: "EXHAUSTED" } }, { type: "SEARCH_RESTAURANTS", retrievalHint: "different wording" }, now), {
     status: "REJECTED", code: "DISCOVERY_UNAVAILABLE", reason: "Google discovery budget is exhausted for this run; changing retrieval wording cannot restore it",
   });
 });

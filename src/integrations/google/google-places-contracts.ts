@@ -1,4 +1,5 @@
 export const GOOGLE_PLACES_TEXT_SEARCH_URL = "https://places.googleapis.com/v1/places:searchText";
+export const GOOGLE_PLACES_DETAILS_URL = "https://places.googleapis.com/v1/places";
 
 /** Kept explicit to constrain billing and prevent accidental raw-place retention. */
 export const GOOGLE_PLACES_RESTAURANT_FIELD_MASK = [
@@ -13,6 +14,13 @@ export const GOOGLE_PLACES_RESTAURANT_FIELD_MASK = [
   "places.googleMapsUri",
   "places.regularOpeningHours",
 ].join(",");
+
+/** Details responses are one Place, so their field mask has no `places.` prefix. */
+export const GOOGLE_PLACES_DETAILS_FIELD_MASK = GOOGLE_PLACES_RESTAURANT_FIELD_MASK
+  .split(",")
+  .map((field) => field.replace(/^places\./, ""))
+  .concat("websiteUri")
+  .join(",");
 
 export interface GooglePlacesTextSearchRequest {
   textQuery: string;
@@ -35,6 +43,7 @@ export interface GooglePlacesRawPlace {
   primaryType?: unknown;
   nationalPhoneNumber?: unknown;
   googleMapsUri?: unknown;
+  websiteUri?: unknown;
   regularOpeningHours?: { weekdayDescriptions?: unknown };
 }
 

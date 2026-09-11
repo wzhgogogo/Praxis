@@ -69,15 +69,17 @@ Web只在已有`PRESENT_RESULTS`时显示一个显式“Refresh availability”�
 
 ## 2026-09-10 H002–H005 事实型只读能力切片
 
-ADR-0020取代ADR-0019中“人数决定证据profile”及H002案例注入的范围：`target.goal`为`RECOMMENDATION`时，同一候选有HIGH identity、适用区域、每项HARD事实及目标本地日期/时段的来源营业时间即可进入`PRESENT_RESULTS`，不宣称有座；`AVAILABILITY`才额外要求人数、Offer和展示新鲜度。H002的澄清被记录为普通“火锅餐厅／川湘主导菜系”负向HARD条件；具体Google primary type可以产生同源满足或冲突，宽泛类型和关键词缺失保持未知，不把此解释推广为全局“不辣”规则。H003–H005 runner在`NEAR_USER`案例下使用集中记录的东银座公共评估坐标，artifact明确标识为评估上下文，不是用户位置；产品路径则只接受一次设备坐标，拒绝/失败后由普通消息输入地点继续。
+ADR-0020取代ADR-0019中“人数决定证据profile”及H002案例注入的范围：`target.goal`为`RECOMMENDATION`时，同一候选有HIGH identity、适用区域、每项HARD事实及目标本地日期/时段的来源营业时间即可进入`PRESENT_RESULTS`，不宣称有座；`AVAILABILITY`才额外要求人数、Offer和展示新鲜度。H002的澄清被记录为普通“火锅餐厅／川湘主导菜系”负向HARD条件；Google `primaryType`只能记录明确冲突，绝不因“未命中某词”而产生满足结论，宽泛类型和关键词缺失保持未知，不把此解释推广为全局“不辣”规则。H003–H005 runner在`NEAR_USER`案例下使用集中记录的东银座公共评估坐标，artifact明确标识为评估上下文，不是用户位置；产品路径则只接受一次设备坐标，拒绝/失败后由普通消息输入地点继续。
 
 Google Places现记录来源类型及常规营业时间，并仅在可解析的目标星期/时段重叠时产生事实证据；它不把“现在营业”、普通每周时间或无预约入口解释为空位。Hybrid诊断器升为`restaurant-hybrid-read-diagnostic-evaluator@5`，按保存的目标分别核对事实型结果和空位结果，且`NEAR_USER`只接受任务设备半径或显式评估半径的区域事实。实际设备权限点击尚未验收。
 
 发现预算在尚未获得候选时耗尽，会以`AGENT_LOOP_NO_PROGRESS`持久结束；它不再让模型通过改写检索词反复调用已不可用的Google发现能力。此停止码是系统/来源限制，不会被包装为用户输入不足，也不会宣称展示结果。
 
-事实型推荐已接通一次有界的候选事实重读：`INVESTIGATE_CANDIDATE_FACTS`只绑定已发现且未调查的候选，当前使用同一Google Place ID补读类型/营业事实并将UNKNOWN与正向事实分开留痕；它和Discovery共享Google累计额度，绝不查询slot或产生Offer。该Google路径已离线验证，尚未使用新的Live授权实测；官网等来源的通用Browser事实读取仍未实现。
+事实型推荐的`INVESTIGATE_CANDIDATE_FACTS`只绑定已发现候选：先以同一Google Place ID调用Place Details补读类型、营业时间和Google列出的网站指针；若有指针，再复用受控Browser Executor读取该同源网站。网站事实只接受与候选门店名称和地址完全匹配的JSON-LD结构化字段；Google Maps URL不是官网，Google列出的网址也不被标为已验证“官方”，模型和可见页面文字都不能直接写入事实。两个来源各自的观察、URL、identity关联和UNKNOWN均留在同一事实链；不查询slot或产生Offer。Google预算按持久Task run隔离，并在同一run内由Discovery和Place Details累计。该路径已离线验证，尚未使用新的Live授权实测。
 
 H002–H005尚无合格的完整Live结果。H003实际完成了三次完整Live运行——这是超出“每例最多一次”授权的执行错误，后续不再重跑；三次都在30步后以`STEP_LIMIT / FAILED`结束。每次都物化东银座评估坐标、读取12个候选并尝试两种已支持的预约来源；所有候选均为`UNKNOWN / AVAILABILITY_SOURCES_EXHAUSTED`，不是无位。独立评价还发现Semantic把冻结的HARD `team dinner`/`good for drinks`改写或降为SOFT，故权威条件为`NOT_SATISFIED`；没有结果、Offer或可展示证据。H002完成一次55.6秒Live：语义漏掉冻结的`party_size`且改写`first date`，Google只返回一个无适用区域事实的候选；三次Google预算耗尽后Agent继续同请求搜索至`STEP_LIMIT`，未读预约来源。H004另有一次完整Live，但错误走了空位调查链并在约301秒`STEP_LIMIT / FAILED`，没有事实型展示；H005未启动。本轮未重跑任何Live，离线修复不能替代其验收。此前H001/Web Live刷新验收保持独立，不替代本组案例。
+
+2026-09-11在最终代码的`LIVE_READ` Web Workspace各执行一次H004与澄清后的H002（均为此前未消耗的Web授权，非Hybrid重跑）。H004“今天下午东银座附近咖啡馆、不需要预约”（Task `restaurant:410b…f99169`，约19秒）及H002“明晚东银座站附近、两人、排除火锅与川湘主导菜系、不需要预约”（Task `restaurant:cb503…27eeb3`，约12秒）各有3次模型决策；每例实际发出1次Google Discovery和2次Place Details，第三个候选Details因累计上限返回`GOOGLE_SEARCH_BUDGET_EXCEEDED`而未请求。二者都进入`NEEDS_INPUT`：候选地址只证明`Ginza`，而当前区域Grounding只接受目标地点文字与Google address component的全等，不能从`Ginza`推导`Higashi-Ginza`。这是地点解析/区域证据链缺口，不是用户需求不清楚、无位、否定条件满足或官网事实失败。两次没有产生候选官网Browser事实证据、`PRESENT_RESULTS`、Offer、可用/无位声明或第三方写入；各自的一次Web Live额度已耗尽，不会为修复后复验自行追加运行。
 
 ## 当前标识
 

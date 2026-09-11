@@ -103,7 +103,7 @@ test("Google cafe facts require a matching source opening-hours interval for a f
   assert.deepEqual(facts?.claims.openingHoursMatchedWindow, ["12:00", "17:00"]);
 });
 
-test("Google primary-type facts support or conflict with a type-scoped negative criterion without using keyword absence", () => {
+test("Google primary-type facts report explicit exclusion conflicts but never infer a negative-condition pass", () => {
   const accepted = groundGoogleDiscovery({
     placeId: "place-japanese", displayName: "Japanese Dining", formattedAddress: "Higashi-Ginza, Tokyo",
     addressComponents: [{ longText: "Higashi-Ginza", types: ["sublocality_level_1"] }], types: ["restaurant"], primaryType: "japanese_restaurant",
@@ -111,7 +111,7 @@ test("Google primary-type facts support or conflict with a type-scoped negative 
   assert.equal(accepted.accepted, true);
   if (!accepted.accepted) return;
   const facts = accepted.additionalEvidence.find((item) => item.kind === "RESTAURANT_FACT");
-  assert.deepEqual(facts?.claims.verifiedNegativeCriteria, ["hot pot restaurant", "Sichuan/Hunan cuisine"]);
+  assert.equal(facts?.claims.verifiedNegativeCriteria, undefined);
   const conflict = groundGoogleDiscovery({
     placeId: "place-sichuan", displayName: "Sichuan Dining", formattedAddress: "Higashi-Ginza, Tokyo",
     addressComponents: [{ longText: "Higashi-Ginza", types: ["sublocality_level_1"] }], types: ["restaurant"], primaryType: "sichuan_restaurant",
@@ -126,6 +126,12 @@ test("Google primary-type facts support or conflict with a type-scoped negative 
   assert.equal(unknown.accepted, true);
   if (!unknown.accepted) return;
   assert.equal(unknown.additionalEvidence.find((item) => item.kind === "RESTAURANT_FACT")?.claims.verifiedNegativeCriteria, undefined);
+  const broad = groundGoogleDiscovery({
+    placeId: "place-chinese", displayName: "Chinese Dining", formattedAddress: "Higashi-Ginza, Tokyo",
+    addressComponents: [{ longText: "Higashi-Ginza", types: ["sublocality_level_1"] }], types: ["restaurant"], primaryType: "chinese_restaurant",
+  }, { requestFingerprint: "request", observedAt: now, areaQuery: "near Higashi-Ginza", negativeCriteria: ["Sichuan/Hunan cuisine"] });
+  assert.equal(broad.accepted, true);
+  if (broad.accepted) assert.equal(broad.additionalEvidence.find((item) => item.kind === "RESTAURANT_FACT")?.claims.verifiedNegativeCriteria, undefined);
 });
 
 

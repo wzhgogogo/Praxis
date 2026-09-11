@@ -109,7 +109,7 @@ export function projectRestaurantAgentContext(
       ]),
     ),
     presentation,
-    searchAvailability: state.failure?.code === "GOOGLE_SEARCH_BUDGET_EXCEEDED"
+    searchAvailability: state.sourceReadState?.googlePlacesSearchBudget === "EXHAUSTED"
       ? { available: false, reason: "GOOGLE_SEARCH_BUDGET_EXCEEDED" }
       : { available: true },
     ...(state.intentDraft?.target?.goal === "AVAILABILITY" && completeRestaurantIntent(state.intentDraft) ? {
@@ -119,7 +119,7 @@ export function projectRestaurantAgentContext(
     } : {}),
     ...(state.intentDraft?.target?.goal === "RECOMMENDATION" ? {
       factInvestigableCandidateIds: presentation
-        .filter((item) => !item.eligible && state.factChecks?.[item.candidateId] === undefined)
+        .filter((item) => !item.eligible && state.factChecks?.[item.candidateId] === undefined && state.sourceReadState?.googlePlacesSearchBudget !== "EXHAUSTED")
         .map((item) => item.candidateId),
     } : {}),
     ...(state.selectedCandidateId ? { selectedCandidateId: state.selectedCandidateId } : {}),

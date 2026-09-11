@@ -54,27 +54,29 @@ test("Google Places sends only explicit evaluation coordinates as NEAR_USER loca
   assert.doesNotMatch(String(body?.textQuery), /near nearby/i);
 });
 
-test("Google Places search budget is mechanical and bounded per adapter instance", async () => {
+test("Google Places search budget is mechanical and isolated by persistent read run", async () => {
   const client = new GooglePlacesClient({
     apiKey: "key",
     fetchImplementation: async () => new Response(JSON.stringify({ places: [] }), { status: 200 }),
   });
   const search = new GooglePlacesRestaurantSearch(client, undefined, 10, { maxSearches: 1 });
-  await search.search({ intent: fixtureIntent }, new AbortController().signal);
-  await assert.rejects(search.search({ intent: fixtureIntent }, new AbortController().signal), { code: "GOOGLE_SEARCH_BUDGET_EXCEEDED" });
+  await search.search({ intent: fixtureIntent, readRunId: "task-a" }, new AbortController().signal);
+  await assert.rejects(search.search({ intent: fixtureIntent, readRunId: "task-a" }, new AbortController().signal), { code: "GOOGLE_SEARCH_BUDGET_EXCEEDED" });
+  await search.search({ intent: fixtureIntent, readRunId: "task-b" }, new AbortController().signal);
 });
 
 test("candidate fact investigation re-reads only the known Google place and shares discovery budget", async () => {
   let calls = 0;
   const client = new GooglePlacesClient({
     apiKey: "key",
-    fetchImplementation: async () => {
+    fetchImplementation: async (_url, init) => {
       calls += 1;
-      return new Response(JSON.stringify({ places: [{
+      const place = {
         id: "place-1", displayName: { text: "Cafe One" }, formattedAddress: "Tokyo",
         types: ["cafe", "food"], primaryType: "cafe",
         regularOpeningHours: { weekdayDescriptions: ["Tuesday: 10:00 AM – 6:00 PM"] },
-      }] }), { status: 200 });
+      };
+      return new Response(JSON.stringify(init?.method === "GET" ? place : { places: [place] }), { status: 200 });
     },
   });
   const intent = {
@@ -90,6 +92,23 @@ test("candidate fact investigation re-reads only the known Google place and shar
   assert.equal(facts.factChecks[discovered.candidates[0]!.restaurant.id]?.status, "COMPLETED");
   assert.ok(facts.evidence.some((item) => item.kind === "RESTAURANT_FACT" && item.claims.openingHoursMatch === true));
   await assert.rejects(search.search({ intent }, new AbortController().signal), { code: "GOOGLE_SEARCH_BUDGET_EXCEEDED" });
+});
+
+test("candidate fact investigation uses Place Details by stable ID, never another text search", async () => {
+  const urls: string[] = [];
+  const client = new GooglePlacesClient({
+    apiKey: "key",
+    fetchImplementation: async (url, init) => {
+      urls.push(String(url));
+      const place = { id: "place-1", displayName: { text: "Cafe One" }, formattedAddress: "Tokyo", types: ["cafe"] };
+      return new Response(JSON.stringify(init?.method === "GET" ? place : { places: [place] }), { status: 200 });
+    },
+  });
+  const search = new GooglePlacesRestaurantSearch(client, undefined, 10, { maxSearches: 2 });
+  const intent = { ...fixtureIntent, target: { goal: "RECOMMENDATION" as const, query: "cafe" } };
+  const discovered = await search.search({ intent, readRunId: "run-a" }, new AbortController().signal);
+  await search.inspectFacts({ candidateIds: [discovered.candidates[0]!.restaurant.id], candidates: discovered.candidates, intent, readRunId: "run-a" }, new AbortController().signal);
+  assert.match(urls[1] ?? "", /\/v1\/places\/place-1$/);
 });
 
 test("a fact read records exhausted shared discovery capacity without a second provider call", async () => {

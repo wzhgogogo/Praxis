@@ -299,7 +299,14 @@ function transition(
     case "SEARCH_FAILED":
       requirePhase(state, ["UNDERSTANDING", "NEEDS_INPUT", "SEARCHING", "SELECTION_REQUIRED"], event.type);
       return {
-        state: { ...state, phase: "SEARCHING", failure: { code: event.code ?? "SEARCH_FAILED", message: event.reason } },
+        state: {
+          ...state,
+          phase: "SEARCHING",
+          failure: { code: event.code ?? "SEARCH_FAILED", message: event.reason },
+          ...(event.code === "GOOGLE_SEARCH_BUDGET_EXCEEDED"
+            ? { sourceReadState: { ...(state.sourceReadState ?? { googlePlacesSearchBudget: "AVAILABLE" as const }), googlePlacesSearchBudget: "EXHAUSTED" as const } }
+            : {}),
+        },
         commands: [],
       };
     case "AVAILABILITY_FAILED":
@@ -330,7 +337,10 @@ function transition(
           factChecks: { ...(state.factChecks ?? {}), ...structuredClone(event.factChecks) },
           readEvidence: mergeEvidence(state.readEvidence, event.evidence),
           ...(event.metadata.failureCode === "GOOGLE_SEARCH_BUDGET_EXCEEDED"
-            ? { failure: { code: event.metadata.failureCode, message: "Google discovery budget is exhausted for this run" } }
+            ? {
+                failure: { code: event.metadata.failureCode, message: "Google discovery budget is exhausted for this run" },
+                sourceReadState: { ...(state.sourceReadState ?? { googlePlacesSearchBudget: "AVAILABLE" as const }), googlePlacesSearchBudget: "EXHAUSTED" as const },
+              }
             : {}),
         },
         commands: [],

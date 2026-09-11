@@ -77,7 +77,7 @@ function terminal(state: RestaurantTaskState): boolean {
  * Stop before asking the model to improvise repeated searches.
  */
 function noExecutableDiscoveryPath(state: RestaurantTaskState): boolean {
-  return state.failure?.code === "GOOGLE_SEARCH_BUDGET_EXCEEDED" && state.candidates.length === 0;
+  return state.sourceReadState?.googlePlacesSearchBudget === "EXHAUSTED" && state.candidates.length === 0;
 }
 
 function unique(values: string[]): string[] {
@@ -251,7 +251,12 @@ export class RestaurantAgentLoopCoordinator {
 
       let execution;
       try {
-        execution = await this.router.execute(decision.action, snapshot.domainState, this.clock.now().toISOString());
+        execution = await this.router.execute(
+          decision.action,
+          snapshot.domainState,
+          this.clock.now().toISOString(),
+          snapshot.runId,
+        );
       } catch (error) {
         const reason = error instanceof Error ? error.message : "Restaurant action execution failed";
         const after = await this.dispatch(snapshot, { type: "AGENT_EXECUTION_FAILED", reason }, "SYSTEM");

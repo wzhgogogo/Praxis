@@ -1,5 +1,7 @@
 import {
   GOOGLE_PLACES_RESTAURANT_FIELD_MASK,
+  GOOGLE_PLACES_DETAILS_FIELD_MASK,
+  GOOGLE_PLACES_DETAILS_URL,
   GOOGLE_PLACES_TEXT_SEARCH_URL,
   GooglePlacesError,
   type GooglePlacesRawPlace,
@@ -33,6 +35,55 @@ export class GooglePlacesClient {
   }
 
   async textSearch(request: GooglePlacesTextSearchRequest, signal: AbortSignal): Promise<GooglePlacesRawPlace[]> {
+    return this.requestJson(
+      GOOGLE_PLACES_TEXT_SEARCH_URL,
+      {
+        method: "POST",
+        body: JSON.stringify({
+          textQuery: request.textQuery,
+          pageSize: request.pageSize,
+          ...(request.locationBias ? {
+            locationBias: {
+              circle: {
+                center: { latitude: request.locationBias.latitude, longitude: request.locationBias.longitude },
+                radius: request.locationBias.radiusMeters ?? 3_000,
+              },
+            },
+          } : {}),
+        }),
+      },
+      GOOGLE_PLACES_RESTAURANT_FIELD_MASK,
+      signal,
+      (payload) => {
+        const response = payload as GooglePlacesTextSearchResponse;
+        if (response.places !== undefined && !Array.isArray(response.places)) {
+          throw new GooglePlacesError("GOOGLE_MALFORMED_RESPONSE", "Google Places response has invalid places");
+        }
+        return response.places ?? [];
+      },
+    );
+  }
+
+  /** Reads one Google Place by its stable place ID; it never re-discovers by name. */
+  async placeDetails(placeId: string, signal: AbortSignal): Promise<GooglePlacesRawPlace> {
+    const id = placeId.replace(/^places\//, "").trim();
+    if (!id) throw new GooglePlacesError("GOOGLE_MALFORMED_RESPONSE", "Google Place details requires a place ID");
+    return this.requestJson(
+      `${GOOGLE_PLACES_DETAILS_URL}/${encodeURIComponent(id)}`,
+      { method: "GET" },
+      GOOGLE_PLACES_DETAILS_FIELD_MASK,
+      signal,
+      (payload) => payload as GooglePlacesRawPlace,
+    );
+  }
+
+  private async requestJson<T>(
+    url: string,
+    init: { method: "GET" | "POST"; body?: BodyInit },
+    fieldMask: string,
+    signal: AbortSignal,
+    parse: (payload: GooglePlacesTextSearchResponse | GooglePlacesRawPlace) => T,
+  ): Promise<T> {
     const controller = new AbortController();
     const relayAbort = () => controller.abort(signal.reason);
     signal.addEventListener("abort", relayAbort, { once: true });
@@ -46,38 +97,24 @@ export class GooglePlacesClient {
     }, this.timeoutMs);
     try {
       return await Promise.race([Promise.resolve().then(async () => {
-        const response = await this.fetchImplementation(GOOGLE_PLACES_TEXT_SEARCH_URL, {
-        method: "POST",
+        const response = await this.fetchImplementation(url, {
+        method: init.method,
         headers: {
           "Content-Type": "application/json",
           "X-Goog-Api-Key": this.options.apiKey,
-          "X-Goog-FieldMask": GOOGLE_PLACES_RESTAURANT_FIELD_MASK,
+          "X-Goog-FieldMask": fieldMask,
         },
-        body: JSON.stringify({
-          textQuery: request.textQuery,
-          pageSize: request.pageSize,
-          ...(request.locationBias ? {
-            locationBias: {
-              circle: {
-                center: { latitude: request.locationBias.latitude, longitude: request.locationBias.longitude },
-                radius: request.locationBias.radiusMeters ?? 3_000,
-              },
-            },
-          } : {}),
-        }),
+        ...(init.body ? { body: init.body } : {}),
         signal: controller.signal,
         });
         if (!response.ok) throw new GooglePlacesError("GOOGLE_SEARCH_FAILED", `Google Places returned HTTP ${response.status}`);
-        let payload: GooglePlacesTextSearchResponse;
+        let payload: GooglePlacesTextSearchResponse | GooglePlacesRawPlace;
         try {
           payload = await response.json() as GooglePlacesTextSearchResponse;
         } catch {
           throw new GooglePlacesError("GOOGLE_MALFORMED_RESPONSE", "Google Places returned invalid JSON");
         }
-        if (payload.places !== undefined && !Array.isArray(payload.places)) {
-          throw new GooglePlacesError("GOOGLE_MALFORMED_RESPONSE", "Google Places response has invalid places");
-        }
-        return payload.places ?? [];
+        return parse(payload);
       }), deadline]);
     } catch (error) {
       if (error instanceof GooglePlacesError) throw error;

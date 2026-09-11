@@ -39,6 +39,7 @@ function rawObservation(place: GooglePlacesRawPlace): UntrustedGooglePlaceObserv
   const location = coordinates(place);
   const primaryType = string(place.primaryType);
   const googleMapsUri = string(place.googleMapsUri);
+  const websiteUri = string(place.websiteUri);
   const nationalPhoneNumber = string(place.nationalPhoneNumber);
   const regularOpeningHours = Array.isArray(place.regularOpeningHours?.weekdayDescriptions) && place.regularOpeningHours.weekdayDescriptions.every((item) => typeof item === "string")
     ? place.regularOpeningHours.weekdayDescriptions as string[] : undefined;
@@ -51,6 +52,7 @@ function rawObservation(place: GooglePlacesRawPlace): UntrustedGooglePlaceObserv
     ...(Array.isArray(place.types) && place.types.every((item) => typeof item === "string") ? { types: place.types as string[] } : {}),
     ...(primaryType ? { primaryType } : {}),
     ...(googleMapsUri ? { googleMapsUri } : {}),
+    ...(websiteUri ? { websiteUri } : {}),
     ...(nationalPhoneNumber ? { nationalPhoneNumber } : {}),
     ...(regularOpeningHours ? { regularOpeningHours } : {}),
   };
@@ -71,7 +73,9 @@ export function buildGooglePlacesTextQuery(request: RestaurantSearchRequest): st
 
 export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, RestaurantCandidateFactPort {
   readonly executionRoute = "STRUCTURED_ADAPTER" as const;
-  private searchesPerformed = 0;
+  /** One local workspace composes providers once, so counters must be keyed by
+   * the persistent task run rather than accidentally shared by every user. */
+  private readonly searchesPerformed = new Map<string, number>();
 
   constructor(
     private readonly client: GooglePlacesClient,
@@ -83,11 +87,24 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
     } = {},
   ) {}
 
+  private searchesFor(runId: string | undefined): number {
+    return this.searchesPerformed.get(runId ?? "unscoped") ?? 0;
+  }
+
+  private consumeSearch(runId: string | undefined): void {
+    const key = runId ?? "unscoped";
+    this.searchesPerformed.set(key, this.searchesFor(key) + 1);
+  }
+
+  private hasBudget(runId: string | undefined): boolean {
+    return this.searchesFor(runId) < (this.options.maxSearches ?? Number.POSITIVE_INFINITY);
+  }
+
   async search(request: RestaurantSearchRequest, signal: AbortSignal) {
-    if (this.searchesPerformed >= (this.options.maxSearches ?? Number.POSITIVE_INFINITY)) {
+    if (!this.hasBudget(request.readRunId)) {
       throw new GooglePlacesError("GOOGLE_SEARCH_BUDGET_EXCEEDED", "Google Places search budget is exhausted for this diagnostic");
     }
-    this.searchesPerformed += 1;
+    this.consumeSearch(request.readRunId);
     const startedAt = Date.now();
     const textQuery = buildGooglePlacesTextQuery(request);
     const taskLocation = request.intent.area.coordinates;
@@ -138,7 +155,7 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
     const factChecks: import("../../domains/restaurant/contracts.js").RestaurantCandidateFactRead["factChecks"] = {};
     let exhausted = false;
     for (const candidate of request.candidates) {
-      if (this.searchesPerformed >= (this.options.maxSearches ?? Number.POSITIVE_INFINITY)) {
+      if (!this.hasBudget(request.readRunId)) {
         factChecks[candidate.restaurant.id] = { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: "GOOGLE_SEARCH_BUDGET_EXCEEDED" };
         exhausted = true;
         continue;
@@ -148,14 +165,10 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
         factChecks[candidate.restaurant.id] = { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: "GOOGLE_PLACE_ID_MISSING" };
         continue;
       }
-      this.searchesPerformed += 1;
-      const places = await this.client.textSearch({
-        textQuery: `${candidate.restaurant.outletName} ${candidate.restaurant.address}`,
-        pageSize: 1,
-      }, signal);
-      const matching = places.find((place) => string(place.id) === placeId);
-      if (!matching) {
-        factChecks[candidate.restaurant.id] = { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: "GOOGLE_PLACE_ID_NOT_RETURNED" };
+      this.consumeSearch(request.readRunId);
+      const matching = await this.client.placeDetails(placeId, signal);
+      if (string(matching.id) !== placeId) {
+        factChecks[candidate.restaurant.id] = { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: "GOOGLE_PLACE_ID_MISMATCH" };
         continue;
       }
       const requestFingerprint = createHash("sha256").update(JSON.stringify({ factRead: placeId, intent: request.intent })).digest("hex");

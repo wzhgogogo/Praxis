@@ -220,7 +220,7 @@ export function validateRestaurantAction(
   if (action.type === "ASK_USER") return { status: "ALLOWED" };
 
   if (action.type === "SEARCH_RESTAURANTS") {
-    if (state.failure?.code === "GOOGLE_SEARCH_BUDGET_EXCEEDED") {
+    if (state.sourceReadState?.googlePlacesSearchBudget === "EXHAUSTED") {
       return rejected("DISCOVERY_UNAVAILABLE", "Google discovery budget is exhausted for this run; changing retrieval wording cannot restore it");
     }
     const intent = requireCompleteSearchIntent(state);
