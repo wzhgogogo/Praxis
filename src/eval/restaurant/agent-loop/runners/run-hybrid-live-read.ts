@@ -221,7 +221,7 @@ const evaluationLocation = process.env.PRAXIS_EVAL_USER_LAT && process.env.PRAXI
       // An explicit human pause is outside the automatic browser-read deadline.
       // The H001 outer-loop deadline is the whole diagnostic cap, not a product SLA.
       browserReadTimeoutMs: manualTabelogIntervention ? null : liveReadLimits.maxAutomaticBrowserMs,
-    }),
+    }, search),
     trajectories,
     clock,
     {

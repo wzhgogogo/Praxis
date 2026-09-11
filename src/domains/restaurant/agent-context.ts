@@ -52,6 +52,8 @@ export interface RestaurantAgentContext {
   }>;
   /** Candidates allowed for the next bounded availability read, including justified rechecks. */
   checkableCandidateIds?: string[];
+  /** Candidates whose fact evidence has not yet received one bounded read. */
+  factInvestigableCandidateIds?: string[];
   searchAvailability: { available: boolean; reason?: string };
   selectedCandidateId?: string;
   selectedOfferId?: string;
@@ -113,6 +115,11 @@ export function projectRestaurantAgentContext(
     ...(state.intentDraft?.target?.goal === "AVAILABILITY" && completeRestaurantIntent(state.intentDraft) ? {
       checkableCandidateIds: presentation
         .filter((item) => state.availabilityChecks[item.candidateId] === undefined || item.recheckReason !== undefined)
+        .map((item) => item.candidateId),
+    } : {}),
+    ...(state.intentDraft?.target?.goal === "RECOMMENDATION" ? {
+      factInvestigableCandidateIds: presentation
+        .filter((item) => !item.eligible && state.factChecks?.[item.candidateId] === undefined)
         .map((item) => item.candidateId),
     } : {}),
     ...(state.selectedCandidateId ? { selectedCandidateId: state.selectedCandidateId } : {}),

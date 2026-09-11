@@ -1966,3 +1966,7 @@ Google检索继续只使用正向发现词，负向HARD条件只在候选后的�
 ## 2026-09-10 — Exhausted discovery no-progress closure
 
 补齐此前只依赖Agent Prompt和Validator的最后一层停止保护：若Google发现预算耗尽且本次运行尚未产生任何候选，Coordinator不再请求下一次模型决策，而是记录`AGENT_LOOP_NO_PROGRESS`并进入`FAILED`。该错误说明没有合法的剩余只读路径，不是用户条件不清楚；它不重置预算、不追加Provider调用，也不改变已经产生候选的正常后续调查路径。Mock Adapter仅新增可注入稳定失败码，以验证真实Router错误归因，不参与产品执行。
+
+## 2026-09-11 — Bounded candidate fact investigation
+
+新增通用`INVESTIGATE_CANDIDATE_FACTS`只读动作，供事实型推荐在候选缺主营类型或适用营业时间证据时使用。Agent只能从代码投影的未调查候选中选择；Validator限制已知、去重候选和每批三家，Reducer将实际观察、UNKNOWN和证据引用保留在同一Task State。Router绑定权威Search Intent和候选，当前Google实现只接受返回的同一Place ID并回填其结构化类型/营业事实；未返回同一ID、缺ID、来源失败或额度耗尽均为candidate-scoped UNKNOWN。每次读取与Discovery共享`maxGoogleSearches`累计额度，故不会借事实调查重置调用配额。没有新增Provider、站点fallback、浏览器框架、slot/Offer、预约、支付、登录或外部写入。官网等非Google来源的Browser事实读取仍是明确未完成能力。

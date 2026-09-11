@@ -75,6 +75,8 @@ Google Places现记录来源类型及常规营业时间，并仅在可解析的�
 
 发现预算在尚未获得候选时耗尽，会以`AGENT_LOOP_NO_PROGRESS`持久结束；它不再让模型通过改写检索词反复调用已不可用的Google发现能力。此停止码是系统/来源限制，不会被包装为用户输入不足，也不会宣称展示结果。
 
+事实型推荐已接通一次有界的候选事实重读：`INVESTIGATE_CANDIDATE_FACTS`只绑定已发现且未调查的候选，当前使用同一Google Place ID补读类型/营业事实并将UNKNOWN与正向事实分开留痕；它和Discovery共享Google累计额度，绝不查询slot或产生Offer。该Google路径已离线验证，尚未使用新的Live授权实测；官网等来源的通用Browser事实读取仍未实现。
+
 H002–H005尚无合格的完整Live结果。H003实际完成了三次完整Live运行——这是超出“每例最多一次”授权的执行错误，后续不再重跑；三次都在30步后以`STEP_LIMIT / FAILED`结束。每次都物化东银座评估坐标、读取12个候选并尝试两种已支持的预约来源；所有候选均为`UNKNOWN / AVAILABILITY_SOURCES_EXHAUSTED`，不是无位。独立评价还发现Semantic把冻结的HARD `team dinner`/`good for drinks`改写或降为SOFT，故权威条件为`NOT_SATISFIED`；没有结果、Offer或可展示证据。H002完成一次55.6秒Live：语义漏掉冻结的`party_size`且改写`first date`，Google只返回一个无适用区域事实的候选；三次Google预算耗尽后Agent继续同请求搜索至`STEP_LIMIT`，未读预约来源。H004另有一次完整Live，但错误走了空位调查链并在约301秒`STEP_LIMIT / FAILED`，没有事实型展示；H005未启动。本轮未重跑任何Live，离线修复不能替代其验收。此前H001/Web Live刷新验收保持独立，不替代本组案例。
 
 ## 当前标识

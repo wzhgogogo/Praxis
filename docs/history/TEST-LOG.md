@@ -2181,3 +2181,9 @@ typecheck、arch:check（0 forbidden dependencies）、build通过；npm test 16
 - 新增Harness回归：Google discovery在零候选前返回`GOOGLE_SEARCH_BUDGET_EXCEEDED`时，只发生一次失败读取，随后持久化`AGENT_LOOP_NO_PROGRESS`；预置的改写检索动作没有执行，也没有转成`NEEDS_INPUT`。
 - 完整验证：受准本机loopback环境`npm test`为`227/227`通过；`npm run typecheck`、`npm run arch:check`、`npm run build`和`git diff --check`通过。普通受限沙箱中的完整测试仍只因`127.0.0.1`监听被拒绝而有9项server测试失败，获准环境重跑后全部通过。
 - Live / paid model：未运行；不改变或替代既有H001/H002/H003/H004 artifact，也没有启动H005。
+
+## TEST-2026-09-11-CANDIDATE-FACT-INVESTIGATION — offline regression
+
+- 定向覆盖：Action Validator拒绝未知或已完成候选事实调查；Router只把已知candidate与权威推荐Intent交给事实Port；Google事实读取以返回的相同Place ID生成candidate关联的`RESTAURANT_FACT`，并与Discovery共享调用上限。事实读取不产生Availability、Offer或写操作。
+- 完整验证：受准本机loopback环境`npm test`为`230/230`通过；`npm run typecheck`、`npm run arch:check`、`npm run build`和`git diff --check`通过。普通受限沙箱中的9个Web listener测试仍仅因`listen EPERM 127.0.0.1`无法绑定，获准环境重跑后无产品失败。
+- Live / paid model：未运行；该代码切片不消耗或重置H001/H002/H003/H004既有只读额度，H005仍未启动。

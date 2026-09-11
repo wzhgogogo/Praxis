@@ -6,6 +6,7 @@ export const RESTAURANT_AGENT_ACTION_SCHEMA = {
 export type RestaurantAgentAction =
   | { type: "ASK_USER"; question: string; relatedFields?: string[] }
   | { type: "SEARCH_RESTAURANTS"; retrievalHint?: string }
+  | { type: "INVESTIGATE_CANDIDATE_FACTS"; candidateIds: string[] }
   | { type: "CHECK_AVAILABILITY"; candidateIds: string[] }
   | { type: "PRESENT_RESULTS"; candidateIds: string[] }
   | { type: "SELECT_CANDIDATE"; candidateId: string; offerId?: string }
@@ -21,6 +22,7 @@ export const RESTAURANT_AGENT_ACTION_JSON_SCHEMA: Record<string, unknown> = {
       enum: [
         "ASK_USER",
         "SEARCH_RESTAURANTS",
+        "INVESTIGATE_CANDIDATE_FACTS",
         "CHECK_AVAILABILITY",
         "PRESENT_RESULTS",
         "SELECT_CANDIDATE",
@@ -50,7 +52,7 @@ export const RESTAURANT_AGENT_ACTION_STRICT_WIRE_JSON_SCHEMA: Record<string, unk
   properties: {
     type: {
       type: "string",
-      enum: ["ASK_USER", "SEARCH_RESTAURANTS", "CHECK_AVAILABILITY", "PRESENT_RESULTS", "SELECT_CANDIDATE", "BOOK_RESERVATION"],
+      enum: ["ASK_USER", "SEARCH_RESTAURANTS", "INVESTIGATE_CANDIDATE_FACTS", "CHECK_AVAILABILITY", "PRESENT_RESULTS", "SELECT_CANDIDATE", "BOOK_RESERVATION"],
     },
     question: { type: "string" },
     relatedFields: { type: "array", items: { type: "string" } },
@@ -111,6 +113,7 @@ export function normalizeRestaurantAgentActionStrictWire(value: unknown):
     case "SEARCH_RESTAURANTS":
       if (!onlyExpectedStrictPlaceholders(value, new Set(["retrievalHint"]))) return { valid: false, errors: ["SEARCH_RESTAURANTS contains non-placeholder fields"] };
       return { valid: true, value: { type: value.type, ...(nonBlank(value.retrievalHint) ? { retrievalHint: value.retrievalHint } : {}), ...(decisionSummary ? { decisionSummary } : {}) } };
+    case "INVESTIGATE_CANDIDATE_FACTS":
     case "CHECK_AVAILABILITY":
     case "PRESENT_RESULTS":
       if (!onlyExpectedStrictPlaceholders(value, new Set(["candidateIds"]))) return { valid: false, errors: [`${value.type} contains non-placeholder fields`] };
@@ -167,11 +170,12 @@ export function validateRestaurantAgentAction(
         },
       };
     }
+    case "INVESTIGATE_CANDIDATE_FACTS":
     case "CHECK_AVAILABILITY": {
       const candidateIds = stringList(value.candidateIds);
       return candidateIds && candidateIds.length > 0
-        ? { valid: true, value: { action: { type: "CHECK_AVAILABILITY", candidateIds }, ...(decisionSummary ? { decisionSummary } : {}) } }
-        : { valid: false, errors: ["CHECK_AVAILABILITY requires one or more candidateIds"] };
+        ? { valid: true, value: { action: { type: value.type, candidateIds }, ...(decisionSummary ? { decisionSummary } : {}) } }
+        : { valid: false, errors: [`${value.type} requires one or more candidateIds`] };
     }
     case "PRESENT_RESULTS": {
       const candidateIds = stringList(value.candidateIds);

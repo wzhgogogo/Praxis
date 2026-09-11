@@ -108,6 +108,42 @@ test("Execution Router passes only bound availability arguments and its deadline
   });
 });
 
+test("Execution Router binds a fact-only read to known candidates and the authoritative recommendation intent", async () => {
+  let received: unknown;
+  const router = new RestaurantExecutionRouter(
+    { executionRoute: "STRUCTURED_ADAPTER", async search() { return { candidates: fixtureCandidates, evidence: [], metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 } }; } },
+    { executionRoute: "STRUCTURED_ADAPTER", async check() { return { offers: [], availabilityChecks: {}, evidence: [], metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 } }; } },
+    {},
+    {
+      executionRoute: "STRUCTURED_ADAPTER",
+      async inspectFacts(request) {
+        received = request;
+        return {
+          evidence: [],
+          factChecks: Object.fromEntries(request.candidateIds.map((candidateId) => [candidateId, { status: "UNKNOWN" as const, checkedAt: "2026-08-05T09:00:00.000Z", evidenceIds: [], reasonCode: "FIXTURE_UNKNOWN" }])),
+          metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 },
+        };
+      },
+    },
+  );
+  const searchedState: RestaurantTaskState = { ...state, phase: "SEARCHING", candidates: fixtureCandidates };
+  const execution = await router.execute({ type: "INVESTIGATE_CANDIDATE_FACTS", candidateIds: [fixtureCandidates[0]!.restaurant.id] }, searchedState);
+  assert.equal(execution.event?.type, "CANDIDATE_FACTS_CHECKED");
+  assert.deepEqual(received, {
+    candidateIds: [fixtureCandidates[0]!.restaurant.id],
+    candidates: [fixtureCandidates[0]],
+    intent: {
+      timezone: fixtureIntent.timezone,
+      target: fixtureIntent.target,
+      date: fixtureIntent.date,
+      timeWindow: fixtureIntent.timeWindow,
+      area: fixtureIntent.area,
+      criteria: fixtureIntent.criteria,
+      budgetPerPerson: fixtureIntent.budgetPerPerson,
+    },
+  });
+});
+
 test("Execution Router marks a shared browser startup failure terminal after all requested candidates fail", async () => {
   const router = new RestaurantExecutionRouter(
     { executionRoute: "STRUCTURED_ADAPTER", async search() { return { candidates: fixtureCandidates, evidence: [], metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 } }; } },

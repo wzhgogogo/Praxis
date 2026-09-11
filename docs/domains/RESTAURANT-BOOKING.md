@@ -51,6 +51,8 @@ type RestaurantBookingIntent = {
 
 Reducer维护可缺阻塞字段的`RestaurantIntentDraft`：`target.goal`、`date`、`timeWindow`、`partySize`、`area`由同一Domain Validator管理。`RECOMMENDATION`不需要人数；`AVAILABILITY`缺人数时必须补充，不能降为推荐。代码从权威Draft计算缺失字段，不持久化第二份readiness。未知字段、无效日历日期、空字符串、错误JPY预算和嵌套未知字段一律拒绝；符合当前目标所需字段时Router才可开始相应的只读路径。
 
+对事实型推荐，Agent可提出有界`INVESTIGATE_CANDIDATE_FACTS`：Validator只接受当前候选池中未调查的候选（每批最多三家），Router绑定候选与权威Search Intent。当前Google实现以已记录Place ID核对同一来源返回的类型/营业事实；事实读取与Discovery共用累计Google额度，无法核实或额度耗尽时记录candidate-scoped `UNKNOWN`，不变成无位或空位。该动作不查询slot、不创建Offer、不改变候选池，也不会替代未来官网等适用来源的Browser事实读取。
+
 Semantic Operation固定为：singleton `ASSERT/CORRECT=set`、`NEGATE=clear`、`CONFIRM=no state mutation`；同一turn对同一singleton同时`NEGATE`与`ASSERT/CORRECT`是`CONTRADICTORY_PROPOSAL`，绝不按facts数组顺序决定State。唯一collection `CRITERION`为`ASSERT=add`、`CORRECT=replace collection`、`NEGATE=remove matching criterion`，不允许collection `CONFIRM`。Criterion文本保留简洁用户措辞，身份按text trim/case与polarity/strength精确值决定。
 
 阻塞字段是日期、时间、人数和区域。菜系与预算未提供时可搜索，但必须透明说明。

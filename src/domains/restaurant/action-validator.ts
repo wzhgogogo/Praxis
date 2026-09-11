@@ -19,6 +19,7 @@ export type RestaurantActionRejectionCode =
   | "PRESENTATION_READY"
   | "AVAILABILITY_BATCH_LIMIT"
   | "PRESENTATION_EVIDENCE_MISSING"
+  | "FACTS_ALREADY_CHECKED"
   | "DISCOVERY_UNAVAILABLE";
 
 /** A browser/read batch is bounded separately from the discovery pool and UI. */
@@ -227,6 +228,23 @@ export function validateRestaurantAction(
     if (intent.intent.target?.goal === "AVAILABILITY" && !completeRestaurantIntent(state.intentDraft)) {
       return rejected("INTENT_INCOMPLETE", "Availability requested but party size is missing");
     }
+    return { status: "ALLOWED" };
+  }
+
+  if (action.type === "INVESTIGATE_CANDIDATE_FACTS") {
+    const intent = requireCompleteSearchIntent(state);
+    if (!intent.valid) return intent.verdict;
+    if (action.candidateIds.length === 0 || new Set(action.candidateIds).size !== action.candidateIds.length) {
+      return rejected("CANDIDATE_UNKNOWN", "Fact investigation requires one or more unique known candidate IDs");
+    }
+    if (!action.candidateIds.every((candidateId) => candidate(state, candidateId))) {
+      return rejected("CANDIDATE_UNKNOWN", "Facts can only be investigated for known candidates");
+    }
+    if (action.candidateIds.length > MAX_AVAILABILITY_CHECK_BATCH) {
+      return rejected("AVAILABILITY_BATCH_LIMIT", `Fact investigations are limited to ${MAX_AVAILABILITY_CHECK_BATCH} candidates per batch`);
+    }
+    const alreadyChecked = action.candidateIds.filter((candidateId) => state.factChecks?.[candidateId] !== undefined);
+    if (alreadyChecked.length) return rejected("FACTS_ALREADY_CHECKED", `Facts were already checked for ${alreadyChecked.join(", ")} in this request`);
     return { status: "ALLOWED" };
   }
 

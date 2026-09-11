@@ -41,6 +41,7 @@ import {
 import {
   RestaurantExecutionRouter,
   type RestaurantAvailabilityPort,
+  type RestaurantCandidateFactPort,
   type RestaurantSearchPort,
   type RestaurantExecutionRouterOptions,
 } from "./restaurant-execution-router.js";
@@ -226,6 +227,7 @@ export interface PersistentRestaurantAgentOptions {
   agentDecision: RestaurantAgentDecisionPort;
   restaurantSearch: RestaurantSearchPort;
   restaurantAvailability: RestaurantAvailabilityPort;
+  restaurantFacts?: RestaurantCandidateFactPort;
   workspaceMode?: AgentWorkspaceMode;
   executionRouterOptions?: RestaurantExecutionRouterOptions;
   /** Local Live composition may need a longer read-only loop than Fixture workflows. */
@@ -258,7 +260,7 @@ export class PersistentRestaurantAgentApplication {
     this.agentLoop = new RestaurantAgentLoopCoordinator(
       this.runtime,
       options.agentDecision,
-      new RestaurantExecutionRouter(options.restaurantSearch, options.restaurantAvailability, options.executionRouterOptions),
+      new RestaurantExecutionRouter(options.restaurantSearch, options.restaurantAvailability, options.executionRouterOptions, options.restaurantFacts),
       this.trajectories,
       this.clock,
       options.agentLoopOptions,

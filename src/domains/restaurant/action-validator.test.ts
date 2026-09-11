@@ -99,6 +99,25 @@ test("A depleted Google discovery budget cannot be bypassed by a new retrieval h
   });
 });
 
+test("candidate fact investigation is bound to known candidates and cannot repeat the same request", () => {
+  const draft = applyRestaurantIntentPatch(undefined, {
+    schemaVersion: "3", target: { goal: "RECOMMENDATION", query: "recommend a cafe" }, date: "2026-08-05",
+    timeWindow: { earliest: "12:00", latest: "17:00" }, area: { query: "Shinjuku" },
+  });
+  const state: RestaurantTaskState = {
+    ...incompleteState,
+    phase: "SEARCHING",
+    intentDraft: draft,
+    candidates: [{ restaurant: { id: "cafe-a", outletName: "Cafe A", sourceIds: { googlePlaces: "place-a" }, address: "Tokyo", provenance: {} }, matchReasons: [], warnings: [], executionConfidence: "HIGH" }],
+  };
+  assert.equal(validateRestaurantAction(state, { type: "INVESTIGATE_CANDIDATE_FACTS", candidateIds: ["cafe-a"] }, now).status, "ALLOWED");
+  assert.equal(validateRestaurantAction(state, { type: "INVESTIGATE_CANDIDATE_FACTS", candidateIds: ["missing"] }, now).status, "REJECTED");
+  assert.deepEqual(
+    validateRestaurantAction({ ...state, factChecks: { "cafe-a": { status: "UNKNOWN", checkedAt: now, evidenceIds: [], reasonCode: "GOOGLE_TIMEOUT" } } }, { type: "INVESTIGATE_CANDIDATE_FACTS", candidateIds: ["cafe-a"] }, now),
+    { status: "REJECTED", code: "FACTS_ALREADY_CHECKED", reason: "Facts were already checked for cafe-a in this request" },
+  );
+});
+
 test("Action validator blocks unknown candidates, stale offers, and booking schedule mismatches", () => {
   const draft = applyRestaurantIntentPatch(undefined, { schemaVersion: "3", date: "2026-08-05", timeWindow: { earliest: "19:00", latest: "19:30" }, partySize: 2, area: { query: "Shinjuku" } });
   const state: RestaurantTaskState = {

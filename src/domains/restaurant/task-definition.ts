@@ -45,6 +45,7 @@ function resetForSemanticUpdate(
     candidates: _candidates,
     availability: _availability,
     availabilityChecks: _availabilityChecks,
+    factChecks: _factChecks,
     readEvidence: _readEvidence,
     selectedCandidateId: _selectedCandidateId,
     selectedOfferId: _selectedOfferId,
@@ -64,6 +65,7 @@ function resetForSemanticUpdate(
     candidates: [],
     availability: {},
     availabilityChecks: {},
+    factChecks: {},
     readEvidence: [],
   };
 }
@@ -287,6 +289,7 @@ function transition(
           candidates: continuation ? mergeCandidates(state.candidates, event.candidates) : event.candidates.slice(0, MAX_DISCOVERY_CANDIDATE_POOL).map((candidate) => structuredClone(candidate)),
           availability: continuation ? structuredClone(state.availability) : {},
           availabilityChecks: continuation ? structuredClone(state.availabilityChecks) : {},
+          factChecks: continuation ? structuredClone(state.factChecks ?? {}) : {},
           readEvidence: continuation ? mergeEvidence(state.readEvidence, event.evidence) : event.evidence.map((item) => structuredClone(item)),
           searchRevision: state.searchRevision + 1,
         },
@@ -305,6 +308,31 @@ function transition(
         state: { ...state, phase: "SEARCHING", failure: { code: "AVAILABILITY_FAILED", message: event.reason } },
         commands: [],
       };
+    case "CANDIDATE_FACTS_CHECKED": {
+      requirePhase(state, ["SEARCHING", "SELECTION_REQUIRED"], event.type);
+      if (!event.request.candidateIds.every((candidateId) => state.candidates.some((candidate) => candidate.restaurant.id === candidateId))) {
+        throw new Error("Candidate fact observation references an unknown candidate");
+      }
+      if (!event.request.candidateIds.every((candidateId) => event.factChecks[candidateId] !== undefined)) {
+        throw new Error("Candidate fact observation is missing a check result");
+      }
+      for (const candidateId of event.request.candidateIds) {
+        const check = event.factChecks[candidateId]!;
+        if (!check.evidenceIds.every((evidenceId) => event.evidence.some((evidence) => evidence.evidenceId === evidenceId && evidence.candidateId === candidateId))) {
+          throw new Error("Candidate fact check must reference evidence from the same observation");
+        }
+      }
+      const { failure: _failure, ...remaining } = state;
+      return {
+        state: {
+          ...remaining,
+          phase: "SEARCHING",
+          factChecks: { ...(state.factChecks ?? {}), ...structuredClone(event.factChecks) },
+          readEvidence: mergeEvidence(state.readEvidence, event.evidence),
+        },
+        commands: [],
+      };
+    }
     case "AVAILABILITY_REFRESH_REQUESTED": {
       requirePhase(state, ["PRESENT_RESULTS"], event.type);
       if (!state.presentedResults || event.candidateIds.length === 0 || new Set(event.candidateIds).size !== event.candidateIds.length) {

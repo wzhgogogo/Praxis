@@ -64,6 +64,34 @@ test("Google Places search budget is mechanical and bounded per adapter instance
   await assert.rejects(search.search({ intent: fixtureIntent }, new AbortController().signal), { code: "GOOGLE_SEARCH_BUDGET_EXCEEDED" });
 });
 
+test("candidate fact investigation re-reads only the known Google place and shares discovery budget", async () => {
+  let calls = 0;
+  const client = new GooglePlacesClient({
+    apiKey: "key",
+    fetchImplementation: async () => {
+      calls += 1;
+      return new Response(JSON.stringify({ places: [{
+        id: "place-1", displayName: { text: "Cafe One" }, formattedAddress: "Tokyo",
+        types: ["cafe", "food"], primaryType: "cafe",
+        regularOpeningHours: { weekdayDescriptions: ["Tuesday: 10:00 AM – 6:00 PM"] },
+      }] }), { status: 200 });
+    },
+  });
+  const intent = {
+    ...fixtureIntent,
+    target: { goal: "RECOMMENDATION" as const, query: "afternoon cafe" },
+    date: "2026-08-04", timeWindow: { earliest: "12:00", latest: "15:00" },
+    criteria: [{ text: "cafe", polarity: "POSITIVE" as const, strength: "HARD" as const }],
+  };
+  const search = new GooglePlacesRestaurantSearch(client, () => "2026-08-03T09:00:00.000Z", 10, { maxSearches: 2 });
+  const discovered = await search.search({ intent }, new AbortController().signal);
+  const facts = await search.inspectFacts({ candidateIds: [discovered.candidates[0]!.restaurant.id], candidates: discovered.candidates, intent }, new AbortController().signal);
+  assert.equal(calls, 2);
+  assert.equal(facts.factChecks[discovered.candidates[0]!.restaurant.id]?.status, "COMPLETED");
+  assert.ok(facts.evidence.some((item) => item.kind === "RESTAURANT_FACT" && item.claims.openingHoursMatch === true));
+  await assert.rejects(search.search({ intent }, new AbortController().signal), { code: "GOOGLE_SEARCH_BUDGET_EXCEEDED" });
+});
+
 test("Google Places classifies provider failure without exposing a response body", async () => {
   const failed = new GooglePlacesClient({
     apiKey: "key",

@@ -177,6 +177,27 @@ export interface RestaurantAvailabilityRequest {
   };
 }
 
+/** A bounded read of source facts for an already-discovered outlet; never an availability query. */
+export interface RestaurantCandidateFactRequest {
+  candidateIds: string[];
+  /** Bound by the Router from authoritative State; never supplied by the Agent. */
+  candidates: RestaurantCandidate[];
+  intent: RestaurantSearchIntent;
+}
+
+export interface RestaurantCandidateFactCheck {
+  status: "COMPLETED" | "UNKNOWN";
+  checkedAt: string;
+  evidenceIds: string[];
+  reasonCode?: string;
+}
+
+export interface RestaurantCandidateFactRead {
+  evidence: RestaurantReadEvidence[];
+  factChecks: Record<string, RestaurantCandidateFactCheck>;
+  metadata: RestaurantReadExecutionMetadata;
+}
+
 export interface RestaurantReadExecutionMetadata {
   provider: "GOOGLE_PLACES" | "TABLECHECK" | "TABELOG" | "AVAILABILITY_SOURCE_RESOLVER" | "FIXTURE";
   route: RestaurantExecutionRoute;
@@ -321,6 +342,8 @@ export interface RestaurantTaskState {
   candidates: RestaurantCandidate[];
   availability: Record<string, AvailabilityOffer[]>;
   availabilityChecks: Record<string, RestaurantAvailabilityCheck>;
+  /** Bounded fact reads prevent retrying the same missing evidence without a new request. */
+  factChecks?: Record<string, RestaurantCandidateFactCheck>;
   readEvidence: RestaurantReadEvidence[];
   searchRevision: number;
   selectedCandidateId?: string;
@@ -396,6 +419,13 @@ export type RestaurantEvent =
       evidence: RestaurantReadEvidence[];
       metadata: RestaurantReadExecutionMetadata;
       candidateFactUpdates?: RestaurantCandidateFactUpdate[];
+    })
+  | (DomainEvent & {
+      type: "CANDIDATE_FACTS_CHECKED";
+      request: RestaurantCandidateFactRequest;
+      evidence: RestaurantReadEvidence[];
+      factChecks: Record<string, RestaurantCandidateFactCheck>;
+      metadata: RestaurantReadExecutionMetadata;
     })
   | (DomainEvent & { type: "CANDIDATE_SELECTED"; candidateId: string; offerId?: string })
   | (DomainEvent & { type: "BOOKING_PROPOSED"; candidateId: string; offerId: string })

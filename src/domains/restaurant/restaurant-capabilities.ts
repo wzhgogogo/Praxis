@@ -25,6 +25,13 @@ export const RESTAURANT_AGENT_CAPABILITIES: readonly RestaurantAgentCapability[]
     importantConstraints: ["Cannot modify, repeat, or loosen authoritative user constraints."],
   },
   {
+    name: "INVESTIGATE_CANDIDATE_FACTS",
+    purpose: "Read source-supported restaurant type or opening-hours facts for known candidates without checking slots.",
+    inputSchema: "candidateIds; the router binds candidates and authoritative request conditions",
+    resultMeaning: "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+    importantConstraints: ["Only known candidates are valid; at most three candidates per bounded read; do not repeat a completed fact read for the same request."],
+  },
+  {
     name: "CHECK_AVAILABILITY",
     purpose: "Read availability for known candidates at the authoritative date, time window, and party size.",
     inputSchema: "candidateIds; the router binds authoritative date, time window, and party size",

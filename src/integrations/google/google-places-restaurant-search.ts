@@ -1,8 +1,8 @@
 import { createHash } from "node:crypto";
 
-import type { RestaurantSearchPort } from "../../application/restaurant-execution-router.js";
+import type { RestaurantCandidateFactPort, RestaurantSearchPort } from "../../application/restaurant-execution-router.js";
 import { groundGoogleDiscovery, type UntrustedGooglePlaceObservation } from "../../domains/restaurant/read-grounding.js";
-import type { RestaurantSearchRequest } from "../../domains/restaurant/contracts.js";
+import type { RestaurantCandidateFactRequest, RestaurantSearchRequest } from "../../domains/restaurant/contracts.js";
 import { GooglePlacesClient } from "./google-places-client.js";
 import { GooglePlacesError, type GooglePlacesRawPlace } from "./google-places-contracts.js";
 
@@ -69,7 +69,7 @@ export function buildGooglePlacesTextQuery(request: RestaurantSearchRequest): st
     .join(" ");
 }
 
-export class GooglePlacesRestaurantSearch implements RestaurantSearchPort {
+export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, RestaurantCandidateFactPort {
   readonly executionRoute = "STRUCTURED_ADAPTER" as const;
   private searchesPerformed = 0;
 
@@ -122,6 +122,61 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort {
     return {
       candidates: grounded.flatMap((result) => result.accepted ? [result.candidate] : []),
       evidence: grounded.flatMap((result) => result.accepted ? [result.evidence, ...result.additionalEvidence] : []),
+      metadata: { provider: "GOOGLE_PLACES" as const, route: this.executionRoute, latencyMs: Date.now() - startedAt },
+    };
+  }
+
+  /**
+   * Re-read one known Google Place through its stable source ID. This is a
+   * fact-only capability: it never changes the candidate pool or asserts a
+   * slot, and it shares the same bounded Google-call counter as discovery.
+   */
+  async inspectFacts(request: RestaurantCandidateFactRequest, signal: AbortSignal) {
+    const startedAt = Date.now();
+    const evidence = [] as import("../../domains/restaurant/contracts.js").RestaurantReadEvidence[];
+    const checkedAt = this.now();
+    const factChecks: import("../../domains/restaurant/contracts.js").RestaurantCandidateFactRead["factChecks"] = {};
+    for (const candidate of request.candidates) {
+      if (this.searchesPerformed >= (this.options.maxSearches ?? Number.POSITIVE_INFINITY)) {
+        factChecks[candidate.restaurant.id] = { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: "GOOGLE_SEARCH_BUDGET_EXCEEDED" };
+        continue;
+      }
+      const placeId = candidate.restaurant.sourceIds.googlePlaces;
+      if (!placeId) {
+        factChecks[candidate.restaurant.id] = { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: "GOOGLE_PLACE_ID_MISSING" };
+        continue;
+      }
+      this.searchesPerformed += 1;
+      const places = await this.client.textSearch({
+        textQuery: `${candidate.restaurant.outletName} ${candidate.restaurant.address}`,
+        pageSize: 1,
+      }, signal);
+      const matching = places.find((place) => string(place.id) === placeId);
+      if (!matching) {
+        factChecks[candidate.restaurant.id] = { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: "GOOGLE_PLACE_ID_NOT_RETURNED" };
+        continue;
+      }
+      const requestFingerprint = createHash("sha256").update(JSON.stringify({ factRead: placeId, intent: request.intent })).digest("hex");
+      const grounded = groundGoogleDiscovery(rawObservation(matching), {
+        requestFingerprint,
+        observedAt: checkedAt,
+        areaQuery: request.intent.area.query,
+        requiredTypeCriteria: request.intent.criteria.filter((criterion) => criterion.polarity === "POSITIVE" && criterion.strength === "HARD").map((criterion) => criterion.text),
+        negativeCriteria: request.intent.criteria.filter((criterion) => criterion.polarity === "NEGATIVE" && criterion.strength === "HARD").map((criterion) => criterion.text),
+        requestedDate: request.intent.date,
+        requestedTimeWindow: request.intent.timeWindow,
+      });
+      if (!grounded.accepted || grounded.candidate.restaurant.id !== candidate.restaurant.id) {
+        factChecks[candidate.restaurant.id] = { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: "GOOGLE_CANDIDATE_MISMATCH" };
+        continue;
+      }
+      const candidateEvidence = grounded.additionalEvidence.filter((item) => item.candidateId === candidate.restaurant.id);
+      evidence.push(...candidateEvidence);
+      factChecks[candidate.restaurant.id] = { status: "COMPLETED", checkedAt, evidenceIds: candidateEvidence.map((item) => item.evidenceId) };
+    }
+    return {
+      evidence,
+      factChecks,
       metadata: { provider: "GOOGLE_PLACES" as const, route: this.executionRoute, latencyMs: Date.now() - startedAt },
     };
   }

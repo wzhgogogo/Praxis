@@ -1,6 +1,8 @@
 import type { RestaurantAgentAction } from "../domains/restaurant/agent-action.js";
 import type {
   RestaurantAvailabilityCheck,
+  RestaurantCandidateFactRead,
+  RestaurantCandidateFactRequest,
   RestaurantAvailabilityRead,
   RestaurantAvailabilityRequest,
   RestaurantEvent,
@@ -25,6 +27,11 @@ export interface RestaurantAvailabilityPort {
   beginReadRun?(): void;
   endReadRun?(): void;
   check(request: RestaurantAvailabilityRequest, signal: AbortSignal): Promise<RestaurantAvailabilityRead>;
+}
+
+export interface RestaurantCandidateFactPort {
+  readonly executionRoute: "STRUCTURED_ADAPTER" | "GENERIC_BROWSER";
+  inspectFacts(request: RestaurantCandidateFactRequest, signal: AbortSignal): Promise<RestaurantCandidateFactRead>;
 }
 
 export interface RestaurantExecutionRouterOptions {
@@ -125,6 +132,7 @@ export class RestaurantExecutionRouter {
     private readonly search: RestaurantSearchPort,
     private readonly availability: RestaurantAvailabilityPort,
     options: RestaurantExecutionRouterOptions = {},
+    private readonly facts?: RestaurantCandidateFactPort,
   ) {
     this.structuredReadTimeoutMs = options.structuredReadTimeoutMs ?? 8_000;
     this.browserReadTimeoutMs = options.browserReadTimeoutMs === null ? null : options.browserReadTimeoutMs ?? 20_000;
@@ -167,6 +175,54 @@ export class RestaurantExecutionRouter {
             route: "STRUCTURED_ADAPTER",
             event: { type: "SEARCH_FAILED", reason, code },
             observation: { type: "DISCOVERY_FAILED", detail: reason },
+            failure: { source: "PROVIDER", code, reason },
+          };
+        }
+      }
+      case "INVESTIGATE_CANDIDATE_FACTS": {
+        if (!this.facts) {
+          return {
+            event: { type: "AGENT_EXECUTION_FAILED", reason: "Candidate fact investigation is unavailable in this composition" },
+            observation: { type: "FACTS_UNAVAILABLE", detail: "Candidate fact investigation is unavailable" },
+          };
+        }
+        const intent = completeRestaurantSearchIntent(state.intentDraft);
+        if (!intent) throw new Error("Validated candidate fact read requires a complete authoritative search intent");
+        const request: RestaurantCandidateFactRequest = {
+          candidateIds: [...action.candidateIds],
+          candidates: action.candidateIds.map((candidateId) => {
+            const candidate = state.candidates.find((item) => item.restaurant.id === candidateId);
+            if (!candidate) throw new Error(`Validated fact investigation cannot bind unknown candidate ${candidateId}`);
+            return structuredClone(candidate);
+          }),
+          intent,
+        };
+        try {
+          const read = await this.withProviderReadDeadline(
+            "Restaurant candidate facts",
+            this.facts.executionRoute === "GENERIC_BROWSER" ? this.browserReadTimeoutMs : this.structuredReadTimeoutMs,
+            (signal) => this.facts!.inspectFacts(request, signal),
+            this.facts.executionRoute === "GENERIC_BROWSER",
+          );
+          return {
+            route: this.facts.executionRoute,
+            event: { type: "CANDIDATE_FACTS_CHECKED", request, ...read },
+            observation: { type: "CANDIDATE_FACTS", detail: `${request.candidateIds.length} candidate fact read(s) completed` },
+            executionMetadata: read.metadata,
+          };
+        } catch (error) {
+          const reason = error instanceof Error ? error.message : "Unknown candidate fact investigation failure";
+          const code = stableFailureCode(error, "FACT_INVESTIGATION_FAILED");
+          return {
+            route: this.facts.executionRoute,
+            event: {
+              type: "CANDIDATE_FACTS_CHECKED",
+              request,
+              evidence: [],
+              factChecks: Object.fromEntries(request.candidateIds.map((candidateId) => [candidateId, { status: "UNKNOWN" as const, checkedAt: now, evidenceIds: [], reasonCode: code }])),
+              metadata: { provider: "GOOGLE_PLACES", route: this.facts.executionRoute, latencyMs: 0, failureCode: code },
+            },
+            observation: { type: "CANDIDATE_FACTS_UNKNOWN", detail: reason },
             failure: { source: "PROVIDER", code, reason },
           };
         }
