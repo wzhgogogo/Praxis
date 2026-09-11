@@ -131,7 +131,7 @@ export class RestaurantHarness {
     this.agentLoop = new RestaurantAgentLoopCoordinator(
       { snapshot: async (taskId) => this.runtime.snapshot(taskId), dispatch: async (envelope, expectedVersion) => this.runtime.dispatch(envelope, expectedVersion) },
       new ScriptedRestaurantAgentDecisionPort(actions),
-      new RestaurantExecutionRouter(this.searchAdapter, this.availabilityAdapter),
+      new RestaurantExecutionRouter(this.searchAdapter, this.availabilityAdapter, {}, this.searchAdapter),
       this.trajectories,
       this.clock,
       this.fixture.agentLoopOptions,

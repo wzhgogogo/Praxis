@@ -337,7 +337,7 @@ async function start(): Promise<void> {
     agentDecision: new RestaurantAgentDecision(model),
     restaurantSearch,
     restaurantAvailability,
-    ...(fixtureMode ? {} : { restaurantFacts: restaurantSearch as GooglePlacesRestaurantSearch }),
+    restaurantFacts: fixtureMode ? restaurantSearch : restaurantSearch as GooglePlacesRestaurantSearch,
     workspaceMode: providerMode,
     ...(fixtureMode ? {} : {
       executionRouterOptions: {

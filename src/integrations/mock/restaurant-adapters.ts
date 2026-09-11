@@ -6,6 +6,7 @@ import type {
   RestaurantAvailabilityRequest,
   RestaurantBookingSelection,
   RestaurantCandidate,
+  RestaurantCandidateFactRequest,
   RestaurantCommand,
   RestaurantSearchRequest,
 } from "../../domains/restaurant/contracts.js";
@@ -35,6 +36,19 @@ export class MockRestaurantSearchAdapter {
     return {
       candidates: structuredClone(this.candidates),
       evidence: [],
+      metadata: { provider: "FIXTURE" as const, route: this.executionRoute, latencyMs: 0 },
+    };
+  }
+
+  async inspectFacts(request: RestaurantCandidateFactRequest, _signal: AbortSignal) {
+    return {
+      evidence: [],
+      factChecks: Object.fromEntries(request.candidateIds.map((candidateId) => [candidateId, {
+        status: "UNKNOWN" as const,
+        checkedAt: "2026-08-05T09:00:00.000Z",
+        evidenceIds: [],
+        reasonCode: "MOCK_FACT_SOURCE_UNAVAILABLE",
+      }])),
       metadata: { provider: "FIXTURE" as const, route: this.executionRoute, latencyMs: 0 },
     };
   }

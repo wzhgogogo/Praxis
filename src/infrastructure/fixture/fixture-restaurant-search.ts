@@ -3,6 +3,7 @@ import type {
   RestaurantAvailabilityRequest,
   RestaurantSearchIntent,
   RestaurantCandidate,
+  RestaurantCandidateFactRequest,
   RestaurantSearchRequest,
 } from "../../domains/restaurant/contracts.js";
 
@@ -62,6 +63,21 @@ export class FixtureRestaurantSearch {
         evidenceIds: [],
       }])),
       evidence: [],
+      metadata: { provider: "FIXTURE" as const, route: this.executionRoute, latencyMs: 0 },
+    };
+  }
+
+  /** Fixture data has no source page to inspect; preserve that as an explicit unknown. */
+  async inspectFacts(request: RestaurantCandidateFactRequest, _signal: AbortSignal) {
+    const checkedAt = "2026-08-19T09:00:00.000Z";
+    return {
+      evidence: [],
+      factChecks: Object.fromEntries(request.candidateIds.map((candidateId) => [candidateId, {
+        status: "UNKNOWN" as const,
+        checkedAt,
+        evidenceIds: [],
+        reasonCode: "FIXTURE_FACT_SOURCE_UNAVAILABLE",
+      }])),
       metadata: { provider: "FIXTURE" as const, route: this.executionRoute, latencyMs: 0 },
     };
   }

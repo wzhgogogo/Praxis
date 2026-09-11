@@ -2189,3 +2189,5 @@ typecheck、arch:check（0 forbidden dependencies）、build通过；npm test 16
 - Live / paid model：未运行；该代码切片不消耗或重置H001/H002/H003/H004既有只读额度，H005仍未启动。
 
 - 补充共享额度回归：事实读取在Discovery已经耗尽额度时不发出第二个Google调用，持久化candidate `UNKNOWN`与稳定耗尽码；正常事实重读仍产生同候选来源事实。该行为与既有“换检索词不得绕过额度”覆盖互补。
+
+- Composition回归：Fixture Eval、Mock Harness和Local Web server在同一事实动作目录下均有事实Port；Fixture/Mock只返回`UNKNOWN`且不提供来源事实。受准loopback环境相关测试`35/35`通过；未运行Live或付费模型。

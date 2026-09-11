@@ -73,6 +73,7 @@ async function startServer(database: SqlDatabase, clock: FakeClock): Promise<Tes
     agentDecision: new RestaurantAgentDecision(model),
     restaurantSearch: restaurant,
     restaurantAvailability: restaurant,
+    restaurantFacts: restaurant,
   });
   const sessions = new PilotSessionService(application.store, ACCESS, clock);
   const server = createLocalWebServer({ application, sessions });

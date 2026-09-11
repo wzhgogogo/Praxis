@@ -1972,3 +1972,5 @@ Google检索继续只使用正向发现词，负向HARD条件只在候选后的�
 新增通用`INVESTIGATE_CANDIDATE_FACTS`只读动作，供事实型推荐在候选缺主营类型或适用营业时间证据时使用。Agent只能从代码投影的未调查候选中选择；Validator限制已知、去重候选和每批三家，Reducer将实际观察、UNKNOWN和证据引用保留在同一Task State。Router绑定权威Search Intent和候选，当前Google实现只接受返回的同一Place ID并回填其结构化类型/营业事实；未返回同一ID、缺ID、来源失败或额度耗尽均为candidate-scoped UNKNOWN。每次读取与Discovery共享`maxGoogleSearches`累计额度，故不会借事实调查重置调用配额。没有新增Provider、站点fallback、浏览器框架、slot/Offer、预约、支付、登录或外部写入。官网等非Google来源的Browser事实读取仍是明确未完成能力。
 
 若共享Google额度在事实读取前已经耗尽，Adapter不再发出第二个请求；它为该候选记录`GOOGLE_SEARCH_BUDGET_EXCEEDED / UNKNOWN`，Reducer同步稳定的任务失败码，使Agent Context立即关闭新的Discovery入口。已有合格展示证据不被此状态改写，仍可按Validator完成展示。
+
+所有当前composition（Fixture、Mock Harness、Local Web、Hybrid Live）现都注入candidate fact Port：Fixture/Mock没有真实来源页时返回明确的candidate-scoped `UNKNOWN`，而不是把模型允许的动作变成`AGENT_EXECUTION_FAILED`。Live仍使用Google同源事实读取；这不把Fixture声明为来源事实，也不触发任何Live调用。
