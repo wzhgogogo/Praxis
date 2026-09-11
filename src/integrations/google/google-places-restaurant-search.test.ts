@@ -92,6 +92,21 @@ test("candidate fact investigation re-reads only the known Google place and shar
   await assert.rejects(search.search({ intent }, new AbortController().signal), { code: "GOOGLE_SEARCH_BUDGET_EXCEEDED" });
 });
 
+test("a fact read records exhausted shared discovery capacity without a second provider call", async () => {
+  const client = new GooglePlacesClient({
+    apiKey: "key",
+    fetchImplementation: async () => new Response(JSON.stringify({ places: [{
+      id: "place-1", displayName: { text: "Cafe One" }, formattedAddress: "Tokyo", types: ["cafe"], primaryType: "cafe",
+    }] }), { status: 200 }),
+  });
+  const intent = { ...fixtureIntent, target: { goal: "RECOMMENDATION" as const, query: "cafe" } };
+  const search = new GooglePlacesRestaurantSearch(client, undefined, 10, { maxSearches: 1 });
+  const discovered = await search.search({ intent }, new AbortController().signal);
+  const facts = await search.inspectFacts({ candidateIds: [discovered.candidates[0]!.restaurant.id], candidates: discovered.candidates, intent }, new AbortController().signal);
+  assert.equal(facts.factChecks[discovered.candidates[0]!.restaurant.id]?.reasonCode, "GOOGLE_SEARCH_BUDGET_EXCEEDED");
+  assert.equal(facts.metadata.failureCode, "GOOGLE_SEARCH_BUDGET_EXCEEDED");
+});
+
 test("Google Places classifies provider failure without exposing a response body", async () => {
   const failed = new GooglePlacesClient({
     apiKey: "key",

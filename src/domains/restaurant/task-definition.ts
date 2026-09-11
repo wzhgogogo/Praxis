@@ -329,6 +329,9 @@ function transition(
           phase: "SEARCHING",
           factChecks: { ...(state.factChecks ?? {}), ...structuredClone(event.factChecks) },
           readEvidence: mergeEvidence(state.readEvidence, event.evidence),
+          ...(event.metadata.failureCode === "GOOGLE_SEARCH_BUDGET_EXCEEDED"
+            ? { failure: { code: event.metadata.failureCode, message: "Google discovery budget is exhausted for this run" } }
+            : {}),
         },
         commands: [],
       };

@@ -136,9 +136,11 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
     const evidence = [] as import("../../domains/restaurant/contracts.js").RestaurantReadEvidence[];
     const checkedAt = this.now();
     const factChecks: import("../../domains/restaurant/contracts.js").RestaurantCandidateFactRead["factChecks"] = {};
+    let exhausted = false;
     for (const candidate of request.candidates) {
       if (this.searchesPerformed >= (this.options.maxSearches ?? Number.POSITIVE_INFINITY)) {
         factChecks[candidate.restaurant.id] = { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: "GOOGLE_SEARCH_BUDGET_EXCEEDED" };
+        exhausted = true;
         continue;
       }
       const placeId = candidate.restaurant.sourceIds.googlePlaces;
@@ -177,7 +179,12 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
     return {
       evidence,
       factChecks,
-      metadata: { provider: "GOOGLE_PLACES" as const, route: this.executionRoute, latencyMs: Date.now() - startedAt },
+      metadata: {
+        provider: "GOOGLE_PLACES" as const,
+        route: this.executionRoute,
+        latencyMs: Date.now() - startedAt,
+        ...(exhausted ? { failureCode: "GOOGLE_SEARCH_BUDGET_EXCEEDED" } : {}),
+      },
     };
   }
 }

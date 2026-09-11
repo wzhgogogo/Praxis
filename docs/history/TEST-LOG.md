@@ -2187,3 +2187,5 @@ typecheck、arch:check（0 forbidden dependencies）、build通过；npm test 16
 - 定向覆盖：Action Validator拒绝未知或已完成候选事实调查；Router只把已知candidate与权威推荐Intent交给事实Port；Google事实读取以返回的相同Place ID生成candidate关联的`RESTAURANT_FACT`，并与Discovery共享调用上限。事实读取不产生Availability、Offer或写操作。
 - 完整验证：受准本机loopback环境`npm test`为`230/230`通过；`npm run typecheck`、`npm run arch:check`、`npm run build`和`git diff --check`通过。普通受限沙箱中的9个Web listener测试仍仅因`listen EPERM 127.0.0.1`无法绑定，获准环境重跑后无产品失败。
 - Live / paid model：未运行；该代码切片不消耗或重置H001/H002/H003/H004既有只读额度，H005仍未启动。
+
+- 补充共享额度回归：事实读取在Discovery已经耗尽额度时不发出第二个Google调用，持久化candidate `UNKNOWN`与稳定耗尽码；正常事实重读仍产生同候选来源事实。该行为与既有“换检索词不得绕过额度”覆盖互补。
