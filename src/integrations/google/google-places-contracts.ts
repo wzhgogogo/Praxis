@@ -12,6 +12,9 @@ export const GOOGLE_PLACES_RESTAURANT_FIELD_MASK = [
   "places.primaryType",
   "places.nationalPhoneNumber",
   "places.googleMapsUri",
+  // A discovery-time pointer lets a later fact investigation continue on an
+  // already observed website even when the shared Google call budget ends.
+  "places.websiteUri",
   "places.regularOpeningHours",
 ].join(",");
 
@@ -53,7 +56,7 @@ export interface GooglePlacesTextSearchResponse {
 
 export class GooglePlacesError extends Error {
   constructor(
-    readonly code: "GOOGLE_SEARCH_FAILED" | "GOOGLE_TIMEOUT" | "GOOGLE_SEARCH_BUDGET_EXCEEDED" | "GOOGLE_MALFORMED_RESPONSE" | "GOOGLE_CONFIGURATION_ERROR",
+    readonly code: "GOOGLE_SEARCH_FAILED" | "GOOGLE_TIMEOUT" | "GOOGLE_SEARCH_BUDGET_EXCEEDED" | "GOOGLE_LOCATION_UNRESOLVED" | "GOOGLE_LOCATION_AMBIGUOUS" | "GOOGLE_MALFORMED_RESPONSE" | "GOOGLE_CONFIGURATION_ERROR",
     message: string,
   ) {
     super(message);

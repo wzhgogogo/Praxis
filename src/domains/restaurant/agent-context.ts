@@ -119,7 +119,11 @@ export function projectRestaurantAgentContext(
     } : {}),
     ...(state.intentDraft?.target?.goal === "RECOMMENDATION" ? {
       factInvestigableCandidateIds: presentation
-        .filter((item) => !item.eligible && state.factChecks?.[item.candidateId] === undefined && state.sourceReadState?.googlePlacesSearchBudget !== "EXHAUSTED")
+        .filter((item) => {
+          if (item.eligible || state.factChecks?.[item.candidateId] !== undefined) return false;
+          const candidate = state.candidates.find((value) => value.restaurant.id === item.candidateId);
+          return state.sourceReadState?.googlePlacesSearchBudget !== "EXHAUSTED" || Boolean(candidate?.restaurant.sourceIds.googleWebsiteUri);
+        })
         .map((item) => item.candidateId),
     } : {}),
     ...(state.selectedCandidateId ? { selectedCandidateId: state.selectedCandidateId } : {}),

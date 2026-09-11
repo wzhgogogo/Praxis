@@ -97,6 +97,14 @@ test("the same authoritative request with two executed reads is a duplicate", ()
   assert.equal(finding(result, "INVESTIGATION_BEHAVIOR").status, "NOT_SATISFIED");
 });
 
+test("a recorded user refresh is a legal recheck of the same authoritative request", () => {
+  const artifact: any = completeArtifact();
+  const intent = { date: "2026-09-08", partySize: 2, timeWindow: { earliest: "19:00", latest: "19:00" } };
+  artifact.trajectories[0].decisionContext = { intent };
+  artifact.trajectories.push({ stateHashBefore: "same-request-after-refresh", decisionContext: { intent }, agentAction: { type: "CHECK_AVAILABILITY", candidateIds: ["candidate-a"] }, executionMetadata: { recheckReason: "USER_REQUESTED_REFRESH", providerAttempts: [{ candidateId: "candidate-a", provider: "TABLECHECK", outcome: "AVAILABLE" }] } });
+  assert.equal(finding(evaluateRestaurantHybridLiveArtifact(artifact, source), "INVESTIGATION_BEHAVIOR").status, "SATISFIED");
+});
+
 test("complete availability time windows are evaluated without H001 exact-time assumptions", () => {
   const artifact: any = completeArtifact();
   artifact.materializedCase.semantic.time = { start: "18:00", end: "20:00" };
@@ -132,7 +140,7 @@ test("H004 fact-only presentation requires applicable opening hours, not an avai
   const facts = domain.readEvidence.find((item: any) => item.evidenceId === "hard-a");
   facts.provider = "GOOGLE_PLACES";
   facts.sourceEntityId = "google-place-a";
-  facts.claims = { verifiedHardCriteria: ["cafe"], openingHoursMatch: true, openingHoursMatchedWindow: "12:00-17:00" };
+  facts.claims = { verifiedHardCriteria: ["cafe"], regularOpeningHours: ["Tuesday: 10:00 AM - 6:00 PM"], openingHoursMatch: true, openingHoursMatchedWindow: "12:00-17:00" };
   const accepted = evaluateRestaurantHybridLiveArtifact(artifact, source);
   assert.equal(finding(accepted, "REQUIRED_EVIDENCE").status, "SATISFIED", JSON.stringify(finding(accepted, "REQUIRED_EVIDENCE").observations));
   assert.equal(finding(accepted, "FINAL_CLAIM").status, "SATISFIED");
@@ -151,6 +159,20 @@ test("generic negative HARD criteria require a cited source judgment and preserv
   assert.equal(finding(evaluateRestaurantHybridLiveArtifact(artifact, source), "REQUIRED_EVIDENCE").status, "NOT_SATISFIED");
   facts.claims = { restaurantTypeFacts: ["restaurant"] };
   assert.equal(finding(evaluateRestaurantHybridLiveArtifact(artifact, source), "REQUIRED_EVIDENCE").status, "NOT_EVALUATED");
+});
+
+test("fact-only evaluation rejects a derived opening claim contradicted by raw hours", () => {
+  const artifact: any = completeArtifact();
+  artifact.materializedCase.semantic.target = { goal: "RECOMMENDATION" };
+  artifact.materializedCase.semantic.time = { start: "19:00", end: "19:00" };
+  artifact.finalSnapshot.domainState.intentDraft.target = { goal: "RECOMMENDATION", query: "cafe" };
+  artifact.finalSnapshot.domainState.intentDraft.timeWindow = { earliest: "19:00", latest: "19:00" };
+  artifact.finalSnapshot.domainState.availabilityChecks = {}; artifact.finalSnapshot.domainState.availability = {};
+  artifact.finalSnapshot.domainState.presentedResults.evidenceIds = ["discovery-a", "identity-a", "hard-a"];
+  artifact.finalSnapshot.domainState.readEvidence = artifact.finalSnapshot.domainState.readEvidence.filter((item: any) => item.evidenceId !== "availability-a");
+  const facts = artifact.finalSnapshot.domainState.readEvidence.find((item: any) => item.evidenceId === "hard-a");
+  facts.claims = { verifiedHardCriteria: ["yakiniku"], regularOpeningHours: ["Monday: Closed"], openingHoursMatch: true };
+  assert.equal(finding(evaluateRestaurantHybridLiveArtifact(artifact, source), "REQUIRED_EVIDENCE").status, "NOT_SATISFIED");
 });
 
 test("an offer inside a time window must be one of the cited availability slots", () => {

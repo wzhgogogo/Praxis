@@ -6,11 +6,59 @@ import { GooglePlacesClient } from "./google-places-client.js";
 import { buildGooglePlacesTextQuery, GooglePlacesRestaurantSearch } from "./google-places-restaurant-search.js";
 import { GOOGLE_PLACES_RESTAURANT_FIELD_MASK } from "./google-places-contracts.js";
 
-test("Google query preserves the authoritative intent and only adds a retrieval hint", () => {
+test("Google query is discovery-owned and does not serialize criteria into retrieval text", () => {
   const query = buildGooglePlacesTextQuery({ intent: fixtureIntent, retrievalHint: "Japanese wording" });
   assert.match(query, /Shinjuku/);
-  assert.match(query, /yakiniku/);
   assert.match(query, /Japanese wording/);
+  assert.doesNotMatch(query, /yakiniku/);
+});
+
+test("a named nearby place is resolved to observed coordinates and grounds candidate distance", async () => {
+  let call = 0;
+  const client = new GooglePlacesClient({
+    apiKey: "key",
+    fetchImplementation: async (_url, init) => {
+      call += 1;
+      const payload = JSON.parse(String(init?.body)) as { textQuery: string };
+      if (call === 1) {
+        assert.equal(payload.textQuery, "Higashi-Ginza Station");
+        return new Response(JSON.stringify({ places: [{
+          id: "station-1", displayName: { text: "Higashi-ginza Station" }, formattedAddress: "Tokyo",
+          location: { latitude: 35.6697, longitude: 139.767 }, types: ["subway_station"],
+        }] }), { status: 200 });
+      }
+      return new Response(JSON.stringify({ places: [{
+        id: "cafe-near", displayName: { text: "Nearby Cafe" }, formattedAddress: "Tokyo",
+        location: { latitude: 35.6701, longitude: 139.7672 }, types: ["cafe"],
+      }, {
+        id: "cafe-far", displayName: { text: "Far Cafe" }, formattedAddress: "Tokyo",
+        location: { latitude: 35.69, longitude: 139.79 }, types: ["cafe"],
+      }] }), { status: 200 });
+    },
+  });
+  const result = await new GooglePlacesRestaurantSearch(client, () => "2026-09-11T00:00:00.000Z", 10, { maxSearches: 2 }).search({
+    intent: { ...fixtureIntent, area: { query: "near Higashi-Ginza Station" } },
+    readRunId: "named-place",
+  }, new AbortController().signal);
+  assert.equal(call, 2);
+  assert.deepEqual(result.candidates.map((candidate) => candidate.restaurant.outletName), ["Nearby Cafe", "Far Cafe"]);
+  const near = result.evidence.find((item) => item.candidateId === result.candidates[0]?.restaurant.id && item.kind === "DISCOVERY");
+  assert.equal(near?.claims.areaMatchBasis, "NAMED_PLACE_RADIUS");
+  assert.equal(near?.claims.distanceMeters, 48);
+  assert.equal(result.evidence.find((item) => item.candidateId === result.candidates[1]?.restaurant.id && item.kind === "DISCOVERY")?.claims.areaMatch, false);
+  assert.equal(result.evidence[0]?.claims.locationResolutionSource, "GOOGLE_TEXT_SEARCH");
+});
+
+test("only source-level duplicate exact named locations ask for disambiguation", async () => {
+  const client = new GooglePlacesClient({
+    apiKey: "key",
+    fetchImplementation: async () => new Response(JSON.stringify({ places: [
+      { id: "station-a", displayName: { text: "Central Station" }, location: { latitude: 35.6, longitude: 139.7 } },
+      { id: "station-b", displayName: { text: "Central Station" }, location: { latitude: 35.7, longitude: 139.8 } },
+    ] }), { status: 200 }),
+  });
+  const search = new GooglePlacesRestaurantSearch(client, undefined, 10, { maxSearches: 2 });
+  await assert.rejects(search.search({ intent: { ...fixtureIntent, area: { query: "near Central Station" } } }, new AbortController().signal), { code: "GOOGLE_LOCATION_AMBIGUOUS" });
 });
 
 test("Google Places text search uses the explicit small field mask and stable candidate IDs", async () => {

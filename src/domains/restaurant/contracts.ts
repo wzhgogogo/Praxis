@@ -49,8 +49,9 @@ export interface RestaurantIntentDraft {
 export interface RestaurantSearchIntent {
   timezone: "Asia/Tokyo";
   target?: RestaurantTarget;
-  date: string;
-  timeWindow: { earliest: string; latest: string };
+  /** A fact-only recommendation may be unscheduled and must not claim hours. */
+  date?: string;
+  timeWindow?: { earliest: string; latest: string };
   area: { query: string; placeId?: string; radiusMeters?: number; coordinates?: { latitude: number; longitude: number; accuracyMeters?: number; observedAt: string; source: "DEVICE" | "MANUAL_PLACE" } };
   criteria: RestaurantCriterion[];
   budgetPerPerson?: { max: number; currency: "JPY" };
@@ -58,6 +59,8 @@ export interface RestaurantSearchIntent {
 
 /** A reservation/availability read adds party size to the read-only search facts. */
 export interface RestaurantBookingIntent extends RestaurantSearchIntent {
+  date: string;
+  timeWindow: { earliest: string; latest: string };
   partySize: number;
 }
 
@@ -209,6 +212,13 @@ export interface RestaurantReadExecutionMetadata {
   failureCode?: string;
   freshnessPolicyVersion?: string;
   recheckReason?: NonNullable<RestaurantAvailabilityRequest["recheck"]>["reason"];
+  /** Bounded model work inside a read adapter; agent decisions are recorded separately. */
+  modelUsage?: {
+    calls: number;
+    inputTokens?: number;
+    outputTokens?: number;
+    totalTokens?: number;
+  };
   /** Internal read-only source chain trace; never projected into Agent context. */
   providerAttempts?: Array<{
     candidateId: string;
@@ -352,6 +362,8 @@ export interface RestaurantTaskState {
   sourceReadState?: { googlePlacesSearchBudget: "AVAILABLE" | "EXHAUSTED" };
   readEvidence: RestaurantReadEvidence[];
   searchRevision: number;
+  /** Increments only when the user changes authoritative semantics. */
+  investigationRevision?: number;
   selectedCandidateId?: string;
   selectedOfferId?: string;
   presentedResults?: { candidateIds: string[]; evidenceIds: string[]; presentedAt: string };

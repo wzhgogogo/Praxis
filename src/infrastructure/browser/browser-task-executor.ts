@@ -224,15 +224,15 @@ export class BrowserTaskExecutor {
           this.record({ source: input.source, stage: input.stage, event: "METHOD_INCOMPLETE", url: snapshot.url, detail: progress });
         }
       }
-      // Website fact reads deliberately never delegate page interpretation or
-      // navigation to the model.  They may use acquire/navigate/snapshot only
-      // and parse the resulting structured data in their adapter.
-      if (!this.options.modelDecision || input.source === "WEBSITE") return { status: "NO_SAFE_ACTION", snapshot, controls: [] };
+      // The browser model may only choose a safe observed navigation/control.
+      // It never writes or asserts a Restaurant fact; the adapter grounds a
+      // later observation against candidate identity and source excerpts.
+      if (!this.options.modelDecision) return { status: "NO_SAFE_ACTION", snapshot, controls: [] };
       const observation = await this.observe(input, snapshot);
       if (!postAction) {
         this.record({
           source: input.source,
-          stage: input.stage as "DISCOVERY" | "IDENTITY" | "AVAILABILITY",
+          stage: input.stage,
           event: "SKILL_STARTED",
           url: snapshot.url,
           detail: progress,
@@ -258,7 +258,7 @@ export class BrowserTaskExecutor {
         action = await this.options.modelDecision.decide({
           taskId: input.taskId,
           source: input.source,
-          stage: input.stage as "DISCOVERY" | "IDENTITY" | "AVAILABILITY",
+          stage: input.stage,
           objective: input.objective,
           progress,
           skills: loadBrowserReadSkills(input.source),

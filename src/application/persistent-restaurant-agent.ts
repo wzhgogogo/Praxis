@@ -17,7 +17,7 @@ import type {
   RestaurantTaskState,
 } from "../domains/restaurant/contracts.js";
 import { restaurantBookingTaskDefinition } from "../domains/restaurant/task-definition.js";
-import { missingBlockingFields } from "../domains/restaurant/intent-state.js";
+import { missingBlockingFields, missingSearchFields } from "../domains/restaurant/intent-state.js";
 import {
   type ConversationRecord,
   PostgresAgentWorkspaceStore,
@@ -150,7 +150,9 @@ function assistantSummary(state: RestaurantTaskState): string {
       if (state.semanticConflict) {
         return "I found conflicting details in that message. Please clarify the restaurant, date, time, party size, or area you want to keep.";
       }
-      return `Please add: ${missingBlockingFields(state.intentDraft ?? {}).join(", ")}.`;
+      return `Please add: ${(state.intentDraft?.target?.goal === "AVAILABILITY"
+        ? missingBlockingFields(state.intentDraft ?? {})
+        : missingSearchFields(state.intentDraft ?? {})).join(", ")}.`;
     case "AWAITING_AUTHORIZATION":
       return state.proposal
         ? `A booking proposal for ${state.proposal.target.counterparty ?? state.proposal.target.id} is ready. Your one-time authorization is required before any booking attempt.`
@@ -158,9 +160,14 @@ function assistantSummary(state: RestaurantTaskState): string {
     case "SELECTION_REQUIRED":
       return "The current candidate cannot continue. The Agent will evaluate another safe option.";
     case "FAILED":
+      {
+        const resultKind = state.intentDraft?.target?.goal === "RECOMMENDATION"
+          ? "evidence-grounded recommendation"
+          : "verified availability result";
       return state.failure
-        ? `The read-only investigation stopped: ${state.failure.message} No verified availability result was presented.`
-        : "The read-only investigation stopped. No verified availability result was presented.";
+        ? `The read-only investigation stopped: ${state.failure.message} No ${resultKind} was presented.`
+        : `The read-only investigation stopped. No ${resultKind} was presented.`;
+      }
     default:
       return `The case is now ${state.phase.toLowerCase().replaceAll("_", " ")}.`;
   }
@@ -335,6 +342,9 @@ export class PersistentRestaurantAgentApplication {
   }): Promise<RestaurantCaseView> {
     const record = await this.requireCase(input.userId, input.caseId);
     const snapshot = await this.runtime.snapshot(record.rootTaskId);
+    if (snapshot.domainState.intentDraft?.target?.goal !== "AVAILABILITY") {
+      throw new Error("Availability refresh is unavailable for a fact-only recommendation");
+    }
     const candidateIds = snapshot.domainState.presentedResults?.candidateIds;
     if (!candidateIds?.length) throw new Error("Availability refresh requires currently presented read-only results");
     await this.runtime.dispatch(

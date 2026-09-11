@@ -1,10 +1,10 @@
 # Agent Orchestration
 
 - Status: Accepted
-- Document revision: 3.15
-- Last updated: 2026-09-07
+- Document revision: 3.16
+- Last updated: 2026-09-11
 - Source of truth for: Agent Workspace中的模型职责、有界Loop、前后台运行与Multi-Agent边界
-- Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md), [ADR-0003](../decisions/0003-single-agent-orchestration.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md)
+- Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md), [ADR-0003](../decisions/0003-single-agent-orchestration.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md), [ADR-0021](../decisions/0021-cited-source-fact-investigation.md)
 - Related documents: [Agent Gateway and Workspace](AGENT-GATEWAY-AND-WORKSPACE.md), [Task Runtime](TASK-RUNTIME.md), [Policy & Execution](POLICY-EXECUTION-VERIFICATION.md)
 
 ## 原则
@@ -41,7 +41,7 @@ LLM Response / Adjustment可以解释事实、生成澄清问题或提出非权�
 
 ## 前台与后台运行
 
-前台Conversation可保留有限近期消息。浏览器断开不取消Durable Case；新的Interaction Session从服务端Case State恢复。
+前台Conversation可保留有限近期消息。浏览器断开不取消Durable Case；新的Interaction Session从服务端Case State恢复。当前本地Web在请求处理中同步完成有界调查；持久化保存的是Case/证据/轨迹，不是可跨服务重启恢复的后台作业。可靠异步排队、取消协作与重启恢复必须作为独立切片实现，不能由数据库存在这一事实推断已经具备。
 
 后台Trigger、外部Event或Follow-up使用新的有界Run，从Task Snapshot、Attempt/Authorization引用和最小Domain Context重建。模型失败只能产生明确失败结果或不改变状态，不能扩大授权或把Case标为完成。
 

@@ -1,7 +1,7 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.10
+- Document revision: 1.11
 - Last updated: 2026-09-11
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
@@ -12,7 +12,7 @@
 | Provider | Discovery | Availability | Execute | Cancel | Verify | Takeover | Status / 限制 |
 |---|---|---|---|---|---|---|---|
 | DeepSeek API | — | — | Tool Call提议 | — | 仅辅助抽取 | — | `verified`连接；Semantic与Agent使用Beta strict function。strict wire object的所有字段均为required并关闭additional properties，Domain再恢复canonical可选字段；non-blank等其余规则由本地Validator保证。安全诊断保留status/request ID/code/type/脱敏message，模型不直接执行工具或写状态 |
-| Google Places API (New) | Live Text Search Discovery；已知Place ID的Place Details事实重读（代码实现；尚待本切片Live实测） | 无库存；可返回常规营业时段及网站指针 | 否 | 否 | 否 | 否 | `verified`官方HTTP/FieldMask契约；Praxis只请求最小字段、结构化address components、电话、类型、`regularOpeningHours`及Place Details的`websiteUri`。事实重读只用已保存Place ID，不以名称再次搜索；Discovery和Details在同一持久task run累计额度、不同task run隔离。`websiteUri`只是Google列出的网站指针，不是Google Maps URL、更不是官方事实或页面内容。UNKNOWN不会变成无位；常规营业时段不能表示当前营业、特殊日期营业或有桌；内容保存和展示仍受Google政策限制 |
+| Google Places API (New) | Live Text Search Discovery；已知Place ID的Place Details事实重读（代码实现；尚待本切片Live实测） | 无库存；可返回常规营业时段及网站指针 | 否 | 否 | 否 | 否 | `verified`官方HTTP/FieldMask契约；Praxis只请求最小字段、结构化address components、电话、类型、`regularOpeningHours`及Place Details的`websiteUri`。命名“附近”地点先在同一run额度内解析坐标，再以记录的半径距离判断；只有多个同名坐标结果才请求消歧。事实重读只用已保存Place ID，不以名称再次搜索；Discovery和Details在同一持久task run累计额度、不同task run隔离。`websiteUri`只是Google列出的网站指针，不是Google Maps URL、更不是官方事实或页面内容。UNKNOWN不会变成无位；常规营业时段不能表示当前营业、特殊日期营业或有桌；内容保存和展示仍受Google政策限制 |
 | Cloudflare Browser Run | 浏览器基础设施（代码实现；一次live会话建立失败已记录） | 通过受限Browser Executor读取 | 否 | 否 | 否 | 否 | CDP远程浏览器；Kitesurf为首选Beta引擎，发生一次兼容/运行时失败才回退Chromium；不绕过bot challenge。会话未建立的稳定失败为`BROWSER_RUNTIME_FAILED`/`BROWSER_TIMEOUT`，不得伪报为目标网页或门店identity事实 |
 | Local Playwright Chromium | 仅开发/eval浏览器基础设施 | 通过同一受限Browser Executor读取 | 否 | 否 | 否 | 否 | 仅当`PRAXIS_BROWSER_ENGINE=LOCAL_CHROMIUM`显式选择；不访问Cloudflare、不读取其凭证、不改变Cloudflare AUTO。要求本机已安装Playwright Chromium binary；缺失时稳定`BROWSER_RUNTIME_FAILED`，不回退远端Provider。两个eval-only interactive gate同时开启时，headed `launchPersistentContext`固定使用gitignored `.eval-artifacts/local-chromium-profile`，人手验证期间保留同一page/context/browser；正常结束只关闭session，不自动删除profile。2026-09-07真实TableCheck单页探针和H001均启动成功；不代表来源identity、slot或availability已验证 |
 | Tabelog Web | 来源页 | 只读开发期Availability Executor（代码实现；页面兼容性部分实测） | 否 | 否 | 否 | Eval-only terminal pause | 仅限Tabelog域名；结果页只接受可识别的restaurant-result链接，relative/canonical outlet URL在门店页补全身份，只有exact phone或name+address可HIGH匹配，已知电话号码冲突直接拒绝；日本显式`+81`号码与国内格式规范后才比较。只接受明确标记available的slot控件。实体非HIGH、CAPTCHA/`Just a moment...` challenge、页面异常、未确认的日期/人数、超时或外部跳转均不是`UNAVAILABLE`；challenge先于identity归类为`BOT_CHALLENGE`。2026-09-07 H001已读到真实详情，Sushisho Isseki Sancho以exact phone达HIGH，但其availability转至当前不支持的外部预约Provider，因此没有slot或Offer。仅在显式local interactive eval中，adapter发送脱敏`USER_INTERVENTION_REQUIRED`、终端等待用户手动完成站点验证并仅snapshot同一页面；没有CAPTCHA自动化、stealth、自动retry或cookie/token记录。eval artifact仅保存脱敏identity diagnostics，不保存HTML。Browser会话建立失败不构成实体不确定。生产适用性须经兼容性、可靠性和法律约束单独验证 |
@@ -21,7 +21,7 @@
 | Hot Pepper Web | 餐厅页 | 网页可查 | Browser | Browser/管理链接 | 成功页、邮件、订单状态 | 登录/验证/支付 | `assumed`，需逐流程Adapter验证；Request Booking不是即时成功 |
 | TableCheck API | 有集成能力 | 可能 | 可能 | 可能 | 可能 | 取决于流程 | `requires partnership`；不作为MVP无条件依赖 |
 | TableCheck Web | 公开的`/en/japan/search`按候选名称和Google坐标发现渲染出的guide页链接 | H001只读Browser Adapter（已在原始 H001 得到一个完整 grounded slot） | 否 | 否 | 否 | 受控模型接管仅限同一会话中已观察到的只读目标 | 固定优先于Tabelog。搜索排序只限制待读取页面，不构成identity；详情页必须以JSON-LD/DOM/tel link的Google exact phone或name+full address达到HIGH。预约页只接受详情页实际链接或其嵌入的公开Availability结构，绝不派生slug；仅设置只读日期/人数参数并读取明确bookable slot。`TABLECHECK_DISCOVERY_NO_RESULT`、`TABLECHECK_DISCOVERY_INCOMPLETE`、`TABLECHECK_ENTITY_MATCH_UNCERTAIN`、`TABLECHECK_PAGE_UNAVAILABLE`和`TABLECHECK_PARSE_FAILED`分开保留；`PAGE_UNAVAILABLE`仅可由错误页title/primary heading证明，不能由正文数字或任意`not found`字样触发。搜索页未抽取链接时同一session交给受限模型，artifact记录交接原因、观察、动作和动作后验证；耗尽后才退出该来源。2026-09-08冻结 H001 在 KINKA Sushi Bar Izakaya 渋谷通过Google exact phone达到HIGH，回读`2026-09-08`、2 人、`19:00`的公开可订slot，并进入`PRESENT_RESULTS`；这只证明该次来源/库存，不保证其他门店、日期或Web UI已验收。没有登录、个人资料、支付、点击确认或提交。identity、日期/人数或slot不确定时fail closed。TableCheck API仍`requires partnership` |
-| Google-listed Restaurant Website | 仅已发现候选的Google `websiteUri` | 仅JSON-LD结构化主营/营业字段 | 否 | 否 | 否 | 否 | 代码实现、尚待Live实测。仅复用受控只读Browser Executor打开HTTP(S)同源网址，移除query/fragment并拒绝凭据、跨源跳转及无结构化identity的页面。只有`Restaurant`/`CafeOrCoffeeShop`/`FoodEstablishment` JSON-LD与候选名称及地址完全对应才产生事实；可见文本和模型解释不写入事实。该关联证明网站的结构化门店匹配，不宣称域名所有权或“官方”身份；失败为candidate-scoped UNKNOWN，绝不构成无位 |
+| Google-listed Restaurant Website | 仅已发现候选的Google `websiteUri` | 有界只读的JSON-LD或窄范围可见主营/营业字段 | 否 | 否 | 否 | 否 | 代码实现、尚待本切片Live实测。仅复用受控只读Browser Executor打开HTTP(S)同源网址，移除query/fragment并拒绝凭据、跨源跳转及不安全控件。候选名称加地址包含/同序门牌组件才可建立HIGH identity；同名、缺地址或冲突均为UNKNOWN。JSON-LD是快捷路径，候选绑定的可见类型/星期营业说明也可成为事实；只保存URL、观察时间、候选关联与DOM摘要指纹，不保存原始页面文本。模型只能在观察到的同源只读控件间导航；负向类型判断只能引用既有具体来源类型事实，模型不直接写State。Google Maps URL、Google列出的网址或模型结论都不单独证明官网/门店事实；失败为candidate-scoped UNKNOWN，绝不构成无位 |
 | Phone-only Restaurant | 可能 | 电话 | 否 | 否 | 用户/餐厅确认 | 用户 | `unsupported`于MVP |
 
 ## 官方来源

@@ -1,8 +1,8 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.5
-- Last updated: 2026-09-10
+- Document revision: 4.6
+- Last updated: 2026-09-11
 - Source of truth for: 已实现能力、已验证范围、明确未验证项与下一道门槛
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Documentation Index](INDEX.md), [Roadmap](roadmap.md), [Verification History](history/TEST-LOG.md)
@@ -80,6 +80,16 @@ Google Places现记录来源类型及常规营业时间，并仅在可解析的�
 H002–H005尚无合格的完整Live结果。H003实际完成了三次完整Live运行——这是超出“每例最多一次”授权的执行错误，后续不再重跑；三次都在30步后以`STEP_LIMIT / FAILED`结束。每次都物化东银座评估坐标、读取12个候选并尝试两种已支持的预约来源；所有候选均为`UNKNOWN / AVAILABILITY_SOURCES_EXHAUSTED`，不是无位。独立评价还发现Semantic把冻结的HARD `team dinner`/`good for drinks`改写或降为SOFT，故权威条件为`NOT_SATISFIED`；没有结果、Offer或可展示证据。H002完成一次55.6秒Live：语义漏掉冻结的`party_size`且改写`first date`，Google只返回一个无适用区域事实的候选；三次Google预算耗尽后Agent继续同请求搜索至`STEP_LIMIT`，未读预约来源。H004另有一次完整Live，但错误走了空位调查链并在约301秒`STEP_LIMIT / FAILED`，没有事实型展示；H005未启动。本轮未重跑任何Live，离线修复不能替代其验收。此前H001/Web Live刷新验收保持独立，不替代本组案例。
 
 2026-09-11在最终代码的`LIVE_READ` Web Workspace各执行一次H004与澄清后的H002（均为此前未消耗的Web授权，非Hybrid重跑）。H004“今天下午东银座附近咖啡馆、不需要预约”（Task `restaurant:410b…f99169`，约19秒）及H002“明晚东银座站附近、两人、排除火锅与川湘主导菜系、不需要预约”（Task `restaurant:cb503…27eeb3`，约12秒）各有3次模型决策；每例实际发出1次Google Discovery和2次Place Details，第三个候选Details因累计上限返回`GOOGLE_SEARCH_BUDGET_EXCEEDED`而未请求。二者都进入`NEEDS_INPUT`：候选地址只证明`Ginza`，而当前区域Grounding只接受目标地点文字与Google address component的全等，不能从`Ginza`推导`Higashi-Ginza`。这是地点解析/区域证据链缺口，不是用户需求不清楚、无位、否定条件满足或官网事实失败。两次没有产生候选官网Browser事实证据、`PRESENT_RESULTS`、Offer、可用/无位声明或第三方写入；各自的一次Web Live额度已耗尽，不会为修复后复验自行追加运行。
+
+## 2026-09-11 当前开发切片 — 命名地点与来源事实闭环（离线已验证）
+
+以`5dfa3e0`之后的未发布切片为基础，ADR-0021补齐了普通事实推荐所缺的两条通用证据路径。命名“附近”地点先通过Google Text Search取得实际坐标，候选用记录的距离和半径判断范围；行政区字符串、搜索偏置或东银座别名不再代替此证据。只有来源返回多个同名且可定位的地点才进入消歧；解析失败仍作为来源限制安全结束。
+
+事实调查改为缺口驱动：Google Place Details已提供充分事实时不会无意义打开网站；否则可沿已观察到的Google-listed `websiteUri`进入既有受控Browser Executor，即使Google本run额度已耗尽。JSON-LD和候选绑定的窄范围可见主页事实都可提供主营/营业证据；身份要求名称加地址包含或同序门牌组件，冲突或不足仍为`UNKNOWN`。该网址只是来源线索，不标为官网；Google Maps、页面可见内容、模型判断和最终事实保持可区分的来源关联。
+
+H002类型排除模型判断只引用已经观察到的具体类型事实，宽泛`restaurant`等标签或关键词缺失不能通过负向HARD。调用量与可得token用量现在附在读取的执行元数据中；普通模型决策仍由既有trajectory记录。诊断器将带`USER_REQUESTED_REFRESH`/时效理由的实际重查视为合法重查，不再误判为重复调用。页面对事实推荐不再显示“availability not checked”，失败摘要也不会把推荐失败说成空位结果。
+
+离线全矩阵在获准localhost监听环境为`247/247`，并通过typecheck、architecture check、build和`git diff --check`。本切片没有运行新的模型、Google、Browser或Web Live调用；此前H002/H004的各一次Web Live授权已经消耗，故不能以此处离线结果宣称它们已复验。当前持久Web仍同步等待一次调查完成；数据库持久化不等于服务重启后后台任务可靠续跑，异步执行/取消/恢复仍是后续独立产品切片。
 
 ## 当前标识
 

@@ -91,15 +91,15 @@ function presentationEvidenceIds(
   if (!requiresAvailability) {
     const entity = entities[0];
     if (!entity) return { valid: false, reason: `Candidate ${candidateId} has no HIGH outlet identity evidence` };
-    const openingHours = candidateEvidence.find((evidence) =>
-      evidence.kind === "RESTAURANT_FACT" && evidence.claims.openingHoursMatch === true,
-    );
-    if (!openingHours) {
+    const openingHours = intent.date && intent.timeWindow
+      ? candidateEvidence.find((evidence) => evidence.kind === "RESTAURANT_FACT" && evidence.claims.openingHoursMatch === true)
+      : undefined;
+    if (intent.date && intent.timeWindow && !openingHours) {
       return { valid: false, reason: `Candidate ${candidateId} has no opening-hours evidence for the requested visit window` };
     }
     return {
       valid: true,
-      evidenceIds: [...new Set([entity.evidenceId, area.evidenceId, openingHours.evidenceId, ...candidateEvidence
+      evidenceIds: [...new Set([entity.evidenceId, area.evidenceId, ...(openingHours ? [openingHours.evidenceId] : []), ...candidateEvidence
         .filter((evidence) => evidence.kind === "RESTAURANT_FACT")
         .map((evidence) => evidence.evidenceId)])],
     };
@@ -107,13 +107,13 @@ function presentationEvidenceIds(
   const bookingIntent = completeRestaurantIntent(state.intentDraft);
   if (!bookingIntent) return { valid: false, reason: "Availability requested but party size is missing" };
   const offer = state.availability[candidateId]?.find((item) =>
-    isDisplayFresh(item.displayExpiresAt, now) && item.partySize === bookingIntent.partySize && item.dateTime.slice(0, 10) === intent.date &&
-    item.dateTime.slice(11, 16) >= intent.timeWindow.earliest && item.dateTime.slice(11, 16) <= intent.timeWindow.latest,
+    isDisplayFresh(item.displayExpiresAt, now) && item.partySize === bookingIntent.partySize && item.dateTime.slice(0, 10) === bookingIntent.date &&
+    item.dateTime.slice(11, 16) >= bookingIntent.timeWindow.earliest && item.dateTime.slice(11, 16) <= bookingIntent.timeWindow.latest,
   );
   const availability = candidateEvidence.find((evidence) =>
     evidence.kind === "AVAILABILITY" &&
       isDisplayFresh(evidence.displayExpiresAt, now) &&
-      stringClaim(evidence, "date") === intent.date && evidence.claims.partySize === bookingIntent.partySize &&
+      stringClaim(evidence, "date") === bookingIntent.date && evidence.claims.partySize === bookingIntent.partySize &&
       offer !== undefined && stringListClaim(evidence, "visibleSlots").includes(offer.dateTime.slice(11, 16)),
   );
   const entity = availability

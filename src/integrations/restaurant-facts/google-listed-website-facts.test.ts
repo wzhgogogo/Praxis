@@ -18,11 +18,11 @@ const request: RestaurantCandidateFactRequest = {
   },
 };
 
-function runtime(html: string): BrowserRuntime {
+function runtime(html: string, text = "untrusted visible prose"): BrowserRuntime {
   const session: BrowserSession = {
     metadata: { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM", engine: "CHROMIUM", startedAt: "2026-09-11T00:00:00.000Z" },
     navigate: async () => {},
-    snapshot: async () => ({ url: "https://cafe.example/about", title: "Cafe A", text: "untrusted visible prose", html }),
+    snapshot: async () => ({ url: "https://cafe.example/about", title: "Cafe A", text, html }),
     click: async () => {}, fill: async () => {}, select: async () => [], waitFor: async () => {}, screenshot: async () => new Uint8Array(), close: async () => {},
   };
   return { openSession: async () => session };
@@ -49,5 +49,36 @@ test("website prose without exact structured name and address remains unknown", 
   assert.deepEqual(read.factChecks["cafe-a"], {
     status: "UNKNOWN", checkedAt: read.factChecks["cafe-a"]?.checkedAt, evidenceIds: [], reasonCode: "WEBSITE_STRUCTURED_IDENTITY_UNVERIFIED",
   });
+  assert.equal(read.evidence.length, 0);
+});
+
+test("candidate-bound visible opening hours are grounded when JSON-LD is absent", async () => {
+  const read = await new GoogleListedWebsiteFactRead(
+    runtime("<main>plain public page</main>", "Cafe A\n1 Ginza, Tokyo\nCafe\nMonday: 10:00 - 18:00"),
+    () => "2026-09-11T00:00:00.000Z",
+  ).inspectFacts(request, new AbortController().signal);
+  const facts = read.evidence.find((item) => item.kind === "RESTAURANT_FACT");
+  assert.equal(read.factChecks["cafe-a"]?.status, "COMPLETED");
+  assert.equal(facts?.claims.openingHoursMatch, true);
+  assert.equal(facts?.artifactRef?.kind, "DOM_EXCERPT");
+});
+
+test("a differently punctuated but equivalent numbered address can identify the same outlet", async () => {
+  const altered: RestaurantCandidateFactRequest = {
+    ...request,
+    candidates: [{ ...request.candidates[0]!, restaurant: { ...request.candidates[0]!.restaurant, address: "Tokyo Ginza 1 2" } }],
+  };
+  const read = await new GoogleListedWebsiteFactRead(
+    runtime("<main>plain public page</main>", "Cafe A\nTokyo, Ginza 1-2\nCafe\nMonday: 10:00 - 18:00"),
+  ).inspectFacts(altered, new AbortController().signal);
+  assert.equal(read.factChecks["cafe-a"]?.status, "COMPLETED");
+  assert.equal(read.evidence[0]?.entityMatch?.matchedBy[0], "VISIBLE_WEBSITE_NAME_AND_ADDRESS_COMPONENTS");
+});
+
+test("a same-name page without the candidate address does not become an outlet fact", async () => {
+  const read = await new GoogleListedWebsiteFactRead(
+    runtime("<main>plain public page</main>", "Cafe A\n2 Ginza, Tokyo\nCafe\nMonday: 10:00 - 18:00"),
+  ).inspectFacts(request, new AbortController().signal);
+  assert.equal(read.factChecks["cafe-a"]?.status, "UNKNOWN");
   assert.equal(read.evidence.length, 0);
 });

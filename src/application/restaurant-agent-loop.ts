@@ -77,7 +77,17 @@ function terminal(state: RestaurantTaskState): boolean {
  * Stop before asking the model to improvise repeated searches.
  */
 function noExecutableDiscoveryPath(state: RestaurantTaskState): boolean {
-  return state.sourceReadState?.googlePlacesSearchBudget === "EXHAUSTED" && state.candidates.length === 0;
+  const goal = state.intentDraft?.target?.goal;
+  if (state.failure?.code === "GOOGLE_LOCATION_UNRESOLVED" && state.candidates.length === 0) return true;
+  if (state.sourceReadState?.googlePlacesSearchBudget !== "EXHAUSTED") return false;
+  if (state.candidates.length === 0) return true;
+  // A fact-only recommendation has no lawful browser/availability fallback
+  // once its only fact source is exhausted and each current candidate has
+  // received its bounded read.  This is an execution limitation, not a prompt
+  // to ask the user to repeat an already clear request.
+  return goal === "RECOMMENDATION" && state.candidates.every((candidate) =>
+    state.factChecks?.[candidate.restaurant.id] !== undefined,
+  );
 }
 
 function unique(values: string[]): string[] {
@@ -160,7 +170,9 @@ export class RestaurantAgentLoopCoordinator {
           snapshot,
           this.base(taskId, stepNumber, snapshot),
           "NO_PROGRESS",
-          "Google discovery budget is exhausted before any candidate was found; no valid read action remains",
+          snapshot.domainState.failure?.code === "GOOGLE_LOCATION_UNRESOLVED"
+            ? "The named location could not be resolved to coordinates by the available source; no result may claim nearby compliance"
+            : "Google read budget is exhausted and no candidate has a remaining lawful fact path; no valid read action remains",
         );
         return { status: "NO_PROGRESS", steps: step };
       }
@@ -255,7 +267,7 @@ export class RestaurantAgentLoopCoordinator {
           decision.action,
           snapshot.domainState,
           this.clock.now().toISOString(),
-          snapshot.runId,
+          snapshot.runId + ":investigation:" + String(snapshot.domainState.investigationRevision ?? 0),
         );
       } catch (error) {
         const reason = error instanceof Error ? error.message : "Restaurant action execution failed";

@@ -56,6 +56,25 @@ test("A fact-only cafe request can present opening-hours-grounded results withou
   assert.deepEqual(validateRestaurantAction(state, { type: "PRESENT_RESULTS", candidateIds: [candidateId] }, now), { status: "ALLOWED" });
 });
 
+test("an unscheduled recommendation can present place facts without inventing opening hours", () => {
+  const candidateId = "cafe-unscheduled";
+  const draft = applyRestaurantIntentPatch(undefined, {
+    schemaVersion: "3", target: { goal: "RECOMMENDATION", query: "recommend a cafe" }, area: { query: "Ginza" },
+    addCriteria: [{ text: "cafe", polarity: "POSITIVE", strength: "HARD" }],
+  });
+  const state: RestaurantTaskState = {
+    ...incompleteState, phase: "SEARCHING", intentDraft: draft,
+    candidates: [{ restaurant: { id: candidateId, outletName: "Cafe A", sourceIds: { googlePlaces: "place-a" }, address: "Tokyo", provenance: {} }, matchReasons: [], warnings: [], executionConfidence: "HIGH" }],
+    readEvidence: [
+      { evidenceId: "area", kind: "DISCOVERY", provider: "GOOGLE_PLACES", candidateId, observedAt: now, requestFingerprint: "request", claims: { areaQuery: "Ginza", areaMatch: true } },
+      { evidenceId: "entity", kind: "ENTITY_MATCH", provider: "GOOGLE_PLACES", candidateId, observedAt: now, requestFingerprint: "request", claims: {}, entityMatch: { confidence: "HIGH", matchedBy: ["GOOGLE_PLACE_ID"] } },
+      { evidenceId: "facts", kind: "RESTAURANT_FACT", provider: "GOOGLE_PLACES", candidateId, observedAt: now, requestFingerprint: "request", claims: { verifiedHardCriteria: ["cafe"] } },
+    ],
+  };
+  assert.equal(validateRestaurantAction(state, { type: "SEARCH_RESTAURANTS" }, now).status, "ALLOWED");
+  assert.deepEqual(validateRestaurantAction(state, { type: "PRESENT_RESULTS", candidateIds: [candidateId] }, now), { status: "ALLOWED" });
+});
+
 test("The requested goal, not party size, determines whether availability evidence is required", () => {
   const candidateId = "cafe-a";
   const common = {
@@ -97,6 +116,20 @@ test("A depleted Google discovery budget cannot be bypassed by a new retrieval h
   assert.deepEqual(validateRestaurantAction({ ...incompleteState, intentDraft: draft, failure: { code: "GOOGLE_SEARCH_BUDGET_EXCEEDED", message: "budget exhausted" }, sourceReadState: { googlePlacesSearchBudget: "EXHAUSTED" } }, { type: "SEARCH_RESTAURANTS", retrievalHint: "different wording" }, now), {
     status: "REJECTED", code: "DISCOVERY_UNAVAILABLE", reason: "Google discovery budget is exhausted for this run; changing retrieval wording cannot restore it",
   });
+});
+
+test("only a source-confirmed named-place ambiguity asks the user to disambiguate", () => {
+  const state: RestaurantTaskState = {
+    ...incompleteState,
+    phase: "SEARCHING",
+    intentDraft: applyRestaurantIntentPatch(undefined, { schemaVersion: "3", target: { goal: "RECOMMENDATION", query: "recommend a cafe" }, area: { query: "near Central Station" } }),
+  };
+  const result = restaurantBookingTaskDefinition.transition(state, {
+    type: "SEARCH_FAILED", code: "GOOGLE_LOCATION_AMBIGUOUS", reason: "multiple source places",
+  }, { taskId: "task", runId: "run", now, createId: (prefix) => prefix });
+  assert.equal(result.state.phase, "NEEDS_INPUT");
+  assert.match(result.state.pendingUserQuestion?.question ?? "", /multiple matching locations/);
+  assert.equal(result.state.failure?.code, "GOOGLE_LOCATION_AMBIGUOUS");
 });
 
 test("candidate fact investigation is bound to known candidates and cannot repeat the same request", () => {

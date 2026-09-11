@@ -181,10 +181,16 @@ export function openingHoursForRequest(
   const intervals = [...entry.matchAll(/(\d{1,2}(?::\d{2})?\s*(?:AM|PM)?)\s*[–-]\s*(\d{1,2}(?::\d{2})?\s*(?:AM|PM)?)/gi)]
     .flatMap((match) => {
       const start = minutes(match[1]!); const end = minutes(match[2]!);
-      return start === undefined || end === undefined || end <= start ? [] : [[start, end] as const];
+      if (start === undefined || end === undefined || end === start) return [];
+      // A weekly interval may cross midnight.  The current request window is
+      // same-day, so retain the late-day part and never invent next-day hours.
+      return [[start, end > start ? end : end + 24 * 60] as const];
     });
-  const matching = intervals.find(([start, end]) => start <= requestedEnd && end >= requestedStart);
-  return matching ? { matches: true, window: [hhmm(Math.max(matching[0], requestedStart)), hhmm(Math.min(matching[1], requestedEnd))] } : { matches: false };
+  // Closing time is exclusive: a 21:00 close does not support a 21:00 visit.
+  // One explicit interval must cover the requested window; adjacent split
+  // periods cannot be fused into an invented continuous opening.
+  const matching = intervals.find(([start, end]) => start <= requestedStart && end > requestedEnd);
+  return matching ? { matches: true, window: [hhmm(requestedStart), hhmm(requestedEnd)] } : { matches: false };
 }
 
 export interface UntrustedRestaurantWebsiteObservation {
@@ -203,7 +209,7 @@ export interface UntrustedRestaurantWebsiteObservation {
  */
 export function groundRestaurantWebsiteFacts(
   candidate: RestaurantCandidate,
-  intent: { area: { query: string }; criteria: Array<{ text: string; polarity: "POSITIVE" | "NEGATIVE"; strength: "HARD" | "SOFT" | "UNSPECIFIED" }>; date: string; timeWindow: { earliest: string; latest: string } },
+  intent: { area: { query: string }; criteria: Array<{ text: string; polarity: "POSITIVE" | "NEGATIVE"; strength: "HARD" | "SOFT" | "UNSPECIFIED" }>; date?: string; timeWindow?: { earliest: string; latest: string } },
   observation: UntrustedRestaurantWebsiteObservation,
 ): { evidence: RestaurantReadEvidence[]; status: "COMPLETED" | "UNKNOWN"; reasonCode?: string } {
   if (observation.candidateId !== candidate.restaurant.id || observation.entityMatch.confidence !== "HIGH") {
@@ -220,7 +226,9 @@ export function groundRestaurantWebsiteFacts(
   const types = [...new Set((observation.restaurantTypeFacts ?? []).map(normalized).filter(Boolean))];
   const positive = supportedTypeCriteria(types, intent.criteria.filter((item) => item.polarity === "POSITIVE" && item.strength === "HARD").map((item) => item.text));
   const negative = negativeTypeConflicts(types.join(" "), intent.criteria.filter((item) => item.polarity === "NEGATIVE" && item.strength === "HARD").map((item) => item.text));
-  const openingHours = openingHoursForRequest(observation.regularOpeningHours, intent.date, intent.timeWindow);
+  const openingHours = intent.date && intent.timeWindow
+    ? openingHoursForRequest(observation.regularOpeningHours, intent.date, intent.timeWindow)
+    : undefined;
   const facts: RestaurantReadEvidence[] = types.length || openingHours !== undefined ? [{
     evidenceId: evidenceId("website-facts", { candidateId: candidate.restaurant.id, sourceUrl: observation.sourceUrl, observedAt: observation.observedAt, types, openingHours }),
     kind: "RESTAURANT_FACT", provider: "RESTAURANT_WEBSITE", candidateId: candidate.restaurant.id, sourceEntityId, sourceUrl: observation.sourceUrl,
@@ -243,7 +251,7 @@ export function groundRestaurantWebsiteFacts(
  */
 export function groundGoogleDiscovery(
   observation: UntrustedGooglePlaceObservation,
-  input: { requestFingerprint: string; observedAt: string; areaQuery: string; evaluationLocation?: { latitude: number; longitude: number; radiusMeters: number; label: string; areaMatchBasis?: "TASK_LOCATION_RADIUS" | "EVALUATION_LOCATION_RADIUS" }; requiredTypeCriteria?: string[]; negativeCriteria?: string[]; requestedDate?: string; requestedTimeWindow?: { earliest: string; latest: string } },
+  input: { requestFingerprint: string; observedAt: string; areaQuery: string; evaluationLocation?: { latitude: number; longitude: number; radiusMeters: number; label: string; areaMatchBasis?: "TASK_LOCATION_RADIUS" | "EVALUATION_LOCATION_RADIUS" | "NAMED_PLACE_RADIUS" }; requiredTypeCriteria?: string[]; negativeCriteria?: string[]; requestedDate?: string; requestedTimeWindow?: { earliest: string; latest: string } },
 ): GroundedGoogleDiscovery {
   if (!observation.placeId?.trim()) return { accepted: false, reasonCode: "GOOGLE_PLACE_ID_MISSING" };
   if (!observation.displayName?.trim()) return { accepted: false, reasonCode: "GOOGLE_NAME_MISSING" };

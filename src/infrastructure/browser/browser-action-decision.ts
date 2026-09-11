@@ -54,8 +54,8 @@ export interface BrowserReadGoal {
 
 export interface BrowserReadDecisionInput {
   taskId: string;
-  source: "TABLECHECK" | "TABELOG";
-  stage: "DISCOVERY" | "IDENTITY" | "AVAILABILITY";
+  source: "TABLECHECK" | "TABELOG" | "WEBSITE";
+  stage: "DISCOVERY" | "IDENTITY" | "AVAILABILITY" | "FACTS";
   observation: {
     revision: number;
     url: string;

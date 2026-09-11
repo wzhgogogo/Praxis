@@ -22,13 +22,15 @@ export function missingBlockingFields(input: {
 
 /** Discovery can answer a non-reservation request without collecting party size. */
 export function missingSearchFields(input: {
+  target?: { goal?: unknown };
   date?: unknown;
   timeWindow?: unknown;
   area?: unknown;
 }): Array<"date" | "timeWindow" | "area"> {
+  const availability = input.target?.goal === "AVAILABILITY";
   return [
-    ...(input.date === undefined ? (["date"] as const) : []),
-    ...(input.timeWindow === undefined ? (["timeWindow"] as const) : []),
+    ...(availability && input.date === undefined ? (["date"] as const) : []),
+    ...(availability && input.timeWindow === undefined ? (["timeWindow"] as const) : []),
     ...(input.area === undefined ? (["area"] as const) : []),
   ];
 }
@@ -153,12 +155,10 @@ export function completeRestaurantIntent(
 
 export function completeRestaurantSearchIntent(
   draft: RestaurantIntentDraft | undefined,
-): Omit<RestaurantBookingIntent, "partySize"> | null {
+): import("./contracts.js").RestaurantSearchIntent | null {
   if (
     !draft ||
     missingSearchFields(draft).length > 0 ||
-    !draft.date ||
-    !draft.timeWindow ||
     !draft.area
   ) {
     return null;
@@ -166,8 +166,8 @@ export function completeRestaurantSearchIntent(
   return {
     timezone: draft.timezone,
     ...(draft.target ? { target: structuredClone(draft.target) } : {}),
-    date: draft.date,
-    timeWindow: structuredClone(draft.timeWindow),
+    ...(draft.date ? { date: draft.date } : {}),
+    ...(draft.timeWindow ? { timeWindow: structuredClone(draft.timeWindow) } : {}),
     area: structuredClone(draft.area),
     criteria: structuredClone(draft.criteria),
     ...(draft.budgetPerPerson ? { budgetPerPerson: structuredClone(draft.budgetPerPerson) } : {}),

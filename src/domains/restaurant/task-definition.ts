@@ -31,7 +31,7 @@ function requirePhase(state: Readonly<RestaurantTaskState>, allowed: RestaurantP
 function requireSemanticMutablePhase(state: Readonly<RestaurantTaskState>, eventType: string): void {
   requirePhase(
     state,
-    ["UNDERSTANDING", "NEEDS_INPUT", "SEARCHING", "SELECTION_REQUIRED", "AWAITING_AUTHORIZATION"],
+    ["UNDERSTANDING", "NEEDS_INPUT", "SEARCHING", "SELECTION_REQUIRED", "AWAITING_AUTHORIZATION", "PRESENT_RESULTS"],
     eventType,
   );
 }
@@ -56,11 +56,13 @@ function resetForSemanticUpdate(
     semanticConflict: _semanticConflict,
     failure: _failure,
     refreshRequestedCandidateIds: _refreshRequestedCandidateIds,
+    sourceReadState: _sourceReadState,
     ...remaining
   } = state;
   return {
     ...remaining,
     phase: "UNDERSTANDING",
+    investigationRevision: (state.investigationRevision ?? 0) + 1,
     ...(intentDraft ? { intentDraft } : {}),
     candidates: [],
     availability: {},
@@ -69,8 +71,6 @@ function resetForSemanticUpdate(
     readEvidence: [],
   };
 }
-
-const MAX_DISCOVERY_CANDIDATE_POOL = 12;
 
 function sameSearchIntent(left: RestaurantTaskState["intent"], right: RestaurantTaskState["intent"]): boolean {
   return JSON.stringify(left) === JSON.stringify(right);
@@ -82,7 +82,10 @@ function mergeCandidates(
 ): RestaurantTaskState["candidates"] {
   const byId = new Map(existing.map((candidate) => [candidate.restaurant.id, structuredClone(candidate)]));
   for (const candidate of incoming) if (!byId.has(candidate.restaurant.id)) byId.set(candidate.restaurant.id, structuredClone(candidate));
-  return [...byId.values()].slice(0, MAX_DISCOVERY_CANDIDATE_POOL);
+  // Provider/loop budgets bound discovery.  A hidden pool truncation would
+  // silently discard candidates while a larger availability budget appears
+  // usable, so preserve every observed candidate for this task revision.
+  return [...byId.values()];
 }
 
 function mergeEvidence(
@@ -286,7 +289,7 @@ function transition(
           ...remaining,
           phase: "SEARCHING",
           intent: structuredClone(event.request.intent),
-          candidates: continuation ? mergeCandidates(state.candidates, event.candidates) : event.candidates.slice(0, MAX_DISCOVERY_CANDIDATE_POOL).map((candidate) => structuredClone(candidate)),
+          candidates: continuation ? mergeCandidates(state.candidates, event.candidates) : event.candidates.map((candidate) => structuredClone(candidate)),
           availability: continuation ? structuredClone(state.availability) : {},
           availabilityChecks: continuation ? structuredClone(state.availabilityChecks) : {},
           factChecks: continuation ? structuredClone(state.factChecks ?? {}) : {},
@@ -298,6 +301,17 @@ function transition(
       }
     case "SEARCH_FAILED":
       requirePhase(state, ["UNDERSTANDING", "NEEDS_INPUT", "SEARCHING", "SELECTION_REQUIRED"], event.type);
+      if (event.code === "GOOGLE_LOCATION_AMBIGUOUS") {
+        return {
+          state: {
+            ...state,
+            phase: "NEEDS_INPUT",
+            pendingUserQuestion: { question: "That place name has multiple matching locations. Please enter its address, district, or a more specific station name." },
+            failure: { code: event.code, message: event.reason },
+          },
+          commands: [],
+        };
+      }
       return {
         state: {
           ...state,

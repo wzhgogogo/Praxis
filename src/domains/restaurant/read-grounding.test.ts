@@ -103,6 +103,24 @@ test("Google cafe facts require a matching source opening-hours interval for a f
   assert.deepEqual(facts?.claims.openingHoursMatchedWindow, ["12:00", "17:00"]);
 });
 
+test("opening-hours grounding preserves minutes, rejects the closing boundary, and does not fuse split hours", () => {
+  const base = {
+    placeId: "hours", displayName: "Hours Cafe", formattedAddress: "Tokyo", types: ["cafe"],
+    regularOpeningHours: ["Friday: 09:30 AM - 12:00 PM, 1:00 PM - 9:00 PM"],
+  };
+  const input = (requestedTimeWindow: { earliest: string; latest: string }) => ({ requestFingerprint: "hours", observedAt: now, areaQuery: "Tokyo", requestedDate: "2026-08-07", requestedTimeWindow });
+  const minutesPreserved = groundGoogleDiscovery(base, input({ earliest: "09:15", latest: "09:29" }));
+  const closingBoundary = groundGoogleDiscovery(base, input({ earliest: "21:00", latest: "21:00" }));
+  const splitGap = groundGoogleDiscovery(base, input({ earliest: "11:30", latest: "13:30" }));
+  assert.equal(minutesPreserved.accepted, true);
+  assert.equal(closingBoundary.accepted, true);
+  assert.equal(splitGap.accepted, true);
+  if (!minutesPreserved.accepted || !closingBoundary.accepted || !splitGap.accepted) return;
+  assert.equal(minutesPreserved.additionalEvidence.find((item) => item.kind === "RESTAURANT_FACT")?.claims.openingHoursMatch, false);
+  assert.equal(closingBoundary.additionalEvidence.find((item) => item.kind === "RESTAURANT_FACT")?.claims.openingHoursMatch, false);
+  assert.equal(splitGap.additionalEvidence.find((item) => item.kind === "RESTAURANT_FACT")?.claims.openingHoursMatch, false);
+});
+
 test("Google primary-type facts report explicit exclusion conflicts but never infer a negative-condition pass", () => {
   const accepted = groundGoogleDiscovery({
     placeId: "place-japanese", displayName: "Japanese Dining", formattedAddress: "Higashi-Ginza, Tokyo",
