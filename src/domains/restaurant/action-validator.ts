@@ -132,7 +132,7 @@ function presentationEvidenceIds(
   if (!offer || state.availabilityChecks[candidateId]?.status !== "AVAILABLE" || !availability) {
     return { valid: false, reason: `Candidate ${candidateId} lacks fresh evidenced availability for the authoritative request` };
   }
-  return { valid: true, evidenceIds: [...new Set([entity.evidenceId, area.evidenceId, availability.evidenceId, ...candidateEvidence
+  return { valid: true, evidenceIds: [...new Set([entity.evidenceId, area.evidenceId, availability.evidenceId, ...currentCandidateEvidence
     .filter((evidence) => evidence.kind === "RESTAURANT_FACT")
     .map((evidence) => evidence.evidenceId)])] };
 }

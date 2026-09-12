@@ -191,6 +191,8 @@ export interface RestaurantCandidateFactRequest {
   intent: RestaurantSearchIntent;
   /** Runtime-bound persistent task run identity for provider budget isolation. */
   readRunId?: string;
+  /** Explicit recommendation refresh only; bound by the Router from State. */
+  recheck?: { reason: "USER_REQUESTED_REFRESH" };
 }
 
 export interface RestaurantCandidateFactCheck {
@@ -407,7 +409,7 @@ export interface RestaurantSemanticConflict {
   message: string;
 }
 
-export type RestaurantAgentLoopTermination = "TIMEOUT" | "STEP_LIMIT" | "REJECTION_LIMIT" | "EXECUTION_FAILURE" | "NO_PROGRESS";
+export type RestaurantAgentLoopTermination = "TIMEOUT" | "STEP_LIMIT" | "REJECTION_LIMIT" | "EXECUTION_FAILURE" | "NO_PROGRESS" | "CANCELLED";
 
 /** Historical semantic-evaluation annotation. It is not an Agent action or a runtime Decision. */
 export type RestaurantSemanticExpectedDecision =

@@ -171,7 +171,8 @@ export interface LocalWebServerOptions {
 
 export function createLocalWebServer(options: LocalWebServerOptions): Server {
   const hub = new CaseEventHub();
-  return createServer(async (request, response) => {
+  const unsubscribeUpdates = options.application.subscribeCaseUpdates((view) => hub.publish(view));
+  const server = createServer(async (request, response) => {
     try {
       const method = request.method ?? "GET";
       const url = new URL(request.url ?? "/", "http://127.0.0.1");
@@ -237,6 +238,13 @@ export function createLocalWebServer(options: LocalWebServerOptions): Server {
         json(response, 200, { view });
         return;
       }
+      const cancelMatch = /^\/api\/cases\/([^/]+)\/run$/.exec(url.pathname);
+      if (method === "DELETE" && cancelMatch) {
+        const view = await options.application.cancelCase(user.id, decodeURIComponent(cancelMatch[1]!));
+        hub.publish(view);
+        json(response, 200, { view });
+        return;
+      }
       const locationMatch = /^\/api\/cases\/([^/]+)\/location$/.exec(url.pathname);
       if (method === "POST" && locationMatch) {
         const body = await readJson(request);
@@ -286,6 +294,8 @@ export function createLocalWebServer(options: LocalWebServerOptions): Server {
       }
     }
   });
+  server.once("close", unsubscribeUpdates);
+  return server;
 }
 
 function pilotEntriesFromEnvironment(): PilotAccessEntry[] {
@@ -363,7 +373,9 @@ async function start(): Promise<void> {
   server.listen(PORT, "127.0.0.1", () => {
     console.log(`Praxis ${providerMode === "FIXTURE" ? "fixture" : "Live read-only"} workspace is running at http://127.0.0.1:${PORT}`);
   });
-  const shutdown = () => server.close(() => void database.close());
+  const shutdown = () => {
+    void application.stopActiveReads().finally(() => server.close(() => void database.close()));
+  };
   process.once("SIGINT", shutdown);
   process.once("SIGTERM", shutdown);
 }

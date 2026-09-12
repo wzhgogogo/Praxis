@@ -166,6 +166,9 @@ function assistantSummary(state: RestaurantTaskState): string {
         const resultKind = state.intentDraft?.target?.goal === "RECOMMENDATION"
           ? "evidence-grounded recommendation"
           : "verified availability result";
+      if (state.failure?.code === "AGENT_LOOP_CANCELLED") {
+        return "This read-only investigation was cancelled. No result was presented; you can change the request and start a new investigation.";
+      }
       return state.failure
         ? `The read-only investigation stopped: ${state.failure.message} No ${resultKind} was presented.`
         : `The read-only investigation stopped. No ${resultKind} was presented.`;
@@ -243,6 +246,13 @@ export interface PersistentRestaurantAgentOptions {
   agentLoopOptions?: RestaurantAgentLoopOptions;
 }
 
+export type RestaurantCaseUpdateListener = (view: RestaurantCaseView) => void | Promise<void>;
+
+interface ActiveRead {
+  controller: AbortController;
+  completion: Promise<void>;
+}
+
 export class PersistentRestaurantAgentApplication {
   readonly store: PostgresAgentWorkspaceStore;
   private readonly runtime: RestaurantRuntime;
@@ -252,6 +262,8 @@ export class PersistentRestaurantAgentApplication {
   private readonly clock: RuntimeClock;
   private readonly createId: IdFactory;
   private readonly workspaceMode: AgentWorkspaceMode;
+  private readonly activeReads = new Map<string, ActiveRead>();
+  private readonly updateListeners = new Set<RestaurantCaseUpdateListener>();
 
   constructor(options: PersistentRestaurantAgentOptions) {
     this.clock = options.clock ?? { now: () => new Date() };
@@ -319,6 +331,12 @@ export class PersistentRestaurantAgentApplication {
     return this.project(record);
   }
 
+  /** Server adapters subscribe once; execution remains independent of HTTP/SSE. */
+  subscribeCaseUpdates(listener: RestaurantCaseUpdateListener): () => void {
+    this.updateListeners.add(listener);
+    return () => this.updateListeners.delete(listener);
+  }
+
   async submitMessage(input: {
     userId: string;
     conversationId: string;
@@ -327,7 +345,13 @@ export class PersistentRestaurantAgentApplication {
     expectedVersion: number;
   }): Promise<RestaurantCaseView> {
     const record = await this.requireConversation(input.userId, input.conversationId);
-    await this.applyMessage(record, input.message, input.requestId, input.expectedVersion);
+    const beforeCancellation = await this.runtime.snapshot(record.rootTaskId);
+    if (beforeCancellation.version !== input.expectedVersion) {
+      throw new StaleTaskVersionError(input.expectedVersion, beforeCancellation.version);
+    }
+    await this.cancelActiveRead(record, "The user changed the request, so the earlier read-only investigation was cancelled.");
+    const afterCancellation = await this.runtime.snapshot(record.rootTaskId);
+    await this.applyMessage(record, input.message, input.requestId, afterCancellation.version);
     return this.project(record);
   }
 
@@ -361,8 +385,7 @@ export class PersistentRestaurantAgentApplication {
       requestId: `user:${input.requestId}`,
       createdAt: this.clock.now().toISOString(),
     });
-    await this.agentLoop.run(record.rootTaskId);
-    await this.appendAssistant(record, input.requestId);
+    await this.runAfterUserInput(record, input.requestId);
     return this.project(record);
   }
 
@@ -384,14 +407,30 @@ export class PersistentRestaurantAgentApplication {
       patch: { schemaVersion: "3", area: { ...area, coordinates: { latitude: input.latitude, longitude: input.longitude, ...(input.accuracyMeters !== undefined ? { accuracyMeters: input.accuracyMeters } : {}), observedAt: now, source: "DEVICE" } } },
     }), input.expectedVersion);
     await this.store.appendMessage({ id: `message:0:${hash(`${record.id}:${input.requestId}`).slice(0, 24)}`, conversationId: record.id, role: "USER", content: "Device location shared for this search", requestId: `user:${input.requestId}`, createdAt: now });
-    await this.agentLoop.run(record.rootTaskId);
-    await this.appendAssistant(record, input.requestId);
+    await this.runAfterUserInput(record, input.requestId);
     return this.project(record);
   }
 
   async listCases(userId: string): Promise<RestaurantCaseSummary[]> {
     const records = await this.store.listConversationsForUser(userId);
     return Promise.all(records.map(async (record) => (await this.project(record)).case));
+  }
+
+  /** Cancels only the active read owned by this Case; it never touches an external booking flow. */
+  async cancelCase(userId: string, caseId: string): Promise<RestaurantCaseView> {
+    const record = await this.requireCase(userId, caseId);
+    const active = this.activeReads.get(record.rootTaskId);
+    if (!active) throw new Error("No active read-only investigation is running for this case");
+    active.controller.abort(new Error("The user cancelled this read-only investigation."));
+    await active.completion;
+    return this.project(record);
+  }
+
+  /** Graceful local shutdown records a safe end state instead of leaving an invisible run. */
+  async stopActiveReads(): Promise<void> {
+    const active = [...this.activeReads.values()];
+    for (const read of active) read.controller.abort(new Error("The local read service stopped before this investigation completed."));
+    await Promise.all(active.map((read) => read.completion));
   }
 
   async listAgentTrajectory(userId: string, caseId: string): Promise<RestaurantAgentTrajectoryStep[]> {
@@ -427,8 +466,63 @@ export class PersistentRestaurantAgentApplication {
       requestId: `user:${requestId}`,
       createdAt: this.clock.now().toISOString(),
     });
-    await this.agentLoop.run(record.rootTaskId);
-    await this.appendAssistant(record, requestId);
+    await this.runAfterUserInput(record, requestId);
+  }
+
+  private async runAfterUserInput(record: ConversationRecord, requestId: string): Promise<void> {
+    if (this.workspaceMode === "FIXTURE") {
+      await this.agentLoop.run(record.rootTaskId);
+      await this.appendAssistant(record, requestId);
+      return;
+    }
+    if (this.activeReads.has(record.rootTaskId)) return;
+    const controller = new AbortController();
+    let finish: (() => void) | undefined;
+    const completion = new Promise<void>((resolve) => { finish = resolve; });
+    this.activeReads.set(record.rootTaskId, { controller, completion });
+    void (async () => {
+      try {
+        await this.agentLoop.run(record.rootTaskId, controller.signal);
+      } catch (error) {
+        await this.recordUnexpectedRunFailure(record, error);
+      } finally {
+        this.activeReads.delete(record.rootTaskId);
+        try {
+          await this.appendAssistant(record, requestId);
+          await this.notifyCaseUpdate(record);
+        } finally {
+          finish?.();
+        }
+      }
+    })();
+  }
+
+  private async cancelActiveRead(record: ConversationRecord, reason: string): Promise<void> {
+    const active = this.activeReads.get(record.rootTaskId);
+    if (!active) return;
+    active.controller.abort(new Error(reason));
+    await active.completion;
+  }
+
+  private async recordUnexpectedRunFailure(record: ConversationRecord, error: unknown): Promise<void> {
+    const snapshot = await this.runtime.snapshot(record.rootTaskId);
+    if (["PRESENT_RESULTS", "FAILED", "OUTCOME_UNKNOWN", "BOOKED_VERIFIED"].includes(snapshot.domainState.phase)) return;
+    const reason = error instanceof Error ? error.message : "The local read process failed unexpectedly";
+    const id = this.createId("event:restaurant-agent-runtime");
+    await this.runtime.dispatch({
+      id,
+      taskId: snapshot.id,
+      event: { type: "AGENT_LOOP_TERMINATED", termination: "EXECUTION_FAILURE", reason },
+      occurredAt: this.clock.now().toISOString(),
+      trace: { schemaVersion: "1", runId: snapshot.runId, correlationId: id, actor: "SYSTEM" },
+    }, snapshot.version);
+  }
+
+  private async notifyCaseUpdate(record: ConversationRecord): Promise<void> {
+    const view = await this.project(record);
+    await Promise.all([...this.updateListeners].map(async (listener) => {
+      try { await listener(view); } catch { /* A disconnected UI must not affect the task. */ }
+    }));
   }
 
   private async appendAssistant(record: ConversationRecord, requestId: string): Promise<void> {
@@ -479,6 +573,7 @@ export class PersistentRestaurantAgentApplication {
   }
 
   private async project(record: ConversationRecord): Promise<RestaurantCaseView> {
+    await this.finishInterruptedLiveRead(record);
     const [snapshot, messages, events] = await Promise.all([
       this.runtime.snapshot(record.rootTaskId),
       this.store.listMessages(record.id),
@@ -556,6 +651,29 @@ export class PersistentRestaurantAgentApplication {
         ? "Fixture mode only. No real model, live availability, authorization, notification, or reservation is performed."
         : "Live read-only mode. Results require current source evidence; no authorization, booking, payment, cancellation, or personal-data submission is available.",
     };
+  }
+
+  /** There is no durable queue: a process restart ends an orphaned in-flight read explicitly. */
+  private async finishInterruptedLiveRead(record: ConversationRecord): Promise<void> {
+    if (this.workspaceMode !== "LIVE_READ" || this.activeReads.has(record.rootTaskId)) return;
+    const snapshot = await this.runtime.snapshot(record.rootTaskId);
+    if (!["UNDERSTANDING", "SEARCHING", "SELECTION_REQUIRED"].includes(snapshot.domainState.phase)) return;
+    const id = this.createId("event:restaurant-agent-interrupted");
+    try {
+      await this.runtime.dispatch({
+        id,
+        taskId: snapshot.id,
+        event: {
+          type: "AGENT_LOOP_TERMINATED",
+          termination: "EXECUTION_FAILURE",
+          reason: "The local read process stopped before this investigation completed. It was not resumed automatically.",
+        },
+        occurredAt: this.clock.now().toISOString(),
+        trace: { schemaVersion: "1", runId: snapshot.runId, correlationId: id, actor: "SYSTEM" },
+      }, snapshot.version);
+    } catch (error) {
+      if (!(error instanceof StaleTaskVersionError)) throw error;
+    }
   }
 }
 

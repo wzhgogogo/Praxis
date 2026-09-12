@@ -151,6 +151,8 @@ export class RestaurantExecutionRouter {
     now = new Date().toISOString(),
     /** Bound by the coordinator; never Agent-controlled. */
     readRunId?: string,
+    /** Owned by the user-visible read run; never supplied by the Agent. */
+    parentSignal?: AbortSignal,
   ): Promise<RestaurantActionExecution> {
     switch (action.type) {
       case "ASK_USER":
@@ -165,6 +167,8 @@ export class RestaurantExecutionRouter {
             "Restaurant search",
             this.structuredReadTimeoutMs,
             (signal) => this.search.search(request, signal),
+            false,
+            parentSignal,
           );
           return {
             route: "STRUCTURED_ADAPTER",
@@ -201,6 +205,9 @@ export class RestaurantExecutionRouter {
           }),
           intent,
           ...(readRunId ? { readRunId } : {}),
+          ...(state.factRefreshRequestedCandidateIds?.length && action.candidateIds.every((candidateId) => state.factRefreshRequestedCandidateIds!.includes(candidateId))
+            ? { recheck: { reason: "USER_REQUESTED_REFRESH" as const } }
+            : {}),
         };
         try {
           const read = await this.withProviderReadDeadline(
@@ -208,12 +215,13 @@ export class RestaurantExecutionRouter {
             this.facts.executionRoute === "GENERIC_BROWSER" ? this.browserReadTimeoutMs : this.structuredReadTimeoutMs,
             (signal) => this.facts!.inspectFacts(request, signal),
             this.facts.executionRoute === "GENERIC_BROWSER",
+            parentSignal,
           );
           return {
             route: this.facts.executionRoute,
-            event: { type: "CANDIDATE_FACTS_CHECKED", request, ...read },
+            event: { type: "CANDIDATE_FACTS_CHECKED", request, ...read, metadata: { ...read.metadata, ...(request.recheck ? { recheckReason: request.recheck.reason } : {}) } },
             observation: { type: "CANDIDATE_FACTS", detail: `${request.candidateIds.length} candidate fact read(s) completed` },
-            executionMetadata: read.metadata,
+            executionMetadata: { ...read.metadata, ...(request.recheck ? { recheckReason: request.recheck.reason } : {}) },
           };
         } catch (error) {
           const reason = error instanceof Error ? error.message : "Unknown candidate fact investigation failure";
@@ -225,9 +233,10 @@ export class RestaurantExecutionRouter {
               request,
               evidence: [],
               factChecks: Object.fromEntries(request.candidateIds.map((candidateId) => [candidateId, { status: "UNKNOWN" as const, checkedAt: now, evidenceIds: [], reasonCode: code }])),
-              metadata: { provider: "GOOGLE_PLACES", route: this.facts.executionRoute, latencyMs: 0, failureCode: code },
+              metadata: { provider: "GOOGLE_PLACES", route: this.facts.executionRoute, latencyMs: 0, failureCode: code, ...(request.recheck ? { recheckReason: request.recheck.reason } : {}) },
             },
             observation: { type: "CANDIDATE_FACTS_UNKNOWN", detail: reason },
+            executionMetadata: { provider: "GOOGLE_PLACES", route: this.facts.executionRoute, latencyMs: 0, failureCode: code, ...(request.recheck ? { recheckReason: request.recheck.reason } : {}) },
             failure: { source: "PROVIDER", code, reason },
           };
         }
@@ -242,6 +251,7 @@ export class RestaurantExecutionRouter {
               : this.structuredReadTimeoutMs,
             (signal) => this.availability.check(request, signal),
             this.availability.executionRoute === "GENERIC_BROWSER",
+            parentSignal,
           );
           const terminalFailureCode = terminalBrowserReadFailure(read, request.candidateIds);
           const metadata: RestaurantReadExecutionMetadata = {
@@ -338,9 +348,13 @@ export class RestaurantExecutionRouter {
     operation: (signal: AbortSignal) => Promise<Value>,
     /** A browser executor owns interactive actions and must close before timeout returns. */
     settleAfterAbort = false,
+    parentSignal?: AbortSignal,
   ): Promise<Value> {
-    if (timeoutMs === null) return operation(new AbortController().signal);
+    if (parentSignal?.aborted) throw parentSignal.reason ?? new Error("Read-only investigation was cancelled");
+    if (timeoutMs === null) return operation(parentSignal ?? new AbortController().signal);
     const controller = new AbortController();
+    const abortFromParent = () => controller.abort(parentSignal?.reason ?? new Error("Read-only investigation was cancelled"));
+    parentSignal?.addEventListener("abort", abortFromParent, { once: true });
     let deadlineExceeded = false;
     let rejectDeadline: ((reason: Error) => void) | undefined;
     const deadline = new Promise<never>((_resolve, reject) => { rejectDeadline = reject; });
@@ -355,7 +369,11 @@ export class RestaurantExecutionRouter {
       // A generic browser must settle after AbortSignal so its executor closes before
       // control returns. Structured read-only retrieval has no browser action and may
       // be bounded at the Router even if a broken provider ignores abort.
-      const value = await (settleAfterAbort ? work : Promise.race([work, deadline]));
+      const parentAbort = parentSignal
+        ? new Promise<never>((_resolve, reject) => parentSignal.addEventListener("abort", () => reject(parentSignal.reason ?? new Error("Read-only investigation was cancelled")), { once: true }))
+        : undefined;
+      const value = await (settleAfterAbort ? work : Promise.race([work, deadline, ...(parentAbort ? [parentAbort] : [])]));
+      if (parentSignal?.aborted) throw parentSignal.reason ?? new Error("Read-only investigation was cancelled");
       if (deadlineExceeded) throw new Error(`${operationName} timed out after ${timeoutMs}ms`);
       return value;
     } catch (error) {
@@ -363,6 +381,7 @@ export class RestaurantExecutionRouter {
       throw error;
     } finally {
       clearTimeout(timeout);
+      parentSignal?.removeEventListener("abort", abortFromParent);
     }
   }
 }

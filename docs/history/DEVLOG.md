@@ -1993,6 +1993,12 @@ For explicit negative restaurant-type criteria, the model can issue only a cited
 
 The same Web refresh endpoint now dispatches a goal-specific event. A fact-only recommendation reopens only the displayed candidates for `INVESTIGATE_CANDIDATE_FACTS`; an availability request retains the existing slot refresh. The corresponding pending target set blocks `PRESENT_RESULTS` until every target has one new fact/slot observation, including `UNKNOWN`; a recommendation refresh cannot accidentally call availability. This uses the same Router, state and Agent loop rather than a case-specific executor.
 
+## 2026-09-12 — Current citation, evaluator coverage, and Live Web run lifecycle
+
+Corrected the last current-fact citation hole: after a recommendation fact refresh, presentation now cites only the current fact-check evidence rather than all historical candidate facts. Fact refresh requests carry the same explicit `USER_REQUESTED_REFRESH` reason into Router metadata, and evaluator @7 checks duplicate fact investigations as well as availability reads. This retains historical evidence without letting it act as current proof.
+
+ADR-0023 adds the minimum Live Web lifecycle without a queue: accepted Live input returns its persisted active Case immediately; the existing SSE channel receives the final update; a user stop aborts the parent read signal through Router/provider calls and records `AGENT_LOOP_CANCELLED`; an unowned in-flight Case found after restart ends with an explicit interruption. A subsequent user message first stops the old read, then uses the ordinary Semantic → Compiler → Reducer path. Fixture mode stays synchronous. No booking, login, payment, cancellation at a provider, or external write was added.
+
 ## DEV-2026-09-12-READ-PATH-REVIEW — 横向审查与验证规程
 
 在`e504a3f`干净工作区基线审查两次最新提交，并用当前生产函数/类离线复现跨层问题；[冻结审查](READ-PATH-REVIEW-2026-09-12.md)记录8组发现、已改善部分及具体关闭条件。本轮未修产品代码。将“跨模块集成 → 独立结果/诊断核验 → 本地与有界Live验证”写入现有Test skill，Eval skill维护引用链、条件保真、合法重查和评分反例要求；Planning与Post-change仅关联检查点，不在AGENTS或新框架中复制规则。STATUS明确区分开发规程已落地与产品缺口尚未修复。未新增测试文件、未改Golden/私有Holdout/历史artifact，未运行Live、付费模型、数据库写入或Git提交/推送。

@@ -1,7 +1,7 @@
 # ADR-0021: Cited source-fact investigation for Restaurant recommendations
 
-- Status: Accepted
-- Document revision: 1.0
+- Status: Accepted; identity-number detail superseded by ADR-0022
+- Document revision: 1.1
 - Last updated: 2026-09-11
 - Source of truth for: Named-place distance evidence and cited public-source fact investigation
 - Supplements: [ADR-0020](0020-goal-driven-restaurant-read-path.md) and [ADR-0015](0015-supported-source-search-evidence.md)

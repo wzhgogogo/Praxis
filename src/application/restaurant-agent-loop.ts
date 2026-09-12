@@ -50,7 +50,8 @@ export type RestaurantAgentLoopResult =
   | { status: "REJECTION_LIMIT"; steps: number }
   | { status: "NO_PROGRESS"; steps: number }
   | { status: "MODEL_FAILURE"; steps: number }
-  | { status: "EXECUTION_FAILURE"; steps: number };
+  | { status: "EXECUTION_FAILURE"; steps: number }
+  | { status: "CANCELLED"; steps: number };
 
 type TrajectoryBase = Pick<
   RestaurantAgentTrajectoryStep,
@@ -68,6 +69,12 @@ function waitingForUser(state: RestaurantTaskState): boolean {
 
 function terminal(state: RestaurantTaskState): boolean {
   return state.phase === "BOOKED_VERIFIED" || state.phase === "PRESENT_RESULTS" || state.phase === "OUTCOME_UNKNOWN" || state.phase === "FAILED";
+}
+
+function cancellationReason(signal: AbortSignal): string {
+  return signal.reason instanceof Error && signal.reason.message
+    ? signal.reason.message
+    : "The user cancelled this read-only investigation.";
 }
 
 /**
@@ -140,16 +147,16 @@ export class RestaurantAgentLoopCoordinator {
     this.createId = createId;
   }
 
-  async run(taskId: string): Promise<RestaurantAgentLoopResult> {
+  async run(taskId: string, signal?: AbortSignal): Promise<RestaurantAgentLoopResult> {
     this.router.beginReadRun();
     try {
-      return await this.runWithinReadBudget(taskId);
+      return await this.runWithinReadBudget(taskId, signal);
     } finally {
       this.router.endReadRun();
     }
   }
 
-  private async runWithinReadBudget(taskId: string): Promise<RestaurantAgentLoopResult> {
+  private async runWithinReadBudget(taskId: string, signal?: AbortSignal): Promise<RestaurantAgentLoopResult> {
     const priorSteps = await this.trajectories.list(taskId);
     let stepNumber = priorSteps.length;
     let rejectedActions = 0;
@@ -165,6 +172,7 @@ export class RestaurantAgentLoopCoordinator {
 
     for (let step = 0; step < this.maxSteps; step += 1) {
       const snapshot = await this.runtime.snapshot(taskId);
+      if (signal?.aborted) return this.cancel(snapshot, taskId, stepNumber, signal);
       if (terminal(snapshot.domainState)) return { status: "TERMINAL", steps: step };
       if (waitingForUser(snapshot.domainState)) return { status: "WAITING_USER", steps: step };
       if (noExecutableDiscoveryPath(snapshot.domainState, this.clock.now().toISOString())) {
@@ -195,6 +203,11 @@ export class RestaurantAgentLoopCoordinator {
       });
       stepNumber += 1;
       const base = this.base(taskId, stepNumber, snapshot, context);
+
+      if (signal?.aborted) {
+        await this.terminate(snapshot, base, "CANCELLED", cancellationReason(signal));
+        return { status: "CANCELLED", steps: step + 1 };
+      }
 
       if (this.timedOut(startedAt)) {
         await this.terminate(
@@ -271,8 +284,13 @@ export class RestaurantAgentLoopCoordinator {
           snapshot.domainState,
           this.clock.now().toISOString(),
           snapshot.runId + ":investigation:" + String(snapshot.domainState.investigationRevision ?? 0),
+          signal,
         );
       } catch (error) {
+        if (signal?.aborted) {
+          await this.terminate(snapshot, base, "CANCELLED", cancellationReason(signal));
+          return { status: "CANCELLED", steps: step + 1 };
+        }
         const reason = error instanceof Error ? error.message : "Restaurant action execution failed";
         const after = await this.dispatch(snapshot, { type: "AGENT_EXECUTION_FAILED", reason }, "SYSTEM");
         await this.trajectories.append({
@@ -287,6 +305,11 @@ export class RestaurantAgentLoopCoordinator {
           stepOutcome: "EXECUTION_FAILURE",
         });
         return { status: "EXECUTION_FAILURE", steps: step + 1 };
+      }
+
+      if (signal?.aborted) {
+        await this.terminate(snapshot, base, "CANCELLED", cancellationReason(signal));
+        return { status: "CANCELLED", steps: step + 1 };
       }
 
       const after = execution.event
@@ -355,6 +378,18 @@ export class RestaurantAgentLoopCoordinator {
     return snapshot.domainState.phase === "SELECTION_REQUIRED"
       ? this.run(taskId)
       : undefined;
+  }
+
+  private async cancel(
+    snapshot: TaskSnapshot<RestaurantTaskState, RestaurantOutcome>,
+    taskId: string,
+    stepNumber: number,
+    signal: AbortSignal,
+  ): Promise<RestaurantAgentLoopResult> {
+    if (terminal(snapshot.domainState)) return { status: "TERMINAL", steps: stepNumber };
+    const nextStep = stepNumber + 1;
+    await this.terminate(snapshot, this.base(taskId, nextStep, snapshot), "CANCELLED", cancellationReason(signal));
+    return { status: "CANCELLED", steps: nextStep };
   }
 
   private timedOut(startedAt: number): boolean {

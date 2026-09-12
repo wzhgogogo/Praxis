@@ -113,6 +113,18 @@ test("an arbitrary recheck label does not exempt a duplicate availability read",
   assert.equal(finding(evaluateRestaurantHybridLiveArtifact(artifact, source), "INVESTIGATION_BEHAVIOR").status, "NOT_SATISFIED");
 });
 
+test("fact investigation is subject to the same duplicate check as availability", () => {
+  const artifact: any = completeArtifact();
+  const intent = { target: { goal: "RECOMMENDATION" }, area: { query: "near Shibuya" } };
+  artifact.trajectories = [
+    { stateHashBefore: "request-v1", decisionContext: { intent }, agentAction: { type: "INVESTIGATE_CANDIDATE_FACTS", candidateIds: ["candidate-a"] }, executionMetadata: {} },
+    { stateHashBefore: "request-v2", decisionContext: { intent }, agentAction: { type: "INVESTIGATE_CANDIDATE_FACTS", candidateIds: ["candidate-a"] }, executionMetadata: {} },
+  ];
+  assert.equal(finding(evaluateRestaurantHybridLiveArtifact(artifact, source), "INVESTIGATION_BEHAVIOR").status, "NOT_SATISFIED");
+  artifact.trajectories[1].executionMetadata.recheckReason = "USER_REQUESTED_REFRESH";
+  assert.equal(finding(evaluateRestaurantHybridLiveArtifact(artifact, source), "INVESTIGATION_BEHAVIOR").status, "SATISFIED");
+});
+
 test("a derived restaurant fact needs its cited candidate-bound source evidence", () => {
   const artifact: any = completeArtifact();
   const domain = artifact.finalSnapshot.domainState;

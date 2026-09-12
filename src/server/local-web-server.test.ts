@@ -16,6 +16,7 @@ import { RestaurantSemanticInterpreter } from "../domains/restaurant/semantic-in
 import { RestaurantAgentDecision } from "../domains/restaurant/agent-decision.js";
 import { FixtureModelGateway } from "../infrastructure/fixture/fixture-model-gateway.js";
 import { FixtureRestaurantSearch } from "../infrastructure/fixture/fixture-restaurant-search.js";
+import type { RestaurantSearchRequest } from "../domains/restaurant/contracts.js";
 import { applyPostgresMigrations } from "../infrastructure/postgres/migrations.js";
 import type {
   SqlDatabase,
@@ -63,9 +64,14 @@ interface TestServer {
   close(): Promise<void>;
 }
 
-async function startServer(database: SqlDatabase, clock: FakeClock): Promise<TestServer> {
+interface StartServerOptions {
+  mode?: "FIXTURE" | "LIVE_READ";
+  restaurant?: FixtureRestaurantSearch;
+}
+
+async function startServer(database: SqlDatabase, clock: FakeClock, options: StartServerOptions = {}): Promise<TestServer> {
   const model = new FixtureModelGateway();
-  const restaurant = new FixtureRestaurantSearch();
+  const restaurant = options.restaurant ?? new FixtureRestaurantSearch();
   const application = new PersistentRestaurantAgentApplication({
     database,
     clock,
@@ -74,6 +80,7 @@ async function startServer(database: SqlDatabase, clock: FakeClock): Promise<Tes
     restaurantSearch: restaurant,
     restaurantAvailability: restaurant,
     restaurantFacts: restaurant,
+    ...(options.mode ? { workspaceMode: options.mode } : {}),
   });
   const sessions = new PilotSessionService(application.store, ACCESS, clock);
   const server = createLocalWebServer({ application, sessions });
@@ -88,6 +95,18 @@ async function startServer(database: SqlDatabase, clock: FakeClock): Promise<Tes
       await once(server, "close");
     },
   };
+}
+
+class BlockingRestaurantSearch extends FixtureRestaurantSearch {
+  private resolveStarted?: () => void;
+  readonly started = new Promise<void>((resolve) => { this.resolveStarted = resolve; });
+
+  override async search(_request: RestaurantSearchRequest, signal: AbortSignal) {
+    this.resolveStarted?.();
+    return new Promise<never>((_resolve, reject) => {
+      signal.addEventListener("abort", () => reject(signal.reason ?? new Error("aborted")), { once: true });
+    });
+  }
 }
 
 async function withDatabase(
@@ -340,6 +359,57 @@ test("W04 SSE reconnect sends an idempotent Agent-loop snapshot", async () => {
       assert.equal(latest.activities.filter((item) => item.type === "AVAILABILITY_CHECKED").length, 1);
     } finally {
       await running.close();
+    }
+  });
+});
+
+test("W06 Live read creates a recoverable active Case and cancellation reaches the in-flight provider", async () => {
+  await withDatabase(async ({ database, clock }) => {
+    const restaurant = new BlockingRestaurantSearch();
+    const running = await startServer(database, clock, { mode: "LIVE_READ", restaurant });
+    try {
+      const cookie = await login(running.baseUrl, "token-a");
+      const created = await createCase(running.baseUrl, cookie, "live-cancel");
+      assert.equal(created.mode, "LIVE_READ");
+      assert.equal(created.case.status, "ACTIVE");
+      assert.equal(created.case.phase, "UNDERSTANDING");
+      await restaurant.started;
+      const stopped = await api(
+        running.baseUrl,
+        cookie,
+        `/api/cases/${encodeURIComponent(created.case.caseId)}/run`,
+        { method: "DELETE" },
+      );
+      assert.equal(stopped.response.status, 200);
+      const view = stopped.payload.view as RestaurantCaseView;
+      assert.equal(view.case.phase, "FAILED");
+      assert.match(view.conversation.messages.at(-1)?.content ?? "", /cancelled/i);
+      assert.equal(view.activities.at(-1)?.type, "AGENT_LOOP_TERMINATED");
+    } finally {
+      await running.close();
+    }
+  });
+});
+
+test("W07 a Live Case left without an in-process owner is ended explicitly after restart", async () => {
+  await withDatabase(async ({ database, clock }) => {
+    const restaurant = new BlockingRestaurantSearch();
+    const first = await startServer(database, clock, { mode: "LIVE_READ", restaurant });
+    let second: TestServer | undefined;
+    try {
+      const cookie = await login(first.baseUrl, "token-a");
+      const created = await createCase(first.baseUrl, cookie, "live-interrupted");
+      await restaurant.started;
+      second = await startServer(database, clock, { mode: "LIVE_READ" });
+      const restored = await api(second.baseUrl, cookie, `/api/cases/${encodeURIComponent(created.case.caseId)}`);
+      assert.equal(restored.response.status, 200);
+      const view = restored.payload.view as RestaurantCaseView;
+      assert.equal(view.case.phase, "FAILED");
+      assert.match(view.activities.at(-1)?.display.detail ?? "", /not resumed automatically/i);
+    } finally {
+      await first.application.stopActiveReads();
+      await first.close();
+      if (second) await second.close();
     }
   });
 });

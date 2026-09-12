@@ -1,7 +1,7 @@
 # Architecture Decision Records
 
 - Status: Accepted
-- Document revision: 1.0
+- Document revision: 1.1
 - Last updated: 2026-09-12
 - Source of truth for: 已接受架构决策及其替代关系
 - Related ADRs: 本目录
@@ -31,8 +31,9 @@
 | [0018](0018-availability-display-freshness-and-recheck.md) | Accepted | 展示新鲜度与预订前核查分离；以理由受限的只读重查替代永久已检查 |
 | [0019](0019-fact-grounded-read-only-recommendations.md) | Accepted | 无预约需求时以门店/地点/类型/营业事实完成只读推荐，空位仍为独立证据 |
 | [0020](0020-goal-driven-restaurant-read-path.md) | Accepted | 交付目标决定推荐或空位证据；移除案例注入并限制耗尽来源重试 |
-| [0021](0021-cited-source-fact-investigation.md) | Accepted | 命名地点坐标距离与带引用的公开来源事实调查 |
+| [0021](0021-cited-source-fact-investigation.md) | Accepted; identity-number detail superseded by ADR-0022 | 命名地点坐标距离与带引用的公开来源事实调查 |
 | [0022](0022-current-source-fact-lifecycle-and-identity.md) | Accepted | 当前事实观察、派生判断支持链与跨门店身份边界 |
+| [0023](0023-live-read-run-lifecycle.md) | Accepted | Live Web只读任务的可见执行、取消与中断结束 |
 
 ## 规则
 
