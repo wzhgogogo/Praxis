@@ -15,11 +15,13 @@ import { RestaurantSemanticInterpreter } from "../../../../domains/restaurant/se
 import type { RestaurantCommand, RestaurantEvent, RestaurantOutcome, RestaurantTaskState } from "../../../../domains/restaurant/contracts.js";
 import { restaurantBookingTaskDefinition } from "../../../../domains/restaurant/task-definition.js";
 import { browserRuntimeFromEnvironment } from "../../../../infrastructure/browser/browser-runtime-factory.js";
+import type { BrowserExecutionBudget } from "../../../../infrastructure/browser/browser-task-executor.js";
 import type { BrowserExecutionDiagnostic } from "../../../../infrastructure/browser/browser-task-executor.js";
 import { DeepSeekModelGateway } from "../../../../infrastructure/deepseek/deepseek-model-gateway.js";
 import { GooglePlacesClient } from "../../../../integrations/google/google-places-client.js";
 import { GooglePlacesRestaurantSearch } from "../../../../integrations/google/google-places-restaurant-search.js";
 import { LiveBrowserAvailability } from "../../../../integrations/restaurant-availability/live-browser-availability.js";
+import { composeLiveRestaurantFactRead } from "../../../../integrations/restaurant-facts/live-restaurant-facts.js";
 import type { TableCheckIdentityDiagnostic } from "../../../../integrations/tablecheck/tablecheck-contracts.js";
 import type { TabelogIdentityDiagnostic, TabelogUserInterventionRequired } from "../../../../integrations/tabelog/tabelog-contracts.js";
 import { InMemoryRestaurantAgentTrajectoryStore } from "../../../../infrastructure/postgres/restaurant-agent-trajectory-store.js";
@@ -190,7 +192,9 @@ const evaluationLocation = process.env.PRAXIS_EVAL_USER_LAT && process.env.PRAXI
   const tabelogUserInterventions: TabelogUserInterventionRequired[] = [];
   const browserExecutionDiagnostics: BrowserExecutionDiagnostic[] = [];
   const browser = browserRuntimeFromEnvironment();
+  const browserBudget: BrowserExecutionBudget = { totalModelCalls: 0 };
   const availability = new LiveBrowserAvailability(browser, model, {
+    browserBudget,
     maxTableCheckBrowserSessions: liveReadLimits.maxTableCheckBrowserSessions,
     maxTabelogBrowserSessions: liveReadLimits.maxTabelogBrowserSessions,
     maxTabelogCandidateMatches: liveReadLimits.maxTabelogCandidateMatches,
@@ -221,7 +225,7 @@ const evaluationLocation = process.env.PRAXIS_EVAL_USER_LAT && process.env.PRAXI
       // An explicit human pause is outside the automatic browser-read deadline.
       // The H001 outer-loop deadline is the whole diagnostic cap, not a product SLA.
       browserReadTimeoutMs: manualTabelogIntervention ? null : liveReadLimits.maxAutomaticBrowserMs,
-    }, search),
+    }, composeLiveRestaurantFactRead(search, browser, model, browserBudget)),
     trajectories,
     clock,
     {

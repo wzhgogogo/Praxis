@@ -1,13 +1,19 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.6
-- Last updated: 2026-09-11
+- Document revision: 4.7
+- Last updated: 2026-09-12
 - Source of truth for: 已实现能力、已验证范围、明确未验证项与下一道门槛
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Documentation Index](INDEX.md), [Roadmap](roadmap.md), [Verification History](history/TEST-LOG.md)
 
-## 一句话状态
+## 最新审查与当前门槛
+
+2026-09-12以`e504a3f`为固定基线完成[只读链横向审查](history/READ-PATH-REVIEW-2026-09-12.md)。当前开发切片关闭了其中的当前事实生命周期、命名地点首项回退、门牌数字身份替代、派生判断伪来源、网页结构化快捷路径遮挡可见事实，以及Web/Hybrid事实组合分叉：展示只引用当前Check的事实，历史仍保留；`MODEL_JUDGMENT`保留可验证原始支持链；两个真实调用者共用Google→网站→判断组合与一次调查内的浏览器模型预算。ADR-0022替代ADR-0021的同序数字接受规则。定向离线反例通过，但尚未重新做真实来源验收；异步Web、主动取消与服务中断恢复仍未交付，不能据此声明完整只读链或F8完成。
+
+本轮只将[三步验证](skills/test/SKILL.md#执行链变更的三步验证)和[独立Eval要求](skills/eval/SKILL.md#执行结果与诊断的独立核验)落到现有开发规程，未修产品代码、未新增Live。下一门槛是修复上述共同契约并补相应集成/Eval覆盖，再按已授权余额验证真实来源；不能用后续网站fallback或更大预算代替。下方按日期段落保留历史实现/运行结论，不能将其中早期未验证或局部成功当作当前完整能力。
+
+## 原始只读里程碑与历史验证
 
 ADR-0014定义了H001所需的只读终态：Semantic Interpreter继续经Compiler/Reducer写入权威State；单一Restaurant Agent只接收最小Decision Context，Action Validator守护不变量，Router绑定权威只读请求。`restaurant-state@10`保存Availability Check、最小Read Evidence和`PRESENT_RESULTS`。2026-09-08 的原始冻结 LOCAL_CHROMIUM H001 从 Google Discovery 调查 10 个去重候选，按 3/3/3/1 批次继续；其中 KINKA Sushi Bar Izakaya 渋谷以 Google 结构化地址组件支持 `near Shibuya`、TableCheck exact phone 达到 HIGH、来源页验证 `omakase` HARD criterion，并读取同一 2026-09-08、2 人、19:00 的公开 slot。Runtime 已进入 `PRESENT_RESULTS`；artifact 只保存脱敏 identity/provider/browser diagnostics 和 evidence 引用，不保存 HTML、凭证、Cookie 或挑战 token。2026-09-09另有一次独立的真实 Web Live Read-only：从页面提交未来Shibuya omakase请求，记录模型、Google与TableCheck/Tabelog调用后在5分钟预算到期进入`NEEDS_INPUT`；它证明Web真实路径会fail closed，不以H001或Fixture替代，也不代表任何门店/日期可用或`PRESENT_RESULTS`成功。
 
@@ -71,7 +77,7 @@ Web只在已有`PRESENT_RESULTS`时显示一个显式“Refresh availability”�
 
 ADR-0020取代ADR-0019中“人数决定证据profile”及H002案例注入的范围：`target.goal`为`RECOMMENDATION`时，同一候选有HIGH identity、适用区域、每项HARD事实及目标本地日期/时段的来源营业时间即可进入`PRESENT_RESULTS`，不宣称有座；`AVAILABILITY`才额外要求人数、Offer和展示新鲜度。H002的澄清被记录为普通“火锅餐厅／川湘主导菜系”负向HARD条件；Google `primaryType`只能记录明确冲突，绝不因“未命中某词”而产生满足结论，宽泛类型和关键词缺失保持未知，不把此解释推广为全局“不辣”规则。H003–H005 runner在`NEAR_USER`案例下使用集中记录的东银座公共评估坐标，artifact明确标识为评估上下文，不是用户位置；产品路径则只接受一次设备坐标，拒绝/失败后由普通消息输入地点继续。
 
-Google Places现记录来源类型及常规营业时间，并仅在可解析的目标星期/时段重叠时产生事实证据；它不把“现在营业”、普通每周时间或无预约入口解释为空位。Hybrid诊断器升为`restaurant-hybrid-read-diagnostic-evaluator@5`，按保存的目标分别核对事实型结果和空位结果，且`NEAR_USER`只接受任务设备半径或显式评估半径的区域事实。实际设备权限点击尚未验收。
+Google Places现记录来源类型及常规营业时间，并仅在可解析的目标星期/时段重叠时产生事实证据；它不把“现在营业”、普通每周时间或无预约入口解释为空位。Hybrid诊断器升为`restaurant-hybrid-read-diagnostic-evaluator@6`，按保存的目标分别核对事实型结果和空位结果、派生判断的支持链，以及合法枚举的重查理由；`NEAR_USER`只接受任务设备半径或显式评估半径的区域事实。实际设备权限点击尚未验收。
 
 发现预算在尚未获得候选时耗尽，会以`AGENT_LOOP_NO_PROGRESS`持久结束；它不再让模型通过改写检索词反复调用已不可用的Google发现能力。此停止码是系统/来源限制，不会被包装为用户输入不足，也不会宣称展示结果。
 

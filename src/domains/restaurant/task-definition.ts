@@ -31,7 +31,7 @@ function requirePhase(state: Readonly<RestaurantTaskState>, allowed: RestaurantP
 function requireSemanticMutablePhase(state: Readonly<RestaurantTaskState>, eventType: string): void {
   requirePhase(
     state,
-    ["UNDERSTANDING", "NEEDS_INPUT", "SEARCHING", "SELECTION_REQUIRED", "AWAITING_AUTHORIZATION", "PRESENT_RESULTS"],
+    ["UNDERSTANDING", "NEEDS_INPUT", "SEARCHING", "SELECTION_REQUIRED", "AWAITING_AUTHORIZATION", "PRESENT_RESULTS", "FAILED"],
     eventType,
   );
 }

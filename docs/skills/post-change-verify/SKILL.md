@@ -9,6 +9,7 @@ description: 按Praxis Test矩阵完成改动验证、文档同步与交付，�
 
 1. 确认本次diff与已有用户改动的边界，复核实际影响的ADR和安全规则；已读且未变化的材料可复用。
 2. 按Test矩阵运行必要检查，修复本次引入的问题；既有失败和环境阻塞单独报告，不声称未运行的模式通过。
+   执行链切片同时核对[Test三步验证](../test/SKILL.md#执行链变更的三步验证)的适用结果、Eval影响与未覆盖项；用真实接线和产物关闭验收，不以局部读取、手工构造成功State或测试数量代替产品完成。
 3. 核对状态权威、外部写入授权、结果不明确、PII和敏感数据；Mock通过不能替代实际审阅。
 4. 只更新内容确实变化的权威文档；当前能力/证据/下一门槛变化时更新STATUS，非trivial实现与验证分别追加DEVLOG、TEST-LOG。涉及Hybrid Live时，确认原始execution artifact与独立evaluation报告分别保存，且evaluation失败不能覆盖执行结果。
 5. 涉及测试时按Test维护规则检查重复覆盖与旧测试退役，交付注明覆盖去向。检查diff和命名，概述行为、验证和限制。提交/推送遵守[Conventions](../../REPOSITORY-CONVENTIONS.md)，只暂存本次范围；未获授权不推送，区分本地commit与远端结果。

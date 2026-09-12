@@ -1,8 +1,8 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.11
-- Last updated: 2026-09-11
+- Document revision: 1.12
+- Last updated: 2026-09-12
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
 - Related documents: [Restaurant Domain](../domains/RESTAURANT-BOOKING.md), [Data & Security](../architecture/DATA-CONTEXT-SECURITY.md)
@@ -21,7 +21,7 @@
 | Hot Pepper Web | 餐厅页 | 网页可查 | Browser | Browser/管理链接 | 成功页、邮件、订单状态 | 登录/验证/支付 | `assumed`，需逐流程Adapter验证；Request Booking不是即时成功 |
 | TableCheck API | 有集成能力 | 可能 | 可能 | 可能 | 可能 | 取决于流程 | `requires partnership`；不作为MVP无条件依赖 |
 | TableCheck Web | 公开的`/en/japan/search`按候选名称和Google坐标发现渲染出的guide页链接 | H001只读Browser Adapter（已在原始 H001 得到一个完整 grounded slot） | 否 | 否 | 否 | 受控模型接管仅限同一会话中已观察到的只读目标 | 固定优先于Tabelog。搜索排序只限制待读取页面，不构成identity；详情页必须以JSON-LD/DOM/tel link的Google exact phone或name+full address达到HIGH。预约页只接受详情页实际链接或其嵌入的公开Availability结构，绝不派生slug；仅设置只读日期/人数参数并读取明确bookable slot。`TABLECHECK_DISCOVERY_NO_RESULT`、`TABLECHECK_DISCOVERY_INCOMPLETE`、`TABLECHECK_ENTITY_MATCH_UNCERTAIN`、`TABLECHECK_PAGE_UNAVAILABLE`和`TABLECHECK_PARSE_FAILED`分开保留；`PAGE_UNAVAILABLE`仅可由错误页title/primary heading证明，不能由正文数字或任意`not found`字样触发。搜索页未抽取链接时同一session交给受限模型，artifact记录交接原因、观察、动作和动作后验证；耗尽后才退出该来源。2026-09-08冻结 H001 在 KINKA Sushi Bar Izakaya 渋谷通过Google exact phone达到HIGH，回读`2026-09-08`、2 人、`19:00`的公开可订slot，并进入`PRESENT_RESULTS`；这只证明该次来源/库存，不保证其他门店、日期或Web UI已验收。没有登录、个人资料、支付、点击确认或提交。identity、日期/人数或slot不确定时fail closed。TableCheck API仍`requires partnership` |
-| Google-listed Restaurant Website | 仅已发现候选的Google `websiteUri` | 有界只读的JSON-LD或窄范围可见主营/营业字段 | 否 | 否 | 否 | 否 | 代码实现、尚待本切片Live实测。仅复用受控只读Browser Executor打开HTTP(S)同源网址，移除query/fragment并拒绝凭据、跨源跳转及不安全控件。候选名称加地址包含/同序门牌组件才可建立HIGH identity；同名、缺地址或冲突均为UNKNOWN。JSON-LD是快捷路径，候选绑定的可见类型/星期营业说明也可成为事实；只保存URL、观察时间、候选关联与DOM摘要指纹，不保存原始页面文本。模型只能在观察到的同源只读控件间导航；负向类型判断只能引用既有具体来源类型事实，模型不直接写State。Google Maps URL、Google列出的网址或模型结论都不单独证明官网/门店事实；失败为candidate-scoped UNKNOWN，绝不构成无位 |
+| Google-listed Restaurant Website | 仅已发现候选的Google `websiteUri` | 有界只读的JSON-LD或窄范围可见主营/营业字段 | 否 | 否 | 否 | 否 | 代码实现、尚待本切片Live实测。仅复用受控只读Browser Executor打开HTTP(S)同源网址，移除query/fragment并拒绝凭据、跨源跳转及不安全控件。候选名称加地址包含，或同序门牌加可用地域词对应，才可建立HIGH identity；门牌数字本身、同名、缺地址或明确不同城市/街区均为UNKNOWN。JSON-LD是快捷路径，不会遮住同页可见事实；只保存URL、观察时间、候选关联与DOM摘要指纹，不保存原始页面文本。派生`MODEL_JUDGMENT`只保存到原始来源事实的引用链，不伪装为页面来源。Google Maps URL、Google列出的网址或模型结论都不单独证明官网/门店事实；失败为candidate-scoped UNKNOWN，绝不构成无位 |
 | Phone-only Restaurant | 可能 | 电话 | 否 | 否 | 用户/餐厅确认 | 用户 | `unsupported`于MVP |
 
 ## 官方来源

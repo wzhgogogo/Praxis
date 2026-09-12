@@ -46,9 +46,10 @@ export interface BrowserReadActionTarget {
 /** Router-bound objective. The browser model may navigate toward it but cannot alter it. */
 export interface BrowserReadGoal {
   outlet: { name: string; address?: string };
-  date: string;
-  partySize: number;
-  timeWindow: { earliest: string; latest: string };
+  /** Fact-only reads intentionally omit unsupplied reservation parameters. */
+  date?: string;
+  partySize?: number;
+  timeWindow?: { earliest: string; latest: string };
   hardCriteria: string[];
 }
 

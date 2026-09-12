@@ -2206,3 +2206,17 @@ typecheck、arch:check（0 forbidden dependencies）、build通过；npm test 16
 - Live / paid model: not run. No new H002/H004 Web run was started, no H001/H003/H005 runner was started, and no Fixture/Replay result is reported as Live. Earlier Web authorization/budget consumption remains unchanged. No external write, credentials or personal location were stored.
 
 - Follow-up recommendation-refresh regression: focused `action-validator`, `agent-context` and local Web tests passed `31/31`. It verifies a presented fact recommendation dispatches only `CANDIDATE_FACTS_REFRESH_REQUESTED`, permits one bounded new fact read for its displayed target, rejects availability routing and blocks presentation until the target produces a new observation. Live remains unrun.
+
+## TEST-2026-09-12-READ-PATH-REVIEW — development diagnostic / frozen e504a3f
+
+- 定向命令：`node --import tsx --test src/domains/restaurant/action-validator.test.ts src/domains/restaurant/read-grounding.test.ts src/integrations/restaurant-facts/google-listed-website-facts.test.ts src/integrations/restaurant-facts/model-fact-judgment.test.ts src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts`；53/53通过。
+- 另在临时脚本调用当前生产函数/类，合成来源与模型传输，取得[审查报告](READ-PATH-REVIEW-2026-09-12.md)所列10项反例观察。它们证明现有覆盖遗漏，不是新Golden、真实模型或Live来源结果；未将故障脚本加入默认测试，也未修改原始artifact。
+- 文档验证：4个修改的SKILL frontmatter/结构校验、修改文档的本地链接与新增锚点核对、规程职责一致性及`git diff --check`；无产品代码变化。未重跑全量测试/typecheck/build/真实浏览器Fixture/Live，未调用付费模型或访问私有Holdout。当前实现仍存在报告所列缺口。
+
+## TEST-2026-09-12-CURRENT-FACT-LIFECYCLE — offline regression
+
+- Focused: `npm run typecheck` plus `node --import tsx --test` over Action Validator, Google discovery, website facts, model judgments and the diagnostic evaluator passed `57/57`. The integration-shaped regressions prove a fresh fact `UNKNOWN` cannot reuse an old qualifying fact; zero exact named-place matches cannot use the search first item; same-name/same-number cross-city website text is UNKNOWN; identity-only JSON-LD can continue to same-page visible facts; and a cited derived fact is accepted only through candidate-bound raw source evidence.
+- Browser goal contract now permits fact-only work to omit unprovided reservation parameters. Recommendation `nearby` without a device coordinate is intentionally incomplete, so the Web path collects a one-shot device location or ordinary manually entered place before discovery. A later semantic update can reopen a previously `FAILED` read-only case; it does not retry a provider or alter a completed historical outcome.
+- No Live, paid model, real browser source, login, booking, payment, cancellation, credential change, personal location storage, or external write occurred. H002/H004 prior Web authorization consumption and all existing budget records remain unchanged.
+
+- Complete matrix: privileged loopback `npm test` passed `254/254`; `npm run typecheck`, `npm run arch:check`, `npm run build`, and `git diff --check` passed. The real local Chromium dynamic-fixture suite initially could not launch inside the restricted sandbox (`MachPortRendezvous` permission denied), then passed `5/5` under the approved local-browser execution context. Those fixtures validate browser mechanics only, not an external source or Web Live result.

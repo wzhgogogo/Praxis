@@ -146,7 +146,10 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
     if (exactMatches.length > 1) {
       throw new GooglePlacesError("GOOGLE_LOCATION_AMBIGUOUS", `Google Places returned multiple coordinate-bearing matches for the named location ${query}`);
     }
-    const place = exactMatches[0] ?? places[0];
+    // Text-search relevance is not location identity.  In particular, never
+    // turn the first unrelated result into the user's named landmark just
+    // because the exact name lookup returned nothing.
+    const place = exactMatches[0];
     const placeId = place && string(place.id);
     const label = place && string(place.displayName?.text);
     const resolved = place && coordinates(place);

@@ -31,6 +31,8 @@ test("a cited model type judgment becomes auditable negative-condition evidence"
   }), () => "2026-09-11T00:01:00.000Z").judge({ candidate, intent, evidence: sourceEvidence });
   assert.deepEqual(result.evidence[0]?.claims.verifiedNegativeCriteria, ["hot pot restaurant"]);
   assert.deepEqual(result.evidence[0]?.claims.supportingEvidenceIds, ["source-type"]);
+  assert.equal(result.evidence[0]?.provider, "MODEL_JUDGMENT");
+  assert.equal(result.evidence[0]?.sourceEntityId, undefined);
   assert.equal(result.modelUsage?.calls, 1);
 });
 

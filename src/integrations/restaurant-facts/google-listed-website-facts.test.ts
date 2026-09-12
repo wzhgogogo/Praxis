@@ -82,3 +82,21 @@ test("a same-name page without the candidate address does not become an outlet f
   assert.equal(read.factChecks["cafe-a"]?.status, "UNKNOWN");
   assert.equal(read.evidence.length, 0);
 });
+
+test("matching street numbers cannot bind same-name outlets in different cities", async () => {
+  const read = await new GoogleListedWebsiteFactRead(
+    runtime("<main>plain public page</main>", "Cafe A\n1 Ginza, Chiba\nCafe\nMonday: 10:00 - 18:00"),
+  ).inspectFacts(request, new AbortController().signal);
+  assert.equal(read.factChecks["cafe-a"]?.status, "UNKNOWN");
+  assert.equal(read.evidence.length, 0);
+});
+
+test("identity-only JSON-LD does not prevent the same page's visible facts from completing a gap", async () => {
+  const html = `<script type="application/ld+json">${JSON.stringify({ "@type": "CafeOrCoffeeShop", name: "Cafe A", address: "1 Ginza, Tokyo" })}</script>`;
+  const read = await new GoogleListedWebsiteFactRead(
+    runtime(html, "Cafe A\n1 Ginza, Tokyo\nCafe\nMonday: 10:00 - 18:00"),
+    () => "2026-09-11T00:00:00.000Z",
+  ).inspectFacts(request, new AbortController().signal);
+  assert.equal(read.factChecks["cafe-a"]?.status, "COMPLETED");
+  assert.equal(read.evidence.some((item) => item.kind === "RESTAURANT_FACT" && item.claims.openingHoursMatch === true), true);
+});

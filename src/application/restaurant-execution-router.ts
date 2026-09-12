@@ -12,6 +12,7 @@ import type {
   RestaurantSearchRequest,
   RestaurantTaskState,
 } from "../domains/restaurant/contracts.js";
+import { restaurantPresentationEvidenceIds } from "../domains/restaurant/action-validator.js";
 import { completeRestaurantIntent, completeRestaurantSearchIntent } from "../domains/restaurant/intent-state.js";
 import { restaurantPresentationReadiness } from "../domains/restaurant/action-validator.js";
 import { RESTAURANT_AVAILABILITY_DISPLAY_FRESHNESS } from "../domains/restaurant/availability-freshness.js";
@@ -310,9 +311,9 @@ export class RestaurantExecutionRouter {
         }
       }
       case "PRESENT_RESULTS": {
-        const evidenceIds = state.readEvidence
-          .filter((evidence) => action.candidateIds.includes(evidence.candidateId ?? ""))
-          .map((evidence) => evidence.evidenceId);
+        const evidenceIds = action.candidateIds.flatMap((candidateId) =>
+          restaurantPresentationEvidenceIds(state, candidateId, now) ?? [],
+        );
         return {
           event: { type: "RESULTS_PRESENTED", candidateIds: [...action.candidateIds], evidenceIds },
           observation: { type: "RESULTS_PRESENTED", detail: `${action.candidateIds.length} grounded restaurant result(s) presented` },

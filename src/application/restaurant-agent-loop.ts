@@ -76,17 +76,20 @@ function terminal(state: RestaurantTaskState): boolean {
  * no legal read action left: wording changes cannot replenish the provider.
  * Stop before asking the model to improvise repeated searches.
  */
-function noExecutableDiscoveryPath(state: RestaurantTaskState): boolean {
+function noExecutableDiscoveryPath(state: RestaurantTaskState, now: string): boolean {
   const goal = state.intentDraft?.target?.goal;
   if (state.failure?.code === "GOOGLE_LOCATION_UNRESOLVED" && state.candidates.length === 0) return true;
   if (state.sourceReadState?.googlePlacesSearchBudget !== "EXHAUSTED") return false;
   if (state.candidates.length === 0) return true;
-  // A fact-only recommendation has no lawful browser/availability fallback
-  // once its only fact source is exhausted and each current candidate has
-  // received its bounded read.  This is an execution limitation, not a prompt
-  // to ask the user to repeat an already clear request.
-  return goal === "RECOMMENDATION" && state.candidates.every((candidate) =>
-    state.factChecks?.[candidate.restaurant.id] !== undefined,
+  if (goal !== "RECOMMENDATION") return false;
+  // Google exhaustion does not decide whether the task can progress.  A
+  // candidate may already be displayable, or a pending/website-backed fact
+  // observation may still be legal.  Ask the same invariant guard used by
+  // routed actions rather than inferring exhaustion from historical checks.
+  if (state.factRefreshRequestedCandidateIds?.length) return false;
+  if (projectRestaurantAgentContext(state, now).presentation.some((item) => item.eligible)) return false;
+  return state.candidates.every((candidate) =>
+    validateRestaurantAction(state, { type: "INVESTIGATE_CANDIDATE_FACTS", candidateIds: [candidate.restaurant.id] }, now).status !== "ALLOWED",
   );
 }
 
@@ -164,7 +167,7 @@ export class RestaurantAgentLoopCoordinator {
       const snapshot = await this.runtime.snapshot(taskId);
       if (terminal(snapshot.domainState)) return { status: "TERMINAL", steps: step };
       if (waitingForUser(snapshot.domainState)) return { status: "WAITING_USER", steps: step };
-      if (noExecutableDiscoveryPath(snapshot.domainState)) {
+      if (noExecutableDiscoveryPath(snapshot.domainState, this.clock.now().toISOString())) {
         stepNumber += 1;
         await this.terminate(
           snapshot,

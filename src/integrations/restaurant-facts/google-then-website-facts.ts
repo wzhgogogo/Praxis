@@ -49,7 +49,7 @@ function needsWebsiteFactEvidence(
   const negativeMissing = intent.criteria.some((criterion) =>
     criterion.polarity === "NEGATIVE" && criterion.strength === "HARD" && !verifiedNegative.has(normalized(criterion.text)),
   );
-  const hoursMissing = intent.target?.goal === "RECOMMENDATION" && !read.evidence.some((item) =>
+  const hoursMissing = intent.target?.goal === "RECOMMENDATION" && intent.date !== undefined && intent.timeWindow !== undefined && !read.evidence.some((item) =>
     item.candidateId === candidateId && item.kind === "RESTAURANT_FACT" && item.claims.openingHoursMatch === true,
   );
   return positiveMissing || negativeMissing || hoursMissing;
@@ -85,7 +85,13 @@ export class GoogleThenWebsiteFactRead implements RestaurantCandidateFactPort {
         ? await Promise.all(request.candidates.map((candidate) => this.judgment!.judge({ candidate, intent: request.intent, evidence: google.evidence })))
         : [];
       const modelUsage = accumulatedModelUsage(judgments);
-      return { ...google, evidence: [...google.evidence, ...judgments.flatMap((item) => item.evidence)], metadata: { ...google.metadata, latencyMs: Date.now() - startedAt, ...(modelUsage ? { modelUsage } : {}) } };
+      const evidence = [...google.evidence, ...judgments.flatMap((item) => item.evidence)];
+      const factChecks = structuredClone(google.factChecks);
+      for (const candidate of request.candidates) {
+        const judgmentEvidenceIds = evidence.filter((item) => item.candidateId === candidate.restaurant.id && item.provider === "MODEL_JUDGMENT").map((item) => item.evidenceId);
+        if (judgmentEvidenceIds.length && factChecks[candidate.restaurant.id]) factChecks[candidate.restaurant.id]!.evidenceIds.push(...judgmentEvidenceIds);
+      }
+      return { ...google, evidence, factChecks, metadata: { ...google.metadata, latencyMs: Date.now() - startedAt, ...(modelUsage ? { modelUsage } : {}) } };
     }
     const website = await this.website.inspectFacts({ ...request, candidateIds: candidates.map((candidate) => candidate.restaurant.id), candidates }, signal);
     const factChecks: RestaurantCandidateFactRead["factChecks"] = { ...google.factChecks };
@@ -104,8 +110,13 @@ export class GoogleThenWebsiteFactRead implements RestaurantCandidateFactPort {
       ? await Promise.all(request.candidates.map((candidate) => this.judgment!.judge({ candidate, intent: request.intent, evidence: sourceEvidence })))
       : [];
     const modelUsage = accumulatedModelUsage(judgments);
+    const evidence = [...sourceEvidence, ...judgments.flatMap((item) => item.evidence)];
+    for (const candidate of request.candidates) {
+      const judgmentEvidenceIds = evidence.filter((item) => item.candidateId === candidate.restaurant.id && item.provider === "MODEL_JUDGMENT").map((item) => item.evidenceId);
+      if (judgmentEvidenceIds.length && factChecks[candidate.restaurant.id]) factChecks[candidate.restaurant.id]!.evidenceIds.push(...judgmentEvidenceIds);
+    }
     return {
-      evidence: [...sourceEvidence, ...judgments.flatMap((item) => item.evidence)],
+      evidence,
       factChecks,
       metadata: {
         provider: website.evidence.length ? "RESTAURANT_WEBSITE" : google.metadata.provider,

@@ -35,7 +35,7 @@ This is an incompatible development-pilot semantic shape for persisted drafts co
 - Two requests with the same party size can have different delivery standards according to the requested outcome.
 - A fact recommendation can complete without an availability read; optional availability is omitted unless it can be bounded without delaying core delivery.
 - H002 no longer has an Eval-only behavior branch, and H004 no longer relies on a party-size heuristic.
-- `restaurant-semantic-prompt@8`, `restaurant-agent-context@4`, `restaurant-agent-decision-prompt@9`, and `restaurant-hybrid-read-diagnostic-evaluator@5` are distinct versioned artifacts for this decision.
+- `restaurant-semantic-prompt@8`, `restaurant-agent-context@4`, `restaurant-agent-decision-prompt@9`, and `restaurant-hybrid-read-diagnostic-evaluator@6` are distinct versioned artifacts for this decision.
 - This ADR adds no booking, payment, login, recurring refresh, provider fallback, or generic planning framework.
 
 ## Alternatives considered

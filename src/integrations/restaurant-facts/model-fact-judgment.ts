@@ -68,7 +68,7 @@ export class ModelRestaurantFactJudgment implements RestaurantFactJudgmentPort {
       modelUsage = { calls: 1, ...(response.usage ? { usage: response.usage } : {}) };
       if (response.finishReason !== "TOOL_CALLS") return { evidence: [], modelUsage };
       output = JSON.parse(response.outputText);
-    } catch { return { evidence: [] }; }
+    } catch { return { evidence: [], ...(modelUsage ? { modelUsage } : {}) }; }
     const sourceById = new Map(observations.map((item) => [item.evidenceId, item]));
     const seen = new Set<string>(); const verified: string[] = []; const violated: string[] = []; const citations: string[] = [];
     const rawJudgments = record(output)?.judgments;
@@ -86,10 +86,13 @@ export class ModelRestaurantFactJudgment implements RestaurantFactJudgmentPort {
       citations.push(...evidenceIds);
     }
     if (!verified.length && !violated.length) return { evidence: [], ...(modelUsage ? { modelUsage } : {}) };
-    const observedAt = this.now(); const cited = [...new Set(citations)]; const provider = sourceById.get(cited[0]!)!.provider;
+    const observedAt = this.now(); const cited = [...new Set(citations)];
     return { evidence: [{
       evidenceId: "fact-judgment:" + input.candidate.restaurant.id + ":" + observedAt + ":" + cited.join(","),
-      kind: "RESTAURANT_FACT", provider, candidateId: input.candidate.restaurant.id, observedAt,
+      // This is deliberately not attributed to the first cited provider or
+      // source entity.  Its support chain is explicit below and every cited
+      // raw observation remains independently auditable.
+      kind: "RESTAURANT_FACT", provider: "MODEL_JUDGMENT", candidateId: input.candidate.restaurant.id, observedAt,
       requestFingerprint: JSON.stringify({ candidateId: input.candidate.restaurant.id, criteria: criteria.map((item) => item.text), cited }),
       claims: {
         ...(verified.length ? { verifiedNegativeCriteria: verified } : {}),

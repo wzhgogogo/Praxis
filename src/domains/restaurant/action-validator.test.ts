@@ -41,13 +41,13 @@ test("A fact-only cafe request can present opening-hours-grounded results withou
   const candidateId = "cafe-a";
   const draft = applyRestaurantIntentPatch(undefined, {
     schemaVersion: "3", target: { goal: "RECOMMENDATION", query: "recommend a cafe" }, date: "2026-08-05", timeWindow: { earliest: "12:00", latest: "17:00" }, partySize: 2,
-    area: { query: "nearby" }, addCriteria: [{ text: "cafe", polarity: "POSITIVE", strength: "HARD" }],
+    area: { query: "near Shibuya" }, addCriteria: [{ text: "cafe", polarity: "POSITIVE", strength: "HARD" }],
   });
   const state: RestaurantTaskState = {
     ...incompleteState, phase: "SEARCHING", intentDraft: draft,
     candidates: [{ restaurant: { id: candidateId, outletName: "Cafe A", sourceIds: { googlePlaces: "place-a" }, address: "Tokyo", provenance: {} }, matchReasons: [], warnings: [], executionConfidence: "HIGH" }],
     readEvidence: [
-      { evidenceId: "area", kind: "DISCOVERY", provider: "GOOGLE_PLACES", candidateId, sourceEntityId: "place-a", observedAt: now, requestFingerprint: "request", claims: { areaQuery: "nearby", areaMatch: true } },
+      { evidenceId: "area", kind: "DISCOVERY", provider: "GOOGLE_PLACES", candidateId, sourceEntityId: "place-a", observedAt: now, requestFingerprint: "request", claims: { areaQuery: "near Shibuya", areaMatch: true } },
       { evidenceId: "entity", kind: "ENTITY_MATCH", provider: "GOOGLE_PLACES", candidateId, sourceEntityId: "place-a", observedAt: now, requestFingerprint: "request", claims: {}, entityMatch: { confidence: "HIGH", matchedBy: ["GOOGLE_PLACE_ID"] } },
       { evidenceId: "facts", kind: "RESTAURANT_FACT", provider: "GOOGLE_PLACES", candidateId, sourceEntityId: "place-a", observedAt: now, requestFingerprint: "request", claims: { verifiedHardCriteria: ["cafe"], openingHoursMatch: true, openingHoursMatchedWindow: ["12:00", "17:00"] } },
     ],
@@ -79,13 +79,13 @@ test("The requested goal, not party size, determines whether availability eviden
   const candidateId = "cafe-a";
   const common = {
     schemaVersion: "3" as const, date: "2026-08-05", timeWindow: { earliest: "12:00", latest: "17:00" }, partySize: 2,
-    area: { query: "nearby" }, addCriteria: [{ text: "cafe", polarity: "POSITIVE" as const, strength: "HARD" as const }],
+    area: { query: "near Shibuya" }, addCriteria: [{ text: "cafe", polarity: "POSITIVE" as const, strength: "HARD" as const }],
   };
   const state: RestaurantTaskState = {
     ...incompleteState, phase: "SEARCHING",
     candidates: [{ restaurant: { id: candidateId, outletName: "Cafe A", sourceIds: { googlePlaces: "place-a" }, address: "Tokyo", provenance: {} }, matchReasons: [], warnings: [], executionConfidence: "HIGH" }],
     readEvidence: [
-      { evidenceId: "area", kind: "DISCOVERY", provider: "GOOGLE_PLACES", candidateId, sourceEntityId: "place-a", observedAt: now, requestFingerprint: "request", claims: { areaQuery: "nearby", areaMatch: true } },
+      { evidenceId: "area", kind: "DISCOVERY", provider: "GOOGLE_PLACES", candidateId, sourceEntityId: "place-a", observedAt: now, requestFingerprint: "request", claims: { areaQuery: "near Shibuya", areaMatch: true } },
       { evidenceId: "entity", kind: "ENTITY_MATCH", provider: "GOOGLE_PLACES", candidateId, sourceEntityId: "place-a", observedAt: now, requestFingerprint: "request", claims: {}, entityMatch: { confidence: "HIGH", matchedBy: ["GOOGLE_PLACE_ID"] } },
       { evidenceId: "facts", kind: "RESTAURANT_FACT", provider: "GOOGLE_PLACES", candidateId, sourceEntityId: "place-a", observedAt: now, requestFingerprint: "request", claims: { verifiedHardCriteria: ["cafe"], openingHoursMatch: true } },
     ],
@@ -316,6 +316,28 @@ test("Recommendation refresh reopens displayed facts without routing through ava
   }, { taskId: "task", runId: "run", now, createId: (prefix) => prefix }).state;
   assert.equal(completed.factRefreshRequestedCandidateIds, undefined);
   assert.equal(completed.factChecks?.a?.status, "UNKNOWN");
+});
+
+test("a fresh UNKNOWN fact observation cannot be masked by a historical qualifying fact", () => {
+  const candidateId = "a";
+  const state: RestaurantTaskState = {
+    ...incompleteState,
+    phase: "SEARCHING",
+    intentDraft: applyRestaurantIntentPatch(undefined, {
+      schemaVersion: "3", target: { goal: "RECOMMENDATION", query: "recommend a cafe" }, area: { query: "Tokyo" },
+      addCriteria: [{ text: "cafe", polarity: "POSITIVE", strength: "HARD" }],
+    }),
+    candidates: [{ restaurant: { id: candidateId, outletName: "Cafe A", address: "Tokyo", sourceIds: {}, provenance: {} }, matchReasons: [], warnings: [], executionConfidence: "HIGH" }],
+    factChecks: { [candidateId]: { status: "UNKNOWN", checkedAt: now, evidenceIds: [], reasonCode: "WEBSITE_FACT_READ_FAILED" } },
+    readEvidence: [
+      { evidenceId: "area", kind: "DISCOVERY", provider: "GOOGLE_PLACES", candidateId, observedAt: now, requestFingerprint: "request", claims: { areaQuery: "Tokyo", areaMatch: true } },
+      { evidenceId: "entity", kind: "ENTITY_MATCH", provider: "GOOGLE_PLACES", candidateId, sourceEntityId: "place", observedAt: now, requestFingerprint: "request", claims: {}, entityMatch: { confidence: "HIGH", matchedBy: ["GOOGLE_PLACE_ID"] } },
+      { evidenceId: "historical-positive", kind: "RESTAURANT_FACT", provider: "GOOGLE_PLACES", candidateId, sourceEntityId: "place", observedAt: now, requestFingerprint: "old", claims: { verifiedHardCriteria: ["cafe"] } },
+    ],
+  };
+  assert.equal(validateRestaurantAction(state, { type: "PRESENT_RESULTS", candidateIds: [candidateId] }, now).status, "REJECTED");
+  const current = { ...state, factChecks: { [candidateId]: { status: "COMPLETED" as const, checkedAt: now, evidenceIds: ["current-positive"] } }, readEvidence: [...state.readEvidence, { evidenceId: "current-positive", kind: "RESTAURANT_FACT" as const, provider: "GOOGLE_PLACES" as const, candidateId, sourceEntityId: "place", observedAt: now, requestFingerprint: "current", claims: { verifiedHardCriteria: ["cafe"] } }] };
+  assert.equal(validateRestaurantAction(current, { type: "PRESENT_RESULTS", candidateIds: [candidateId] }, now).status, "ALLOWED");
 });
 
 test("A completed refresh target does not block another target or permit partial presentation", () => {

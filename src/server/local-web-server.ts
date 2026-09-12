@@ -16,13 +16,11 @@ import { FixtureModelGateway } from "../infrastructure/fixture/fixture-model-gat
 import { FixtureRestaurantSearch } from "../infrastructure/fixture/fixture-restaurant-search.js";
 import { DeepSeekModelGateway } from "../infrastructure/deepseek/deepseek-model-gateway.js";
 import { browserRuntimeFromEnvironment } from "../infrastructure/browser/browser-runtime-factory.js";
-import { ModelBrowserReadActionDecision } from "../infrastructure/browser/browser-action-decision.js";
+import { type BrowserExecutionBudget } from "../infrastructure/browser/browser-task-executor.js";
 import { GooglePlacesClient } from "../integrations/google/google-places-client.js";
 import { GooglePlacesRestaurantSearch } from "../integrations/google/google-places-restaurant-search.js";
 import { LiveBrowserAvailability } from "../integrations/restaurant-availability/live-browser-availability.js";
-import { GoogleListedWebsiteFactRead } from "../integrations/restaurant-facts/google-listed-website-facts.js";
-import { GoogleThenWebsiteFactRead } from "../integrations/restaurant-facts/google-then-website-facts.js";
-import { ModelRestaurantFactJudgment } from "../integrations/restaurant-facts/model-fact-judgment.js";
+import { composeLiveRestaurantFactRead } from "../integrations/restaurant-facts/live-restaurant-facts.js";
 import { applyPostgresMigrations } from "../infrastructure/postgres/migrations.js";
 import { NodePostgresDatabase } from "../infrastructure/postgres/node-postgres-database.js";
 import { LOCAL_WORKSPACE_PAGE } from "../web/local-workspace-page.js";
@@ -325,9 +323,11 @@ async function start(): Promise<void> {
         { maxSearches: LIVE_READ_INVESTIGATION_BUDGET.maxGoogleSearches },
       );
   const browserRuntime = fixtureMode ? undefined : browserRuntimeFromEnvironment();
+  const browserBudget: BrowserExecutionBudget | undefined = fixtureMode ? undefined : { totalModelCalls: 0 };
   const restaurantAvailability = fixtureMode
     ? new FixtureRestaurantSearch()
     : new LiveBrowserAvailability(browserRuntime!, model, {
+        ...(browserBudget ? { browserBudget } : {}),
         maxTableCheckBrowserSessions: LIVE_READ_INVESTIGATION_BUDGET.maxTableCheckBrowserSessions,
         maxTabelogBrowserSessions: LIVE_READ_INVESTIGATION_BUDGET.maxTabelogBrowserSessions,
         maxTabelogCandidateMatches: LIVE_READ_INVESTIGATION_BUDGET.maxTabelogCandidateMatches,
@@ -342,13 +342,7 @@ async function start(): Promise<void> {
     agentDecision: new RestaurantAgentDecision(model),
     restaurantSearch,
     restaurantAvailability,
-    restaurantFacts: fixtureMode
-      ? restaurantSearch
-      : new GoogleThenWebsiteFactRead(
-          restaurantSearch as GooglePlacesRestaurantSearch,
-          new GoogleListedWebsiteFactRead(browserRuntime!, undefined, new ModelBrowserReadActionDecision(model)),
-          new ModelRestaurantFactJudgment(model),
-        ),
+    restaurantFacts: fixtureMode ? restaurantSearch : composeLiveRestaurantFactRead(restaurantSearch, browserRuntime!, model, browserBudget),
     workspaceMode: providerMode,
     ...(fixtureMode ? {} : {
       executionRouterOptions: {

@@ -1,10 +1,10 @@
 # Restaurant Booking Domain
 
 - Status: Accepted
-- Document revision: 2.4
-- Last updated: 2026-09-11
+- Document revision: 2.5
+- Last updated: 2026-09-12
 - Source of truth for: 餐厅预约Domain模型、状态、搜索和完成条件
-- Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0009](../decisions/0009-semantic-strength-and-clean-holdout-baseline.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md), [ADR-0014](../decisions/0014-search-only-results-completion.md), [ADR-0019](../decisions/0019-fact-grounded-read-only-recommendations.md), [ADR-0020](../decisions/0020-goal-driven-restaurant-read-path.md), [ADR-0021](../decisions/0021-cited-source-fact-investigation.md)
+- Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0009](../decisions/0009-semantic-strength-and-clean-holdout-baseline.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md), [ADR-0014](../decisions/0014-search-only-results-completion.md), [ADR-0019](../decisions/0019-fact-grounded-read-only-recommendations.md), [ADR-0020](../decisions/0020-goal-driven-restaurant-read-path.md), [ADR-0021](../decisions/0021-cited-source-fact-investigation.md), [ADR-0022](../decisions/0022-current-source-fact-lifecycle-and-identity.md)
 - Related documents: [MVP PRD](../product/MVP-PRD.md), [User Flows](../product/USER-FLOWS.md), [Policy & Execution](../architecture/POLICY-EXECUTION-VERIFICATION.md), [Data, Context & Security](../architecture/DATA-CONTEXT-SECURITY.md), [Search Service](../architecture/SEARCH-SERVICE.md)
 
 ## Implementation Status
@@ -51,7 +51,7 @@ type RestaurantBookingIntent = {
 
 Reducer维护可缺阻塞字段的`RestaurantIntentDraft`：`target.goal`、`date`、`timeWindow`、`partySize`、`area`由同一Domain Validator管理。`RECOMMENDATION`不需要人数；`AVAILABILITY`缺人数时必须补充，不能降为推荐。代码从权威Draft计算缺失字段，不持久化第二份readiness。未知字段、无效日历日期、空字符串、错误JPY预算和嵌套未知字段一律拒绝；符合当前目标所需字段时Router才可开始相应的只读路径。
 
-对事实型推荐，Agent可提出有界`INVESTIGATE_CANDIDATE_FACTS`：Validator只接受当前候选池中未调查的候选（每批最多三家），Router绑定候选与权威Search Intent。Google以已记录Place ID调用Place Details取得类型、营业事实及Google列出的网站指针；若有指针，复用受控Browser Executor读取同源网站。JSON-LD是快捷读取方式；候选绑定的可见主营/营业说明也可形成来源事实。HIGH identity需要候选名称及地址包含或同序门牌组件，名称独自、地址缺失或冲突均为UNKNOWN。Google Maps链接、Google列出的网址、页面文字和模型本身都不能单独成为官网或门店事实；模型只能对已经观察到的具体类型事实提出带引用的负向条件判断，Router记录该调用元数据且Reducer仍是唯一State writer。Discovery和Details在同一Task run共享累计Google额度、不同Task run隔离；已观察网站指针在Google额度耗尽后仍可继续有界读取。无法核实或额度耗尽时记录candidate-scoped `UNKNOWN`，不变成无位或空位。该动作不查询slot、不创建Offer、不改变候选池。
+对事实型推荐，Agent可提出有界`INVESTIGATE_CANDIDATE_FACTS`：Validator只接受当前候选池中未调查或已授权刷新目标的候选（每批最多三家），Router绑定候选与权威Search Intent。每次事实Check标明当前观察引用；旧观察仍可审计，却不能在新UNKNOWN、冲突或不满足后继续作为当前展示依据。Google以已记录Place ID调用Place Details取得类型、营业事实及Google列出的网站指针；若有指针，复用受控Browser Executor读取同源网站。JSON-LD是快捷读取方式；不完整JSON-LD不会遮住同页可见主营/营业说明。HIGH identity需要候选名称及地址包含，或同序门牌及可用地域词同时匹配；名称或门牌数字独自、地址缺失及明确不同城市/街区均为UNKNOWN。Google Maps链接、Google列出的网址、页面文字和模型本身都不能单独成为官网或门店事实；模型只能提出指向实际具体类型事实的`MODEL_JUDGMENT`，不复制来源身份、不直接写State。Discovery和Details在同一Task run共享累计Google额度、不同Task run隔离；Web与Hybrid复用同一Google→网站→判断组合及每轮共享浏览器模型预算。无法核实或额度耗尽时记录candidate-scoped `UNKNOWN`，不变成无位或空位。该动作不查询slot、不创建Offer、不改变候选池。
 
 Semantic Operation固定为：singleton `ASSERT/CORRECT=set`、`NEGATE=clear`、`CONFIRM=no state mutation`；同一turn对同一singleton同时`NEGATE`与`ASSERT/CORRECT`是`CONTRADICTORY_PROPOSAL`，绝不按facts数组顺序决定State。唯一collection `CRITERION`为`ASSERT=add`、`CORRECT=replace collection`、`NEGATE=remove matching criterion`，不允许collection `CONFIRM`。Criterion文本保留简洁用户措辞，身份按text trim/case与polarity/strength精确值决定。
 

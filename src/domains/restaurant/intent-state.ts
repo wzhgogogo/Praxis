@@ -25,13 +25,16 @@ export function missingSearchFields(input: {
   target?: { goal?: unknown };
   date?: unknown;
   timeWindow?: unknown;
-  area?: unknown;
+  area?: { query?: unknown; coordinates?: unknown };
 }): Array<"date" | "timeWindow" | "area"> {
   const availability = input.target?.goal === "AVAILABILITY";
+  const nearbyNeedsLocation = typeof input.area?.query === "string"
+    && input.area.query.trim().toLocaleLowerCase("en-US") === "nearby"
+    && input.area.coordinates === undefined;
   return [
     ...(availability && input.date === undefined ? (["date"] as const) : []),
     ...(availability && input.timeWindow === undefined ? (["timeWindow"] as const) : []),
-    ...(input.area === undefined ? (["area"] as const) : []),
+    ...(input.area === undefined || nearbyNeedsLocation ? (["area"] as const) : []),
   ];
 }
 
@@ -133,7 +136,7 @@ export function completeRestaurantIntent(
 ): RestaurantBookingIntent | null {
   if (
     !draft ||
-    missingBlockingFields(draft).length > 0 ||
+    missingSearchFields(draft).length > 0 ||
     !draft.date ||
     !draft.timeWindow ||
     !draft.partySize ||

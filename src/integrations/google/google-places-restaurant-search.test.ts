@@ -61,6 +61,17 @@ test("only source-level duplicate exact named locations ask for disambiguation",
   await assert.rejects(search.search({ intent: { ...fixtureIntent, area: { query: "near Central Station" } } }, new AbortController().signal), { code: "GOOGLE_LOCATION_AMBIGUOUS" });
 });
 
+test("an unrelated first search result never becomes a named nearby landmark", async () => {
+  const client = new GooglePlacesClient({
+    apiKey: "key",
+    fetchImplementation: async () => new Response(JSON.stringify({ places: [
+      { id: "wrong", displayName: { text: "Different Station" }, location: { latitude: 35.6, longitude: 139.7 } },
+    ] }), { status: 200 }),
+  });
+  const search = new GooglePlacesRestaurantSearch(client, undefined, 10, { maxSearches: 2 });
+  await assert.rejects(search.search({ intent: { ...fixtureIntent, area: { query: "near Central Station" } } }, new AbortController().signal), { code: "GOOGLE_LOCATION_UNRESOLVED" });
+});
+
 test("Google Places text search uses the explicit small field mask and stable candidate IDs", async () => {
   let captured: RequestInit | undefined;
   const client = new GooglePlacesClient({

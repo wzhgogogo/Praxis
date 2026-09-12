@@ -1992,3 +1992,15 @@ ADR-0021 replaces the previous address-label substitute for a named nearby place
 For explicit negative restaurant-type criteria, the model can issue only a cited judgment over concrete observed type facts. It cannot write State; the composite returns normal evidence and bounded model usage to the Router trajectory. Broad labels and uncited output remain unknown. The diagnostic evaluator now recognizes recorded user/timeliness rechecks as authorized rather than duplicate availability reads, and fact-only cards/failed summaries no longer use availability wording. No Live run, browser source access, booking, login, payment, cancellation, credential change or push occurred in this development slice.
 
 The same Web refresh endpoint now dispatches a goal-specific event. A fact-only recommendation reopens only the displayed candidates for `INVESTIGATE_CANDIDATE_FACTS`; an availability request retains the existing slot refresh. The corresponding pending target set blocks `PRESENT_RESULTS` until every target has one new fact/slot observation, including `UNKNOWN`; a recommendation refresh cannot accidentally call availability. This uses the same Router, state and Agent loop rather than a case-specific executor.
+
+## DEV-2026-09-12-READ-PATH-REVIEW — 横向审查与验证规程
+
+在`e504a3f`干净工作区基线审查两次最新提交，并用当前生产函数/类离线复现跨层问题；[冻结审查](READ-PATH-REVIEW-2026-09-12.md)记录8组发现、已改善部分及具体关闭条件。本轮未修产品代码。将“跨模块集成 → 独立结果/诊断核验 → 本地与有界Live验证”写入现有Test skill，Eval skill维护引用链、条件保真、合法重查和评分反例要求；Planning与Post-change仅关联检查点，不在AGENTS或新框架中复制规则。STATUS明确区分开发规程已落地与产品缺口尚未修复。未新增测试文件、未改Golden/私有Holdout/历史artifact，未运行Live、付费模型、数据库写入或Git提交/推送。
+
+## 2026-09-12 — Current fact lifecycle and shared source-fact composition
+
+ADR-0022替代ADR-0021中“同序门牌数字可单独绑定”的接受规则。当前推荐展示只使用候选最新事实Check列出的证据；历史事实仍保留，但新UNKNOWN、冲突或不满足不会被旧正向事实覆盖。Router从同一Validator派生展示引用，避免把同候选的所有历史事实重新塞进新卡片。
+
+命名地点解析不再把Google首个相关结果当成地标；只有精确、带坐标的名称匹配可形成位置证据。网页门店绑定要求名称加地址包含，或门牌序列加可用地域词对应，因此同名同门牌的不同城市页面保持UNKNOWN。JSON-LD身份快捷路径与可见事实合并，身份本身不会提前停止缺口调查；事实型目标不再伪造日期、人数或时间窗口。
+
+派生类型判断以`MODEL_JUDGMENT`记录，而不是复制第一条来源的provider或entity ID；它必须引用同候选、已身份绑定的原始事实。Hybrid与Web共同构造Google Details → 同源网站 → cited judgment组合，且与availability共用一轮的浏览器模型计数。Evaluator/Rubric升为@6，检验派生链、用户明确字段丢失和枚举的重查理由。未运行Live、付费模型或写操作；F8异步执行/取消/中断恢复仍未实现。

@@ -4,8 +4,8 @@ import { basename, dirname, resolve } from "node:path";
 import { openingHoursForRequest } from "../../../domains/restaurant/read-grounding.js";
 
 
-export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@5";
-export const RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION = "restaurant-hybrid-read-diagnostic-rubric@5";
+export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@6";
+export const RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION = "restaurant-hybrid-read-diagnostic-rubric@6";
 
 type JsonRecord = Record<string, unknown>;
 export type DiagnosticEvaluationStatus = "SATISFIED" | "NOT_SATISFIED" | "NOT_EVALUATED";
@@ -155,11 +155,12 @@ function requestFromFinalIntent(value: JsonRecord): RequestShape {
 function conditionMismatches(expected: RequestShape, actual: RequestShape): string[] {
   const mismatches = [...expected.missing, ...actual.missing];
   if (expected.goal && actual.goal && expected.goal !== actual.goal) mismatches.push("target.goal");
-  if (expected.date && actual.date && expected.date !== actual.date) mismatches.push("date");
+  if (expected.date && (!actual.date || expected.date !== actual.date)) mismatches.push("date");
   if (expected.partySize !== undefined && actual.partySize !== undefined && expected.partySize !== actual.partySize) mismatches.push("partySize");
   if (expected.partySize !== undefined && actual.partySize === undefined) mismatches.push("partySize");
   if (expected.partySize === undefined && actual.partySize !== undefined) mismatches.push("partySize:not-applicable");
-  if (expected.timeWindow && actual.timeWindow && (expected.timeWindow.earliest !== actual.timeWindow.earliest || expected.timeWindow.latest !== actual.timeWindow.latest)) mismatches.push("timeWindow");
+  if (expected.timeWindow && (!actual.timeWindow || expected.timeWindow.earliest !== actual.timeWindow.earliest || expected.timeWindow.latest !== actual.timeWindow.latest)) mismatches.push("timeWindow");
+  if (expected.location && !actual.location) mismatches.push("location");
   if (expected.location && actual.location) {
     const relationCompatible = expected.location.relation === "NEAR_USER" ? Boolean(normalized(actual.location.value)) : normalized(expected.location.value) === normalized(actual.location.value);
     if (!relationCompatible) mismatches.push("location");
@@ -198,7 +199,10 @@ function executedAvailabilityVisits(trajectories: unknown[]): { candidateId: str
     // State hashes advance after unrelated candidate/presentation changes; only an
     // authoritative request change makes the same candidate a distinct read.
     const version = context ? JSON.stringify(context) : asString(asRecord(step)?.stateHashBefore) ?? "REQUEST_VERSION_UNRECORDED";
-    const recheckReason = asString(metadata.recheckReason);
+    const recordedReason = asString(metadata.recheckReason);
+    const recheckReason = recordedReason === "USER_REQUESTED_REFRESH" || recordedReason === "DISPLAY_EVIDENCE_EXPIRED"
+      ? recordedReason
+      : undefined;
     strings(action.candidateIds).forEach((candidateId) => visits.push({ candidateId, requestVersion: version, ...(recheckReason ? { recheckReason } : {}), ref: ref(`trajectories[${index}]`) }));
   });
   return visits;
@@ -221,9 +225,21 @@ function assessPresentedCandidate(candidateId: string, domain: JsonRecord, reque
   if (entity.length === 0) missing.push("HIGH entity evidence"); if (entity.some((item) => asRecord(item.entityMatch)?.confidence !== "HIGH")) conflicts.push("entity confidence is not HIGH");
   const identities = entity.filter((item) => asRecord(item.entityMatch)?.confidence === "HIGH");
   if (identities.some((item) => !asString(item.provider) || !asString(item.sourceEntityId))) missing.push("entity source association");
-  for (const item of [...facts, ...availabilityEvidence]) {
+  for (const item of [...facts.filter((fact) => fact.provider !== "MODEL_JUDGMENT"), ...availabilityEvidence]) {
     const associated = identities.some((identity) => item.provider === identity.provider && item.sourceEntityId === identity.sourceEntityId);
     if (!associated) conflicts.push(`grounding evidence ${asString(item.evidenceId) ?? "unknown"} is not associated with an identity source`);
+  }
+  for (const item of facts.filter((fact) => fact.provider === "MODEL_JUDGMENT")) {
+    const citations = strings(asRecord(item.claims)?.supportingEvidenceIds);
+    const citedSources = citations.map((id) => listedEvidence.find((evidence) => evidence.evidenceId === id));
+    if (!citations.length || citedSources.some((source) => !source || source.candidateId !== candidateId || source.kind !== "RESTAURANT_FACT" || source.provider === "MODEL_JUDGMENT")) {
+      conflicts.push(`derived fact ${asString(item.evidenceId) ?? "unknown"} lacks a candidate-bound raw support chain`);
+      continue;
+    }
+    for (const source of citedSources) {
+      const associated = identities.some((identity) => source!.provider === identity.provider && source!.sourceEntityId === identity.sourceEntityId);
+      if (!associated) conflicts.push(`derived fact ${asString(item.evidenceId) ?? "unknown"} cites an ungrounded source`);
+    }
   }
   if (discovery.length === 0) missing.push("area discovery evidence"); else if (!discovery.some((item) => {
     const claims = asRecord(item.claims) ?? {};

@@ -66,23 +66,32 @@ function presentationEvidenceIds(
   now: string,
 ): { valid: true; evidenceIds: string[] } | { valid: false; reason: string } {
   const candidateEvidence = state.readEvidence.filter((evidence) => evidence.candidateId === candidateId);
+  // A fact read is an observation, not a cache hit.  When a candidate has a
+  // current fact check, only evidence emitted by that observation may support
+  // the current recommendation.  Older observations remain in the history
+  // for audit, but an UNKNOWN, conflict, or closed result must not be hidden
+  // behind an earlier positive fact.
+  const currentFactEvidenceIds = state.factChecks?.[candidateId]?.evidenceIds;
+  const currentCandidateEvidence = candidateEvidence.filter((evidence) =>
+    evidence.kind !== "RESTAURANT_FACT" || currentFactEvidenceIds === undefined || currentFactEvidenceIds.includes(evidence.evidenceId),
+  );
   const entities = candidateEvidence.filter((evidence) => evidence.kind === "ENTITY_MATCH" && evidence.entityMatch?.confidence === "HIGH");
   const area = candidateEvidence.find((evidence) =>
     evidence.kind === "DISCOVERY" && evidence.claims.areaMatch === true && normalized(stringClaim(evidence, "areaQuery") ?? "") === normalized(intent.area.query),
   );
   if (!area) return { valid: false, reason: `Candidate ${candidateId} has no evidence that it satisfies ${intent.area.query}` };
   for (const criterion of intent.criteria.filter((item) => item.polarity === "POSITIVE" && item.strength === "HARD")) {
-    const supported = candidateEvidence.some((evidence) =>
+    const supported = currentCandidateEvidence.some((evidence) =>
       evidence.kind === "RESTAURANT_FACT" && stringListClaim(evidence, "verifiedHardCriteria").some((value) => normalized(value) === normalized(criterion.text)),
     );
     if (!supported) return { valid: false, reason: `Candidate ${candidateId} has no evidence for HARD criterion ${criterion.text}` };
   }
   for (const criterion of intent.criteria.filter((item) => item.polarity === "NEGATIVE" && item.strength === "HARD")) {
-    const violated = candidateEvidence.some((evidence) =>
+    const violated = currentCandidateEvidence.some((evidence) =>
       evidence.kind === "RESTAURANT_FACT" && stringListClaim(evidence, "violatedNegativeCriteria").some((value) => normalized(value) === normalized(criterion.text)),
     );
     if (violated) return { valid: false, reason: `Candidate ${candidateId} violates negative criterion ${criterion.text}` };
-    const supported = candidateEvidence.some((evidence) =>
+    const supported = currentCandidateEvidence.some((evidence) =>
       evidence.kind === "RESTAURANT_FACT" && stringListClaim(evidence, "verifiedNegativeCriteria").some((value) => normalized(value) === normalized(criterion.text)),
     );
     if (!supported) return { valid: false, reason: `Candidate ${candidateId} has no source fact supporting negative criterion ${criterion.text}` };
@@ -92,7 +101,7 @@ function presentationEvidenceIds(
     const entity = entities[0];
     if (!entity) return { valid: false, reason: `Candidate ${candidateId} has no HIGH outlet identity evidence` };
     const openingHours = intent.date && intent.timeWindow
-      ? candidateEvidence.find((evidence) => evidence.kind === "RESTAURANT_FACT" && evidence.claims.openingHoursMatch === true)
+      ? currentCandidateEvidence.find((evidence) => evidence.kind === "RESTAURANT_FACT" && evidence.claims.openingHoursMatch === true)
       : undefined;
     if (intent.date && intent.timeWindow && !openingHours) {
       return { valid: false, reason: `Candidate ${candidateId} has no opening-hours evidence for the requested visit window` };
@@ -126,6 +135,23 @@ function presentationEvidenceIds(
   return { valid: true, evidenceIds: [...new Set([entity.evidenceId, area.evidenceId, availability.evidenceId, ...candidateEvidence
     .filter((evidence) => evidence.kind === "RESTAURANT_FACT")
     .map((evidence) => evidence.evidenceId)])] };
+}
+
+/**
+ * The exact evidence set that may be shown for a candidate at this instant.
+ * The Router uses this after the Validator has allowed presentation, so an
+ * historical fact cannot be accidentally attached to a fresh card merely
+ * because it belongs to the same candidate.
+ */
+export function restaurantPresentationEvidenceIds(
+  state: Readonly<RestaurantTaskState>,
+  candidateId: string,
+  now: string,
+): string[] | undefined {
+  const intent = completeRestaurantSearchIntent(state.intentDraft);
+  if (!intent) return undefined;
+  const result = presentationEvidenceIds(state, candidateId, intent, now);
+  return result.valid ? result.evidenceIds : undefined;
 }
 
 /** Code-derived read eligibility is the only availability status exposed to the Agent. */

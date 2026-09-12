@@ -10,7 +10,7 @@ import type {
   RestaurantCandidateFactRead,
   RestaurantCandidateFactRequest,
 } from "../../domains/restaurant/contracts.js";
-import { BrowserTaskExecutor } from "../../infrastructure/browser/browser-task-executor.js";
+import { BrowserTaskExecutor, type BrowserExecutionBudget } from "../../infrastructure/browser/browser-task-executor.js";
 import type { BrowserRuntime } from "../../infrastructure/browser/browser-runtime.js";
 import type { BrowserReadActionDecisionPort } from "../../infrastructure/browser/browser-action-decision.js";
 
@@ -29,7 +29,17 @@ function addressMatches(candidateAddress: string, observedAddress: string): bool
   if (expected.includes(observed) || observed.includes(expected)) return true;
   const expectedNumbers = candidateAddress.normalize("NFKC").match(/\d+/gu) ?? [];
   const observedNumbers = observedAddress.normalize("NFKC").match(/\d+/gu) ?? [];
-  return expectedNumbers.length > 0 && expectedNumbers.length === observedNumbers.length && expectedNumbers.every((value, index) => value === observedNumbers[index]);
+  if (!expectedNumbers.length || expectedNumbers.length !== observedNumbers.length || !expectedNumbers.every((value, index) => value === observedNumbers[index])) return false;
+  // A shared street number is never sufficient outlet identity: branches in
+  // different cities commonly reuse it.  For reordered/translated addresses,
+  // retain at least the available non-numeric locality tokens as well.  This
+  // deliberately accepts punctuation/order variation but rejects a visibly
+  // different city or district.
+  const tokens = (value: string) => [...value.normalize("NFKC").toLocaleLowerCase("en-US").matchAll(/[\p{L}]{2,}/gu)].map((match) => match[0]!);
+  const expectedTokens = [...new Set(tokens(candidateAddress))];
+  const observedTokens = new Set(tokens(observedAddress));
+  const requiredSharedTokens = Math.min(2, expectedTokens.length, observedTokens.size);
+  return requiredSharedTokens > 0 && expectedTokens.filter((token) => observedTokens.has(token)).length >= requiredSharedTokens;
 }
 
 function safeWebsiteUrl(value: string | undefined): URL | undefined {
@@ -152,6 +162,26 @@ function candidateVisibleObservation(
   };
 }
 
+function mergeObservations(
+  structured: UntrustedRestaurantWebsiteObservation | undefined,
+  visible: UntrustedRestaurantWebsiteObservation | undefined,
+): UntrustedRestaurantWebsiteObservation | undefined {
+  if (!structured) return visible;
+  if (!visible) return structured;
+  return {
+    ...structured,
+    restaurantTypeFacts: [...new Set([...(structured.restaurantTypeFacts ?? []), ...(visible.restaurantTypeFacts ?? [])])],
+    regularOpeningHours: [...new Set([...(structured.regularOpeningHours ?? []), ...(visible.regularOpeningHours ?? [])])],
+  };
+}
+
+function hasRequestedFacts(observation: UntrustedRestaurantWebsiteObservation, request: RestaurantCandidateFactRequest): boolean {
+  const needsType = request.intent.criteria.some((criterion) => criterion.strength === "HARD");
+  const needsHours = request.intent.date !== undefined && request.intent.timeWindow !== undefined;
+  return (!needsType || (observation.restaurantTypeFacts?.length ?? 0) > 0)
+    && (!needsHours || (observation.regularOpeningHours?.length ?? 0) > 0);
+}
+
 /**
  * Bounded generic browser investigation of a Google-listed candidate website.
  * JSON-LD is fast-path evidence, while visible, candidate-bound public facts
@@ -165,6 +195,7 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
     private readonly runtime: BrowserRuntime,
     private readonly now: () => string = () => new Date().toISOString(),
     private readonly modelDecision?: BrowserReadActionDecisionPort,
+    private readonly browserBudget?: BrowserExecutionBudget,
   ) {}
 
   async inspectFacts(request: RestaurantCandidateFactRequest, signal: AbortSignal): Promise<RestaurantCandidateFactRead> {
@@ -180,6 +211,7 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
       }
       const executor = new BrowserTaskExecutor(this.runtime, {
         ...(this.modelDecision ? { modelDecision: this.modelDecision, maxModelCallsPerCandidate: 2, maxModelCallsTotal: 2 } : {}),
+        ...(this.browserBudget ? { budget: this.browserBudget } : {}),
         maxAutomaticElapsedMs: 12_000,
         maxOperationsPerCandidate: 4,
       });
@@ -194,20 +226,30 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
           signal,
           session,
           allowedOrigins: [listed.origin],
-          goal: { outlet: { name: candidate.restaurant.outletName, address: candidate.restaurant.address }, date: request.intent.date ?? "unscheduled", partySize: 1, timeWindow: request.intent.timeWindow ?? { earliest: "00:00", latest: "00:00" }, hardCriteria: request.intent.criteria.map((criterion) => criterion.text) },
+          goal: {
+            outlet: { name: candidate.restaurant.outletName, address: candidate.restaurant.address },
+            ...(request.intent.date ? { date: request.intent.date } : {}),
+            ...(request.intent.timeWindow ? { timeWindow: request.intent.timeWindow } : {}),
+            hardCriteria: request.intent.criteria.map((criterion) => criterion.text),
+          },
           objective: "Find public candidate-bound type or opening-hours facts; never log in or submit.",
           completion: (page) => {
             const landed = safeWebsiteUrl(page.url);
             const sourceUrl = landed?.origin === listed.origin ? landed.toString() : undefined;
-            const found = sourceUrl && (candidateStructuredObservation(candidate, sourceUrl, checkedAt, page.html) || candidateVisibleObservation(candidate, sourceUrl, checkedAt, page.text));
-            return { complete: found !== undefined, reason: "No candidate-bound public fact is visible yet" };
+            const found = sourceUrl === undefined ? undefined : mergeObservations(
+              candidateStructuredObservation(candidate, sourceUrl, checkedAt, page.html),
+              candidateVisibleObservation(candidate, sourceUrl, checkedAt, page.text),
+            );
+            return { complete: found !== undefined && hasRequestedFacts(found, request), reason: "The current page has not yet supplied the requested candidate-bound facts" };
           },
         });
         const snapshot = generic.snapshot;
         const landed = safeWebsiteUrl(snapshot.url);
         const observation = landed?.origin === listed.origin
-          ? candidateStructuredObservation(candidate, landed.toString(), checkedAt, snapshot.html)
-            ?? candidateVisibleObservation(candidate, landed.toString(), checkedAt, snapshot.text)
+          ? mergeObservations(
+              candidateStructuredObservation(candidate, landed.toString(), checkedAt, snapshot.html),
+              candidateVisibleObservation(candidate, landed.toString(), checkedAt, snapshot.text),
+            )
           : undefined;
         if (!observation) {
           factChecks[candidate.restaurant.id] = { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: "WEBSITE_STRUCTURED_IDENTITY_UNVERIFIED" };

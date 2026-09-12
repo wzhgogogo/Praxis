@@ -80,10 +80,12 @@ function matchesAuthoritativeControl(
 ): boolean {
   const normalized = target.label.replace(/\s+/g, " ").trim().toLowerCase();
   if (field === "PARTY_SIZE") {
+    if (goal.partySize === undefined) return false;
     return String(target.value ?? "") === String(goal.partySize)
       || (new RegExp(`(?:^|\\D)${goal.partySize}(?:\\D|$)`).test(normalized)
       && /(?:guest|guests|people|persons|名|人)/i.test(normalized));
   }
+  if (!goal.date) return false;
   const [year, month, day] = goal.date.split("-").map(Number);
   if (!year || !month || !day) return false;
   if (normalizeObservedIsoDate(target.value) === goal.date || normalized.includes(goal.date)) return true;
@@ -395,7 +397,9 @@ export class BrowserTaskExecutor {
       await this.operation(input, "CLICK_AUTHORITATIVE", () => input.session.click(target.controlId));
       return;
     }
-    const value = action.field === "DATE" ? input.goal.date : String(input.goal.partySize);
+    const authoritative = action.field === "DATE" ? input.goal.date : input.goal.partySize;
+    if (authoritative === undefined) throw this.rejected(input.source, input.stage, `The current read has no authoritative ${action.field.toLowerCase()} value`);
+    const value = String(authoritative);
     if (target.kind !== (action.type === "FILL_AUTHORITATIVE" ? "INPUT" : "SELECT")) {
       throw new Error(`${action.type} target has the wrong control kind`);
     }

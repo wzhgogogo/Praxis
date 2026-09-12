@@ -105,6 +105,27 @@ test("a recorded user refresh is a legal recheck of the same authoritative reque
   assert.equal(finding(evaluateRestaurantHybridLiveArtifact(artifact, source), "INVESTIGATION_BEHAVIOR").status, "SATISFIED");
 });
 
+test("an arbitrary recheck label does not exempt a duplicate availability read", () => {
+  const artifact: any = completeArtifact();
+  const intent = { date: "2026-09-08", partySize: 2, timeWindow: { earliest: "19:00", latest: "19:00" } };
+  artifact.trajectories[0].decisionContext = { intent };
+  artifact.trajectories.push({ stateHashBefore: "same-request", decisionContext: { intent }, agentAction: { type: "CHECK_AVAILABILITY", candidateIds: ["candidate-a"] }, executionMetadata: { recheckReason: "because-model-said-so", providerAttempts: [{ candidateId: "candidate-a", provider: "TABLECHECK", outcome: "AVAILABLE" }] } });
+  assert.equal(finding(evaluateRestaurantHybridLiveArtifact(artifact, source), "INVESTIGATION_BEHAVIOR").status, "NOT_SATISFIED");
+});
+
+test("a derived restaurant fact needs its cited candidate-bound source evidence", () => {
+  const artifact: any = completeArtifact();
+  const domain = artifact.finalSnapshot.domainState;
+  domain.materializedCase = undefined;
+  domain.readEvidence.push({ evidenceId: "judgment-a", kind: "RESTAURANT_FACT", provider: "MODEL_JUDGMENT", candidateId: "candidate-a", observedAt: "2026-09-08T07:45:00.000Z", requestFingerprint: "judgment", claims: { verifiedHardCriteria: ["omakase"], supportingEvidenceIds: ["hard-a"] } });
+  domain.presentedResults.evidenceIds.push("judgment-a");
+  const accepted = evaluateRestaurantHybridLiveArtifact(artifact, source);
+  assert.equal(finding(accepted, "REQUIRED_EVIDENCE").status, "SATISFIED");
+  domain.readEvidence.find((item: any) => item.evidenceId === "judgment-a").claims.supportingEvidenceIds = ["not-a-source"];
+  const rejected = evaluateRestaurantHybridLiveArtifact(artifact, source);
+  assert.equal(finding(rejected, "REQUIRED_EVIDENCE").status, "NOT_SATISFIED");
+});
+
 test("complete availability time windows are evaluated without H001 exact-time assumptions", () => {
   const artifact: any = completeArtifact();
   artifact.materializedCase.semantic.time = { start: "18:00", end: "20:00" };

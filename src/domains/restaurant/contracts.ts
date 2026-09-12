@@ -121,7 +121,8 @@ export type RestaurantReadEvidenceKind =
   | "ENTITY_MATCH"
   | "AVAILABILITY";
 
-export type RestaurantReadEvidenceProvider = "GOOGLE_PLACES" | "RESTAURANT_WEBSITE" | "TABLECHECK" | "TABELOG";
+/** `MODEL_JUDGMENT` is a derived, cited interpretation, never a source page. */
+export type RestaurantReadEvidenceProvider = "GOOGLE_PLACES" | "RESTAURANT_WEBSITE" | "TABLECHECK" | "TABELOG" | "MODEL_JUDGMENT";
 
 /**
  * Small Domain-owned record of a grounded external read. It intentionally holds

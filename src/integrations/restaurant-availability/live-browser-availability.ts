@@ -10,6 +10,8 @@ import type { TabelogIdentityDiagnostic, TabelogUserInterventionHandler } from "
 import { AvailabilitySourceResolver } from "./availability-source-resolver.js";
 
 export interface LiveBrowserAvailabilityOptions {
+  /** Shared with fact reads for one Router-owned investigation, never process-global. */
+  browserBudget?: BrowserExecutionBudget;
   maxTableCheckBrowserSessions?: number;
   maxTabelogBrowserSessions?: number;
   maxTabelogCandidateMatches?: number;
@@ -30,13 +32,15 @@ export interface LiveBrowserAvailabilityOptions {
 export class LiveBrowserAvailability {
   readonly executionRoute = "GENERIC_BROWSER" as const;
   /** Persists across candidate batches in one Live availability composition. */
-  private readonly browserBudget: BrowserExecutionBudget = { totalModelCalls: 0 };
+  private readonly browserBudget: BrowserExecutionBudget;
 
   constructor(
     private readonly runtime: BrowserRuntime,
     private readonly model: ModelGateway,
     private readonly options: LiveBrowserAvailabilityOptions = {},
-  ) {}
+  ) {
+    this.browserBudget = options.browserBudget ?? { totalModelCalls: 0 };
+  }
 
   /** Called by the Router once per Agent loop, not once per candidate batch. */
   beginReadRun(): void {
