@@ -12,6 +12,8 @@
 
 ## Restaurant Harness与Eval
 
+- [2026-09-15对齐前的H001–H005与Rubric](eval/restaurant-read-pre-alignment-2026-09-15/README.md)：原样归档的旧标注，不再作为当前Runner输入。
+
 - [Progressive Decision Eval](harness/RESTAURANT-PROGRESSIVE-DECISION-EVAL.md)：已删除可执行实现的历史Eval Plan、Scorer设计与结果记录。
 - [Progressive Decision Golden Seed](harness/RESTAURANT-PROGRESSIVE-DECISION-GOLDEN-SEED.md)：首批7个Episode / 17个Turn的历史Annotation Guide与Golden口径。
 - [Categorized Semantic Holdout](harness/RESTAURANT-CATEGORIZED-SEMANTIC-HOLDOUT.md)：开放`criteria`之前、已被替代且未作为当前Baseline运行的Holdout格式。

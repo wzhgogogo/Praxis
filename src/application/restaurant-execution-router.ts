@@ -8,18 +8,20 @@ import type {
   RestaurantEvent,
   RestaurantExecutionRoute,
   RestaurantReadExecutionMetadata,
+  RestaurantReadObservation,
   RestaurantSearchRead,
   RestaurantSearchRequest,
   RestaurantTaskState,
 } from "../domains/restaurant/contracts.js";
-import { restaurantPresentationEvidenceIds } from "../domains/restaurant/action-validator.js";
+import { assessRestaurantRead, restaurantPresentationEvidenceIds } from "../domains/restaurant/read-assessment.js";
 import { completeRestaurantIntent, completeRestaurantSearchIntent } from "../domains/restaurant/intent-state.js";
-import { restaurantPresentationReadiness } from "../domains/restaurant/action-validator.js";
 import { RESTAURANT_AVAILABILITY_DISPLAY_FRESHNESS } from "../domains/restaurant/availability-freshness.js";
 
 export interface RestaurantSearchPort {
   readonly executionRoute: "STRUCTURED_ADAPTER";
   search(request: RestaurantSearchRequest, signal: AbortSignal): Promise<RestaurantSearchRead>;
+  /** Optional source-owned cumulative accounting; never visible to the Agent. */
+  googleRequestUsage?(readRunId: string | undefined): NonNullable<RestaurantReadExecutionMetadata["googleRequests"]>;
 }
 
 export interface RestaurantAvailabilityPort {
@@ -33,6 +35,19 @@ export interface RestaurantAvailabilityPort {
 export interface RestaurantCandidateFactPort {
   readonly executionRoute: "STRUCTURED_ADAPTER" | "GENERIC_BROWSER";
   inspectFacts(request: RestaurantCandidateFactRequest, signal: AbortSignal): Promise<RestaurantCandidateFactRead>;
+  googleRequestUsage?(readRunId: string | undefined): NonNullable<RestaurantReadExecutionMetadata["googleRequests"]>;
+}
+
+function googleUsageMetadata(
+  port: Pick<RestaurantSearchPort | RestaurantCandidateFactPort, "googleRequestUsage">,
+  readRunId: string | undefined,
+): Pick<RestaurantReadExecutionMetadata, "googleRequests"> {
+  try {
+    const googleRequests = port.googleRequestUsage?.(readRunId);
+    return googleRequests ? { googleRequests } : {};
+  } catch {
+    return {};
+  }
 }
 
 export interface RestaurantExecutionRouterOptions {
@@ -44,7 +59,7 @@ export interface RestaurantExecutionRouterOptions {
 export interface RestaurantActionExecution {
   route?: RestaurantExecutionRoute;
   event?: RestaurantEvent;
-  observation?: { type: string; detail: string };
+  observation?: RestaurantReadObservation;
   executionMetadata?: RestaurantReadExecutionMetadata;
   failure?: { source: "PROVIDER"; code: string; reason: string; terminal?: boolean };
 }
@@ -93,7 +108,7 @@ function authoritativeAvailabilityRequest(
 ): RestaurantAvailabilityRequest {
   const intent = completeRestaurantIntent(state.intentDraft);
   if (!intent) throw new Error("Validated Restaurant availability requires a complete authoritative intent");
-  const eligibility = new Map(restaurantPresentationReadiness(state, now).map((item) => [item.candidateId, item]));
+  const eligibility = new Map(assessRestaurantRead(state, now).presentation.map((item) => [item.candidateId, item]));
   const recheckReasons = candidateIds
     .map((candidateId) => eligibility.get(candidateId))
     .filter((item): item is NonNullable<typeof item> => item?.recheckReason !== undefined);
@@ -162,6 +177,7 @@ export class RestaurantExecutionRouter {
         };
       case "SEARCH_RESTAURANTS": {
         const request = authoritativeSearchRequest(state, action.retrievalHint, readRunId);
+        const knownCandidateIds = new Set(state.candidates.map((candidate) => candidate.restaurant.id));
         try {
           const read = await this.withProviderReadDeadline(
             "Restaurant search",
@@ -173,7 +189,17 @@ export class RestaurantExecutionRouter {
           return {
             route: "STRUCTURED_ADAPTER",
             event: { type: "SEARCH_COMPLETED", request, ...read },
-            observation: { type: "DISCOVERY", detail: `${read.candidates.length} candidates discovered` },
+            // A provider can return ten ranked rows while every one is already
+            // in the authoritative candidate pool. Record the delta before
+            // reduction so the Agent loop and artifact can distinguish a real
+            // discovery advance from a rewritten-query loop.
+            observation: {
+              type: "DISCOVERY",
+              detail: `${read.candidates.length} candidates discovered; ${read.candidates.filter((candidate) => !knownCandidateIds.has(candidate.restaurant.id)).length} newly accepted`,
+              candidateIds: read.candidates.map((candidate) => candidate.restaurant.id),
+              newCandidateIds: read.candidates.filter((candidate) => !knownCandidateIds.has(candidate.restaurant.id)).map((candidate) => candidate.restaurant.id),
+              evidenceIds: read.evidence.map((evidence) => evidence.evidenceId),
+            },
             executionMetadata: read.metadata,
           };
         } catch (error) {
@@ -183,6 +209,13 @@ export class RestaurantExecutionRouter {
             route: "STRUCTURED_ADAPTER",
             event: { type: "SEARCH_FAILED", reason, code },
             observation: { type: "DISCOVERY_FAILED", detail: reason },
+            executionMetadata: {
+              provider: "GOOGLE_PLACES",
+              route: "STRUCTURED_ADAPTER",
+              latencyMs: 0,
+              failureCode: code,
+              ...googleUsageMetadata(this.search, readRunId),
+            },
             failure: { source: "PROVIDER", code, reason },
           };
         }
@@ -220,7 +253,7 @@ export class RestaurantExecutionRouter {
           return {
             route: this.facts.executionRoute,
             event: { type: "CANDIDATE_FACTS_CHECKED", request, ...read, metadata: { ...read.metadata, ...(request.recheck ? { recheckReason: request.recheck.reason } : {}) } },
-            observation: { type: "CANDIDATE_FACTS", detail: `${request.candidateIds.length} candidate fact read(s) completed` },
+            observation: { type: "CANDIDATE_FACTS", detail: `${request.candidateIds.length} candidate fact read(s) completed`, candidateIds: request.candidateIds, evidenceIds: read.evidence.map((evidence) => evidence.evidenceId) },
             executionMetadata: { ...read.metadata, ...(request.recheck ? { recheckReason: request.recheck.reason } : {}) },
           };
         } catch (error) {
@@ -233,10 +266,10 @@ export class RestaurantExecutionRouter {
               request,
               evidence: [],
               factChecks: Object.fromEntries(request.candidateIds.map((candidateId) => [candidateId, { status: "UNKNOWN" as const, checkedAt: now, evidenceIds: [], reasonCode: code }])),
-              metadata: { provider: "GOOGLE_PLACES", route: this.facts.executionRoute, latencyMs: 0, failureCode: code, ...(request.recheck ? { recheckReason: request.recheck.reason } : {}) },
+              metadata: { provider: "GOOGLE_PLACES", route: this.facts.executionRoute, latencyMs: 0, failureCode: code, ...googleUsageMetadata(this.facts, readRunId), ...(request.recheck ? { recheckReason: request.recheck.reason } : {}) },
             },
-            observation: { type: "CANDIDATE_FACTS_UNKNOWN", detail: reason },
-            executionMetadata: { provider: "GOOGLE_PLACES", route: this.facts.executionRoute, latencyMs: 0, failureCode: code, ...(request.recheck ? { recheckReason: request.recheck.reason } : {}) },
+            observation: { type: "CANDIDATE_FACTS_UNKNOWN", detail: reason, candidateIds: request.candidateIds },
+            executionMetadata: { provider: "GOOGLE_PLACES", route: this.facts.executionRoute, latencyMs: 0, failureCode: code, ...googleUsageMetadata(this.facts, readRunId), ...(request.recheck ? { recheckReason: request.recheck.reason } : {}) },
             failure: { source: "PROVIDER", code, reason },
           };
         }
@@ -262,7 +295,7 @@ export class RestaurantExecutionRouter {
           return {
             route: this.availability.executionRoute,
             event: { type: "AVAILABILITY_CHECKED", request, ...read, metadata },
-            observation: { type: "AVAILABILITY", detail: `${read.offers.length} offers observed` },
+            observation: { type: "AVAILABILITY", detail: `${read.offers.length} offers observed`, candidateIds: request.candidateIds, evidenceIds: read.evidence.map((evidence) => evidence.evidenceId) },
             executionMetadata: metadata,
             ...(terminalFailureCode ? {
               failure: {
@@ -307,7 +340,7 @@ export class RestaurantExecutionRouter {
                 ...(request.recheck ? { recheckReason: request.recheck.reason } : {}),
               },
             },
-            observation: { type: "AVAILABILITY_UNKNOWN", detail: reason },
+            observation: { type: "AVAILABILITY_UNKNOWN", detail: reason, candidateIds: request.candidateIds },
             executionMetadata: {
               provider: this.availability.executionRoute === "GENERIC_BROWSER" ? "TABELOG" : "FIXTURE",
               route: this.availability.executionRoute,
@@ -327,6 +360,18 @@ export class RestaurantExecutionRouter {
         return {
           event: { type: "RESULTS_PRESENTED", candidateIds: [...action.candidateIds], evidenceIds },
           observation: { type: "RESULTS_PRESENTED", detail: `${action.candidateIds.length} grounded restaurant result(s) presented` },
+        };
+      }
+      case "END_READ": {
+        const assessment = assessRestaurantRead(state, now);
+        return {
+          event: {
+            type: "READ_ENDED_NO_VERIFIED_RESULT",
+            investigatedCandidateIds: state.candidates.map((candidate) => candidate.restaurant.id),
+            unresolvedCandidateIds: assessment.unresolvedCandidateIds,
+            remainingGaps: assessment.presentation.filter((item) => !item.eligible).map((item) => item.missingReason ?? `Candidate ${item.candidateId} is not displayable`),
+          },
+          observation: { type: "READ_ENDED", detail: "Bounded read ended without a grounded result", candidateIds: state.candidates.map((candidate) => candidate.restaurant.id), unresolvedCandidateIds: assessment.unresolvedCandidateIds },
         };
       }
       case "SELECT_CANDIDATE":
@@ -353,11 +398,25 @@ export class RestaurantExecutionRouter {
     if (parentSignal?.aborted) throw parentSignal.reason ?? new Error("Read-only investigation was cancelled");
     if (timeoutMs === null) return operation(parentSignal ?? new AbortController().signal);
     const controller = new AbortController();
-    const abortFromParent = () => controller.abort(parentSignal?.reason ?? new Error("Read-only investigation was cancelled"));
-    parentSignal?.addEventListener("abort", abortFromParent, { once: true });
     let deadlineExceeded = false;
     let rejectDeadline: ((reason: Error) => void) | undefined;
-    const deadline = new Promise<never>((_resolve, reject) => { rejectDeadline = reject; });
+    let rejectParentAbort: ((reason: unknown) => void) | undefined;
+    // Browser reads must settle their own cancellation and close their session.
+    // Do not create a rejected race promise for that branch: it would be
+    // unobserved while awaiting `work`, turning a correct abort into a process
+    // level unhandledRejection.
+    const deadline = settleAfterAbort
+      ? undefined
+      : new Promise<never>((_resolve, reject) => { rejectDeadline = reject; });
+    const parentAbort = !settleAfterAbort && parentSignal
+      ? new Promise<never>((_resolve, reject) => { rejectParentAbort = reject; })
+      : undefined;
+    const abortFromParent = () => {
+      const reason = parentSignal?.reason ?? new Error("Read-only investigation was cancelled");
+      controller.abort(reason);
+      rejectParentAbort?.(reason);
+    };
+    parentSignal?.addEventListener("abort", abortFromParent, { once: true });
     const timeout = setTimeout(() => {
       deadlineExceeded = true;
       const error = new Error(`${operationName} timed out after ${timeoutMs}ms`);
@@ -369,10 +428,9 @@ export class RestaurantExecutionRouter {
       // A generic browser must settle after AbortSignal so its executor closes before
       // control returns. Structured read-only retrieval has no browser action and may
       // be bounded at the Router even if a broken provider ignores abort.
-      const parentAbort = parentSignal
-        ? new Promise<never>((_resolve, reject) => parentSignal.addEventListener("abort", () => reject(parentSignal.reason ?? new Error("Read-only investigation was cancelled")), { once: true }))
-        : undefined;
-      const value = await (settleAfterAbort ? work : Promise.race([work, deadline, ...(parentAbort ? [parentAbort] : [])]));
+      const value = await (settleAfterAbort
+        ? work
+        : Promise.race([work, deadline!, ...(parentAbort ? [parentAbort] : [])]));
       if (parentSignal?.aborted) throw parentSignal.reason ?? new Error("Read-only investigation was cancelled");
       if (deadlineExceeded) throw new Error(`${operationName} timed out after ${timeoutMs}ms`);
       return value;

@@ -13,6 +13,7 @@ import {
   type RestaurantAgentContext,
 } from "../domains/restaurant/agent-context.js";
 import { validateRestaurantAction } from "../domains/restaurant/action-validator.js";
+import { assessRestaurantRead } from "../domains/restaurant/read-assessment.js";
 import type {
   RestaurantAgentLoopTermination,
   RestaurantCommand,
@@ -40,6 +41,8 @@ export interface RestaurantAgentLoopOptions {
   maxSteps?: number;
   maxRejectedActions?: number;
   timeoutMs?: number;
+  /** Observes persisted transitions for a user-visible owner; it cannot change Agent state. */
+  onStateUpdated?: (taskId: string) => Promise<void> | void;
 }
 
 export type RestaurantAgentLoopResult =
@@ -68,7 +71,7 @@ function waitingForUser(state: RestaurantTaskState): boolean {
 }
 
 function terminal(state: RestaurantTaskState): boolean {
-  return state.phase === "BOOKED_VERIFIED" || state.phase === "PRESENT_RESULTS" || state.phase === "OUTCOME_UNKNOWN" || state.phase === "FAILED";
+  return state.phase === "BOOKED_VERIFIED" || state.phase === "PRESENT_RESULTS" || state.phase === "NO_VERIFIED_RESULT" || state.phase === "OUTCOME_UNKNOWN" || state.phase === "FAILED";
 }
 
 function cancellationReason(signal: AbortSignal): string {
@@ -84,20 +87,21 @@ function cancellationReason(signal: AbortSignal): string {
  * Stop before asking the model to improvise repeated searches.
  */
 function noExecutableDiscoveryPath(state: RestaurantTaskState, now: string): boolean {
-  const goal = state.intentDraft?.target?.goal;
   if (state.failure?.code === "GOOGLE_LOCATION_UNRESOLVED" && state.candidates.length === 0) return true;
   if (state.sourceReadState?.googlePlacesSearchBudget !== "EXHAUSTED") return false;
   if (state.candidates.length === 0) return true;
-  if (goal !== "RECOMMENDATION") return false;
   // Google exhaustion does not decide whether the task can progress.  A
-  // candidate may already be displayable, or a pending/website-backed fact
-  // observation may still be legal.  Ask the same invariant guard used by
+  // candidate may already be displayable, or it may still have a lawful fact
+  // or availability observation. Ask the same invariant guard used by
   // routed actions rather than inferring exhaustion from historical checks.
   if (state.factRefreshRequestedCandidateIds?.length) return false;
-  if (projectRestaurantAgentContext(state, now).presentation.some((item) => item.eligible)) return false;
-  return state.candidates.every((candidate) =>
-    validateRestaurantAction(state, { type: "INVESTIGATE_CANDIDATE_FACTS", candidateIds: [candidate.restaurant.id] }, now).status !== "ALLOWED",
-  );
+  const assessment = assessRestaurantRead(state, now);
+  if (assessment.presentation.some((item) => item.eligible)) return false;
+  return state.candidates.every((candidate) => {
+    const candidateIds = [candidate.restaurant.id];
+    return validateRestaurantAction(state, { type: "INVESTIGATE_CANDIDATE_FACTS", candidateIds }, now).status !== "ALLOWED"
+      && validateRestaurantAction(state, { type: "CHECK_AVAILABILITY", candidateIds }, now).status !== "ALLOWED";
+  });
 }
 
 function unique(values: string[]): string[] {
@@ -131,6 +135,7 @@ export class RestaurantAgentLoopCoordinator {
   private readonly maxRejectedActions: number;
   private readonly timeoutMs: number;
   private readonly createId: IdFactory;
+  private readonly onStateUpdated: ((taskId: string) => Promise<void> | void) | undefined;
 
   constructor(
     private readonly runtime: RestaurantAgentLoopRuntime,
@@ -145,6 +150,7 @@ export class RestaurantAgentLoopCoordinator {
     this.maxRejectedActions = options.maxRejectedActions ?? 3;
     this.timeoutMs = options.timeoutMs ?? 30_000;
     this.createId = createId;
+    this.onStateUpdated = options.onStateUpdated;
   }
 
   async run(taskId: string, signal?: AbortSignal): Promise<RestaurantAgentLoopResult> {
@@ -183,7 +189,7 @@ export class RestaurantAgentLoopCoordinator {
           "NO_PROGRESS",
           snapshot.domainState.failure?.code === "GOOGLE_LOCATION_UNRESOLVED"
             ? "The named location could not be resolved to coordinates by the available source; no result may claim nearby compliance"
-            : "Google read budget is exhausted and no candidate has a remaining lawful fact path; no valid read action remains",
+            : "The local per-run Google request budget is exhausted and no candidate has a remaining lawful fact path; no valid read action remains",
         );
         return { status: "NO_PROGRESS", steps: step };
       }
@@ -270,7 +276,7 @@ export class RestaurantAgentLoopCoordinator {
             "REJECTION_LIMIT",
             repeated
               ? `Agent repeated the same rejected action after ${verdict.code}; corrective action was required`
-              : `Agent exceeded ${this.maxRejectedActions} rejected actions; last rejection: ${verdict.code}`,
+              : `Agent exceeded ${this.maxRejectedActions} rejected actions without an executed action, request change, or new source observation; last rejection: ${verdict.code}`,
           );
           return { status: "REJECTION_LIMIT", steps: step + 1 };
         }
@@ -449,6 +455,9 @@ export class RestaurantAgentLoopCoordinator {
       occurredAt: this.clock.now().toISOString(),
       trace: { schemaVersion: "1", runId: snapshot.runId, correlationId: id, actor },
     }, snapshot.version);
+    // Persistence is authoritative; a disconnected UI observer must not make
+    // a completed source read fail or alter its outcome.
+    try { await this.onStateUpdated?.(snapshot.id); } catch { /* notification is best-effort */ }
     return {
       snapshot: result.snapshot,
       causalRefs: {

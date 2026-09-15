@@ -62,9 +62,9 @@ function semanticValueKey(value: RestaurantSemanticValue | undefined): string {
     case "AREA":
       return `${value.kind}:${value.query}`;
     case "DATE":
-      return `${value.kind}:${value.value}`;
+      return `${value.kind}:${"value" in value ? value.value : "relativeDay" in value ? value.relativeDay : value.weekday}`;
     case "TIME_WINDOW":
-      return `${value.kind}:${value.earliest}:${value.latest}`;
+      return `${value.kind}:${"earliest" in value ? `${value.earliest}:${value.latest}` : "daypart" in value ? value.daypart : value.relativeOffsetMinutes}`;
     case "PARTY_SIZE":
       return `${value.kind}:${value.value}`;
     case "BUDGET_PER_PERSON":

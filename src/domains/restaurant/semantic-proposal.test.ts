@@ -76,3 +76,20 @@ test("DeepSeek transport schema uses only supported string constraints while loc
   assert.equal(result.valid, false);
   if (!result.valid) assert.match(result.errors.join(" "), /must match CRITERION/);
 });
+
+test("explicit date and clock values require the raw user expression promised by the strict transport contract", () => {
+  const missingRaw = validateRestaurantSemanticProposal({
+    schemaVersion: "3",
+    facts: [
+      { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-09-14" } },
+      { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:30" } },
+    ],
+  });
+  assert.equal(missingRaw.valid, false);
+  if (!missingRaw.valid) {
+    assert.deepEqual(missingRaw.errors, [
+      "facts[0].value must match DATE",
+      "facts[1].value must match TIME_WINDOW",
+    ]);
+  }
+});

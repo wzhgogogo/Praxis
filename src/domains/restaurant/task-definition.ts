@@ -9,6 +9,7 @@ import type {
 } from "../../core/task-runtime/contracts.js";
 import type {
   RestaurantAvailabilityCheck,
+  RestaurantCandidateFactCheck,
   AvailabilityOffer,
   RestaurantBookingSelection,
   RestaurantCommand,
@@ -18,6 +19,7 @@ import type {
   RestaurantPhase,
   RestaurantTaskState,
 } from "./contracts.js";
+import { restaurantAvailabilityRequestFingerprint } from "./contracts.js";
 import { applyRestaurantIntentPatch } from "./intent-state.js";
 import { restaurantIntentPatchHasChanges } from "./semantic-compiler.js";
 import { validateRestaurantAction } from "./action-validator.js";
@@ -31,7 +33,7 @@ function requirePhase(state: Readonly<RestaurantTaskState>, allowed: RestaurantP
 function requireSemanticMutablePhase(state: Readonly<RestaurantTaskState>, eventType: string): void {
   requirePhase(
     state,
-    ["UNDERSTANDING", "NEEDS_INPUT", "SEARCHING", "SELECTION_REQUIRED", "AWAITING_AUTHORIZATION", "PRESENT_RESULTS", "FAILED"],
+    ["UNDERSTANDING", "NEEDS_INPUT", "SEARCHING", "SELECTION_REQUIRED", "AWAITING_AUTHORIZATION", "PRESENT_RESULTS", "NO_VERIFIED_RESULT", "FAILED"],
     eventType,
   );
 }
@@ -50,6 +52,7 @@ function resetForSemanticUpdate(
     selectedCandidateId: _selectedCandidateId,
     selectedOfferId: _selectedOfferId,
     presentedResults: _presentedResults,
+    noVerifiedResult: _noVerifiedResult,
     pendingUserQuestion: _pendingUserQuestion,
     proposal: _proposal,
     authorization: _authorization,
@@ -176,6 +179,7 @@ function lifecycleFor(phase: RestaurantPhase): TaskLifecycleState {
     case "OUTCOME_UNKNOWN": return "NEEDS_ATTENTION";
     case "BOOKED_VERIFIED": return "SUCCEEDED";
     case "PRESENT_RESULTS": return "SUCCEEDED";
+    case "NO_VERIFIED_RESULT": return "SUCCEEDED";
     case "FAILED": return "FAILED";
   }
 }
@@ -218,6 +222,36 @@ function transition(
       if (!restaurantIntentPatchHasChanges(event.patch)) return { state: structuredClone(state), commands: [] };
       return { state: resetForSemanticUpdate(state, applyRestaurantIntentPatch(state.intentDraft, event.patch)), commands: [] };
     }
+    case "EVALUATION_LOCATION_BOUND": {
+      requirePhase(state, ["UNDERSTANDING", "NEEDS_INPUT"], event.type);
+      const area = state.intentDraft?.area;
+      if (!area || area.query.trim().toLocaleLowerCase("en-US") !== "nearby") {
+        throw new Error("An evaluation location may be bound only to an explicit nearby request");
+      }
+      if (area.coordinates !== undefined) {
+        throw new Error("An evaluation location must not replace an already bound location");
+      }
+      return {
+        state: {
+          ...state,
+          intentDraft: {
+            ...state.intentDraft!,
+            area: {
+              ...area,
+              ...(event.coordinates.radiusMeters !== undefined ? { radiusMeters: event.coordinates.radiusMeters } : {}),
+              coordinates: {
+                latitude: event.coordinates.latitude,
+                longitude: event.coordinates.longitude,
+                ...(event.coordinates.accuracyMeters !== undefined ? { accuracyMeters: event.coordinates.accuracyMeters } : {}),
+                observedAt: event.coordinates.observedAt,
+                source: "EVALUATION",
+              },
+            },
+          },
+        },
+        commands: [],
+      };
+    }
     case "SEMANTIC_CONFLICT_RECORDED":
       requireSemanticMutablePhase(state, event.type);
       return {
@@ -225,6 +259,16 @@ function transition(
           ...resetForSemanticUpdate(state, state.intentDraft ? structuredClone(state.intentDraft) : undefined),
           phase: "NEEDS_INPUT",
           semanticConflict: structuredClone(event.conflict),
+        },
+        commands: [],
+      };
+    case "SEMANTIC_INTERPRETATION_FAILED":
+      requireSemanticMutablePhase(state, event.type);
+      return {
+        state: {
+          ...state,
+          phase: "FAILED",
+          failure: { code: "SEMANTIC_INTERPRETATION_FAILED", message: event.reason },
         },
         commands: [],
       };
@@ -318,7 +362,7 @@ function transition(
           ...state,
           phase: "SEARCHING",
           failure: { code: event.code ?? "SEARCH_FAILED", message: event.reason },
-          ...(event.code === "GOOGLE_SEARCH_BUDGET_EXCEEDED"
+          ...(event.code === "GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED"
             ? { sourceReadState: { ...(state.sourceReadState ?? { googlePlacesSearchBudget: "AVAILABLE" as const }), googlePlacesSearchBudget: "EXHAUSTED" as const } }
             : {}),
         },
@@ -351,12 +395,36 @@ function transition(
         state: {
           ...remaining,
           phase: "SEARCHING",
-          factChecks: { ...(state.factChecks ?? {}), ...structuredClone(event.factChecks) },
+          // Candidate fact reads are independent bounded observations.  A
+          // later batch replaces only its own candidate entries; dropping the
+          // prior map would make already-read candidates legal again.
+          factChecks: {
+            ...(state.factChecks ?? {}),
+            ...Object.fromEntries(Object.entries(event.factChecks).map(([candidateId, check]) => {
+              const evidenceProviders = [...new Set(check.evidenceIds.flatMap((evidenceId) => event.evidence
+                .filter((evidence) => evidence.evidenceId === evidenceId && evidence.candidateId === candidateId)
+                .map((evidence) => evidence.provider)))];
+              // A check with evidence from multiple providers must be scoped by
+              // its evidence IDs, not stamped with the batch's final provider.
+              // An empty failed observation still belongs to its adapter.
+              const evidenceSourceProvider = evidenceProviders.length === 1 && evidenceProviders[0] !== "MODEL_JUDGMENT"
+                ? evidenceProviders[0] as NonNullable<RestaurantCandidateFactCheck["sourceProvider"]>
+                : undefined;
+              const sourceProvider: RestaurantCandidateFactCheck["sourceProvider"] = check.sourceProvider
+                ?? evidenceSourceProvider
+                ?? (evidenceProviders.length === 0 ? event.metadata.provider : undefined);
+              const storedCheck: RestaurantCandidateFactCheck = {
+                ...structuredClone(check),
+                ...(sourceProvider !== undefined ? { sourceProvider } : {}),
+              };
+              return [candidateId, storedCheck];
+            })) as Record<string, RestaurantCandidateFactCheck>,
+          },
           readEvidence: mergeEvidence(state.readEvidence, event.evidence),
           ...(remainingFactRefresh.length ? { factRefreshRequestedCandidateIds: remainingFactRefresh } : {}),
-          ...(event.metadata.failureCode === "GOOGLE_SEARCH_BUDGET_EXCEEDED"
+          ...(event.metadata.failureCode === "GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED"
             ? {
-                failure: { code: event.metadata.failureCode, message: "Google discovery budget is exhausted for this run" },
+                failure: { code: event.metadata.failureCode, message: "The local per-run Google request budget is exhausted" },
                 sourceReadState: { ...(state.sourceReadState ?? { googlePlacesSearchBudget: "AVAILABLE" as const }), googlePlacesSearchBudget: "EXHAUSTED" as const },
               }
             : {}),
@@ -399,7 +467,24 @@ function transition(
         availability[candidateId] = event.offers
           .filter((offer) => offer.restaurantId === candidateId)
           .map((offer) => structuredClone(offer));
-        availabilityChecks[candidateId] = structuredClone(event.availabilityChecks[candidateId]!);
+        availabilityChecks[candidateId] = {
+          ...structuredClone(event.availabilityChecks[candidateId]!),
+          sourceProvider: event.availabilityChecks[candidateId]!.sourceProvider ?? event.metadata.provider,
+          ...(event.availabilityChecks[candidateId]!.sourceAttempts
+            ? {}
+            : event.metadata.providerAttempts
+              ? {
+                  sourceAttempts: event.metadata.providerAttempts
+                    .filter((attempt) => attempt.candidateId === candidateId)
+                    .map((attempt) => ({
+                      source: attempt.provider,
+                      outcome: attempt.outcome === "PROVIDER_FAILURE" ? "FAILED" as const : attempt.outcome,
+                      ...(attempt.failureCode ? { reasonCode: attempt.failureCode } : {}),
+                    })),
+                }
+              : {}),
+          requestFingerprint: restaurantAvailabilityRequestFingerprint(event.request),
+        };
       }
       for (const update of event.candidateFactUpdates ?? []) {
         const candidate = candidates.find((item) => item.restaurant.id === update.candidateId);
@@ -445,6 +530,28 @@ function transition(
           ...state,
           phase: "PRESENT_RESULTS",
           presentedResults: { candidateIds: [...event.candidateIds], evidenceIds: [...event.evidenceIds], presentedAt: context.now },
+        },
+        commands: [],
+      };
+    }
+    case "READ_ENDED_NO_VERIFIED_RESULT": {
+      requirePhase(state, ["SEARCHING", "SELECTION_REQUIRED"], event.type);
+      const validation = validateRestaurantAction(state, { type: "END_READ" }, context.now);
+      if (validation.status !== "ALLOWED") throw new Error(`Read cannot end normally: ${validation.status === "REJECTED" ? validation.reason : "authorization is not applicable"}`);
+      const known = new Set(state.candidates.map((candidate) => candidate.restaurant.id));
+      if (!event.investigatedCandidateIds.every((candidateId) => known.has(candidateId)) || !event.unresolvedCandidateIds.every((candidateId) => known.has(candidateId))) {
+        throw new Error("Normal read completion must only describe known candidates");
+      }
+      return {
+        state: {
+          ...state,
+          phase: "NO_VERIFIED_RESULT",
+          noVerifiedResult: {
+            endedAt: context.now,
+            investigatedCandidateIds: [...event.investigatedCandidateIds],
+            unresolvedCandidateIds: [...event.unresolvedCandidateIds],
+            remainingGaps: [...event.remainingGaps],
+          },
         },
         commands: [],
       };
@@ -552,6 +659,12 @@ export const restaurantBookingTaskDefinition: TaskDefinition<RestaurantTaskState
       status: "PRESENT_RESULTS",
       candidateIds: [...state.presentedResults.candidateIds],
       evidenceIds: [...state.presentedResults.evidenceIds],
+    };
+    if (state.phase === "NO_VERIFIED_RESULT" && state.noVerifiedResult) return {
+      status: "NO_VERIFIED_RESULT",
+      investigatedCandidateIds: [...state.noVerifiedResult.investigatedCandidateIds],
+      unresolvedCandidateIds: [...state.noVerifiedResult.unresolvedCandidateIds],
+      remainingGaps: [...state.noVerifiedResult.remainingGaps],
     };
     if (state.phase === "OUTCOME_UNKNOWN" && state.activeAttemptId) return { status: "OUTCOME_UNKNOWN", attemptId: state.activeAttemptId };
     if (state.phase === "FAILED" && state.failure) return { status: "FAILED", reason: state.failure.message };

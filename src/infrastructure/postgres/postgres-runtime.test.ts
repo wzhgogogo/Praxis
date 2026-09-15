@@ -410,9 +410,9 @@ describe("PostgresTaskRuntime with PGlite", () => {
         stateHashBefore: "context-hash",
         causalRefs: { eventIds: [], commandIds: [], attemptIds: [], evidenceIds: [] },
         capabilities: [],
-        contextSchemaVersion: "4",
+          contextSchemaVersion: "6",
         decisionContext: {
-          schemaVersion: "4",
+            schemaVersion: "6",
           now: "2026-08-20T00:00:00.000Z",
           phase: "SEARCHING",
           missingBlockingFields: [],
@@ -420,6 +420,8 @@ describe("PostgresTaskRuntime with PGlite", () => {
           availability: {},
           availabilityChecks: {},
           presentation: [],
+          readCompletion: { allowed: false, investigationRecorded: false, unresolvedCandidateIds: [] },
+          legalActions: { search: true, investigateCandidateFacts: [], checkAvailability: [], presentResults: [], endRead: false },
           searchAvailability: { available: true },
         },
         executionRoute: "STRUCTURED_ADAPTER",
@@ -428,9 +430,9 @@ describe("PostgresTaskRuntime with PGlite", () => {
       });
 
       const [step] = await store.list("trajectory-context-task");
-      assert.equal(step?.contextSchemaVersion, "4");
+      assert.equal(step?.contextSchemaVersion, "6");
       assert.deepEqual(step?.decisionContext, {
-        schemaVersion: "4",
+        schemaVersion: "6",
         now: "2026-08-20T00:00:00.000Z",
         phase: "SEARCHING",
         missingBlockingFields: [],
@@ -438,6 +440,8 @@ describe("PostgresTaskRuntime with PGlite", () => {
         availability: {},
         availabilityChecks: {},
         presentation: [],
+        readCompletion: { allowed: false, investigationRecorded: false, unresolvedCandidateIds: [] },
+        legalActions: { search: true, investigateCandidateFacts: [], checkAvailability: [], presentResults: [], endRead: false },
         searchAvailability: { available: true },
       });
       assert.equal(step?.executionRoute, "STRUCTURED_ADAPTER");

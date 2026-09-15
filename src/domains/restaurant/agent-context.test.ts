@@ -5,7 +5,7 @@ import { fixtureCandidates, fixtureIntent, fixtureOffers } from "../../harness/r
 import type { RestaurantTaskState } from "./contracts.js";
 import { projectRestaurantAgentContext } from "./agent-context.js";
 
-test("Restaurant Agent context is minimal and excludes execution authority and provider artifacts", () => {
+test("Restaurant Agent context retains bounded observations and action scope while excluding execution authority and raw provider artifacts", () => {
   const state: RestaurantTaskState = {
     schemaVersion: "10",
     phase: "SEARCHING",
@@ -66,11 +66,11 @@ test("Restaurant Agent context is minimal and excludes execution authority and p
   const context = projectRestaurantAgentContext(state);
 
   assert.deepEqual(context.missingBlockingFields, []);
-  assert.equal(context.schemaVersion, "4");
+  assert.equal(context.schemaVersion, "6");
   assert.deepEqual(context.searchAvailability, { available: true });
   assert.deepEqual(context.failure, { code: "SEARCH_FAILED" });
   assert.deepEqual(context.availabilityChecks, {
-    [fixtureCandidates[0]!.restaurant.id]: { status: "AVAILABLE" },
+    [fixtureCandidates[0]!.restaurant.id]: { status: "AVAILABLE", receptionMode: "UNKNOWN" },
   });
   assert.deepEqual(context.candidates[0], {
     id: fixtureCandidates[0]!.restaurant.id,
@@ -79,22 +79,60 @@ test("Restaurant Agent context is minimal and excludes execution authority and p
     matchReasons: fixtureCandidates[0]!.matchReasons,
     warnings: fixtureCandidates[0]!.warnings,
     executionConfidence: fixtureCandidates[0]!.executionConfidence,
+    observedFacts: {
+      verifiedHardCriteria: [],
+      verifiedNegativeCriteria: [],
+      violatedNegativeCriteria: [],
+      openingHoursMatch: false,
+    },
+    sourceAttempts: [],
   });
+  assert.deepEqual(context.legalActions.presentResults, []);
   assert.equal(JSON.stringify(context).includes("private-provider-reference"), false);
   assert.equal("proposal" in context, false);
   assert.equal("authorization" in context, false);
   assert.equal("activeAttemptId" in context, false);
   assert.equal("evidence" in context, false);
   assert.equal("reservation" in context, false);
-  assert.equal(JSON.stringify(context).includes("TABELOG"), false);
+  assert.equal(JSON.stringify(context).includes("mock://private"), false);
 });
 
 test("Restaurant Agent context exposes a stable exhausted-discovery state without provider internals", () => {
   const context = projectRestaurantAgentContext({
     schemaVersion: "10", phase: "SEARCHING", candidates: [], availability: {}, availabilityChecks: {}, readEvidence: [], searchRevision: 1,
-    failure: { code: "GOOGLE_SEARCH_BUDGET_EXCEEDED", message: "provider-specific private detail" },
+    failure: { code: "GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED", message: "provider-specific private detail" },
     sourceReadState: { googlePlacesSearchBudget: "EXHAUSTED" },
   });
-  assert.deepEqual(context.searchAvailability, { available: false, reason: "GOOGLE_SEARCH_BUDGET_EXCEEDED" });
+  assert.deepEqual(context.searchAvailability, { available: false, reason: "GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED" });
+  assert.equal(context.legalActions.search, false);
   assert.equal(JSON.stringify(context).includes("provider-specific private detail"), false);
+});
+
+test("Restaurant Agent context exposes bounded candidate facts, provider attempts, reception and code-derived next actions", () => {
+  const candidateId = fixtureCandidates[0]!.restaurant.id;
+  const context = projectRestaurantAgentContext({
+    schemaVersion: "10", phase: "SEARCHING", intentDraft: { ...fixtureIntent, schemaVersion: "3" }, intent: fixtureIntent,
+    candidates: fixtureCandidates, availability: {}, searchRevision: 1,
+    availabilityChecks: {
+      [candidateId]: {
+        status: "UNAVAILABLE", receptionMode: "WALK_IN_SUPPORTED", checkedAt: "2026-08-05T09:00:00.000Z", evidenceIds: ["fact-a"],
+        sourceAttempts: [{ source: "TABLECHECK", outcome: "FAILED", reasonCode: "NO_MATCHING_SLOT" }],
+      },
+    },
+    factChecks: { [candidateId]: { status: "COMPLETED", checkedAt: "2026-08-05T09:00:00.000Z", evidenceIds: ["fact-a"], sourceProvider: "RESTAURANT_WEBSITE" } },
+    readEvidence: [{
+      evidenceId: "fact-a", kind: "RESTAURANT_FACT", provider: "RESTAURANT_WEBSITE", candidateId, sourceEntityId: "official-a",
+      observedAt: "2026-08-05T09:00:00.000Z", requestFingerprint: "request-a",
+      claims: { verifiedHardCriteria: ["yakiniku"], verifiedNegativeCriteria: ["not all-you-can-eat"], openingHoursMatch: true },
+    }],
+  });
+  assert.deepEqual(context.candidates[0]?.observedFacts, {
+    verifiedHardCriteria: ["yakiniku"], verifiedNegativeCriteria: ["not all-you-can-eat"], violatedNegativeCriteria: [], openingHoursMatch: true,
+  });
+  assert.deepEqual(context.candidates[0]?.sourceAttempts, [
+    { source: "RESTAURANT_WEBSITE", outcome: "COMPLETED" },
+    { source: "TABLECHECK", outcome: "FAILED", reasonCode: "NO_MATCHING_SLOT" },
+  ]);
+  assert.deepEqual(context.availabilityChecks[candidateId], { status: "UNAVAILABLE", receptionMode: "WALK_IN_SUPPORTED" });
+  assert.equal(context.legalActions.endRead, true);
 });

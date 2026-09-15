@@ -1,6 +1,9 @@
 import assert from "node:assert/strict";
 import { once } from "node:events";
+import { mkdtemp, readdir, readFile } from "node:fs/promises";
 import type { AddressInfo } from "node:net";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import test from "node:test";
 
 import { PGlite, type Results, type Transaction } from "@electric-sql/pglite";
@@ -11,12 +14,16 @@ import {
   PilotSessionService,
   type PilotAccessEntry,
 } from "../application/persistent-restaurant-agent.js";
+import type { RestaurantAvailabilityPort, RestaurantCandidateFactPort, RestaurantSearchPort } from "../application/restaurant-execution-router.js";
+import { RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION } from "../eval/restaurant/agent-loop/diagnostic-evaluator.js";
 import { FakeClock } from "../harness/fake-clock.js";
 import { RestaurantSemanticInterpreter } from "../domains/restaurant/semantic-interpreter.js";
 import { RestaurantAgentDecision } from "../domains/restaurant/agent-decision.js";
 import { FixtureModelGateway } from "../infrastructure/fixture/fixture-model-gateway.js";
+import type { ModelGateway, ModelRequest, ModelResponse } from "../core/model/contracts.js";
+import { ModelGatewayError } from "../core/model/errors.js";
 import { FixtureRestaurantSearch } from "../infrastructure/fixture/fixture-restaurant-search.js";
-import type { RestaurantSearchRequest } from "../domains/restaurant/contracts.js";
+import type { RestaurantAvailabilityRequest, RestaurantSearchRequest } from "../domains/restaurant/contracts.js";
 import { applyPostgresMigrations } from "../infrastructure/postgres/migrations.js";
 import type {
   SqlDatabase,
@@ -66,11 +73,14 @@ interface TestServer {
 
 interface StartServerOptions {
   mode?: "FIXTURE" | "LIVE_READ";
-  restaurant?: FixtureRestaurantSearch;
+  restaurant?: RestaurantSearchPort & RestaurantAvailabilityPort & RestaurantCandidateFactPort;
+  model?: ModelGateway;
+  artifactDirectory?: string;
+  liveReadLimits?: Readonly<Record<string, number>>;
 }
 
 async function startServer(database: SqlDatabase, clock: FakeClock, options: StartServerOptions = {}): Promise<TestServer> {
-  const model = new FixtureModelGateway();
+  const model = options.model ?? new FixtureModelGateway();
   const restaurant = options.restaurant ?? new FixtureRestaurantSearch();
   const application = new PersistentRestaurantAgentApplication({
     database,
@@ -80,10 +90,15 @@ async function startServer(database: SqlDatabase, clock: FakeClock, options: Sta
     restaurantSearch: restaurant,
     restaurantAvailability: restaurant,
     restaurantFacts: restaurant,
+    ...(options.liveReadLimits ? { liveReadLimits: options.liveReadLimits } : {}),
     ...(options.mode ? { workspaceMode: options.mode } : {}),
   });
   const sessions = new PilotSessionService(application.store, ACCESS, clock);
-  const server = createLocalWebServer({ application, sessions });
+  const server = createLocalWebServer({
+    application,
+    sessions,
+    ...(options.artifactDirectory ? { artifactDirectory: options.artifactDirectory } : {}),
+  });
   server.listen(0, "127.0.0.1");
   await once(server, "listening");
   const address = server.address() as AddressInfo;
@@ -97,12 +112,64 @@ async function startServer(database: SqlDatabase, clock: FakeClock, options: Sta
   };
 }
 
+class SemanticModelFailure implements ModelGateway {
+  complete(_request: ModelRequest): Promise<ModelResponse> {
+    return Promise.reject(new ModelGatewayError("Injected semantic transport failure", "NETWORK", true));
+  }
+}
+
+class MeteredGoogleFixtureRestaurantSearch implements RestaurantSearchPort, RestaurantAvailabilityPort, RestaurantCandidateFactPort {
+  readonly executionRoute = "STRUCTURED_ADAPTER" as const;
+  private readonly fixture = new FixtureRestaurantSearch();
+
+  async search(request: RestaurantSearchRequest, signal: AbortSignal) {
+    const read = await this.fixture.search(request, signal);
+    return {
+      ...read,
+      metadata: {
+        ...read.metadata,
+        provider: "GOOGLE_PLACES" as const,
+        googleRequests: { limit: 100, total: 4, namedPlaceResolution: 1, discovery: 2, placeDetails: 1 },
+      },
+    };
+  }
+
+  check(...arguments_: Parameters<FixtureRestaurantSearch["check"]>) {
+    return this.fixture.check(...arguments_);
+  }
+
+  inspectFacts(...arguments_: Parameters<FixtureRestaurantSearch["inspectFacts"]>) {
+    return this.fixture.inspectFacts(...arguments_);
+  }
+}
+
 class BlockingRestaurantSearch extends FixtureRestaurantSearch {
   private resolveStarted?: () => void;
   readonly started = new Promise<void>((resolve) => { this.resolveStarted = resolve; });
 
   override async search(_request: RestaurantSearchRequest, signal: AbortSignal) {
     this.resolveStarted?.();
+    return new Promise<never>((_resolve, reject) => {
+      signal.addEventListener("abort", () => reject(signal.reason ?? new Error("aborted")), { once: true });
+    });
+  }
+}
+
+class SearchThenBlockRestaurantSearch extends FixtureRestaurantSearch {
+  private releaseSearch?: () => void;
+  private startCheck?: () => void;
+  readonly searchGate = new Promise<void>((resolve) => { this.releaseSearch = resolve; });
+  readonly checking = new Promise<void>((resolve) => { this.startCheck = resolve; });
+
+  allowSearch(): void { this.releaseSearch?.(); }
+
+  override async search(request: RestaurantSearchRequest, signal: AbortSignal) {
+    await this.searchGate;
+    return super.search(request, signal);
+  }
+
+  override async check(_request: RestaurantAvailabilityRequest, signal: AbortSignal) {
+    this.startCheck?.();
     return new Promise<never>((_resolve, reject) => {
       signal.addEventListener("abort", () => reject(signal.reason ?? new Error("aborted")), { once: true });
     });
@@ -190,6 +257,21 @@ async function readFirstCaseEvent(
   } finally {
     await reader.cancel();
     controller.abort();
+  }
+  const data = content
+    .split("\n")
+    .find((line) => line.startsWith("data: "))
+    ?.slice(6);
+  assert.ok(data);
+  return JSON.parse(data) as RestaurantCaseView;
+}
+
+async function nextCaseEvent(reader: ReadableStreamDefaultReader<Uint8Array>, decoder: TextDecoder): Promise<RestaurantCaseView> {
+  let content = "";
+  while (!content.includes("\n\n")) {
+    const part = await reader.read();
+    if (part.done) throw new Error("SSE stream ended before the next case event");
+    content += decoder.decode(part.value, { stream: true });
   }
   const data = content
     .split("\n")
@@ -386,6 +468,155 @@ test("W06 Live read creates a recoverable active Case and cancellation reaches t
       assert.match(view.conversation.messages.at(-1)?.content ?? "", /cancelled/i);
       assert.equal(view.activities.at(-1)?.type, "AGENT_LOOP_TERMINATED");
     } finally {
+      await running.close();
+    }
+  });
+});
+
+test("W08 ordinary Web cancellation writes an immutable execution artifact and independent evaluation", async () => {
+  await withDatabase(async ({ database, clock }) => {
+    const artifactDirectory = await mkdtemp(join(tmpdir(), "praxis-web-artifact-"));
+    const restaurant = new BlockingRestaurantSearch();
+    const running = await startServer(database, clock, {
+      mode: "LIVE_READ",
+      restaurant,
+      artifactDirectory,
+    });
+    try {
+      const cookie = await login(running.baseUrl, "token-a");
+      const created = await createCase(running.baseUrl, cookie, "web-artifact-cancel");
+      await restaurant.started;
+      const stopped = await api(
+        running.baseUrl,
+        cookie,
+        `/api/cases/${encodeURIComponent(created.case.caseId)}/run`,
+        { method: "DELETE" },
+      );
+      assert.equal(stopped.response.status, 200);
+      const files = await readdir(artifactDirectory);
+      const resultName = files.find((file) => file.endsWith(".result.json"));
+      const evaluationName = files.find((file) => file.includes(".evaluation."));
+      assert.ok(resultName, "ordinary Web must persist a finished execution result");
+      assert.ok(evaluationName, "ordinary Web must run the existing independent evaluator");
+      const result = JSON.parse(await readFile(join(artifactDirectory, resultName), "utf8")) as Record<string, unknown>;
+      const evaluation = JSON.parse(await readFile(join(artifactDirectory, evaluationName), "utf8")) as Record<string, unknown>;
+      assert.equal(result.mode, "WEB_READ");
+      assert.equal(result.status, "CANCELLED");
+      assert.equal(evaluation.evaluatorVersion, RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION);
+      assert.equal((evaluation.execution as { status?: string }).status, "CANCELLED");
+    } finally {
+      await running.close();
+    }
+  });
+});
+
+test("W10 ordinary Web persists a semantic-model failure as a failed case and artifact", async () => {
+  await withDatabase(async ({ database, clock }) => {
+    const artifactDirectory = await mkdtemp(join(tmpdir(), "praxis-web-semantic-failure-"));
+    const running = await startServer(database, clock, {
+      mode: "LIVE_READ",
+      model: new SemanticModelFailure(),
+      artifactDirectory,
+    });
+    try {
+      const cookie = await login(running.baseUrl, "token-a");
+      const result = await api(running.baseUrl, cookie, "/api/cases", {
+        method: "POST",
+        body: JSON.stringify({ message: COMPLETE_REQUEST, requestId: "semantic-model-failure" }),
+      });
+      assert.equal(result.response.status, 201, String(result.payload.error));
+      const view = result.payload.view as RestaurantCaseView;
+      assert.equal(view.case.phase, "FAILED");
+      assert.equal(view.activities.at(-1)?.type, "SEMANTIC_INTERPRETATION_FAILED");
+      assert.match(view.conversation.messages.at(-1)?.content ?? "", /No verified availability result was presented/i);
+
+      const files = await readdir(artifactDirectory);
+      const resultName = files.find((file) => file.endsWith(".result.json"));
+      const evaluationName = files.find((file) => file.includes(".evaluation."));
+      assert.ok(resultName, "semantic-model failures must persist an ordinary Web execution artifact");
+      assert.ok(evaluationName, "semantic-model failures must be independently evaluated");
+      const artifact = JSON.parse(await readFile(join(artifactDirectory, resultName), "utf8")) as Record<string, unknown>;
+      const evaluation = JSON.parse(await readFile(join(artifactDirectory, evaluationName), "utf8")) as Record<string, unknown>;
+      assert.equal(artifact.status, "FAILED");
+      assert.equal((artifact.finalSnapshot as { domainState?: { failure?: { code?: string } } }).domainState?.failure?.code, "SEMANTIC_INTERPRETATION_FAILED");
+      assert.equal((evaluation.execution as { status?: string }).status, "FAILED");
+    } finally {
+      await running.close();
+    }
+  });
+});
+
+test("W11 ordinary Web artifact retains shared Google request limits and category totals", async () => {
+  await withDatabase(async ({ database, clock }) => {
+    const artifactDirectory = await mkdtemp(join(tmpdir(), "praxis-web-google-accounting-"));
+    const running = await startServer(database, clock, {
+      restaurant: new MeteredGoogleFixtureRestaurantSearch(),
+      artifactDirectory,
+      liveReadLimits: { maxGoogleRequests: 100 },
+    });
+    try {
+      const cookie = await login(running.baseUrl, "token-a");
+      await createCase(running.baseUrl, cookie, "web-google-accounting");
+      const files = await readdir(artifactDirectory);
+      const resultName = files.find((file) => file.endsWith(".result.json"));
+      assert.ok(resultName, "finished Web reads must export their resource accounting");
+      const artifact = JSON.parse(await readFile(join(artifactDirectory, resultName), "utf8")) as {
+        limits?: Record<string, number>;
+        resourceUsage?: { googleRequests?: Record<string, number> };
+      };
+      assert.equal(artifact.limits?.maxGoogleRequests, 100);
+      assert.deepEqual(artifact.resourceUsage?.googleRequests, {
+        limit: 100,
+        total: 4,
+        namedPlaceResolution: 1,
+        discovery: 2,
+        placeDetails: 1,
+      });
+    } finally {
+      await running.close();
+    }
+  });
+});
+
+test("W09 HTTP/SSE publishes background progress and accepts an edit based on the last user-visible version", async () => {
+  await withDatabase(async ({ database, clock }) => {
+    const restaurant = new SearchThenBlockRestaurantSearch();
+    const running = await startServer(database, clock, { mode: "LIVE_READ", restaurant });
+    try {
+      const cookie = await login(running.baseUrl, "token-a");
+      const created = await createCase(running.baseUrl, cookie, "web-progress-edit");
+      assert.equal(created.case.taskVersion, 1);
+      const controller = new AbortController();
+      const response = await fetch(`${running.baseUrl}/api/cases/${encodeURIComponent(created.case.caseId)}/events`, {
+        headers: { cookie }, signal: controller.signal,
+      });
+      assert.ok(response.body);
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      try {
+        const initial = await nextCaseEvent(reader, decoder);
+        assert.equal(initial.case.taskVersion, created.case.taskVersion);
+        restaurant.allowSearch();
+        await restaurant.checking;
+        const progressed = await nextCaseEvent(reader, decoder);
+        assert.ok(progressed.case.taskVersion > created.case.taskVersion);
+        assert.equal(progressed.case.phase, "SEARCHING");
+        const edited = await api(
+          running.baseUrl,
+          cookie,
+          `/api/conversations/${encodeURIComponent(created.conversation.id)}/messages`,
+          { method: "POST", body: JSON.stringify({ taskVersion: created.case.taskVersion, requestId: "web-progress-edit-message", message: "Change party size to three." }) },
+        );
+        assert.equal(edited.response.status, 200, String(edited.payload.error));
+        const view = edited.payload.view as RestaurantCaseView;
+        assert.equal(view.restaurant.intentDraft?.partySize, 3);
+        assert.ok(view.case.taskVersion > progressed.case.taskVersion);
+      } finally {
+        await reader.cancel();
+        controller.abort();
+      }
+    } finally {
+      await running.application.stopActiveReads();
       await running.close();
     }
   });

@@ -240,8 +240,8 @@ describe("restaurant booking mock harness", () => {
       assert.equal(Array.isArray(trajectory.causalRefs.attemptIds), true);
       assert.equal(Array.isArray(trajectory.causalRefs.evidenceIds), true);
       assert.equal(trajectory.causalRefs.eventIds.every((eventId) => eventIds.has(eventId)), true);
-      assert.equal(trajectory.contextSchemaVersion, "4");
-      assert.equal(trajectory.decisionContext?.schemaVersion, "4");
+      assert.equal(trajectory.contextSchemaVersion, "6");
+      assert.equal(trajectory.decisionContext?.schemaVersion, "6");
       assert.equal("authorization" in (trajectory.decisionContext ?? {}), false);
       assert.equal("proposal" in (trajectory.decisionContext ?? {}), false);
       assert.equal("lastExecutionResult" in (trajectory.decisionContext ?? {}), false);
@@ -408,7 +408,7 @@ describe("restaurant booking mock harness", () => {
     const harness = createHarness({
       candidates: [],
       searchFailure: "Google Places search budget is exhausted for this diagnostic",
-      searchFailureCode: "GOOGLE_SEARCH_BUDGET_EXCEEDED",
+      searchFailureCode: "GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED",
       agentActions: [
         { type: "SEARCH_RESTAURANTS" },
         { type: "SEARCH_RESTAURANTS", retrievalHint: "different words must not be attempted" },
@@ -487,5 +487,44 @@ describe("restaurant booking mock harness", () => {
     assert.equal(rejectionSnapshot.domainState.failure?.code, "AGENT_LOOP_REJECTION_LIMIT");
     assert.equal(rejectionHarness.trajectories.steps.at(-1)?.stepOutcome, "REJECTION_LIMIT");
     assert.equal(rejectionHarness.trajectories.steps.at(-1)?.causalRefs.eventIds.length, 1);
+  });
+
+  test("repeated rejected batches remain bounded by the explicit rejection limit without inferring exhausted source paths", async () => {
+    const [first, second, third] = fixtureCandidates;
+    assert.ok(first && second && third);
+    const harness = createHarness({
+      agentLoopOptions: { maxRejectedActions: 2 },
+      agentActions: [
+        { type: "SEARCH_RESTAURANTS" },
+        { type: "CHECK_AVAILABILITY", candidateIds: [first.restaurant.id] },
+        // Both later batches contain the already observed candidate, so the
+        // Validator rejects them before a source call even though their JSON
+        // differs. This represents zero investigation progress.
+        { type: "CHECK_AVAILABILITY", candidateIds: [first.restaurant.id, second.restaurant.id] },
+        { type: "CHECK_AVAILABILITY", candidateIds: [first.restaurant.id, third.restaurant.id] },
+      ],
+    });
+    const snapshot = await harness.start(fixtureIntent);
+    assert.equal(harness.lastAgentLoopResult?.status, "REJECTION_LIMIT");
+    assert.equal(snapshot.domainState.failure?.code, "AGENT_LOOP_REJECTION_LIMIT");
+    assert.match(snapshot.domainState.failure?.message ?? "", /AVAILABILITY_ALREADY_CHECKED/);
+    assert.equal(harness.trajectories.steps.filter((step) => step.stepOutcome === "REJECTED").length, 2);
+  });
+
+  test("a model can end a bounded read after repeated zero-new-candidate observations without log-text parsing", async () => {
+    const harness = createHarness({
+      agentLoopOptions: { maxSteps: 12 },
+      agentActions: [
+        { type: "SEARCH_RESTAURANTS", retrievalHint: "first wording" },
+        { type: "SEARCH_RESTAURANTS", retrievalHint: "different wording" },
+        { type: "END_READ" },
+      ],
+    });
+    const snapshot = await harness.start(fixtureIntent);
+    assert.equal(harness.lastAgentLoopResult?.status, "TERMINAL");
+    assert.equal(snapshot.domainState.phase, "NO_VERIFIED_RESULT");
+    const discoverySteps = harness.trajectories.steps.filter((step) => step.observation?.type === "DISCOVERY");
+    assert.deepEqual(discoverySteps[1]?.observation?.newCandidateIds, []);
+    assert.equal(harness.trajectories.steps.at(-1)?.observation?.type, "READ_ENDED");
   });
 });

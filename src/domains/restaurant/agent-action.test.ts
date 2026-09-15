@@ -17,7 +17,7 @@ const searchWire = {
   decisionSummary: "Search for matching outlets.",
 };
 
-test("strict Agent wire output normalizes back into canonical restaurant_agent_action@3", () => {
+test("strict Agent wire output normalizes back into canonical restaurant_agent_action@4", () => {
   const normalized = normalizeRestaurantAgentActionStrictWire(searchWire);
   assert.equal(normalized.valid, true);
   if (!normalized.valid) return;
@@ -33,4 +33,19 @@ test("strict Agent wire output normalizes back into canonical restaurant_agent_a
 test("strict Agent wire output rejects meaningful fields outside its selected action", () => {
   const normalized = normalizeRestaurantAgentActionStrictWire({ ...searchWire, candidateIds: ["candidate-1"] });
   assert.deepEqual(normalized, { valid: false, errors: ["SEARCH_RESTAURANTS contains non-placeholder fields"] });
+});
+
+test("strict Agent wire permits END_READ only with placeholders and never accepts a model supplied outcome", () => {
+  const endWire = { ...searchWire, type: "END_READ", retrievalHint: "", decisionSummary: "No grounded candidate remains." };
+  const normalized = normalizeRestaurantAgentActionStrictWire(endWire);
+  assert.equal(normalized.valid, true);
+  if (!normalized.valid) return;
+  assert.deepEqual(validateRestaurantAgentAction(normalized.value), {
+    valid: true,
+    value: { action: { type: "END_READ" }, decisionSummary: "No grounded candidate remains." },
+  });
+  assert.deepEqual(
+    normalizeRestaurantAgentActionStrictWire({ ...endWire, candidateIds: ["candidate-1"] }),
+    { valid: false, errors: ["END_READ contains non-placeholder fields"] },
+  );
 });

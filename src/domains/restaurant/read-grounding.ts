@@ -6,6 +6,7 @@ import type {
   RestaurantAvailabilityRequest,
   RestaurantCandidate,
   RestaurantReadEvidence,
+  RestaurantReceptionMode,
 } from "./contracts.js";
 import { availabilityFreshnessWindow, isDisplayFresh } from "./availability-freshness.js";
 
@@ -35,6 +36,10 @@ export interface UntrustedProviderAvailabilityObservation {
   requestedDate?: string;
   requestedPartySize?: number;
   visibleSlots?: string[];
+  /** Explicit page-supported reception information; missing booking UI is not evidence of walk-in. */
+  receptionMode?: RestaurantReceptionMode;
+  /** A short page-derived walk-in statement when walk-in is explicitly supported. */
+  walkInEvidence?: string;
   verifiedHardCriteria?: string[];
   pageState:
     | "AVAILABLE"
@@ -356,6 +361,17 @@ export function groundGoogleDiscovery(
   };
 }
 
+function receptionModeFor(observation: UntrustedProviderAvailabilityObservation): RestaurantReceptionMode {
+  if (
+    (observation.receptionMode === "WALK_IN_SUPPORTED" || observation.receptionMode === "RESERVATION_AND_WALK_IN_SUPPORTED") &&
+    !observation.walkInEvidence?.trim()
+  ) return "UNKNOWN";
+  if (observation.receptionMode) return observation.receptionMode;
+  return observation.pageState === "AVAILABLE" || observation.pageState === "NO_MATCHING_SLOT"
+    ? "RESERVATION_SUPPORTED"
+    : "UNKNOWN";
+}
+
 function checkForFailure(
   observation: UntrustedTabelogAvailabilityObservation,
 ): RestaurantAvailabilityCheck {
@@ -383,10 +399,10 @@ function checkForFailure(
     return { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: tableCheckFailure ?? "ENTITY_MATCH_UNCERTAIN" };
   }
   switch (observation.pageState) {
-    case "NO_MATCHING_SLOT": return { status: "UNAVAILABLE", checkedAt, evidenceIds: [] };
+    case "NO_MATCHING_SLOT": return { status: "UNAVAILABLE", receptionMode: receptionModeFor(observation), checkedAt, evidenceIds: [], reasonCode: "NO_MATCHING_SLOT" };
     case "UNEXPECTED_PAGE": return { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: "UNEXPECTED_PAGE" };
     case "EXTRACTION_FAILED": return { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: observation.failureCode ?? "EXTRACTION_FAILED" };
-    case "AVAILABLE": return { status: "AVAILABLE", checkedAt, evidenceIds: [] };
+    case "AVAILABLE": return { status: "AVAILABLE", receptionMode: receptionModeFor(observation), checkedAt, evidenceIds: [] };
   }
 }
 
@@ -406,24 +422,9 @@ export function groundProviderAvailability(
     return { offers: [], check: { status: "UNKNOWN", checkedAt: observation.observedAt, evidenceIds: [], reasonCode: "ENTITY_MATCH_UNCERTAIN" }, evidence: [] };
   }
   if (observation.entityMatch.confidence !== "HIGH") return { offers: [], check, evidence: [] };
-  if (observation.pageState !== "AVAILABLE" && observation.pageState !== "NO_MATCHING_SLOT") {
-    return { offers: [], check, evidence: [] };
-  }
-  if (observation.requestedDate !== request.date || observation.requestedPartySize !== request.partySize) {
-    return { offers: [], check: { status: "UNKNOWN", checkedAt: observation.observedAt, evidenceIds: [], reasonCode: "REQUEST_MISMATCH" }, evidence: [] };
-  }
-  const freshness = Number.isNaN(Date.parse(observation.observedAt))
-    ? undefined
-    : availabilityFreshnessWindow(observation.observedAt, observation.sourceExpiresAt);
-  if (!freshness || !isDisplayFresh(freshness.displayExpiresAt, now)) {
-    return { offers: [], check: { status: "UNKNOWN", checkedAt: observation.observedAt, evidenceIds: [], reasonCode: "STALE_OBSERVATION" }, evidence: [] };
-  }
-  const withinWindow = (observation.visibleSlots ?? []).filter((slot) =>
-    /^\d{2}:\d{2}$/.test(slot) && slot >= request.timeWindow.earliest && slot <= request.timeWindow.latest,
-  );
-  if (observation.pageState === "AVAILABLE" && withinWindow.length === 0) {
-    return { offers: [], check: { status: "UNKNOWN", checkedAt: observation.observedAt, evidenceIds: [], reasonCode: "EXTRACTION_FAILED" }, evidence: [] };
-  }
+  // Identity and explicitly observed restaurant facts are independent from
+  // whether a page yielded a usable slot. Preserve them for audit and for a
+  // later fact recommendation; an UNKNOWN slot never turns into availability.
   const entityEvidence: RestaurantReadEvidence = {
     evidenceId: evidenceId(`${provider.toLocaleLowerCase("en-US")}-entity-match`, { candidateId: candidate.restaurant.id, sourceEntityId: observation.sourceEntityId, observedAt: observation.observedAt }),
     kind: "ENTITY_MATCH",
@@ -448,6 +449,36 @@ export function groundProviderAvailability(
     claims: { verifiedHardCriteria: [...observation.verifiedHardCriteria] },
     entityMatch: { confidence: "HIGH", matchedBy: [...observation.entityMatch.matchedBy] },
   } : undefined;
+  const independentEvidence = [entityEvidence, ...(factEvidence ? [factEvidence] : [])];
+  const candidateFactUpdate = factEvidence ? {
+    candidateId: candidate.restaurant.id,
+    matchReasons: observation.verifiedHardCriteria!.map((criterion) => `Verified HARD criterion from source: ${criterion}`),
+    evidenceIds: [factEvidence.evidenceId],
+  } : undefined;
+  const withIndependentEvidence = (nextCheck: RestaurantAvailabilityCheck): GroundedAvailability => ({
+    offers: [],
+    check: { ...nextCheck, evidenceIds: independentEvidence.map((item) => item.evidenceId) },
+    evidence: independentEvidence,
+    ...(candidateFactUpdate ? { candidateFactUpdate } : {}),
+  });
+  if (observation.pageState !== "AVAILABLE" && observation.pageState !== "NO_MATCHING_SLOT") {
+    return withIndependentEvidence(check);
+  }
+  if (observation.requestedDate !== request.date || observation.requestedPartySize !== request.partySize) {
+    return withIndependentEvidence({ status: "UNKNOWN", checkedAt: observation.observedAt, evidenceIds: [], reasonCode: "REQUEST_MISMATCH" });
+  }
+  const freshness = Number.isNaN(Date.parse(observation.observedAt))
+    ? undefined
+    : availabilityFreshnessWindow(observation.observedAt, observation.sourceExpiresAt);
+  if (!freshness || !isDisplayFresh(freshness.displayExpiresAt, now)) {
+    return withIndependentEvidence({ status: "UNKNOWN", checkedAt: observation.observedAt, evidenceIds: [], reasonCode: "STALE_OBSERVATION" });
+  }
+  const withinWindow = (observation.visibleSlots ?? []).filter((slot) =>
+    /^\d{2}:\d{2}$/.test(slot) && slot >= request.timeWindow.earliest && slot <= request.timeWindow.latest,
+  );
+  if (observation.pageState === "AVAILABLE" && withinWindow.length === 0) {
+    return withIndependentEvidence({ status: "UNKNOWN", checkedAt: observation.observedAt, evidenceIds: [], reasonCode: "EXTRACTION_FAILED" });
+  }
   const availabilityEvidence: RestaurantReadEvidence = {
     evidenceId: evidenceId(`${provider.toLocaleLowerCase("en-US")}-availability`, { candidateId: candidate.restaurant.id, sourceEntityId: observation.sourceEntityId, observedAt: observation.observedAt, slots: withinWindow }),
     kind: "AVAILABILITY",
@@ -460,11 +491,18 @@ export function groundProviderAvailability(
     ...(freshness.sourceExpiresAt ? { sourceExpiresAt: freshness.sourceExpiresAt } : {}),
     freshnessPolicyVersion: freshness.policyVersion,
     requestFingerprint: fingerprint(request),
-    claims: { date: request.date, partySize: request.partySize, visibleSlots: withinWindow },
+    claims: {
+      date: request.date,
+      partySize: request.partySize,
+      visibleSlots: withinWindow,
+      inventoryStatus: check.status,
+      receptionMode: receptionModeFor(observation),
+      ...(observation.walkInEvidence?.trim() ? { walkInEvidence: observation.walkInEvidence.trim() } : {}),
+    },
     entityMatch: { confidence: "HIGH", matchedBy: [...observation.entityMatch.matchedBy] },
     ...(observation.excerpt ? { artifactRef: { kind: "DOM_EXCERPT", reference: `sha256:${fingerprint(observation.excerpt)}` } } : {}),
   };
-  const evidence = [entityEvidence, ...(factEvidence ? [factEvidence] : []), availabilityEvidence];
+  const evidence = [...independentEvidence, availabilityEvidence];
   check = {
     ...check,
     evidenceIds: evidence.map((item) => item.evidenceId),
@@ -472,11 +510,6 @@ export function groundProviderAvailability(
     freshnessPolicyVersion: freshness.policyVersion,
     ...(freshness.sourceExpiresAt ? { expiresAt: freshness.sourceExpiresAt } : {}),
   };
-  const candidateFactUpdate = factEvidence ? {
-    candidateId: candidate.restaurant.id,
-    matchReasons: observation.verifiedHardCriteria!.map((criterion) => `Verified HARD criterion from source: ${criterion}`),
-    evidenceIds: [factEvidence.evidenceId],
-  } : undefined;
   if (check.status !== "AVAILABLE") return { offers: [], check, evidence, ...(candidateFactUpdate ? { candidateFactUpdate } : {}) };
   // A read-only observation without a provider deadline is displayable, but it
   // cannot be reused as a booking-ready offer without the later mandated recheck.

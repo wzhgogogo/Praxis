@@ -1,13 +1,50 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.40
-- Last updated: 2026-09-09
+- Document revision: 4.47
+- Last updated: 2026-09-15
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## TEST-2026-09-15-CONCRETE-VISIT-READ-CLOSURE — offline execution and diagnostic verification
+
+- 红色证明先于修复：`Availability keeps its delivery goal while candidate discovery waits only for discovery inputs` 在旧 Validator 上被错误拒绝；将 `END_READ` 的 Router `TERMINAL` observation 送入旧诊断器得到 `NOT_EVALUATED`。两项均有正常对照，失败归因于待修的产品/评分契约而非替身或类型错误。
+- 当前实际 composition 的定向套件为 99/99：从 H001–H005 YAML 原文进入 Hybrid 初始化，保留 Interpreter、Compiler、Runtime/Reducer、Context、Validator、Router、Grounding 与独立诊断；固定模型和来源计划只按原文匹配，未计划调用立即失败。H001/H003 得到当前 slot，H004 得到事实推荐，H002/H005 分别得到有依据的无结果与未核实结果，不注入中间 State 或合格 Evidence。
+- 默认离线套件在获准本机 loopback fixture listener 环境为 `npm test` 339/339，0 failed/skip/todo。首轮受限沙箱的 listener `EPERM` 与产品失败分开记录；其中唯一产品回归是 Harness 仍断言 Context `@5`，已更新为当前 `@6` 合约后重跑通过。
+- `npm run typecheck`、`npm run arch:check`（0 forbidden source dependencies）、`npm run build`均通过；`npm run eval:restaurant:semantic:fixture` 为 15/15，明确分类为 `DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`，不作为模型质量 Baseline。
+- `npm run test:browser:fixture` 在受限沙箱被 Chromium Mach-port 权限阻断，获准本机受控权限后为 5/5；只访问本地 fixture，覆盖通用模型驱动的无站点专用适配读取，不访问外部网络或执行提交。新增/更新的覆盖归入既有 action-validator、grounding、Context、diagnostic 和 Harness 测试；当前 H001–H005 离线组合为唯一新增实际入口覆盖，未保留重复执行器。
+- 未运行付费模型、真实网站/来源、Hybrid 或 Web Live、真实 PostgreSQL、预约、支付、取消、登录或任何外部写入。离线结果不证明自由文本模型选路、当前 DOM 兼容性、实时库存、搜索穷尽或一般调查充分性。
+
+## TEST-2026-09-15-READ-ACCEPTANCE-ALIGNMENT — current development contract (superseded in part by the concrete-visit closure above)
+
+- 范围：实际当前YAML loader → relative-time materializer → 独立diagnostic evaluator的AUTHORITATIVE_CONDITIONS维度；固定2026-09-16T03:00Z，五例分别采用独立编写的请求预期，完整错误goal反例不得通过。没有把Gold复制成模型响应，也未执行模型/来源或声明结果证据合格。
+- 数据保护：旧YAML SHA-256固定核验，五例content与归档逐条相等；当前文件只有一份semantic参数预期。额外反例证明日期/时钟物化不修改原始用户消息里的相同字面值。合成空位Evaluator fixture改用独立名称，不再冒充当前H001。
+- 定向materializer + evaluator：47/47。完整默认`npm test`初次因沙箱不允许127.0.0.1监听失败；获准同命令在本机listener环境重跑后328/328、0 failed/skip/todo。typecheck、arch:check、build、diff检查通过；7份相关文档链接核验无缺失。
+- 未覆盖：真实模型理解和自由文本等价、来源调查、完整推荐质量与Live；原有END_READ/负向证据诊断缺口不在本轮修复。完整错误goal反例补足空位参数以隔离goal冲突；当前Evaluator对另有缺记录的混合错误可能返回NOT_EVALUATED，不声称可精确定位全部语义首错。
+- 无Live、付费模型、真实网站、外部写入、提交或推送；未重跑历史artifact或更改历史评分。浏览器执行未改，因此未另跑Chromium fixture。
+
+## TEST-2026-09-15-SHARED-READ-EXECUTION-REPAIR — offline regression closure
+
+- 用户审查后的防线定向命令`node --import tsx --test src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts`先以56通过、9失败确认残余均为业务红色。修复候选 oracle、观察 lineage 和变异辨别力后，再修共享执行；最终该定向命令为65/65。
+- 最终定向：Hybrid + Evaluator为65/65；`read-grounding.test.ts`为13/13。覆盖请求更新不被去重、跨批/顺序累计、Google耗尽后的browser可达性、候选间来源范围、UNKNOWN slot保留独立事实，及独立候选截断、轨迹候选/日期篡改、search-only事实推荐等反例。
+- `npm run typecheck`、`npm run arch:check`、`npm run build`和`git diff --check`通过。获准本机loopback监听环境，最终默认`npm test`为325/325，0 failed、0 skip/todo。未运行付费模型、真实Google/网站、浏览器Live、数据库部署、预约或其他外部写操作。
+
+## TEST-2026-09-15-FIVE-CONTRACT-COMBINATORIAL-DEFENSE — initial offline integration and evaluator (superseded by the repair entry above)
+
+- 基线（业务未改前）`hybrid-read-composition.test.ts` + `diagnostic-evaluator.test.ts`为31通过、7失败；7项均为既有Hybrid业务回归。扩展后定向运行`npm run typecheck && node --import tsx --test src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts`为51通过、9失败、0 skip/todo：新增两项红色入口分别为重复semantic event id导致请求更新失效，以及固定种子发现并最小化的跨批累计缺陷。随后独立审查发现候选oracle、observation lineage与部分变异的命名/实际破坏不充分；这些初始结果不作为验收，已由上方修复条目替代。
+- `node --import tsx --test src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts`为37/37。成对正反artifact控制验证条件保真、候选/来源/请求/时效归属、UNKNOWN不伪装为无位、真实执行记录与提前结束；M01–M08均被相应断言拦住。M01–M02在`/tmp`隔离源码副本执行，正常对照先通过；M03–M08仅变异`structuredClone`公开样本，未覆盖历史artifact。
+- `npm run arch:check`、`npm run build`和`git diff --check`通过。获准本机loopback监听环境，最终默认`npm test`为320项：310通过、10失败、0 skip/todo；失败项为8个既有执行回归、请求更新event-id错误及同一状态累计根因的随机独立复现。首次受限沙箱的监听`EPERM`单独归为环境限制，不作为产品失败。
+- 未运行付费模型、真实Google/网站、浏览器Live、数据库部署、预约或其他外部写操作；测试替身不证明自由文本理解、真实页面兼容性、实时库存、搜索穷尽或一般调查充分性。
+
+## TEST-2026-09-12-WEB-READ-INTEGRATION-CLOSURE — offline integration
+
+- 先运行冻结复现脚本（真实内部Router/Application/Reducer/Grounding，外部来源与模型为离线边界）：基线四项均失败，分别为浏览器取消与deadline的`unhandledRejection`、后台版本变化没有Case通知导致编辑stale、刷新后展示仍引用旧事实、无日期事实推荐被Eval错误要求availability。保留其同时确认的既有正确行为：事实推荐可展示，刷新后的关门或`UNKNOWN`不会复用历史成功。
+- 修复后复现均通过：取消/deadline两个分支`unhandled=[]`；后台由版本1推进到2时通知1次，按版本1编辑被接纳；成功→新成功只引用当前事实；无日期推荐在`PRESENT_RESULTS`后独立诊断为`taskProducedQualifiedResult=YES`/`REQUIRED_EVIDENCE=SATISFIED`。这些是离线集成结果，不是来源Live。
+- 新增现有`src/server/local-web-server.test.ts`中的两类HTTP/SSE回归：W08从真实Web取消流程写出不可变`WEB_READ` result并由同一Evaluator写出sidecar；W09先接收`SEARCHING` SSE推进，再以创建时用户版本编辑需求，验证旧读取取消、更新被接受且新partySize成为权威状态。它们覆盖此前测试没有覆盖的后台进度/version竞争和普通Web artifact接线；没有保留临时复现脚本为第二测试体系。
+- 最终离线门禁：`npm run typecheck`、`npm run arch:check`（0 forbidden dependency）、`npm run build`、`git diff --check`均通过；获准本机loopback环境`npm test`为`259/259`；真实本地Chromium动态Fixture为`5/5`。受限沙箱首次不能绑定`127.0.0.1`（`EPERM`）；获准本机loopback环境重跑后通过，未访问外部网络。Live/付费模型/外部来源、真实PostgreSQL、预约/付款/登录/取消及push均未运行。
 
 ## 2026-09-05 — Draft repository improvement plan: documentation-only verification
 
@@ -2226,3 +2263,121 @@ typecheck、arch:check（0 forbidden dependencies）、build通过；npm test 16
 - Final matrix: privileged loopback `npm test` passed `257/257`; `npm run typecheck`, `npm run arch:check`, `npm run build`, and `git diff --check` passed. The real local Chromium dynamic-fixture suite passed `5/5`. Evaluator @7 rejects duplicate `INVESTIGATE_CANDIDATE_FACTS` for the same request unless the persisted metadata contains the enumerated refresh reason; availability behavior remains covered by the same rule.
 - Local Web: privileged loopback tests verify that a `LIVE_READ` POST returns an `ACTIVE` Case before a deliberately blocked source read completes; `DELETE /api/cases/:id/run` aborts that source signal, records `AGENT_LOOP_CANCELLED`, and appends a cancellation summary without results. A separate restart-shaped test verifies that an in-flight Live Case with no application owner is persisted as an explicit interrupted failure rather than silently resumed.
 - Live / paid model: not run. This instruction granted no new Live budget; H001–H005 historical allowances and artifacts are unchanged. Fixture/local Web verification does not claim a real provider, model, browser source, or `PRESENT_RESULTS` success. No credential, precise location, booking, payment, cancellation, login, or external write occurred.
+
+## TEST-2026-09-14-H001-H005-WEB-LIVE — actual read-only Web observations and post-run regression
+
+- Offline integration first: before this Live sequence, the current Application/Router/Grounding/Reducer/Evaluator composition was exercised with only model/API/page boundaries substituted; it was not a hand-constructed State. After the Live observations, `npm test` under approved localhost binding passed `260/260`, `npm run typecheck` passed, and focused real HTTP/SSE/PGlite Web tests passed `17/17`. Restricted sandbox runs cannot bind `127.0.0.1` (`EPERM`); the privileged loopback reruns are the authoritative Web test result.
+- H001 (`restaurant:dbd5ecf6da6d2e15ce72894b`, artifact run `5ad70538-a795-4ce9-9b19-066e10616c33`): future Shibuya omakase availability request ran about 287.9s, made 18 Agent decisions, discovered candidates and performed real TableCheck/Tabelog read attempts. It ended `WAITING_USER / NEEDS_INPUT`: no candidate had both verified omakase evidence and a confirmed matching slot. No card claimed a slot or no-vacancy; cost and browser-model-call count remain `UNKNOWN` in the artifact.
+- H002 (`restaurant:b118b8b8fbaefc229620a873`): the future first-date, no-hot-pot/no-Sichuan-Hunan fact recommendation stopped at the real Semantic Interpreter with `MODEL_FAILURE`; no Google or browser source call followed. The pre-fix server left this historical Case `CREATED / UNDERSTANDING` and did not write an artifact. It is the independent failure that motivated W10; it is not a source/evidence result and was not rerun.
+- H003 (`restaurant:4e7db7502809e2d672af646a`): the 10-person availability request, using a manually entered named Higashi-Ginza place rather than the operator's device location, likewise stopped at real Semantic Interpreter `MODEL_FAILURE`, before any source call. It was not rerun.
+- H004 (`restaurant:0f23b9474aef7fe952ce55a0`, artifact run `9e77c8ea-89ab-449e-beeb-1e1bd064f055`): future afternoon cafe fact recommendation ran about 4.4s / one Agent decision. Real Google could not resolve the named location to coordinates, so the normal path ended `FAILED / NO_PROGRESS`; no result claimed nearby compliance. The card's displayed `partySize` missing field is a separate UI projection defect for fact-only goals, not a reason to ask for reservation parameters.
+- H005 (`restaurant:b91d832cb57541eb6521f175`, artifact run `7d733c20-2812-489a-88ee-5da53c403895`): future 19:00 party-of-four local-food availability request ran about 282.6s / eight Agent decisions. It made three Google discovery reads (then recorded the per-run search budget exhaustion) and three real `GENERIC_BROWSER` availability reads. TableCheck/Tabelog entity/provider failures remained candidate-scoped `UNKNOWN / AVAILABILITY_SOURCES_EXHAUSTED`; it entered `WAITING_USER / NEEDS_INPUT` without saying there was no vacancy. The evaluator sidecar preserves provider attempt references and classifies the execution as `FAILED / NOT_EVALUATED`, not a qualified result.
+- All three existing Web artifacts and independent evaluator sidecars are under ignored `.eval-artifacts/restaurant-web-read/`; source URLs are stored only in their existing redacted fields. No fixture/replay stood in for Live, no case was run twice, no real device location permission was accepted, and no booking/payment/cancellation/login/PII/external write occurred. No `PRESENT_RESULTS` claim is made for this sequence.
+
+## TEST-2026-09-14-LIVE-DEBUG-GOOGLE-BUDGET — offline integration regression
+
+- Static: `npm run typecheck` passed. The full Provider/Router/Web accounting change uses one explicit `LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxGoogleRequests=100` in both Web and Hybrid runner; the obsolete Details limit was removed.
+- Cross-module fixture integration: the focused Provider/Router/Web run passed `39/39`, then the final approved localhost `npm test` matrix passed `264/264`. It verifies total/category accounting across named-place resolution, discovery and Details; failed sent calls count; same-run cumulative isolation; local exhaustion is not relabeled as service rate/permission/network failure; Router preserves failure usage; and ordinary Web artifact retains limit plus category totals. No real model, Google, browser source, account change, booking or external write was invoked.
+
+
+## 2026-09-14 H001–H005 Hybrid Live 单次诊断（当前dirty工作区）
+
+- 用户授权每例一次真实只读Runner；实际H001–H005各运行一次，没有重跑、Fixture或Web Live。
+- 当前HEAD fd0dfb0，含Terra未提交修复；运行前后diff哈希一致。16次模型调用、48,903记录tokens、约61秒，费用UNKNOWN。
+- H001：目标解释为RECOMMENDATION，与冻结AVAILABILITY冲突；10家发现、9家事实调查、旧本地每run Google请求上限耗尽，NEEDS_INPUT，无slot调查。
+- H002：GOOGLE_LOCATION_UNRESOLVED→NO_PROGRESS/FAILED；H003：Proposal漏AREA→补问；H004：漏日期且评估坐标仅传Adapter、未到State→补问位置；H005：漏DATE、使用UTC钟面02:52而非Tokyo11:52→补问日期。
+- 五例均PROPOSED，未复现MODEL_FAILURE；均未PRESENT_RESULTS，不能称验收通过或来源无位。每例原始execution及独立evaluation已保存。
+- 详细首错、证据边界、资源及artifact索引：[批次报告](../../.eval-artifacts/hybrid-batch-2026-09-14/1789354306/REPORT.md)。报告为忽略目录本地证据，未提交。
+
+## TEST-2026-09-14-HYBRID-REAL-COMPOSITION — offline integration
+
+- 复现：原Runner只将东银座评估坐标传给Google Adapter，权威`intentDraft`仍无坐标，Agent Context正确判定`nearby`缺位置并在来源调用前补问；上下层各自通过不能证明此接线。
+- 修复：Runner与`hybrid-read-composition.test.ts`共同调用实际初始化组合。冻结评估位置在语义编译后以`EVALUATION_LOCATION_BOUND`进入权威State，保留`source: EVALUATION`；无位置分支不注入默认坐标且Google HTTP调用为0。普通Web仍由真实PGlite/HTTP位置与手动地点回归覆盖，未把Runner成功当作Web验收。
+- 完整组合：外部替换仅为显式合成的合法Semantic/Agent模型传输、Google HTTP响应及未触发的Browser Runtime。真实内部链穿过Interpreter、Compiler、Reducer、Agent Context、Validator、Router、Google Grounding和三个Place Details，在第4个Google请求后展示；artifact从实际snapshot/trajectory补评为`taskProducedQualifiedResult=YES`。这不证明真实模型、Google或浏览器网站。
+- 预算：Provider回归实际发送100个同run discovery请求后，第101个请求在本地边界被拒绝且未发网络；新run再次可用。它与组合中的1 Discovery + 3 Details共同证明旧3次限制已不再截断正常调查。
+- 最终验证：获准本机loopback `npm test`通过`268/268`；相关真实持久Web HTTP/SSE、组合与Google回归通过`33/33`，另有三项真实Hybrid组合回归（含旧的Adapter-only位置注入反例）。真实Chromium本地动态Fixture通过`5/5`，只访问本地页面。受限沙箱本身不能绑定`127.0.0.1`（`EPERM`），所以loopback结果在获准环境重跑；这是环境限制而非测试行为失败。
+- 模式/副作用：本条只运行离线模型、HTTP和Browser替身；没有读取`.env`、运行真实来源、付费模型、Web Live、外部写入、提交或推送。
+
+## TEST-2026-09-14-DETERMINISTIC-TIME-AND-COMPLETION — offline integration
+
+- 时间链：实际Hybrid组合从Semantic Interpreter → Compiler → Reducer → Agent Context → Validator → Router → Google Grounding → 展示 → artifact → 独立Eval运行；外部仅替换模型传输、Google HTTP与未触发的Browser Runtime。`TOMORROW`与`AFTERNOON`由固定东京参考时刻物化为下一日及12:00–17:00，并在权威Draft保留原表达、参考时刻、时区、依据和结果；另有跨东京日界的相对分钟回归。
+- 证据链：来源Grounding的无匹配slot先产生`UNAVAILABLE`，Reducer再绑定日期/时段/人数请求指纹；Validator拒绝用旧营业事实展示同一候选。未知、失败或不同请求条件不被当作无位。
+- 完成诊断：实际artifact的独立Evaluator分别验证`QUALIFIED_RESULT`、`NO_CONFIRMABLE_RESULT`与`INTERNAL_EXECUTION_FAILURE`；后者不再获得正常无结果的支持性结论。该测试不证明真实模型选择、实时来源可用或主观推荐质量。
+- 模式/副作用：仅离线模型/API/浏览器替身；无Live、付费模型、外部写入、提交或推送。完整门禁和本地Chromium Fixture结果在本轮结束后补记。
+- 最终门禁：获准本机loopback环境下`npm test`通过`272/272`，`npm run typecheck`、`npm run arch:check`、`npm run build`和`git diff --check`均通过；真实Chromium本地动态Fixture为`5/5`。受限沙箱直接绑定`127.0.0.1`会报`EPERM`，已在同一离线测试命令的获准loopback环境重跑通过；这不改变测试替身边界。
+
+
+## TEST-2026-09-14-TEMPORAL-LIVE-RECHECK — shared strict schema failure
+
+在最新未提交确定性时间改动上，先运行相关离线12/12，再按新授权跑H001–H005各一次真实Hybrid。五例均HTTP400/PROVIDER_REJECTED：DATE/TIME_WINDOW显式值Schema包含raw但required漏列raw；本地实际Schema递归检查复现两个路径。无模型生成、Google或Browser来源调用，没有业务写入，未重跑。五份execution与独立evaluation均已保存，费用/token未返回，标UNKNOWN。源码哈希在批次期间一致。详见[批次报告](../../.eval-artifacts/hybrid-recheck-2026-09-14/1789372826/REPORT.md)。
+
+## TEST-2026-09-14-DEEPSEEK-STRICT-SEMANTIC-SCHEMA-REPAIR — offline
+
+- 修复：显式`DATE`和`TIME_WINDOW`值的`raw`现在在strict Schema、本地Validator、Prompt示例及Fixture/公开Regression输入中一致为必填非空字段；未关闭strict、未加重试或fallback。
+- Gateway边界：实际DeepSeek HTTP body中的`tools[0].function.parameters`经过递归检查，所有含`properties`的对象均有同键集合的`required`；它直接覆盖此前Provider拒绝的两个路径，而不是只验证伪造completion。
+- 验证：语义Contract、Interpreter、Fixture、公开Semantic Eval和DeepSeek Gateway相关测试`35/35`通过；`npm run typecheck`、`npm run arch:check`、`npm run build`与`git diff --check`通过。
+- 模式/副作用：仅离线模型传输替身；未运行Live、付费模型、Google、Browser来源或外部写入，未提交或推送。
+
+
+## TEST-2026-09-14-STRICT-SCHEMA-FIXED-HYBRID — Live Read-only
+
+- 当前HEAD fd0dfb0加Terra未提交修复；src/web-skills源码哈希运行前后相同。先实际Gateway/Interpreter请求侧预检9/9，再按授权H001–H005各一次真实Hybrid，不重跑、不替代Web Live。
+- 五例Semantic均PROPOSED，无旧HTTP400。H001 555.42秒STEP_LIMIT：真实TableCheck正向证据被旧factChecks白名单过滤；H002 6.55秒NO_PROGRESS：地点解析失败；H003 9.30秒PRESENT_RESULTS但周五被覆盖为今天；H004 6.94秒PRESENT_RESULTS但漏日期/无营业时间依据；H005 634.02秒STEP_LIMIT：26家空位UNKNOWN，非明确无位。
+- 离线定位：原H001 artifact仅在内存副本增加一个已存在的新事实引用，真实readiness由false变true；实际时间物化函数复现DATE Friday→9/18后被TIME relative0覆盖为9/14。未改真实artifact或将探针视为Live成功。
+- Eval未通过；且分类字段存在误导风险、H005动态“现在”仍对比冻结16:00、重复搜索未被investigation检查覆盖。原始execution/evaluation均保留，不修改Gold洗绿。
+- 合计约1212秒、120次模型调用、557432记录tokens、65次Google请求、544次Browser Runtime调用、31次Browser模型调用；费用UNKNOWN。无登录、预约、支付、PII提交或业务外部写入。未重跑全量离线矩阵，业务源码未改。
+- [完整报告与各case artifact](../../.eval-artifacts/hybrid-schema-fixed-2026-09-14/1789373476/REPORT.md)。报告/source hashes/因果探针在本地忽略目录，不提交。记录更新后git diff --check通过。
+
+## TEST-2026-09-14-LIVE-DERIVED-CHAIN-REPAIR — offline and bounded Hybrid Live
+
+- 离线：完整内部链保留真实Interpreter、Compiler、Reducer、Agent Context、Validator、Router、Grounding与Evaluator，仅替换模型/HTTP/浏览器边界。新增回归覆盖当前availability来源事实补充当前fact read、显式日期优先、`this afternoon`日期、命名地点变体/非首项拒绝、连续稳定拒绝、两次零新增发现，以及Live `right now`东京物化。最终`npm test` **281/281**、`typecheck`、`arch:check`、`build`、`git diff --check`及本地真实Chromium Fixture **5/5**通过。
+- Live：H001–H005各一次Hybrid Read-only，无重跑、Fixture替代、登录、预约、支付或其他写操作；Google/Agent/Browser预算均独立按run累计，费用未配置故为`UNKNOWN`。H001：50.8s、Google12、Agent7，模型按原文产生RECOMMENDATION并在事实重复拒绝后`REJECTION_LIMIT`。H002：328.8s、Google63、Agent30，事实推荐候选扩张后`STEP_LIMIT`。H003：285.5s、Google50、Agent30，同类扩张且模型检索提示漂移，权威位置仍为EVALUATION。H004：32.3s、Google5、Agent4，`PRESENT_RESULTS`且独立来源证据充分；但原SOFT表达被改写，Eval正确标为需语义审查，不将其称为qualified自动通过。H005：758.4s、Google12、Agent30、37候选availability读取、541 browser runtime calls、28 browser model calls，真实来源均未给出合格slot，最终`STEP_LIMIT`，不称无位或成功。
+- 这些Live是在零新增发现与availability路径一致性最终修复前后分批执行；授权限制禁止自动重跑，故只报告真实轨迹，不能称五例均在最终源码上验收。原始artifact与独立evaluation sidecar保存在git忽略`.eval-artifacts/restaurant-hybrid-live-read/`；历史artifact未改。
+
+
+## TEST-2026-09-14-READ-EXECUTION-DESIGN — documentation only
+
+- 交付：只读调查执行契约设计及ADR-0025 Draft，更新INDEX/ADR索引/STATUS和DEVLOG；Accepted ADR正文及业务源码未改。
+- 验证：两份新文档相对链接目标、设计涉及的现有Domain文件、Draft标识和`git diff --check`通过。
+- 设计包含真实组合回归、真实模型+固定来源诊断与后续有界Live的拟验证顺序，不表示本次已经运行这些验证。
+- 本次未运行代码测试、模型调用、Live或数据库操作，未提交或推送；纯文档按Test Skill不运行完整代码门禁。
+
+
+## TEST-2026-09-14-READ-DESIGN-TEST-MAPPING — documentation only
+
+- 补齐设计中的现有测试文件映射、需退役断言、集成起终点、模型混合诊断边界和独立Eval反例；Test/Eval Skill为通用维护规则，设计为当前切片落点。
+- 验证：设计相对链接、章节顺序、引用Skill目标和`git diff --check`通过；未修改或运行测试代码，未把待实施的混合诊断入口报告为已可执行。
+- 无模型/来源调用、数据库操作、提交或推送。
+
+## TEST-2026-09-14-ADR-0025-READ-COMPLETION — offline integration
+
+- 真实内部组合保持Runtime/Reducer/Context/Validator/Router/PGlite/Web artifact与现有Evaluator；外部边界仍为既有离线替身。新增回归证明availability目标可以先补事实、`END_READ`只能在有实际调查且无可展示结果时形成持久`NO_VERIFIED_RESULT`、重复零新增发现由模型受控结束而不解析日志文案、同一来源的当前UNKNOWN不复用旧成功、独立来源事实不被错误遮蔽、地点后缀/地址/排名不成为地标确认。
+- Evaluator/Rubric升至`@9`：`PRESENT_RESULTS`只是已记录展示，是否qualified仍由独立证据核验决定；正常无结果只能来自`NO_VERIFIED_RESULT`及范围记录，`STEP_LIMIT`/取消/内部失败不再转写成正常无结果。
+- 验证：获准本机loopback环境下`npm run typecheck`与`npm test`通过**282/282**；真实Chromium本地动态Fixture `npm run test:browser:fixture`通过**5/5**。未运行付费模型、Google、预约来源或任何外部写入；本条不构成新的Live验收。
+
+## TEST-2026-09-14-ADR-0025-INDEPENDENT-REVIEW — offline + one Live read
+
+- 复跑 typecheck、arch:check、build、diff检查通过；npm test **282/282**，Chromium本地Fixture **5/5**。首次沙箱内Web监听EPERM，获准本机监听环境重跑通过，保留两份日志。
+- 额外真实Hybrid初始化组合（只替换模型传输/Google HTTP）复现跨批factChecks被覆盖：4候选3+1批次反复读取直到STEP_LIMIT；Domain反例还证明A的新UNKNOWN会因读取B而丢失，重新使用A旧正向事实。另一组合复现Google耗尽时外层提前停止，尽管CHECK_AVAILABILITY仍合法。无生产代码修改。
+- Evaluator反例：零来源轨迹、空noVerifiedResult对象仍获SUPPORTED_BY_EVIDENCE；地名固定响应反例：Higashi-Ginza与Higashi-ginza Sta.仍无法对应。它们不属于Live。
+- 本次用户测试请求下运行原始H001一次：2026-09-14T13:48:53Z开始，540.236秒后STEP_LIMIT / FAILED；10候选、23次事实批次、69次Place Details（同店最多11次），Google共71/100，6家预约读取均UNKNOWN，未展示。38次模型调用、300276总tokens；金额未记录。开始时东京22:48，今晚19点已过；不据此评价未来库存，但重复调查与离线复现一致。无H002–H005/Web Live追加，无预约/支付命令；副作用计数未独立测量。
+- Eval检出重复调查与公开Gold/产品target.goal口径冲突；STEP_LIMIT完成类别仍NOT_EVALUATED，不能称本轮验收通过。
+- 可复现脚本、完整结果与限制：[review report](../../.eval-artifacts/adr0025-review-2026-09-14/REPORT.md)；[Live artifact](../../.eval-artifacts/restaurant-hybrid-live-read/2026-09-14T13-48-53-579Z-e08b2e88-0ede-4319-85fe-67f9b9ecb0f6.result.json)。资料位于本地忽略目录，exposed development diagnostic，不是Clean Baseline。未提交、未推送。
+
+### TEST-2026-09-14-READ-ARCHITECTURE-REVIEW
+
+- 模式：离线内部组合/Domain 契约诊断，合成外部事实响应；非完整 Runner E2E、非 Live。
+- `node --import tsx .eval-artifacts/adr0025-review-2026-09-14/source-scope-probe.mjs`：断言复现 Google→官网批级来源污染；A 当前 UNKNOWN 因 B 官网观察重新 eligible，Google-only 对照不合格。实际调用组合器、Reducer、展示判断；外部请求 0。
+- `node --import tsx .eval-artifacts/adr0025-review-2026-09-14/partial-observation-probe.mjs`：同一合成身份/事实在 slot UNKNOWN 时零 evidence、AVAILABLE 时保留三种 evidence；证明当前 grounding 的接纳耦合，不证明真实网页内容。
+- 与前次 source-hashes.json 对比：170 个 src/web-skills 文件无变化，无新增源码。复用既有 282/282、Chromium 5/5 及失败 Live 证据，本轮未重跑默认矩阵、模型或真实来源。
+- 两个探针成功复现缺陷/限制，不是修复通过。完整结论见 `.eval-artifacts/adr0025-review-2026-09-14/ARCHITECTURE-REVIEW.md`；仅新增诊断产物及更新记录。
+
+### TEST-2026-09-15-TEST-CONTRACT-REPAIR
+
+- 验证切片：先让正式测试捕获现有执行故障，再修Eval判定；产品红色回归留作下一阶段修复门槛。
+- `node --import tsx --test src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts`：旧Evaluator加新预期会失败；最终27/27通过。无结果反例包括合格候选被忽略、空记录、仅提议、旧请求、范围矛盾和未完成执行；正常限定空搜索为对照。
+- 实际Hybrid初始化组合测试只替换外部模型/HTTP/网页；跨批三种顺序、Google额度耗尽、混合来源均在产品契约断言失败；额度充足控制实际到达浏览器，避免以错误替身证明故障。部分事实接纳是另一个Domain测试，不计完整E2E。
+- 最终`npm test`：298项，290通过、8失败（6失败叶项及2父项），0 skip/todo。仅剩上述4类执行缺陷。先前沙箱listen EPERM已与实际产品失败分开，在授权本机listener环境完整运行；中间Web版本字面量失败已同步当前Evaluator常量，最终不再失败。
+- typecheck、arch:check、build、`git diff --check`通过。未改浏览器操作代码，不重跑Chromium本地Fixture。未运行付费模型、真实来源、Live或Web Live。
+- 两份历史H001 artifact只读补评并与修改前@9对照，execution分类不变。09-08旧artifact缺target.goal，整体未评估但展示证据充分；09-14重复调查失败仍NOT_SUPPORTED。原artifact不改。
+- 本地完整证据：`.eval-artifacts/test-contract-repair-2026-09-15/`，最终日志`npm-test-final-complete.log`。正式记录与未覆盖范围：[验证修复记录](TEST-VALIDATION-REPAIR-2026-09-15.md)。业务未修复，不报告总体通过。

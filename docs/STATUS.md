@@ -1,17 +1,37 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.8
-- Last updated: 2026-09-12
+- Document revision: 4.21
+- Last updated: 2026-09-15
 - Source of truth for: 已实现能力、已验证范围、明确未验证项与下一道门槛
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Documentation Index](INDEX.md), [Roadmap](roadmap.md), [Verification History](history/TEST-LOG.md)
 
 ## 最新审查与当前门槛
 
+2026-09-15当前切片按[ADR-0026](decisions/0026-concrete-visit-goal-and-reception-semantics.md)统一具体到访的交付语义：H001/H002/H003/H005为AVAILABILITY，H004为RECOMMENDATION；五条用户原文不变。H002以封闭first-date情境推断两人并保留其依据；H003将after work原词与`DAYPART:AFTER_WORK_BROAD_WINDOW`保存在权威Draft，查询范围为17:30–22:00，未恢复18:00–20:00。目标、读动作参数、库存和接待方式已分离：发现不等精确查位、缺人数先问；无预约入口不推断walk-in，walk-in也不替代可订slot。
+
+真实Hybrid内部组合保留Interpreter、Compiler、Runtime、Context、Validator、Router和Grounding，只替换模型/HTTP/页面边界。H001–H005逐条用实际YAML原文运行；未计划模型或来源调用会失败。H001/H003得出来源支持的当前slot，H004以适用营业事实完成推荐；H002的明确无slot与H005缺少负向HARD证据分别进入有范围的`NO_VERIFIED_RESULT`。这证明离线接线、来源证据和失败闭环，不证明真实模型理解、当前网站兼容性、实时库存、搜索穷尽或一般调查充分性。
+
+本切片修复了`END_READ`的TERMINAL轨迹接纳、无slot的同候选/同日期人数负证据核验、resolver的局部证据/来源尝试保留、候选有界Context、宽时间语义以及推荐结果中已展示slot的刷新。诊断器升级到`@12`；离线 `npm test` 为339/339，语义 fixture为15/15，本地浏览器 fixture为5/5，typecheck、architecture check与build通过。未运行Live、付费模型、真实网站、预约、支付或任何外部写入。完整验证结果与环境边界见[TEST-LOG](history/TEST-LOG.md)。
+
+2026-09-14已接受[ADR-0025](decisions/0025-model-directed-read-investigation.md)，并部分实现[只读调查执行契约设计](RESTAURANT-READ-EXECUTION-DESIGN.md)：事实/空位动作不再按目标互斥，新增共享只读评估及`END_READ`路径，取消英文日志解析。独立复验的默认离线矩阵282/282、Chromium Fixture 5/5通过，但额外实际入口组合与一次原始H001 Live均发现跨批factChecks被覆盖导致重复调查；模块反例还发现其他候选读取可使旧正向事实重新有效。H001约540秒后STEP_LIMIT / FAILED：10候选、69次Place Details、Google71/100、无展示，不能称验收通过。另已复现外层停止遗漏合法动作、无结果Eval自证及地名变体未解决；完整Context缺口反馈和Hybrid增量日志仍未接通。记录与复现见[最新复验报告](../.eval-artifacts/adr0025-review-2026-09-14/REPORT.md)及TEST-2026-09-14-ADR-0025-INDEPENDENT-REVIEW。报告为本地开发诊断，不是Clean Baseline。
+
 2026-09-12以`e504a3f`为固定基线完成[只读链横向审查](history/READ-PATH-REVIEW-2026-09-12.md)。当前开发切片关闭了其中的当前事实生命周期、命名地点首项回退、门牌数字身份替代、派生判断伪来源、网页结构化快捷路径遮挡可见事实，以及Web/Hybrid事实组合分叉：展示只引用当前Check的事实，历史仍保留；`MODEL_JUDGMENT`保留可验证原始支持链；两个真实调用者共用Google→网站→判断组合与一次调查内的浏览器模型预算。ADR-0022替代ADR-0021的同序数字接受规则。ADR-0023补齐Live Web的最小执行生命周期：接受后可见活动Case、SSE更新、用户取消传给活动读取，重启失主任务准确结束而不自动重跑。定向离线反例通过，但本轮没有新增真实来源验收，不能据此声明Live来源能力已重新通过。
 
-本轮按[三步验证](skills/test/SKILL.md#执行链变更的三步验证)和[独立Eval要求](skills/eval/SKILL.md#执行结果与诊断的独立核验)完成了共同契约、执行链和诊断覆盖；不新增Live。下一门槛是在既有实际授权余额内验证真实来源，或明确申请具体新增预算；不能用后续网站fallback或更大预算代替。下方按日期段落保留历史实现/运行结论，不能将其中早期未验证或局部成功当作当前完整能力。
+2026-09-14续审新增两个离线反例：实际Google→官网组合把批级provider用于全部候选检查，导致B的官网读取使A本次UNKNOWN后的旧Google事实重新支持展示；实际availability grounding在slot未知时连同已观察身份/事实整体返回空证据。前者是当前来源归属错误，后者是一般调查能力的接纳限制，均不等于已修复。170个源码/Skill文件与前次Live快照一致；本次未新增Live或修改产品源码。分类结论、复现及最小调整范围见[架构与验证联合审查](../.eval-artifacts/adr0025-review-2026-09-14/ARCHITECTURE-REVIEW.md)。
+
+上段2026-09-14记录中的部分共享缺陷已由组合防线和修复覆盖；剩余端到端缺口以本页最新审查为准，不将局部修复视为全部关闭。后续在另行明确授权后按[三步验证](skills/test/SKILL.md#执行链变更的三步验证)安排有界Live，不能用网站fallback、更大预算或默认测试数量替代。下方按日期段落保留历史实现/运行结论，不能将其中早期未验证或局部成功当作当前完整能力。
+
+## 2026-09-14 确定性时间与可核验只读完成（离线）
+
+当前Restaurant语义链把相对时间的识别留给模型、把日期和时段物化留给代码：Web与Hybrid均以受信任参考时刻和`Asia/Tokyo`编译`TODAY`、`TOMORROW`、星期、相对分钟及`AFTERNOON`，其中下午固定为12:00–17:00；原始表达、参考时刻、时区、依据和结果进入权威Draft。完整参数的事实推荐可由Agent作有界空位调查，但同一日期、人数、时段的明确`UNAVAILABLE`会覆盖先前营业事实，`UNKNOWN`绝不改写成无位或walk-in。诊断器`@8`将合格展示、可确认无结果、真正补问和内部执行失败分开：后一类不再被包装成正常无结果。此处仅记录离线内部组合与本地Fixture验收；真实模型、来源和主观适配质量尚未复验。
+
+## 2026-09-12 Web 读取收尾（离线）
+
+以`fd0dfb0`为复现基线的四个跨层断点已在当前工作区修复并保持此前正确行为：通用浏览器读取在用户取消或deadline后会等待执行器收束、清理timer/listener且不产生未处理拒绝；后台持久状态推进会通过同一Case更新通道进入SSE，用户基于最后可见版本的编辑会取消旧读取并成为新权威请求，而真正存在用户并发编辑仍拒绝为stale；事实推荐展示只引用当前事实检查及其各自身份／支持链，历史事实仍留作追溯；Evaluator按用户目标决定必要证据，未指定日期的事实推荐不虚构营业或空位要求。
+
+普通Web现在在每次完成、失败或取消的读取后，以既有Hybrid artifact格式写入脱敏`WEB_READ`执行记录，并独立产生Eval sidecar；Eval失败独立记录且不改写执行结果，未知资源成本不会写成0。离线HTTP/SSE集成实际生成了取消运行artifact及其独立评价。此处的`LIVE_READ`仅是本地受控Provider模式和PGlite/Fixture边界，**不是**真实模型、Google、外部浏览器来源或Web Live验收。当前任务没有运行Live或推送。
 
 ## 原始只读里程碑与历史验证
 
@@ -61,7 +81,7 @@ Hybrid runner现会保留执行artifact后生成独立的`restaurant-hybrid-read
 
 ## 2026-09-09 Shared Live investigation budget and failure attribution
 
-Web与H001已改为共用`LIVE_READ_INVESTIGATION_BUDGET`：30个Agent步骤、每候选20次浏览器模型调用、整轮120次、每候选80次浏览器操作及20分钟总时限；Google和浏览器来源上限也由同一常量提供，避免两条实际调用路径漂移。`AGENT_DECISION_FAILED`、`AGENT_EXECUTION_FAILED`及所有`AGENT_LOOP_TERMINATED`（包括`TIMEOUT`、`STEP_LIMIT`与`REJECTION_LIMIT`）现在均进入`FAILED`并保留真实失败码，只有语义缺字段或Agent明确`ASK_USER`才进入`NEEDS_INPUT`。这不降低`PRESENT_RESULTS`的Evidence门槛。
+Web与H001 runner现共用`LIVE_READ_DEBUG_INVESTIGATION_BUDGET`：每个明确授权的调试run最多100次Google请求（命名地点解析、Discovery和Place Details共用且分类计数）、30个Agent步骤、每候选20次浏览器模型调用、整轮120次、每候选80次浏览器操作及20分钟总时限。它不是产品默认配额、账户Google额度或开放费用授权；失败的已发送Google请求也计数，run之间隔离。artifact/trajectory保留上限、三类实际请求数、停止层级和稳定码：本地耗尽为`GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED`，服务429为`GOOGLE_RATE_LIMITED`，403为`GOOGLE_SERVICE_QUOTA_OR_PERMISSION`，网络为`GOOGLE_NETWORK_FAILED`。`AGENT_DECISION_FAILED`、`AGENT_EXECUTION_FAILED`及所有`AGENT_LOOP_TERMINATED`（包括`TIMEOUT`、`STEP_LIMIT`与`REJECTION_LIMIT`）现在均进入`FAILED`并保留真实失败码，只有语义缺字段或Agent明确`ASK_USER`才进入`NEEDS_INPUT`。这不降低`PRESENT_RESULTS`的Evidence门槛。
 
 新的独立Web Live Read-only从浏览器再次提交同一语义需求，运行约4分18秒后以`AGENT_LOOP_REJECTION_LIMIT`结束：Agent连续5次提出缺少证据的`PRESENT_RESULTS`，确定性Validator每次以`PRESENTATION_EVIDENCE_MISSING`拒绝。页面显示`COMPLETED / FAILED / REVIEW_ATTENTION`及该原因，而不要求用户澄清；候选保留真实TableCheck/Google链接和`UNAVAILABLE`、来源耗尽、未grounded观察。重新打开页面后同一失败状态、消息、Activity和来源链接由PostgreSQL恢复。没有Fixture、H001 artifact复用、预约、登录、支付、取消、PII输入或其他外部写入；这证明Web真实调用与正确失败归因，不证明qualified availability或`PRESENT_RESULTS`成功。
 
@@ -102,11 +122,11 @@ H002类型排除模型判断只引用已经观察到的具体类型事实，宽�
 | 对象 | 当前标识 |
 |---|---|
 | 产品Release | 尚未发布；package为`0.1.0` |
-| 当前架构决策 | `ADR-0014` + `ADR-0015`来源证据范围 + `ADR-0016`本地eval profile + `ADR-0020`目标驱动只读推荐 |
+| 当前架构决策 | `ADR-0014` + `ADR-0015`来源证据范围 + `ADR-0016`本地eval profile + `ADR-0025`调查收敛 + `ADR-0026`具体到访语义 |
 | Restaurant State | `restaurant-state@10` |
 | Semantic Proposal / Draft / Eval Schema | `restaurant-semantic-proposal@3` |
-| Semantic Prompt | `restaurant-semantic-prompt@8`；历史Artifact字段保持原`promptVersion` |
-| Agent Context / Decision Prompt / Action / Trajectory / Harness Artifact | `restaurant-agent-context@4` / `restaurant-agent-decision-prompt@9` / `restaurant-agent-action@3` / `restaurant-agent-trajectory@5` / `restaurant-harness-artifact@6` |
+| Semantic Prompt | `restaurant-semantic-prompt@10`；历史Artifact字段保持原`promptVersion` |
+| Agent Context / Decision Prompt / Action / Trajectory / Harness Artifact | `restaurant-agent-context@6` / `restaurant-agent-decision-prompt@12` / `restaurant-agent-action@3` / `restaurant-agent-trajectory@5` / `restaurant-harness-artifact@6` |
 | Regression / Holdout / Scorer | `restaurant-semantic-regression@3` / `restaurant-semantic-holdout@2` / `restaurant-semantic-scorer@3` |
 
 ## 已实现
@@ -139,13 +159,13 @@ H002类型排除模型判断只引用已经观察到的具体类型事实，宽�
 - 当前产品主链为 `Semantic Interpreter → Proposal Contract → Compiler → Runtime/Reducer → Agent Decision → Action Validator → Execution Router`。Agent只产生不可信Action；Validator不选择下一步；Runtime仍是唯一State writer。
 - 没有任何确定性代码决定“无Candidate则再搜”或“A不可用则查B”；Harness以Scripted Agent分别证明第二次搜索策略和A→B availability trajectory。
 - `SEARCH_RESTAURANTS`不重复Intent，`CHECK_AVAILABILITY`不重复日期、时段和人数；Execution Router从权威State绑定这些参数。Provider read失败、Router执行失败与模型决策失败使用不同Event和trajectory outcome。
-- Agent只得到`restaurant-agent-context@2`，没有Authorization、Proposal terms、Execution Result、Evidence Artifact或Reservation；Provider read收到可中止的结构化8秒或Browser 20秒deadline。Context只含业务Availability状态和稳定reason code，不含Provider、Browser或URL细节。`DomainSearchStrategy.hasEnough`只表示Discovery检索预算已满足，不表示Availability、Loop终止或Booking授权。
+- Agent只得到`restaurant-agent-context@6`，没有Authorization、Proposal terms、Execution Result、Evidence Artifact、Provider/Browser/URL细节或Reservation；它只含有界候选事实、来源尝试、库存/接待方式和合法动作。`DomainSearchStrategy.hasEnough`只表示Discovery检索预算已满足，不表示Availability、Loop终止或Booking授权。
 - `BOOK_RESERVATION`只创建确定性Action Proposal并等待Authorization；Commit后的Verify与`OUTCOME_UNKNOWN`保护仍由确定性Runtime负责。`COMMIT_FAILED`或`BOOKING_ABSENT`完成其mandatory chain后，Orchestrator只在`SELECTION_REQUIRED`重新进入Agent Loop；旧proposal/authorization/attempt已清除，新proposal必须配新Authorization，Reducer拒绝proposalId不匹配的旧Authorization。
 - `SELECTION_REQUIRED`投影为`RUNNING`，供Agent恢复；它不再残留`SELECT_CANDIDATE` pending-user action。timeout、step limit和rejection limit都写入明确终止状态和trajectory。
-- 每个Agent decision step保存state版本/hash、capability、模型实际收到的脱敏`restaurant-agent-context@2`与`contextSchemaVersion`、action、verdict、route、observation、执行metadata、after-state链接、BOOK `proposalId`及Event/Command/Attempt/Evidence causal refs；不保存raw prompt或Chain-of-Thought。完整链为`Context → Action → Validation → Execution → Observation → State/Outcome`。
+- 每个Agent decision step保存state版本/hash、capability、模型实际收到的脱敏`restaurant-agent-context@6`与`contextSchemaVersion`、action、verdict、route、observation、执行metadata、after-state链接、BOOK `proposalId`及Event/Command/Attempt/Evidence causal refs；不保存raw prompt或Chain-of-Thought。完整链为`Context → Action → Validation → Execution → Observation → State/Outcome`。
 - 长期Execution Route仅为`STRUCTURED_ADAPTER`、未来`GENERIC_BROWSER`或未来`HUMAN_TAKEOVER`；Fixture/Mock/Live是运行模式或Provider metadata，Runtime/Policy checkpoint不是外部execution route。
 - Migration `0006`保持原始evidence refs形态，`0007`追加因果引用与Proposal ID，`0008`追加Decision Context字段，`0009`追加read execution metadata；不会再改写Migration。`restaurant-state@7`和`@8`开发Task不能被当前Runtime解释，必须先备份后用双重开关的本机重置命令删除，绝不自动迁移或用于真实数据。
-- 当前标识固定为`restaurant-semantic-prompt@8`、`restaurant-semantic-proposal@3`与`restaurant-state@10`。`CRITERION{text, polarity, strength}`是唯一开放集合，strength固定为`HARD` / `SOFT` / `UNSPECIFIED`；`TARGET.goal`决定推荐或空位展示的证据标准。Agent Context为`@4`、Decision Prompt为`@9`、Action为`@3`、Trajectory为`@5`；不建taxonomy、Provider mapping或动态Tool Registry。
+- 当前标识固定为`restaurant-semantic-prompt@10`、`restaurant-semantic-proposal@3`与`restaurant-state@10`。`CRITERION{text, polarity, strength}`是唯一开放集合，strength固定为`HARD` / `SOFT` / `UNSPECIFIED`；具体到访的`TARGET.goal=AVAILABILITY`决定slot展示标准。Agent Context为`@6`、Decision Prompt为`@12`、Action为`@3`、Trajectory为`@5`；不建taxonomy、Provider mapping或动态Tool Registry。
 - ADR-0007的`DECIDE_RESTAURANT_NEXT` / `RESTAURANT_DECISION_MADE`以及耦合Offer的`ExecutableCandidate`可执行路径已删除；历史next-step标注只保留为语义评测审计输入，不再代表产品Runtime。
 - `restaurant-semantic-prompt@4` Baseline的结果不得用于改动后重跑；Prompt `@7`的任何质量结论均需要另一份未见Holdout。当前Gold更新后的诊断只能标记为`EXPOSED_GOLD_ACCEPTANCE_DIAGNOSTIC`，Prompt `@7`与`@6`只比较`COMMON_UNCHANGED_TURNS`。
 - 旧分类Criteria Contract下未运行的私有标注不兼容`restaurant-semantic-proposal@3`，不能迁入或报告为当前Holdout。当前空模板、私有入口、结构适配Preflight、确定性Scorer和一次性真实Runner已实现；runner在首个模型请求前写入Git忽略的`EXPOSED` artifact，并记录Dataset SHA、git SHA、scorer与prompt/schema hash。
@@ -159,6 +179,18 @@ H002类型排除模型判断只引用已经观察到的具体类型事实，宽�
 - 真实浏览器兼容性、真实移动设备、生产身份与生产 PostgreSQL 部署；
 - `NEED_REINTERPRETATION` 的自动重解释。当前只记录冲突并询问用户或安全降级。
 - semantic conflict gating remains intentionally unchanged pending real Agent/E2E observation.
+
+## 2026-09-14 当前 H001–H005 Web Live 观察
+
+本轮每个输入只运行一次普通`LIVE_READ` Web Case；没有使用Fixture、Hybrid runner、预置坐标、预约、第三方登录或任何外部写入。H001与H005分别完成真实Google发现和受控浏览器来源读取后进入`NEEDS_INPUT`，没有展示未核实slot；H004在真实Google不能把命名地点`Higashi-Ginza`解析为坐标时以`NO_PROGRESS`失败，未把检索偏置冒充附近证据。H002与H003在Semantic Interpreter真实模型调用处返回`MODEL_FAILURE`，尚未进入来源读取；这不是用户输入不清楚或来源无结果。
+
+本轮Live暴露并已在当前未提交代码中补齐一个Web生命周期缺口：此前Semantic Interpreter失败会留下`UNDERSTANDING`任务而没有执行artifact。现在以显式`SEMANTIC_INTERPRETATION_FAILED`事件进入`FAILED`、产生用户可见失败和既有独立Evaluator sidecar；该修复已在完整离线内部组合验证，尚未以额外Live调用重跑。五个本轮Live均未获得qualified `PRESENT_RESULTS`，也不应据此宣称H001–H005验收通过。
+
+## 2026-09-14 Hybrid 位置与真实组合离线接线
+
+Hybrid Runner已改为复用可测试的实际组合入口：`Semantic Interpreter → Compiler → Runtime/Reducer → Agent Context → Validator → Router → Google Grounding`。对明确`NEAR_USER`的冻结评估，Runner在语义编译后、Agent决策前记录受限的`EVALUATION_LOCATION_BOUND`权威事件；它只接受`nearby`请求、绝不覆盖已有位置，并在`intentDraft`保留`source: EVALUATION`，不冒充设备定位或产品默认地点。没有位置时仍在来源调用前请求输入。
+
+离线集成使用独立的合成模型传输与Google HTTP样本，实际穿过三个Place Details读取（超过旧3次总上限）并产出`PRESENT_RESULTS`及独立诊断；新100次Google调试上限的累计、停止前拒绝及跨run隔离另有Adapter回归。它证明内部接线和脱敏样本契约，**不证明**真实模型理解、当前Google数据或Web Live。H001原始输入的`RECOMMENDATION`/冻结`AVAILABILITY`目标口径冲突仍待产品与评估契约确认，未改Prompt、原始输入或Gold。
 
 ## 下一道门槛
 
@@ -199,3 +231,26 @@ h002–h005 diagnostic
 ## 2026-09-06全量测试审查收尾
 
 已全文审查35个测试文件的173项声明（当时默认162、冻结8、浏览器3）及独立PostgreSQL Live Smoke。默认当前159/159、冻结8/8、真实浏览器本地Fixture 3/3通过；typecheck、arch:check、build通过。删除或合并3项确定重复，并在既有测试补准独立安全断言；未新增独立测试。逐项结论见[全量审查快照](history/TEST-SUITE-REVIEW-2026-09-05.md)。Live Smoke清理失败不再吞掉或提前报告pass；以隔离VM假数据库进行3种故障注入通过，未运行真实PostgreSQL。未调用Live来源、付费模型或私有Holdout。
+
+
+## 2026-09-14 Hybrid Live Runner 最新单次诊断
+
+本次独立于前述Web运行：H001–H005各执行一次真实只读Runner，五例Semantic均PROPOSED，无MODEL_FAILURE，但全部未PRESENT_RESULTS。H001走RECOMMENDATION事实调查，与冻结AVAILABILITY期望冲突；H002命名地点解析失败；H003漏AREA、H004漏DATE且评估坐标未进入权威State、H005漏DATE并采用UTC时刻，后三例均在补问处停止。没有案例实际执行CHECK_AVAILABILITY，不能据此评价TableCheck/Tabelog实时空位能力。下一步先对齐目标口径、修复Runner位置接线及语义时间/字段回归，详见同日TEST-LOG。历史H001/Web成功仍仅代表当时版本与来源条件，本次失败不抹除历史事实。
+
+
+## 2026-09-14 确定性时间改动后最新Hybrid复验
+
+最新未提交工作区H001–H005各一次真实Hybrid均被DeepSeek HTTP400拒绝，原因为新DATE/TIME_WINDOW Schema中的raw属性未列入required，与strict传输约束冲突。此次无模型生成、Google或Browser来源调用，不能验证下游修复。执行artifact与独立evaluation完整保存，未重跑；具体位置与离线复现见同日TEST-LOG。
+
+
+## 2026-09-14 strict Schema修复后最新Hybrid Live诊断
+
+本批取代上条HTTP400复验作为最新观察（历史结果保留）：H001–H005各一次真实只读Runner，五例Semantic均PROPOSED；Schema修复、100次Google调试额度、NEAR_USER评估位置接线均已实际生效。H003/H004虽进入PRESENT_RESULTS，仍不合格：H003正确周五日期被相对时间覆盖为今天；H004漏日期后跳过营业时间门槛。H001已取得TableCheck HIGH、omakase与19:00/2人可用slot，但较旧factChecks引用集合过滤了新omakase事实，随后无新增候选重复搜索并STEP_LIMIT；该过滤已用原artifact内存副本复现。H002命名地点解析仍失败。H005正确物化东京“现在”，调查26家均UNKNOWN，七次重复事实动作被拒绝，最终STEP_LIMIT，不能声称来源全部无位。
+
+本批没有qualified验收通过。Eval仍有口径缺口：H005动态参考时刻未同步到冻结time期望；PRESENT_RESULTS被先标QUALIFIED_RESULT、STEP_LIMIT被标NO_CONFIRMABLE_RESULT，均需结合独立证据与执行归因审查，不可直接作alpha通过标签。完整artifact索引、资源、因果探针见[本批报告](../.eval-artifacts/hybrid-schema-fixed-2026-09-14/1789373476/REPORT.md)（本地忽略目录）。本轮仅诊断与记录，未修改业务实现，未运行Web Live或外部写入，未提交/推送。
+
+## 2026-09-14 当前跨案例Hybrid Read-only状态
+
+本轮H001–H005已各执行一次真实Hybrid，只读且未重跑。H004完成有来源支持的事实推荐，但SOFT条件改写仍需人工语义审查，不能称自动qualified；H001/H002/H003/H005均因模型动作或候选扩张在真实调查后未达成结果，不能归类为来源无位。新代码已把当前事实/availability证据选择、东京相对时间、命名地点观察、availability动作边界、零新增搜索停止和Eval分类修正为通用规则，并由完整离线矩阵和本地Chromium Fixture验证。
+
+剩余首个产品阻断是：候选池仍可在每次带来少量新候选时持续扩张，直到Agent步数上限，而没有一个可核验的“已调查充分但无可确认结果”结束动作；本轮不会用增大预算或站点fallback掩盖。由于授权不允许自动重跑，H001–H003早于最后修复的真实结果保留为历史诊断，需新增明确Live授权才可验证最终代码。未提交、未推送、未运行普通Web Live或外部写操作。

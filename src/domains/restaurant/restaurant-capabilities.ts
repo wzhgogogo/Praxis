@@ -26,17 +26,24 @@ export const RESTAURANT_AGENT_CAPABILITIES: readonly RestaurantAgentCapability[]
   },
   {
     name: "INVESTIGATE_CANDIDATE_FACTS",
-    purpose: "Read source-supported restaurant type or opening-hours facts for known candidates without checking slots.",
+    purpose: "Read source-supported restaurant facts needed by the current request for known candidates.",
     inputSchema: "candidateIds; the router binds candidates and authoritative request conditions",
     resultMeaning: "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
-    importantConstraints: ["Only known candidates are valid; at most three candidates per bounded read; do not repeat a completed fact read for the same request."],
+    importantConstraints: ["Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."],
   },
   {
     name: "CHECK_AVAILABILITY",
-    purpose: "Read availability for known candidates at the authoritative date, time window, and party size.",
+    purpose: "Read request-bound availability and any source-supported restaurant facts returned with it.",
     inputSchema: "candidateIds; the router binds authoritative date, time window, and party size",
     resultMeaning: "Returns fresh AvailabilityOffer records associated with candidate IDs.",
     importantConstraints: ["Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."],
+  },
+  {
+    name: "END_READ",
+    purpose: "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+    inputSchema: "no business fields; optional short decision summary is trajectory-only",
+    resultMeaning: "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+    importantConstraints: ["Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."],
   },
   {
     name: "PRESENT_RESULTS",

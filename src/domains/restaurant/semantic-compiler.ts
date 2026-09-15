@@ -10,6 +10,7 @@ import type {
   RestaurantSemanticProposal,
   RestaurantSemanticValue,
 } from "./semantic-proposal.js";
+import { materializeRestaurantTemporalFacts } from "./temporal-materialization.js";
 
 export type RestaurantSemanticCompilation =
   | { status: "COMPILED"; patch: RestaurantIntentPatch }
@@ -21,10 +22,11 @@ function semanticValueKey(value: RestaurantSemanticValue): string {
     case "AREA":
       return `${value.kind}:${value.query}`;
     case "DATE":
+      return `${value.kind}:${"value" in value ? value.value : "relativeDay" in value ? value.relativeDay : value.weekday}`;
     case "PARTY_SIZE":
       return `${value.kind}:${value.value}`;
     case "TIME_WINDOW":
-      return `${value.kind}:${value.earliest}:${value.latest}`;
+      return `${value.kind}:${"earliest" in value ? `${value.earliest}:${value.latest}` : "daypart" in value ? value.daypart : value.relativeOffsetMinutes}`;
     case "BUDGET_PER_PERSON":
       return `${value.kind}:${value.max}:${value.currency}`;
     case "CRITERION":
@@ -137,9 +139,11 @@ function compileFact(patch: RestaurantIntentPatch, fact: RestaurantSemanticFact)
         return;
       case "DATE":
         patch.date = null;
+        patch.temporalResolution = null;
         return;
       case "TIME_WINDOW":
         patch.timeWindow = null;
+        patch.temporalResolution = null;
         return;
       case "PARTY_SIZE":
         patch.partySize = null;
@@ -162,15 +166,11 @@ function compileFact(patch: RestaurantIntentPatch, fact: RestaurantSemanticFact)
       patch.target = { goal: value.goal, query: value.query };
       return;
     }
-    case "DATE": {
-      patch.date = valueFor(fact, "DATE").value;
+    case "DATE":
+    case "TIME_WINDOW":
+      // Materialized after all facts are collected, so a relative offset may
+      // legitimately set both the local date and exact local clock time.
       return;
-    }
-    case "TIME_WINDOW": {
-      const value = valueFor(fact, "TIME_WINDOW");
-      patch.timeWindow = { earliest: value.earliest, latest: value.latest };
-      return;
-    }
     case "PARTY_SIZE": {
       patch.partySize = valueFor(fact, "PARTY_SIZE").value;
       return;
@@ -197,12 +197,35 @@ function compileFact(patch: RestaurantIntentPatch, fact: RestaurantSemanticFact)
 /** Pure Restaurant Domain translation from a valid semantic proposal to a state patch. */
 export function compileRestaurantSemanticProposal(
   proposal: RestaurantSemanticProposal,
+  temporalContext?: { referenceTime: string; timezone: "Asia/Tokyo" },
 ): RestaurantSemanticCompilation {
   const conflict = findConflict(proposal);
   if (conflict) return { status: "CONFLICT", conflict };
 
   const patch: RestaurantIntentPatch = { schemaVersion: "3" };
   proposal.facts.forEach((fact) => compileFact(patch, fact));
+  const dateFact = setValueFacts(proposal, "DATE")[0];
+  const timeFact = setValueFacts(proposal, "TIME_WINDOW")[0];
+  if (dateFact || timeFact) {
+    const date = dateFact ? valueFor(dateFact, "DATE") : undefined;
+    const timeWindow = timeFact ? valueFor(timeFact, "TIME_WINDOW") : undefined;
+    const requiresReference = (date && !("value" in date)) || (timeWindow && !("earliest" in timeWindow));
+    if (requiresReference && !temporalContext) {
+      return { status: "CONFLICT", conflict: { code: "UNSUPPORTED_SEMANTIC_EXPRESSION", affectedFields: [dateFact ? "DATE" : "TIME_WINDOW"], message: "Relative temporal semantics require the trusted application reference time" } };
+    }
+    const materialized = materializeRestaurantTemporalFacts({
+      ...(date ? { date } : {}),
+      ...(timeWindow ? { timeWindow } : {}),
+      referenceTime: temporalContext?.referenceTime ?? "1970-01-01T00:00:00+09:00",
+      timezone: temporalContext?.timezone ?? "Asia/Tokyo",
+    });
+    if (materialized.date) patch.date = materialized.date;
+    if (materialized.timeWindow) patch.timeWindow = materialized.timeWindow;
+    // Direct compiler callers in historical semantic scorer tests have no
+    // trusted clock. Actual Web/Hybrid message entrypoints always supply it
+    // and therefore retain the full auditable resolution record.
+    if (temporalContext && materialized.temporalResolution) patch.temporalResolution = materialized.temporalResolution;
+  }
   return { status: "COMPILED", patch };
 }
 

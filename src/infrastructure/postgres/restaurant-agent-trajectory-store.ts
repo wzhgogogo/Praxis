@@ -3,7 +3,7 @@ import type { RestaurantAgentContext } from "../../domains/restaurant/agent-cont
 import type { RestaurantAgentModelAttempt } from "../../domains/restaurant/agent-decision.js";
 import type { RestaurantAgentCapability } from "../../domains/restaurant/restaurant-capabilities.js";
 import type { RestaurantActionValidation } from "../../domains/restaurant/action-validator.js";
-import type { RestaurantExecutionRoute, RestaurantReadExecutionMetadata } from "../../domains/restaurant/contracts.js";
+import type { RestaurantExecutionRoute, RestaurantReadExecutionMetadata, RestaurantReadObservation } from "../../domains/restaurant/contracts.js";
 import type { SqlDatabase } from "./sql-database.js";
 
 export const RESTAURANT_AGENT_TRAJECTORY_SCHEMA = {
@@ -35,7 +35,7 @@ export interface RestaurantAgentTrajectoryStep {
   actionValidation?: RestaurantActionValidation;
   executionRoute?: RestaurantExecutionRoute;
   executionMetadata?: RestaurantReadExecutionMetadata;
-  observation?: { type: string; detail: string };
+  observation?: RestaurantReadObservation;
   proposalId?: string;
   stateVersionAfter?: number;
   stateHashAfter?: string;
@@ -143,7 +143,7 @@ export class PostgresRestaurantAgentTrajectoryStore implements RestaurantAgentTr
       ...(row.action_validation ? { actionValidation: parseJson<RestaurantActionValidation>(row.action_validation) } : {}),
       ...(row.execution_route ? { executionRoute: row.execution_route } : {}),
       ...(row.execution_metadata ? { executionMetadata: parseJson<RestaurantReadExecutionMetadata>(row.execution_metadata) } : {}),
-      ...(row.observation ? { observation: parseJson<{ type: string; detail: string }>(row.observation) } : {}),
+      ...(row.observation ? { observation: parseJson<RestaurantReadObservation>(row.observation) } : {}),
       ...(row.proposal_id ? { proposalId: row.proposal_id } : {}),
       ...(row.state_version_after !== null ? { stateVersionAfter: row.state_version_after } : {}),
       ...(row.state_hash_after ? { stateHashAfter: row.state_hash_after } : {}),

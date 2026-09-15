@@ -32,16 +32,16 @@ function fixtureSemanticProposalFor(message: string): RestaurantSemanticProposal
   }
 
   if (normalized.includes("tonight") || normalized.includes("2026-08-05")) {
-    add({ field: "DATE", operation, value: { kind: "DATE", value: REFERENCE_DATE } });
+    add({ field: "DATE", operation, value: { kind: "DATE", value: REFERENCE_DATE, raw: REFERENCE_DATE } });
   }
   if (normalized.includes("tomorrow") || normalized.includes("2026-08-06")) {
-    add({ field: "DATE", operation, value: { kind: "DATE", value: "2026-08-06" } });
+    add({ field: "DATE", operation, value: { kind: "DATE", value: "2026-08-06", raw: "2026-08-06" } });
   }
   if (normalized.includes("7pm") || normalized.includes("7 pm") || normalized.includes("19:00")) {
     add({
       field: "TIME_WINDOW",
       operation,
-      value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:30" },
+      value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:30", raw: "19:00-19:30" },
     });
   }
   if (/\b(three|3)\b/.test(normalized)) {

@@ -1,8 +1,9 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 
-import type { RestaurantTaskState } from "./contracts.js";
+import { restaurantAvailabilityRequestFingerprint, type RestaurantTaskState } from "./contracts.js";
 import { MAX_AVAILABILITY_CHECK_BATCH, validateRestaurantAction } from "./action-validator.js";
+import { restaurantPresentationEvidenceIds } from "./read-assessment.js";
 import { applyRestaurantIntentPatch, missingBlockingFields } from "./intent-state.js";
 import { restaurantBookingTaskDefinition } from "./task-definition.js";
 
@@ -37,7 +38,32 @@ test("Action validator binds search to complete authoritative intent", () => {
   assert.equal(validateRestaurantAction(state, { type: "SEARCH_RESTAURANTS", retrievalHint: "broaden omakase search" }, now).status, "ALLOWED");
 });
 
-test("A fact-only cafe request can present opening-hours-grounded results without party size or availability", () => {
+test("Availability keeps its delivery goal while candidate discovery waits only for discovery inputs", () => {
+  const state: RestaurantTaskState = {
+    ...incompleteState,
+    intentDraft: applyRestaurantIntentPatch(undefined, {
+      schemaVersion: "3",
+      target: { goal: "AVAILABILITY", query: "find a team-dinner table" },
+      date: "2026-08-07",
+      partySize: 10,
+      area: { query: "near Shibuya" },
+      addCriteria: [{ text: "after work", polarity: "POSITIVE", strength: "HARD" }],
+    }),
+  };
+
+  assert.equal(
+    validateRestaurantAction(state, { type: "SEARCH_RESTAURANTS" }, now).status,
+    "ALLOWED",
+    "candidate discovery has no current time-window parameter to bind",
+  );
+  assert.deepEqual(
+    validateRestaurantAction(state, { type: "CHECK_AVAILABILITY", candidateIds: ["unknown"] }, now),
+    { status: "REJECTED", code: "INTENT_INCOMPLETE", reason: "Restaurant intent is missing required fields" },
+    "a slot read still fails closed until it has its own complete parameters",
+  );
+});
+
+test("A fact-only cafe request can present opening-hours-grounded results and may optionally investigate availability when parameters are complete", () => {
   const candidateId = "cafe-a";
   const draft = applyRestaurantIntentPatch(undefined, {
     schemaVersion: "3", target: { goal: "RECOMMENDATION", query: "recommend a cafe" }, date: "2026-08-05", timeWindow: { earliest: "12:00", latest: "17:00" }, partySize: 2,
@@ -52,7 +78,7 @@ test("A fact-only cafe request can present opening-hours-grounded results withou
       { evidenceId: "facts", kind: "RESTAURANT_FACT", provider: "GOOGLE_PLACES", candidateId, sourceEntityId: "place-a", observedAt: now, requestFingerprint: "request", claims: { verifiedHardCriteria: ["cafe"], openingHoursMatch: true, openingHoursMatchedWindow: ["12:00", "17:00"] } },
     ],
   };
-  assert.equal(validateRestaurantAction(state, { type: "CHECK_AVAILABILITY", candidateIds: [candidateId] }, now).status, "REJECTED");
+  assert.equal(validateRestaurantAction(state, { type: "CHECK_AVAILABILITY", candidateIds: [candidateId] }, now).status, "ALLOWED");
   assert.deepEqual(validateRestaurantAction(state, { type: "PRESENT_RESULTS", candidateIds: [candidateId] }, now), { status: "ALLOWED" });
 });
 
@@ -93,6 +119,7 @@ test("The requested goal, not party size, determines whether availability eviden
   const recommendation = { ...state, intentDraft: applyRestaurantIntentPatch(undefined, { ...common, target: { goal: "RECOMMENDATION", query: "recommend a cafe" } }) };
   const availability = { ...state, intentDraft: applyRestaurantIntentPatch(undefined, { ...common, target: { goal: "AVAILABILITY", query: "find a bookable cafe" } }) };
   assert.equal(validateRestaurantAction(recommendation, { type: "PRESENT_RESULTS", candidateIds: [candidateId] }, now).status, "ALLOWED");
+  assert.equal(validateRestaurantAction(availability, { type: "INVESTIGATE_CANDIDATE_FACTS", candidateIds: [candidateId] }, now).status, "ALLOWED");
   assert.deepEqual(validateRestaurantAction(availability, { type: "PRESENT_RESULTS", candidateIds: [candidateId] }, now), {
     status: "REJECTED", code: "PRESENTATION_EVIDENCE_MISSING", reason: `Candidate ${candidateId} has no HIGH outlet identity evidence associated with its availability source`,
   });
@@ -113,8 +140,8 @@ test("A depleted Google discovery budget cannot be bypassed by a new retrieval h
     schemaVersion: "3", target: { goal: "RECOMMENDATION", query: "recommend a cafe" }, date: "2026-08-05",
     timeWindow: { earliest: "12:00", latest: "17:00" }, area: { query: "Shinjuku" },
   });
-  assert.deepEqual(validateRestaurantAction({ ...incompleteState, intentDraft: draft, failure: { code: "GOOGLE_SEARCH_BUDGET_EXCEEDED", message: "budget exhausted" }, sourceReadState: { googlePlacesSearchBudget: "EXHAUSTED" } }, { type: "SEARCH_RESTAURANTS", retrievalHint: "different wording" }, now), {
-    status: "REJECTED", code: "DISCOVERY_UNAVAILABLE", reason: "Google discovery budget is exhausted for this run; changing retrieval wording cannot restore it",
+  assert.deepEqual(validateRestaurantAction({ ...incompleteState, intentDraft: draft, failure: { code: "GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED", message: "budget exhausted" }, sourceReadState: { googlePlacesSearchBudget: "EXHAUSTED" } }, { type: "SEARCH_RESTAURANTS", retrievalHint: "different wording" }, now), {
+    status: "REJECTED", code: "DISCOVERY_UNAVAILABLE", reason: "The local per-run Google request budget is exhausted; changing retrieval wording cannot restore it",
   });
 });
 
@@ -224,7 +251,7 @@ test("PRESENT_RESULTS fails closed until area, HARD criterion, identity, and ava
   const base: RestaurantTaskState = {
     ...incompleteState, phase: "SEARCHING", intentDraft: draft, candidates: [candidate],
     availability: { a: [{ id: "fresh", restaurantId: "a", source: "TABELOG", dateTime: "2026-08-05T19:00:00+09:00", timezone: "Asia/Tokyo", partySize: 2, bookingMode: "REQUEST", executionMode: "BROWSER", checkedAt: now, expiresAt: "2026-08-05T09:02:00.000Z", displayExpiresAt: "2026-08-05T09:02:00.000Z" }] },
-    availabilityChecks: { a: { status: "AVAILABLE", checkedAt: now, evidenceIds: ["availability"], displayExpiresAt: "2026-08-05T09:02:00.000Z" } },
+    availabilityChecks: { a: { status: "AVAILABLE", checkedAt: now, evidenceIds: ["fact", "availability"], displayExpiresAt: "2026-08-05T09:02:00.000Z" } },
   };
   assert.equal(validateRestaurantAction(base, { type: "PRESENT_RESULTS", candidateIds: ["a"] }, now).status, "REJECTED");
   const grounded: RestaurantTaskState = {
@@ -239,7 +266,7 @@ test("PRESENT_RESULTS fails closed until area, HARD criterion, identity, and ava
   assert.deepEqual(validateRestaurantAction(grounded, { type: "PRESENT_RESULTS", candidateIds: ["a"] }, now), { status: "ALLOWED" });
   const timely = validateRestaurantAction(grounded, { type: "CHECK_AVAILABILITY", candidateIds: ["a"] }, now);
   assert.equal(timely.status, "REJECTED");
-  if (timely.status === "REJECTED") assert.equal(timely.code, "PRESENTATION_READY");
+  if (timely.status === "REJECTED") assert.equal(timely.code, "AVAILABILITY_ALREADY_CHECKED");
   for (const omitted of grounded.readEvidence) {
     const verdict = validateRestaurantAction({ ...grounded, readEvidence: grounded.readEvidence.filter((item) => item !== omitted) }, { type: "PRESENT_RESULTS", candidateIds: ["a"] }, now);
     assert.equal(verdict.status, "REJECTED", `missing ${omitted.kind}`);
@@ -275,6 +302,8 @@ test("User refresh reopens only displayed candidates and preserves prior evidenc
     phase: "PRESENT_RESULTS",
     intentDraft: applyRestaurantIntentPatch(undefined, { schemaVersion: "3", date: "2026-08-05", timeWindow: { earliest: "19:00", latest: "19:30" }, partySize: 2, area: { query: "Shinjuku" } }),
     candidates: [{ restaurant: { id: "a", outletName: "A", sourceIds: {}, address: "Tokyo", provenance: {} }, matchReasons: [], warnings: [], executionConfidence: "HIGH" }],
+    availability: { a: [{ id: "old-slot", restaurantId: "a", source: "TABELOG", dateTime: "2026-08-05T19:00:00+09:00", timezone: "Asia/Tokyo", partySize: 2, bookingMode: "REQUEST", executionMode: "BROWSER", checkedAt: now, expiresAt: "2026-08-05T09:02:00.000Z", displayExpiresAt: "2026-08-05T09:02:00.000Z" }] },
+    availabilityChecks: { a: { status: "AVAILABLE", checkedAt: now, evidenceIds: ["old-evidence"], displayExpiresAt: "2026-08-05T09:02:00.000Z" } },
     readEvidence: [{ evidenceId: "old-evidence", kind: "AVAILABILITY", provider: "TABELOG", candidateId: "a", observedAt: now, requestFingerprint: "x", claims: {} }],
     presentedResults: { candidateIds: ["a"], evidenceIds: ["old-evidence"], presentedAt: now },
   };
@@ -293,6 +322,7 @@ test("User refresh reopens only displayed candidates and preserves prior evidenc
   }, { taskId: "task", runId: "run", now, createId: (prefix) => prefix }).state;
   assert.equal(checked.refreshRequestedCandidateIds, undefined);
   assert.equal(checked.availabilityChecks.a?.status, "UNKNOWN");
+  assert.deepEqual(checked.availability.a, [], "A failed current refresh must never restore the old displayed slot");
 });
 
 test("Recommendation refresh reopens displayed facts without routing through availability", () => {
@@ -353,4 +383,64 @@ test("A completed refresh target does not block another target or permit partial
   assert.equal(partial.status, "REJECTED");
   if (partial.status === "REJECTED") assert.equal(partial.code, "PRESENTATION_EVIDENCE_MISSING");
   assert.equal(validateRestaurantAction(state, { type: "CHECK_AVAILABILITY", candidateIds: ["a"] }, now).status, "REJECTED");
+});
+
+test("a grounded current no-slot observation excludes a recommendation instead of reviving an older opening-hours fact", () => {
+  const candidateId = "cafe-no-slot";
+  const draft = applyRestaurantIntentPatch(undefined, {
+    schemaVersion: "3", target: { goal: "RECOMMENDATION", query: "recommend a cafe" }, date: "2026-08-05", timeWindow: { earliest: "12:00", latest: "17:00" }, partySize: 2,
+    area: { query: "Tokyo" }, addCriteria: [{ text: "cafe", polarity: "POSITIVE", strength: "HARD" }],
+  });
+  const state: RestaurantTaskState = {
+    ...incompleteState, phase: "SEARCHING", intentDraft: draft,
+    candidates: [{ restaurant: { id: candidateId, outletName: "Cafe", sourceIds: { googlePlaces: "p" }, address: "Tokyo", provenance: {} }, matchReasons: [], warnings: [], executionConfidence: "HIGH" }],
+    readEvidence: [
+      { evidenceId: "area", kind: "DISCOVERY", provider: "GOOGLE_PLACES", candidateId, sourceEntityId: "p", observedAt: now, requestFingerprint: "search", claims: { areaQuery: "Tokyo", areaMatch: true } },
+      { evidenceId: "identity", kind: "ENTITY_MATCH", provider: "GOOGLE_PLACES", candidateId, sourceEntityId: "p", observedAt: now, requestFingerprint: "search", claims: {}, entityMatch: { confidence: "HIGH", matchedBy: ["GOOGLE_PLACE_ID"] } },
+      { evidenceId: "open-before-slot", kind: "RESTAURANT_FACT", provider: "GOOGLE_PLACES", candidateId, sourceEntityId: "p", observedAt: now, requestFingerprint: "facts", claims: { verifiedHardCriteria: ["cafe"], openingHoursMatch: true } },
+      { evidenceId: "no-slot", kind: "AVAILABILITY", provider: "TABLECHECK", candidateId, sourceEntityId: "tablecheck:p", observedAt: now, requestFingerprint: "availability", claims: { date: "2026-08-05", partySize: 2, visibleSlots: [] } },
+    ],
+  };
+  const reduced = restaurantBookingTaskDefinition.transition(state, {
+    type: "AVAILABILITY_CHECKED",
+    request: {
+      candidateIds: [candidateId], candidates: state.candidates, date: "2026-08-05",
+      timeWindow: { earliest: "12:00", latest: "17:00" }, partySize: 2, hardCriteria: ["cafe"],
+    },
+    offers: [],
+    availabilityChecks: { [candidateId]: { status: "UNAVAILABLE", checkedAt: now, evidenceIds: ["no-slot"], reasonCode: "NO_MATCHING_SLOT" } },
+    evidence: [state.readEvidence[3]!],
+    metadata: { provider: "TABLECHECK", route: "GENERIC_BROWSER", latencyMs: 1 },
+  }, { taskId: "task", runId: "run", now, createId: (prefix) => prefix }).state;
+  assert.equal(
+    reduced.availabilityChecks[candidateId]?.requestFingerprint,
+    restaurantAvailabilityRequestFingerprint({ date: "2026-08-05", timeWindow: { earliest: "12:00", latest: "17:00" }, partySize: 2 }),
+  );
+  const verdict = validateRestaurantAction(reduced, { type: "PRESENT_RESULTS", candidateIds: [candidateId] }, now);
+  assert.equal(verdict.status, "REJECTED");
+  if (verdict.status === "REJECTED") assert.match(verdict.reason, /no-matching-slot/);
+});
+
+test("a provider fact from the current availability observation supplements rather than erases the current fact read", () => {
+  const candidateId = "provider-fact";
+  const draft = applyRestaurantIntentPatch(undefined, {
+    schemaVersion: "3", target: { goal: "RECOMMENDATION", query: "recommend omakase" }, area: { query: "Tokyo" },
+    addCriteria: [{ text: "omakase", polarity: "POSITIVE", strength: "HARD" }],
+  });
+  const state: RestaurantTaskState = {
+    ...incompleteState, phase: "SEARCHING", intentDraft: draft,
+    candidates: [{ restaurant: { id: candidateId, outletName: "Sushi", address: "Tokyo", sourceIds: {}, provenance: {} }, matchReasons: [], warnings: [], executionConfidence: "HIGH" }],
+    factChecks: { [candidateId]: { status: "COMPLETED", checkedAt: now, evidenceIds: ["google-fact"] } },
+    availabilityChecks: { [candidateId]: { status: "AVAILABLE", checkedAt: now, evidenceIds: ["provider-identity", "provider-fact", "provider-slot"] } },
+    readEvidence: [
+      { evidenceId: "area", kind: "DISCOVERY", provider: "GOOGLE_PLACES", candidateId, observedAt: now, requestFingerprint: "search", claims: { areaQuery: "Tokyo", areaMatch: true } },
+      { evidenceId: "google-identity", kind: "ENTITY_MATCH", provider: "GOOGLE_PLACES", candidateId, observedAt: now, requestFingerprint: "facts", claims: {}, entityMatch: { confidence: "HIGH", matchedBy: ["GOOGLE_PLACE_ID"] } },
+      { evidenceId: "google-fact", kind: "RESTAURANT_FACT", provider: "GOOGLE_PLACES", candidateId, observedAt: now, requestFingerprint: "facts", claims: {} },
+      { evidenceId: "provider-identity", kind: "ENTITY_MATCH", provider: "TABLECHECK", candidateId, observedAt: now, requestFingerprint: "availability", claims: {}, entityMatch: { confidence: "HIGH", matchedBy: ["EXACT_PHONE"] } },
+      { evidenceId: "provider-fact", kind: "RESTAURANT_FACT", provider: "TABLECHECK", candidateId, observedAt: now, requestFingerprint: "availability", claims: { verifiedHardCriteria: ["omakase"] } },
+      { evidenceId: "provider-slot", kind: "AVAILABILITY", provider: "TABLECHECK", candidateId, observedAt: now, requestFingerprint: "availability", claims: {} },
+    ],
+  };
+  assert.equal(validateRestaurantAction(state, { type: "PRESENT_RESULTS", candidateIds: [candidateId] }, now).status, "ALLOWED");
+  assert.ok(restaurantPresentationEvidenceIds(state, candidateId, now)?.includes("provider-fact"));
 });

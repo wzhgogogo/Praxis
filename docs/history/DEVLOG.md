@@ -1,13 +1,47 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.42
-- Last updated: 2026-09-09
+- Document revision: 4.49
+- Last updated: 2026-09-15
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## 2026-09-15 — DEV-2026-09-15-CONCRETE-VISIT-READ-CLOSURE
+
+- 当前切片：以 [ADR-0026](../decisions/0026-concrete-visit-goal-and-reception-semantics.md) 收敛具体到访的用户承诺、行动参数边界、库存/接待方式证据和只读调查闭环。验收是当前 H001–H005 原文经实际 Hybrid composition 走完整内部路径并接受独立诊断；模型传输、HTTP 与浏览器页面固定为离线替身，未给生产代码增加 case-ID 分支或成功回退。
+- H001/H002/H003/H005 现在交付 `AVAILABILITY`，H004 为 `RECOMMENDATION`。H002记录封闭 first-date 情境的两人推断依据；H003保留 “after work” 原文并仅以代码物化 17:30–22:00 的宽查询窗。候选发现仅要求地点；缺人数的空位请求在重读取前补问，行动 Validator 不再把交付目标误当作每个 discovery 动作的必需参数。
+- 接待方式与库存独立建模：仅明确来源页面证据可授予 walk-in/both；没有预约入口不能推导 walk-in；同候选、同日期、同人数的当前明确无 slot 才能形成 `UNAVAILABLE`。刷新已展示 slot 会重新读取 slot，失败不会恢复旧成功。
+- Context 升至 `restaurant-agent-context@6`，为模型提供有界候选事实/缺口、来源尝试、库存/接待摘要与代码派生合法动作；Resolver、Reducer 和 Assessment 保留局部观察。通用 Browser Agent 的模型驱动回退继续是既有路径，未新增站点专用完成捷径、Provider、重试或写路径。
+- 诊断器升至 `restaurant-hybrid-read-diagnostic-evaluator@12`：接受 Router 的 `TERMINAL` 已执行观察，并独立核验 END_READ lineage 与空 slot 的候选/日期/人数/负库存证据；产物评价没有复用生产端成功判断。完整离线验证、环境限制和未覆盖范围见同日的新 TEST-LOG 条目。
+
+## 2026-09-15 — DEV-2026-09-15-READ-ACCEPTANCE-ALIGNMENT (superseded in part by the concrete-visit closure above)
+
+- 当前切片：统一已接受ADR-0020/0024的用户承诺与H001–H005当前标注，不替换浏览器、不调整产品Prompt、不修其他harness行为。验收为原文保留、当前Runner只读新口径、真实loader/materializer/evaluator字段对照及反例通过。
+- 原始五条content逐条保留；旧YAML/Rubric按字节归档。新`restaurant-read-development@2`仅保留semantic参数预期与人工验收说明，删除重复必用工具、人数/时间和空位要求；归档Rubric未伪称接入评分。H001/H003改正为推荐，H002去掉强制推定人数并收窄到原文排除，H003保留after work而不编造钟点，H005修正示例东京时间。
+- Runner迁移当前cases路径并记录版本/哈希/暴露状态；materializer只更新预期，不重写用户消息里的日期/时间。产品、Domain与Eval入口同步；未把Gold、验收说明或案例排除词表注入模型。
+- 旧成功Artifact不重写、不按新目标重命名为通过。END_READ评分、负向证据、resolver部分事实与Context/行动收敛仍待修复；无Live、付费调用、提交或推送。
+
+## 2026-09-15 — Shared read-execution repair after combinatorial defense
+
+- 用户审查指出组合oracle、Evaluator lineage和变异名称三处盲点后，先修测试：候选守恒由独立来源样本/显式Google ID判定；Evaluator `@11`只接受同候选、适用请求的`EXECUTED` observation所产出的引用证据，但允许search直接产生足够的事实推荐证据；M02恢复为真正的跨批prior-check丢失变异，M03–M05按实际破坏重新命名/构造。
+- 随后只修防线捕获的共享执行缺陷：语义事件按State版本获得唯一id；Reducer累计不同事实批次；Google耗尽时停止判断同时检查合法facts和availability动作；Google→官网混合批次保留每个候选的来源范围；slot UNKNOWN保留已观察的HIGH identity/restaurant fact，仍不生成availability evidence或Offer。
+- 未增加来源fallback、模型调用、重试、外部写路径、Prompt或H001–H005输入。所有红色默认回归在既有入口转绿；真实模型/网站/Live范围继续未验收。
+
+## 2026-09-15 — Five-contract combinatorial regression defense
+
+- 仅扩展既有Hybrid真实组合入口与diagnostic evaluator：保留Interpreter、Compiler、Runtime、Context、Validator、Router及Grounding，只替换离线模型传输、HTTP与浏览器页面。未修改业务执行、Prompt、H001–H005输入或生产来源Adapter。
+- 为需求保真、状态累计、证据归属、行动可达、完成/停止分别接入独立期望：确定性边界覆盖零/一/整批/跨批、正反序、成功/冲突/UNKNOWN/失败、刷新、取消、请求更新和来源额度耗尽；固定种子`0x5eedc0de`生成八个有界场景，并把首个失败缩到两候选、逐个读取。
+- 在`/tmp/praxis-contract-mutant-*`隔离副本运行源码变异，且先验证原始对照通过；Evaluator对公开合成artifact的M03–M08从`structuredClone`产生，不改写历史artifact。初始防线发现了取消后语义更新被固定event id去重及多项共享执行缺陷；其修复与最终门禁记录在本条上方的同日后续切片。
+
+## 2026-09-12 — Web read execution completion and independent artifact wiring
+
+- 以`fd0dfb0`冻结复现为先，修正`GENERIC_BROWSER`读取在取消/deadline时创建却未参与await的reject promise：现在浏览器分支只等待Provider收束，Router仍传递AbortSignal、清理deadline和父级listener，并保留`BROWSER_RUNTIME_FAILED`/`BROWSER_TIMEOUT`归因；没有全局吞错、重试或无限等待。
+- Agent loop在每次已持久化State transition后通知拥有该读取的Application，Web SSE因此获得后台调查进度。用户编辑保留版本保护：落后于当前版本但其间只有Agent/Adapter推进时，取消旧读取后按最新权威版本应用；存在中间`USER`事件或客户端未来版本仍返回`StaleTaskVersionError`。旧读取需完成取消才会应用新语义，晚到结果不能覆盖新条件。
+- 事实推荐的展示引用改为当前`factChecks`所列事实和每一来源事实匹配的HIGH identity；派生判断必须经其候选绑定的原始支持事实取identity。历史`RESTAURANT_FACT`没有删除，只不再作为当前展示依据。诊断器同步以目标而非人数判定：未指定日期/时间的推荐不要求营业或availability，指定访问时段的推荐仍需要适用营业事实，availability目标仍需要日期、人数和slot。
+- 普通Web复用现有diagnostic run/evaluator格式，而非另建评分平台：读取结束后保存不含原始消息/DOM的`WEB_READ` artifact（最终snapshot、trajectory、来源尝试、展示引用、停止及可得资源）；以单独sidecar补评。缺少成本或browser-model计数标为`UNKNOWN`，Eval写入失败不会影响读取结果。没有改Provider、增加网站fallback、读取Secret、运行Live或外部写路径。
 
 ## 2026-09-05 — Repository review findings consolidated into a draft improvement plan
 
@@ -1999,6 +2033,18 @@ Corrected the last current-fact citation hole: after a recommendation fact refre
 
 ADR-0023 adds the minimum Live Web lifecycle without a queue: accepted Live input returns its persisted active Case immediately; the existing SSE channel receives the final update; a user stop aborts the parent read signal through Router/provider calls and records `AGENT_LOOP_CANCELLED`; an unowned in-flight Case found after restart ends with an explicit interruption. A subsequent user message first stops the old read, then uses the ordinary Semantic → Compiler → Reducer path. Fixture mode stays synchronous. No booking, login, payment, cancellation at a provider, or external write was added.
 
+## 2026-09-14 — Semantic failure is a durable Web read outcome
+
+真实Web H002/H003观察到Semantic Interpreter的`MODEL_FAILURE`会在创建Conversation后抛出，导致Task保留`UNDERSTANDING`、UI只收到HTTP错误且没有artifact。该路径把系统模型限制错误归因成了未完成的用户Case，也绕过了普通Web的“执行结果与独立Eval分开保存”契约。
+
+现在`restaurantEventForMessage`把非`PROPOSED`解释结果转换为最小、准确的`SEMANTIC_INTERPRETATION_FAILED`事件；Reducer将它持久化为`FAILED`，包含稳定状态码但不保存Provider错误正文。Application在不启动Agent/Provider循环的前提下追加失败摘要、通知SSE/Case观察者，并经已有artifact入口保存结果和独立Evaluator sidecar。没有引入重试、案例分支、Provider fallback或新的评分系统。`W10`使用真实PGlite Application、Semantic→Reducer、HTTP Web和artifact/evaluator接线，仅替换模型传输为稳定失败，证明该失败闭环。
+
+## 2026-09-14 — Shared Live-debug Google request budget and accounting
+
+`LIVE_READ_DEBUG_INVESTIGATION_BUDGET`取代原先名称和语义不一致的`maxGoogleSearches=3` / 未使用`maxGooglePlaceDetails=0`配置。Web与Hybrid runner从同一个显式调试配置读取`maxGoogleRequests=100`；它只适用于明确授权的Live调试，不成为产品默认配额或账户额度声明。地点解析、Discovery和Place Details以task `readRunId`共享一个累计计数器，失败的已发送请求在调用前计数，换候选、检索提示、阶段或Provider不会重置；新run才隔离。
+
+Google Adapter在每个成功read metadata中导出三类计数和总数，Router在Provider失败时也把最新计数写进trajectory，Web和Hybrid artifact分别导出上限与实际用量。稳定码明确区分本地`GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED`、429 `GOOGLE_RATE_LIMITED`、403 `GOOGLE_SERVICE_QUOTA_OR_PERMISSION`和`GOOGLE_NETWORK_FAILED`；未知费用保持`UNKNOWN`。未改20分钟、30步、120浏览器模型调用、取消、无进展、重复动作或只读边界，也未运行新的Live调用。
+
 ## DEV-2026-09-12-READ-PATH-REVIEW — 横向审查与验证规程
 
 在`e504a3f`干净工作区基线审查两次最新提交，并用当前生产函数/类离线复现跨层问题；[冻结审查](READ-PATH-REVIEW-2026-09-12.md)记录8组发现、已改善部分及具体关闭条件。本轮未修产品代码。将“跨模块集成 → 独立结果/诊断核验 → 本地与有界Live验证”写入现有Test skill，Eval skill维护引用链、条件保真、合法重查和评分反例要求；Planning与Post-change仅关联检查点，不在AGENTS或新框架中复制规则。STATUS明确区分开发规程已落地与产品缺口尚未修复。未新增测试文件、未改Golden/私有Holdout/历史artifact，未运行Live、付费模型、数据库写入或Git提交/推送。
@@ -2010,3 +2056,79 @@ ADR-0022替代ADR-0021中“同序门牌数字可单独绑定”的接受规则�
 命名地点解析不再把Google首个相关结果当成地标；只有精确、带坐标的名称匹配可形成位置证据。网页门店绑定要求名称加地址包含，或门牌序列加可用地域词对应，因此同名同门牌的不同城市页面保持UNKNOWN。JSON-LD身份快捷路径与可见事实合并，身份本身不会提前停止缺口调查；事实型目标不再伪造日期、人数或时间窗口。
 
 派生类型判断以`MODEL_JUDGMENT`记录，而不是复制第一条来源的provider或entity ID；它必须引用同候选、已身份绑定的原始事实。Hybrid与Web共同构造Google Details → 同源网站 → cited judgment组合，且与availability共用一轮的浏览器模型计数。Evaluator/Rubric升为@6，检验派生链、用户明确字段丢失和枚举的重查理由。未运行Live、付费模型或写操作；F8异步执行/取消/中断恢复仍未实现。
+
+
+## 2026-09-14 Hybrid Live 诊断：目标口径、位置上下文及时间字段
+
+H001–H005各一次真实只读Runner已执行；仅记录诊断，未修改业务实现。确认当前目标Prompt与H001/H003冻结期望不一致，Runner评估位置仅配置在Google下层而未接入Task权威上下文，以及真实Proposal漏AREA/DATE、H005 UTC/Tokyo时间错误。未复现上一轮MODEL_FAILURE，无qualified展示。细节与资源见同日TEST-LOG的批次报告；不将安全停止报告为通过，也不据此否定历史H001成功。
+
+## 2026-09-14 — Hybrid composition binds evaluation location before Agent execution
+
+将Hybrid CLI顶层的`Interpreter → Compiler → InMemory Runtime → Agent → Router`初始化提取为共享`createHybridReadComposition`，CLI与离线集成测试共同调用；Provider、浏览器与模型仍由调用方注入，未增加测试专用业务执行器。Runner对冻结`NEAR_USER`评估在语义事件后发出`EVALUATION_LOCATION_BOUND`：Reducer仅接受`nearby`且没有既有坐标的权威Draft，把固定公开坐标记录为`source: EVALUATION`，随后才让Agent决策。它不改变Web设备位置、手动地点输入或产品默认位置。
+
+新的真实组合回归使用独立HTTP来源样本和明确标记的模型传输替身，穿过实际Google Discovery、三个Place Details、Grounding、事实读取、展示引用和既有Evaluator；没有手工塞入Evidence。无位置分支证实来源HTTP未被调用。另有100请求累计/隔离回归，直接覆盖被替换的3次上限。H001原始文本与冻结目标口径冲突仍只记录，未通过改Prompt、Gold或case分支掩盖。
+
+## 2026-09-14 — Deterministic Tokyo time and diagnosable read completion
+
+ADR-0024记录本轮共同契约：Semantic Interpreter只输出受限时间语义，Compiler以受信任参考时刻和`Asia/Tokyo`生成实际日期/时段并保存解析依据；`AFTERNOON`统一为12:00–17:00。Agent不再因已有推荐候选被提前禁止作合法、有价值的只读调查；完整参数的推荐可选查空位，但Reducer将明确无slot绑定到实际日期、时段、人数指纹，禁止同一请求用历史营业事实重新展示，来源未知仍保持未知。
+
+诊断器/Rubric升为`@8`：原始执行结果先保存，再分别表达合格展示、可确认无结果、用户补问和内部执行失败；内部错误不再伪装成用户侧正常无结果。没有添加站点fallback、LLM Judge、外部调用、付费模型、写操作、提交或推送。
+
+
+## 2026-09-14 确定性时间Live复验首错
+
+本轮只诊断未改实现：新时间传输Schema的raw可选属性不满足当前DeepSeek strict要求，导致五个真实Hybrid请求在生成前统一HTTP400。失败已落档并用实际导出Schema离线复现；需要修复传输契约及Gateway边界回归，不能归因用户语义或来源无位。
+
+## 2026-09-14 — DeepSeek strict semantic-schema repair
+
+修复`DATE`和`TIME_WINDOW`显式值分支的同一契约不一致：`raw`既已列在strict transport的`properties`，就必须同时列在`required`。显式日期/时间的TypeScript contract和本地Proposal Validator现也要求非空`raw`；既有Prompt本来已要求该用户原表达，补上了对应断言和Fixture/公开Regression输入。未关闭`strict`、未增加重试或Provider绕过。
+
+DeepSeek Gateway测试现在捕获真实发送的完整Restaurant Schema并递归验证每个对象的`required`与`properties`完全一致，能在网络调用前捕获同类错误；它不是伪造模型响应的局部解析测试。该修复只恢复模型请求可被Provider接受的传输契约，不构成新的Live模型、来源或业务能力验收。
+
+
+## 2026-09-14 — Schema修复后的真实跨案例诊断
+
+本轮仅运行与诊断，保留Terra全部未提交业务修改。HTTP400已经修复，Live实际证实位置接线及扩大Google额度可用。新首要回归是H001较旧factChecks引用集合过滤新TableCheck HARD事实，虽已有同店/omakase/slot证据仍不能展示，并继续无新增候选搜索。H003时间组合代码覆盖显式日期；H004漏日期绕过营业时间门槛；H002命名地点解析仍未闭合；H005来源均UNKNOWN且重复事实动作消耗步骤，需受限调查正确收尾。Eval动态时间基准和终态标签不一致另记，不把安全停止或运行时PRESENT_RESULTS当作合格交付。
+
+建议以本次真实观察做“外部替身、内部真实组合”的证据更新/时间组合/重复发现回归，先修这些共性契约再有界Live；不新增站点fallback、不继续扩大预算掩盖循环。资源与精确证据见同日TEST-LOG及批次报告，未提交或推送。
+
+## 2026-09-14 — Live-derived evidence, time, location and stopping repairs
+
+当前展示证据不再把一次`factChecks`集合误当成候选全部有效事实：当前事实读取与同一当前availability观察产生的来源事实共同组成展示引用；新的UNKNOWN、冲突、关门或无slot仍会遮蔽历史正向证据。Availability目标不再允许独立事实读取冒充请求绑定slot调查，令Agent Context、Validator与Router的可行动边界一致；事实推荐继续按缺口读取事实。
+
+时间物化保留显式日历日期优先于相对时钟，并使`this afternoon`携带东京当天；Live Eval的`right now`期望从同一运行参考时刻独立物化。命名地点解析从三项严格名称匹配改成一次有界十项来源观察和保守的名称/地址变体匹配；首项仍不能被当作地标，歧义和未解析均保留公开的筛选观察。
+
+Router现在把发现返回数与实际新入权威候选池数同时写入trajectory；两次连续零新增发现以`NO_PROGRESS`结束。不同JSON却同一稳定Validator拒绝也会在无执行、无请求变化、无新来源观察时停止。Evaluator对推荐中的高置信封闭人数推断不再误判为用户字段冲突；非同文SOFT条件改写明确`NOT_EVALUATED / semantic review`，不使用LLM Judge洗成自动通过。没有新增网站fallback、Provider、预订或外部写操作；本轮未提交或推送。
+
+## 2026-09-14 — 只读调查执行契约收敛设计（Draft）
+
+按用户要求完成[设计](../RESTAURANT-READ-EXECUTION-DESIGN.md)与[ADR-0025草案](../decisions/0025-model-directed-read-investigation.md)。方案保留现有单Agent、Runtime/Reducer、Router与Browser Executor，拟删除目标限定调查动作、重复资格规则及文案驱动进展判断；统一当前证据/缺口评估，并补窄的`END_READ → NO_VERIFIED_RESULT`只读链和独立诊断。明确与ADR-0012/0014/0022的拟调整范围，未静默改写Accepted正文。
+
+本条只记录设计交付，不是实现完成：没有改业务源码、运行Live或付费模型，没有提交/推送；验证与实施切片在设计中列出。历史两批Live和离线复现仍是exposed development diagnostic，不变更为Clean Baseline。
+
+
+## 2026-09-14 — 补齐只读执行设计的测试与Eval改造落点
+
+按用户反馈扩展[执行设计第13节](../RESTAURANT-READ-EXECUTION-DESIGN.md#13-测试与eval的具体改造清单)：明确模块断言迁移/删除、Hybrid/Web真实入口集成、真实模型+固定来源诊断、Evaluator/rubric与反例变异，以及测试资产同切片维护。Test/Eval Skill同步通用分工，避免以模块测试数或预设唯一动作序列代替选路质量与E2E验证。
+
+这是Document revision 0.2的设计补充；测试代码、Runner、评分器实现均未据此修改，未授权或运行任何模型/Live调用。
+
+## 2026-09-14 — ADR-0025 model-directed read completion implementation
+
+按用户授权执行只读调查设计并将ADR-0025接受。新增纯`read-assessment`领域模块，统一当前展示证据、待补缺口、可读取候选与正常结束资格；Context、Validator与Router复用其结果，但Evaluator仍独立检查artifact。移除availability目标的`FACTS_NOT_APPLICABLE`禁令和基于英文`newly accepted`文本/同一拒绝码的流程终止。
+
+新增窄的`END_READ → READ_ENDED_NO_VERIFIED_RESULT → NO_VERIFIED_RESULT`路径：模型不能携带候选、来源事实或结果结论，Reducer仅接受当前完整请求、实际调查、无待刷新、无可展示结果且无内部失败时的Router派生范围。生命周期为已收尾，但Outcome明确不是找到了餐厅；取消、预算上限和内部错误仍分别保留。trajectory observations改为候选/证据范围的结构化字段，来源作用域写入当前事实/availability check，避免一个来源的新UNKNOWN屏蔽另一来源的独立事实。
+
+Google命名地点不再以地址或任意名称子串确认地标；只接受规范化后的来源显示名称相等，其他候选保留为未解析/歧义。无新增Provider、网站fallback、模型Judge、写操作、Live、提交或推送。
+
+## 2026-09-14 — ADR-0025 independent verification found remaining contract defects
+
+复跑离线矩阵并执行一次原始H001 Live；未修改产品源码。确认本轮CANDIDATE_FACTS_CHECKED重建整张factChecks表造成跨批记录丢失，真实入口组合与Live均出现反复调查。旧UNKNOWN后读取其他候选还会复活旧正向事实。另复现外层停止判断遗漏合法availability动作、无结果Evaluator仅凭对象存在自证、命名地点变体未解决；Context全缺口反馈及Hybrid增量日志尚未接通。默认282项通过不能证明这些行为已覆盖；下一切片应修共享契约并扩展既有集成边界，不添加按网站/案例fallback。详见TEST-2026-09-14-ADR-0025-INDEPENDENT-REVIEW及其本地报告。
+
+### 2026-09-14 — Restaurant 架构、编排与验证联合续审
+
+只读审查当前 HEAD fd0dfb0 加未提交工作区，未修改产品源码。新增实际内部组合反例证明批级 provider 误作候选来源会使旧事实复活；grounding 反例证明 slot UNKNOWN 同时丢弃身份/事实。审查将直接实现回归、来源/观察契约不足、重复动作控制、Eval 自证和工作流验收脱节分别归因，建议保留 Core/授权/现有浏览器能力，收拢 Restaurant 读链而不整库回滚。完整本地记录：`.eval-artifacts/adr0025-review-2026-09-14/ARCHITECTURE-REVIEW.md`。未提交、推送或新增 Live。
+
+### 2026-09-15 — 先修测试与无结果评价（DEV-2026-09-15-TEST-CONTRACT-REPAIR）
+
+按用户要求只修验证层，业务执行维持原状。正式默认集成覆盖跨批/顺序、来源归属和其他来源可达性，Domain覆盖部分观察接纳；先在未修业务代码上失败。纠正无结果Evaluator的自证预期与逻辑，Evaluator/Rubric分别升级到@10；空或不适用记录未评估、可证实矛盾失败，仅独立记录的限定空搜索可确认，不声称一般调查充分。同步Web评价版本接线断言。最终默认套件290通过/8失败，失败对应4类尚未修复的业务契约，未隐藏或跳过。完整记录见[验证修复记录](TEST-VALIDATION-REPAIR-2026-09-15.md)。未修改Prompt/Gold或业务执行、未Live、未提交推送。

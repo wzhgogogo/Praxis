@@ -1,6 +1,6 @@
 export const RESTAURANT_AGENT_ACTION_SCHEMA = {
   name: "restaurant_agent_action",
-  version: "3",
+  version: "4",
 } as const;
 
 export type RestaurantAgentAction =
@@ -9,6 +9,7 @@ export type RestaurantAgentAction =
   | { type: "INVESTIGATE_CANDIDATE_FACTS"; candidateIds: string[] }
   | { type: "CHECK_AVAILABILITY"; candidateIds: string[] }
   | { type: "PRESENT_RESULTS"; candidateIds: string[] }
+  | { type: "END_READ" }
   | { type: "SELECT_CANDIDATE"; candidateId: string; offerId?: string }
   | { type: "BOOK_RESERVATION"; candidateId: string; offerId: string };
 
@@ -25,6 +26,7 @@ export const RESTAURANT_AGENT_ACTION_JSON_SCHEMA: Record<string, unknown> = {
         "INVESTIGATE_CANDIDATE_FACTS",
         "CHECK_AVAILABILITY",
         "PRESENT_RESULTS",
+        "END_READ",
         "SELECT_CANDIDATE",
         "BOOK_RESERVATION",
       ],
@@ -52,7 +54,7 @@ export const RESTAURANT_AGENT_ACTION_STRICT_WIRE_JSON_SCHEMA: Record<string, unk
   properties: {
     type: {
       type: "string",
-      enum: ["ASK_USER", "SEARCH_RESTAURANTS", "INVESTIGATE_CANDIDATE_FACTS", "CHECK_AVAILABILITY", "PRESENT_RESULTS", "SELECT_CANDIDATE", "BOOK_RESERVATION"],
+      enum: ["ASK_USER", "SEARCH_RESTAURANTS", "INVESTIGATE_CANDIDATE_FACTS", "CHECK_AVAILABILITY", "PRESENT_RESULTS", "END_READ", "SELECT_CANDIDATE", "BOOK_RESERVATION"],
     },
     question: { type: "string" },
     relatedFields: { type: "array", items: { type: "string" } },
@@ -96,7 +98,7 @@ function onlyExpectedStrictPlaceholders(value: Record<string, unknown>, allowed:
   );
 }
 
-/** Converts the strict all-fields wire value into the canonical @3 action shape. */
+/** Converts the strict all-fields wire value into the canonical @4 action shape. */
 export function normalizeRestaurantAgentActionStrictWire(value: unknown):
   | { valid: true; value: unknown }
   | { valid: false; errors: string[] } {
@@ -118,6 +120,9 @@ export function normalizeRestaurantAgentActionStrictWire(value: unknown):
     case "PRESENT_RESULTS":
       if (!onlyExpectedStrictPlaceholders(value, new Set(["candidateIds"]))) return { valid: false, errors: [`${value.type} contains non-placeholder fields`] };
       return { valid: true, value: { type: value.type, candidateIds: value.candidateIds, ...(decisionSummary ? { decisionSummary } : {}) } };
+    case "END_READ":
+      if (!onlyExpectedStrictPlaceholders(value, new Set())) return { valid: false, errors: ["END_READ contains non-placeholder fields"] };
+      return { valid: true, value: { type: value.type, ...(decisionSummary ? { decisionSummary } : {}) } };
     case "SELECT_CANDIDATE":
       if (!onlyExpectedStrictPlaceholders(value, new Set(["candidateId", "offerId"]))) return { valid: false, errors: ["SELECT_CANDIDATE contains non-placeholder fields"] };
       return { valid: true, value: { type: value.type, candidateId: value.candidateId, ...(nonBlank(value.offerId) ? { offerId: value.offerId } : {}), ...(decisionSummary ? { decisionSummary } : {}) } };
@@ -183,6 +188,8 @@ export function validateRestaurantAgentAction(
         ? { valid: true, value: { action: { type: "PRESENT_RESULTS", candidateIds }, ...(decisionSummary ? { decisionSummary } : {}) } }
         : { valid: false, errors: ["PRESENT_RESULTS requires one or more candidateIds"] };
     }
+    case "END_READ":
+      return { valid: true, value: { action: { type: "END_READ" }, ...(decisionSummary ? { decisionSummary } : {}) } };
     case "SELECT_CANDIDATE":
       return nonBlank(value.candidateId) && (value.offerId === undefined || nonBlank(value.offerId))
         ? { valid: true, value: { action: { type: "SELECT_CANDIDATE", candidateId: value.candidateId.trim(), ...(nonBlank(value.offerId) ? { offerId: value.offerId.trim() } : {}) }, ...(decisionSummary ? { decisionSummary } : {}) } }

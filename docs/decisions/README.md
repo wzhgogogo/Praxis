@@ -1,8 +1,8 @@
 # Architecture Decision Records
 
 - Status: Accepted
-- Document revision: 1.1
-- Last updated: 2026-09-12
+- Document revision: 1.2
+- Last updated: 2026-09-14
 - Source of truth for: 已接受架构决策及其替代关系
 - Related ADRs: 本目录
 - Related documents: [Architecture Overview](../architecture/OVERVIEW.md)
@@ -34,6 +34,9 @@
 | [0021](0021-cited-source-fact-investigation.md) | Accepted; identity-number detail superseded by ADR-0022 | 命名地点坐标距离与带引用的公开来源事实调查 |
 | [0022](0022-current-source-fact-lifecycle-and-identity.md) | Accepted | 当前事实观察、派生判断支持链与跨门店身份边界 |
 | [0023](0023-live-read-run-lifecycle.md) | Accepted | Live Web只读任务的可见执行、取消与中断结束 |
+| [0024](0024-deterministic-time-and-diagnostic-read-completion.md) | Accepted | 代码物化东京相对时间、当前无slot覆盖旧营业事实，并区分无可靠结果与内部失败 |
+| [0025](0025-model-directed-read-investigation.md) | Accepted | 模型调查顺序、统一只读证据评估、有界观察反馈与正常无可靠结果收尾 |
+| [0026](0026-concrete-visit-goal-and-reception-semantics.md) | Accepted | 具体到访的Availability语义、动作参数边界与接待方式/库存分离 |
 
 ## 规则
 

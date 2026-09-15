@@ -116,3 +116,83 @@ test("Restaurant Semantic Compiler reports contradictory criterion additions and
     },
   });
 });
+
+test("Restaurant Semantic Compiler materializes Tokyo relative time in code and records its basis", () => {
+  const result = compileRestaurantSemanticProposal({
+    schemaVersion: "3",
+    facts: [
+      { field: "DATE", operation: "ASSERT", value: { kind: "DATE", relativeDay: "TODAY", raw: "today" } },
+      { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", daypart: "AFTERNOON", raw: "this afternoon" } },
+    ],
+  }, { referenceTime: "2026-09-14T00:30:00-07:00", timezone: "Asia/Tokyo" });
+  assert.deepEqual(result, {
+    status: "COMPILED",
+    patch: {
+      schemaVersion: "3", date: "2026-09-14", timeWindow: { earliest: "12:00", latest: "17:00" },
+      temporalResolution: {
+        policyVersion: "restaurant-temporal-materialization@2",
+        referenceTime: "2026-09-14T00:30:00-07:00", timezone: "Asia/Tokyo",
+        date: { expression: "today", resolvedDate: "2026-09-14", basis: "TODAY" },
+        timeWindow: { expression: "this afternoon", resolvedTimeWindow: { earliest: "12:00", latest: "17:00" }, basis: "DAYPART:AFTERNOON" },
+      },
+    },
+  });
+});
+
+test("Restaurant Semantic Compiler carries a relative offset across Tokyo midnight without model date arithmetic", () => {
+  const result = compileRestaurantSemanticProposal({
+    schemaVersion: "3",
+    facts: [{ field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", relativeOffsetMinutes: 120, raw: "in two hours" } }],
+  }, { referenceTime: "2026-09-14T21:30:00.000Z", timezone: "Asia/Tokyo" });
+  assert.equal(result.status, "COMPILED");
+  if (result.status === "COMPILED") {
+    assert.equal(result.patch.date, "2026-09-15");
+    assert.deepEqual(result.patch.timeWindow, { earliest: "08:30", latest: "08:30" });
+    assert.equal(result.patch.temporalResolution?.timeWindow?.basis, "RELATIVE_OFFSET_MINUTES:120");
+  }
+});
+
+test("an explicit calendar date wins over a relative clock date while retaining the relative clock", () => {
+  const result = compileRestaurantSemanticProposal({
+    schemaVersion: "3",
+    facts: [
+      { field: "DATE", operation: "ASSERT", value: { kind: "DATE", weekday: "FRIDAY", raw: "this Friday" } },
+      { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", relativeOffsetMinutes: 0, raw: "after work" } },
+    ],
+  }, { referenceTime: "2026-09-14T08:20:55.000Z", timezone: "Asia/Tokyo" });
+  assert.equal(result.status, "COMPILED");
+  if (result.status === "COMPILED") {
+    assert.equal(result.patch.date, "2026-09-18");
+    assert.deepEqual(result.patch.timeWindow, { earliest: "17:20", latest: "17:20" });
+  }
+});
+
+test("after work remains an original broad query rather than an invented 18:00-20:00 promise", () => {
+  const result = compileRestaurantSemanticProposal({
+    schemaVersion: "3",
+    facts: [
+      { field: "DATE", operation: "ASSERT", value: { kind: "DATE", weekday: "FRIDAY", raw: "Friday" } },
+      { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", daypart: "AFTER_WORK", raw: "after work" } },
+    ],
+  }, { referenceTime: "2026-09-14T08:20:55.000Z", timezone: "Asia/Tokyo" });
+  assert.equal(result.status, "COMPILED");
+  if (result.status === "COMPILED") {
+    assert.equal(result.patch.date, "2026-09-18");
+    assert.deepEqual(result.patch.timeWindow, { earliest: "17:30", latest: "22:00" });
+    assert.deepEqual(result.patch.temporalResolution?.timeWindow, {
+      expression: "after work", resolvedTimeWindow: { earliest: "17:30", latest: "22:00" }, basis: "DAYPART:AFTER_WORK_BROAD_WINDOW",
+    });
+  }
+});
+
+test("this afternoon carries its Tokyo date so a timed recommendation cannot bypass opening-hours evidence", () => {
+  const result = compileRestaurantSemanticProposal({
+    schemaVersion: "3",
+    facts: [{ field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", daypart: "AFTERNOON", relativeDay: "TODAY", raw: "this afternoon" } }],
+  }, { referenceTime: "2026-09-14T08:20:55.000Z", timezone: "Asia/Tokyo" });
+  assert.equal(result.status, "COMPILED");
+  if (result.status === "COMPILED") {
+    assert.equal(result.patch.date, "2026-09-14");
+    assert.deepEqual(result.patch.timeWindow, { earliest: "12:00", latest: "17:00" });
+  }
+});

@@ -5,7 +5,7 @@ import {
 } from "./contracts.js";
 
 export const RESTAURANT_SEMANTIC_PROPOSAL_PURPOSE = "restaurant_semantic_interpret";
-export const RESTAURANT_SEMANTIC_PROPOSAL_PROMPT_VERSION = "v8";
+export const RESTAURANT_SEMANTIC_PROPOSAL_PROMPT_VERSION = "v10";
 export const RESTAURANT_SEMANTIC_PROPOSAL_SCHEMA = {
   name: "restaurant-semantic-proposal",
   version: "3",
@@ -34,8 +34,16 @@ export type RestaurantSemanticOperation = (typeof RESTAURANT_SEMANTIC_OPERATIONS
 
 export type RestaurantSemanticValue =
   | { kind: "TARGET"; goal: RestaurantReadGoal; query: string }
-  | { kind: "DATE"; value: string }
-  | { kind: "TIME_WINDOW"; earliest: string; latest: string }
+  // Explicit calendar/clock values are copied from the user. Relative terms
+  // remain semantic directives; the compiler materializes them against its
+  // trusted Tokyo reference time.
+  | { kind: "DATE"; value: string; raw: string }
+  | { kind: "DATE"; relativeDay: "TODAY" | "TOMORROW"; raw: string }
+  | { kind: "DATE"; weekday: "SUNDAY" | "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY"; raw: string }
+  | { kind: "TIME_WINDOW"; earliest: string; latest: string; raw: string }
+  | { kind: "TIME_WINDOW"; daypart: "AFTERNOON" | "AFTER_WORK"; raw: string }
+  | { kind: "TIME_WINDOW"; daypart: "AFTERNOON"; relativeDay: "TODAY"; raw: string }
+  | { kind: "TIME_WINDOW"; relativeOffsetMinutes: number; raw: string }
   | { kind: "PARTY_SIZE"; value: number }
   | { kind: "AREA"; query: string }
   | { kind: "BUDGET_PER_PERSON"; max: number; currency: "JPY" }
@@ -117,16 +125,18 @@ function valueSchema(field: RestaurantSemanticField): Record<string, unknown> {
     case "AREA":
       return strictObject({ kind, query: { type: "string" } });
     case "DATE":
-      return strictObject({
-        kind,
-        value: { type: "string", pattern: "^\\d{4}-\\d{2}-\\d{2}$" },
-      });
+      return { anyOf: [
+        strictObject({ kind, value: { type: "string", pattern: "^\\d{4}-\\d{2}-\\d{2}$" }, raw: { type: "string" } }),
+        strictObject({ kind, relativeDay: { type: "string", enum: ["TODAY", "TOMORROW"] }, raw: { type: "string" } }),
+        strictObject({ kind, weekday: { type: "string", enum: ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"] }, raw: { type: "string" } }),
+      ] };
     case "TIME_WINDOW":
-      return strictObject({
-        kind,
-        earliest: { type: "string", pattern: "^([01]\\d|2[0-3]):[0-5]\\d$" },
-        latest: { type: "string", pattern: "^([01]\\d|2[0-3]):[0-5]\\d$" },
-      });
+      return { anyOf: [
+        strictObject({ kind, earliest: { type: "string", pattern: "^([01]\\d|2[0-3]):[0-5]\\d$" }, latest: { type: "string", pattern: "^([01]\\d|2[0-3]):[0-5]\\d$" }, raw: { type: "string" } }),
+        strictObject({ kind, daypart: { type: "string", enum: ["AFTERNOON", "AFTER_WORK"] }, raw: { type: "string" } }),
+        strictObject({ kind, daypart: { type: "string", enum: ["AFTERNOON"] }, relativeDay: { type: "string", enum: ["TODAY"] }, raw: { type: "string" } }),
+        strictObject({ kind, relativeOffsetMinutes: { type: "integer", minimum: 0, maximum: 10080 }, raw: { type: "string" } }),
+      ] };
     case "PARTY_SIZE":
       return strictObject({ kind, value: { type: "integer", minimum: 1 } });
     case "BUDGET_PER_PERSON":
@@ -198,14 +208,18 @@ function valueMatchesField(field: RestaurantSemanticField, value: unknown): bool
     case "AREA":
       return hasOnlyKeys(value, ["kind", "query"]) && isNonBlankString(value.query);
     case "DATE":
-      return hasOnlyKeys(value, ["kind", "value"]) && isDate(value.value);
+      return (hasOnlyKeys(value, ["kind", "value", "raw"]) && isDate(value.value) && isNonBlankString(value.raw)) ||
+        (hasOnlyKeys(value, ["kind", "relativeDay", "raw"]) && (value.relativeDay === "TODAY" || value.relativeDay === "TOMORROW") && isNonBlankString(value.raw)) ||
+        (hasOnlyKeys(value, ["kind", "weekday", "raw"]) && ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"].includes(String(value.weekday)) && isNonBlankString(value.raw));
     case "TIME_WINDOW":
       return (
-        hasOnlyKeys(value, ["kind", "earliest", "latest"]) &&
+        hasOnlyKeys(value, ["kind", "earliest", "latest", "raw"]) &&
         isTime(value.earliest) &&
         isTime(value.latest) &&
-        value.earliest <= value.latest
-      );
+        value.earliest <= value.latest && isNonBlankString(value.raw)
+      ) || (hasOnlyKeys(value, ["kind", "daypart", "raw"]) && (value.daypart === "AFTERNOON" || value.daypart === "AFTER_WORK") && isNonBlankString(value.raw)) ||
+        (hasOnlyKeys(value, ["kind", "daypart", "relativeDay", "raw"]) && value.daypart === "AFTERNOON" && value.relativeDay === "TODAY" && isNonBlankString(value.raw)) ||
+        (hasOnlyKeys(value, ["kind", "relativeOffsetMinutes", "raw"]) && typeof value.relativeOffsetMinutes === "number" && Number.isInteger(value.relativeOffsetMinutes) && value.relativeOffsetMinutes >= 0 && value.relativeOffsetMinutes <= 10_080 && isNonBlankString(value.raw));
     case "PARTY_SIZE":
       return (
         hasOnlyKeys(value, ["kind", "value"]) &&

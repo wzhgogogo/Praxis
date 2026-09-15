@@ -66,6 +66,28 @@ test("Execution Router returns at its deadline even when a Provider ignores abor
   assert.match(execution.failure?.reason ?? "", /timed out after 1ms/);
 });
 
+test("Execution Router retains source-owned Google request accounting when a sent read fails", async () => {
+  const router = new RestaurantExecutionRouter(
+    {
+      executionRoute: "STRUCTURED_ADAPTER",
+      googleRequestUsage: () => ({ limit: 100, total: 4, namedPlaceResolution: 1, discovery: 2, placeDetails: 1 }),
+      async search() { throw Object.assign(new Error("network failed"), { code: "GOOGLE_NETWORK_FAILED" }); },
+    },
+    { executionRoute: "STRUCTURED_ADAPTER", async check() { return { offers: [], availabilityChecks: {}, evidence: [], metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 } }; } },
+  );
+
+  const execution = await router.execute({ type: "SEARCH_RESTAURANTS" }, state, undefined, "google-run");
+
+  assert.equal(execution.failure?.code, "GOOGLE_NETWORK_FAILED");
+  assert.deepEqual(execution.executionMetadata?.googleRequests, {
+    limit: 100,
+    total: 4,
+    namedPlaceResolution: 1,
+    discovery: 2,
+    placeDetails: 1,
+  });
+});
+
 test("Execution Router passes only bound availability arguments and its deadline signal to the adapter", async () => {
   let receivedSignal: AbortSignal | undefined;
   let receivedRequest: unknown;

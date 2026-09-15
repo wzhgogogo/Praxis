@@ -63,6 +63,8 @@ Accepted ADR
 
 ## 验证、阶段与历史
 
+- [当前餐厅只读验收契约](../src/eval/restaurant/agent-loop/cases/README.md)：H001–H005的当前目标、Gold、Runner/诊断与人工审查边界；已暴露开发集，不是Clean Baseline。
+
 - [Harness Design](harness/HARNESS-DESIGN.md)
 - [Golden Scenarios](harness/GOLDEN-SCENARIOS.md)
 - [Restaurant Semantic Holdout](harness/RESTAURANT-SEMANTIC-HOLDOUT.md)：`restaurant-semantic-holdout@2`的空模板、开放`criteria`标注格式、冻结清单、Preflight与一次性Baseline协议。
@@ -96,6 +98,7 @@ Accepted ADR
 
 ## 仓库治理
 
+- [Restaurant Read Execution Design](RESTAURANT-READ-EXECUTION-DESIGN.md)：已执行的只读调查工具语义、证据接纳、正常无结果收尾与验证设计，关联ADR-0025；真实模型/来源验收仍单独记录。
 - [Browser Execution and Live Search Plan](BROWSER-EXECUTION-AND-LIVE-SEARCH-PLAN.md)：draft / not integrated；浏览器共用受控执行、原始 H001 和本地真实搜索体验的交接计划，不代表当前能力。
 - [Repository Naming and Version Conventions](REPOSITORY-CONVENTIONS.md)：Git branch/tag、版本轴、源码、Eval、文档和命令命名的唯一Source of Truth。
 - [Repository Improvement Plan](REPOSITORY-IMPROVEMENT-PLAN.md)：2026-09-05仓库Review的整改执行进度与延后项，不替代当前权威设计，不包含人工标注数据和已有测试artifact的修改。

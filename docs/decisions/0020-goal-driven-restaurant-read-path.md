@@ -1,8 +1,8 @@
 # ADR-0020: Goal-driven Restaurant read path
 
-- Status: Accepted
-- Document revision: 1.0
-- Last updated: 2026-09-10
+- Status: Accepted; goal-classification detail superseded in part by ADR-0026
+- Document revision: 1.1
+- Last updated: 2026-09-15
 - Source of truth for: Restaurant recommendation versus availability evidence profile, generic negative-condition evidence, and bounded read exhaustion behavior
 - Supersedes: the party-size evidence-profile and H002 case-policy portions of [ADR-0019](0019-fact-grounded-read-only-recommendations.md)
 - Related documents: [Restaurant Booking Domain](../domains/RESTAURANT-BOOKING.md), [Agent Orchestration](../architecture/AGENT-ORCHESTRATION.md), [Eval Skill](../skills/eval/SKILL.md)
@@ -37,6 +37,8 @@ This is an incompatible development-pilot semantic shape for persisted drafts co
 - H002 no longer has an Eval-only behavior branch, and H004 no longer relies on a party-size heuristic.
 - `restaurant-semantic-prompt@8`, `restaurant-agent-context@4`, `restaurant-agent-decision-prompt@9`, and `restaurant-hybrid-read-diagnostic-evaluator@6` are distinct versioned artifacts for this decision.
 - This ADR adds no booking, payment, login, recurring refresh, provider fallback, or generic planning framework.
+
+The explicit-verb goal-classification detail above is superseded by [ADR-0026](0026-concrete-visit-goal-and-reception-semantics.md): a concrete visit can require availability even when phrased as a recommendation or search. The target-goal evidence distinction, generic negative-condition rule, bounded source exhaustion and no-case-id evaluator rule remain accepted.
 
 ## Alternatives considered
 

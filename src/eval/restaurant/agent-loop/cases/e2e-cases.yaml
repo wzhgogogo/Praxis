@@ -1,0 +1,204 @@
+# current executable development diagnostic; PROMPT_AND_RESULT_EXPOSED; baselineEligible: false
+# Parameter expectations live only in semantic. Acceptance notes supplement independent review, not runtime instructions.
+---
+id: h001
+dataset: restaurant-read-development@3
+reference_time: 2026-08-19T16:20:00+08:00
+content: |
+  Looking for an omakase spot near Shibuya for 2 people tonight at 7 PM.
+semantic:
+  target:
+    goal: AVAILABILITY
+  location:
+    value: Shibuya
+    relation: NEAR
+  date:
+    expression: tonight
+    value: 2026-08-19
+  time:
+    value: 19:00
+  party_size: 2
+  criteria:
+    - value: omakase
+      polarity: POSITIVE
+      strength: HARD
+acceptance:
+  required_claims:
+    - Correct outlet near Shibuya; source-supported omakase; and a matching current slot for the materialized date at 19:00 for 2.
+    - Preserve the explicit party size of 2; opening hours alone do not establish seating.
+  optional_investigation: []
+  review:
+    - No preferred provider or mandatory order of investigation.
+
+---
+id: h002
+dataset: restaurant-read-development@3
+reference_time: 2026-08-19T16:22:00+08:00
+content: >
+  Recommend a first-date restaurant near Higashi-Ginza for this Saturday at 6:30 PM. Around 10,000 yen per
+  person. No hot-pot restaurants and no Sichuan/Hunan-style cuisine where spicy food is the main focus.
+semantic:
+  target:
+    goal: AVAILABILITY
+  location:
+    value: Higashi-Ginza
+    relation: NEAR
+  date:
+    expression: this Saturday
+    value: 2026-08-22
+  time:
+    value: 18:30
+  party_size: 2
+  criteria:
+    - value: good for a first date
+      polarity: POSITIVE
+      strength: SOFT
+    - value: around 10,000 yen per person
+      polarity: POSITIVE
+      strength: SOFT
+    - value: Sichuan/Hunan cuisine
+      polarity: NEGATIVE
+      strength: HARD
+    - value: hot pot restaurant
+      polarity: NEGATIVE
+      strength: HARD
+acceptance:
+  required_claims:
+    - Correct outlet near Higashi-Ginza and a matching current slot for the materialized Saturday at 18:30.
+    - Infer two diners only from the closed first-date party; retain that as an inference rather than user-quoted text.
+    - Exclude hot-pot restaurants and Sichuan/Hunan-style cuisine where spicy food is the main focus; this is
+      not a ban on every spicy dish.
+  optional_investigation: []
+  review:
+    - First-date suitability and approximately JPY 10000 per person are soft preferences; judge relevance and
+      source-supported explanations separately.
+    - First date is a closed two-person party for this evaluation; this is a semantic inference to review, not an altered user message.
+
+---
+id: h003
+dataset: restaurant-read-development@3
+reference_time: 2026-08-19T16:38:00+08:00
+content: >
+  Need a place for a team dinner nearby this Friday after work. 10 people, around 3,000 yen per person, good
+  for drinks, ideally with a private room.
+semantic:
+  target:
+    goal: AVAILABILITY
+  location:
+    value: nearby
+    relation: NEAR_USER
+  date:
+    expression: this Friday
+    value: 2026-08-21
+  time:
+    expression: after work
+    type: TIME_WINDOW
+    start: 17:30
+    end: 22:00
+  party_size: 10
+  criteria:
+    - value: team dinner
+      polarity: POSITIVE
+      strength: HARD
+    - value: around 3,000 yen per person
+      polarity: POSITIVE
+      strength: SOFT
+    - value: good for drinks
+      polarity: POSITIVE
+      strength: HARD
+    - value: private room
+      polarity: POSITIVE
+      strength: SOFT
+    - value: after work
+      polarity: POSITIVE
+      strength: HARD
+acceptance:
+  required_claims:
+    - Correct outlet near the explicitly supplied evaluation/device location; preserve Friday, 10 people and
+      after-work intent, and obtain a matching current slot for the broad derived window.
+    - Retain team dinner and good for drinks as defining HARD conditions; do not weaken them merely because
+      supporting information is difficult to obtain.
+    - Do not claim that 10 people can be seated or booked without corresponding support.
+  optional_investigation: []
+  review:
+    - After work is retained verbatim and materialized as the documented broad 17:30–22:00 query window,
+      not as a user-specified exact time and never as the retired 18:00–20:00 interval.
+    - Team-dinner/drinks suitability needs source-supported semantic review; approximately JPY 3000 per person
+      and ideally a private room remain SOFT.
+
+---
+id: h004
+dataset: restaurant-read-development@3
+reference_time: 2026-08-19T12:00:00+08:00
+content: |
+  Good cafes nearby to meet up with a friend this afternoon.
+semantic:
+  target:
+    goal: RECOMMENDATION
+  location:
+    value: nearby
+    relation: NEAR_USER
+  date:
+    expression: this afternoon
+    value: 2026-08-19
+  time:
+    expression: this afternoon
+    type: TIME_WINDOW
+    start: 12:00
+    end: 17:00
+  criteria:
+    - value: cafe
+      polarity: POSITIVE
+      strength: HARD
+    - value: good for meeting a friend
+      polarity: POSITIVE
+      strength: SOFT
+acceptance:
+  required_claims:
+    - Correct cafe near the supplied location; opening hours support the relevant part of the materialized
+      12:00–17:00 afternoon window.
+  optional_investigation:
+    - Availability is an optional extra only with sufficient parameters; missing reservation support is not a
+      reason to block cafe recommendations.
+  review:
+    - Meeting-a-friend suitability is SOFT. Do not require a party size merely to recommend cafes.
+    - Do not move an already elapsed afternoon to tomorrow to obtain a result; report the actual time
+      applicability.
+
+---
+id: h005
+dataset: restaurant-read-development@3
+reference_time: 2026-08-19T16:00:00+08:00
+content: |
+  Any spots nearby with open tables right now for 4 people? Local food only, no fast food.
+semantic:
+  target:
+    goal: AVAILABILITY
+  location:
+    value: nearby
+    relation: NEAR_USER
+  date:
+    expression: right now
+    value: 2026-08-19
+  time:
+    expression: right now
+    value: 17:00
+  party_size: 4
+  criteria:
+    - value: local food
+      polarity: POSITIVE
+      strength: HARD
+    - value: fast food
+      polarity: NEGATIVE
+      strength: HARD
+acceptance:
+  required_claims:
+    - Correct outlet near the supplied location, with source-supported local-food and no-fast-food conditions.
+    - An explicitly observed matching slot for 4 at the Tokyo time materialized from the run reference
+      instant; opening hours alone are insufficient.
+  optional_investigation: []
+  review:
+    - Local food keeps the user meaning relative to the destination; do not broaden it to all food or equate
+      missing fast-food keywords with compliance.
+    - "A right-now run is time-sensitive: record observation time and elapsed time; do not silently move the
+      requested time forward or retain the old 16:00 Gold."

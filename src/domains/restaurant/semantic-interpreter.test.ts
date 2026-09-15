@@ -63,7 +63,7 @@ test("Semantic Interpreter sends the proposal schema and separates user data fro
   assert.equal(gateway.calls.length, 1);
   const request = gateway.calls[0]!;
   assert.equal(request.purpose, "restaurant_semantic_interpret");
-  assert.equal(request.promptVersion, "v8");
+  assert.equal(request.promptVersion, "v10");
   assert.deepEqual(request.outputSchema, {
     name: "restaurant-semantic-proposal",
     version: "3",
@@ -72,6 +72,10 @@ test("Semantic Interpreter sends the proposal schema and separates user data fro
   assert.equal(request.responseFormat, "JSON_SCHEMA");
   assert.deepEqual(request.messages.map((message) => message.role), ["system", "user"]);
   assert.ok(request.messages[0]!.content.includes("2026-08-05T09:00:00+09:00"));
+  assert.match(request.messages[0]!.content, /code, not you, materializes relative dates and times/);
+  assert.match(request.messages[0]!.content, /\{"kind":"DATE","value":"YYYY-MM-DD","raw":"the user expression"\}/);
+  assert.match(request.messages[0]!.content, /\{"kind":"TIME_WINDOW","earliest":"HH:mm","latest":"HH:mm","raw":"7 PM"\}/);
+  assert.match(request.messages[0]!.content, /\{"kind":"TIME_WINDOW","daypart":"AFTERNOON","relativeDay":"TODAY","raw":"this afternoon"\}/);
   assert.ok(request.messages[0]!.content.includes(JSON.stringify({ partySize: 2 })));
   assert.ok(!request.messages[0]!.content.includes("Make it three."));
   assert.equal(

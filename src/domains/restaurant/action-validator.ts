@@ -1,7 +1,10 @@
 import type { RestaurantAgentAction } from "./agent-action.js";
-import type { AvailabilityOffer, RestaurantTaskState } from "./contracts.js";
+import { type AvailabilityOffer, type RestaurantTaskState } from "./contracts.js";
 import { completeRestaurantIntent, completeRestaurantSearchIntent } from "./intent-state.js";
-import { isDisplayFresh } from "./availability-freshness.js";
+import {
+  assessRestaurantRead,
+  type RestaurantPresentationReadiness,
+} from "./read-assessment.js";
 
 export type RestaurantActionRejectionCode =
   | "TASK_TERMINAL"
@@ -35,156 +38,12 @@ function rejected(code: RestaurantActionRejectionCode, reason: string): Restaura
 }
 
 function isTerminal(state: Readonly<RestaurantTaskState>): boolean {
-  return state.phase === "BOOKED_VERIFIED" || state.phase === "PRESENT_RESULTS" || state.phase === "OUTCOME_UNKNOWN" || state.phase === "FAILED";
+  return state.phase === "BOOKED_VERIFIED" || state.phase === "PRESENT_RESULTS" || state.phase === "NO_VERIFIED_RESULT" || state.phase === "OUTCOME_UNKNOWN" || state.phase === "FAILED";
 }
 
-function normalized(value: string): string {
-  return value.trim().toLocaleLowerCase("en-US").replace(/\s+/g, " ");
-}
-
-function stringClaim(evidence: RestaurantTaskState["readEvidence"][number], key: string): string | undefined {
-  const value = evidence.claims[key];
-  return typeof value === "string" ? value : undefined;
-}
-
-function stringListClaim(evidence: RestaurantTaskState["readEvidence"][number], key: string): string[] {
-  const value = evidence.claims[key];
-  return Array.isArray(value) && value.every((item) => typeof item === "string") ? value : [];
-}
-
-export interface RestaurantPresentationReadiness {
-  candidateId: string;
-  eligible: boolean;
-  missingReason?: string;
-  recheckReason?: "DISPLAY_EVIDENCE_EXPIRED" | "USER_REQUESTED_REFRESH";
-}
-
-function presentationEvidenceIds(
-  state: Readonly<RestaurantTaskState>,
-  candidateId: string,
-  intent: NonNullable<ReturnType<typeof completeRestaurantSearchIntent>>,
-  now: string,
-): { valid: true; evidenceIds: string[] } | { valid: false; reason: string } {
-  const candidateEvidence = state.readEvidence.filter((evidence) => evidence.candidateId === candidateId);
-  // A fact read is an observation, not a cache hit.  When a candidate has a
-  // current fact check, only evidence emitted by that observation may support
-  // the current recommendation.  Older observations remain in the history
-  // for audit, but an UNKNOWN, conflict, or closed result must not be hidden
-  // behind an earlier positive fact.
-  const currentFactEvidenceIds = state.factChecks?.[candidateId]?.evidenceIds;
-  const currentCandidateEvidence = candidateEvidence.filter((evidence) =>
-    evidence.kind !== "RESTAURANT_FACT" || currentFactEvidenceIds === undefined || currentFactEvidenceIds.includes(evidence.evidenceId),
-  );
-  const entities = candidateEvidence.filter((evidence) => evidence.kind === "ENTITY_MATCH" && evidence.entityMatch?.confidence === "HIGH");
-  const area = candidateEvidence.find((evidence) =>
-    evidence.kind === "DISCOVERY" && evidence.claims.areaMatch === true && normalized(stringClaim(evidence, "areaQuery") ?? "") === normalized(intent.area.query),
-  );
-  if (!area) return { valid: false, reason: `Candidate ${candidateId} has no evidence that it satisfies ${intent.area.query}` };
-  for (const criterion of intent.criteria.filter((item) => item.polarity === "POSITIVE" && item.strength === "HARD")) {
-    const supported = currentCandidateEvidence.some((evidence) =>
-      evidence.kind === "RESTAURANT_FACT" && stringListClaim(evidence, "verifiedHardCriteria").some((value) => normalized(value) === normalized(criterion.text)),
-    );
-    if (!supported) return { valid: false, reason: `Candidate ${candidateId} has no evidence for HARD criterion ${criterion.text}` };
-  }
-  for (const criterion of intent.criteria.filter((item) => item.polarity === "NEGATIVE" && item.strength === "HARD")) {
-    const violated = currentCandidateEvidence.some((evidence) =>
-      evidence.kind === "RESTAURANT_FACT" && stringListClaim(evidence, "violatedNegativeCriteria").some((value) => normalized(value) === normalized(criterion.text)),
-    );
-    if (violated) return { valid: false, reason: `Candidate ${candidateId} violates negative criterion ${criterion.text}` };
-    const supported = currentCandidateEvidence.some((evidence) =>
-      evidence.kind === "RESTAURANT_FACT" && stringListClaim(evidence, "verifiedNegativeCriteria").some((value) => normalized(value) === normalized(criterion.text)),
-    );
-    if (!supported) return { valid: false, reason: `Candidate ${candidateId} has no source fact supporting negative criterion ${criterion.text}` };
-  }
-  const requiresAvailability = intent.target?.goal === "AVAILABILITY";
-  if (!requiresAvailability) {
-    const entity = entities[0];
-    if (!entity) return { valid: false, reason: `Candidate ${candidateId} has no HIGH outlet identity evidence` };
-    const openingHours = intent.date && intent.timeWindow
-      ? currentCandidateEvidence.find((evidence) => evidence.kind === "RESTAURANT_FACT" && evidence.claims.openingHoursMatch === true)
-      : undefined;
-    if (intent.date && intent.timeWindow && !openingHours) {
-      return { valid: false, reason: `Candidate ${candidateId} has no opening-hours evidence for the requested visit window` };
-    }
-    return {
-      valid: true,
-      evidenceIds: [...new Set([entity.evidenceId, area.evidenceId, ...(openingHours ? [openingHours.evidenceId] : []), ...candidateEvidence
-        .filter((evidence) => evidence.kind === "RESTAURANT_FACT")
-        .map((evidence) => evidence.evidenceId)])],
-    };
-  }
-  const bookingIntent = completeRestaurantIntent(state.intentDraft);
-  if (!bookingIntent) return { valid: false, reason: "Availability requested but party size is missing" };
-  const offer = state.availability[candidateId]?.find((item) =>
-    isDisplayFresh(item.displayExpiresAt, now) && item.partySize === bookingIntent.partySize && item.dateTime.slice(0, 10) === bookingIntent.date &&
-    item.dateTime.slice(11, 16) >= bookingIntent.timeWindow.earliest && item.dateTime.slice(11, 16) <= bookingIntent.timeWindow.latest,
-  );
-  const availability = candidateEvidence.find((evidence) =>
-    evidence.kind === "AVAILABILITY" &&
-      isDisplayFresh(evidence.displayExpiresAt, now) &&
-      stringClaim(evidence, "date") === bookingIntent.date && evidence.claims.partySize === bookingIntent.partySize &&
-      offer !== undefined && stringListClaim(evidence, "visibleSlots").includes(offer.dateTime.slice(11, 16)),
-  );
-  const entity = availability
-    ? entities.find((item) => item.provider === availability.provider && item.sourceEntityId === availability.sourceEntityId)
-    : undefined;
-  if (!entity) return { valid: false, reason: `Candidate ${candidateId} has no HIGH outlet identity evidence associated with its availability source` };
-  if (!offer || state.availabilityChecks[candidateId]?.status !== "AVAILABLE" || !availability) {
-    return { valid: false, reason: `Candidate ${candidateId} lacks fresh evidenced availability for the authoritative request` };
-  }
-  return { valid: true, evidenceIds: [...new Set([entity.evidenceId, area.evidenceId, availability.evidenceId, ...currentCandidateEvidence
-    .filter((evidence) => evidence.kind === "RESTAURANT_FACT")
-    .map((evidence) => evidence.evidenceId)])] };
-}
-
-/**
- * The exact evidence set that may be shown for a candidate at this instant.
- * The Router uses this after the Validator has allowed presentation, so an
- * historical fact cannot be accidentally attached to a fresh card merely
- * because it belongs to the same candidate.
- */
-export function restaurantPresentationEvidenceIds(
-  state: Readonly<RestaurantTaskState>,
-  candidateId: string,
-  now: string,
-): string[] | undefined {
-  const intent = completeRestaurantSearchIntent(state.intentDraft);
-  if (!intent) return undefined;
-  const result = presentationEvidenceIds(state, candidateId, intent, now);
-  return result.valid ? result.evidenceIds : undefined;
-}
-
-/** Code-derived read eligibility is the only availability status exposed to the Agent. */
-export function restaurantPresentationReadiness(
-  state: Readonly<RestaurantTaskState>,
-  now: string,
-): RestaurantPresentationReadiness[] {
-  const intent = completeRestaurantSearchIntent(state.intentDraft);
-  if (!intent) return [];
-  return state.candidates.map((candidate) => {
-    const candidateId = candidate.restaurant.id;
-    const userRequestedRefresh = state.refreshRequestedCandidateIds?.includes(candidateId) ?? false;
-    if (userRequestedRefresh) {
-      return {
-        candidateId,
-        eligible: false,
-        missingReason: "A user-requested read-only refresh is pending",
-        recheckReason: "USER_REQUESTED_REFRESH" as const,
-      };
-    }
-    const evidence = presentationEvidenceIds(state, candidateId, intent, now);
-    if (evidence.valid) return { candidateId, eligible: true };
-    const check = state.availabilityChecks[candidateId];
-    const hasExpiredDisplayEvidence = check?.status === "AVAILABLE" && !isDisplayFresh(check.displayExpiresAt, now);
-    return {
-      candidateId,
-      eligible: false,
-      missingReason: evidence.reason,
-      ...(userRequestedRefresh
-        ? { recheckReason: "USER_REQUESTED_REFRESH" as const }
-        : hasExpiredDisplayEvidence ? { recheckReason: "DISPLAY_EVIDENCE_EXPIRED" as const } : {}),
-    };
-  });
+/** Compatibility projection; all logic belongs to read-assessment.ts. */
+export function restaurantPresentationReadiness(state: Readonly<RestaurantTaskState>, now: string): RestaurantPresentationReadiness[] {
+  return assessRestaurantRead(state, now).presentation;
 }
 
 function candidate(state: Readonly<RestaurantTaskState>, candidateId: string) {
@@ -245,13 +104,24 @@ export function validateRestaurantAction(
   if (isTerminal(state)) return rejected("TASK_TERMINAL", `Task is terminal in ${state.phase}`);
   if (action.type === "ASK_USER") return { status: "ALLOWED" };
 
+  if (action.type === "END_READ") {
+    const assessment = assessRestaurantRead(state, now);
+    return assessment.canEndRead
+      ? { status: "ALLOWED" }
+      : rejected("PRESENTATION_EVIDENCE_MISSING", assessment.endReadBlockReason ?? "The current read cannot end safely");
+  }
+
   if (action.type === "SEARCH_RESTAURANTS") {
     if (state.sourceReadState?.googlePlacesSearchBudget === "EXHAUSTED") {
-      return rejected("DISCOVERY_UNAVAILABLE", "Google discovery budget is exhausted for this run; changing retrieval wording cannot restore it");
+      return rejected("DISCOVERY_UNAVAILABLE", "The local per-run Google request budget is exhausted; changing retrieval wording cannot restore it");
     }
     const intent = requireCompleteSearchIntent(state);
     if (!intent.valid) return intent.verdict;
-    if (intent.intent.target?.goal === "AVAILABILITY" && !completeRestaurantIntent(state.intentDraft)) {
+    // Discovery can start before a concrete visit time is known, but an
+    // availability request without its party size cannot make a meaningful
+    // next read. Ask rather than spending the discovery budget as though this
+    // were merely a recommendation request.
+    if (intent.intent.target?.goal === "AVAILABILITY" && !state.intentDraft?.partySize) {
       return rejected("INTENT_INCOMPLETE", "Availability requested but party size is missing");
     }
     return { status: "ALLOWED" };
@@ -289,9 +159,6 @@ export function validateRestaurantAction(
     // A user explicitly asked to refresh the full previously presented set.  A
     // newly fresh A must not prevent the remaining B target from receiving its
     // bounded read; partial presentation would silently abandon that request.
-    if (refreshTargets.length === 0 && presentation.some((item) => item.eligible)) {
-      return rejected("PRESENTATION_READY", "A fresh evidence-grounded result is ready; present it before investigating more candidates");
-    }
     if (action.candidateIds.length === 0 || new Set(action.candidateIds).size !== action.candidateIds.length) {
       return rejected("CANDIDATE_UNKNOWN", "Availability requires one or more unique known candidate IDs");
     }
@@ -327,8 +194,8 @@ export function validateRestaurantAction(
     }
     for (const candidateId of action.candidateIds) {
       if (!candidate(state, candidateId)) return rejected("CANDIDATE_UNKNOWN", "Results can only include known candidates");
-      const evidence = presentationEvidenceIds(state, candidateId, intent.intent, now);
-      if (!evidence.valid) return rejected("PRESENTATION_EVIDENCE_MISSING", evidence.reason);
+      const readiness = assessRestaurantRead(state, now).presentation.find((item) => item.candidateId === candidateId);
+      if (!readiness?.eligible) return rejected("PRESENTATION_EVIDENCE_MISSING", readiness?.missingReason ?? `Candidate ${candidateId} lacks current evidence for the authoritative request`);
     }
     return { status: "ALLOWED" };
   }

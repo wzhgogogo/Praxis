@@ -107,7 +107,14 @@ export class GooglePlacesClient {
         ...(init.body ? { body: init.body } : {}),
         signal: controller.signal,
         });
-        if (!response.ok) throw new GooglePlacesError("GOOGLE_SEARCH_FAILED", `Google Places returned HTTP ${response.status}`);
+        if (!response.ok) {
+          const code = response.status === 429
+            ? "GOOGLE_RATE_LIMITED"
+            : response.status === 403
+              ? "GOOGLE_SERVICE_QUOTA_OR_PERMISSION"
+              : "GOOGLE_SERVICE_REJECTED";
+          throw new GooglePlacesError(code, `Google Places returned HTTP ${response.status}`);
+        }
         let payload: GooglePlacesTextSearchResponse | GooglePlacesRawPlace;
         try {
           payload = await response.json() as GooglePlacesTextSearchResponse;
@@ -120,11 +127,11 @@ export class GooglePlacesClient {
       if (error instanceof GooglePlacesError) throw error;
       if (controller.signal.aborted) {
         throw new GooglePlacesError(
-          signal.aborted ? "GOOGLE_SEARCH_FAILED" : "GOOGLE_TIMEOUT",
+          signal.aborted ? "GOOGLE_NETWORK_FAILED" : "GOOGLE_TIMEOUT",
           signal.aborted ? "Google Places request aborted" : "Google Places request timed out",
         );
       }
-      throw new GooglePlacesError("GOOGLE_SEARCH_FAILED", "Google Places request failed");
+      throw new GooglePlacesError("GOOGLE_NETWORK_FAILED", "Google Places request failed");
     } finally {
       clearTimeout(timeout);
       signal.removeEventListener("abort", relayAbort);

@@ -26,3 +26,22 @@ test("Google Places deadline also bounds a response body that never resolves", {
     (error: unknown) => typeof error === "object" && error !== null && "code" in error && error.code === "GOOGLE_TIMEOUT",
   );
 });
+
+test("Google Places distinguishes service rate/permission responses from local request budgets", async () => {
+  const rateLimited = new GooglePlacesClient({
+    apiKey: "test-key",
+    fetchImplementation: async () => new Response("", { status: 429 }),
+  });
+  await assert.rejects(
+    rateLimited.textSearch({ textQuery: "restaurant", pageSize: 1 }, new AbortController().signal),
+    (error: unknown) => typeof error === "object" && error !== null && "code" in error && error.code === "GOOGLE_RATE_LIMITED",
+  );
+  const quotaOrPermission = new GooglePlacesClient({
+    apiKey: "test-key",
+    fetchImplementation: async () => new Response("", { status: 403 }),
+  });
+  await assert.rejects(
+    quotaOrPermission.textSearch({ textQuery: "restaurant", pageSize: 1 }, new AbortController().signal),
+    (error: unknown) => typeof error === "object" && error !== null && "code" in error && error.code === "GOOGLE_SERVICE_QUOTA_OR_PERMISSION",
+  );
+});

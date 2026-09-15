@@ -4,16 +4,10 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { createInterface } from "node:readline/promises";
 
-import { RestaurantAgentLoopCoordinator } from "../../../../application/restaurant-agent-loop.js";
-import { RestaurantExecutionRouter } from "../../../../application/restaurant-execution-router.js";
-import { LIVE_READ_INVESTIGATION_BUDGET } from "../../../../application/live-read-investigation-budget.js";
-import { InMemoryTaskRuntime } from "../../../../core/task-runtime/in-memory-task-runtime.js";
+import { LIVE_READ_DEBUG_INVESTIGATION_BUDGET } from "../../../../application/live-read-investigation-budget.js";
 import type { ModelInvocationRecord } from "../../../../core/model/contracts.js";
-import { RestaurantAgentDecision } from "../../../../domains/restaurant/agent-decision.js";
-import { compileRestaurantSemanticProposal } from "../../../../domains/restaurant/semantic-compiler.js";
 import { RestaurantSemanticInterpreter } from "../../../../domains/restaurant/semantic-interpreter.js";
-import type { RestaurantCommand, RestaurantEvent, RestaurantOutcome, RestaurantTaskState } from "../../../../domains/restaurant/contracts.js";
-import { restaurantBookingTaskDefinition } from "../../../../domains/restaurant/task-definition.js";
+import type { RestaurantReadExecutionMetadata } from "../../../../domains/restaurant/contracts.js";
 import { browserRuntimeFromEnvironment } from "../../../../infrastructure/browser/browser-runtime-factory.js";
 import type { BrowserExecutionBudget } from "../../../../infrastructure/browser/browser-task-executor.js";
 import type { BrowserExecutionDiagnostic } from "../../../../infrastructure/browser/browser-task-executor.js";
@@ -24,9 +18,9 @@ import { LiveBrowserAvailability } from "../../../../integrations/restaurant-ava
 import { composeLiveRestaurantFactRead } from "../../../../integrations/restaurant-facts/live-restaurant-facts.js";
 import type { TableCheckIdentityDiagnostic } from "../../../../integrations/tablecheck/tablecheck-contracts.js";
 import type { TabelogIdentityDiagnostic, TabelogUserInterventionRequired } from "../../../../integrations/tabelog/tabelog-contracts.js";
-import { InMemoryRestaurantAgentTrajectoryStore } from "../../../../infrastructure/postgres/restaurant-agent-trajectory-store.js";
-import { loadFrozenLiveCases, materializeLiveCase } from "../live-case-materializer.js";
+import { loadFrozenLiveCases, materializeLiveCase, RESTAURANT_READ_DEVELOPMENT_CASE_PATH, RESTAURANT_READ_DEVELOPMENT_DATASET_VERSION } from "../live-case-materializer.js";
 import { HIGASHI_GINZA_EVALUATION_LOCATION } from "../live-evaluation-location.js";
+import { createHybridReadComposition } from "../hybrid-read-composition.js";
 import { evaluateArtifactAfterFinish, RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION } from "../diagnostic-evaluator.js";
 import { diagnosticFailureCode, startDiagnosticRun } from "../../../shared/diagnostic-run.js";
 
@@ -105,12 +99,13 @@ if (manualTabelogIntervention && process.env.PRAXIS_LOCAL_CHROMIUM_INTERACTIVE !
 if (manualTabelogIntervention && !process.stdin.isTTY) {
   throw new Error("PRAXIS_EVAL_ALLOW_TABELOG_MANUAL_INTERVENTION=1 requires an interactive terminal");
 }
-const sourcePath = resolve("src/eval/restaurant/agent-loop/drafts/e2e-cases.yaml");
+const sourcePath = resolve(RESTAURANT_READ_DEVELOPMENT_CASE_PATH);
 const selectedId = caseIdFromArgs();
 const candidateLimit = candidateLimitFromArgs();
 const source = await loadFrozenLiveCases(sourcePath);
 const frozen = source.find((entry) => entry.id === selectedId);
 if (!frozen) throw new Error(`Unknown frozen E2E case: ${selectedId}`);
+if (frozen.dataset !== RESTAURANT_READ_DEVELOPMENT_DATASET_VERSION) throw new Error("Development case dataset version does not match the Runner");
 if ((process.env.PRAXIS_EVAL_USER_LAT && !process.env.PRAXIS_EVAL_USER_LNG) || (!process.env.PRAXIS_EVAL_USER_LAT && process.env.PRAXIS_EVAL_USER_LNG)) {
   throw new Error("PRAXIS_EVAL_USER_LAT and PRAXIS_EVAL_USER_LNG must be set together");
 }
@@ -120,6 +115,14 @@ const materialized = materializeLiveCase(frozen, startedAt.toISOString());
 const { content: rawRequest, ...materializedCase } = materialized;
 const runtimeContext = {
   ...safeGitContext(),
+  dataset: {
+    version: RESTAURANT_READ_DEVELOPMENT_DATASET_VERSION,
+    sourcePath: RESTAURANT_READ_DEVELOPMENT_CASE_PATH,
+    sha256: fileSha256(sourcePath),
+    cohort: "DEVELOPMENT_DIAGNOSTIC",
+    contaminationStatus: "PROMPT_AND_RESULT_EXPOSED",
+    baselineEligible: false,
+  },
   browserEngine: process.env.PRAXIS_BROWSER_ENGINE ?? "AUTO",
   nodeVersion: process.version,
   skillHashes: {
@@ -128,18 +131,10 @@ const runtimeContext = {
     tabelog: fileSha256("web-skills/tabelog/SKILL.md"),
   },
 };
-const liveReadLimits = LIVE_READ_INVESTIGATION_BUDGET;
+const liveReadLimits = LIVE_READ_DEBUG_INVESTIGATION_BUDGET;
 const taskId = `hybrid-live:${materialized.id}:${startedAt.valueOf()}`;
 const runId = `run:${taskId}`;
 const clock = { now: () => new Date() };
-let sequence = 0;
-const runtime = new InMemoryTaskRuntime<RestaurantTaskState, RestaurantEvent, RestaurantCommand, RestaurantOutcome>(
-  restaurantBookingTaskDefinition,
-  clock,
-  (prefix) => `${prefix}:${++sequence}`,
-);
-runtime.createTask(taskId, {}, { runId });
-const trajectories = new InMemoryRestaurantAgentTrajectoryStore();
 const modelInvocations: ModelInvocationRecord[] = [];
 const journal = await startDiagnosticRun(resolve(".eval-artifacts", "restaurant-hybrid-live-read"), {
   mode: "HYBRID_LIVE_READ", caseId: materialized.id,
@@ -155,37 +150,26 @@ const journal = await startDiagnosticRun(resolve(".eval-artifacts", "restaurant-
 const lifecycleKeepAlive = setInterval(() => undefined, 30_000);
 let stage = "SEMANTIC";
 let semantic: Awaited<ReturnType<RestaurantSemanticInterpreter["interpret"]>> | undefined;
+let composition: ReturnType<typeof createHybridReadComposition> | undefined;
 try {
   const model = DeepSeekModelGateway.fromEnvironment(process.env, {
     observer: { observe: (record) => { modelInvocations.push(structuredClone(record)); } },
   });
-  const interpreter = new RestaurantSemanticInterpreter(model);
-  semantic = await interpreter.interpret({
-    taskId,
-    message: String(materialized.content ?? ""),
-    referenceTime: startedAt.toISOString(),
-    timezone: "Asia/Tokyo",
-  });
-  if (semantic.status !== "PROPOSED") throw Object.assign(new Error("Semantic Interpreter did not produce a proposal"), { code: semantic.status });
-  stage = "COMPILE_AND_DISPATCH";
-  const compilation = compileRestaurantSemanticProposal(semantic.proposal);
-  const semanticEvent: RestaurantEvent = compilation.status === "COMPILED"
-    ? { type: "SEMANTIC_PROPOSAL_COMPILED", patch: compilation.patch }
-    : { type: "SEMANTIC_CONFLICT_RECORDED", conflict: compilation.conflict };
-  await runtime.dispatch({
-    id: `event:${taskId}:semantic`, taskId, event: semanticEvent, occurredAt: startedAt.toISOString(),
-    trace: { schemaVersion: "1", runId, correlationId: `event:${taskId}:semantic`, actor: "MODEL" },
-  });
-
   stage = "PROVIDER_SETUP";
-const evaluationLocation = process.env.PRAXIS_EVAL_USER_LAT && process.env.PRAXIS_EVAL_USER_LNG
-    ? { latitude: Number(process.env.PRAXIS_EVAL_USER_LAT), longitude: Number(process.env.PRAXIS_EVAL_USER_LNG) }
+  const evaluationLocation = process.env.PRAXIS_EVAL_USER_LAT && process.env.PRAXIS_EVAL_USER_LNG
+    ? {
+        label: "Explicit evaluation coordinate",
+        latitude: Number(process.env.PRAXIS_EVAL_USER_LAT),
+        longitude: Number(process.env.PRAXIS_EVAL_USER_LNG),
+        radiusMeters: HIGASHI_GINZA_EVALUATION_LOCATION.radiusMeters,
+        source: "PRAXIS_EVAL_USER_LAT/PRAXIS_EVAL_USER_LNG",
+      }
     : requiresLocation(frozen) ? HIGASHI_GINZA_EVALUATION_LOCATION : undefined;
   const search = new GooglePlacesRestaurantSearch(
     new GooglePlacesClient({ apiKey: process.env.GOOGLE_MAPS_API_KEY ?? "", timeoutMs: liveReadLimits.maxStructuredReadMs }),
     undefined,
     candidateLimit,
-    { ...(evaluationLocation ? { evaluationLocation } : {}), maxSearches: liveReadLimits.maxGoogleSearches },
+    { maxRequests: liveReadLimits.maxGoogleRequests },
   );
   const tabelogIdentityDiagnostics: TabelogIdentityDiagnostic[] = [];
   const tableCheckIdentityDiagnostics: TableCheckIdentityDiagnostic[] = [];
@@ -214,27 +198,36 @@ const evaluationLocation = process.env.PRAXIS_EVAL_USER_LAT && process.env.PRAXI
         }
       : {}),
   });
-  const coordinator = new RestaurantAgentLoopCoordinator(
-    {
-      snapshot: async (id) => runtime.snapshot(id),
-      dispatch: async (envelope, expectedVersion) => runtime.dispatch(envelope, expectedVersion),
-    },
-    new RestaurantAgentDecision(model),
-    new RestaurantExecutionRouter(search, availability, {
+  composition = createHybridReadComposition({
+    taskId,
+    runId,
+    clock,
+    model,
+    search,
+    availability,
+    facts: composeLiveRestaurantFactRead(search, browser, model, browserBudget),
+    router: {
       structuredReadTimeoutMs: liveReadLimits.maxStructuredReadMs,
       // An explicit human pause is outside the automatic browser-read deadline.
       // The H001 outer-loop deadline is the whole diagnostic cap, not a product SLA.
       browserReadTimeoutMs: manualTabelogIntervention ? null : liveReadLimits.maxAutomaticBrowserMs,
-    }, composeLiveRestaurantFactRead(search, browser, model, browserBudget)),
-    trajectories,
-    clock,
-    {
+    },
+    loop: {
       maxSteps: liveReadLimits.maxAgentSteps,
       maxRejectedActions: liveReadLimits.maxRejectedActions,
       timeoutMs: liveReadLimits.maxAutomaticBrowserMs,
     },
-  );
+  });
+  stage = "SEMANTIC";
+  semantic = await composition.interpretAndDispatch({
+    taskId,
+    message: String(materialized.content ?? ""),
+    referenceTime: startedAt.toISOString(),
+    timezone: "Asia/Tokyo",
+  }, evaluationLocation);
+  if (semantic.status !== "PROPOSED") throw Object.assign(new Error("Semantic Interpreter did not produce a proposal"), { code: semantic.status });
   stage = "AGENT_LOOP";
+  const { runtime, trajectories, coordinator } = composition;
   console.log(JSON.stringify({
     mode: "HYBRID_LIVE_READ",
     caseId: materialized.id,
@@ -252,6 +245,10 @@ const evaluationLocation = process.env.PRAXIS_EVAL_USER_LAT && process.env.PRAXI
     }
     return counts;
   }, {});
+  const googleRequests = trajectories.steps.reduce<NonNullable<RestaurantReadExecutionMetadata["googleRequests"]> | undefined>((latest, step) => {
+    const usage = step.executionMetadata?.googleRequests;
+    return usage && (!latest || usage.total >= latest.total) ? usage : latest;
+  }, undefined);
   const resourceUsage = {
     discoveryCandidates: finalSnapshot.domainState.candidates.length,
     candidatesChecked: Object.keys(finalSnapshot.domainState.availabilityChecks).length,
@@ -261,6 +258,7 @@ const evaluationLocation = process.env.PRAXIS_EVAL_USER_LAT && process.env.PRAXI
     browserRuntimeCalls: browserExecutionDiagnostics.filter((diagnostic) => diagnostic.event === "SITE_METHOD").length,
     browserOperationsByCandidate,
     browserModelActions: browserExecutionDiagnostics.filter((diagnostic) => diagnostic.event === "MODEL_ACTION").length,
+    ...(googleRequests ? { googleRequests } : {}),
     elapsedMs: Date.now() - startedAt.valueOf(),
   };
   const artifact = {
@@ -289,7 +287,7 @@ const evaluationLocation = process.env.PRAXIS_EVAL_USER_LAT && process.env.PRAXI
     latencyMs: resourceUsage.elapsedMs,
     safety: { policy: "READ_ONLY_CODE_PATH", externalSideEffectCount: "NOT_MEASURED" },
   };
-  const completed = finalSnapshot.domainState.phase === "PRESENT_RESULTS" && loop.status === "TERMINAL";
+  const completed = ["PRESENT_RESULTS", "NO_VERIFIED_RESULT"].includes(finalSnapshot.domainState.phase) && loop.status === "TERMINAL";
   await journal.finish({ ...artifact, status: completed ? "SUCCEEDED" : "FAILED", stage: "AGENT_LOOP", failureCode: completed ? null : "LIVE_CASE_NOT_COMPLETED" });
   const evaluation = await evaluateArtifactAfterFinish(journal.resultPath);
   console.log(JSON.stringify({ mode: artifact.mode, caseId: materialized.id, loop, resourceUsage, artifactPath: journal.resultPath, evaluationPath: evaluation.outputPath, evaluationFailure: evaluation.evaluationFailure, evaluationFailurePath: evaluation.failurePath, latencyMs: artifact.latencyMs, scorerStatus: artifact.scorerStatus }, null, 2));
@@ -298,8 +296,9 @@ const evaluationLocation = process.env.PRAXIS_EVAL_USER_LAT && process.env.PRAXI
   const failureCode = diagnosticFailureCode(error);
   await journal.finish({
     status: failureCode === "CANCELLED" ? "CANCELLED" : "FAILED", stage, failureCode,
+    materializedCase, runtimeContext,
     semanticStatus: semantic?.status ?? "NOT_RETURNED", modelInvocations,
-    events: runtime.eventLog, trajectories: trajectories.steps,
+    events: composition?.runtime.eventLog ?? [], trajectories: composition?.trajectories.steps ?? [],
     downstream: stage === "SEMANTIC" ? "GOOGLE_BROWSER_AGENT_NOT_REACHED" : "SEE_EXECUTED_EVENTS",
     latencyMs: Date.now() - startedAt.valueOf(),
   });

@@ -2,10 +2,14 @@ import { readFile } from "node:fs/promises";
 
 import { parseAllDocuments } from "yaml";
 
+/** Current exposed development input, shared by the actual Runner and contract tests. */
+export const RESTAURANT_READ_DEVELOPMENT_DATASET_VERSION = "restaurant-read-development@3";
+export const RESTAURANT_READ_DEVELOPMENT_CASE_PATH = "src/eval/restaurant/agent-loop/cases/e2e-cases.yaml";
+
 export interface FrozenLiveCase {
   id: string;
   reference_time: string;
-  semantic?: { date?: { expression?: string; value?: string } };
+  semantic?: { date?: { expression?: string; value?: string }; time?: { expression?: string; value?: string } };
   [key: string]: unknown;
 }
 
@@ -14,6 +18,7 @@ export interface MaterializedLiveCase extends FrozenLiveCase {
     sourceReferenceTime: string;
     resolvedReferenceTime: string;
     resolvedTokyoDate?: string;
+    resolvedTokyoTime?: string;
   };
 }
 
@@ -23,6 +28,14 @@ function tokyoDate(input: Date): string {
   }).formatToParts(input);
   const value = (type: string) => parts.find((part) => part.type === type)?.value;
   return `${value("year")}-${value("month")}-${value("day")}`;
+}
+
+function tokyoTime(input: Date): string {
+  const parts = new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Asia/Tokyo", hour: "2-digit", minute: "2-digit", hourCycle: "h23",
+  }).formatToParts(input);
+  const value = (type: string) => parts.find((part) => part.type === type)?.value;
+  return `${value("hour")}:${value("minute")}`;
 }
 
 function addDays(date: string, days: number): string {
@@ -49,6 +62,11 @@ function resolveRelativeDate(expression: string | undefined, now: Date): string 
   return addDays(today, offset);
 }
 
+function resolveRelativeTime(expression: string | undefined, now: Date): string | undefined {
+  const normalized = expression?.trim().toLowerCase();
+  return normalized === "right now" || normalized === "now" ? tokyoTime(now) : undefined;
+}
+
 function replaceDateValues(value: unknown, sourceDate: string | undefined, resolvedDate: string | undefined): unknown {
   if (!sourceDate || !resolvedDate || sourceDate === resolvedDate) return structuredClone(value);
   // Frozen scenario prose is itself an assertion surface. Keep dates in both
@@ -63,15 +81,26 @@ function replaceDateValues(value: unknown, sourceDate: string | undefined, resol
 
 /** Materializes relative date expectations while leaving the frozen source content unchanged. */
 export function materializeLiveCase(source: FrozenLiveCase, liveReferenceTime: string): MaterializedLiveCase {
+  const reference = new Date(liveReferenceTime);
   const sourceDate = source.semantic?.date?.value;
-  const resolvedDate = resolveRelativeDate(source.semantic?.date?.expression, new Date(liveReferenceTime));
-  const materialized = replaceDateValues(source, sourceDate, resolvedDate) as FrozenLiveCase;
+  const resolvedDate = resolveRelativeDate(source.semantic?.date?.expression, reference);
+  const sourceTime = source.semantic?.time?.value;
+  const resolvedTime = resolveRelativeTime(source.semantic?.time?.expression, reference);
+  // Materialize expectation fields, never rewrite the actual user message.
+  const { content, ...expectations } = source;
+  const materialized = replaceDateValues(
+    replaceDateValues(expectations, sourceDate, resolvedDate),
+    sourceTime,
+    resolvedTime,
+  ) as FrozenLiveCase;
   return {
     ...materialized,
+    ...(content !== undefined ? { content: structuredClone(content) } : {}),
     materialization: {
       sourceReferenceTime: source.reference_time,
       resolvedReferenceTime: liveReferenceTime,
       ...(resolvedDate ? { resolvedTokyoDate: resolvedDate } : {}),
+      ...(resolvedTime ? { resolvedTokyoTime: resolvedTime } : {}),
     },
   };
 }

@@ -20,12 +20,12 @@ src/eval/
 
 不得把已暴露Regression、Fixture Search、Mock、Replay、Live Read-only或Controlled Live-write互相替代或混报。
 
-Eval材料按`current executable`、`frozen regression`、`superseded retrospective`和`draft / not integrated`管理。历史Plan、Golden/Regression Set、Manifest、评分口径和运行证据保留；退出当前主链的可执行实现不因此长期保留。执行、评分、污染/基线资格分别记录。当前Hybrid Runner实际读取agent-loop/drafts/e2e-cases.yaml，但完整Scorer未集成；这是路径与命名约定的不一致，因本轮排除标注数据而保留，不移动或修改输入。可运行诊断不等于可评分Baseline。
+Eval材料按`current executable`、`frozen regression`、`superseded retrospective`和`draft / not integrated`管理。历史Plan、Golden/Regression Set、Manifest、评分口径和运行证据保留；退出当前主链的可执行实现不因此长期保留。执行、评分、污染/基线资格分别记录。当前Hybrid Runner读取`src/eval/restaurant/agent-loop/cases/e2e-cases.yaml`，当前版本为`restaurant-read-development@3`。产品目标、参数Gold、人工验收和自动诊断边界统一见[当前只读验收契约](../../../src/eval/restaurant/agent-loop/cases/README.md)。只向模型传原始content及运行上下文，不注入Gold或人工验收说明；artifact记录版本、哈希与暴露状态。旧标注/Rubric归档，不再由Runner读取；完整Scorer未集成。可运行诊断不等于可评分Baseline。
 
 ## Stage 2C冻结口径
 
 - 产品职责固定为`Semantic Interpreter → Proposal Contract → Compiler → Runtime/Reducer → Agent Decision → Action Validator → Execution Router`；语义Eval只在Interpreter/Compiler/Reducer边界归因，不把ADR-0007的历史next-step标注当作产品Runtime。
-- 当前标识为`restaurant-semantic-prompt@8`与`restaurant-semantic-proposal@3`。稳定槽位外只允许开放`CRITERION{text, polarity, strength}`，strength固定为`HARD` / `SOFT` / `UNSPECIFIED`；不得为单个Eval Case新增taxonomy、Provider mapping或重新分配职责。已运行的Prompt `@4` Baseline保持`RESULT_EXPOSED`，不能用来验证Prompt `@8`。
+- 当前标识为`restaurant-semantic-prompt@10`与`restaurant-semantic-proposal@3`。稳定槽位外只允许开放`CRITERION{text, polarity, strength}`，strength固定为`HARD` / `SOFT` / `UNSPECIFIED`；不得为单个Eval Case新增taxonomy、Provider mapping或重新分配职责。已运行的Prompt `@4` Baseline保持`RESULT_EXPOSED`，不能用来验证当前Prompt。
 - 历史Decision Harness的7个Episode / 17个Turn及旧单轮Intent Eval已经完成架构探针使命；其可执行代码、命令和默认测试已删除。需要追溯时读历史文档或Git，不恢复兼容路径。
 - Prompt `@8`的下一份独立Baseline必须使用新的私有`CLEAN_HOLDOUT`；它是parser/semantic质量工作，不阻塞Hybrid E2E preparation。
 
@@ -151,6 +151,10 @@ Browser检测、尝试、生效验证分别报告；静态禁止写入声明不�
 
 以下是维护要求，不表示当前Evaluator已经覆盖全部维度；实际实现与未覆盖项在STATUS和对应报告中说明。验证执行顺序只在[Test](../test/SKILL.md#执行链变更的三步验证)维护。
 
+共享执行契约变更必须同切片说明Evaluator/rubric和来源样本影响，不得以原Evaluator仍能运行替代口径审查。分开“执行到了什么状态”“结论是否被证据支持”“调查质量是否合格”；一种正常终态或一个生产端verified标志不能自动产生通过结论。
+
+模型选路诊断接受多种合法动作顺序。固定来源响应没有覆盖的合法调用是诊断环境缺口，不直接归因模型错误；重复无效动作、忽略已有证据或未经支持的最终断言才按实际记录归因。是否已充分调查无法自动证明时单列未评估/人工审查，不以调用数量或预算耗尽推导充分性。此维护规则不新增LLM Judge，也不授权模型调用。
+
 - **结果支持性：** 逐个检查实际展示引用及其支持链，区分来源观察与模型派生判断。可独立核对的候选/来源/请求/时段/新鲜度事实不能只相信上游`verified`、`openingHoursMatch`或终态。引用应存在、属于适用候选和观察，派生判断的支持链应可追溯；引用存在本身不证明语义正确。历史证据保留不等于当前仍有效，新观察冲突或未知后的展示按已接受刷新语义核验。
 - **条件保真：** 目标允许某字段可选，不等于用户已经明确给出的字段可以丢失。区分“原请求未要求”“权威结果遗漏或改写”和“artifact缺记录”；不使用较宽松的最终请求替代原始请求评分。
 - **执行诊断：** 分开记录未满足条件、实际动作及观察、证据接纳/拒绝、停止原因和资源使用。首个可证实的阻断、局部来源失败、下游未到达与根因假设分开；缺记录为未评估，不推断全局根因或预算合规。新增trace仅为这些归因补足关联，不记录隐藏思维链。
@@ -160,10 +164,12 @@ Browser检测、尝试、生效验证分别报告；静态禁止写入声明不�
 
 Web和Harness若声明同一能力，执行记录应进入同一诊断入口或明确缺口。先保存执行artifact，再生成独立评价；评价故障不能覆盖执行结果。集成测试、模型质量、来源实时可用性分别报告。
 
-`restaurant-hybrid-read-diagnostic-evaluator@6`是当前Hybrid runner的最小确定性诊断，不是完整E2E评分器，也不调用LLM Judge。它按保存的`target.goal`分别检查预约空位展示与事实型展示；每项正向或负向HARD条件都需要同一候选的来源事实，负向条件的明确冲突保持冲突、缺事实保持`UNKNOWN`，不从关键词缺失推导满足。派生`MODEL_JUDGMENT`必须引用同候选、已身份关联的原始事实，不能借provider或entity字段伪装为原文；任意自由文本重查理由也不会免除重复执行检查。它不按`caseId`补充或修改执行语义。执行结束后先保存原始`.result.json`，再写入一个不覆盖原记录的evaluation文件；成功、失败、取消和可收尾的超时路径均在保存后尝试该步骤。评价本身失败时另写不可变的失败sidecar，绝不覆盖执行结果；强杀后仍可显式补评已有artifact：
+`restaurant-hybrid-read-diagnostic-evaluator@12`是当前Hybrid runner与普通Web共同使用的最小确定性诊断，不是完整E2E评分器，也不调用LLM Judge。它按保存的`target.goal`分别检查预约空位展示与事实型展示；每项正向或负向HARD条件都需要同一候选的来源事实，负向条件的明确冲突保持冲突、缺事实保持`UNKNOWN`，不从关键词缺失推导满足。派生`MODEL_JUDGMENT`必须引用同候选、已身份关联的原始事实，不能借provider或entity字段伪装为原文；任意自由文本重查理由也不会免除重复执行检查。它不按`caseId`补充或修改执行语义。执行结束后先保存原始`.result.json`，再写入一个不覆盖原记录的evaluation文件；成功、可确认无结果、用户补问、内部执行失败和可收尾取消都分别记录完成类别后再尝试评价。评价本身失败时另写不可变的失败sidecar，绝不覆盖执行结果；强杀后仍可显式补评已有artifact：
 
 ```bash
 npm run eval:restaurant:agent-loop:artifact -- <artifact.result.json>
 ```
+
+无结果诊断必须有独立反例：保留合格证据而只改终态、删除实际调查记录、借用旧请求的轨迹、遗漏已发现候选、未完成执行却保留旧终态。`@12`拒绝与当前可核验合格候选或执行范围矛盾的无结果声明；明确无slot还必须引用同候选、同日期/人数、`inventoryStatus=UNAVAILABLE`的来源记录。空对象、提议未执行、缺少适用轨迹不能获得通过。可确认“本次已执行搜索确实返回零候选且范围与结束记录一致”，但不能由此声称搜索穷尽。一般候选调查的`remainingGaps`文案不足以证明结论时保持`NOT_EVALUATED`，调查充分性仍单列未评估；不得为了消除未评估而复制生产端eligible判断或相信模型自述。
 
 它逐个presented candidate检查其实际引用的evidence/offer：同一candidate、HIGH身份和来源关联、完整日期/适用人数/完整时段窗口、area、适用HARD条件、以及每个offer的具体时间必须出现于同一来源证据的`visibleSlots`。新鲜度以当时`observedAt ≤ presentedAt < expiresAt`判断；缺时间字段是`NOT_EVALUATED`，未来观察、无效顺序或过期是`NOT_SATISFIED`。最终条件只比较`finalSnapshot.domainState.intentDraft`这一Runtime权威字段；它缺失时不能从trajectory或产品终态推断冲突。它也读取真实runner的`trajectories[].executionMetadata.providerAttempts`，保留局部Provider失败及稳定记录引用。缺轨迹、空/不完整资源对象、缺少presentation引用或尚无已接受evidence contract时是`NOT_EVALUATED`；明确冲突才是`NOT_SATISFIED`。重复检查只统计确实执行且请求版本相同的read，不能用“未发现重复”反推记录完整。主观排名、长期来源可靠性、真实费用（缺少显式价格输入时）、否定HARD的来源契约和完整rubric仍为未评估；变更评分语义、场景期望或门槛必须人工review。

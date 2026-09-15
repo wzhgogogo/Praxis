@@ -70,7 +70,11 @@ test("Tabelog bot challenge remains provider-scoped and all providers exhausted 
   ).check(request, new AbortController().signal);
   assert.deepEqual(calls, ["TABLECHECK", "TABELOG"]);
   assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "UNKNOWN");
-  assert.equal(result.availabilityChecks[candidate.restaurant.id]?.reasonCode, "AVAILABILITY_SOURCES_EXHAUSTED");
+  assert.equal(result.availabilityChecks[candidate.restaurant.id]?.reasonCode, "BOT_CHALLENGE");
+  assert.deepEqual(result.availabilityChecks[candidate.restaurant.id]?.sourceAttempts, [
+    { source: "TABLECHECK", outcome: "FAILED", reasonCode: "TABLECHECK_DISCOVERY_NO_RESULT" },
+    { source: "TABELOG", outcome: "FAILED", reasonCode: "BOT_CHALLENGE" },
+  ]);
   assert.equal(result.metadata.failureCode, "AVAILABILITY_SOURCES_EXHAUSTED");
   assert.equal(result.metadata.providerAttempts?.[1]?.failureCode, "BOT_CHALLENGE");
 });

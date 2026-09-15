@@ -1,15 +1,15 @@
 # Tokyo Restaurant Agent MVP PRD
 
 - Status: Accepted
-- Document revision: 0.3
-- Last updated: 2026-09-05
+- Document revision: 0.5
+- Last updated: 2026-09-15
 - Source of truth for: 第一版产品范围、用户承诺和验收标准
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md)
 - Related documents: [User Flows](USER-FLOWS.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md), [Data, Context & Security](../architecture/DATA-CONTEXT-SECURITY.md)
 
 ## 产品定义
 
-Praxis第一版是一个Responsive English Web Agent，同时支持Desktop与Mobile浏览器。用户用自然语言描述东京餐厅需求，Praxis建立可跨会话恢复的Case并寻找真实可订候选；用户从候选中选择并授权一家后，Praxis通过API、Browser Agent或Human Takeover推进预约，验证结果并准备路线。
+Praxis第一版是一个Responsive English Web Agent，同时支持Desktop与Mobile浏览器。用户用自然语言描述东京餐厅需求，Praxis建立可跨会话恢复的Case，并按请求提供有来源支持的推荐或真实可订候选；用户从候选中选择并授权一家后，Praxis通过API、Browser Agent或Human Takeover推进预约，验证结果并准备路线。
 
 核心价值不是“比 Google Maps 更会推荐”，而是继续完成 Google Maps、Hot Pepper、TableCheck 和餐厅官网之间断裂的执行链路。
 
@@ -23,7 +23,11 @@ Praxis第一版是一个Responsive English Web Agent，同时支持Desktop与Mob
 
 本阶段验证 Agent 能力和用户价值，不据此宣称某一用户细分已达到 PMF。
 
-## 核心闭环
+## 只读目标与预约闭环
+
+按[ADR-0026](../decisions/0026-concrete-visit-goal-and-reception-semantics.md)，开放找店/比较为RECOMMENDATION；具体到访（已有日期/时间意图、地点及已知或有封闭推断依据人数）为AVAILABILITY，即使用户说的是recommend、looking或need。推荐须满足地点、HARD条件和适用营业时间；参数充分时可有界补查空位，但不将未知、无预约入口或访问失败解释为无位或walk-in。当前请求下明确无位会排除该候选。空位目标必须取得对应门店、日期、人数和时段的当前slot；缺人数时补问，缺精确时间可先发现候选，不能降为普通推荐。接待方式与库存独立：明确walk-in不替代可订slot，缺少预约入口不产生walk-in结论。
+
+以下闭环描述明确空位/预约目标；普通推荐可在有依据的结果展示处完成，不强制进入授权与预约。当前开发验收映射见[H001–H005契约](../../src/eval/restaurant/agent-loop/cases/README.md)。
 
 ```text
 自然语言需求
@@ -45,8 +49,8 @@ Praxis第一版是一个Responsive English Web Agent，同时支持Desktop与Mob
 1. 提取日期、时间窗口、人数、区域、菜系、预算和用户明确提出的特殊要求；特殊要求不阻塞普通初步推荐，但一经声明的安全关键要求不得静默放宽。
 2. 只追问会阻塞搜索或预约的信息。
 3. 并行搜索多个来源，合并同店与不同分店。
-4. 最终候选必须标记空位查询时间、价格依据、条款和执行方式；来源提供过敏处理信息时，候选卡须清晰展示处理状态、来源和确认要求。
-5. 只展示已验证空位且存在预约路径的可执行候选；不足 3 家时透明返回实际数量。
+4. 空位/预约候选在后台记录空位查询时间，并提供价格依据、条款和执行方式；来源提供过敏处理信息时，候选卡须清晰展示处理状态、来源和确认要求。
+5. 空位目标只展示已验证对应slot的候选；进入预约时还须有可执行预约路径。普通推荐按事实要求展示，不声称已有座位；不足3家时返回实际数量，不以安全停止冒充用户目标完成。
 6. 用户只选择并授权一家，不授权自动换店。
 7. 提交前重新验证空位和条款；发生实质变化时重新确认。
 8. 无API网站的浏览与受控操作是核心建设方向；有API可优先使用，无API时使用支持的Browser Adapter；登录、验证码、银行卡、3DS、CAPTCHA 和新增高风险条款触发 Human Takeover。

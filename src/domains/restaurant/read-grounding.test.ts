@@ -203,5 +203,42 @@ test("a completed slot extraction with no qualifying slot becomes UNAVAILABLE", 
     pageState: "NO_MATCHING_SLOT", visibleSlots: ["18:00"],
   }, now);
   assert.equal(result.check.status, "UNAVAILABLE");
+  assert.equal(result.check.receptionMode, "RESERVATION_SUPPORTED");
+  const inventory = result.evidence.find((evidence) => evidence.kind === "AVAILABILITY");
+  assert.deepEqual(inventory?.claims.inventoryStatus, "UNAVAILABLE");
+  assert.deepEqual(inventory?.claims.receptionMode, "RESERVATION_SUPPORTED");
   assert.equal(result.offers.length, 0);
+});
+
+test("walk-in reception is admitted only from explicit page evidence and never turns a no-slot result into availability", () => {
+  const base = {
+    candidateId: candidate.restaurant.id, observedAt: now, requestedDate: fixtureIntent.date, requestedPartySize: 2,
+    entityMatch: { confidence: "HIGH" as const, matchedBy: ["NORMALIZED_NAME_AND_ADDRESS"] },
+    pageState: "NO_MATCHING_SLOT" as const, visibleSlots: [], receptionMode: "WALK_IN_SUPPORTED" as const,
+  };
+  const unsupported = groundTabelogAvailability(candidate, request, base, now);
+  assert.equal(unsupported.check.status, "UNAVAILABLE");
+  assert.equal(unsupported.check.receptionMode, "UNKNOWN");
+  const explicit = groundTabelogAvailability(candidate, request, { ...base, walkInEvidence: "Walk-ins are accepted at the counter." }, now);
+  assert.equal(explicit.check.status, "UNAVAILABLE");
+  assert.equal(explicit.check.receptionMode, "WALK_IN_SUPPORTED");
+  assert.equal(explicit.offers.length, 0);
+});
+
+test("an unknown slot does not discard independently matched identity and observed restaurant facts", () => {
+  // Domain admission test, not a browser/E2E test. Same candidate/fact observation, different slot outcome.
+  // The offer must remain absent, while independent source facts stay auditable for recommendation.
+  const observation = {
+    candidateId: candidate.restaurant.id, sourceEntityId: "outlet-a", sourceUrl: "https://tabelog.com/example",
+    observedAt: now, entityMatch: { confidence: "HIGH" as const, matchedBy: ["EXACT_PHONE"] },
+    requestedDate: request.date, requestedPartySize: request.partySize, verifiedHardCriteria: ["yakiniku"],
+  };
+  const available = groundTabelogAvailability(candidate, request, { ...observation, pageState: "AVAILABLE", visibleSlots: [request.timeWindow.earliest] }, now);
+  assert.equal(available.check.status, "AVAILABLE", "Control must be a usable observation");
+  const unknown = groundTabelogAvailability(candidate, request, { ...observation, pageState: "EXTRACTION_FAILED", failureCode: "EXTRACTION_FAILED" }, now);
+  assert.equal(unknown.check.status, "UNKNOWN");
+  assert.equal(unknown.offers.length, 0);
+  assert.ok(unknown.evidence.some(e => e.kind === "ENTITY_MATCH" && e.entityMatch?.confidence === "HIGH"), "Slot failure erased independently established identity");
+  assert.ok(unknown.evidence.some(e => e.kind === "RESTAURANT_FACT" && Array.isArray(e.claims.verifiedHardCriteria) && e.claims.verifiedHardCriteria.includes("yakiniku")), "Slot failure erased an independently observed fact");
+  assert.ok(!unknown.evidence.some(e => e.kind === "AVAILABILITY"), "Unknown slot cannot become positive availability evidence");
 });

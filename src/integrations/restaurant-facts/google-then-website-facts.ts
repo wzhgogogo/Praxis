@@ -70,6 +70,12 @@ export class GoogleThenWebsiteFactRead implements RestaurantCandidateFactPort {
     private readonly judgment?: RestaurantFactJudgmentPort,
   ) {}
 
+  googleRequestUsage(readRunId: string | undefined) {
+    const usage = this.google.googleRequestUsage?.(readRunId);
+    if (!usage) throw new Error("Google request accounting is unavailable in this fact composition");
+    return usage;
+  }
+
   async inspectFacts(request: RestaurantCandidateFactRequest, signal: AbortSignal): Promise<RestaurantCandidateFactRead> {
     const startedAt = Date.now();
     const google = await this.google.inspectFacts(request, signal);
@@ -94,7 +100,16 @@ export class GoogleThenWebsiteFactRead implements RestaurantCandidateFactPort {
       return { ...google, evidence, factChecks, metadata: { ...google.metadata, latencyMs: Date.now() - startedAt, ...(modelUsage ? { modelUsage } : {}) } };
     }
     const website = await this.website.inspectFacts({ ...request, candidateIds: candidates.map((candidate) => candidate.restaurant.id), candidates }, signal);
-    const factChecks: RestaurantCandidateFactRead["factChecks"] = { ...google.factChecks };
+    // A batch may contain a Google-only candidate beside one that continued to
+    // its website. Keep the Google-only observation scoped to Google; the
+    // combined candidate below has no single provider because its current
+    // evidence is the explicit union of both source reads.
+    const factChecks: RestaurantCandidateFactRead["factChecks"] = Object.fromEntries(
+      Object.entries(google.factChecks).map(([candidateId, check]) => [candidateId, {
+        ...structuredClone(check),
+        sourceProvider: google.metadata.provider,
+      }]),
+    );
     for (const candidate of candidates) {
       const websiteCheck = website.factChecks[candidate.restaurant.id]!;
       const googleCheck = google.factChecks[candidate.restaurant.id]!;
@@ -123,6 +138,7 @@ export class GoogleThenWebsiteFactRead implements RestaurantCandidateFactPort {
         route: this.website.executionRoute,
         latencyMs: Date.now() - startedAt,
         ...(modelUsage ? { modelUsage } : {}),
+        ...(google.metadata.googleRequests ? { googleRequests: google.metadata.googleRequests } : {}),
         ...(google.metadata.failureCode ? { failureCode: google.metadata.failureCode } : website.metadata.failureCode ? { failureCode: website.metadata.failureCode } : {}),
       },
     };

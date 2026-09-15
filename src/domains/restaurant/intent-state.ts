@@ -20,20 +20,19 @@ export function missingBlockingFields(input: {
   ];
 }
 
-/** Discovery can answer a non-reservation request without collecting party size. */
+/**
+ * Discovery only needs a usable search area.  The delivery goal controls the
+ * eventual evidence profile, not whether a candidate lookup may bind its own
+ * current parameters.  Availability reads still require their complete,
+ * separately-bound date, time window, and party size below.
+ */
 export function missingSearchFields(input: {
-  target?: { goal?: unknown };
-  date?: unknown;
-  timeWindow?: unknown;
   area?: { query?: unknown; coordinates?: unknown };
-}): Array<"date" | "timeWindow" | "area"> {
-  const availability = input.target?.goal === "AVAILABILITY";
+}): Array<"area"> {
   const nearbyNeedsLocation = typeof input.area?.query === "string"
     && input.area.query.trim().toLocaleLowerCase("en-US") === "nearby"
     && input.area.coordinates === undefined;
   return [
-    ...(availability && input.date === undefined ? (["date"] as const) : []),
-    ...(availability && input.timeWindow === undefined ? (["timeWindow"] as const) : []),
     ...(input.area === undefined || nearbyNeedsLocation ? (["area"] as const) : []),
   ];
 }
@@ -89,6 +88,7 @@ export function applyRestaurantIntentPatch(
     ...(current?.target ? { target: structuredClone(current.target) } : {}),
     ...(current?.date ? { date: current.date } : {}),
     ...(current?.timeWindow ? { timeWindow: structuredClone(current.timeWindow) } : {}),
+    ...(current?.temporalResolution ? { temporalResolution: structuredClone(current.temporalResolution) } : {}),
     ...(current?.partySize ? { partySize: current.partySize } : {}),
     ...(current?.area ? { area: structuredClone(current.area) } : {}),
     criteria: structuredClone(current?.criteria ?? []),
@@ -108,6 +108,10 @@ export function applyRestaurantIntentPatch(
   if (hasOwn(patch, "timeWindow")) {
     if (patch.timeWindow === null) delete next.timeWindow;
     else if (patch.timeWindow) next.timeWindow = structuredClone(patch.timeWindow);
+  }
+  if (hasOwn(patch, "temporalResolution")) {
+    if (patch.temporalResolution === null) delete next.temporalResolution;
+    else if (patch.temporalResolution) next.temporalResolution = structuredClone(patch.temporalResolution);
   }
   if (hasOwn(patch, "partySize")) {
     if (patch.partySize === null) delete next.partySize;

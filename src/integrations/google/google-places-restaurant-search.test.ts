@@ -36,7 +36,7 @@ test("a named nearby place is resolved to observed coordinates and grounds candi
       }] }), { status: 200 });
     },
   });
-  const result = await new GooglePlacesRestaurantSearch(client, () => "2026-09-11T00:00:00.000Z", 10, { maxSearches: 2 }).search({
+  const result = await new GooglePlacesRestaurantSearch(client, () => "2026-09-11T00:00:00.000Z", 10, { maxRequests: 2 }).search({
     intent: { ...fixtureIntent, area: { query: "near Higashi-Ginza Station" } },
     readRunId: "named-place",
   }, new AbortController().signal);
@@ -47,6 +47,39 @@ test("a named nearby place is resolved to observed coordinates and grounds candi
   assert.equal(near?.claims.distanceMeters, 48);
   assert.equal(result.evidence.find((item) => item.candidateId === result.candidates[1]?.restaurant.id && item.kind === "DISCOVERY")?.claims.areaMatch, false);
   assert.equal(result.evidence[0]?.claims.locationResolutionSource, "GOOGLE_TEXT_SEARCH");
+  assert.deepEqual(result.metadata.googleRequests, {
+    limit: 2,
+    total: 2,
+    namedPlaceResolution: 1,
+    discovery: 1,
+    placeDetails: 0,
+  });
+});
+
+test("named-place resolution rejects an unmatched suffix instead of treating address text or rank as landmark identity", async () => {
+  let call = 0;
+  const client = new GooglePlacesClient({
+    apiKey: "key",
+    fetchImplementation: async (_url, init) => {
+      call += 1;
+      const payload = JSON.parse(String(init?.body)) as { pageSize: number };
+      if (call === 1) {
+        assert.equal(payload.pageSize, 10, "one bounded location query sees more than the retired three-result cap");
+        return new Response(JSON.stringify({ places: [
+          { id: "unrelated", displayName: { text: "Different Station" }, location: { latitude: 35.1, longitude: 139.1 } },
+          { id: "central-east", displayName: { text: "Central Station East Entrance" }, formattedAddress: "Central Station, Tokyo", location: { latitude: 35.6, longitude: 139.7 }, types: ["transit_station"] },
+        ] }), { status: 200 });
+      }
+      return new Response(JSON.stringify({ places: [] }), { status: 200 });
+    },
+  });
+  await assert.rejects(
+    new GooglePlacesRestaurantSearch(client, undefined, 10, { maxRequests: 2 }).search({
+      intent: { ...fixtureIntent, area: { query: "near Central Station" } },
+    }, new AbortController().signal),
+    { code: "GOOGLE_LOCATION_UNRESOLVED" },
+  );
+  assert.equal(call, 1);
 });
 
 test("only source-level duplicate exact named locations ask for disambiguation", async () => {
@@ -57,7 +90,7 @@ test("only source-level duplicate exact named locations ask for disambiguation",
       { id: "station-b", displayName: { text: "Central Station" }, location: { latitude: 35.7, longitude: 139.8 } },
     ] }), { status: 200 }),
   });
-  const search = new GooglePlacesRestaurantSearch(client, undefined, 10, { maxSearches: 2 });
+  const search = new GooglePlacesRestaurantSearch(client, undefined, 10, { maxRequests: 2 });
   await assert.rejects(search.search({ intent: { ...fixtureIntent, area: { query: "near Central Station" } } }, new AbortController().signal), { code: "GOOGLE_LOCATION_AMBIGUOUS" });
 });
 
@@ -68,8 +101,11 @@ test("an unrelated first search result never becomes a named nearby landmark", a
       { id: "wrong", displayName: { text: "Different Station" }, location: { latitude: 35.6, longitude: 139.7 } },
     ] }), { status: 200 }),
   });
-  const search = new GooglePlacesRestaurantSearch(client, undefined, 10, { maxSearches: 2 });
-  await assert.rejects(search.search({ intent: { ...fixtureIntent, area: { query: "near Central Station" } } }, new AbortController().signal), { code: "GOOGLE_LOCATION_UNRESOLVED" });
+  const search = new GooglePlacesRestaurantSearch(client, undefined, 10, { maxRequests: 2 });
+  await assert.rejects(
+    search.search({ intent: { ...fixtureIntent, area: { query: "near Central Station" } } }, new AbortController().signal),
+    (error: unknown) => error instanceof Error && "code" in error && error.code === "GOOGLE_LOCATION_UNRESOLVED" && error.message.includes("Different Station") && error.message.includes("wrong"),
+  );
 });
 
 test("Google Places text search uses the explicit small field mask and stable candidate IDs", async () => {
@@ -113,14 +149,14 @@ test("Google Places sends only explicit evaluation coordinates as NEAR_USER loca
   assert.doesNotMatch(String(body?.textQuery), /near nearby/i);
 });
 
-test("Google Places search budget is mechanical and isolated by persistent read run", async () => {
+test("Google Places request budget is mechanical and isolated by persistent read run", async () => {
   const client = new GooglePlacesClient({
     apiKey: "key",
     fetchImplementation: async () => new Response(JSON.stringify({ places: [] }), { status: 200 }),
   });
-  const search = new GooglePlacesRestaurantSearch(client, undefined, 10, { maxSearches: 1 });
+  const search = new GooglePlacesRestaurantSearch(client, undefined, 10, { maxRequests: 1 });
   await search.search({ intent: fixtureIntent, readRunId: "task-a" }, new AbortController().signal);
-  await assert.rejects(search.search({ intent: fixtureIntent, readRunId: "task-a" }, new AbortController().signal), { code: "GOOGLE_SEARCH_BUDGET_EXCEEDED" });
+  await assert.rejects(search.search({ intent: fixtureIntent, readRunId: "task-a" }, new AbortController().signal), { code: "GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED" });
   await search.search({ intent: fixtureIntent, readRunId: "task-b" }, new AbortController().signal);
 });
 
@@ -144,13 +180,20 @@ test("candidate fact investigation re-reads only the known Google place and shar
     date: "2026-08-04", timeWindow: { earliest: "12:00", latest: "15:00" },
     criteria: [{ text: "cafe", polarity: "POSITIVE" as const, strength: "HARD" as const }],
   };
-  const search = new GooglePlacesRestaurantSearch(client, () => "2026-08-03T09:00:00.000Z", 10, { maxSearches: 2 });
+  const search = new GooglePlacesRestaurantSearch(client, () => "2026-08-03T09:00:00.000Z", 10, { maxRequests: 2 });
   const discovered = await search.search({ intent }, new AbortController().signal);
   const facts = await search.inspectFacts({ candidateIds: [discovered.candidates[0]!.restaurant.id], candidates: discovered.candidates, intent }, new AbortController().signal);
   assert.equal(calls, 2);
   assert.equal(facts.factChecks[discovered.candidates[0]!.restaurant.id]?.status, "COMPLETED");
   assert.ok(facts.evidence.some((item) => item.kind === "RESTAURANT_FACT" && item.claims.openingHoursMatch === true));
-  await assert.rejects(search.search({ intent }, new AbortController().signal), { code: "GOOGLE_SEARCH_BUDGET_EXCEEDED" });
+  assert.deepEqual(facts.metadata.googleRequests, {
+    limit: 2,
+    total: 2,
+    namedPlaceResolution: 0,
+    discovery: 1,
+    placeDetails: 1,
+  });
+  await assert.rejects(search.search({ intent }, new AbortController().signal), { code: "GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED" });
 });
 
 test("candidate fact investigation uses Place Details by stable ID, never another text search", async () => {
@@ -163,7 +206,7 @@ test("candidate fact investigation uses Place Details by stable ID, never anothe
       return new Response(JSON.stringify(init?.method === "GET" ? place : { places: [place] }), { status: 200 });
     },
   });
-  const search = new GooglePlacesRestaurantSearch(client, undefined, 10, { maxSearches: 2 });
+  const search = new GooglePlacesRestaurantSearch(client, undefined, 10, { maxRequests: 2 });
   const intent = { ...fixtureIntent, target: { goal: "RECOMMENDATION" as const, query: "cafe" } };
   const discovered = await search.search({ intent, readRunId: "run-a" }, new AbortController().signal);
   await search.inspectFacts({ candidateIds: [discovered.candidates[0]!.restaurant.id], candidates: discovered.candidates, intent, readRunId: "run-a" }, new AbortController().signal);
@@ -178,11 +221,11 @@ test("a fact read records exhausted shared discovery capacity without a second p
     }] }), { status: 200 }),
   });
   const intent = { ...fixtureIntent, target: { goal: "RECOMMENDATION" as const, query: "cafe" } };
-  const search = new GooglePlacesRestaurantSearch(client, undefined, 10, { maxSearches: 1 });
+  const search = new GooglePlacesRestaurantSearch(client, undefined, 10, { maxRequests: 1 });
   const discovered = await search.search({ intent }, new AbortController().signal);
   const facts = await search.inspectFacts({ candidateIds: [discovered.candidates[0]!.restaurant.id], candidates: discovered.candidates, intent }, new AbortController().signal);
-  assert.equal(facts.factChecks[discovered.candidates[0]!.restaurant.id]?.reasonCode, "GOOGLE_SEARCH_BUDGET_EXCEEDED");
-  assert.equal(facts.metadata.failureCode, "GOOGLE_SEARCH_BUDGET_EXCEEDED");
+  assert.equal(facts.factChecks[discovered.candidates[0]!.restaurant.id]?.reasonCode, "GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED");
+  assert.equal(facts.metadata.failureCode, "GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED");
 });
 
 test("Google Places classifies provider failure without exposing a response body", async () => {
@@ -192,7 +235,49 @@ test("Google Places classifies provider failure without exposing a response body
   });
   await assert.rejects(
     failed.textSearch({ textQuery: "restaurant", pageSize: 1 }, new AbortController().signal),
-    (error: unknown) => error instanceof Error && "code" in error && error.code === "GOOGLE_SEARCH_FAILED" && !error.message.includes("upstream diagnostic payload"),
+    (error: unknown) => error instanceof Error && "code" in error && error.code === "GOOGLE_NETWORK_FAILED" && !error.message.includes("upstream diagnostic payload"),
   );
 
+});
+
+test("failed sent Google requests consume the same per-run local budget and remain separately accounted", async () => {
+  const client = new GooglePlacesClient({
+    apiKey: "key",
+    fetchImplementation: async () => { throw new Error("unreachable provider"); },
+  });
+  const search = new GooglePlacesRestaurantSearch(client, undefined, 10, { maxRequests: 1 });
+  await assert.rejects(search.search({ intent: fixtureIntent, readRunId: "failed-run" }, new AbortController().signal), { code: "GOOGLE_NETWORK_FAILED" });
+  assert.deepEqual(search.googleRequestUsage("failed-run"), {
+    limit: 1,
+    total: 1,
+    namedPlaceResolution: 0,
+    discovery: 1,
+    placeDetails: 0,
+  });
+  await assert.rejects(search.search({ intent: fixtureIntent, readRunId: "failed-run" }, new AbortController().signal), { code: "GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED" });
+});
+
+test("the explicit one-hundred-request debug ceiling permits work beyond the retired cap and stops only at its own run boundary", async () => {
+  // Start/end: the production Google adapter receives 100 successful discovery reads, then its 101st local request is rejected.
+  // External replacement: Google HTTP response only. This proves accounting, not real Google service capacity.
+  let sent = 0;
+  const client = new GooglePlacesClient({
+    apiKey: "key",
+    fetchImplementation: async () => {
+      sent += 1;
+      return new Response(JSON.stringify({ places: [] }), { status: 200 });
+    },
+  });
+  const search = new GooglePlacesRestaurantSearch(client, undefined, 10, { maxRequests: 100 });
+  for (let index = 0; index < 100; index += 1) {
+    await search.search({ intent: fixtureIntent, readRunId: "debug-run" }, new AbortController().signal);
+  }
+  assert.equal(sent, 100);
+  assert.deepEqual(search.googleRequestUsage("debug-run"), {
+    limit: 100, total: 100, namedPlaceResolution: 0, discovery: 100, placeDetails: 0,
+  });
+  await assert.rejects(search.search({ intent: fixtureIntent, readRunId: "debug-run" }, new AbortController().signal), { code: "GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED" });
+  assert.equal(sent, 100, "the local boundary rejects before another network request");
+  await search.search({ intent: fixtureIntent, readRunId: "next-debug-run" }, new AbortController().signal);
+  assert.equal(sent, 101, "a distinct run has an isolated request budget");
 });

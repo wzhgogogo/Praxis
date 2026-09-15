@@ -16,6 +16,15 @@ export const RESTAURANT_READ_GOALS = ["RECOMMENDATION", "AVAILABILITY"] as const
 export type RestaurantReadGoal = (typeof RESTAURANT_READ_GOALS)[number];
 export interface RestaurantTarget { goal: RestaurantReadGoal; query: string; }
 
+/** Coordinates enter the authority path only from the named trusted source. */
+export interface RestaurantAreaCoordinates {
+  latitude: number;
+  longitude: number;
+  accuracyMeters?: number;
+  observedAt: string;
+  source: "DEVICE" | "MANUAL_PLACE" | "EVALUATION";
+}
+
 export const RESTAURANT_CRITERION_POLARITIES = ["POSITIVE", "NEGATIVE"] as const;
 export type RestaurantCriterionPolarity = (typeof RESTAURANT_CRITERION_POLARITIES)[number];
 
@@ -33,14 +42,24 @@ export interface RestaurantCriterion {
   strength: RestaurantCriterionStrength;
 }
 
+/** Immutable code-derived audit record for a user temporal expression. */
+export interface RestaurantTemporalResolution {
+  policyVersion: "restaurant-temporal-materialization@2";
+  referenceTime: string;
+  timezone: "Asia/Tokyo";
+  date?: { expression: string; resolvedDate: string; basis: string };
+  timeWindow?: { expression: string; resolvedTimeWindow: { earliest: string; latest: string }; basis: string };
+}
+
 export interface RestaurantIntentDraft {
   schemaVersion: "3";
   timezone: "Asia/Tokyo";
   target?: RestaurantTarget;
   date?: string;
   timeWindow?: { earliest: string; latest: string };
+  temporalResolution?: RestaurantTemporalResolution;
   partySize?: number;
-  area?: { query: string; placeId?: string; radiusMeters?: number; coordinates?: { latitude: number; longitude: number; accuracyMeters?: number; observedAt: string; source: "DEVICE" | "MANUAL_PLACE" } };
+  area?: { query: string; placeId?: string; radiusMeters?: number; coordinates?: RestaurantAreaCoordinates };
   criteria: RestaurantCriterion[];
   budgetPerPerson?: { max: number; currency: "JPY" };
 }
@@ -52,7 +71,7 @@ export interface RestaurantSearchIntent {
   /** A fact-only recommendation may be unscheduled and must not claim hours. */
   date?: string;
   timeWindow?: { earliest: string; latest: string };
-  area: { query: string; placeId?: string; radiusMeters?: number; coordinates?: { latitude: number; longitude: number; accuracyMeters?: number; observedAt: string; source: "DEVICE" | "MANUAL_PLACE" } };
+  area: { query: string; placeId?: string; radiusMeters?: number; coordinates?: RestaurantAreaCoordinates };
   criteria: RestaurantCriterion[];
   budgetPerPerson?: { max: number; currency: "JPY" };
 }
@@ -105,14 +124,44 @@ export type RestaurantAvailabilityCheckStatus =
   | "UNKNOWN"
   | "SOURCE_UNSUPPORTED";
 
+/** Reception support and current inventory are separate user-facing facts. */
+export const RESTAURANT_RECEPTION_MODES = [
+  "RESERVATION_SUPPORTED",
+  "WALK_IN_SUPPORTED",
+  "RESERVATION_AND_WALK_IN_SUPPORTED",
+  "UNKNOWN",
+] as const;
+export type RestaurantReceptionMode = (typeof RESTAURANT_RECEPTION_MODES)[number];
+
 export interface RestaurantAvailabilityCheck {
   status: RestaurantAvailabilityCheckStatus;
+  /** Never infer walk-in support merely because a booking entry was absent. */
+  receptionMode?: RestaurantReceptionMode;
   checkedAt: string;
   expiresAt?: string;
   displayExpiresAt?: string;
   freshnessPolicyVersion?: string;
   evidenceIds: string[];
+  /** The provider whose current availability/fact observation this is. */
+  sourceProvider?: RestaurantReadExecutionMetadata["provider"];
+  /** Bounded source attempts, including an otherwise useful partial observation. */
+  sourceAttempts?: Array<{
+    source: Exclude<RestaurantReadEvidenceProvider, "MODEL_JUDGMENT">;
+    outcome: "AVAILABLE" | "UNAVAILABLE" | "UNKNOWN" | "SOURCE_UNSUPPORTED" | "FAILED";
+    reasonCode?: string;
+  }>;
   reasonCode?: string;
+  /** Bound by the reducer from the exact authoritative availability request. */
+  requestFingerprint?: string;
+}
+
+/** Stable request binding for a completed slot/no-slot observation. */
+export function restaurantAvailabilityRequestFingerprint(input: {
+  date: string;
+  timeWindow: { earliest: string; latest: string };
+  partySize: number;
+}): string {
+  return JSON.stringify({ date: input.date, timeWindow: input.timeWindow, partySize: input.partySize });
 }
 
 export type RestaurantReadEvidenceKind =
@@ -199,6 +248,8 @@ export interface RestaurantCandidateFactCheck {
   status: "COMPLETED" | "UNKNOWN";
   checkedAt: string;
   evidenceIds: string[];
+  /** The source whose same-purpose facts this observation can replace. */
+  sourceProvider?: RestaurantReadExecutionMetadata["provider"];
   reasonCode?: string;
 }
 
@@ -222,6 +273,14 @@ export interface RestaurantReadExecutionMetadata {
     outputTokens?: number;
     totalTokens?: number;
   };
+  /** Cumulative Google Places requests for this task read run; failed sent requests count too. */
+  googleRequests?: {
+    limit: number;
+    total: number;
+    namedPlaceResolution: number;
+    discovery: number;
+    placeDetails: number;
+  };
   /** Internal read-only source chain trace; never projected into Agent context. */
   providerAttempts?: Array<{
     candidateId: string;
@@ -234,6 +293,16 @@ export interface RestaurantReadExecutionMetadata {
     engine: "KITESURF" | "CHROMIUM";
     sessionId?: string;
   };
+}
+
+/** Provider/result-derived progress only; never a model self-assessment. */
+export interface RestaurantReadObservation {
+  type: "USER_QUESTION" | "DISCOVERY" | "DISCOVERY_FAILED" | "CANDIDATE_FACTS" | "CANDIDATE_FACTS_UNKNOWN" | "AVAILABILITY" | "AVAILABILITY_UNKNOWN" | "RESULTS_PRESENTED" | "READ_ENDED" | "CANDIDATE_SELECTED" | "BOOKING_PROPOSAL" | "FACTS_UNAVAILABLE";
+  detail: string;
+  candidateIds?: string[];
+  newCandidateIds?: string[];
+  evidenceIds?: string[];
+  unresolvedCandidateIds?: string[];
 }
 
 export interface RestaurantSearchRead {
@@ -339,6 +408,7 @@ export type RestaurantPhase =
   | "VERIFYING"
   | "BOOKED_VERIFIED"
   | "PRESENT_RESULTS"
+  | "NO_VERIFIED_RESULT"
   | "SELECTION_REQUIRED"
   | "OUTCOME_UNKNOWN"
   | "FAILED";
@@ -370,6 +440,8 @@ export interface RestaurantTaskState {
   selectedCandidateId?: string;
   selectedOfferId?: string;
   presentedResults?: { candidateIds: string[]; evidenceIds: string[]; presentedAt: string };
+  /** Scoped normal read completion, never a claim that every restaurant is unavailable. */
+  noVerifiedResult?: { endedAt: string; investigatedCandidateIds: string[]; unresolvedCandidateIds: string[]; remainingGaps: string[] };
   /** An explicit user refresh only rechecks previously displayed candidates. */
   refreshRequestedCandidateIds?: string[];
   /** An explicit recommendation refresh only re-reads facts for displayed candidates. */
@@ -387,6 +459,7 @@ export interface RestaurantTaskState {
 export type RestaurantOutcome =
   | { status: "BOOKED_VERIFIED"; reservation: VerifiedReservation }
   | { status: "PRESENT_RESULTS"; candidateIds: string[]; evidenceIds: string[] }
+  | { status: "NO_VERIFIED_RESULT"; investigatedCandidateIds: string[]; unresolvedCandidateIds: string[]; remainingGaps: string[] }
   | { status: "OUTCOME_UNKNOWN"; attemptId: string }
   | { status: "FAILED"; reason: string };
 
@@ -395,8 +468,9 @@ export interface RestaurantIntentPatch {
   target?: RestaurantTarget | null;
   date?: string | null;
   timeWindow?: { earliest: string; latest: string } | null;
+  temporalResolution?: RestaurantTemporalResolution | null;
   partySize?: number | null;
-  area?: { query: string; placeId?: string; radiusMeters?: number; coordinates?: { latitude: number; longitude: number; accuracyMeters?: number; observedAt: string; source: "DEVICE" | "MANUAL_PLACE" } } | null;
+  area?: { query: string; placeId?: string; radiusMeters?: number; coordinates?: RestaurantAreaCoordinates } | null;
   budgetPerPerson?: { max: number; currency: "JPY" } | null;
   addCriteria?: RestaurantCriterion[];
   replaceCriteria?: RestaurantCriterion[];
@@ -418,7 +492,15 @@ export type RestaurantSemanticExpectedDecision =
 
 export type RestaurantEvent =
   | (DomainEvent & { type: "SEMANTIC_PROPOSAL_COMPILED"; patch: RestaurantIntentPatch })
+  /** Eval-only trusted context, never a user device-location substitute or product default. */
+  | (DomainEvent & { type: "EVALUATION_LOCATION_BOUND"; coordinates: RestaurantAreaCoordinates & { source: "EVALUATION"; radiusMeters?: number } })
   | (DomainEvent & { type: "SEMANTIC_CONFLICT_RECORDED"; conflict: RestaurantSemanticConflict })
+  /** The user message reached the semantic boundary, but no safe proposal was produced. */
+  | (DomainEvent & {
+      type: "SEMANTIC_INTERPRETATION_FAILED";
+      status: "INPUT_INVALID" | "INVALID_MODEL_OUTPUT" | "MODEL_FAILURE";
+      reason: string;
+    })
   | (DomainEvent & { type: "AGENT_ASKED_USER"; question: string; relatedFields?: string[] })
   | (DomainEvent & { type: "AGENT_DECISION_FAILED"; reason: string })
   | (DomainEvent & { type: "AGENT_EXECUTION_FAILED"; reason: string })
@@ -431,6 +513,7 @@ export type RestaurantEvent =
       metadata: RestaurantReadExecutionMetadata;
     })
   | (DomainEvent & { type: "RESULTS_PRESENTED"; candidateIds: string[]; evidenceIds: string[] })
+  | (DomainEvent & { type: "READ_ENDED_NO_VERIFIED_RESULT"; investigatedCandidateIds: string[]; unresolvedCandidateIds: string[]; remainingGaps: string[] })
   | (DomainEvent & { type: "AVAILABILITY_REFRESH_REQUESTED"; candidateIds: string[] })
   | (DomainEvent & { type: "CANDIDATE_FACTS_REFRESH_REQUESTED"; candidateIds: string[] })
   | (DomainEvent & { type: "SEARCH_FAILED"; reason: string; code?: string })

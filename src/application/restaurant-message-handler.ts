@@ -13,9 +13,13 @@ export async function restaurantEventForMessage(
 ): Promise<RestaurantEvent> {
   const interpreted = await interpreter.interpret(input);
   if (interpreted.status !== "PROPOSED") {
-    throw new Error(`Restaurant Semantic Interpreter did not produce a proposal: ${interpreted.status}`);
+    return {
+      type: "SEMANTIC_INTERPRETATION_FAILED",
+      status: interpreted.status,
+      reason: `Restaurant Semantic Interpreter did not produce a proposal: ${interpreted.status}`,
+    };
   }
-  const compilation = compileRestaurantSemanticProposal(interpreted.proposal);
+  const compilation = compileRestaurantSemanticProposal(interpreted.proposal, { referenceTime: input.referenceTime, timezone: input.timezone });
   return compilation.status === "COMPILED"
     ? { type: "SEMANTIC_PROPOSAL_COMPILED", patch: compilation.patch }
     : { type: "SEMANTIC_CONFLICT_RECORDED", conflict: compilation.conflict };

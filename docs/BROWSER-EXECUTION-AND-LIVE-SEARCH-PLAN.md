@@ -141,9 +141,9 @@
 1. 先利用现有只读 Probe 对一个实际候选定位当前瓶颈，保持环境、入口、参数可复现；不把多候选并行加入本轮。
 2. 在真实页面完成同店匹配、日期/人数等条件生效回读和空位验证，记录快捷操作及 Skill 驱动模型循环分别参与了哪些动作。结果必须关联同一门店、完整年份日期、人数、目标时间窗和最近一次完整查询；旧年份、旧人数、部分 slot UI、页面任意时间字符串或加载中均为 `UNKNOWN`，不能构成无位或可用结论。
 3. 执行冻结原始 H001：`npm run eval:restaurant:agent-loop:hybrid-live-read -- --case h001`。先核对 runner 参数与所需环境；不复制人工成功门店/slot 注入权威 State。
-4. 输入来自现有 `src/eval/restaurant/agent-loop/drafts/e2e-cases.yaml`，使用现有相对日期 materialization；不修改 H001 约束来迎合现有库存，不读取或修改私有 Clean Holdout。
+4. 本阶段历史输入现归档于 `docs/superseded/eval/restaurant-read-pre-alignment-2026-09-15/e2e-cases.yaml`（不再执行）；当前Runner输入与目标以[只读验收契约](../src/eval/restaurant/agent-loop/cases/README.md)为准，使用现有相对日期 materialization；不修改 H001 约束来迎合现有库存，不读取或修改私有 Clean Holdout。
 
-成功必须同时具备：真实 Google 候选、HIGH 同店证据、权威日期/人数/时段与区域及全部正向 HARD 条件的满足证据、新鲜且明确可用的 slot、Runtime 进入 `PRESENT_RESULTS`。按既有 Domain 规则执行，不另造较弱标准。
+以下是本阶段历史空位验收标准，不覆盖2026-09-15对齐后的推荐目标；历史成功必须同时具备：真实 Google 候选、HIGH 同店证据、权威日期/人数/时段与区域及全部正向 HARD 条件的满足证据、新鲜且明确可用的 slot、Runtime 进入 `PRESENT_RESULTS`。按既有 Domain 规则执行，不另造较弱标准。
 
 一次不成功先按阶段定位；只有新的可验证假设或代码修正才安排下一次有预算运行，不靠连续重跑碰运气。真实无库存、验证码未完成、预算耗尽均如实报告；H001 未完成则该门槛未过，不声称全部交付。可继续不依赖 Live 成功的 Web 接线，不能把它当 H001 的替代证明。
 

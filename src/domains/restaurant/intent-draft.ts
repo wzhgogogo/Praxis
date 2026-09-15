@@ -57,6 +57,7 @@ export function validateRestaurantIntentDraft(input: unknown): RestaurantIntentV
       "target",
       "date",
       "timeWindow",
+      "temporalResolution",
       "partySize",
       "area",
       "criteria",
@@ -96,6 +97,11 @@ export function validateRestaurantIntentDraft(input: unknown): RestaurantIntentV
       errors.push("timeWindow must contain ordered HH:mm earliest and latest values");
     }
   }
+  if (input.temporalResolution !== undefined) {
+    if (!isRecord(input.temporalResolution) || !hasOnlyKeys(input.temporalResolution, ["policyVersion", "referenceTime", "timezone", "date", "timeWindow"]) || input.temporalResolution.policyVersion !== "restaurant-temporal-materialization@2" || input.temporalResolution.timezone !== "Asia/Tokyo" || typeof input.temporalResolution.referenceTime !== "string" || Number.isNaN(Date.parse(input.temporalResolution.referenceTime))) {
+      errors.push("temporalResolution must be a valid code-derived Tokyo materialization record");
+    }
+  }
   if (
     input.partySize !== undefined &&
     (typeof input.partySize !== "number" ||
@@ -121,7 +127,7 @@ export function validateRestaurantIntentDraft(input: unknown): RestaurantIntentV
         typeof input.area.coordinates.longitude !== "number" || !Number.isFinite(input.area.coordinates.longitude) ||
         (input.area.coordinates.accuracyMeters !== undefined && (typeof input.area.coordinates.accuracyMeters !== "number" || input.area.coordinates.accuracyMeters < 0)) ||
         typeof input.area.coordinates.observedAt !== "string" || Number.isNaN(Date.parse(input.area.coordinates.observedAt)) ||
-        (input.area.coordinates.source !== "DEVICE" && input.area.coordinates.source !== "MANUAL_PLACE")))
+        (input.area.coordinates.source !== "DEVICE" && input.area.coordinates.source !== "MANUAL_PLACE" && input.area.coordinates.source !== "EVALUATION")))
     ) {
       errors.push("area must contain a non-empty query and valid optional location fields");
     }

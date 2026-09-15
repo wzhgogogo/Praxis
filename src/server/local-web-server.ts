@@ -1,4 +1,5 @@
 import { createServer, type IncomingMessage, type Server, type ServerResponse } from "node:http";
+import { resolve } from "node:path";
 
 import {
   PersistentRestaurantAgentApplication,
@@ -8,7 +9,7 @@ import {
   WorkspaceCaseNotFoundError,
   type PilotAccessEntry,
 } from "../application/persistent-restaurant-agent.js";
-import { LIVE_READ_INVESTIGATION_BUDGET } from "../application/live-read-investigation-budget.js";
+import { LIVE_READ_DEBUG_INVESTIGATION_BUDGET } from "../application/live-read-investigation-budget.js";
 import type { RestaurantCaseView } from "../application/agent-workspace.js";
 import { RestaurantSemanticInterpreter } from "../domains/restaurant/semantic-interpreter.js";
 import { RestaurantAgentDecision } from "../domains/restaurant/agent-decision.js";
@@ -24,6 +25,7 @@ import { composeLiveRestaurantFactRead } from "../integrations/restaurant-facts/
 import { applyPostgresMigrations } from "../infrastructure/postgres/migrations.js";
 import { NodePostgresDatabase } from "../infrastructure/postgres/node-postgres-database.js";
 import { LOCAL_WORKSPACE_PAGE } from "../web/local-workspace-page.js";
+import { persistWebReadArtifact } from "../eval/restaurant/agent-loop/web-read-artifact.js";
 
 const MAX_BODY_BYTES = 16 * 1024;
 const SESSION_COOKIE = "praxis_session";
@@ -167,11 +169,23 @@ function errorStatus(error: unknown): number {
 export interface LocalWebServerOptions {
   application: PersistentRestaurantAgentApplication;
   sessions: PilotSessionService;
+  /** Optional diagnostic root. Omitting it keeps the server usable without filesystem output. */
+  artifactDirectory?: string;
 }
 
 export function createLocalWebServer(options: LocalWebServerOptions): Server {
   const hub = new CaseEventHub();
   const unsubscribeUpdates = options.application.subscribeCaseUpdates((view) => hub.publish(view));
+  const writtenArtifacts = new Set<string>();
+  const unsubscribeReadFinished = options.application.subscribeReadFinished(async (caseId) => {
+    if (!options.artifactDirectory) return;
+    const artifact = await options.application.exportReadArtifact(caseId);
+    const version = (artifact.finalSnapshot as { version?: number }).version ?? "unknown";
+    const key = `${caseId}:${version}`;
+    if (writtenArtifacts.has(key)) return;
+    await persistWebReadArtifact(options.artifactDirectory, artifact);
+    writtenArtifacts.add(key);
+  });
   const server = createServer(async (request, response) => {
     try {
       const method = request.method ?? "GET";
@@ -294,7 +308,10 @@ export function createLocalWebServer(options: LocalWebServerOptions): Server {
       }
     }
   });
-  server.once("close", unsubscribeUpdates);
+  server.once("close", () => {
+    unsubscribeUpdates();
+    unsubscribeReadFinished();
+  });
   return server;
 }
 
@@ -327,10 +344,10 @@ async function start(): Promise<void> {
   const restaurantSearch = fixtureMode
     ? new FixtureRestaurantSearch()
     : new GooglePlacesRestaurantSearch(
-        new GooglePlacesClient({ apiKey: process.env.GOOGLE_MAPS_API_KEY ?? "", timeoutMs: LIVE_READ_INVESTIGATION_BUDGET.maxStructuredReadMs }),
+        new GooglePlacesClient({ apiKey: process.env.GOOGLE_MAPS_API_KEY ?? "", timeoutMs: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxStructuredReadMs }),
         undefined,
         10,
-        { maxSearches: LIVE_READ_INVESTIGATION_BUDGET.maxGoogleSearches },
+        { maxRequests: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxGoogleRequests },
       );
   const browserRuntime = fixtureMode ? undefined : browserRuntimeFromEnvironment();
   const browserBudget: BrowserExecutionBudget | undefined = fixtureMode ? undefined : { totalModelCalls: 0 };
@@ -338,13 +355,13 @@ async function start(): Promise<void> {
     ? new FixtureRestaurantSearch()
     : new LiveBrowserAvailability(browserRuntime!, model, {
         ...(browserBudget ? { browserBudget } : {}),
-        maxTableCheckBrowserSessions: LIVE_READ_INVESTIGATION_BUDGET.maxTableCheckBrowserSessions,
-        maxTabelogBrowserSessions: LIVE_READ_INVESTIGATION_BUDGET.maxTabelogBrowserSessions,
-        maxTabelogCandidateMatches: LIVE_READ_INVESTIGATION_BUDGET.maxTabelogCandidateMatches,
-        maxModelCallsPerCandidate: LIVE_READ_INVESTIGATION_BUDGET.maxBrowserModelCallsPerCandidate,
-        maxModelCallsTotal: LIVE_READ_INVESTIGATION_BUDGET.maxBrowserModelCallsTotal,
-        maxOperationsPerCandidate: LIVE_READ_INVESTIGATION_BUDGET.maxBrowserOperationsPerCandidate,
-        maxAutomaticElapsedMs: LIVE_READ_INVESTIGATION_BUDGET.maxAutomaticBrowserMs,
+        maxTableCheckBrowserSessions: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxTableCheckBrowserSessions,
+        maxTabelogBrowserSessions: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxTabelogBrowserSessions,
+        maxTabelogCandidateMatches: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxTabelogCandidateMatches,
+        maxModelCallsPerCandidate: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxBrowserModelCallsPerCandidate,
+        maxModelCallsTotal: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxBrowserModelCallsTotal,
+        maxOperationsPerCandidate: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxBrowserOperationsPerCandidate,
+        maxAutomaticElapsedMs: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxAutomaticBrowserMs,
       });
   const application = new PersistentRestaurantAgentApplication({
     database,
@@ -355,21 +372,26 @@ async function start(): Promise<void> {
     restaurantFacts: fixtureMode ? restaurantSearch : composeLiveRestaurantFactRead(restaurantSearch, browserRuntime!, model, browserBudget),
     workspaceMode: providerMode,
     ...(fixtureMode ? {} : {
+      liveReadLimits: LIVE_READ_DEBUG_INVESTIGATION_BUDGET,
       executionRouterOptions: {
-        structuredReadTimeoutMs: LIVE_READ_INVESTIGATION_BUDGET.maxStructuredReadMs,
-        browserReadTimeoutMs: LIVE_READ_INVESTIGATION_BUDGET.maxAutomaticBrowserMs,
+        structuredReadTimeoutMs: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxStructuredReadMs,
+        browserReadTimeoutMs: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxAutomaticBrowserMs,
       },
       agentLoopOptions: {
-        maxSteps: LIVE_READ_INVESTIGATION_BUDGET.maxAgentSteps,
-        maxRejectedActions: LIVE_READ_INVESTIGATION_BUDGET.maxRejectedActions,
-        timeoutMs: LIVE_READ_INVESTIGATION_BUDGET.maxAutomaticBrowserMs,
+        maxSteps: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxAgentSteps,
+        maxRejectedActions: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxRejectedActions,
+        timeoutMs: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxAutomaticBrowserMs,
       },
     }),
   });
   const sessions = new PilotSessionService(application.store, pilotEntriesFromEnvironment(), {
     now: () => new Date(),
   });
-  const server = createLocalWebServer({ application, sessions });
+  const server = createLocalWebServer({
+    application,
+    sessions,
+    artifactDirectory: resolve(".eval-artifacts", "restaurant-web-read"),
+  });
   server.listen(PORT, "127.0.0.1", () => {
     console.log(`Praxis ${providerMode === "FIXTURE" ? "fixture" : "Live read-only"} workspace is running at http://127.0.0.1:${PORT}`);
   });

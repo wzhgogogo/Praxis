@@ -3,7 +3,31 @@ import { test } from "node:test";
 
 import type { ModelInvocationRecord, ModelRequest } from "../../core/model/contracts.js";
 import { ModelGatewayError } from "../../core/model/errors.js";
+import {
+  RESTAURANT_SEMANTIC_PROPOSAL_JSON_SCHEMA,
+  RESTAURANT_SEMANTIC_PROPOSAL_SCHEMA,
+} from "../../domains/restaurant/semantic-proposal.js";
 import { DeepSeekModelGateway } from "./deepseek-model-gateway.js";
+
+function assertEveryStrictObjectRequiresEveryProperty(value: unknown, path = "$"): void {
+  if (Array.isArray(value)) {
+    value.forEach((item, index) => assertEveryStrictObjectRequiresEveryProperty(item, `${path}[${index}]`));
+    return;
+  }
+  if (typeof value !== "object" || value === null) return;
+  const record = value as Record<string, unknown>;
+  if (record.properties && typeof record.properties === "object" && !Array.isArray(record.properties)) {
+    assert.ok(Array.isArray(record.required), `${path}.required must exist for a strict object`);
+    assert.deepEqual(
+      [...Object.keys(record.properties as Record<string, unknown>)].sort(),
+      [...(record.required as unknown[])].map(String).sort(),
+      `${path}.required must list every property`,
+    );
+  }
+  for (const [key, nested] of Object.entries(record)) {
+    assertEveryStrictObjectRequiresEveryProperty(nested, `${path}.${key}`);
+  }
+}
 
 const request: ModelRequest = {
   taskId: "task-intent-001",
@@ -142,6 +166,33 @@ test("DeepSeek gateway sends the complete schema through strict structured outpu
   assert.equal(JSON.stringify(records[0]).includes("Return JSON only."), false);
   assert.equal(JSON.stringify(records[0]).includes("Tonight at 7pm"), false);
   assert.equal(JSON.stringify(records[0]).includes("partySize"), false);
+});
+
+test("DeepSeek gateway sends the actual restaurant strict schema with every object property required", async () => {
+  let capturedBody: Record<string, unknown> | undefined;
+  const gateway = new DeepSeekModelGateway({
+    apiKey: "test-key",
+    model: "deepseek-v4-flash",
+    fetchImplementation: async (_input, init) => {
+      capturedBody = JSON.parse(String(init?.body)) as Record<string, unknown>;
+      return new Response(JSON.stringify({
+        model: "deepseek-v4-flash",
+        choices: [{
+          finish_reason: "tool_calls",
+          message: { tool_calls: [{ type: "function", function: { name: "restaurant-semantic-proposal", arguments: '{"schemaVersion":"3","facts":[]}' } }] },
+        }],
+      }), { status: 200, headers: { "Content-Type": "application/json" } });
+    },
+  });
+
+  await gateway.complete({
+    ...request,
+    outputSchema: { ...RESTAURANT_SEMANTIC_PROPOSAL_SCHEMA, jsonSchema: RESTAURANT_SEMANTIC_PROPOSAL_JSON_SCHEMA },
+  });
+
+  const tools = capturedBody?.tools as Array<{ function?: { parameters?: unknown } }> | undefined;
+  assert.equal(tools?.length, 1);
+  assertEveryStrictObjectRequiresEveryProperty(tools?.[0]?.function?.parameters);
 });
 
 test("DeepSeek gateway fails closed when server configuration is incomplete", () => {

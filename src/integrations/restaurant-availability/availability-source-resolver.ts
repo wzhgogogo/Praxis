@@ -52,7 +52,7 @@ export class AvailabilitySourceResolver {
     const startedAt = Date.now();
     const offers = [] as RestaurantAvailabilityRead["offers"];
     const evidence = [] as RestaurantReadEvidence[];
-    const candidateFactUpdates = [] as RestaurantCandidateFactUpdate[];
+    const resultCandidateFactUpdates = [] as RestaurantCandidateFactUpdate[];
     const availabilityChecks: Record<string, RestaurantAvailabilityCheck> = {};
     const attempts: NonNullable<RestaurantReadExecutionMetadata["providerAttempts"]> = [];
     const providersUsed = new Set<RestaurantAvailabilityProvider["provider"]>();
@@ -62,6 +62,9 @@ export class AvailabilitySourceResolver {
       for (const candidateId of request.candidateIds) {
         const candidateRequest = singleCandidateRequest(request, candidateId);
         let conclusive = false;
+        let lastCheck: RestaurantAvailabilityCheck | undefined;
+        const candidateEvidence: RestaurantReadEvidence[] = [];
+        const accumulatedCandidateFactUpdates: RestaurantCandidateFactUpdate[] = [];
         for (const providerName of PROVIDER_ORDER) {
           const provider = this.providers.find((item) => item.provider === providerName);
           if (!provider) continue;
@@ -69,14 +72,30 @@ export class AvailabilitySourceResolver {
             const read = await provider.check(candidateRequest, signal);
             const check = read.availabilityChecks[candidateId];
             lastBrowser = read.metadata.browser ?? lastBrowser;
+            providersUsed.add(provider.provider);
+            candidateEvidence.push(...read.evidence
+              .filter((item) => item.candidateId === candidateId)
+              .map((item) => structuredClone(item)));
+            accumulatedCandidateFactUpdates.push(...(read.candidateFactUpdates ?? [])
+              .filter((item) => item.candidateId === candidateId)
+              .map((item) => structuredClone(item)));
+            if (check) lastCheck = structuredClone(check);
             if (usable(check)) {
               conclusive = true;
-              providersUsed.add(provider.provider);
               attempts.push({ candidateId, provider: provider.provider, outcome: check.status });
-              availabilityChecks[candidateId] = structuredClone(check);
+              availabilityChecks[candidateId] = {
+                ...structuredClone(check),
+                sourceAttempts: attempts
+                  .filter((attempt) => attempt.candidateId === candidateId)
+                  .map((attempt) => ({
+                    source: attempt.provider,
+                    outcome: attempt.outcome === "PROVIDER_FAILURE" ? "FAILED" : attempt.outcome,
+                    ...(attempt.failureCode ? { reasonCode: attempt.failureCode } : {}),
+                  })),
+              };
               offers.push(...read.offers.filter((offer) => offer.restaurantId === candidateId).map((offer) => structuredClone(offer)));
-              evidence.push(...read.evidence.filter((item) => item.candidateId === candidateId).map((item) => structuredClone(item)));
-              candidateFactUpdates.push(...(read.candidateFactUpdates ?? []).filter((item) => item.candidateId === candidateId).map((item) => structuredClone(item)));
+              evidence.push(...candidateEvidence);
+              resultCandidateFactUpdates.push(...accumulatedCandidateFactUpdates);
               break;
             }
             attempts.push({
@@ -91,20 +110,34 @@ export class AvailabilitySourceResolver {
           }
         }
         if (!conclusive) {
+          evidence.push(...candidateEvidence);
+          resultCandidateFactUpdates.push(...accumulatedCandidateFactUpdates);
           availabilityChecks[candidateId] = {
+            ...(lastCheck ? structuredClone(lastCheck) : {}),
             status: "UNKNOWN",
-            checkedAt: new Date().toISOString(),
-            evidenceIds: [],
-            reasonCode: "AVAILABILITY_SOURCES_EXHAUSTED",
+            checkedAt: lastCheck?.checkedAt ?? new Date().toISOString(),
+            evidenceIds: [...new Set(candidateEvidence.map((item) => item.evidenceId))],
+            reasonCode: lastCheck?.reasonCode ?? "AVAILABILITY_SOURCES_EXHAUSTED",
+            sourceAttempts: attempts
+              .filter((attempt) => attempt.candidateId === candidateId)
+              .map((attempt) => ({
+                source: attempt.provider,
+                outcome: attempt.outcome === "PROVIDER_FAILURE" ? "FAILED" : attempt.outcome,
+                ...(attempt.failureCode ? { reasonCode: attempt.failureCode } : {}),
+              })),
           };
         }
       }
-      const allFailed = request.candidateIds.every((candidateId) => availabilityChecks[candidateId]?.reasonCode === "AVAILABILITY_SOURCES_EXHAUSTED");
+      const allFailed = request.candidateIds.every((candidateId) => {
+        const check = availabilityChecks[candidateId];
+        return check?.status === "UNKNOWN" && (check.sourceAttempts?.length ?? 0) >= PROVIDER_ORDER.length &&
+          check?.sourceAttempts?.every((attempt) => attempt.outcome === "FAILED");
+      });
       return {
         offers,
         availabilityChecks,
         evidence,
-        ...(candidateFactUpdates.length ? { candidateFactUpdates } : {}),
+        ...(resultCandidateFactUpdates.length ? { candidateFactUpdates: resultCandidateFactUpdates } : {}),
         metadata: {
           provider: providersUsed.size === 1 ? [...providersUsed][0]! : "AVAILABILITY_SOURCE_RESOLVER",
           route: this.executionRoute,

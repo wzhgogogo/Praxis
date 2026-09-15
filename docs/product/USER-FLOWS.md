@@ -1,13 +1,15 @@
 # MVP User Flows
 
 - Status: Accepted
-- Document revision: 0.4
-- Last updated: 2026-09-10
+- Document revision: 0.6
+- Last updated: 2026-09-15
 - Source of truth for: 用户可见流程、确认点和终态
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md)
 - Related documents: [MVP PRD](MVP-PRD.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md)
 
-## 搜索与预约
+## 明确空位与预约
+
+本图适用于具体到访的AVAILABILITY目标：已有日期/时间意图、地点及已知或有封闭推断依据人数的需求，即使措辞为recommend、looking或need。普通开放找店/比较见下方“附近与不要求预约的推荐”；人数孤立出现不决定目标，不能让所有请求自动走本图。
 
 ```mermaid
 flowchart TD
@@ -82,7 +84,7 @@ flowchart TD
 
 当用户说“附近”而当前Case没有位置时，Web只读取一次设备坐标、精度和采集时间并绑定本Case；不会用服务器、VPS或代理位置代替用户，也不持续追踪。浏览器拒绝或无法取得位置时，页面提示用户在普通消息框输入站点、地址或地区，随后沿同一语义/搜索路径继续。精确坐标不显示在公开Activity或日志中。
 
-不要求预约的请求（例如下午与朋友见面的咖啡馆）不询问人数或强制查询空位。系统展示的每家店仍须具有门店身份、附近、咖啡馆类型和目标时段营业事实；营业不等于有桌。若在剩余预算内额外查到空位，则另行标注其门店、日期、人数和时段；失败、无入口或没有slot不阻塞核心推荐。
+开放推荐（例如下午与朋友见面的咖啡馆）不询问人数或强制查询空位。系统展示的每家店仍须具有门店身份、附近、咖啡馆类型和目标时段营业事实；营业不等于有桌。若在剩余预算内额外查到空位，则另行标注其门店、日期、人数和时段；UNKNOWN、访问失败或没有预约入口不阻塞已有充分依据的核心推荐，也不证明可walk-in；当前请求下明确查到无位则排除该候选。可选查位缺参数时不为此强制补问或猜测人数/时段。具体到访则沿上图补足人数并查当前slot；页面只在有明确来源证据时显示walk-in接待方式，且该提示不等于可订。
 
 ## 取消
 

@@ -72,6 +72,14 @@ export function buildGooglePlacesTextQuery(request: RestaurantSearchRequest): st
 }
 
 const NAMED_PLACE_NEARBY_RADIUS_METERS = 1_000;
+type GoogleRequestKind = "namedPlaceResolution" | "discovery" | "placeDetails";
+type GoogleRequestUsage = {
+  limit: number;
+  total: number;
+  namedPlaceResolution: number;
+  discovery: number;
+  placeDetails: number;
+};
 
 function namedNearbyQuery(value: string): string | undefined {
   const trimmed = value.trim();
@@ -87,18 +95,36 @@ function namedNearbyQuery(value: string): string | undefined {
 }
 
 function sameNamedLocation(value: string, query: string): boolean {
-  return normalizedLocationName(value) === normalizedLocationName(query);
+  const normalizedValue = normalizedLocationName(value);
+  const normalizedQuery = normalizedLocationName(query);
+  // Text-search rank, a returned address, and arbitrary name suffixes do not
+  // establish that a place is the landmark the user named.  Source-provided
+  // language/alias correspondence is required before we broaden this beyond
+  // normalized public display-name equality.
+  return normalizedValue.length > 0 && normalizedValue === normalizedQuery;
 }
 
 function normalizedLocationName(value: string): string {
   return value.normalize("NFKC").toLocaleLowerCase("en-US").replace(/[^\p{L}\p{N}]+/gu, "");
 }
 
+function namedLocationObservation(place: GooglePlacesRawPlace): string {
+  const name = string(place.displayName?.text) ?? "missing-name";
+  const address = string(place.formattedAddress) ?? "missing-address";
+  const types = Array.isArray(place.types) && place.types.every((item) => typeof item === "string")
+    ? place.types.join(",")
+    : "missing-types";
+  const placeId = string(place.id) ?? "missing-place-id";
+  const point = coordinates(place);
+  const coordinate = point ? `${point.latitude},${point.longitude}` : "missing-coordinates";
+  return `name=${JSON.stringify(name)} address=${JSON.stringify(address)} types=${JSON.stringify(types)} placeId=${JSON.stringify(placeId)} coordinate=${JSON.stringify(coordinate)}`;
+}
+
 export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, RestaurantCandidateFactPort {
   readonly executionRoute = "STRUCTURED_ADAPTER" as const;
   /** One local workspace composes providers once, so counters must be keyed by
    * the persistent task run rather than accidentally shared by every user. */
-  private readonly searchesPerformed = new Map<string, number>();
+  private readonly requestsPerformed = new Map<string, Omit<GoogleRequestUsage, "limit" | "total">>();
 
   constructor(
     private readonly client: GooglePlacesClient,
@@ -106,21 +132,38 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
     private readonly maxResults = 10,
     private readonly options: {
       evaluationLocation?: { latitude: number; longitude: number; radiusMeters?: number; label?: string };
-      maxSearches?: number;
+      /** Shared per-run ceiling across named-place resolution, discovery, and Details. */
+      maxRequests?: number;
     } = {},
   ) {}
 
-  private searchesFor(runId: string | undefined): number {
-    return this.searchesPerformed.get(runId ?? "unscoped") ?? 0;
+  private requestCounts(runId: string | undefined): Omit<GoogleRequestUsage, "limit" | "total"> {
+    return this.requestsPerformed.get(runId ?? "unscoped") ?? {
+      namedPlaceResolution: 0,
+      discovery: 0,
+      placeDetails: 0,
+    };
   }
 
-  private consumeSearch(runId: string | undefined): void {
+  private consumeRequest(runId: string | undefined, kind: GoogleRequestKind): void {
     const key = runId ?? "unscoped";
-    this.searchesPerformed.set(key, this.searchesFor(key) + 1);
+    const counts = this.requestCounts(key);
+    this.requestsPerformed.set(key, { ...counts, [kind]: counts[kind] + 1 });
   }
 
   private hasBudget(runId: string | undefined): boolean {
-    return this.searchesFor(runId) < (this.options.maxSearches ?? Number.POSITIVE_INFINITY);
+    const counts = this.requestCounts(runId);
+    return counts.namedPlaceResolution + counts.discovery + counts.placeDetails < (this.options.maxRequests ?? Number.POSITIVE_INFINITY);
+  }
+
+  /** Read-only accounting for the Router trajectory and exported run artifact. */
+  googleRequestUsage(readRunId: string | undefined): GoogleRequestUsage {
+    const counts = this.requestCounts(readRunId);
+    return {
+      limit: this.options.maxRequests ?? Number.POSITIVE_INFINITY,
+      total: counts.namedPlaceResolution + counts.discovery + counts.placeDetails,
+      ...counts,
+    };
   }
 
   /**
@@ -135,16 +178,21 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
     const query = namedNearbyQuery(request.intent.area.query);
     if (!query) return {};
     if (!this.hasBudget(request.readRunId)) {
-      throw new GooglePlacesError("GOOGLE_SEARCH_BUDGET_EXCEEDED", "Google Places budget is exhausted before named-place resolution");
+      throw new GooglePlacesError("GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED", "The local per-run Google request budget is exhausted before named-place resolution");
     }
-    this.consumeSearch(request.readRunId);
-    const places = await this.client.textSearch({ textQuery: query, pageSize: 3 }, signal);
+    this.consumeRequest(request.readRunId, "namedPlaceResolution");
+    // Named-place resolution is one bounded source request, but it must see
+    // enough ranked observations to distinguish a genuine ambiguity from a
+    // harmless display-name variant. It shares the same run budget as every
+    // other Google read.
+    const places = await this.client.textSearch({ textQuery: query, pageSize: Math.max(10, this.maxResults) }, signal);
     const exactMatches = places.filter((item) => {
       const label = string(item.displayName?.text); const point = coordinates(item);
-      return label !== undefined && point !== undefined && sameNamedLocation(label, query);
+      return point !== undefined && label !== undefined && sameNamedLocation(label, query);
     });
+    const sourceObservations = places.map(namedLocationObservation).join("; ") || "no returned places";
     if (exactMatches.length > 1) {
-      throw new GooglePlacesError("GOOGLE_LOCATION_AMBIGUOUS", `Google Places returned multiple coordinate-bearing matches for the named location ${query}`);
+      throw new GooglePlacesError("GOOGLE_LOCATION_AMBIGUOUS", `Google Places returned multiple coordinate-bearing matches for the named location ${JSON.stringify(query)}. Observations: ${sourceObservations}`);
     }
     // Text-search relevance is not location identity.  In particular, never
     // turn the first unrelated result into the user's named landmark just
@@ -154,7 +202,7 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
     const label = place && string(place.displayName?.text);
     const resolved = place && coordinates(place);
     if (!placeId || !label || !resolved) {
-      throw new GooglePlacesError("GOOGLE_LOCATION_UNRESOLVED", `Google Places could not resolve coordinates for the named location ${query}`);
+      throw new GooglePlacesError("GOOGLE_LOCATION_UNRESOLVED", `Google Places could not resolve coordinates for the named location ${JSON.stringify(query)}. Observations: ${sourceObservations}`);
     }
     const observedAt = this.now();
     const radiusMeters = request.intent.area.radiusMeters ?? NAMED_PLACE_NEARBY_RADIUS_METERS;
@@ -183,16 +231,16 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
 
   async search(request: RestaurantSearchRequest, signal: AbortSignal) {
     if (!this.hasBudget(request.readRunId)) {
-      throw new GooglePlacesError("GOOGLE_SEARCH_BUDGET_EXCEEDED", "Google Places search budget is exhausted for this diagnostic");
+      throw new GooglePlacesError("GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED", "The local per-run Google request budget is exhausted before discovery");
     }
     const startedAt = Date.now();
     const textQuery = buildGooglePlacesTextQuery(request);
     const taskLocation = request.intent.area.coordinates;
     const namedLocation = taskLocation ? {} : await this.resolveNamedNearbyLocation(request, signal);
     if (!this.hasBudget(request.readRunId)) {
-      throw new GooglePlacesError("GOOGLE_SEARCH_BUDGET_EXCEEDED", "Google Places budget is exhausted before restaurant discovery");
+      throw new GooglePlacesError("GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED", "The local per-run Google request budget is exhausted before restaurant discovery");
     }
-    this.consumeSearch(request.readRunId);
+    this.consumeRequest(request.readRunId, "discovery");
     const locationContext = taskLocation
       ? { latitude: taskLocation.latitude, longitude: taskLocation.longitude, radiusMeters: request.intent.area.radiusMeters ?? 3_000, label: request.intent.area.query, areaMatchBasis: "TASK_LOCATION_RADIUS" as const }
       : namedLocation.location ?? (request.intent.area.query.trim().toLowerCase() === "nearby" && this.options.evaluationLocation
@@ -224,7 +272,12 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
     return {
       candidates: grounded.flatMap((result) => result.accepted ? [result.candidate] : []),
       evidence: [...(namedLocation.evidence ? [namedLocation.evidence] : []), ...grounded.flatMap((result) => result.accepted ? [result.evidence, ...result.additionalEvidence] : [])],
-      metadata: { provider: "GOOGLE_PLACES" as const, route: this.executionRoute, latencyMs: Date.now() - startedAt },
+      metadata: {
+        provider: "GOOGLE_PLACES" as const,
+        route: this.executionRoute,
+        latencyMs: Date.now() - startedAt,
+        googleRequests: this.googleRequestUsage(request.readRunId),
+      },
     };
   }
 
@@ -241,7 +294,7 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
     let exhausted = false;
     for (const candidate of request.candidates) {
       if (!this.hasBudget(request.readRunId)) {
-        factChecks[candidate.restaurant.id] = { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: "GOOGLE_SEARCH_BUDGET_EXCEEDED" };
+        factChecks[candidate.restaurant.id] = { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: "GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED" };
         exhausted = true;
         continue;
       }
@@ -250,7 +303,7 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
         factChecks[candidate.restaurant.id] = { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: "GOOGLE_PLACE_ID_MISSING" };
         continue;
       }
-      this.consumeSearch(request.readRunId);
+      this.consumeRequest(request.readRunId, "placeDetails");
       const matching = await this.client.placeDetails(placeId, signal);
       if (string(matching.id) !== placeId) {
         factChecks[candidate.restaurant.id] = { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: "GOOGLE_PLACE_ID_MISMATCH" };
@@ -281,7 +334,8 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
         provider: "GOOGLE_PLACES" as const,
         route: this.executionRoute,
         latencyMs: Date.now() - startedAt,
-        ...(exhausted ? { failureCode: "GOOGLE_SEARCH_BUDGET_EXCEEDED" } : {}),
+        googleRequests: this.googleRequestUsage(request.readRunId),
+        ...(exhausted ? { failureCode: "GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED" } : {}),
       },
     };
   }
