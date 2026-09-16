@@ -4,8 +4,8 @@ import { basename, dirname, resolve } from "node:path";
 import { openingHoursForRequest } from "../../../domains/restaurant/read-grounding.js";
 
 
-export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@12";
-export const RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION = "restaurant-hybrid-read-diagnostic-rubric@12";
+export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@15";
+export const RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION = "restaurant-hybrid-read-diagnostic-rubric@15";
 
 type JsonRecord = Record<string, unknown>;
 export type DiagnosticEvaluationStatus = "SATISFIED" | "NOT_SATISFIED" | "NOT_EVALUATED";
@@ -116,12 +116,18 @@ interface RequestShape {
   date?: string;
   partySize?: number;
   timeWindow?: { earliest: string; latest: string };
+  permittedAlternativeTimeWindow?: { earliest: string; latest: string };
   location?: { value: string; relation?: string };
   criteria: string[];
   unsupportedHardCriteria: string[];
   missing: string[];
 }
 function partySize(value: unknown): number | undefined { return asNumber(value) ?? asNumber(asRecord(value)?.value); }
+function alternativeWindow(value: unknown): RequestShape["permittedAlternativeTimeWindow"] {
+  const record = asRecord(value); const earliest = parseTime(record?.earliest); const latest = parseTime(record?.latest);
+  return earliest && latest && earliest <= latest ? { earliest, latest } : undefined;
+}
+function normalizedArea(value: string | undefined): string { return normalized(value?.replace(/^near\s+/i, "")); }
 function goal(value: unknown): "RECOMMENDATION" | "AVAILABILITY" | undefined {
   const valueGoal = asString(asRecord(value)?.goal);
   return valueGoal === "RECOMMENDATION" || valueGoal === "AVAILABILITY" ? valueGoal : undefined;
@@ -135,6 +141,9 @@ function requestFromMaterialized(value: JsonRecord): RequestShape {
   const date = parseDate(asRecord(semantic.date)?.value); const party = partySize(semantic.party_size); const locationValue = asString(location?.value); const relation = asString(location?.relation);
   const result: RequestShape = { ...(caseId ? { caseId } : {}), ...(expectedGoal ? { goal: expectedGoal } : {}), ...(date ? { date } : {}), ...(party !== undefined ? { partySize: party } : {}), ...(timeValue ? { timeWindow: { earliest: timeValue, latest: timeValue } } : start && end ? { timeWindow: { earliest: start, latest: end } } : {}), ...(locationValue ? { location: { value: locationValue, ...(relation ? { relation } : {}) } } : {}), criteria, unsupportedHardCriteria: [], missing: [] };
   if (!result.goal) result.missing.push("target.goal");
+  const permitted = alternativeWindow(semantic.permittedAlternativeTimeWindow);
+  if (permitted) result.permittedAlternativeTimeWindow = permitted;
+  if (semantic.permittedAlternativeTimeWindow !== undefined && !result.permittedAlternativeTimeWindow) result.missing.push("permittedAlternativeTimeWindow");
   if (result.goal === "AVAILABILITY" && !result.date) result.missing.push("date");
   if (result.goal === "AVAILABILITY" && !result.timeWindow) result.missing.push("timeWindow");
   if (!result.location) result.missing.push("location");
@@ -147,6 +156,9 @@ function requestFromFinalIntent(value: JsonRecord): RequestShape {
   const actualGoal = goal(value.target);
   const result: RequestShape = { ...(actualGoal ? { goal: actualGoal } : {}), ...(date ? { date } : {}), ...(party !== undefined ? { partySize: party } : {}), ...(earliest && latest ? { timeWindow: { earliest, latest } } : {}), ...(areaQuery ? { location: { value: areaQuery.replace(/^near\s+/i, ""), relation: "NEAR" } } : {}), criteria: criterionSet(value.criteria), unsupportedHardCriteria: [], missing: [] };
   if (!result.goal) result.missing.push("target.goal");
+  const permitted = alternativeWindow(value.permittedAlternativeTimeWindow);
+  if (permitted) result.permittedAlternativeTimeWindow = permitted;
+  if (value.permittedAlternativeTimeWindow !== undefined && !result.permittedAlternativeTimeWindow) result.missing.push("permittedAlternativeTimeWindow");
   if (result.goal === "AVAILABILITY" && !result.date) result.missing.push("date");
   if (result.goal === "AVAILABILITY" && !result.timeWindow) result.missing.push("timeWindow");
   if (!result.location) result.missing.push("location");
@@ -165,9 +177,10 @@ function conditionMismatches(expected: RequestShape, actual: RequestShape): stri
   // still requires its independently materialized party size.
   if (expected.partySize === undefined && actual.partySize !== undefined && expected.goal === "AVAILABILITY") mismatches.push("partySize:not-applicable");
   if (expected.timeWindow && (!actual.timeWindow || expected.timeWindow.earliest !== actual.timeWindow.earliest || expected.timeWindow.latest !== actual.timeWindow.latest)) mismatches.push("timeWindow");
+  if (JSON.stringify(expected.permittedAlternativeTimeWindow) !== JSON.stringify(actual.permittedAlternativeTimeWindow)) mismatches.push("permittedAlternativeTimeWindow");
   if (expected.location && !actual.location) mismatches.push("location");
   if (expected.location && actual.location) {
-    const relationCompatible = expected.location.relation === "NEAR_USER" ? Boolean(normalized(actual.location.value)) : normalized(expected.location.value) === normalized(actual.location.value);
+    const relationCompatible = expected.location.relation === "NEAR_USER" ? Boolean(normalized(actual.location.value)) : normalizedArea(expected.location.value) === normalizedArea(actual.location.value);
     if (!relationCompatible) mismatches.push("location");
   }
   const hard = (criteria: string[]) => criteria.filter((criterion) => !criterion.endsWith("|SOFT"));
@@ -239,6 +252,9 @@ interface ExecutedObservation {
   candidateIds: string[];
   evidenceIds: string[];
   applicableRequest: boolean;
+  actionType: string | undefined;
+  factSources: Array<{ candidateId: string; source: string }>;
+  refresh: boolean;
   ref: string;
 }
 
@@ -252,27 +268,40 @@ function executedObservations(trajectories: unknown[], request: RequestShape): E
   if (!Array.isArray(trajectories)) return undefined;
   return trajectories.flatMap((step, index) => {
     const record = asRecord(step);
+    const observation = asRecord(record?.observation);
+    const failedFactRead = record?.stepOutcome === "EXECUTION_FAILURE"
+      && asRecord(record.agentAction)?.type === "INVESTIGATE_CANDIDATE_FACTS"
+      && observation?.type === "CANDIDATE_FACTS_UNKNOWN"
+      && asRecord(record.actionValidation)?.status === "ALLOWED"
+      && asString(asRecord(record.executionMetadata)?.failureCode) !== undefined;
     // A routed action that completes the read changes the coordinator result
     // to TERMINAL after the Router event is durably accepted.  It remains an
     // executed observation, not an unexecuted proposal.
-    if (record?.stepOutcome !== "EXECUTED" && record?.stepOutcome !== "TERMINAL") return [];
-    const observation = asRecord(record.observation);
+    if (record?.stepOutcome !== "EXECUTED" && record?.stepOutcome !== "TERMINAL" && !failedFactRead) return [];
     const context = asRecord(record.decisionContext);
     const intent = asRecord(context?.intentDraft) ?? asRecord(context?.intent);
     if (!observation || !intent) return [];
     const observedRequest = requestFromFinalIntent(intent);
+    // SOFT wording is reviewed separately under AUTHORITATIVE_CONDITIONS.
+    // It cannot invalidate source facts for otherwise matching request bounds.
     const applicableRequest = !observedRequest.missing.length
-      && !conditionMismatches(request, observedRequest).length
-      && !softCriteriaRequireSemanticReview(request, observedRequest);
+      && !conditionMismatches(request, observedRequest).length;
     return [{
       candidateIds: strings(observation.candidateIds),
-      evidenceIds: strings(observation.evidenceIds),
+      evidenceIds: failedFactRead ? [] : strings(observation.evidenceIds),
       applicableRequest,
+      actionType: asString(asRecord(record.agentAction)?.type),
+      factSources: asArray(observation.factSourceAttempts).flatMap(value => {
+        const attempt = asRecord(value);
+        const candidateId = asString(attempt?.candidateId); const source = asString(attempt?.source);
+        return candidateId && source ? [{ candidateId, source }] : [];
+      }),
+      refresh: asRecord(record.executionMetadata)?.recheckReason === "USER_REQUESTED_REFRESH",
       ref: ref(`trajectories[${index}].observation`),
     }];
   });
 }
-function assessPresentedCandidate(candidateId: string, domain: JsonRecord, request: RequestShape, presentedEvidenceIds: Set<string>, presentedAt: unknown, observationsByCandidate: Set<string> | undefined): { status: DiagnosticEvaluationStatus; observations: string[]; refs: string[] } {
+function assessPresentedCandidate(candidateId: string, domain: JsonRecord, request: RequestShape, presentedEvidenceIds: Set<string>, presentedAt: unknown, observationsByCandidate: Set<string> | undefined, executedReads?: ExecutedObservation[]): { status: DiagnosticEvaluationStatus; observations: string[]; refs: string[] } {
   const checks = asRecord(domain.availabilityChecks) ?? {}; const availability = asRecord(domain.availability) ?? {};
   const allEvidence = asArray(domain.readEvidence).map(asRecord).filter((item): item is JsonRecord => Boolean(item)); const check = asRecord(checks[candidateId]);
   const offers = asArray(availability[candidateId]).map(asRecord).filter((item): item is JsonRecord => Boolean(item));
@@ -294,6 +323,23 @@ function assessPresentedCandidate(candidateId: string, domain: JsonRecord, reque
     }
   }
   const byKind = (kind: string) => listedEvidence.filter((item) => item.kind === kind); const entity = byKind("ENTITY_MATCH"); const facts = byKind("RESTAURANT_FACT"); const availabilityEvidence = byKind("AVAILABILITY"); const discovery = byKind("DISCOVERY");
+  // Reconstruct source replacement from actual ordered reads, independently
+  // of the production State's eligibility or superseded-reference projection.
+  const candidateReads = executedReads?.filter(read => read.applicableRequest && read.candidateIds.includes(candidateId)) ?? [];
+  for (const fact of facts.filter(item => item.provider !== "MODEL_JUDGMENT")) {
+    const id = asString(fact.evidenceId) ?? "";
+    const origin = candidateReads.findIndex(read => read.evidenceIds.includes(id));
+    if (origin < 0) continue; // Missing lineage is diagnosed above.
+    const laterReads = candidateReads.slice(origin + 1).filter(read => read.actionType === "INVESTIGATE_CANDIDATE_FACTS" && !read.evidenceIds.includes(id));
+    if (laterReads.some(read => (read.refresh && candidateReads[origin]?.actionType === "INVESTIGATE_CANDIDATE_FACTS")
+      || read.factSources.some(source => source.candidateId === candidateId && source.source === fact.provider))) {
+      conflicts.push(`cited fact ${id} was superseded by a later same-source fact read`);
+    } else if (laterReads.some(read => read.refresh && !read.factSources.length)) {
+      // Old artifacts may lack failed-source scope. They cannot certify that
+      // a previous fact remained current after an explicit refresh.
+      missing.push(`refresh source scope for cited fact ${id}`);
+    }
+  }
   if (entity.length === 0) missing.push("HIGH entity evidence"); if (entity.some((item) => asRecord(item.entityMatch)?.confidence !== "HIGH")) conflicts.push("entity confidence is not HIGH");
   const identities = entity.filter((item) => asRecord(item.entityMatch)?.confidence === "HIGH");
   if (identities.some((item) => !asString(item.provider) || !asString(item.sourceEntityId))) missing.push("entity source association");
@@ -317,7 +363,7 @@ function assessPresentedCandidate(candidateId: string, domain: JsonRecord, reque
     const claims = asRecord(item.claims) ?? {};
     if (claims.areaMatch !== true) return false;
     if (request.location?.relation === "NEAR_USER") return claims.areaMatchBasis === "TASK_LOCATION_RADIUS" || claims.areaMatchBasis === "EVALUATION_LOCATION_RADIUS";
-    return normalized(asString(claims.areaQuery)) === normalized(`near ${request.location?.value ?? ""}`);
+    return normalizedArea(asString(claims.areaQuery)) === normalizedArea(request.location?.value);
   })) conflicts.push("cited discovery evidence does not establish the requested area");
   const positiveHard = request.criteria.filter((criterion) => criterion.endsWith("|POSITIVE|HARD")).map((criterion) => criterion.split("|")[0]!);
   for (const hardCriterion of positiveHard) if (!facts.some((item) => strings(asRecord(item.claims)?.verifiedHardCriteria).some((value) => normalized(value) === hardCriterion))) missing.push(`HARD criterion ${hardCriterion}`);
@@ -347,15 +393,19 @@ function assessPresentedCandidate(candidateId: string, domain: JsonRecord, reque
       if (observation === "FUTURE_OBSERVATION") conflicts.push("opening-hours fact was observed after presentation");
     }
   } else {
+    const allowedWindow = request.permittedAlternativeTimeWindow ?? request.timeWindow;
     if (availabilityEvidence.length === 0) missing.push("availability evidence");
     for (const item of availabilityEvidence) {
       const claims = asRecord(item.claims) ?? {}; if (claims.date !== request.date) conflicts.push("availability evidence date conflicts with request"); if (claims.partySize !== request.partySize) conflicts.push("availability evidence party size conflicts with request");
-      const visibleSlots = asArray(claims.visibleSlots).map(parseTime).filter((slot): slot is string => Boolean(slot)); if (request.timeWindow && !visibleSlots.some((slot) => slot >= request.timeWindow!.earliest && slot <= request.timeWindow!.latest)) conflicts.push("availability evidence has no slot in requested time window");
+      const visibleSlots = asArray(claims.visibleSlots).map(parseTime).filter((slot): slot is string => Boolean(slot)); if (allowedWindow && !visibleSlots.some((slot) => slot >= allowedWindow.earliest && slot <= allowedWindow.latest)) conflicts.push("availability evidence has no slot in requested time window");
       const freshness = validDuringPresentation(item.observedAt, item.displayExpiresAt ?? item.expiresAt, presentedAt); if (freshness === "MISSING") missing.push("availability evidence observation/display freshness"); if (freshness === "INVALID") conflicts.push("availability evidence display-freshness ordering is invalid"); if (freshness === "FUTURE_OBSERVATION") conflicts.push("availability evidence was observed after presentation"); if (freshness === "EXPIRED") conflicts.push("availability evidence was expired when presented");
     }
     for (const offer of offers) {
       if (offer.restaurantId !== candidateId) conflicts.push("offer restaurant does not match presented candidate"); if (dateFromDateTime(offer.dateTime) !== request.date) conflicts.push("offer date conflicts with request"); if (offer.partySize !== request.partySize) conflicts.push("offer party size conflicts with request");
-      const time = timeFromDateTime(offer.dateTime); if (!time || (request.timeWindow && (time < request.timeWindow.earliest || time > request.timeWindow.latest))) conflicts.push("offer time conflicts with requested time window");
+      const time = timeFromDateTime(offer.dateTime); if (!time || (allowedWindow && (time < allowedWindow.earliest || time > allowedWindow.latest))) conflicts.push("offer time conflicts with requested time window");
+      const isAlternative = time && request.timeWindow && (time < request.timeWindow.earliest || time > request.timeWindow.latest);
+      if (isAlternative && offer.alternativeToRequestedTime !== true) conflicts.push("alternative offer is not labelled as an alternative");
+      if (!isAlternative && offer.alternativeToRequestedTime === true) conflicts.push("requested-time offer is incorrectly labelled as an alternative");
       const matchingAvailabilityEvidence = availabilityEvidence.filter((item) => item.provider === offer.source && identities.some((identity) => identity.provider === item.provider && identity.sourceEntityId === item.sourceEntityId));
       if (availabilityEvidence.length > 0 && matchingAvailabilityEvidence.length === 0) conflicts.push("offer source is not represented by cited availability evidence");
       if (time && matchingAvailabilityEvidence.length > 0 && !matchingAvailabilityEvidence.some((item) => strings(asRecord(item.claims)?.visibleSlots).includes(time))) conflicts.push("offer time is not present in its cited availability evidence");
@@ -419,7 +469,7 @@ function assessNoResult(root: JsonRecord, domain: JsonRecord, request: RequestSh
     const observedEvidenceIds = observations === undefined ? undefined : new Set(observations
       .filter((item) => item.applicableRequest && item.candidateIds.includes(id))
       .flatMap((item) => item.evidenceIds));
-    return assessPresentedCandidate(id, domain, request, currentRefs, endedAt, observedEvidenceIds).status === "SATISFIED";
+    return assessPresentedCandidate(id, domain, request, currentRefs, endedAt, observedEvidenceIds, observations).status === "SATISFIED";
   });
   if (qualified.length) return { status: "NOT_SATISFIED", observations: [`No-result contradicts independently supported candidates: ${qualified.join(", ")}`], refs: qualified.map(id => ref(`finalSnapshot.domainState.availability[${id}]`)) };
   const unknown = (reason: string) => ({ status: "NOT_EVALUATED" as const, observations: [reason], refs: [ref("finalSnapshot.domainState.noVerifiedResult"), ref("trajectories")] });
@@ -437,7 +487,7 @@ function assessNoResult(root: JsonRecord, domain: JsonRecord, request: RequestSh
     const intent = asRecord(context?.intentDraft) ?? asRecord(context?.intent);
     if (!intent) return false;
     const observedRequest = requestFromFinalIntent(intent);
-    return !observedRequest.missing.length && !conditionMismatches(request, observedRequest).length && !softCriteriaRequireSemanticReview(request, observedRequest);
+    return !observedRequest.missing.length && !conditionMismatches(request, observedRequest).length;
   });
   const discoveries = currentSteps.filter(step => asRecord(step.agentAction)?.type === "SEARCH_RESTAURANTS" &&
     asRecord(step.observation)?.type === "DISCOVERY" && validIds(asRecord(step.observation)?.candidateIds) &&
@@ -478,7 +528,7 @@ export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceAr
     const observedEvidenceIds = observations === undefined ? undefined : new Set(observations
       .filter((item) => item.applicableRequest && item.candidateIds.includes(candidateId))
       .flatMap((item) => item.evidenceIds));
-    return assessPresentedCandidate(candidateId, domain, expected, citedIds, presentedAt, observedEvidenceIds);
+    return assessPresentedCandidate(candidateId, domain, expected, citedIds, presentedAt, observedEvidenceIds, observations);
   });
   const evidenceStatus: DiagnosticEvaluationStatus = candidateAssessments.length === 0 ? "NOT_EVALUATED" : candidateAssessments.some((item) => item.status === "NOT_SATISFIED") ? "NOT_SATISFIED" : candidateAssessments.some((item) => item.status === "NOT_EVALUATED") || expected.unsupportedHardCriteria.length ? "NOT_EVALUATED" : "SATISFIED";
   const visits = Array.isArray(trajectoriesValue) ? executedInvestigationVisits(trajectories) : undefined;

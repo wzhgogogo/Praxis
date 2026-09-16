@@ -3,14 +3,15 @@ import { chromium, type Browser, type Page } from "playwright-core";
 import type {
   BrowserEngine,
   BrowserEngineMode,
-  BrowserPageControl,
+  BrowserResponseRule, BrowserControlHint, BrowserPageControl,
   BrowserRuntime,
   BrowserSession,
   BrowserSessionMetadata,
   BrowserSnapshot,
 } from "./browser-runtime.js";
 import { BrowserRuntimeError } from "./browser-runtime-errors.js";
-import { PlaywrightControlRegistry, waitForVisibleChange } from "./playwright-browser-controls.js";
+import { PlaywrightResponseObserver } from "./playwright-response-observer.js";
+import { PlaywrightControlRegistry, waitForVisibleChange, activateObservedControl } from "./playwright-browser-controls.js";
 
 export interface CloudflareBrowserRunConfig {
   accountId: string;
@@ -49,14 +50,25 @@ async function closeQuietly(browser: Browser): Promise<void> {
 class CloudflareBrowserSession implements BrowserSession {
   private closed = false;
   private readonly controls = new PlaywrightControlRegistry();
+  private readonly responses = new PlaywrightResponseObserver();
+  private readonly pageIds = new Map<Page, string>();
+  private pageSequence = 0;
   readonly metadata: BrowserSessionMetadata;
 
-  private constructor(private readonly browser: Browser, engine: BrowserEngine, private readonly page: Page) {
+  private constructor(private readonly browser: Browser, engine: BrowserEngine, private page: Page) {
     this.metadata = {
       runtimeProvider: "CLOUDFLARE_BROWSER_RUN",
       engine,
       startedAt: new Date().toISOString(),
     };
+  }
+
+  private pageId(page: Page): string {
+    const existing = this.pageIds.get(page);
+    if (existing) return existing;
+    const created = `page:${++this.pageSequence}`;
+    this.pageIds.set(page, created);
+    return created;
   }
 
   static async create(browser: Browser, engine: BrowserEngine): Promise<CloudflareBrowserSession> {
@@ -70,11 +82,14 @@ class CloudflareBrowserSession implements BrowserSession {
   }
 
   async navigate(url: string, options: { waitUntil?: "domcontentloaded" | "load"; timeoutMs?: number } = {}): Promise<void> {
+    this.responses.reset();
     await this.run(() => this.page.goto(url, {
       waitUntil: options.waitUntil ?? "domcontentloaded",
       ...(options.timeoutMs !== undefined ? { timeout: options.timeoutMs } : {}),
     }));
   }
+
+  async captureResponses(rules: readonly BrowserResponseRule[]): Promise<void> { this.responses.configure(this.page, rules); }
 
   async snapshot(): Promise<BrowserSnapshot> {
     return this.run(async () => ({
@@ -82,20 +97,42 @@ class CloudflareBrowserSession implements BrowserSession {
       html: await this.page.content(),
       text: await this.page.locator("body").innerText(),
       title: await this.page.title(),
+      pageId: this.pageId(this.page),
+      responses: await this.responses.snapshot(this.page),
     }));
   }
 
-  async observeControls(): Promise<BrowserPageControl[]> { return this.run(() => this.controls.observe(this.page)); }
+  async observeControls(hints?: readonly BrowserControlHint[]): Promise<BrowserPageControl[]> { return this.run(() => this.controls.observe(this.page, hints)); }
   async click(target: string): Promise<void> {
     await this.run(async () => {
       const locator = this.controls.locator(target);
       // Only BrowserTaskExecutor passes opaque `dom:` references. Existing deterministic
       // adapter code keeps its explicit, code-owned locator capability.
-      await (locator ?? this.page.locator(target)).click();
+      if (locator) await activateObservedControl(locator);
+      else await this.page.locator(target).click();
     });
   }
-  async fill(target: string, value: string): Promise<void> { await this.run(() => this.page.locator(target).fill(value)); }
-  async select(target: string, value: string): Promise<string[]> { return this.run(() => this.page.locator(target).selectOption(value)); }
+  async openLink(target: string): Promise<void> {
+    await this.run(async () => {
+      const locator = this.controls.locator(target);
+      if (!locator) throw new Error("Observed link reference is no longer available");
+      const opener = this.page;
+      const popup = opener.waitForEvent("popup", { timeout: 1_000 }).catch(() => undefined);
+      await locator.click();
+      const next = await popup;
+      if (!next) return;
+      this.page = next;
+      this.pageId(next);
+      await next.waitForLoadState("domcontentloaded", { timeout: 2_500 }).catch(() => undefined);
+    });
+  }
+  async fill(target: string, value: string): Promise<void> { await this.run(() => (this.controls.locator(target) ?? this.page.locator(target)).fill(value)); }
+  async select(target: string, value: string): Promise<string[]> { return this.run(() => (this.controls.locator(target) ?? this.page.locator(target)).selectOption(value)); }
+  async setChecked(target: string, checked: boolean): Promise<void> { await this.run(() => (this.controls.locator(target) ?? this.page.locator(target)).setChecked(checked)); }
+  async press(target: string, key: "ArrowLeft" | "ArrowRight"): Promise<void> { await this.run(() => (this.controls.locator(target) ?? this.page.locator(target)).press(key)); }
+  async scroll(target: string, deltaY: number): Promise<void> {
+    await this.run(() => (this.controls.locator(target) ?? this.page.locator(target)).evaluate((element, delta) => (element as HTMLElement).scrollBy(0, delta), deltaY));
+  }
   async waitFor(target: string, timeoutMs?: number): Promise<void> {
     await this.run(() => this.page.locator(target).waitFor(timeoutMs === undefined ? {} : { timeout: timeoutMs }));
   }

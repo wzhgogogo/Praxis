@@ -1,3 +1,4 @@
+import { permitsTableCheckQueryControl } from "./tablecheck-public-query.js";
 import { groundTableCheckAvailability } from "../../domains/restaurant/read-grounding.js";
 import type { RestaurantAvailabilityRequest } from "../../domains/restaurant/contracts.js";
 import type { BrowserRuntime, BrowserSession, BrowserSessionMetadata, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
@@ -177,6 +178,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
           goal: { outlet: { name: candidate.restaurant.outletName, address: candidate.restaurant.address }, date: request.date, partySize: request.partySize, timeWindow: request.timeWindow, hardCriteria: request.hardCriteria },
           objective: "Reveal public TableCheck restaurant search results without submitting a reservation.",
           methodReason: "TableCheck discovery has no extractable public outlet link yet.",
+          permitQueryControl: permitsTableCheckQueryControl,
           completion: (page) => ({
             complete: parseTableCheckDiscoveryOutletUrls(page, candidate.restaurant.outletName).length > 0 || hasTableCheckDiscoveryNoResult(page),
             reason: "Continue until an observed public outlet result is available, or the page explicitly reports no results.",
@@ -325,7 +327,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         completion: (current) => ({
           complete: hasTableCheckBotChallenge(current)
             || (hasTableCheckSelectedRequest(current, request.date, request.partySize) && (() => {
-              const result = parseTableCheckAvailabilitySlots(current, { date: request.date, partySize: request.partySize });
+              const result = parseTableCheckAvailabilitySlots(current, { date: request.date, partySize: request.partySize, timeWindow: request.timeWindow });
               return result.queryComplete && (
                 result.availableSlots.some((slot) => slot >= request.timeWindow.earliest && slot <= request.timeWindow.latest)
                 || result.explicitlyEmpty
@@ -333,12 +335,16 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
               );
             })()),
           reason: hasTableCheckSelectedRequest(current, request.date, request.partySize)
-            ? "The request is selected, but its result is missing, loading, or only partially rendered. Wait for a completed result region or reveal it with an observed safe control."
+            ? "Date and party are selected, but no completed result supports the requested time window. If the mealtime differs, open the observed time combobox and choose a time inside the goal window; otherwise wait for its result."
             : "The latest page must explicitly confirm the complete authoritative date and party size before any result can be used.",
         }),
         shortcut: {
           name: "OBSERVED_STANDARD_DATE_PARTY_FIELDS",
           run: async (current) => {
+            if (/data-testid=["']Venue Availability["']/.test(current.html)) await this.executor.waitFor({
+              source: "TABLECHECK", stage: "AVAILABILITY", session: session!, signal,
+              selector: '[data-testid="Venue Availability"]:not(:has(.skeleton))', timeoutMs: 10_000,
+            });
             const party = selectedPartyField(current);
             const date = selectedDateField(current);
             if (!party && !date) return;
@@ -358,13 +364,13 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         candidate, observedAt, sourceEntityId: selected.extraction.outlet.sourceEntityId, sourceUrl: selected.extraction.outlet.sourceUrl,
         entityMatch: selected.inspection.resolution, pageState: "BOT_CHALLENGE", failureCode: "BOT_CHALLENGE", excerpt: tableCheckPageExcerpt(page),
       }, browser);
-      const controlSlots = parseTableCheckControlAvailability(availabilityRead.controls, request.date, request.partySize);
+      const controlSlots = parseTableCheckControlAvailability(availabilityRead.controls, request.date, request.partySize, page.url, request.timeWindow);
       const requestConfirmed = hasTableCheckSelectedRequest(page, request.date, request.partySize) || controlSlots.queryComplete;
-      if (availabilityRead.status !== "COMPLETED" || !requestConfirmed) return this.ground(candidate, request, {
+      if (!["COMPLETED", "MODEL_HANDOFF"].includes(availabilityRead.status) || !requestConfirmed) return this.ground(candidate, request, {
         candidate, observedAt, sourceEntityId: selected.extraction.outlet.sourceEntityId, sourceUrl: selected.extraction.outlet.sourceUrl,
         entityMatch: selected.inspection.resolution, pageState: "EXTRACTION_FAILED", failureCode: "REQUEST_SELECTION_UNCONFIRMED",
       }, browser);
-      const parsedSlots = parseTableCheckAvailabilitySlots(page, { date: request.date, partySize: request.partySize });
+      const parsedSlots = parseTableCheckAvailabilitySlots(page, { date: request.date, partySize: request.partySize, timeWindow: request.timeWindow });
       const slots = {
         availableSlots: [...new Set([...parsedSlots.availableSlots, ...controlSlots.availableSlots])].sort(),
         hasExplicitSlotUi: parsedSlots.hasExplicitSlotUi || controlSlots.hasExplicitSlotUi,

@@ -36,6 +36,8 @@ export interface UntrustedProviderAvailabilityObservation {
   requestedDate?: string;
   requestedPartySize?: number;
   visibleSlots?: string[];
+  /** Source-observed complete course descriptions, not selected-plan availability. */
+  listedCourseDetails?: string[];
   /** Explicit page-supported reception information; missing booking UI is not evidence of walk-in. */
   receptionMode?: RestaurantReceptionMode;
   /** A short page-derived walk-in statement when walk-in is explicitly supported. */
@@ -205,6 +207,19 @@ export interface UntrustedRestaurantWebsiteObservation {
   entityMatch: { confidence: "HIGH" | "MEDIUM" | "LOW"; matchedBy: string[] };
   restaurantTypeFacts?: string[];
   regularOpeningHours?: string[];
+  /**
+   * Explicitly labelled public commercial terms.  These are deliberately
+   * separate fields: a course price is not a private-room minimum, and a
+   * cancellation rule is not a no-show rule.
+   */
+  publicCommercialTerms?: {
+    listedCourseDetails?: string[];
+    coursePriceYen?: number;
+    coursePriceTax?: "INCLUDED" | "EXCLUDED" | "UNSPECIFIED";
+    privateRoomMinimumYen?: number;
+    cancellationTerms?: string;
+    noShowTerms?: string;
+  };
 }
 
 /**
@@ -234,8 +249,9 @@ export function groundRestaurantWebsiteFacts(
   const openingHours = intent.date && intent.timeWindow
     ? openingHoursForRequest(observation.regularOpeningHours, intent.date, intent.timeWindow)
     : undefined;
-  const facts: RestaurantReadEvidence[] = types.length || openingHours !== undefined ? [{
-    evidenceId: evidenceId("website-facts", { candidateId: candidate.restaurant.id, sourceUrl: observation.sourceUrl, observedAt: observation.observedAt, types, openingHours }),
+  const commercialTerms = observation.publicCommercialTerms;
+  const facts: RestaurantReadEvidence[] = types.length || openingHours !== undefined || commercialTerms !== undefined ? [{
+    evidenceId: evidenceId("website-facts", { candidateId: candidate.restaurant.id, sourceUrl: observation.sourceUrl, observedAt: observation.observedAt, types, openingHours, commercialTerms }),
     kind: "RESTAURANT_FACT", provider: "RESTAURANT_WEBSITE", candidateId: candidate.restaurant.id, sourceEntityId, sourceUrl: observation.sourceUrl,
     observedAt: observation.observedAt, requestFingerprint: fingerprint({ candidateId: candidate.restaurant.id, sourceUrl: observation.sourceUrl, intent }),
     claims: {
@@ -245,6 +261,12 @@ export function groundRestaurantWebsiteFacts(
       ...(negative.judgments.length ? { negativeCriterionJudgments: negative.judgments } : {}),
       ...(observation.regularOpeningHours ? { regularOpeningHours: [...observation.regularOpeningHours] } : {}),
       ...(openingHours ? { openingHoursMatch: openingHours.matches, ...(openingHours.window ? { openingHoursMatchedWindow: openingHours.window } : {}) } : {}),
+      ...(commercialTerms?.listedCourseDetails?.length ? { listedCourseDetails: commercialTerms.listedCourseDetails.filter(note => note.length <= 1600).slice(0, 3) } : {}),
+      ...(commercialTerms?.coursePriceYen !== undefined ? { coursePriceYen: commercialTerms.coursePriceYen } : {}),
+      ...(commercialTerms?.coursePriceTax ? { coursePriceTax: commercialTerms.coursePriceTax } : {}),
+      ...(commercialTerms?.privateRoomMinimumYen !== undefined ? { privateRoomMinimumYen: commercialTerms.privateRoomMinimumYen } : {}),
+      ...(commercialTerms?.cancellationTerms ? { cancellationTerms: commercialTerms.cancellationTerms } : {}),
+      ...(commercialTerms?.noShowTerms ? { noShowTerms: commercialTerms.noShowTerms } : {}),
     }, entityMatch: { confidence: "HIGH", matchedBy: [...observation.entityMatch.matchedBy] },
   }] : [];
   return { evidence: [entityEvidence, ...facts], status: "COMPLETED" };
@@ -437,22 +459,23 @@ export function groundProviderAvailability(
     claims: { outletName: candidate.restaurant.outletName },
     entityMatch: { confidence: "HIGH", matchedBy: [...observation.entityMatch.matchedBy] },
   };
-  const factEvidence: RestaurantReadEvidence | undefined = observation.verifiedHardCriteria?.length ? {
-    evidenceId: evidenceId(`${provider.toLocaleLowerCase("en-US")}-hard-criteria`, { candidateId: candidate.restaurant.id, observedAt: observation.observedAt, criteria: observation.verifiedHardCriteria }),
+  const listedCourseDetails = (observation.listedCourseDetails ?? []).filter(note => note.trim() && note.length <= 1600).slice(0, 3);
+  const factEvidence: RestaurantReadEvidence | undefined = observation.verifiedHardCriteria?.length || listedCourseDetails.length ? {
+    evidenceId: evidenceId(`${provider.toLocaleLowerCase("en-US")}-hard-criteria`, { candidateId: candidate.restaurant.id, observedAt: observation.observedAt, criteria: observation.verifiedHardCriteria, listedCourseDetails }),
     kind: "RESTAURANT_FACT",
     provider,
     candidateId: candidate.restaurant.id,
     ...(observation.sourceEntityId ? { sourceEntityId: observation.sourceEntityId } : {}),
     ...(observation.sourceUrl ? { sourceUrl: observation.sourceUrl } : {}),
     observedAt: observation.observedAt,
-    requestFingerprint: fingerprint({ candidateId: candidate.restaurant.id, criteria: observation.verifiedHardCriteria }),
-    claims: { verifiedHardCriteria: [...observation.verifiedHardCriteria] },
+    requestFingerprint: fingerprint({ candidateId: candidate.restaurant.id, criteria: observation.verifiedHardCriteria, listedCourseDetails }),
+    claims: { verifiedHardCriteria: [...observation.verifiedHardCriteria ?? []], ...(listedCourseDetails.length ? { listedCourseDetails } : {}) },
     entityMatch: { confidence: "HIGH", matchedBy: [...observation.entityMatch.matchedBy] },
   } : undefined;
   const independentEvidence = [entityEvidence, ...(factEvidence ? [factEvidence] : [])];
   const candidateFactUpdate = factEvidence ? {
     candidateId: candidate.restaurant.id,
-    matchReasons: observation.verifiedHardCriteria!.map((criterion) => `Verified HARD criterion from source: ${criterion}`),
+    matchReasons: (observation.verifiedHardCriteria ?? []).map((criterion) => `Verified HARD criterion from source: ${criterion}`),
     evidenceIds: [factEvidence.evidenceId],
   } : undefined;
   const withIndependentEvidence = (nextCheck: RestaurantAvailabilityCheck): GroundedAvailability => ({
@@ -476,6 +499,7 @@ export function groundProviderAvailability(
   const withinWindow = (observation.visibleSlots ?? []).filter((slot) =>
     /^\d{2}:\d{2}$/.test(slot) && slot >= request.timeWindow.earliest && slot <= request.timeWindow.latest,
   );
+  const originalWindow = request.requestedTimeWindow ?? request.timeWindow;
   if (observation.pageState === "AVAILABLE" && withinWindow.length === 0) {
     return withIndependentEvidence({ status: "UNKNOWN", checkedAt: observation.observedAt, evidenceIds: [], reasonCode: "EXTRACTION_FAILED" });
   }
@@ -495,6 +519,7 @@ export function groundProviderAvailability(
       date: request.date,
       partySize: request.partySize,
       visibleSlots: withinWindow,
+      ...(request.requestedTimeWindow ? { requestedTimeWindow: `${originalWindow.earliest}-${originalWindow.latest}` } : {}),
       inventoryStatus: check.status,
       receptionMode: receptionModeFor(observation),
       ...(observation.walkInEvidence?.trim() ? { walkInEvidence: observation.walkInEvidence.trim() } : {}),
@@ -522,6 +547,7 @@ export function groundProviderAvailability(
       dateTime: `${request.date}T${slot}:00+09:00`,
       timezone: "Asia/Tokyo",
       partySize: request.partySize,
+      ...(request.requestedTimeWindow && (slot < originalWindow.earliest || slot > originalWindow.latest) ? { alternativeToRequestedTime: true } : {}),
       bookingMode: "REQUEST",
       executionMode: "BROWSER",
       checkedAt: observation.observedAt,

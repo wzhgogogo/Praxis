@@ -1,13 +1,76 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.49
-- Last updated: 2026-09-15
+- Document revision: 4.58
+- Last updated: 2026-09-16
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## DEV-2026-09-16-BROWSER-READ-FINAL
+
+按用户继续完成 P0–P4 的授权，完成 Tabelog 来源库存/分店绑定、TableCheck 非标准下拉与范围内 TIME、当前请求禁用时段核验、跨页商业事实与来源笔记、两店比较/修订和新商户验证。未新增生产框架或第二浏览器循环。真实轨迹推动修复限定商户调查扩展、Web 新任务竞态、搜索候选误入结果卡及库存过期展示；过期定时重绘不追加网络请求。导出保留由事件编译出的替代许可，独立 evaluator/rubric@15 修复地区前缀与许可窗口误判，新增未授权/扩大许可及错误地区反例；旧 execution/evaluation 保留。最终真实两轮结果、所有失败、源码快照、限制与清理见[最终复核](BROWSER-AGENT-FINAL-REVIEW-2026-09-16.md)。无 commit/push 或预约提交，未改用户原有工作区成果。
+
+## DEV-2026-09-16-WORKFLOW-CONVERGENCE
+
+按用户对H001–H005长期反复的复盘，将切片承诺、最小来源探针、早期审查、冻结验收和偏离主动提醒写入Planning；AGENTS只增加入口，Test维护故障定位与复验范围，Post-change要求按原承诺交付。提醒不新增例行审批，不要求正式前端提前开发，不改变产品目标或Live授权。仅工作规程变化，无业务代码、能力声明或STATUS变更。
+
+## DEV-2026-09-16-BROWSER-AGENT-P1-P2-CURRENT-OFFLINE
+
+- Continued the existing P1/P2 chain after the latest review repair without restoring the revoked broad GET permission. Browser controls now retain accessibility-facing slider display text separately from numeric positions; the existing production Executor fixture validates a two-ended JPY range, lower-bound-only explicit fixture permission, target modal scrolling and page-applied result feedback.
+- Context moved `restaurant_agent_context@6`→`@7` and Agent prompt@12→`@13`. Current candidate commercial notes carry a fact field, display value and evidence provider only; raw URL/evidence/source-entity internals and superseded same-source facts stay outside the model. A real Agent transport regression confirms the model boundary receives only that compact projection.
+- A reducer regression begins from `CANDIDATE_FACTS_REFRESH_REQUESTED` and proves a new website fact bundle supersedes only the stale same-source record: cancellation and course price update, while the old no-show and any omitted facts remain unknown. Updated trajectory persistence/harness schema assertions with the intentional Context version change.
+- Commands: typecheck; affected 28/28; authorized local Chromium 13/13; arch check; build; full authorized loopback `npm test` 356/356. The first complete run identified two stale v6 test expectations, then the rerun passed. No paid model, real source, Gold/Holdout, booking/write, commit or push. P1/P2 still lack positive real-site control contracts and original-researcher independent review; P3/B13/B14 remain pending. Exact status and minimum observation scope are in the [delivery addendum](BROWSER-AGENT-RESTAURANT-P0-P4-DELIVERY-2026-09-16.md).
+
+## DEV-2026-09-16-H004-EVALUATOR
+
+2026-09-16 H004评分器误判已局部修复：diagnostic-evaluator/rubric@14将SOFT措辞语义复核与实际来源观察适用性分开，适用于展示和无结果调查记录；不放宽门店、日期、时间、人数、HARD或证据新鲜度检查。原始H004 artifact离线重评：REQUIRED_EVIDENCE从NOT_SATISFIED变为SATISFIED，AUTHORITATIVE_CONDITIONS仍NOT_EVALUATED，FINAL_CLAIM和整体结果由失败变为待复核（qualified UNKNOWN），不宣称自动2/5成功；原始执行和@13评价未覆盖，SHA核对一致。评分器42/42定向测试及arch通过；首次全仓检查受并发agent-decision.ts语法错误阻断，该错误随后消失；最终typecheck/build通过，npm test为354/356，剩余2项为并发Agent Context版本升至7但Harness/PGlite断言仍期望6，本轮未修改这些文件。未调用模型或来源Live。
+
+执行观察与无结果调查不再以SOFT文本不同作为无效条件；语义待复核仍进入最终结论，不自动同义判定。复用已有测试，新增断言先复现失败再修复。
+
+[报告](../../.eval-artifacts/h004-evaluator-fix-2026-09-16/REPORT.md)。
+
+## DEV-2026-09-16-TIME-SEMANTICS
+
+用户授权仅修两个时间点并重跑20条。EVENING新增为可校验daypart，显式映射取代非AFTER_WORK默认为下午；窗口由代码唯一物化、保留原文和basis。Proposal envelope/预算/人数/强弱设计不变，prompt@12、temporal-policy@3。H003时间-only预期同步dataset@4，旧Gold与历史证据保留。复用既有回归文件，保留其他工作区浏览器改动。2026-09-16 时间语义局部修订完成：prompt@12增加EVENING，evening/night由代码temporal-policy@3按同日18:00–23:00物化；after work保持17:30–22:00且不再自动生成criterion。预算、人数和HARD/SOFT规则不变。当前开发dataset@4仅移除H003重复after work条件。离线352/352、固定semantic fixture15/15及typecheck/arch/build通过。原20条真实模型复测20/20结构合法、20调用、24694ms、107909 tokens；Q03/05/06晚间、Q02/15/16时间-only验收通过，Q01/17/18原时间行为保持。范围外仍有波动：Q06本次first date补出2人，Q02team dinner仍SOFT，Q10新增target；不声称全语义正确或长期稳定。旧快照与本轮之间还有预先存在的备选时间prompt/schema变化，故非严格隔离A/B。没有餐厅来源Live或预约写操作。
+
+## DEV-2026-09-16-BROWSER-AGENT-P0-P4 — shared observation/action offline slice
+
+- 按 Browser Agent P0–P4 计划先保留已有脏工作树，不 reset/stash/commit/push；Stagehand 4.1.0 的小探针结论为不采用。其观察候选需要独立环境/会话，不能作为现有 Executor 的规划器或平行执行循环，未新增依赖。
+- 共享 `BrowserTaskExecutor` / `ModelGateway` strict wire 升为 `browser_read_action@2`。在已有 opaque control registry、单 session、来源 allowlist、权威日期/人数、取消及预算边界内，增加 checkbox 明确设值、range 单键步进、observed region 有界滚动及 modal 背景 target 排除；动作后重新读 control state，避免 URL/文本不变时错误等待。没有给模型 selector、URL、脚本、State、证据写入或提交能力。
+- Local 与 Cloudflare runtime 复用同一 registry 引用解析，Playwright observation 补 `selected` options、checked/range/scroll state。真实 Chromium fixture 覆盖语言 modal、selected≠options、checkbox/range/scroll；站点 Skill 同步为只读控制提示。P2 使用当前已存在的 Router/Domain/Evidence/Web/Harness 离线组合回归，未创建独立 demo 或旁路。
+- P3 未获新的真实模型/Live授权，未运行私有Holdout、新商户或真实来源；P4 只完成交付材料，原研究者独立 Review 未执行。完整 B1–B14 状态和未覆盖范围见 [交付记录](BROWSER-AGENT-RESTAURANT-P0-P4-DELIVERY-2026-09-16.md)。
+
+## DEV-2026-09-16-SEMANTIC-PROMPT-11 — clarity revision, quality gate incomplete
+
+- 用户要求先看/改prompt再测；依据ADR0009/0026保留开放criteria及既有语义职责。prompt@10→@11，schema@3/5000预算不变；合并TARGET、明确封闭人数推断例外、解释必要活动能力与体验偏好、约束可选修饰范围、近似预算不得变硬上限，以及singletonNEGATE无value的现有Contract。
+- 不写入已暴露案例原文、Gold或固定“特征→强度”答案；不改Compiler/Reducer、Prompt外业务规则、Adapter或Evaluator。已有请求契约测试迁移prompt版本，未新增prompt文案镜像测试。更新当前Eval文档标识，历史artifact不动。
+- 实际10条语义模型诊断仍有drinks/team dinner强度、after-work独立criterion、near关系及无约束误提取偏差；当前版本是开发实现，不宣称完整语义验收。离线和逐例真实模型证据见同日TEST-LOG/STATUS及semantic-prompt-11报告。未提交/推送。
+
+## DEV-2026-09-16-SEMANTIC-OUTPUT-BUDGET — per-call cap5000
+
+- 按用户明确要求，将Semantic Interpreter单次maxOutputTokens由500提升到5000，解决H003与H001复杂变体已观察到的length截断。它是输出上限，不是输入或会话累计限制；不改变prompt@10、schema@3、模型、temperature、thinking、timeout或重试。
+- 导出一个预算常量供实际模型请求和现有semantic Eval manifest共用，避免manifest仍记录500。复用既有Interpreter请求契约测试新增5000断言；原实现红色500!==5000，修改后完整Mock通过。未新增测试套件、兼容路径、模型调用策略或业务抽象。
+- 原始H001、复杂变体输入/Gold及500-token原始结果保持不变；独立冻结副本进行单次同输入Live复验，结果与未验证范围见本日TEST-LOG及STATUS。未读取/运行私有Holdout，未提交/推送。
+
+## DEV-2026-09-15-LIVE-OBSERVED-CONTROL-REPAIR — browser input wiring
+
+- 用户在Mock通过后授权Live read验证。首轮原始H003已调查10候选并正常END_READ，但3个TableCheck候选的真实模型人数选择都把`dom:`引用传给CSS解析器，导致`REQUEST_SELECTION_UNCONFIRMED`。另有独立语义条件降级及官网身份支持缺口，不能把全部失败归因网站访问。
+- 当前局部切片只修Local与Cloudflare session的fill/select，复用click已使用的Playwright控件注册表。真实BrowserTaskExecutor仍持有权威参数、只读动作验证及动作后观察；没有改Prompt、Gold、来源顺序、预算或外部写权限。
+- 既有Chromium Harness扩展同一参数化场景覆盖两种session：模型传输和网络固定，实际DOM必须显示正确日期及人数。修复前5通过/2失败，修复后7/7；完整Mock343/343及typecheck、arch:check、build通过。Cloudflare只验证session代码在本地Chromium的行为，未调用Cloudflare服务。
+- 保留首轮Live、运行前后patch/hash和独立Evaluator @13产物；同请求同预算仅追加一次修复后Live。结果与剩余限制见同日TEST-LOG。没有提交或推送。
+
+## DEV-2026-09-15-TERRA-REVIEW-REPAIR — current offline implementation
+
+- 用户要求修复a093764审查问题并先验证Mock。当前纵向切片为“原始请求→真实内部/来源组合→刷新或完成→独立诊断”，沿用ADR-0022/0025/0026，不新增模型、网络调用、重试、平台或执行权限。
+- 复合Google→官网fact check保留各来源尝试（包括UNKNOWN）；Reducer在同请求内累计`supersededEvidenceIds`，显式刷新也废弃前次复合check中本次未重新证实的原始事实。原始readEvidence不改写。展示与Context复用`restaurantCurrentFactEvidence`，派生判断的全部原始支持引用都必须仍有效且关联HIGH身份。
+- Evaluator/rubric升至@13：只从真实有序来源轨迹核验旧事实是否被后续同来源读取或显式刷新替代；已执行但来源失败的fact read可失效旧支持，不能产出正向证据。未调用生产资格函数，也未改变一般无结果调查充分性未评估的边界。
+- H001–H005原文与Gold未改；替换旧测试自定义Adapter ports为实际Google客户端/搜索、官网组合和LiveBrowserAvailability/Resolver，仅Mock传输和页面。补上先前模型替身遗漏的SOFT条件，逐例调用独立Evaluator；这里是替身完整性修正，不是模型质量提升。实际来源组合揭露的空位展示缺Google fact identity引用已一并修复。
+- 外部读取组合接入可注入clock以固定离线观察时刻；生产默认时钟不变。两条既有Hybrid主测试新增/参数化为官网失败、Google先失败、关门刷新反例；原H001–H005测试原地替换，未新建第二套产品执行器。
+- Mock与验证结果见同日TEST-LOG。未提交、推送、Live或外部写入。
+
 
 ## 2026-09-15 — DEV-2026-09-15-CONCRETE-VISIT-READ-CLOSURE
 
@@ -2132,3 +2195,50 @@ Google命名地点不再以地址或任意名称子串确认地标；只接受�
 ### 2026-09-15 — 先修测试与无结果评价（DEV-2026-09-15-TEST-CONTRACT-REPAIR）
 
 按用户要求只修验证层，业务执行维持原状。正式默认集成覆盖跨批/顺序、来源归属和其他来源可达性，Domain覆盖部分观察接纳；先在未修业务代码上失败。纠正无结果Evaluator的自证预期与逻辑，Evaluator/Rubric分别升级到@10；空或不适用记录未评估、可证实矛盾失败，仅独立记录的限定空搜索可确认，不声称一般调查充分。同步Web评价版本接线断言。最终默认套件290通过/8失败，失败对应4类尚未修复的业务契约，未隐藏或跳过。完整记录见[验证修复记录](TEST-VALIDATION-REPAIR-2026-09-15.md)。未修改Prompt/Gold或业务执行、未Live、未提交推送。
+
+
+## 2026-09-16 Stagehand isolated workflow probe
+
+Extended the approved small probe with explicit action checks, phased observations, asynchronous/new-tab fixtures and separate execution/artifact review. All runner/dependency changes remain under ignored `.eval-artifacts`; production browser, Runtime and Policy remain untouched by this slice. Seventeen live model calls did not complete the three merchant paths; a zero-model Playwright control reached the TableCheck form. Stop before production integration; retain failures and evaluate observation plus existing execution as a candidate, not a proven replacement. [Report](../brainstorming/2026-09-16-stagehand-workflow-validation.md).
+
+
+## 2026-09-16 Browser observation/action/memory probe redesign
+
+Expanded isolated diagnostic to alternative query conditions, full filters, map gestures, source-backed notes, independent-request comparison and fresh-evidence update. Runner/dependencies remain ignored artifacts; no production code or main dependency changes by this slice. Preserved adaptive harness failures; Stagehand observe candidate generation is distinguished from a task planner. Future integration must reuse the existing production loop and evidence boundaries. [Design and findings](../brainstorming/2026-09-16-browser-observation-action-memory-validation.md).
+
+
+## 2026-09-16 Browser Agent implementation handoff
+
+Created the [Terra plan](../BROWSER-AGENT-RESTAURANT-IMPLEMENTATION-PLAN.md) against current Executor, Decision, Session, source Skills and Evidence contracts. Preserves Router-bound query authority, distinguishes permitted alternatives from original requirements, sets Stagehand go/no-go criteria, and requires real Web/Harness integration plus independent review. Updated navigation and linked the prior plan as historical context. No product code, dependency, branch or task dispatch changes.
+
+
+## 2026-09-16 Browser independent-review repair
+
+User authorized direct fixes while Terra continues the main implementation. Fixed R1–R4 in the existing Registry/Executor, with regressions in the existing Chromium Harness: deny unclassified checkbox/range events; read mutable native properties and ARIA range state; recognize fixed/native/nested visible dialogs. Added a strict-wire model transport → Executor negative consent test. Production query permissions remain unset, so this does not claim real-site filter support or P0–P4 completion. No paid/Live execution, commit or push. [Review and limitations](BROWSER-AGENT-TERRA-REVIEW-2026-09-16.md).
+
+## 2026-09-16 — Browser P1/P2 offline completion slice
+
+TableCheck and Tabelog now explicitly grant the shared Executor only their public GET search checkbox/range operations; the permission is source code, not a model instruction or page claim. The generic executor preserves a public new-tab read in the same browser context while replacing the active-page identity, so all prior opaque references expire. No second browser loop, source fallback, login or write path was introduced.
+
+The Restaurant intent now keeps the user’s requested time distinct from a separately explicit permitted alternative range. Router binds only that bounded range to the source query and retains the original range for evidence and display; an out-of-original-range slot is labelled alternative. Date, party and other conditions are not widened. Candidate-bound website facts can now retain explicit public course price/tax, private-room minimum, cancellation and no-show values separately after HIGH identity, including one observed safe terms disclosure. Bare amounts and unlabelled inference remain unknown. The existing Web card projects only candidate-scoped cited terms.
+
+All additions reuse the production Router, BrowserTaskExecutor, Grounding and Web projection. The slice is offline Fixture/HTTP/model-boundary work only; no Gold/Holdout, real model, real source, booking, commit or push was used. Original-researcher re-review and an explicitly authorized bounded Live phase remain gates, not implied by this implementation.
+
+
+## 2026-09-16 Second review repair: R5-R8
+
+Current development evidence. Time-window replacement now clears old alternative permission at Intent patch application; explicitly supplied new permission is applied afterwards. The unverified public GET search policy and adapter grants were removed: production checkbox/range actions default to deny pending positive source control contracts. The synthetic fixture alone grants its known query controls; Japanese consent is refused through the real Chromium strict-wire path.
+
+Commercial scalar prices now require an unambiguous complete labelled line; deposits mixed with prices and multiple courses remain unknown. Supported commercial requests (course price, room minimum, cancellation, no-show) are included in the reader objective and completion check. Existing type/hours no longer cause early completion when requested terms are missing. Missing requested facts return UNKNOWN / WEBSITE_REQUESTED_FACTS_UNCONFIRMED while retaining observed evidence. This is narrow explicit-keyword support, not general multi-course or natural-language understanding.
+
+Verification: typecheck, arch:check (0 forbidden), build, full npm test 353/353 and synthetic real-Chromium 13/13 PASS. Before-fix regressions saved. An initial Compiler-level null patch failed one old shape assertion; invalidation was moved to Intent patch application and the full suite rerun successfully. Logs: `.eval-artifacts/browser-terra-review-followup-2026-09-16/before-fix.log`, `final-tests.log`, `browser.log`. Old repro.ts records the pre-fix policy and is not a current runner after its deletion.
+
+The unsafe policy test was retired with the implementation; existing semantic/website and Chromium tests were strengthened, with ambiguity and missing-fact regressions added. No paid model, Replay, Live, external writes, commit or push. R6 is safely closed but positive real-site filter wiring remains incomplete; full P1/P2/P3 acceptance is not claimed.
+
+## 2026-09-16 Browser 直接修复
+
+修复 R9 Web 历史条款投影/来源错配；新增实测 TableCheck Budget/Cuisine 正向 query contract；补充结构观察并移除缺失 form 的逐控件等待。Hybrid runner 增加总调用及剩余时限保护。Tabelog 实测发现模型 COMPLETE 不能代表验收，改为 completion=false 时 MODEL_HANDOFF，补独立回归。保留其他任务既有改动，没有提交/推送。仍有 P3 未闭环，详见 [记录](BROWSER-AGENT-VALIDATION-2026-09-16.md)。
+
+## 2026-09-16 Tabelog follow-up and TableCheck failure attribution
+
+Added code-owned nonstandard control hints to the shared Registry and both Playwright sessions; wired Tabelog date/guest readiness and selection verification into the Adapter. Fixed unrelated external-link classification. TableCheck now recognizes disabled state, waits for guide results and binds explicit empty results to a scoped exact request; MODEL_HANDOFF still requires independent source evidence. No new dependencies, commit or push; pre-existing changes preserved. [Details](BROWSER-AGENT-VALIDATION-2026-09-16.md).

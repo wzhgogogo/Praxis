@@ -17,6 +17,7 @@ import type {
   RestaurantReadExecutionMetadata,
   RestaurantTaskState,
 } from "../domains/restaurant/contracts.js";
+import { restaurantCurrentFactEvidence } from "../domains/restaurant/read-assessment.js";
 import { restaurantBookingTaskDefinition } from "../domains/restaurant/task-definition.js";
 import { applyRestaurantIntentPatch, missingBlockingFields, missingSearchFields } from "../domains/restaurant/intent-state.js";
 import {
@@ -492,6 +493,7 @@ export class PersistentRestaurantAgentApplication {
       ...(intent.date ? { date: { value: intent.date } } : {}),
       ...(intent.partySize !== undefined ? { party_size: intent.partySize } : {}),
       ...(intent.timeWindow ? { time: intent.timeWindow.earliest === intent.timeWindow.latest ? { value: intent.timeWindow.earliest } : { start: intent.timeWindow.earliest, end: intent.timeWindow.latest } } : {}),
+      ...(intent.permittedAlternativeTimeWindow ? { permittedAlternativeTimeWindow: structuredClone(intent.permittedAlternativeTimeWindow) } : {}),
       ...(intent.area ? { location: { value: intent.area.query, relation: "NEAR" } } : {}),
       criteria: (intent.criteria ?? []).map((criterion) => ({ value: criterion.text, polarity: criterion.polarity, strength: criterion.strength })),
     } : undefined;
@@ -745,6 +747,7 @@ export class PersistentRestaurantAgentApplication {
         availability: structuredClone(state.availability),
         availabilityChecks: structuredClone(state.availabilityChecks),
         readEvidence: structuredClone(state.readEvidence),
+        currentFactEvidence: state.candidates.flatMap(candidate => structuredClone(restaurantCurrentFactEvidence(state, candidate.restaurant.id))),
         ...(state.presentedResults ? { presentedCandidateIds: [...state.presentedResults.candidateIds] } : {}),
         ...(state.selectedCandidateId ? { selectedCandidateId: state.selectedCandidateId } : {}),
       },

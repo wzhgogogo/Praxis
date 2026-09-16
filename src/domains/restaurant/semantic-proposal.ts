@@ -5,7 +5,7 @@ import {
 } from "./contracts.js";
 
 export const RESTAURANT_SEMANTIC_PROPOSAL_PURPOSE = "restaurant_semantic_interpret";
-export const RESTAURANT_SEMANTIC_PROPOSAL_PROMPT_VERSION = "v10";
+export const RESTAURANT_SEMANTIC_PROPOSAL_PROMPT_VERSION = "v14";
 export const RESTAURANT_SEMANTIC_PROPOSAL_SCHEMA = {
   name: "restaurant-semantic-proposal",
   version: "3",
@@ -40,8 +40,8 @@ export type RestaurantSemanticValue =
   | { kind: "DATE"; value: string; raw: string }
   | { kind: "DATE"; relativeDay: "TODAY" | "TOMORROW"; raw: string }
   | { kind: "DATE"; weekday: "SUNDAY" | "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY"; raw: string }
-  | { kind: "TIME_WINDOW"; earliest: string; latest: string; raw: string }
-  | { kind: "TIME_WINDOW"; daypart: "AFTERNOON" | "AFTER_WORK"; raw: string }
+  | { kind: "TIME_WINDOW"; earliest: string; latest: string; raw: string; alternativeEarliest?: string; alternativeLatest?: string; alternativeRaw?: string }
+  | { kind: "TIME_WINDOW"; daypart: "AFTERNOON" | "AFTER_WORK" | "EVENING"; raw: string }
   | { kind: "TIME_WINDOW"; daypart: "AFTERNOON"; relativeDay: "TODAY"; raw: string }
   | { kind: "TIME_WINDOW"; relativeOffsetMinutes: number; raw: string }
   | { kind: "PARTY_SIZE"; value: number }
@@ -133,7 +133,8 @@ function valueSchema(field: RestaurantSemanticField): Record<string, unknown> {
     case "TIME_WINDOW":
       return { anyOf: [
         strictObject({ kind, earliest: { type: "string", pattern: "^([01]\\d|2[0-3]):[0-5]\\d$" }, latest: { type: "string", pattern: "^([01]\\d|2[0-3]):[0-5]\\d$" }, raw: { type: "string" } }),
-        strictObject({ kind, daypart: { type: "string", enum: ["AFTERNOON", "AFTER_WORK"] }, raw: { type: "string" } }),
+        strictObject({ kind, earliest: { type: "string", pattern: "^([01]\\d|2[0-3]):[0-5]\\d$" }, latest: { type: "string", pattern: "^([01]\\d|2[0-3]):[0-5]\\d$" }, raw: { type: "string" }, alternativeEarliest: { type: "string", pattern: "^([01]\\d|2[0-3]):[0-5]\\d$" }, alternativeLatest: { type: "string", pattern: "^([01]\\d|2[0-3]):[0-5]\\d$" }, alternativeRaw: { type: "string" } }),
+        strictObject({ kind, daypart: { type: "string", enum: ["AFTERNOON", "AFTER_WORK", "EVENING"] }, raw: { type: "string" } }),
         strictObject({ kind, daypart: { type: "string", enum: ["AFTERNOON"] }, relativeDay: { type: "string", enum: ["TODAY"] }, raw: { type: "string" } }),
         strictObject({ kind, relativeOffsetMinutes: { type: "integer", minimum: 0, maximum: 10080 }, raw: { type: "string" } }),
       ] };
@@ -217,7 +218,12 @@ function valueMatchesField(field: RestaurantSemanticField, value: unknown): bool
         isTime(value.earliest) &&
         isTime(value.latest) &&
         value.earliest <= value.latest && isNonBlankString(value.raw)
-      ) || (hasOnlyKeys(value, ["kind", "daypart", "raw"]) && (value.daypart === "AFTERNOON" || value.daypart === "AFTER_WORK") && isNonBlankString(value.raw)) ||
+      ) || (
+        hasOnlyKeys(value, ["kind", "earliest", "latest", "raw", "alternativeEarliest", "alternativeLatest", "alternativeRaw"]) &&
+        isTime(value.earliest) && isTime(value.latest) && value.earliest <= value.latest && isNonBlankString(value.raw) &&
+        isTime(value.alternativeEarliest) && isTime(value.alternativeLatest) && value.alternativeEarliest <= value.alternativeLatest &&
+        value.alternativeEarliest <= value.earliest && value.alternativeLatest >= value.latest && isNonBlankString(value.alternativeRaw)
+      ) || (hasOnlyKeys(value, ["kind", "daypart", "raw"]) && (value.daypart === "AFTERNOON" || value.daypart === "AFTER_WORK" || value.daypart === "EVENING") && isNonBlankString(value.raw)) ||
         (hasOnlyKeys(value, ["kind", "daypart", "relativeDay", "raw"]) && value.daypart === "AFTERNOON" && value.relativeDay === "TODAY" && isNonBlankString(value.raw)) ||
         (hasOnlyKeys(value, ["kind", "relativeOffsetMinutes", "raw"]) && typeof value.relativeOffsetMinutes === "number" && Number.isInteger(value.relativeOffsetMinutes) && value.relativeOffsetMinutes >= 0 && value.relativeOffsetMinutes <= 10_080 && isNonBlankString(value.raw));
     case "PARTY_SIZE":

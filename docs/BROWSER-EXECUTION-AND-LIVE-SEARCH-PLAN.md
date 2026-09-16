@@ -8,6 +8,8 @@
 - Related ADRs: [ADR Index](decisions/README.md)，重点 0007、0010–0016
 - Related documents: [STATUS](STATUS.md)、[Roadmap](roadmap.md)、[Planning](skills/planning/SKILL.md)、[Test](skills/test/SKILL.md)、[Post-change](skills/post-change-verify/SKILL.md)
 
+> 2026-09-16 后续执行入口：[Browser Agent 餐厅实施与 Review 计划](BROWSER-AGENT-RESTAURANT-IMPLEMENTATION-PLAN.md)。本页保留历史计划与验收记录；后续改造的范围、顺序和门槛以新计划及当前 Accepted 文档为准，不能据此页历史成功推断当前验收通过。
+
 ## 1. 结论与交付范围
 
 不重写整体架构。保留薄语义解析、Compiler/Reducer、业务 Agent、Task Runtime、Policy/Authorization 和 Verifier；集中优化浏览器执行层，再接入现有 Web。让模型依据文件化 Web Skill 持续负责页面理解与下一步提议，代码负责操作边界、权威参数、执行、证据验证和状态变化。此前单候选 Live 只记录为历史诊断：它不能替代当前完整请求—结果关联，也不是 H001 通过证据。2026-09-08 的原始冻结 H001 已在本计划所述完整链路中到达 `PRESENT_RESULTS`；该次 Live Read-only 记录在本地 artifact，不能替代 Web 页面上的一次真实交互验证，也不表示任意日期或门店都有库存。

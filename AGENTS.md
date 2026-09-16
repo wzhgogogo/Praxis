@@ -2,6 +2,8 @@
 
 工作前从`docs/INDEX.md`进入唯一阅读路径，按改动范围读取权威文档；已读且未变化的材料可复用。非trivial工作按`docs/skills/planning/SKILL.md`明确当前切片与验收，验证以`docs/skills/test/SKILL.md`为唯一矩阵，交付按`docs/skills/post-change-verify/SKILL.md`。
 
+执行中遵守[Planning的切片收敛与偏离提醒](docs/skills/planning/SKILL.md#切片收敛与偏离提醒)：发现范围扩张、验收口径漂移或以局部测试替代实际链路验收时，主动向用户指出具体偏离、影响和收敛建议，不等用户追问；不因此为已授权的正常工作增加审批。
+
 无API网站的浏览与受控操作是持续建设的核心能力；来源访问失败是待验证的能力限制，不自动改变产品目标。模型与执行权限仍遵守以下边界。
 
 ## Git、版本与命名

@@ -16,9 +16,9 @@ export const LOCAL_WORKSPACE_PAGE = `<!doctype html>
       input, textarea { width: 100%; border: 1px solid #aeb8b0; background: white; border-radius: 11px; padding: 12px; }
       textarea { min-height: 92px; resize: vertical; }
       #workspace { min-height: 100vh; display: grid; grid-template-columns: 290px minmax(0, 1fr); }
-      aside { border-right: 1px solid #d4d8d1; padding: 24px 18px; background: #e9ede6; }
+      aside { min-width: 0; border-right: 1px solid #d4d8d1; padding: 24px 18px; background: #e9ede6; }
       .brand { font-size: 25px; font-weight: 850; margin: 4px 0 22px; } .side-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-      #case-list { display: grid; gap: 8px; margin-top: 16px; } .case-link { text-align: left; width: 100%; border-radius: 12px; color: #25352c; background: transparent; padding: 12px; }
+      #case-list { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; margin-top: 16px; } .case-link { min-width: 0; white-space: normal; overflow-wrap: anywhere; text-align: left; width: 100%; border-radius: 12px; color: #25352c; background: transparent; padding: 12px; }
       .case-link.active { background: white; box-shadow: 0 1px 0 #cad1ca; } .case-link small { display: block; color: #68756d; margin-top: 5px; }
       main { padding: 28px clamp(18px, 5vw, 64px) 70px; max-width: 1120px; width: 100%; }
       header { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; } h1 { margin: 5px 0; font-size: clamp(30px, 5vw, 48px); }
@@ -29,7 +29,7 @@ export const LOCAL_WORKSPACE_PAGE = `<!doctype html>
       .panel h2 { font-size: 16px; margin: 0 0 14px; } .message { padding: 11px 13px; border-radius: 12px; margin: 8px 0; line-height: 1.48; white-space: pre-wrap; }
       .message.USER { margin-left: 12%; background: #dce9df; } .message.ASSISTANT { margin-right: 12%; background: white; border: 1px solid #e0e4df; }
       .candidate { border-top: 1px solid #e0e4df; padding: 14px 0; } .candidate:first-of-type { border-top: 0; padding-top: 0; }
-      .candidate h3 { margin: 0 0 5px; font-size: 16px; } .muted { color: #66736b; font-size: 13px; line-height: 1.45; }
+      .candidate a { display: inline-block; margin: 8px 12px 0 0; } .candidate h3 { margin: 0 0 5px; font-size: 16px; } .muted { color: #66736b; font-size: 13px; line-height: 1.45; }
       .activity { border-left: 2px solid #b7cbbd; padding: 0 0 16px 12px; } .activity strong { display: block; font-size: 14px; } .activity small { color: #78837c; }
       @media (max-width: 760px) {
         #workspace { display: block; } aside { position: sticky; top: 0; z-index: 3; border-right: 0; border-bottom: 1px solid #d4d8d1; padding: 12px 14px; }
@@ -60,7 +60,7 @@ export const LOCAL_WORKSPACE_PAGE = `<!doctype html>
     </div>
     <script>
       const $ = (selector) => document.querySelector(selector);
-      const state = { cases: [], view: null, stream: null };
+      const state = { cases: [], view: null, stream: null, navigation: 0, expiryTimer: null };
       const login = $('#login'), workspace = $('#workspace'), list = $('#case-list'), title = $('#case-title'), status = $('#case-status'), modeNotice = $('#mode-notice'), workspaceMode = $('#workspace-mode'), readBoundary = $('#read-boundary');
       const messages = $('#messages'), artifact = $('#artifact'), activity = $('#activity'), composer = $('#composer'), message = $('#message'), send = $('#send'), refresh = $('#refresh'), cancelRun = $('#cancel-run'), useLocation = $('#use-location'), locationHelp = $('#location-help'), error = $('#error');
       const node = (tag, text, className) => { const item = document.createElement(tag); if (text !== undefined) item.textContent = text; if (className) item.className = className; return item; };
@@ -68,9 +68,13 @@ export const LOCAL_WORKSPACE_PAGE = `<!doctype html>
       async function api(path, options) { const response = await fetch(path, { credentials: 'same-origin', ...options, headers: { 'content-type': 'application/json', ...(options && options.headers || {}) } }); const payload = await response.json(); if (!response.ok) throw new Error(payload.error || 'Request failed'); return payload; }
       function showError(value, target = error) { target.textContent = value.message || String(value); target.classList.remove('hidden'); }
       function clearError() { error.classList.add('hidden'); }
-      function openStream(caseId) { if (state.stream) state.stream.close(); state.stream = new EventSource('/api/cases/' + encodeURIComponent(caseId) + '/events'); state.stream.addEventListener('case', (event) => renderView(JSON.parse(event.data))); }
+      function openStream(caseId) { if (state.stream) state.stream.close(); state.stream = new EventSource('/api/cases/' + encodeURIComponent(caseId) + '/events'); const stream = state.stream; stream.addEventListener('case', (event) => { if (state.stream === stream && state.view && state.view.case.caseId === caseId) renderView(JSON.parse(event.data)); }); }
       function renderList() { list.replaceChildren(); state.cases.forEach((item) => { const button = node('button', item.title, 'case-link' + (state.view && state.view.case.caseId === item.caseId ? ' active' : '')); button.append(node('small', item.status + ' · ' + item.phase)); button.onclick = () => loadCase(item.caseId); list.append(button); }); }
       function renderView(view) {
+        clearTimeout(state.expiryTimer);
+        const now = Date.now();
+        const upcomingExpiry = Object.values(view.restaurant.availabilityChecks).map(check => Date.parse(check.displayExpiresAt)).filter(time => time > now).sort((a, b) => a - b)[0];
+        if (upcomingExpiry) state.expiryTimer = setTimeout(() => { if (state.view === view) renderView(view); }, Math.min(2147483647, upcomingExpiry - now + 1));
         state.view = view; title.textContent = view.case.title; status.textContent = view.case.status + (view.case.pendingUserAction ? ' · ' + view.case.pendingUserAction : ''); status.classList.remove('hidden'); send.textContent = 'Send';
         const factOnlyResult = view.restaurant.intentDraft && view.restaurant.intentDraft.target && view.restaurant.intentDraft.target.goal === 'RECOMMENDATION'; refresh.textContent = factOnlyResult ? 'Refresh recommendation facts' : 'Refresh availability'; refresh.classList.toggle('hidden', view.case.phase !== 'PRESENT_RESULTS');
         cancelRun.classList.toggle('hidden', view.mode !== 'LIVE_READ' || view.case.status !== 'ACTIVE');
@@ -79,14 +83,46 @@ export const LOCAL_WORKSPACE_PAGE = `<!doctype html>
         const live = view.mode === 'LIVE_READ'; workspaceMode.textContent = 'Persistent restaurant agent · ' + (live ? 'live read-only' : 'fixture'); modeNotice.innerHTML = live ? '<strong>Live read-only.</strong> Server-side sources may be contacted. No authorization, booking, payment, cancellation, account login, or personal-data submission is available.' : '<strong>Fixture only.</strong> No real model, live availability, notification, authorization, or booking. Local access token: <code>praxis-fixture-a</code>.'; readBoundary.textContent = live ? 'Live results appear only after the current source evidence is grounded. A source block, challenge, or missing evidence is shown as a failure, never as an available restaurant.' : 'This workspace can persist and reconnect, but Fixture mode does not contact real sources.';
         messages.replaceChildren(); view.conversation.messages.forEach((item) => messages.append(node('div', item.content, 'message ' + item.role)));
         artifact.replaceChildren(); if (!view.restaurant.candidates.length) artifact.append(node('p', view.restaurant.missingRequiredFields.length ? 'Needed: ' + view.restaurant.missingRequiredFields.join(', ') : 'No candidates yet.', 'muted'));
-        const visibleIds = view.restaurant.presentedCandidateIds || view.restaurant.candidates.map((candidate) => candidate.restaurant.id); const visibleCandidates = view.restaurant.candidates.filter((candidate) => visibleIds.includes(candidate.restaurant.id)).slice(0, 3);
-        visibleCandidates.forEach((candidate) => { const card = node('div', undefined, 'candidate'); const offers = view.restaurant.availability[candidate.restaurant.id] || []; const check = view.restaurant.availabilityChecks[candidate.restaurant.id]; const factOnly = view.restaurant.intentDraft && view.restaurant.intentDraft.target && view.restaurant.intentDraft.target.goal === 'RECOMMENDATION'; const evidence = view.restaurant.readEvidence.filter((item) => item.candidateId === candidate.restaurant.id && item.sourceUrl); const source = evidence.find((item) => item.kind === 'AVAILABILITY') || evidence[0]; const statusDetail = offers[0] ? offers[0].dateTime + ' · ' + offers[0].source : check ? (check.reasonCode || check.status) : factOnly ? 'Source facts checked for this recommendation' : 'Availability not checked'; card.append(node('h3', candidate.restaurant.outletName)); card.append(node('div', candidate.restaurant.address + ' · ' + statusDetail, 'muted')); card.append(node('div', view.restaurant.presentedCandidateIds ? 'Evidence-grounded result' : view.restaurant.selectedCandidateId === candidate.restaurant.id ? 'Selected by the Restaurant Agent' : factOnly ? 'Discovery candidate — source facts still needed' : 'Discovery candidate — not yet a verified availability result', 'muted')); if (source) { const link = document.createElement('a'); link.href = source.sourceUrl; link.target = '_blank'; link.rel = 'noreferrer'; link.textContent = 'Open source page'; link.className = 'muted'; card.append(link); } artifact.append(card); });
+        const presentedIds = view.restaurant.presentedCandidateIds || [];
+        const investigatedIds = view.restaurant.candidates.filter(candidate => view.restaurant.availabilityChecks[candidate.restaurant.id] || view.restaurant.currentFactEvidence.some(item => item.candidateId === candidate.restaurant.id && item.kind === 'RESTAURANT_FACT' && item.provider !== 'GOOGLE_PLACES')).map(candidate => candidate.restaurant.id);
+        const visibleIds = [...new Set([...presentedIds, ...investigatedIds])];
+        const visibleCandidates = view.restaurant.candidates.filter(candidate => !visibleIds.length || visibleIds.includes(candidate.restaurant.id)).slice(0, visibleIds.length ? 10 : 3);
+        const requestedInformation = [view.restaurant.intentDraft?.target?.query || '', ...(view.restaurant.intentDraft?.criteria || []).map(item => item.text)].join(' ');
+        visibleCandidates.forEach(candidate => {
+          const id = candidate.restaurant.id, card = node('div', undefined, 'candidate');
+          const check = view.restaurant.availabilityChecks[id];
+          const expired = Boolean(check && check.displayExpiresAt && Date.parse(check.displayExpiresAt) <= now);
+          const offers = expired ? [] : (view.restaurant.availability[id] || []).filter(offer => !offer.displayExpiresAt || Date.parse(offer.displayExpiresAt) > now);
+          const factOnly = view.restaurant.intentDraft?.target?.goal === 'RECOMMENDATION';
+          const facts = view.restaurant.currentFactEvidence.filter(item => item.candidateId === id && item.kind === 'RESTAURANT_FACT');
+          const checkEvidenceIds = check?.evidenceIds || [];
+          const source = view.restaurant.readEvidence.find(item => item.candidateId === id && item.sourceUrl && checkEvidenceIds.includes(item.evidenceId)) || facts.find(item => item.sourceUrl);
+          const statusDetail = expired ? 'Availability expired — refresh to check again' : offers[0] ? offers[0].dateTime + ' · ' + offers[0].source : check ? (check.reasonCode || check.status) : factOnly ? 'Source facts checked for this recommendation' : 'Availability not checked';
+          card.append(node('h3', candidate.restaurant.outletName), node('div', candidate.restaurant.address + ' · ' + statusDetail, 'muted'));
+          card.append(node('div', presentedIds.includes(id) && (factOnly || !expired) ? 'Evidence-grounded result' : 'Investigated candidate — not a verified result for the current request', 'muted'));
+          if (check && check.checkedAt) card.append(node('div', 'Availability checked: ' + new Date(check.checkedAt).toLocaleString(), 'muted'));
+          let hasPrice = false, hasCancellation = false;
+          facts.forEach(fact => {
+            const claims = fact.claims, terms = [];
+            if (Array.isArray(claims.listedCourseDetails)) { hasPrice = true; terms.push('Listed courses — availability of each plan has not been checked:'); terms.push(...claims.listedCourseDetails); }
+            if (typeof claims.coursePriceYen === 'number') { hasPrice = true; terms.push('Course: ¥' + claims.coursePriceYen.toLocaleString() + (claims.coursePriceTax ? ' (' + String(claims.coursePriceTax).toLowerCase() + ' tax)' : '')); }
+            if (typeof claims.privateRoomMinimumYen === 'number') terms.push('Private-room minimum: ¥' + claims.privateRoomMinimumYen.toLocaleString());
+            if (typeof claims.cancellationTerms === 'string') { hasCancellation = true; terms.push(claims.cancellationTerms); }
+            if (typeof claims.noShowTerms === 'string') terms.push(claims.noShowTerms);
+            terms.forEach(term => card.append(node('p', term, 'muted')));
+            if (terms.length && fact.sourceUrl) { const link = node('a', 'Terms source', 'muted'); link.href = fact.sourceUrl; link.target = '_blank'; link.rel = 'noreferrer'; card.append(link); }
+          });
+          if (!hasPrice && /course|price|套餐|コース/i.test(requestedInformation)) card.append(node('p', 'Course prices: not verified.', 'muted'));
+          if (!hasCancellation && /cancellation|キャンセル|取消/i.test(requestedInformation)) card.append(node('p', 'Cancellation terms: not verified.', 'muted'));
+          if (source) { const link = node('a', 'Open source page', 'muted'); link.href = source.sourceUrl; link.target = '_blank'; link.rel = 'noreferrer'; card.append(link); }
+          artifact.append(card);
+        });
         activity.replaceChildren(); view.activities.slice().reverse().forEach((item) => { const row = node('div', undefined, 'activity'); row.append(node('strong', item.display.title)); row.append(node('div', item.display.detail || '', 'muted')); row.append(node('small', new Date(item.occurredAt).toLocaleString())); activity.append(row); });
         const found = state.cases.findIndex((item) => item.caseId === view.case.caseId); if (found >= 0) state.cases[found] = view.case; else state.cases.unshift(view.case); renderList();
       }
-      async function loadCases() { const payload = await api('/api/cases'); state.cases = payload.cases; renderList(); if (state.cases[0]) await loadCase(state.cases[0].caseId); }
-      async function loadCase(caseId) { try { clearError(); const payload = await api('/api/cases/' + encodeURIComponent(caseId)); renderView(payload.view); openStream(caseId); } catch (reason) { showError(reason); } }
-      function resetCase() { if (state.stream) state.stream.close(); state.stream = null; state.view = null; title.textContent = 'Start a case'; status.classList.add('hidden'); send.textContent = 'Start case'; messages.textContent = 'Describe the result you want to begin.'; artifact.textContent = 'Candidates will appear here.'; activity.textContent = 'Authoritative task events will appear here.'; renderList(); message.focus(); }
+      async function loadCases() { const navigation = state.navigation; const payload = await api('/api/cases'); state.cases = payload.cases; renderList(); if (navigation === state.navigation && state.cases[0]) await loadCase(state.cases[0].caseId); }
+      async function loadCase(caseId) { const navigation = ++state.navigation; if (state.stream) state.stream.close(); state.stream = null; try { clearError(); const payload = await api('/api/cases/' + encodeURIComponent(caseId)); if (navigation !== state.navigation) return; renderView(payload.view); openStream(caseId); } catch (reason) { if (navigation === state.navigation) showError(reason); } }
+      function resetCase() { state.navigation++; clearTimeout(state.expiryTimer); if (state.stream) state.stream.close(); state.stream = null; state.view = null; title.textContent = 'Start a case'; status.classList.add('hidden'); send.textContent = 'Start case'; messages.textContent = 'Describe the result you want to begin.'; artifact.textContent = 'Candidates will appear here.'; activity.textContent = 'Authoritative task events will appear here.'; renderList(); message.focus(); }
       composer.addEventListener('submit', async (event) => { event.preventDefault(); send.disabled = true; try { clearError(); const path = state.view ? '/api/conversations/' + encodeURIComponent(state.view.conversation.id) + '/messages' : '/api/cases'; const body = state.view ? { message: message.value, taskVersion: state.view.case.taskVersion, requestId: requestId() } : { message: message.value, requestId: requestId() }; const payload = await api(path, { method: 'POST', body: JSON.stringify(body) }); message.value = ''; renderView(payload.view); openStream(payload.view.case.caseId); } catch (reason) { showError(reason); } finally { send.disabled = false; } });
       refresh.onclick = async () => { if (!state.view) return; refresh.disabled = true; try { clearError(); const payload = await api('/api/cases/' + encodeURIComponent(state.view.case.caseId) + '/refresh', { method: 'POST', body: JSON.stringify({ taskVersion: state.view.case.taskVersion, requestId: requestId() }) }); renderView(payload.view); openStream(payload.view.case.caseId); } catch (reason) { showError(reason); } finally { refresh.disabled = false; } };
       cancelRun.onclick = async () => { if (!state.view) return; cancelRun.disabled = true; try { clearError(); const payload = await api('/api/cases/' + encodeURIComponent(state.view.case.caseId) + '/run', { method: 'DELETE' }); renderView(payload.view); } catch (reason) { showError(reason); } finally { cancelRun.disabled = false; } };

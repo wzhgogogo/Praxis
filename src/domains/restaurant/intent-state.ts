@@ -88,6 +88,7 @@ export function applyRestaurantIntentPatch(
     ...(current?.target ? { target: structuredClone(current.target) } : {}),
     ...(current?.date ? { date: current.date } : {}),
     ...(current?.timeWindow ? { timeWindow: structuredClone(current.timeWindow) } : {}),
+    ...(current?.permittedAlternativeTimeWindow ? { permittedAlternativeTimeWindow: structuredClone(current.permittedAlternativeTimeWindow) } : {}),
     ...(current?.temporalResolution ? { temporalResolution: structuredClone(current.temporalResolution) } : {}),
     ...(current?.partySize ? { partySize: current.partySize } : {}),
     ...(current?.area ? { area: structuredClone(current.area) } : {}),
@@ -106,8 +107,15 @@ export function applyRestaurantIntentPatch(
     else if (patch.date) next.date = patch.date;
   }
   if (hasOwn(patch, "timeWindow")) {
+    // A replacement time invalidates permission tied to the previous request.
+    // An explicitly supplied new permission is applied below.
+    delete next.permittedAlternativeTimeWindow;
     if (patch.timeWindow === null) delete next.timeWindow;
     else if (patch.timeWindow) next.timeWindow = structuredClone(patch.timeWindow);
+  }
+  if (hasOwn(patch, "permittedAlternativeTimeWindow")) {
+    if (patch.permittedAlternativeTimeWindow === null) delete next.permittedAlternativeTimeWindow;
+    else if (patch.permittedAlternativeTimeWindow) next.permittedAlternativeTimeWindow = structuredClone(patch.permittedAlternativeTimeWindow);
   }
   if (hasOwn(patch, "temporalResolution")) {
     if (patch.temporalResolution === null) delete next.temporalResolution;
@@ -153,6 +161,7 @@ export function completeRestaurantIntent(
     ...(draft.target ? { target: structuredClone(draft.target) } : {}),
     date: draft.date,
     timeWindow: structuredClone(draft.timeWindow),
+    ...(draft.permittedAlternativeTimeWindow ? { permittedAlternativeTimeWindow: structuredClone(draft.permittedAlternativeTimeWindow) } : {}),
     partySize: draft.partySize,
     area: structuredClone(draft.area),
     criteria: structuredClone(draft.criteria),
@@ -175,6 +184,7 @@ export function completeRestaurantSearchIntent(
     ...(draft.target ? { target: structuredClone(draft.target) } : {}),
     ...(draft.date ? { date: draft.date } : {}),
     ...(draft.timeWindow ? { timeWindow: structuredClone(draft.timeWindow) } : {}),
+    ...(draft.permittedAlternativeTimeWindow ? { permittedAlternativeTimeWindow: structuredClone(draft.permittedAlternativeTimeWindow) } : {}),
     area: structuredClone(draft.area),
     criteria: structuredClone(draft.criteria),
     ...(draft.budgetPerPerson ? { budgetPerPerson: structuredClone(draft.budgetPerPerson) } : {}),

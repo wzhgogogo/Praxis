@@ -66,7 +66,7 @@ test("Restaurant Agent context retains bounded observations and action scope whi
   const context = projectRestaurantAgentContext(state);
 
   assert.deepEqual(context.missingBlockingFields, []);
-  assert.equal(context.schemaVersion, "6");
+  assert.equal(context.schemaVersion, "7");
   assert.deepEqual(context.searchAvailability, { available: true });
   assert.deepEqual(context.failure, { code: "SEARCH_FAILED" });
   assert.deepEqual(context.availabilityChecks, {
@@ -84,6 +84,7 @@ test("Restaurant Agent context retains bounded observations and action scope whi
       verifiedNegativeCriteria: [],
       violatedNegativeCriteria: [],
       openingHoursMatch: false,
+      commercialNotes: [],
     },
     sourceAttempts: [],
   });
@@ -121,13 +122,16 @@ test("Restaurant Agent context exposes bounded candidate facts, provider attempt
     },
     factChecks: { [candidateId]: { status: "COMPLETED", checkedAt: "2026-08-05T09:00:00.000Z", evidenceIds: ["fact-a"], sourceProvider: "RESTAURANT_WEBSITE" } },
     readEvidence: [{
+      evidenceId: "entity-a", kind: "ENTITY_MATCH", provider: "RESTAURANT_WEBSITE", candidateId, sourceEntityId: "official-a",
+      observedAt: "2026-08-05T09:00:00.000Z", requestFingerprint: "request-a", claims: {}, entityMatch: { confidence: "HIGH", matchedBy: ["EXACT_PHONE"] },
+    }, {
       evidenceId: "fact-a", kind: "RESTAURANT_FACT", provider: "RESTAURANT_WEBSITE", candidateId, sourceEntityId: "official-a",
       observedAt: "2026-08-05T09:00:00.000Z", requestFingerprint: "request-a",
       claims: { verifiedHardCriteria: ["yakiniku"], verifiedNegativeCriteria: ["not all-you-can-eat"], openingHoursMatch: true },
     }],
   });
   assert.deepEqual(context.candidates[0]?.observedFacts, {
-    verifiedHardCriteria: ["yakiniku"], verifiedNegativeCriteria: ["not all-you-can-eat"], violatedNegativeCriteria: [], openingHoursMatch: true,
+    verifiedHardCriteria: ["yakiniku"], verifiedNegativeCriteria: ["not all-you-can-eat"], violatedNegativeCriteria: [], openingHoursMatch: true, commercialNotes: [],
   });
   assert.deepEqual(context.candidates[0]?.sourceAttempts, [
     { source: "RESTAURANT_WEBSITE", outcome: "COMPLETED" },
@@ -135,4 +139,38 @@ test("Restaurant Agent context exposes bounded candidate facts, provider attempt
   ]);
   assert.deepEqual(context.availabilityChecks[candidateId], { status: "UNAVAILABLE", receptionMode: "WALK_IN_SUPPORTED" });
   assert.equal(context.legalActions.endRead, true);
+});
+
+test("Restaurant Agent context exposes only current candidate-bound commercial notes with their evidence source", () => {
+  const candidateId = fixtureCandidates[0]!.restaurant.id;
+  const context = projectRestaurantAgentContext({
+    schemaVersion: "10", phase: "SEARCHING", intentDraft: { ...fixtureIntent, schemaVersion: "3" }, intent: fixtureIntent,
+    candidates: fixtureCandidates, availability: {}, availabilityChecks: {}, searchRevision: 1,
+    factChecks: {
+      [candidateId]: {
+        status: "COMPLETED", checkedAt: "2026-08-05T09:00:00.000Z", evidenceIds: ["website-current"], sourceProvider: "RESTAURANT_WEBSITE",
+        supersededEvidenceIds: ["website-old"],
+      },
+    },
+    readEvidence: [{
+      evidenceId: "website-entity", kind: "ENTITY_MATCH", provider: "RESTAURANT_WEBSITE", candidateId, sourceEntityId: "official-a",
+      observedAt: "2026-08-05T09:00:00.000Z", requestFingerprint: "entity", claims: {}, entityMatch: { confidence: "HIGH", matchedBy: ["EXACT_PHONE"] },
+    }, {
+      evidenceId: "website-old", kind: "RESTAURANT_FACT", provider: "RESTAURANT_WEBSITE", candidateId, sourceEntityId: "official-a",
+      observedAt: "2026-08-05T09:00:00.000Z", requestFingerprint: "old", claims: { noShowTerms: "No-show: 100% fee." },
+    }, {
+      evidenceId: "website-current", kind: "RESTAURANT_FACT", provider: "RESTAURANT_WEBSITE", candidateId, sourceEntityId: "official-a",
+      observedAt: "2026-08-05T10:00:00.000Z", requestFingerprint: "current",
+      claims: { listedCourseDetails: ["Lunch course: JPY 6000, tax included; lunch only."], coursePriceYen: 8000, coursePriceTax: "INCLUDED", privateRoomMinimumYen: 20000, cancellationTerms: "Cancellation: no fee until 17:00." },
+    }],
+  });
+
+  assert.deepEqual(context.candidates[0]?.observedFacts.commercialNotes, [
+    { field: "COURSE_DETAILS", value: "Lunch course: JPY 6000, tax included; lunch only.", source: "RESTAURANT_WEBSITE" },
+    { field: "COURSE_PRICE", value: "8000 JPY (tax included)", source: "RESTAURANT_WEBSITE" },
+    { field: "PRIVATE_ROOM_MINIMUM", value: "20000 JPY", source: "RESTAURANT_WEBSITE" },
+    { field: "CANCELLATION", value: "Cancellation: no fee until 17:00.", source: "RESTAURANT_WEBSITE" },
+  ]);
+  assert.equal(JSON.stringify(context).includes("No-show: 100% fee."), false, "superseded website facts must not reach the Agent");
+  assert.equal(JSON.stringify(context).includes("official-a"), false, "source entity ids are evidence internals, not model context");
 });

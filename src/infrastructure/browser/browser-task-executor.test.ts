@@ -262,8 +262,11 @@ test("BrowserTaskExecutor keeps an invalid model action in the same bounded sess
   const events: string[] = [];
   const executor = new BrowserTaskExecutor({ openSession: async () => session }, {
     modelDecision: decisions(
-      async () => { throw new BrowserReadDecisionError("INVALID_MODEL_OUTPUT", "CLICK requires a targetRef"); },
-      async (value) => ({ type: "CLICK", targetRef: value.observation.targets[0]!.ref, reason: "Use the observed public result control" }),
+      async () => { throw new BrowserReadDecisionError("INVALID_MODEL_OUTPUT", "CLICK requires a targetRef and no authoritative field or requested state"); },
+      async (value) => {
+        assert.match(value.progress, /no authoritative field or requested state/);
+        return { type: "CLICK", targetRef: value.observation.targets[0]!.ref, reason: "Use the observed public result control" };
+      },
     ),
     onDiagnostic: (event) => events.push(event.event),
   });
@@ -300,4 +303,15 @@ test("BrowserTaskExecutor removes an observed target after its action makes no p
   assert.equal(calls, 2);
   assert.equal(session.clicks, 1);
   await executor.close();
+});
+
+
+test("model COMPLETE cannot claim that the source completion predicate passed", async () => {
+  const session = new FixtureSession([{ url: "https://www.tablecheck.com/en/japan/search", title: "Options only", text: "19:00 19:15 19:30", html: "<p>Options only</p>" }]);
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { modelDecision: decisions(async () => ({ type: "COMPLETE", reason: "Options are visible" })) });
+  const acquired = await executor.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY");
+  try {
+    const result = await executor.runSkill({ ...input(acquired), completion: () => ({ complete: false, reason: "Date and party are unconfirmed" }) });
+    assert.equal(result.status, "MODEL_HANDOFF");
+  } finally { await executor.close(); }
 });

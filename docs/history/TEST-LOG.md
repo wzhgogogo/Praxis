@@ -1,13 +1,117 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.47
-- Last updated: 2026-09-15
+- Document revision: 4.59
+- Last updated: 2026-09-16
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## TEST-2026-09-16-BROWSER-READ-FINAL
+
+- 最终代码门禁：`npm run typecheck`、`npm run arch:check`、`npm test`（369/369）、`npm run build`、`npm run test:browser:fixture`（23/23）全通过。日志 `.eval-artifacts/browser-final-2026-09-16/delivery-*`；最后的 Web 过期场景使用浏览器模拟时钟验证自动更新，无实等 10 分钟或额外请求。
+- Mock/真实 Chromium 本地 Fixture：实际共享 Executor、两 Session、Adapter、来源 Grounding、Web 与持久化链；回归先保存跨分店、ARIA、范围外时段、禁用窗口、导出遗漏、New case 竞态、展示范围与过期标签的失败。Cloudflare Session 本地测试不等于线上 Cloudflare 服务通过。
+- Replay：保存的真实 TableCheck DOM 复核允许窗口无位。真实 Web 事件离线通过生产 exporter 重新导出，events/trajectories/finalSnapshot 不变，原件和 SHA 保留；evaluator@15 两轮业务维度通过，资源字段不足仍 NOT_EVALUATED。
+- 真实模型固定上下文：Agent Decision@14 最终两例通过，前轮非法重查失败保留；Semantic@14 调查说明/真正硬要求定向对照已验证。既有 static semantic regression@3 仍 1/15 PASS、11 evaluated、10 mismatch、4 blocked；不改 Gold、不将其报为通过，未用私有 Holdout。
+- Live Read-only：Tabelog 八芳 9/20、4 人 5 时段；TableCheck 一石三鳥 9/18、2 人 3 时段；八芳 9/19、4 人在 18:30–19:30 明确无位。新商户两批逐例保留失败，首份 Maru 跨分店结果作废。实际 Web 两店比较与人数/日期修订均 PRESENT_RESULTS，并核对来源、替代标签、旧结果失效和刷新恢复；最终重载仅两店、库存已过期则要求刷新。详见[完整结果和边界](BROWSER-AGENT-FINAL-REVIEW-2026-09-16.md)。
+- 无 Controlled Live-write，未预约、支付、登录外部账户或代勾条款。专属 Web 3033 / PostgreSQL 55439 已停止，数据和证据保留；`cleanup.json` 两端口无监听。未 commit/push。源码差异与已有改动共存，不把整体脏工作树都算为本轮新增。
+
+## TEST-2026-09-16-WORKFLOW-CONVERGENCE
+
+纯文档验证：检查本轮AGENTS/Planning/Test/Post-change新增链接与章节锚点、diff及职责一致性；不复制验证矩阵，不放宽已有授权、离线门禁或证据边界。未运行业务测试、模型、Replay或Live，无外部写入。工作区其他既有改动不属于本轮。
+
+## TEST-2026-09-16-H004-EVALUATOR
+
+2026-09-16 H004评分器误判已局部修复：diagnostic-evaluator/rubric@14将SOFT措辞语义复核与实际来源观察适用性分开，适用于展示和无结果调查记录；不放宽门店、日期、时间、人数、HARD或证据新鲜度检查。原始H004 artifact离线重评：REQUIRED_EVIDENCE从NOT_SATISFIED变为SATISFIED，AUTHORITATIVE_CONDITIONS仍NOT_EVALUATED，FINAL_CLAIM和整体结果由失败变为待复核（qualified UNKNOWN），不宣称自动2/5成功；原始执行和@13评价未覆盖，SHA核对一致。评分器42/42定向测试及arch通过；首次全仓检查受并发agent-decision.ts语法错误阻断，该错误随后消失；最终typecheck/build通过，npm test为354/356，剩余2项为并发Agent Context版本升至7但Harness/PGlite断言仍期望6，本轮未修改这些文件。未调用模型或来源Live。
+
+Offline historical-artifact re-evaluation；42/42定向测试包含缺硬条件、错门店、错时间和bounded no-result反例；未新建测试文件。原始artifact哈希2ba39d62a63a7aa9817a731c275711164dadb495d385cf63dc9af1a7dd3e1d89。
+
+[报告](../../.eval-artifacts/h004-evaluator-fix-2026-09-16/REPORT.md)。
+
+## TEST-2026-09-16-TIME-SEMANTICS-20
+
+模式：Offline + REAL_MODEL_SEMANTIC_ONLY。2026-09-16 时间语义局部修订完成：prompt@12增加EVENING，evening/night由代码temporal-policy@3按同日18:00–23:00物化；after work保持17:30–22:00且不再自动生成criterion。预算、人数和HARD/SOFT规则不变。当前开发dataset@4仅移除H003重复after work条件。离线352/352、固定semantic fixture15/15及typecheck/arch/build通过。原20条真实模型复测20/20结构合法、20调用、24694ms、107909 tokens；Q03/05/06晚间、Q02/15/16时间-only验收通过，Q01/17/18原时间行为保持。范围外仍有波动：Q06本次first date补出2人，Q02team dinner仍SOFT，Q10新增target；不声称全语义正确或长期稳定。旧快照与本轮之间还有预先存在的备选时间prompt/schema变化，故非严格隔离A/B。没有餐厅来源Live或预约写操作。
+
+新增一项EVENING参数化校验→Compiler→Reducer行为回归，先确认旧实现校验拒绝，再修复通过；更新版本断言和H003旧预期。初次全量：336/352，15项本机端口EPERM，1项旧prompt版本断言；修正断言并解除本机监听限制后352/352。输入/context相同，温度0、thinking关闭、cap5000，无重试/截断。输入103928/输出3981 tokens；费用未计算。未执行浏览器或站点Live。证据：[REPORT](../../.eval-artifacts/time-semantics-20-2026-09-16/REPORT.md)。
+
+## TEST-2026-09-16-USER-20-SEMANTIC — unchanged current prompt, user-provided queries
+
+- 用户指定20条原文，Q19/20另给人数/区域/包间偏好上下文；其余无上下文，逐条独立。不优化Prompt，不切换自由表达方案，不改Gold/源码。冻结当前prompt@11/schema@3/5000输出/temperature0/thinking disabled/10秒timeout，参考时刻2026-09-16T07:13:00.237Z（Tokyo16:13）全批相同。
+- 本轮仅离线输入/上下文预检：20条，19/20的给定上下文通过生产Compiler→Runtime事件建立，精确核对仅有partySize/area/criteria，无虚构目标或时间。随后复用生产Hybrid interpretAndDispatch，给模型传真实初始Draft；模型结果经真实Compiler/Reducer保存。未执行Agent loop，外部ports若触达立即报错。没有源码改动，未重复完整Mock/build。
+- 真实模型run27042c66：20调用（预设上限40，实际每条1次），无重试/截断，24564ms；input94648/output3916/total98564 tokens，无usage缺失，单条输出86–423，费用未知。20条结构PROPOSED且状态更新完成，不表示20条语义全部正确。输出、初始/最终Draft和原始Proposal逐条独立保存，人工review另存，无LLM Judge。
+- 明确问题：Q06以AFTER_WORK表达tomorrow night，编译器按既有17:30–22:00策略执行，首错Proposal；Q14同时text=no spicy food与NEGATIVE，违反文本不带否定的现有约定，未运行下游所以不声称结果实际反转；Q04在target.query额外加入dinner（原句going out）。
+- 未直接判错的待讨论项：Q02饮酒SOFT/Q16饮酒HARD可能与句子主目的不同有关，不证明随机波动；Q03/Q05的night仅在query，无TIME_WINDOW，但未完全丢原意或编造钟点；近似预算Q07/Q09保留金额/可略超文本，没有数值容差执行政策；部分片段无TARGET，目标分类及独立after-work适配条件待明确。first-date隐含人数与场景强度不套旧有争议Gold计算总分。
+- 明确边界正确：Q19仅人数CORRECT=4且Shibuya/包间偏好保留；Q20移除原POSITIVE SOFT包间criterion，4人/Shibuya保留，没有把取消偏好误成禁止包间。显式must/nice/only、可数人数和开放群体等结果详见逐例表。
+- USER_SUPPLIED_20_QUERY_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false；每例仅一次，非稳定性或一般成功率估计。无Google、Browser、Replay、Controlled Live-write，外部副作用计数NOT_MEASURED；未提交/推送。证据：[报告](../../.eval-artifacts/user-20-semantic-2026-09-16/REPORT.md)、[完整20条输出](../../.eval-artifacts/user-20-semantic-2026-09-16/RESULTS.md)。
+
+## TEST-2026-09-16-BROWSER-AGENT-P0-P4 — offline shared executor verification
+
+- 模式：本地 Unit/Contract、真实 Chromium + 拦截合成 HTML、Mock Application/Router/Domain/Evidence/Web composition；不是 Replay、真实模型、Live Read-only或Controlled Live-write。未读私有 Holdout，未改Gold。
+- `node --import tsx --test src/infrastructure/browser/browser-action-decision.test.ts src/infrastructure/browser/browser-task-executor.test.ts`：15/15通过。覆盖`browser_read_action@2` strict decoder、当前观察引用、checkbox明确状态、range单步、region scroll，以及既有预算/取消/stale target边界。
+- `npm run test:browser:fixture`：9/9通过。真实 Chromium 的 local fixture 验证 modal 阻挡背景日历、selected/value 与 options 分离、checkbox/range/scroll 后置状态；另保留 Local/Cloudflare session 的`dom:`引用解析。所有页面由本地拦截提供，不访问外网或提交预约。
+- `npm test`：344/344通过，0 fail/skip/todo；当前 H001–H005 使用真实内部 Router/Reducer/Context/Grounding/来源组合和独立 evaluator，外部模型/HTTP/页面为替身。`npm run typecheck`、`npm run arch:check`（0 forbidden dependencies）、`npm run build`、`git diff --check`均通过；`npm run eval:restaurant:semantic:fixture`为15/15，但分类仍是`DEVELOPMENT_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false`。
+- 未运行 P3：没有本轮模型调用、Google请求、真实商户、真实网页、Live artifact、预约/付款/取消写操作或独立 Review。B2、B6–B10、B13–B14 的未覆盖范围和逐项状态见 [P0–P4交付记录](BROWSER-AGENT-RESTAURANT-P0-P4-DELIVERY-2026-09-16.md)。
+
+## TEST-2026-09-16-SEMANTIC-PROMPT-11 — offline gates and real-model semantic-only batch
+
+- Prompt@11 / schema@3 / output5000 / temperature0 / thinking disabled / timeout10sec；生产语义链保持Interpreter→Compiler→Runtime/Reducer。原始H001–H005、原H001复杂变体与Gold未改；4条新合成对照及其期望在模型运行前保存。引用固定参考时刻2026-09-16T02:18:29.638Z，不是当前餐厅库存Live。
+- 离线typecheck、arch:check、完整Mock343/343、build及semantic fixture15/15通过。只迁移既有prompt版本断言，未新增镜像prompt措辞测试、未修改语义评分门槛或浏览器。当前版本@11不代表语义质量通过。
+- 真实模型批次34ed3864：10条输入，预设最多20调用（沿用schema尝试上限），实际10调用、无重试、17327ms；10条均PROPOSED，独立人工对预登记字段/条件语义审查5满足/5不满足。input47525/output3907/total51432 tokens，无usage缺失，费用未知；全部来源ports不可执行且未被调用，无Google/Browser/Agent决策。
+- 满足：H001/H002/H004/H005及开放群体对照。H002推断2人、近似10000 SOFT、first-date SOFT、排除项HARD；开放群体不虚构人数/时间。H003饮酒和团餐适配均SOFT代替HARD，缺单独after-work适用性（时间/原词/10人仍正确）；复杂H001饮酒仍SOFT。两个新对照near Ueno/Akasaka关系词丢失；家庭对照虽正确数4人/vegan HARD，却多提取budget is flexible正向SOFT条件。
+- 评分为独立人工语义审查，原始执行与evaluation.json分开；未调用LLM Judge，也未把@13网站证据评分器套用到语义-only。H003的after-work重复语义要求是原有契约，非新增标注；同义表达人工核对不改Gold。新的对照无@10基准，不能称@11引入回归；H002/H003旧500预算结果与当前同时改变prompt/预算，因果混淆；复杂H001旧5000预算对照下饮酒强度仍未改善。
+- 分类EXPOSED_DEVELOPMENT_SEMANTIC_DIAGNOSTIC / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false，5/10不外推一般成功率。未读/运行私有Holdout、无Replay/浏览器Live/Controlled Live-write；外部副作用计数NOT_MEASURED，未提交/推送。证据：[完整报告与prompt](../../.eval-artifacts/semantic-prompt-11-2026-09-16/REPORT.md)。
+
+## TEST-2026-09-16-SEMANTIC-OUTPUT-BUDGET — offline gates and single Live treatment
+
+- 用户授权5000单次输出上限；既有Interpreter请求测试新增5000预算断言，旧实现500!==5000红色证据已保存。实际请求及当前Eval manifest共用导出常量。Prompt文本@10、schema@3、模型、temperature0、thinking disabled、10秒timeout与重试保持不变；不读取/运行私有Holdout，不改历史artifact或原五例Gold。
+- 本次离线typecheck、arch:check、npm test343/343（0fail/skip/todo）、build、semantic fixture15/15通过；复用未受影响的此前Chromium7/7，不冒充本次重跑。没有新增测试套件，预算断言归入原Interpreter请求契约测试。
+- 与500-token变体完全同输入/预登记期望，以独立快照运行一次Live，ede11126；UTC02:18:29开始，336966ms，10步，10候选，END_READ/NO_VERIFIED_RESULT。语义调用2179ms，input4459/output520/total4979 tokens，TOOL_CALLS正常返回；输出大于此前500上限，直接支持预算缺口已在本例解除，但不证明所有复杂输入均足够。
+- 原始Proposal正确保留2人推断、今晚19点/涩谷、omakase HARD、近似15000/date night/private room SOFT；good for drinks仍为SOFT，违反预登记HARD，独立@13 qualified=NO，不能视为语义全通过。Compiler/Reducer未改写该强度。H002/H003未复跑，不把本例结果外推到它们。
+- 空位1UNAVAILABLE+9UNKNOWN；来源仍有身份不确定、选择未确认、外部Provider限制；当前终态指出omakase缺少证据，非确认全局无位。评价器因权威请求冲突而排除适用观察，不能解释成实际未搜索。新增条件改变搜索候选，端到端无结果不能归因于输出预算增加。
+- Google12（named1/discovery1/details10）；24模型调用（semantic1/Agent10/browser13）共143618 tokens，均有usage，费用未知。只读执行，无Replay/Controlled Live-write、未提交/推送；外部副作用计数NOT_MEASURED。原始执行、独立@13评价、版本/输入hash、红绿和门禁日志：[报告](../../.eval-artifacts/semantic-output-budget-5000-2026-09-16/REPORT.md)。
+
+## TEST-2026-09-16-H001-COMPLEX-VARIANT — single Live Read-only diagnostic
+
+- 用户授权一个H001复杂表达变体；预先固定文本及独立期望，保留涩谷/当日19:00/omakase/实际2人，显式人数改为me and my partner，增加date-night、近似15000日元、饮酒和理想包间。多个因素共同变化，不是单因素因果实验。原五例及Gold保持不变；只在独立冻结实验副本追加h001-complex-variant，明确synthetic exposed development / baselineEligible:false，runner的@3数据标签仅为入口兼容，不把该变体当canonical H001。
+- 输入预检PASS：YAML六条、原文物化不变、2人、19:00、5条件；无模型或网络。执行源码与上午成功H001逐文件hash相同（仅副本case YAML不同），prompt@10/schema@3/500-output-token上限/temperature0/thinking disabled均不变；沿用既有离线门槛，本次未重复完整Mock/build。
+- 运行2aaf6d09，UTC02:00:45开始，2331ms，单次DeepSeek语义调用延迟2299ms；MALFORMED_RESPONSE/STRUCTURED_OUTPUT_SHAPE，finish_reason=length; tool_calls=1。MODEL_FAILURE，无完整Proposal、无状态事件/Agent轨迹，GOOGLE_BROWSER_AGENT_NOT_REACHED；runner退出码1，无补跑。usage未保存，tokens及费用未知，不能记0或声称实测正好500。
+- 与原H001的318输出tokens成功及H003同类length错误对照，确认截断在更复杂H001也会出现。本次未判断H002式人数/近似预算/条件强度错误，未证明一般因果或成功率；未提高预算验证反事实。原始执行及独立@13评价分别保存，评价不能把未到达阶段当验收通过。
+- 无新增Replay、Controlled Live-write、产品代码或Prompt修改、提交、推送；未到浏览器/Google/写链路，外部副作用计数NOT_MEASURED。证据：[REPORT](../../.eval-artifacts/h001-complex-variant-2026-09-16/REPORT.md)，同目录计划、变体Gold、provenance、预检、原始执行/独立评价及核验。
+
+## TEST-2026-09-16-H001-H005-LIVE-RERUN — Live Read-only and offline diagnostics
+
+- 用户明确授权复跑H001–H005，五条原文各执行一次，没有自动补跑。a093764+已有修复的src/web-skills冻结快照与昨晚最后H003执行源码一致；运行后根目录及快照源码hash未变。LOCAL_CHROMIUM临时会话，10候选/30步/Google100次/20分钟既有预算。Tokyo 10:18–10:23执行，H001当日19:00及H004当日12–17点均未过期；H005“现在”仍物化为执行起点10:19，后续精确分钟过期风险未排除。
+- Mock预检：当前development内部composition 6/6通过（五例+父套件）；昨晚完整Mock343/343、Chromium7/7、typecheck/arch/build因相同源码复用，本次没有重跑这些完整门槛。无新增Replay。
+- H001 `6f04cb04`：45465ms/3步，10发现/3空位检查，Google2，6模型调用/31172 tokens；TableCheck观察到鮨匠一石三鳥当日19:00/2人slot，PRESENT_RESULTS，独立@13 qualified=YES。实际日期操作成功，人数默认2，不证明自定义人数控件修复；slot为运行时观察，有效期已在原始证据中保存。
+- H002 `d29da2ba`：3112ms/1步，Google0，2模型调用/7489 tokens，NEEDS_INPUT；原始Semantic Proposal漏人数推断、近似预算变硬上限、first-date SOFT变HARD，qualified=NO。尚未触及浏览器。
+- H003 `4f497632`：1790ms，1次语义调用FAILED，finish_reason=length/tool_calls=1，MALFORMED_RESPONSE后MODEL_FAILURE。当前语义maxOutputTokens=500；无Google/浏览器，无usage（不能计0）。本次未重新验证昨晚good for drinks条件或下拉框问题。日志成功记录response model、失败记录configured model，名称差异不构成换模型证据。
+- H004 `c5888de9`：5565ms/2步，Google1，3模型调用/14189 tokens；2家推荐有Google咖啡馆、距离及当日下午营业事实支撑，原始自动qualified=NO。审查发现SOFT同义措辞导致applicableRequest=false，实际证据观察被误排除。单独OFFLINE_SYNTHETIC_COUNTERFACTUAL只在复制artifact中归一SOFT文本即全项SATISFIED，删除HARD证据负向对照不通过；原始artifact哈希不变，Gold/源码/原始评价均未改。此实验不是Live验收替代，不计自动2/5成功，也不证明主观聚会氛围。
+- H005 `6136466d`：221649ms/8步，9候选各一次事实和空位检查，Google10（1 discovery/9 details），25模型调用/103551 tokens，NO_VERIFIED_RESULT，qualified=NO。TableCheck9身份不确定；Tabelog7身份不确定/2外部Provider限制；所有空位UNKNOWN。候选含food court等聚合实体；官网7次尝试中3读取失败、4结构化身份未核实，2候选无URL。正向local food事实缺失、官网共享2次模型预算及逐页诊断不足仍在。本次无重复读取、无实际下拉框失败、无步数耗尽；不证明调查充分或确实无位。
+- 原始自动评价仅H001合格。历史对照受代码、目标契约、时刻和候选差异影响，仅描述性比较；不能把更快失败/更少调查等同成功率提升。数据restaurant-read-development@3 / acceptance@2 / evaluator-rubric@13 / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false，非Clean Baseline。
+- 共37模型调用（36成功/1失败），已记录至少156401 tokens（input150029/output6372），Google13；执行耗时合计277581ms，串行墙钟约279555ms。费用未知，H003usage缺失。全部runner退出且自有进程组无残留；未进入受控预约/支付写链路，实际外部副作用计数仍NOT_MEASURED。无Controlled Live-write、产品代码修改、提交或推送。
+- 证据及完整归因：[REPORT](../../.eval-artifacts/h001-h005-live-2026-09-16/REPORT.md)，同目录含计划、源码provenance、五例日志、comparison、离线反例及post-run verification；原始started/result和@13 sidecar保存在restaurant-hybrid-live-read目录。
+
+## TEST-2026-09-15-H003-LIVE-AND-CONTROL-REPAIR — Live Read-only and offline regression
+
+- 用户授权Mock后运行Live。选择未过期的H003原文，当前Tokyo参考时刻物化2026-09-18/17:30–22:00/10人，显式东银座评估点；候选上限10、Agent30步、Google100次、自动调查20分钟，LOCAL_CHROMIUM临时headless会话，不开启人工验证。两次运行都保存不可覆盖的started/result及独立@13 evaluation。当前数据restaurant-read-development@3 / PROMPT_AND_RESULT_EXPOSED / baselineEligible:false；不是Clean Baseline。
+- 首轮`f7e969d3`：TERMINAL/NO_VERIFIED_RESULT，284490ms，10步、10候选事实+空位检查、Google11（1 discovery/10 details）、22次DeepSeek（1 semantic/10 agent/11 browser）、146326 tokens。三次真实SELECT_AUTHORITATIVE将dom引用送给CSS解析器；TableCheck本地接线故障不能解释为站点不可访问。网站9次身份不确定/1次读取失败；所有空位UNKNOWN。
+- 原有Chromium Harness补同一参数化场景（Local与Cloudflare session，远程连接替换为本地Chromium），保留真实Executor/DOM，仅替换模型传输和网络。修复前原5条通过、新2条失败；修复两种session的fill/select引用查找后7/7。完整npm test343/343、0 fail/skip/todo；typecheck、arch:check（0 forbidden dependencies）、build通过。真实Cloudflare远程服务未调用；HTML为Synthetic，不是Replay。
+- 修复后唯一追加轮`e60abc02`：TERMINAL/NO_VERIFIED_RESULT，316186ms，仍10步/10候选/Google11/22次DeepSeek，154606 tokens。dom CSS错误已消失，但5个人数控件实际是自定义combobox，被错误当原生select而失败。该控件类型缺口仍未修复；本地原生select Fixture通过不证明自定义控件已支持。网站10次身份不确定；所有空位UNKNOWN。每轮Tabelog均8次外部预约Provider限制/2次身份不确定。
+- 两轮独立诊断均qualified=NO、systemBehavior=NOT_SUPPORTED；AUTHORITATIVE_CONDITIONS和COMPLETION_OUTCOME为NOT_SATISFIED，调查重复核验及资源记录SATISFIED，一般调查充分性NOT_EVALUATED。真实原始Semantic Proposal已将good for drinks从HARD降为SOFT，并缺after work适用性criterion；Compiler/Reducer保留该Proposal，时间原词/宽窗仍存在，不能误报为日期/人数丢失。诊断中的“无适用请求的discovery”源自条件不一致，不代表没有实际Google搜索。
+- 对照9月14日H003（285464ms、30步、Google50、33模型调用/215478 tokens、STEP_LIMIT/FAILED、0空位检查），当前到达了10个空位检查并正常有界结束，但未提升合格结果数、未变快；原文哈希相同，历史Prompt/目标/时段、候选及外部状态不同，仅为描述性对比。历史执行不覆盖，另存@13补评。
+- 两轮共44次DeepSeek、300932 tokens，显式费用输入缺失，cost=NOT_MEASURED；未执行预约、支付或其他受控外部写链路，实际副作用计数仍NOT_MEASURED。没有第三次Live、私有Holdout、Cloudflare服务Live或新增Replay。证据目录`.eval-artifacts/terra-live-review-2026-09-15/`包含计划、运行前后patch/hash、对照JSON、红绿/Mock/build日志及报告。修改未提交、未推送。
+
+## TEST-2026-09-15-TERRA-REVIEW-REPAIR — Mock source composition and independent diagnostics
+
+- 基线a093764；已保存旧源码下的红色证据：官网刷新失败仍PRESENT_RESULTS、Evaluator将其判为SUPPORTED_BY_EVIDENCE、关门后Context仍openingHoursMatch=true。三处均在预期业务断言失败，正常首次展示作对照。扩展Google在复合读取起点失败的反例后，又关闭了Evaluator遗漏EXECUTION_FAILURE来源观察的问题。
+- 原H001–H005自定义search/facts/availability ports已退役；测试现在使用真实GooglePlacesClient/GooglePlacesRestaurantSearch、Google→官网→判断组合、LiveBrowserAvailability/TableCheck/AvailabilitySourceResolver，保留Interpreter/Compiler/Runtime/Context/Validator/Router/Grounding。只替换模型传输、HTTP与Browser页面，未计划调用仍失败；无手工State或合格Evidence注入。旧CONCRETE-VISIT条目中关于五例已具完整来源组合和独立诊断的表述，由本条纠正；旧结果仅证明当时内部链。
+- 五例从未修改的YAML原文进入；补齐替身原先遗漏的SOFT条件后，五例AUTHORITATIVE_CONDITIONS均SATISFIED。H001/H003实际slot、H004官网营业事实推荐的qualified=YES；H002实际UNAVAILABLE、H005缺负向HARD证据的qualified=NO且NO_VERIFIED_RESULT。两者COMPLETION_OUTCOME仍NOT_EVALUATED：当前诊断器不自动证明非空候选调查充分性。不能报告“5/5用户目标完成”。
+- 完整`npm test`为343/343、0 fail/skip/todo，约14.9秒；typecheck、arch:check（0 forbidden dependencies）、build通过。语义fixture15/15、搜索fixture3/3、本地Chromium fixture5/5。真实浏览器fixture只证明本地页面/控件契约。
+- 完整Mock首次自动权限审核超时未执行；获准重试后运行成功。该超时不是产品或安全失败。测试未加载.env、未运行付费模型/真实来源/Live、真实PostgreSQL或任何外部写入。
+- 证据保存在本地忽略目录`.eval-artifacts/terra-repair-2026-09-15/`：red/green日志、五例分离的`.mock.result.json`/`.mock.evaluation.json`及修复报告。对审查时旧错误artifact另存@13补评，不改写原始执行或@12结果。这些均为exposed synthetic development diagnostics，不是Clean Baseline或Replay。
+
 
 ## TEST-2026-09-15-CONCRETE-VISIT-READ-CLOSURE — offline execution and diagnostic verification
 
@@ -2381,3 +2485,115 @@ typecheck、arch:check（0 forbidden dependencies）、build通过；npm test 16
 - typecheck、arch:check、build、`git diff --check`通过。未改浏览器操作代码，不重跑Chromium本地Fixture。未运行付费模型、真实来源、Live或Web Live。
 - 两份历史H001 artifact只读补评并与修改前@9对照，execution分类不变。09-08旧artifact缺target.goal，整体未评估但展示证据充分；09-14重复调查失败仍NOT_SUPPORTED。原artifact不改。
 - 本地完整证据：`.eval-artifacts/test-contract-repair-2026-09-15/`，最终日志`npm-test-final-complete.log`。正式记录与未覆盖范围：[验证修复记录](TEST-VALIDATION-REPAIR-2026-09-15.md)。业务未修复，不报告总体通过。
+
+
+## TEST-2026-09-16-BROWSER-LOOP-FEASIBILITY — Live component diagnostic
+
+- 用户授权两站验证；每站一次、最多 8 次模型决策/60 次底层操作/180 秒。现有 DeepSeek Gateway、BrowserTaskExecutor、LocalPlaywrightChromium 未修改。绕过 Discovery/Semantic/Restaurant Runtime 的组件诊断，不是完整产品验收。
+- Mock：`node --import tsx --test src/infrastructure/browser/browser-task-executor.test.ts src/infrastructure/browser/browser-action-decision.test.ts`，14/14。`npm run test:browser:fixture` 首次因沙箱 MachPort Permission denied 无法启动；经沙箱外许可运行 7/7，无源码改动。
+- Live：141 2 次模型调用/11,703 tokens/19.2秒，日期选择与19:00入口可见，未验证完整套餐；八芳 8次/72,362 tokens/81.9秒，全部因 authoritativeField 解码错误被拒，BUDGET_EXCEEDED。无重跑、无Google、无预约提交，实际网络副作用计数 NOT_MEASURED。费用未知。
+- 两份执行和独立助手复核分开存于 `.eval-artifacts/browser-loop-feasibility-2026-09-16/`；完整[报告](../brainstorming/2026-09-16-browser-loop-feasibility-validation.md)。未运行全量代码门禁（无生产改动）、Replay、Cloudflare Live、Controlled Live-write或框架对照；链接/diff通过。当前源码中的观察与反馈限制仍未修复。
+
+
+## TEST-2026-09-16-STAGEHAND-SMALL-PROBE -- isolated component diagnostic
+
+- User-authorized small test; npm Stagehand 4.1.0 pinned in ignored experiment directory. No production dependency or code change.
+- Real Chromium synthetic fixture passed independent DOM date/party/result assertions; real DeepSeek fixture proposed the correct calendar cell and passed target inspection and post-action snapshot review.
+- One timing sample: Stagehand snapshot 34ms / 14,730 characters / 395 mapped nodes; current Registry 10,368ms / 184 controls, missing calendar td. Different outputs and one sample; not a performance baseline.
+- Live TableCheck and Tabelog each observed once. Picker-opener/unlabelled-button proposals stopped at the probe's exact-date guard; no live click, Offer or complete workflow acceptance. Total 3 model calls / 23,001 tokens; monetary cost unknown.
+- Cap 6 model calls across probes, 180 seconds per run. Cache/selfHeal disabled; telemetry explicitly sent to localhost. No login, terms acceptance, contact information or reservation submission; external network side-effect count NOT_MEASURED.
+- Initial sandbox npm DNS failure resolved with approved execution; initial local script ESM configuration corrected before browser/model access. Execution and independent assistant-review sidecars stored in `.eval-artifacts/stagehand-probe-2026-09-16/`. Browser process cleanup checked.
+- No Replay, Cloudflare Live, complete Restaurant Runtime or Controlled Live-write. Documentation links and diff checked; full code gates not repeated because production code is unchanged. [Report](../brainstorming/2026-09-16-stagehand-small-probe.md).
+
+
+## TEST-2026-09-16-STAGEHAND-WORKFLOW — isolated development diagnostic
+
+- Synthetic real-browser: initial XPath prefix failure preserved; corrected same-page and asynchronous/new-tab fixtures passed. Not Replay.
+- Live read-only component: two batches, 7 + 10 model calls, 186,337 tokens; TableCheck 141 / Happo / Sendou did not complete the model-driven workflow. Separate zero-model sequential Stagehand/Playwright navigation control read the public TableCheck form; not autonomous success or inventory proof.
+- Original execution artifacts plus separate assistant review sidecars: `.eval-artifacts/stagehand-workflow-2026-09-16/`. Recording SUCCEEDED is not business success. Browser cleanup reported CLOSED. External side-effect count not independently measured.
+- No production code/dependency change; no product full gates, Replay, Runtime integration or Controlled Live-write. Documentation links and diff checked separately. [Detailed evidence](../brainstorming/2026-09-16-stagehand-workflow-validation.md).
+
+
+## TEST-2026-09-16-BROWSER-OBSERVATION-ACTION-MEMORY
+
+- Synthetic real Chromium fixture: checkbox roundtrip, range keyboard value, search result and modal scroll assertions passed; first sandbox listener EPERM had no model call. Not Replay.
+- Scripted Live read-only: TableCheck query, complete Filters roundtrip/apply/reset and budget value changes verified; Happo alternative Sep 20 19:15 party 4 verified from options-page body with two details expanded. Map marker click timed out; geographic bounds unverified. Earlier wrong-popup/endpoint-only probe failures preserved.
+- Model Live: 15 observe calls, 141 public form reached, Tabelog model workflows incomplete; multiple observe candidates and repeated-date proposals are not evaluated as a complete agent API.
+- Real model + captured Live source: 5 calls for extraction, notes-only comparison/revision and new-source update. Quote/reference containment passed in listed scope, but semantic review found inverse inference, incomplete quote scope and treating options as selected state; no overall memory pass. Not a clean holdout or product E2E.
+- Total 20 calls / 228,988 tokens. Raw execution plus separate review under `.eval-artifacts/browser-capability-suite-2026-09-16/`; all completed browsers reported closed. No booking, consent or PII actions requested; external side-effect count not independently measured.
+- Product full gates not run: no production code/dependency change in this slice. Documentation links and diff checked; no Replay or Controlled Live-write. [Report](../brainstorming/2026-09-16-browser-observation-action-memory-validation.md).
+
+
+## TEST-2026-09-16-BROWSER-PLAN-HANDOFF — documentation only
+
+Checked the plan against current browser/runtime/decision/executor interfaces, existing Skills/Evidence and current H001–H005 acceptance. Verified local Markdown links and git diff whitespace. No code tests, browser runs or paid model calls were run for this documentation-only turn. Implementation and Live gates remain future work in the [plan](../BROWSER-AGENT-RESTAURANT-IMPLEMENTATION-PLAN.md).
+
+
+## TEST-2026-09-16-BROWSER-TERRA-INDEPENDENT-REVIEW
+
+Typecheck and 15 existing decision/executor tests passed independently. Four local real-Chromium synthetic checks reproduced consent checkbox acceptance, native slider stale value (observed 15 vs actual 14), missing aria slider values, and fixed dialog missing background block. Artifacts: `.eval-artifacts/browser-terra-review-2026-09-16/`; no production code changes, model calls or Live sources. No independent full suite rerun. [Review](BROWSER-AGENT-TERRA-REVIEW-2026-09-16.md).
+
+
+## 2026-09-16 Browser review repair — current development evidence
+
+- Slice: R1–R4 in [independent review](BROWSER-AGENT-TERRA-REVIEW-2026-09-16.md), not complete P0–P4 acceptance.
+- Before fix: strengthened existing Fixture and new state/consent regressions reproduced failures (`.eval-artifacts/browser-terra-review-2026-09-16/before-fix.log`).
+- After fix: `npm run typecheck`, `npm run arch:check` (0 forbidden dependencies), `npm run build` PASS. `npm test` 344/344 PASS after authorized rerun; initial sandbox run could not listen on localhost.
+- Final `npm run test:browser:fixture`: **12/12 PASS** (`final-browser.log`). This includes authorized-query check/uncheck/check, native/ARIA slider property roundtrip, strict-wire unsafe consent refusal, fixed native modal, and nested/hidden dialogs with background restoration. The additional checkbox cycle initially exceeded the existing fixture budget; only that fixture was raised to 36 operations, production default remains 24.
+- Classification: Mock/unit plus Synthetic real-Chromium only. The Cloudflare-session-named fixture exercises the session wrapper with local Chromium, not remote Cloudflare deployment. No new Replay, Live Read-only, Controlled Live-write or paid model call. No real-site filter/booking success inferred.
+- Production source query permission remains unset; default refusal is deliberate pending explicit source contract integration.
+
+## 2026-09-16 Browser P1/P2 completion — offline only
+
+- `npm run typecheck` PASS after each affected slice.
+- `npm run test:browser:fixture` PASS **13/13** in authorized local Chromium. It uses only intercepted synthetic pages and production `BrowserTaskExecutor`: source-permitted GET filter check/uncheck/check, slider, bounded region scroll, Update/reopen/Reset, modal state, stale references and observed public new-tab switch. The eight-transition filter case has a fixture-only 52-operation cap; production remains 24.
+- `node --import tsx --test src/integrations/restaurant-availability/public-query-control-policy.test.ts src/integrations/tablecheck/tablecheck-browser-availability.test.ts src/integrations/tabelog/tabelog-browser-availability.test.ts` PASS **33/33**. It proves each source policy permits only its own public GET search range/checkbox controls and rejects sensitive or mismatched paths.
+- `node --import tsx --test src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts` PASS **29/29**. The new alternative-time case starts at real Semantic/Compiler/Router/Reducer composition, substitutes only external model/HTTP/page edges, and confirms original 19:00, bounded 18:30–19:30 query, unchanged date/party and alternative label.
+- `node --import tsx --test src/integrations/restaurant-facts/google-listed-website-facts.test.ts src/server/local-web-server.test.ts` PASS **29/29** in authorized loopback execution. Website facts exercise an observed terms disclosure and two candidate pages; price/tax, private-room minimum, cancellation and no-show remain separate and candidate-scoped. The first sandbox attempt failed because localhost binding is prohibited there; it was rerun unchanged outside the sandbox.
+- Classification: unit/adapter mocks, synthetic HTTP/model boundaries, real local Chromium Fixture and localhost Web test. No Replay, real model, Live Read-only, Controlled Live-write, Gold/Holdout access or external write. These commands do not establish current source-page compatibility or inventory.
+- Final shared gates: `npm run arch:check` PASS (0 forbidden dependencies), authorized `npm test` PASS **352/352**, `npm run build` PASS, authorized `npm run test:browser:fixture` PASS **13/13**, and `git diff --check` PASS. The initial full-suite sandbox run had 15 localhost listener failures plus a transient stale prompt-version assertion; the unchanged authorized rerun passed every test. No Live or paid invocation occurred.
+
+
+## TEST-2026-09-16-BROWSER-AGENT-P1-P2-CURRENT-OFFLINE
+
+- Scope: current P1/P2 offline increment after R5–R8 repair. No Gold/Holdout, paid model, real source, Replay, Controlled Live-write, booking, payment, cancellation, commit or push.
+- `npm run typecheck`: PASS.
+- `node --import tsx --test src/domains/restaurant/agent-context.test.ts src/domains/restaurant/agent-decision.test.ts src/domains/restaurant/action-validator.test.ts`: PASS **28/28**. Covers sourced current commercial notes at the actual Agent transport boundary and same-source fact refresh supersession.
+- Authorized `npm run test:browser:fixture`: PASS **13/13**. Local synthetic Chromium only. The production Executor observes `aria-valuetext` for a two-ended JPY slider, changes only the fixture-permitted lower endpoint, re-observes the upper endpoint unchanged, scrolls the intended dialog and confirms the page's applied filter text. It does not grant production source controls or invoke external pages.
+- `npm run arch:check`: PASS (0 forbidden dependencies). `npm run build`: PASS.
+- First authorized `npm test`: 354/356; two stale v6 Context schema assertions in the mock harness/PGlite persistence tests failed after the deliberate Context v7 change. Both expectations were migrated. Second authorized `npm test`: PASS **356/356**, 0 fail/skip/todo. Loopback fixtures only.
+- Classification: local unit/contract, synthetic real Chromium and loopback integration. This supports only the specified offline controls. Positive source query-control contracts, real complex-page behavior, P3 Live model/source execution, B13 and B14 remain outside the run; review handoff is pending in the [delivery record](BROWSER-AGENT-RESTAURANT-P0-P4-DELIVERY-2026-09-16.md).
+
+## 2026-09-16 Browser second review counterexamples
+
+Local production Compiler/Intent, public query policy and website reader/Grounding exercised with Synthetic boundary inputs; four failures reproduced (R5–R8 in browser Terra review). Existing policy/website-facts/compiler tests 24/24 and typecheck PASS. Evidence: `.eval-artifacts/browser-terra-review-followup-2026-09-16/{repro.ts,results.log,existing-tests.log}`. No Chromium, paid model, Replay, Live or external writes in this review; no claim of full-suite rerun or repair.
+
+
+## 2026-09-16 Second review repair: R5-R8
+
+Current development evidence. Time-window replacement now clears old alternative permission at Intent patch application; explicitly supplied new permission is applied afterwards. The unverified public GET search policy and adapter grants were removed: production checkbox/range actions default to deny pending positive source control contracts. The synthetic fixture alone grants its known query controls; Japanese consent is refused through the real Chromium strict-wire path.
+
+Commercial scalar prices now require an unambiguous complete labelled line; deposits mixed with prices and multiple courses remain unknown. Supported commercial requests (course price, room minimum, cancellation, no-show) are included in the reader objective and completion check. Existing type/hours no longer cause early completion when requested terms are missing. Missing requested facts return UNKNOWN / WEBSITE_REQUESTED_FACTS_UNCONFIRMED while retaining observed evidence. This is narrow explicit-keyword support, not general multi-course or natural-language understanding.
+
+Verification: typecheck, arch:check (0 forbidden), build, full npm test 353/353 and synthetic real-Chromium 13/13 PASS. Before-fix regressions saved. An initial Compiler-level null patch failed one old shape assertion; invalidation was moved to Intent patch application and the full suite rerun successfully. Logs: `.eval-artifacts/browser-terra-review-followup-2026-09-16/before-fix.log`, `final-tests.log`, `browser.log`. Old repro.ts records the pre-fix policy and is not a current runner after its deletion.
+
+The unsafe policy test was retired with the implementation; existing semantic/website and Chromium tests were strengthened, with ambiguity and missing-fact regressions added. No paid model, Replay, Live, external writes, commit or push. R6 is safely closed but positive real-site filter wiring remains incomplete; full P1/P2/P3 acceptance is not claimed.
+
+
+## 2026-09-16 Third browser review
+
+Independently ran Context/Decision/Validator tests 28/28, test:browser:fixture 13/13, typecheck PASS. R9 reproducer evaluates the exact commercial-evidence selection expression extracted from local-workspace-page.ts against retained old/new facts: selected old 7500/no-show despite current 8000/cancellation and supersededEvidenceIds. This is a local expression-level counterexample, not an end-to-end Web test. No full-suite rerun, Live or paid calls.
+
+## 2026-09-16 Browser 直接修复最终验证
+
+- `npm run typecheck`、`npm run arch:check`、`npm run build`、`git diff --check` PASS。
+- `npm test` 首次受 sandbox localhost listen EPERM 影响；允许本地监听后重跑 **358/358 PASS**，最终 log：`.eval-artifacts/browser-completion-2026-09-16/verified-final-tests-unrestricted.log`。
+- `npm run test:browser:fixture` **15/15 PASS**（真实本地 Chromium，synthetic 页面/HTTP，非外站）：同目录 `verified-final-browser.log`。新增覆盖条款刷新/独立引用、来源 Budget 契约/拒绝 consent、模型停止与代码 completion 区分；不以测试数量证明产品完成。
+- Live Read-only：TC 查询模型3 calls成功；H001 9 calls/5 Google并有独立 evaluation通过；Tabelog5 calls目标日期/人数未确认，**未通过**。合计17 calls/149093 tokens，未估算费用。原始 artifact 未覆盖；Tabelog独立判断见 `tabelog-independent-evaluation.json`。
+- 无新增 Replay；无 Controlled Live-write；无生产 Web Live、两店修订/比较、新商户验收。未执行预约提交。达到本批40分钟上限后停止新增 Live。[明细](BROWSER-AGENT-VALIDATION-2026-09-16.md)。
+
+## 2026-09-16 Tabelog / TableCheck follow-up verification
+
+Final typecheck, arch:check, build and diff check PASS. npm test **361/361 PASS**; test:browser:fixture **18/18 PASS**. Logs: `.eval-artifacts/browser-tabelog-repair-2026-09-16/tests-complete.log` and `browser-complete.log`. Intermediate delayed fixture caught a multiple-match readiness selector; container selection fixed it before Live rerun.
+
+Live Read-only: Tabelog early observation failed (1 call), readiness repair confirmed date/guests (2 calls) but not inventory. TableCheck disabled-control repair returned UNKNOWN (2 calls); scoped empty-result repair returned NO_MATCHING_SLOT in 8967ms without model calls. Total 5 calls / 39116 tokens / zero Google, below 12-call / 20-minute cap. Code hashes, executions and independent evaluation kept separately. No Replay, Controlled Live-write or booking submission. [Report](BROWSER-AGENT-VALIDATION-2026-09-16.md).

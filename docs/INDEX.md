@@ -98,6 +98,10 @@ Accepted ADR
 
 ## 仓库治理
 
+- [Browser Agent 餐厅实施与 Review 计划](BROWSER-AGENT-RESTAURANT-IMPLEMENTATION-PLAN.md)：当前 P0–P4 只读切片及 P5 边界；早期交接状态和额度属于历史记录，后续授权与最终结果单列。
+- [Browser Agent 最终复核（2026-09-16）](history/BROWSER-AGENT-FINAL-REVIEW-2026-09-16.md)：本轮实现、真实两店比较/修订、新商户失败、独立结果复核、测试和未覆盖范围。
+- [Browser Agent P0–P4 交付记录（2026-09-16）](history/BROWSER-AGENT-RESTAURANT-P0-P4-DELIVERY-2026-09-16.md)：本轮改动、B1–B14 实际证据、命令和未完成项；不是独立 Review 或 Live 验收。
+
 - [Restaurant Read Execution Design](RESTAURANT-READ-EXECUTION-DESIGN.md)：已执行的只读调查工具语义、证据接纳、正常无结果收尾与验证设计，关联ADR-0025；真实模型/来源验收仍单独记录。
 - [Browser Execution and Live Search Plan](BROWSER-EXECUTION-AND-LIVE-SEARCH-PLAN.md)：draft / not integrated；浏览器共用受控执行、原始 H001 和本地真实搜索体验的交接计划，不代表当前能力。
 - [Repository Naming and Version Conventions](REPOSITORY-CONVENTIONS.md)：Git branch/tag、版本轴、源码、Eval、文档和命令命名的唯一Source of Truth。
@@ -130,3 +134,5 @@ Related documents:
 ## 单页浏览器诊断
 
 [Browser Read Diagnostics](harness/BROWSER-READ-DIAGNOSTICS.md)维护独立入口、证据字段与测试映射。LOCAL_CHROMIUM单独interactive使用临时profile；interactive与manual-intervention同时开启才使用ADR-0016专用持久eval profile。真实Chromium本地Fixture不等于真实来源验证；单页观察不写Task State、不产出Offer。
+
+- [2026-09-16 Browser 直接修复与有界验证](history/BROWSER-AGENT-VALIDATION-2026-09-16.md)：早期开发检查点；当时的失败保留，当前状态以最终复核及 STATUS 为准。

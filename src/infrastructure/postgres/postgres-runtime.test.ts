@@ -410,9 +410,9 @@ describe("PostgresTaskRuntime with PGlite", () => {
         stateHashBefore: "context-hash",
         causalRefs: { eventIds: [], commandIds: [], attemptIds: [], evidenceIds: [] },
         capabilities: [],
-          contextSchemaVersion: "6",
+          contextSchemaVersion: "7",
         decisionContext: {
-            schemaVersion: "6",
+            schemaVersion: "7",
           now: "2026-08-20T00:00:00.000Z",
           phase: "SEARCHING",
           missingBlockingFields: [],
@@ -430,9 +430,9 @@ describe("PostgresTaskRuntime with PGlite", () => {
       });
 
       const [step] = await store.list("trajectory-context-task");
-      assert.equal(step?.contextSchemaVersion, "6");
+      assert.equal(step?.contextSchemaVersion, "7");
       assert.deepEqual(step?.decisionContext, {
-        schemaVersion: "6",
+        schemaVersion: "7",
         now: "2026-08-20T00:00:00.000Z",
         phase: "SEARCHING",
         missingBlockingFields: [],

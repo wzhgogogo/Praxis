@@ -7,6 +7,8 @@ description: Praxis质量评估；衡量当前语义链、Agent动作、搜索�
 
 Eval评估模型与端到端质量，不替代功能测试。当前产品架构由ADR-0010、ADR-0011、ADR-0012及ADR-0013控制定义：语义Eval只评估保留的 Interpreter → Compiler → Reducer 边界；Agent动作由独立Action Validator、最小Restaurant Agent Context、Router deadline与Harness验证。已经退出产品主链的Decision Harness、单轮Intent Parser和分类Criteria Contract只在历史文档与Git中保留。
 
+当前时间修订开发诊断：prompt@12 / temporal-policy@3，原20条用户query复测按相同输入与参考时间比较Proposal和最终Draft；晚间与after-work条件去重单列验收，范围外人数/强弱波动不并入成功率。当前餐厅开发集@4仅删除H003重复after-work criterion，旧@3是历史已暴露证据；不运行私有Holdout。
+
 ## 当前目录
 
 ```text
@@ -25,9 +27,13 @@ Eval材料按`current executable`、`frozen regression`、`superseded retrospect
 ## Stage 2C冻结口径
 
 - 产品职责固定为`Semantic Interpreter → Proposal Contract → Compiler → Runtime/Reducer → Agent Decision → Action Validator → Execution Router`；语义Eval只在Interpreter/Compiler/Reducer边界归因，不把ADR-0007的历史next-step标注当作产品Runtime。
-- 当前标识为`restaurant-semantic-prompt@10`与`restaurant-semantic-proposal@3`。稳定槽位外只允许开放`CRITERION{text, polarity, strength}`，strength固定为`HARD` / `SOFT` / `UNSPECIFIED`；不得为单个Eval Case新增taxonomy、Provider mapping或重新分配职责。已运行的Prompt `@4` Baseline保持`RESULT_EXPOSED`，不能用来验证当前Prompt。
+- 当前标识为`restaurant-semantic-prompt@14`与`restaurant-semantic-proposal@3`。稳定槽位外只允许开放`CRITERION{text, polarity, strength}`，strength固定为`HARD` / `SOFT` / `UNSPECIFIED`；不得为单个Eval Case新增taxonomy、Provider mapping或重新分配职责。已运行的Prompt `@4` Baseline保持`RESULT_EXPOSED`，不能用来验证当前Prompt。
 - 历史Decision Harness的7个Episode / 17个Turn及旧单轮Intent Eval已经完成架构探针使命；其可执行代码、命令和默认测试已删除。需要追溯时读历史文档或Git，不恢复兼容路径。
 - Prompt `@8`的下一份独立Baseline必须使用新的私有`CLEAN_HOLDOUT`；它是parser/semantic质量工作，不阻塞Hybrid E2E preparation。
+
+历史prompt@11合并目标分类，澄清封闭参与者推断、活动能力与体验偏好、局部可选修饰及近似预算；10条真实模型开发诊断仍有条件强度、关系词和无约束误提取偏差，结构合法不等于语义合格。不得用该批结果宣称Clean Baseline或浏览器端到端通过。
+
+当前Semantic Interpreter单次输出上限为5000 tokens，由`RESTAURANT_SEMANTIC_MAX_OUTPUT_TOKENS`统一供实际请求和当前Eval manifest引用；不限制输入或会话累计token。Prompt文本与Schema未因此变更。旧artifact保留原500-token配置，跨配置比较必须显式记录预算差异；预算提高不证明语义正确，且10秒单次timeout与既有重试边界不变。
 
 ## 已暴露语义 Regression
 
@@ -164,12 +170,29 @@ Browser检测、尝试、生效验证分别报告；静态禁止写入声明不�
 
 Web和Harness若声明同一能力，执行记录应进入同一诊断入口或明确缺口。先保存执行artifact，再生成独立评价；评价故障不能覆盖执行结果。集成测试、模型质量、来源实时可用性分别报告。
 
-`restaurant-hybrid-read-diagnostic-evaluator@12`是当前Hybrid runner与普通Web共同使用的最小确定性诊断，不是完整E2E评分器，也不调用LLM Judge。它按保存的`target.goal`分别检查预约空位展示与事实型展示；每项正向或负向HARD条件都需要同一候选的来源事实，负向条件的明确冲突保持冲突、缺事实保持`UNKNOWN`，不从关键词缺失推导满足。派生`MODEL_JUDGMENT`必须引用同候选、已身份关联的原始事实，不能借provider或entity字段伪装为原文；任意自由文本重查理由也不会免除重复执行检查。它不按`caseId`补充或修改执行语义。执行结束后先保存原始`.result.json`，再写入一个不覆盖原记录的evaluation文件；成功、可确认无结果、用户补问、内部执行失败和可收尾取消都分别记录完成类别后再尝试评价。评价本身失败时另写不可变的失败sidecar，绝不覆盖执行结果；强杀后仍可显式补评已有artifact：
+`restaurant-hybrid-read-diagnostic-evaluator@15`是当前Hybrid runner与普通Web共同使用的最小确定性诊断，不是完整E2E评分器，也不调用LLM Judge。它按保存的`target.goal`分别检查预约空位展示与事实型展示；每项正向或负向HARD条件都需要同一候选的来源事实，负向条件的明确冲突保持冲突、缺事实保持`UNKNOWN`，不从关键词缺失推导满足。派生`MODEL_JUDGMENT`必须引用同候选、已身份关联的原始事实，不能借provider或entity字段伪装为原文；任意自由文本重查理由也不会免除重复执行检查。它不按`caseId`补充或修改执行语义。执行结束后先保存原始`.result.json`，再写入一个不覆盖原记录的evaluation文件；成功、可确认无结果、用户补问、内部执行失败和可收尾取消都分别记录完成类别后再尝试评价。评价本身失败时另写不可变的失败sidecar，绝不覆盖执行结果；强杀后仍可显式补评已有artifact：
 
 ```bash
 npm run eval:restaurant:agent-loop:artifact -- <artifact.result.json>
 ```
 
-无结果诊断必须有独立反例：保留合格证据而只改终态、删除实际调查记录、借用旧请求的轨迹、遗漏已发现候选、未完成执行却保留旧终态。`@12`拒绝与当前可核验合格候选或执行范围矛盾的无结果声明；明确无slot还必须引用同候选、同日期/人数、`inventoryStatus=UNAVAILABLE`的来源记录。空对象、提议未执行、缺少适用轨迹不能获得通过。可确认“本次已执行搜索确实返回零候选且范围与结束记录一致”，但不能由此声称搜索穷尽。一般候选调查的`remainingGaps`文案不足以证明结论时保持`NOT_EVALUATED`，调查充分性仍单列未评估；不得为了消除未评估而复制生产端eligible判断或相信模型自述。
+无结果诊断必须有独立反例：保留合格证据而只改终态、删除实际调查记录、借用旧请求的轨迹、遗漏已发现候选、未完成执行却保留旧终态。`@14`拒绝与当前可核验合格候选或执行范围矛盾的无结果声明；明确无slot还必须引用同候选、同日期/人数、`inventoryStatus=UNAVAILABLE`的来源记录。空对象、提议未执行、缺少适用轨迹不能获得通过。可确认“本次已执行搜索确实返回零候选且范围与结束记录一致”，但不能由此声称搜索穷尽。一般候选调查的`remainingGaps`文案不足以证明结论时保持`NOT_EVALUATED`，调查充分性仍单列未评估；不得为了消除未评估而复制生产端eligible判断或相信模型自述。
 
 它逐个presented candidate检查其实际引用的evidence/offer：同一candidate、HIGH身份和来源关联、完整日期/适用人数/完整时段窗口、area、适用HARD条件、以及每个offer的具体时间必须出现于同一来源证据的`visibleSlots`。新鲜度以当时`observedAt ≤ presentedAt < expiresAt`判断；缺时间字段是`NOT_EVALUATED`，未来观察、无效顺序或过期是`NOT_SATISFIED`。最终条件只比较`finalSnapshot.domainState.intentDraft`这一Runtime权威字段；它缺失时不能从trajectory或产品终态推断冲突。它也读取真实runner的`trajectories[].executionMetadata.providerAttempts`，保留局部Provider失败及稳定记录引用。缺轨迹、空/不完整资源对象、缺少presentation引用或尚无已接受evidence contract时是`NOT_EVALUATED`；明确冲突才是`NOT_SATISFIED`。重复检查只统计确实执行且请求版本相同的read，不能用“未发现重复”反推记录完整。主观排名、长期来源可靠性、真实费用（缺少显式价格输入时）、否定HARD的来源契约和完整rubric仍为未评估；变更评分语义、场景期望或门槛必须人工review。
+
+
+当前事实刷新另由执行轨迹独立核验：`factSourceAttempts`保留同候选的成功和失败来源；后续同来源fact read或显式刷新不能继续引用已替代的原始事实。`CANDIDATE_FACTS_UNKNOWN`的已执行失败仅用于失效旧支持，不能贡献正向证据。历史artifact缺少必要刷新范围时保持未评估；不得依赖生产`supersededEvidenceIds`或eligibility自证。Mock五例实际来源组合和独立诊断覆盖见`current-development-offline.test.ts`，H002/H005正常停止仍不等于用户目标完成或一般调查充分性通过。
+
+
+评分器@14：SOFT条件文本差异只触发AUTHORITATIVE_CONDITIONS语义待复核，不令满足其他请求约束的已执行来源观察失效，也不抹去无结果调查记录。门店/日期/人数/窗口/HARD/引用/新鲜度检查保持；FINAL_CLAIM及整体结论仍受语义待复核约束，不自动判定同义或成功。H004原始artifact重评另存版本化文件，保留旧评价。
+
+
+### 2026-09-16 browser completion diagnostics
+
+当前 Browser action Prompt@4 / wire schema@3 区分下拉框展开与准确值选择；Semantic Prompt@14 保留比较/信息主题，禁止把调查说明误提取成餐厅硬条件。本次修改的定向真实对照及实际 Web 条件修订单独记录。静态 semantic regression@3 本轮仍为 1/15 PASS（11 evaluated、10 stage-oracle mismatch、4 blocked），不报告为通过、不改写 Gold；旧 oracle 使用已物化日期和旧条件/TARGET 口径，不能把它当作当前模型质量通过证据。无私有 Holdout 使用。
+
+Restaurant Agent Decision Prompt@14 补充限定商户比较的调查收束：其他分店的库存不能补齐指定店的缺口；只有仍在可调查列表中的指定店才能继续读取。使用保存的真实上下文做真实模型诊断：仍需商业事实时继续读取、相关来源已尝试后展示已有合格结果，最终 2/2；首轮仍提议重查不可调查的店，失败产物保留。此为已暴露开发诊断，不是 Clean Baseline；实际 Web 结果另见最终 Browser review。
+
+Evaluator/rubric@15 独立比对 materialized semantic 与最终 State 的 `permittedAlternativeTimeWindow`，原始偏好和许可窗口分别保存；窗口外或缺少替代标记的 Offer、未授权或被扩大的许可仍失败。地区仅统一有无 `near` 前缀，不放松不同地区、areaMatch 或 NEAR_USER 半径证据。旧 Web 导出遗漏许可时，不直接覆写原 artifact：通过实际 exporter 对保存事件/轨迹/快照离线重新导出，记录原 SHA 与用途，并验证原记录逐项不变；新版 evaluation 独立保存。缺 browserModelCalls 的资源维度仍为 NOT_EVALUATED，不能用业务维度通过替代完整系统或费用核算通过。
+
+新商户在运行前登记；失败后的修复运行是已见开发样本，不再叫首次迁移。跨分店 Maru 的原始成功标签已在独立复核中作废，原始执行保留。[本轮证据与限制](../../history/BROWSER-AGENT-FINAL-REVIEW-2026-09-16.md)。

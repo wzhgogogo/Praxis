@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 
 import { compileRestaurantSemanticProposal } from "./semantic-compiler.js";
-import type { RestaurantSemanticProposal } from "./semantic-proposal.js";
+import { validateRestaurantSemanticProposal, type RestaurantSemanticProposal } from "./semantic-proposal.js";
 import { applyRestaurantIntentPatch } from "./intent-state.js";
 
 const criterion = (
@@ -130,13 +130,50 @@ test("Restaurant Semantic Compiler materializes Tokyo relative time in code and 
     patch: {
       schemaVersion: "3", date: "2026-09-14", timeWindow: { earliest: "12:00", latest: "17:00" },
       temporalResolution: {
-        policyVersion: "restaurant-temporal-materialization@2",
+        policyVersion: "restaurant-temporal-materialization@3",
         referenceTime: "2026-09-14T00:30:00-07:00", timezone: "Asia/Tokyo",
         date: { expression: "today", resolvedDate: "2026-09-14", basis: "TODAY" },
         timeWindow: { expression: "this afternoon", resolvedTimeWindow: { earliest: "12:00", latest: "17:00" }, basis: "DAYPART:AFTERNOON" },
       },
     },
   });
+});
+
+test("explicitly permitted time alternatives retain the original target and cannot widen party or date", () => {
+  const result = compileRestaurantSemanticProposal({
+    schemaVersion: "3",
+    facts: [{
+      field: "TIME_WINDOW", operation: "ASSERT",
+      value: {
+        kind: "TIME_WINDOW", earliest: "19:00", latest: "19:00", raw: "7 PM",
+        alternativeEarliest: "18:30", alternativeLatest: "19:30", alternativeRaw: "30 minutes either side is fine",
+      },
+    }],
+  });
+  assert.deepEqual(result, {
+    status: "COMPILED",
+    patch: {
+      schemaVersion: "3", timeWindow: { earliest: "19:00", latest: "19:00" },
+      permittedAlternativeTimeWindow: { earliest: "18:30", latest: "19:30" },
+    },
+  });
+  if (result.status !== "COMPILED") return;
+  const draft = applyRestaurantIntentPatch(undefined, {
+    ...result.patch, date: "2026-09-18", partySize: 2, area: { query: "Shibuya" }, target: { goal: "AVAILABILITY", query: "find a table" },
+  });
+  assert.deepEqual(draft.timeWindow, { earliest: "19:00", latest: "19:00" });
+  assert.deepEqual(draft.permittedAlternativeTimeWindow, { earliest: "18:30", latest: "19:30" });
+  const correction = compileRestaurantSemanticProposal({ schemaVersion: "3", facts: [{
+    field: "TIME_WINDOW", operation: "CORRECT", value: { kind: "TIME_WINDOW", earliest: "20:00", latest: "20:00", raw: "only 20:00" },
+  }] });
+  assert.equal(correction.status, "COMPILED");
+  if (correction.status === "COMPILED") {
+    const corrected = applyRestaurantIntentPatch(draft, correction.patch);
+    assert.equal(corrected.permittedAlternativeTimeWindow, undefined);
+    assert.deepEqual(corrected.timeWindow, { earliest: "20:00", latest: "20:00" });
+  }
+  assert.equal(draft.partySize, 2);
+  assert.equal(draft.date, "2026-09-18");
 });
 
 test("Restaurant Semantic Compiler carries a relative offset across Tokyo midnight without model date arithmetic", () => {
@@ -194,5 +231,28 @@ test("this afternoon carries its Tokyo date so a timed recommendation cannot byp
   if (result.status === "COMPILED") {
     assert.equal(result.patch.date, "2026-09-14");
     assert.deepEqual(result.patch.timeWindow, { earliest: "12:00", latest: "17:00" });
+  }
+});
+
+// Proposal validation -> Compiler -> Reducer; no model or source substitution.
+// Captures unsupported/mis-materialized evening semantics and date loss.
+test("evening and night retain tomorrow through validation, compilation and state", () => {
+  for (const raw of ["tomorrow evening", "tomorrow night"]) {
+    const parsed = validateRestaurantSemanticProposal({ schemaVersion: "3", facts: [
+      { field: "DATE", operation: "ASSERT", value: { kind: "DATE", relativeDay: "TOMORROW", raw: "tomorrow" } },
+      { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", daypart: "EVENING", raw } },
+    ] });
+    assert.equal(parsed.valid, true);
+    if (!parsed.valid) continue;
+    const result = compileRestaurantSemanticProposal(parsed.value, { referenceTime: "2026-09-16T07:13:00.237Z", timezone: "Asia/Tokyo" });
+    assert.equal(result.status, "COMPILED");
+    if (result.status !== "COMPILED") continue;
+    assert.equal(result.patch.date, "2026-09-17");
+    assert.deepEqual(result.patch.timeWindow, { earliest: "18:00", latest: "23:00" });
+    assert.equal(result.patch.temporalResolution?.timeWindow?.basis, "DAYPART:EVENING");
+    assert.equal(result.patch.temporalResolution?.timeWindow?.expression, raw);
+    const draft = applyRestaurantIntentPatch(undefined, result.patch);
+    assert.deepEqual(draft.timeWindow, { earliest: "18:00", latest: "23:00" });
+    assert.deepEqual(draft.criteria, []);
   }
 });

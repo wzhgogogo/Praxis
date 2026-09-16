@@ -4,7 +4,7 @@ import type { BrowserRuntime, BrowserSession, BrowserSessionMetadata, BrowserSna
 import type { RestaurantAvailabilityProvider } from "../restaurant-availability/contracts.js";
 import { BrowserRuntimeError } from "../../infrastructure/browser/browser-runtime-errors.js";
 import { BrowserTaskExecutor } from "../../infrastructure/browser/browser-task-executor.js";
-import { inspectTabelogEntity } from "./tabelog-entity-resolver.js";
+import { inspectTabelogEntity, normalizeTabelogPhone, normalizeTabelogIdentity } from "./tabelog-entity-resolver.js";
 import {
   detectExternalReservationRedirect,
   hasBotChallenge,
@@ -13,6 +13,7 @@ import {
   pageExcerpt,
   parseTabelogSearchOutlets,
   parseTabelogAvailabilitySlots,
+  parseTabelogListedCourses,
   parseTabelogOutletIdentityWithEvidence,
   parseTabelogVerifiedHardCriteria,
 } from "./tabelog-page-parser.js";
@@ -22,6 +23,8 @@ import type {
   TabelogOutletIdentityExtraction,
   TabelogUserInterventionHandler,
 } from "./tabelog-contracts.js";
+
+import { hasTabelogSelectedQuery, tabelogQueryControlHints, TABELOG_QUERY_READY_SELECTOR, TABELOG_VACANCY_RESPONSES } from "./tabelog-query-controls.js";
 
 function searchUrl(candidateName: string): string {
   return `https://tabelog.com/en/rstLst/?sw=${encodeURIComponent(candidateName)}`;
@@ -176,6 +179,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
       this.sessionsOpened += 1;
       this.executor.beginCandidate(candidate.restaurant.id);
       session = await this.executor.acquire(signal, "TABELOG", "DISCOVERY");
+      await session.captureResponses?.(TABELOG_VACANCY_RESPONSES);
       const browser = { ...session.metadata };
       const requestedSearchUrl = searchUrl(candidate.restaurant.outletName);
       await this.executor.navigate({
@@ -221,7 +225,19 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
         search = generic.snapshot;
         outlets = parseTabelogSearchOutlets(search).slice(0, this.maxCandidateMatches);
       }
-      const outletPages = new Map<string, import("../../infrastructure/browser/browser-runtime.js").BrowserSnapshot>();
+      // The multilingual index may not index its own translated display name.
+      // One source-observed local name can refine retrieval; outlet identity is
+      // still independently verified on Tabelog below.
+      if (!outlets.length && candidate.restaurant.sourceIds.googleWebsiteUri && candidate.restaurant.sourceIds.phone) {
+        const alias = await this.websiteSearchName(candidate, session, signal);
+        if (alias) {
+          await this.executor.navigate({ source: "TABELOG", stage: "DISCOVERY", signal, allowedOrigins: ["https://tabelog.com"], session, url: searchUrl(alias) });
+          search = await this.executor.snapshot({ source: "TABELOG", stage: "DISCOVERY", signal, session });
+          if (hasBotChallenge(search)) return this.ground(candidate, request, { candidate, observedAt, entityMatch: { confidence: "LOW", matchedBy: [] }, pageState: "BOT_CHALLENGE", excerpt: pageExcerpt(search) }, browser);
+          outlets = parseTabelogSearchOutlets(search).slice(0, this.maxCandidateMatches);
+        }
+      }
+      let lastOutletPage: BrowserSnapshot | undefined;
       const enrichedOutlets = [] as typeof outlets;
       const detailDiagnostics = [] as TabelogIdentityDiagnostic["details"];
       const extractionByEntityId = new Map<string, TabelogOutletIdentityExtraction>();
@@ -241,7 +257,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
           });
           continue;
         }
-        outletPages.set(outlet.sourceUrl, outletPage);
+        lastOutletPage = outletPage;
         const extraction = parseTabelogOutletIdentityWithEvidence(outletPage, outlet);
         enrichedOutlets.push(extraction.outlet);
         extractionByEntityId.set(extraction.outlet.sourceEntityId, extraction);
@@ -293,8 +309,8 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
       const resolved = inspection.resolution;
       if (resolved.confidence !== "HIGH" || !resolved.outlet) return this.ground(candidate, request, { candidate, observedAt, entityMatch: resolved, pageState: "EXTRACTION_FAILED", failureCode: "ENTITY_MATCH_UNCERTAIN", excerpt: pageExcerpt(search) }, browser);
       if (!isTabelogUrl(resolved.outlet.sourceUrl)) return this.ground(candidate, request, { candidate, observedAt, entityMatch: resolved, pageState: "SOURCE_UNSUPPORTED", failureCode: "EXTERNAL_BOOKING_PROVIDER_REQUIRED" }, browser);
-      let page = outletPages.get(resolved.outlet.sourceUrl);
-      if (!page) {
+      let page = lastOutletPage;
+      if (page?.url !== resolved.outlet.sourceUrl) {
         await this.executor.navigate({
           source: "TABELOG", stage: "AVAILABILITY", signal, allowedOrigins: ["https://tabelog.com"], session, url: resolved.outlet.sourceUrl, observed: true,
         });
@@ -306,19 +322,36 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
       if (!hasReservationControls(page)) return this.ground(candidate, request, { candidate, observedAt, sourceEntityId: resolved.outlet.sourceEntityId, sourceUrl: page.url, entityMatch: resolved, pageState: "SOURCE_UNSUPPORTED", failureCode: "ONLINE_AVAILABILITY_UNSUPPORTED", excerpt: pageExcerpt(page) }, browser);
       const party = selectedPartyField(page.html);
       const date = selectedDateField(page.html);
-      if (!party || !date) return this.ground(candidate, request, { candidate, observedAt, sourceEntityId: resolved.outlet.sourceEntityId, sourceUrl: page.url, entityMatch: resolved, pageState: "EXTRACTION_FAILED", failureCode: "EXTRACTION_FAILED", excerpt: pageExcerpt(page) }, browser);
-      const selectedParty = await this.executor.select({
-        source: "TABELOG", stage: "AVAILABILITY", signal, session, selector: party, value: String(request.partySize), authoritativeValue: String(request.partySize),
-      });
-      if (!selectedParty.includes(String(request.partySize))) return this.ground(candidate, request, { candidate, observedAt, sourceEntityId: resolved.outlet.sourceEntityId, sourceUrl: page.url, entityMatch: resolved, pageState: "EXTRACTION_FAILED", failureCode: "PARTY_SELECTION_UNCONFIRMED", excerpt: pageExcerpt(page) }, browser);
-      const selectedDate = await this.executor.select({
-        source: "TABELOG", stage: "AVAILABILITY", signal, session, selector: date, value: request.date, authoritativeValue: request.date,
-      });
-      if (!selectedDate.includes(request.date)) return this.ground(candidate, request, { candidate, observedAt, sourceEntityId: resolved.outlet.sourceEntityId, sourceUrl: page.url, entityMatch: resolved, pageState: "EXTRACTION_FAILED", failureCode: "DATE_SELECTION_UNCONFIRMED", excerpt: pageExcerpt(page) }, browser);
+      if (party && date) {
+        const selectedParty = await this.executor.select({
+          source: "TABELOG", stage: "AVAILABILITY", signal, session, selector: party, value: String(request.partySize), authoritativeValue: String(request.partySize),
+        });
+        if (!selectedParty.includes(String(request.partySize))) return this.ground(candidate, request, { candidate, observedAt, sourceEntityId: resolved.outlet.sourceEntityId, sourceUrl: page.url, entityMatch: resolved, pageState: "EXTRACTION_FAILED", failureCode: "PARTY_SELECTION_UNCONFIRMED", excerpt: pageExcerpt(page) }, browser);
+        const selectedDate = await this.executor.select({
+          source: "TABELOG", stage: "AVAILABILITY", signal, session, selector: date, value: request.date, authoritativeValue: request.date,
+        });
+        if (!selectedDate.includes(request.date)) return this.ground(candidate, request, { candidate, observedAt, sourceEntityId: resolved.outlet.sourceEntityId, sourceUrl: page.url, entityMatch: resolved, pageState: "EXTRACTION_FAILED", failureCode: "DATE_SELECTION_UNCONFIRMED", excerpt: pageExcerpt(page) }, browser);
+      } else {
+        if (page.html.includes("p-booking-calendar")) await this.executor.waitFor({
+          source: "TABELOG", stage: "AVAILABILITY", session, signal,
+          selector: TABELOG_QUERY_READY_SELECTOR, timeoutMs: 10_000,
+        });
+        const query = await this.executor.runSkill({
+          taskId: `browser-read:${candidate.restaurant.id}`, source: "TABELOG", stage: "AVAILABILITY",
+          session, signal, allowedOrigins: ["https://tabelog.com"], controlHints: tabelogQueryControlHints,
+          goal: { outlet: { name: candidate.restaurant.outletName, address: candidate.restaurant.address }, date: request.date, partySize: request.partySize, timeWindow: request.timeWindow, hardCriteria: request.hardCriteria },
+          objective: "Apply the exact requested date and guest count to the public calendar. Date and Guests labels describe source-observed controls. Use CLICK_AUTHORITATIVE for those fields. Do not open Reserve or any booking form. Selected time options alone are not verified availability.",
+          completion: current => ({ complete: hasTabelogSelectedQuery(current, request.date, request.partySize) && parseTabelogAvailabilitySlots(current, request).hasExplicitSlotUi, reason: "Both the requested calendar date and guest count must be selected; model completion alone does not confirm them." }),
+        });
+        if (!hasTabelogSelectedQuery(query.snapshot, request.date, request.partySize)) return this.ground(candidate, request, {
+          candidate, observedAt: this.now(), sourceEntityId: resolved.outlet.sourceEntityId, sourceUrl: query.snapshot.url,
+          entityMatch: resolved, pageState: "EXTRACTION_FAILED", failureCode: "REQUEST_SELECTION_UNCONFIRMED", listedCourseDetails: parseTabelogListedCourses(query.snapshot), excerpt: pageExcerpt(query.snapshot),
+        }, browser);
+      }
       page = await this.executor.snapshot({ source: "TABELOG", stage: "AVAILABILITY", signal, session });
       page = await this.resumeAfterUserIntervention(candidate, request, session, page, "AVAILABILITY", signal);
       if (hasBotChallenge(page)) return this.ground(candidate, request, { candidate, observedAt: this.now(), sourceEntityId: resolved.outlet.sourceEntityId, sourceUrl: page.url, entityMatch: resolved, pageState: "BOT_CHALLENGE", excerpt: pageExcerpt(page) }, browser);
-      const slotParse = parseTabelogAvailabilitySlots(page);
+      const slotParse = parseTabelogAvailabilitySlots(page, request);
       const slots = slotParse.availableSlots;
       const hasQualifyingSlot = slots.some((slot) => slot >= request.timeWindow.earliest && slot <= request.timeWindow.latest);
       return this.ground(candidate, request, {
@@ -331,6 +364,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
         requestedPartySize: request.partySize,
         pageState: hasQualifyingSlot ? "AVAILABLE" : slotParse.hasExplicitSlotUi ? "NO_MATCHING_SLOT" : "EXTRACTION_FAILED",
         visibleSlots: slots,
+        listedCourseDetails: parseTabelogListedCourses(page),
         verifiedHardCriteria: parseTabelogVerifiedHardCriteria(page, request.hardCriteria),
         excerpt: pageExcerpt(page),
       }, browser);
@@ -350,6 +384,28 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
     }
   }
 
+  private async websiteSearchName(candidate: RestaurantAvailabilityRequest["candidates"][number], session: BrowserSession, signal: AbortSignal): Promise<string | undefined> {
+    let website: URL;
+    try { website = new URL(candidate.restaurant.sourceIds.googleWebsiteUri!); } catch { return undefined; }
+    if (website.protocol !== "https:" || website.username || website.password) return undefined;
+    website.hash = "";
+    website.search = "";
+    await this.executor.navigate({ source: "WEBSITE", stage: "DISCOVERY", signal, allowedOrigins: [website.origin], session, url: website.toString() });
+    const page = await this.executor.snapshot({ source: "WEBSITE", stage: "DISCOVERY", signal, session });
+    if (new URL(page.url).origin !== website.origin || hasBotChallenge(page)) return undefined;
+    const phones = new Set([
+      ...[...page.html.matchAll(/href=["']tel:([^"']+)["']/gi)].map(match => normalizeTabelogPhone(match[1])),
+      ...(page.text.match(/\b0\d{1,4}[-ー]\d{1,4}[-ー]\d{3,4}\b/g) ?? []).map(normalizeTabelogPhone),
+    ].filter(Boolean));
+    if (phones.size !== 1 || !phones.has(normalizeTabelogPhone(candidate.restaurant.sourceIds.phone))) return undefined;
+    const headings = [...page.html.matchAll(/<h1\b[^>]*>([\s\S]{1,1000}?)<\/h1>/gi)]
+      .map(match => match[1]!.replace(/<[^>]+>/g, " ").replace(/&nbsp;|&#160;/g, " ").replace(/&amp;/g, "&").replace(/\s+/g, " ").trim())
+      .filter(Boolean);
+    const name = headings.length === 1 ? headings[0] : undefined;
+    if (!name || name.length > 120 || normalizeTabelogIdentity(name) === normalizeTabelogIdentity(candidate.restaurant.outletName)) return undefined;
+    return name;
+  }
+
   private ground(
     candidate: RestaurantAvailabilityRequest["candidates"][number],
     request: RestaurantAvailabilityRequest,
@@ -363,9 +419,12 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
       observedAt: observation.observedAt,
       ...(observation.requestedDate ? { requestedDate: observation.requestedDate } : {}),
       ...(observation.requestedPartySize !== undefined ? { requestedPartySize: observation.requestedPartySize } : {}),
-      entityMatch: observation.entityMatch,
+      entityMatch: observation.entityMatch.outlet && observation.sourceUrl !== observation.entityMatch.outlet.sourceUrl
+        ? { confidence: "LOW", matchedBy: [] }
+        : observation.entityMatch,
       pageState: observation.pageState,
       ...(observation.visibleSlots ? { visibleSlots: observation.visibleSlots } : {}),
+      ...(observation.listedCourseDetails ? { listedCourseDetails: observation.listedCourseDetails } : {}),
       ...(observation.verifiedHardCriteria ? { verifiedHardCriteria: observation.verifiedHardCriteria } : {}),
       ...(observation.excerpt ? { excerpt: observation.excerpt } : {}),
       ...(observation.failureCode ? { failureCode: observation.failureCode } : {}),

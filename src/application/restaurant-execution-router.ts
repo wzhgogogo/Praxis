@@ -125,7 +125,8 @@ function authoritativeAvailabilityRequest(
       return structuredClone(candidate);
     }),
     date: intent.date,
-    timeWindow: structuredClone(intent.timeWindow),
+    timeWindow: structuredClone(intent.permittedAlternativeTimeWindow ?? intent.timeWindow),
+    ...(intent.permittedAlternativeTimeWindow ? { requestedTimeWindow: structuredClone(intent.timeWindow) } : {}),
     partySize: intent.partySize,
     hardCriteria: intent.criteria.filter((criterion) => criterion.polarity === "POSITIVE" && criterion.strength === "HARD").map((criterion) => criterion.text),
     ...(recheckReasons.length ? {
@@ -253,7 +254,14 @@ export class RestaurantExecutionRouter {
           return {
             route: this.facts.executionRoute,
             event: { type: "CANDIDATE_FACTS_CHECKED", request, ...read, metadata: { ...read.metadata, ...(request.recheck ? { recheckReason: request.recheck.reason } : {}) } },
-            observation: { type: "CANDIDATE_FACTS", detail: `${request.candidateIds.length} candidate fact read(s) completed`, candidateIds: request.candidateIds, evidenceIds: read.evidence.map((evidence) => evidence.evidenceId) },
+            observation: {
+              type: "CANDIDATE_FACTS", detail: `${request.candidateIds.length} candidate fact read(s) completed`, candidateIds: request.candidateIds, evidenceIds: read.evidence.map((evidence) => evidence.evidenceId),
+              factSourceAttempts: request.candidateIds.flatMap(candidateId => {
+                const check = read.factChecks[candidateId]!;
+                return (check.sourceAttempts ?? [{ source: check.sourceProvider ?? read.metadata.provider, outcome: check.status, ...(check.reasonCode ? { reasonCode: check.reasonCode } : {}) }])
+                  .map(attempt => ({ candidateId, ...attempt }));
+              }),
+            },
             executionMetadata: { ...read.metadata, ...(request.recheck ? { recheckReason: request.recheck.reason } : {}) },
           };
         } catch (error) {

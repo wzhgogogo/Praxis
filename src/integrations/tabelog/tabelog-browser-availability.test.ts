@@ -343,3 +343,58 @@ test("Tabelog search challenge records its cause while removing transient challe
   assert.equal(diagnostic.resolution.reason, "SEARCH_BOT_CHALLENGE");
   assert.deepEqual(diagnostic.comparedOutlets, []);
 });
+
+
+test("Tabelog external booking detection ignores unrelated links and requires a booking link", async () => {
+  const { detectExternalReservationRedirect } = await import("./tabelog-page-parser.js");
+  const snapshot = {url:"https://tabelog.com/en/tokyo/A1301/A130103/13292459/",title:"Restaurant",text:"Reservations and official website",html:'<a href="https://instagram.com/restaurant">Instagram</a><a href="https://restaurant.example">Official website</a>'};
+  assert.equal(detectExternalReservationRedirect(snapshot),false);
+  assert.equal(detectExternalReservationRedirect({...snapshot,html:'<a href="https://www.tablecheck.com/en/shops/shop/reserve">Reserve</a>'}),true);
+  assert.equal(detectExternalReservationRedirect({...snapshot,html:'<a href="/en/booking/form_course/new">Reserve</a>'}),false);
+});
+
+test("Tabelog captured vacancy binds source merchant, date, party and time rather than visible options", async () => {
+  const {tabelogCapturedSlots} = await import("./tabelog-query-controls.js");
+  const html='<div class="p-booking-calendar"><p class="js-calendar-day-target is-current" data-year="2026" data-month="9" data-day="20"></p><button class="js-people-button is-active">4</button><input class="js-people-hidden-value" value="4"></div>';
+  const body={base_date:{year:2026,month:9,day:20},members:4,selection:{0:{time:"19:00",url:"/en/booking/form_course/new?rcd=13292459&member=4&visit_date=20260920&visit_time=1900"}}};
+  const response={url:"https://tabelog.com/en/booking/calendar/find_vacancy/",status:200,sequence:1,observedAt:"2026-09-16T10:00:00Z",body};
+  const snapshot={url:"https://tabelog.com/en/tokyo/A1301/A130103/13292459/",title:"Restaurant",text:"7:00 PM",html,responses:[response]};
+  assert.deepEqual(tabelogCapturedSlots(snapshot,"2026-09-20",4),{availableSlots:["19:00"],hasExplicitSlotUi:true});
+  for(const changed of [
+    {...body,members:2}, {...body,base_date:{year:2026,month:9,day:21}},
+    {...body,selection:{0:{...body.selection[0],url:body.selection[0].url.replace("13292459","99999999")}}},
+    {...body,selection:{0:{...body.selection[0],time:"19:30"}}}, {...body,selection:{}},
+  ]) assert.equal(tabelogCapturedSlots({...snapshot,responses:[{...response,body:changed}]},"2026-09-20",4),undefined);
+  assert.equal(tabelogCapturedSlots({...snapshot,html:html.replace('value="4"','value="2"')},"2026-09-20",4),undefined);
+  assert.equal(tabelogCapturedSlots({...snapshot,responses:[{...response,status:503}]},"2026-09-20",4),undefined);
+});
+
+test("Tabelog discovery uses a phone-bound website heading when the translated Google name has no results", async () => {
+  // Real Adapter/grounding, only browser transport replaced. Retrieval alias is not identity evidence.
+  const localized = { ...candidate, restaurant: { ...candidate.restaurant, sourceIds: { ...candidate.restaurant.sourceIds, phone: "03-1111-2222", googleWebsiteUri: "https://restaurant.example/" } } };
+  for (const matchingPhone of [true, false]) {
+    const session = new FixtureBrowserSession([
+      { url: "https://tabelog.com/en/rstLst/?sw=Restaurant%201", title: "search", text: "No restaurants match Restaurant 1", html: "" },
+      { url: "https://restaurant.example/", title: "Restaurant", text: `食堂一 ${matchingPhone ? "03-1111-2222" : "03-9999-8888"}`, html: `<h1>食堂一</h1><a href="tel:${matchingPhone ? "03-1111-2222" : "03-9999-8888"}">Call</a>` },
+      { url: "https://tabelog.com/en/rstLst/?sw=食堂一", title: "search", text: "Restaurant 1", html: '<a href="https://tabelog.com/tokyo/A1304/A130401/123/" data-address="1-1 Shinjuku, Tokyo">Restaurant 1</a>' },
+      { url: "https://tabelog.com/tokyo/A1304/A130401/123/", title: "Restaurant 1", text: "予約 人数", html: '<a href="tel:03-1111-2222">Call</a><select name="party"></select><select name="date"></select><button class="slot is-available" data-time="19:00">19:00</button>' },
+    ]);
+    const result = await new TabelogBrowserAvailability({ openSession: async () => session }).check({ candidateIds: [localized.restaurant.id], candidates: [localized], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: 2, hardCriteria: [] }, new AbortController().signal);
+    assert.equal(result.offers.length, matchingPhone ? 1 : 0);
+    assert.equal(session.navigated.length, matchingPhone ? 4 : 2);
+    if (matchingPhone) assert.equal(new URL(session.navigated[2]!).searchParams.get("sw"), "食堂一");
+  }
+});
+
+test("Tabelog applies availability controls on the resolved outlet after inspecting other branches", async () => {
+  const selected: BrowserSnapshot = { url: "https://tabelog.com/tokyo/A1304/A130401/123/", title: "Restaurant 1", text: "予約 人数", html: '<select name="party"></select><select name="date"></select><button class="slot is-available" data-time="19:00">19:00</button>' };
+  const session = new FixtureBrowserSession([
+    { url: "https://tabelog.com/en/rstLst/", title: "search", text: "", html: '<a href="https://tabelog.com/tokyo/A1304/A130401/123/" data-address="1-1 Shinjuku, Tokyo">Restaurant 1</a><a href="https://tabelog.com/tokyo/A1304/A130401/999/" data-address="9-9 Shibuya, Tokyo">Other branch</a>' },
+    selected,
+    { url: "https://tabelog.com/tokyo/A1304/A130401/999/", title: "Other", text: "Other branch", html: '<h1>Other branch</h1>' },
+    selected,
+  ]);
+  const result = await new TabelogBrowserAvailability({ openSession: async () => session }).check({ candidateIds: [candidate.restaurant.id], candidates: [candidate], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: 2, hardCriteria: [] }, new AbortController().signal);
+  assert.equal(result.offers.length, 1);
+  assert.equal(session.navigated.at(-1), selected.url);
+});

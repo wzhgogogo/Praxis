@@ -33,7 +33,7 @@ src/eval/
 源码目录不携带架构、Prompt或Schema版本。当前机器身份分别由代码或Manifest记录：
 
 - `restaurant-semantic-proposal@3`；
-- `restaurant-semantic-prompt@10`，历史Artifact仍保存原始`promptVersion`格式；
+- `restaurant-semantic-prompt@12`，历史Artifact仍保存原始`promptVersion`格式；
 - `restaurant-semantic-regression@3`；
 - `restaurant-semantic-holdout@2`；
 - `restaurant-semantic-scorer@3`。
@@ -57,6 +57,6 @@ npm run eval:restaurant:semantic:holdout:exposed-regression
 
 `semantic/cases/holdout-template.json`是不含样本的可提交模板；实际私有数据仍位于Git忽略的`.eval-private/restaurant-semantic-holdout-v2.json`。完整标注和一次性运行规则见[Restaurant Semantic Holdout](../../docs/harness/RESTAURANT-SEMANTIC-HOLDOUT.md)。
 
-`agent-loop`的Hybrid Runner读取[当前验收契约](restaurant/agent-loop/cases/README.md)对应的`cases/e2e-cases.yaml`（`restaurant-read-development@3`），记录版本和文件哈希。确定性诊断只消费物化后的semantic预期与实际artifact；人工验收说明不注入模型，完整Rubric/语义Judge仍未集成。旧Gold与Rubric已原样归档。执行状态、评分状态和污染/基线资格分别记录；semantic/drafts/仍为设计证据。
+`agent-loop`的Hybrid Runner读取[当前验收契约](restaurant/agent-loop/cases/README.md)对应的`cases/e2e-cases.yaml`（`restaurant-read-development@4`），记录版本和文件哈希。确定性诊断只消费物化后的semantic预期与实际artifact；人工验收说明不注入模型，完整Rubric/语义Judge仍未集成。旧Gold与Rubric已原样归档。执行状态、评分状态和污染/基线资格分别记录；semantic/drafts/仍为设计证据。
 
 历史Decision Harness、旧Intent Parser和分类Criteria Contract只从Git、ADR与历史日志追溯，不恢复旧源码目录、兼容命令或并行Evaluator。

@@ -223,10 +223,10 @@ async function api(
   return { response, payload: (await response.json()) as Record<string, unknown> };
 }
 
-async function createCase(baseUrl: string, cookie: string, requestId = "request-create") {
+async function createCase(baseUrl: string, cookie: string, requestId = "request-create", message = COMPLETE_REQUEST) {
   const result = await api(baseUrl, cookie, "/api/cases", {
     method: "POST",
-    body: JSON.stringify({ message: COMPLETE_REQUEST, requestId }),
+    body: JSON.stringify({ message, requestId }),
   });
   assert.equal(result.response.status, 201);
   return result.payload.view as RestaurantCaseView;
@@ -477,14 +477,23 @@ test("W08 ordinary Web cancellation writes an immutable execution artifact and i
   await withDatabase(async ({ database, clock }) => {
     const artifactDirectory = await mkdtemp(join(tmpdir(), "praxis-web-artifact-"));
     const restaurant = new BlockingRestaurantSearch();
+    const fixture = new FixtureModelGateway();
     const running = await startServer(database, clock, {
       mode: "LIVE_READ",
       restaurant,
       artifactDirectory,
+      model: { async complete(request) {
+        const response = await fixture.complete(request);
+        if (request.purpose !== "restaurant_semantic_interpret") return response;
+        const proposal = JSON.parse(response.outputText);
+        const time = proposal.facts.find((fact: {field: string}) => fact.field === "TIME_WINDOW");
+        Object.assign(time.value, { earliest: "19:00", latest: "19:00", alternativeEarliest: "18:30", alternativeLatest: "19:30", alternativeRaw: "18:30 to 19:30 is acceptable" });
+        return { ...response, outputText: JSON.stringify(proposal) };
+      } },
     });
     try {
       const cookie = await login(running.baseUrl, "token-a");
-      const created = await createCase(running.baseUrl, cookie, "web-artifact-cancel");
+      const created = await createCase(running.baseUrl, cookie, "web-artifact-cancel", COMPLETE_REQUEST + " 18:30 to 19:30 is acceptable.");
       await restaurant.started;
       const stopped = await api(
         running.baseUrl,
@@ -502,6 +511,9 @@ test("W08 ordinary Web cancellation writes an immutable execution artifact and i
       const evaluation = JSON.parse(await readFile(join(artifactDirectory, evaluationName), "utf8")) as Record<string, unknown>;
       assert.equal(result.mode, "WEB_READ");
       assert.equal(result.status, "CANCELLED");
+      const semantic = (result.materializedCase as {semantic: Record<string, unknown>}).semantic;
+      assert.deepEqual(semantic.time, {value: "19:00"});
+      assert.deepEqual(semantic.permittedAlternativeTimeWindow, {earliest: "18:30", latest: "19:30"});
       assert.equal(evaluation.evaluatorVersion, RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION);
       assert.equal((evaluation.execution as { status?: string }).status, "CANCELLED");
     } finally {

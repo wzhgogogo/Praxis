@@ -1,3 +1,4 @@
+import { tabelogCapturedSlots } from "./tabelog-query-controls.js";
 import type { BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
 import type {
   TabelogIdentityEvidenceSource,
@@ -146,8 +147,16 @@ export function parseTabelogOutletIdentity(snapshot: BrowserSnapshot, fallback: 
 }
 
 export function detectExternalReservationRedirect(snapshot: BrowserSnapshot): boolean {
-  return /(?:reservation|reserve|booking)[^\n]{0,120}(?:external|redirect|tablecheck|hotpepper)/i.test(snapshot.text)
-    || /href=["']https?:\/\/(?![^"']*tabelog\.com)[^"']+["']/i.test(snapshot.html);
+  // Ordinary website/social links do not establish an external booking boundary.
+  for (const match of snapshot.html.matchAll(/<a\b[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi)) {
+    const label = stripTags(match[2] ?? "");
+    if (!/予約|\b(?:reserve|reservation|book(?:ing)?(?: a table)?)\b/i.test(label)) continue;
+    try {
+      const url = new URL(match[1]!.replace(/&amp;/g, "&"), snapshot.url);
+      if (url.protocol === "https:" && url.hostname !== "tabelog.com" && !url.hostname.endsWith(".tabelog.com")) return true;
+    } catch { /* Invalid navigation is not evidence of an external provider. */ }
+  }
+  return false;
 }
 
 export function hasReservationControls(snapshot: BrowserSnapshot): boolean {
@@ -180,7 +189,9 @@ function available(value: string): boolean {
  * Extract only time controls carrying an explicit available/unavailable state.
  * A time appearing in ordinary prose, opening hours, or a header is never a slot.
  */
-export function parseTabelogAvailabilitySlots(snapshot: BrowserSnapshot): TabelogSlotParse {
+export function parseTabelogAvailabilitySlots(snapshot: BrowserSnapshot, request?: {date:string;partySize:number}): TabelogSlotParse {
+  const captured = request ? tabelogCapturedSlots(snapshot, request.date, request.partySize) : undefined;
+  if (captured) return captured;
   const slots = new Set<string>();
   let hasExplicitSlotUi = false;
   const element = /<(button|a|li|div)[^>]*?(?:data-(?:time|start-time)|class=["'][^"']*(?:slot|time|reserve|vacancy)[^"']*)[^>]*>([\s\S]{0,500}?)<\/\1>/gi;
@@ -210,3 +221,21 @@ export function parseTabelogVerifiedHardCriteria(snapshot: BrowserSnapshot, hard
 }
 
 export function pageExcerpt(snapshot: BrowserSnapshot): string { return excerpt(snapshot.text); }
+
+/** Listed course cards are facts, not a promise that a plan fits this sitting. */
+export function parseTabelogListedCourses(snapshot: BrowserSnapshot): string[] {
+  const decode = (value: string) => value.replace(/&(?:amp|lt|gt|quot|#39|nbsp);/g, entity => ({ "&amp;": "&", "&lt;": "<", "&gt;": ">", "&quot;": '"', "&#39;": "'", "&nbsp;": " " })[entity] ?? entity);
+  const visible = snapshot.text.replace(/\s+/g, " ");
+  return snapshot.html.split(/<div\b[^>]*class=["']rstdtl-course-list js-rstdtl-course-list["'][^>]*>/i).slice(1).flatMap(card => {
+    const name = decode(stripTags(card.match(/<span\b[^>]*class=["']rstdtl-course-list__course-title-text["'][^>]*>([\s\S]*?)<\/span>/i)?.[1] ?? ""));
+    const description = decode(stripTags(card.match(/<p\b[^>]*class=["']rstdtl-course-list__desc["'][^>]*>([\s\S]*?)<\/p>/i)?.[1] ?? ""));
+    const price = decode(stripTags(card.match(/<span\b[^>]*class=["']rstdtl-course-list__price-num["'][^>]*>([\s\S]*?)<\/span>/i)?.[1] ?? ""));
+    const party = stripTags(card.match(/<dl\b[^>]*class=["']rstdtl-course-list__course-rule["'][^>]*>([\s\S]*?)<\/dl>/i)?.[1] ?? "");
+    // Require the named card and displayed price, preserving tax, group limits
+    // and the whole description (including lunch-only restrictions). Never
+    // take a crossed-out catalog price or collapse multiple plans to one price.
+    if (!name || !price || !visible.includes(name) || !visible.replace(/\s/g, "").includes(price.replace(/\s/g, "")) || !/JPY\s*[\d,]+/.test(price)) return [];
+    const note = `${name} — ${price}${party ? `; ${party}` : ""}${description ? `. ${description}` : ""}`;
+    return note.length <= 1600 ? [note] : [];
+  }).slice(0, 3);
+}

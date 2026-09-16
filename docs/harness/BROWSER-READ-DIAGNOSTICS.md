@@ -1,12 +1,18 @@
 # Browser Read Diagnostics
 
 - Status: Accepted
-- Document revision: 0.5
-- Last updated: 2026-09-07
+- Document revision: 0.7
+- Last updated: 2026-09-16
 - Source of truth for: 单页浏览器只读诊断操作与证据范围
 - Related ADRs: [ADR-0015](../decisions/0015-supported-source-search-evidence.md)、[ADR-0016](../decisions/0016-local-eval-browser-profile-lifecycle.md)
 
 ## 当前切片
+
+2026-09-16 P1 将共享观察/动作 strict wire 升为`browser_read_action@2`：control snapshot 增加 checkbox、range、可滚动 region、selected options 与 active modal 对背景目标的遮挡状态。Executor 仍只使用同一 Playwright session 和不透明`dom:`引用；新增动作只能明确设置勾选状态、让滑条移动一个键盘步进或滚动已观察容器。动作后会重新观察控件状态，避免把 URL/文本未变化误作失败，也不会把滚动位置当成查询或地图语义成功。已观察的公开新标签链接会在同一context成为新active page，旧页引用被废弃并必须重新观察。真实 Chromium 本地 Fixture 当前为13/13，覆盖 modal 阻挡、selected≠options、checkbox、range、region scroll、来源许可的 Update/reopen/reset、公开新标签页和既有 Local/Cloudflare-session 引用解析；不访问真实站点，不证明当前平台兼容性或库存。
+
+2026-09-15新增控件回归：真实H003暴露本地session将`SELECT_AUTHORITATIVE`的`dom:`引用误当CSS选择器，3个已达HIGH身份的TableCheck候选未能设置人数；相同接线缺陷也存在于Cloudflare session的fill/select。当前两者与click一致，先从本次观察的Playwright控件注册表解析引用。Executor继续绑定权威日期/人数，并在动作后重新观察，没有扩大可执行动作或外部写权限。
+
+既有`browser-read-fixture.test.ts`增加一份参数化场景，分别运行真实Local和Cloudflare session；后者仅将CDP连接替换成本地Chromium，所有网络拦截为合成HTML。实际BrowserTaskExecutor先选择人数、再填写日期，独立可见结果必须同时显示正确日期/人数。修复前两条新增场景失败、原5条通过；修复后7/7。此项不是Cloudflare服务Live、真实来源Replay或实际预约空位通过。当前Live证据与剩余缺口见[STATUS](../STATUS.md)和[TEST-LOG](../history/TEST-LOG.md)。
 
 入口`probe:restaurant:browser:read`复用Runtime Factory，只接受TableCheck或Tabelog的HTTPS单URL。一次运行一个Session、一次导航、最多60秒；允许snapshot与有界ready-selector等待，不点击、不填写、不提交、不刷新挑战页。无需Semantic、Agent或Google调用。页面可读仅表示`CONTENT_OBSERVED`，不生成Task、Offer或预约成功结论。
 
@@ -62,3 +68,24 @@ TableCheck Adapter不再从店名派生guide或reservation slug。`src/integrati
 后续修复把TableCheck的`PAGE_UNAVAILABLE`收紧为title或primary heading的明确错误文档，并记录精确命中信号；普通正文数字、结果文案或任意`not found`不再终止来源。若当前搜索页可读却没有抽取到guide链接，executor在同一session中记录`HANDOFF`（原因、title、脱敏可见文本、已观察目标），记录模型动作，并在每次动作后记录`POST_ACTION_VERIFIED`。本地Fixture证明该路径可点击只读“显示结果”并重观察；它不代表真实网站已发生接管。
 
 2026-09-07随后一次原始H001 artifact为`.eval-artifacts/restaurant-hybrid-live-read/2026-09-07T07-25-17-542Z-8a9de9b6-9b94-4788-a1bf-21dc41d31953.result.json`：三个真实TableCheck搜索页直接出现可解析guide链接，故本次**没有**TableCheck模型接管；Sushisho Issekisancho与Sushi Inase均以exact phone达到HIGH，随后在嵌入Availability页面因`REQUEST_SELECTION_UNCONFIRMED`停止。没有slot、Offer或`PRESENT_RESULTS`，不是H001成功。
+
+
+## 2026-09-16 Review repair coverage (Synthetic real-browser)
+
+The existing Chromium Harness now verifies check/uncheck/check for a source-permitted query control, live native and ARIA slider values in both directions, fixed/native and nested/hidden dialog target filtering, and refusal of an unclassified consent checkbox through strict-wire Decision → Executor. These are local synthetic pages, not source Replay or Live compatibility. `permitQueryControl` is source-code-owned; absent permission denies SET_CHECKED and ADJUST_RANGE. TableCheck/Tabelog now grant no production checkbox/range permission; only the synthetic fixture supplies a known-control contract. The strict-wire negative fixture uses Japanese consent text. The expanded eight-transition filter fixture uses a 52-operation test budget; the production 24-operation default remains unchanged. See [repair evidence](../history/BROWSER-AGENT-TERRA-REVIEW-2026-09-16.md).
+
+## 2026-09-16 本轮新增行为覆盖
+
+Chromium fixture 增补 Web refresh 当前条款/来源一致性，以及 TableCheck Budget 的真实来源结构契约（slider→Update，consent 拒绝）；Executor 单测覆盖模型 COMPLETE 但 completion=false 返回 MODEL_HANDOFF。Live 与 fixture 独立汇报，参见 [验证记录](../history/BROWSER-AGENT-VALIDATION-2026-09-16.md)。Hybrid runner 可用 `--max-model-calls`、`--max-google-requests`、`--max-browser-operations`、`--timeout-ms` 降低既有上限；必须在运行前固定预算。
+
+### 2026-09-16 control readiness and empty-result regressions
+
+Local Chromium tests enter the actual Tabelog Adapter and exercise delayed calendar rendering, source hints, shared Executor actions and grounding in LOCAL and Cloudflare session implementations. Time choices alone do not produce Offers. The TableCheck Adapter fixture waits for skeleton removal and grounds exact-query empty results without model inference. Unit regressions reject wrong requests, broad time windows, cross-region/duplicate widgets, and wrong-date MODEL_HANDOFF evidence. [Live scope and preserved failures](../history/BROWSER-AGENT-VALIDATION-2026-09-16.md).
+
+### 2026-09-16 inventory, dropdown and memory regressions
+
+Current local Chromium fixtures cover Tabelog passive response binding (merchant/date/party/time), query invalidation and late response isolation, source-normalized date/guest controls, and TableCheck read-only ARIA combobox/options inside a POST form. Disabled selected dates remain evidence but cannot be acted on; actual native submit controls remain denied. Both Session implementations are exercised locally; this is not Cloudflare service Live validation.
+
+Existing Adapter/fact tests cover returning to the resolved branch after search-result inspection, phone-bound translated discovery names, cross-page commercial facts with separate source citations, partial observation retention, and shared model-call accounting. Actual model malformed-action feedback has a failing-before/passing-after regression. Current live comparison inputs and new merchants were registered under `.eval-artifacts/browser-final-2026-09-16/`; earlier failures are preserved, including an invalidated cross-branch Maru result. [Run review and limitations](../history/BROWSER-AGENT-FINAL-REVIEW-2026-09-16.md).
+
+Final follow-up regression covers complete disabled half-hour window evidence, with missing/loading/stale/duplicate counterexamples and a saved real-page Replay. A real Chromium Web fixture also reproduces and fixes late initial case-list responses overriding New case; cancelled old-case runs are not fresh-case acceptance. Final offline result: 368 tests and 23 Chromium fixtures pass, with typecheck/arch/build; raw final logs and current Live outcomes are indexed in the final review above.

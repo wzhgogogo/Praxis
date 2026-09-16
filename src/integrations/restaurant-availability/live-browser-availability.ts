@@ -10,6 +10,7 @@ import type { TabelogIdentityDiagnostic, TabelogUserInterventionHandler } from "
 import { AvailabilitySourceResolver } from "./availability-source-resolver.js";
 
 export interface LiveBrowserAvailabilityOptions {
+  now?: () => string;
   /** Shared with fact reads for one Router-owned investigation, never process-global. */
   browserBudget?: BrowserExecutionBudget;
   maxTableCheckBrowserSessions?: number;
@@ -40,6 +41,7 @@ export class LiveBrowserAvailability {
     private readonly options: LiveBrowserAvailabilityOptions = {},
   ) {
     this.browserBudget = options.browserBudget ?? { totalModelCalls: 0 };
+    if (options.maxModelCallsTotal !== undefined) this.browserBudget.maxModelCalls = options.maxModelCallsTotal;
   }
 
   /** Called by the Router once per Agent loop, not once per candidate batch. */
@@ -62,11 +64,11 @@ export class LiveBrowserAvailability {
       ...(this.options.onBrowserDiagnostic ? { onDiagnostic: this.options.onBrowserDiagnostic } : {}),
       budget: this.browserBudget,
     });
-    const tableCheck = new TableCheckBrowserAvailability(executor, undefined, {
+    const tableCheck = new TableCheckBrowserAvailability(executor, this.options.now, {
       ...(this.options.maxTableCheckBrowserSessions !== undefined ? { maxBrowserSessions: this.options.maxTableCheckBrowserSessions } : {}),
       ...(this.options.onTableCheckIdentityDiagnostic ? { onIdentityDiagnostic: this.options.onTableCheckIdentityDiagnostic } : {}),
     });
-    const tabelog = new TabelogBrowserAvailability(executor, undefined, this.options.maxTabelogCandidateMatches, {
+    const tabelog = new TabelogBrowserAvailability(executor, this.options.now, this.options.maxTabelogCandidateMatches, {
       ...(this.options.maxTabelogBrowserSessions !== undefined ? { maxBrowserSessions: this.options.maxTabelogBrowserSessions } : {}),
       ...(this.options.onTabelogIdentityDiagnostic ? { onIdentityDiagnostic: this.options.onTabelogIdentityDiagnostic } : {}),
       ...(this.options.onTabelogUserInterventionRequired ? { onUserInterventionRequired: this.options.onTabelogUserInterventionRequired } : {}),

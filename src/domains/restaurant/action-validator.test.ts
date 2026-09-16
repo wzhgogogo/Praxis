@@ -3,7 +3,7 @@ import { test } from "node:test";
 
 import { restaurantAvailabilityRequestFingerprint, type RestaurantTaskState } from "./contracts.js";
 import { MAX_AVAILABILITY_CHECK_BATCH, validateRestaurantAction } from "./action-validator.js";
-import { restaurantPresentationEvidenceIds } from "./read-assessment.js";
+import { restaurantCurrentFactEvidence, restaurantPresentationEvidenceIds } from "./read-assessment.js";
 import { applyRestaurantIntentPatch, missingBlockingFields } from "./intent-state.js";
 import { restaurantBookingTaskDefinition } from "./task-definition.js";
 
@@ -346,6 +346,38 @@ test("Recommendation refresh reopens displayed facts without routing through ava
   }, { taskId: "task", runId: "run", now, createId: (prefix) => prefix }).state;
   assert.equal(completed.factRefreshRequestedCandidateIds, undefined);
   assert.equal(completed.factChecks?.a?.status, "UNKNOWN");
+});
+
+test("a requested website-fact refresh replaces only stale same-source commercial terms", () => {
+  const candidate = { restaurant: { id: "a", outletName: "Cafe A", sourceIds: {}, address: "Tokyo", provenance: {} }, matchReasons: [], warnings: [], executionConfidence: "HIGH" as const };
+  const state: RestaurantTaskState = {
+    ...incompleteState, phase: "PRESENT_RESULTS",
+    intentDraft: applyRestaurantIntentPatch(undefined, { schemaVersion: "3", target: { goal: "RECOMMENDATION", query: "recommend a cafe with cancellation details" }, area: { query: "Tokyo" } }),
+    candidates: [candidate], presentedResults: { candidateIds: ["a"], evidenceIds: ["old-facts"], presentedAt: now },
+    factChecks: { a: { status: "COMPLETED", checkedAt: now, evidenceIds: ["old-facts"], sourceProvider: "RESTAURANT_WEBSITE" } },
+    readEvidence: [{
+      evidenceId: "website-entity", kind: "ENTITY_MATCH", provider: "RESTAURANT_WEBSITE", candidateId: "a", sourceEntityId: "website:a",
+      observedAt: now, requestFingerprint: "old", claims: {}, entityMatch: { confidence: "HIGH", matchedBy: ["EXACT_PHONE"] },
+    }, {
+      evidenceId: "old-facts", kind: "RESTAURANT_FACT", provider: "RESTAURANT_WEBSITE", candidateId: "a", sourceEntityId: "website:a",
+      observedAt: now, requestFingerprint: "old", claims: { coursePriceYen: 7500, noShowTerms: "No-show: 100% fee." },
+    }],
+  };
+  const refreshed = restaurantBookingTaskDefinition.transition(state, { type: "CANDIDATE_FACTS_REFRESH_REQUESTED", candidateIds: ["a"] }, { taskId: "task", runId: "run", now, createId: (prefix) => prefix }).state;
+  const completed = restaurantBookingTaskDefinition.transition(refreshed, {
+    type: "CANDIDATE_FACTS_CHECKED",
+    request: { candidateIds: ["a"], candidates: [candidate], intent: { timezone: "Asia/Tokyo", target: { goal: "RECOMMENDATION", query: "recommend a cafe with cancellation details" }, area: { query: "Tokyo" }, criteria: [] }, recheck: { reason: "USER_REQUESTED_REFRESH" } },
+    factChecks: { a: { status: "COMPLETED", checkedAt: "2026-08-05T10:00:00.000Z", evidenceIds: ["new-facts"], sourceProvider: "RESTAURANT_WEBSITE" } },
+    evidence: [{
+      evidenceId: "new-facts", kind: "RESTAURANT_FACT", provider: "RESTAURANT_WEBSITE", candidateId: "a", sourceEntityId: "website:a",
+      observedAt: "2026-08-05T10:00:00.000Z", requestFingerprint: "new", claims: { coursePriceYen: 8000, cancellationTerms: "Cancellation: no fee until 17:00." },
+    }], metadata: { provider: "RESTAURANT_WEBSITE", route: "GENERIC_BROWSER", latencyMs: 1 },
+  }, { taskId: "task", runId: "run", now: "2026-08-05T10:00:00.000Z", createId: (prefix) => prefix }).state;
+
+  assert.deepEqual(completed.factChecks?.a?.supersededEvidenceIds, ["old-facts"]);
+  assert.deepEqual(restaurantCurrentFactEvidence(completed, "a").map((evidence) => evidence.evidenceId), ["new-facts"]);
+  assert.deepEqual(restaurantCurrentFactEvidence(completed, "a")[0]?.claims, { coursePriceYen: 8000, cancellationTerms: "Cancellation: no fee until 17:00." });
+  assert.equal(JSON.stringify(restaurantCurrentFactEvidence(completed, "a")).includes("No-show: 100% fee."), false);
 });
 
 test("a fresh UNKNOWN fact observation cannot be masked by a historical qualifying fact", () => {

@@ -14,6 +14,8 @@ import { GooglePlacesRestaurantSearch } from "../../../integrations/google/googl
 import { composeLiveRestaurantFactRead } from "../../../integrations/restaurant-facts/live-restaurant-facts.js";
 import { evaluateRestaurantHybridLiveArtifact } from "./diagnostic-evaluator.js";
 import { createHybridReadComposition } from "./hybrid-read-composition.js";
+import { projectRestaurantAgentContext } from "../../../domains/restaurant/agent-context.js";
+import { groundTableCheckAvailability } from "../../../domains/restaurant/read-grounding.js";
 import { HIGASHI_GINZA_EVALUATION_LOCATION } from "./live-evaluation-location.js";
 
 const now = new Date("2026-09-16T03:00:00.000Z"); // Wednesday noon in Tokyo.
@@ -88,6 +90,28 @@ class UpdatedRequestModel extends ScriptedExternalModel {
         { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "cafe", polarity: "POSITIVE", strength: "HARD" } },
       ],
     }), `semantic-request-${this.semanticTurn}`);
+  }
+}
+
+class PermittedAlternativeTimeModel extends ScriptedExternalModel {
+  override async complete(request: ModelRequest): Promise<ModelResponse> {
+    if (request.purpose === "restaurant_agent_decide") {
+      const { context } = JSON.parse(request.messages.find((message) => message.role === "user")!.content) as { context: { presentation?: Array<{ candidateId: string; eligible: boolean }> } };
+      const presentable = context.presentation?.filter((item) => item.eligible).map((item) => item.candidateId) ?? [];
+      if (presentable.length) return response(JSON.stringify(strictAction("PRESENT_RESULTS", presentable)), "agent-present-permitted-alternative");
+      return super.complete(request);
+    }
+    if (request.purpose !== "restaurant_semantic_interpret") return super.complete(request);
+    return response(JSON.stringify({
+      schemaVersion: "3",
+      facts: [
+        { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "find a table" } },
+        { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-09-17", raw: "tomorrow" } },
+        { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:00", raw: "7 PM", alternativeEarliest: "18:30", alternativeLatest: "19:30", alternativeRaw: "30 minutes either side is fine" } },
+        { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } },
+        { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "nearby" } },
+      ],
+    }), "semantic-permitted-alternative");
   }
 }
 
@@ -579,6 +603,54 @@ test("a request update after cancelling an in-flight read starts a new authorita
   assert.equal(detailCalls, 2);
 });
 
+test("an explicitly permitted alternate time is queried as a bounded range and presented as an alternate, without changing the original request", async () => {
+  // Start/end: user semantic proposal → actual Hybrid Router request binding →
+  // source grounding → Reducer/assessment presentation. Only model and source
+  // transport are fixed; no State, Offer, or evidence is injected directly.
+  const model = new PermittedAlternativeTimeModel(1, false, true);
+  const google = googleSearch([], { maxRequests: 100 }, ["alternative"]);
+  const requested: Array<{ timeWindow: { earliest: string; latest: string }; requestedTimeWindow?: { earliest: string; latest: string }; partySize: number; date: string }> = [];
+  const availability = {
+    executionRoute: "GENERIC_BROWSER" as const,
+    async check(request: import("../../../domains/restaurant/contracts.js").RestaurantAvailabilityRequest) {
+      requested.push({ date: request.date, partySize: request.partySize, timeWindow: structuredClone(request.timeWindow), ...(request.requestedTimeWindow ? { requestedTimeWindow: structuredClone(request.requestedTimeWindow) } : {}) });
+      const candidate = request.candidates[0]!;
+      const grounded = groundTableCheckAvailability(candidate, request, {
+        candidateId: candidate.restaurant.id,
+        sourceEntityId: "tablecheck:alternative", sourceUrl: "https://www.tablecheck.com/en/fixture-alternative",
+        observedAt: now.toISOString(), requestedDate: request.date, requestedPartySize: request.partySize,
+        entityMatch: { confidence: "HIGH", matchedBy: ["EXACT_PHONE"] }, pageState: "AVAILABLE", visibleSlots: ["18:30"],
+      }, now.toISOString());
+      return {
+        offers: grounded.offers, evidence: grounded.evidence,
+        availabilityChecks: { [candidate.restaurant.id]: grounded.check },
+        metadata: { provider: "TABLECHECK" as const, route: "GENERIC_BROWSER" as const, latencyMs: 0 },
+      };
+    },
+  };
+  const facts = {
+    executionRoute: "STRUCTURED_ADAPTER" as const,
+    async inspectFacts(request: import("../../../domains/restaurant/contracts.js").RestaurantCandidateFactRequest) {
+      return {
+        evidence: [], factChecks: Object.fromEntries(request.candidateIds.map((candidateId) => [candidateId, { status: "COMPLETED" as const, checkedAt: now.toISOString(), evidenceIds: [] }])),
+        metadata: { provider: "GOOGLE_PLACES" as const, route: "STRUCTURED_ADAPTER" as const, latencyMs: 0 },
+      };
+    },
+  };
+  const taskId = "integration:permitted-alternative-time";
+  const composition = createHybridReadComposition({ taskId, runId: taskId, clock, model, search: google, availability, facts, loop: { maxSteps: 6, timeoutMs: 5_000 } });
+  await composition.interpretAndDispatch({ taskId, message: "Tomorrow at 7 PM for two; if unavailable, 30 minutes either side is fine.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
+  assert.equal((await composition.coordinator.run(taskId)).status, "TERMINAL");
+  const state = composition.runtime.snapshot(taskId).domainState;
+  assert.deepEqual(state.intentDraft?.timeWindow, { earliest: "19:00", latest: "19:00" });
+  assert.deepEqual(state.intentDraft?.permittedAlternativeTimeWindow, { earliest: "18:30", latest: "19:30" });
+  assert.deepEqual(requested, [{ date: "2026-09-17", partySize: 2, timeWindow: { earliest: "18:30", latest: "19:30" }, requestedTimeWindow: { earliest: "19:00", latest: "19:00" } }]);
+  const offer = state.availability[state.presentedResults!.candidateIds[0]!]![0]!;
+  assert.equal(offer.dateTime.slice(11, 16), "18:30");
+  assert.equal(offer.alternativeToRequestedTime, true);
+  assert.equal(state.phase, "PRESENT_RESULTS");
+});
+
 test("fixed-seed bounded exploration records and shrinks an independent Hybrid contract failure", async () => {
   // This is deliberately finite: it exercises batch boundaries and legal independent read order,
   // rather than pretending all action permutations are equivalent. Failure output is the durable
@@ -664,7 +736,7 @@ test("Hybrid production composition binds an explicit evaluation location before
   assert.equal(snapshot.domainState.intentDraft?.date, "2026-09-17");
   assert.deepEqual(snapshot.domainState.intentDraft?.timeWindow, { earliest: "12:00", latest: "17:00" });
   assert.deepEqual(snapshot.domainState.intentDraft?.temporalResolution, {
-    policyVersion: "restaurant-temporal-materialization@2", referenceTime: now.toISOString(), timezone: "Asia/Tokyo",
+    policyVersion: "restaurant-temporal-materialization@3", referenceTime: now.toISOString(), timezone: "Asia/Tokyo",
     date: { expression: "tomorrow", resolvedDate: "2026-09-17", basis: "TOMORROW" },
     timeWindow: { expression: "tomorrow afternoon", resolvedTimeWindow: { earliest: "12:00", latest: "17:00" }, basis: "DAYPART:AFTERNOON" },
   });
@@ -877,4 +949,90 @@ test("a website observation for another candidate cannot revive an unknown Googl
   assert.ok(state.readEvidence.some(e => e.candidateId === bId && e.provider === "RESTAURANT_WEBSITE" && e.kind === "RESTAURANT_FACT"), "Fixture must reach the real website evidence producer");
   assert.ok(state.presentedResults?.candidateIds.includes(bId), "B's independent supported result must remain deliverable");
   assert.ok(!state.presentedResults?.candidateIds.includes(aId), "B's website must not make A's superseded Google fact eligible");
+});
+
+/** Scripted legitimate completion after the selected refresh, not a production policy. */
+class RefreshReadModel extends ScriptedExternalModel {
+  override async complete(request: ModelRequest): Promise<ModelResponse> {
+    if (request.purpose === "restaurant_agent_decide") {
+      const { context } = JSON.parse(request.messages.find(message => message.role === "user")!.content);
+      if (context.readCompletion.allowed && !context.factInvestigableCandidateIds?.length) return response(JSON.stringify(strictAction("END_READ")), "end-read");
+    }
+    return super.complete(request);
+  }
+}
+
+// Real Hybrid → Google/website boundary samples → refresh → State/Context and independent Eval.
+// These regressions preserve sources and Runtime; they do not test real-model planning or live websites.
+test("a failed compound refresh invalidates prior facts and independent evaluation rejects their reuse", async (t) => {
+  for (const failure of ["WEBSITE", "GOOGLE"] as const) await t.test(failure, async () => {
+  let time = now;
+  let refreshed = false;
+  let websiteAttempts = 0;
+  const model = new RefreshReadModel(1);
+  const place = { id: "refresh-website", displayName: { text: "Cafe Refresh" }, formattedAddress: "1 Ginza, Tokyo", location: { latitude: 35.6698, longitude: 139.7670 }, types: ["restaurant"], websiteUri: "https://cafe.example/about" };
+  const client = new GooglePlacesClient({ apiKey: "test-key", fetchImplementation: async (_url, init) => refreshed && failure === "GOOGLE" ? new Response("offline failure", { status: 503 }) : new Response(JSON.stringify(init?.method === "POST" ? { places: [place] } : place), { status: 200 }) });
+  const google = new GooglePlacesRestaurantSearch(client, () => time.toISOString(), 10, { maxRequests: 100 });
+  const html = `<script type="application/ld+json">${JSON.stringify({ "@type": "CafeOrCoffeeShop", name: "Cafe Refresh", address: place.formattedAddress, servesCuisine: "cafe", openingHoursSpecification: { dayOfWeek: "Thursday", opens: "10:00", closes: "18:00" } })}</script>`;
+  const browser: BrowserRuntime = { openSession: async () => {
+    websiteAttempts++;
+    if (refreshed) throw new Error("Controlled website unavailable on refresh");
+    return {
+      metadata: { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM", engine: "CHROMIUM", startedAt: time.toISOString() },
+      navigate: async () => {}, snapshot: async () => ({ url: place.websiteUri, title: "Cafe Refresh", text: "Cafe Refresh", html }),
+      click: async () => {}, fill: async () => {}, select: async () => [], waitFor: async () => {}, screenshot: async () => new Uint8Array(), close: async () => {},
+    };
+  } };
+  const taskId = "review:refresh-website";
+  const composition = createHybridReadComposition({ taskId, runId: taskId, clock: { now: () => time }, model, search: google, availability: noAvailabilityPort(), facts: composeLiveRestaurantFactRead(google, browser, model, undefined, () => time.toISOString()), loop: { maxSteps: 5, timeoutMs: 5000 } });
+  await composition.interpretAndDispatch({ taskId, message: "Find cafes nearby tomorrow afternoon for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
+  await composition.coordinator.run(taskId);
+  const initial = composition.runtime.snapshot(taskId);
+  assert.equal(initial.domainState.phase, "PRESENT_RESULTS", "positive control reaches genuine source-backed presentation");
+  const candidateId = initial.domainState.presentedResults!.candidateIds[0]!;
+  const oldWebsiteIds = initial.domainState.readEvidence.filter(e => e.provider === "RESTAURANT_WEBSITE").map(e => e.evidenceId);
+  const initialTrajectories = structuredClone(composition.trajectories.steps);
+  refreshed = true; time = new Date("2026-09-16T04:00:00Z");
+  await composition.runtime.dispatch({ id: "review:refresh", taskId, event: { type: "CANDIDATE_FACTS_REFRESH_REQUESTED", candidateIds: [candidateId] }, occurredAt: now.toISOString(), trace: { schemaVersion: "1", runId: taskId, correlationId: "review:refresh", actor: "USER" } }, initial.version);
+  await composition.coordinator.run(taskId);
+  const state = composition.runtime.snapshot(taskId).domainState;
+  const artifact = {
+    status: "SUCCEEDED", stage: "AGENT_LOOP", caseId: "review-refresh", runId: taskId,
+    materializedCase: { semantic: { target: { goal: "RECOMMENDATION" }, date: { value: "2026-09-17" }, party_size: 2, time: { start: "12:00", end: "17:00" }, location: { value: "nearby", relation: "NEAR_USER" }, criteria: [{ value: "cafe", polarity: "POSITIVE", strength: "HARD" }] } },
+    finalSnapshot: { ...composition.runtime.snapshot(taskId), domainState: { ...state, phase: "PRESENT_RESULTS", presentedResults: { ...initial.domainState.presentedResults!, presentedAt: time.toISOString() } } }, trajectories: composition.trajectories.steps, loop: { status: "TERMINAL" },
+    resourceUsage: { elapsedMs: 0, agentDecisions: composition.trajectories.steps.length, browserModelCalls: 0, googleRequests: google.googleRequestUsage(`${taskId}:investigation:${state.investigationRevision}`) },
+  };
+  const evaluation = evaluateRestaurantHybridLiveArtifact(artifact, { path: "refresh.result.json", sha256: (await import("node:crypto")).createHash("sha256").update(JSON.stringify(artifact, null, 2)).digest("hex") });
+  assert.equal(websiteAttempts, failure === "WEBSITE" ? 2 : 1, "source boundary reached the intended failure");
+  assert.ok(oldWebsiteIds.every(id => state.readEvidence.some(evidence => evidence.evidenceId === id)), "raw historical evidence remains immutable");
+  const initialEvaluation = evaluateRestaurantHybridLiveArtifact({ ...artifact, finalSnapshot: initial, trajectories: initialTrajectories }, { path: "initial.result.json", sha256: "synthetic" });
+  assert.equal(initialEvaluation.execution.taskProducedQualifiedResult, "YES", "the independent evaluator accepts the normal control");
+  assert.equal(state.phase, "NO_VERIFIED_RESULT", "failed refresh does not restore presentation");
+  assert.equal(evaluation.execution.systemBehavior, "NOT_SUPPORTED", "evaluator rejects the old presentation after refresh");
+  });
+});
+
+test("a closed-hours refresh removes historical support from the Agent context", async () => {
+  let closed = false;
+  const model = new RefreshReadModel(1);
+  const place = { id: "closed-cafe", displayName: { text: "Closed Cafe" }, formattedAddress: "1 Ginza, Tokyo", location: { latitude: 35.6698, longitude: 139.7670 }, types: ["cafe", "restaurant"] };
+  const client = new GooglePlacesClient({ apiKey: "test-key", fetchImplementation: async (_url, init) => new Response(JSON.stringify(init?.method === "POST" ? { places: [place] } : { ...place, regularOpeningHours: { weekdayDescriptions: [closed ? "Thursday: Closed" : "Thursday: 10:00 AM – 6:00 PM"] } }), { status: 200 }) });
+  let time = now;
+  const google = new GooglePlacesRestaurantSearch(client, () => time.toISOString(), 10, { maxRequests: 100 });
+  const taskId = "review:closed-context";
+  const composition = createHybridReadComposition({ taskId, runId: taskId, clock: { now: () => time }, model, search: google, availability: noAvailabilityPort(), facts: composeLiveRestaurantFactRead(google, {} as BrowserRuntime, model), loop: { maxSteps: 5, timeoutMs: 5000 } });
+  await composition.interpretAndDispatch({ taskId, message: "Find cafes nearby tomorrow afternoon for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
+  await composition.coordinator.run(taskId);
+  const initial = composition.runtime.snapshot(taskId);
+  assert.equal(initial.domainState.phase, "PRESENT_RESULTS");
+  const candidateId = initial.domainState.presentedResults!.candidateIds[0]!;
+  closed = true; time = new Date("2026-09-16T04:00:00Z");
+  await composition.runtime.dispatch({ id: "review:closed-refresh", taskId, event: { type: "CANDIDATE_FACTS_REFRESH_REQUESTED", candidateIds: [candidateId] }, occurredAt: time.toISOString(), trace: { schemaVersion: "1", runId: taskId, correlationId: "review:closed-refresh", actor: "USER" } }, initial.version);
+  await composition.coordinator.run(taskId);
+  const state = composition.runtime.snapshot(taskId).domainState;
+  const context = projectRestaurantAgentContext(state, time.toISOString());
+  const currentCheckIds = state.factChecks![candidateId]!.evidenceIds;
+  const currentHours = state.readEvidence.filter(e => currentCheckIds.includes(e.evidenceId) && e.kind === "RESTAURANT_FACT").map(e => e.claims.openingHoursMatch);
+  assert.ok(currentHours.includes(false), "source really produced closed-hours evidence");
+  assert.equal(context.candidates[0]?.observedFacts.openingHoursMatch, false, "Context must not summarize superseded opening hours as true");
 });

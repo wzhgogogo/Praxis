@@ -69,6 +69,7 @@ test("TableCheck binds a public slot result only when its reservation link carri
     html: [
       '<a href="/en/shops/restaurant1/reserve?start_date=2026-09-07&start_time=19:00&num_people=2">19:00</a>',
       '<a href="/en/shops/restaurant1/reserve?start_date=2025-09-07&start_time=19:30&num_people=2">19:30</a>',
+      '<a href="/en/shops/other-branch/reserve?start_date=2026-09-07&start_time=19:15&num_people=2">19:15</a>',
     ].join(""),
   };
   assert.equal(hasTableCheckSelectedRequest(snapshot, "2026-09-07", 2), true);
@@ -76,13 +77,16 @@ test("TableCheck binds a public slot result only when its reservation link carri
   assert.deepEqual(parseTableCheckAvailabilitySlots(snapshot, { date: "2026-09-07", partySize: 2 }), {
     availableSlots: ["19:00"], hasExplicitSlotUi: true, explicitlyEmpty: false, queryComplete: true,
   });
+  assert.equal(parseTableCheckAvailabilitySlots(snapshot, { date: "2026-09-07", partySize: 2, timeWindow: {earliest:"18:00",latest:"18:30"} }).queryComplete, false,
+    "links for another mealtime do not complete the requested availability window");
 });
 
 test("TableCheck reads the same exact request binding from live DOM controls when hydration omits it from HTML", () => {
   assert.deepEqual(parseTableCheckControlAvailability([
     { id: "slot", stableKey: "slot", kind: "LINK", role: "link", label: "19:00", href: "https://www.tablecheck.com/en/shops/restaurant1/reserve?start_date=2026-09-07&start_time=19:00&num_people=2", disabled: false, visible: true },
     { id: "stale", stableKey: "stale", kind: "LINK", role: "link", label: "19:30", href: "https://www.tablecheck.com/en/shops/restaurant1/reserve?start_date=2025-09-07&start_time=19:30&num_people=2", disabled: false, visible: true },
-  ], "2026-09-07", 2), {
+    { id: "other", stableKey: "other", kind: "LINK", role: "link", label: "19:15", href: "https://www.tablecheck.com/en/shops/other-branch/reserve?start_date=2026-09-07&start_time=19:15&num_people=2", disabled: false, visible: true },
+  ], "2026-09-07", 2, "https://www.tablecheck.com/en/restaurant1", {earliest:"19:00",latest:"19:00"}), {
     availableSlots: ["19:00"], hasExplicitSlotUi: true, explicitlyEmpty: false, queryComplete: true,
   });
 });
@@ -489,4 +493,63 @@ test("TableCheck discovery 403 documents are provider-page failures, not outlet 
   assert.equal(diagnostic.discovery.status, "PAGE_UNAVAILABLE");
   assert.equal(diagnostic.resolution.reason, "TABLECHECK_PAGE_UNAVAILABLE");
   assert.equal(diagnostic.attemptedPages.length, 0);
+});
+
+test("public query permission requires the observed source dialog and control structure", async () => {
+  const { permitsTableCheckQueryControl } = await import("./tablecheck-public-query.js");
+  const snapshot = { url: "https://www.tablecheck.com/en/japan/search", title: "Search", text: "", html: "" };
+  const control = { id: "observed", stableKey: "observed", kind: "CHECKBOX" as const, role: "checkbox", label: "Sushi", type: "checkbox", visible: true, disabled: false, structure: { tag: "INPUT", name: "cuisines", classes: ["checkbox"], dialogLabel: "Cuisine", formClass: "Form_f1pf9bb6", sliderCount: 0 } };
+  assert.equal(permitsTableCheckQueryControl({ control, snapshot, action: "SET_CHECKED" }), true);
+  const { structure: _structure, ...withoutStructure } = control;
+  for (const rejected of [
+    { ...control, structure: { ...control.structure, name: "consent" }, label: "利用規約に同意する" },
+    { ...control, structure: { ...control.structure, dialogLabel: "Booking" } },
+    withoutStructure,
+    { ...control, blockedByActiveLayer: true },
+  ]) assert.equal(permitsTableCheckQueryControl({ control: rejected, snapshot, action: "SET_CHECKED" }), false);
+  assert.equal(permitsTableCheckQueryControl({ control, snapshot: { ...snapshot, url: "https://www.tablecheck.com/en/reserve" }, action: "SET_CHECKED" }), false);
+});
+
+test("TableCheck guide empty result is bound to one ready widget and exact selected request", () => {
+  const html = '<div data-testid="Venue Availability"><form><button data-testid="day" data-date="2026-9-16" aria-selected="true" data-state="disabled">16</button><div data-testid="Venue Pax Select" id="pax-2"></div><div data-testid="Venue Time Select" id="time-19:00"></div><span data-testid="Venue Unavailable Msg">We could not find a table on Sep 16th for the selected mealtime</span></form></div>';
+  const snapshot = {url:"https://www.tablecheck.com/en/sushiinase",title:"Sushi Inase",text:"",html};
+  const query = {date:"2026-09-16",partySize:2,timeWindow:{earliest:"19:00",latest:"19:00"}};
+  assert.equal(hasTableCheckSelectedRequest(snapshot,query.date,query.partySize),true);
+  assert.equal(parseTableCheckAvailabilitySlots(snapshot,query).explicitlyEmpty,true);
+  for (const input of [
+    {...query,date:"2026-09-17"}, {...query,partySize:4}, {...query,timeWindow:{earliest:"18:30",latest:"19:30"}},
+  ]) assert.equal(parseTableCheckAvailabilitySlots(snapshot,input).explicitlyEmpty,false);
+  for (const changed of [html.replace('</form>','<span class="skeleton"></span></form>'),html+html,html.replace('<div data-testid="Venue Pax Select" id="pax-2"></div>','')+'<div data-testid="Venue Pax Select" id="pax-2"></div>']) {
+    assert.equal(parseTableCheckAvailabilitySlots({...snapshot,html:changed},query).explicitlyEmpty,false);
+  }
+});
+
+test("TableCheck independently verifies live control evidence after model handoff", async () => {
+  for (const date of [request.date, "2099-01-01"]) {
+    const session = new FixtureBrowserSession([
+      discoveryPage({href:"/en/restaurant1",text:"Restaurant 1"}),
+      {url:"https://www.tablecheck.com/en/restaurant1",title:"Restaurant 1",text:"Restaurant 1",html:'<h1>Restaurant 1</h1><a href="tel:03-1111-2222">Phone</a><div data-testid="Venue Availability"></div><div class="menu">omakase</div>'},
+    ]);
+    session.observeControls = async () => [{id:"slot",stableKey:"slot",kind:"LINK",role:"link",label:"19:00",href:`https://www.tablecheck.com/en/shops/restaurant1/reserve?start_date=${date}&pax=${request.partySize}&start_time=19:00`,visible:true,disabled:false}];
+    const executor = new BrowserTaskExecutor({openSession:async()=>session},{modelDecision:{async decide(){return {type:"COMPLETE",reason:"Hand back observed controls for verification"}}}});
+    try {
+      const result = await new TableCheckBrowserAvailability(executor).check(request,new AbortController().signal);
+      assert.equal(result.offers.length,date===request.date?1:0);
+    } finally {await executor.close()}
+  }
+});
+
+test("TableCheck disabled times cover only the ready widget's requested half-hour window", () => {
+  const disabled = (time: string) => `<a data-testid="Venue Timeslot Btn" aria-disabled="true" href="/en/restaurant1"><button disabled="">${time}</button></a>`;
+  const html = `<div data-testid="Venue Availability"><form><button data-testid="day" data-date="2026-9-19" aria-selected="true">19</button><div data-testid="Venue Pax Select" id="pax-4"></div><div data-testid="Venue Time Select" id="time-18:30"></div>${['18:30','19:00','19:30'].map(disabled).join('')}<a data-testid="Venue Timeslot Btn" href="https://www.tablecheck.com/en/shops/restaurant1/reserve?start_date=2026-09-19&amp;num_people=4&amp;start_time=20:00">20:00</a></form></div>`;
+  const snapshot = {url:'https://www.tablecheck.com/en/restaurant1',title:'Restaurant 1',text:'',html};
+  const query = {date:'2026-09-19',partySize:4,timeWindow:{earliest:'18:30',latest:'19:30'}};
+  const result = parseTableCheckAvailabilitySlots(snapshot,query);
+  assert.equal(result.explicitlyEmpty,true);
+  assert.equal(result.queryComplete,true);
+  assert.deepEqual(result.availableSlots,['20:00']);
+  for (const changed of [html.replace(disabled('19:00'),''),html.replace('pax-4','pax-2'),html.replace('2026-9-19','2026-9-18'),html.replace('</form>','<span class="skeleton"></span></form>'),html+html,html.replace('time-18:30','time-20:00')]) {
+    assert.equal(parseTableCheckAvailabilitySlots({...snapshot,html:changed},query).explicitlyEmpty,false);
+  }
+  assert.equal(parseTableCheckAvailabilitySlots(snapshot,{...query,timeWindow:{earliest:'18:15',latest:'19:30'}}).explicitlyEmpty,false);
 });

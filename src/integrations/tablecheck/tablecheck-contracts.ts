@@ -43,7 +43,7 @@ export interface TableCheckIdentityDiagnostic {
     status: "RESULTS" | "NO_RESULT" | "PAGE_UNAVAILABLE" | "PARSE_FAILED" | "EXPLORATION_EXHAUSTED" | "BOT_CHALLENGE";
     discoveredOutletUrls: string[];
     unavailableSignals?: Array<{ source: "TITLE" | "PRIMARY_HEADING"; value: string }>;
-    handoff?: { reason: string; outcome: "COMPLETED" | "REQUESTED_HUMAN_HELP" | "NO_SAFE_ACTION" | "BUDGET_EXCEEDED" | "MODEL_FAILURE" };
+    handoff?: { reason: string; outcome: "COMPLETED" | "MODEL_HANDOFF" | "REQUESTED_HUMAN_HELP" | "NO_SAFE_ACTION" | "BUDGET_EXCEEDED" | "MODEL_FAILURE" };
   };
   attemptedPages: Array<{
     requestedUrl: string;

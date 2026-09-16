@@ -14,7 +14,7 @@ import {
   RESTAURANT_SEMANTIC_PROPOSAL_JSON_SCHEMA,
   RESTAURANT_SEMANTIC_PROPOSAL_SCHEMA,
 } from "../../../domains/restaurant/semantic-proposal.js";
-import { buildRestaurantSemanticInterpreterSystemPrompt } from "../../../domains/restaurant/semantic-interpreter.js";
+import { buildRestaurantSemanticInterpreterSystemPrompt, RESTAURANT_SEMANTIC_MAX_OUTPUT_TOKENS } from "../../../domains/restaurant/semantic-interpreter.js";
 import { RESTAURANT_SEMANTIC_SCORER_VERSION } from "./scorer.js";
 
 export const RESTAURANT_SEMANTIC_HOLDOUT_DATASET_ID = "restaurant-semantic-holdout-v2";
@@ -39,7 +39,7 @@ export const RESTAURANT_SEMANTIC_HOLDOUT_MANIFEST = {
   structuredTransport: "DEEPSEEK_STRICT_FUNCTION_BETA",
   temperature: 0,
   thinking: "disabled",
-  maxOutputTokens: 500,
+  maxOutputTokens: RESTAURANT_SEMANTIC_MAX_OUTPUT_TOKENS,
   timeoutMs: 10_000,
   schemaAttempts: 2,
   providerRetries: 0,

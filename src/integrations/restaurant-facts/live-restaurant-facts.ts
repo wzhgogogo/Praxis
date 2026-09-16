@@ -16,10 +16,11 @@ export function composeLiveRestaurantFactRead(
   runtime: BrowserRuntime,
   model: ModelGateway,
   browserBudget?: BrowserExecutionBudget,
+  now?: () => string,
 ): RestaurantCandidateFactPort {
   return new GoogleThenWebsiteFactRead(
     google,
-    new GoogleListedWebsiteFactRead(runtime, undefined, new ModelBrowserReadActionDecision(model), browserBudget),
-    new ModelRestaurantFactJudgment(model),
+    new GoogleListedWebsiteFactRead(runtime, now, new ModelBrowserReadActionDecision(model), browserBudget),
+    new ModelRestaurantFactJudgment(model, now),
   );
 }

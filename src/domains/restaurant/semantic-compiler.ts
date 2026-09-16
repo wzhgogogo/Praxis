@@ -143,6 +143,7 @@ function compileFact(patch: RestaurantIntentPatch, fact: RestaurantSemanticFact)
         return;
       case "TIME_WINDOW":
         patch.timeWindow = null;
+        patch.permittedAlternativeTimeWindow = null;
         patch.temporalResolution = null;
         return;
       case "PARTY_SIZE":
@@ -221,6 +222,9 @@ export function compileRestaurantSemanticProposal(
     });
     if (materialized.date) patch.date = materialized.date;
     if (materialized.timeWindow) patch.timeWindow = materialized.timeWindow;
+    if (timeWindow && "alternativeEarliest" in timeWindow && timeWindow.alternativeEarliest && timeWindow.alternativeLatest) {
+      patch.permittedAlternativeTimeWindow = { earliest: timeWindow.alternativeEarliest, latest: timeWindow.alternativeLatest };
+    }
     // Direct compiler callers in historical semantic scorer tests have no
     // trusted clock. Actual Web/Hybrid message entrypoints always supply it
     // and therefore retain the full auditable resolution record.

@@ -57,6 +57,7 @@ export function validateRestaurantIntentDraft(input: unknown): RestaurantIntentV
       "target",
       "date",
       "timeWindow",
+      "permittedAlternativeTimeWindow",
       "temporalResolution",
       "partySize",
       "area",
@@ -97,8 +98,17 @@ export function validateRestaurantIntentDraft(input: unknown): RestaurantIntentV
       errors.push("timeWindow must contain ordered HH:mm earliest and latest values");
     }
   }
+  if (input.permittedAlternativeTimeWindow !== undefined) {
+    if (!isRecord(input.permittedAlternativeTimeWindow) || !hasOnlyKeys(input.permittedAlternativeTimeWindow, ["earliest", "latest"]) ||
+      !isTime(input.permittedAlternativeTimeWindow.earliest) || !isTime(input.permittedAlternativeTimeWindow.latest) ||
+      input.permittedAlternativeTimeWindow.earliest > input.permittedAlternativeTimeWindow.latest ||
+      !isRecord(input.timeWindow) || !isTime(input.timeWindow.earliest) || !isTime(input.timeWindow.latest) ||
+      input.permittedAlternativeTimeWindow.earliest > input.timeWindow.earliest || input.permittedAlternativeTimeWindow.latest < input.timeWindow.latest) {
+      errors.push("permittedAlternativeTimeWindow must contain the original timeWindow and come from explicit user permission");
+    }
+  }
   if (input.temporalResolution !== undefined) {
-    if (!isRecord(input.temporalResolution) || !hasOnlyKeys(input.temporalResolution, ["policyVersion", "referenceTime", "timezone", "date", "timeWindow"]) || input.temporalResolution.policyVersion !== "restaurant-temporal-materialization@2" || input.temporalResolution.timezone !== "Asia/Tokyo" || typeof input.temporalResolution.referenceTime !== "string" || Number.isNaN(Date.parse(input.temporalResolution.referenceTime))) {
+    if (!isRecord(input.temporalResolution) || !hasOnlyKeys(input.temporalResolution, ["policyVersion", "referenceTime", "timezone", "date", "timeWindow"]) || input.temporalResolution.policyVersion !== "restaurant-temporal-materialization@3" || input.temporalResolution.timezone !== "Asia/Tokyo" || typeof input.temporalResolution.referenceTime !== "string" || Number.isNaN(Date.parse(input.temporalResolution.referenceTime))) {
       errors.push("temporalResolution must be a valid code-derived Tokyo materialization record");
     }
   }

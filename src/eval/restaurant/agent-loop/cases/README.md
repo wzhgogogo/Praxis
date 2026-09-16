@@ -1,8 +1,8 @@
 # Restaurant read development cases
 
 - Status: current executable development diagnostic; not a Clean Baseline
-- Document revision: 1.1
-- Dataset: `restaurant-read-development@3`
+- Document revision: 1.2
+- Dataset: `restaurant-read-development@4`
 - Acceptance contract: `restaurant-read-acceptance@2`
 - Updated: 2026-09-15
 - Contamination: `PROMPT_AND_RESULT_EXPOSED`; `baselineEligible: false`
@@ -13,6 +13,8 @@
 This is the single current H001–H005 input for `run-hybrid-live-read.ts`. `content` is the user message; `semantic` is the independent evaluation expectation. The model receives the message and trusted time/location context, never Gold or acceptance notes. Runtime does not branch on a case ID. The materializer resolves dates and `right now` in Asia/Tokyo without changing user text. Runner artifacts record dataset version, file SHA, cohort and contamination, including failures.
 
 `acceptance` contains human-readable review requirements; it is not a tool-routing DSL and is not consumed as a runtime instruction. The existing diagnostic evaluator consumes `materializedCase.semantic` and execution evidence. It does **not** automatically score every acceptance note or all recommendation quality. `FULL_RUBRIC_NOT_INTEGRATED` remains accurate. No new Judge or automatic pass threshold is introduced.
+
+The offline test now instantiates the real Google client/search, Google→website fact composition and LiveBrowserAvailability/resolver, replacing only model transport, HTTP and page observations. Each actual result is independently evaluated against this YAML. H001/H003/H004 produce qualified synthetic results; H002/H005 stop without a qualified result and retain NOT_EVALUATED investigation sufficiency. Fixed responses do not measure model quality or live inventory.
 
 ## Current user promises
 
@@ -26,7 +28,7 @@ This is the single current H001–H005 input for `run-hybrid-live-read.ts`. `con
 
 Goal follows requested delivery, not an isolated verb or party-size field. A concrete dining visit with a known or confidently inferred party and temporal intent requires availability even when phrased as “recommend”, “looking for”, or “need”; open-ended exploration remains recommendation. None of these read-only cases authorizes a reservation, payment, or personal-data submission.
 
-H002's exclusion names the restaurant/main cuisine, not every dish containing spice. No case-specific exclusion mapping is injected into the model or Google. H003's existing HARD strengths are preserved. Its `after work` expression is retained verbatim and code materializes the documented broad 17:30–22:00 query window with an explicit basis; this is neither a user-quoted exact time nor the retired 18:00–20:00 interval. Semantic suitability and the reasonableness of broad-time interpretation require independent review; current deterministic evaluation cannot certify them fully.
+H002's exclusion names the restaurant/main cuisine, not every dish containing spice. No case-specific exclusion mapping is injected into the model or Google. H003's team-dinner/drinks HARD strengths are preserved; after work is time-only, not an additional criterion. Dataset @4 changes only that duplicate temporal criterion; previous @3 Gold is retained in the time-semantics diagnostic artifact. Its `after work` expression is retained verbatim and code materializes the documented broad 17:30–22:00 query window with an explicit basis; this is neither a user-quoted exact time nor the retired 18:00–20:00 interval. Semantic suitability and the reasonableness of broad-time interpretation require independent review; current deterministic evaluation cannot certify them fully.
 
 ## Common result and investigation contract
 

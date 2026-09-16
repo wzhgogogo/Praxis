@@ -2,24 +2,12 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import type { ModelGateway, ModelRequest, ModelResponse } from "../../../core/model/contracts.js";
-import type {
-  RestaurantAvailabilityRead,
-  RestaurantAvailabilityRequest,
-  RestaurantCandidateFactRead,
-  RestaurantCandidateFactRequest,
-  RestaurantSearchRead,
-  RestaurantSearchRequest,
-} from "../../../domains/restaurant/contracts.js";
-import {
-  groundGoogleDiscovery,
-  groundRestaurantWebsiteFacts,
-  groundTableCheckAvailability,
-} from "../../../domains/restaurant/read-grounding.js";
-import type {
-  RestaurantAvailabilityPort,
-  RestaurantCandidateFactPort,
-  RestaurantSearchPort,
-} from "../../../application/restaurant-execution-router.js";
+import type { BrowserRuntime, BrowserSnapshot } from "../../../infrastructure/browser/browser-runtime.js";
+import { GooglePlacesClient } from "../../../integrations/google/google-places-client.js";
+import { GooglePlacesRestaurantSearch } from "../../../integrations/google/google-places-restaurant-search.js";
+import { composeLiveRestaurantFactRead } from "../../../integrations/restaurant-facts/live-restaurant-facts.js";
+import { LiveBrowserAvailability } from "../../../integrations/restaurant-availability/live-browser-availability.js";
+import { evaluateRestaurantHybridLiveArtifact } from "./diagnostic-evaluator.js";
 import { createHybridReadComposition } from "./hybrid-read-composition.js";
 import { HIGASHI_GINZA_EVALUATION_LOCATION } from "./live-evaluation-location.js";
 import {
@@ -44,7 +32,7 @@ type Plan = {
     displayName: string;
     addressComponent?: string;
     websiteFacts?: { types: string[]; hours: string[] };
-    availability?: { status: "AVAILABLE" | "UNAVAILABLE"; visibleSlots: string[]; verifiedHardCriteria: string[] };
+    availability?: { status: "AVAILABLE" | "UNAVAILABLE"; date: string; partySize: number; visibleSlots: string[]; menuText: string };
   };
 };
 
@@ -64,7 +52,7 @@ const PLANS: readonly Plan[] = [
       { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "omakase", polarity: "POSITIVE", strength: "HARD" } },
     ],
     actions: ["SEARCH_RESTAURANTS", "CHECK_AVAILABILITY", "PRESENT_RESULTS"],
-    source: { placeId: "offline-h001", displayName: "Source Omakase Shibuya", addressComponent: "Shibuya", availability: { status: "AVAILABLE", visibleSlots: ["19:00"], verifiedHardCriteria: ["omakase"] } },
+    source: { placeId: "offline-h001", displayName: "Source Omakase Shibuya", addressComponent: "Shibuya", availability: { status: "AVAILABLE", date: "2026-08-19", partySize: 2, visibleSlots: ["19:00"], menuText: "Omakase course" } },
   },
   {
     id: "h002", content: "Recommend a first-date restaurant near Higashi-Ginza for this Saturday at 6:30 PM. Around 10,000 yen per person. No hot-pot restaurants and no Sichuan/Hunan-style cuisine where spicy food is the main focus.", referenceTime: "2026-08-19T16:22:00+08:00",
@@ -76,11 +64,13 @@ const PLANS: readonly Plan[] = [
       // Closed first-date-party inference, not a rewrite of the source message.
       { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } },
       { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "near Higashi-Ginza" } },
+      { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "good for a first date", polarity: "POSITIVE", strength: "SOFT" } },
+      { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "around 10,000 yen per person", polarity: "POSITIVE", strength: "SOFT" } },
       { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "hot pot restaurant", polarity: "NEGATIVE", strength: "HARD" } },
       { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "Sichuan/Hunan cuisine", polarity: "NEGATIVE", strength: "HARD" } },
     ],
     actions: ["SEARCH_RESTAURANTS", "CHECK_AVAILABILITY", "END_READ"],
-    source: { placeId: "offline-h002", displayName: "Source Higashi-Ginza", addressComponent: "Higashi-Ginza", availability: { status: "UNAVAILABLE", visibleSlots: [], verifiedHardCriteria: [] } },
+    source: { placeId: "offline-h002", displayName: "Source Higashi-Ginza", addressComponent: "Higashi-Ginza", availability: { status: "UNAVAILABLE", date: "2026-08-22", partySize: 2, visibleSlots: [], menuText: "Seasonal dinner course" } },
   },
   {
     id: "h003", content: "Need a place for a team dinner nearby this Friday after work. 10 people, around 3,000 yen per person, good for drinks, ideally with a private room.", referenceTime: "2026-08-19T16:38:00+08:00",
@@ -91,12 +81,13 @@ const PLANS: readonly Plan[] = [
       { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", daypart: "AFTER_WORK", raw: "after work" } },
       { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 10 } },
       { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "nearby" } },
+      { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "around 3,000 yen per person", polarity: "POSITIVE", strength: "SOFT" } },
+      { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "private room", polarity: "POSITIVE", strength: "SOFT" } },
       { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "team dinner", polarity: "POSITIVE", strength: "HARD" } },
       { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "good for drinks", polarity: "POSITIVE", strength: "HARD" } },
-      { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "after work", polarity: "POSITIVE", strength: "HARD" } },
     ],
     actions: ["SEARCH_RESTAURANTS", "CHECK_AVAILABILITY", "PRESENT_RESULTS"],
-    source: { placeId: "offline-h003", displayName: "Source Team Dinner", availability: { status: "AVAILABLE", visibleSlots: ["19:00"], verifiedHardCriteria: ["team dinner", "good for drinks", "after work"] } },
+    source: { placeId: "offline-h003", displayName: "Source Team Dinner", availability: { status: "AVAILABLE", date: "2026-08-21", partySize: 10, visibleSlots: ["19:00"], menuText: "After work team dinner course, good for drinks with our shared beverage selection." } },
   },
   {
     id: "h004", content: "Good cafes nearby to meet up with a friend this afternoon.", referenceTime: "2026-08-19T12:00:00+08:00",
@@ -106,6 +97,7 @@ const PLANS: readonly Plan[] = [
       { field: "DATE", operation: "ASSERT", value: { kind: "DATE", relativeDay: "TODAY", raw: "this afternoon" } },
       { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", daypart: "AFTERNOON", relativeDay: "TODAY", raw: "this afternoon" } },
       { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "nearby" } },
+      { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "good for meeting a friend", polarity: "POSITIVE", strength: "SOFT" } },
       { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "cafe", polarity: "POSITIVE", strength: "HARD" } },
     ],
     actions: ["SEARCH_RESTAURANTS", "INVESTIGATE_CANDIDATE_FACTS", "PRESENT_RESULTS"],
@@ -123,7 +115,7 @@ const PLANS: readonly Plan[] = [
       { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "fast food", polarity: "NEGATIVE", strength: "HARD" } },
     ],
     actions: ["SEARCH_RESTAURANTS", "CHECK_AVAILABILITY", "END_READ"],
-    source: { placeId: "offline-h005", displayName: "Source Local Food", availability: { status: "AVAILABLE", visibleSlots: ["17:00"], verifiedHardCriteria: ["local food"] } },
+    source: { placeId: "offline-h005", displayName: "Source Local Food", availability: { status: "AVAILABLE", date: "2026-08-19", partySize: 4, visibleSlots: ["17:00"], menuText: "Local food tasting menu" } },
   },
 ];
 
@@ -162,82 +154,63 @@ class FixedCurrentCaseModel implements ModelGateway {
   assertConsumed(): void { assert.deepEqual(this.remainingActions, [], `all fixed ${this.plan.id} actions must execute`); }
 }
 
-function sourcesFor(plan: Plan, observedAt: string): {
-  search: RestaurantSearchPort;
-  facts: RestaurantCandidateFactPort;
-  availability: RestaurantAvailabilityPort;
-  calls: { search: number; facts: number; availability: number };
-} {
-  const calls = { search: 0, facts: 0, availability: 0 };
-  const search: RestaurantSearchPort = {
-    executionRoute: "STRUCTURED_ADAPTER",
-    async search(request: RestaurantSearchRequest): Promise<RestaurantSearchRead> {
-      calls.search += 1;
-      assert.equal(request.intent.target?.goal, plan.goal);
-      assert.equal(request.intent.area.query, plan.area);
-      const coordinates = request.intent.area.coordinates;
-      const radiusMeters = request.intent.area.radiusMeters;
-      if (coordinates && radiusMeters === undefined) throw new Error("Nearby source request is missing its bound radius");
-      const evaluationLocation = coordinates && radiusMeters !== undefined
-        ? { latitude: coordinates.latitude, longitude: coordinates.longitude, radiusMeters, label: "fixed evaluation location", areaMatchBasis: "EVALUATION_LOCATION_RADIUS" as const }
-        : undefined;
-      const grounded = groundGoogleDiscovery({
-        placeId: plan.source.placeId, displayName: plan.source.displayName, formattedAddress: `${plan.source.displayName}, Tokyo`,
-        ...(plan.source.addressComponent ? { addressComponents: [{ longText: plan.source.addressComponent, types: ["sublocality_level_1"] }] } : {}),
-        location: { latitude: HIGASHI_GINZA_EVALUATION_LOCATION.latitude, longitude: HIGASHI_GINZA_EVALUATION_LOCATION.longitude },
-        types: plan.id === "h004" ? ["cafe", "restaurant"] : ["restaurant"], primaryType: plan.id === "h004" ? "cafe" : "restaurant",
-      }, {
-        requestFingerprint: `offline-discovery:${plan.source.placeId}`, observedAt, areaQuery: request.intent.area.query,
-        ...(evaluationLocation ? { evaluationLocation } : {}),
-        requiredTypeCriteria: request.intent.criteria.filter((criterion) => criterion.polarity === "POSITIVE" && criterion.strength === "HARD").map((criterion) => criterion.text),
-        negativeCriteria: request.intent.criteria.filter((criterion) => criterion.polarity === "NEGATIVE" && criterion.strength === "HARD").map((criterion) => criterion.text),
-        ...(request.intent.date ? { requestedDate: request.intent.date } : {}),
-        ...(request.intent.timeWindow ? { requestedTimeWindow: request.intent.timeWindow } : {}),
-      });
-      if (!grounded.accepted) throw new Error(`Fixed discovery source was rejected: ${grounded.reasonCode}`);
-      return { candidates: [grounded.candidate], evidence: [grounded.evidence, ...grounded.additionalEvidence], metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 } };
-    },
-  };
-  const facts: RestaurantCandidateFactPort = {
-    executionRoute: "STRUCTURED_ADAPTER",
-    async inspectFacts(request: RestaurantCandidateFactRequest): Promise<RestaurantCandidateFactRead> {
-      calls.facts += 1;
-      if (!plan.source.websiteFacts) throw new Error(`Unprepared fact source call for ${plan.id}`);
-      assert.deepEqual(request.candidateIds, [request.candidates[0]!.restaurant.id]);
-      const result = groundRestaurantWebsiteFacts(request.candidates[0]!, request.intent, {
-        candidateId: request.candidates[0]!.restaurant.id, sourceUrl: `https://offline.example/${plan.source.placeId}`,
-        observedAt, entityMatch: { confidence: "HIGH", matchedBy: ["EXACT_OFFLINE_SOURCE"] },
-        restaurantTypeFacts: plan.source.websiteFacts.types, regularOpeningHours: plan.source.websiteFacts.hours,
-      });
-      return {
-        evidence: result.evidence,
-        factChecks: { [request.candidates[0]!.restaurant.id]: { status: result.status, checkedAt: observedAt, evidenceIds: result.evidence.map((evidence) => evidence.evidenceId), sourceProvider: "RESTAURANT_WEBSITE", ...(result.reasonCode ? { reasonCode: result.reasonCode } : {}) } },
-        metadata: { provider: "RESTAURANT_WEBSITE", route: "STRUCTURED_ADAPTER", latencyMs: 0 },
-      };
-    },
-  };
-  const availability: RestaurantAvailabilityPort = {
-    executionRoute: "STRUCTURED_ADAPTER",
-    async check(request: RestaurantAvailabilityRequest): Promise<RestaurantAvailabilityRead> {
-      calls.availability += 1;
-      if (!plan.source.availability) throw new Error(`Unprepared availability source call for ${plan.id}`);
-      if (plan.partySize === undefined) throw new Error(`Unprepared availability source party size for ${plan.id}`);
-      assert.equal(request.date, plan.date); assert.deepEqual(request.timeWindow, plan.timeWindow); assert.equal(request.partySize, plan.partySize);
-      const result = groundTableCheckAvailability(request.candidates[0]!, request, {
-        candidateId: request.candidates[0]!.restaurant.id, sourceEntityId: `tablecheck:${plan.source.placeId}`,
-        observedAt, requestedDate: plan.date, requestedPartySize: plan.partySize,
-        entityMatch: { confidence: "HIGH", matchedBy: ["EXACT_OFFLINE_SOURCE"] },
-        pageState: plan.source.availability.status === "AVAILABLE" ? "AVAILABLE" : "NO_MATCHING_SLOT",
-        visibleSlots: plan.source.availability.visibleSlots, verifiedHardCriteria: plan.source.availability.verifiedHardCriteria,
-      }, observedAt);
-      return {
-        offers: result.offers, availabilityChecks: { [request.candidates[0]!.restaurant.id]: result.check }, evidence: result.evidence,
-        ...(result.candidateFactUpdate ? { candidateFactUpdates: [result.candidateFactUpdate] } : {}),
-        metadata: { provider: "TABLECHECK", route: "STRUCTURED_ADAPTER", latencyMs: 0, providerAttempts: [{ candidateId: request.candidates[0]!.restaurant.id, provider: "TABLECHECK", outcome: result.check.status === "AVAILABLE" ? "AVAILABLE" : "UNAVAILABLE" }] },
-      };
-    },
-  };
-  return { search, facts, availability, calls };
+/** Actual production adapters; only HTTP and page observations are synthetic. */
+function sourcesFor(plan: Plan, observedAt: string, model: ModelGateway) {
+  const calls = { search: 0, facts: 0, availability: 0, namedPlace: 0, website: 0 };
+  const address = "1 Ginza, Chuo City, Tokyo";
+  const location = { latitude: HIGASHI_GINZA_EVALUATION_LOCATION.latitude, longitude: HIGASHI_GINZA_EVALUATION_LOCATION.longitude };
+  const place = { id: plan.source.placeId, displayName: { text: plan.source.displayName }, formattedAddress: address,
+    location, types: ["restaurant"], internationalPhoneNumber: "+81 3-1111-2222", websiteUri: "https://offline.example/cafe" };
+  const client = new GooglePlacesClient({ apiKey: "mock-key", fetchImplementation: async (url, init) => {
+    if (init?.method === "POST") {
+      const body = JSON.parse(String(init.body));
+      if (plan.source.addressComponent && body.textQuery === plan.source.addressComponent) {
+        calls.namedPlace++;
+        return new Response(JSON.stringify({ places: [{ id: "source-landmark", displayName: { text: plan.source.addressComponent }, location, types: ["train_station"] }] }), { status: 200 });
+      }
+      calls.search++;
+      return new Response(JSON.stringify({ places: [place] }), { status: 200 });
+    }
+    assert.equal(String(url).split("/").at(-1), place.id, "Details must use the source ID from discovery");
+    calls.facts++;
+    if (!plan.source.websiteFacts) throw new Error(`Unplanned Details call for ${plan.id}`);
+    return new Response(JSON.stringify(place), { status: 200 });
+  } });
+  const search = new GooglePlacesRestaurantSearch(client, () => observedAt, 10, { maxRequests: 10 });
+  const browser: BrowserRuntime = { openSession: async () => {
+    let page: BrowserSnapshot | undefined;
+    return {
+      metadata: { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM", engine: "CHROMIUM", startedAt: observedAt },
+      navigate: async (target: string) => {
+        const url = new URL(target);
+        const inventory = plan.source.availability;
+        if (target === place.websiteUri && plan.source.websiteFacts) {
+          calls.website++;
+          page = { url: target, title: place.displayName.text, text: place.displayName.text,
+            html: `<script type="application/ld+json">${JSON.stringify({ "@type": "CafeOrCoffeeShop", name: place.displayName.text, address, servesCuisine: "cafe", openingHoursSpecification: { dayOfWeek: "Wednesday", opens: "10:00", closes: "18:00" } })}</script>` };
+        } else if (url.hostname === "www.tablecheck.com" && inventory) {
+          if (url.pathname === "/en/japan/search") {
+            page = { url: target, title: "Map search", text: place.displayName.text, html: `<a href="/en/source-venue">${place.displayName.text}</a>` };
+          } else if (url.pathname === "/en/source-venue") {
+            page = { url: target, title: place.displayName.text, text: `${place.displayName.text} ${address} 03-1111-2222`,
+              html: `<h1>${place.displayName.text}</h1><p class="address">${address}</p><a href="tel:03-1111-2222">03-1111-2222</a><a href="/en/source-venue/reserve/landing">Book a table</a>` };
+          } else if (url.pathname === "/en/source-venue/reserve/landing") {
+            assert.equal(url.searchParams.get("start_date"), inventory.date);
+            assert.equal(url.searchParams.get("pax"), String(inventory.partySize));
+            calls.availability++;
+            page = { url: target, title: place.displayName.text, text: `${inventory.menuText} ${inventory.visibleSlots.join(" ")}`,
+              html: `<div data-selected-date="${inventory.date}" data-pax="${inventory.partySize}"></div><section class="featured-menu">${inventory.menuText}</section>` +
+                (inventory.status === "UNAVAILABLE" ? '<section data-availability-state="empty"></section>' : `<section data-availability-state="complete">${inventory.visibleSlots.map(slot => `<button class="time-slot is-available" data-time="${slot}">${slot}</button>`).join("")}</section>`) };
+          } else throw new Error(`Unplanned TableCheck navigation: ${target}`);
+        } else throw new Error(`Unplanned source navigation: ${target}`);
+      },
+      snapshot: async () => { if (!page) throw new Error("No planned page"); return page; },
+      click: async () => { throw new Error("Unplanned source click"); }, fill: async () => { throw new Error("Unplanned source fill"); }, select: async () => { throw new Error("Unplanned source select"); },
+      waitFor: async () => {}, screenshot: async () => new Uint8Array(), close: async () => {},
+    };
+  } };
+  return { search, facts: composeLiveRestaurantFactRead(search, browser, model, undefined, () => observedAt),
+    availability: new LiveBrowserAvailability(browser, model, { now: () => observedAt }), calls };
 }
 
 test("current H001-H005 raw requests complete through the real offline Hybrid composition without prepared fallbacks", async (t) => {
@@ -246,9 +219,9 @@ test("current H001-H005 raw requests complete through the real offline Hybrid co
   for (const plan of PLANS) await t.test(plan.id, async () => {
     const sourceCase = frozen.find((item) => item.id === plan.id)!;
     assert.equal(String(sourceCase.content).trimEnd(), plan.content, "the frozen user message is immutable test input");
-    const observedAt = "2026-08-19T09:00:00.000Z";
+    const observedAt = new Date(plan.referenceTime).toISOString();
     const model = new FixedCurrentCaseModel(plan);
-    const sources = sourcesFor(plan, observedAt);
+    const sources = sourcesFor(plan, observedAt, model);
     const taskId = `offline-current:${plan.id}`;
     const composition = createHybridReadComposition({
       taskId, runId: `run:${taskId}`, clock: { now: () => new Date(observedAt) }, model,
@@ -259,6 +232,21 @@ test("current H001-H005 raw requests complete through the real offline Hybrid co
     assert.equal(semantic.status, "PROPOSED");
     const loop = await composition.coordinator.run(taskId);
     const state = composition.runtime.snapshot(taskId).domainState;
+    const artifact = {
+      status: "SUCCEEDED", stage: "AGENT_LOOP", caseId: plan.id, runId: taskId, materializedCase: sourceCase,
+      finalSnapshot: composition.runtime.snapshot(taskId), trajectories: composition.trajectories.steps, loop,
+      resourceUsage: { elapsedMs: 0, agentDecisions: composition.trajectories.steps.length, browserModelCalls: 0,
+        googleRequests: sources.search.googleRequestUsage(`run:${taskId}:investigation:${state.investigationRevision}`) },
+    };
+    const evaluation = evaluateRestaurantHybridLiveArtifact(artifact, { path: `${plan.id}.mock.result.json`, sha256: "mock" });
+    assert.equal(evaluation.findings.find(finding => finding.dimension === "AUTHORITATIVE_CONDITIONS")?.status, "SATISFIED", JSON.stringify(evaluation));
+    assert.equal(evaluation.execution.taskProducedQualifiedResult, ["h001", "h003", "h004"].includes(plan.id) ? "YES" : "NO", JSON.stringify(evaluation));
+    // The current evaluator verifies empty discovery but deliberately does not
+    // certify general nonempty investigation sufficiency, including this no-slot result.
+    assert.equal(evaluation.findings.find(finding => finding.dimension === "COMPLETION_OUTCOME")?.status, ["h002", "h005"].includes(plan.id) ? "NOT_EVALUATED" : "SATISFIED", JSON.stringify(evaluation));
+    t.diagnostic(JSON.stringify({ caseId: plan.id, phase: state.phase, qualified: evaluation.execution.taskProducedQualifiedResult,
+      completionDiagnostic: evaluation.findings.find(finding => finding.dimension === "COMPLETION_OUTCOME")?.status,
+      sourceCalls: sources.calls }));
     model.assertConsumed();
     assert.equal(sources.calls.search, 1);
     assert.equal(state.intentDraft?.target?.goal, plan.goal);

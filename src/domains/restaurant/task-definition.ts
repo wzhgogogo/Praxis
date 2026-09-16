@@ -413,9 +413,19 @@ function transition(
               const sourceProvider: RestaurantCandidateFactCheck["sourceProvider"] = check.sourceProvider
                 ?? evidenceSourceProvider
                 ?? (evidenceProviders.length === 0 ? event.metadata.provider : undefined);
+              const attemptedProviders = new Set(check.sourceAttempts?.map((attempt) => attempt.source)
+                ?? (sourceProvider ? [sourceProvider] : evidenceProviders.filter((provider) => provider !== "MODEL_JUDGMENT")));
+              const supersededEvidenceIds = [...new Set([
+                ...(state.factChecks?.[candidateId]?.supersededEvidenceIds ?? []),
+                ...state.readEvidence.filter((evidence) => evidence.candidateId === candidateId && evidence.kind === "RESTAURANT_FACT"
+                  && evidence.provider !== "MODEL_JUDGMENT" && (attemptedProviders.has(evidence.provider)
+                    || (event.request.recheck && state.factChecks?.[candidateId]?.evidenceIds.includes(evidence.evidenceId)))
+                  && !check.evidenceIds.includes(evidence.evidenceId)).map((evidence) => evidence.evidenceId),
+              ])];
               const storedCheck: RestaurantCandidateFactCheck = {
                 ...structuredClone(check),
                 ...(sourceProvider !== undefined ? { sourceProvider } : {}),
+                supersededEvidenceIds,
               };
               return [candidateId, storedCheck];
             })) as Record<string, RestaurantCandidateFactCheck>,

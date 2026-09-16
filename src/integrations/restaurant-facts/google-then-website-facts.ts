@@ -1,3 +1,4 @@
+import { requestedCommercialFields } from "./google-listed-website-facts.js";
 import type { RestaurantCandidateFactPort } from "../../application/restaurant-execution-router.js";
 import type { RestaurantCandidate, RestaurantCandidateFactRead, RestaurantCandidateFactRequest } from "../../domains/restaurant/contracts.js";
 import type { RestaurantFactJudgmentPort } from "./model-fact-judgment.js";
@@ -52,7 +53,8 @@ function needsWebsiteFactEvidence(
   const hoursMissing = intent.target?.goal === "RECOMMENDATION" && intent.date !== undefined && intent.timeWindow !== undefined && !read.evidence.some((item) =>
     item.candidateId === candidateId && item.kind === "RESTAURANT_FACT" && item.claims.openingHoursMatch === true,
   );
-  return positiveMissing || negativeMissing || hoursMissing;
+  const commercialMissing = requestedCommercialFields(intent).some(field => !read.evidence.some(item => item.candidateId === candidateId && item.kind === "RESTAURANT_FACT" && item.claims[field] !== undefined));
+  return positiveMissing || negativeMissing || hoursMissing || commercialMissing;
 }
 
 /**
@@ -117,6 +119,10 @@ export class GoogleThenWebsiteFactRead implements RestaurantCandidateFactPort {
         status: websiteCheck.status === "COMPLETED" || googleCheck.status === "COMPLETED" ? "COMPLETED" : "UNKNOWN",
         checkedAt: websiteCheck.checkedAt,
         evidenceIds: [...googleCheck.evidenceIds, ...websiteCheck.evidenceIds],
+        sourceAttempts: [
+          { source: google.metadata.provider, outcome: googleCheck.status, ...(googleCheck.reasonCode ? { reasonCode: googleCheck.reasonCode } : {}) },
+          { source: website.metadata.provider, outcome: websiteCheck.status, ...(websiteCheck.reasonCode ? { reasonCode: websiteCheck.reasonCode } : {}) },
+        ],
         ...(websiteCheck.reasonCode ? { reasonCode: websiteCheck.reasonCode } : googleCheck.reasonCode ? { reasonCode: googleCheck.reasonCode } : {}),
       };
     }

@@ -7,7 +7,7 @@ import { RESTAURANT_AGENT_CAPABILITIES } from "./restaurant-capabilities.js";
 import { DeepSeekModelGateway } from "../../infrastructure/deepseek/deepseek-model-gateway.js";
 
 const context: RestaurantAgentContext = {
-  schemaVersion: "6",
+  schemaVersion: "7",
   now: "2026-01-01T00:00:00.000Z",
   phase: "UNDERSTANDING",
   intentDraft: {
@@ -49,7 +49,49 @@ test("Restaurant Agent sends a DeepSeek-strict compatible wire schema and restor
   if (result.status !== "PROPOSED") return;
   assert.deepEqual(result.action, { type: "SEARCH_RESTAURANTS", retrievalHint: "omakase near Shibuya" });
   assert.equal(result.decisionSummary, "Search first.");
-  assert.equal(result.modelAttempt.promptVersion, "12");
+  assert.equal(result.modelAttempt.promptVersion, "14");
   assert.equal(result.modelAttempt.providerRequestId, "request-123");
   assert.deepEqual(result.modelAttempt.outputSchema, { name: "restaurant_agent_action", version: "4" });
+});
+
+test("Restaurant Agent supplies candidate commercial comparisons only as source-backed notes", async () => {
+  let suppliedContext: Record<string, unknown> | undefined;
+  const gateway = new DeepSeekModelGateway({
+    apiKey: "test-key", model: "deepseek-v4-flash",
+    fetchImplementation: async (_input, init) => {
+      const body = JSON.parse(String(init?.body)) as { messages: Array<{ content: string }> };
+      suppliedContext = JSON.parse(body.messages[1]!.content).context as Record<string, unknown>;
+      return new Response(JSON.stringify({
+        id: "request-commercial", model: "deepseek-v4-flash", choices: [{ finish_reason: "tool_calls", message: { tool_calls: [{
+          type: "function", function: { name: "restaurant_agent_action", arguments: JSON.stringify({
+            type: "PRESENT_RESULTS", question: "", relatedFields: [], retrievalHint: "", candidateIds: ["restaurant-a"], candidateId: "", offerId: "", decisionSummary: "Compare the sourced course price.",
+          }) },
+        }] } }],
+      }), { status: 200 });
+    },
+  });
+  const commercialContext: RestaurantAgentContext = {
+    ...context,
+    phase: "SEARCHING",
+    candidates: [{
+      id: "restaurant-a", outletName: "A", address: "Tokyo", matchReasons: [], warnings: [], executionConfidence: "HIGH",
+      observedFacts: {
+        verifiedHardCriteria: [], verifiedNegativeCriteria: [], violatedNegativeCriteria: [], openingHoursMatch: false,
+        commercialNotes: [{ field: "COURSE_PRICE", value: "8000 JPY (tax included)", source: "RESTAURANT_WEBSITE" }],
+      },
+      sourceAttempts: [],
+    }],
+    presentation: [{ candidateId: "restaurant-a", eligible: true }],
+    legalActions: { ...context.legalActions, presentResults: ["restaurant-a"] },
+  };
+
+  const result = await new RestaurantAgentDecision(gateway).decide({
+    taskId: "task-commercial", context: commercialContext, recentExecutionHistory: [], capabilities: RESTAURANT_AGENT_CAPABILITIES,
+  });
+
+  assert.deepEqual((suppliedContext?.candidates as Array<Record<string, unknown>>)[0]?.observedFacts, commercialContext.candidates[0]!.observedFacts);
+  assert.equal(JSON.stringify(suppliedContext).includes("sourceUrl"), false);
+  assert.equal(JSON.stringify(suppliedContext).includes("evidenceId"), false);
+  assert.equal(result.status, "PROPOSED");
+  if (result.status === "PROPOSED") assert.deepEqual(result.action, { type: "PRESENT_RESULTS", candidateIds: ["restaurant-a"] });
 });

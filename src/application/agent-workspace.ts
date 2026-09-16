@@ -100,6 +100,8 @@ export interface RestaurantCaseView {
     availabilityChecks: Record<string, RestaurantAvailabilityCheck>;
     /** Safe, structured read evidence only; raw DOM and browser credentials are excluded. */
     readEvidence: RestaurantReadEvidence[];
+    /** Current source-scoped facts only; historical facts remain in durable state. */
+    currentFactEvidence: RestaurantReadEvidence[];
     presentedCandidateIds?: string[];
     selectedCandidateId?: string;
   };

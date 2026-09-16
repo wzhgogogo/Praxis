@@ -5,7 +5,7 @@ import { resolve } from "node:path";
 import { createInterface } from "node:readline/promises";
 
 import { LIVE_READ_DEBUG_INVESTIGATION_BUDGET } from "../../../../application/live-read-investigation-budget.js";
-import type { ModelInvocationRecord } from "../../../../core/model/contracts.js";
+import type { ModelGateway, ModelInvocationRecord } from "../../../../core/model/contracts.js";
 import { RestaurantSemanticInterpreter } from "../../../../domains/restaurant/semantic-interpreter.js";
 import type { RestaurantReadExecutionMetadata } from "../../../../domains/restaurant/contracts.js";
 import { browserRuntimeFromEnvironment } from "../../../../infrastructure/browser/browser-runtime-factory.js";
@@ -131,7 +131,22 @@ const runtimeContext = {
     tabelog: fileSha256("web-skills/tabelog/SKILL.md"),
   },
 };
-const liveReadLimits = LIVE_READ_DEBUG_INVESTIGATION_BUDGET;
+// Optional run-specific ceilings only tighten the existing debugging limits.
+function runCeiling(flag: string, fallback: number): number {
+  const index = process.argv.indexOf(flag);
+  if (index < 0) return fallback;
+  const value = Number(process.argv[index + 1]);
+  if (!Number.isSafeInteger(value) || value < 1 || value > fallback) throw new Error(`${flag} must be between 1 and ${fallback}`);
+  return value;
+}
+const maxModelCalls = runCeiling("--max-model-calls", 150);
+const liveReadLimits = {
+  ...LIVE_READ_DEBUG_INVESTIGATION_BUDGET,
+  maxGoogleRequests: runCeiling("--max-google-requests", LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxGoogleRequests),
+  maxAutomaticBrowserMs: runCeiling("--timeout-ms", LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxAutomaticBrowserMs),
+  maxBrowserOperationsPerCandidate: runCeiling("--max-browser-operations", LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxBrowserOperationsPerCandidate),
+};
+let modelCallsStarted = 0;
 const taskId = `hybrid-live:${materialized.id}:${startedAt.valueOf()}`;
 const runId = `run:${taskId}`;
 const clock = { now: () => new Date() };
@@ -142,6 +157,7 @@ const journal = await startDiagnosticRun(resolve(".eval-artifacts", "restaurant-
   diagnosticEvaluator: { version: RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, rubricVersion: RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION },
   runtimeContext,
   safety: { policy: "READ_ONLY_CODE_PATH", externalSideEffectCount: "NOT_MEASURED" },
+  runCeilings: { maxModelCalls, ...liveReadLimits },
 });
 // Some browser/provider implementations leave only unref'ed work while a
 // promise is still pending. Keep this diagnostic process alive until its
@@ -152,9 +168,16 @@ let stage = "SEMANTIC";
 let semantic: Awaited<ReturnType<RestaurantSemanticInterpreter["interpret"]>> | undefined;
 let composition: ReturnType<typeof createHybridReadComposition> | undefined;
 try {
-  const model = DeepSeekModelGateway.fromEnvironment(process.env, {
+  const providerModel = DeepSeekModelGateway.fromEnvironment(process.env, {
     observer: { observe: (record) => { modelInvocations.push(structuredClone(record)); } },
   });
+  const model: ModelGateway = { async complete(request) {
+    if (modelCallsStarted >= maxModelCalls) throw Object.assign(new Error("Run model-call ceiling reached"), { code: "MODEL_CALL_BUDGET_EXHAUSTED" });
+    modelCallsStarted += 1;
+    const remainingMs = liveReadLimits.maxAutomaticBrowserMs - (Date.now() - startedAt.valueOf());
+    if (remainingMs <= 0) throw Object.assign(new Error("Run deadline reached"), { code: "CANCELLED" });
+    return providerModel.complete({ ...request, timeoutMs: Math.min(request.timeoutMs, remainingMs) });
+  } };
   stage = "PROVIDER_SETUP";
   const evaluationLocation = process.env.PRAXIS_EVAL_USER_LAT && process.env.PRAXIS_EVAL_USER_LNG
     ? {
@@ -237,7 +260,7 @@ try {
     limits: liveReadLimits,
     safety: "READ_ONLY_CODE_PATH",
   }));
-  const loop = await coordinator.run(taskId);
+  const loop = await coordinator.run(taskId, AbortSignal.timeout(Math.max(1, liveReadLimits.maxAutomaticBrowserMs - (Date.now() - startedAt.valueOf()))));
   const finalSnapshot = runtime.snapshot(taskId);
   const browserOperationsByCandidate = browserExecutionDiagnostics.reduce<Record<string, number>>((counts, diagnostic) => {
     if (diagnostic.event === "SITE_METHOD" && diagnostic.candidateId) {

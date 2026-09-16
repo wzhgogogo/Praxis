@@ -1,7 +1,7 @@
 # Restaurant Booking Domain
 
 - Status: Accepted
-- Document revision: 3.0
+- Document revision: 3.1
 - Last updated: 2026-09-15
 - Source of truth for: 餐厅预约Domain模型、状态、搜索和完成条件
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0009](../decisions/0009-semantic-strength-and-clean-holdout-baseline.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md), [ADR-0014](../decisions/0014-search-only-results-completion.md), [ADR-0019](../decisions/0019-fact-grounded-read-only-recommendations.md), [ADR-0020](../decisions/0020-goal-driven-restaurant-read-path.md), [ADR-0021](../decisions/0021-cited-source-fact-investigation.md), [ADR-0022](../decisions/0022-current-source-fact-lifecycle-and-identity.md), [ADR-0024](../decisions/0024-deterministic-time-and-diagnostic-read-completion.md), [ADR-0025](../decisions/0025-model-directed-read-investigation.md), [ADR-0026](../decisions/0026-concrete-visit-goal-and-reception-semantics.md)
@@ -9,7 +9,10 @@
 
 ## 只读目标的当前验收口径
 
-开放找店/比较按RECOMMENDATION交付；已表达具体日期/时间、地点及已知或有封闭推断依据人数的到访需求按AVAILABILITY交付，即使措辞是recommend、looking或need。人数不足时先补问，缺精确时间仍可发现候选；空位读取才绑定日期、时段和人数。推荐需要适用营业事实与HARD条件支持；空位目标需要同候选、同请求的当前slot。当前明确无位排除候选，UNKNOWN不作反证。模糊“after work”保留原意并以有依据的17:30–22:00宽窗查询，绝不伪称用户指定精确钟点；下午按12:00–17:00物化。案例标注和自动/人工评分分工只维护于[当前只读验收契约](../../src/eval/restaurant/agent-loop/cases/README.md)，不以特定网站或固定动作顺序定义通过。
+开放找店/比较按RECOMMENDATION交付；已表达具体日期/时间、地点及已知或有封闭推断依据人数的到访需求按AVAILABILITY交付，即使措辞是recommend、looking或need。人数不足时先补问，缺精确时间仍可发现候选；空位读取才绑定日期、时段和人数。推荐需要适用营业事实与HARD条件支持；空位目标需要同候选、同请求的当前slot。当前明确无位排除候选，UNKNOWN不作反证。用户明确允许邻近时段时，原`timeWindow`保持为展示与比较基准，单独的`permittedAlternativeTimeWindow`才可扩大一次只读查询；日期、人数和其他条件不因此改变，范围外slot不能成为结果。模糊“after work”保留原意并以有依据的17:30–22:00宽窗查询，绝不伪称用户指定精确钟点；下午按12:00–17:00物化；evening/night统一为EVENING，按同日18:00–23:00物化（产品查询解释，不是用户原报钟点，不支持跨午夜窗口）。after work仅表达时间，不自动增加适合下班后的criterion；独立表达的喝酒等条件仍保留。窗口唯一执行事实源为temporal-materialization.ts中的policy@3。案例标注和自动/人工评分分工只维护于[当前只读验收契约](../../src/eval/restaurant/agent-loop/cases/README.md)，不以特定网站或固定动作顺序定义通过。
+
+
+复合事实读取的`sourceAttempts`保留失败来源，不能从成功evidence反推本次全部来源范围。Reducer在当前请求的fact check中累计`supersededEvidenceIds`；同来源旧事实和显式刷新前的复合读取事实若未重新证实，不再支持当前展示，但原始历史记录不变。Context与展示共用当前事实视图，MODEL_JUDGMENT的全部原始支持必须仍有效；空位展示引用独立来源事实时同时引用各自HIGH身份。上述是现有字段的增量只读审计信息，不建立旧执行器、双写或生产迁移。
 
 ## Implementation Status
 
@@ -107,7 +110,7 @@ type RestaurantCandidate = {
 };
 ```
 
-`SEARCH_RESTAURANTS`只产生`RestaurantCandidate`。`CHECK_AVAILABILITY`才产生`AvailabilityOffer`并按`candidateId`保存；没有当前展示证据的Candidate不得进入`PRESENT_RESULTS`。展示新鲜不代表锁位或可提交预约；未来Booking必须重新核查同门店、日期、人数、时间、套餐、价格和重要条款，失败为未知而不是无位。
+`SEARCH_RESTAURANTS`只产生`RestaurantCandidate`。`CHECK_AVAILABILITY`才产生`AvailabilityOffer`并按`candidateId`保存；没有当前展示证据的Candidate不得进入`PRESENT_RESULTS`。替代范围内但不在原时段的Offer必须标记`alternativeToRequestedTime`，不能借扩大查询窗口把它改写为原请求命中。展示新鲜不代表锁位或可提交预约；未来Booking必须重新核查同门店、日期、人数、时间、套餐、价格和重要条款，失败为未知而不是无位。
 
 `availabilityChecks[candidateId]`独立于Offer保存`AVAILABLE`、`UNAVAILABLE`、`UNKNOWN`或`SOURCE_UNSUPPORTED`、检查时间、Evidence引用及稳定原因码，并由Reducer绑定实际日期、时段和人数的请求指纹。它另保存独立的接待方式：`RESERVATION_SUPPORTED`、明确证据支持的`WALK_IN_SUPPORTED`、两者兼有或`UNKNOWN`。没有预约入口、`UNKNOWN`或当前无slot绝不自动证明walk-in；walk-in也不满足请求的可订slot。完整参数的事实推荐可由Agent选择作额外空位调查；同一当前请求的明确`UNAVAILABLE`必须有候选绑定、日期/人数匹配、`inventoryStatus=UNAVAILABLE`的来源记录，且会排除该候选，不能用先前“营业”事实重新展示。访问/解析/条件未生效仍为`UNKNOWN`；不同日期、人数或时段不会复用该结论。Google area HARD evidence只可来自与请求地点相等的结构化address component；格式化地址中的任意关键词不构成地点证明。Google的具体`primaryType`可为普通类型范围内的负向HARD条件记录同一来源的满足或冲突；宽泛`restaurant`/`cafe`/`food`和关键词缺失只能保留未知。H001的Availability Source Resolver固定先试TableCheck、再试Tabelog；这是Router内部的确定性来源链，Agent action不含provider。两个来源的站点方法与受控通用页面动作经同一有界会话执行器；模型只能提议当前观察到的只读元素，无法决定来源、State、门店、日期、人数或Evidence。每个来源都必须用exact phone（日本显式`+81`与国内写法规范后比较）或normalized name+address建立同一Outlet的HIGH match，并确认正确日期/人数/Asia-Tokyo时段及可见新鲜slot才可产生Offer。`BOT_CHALLENGE`、页面/抽取异常、未找到可靠Outlet、外部跳转和浏览器失败只代表该provider失败，另一个可用来源仍可尝试；两个来源均不能安全产生结论时才以`AVAILABILITY_SOURCES_EXHAUSTED`成为候选级`UNKNOWN`。已观察到的Tabelog challenge必须先于identity判定成为`BOT_CHALLENGE`，不允许“零结果”占位改写成`ENTITY_MATCH_UNCERTAIN`。只有显式eval的local persistent session可在`BOT_CHALLENGE`后以脱敏`USER_INTERVENTION_REQUIRED`暂停，等人手完成站点要求；恢复只snapshot同一page，不自动navigate/retry，challenge未消失仍返回`BOT_CHALLENGE`。这不是Agent语义澄清、不是Domain Evidence、不是生产Human Takeover Surface，也不降低HIGH identity或slot规则。Cloudflare和开发/eval-only的本地Playwright Chromium都只实现同一BrowserRuntime观察接口，绝不包含来源业务规则或写操作。会话尚未建立时的`BROWSER_RUNTIME_FAILED`/`BROWSER_TIMEOUT`先于identity判定保留，绝不能被低置信度占位match误写为`ENTITY_MATCH_UNCERTAIN`；当所有可用来源均为同一浏览器基础设施失败时，Router仍以内部`EXECUTION_FAILURE`进入`FAILED`，不询问用户如何解决内部Provider故障。
 
@@ -226,3 +229,8 @@ Bound: Search Deadline、Offer TTL、验证截止时间和后续Tool预算
 ```
 
 当前代码已实现Proof与Invariants中的验证部分；Search Deadline和Tool预算仍属于后续Stage。
+
+
+### 2026-09-16 public course and comparison facts
+
+Current read evidence may carry bounded `listedCourseDetails`: complete named public course cards with tax, guest-count and meal-period restrictions retained. These are menu observations, not a query-qualified Offer price or proof that a particular course is available. Commercial notes preserve each fact's own source; cross-page read progress does not collapse citations onto the last page. Web may show investigated candidates beside grounded results with explicit unknown fields; only presented, verifier-accepted candidates count as results. Date/party revision invalidates prior dynamic availability, and stale results cannot reappear after reload.

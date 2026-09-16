@@ -11,7 +11,7 @@ import type {
   RestaurantCandidateFactRequest,
 } from "../../domains/restaurant/contracts.js";
 import { BrowserTaskExecutor, type BrowserExecutionBudget } from "../../infrastructure/browser/browser-task-executor.js";
-import type { BrowserRuntime } from "../../infrastructure/browser/browser-runtime.js";
+import type { BrowserRuntime, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
 import type { BrowserReadActionDecisionPort } from "../../infrastructure/browser/browser-action-decision.js";
 
 function normalized(value: string): string {
@@ -20,8 +20,8 @@ function normalized(value: string): string {
 
 /**
  * Website and Google addresses can differ only in punctuation or ordering.
- * A name alone never identifies an outlet; absent or contradictory address
- * components still fail closed.
+ * A name alone never identifies an outlet through this address path; absent or
+ * contradictory address components still fail closed.
  */
 function addressMatches(candidateAddress: string, observedAddress: string): boolean {
   const expected = normalized(candidateAddress); const observed = normalized(observedAddress);
@@ -129,21 +129,30 @@ function candidateStructuredObservation(
 
 /**
  * A public page can expose facts without JSON-LD.  This parser remains narrow:
- * it first proves the exact candidate name and address are both visible, then
- * accepts only labelled cuisine/type or weekday-hour lines.  The browser model
- * may navigate to an observed page, but it never supplies these facts.
+ * it first proves the candidate through visible name/address or one matching
+ * public phone on the Google-listed origin, then accepts source-labelled facts.
+ * The browser model may navigate observed pages but never supplies these facts.
  */
+function exactVisiblePhone(candidate: RestaurantCandidate, text: string): boolean {
+  const normalize = (value: string) => value.replace(/[^0-9]/g, "").replace(/^81/, "0");
+  const expected = normalize(candidate.restaurant.sourceIds.phone ?? "");
+  const phones = new Set((text.match(/(?:\+81[- ]?|0)\d{1,4}[-ー ]\d{1,4}[-ー ]\d{3,4}\b/g) ?? []).map(normalize));
+  return expected.length >= 10 && phones.size === 1 && phones.has(expected);
+}
+
 function candidateVisibleObservation(
   candidate: RestaurantCandidate,
   sourceUrl: string,
   observedAt: string,
   visibleText: string,
+  html = "",
 ): UntrustedRestaurantWebsiteObservation | undefined {
   const text = visibleText.replace(/\s+/gu, " ").trim();
   const normalizedText = normalized(text);
   const candidateName = normalized(candidate.restaurant.outletName);
   const candidateAddress = normalized(candidate.restaurant.address);
-  if (!candidateName || !candidateAddress || !normalizedText.includes(candidateName) || !addressMatches(candidate.restaurant.address, text)) return undefined;
+  const matchedPhone = exactVisiblePhone(candidate, visibleText);
+  if (!matchedPhone && (!candidateName || !candidateAddress || !normalizedText.includes(candidateName) || !addressMatches(candidate.restaurant.address, text))) return undefined;
   const lines = visibleText.split(/\r?\n/).map((line) => line.replace(/\s+/gu, " ").trim()).filter(Boolean);
   const restaurantTypeFacts = [
     ...(/\b(?:cafe|coffee\s*shop|restaurant|bistro|bakery)\b/iu.test(text) ? [text.match(/\b(?:cafe|coffee\s*shop|restaurant|bistro|bakery)\b/iu)?.[0] ?? ""] : []),
@@ -152,14 +161,63 @@ function candidateVisibleObservation(
   const regularOpeningHours = lines.filter((line) =>
     /(?:monday|tuesday|wednesday|thursday|friday|saturday|sunday)\b/iu.test(line) && /\b\d{1,2}:\d{2}/u.test(line),
   ).slice(0, 7);
+  const publicCommercialTerms = labelledPublicCommercialTerms(lines, html, sourceUrl);
   return {
     candidateId: candidate.restaurant.id,
     sourceUrl,
     observedAt,
-    entityMatch: { confidence: "HIGH", matchedBy: ["VISIBLE_WEBSITE_NAME_AND_ADDRESS_COMPONENTS"] },
+    entityMatch: { confidence: "HIGH", matchedBy: [matchedPhone ? "GOOGLE_LISTED_WEBSITE_EXACT_PHONE" : "VISIBLE_WEBSITE_NAME_AND_ADDRESS_COMPONENTS"] },
     ...(restaurantTypeFacts.length ? { restaurantTypeFacts } : {}),
     ...(regularOpeningHours.length ? { regularOpeningHours } : {}),
+    ...(publicCommercialTerms ? { publicCommercialTerms } : {}),
   };
+}
+
+// Scalar claims require one complete labelled line, with no competing amount or
+// package. More complex menus need scoped evidence; they stay unknown here.
+function labelledPublicCommercialTerms(lines: string[], html: string, sourceUrl: string): NonNullable<UntrustedRestaurantWebsiteObservation["publicCommercialTerms"]> | undefined {
+  const terms: NonNullable<UntrustedRestaurantWebsiteObservation["publicCommercialTerms"]> = {};
+  const courseLines = lines.filter(line => /(?:course|package|menu)\s+(?:price|fee)|コース料金/iu.test(line));
+  const roomLines = lines.filter(line => /(?:private\s*room|room)\s+minimum|個室.*(?:最低|ミニマム)/iu.test(line));
+  const amount = "(?:¥|￥|JPY\\s*)\\s*([0-9][0-9,]*)";
+  if (courseLines.length === 1) {
+    const match = courseLines[0]!.match(new RegExp("^(?:(?:course|package|menu)\\s+(?:price|fee)|コース料金)\\s*[:：]\\s*" + amount + "(?:\\s*\\((tax included|tax excluded|税込|税別)\\))?\\s*[.]?$", "iu"));
+    const price = match ? Number(match[1]!.replaceAll(",", "")) : NaN;
+    if (Number.isSafeInteger(price) && price >= 0) {
+      terms.coursePriceYen = price;
+      terms.coursePriceTax = /^(?:tax included|税込)$/iu.test(match?.[2] ?? "") ? "INCLUDED"
+        : /^(?:tax excluded|税別)$/iu.test(match?.[2] ?? "") ? "EXCLUDED" : "UNSPECIFIED";
+    }
+  }
+  if (roomLines.length === 1) {
+    const match = roomLines[0]!.match(new RegExp("^(?:(?:private\\s*room|room)\\s+minimum(?:\\s+spend)?|個室最低利用料金)\\s*[:：]\\s*" + amount + "\\s*[.]?$", "iu"));
+    const price = match ? Number(match[1]!.replaceAll(",", "")) : NaN;
+    if (Number.isSafeInteger(price) && price >= 0) terms.privateRoomMinimumYen = price;
+  }
+  // Semantic definition lists keep multi-line rules together, rather than
+  // assuming every website prints a colon on one line.
+  const plain = (value: string) => value.replace(/<[^>]*>/g, " ").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/\s+/g, " ").trim();
+  const definitions = [...html.matchAll(/<dt\b[^>]*>([\s\S]*?)<\/dt>\s*<dd\b[^>]*>([\s\S]*?)<\/dd>/gi)]
+    .map(match => ({ label: plain(match[1]!), value: plain(match[2]!) }))
+    .filter(item => item.value.length > 0 && item.value.length <= 1600 && lines.join(" ").includes(item.value));
+  const cancellationDefinitions = definitions.filter(item => /^(?:cancellation(?: policy)?|キャンセル(?:規定|ポリシー)?)$/iu.test(item.label));
+  if (cancellationDefinitions.length === 1) terms.cancellationTerms = `${cancellationDefinitions[0]!.label}: ${cancellationDefinitions[0]!.value}`;
+  // Public OWST course-list contract, observed on 2026-09-16. Capture complete
+  // named cards; do not convert a displayed menu to a query-qualified offer.
+  if (new URL(sourceUrl).hostname.endsWith(".owst.jp")) {
+    const courses = [...html.matchAll(/<a\b[^>]*href=["']\/courses\/\d+["'][^>]*>([\s\S]*?)<\/a>/gi)].flatMap(match => {
+      const card = match[1]!;
+      if (!/class=["']courseName["']/.test(card) || !/class=["']coursePrice["']/.test(card)) return [];
+      const text = plain(card.replace(/<img\b[^>]*>/gi, ""));
+      return text.length <= 1600 && lines.join(" ").replace(/\s/g, "").includes(text.replace(/\s/g, "")) ? [text] : [];
+    });
+    if (courses.length) terms.listedCourseDetails = [...new Set(courses)].slice(0, 3);
+  }
+  const cancellations = lines.filter(line => /^(?:cancellation(?: policy)?|キャンセル(?:規定|ポリシー)?)\s*[:：]\s*\S/iu.test(line));
+  const noShows = lines.filter(line => /^(?:no[ -]?show|無断キャンセル)\s*[:：]\s*\S/iu.test(line));
+  if (cancellations.length === 1) terms.cancellationTerms = cancellations[0]!;
+  if (noShows.length === 1) terms.noShowTerms = noShows[0]!;
+  return Object.keys(terms).length ? terms : undefined;
 }
 
 function mergeObservations(
@@ -168,17 +226,32 @@ function mergeObservations(
 ): UntrustedRestaurantWebsiteObservation | undefined {
   if (!structured) return visible;
   if (!visible) return structured;
+  const publicCommercialTerms = structured.publicCommercialTerms || visible.publicCommercialTerms
+    ? { ...structured.publicCommercialTerms, ...visible.publicCommercialTerms }
+    : undefined;
   return {
     ...structured,
     restaurantTypeFacts: [...new Set([...(structured.restaurantTypeFacts ?? []), ...(visible.restaurantTypeFacts ?? [])])],
     regularOpeningHours: [...new Set([...(structured.regularOpeningHours ?? []), ...(visible.regularOpeningHours ?? [])])],
+    ...(publicCommercialTerms ? { publicCommercialTerms } : {}),
   };
+}
+
+export function requestedCommercialFields(intent: RestaurantCandidateFactRequest["intent"]): Array<keyof NonNullable<UntrustedRestaurantWebsiteObservation["publicCommercialTerms"]>> {
+  const text = [intent.target?.query ?? "", ...intent.criteria.map(criterion => criterion.text)].join("\n");
+  const fields: Array<keyof NonNullable<UntrustedRestaurantWebsiteObservation["publicCommercialTerms"]>> = [];
+  if (/cancellation|キャンセル|取消/iu.test(text)) fields.push("cancellationTerms");
+  if (/no[ -]?show|無断|爽约/iu.test(text)) fields.push("noShowTerms");
+  if (/(?:course|package|menu).*(?:price|fee)|套餐.*(?:价|費|费)|コース料金/iu.test(text)) fields.push("coursePriceYen");
+  if (/(?:private room|個室|包间).*(?:minimum|最低|低消)/iu.test(text)) fields.push("privateRoomMinimumYen");
+  return fields;
 }
 
 function hasRequestedFacts(observation: UntrustedRestaurantWebsiteObservation, request: RestaurantCandidateFactRequest): boolean {
   const needsType = request.intent.criteria.some((criterion) => criterion.strength === "HARD");
-  const needsHours = request.intent.date !== undefined && request.intent.timeWindow !== undefined;
-  return (!needsType || (observation.restaurantTypeFacts?.length ?? 0) > 0)
+  const needsHours = request.intent.target?.goal === "RECOMMENDATION" && request.intent.date !== undefined && request.intent.timeWindow !== undefined;
+  return requestedCommercialFields(request.intent).every(field => observation.publicCommercialTerms?.[field] !== undefined || (field === "coursePriceYen" && !!observation.publicCommercialTerms?.listedCourseDetails?.length))
+    && (!needsType || (observation.restaurantTypeFacts?.length ?? 0) > 0)
     && (!needsHours || (observation.regularOpeningHours?.length ?? 0) > 0);
 }
 
@@ -210,68 +283,63 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
         continue;
       }
       const executor = new BrowserTaskExecutor(this.runtime, {
-        ...(this.modelDecision ? { modelDecision: this.modelDecision, maxModelCallsPerCandidate: 2, maxModelCallsTotal: 2 } : {}),
+        ...(this.modelDecision ? { modelDecision: this.modelDecision, maxModelCallsPerCandidate: 4, maxModelCallsTotal: this.browserBudget ? (this.browserBudget.maxModelCalls ?? 12) : 4 } : {}),
         ...(this.browserBudget ? { budget: this.browserBudget } : {}),
-        maxAutomaticElapsedMs: 12_000,
-        maxOperationsPerCandidate: 4,
+        maxAutomaticElapsedMs: 45_000,
+        // Public terms and courses may live on separate observed pages. The
+        // shared run budget still applies; this does not permit form submission.
+        maxOperationsPerCandidate: 24,
       });
+      const pages = new Map<string, { observation: UntrustedRestaurantWebsiteObservation; text: string }>();
+      const remember = (snapshot: BrowserSnapshot): void => {
+        const landed = safeWebsiteUrl(snapshot.url);
+        if (landed?.origin !== listed.origin) return;
+        const observation = mergeObservations(
+          candidateStructuredObservation(candidate, landed.toString(), checkedAt, snapshot.html),
+          candidateVisibleObservation(candidate, landed.toString(), checkedAt, snapshot.text, snapshot.html),
+        );
+        if (observation) pages.set(landed.toString(), { observation, text: snapshot.text });
+      };
+      const complete = (): boolean => {
+        const combined = [...pages.values()].reduce<UntrustedRestaurantWebsiteObservation | undefined>((prior, page) => mergeObservations(prior, page.observation), undefined);
+        return combined !== undefined && hasRequestedFacts(combined, request);
+      };
+      let failureCode: string | undefined;
       try {
         executor.beginCandidate(candidate.restaurant.id);
         const session = await executor.acquire(signal, "WEBSITE", "FACTS");
         await executor.navigate({ source: "WEBSITE", stage: "FACTS", signal, allowedOrigins: [listed.origin], session, url: listed.toString() });
         const generic = await executor.runSkill({
           taskId: request.readRunId ?? candidate.restaurant.id,
-          source: "WEBSITE",
-          stage: "FACTS",
-          signal,
-          session,
-          allowedOrigins: [listed.origin],
+          source: "WEBSITE", stage: "FACTS", signal, session, allowedOrigins: [listed.origin],
           goal: {
             outlet: { name: candidate.restaurant.outletName, address: candidate.restaurant.address },
             ...(request.intent.date ? { date: request.intent.date } : {}),
             ...(request.intent.timeWindow ? { timeWindow: request.intent.timeWindow } : {}),
-            hardCriteria: request.intent.criteria.map((criterion) => criterion.text),
+            hardCriteria: request.intent.criteria.map(criterion => criterion.text),
           },
-          objective: "Find public candidate-bound type or opening-hours facts; never log in or submit.",
-          completion: (page) => {
-            const landed = safeWebsiteUrl(page.url);
-            const sourceUrl = landed?.origin === listed.origin ? landed.toString() : undefined;
-            const found = sourceUrl === undefined ? undefined : mergeObservations(
-              candidateStructuredObservation(candidate, sourceUrl, checkedAt, page.html),
-              candidateVisibleObservation(candidate, sourceUrl, checkedAt, page.text),
-            );
-            return { complete: found !== undefined && hasRequestedFacts(found, request), reason: "The current page has not yet supplied the requested candidate-bound facts" };
+          objective: `Find public candidate-bound type, opening-hours and requested commercial facts (${requestedCommercialFields(request.intent).join(", ") || "none requested"}); read observed public disclosures or course/menu links when needed. Earlier verified pages are retained with their own source. Never log in or submit.`,
+          completion: page => {
+            remember(page);
+            return { complete: complete(), reason: "The observed pages have not yet supplied all requested candidate-bound facts. Read an observed relevant public link if available." };
           },
         });
-        const snapshot = generic.snapshot;
-        const landed = safeWebsiteUrl(snapshot.url);
-        const observation = landed?.origin === listed.origin
-          ? mergeObservations(
-              candidateStructuredObservation(candidate, landed.toString(), checkedAt, snapshot.html),
-              candidateVisibleObservation(candidate, landed.toString(), checkedAt, snapshot.text),
-            )
-          : undefined;
-        if (!observation) {
-          factChecks[candidate.restaurant.id] = { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: "WEBSITE_STRUCTURED_IDENTITY_UNVERIFIED" };
-          continue;
-        }
-        const grounded = groundRestaurantWebsiteFacts(candidate, request.intent, observation);
-        const excerpt = websiteFactDocumentFingerprint(snapshot.text);
-        evidence.push(...grounded.evidence.map((item) => ({
-          ...item,
-          artifactRef: { kind: "DOM_EXCERPT" as const, reference: `website-visible:${excerpt}` },
-        })));
-        factChecks[candidate.restaurant.id] = {
-          status: grounded.status,
-          checkedAt,
-          evidenceIds: grounded.evidence.map((item) => item.evidenceId),
-          ...(grounded.reasonCode ? { reasonCode: grounded.reasonCode } : {}),
-        };
+        remember(generic.snapshot);
+        if (!complete()) failureCode = pages.size ? "WEBSITE_REQUESTED_FACTS_UNCONFIRMED" : "WEBSITE_STRUCTURED_IDENTITY_UNVERIFIED";
       } catch {
-        factChecks[candidate.restaurant.id] = { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: "WEBSITE_FACT_READ_FAILED" };
+        failureCode = "WEBSITE_FACT_READ_FAILED";
       } finally {
         await executor.close();
       }
+      const candidateEvidence = [...pages.values()].flatMap(page => groundRestaurantWebsiteFacts(candidate, request.intent, page.observation).evidence.map(item => ({
+        ...item, artifactRef: { kind: "DOM_EXCERPT" as const, reference: `website-visible:${websiteFactDocumentFingerprint(page.text)}` },
+      })));
+      evidence.push(...candidateEvidence);
+      factChecks[candidate.restaurant.id] = {
+        status: complete() ? "COMPLETED" : "UNKNOWN", checkedAt,
+        evidenceIds: candidateEvidence.map(item => item.evidenceId),
+        ...(!complete() ? { reasonCode: failureCode ?? "WEBSITE_REQUESTED_FACTS_UNCONFIRMED" } : {}),
+      };
     }
     return {
       evidence,

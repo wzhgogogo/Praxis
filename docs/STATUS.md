@@ -1,19 +1,55 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.21
-- Last updated: 2026-09-15
+- Document revision: 4.33
+- Last updated: 2026-09-16
 - Source of truth for: 已实现能力、已验证范围、明确未验证项与下一道门槛
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Documentation Index](INDEX.md), [Roadmap](roadmap.md), [Verification History](history/TEST-LOG.md)
 
 ## 最新审查与当前门槛
 
+2026-09-16 Browser Agent 当前日本餐厅只读切片完成真实闭环：复用既有观察器、LLM 决策、受控 Playwright 和来源核验，未接入 Stagehand/browser-use/Midscene 生产依赖。Tabelog 被动库存响应与店铺/日期/人数绑定，修复跨分店查询；TableCheck 非标准下拉、已选状态、TIME 范围及完整禁用时段识别已验证。复杂套餐/取消规则跨页留源，条件修订废弃旧库存。实际 Web 两店比较及修改日期/人数均 PRESENT_RESULTS、刷新恢复；首次八芳 3 时段、Maru 未确认，修订后 Maru 5 时段、八芳许可窗口内无位。限定商户不再扩展调查其他店；Web 新任务隔离、仅展示实际调查商户、过期库存提示已补齐。详见[最终复核与明确限制](history/BROWSER-AGENT-FINAL-REVIEW-2026-09-16.md)。
+
+当前版本：Browser action Prompt@4 / wire@3，Semantic Prompt@14，Restaurant Agent Decision Prompt@14，独立 diagnostic evaluator/rubric@15。默认测试 369/369、类型/架构/构建通过；真实 Chromium 全量 23/23，并通过最后展示/过期定向回归。原始 Web 执行不改写，修复导出后从相同事件重新形成独立复核输入，两轮条件、证据、调查及最终声明通过；Web 浏览器调用总数仍缺失，RESOURCES 为 NOT_EVALUATED。新商户测试已执行，电话冲突与多语言发现仍有 UNKNOWN；既有 semantic regression@3 未通过，不能宣称语义或任意网站全面完成。完整地图语义、其他类别网站和真实预约写入仍属 P5；本轮无预约提交、commit 或 push。
+
+### 此前审查记录（历史检查点，当前 Browser 结论以上文为准）
+
+2026-09-16 H004评分器误判已局部修复：diagnostic-evaluator/rubric@14将SOFT措辞语义复核与实际来源观察适用性分开，适用于展示和无结果调查记录；不放宽门店、日期、时间、人数、HARD或证据新鲜度检查。原始H004 artifact离线重评：REQUIRED_EVIDENCE从NOT_SATISFIED变为SATISFIED，AUTHORITATIVE_CONDITIONS仍NOT_EVALUATED，FINAL_CLAIM和整体结果由失败变为待复核（qualified UNKNOWN），不宣称自动2/5成功；原始执行和@13评价未覆盖，SHA核对一致。评分器42/42定向测试及arch通过；首次全仓检查受并发agent-decision.ts语法错误阻断，该错误随后消失；最终typecheck/build通过，npm test为354/356，剩余2项为并发Agent Context版本升至7但Harness/PGlite断言仍期望6，本轮未修改这些文件。未调用模型或来源Live。 [重评报告](../.eval-artifacts/h004-evaluator-fix-2026-09-16/REPORT.md)。
+
+2026-09-16 时间语义局部修订完成：prompt@12增加EVENING，evening/night由代码temporal-policy@3按同日18:00–23:00物化；after work保持17:30–22:00且不再自动生成criterion。预算、人数和HARD/SOFT规则不变。当前开发dataset@4仅移除H003重复after work条件。离线352/352、固定semantic fixture15/15及typecheck/arch/build通过。原20条真实模型复测20/20结构合法、20调用、24694ms、107909 tokens；Q03/05/06晚间、Q02/15/16时间-only验收通过，Q01/17/18原时间行为保持。范围外仍有波动：Q06本次first date补出2人，Q02team dinner仍SOFT，Q10新增target；不声称全语义正确或长期稳定。旧快照与本轮之间还有预先存在的备选时间prompt/schema变化，故非严格隔离A/B。没有餐厅来源Live或预约写操作。 [逐条结果](../.eval-artifacts/time-semantics-20-2026-09-16/RESULTS.md)，[报告](../.eval-artifacts/time-semantics-20-2026-09-16/REPORT.md)。
+
+2026-09-16按用户新提供的20条query，在当前prompt@11/5000预算完全不变的冻结快照上完成一次语义-only诊断；Q19/20分别使用用户指定初始上下文，经真实Compiler/Runtime建立和更新。20/20结构合法且均进入Reducer，无截断/重试；20调用/24564ms/98564 tokens。上下文人数修改与包间删除正确。明确问题：Q06把tomorrow night编码为AFTER_WORK，错误套用下班后17:30–22:00；Q14的NEGATIVE文本仍含no；Q04摘要额外加入dinner。其余需区分语义政策/表示缺口：Q02喝酒SOFT而Q16为HARD、night在Q03/05仅保留于query、近似预算只保存文本、部分片段无TARGET。未把有争议的场景强度预设为错误，也未给总语义通过率；没有Prompt/产品修改、Agent/Google/Browser或写链路运行。逐条输出见[20条结果](../.eval-artifacts/user-20-semantic-2026-09-16/RESULTS.md)，分析见[报告](../.eval-artifacts/user-20-semantic-2026-09-16/REPORT.md)。
+
+2026-09-16 Browser Agent P0–P4 的离线切片完成一项共享观察/动作收敛：`browser_read_action@2`在既有 BrowserTaskExecutor/ModelGateway/Local 与 Cloudflare session 契约中增加明确 checkbox 状态、单步 range 调整和有界 region scroll；active modal 外的背景控件不能成为模型目标。真实 Chromium 本地 fixture 9/9、浏览器定向测试15/15、完整Mock344/344、typecheck/arch/build及semantic fixture15/15通过。Stagehand 4.1.0 小探针结论为不采用：需要第二环境/会话而收益不足，不引入依赖或第二循环。当前 Router/Domain/Evidence/Web 离线组合保持可测，但两店用户比较、完整替代查询、长页条款、地图语义和新商户迁移尚无本轮完整端到端证据；没有新增真实模型/Live授权或运行。详见[P0–P4交付记录](history/BROWSER-AGENT-RESTAURANT-P0-P4-DELIVERY-2026-09-16.md)。原研究者独立 Review 待完成，不能将本条作为产品或Live验收通过。
+
+2026-09-16按用户要求先审查并修改语义prompt，再测试。当前可执行restaurant-semantic-prompt@11合并重复TARGET、澄清封闭参与者推断、活动能力/体验偏好和局部修饰范围，修正singleton NEGATE输出形状说明；schema@3、5000输出上限及其他模型配置不变，未改Gold或浏览器。完整Mock343/343、semantic fixture15/15及typecheck/arch/build通过。随后仅运行生产Interpreter→Compiler→Runtime的10条真实模型语义诊断（原五例+复杂H001+4对照），不调用Agent/Google/Browser；10/10结构合法，但预登记检查项人工审查5满足/5不满足，不是端到端通过或模型质量基线。
+
+H002本次两人、近似预算SOFT、first-date SOFT及负向条件正确；H003与复杂H001的drinks仍为SOFT，H003的team dinner也为SOFT、单独after-work适用性criterion仍缺失（时间/原词和人数保持）。新对照发现2条near关系词丢失、1条把budget is flexible误作筛选条件；没有旧prompt控制，不能称新增回归。实际10调用/51432 tokens/17.327秒，无重试。@11是语义验收仍未完全通过的开发版本；下一门槛是规则边界及上述残余偏差，不能继续仅靠增加token。完整prompt、预登记输入和逐例证据见[prompt审查报告](../.eval-artifacts/semantic-prompt-11-2026-09-16/REPORT.md)。
+
+2026-09-16按用户要求，将Semantic Interpreter单次输出上限由500提升到5000，实际请求与当前Eval manifest共用常量；prompt@10/schema@3/model/10秒timeout/重试不变。完整Mock343/343、semantic fixture15/15及typecheck/arch/build通过。相同H001复杂变体唯一一次Live复测输出520 tokens、语义2179ms，未再截断；人数2、近似预算SOFT、包间SOFT均正确，但good for drinks仍为SOFT，与预登记HARD不符，第一处偏差在Proposal，不能宣称语义质量整体修好。整轮336966ms/10步/10候选，空位1UNAVAILABLE+9UNKNOWN，NO_VERIFIED_RESULT，独立@13 qualified=NO；24模型调用/143618 tokens、Google12。该次只验证输出预算修复及剩余缺口，没有重跑原H002/H003，未改原Gold或Prompt。详见[5000预算复测报告](../.eval-artifacts/semantic-output-budget-5000-2026-09-16/REPORT.md)。下方500-token记录为修复前证据。
+
+2026-09-16随后按用户授权，仅对H001增加一个独立复杂表达变体：保留涩谷/今晚19:00/omakase，将2人改为me and my partner，并增加date night、约15000日元、good for drinks、理想包间。相同冻结代码/prompt/模型配置下单次运行2331ms即在语义阶段以finish_reason=length/tool_calls=1失败，与本日H003同签名；Google/Browser/Agent未到达。原H001语义输出318 tokens成功，变体在相同500-token上限下截断，证明这类故障并非H003独有，但没有完整Proposal，不能据此断言人数、预算或HARD/SOFT理解错误。原始H001和Gold未修改；只做一次运行，未提高预算补跑，不能隔离多个新增因素各自的影响。详见[变体报告](../.eval-artifacts/h001-complex-variant-2026-09-16/REPORT.md)。
+
+2026-09-16按用户授权在Tokyo上午10:18–10:23，以昨晚修复后的同一执行源码冻结快照完成H001–H005各一次Live Read-only。H001在45.465秒/3步内确认符合2026-09-16 19:00/2人的TableCheck slot，独立@13 qualified=YES；H004在5.565秒/2步给出两家有咖啡馆、距离和下午营业事实支持的推荐，但原始评价为NO。独立离线反例确认评分器把SOFT同义改写的待复核状态误连到全部来源观察“不适用”，从而错误报告缺证据；原始Live及评价未替换，不能计为自动2/5通过。
+
+H002在浏览器前漏掉当前契约的first-date两人推断，并把近似预算写为硬上限、first-date偏好写为HARD；H003语义调用因500 output-token上限下的finish_reason=length而MODEL_FAILURE，未复验昨晚的饮酒条件或下拉框问题。H005以8步/9候选事实及空位检查正常END_READ，无重复读取，但全部空位UNKNOWN；候选含美食广场等聚合场所，不能稳定对应具体门店，正向local food缺少事实解释支持，官网共享2次模型调用预算和逐页诊断缺口仍在。此次H005未出现下拉框操作失败，不能把整体未成功都归于浏览器。
+
+本次Mock预检6/6（五例+父套件）；源码与昨晚一致，复用既有343/343、Chromium7/7及typecheck/arch/build，不声称今日重跑。当前门槛除浏览器修复外，还包括语义输出预算与条件保真、评分器SOFT/证据链分离、具体门店候选和正向事实核验。相较旧记录调查收敛且H001走通，但时间、契约及候选不同，不是受控A/B。37次模型调用已记录至少156401 tokens，H003失败usage缺失，费用未知；没有新增Replay或Controlled Live-write，实际副作用计数NOT_MEASURED。详见[五例复跑报告](../.eval-artifacts/h001-h005-live-2026-09-16/REPORT.md)及[测试记录](history/TEST-LOG.md#test-2026-09-16-h001-h005-live-rerun--live-read-only-and-offline-diagnostics)。本次仅运行与诊断，未修改产品源码；下方保留历史证据。
+
+2026-09-15在Mock通过后，按用户授权完成两轮原始H003 Live Read-only（本周五2026-09-18、10人、after work；10候选/30步/20分钟上限，Local Chromium临时会话）。两轮均以10步、Google 11次（1次Discovery+10次Details）调查10个候选并进入`NO_VERIFIED_RESULT`；耗时284.5秒和316.2秒，独立诊断@13均为qualified=NO、systemBehavior=NOT_SUPPORTED。相较9月14日H003的30步/Google50次/STEP_LIMIT，调查已收敛且实际到达空位读取，但没有合格交付或速度改善；历史目标/时段口径和候选集合不同，不是受控A/B或Clean Baseline。
+
+首轮Live确认本地fill/select把观察控件`dom:`引用误当CSS。Local和Cloudflare session接线已修，真实本地Chromium回归由5通过/2失败变为7/7，完整Mock343/343及typecheck、arch:check、build通过。第二轮已消除该引用解析错误，但TableCheck自定义`role=combobox`仍被当原生select，5个候选人数操作失败；此控件类型支持尚未修复。两轮模型原始Proposal均将good for drinks降为SOFT，并缺独立after-work适用性criterion（原词及17:30–22:00保留于temporalResolution）；官网事实核验分别9次身份不确定+1次读取失败、10次身份不确定。Tabelog每轮8次外部预约Provider限制、2次身份不确定。10个空位检查均UNKNOWN，不是确认无位。
+
+当前门槛是修复真实模型条件保真、自定义控件观察/操作和官网身份事实接纳，再按局部反例、实际接线及有界Live验证；不能放松HARD/HIGH规则或把正常END_READ视为验收通过。本次44次DeepSeek调用合计300932 tokens，未配置价格输入，费用未知。未运行Controlled Live-write、Cloudflare服务Live或新增Replay；实际外部副作用计数仍NOT_MEASURED。完整原始执行、独立评价、代码快照和对照见[Live报告](../.eval-artifacts/terra-live-review-2026-09-15/REPORT.md)及[测试记录](history/TEST-LOG.md#test-2026-09-15-h003-live-and-control-repair--live-read-only-and-offline-regression)。
+
 2026-09-15当前切片按[ADR-0026](decisions/0026-concrete-visit-goal-and-reception-semantics.md)统一具体到访的交付语义：H001/H002/H003/H005为AVAILABILITY，H004为RECOMMENDATION；五条用户原文不变。H002以封闭first-date情境推断两人并保留其依据；H003将after work原词与`DAYPART:AFTER_WORK_BROAD_WINDOW`保存在权威Draft，查询范围为17:30–22:00，未恢复18:00–20:00。目标、读动作参数、库存和接待方式已分离：发现不等精确查位、缺人数先问；无预约入口不推断walk-in，walk-in也不替代可订slot。
 
 真实Hybrid内部组合保留Interpreter、Compiler、Runtime、Context、Validator、Router和Grounding，只替换模型/HTTP/页面边界。H001–H005逐条用实际YAML原文运行；未计划模型或来源调用会失败。H001/H003得出来源支持的当前slot，H004以适用营业事实完成推荐；H002的明确无slot与H005缺少负向HARD证据分别进入有范围的`NO_VERIFIED_RESULT`。这证明离线接线、来源证据和失败闭环，不证明真实模型理解、当前网站兼容性、实时库存、搜索穷尽或一般调查充分性。
 
-本切片修复了`END_READ`的TERMINAL轨迹接纳、无slot的同候选/同日期人数负证据核验、resolver的局部证据/来源尝试保留、候选有界Context、宽时间语义以及推荐结果中已展示slot的刷新。诊断器升级到`@12`；离线 `npm test` 为339/339，语义 fixture为15/15，本地浏览器 fixture为5/5，typecheck、architecture check与build通过。未运行Live、付费模型、真实网站、预约、支付或任何外部写入。完整验证结果与环境边界见[TEST-LOG](history/TEST-LOG.md)。
+本轮独立审查后的修复关闭了官网刷新失败恢复旧事实、Context汇总历史支持、以及Evaluator误判这类展示成功的问题。复合事实读取保留失败来源尝试，Reducer累计失效引用，展示与Context共用当前事实视图；`restaurant-hybrid-read-diagnostic-evaluator@13`从实际有序轨迹独立核验来源替代和失败刷新，不使用生产资格结论自证。补齐H001–H005实际来源Adapter接线后，又修复了空位展示漏带已引用Google事实的身份引用。
+
+当前Mock逐条经过真实Google客户端/搜索、官网事实组合或LiveBrowserAvailability/TableCheck/Resolver，保留全部内部语义、状态和执行链，只替换模型传输、HTTP和页面边界。H001/H003当前slot、H004事实推荐均获独立合格判断；H002明确无slot、H005缺负向HARD证据均未展示结果。H002/H005的一般调查充分性仍为`NOT_EVALUATED`，不是两项合格交付。完整离线`npm test`为343/343，语义fixture 15/15、搜索fixture 3/3、本地Chromium fixture 5/5，typecheck、architecture check与build通过。未运行Live、付费模型、真实网站或外部写入。详见[测试记录](history/TEST-LOG.md#test-2026-09-15-terra-review-repair--mock-source-composition-and-independent-diagnostics)。
 
 2026-09-14已接受[ADR-0025](decisions/0025-model-directed-read-investigation.md)，并部分实现[只读调查执行契约设计](RESTAURANT-READ-EXECUTION-DESIGN.md)：事实/空位动作不再按目标互斥，新增共享只读评估及`END_READ`路径，取消英文日志解析。独立复验的默认离线矩阵282/282、Chromium Fixture 5/5通过，但额外实际入口组合与一次原始H001 Live均发现跨批factChecks被覆盖导致重复调查；模块反例还发现其他候选读取可使旧正向事实重新有效。H001约540秒后STEP_LIMIT / FAILED：10候选、69次Place Details、Google71/100、无展示，不能称验收通过。另已复现外层停止遗漏合法动作、无结果Eval自证及地名变体未解决；完整Context缺口反馈和Hybrid增量日志仍未接通。记录与复现见[最新复验报告](../.eval-artifacts/adr0025-review-2026-09-14/REPORT.md)及TEST-2026-09-14-ADR-0025-INDEPENDENT-REVIEW。报告为本地开发诊断，不是Clean Baseline。
 
@@ -21,7 +57,7 @@
 
 2026-09-14续审新增两个离线反例：实际Google→官网组合把批级provider用于全部候选检查，导致B的官网读取使A本次UNKNOWN后的旧Google事实重新支持展示；实际availability grounding在slot未知时连同已观察身份/事实整体返回空证据。前者是当前来源归属错误，后者是一般调查能力的接纳限制，均不等于已修复。170个源码/Skill文件与前次Live快照一致；本次未新增Live或修改产品源码。分类结论、复现及最小调整范围见[架构与验证联合审查](../.eval-artifacts/adr0025-review-2026-09-14/ARCHITECTURE-REVIEW.md)。
 
-上段2026-09-14记录中的部分共享缺陷已由组合防线和修复覆盖；剩余端到端缺口以本页最新审查为准，不将局部修复视为全部关闭。后续在另行明确授权后按[三步验证](skills/test/SKILL.md#执行链变更的三步验证)安排有界Live，不能用网站fallback、更大预算或默认测试数量替代。下方按日期段落保留历史实现/运行结论，不能将其中早期未验证或局部成功当作当前完整能力。
+上段2026-09-14记录中的部分共享缺陷已由组合防线和修复覆盖；剩余端到端缺口以本页最新审查为准，不将局部修复视为全部关闭。本页最新记录已按用户授权完成两轮有界Live；后续切片仍按[三步验证](skills/test/SKILL.md#执行链变更的三步验证)推进，不能用网站fallback、更大预算或默认测试数量替代。下方按日期段落保留历史实现/运行结论，不能将其中早期未验证或局部成功当作当前完整能力。
 
 ## 2026-09-14 确定性时间与可核验只读完成（离线）
 
@@ -254,3 +290,75 @@ h002–h005 diagnostic
 本轮H001–H005已各执行一次真实Hybrid，只读且未重跑。H004完成有来源支持的事实推荐，但SOFT条件改写仍需人工语义审查，不能称自动qualified；H001/H002/H003/H005均因模型动作或候选扩张在真实调查后未达成结果，不能归类为来源无位。新代码已把当前事实/availability证据选择、东京相对时间、命名地点观察、availability动作边界、零新增搜索停止和Eval分类修正为通用规则，并由完整离线矩阵和本地Chromium Fixture验证。
 
 剩余首个产品阻断是：候选池仍可在每次带来少量新候选时持续扩张，直到Agent步数上限，而没有一个可核验的“已调查充分但无可确认结果”结束动作；本轮不会用增大预算或站点fallback掩盖。由于授权不允许自动重跑，H001–H003早于最后修复的真实结果保留为历史诊断，需新增明确Live授权才可验证最终代码。未提交、未推送、未运行普通Web Live或外部写操作。
+
+
+## 2026-09-16 浏览器组件可行性诊断
+
+复用当前 DeepSeek + Local Chromium + BrowserTaskExecutor，从已知商户公开页各执行一次：TableCheck 141 在 19.2 秒、2 次模型调用后完成目标日期选择，页面显示 2 人与 19:00 时段入口；未读取后续套餐或生成 Offer。Tabelog 八芳在 81.9 秒、8 次模型调用后因持续动作字段解码错误达到预算上限，没有实际执行模型动作。两者均不是完整产品验收；无 Google、Semantic、Runtime 或独立身份接纳链，不替代此前 H001–H005。发现的观察范围与错误反馈缺口尚未修复，未引入第三方框架。详见[诊断报告](brainstorming/2026-09-16-browser-loop-feasibility-validation.md)。
+
+
+## 2026-09-16 Stagehand isolated component probe
+
+Pinned Stagehand 4.1.0 passed a real local Chromium fixture (calendar cell, custom option, asynchronous result) and one DeepSeek-backed observe/validated-click fixture. TableCheck and Tabelog each produced a live snapshot and action proposal, but neither proposal passed the probe's exact-date guard; no live click or business result was established. Total: 3 model calls / 23,001 tokens. Production dependencies, executor and permissions are unchanged. Full workflow and deployment remain unverified. See [probe report](brainstorming/2026-09-16-stagehand-small-probe.md).
+
+
+## 2026-09-16 Stagehand workflow probe follow-up
+
+Two isolated live batches used 17 DeepSeek calls / 186,337 tokens across TableCheck 141 and Tabelog Happo/Sendou. None completed the model-driven public-options workflow. A separate zero-model sequential control opened the TableCheck form with Playwright after Stagehand click produced no observed navigation; destination date/party were read, selected time and availability remain unverified. Local asynchronous/new-tab fixture passed. This supports investigating observation plus existing Playwright execution, not adopting a replacement or claiming product capability. See [workflow report](brainstorming/2026-09-16-stagehand-workflow-validation.md).
+
+
+## 2026-09-16 Browser observation/action/memory diagnostic
+
+Isolated Stagehand snapshot/observe + Playwright probe: 20 DeepSeek calls / 228,988 tokens. Scripted live Filters check/uncheck, modal scroll, apply/reset and alternative Happo Sep 20 19:15 party 4 options were verified. Model-selected 141 reached its public form; Tabelog model workflows remained incomplete. Notes-only comparison retained venue rules and refused stale availability, but independent review found unsupported inferences and confusion between options and selected values. Map marker click failed; geographic changes unverified. These are development component results, not production capability or a baseline. Recommendation: validate richer observation, explicit next-action planning, execution verification and cited context in the existing loop before selecting a framework. [Report](brainstorming/2026-09-16-browser-observation-action-memory-validation.md).
+
+
+## 2026-09-16 Browser Agent execution handoff plan
+
+User endorsed improving the existing restaurant read-only chain before booking submission. The [Terra execution and review plan](BROWSER-AGENT-RESTAURANT-IMPLEMENTATION-PLAN.md) defines P0–P4, observation/planning/execution/evidence responsibilities, Stagehand adoption criteria, B1–B14 acceptance and independent review artifacts. Planning only: no product implementation or new Live run in this handoff turn; proposed future budgets are not additional paid-run authorization.
+
+
+## 2026-09-16 Browser Terra independent review — changes requested
+
+Independent review reproduced four synthetic real-Chromium defects in the browser increment: consent checkbox accepted without query-effect validation, stale native slider value, missing ARIA slider range/value, and fixed-position modal background targets not blocked. Typecheck and 15 decision/executor tests pass but do not cover these failures. P0–P4 remains incomplete; no new Live or paid calls. See [review and repair requirements](history/BROWSER-AGENT-TERRA-REVIEW-2026-09-16.md).
+
+
+## 2026-09-16 Browser review fixes
+
+R1–R4 repaired in the working tree: source-owned query-control permission defaults to deny, live native/ARIA values, and visible active-dialog filtering. Typecheck, arch check, build and full tests 344/344 passed. Synthetic Chromium regression is recorded in TEST-LOG. Production source permission wiring and complete P1/P2 acceptance remain pending; no new Live or paid run. See [follow-up](history/BROWSER-AGENT-TERRA-REVIEW-2026-09-16.md).
+
+## 2026-09-16 Browser P1/P2 offline evidence completion
+
+TableCheck and Tabelog now wire the source-owned query-control permission for their public GET search paths only; unknown, consent, account, payment and reservation controls remain denied. The shared Executor’s local Chromium Fixture covers checked/unchecked filter state, range/region feedback, Update/reopen/Reset and an observed public new-tab transition in one session. This is synthetic local-browser evidence, not a statement that either current source page is compatible.
+
+An explicit user-authorized alternative time range is kept separately from the original requested time. The Router queries only that bounded range and source Grounding labels an out-of-original-range slot as an alternative; date, party and other conditions remain authoritative and unchanged. Candidate-bound Google-listed website facts now admit separately labelled public course price/tax, private-room minimum, cancellation and no-show data after HIGH identity; a bare amount or missing field stays unknown. The local Web projection keeps terms within the candidate’s cited evidence. Offline composition and localhost Web tests pass; real-model/source compatibility, B13 new-merchant evidence, B14 map semantics, original-researcher re-review and any further Live remain pending. See [P0–P4 delivery record](history/BROWSER-AGENT-RESTAURANT-P0-P4-DELIVERY-2026-09-16.md).
+
+
+## 2026-09-16 Browser P1/P2 second independent review — changes requested
+
+The added wiring is present, but P1/P2 acceptance remains blocked by four independently reproduced defects: old alternative-time permission survives an exact-time correction; public GET search policy permits an unclassified Japanese consent checkbox; the commercial parser promotes a deposit to course price; and the fact reader stops before revealing requested cancellation terms when type/hours already exist. Typecheck and 24 targeted existing tests pass, but do not cover these counterexamples. No new Live/paid calls. See [R5–R8 review](history/BROWSER-AGENT-TERRA-REVIEW-2026-09-16.md).
+
+
+## 2026-09-16 Browser second review fixes - current status
+
+R5-R8 counterexamples repaired: time replacement invalidates old alternative permission, ambiguous commercial amounts stay unknown, requested terms participate in completion and missing facts remain UNKNOWN. The unsafe GET policy was removed: production checkbox/range permission remains denied pending positive source contracts. Typecheck, arch check, build, full tests 353/353 and Chromium 13/13 PASS. No new paid/Live run. Full browser acceptance remains incomplete. See [repair scope](history/BROWSER-AGENT-TERRA-REVIEW-2026-09-16.md).
+
+## 2026-09-16 Browser P1/P2 current offline addendum — original-researcher review pending
+
+The current browser slice adds an accessibility-facing slider display value (`aria-valuetext`) while retaining the separation between a control's numeric position and an applied monetary filter. The production Executor's local Chromium fixture now proves two distinct budget endpoints, one permitted lower-bound step, target modal scrolling, and a visible filter application. Fixture permission is explicit and local; production checkbox/range actions remain default-deny because the revoked broad GET policy was not restored.
+
+Restaurant Agent Context is now `@7`: it projects only current candidate-bound commercial notes with their matching provider, and excludes URLs, evidence/source-entity IDs, raw page data and superseded same-source facts. Agent prompt@13 treats missing commercial notes as UNKNOWN. A Reducer regression proves a user-requested website refresh replaces the current same-source price/no-show record with only the newly observed course-price/cancellation facts, without inferring omitted fields. `typecheck`, targeted 28/28, local Chromium 13/13, architecture check, build and full offline `npm test` 356/356 pass. The first full run surfaced two stale v6 persistence/harness assertions; they were corrected with the Context schema migration and the second run passed.
+
+This is offline-only and not full P1/P2 acceptance: positive contracts for real source query controls, real complex-page compatibility, a separately authorized bounded model/source Live read, new-merchant B13 evidence, and map semantics in B14 remain pending. The current diff and exact review questions are handed to the original researcher in the [P0–P4 delivery addendum](history/BROWSER-AGENT-RESTAURANT-P0-P4-DELIVERY-2026-09-16.md); no independent Review pass or Live authorization is claimed.
+
+
+## 2026-09-16 Browser third independent review
+
+The offline addendum's 28 targeted tests, 13 local Chromium tests and typecheck independently pass. P1/P2 remain partial: R9 shows the Web commercial card still selects superseded facts even though Agent Context excludes them. Positive source query contracts and bounded model/source Live remain pending. Map semantics stay P5 and are not a new blocker. See [third review](history/BROWSER-AGENT-TERRA-REVIEW-2026-09-16.md).
+
+## 2026-09-16 Browser 直接修复与有界 Live — 当前结论
+
+R9 Web 当前条款及独立来源链接已修；TableCheck 英文搜索 Budget/Cuisine 正向结构契约已接线并真实验证，其他 query controls 默认拒绝。H001 正式 Hybrid 得到 1 个 offer，独立评估通过。Tabelog 模型提前结束但未确认日期/人数，暴露了日期元素漏观察和数字按钮语义不足；Executor 已将未经 completion 核验的模型停止改为 MODEL_HANDOFF。完整 P0–P4 **仍未完成**，首个门槛是 Tabelog 观察归一化及重验，随后两店比较/修订、新商户、真实 Web Live。地图仍 P5。本批 Live 达到预设 40 分钟上限后停止，17 model calls / 5 Google；[事实、产物与未完成项](history/BROWSER-AGENT-VALIDATION-2026-09-16.md)。
+
+## 2026-09-16 Browser follow-up - latest verified status
+
+Tabelog source-owned date/guest observation and readiness are connected to the production Adapter and both Playwright sessions. Real model: 2 calls select 2026-09-20 / 4 guests; inventory still unverified. Ordinary external links no longer imply an external booking provider. TableCheck disabled-date handling and scoped empty-result parsing repaired: Sushi Inase Live returns UNAVAILABLE / NO_MATCHING_SLOT for 2026-09-16 / 2 guests / 19:00 in about 9 seconds, zero model calls. Shibuya Sushi Jinnan's prior TableCheck search did not identify the target; absence from the platform is not established. Final offline 361/361, Chromium 18/18, typecheck/architecture/build pass. Batch used 5 model calls / 39116 tokens / zero Google, no booking submission. Full P0-P4 remains incomplete. [Follow-up evidence](history/BROWSER-AGENT-VALIDATION-2026-09-16.md#follow-up-tabelog-controls-and-the-two-tablecheck-candidates).

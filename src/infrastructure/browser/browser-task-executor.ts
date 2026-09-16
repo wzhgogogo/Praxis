@@ -1,4 +1,4 @@
-import type { BrowserPageControl, BrowserRuntime, BrowserSession, BrowserSnapshot } from "./browser-runtime.js";
+import type { BrowserControlHint, BrowserPageControl, BrowserRuntime, BrowserSession, BrowserSnapshot } from "./browser-runtime.js";
 import { BrowserRuntimeError } from "./browser-runtime-errors.js";
 import {
   type BrowserReadAction,
@@ -38,6 +38,8 @@ export interface BrowserTaskExecutorOptions {
 /** Cumulative browser-model budget for one outer availability run. */
 export interface BrowserExecutionBudget {
   totalModelCalls: number;
+  /** Shared run ceiling used by availability and website fact reads. */
+  maxModelCalls?: number;
 }
 
 export interface BrowserSkillReadInput {
@@ -54,17 +56,25 @@ export interface BrowserSkillReadInput {
   methodReason?: string;
   /** A source-owned, already-authorized shortcut; its effect is always post-condition checked. */
   shortcut?: { name: string; run(snapshot: BrowserSnapshot): Promise<void> };
+  controlHints?(snapshot: Readonly<BrowserSnapshot>): readonly BrowserControlHint[];
   completion(snapshot: BrowserSnapshot): { complete: boolean; reason: string };
+  /** Code-owned source classification, never model/page-provided permission. Absence
+   * denies event-producing checkbox/range changes, including consent controls. */
+  permitQueryControl?(input: {
+    control: Readonly<BrowserPageControl>;
+    snapshot: Readonly<BrowserSnapshot>;
+    action: "SET_CHECKED" | "ADJUST_RANGE" | "CLICK";
+  }): boolean;
 }
 
 export interface BrowserGenericReadResult {
-  status: "COMPLETED" | "REQUESTED_HUMAN_HELP" | "NO_SAFE_ACTION" | "BUDGET_EXCEEDED" | "MODEL_FAILURE";
+  status: "COMPLETED" | "MODEL_HANDOFF" | "REQUESTED_HUMAN_HELP" | "NO_SAFE_ACTION" | "BUDGET_EXCEEDED" | "MODEL_FAILURE";
   snapshot: BrowserSnapshot;
   /** Live DOM controls from the same observation as the terminal browser decision. */
   controls: BrowserPageControl[];
 }
 
-interface ObservedTarget extends BrowserReadActionTarget { controlId: string; stableKey: string; }
+interface ObservedTarget extends BrowserReadActionTarget { controlId: string; stableKey: string; nativeTag?: string; }
 
 interface Observation {
   revision: number;
@@ -74,11 +84,16 @@ interface Observation {
 }
 
 function matchesAuthoritativeControl(
-  target: Pick<ObservedTarget, "label" | "value" | "selected">,
-  field: "DATE" | "PARTY_SIZE",
+  target: Pick<ObservedTarget, "label" | "value" | "selected" | "role">,
+  field: "DATE" | "PARTY_SIZE" | "TIME",
   goal: BrowserReadGoal,
 ): boolean {
   const normalized = target.label.replace(/\s+/g, " ").trim().toLowerCase();
+  if (field === "TIME") {
+    const clock = (target.value || target.label).trim();
+    return target.role === "option" && /^([01]\d|2[0-3]):[0-5]\d$/.test(clock) && goal.timeWindow !== undefined
+      && clock >= goal.timeWindow.earliest && clock <= goal.timeWindow.latest;
+  }
   if (field === "PARTY_SIZE") {
     if (goal.partySize === undefined) return false;
     return String(target.value ?? "") === String(goal.partySize)
@@ -116,9 +131,13 @@ function safeErrorDetail(error: unknown, limit = 360): string {
 }
 
 function toObservedTargets(controls: BrowserPageControl[], revision: number): Map<string, ObservedTarget> {
-  return new Map(controls.filter((control) => control.visible && !control.disabled && (control.kind !== "LINK" || control.href !== undefined)).map((control, index) => {
+  return new Map(controls.filter((control) => control.visible && !control.disabled && !control.blockedByActiveLayer && !control.observationOnly && !(control.kind === "BUTTON" && control.role === "combobox" && control.expanded === true) && (control.kind !== "LINK" || control.href !== undefined)).map((control, index) => {
     const ref = `observation:${revision}:target:${index + 1}`;
-    return [ref, { ref, controlId: control.id, stableKey: control.stableKey, kind: control.kind, role: control.role, label: control.label, ...(control.value ? { value: control.value } : {}), ...(control.href ? { href: control.href } : {}), ...(control.formMethod ? { formMethod: control.formMethod } : {}), ...(control.type ? { type: control.type } : {}), ...(control.selected ? { selected: true } : {}) }];
+    return [ref, {
+      ref, controlId: control.id, stableKey: control.stableKey, ...(control.structure ? { nativeTag: control.structure.tag } : {}), kind: control.kind, role: control.role, label: control.label,
+      ...(control.value ? { value: control.value } : {}), ...(control.href ? { href: control.href } : {}), ...(control.formMethod ? { formMethod: control.formMethod } : {}), ...(control.type ? { type: control.type } : {}), ...(control.selected ? { selected: true } : {}),
+      ...(control.checked !== undefined ? { checked: control.checked } : {}), ...(control.min ? { min: control.min } : {}), ...(control.max ? { max: control.max } : {}), ...(control.valueText ? { valueText: control.valueText } : {}), ...(control.scrollable !== undefined ? { scrollable: control.scrollable } : {}), ...(control.scrollTop !== undefined ? { scrollTop: control.scrollTop } : {}), ...(control.blockedByActiveLayer ? { blockedByActiveLayer: true } : {}), ...(control.options ? { options: control.options } : {}),
+    }];
   }));
 }
 
@@ -252,7 +271,14 @@ export class BrowserTaskExecutor {
       }
       const pageKey = observationKey(snapshot);
       if (pageKey !== unchangedPageKey) pendingControlKeys.clear();
-      const actionTargets = [...observation.targets.values()].filter((target) => !pendingControlKeys.has(target.stableKey));
+      // Disabled selected calendar days are still evidence of the current query.
+      // Hide equivalent triggers too; repeatedly reopening an already selected date
+      // cannot fix a different missing field such as guest count.
+      const alreadySelected = observation.controls.filter(control => control.visible && control.selected === true
+        && (matchesAuthoritativeControl(control, "DATE", input.goal) || matchesAuthoritativeControl(control, "PARTY_SIZE", input.goal)));
+      const selectedFields = (["DATE", "PARTY_SIZE"] as const).filter(field => alreadySelected.some(control => matchesAuthoritativeControl(control, field, input.goal)));
+      const actionTargets = [...observation.targets.values()].filter(target => !pendingControlKeys.has(target.stableKey)
+        && !(target.kind === "BUTTON" && selectedFields.some(field => matchesAuthoritativeControl(target, field, input.goal))));
       let action: BrowserReadAction;
       try {
         this.modelCalls += 1;
@@ -262,7 +288,7 @@ export class BrowserTaskExecutor {
           source: input.source,
           stage: input.stage,
           objective: input.objective,
-          progress,
+          progress: `${progress}${alreadySelected.length ? ` Already selected (do not repeat): ${alreadySelected.map(target => target.label).join(", ")}.` : ""}`,
           skills: loadBrowserReadSkills(input.source),
           goal: input.goal,
           observation: {
@@ -270,13 +296,13 @@ export class BrowserTaskExecutor {
             url: observation.snapshot.url,
             title: observation.snapshot.title,
             visibleText: safeText(observation.snapshot.text),
-            targets: actionTargets.map(({ controlId: _controlId, stableKey: _stableKey, ...target }) => target),
+            targets: actionTargets.map(({ controlId: _controlId, stableKey: _stableKey, nativeTag: _nativeTag, ...target }) => target),
           },
         });
       } catch (error) {
         this.record({ source: input.source, stage: input.stage, event: "REJECTED", url: snapshot.url, detail: safeErrorDetail(error) });
         if (error instanceof BrowserReadDecisionError && error.code === "INVALID_MODEL_OUTPUT") {
-          progress = "The previous proposed action was rejected because it did not name a current observed target. Choose exactly one current target reference or request human help.";
+          progress = `The previous proposed action was rejected: ${safeErrorDetail(error, 240)}. Correct those action fields using a current observed target, or request human help.`;
           continue;
         }
         return { status: "MODEL_FAILURE", snapshot, controls: observation.controls };
@@ -292,7 +318,7 @@ export class BrowserTaskExecutor {
         completion = input.completion(snapshot);
         // COMPLETE is only a browser-read handoff. The provider verifier still owns
         // request/result evidence and can fail closed using this same DOM observation.
-        return { status: "COMPLETED", snapshot, controls: observation.controls };
+        return { status: completion.complete ? "COMPLETED" : "MODEL_HANDOFF", snapshot, controls: observation.controls };
       }
       if (action.type === "REQUEST_HUMAN_HELP") return { status: "REQUESTED_HUMAN_HELP", snapshot, controls: observation.controls };
       const target = action.targetRef ? observation.targets.get(action.targetRef) : undefined;
@@ -306,20 +332,23 @@ export class BrowserTaskExecutor {
         continue;
       }
       const priorSnapshot = snapshot;
-      const changed = await this.waitForChange(input, priorSnapshot);
+      const waitedForAsyncChange = action.type === "OPEN_LINK" || action.type === "CLICK" || action.type === "CLICK_AUTHORITATIVE";
+      const changed = waitedForAsyncChange ? await this.waitForChange(input, priorSnapshot) : false;
       snapshot = await this.snapshot(input);
       const postActionObservation = await this.observe(input, snapshot);
+      const observedControlChange = controlsChanged(observation.controls, postActionObservation.controls);
+      const effectVerified = changed || observedControlChange;
       this.record({
         source: input.source,
         stage: input.stage,
         event: "POST_ACTION_VERIFIED",
         url: snapshot.url,
-        detail: changed ? "OBSERVED_CHANGE_AFTER_MODEL_ACTION" : "ASYNC_RESULT_NOT_READY_AFTER_MODEL_ACTION",
+        detail: effectVerified ? "OBSERVED_CHANGE_AFTER_MODEL_ACTION" : "ASYNC_RESULT_NOT_READY_AFTER_MODEL_ACTION",
         observation: this.diagnosticObservation(postActionObservation),
       });
       completion = input.completion(snapshot);
       if (completion.complete) return { status: "COMPLETED", snapshot, controls: postActionObservation.controls };
-      if (!changed && sameObservation(priorSnapshot, snapshot)) {
+      if (!effectVerified && sameObservation(priorSnapshot, snapshot)) {
         unchangedPageKey = observationKey(snapshot);
         pendingControlKeys.add(target.stableKey);
         progress = `The previous ${action.type} was accepted, but its result is still not observable. Do not repeat that action on this unchanged page; use another observed safe control or WAIT for a bounded page-state change.`;
@@ -343,7 +372,7 @@ export class BrowserTaskExecutor {
   private async observe(input: BrowserSkillReadInput, snapshot: BrowserSnapshot): Promise<Observation> {
     this.observationRevision += 1;
     const controls = input.session.observeControls
-      ? await this.operation(input, "OBSERVE_CONTROLS", () => input.session.observeControls!())
+      ? await this.operation(input, "OBSERVE_CONTROLS", () => input.session.observeControls!(input.controlHints?.(snapshot)))
       : [];
     return { revision: this.observationRevision, snapshot, controls, targets: toObservedTargets(controls, this.observationRevision) };
   }
@@ -352,7 +381,7 @@ export class BrowserTaskExecutor {
     return {
       title: safeText(observation.snapshot.title, 240),
       visibleTextExcerpt: safeText(observation.snapshot.text, 1_000),
-      targets: [...observation.targets.values()].slice(0, 40).map(({ controlId: _controlId, stableKey: _stableKey, value: _value, formMethod: _formMethod, selected: _selected, ...target }) => ({
+      targets: [...observation.targets.values()].slice(0, 40).map(({ controlId: _controlId, stableKey: _stableKey, nativeTag: _nativeTag, value: _value, formMethod: _formMethod, selected: _selected, ...target }) => ({
         ...target,
         ...(target.href ? { href: this.diagnosticUrl(target.href) } : {}),
       })),
@@ -376,7 +405,13 @@ export class BrowserTaskExecutor {
       if (/\/(?:login|signin|account|checkout|payment|reserve|booking|cancel)(?:\/|$)/i.test(new URL(target.href).pathname)) {
         throw new Error("OPEN_LINK target has a sensitive navigation path");
       }
-      await this.navigate({ ...input, url: target.href, observed: true });
+      if (input.session.openLink) {
+        await this.operation(input, "OPEN_LINK", () => input.session.openLink!(target.controlId));
+      } else {
+        // A runtime without popup support may only retain the existing same-page
+        // behavior; it never fabricates a new-page identity.
+        await this.navigate({ ...input, url: target.href, observed: true });
+      }
       return;
     }
     if (action.type === "WAIT") {
@@ -384,17 +419,53 @@ export class BrowserTaskExecutor {
       return;
     }
     if (action.type === "CLICK") {
-      if (!this.safeGenericClick(target)) {
+      if (target.role === "option" && /^([01]\d|2[0-3]):[0-5]\d$/.test((target.value || target.label).trim())
+        && !matchesAuthoritativeControl(target, "TIME", input.goal)) {
+        throw new Error("Time option is outside the authoritative time window");
+      }
+      const control = observation.controls.find(item => item.id === target.controlId);
+      const permittedQuerySubmit = control && input.permitQueryControl?.({ control, snapshot: observation.snapshot, action: "CLICK" }) === true;
+      if (!this.safeGenericClick(target) && !permittedQuerySubmit) {
         throw new Error("CLICK target has submit, navigation, or other write-capable structure");
       }
       await this.operation(input, "CLICK", () => input.session.click(target.controlId));
       return;
     }
     if (action.type === "CLICK_AUTHORITATIVE") {
-      if (target.kind !== "BUTTON" || !this.safeGenericClick(target) || !matchesAuthoritativeControl(target, action.field, input.goal)) {
+      if (target.role === "combobox") throw new Error("Opening a combobox requires CLICK with authoritativeField NONE and requestedState NONE. Then select the exact observed option with CLICK_AUTHORITATIVE.");
+      if (target.kind !== "BUTTON" || target.selected === true || !this.safeGenericClick(target) || !matchesAuthoritativeControl(target, action.field, input.goal)) {
         throw new Error("CLICK_AUTHORITATIVE target is not a visible, exact, non-submit authoritative control");
       }
       await this.operation(input, "CLICK_AUTHORITATIVE", () => input.session.click(target.controlId));
+      return;
+    }
+    if (action.type === "SET_CHECKED" || action.type === "ADJUST_RANGE") {
+      const control = observation.controls.find(control => control.id === target.controlId);
+      if (!control || input.permitQueryControl?.({ control, snapshot: observation.snapshot, action: action.type }) !== true) {
+        throw new Error("Source has not classified this control as a permitted read-only query operation");
+      }
+    }
+    if (action.type === "SET_CHECKED") {
+      if (target.kind !== "CHECKBOX" || target.checked === undefined || target.checked === action.checked || !input.session.setChecked) {
+        throw new Error("SET_CHECKED target is not an observed changeable checkbox");
+      }
+      await this.operation(input, "SET_CHECKED", () => input.session.setChecked!(target.controlId, action.checked));
+      return;
+    }
+    if (action.type === "ADJUST_RANGE") {
+      const current = Number(target.value);
+      const boundary = Number(action.direction === "INCREASE" ? target.max : target.min);
+      if (target.kind !== "RANGE" || !Number.isFinite(current) || !Number.isFinite(boundary) || (action.direction === "INCREASE" ? current >= boundary : current <= boundary) || !input.session.press) {
+        throw new Error("ADJUST_RANGE target is not an observed in-range slider with a supported keyboard action");
+      }
+      await this.operation(input, "ADJUST_RANGE", () => input.session.press!(target.controlId, action.direction === "INCREASE" ? "ArrowRight" : "ArrowLeft"));
+      return;
+    }
+    if (action.type === "SCROLL_REGION") {
+      if (target.kind !== "REGION" || target.scrollable !== true || !input.session.scroll) {
+        throw new Error("SCROLL_REGION target is not an observed scrollable region");
+      }
+      await this.operation(input, "SCROLL_REGION", () => input.session.scroll!(target.controlId, action.direction === "DOWN" ? 480 : -480));
       return;
     }
     const authoritative = action.field === "DATE" ? input.goal.date : input.goal.partySize;
@@ -434,7 +505,12 @@ export class BrowserTaskExecutor {
     // A `type=button` calendar/navigation control may live inside a POST form but
     // cannot submit that form. A submit control remains forbidden regardless of the
     // surrounding method; this is structural, not a label- or method-only permit.
-    if (target.type?.toLowerCase() === "submit" || (!target.type && target.formMethod === "POST")) return false;
+    // Registry marks only read-only INPUT comboboxes as BUTTON targets. Clicking
+    // that input or a DIV/LI/SPAN option cannot natively submit its parent form.
+    // Native buttons (including role=option) retain the default-submit guard.
+    const nonSubmittingChoice = (target.role === "combobox" && target.nativeTag === "INPUT")
+      || (target.role === "option" && ["DIV", "LI", "SPAN"].includes(target.nativeTag ?? ""));
+    if (target.type?.toLowerCase() === "submit" || (!target.type && target.formMethod === "POST" && !nonSubmittingChoice)) return false;
     if (/\b(?:login|sign\s*in|register|reserve|book|checkout|pay|purchase|cancel|delete|confirm)\b/i.test(target.label)) return false;
     return true;
   }
@@ -506,4 +582,21 @@ function sameObservation(left: BrowserSnapshot, right: BrowserSnapshot): boolean
 
 function observationKey(snapshot: BrowserSnapshot): string {
   return `${snapshot.url}\n${snapshot.title}\n${snapshot.text}`;
+}
+
+/**
+ * Page text is insufficient for public query controls: checkbox, range and
+ * scroll state can change without changing the rendered prose.  Compare only
+ * browser-observed state, never the model's claimed effect.
+ */
+function controlsChanged(before: BrowserPageControl[], after: BrowserPageControl[]): boolean {
+  const state = (control: BrowserPageControl) => JSON.stringify({
+    value: control.value, selected: control.selected, expanded: control.expanded, checked: control.checked,
+    min: control.min, max: control.max, scrollable: control.scrollable, scrollTop: control.scrollTop,
+    options: control.options,
+  });
+  const previous = new Map(before.map((control) => [control.stableKey, state(control)]));
+  const current = new Map(after.map((control) => [control.stableKey, state(control)]));
+  if (previous.size !== current.size) return true;
+  return [...previous].some(([key, value]) => current.get(key) !== value);
 }

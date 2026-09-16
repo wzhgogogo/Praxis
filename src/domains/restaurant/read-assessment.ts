@@ -42,6 +42,28 @@ export function restaurantGoalRequiresAvailability(intent: NonNullable<ReturnTyp
   return intent.target?.goal === "AVAILABILITY";
 }
 
+/** Shared current-source view for presentation and the bounded Agent summary. */
+export function restaurantCurrentFactEvidence(state: Readonly<RestaurantTaskState>, candidateId: string): RestaurantTaskState["readEvidence"] {
+  const candidateEvidence = state.readEvidence.filter(evidence => evidence.candidateId === candidateId);
+  const check = state.factChecks?.[candidateId];
+  const superseded = new Set(check?.supersededEvidenceIds ?? []);
+  const sources = new Set(check?.sourceAttempts?.map(attempt => attempt.source)
+    ?? (check?.sourceProvider ? [check.sourceProvider] : (check?.evidenceIds ?? []).flatMap(id => {
+      const evidence = candidateEvidence.find(item => item.evidenceId === id);
+      return evidence?.kind === "RESTAURANT_FACT" && evidence.provider !== "MODEL_JUDGMENT" ? [evidence.provider] : [];
+    })));
+  const facts = candidateEvidence.filter(evidence => evidence.kind === "RESTAURANT_FACT" && !superseded.has(evidence.evidenceId)
+    && (!check || (evidence.provider !== "MODEL_JUDGMENT" && sources.size > 0 && !sources.has(evidence.provider)) || check.evidenceIds.includes(evidence.evidenceId)));
+  const hasIdentity = (fact: RestaurantTaskState["readEvidence"][number]) => candidateEvidence.some(entity => entity.kind === "ENTITY_MATCH"
+    && entity.entityMatch?.confidence === "HIGH" && entity.provider === fact.provider && entity.sourceEntityId === fact.sourceEntityId);
+  const rawFacts = facts.filter(fact => fact.provider !== "MODEL_JUDGMENT" && hasIdentity(fact));
+  return facts.filter(fact => {
+    if (fact.provider !== "MODEL_JUDGMENT") return rawFacts.includes(fact);
+    const citations = stringListClaim(fact, "supportingEvidenceIds");
+    return citations.length > 0 && citations.every(id => rawFacts.some(source => source.evidenceId === id));
+  });
+}
+
 function presentationEvidenceIds(
   state: Readonly<RestaurantTaskState>,
   candidateId: string,
@@ -49,41 +71,13 @@ function presentationEvidenceIds(
   now: string,
 ): { valid: true; evidenceIds: string[] } | { valid: false; reason: string } {
   const candidateEvidence = state.readEvidence.filter((evidence) => evidence.candidateId === candidateId);
-  // A fact observation can supersede its own source facts. Availability is a
-  // separate dimension: an UNKNOWN/no-slot read must retain independently
-  // verified identity, hours, and restaurant facts rather than erase them.
-  const currentFactObservation = state.factChecks?.[candidateId];
-  const currentCandidateEvidence = candidateEvidence.filter((evidence) => {
-    if (evidence.kind !== "RESTAURANT_FACT") return true;
-    const explicitCurrentFactProviders = new Set((currentFactObservation?.evidenceIds ?? [])
-      .map((evidenceId) => candidateEvidence.find((item) => item.evidenceId === evidenceId))
-      .filter((item): item is RestaurantTaskState["readEvidence"][number] => item?.kind === "RESTAURANT_FACT")
-      .map((item) => item.provider));
-    const relevant = currentFactObservation !== undefined && (
-      currentFactObservation.sourceProvider === evidence.provider ||
-      (currentFactObservation.sourceProvider === undefined && (explicitCurrentFactProviders.size === 0 || explicitCurrentFactProviders.has(evidence.provider)))
-    )
-      ? [currentFactObservation]
-      : [];
-    // An old fact check without a provider can still identify its source from
-    // its fact evidence IDs. Without any such evidence it conservatively
-    // supersedes older facts. Availability observations never supersede
-    // restaurant facts from either source.
-    return relevant.length === 0 || relevant.some((observation) => observation.evidenceIds.includes(evidence.evidenceId));
-  });
   const entities = candidateEvidence.filter((evidence) => evidence.kind === "ENTITY_MATCH" && evidence.entityMatch?.confidence === "HIGH");
-  const currentFacts = currentCandidateEvidence.filter((evidence) => evidence.kind === "RESTAURANT_FACT");
+  const groundedCurrentFacts = restaurantCurrentFactEvidence(state, candidateId);
   const identityFor = (evidence: RestaurantTaskState["readEvidence"][number]) =>
     entities.find((entity) => entity.provider === evidence.provider && entity.sourceEntityId === evidence.sourceEntityId);
   const sourceFactsFor = (evidence: RestaurantTaskState["readEvidence"][number]) => evidence.provider === "MODEL_JUDGMENT"
-    ? stringListClaim(evidence, "supportingEvidenceIds")
-      .map((evidenceId) => currentFacts.find((item) => item.evidenceId === evidenceId))
-      .filter((item): item is RestaurantTaskState["readEvidence"][number] => Boolean(item))
+    ? stringListClaim(evidence, "supportingEvidenceIds").map(id => groundedCurrentFacts.find(item => item.evidenceId === id)!)
     : [evidence];
-  const groundedCurrentFacts = currentFacts.filter((evidence) => {
-    const sources = sourceFactsFor(evidence);
-    return sources.length > 0 && sources.every((source) => identityFor(source) !== undefined);
-  });
   const area = candidateEvidence.find((evidence) =>
     evidence.kind === "DISCOVERY" && evidence.claims.areaMatch === true && normalized(stringClaim(evidence, "areaQuery") ?? "") === normalized(intent.area.query),
   );
@@ -122,9 +116,10 @@ function presentationEvidenceIds(
   }
   const bookingIntent = completeRestaurantIntent(state.intentDraft);
   if (!bookingIntent) return { valid: false, reason: "Availability requested but party size is missing" };
+  const permittedWindow = bookingIntent.permittedAlternativeTimeWindow ?? bookingIntent.timeWindow;
   const offer = state.availability[candidateId]?.find((item) =>
     isDisplayFresh(item.displayExpiresAt, now) && item.partySize === bookingIntent.partySize && item.dateTime.slice(0, 10) === bookingIntent.date &&
-    item.dateTime.slice(11, 16) >= bookingIntent.timeWindow.earliest && item.dateTime.slice(11, 16) <= bookingIntent.timeWindow.latest,
+    item.dateTime.slice(11, 16) >= permittedWindow.earliest && item.dateTime.slice(11, 16) <= permittedWindow.latest,
   );
   const availability = candidateEvidence.find((evidence) => evidence.kind === "AVAILABILITY" && isDisplayFresh(evidence.displayExpiresAt, now) &&
     stringClaim(evidence, "date") === bookingIntent.date && evidence.claims.partySize === bookingIntent.partySize && offer !== undefined &&
@@ -132,7 +127,8 @@ function presentationEvidenceIds(
   const entity = availability ? entities.find((item) => item.provider === availability.provider && item.sourceEntityId === availability.sourceEntityId) : undefined;
   if (!entity) return { valid: false, reason: `Candidate ${candidateId} has no HIGH outlet identity evidence associated with its availability source` };
   if (!offer || state.availabilityChecks[candidateId]?.status !== "AVAILABLE" || !availability) return { valid: false, reason: `Candidate ${candidateId} lacks fresh evidenced availability for the authoritative request` };
-  return { valid: true, evidenceIds: [...new Set([entity.evidenceId, area.evidenceId, availability.evidenceId, ...currentCandidateEvidence.filter((evidence) => evidence.kind === "RESTAURANT_FACT").map((evidence) => evidence.evidenceId)])] };
+  const factIdentityIds = groundedCurrentFacts.flatMap(fact => sourceFactsFor(fact).map(source => identityFor(source)!.evidenceId));
+  return { valid: true, evidenceIds: [...new Set([entity.evidenceId, area.evidenceId, availability.evidenceId, ...factIdentityIds, ...groundedCurrentFacts.map((evidence) => evidence.evidenceId)])] };
 }
 
 export function restaurantPresentationEvidenceIds(state: Readonly<RestaurantTaskState>, candidateId: string, now: string): string[] | undefined {

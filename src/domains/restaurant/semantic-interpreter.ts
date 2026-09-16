@@ -18,6 +18,7 @@ import {
 
 const MAX_MESSAGE_CHARACTERS = 2_000;
 const MAX_SCHEMA_ATTEMPTS = 2;
+export const RESTAURANT_SEMANTIC_MAX_OUTPUT_TOKENS = 5_000;
 
 export interface RestaurantSemanticInterpretInput {
   taskId: string;
@@ -163,7 +164,7 @@ ${JSON.stringify(modelContext(input.currentDraft))}
 
 Use YYYY-MM-DD dates, 24-hour HH:mm times, and JPY budgets.
 
-Do not create missing fields, decisions, commands, state patches, events, tool inputs, provider identifiers, authorizations, evidence, or outcomes.
+Only emit information expressed by this message or justified by the closed-party inference rules below. Omit genuinely missing information. Do not produce decisions, commands, state patches, events, tool inputs, provider identifiers, authorizations, evidence, or outcomes.
 
 Return exactly one JSON object:
 {"schemaVersion":"3","facts":[]}
@@ -200,8 +201,11 @@ AVAILABILITY is a concrete visit request: the user supplies or clearly implies a
 party and a planned dining occasion/time or broad time period, and wants places
 for that visit even when the wording says "recommend", "looking for", or "need".
 Do not classify mechanically from a single verb or party-size alone. TARGET.query
-is a short faithful summary of the requested outcome, or the named restaurant when
-one is named.
+is a short faithful summary of the requested outcome, including requested comparison or information topics and any named restaurants. Preserve these requested information topics in TARGET.query so subsequent investigation can read them; they are not venue-selection criteria.
+
+Use a named TARGET query only when the user clearly intends a particular restaurant as the specific restaurant being requested.
+
+A proper name, brand, chain, or restaurant-like phrase is not automatically a TARGET. If a named entity functions as a restaurant-selection condition or search constraint rather than the exact destination, represent that meaning as a CRITERION instead.
 
 ## CRITERIA
 
@@ -210,7 +214,7 @@ A CRITERION is any user-expressed condition that should influence which restaura
 Relevant semantic roles may include:
 - restaurant or food type
 - cuisine
-- dining occasion or purpose
+- a restaurant-selection occasion or purpose, excluding a bare meal period
 - companion-related or situational suitability
 - atmosphere
 - desired features
@@ -228,7 +232,9 @@ If the user expresses flexibility or absence of restriction on a dimension, do n
 
 Generic request language such as "good", "good options", or similar phrasing should not become a standalone criterion unless it expresses a specific restaurant-selection preference.
 
-Do not represent search execution or availability requirements as CRITERION when they are already expressed through date, time, party size, area, or downstream availability behavior.
+Do not represent search execution or availability requirements as CRITERION when they are already expressed through date, time, party size, area, or downstream availability behavior. The bare labels "breakfast", "lunch", and "dinner" describe a meal period, not an additional venue property; do not emit them as CRITERION alongside a supplied visit time. Preserve distinct requested activities or cuisine instead.
+
+Distinguish a condition on a restaurant from an instruction about investigating or presenting it. Requests to compare or report prices, read cancellation policies, cite sources, or avoid making a booking describe the assistant's work; do not turn them into positive or negative venue criteria. Preserve requested information/comparison topics in TARGET.query. An actual condition such as requiring free cancellation or a firm price limit remains a selection requirement; do not weaken it merely because it concerns commercial terms. The word "no" in a prohibition on assistant actions does not express a restaurant exclusion.
 
 Do not strengthen vague freshness language into a more specific restaurant property than the user expressed.
 
@@ -237,22 +243,39 @@ Do not infer a taxonomy or category not expressed by the user.
 
 ### POLARITY AND STRENGTH
 
-Use POSITIVE when the user wants or values the condition.
+Use POSITIVE for a wanted condition and NEGATIVE for an avoided condition.
+For NEGATIVE criteria, text names the avoided condition without the negation.
+Interpret polarity and strength independently; removing an existing criterion is
+an operation, whereas asking to avoid something introduces a NEGATIVE criterion.
 
-Use NEGATIVE when the user wants to avoid or exclude the condition.
-For NEGATIVE criteria, text should name the avoided condition itself without the negating wording.
+Determine strength from the meaning of each condition in the whole request:
+- HARD: a defining selection requirement. Without it the venue cannot satisfy the
+  requested kind of meal, an intended activity, or an expressed exclusion.
+- SOFT: an approximation, an optional improvement, or a preference that the user
+  permits trading off while still fulfilling the requested meal/activity.
+- UNSPECIFIED: only when the message genuinely leaves this distinction unresolved.
 
-Determine strength from the semantic role of the condition, not from lexical trigger words.
+Distinguish whether the venue can support a requested activity from how pleasant
+or well suited the experience would be. An unqualified request for a capability
+needed for that activity is not merely a ranking preference. Subjective atmosphere
+or occasion-related appeal can be SOFT without making the activity itself optional.
+An occasion label alone does not make every associated desirable feature HARD;
+do not invent amenities or requirements from an occasion.
 
-Use HARD when violating the condition would materially fail the request: the returned restaurant would no longer reasonably count as what the user asked for.
+Do not use a fixed category-to-strength mapping. The same feature can be required
+in one message and optional in another. Explicit flexibility about that feature
+must be respected. Its subjectivity or difficulty to verify is not permission to
+weaken it, and polite or favorable phrasing alone does not imply flexibility.
 
-Use SOFT when the condition improves the result but can reasonably be traded off without fundamentally failing the request. Approximate, optional, or preference-like conditions are generally SOFT.
+Scope approximation and optionality to the condition they modify. A flexible
+budget or optional amenity does not soften adjacent unqualified requirements.
+Conversely, one required feature does not make neighboring preferences mandatory.
 
-Use UNSPECIFIED only when there is genuinely insufficient semantic evidence to distinguish HARD from SOFT.
-
-UNSPECIFIED is not the default.
-
-Do not downgrade a defining request to UNSPECIFIED merely because the user did not explicitly say "must", "need", "only", "prefer", or similar wording.
+Do not decide strength by looking for a single trigger word. Check the intended
+meaning: would removing this condition change what the user is asking to do, or
+only reduce a desired improvement? Preserve genuine uncertainty as UNSPECIFIED;
+do not guess that every unmarked condition is HARD or that every suitability
+condition is SOFT.
 
 ## BUDGET
 
@@ -260,7 +283,7 @@ Represent an approximate or target budget as one POSITIVE SOFT CRITERION.
 
 Use BUDGET_PER_PERSON only when the user clearly expresses a firm per-person maximum, cap, or upper limit.
 
-Do not convert approximate budget language into a hard maximum.
+Do not convert approximate budget language into a hard maximum. Preserve the amount and per-person basis in the criterion text. Do not emit both a SOFT approximate-budget criterion and a hard BUDGET_PER_PERSON for the same approximation; emit a hard cap only if the user separately states one.
 
 ## TIME
 
@@ -272,9 +295,11 @@ A single explicit clock time produces an exact window: earliest = latest = that 
 
 More precise temporal information overrides broader temporal expressions.
 
-For a user who says afternoon, emit the DAYPART form with daypart "AFTERNOON"; code maps it to 12:00-17:00. When the wording says "this afternoon" or "today afternoon", include relativeDay "TODAY" in that same TIME_WINDOW so code can materialize its date. Do not calculate a date for today, tomorrow, Friday, now, or a relative offset.
+For a user who says afternoon, emit the DAYPART form with daypart "AFTERNOON"; code defines its query window. When the wording says "this afternoon" or "today afternoon", include relativeDay "TODAY" in that same TIME_WINDOW so code can materialize its date. Do not calculate a date for today, tomorrow, Friday, now, or a relative offset.
 
-For "right now" emit relativeOffsetMinutes 0. For "in two hours" emit relativeOffsetMinutes 120. For "after work", emit daypart "AFTER_WORK" with the original raw expression and retain that phrase as a criterion when it expresses visit suitability. Code materializes its broad query window and records that interpretation; do not invent an exact user-provided clock time. For today/tomorrow emit the DATE relativeDay form; for a weekday emit the DATE weekday form.
+For "right now" emit relativeOffsetMinutes 0. For "in two hours" emit relativeOffsetMinutes 120. For "after work", emit daypart "AFTER_WORK" with the original raw expression and treat it only as temporal information. Do not additionally emit an after-work suitability CRITERION. Preserve independently expressed requirements, such as drinks, as separate criteria. Code materializes its broad query window and records that interpretation; do not invent an exact user-provided clock time. For today/tomorrow emit the DATE relativeDay form; for a weekday emit the DATE weekday form.
+
+For "evening", "night", and "tonight", emit daypart "EVENING" unless a more precise time is given. Never encode night as AFTER_WORK. Emit a separate DATE relativeDay fact for today/tonight or tomorrow when expressed. Code alone defines daypart query windows; do not generate clock ranges for these expressions.
 
 Emit DATE whenever the current message determines the dining date.
 
@@ -282,21 +307,21 @@ Meal-purpose words such as breakfast, lunch, or dinner alone do not determine a 
 
 A TIME_WINDOW represents an acceptable search interval, not a promised booking slot.
 
+If the user explicitly permits a wider time only when the original target has no result, retain the original earliest/latest and include alternativeEarliest, alternativeLatest, and alternativeRaw in that same explicit-clock TIME_WINDOW. The alternative range must contain the original window. Do not create an alternative from an unavailable page, a general preference, or a different party size/date.
+
 ## PARTY SIZE
 
-Extract PARTY_SIZE from an explicit total.
+Prefer an explicit total. Otherwise count a closed participant set when its members
+are identifiable from the message, including through a clear relational situation.
+The speaker counts when participating; a singular counterpart contributes one.
+A clearly two-person encounter can identify the speaker and that counterpart even
+without enumerating both. This is permitted semantic inference, not a fabricated
+user-provided number. Do not require a numeral for a closed set.
 
-Also infer PARTY_SIZE when the conversation identifies a closed dining party whose total can be counted with high confidence.
-
-The speaker counts when the message clearly indicates that the speaker is dining. A singular explicitly identified companion contributes one person.
-
-Do not require an explicit numeral when the participant set is clearly closed.
-
-Do not infer an exact count from vague or open group descriptions whose size cannot be confidently determined.
-
-When the participant set remains genuinely ambiguous, omit PARTY_SIZE.
-
-Do not invent conventional group sizes.
+Separate a closed pair or enumerated group from an open social group. A general
+occasion or group label that does not identify its participants gives no exact
+count. Additional unspecified attendees leave the total open. Do not substitute
+an average or customary group size. Omit PARTY_SIZE when the total remains unclear.
 
 ## AREA
 
@@ -312,17 +337,9 @@ For multi-anchor requests, preserve the relationship between the anchors rather 
 
 Do not add or remove relational wording when doing so changes the user's location meaning.
 
-## TARGET
-
-TARGET records the user's delivery goal. Use RECOMMENDATION for open-ended exploration where recommendations and applicable operating facts are the requested delivery. Use AVAILABILITY for a concrete planned restaurant visit with a known or confidently inferable party and temporal intent, even if the user asks to recommend or look for a place rather than saying "bookable". A party size alone never changes a recommendation into availability. An AVAILABILITY target without party size must lead to clarification, not a weaker recommendation.
-
-Use a named TARGET query only when the user clearly intends a particular restaurant as the specific restaurant being requested.
-
-A proper name, brand, chain, or restaurant-like phrase is not automatically a TARGET. If a named entity functions as a restaurant-selection condition or search constraint rather than the exact destination, represent that meaning as a CRITERION instead.
-
 ## OUTPUT SHAPES
 
-For every non-CONFIRM fact, value must be present and value.kind must exactly match field.
+ASSERT and CORRECT require value, with value.kind matching field. Singleton NEGATE and CONFIRM omit value. CRITERION NEGATE includes the matching criterion value; CRITERION CONFIRM is not allowed.
 
 TARGET:
 {"kind":"TARGET","goal":"RECOMMENDATION|AVAILABILITY","query":"Restaurant Name or user goal summary"}
@@ -338,6 +355,9 @@ DATE (weekday):
 
 TIME_WINDOW (explicit user clock/range):
 {"kind":"TIME_WINDOW","earliest":"HH:mm","latest":"HH:mm","raw":"7 PM"}
+
+TIME_WINDOW (explicit original target plus permitted alternative):
+{"kind":"TIME_WINDOW","earliest":"19:00","latest":"19:00","raw":"7 PM","alternativeEarliest":"18:30","alternativeLatest":"19:30","alternativeRaw":"30 minutes either side is fine"}
 
 TIME_WINDOW (daypart):
 {"kind":"TIME_WINDOW","daypart":"AFTERNOON","relativeDay":"TODAY","raw":"this afternoon"}
@@ -359,6 +379,8 @@ BUDGET_PER_PERSON:
 
 CRITERION:
 {"kind":"CRITERION","text":"...","polarity":"POSITIVE|NEGATIVE","strength":"HARD|SOFT|UNSPECIFIED"}
+
+Before returning, check that every expressed selection condition has been retained, no approximate value became a firm limit, local flexibility has not spread to neighboring conditions, and a closed participant set was counted. This check does not add facts or change the output schema. Return only the proposal, not an explanation.
 
 Do not emit an empty facts list when the current user message expresses any restaurant-search fact.
 
@@ -413,7 +435,7 @@ export class RestaurantSemanticInterpreter {
           },
           timeoutMs: 10_000,
           fallback: "STRUCTURED_FORM",
-          maxOutputTokens: 500,
+          maxOutputTokens: RESTAURANT_SEMANTIC_MAX_OUTPUT_TOKENS,
           temperature: 0,
           thinking: "disabled",
         });

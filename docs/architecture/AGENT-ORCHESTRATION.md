@@ -1,8 +1,8 @@
 # Agent Orchestration
 
 - Status: Accepted
-- Document revision: 3.16
-- Last updated: 2026-09-11
+- Document revision: 3.17
+- Last updated: 2026-09-16
 - Source of truth for: Agent Workspace中的模型职责、有界Loop、前后台运行与Multi-Agent边界
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md), [ADR-0003](../decisions/0003-single-agent-orchestration.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md), [ADR-0021](../decisions/0021-cited-source-fact-investigation.md)
 - Related documents: [Agent Gateway and Workspace](AGENT-GATEWAY-AND-WORKSPACE.md), [Task Runtime](TASK-RUNTIME.md), [Policy & Execution](POLICY-EXECUTION-VERIFICATION.md)
@@ -57,7 +57,7 @@ Restaurant Agent Decision使用同一服务端Gateway和受限JSON Schema，purp
 
 - 对话补充：核心字段不完整时询问用户，直到完整、取消或达到上限。
 - Restaurant Agent Loop：在最大步数、超时、重复非法动作上限内，一次提出并验证一个动作；终态、User等待点和Authorization checkpoint立即停止。每次Discovery/Availability read由Router以可中止deadline包裹；Structured与Browser可分别配置有界超时。超时、步数上限与连续拒绝各写入`AGENT_LOOP_TERMINATED`及终止原因，并形成对应trajectory step。模型失败写`AGENT_DECISION_FAILED`；Discovery失败与Availability的`UNKNOWN`/`SOURCE_UNSUPPORTED`观察不会被归为模型失败，更不能改写为`UNAVAILABLE`。若本次所有请求候选都在建立Browser Run会话前发生同一`BROWSER_RUNTIME_FAILED`或`BROWSER_TIMEOUT`，Router标记为终端内部read failure，Loop写`AGENT_LOOP_TERMINATED(EXECUTION_FAILURE)`并进入`FAILED`，不得让Agent以`ASK_USER`把基础设施故障交给用户解决。唯一例外是显式的eval-only local Tabelog challenge pause：同一BrowserSession/Page保持打开、终端等待人手完成站点验证，随后只读取该页面一次；它不是模型`ASK_USER`、不自动重试，并且challenge仍存在时仍返回`BOT_CHALLENGE`。此模式才可将该次Browser deadline设为无自动超时，且只由Hybrid eval runner在两个本地interactive门禁同时开启时使用。完成一条mandatory Policy/Commit/Verify chain后，Orchestrator只在`SELECTION_REQUIRED`调用bounded resume；`COMMIT_FAILED`或`BOOKING_ABSENT`已清除旧proposal/authorization/attempt，新的`BOOK_RESERVATION`必须先产生新proposal并等待新Authorization，`OUTCOME_UNKNOWN`绝不自动恢复。
-- Model-assisted Observation：ADR-0017授权的local/eval实现现已启用，但不是Restaurant Agent Tool。它使用独立`browser_read_action@1` strict wire contract；模型只看脱敏的可见文本与代码生成的当前元素引用，不能接收selector、自由URL、凭据、Cookie或State。执行器只接受来源allowlist、当前观察版本、明确只读控制和Router绑定的日期/人数；所有完成声明仍回到确定性来源解析和Grounding，不能直接产生Evidence、Offer或状态变化。
+- Model-assisted Observation：ADR-0017授权的local/eval实现现已启用，但不是Restaurant Agent Tool。它使用独立`browser_read_action@3` strict wire contract；模型只看脱敏的可见文本与代码生成的当前元素引用，不能接收selector、自由URL、凭据、Cookie或State。除已有只读链接/点击/填写/选择外，`@2`只增加观察到的 checkbox 明确设值、滑条单个键盘步进和指定容器有界滚动；活动 modal 外的背景控件只保留为状态证据，不能成为目标。`@3`增加 TIME 选择：只允许已观察 role=option 的准确 HH:mm 位于 Router 时间窗口内；普通 CLICK 也不能绕过窗口检查。只读 ARIA 焦点输入通过正常键盘展开，已展开状态阻止重复打开，原生 submit 仍拒绝。执行器只接受来源allowlist、当前观察版本、明确只读控制和Router绑定的日期/人数/时间窗口；所有完成声明仍回到确定性来源解析和Grounding，不能直接产生Evidence、Offer或状态变化。
 - Browser Interpretation：只能在允许域名内观察并走到提交前Checkpoint；最终提交不在模型Loop内。Hybrid Live Read可通过`PRAXIS_BROWSER_ENGINE=LOCAL_CHROMIUM`显式选择只用于开发/eval的本地Playwright backend；该选择不访问Cloudflare、不改变AUTO的Kitesurf→Chromium顺序。仅当`PRAXIS_LOCAL_CHROMIUM_INTERACTIVE=1`与`PRAXIS_EVAL_ALLOW_TABELOG_MANUAL_INTERVENTION=1`同时开启时，它会启动headed Chromium和gitignored持久profile，允许人手验证后在同一Session恢复；不属于Desktop/Mobile产品Surface或通用challenge bypass。
 
 ## Browser操作边界
@@ -82,3 +82,11 @@ MVP不使用Multi-Agent。Desktop与Mobile Web是同一用户级Agent的不同Su
 ## Prompt Injection
 
 网页、邮件和Tool输出均为不可信数据。模型不能依据页面文字改变系统规则、扩大域名范围或获取Secret。Browser动作必须经过结构化Action与Policy校验。
+
+### Browser completion 核验补充（2026-09-16）
+
+通用 Browser Executor 只有来源提供的 completion predicate 通过才返回 COMPLETED。模型提出 COMPLETE 而 predicate 未通过时返回 MODEL_HANDOFF，交来源继续结构化核验；该状态不能单独建立 Offer 或成功 Task State。Web 当前条款使用 currentFactEvidence，历史 readEvidence 保留审计，不能作为当前卡片的首条事实。
+
+### Source-owned nonstandard control observation (2026-09-16)
+
+A source may supply code-owned control hints describing observed nonstandard elements and their value/selection attributes. Runtime reads actual DOM values; models receive only current opaque references, never selectors or scripts. Existing action permission, authoritative-value matching and result verification remain in force. Current use is Tabelog date/guest controls; standard browser observation needs no hints.

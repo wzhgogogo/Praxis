@@ -5,15 +5,15 @@ import type {
   RestaurantTaskState,
 } from "./contracts.js";
 import { missingBlockingFields, missingSearchFields } from "./intent-state.js";
-import { assessRestaurantRead } from "./read-assessment.js";
+import { assessRestaurantRead, restaurantCurrentFactEvidence } from "./read-assessment.js";
 
 export const RESTAURANT_AGENT_CONTEXT_SCHEMA = {
   name: "restaurant_agent_context",
-  version: "6",
+  version: "7",
 } as const;
 
 export interface RestaurantAgentContext {
-  schemaVersion: "6";
+  schemaVersion: "7";
   now: string;
   phase: RestaurantPhase;
   intentDraft?: RestaurantIntentDraft;
@@ -32,6 +32,12 @@ export interface RestaurantAgentContext {
       verifiedNegativeCriteria: string[];
       violatedNegativeCriteria: string[];
       openingHoursMatch: boolean;
+      /** Current candidate-bound public commercial facts, each with its source. */
+      commercialNotes: Array<{
+        field: "COURSE_PRICE" | "COURSE_DETAILS" | "PRIVATE_ROOM_MINIMUM" | "CANCELLATION" | "NO_SHOW";
+        value: string;
+        source: string;
+      }>;
     };
     sourceAttempts: Array<{
       source: string;
@@ -91,16 +97,38 @@ export function projectRestaurantAgentContext(
   const assessment = assessRestaurantRead(state, now);
   const presentation = assessment.presentation;
   const candidateSummary = (candidateId: string) => {
-    const facts = state.readEvidence.filter((evidence) => evidence.candidateId === candidateId && evidence.kind === "RESTAURANT_FACT");
+    const facts = restaurantCurrentFactEvidence(state, candidateId);
     const claimed = (key: string) => facts.flatMap((evidence) => {
       const value = evidence.claims[key];
       return Array.isArray(value) && value.every((item) => typeof item === "string") ? value : [];
     });
     const openingHoursMatch = facts.some((evidence) => evidence.claims.openingHoursMatch === true);
+    const commercialNote = (
+      field: "COURSE_PRICE" | "PRIVATE_ROOM_MINIMUM" | "CANCELLATION" | "NO_SHOW",
+      claim: "coursePriceYen" | "privateRoomMinimumYen" | "cancellationTerms" | "noShowTerms",
+      format: (value: string | number, evidence: typeof facts[number]) => string | undefined,
+    ) => facts.flatMap((evidence) => {
+      const value = evidence.claims[claim];
+      if (typeof value !== "string" && typeof value !== "number") return [];
+      const formatted = format(value, evidence);
+      return formatted ? [{ field, value: formatted, source: evidence.provider }] : [];
+    });
+    const commercialNotes = [
+      ...facts.flatMap(evidence => Array.isArray(evidence.claims.listedCourseDetails) ? evidence.claims.listedCourseDetails.filter((value): value is string => typeof value === "string" && value.length <= 1600).slice(0, 3).map(value => ({ field: "COURSE_DETAILS" as const, value, source: evidence.provider })) : []),
+      ...commercialNote("COURSE_PRICE", "coursePriceYen", (value, evidence) => {
+        if (typeof value !== "number" || !Number.isSafeInteger(value) || value < 0) return undefined;
+        const tax = evidence.claims.coursePriceTax;
+        return `${value} JPY (${tax === "INCLUDED" ? "tax included" : tax === "EXCLUDED" ? "tax excluded" : "tax unspecified"})`;
+      }),
+      ...commercialNote("PRIVATE_ROOM_MINIMUM", "privateRoomMinimumYen", (value) =>
+        typeof value === "number" && Number.isSafeInteger(value) && value >= 0 ? `${value} JPY` : undefined),
+      ...commercialNote("CANCELLATION", "cancellationTerms", (value) => typeof value === "string" && value.trim() ? value.trim() : undefined),
+      ...commercialNote("NO_SHOW", "noShowTerms", (value) => typeof value === "string" && value.trim() ? value.trim() : undefined),
+    ];
     const availability = state.availabilityChecks[candidateId];
     const factCheck = state.factChecks?.[candidateId];
     const sourceAttempts = [
-      ...(factCheck?.sourceProvider ? [{ source: factCheck.sourceProvider, outcome: factCheck.status, ...(factCheck.reasonCode ? { reasonCode: factCheck.reasonCode } : {}) }] : []),
+      ...(factCheck?.sourceAttempts ?? (factCheck?.sourceProvider ? [{ source: factCheck.sourceProvider, outcome: factCheck.status, ...(factCheck.reasonCode ? { reasonCode: factCheck.reasonCode } : {}) }] : [])),
       ...(availability?.sourceAttempts ?? []),
       ...(availability?.sourceAttempts || !availability?.sourceProvider ? [] : [{ source: availability.sourceProvider, outcome: availability.status, ...(availability.reasonCode ? { reasonCode: availability.reasonCode } : {}) }]),
     ];
@@ -110,12 +138,13 @@ export function projectRestaurantAgentContext(
         verifiedNegativeCriteria: [...new Set(claimed("verifiedNegativeCriteria"))],
         violatedNegativeCriteria: [...new Set(claimed("violatedNegativeCriteria"))],
         openingHoursMatch,
+        commercialNotes,
       },
       sourceAttempts,
     };
   };
   return {
-    schemaVersion: "6",
+    schemaVersion: "7",
     now,
     phase: state.phase,
     ...(state.intentDraft ? { intentDraft: structuredClone(state.intentDraft) } : {}),

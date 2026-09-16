@@ -44,7 +44,7 @@ export interface RestaurantCriterion {
 
 /** Immutable code-derived audit record for a user temporal expression. */
 export interface RestaurantTemporalResolution {
-  policyVersion: "restaurant-temporal-materialization@2";
+  policyVersion: "restaurant-temporal-materialization@3";
   referenceTime: string;
   timezone: "Asia/Tokyo";
   date?: { expression: string; resolvedDate: string; basis: string };
@@ -57,6 +57,8 @@ export interface RestaurantIntentDraft {
   target?: RestaurantTarget;
   date?: string;
   timeWindow?: { earliest: string; latest: string };
+  /** User-authorized search range around the original time window; never inferred from a provider page. */
+  permittedAlternativeTimeWindow?: { earliest: string; latest: string };
   temporalResolution?: RestaurantTemporalResolution;
   partySize?: number;
   area?: { query: string; placeId?: string; radiusMeters?: number; coordinates?: RestaurantAreaCoordinates };
@@ -71,6 +73,7 @@ export interface RestaurantSearchIntent {
   /** A fact-only recommendation may be unscheduled and must not claim hours. */
   date?: string;
   timeWindow?: { earliest: string; latest: string };
+  permittedAlternativeTimeWindow?: { earliest: string; latest: string };
   area: { query: string; placeId?: string; radiusMeters?: number; coordinates?: RestaurantAreaCoordinates };
   criteria: RestaurantCriterion[];
   budgetPerPerson?: { max: number; currency: "JPY" };
@@ -100,6 +103,8 @@ export interface AvailabilityOffer {
   dateTime: string;
   timezone: "Asia/Tokyo";
   partySize: number;
+  /** The returned slot is within an explicitly user-permitted alternative range, not the original target window. */
+  alternativeToRequestedTime?: boolean;
   seating?: string;
   plan?: string;
   price?: { amount: number; currency: "JPY"; basis: "PER_PERSON" | "TOTAL" };
@@ -159,9 +164,10 @@ export interface RestaurantAvailabilityCheck {
 export function restaurantAvailabilityRequestFingerprint(input: {
   date: string;
   timeWindow: { earliest: string; latest: string };
+  requestedTimeWindow?: { earliest: string; latest: string };
   partySize: number;
 }): string {
-  return JSON.stringify({ date: input.date, timeWindow: input.timeWindow, partySize: input.partySize });
+  return JSON.stringify({ date: input.date, timeWindow: input.timeWindow, ...(input.requestedTimeWindow ? { requestedTimeWindow: input.requestedTimeWindow } : {}), partySize: input.partySize });
 }
 
 export type RestaurantReadEvidenceKind =
@@ -222,6 +228,8 @@ export interface RestaurantAvailabilityRequest {
   candidates: RestaurantCandidate[];
   date: string;
   timeWindow: { earliest: string; latest: string };
+  /** Original user target when `timeWindow` is the separately authorized broader query range. */
+  requestedTimeWindow?: { earliest: string; latest: string };
   partySize: number;
   /** Router-bound positive HARD criteria; the browser can only report source-supported facts. */
   hardCriteria: string[];
@@ -250,6 +258,14 @@ export interface RestaurantCandidateFactCheck {
   evidenceIds: string[];
   /** The source whose same-purpose facts this observation can replace. */
   sourceProvider?: RestaurantReadExecutionMetadata["provider"];
+  /** Compound reads retain unsuccessful sources as well as evidence-producing ones. */
+  sourceAttempts?: Array<{
+    source: RestaurantReadExecutionMetadata["provider"];
+    outcome: "COMPLETED" | "UNKNOWN";
+    reasonCode?: string;
+  }>;
+  /** Reducer-owned cumulative invalidation within this request; raw evidence is immutable. */
+  supersededEvidenceIds?: string[];
   reasonCode?: string;
 }
 
@@ -302,6 +318,12 @@ export interface RestaurantReadObservation {
   candidateIds?: string[];
   newCandidateIds?: string[];
   evidenceIds?: string[];
+  factSourceAttempts?: Array<{
+    candidateId: string;
+    source: RestaurantReadExecutionMetadata["provider"];
+    outcome: "COMPLETED" | "UNKNOWN";
+    reasonCode?: string;
+  }>;
   unresolvedCandidateIds?: string[];
 }
 
@@ -468,6 +490,7 @@ export interface RestaurantIntentPatch {
   target?: RestaurantTarget | null;
   date?: string | null;
   timeWindow?: { earliest: string; latest: string } | null;
+  permittedAlternativeTimeWindow?: { earliest: string; latest: string } | null;
   temporalResolution?: RestaurantTemporalResolution | null;
   partySize?: number | null;
   area?: { query: string; placeId?: string; radiusMeters?: number; coordinates?: RestaurantAreaCoordinates } | null;

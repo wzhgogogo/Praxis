@@ -2,8 +2,9 @@ import type { RestaurantTemporalResolution } from "./contracts.js";
 import type { RestaurantSemanticValue } from "./semantic-proposal.js";
 
 export const RESTAURANT_TEMPORAL_MATERIALIZATION_POLICY = {
-  version: "restaurant-temporal-materialization@2",
+  version: "restaurant-temporal-materialization@3",
   timezone: "Asia/Tokyo" as const,
+  evening: { earliest: "18:00", latest: "23:00" },
   afternoon: { earliest: "12:00", latest: "17:00" },
   /** A broad query range, never a claim that the user specified exact hours. */
   afterWork: { earliest: "17:30", latest: "22:00" },
@@ -65,16 +66,19 @@ function timeResolution(
   if ("earliest" in value) return { timeWindow: { earliest: value.earliest, latest: value.latest }, record: { expression: value.raw ?? `${value.earliest}-${value.latest}`, resolvedTimeWindow: { earliest: value.earliest, latest: value.latest }, basis: "EXPLICIT_CLOCK" } };
   if ("daypart" in value) {
     const date = "relativeDay" in value ? localParts(context.referenceTime).date : undefined;
-    const timeWindow = value.daypart === "AFTER_WORK"
-      ? RESTAURANT_TEMPORAL_MATERIALIZATION_POLICY.afterWork
-      : RESTAURANT_TEMPORAL_MATERIALIZATION_POLICY.afternoon;
+    const windows = {
+      AFTERNOON: RESTAURANT_TEMPORAL_MATERIALIZATION_POLICY.afternoon,
+      AFTER_WORK: RESTAURANT_TEMPORAL_MATERIALIZATION_POLICY.afterWork,
+      EVENING: RESTAURANT_TEMPORAL_MATERIALIZATION_POLICY.evening,
+    };
+    const timeWindow = windows[value.daypart];
     return {
       ...(date ? { date } : {}),
       timeWindow,
       record: {
         expression: value.raw,
         resolvedTimeWindow: timeWindow,
-        basis: value.daypart === "AFTER_WORK" ? "DAYPART:AFTER_WORK_BROAD_WINDOW" : "DAYPART:AFTERNOON",
+        basis: value.daypart === "AFTER_WORK" ? "DAYPART:AFTER_WORK_BROAD_WINDOW" : `DAYPART:${value.daypart}`,
       },
     };
   }

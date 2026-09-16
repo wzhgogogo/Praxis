@@ -41,6 +41,7 @@ test("strict browser wire COMPLETE accepts only a current observed placeholder a
     action: "COMPLETE",
     targetRef: "observation:1:target:1",
     authoritativeField: "NONE",
+    requestedState: "NONE",
     reason: "The read-only page is ready.",
   }));
   assert.deepEqual(await decision.decide(input), { type: "COMPLETE", reason: "The read-only page is ready." });
@@ -51,6 +52,7 @@ test("strict browser wire COMPLETE rejects a fabricated placeholder or an author
     action: "COMPLETE",
     targetRef: "observation:1:target:999",
     authoritativeField: "NONE",
+    requestedState: "NONE",
     reason: "Ready.",
   }));
   await assert.rejects(() => fabricated.decide(input), (error: unknown) => error instanceof BrowserReadDecisionError && error.code === "INVALID_MODEL_OUTPUT");
@@ -59,22 +61,44 @@ test("strict browser wire COMPLETE rejects a fabricated placeholder or an author
     action: "COMPLETE",
     targetRef: "",
     authoritativeField: "DATE",
+    requestedState: "NONE",
     reason: "Ready.",
   }));
   await assert.rejects(() => authority.decide(input), (error: unknown) => error instanceof BrowserReadDecisionError && error.code === "INVALID_MODEL_OUTPUT");
 });
 
-test("strict browser wire restores an authoritative calendar-button action", async () => {
+test("strict browser wire restores authoritative calendar and time-option actions", async () => {
+ for (const field of ["DATE", "TIME"] as const) {
   const decision = new ModelBrowserReadActionDecision(gateway({
     action: "CLICK_AUTHORITATIVE",
     targetRef: "observation:1:target:1",
-    authoritativeField: "DATE",
+    authoritativeField: field,
+    requestedState: "NONE",
     reason: "Choose the requested calendar day.",
   }));
   assert.deepEqual(await decision.decide(input), {
     type: "CLICK_AUTHORITATIVE",
     targetRef: "observation:1:target:1",
-    field: "DATE",
+    field,
     reason: "Choose the requested calendar day.",
   });
+ }
+});
+
+test("strict browser wire restores only bounded observed checkbox, slider, and region actions", async () => {
+  const targets = [
+    { ref: "observation:1:target:1", kind: "CHECKBOX" as const, role: "checkbox", label: "Sushi", checked: false },
+    { ref: "observation:1:target:2", kind: "RANGE" as const, role: "slider", label: "Budget", value: "10", min: "0", max: "15" },
+    { ref: "observation:1:target:3", kind: "REGION" as const, role: "dialog", label: "Filters", scrollable: true },
+  ];
+  const scoped = { ...input, observation: { ...input.observation, targets } };
+  assert.deepEqual(await new ModelBrowserReadActionDecision(gateway({
+    action: "SET_CHECKED", targetRef: targets[0]!.ref, authoritativeField: "NONE", requestedState: "CHECKED", reason: "Apply the observed public filter.",
+  })).decide(scoped), { type: "SET_CHECKED", targetRef: targets[0]!.ref, checked: true, reason: "Apply the observed public filter." });
+  assert.deepEqual(await new ModelBrowserReadActionDecision(gateway({
+    action: "ADJUST_RANGE", targetRef: targets[1]!.ref, authoritativeField: "NONE", requestedState: "DECREASE", reason: "Move one observed slider step.",
+  })).decide(scoped), { type: "ADJUST_RANGE", targetRef: targets[1]!.ref, direction: "DECREASE", reason: "Move one observed slider step." });
+  assert.deepEqual(await new ModelBrowserReadActionDecision(gateway({
+    action: "SCROLL_REGION", targetRef: targets[2]!.ref, authoritativeField: "NONE", requestedState: "DOWN", reason: "Read the next visible part of this dialog.",
+  })).decide(scoped), { type: "SCROLL_REGION", targetRef: targets[2]!.ref, direction: "DOWN", reason: "Read the next visible part of this dialog." });
 });

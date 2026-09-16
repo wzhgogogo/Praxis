@@ -38,9 +38,12 @@ test("Local Playwright Chromium preserves the BrowserType method binding, expose
   const runtime = new LocalPlaywrightChromium({ browserType });
   const session = await runtime.openSession({ signal: new AbortController().signal });
   await session.navigate("https://example.com");
-  assert.deepEqual(await session.snapshot(), {
-    url: "https://example.com/", html: "<html><body>Example Domain</body></html>", text: "Example Domain", title: "Example Domain",
+  const snapshot = await session.snapshot();
+  const { pageId, ...page } = snapshot;
+  assert.deepEqual(page, {
+    url: "https://example.com/", html: "<html><body>Example Domain</body></html>", text: "Example Domain", title: "Example Domain", responses: [],
   });
+  assert.equal(pageId, "page:1");
   assert.equal(session.metadata.runtimeProvider, "LOCAL_PLAYWRIGHT_CHROMIUM");
   assert.equal(session.metadata.engine, "CHROMIUM");
   assert.match(session.metadata.sessionId ?? "", /^local:/);
@@ -84,4 +87,24 @@ test("Local Playwright Chromium maps launch failures into the fail-closed Browse
     runtime.openSession({ signal: new AbortController().signal }),
     (error: unknown) => error instanceof BrowserRuntimeError && error.code === "BROWSER_RUNTIME_FAILED" && /install a Playwright Chromium browser binary/.test(error.message),
   );
+});
+
+test("passive query capture invalidates old stock at request time and rejects late responses", async () => {
+  const { EventEmitter } = await import("node:events");
+  const { PlaywrightResponseObserver } = await import("./playwright-response-observer.js");
+  const page = new EventEmitter() as unknown as import("playwright-core").Page;
+  const observer = new PlaywrightResponseObserver();
+  observer.configure(page, [{ origin: "https://tabelog.com", pathname: "/vacancy" }]);
+  const request = () => ({ method: () => "GET", url: () => "https://tabelog.com/vacancy" });
+  const response = (req: ReturnType<typeof request>, body: Promise<string>) => ({ request: () => req, headers: () => ({ "content-type": "application/json" }), text: () => body, url: req.url, status: () => 200 });
+  const emit = page as unknown as InstanceType<typeof EventEmitter>;
+  const initial = request(); emit.emit("request", initial); emit.emit("response", response(initial, Promise.resolve('{"slot":"19:00"}')));
+  assert.equal((await observer.snapshot(page)).length, 1);
+  let finishOld!: (body: string) => void;
+  const older = request(); emit.emit("request", older); emit.emit("response", response(older, new Promise(resolve => { finishOld = resolve; })));
+  const current = request(); emit.emit("request", current);
+  finishOld('{"slot":"stale"}');
+  assert.deepEqual(await observer.snapshot(page), [], "a newly requested query cannot reuse the old result");
+  emit.emit("response", response(current, Promise.resolve('{"slot":"18:45"}')));
+  assert.deepEqual((await observer.snapshot(page)).map(item => item.body), [{ slot: "18:45" }]);
 });

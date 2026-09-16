@@ -293,7 +293,36 @@ function selectedAttribute(attrs: string, names: string[]): string | undefined {
  * found in one unrelated control with a party size found elsewhere can bind stale
  * results to a new request, so page-wide value co-occurrence is deliberately invalid.
  */
+/** Isolate the one source-owned availability widget, not unrelated page-wide values. */
+function tableCheckGuideQuery(snapshot: BrowserSnapshot): { html: string; date: string; party: string; time: string } | undefined {
+  const starts = [...snapshot.html.matchAll(/<div\b[^>]*data-testid=["']Venue Availability["'][^>]*>/gi)];
+  if (starts.length !== 1) return undefined;
+  const start = starts[0]!;
+  const tail = snapshot.html.slice(start.index);
+  let depth = 0;
+  let html = "";
+  for (const tag of tail.matchAll(/<\/?div\b[^>]*>/gi)) {
+    depth += tag[0].startsWith("</") ? -1 : 1;
+    if (depth === 0) { html = tail.slice(0, tag.index! + tag[0].length); break; }
+  }
+  if (!html || /class=["'][^"']*\bskeleton\b/.test(html)) return undefined;
+  const attr = (tag: string, name: string) => tag.match(new RegExp(`\\b${name}=["']([^"']*)["']`, "i"))?.[1];
+  const dates = [...html.matchAll(/<button\b[^>]*>/gi)].map(match => match[0])
+    .filter(tag => attr(tag, "data-testid") === "day" && attr(tag, "aria-selected") === "true")
+    .map(tag => attr(tag, "data-date"));
+  const controls = [...html.matchAll(/<div\b[^>]*>/gi)].map(match => match[0]);
+  const pax = controls.filter(tag => attr(tag, "data-testid") === "Venue Pax Select");
+  const time = controls.filter(tag => attr(tag, "data-testid") === "Venue Time Select");
+  const date = dates.length === 1 ? dates[0]?.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/) : undefined;
+  const party = pax.length === 1 ? attr(pax[0]!, "id")?.match(/^pax-(\d+)$/)?.[1] : undefined;
+  const clock = time.length === 1 ? attr(time[0]!, "id")?.match(/^time-([0-2]\d:[0-5]\d)$/)?.[1] : undefined;
+  if (!date || !party || !clock) return undefined;
+  return {html, date:`${date[1]}-${date[2]!.padStart(2,"0")}-${date[3]!.padStart(2,"0")}`,party,time:clock};
+}
+
 export function hasTableCheckSelectedRequest(snapshot: BrowserSnapshot, date: string, partySize: number): boolean {
+  const guide = tableCheckGuideQuery(snapshot);
+  if (guide?.date === date && guide.party === String(partySize)) return true;
   for (const element of snapshot.html.matchAll(/<(?:form|section|div|main)[^>]*>/gi)) {
     const attrs = element[0] ?? "";
     const selectedDate = selectedAttribute(attrs, ["selected-date", "start-date", "date"]);
@@ -324,12 +353,45 @@ function explicitAvailability(value: string): boolean {
 /** A time is a slot only when the reservation UI explicitly marks it bookable. */
 export function parseTableCheckAvailabilitySlots(
   snapshot: BrowserSnapshot,
-  request?: { date: string; partySize: number },
+  request?: { date: string; partySize: number; timeWindow?: { earliest: string; latest: string } },
 ): TableCheckSlotParse {
+  const guide = tableCheckGuideQuery(snapshot);
+  // A message for one selected mealtime cannot prove an entire alternative-time window empty.
+  if (request && guide?.date === request.date && guide.party === String(request.partySize)
+    && request.timeWindow?.earliest === guide.time && request.timeWindow.latest === guide.time
+    && /data-testid=["']Venue Unavailable Msg["']/.test(guide.html)
+    && /We could not find a table on/.test(guide.html)) {
+    return { availableSlots: [], hasExplicitSlotUi: true, explicitlyEmpty: true, queryComplete: true };
+  }
   const slots = new Set<string>();
   let hasExplicitSlotUi = false;
   let explicitlyEmpty = false;
   let queryComplete = false;
+  // The public guide enumerates half-hour timeslot cards. Only a ready,
+  // request-bound widget with every requested card explicitly disabled can
+  // establish an empty window; missing cards and nearby available times cannot.
+  if (request?.timeWindow && guide?.date === request.date && guide.party === String(request.partySize)
+    && guide.time >= request.timeWindow.earliest && guide.time <= request.timeWindow.latest) {
+    const disabledTimes = new Set<string>();
+    for (const match of guide.html.matchAll(/<a\b[^>]*data-testid=["']Venue Timeslot Btn["'][^>]*>[\s\S]*?<\/a>/gi)) {
+      const card = match[0];
+      if (!/aria-disabled=["']true["']/.test(card) || !/<button\b[^>]*\sdisabled(?:=["'][^"']*["'])?[\s>]/.test(card)) continue;
+      const time = plainText(card);
+      if (/^(?:[01]\d|2[0-3]):(?:00|30)$/.test(time)) disabledTimes.add(time);
+    }
+    const minutes = (time: string) => Number(time.slice(0, 2)) * 60 + Number(time.slice(3));
+    const start = minutes(request.timeWindow.earliest);
+    const end = minutes(request.timeWindow.latest);
+    if (start <= end && start % 30 === 0 && end % 30 === 0) {
+      const requestedTimes = Array.from({length: (end - start) / 30 + 1}, (_, index) => {
+        const value = start + index * 30;
+        return `${String(Math.floor(value / 60)).padStart(2, "0")}:${String(value % 60).padStart(2, "0")}`;
+      });
+      explicitlyEmpty = requestedTimes.every(time => disabledTimes.has(time));
+      queryComplete = explicitlyEmpty;
+      hasExplicitSlotUi = explicitlyEmpty;
+    }
+  }
   // A page-wide phrase or a stray time must never be treated as a query result. The
   // provider needs an explicit result-state element; the caller binds it to the current
   // request component before accepting the result.
@@ -357,10 +419,18 @@ export function parseTableCheckAvailabilitySlots(
     // completed result for that request. It is read as evidence only; never opened.
     if (linkedSlots.length > 0) {
       hasExplicitSlotUi = true;
-      queryComplete = true;
+      // A nearby mealtime is not proof that the requested window is empty.
+      queryComplete ||= !request.timeWindow || linkedSlots.some(time => time >= request.timeWindow!.earliest && time <= request.timeWindow!.latest);
     }
   }
   return { availableSlots: [...slots].sort(), hasExplicitSlotUi, explicitlyEmpty, queryComplete };
+}
+
+/** A neighbouring restaurant's reservation link is never this outlet's stock. */
+function sameReservationOutlet(sourceUrl: string, link: URL): boolean {
+  const expected = stableSourceEntityId(sourceUrl).replace(/^shops\//, "");
+  const actual = link.pathname.match(/^\/(?:en|ja)\/shops\/([^/]+)\/reserve(?:\/landing)?\/?$/)?.[1];
+  return expected !== "unknown" && actual === expected;
 }
 
 function tableCheckReservationLinks(snapshot: BrowserSnapshot, date: string, partySize: number): string[] {
@@ -369,7 +439,7 @@ function tableCheckReservationLinks(snapshot: BrowserSnapshot, date: string, par
     const href = absoluteTableCheckUrl(match[1] ?? "", snapshot.url);
     if (!href) continue;
     const url = new URL(href);
-    if (!/\/reserve(?:\/|$)/.test(url.pathname)) continue;
+    if (!sameReservationOutlet(snapshot.url, url)) continue;
     const selectedDate = url.searchParams.get("start_date") ?? url.searchParams.get("date");
     const selectedParty = url.searchParams.get("num_people") ?? url.searchParams.get("pax") ?? url.searchParams.get("party_size");
     if (selectedDate !== date || selectedParty !== String(partySize)) continue;
@@ -384,20 +454,22 @@ export function parseTableCheckControlAvailability(
   controls: BrowserPageControl[],
   date: string,
   partySize: number,
+  sourceUrl: string,
+  timeWindow: { earliest: string; latest: string },
 ): TableCheckSlotParse {
   const slots = new Set<string>();
   for (const control of controls) {
     if (control.kind !== "LINK" || !control.href || control.disabled) continue;
     let url: URL;
     try { url = new URL(control.href); } catch { continue; }
-    if (!isTableCheckUrl(url.toString()) || !/\/reserve(?:\/|$)/.test(url.pathname)) continue;
+    if (!isTableCheckUrl(url.toString()) || !sameReservationOutlet(sourceUrl, url)) continue;
     const selectedDate = url.searchParams.get("start_date") ?? url.searchParams.get("date");
     const selectedParty = url.searchParams.get("num_people") ?? url.searchParams.get("pax") ?? url.searchParams.get("party_size");
     const time = url.searchParams.get("start_time") ?? timeIn(control.label);
     if (selectedDate === date && selectedParty === String(partySize) && time && /^([01]\d|2[0-3]):[0-5]\d$/.test(time)) slots.add(time);
   }
   const availableSlots = [...slots].sort();
-  return { availableSlots, hasExplicitSlotUi: availableSlots.length > 0, explicitlyEmpty: false, queryComplete: availableSlots.length > 0 };
+  return { availableSlots, hasExplicitSlotUi: availableSlots.length > 0, explicitlyEmpty: false, queryComplete: availableSlots.some(time => time >= timeWindow.earliest && time <= timeWindow.latest) };
 }
 
 function aliases(criterion: string): string[] {

@@ -269,6 +269,14 @@ test("a recorded current empty search supports only its bounded empty-result sco
   assert.equal(finding(result, "COMPLETION_OUTCOME").status, "SATISFIED");
   assert.equal(result.execution.taskProducedQualifiedResult, "NO");
   assert.ok(result.unassessedDimensions.some(d => /investigation sufficiency/i.test(d)));
+  const softPending: any = structuredClone(artifact);
+  softPending.materializedCase.semantic.criteria.push({ value: "quiet setting", polarity: "POSITIVE", strength: "SOFT" });
+  softPending.finalSnapshot.domainState.intentDraft.criteria.push({ text: "calm atmosphere", polarity: "POSITIVE", strength: "SOFT" });
+  const pendingEvaluation = evaluateRestaurantHybridLiveArtifact(softPending, source);
+  assert.equal(finding(pendingEvaluation, "AUTHORITATIVE_CONDITIONS").status, "NOT_EVALUATED");
+  assert.equal(finding(pendingEvaluation, "COMPLETION_OUTCOME").status, "NOT_EVALUATED");
+  assert.ok(!finding(pendingEvaluation, "COMPLETION_OUTCOME").observations.some(item => item.includes("No executed")));
+  assert.notEqual(pendingEvaluation.execution.taskProducedQualifiedResult, "YES");
   const unfinished = structuredClone(artifact);
   unfinished.loop.status = "STEP_LIMIT";
   assert.equal(finding(evaluateRestaurantHybridLiveArtifact(unfinished, source), "COMPLETION_OUTCOME").status, "NOT_SATISFIED", "An old no-result phase must not certify an unfinished execution");
@@ -437,7 +445,21 @@ test("H004 fact-only presentation requires applicable opening hours, not an avai
   assert.equal(finding(softRewrite, "AUTHORITATIVE_CONDITIONS").status, "NOT_EVALUATED");
   assert.match(finding(softRewrite, "AUTHORITATIVE_CONDITIONS").directCause, /semantic equivalence requires review/);
   assert.ok(softRewrite.unassessedDimensions.some((item) => item.includes("SOFT criterion")));
-  domain.intentDraft.criteria[1].text = "good for meeting a friend";
+  // A pending SOFT semantic review must not erase independently supported facts.
+  assert.equal(finding(softRewrite, "REQUIRED_EVIDENCE").status, "SATISFIED");
+  assert.equal(finding(softRewrite, "FINAL_CLAIM").status, "NOT_EVALUATED");
+  assert.notEqual(softRewrite.execution.taskProducedQualifiedResult, "YES");
+  for (const corrupt of [
+    (copy: any) => { copy.finalSnapshot.domainState.readEvidence.find((e: any) => e.evidenceId === "hard-a").claims.verifiedHardCriteria = []; },
+    (copy: any) => { copy.finalSnapshot.domainState.readEvidence.find((e: any) => e.evidenceId === "hard-a").candidateId = "wrong-candidate"; },
+    (copy: any) => { copy.trajectories[0].decisionContext.intentDraft.timeWindow = { earliest: "19:00", latest: "19:00" }; },
+  ]) {
+    const copy = structuredClone(artifact);
+    corrupt(copy);
+    const rejected = evaluateRestaurantHybridLiveArtifact(copy, source);
+    assert.notEqual(finding(rejected, "REQUIRED_EVIDENCE").status, "SATISFIED");
+    assert.notEqual(rejected.execution.taskProducedQualifiedResult, "YES");
+  }
   delete facts.claims.openingHoursMatch;
   assert.equal(finding(evaluateRestaurantHybridLiveArtifact(artifact, source), "REQUIRED_EVIDENCE").status, "NOT_EVALUATED");
 });
@@ -515,4 +537,27 @@ test("a saved exception artifact remains intact when post-finish evaluation fail
   const outcome = await evaluateArtifactAfterFinish(journal.resultPath, async () => { throw new Error("evaluator unavailable"); });
   assert.equal(outcome.evaluationFailure, "EVALUATION_FAILED");
   assert.equal(await readFile(journal.resultPath, "utf8"), before);
+});
+
+test("explicit alternative permission and equivalent area labels are independently checked", () => {
+  const artifact: any = completeArtifact();
+  const domain = artifact.finalSnapshot.domainState;
+  artifact.materializedCase.semantic.permittedAlternativeTimeWindow = {earliest:'18:30',latest:'19:30'};
+  domain.intentDraft.permittedAlternativeTimeWindow = {earliest:'18:30',latest:'19:30'};
+  domain.intentDraft.area.query = 'Shibuya';
+  domain.readEvidence.find((e: any)=>e.kind==='DISCOVERY').claims.areaQuery = 'Shibuya';
+  const offer = domain.availability['candidate-a'][0];
+  offer.dateTime = '2026-09-08T18:30:00+09:00'; offer.alternativeToRequestedTime = true;
+  domain.readEvidence.find((e:any)=>e.kind==='AVAILABILITY').claims.visibleSlots = ['18:30'];
+  assert.equal(evaluateRestaurantHybridLiveArtifact(artifact,source).execution.taskProducedQualifiedResult,'YES');
+  for (const mutate of [
+    (a:any)=>{delete a.materializedCase.semantic.permittedAlternativeTimeWindow},
+    (a:any)=>{a.finalSnapshot.domainState.intentDraft.permittedAlternativeTimeWindow.latest='20:00'},
+    (a:any)=>{a.finalSnapshot.domainState.availability['candidate-a'][0].dateTime='2026-09-08T20:00:00+09:00'},
+    (a:any)=>{delete a.finalSnapshot.domainState.availability['candidate-a'][0].alternativeToRequestedTime},
+    (a:any)=>{a.finalSnapshot.domainState.readEvidence.find((e:any)=>e.kind==='DISCOVERY').claims.areaQuery='Shinjuku'},
+  ]) {
+    const changed=structuredClone(artifact);mutate(changed);
+    assert.equal(evaluateRestaurantHybridLiveArtifact(changed,source).execution.taskProducedQualifiedResult,'NO');
+  }
 });
