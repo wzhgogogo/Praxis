@@ -566,8 +566,11 @@ export async function evaluateArtifactFile(inputPath: string): Promise<{ evaluat
   const artifactPath = resolve(inputPath); const source = await readFile(artifactPath, "utf8"); const evaluation = evaluateRestaurantHybridLiveArtifact(JSON.parse(source), { path: artifactPath, sha256: sha256(source) }); const outputPath = evaluationOutputPath(artifactPath, RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION.split("@")[1]!.replace(/[^a-z0-9]+/gi, "-")); await mkdir(dirname(outputPath), { recursive: true }); await writeFile(outputPath, JSON.stringify(evaluation, null, 2), { flag: "wx" }); return { evaluation, outputPath };
 }
 /** A failed evaluation is an immutable sidecar and never changes an already saved execution artifact. */
-export async function evaluateArtifactAfterFinish(inputPath: string, evaluate: typeof evaluateArtifactFile = evaluateArtifactFile): Promise<{ outputPath?: string; evaluationFailure?: string; failurePath?: string }> {
-  try { return { outputPath: (await evaluate(inputPath)).outputPath }; } catch (error) {
+export async function evaluateArtifactAfterFinish(inputPath: string, evaluate: typeof evaluateArtifactFile = evaluateArtifactFile): Promise<{ outputPath?: string; evaluation?: RestaurantHybridDiagnosticEvaluation; evaluationFailure?: string; failurePath?: string }> {
+  try {
+    const outcome = await evaluate(inputPath);
+    return { outputPath: outcome.outputPath, evaluation: outcome.evaluation };
+  } catch (error) {
     const artifactPath = resolve(inputPath); const code = error instanceof Error && "code" in error && typeof error.code === "string" && /^[A-Z][A-Z0-9_]{0,63}$/.test(error.code) ? error.code : "EVALUATION_FAILED"; const failurePath = evaluationOutputPath(artifactPath, "failed");
     try {
       await mkdir(dirname(failurePath), { recursive: true });
