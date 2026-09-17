@@ -3,9 +3,17 @@ import type { CurrentDevelopmentScenarioId } from "./current-development-source-
 
 export type FixedSourceExpectation = {
   /** A predeclared acceptance rule, never inferred from the run's output. */
-  kind: "QUALIFIED_RESULT" | "NO_QUALIFIED_RESULT";
-  userGoalComplete: boolean;
-  requiredDimensions: readonly ["AUTHORITATIVE_CONDITIONS", "REQUIRED_EVIDENCE", "FINAL_CLAIM", "COMPLETION_OUTCOME"];
+  kind: "QUALIFIED_RESULT" | "VERIFIED_NO_RESULT" | "NEEDS_USER_INPUT" | "USER_CANCELLED" | "BUDGET_OR_DEADLINE_STOP";
+  /** The expected lifecycle record, not an inferred synonym for no result. */
+  execution: {
+    status: "SUCCEEDED" | "FAILED" | "CANCELLED";
+    loopStatus?: "TERMINAL" | "WAITING_USER" | "CANCELLED";
+    phase?: "PRESENT_RESULTS" | "NO_VERIFIED_RESULT" | "NEEDS_INPUT" | "SEARCHING" | "FAILED";
+    failureCodes?: readonly string[];
+  };
+  /** Necessary fixture gaps block; explicitly optional gaps remain reportable. */
+  coverage: { necessary: boolean; optionalSources?: readonly string[] };
+  requiredDimensions: readonly ("AUTHORITATIVE_CONDITIONS" | "REQUIRED_EVIDENCE" | "FINAL_CLAIM" | "COMPLETION_OUTCOME")[];
 };
 
 export type FixedSourceCaseRegistration = {
@@ -19,7 +27,8 @@ export type FixedSourceCaseRegistration = {
 
 const positiveExpectation: FixedSourceExpectation = {
   kind: "QUALIFIED_RESULT",
-  userGoalComplete: true,
+  execution: { status: "SUCCEEDED", loopStatus: "TERMINAL", phase: "PRESENT_RESULTS" },
+  coverage: { necessary: true },
   requiredDimensions: ["AUTHORITATIVE_CONDITIONS", "REQUIRED_EVIDENCE", "FINAL_CLAIM", "COMPLETION_OUTCOME"],
 };
 

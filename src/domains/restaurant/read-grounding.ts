@@ -367,6 +367,10 @@ export function groundGoogleDiscovery(
           // This is an unverified discovery pointer.  It cannot by itself make
           // the URL an official source or ground a RestaurantFact.
           ...(observation.websiteUri ? { googleWebsiteUri: observation.websiteUri } : {}),
+          // A Google-listed public URL remains merely a discovery pointer.
+          // Provider adapters may accept it only after their own origin and
+          // outlet-identity checks.
+          ...(observation.googleMapsUri ? { googleMapsUri: observation.googleMapsUri } : {}),
         },
         address: observation.formattedAddress.trim(),
         ...(observation.location?.latitude !== undefined && observation.location.longitude !== undefined

@@ -194,7 +194,7 @@ test("current H001-H005 raw requests complete through the real offline Hybrid co
     assert.ok(rawContent.length > 0, "the frozen user message is immutable test input");
     const observedAt = new Date(plan.referenceTime).toISOString();
     const model = new FixedCurrentCaseModel(plan, rawContent);
-    const sources = createCurrentDevelopmentFixedSources(currentDevelopmentSourceScenario(plan.id), observedAt, model);
+    const sources = createCurrentDevelopmentFixedSources(currentDevelopmentSourceScenario(plan.id), { now: () => observedAt }, model);
     const taskId = `offline-current:${plan.id}`;
     const composition = createHybridReadComposition({
       taskId, runId: `run:${taskId}`, clock: { now: () => new Date(observedAt) }, model,
@@ -252,7 +252,7 @@ test("a new task and new source scenario reuse the fixed Hybrid composition with
   const plan = NEW_VEGETARIAN_LUNCH_PLAN;
   const observedAt = new Date(plan.referenceTime).toISOString();
   const model = new FixedCurrentCaseModel(plan, "Find a vegetarian restaurant near Shibuya tomorrow at 12:30 PM for three. No ramen.");
-  const sources = createCurrentDevelopmentFixedSources(currentDevelopmentSourceScenario("new-vegetarian-lunch"), observedAt, model);
+  const sources = createCurrentDevelopmentFixedSources(currentDevelopmentSourceScenario("new-vegetarian-lunch"), { now: () => observedAt }, model);
   const taskId = "offline-current:new-vegetarian-lunch";
   const composition = createHybridReadComposition({
     taskId, runId: `run:${taskId}`, clock: { now: () => new Date(observedAt) }, model,
@@ -270,6 +270,12 @@ test("a new task and new source scenario reuse the fixed Hybrid composition with
   assert.equal(sources.calls.search, 1);
   assert.equal(sources.calls.facts, 1);
   assert.equal(sources.calls.availability, 1);
+  assert.ok(model.requests.some((request) => request.purpose === "restaurant_fact_judgment"), "non-verbatim HARD evidence must pass through the bounded cited judgment boundary");
+  const candidateId = state.presentedResults?.candidateIds[0]!;
+  const judgment = state.readEvidence.find((evidence) => evidence.provider === "MODEL_JUDGMENT" && evidence.candidateId === candidateId);
+  assert.ok(judgment, "the state must retain the cited judgment evidence rather than a hand-injected eligibility flag");
+  assert.deepEqual(judgment.claims.verifiedHardCriteria, ["vegetarian restaurant"]);
+  assert.ok((judgment.claims.supportingEvidenceIds as string[]).length > 0, "the judgment must cite a source observation");
   model.assertConsumed();
 });
 

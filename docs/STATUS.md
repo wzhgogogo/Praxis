@@ -1,13 +1,15 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.40
+- Document revision: 4.41
 - Last updated: 2026-09-17
 - Source of truth for: 已实现能力、已验证范围、明确未验证项与下一道门槛
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Documentation Index](INDEX.md), [Roadmap](roadmap.md), [Verification History](history/TEST-LOG.md)
 
 ## 最新审查与当前门槛
+
+2026-09-17 以 987c77e 为基线的 fixed-source 测试机制补修完成离线门槛：来源观察已按 Google／TableCheck 独立配置；未配置来源的结构化 coverage gap 进入统一验收并对必要路径返回 BLOCKED/nonzero；等待只接受实际配置目标；受控业务时钟在每次来源观察时读取并保留独立样本采集时间；统一验收现在区分合格结果、已核实无结果、补问、取消及预算/deadline 停止。定向23/23、typecheck、arch、build和授权本地默认410/410通过。沙箱浏览器启动受 Mach-port 限制，授权本地 Chromium 只使用合成页面；不构成外站验证。详见[补修覆盖报告](history/FIXED-SOURCE-CLOSURE-2026-09-17.md)。真实模型理解、自由文本语义、网站兼容性/库存、反爬与搜索完备性仍未由本轮证明。
 
 2026-09-17 H001 身份与入口复核的最小修复已完成离线门槛：B1F/1F、同电话异址和“邮编+楼层”三个原反例均已不再产生 HIGH/同址；TableCheck 运行级入口账本会复用 Teppen 观察到的 Hajime 入口但逐候选重新验身，无关缓存不会跳过当前 discovery，read run 结束也不会残留入口；两个 Adapter 的已列 merchant URL 先经身份门槛再搜索。定向55/55、typecheck、arch、build、diff check及授权全量392/392均通过。随后三条固定 saved-entrance Live Read-only probe（Teppen、Hajime、Nasu）均在默认 Cloudflare Browser Run 的 session 创建阶段 `BROWSER_RUNTIME_FAILED`，未产生 snapshot、模型/Google 调用或外部写；本机 headless Chromium 可单独启动，未访问外站。按“一次固定 Live、不自动重跑”边界未切换引擎复试；不构成来源、库存或产品验收。详见[定向后续记录](history/H001-IDENTITY-ENTRANCE-FOLLOWUP-2026-09-17.md)，交回原研究者 Review，不能自称独立 Review 已通过。
 

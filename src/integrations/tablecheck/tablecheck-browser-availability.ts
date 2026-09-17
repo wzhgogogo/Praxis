@@ -163,7 +163,15 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
       session = await this.executor.acquire(signal, "TABLECHECK", "DISCOVERY");
       const browser = { ...session.metadata };
       const discoveryUrl = tableCheckDiscoveryUrl(candidate);
-      const listedOutletUrl = listedTableCheckOutletUrl(candidate.restaurant.sourceIds.googleWebsiteUri);
+      const listedOutletUrl = listedTableCheckOutletUrl(
+        candidate.restaurant.sourceIds.googleListedTableCheckUri
+        ?? candidate.restaurant.sourceIds.googleMapsUri
+        ?? candidate.restaurant.sourceIds.googleWebsiteUri,
+      );
+      // A Google-listed TableCheck URL is an observed entrance, not identity
+      // proof. Keep it for later candidates only as a lead; every use below
+      // still passes inspectTableCheckEntity before inventory is accepted.
+      if (listedOutletUrl) this.options.entryLedger?.observe(listedOutletUrl);
       let directIdentityVerified = false;
       let directPage: BrowserSnapshot | undefined;
       if (listedOutletUrl) {

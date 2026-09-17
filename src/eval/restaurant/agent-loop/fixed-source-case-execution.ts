@@ -58,7 +58,7 @@ export async function executeFixedSourceCase(input: {
       return settleAtRunDeadline(input.model.complete({ ...request, timeoutMs: Math.min(request.timeoutMs, remainingMs) }), deadline);
     },
   };
-  const sources = createCurrentDevelopmentFixedSources(scenario, businessClock.now().toISOString(), guardedModel);
+  const sources = createCurrentDevelopmentFixedSources(scenario, businessClock, guardedModel);
   const composition = createHybridReadComposition({
     taskId: input.taskId,
     runId: `run:${input.taskId}`,
@@ -80,11 +80,11 @@ export async function executeFixedSourceCase(input: {
     if ((semantic as { status?: string }).status !== "PROPOSED") throw Object.assign(new Error("Semantic Interpreter did not produce a proposal"), { code: (semantic as { status?: string }).status ?? "SEMANTIC_FAILED" });
     const loop = await settleAtRunDeadline(composition.coordinator.run(input.taskId, deadline), deadline);
     const finalSnapshot = composition.runtime.snapshot(input.taskId);
-    const success = loop.status === "TERMINAL" && ["PRESENT_RESULTS", "NO_VERIFIED_RESULT"].includes(finalSnapshot.domainState.phase);
+    const success = (loop.status === "TERMINAL" && ["PRESENT_RESULTS", "NO_VERIFIED_RESULT"].includes(finalSnapshot.domainState.phase)) || loop.status === "WAITING_USER";
     return {
       registration: input.registration, materializedCase: input.materializedCase, sourceScenarioId: scenario.scenarioId, semantic, loop, finalSnapshot,
       trajectories: composition.trajectories.steps, events: composition.runtime.eventLog, sourceCalls: sources.calls,
-      execution: success ? { status: "SUCCEEDED", loopStatus: loop.status, phase: finalSnapshot.domainState.phase } : { status: "FAILED", loopStatus: loop.status, phase: finalSnapshot.domainState.phase, failureCode: "FIXED_SOURCE_CASE_NOT_COMPLETED" },
+      execution: success ? { status: "SUCCEEDED", loopStatus: loop.status, phase: finalSnapshot.domainState.phase } : loop.status === "CANCELLED" ? { status: "CANCELLED", loopStatus: loop.status, phase: finalSnapshot.domainState.phase, failureCode: "CANCELLED" } : { status: "FAILED", loopStatus: loop.status, phase: finalSnapshot.domainState.phase, failureCode: "FIXED_SOURCE_CASE_NOT_COMPLETED" },
       elapsedMs: Date.now() - started,
     };
   } catch (error) {

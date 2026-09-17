@@ -81,7 +81,7 @@ try {
   };
   await journal.finish({ ...artifact, status: result.execution.status, stage: result.execution.status === "SUCCEEDED" ? "AGENT_LOOP" : "EXECUTION", failureCode: result.execution.failureCode ?? null, execution: result.execution });
   const evaluation = await evaluateArtifactAfterFinish(journal.resultPath);
-  const acceptance = assessFixedSourceAcceptance({ expectation: registration.expectation, execution: result.execution, ...(evaluation.evaluation ? { evaluation: evaluation.evaluation } : {}), ...(evaluation.evaluationFailure ? { evaluationFailure: evaluation.evaluationFailure } : {}) });
+  const acceptance = assessFixedSourceAcceptance({ expectation: registration.expectation, execution: result.execution, coverageGaps: result.sourceCalls.coverageGaps, ...(evaluation.evaluation ? { evaluation: evaluation.evaluation } : {}), ...(evaluation.evaluationFailure ? { evaluationFailure: evaluation.evaluationFailure } : {}) });
   console.log(JSON.stringify({ mode: artifact.mode, caseId, sourceEnvironment: artifact.sourceEnvironment, execution: result.execution, acceptance, resourceUsage, artifactPath: journal.resultPath, evaluationPath: evaluation.outputPath, evaluationFailure: evaluation.evaluationFailure, evaluationFailurePath: evaluation.failurePath }, null, 2));
   process.exitCode = acceptance.exitCode;
 } catch (error) {
