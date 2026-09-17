@@ -59,7 +59,8 @@ export function assessFixedSourceAcceptance(input: {
   if (input.expectation.kind === "QUALIFIED_RESULT" && qualified !== "YES") reasons.push(`Expected QUALIFIED_RESULT, got ${qualified}.`);
   if (input.expectation.kind === "VERIFIED_NO_RESULT" && (qualified !== "NO" || evaluation.execution.completion !== "NO_VERIFIED_RESULT")) reasons.push(`Expected independently supported no-result, got ${qualified}/${evaluation.execution.completion}.`);
   if (input.expectation.kind === "NEEDS_USER_INPUT" && evaluation.execution.completion !== "NEEDS_USER_INPUT") reasons.push(`Expected NEEDS_USER_INPUT evaluator completion, got ${evaluation.execution.completion}.`);
-  if (["USER_CANCELLED", "BUDGET_OR_DEADLINE_STOP"].includes(input.expectation.kind) && evaluation.execution.completion === "NO_VERIFIED_RESULT") reasons.push("An internal/cancel stop cannot be relabeled as a verified no-result.");
+  if (input.expectation.kind === "USER_CANCELLED" && evaluation.execution.completion !== "CANCELLED") reasons.push(`Expected CANCELLED evaluator completion, got ${evaluation.execution.completion}.`);
+  if (input.expectation.kind === "BUDGET_OR_DEADLINE_STOP" && evaluation.execution.completion !== "BUDGET_OR_DEADLINE_STOP") reasons.push(`Expected BUDGET_OR_DEADLINE_STOP evaluator completion, got ${evaluation.execution.completion}.`);
   const acceptance = reasons.length ? "FAIL" : "PASS";
   // Completion is derived from the independently evaluated produced result,
   // never merely copied from a case registration boolean.

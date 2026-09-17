@@ -415,3 +415,10 @@ the A–D testing mechanism gaps only; real-model interpretation, free-text
 quality, current source compatibility/inventory, anti-bot behavior and search
 exhaustiveness remain unproven. Full evidence is in
 [the regression-defense report](history/REGRESSION-TEST-DEFENSE-REPORT-2026-09-17.md).
+
+Evaluator/rubric@16 additionally reads the saved execution record for a
+controlled cancellation or model-budget stop. The actual stop artifact, rather
+than a hand-filled evaluation, can now pass its matching acceptance contract
+while reporting `userGoalCompletion: NOT_COMPLETE`; a mismatched stop reason
+fails. This remains offline fixed-transport evidence, not a real-model cost or
+Live outcome.

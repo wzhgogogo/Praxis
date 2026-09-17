@@ -7,8 +7,8 @@ export type FixedSourceExpectation = {
   /** The expected lifecycle record, not an inferred synonym for no result. */
   execution: {
     status: "SUCCEEDED" | "FAILED" | "CANCELLED";
-    loopStatus?: "TERMINAL" | "WAITING_USER" | "CANCELLED";
-    phase?: "PRESENT_RESULTS" | "NO_VERIFIED_RESULT" | "NEEDS_INPUT" | "SEARCHING" | "FAILED";
+    loopStatus?: "TERMINAL" | "WAITING_USER" | "CANCELLED" | "MODEL_FAILURE";
+    phase?: "UNDERSTANDING" | "PRESENT_RESULTS" | "NO_VERIFIED_RESULT" | "NEEDS_INPUT" | "SEARCHING" | "FAILED";
     failureCodes?: readonly string[];
   };
   /** Necessary fixture gaps block; explicitly optional gaps remain reportable. */

@@ -2320,3 +2320,24 @@ Fixed source data now represents candidate-specific venue identity, pages and da
 Split the test source's Google and TableCheck observations into independently configurable identities, listed links and inventory. A public entrance found for one candidate is now retained only as a run-scoped navigation hint and is identity-checked again before another candidate can receive inventory. The controlled vegetarian sample changes its source type wording to a non-verbatim positive HARD fact; the explicitly marked fixture model returns a cited judgment through the production fact/read/state chain, not a manually inserted eligibility answer.
 
 Fixed-source transport now records source/stage/request/candidate/reason coverage gaps even when a production adapter wraps the transport exception. Acceptance receives those records: necessary gaps block with nonzero status; optional gaps require an independently qualified result. The factory takes a clock rather than a fixed timestamp, records each observation time separately from sample capture time, and fixture waitFor checks the requested supported selector. Unified acceptance now declares and verifies normal result, verified no-result, needs-input, cancellation and budget/deadline records rather than treating every negative path as a successful terminal no-result. No Prompt, Gold, user request, paid model, Live source action or external write was changed. [Coverage report](FIXED-SOURCE-CLOSURE-2026-09-17.md).
+
+## 2026-09-17 Controlled-stop artifact acceptance
+
+The fixed-source execution helper now accepts a controlled cancellation signal
+and a bounded model-call ceiling solely for offline test execution, recording
+the actual admitted call count and the transport's original failure code. This
+does not change restaurant action selection or any production stop policy.
+The evaluator/rubric is `@16`: it recognizes a saved `CANCELLED` record and a
+saved model-budget record as distinct completion kinds, while preserving
+internal execution failures as failures. Acceptance now requires the matching
+completion kind as well as status, phase/loop where declared, reason and
+required evaluator dimensions; it derives user-goal completion from the actual
+evaluation, so both approved stops remain `NOT_COMPLETE`.
+
+The regression serializes each real controlled-composition result to a temporary
+artifact, invokes the normal artifact evaluator to create its immutable sidecar,
+then passes that evaluation to acceptance. It does not construct evaluator
+findings or score results by hand. An abort after semantic interpretation and a
+one-call budget each pass only their matching contract; evaluating the budget
+artifact as cancellation fails. No Prompt, Gold, product decision rule, paid
+model, provider, Live read or external write changed.

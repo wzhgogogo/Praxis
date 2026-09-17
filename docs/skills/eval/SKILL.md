@@ -170,7 +170,7 @@ Browser检测、尝试、生效验证分别报告；静态禁止写入声明不�
 
 Web和Harness若声明同一能力，执行记录应进入同一诊断入口或明确缺口。先保存执行artifact，再生成独立评价；评价故障不能覆盖执行结果。集成测试、模型质量、来源实时可用性分别报告。
 
-`restaurant-hybrid-read-diagnostic-evaluator@15`是当前Hybrid runner与普通Web共同使用的最小确定性诊断，不是完整E2E评分器，也不调用LLM Judge。它按保存的`target.goal`分别检查预约空位展示与事实型展示；每项正向或负向HARD条件都需要同一候选的来源事实，负向条件的明确冲突保持冲突、缺事实保持`UNKNOWN`，不从关键词缺失推导满足。派生`MODEL_JUDGMENT`必须引用同候选、已身份关联的原始事实，不能借provider或entity字段伪装为原文；任意自由文本重查理由也不会免除重复执行检查。它不按`caseId`补充或修改执行语义。执行结束后先保存原始`.result.json`，再写入一个不覆盖原记录的evaluation文件；成功、可确认无结果、用户补问、内部执行失败和可收尾取消都分别记录完成类别后再尝试评价。评价本身失败时另写不可变的失败sidecar，绝不覆盖执行结果；强杀后仍可显式补评已有artifact：
+`restaurant-hybrid-read-diagnostic-evaluator@16`是当前Hybrid runner与普通Web共同使用的最小确定性诊断，不是完整E2E评分器，也不调用LLM Judge。它按保存的`target.goal`分别检查预约空位展示与事实型展示；每项正向或负向HARD条件都需要同一候选的来源事实，负向条件的明确冲突保持冲突、缺事实保持`UNKNOWN`，不从关键词缺失推导满足。派生`MODEL_JUDGMENT`必须引用同候选、已身份关联的原始事实，不能借provider或entity字段伪装为原文；任意自由文本重查理由也不会免除重复执行检查。它不按`caseId`补充或修改执行语义。执行结束后先保存原始`.result.json`，再写入一个不覆盖原记录的evaluation文件；成功、可确认无结果、用户补问、受控取消、受控预算/截止停止和内部执行失败分别记录完成类别后再尝试评价。取消和预算停止只接受artifact的实际execution status/failureCode，绝不由“没有合格结果”推导；它们仍明确报告用户目标未完成。评价本身失败时另写不可变的失败sidecar，绝不覆盖执行结果；强杀后仍可显式补评已有artifact：
 
 ```bash
 npm run eval:restaurant:agent-loop:artifact -- <artifact.result.json>

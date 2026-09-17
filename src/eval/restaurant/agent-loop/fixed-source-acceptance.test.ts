@@ -14,7 +14,7 @@ const exhausted: FixedSourceExpectation = { kind: "BUDGET_OR_DEADLINE_STOP", exe
 
 function evaluation(overrides: Partial<RestaurantHybridDiagnosticEvaluation["execution"]> = {}, failedDimension?: string): RestaurantHybridDiagnosticEvaluation {
   return {
-    schemaVersion: "1", evaluatorVersion: "restaurant-hybrid-read-diagnostic-evaluator@15", rubricVersion: "restaurant-hybrid-read-diagnostic-rubric@15", rubricStatus: "DRAFT_DIAGNOSTIC_ONLY",
+    schemaVersion: "1", evaluatorVersion: "restaurant-hybrid-read-diagnostic-evaluator@16", rubricVersion: "restaurant-hybrid-read-diagnostic-rubric@16", rubricStatus: "DRAFT_DIAGNOSTIC_ONLY",
     sourceArtifact: { path: "fixture", sha256: "fixture" },
     execution: { status: "SUCCEEDED", stage: "AGENT_LOOP", taskProducedQualifiedResult: "YES", systemBehavior: "SUPPORTED_BY_EVIDENCE", externalConditions: "OBSERVED", evidenceSufficiency: "SUFFICIENT_FOR_PRESENTED_RESULT", completion: "PRESENTATION_RECORDED", ...overrides },
     candidateSummaries: [],
@@ -41,11 +41,11 @@ test("verified no-result passes only with matching no-result evidence", () => {
 test("input pause, cancellation, and budget stops are distinct accepted behaviors", () => {
   const input = assessFixedSourceAcceptance({ expectation: missingInput, execution: { status: "SUCCEEDED", loopStatus: "WAITING_USER", phase: "NEEDS_INPUT" }, evaluation: evaluation({ taskProducedQualifiedResult: "UNKNOWN", completion: "NEEDS_USER_INPUT" }) });
   assert.equal(input.acceptance, "PASS");
-  const cancelledOk = assessFixedSourceAcceptance({ expectation: cancelled, execution: { status: "CANCELLED", loopStatus: "CANCELLED", phase: "SEARCHING", failureCode: "CANCELLED" }, evaluation: evaluation({ taskProducedQualifiedResult: "UNKNOWN", completion: "INTERNAL_EXECUTION_FAILURE" }) });
+  const cancelledOk = assessFixedSourceAcceptance({ expectation: cancelled, execution: { status: "CANCELLED", loopStatus: "CANCELLED", phase: "SEARCHING", failureCode: "CANCELLED" }, evaluation: evaluation({ taskProducedQualifiedResult: "NO", completion: "CANCELLED" }) });
   assert.equal(cancelledOk.acceptance, "PASS");
   const cancellationPretendingToBeInput = assessFixedSourceAcceptance({ expectation: missingInput, execution: { status: "CANCELLED", loopStatus: "CANCELLED", phase: "SEARCHING", failureCode: "CANCELLED" }, evaluation: evaluation({ taskProducedQualifiedResult: "UNKNOWN", completion: "NEEDS_USER_INPUT" }) });
   assert.equal(cancellationPretendingToBeInput.acceptance, "FAIL");
-  const budgetOk = assessFixedSourceAcceptance({ expectation: exhausted, execution: { status: "FAILED", phase: "SEARCHING", failureCode: "MODEL_CALL_BUDGET_EXHAUSTED" }, evaluation: evaluation({ taskProducedQualifiedResult: "UNKNOWN", completion: "INTERNAL_EXECUTION_FAILURE" }) });
+  const budgetOk = assessFixedSourceAcceptance({ expectation: exhausted, execution: { status: "FAILED", phase: "SEARCHING", failureCode: "MODEL_CALL_BUDGET_EXHAUSTED" }, evaluation: evaluation({ taskProducedQualifiedResult: "NO", completion: "BUDGET_OR_DEADLINE_STOP" }) });
   assert.equal(budgetOk.acceptance, "PASS");
   const wrongBudgetReason = assessFixedSourceAcceptance({ expectation: exhausted, execution: { status: "FAILED", phase: "SEARCHING", failureCode: "NETWORK_FAILED" }, evaluation: evaluation({ taskProducedQualifiedResult: "UNKNOWN", completion: "INTERNAL_EXECUTION_FAILURE" }) });
   assert.equal(wrongBudgetReason.acceptance, "FAIL");

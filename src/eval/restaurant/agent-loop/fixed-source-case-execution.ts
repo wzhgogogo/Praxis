@@ -19,6 +19,8 @@ export type FixedSourceCaseExecution = {
   trajectories: ReturnType<typeof createHybridReadComposition>["trajectories"]["steps"];
   events: ReturnType<typeof createHybridReadComposition>["runtime"]["eventLog"];
   sourceCalls: ReturnType<typeof createCurrentDevelopmentFixedSources>["calls"];
+  /** Actual calls admitted by this controlled transport, including semantic parsing. */
+  modelCalls: number;
   execution: { status: "SUCCEEDED" | "FAILED" | "CANCELLED"; loopStatus?: string; phase?: string; failureCode?: string };
   elapsedMs: number;
 };
@@ -41,6 +43,10 @@ export async function executeFixedSourceCase(input: {
   clock?: RuntimeClock;
   maxSteps?: number;
   deadlineMs?: number;
+  /** A controlled user cancellation passed into the real runtime chain. */
+  signal?: AbortSignal;
+  /** A controlled transport budget; it never changes product action policy. */
+  maxModelCalls?: number;
 }): Promise<FixedSourceCaseExecution> {
   const started = Date.now();
   const scenario = currentDevelopmentSourceScenario(input.registration.sourceScenarioId);
@@ -50,12 +56,26 @@ export async function executeFixedSourceCase(input: {
   // Default time begins at the registered reference point and advances with
   // real elapsed execution; deterministic snapshots must opt in via `clock`.
   const businessClock = input.clock ?? { now: () => new Date(businessStart + Date.now() - started) };
-  const deadline = AbortSignal.timeout(Math.max(1, input.deadlineMs ?? 5_000));
+  const deadline = input.signal
+    ? AbortSignal.any([AbortSignal.timeout(Math.max(1, input.deadlineMs ?? 5_000)), input.signal])
+    : AbortSignal.timeout(Math.max(1, input.deadlineMs ?? 5_000));
+  let modelCalls = 0;
+  let lastModelFailureCode: string | undefined;
   const guardedModel: ModelGateway = {
     async complete(request) {
       if (deadline.aborted) throw Object.assign(new Error("Run deadline reached before model invocation"), { code: "CANCELLED" });
+      if (input.maxModelCalls !== undefined && modelCalls >= input.maxModelCalls) {
+        lastModelFailureCode = "MODEL_CALL_BUDGET_EXHAUSTED";
+        throw Object.assign(new Error("Fixed-source model-call budget reached"), { code: lastModelFailureCode });
+      }
+      modelCalls += 1;
       const remainingMs = Math.max(1, (input.deadlineMs ?? 5_000) - (Date.now() - started));
-      return settleAtRunDeadline(input.model.complete({ ...request, timeoutMs: Math.min(request.timeoutMs, remainingMs) }), deadline);
+      try {
+        return await settleAtRunDeadline(input.model.complete({ ...request, timeoutMs: Math.min(request.timeoutMs, remainingMs) }), deadline);
+      } catch (error) {
+        lastModelFailureCode = failureCode(error);
+        throw error;
+      }
     },
   };
   const sources = createCurrentDevelopmentFixedSources(scenario, businessClock, guardedModel);
@@ -83,8 +103,8 @@ export async function executeFixedSourceCase(input: {
     const success = (loop.status === "TERMINAL" && ["PRESENT_RESULTS", "NO_VERIFIED_RESULT"].includes(finalSnapshot.domainState.phase)) || loop.status === "WAITING_USER";
     return {
       registration: input.registration, materializedCase: input.materializedCase, sourceScenarioId: scenario.scenarioId, semantic, loop, finalSnapshot,
-      trajectories: composition.trajectories.steps, events: composition.runtime.eventLog, sourceCalls: sources.calls,
-      execution: success ? { status: "SUCCEEDED", loopStatus: loop.status, phase: finalSnapshot.domainState.phase } : loop.status === "CANCELLED" ? { status: "CANCELLED", loopStatus: loop.status, phase: finalSnapshot.domainState.phase, failureCode: "CANCELLED" } : { status: "FAILED", loopStatus: loop.status, phase: finalSnapshot.domainState.phase, failureCode: "FIXED_SOURCE_CASE_NOT_COMPLETED" },
+      trajectories: composition.trajectories.steps, events: composition.runtime.eventLog, sourceCalls: sources.calls, modelCalls,
+      execution: success ? { status: "SUCCEEDED", loopStatus: loop.status, phase: finalSnapshot.domainState.phase } : loop.status === "CANCELLED" ? { status: "CANCELLED", loopStatus: loop.status, phase: finalSnapshot.domainState.phase, failureCode: "CANCELLED" } : { status: "FAILED", loopStatus: loop.status, phase: finalSnapshot.domainState.phase, failureCode: lastModelFailureCode ?? "FIXED_SOURCE_CASE_NOT_COMPLETED" },
       elapsedMs: Date.now() - started,
     };
   } catch (error) {
@@ -92,7 +112,7 @@ export async function executeFixedSourceCase(input: {
     const code = failureCode(error);
     return {
       registration: input.registration, materializedCase: input.materializedCase, sourceScenarioId: scenario.scenarioId, semantic,
-      trajectories: composition.trajectories.steps, events: composition.runtime.eventLog, sourceCalls: sources.calls, finalSnapshot,
+      trajectories: composition.trajectories.steps, events: composition.runtime.eventLog, sourceCalls: sources.calls, modelCalls, finalSnapshot,
       execution: { status: code === "CANCELLED" ? "CANCELLED" : "FAILED", phase: finalSnapshot.domainState.phase, failureCode: code },
       elapsedMs: Date.now() - started,
     };
