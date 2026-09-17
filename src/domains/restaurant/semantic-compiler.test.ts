@@ -130,7 +130,7 @@ test("Restaurant Semantic Compiler materializes Tokyo relative time in code and 
     patch: {
       schemaVersion: "3", date: "2026-09-14", timeWindow: { earliest: "12:00", latest: "17:00" },
       temporalResolution: {
-        policyVersion: "restaurant-temporal-materialization@3",
+        policyVersion: "restaurant-temporal-materialization@5",
         referenceTime: "2026-09-14T00:30:00-07:00", timezone: "Asia/Tokyo",
         date: { expression: "today", resolvedDate: "2026-09-14", basis: "TODAY" },
         timeWindow: { expression: "this afternoon", resolvedTimeWindow: { earliest: "12:00", latest: "17:00" }, basis: "DAYPART:AFTERNOON" },
@@ -187,6 +187,32 @@ test("Restaurant Semantic Compiler carries a relative offset across Tokyo midnig
     assert.deepEqual(result.patch.timeWindow, { earliest: "08:30", latest: "08:30" });
     assert.equal(result.patch.temporalResolution?.timeWindow?.basis, "RELATIVE_OFFSET_MINUTES:120");
   }
+});
+
+test("right now records a bounded immediate contract and never authorizes an implicit later slot", () => {
+  const result = compileRestaurantSemanticProposal({
+    schemaVersion: "3",
+    facts: [{ field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", relativeOffsetMinutes: 0, raw: "right now" } }],
+  }, { referenceTime: "2026-09-14T03:08:20.000Z", timezone: "Asia/Tokyo" });
+  assert.equal(result.status, "COMPILED");
+  if (result.status !== "COMPILED") return;
+  assert.deepEqual(result.patch.timeWindow, { earliest: "12:08", latest: "12:08" });
+  assert.deepEqual(result.patch.temporalResolution?.immediateAvailability, {
+    validUntil: "2026-09-14T03:09:20.000Z", sourceSlotPolicy: "EXACT_ONLY",
+  });
+});
+
+test("right now always retains its exact Tokyo minute for source-side slot verification", () => {
+  const result = compileRestaurantSemanticProposal({
+    schemaVersion: "3",
+    facts: [{ field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", relativeOffsetMinutes: 0, raw: "right now" } }],
+  }, { referenceTime: "2026-09-14T03:00:20.000Z", timezone: "Asia/Tokyo" });
+  assert.equal(result.status, "COMPILED");
+  if (result.status !== "COMPILED") return;
+  assert.deepEqual(result.patch.timeWindow, { earliest: "12:00", latest: "12:00" });
+  assert.deepEqual(result.patch.temporalResolution?.immediateAvailability, {
+    validUntil: "2026-09-14T03:01:20.000Z", sourceSlotPolicy: "EXACT_ONLY",
+  });
 });
 
 test("an explicit calendar date wins over a relative clock date while retaining the relative clock", () => {

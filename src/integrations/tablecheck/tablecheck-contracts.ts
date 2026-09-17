@@ -53,7 +53,7 @@ export interface TableCheckIdentityDiagnostic {
     botChallenge: boolean;
     pageUnavailable?: boolean;
     extracted?: TableCheckOutletIdentityExtraction["fields"];
-    comparison?: { outletName: "MATCH" | "CONFLICT" | "MISSING"; address: "MATCH" | "CONFLICT" | "MISSING"; phone: "MATCH" | "CONFLICT" | "MISSING" };
+    comparison?: { outletName: "MATCH" | "CONFLICT" | "MISSING"; address: "MATCH" | "CONFLICT" | "INSUFFICIENT" | "MISSING"; phone: "MATCH" | "CONFLICT" | "MISSING" };
     reservation?: { kind: "EMBEDDED_AVAILABILITY" | "LINKED_PAGE"; url: string };
   }>;
   resolution: { confidence: TableCheckEntityResolution["confidence"]; matchedBy: string[]; reason: "HIGH_EXACT_PHONE" | "HIGH_NAME_AND_ADDRESS" | "KNOWN_PHONE_CONFLICT" | "NAME_ONLY_MATCH" | "NO_COMPARABLE_IDENTITY_SIGNAL" | "BOT_CHALLENGE" | "MODEL_FAILURE" | "READ_BUDGET_EXCEEDED" | "TABLECHECK_DISCOVERY_NO_RESULT" | "TABLECHECK_DISCOVERY_INCOMPLETE" | "TABLECHECK_ENTITY_MATCH_UNCERTAIN" | "TABLECHECK_PAGE_UNAVAILABLE" | "TABLECHECK_PARSE_FAILED" };

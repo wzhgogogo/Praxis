@@ -127,6 +127,9 @@ function authoritativeAvailabilityRequest(
     date: intent.date,
     timeWindow: structuredClone(intent.permittedAlternativeTimeWindow ?? intent.timeWindow),
     ...(intent.permittedAlternativeTimeWindow ? { requestedTimeWindow: structuredClone(intent.timeWindow) } : {}),
+    ...(state.intentDraft?.temporalResolution?.immediateAvailability
+      ? { immediateAvailability: structuredClone(state.intentDraft.temporalResolution.immediateAvailability) }
+      : {}),
     partySize: intent.partySize,
     hardCriteria: intent.criteria.filter((criterion) => criterion.polarity === "POSITIVE" && criterion.strength === "HARD").map((criterion) => criterion.text),
     ...(recheckReasons.length ? {
@@ -136,6 +139,18 @@ function authoritativeAvailabilityRequest(
       },
     } : {}),
   };
+}
+
+function immediateAvailabilityFailure(
+  state: Readonly<RestaurantTaskState>,
+  now: string,
+): "IMMEDIATE_REQUEST_EXPIRED" | undefined {
+  const immediate = state.intentDraft?.temporalResolution?.immediateAvailability;
+  if (!immediate) return undefined;
+  const current = new Date(now);
+  const validUntil = new Date(immediate.validUntil);
+  if (Number.isNaN(current.valueOf()) || Number.isNaN(validUntil.valueOf()) || current.valueOf() > validUntil.valueOf()) return "IMMEDIATE_REQUEST_EXPIRED";
+  return undefined;
 }
 
 /**
@@ -284,6 +299,30 @@ export class RestaurantExecutionRouter {
       }
       case "CHECK_AVAILABILITY": {
         const request = authoritativeAvailabilityRequest(state, action.candidateIds, now);
+        const immediateFailure = immediateAvailabilityFailure(state, now);
+        if (immediateFailure) {
+          const availabilityChecks = Object.fromEntries(request.candidateIds.map((candidateId) => [candidateId, {
+            status: "UNKNOWN" as const,
+            checkedAt: now,
+            evidenceIds: [],
+            reasonCode: immediateFailure,
+          }]));
+          const metadata: RestaurantReadExecutionMetadata = {
+            provider: "AVAILABILITY_SOURCE_RESOLVER",
+            route: this.availability.executionRoute,
+            latencyMs: 0,
+            failureCode: immediateFailure,
+            freshnessPolicyVersion: RESTAURANT_AVAILABILITY_DISPLAY_FRESHNESS.version,
+          };
+          return {
+            route: this.availability.executionRoute,
+            event: { type: "AVAILABILITY_CHECKED", request, offers: [], availabilityChecks, evidence: [], metadata },
+            observation: { type: "AVAILABILITY_UNKNOWN", detail: immediateFailure === "IMMEDIATE_REQUEST_EXPIRED"
+              ? "The immediate request elapsed before a provider query; no later slot was substituted."
+              : "The exact immediate time is not a supported discrete reservation slot; no later slot was substituted.", candidateIds: request.candidateIds },
+            executionMetadata: metadata,
+          };
+        }
         try {
           const read = await this.withProviderReadDeadline(
             "Restaurant availability",

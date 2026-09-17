@@ -20,7 +20,25 @@ test("Tabelog entity resolver is outlet-safe and rejects ambiguous branch matche
   assert.notEqual(ambiguous.confidence, "HIGH");
 });
 
-test("Tabelog entity inspection retains the normalized comparison and explicit non-HIGH reason", () => {
+test("Tabelog accepts complete reordered address components but rejects an incomplete source address", () => {
+  const reordered = resolveTabelogEntity(candidate, [{ sourceEntityId: "reordered", sourceUrl: "https://tabelog.com/tokyo/A1304/reordered/", outletName: "Restaurant 1", address: "Tokyo, Shinjuku, 1-1" }]);
+  const incomplete = resolveTabelogEntity(candidate, [{ sourceEntityId: "incomplete", sourceUrl: "https://tabelog.com/tokyo/A1304/incomplete/", outletName: "Restaurant 1", address: "1-1 Shinjuku" }]);
+  assert.equal(reordered.confidence, "HIGH");
+  assert.equal(incomplete.confidence, "MEDIUM");
+});
+
+test("Tabelog does not turn identical but insufficient abbreviated addresses into outlet proof", () => {
+  const abbreviatedCandidate = {
+    ...candidate,
+    restaurant: { ...candidate.restaurant, address: "1-1 Shinjuku" },
+  };
+  const resolution = resolveTabelogEntity(abbreviatedCandidate, [{
+    sourceEntityId: "abbreviated", sourceUrl: "https://tabelog.com/tokyo/A1304/abbreviated/", outletName: "Restaurant 1", address: "1-1 Shinjuku",
+  }]);
+  assert.equal(resolution.confidence, "MEDIUM");
+});
+
+test("Tabelog entity inspection retains phone conflict diagnostics without rejecting complete same-outlet proof", () => {
   const phoneCandidate = {
     ...candidate,
     restaurant: { ...candidate.restaurant, sourceIds: { ...candidate.restaurant.sourceIds, googlePlaces: "google-restaurant-1", phone: "03-1111-2222" } },
@@ -28,7 +46,7 @@ test("Tabelog entity inspection retains the normalized comparison and explicit n
   const inspection = inspectTabelogEntity(phoneCandidate, [{
     sourceEntityId: "x", sourceUrl: "https://tabelog.com/tokyo/A1304/x/", outletName: "Restaurant 1", address: "1-1 Shinjuku, Tokyo", phone: "03-9999-8888",
   }]);
-  assert.equal(inspection.resolution.confidence, "LOW");
+  assert.equal(inspection.resolution.confidence, "HIGH");
   assert.deepEqual(resolveTabelogEntity(phoneCandidate, [{
     sourceEntityId: "x", sourceUrl: "https://tabelog.com/tokyo/A1304/x/", outletName: "Restaurant 1", address: "1-1 Shinjuku, Tokyo", phone: "03-9999-8888",
   }]), inspection.resolution);
@@ -37,13 +55,31 @@ test("Tabelog entity inspection retains the normalized comparison and explicit n
   assert.equal(inspection.diagnostic.comparedOutlets[0]?.comparison.phone, "CONFLICT");
   assert.equal(inspection.diagnostic.comparedOutlets[0]?.comparison.outletName, "MATCH");
   assert.equal(inspection.diagnostic.comparedOutlets[0]?.comparison.address, "MATCH");
-  assert.equal(inspection.diagnostic.resolution.reason, "KNOWN_PHONE_CONFLICT");
+  assert.equal(inspection.diagnostic.resolution.reason, "HIGH_NAME_AND_ADDRESS");
+});
+
+test("Tabelog blocks HIGH identity for a stated floor conflict or a shared phone at a distinct branch", () => {
+  const scoped = {
+    ...candidate,
+    restaurant: { ...candidate.restaurant, outletName: "Sushi Hajime", address: "〒150-0002 東京都渋谷区渋谷3-15-5 B1F", sourceIds: { ...candidate.restaurant.sourceIds, phone: "03-6419-7621" } },
+  };
+  for (const outlet of [
+    { sourceEntityId: "floor", sourceUrl: "https://tabelog.com/tokyo/floor/", outletName: "Sushi Hajime", address: "〒150-0002 東京都渋谷区渋谷3-15-5 1F", phone: "03-9999-8888" },
+    { sourceEntityId: "branch", sourceUrl: "https://tabelog.com/tokyo/branch/", outletName: "Sushi Hajime", address: "〒106-0032 東京都港区六本木6-1-5 1F", phone: "03-6419-7621" },
+  ]) {
+    const inspection = inspectTabelogEntity(scoped, [outlet]);
+    assert.notEqual(inspection.resolution.confidence, "HIGH");
+    assert.equal(inspection.diagnostic.comparedOutlets[0]?.comparison.address, "CONFLICT");
+  }
+  assert.equal(inspectTabelogEntity({ ...scoped, restaurant: { ...scoped.restaurant, address: "〒150-0002 1F" } }, [{
+    sourceEntityId: "incomplete", sourceUrl: "https://tabelog.com/tokyo/incomplete/", outletName: "Sushi Hajime", address: "1500002 1F",
+  }]).diagnostic.comparedOutlets[0]?.comparison.address, "INSUFFICIENT");
 });
 
 test("Tabelog relative search links are enriched with page identity before an exact phone creates a HIGH outlet match", () => {
   const phoneCandidate = {
     ...candidate,
-    restaurant: { ...candidate.restaurant, outletName: "Sushisho Isseki Sancho", sourceIds: { ...candidate.restaurant.sourceIds, phone: "03-6427-8577" } },
+    restaurant: { ...candidate.restaurant, outletName: "Sushisho Isseki Sancho", address: "東京都渋谷区丸山町5-11", sourceIds: { ...candidate.restaurant.sourceIds, phone: "03-6427-8577" } },
   };
   const search = parseTabelogSearchOutlets({
     url: "https://tabelog.com/en/rstLst/?sw=Sushisho", title: "search", text: "Sushisho", html: [
@@ -173,6 +209,40 @@ test("Tabelog executor grounds a deterministic browser observation and never sub
   assert.equal(session.fills, 0);
 });
 
+test("Tabelog reads a Google-listed merchant page through the identity gate before a wrong discovery branch", async () => {
+  const listedCandidate = {
+    ...candidate,
+    restaurant: {
+      ...candidate.restaurant,
+      sourceIds: { ...candidate.restaurant.sourceIds, googleWebsiteUri: "https://tabelog.com/tokyo/A1304/A130401/123/?utm_source=google#menu" },
+    },
+  };
+  const session = new FixtureBrowserSession([
+    { url: "https://tabelog.com/tokyo/A1304/A130401/123/", title: "Restaurant 1", text: "予約 人数 19:00", html: '<h1>Restaurant 1</h1><p class="rstinfo-table__address">1-1 Shinjuku, Tokyo</p><select name="party"><option value="2">2</option></select><select name="date"><option value="2026-08-05">2026-08-05</option></select><button class="slot is-available" data-time="19:00">19:00</button>' },
+    { url: "https://tabelog.com/tokyo/A1304/A130401/123/", title: "Restaurant 1", text: "予約 人数 19:00", html: '<h1>Restaurant 1</h1><p class="rstinfo-table__address">1-1 Shinjuku, Tokyo</p><select name="party"><option value="2">2</option></select><select name="date"><option value="2026-08-05">2026-08-05</option></select><button class="slot is-available" data-time="19:00">19:00</button>' },
+  ]);
+  const result = await new TabelogBrowserAvailability({ openSession: async () => session }, () => "2026-08-05T09:00:00.000Z").check(
+    { candidateIds: [listedCandidate.restaurant.id], candidates: [listedCandidate], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: 2, hardCriteria: ["yakiniku"] }, new AbortController().signal,
+  );
+  assert.equal(result.availabilityChecks[listedCandidate.restaurant.id]?.status, "AVAILABLE");
+  assert.equal(session.navigated[0], "https://tabelog.com/tokyo/A1304/A130401/123/");
+  assert.equal(session.navigated.some((url) => url.includes("/rstLst/")), false);
+});
+
+test("Tabelog keeps an immediate non-slot UNKNOWN rather than treating a nearby source slot as unavailable", async () => {
+  const session = new FixtureBrowserSession([
+    { url: "https://tabelog.com/en/rstLst/?sw=Restaurant", title: "search", text: "Restaurant 1", html: '<a href="https://tabelog.com/tokyo/A1304/A130401/123/" data-address="1-1 Shinjuku, Tokyo">Restaurant 1</a>' },
+    { url: "https://tabelog.com/tokyo/A1304/A130401/123/", title: "Restaurant 1", text: "予約 人数 12:00 12:30", html: '<h1>Restaurant 1</h1><p class="rstinfo-table__address">1-1 Shinjuku, Tokyo</p><select name="party"><option value="2">2</option></select><select name="date"><option value="2026-08-05">2026-08-05</option></select><button class="slot is-available" data-time="12:00">12:00</button><button class="slot is-available" data-time="12:30">12:30</button>' },
+  ]);
+  const result = await new TabelogBrowserAvailability({ openSession: async () => session }, () => "2026-08-05T09:00:30.000Z").check({
+    candidateIds: [candidate.restaurant.id], candidates: [candidate], date: fixtureIntent.date, timeWindow: { earliest: "12:08", latest: "12:08" }, partySize: 2, hardCriteria: ["yakiniku"],
+    immediateAvailability: { validUntil: "2026-08-05T09:01:00.000Z", sourceSlotPolicy: "EXACT_ONLY" },
+  }, new AbortController().signal);
+  assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "UNKNOWN");
+  assert.equal(result.availabilityChecks[candidate.restaurant.id]?.reasonCode, "IMMEDIATE_SLOT_NOT_OFFERED");
+  assert.equal(result.offers.length, 0);
+});
+
 test("Tabelog bot challenge and external booking redirect remain non-available results", async () => {
   const makeRuntime = (text: string): BrowserRuntime => ({ openSession: async () => new FixtureBrowserSession([
     { url: "https://tabelog.com/en/rstLst/", title: "search", text: "Restaurant 1", html: '<a href="https://tabelog.com/tokyo/A1304/A130401/123/" data-address="1-1 Shinjuku, Tokyo">Restaurant 1</a>' },
@@ -284,7 +354,7 @@ test("Tabelog entity failure sends a sanitized search, detail, and comparison di
       text: "Restaurant 1",
       html: [
         '<link rel="canonical" href="/tokyo/A1304/A130401/123/">',
-        '<p class="rstinfo-table__address">1-1 Shinjuku, Tokyo</p>',
+        '<p class="rstinfo-table__address">1-2 Shinjuku, Tokyo</p>',
         '<a href="tel:03-9999-8888">03-9999-8888</a>',
       ].join(""),
     },
@@ -318,7 +388,7 @@ test("Tabelog entity failure sends a sanitized search, detail, and comparison di
   assert.equal(diagnostic.details[0]?.extracted?.phone.source, "TEL_LINK");
   assert.equal(diagnostic.comparedOutlets[0]?.phone.normalizedValue, "0399998888");
   assert.equal(diagnostic.comparedOutlets[0]?.comparison.phone, "CONFLICT");
-  assert.equal(diagnostic.comparedOutlets[0]?.comparison.address, "MATCH");
+  assert.equal(diagnostic.comparedOutlets[0]?.comparison.address, "CONFLICT");
   assert.equal(diagnostic.resolution.reason, "KNOWN_PHONE_CONFLICT");
 });
 

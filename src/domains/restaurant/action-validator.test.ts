@@ -282,6 +282,35 @@ test("PRESENT_RESULTS fails closed until area, HARD criterion, identity, and ava
   });
 });
 
+test("an immediate availability result cannot be presented after its own validity window", () => {
+  const candidateId = "immediate";
+  const validNow = "2026-08-05T09:00:30.000Z";
+  const state: RestaurantTaskState = {
+    ...incompleteState,
+    phase: "SEARCHING",
+    intentDraft: applyRestaurantIntentPatch(undefined, {
+      schemaVersion: "3", target: { goal: "AVAILABILITY", query: "right now" }, area: { query: "Shinjuku" }, date: "2026-08-05", timeWindow: { earliest: "18:00", latest: "18:00" }, partySize: 2,
+      temporalResolution: {
+        policyVersion: "restaurant-temporal-materialization@5", referenceTime: "2026-08-05T09:00:00.000Z", timezone: "Asia/Tokyo",
+        timeWindow: { expression: "right now", resolvedTimeWindow: { earliest: "18:00", latest: "18:00" }, basis: "RELATIVE_OFFSET_MINUTES:0" },
+        immediateAvailability: { validUntil: "2026-08-05T09:01:00.000Z", sourceSlotPolicy: "EXACT_ONLY" },
+      },
+    }),
+    candidates: [{ restaurant: { id: candidateId, outletName: "Immediate", sourceIds: {}, address: "Shinjuku, Tokyo", provenance: {} }, matchReasons: [], warnings: [], executionConfidence: "HIGH" }],
+    availability: { [candidateId]: [{ id: "slot", restaurantId: candidateId, source: "TABLECHECK", dateTime: "2026-08-05T18:00:00+09:00", timezone: "Asia/Tokyo", partySize: 2, bookingMode: "REQUEST", executionMode: "BROWSER", checkedAt: validNow, expiresAt: "2026-08-05T09:02:00.000Z", displayExpiresAt: "2026-08-05T09:02:00.000Z" }] },
+    availabilityChecks: { [candidateId]: { status: "AVAILABLE", checkedAt: validNow, evidenceIds: ["discovery", "entity", "availability"], displayExpiresAt: "2026-08-05T09:02:00.000Z" } },
+    readEvidence: [
+      { evidenceId: "discovery", kind: "DISCOVERY", provider: "GOOGLE_PLACES", candidateId, observedAt: validNow, requestFingerprint: "d", claims: { areaQuery: "Shinjuku", areaMatch: true } },
+      { evidenceId: "entity", kind: "ENTITY_MATCH", provider: "TABLECHECK", candidateId, observedAt: validNow, requestFingerprint: "e", claims: {}, entityMatch: { confidence: "HIGH", matchedBy: ["NORMALIZED_NAME_AND_ADDRESS"] } },
+      { evidenceId: "availability", kind: "AVAILABILITY", provider: "TABLECHECK", candidateId, observedAt: validNow, requestFingerprint: "a", displayExpiresAt: "2026-08-05T09:02:00.000Z", claims: { date: "2026-08-05", partySize: 2, visibleSlots: ["18:00"] } },
+    ],
+  };
+  assert.equal(validateRestaurantAction(state, { type: "PRESENT_RESULTS", candidateIds: [candidateId] }, validNow).status, "ALLOWED");
+  const expired = validateRestaurantAction(state, { type: "PRESENT_RESULTS", candidateIds: [candidateId] }, "2026-08-05T09:01:01.000Z");
+  assert.equal(expired.status, "REJECTED");
+  if (expired.status === "REJECTED") assert.match(expired.reason, /immediate availability observation has expired/);
+});
+
 test("Expired display evidence permits a bounded recheck without extending the prior observation", () => {
   const draft = applyRestaurantIntentPatch(undefined, { schemaVersion: "3", date: "2026-08-05", timeWindow: { earliest: "19:00", latest: "19:30" }, partySize: 2, area: { query: "Shinjuku" } });
   const state: RestaurantTaskState = {

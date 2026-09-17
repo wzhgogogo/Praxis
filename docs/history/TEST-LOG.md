@@ -1,13 +1,28 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.59
-- Last updated: 2026-09-16
+- Document revision: 4.62
+- Last updated: 2026-09-17
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+
+## TEST-2026-09-17-H001-DATE-VARIANTS — Live Read-only
+
+- 用户授权只改 H001 日期为 tomorrow / this Saturday；冻结当前源码到隔离 eval 工作区，预登记9月18/19日、涩谷、2人、精确19:00、omakase HARD；canonical Gold/生产源码/Prompt未改。每轮一次、5分钟、10候选、50模型调用、50 Google、每候选50浏览器操作上限。
+- 明天：PRESENT_RESULTS，鮨匠一石三鳥及Matsue涩谷店，186898ms、14模型调用、108152 tokens、2 Google。周六：PRESENT_RESULTS，Matsue涩谷店，179551ms、21模型调用、107568 tokens、5 Google。两轮各发现10家/检查6家；独立diagnostic evaluator@15均qualified YES、systemBehavior SUPPORTED_BY_EVIDENCE，六项findings SATISFIED；原始执行与sidecar分别保存。
+- 原9月17日基线四个UNKNOWN是发现或身份核验失败，不是库存为零。Matsue在9月17日UNAVAILABLE而18/19日AVAILABLE，支持日期库存差异；完整原页面未留存、候选与模型路径变化、早上基线与本轮源码存在已记录事实判断修复，不能声称严格因果A/B或全城无位。新变体Jinnan仍REQUEST_SELECTION_UNCONFIRMED，其他候选仍有身份UNKNOWN。
+- 本轮仅运行和审查，没有新增Mock/Replay或Controlled Live-write，不重复已有本地门禁；未预约、外部写入、commit或push。共35模型调用/215720 tokens/7 Google。完整[报告和原件索引](../../.eval-artifacts/h001-date-variants-2026-09-17/REPORT.md)。
+
+## TEST-2026-09-17-H001-H005-BASELINE-AND-ONE-FACT-JUDGMENT-REPAIR
+
+- **Live Read-only baseline, original requests:** Tokyo execution started 2026-09-17 10:58 CST; each H001–H005 ran once with `LOCAL_CHROMIUM`, candidate limit 10, max 5 minutes, 50 model calls, 50 Google calls and 50 browser operations per candidate. H001 `TERMINAL/NO_VERIFIED_RESULT` (218288ms; 7 Agent decisions; Google 5; browser-model 11); H002 `WAITING_USER` (4265ms; asks party size before a source read); H003 `CANCELLED` (300009ms; 10 Google; browser-model 38); H004 `TERMINAL/RESULTS_PRESENTED` (7403ms; 7 fact recommendation candidates; Google 1); H005 `CANCELLED` (300018ms; Google 7; browser-model 33). H003/H005 were budget limits, not evidence of no availability; H002 is neither source nor browser failure. No shared `INFRA_BLOCKER` was established.
+- **First-root evidence and local repair:** original H003 trajectory recorded HIGH-identity Google/website `bar`/`lounge bar` facts yet no `restaurant_fact_judgment` because production judgment filtered to NEGATIVE HARD criteria. H005 demonstrated the same missing positive path for `local food`; it does not imply that local food should be accepted. `model-fact-judgment.test.ts` now proves cited `lounge bar` can produce positive `verifiedHardCriteria`, while invented citations, positive conflict labels and broad types cannot. Targeted command `node --import tsx --test src/integrations/restaurant-facts/model-fact-judgment.test.ts src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts src/eval/restaurant/agent-loop/current-development-offline.test.ts`: 40/40 pass. `npm run typecheck`, `npm run arch:check`, `npm run build` pass. Full `npm test` under local-loopback authorization: 371/371 pass in 14983ms; the initial restricted-sandbox 356/371 result had exactly 15 `127.0.0.1` listen `EPERM` environment failures, then the unchanged command passed with loopback permission.
+- **Affected-case Live post-check:** one H003 rerun after the patch at the same caps saved a separate artifact (`2026-09-17T03-16-42-439Z-69f0962c-f2f2-4657-8da6-f3ee1f8cbfe4.result.json`) plus evaluator sidecar. It terminated `EXECUTION_FAILURE` in 205854ms after only discovery plus one availability batch: this fresh Semantic proposal made every condition SOFT, so it never invoked facts/judgment. The first reached runtime blocker was TableCheck `REQUEST_SELECTION_UNCONFIRMED` plus Tabelog `BROWSER_TIMEOUT`, not proof the positive judgment changed a Live outcome. The entry gate for full H001–H005 post-fix regression is therefore unmet; no further Live or root-cause repair was run.
+- All artifacts remain append-only under `.eval-artifacts/restaurant-hybrid-live-read/`; no booking, external write, Gold/Holdout action, commit or push occurred. Evaluator@15 remains `DRAFT_DIAGNOSTIC_ONLY`/`FULL_RUBRIC_NOT_INTEGRATED`, so it is independent diagnostic evidence, not a claim of final user-task success.
 
 ## TEST-2026-09-16-BROWSER-READ-FINAL
 
@@ -2597,3 +2612,88 @@ Independently ran Context/Decision/Validator tests 28/28, test:browser:fixture 1
 Final typecheck, arch:check, build and diff check PASS. npm test **361/361 PASS**; test:browser:fixture **18/18 PASS**. Logs: `.eval-artifacts/browser-tabelog-repair-2026-09-16/tests-complete.log` and `browser-complete.log`. Intermediate delayed fixture caught a multiple-match readiness selector; container selection fixed it before Live rerun.
 
 Live Read-only: Tabelog early observation failed (1 call), readiness repair confirmed date/guests (2 calls) but not inventory. TableCheck disabled-control repair returned UNKNOWN (2 calls); scoped empty-result repair returned NO_MATCHING_SLOT in 8967ms without model calls. Total 5 calls / 39116 tokens / zero Google, below 12-call / 20-minute cap. Code hashes, executions and independent evaluation kept separately. No Replay, Controlled Live-write or booking submission. [Report](BROWSER-AGENT-VALIDATION-2026-09-16.md).
+
+## TEST-2026-09-17-H001-H003-H005-TARGETED-OFFLINE
+
+- Scope: pre-Live H001 store association, H003 current-source positive-HARD diagnostic, and H005 immediate-time contract. No Gold/private Holdout access, booking or external write.
+- Targeted test command: semantic/compiler, Router, Model Fact Judgment, TableCheck, Tabelog and Hybrid composition **98/98 PASS**. It includes phone conflict plus same complete address, branch address conflict, direct Google-listed merchant identity read, cross-candidate entry reuse with independently scoped evidence, stale/unrepresentable immediate request with zero provider call, and positive-HARD cited judgment.
+- Gates: `npm run typecheck`, `npm run arch:check` (0 forbidden dependencies), `npm run build`, `git diff --check` PASS. First sandbox `npm test` had 15 loopback `EPERM` failures; unchanged authorized rerun passed **376/376** in 14210ms.
+- H003 fixed-input production-model diagnostic: final current-source record `.eval-artifacts/restaurant-hybrid-live-read/h003-hard-fact-diagnostic-current-2026-09-17T04-47-16Z.json`, one `restaurant_fact_judgment@2` invocation, 764 input + 82 output = 846 tokens, cited current Google fact and emitted `verifiedHardCriteria:[good for drinks]`. State replay retained the cited source/identity chain and changed the first missing reason from HARD-fact absence to missing availability-source identity; it is not an availability result. A failed artifact-save invocation and a superseded-source diagnostic are retained as failed attempts.
+- Classification: local unit/contract plus one real model fixed-source diagnostic; no Replay, Live source read, Controlled Live-write, or booking. This is not a claim that H001/H003/H005 Live acceptance passed.
+
+## TEST-2026-09-17-H001-H003-H005-BOUNDED-LIVE-READ
+
+- Authorization/budgets: each original case once, `LOCAL_CHROMIUM`, `maxAutomaticBrowserMs=300000`, `maxModelCalls=50`, `maxGoogleRequests=50`, `maxBrowserOperationsPerCandidate=50`; runner's independent agent-step cap remained 30. Read-only code path; no booking/write action.
+- H001: [result](../../.eval-artifacts/restaurant-hybrid-live-read/2026-09-17T04-49-22-764Z-72cbe0fd-5b21-4373-8aa2-44d10ef53538.result.json) and evaluator sidecar saved. `NO_VERIFIED_RESULT`, TERMINAL/7 steps, 181499ms, 10 candidates, Google 5, browser model 12, runtime calls 137 (per-candidate 7–24). Five request-bound `NO_MATCHING_SLOT`; five identity/extraction UNKNOWN. evaluator@15: qualified NO, scoped completion only.
+- H003: [started record](../../.eval-artifacts/restaurant-hybrid-live-read/2026-09-17T04-52-35-417Z-5336c9d4-8f09-48aa-b372-c05d912a2b55.started.json) only. The single process did not finalize after the 5-minute cap and was interrupted at the user-bound limit; no result/evaluator exists, no retry was run. This is a failed/unfinished Live observation, not a no-result or acceptance result.
+- H005: [result](../../.eval-artifacts/restaurant-hybrid-live-read/2026-09-17T04-57-51-585Z-81816d10-566e-4e98-b979-052ee0c40d4c.result.json) and evaluator sidecar saved. `NO_VERIFIED_RESULT`, TERMINAL/7 steps, 138627ms, 10 candidates, Google 4, browser runtime 0, browser model 10. Materialized 13:57 Tokyo; after elapsed fact work, every availability check is `UNKNOWN/IMMEDIATE_REQUEST_EXPIRED`. No later slot query or presentation occurred; this validates only the expiry fail-closed behavior, not source availability.
+- Classification: Live Read-only development diagnostics, not clean baseline/Replay/Controlled Live-write. Independent evaluator remains a separate sidecar and does not establish H001/H003/H005 acceptance. Review handoff required.
+
+## TEST-2026-09-17-H001-ADDRESS-REPRESENTATION-AND-DEADLINE-REPAIR
+
+- Scope: post-Live offline repair only. The shared outlet identity helper is exercised through both production resolvers: a Japanese/Latin complete address pair with matching postal code and `1-1 2F` reaches HIGH; `3F` and incomplete address counterexamples do not. Existing direct Google merchant-entry, phone-conflict, branch-conflict and per-candidate availability-evidence isolation cases remain in the same adapter suites.
+- Targeted command: TableCheck, Tabelog and Hybrid time composition suites **51/51 PASS**. `npm run typecheck`, `npm run arch:check` (0 forbidden dependencies), `npm run build` and `git diff --check` PASS. Authorized loopback `npm test`: **378/378 PASS**, 0 fail/cancel/skip/todo, 14160ms.
+- Runner deadline settlement is typechecked and compiled by `npm run build`; no synthetic timeout was represented as a Live completion. The prior H003 `.started` artifact remains the only artifact for that attempt.
+- Classification: local contract/unit/integration regression. No Gold/private Holdout, Replay, new real-model call, Live source read, Controlled Live-write, booking, payment, cancellation, commit or push. The tests do not establish the post-fix H001 Live behavior, H003 complete Live completion, or actual platform availability for a valid immediate H005 request.
+
+## TEST-2026-09-17-H001-ADDRESS-SUFFICIENCY-FOLLOW-UP
+
+- A new resolver counterexample proves identical abbreviated `1-1 Shinjuku` strings remain MEDIUM rather than becoming a same-outlet proof. A complete English reordered address, the postal-code cross-script pair and the distinct-floor case retain their respective HIGH/HIGH/MEDIUM outcomes.
+- `node --import tsx --test src/integrations/tablecheck/tablecheck-browser-availability.test.ts src/integrations/tabelog/tabelog-browser-availability.test.ts src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts`: **75/75 PASS**. `npm run typecheck`, `npm run arch:check`, `npm run build` PASS. Authorized loopback `npm test`: **379/379 PASS**, 0 fail/cancel/skip/todo, 14255ms.
+- Classification: offline identity regression only. No new Live, model, Google, browser-source, write, Gold/Holdout, commit or push action; it does not upgrade the H001 Live result or any H003/H005 residual state.
+
+## TEST-2026-09-17-H005-EXACT-SOURCE-SLOT-CONTRACT
+
+- Replaced temporal materialization@4's fixed 15-minute queryability assumption with @5 `sourceSlotPolicy: EXACT_ONLY`. Fixed-clock Compiler tests retain the exact Tokyo minute and one-minute expiry; Router tests prove an unexpired exact request is forwarded unchanged and an expired request remains fail-closed.
+- TableCheck and Tabelog adapter regressions each use a request for 12:08 with observed source cards at 12:00 and 12:30. Both return `UNKNOWN/IMMEDIATE_SLOT_NOT_OFFERED`, return no offer, and do not silently promote 12:30 or report `NO_MATCHING_SLOT`.
+- Commands: H005/H001 relevant targeted suite **100/100 PASS**, final TableCheck adapter suite **28/28 PASS**, `npm run typecheck`, `npm run arch:check`, `npm run build`, `git diff --check` PASS. Authorized loopback `npm test`: **384/384 PASS**, 0 fail/cancel/skip/todo, 15711ms.
+- Classification: fixed-time local contract plus synthetic source-page adapter evidence. No new Live, model, Google or external source request, Replay, Controlled Live-write, booking, Gold/Holdout, commit or push. This strengthens H005 before a future separately authorized Live; it does not alter the existing expired H005 run.
+
+## TEST-2026-09-17-H005-PRESENTATION-EXPIRY
+
+- State-to-presentation regression: a fully grounded immediate offer is allowed while its immediate valid-until timestamp is current, then `PRESENT_RESULTS` is rejected one second after expiry even though ordinary offer/evidence display TTL remains valid.
+- H005/H001 relevant fixed-time, Router, Validator and adapter set **95/95 PASS**; authorized loopback `npm test`: **385/385 PASS**, 0 fail/cancel/skip/todo, 14386ms. Typecheck and architecture check passed in the same slice; prior build and diff check remain clean.
+- Classification: offline authoritative State/Validator evidence only. It does not add a real source or model invocation and does not upgrade the historical H005 expired Live result.
+
+The final cross-case classification and raw artifact links are in [H001/H003/H005 targeted repair report](H001-H003-H005-TARGETED-REPAIR-2026-09-17.md). The report is a development evidence handoff, not an independent-review approval or a clean-baseline claim.
+
+## TEST-2026-09-17-H003-DEADLINE-SETTLEMENT
+
+- `live-run-deadline.test.ts`: **2/2 PASS**. A never-settling child rejects `CANCELLED` when the outer signal aborts; a completed child result survives a later abort.
+- `npm run typecheck`, `npm run arch:check`, `npm run build`, `git diff --check` PASS. Authorized loopback `npm test`: **387/387 PASS**, 0 fail/cancel/skip/todo, 14368ms.
+- Classification: local runner lifecycle regression. It does not fabricate the historical H003 result/evaluator, invoke a model/source/Live run, or authorize retry.
+
+## TEST-2026-09-17-TARGETED-REPAIR-INDEPENDENT-REVIEW
+
+仅审查与离线诊断，无产品代码修改。独立运行deadline/TableCheck/Tabelog/model-fact-judgment现有测试56/56通过；额外调用生产地址比较与两个entity resolver，B1F vs 1F、同电话不同地点均HIGH（预期不得HIGH），仅邮编加楼层也被判为完整匹配。既有H001 Live复核确认Teppen时发现的涩谷Hajime入口未在随后Hajime调查使用；H003只存在started；H005全IMMEDIATE_REQUEST_EXPIRED。未重跑387项全量或typecheck/arch/build，未调用真实模型/网络/新Live或外部写入。反例脚本、结果、定向日志和限制见[审查报告](../../.eval-artifacts/targeted-repair-independent-review-2026-09-17/REPORT.md)。
+
+## TEST-2026-09-17-H001-IDENTITY-ENTRANCE-FOLLOW-UP
+
+- 修复前再次执行 [identity reproduction](../../.eval-artifacts/targeted-repair-independent-review-2026-09-17/identity-reproduction.mjs)：B1F/1F 与同电话异址均为 HIGH，`〒150-0002 1F` 为 true。修复后同一脚本输出前两项 `MEDIUM`、短地址 false。
+- 定向命令 `node --import tsx --test src/integrations/tablecheck/tablecheck-browser-availability.test.ts src/integrations/tabelog/tabelog-browser-availability.test.ts src/integrations/restaurant-availability/live-browser-availability.test.ts`: **55/55 PASS**。覆盖两个 Adapter 的 floor/phone 冲突、短地址、direct merchant 先于 search、无关 ledger entry 不跳过 discovery，以及真实 `LiveBrowserAvailability` 跨 Agent batch 的 Teppen → Hajime entrance reuse/re-identification、及新 run 的 ledger reset。
+- `npm run typecheck`、`npm run arch:check`、`npm run build`、`git diff --check`: PASS。授权 localhost `npm test`: **392/392 PASS**，0 fail/cancel/skip/todo，16427ms。
+- 固定快照后各一次 Live Read-only probe：Teppen [artifact](../../.eval-artifacts/restaurant-browser-probe/2026-09-17T07-11-37-378Z-68d40f29-c653-4a3c-aa52-f7fe319a6c8d.result.json)、Hajime [artifact](../../.eval-artifacts/restaurant-browser-probe/2026-09-17T07-11-50-032Z-266e8d74-a116-422d-96f0-8b8c9500322a.result.json)、Nasu [artifact](../../.eval-artifacts/restaurant-browser-probe/2026-09-17T07-12-01-600Z-266438a6-6b8e-4769-b94b-8cb5f34aca50.result.json) 均为 `PAGE_OBSERVATION / BROWSER_RUNTIME_FAILED`，无 snapshot。第一条 300 秒参数在 Runner 的 60 秒上限校验前失败，未创建 artifact 或访问页面；三条实际 probe 各采用 60 秒上限且只允许 NAVIGATE/SNAPSHOT/WAIT_FOR。
+- 分类：离线修复 + 已尝试但 browser-runtime 阻塞的 Live read-only，不等同于来源、身份、库存或产品验收。无模型调用、Google 请求、预订/支付/取消/登录、Gold/Holdout 读取、commit 或 push。详见 [后续记录](H001-IDENTITY-ENTRANCE-FOLLOWUP-2026-09-17.md)。
+
+- 后续无网络 runtime 定位：`PRAXIS_BROWSER_ENGINE=LOCAL_CHROMIUM` 仅启动并关闭本机 headless session，结果 `OPENED`。没有导航、snapshot 或来源访问。这将首个阻断限定为默认 Cloudflare Browser Run 的 session 创建；按单次 Live 边界未以本地引擎重跑。
+- 现有 Hybrid diagnostic evaluator 对上述三份 probe 仅做不落盘内存兼容性检查：每份都是 `DRAFT_DIAGNOSTIC_ONLY`、0 candidates、`completion/evidence=NOT_EVALUATED`。它只适用于完整生产组合 artifact，故没有创建不适用的 evaluator sidecar，也没有独立评价通过的声明。
+- 修复后授权 localhost 的 `npm run test:browser:fixture`: **17/17 PASS**。这是真实本地 Chromium 加合成页面的离线门禁，覆盖 dialog、日期/人数、公开新页、filters、slider/scroll 和 Tabelog 控件；不访问真实来源，也不改变本轮 Live 结论。
+
+## TEST-2026-09-17-REGRESSION-DEFENSE-GENERALIZATION
+
+- 五案 code-contract（真实 Hybrid composition + 独立 `SYNTHETIC_CONTROL` 来源）**6/6 PASS**；聚焦 composition/evaluator **78/78 PASS**。其中包含独立候选集合截断变异、前批事实丢失、请求更新/时钟/取消、来源额度耗尽、固定种子缩减，以及候选/请求/证据/展示链路的配对反例。
+- `npm run typecheck`、`npm run build`、`npm run arch:check`、`git diff --check` PASS。沙箱 `npm test` 为 377 pass / 15 loopback `EPERM` 环境失败；授权 localhost 重跑为 **392/392 PASS**。沙箱浏览器 fixture 被 Mach-port 权限拦截；授权本机 Chromium 运行了真实 DOM 路径，但输出捕获截断，未将其报告为完整计数。
+- 每案一次 fixed-source real-model（30-call cap）：H001 Runner 坐标绑定失败且未重试；H002 `NEEDS_INPUT`，H003 `NO_VERIFIED_RESULT`，H004 `FAILED`，H005 `PRESENT_RESULTS`。各 artifact 与独立 evaluator sidecar 位于 `.eval-artifacts/restaurant-fixed-source-model/`，均为 synthetic-source，不是 Live 证明。
+- 每案一次 Live Read-only：H001/H003/H005（candidate≤5、model≤30、Google≤10、browser-operation≤30，30s；H001 first attempt 60s）均 `CANCELLED`，分别 4/5/3 model calls；artifact 标记 `DIRTY`，不作为 clean baseline 或来源结果。无预订、支付、取消或其他外部写。
+- 分类与未覆盖范围见 [coverage report](REGRESSION-TEST-DEFENSE-REPORT-2026-09-17.md)：真实模型理解、自由文本质量、网站事实/兼容性、反爬与搜索完备性仍未由离线测试证明。
+
+### Controlled migration sample follow-up
+
+- `new-vegetarian-lunch` 以新来源记录和不同的菜系/排除条件/午餐时段/人数/命名区域，复用相同 fixed-source factory 与 Hybrid composition；定向 **7/7 PASS**，默认授权 localhost `npm test` **393/393 PASS**。它是已暴露受控迁移样本，不是私有 Holdout、真实模型或 Live 结果。
+
+- `evaluation-location-selection.test.ts`：命名 `NEAR` 区域不绑定固定评估坐标，只有 `NEAR_USER` 绑定；避免 H001 fixed-source Runner 的已记录配置失败再次发生。与 H001–H005/新样本定向合计 **8/8 PASS**，`typecheck` 与 `git diff --check` PASS。
+
+### H001 authorized corrective fixed-source model run
+
+- 用户明确授权一次修正后 H001 重跑（最多 30 model calls；离线固定 HTTP/页面；无 Live/写操作）。artifact 为 [H001 result](../../.eval-artifacts/restaurant-fixed-source-model/2026-09-17T09-02-23-359Z-4ce73364-d91e-4f20-b103-91c299dbde44.result.json) 与独立 evaluator sidecar。`SUCCEEDED` / `TERMINAL` / `PRESENT_RESULTS`，5 model calls、Google fixed-source 3、10722ms；evaluator@15 六个维度均 `SATISFIED`，qualified YES。首个错误尝试仍保留，不被覆盖。
+- 最终授权 localhost 默认 `npm test`: **394/394 PASS**，0 fail/cancel/skip/todo，15317ms；包含 H001 坐标选择回归与新迁移样本。

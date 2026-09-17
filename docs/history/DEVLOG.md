@@ -1,13 +1,21 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.58
-- Last updated: 2026-09-16
+- Document revision: 4.59
+- Last updated: 2026-09-17
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## DEV-2026-09-17-H001-H005-SINGLE-ROOT-FACT-JUDGMENT
+
+按用户明确授权，先冻结当前代码和H001–H005原始请求后，逐例各执行一次5分钟/50模型/50 Google/每候选50浏览器动作上限的Hybrid Live Read-only；原始artifact与evaluator@15 sidecar均新建而未覆盖历史。H001为`NO_VERIFIED_RESULT`，H002因缺party size补问，H003/H005到时限取消，H004展示事实型推荐。没有预约、登录、外部写、Gold/Holdout改动或第二浏览器循环。
+
+以实际轨迹选择且只修一项根因：`ModelRestaurantFactJudgment`此前仅为NEGATIVE HARD调用，导致已有同候选、HIGH identity的具体`bar`/`lounge bar`来源类型无法成为正向`good for drinks`的可审计判断，复杂正向条件只能未证实。Fact Judgment Prompt@1→@2；同一受限模型现在可为POSITIVE HARD生成`verifiedHardCriteria`，但必须引用同候选具体来源类型事实。无引文、正向`CONFLICT`和宽泛类型一律不接纳；它不是主观排名、官网替身或状态写入，也没有改变人数推断、预算表示或HARD/SOFT策略。
+
+局部固定资料红绿回归、相关Hybrid组合、typecheck、arch和完整本机371/371通过。单次H003后测未到达新增路径：本次语义把`good for drinks`和team dinner都判SOFT，Agent直接空位读取，TableCheck的`REQUEST_SELECTION_UNCONFIRMED`与Tabelog`BROWSER_TIMEOUT`导致`EXECUTION_FAILURE`。故不以本地测试替代真实链路、不触发五例修复后回归，也不修第二个根因；详细模式、额度、artifact和限制记于TEST-LOG。
 
 ## DEV-2026-09-16-BROWSER-READ-FINAL
 
@@ -2242,3 +2250,61 @@ The unsafe policy test was retired with the implementation; existing semantic/we
 ## 2026-09-16 Tabelog follow-up and TableCheck failure attribution
 
 Added code-owned nonstandard control hints to the shared Registry and both Playwright sessions; wired Tabelog date/guest readiness and selection verification into the Adapter. Fixed unrelated external-link classification. TableCheck now recognizes disabled state, waits for guide results and binds explicit empty results to a scoped exact request; MODEL_HANDOFF still requires independent source evidence. No new dependencies, commit or push; pre-existing changes preserved. [Details](BROWSER-AGENT-VALIDATION-2026-09-16.md).
+
+## 2026-09-17 H001/H003/H005 targeted repair — offline gate
+
+Implemented the smallest current read-path repair: provider-listed TableCheck/Tabelog merchant URLs are candidate pointers read through their existing identity gates; TableCheck retains only per-run verified outlet pointers and re-identifies every later candidate before any result can be grounded. Complete normalized name/address evidence outweighs a phone disagreement, while a branch/address conflict remains non-HIGH. Immediate requests now carry materialization@4 provenance and a one-minute, exact discrete-slot contract; Router returns UNKNOWN before source access for stale or unrepresentable immediate time, and presentation rejects expiry. No broader GET permission, planner, provider fallback, booking or write path was added.
+
+The H003 post-parser diagnostic used the saved baseline's current candidate and current source fact, not Gold or Holdout. The final third bounded model call emitted cited positive-HARD evidence; a local state replay moved the missing reason from HARD evidence to availability identity. The first run failed to persist its output and the second cited a superseded raw fact; both failures remain recorded and were not counted as proof. No commit, push, booking, or Live run occurred in this development entry.
+
+## 2026-09-17 H001/H003/H005 bounded Live Read-only
+
+Ran the original H001, H003 and H005 requests exactly once each under the user-approved 300000ms, 50-model, 50-Google and 50-browser-actions-per-candidate ceilings. H001 and H005 saved immutable result plus evaluator sidecars; neither produced a qualified result. H003 exceeded its five-minute ceiling without finalizing after its started record; it was interrupted and not retried. No code changes were made in response to the Live observations, no booking/write capability was used, and this entry hands the residual findings to the original researcher for independent review rather than asserting review success.
+
+## 2026-09-17 H001 address-representation and runner-deadline offline repair
+
+Replaced provider-local address string comparisons with one minimal shared outlet-identity helper. HIGH cross-script address matching requires the same normalized postal code and the complete ordered number/unit sequence; reordered complete same-script components are accepted only when their complete token sets match. Missing detail or a distinct floor/unit remains non-HIGH. TableCheck and Tabelog retain their existing candidate identity thresholds, direct Google-listed merchant pointer handling and availability-evidence isolation; this repair does not copy availability between candidates.
+
+The Hybrid Live runner now settles its outer run at the authoritative deadline even when a coordinator does not itself observe abort. It prevents a future capped run from remaining without a terminal artifact, but does not manufacture or reinterpret the interrupted H003 result and did not cause a rerun. No new provider, permission, fallback, model call, Live source action, booking/write path, Gold/Holdout access, commit or push was added.
+
+### Address-sufficiency follow-up
+
+The initial helper still treated two identical abbreviated strings as a complete address. Tightened it before handoff: both sides must contain a street/unit number and either a postal code, two locality tokens, or the Japanese prefecture-plus-municipality structure. The direct abbreviated `1-1 Shinjuku` counterexample stays MEDIUM. This is a conservative identity gate, not a transliteration service or a merchant-specific exception.
+
+### Immediate source-slot follow-up
+
+Replaced the provisional global 15-minute slot assumption with a source-observed exact-slot contract (`restaurant-temporal-materialization@5`). During its one-minute validity window the Router forwards only the original exact local time; it never manufactures a next slot. TableCheck and Tabelog now classify visible neighbouring cards that do not include that exact time as `UNKNOWN/IMMEDIATE_SLOT_NOT_OFFERED`. A source-specific, request-bound explicit empty result remains distinct and may still establish unavailable. No Live rerun, real model/source call, provider fallback, permission widening, Gold/Holdout access, booking/write action, commit or push occurred.
+
+The final per-case matrix, resource accounting, raw artifact links and review handoff questions are retained in [H001/H003/H005 targeted repair report](H001-H003-H005-TARGETED-REPAIR-2026-09-17.md). It records the H003 Live non-finalization as a failure, rather than converting it into a normal no-result.
+
+### H003 deadline regression
+
+Moved the outer run-deadline settlement to a small testable Agent-loop helper. Its two regressions prove an ignored-abort child settles `CANCELLED` and a child that finishes before the deadline preserves its value. This closes the untested implementation gap for future runs only; it does not replace the missing H003 result artifact, alter a Live record or authorize a retry.
+
+## 2026-09-17 — H001 identity and entrance repair after independent review
+
+Reproduced the independent review's three production counterexamples before changing code: B1F/1F was accepted as one address, a shared phone overrode a clear Shibuya/Roppongi conflict, and a postal code plus floor counted as a complete address. `outlet-identity` now reports `MATCH`, `CONFLICT`, or `INSUFFICIENT`; TableCheck and Tabelog deny HIGH whenever a complete source address explicitly conflicts, while a complete same address with a stale phone remains valid. No transliteration service, merchant exception, fallback provider, broad GET permission, or Domain-state shortcut was introduced.
+
+TableCheck now receives a Router-run-scoped entrance ledger. It records all source-observed public merchant URLs as re-identification hints, never as availability evidence. Current candidate discovery remains mandatory when its own page is incomplete; its URL order is direct known link, current discovery, then prior run hints. Both adapters probe an identity-verified Google-listed merchant page before normal search, so a later search challenge cannot erase that valid entrance. The production Live composition regression starts from `LiveBrowserAvailability`, observes Hajime while investigating Teppen, crosses Agent batches, and validates Hajime afresh. The separate stale-entry regression proves a prior Matsue URL cannot suppress current discovery.
+
+After the frozen dirty snapshot passed 54 targeted tests and the 391-test offline gate, performed exactly one read-only probe per user-fixed saved entrance: Sushi Teppen TableCheck, Namikibashi Sushi Hajime TableCheck, and Sushi Nasu's Google-listed Tabelog page. All three artifacts stopped at `BROWSER_RUNTIME_FAILED` before a snapshot; therefore no source conclusion, model/Google call, request selection, booking or external write occurred. Full evidence and B1–B14 classification are in [H001 identity/entrance follow-up](H001-IDENTITY-ENTRANCE-FOLLOWUP-2026-09-17.md). Original-researcher review remains pending.
+
+A follow-up no-network runtime check opened and closed local headless Chromium successfully. The established first blocker is therefore Cloudflare Browser Run session creation, not a missing local browser. The fixed Live round was not retried through that alternate engine. A final production-composition regression proves `endReadRun` clears entrance hints before a new run; targeted coverage is 55/55 and the full offline gate is 392/392.
+
+The existing independent Hybrid diagnostic evaluator was then checked in memory against each failed probe without writing a sidecar. Every probe has zero candidates and returns `completion` and `evidence` as `NOT_EVALUATED`, so it is not a valid independent evaluation input. The artifact record preserves that limitation and continues to require an actual shared production-composition result before evaluation.
+
+The shared browser path's post-repair local Chromium fixture gate also passes 17/17. It remains a synthetic, read-only offline verification and does not turn the failed remote probes into a real-source outcome.
+
+## 2026-09-17 Regression-defense generalization
+
+Extracted the independently authored H001--H005 fixed source observations from the code-contract model test. The shared helper still drives actual Google search, fact composition, browser availability, Interpreter, Compiler, Runtime, Router, Validator and Grounding; only source transport/pages are fixed. Added a bounded real-model fixed-source Runner which creates immutable diagnostic and evaluator artifacts without accessing a Live website. No production behavior, prompt, frozen case input, booking path or external write was changed.
+
+The real-model one-shot runs were deliberately retained even when red: H002 paused for input, H004 failed, H003 ended no-result and H005 presented; H001 exposed an evaluation-location Runner mistake and was not retried. H001/H003/H005 Live Read-only attempts each terminated `CANCELLED` under their caps on a dirty worktree. Full detail and unassessed scope are in [the regression-defense report](REGRESSION-TEST-DEFENSE-REPORT-2026-09-17.md). No commit or push.
+
+### Controlled migration sample
+
+Added `new-vegetarian-lunch` as a source-scenario registration and test data row, not a second Runner. It changes cuisine, negative constraint, party size, named area and lunch-time slot together, then exercises the same production composition. It is deliberately exposed controlled evidence and was not included in paid-model or Live runs.
+
+### H001 authorized corrective model run
+
+After the user authorized a one-time exception to the per-case limit, reran H001 through the corrected fixed-source real-model Runner. The immutable result completed `PRESENT_RESULTS`; evaluator@15 accepted authoritative conditions, evidence, investigation, final claim, completion and resources. This is a fixed-source model acceptance record, not a Live website result and did not trigger further product changes.

@@ -1,17 +1,41 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.33
-- Last updated: 2026-09-16
+- Document revision: 4.40
+- Last updated: 2026-09-17
 - Source of truth for: 已实现能力、已验证范围、明确未验证项与下一道门槛
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Documentation Index](INDEX.md), [Roadmap](roadmap.md), [Verification History](history/TEST-LOG.md)
 
 ## 最新审查与当前门槛
 
+2026-09-17 H001 身份与入口复核的最小修复已完成离线门槛：B1F/1F、同电话异址和“邮编+楼层”三个原反例均已不再产生 HIGH/同址；TableCheck 运行级入口账本会复用 Teppen 观察到的 Hajime 入口但逐候选重新验身，无关缓存不会跳过当前 discovery，read run 结束也不会残留入口；两个 Adapter 的已列 merchant URL 先经身份门槛再搜索。定向55/55、typecheck、arch、build、diff check及授权全量392/392均通过。随后三条固定 saved-entrance Live Read-only probe（Teppen、Hajime、Nasu）均在默认 Cloudflare Browser Run 的 session 创建阶段 `BROWSER_RUNTIME_FAILED`，未产生 snapshot、模型/Google 调用或外部写；本机 headless Chromium 可单独启动，未访问外站。按“一次固定 Live、不自动重跑”边界未切换引擎复试；不构成来源、库存或产品验收。详见[定向后续记录](history/H001-IDENTITY-ENTRANCE-FOLLOWUP-2026-09-17.md)，交回原研究者 Review，不能自称独立 Review 已通过。
+
+2026-09-17 原研究者独立审查定向修复：现有定向56/56通过，但额外生产函数反例确认地址比较把B1F与1F判为相同，两平台给HIGH；电话相同仍可绕过明确地址冲突。H001新Live仍在Teppen调查见到涩谷Hajime入口后未用于Hajime；缓存非空还会跳过当前候选无结果时的发现分支。已知直链仍依赖搜索页先成功。H003固定来源正向HARD诊断有效；H005只证明过期拦截，当前一分钟/精确分钟契约尚未形成可完成的即时查位闭环。当前匹配修复不应签收为完成。无新Live或生产代码修改，详见[独立审查及反例](../.eval-artifacts/targeted-repair-independent-review-2026-09-17/REPORT.md)。
+
 2026-09-16 Browser Agent 当前日本餐厅只读切片完成真实闭环：复用既有观察器、LLM 决策、受控 Playwright 和来源核验，未接入 Stagehand/browser-use/Midscene 生产依赖。Tabelog 被动库存响应与店铺/日期/人数绑定，修复跨分店查询；TableCheck 非标准下拉、已选状态、TIME 范围及完整禁用时段识别已验证。复杂套餐/取消规则跨页留源，条件修订废弃旧库存。实际 Web 两店比较及修改日期/人数均 PRESENT_RESULTS、刷新恢复；首次八芳 3 时段、Maru 未确认，修订后 Maru 5 时段、八芳许可窗口内无位。限定商户不再扩展调查其他店；Web 新任务隔离、仅展示实际调查商户、过期库存提示已补齐。详见[最终复核与明确限制](history/BROWSER-AGENT-FINAL-REVIEW-2026-09-16.md)。
 
-当前版本：Browser action Prompt@4 / wire@3，Semantic Prompt@14，Restaurant Agent Decision Prompt@14，独立 diagnostic evaluator/rubric@15。默认测试 369/369、类型/架构/构建通过；真实 Chromium 全量 23/23，并通过最后展示/过期定向回归。原始 Web 执行不改写，修复导出后从相同事件重新形成独立复核输入，两轮条件、证据、调查及最终声明通过；Web 浏览器调用总数仍缺失，RESOURCES 为 NOT_EVALUATED。新商户测试已执行，电话冲突与多语言发现仍有 UNKNOWN；既有 semantic regression@3 未通过，不能宣称语义或任意网站全面完成。完整地图语义、其他类别网站和真实预约写入仍属 P5；本轮无预约提交、commit 或 push。
+当前版本：Browser action Prompt@4 / wire@3，Semantic Prompt@14，Restaurant Agent Decision Prompt@14，Restaurant Fact Judgment Prompt@2，独立 diagnostic evaluator/rubric@15。当前工作树完整本地套件 392/392、类型/架构/构建通过；历史真实 Chromium 验证仍仅证明其各自记录的范围。原始 Web 执行不改写，修复导出后从相同事件重新形成独立复核输入；Web 浏览器调用总数仍缺失，RESOURCES 为 NOT_EVALUATED。跨语言地址识别现有离线反例，但尚无其修复后的真实来源复验；既有 semantic regression@3 未通过，不能宣称语义或任意网站全面完成。完整地图语义、其他类别网站和真实预约写入仍属 P5；本轮无预约提交、commit 或 push。
+
+2026-09-17 H001–H005 各一次 Hybrid Live Read-only 的新基线保存在`.eval-artifacts/restaurant-hybrid-live-read/`，每例的原始执行和 evaluator@15 sidecar 分离保存。H001在218288ms内调查10家后`NO_VERIFIED_RESULT`；H002正确因缺人数`WAITING_USER`；H003、H005分别在300009ms/300018ms到达预算并取消；H004为事实型推荐，7.4秒展示7家。它们不是5/5用户目标完成，也没有发现共享`INFRA_BLOCKER`。诊断确认正向HARD的派生判断此前只处理NEGATIVE：已将可引用、同候选具体类型事实的正向判断补入`MODEL_JUDGMENT`（Prompt@2），资料不足、宽泛类型、无引文或正向`CONFLICT`仍为UNKNOWN。固定来源反例、完整本地371/371、typecheck、arch和build通过；但唯一H003修复后Live因本次Semantic将所有条件都判SOFT而直接走availability，随后TableCheck`REQUEST_SELECTION_UNCONFIRMED`/Tabelog`BROWSER_TIMEOUT`而`EXECUTION_FAILURE`，没有实际到达新增的正向判断路径。因此不进入五例修复后回归、不宣称Live改善；人数推断/HARD-SOFT以及预约来源故障留待下一小循环。无预约、外部写、Gold/Holdout修改、commit或push。
+
+2026-09-17按用户授权追加 H001 两条日期变体，涩谷/omakase HARD/2人/精确19:00保持：9月18日找到鮨匠一石三鳥和Matsue涩谷店，9月19日找到Matsue涩谷店；两条完整Hybrid Live Read-only均PRESENT_RESULTS，独立diagnostic evaluator@15 qualified=YES。分别186.9秒/179.6秒，共35模型调用、215720 tokens、7次Google。早上9月17日基线为6 UNAVAILABLE、4 UNKNOWN；四个UNKNOWN属于来源发现或门店身份未确认，不能算无位。共同候选Matsue的跨日期结果支持库存日期差异，但候选与模型路径变化，非严格因果A/B。Jinnan在两变体仍REQUEST_SELECTION_UNCONFIRMED，不能宣称浏览器普遍可靠或五例通过。无产品源码/Prompt/原Gold修改，无预约或外部写入。[日期诊断报告](../.eval-artifacts/h001-date-variants-2026-09-17/REPORT.md)。
+
+2026-09-17 H001/H003/H005 修复前离线门槛：TableCheck/Tabelog的 Google 列出商户链接仅作为受控同源读取入口，仍逐候选做 HIGH 身份匹配；同轮已验证入口可辅助第二候选定位，但不复制其空位证据。姓名+完整地址可在电话冲突时保持 HIGH，分店地址冲突仍拒绝。`right now` 升为 temporal materialization@4：记录 Tokyo 参考时刻、1 分钟即时有效期和 15 分钟离散时段可查询性；过期或不可表示的精确即时请求在 Router 查询前变为 UNKNOWN，不替换为更晚 slot，展示也拒绝过期即时证据。H003固定基线的当前 Google `bar and grill/loung bar` 事实经一次可审计真实 `restaurant_fact_judgment@2` 支持 `good for drinks` HARD（846 tokens）；回放显示该判断将缺口从 HARD 事实改为缺空位/来源身份，未伪称可展示。此前一次保存路径失败和一次已 supersede 事实诊断均保留为失败记录；没有浏览器/Google 请求。定向 98/98、typecheck、arch、build、diff check及授权 loopback `npm test` 376/376 通过。此时尚未运行这三条修复后 Live，不宣称 Live 改善。
+
+2026-09-17 用户授权后的单次 Live Read-only：H001原始请求在181499ms/7步结束为`NO_VERIFIED_RESULT`，10候选、Google 5/50、浏览器模型12/50；5家有请求绑定的`NO_MATCHING_SLOT`，其余为门店身份/提取不确定，独立 evaluator@15 为`taskProducedQualifiedResult=NO`、`completion=NO_VERIFIED_RESULT`，不报告无位或通过。H005在138627ms/7步为`NO_VERIFIED_RESULT`，Google 4/50、浏览器运行调用0、浏览器模型10；run reference 为东京13:57，立即合约在事实调查后过期，10家空位均明确`UNKNOWN/IMMEDIATE_REQUEST_EXPIRED`，没有把13:57换成更晚 slot，独立 evaluator sidecar 已保存但没有合格结果。H003单次启动于04:52:35，超过5分钟自动预算仍未退出、未落盘result/evaluation；为遵守用户每条5分钟上限已中止，只保留`started` artifact，不能计为完整Live验收，且不重跑。三条均无预约或外部写；这些是开发诊断（dirty worktree、exposed development dataset），不是Clean Baseline或独立Review通过。下一门槛是原研究者对H003清理超时、H001身份/提取缺口及H005即时调查顺序进行独立Review。
+
+2026-09-17 后续离线修补：TableCheck 与 Tabelog 共用的门店地址比较现要求完整地址表示在邮编和门牌/单元序列上相符，接受脚本/全半角与成分排序差异；地址缺失或楼层/门牌不符仍只给非 HIGH。H001 的 Google 商户入口、逐候选复核与空位证据隔离边界不变。Hybrid Live runner 增加外层 deadline 结算，避免协调器忽略 abort 时没有终态 artifact；该修补不追溯生成 H003 的遗失结果，也不触发重跑。新增定向反例 51/51，随后 `npm test` 378/378、typecheck、arch:check、build、diff check 均通过。此处只增加离线证据：H001 的新地址规则尚未 Live 复验，H003 仍缺完整 Live 终态，H005 仍缺在有效即时窗口内与平台实际 slot 的来源验证。完整 B1–B14 当前分类与原研究者 Review 问题见[P0–P4 交付记录](history/BROWSER-AGENT-RESTAURANT-P0-P4-DELIVERY-2026-09-16.md#2026-09-17-current-repair-addendum--review-handoff-pending)。
+
+2026-09-17 地址充分性补强：不再因为两个同样的短地址字符串相等就形成同店证明；无邮编时至少需要门牌和两个地址成分，或日本都道府县加市/区/町/村结构。新增“同样的`1-1 Shinjuku`仍为MEDIUM”反例。TableCheck/Tabelog/Hybrid 定向 75/75、授权 loopback `npm test` 379/379、typecheck、arch:check、build 通过。该补强未产生新的来源/模型调用或 Live；H001/H003/H005 的前述未验证项不变。
+
+2026-09-17 H005 即时 slot 合约补强：temporal materialization 升为`@5`，不再以固定 15 分钟假定预先拒绝或接纳平台时隙。Router 在一分种有效期内只把用户的原始精确东京时刻交给来源，并以`sourceSlotPolicy: EXACT_ONLY`标记；来源只有观察到该精确 slot 才能 AVAILABLE。TableCheck/Tabelog 都将页面上仅有邻近 12:00/12:30、请求为12:08的情形记录为`UNKNOWN/IMMEDIATE_SLOT_NOT_OFFERED`，不改成12:30也不报告无位；若来源明确针对精确请求为空，既有无位链仍可表达。固定时间 Compiler/Router/两 Adapter 回归均通过。此为离线来源边界证据，不是有效即时窗口的真实来源 Live；H005 Live 历史过期结果和 H003 无终态记录均不被改写。
+
+展示前门槛也已单独回归：即使源 slot、身份与展示有效期仍然新鲜，只要即时一分种有效窗口过去，`PRESENT_RESULTS`被拒绝；不会借较长的普通 display TTL 显示过期即时结果。H005 固定时间、来源 slot 与展示边界定向 95/95，授权 loopback `npm test` 385/385 通过。
+
+本批逐案例最终矩阵（含实际Live资源、evaluator、失败与原研究者复核问题）见[H001/H003/H005 定向修复报告](history/H001-H003-H005-TARGETED-REPAIR-2026-09-17.md)。该报告明确保留 H003 无终态、H001 post-fix Live 缺口与 H005 有效窗口 Live 缺口，未把离线通过升级为产品通过。
+
+H003 deadline 收束另有独立回归：即使子任务忽略 abort，外层也会`CANCELLED`结算，以便 runner 写出失败 artifact；正常先完成的结果保持不变。其 2/2 定向与最终385→387/387全量通过，仍不追溯补写历史 H003 artifact 或触发重跑。
 
 ### 此前审查记录（历史检查点，当前 Browser 结论以上文为准）
 
@@ -362,3 +386,11 @@ R9 Web 当前条款及独立来源链接已修；TableCheck 英文搜索 Budget/
 ## 2026-09-16 Browser follow-up - latest verified status
 
 Tabelog source-owned date/guest observation and readiness are connected to the production Adapter and both Playwright sessions. Real model: 2 calls select 2026-09-20 / 4 guests; inventory still unverified. Ordinary external links no longer imply an external booking provider. TableCheck disabled-date handling and scoped empty-result parsing repaired: Sushi Inase Live returns UNAVAILABLE / NO_MATCHING_SLOT for 2026-09-16 / 2 guests / 19:00 in about 9 seconds, zero model calls. Shibuya Sushi Jinnan's prior TableCheck search did not identify the target; absence from the platform is not established. Final offline 361/361, Chromium 18/18, typecheck/architecture/build pass. Batch used 5 model calls / 39116 tokens / zero Google, no booking submission. Full P0-P4 remains incomplete. [Follow-up evidence](history/BROWSER-AGENT-VALIDATION-2026-09-16.md#follow-up-tabelog-controls-and-the-two-tablecheck-candidates).
+
+## 2026-09-17 Regression-defense generalization
+
+H001--H005 now share independently declared `SYNTHETIC_CONTROL` source environments across the existing real composition's scripted code-contract test and its bounded real-model runner. Independent composition/evaluator mutations cover request fidelity, batch retention, discovery truncation, evidence lineage, UNKNOWN/no-result, expiry, execution records and premature end. The local code-contract gate passes all five; the default suite passes 392/392 when loopback is permitted. One-shot real-model results are mixed (H002/H004 red, H003 no-result, H005 presented; H001 runner setup failure) and one-shot Live H001/H003/H005 all cancelled under their caps on a dirty worktree, so none is a clean product acceptance. [Coverage and limits](history/REGRESSION-TEST-DEFENSE-REPORT-2026-09-17.md).
+
+The follow-up `new-vegetarian-lunch` controlled migration sample varies cuisine, exclusion, lunch time, party size and named area rather than merely changing an outlet name. It uses the same source factory and Hybrid composition with no copied Runner, completes a qualified controlled path, and raises the authorized default suite result to 394/394. It is exposed controlled evidence, not a Live/model run or Holdout.
+
+The user explicitly authorized one H001 corrective real-model fixed-source rerun after the Runner coordinate-selection regression. It reached `PRESENT_RESULTS`; independent evaluator@15 marked all six dimensions `SATISFIED` and the qualified result YES (5 model calls, 3 fixed Google requests, 10.7s). This closes fixed-source H001 coverage only; its historical Live run remains cancelled and does not establish current website behavior.

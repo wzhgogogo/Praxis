@@ -736,7 +736,7 @@ test("Hybrid production composition binds an explicit evaluation location before
   assert.equal(snapshot.domainState.intentDraft?.date, "2026-09-17");
   assert.deepEqual(snapshot.domainState.intentDraft?.timeWindow, { earliest: "12:00", latest: "17:00" });
   assert.deepEqual(snapshot.domainState.intentDraft?.temporalResolution, {
-    policyVersion: "restaurant-temporal-materialization@3", referenceTime: now.toISOString(), timezone: "Asia/Tokyo",
+    policyVersion: "restaurant-temporal-materialization@5", referenceTime: now.toISOString(), timezone: "Asia/Tokyo",
     date: { expression: "tomorrow", resolvedDate: "2026-09-17", basis: "TOMORROW" },
     timeWindow: { expression: "tomorrow afternoon", resolvedTimeWindow: { earliest: "12:00", latest: "17:00" }, basis: "DAYPART:AFTERNOON" },
   });

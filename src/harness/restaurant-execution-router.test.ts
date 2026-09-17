@@ -130,6 +130,78 @@ test("Execution Router passes only bound availability arguments and its deadline
   });
 });
 
+test("Execution Router preserves a current exact immediate request for source-side slot verification", async () => {
+  let calls = 0;
+  const router = new RestaurantExecutionRouter(
+    { executionRoute: "STRUCTURED_ADAPTER", async search() { return { candidates: [], evidence: [], metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 } }; } },
+    { executionRoute: "STRUCTURED_ADAPTER", async check(request) { calls += 1; return { offers: [], availabilityChecks: Object.fromEntries(request.candidateIds.map((candidateId) => [candidateId, { status: "UNKNOWN" as const, checkedAt: "2026-08-05T09:00:30.000Z", evidenceIds: [], reasonCode: "SOURCE_PENDING" }])), evidence: [], metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 } }; } },
+  );
+  const immediateState: RestaurantTaskState = {
+    ...state,
+    phase: "SEARCHING",
+    candidates: fixtureCandidates,
+    intentDraft: {
+      ...fixtureIntent,
+      schemaVersion: "3",
+      temporalResolution: {
+        policyVersion: "restaurant-temporal-materialization@5", referenceTime: "2026-08-05T09:00:00.000Z", timezone: "Asia/Tokyo",
+        timeWindow: { expression: "right now", resolvedTimeWindow: fixtureIntent.timeWindow, basis: "RELATIVE_OFFSET_MINUTES:0" },
+        immediateAvailability: { validUntil: "2026-08-05T09:01:00.000Z", sourceSlotPolicy: "EXACT_ONLY" },
+      },
+    },
+  };
+  const execution = await router.execute({ type: "CHECK_AVAILABILITY", candidateIds: [fixtureCandidates[0]!.restaurant.id] }, immediateState, "2026-08-05T09:00:30.000Z");
+  assert.equal(calls, 1);
+  assert.equal(execution.event?.type, "AVAILABILITY_CHECKED");
+  assert.equal(execution.event?.availabilityChecks[fixtureCandidates[0]!.restaurant.id]?.status, "UNKNOWN");
+});
+
+test("Execution Router forwards only a current exact immediate slot to the provider", async () => {
+  let received: unknown;
+  const router = new RestaurantExecutionRouter(
+    { executionRoute: "STRUCTURED_ADAPTER", async search() { return { candidates: [], evidence: [], metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 } }; } },
+    {
+      executionRoute: "STRUCTURED_ADAPTER",
+      async check(request) {
+        received = request;
+        return {
+          offers: [],
+          availabilityChecks: Object.fromEntries(request.candidateIds.map((candidateId) => [candidateId, { status: "UNAVAILABLE" as const, checkedAt: "2026-08-05T09:00:30.000Z", evidenceIds: [] }])),
+          evidence: [], metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 },
+        };
+      },
+    },
+  );
+  const immediateState: RestaurantTaskState = {
+    ...state,
+    phase: "SEARCHING",
+    candidates: fixtureCandidates,
+    intentDraft: {
+      ...fixtureIntent,
+      schemaVersion: "3",
+      timeWindow: { earliest: "12:00", latest: "12:00" },
+      temporalResolution: {
+        policyVersion: "restaurant-temporal-materialization@5", referenceTime: "2026-08-05T09:00:00.000Z", timezone: "Asia/Tokyo",
+        timeWindow: { expression: "right now", resolvedTimeWindow: { earliest: "12:00", latest: "12:00" }, basis: "RELATIVE_OFFSET_MINUTES:0" },
+        immediateAvailability: { validUntil: "2026-08-05T09:01:00.000Z", sourceSlotPolicy: "EXACT_ONLY" },
+      },
+    },
+  };
+  const execution = await router.execute({ type: "CHECK_AVAILABILITY", candidateIds: [fixtureCandidates[0]!.restaurant.id] }, immediateState, "2026-08-05T09:00:30.000Z");
+  assert.equal(execution.event?.type, "AVAILABILITY_CHECKED");
+  if (execution.event?.type !== "AVAILABILITY_CHECKED") throw new Error("expected availability result");
+  assert.equal(execution.event?.availabilityChecks[fixtureCandidates[0]!.restaurant.id]?.status, "UNAVAILABLE");
+  assert.deepEqual(received, {
+    candidateIds: [fixtureCandidates[0]!.restaurant.id],
+    candidates: [fixtureCandidates[0]!],
+    date: fixtureIntent.date,
+    timeWindow: { earliest: "12:00", latest: "12:00" },
+    immediateAvailability: { validUntil: "2026-08-05T09:01:00.000Z", sourceSlotPolicy: "EXACT_ONLY" },
+    partySize: fixtureIntent.partySize,
+    hardCriteria: ["yakiniku"],
+  });
+});
+
 test("Execution Router binds a fact-only read to known candidates and the authoritative recommendation intent", async () => {
   let received: unknown;
   const router = new RestaurantExecutionRouter(

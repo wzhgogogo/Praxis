@@ -30,6 +30,29 @@ function searchUrl(candidateName: string): string {
   return `https://tabelog.com/en/rstLst/?sw=${encodeURIComponent(candidateName)}`;
 }
 
+/** A Google-listed Tabelog URL may be read, but still needs page identity proof. */
+function listedTabelogOutlet(candidate: RestaurantAvailabilityRequest["candidates"][number]) {
+  const value = candidate.restaurant.sourceIds.googleWebsiteUri;
+  if (!value || !isTabelogUrl(value)) return undefined;
+  try {
+    const url = new URL(value);
+    if (url.origin !== "https://tabelog.com" || /\/rstLst\//.test(url.pathname)) return undefined;
+    url.search = "";
+    url.hash = "";
+    return {
+      sourceEntityId: `google-listed:${url.pathname.replace(/^\/+|\/+$/g, "")}`,
+      sourceUrl: url.toString(),
+      outletName: candidate.restaurant.outletName,
+    };
+  } catch {
+    return undefined;
+  }
+}
+
+function mergeOutlets<T extends { sourceUrl: string }>(listed: T | undefined, discovered: T[], max: number): T[] {
+  return [...new Map([...(listed ? [[listed.sourceUrl, listed] as const] : []), ...discovered.map((item) => [item.sourceUrl, item] as const)]).values()].slice(0, max);
+}
+
 /** Browser redirects may append short-lived challenge tokens; never persist them in eval diagnostics. */
 function diagnosticUrl(value: string): string {
   try {
@@ -182,11 +205,33 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
       await session.captureResponses?.(TABELOG_VACANCY_RESPONSES);
       const browser = { ...session.metadata };
       const requestedSearchUrl = searchUrl(candidate.restaurant.outletName);
-      await this.executor.navigate({
-        source: "TABELOG", stage: "DISCOVERY", signal, allowedOrigins: ["https://tabelog.com"], session, url: requestedSearchUrl,
-      });
-      let search = await this.executor.snapshot({ source: "TABELOG", stage: "DISCOVERY", signal, session });
-      search = await this.resumeAfterUserIntervention(candidate, request, session, search, "SEARCH", signal);
+      const listedOutlet = listedTabelogOutlet(candidate);
+      let directIdentityVerified = false;
+      let directPage: BrowserSnapshot | undefined;
+      if (listedOutlet) {
+        await this.executor.navigate({
+          source: "TABELOG", stage: "IDENTITY", signal, allowedOrigins: ["https://tabelog.com"], session, url: listedOutlet.sourceUrl, observed: true,
+        });
+        const page = await this.executor.snapshot({ source: "TABELOG", stage: "IDENTITY", signal, session });
+        if (!hasBotChallenge(page)) {
+          const extraction = parseTabelogOutletIdentityWithEvidence(page, listedOutlet);
+          directIdentityVerified = inspectTabelogEntity(candidate, [extraction.outlet]).resolution.confidence === "HIGH";
+        }
+        if (directIdentityVerified) directPage = page;
+      }
+      let search: BrowserSnapshot;
+      let outlets: ReturnType<typeof parseTabelogSearchOutlets>;
+      if (directIdentityVerified && directPage && listedOutlet) {
+        // A verified Google-listed merchant entrance is sufficient to begin
+        // source reading.  A search challenge must not invalidate it.
+        search = directPage;
+        outlets = [listedOutlet];
+      } else {
+        await this.executor.navigate({
+          source: "TABELOG", stage: "DISCOVERY", signal, allowedOrigins: ["https://tabelog.com"], session, url: requestedSearchUrl,
+        });
+        search = await this.executor.snapshot({ source: "TABELOG", stage: "DISCOVERY", signal, session });
+        search = await this.resumeAfterUserIntervention(candidate, request, session, search, "SEARCH", signal);
       if (hasBotChallenge(search)) {
         const inspection = inspectTabelogEntity(candidate, []);
         this.recordIdentityDiagnostic({
@@ -205,7 +250,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
         });
         return this.ground(candidate, request, { candidate, observedAt, entityMatch: { confidence: "LOW", matchedBy: [] }, pageState: "BOT_CHALLENGE", excerpt: pageExcerpt(search) }, browser);
       }
-      let outlets = parseTabelogSearchOutlets(search).slice(0, this.maxCandidateMatches);
+      outlets = mergeOutlets(listedOutlet, parseTabelogSearchOutlets(search), this.maxCandidateMatches);
       if (!outlets.length) {
         const generic = await this.executor.runSkill({
           taskId: `browser-read:${candidate.restaurant.id}`,
@@ -223,7 +268,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
           }),
         });
         search = generic.snapshot;
-        outlets = parseTabelogSearchOutlets(search).slice(0, this.maxCandidateMatches);
+        outlets = mergeOutlets(listedOutlet, parseTabelogSearchOutlets(search), this.maxCandidateMatches);
       }
       // The multilingual index may not index its own translated display name.
       // One source-observed local name can refine retrieval; outlet identity is
@@ -234,8 +279,9 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
           await this.executor.navigate({ source: "TABELOG", stage: "DISCOVERY", signal, allowedOrigins: ["https://tabelog.com"], session, url: searchUrl(alias) });
           search = await this.executor.snapshot({ source: "TABELOG", stage: "DISCOVERY", signal, session });
           if (hasBotChallenge(search)) return this.ground(candidate, request, { candidate, observedAt, entityMatch: { confidence: "LOW", matchedBy: [] }, pageState: "BOT_CHALLENGE", excerpt: pageExcerpt(search) }, browser);
-          outlets = parseTabelogSearchOutlets(search).slice(0, this.maxCandidateMatches);
+          outlets = mergeOutlets(listedOutlet, parseTabelogSearchOutlets(search), this.maxCandidateMatches);
         }
+      }
       }
       let lastOutletPage: BrowserSnapshot | undefined;
       const enrichedOutlets = [] as typeof outlets;
@@ -354,6 +400,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
       const slotParse = parseTabelogAvailabilitySlots(page, request);
       const slots = slotParse.availableSlots;
       const hasQualifyingSlot = slots.some((slot) => slot >= request.timeWindow.earliest && slot <= request.timeWindow.latest);
+      const immediateSlotNotOffered = request.immediateAvailability !== undefined && !hasQualifyingSlot && slotParse.hasExplicitSlotUi;
       return this.ground(candidate, request, {
         candidate,
         observedAt: this.now(),
@@ -362,7 +409,8 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
         entityMatch: resolved,
         requestedDate: request.date,
         requestedPartySize: request.partySize,
-        pageState: hasQualifyingSlot ? "AVAILABLE" : slotParse.hasExplicitSlotUi ? "NO_MATCHING_SLOT" : "EXTRACTION_FAILED",
+        pageState: hasQualifyingSlot ? "AVAILABLE" : immediateSlotNotOffered ? "EXTRACTION_FAILED" : slotParse.hasExplicitSlotUi ? "NO_MATCHING_SLOT" : "EXTRACTION_FAILED",
+        ...(immediateSlotNotOffered ? { failureCode: "IMMEDIATE_SLOT_NOT_OFFERED" } : {}),
         visibleSlots: slots,
         listedCourseDetails: parseTabelogListedCourses(page),
         verifiedHardCriteria: parseTabelogVerifiedHardCriteria(page, request.hardCriteria),

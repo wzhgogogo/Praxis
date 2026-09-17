@@ -44,11 +44,22 @@ export interface RestaurantCriterion {
 
 /** Immutable code-derived audit record for a user temporal expression. */
 export interface RestaurantTemporalResolution {
-  policyVersion: "restaurant-temporal-materialization@3";
+  policyVersion: "restaurant-temporal-materialization@5";
   referenceTime: string;
   timezone: "Asia/Tokyo";
   date?: { expression: string; resolvedDate: string; basis: string };
   timeWindow?: { expression: string; resolvedTimeWindow: { earliest: string; latest: string }; basis: string };
+  /**
+   * A zero-offset request means immediate seating, not permission to silently
+   * substitute the next reservable slot.  The Router uses this record both
+   * before a provider query and before presentation.
+   */
+  immediateAvailability?: {
+    validUntil: string;
+    /** The Router keeps the user’s exact clock value; only a provider-observed
+     * matching slot can establish availability. */
+    sourceSlotPolicy: "EXACT_ONLY";
+  };
 }
 
 export interface RestaurantIntentDraft {
@@ -230,6 +241,8 @@ export interface RestaurantAvailabilityRequest {
   timeWindow: { earliest: string; latest: string };
   /** Original user target when `timeWindow` is the separately authorized broader query range. */
   requestedTimeWindow?: { earliest: string; latest: string };
+  /** Bound from an immediate temporal request; providers may only check its exact window. */
+  immediateAvailability?: RestaurantTemporalResolution["immediateAvailability"];
   partySize: number;
   /** Router-bound positive HARD criteria; the browser can only report source-supported facts. */
   hardCriteria: string[];

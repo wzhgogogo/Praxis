@@ -34,6 +34,38 @@ function diagnosticUrl(value: string): string {
   }
 }
 
+/** A Google-listed TableCheck merchant page is only a candidate pointer. */
+function listedTableCheckOutletUrl(value: string | undefined): string | undefined {
+  if (!value) return undefined;
+  try {
+    const url = new URL(value);
+    if (url.origin !== "https://www.tablecheck.com" || !/^\/(?:en|ja)\/(?!japan\/search(?:\/|$))[^/]+/i.test(url.pathname)) return undefined;
+    url.search = "";
+    url.hash = "";
+    return url.toString();
+  } catch {
+    return undefined;
+  }
+}
+
+/**
+ * Source-observed TableCheck entrances for one Router-owned read run.  They
+ * are navigation hints only: every later candidate still passes identity
+ * verification before an availability page can be read.
+ */
+export class TableCheckEntryLedger {
+  private readonly urls = new Set<string>();
+
+  observe(value: string): void {
+    const safe = listedTableCheckOutletUrl(value);
+    if (safe) this.urls.add(safe);
+  }
+
+  entries(): string[] {
+    return [...this.urls];
+  }
+}
+
 function selectedDateField(snapshot: BrowserSnapshot): string | undefined {
   return /<select[^>]+(?:name|id)=["'][^"']*(?:date|日付)[^"']*["']/i.test(snapshot.html)
     ? "select[name*='date'], select[id*='date']" : undefined;
@@ -57,6 +89,8 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
     private readonly options: {
       maxBrowserSessions?: number;
       onIdentityDiagnostic?: (diagnostic: TableCheckIdentityDiagnostic) => void;
+      /** Router-owned and reset at read-run boundaries; never process-global. */
+      entryLedger?: TableCheckEntryLedger;
     } = {},
   ) {
     if (browser instanceof BrowserTaskExecutor) {
@@ -129,22 +163,42 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
       session = await this.executor.acquire(signal, "TABLECHECK", "DISCOVERY");
       const browser = { ...session.metadata };
       const discoveryUrl = tableCheckDiscoveryUrl(candidate);
-      await this.executor.navigate({
-        source: "TABLECHECK", stage: "DISCOVERY", signal, allowedOrigins: ["https://www.tablecheck.com"], session, url: discoveryUrl,
-      });
-      // Search results are hydrated after navigation. A timeout is not a second request;
-      // snapshotting immediately afterwards distinguishes an empty result from parser failure.
-      try {
-        await this.executor.waitFor({ source: "TABLECHECK", stage: "DISCOVERY", signal, session, selector: 'a[href*="search_text="]', timeoutMs: 10_000 });
-      } catch { /* inspected below */ }
-      let discovery = await this.executor.snapshot({ source: "TABLECHECK", stage: "DISCOVERY", signal, session });
-      let discoveryBase = {
-        requestedUrl: diagnosticUrl(discoveryUrl),
-        finalUrl: diagnosticUrl(discovery.url),
-        title: discovery.title,
-      };
-      const unavailable = inspectTableCheckPageUnavailable(discovery);
-      if (hasTableCheckBotChallenge(discovery) || unavailable.pageUnavailable) {
+      const listedOutletUrl = listedTableCheckOutletUrl(candidate.restaurant.sourceIds.googleWebsiteUri);
+      let directIdentityVerified = false;
+      let directPage: BrowserSnapshot | undefined;
+      if (listedOutletUrl) {
+        await this.executor.navigate({
+          source: "TABLECHECK", stage: "IDENTITY", signal, allowedOrigins: ["https://www.tablecheck.com"], session, url: listedOutletUrl, observed: true,
+        });
+        const page = await this.executor.snapshot({ source: "TABLECHECK", stage: "IDENTITY", signal, session });
+        if (!hasTableCheckBotChallenge(page) && !inspectTableCheckPageUnavailable(page).pageUnavailable) {
+          const extraction = parseTableCheckOutletIdentityWithEvidence(page, listedOutletUrl);
+          directIdentityVerified = extraction !== undefined && inspectTableCheckEntity(candidate, extraction.outlet).resolution.confidence === "HIGH";
+        }
+        if (directIdentityVerified) directPage = page;
+      }
+      let discovery: BrowserSnapshot;
+      let discoveryBase: { requestedUrl: string; finalUrl: string; title: string };
+      let handoff: TableCheckIdentityDiagnostic["discovery"]["handoff"];
+      let currentOutletUrls: string[] = [];
+      if (directIdentityVerified && directPage && listedOutletUrl) {
+        // A Google-listed merchant page that passes the same identity gate is
+        // a normal entrance.  Do not let a later search challenge erase it.
+        discovery = directPage;
+        discoveryBase = { requestedUrl: diagnosticUrl(listedOutletUrl), finalUrl: diagnosticUrl(directPage.url), title: directPage.title };
+      } else {
+        await this.executor.navigate({
+          source: "TABLECHECK", stage: "DISCOVERY", signal, allowedOrigins: ["https://www.tablecheck.com"], session, url: discoveryUrl,
+        });
+        // Search results are hydrated after navigation. A timeout is not a second request;
+        // snapshotting immediately afterwards distinguishes an empty result from parser failure.
+        try {
+          await this.executor.waitFor({ source: "TABLECHECK", stage: "DISCOVERY", signal, session, selector: 'a[href*="search_text="]', timeoutMs: 10_000 });
+        } catch { /* inspected below */ }
+        discovery = await this.executor.snapshot({ source: "TABLECHECK", stage: "DISCOVERY", signal, session });
+        discoveryBase = { requestedUrl: diagnosticUrl(discoveryUrl), finalUrl: diagnosticUrl(discovery.url), title: discovery.title };
+        const unavailable = inspectTableCheckPageUnavailable(discovery);
+        if (hasTableCheckBotChallenge(discovery) || unavailable.pageUnavailable) {
         const botChallenge = hasTableCheckBotChallenge(discovery);
         const failureCode = botChallenge ? "BOT_CHALLENGE" : "TABLECHECK_PAGE_UNAVAILABLE";
         this.recordIdentityDiagnostic({
@@ -164,10 +218,17 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
           pageState: botChallenge ? "BOT_CHALLENGE" : "SOURCE_UNSUPPORTED", failureCode,
           excerpt: tableCheckPageExcerpt(discovery),
         }, browser);
+        }
+        currentOutletUrls = parseTableCheckDiscoveryOutletUrls(discovery, candidate.restaurant.outletName);
+        for (const url of currentOutletUrls) this.options.entryLedger?.observe(url);
       }
-      let outletUrls = parseTableCheckDiscoveryOutletUrls(discovery, candidate.restaurant.outletName);
-      let handoff: TableCheckIdentityDiagnostic["discovery"]["handoff"];
-      if (!outletUrls.length && !hasTableCheckDiscoveryNoResult(discovery)) {
+      let outletUrls = [...new Set([
+        ...(listedOutletUrl ? [listedOutletUrl] : []),
+        ...currentOutletUrls,
+        ...this.options.entryLedger?.entries() ?? [],
+      ])];
+      // Cached entrances must never make an empty current search look complete.
+      if (!directIdentityVerified && currentOutletUrls.length === 0 && !hasTableCheckDiscoveryNoResult(discovery)) {
         const generic = await this.executor.runSkill({
           taskId: `browser-read:${candidate.restaurant.id}`,
           source: "TABLECHECK",
@@ -186,7 +247,13 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         });
         handoff = { reason: "TABLECHECK_DISCOVERY_HAS_NO_EXTRACTABLE_OUTLET_LINK", outcome: generic.status };
         discovery = generic.snapshot;
-        outletUrls = parseTableCheckDiscoveryOutletUrls(discovery, candidate.restaurant.outletName);
+        currentOutletUrls = parseTableCheckDiscoveryOutletUrls(discovery, candidate.restaurant.outletName);
+        for (const url of currentOutletUrls) this.options.entryLedger?.observe(url);
+        outletUrls = [...new Set([
+          ...(listedOutletUrl ? [listedOutletUrl] : []),
+          ...currentOutletUrls,
+          ...this.options.entryLedger?.entries() ?? [],
+        ])];
         discoveryBase = {
           requestedUrl: diagnosticUrl(discoveryUrl),
           finalUrl: diagnosticUrl(discovery.url),
@@ -257,14 +324,21 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
             ...(reservation ? { reservation: { kind: reservation.kind, url: diagnosticUrl(reservation.url) } } : {}),
           });
           if (!reservation) {
-            highIdentityWithoutReservation = { extraction, inspection };
-            break;
+            // Keep looking for a stronger exact-phone match before retaining a
+            // name/address-only outlet with no read target.
+            highIdentityWithoutReservation ??= { extraction, inspection };
+            if (!inspection.comparison.phone || inspection.comparison.phone !== "CONFLICT") break;
+            continue;
           }
-          selected = { extraction, inspection, page, reservation };
-          break;
+          const exactPhone = inspection.resolution.matchedBy.includes("EXACT_PHONE");
+          if (exactPhone || !selected) selected = { extraction, inspection, page, reservation };
+          // A disagreeing phone does not veto complete identity, but an exact
+          // phone outlet is stronger and must get a chance to replace it.
+          if (exactPhone || inspection.comparison.phone !== "CONFLICT") break;
         }
         attemptedPages.push(attempted);
       }
+      if (selected) this.options.entryLedger?.observe(selected.extraction.outlet.sourceUrl);
       const best = selected?.inspection;
       const highWithoutReservation = highIdentityWithoutReservation?.inspection;
       const extractablePage = attemptedPages.some((page) => page.extracted !== undefined);
@@ -292,7 +366,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
               reason: unresolvedReason,
             },
       });
-      if (highIdentityWithoutReservation) return this.ground(candidate, request, {
+      if (!selected && highIdentityWithoutReservation) return this.ground(candidate, request, {
         candidate, observedAt, sourceEntityId: highIdentityWithoutReservation.extraction.outlet.sourceEntityId, sourceUrl: highIdentityWithoutReservation.extraction.outlet.sourceUrl,
         entityMatch: highIdentityWithoutReservation.inspection.resolution, pageState: "EXTRACTION_FAILED", failureCode: "TABLECHECK_PARSE_FAILED",
       }, browser);
@@ -379,10 +453,13 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
       };
       const qualifying = slots.queryComplete
         && slots.availableSlots.some((slot) => slot >= request.timeWindow.earliest && slot <= request.timeWindow.latest);
+      const immediateSlotNotOffered = request.immediateAvailability !== undefined
+        && !qualifying && !slots.explicitlyEmpty && slots.hasExplicitSlotUi;
       return this.ground(candidate, request, {
         candidate, observedAt: this.now(), sourceEntityId: selected.extraction.outlet.sourceEntityId, sourceUrl: selected.extraction.outlet.sourceUrl,
         entityMatch: selected.inspection.resolution, requestedDate: request.date, requestedPartySize: request.partySize,
-        pageState: qualifying ? "AVAILABLE" : slots.queryComplete && (slots.explicitlyEmpty || slots.hasExplicitSlotUi) ? "NO_MATCHING_SLOT" : "EXTRACTION_FAILED",
+        pageState: qualifying ? "AVAILABLE" : immediateSlotNotOffered ? "EXTRACTION_FAILED" : slots.queryComplete && (slots.explicitlyEmpty || slots.hasExplicitSlotUi) ? "NO_MATCHING_SLOT" : "EXTRACTION_FAILED",
+        ...(immediateSlotNotOffered ? { failureCode: "IMMEDIATE_SLOT_NOT_OFFERED" } : {}),
         visibleSlots: slots.availableSlots,
         verifiedHardCriteria: parseTableCheckVerifiedHardCriteria(page, request.hardCriteria),
         excerpt: tableCheckPageExcerpt(page),

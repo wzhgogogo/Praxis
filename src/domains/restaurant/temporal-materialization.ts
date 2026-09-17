@@ -2,12 +2,13 @@ import type { RestaurantTemporalResolution } from "./contracts.js";
 import type { RestaurantSemanticValue } from "./semantic-proposal.js";
 
 export const RESTAURANT_TEMPORAL_MATERIALIZATION_POLICY = {
-  version: "restaurant-temporal-materialization@3",
+  version: "restaurant-temporal-materialization@5",
   timezone: "Asia/Tokyo" as const,
   evening: { earliest: "18:00", latest: "23:00" },
   afternoon: { earliest: "12:00", latest: "17:00" },
   /** A broad query range, never a claim that the user specified exact hours. */
   afterWork: { earliest: "17:30", latest: "22:00" },
+  immediate: { validityMinutes: 1 },
 } as const;
 
 type TimeContext = { referenceTime: string; timezone: "Asia/Tokyo" };
@@ -102,6 +103,16 @@ export function materializeRestaurantTemporalFacts(input: {
   // can compute its local clock (and supplies a date only when no DATE fact
   // was expressed), but cannot silently replace an explicit Friday/tomorrow.
   const resolvedDate = date?.date ?? timeWindow?.date;
+  const immediateAvailability = input.timeWindow && "relativeOffsetMinutes" in input.timeWindow && input.timeWindow.relativeOffsetMinutes === 0
+    ? (() => {
+      const reference = new Date(input.referenceTime);
+      if (Number.isNaN(reference.valueOf())) throw new Error("Temporal materialization requires a valid reference time");
+      return {
+        validUntil: new Date(reference.valueOf() + RESTAURANT_TEMPORAL_MATERIALIZATION_POLICY.immediate.validityMinutes * 60_000).toISOString(),
+        sourceSlotPolicy: "EXACT_ONLY",
+      } as const;
+    })()
+    : undefined;
   return {
     ...(resolvedDate ? { date: resolvedDate } : {}),
     ...(timeWindow ? { timeWindow: timeWindow.timeWindow } : {}),
@@ -112,6 +123,7 @@ export function materializeRestaurantTemporalFacts(input: {
         timezone: input.timezone,
         ...(date ? { date: date.record } : {}),
         ...(timeWindow ? { timeWindow: timeWindow.record } : {}),
+        ...(immediateAvailability ? { immediateAvailability } : {}),
       },
     } : {}),
   };

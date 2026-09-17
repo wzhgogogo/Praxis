@@ -3,7 +3,7 @@ import type { RestaurantAvailabilityRead, RestaurantAvailabilityRequest } from "
 import { ModelBrowserReadActionDecision } from "../../infrastructure/browser/browser-action-decision.js";
 import { BrowserTaskExecutor, type BrowserExecutionBudget, type BrowserExecutionDiagnostic } from "../../infrastructure/browser/browser-task-executor.js";
 import type { BrowserRuntime } from "../../infrastructure/browser/browser-runtime.js";
-import { TableCheckBrowserAvailability } from "../tablecheck/tablecheck-browser-availability.js";
+import { TableCheckBrowserAvailability, TableCheckEntryLedger } from "../tablecheck/tablecheck-browser-availability.js";
 import type { TableCheckIdentityDiagnostic } from "../tablecheck/tablecheck-contracts.js";
 import { TabelogBrowserAvailability } from "../tabelog/tabelog-browser-availability.js";
 import type { TabelogIdentityDiagnostic, TabelogUserInterventionHandler } from "../tabelog/tabelog-contracts.js";
@@ -34,6 +34,7 @@ export class LiveBrowserAvailability {
   readonly executionRoute = "GENERIC_BROWSER" as const;
   /** Persists across candidate batches in one Live availability composition. */
   private readonly browserBudget: BrowserExecutionBudget;
+  private tableCheckEntryLedger = new TableCheckEntryLedger();
 
   constructor(
     private readonly runtime: BrowserRuntime,
@@ -47,11 +48,13 @@ export class LiveBrowserAvailability {
   /** Called by the Router once per Agent loop, not once per candidate batch. */
   beginReadRun(): void {
     this.browserBudget.totalModelCalls = 0;
+    this.tableCheckEntryLedger = new TableCheckEntryLedger();
   }
 
   /** No session survives a check; reset avoids carrying a completed case into another one. */
   endReadRun(): void {
     this.browserBudget.totalModelCalls = 0;
+    this.tableCheckEntryLedger = new TableCheckEntryLedger();
   }
 
   async check(request: RestaurantAvailabilityRequest, signal: AbortSignal): Promise<RestaurantAvailabilityRead> {
@@ -67,6 +70,7 @@ export class LiveBrowserAvailability {
     const tableCheck = new TableCheckBrowserAvailability(executor, this.options.now, {
       ...(this.options.maxTableCheckBrowserSessions !== undefined ? { maxBrowserSessions: this.options.maxTableCheckBrowserSessions } : {}),
       ...(this.options.onTableCheckIdentityDiagnostic ? { onIdentityDiagnostic: this.options.onTableCheckIdentityDiagnostic } : {}),
+      entryLedger: this.tableCheckEntryLedger,
     });
     const tabelog = new TabelogBrowserAvailability(executor, this.options.now, this.options.maxTabelogCandidateMatches, {
       ...(this.options.maxTabelogBrowserSessions !== undefined ? { maxBrowserSessions: this.options.maxTabelogBrowserSessions } : {}),

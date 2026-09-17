@@ -71,6 +71,10 @@ function presentationEvidenceIds(
   now: string,
 ): { valid: true; evidenceIds: string[] } | { valid: false; reason: string } {
   const candidateEvidence = state.readEvidence.filter((evidence) => evidence.candidateId === candidateId);
+  const immediate = state.intentDraft?.temporalResolution?.immediateAvailability;
+  if (immediate && new Date(now).valueOf() > new Date(immediate.validUntil).valueOf()) {
+    return { valid: false, reason: "The immediate availability observation has expired and cannot be presented" };
+  }
   const entities = candidateEvidence.filter((evidence) => evidence.kind === "ENTITY_MATCH" && evidence.entityMatch?.confidence === "HIGH");
   const groundedCurrentFacts = restaurantCurrentFactEvidence(state, candidateId);
   const identityFor = (evidence: RestaurantTaskState["readEvidence"][number]) =>

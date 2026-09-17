@@ -20,8 +20,10 @@ import type { TableCheckIdentityDiagnostic } from "../../../../integrations/tabl
 import type { TabelogIdentityDiagnostic, TabelogUserInterventionRequired } from "../../../../integrations/tabelog/tabelog-contracts.js";
 import { loadFrozenLiveCases, materializeLiveCase, RESTAURANT_READ_DEVELOPMENT_CASE_PATH, RESTAURANT_READ_DEVELOPMENT_DATASET_VERSION } from "../live-case-materializer.js";
 import { HIGASHI_GINZA_EVALUATION_LOCATION } from "../live-evaluation-location.js";
+import { requiresEvaluationLocation } from "../evaluation-location-selection.js";
 import { createHybridReadComposition } from "../hybrid-read-composition.js";
 import { evaluateArtifactAfterFinish, RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION } from "../diagnostic-evaluator.js";
+import { settleAtRunDeadline } from "../live-run-deadline.js";
 import { diagnosticFailureCode, startDiagnosticRun } from "../../../shared/diagnostic-run.js";
 
 function requiredGate(key: string): void {
@@ -44,10 +46,6 @@ function candidateLimitFromArgs(): number {
   const value = Number(process.argv[index + 1]);
   if (!Number.isInteger(value) || value < 1 || value > 20) throw new Error("--candidate-limit must be an integer from 1 to 20");
   return value;
-}
-
-function requiresLocation(caseValue: unknown): boolean {
-  return JSON.stringify(caseValue).includes("NEAR_USER");
 }
 
 function manualTabelogInterventionEnabled(environment: NodeJS.ProcessEnv = process.env): boolean {
@@ -139,6 +137,7 @@ function runCeiling(flag: string, fallback: number): number {
   if (!Number.isSafeInteger(value) || value < 1 || value > fallback) throw new Error(`${flag} must be between 1 and ${fallback}`);
   return value;
 }
+
 const maxModelCalls = runCeiling("--max-model-calls", 150);
 const liveReadLimits = {
   ...LIVE_READ_DEBUG_INVESTIGATION_BUDGET,
@@ -187,7 +186,7 @@ try {
         radiusMeters: HIGASHI_GINZA_EVALUATION_LOCATION.radiusMeters,
         source: "PRAXIS_EVAL_USER_LAT/PRAXIS_EVAL_USER_LNG",
       }
-    : requiresLocation(frozen) ? HIGASHI_GINZA_EVALUATION_LOCATION : undefined;
+    : requiresEvaluationLocation(frozen) ? HIGASHI_GINZA_EVALUATION_LOCATION : undefined;
   const search = new GooglePlacesRestaurantSearch(
     new GooglePlacesClient({ apiKey: process.env.GOOGLE_MAPS_API_KEY ?? "", timeoutMs: liveReadLimits.maxStructuredReadMs }),
     undefined,
@@ -260,7 +259,8 @@ try {
     limits: liveReadLimits,
     safety: "READ_ONLY_CODE_PATH",
   }));
-  const loop = await coordinator.run(taskId, AbortSignal.timeout(Math.max(1, liveReadLimits.maxAutomaticBrowserMs - (Date.now() - startedAt.valueOf()))));
+  const deadline = AbortSignal.timeout(Math.max(1, liveReadLimits.maxAutomaticBrowserMs - (Date.now() - startedAt.valueOf())));
+  const loop = await settleAtRunDeadline(coordinator.run(taskId, deadline), deadline);
   const finalSnapshot = runtime.snapshot(taskId);
   const browserOperationsByCandidate = browserExecutionDiagnostics.reduce<Record<string, number>>((counts, diagnostic) => {
     if (diagnostic.event === "SITE_METHOD" && diagnostic.candidateId) {

@@ -34,7 +34,7 @@ export interface TabelogOutletIdentityExtraction {
   };
 }
 
-export type TabelogIdentityFieldComparison = "MATCH" | "CONFLICT" | "MISSING_GOOGLE" | "MISSING_TABELOG";
+export type TabelogIdentityFieldComparison = "MATCH" | "CONFLICT" | "INSUFFICIENT" | "MISSING_GOOGLE" | "MISSING_TABELOG";
 
 export type TabelogEntityResolutionReason =
   | "HIGH_EXACT_PHONE"

@@ -108,7 +108,12 @@ export function validateRestaurantIntentDraft(input: unknown): RestaurantIntentV
     }
   }
   if (input.temporalResolution !== undefined) {
-    if (!isRecord(input.temporalResolution) || !hasOnlyKeys(input.temporalResolution, ["policyVersion", "referenceTime", "timezone", "date", "timeWindow"]) || input.temporalResolution.policyVersion !== "restaurant-temporal-materialization@3" || input.temporalResolution.timezone !== "Asia/Tokyo" || typeof input.temporalResolution.referenceTime !== "string" || Number.isNaN(Date.parse(input.temporalResolution.referenceTime))) {
+    const immediate = isRecord(input.temporalResolution) ? input.temporalResolution.immediateAvailability : undefined;
+    const validImmediate = immediate === undefined || (isRecord(immediate) &&
+      hasOnlyKeys(immediate, ["validUntil", "sourceSlotPolicy"]) &&
+      typeof immediate.validUntil === "string" && !Number.isNaN(Date.parse(immediate.validUntil)) &&
+      immediate.sourceSlotPolicy === "EXACT_ONLY");
+    if (!isRecord(input.temporalResolution) || !hasOnlyKeys(input.temporalResolution, ["policyVersion", "referenceTime", "timezone", "date", "timeWindow", "immediateAvailability"]) || input.temporalResolution.policyVersion !== "restaurant-temporal-materialization@5" || input.temporalResolution.timezone !== "Asia/Tokyo" || typeof input.temporalResolution.referenceTime !== "string" || Number.isNaN(Date.parse(input.temporalResolution.referenceTime)) || !validImmediate) {
       errors.push("temporalResolution must be a valid code-derived Tokyo materialization record");
     }
   }

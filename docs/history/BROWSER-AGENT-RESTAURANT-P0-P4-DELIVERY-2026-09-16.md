@@ -1,8 +1,8 @@
 # Browser Agent 餐厅 P0–P4 交付记录（2026-09-16）
 
 - Status: Draft / P1–P2 offline implementation awaiting original-researcher review
-- Document revision: 0.3
-- Last updated: 2026-09-16
+- Document revision: 0.4
+- Last updated: 2026-09-17
 - Source of truth for: 本轮 P0–P4 的实际改动、离线验证、B1–B14 状态与原研究者 Review 输入
 - Related documents: [实施计划](../BROWSER-AGENT-RESTAURANT-IMPLEMENTATION-PLAN.md)、[当前状态](../STATUS.md)、[Browser Read Diagnostics](../harness/BROWSER-READ-DIAGNOSTICS.md)、[Test Log](TEST-LOG.md)
 
@@ -28,8 +28,35 @@
 | P0 | PASS（取舍） | 已复核固定 Stagehand 4.1.0 小探针。它需要独立环境/会话，未显示足以抵消维护负担的同一会话收益；不加入生产依赖，也不把 observe 当规划器。结论与失败保留在 [small probe](../brainstorming/2026-09-16-stagehand-small-probe.md)。 |
 | P1 | PARTIAL（离线） | 共享 Executor 的 Local/Cloudflare session 契约、modal/new-tab、双端金额滑条与目标滚动已由真实 Chromium 本地 Fixture 覆盖。生产来源 checkbox/range 默认拒绝；没有猜测的正向站点控件契约或真实来源验证。 |
 | P2 | PARTIAL（离线） | 实际 Router/Domain/Evidence/Web/Harness 组合保留原始时段、只在用户明确允许时查询邻近范围并标记替代 Offer；候选隔离的商业事实进入最小模型比较笔记，用户刷新精确废弃同来源旧条款。真实平台和真实模型仍未验证。 |
-| P3 | NOT_RUN | 本轮没有明确新的真实模型或 Live Read-only 授权；没有使用计划中的额度，也没有读取私有 Holdout。 |
+| P3 | PARTIAL | 已有一次固定当前来源的真实模型诊断，以及用户授权的 H001/H003/H005 单次 Live Read-only；H001/H005 未合格，H003 未生成终态 artifact，因此不构成 P3 验收。未读取私有 Holdout。 |
 | P4 | PARTIAL | 文档、验证记录和 Review 输入已整理；原研究者尚未独立审阅，因此不宣称 Review 通过。 |
+
+## 2026-09-17 current repair addendum — review handoff pending
+
+This addendum is the current classification for the H001/H003/H005 repair slice. It preserves, rather than upgrades, all earlier fixture and Live records. The user-authorized single Live attempt for each case is recorded in [TEST-LOG](TEST-LOG.md#test-2026-09-17-h001-h003-h005-bounded-live-read); no rerun follows the later offline repair.
+
+| ID | Current status | Actual evidence and remaining limit |
+|---|---|---|
+| B1 | PASS (synthetic Chromium) | Existing production-Executor modal fixture remains the evidence; this slice did not retest it against a live page. |
+| B2 | PARTIAL | The existing Router composition preserves a user-authorized alternative range. H005 forwards an unexpired `right now` as its original exact time and requires a provider-observed exact slot; both adapters return UNKNOWN for nearby-but-not-exact cards, and State rejects presentation after immediate expiry even if normal display TTL remains. It does not prove a valid immediate-slot Live result. |
+| B3 | PASS (synthetic Chromium) | Existing selected/value separation evidence remains unchanged. |
+| B4 | PARTIAL | The revoked broad GET permission remains revoked. Local fixture and earlier narrow source contract evidence exist; this repair adds no broad source control grant or new live control observation. |
+| B5 | PASS (synthetic Chromium) | Existing two-ended slider and visible applied-filter evidence remains unchanged. |
+| B6 | PARTIAL | Google-listed same-origin merchant pages are now consumed only as candidate pointers and pass the normal identity gate; the current slice has no new live cross-page control proof. |
+| B7 | PARTIAL | Existing cited website-term reader remains local evidence. The repair strengthens complete outlet address identity (including cross-script representation) but has no real complex-page expansion/read result. |
+| B8 | PARTIAL | Candidate-scoped minimal comparison notes remain covered offline; no current two-store real-source/model comparison was completed. |
+| B9 | PASS (offline composition) | Existing Router/Reducer request-revision regression remains current; no live condition revision was run in this slice. |
+| B10 | PASS (offline Evidence/Reducer) | Existing same-source refresh/supersession regression remains current; no new real source term refresh was run. |
+| B11 | PASS (offline safety) | Narrow action validation, stale-reference and no-booking boundaries remain; no write action was invoked. |
+| B12 | PARTIAL | The runner now settles the outer deadline so future capped runs can emit a terminal artifact. H003 exposed the prior non-finalization and its existing attempt remains unfinished; the repair has no new capped Live verification. |
+| B13 | NOT_RUN | No separately registered, previously untested merchant was run by this H001/H003/H005 repair slice. |
+| B14 | PARTIAL | Map-marker/geographic semantics remain unimplemented; no control action is reported as location satisfaction. |
+
+Current local evidence: initial targeted resolver/composition tests **51/51**, followed by the address-sufficiency regression set **75/75**, immediate-slot composition **100/100**, TableCheck adapter **28/28**, and State-to-presentation expiry **95/95**; `npm run typecheck`, `npm run arch:check`, `npm run build`, `git diff --check`, and authorized loopback `npm test` **385/385** pass. H003 has only its [started record](../../.eval-artifacts/restaurant-hybrid-live-read/2026-09-17T04-52-35-417Z-5336c9d4-8f09-48aa-b372-c05d912a2b55.started.json), not a result or evaluator. The next required action is original-researcher review of the current dirty diff and this classification; no independent review pass is claimed.
+
+### 2026-09-17 H001 identity/entrance follow-up
+
+The independent-review H001 counterexamples were repaired and the resulting targeted suite is **55/55**, with full offline **392/392**. This includes an actual production-composition proof that `endReadRun` clears prior TableCheck entrance hints. The three user-authorized saved-entrance Live probes each failed at browser-runtime startup before a snapshot or model/Google call, so B6 remains offline-only and B13 is `ATTEMPTED / BLOCKED`. The complete B1–B14 update, frozen source hashes and artifacts are in [H001 identity/entrance follow-up](H001-IDENTITY-ENTRANCE-FOLLOWUP-2026-09-17.md). This is a handoff to the original researcher, not an independent-review approval.
 
 ## B1–B14 实际证据
 

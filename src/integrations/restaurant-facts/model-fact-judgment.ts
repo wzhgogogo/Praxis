@@ -29,13 +29,15 @@ function concreteTypeFacts(values: string[]): string[] {
 
 /**
  * The model interprets bounded, cited source observations.  It cannot return
- * State, a candidate ID, a URL, or an uncited condition conclusion.
+ * State, a candidate ID, a URL, or an uncited condition conclusion.  This is
+ * deliberately a type-fact interpretation boundary, not a subjective venue
+ * ranking or a replacement for missing page evidence.
  */
 export class ModelRestaurantFactJudgment implements RestaurantFactJudgmentPort {
   constructor(private readonly model: ModelGateway, private readonly now: () => string = () => new Date().toISOString()) {}
 
   async judge(input: { candidate: RestaurantCandidate; intent: RestaurantSearchIntent; evidence: RestaurantReadEvidence[] }): Promise<RestaurantFactJudgmentResult> {
-    const criteria = input.intent.criteria.filter((item) => item.polarity === "NEGATIVE" && item.strength === "HARD");
+    const criteria = input.intent.criteria.filter((item) => item.strength === "HARD");
     if (!criteria.length) return { evidence: [] };
     const observations = input.evidence
       .filter((item) => item.candidateId === input.candidate.restaurant.id && item.kind === "RESTAURANT_FACT")
@@ -50,10 +52,10 @@ export class ModelRestaurantFactJudgment implements RestaurantFactJudgmentPort {
       const response = await this.model.complete({
         taskId: "fact-judgment:" + input.candidate.restaurant.id,
         purpose: "restaurant_fact_judgment",
-        promptVersion: "1",
+        promptVersion: "2",
         messages: [
-          { role: "system", content: "Interpret cited source-stated restaurant type facts for explicitly scoped negative restaurant-type criteria. SUPPORTED requires a concrete stated type that supports excluding the prohibited type; CONFLICT means it is prohibited; UNKNOWN means facts are broad or insufficient. Never infer from a missing keyword. Never decide that a restaurant has no spicy dishes." },
-          { role: "user", content: JSON.stringify({ candidate: { name: input.candidate.restaurant.outletName, address: input.candidate.restaurant.address }, criteria: criteria.map((item) => item.text), observations }) },
+          { role: "system", content: "Interpret cited source-stated concrete restaurant type facts for HARD restaurant criteria. For a POSITIVE criterion, SUPPORTED requires that the cited type fact directly supports the requested property; CONFLICT and UNKNOWN do not establish it. For a NEGATIVE criterion, SUPPORTED requires a concrete stated type that supports excluding the prohibited type; CONFLICT means the prohibited type is stated. UNKNOWN means the facts are broad or insufficient. Never infer from a missing keyword, a venue name, opening hours, or an uncited general impression. A generic cuisine label does not by itself prove a vague regional request such as local food. Never decide that a restaurant has no spicy dishes." },
+          { role: "user", content: JSON.stringify({ candidate: { name: input.candidate.restaurant.outletName, address: input.candidate.restaurant.address }, criteria: criteria.map((item) => ({ text: item.text, polarity: item.polarity })), observations }) },
         ],
         responseFormat: "JSON_SCHEMA",
         outputSchema: { name: "restaurant_fact_judgment", version: "1", jsonSchema: {
@@ -70,22 +72,32 @@ export class ModelRestaurantFactJudgment implements RestaurantFactJudgmentPort {
       output = JSON.parse(response.outputText);
     } catch { return { evidence: [], ...(modelUsage ? { modelUsage } : {}) }; }
     const sourceById = new Map(observations.map((item) => [item.evidenceId, item]));
-    const seen = new Set<string>(); const verified: string[] = []; const violated: string[] = []; const citations: string[] = [];
+    const seen = new Set<string>(); const verifiedPositive: string[] = []; const verifiedNegative: string[] = []; const violatedNegative: string[] = []; const citations: string[] = []; const negativeCitations: string[] = [];
     const rawJudgments = record(output)?.judgments;
     for (const item of Array.isArray(rawJudgments) ? rawJudgments : []) {
       const judgment = record(item);
       const criterion = typeof judgment?.criterion === "string" ? judgment.criterion.trim() : "";
       const outcome = judgment?.outcome as JudgmentOutcome | undefined;
       const evidenceIds = strings(judgment?.evidenceIds);
-      if (!criterion || seen.has(normalized(criterion)) || !criteria.some((value) => normalized(value.text) === normalized(criterion))) continue;
+      const requestedCriterion = criteria.find((value) => normalized(value.text) === normalized(criterion));
+      if (!criterion || seen.has(normalized(criterion)) || !requestedCriterion) continue;
       if (outcome !== "SUPPORTED" && outcome !== "CONFLICT" && outcome !== "UNKNOWN") continue;
       if (!evidenceIds.length || !evidenceIds.every((id) => sourceById.has(id))) continue;
       seen.add(normalized(criterion));
-      if (outcome === "SUPPORTED") verified.push(criterion);
-      if (outcome === "CONFLICT") violated.push(criterion);
-      citations.push(...evidenceIds);
+      if (outcome === "SUPPORTED" && requestedCriterion.polarity === "POSITIVE") {
+        verifiedPositive.push(criterion);
+        citations.push(...evidenceIds);
+      }
+      if (outcome === "SUPPORTED" && requestedCriterion.polarity === "NEGATIVE") {
+        verifiedNegative.push(criterion);
+        citations.push(...evidenceIds); negativeCitations.push(...evidenceIds);
+      }
+      if (outcome === "CONFLICT" && requestedCriterion.polarity === "NEGATIVE") {
+        violatedNegative.push(criterion);
+        citations.push(...evidenceIds); negativeCitations.push(...evidenceIds);
+      }
     }
-    if (!verified.length && !violated.length) return { evidence: [], ...(modelUsage ? { modelUsage } : {}) };
+    if (!verifiedPositive.length && !verifiedNegative.length && !violatedNegative.length) return { evidence: [], ...(modelUsage ? { modelUsage } : {}) };
     const observedAt = this.now(); const cited = [...new Set(citations)];
     return { evidence: [{
       evidenceId: "fact-judgment:" + input.candidate.restaurant.id + ":" + observedAt + ":" + cited.join(","),
@@ -95,9 +107,10 @@ export class ModelRestaurantFactJudgment implements RestaurantFactJudgmentPort {
       kind: "RESTAURANT_FACT", provider: "MODEL_JUDGMENT", candidateId: input.candidate.restaurant.id, observedAt,
       requestFingerprint: JSON.stringify({ candidateId: input.candidate.restaurant.id, criteria: criteria.map((item) => item.text), cited }),
       claims: {
-        ...(verified.length ? { verifiedNegativeCriteria: verified } : {}),
-        ...(violated.length ? { violatedNegativeCriteria: violated } : {}),
-        negativeCriterionJudgments: cited.map((id) => "MODEL_CITED_TYPE_FACT:" + id),
+        ...(verifiedPositive.length ? { verifiedHardCriteria: verifiedPositive } : {}),
+        ...(verifiedNegative.length ? { verifiedNegativeCriteria: verifiedNegative } : {}),
+        ...(violatedNegative.length ? { violatedNegativeCriteria: violatedNegative } : {}),
+        ...(negativeCitations.length ? { negativeCriterionJudgments: [...new Set(negativeCitations)].map((id) => "MODEL_CITED_TYPE_FACT:" + id) } : {}),
         supportingEvidenceIds: cited,
       },
     }], ...(modelUsage ? { modelUsage } : {}) };

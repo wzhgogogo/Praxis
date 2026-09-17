@@ -13,6 +13,10 @@ const intent: RestaurantSearchIntent = {
   timezone: "Asia/Tokyo", target: { goal: "RECOMMENDATION", query: "restaurant" }, area: { query: "Tokyo" },
   criteria: [{ text: "hot pot restaurant", polarity: "NEGATIVE", strength: "HARD" }],
 };
+const positiveIntent: RestaurantSearchIntent = {
+  ...intent,
+  criteria: [{ text: "good for drinks", polarity: "POSITIVE", strength: "HARD" }],
+};
 const sourceEvidence: RestaurantReadEvidence[] = [{
   evidenceId: "source-type", kind: "RESTAURANT_FACT", provider: "GOOGLE_PLACES", candidateId: "a",
   observedAt: "2026-09-11T00:00:00.000Z", requestFingerprint: "source", claims: { restaurantTypeFacts: ["Italian restaurant"] },
@@ -33,6 +37,31 @@ test("a cited model type judgment becomes auditable negative-condition evidence"
   assert.deepEqual(result.evidence[0]?.claims.supportingEvidenceIds, ["source-type"]);
   assert.equal(result.evidence[0]?.provider, "MODEL_JUDGMENT");
   assert.equal(result.evidence[0]?.sourceEntityId, undefined);
+  assert.equal(result.modelUsage?.calls, 1);
+});
+
+test("a cited concrete type judgment can ground a positive HARD condition", async () => {
+  const result = await new ModelRestaurantFactJudgment(model({
+    judgments: [{ criterion: "good for drinks", outcome: "SUPPORTED", evidenceIds: ["source-type"] }],
+  }), () => "2026-09-11T00:01:00.000Z").judge({
+    candidate,
+    intent: positiveIntent,
+    evidence: [{ ...sourceEvidence[0]!, claims: { restaurantTypeFacts: ["lounge bar"] } }],
+  });
+  assert.deepEqual(result.evidence[0]?.claims.verifiedHardCriteria, ["good for drinks"]);
+  assert.deepEqual(result.evidence[0]?.claims.supportingEvidenceIds, ["source-type"]);
+  assert.equal(result.evidence[0]?.provider, "MODEL_JUDGMENT");
+});
+
+test("a positive HARD criterion cannot be grounded by an uncited assertion or conflict label", async () => {
+  const judgment = new ModelRestaurantFactJudgment(model({
+    judgments: [
+      { criterion: "good for drinks", outcome: "SUPPORTED", evidenceIds: ["invented-source"] },
+      { criterion: "good for drinks", outcome: "CONFLICT", evidenceIds: ["source-type"] },
+    ],
+  }));
+  const result = await judgment.judge({ candidate, intent: positiveIntent, evidence: [{ ...sourceEvidence[0]!, claims: { restaurantTypeFacts: ["lounge bar"] } }] });
+  assert.deepEqual(result.evidence, []);
   assert.equal(result.modelUsage?.calls, 1);
 });
 
