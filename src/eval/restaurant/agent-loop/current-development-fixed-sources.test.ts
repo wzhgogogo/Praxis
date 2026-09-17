@@ -146,7 +146,9 @@ test("a lead found while investigating A may help B only after B's own identity 
   const [a, b] = scenario.observations;
   assert.ok(a && b?.tableCheck);
   b.tableCheck.discoveryListed = false;
-  a.google.listedTableCheckUri = "https://www.tablecheck.com" + b.tableCheck.reservationEntryPath;
+  // A real Google website field can point to the public TableCheck outlet;
+  // Google Maps remains its own normal Maps deep link.
+  a.google.websiteUri = "https://www.tablecheck.com" + b.tableCheck.reservationEntryPath;
   const sources = createCurrentDevelopmentFixedSources(scenario, { now: () => "2026-08-19T08:00:00.000Z" }, model);
   const discovery = await sources.search.search({ intent, readRunId: "entry-ledger" }, new AbortController().signal);
   const result = await sources.availability.check({

@@ -1,13 +1,39 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.59
+- Document revision: 4.63
 - Last updated: 2026-09-17
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## 2026-09-17 H001 semantic request ceiling 30 seconds and one Live retry
+
+按用户明确要求把 `RestaurantSemanticInterpreter` 的单次请求从固定 10 秒改为导出的 30 秒契约常量；Live runner 仍以 `min(30 秒, 总截止剩余时间)`调用 Provider，未扩大五分钟总预算、模型／Google／浏览器额度、站点许可或副作用能力。现有语义 request-contract 断言覆盖该值，防止再次悄然落回 10 秒。
+
+用户随后明确授权 H001 直接重跑一次。冻结新隔离副本后，`LOCAL_CHROMIUM` 实际走完整语义→发现→同候选身份→日期／人数控件→库存→呈现路径：一石三鸟得到 TableCheck 19:00／2人的新鲜可用证据，Inase 同条件为请求绑定无位，Jinnan 保留为控件未确认。没有把未查的其余七个候选或 Jinnan 的 UNKNOWN 说成无位，也未提交任何预约。独立 evaluator@16 对被呈现的一石三鸟给出 qualified YES；这只验证该次资料，未扩大为全站、全候选或长期库存承诺。
+
+## 2026-09-17 H001 current-repair single Live attempt
+
+按用户指令冻结当前脏工作树的最小 `src`／`web-skills`／运行配置副本；只在副本的 development case 将 H001 文案和语义日期表达改为 `tomorrow`，以 `h001-tomorrow` 单独运行。没有改变产品源码、Gold、Prompt、规则、权限或预约路径，也没有运行 H002–H005。运行器的当前外层 deadline 路径和既有 `LOCAL_CHROMIUM` 组合被实际调用，明确限制为 300 秒、30 模型、10 Google、每候选 50 次浏览器操作。
+
+该次执行在 semantic 阶段停止：Interpreter 把首个 `restaurant_semantic_interpret` 请求固定为 10 秒，DeepSeek 记录 `TIMEOUT`，故尚未到达 Google、候选身份、TableCheck/Tabelog 入口、日期／人数控件或库存证据。启动时 Tokyo 已进入 9 月 18 日，正常的 `tomorrow` materialization 产生 9 月 19 日 19:00；这不是库存或用户条件被改写。原始 started/result/evaluator sidecar 均保留，未补跑；独立评价将 qualified 标为 UNKNOWN，除零次观察的谱系记账外无可评价执行结论。此记录只发现总预算与单请求 timeout 不一致的运行阻断，不能作为地址／入口修复已经在真实页面改善的声明。
+
+## 2026-09-17 Independent identity rule regression matrix
+
+按用户要求补强确定性匹配测试，没有继续修改 Terra 的生产规则。新增共享地址比较的三组参数化规则测试：同楼层语言/大小写/全半角/分隔符变化，楼层缺失与地址不足，明确楼层/门牌/邮编冲突；正反方向均检查，避免电话捷径掩盖地址比较结果。扩展既有 TableCheck 历史正常对照至七家，并省略来源电话、要求 `HIGH_NAME_AND_ADDRESS`；Tabelog 复用一条地址接入对照，两个平台的楼层冲突改为同电话反例。规则变体只在共享层维护，没有把矩阵复制到两个 Adapter 或新建评测框架。
+
+使用隔离临时目录将新增矩阵分别运行在修复前 HEAD、按历史差异重建的仅大小写修复版本、当前实现：前两者均出现目标断言失败，当前通过。原始与当前结果分开保留；历史提取字段离线复核不冒充完整页面 Replay 或 Live。测试进入默认 npm test，无私有 Holdout、付费调用、外站访问、提交或推送。
+
+## 2026-09-17 Afternoon H001 identity/entrance follow-up
+
+Repaired the two independently reproduced H001 regressions without changing H002/H003/H005 or provider fallback strategy. Shared address comparison now removes unit text after the same case normalization used for unit extraction, so the source-observed Japanese `地下1階` and Latin `B1F` spellings do not leave a false street number. Explicit distinct floors remain a conflict and an omitted floor remains non-conflicting. Both TableCheck and Tabelog exercise the same helper through their production resolvers.
+
+TableCheck now validates each available Google link field independently before choosing a public same-origin merchant entry. A real Maps URI or an invalid custom lead can no longer preempt a valid Google website URI pointing to TableCheck. The fixed-source transport was corrected to model Google Maps and website fields separately, rather than putting a TableCheck URL in `googleMapsUri`. No provider, global cache, retry loop, permission, model, Live source call or external write was added.
+
+Independent follow-up caught that the initial case-only fix still left Japanese `1階`/`2階` in the street-number comparison because an ASCII word boundary after `階` did not hold. The shared unit pattern now drives both token extraction and removal, with a Unicode delimiter/end constraint for the Japanese suffix. The same historical batch confirms Inase, Hajime, Teppen and Sushi Labo as complete matches while basement-versus-ground and B1F-versus-1F remain conflicts.
 
 ## DEV-2026-09-17-H001-H005-SINGLE-ROOT-FACT-JUDGMENT
 

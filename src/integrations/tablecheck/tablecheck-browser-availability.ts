@@ -49,6 +49,19 @@ function listedTableCheckOutletUrl(value: string | undefined): string | undefine
 }
 
 /**
+ * Google fields describe different kinds of links.  Validate each one before
+ * choosing: a normal Maps URL must not hide a later public TableCheck website
+ * URL merely because it was populated first.
+ */
+function firstListedTableCheckOutletUrl(...values: Array<string | undefined>): string | undefined {
+  for (const value of values) {
+    const safe = listedTableCheckOutletUrl(value);
+    if (safe) return safe;
+  }
+  return undefined;
+}
+
+/**
  * Source-observed TableCheck entrances for one Router-owned read run.  They
  * are navigation hints only: every later candidate still passes identity
  * verification before an availability page can be read.
@@ -163,10 +176,10 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
       session = await this.executor.acquire(signal, "TABLECHECK", "DISCOVERY");
       const browser = { ...session.metadata };
       const discoveryUrl = tableCheckDiscoveryUrl(candidate);
-      const listedOutletUrl = listedTableCheckOutletUrl(
-        candidate.restaurant.sourceIds.googleListedTableCheckUri
-        ?? candidate.restaurant.sourceIds.googleMapsUri
-        ?? candidate.restaurant.sourceIds.googleWebsiteUri,
+      const listedOutletUrl = firstListedTableCheckOutletUrl(
+        candidate.restaurant.sourceIds.googleListedTableCheckUri,
+        candidate.restaurant.sourceIds.googleWebsiteUri,
+        candidate.restaurant.sourceIds.googleMapsUri,
       );
       // A Google-listed TableCheck URL is an observed entrance, not identity
       // proof. Keep it for later candidates only as a lead; every use below

@@ -14,10 +14,20 @@ function withoutPostal(value: string): string {
   return value.normalize("NFKC").replace(/(?:〒\s*)?\d{3}\s*-?\s*\d{4}/gu, " ");
 }
 
+/**
+ * One source of truth for public floor/unit spelling.  Japanese 階 is not an
+ * ASCII word character, so its suffix must not use `\b`; require instead that
+ * it is followed by end-of-string or a non-letter/non-number delimiter.
+ */
+const UNIT_PATTERN = /(?:\bb\s*(\d+)\s*f\b|\b(?:floor|fl)\.?\s*(\d+)\b|\b(\d+)\s*f\b|\b(\d+)\s*階(?=$|[^\p{L}\p{N}])|(?:地下|地)\s*(\d+)\s*階(?=$|[^\p{L}\p{N}]))/gu;
+
+function normalizedAddressForUnits(value: string): string {
+  return withoutPostal(value).toLocaleLowerCase("en-US");
+}
+
 /** Explicit floor/basement markers, rather than any number in a street address. */
 function unitTokens(value: string): string[] {
-  const normalized = withoutPostal(value).toLocaleLowerCase("en-US");
-  return [...normalized.matchAll(/(?:\bb\s*(\d+)\s*f\b|\b(?:floor|fl)\.?\s*(\d+)\b|\b(\d+)\s*f\b|\b(\d+)\s*(?:階|f)\b|(?:地下|地)\s*(\d+)\s*階)/gu)]
+  return [...normalizedAddressForUnits(value).matchAll(UNIT_PATTERN)]
     .map((match) => {
       const basement = match[1] ?? match[5];
       const floor = match[2] ?? match[3] ?? match[4];
@@ -27,8 +37,10 @@ function unitTokens(value: string): string[] {
 }
 
 function withoutUnits(value: string): string {
-  return withoutPostal(value)
-    .replace(/(?:\bb\s*\d+\s*f\b|\b(?:floor|fl)\.?\s*\d+\b|\b\d+\s*f\b|\b\d+\s*(?:階|f)\b|(?:地下|地)\s*\d+\s*階)/gu, " ");
+  // Keep removal precisely aligned with unitTokens: a source may write the
+  // same level as 地下1階, B1F, b1f, 2階, or 2F.  Removing only one spelling
+  // would leave a false street-number conflict.
+  return normalizedAddressForUnits(value).replace(UNIT_PATTERN, " ");
 }
 
 function streetNumbers(value: string): string[] {

@@ -1,13 +1,21 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.41
+- Document revision: 4.46
 - Last updated: 2026-09-17
 - Source of truth for: 已实现能力、已验证范围、明确未验证项与下一道门槛
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Documentation Index](INDEX.md), [Roadmap](roadmap.md), [Verification History](history/TEST-LOG.md)
 
 ## 最新审查与当前门槛
+
+2026-09-17 用户授权的 H001 单次 30 秒语义上限重跑完成实际调查：语义请求从固定 10 秒升为 30 秒，但 Live wrapper 仍取五分钟总截止的剩余时间；本次 `LOCAL_CHROMIUM` 103378ms／4 步，Google 5/10、模型 13/30（语义1、Agent4、浏览器8）、三家实际查位且每家低于 50 浏览器操作。东京 `tomorrow` 在跨午夜后物化为 **2026-09-19 19:00、2 人**。Sushisho Isseki Sancho 经 TableCheck HIGH 身份及同请求 DOM 证据确认 `AVAILABLE`（visible `19:00`）；Sushi Inase 通过 Google 直列 TableCheck 入口、B1F／地下1階同店匹配后明确 `UNAVAILABLE/NO_MATCHING_SLOT`；Shibuya Sushi Jinnan 经 TableCheck 拒绝不相干分店、Tabelog HIGH 身份后仍为 `UNKNOWN/REQUEST_SELECTION_UNCONFIRMED`，不被写成无位。七家其余发现候选未查，不据此宣称搜索穷尽。独立 evaluator@16 给呈现结果 `taskProducedQualifiedResult=YES`、条件／证据／终态／资源均 `SATISFIED`；这是一次开发诊断，不是长期可靠性、全城库存或独立研究者 Review 通过。[result](../.eval-artifacts/h001-live-tomorrow-30s-2026-09-17/workspace/.eval-artifacts/restaurant-hybrid-live-read/2026-09-17T15-08-25-556Z-fb613f8b-c6c5-4241-a98a-a056063b0af5.result.json)／[evaluation](../.eval-artifacts/h001-live-tomorrow-30s-2026-09-17/workspace/.eval-artifacts/restaurant-hybrid-live-read/2026-09-17T15-08-25-556Z-fb613f8b-c6c5-4241-a98a-a056063b0af5.result.evaluation.16-1789657808914.json)。
+
+2026-09-17 用户授权的当前修复快照 H001 单次 Live Read-only 已保留，但**未完成有效调查**：隔离副本只将输入改为 `h001-tomorrow`（涩谷／omakase HARD／2 人／19:00），`LOCAL_CHROMIUM`、30 模型、10 Google、每候选 50 浏览器操作和 300 秒总上限均写入原始 started artifact。运行在东京已跨入 9 月 18 日零时，`tomorrow` 因此物化为 **2026-09-19 19:00**，不是可回写的“9 月 18 日”假设。首个语义模型请求仍在 Interpreter 内部固定 10 秒超时，10.039 秒即 `MODEL_FAILURE/TIMEOUT`；未进入 Google、TableCheck/Tabelog、身份、日期／人数控件或任何库存观察，不能归类为无位、来源失败或安全停止。原始 result 与独立 evaluator@16 sidecar 均已保留；评价只给 `taskProducedQualifiedResult=UNKNOWN`，除零次观察的谱系记账外其余关键维度为 `NOT_EVALUATED`，不能替代实际验收。[started](../.eval-artifacts/h001-live-tomorrow-2026-09-17/workspace/.eval-artifacts/restaurant-hybrid-live-read/2026-09-17T15-00-39-422Z-1d711993-99fb-48a9-b02d-5f13c5613829.started.json)／[result](../.eval-artifacts/h001-live-tomorrow-2026-09-17/workspace/.eval-artifacts/restaurant-hybrid-live-read/2026-09-17T15-00-39-422Z-1d711993-99fb-48a9-b02d-5f13c5613829.result.json)／[sidecar](../.eval-artifacts/h001-live-tomorrow-2026-09-17/workspace/.eval-artifacts/restaurant-hybrid-live-read/2026-09-17T15-00-39-422Z-1d711993-99fb-48a9-b02d-5f13c5613829.result.evaluation.16-1789657249430.json)。该次失败按“一次”边界没有自动补跑；后续用户已明确授权独立的 30 秒语义上限重跑，结果见上方当前记录。
+
+2026-09-17 原研究者复核确认楼层/入口反例已关闭，并补强默认离线测试：共享地址规则直接覆盖等价写法、缺失楼层、地址不足及楼层/门牌/邮编冲突，两个平台保留真实 resolver 接入检查。同批七家历史同店地址作为正常对照，来源电话省略后仍须由姓名与地址形成 HIGH；明确地址冲突即使电话相同也不得 HIGH。新增矩阵在修复前 HEAD 和重建的“仅修大小写”中间版本均按预期失败，最终实现通过；最终全量 **417/417**、typecheck、arch、build 通过。此轮仅改测试/证据文档，未追加生产规则或 Live；来源读取与实时库存仍待单独验收。[验证证据](../.eval-artifacts/identity-matrix-review-2026-09-17/REPORT.md)
+
+2026-09-17 下午独立审查（565b08f）后的有限修复：共享楼层模式现在统一提取与移除 `地下1階`/`B1F`、`1階`/`1F`、`2階`/`2F`，并用 Unicode 后继约束避免日文单位残留为门牌数字。历史 Inase、涩谷Hajime、Teppen、Sushi Labo 均为 `MATCH/HIGH`；缺失楼层不再虚构冲突，明确不同楼层/分店仍拒绝 HIGH。TableCheck 对 `googleListedTableCheckUri`、`googleWebsiteUri`、`googleMapsUri` 分别按受控同源规则校验，正常 Maps 或错域前置值不再遮蔽合法 TableCheck website 直链；fixed-source fixture 已改为真实 Google Maps/website 字段语义。定向 Adapter/真实组合 **66/66**、typecheck、arch、build、授权 loopback 全量 **414/414** 通过；原审查 reproduction 从两条 `CONFLICT/MEDIUM` 和 Maps 遮蔽直链翻为直链首导航，后续同批正常门店回归也已修复。没有新 Live、模型、Google、来源访问或外部写入，故这只是离线修复，不是来源或库存验收。原反例和报告保留于[下午独立审查](../.eval-artifacts/afternoon-review-2026-09-17/REPORT.md)。
 
 2026-09-17 以 987c77e 为基线的 fixed-source 测试机制补修完成离线门槛：来源观察已按 Google／TableCheck 独立配置；未配置来源的结构化 coverage gap 进入统一验收并对必要路径返回 BLOCKED/nonzero；等待只接受实际配置目标；受控业务时钟在每次来源观察时读取并保留独立样本采集时间；统一验收现在区分合格结果、已核实无结果、补问、取消及预算/deadline 停止。定向23/23、typecheck、arch、build和授权本地默认410/410通过。沙箱浏览器启动受 Mach-port 限制，授权本地 Chromium 只使用合成页面；不构成外站验证。详见[补修覆盖报告](history/FIXED-SOURCE-CLOSURE-2026-09-17.md)。真实模型理解、自由文本语义、网站兼容性/库存、反爬与搜索完备性仍未由本轮证明。
 

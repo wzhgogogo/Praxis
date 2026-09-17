@@ -19,6 +19,8 @@ import {
 const MAX_MESSAGE_CHARACTERS = 2_000;
 const MAX_SCHEMA_ATTEMPTS = 2;
 export const RESTAURANT_SEMANTIC_MAX_OUTPUT_TOKENS = 5_000;
+/** One semantic request may use up to 30 seconds, but a Live runner may tighten it to its remaining total budget. */
+export const RESTAURANT_SEMANTIC_REQUEST_TIMEOUT_MS = 30_000;
 
 export interface RestaurantSemanticInterpretInput {
   taskId: string;
@@ -433,7 +435,7 @@ export class RestaurantSemanticInterpreter {
             ...RESTAURANT_SEMANTIC_PROPOSAL_SCHEMA,
             jsonSchema: RESTAURANT_SEMANTIC_PROPOSAL_JSON_SCHEMA,
           },
-          timeoutMs: 10_000,
+          timeoutMs: RESTAURANT_SEMANTIC_REQUEST_TIMEOUT_MS,
           fallback: "STRUCTURED_FORM",
           maxOutputTokens: RESTAURANT_SEMANTIC_MAX_OUTPUT_TOKENS,
           temperature: 0,

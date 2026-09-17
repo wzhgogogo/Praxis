@@ -85,7 +85,7 @@ function googlePlace(observation: FixedSourceObservation) {
     types: ["restaurant"],
     nationalPhoneNumber: source.phone,
     websiteUri: source.websiteUri,
-    ...(source.listedTableCheckUri ? { googleMapsUri: source.listedTableCheckUri } : {}),
+    googleMapsUri: source.googleMapsUri,
   };
 }
 

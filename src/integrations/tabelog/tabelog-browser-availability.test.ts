@@ -64,7 +64,7 @@ test("Tabelog blocks HIGH identity for a stated floor conflict or a shared phone
     restaurant: { ...candidate.restaurant, outletName: "Sushi Hajime", address: "〒150-0002 東京都渋谷区渋谷3-15-5 B1F", sourceIds: { ...candidate.restaurant.sourceIds, phone: "03-6419-7621" } },
   };
   for (const outlet of [
-    { sourceEntityId: "floor", sourceUrl: "https://tabelog.com/tokyo/floor/", outletName: "Sushi Hajime", address: "〒150-0002 東京都渋谷区渋谷3-15-5 1F", phone: "03-9999-8888" },
+    { sourceEntityId: "floor", sourceUrl: "https://tabelog.com/tokyo/floor/", outletName: "Sushi Hajime", address: "〒150-0002 東京都渋谷区渋谷3-15-5 1F", phone: "03-6419-7621" },
     { sourceEntityId: "branch", sourceUrl: "https://tabelog.com/tokyo/branch/", outletName: "Sushi Hajime", address: "〒106-0032 東京都港区六本木6-1-5 1F", phone: "03-6419-7621" },
   ]) {
     const inspection = inspectTabelogEntity(scoped, [outlet]);
@@ -74,6 +74,27 @@ test("Tabelog blocks HIGH identity for a stated floor conflict or a shared phone
   assert.equal(inspectTabelogEntity({ ...scoped, restaurant: { ...scoped.restaurant, address: "〒150-0002 1F" } }, [{
     sourceEntityId: "incomplete", sourceUrl: "https://tabelog.com/tokyo/incomplete/", outletName: "Sushi Hajime", address: "1500002 1F",
   }]).diagnostic.comparedOutlets[0]?.comparison.address, "INSUFFICIENT");
+});
+
+test("Tabelog shares the Japanese basement and Latin B1F identity normalization", () => {
+  const scoped = {
+    ...candidate,
+    restaurant: {
+      ...candidate.restaurant,
+      outletName: "Shibuya Namikibashi Sushi Hajime",
+      address: "Japan, 〒150-0002 Tokyo, Shibuya, 3-chōme−15−５ グリームビル 地下1階",
+      sourceIds: { ...candidate.restaurant.sourceIds, phone: "+81364197621" },
+    },
+  };
+  const inspection = inspectTabelogEntity(scoped, [{
+    sourceEntityId: "historical-hajime",
+    sourceUrl: "https://tabelog.com/tokyo/historical-hajime/",
+    outletName: "Namikibashi Sushihajime",
+    address: "150-0002 Tokyo Shibuya 3-15-5 Shibuya Gleam Bldg. B1F",
+  }]);
+  assert.equal(inspection.diagnostic.comparedOutlets[0]?.comparison.address, "MATCH");
+  assert.equal(inspection.diagnostic.resolution.confidence, "HIGH");
+  assert.equal(inspection.diagnostic.resolution.reason, "HIGH_NAME_AND_ADDRESS");
 });
 
 test("Tabelog relative search links are enriched with page identity before an exact phone creates a HIGH outlet match", () => {

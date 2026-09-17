@@ -207,7 +207,7 @@ test("TableCheck blocks HIGH identity for a stated floor conflict or a shared ph
     restaurant: { ...candidate.restaurant, outletName: "Sushi Hajime", address: "〒150-0002 東京都渋谷区渋谷3-15-5 B1F", sourceIds: { ...candidate.restaurant.sourceIds, phone: "03-6419-7621" } },
   };
   for (const outlet of [
-    { sourceEntityId: "floor", sourceUrl: "https://www.tablecheck.com/en/floor", outletName: "Sushi Hajime", address: "〒150-0002 東京都渋谷区渋谷3-15-5 1F", phone: "03-9999-8888" },
+    { sourceEntityId: "floor", sourceUrl: "https://www.tablecheck.com/en/floor", outletName: "Sushi Hajime", address: "〒150-0002 東京都渋谷区渋谷3-15-5 1F", phone: "03-6419-7621" },
     { sourceEntityId: "branch", sourceUrl: "https://www.tablecheck.com/en/branch", outletName: "Sushi Hajime", address: "〒106-0032 東京都港区六本木6-1-5 1F", phone: "03-6419-7621" },
   ]) {
     const inspection = inspectTableCheckEntity(scoped, outlet);
@@ -217,6 +217,91 @@ test("TableCheck blocks HIGH identity for a stated floor conflict or a shared ph
   assert.equal(inspectTableCheckEntity({ ...scoped, restaurant: { ...scoped.restaurant, address: "〒150-0002 1F" } }, {
     sourceEntityId: "incomplete", sourceUrl: "https://www.tablecheck.com/en/incomplete", outletName: "Sushi Hajime", address: "1500002 1F",
   }).comparison.address, "INSUFFICIENT");
+});
+
+test("TableCheck treats historical Japanese and Latin floor forms as the same stated unit", () => {
+  // Historical extracted address/name fields, not a page replay. Deliberately
+  // omit source phones: HIGH must come from the address rule being wired in.
+  const historicalPairs = [
+    {
+      outletName: "Sushi Inase",
+      googleAddress: "Japan, 〒150-0002 Tokyo, Shibuya, 3-chōme−15−５ 地下1階",
+      sourceAddress: "150-0002 Tokyo Shibuya 3-15-5 Shibuya Gleam Bldg. B1F",
+    },
+    {
+      outletName: "Shibuya Namikibashi Sushi Hajime",
+      googleAddress: "Japan, 〒150-0002 Tokyo, Shibuya, 3-chōme−15−５ グリームビル 地下1階",
+      sourceAddress: "150-0002 Tokyo Shibuya 3-15-5 Shibuya Gleam Bldg. B1F",
+      sourceName: "Namikibashi Sushihajime",
+    },
+    {
+      outletName: "Sushi Teppen(Shibuya)",
+      googleAddress: "Japan, 〒150-0042 Tokyo, Shibuya, Udagawachō, 42−４ ワイリービル 2階",
+      sourceAddress: "150-0042 Tokyo Shibuya Udagawa-cho 42-4 Building 2F",
+      sourceName: "Sushi Teppen",
+    },
+    {
+      outletName: "Shibuya Sushi Labo",
+      googleAddress: "Japan, 〒150-0002 Tokyo, Shibuya, 1-chōme−6−４ 1階",
+      sourceAddress: "150-0002 Tokyo Shibuya-ku 1-6-4 Shibuya Seiko Building 1F",
+      sourceName: "Shibuya Sushi Lab",
+    },
+    {
+      outletName: "Sushisho Isseki Sancho",
+      googleAddress: "Japan, 〒150-0044 Tokyo, Shibuya, Maruyamachō, 5−１１ 2F",
+      sourceAddress: "150-0044 Tokyo Shibuya Ward 5-11, Maruyama-cho 2F",
+      sourceName: "Sushisho Issekisancho",
+    },
+    {
+      outletName: "Matsue Shibuya Scramble Square Store",
+      googleAddress: "Japan, 〒150-6101 Tokyo, Shibuya, 2-chōme−24−１２ スクランブルスクエア 12F",
+      sourceAddress: "150-6101 Tokyo Shibuya-ku 2-24-12 Shibuya 12F, SHIBUYA SCRAMBLE SQUARE,",
+      sourceName: "Matsue Shibuya Scramble Square",
+    },
+    {
+      outletName: "Shibuya Sushi Ajuuta",
+      googleAddress: "Japan, 〒150-0042 Tokyo, Shibuya, Udagawachō, 37−１５ ARISTO渋谷 B1F",
+      sourceAddress: "150-0042 Tokyo Shibuya 37-15 Udagawa-cho ARISTO Shibuya B1F",
+      sourceName: "Ajuuta",
+    },
+  ];
+  for (const [index, pair] of historicalPairs.entries()) {
+    const scoped = {
+      ...candidate,
+      restaurant: {
+        ...candidate.restaurant,
+        id: `historical-floor-${index}`,
+        outletName: pair.outletName,
+        address: pair.googleAddress,
+        sourceIds: { ...candidate.restaurant.sourceIds },
+      },
+    };
+    const inspection = inspectTableCheckEntity(scoped, {
+      sourceEntityId: `historical-${index}`,
+      sourceUrl: `https://www.tablecheck.com/en/historical-${index}`,
+      outletName: pair.sourceName ?? pair.outletName,
+      address: pair.sourceAddress,
+    });
+    assert.equal(inspection.comparison.address, "MATCH", pair.outletName);
+    assert.equal(inspection.resolution.confidence, "HIGH", pair.outletName);
+    assert.equal(inspection.reason, "HIGH_NAME_AND_ADDRESS", pair.outletName);
+  }
+  const missingUnit = inspectTableCheckEntity({
+    ...candidate,
+    restaurant: {
+      ...candidate.restaurant,
+      outletName: "Sushi Inase",
+      address: historicalPairs[0]!.googleAddress,
+      sourceIds: { ...candidate.restaurant.sourceIds },
+    },
+  }, {
+    sourceEntityId: "historical-no-unit",
+    sourceUrl: "https://www.tablecheck.com/en/historical-no-unit",
+    outletName: "Sushi Inase",
+    address: "150-0002 Tokyo Shibuya 3-15-5 Shibuya Gleam Bldg.",
+  });
+  assert.equal(missingUnit.comparison.address, "MATCH", "a missing unit is not an invented floor conflict");
+  assert.equal(missingUnit.resolution.confidence, "HIGH");
 });
 
 test("TableCheck accepts cross-script complete addresses only with matching postal and unit sequence", () => {
@@ -318,6 +403,39 @@ test("TableCheck reads a Google-listed merchant page through the same identity g
   assert.equal(result.availabilityChecks[listedCandidate.restaurant.id]?.status, "AVAILABLE");
   assert.equal(session.navigations[0], "https://www.tablecheck.com/en/restaurant1");
   assert.equal(session.navigations.some((url) => url.includes("/japan/search")), false);
+});
+
+test("TableCheck validates each Google link field so Maps or an invalid lead cannot hide a public merchant website", async () => {
+  for (const sourceIds of [
+    {
+      googleMapsUri: "https://www.google.com/maps/search/?api=1&query_place_id=abc",
+      googleWebsiteUri: "https://www.tablecheck.com/en/restaurant1?campaign=google",
+    },
+    {
+      googleListedTableCheckUri: "https://example.invalid/not-tablecheck",
+      googleMapsUri: "https://www.google.com/maps/search/?api=1&query_place_id=abc",
+      googleWebsiteUri: "https://www.tablecheck.com/en/restaurant1?campaign=google",
+    },
+  ]) {
+    const listedCandidate = {
+      ...candidate,
+      restaurant: { ...candidate.restaurant, sourceIds: { ...candidate.restaurant.sourceIds, ...sourceIds } },
+    };
+    const session = new FixtureBrowserSession([
+      matchingOutletPage(),
+      matchingOutletPage(),
+      {
+        url: "https://www.tablecheck.com/en/restaurant1/reserve/landing", title: "Restaurant 1 reservation", text: "Restaurant 1 2 guest 2026-08-05 19:00",
+        html: '<div data-selected-date="2026-08-05" data-pax="2"></div><section data-availability-state="complete"><button class="time-slot is-available" data-time="19:00">19:00</button></section>',
+      },
+    ]);
+    const result = await new TableCheckBrowserAvailability({ openSession: async () => session }, () => "2026-08-05T09:00:00.000Z").check(
+      { ...request, candidateIds: [listedCandidate.restaurant.id], candidates: [listedCandidate] }, new AbortController().signal,
+    );
+    assert.equal(result.availabilityChecks[listedCandidate.restaurant.id]?.status, "AVAILABLE");
+    assert.equal(session.navigations[0], "https://www.tablecheck.com/en/restaurant1");
+    assert.equal(session.navigations.some((url) => url.includes("/japan/search")), false);
+  }
 });
 
 test("TableCheck keeps an immediate non-slot UNKNOWN rather than treating nearby cards as no matching table", async () => {

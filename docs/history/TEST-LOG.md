@@ -1,13 +1,44 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.62
+- Document revision: 4.67
 - Last updated: 2026-09-17
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## TEST-2026-09-17-H001-30S-SEMANTIC-RETRY — Live Read-only
+
+- Code contract: `RestaurantSemanticInterpreter` now sends `timeoutMs=30000`; its focused request-contract test **2/2 PASS** plus `npm run typecheck`、`npm run arch:check`、`npm run build` all PASS. The subsequently started full `npm test` was interrupted by the user after 3.9 seconds and has no final result; it is not reported as passing. The existing runner wrapper still bounds the request by remaining five-minute budget.
+- Scope/budget: one explicit H001 retry only, isolated current source snapshot, `LOCAL_CHROMIUM` temporary profile, tomorrow→Tokyo 2026-09-19 at exact 19:00／2 people／omakase HARD; 300 seconds, max 30 model calls, 10 Google, 50 browser operations per candidate. Actual **103378ms**, 4 agent steps, 13 model calls (semantic1/agent4/browser8), Google **5/10**, three availability checks and browser operations 28/12/16 per checked candidate. No login, manual challenge, reservation submission or external write.
+- Entry and identity: Sushi Inase first attempted its Google-listed `https://www.tablecheck.com/ja/sushiinase/reserve/landing`, then verified the corresponding English TableCheck outlet; `地下1階` versus `B1F` was HIGH (name/address/phone all MATCH). Sushisho Isseki Sancho was HIGH on the separately discovered TableCheck merchant page. Jinnan rejected all unrelated TableCheck discovered outlets before Tabelog identified the same branch HIGH; it remained request-control UNKNOWN rather than borrowing inventory from another branch.
+- Exact request/result: TableCheck evidence for **Sushisho Isseki Sancho** claims date 2026-09-19, partySize 2 and visibleSlots `["19:00"]`, thus AVAILABLE and presented. **Sushi Inase** claims the identical date/party with an empty slots list, thus `UNAVAILABLE/NO_MATCHING_SLOT`. **Shibuya Sushi Jinnan** is `UNKNOWN/REQUEST_SELECTION_UNCONFIRMED`; seven other discovered candidates were not checked after a grounded result became available, so this does not claim complete search or global availability.
+- Independent evaluator@16: `taskProducedQualifiedResult=YES`, `systemBehavior=SUPPORTED_BY_EVIDENCE`, `externalConditions=OBSERVED`, `evidenceSufficiency=SUFFICIENT_FOR_PRESENTED_RESULT`, and all six recorded dimensions SATISFIED. It does not score provider reliability, long-term inventory freshness, exhaustive discovery, subjective ranking or model quality. Artifacts: [started](../../.eval-artifacts/h001-live-tomorrow-30s-2026-09-17/workspace/.eval-artifacts/restaurant-hybrid-live-read/2026-09-17T15-08-25-556Z-fb613f8b-c6c5-4241-a98a-a056063b0af5.started.json)、[result](../../.eval-artifacts/h001-live-tomorrow-30s-2026-09-17/workspace/.eval-artifacts/restaurant-hybrid-live-read/2026-09-17T15-08-25-556Z-fb613f8b-c6c5-4241-a98a-a056063b0af5.result.json)、[evaluation](../../.eval-artifacts/h001-live-tomorrow-30s-2026-09-17/workspace/.eval-artifacts/restaurant-hybrid-live-read/2026-09-17T15-08-25-556Z-fb613f8b-c6c5-4241-a98a-a056063b0af5.result.evaluation.16-1789657808914.json)。
+
+## TEST-2026-09-17-H001-CURRENT-REPAIR-SINGLE-LIVE — stopped before source investigation
+
+- Scope: 用户授权的唯一 H001 Live Read-only，隔离当前修复快照；只把执行输入改为 `h001-tomorrow`，保持涩谷／omakase HARD／2 人／19:00。不是 H001–H005 批跑，不改 Gold、产品源码、Prompt、权限或浏览器规则；`LOCAL_CHROMIUM` 临时会话，没有人工 challenge、登录、预约或外部写。
+- Budget evidence: started artifact 记录 30 模型调用、10 Google、每候选 50 浏览器操作和 `maxAutomaticBrowserMs=300000`；实际在 10039ms 结束。Tokyo 时区的真实启动时间为 2026-09-18 00:00:39，故 `tomorrow` 正确物化为 2026-09-19／19:00／2 人，而非把运行时条件偷偷改为日期常量。
+- Execution: 首次 `restaurant_semantic_interpret` 调用使用当前 Interpreter 的固定 `timeoutMs=10000`，DeepSeek invocation 在 10003ms 记录 `outcome=FAILED,errorCode=TIMEOUT`，runner result 为 `FAILED / SEMANTIC / MODEL_FAILURE`。没有 events、trajectories、Google 请求、浏览器诊断、候选、TableCheck／Tabelog 身份诊断或空位检查；因此绝不能报告无位、入口未用、同店／分店判断、日期／人数未应用或来源读取失败。
+- Independent evaluation: runner 写出独立 evaluator@16 sidecar，`taskProducedQualifiedResult=UNKNOWN`；`AUTHORITATIVE_CONDITIONS`、`REQUIRED_EVIDENCE`、`FINAL_CLAIM`、`COMPLETION_OUTCOME`、`RESOURCES`均为 `NOT_EVALUATED`，只有零次观察的谱系／重复读取记账为 `SATISFIED`。执行失败 artifact 和该无结论 sidecar 分开保留，不用 evaluator 文件存在冒充验收。原件：[started](../../.eval-artifacts/h001-live-tomorrow-2026-09-17/workspace/.eval-artifacts/restaurant-hybrid-live-read/2026-09-17T15-00-39-422Z-1d711993-99fb-48a9-b02d-5f13c5613829.started.json)、[result](../../.eval-artifacts/h001-live-tomorrow-2026-09-17/workspace/.eval-artifacts/restaurant-hybrid-live-read/2026-09-17T15-00-39-422Z-1d711993-99fb-48a9-b02d-5f13c5613829.result.json)、[sidecar](../../.eval-artifacts/h001-live-tomorrow-2026-09-17/workspace/.eval-artifacts/restaurant-hybrid-live-read/2026-09-17T15-00-39-422Z-1d711993-99fb-48a9-b02d-5f13c5613829.result.evaluation.16-1789657249430.json)。单次授权已耗尽，未自动重试；首个下一步是离线修复／验证该 semantic 单请求 timeout 与 runner deadline 的传递，再另行申请一次绝对日期、明确时区的 Live。
+
+## TEST-2026-09-17-INDEPENDENT-IDENTITY-MATRIX
+
+- Current executable / exposed development regression: 新增 `outlet-identity.test.ts` 的三组规则矩阵；扩展现有 TableCheck 七家历史正常对照并禁止电话捷径，Tabelog 保留共享规则接入检查；两平台同电话仍拒绝明确楼层/分店冲突。默认 npm test 自动发现，无额外运行器。
+- 有效性验证：同一新增矩阵在 HEAD 565b08f 的旧规则失败；在按旧规则追加 lowercase 所重建的中间修复版也失败（明确标记重建，不宣称保存了原快照）；当前实现通过。均为目标 `ERR_ASSERTION`，不是依赖或环境故障。来源、hash、结果见 `.eval-artifacts/identity-matrix-review-2026-09-17/{red-green.json,head-before-repair.log,reconstructed-case-only-repair.log,current.log}`。
+- 历史提取字段复核：Inase、涩谷 Hajime、Teppen、Sushi Labo、一石三鸟、Matsue 涩谷、Ajuuta 七家均 MATCH/HIGH；已有原安全反例仍拒绝，Maps+website 原入口反例通过。此为已保存字段的离线回归，不是当前来源或库存读取。
+- 最终默认全量 **417/417 PASS**，0 fail/cancel/skip/todo，15617ms；typecheck、arch:check、build、diff check 通过。首次默认测试 402/417，15 个失败全部是沙箱禁止 `127.0.0.1` 监听的 EPERM；授权回环后通过。初次 typecheck 发现测试数据删减后的可选 phone 类型问题，去掉不必要的电话依赖后通过。最终日志分别保存，不覆盖最初失败。
+- 新增三组共享规则主覆盖，已有 Adapter 用例原位扩展，不复制整个矩阵；未修改生产实现、Gold/Holdout、模型 Prompt/Evaluator 或 Live 口径。无模型/Google/外站/预约/commit/push。完整证据见[独立矩阵报告](../../.eval-artifacts/identity-matrix-review-2026-09-17/REPORT.md)。
+
+## TEST-2026-09-17-AFTERNOON-H001-IDENTITY-ENTRANCE-REPAIR
+
+- Before-fix evidence is retained in `.eval-artifacts/afternoon-review-2026-09-17/{REPORT.md,reproduce.mjs,results.json}`. Re-running `node --import tsx .eval-artifacts/afternoon-review-2026-09-17/reproduce.mjs` before the repair produced `CONFLICT/MEDIUM` for the historical Inase and Shibuya Hajime `地下1階`/`B1F` identities, and sent the Maps-plus-website case to TableCheck search instead of the saved outlet URL.
+- After repair, the same script produces `MATCH/HIGH` for both identities and starts both the no-Maps and normal-Maps variants at `https://www.tablecheck.com/en/sushihajime-shibuya`. Existing TableCheck/Tabelog assertions retain distinct-floor, shared-phone distinct-branch, and insufficient-address refusal; new Adapter tests cover both historic identity field pairs, omitted-floor non-conflict, Maps-plus-website and invalid-lead-plus-website first navigation. Fixed-source composition retains the cross-candidate entrance re-identification test under real Google field semantics.
+- Focused command over TableCheck, Tabelog, `LiveBrowserAvailability`, and fixed-source composition: **66/66 PASS**. `npm run typecheck`, `npm run arch:check`, `npm run build`, and `git diff --check`: PASS. Authorized loopback `npm test`: **414/414 PASS**, 0 fail/cancel/skip/todo, 15083ms.
+- Classification: offline production-Adapter/production-composition regression plus synthetic transport. No model, Google, Live source page, Replay, booking, payment, cancellation, login, Gold/Holdout access, commit or push. This does not alter prior Live artifacts or claim current source availability.
+- Follow-up regression from `floor-repair-delta.json`: Teppen `2階`/`2F` and Sushi Labo `1階`/`1F` had regressed to `CONFLICT` after the first case-normalization repair. The shared unit pattern now removes and extracts Japanese/Latin floors with identical Unicode-aware boundaries. Four historical pairs (Inase, Hajime, Teppen, Sushi Labo) re-evaluate as `MATCH`; B1F/1F and basement/ground remain `CONFLICT`. The same focused **66/66**, typecheck, arch, build and authorized **414/414** suite were rerun PASS; no Live/model/source action occurred.
 
 
 ## TEST-2026-09-17-H001-DATE-VARIANTS — Live Read-only
@@ -2721,3 +2752,7 @@ The final cross-case classification and raw artifact links are in [H001/H003/H00
 - Focused offline command: `npm run typecheck && node --import tsx --test src/eval/restaurant/agent-loop/fixed-source-case-execution.test.ts src/eval/restaurant/agent-loop/fixed-source-acceptance.test.ts src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts` — **50/50 PASS**. The new test uses real controlled abort and one-call-budget executions, writes temporary result artifacts plus evaluator sidecars, verifies each matching acceptance is `PASS / NOT_COMPLETE`, and verifies the budget artifact fails a cancellation expectation. No evaluator result is hand-filled in that chain.
 - Full offline gates: `npm run typecheck`, `npm run arch:check`, authorized loopback `npm test` (**411/411 PASS**), and `npm run build` passed. The sandboxed default suite was **396 pass / 15 fail** only because its existing local HTTP tests cannot bind `127.0.0.1` (`EPERM`); the authorized rerun resolves that environment limitation without changing the test set.
 - Classification and limits: no paid model, Live, Google, Cloudflare, restaurant site, Replay, booking or external write. The controlled model ceiling proves offline stop accounting, not real-model pricing/cost, model understanding, source behavior, website compatibility or inventory.
+
+## TEST-2026-09-17-AFTERNOON-INDEPENDENT-REVIEW
+
+审查基线565b08f。独立重跑TableCheck、Tabelog、LiveBrowserAvailability、fixed-source acceptance/execution、diagnostic evaluator共105/105通过；未重跑全量411项或其他门禁。旧三个identity反例关闭。直接回放早上已保存的真实身份字段，Inase/涩谷Hajime的地下1階与B1F错误CONFLICT，电话相同仍MEDIUM；离线真实Adapter首导航探针确认正常googleMapsUri遮蔽合法googleWebsiteUri。生产源码未改，无模型/网络/新Live。脚本、结果、日志及历史运行限制见[报告](../../.eval-artifacts/afternoon-review-2026-09-17/REPORT.md)。

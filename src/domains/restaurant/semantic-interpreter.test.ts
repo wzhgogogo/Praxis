@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 
 import type { ModelGateway, ModelRequest, ModelResponse } from "../../core/model/contracts.js";
-import { RestaurantSemanticInterpreter } from "./semantic-interpreter.js";
+import { RESTAURANT_SEMANTIC_REQUEST_TIMEOUT_MS, RestaurantSemanticInterpreter } from "./semantic-interpreter.js";
 import { RESTAURANT_SEMANTIC_PROPOSAL_JSON_SCHEMA } from "./semantic-proposal.js";
 
 class QueuedGateway implements ModelGateway {
@@ -70,6 +70,8 @@ test("Semantic Interpreter sends the proposal schema and separates user data fro
     jsonSchema: RESTAURANT_SEMANTIC_PROPOSAL_JSON_SCHEMA,
   });
   assert.equal(request.responseFormat, "JSON_SCHEMA");
+  assert.equal(request.timeoutMs, 30_000, "semantic requests retain the user-authorized 30-second ceiling");
+  assert.equal(request.timeoutMs, RESTAURANT_SEMANTIC_REQUEST_TIMEOUT_MS);
   assert.equal(request.maxOutputTokens, 5_000);
   assert.deepEqual(request.messages.map((message) => message.role), ["system", "user"]);
   assert.ok(request.messages[0]!.content.includes("2026-08-05T09:00:00+09:00"));

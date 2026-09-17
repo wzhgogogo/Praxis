@@ -25,9 +25,10 @@ export type FixedGoogleObservation = {
   coordinates: { latitude: number; longitude: number };
   phone: string;
   websiteUri: string;
+  /** Google Maps deep link; it is never a provider website URL. */
+  googleMapsUri: string;
   /** A configured provider 404 is an observed source result, not a gap. */
   detailStatus?: "PRESENT" | "NOT_FOUND";
-  listedTableCheckUri?: string;
 };
 
 export type FixedTableCheckObservation = {
@@ -75,9 +76,9 @@ function observation(
     // observations disagree without changing the other provider.
     google: {
       placeId, displayName, address, coordinates: { latitude, longitude }, phone, websiteUri,
-      // This is a Google-observed listed link. It is deliberately a separate
-      // field from the TableCheck entry and can be overridden independently.
-      listedTableCheckUri: `https://www.tablecheck.com${reservationEntryPath}`,
+      // This is the actual Google Maps field, not a provider URL.  A Google
+      // websiteUri may independently happen to be a TableCheck public page.
+      googleMapsUri: `https://www.google.com/maps/search/?api=1&query_place_id=${encodeURIComponent(placeId)}`,
       ...googleOverride,
     },
     ...(tableCheckOverride === null ? {} : { tableCheck: {
