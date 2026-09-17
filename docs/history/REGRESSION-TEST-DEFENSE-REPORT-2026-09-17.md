@@ -2,6 +2,40 @@
 
 Status: current development diagnostic; exposed development cohort; not a clean baseline.
 
+## 2026-09-17 A–D test-mechanism remediation
+
+This addendum closes the specific review gaps without changing the H001--H005
+raw inputs, prompts, or production restaurant decision rules. No paid model,
+Live source, or external write was run for this change.
+
+| Item | Implemented mechanism | Normal control and targeted counterexample |
+| --- | --- | --- |
+| A — acceptance governs exit | `fixed-source-acceptance.ts` keeps execution, acceptance, and user-goal completion separate. The fixed-source Runner reads the post-finish evaluator result and returns zero only for acceptance `PASS`. | A terminal positive case with `NO_VERIFIED_RESULT`, missing required evidence, and evaluator failure each return nonzero; a predeclared no-result can pass while recording `NOT_COMPLETE`; a fully supported positive returns zero. |
+| B — advancing business time and wall-clock cap | `fixed-source-case-execution.ts` starts business time at the registered reference point and advances it with real elapsed time by default. Its deadline is independent; deterministic tests can explicitly inject a frozen business clock. Both fixed-source and Live runners wrap semantic interpretation and the coordinator with the same outer deadline. | Frozen-business-clock, ignored-cancel child settles `CANCELLED` in a bounded time; late model completion cannot alter the returned record; an in-limit control preserves `TERMINAL/PRESENT_RESULTS`. Existing immediate-expiry Validator coverage rejects presentation after the business-time window. |
+| C — self-consistent fixed source | Every source observation now owns venue address, coordinates, phone, website/page path and inventory scope. Discovery is token/area based rather than unconditional, and browser pages resolve one candidate at a time. | Equivalent vegetarian retrieval finds two independent candidates; unrelated sushi retrieval returns none; one candidate is `UNAVAILABLE` while the other has the only offer; wrong party size produces a recorded `FIXTURE_COVERAGE_GAP`. |
+| D — registration and one chain | `fixed-source-case-registry.ts` replaces the H001--H005 Runner whitelist. `executeFixedSourceCase` is the shared Interpreter→Compiler→Runtime→Router execution used by the Runner and deterministic controls. | `new-vegetarian-lunch` is registered data only, executes/evaluates/accepts through the shared chain; removing its source evidence fails that same acceptance path; unknown IDs and missing bindings fail explicitly. |
+
+The five H cases all execute in the default offline suite and reach the
+predeclared qualified control outcome. That is a code-contract result, not a
+claim that the real model or a current website will do so. Historical real-model
+and Live diagnostic red results remain historical evidence and are not changed
+or reclassified by this offline remediation.
+
+### Final verification for this addendum
+
+- Focused acceptance/source/execution/evaluator/deadline suites: **62/62 PASS**.
+- `npm run typecheck`, `npm run arch:check`, `npm run build`, and `git diff --check`: PASS.
+- Sandboxed `npm test`: **389 pass, 15 environment failures**, all denied
+  loopback binds (`EPERM`); unchanged local rerun: **404/404 PASS**.
+- `npm run test:browser:fixture`: **17/17 PASS** on local Chromium and synthetic
+  pages only.
+
+What remains unproven: real-model free-text understanding beyond historical
+one-shot diagnostics, subjective recommendation quality, current website DOM
+compatibility or inventory, anti-bot behavior, source factual accuracy, and
+search exhaustiveness. These require separately authorized model/Replay/Live
+evidence and are not inferred from this batch.
+
 ## Scope and sources of truth
 
 The H001--H005 raw messages and YAML semantic oracle remain unchanged in

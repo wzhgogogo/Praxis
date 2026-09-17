@@ -14,7 +14,7 @@ export type FixedSourceCaseRegistration = {
   input: "FROZEN_DEVELOPMENT" | "CONTROL";
   expectation: FixedSourceExpectation;
   /** Present only for explicitly registered, deterministic control inputs. */
-  controlInput?: Pick<FrozenLiveCase, "id" | "content" | "reference_time" | "dataset">;
+  controlInput?: { id: string; content: unknown; reference_time: string; dataset?: unknown; semantic?: unknown };
 };
 
 const positiveExpectation: FixedSourceExpectation = {
@@ -40,23 +40,40 @@ export const FIXED_SOURCE_CASE_REGISTRATIONS: readonly FixedSourceCaseRegistrati
       content: "Find a vegetarian restaurant near Shibuya tomorrow at 12:30 PM for three. No ramen.",
       reference_time: "2026-08-19T16:00:00+08:00",
       dataset: "restaurant-read-development@1",
+      semantic: {
+        target: { goal: "AVAILABILITY" },
+        location: { value: "Shibuya", relation: "NEAR" },
+        date: { expression: "tomorrow", value: "2026-08-20" },
+        time: { value: "12:30" },
+        party_size: 3,
+        criteria: [
+          { value: "vegetarian restaurant", polarity: "POSITIVE", strength: "HARD" },
+          { value: "ramen", polarity: "NEGATIVE", strength: "HARD" },
+        ],
+      },
     },
   },
 ] as const;
 
+export function validateFixedSourceCaseRegistration(registration: FixedSourceCaseRegistration): FixedSourceCaseRegistration {
+  if (!registration.id || !registration.sourceScenarioId || !registration.expectation?.requiredDimensions?.length) {
+    throw Object.assign(new Error(`Fixed-source registration ${registration.id || "<missing-id>"} has no source binding or acceptance expectation`), { code: "FIXED_SOURCE_CASE_INVALID" });
+  }
+  if (registration.input === "CONTROL" && !registration.controlInput) {
+    throw Object.assign(new Error(`Fixed-source control ${registration.id} has no input`), { code: "FIXED_SOURCE_CASE_INVALID" });
+  }
+  return registration;
+}
+
 export function fixedSourceCaseRegistration(id: string): FixedSourceCaseRegistration {
   const registration = FIXED_SOURCE_CASE_REGISTRATIONS.find((item) => item.id === id);
   if (!registration) throw Object.assign(new Error(`Unregistered fixed-source case: ${id}`), { code: "FIXED_SOURCE_CASE_UNREGISTERED" });
-  if (!registration.sourceScenarioId || !registration.expectation?.requiredDimensions?.length) {
-    throw Object.assign(new Error(`Fixed-source registration ${id} has no source binding or acceptance expectation`), { code: "FIXED_SOURCE_CASE_INVALID" });
-  }
-  return registration;
+  return validateFixedSourceCaseRegistration(registration);
 }
 
 export async function loadRegisteredFixedSourceCase(id: string): Promise<{ registration: FixedSourceCaseRegistration; materializedCase: FrozenLiveCase }> {
   const registration = fixedSourceCaseRegistration(id);
   if (registration.input === "CONTROL") {
-    if (!registration.controlInput) throw Object.assign(new Error(`Fixed-source control ${id} has no input`), { code: "FIXED_SOURCE_CASE_INVALID" });
     return { registration, materializedCase: registration.controlInput as FrozenLiveCase };
   }
   const frozen = (await loadFrozenLiveCases(RESTAURANT_READ_DEVELOPMENT_CASE_PATH)).find((item) => item.id === id);

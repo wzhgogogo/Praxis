@@ -2697,3 +2697,12 @@ The final cross-case classification and raw artifact links are in [H001/H003/H00
 
 - 用户明确授权一次修正后 H001 重跑（最多 30 model calls；离线固定 HTTP/页面；无 Live/写操作）。artifact 为 [H001 result](../../.eval-artifacts/restaurant-fixed-source-model/2026-09-17T09-02-23-359Z-4ce73364-d91e-4f20-b103-91c299dbde44.result.json) 与独立 evaluator sidecar。`SUCCEEDED` / `TERMINAL` / `PRESENT_RESULTS`，5 model calls、Google fixed-source 3、10722ms；evaluator@15 六个维度均 `SATISFIED`，qualified YES。首个错误尝试仍保留，不被覆盖。
 - 最终授权 localhost 默认 `npm test`: **394/394 PASS**，0 fail/cancel/skip/todo，15317ms；包含 H001 坐标选择回归与新迁移样本。
+
+## TEST-2026-09-17-FIXED-SOURCE-TEST-MECHANISM-REMEDIATION
+
+- A: `fixed-source-acceptance.test.ts` PASS **4/4**. It rejects positive terminal no-result, missing evidence and evaluator failure; permits a declared no-result without reporting the user goal complete; only a fully supported positive has exit code 0.
+- B: `fixed-source-case-execution.test.ts` plus `live-run-deadline.test.ts` PASS **4/4**. A frozen injected business clock cannot freeze the independent real deadline; ignored cancellation settles, late output does not rewrite the returned terminal record, and a normal result remains terminal. Existing immediate-expiry state/validator tests remain in the default suite.
+- C/D: fixed-source candidate scoping, wrong retrieval, wrong party coverage-gap, all five raw H cases, and registered `new-vegetarian-lunch` control/evaluator/acceptance path pass in the focused set. Missing source evidence fails the unified acceptance path; unregistered/missing bindings are explicit errors.
+- Focused command (`fixed-source-acceptance`, `fixed-source-case-execution`, `current-development-fixed-sources`, `current-development-offline`, `diagnostic-evaluator`, `live-run-deadline`): **62/62 PASS**. `npm run typecheck`, `npm run arch:check`, `npm run build`, `git diff --check`: PASS.
+- Sandboxed `npm test`: 389 pass and 15 `127.0.0.1` listen `EPERM` environment failures only. Unchanged authorized local rerun: **404/404 PASS**, 0 fail/cancel/skip/todo, 16423ms. `npm run test:browser:fixture`: **17/17 PASS** using local Chromium and synthetic pages only.
+- Classification: offline code-contract, local HTTP and synthetic local Chromium evidence. No paid model, Live/Replay, external site access, booking or other external write. It does not prove real-model free-text quality, current website compatibility/inventory, anti-bot behavior, factual freshness or search exhaustiveness. The historical model/Live diagnostic red results remain unchanged.

@@ -158,6 +158,10 @@ const journal = await startDiagnosticRun(resolve(".eval-artifacts", "restaurant-
   safety: { policy: "READ_ONLY_CODE_PATH", externalSideEffectCount: "NOT_MEASURED" },
   runCeilings: { maxModelCalls, ...liveReadLimits },
 });
+// This is real elapsed time, deliberately independent of the Runtime clock
+// used to materialize business dates and evidence freshness.  It begins before
+// semantic interpretation so Parser/model setup cannot sit outside the run cap.
+const deadline = AbortSignal.timeout(liveReadLimits.maxAutomaticBrowserMs);
 // Some browser/provider implementations leave only unref'ed work while a
 // promise is still pending. Keep this diagnostic process alive until its
 // result artifact has been finalized; an orphaned STARTED record is neither a
@@ -241,12 +245,12 @@ try {
     },
   });
   stage = "SEMANTIC";
-  semantic = await composition.interpretAndDispatch({
+  semantic = await settleAtRunDeadline(composition.interpretAndDispatch({
     taskId,
     message: String(materialized.content ?? ""),
     referenceTime: startedAt.toISOString(),
     timezone: "Asia/Tokyo",
-  }, evaluationLocation);
+  }, evaluationLocation), deadline);
   if (semantic.status !== "PROPOSED") throw Object.assign(new Error("Semantic Interpreter did not produce a proposal"), { code: semantic.status });
   stage = "AGENT_LOOP";
   const { runtime, trajectories, coordinator } = composition;
@@ -259,7 +263,6 @@ try {
     limits: liveReadLimits,
     safety: "READ_ONLY_CODE_PATH",
   }));
-  const deadline = AbortSignal.timeout(Math.max(1, liveReadLimits.maxAutomaticBrowserMs - (Date.now() - startedAt.valueOf())));
   const loop = await settleAtRunDeadline(coordinator.run(taskId, deadline), deadline);
   const finalSnapshot = runtime.snapshot(taskId);
   const browserOperationsByCandidate = browserExecutionDiagnostics.reduce<Record<string, number>>((counts, diagnostic) => {

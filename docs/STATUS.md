@@ -394,3 +394,22 @@ H001--H005 now share independently declared `SYNTHETIC_CONTROL` source environme
 The follow-up `new-vegetarian-lunch` controlled migration sample varies cuisine, exclusion, lunch time, party size and named area rather than merely changing an outlet name. It uses the same source factory and Hybrid composition with no copied Runner, completes a qualified controlled path, and raises the authorized default suite result to 394/394. It is exposed controlled evidence, not a Live/model run or Holdout.
 
 The user explicitly authorized one H001 corrective real-model fixed-source rerun after the Runner coordinate-selection regression. It reached `PRESENT_RESULTS`; independent evaluator@15 marked all six dimensions `SATISFIED` and the qualified result YES (5 model calls, 3 fixed Google requests, 10.7s). This closes fixed-source H001 coverage only; its historical Live run remains cancelled and does not establish current website behavior.
+
+## 2026-09-17 Fixed-source test-mechanism remediation — offline current status
+
+The fixed-source diagnostic now separates execution, acceptance and user-goal
+completion, and accepts only independently evaluated predeclared expectations.
+Its registered-case loader supports H001--H005 and `new-vegetarian-lunch`
+without a Runner case whitelist; both the CLI and deterministic controls reuse
+the same production composition execution chain. Source samples are now
+candidate/page/request scoped, with an explicit fixture-coverage diagnostic for
+unconfigured legal reads. Business time advances from the reference time while
+the real outer deadline stays independent.
+
+Current offline evidence: focused 62/62, authorized local `npm test` 404/404,
+and local Chromium fixture 17/17 pass; sandbox loopback failure is recorded as
+environment-only. No paid model or Live run was made for this slice. This closes
+the A–D testing mechanism gaps only; real-model interpretation, free-text
+quality, current source compatibility/inventory, anti-bot behavior and search
+exhaustiveness remain unproven. Full evidence is in
+[the regression-defense report](history/REGRESSION-TEST-DEFENSE-REPORT-2026-09-17.md).

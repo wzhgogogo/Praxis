@@ -2308,3 +2308,9 @@ Added `new-vegetarian-lunch` as a source-scenario registration and test data row
 ### H001 authorized corrective model run
 
 After the user authorized a one-time exception to the per-case limit, reran H001 through the corrected fixed-source real-model Runner. The immutable result completed `PRESENT_RESULTS`; evaluator@15 accepted authoritative conditions, evidence, investigation, final claim, completion and resources. This is a fixed-source model acceptance record, not a Live website result and did not trigger further product changes.
+
+## 2026-09-17 Fixed-source test-mechanism remediation A–D
+
+The fixed-source Runner now uses registered case data and a shared production-composition execution function rather than an H001--H005 whitelist. Its execution record, independent evaluator outcome, acceptance verdict and user-goal completion are separate; only a predeclared acceptance PASS gives the Runner a zero exit code. The controlled `new-vegetarian-lunch` sample now traverses execution, evaluator and acceptance, including a missing-evidence failure control.
+
+Fixed source data now represents candidate-specific venue identity, pages and date/party inventory. Query matching is equivalent-token based rather than an exact prompt script, and unconfigured legal browser reads are surfaced through fixture coverage diagnostics. Default business time starts at the registered reference but advances with real elapsed time; an outer wall-clock deadline wraps semantic and agent work in both fixed-source and Live runners. These are offline diagnostic controls, not a restaurant business-rule change. No paid model, Live, source network or external write was run.

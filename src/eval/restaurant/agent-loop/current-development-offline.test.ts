@@ -7,6 +7,9 @@ import { createHybridReadComposition } from "./hybrid-read-composition.js";
 import { HIGASHI_GINZA_EVALUATION_LOCATION } from "./live-evaluation-location.js";
 import { createCurrentDevelopmentFixedSources } from "./current-development-fixed-sources.js";
 import { currentDevelopmentSourceScenario } from "./current-development-source-scenarios.js";
+import { assessFixedSourceAcceptance } from "./fixed-source-acceptance.js";
+import { executeFixedSourceCase } from "./fixed-source-case-execution.js";
+import { fixedSourceCaseRegistration, loadRegisteredFixedSourceCase, validateFixedSourceCaseRegistration } from "./fixed-source-case-registry.js";
 import {
   loadFrozenLiveCases,
   RESTAURANT_READ_DEVELOPMENT_CASE_PATH,
@@ -212,6 +215,12 @@ test("current H001-H005 raw requests complete through the real offline Hybrid co
     assert.equal(evaluation.findings.find(finding => finding.dimension === "AUTHORITATIVE_CONDITIONS")?.status, "SATISFIED", JSON.stringify(evaluation));
     assert.equal(evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(evaluation));
     assert.equal(evaluation.findings.find(finding => finding.dimension === "COMPLETION_OUTCOME")?.status, "SATISFIED", JSON.stringify(evaluation));
+    const acceptance = assessFixedSourceAcceptance({
+      expectation: fixedSourceCaseRegistration(plan.id).expectation,
+      execution: { status: "SUCCEEDED", loopStatus: loop.status, phase: state.phase },
+      evaluation,
+    });
+    assert.equal(acceptance.acceptance, "PASS", acceptance.reasons.join("\n"));
     t.diagnostic(JSON.stringify({ caseId: plan.id, phase: state.phase, qualified: evaluation.execution.taskProducedQualifiedResult,
       completionDiagnostic: evaluation.findings.find(finding => finding.dimension === "COMPLETION_OUTCOME")?.status,
       sourceCalls: sources.calls }));
@@ -262,4 +271,29 @@ test("a new task and new source scenario reuse the fixed Hybrid composition with
   assert.equal(sources.calls.facts, 1);
   assert.equal(sources.calls.availability, 1);
   model.assertConsumed();
+});
+
+test("registered control cases use the shared execution, evaluator, and acceptance path", async () => {
+  const { registration, materializedCase } = await loadRegisteredFixedSourceCase("new-vegetarian-lunch");
+  const model = new FixedCurrentCaseModel(NEW_VEGETARIAN_LUNCH_PLAN, String(materializedCase.content));
+  const result = await executeFixedSourceCase({ registration, materializedCase, model, taskId: "offline-registered:new-vegetarian" });
+  assert.equal(result.execution.status, "SUCCEEDED");
+  assert.equal(result.execution.phase, "PRESENT_RESULTS");
+  const artifact = {
+    status: result.execution.status, stage: "AGENT_LOOP", caseId: registration.id, runId: "offline-registered:new-vegetarian",
+    materializedCase, finalSnapshot: result.finalSnapshot, trajectories: result.trajectories, loop: result.loop,
+    resourceUsage: { elapsedMs: result.elapsedMs, agentDecisions: result.trajectories.length, browserModelCalls: 0 },
+  };
+  const accepted = assessFixedSourceAcceptance({ expectation: registration.expectation, execution: result.execution, evaluation: evaluateRestaurantHybridLiveArtifact(artifact, { path: "new-vegetarian.result.json", sha256: "fixture" }) });
+  assert.equal(accepted.acceptance, "PASS", accepted.reasons.join("\n"));
+  const broken = structuredClone(artifact) as any;
+  broken.finalSnapshot.domainState.readEvidence = [];
+  const rejected = assessFixedSourceAcceptance({ expectation: registration.expectation, execution: result.execution, evaluation: evaluateRestaurantHybridLiveArtifact(broken, { path: "new-vegetarian.missing-evidence.result.json", sha256: "fixture" }) });
+  assert.equal(rejected.acceptance, "FAIL", "a controlled missing-evidence artifact must fail the same acceptance path");
+  model.assertConsumed();
+});
+
+test("fixed-source registration refuses unknown IDs and missing bindings", () => {
+  assert.throws(() => fixedSourceCaseRegistration("not-registered"), { code: "FIXED_SOURCE_CASE_UNREGISTERED" });
+  assert.throws(() => validateFixedSourceCaseRegistration({ id: "bad", input: "CONTROL", sourceScenarioId: "" as any, expectation: {} as any }), { code: "FIXED_SOURCE_CASE_INVALID" });
 });
