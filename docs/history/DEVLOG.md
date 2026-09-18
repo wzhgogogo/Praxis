@@ -1,13 +1,21 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.66
+- Document revision: 4.67
 - Last updated: 2026-09-18
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## 2026-09-18 Open-ended availability target and fixed-source acceptance closure
+
+ADR-0028 supersedes the narrow first-batch clause in ADR-0027: an explicitly classified `OPEN_ENDED` Restaurant target now carries the same default three-result target whether its goal is `RECOMMENDATION` or `AVAILABILITY`; an explicit user count still overrides it, while `SPECIFIC_OUTLET` and legacy unclassified targets do not expand. Availability retains its stricter per-candidate current slot evidence. The semantic target schema, interpreter contract and Agent decision instruction were updated together, so a valid availability count is neither rejected upstream nor silently dropped before the runtime/Validator target.
+
+The registered H001–H005 fixed-source environment now supplies three independently identified candidates per frozen development request. Its production-composition test preserves Interpreter, Compiler, Reducer, Router, source grounding, artifact evaluator and acceptance path while replacing only model and external transports. Fixed-source acceptance now records the final presentation and refuses a qualified-result claim unless a registered three-result target has exactly three distinct presented candidates and a met persisted target; the general control remains unconstrained. The real-model fixed-source Runner accepts explicit ceilings up to the user-authorized 5 minutes, 50 steps and 50 model calls, but no paid call was made in this change.
+
+No Gold/Holdout, browser page, Google request, booking, external write, commit or push occurred before final verification. This is an offline composition/acceptance closure, not evidence that a real model will select the correct three candidates or that a live source has inventory.
 
 ## 2026-09-18 Open-ended result target and party-boundary completion
 
@@ -19,7 +27,7 @@ The Semantic Interpreter now retains existing target scope/count in its bounded 
 
 The persistent Web composition also now has the exact shortfall path that was previously only covered by the Domain validator: discovery returns a–f but supplies grounded facts only for a; the controlled Agent selects the legal b/c/d fact read, then the existing Router, Reducer and HTTP projection present a/b/c. It asserts one discovery, one fact read, four model-boundary calls, no availability access, the met target, and no premature second discovery. This is a regression of composition behavior, not a new selection algorithm or a model-quality claim.
 
-No Gold/Holdout, paid model, external source, booking or push occurred in this incremental offline change. The current loopback-enabled full suite is 435/435. Real-model scope classification, current Google results and Live continuation behavior remain separately authorized evidence gaps; original-researcher review remains pending.
+No Gold/Holdout, paid model, external source, booking or push occurred in this incremental offline change. The current loopback-enabled full suite is 436/436. Real-model scope classification, current Google results and Live continuation behavior remain separately authorized evidence gaps; original-researcher review remains pending.
 
 ## 2026-09-18 Continuous Restaurant selection session and Google pagination
 

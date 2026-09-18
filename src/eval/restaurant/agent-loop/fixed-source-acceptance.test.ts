@@ -11,6 +11,7 @@ const unavailable: FixedSourceExpectation = { kind: "VERIFIED_NO_RESULT", execut
 const missingInput: FixedSourceExpectation = { kind: "NEEDS_USER_INPUT", execution: { status: "SUCCEEDED", loopStatus: "WAITING_USER", phase: "NEEDS_INPUT" }, coverage: { necessary: true }, requiredDimensions: ["COMPLETION_OUTCOME"] };
 const cancelled: FixedSourceExpectation = { kind: "USER_CANCELLED", execution: { status: "CANCELLED", loopStatus: "CANCELLED", failureCodes: ["CANCELLED", "AGENT_LOOP_CANCELLED"] }, coverage: { necessary: true }, requiredDimensions: ["COMPLETION_OUTCOME"] };
 const exhausted: FixedSourceExpectation = { kind: "BUDGET_OR_DEADLINE_STOP", execution: { status: "FAILED", failureCodes: ["MODEL_CALL_BUDGET_EXHAUSTED", "CANCELLED"] }, coverage: { necessary: true }, requiredDimensions: ["COMPLETION_OUTCOME"] };
+const openEndedThree: FixedSourceExpectation = { ...positive, requiredResultBatch: { candidateCount: 3 } };
 
 function evaluation(overrides: Partial<RestaurantHybridDiagnosticEvaluation["execution"]> = {}, failedDimension?: string): RestaurantHybridDiagnosticEvaluation {
   return {
@@ -28,6 +29,24 @@ test("qualified result requires its own terminal record and independent support"
   assert.equal(wrong.acceptance, "FAIL");
   const normal = assessFixedSourceAcceptance({ expectation: positive, execution: { status: "SUCCEEDED", loopStatus: "TERMINAL", phase: "PRESENT_RESULTS" }, evaluation: evaluation() });
   assert.deepEqual(normal, { acceptance: "PASS", userGoalCompletion: "COMPLETE", reasons: [], exitCode: 0 });
+});
+
+test("a registered open-ended result target rejects a one-candidate presentation", () => {
+  const oneCandidate = assessFixedSourceAcceptance({
+    expectation: openEndedThree,
+    execution: { status: "SUCCEEDED", loopStatus: "TERMINAL", phase: "PRESENT_RESULTS" },
+    evaluation: evaluation(),
+    presentedResult: { candidateIds: ["only"], resultBatchTarget: { candidateCount: 3, met: false } },
+  });
+  assert.equal(oneCandidate.acceptance, "FAIL");
+  assert.match(oneCandidate.reasons.join("\n"), /3 distinct/);
+  const threeCandidates = assessFixedSourceAcceptance({
+    expectation: openEndedThree,
+    execution: { status: "SUCCEEDED", loopStatus: "TERMINAL", phase: "PRESENT_RESULTS" },
+    evaluation: evaluation(),
+    presentedResult: { candidateIds: ["a", "b", "c"], resultBatchTarget: { candidateCount: 3, met: true } },
+  });
+  assert.equal(threeCandidates.acceptance, "PASS");
 });
 
 test("verified no-result passes only with matching no-result evidence", () => {

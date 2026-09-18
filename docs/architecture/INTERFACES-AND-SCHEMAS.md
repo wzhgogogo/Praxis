@@ -1,7 +1,7 @@
 # Interfaces and Schemas
 
 - Status: Accepted
-- Document revision: 3.1
+- Document revision: 3.2
 - Last updated: 2026-09-18
 - Source of truth for: 公共接口、DTO、内部Tool、实现状态和版本规则
 - Related ADRs: [ADR Index](../decisions/README.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md)
@@ -254,7 +254,7 @@ Semantic Interpreter [LLM]
 → Restaurant Agent Action → Restaurant Action Validator → Execution Router
 ```
 
-`RestaurantSemanticProposal` represents only the user's current-turn expression: stable slots plus open `CRITERION{text, polarity, strength}`, correction, negation and confirmation. `strength` is semantic `HARD` / `SOFT` / `UNSPECIFIED`; it does not classify criteria into cuisine, constraint or preference and deliberately does not contain `StatePatch`, Event, missing-field calculation, readiness, action routing, Tool input, Authorization, Evidence, or Outcome. A `PARTY_SIZE` may carry the optional closed enum `source=EXPLICIT|INFERRED_CLOSED_PARTY`; the Compiler passes it to the optional Draft diagnostic field and semantic Event’s user-message request reference only. It is never a source fact, Action input, Policy input, or permission.
+`RestaurantSemanticProposal` represents only the user's current-turn expression: stable slots plus open `CRITERION{text, polarity, strength}`, correction, negation and confirmation. `strength` is semantic `HARD` / `SOFT` / `UNSPECIFIED`; it does not classify criteria into cuisine, constraint or preference and deliberately does not contain `StatePatch`, Event, missing-field calculation, readiness, action routing, Tool input, Authorization, Evidence, or Outcome. An `OPEN_ENDED` `TARGET` may carry `requestedResultCount` for either delivery goal; it becomes only a bounded result target, never an evidence shortcut. A `PARTY_SIZE` may carry the optional closed enum `source=EXPLICIT|INFERRED_CLOSED_PARTY`; the Compiler passes it to the optional Draft diagnostic field and semantic Event’s user-message request reference only. It is never a source fact, Action input, Policy input, or permission.
 
 The Proposal Contract is versioned and closed. It validates structure, typed values, allowed semantic roles, and allowed corrections/negations/confirmations. Its successful result means `STRUCTURALLY_VALID`, never `SEMANTICALLY_TRUE`, `USER_CONFIRMED`, or `TRUSTED_EVIDENCE`.
 

@@ -24,7 +24,7 @@ export interface RestaurantTarget {
   query: string;
   /** Explicit semantic classification; omitted legacy proposals do not guess a scope. */
   selectionScope?: RestaurantSelectionScope;
-  /** A user-requested display count, meaningful only for an open-ended recommendation. */
+  /** A user-requested result count, meaningful only for an open-ended restaurant search. */
   requestedResultCount?: number;
 }
 

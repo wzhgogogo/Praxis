@@ -101,7 +101,7 @@ function sameSearchIntent(left: RestaurantTaskState["intent"], right: Restaurant
  */
 function requestedResultBatchTarget(intent: RestaurantTaskState["intent"]): number | undefined {
   const target = intent?.target;
-  if (target?.goal !== "RECOMMENDATION" || target.selectionScope !== "OPEN_ENDED") return undefined;
+  if (target?.selectionScope !== "OPEN_ENDED") return undefined;
   return target.requestedResultCount ?? 3;
 }
 

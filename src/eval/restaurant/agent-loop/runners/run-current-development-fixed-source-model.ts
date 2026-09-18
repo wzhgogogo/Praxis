@@ -25,10 +25,10 @@ function selectedCaseId(): string {
   fixedSourceCaseRegistration(value);
   return value;
 }
-function ceiling(): number {
-  const index = process.argv.indexOf("--max-model-calls");
-  const value = index < 0 ? 30 : Number(process.argv[index + 1]);
-  if (!Number.isSafeInteger(value) || value < 1 || value > 30) throw new Error("--max-model-calls must be an integer from 1 to 30");
+function boundedOption(name: string, fallback: number, maximum: number): number {
+  const index = process.argv.indexOf(name);
+  const value = index < 0 ? fallback : Number(process.argv[index + 1]);
+  if (!Number.isSafeInteger(value) || value < 1 || value > maximum) throw new Error(`${name} must be an integer from 1 to ${maximum}`);
   return value;
 }
 function sha256(path: string): string { return createHash("sha256").update(readFileSync(path)).digest("hex"); }
@@ -36,7 +36,9 @@ function sha256(path: string): string { return createHash("sha256").update(readF
 requiredGate("PRAXIS_ALLOW_LIVE_MODEL_EVAL");
 requiredValue("DEEPSEEK_API_KEY");
 const caseId = selectedCaseId();
-const maxModelCalls = ceiling();
+const maxModelCalls = boundedOption("--max-model-calls", 30, 50);
+const maxSteps = boundedOption("--max-steps", 12, 50);
+const timeoutMs = boundedOption("--timeout-ms", 30_000, 300_000);
 const sourcePath = resolve(RESTAURANT_READ_DEVELOPMENT_CASE_PATH);
 const { registration, materializedCase } = await loadRegisteredFixedSourceCase(caseId);
 const scenario = currentDevelopmentSourceScenario(registration.sourceScenarioId);
@@ -50,7 +52,7 @@ const journal = await startDiagnosticRun(resolve(".eval-artifacts", "restaurant-
   dataset: { path: RESTAURANT_READ_DEVELOPMENT_CASE_PATH, sha256: sha256(sourcePath), contaminationStatus: "PROMPT_AND_RESULT_EXPOSED", baselineEligible: false },
   sourceEnvironment: { scenario: registration.sourceScenarioId, provenance: scenario.provenance, network: "OFFLINE_FIXED_TRANSPORT", browser: "OFFLINE_FIXED_PAGES" },
   clocks: { business: "CASE_REFERENCE_ADVANCING_WALL_CLOCK", execution: "REAL_WALL_CLOCK" },
-  runCeilings: { maxModelCalls, maxSteps: 12, timeoutMs: 30_000 },
+  runCeilings: { maxModelCalls, maxSteps, timeoutMs },
   safety: { policy: "READ_ONLY_CODE_PATH", externalSideEffectCount: 0 },
 });
 try {
@@ -61,7 +63,7 @@ try {
     calls += 1;
     return provider.complete(request);
   } };
-  const result = await executeFixedSourceCase({ registration, materializedCase, model, taskId, maxSteps: 12, deadlineMs: 30_000 });
+  const result = await executeFixedSourceCase({ registration, materializedCase, model, taskId, maxSteps, deadlineMs: timeoutMs });
   const { content: _rawContent, ...caseWithoutRawContent } = materializedCase;
   const resourceUsage = {
     elapsedMs: result.elapsedMs,
@@ -72,7 +74,7 @@ try {
   const artifact = {
     schemaVersion: "1", mode: "FIXED_SOURCE_REAL_MODEL", scorerStatus: "FULL_RUBRIC_NOT_INTEGRATED",
     diagnosticEvaluator: { version: RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, rubricVersion: RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION },
-    limits: { maxModelCalls, maxSteps: 12, timeoutMs: 30_000 },
+    limits: { maxModelCalls, maxSteps, timeoutMs },
     requestMetadata: { sha256: createHash("sha256").update(String(materializedCase.content ?? "")).digest("hex"), characterCount: String(materializedCase.content ?? "").length },
     materializedCase: caseWithoutRawContent, sourceEnvironment: { scenario: registration.sourceScenarioId, provenance: scenario.provenance },
     clocks: { business: { mode: "CASE_REFERENCE_ADVANCING_WALL_CLOCK", referenceTime: materializedCase.reference_time }, execution: { mode: "REAL_WALL_CLOCK", startedAt: startedAt.toISOString() } },
@@ -81,7 +83,19 @@ try {
   };
   await journal.finish({ ...artifact, status: result.execution.status, stage: result.execution.status === "SUCCEEDED" ? "AGENT_LOOP" : "EXECUTION", failureCode: result.execution.failureCode ?? null, execution: result.execution });
   const evaluation = await evaluateArtifactAfterFinish(journal.resultPath);
-  const acceptance = assessFixedSourceAcceptance({ expectation: registration.expectation, execution: result.execution, coverageGaps: result.sourceCalls.coverageGaps, ...(evaluation.evaluation ? { evaluation: evaluation.evaluation } : {}), ...(evaluation.evaluationFailure ? { evaluationFailure: evaluation.evaluationFailure } : {}) });
+  const acceptance = assessFixedSourceAcceptance({
+    expectation: registration.expectation,
+    execution: result.execution,
+    coverageGaps: result.sourceCalls.coverageGaps,
+    ...(result.finalSnapshot?.domainState.presentedResults ? {
+      presentedResult: {
+        candidateIds: result.finalSnapshot.domainState.presentedResults.candidateIds,
+        ...(result.finalSnapshot.domainState.selectionSession?.resultBatchTarget ? { resultBatchTarget: result.finalSnapshot.domainState.selectionSession.resultBatchTarget } : {}),
+      },
+    } : {}),
+    ...(evaluation.evaluation ? { evaluation: evaluation.evaluation } : {}),
+    ...(evaluation.evaluationFailure ? { evaluationFailure: evaluation.evaluationFailure } : {}),
+  });
   console.log(JSON.stringify({ mode: artifact.mode, caseId, sourceEnvironment: artifact.sourceEnvironment, execution: result.execution, acceptance, resourceUsage, artifactPath: journal.resultPath, evaluationPath: evaluation.outputPath, evaluationFailure: evaluation.evaluationFailure, evaluationFailurePath: evaluation.failurePath }, null, 2));
   process.exitCode = acceptance.exitCode;
 } catch (error) {

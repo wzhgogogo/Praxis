@@ -1,8 +1,8 @@
 # Tokyo Restaurant Agent MVP PRD
 
 - Status: Accepted
-- Document revision: 0.5
-- Last updated: 2026-09-15
+- Document revision: 0.6
+- Last updated: 2026-09-18
 - Source of truth for: 第一版产品范围、用户承诺和验收标准
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md)
 - Related documents: [User Flows](USER-FLOWS.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md), [Data, Context & Security](../architecture/DATA-CONTEXT-SECURITY.md)
@@ -35,7 +35,7 @@ Praxis第一版是一个Responsive English Web Agent，同时支持Desktop与Mob
 → 补齐阻塞信息
 → 跨来源搜索与实体合并
 → 检查指定时间、人数的真实空位
-→ 约 30 秒内返回最多 3 家可执行候选
+→ 有界调查后返回首批目标为 3 家不同、证据充分的候选
 → 用户选择并授权一家
 → 提交前重新验证
 → API / Browser / Human Takeover
@@ -50,17 +50,18 @@ Praxis第一版是一个Responsive English Web Agent，同时支持Desktop与Mob
 2. 只追问会阻塞搜索或预约的信息。
 3. 并行搜索多个来源，合并同店与不同分店。
 4. 空位/预约候选在后台记录空位查询时间，并提供价格依据、条款和执行方式；来源提供过敏处理信息时，候选卡须清晰展示处理状态、来源和确认要求。
-5. 空位目标只展示已验证对应slot的候选；进入预约时还须有可执行预约路径。普通推荐按事实要求展示，不声称已有座位；不足3家时返回实际数量，不以安全停止冒充用户目标完成。
-6. 用户只选择并授权一家，不授权自动换店。
-7. 提交前重新验证空位和条款；发生实质变化时重新确认。
-8. 无API网站的浏览与受控操作是核心建设方向；有API可优先使用，无API时使用支持的Browser Adapter；登录、验证码、银行卡、3DS、CAPTCHA 和新增高风险条款触发 Human Takeover。
-9. 只有强完成信号存在时进入 `BOOKED_VERIFIED`。
-10. 预约失败或空位消失时刷新候选并让用户重新选择。
-11. 支持取消；修改统一为“创建并验证新预约，再取消旧预约”。
-12. 预约验证后提供 Google Maps 路线、交通时间和建议出发时间。
-13. 用户可以关闭页面后恢复同一Case，并看到最新候选、状态、下一步和关键Activity。
-14. Web提供`Active / Needs You / Waiting / Completed`视图；选择、授权、条款变化和Human Takeover可在Mobile Web完成。
-15. Conversation、解释文本和模型Working Plan不作为权威预约状态；Case视图必须从服务端Task、Authorization、Attempt、Evidence和Outcome投影。
+5. 开放式找店的首批目标是3家不同、证据充分的候选；用户明确的数量取代默认目标，指定门店不机械扩展。空位目标中每家仍须有已验证对应slot；进入预约时还须有可执行预约路径。普通推荐按事实要求展示，不声称已有座位；不足目标时返回实际数量和受限原因，不以安全停止冒充用户目标完成。
+6. 结果批次是可恢复的只读选店会话：用户可查看、加入/移除备选、要求同条件另一批或提交明确反馈。已有合格未展示候选优先返回；池内不足才由现有有界调查续接，且不自动预约或形成长期偏好。
+7. 用户只选择并授权一家，不授权自动换店。
+8. 提交前重新验证空位和条款；发生实质变化时重新确认。
+9. 无API网站的浏览与受控操作是核心建设方向；有API可优先使用，无API时使用支持的Browser Adapter；登录、验证码、银行卡、3DS、CAPTCHA 和新增高风险条款触发 Human Takeover。
+10. 只有强完成信号存在时进入 `BOOKED_VERIFIED`。
+11. 预约失败或空位消失时刷新候选并让用户重新选择。
+12. 支持取消；修改统一为“创建并验证新预约，再取消旧预约”。
+13. 预约验证后提供 Google Maps 路线、交通时间和建议出发时间。
+14. 用户可以关闭页面后恢复同一Case，并看到最新候选、状态、下一步和关键Activity。
+15. Web提供`Active / Needs You / Waiting / Completed`视图；选择、授权、条款变化和Human Takeover可在Mobile Web完成。
+16. Conversation、解释文本和模型Working Plan不作为权威预约状态；Case视图必须从服务端Task、Authorization、Attempt、Evidence和Outcome投影。
 
 ## 授权规则
 

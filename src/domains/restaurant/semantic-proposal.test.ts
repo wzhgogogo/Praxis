@@ -44,7 +44,7 @@ test("Semantic Proposal Contract accepts only an explicit or closed-party source
   if (!invalid.valid) assert.match(invalid.errors.join(" "), /must match PARTY_SIZE/);
 });
 
-test("Semantic Proposal Contract carries an explicit open-ended recommendation count but rejects it for a named outlet", () => {
+test("Semantic Proposal Contract carries an explicit open-ended result count for either delivery goal but rejects it for a named outlet", () => {
   const openEnded = validateRestaurantSemanticProposal({
     schemaVersion: "3",
     facts: [{
@@ -53,6 +53,15 @@ test("Semantic Proposal Contract carries an explicit open-ended recommendation c
     }],
   });
   assert.equal(openEnded.valid, true);
+
+  const availability = validateRestaurantSemanticProposal({
+    schemaVersion: "3",
+    facts: [{
+      field: "TARGET", operation: "ASSERT",
+      value: { kind: "TARGET", goal: "AVAILABILITY", query: "open tables near Shibuya", selectionScope: "OPEN_ENDED", requestedResultCount: 3 },
+    }],
+  });
+  assert.equal(availability.valid, true);
 
   const invalidNamedCount = validateRestaurantSemanticProposal({
     schemaVersion: "3",

@@ -24,6 +24,7 @@ type Plan = {
   date: string;
   timeWindow: { earliest: string; latest: string };
   partySize?: number;
+  candidateBatchSize?: number;
   facts: Array<Record<string, unknown>>;
   actions: PlannedAction[];
   /** Explicit, cited interpretation outputs for the scripted code-contract boundary only. */
@@ -39,31 +40,31 @@ const PLANS: readonly Plan[] = [
     id: "h001", referenceTime: "2026-08-19T16:20:00+08:00",
     goal: "AVAILABILITY", area: "near Shibuya", date: "2026-08-19", timeWindow: { earliest: "19:00", latest: "19:00" }, partySize: 2,
     facts: [
-      { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "omakase near Shibuya" } },
+      { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "omakase near Shibuya", selectionScope: "OPEN_ENDED" } },
       { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-08-19", raw: "tonight" } },
       { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:00", raw: "7 PM" } },
-      { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } },
+      { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2, source: "EXPLICIT" } },
       { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "near Shibuya" } },
       { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "omakase", polarity: "POSITIVE", strength: "HARD" } },
     ],
-    actions: ["SEARCH_RESTAURANTS", "CHECK_AVAILABILITY", "PRESENT_RESULTS"],
+    actions: ["SEARCH_RESTAURANTS", "CHECK_AVAILABILITY", "PRESENT_RESULTS"], candidateBatchSize: 3,
   },
   {
     id: "h002", referenceTime: "2026-08-19T16:22:00+08:00",
     goal: "AVAILABILITY", area: "near Higashi-Ginza", date: "2026-08-22", timeWindow: { earliest: "18:30", latest: "18:30" }, partySize: 2,
     facts: [
-      { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "first date restaurant near Higashi-Ginza" } },
+      { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "first date restaurant near Higashi-Ginza", selectionScope: "OPEN_ENDED" } },
       { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-08-22", raw: "this Saturday" } },
       { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "18:30", latest: "18:30", raw: "6:30 PM" } },
       // Closed first-date-party inference, not a rewrite of the source message.
-      { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } },
+      { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2, source: "INFERRED_CLOSED_PARTY" } },
       { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "near Higashi-Ginza" } },
       { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "good for a first date", polarity: "POSITIVE", strength: "SOFT" } },
       { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "around 10,000 yen per person", polarity: "POSITIVE", strength: "SOFT" } },
       { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "hot pot restaurant", polarity: "NEGATIVE", strength: "HARD" } },
       { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "Sichuan/Hunan cuisine", polarity: "NEGATIVE", strength: "HARD" } },
     ],
-    actions: ["SEARCH_RESTAURANTS", "INVESTIGATE_CANDIDATE_FACTS", "CHECK_AVAILABILITY", "PRESENT_RESULTS"],
+    actions: ["SEARCH_RESTAURANTS", "INVESTIGATE_CANDIDATE_FACTS", "CHECK_AVAILABILITY", "PRESENT_RESULTS"], candidateBatchSize: 3,
     factJudgments: [
       { criterion: "hot pot restaurant", outcome: "SUPPORTED" },
       { criterion: "Sichuan/Hunan cuisine", outcome: "SUPPORTED" },
@@ -73,43 +74,43 @@ const PLANS: readonly Plan[] = [
     id: "h003", referenceTime: "2026-08-19T16:38:00+08:00",
     goal: "AVAILABILITY", area: "nearby", date: "2026-08-21", timeWindow: { earliest: "17:30", latest: "22:00" }, partySize: 10,
     facts: [
-      { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "team dinner nearby" } },
+      { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "team dinner nearby", selectionScope: "OPEN_ENDED" } },
       { field: "DATE", operation: "ASSERT", value: { kind: "DATE", weekday: "FRIDAY", raw: "this Friday" } },
       { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", daypart: "AFTER_WORK", raw: "after work" } },
-      { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 10 } },
+      { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 10, source: "EXPLICIT" } },
       { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "nearby" } },
       { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "around 3,000 yen per person", polarity: "POSITIVE", strength: "SOFT" } },
       { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "private room", polarity: "POSITIVE", strength: "SOFT" } },
       { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "team dinner", polarity: "POSITIVE", strength: "HARD" } },
       { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "good for drinks", polarity: "POSITIVE", strength: "HARD" } },
     ],
-    actions: ["SEARCH_RESTAURANTS", "CHECK_AVAILABILITY", "PRESENT_RESULTS"],
+    actions: ["SEARCH_RESTAURANTS", "CHECK_AVAILABILITY", "PRESENT_RESULTS"], candidateBatchSize: 3,
   },
   {
     id: "h004", referenceTime: "2026-08-19T12:00:00+08:00",
     goal: "RECOMMENDATION", area: "nearby", date: "2026-08-19", timeWindow: { earliest: "12:00", latest: "17:00" },
     facts: [
-      { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "RECOMMENDATION", query: "cafes nearby" } },
+      { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "RECOMMENDATION", query: "cafes nearby", selectionScope: "OPEN_ENDED" } },
       { field: "DATE", operation: "ASSERT", value: { kind: "DATE", relativeDay: "TODAY", raw: "this afternoon" } },
       { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", daypart: "AFTERNOON", relativeDay: "TODAY", raw: "this afternoon" } },
       { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "nearby" } },
       { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "good for meeting a friend", polarity: "POSITIVE", strength: "SOFT" } },
       { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "cafe", polarity: "POSITIVE", strength: "HARD" } },
     ],
-    actions: ["SEARCH_RESTAURANTS", "INVESTIGATE_CANDIDATE_FACTS", "PRESENT_RESULTS"],
+    actions: ["SEARCH_RESTAURANTS", "INVESTIGATE_CANDIDATE_FACTS", "PRESENT_RESULTS"], candidateBatchSize: 3,
   },
   {
     id: "h005", referenceTime: "2026-08-19T16:00:00+08:00",
     goal: "AVAILABILITY", area: "nearby", date: "2026-08-19", timeWindow: { earliest: "17:00", latest: "17:00" }, partySize: 4,
     facts: [
-      { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "open tables nearby" } },
+      { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "open tables nearby", selectionScope: "OPEN_ENDED" } },
       { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", relativeOffsetMinutes: 0, raw: "right now" } },
-      { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 4 } },
+      { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 4, source: "EXPLICIT" } },
       { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "nearby" } },
       { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "local food", polarity: "POSITIVE", strength: "HARD" } },
       { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "fast food", polarity: "NEGATIVE", strength: "HARD" } },
     ],
-    actions: ["SEARCH_RESTAURANTS", "INVESTIGATE_CANDIDATE_FACTS", "CHECK_AVAILABILITY", "PRESENT_RESULTS"],
+    actions: ["SEARCH_RESTAURANTS", "INVESTIGATE_CANDIDATE_FACTS", "CHECK_AVAILABILITY", "PRESENT_RESULTS"], candidateBatchSize: 3,
     factJudgments: [
       { criterion: "local food", outcome: "SUPPORTED" },
       { criterion: "fast food", outcome: "SUPPORTED" },
@@ -176,7 +177,8 @@ class FixedCurrentCaseModel implements ModelGateway {
     const payload = JSON.parse(request.messages.find((message) => message.role === "user")!.content) as { context: { candidates?: Array<{ id: string }> } };
     const candidateIds = payload.context.candidates?.map((candidate) => candidate.id) ?? [];
     if (["CHECK_AVAILABILITY", "INVESTIGATE_CANDIDATE_FACTS", "PRESENT_RESULTS"].includes(next)) {
-      if (candidateIds.length !== 1) throw new Error(`${next} requires exactly one independently grounded candidate, got ${candidateIds.length}`);
+      const expectedBatchSize = this.plan.candidateBatchSize ?? 1;
+      if (candidateIds.length !== expectedBatchSize) throw new Error(`${next} requires ${expectedBatchSize} independently grounded candidate(s), got ${candidateIds.length}`);
       return modelResponse(JSON.stringify(action(next, candidateIds)), `agent:${this.plan.id}:${next}`);
     }
     return modelResponse(JSON.stringify(action(next)), `agent:${this.plan.id}:${next}`);
@@ -218,6 +220,12 @@ test("current H001-H005 raw requests complete through the real offline Hybrid co
     const acceptance = assessFixedSourceAcceptance({
       expectation: fixedSourceCaseRegistration(plan.id).expectation,
       execution: { status: "SUCCEEDED", loopStatus: loop.status, phase: state.phase },
+      ...(state.presentedResults ? {
+        presentedResult: {
+          candidateIds: state.presentedResults.candidateIds,
+          ...(state.selectionSession?.resultBatchTarget ? { resultBatchTarget: state.selectionSession.resultBatchTarget } : {}),
+        },
+      } : {}),
       evaluation,
     });
     assert.equal(acceptance.acceptance, "PASS", acceptance.reasons.join("\n"));
@@ -231,19 +239,22 @@ test("current H001-H005 raw requests complete through the real offline Hybrid co
     assert.deepEqual(state.intentDraft?.timeWindow, plan.timeWindow);
     assert.equal(state.intentDraft?.partySize, plan.partySize);
     if (plan.id === "h003") assert.equal(state.intentDraft?.temporalResolution?.timeWindow?.basis, "DAYPART:AFTER_WORK_BROAD_WINDOW");
+    assert.deepEqual(state.selectionSession?.resultBatchTarget, { candidateCount: 3, met: true });
+    assert.equal(state.presentedResults?.candidateIds.length, 3);
     if (plan.id === "h004") {
-      assert.equal(sources.calls.facts, 1); assert.equal(sources.calls.availability, 0);
+      assert.equal(sources.calls.facts, 3); assert.equal(sources.calls.availability, 0);
       assert.equal(loop.status, "TERMINAL"); assert.equal(state.phase, "PRESENT_RESULTS");
     } else {
-      assert.equal(sources.calls.facts, ["h002", "h005"].includes(plan.id) ? 1 : 0);
-      assert.equal(sources.calls.availability, 1);
+      assert.equal(sources.calls.facts, ["h002", "h005"].includes(plan.id) ? 3 : 0);
+      assert.equal(sources.calls.availability, 3);
     }
     if (plan.id !== "h004") {
       assert.equal(state.phase, "PRESENT_RESULTS");
-      const candidateId = state.presentedResults?.candidateIds[0]!;
-      assert.equal(state.availabilityChecks[candidateId]?.status, "AVAILABLE");
-      assert.equal(state.availabilityChecks[candidateId]?.receptionMode, "RESERVATION_SUPPORTED");
-      assert.equal(state.availability[candidateId]?.length, 1);
+      for (const candidateId of state.presentedResults?.candidateIds ?? []) {
+        assert.equal(state.availabilityChecks[candidateId]?.status, "AVAILABLE");
+        assert.equal(state.availabilityChecks[candidateId]?.receptionMode, "RESERVATION_SUPPORTED");
+        assert.equal(state.availability[candidateId]?.length, 1);
+      }
     }
   });
 });

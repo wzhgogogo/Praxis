@@ -1,13 +1,21 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.70
+- Document revision: 4.71
 - Last updated: 2026-09-18
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## TEST-2026-09-18-OPEN-ENDED-AVAILABILITY-RESULT-TARGET — offline production composition and acceptance
+
+- Scope: `OPEN_ENDED` AVAILABILITY now reaches the same runtime result target as open-ended recommendation. H001–H005 each use three source-distinct candidates and retain the real Interpreter → Compiler → Runtime/Reducer → Agent/Validator → Router → fixed source → artifact evaluator route; only the model/source transports are controlled.
+- Independent acceptance: registered frozen cases require exactly three distinct `presentedResults.candidateIds` and persisted `{ candidateCount: 3, met: true }`. A dedicated failure control supplies one presented candidate with an unmet target and gets `FAIL`; it cannot pass merely because the evaluator calls the single result qualified.
+- Focused command: `node --import tsx --test src/eval/restaurant/agent-loop/fixed-source-acceptance.test.ts src/eval/restaurant/agent-loop/current-development-offline.test.ts` — **14/14 PASS**, 0 fail/cancel/skip/todo (520ms). This run produced no paid-model, Google, browser, replay or external-write action.
+- Required final gates: `npm run typecheck`, `npm run arch:check`, `npm run build`, and `git diff --check` PASS; loopback-authorized `npm test` **436/436 PASS**, 0 fail/cancel/skip/todo (18168ms).
+- Limits: scripted model decisions prove runtime/acceptance wiring and the source fixtures prove three-candidate evidence production. They do not prove real-model selection, current website behavior, real Google results or availability; original-researcher review remains pending.
 
 ## TEST-2026-09-18-OPEN-ENDED-TARGET-AND-PARTY-BOUNDARY — offline contract and Web composition
 

@@ -31,6 +31,10 @@ export function assessFixedSourceAcceptance(input: {
   evaluation?: RestaurantHybridDiagnosticEvaluation;
   evaluationFailure?: string;
   coverageGaps?: readonly FixedSourceCoverageGap[];
+  presentedResult?: {
+    candidateIds: readonly string[];
+    resultBatchTarget?: { candidateCount: number; met: boolean };
+  };
 }): FixedSourceAcceptanceResult {
   const reasons: string[] = [];
   const gaps = input.coverageGaps ?? [];
@@ -61,6 +65,17 @@ export function assessFixedSourceAcceptance(input: {
   if (input.expectation.kind === "NEEDS_USER_INPUT" && evaluation.execution.completion !== "NEEDS_USER_INPUT") reasons.push(`Expected NEEDS_USER_INPUT evaluator completion, got ${evaluation.execution.completion}.`);
   if (input.expectation.kind === "USER_CANCELLED" && evaluation.execution.completion !== "CANCELLED") reasons.push(`Expected CANCELLED evaluator completion, got ${evaluation.execution.completion}.`);
   if (input.expectation.kind === "BUDGET_OR_DEADLINE_STOP" && evaluation.execution.completion !== "BUDGET_OR_DEADLINE_STOP") reasons.push(`Expected BUDGET_OR_DEADLINE_STOP evaluator completion, got ${evaluation.execution.completion}.`);
+  const requiredBatch = input.expectation.requiredResultBatch;
+  if (requiredBatch) {
+    const presented = input.presentedResult;
+    const distinctCandidateCount = presented ? new Set(presented.candidateIds).size : 0;
+    if (!presented || presented.candidateIds.length !== requiredBatch.candidateCount || distinctCandidateCount !== requiredBatch.candidateCount) {
+      reasons.push(`Expected exactly ${requiredBatch.candidateCount} distinct presented candidates, got ${presented ? `${distinctCandidateCount} distinct of ${presented.candidateIds.length}` : "no presentation record"}.`);
+    }
+    if (presented?.resultBatchTarget?.candidateCount !== requiredBatch.candidateCount || presented.resultBatchTarget.met !== true) {
+      reasons.push(`Expected met result batch target of ${requiredBatch.candidateCount}, got ${presented?.resultBatchTarget ? `${presented.resultBatchTarget.candidateCount}/${presented.resultBatchTarget.met}` : "MISSING"}.`);
+    }
+  }
   const acceptance = reasons.length ? "FAIL" : "PASS";
   // Completion is derived from the independently evaluated produced result,
   // never merely copied from a case registration boolean.

@@ -1,6 +1,6 @@
 # ADR-0027: Continuous read-only selection sessions
 
-- Status: Accepted
+- Status: Accepted; first-batch goal restriction superseded in part by ADR-0028
 - Document revision: 1.1
 - Last updated: 2026-09-18
 - Source of truth for: Restaurant result-batch continuation, delivery history and discovery cursors
