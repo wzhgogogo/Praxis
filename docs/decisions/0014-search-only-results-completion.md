@@ -1,6 +1,6 @@
 # ADR-0014: Search-only results completion
 
-- Status: Accepted; provider identity scope superseded by ADR-0015
+- Status: Superseded in part by ADR-0027; provider identity scope superseded by ADR-0015
 - Document revision: 1.0
 - Last updated: 2026-09-03
 - Source of truth for: read-only Restaurant search completion
@@ -12,7 +12,7 @@ ADR-0013 correctly prohibits an Agent `COMPLETE` action for booking flow: only t
 
 ## Decision
 
-Add `PRESENT_RESULTS` to `restaurant-agent-action@3` as a read-only, non-booking action. The Runtime, not the Agent, writes `RESULTS_PRESENTED` and transitions `restaurant-state@10` to terminal `PRESENT_RESULTS`.
+Add `PRESENT_RESULTS` to `restaurant-agent-action@3` as a read-only, non-booking action. The Runtime, not the Agent, writes `RESULTS_PRESENTED`. ADR-0027 supersedes only the former terminal-state interpretation: a presented batch is now a paused, user-continuable selection session.
 
 The Action Validator permits it only when every named candidate has current authoritative evidence for all task-critical facts: exact requested area, each positive HARD criterion, HIGH-confidence Google-to-Tabelog outlet identity, and a fresh matching availability offer for the authoritative date, time window and party size. Missing or ambiguous evidence rejects the action; it never becomes a successful result by fallback.
 

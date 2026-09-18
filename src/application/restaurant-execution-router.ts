@@ -13,6 +13,7 @@ import type {
   RestaurantSearchRequest,
   RestaurantTaskState,
 } from "../domains/restaurant/contracts.js";
+import { restaurantSearchIntentFingerprint } from "../domains/restaurant/contracts.js";
 import { assessRestaurantRead, restaurantPresentationEvidenceIds } from "../domains/restaurant/read-assessment.js";
 import { completeRestaurantIntent, completeRestaurantSearchIntent } from "../domains/restaurant/intent-state.js";
 import { RESTAURANT_AVAILABILITY_DISPLAY_FRESHNESS } from "../domains/restaurant/availability-freshness.js";
@@ -98,7 +99,15 @@ function authoritativeSearchRequest(
 ): RestaurantSearchRequest {
   const intent = completeRestaurantSearchIntent(state.intentDraft);
   if (!intent) throw new Error("Validated Restaurant search requires a complete authoritative intent");
-  return { intent, ...(retrievalHint ? { retrievalHint } : {}), ...(readRunId ? { readRunId } : {}) };
+  const continuation = state.searchContinuation;
+  return {
+    intent,
+    ...(continuation?.intentFingerprint === restaurantSearchIntentFingerprint(intent)
+      ? { continuation: structuredClone(continuation) }
+      : {}),
+    ...(retrievalHint ? { retrievalHint } : {}),
+    ...(readRunId ? { readRunId } : {}),
+  };
 }
 
 function authoritativeAvailabilityRequest(

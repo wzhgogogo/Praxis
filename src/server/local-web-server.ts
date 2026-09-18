@@ -141,6 +141,11 @@ function requireFiniteNumber(input: Record<string, unknown>, key: string): numbe
   return value;
 }
 
+function requireBoolean(input: Record<string, unknown>, key: string): boolean {
+  if (typeof input[key] !== "boolean") throw new Error(`${key} must be a boolean`);
+  return input[key] as boolean;
+}
+
 function cookies(request: IncomingMessage): Map<string, string> {
   const result = new Map<string, string>();
   for (const part of (request.headers.cookie ?? "").split(";")) {
@@ -251,6 +256,41 @@ export function createLocalWebServer(options: LocalWebServerOptions): Server {
         hub.publish(view);
         json(response, 200, { view });
         return;
+      }
+      const browseNextMatch = /^\/api\/cases\/([^/]+)\/browse-next$/.exec(url.pathname);
+      if (method === "POST" && browseNextMatch) {
+        const body = await readJson(request);
+        const view = await options.application.browseNextResult({
+          userId: user.id,
+          caseId: decodeURIComponent(browseNextMatch[1]!),
+          requestId: requireString(body, "requestId"),
+          expectedVersion: requireVersion(body),
+        });
+        hub.publish(view); json(response, 200, { view }); return;
+      }
+      const anotherBatchMatch = /^\/api\/cases\/([^/]+)\/another-batch$/.exec(url.pathname);
+      if (method === "POST" && anotherBatchMatch) {
+        const body = await readJson(request);
+        const view = await options.application.requestAnotherBatch({
+          userId: user.id,
+          caseId: decodeURIComponent(anotherBatchMatch[1]!),
+          requestId: requireString(body, "requestId"),
+          expectedVersion: requireVersion(body),
+        });
+        hub.publish(view); json(response, 200, { view }); return;
+      }
+      const shortlistMatch = /^\/api\/cases\/([^/]+)\/shortlist$/.exec(url.pathname);
+      if (method === "POST" && shortlistMatch) {
+        const body = await readJson(request);
+        const view = await options.application.setShortlist({
+          userId: user.id,
+          caseId: decodeURIComponent(shortlistMatch[1]!),
+          candidateId: requireString(body, "candidateId"),
+          shortlisted: requireBoolean(body, "shortlisted"),
+          requestId: requireString(body, "requestId"),
+          expectedVersion: requireVersion(body),
+        });
+        hub.publish(view); json(response, 200, { view }); return;
       }
       const cancelMatch = /^\/api\/cases\/([^/]+)\/run$/.exec(url.pathname);
       if (method === "DELETE" && cancelMatch) {

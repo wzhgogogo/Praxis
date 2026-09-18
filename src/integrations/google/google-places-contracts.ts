@@ -3,6 +3,9 @@ export const GOOGLE_PLACES_DETAILS_URL = "https://places.googleapis.com/v1/place
 
 /** Kept explicit to constrain billing and prevent accidental raw-place retention. */
 export const GOOGLE_PLACES_RESTAURANT_FIELD_MASK = [
+  // This is a Text Search response-level field. It must not leak into the
+  // Place Details mask below, whose response is one Place rather than a page.
+  "nextPageToken",
   "places.id",
   "places.displayName",
   "places.formattedAddress",
@@ -21,6 +24,7 @@ export const GOOGLE_PLACES_RESTAURANT_FIELD_MASK = [
 /** Details responses are one Place, so their field mask has no `places.` prefix. */
 export const GOOGLE_PLACES_DETAILS_FIELD_MASK = GOOGLE_PLACES_RESTAURANT_FIELD_MASK
   .split(",")
+  .filter((field) => field.startsWith("places."))
   .map((field) => field.replace(/^places\./, ""))
   .concat("websiteUri")
   .join(",");
@@ -28,6 +32,8 @@ export const GOOGLE_PLACES_DETAILS_FIELD_MASK = GOOGLE_PLACES_RESTAURANT_FIELD_M
 export interface GooglePlacesTextSearchRequest {
   textQuery: string;
   pageSize: number;
+  /** Opaque response token from the immediately preceding matching search. */
+  pageToken?: string;
   /** Explicit, runner-supplied location context for a user-authorized NEAR_USER read. */
   locationBias?: {
     latitude: number;
@@ -52,6 +58,13 @@ export interface GooglePlacesRawPlace {
 
 export interface GooglePlacesTextSearchResponse {
   places?: GooglePlacesRawPlace[];
+  nextPageToken?: unknown;
+}
+
+/** A parsed Text Search response; unlike `places`, the cursor belongs to the response page. */
+export interface GooglePlacesTextSearchPage {
+  places: GooglePlacesRawPlace[];
+  nextPageToken?: string;
 }
 
 export class GooglePlacesError extends Error {

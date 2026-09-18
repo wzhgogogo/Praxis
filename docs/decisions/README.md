@@ -24,7 +24,7 @@
 | [0011](0011-restaurant-agent-loop-control-refinement.md) | Accepted | Agent Action绑定、失败归因、Loop终止与Trajectory因果引用 |
 | [0012](0012-migration-and-agent-loop-hardening.md) | Accepted | Migration不可变性、开发State重置、Agent Context与Loop审计收口 |
 | [0013](0013-agent-loop-final-hardening.md) | Accepted | 失败后Agent恢复、route taxonomy、Decision Context trajectory与Hybrid E2E门槛 |
-| [0014](0014-search-only-results-completion.md) | Accepted; provider identity scope superseded by ADR-0015 | 只读搜索以证据受限的`PRESENT_RESULTS`结束，不改变预约完成规则 |
+| [0014](0014-search-only-results-completion.md) | Superseded in part by ADR-0027; provider identity scope superseded by ADR-0015 | 只读结果证据门槛保持；终态解释已替换 |
 | [0015](0015-supported-source-search-evidence.md) | Accepted | 受支持来源的HIGH门店身份与请求对应空位证据，不降低只读结果门槛 |
 | [0016](0016-local-eval-browser-profile-lifecycle.md) | Accepted | 本地eval持久profile窄例外，产品隔离与销毁规则保持 |
 | [0017](0017-controlled-browser-read-executor.md) | Draft / authorized local-eval implementation | 两来源共享受控浏览器只读执行；模型只提议已观察元素动作 |
@@ -37,6 +37,7 @@
 | [0024](0024-deterministic-time-and-diagnostic-read-completion.md) | Accepted | 代码物化东京相对时间、当前无slot覆盖旧营业事实，并区分无可靠结果与内部失败 |
 | [0025](0025-model-directed-read-investigation.md) | Accepted | 模型调查顺序、统一只读证据评估、有界观察反馈与正常无可靠结果收尾 |
 | [0026](0026-concrete-visit-goal-and-reception-semantics.md) | Accepted | 具体到访的Availability语义、动作参数边界与接待方式/库存分离 |
+| [0027](0027-continuous-read-only-selection-sessions.md) | Accepted | 结果批次可续接、持久候选池与受限游标补货 |
 
 ## 规则
 

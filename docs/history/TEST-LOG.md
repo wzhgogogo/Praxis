@@ -1,13 +1,21 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.67
-- Last updated: 2026-09-17
+- Document revision: 4.68
+- Last updated: 2026-09-18
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## TEST-2026-09-18-CONTINUOUS-SELECTION-OFFLINE — controlled Web/PGlite composition
+
+- Scope and boundaries: actual `PersistentRestaurantAgentApplication` → Runtime/Reducer → Agent Decision → Router → PGlite persistence → HTTP Web entry was retained. The controlled test replaces only ModelGateway and restaurant-source transport; it does not hand-construct a qualified Task state and does not call real Google, a browser, a paid model, or an external write.
+- Behaviour evidence: initial a/b/c are presented; browse, shortlist and `too expensive` feedback each persist through the Web entry without extra model/search/fact/availability calls. A separate scenario begins with only a/b/c and a durable cursor, records `NEXT_BATCH_REPLENISHMENT_REQUESTED`, resumes the same application loop, requests the cursor page, and presents unseen d/e/f. It asserts two searches, five model boundary calls, no fact/availability read, and no repeated delivered ID.
+- Independent failure mechanisms: Google adapter contracts reject token reuse and preserve page one after page-two failure; Router tests omit a stale-intent cursor; Action/assessment tests reject exhausted reworded discovery. The prior terminal-outcome assertion was deliberately updated because a presented batch is now `WAITING_USER`, not a completed Task.
+- Commands: `npm run typecheck` PASS; focused domain/Google/Web tests PASS; final `npm test` **427/427 PASS** (0 fail/cancel/skip/todo, 17239ms); final `npm run arch:check`, `npm run build`, and `git diff --check` PASS.
+- Limits: scripted boundary choices prove the composition and safety constraints, not real-model judgment. No Replay or Live evidence was created; B1–B7, B10–B14 retain their previously recorded scope and this slice adds only offline B8/B9-adjacent continuation evidence. It is not an independent review or Live acceptance.
 
 ## TEST-2026-09-17-H001-30S-SEMANTIC-RETRY — Live Read-only
 

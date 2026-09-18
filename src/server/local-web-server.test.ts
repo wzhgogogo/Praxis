@@ -23,7 +23,7 @@ import { FixtureModelGateway } from "../infrastructure/fixture/fixture-model-gat
 import type { ModelGateway, ModelRequest, ModelResponse } from "../core/model/contracts.js";
 import { ModelGatewayError } from "../core/model/errors.js";
 import { FixtureRestaurantSearch } from "../infrastructure/fixture/fixture-restaurant-search.js";
-import type { RestaurantAvailabilityRequest, RestaurantSearchRequest } from "../domains/restaurant/contracts.js";
+import type { RestaurantAvailabilityRequest, RestaurantCandidate, RestaurantReadEvidence, RestaurantSearchRequest } from "../domains/restaurant/contracts.js";
 import { applyPostgresMigrations } from "../infrastructure/postgres/migrations.js";
 import type {
   SqlDatabase,
@@ -281,6 +281,92 @@ async function nextCaseEvent(reader: ReadableStreamDefaultReader<Uint8Array>, de
   return JSON.parse(data) as RestaurantCaseView;
 }
 
+function strictFixtureAction(type: "SEARCH_RESTAURANTS" | "PRESENT_RESULTS", candidateIds: string[] = []): ModelResponse {
+  return {
+    invocationId: `selection-model:${type}:${candidateIds.join(",")}`,
+    provider: "FIXTURE", model: "selection-session-fixture",
+    outputText: JSON.stringify({ type, question: "", relatedFields: [], retrievalHint: "", candidateIds, candidateId: "", offerId: "", decisionSummary: "controlled selection-session route" }),
+    finishReason: "TOOL_CALLS", latencyMs: 0,
+  };
+}
+
+function selectionSessionFixture(calls: { search: number; facts: number; availability: number }, paginated = false): RestaurantSearchPort & RestaurantAvailabilityPort & RestaurantCandidateFactPort {
+  const candidates: RestaurantCandidate[] = ["a", "b", "c", "d", "e", "f"].map((id) => ({
+    restaurant: { id, outletName: `Session Restaurant ${id.toUpperCase()}`, address: "Shinjuku, Tokyo", sourceIds: { googlePlaces: `place-${id}` }, provenance: {} },
+    matchReasons: ["fixture"], warnings: [], executionConfidence: "HIGH",
+  }));
+  const evidence: RestaurantReadEvidence[] = candidates.flatMap((candidate) => {
+    const id = candidate.restaurant.id;
+    const sourceEntityId = candidate.restaurant.sourceIds.googlePlaces!;
+    return [
+      { evidenceId: `area:${id}`, kind: "DISCOVERY" as const, provider: "GOOGLE_PLACES" as const, candidateId: id, sourceEntityId, observedAt: "2026-08-08T09:00:00.000Z", requestFingerprint: "session", claims: { areaQuery: "Shinjuku", areaMatch: true } },
+      { evidenceId: `identity:${id}`, kind: "ENTITY_MATCH" as const, provider: "GOOGLE_PLACES" as const, candidateId: id, sourceEntityId, observedAt: "2026-08-08T09:00:00.000Z", requestFingerprint: "session", claims: {}, entityMatch: { confidence: "HIGH" as const, matchedBy: ["FIXTURE"] } },
+      { evidenceId: `fact:${id}`, kind: "RESTAURANT_FACT" as const, provider: "GOOGLE_PLACES" as const, candidateId: id, sourceEntityId, observedAt: "2026-08-08T09:00:00.000Z", requestFingerprint: "session", claims: {} },
+    ];
+  });
+  return {
+    executionRoute: "STRUCTURED_ADAPTER" as const,
+    async search(request: RestaurantSearchRequest) {
+      calls.search += 1;
+      const continuation = request.continuation;
+      const selected = paginated ? (continuation ? candidates.slice(3) : candidates.slice(0, 3)) : candidates;
+      const selectedIds = new Set(selected.map((candidate) => candidate.restaurant.id));
+      return {
+        candidates: selected,
+        evidence: evidence.filter((item) => selectedIds.has(item.candidateId ?? "")),
+        continuation: {
+          intentFingerprint: JSON.stringify(request.intent),
+          ...(paginated && !continuation ? { nextPageToken: "fixture:page-2" } : {}),
+          usedPageTokens: continuation ? ["fixture:page-2"] : [],
+          pagesRead: continuation ? 2 : 1,
+          exhausted: !paginated || Boolean(continuation),
+        },
+        metadata: { provider: "FIXTURE" as const, route: "STRUCTURED_ADAPTER" as const, latencyMs: 0 },
+      };
+    },
+    async check() { calls.availability += 1; return { offers: [], availabilityChecks: {}, evidence: [], metadata: { provider: "FIXTURE" as const, route: "STRUCTURED_ADAPTER" as const, latencyMs: 0 } }; },
+    async inspectFacts() { calls.facts += 1; return { evidence: [], factChecks: {}, metadata: { provider: "FIXTURE" as const, route: "STRUCTURED_ADAPTER" as const, latencyMs: 0 } }; },
+  };
+}
+
+function selectionSessionModel(calls: { model: number }, supportsConditionRevision = false): ModelGateway {
+  return {
+    async complete(request) {
+      calls.model += 1;
+      if (request.purpose === "restaurant_semantic_interpret") {
+        const userMessage = request.messages.find((message) => message.role === "user")?.content ?? "";
+        if (supportsConditionRevision && userMessage.includes("Make it four on 2026-09-19")) {
+          return {
+            invocationId: `selection-semantic-revision:${calls.model}`, provider: "FIXTURE", model: "selection-session-fixture",
+            outputText: JSON.stringify({ schemaVersion: "3", facts: [
+              { field: "PARTY_SIZE", operation: "CORRECT", value: { kind: "PARTY_SIZE", value: 4 } },
+              { field: "DATE", operation: "CORRECT", value: { kind: "DATE", value: "2026-09-19", raw: "2026-09-19" } },
+            ] }), finishReason: "TOOL_CALLS", latencyMs: 0,
+          };
+        }
+        return {
+          invocationId: `selection-semantic:${calls.model}`, provider: "FIXTURE", model: "selection-session-fixture",
+          outputText: JSON.stringify({ schemaVersion: "3", facts: [
+            { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "RECOMMENDATION", query: "restaurants" } },
+            { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "Shinjuku" } },
+          ] }), finishReason: "TOOL_CALLS", latencyMs: 0,
+        };
+      }
+      const context = JSON.parse(request.messages.find((message) => message.role === "user")!.content).context as {
+        candidates: Array<{ id: string }>;
+        presentation: Array<{ candidateId: string; eligible: boolean }>;
+        resultBatchTarget?: { candidateCount: number };
+        legalActions: { presentResults: string[] };
+      };
+      return context.candidates.length === 0
+        ? strictFixtureAction("SEARCH_RESTAURANTS")
+        : context.resultBatchTarget && context.legalActions.presentResults.length < context.resultBatchTarget.candidateCount
+          ? strictFixtureAction("SEARCH_RESTAURANTS")
+          : strictFixtureAction("PRESENT_RESULTS", context.legalActions.presentResults.slice(0, context.resultBatchTarget?.candidateCount ?? 3));
+    },
+  };
+}
+
 test("Stage 2B serves the fixture workspace and rejects unauthenticated case access", async () => {
   await withDatabase(async ({ database, clock }) => {
     const running = await startServer(database, clock);
@@ -294,6 +380,99 @@ test("Stage 2B serves the fixture workspace and rejects unauthenticated case acc
     } finally {
       await running.close();
     }
+  });
+});
+
+test("selection-session browse and shortlist use the persistent Web entry without new model or source work", async () => {
+  await withDatabase(async ({ database, clock }) => {
+    const calls = { model: 0, search: 0, facts: 0, availability: 0 };
+    const running = await startServer(database, clock, { restaurant: selectionSessionFixture(calls), model: selectionSessionModel(calls) });
+    try {
+      const cookie = await login(running.baseUrl, "token-a");
+      const created = await createCase(running.baseUrl, cookie, "selection-session", "Recommend restaurants in Shinjuku.");
+      assert.equal(created.case.phase, "PRESENT_RESULTS");
+      assert.deepEqual(created.restaurant.presentedCandidateIds, ["a", "b", "c"]);
+      assert.deepEqual(calls, { model: 3, search: 1, facts: 0, availability: 0 });
+      const viewed = await api(running.baseUrl, cookie, `/api/cases/${encodeURIComponent(created.case.caseId)}/browse-next`, {
+        method: "POST", body: JSON.stringify({ requestId: "view-first", taskVersion: created.case.taskVersion }),
+      });
+      assert.equal(viewed.response.status, 200, String(viewed.payload.error));
+      const viewedCase = viewed.payload.view as RestaurantCaseView;
+      assert.deepEqual(viewedCase.restaurant.viewedCandidateIds, ["a"]);
+      assert.equal(viewedCase.activities.at(-1)?.type, "RESULT_VIEWED");
+      const shortlisted = await api(running.baseUrl, cookie, `/api/cases/${encodeURIComponent(created.case.caseId)}/shortlist`, {
+        method: "POST", body: JSON.stringify({ requestId: "shortlist-first", taskVersion: viewedCase.case.taskVersion, candidateId: "a", shortlisted: true }),
+      });
+      assert.equal(shortlisted.response.status, 200, String(shortlisted.payload.error));
+      const shortlistCase = shortlisted.payload.view as RestaurantCaseView;
+      assert.deepEqual(shortlistCase.restaurant.shortlistCandidateIds, ["a"]);
+      const feedback = await api(running.baseUrl, cookie, `/api/conversations/${encodeURIComponent(created.conversation.id)}/messages`, {
+        method: "POST", body: JSON.stringify({ requestId: "price-feedback", taskVersion: shortlistCase.case.taskVersion, message: "too expensive" }),
+      });
+      assert.equal(feedback.response.status, 200, String(feedback.payload.error));
+      const feedbackCase = feedback.payload.view as RestaurantCaseView;
+      assert.deepEqual(feedbackCase.restaurant.selectionFeedback, ["too expensive"]);
+      assert.equal(feedbackCase.activities.at(-1)?.type, "SELECTION_FEEDBACK_RECORDED");
+      const another = await api(running.baseUrl, cookie, `/api/cases/${encodeURIComponent(created.case.caseId)}/another-batch`, {
+        method: "POST", body: JSON.stringify({ requestId: "another-batch", taskVersion: feedbackCase.case.taskVersion }),
+      });
+      assert.equal(another.response.status, 200, String(another.payload.error));
+      const anotherCase = another.payload.view as RestaurantCaseView;
+      assert.deepEqual(anotherCase.restaurant.presentedCandidateIds, ["d", "e", "f"]);
+      assert.deepEqual(anotherCase.restaurant.shortlistCandidateIds, ["a"]);
+      const viaNaturalMessage = await api(running.baseUrl, cookie, `/api/conversations/${encodeURIComponent(created.conversation.id)}/messages`, {
+        method: "POST", body: JSON.stringify({ requestId: "view-second-natural", taskVersion: anotherCase.case.taskVersion, message: "next" }),
+      });
+      assert.equal(viaNaturalMessage.response.status, 200, String(viaNaturalMessage.payload.error));
+      assert.deepEqual((viaNaturalMessage.payload.view as RestaurantCaseView).restaurant.viewedCandidateIds, ["a", "d"]);
+      assert.deepEqual(calls, { model: 3, search: 1, facts: 0, availability: 0 });
+    } finally { await running.close(); }
+  });
+});
+
+test("selection-session replenishes an inadequate same-condition pool through its durable cursor", async () => {
+  await withDatabase(async ({ database, clock }) => {
+    const calls = { model: 0, search: 0, facts: 0, availability: 0 };
+    const running = await startServer(database, clock, { restaurant: selectionSessionFixture(calls, true), model: selectionSessionModel(calls) });
+    try {
+      const cookie = await login(running.baseUrl, "token-a");
+      const created = await createCase(running.baseUrl, cookie, "selection-replenishment", "Recommend restaurants in Shinjuku.");
+      assert.deepEqual(created.restaurant.presentedCandidateIds, ["a", "b", "c"]);
+      const another = await api(running.baseUrl, cookie, `/api/cases/${encodeURIComponent(created.case.caseId)}/another-batch`, {
+        method: "POST", body: JSON.stringify({ requestId: "replenish-batch", taskVersion: created.case.taskVersion }),
+      });
+      assert.equal(another.response.status, 200, String(another.payload.error));
+      const view = another.payload.view as RestaurantCaseView;
+      assert.equal(view.case.phase, "PRESENT_RESULTS");
+      assert.deepEqual(view.restaurant.presentedCandidateIds, ["d", "e", "f"]);
+      assert.equal(view.activities.some((activity) => activity.type === "NEXT_BATCH_REPLENISHMENT_REQUESTED"), true);
+      assert.deepEqual(calls, { model: 5, search: 2, facts: 0, availability: 0 });
+    } finally { await running.close(); }
+  });
+});
+
+test("selection-session condition revision preserves shortlist memory but performs a fresh authoritative read", async () => {
+  await withDatabase(async ({ database, clock }) => {
+    const calls = { model: 0, search: 0, facts: 0, availability: 0 };
+    const running = await startServer(database, clock, { restaurant: selectionSessionFixture(calls), model: selectionSessionModel(calls, true) });
+    try {
+      const cookie = await login(running.baseUrl, "token-a");
+      const created = await createCase(running.baseUrl, cookie, "selection-revision", "Recommend restaurants in Shinjuku.");
+      const shortlist = await api(running.baseUrl, cookie, `/api/cases/${encodeURIComponent(created.case.caseId)}/shortlist`, {
+        method: "POST", body: JSON.stringify({ requestId: "revision-shortlist", taskVersion: created.case.taskVersion, candidateId: "a", shortlisted: true }),
+      });
+      const revised = await api(running.baseUrl, cookie, `/api/conversations/${encodeURIComponent(created.conversation.id)}/messages`, {
+        method: "POST", body: JSON.stringify({ requestId: "revision-message", taskVersion: (shortlist.payload.view as RestaurantCaseView).case.taskVersion, message: "Make it four on 2026-09-19." }),
+      });
+      assert.equal(revised.response.status, 200, String(revised.payload.error));
+      const view = revised.payload.view as RestaurantCaseView;
+      assert.equal(view.restaurant.intentDraft?.partySize, 4);
+      assert.equal(view.restaurant.intentDraft?.date, "2026-09-19");
+      assert.deepEqual(view.restaurant.shortlistCandidateIds, ["a"]);
+      assert.deepEqual(view.restaurant.presentedCandidateIds, ["a", "b", "c"]);
+      assert.equal(view.activities.filter((activity) => activity.type === "SEARCH_COMPLETED").length, 2);
+      assert.deepEqual(calls, { model: 6, search: 2, facts: 0, availability: 0 });
+    } finally { await running.close(); }
   });
 });
 

@@ -69,6 +69,10 @@ export interface RestaurantAgentContext {
     missingReason?: string;
     recheckReason?: "DISPLAY_EVIDENCE_EXPIRED" | "USER_REQUESTED_REFRESH";
   }>;
+  /** A user-requested same-condition batch cannot repeat delivered candidates. */
+  resultBatchTarget?: { candidateCount: number; excludeCandidateIds: string[] };
+  /** Verbatim user preference feedback; it does not establish a price or fact. */
+  selectionFeedback?: string[];
   /** Candidates allowed for the next bounded availability read, including justified rechecks. */
   checkableCandidateIds?: string[];
   /** Candidates whose fact evidence has not yet received one bounded read. */
@@ -188,8 +192,8 @@ export function projectRestaurantAgentContext(
       ]),
     ),
     presentation,
-    searchAvailability: state.sourceReadState?.googlePlacesSearchBudget === "EXHAUSTED"
-      ? { available: false, reason: "GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED" }
+    searchAvailability: state.sourceReadState?.googlePlacesSearchBudget === "EXHAUSTED" || state.searchContinuation?.exhausted === true
+      ? { available: false, reason: state.searchContinuation?.exhausted ? "GOOGLE_DISCOVERY_EXHAUSTED" : "GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED" }
       : { available: true },
     ...(assessment.checkableCandidateIds.length ? { checkableCandidateIds: assessment.checkableCandidateIds } : {}),
     ...(assessment.factInvestigableCandidateIds.length ? { factInvestigableCandidateIds: assessment.factInvestigableCandidateIds } : {}),
@@ -200,12 +204,21 @@ export function projectRestaurantAgentContext(
       ...(assessment.endReadBlockReason ? { reason: assessment.endReadBlockReason } : {}),
     },
     legalActions: {
-      search: state.sourceReadState?.googlePlacesSearchBudget !== "EXHAUSTED" && missingSearchFields(state.intentDraft ?? {}).length === 0,
+      search: state.sourceReadState?.googlePlacesSearchBudget !== "EXHAUSTED" && state.searchContinuation?.exhausted !== true && missingSearchFields(state.intentDraft ?? {}).length === 0,
       investigateCandidateFacts: [...assessment.factInvestigableCandidateIds],
       checkAvailability: [...assessment.checkableCandidateIds],
-      presentResults: presentation.filter((item) => item.eligible).map((item) => item.candidateId),
+      presentResults: presentation
+        .filter((item) => item.eligible && !(state.pendingResultBatchTarget !== undefined && (state.selectionSession?.deliveredCandidateIds ?? []).includes(item.candidateId)))
+        .map((item) => item.candidateId),
       endRead: assessment.canEndRead,
     },
+    ...(state.pendingResultBatchTarget !== undefined ? {
+      resultBatchTarget: {
+        candidateCount: state.pendingResultBatchTarget,
+        excludeCandidateIds: [...(state.selectionSession?.deliveredCandidateIds ?? [])],
+      },
+    } : {}),
+    ...(state.selectionSession?.feedback?.length ? { selectionFeedback: [...state.selectionSession.feedback] } : {}),
     ...(state.selectedCandidateId ? { selectedCandidateId: state.selectedCandidateId } : {}),
     ...(state.selectedOfferId ? { selectedOfferId: state.selectedOfferId } : {}),
     ...(state.failure ? { failure: { code: state.failure.code } } : {}),

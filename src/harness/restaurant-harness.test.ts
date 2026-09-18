@@ -511,7 +511,7 @@ describe("restaurant booking mock harness", () => {
     assert.equal(harness.trajectories.steps.filter((step) => step.stepOutcome === "REJECTED").length, 2);
   });
 
-  test("a model can end a bounded read after repeated zero-new-candidate observations without log-text parsing", async () => {
+  test("an exhausted discovery cursor rejects a reworded retry and the model can end the bounded read", async () => {
     const harness = createHarness({
       agentLoopOptions: { maxSteps: 12 },
       agentActions: [
@@ -524,7 +524,8 @@ describe("restaurant booking mock harness", () => {
     assert.equal(harness.lastAgentLoopResult?.status, "TERMINAL");
     assert.equal(snapshot.domainState.phase, "NO_VERIFIED_RESULT");
     const discoverySteps = harness.trajectories.steps.filter((step) => step.observation?.type === "DISCOVERY");
-    assert.deepEqual(discoverySteps[1]?.observation?.newCandidateIds, []);
+    assert.equal(discoverySteps.length, 1, "the exhausted cursor must not cause a fresh or repeated discovery request");
+    assert.equal(harness.trajectories.steps[1]?.stepOutcome, "REJECTED");
     assert.equal(harness.trajectories.steps.at(-1)?.observation?.type, "READ_ENDED");
   });
 });

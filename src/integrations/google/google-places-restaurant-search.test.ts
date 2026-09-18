@@ -13,6 +13,56 @@ test("Google query is discovery-owned and does not serialize criteria into retri
   assert.doesNotMatch(query, /yakiniku/);
 });
 
+test("initial discovery reads at most two 20-result pages, dedupes stable outlets, and retains the next cursor", async () => {
+  const requests: Array<Record<string, unknown>> = [];
+  const place = (id: string) => ({ id, displayName: { text: `Restaurant ${id}` }, formattedAddress: "Tokyo", location: { latitude: 35.6, longitude: 139.7 }, types: ["restaurant"] });
+  const client = new GooglePlacesClient({
+    apiKey: "key",
+    fetchImplementation: async (_url, init) => {
+      const body = JSON.parse(String(init?.body)) as Record<string, unknown>;
+      requests.push(body);
+      return new Response(JSON.stringify(body.pageToken === "page-2"
+        ? { places: [place("b"), place("c")], nextPageToken: "page-3" }
+        : { places: [place("a"), place("b")], nextPageToken: "page-2" }), { status: 200 });
+    },
+  });
+  const result = await new GooglePlacesRestaurantSearch(client).search({ intent: fixtureIntent, readRunId: "two-pages" }, new AbortController().signal);
+  assert.deepEqual(requests.map((request) => request.pageSize), [20, 20]);
+  assert.deepEqual(requests.map((request) => request.pageToken), [undefined, "page-2"]);
+  assert.equal(result.candidates.length, 3, "the second page duplicate is merged by stable outlet ID");
+  assert.deepEqual(result.continuation, {
+    intentFingerprint: JSON.stringify(fixtureIntent),
+    nextPageToken: "page-3",
+    usedPageTokens: ["page-2"],
+    pagesRead: 2,
+    exhausted: false,
+  });
+});
+
+test("a second-page provider failure preserves accepted first-page candidates and records a bounded retry cursor", async () => {
+  let calls = 0;
+  const client = new GooglePlacesClient({
+    apiKey: "key",
+    fetchImplementation: async (_url, init) => {
+      calls += 1;
+      if (JSON.parse(String(init?.body)).pageToken === "page-2") return new Response("unavailable", { status: 503 });
+      return new Response(JSON.stringify({ places: [{ id: "first", displayName: { text: "First" }, formattedAddress: "Tokyo", location: { latitude: 35.6, longitude: 139.7 }, types: ["restaurant"] }], nextPageToken: "page-2" }), { status: 200 });
+    },
+  });
+  const result = await new GooglePlacesRestaurantSearch(client, undefined, 20, { maxRequests: 2 }).search({ intent: fixtureIntent, readRunId: "partial-page" }, new AbortController().signal);
+  assert.equal(calls, 2);
+  assert.equal(result.candidates.length, 1);
+  assert.equal(result.metadata.failureCode, "GOOGLE_SERVICE_REJECTED");
+  assert.deepEqual(result.continuation, {
+    intentFingerprint: JSON.stringify(fixtureIntent),
+    nextPageToken: "page-2",
+    usedPageTokens: [],
+    pagesRead: 1,
+    exhausted: false,
+    lastFailureCode: "GOOGLE_SERVICE_REJECTED",
+  });
+});
+
 test("a named nearby place is resolved to observed coordinates and grounds candidate distance", async () => {
   let call = 0;
   const client = new GooglePlacesClient({

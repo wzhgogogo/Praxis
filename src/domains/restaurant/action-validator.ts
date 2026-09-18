@@ -38,7 +38,7 @@ function rejected(code: RestaurantActionRejectionCode, reason: string): Restaura
 }
 
 function isTerminal(state: Readonly<RestaurantTaskState>): boolean {
-  return state.phase === "BOOKED_VERIFIED" || state.phase === "PRESENT_RESULTS" || state.phase === "NO_VERIFIED_RESULT" || state.phase === "OUTCOME_UNKNOWN" || state.phase === "FAILED";
+  return state.phase === "BOOKED_VERIFIED" || state.phase === "NO_VERIFIED_RESULT" || state.phase === "OUTCOME_UNKNOWN" || state.phase === "FAILED";
 }
 
 /** Compatibility projection; all logic belongs to read-assessment.ts. */
@@ -115,6 +115,9 @@ export function validateRestaurantAction(
     if (state.sourceReadState?.googlePlacesSearchBudget === "EXHAUSTED") {
       return rejected("DISCOVERY_UNAVAILABLE", "The local per-run Google request budget is exhausted; changing retrieval wording cannot restore it");
     }
+    if (state.searchContinuation?.exhausted) {
+      return rejected("DISCOVERY_UNAVAILABLE", "The current authoritative Google discovery cursor is exhausted; changing retrieval wording cannot restart it");
+    }
     const intent = requireCompleteSearchIntent(state);
     if (!intent.valid) return intent.verdict;
     // Discovery can start before a concrete visit time is known, but an
@@ -185,6 +188,15 @@ export function validateRestaurantAction(
     if (!intent.valid) return intent.verdict;
     if (action.candidateIds.length === 0 || new Set(action.candidateIds).size !== action.candidateIds.length) {
       return rejected("CANDIDATE_UNKNOWN", "Presenting results requires one or more unique known candidate IDs");
+    }
+    if (state.pendingResultBatchTarget !== undefined) {
+      if (action.candidateIds.length !== state.pendingResultBatchTarget) {
+        return rejected("PRESENTATION_EVIDENCE_MISSING", `The requested next batch requires ${state.pendingResultBatchTarget} distinct qualified restaurants before it can be presented`);
+      }
+      const delivered = new Set(state.selectionSession?.deliveredCandidateIds ?? []);
+      if (action.candidateIds.some((candidateId) => delivered.has(candidateId))) {
+        return rejected("PRESENTATION_EVIDENCE_MISSING", "The requested next batch may contain only previously unshown restaurants");
+      }
     }
     if ((state.refreshRequestedCandidateIds?.length ?? 0) > 0) {
       return rejected("PRESENTATION_EVIDENCE_MISSING", "All user-requested refresh targets require one new availability observation before results can be presented");

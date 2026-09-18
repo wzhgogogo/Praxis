@@ -229,8 +229,28 @@ export interface RestaurantSearchRequest {
   /** Must exactly preserve the authoritative intent; a hint may only adjust retrieval. */
   intent: RestaurantSearchIntent;
   retrievalHint?: string;
+  /** Reducer-owned cursor for the same authoritative intent; never Agent-supplied. */
+  continuation?: RestaurantSearchContinuation;
   /** Runtime-bound persistent task run identity for provider budget isolation. */
   readRunId?: string;
+}
+
+/** Durable, opaque pagination state for one exact Restaurant search intent. */
+export interface RestaurantSearchContinuation {
+  intentFingerprint: string;
+  /** The next provider page, when the source exposed one. */
+  nextPageToken?: string;
+  /** Tokens already sent, retained to stop a malformed response looping forever. */
+  usedPageTokens: string[];
+  pagesRead: number;
+  exhausted: boolean;
+  /** A partial initial read keeps its accepted first page and records this failure. */
+  lastFailureCode?: string;
+}
+
+/** Stable only within the Domain contract; provider query wording is not part of cursor ownership. */
+export function restaurantSearchIntentFingerprint(intent: RestaurantSearchIntent): string {
+  return JSON.stringify(intent);
 }
 
 export interface RestaurantAvailabilityRequest {
@@ -344,6 +364,8 @@ export interface RestaurantSearchRead {
   candidates: RestaurantCandidate[];
   evidence: RestaurantReadEvidence[];
   metadata: RestaurantReadExecutionMetadata;
+  /** Older bounded fixture ports have no provider pages and are exhausted by definition. */
+  continuation?: RestaurantSearchContinuation;
 }
 
 export interface RestaurantAvailabilityRead {
@@ -468,6 +490,18 @@ export interface RestaurantTaskState {
   factChecks?: Record<string, RestaurantCandidateFactCheck>;
   /** Provider capability state is durable within this task run; it is not the last arbitrary failure. */
   sourceReadState?: { googlePlacesSearchBudget: "AVAILABLE" | "EXHAUSTED" };
+  /** Query-bound discovery continuation; it is invalidated with the authoritative intent. */
+  searchContinuation?: RestaurantSearchContinuation;
+  /** Durable state for a paused result-selection session, distinct from source investigation. */
+  selectionSession?: {
+    deliveredCandidateIds: string[];
+    viewedCandidateIds: string[];
+    shortlistCandidateIds: string[];
+    /** User preference feedback; it is neither evidence nor an inferred constraint. */
+    feedback?: string[];
+  };
+  /** An explicit request for another same-condition batch; it never changes intent. */
+  pendingResultBatchTarget?: number;
   readEvidence: RestaurantReadEvidence[];
   searchRevision: number;
   /** Increments only when the user changes authoritative semantics. */
@@ -547,8 +581,18 @@ export type RestaurantEvent =
       candidates: RestaurantCandidate[];
       evidence: RestaurantReadEvidence[];
       metadata: RestaurantReadExecutionMetadata;
+      continuation?: RestaurantSearchContinuation;
     })
+  /** Also records an explicit user-requested next batch from already grounded pool entries. */
   | (DomainEvent & { type: "RESULTS_PRESENTED"; candidateIds: string[]; evidenceIds: string[] })
+  /** Reopens only a paused same-condition selection session for bounded, read-only replenishment. */
+  | (DomainEvent & { type: "NEXT_BATCH_REPLENISHMENT_REQUESTED"; targetCandidateCount: number })
+  /** Explicit local browsing is state-only: it must not trigger a model or source read. */
+  | (DomainEvent & { type: "RESULT_VIEWED"; candidateId: string })
+  /** User-managed local shortlist; it is never a booking selection or authorization. */
+  | (DomainEvent & { type: "SHORTLIST_UPDATED"; candidateId: string; shortlisted: boolean })
+  /** Local selection feedback is retained verbatim and may guide a later Agent decision. */
+  | (DomainEvent & { type: "SELECTION_FEEDBACK_RECORDED"; feedback: string })
   | (DomainEvent & { type: "READ_ENDED_NO_VERIFIED_RESULT"; investigatedCandidateIds: string[]; unresolvedCandidateIds: string[]; remainingGaps: string[] })
   | (DomainEvent & { type: "AVAILABILITY_REFRESH_REQUESTED"; candidateIds: string[] })
   | (DomainEvent & { type: "CANDIDATE_FACTS_REFRESH_REQUESTED"; candidateIds: string[] })

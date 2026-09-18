@@ -2,7 +2,7 @@ import { createHash } from "node:crypto";
 
 import type { RestaurantCandidateFactPort, RestaurantSearchPort } from "../../application/restaurant-execution-router.js";
 import { groundGoogleDiscovery, type UntrustedGooglePlaceObservation } from "../../domains/restaurant/read-grounding.js";
-import type { RestaurantCandidateFactRequest, RestaurantSearchRequest } from "../../domains/restaurant/contracts.js";
+import { restaurantSearchIntentFingerprint, type RestaurantCandidateFactRequest, type RestaurantSearchContinuation, type RestaurantSearchRequest } from "../../domains/restaurant/contracts.js";
 import { GooglePlacesClient } from "./google-places-client.js";
 import { GooglePlacesError, type GooglePlacesRawPlace } from "./google-places-contracts.js";
 
@@ -230,29 +230,79 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
   }
 
   async search(request: RestaurantSearchRequest, signal: AbortSignal) {
-    if (!this.hasBudget(request.readRunId)) {
-      throw new GooglePlacesError("GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED", "The local per-run Google request budget is exhausted before discovery");
-    }
     const startedAt = Date.now();
     const textQuery = buildGooglePlacesTextQuery(request);
-    const taskLocation = request.intent.area.coordinates;
-    const namedLocation = taskLocation ? {} : await this.resolveNamedNearbyLocation(request, signal);
-    if (!this.hasBudget(request.readRunId)) {
-      throw new GooglePlacesError("GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED", "The local per-run Google request budget is exhausted before restaurant discovery");
+    const intentFingerprint = restaurantSearchIntentFingerprint(request.intent);
+    if (request.continuation && request.continuation.intentFingerprint !== intentFingerprint) {
+      throw new GooglePlacesError("GOOGLE_MALFORMED_RESPONSE", "Google Places continuation does not belong to the authoritative restaurant intent");
     }
-    this.consumeRequest(request.readRunId, "discovery");
+    if (request.continuation?.exhausted || !request.continuation?.nextPageToken && request.continuation) {
+      return {
+        candidates: [], evidence: [],
+        continuation: structuredClone(request.continuation),
+        metadata: { provider: "GOOGLE_PLACES" as const, route: this.executionRoute, latencyMs: Date.now() - startedAt, googleRequests: this.googleRequestUsage(request.readRunId) },
+      };
+    }
+    const taskLocation = request.intent.area.coordinates;
+    // A continuation reuses the original query/area exactly; it must not run
+    // another named-place lookup whose result could drift between pages.
+    const namedLocation = taskLocation || request.continuation ? {} : await this.resolveNamedNearbyLocation(request, signal);
     const locationContext = taskLocation
       ? { latitude: taskLocation.latitude, longitude: taskLocation.longitude, radiusMeters: request.intent.area.radiusMeters ?? 3_000, label: request.intent.area.query, areaMatchBasis: "TASK_LOCATION_RADIUS" as const }
       : namedLocation.location ?? (request.intent.area.query.trim().toLowerCase() === "nearby" && this.options.evaluationLocation
         ? { latitude: this.options.evaluationLocation.latitude, longitude: this.options.evaluationLocation.longitude, radiusMeters: this.options.evaluationLocation.radiusMeters ?? 3_000, label: this.options.evaluationLocation.label ?? "explicit evaluation location", areaMatchBasis: "EVALUATION_LOCATION_RADIUS" as const }
         : undefined);
-    const places = await this.client.textSearch({
-      textQuery,
-      pageSize: this.maxResults,
-      ...(locationContext
-        ? { locationBias: locationContext }
-        : {}),
-    }, signal);
+    const firstPageToken = request.continuation?.nextPageToken;
+    const usedPageTokens = [...(request.continuation?.usedPageTokens ?? [])];
+    if (firstPageToken && usedPageTokens.includes(firstPageToken)) {
+      return {
+        candidates: [], evidence: [],
+        continuation: { intentFingerprint, usedPageTokens, pagesRead: request.continuation?.pagesRead ?? 0, exhausted: true, lastFailureCode: "GOOGLE_PAGINATION_REPEATED_TOKEN" },
+        metadata: { provider: "GOOGLE_PLACES" as const, route: this.executionRoute, latencyMs: Date.now() - startedAt, failureCode: "GOOGLE_PAGINATION_REPEATED_TOKEN", googleRequests: this.googleRequestUsage(request.readRunId) },
+      };
+    }
+    const readPage = async (pageToken: string | undefined) => {
+      if (!this.hasBudget(request.readRunId)) {
+        throw new GooglePlacesError("GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED", "The local per-run Google request budget is exhausted before discovery");
+      }
+      this.consumeRequest(request.readRunId, "discovery");
+      if (pageToken) usedPageTokens.push(pageToken);
+      return this.client.textSearchPage({
+        textQuery,
+        pageSize: 20,
+        ...(pageToken ? { pageToken } : {}),
+        ...(locationContext ? { locationBias: locationContext } : {}),
+      }, signal);
+    };
+    const first = await readPage(firstPageToken);
+    const pages = [first.places];
+    let nextPageToken = first.nextPageToken;
+    let lastFailureCode: string | undefined;
+    // An initial read intentionally obtains at most two 20-result pages. A
+    // later explicit replenishment consumes one durable cursor page at a time.
+    if (!request.continuation && nextPageToken) {
+      if (usedPageTokens.includes(nextPageToken)) {
+        lastFailureCode = "GOOGLE_PAGINATION_REPEATED_TOKEN";
+        nextPageToken = undefined;
+      } else {
+        try {
+          const second = await readPage(nextPageToken);
+          pages.push(second.places);
+          nextPageToken = second.nextPageToken;
+          if (nextPageToken && usedPageTokens.includes(nextPageToken)) {
+            lastFailureCode = "GOOGLE_PAGINATION_REPEATED_TOKEN";
+            nextPageToken = undefined;
+          }
+        } catch (error) {
+          // The first page is independently valid. Preserve it and make the
+          // partial failure visible rather than discarding the whole search.
+          lastFailureCode = error instanceof GooglePlacesError ? error.code : "GOOGLE_SECOND_PAGE_FAILED";
+          nextPageToken = first.nextPageToken;
+          if (usedPageTokens.at(-1) === first.nextPageToken) usedPageTokens.pop();
+        }
+      }
+    }
+    const places = pages.flat();
     const observedAt = this.now();
     const requestFingerprint = createHash("sha256").update(JSON.stringify({ textQuery, area: request.intent.area })).digest("hex");
     const grounded = places.map((place) => groundGoogleDiscovery(rawObservation(place), {
@@ -269,13 +319,28 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
       ...(request.intent.timeWindow ? { requestedTimeWindow: request.intent.timeWindow } : {}),
       ...(locationContext ? { evaluationLocation: locationContext } : {}),
     }));
+    // Google may return an outlet again on the next page. Preserve only the
+    // first grounded observation for each stable Domain outlet ID so the pool
+    // cannot present one physical restaurant as two investigation targets.
+    const acceptedGrounded = [...new Map(grounded
+      .filter((result) => result.accepted)
+      .map((result) => [result.candidate.restaurant.id, result] as const)).values()];
     return {
-      candidates: grounded.flatMap((result) => result.accepted ? [result.candidate] : []),
-      evidence: [...(namedLocation.evidence ? [namedLocation.evidence] : []), ...grounded.flatMap((result) => result.accepted ? [result.evidence, ...result.additionalEvidence] : [])],
+      candidates: acceptedGrounded.map((result) => result.candidate),
+      evidence: [...(namedLocation.evidence ? [namedLocation.evidence] : []), ...acceptedGrounded.flatMap((result) => [result.evidence, ...result.additionalEvidence])],
+      continuation: {
+        intentFingerprint,
+        ...(nextPageToken ? { nextPageToken } : {}),
+        usedPageTokens,
+        pagesRead: (request.continuation?.pagesRead ?? 0) + pages.length,
+        exhausted: !nextPageToken,
+        ...(lastFailureCode ? { lastFailureCode } : {}),
+      } satisfies RestaurantSearchContinuation,
       metadata: {
         provider: "GOOGLE_PLACES" as const,
         route: this.executionRoute,
         latencyMs: Date.now() - startedAt,
+        ...(lastFailureCode ? { failureCode: lastFailureCode } : {}),
         googleRequests: this.googleRequestUsage(request.readRunId),
       },
     };

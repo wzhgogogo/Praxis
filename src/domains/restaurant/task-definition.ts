@@ -19,7 +19,7 @@ import type {
   RestaurantPhase,
   RestaurantTaskState,
 } from "./contracts.js";
-import { restaurantAvailabilityRequestFingerprint } from "./contracts.js";
+import { restaurantAvailabilityRequestFingerprint, restaurantSearchIntentFingerprint } from "./contracts.js";
 import { applyRestaurantIntentPatch } from "./intent-state.js";
 import { restaurantIntentPatchHasChanges } from "./semantic-compiler.js";
 import { validateRestaurantAction } from "./action-validator.js";
@@ -61,6 +61,7 @@ function resetForSemanticUpdate(
     refreshRequestedCandidateIds: _refreshRequestedCandidateIds,
     factRefreshRequestedCandidateIds: _factRefreshRequestedCandidateIds,
     sourceReadState: _sourceReadState,
+    searchContinuation: _searchContinuation,
     ...remaining
   } = state;
   return {
@@ -73,6 +74,17 @@ function resetForSemanticUpdate(
     availabilityChecks: {},
     factChecks: {},
     readEvidence: [],
+    // A user-owned shortlist is not an assertion that an old result remains
+    // eligible after date/area/party changes. Keep it as a recheckable memory
+    // while every source-backed candidate/evidence field is conservatively reset.
+    ...(state.selectionSession ? {
+      selectionSession: {
+        deliveredCandidateIds: [],
+        viewedCandidateIds: [],
+        shortlistCandidateIds: [...state.selectionSession.shortlistCandidateIds],
+        ...(state.selectionSession.feedback?.length ? { feedback: [...state.selectionSession.feedback] } : {}),
+      },
+    } : {}),
   };
 }
 
@@ -178,7 +190,9 @@ function lifecycleFor(phase: RestaurantPhase): TaskLifecycleState {
     case "NEEDS_INPUT": return "WAITING_USER";
     case "OUTCOME_UNKNOWN": return "NEEDS_ATTENTION";
     case "BOOKED_VERIFIED": return "SUCCEEDED";
-    case "PRESENT_RESULTS": return "SUCCEEDED";
+    // A batch is presented, not closed. Only an explicit user event can
+    // continue/revise this selection session; the Agent loop itself stops.
+    case "PRESENT_RESULTS": return "WAITING_USER";
     case "NO_VERIFIED_RESULT": return "SUCCEEDED";
     case "FAILED": return "FAILED";
   }
@@ -320,6 +334,18 @@ function transition(
     case "SEARCH_COMPLETED":
       requirePhase(state, ["UNDERSTANDING", "NEEDS_INPUT", "SEARCHING", "SELECTION_REQUIRED"], event.type);
       {
+        const searchContinuation = event.continuation ?? {
+          intentFingerprint: restaurantSearchIntentFingerprint(event.request.intent),
+          usedPageTokens: [],
+          pagesRead: 1,
+          exhausted: true,
+        };
+        if (searchContinuation.intentFingerprint !== restaurantSearchIntentFingerprint(event.request.intent)) {
+          throw new Error("Search continuation does not match the authoritative search intent");
+        }
+        if (event.request.continuation && event.request.continuation.intentFingerprint !== searchContinuation.intentFingerprint) {
+          throw new Error("Search response continuation does not match its request cursor");
+        }
         const {
           selectedCandidateId: _selectedCandidateId,
           selectedOfferId: _selectedOfferId,
@@ -328,17 +354,18 @@ function transition(
           failure: _failure,
           ...remaining
         } = state;
-      const continuation = sameSearchIntent(state.intent, event.request.intent);
+      const isContinuation = sameSearchIntent(state.intent, event.request.intent);
       return {
         state: {
           ...remaining,
           phase: "SEARCHING",
           intent: structuredClone(event.request.intent),
-          candidates: continuation ? mergeCandidates(state.candidates, event.candidates) : event.candidates.map((candidate) => structuredClone(candidate)),
-          availability: continuation ? structuredClone(state.availability) : {},
-          availabilityChecks: continuation ? structuredClone(state.availabilityChecks) : {},
-          factChecks: continuation ? structuredClone(state.factChecks ?? {}) : {},
-          readEvidence: continuation ? mergeEvidence(state.readEvidence, event.evidence) : event.evidence.map((item) => structuredClone(item)),
+          candidates: isContinuation ? mergeCandidates(state.candidates, event.candidates) : event.candidates.map((candidate) => structuredClone(candidate)),
+          availability: isContinuation ? structuredClone(state.availability) : {},
+          availabilityChecks: isContinuation ? structuredClone(state.availabilityChecks) : {},
+          factChecks: isContinuation ? structuredClone(state.factChecks ?? {}) : {},
+          readEvidence: isContinuation ? mergeEvidence(state.readEvidence, event.evidence) : event.evidence.map((item) => structuredClone(item)),
+          searchContinuation: structuredClone(searchContinuation),
           searchRevision: state.searchRevision + 1,
         },
         commands: [],
@@ -526,7 +553,10 @@ function transition(
       }
     }
     case "RESULTS_PRESENTED": {
-      requirePhase(state, ["SEARCHING", "SELECTION_REQUIRED"], event.type);
+      requirePhase(state, ["SEARCHING", "SELECTION_REQUIRED", "PRESENT_RESULTS"], event.type);
+      if (state.phase === "PRESENT_RESULTS" && event.candidateIds.some((candidateId) => state.selectionSession?.deliveredCandidateIds.includes(candidateId))) {
+        throw new Error("A subsequent result batch must contain only previously unshown candidates");
+      }
       const validation = validateRestaurantAction(state, { type: "PRESENT_RESULTS", candidateIds: event.candidateIds }, context.now);
       if (validation.status !== "ALLOWED") {
         throw new Error(`Results presentation is not grounded: ${validation.status === "REJECTED" ? validation.reason : "authorization is not applicable"}`);
@@ -535,11 +565,90 @@ function transition(
       if (event.evidenceIds.length === 0 || !event.evidenceIds.every((id) => availableEvidence.has(id))) {
         throw new Error("Results presentation must reference current authoritative evidence");
       }
+      const { pendingResultBatchTarget: _pendingResultBatchTarget, ...remaining } = state;
+      return {
+        state: {
+          ...remaining,
+          phase: "PRESENT_RESULTS",
+          presentedResults: { candidateIds: [...event.candidateIds], evidenceIds: [...event.evidenceIds], presentedAt: context.now },
+          selectionSession: {
+            deliveredCandidateIds: [...new Set([...(state.selectionSession?.deliveredCandidateIds ?? []), ...event.candidateIds])],
+            viewedCandidateIds: [...(state.selectionSession?.viewedCandidateIds ?? [])],
+            shortlistCandidateIds: [...(state.selectionSession?.shortlistCandidateIds ?? [])],
+            ...(state.selectionSession?.feedback?.length ? { feedback: [...state.selectionSession.feedback] } : {}),
+          },
+        },
+        commands: [],
+      };
+    }
+    case "NEXT_BATCH_REPLENISHMENT_REQUESTED": {
+      requirePhase(state, ["PRESENT_RESULTS"], event.type);
+      if (!Number.isSafeInteger(event.targetCandidateCount) || event.targetCandidateCount < 1 || event.targetCandidateCount > 3) {
+        throw new Error("A requested next result batch must have a bounded target of one to three candidates");
+      }
+      if (!state.presentedResults?.candidateIds.length) throw new Error("Another result batch requires an existing presented batch");
       return {
         state: {
           ...state,
-          phase: "PRESENT_RESULTS",
-          presentedResults: { candidateIds: [...event.candidateIds], evidenceIds: [...event.evidenceIds], presentedAt: context.now },
+          phase: "SEARCHING",
+          pendingResultBatchTarget: event.targetCandidateCount,
+        },
+        commands: [],
+      };
+    }
+    case "RESULT_VIEWED": {
+      requirePhase(state, ["PRESENT_RESULTS"], event.type);
+      if (!state.presentedResults?.candidateIds.includes(event.candidateId)) {
+        throw new Error("A result can be viewed only from the current presented batch");
+      }
+      return {
+        state: {
+          ...state,
+          selectionSession: {
+            deliveredCandidateIds: [...(state.selectionSession?.deliveredCandidateIds ?? state.presentedResults.candidateIds)],
+            viewedCandidateIds: [...new Set([...(state.selectionSession?.viewedCandidateIds ?? []), event.candidateId])],
+            shortlistCandidateIds: [...(state.selectionSession?.shortlistCandidateIds ?? [])],
+            ...(state.selectionSession?.feedback?.length ? { feedback: [...state.selectionSession.feedback] } : {}),
+          },
+        },
+        commands: [],
+      };
+    }
+    case "SHORTLIST_UPDATED": {
+      requirePhase(state, ["SEARCHING", "SELECTION_REQUIRED", "PRESENT_RESULTS", "NO_VERIFIED_RESULT"], event.type);
+      if (!state.candidates.some((candidate) => candidate.restaurant.id === event.candidateId) && !state.selectionSession?.shortlistCandidateIds.includes(event.candidateId)) {
+        throw new Error("A shortlist entry must reference a discovered restaurant candidate");
+      }
+      const prior = state.selectionSession?.shortlistCandidateIds ?? [];
+      const shortlistCandidateIds = event.shortlisted
+        ? [...new Set([...prior, event.candidateId])]
+        : prior.filter((candidateId) => candidateId !== event.candidateId);
+      return {
+        state: {
+          ...state,
+          selectionSession: {
+            deliveredCandidateIds: [...(state.selectionSession?.deliveredCandidateIds ?? state.presentedResults?.candidateIds ?? [])],
+            viewedCandidateIds: [...(state.selectionSession?.viewedCandidateIds ?? [])],
+            shortlistCandidateIds,
+            ...(state.selectionSession?.feedback?.length ? { feedback: [...state.selectionSession.feedback] } : {}),
+          },
+        },
+        commands: [],
+      };
+    }
+    case "SELECTION_FEEDBACK_RECORDED": {
+      requirePhase(state, ["PRESENT_RESULTS"], event.type);
+      const feedback = event.feedback.trim();
+      if (!feedback || feedback.length > 300) throw new Error("Selection feedback must be a non-empty bounded user statement");
+      return {
+        state: {
+          ...state,
+          selectionSession: {
+            deliveredCandidateIds: [...(state.selectionSession?.deliveredCandidateIds ?? state.presentedResults?.candidateIds ?? [])],
+            viewedCandidateIds: [...(state.selectionSession?.viewedCandidateIds ?? [])],
+            shortlistCandidateIds: [...(state.selectionSession?.shortlistCandidateIds ?? [])],
+            feedback: [...new Set([...(state.selectionSession?.feedback ?? []), feedback])],
+          },
         },
         commands: [],
       };
@@ -665,11 +774,8 @@ export const restaurantBookingTaskDefinition: TaskDefinition<RestaurantTaskState
   getLifecycleState(state) { return lifecycleFor(state.phase); },
   evaluateOutcome(state) {
     if (state.phase === "BOOKED_VERIFIED" && state.reservation) return { status: "BOOKED_VERIFIED", reservation: state.reservation };
-    if (state.phase === "PRESENT_RESULTS" && state.presentedResults) return {
-      status: "PRESENT_RESULTS",
-      candidateIds: [...state.presentedResults.candidateIds],
-      evidenceIds: [...state.presentedResults.evidenceIds],
-    };
+    // Presentation is a paused selection state rather than a terminal task
+    // outcome, so persistence/reload can accept later browse or feedback events.
     if (state.phase === "NO_VERIFIED_RESULT" && state.noVerifiedResult) return {
       status: "NO_VERIFIED_RESULT",
       investigatedCandidateIds: [...state.noVerifiedResult.investigatedCandidateIds],

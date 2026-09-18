@@ -277,9 +277,8 @@ test("PRESENT_RESULTS fails closed until area, HARD criterion, identity, and ava
     type: "RESULTS_PRESENTED", candidateIds: ["a"], evidenceIds: grounded.readEvidence.map((item) => item.evidenceId),
   }, { taskId: "task", runId: "run", now, createId: (prefix) => prefix });
   assert.equal(transition.state.phase, "PRESENT_RESULTS");
-  assert.deepEqual(restaurantBookingTaskDefinition.evaluateOutcome(transition.state), {
-    status: "PRESENT_RESULTS", candidateIds: ["a"], evidenceIds: grounded.readEvidence.map((item) => item.evidenceId),
-  });
+  assert.equal(restaurantBookingTaskDefinition.getLifecycleState(transition.state), "WAITING_USER");
+  assert.equal(restaurantBookingTaskDefinition.evaluateOutcome(transition.state), null);
 });
 
 test("an immediate availability result cannot be presented after its own validity window", () => {

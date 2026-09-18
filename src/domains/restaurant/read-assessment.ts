@@ -156,7 +156,13 @@ export function assessRestaurantRead(state: Readonly<RestaurantTaskState>, now: 
     return { candidateId, eligible: false, missingReason: evidence.reason, ...(hasExpiredDisplayEvidence ? { recheckReason: "DISPLAY_EVIDENCE_EXPIRED" as const } : {}) };
   });
   const factRefreshTargets = state.factRefreshRequestedCandidateIds ?? [];
+  // A pending next batch is a continuation of the same request, not a reason
+  // to reopen or count an already delivered restaurant again.
+  const excludedFromPendingBatch = new Set(state.pendingResultBatchTarget === undefined
+    ? []
+    : state.selectionSession?.deliveredCandidateIds ?? []);
   const factInvestigableCandidateIds = presentation.filter((item) => {
+    if (excludedFromPendingBatch.has(item.candidateId)) return false;
     const refreshing = factRefreshTargets.includes(item.candidateId);
     if (factRefreshTargets.length && !refreshing) return false;
     if (!refreshing && state.factChecks?.[item.candidateId] !== undefined) return false;
@@ -165,12 +171,13 @@ export function assessRestaurantRead(state: Readonly<RestaurantTaskState>, now: 
   }).map((item) => item.candidateId);
   const completeBookingIntent = completeRestaurantIntent(state.intentDraft);
   const checkableCandidateIds = completeBookingIntent ? presentation.filter((item) =>
-    state.availabilityChecks[item.candidateId] === undefined || item.recheckReason !== undefined,
+    !excludedFromPendingBatch.has(item.candidateId) && (state.availabilityChecks[item.candidateId] === undefined || item.recheckReason !== undefined),
   ).map((item) => item.candidateId) : [];
   const investigationRecorded = state.searchRevision > 0 || Object.keys(state.factChecks ?? {}).length > 0 || Object.keys(state.availabilityChecks).length > 0;
-  const unresolvedCandidateIds = presentation.filter((item) => !item.eligible).map((item) => item.candidateId);
+  const relevantPresentation = presentation.filter((item) => !excludedFromPendingBatch.has(item.candidateId));
+  const unresolvedCandidateIds = relevantPresentation.filter((item) => !item.eligible).map((item) => item.candidateId);
   const refreshPending = (state.refreshRequestedCandidateIds?.length ?? 0) > 0 || (state.factRefreshRequestedCandidateIds?.length ?? 0) > 0;
   const internalFailure = state.failure && /^(AGENT_|SEMANTIC_|BROWSER_RUNTIME|BROWSER_TIMEOUT)/.test(state.failure.code);
-  const canEndRead = investigationRecorded && !refreshPending && !internalFailure && !presentation.some((item) => item.eligible);
+  const canEndRead = investigationRecorded && !refreshPending && !internalFailure && !relevantPresentation.some((item) => item.eligible);
   return { presentation, factInvestigableCandidateIds, checkableCandidateIds, investigationRecorded, canEndRead, ...(canEndRead ? {} : { endReadBlockReason: !investigationRecorded ? "No actual source investigation is recorded" : refreshPending ? "A user-requested refresh remains pending" : internalFailure ? "An internal execution failure is recorded" : "A grounded result is available and must not be ignored" }), unresolvedCandidateIds };
 }

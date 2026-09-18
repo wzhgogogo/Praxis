@@ -17,7 +17,7 @@ import type {
   RestaurantReadExecutionMetadata,
   RestaurantTaskState,
 } from "../domains/restaurant/contracts.js";
-import { restaurantCurrentFactEvidence } from "../domains/restaurant/read-assessment.js";
+import { restaurantCurrentFactEvidence, restaurantPresentationEvidenceIds } from "../domains/restaurant/read-assessment.js";
 import { restaurantBookingTaskDefinition } from "../domains/restaurant/task-definition.js";
 import { applyRestaurantIntentPatch, missingBlockingFields, missingSearchFields } from "../domains/restaurant/intent-state.js";
 import {
@@ -69,6 +69,21 @@ function titleFor(message: string): string {
   return singleLine.length <= 72 ? singleLine : `${singleLine.slice(0, 69)}…`;
 }
 
+/** Narrow local controls are intentionally recognized before semantic/model work. */
+function isBrowseNextMessage(message: string): boolean {
+  return /^(?:next(?:\s+(?:one|result))?|show\s+(?:me\s+)?the\s+next(?:\s+(?:one|result))?|下一家|下一个|左滑)$/iu.test(message.trim());
+}
+
+function isAnotherBatchMessage(message: string): boolean {
+  return /^(?:another\s+(?:batch|set|three)|more\s+(?:options|restaurants)|换一批|再来一批|还有其他选择)$/iu.test(message.trim());
+}
+
+/** Preference-only feedback must not be routed through semantic condition edits. */
+function selectionFeedback(message: string): string | undefined {
+  const trimmed = message.trim();
+  return /^(?:too\s+(?:expensive|pricey)|太贵了?|太貴です?)$/iu.test(trimmed) ? trimmed : undefined;
+}
+
 function eventActivity(
   caseId: string,
   event: RecordedEventEnvelope<RestaurantEvent>,
@@ -113,6 +128,14 @@ function eventActivity(
           title: "Read-only results presented",
           detail: `${event.event.candidateIds.length} evidence-grounded result(s) are ready.`,
         };
+      case "NEXT_BATCH_REPLENISHMENT_REQUESTED":
+        return { title: "Another result batch requested", detail: `${event.event.targetCandidateCount} previously unshown qualified restaurant(s) are required.` };
+      case "RESULT_VIEWED":
+        return { title: "Result viewed", detail: event.event.candidateId };
+      case "SHORTLIST_UPDATED":
+        return { title: event.event.shortlisted ? "Added to shortlist" : "Removed from shortlist", detail: event.event.candidateId };
+      case "SELECTION_FEEDBACK_RECORDED":
+        return { title: "Selection feedback recorded", detail: "The preference will guide later comparison without changing conditions." };
       case "SEARCH_FAILED":
         return { title: "Search failed", detail: event.event.reason };
       case "AVAILABILITY_FAILED":
@@ -381,6 +404,34 @@ export class PersistentRestaurantAgentApplication {
         throw new StaleTaskVersionError(input.expectedVersion, beforeCancellation.version);
       }
     }
+    if (beforeCancellation.domainState.phase === "PRESENT_RESULTS" && isBrowseNextMessage(input.message)) {
+      return this.browseNextResult({
+        userId: input.userId,
+        caseId: record.rootTaskId,
+        requestId: input.requestId,
+        expectedVersion: input.expectedVersion,
+        message: input.message,
+      });
+    }
+    if (beforeCancellation.domainState.phase === "PRESENT_RESULTS" && isAnotherBatchMessage(input.message)) {
+      return this.requestAnotherBatch({
+        userId: input.userId,
+        caseId: record.rootTaskId,
+        requestId: input.requestId,
+        expectedVersion: input.expectedVersion,
+        message: input.message,
+      });
+    }
+    const feedback = beforeCancellation.domainState.phase === "PRESENT_RESULTS" ? selectionFeedback(input.message) : undefined;
+    if (feedback) {
+      return this.recordSelectionFeedback({
+        userId: input.userId,
+        caseId: record.rootTaskId,
+        requestId: input.requestId,
+        expectedVersion: input.expectedVersion,
+        feedback,
+      });
+    }
     await this.cancelActiveRead(record, "The user changed the request, so the earlier read-only investigation was cancelled.");
     const afterCancellation = await this.runtime.snapshot(record.rootTaskId);
     await this.applyMessage(record, input.message, input.requestId, afterCancellation.version);
@@ -389,6 +440,124 @@ export class PersistentRestaurantAgentApplication {
 
   async getCase(userId: string, caseId: string): Promise<RestaurantCaseView> {
     return this.project(await this.requireCase(userId, caseId));
+  }
+
+  /**
+   * Advances only through the already-presented batch. It is a persisted user
+   * event, so it survives reload and deliberately does not start model, Google,
+   * browser, or reservation work.
+   */
+  async browseNextResult(input: {
+    userId: string; caseId: string; requestId: string; expectedVersion: number; message?: string;
+  }): Promise<RestaurantCaseView> {
+    const record = await this.requireCase(input.userId, input.caseId);
+    const snapshot = await this.runtime.snapshot(record.rootTaskId);
+    if (snapshot.version !== input.expectedVersion) throw new StaleTaskVersionError(input.expectedVersion, snapshot.version);
+    const presented = snapshot.domainState.presentedResults?.candidateIds;
+    if (snapshot.domainState.phase !== "PRESENT_RESULTS" || !presented?.length) {
+      throw new Error("Browsing requires a currently presented restaurant result batch");
+    }
+    const viewed = new Set(snapshot.domainState.selectionSession?.viewedCandidateIds ?? []);
+    const candidateId = presented.find((id) => !viewed.has(id));
+    if (!candidateId) throw new Error("Every result in the current batch has already been viewed");
+    await this.runtime.dispatch(this.userEvent(snapshot, input.requestId, { type: "RESULT_VIEWED", candidateId }), input.expectedVersion);
+    await this.store.appendMessage({
+      id: `message:0:${hash(`${record.id}:${input.requestId}`).slice(0, 24)}`,
+      conversationId: record.id,
+      role: "USER",
+      content: input.message ?? "View next restaurant result",
+      requestId: `user:${input.requestId}`,
+      createdAt: this.clock.now().toISOString(),
+    });
+    await this.notifyCaseUpdate(record);
+    return this.project(record);
+  }
+
+  /** Local shortlist management is deliberately separate from booking selection. */
+  async setShortlist(input: {
+    userId: string; caseId: string; candidateId: string; shortlisted: boolean; requestId: string; expectedVersion: number;
+  }): Promise<RestaurantCaseView> {
+    const record = await this.requireCase(input.userId, input.caseId);
+    const snapshot = await this.runtime.snapshot(record.rootTaskId);
+    if (snapshot.version !== input.expectedVersion) throw new StaleTaskVersionError(input.expectedVersion, snapshot.version);
+    await this.runtime.dispatch(this.userEvent(snapshot, input.requestId, { type: "SHORTLIST_UPDATED", candidateId: input.candidateId, shortlisted: input.shortlisted }), input.expectedVersion);
+    await this.store.appendMessage({
+      id: `message:0:${hash(`${record.id}:${input.requestId}`).slice(0, 24)}`,
+      conversationId: record.id,
+      role: "USER",
+      content: input.shortlisted ? `Add ${input.candidateId} to shortlist` : `Remove ${input.candidateId} from shortlist`,
+      requestId: `user:${input.requestId}`,
+      createdAt: this.clock.now().toISOString(),
+    });
+    await this.notifyCaseUpdate(record);
+    return this.project(record);
+  }
+
+  /** Stores a preference without treating it as an evidenced fact or a condition change. */
+  async recordSelectionFeedback(input: {
+    userId: string; caseId: string; requestId: string; expectedVersion: number; feedback: string;
+  }): Promise<RestaurantCaseView> {
+    const record = await this.requireCase(input.userId, input.caseId);
+    const snapshot = await this.runtime.snapshot(record.rootTaskId);
+    if (snapshot.version !== input.expectedVersion) throw new StaleTaskVersionError(input.expectedVersion, snapshot.version);
+    await this.runtime.dispatch(this.userEvent(snapshot, input.requestId, { type: "SELECTION_FEEDBACK_RECORDED", feedback: input.feedback }), input.expectedVersion);
+    await this.store.appendMessage({
+      id: `message:0:${hash(`${record.id}:${input.requestId}`).slice(0, 24)}`,
+      conversationId: record.id,
+      role: "USER",
+      content: input.feedback,
+      requestId: `user:${input.requestId}`,
+      createdAt: this.clock.now().toISOString(),
+    });
+    await this.notifyCaseUpdate(record);
+    return this.project(record);
+  }
+
+  /**
+   * A same-condition batch consumes only already-grounded, unshown results.
+   * It deliberately avoids source reads while a complete next batch is already
+   * grounded. When the queue is inadequate it records an explicit bounded
+   * replenishment request, then the existing Agent loop may use only its
+   * ordinary legal continuation/fact/availability actions.
+   */
+  async requestAnotherBatch(input: {
+    userId: string; caseId: string; requestId: string; expectedVersion: number; message?: string;
+  }): Promise<RestaurantCaseView> {
+    const record = await this.requireCase(input.userId, input.caseId);
+    const snapshot = await this.runtime.snapshot(record.rootTaskId);
+    if (snapshot.version !== input.expectedVersion) throw new StaleTaskVersionError(input.expectedVersion, snapshot.version);
+    if (snapshot.domainState.phase !== "PRESENT_RESULTS") throw new Error("Another batch requires a currently presented restaurant result batch");
+    const delivered = new Set(snapshot.domainState.selectionSession?.deliveredCandidateIds ?? snapshot.domainState.presentedResults?.candidateIds ?? []);
+    const candidates = snapshot.domainState.candidates
+      .map((candidate) => candidate.restaurant.id)
+      .filter((candidateId) => !delivered.has(candidateId))
+      .filter((candidateId) => restaurantPresentationEvidenceIds(snapshot.domainState, candidateId, this.clock.now().toISOString()) !== undefined)
+      .slice(0, 3);
+    if (candidates.length < 3) {
+      await this.runtime.dispatch(this.userEvent(snapshot, input.requestId, { type: "NEXT_BATCH_REPLENISHMENT_REQUESTED", targetCandidateCount: 3 }), input.expectedVersion);
+      await this.store.appendMessage({
+        id: `message:0:${hash(`${record.id}:${input.requestId}`).slice(0, 24)}`,
+        conversationId: record.id,
+        role: "USER",
+        content: input.message ?? "Show another restaurant batch",
+        requestId: `user:${input.requestId}`,
+        createdAt: this.clock.now().toISOString(),
+      });
+      await this.runAfterUserInput(record, input.requestId);
+      return this.project(record);
+    }
+    const evidenceIds = candidates.flatMap((candidateId) => restaurantPresentationEvidenceIds(snapshot.domainState, candidateId, this.clock.now().toISOString()) ?? []);
+    await this.runtime.dispatch(this.userEvent(snapshot, input.requestId, { type: "RESULTS_PRESENTED", candidateIds: candidates, evidenceIds }), input.expectedVersion);
+    await this.store.appendMessage({
+      id: `message:0:${hash(`${record.id}:${input.requestId}`).slice(0, 24)}`,
+      conversationId: record.id,
+      role: "USER",
+      content: input.message ?? "Show another restaurant batch",
+      requestId: `user:${input.requestId}`,
+      createdAt: this.clock.now().toISOString(),
+    });
+    await this.notifyCaseUpdate(record);
+    return this.project(record);
   }
 
   /** A user-visible refresh reopens displayed availability or recommendation facts, never booking. */
@@ -749,6 +918,11 @@ export class PersistentRestaurantAgentApplication {
         readEvidence: structuredClone(state.readEvidence),
         currentFactEvidence: state.candidates.flatMap(candidate => structuredClone(restaurantCurrentFactEvidence(state, candidate.restaurant.id))),
         ...(state.presentedResults ? { presentedCandidateIds: [...state.presentedResults.candidateIds] } : {}),
+        ...(state.selectionSession ? {
+          viewedCandidateIds: [...state.selectionSession.viewedCandidateIds],
+          shortlistCandidateIds: [...state.selectionSession.shortlistCandidateIds],
+          ...(state.selectionSession.feedback?.length ? { selectionFeedback: [...state.selectionSession.feedback] } : {}),
+        } : {}),
         ...(state.selectedCandidateId ? { selectedCandidateId: state.selectedCandidateId } : {}),
       },
       artifacts,

@@ -6,6 +6,7 @@ import {
   GooglePlacesError,
   type GooglePlacesRawPlace,
   type GooglePlacesTextSearchRequest,
+  type GooglePlacesTextSearchPage,
   type GooglePlacesTextSearchResponse,
 } from "./google-places-contracts.js";
 
@@ -34,7 +35,17 @@ export class GooglePlacesClient {
     return new GooglePlacesClient({ apiKey: environment.GOOGLE_MAPS_API_KEY ?? "" });
   }
 
+  /** Compatibility helper for callers that intentionally need one unpaged result list. */
   async textSearch(request: GooglePlacesTextSearchRequest, signal: AbortSignal): Promise<GooglePlacesRawPlace[]> {
+    return (await this.textSearchPage(request, signal)).places;
+  }
+
+  /**
+   * Reads exactly one Google Text Search page.  Pagination policy belongs to
+   * the Restaurant adapter, which can persist the opaque cursor with the
+   * authoritative query and enforce its own bounded read budget.
+   */
+  async textSearchPage(request: GooglePlacesTextSearchRequest, signal: AbortSignal): Promise<GooglePlacesTextSearchPage> {
     return this.requestJson(
       GOOGLE_PLACES_TEXT_SEARCH_URL,
       {
@@ -42,6 +53,7 @@ export class GooglePlacesClient {
         body: JSON.stringify({
           textQuery: request.textQuery,
           pageSize: request.pageSize,
+          ...(request.pageToken ? { pageToken: request.pageToken } : {}),
           ...(request.locationBias ? {
             locationBias: {
               circle: {
@@ -59,7 +71,13 @@ export class GooglePlacesClient {
         if (response.places !== undefined && !Array.isArray(response.places)) {
           throw new GooglePlacesError("GOOGLE_MALFORMED_RESPONSE", "Google Places response has invalid places");
         }
-        return response.places ?? [];
+        if (response.nextPageToken !== undefined && (typeof response.nextPageToken !== "string" || !response.nextPageToken.trim())) {
+          throw new GooglePlacesError("GOOGLE_MALFORMED_RESPONSE", "Google Places response has invalid nextPageToken");
+        }
+        return {
+          places: response.places ?? [],
+          ...(typeof response.nextPageToken === "string" ? { nextPageToken: response.nextPageToken } : {}),
+        };
       },
     );
   }

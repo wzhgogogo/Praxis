@@ -1,13 +1,21 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.63
-- Last updated: 2026-09-17
+- Document revision: 4.64
+- Last updated: 2026-09-18
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## 2026-09-18 Continuous Restaurant selection session and Google pagination
+
+Google Text Search is now a real query-bound pagination path: an initial discovery obtains at most two 20-item pages, deduplicates stable outlet IDs and retains the next cursor; page-two failure preserves accepted page-one candidates and its retry cursor. Details requests keep `nextPageToken` out of their field mask. A cursor mismatching the authoritative intent, repeating a token, or reaching exhaustion cannot be reused by a retrieval hint.
+
+`PRESENT_RESULTS` is no longer a terminal Task lifecycle state. The durable selection session records delivery, viewing, shortlist and qualitative feedback independently of `checked`. A same-condition next batch first reuses three unshown grounded candidates without a model/source/browser read. If that queue is inadequate it enters the existing single Agent loop with a three-candidate, unshown-only target and its Router-bound cursor; no local ranker, second loop, fallback provider or direct booking path was added. “Too expensive” is recorded as feedback and never converted into a budget. Explicit semantic revisions still clear request-bound candidates and evidence while preserving shortlist IDs only as recheckable memory.
+
+ADR-0027 supersedes ADR-0014’s terminal-result interpretation, and the Domain/Interface/Capability documentation now reflects the paused-session semantics. This is an offline implementation slice only: no Gold/Holdout changes, paid model, external source, booking, commit or push occurred. The next required evidence is a separately authorized bounded real source/model continuation run and original-researcher review.
 
 ## 2026-09-17 H001 semantic request ceiling 30 seconds and one Live retry
 

@@ -2,7 +2,8 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 
 import { RestaurantExecutionRouter } from "../application/restaurant-execution-router.js";
-import type { RestaurantTaskState } from "../domains/restaurant/contracts.js";
+import { restaurantSearchIntentFingerprint, type RestaurantSearchRequest, type RestaurantTaskState } from "../domains/restaurant/contracts.js";
+import { completeRestaurantSearchIntent } from "../domains/restaurant/intent-state.js";
 import { fixtureCandidates, fixtureIntent } from "./restaurant-fixtures.js";
 
 const state: RestaurantTaskState = {
@@ -15,6 +16,36 @@ const state: RestaurantTaskState = {
   readEvidence: [],
   searchRevision: 0,
 };
+
+test("Execution Router binds only the matching durable search cursor; the Agent cannot supply or reuse one after an intent change", async () => {
+  const requests: RestaurantSearchRequest[] = [];
+  const router = new RestaurantExecutionRouter(
+    {
+      executionRoute: "STRUCTURED_ADAPTER",
+      async search(request) {
+        requests.push(structuredClone(request));
+        return {
+          candidates: [], evidence: [],
+          continuation: { intentFingerprint: restaurantSearchIntentFingerprint(request.intent), usedPageTokens: ["page-2"], pagesRead: 2, exhausted: false, nextPageToken: "page-3" },
+          metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 },
+        };
+      },
+    },
+    { executionRoute: "STRUCTURED_ADAPTER", async check() { return { offers: [], availabilityChecks: {}, evidence: [], metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 } }; } },
+  );
+  const searchIntent = completeRestaurantSearchIntent(state.intentDraft)!;
+  const matching = {
+    ...state,
+    searchContinuation: { intentFingerprint: restaurantSearchIntentFingerprint(searchIntent), usedPageTokens: ["page-2"], pagesRead: 2, exhausted: false, nextPageToken: "page-3" },
+  };
+  await router.execute({ type: "SEARCH_RESTAURANTS" }, matching, undefined, "cursor-run");
+  await router.execute({ type: "SEARCH_RESTAURANTS" }, {
+    ...matching,
+    intentDraft: { ...matching.intentDraft!, area: { query: "Shibuya" } },
+  }, undefined, "changed-run");
+  assert.equal(requests[0]?.continuation?.nextPageToken, "page-3");
+  assert.equal(requests[1]?.continuation, undefined);
+});
 
 test("Execution Router aborts and bounds a Provider search read that exceeds its deadline", async () => {
   let sawAbort = false;

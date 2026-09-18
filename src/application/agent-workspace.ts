@@ -103,6 +103,9 @@ export interface RestaurantCaseView {
     /** Current source-scoped facts only; historical facts remain in durable state. */
     currentFactEvidence: RestaurantReadEvidence[];
     presentedCandidateIds?: string[];
+    viewedCandidateIds?: string[];
+    shortlistCandidateIds?: string[];
+    selectionFeedback?: string[];
     selectedCandidateId?: string;
   };
   artifacts: AgentArtifact[];
