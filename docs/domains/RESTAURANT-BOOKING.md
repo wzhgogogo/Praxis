@@ -22,7 +22,7 @@ ADR-0013冻结的Restaurant Mock预约切片已实现：`Semantic Interpreter �
 
 Discovery保存`RestaurantCandidate`，Availability按`candidateId → AvailabilityOffer[]`独立保存。单一Restaurant Agent决定何时搜索、开放式检索策略、检查哪些候选、选择哪个组合或何时再次搜索；Validator不再选择下一步。`SEARCH_RESTAURANTS`不重复Intent，`CHECK_AVAILABILITY`不重复日期/时段/人数；已有空位Check只在展示证据过期或用户刷新已展示结果时允许受限只读重查，Router在调用Adapter前绑定这些权威参数及重查理由。事实型推荐通常重开已展示候选的`INVESTIGATE_CANDIDATE_FACTS`，但若展示内容引用slot，则只重开该slot的`AVAILABILITY`读取；失败结果不会恢复旧slot。两个刷新都必须完成其全部目标才可再次展示。展示窗口从实际观察计算，重新读取/显示不会续期；来源声明期限只能缩短本地10分钟`restaurant-availability-display-freshness@1`策略。Fixture路径使用真正的`RestaurantAgentDecision` ModelGateway Contract，Harness可用Scripted Decision Port重复验证Trajectory。Policy、Authorization、Commit和Verifier仍是确定性权威边界。
 
-ADR-0009继续定义开放`criteria`与`HARD` / `SOFT`强度；ADR-0010取代ADR-0007的确定性next-step部分，ADR-0011取代其中的Action Contract与Loop控制细节，ADR-0012定义不可变Migration、最小Agent Context和Proposal join，ADR-0013定义definitive failure后的Agent恢复、新Proposal/Authorization与Decision Context审计。已冻结的Progressive Decision Harness `statePatch` Contract仍不接入产品Task State。
+ADR-0009保留开放`criteria`集合；ADR-0029定义`HARD` / `SOFT` / `UNSPECIFIED`：仅HARD是证据/资格门槛，已表达但未标记强制或让步的条件保留为UNSPECIFIED非阻塞偏好。ADR-0010取代ADR-0007的确定性next-step部分，ADR-0011取代其中的Action Contract与Loop控制细节，ADR-0012定义不可变Migration、最小Agent Context和Proposal join，ADR-0013定义definitive failure后的Agent恢复、新Proposal/Authorization与Decision Context审计。已冻结的Progressive Decision Harness `statePatch` Contract仍不接入产品Task State。
 
 真实Search Source、Availability、Request Booking、Human Takeover、取消、变更与路线仍为`proposed`。当前产品应用见[`Persistent Restaurant Agent`](../../src/application/persistent-restaurant-agent.ts)，轻量Fixture Driver只位于[`src/eval/restaurant/search-fixture`](../../src/eval/restaurant/search-fixture/fixture-application.ts)。
 
@@ -64,7 +64,7 @@ Reducer维护可缺阻塞字段的`RestaurantIntentDraft`：`target.goal`、`dat
 
 对事实型推荐，Agent可提出有界`INVESTIGATE_CANDIDATE_FACTS`：Validator只接受当前候选池中未调查或已授权刷新目标的候选（每批最多三家），Router绑定候选与权威Search Intent。每次事实Check标明当前观察引用；旧观察仍可审计，却不能在新UNKNOWN、冲突或不满足后继续作为当前展示依据。Google以已记录Place ID调用Place Details取得类型、营业事实及Google列出的网站指针；若有指针，复用受控Browser Executor读取同源网站。JSON-LD是快捷读取方式；不完整JSON-LD不会遮住同页可见主营/营业说明。HIGH identity需要候选名称及地址包含，或同序门牌及可用地域词同时匹配；名称或门牌数字独自、地址缺失及明确不同城市/街区均为UNKNOWN。Google Maps链接、Google列出的网址、页面文字和模型本身都不能单独成为官网或门店事实；模型只能提出指向实际具体类型事实的`MODEL_JUDGMENT`，不复制来源身份、不直接写State。命名地点解析、Discovery和Place Details在同一Task run共享累计Google请求预算、不同Task run隔离；实际已发送请求（包括失败）按三类保留在Router trajectory和Web/Hybrid artifact中。Hybrid冻结评估可在语义编译后以`EVALUATION_LOCATION_BOUND`绑定公开测试坐标；它只适用于`nearby`且尚无坐标的权威Draft，保留`EVALUATION`来源，不是设备定位、手动地点或产品默认位置。调试上限不等于Google账户配额：本地耗尽、服务限流/权限或网络失败必须保留不同稳定码。Web与Hybrid复用同一Google→网站→判断组合及每轮共享浏览器模型预算。无法核实或额度耗尽时记录candidate-scoped `UNKNOWN`，不变成无位或空位。该动作不查询slot、不创建Offer、不改变候选池。
 
-Semantic Operation固定为：singleton `ASSERT/CORRECT=set`、`NEGATE=clear`、`CONFIRM=no state mutation`；同一turn对同一singleton同时`NEGATE`与`ASSERT/CORRECT`是`CONTRADICTORY_PROPOSAL`，绝不按facts数组顺序决定State。唯一collection `CRITERION`为`ASSERT=add`、`CORRECT=replace collection`、`NEGATE=remove matching criterion`，不允许collection `CONFIRM`。Criterion文本保留简洁用户措辞，身份按text trim/case与polarity/strength精确值决定。
+Semantic Operation固定为：singleton `ASSERT/CORRECT=set`、`NEGATE=clear`、`CONFIRM=no state mutation`；同一turn对同一singleton同时`NEGATE`与`ASSERT/CORRECT`是`CONTRADICTORY_PROPOSAL`，绝不按facts数组顺序决定State。唯一collection `CRITERION`为`ASSERT=add`、`CORRECT=replace collection`、`NEGATE=remove matching criterion`，不允许collection `CONFIRM`。Criterion文本保留简洁用户措辞，身份按text trim/case与polarity决定；strength是用户后续语义可更新的属性。同一Proposal若对同一text+polarity断言不同strength，必须显式冲突，绝不按facts数组顺序决定。
 
 阻塞字段是日期、时间、人数和区域。菜系与预算未提供时可搜索，但必须透明说明。
 

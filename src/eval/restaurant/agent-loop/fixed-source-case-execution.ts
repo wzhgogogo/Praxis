@@ -8,6 +8,7 @@ import { HIGASHI_GINZA_EVALUATION_LOCATION } from "./live-evaluation-location.js
 import { settleAtRunDeadline } from "./live-run-deadline.js";
 import { createHybridReadComposition } from "./hybrid-read-composition.js";
 import { currentDevelopmentSourceScenario } from "./current-development-source-scenarios.js";
+import { RestaurantPartySizeSupplementResolver } from "../../../domains/restaurant/party-size-supplement-resolver.js";
 
 export type FixedSourceCaseExecution = {
   registration: FixedSourceCaseRegistration;
@@ -87,6 +88,7 @@ export async function executeFixedSourceCase(input: {
     search: sources.search,
     facts: sources.facts,
     availability: sources.availability,
+    partySizeSupplementResolver: new RestaurantPartySizeSupplementResolver(guardedModel),
     loop: { maxSteps: input.maxSteps ?? 6, timeoutMs: input.deadlineMs ?? 5_000 },
   });
   let semantic: unknown;

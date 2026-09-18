@@ -62,7 +62,7 @@ test("real case loader through materialization and evaluator agrees with indepen
   const expected = [
     { goal: "AVAILABILITY", date: "2026-09-16", partySize: 2, timeWindow: point("19:00"), area: { query: "near Shibuya" }, criteria: [criterion("omakase")] },
     { goal: "AVAILABILITY", date: "2026-09-19", partySize: 2, area: { query: "near Higashi-Ginza" }, timeWindow: point("18:30"), criteria: [criterion("good for a first date", "POSITIVE", "SOFT"), criterion("around 10,000 yen per person", "POSITIVE", "SOFT"), criterion("Sichuan/Hunan cuisine", "NEGATIVE"), criterion("hot pot restaurant", "NEGATIVE")] },
-    { goal: "AVAILABILITY", date: "2026-09-18", partySize: 10, area: { query: "nearby" }, timeWindow: { earliest: "17:30", latest: "22:00" }, criteria: [criterion("team dinner"), criterion("around 3,000 yen per person", "POSITIVE", "SOFT"), criterion("good for drinks"), criterion("private room", "POSITIVE", "SOFT")] },
+    { goal: "AVAILABILITY", date: "2026-09-18", partySize: 10, area: { query: "nearby" }, timeWindow: { earliest: "17:30", latest: "22:00" }, criteria: [criterion("team dinner", "POSITIVE", "UNSPECIFIED"), criterion("around 3,000 yen per person", "POSITIVE", "SOFT"), criterion("good for drinks", "POSITIVE", "UNSPECIFIED"), criterion("private room", "POSITIVE", "SOFT")] },
     { goal: "RECOMMENDATION", date: "2026-09-16", area: { query: "nearby" }, timeWindow: { earliest: "12:00", latest: "17:00" }, criteria: [criterion("cafe"), criterion("good for meeting a friend", "POSITIVE", "SOFT")] },
     { goal: "AVAILABILITY", date: "2026-09-16", partySize: 4, area: { query: "nearby" }, timeWindow: point("12:00"), criteria: [criterion("local food"), criterion("fast food", "NEGATIVE")] },
   ];

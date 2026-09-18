@@ -13,6 +13,7 @@ import { LIVE_READ_DEBUG_INVESTIGATION_BUDGET } from "../application/live-read-i
 import type { RestaurantCaseView } from "../application/agent-workspace.js";
 import { RestaurantSemanticInterpreter } from "../domains/restaurant/semantic-interpreter.js";
 import { RestaurantAgentDecision } from "../domains/restaurant/agent-decision.js";
+import { RestaurantPartySizeSupplementResolver } from "../domains/restaurant/party-size-supplement-resolver.js";
 import { FixtureModelGateway } from "../infrastructure/fixture/fixture-model-gateway.js";
 import { FixtureRestaurantSearch } from "../infrastructure/fixture/fixture-restaurant-search.js";
 import { DeepSeekModelGateway } from "../infrastructure/deepseek/deepseek-model-gateway.js";
@@ -406,6 +407,7 @@ async function start(): Promise<void> {
   const application = new PersistentRestaurantAgentApplication({
     database,
     semanticInterpreter: new RestaurantSemanticInterpreter(model),
+    partySizeSupplementResolver: new RestaurantPartySizeSupplementResolver(model),
     agentDecision: new RestaurantAgentDecision(model),
     restaurantSearch,
     restaurantAvailability,

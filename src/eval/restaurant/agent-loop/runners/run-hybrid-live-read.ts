@@ -22,6 +22,7 @@ import { loadFrozenLiveCases, materializeLiveCase, RESTAURANT_READ_DEVELOPMENT_C
 import { HIGASHI_GINZA_EVALUATION_LOCATION } from "../live-evaluation-location.js";
 import { requiresEvaluationLocation } from "../evaluation-location-selection.js";
 import { createHybridReadComposition } from "../hybrid-read-composition.js";
+import { RestaurantPartySizeSupplementResolver } from "../../../../domains/restaurant/party-size-supplement-resolver.js";
 import { evaluateArtifactAfterFinish, RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION } from "../diagnostic-evaluator.js";
 import { settleAtRunDeadline } from "../live-run-deadline.js";
 import { diagnosticFailureCode, startDiagnosticRun } from "../../../shared/diagnostic-run.js";
@@ -231,6 +232,7 @@ try {
     model,
     search,
     availability,
+    partySizeSupplementResolver: new RestaurantPartySizeSupplementResolver(model),
     facts: composeLiveRestaurantFactRead(search, browser, model, browserBudget),
     router: {
       structuredReadTimeoutMs: liveReadLimits.maxStructuredReadMs,

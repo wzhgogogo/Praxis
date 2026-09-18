@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.69
+- Document revision: 4.74
 - Last updated: 2026-09-18
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -9,7 +9,37 @@
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
-## 2026-09-18 Targeted H002–H005 semantic repair (current uncommitted candidate)
+## 2026-09-18 H002/H003/H004 semantic closure (no production candidate)
+
+H004 is formally closed: the preserved specified SOFT pair is manually accepted as `SEMANTICALLY_EQUIVALENT`; the original deterministic result remains `NOT_EVALUATED` and no evaluator, parser, synonym list or E2E result was changed. H003 candidate E's saved three outputs were manually reviewed. `suitable for a team dinner` is semantically equivalent to the original requested filtering condition in this case and keeps the same source-evidence burden, so E is accepted only for the exposed H003 case. The unrelated work-celebration/drinks strength regression remains open.
+
+A deliberately narrow party-size supplement was implemented only as a disposable candidate: it required an already compiled AVAILABILITY draft with missing party, a potentially countable message, and no prior invocation; it could only return a number/source or UNKNOWN and could only add the party field. Its planned old+blind matrix was frozen before running. All 24 user-authorized real DeepSeek calls were provider-rejected before any model response, without retry. This is a strict-transport failure, not an inference-quality result. The combined E+resolver production gate therefore failed; all candidate production code/wiring was removed rather than leaving an unaccepted path in the application. H005 was not touched. See [closure report](H002-H003-H004-SEMANTIC-CLOSURE-2026-09-18.md).
+
+## 2026-09-18 H002/H003 generic-rule expression diagnostics (diagnostic-only)
+
+Playbook v2 formally closed H004 without rerunning it: the preserved `good for meeting a friend` / `suitable for meeting up with a friend` POSITIVE/SOFT pair is manually accepted as semantic fidelity, while the deterministic evaluator remains `NOT_EVALUATED`. H005 was intentionally not read, run, or changed.
+
+Two independent 24-call full-parser experiments were then run under one exclusive process, with distinct run IDs and ledgers. D changed only the generic PARTY SIZE rule block to distinguish semantically closed relationship-described participant sets from open social occasions and customary guesses. It left H002 at 0/3 exactly like contemporaneous A, while all three existing party controls stayed 3/3; D is rejected and no further party wording was tried. E changed only the strength section's local optionality scope wording. It changed H003 from A's 0/3 to E's 3/3 expected strength pattern and kept the flexible room/budget terms SOFT; it also corrected the casual-dinner control. It did not correct the pre-existing work-celebration/drinks control (A/E both 0/3), and E produces `suitable for a team dinner`, whose text fidelity remains for human review. E is evidence for a limited candidate only, not an automatic production edit or a general strength conclusion. No production code/prompt, Gold, fixture, fact judgment, H005, commit or push changed. See `.eval-artifacts/semantic-rule-expression-diagnostic-2026-09-18/H002-H003-RULE-EXPRESSION-REPORT.md`.
+
+## 2026-09-18 PARTY SIZE section-position diagnostic (diagnostic-only)
+
+With `01e073f` confirmed as HEAD, this run preserved all current production Semantic Prompt@19 text for A and built C by moving the existing PARTY SIZE section exactly once from before AREA to after OPERATIONS. The preflight saved both full prompts and validates byte-identical moved text, no second occurrence, no other textual difference after removal, and unchanged output-shape position. It reused the previous diagnostic's four persisted party samples and did not add examples, answers, schema fields, or case rules.
+
+The new runner uses direct single gateway calls with pre-dispatch ledger records, immediate per-call response persistence, Proposal validation, the production Compiler with trusted reference time, and the production reducer-owned `applyRestaurantIntentPatch` Draft projection. A 24-call A/C×3 run completed without provider failure or external source/browser action. C improved H002 from 0/3 to 2/3 but not the required stable 3/3; all closed/open/explicit party controls stayed 3/3. C therefore is explicitly rejected as a production revision candidate. The complete parser output remains recorded: it has no confirmed C-only key regression in these four cases, though both variants add an unscored friends criterion in the open-attendees case. No production behavior, Prompt revision, Gold, source, H004/H005, commit or push was changed. See `.eval-artifacts/semantic-party-position-diagnostic-2026-09-18/PARTY-POSITION-DIAGNOSTIC-REPORT.md`.
+
+## 2026-09-18 Field-scoped semantic diagnostic (diagnostic-only)
+
+Against frozen implementation `01e073f`, an isolated runner rebuilt A requests through the real Semantic Prompt@19 builder and Schema@3, then created B-party/B-criteria prompts only by retaining verbatim relevant production sections plus one scope sentence. It loaded the eight pre-existing exposed samples/expectations from the prior targeted-repair artifact rather than recreating them, fixed each sample's original reference time and interleaved A1/B1/A2/B2. The runner uses one provider call per pre-reserved ledger entry and does not use `RestaurantSemanticInterpreter`, whose ordinary schema-retry loop would violate this diagnostic's no-retry contract. The runner also persists future individual call records immediately after completion.
+
+The first process was finalized as `FAILED_BEFORE_DISPATCH`: Node had not loaded the existing `.env`, so the server-side key was unavailable before Provider construction. Its ledger has zero reservations and zero calls. The completed run then used the repository's normal `--env-file-if-exists=.env` form and recorded all 32 calls. It did not access Google, sites or a browser. H002 is the only stable party change (A omitted first-date's inferred pair in both repeats; B emitted `2/INFERRED_CLOSED_PARTY` in both); strength observations were mixed and do not support a production rule change. See `.eval-artifacts/semantic-field-scope-diagnostic-2026-09-18/FIELD-SCOPE-DIAGNOSTIC-REPORT.md` and its immutable plan/result/ledger. No production Prompt, Schema, Compiler, Runtime, Gold, fixture, source fact, H004/H005 path, commit or push was changed.
+
+## 2026-09-18 Semantic repair failure review (read-only, no new candidate)
+
+Review commit was `01e073f`; the worktree started clean. The review added a read-only 48-call extractor and local ignored report/detail index, but made no production Prompt, Schema, Gold, fixed source, fact-rule or evaluator change. The extractor verifies that each saved raw output decodes to the stored Interpreter Proposal and records that the semantic-only runner never created a Compiler/Reducer final Draft.
+
+The raw records show v19 did not contain a PARTY SIZE change relative to v17: H002's 0/3 → 0/3 did not test a new generic party intervention. The model handles an explicit closed “partner and me” pair and an explicit total, but not the un-named first-date occasion; whether that convention should be allowed is a policy question, not a basis for a hidden default. H003's preserved `team dinner` still becomes SOFT in one v19 repeat, so paraphrase is not a sufficient root cause; work-celebration/drinks and casual also repeatedly soften, while explicit flexible room/budget terms remain present. The source facts in H005 support neither a uniform “over-confirmation” nor uniform UNKNOWN conclusion without defining local food's intended referent; the original fact messages are absent and @3 has a documented over-tightening/dimension-mixing risk. No new provider call, external source/browser interaction, commit or push occurred in this review. See `.eval-artifacts/semantic-repair-failure-review-2026-09-18/REPORT.md`.
+
+## 2026-09-18 Targeted H002–H005 semantic repair (candidate later committed as `01e073f`)
 
 按照定向 Playbook 固定`9cfbd4f`失败artifact和当前`cb35984`工作树后，先分层定位而没有按测试名推断：H002的真实 Proposal 本身没有`PARTY_SIZE`，H003在 Proposal 已将`team dinner`降为SOFT，二者均非 Compiler／Reducer 丢失；H005保存的原来源为`Tokyo regional cuisine`等，a/c 旧判断过度支持`local food`，b 未支持，不能借空位或事后添加的`local food`字样回写原问题。H004只新增附加等价记录，原artifact、sidecar和`NOT_EVALUATED`不变。
 
@@ -2409,3 +2439,43 @@ findings or score results by hand. An abort after semantic interpretation and a
 one-call budget each pass only their matching contract; evaluating the budget
 artifact as cancellation fails. No Prompt, Gold, product decision rule, paid
 model, provider, Live read or external write changed.
+
+## 2026-09-18 H002 diagnostic wire-contract repair
+
+Added an unwired, fail-closed party-size supplement diagnostic plus a focused schema/normalization test. After two recorded provider rejections (top-level union, then empty object), the wire schema now uses a non-empty object root and a local-only UNKNOWN sentinel that normalizes to the canonical result. The final 24-call run reached model output; it remains diagnostic-only because H002 was 1/3, below the frozen gate. No handler, reducer, persistent state, production prompt, Gold, H005, browser, Google, or booking path changed.
+
+## 2026-09-18 H002 semantic-arity v2 diagnostic
+
+Updated only the diagnostic resolver prompt to `v2` with a general lexical relational/event arity rule and explicit modifier/open-group limits. The resolver remains a one-attempt, fail-closed, non-empty object-root structured-output candidate; its public result still admits only RESOLVED with `EXPLICIT|INFERRED_CLOSED_PARTY` or UNKNOWN. The v2 gate failed on model provenance labels for two existing closed-group controls, so no handler, persistent application, Hybrid composition, server, compiler, reducer, or production prompt wiring remains. The diagnostic runner now freezes and hashes its 14-sample plan before any dispatch.
+
+## 2026-09-18 H002/H003 semantic contract closure
+
+Implemented the bounded H002 resolver in the actual persistent Web, Hybrid, and fixed-source compositions, with a strict two-field provider wire, code-owned inferred provenance, retry-safe per-request in-flight coalescing, and event audit status. Added ADR-0029, Semantic Prompt@v20, Agent Prompt@15, `restaurant-read-development@5`, mutable criterion strength identity, HARD-only evaluator evidence checks, and composition tests T1–T6/M1–M4. The H002 8-call real-model gate accepted; H003's pre-frozen 18 calls rejected because two primary outputs added `suitable for` to `team dinner`. Per the declared stop rule no dependent fixed-source or any Live/H005 work started. No commit/push; original researcher received an independent-review handoff.
+## 2026-09-18 — H002 persistent duplicate-delivery closure
+
+- Moved the narrow existing `(rootTaskId, requestId)` in-flight join ahead of
+  `submitMessage` optimistic-version validation. This preserves the Runtime's
+  normal stale-version rule for different messages while letting a duplicated
+  delivery join its one logical, read-only semantic supplement.
+- Added the PGlite persistent entry regression rather than a second unit-only
+  abstraction: it drives the existing Web/Application Runtime, exercises
+  explicit/inferred/unknown/failed party states, current-Draft preservation,
+  duplicate/replay, and refresh. No provider, browser, source or booking path
+  was introduced.
+- Kept H003 `ASSERT` strength revision explicitly separate from existing
+  collection `CORRECT`; did not add a compatibility behavior or alter Gold.
+
+### Post-review fixed-source read closeout
+
+- Ran the user-authorized H002/H003/H004 one-each real-model fixed-source
+  reads only after independent mutation review; each used the existing exposed
+  offline source scenario and 5-minute/50-step/50-call ceiling. No Live,
+  H001/H005, Gold, fixture, Prompt, booking or external-write work followed.
+- H002's actual supplementary call resolved the primary parser's omitted count
+  to two. The strict artifact remains a failure: an independent in-memory
+  label-only diagnostic shows its negative-HARD evidence problem is evaluator
+  label/lineage matching, while the unresolved product-semantic difference is
+  first-date SOFT→UNSPECIFIED. No artifact or Gold was edited.
+- H003 is accepted only for the bounded fixed-source observation; H004 is not
+  accepted because its meeting-friend preference regressed SOFT→UNSPECIFIED.
+  These conclusions are owned by the original researcher's independent review.

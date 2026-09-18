@@ -583,6 +583,8 @@ export type RestaurantEvent =
       patch: RestaurantIntentPatch;
       /** Links party-size diagnostic provenance to the persisted user message, never to provider evidence. */
       partySizeSourceMessageRequestId?: string;
+      /** Records whether the bounded supplementary resolver ran; never stores raw user text. */
+      partySizeSupplement?: { status: "RESOLVED" | "UNKNOWN" | "INVALID_MODEL_OUTPUT" | "MODEL_FAILURE" | "INPUT_INVALID"; invocationCount: number; responseAttemptCount: number };
     })
   /** Eval-only trusted context, never a user device-location substitute or product default. */
   | (DomainEvent & { type: "EVALUATION_LOCATION_BOUND"; coordinates: RestaurantAreaCoordinates & { source: "EVALUATION"; radiusMeters?: number } })

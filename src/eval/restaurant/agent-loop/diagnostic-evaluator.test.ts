@@ -444,7 +444,7 @@ test("H004 fact-only presentation requires applicable opening hours, not an avai
   const softRewrite = evaluateRestaurantHybridLiveArtifact(artifact, source);
   assert.equal(finding(softRewrite, "AUTHORITATIVE_CONDITIONS").status, "NOT_EVALUATED");
   assert.match(finding(softRewrite, "AUTHORITATIVE_CONDITIONS").directCause, /semantic equivalence requires review/);
-  assert.ok(softRewrite.unassessedDimensions.some((item) => item.includes("SOFT criterion")));
+  assert.ok(softRewrite.unassessedDimensions.some((item) => item.includes("SOFT or UNSPECIFIED criterion")));
   // A pending SOFT semantic review must not erase independently supported facts.
   assert.equal(finding(softRewrite, "REQUIRED_EVIDENCE").status, "SATISFIED");
   assert.equal(finding(softRewrite, "FINAL_CLAIM").status, "NOT_EVALUATED");
@@ -462,6 +462,21 @@ test("H004 fact-only presentation requires applicable opening hours, not an avai
   }
   delete facts.claims.openingHoursMatch;
   assert.equal(finding(evaluateRestaurantHybridLiveArtifact(artifact, source), "REQUIRED_EVIDENCE").status, "NOT_EVALUATED");
+});
+
+test("UNSPECIFIED is nonblocking while a HARD strength mismatch remains material", () => {
+  const artifact: any = completeArtifact();
+  artifact.materializedCase.semantic.criteria = [{ value: "quiet", polarity: "POSITIVE", strength: "UNSPECIFIED" }];
+  artifact.finalSnapshot.domainState.intentDraft.criteria = [{ text: "quiet", polarity: "POSITIVE", strength: "UNSPECIFIED" }];
+  artifact.finalSnapshot.domainState.readEvidence.find((item: any) => item.evidenceId === "hard-a").claims = { verifiedHardCriteria: [] };
+  const unspecified = evaluateRestaurantHybridLiveArtifact(artifact, source);
+  assert.equal(finding(unspecified, "REQUIRED_EVIDENCE").status, "SATISFIED", "UNSPECIFIED does not demand fact evidence");
+  artifact.finalSnapshot.domainState.intentDraft.criteria[0].strength = "SOFT";
+  const semanticReview = evaluateRestaurantHybridLiveArtifact(artifact, source);
+  assert.equal(finding(semanticReview, "AUTHORITATIVE_CONDITIONS").status, "NOT_EVALUATED", "UNSPECIFIED↔SOFT remains semantic review");
+  artifact.finalSnapshot.domainState.intentDraft.criteria[0].strength = "HARD";
+  const hardMismatch = evaluateRestaurantHybridLiveArtifact(artifact, source);
+  assert.equal(finding(hardMismatch, "AUTHORITATIVE_CONDITIONS").status, "NOT_SATISFIED", "UNSPECIFIED→HARD is not a nonblocking rewrite");
 });
 
 test("generic negative HARD criteria require a cited source judgment and preserve a conflict", () => {

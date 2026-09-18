@@ -1,7 +1,7 @@
 # Architecture Decision Records
 
 - Status: Accepted
-- Document revision: 1.4
+- Document revision: 1.5
 - Last updated: 2026-09-18
 - Source of truth for: 已接受架构决策及其替代关系
 - Related ADRs: 本目录
@@ -19,7 +19,7 @@
 | [0006](0006-web-first-agent-workspace.md) | Accepted | Web-first Agent Workspace、Durable Case与Action Control Plane分层 |
 | [0007](0007-semantic-proposal-compiler-and-decision-kernel.md) | Superseded by ADR-0010 | v15 Semantic Proposal、Restaurant Compiler与确定性Decision Kernel |
 | [0008](0008-open-restaurant-criteria-contract.md) | Superseded by ADR-0009 | v16开放Restaurant Criterion Contract；强度语义已替换 |
-| [0009](0009-semantic-strength-and-clean-holdout-baseline.md) | Accepted | v17语义强度、相对语义与可审计的一次性Clean Holdout Baseline |
+| [0009](0009-semantic-strength-and-clean-holdout-baseline.md) | Superseded in part by ADR-0029 | v17语义强度、相对语义与可审计的一次性Clean Holdout Baseline |
 | [0010](0010-restaurant-agent-loop-action-validation.md) | Superseded in part by ADR-0011 | 单一Restaurant Agent Loop、动作校验与独立Availability |
 | [0011](0011-restaurant-agent-loop-control-refinement.md) | Accepted | Agent Action绑定、失败归因、Loop终止与Trajectory因果引用 |
 | [0012](0012-migration-and-agent-loop-hardening.md) | Accepted | Migration不可变性、开发State重置、Agent Context与Loop审计收口 |
@@ -39,6 +39,7 @@
 | [0026](0026-concrete-visit-goal-and-reception-semantics.md) | Accepted | 具体到访的Availability语义、动作参数边界与接待方式/库存分离 |
 | [0027](0027-continuous-read-only-selection-sessions.md) | Accepted | 结果批次可续接、持久候选池与受限游标补货 |
 | [0028](0028-open-ended-result-targets-for-availability.md) | Accepted | 开放式查位与推荐共享三家结果目标 |
+| [0029](0029-criterion-strength-and-nonblocking-preferences.md) | Accepted | 表达但未标记强制/让步的条件为UNSPECIFIED，并仅以HARD形成证据门槛 |
 
 ## 规则
 

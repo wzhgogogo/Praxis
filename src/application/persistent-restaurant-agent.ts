@@ -49,6 +49,7 @@ import {
 } from "./restaurant-execution-router.js";
 import {
   restaurantEventForMessage,
+  type RestaurantPartySizeSupplementResolverPort,
   type RestaurantSemanticInterpreterPort,
 } from "./restaurant-message-handler.js";
 import { RestaurantAgentLoopCoordinator, type RestaurantAgentLoopOptions, type RestaurantAgentLoopResult } from "./restaurant-agent-loop.js";
@@ -265,6 +266,8 @@ export interface PersistentRestaurantAgentOptions {
   clock?: RuntimeClock;
   createId?: IdFactory;
   semanticInterpreter: RestaurantSemanticInterpreterPort;
+  /** Optional, read-only inference after a primary semantic proposal lacks party size. */
+  partySizeSupplementResolver?: RestaurantPartySizeSupplementResolverPort;
   agentDecision: RestaurantAgentDecisionPort;
   restaurantSearch: RestaurantSearchPort;
   restaurantAvailability: RestaurantAvailabilityPort;
@@ -290,6 +293,7 @@ export class PersistentRestaurantAgentApplication {
   readonly store: PostgresAgentWorkspaceStore;
   private readonly runtime: RestaurantRuntime;
   private readonly interpreter: RestaurantSemanticInterpreterPort;
+  private readonly partySizeSupplementResolver: RestaurantPartySizeSupplementResolverPort | undefined;
   private readonly agentLoop: RestaurantAgentLoopCoordinator;
   private readonly trajectories: PostgresRestaurantAgentTrajectoryStore;
   private readonly clock: RuntimeClock;
@@ -297,6 +301,8 @@ export class PersistentRestaurantAgentApplication {
   private readonly workspaceMode: AgentWorkspaceMode;
   private readonly liveReadLimits: Readonly<Record<string, number>> | undefined;
   private readonly activeReads = new Map<string, ActiveRead>();
+  /** Narrow in-process guard for a duplicated HTTP delivery of one user message. */
+  private readonly applyingUserMessages = new Map<string, Promise<unknown>>();
   private readonly updateListeners = new Set<RestaurantCaseUpdateListener>();
   private readonly readFinishedListeners = new Set<RestaurantReadFinishedListener>();
 
@@ -306,6 +312,7 @@ export class PersistentRestaurantAgentApplication {
     this.workspaceMode = options.workspaceMode ?? "FIXTURE";
     this.liveReadLimits = options.liveReadLimits;
     this.interpreter = options.semanticInterpreter;
+    this.partySizeSupplementResolver = options.partySizeSupplementResolver;
     this.store = new PostgresAgentWorkspaceStore(options.database);
     this.runtime = new PostgresTaskRuntime(
       options.database,
@@ -394,6 +401,28 @@ export class PersistentRestaurantAgentApplication {
     expectedVersion: number;
   }): Promise<RestaurantCaseView> {
     const record = await this.requireConversation(input.userId, input.conversationId);
+    const key = `${record.rootTaskId}\u0000${input.requestId}`;
+    const inFlight = this.applyingUserMessages.get(key);
+    if (inFlight) {
+      await inFlight;
+      return this.project(record);
+    }
+    // Register the complete message path synchronously after authenticated
+    // conversation lookup. A duplicate delivery can then join before any
+    // version read, cancellation, interpreter, or supplement await.
+    const work = this.submitMessageOnce(record, input);
+    this.applyingUserMessages.set(key, work);
+    try {
+      return await work;
+    } finally {
+      this.applyingUserMessages.delete(key);
+    }
+  }
+
+  private async submitMessageOnce(
+    record: ConversationRecord,
+    input: { userId: string; conversationId: string; message: string; requestId: string; expectedVersion: number },
+  ): Promise<RestaurantCaseView> {
     const beforeCancellation = await this.runtime.snapshot(record.rootTaskId);
     if (beforeCancellation.version < input.expectedVersion) {
       throw new StaleTaskVersionError(input.expectedVersion, beforeCancellation.version);
@@ -704,7 +733,20 @@ export class PersistentRestaurantAgentApplication {
     requestId: string,
     expectedVersion: number,
   ): Promise<void> {
+    await this.applyMessageOnce(record, message, requestId, expectedVersion);
+  }
+
+  private async applyMessageOnce(
+    record: ConversationRecord,
+    message: string,
+    requestId: string,
+    expectedVersion: number,
+  ): Promise<void> {
     const snapshot = await this.runtime.snapshot(record.rootTaskId);
+    const userEventId = `event:user:${hash(`${snapshot.id}:${requestId}`).slice(0, 32)}`;
+    // A retried HTTP request must not repeat an untrusted resolver call before
+    // the runtime's ordinary event-id idempotency can take effect.
+    if ((await this.runtime.listEvents(record.rootTaskId)).some((recorded) => recorded.id === userEventId)) return;
     const event = await restaurantEventForMessage(this.interpreter, {
       taskId: record.rootTaskId,
       message,
@@ -713,7 +755,7 @@ export class PersistentRestaurantAgentApplication {
       ...(snapshot.domainState.intentDraft
         ? { currentDraft: snapshot.domainState.intentDraft }
         : {}),
-    });
+    }, this.partySizeSupplementResolver);
     const eventWithPartySource = event.type === "SEMANTIC_PROPOSAL_COMPILED" && event.patch.partySizeSource
       ? { ...event, partySizeSourceMessageRequestId: `user:${requestId}` }
       : event;

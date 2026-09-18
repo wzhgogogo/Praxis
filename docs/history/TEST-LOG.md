@@ -1,13 +1,49 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.73
+- Document revision: 4.78
 - Last updated: 2026-09-18
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## TEST-2026-09-18-PARTY-SIZE-SUPPLEMENT — bounded real-model transport gate
+
+- Scope: a disposable supplementary resolver candidate only; its primary semantic boundary was controlled as an already-compiled AVAILABILITY draft with date/time/area and no party. The pre-frozen plan has four existing and four blind controls; the model receives only raw message plus the necessary goal context, never sample IDs, Gold or case names. It has one strict schema call per attempt, 30,000 ms timeout, temperature 0, disabled thinking, and no retry.
+- Preflight: `npm run typecheck` and `PRAXIS_PARTY_SIZE_SUPPLEMENT_DIAGNOSTIC_MODE=preflight node --env-file-if-exists=.env --import tsx scripts/run-party-size-supplement-diagnostic.ts` passed before the run. Candidate-focused Interpreter→Compiler→merge tests passed before the paid gate; they prove only code-path guards/no-overwrite/fail-closed behavior.
+- Accounting/result: the single process reserved and dispatched all 24 calls (8×3); all 24 received `MODEL_FAILURE / PROVIDER_REJECTED` before a structured completion. There were 0 retries, 0 completed outputs, and 0 Google/website/browser/booking/external-write calls. The run artifact's provider-detail diagnostic is missing, so a strict-schema incompatibility is a supported but unconfirmed cause. It is not evidence of a wrong party inference.
+- Decision: H002 acceptance fails (all cases 0/3 due transport rejection). The resolver and E+resolver wiring were removed; no production Prompt@20 or resolver path is claimed. H004 closure and H003 human review are recorded separately; no H005 model, fixed-source, or Live run was invoked. Evidence: [closure report](H002-H003-H004-SEMANTIC-CLOSURE-2026-09-18.md) and `.eval-artifacts/party-size-supplement-diagnostic-2026-09-18/party-size-supplement-2026-09-18T07-51-26-983Z-1ff94503-3910-49e0-b724-e78cdb722c23/`.
+- Post-withdrawal checks: `npm run typecheck`, `npm run arch:check`, `npm run build`, and `git diff --check` passed; local `npm test` passed 438/438. A sandbox attempt saw 19 `listen EPERM` localhost failures, then the identical suite passed outside the sandbox. Scope deviation: default `npm test` includes existing static H005 unit/fixture cases. No H005 fact-judge, fixed-source runner, external source, or Live run was invoked, and no H005 artifact/fixture/evaluator changed.
+
+## TEST-2026-09-18-SEMANTIC-RULE-EXPRESSION — bounded real-model A/D and A/E diagnostics
+
+- Scope: reference `01e073f`; no production code or Prompt revision. Both variants retain the complete Semantic parser/schema/transport/context/Compiler/Draft path. D differs from A only in the generic PARTY SIZE block; E differs only in the local optionality-scope paragraph. Each prompt diff checks exactly one original/replacement block and byte-identical prefix/suffix. H004 was not run and has a manual-equivalence closing note; H005/fact judgment/fixed-source/E2E were not run.
+- Accounting: two independent artifacts and ledgers each record 24 `RESERVED` and 24 `COMPLETED` calls, no failures/retries/timeouts, all `DEEPSEEK/deepseek-flash`, `TOOL_CALLS`, Proposal-valid and `COMPILED`. H002 A/D used 152,368 tokens / 37,425 ms; H003 A/E used 155,051 tokens / 39,668 ms. No Google, website, browser, booking or external write occurred.
+- Result / proof boundary: D has H002 A=0/3 and D=0/3, with all controls 3/3, so it is rejected and no new D wording follows. E has H003 A=0/3 and E=3/3, preserves explicitly flexible room/budget SOFT and does not add a comparative control failure; its work-celebration/drinks control remains a known A/E 0/3 failure, and its `suitable for a team dinner` wording is unreviewed semantic fidelity. E is only a limited candidate for human review, not an applied production change or proof of general strength correctness.
+- Offline verification before the run: `PRAXIS_RULE_EXPRESSION_DIAGNOSTIC_MODE=preflight node --env-file-if-exists=.env --import tsx scripts/run-semantic-rule-expression-diagnostic.ts`, `npm run typecheck`, `npm run arch:check`, `git diff --check` passed. Evidence: `.eval-artifacts/semantic-rule-expression-diagnostic-2026-09-18/H002-H003-RULE-EXPRESSION-REPORT.md`, two plans/results/ledgers and 48 per-call records. No commit/push.
+
+## TEST-2026-09-18-SEMANTIC-PARTY-POSITION — bounded real-model A/C diagnostic
+
+- Scope: frozen `01e073f`; four already-exposed party samples; complete A Prompt@19 versus complete C with only the PARTY SIZE section moved. Preflight saved actual prompt text and passed exact-move checks: A/C contain one identical PARTY SIZE block, all remaining text is byte-identical after block removal, and the PARTY_SIZE output shape remains in place. Model transport/schema/reference time/timezone/temperature/thinking/output cap/timeout/context were identical; C's diagnostic metadata does not claim a production prompt version.
+- Accounting: `node --env-file-if-exists=.env --import tsx scripts/run-semantic-party-position-diagnostic.ts` recorded 24 reserved and 24 completed calls, 0 failure/retry/timeout, all `DEEPSEEK/deepseek-flash` with `TOOL_CALLS`, valid Proposal and `COMPILED` patch/Draft. Recorded usage is 144,462 input / 7,651 output / 152,113 total tokens and 35,221 ms summed latency. No Google, website, browser, booking or external-write action occurred.
+- Result / proof boundary: H002 A=0/3 and C=2/3, so C fails the explicit stability acceptance criterion and is not a candidate. All three party controls are A=3/3 and C=3/3. All complete outputs are retained and no C-only confirmed key regression was found in this four-sample review; absent independent expectations remain unscored, including a friends criterion added in both variants for open attendees. This is an exposed current-model diagnostic, not evidence of general parser improvement or causal attribution.
+- Offline verification after the diagnostic runner addition: `PRAXIS_PARTY_POSITION_DIAGNOSTIC_MODE=preflight node --env-file-if-exists=.env --import tsx scripts/run-semantic-party-position-diagnostic.ts`, `npm run typecheck`, `npm run arch:check`, and `git diff --check` passed. Evidence: `.eval-artifacts/semantic-party-position-diagnostic-2026-09-18/PARTY-POSITION-DIAGNOSTIC-REPORT.md`, plan, 24 immutable call records, result and ledger. No commit or push.
+
+## TEST-2026-09-18-SEMANTIC-FIELD-SCOPE-DIAGNOSTIC — bounded real-model diagnostic
+
+- Scope: code snapshot `01e073f`; eight already-exposed targeted-repair samples, each in fixed `A1/B1/A2/B2` order. A used the actual Prompt@19 request builder; B retained the relevant original rules and the same `restaurant-semantic-proposal@3` schema/transport, reference time, timezone, 30,000 ms timeout, 5,000 output cap, temperature 0 and disabled thinking. B is an incomplete diagnostic task, not a production parser or proposed production path.
+- Accounting: an initial start record is `FAILED_BEFORE_DISPATCH` because its Node command did not load the existing `.env`; it has 0 reservations and 0 calls. The completed run has 32 pre-dispatch `RESERVED` ledger records and 32 corresponding `COMPLETED` records, 0 failure/retry/timeout, all `DEEPSEEK/deepseek-flash`, `TOOL_CALLS` and locally schema-valid. It used 160,168 input / 8,283 output / 168,451 total recorded tokens and 43,139 ms summed provider latency. It made 0 Google, website, browser, booking or other external-write calls.
+- Result / proof boundary: H002 A=0/2 vs B=2/2 while all three party controls remain correct. Strength is mixed: H003 B=1/2 full passes, defining-activity/drinks B=0/2, flexible-improvements B=2/2, and local optionality B=2/2. The source expectation format lacks criterion polarity, so actual polarity is recorded but not retrospectively scored; criteria order and non-exact wording are not automatic failures. This proves only this exposed sample/model comparison, not an internal causal mechanism or a production-quality improvement.
+- Offline checks after diagnostic-script changes: `PRAXIS_FIELD_SCOPE_DIAGNOSTIC_MODE=preflight node --import tsx scripts/run-semantic-field-scope-diagnostic.ts`, `npm run typecheck`, `npm run arch:check`, `git diff --check` all passed. Evidence: `.eval-artifacts/semantic-field-scope-diagnostic-2026-09-18/FIELD-SCOPE-DIAGNOSTIC-REPORT.md` and the linked plan/result/ledger; no commit or push.
+
+## TEST-2026-09-18-SEMANTIC-REPAIR-FAILURE-REVIEW — read-only artifact audit
+
+- Scope: review `01e073f` with a clean starting worktree; no production behavior, dataset, evaluator, model or source transport changed. `node --import tsx scripts/extract-semantic-targeted-repair.ts` read the complete 48-call artifact and asserted 48 captured semantic calls plus structural equality between each decoded raw response and stored Proposal. It emits full user payload, saved context, request configuration, raw response, Proposal and original assessment; it explicitly marks final Draft as not captured because the runner did not compile/reduce.
+- Audit result: all 48 were `DEEPSEEK/deepseek-flash`, JSON schema, 30s / 5000-output / temperature 0 / thinking disabled, `TOOL_CALLS`. The old scorer uses normalized phrase containment plus strength only; it does not score expected polarity, order or extras. H002 has no A/B PARTY SIZE instruction difference, H003 has a retained-word SOFT failure, and H005's v2 fact raw messages are absent. No new model, Google, website, browser, booking or external-write action was run. No test result is claimed for Prompt@3 model behavior.
+- Accounting: completed artifact proves 48 successful semantic calls / 304,482 recorded tokens and zero fact calls; the second `STARTED` artifact has no result or call log, therefore its call count remains unknown and is not reported as zero. The local artifacts do not preserve authorization provenance sufficient to reconcile the prior 66-call playbook wording with the earlier 50-call constraint.
+- Evidence: `.eval-artifacts/semantic-repair-failure-review-2026-09-18/REPORT.md`, `CALL-DETAILS.md`, and the read-only extractor. No commit/push was performed by this review.
 
 ## TEST-2026-09-18-TARGETED-SEMANTIC-REPAIR — one candidate, bounded semantic diagnostic
 
@@ -2796,3 +2832,73 @@ The final cross-case classification and raw artifact links are in [H001/H003/H00
 ## TEST-2026-09-17-AFTERNOON-INDEPENDENT-REVIEW
 
 审查基线565b08f。独立重跑TableCheck、Tabelog、LiveBrowserAvailability、fixed-source acceptance/execution、diagnostic evaluator共105/105通过；未重跑全量411项或其他门禁。旧三个identity反例关闭。直接回放早上已保存的真实身份字段，Inase/涩谷Hajime的地下1階与B1F错误CONFLICT，电话相同仍MEDIUM；离线真实Adapter首导航探针确认正常googleMapsUri遮蔽合法googleWebsiteUri。生产源码未改，无模型/网络/新Live。脚本、结果、日志及历史运行限制见[报告](../../.eval-artifacts/afternoon-review-2026-09-17/REPORT.md)。
+
+## TEST-2026-09-18-H002-PARTY-SIZE-SUPPLEMENT-DIAGNOSTIC
+
+- Focused offline gate: `npm run typecheck`, `node --test --import tsx src/domains/restaurant/party-size-supplement-resolver.test.ts`, and diagnostic preflight all passed. The test proves object-root/non-empty strict parameters, canonical UNKNOWN normalization, and extra-field fail-closed behavior; it does not prove a provider accepts the schema or model inference quality.
+- Authorized real-model sequence preserved four immutable 8×3 artifacts. The first three batches each dispatched 24 calls and were rejected before completion (detailed causes retained for batches two/three: root must be object; empty object forbidden). The fourth batch dispatched and completed 24/24 with no retries, Google, browser, or booking calls. Its semantic gate is REJECTED: H002 1/3; seven controls 3/3. Raw outputs and ledger are linked from [the closure report](H002-H003-H004-SEMANTIC-CLOSURE-2026-09-18.md#h002-subsequent-provider-schema-repair-and-authorized-reruns).
+- Classification: real-model diagnostic evidence, not production or Live read evidence. No production integration, Gold/Holdout/H005 change, commit, push, or independent Review occurred.
+
+## TEST-2026-09-18-H002-SEMANTIC-ARITY-V2
+
+- Candidate contract: focused resolver tests **3/3** prove strict non-empty object-root transport, UNKNOWN sentinel normalization, fail-closed extra output, AVAILABILITY-plus-missing-party guard, Recommendation/H004 and primary-party no-call, and one-attempt behavior. `typecheck`, `arch:check`, `build`, and `git diff --check` pass.
+- Real-model diagnostic: a pre-dispatch frozen/hash-recorded 14-sample × 3 plan ran **42/42** completions, **32,958** reported tokens, zero retry/Google/browser/booking. H002 and all newly added semantic-arity/modifier controls were 3/3. Existing relational-three and blind enumerated-three were 0/3 due to `EXPLICIT` provenance for a correctly inferred count. The declared all-controls gate is therefore **REJECTED**. Artifact: [result.json](../../.eval-artifacts/party-size-supplement-diagnostic-2026-09-18/party-size-semantic-arity-v2-2026-09-18T08-44-12-699Z-78917c4c-bd3c-41e1-a84b-fecf0e7a179a/result.json).
+- Final retained-tree offline suite in authorized loopback mode: `npm test` **441/441 PASS**; sandboxed preliminary run had 19 `127.0.0.1` `EPERM` environment-only failures. H002/H004 fixed-source, H003, H005, Live, Browser, and external writes were not run. The rejected candidate is not production-integrated.
+
+## TEST-2026-09-18-H002-H003-SEMANTIC-CONTRACT-CLOSURE
+
+- H002 real-model wire gate: **ACCEPTED**, 4 frozen samples ×2 = **8/8** completions, no retry/Google/browser/booking; actual response model `deepseek-flash`, 5,494 total tokens, 6,286ms aggregate latency. The preflight configured `deepseek-v4-flash`; that effective-model discrepancy is retained in the artifact.
+- H003 real-model strength gate: **REJECTED**, 6 frozen categories ×3 = **18/18** completions, no retry/Google/browser/booking; actual response model `deepseek-flash`, 112,960 total tokens, 27,709ms aggregate latency. HARD exclusion/type, explicit SOFT, and both ambiguous UNSPECIFIED controls are 3/3. The H003 four-criterion primary sample is 1/3 because two outputs add `suitable for a team dinner`; no retry or Prompt change followed.
+- Offline implementation evidence: focused **74/74 PASS**; `npm run typecheck`, `npm run arch:check`, `npm run build`, and `git diff --check` PASS; authorized loopback full suite **443/443 PASS**. The ordinary sandbox full suite had local `127.0.0.1` EPERM failures only; no changed test was skipped.
+- Stop boundary: H003 failure prevents H002/H003/H004 fixed-source real-model runs. H005 model/fixed-source/Live, all browser/Google/web source work, booking, Gold/Holdout, commit, and push were not invoked. Artifacts and review handoff are in [semantic contract closure](H002-H003-SEMANTIC-CONTRACT-CLOSURE-2026-09-18.md).
+- Review follow-up: default suite now includes `src/application/*.test.ts`; evaluator/rubric is @17 and adds paired UNSPECIFIED nonblocking/review/HARD-mismatch coverage; same identity conflicting strengths are explicit compiler conflicts. Authorized loopback rerun: **446/446 PASS**. No model or source call followed. Persistent Postgres concurrent-request/refresh resolver coverage remains an explicitly open independent-review item.
+## TEST-2026-09-18-H002-H003-SEMANTIC-CONTRACT-REVIEW-FOLLOW-UP
+
+### Fixed-source real-model closeout
+
+- After the original researcher's independent mutation check accepted the
+  persistent single-flight regression, exactly one real-model fixed-source read
+  ran for H002/H003/H004. Every run used `SYNTHETIC_CONTROL`, offline fixed
+  transport/pages, `300000ms/50 steps/50 calls`, no external write, and the
+  exposed YAML SHA `ef57893638be2cbc295cb14295d24b6d2d7bdc2918da83de68c48ae839ca7699`.
+  Requested config was `deepseek-v4-flash`; returned invocation labels were
+  `deepseek-flash`, recorded without asserting a backend switch.
+- H002: 9 calls / 29,020 tokens / 13,350ms, three displayed request-bound
+  slots. The primary parser omitted party size but one supplement call supplied
+  `2/INFERRED_CLOSED_PARTY`. Strict evaluator/acceptance are `NO/FAIL`; the
+  researcher accepted only the party sub-goal, not the full case.
+- H003: 4 calls / 19,411 tokens / 8,095ms, three displayed request-bound slots;
+  strict evaluator/acceptance are `UNKNOWN/FAIL`, while independent review
+  accepts this bounded case. H004: 7 calls / 21,375 tokens / 8,711ms, three
+  cafe recommendations; strict evaluator/acceptance are `UNKNOWN/FAIL`, and
+  independent review rejects its SOFT→UNSPECIFIED non-regression.
+- Raw started/result/evaluator paths and the exact non-retry boundary are in
+  [semantic contract closure](H002-H003-SEMANTIC-CONTRACT-CLOSURE-2026-09-18.md).
+  H001/H005/Live were not run; no Prompt, Gold or fixture was changed after
+  these results.
+
+- The H002 persistent path now has an authorized loopback PGlite/HTTP regression:
+  primary explicit and inferred counts persist, UNKNOWN/transport failure remain
+  `NEEDS_INPUT`, existing Draft counts are not overwritten, and recommendations
+  do not call the supplement. A gated duplicate `submitMessage` delivery joins
+  the in-flight `(taskId, requestId)` work before stale-version validation;
+  completed replay and a legal presented-result refresh make no second
+  supplement call. `src/server/local-web-server.test.ts`: **24/24 PASS**.
+- The first version of that regression exposed a real ordering defect: the
+  in-flight guard sat after optimistic-version validation, so a duplicated
+  delivery could receive `StaleTaskVersionError` while the first resolver call
+  was still active. A second review found a check-then-set window in that first
+  repair. The final form synchronously sets one complete `submitMessageOnce`
+  Promise immediately after authenticated conversation lookup; its regression
+  dispatches both messages in the same tick, observes that the second actually
+  awaits the in-flight Promise, and separately fails if a second resolver call
+  occurs. This is offline PGlite/local-loopback evidence only.
+- The H003 compiler regression now covers `ASSERT` strength transitions
+  UNSPECIFIED→HARD, UNSPECIFIED→SOFT, HARD→SOFT through Proposal→Compiler→
+  Reducer while retaining an unrelated criterion and opposite polarity. It does
+  not claim `CORRECT` is incremental: existing `CORRECT` remains collection
+  replacement. The evaluator is `restaurant-hybrid-read-diagnostic-evaluator@17`.
+- No real model, Google, browser, restaurant site, source fixture, H005,
+  Gold/Holdout, booking, commit, or push was run in this follow-up. H003's
+  historical automatic gate remains rejected; the supplemental semantic review
+  remains pending original-researcher signoff.

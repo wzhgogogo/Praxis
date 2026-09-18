@@ -11,6 +11,7 @@ import type { ModelGateway } from "../../../core/model/contracts.js";
 import type { RuntimeClock } from "../../../core/task-runtime/contracts.js";
 import { RestaurantAgentDecision } from "../../../domains/restaurant/agent-decision.js";
 import { compileRestaurantSemanticProposal } from "../../../domains/restaurant/semantic-compiler.js";
+import { supplementMissingAvailabilityPartySize, type RestaurantPartySizeSupplementResolverPort } from "../../../application/restaurant-message-handler.js";
 import {
   RestaurantSemanticInterpreter,
   type RestaurantSemanticInterpretInput,
@@ -44,6 +45,7 @@ export interface HybridReadCompositionOptions {
   facts?: RestaurantCandidateFactPort;
   router?: RestaurantExecutionRouterOptions;
   loop?: RestaurantAgentLoopOptions;
+  partySizeSupplementResolver?: RestaurantPartySizeSupplementResolverPort;
 }
 
 /**
@@ -82,8 +84,13 @@ export function createHybridReadComposition(options: HybridReadCompositionOption
     if (semantic.status !== "PROPOSED") return semantic;
     const compilation = compileRestaurantSemanticProposal(semantic.proposal, { referenceTime: input.referenceTime, timezone: input.timezone });
     const snapshot = runtime.snapshot(options.taskId);
+    const supplemented = compilation.status === "COMPILED" ? await supplementMissingAvailabilityPartySize({
+          resolver: options.partySizeSupplementResolver,
+          semanticInput: input,
+          patch: compilation.patch,
+        }) : undefined;
     const event: RestaurantEvent = compilation.status === "COMPILED"
-      ? { type: "SEMANTIC_PROPOSAL_COMPILED", patch: compilation.patch }
+      ? { type: "SEMANTIC_PROPOSAL_COMPILED", patch: supplemented!.patch, ...(supplemented!.audit ? { partySizeSupplement: supplemented!.audit } : {}) }
       : { type: "SEMANTIC_CONFLICT_RECORDED", conflict: compilation.conflict };
     // Semantic input is an append-only user/model event, not a once-per-task
     // singleton.  A fresh request after cancellation must not be deduplicated

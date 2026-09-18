@@ -18,7 +18,10 @@ import type { RestaurantAvailabilityPort, RestaurantCandidateFactPort, Restauran
 import { RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION } from "../eval/restaurant/agent-loop/diagnostic-evaluator.js";
 import { FakeClock } from "../harness/fake-clock.js";
 import { RestaurantSemanticInterpreter } from "../domains/restaurant/semantic-interpreter.js";
-import { RestaurantAgentDecision } from "../domains/restaurant/agent-decision.js";
+import { RestaurantAgentDecision, ScriptedRestaurantAgentDecisionPort, type RestaurantAgentDecisionPort } from "../domains/restaurant/agent-decision.js";
+import type { RestaurantSemanticInterpreterPort, RestaurantPartySizeSupplementResolverPort } from "../application/restaurant-message-handler.js";
+import type { RestaurantPartySizeSupplementResult } from "../domains/restaurant/party-size-supplement-resolver.js";
+import type { RestaurantSemanticProposal } from "../domains/restaurant/semantic-proposal.js";
 import { FixtureModelGateway } from "../infrastructure/fixture/fixture-model-gateway.js";
 import type { ModelGateway, ModelRequest, ModelResponse } from "../core/model/contracts.js";
 import { ModelGatewayError } from "../core/model/errors.js";
@@ -77,6 +80,9 @@ interface StartServerOptions {
   model?: ModelGateway;
   artifactDirectory?: string;
   liveReadLimits?: Readonly<Record<string, number>>;
+  semanticInterpreter?: RestaurantSemanticInterpreterPort;
+  partySizeSupplementResolver?: RestaurantPartySizeSupplementResolverPort;
+  agentDecision?: RestaurantAgentDecisionPort;
 }
 
 async function startServer(database: SqlDatabase, clock: FakeClock, options: StartServerOptions = {}): Promise<TestServer> {
@@ -85,8 +91,9 @@ async function startServer(database: SqlDatabase, clock: FakeClock, options: Sta
   const application = new PersistentRestaurantAgentApplication({
     database,
     clock,
-    semanticInterpreter: new RestaurantSemanticInterpreter(model),
-    agentDecision: new RestaurantAgentDecision(model),
+    semanticInterpreter: options.semanticInterpreter ?? new RestaurantSemanticInterpreter(model),
+    ...(options.partySizeSupplementResolver ? { partySizeSupplementResolver: options.partySizeSupplementResolver } : {}),
+    agentDecision: options.agentDecision ?? new RestaurantAgentDecision(model),
     restaurantSearch: restaurant,
     restaurantAvailability: restaurant,
     restaurantFacts: restaurant,
@@ -230,6 +237,60 @@ async function createCase(baseUrl: string, cookie: string, requestId = "request-
   });
   assert.equal(result.response.status, 201);
   return result.payload.view as RestaurantCaseView;
+}
+
+async function withinTestTimeout<T>(promise: Promise<T>, label: string): Promise<T> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  try {
+    return await Promise.race([
+      promise,
+      new Promise<T>((_resolve, reject) => {
+        timer = setTimeout(() => reject(new Error(`Timed out waiting for ${label}`)), 1_000);
+      }),
+    ]);
+  } finally {
+    if (timer !== undefined) clearTimeout(timer);
+  }
+}
+
+function availabilityProposal(partySize?: number): RestaurantSemanticProposal {
+  return {
+    schemaVersion: "3",
+    facts: [
+      { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "find a table" } },
+      { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-08-09", raw: "tomorrow" } },
+      { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:00", raw: "7pm" } },
+      { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "Shibuya" } },
+      ...(partySize === undefined ? [] : [{ field: "PARTY_SIZE" as const, operation: "ASSERT" as const, value: { kind: "PARTY_SIZE" as const, value: partySize, source: "EXPLICIT" as const } }]),
+    ],
+  };
+}
+
+class MessageProposalInterpreter implements RestaurantSemanticInterpreterPort {
+  async interpret(input: { message: string }): ReturnType<RestaurantSemanticInterpreterPort["interpret"]> {
+    const proposal = input.message === "recommendation"
+      ? { schemaVersion: "3" as const, facts: [{ field: "TARGET" as const, operation: "ASSERT" as const, value: { kind: "TARGET" as const, goal: "RECOMMENDATION" as const, query: "recommend a cafe" } }] }
+      : input.message === "explicit" ? availabilityProposal(4) : availabilityProposal();
+    return { status: "PROPOSED", proposal, attempts: [] };
+  }
+}
+
+class MessagePartySupplementResolver implements RestaurantPartySizeSupplementResolverPort {
+  readonly messages: string[] = [];
+  constructor(
+    private readonly resultFor: (message: string) => RestaurantPartySizeSupplementResult | Promise<RestaurantPartySizeSupplementResult>,
+  ) {}
+
+  async resolve(input: { message: string }): Promise<RestaurantPartySizeSupplementResult> {
+    this.messages.push(input.message);
+    return this.resultFor(input.message);
+  }
+}
+
+function askForPartyDecision(count: number): RestaurantAgentDecisionPort {
+  return new ScriptedRestaurantAgentDecisionPort(
+    Array.from({ length: count }, () => ({ type: "ASK_USER" as const, question: "Please provide the party size.", relatedFields: ["partySize"] })),
+  );
 }
 
 async function readFirstCaseEvent(
@@ -402,6 +463,189 @@ test("Stage 2B serves the fixture workspace and rejects unauthenticated case acc
       assert.equal(unauthorized.status, 401);
     } finally {
       await running.close();
+    }
+  });
+});
+
+test("H002 persistent Runtime preserves explicit or inferred party size and safely asks when the supplement is unknown or fails", async () => {
+  await withDatabase(async ({ database, clock }) => {
+    const resolver = new MessagePartySupplementResolver((message) => {
+      if (message === "relational") {
+        return {
+          status: "RESOLVED",
+          partySize: 3,
+          attempts: [{ invocationId: "supplement-relational", provider: "FIXTURE", model: "fixture", purpose: "restaurant_party_size_supplement", promptVersion: "v2", outputSchema: { name: "restaurant-party-size-supplement", version: "2" }, finishReason: "TOOL_CALLS", latencyMs: 0 }],
+        };
+      }
+      if (message === "unknown") {
+        return {
+          status: "UNKNOWN",
+          attempts: [{ invocationId: "supplement-unknown", provider: "FIXTURE", model: "fixture", purpose: "restaurant_party_size_supplement", promptVersion: "v2", outputSchema: { name: "restaurant-party-size-supplement", version: "2" }, finishReason: "TOOL_CALLS", latencyMs: 0 }],
+        };
+      }
+      return { status: "MODEL_FAILURE", errorCode: "NETWORK", retryable: false, attempts: [] };
+    });
+    const running = await startServer(database, clock, {
+      semanticInterpreter: new MessageProposalInterpreter(),
+      partySizeSupplementResolver: resolver,
+      agentDecision: askForPartyDecision(6),
+    });
+    try {
+      const cookie = await login(running.baseUrl, "token-a");
+      const explicit = await createCase(running.baseUrl, cookie, "h002-explicit", "explicit");
+      assert.equal(explicit.restaurant.intentDraft?.partySize, 4);
+      assert.equal(explicit.restaurant.intentDraft?.partySizeSource, "EXPLICIT");
+      assert.deepEqual(resolver.messages, [], "T1 primary explicit party must not call the supplement");
+
+      const relational = await createCase(running.baseUrl, cookie, "h002-relational", "relational");
+      assert.equal(relational.restaurant.intentDraft?.partySize, 3);
+      assert.equal(relational.restaurant.intentDraft?.partySizeSource, "INFERRED_CLOSED_PARTY");
+      assert.deepEqual(resolver.messages, ["relational"], "T2 closed-party result is applied once by the real Runtime");
+
+      const unknown = await createCase(running.baseUrl, cookie, "h002-unknown", "unknown");
+      assert.equal(unknown.case.phase, "NEEDS_INPUT");
+      assert.equal(unknown.restaurant.intentDraft?.partySize, undefined);
+      assert.ok(unknown.restaurant.missingRequiredFields.includes("partySize"), "T4 UNKNOWN remains a user-input requirement");
+
+      const failed = await createCase(running.baseUrl, cookie, "h002-failed", "failure");
+      assert.equal(failed.case.phase, "NEEDS_INPUT");
+      assert.equal(failed.restaurant.intentDraft?.partySize, undefined);
+      assert.ok(failed.restaurant.missingRequiredFields.includes("partySize"), "T5 model failure must not invent a party size");
+
+      const revised = await api(running.baseUrl, cookie, `/api/conversations/${encodeURIComponent(explicit.conversation.id)}/messages`, {
+        method: "POST",
+        body: JSON.stringify({ requestId: "h002-existing-party", taskVersion: explicit.case.taskVersion, message: "keep party" }),
+      });
+      assert.equal(revised.response.status, 200, String(revised.payload.error));
+      const revisedView = revised.payload.view as RestaurantCaseView;
+      assert.equal(revisedView.restaurant.intentDraft?.partySize, 4, "a later omitted party must not overwrite the current Draft");
+      assert.deepEqual(resolver.messages, ["relational", "unknown", "failure"], "existing party suppresses a second supplement invocation");
+
+      const recommendation = await createCase(running.baseUrl, cookie, "h002-recommendation", "recommendation");
+      assert.equal(recommendation.restaurant.intentDraft?.target?.goal, "RECOMMENDATION");
+      assert.deepEqual(resolver.messages, ["relational", "unknown", "failure"], "T6 recommendation requests never invoke party supplementation");
+    } finally {
+      await running.close();
+    }
+  });
+});
+
+test("H002 persistent duplicate message delivery invokes the supplement once; completed retries and refresh do not invoke it", async () => {
+  await withDatabase(async ({ database, clock }) => {
+    let release: (() => void) | undefined;
+    let started: (() => void) | undefined;
+    let secondResolverCall: (() => void) | undefined;
+    const gate = new Promise<void>((resolve) => { release = resolve; });
+    const entered = new Promise<void>((resolve) => { started = resolve; });
+    const secondCall = new Promise<void>((resolve) => { secondResolverCall = resolve; });
+    let relationalCalls = 0;
+    const resolver = new MessagePartySupplementResolver(async (message) => {
+      if (message === "initial") {
+        return {
+          status: "UNKNOWN",
+          attempts: [{ invocationId: "supplement-initial", provider: "FIXTURE", model: "fixture", purpose: "restaurant_party_size_supplement", promptVersion: "v2", outputSchema: { name: "restaurant-party-size-supplement", version: "2" }, finishReason: "TOOL_CALLS", latencyMs: 0 }],
+        };
+      }
+      relationalCalls += 1;
+      if (relationalCalls === 1) {
+        started?.();
+        await gate;
+      } else {
+        secondResolverCall?.();
+      }
+      return {
+        status: "RESOLVED",
+        partySize: 2,
+        attempts: [{ invocationId: "supplement-duplicate", provider: "FIXTURE", model: "fixture", purpose: "restaurant_party_size_supplement", promptVersion: "v2", outputSchema: { name: "restaurant-party-size-supplement", version: "2" }, finishReason: "TOOL_CALLS", latencyMs: 0 }],
+      };
+    });
+    const running = await startServer(database, clock, {
+      semanticInterpreter: new MessageProposalInterpreter(),
+      partySizeSupplementResolver: resolver,
+      agentDecision: askForPartyDecision(1),
+    });
+    try {
+      const cookie = await login(running.baseUrl, "token-a");
+      const initial = await createCase(running.baseUrl, cookie, "h002-duplicate-create", "initial");
+      assert.equal(initial.case.phase, "NEEDS_INPUT");
+      const inFlight = (running.application as unknown as { applyingUserMessages: Map<string, Promise<unknown>> }).applyingUserMessages;
+      const originalGet = inFlight.get.bind(inFlight);
+      let secondJoinedGuard: (() => void) | undefined;
+      const joinedGuard = new Promise<void>((resolve) => { secondJoinedGuard = resolve; });
+      inFlight.get = ((key: string) => {
+        const pending = originalGet(key);
+        if (!pending) return pending;
+        return new Proxy(pending, {
+          get(target, property) {
+            if (property === "then") {
+              return (...arguments_: Parameters<Promise<unknown>["then"]>) => {
+                secondJoinedGuard?.();
+                return target.then(...arguments_);
+              };
+            }
+            const value = Reflect.get(target, property, target);
+            return typeof value === "function" ? value.bind(target) : value;
+          },
+        });
+      }) as typeof inFlight.get;
+      // Dispatch both deliveries before either reaches the resolver. The
+      // guarded second Promise marks itself only if submitMessage actually
+      // awaits the already-registered work; a bypass instead reaches the
+      // resolver and is independently observable below.
+      const first = running.application.submitMessage({
+        userId: "user-a", conversationId: initial.conversation.id, message: "relational", requestId: "h002-duplicate-submit", expectedVersion: initial.case.taskVersion,
+      });
+      const duplicate = running.application.submitMessage({
+        userId: "user-a", conversationId: initial.conversation.id, message: "relational", requestId: "h002-duplicate-submit", expectedVersion: initial.case.taskVersion,
+      });
+      await withinTestTimeout(entered, "one simultaneous duplicate submission to enter the supplement");
+      const path = await withinTestTimeout(
+        Promise.race([
+          joinedGuard.then(() => "JOINED_GUARD" as const),
+          secondCall.then(() => "SECOND_RESOLVER_CALL" as const),
+        ]),
+        "the second duplicate submission to join the guard or enter the resolver",
+      );
+      inFlight.get = originalGet as typeof inFlight.get;
+      release?.();
+      const settled = await Promise.allSettled([first, duplicate]);
+      assert.equal(path, "JOINED_GUARD", "a second resolver call proves duplicate delivery escaped the in-flight guard");
+      assert.ok(settled.every((result) => result.status === "fulfilled"), "both duplicate deliveries must resolve from the one durable event");
+      const firstView = settled[0].status === "fulfilled" ? settled[0].value : undefined;
+      assert.deepEqual(resolver.messages, ["initial", "relational"], "concurrent delivery shares one in-flight supplement");
+      assert.equal(firstView?.restaurant.intentDraft?.partySize, 2);
+      await running.application.submitMessage({
+        userId: "user-a", conversationId: initial.conversation.id, message: "relational", requestId: "h002-duplicate-submit", expectedVersion: firstView!.case.taskVersion,
+      });
+      assert.deepEqual(resolver.messages, ["initial", "relational"], "a completed message retry is idempotent");
+      const persisted = await running.application.getCase("user-a", initial.case.caseId);
+      assert.equal(persisted.restaurant.intentDraft?.partySize, 2, "the persisted replay result remains authoritative");
+    } finally {
+      await running.close();
+    }
+
+    const refreshResolver = new MessagePartySupplementResolver(() => ({
+      status: "MODEL_FAILURE", errorCode: "NETWORK", retryable: false, attempts: [],
+    }));
+    const refreshCalls = { model: 0, search: 0, facts: 0, availability: 0 };
+    const refreshServer = await startServer(database, clock, {
+      partySizeSupplementResolver: refreshResolver,
+      restaurant: selectionSessionFixture(refreshCalls),
+      model: selectionSessionModel(refreshCalls),
+    });
+    try {
+      const cookie = await login(refreshServer.baseUrl, "token-a");
+      const created = await createCase(refreshServer.baseUrl, cookie, "h002-refresh", "Recommend restaurants in Shinjuku.");
+      assert.equal(refreshResolver.messages.length, 0, "a recommendation request suppresses supplementation");
+      assert.equal(created.case.phase, "PRESENT_RESULTS");
+      const refreshed = await api(refreshServer.baseUrl, cookie, `/api/cases/${encodeURIComponent(created.case.caseId)}/refresh`, {
+        method: "POST",
+        body: JSON.stringify({ requestId: "h002-refresh-action", taskVersion: created.case.taskVersion }),
+      });
+      assert.equal(refreshed.response.status, 200, String(refreshed.payload.error));
+      assert.equal(refreshResolver.messages.length, 0, "availability refresh never re-interprets or supplements the original request");
+    } finally {
+      await refreshServer.close();
     }
   });
 });

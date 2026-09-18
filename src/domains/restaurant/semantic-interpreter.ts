@@ -264,38 +264,28 @@ For NEGATIVE criteria, text names the avoided condition without the negation.
 Interpret polarity and strength independently; removing an existing criterion is
 an operation, whereas asking to avoid something introduces a NEGATIVE criterion.
 
-Determine strength from the meaning of each condition in the whole request:
-- HARD: a defining selection requirement. Without it the venue cannot satisfy the
-  requested kind of meal, an intended activity, or an expressed exclusion.
-- SOFT: an approximation, an optional improvement, or a preference that the user
-  permits trading off while still fulfilling the requested meal/activity.
-- UNSPECIFIED: only when the message genuinely leaves this distinction unresolved.
+Determine strength from the user's expressed commitment to each selection
+condition, before any paraphrase:
+- HARD: a core requested object or venue type, an explicit exclusion or
+  restriction, explicit mandatory language, or existing firm numeric semantics.
+- SOFT: an explicitly tradeable, approximate, or optional condition. Language
+  such as ideally, prefer, if possible, would be nice, hope, or around normally
+  scopes this strength to the condition it modifies.
+- UNSPECIFIED: an expressed selection condition with neither non-negotiability
+  nor flexibility stated. Keep it as a condition; do not delete it because its
+  strength is not HARD or SOFT.
 
-The wording you choose for a faithful paraphrase cannot make a defining condition
-optional or make an optional condition defining. Determine strength from the
-original user meaning before any paraphrase.
+Do not choose HARD merely because a condition sounds important, and do not choose
+SOFT merely because it is subjective, contextual, or difficult to verify. Do not
+use a fixed category-to-strength mapping. Scope mandatory or flexible wording to
+the condition it modifies: one required feature does not make adjacent conditions
+mandatory, and one tradeable preference does not weaken adjacent requirements.
 
-Distinguish whether the venue can support a requested activity from how pleasant
-or well suited the experience would be. An unqualified request for a capability
-needed for that activity is not merely a ranking preference. Subjective atmosphere
-or occasion-related appeal can be SOFT without making the activity itself optional.
-An occasion label alone does not make every associated desirable feature HARD;
-do not invent amenities or requirements from an occasion.
-
-Do not use a fixed category-to-strength mapping. The same feature can be required
-in one message and optional in another. Explicit flexibility about that feature
-must be respected. Its subjectivity or difficulty to verify is not permission to
-weaken it, and polite or favorable phrasing alone does not imply flexibility.
-
-Scope approximation and optionality to the condition they modify. A flexible
-budget or optional amenity does not soften adjacent unqualified requirements.
-Conversely, one required feature does not make neighboring preferences mandatory.
-
-Do not decide strength by looking for a single trigger word. Check the intended
-meaning: would removing this condition change what the user is asking to do, or
-only reduce a desired improvement? Preserve genuine uncertainty as UNSPECIFIED;
-do not guess that every unmarked condition is HARD or that every suitability
-condition is SOFT.
+An occasion or desired experience may express a selection condition without
+settling whether it is mandatory or tradeable. Preserve that condition as
+UNSPECIFIED unless the user's wording supplies the commitment. The wording you
+choose for a faithful paraphrase cannot change the strength determined from the
+original user meaning; it cannot make a defining condition optional.
 
 ## BUDGET
 

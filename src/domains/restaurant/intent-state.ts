@@ -41,12 +41,11 @@ function hasOwn(input: object, key: string): boolean {
   return Object.prototype.hasOwnProperty.call(input, key);
 }
 
-/** Stable identity for collection semantics; text is case- and trim-insensitive. */
+/** Stable identity for collection semantics; strength is mutable user intent, not identity. */
 export function restaurantCriterionKey(criterion: RestaurantCriterion): string {
   return [
     criterion.text.trim().toLowerCase(),
     criterion.polarity,
-    criterion.strength,
   ].join("\u0000");
 }
 

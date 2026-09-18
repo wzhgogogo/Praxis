@@ -2,7 +2,7 @@
 # Parameter expectations live only in semantic. Acceptance notes supplement independent review, not runtime instructions.
 ---
 id: h001
-dataset: restaurant-read-development@4
+dataset: restaurant-read-development@5
 reference_time: 2026-08-19T16:20:00+08:00
 content: |
   Looking for an omakase spot near Shibuya for 2 people tonight at 7 PM.
@@ -32,7 +32,7 @@ acceptance:
 
 ---
 id: h002
-dataset: restaurant-read-development@4
+dataset: restaurant-read-development@5
 reference_time: 2026-08-19T16:22:00+08:00
 content: >
   Recommend a first-date restaurant near Higashi-Ginza for this Saturday at 6:30 PM. Around 10,000 yen per
@@ -76,7 +76,7 @@ acceptance:
 
 ---
 id: h003
-dataset: restaurant-read-development@4
+dataset: restaurant-read-development@5
 reference_time: 2026-08-19T16:38:00+08:00
 content: >
   Need a place for a team dinner nearby this Friday after work. 10 people, around 3,000 yen per person, good
@@ -99,13 +99,13 @@ semantic:
   criteria:
     - value: team dinner
       polarity: POSITIVE
-      strength: HARD
+      strength: UNSPECIFIED
     - value: around 3,000 yen per person
       polarity: POSITIVE
       strength: SOFT
     - value: good for drinks
       polarity: POSITIVE
-      strength: HARD
+      strength: UNSPECIFIED
     - value: private room
       polarity: POSITIVE
       strength: SOFT
@@ -113,19 +113,19 @@ acceptance:
   required_claims:
     - Correct outlet near the explicitly supplied evaluation/device location; preserve Friday, 10 people and
       after-work intent, and obtain a matching current slot for the broad derived window.
-    - Retain team dinner and good for drinks as defining HARD conditions; do not weaken them merely because
-      supporting information is difficult to obtain.
+    - Retain team dinner and good for drinks as expressed nonblocking UNSPECIFIED conditions; do not erase them
+      or require source proof before presentation.
     - Do not claim that 10 people can be seated or booked without corresponding support.
   optional_investigation: []
   review:
     - After work is retained verbatim and materialized as the documented broad 17:30–22:00 query window,
       not as a user-specified exact time and never as the retired 18:00–20:00 interval.
-    - Team-dinner/drinks suitability needs source-supported semantic review; approximately JPY 3000 per person
+    - Team-dinner/drinks suitability remains a semantic-review preference; approximately JPY 3000 per person
       and ideally a private room remain SOFT.
 
 ---
 id: h004
-dataset: restaurant-read-development@4
+dataset: restaurant-read-development@5
 reference_time: 2026-08-19T12:00:00+08:00
 content: |
   Good cafes nearby to meet up with a friend this afternoon.
@@ -164,7 +164,7 @@ acceptance:
 
 ---
 id: h005
-dataset: restaurant-read-development@4
+dataset: restaurant-read-development@5
 reference_time: 2026-08-19T16:00:00+08:00
 content: |
   Any spots nearby with open tables right now for 4 people? Local food only, no fast food.

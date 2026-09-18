@@ -83,6 +83,18 @@ function findConflict(proposal: RestaurantSemanticProposal): RestaurantSemanticC
       )
       .map((fact) => semanticValueKey(fact.value!)),
   );
+  const criterionStrengths = new Map<string, Set<string>>();
+  for (const fact of proposal.facts) {
+    if (fact.field !== "CRITERION" || (fact.operation !== "ASSERT" && fact.operation !== "CORRECT") || fact.value?.kind !== "CRITERION") continue;
+    const value = fact.value;
+    const identity = restaurantCriterionKey(value);
+    const strengths = criterionStrengths.get(identity) ?? new Set<string>();
+    strengths.add(value.strength);
+    criterionStrengths.set(identity, strengths);
+  }
+  if ([...criterionStrengths.values()].some((strengths) => strengths.size > 1)) {
+    return { code: "CONTRADICTORY_PROPOSAL", affectedFields: ["CRITERION"], message: "The proposal assigns conflicting strengths to the same CRITERION" };
+  }
   const negated = new Set(
     proposal.facts
       .filter(

@@ -339,3 +339,58 @@ test("evening and night retain tomorrow through validation, compilation and stat
     assert.deepEqual(draft.criteria, []);
   }
 });
+
+test("criterion identity updates strength by text and polarity without merging opposite polarity", () => {
+  const first = applyRestaurantIntentPatch(undefined, {
+    schemaVersion: "3",
+    addCriteria: [
+      { text: "quiet", polarity: "POSITIVE", strength: "UNSPECIFIED" },
+      { text: "quiet", polarity: "NEGATIVE", strength: "HARD" },
+    ],
+  });
+  const updated = applyRestaurantIntentPatch(first, {
+    schemaVersion: "3",
+    addCriteria: [{ text: " Quiet ", polarity: "POSITIVE", strength: "SOFT" }],
+  });
+  assert.deepEqual(updated.criteria, [
+    { text: "Quiet", polarity: "POSITIVE", strength: "SOFT" },
+    { text: "quiet", polarity: "NEGATIVE", strength: "HARD" },
+  ], "M1/M2: later user semantics replace the same positive criterion but retain opposite polarity");
+
+  const removed = applyRestaurantIntentPatch(updated, {
+    schemaVersion: "3",
+    removeCriteria: [{ text: "quiet", polarity: "POSITIVE", strength: "HARD" }],
+  });
+  assert.deepEqual(removed.criteria, [{ text: "quiet", polarity: "NEGATIVE", strength: "HARD" }], "M3: removal uses stable identity, not stale strength");
+  const untouched = applyRestaurantIntentPatch(removed, { schemaVersion: "3" });
+  assert.deepEqual(untouched.criteria, removed.criteria, "M4: empty/non-semantic patches do not manufacture criterion changes");
+});
+
+test("same-proposal criterion strength conflicts are rejected independent of fact order", () => {
+  for (const strengths of [["HARD", "SOFT"], ["SOFT", "HARD"]] as const) {
+    const result = compileRestaurantSemanticProposal({ schemaVersion: "3", facts: strengths.map((strength) => ({
+      field: "CRITERION" as const, operation: "ASSERT" as const,
+      value: { kind: "CRITERION" as const, text: "quiet", polarity: "POSITIVE" as const, strength },
+    })) });
+    assert.deepEqual(result, { status: "CONFLICT", conflict: { code: "CONTRADICTORY_PROPOSAL", affectedFields: ["CRITERION"], message: "The proposal assigns conflicting strengths to the same CRITERION" } });
+  }
+});
+
+test("ASSERT strength revisions flow Proposal to Compiler to Reducer without replacing unrelated criteria", () => {
+  const base = applyRestaurantIntentPatch(undefined, { schemaVersion: "3", addCriteria: [
+    { text: "quiet", polarity: "POSITIVE", strength: "UNSPECIFIED" },
+    { text: "cafe", polarity: "POSITIVE", strength: "HARD" },
+    { text: "quiet", polarity: "NEGATIVE", strength: "HARD" },
+  ] });
+  for (const [from, to] of [["UNSPECIFIED", "HARD"], ["UNSPECIFIED", "SOFT"], ["HARD", "SOFT"]] as const) {
+    const current = applyRestaurantIntentPatch(base, { schemaVersion: "3", addCriteria: [{ text: "quiet", polarity: "POSITIVE", strength: from }] });
+    const compiled = compileRestaurantSemanticProposal({ schemaVersion: "3", facts: [{ field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "quiet", polarity: "POSITIVE", strength: to } }] });
+    assert.equal(compiled.status, "COMPILED");
+    if (compiled.status !== "COMPILED") continue;
+    assert.deepEqual(applyRestaurantIntentPatch(current, compiled.patch).criteria, [
+      { text: "quiet", polarity: "POSITIVE", strength: to },
+      { text: "cafe", polarity: "POSITIVE", strength: "HARD" },
+      { text: "quiet", polarity: "NEGATIVE", strength: "HARD" },
+    ]);
+  }
+});

@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted — 2026-08-18
+Superseded in part by ADR-0029 — 2026-09-18
 
 ADR-0010 supersedes this ADR's former assumption that the semantic evaluator's deterministic next-step label corresponds to a product Runtime decision. The open `criteria` and Clean Holdout controls remain accepted.
 

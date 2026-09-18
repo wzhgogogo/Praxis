@@ -65,7 +65,7 @@ test("Semantic Interpreter sends the proposal schema and separates user data fro
   assert.equal(gateway.calls.length, 1);
   const request = gateway.calls[0]!;
   assert.equal(request.purpose, "restaurant_semantic_interpret");
-  assert.equal(request.promptVersion, "v19");
+  assert.equal(request.promptVersion, "v20");
   assert.deepEqual(request.outputSchema, {
     name: "restaurant-semantic-proposal",
     version: "3",
@@ -150,7 +150,7 @@ test("closed-party and open-group proposals stay distinct through the semantic b
   assert.match(prompt, /Do not substitute\s+an average or customary group size/i);
   assert.doesNotMatch(prompt, /first-date request is a clear two-person/i);
   assert.match(prompt, /do not add\s+"suitable for"/i);
-  assert.match(prompt, /wording you choose for a faithful paraphrase cannot make a defining condition\s+optional/i);
+  assert.match(prompt, /paraphrase cannot change the strength determined from the\s+original user meaning/i);
 
   const openGateway = new QueuedGateway([response(JSON.stringify({ schemaVersion: "3", facts: [] }))]);
   const open = await new RestaurantSemanticInterpreter(openGateway).interpret({
