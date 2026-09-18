@@ -1,7 +1,7 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.50
+- Document revision: 4.51
 - Last updated: 2026-09-18
 - Source of truth for: 已实现能力、已验证范围、明确未验证项与下一道门槛
 - Related ADRs: [ADR Index](decisions/README.md)
@@ -33,7 +33,7 @@
 
 2026-09-16 Browser Agent 当前日本餐厅只读切片完成真实闭环：复用既有观察器、LLM 决策、受控 Playwright 和来源核验，未接入 Stagehand/browser-use/Midscene 生产依赖。Tabelog 被动库存响应与店铺/日期/人数绑定，修复跨分店查询；TableCheck 非标准下拉、已选状态、TIME 范围及完整禁用时段识别已验证。复杂套餐/取消规则跨页留源，条件修订废弃旧库存。实际 Web 两店比较及修改日期/人数均 PRESENT_RESULTS、刷新恢复；首次八芳 3 时段、Maru 未确认，修订后 Maru 5 时段、八芳许可窗口内无位。限定商户不再扩展调查其他店；Web 新任务隔离、仅展示实际调查商户、过期库存提示已补齐。详见[最终复核与明确限制](history/BROWSER-AGENT-FINAL-REVIEW-2026-09-16.md)。
 
-当前版本：Browser action Prompt@4 / wire@3，Semantic Prompt@18，Restaurant Agent Decision Prompt@14，Restaurant Fact Judgment Prompt@2，独立 diagnostic evaluator/rubric@16。当前工作树完整本地套件 437/437、类型/架构/构建通过；历史真实 Chromium 验证仍仅证明其各自记录的范围。原始 Web 执行不改写，修复导出后从相同事件重新形成独立复核输入；Web 浏览器调用总数仍缺失，RESOURCES 为 NOT_EVALUATED。跨语言地址识别现有离线反例，但尚无其修复后的真实来源复验；既有 semantic regression@3 未通过，不能宣称语义或任意网站全面完成。完整地图语义、其他类别网站和真实预约写入仍属 P5；本轮无预约提交或外部写入，当前后续修复已本地提交、尚未推送。
+当前版本：Browser action Prompt@4 / wire@3，Semantic Prompt@18，Restaurant Agent Decision Prompt@14，Restaurant Fact Judgment Prompt@2，独立 diagnostic evaluator/rubric@16。当前工作树完整本地套件 437/437、类型/架构/构建通过；历史真实 Chromium 验证仍仅证明其各自记录的范围。原始 Web 执行不改写，修复导出后从相同事件重新形成独立复核输入；Web 浏览器调用总数仍缺失，RESOURCES 为 NOT_EVALUATED。跨语言地址识别现有离线反例，但尚无其修复后的真实来源复验；既有 semantic regression@3 未通过，不能宣称语义或任意网站全面完成。完整地图语义、其他类别网站和真实预约写入仍属 P5；本轮无预约提交或外部写入，后续修复已仅推送至当前 `codex/feat-live-restaurant-read-path` 分支。
 
 2026-09-17 H001–H005 各一次 Hybrid Live Read-only 的新基线保存在`.eval-artifacts/restaurant-hybrid-live-read/`，每例的原始执行和 evaluator@15 sidecar 分离保存。H001在218288ms内调查10家后`NO_VERIFIED_RESULT`；H002正确因缺人数`WAITING_USER`；H003、H005分别在300009ms/300018ms到达预算并取消；H004为事实型推荐，7.4秒展示7家。它们不是5/5用户目标完成，也没有发现共享`INFRA_BLOCKER`。诊断确认正向HARD的派生判断此前只处理NEGATIVE：已将可引用、同候选具体类型事实的正向判断补入`MODEL_JUDGMENT`（Prompt@2），资料不足、宽泛类型、无引文或正向`CONFLICT`仍为UNKNOWN。固定来源反例、完整本地371/371、typecheck、arch和build通过；但唯一H003修复后Live因本次Semantic将所有条件都判SOFT而直接走availability，随后TableCheck`REQUEST_SELECTION_UNCONFIRMED`/Tabelog`BROWSER_TIMEOUT`而`EXECUTION_FAILURE`，没有实际到达新增的正向判断路径。因此不进入五例修复后回归、不宣称Live改善；人数推断/HARD-SOFT以及预约来源故障留待下一小循环。无预约、外部写、Gold/Holdout修改、commit或push。
 
