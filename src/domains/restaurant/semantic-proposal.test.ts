@@ -29,6 +29,27 @@ test("Semantic Proposal Contract accepts stable slots and open criteria without 
   assert.equal(valid.valid, true);
 });
 
+test("Semantic Proposal Contract carries an explicit open-ended recommendation count but rejects it for a named outlet", () => {
+  const openEnded = validateRestaurantSemanticProposal({
+    schemaVersion: "3",
+    facts: [{
+      field: "TARGET", operation: "ASSERT",
+      value: { kind: "TARGET", goal: "RECOMMENDATION", query: "restaurants near Shibuya", selectionScope: "OPEN_ENDED", requestedResultCount: 5 },
+    }],
+  });
+  assert.equal(openEnded.valid, true);
+
+  const invalidNamedCount = validateRestaurantSemanticProposal({
+    schemaVersion: "3",
+    facts: [{
+      field: "TARGET", operation: "ASSERT",
+      value: { kind: "TARGET", goal: "RECOMMENDATION", query: "Sushi A", selectionScope: "SPECIFIC_OUTLET", requestedResultCount: 2 },
+    }],
+  });
+  assert.equal(invalidNamedCount.valid, false);
+  if (!invalidNamedCount.valid) assert.match(invalidNamedCount.errors.join(" "), /must match TARGET/);
+});
+
 test("Semantic Proposal Contract rejects internal protocols and invalid operation/value combinations", () => {
   const invalid = validateRestaurantSemanticProposal({
     schemaVersion: "3",

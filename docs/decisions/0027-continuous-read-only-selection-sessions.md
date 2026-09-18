@@ -1,7 +1,7 @@
 # ADR-0027: Continuous read-only selection sessions
 
 - Status: Accepted
-- Document revision: 1.0
+- Document revision: 1.1
 - Last updated: 2026-09-18
 - Source of truth for: Restaurant result-batch continuation, delivery history and discovery cursors
 - Related documents: [ADR-0014](0014-search-only-results-completion.md), [Restaurant Booking Domain](../domains/RESTAURANT-BOOKING.md), [Interfaces and Schemas](../architecture/INTERFACES-AND-SCHEMAS.md)
@@ -14,7 +14,7 @@ ADR-0014 correctly required current evidence before exposing a read-only result,
 
 `PRESENT_RESULTS` is a paused, user-continuable read-only selection session, not a Task terminal outcome. `RESULTS_PRESENTED` preserves a durable set of delivered and viewed candidate IDs and a user-managed shortlist. Local browsing and shortlisting are state-only events: they do not invoke a model, Google, a browser, or any booking path.
 
-An explicit next-batch request first presents three already grounded, unshown candidates without a new read. If fewer than three remain, it records a bounded replenishment target and re-enters the existing single Agent loop. The Agent may use only normal legal actions; the Router binds an intent-matching Google continuation cursor. A replenished result batch must contain exactly the requested number of previously unshown, evidence-grounded candidates. An exhausted or mismatched cursor cannot be restarted by changing a retrieval hint.
+For an explicitly classified open-ended recommendation, the first batch has a default target of three qualified distinct candidates; an explicit user count replaces that default. A named/specific-outlet target and legacy unclassified target are not expanded mechanically. An explicit next-batch request likewise first presents three already grounded, unshown candidates without a new read. If either target is not yet met, it records a bounded replenishment target and re-enters the existing single Agent loop. The Agent may use only normal legal actions; the Router binds an intent-matching Google continuation cursor. A smaller batch is permitted only after discovery and eligible fact/availability reads are unavailable, and is durably marked unmet rather than silently treated as complete. An exhausted or mismatched cursor cannot be restarted by changing a retrieval hint.
 
 Selection feedback such as "too expensive" is retained verbatim for a later Agent comparison. It is neither source evidence nor an inferred numeric budget or changed authoritative condition. Explicit condition edits remain the Semantic Interpreter → Compiler → Reducer path and conservatively invalidate request-bound discovery and availability evidence; shortlist IDs survive only as recheckable user memory.
 

@@ -82,6 +82,49 @@ test("A fact-only cafe request can present opening-hours-grounded results and ma
   assert.deepEqual(validateRestaurantAction(state, { type: "PRESENT_RESULTS", candidateIds: [candidateId] }, now), { status: "ALLOWED" });
 });
 
+test("an open-ended result target rejects an early partial batch but records a source-limited shortfall", () => {
+  const candidateId = "only-grounded-cafe";
+  const draft = applyRestaurantIntentPatch(undefined, {
+    schemaVersion: "3",
+    target: { goal: "RECOMMENDATION", query: "recommend cafes", selectionScope: "OPEN_ENDED" },
+    area: { query: "Shibuya" },
+    addCriteria: [{ text: "cafe", polarity: "POSITIVE", strength: "HARD" }],
+  });
+  const base: RestaurantTaskState = {
+    ...incompleteState,
+    phase: "SEARCHING",
+    intentDraft: draft,
+    pendingResultBatchTarget: 3,
+    candidates: [{ restaurant: { id: candidateId, outletName: "Only Grounded Cafe", sourceIds: { googlePlaces: "place-only" }, address: "Shibuya, Tokyo", provenance: {} }, matchReasons: [], warnings: [], executionConfidence: "HIGH" }],
+    readEvidence: [
+      { evidenceId: "area", kind: "DISCOVERY", provider: "GOOGLE_PLACES", candidateId, sourceEntityId: "place-only", observedAt: now, requestFingerprint: "request", claims: { areaQuery: "Shibuya", areaMatch: true } },
+      { evidenceId: "identity", kind: "ENTITY_MATCH", provider: "GOOGLE_PLACES", candidateId, sourceEntityId: "place-only", observedAt: now, requestFingerprint: "request", claims: {}, entityMatch: { confidence: "HIGH", matchedBy: ["GOOGLE_PLACE_ID"] } },
+      { evidenceId: "facts", kind: "RESTAURANT_FACT", provider: "GOOGLE_PLACES", candidateId, sourceEntityId: "place-only", observedAt: now, requestFingerprint: "request", claims: { verifiedHardCriteria: ["cafe"] } },
+    ],
+  };
+  const early = validateRestaurantAction({ ...base, searchContinuation: { intentFingerprint: "request", usedPageTokens: [], pagesRead: 1, exhausted: false } }, { type: "PRESENT_RESULTS", candidateIds: [candidateId] }, now);
+  assert.deepEqual(early, {
+    status: "REJECTED", code: "PRESENTATION_EVIDENCE_MISSING",
+    reason: "The requested next batch requires 3 distinct qualified restaurants before it can be presented",
+  });
+
+  const exhausted = validateRestaurantAction({
+    ...base,
+    sourceReadState: { googlePlacesSearchBudget: "EXHAUSTED" },
+    searchContinuation: { intentFingerprint: "request", usedPageTokens: [], pagesRead: 1, exhausted: true },
+  }, { type: "PRESENT_RESULTS", candidateIds: [candidateId] }, now);
+  assert.deepEqual(exhausted, { status: "ALLOWED" });
+
+  const transitioned = restaurantBookingTaskDefinition.transition({
+    ...base,
+    sourceReadState: { googlePlacesSearchBudget: "EXHAUSTED" },
+    searchContinuation: { intentFingerprint: "request", usedPageTokens: [], pagesRead: 1, exhausted: true },
+  }, {
+    type: "RESULTS_PRESENTED", candidateIds: [candidateId], evidenceIds: base.readEvidence.map((item) => item.evidenceId),
+  }, { taskId: "task", runId: "run", now, createId: (prefix) => prefix });
+  assert.deepEqual(transitioned.state.selectionSession?.resultBatchTarget, { candidateCount: 3, met: false });
+});
+
 test("an unscheduled recommendation can present place facts without inventing opening hours", () => {
   const candidateId = "cafe-unscheduled";
   const draft = applyRestaurantIntentPatch(undefined, {

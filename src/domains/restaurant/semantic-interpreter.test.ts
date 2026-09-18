@@ -5,6 +5,7 @@ import type { ModelGateway, ModelRequest, ModelResponse } from "../../core/model
 import { RESTAURANT_SEMANTIC_REQUEST_TIMEOUT_MS, RestaurantSemanticInterpreter } from "./semantic-interpreter.js";
 import { RESTAURANT_SEMANTIC_PROPOSAL_JSON_SCHEMA } from "./semantic-proposal.js";
 import { compileRestaurantSemanticProposal } from "./semantic-compiler.js";
+import { applyRestaurantIntentPatch } from "./intent-state.js";
 
 class QueuedGateway implements ModelGateway {
   readonly calls: ModelRequest[] = [];
@@ -64,7 +65,7 @@ test("Semantic Interpreter sends the proposal schema and separates user data fro
   assert.equal(gateway.calls.length, 1);
   const request = gateway.calls[0]!;
   assert.equal(request.purpose, "restaurant_semantic_interpret");
-  assert.equal(request.promptVersion, "v14");
+  assert.equal(request.promptVersion, "v15");
   assert.deepEqual(request.outputSchema, {
     name: "restaurant-semantic-proposal",
     version: "3",
@@ -86,6 +87,24 @@ test("Semantic Interpreter sends the proposal schema and separates user data fro
     request.messages[1]!.content,
     'User restaurant message as JSON string: "Make it three."',
   );
+});
+
+test("Semantic Interpreter preserves an existing target scope in its bounded model context", async () => {
+  const gateway = new QueuedGateway([response(JSON.stringify({ schemaVersion: "3", facts: [] }))]);
+  const result = await new RestaurantSemanticInterpreter(gateway).interpret({
+    taskId: "target-context",
+    message: "Keep the same request.",
+    referenceTime: "2026-09-18T09:00:00+09:00",
+    timezone: "Asia/Tokyo",
+    currentDraft: {
+      schemaVersion: "3", timezone: "Asia/Tokyo", criteria: [],
+      target: { goal: "RECOMMENDATION", query: "restaurants in Shibuya", selectionScope: "OPEN_ENDED", requestedResultCount: 5 },
+    },
+  });
+  assert.equal(result.status, "PROPOSED");
+  assert.ok(gateway.calls[0]?.messages[0]?.content.includes(JSON.stringify({
+    target: { goal: "RECOMMENDATION", query: "restaurants in Shibuya", selectionScope: "OPEN_ENDED", requestedResultCount: 5 },
+  })));
 });
 
 test("Semantic Interpreter rejects a structurally valid-looking state patch", async () => {
@@ -136,5 +155,39 @@ test("closed-party and open-group proposals stay distinct through the semantic b
   assert.equal(open.status, "PROPOSED");
   if (open.status === "PROPOSED") {
     assert.deepEqual(compileRestaurantSemanticProposal(open.proposal), { status: "COMPILED", patch: { schemaVersion: "3" } });
+  }
+});
+
+test("party-size transport preserves an enumerated or explicit count and never supplies one for an open or generic request", async () => {
+  // The gateway replies are controlled contract fixtures, not an evaluation of
+  // a paid model's language understanding. They prove that the Interpreter →
+  // Compiler → Draft path neither drops a declared count nor invents one.
+  const cases = [
+    { id: "enumerated", message: "Dinner with Mei, Ken, and me in Ginza.", facts: [{ field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 3 } }], expected: 3, currentPartySize: undefined },
+    { id: "explicit-override", message: "Make it four people.", facts: [{ field: "PARTY_SIZE", operation: "CORRECT", value: { kind: "PARTY_SIZE", value: 4 } }], expected: 4, currentPartySize: 2 },
+    { id: "open-group", message: "Find somewhere for friends and whoever else joins.", facts: [], expected: undefined, currentPartySize: undefined },
+    { id: "extra-attendee", message: "Dinner with my partner and possibly colleagues.", facts: [], expected: undefined, currentPartySize: undefined },
+    { id: "generic-date", message: "Recommend a romantic dinner for Friday.", facts: [], expected: undefined, currentPartySize: undefined },
+  ] as const;
+
+  for (const item of cases) {
+    const gateway = new QueuedGateway([response(JSON.stringify({ schemaVersion: "3", facts: item.facts }))]);
+    const result = await new RestaurantSemanticInterpreter(gateway).interpret({
+      taskId: item.id,
+      message: item.message,
+      referenceTime: "2026-09-18T09:00:00+09:00",
+      timezone: "Asia/Tokyo",
+      ...(item.currentPartySize ? { currentDraft: { schemaVersion: "3", timezone: "Asia/Tokyo", partySize: item.currentPartySize, criteria: [] } } : {}),
+    });
+    assert.equal(result.status, "PROPOSED", item.id);
+    if (result.status !== "PROPOSED") continue;
+    const compiled = compileRestaurantSemanticProposal(result.proposal);
+    assert.equal(compiled.status, "COMPILED", item.id);
+    if (compiled.status !== "COMPILED") continue;
+    const draft = applyRestaurantIntentPatch(
+      item.currentPartySize ? { schemaVersion: "3", timezone: "Asia/Tokyo", partySize: item.currentPartySize, criteria: [] } : undefined,
+      compiled.patch,
+    );
+    assert.equal(draft.partySize, item.expected, item.id);
   }
 });

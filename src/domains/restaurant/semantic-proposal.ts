@@ -1,11 +1,11 @@
 import {
   RESTAURANT_CRITERION_POLARITIES,
   RESTAURANT_CRITERION_STRENGTHS,
-  type RestaurantCriterion, type RestaurantReadGoal,
+  type RestaurantCriterion, type RestaurantReadGoal, type RestaurantSelectionScope,
 } from "./contracts.js";
 
 export const RESTAURANT_SEMANTIC_PROPOSAL_PURPOSE = "restaurant_semantic_interpret";
-export const RESTAURANT_SEMANTIC_PROPOSAL_PROMPT_VERSION = "v14";
+export const RESTAURANT_SEMANTIC_PROPOSAL_PROMPT_VERSION = "v15";
 export const RESTAURANT_SEMANTIC_PROPOSAL_SCHEMA = {
   name: "restaurant-semantic-proposal",
   version: "3",
@@ -33,7 +33,7 @@ export const RESTAURANT_SEMANTIC_OPERATIONS = [
 export type RestaurantSemanticOperation = (typeof RESTAURANT_SEMANTIC_OPERATIONS)[number];
 
 export type RestaurantSemanticValue =
-  | { kind: "TARGET"; goal: RestaurantReadGoal; query: string }
+  | { kind: "TARGET"; goal: RestaurantReadGoal; query: string; selectionScope?: RestaurantSelectionScope; requestedResultCount?: number }
   // Explicit calendar/clock values are copied from the user. Relative terms
   // remain semantic directives; the compiler materializes them against its
   // trusted Tokyo reference time.
@@ -121,7 +121,11 @@ function valueSchema(field: RestaurantSemanticField): Record<string, unknown> {
     case "TARGET":
       // The strict transport does not support minLength. The local Domain
       // validator below remains authoritative for non-blank strings.
-      return strictObject({ kind, goal: { type: "string", enum: ["RECOMMENDATION", "AVAILABILITY"] }, query: { type: "string" } });
+      return { anyOf: [
+        strictObject({ kind, goal: { type: "string", enum: ["RECOMMENDATION", "AVAILABILITY"] }, query: { type: "string" } }),
+        strictObject({ kind, goal: { type: "string", enum: ["RECOMMENDATION", "AVAILABILITY"] }, query: { type: "string" }, selectionScope: { type: "string", enum: ["OPEN_ENDED", "SPECIFIC_OUTLET"] } }),
+        strictObject({ kind, goal: { type: "string", enum: ["RECOMMENDATION"] }, query: { type: "string" }, selectionScope: { type: "string", enum: ["OPEN_ENDED"] }, requestedResultCount: { type: "integer", minimum: 1, maximum: 10 } }),
+      ] };
     case "AREA":
       return strictObject({ kind, query: { type: "string" } });
     case "DATE":
@@ -203,9 +207,10 @@ function valueMatchesField(field: RestaurantSemanticField, value: unknown): bool
   if (!isRecord(value) || typeof value.kind !== "string" || value.kind !== field) return false;
   switch (field) {
     case "TARGET":
-      return hasOnlyKeys(value, ["kind", "goal", "query"]) &&
-        (value.goal === "RECOMMENDATION" || value.goal === "AVAILABILITY") &&
-        isNonBlankString(value.query);
+      return (hasOnlyKeys(value, ["kind", "goal", "query"]) ||
+        (hasOnlyKeys(value, ["kind", "goal", "query", "selectionScope"]) && (value.selectionScope === "OPEN_ENDED" || value.selectionScope === "SPECIFIC_OUTLET")) ||
+        (hasOnlyKeys(value, ["kind", "goal", "query", "selectionScope", "requestedResultCount"]) && value.goal === "RECOMMENDATION" && value.selectionScope === "OPEN_ENDED" && Number.isSafeInteger(value.requestedResultCount) && (value.requestedResultCount as number) >= 1 && (value.requestedResultCount as number) <= 10)) &&
+        (value.goal === "RECOMMENDATION" || value.goal === "AVAILABILITY") && isNonBlankString(value.query);
     case "AREA":
       return hasOnlyKeys(value, ["kind", "query"]) && isNonBlankString(value.query);
     case "DATE":

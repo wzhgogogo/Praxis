@@ -92,6 +92,13 @@ function requireCompleteSearchIntent(state: Readonly<RestaurantTaskState>):
     : { valid: false, verdict: rejected("INTENT_INCOMPLETE", "Restaurant search intent is missing required fields") };
 }
 
+/** A short result batch is truthful only after every ordinary bounded read is unavailable. */
+function resultTargetCannotBeMetWithFurtherRead(state: Readonly<RestaurantTaskState>, now: string): boolean {
+  const assessment = assessRestaurantRead(state, now);
+  const discoveryAvailable = state.sourceReadState?.googlePlacesSearchBudget !== "EXHAUSTED" && state.searchContinuation?.exhausted !== true;
+  return !discoveryAvailable && assessment.factInvestigableCandidateIds.length === 0 && assessment.checkableCandidateIds.length === 0;
+}
+
 /** Domain-owned invariant guard. It never chooses an action and never invokes a provider. */
 export function validateRestaurantAction(
   state: Readonly<RestaurantTaskState>,
@@ -190,7 +197,10 @@ export function validateRestaurantAction(
       return rejected("CANDIDATE_UNKNOWN", "Presenting results requires one or more unique known candidate IDs");
     }
     if (state.pendingResultBatchTarget !== undefined) {
-      if (action.candidateIds.length !== state.pendingResultBatchTarget) {
+      if (action.candidateIds.length > state.pendingResultBatchTarget) {
+        return rejected("PRESENTATION_EVIDENCE_MISSING", `The current result target allows at most ${state.pendingResultBatchTarget} qualified restaurants`);
+      }
+      if (action.candidateIds.length < state.pendingResultBatchTarget && !resultTargetCannotBeMetWithFurtherRead(state, now)) {
         return rejected("PRESENTATION_EVIDENCE_MISSING", `The requested next batch requires ${state.pendingResultBatchTarget} distinct qualified restaurants before it can be presented`);
       }
       const delivered = new Set(state.selectionSession?.deliveredCandidateIds ?? []);

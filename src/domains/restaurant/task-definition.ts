@@ -60,6 +60,7 @@ function resetForSemanticUpdate(
     failure: _failure,
     refreshRequestedCandidateIds: _refreshRequestedCandidateIds,
     factRefreshRequestedCandidateIds: _factRefreshRequestedCandidateIds,
+    pendingResultBatchTarget: _pendingResultBatchTarget,
     sourceReadState: _sourceReadState,
     searchContinuation: _searchContinuation,
     ...remaining
@@ -90,6 +91,18 @@ function resetForSemanticUpdate(
 
 function sameSearchIntent(left: RestaurantTaskState["intent"], right: RestaurantTaskState["intent"]): boolean {
   return JSON.stringify(left) === JSON.stringify(right);
+}
+
+/**
+ * A result target is a semantic request property, not a UI pagination cap.
+ * Legacy saved targets intentionally have no inferred scope, so they retain
+ * their original one-or-more-result behavior instead of being silently
+ * expanded to three results.
+ */
+function requestedResultBatchTarget(intent: RestaurantTaskState["intent"]): number | undefined {
+  const target = intent?.target;
+  if (target?.goal !== "RECOMMENDATION" || target.selectionScope !== "OPEN_ENDED") return undefined;
+  return target.requestedResultCount ?? 3;
 }
 
 function mergeCandidates(
@@ -355,6 +368,8 @@ function transition(
           ...remaining
         } = state;
       const isContinuation = sameSearchIntent(state.intent, event.request.intent);
+      const pendingResultBatchTarget = state.pendingResultBatchTarget
+        ?? (isContinuation ? undefined : requestedResultBatchTarget(event.request.intent));
       return {
         state: {
           ...remaining,
@@ -367,6 +382,7 @@ function transition(
           readEvidence: isContinuation ? mergeEvidence(state.readEvidence, event.evidence) : event.evidence.map((item) => structuredClone(item)),
           searchContinuation: structuredClone(searchContinuation),
           searchRevision: state.searchRevision + 1,
+          ...(pendingResultBatchTarget !== undefined ? { pendingResultBatchTarget } : {}),
         },
         commands: [],
       };
@@ -566,6 +582,9 @@ function transition(
         throw new Error("Results presentation must reference current authoritative evidence");
       }
       const { pendingResultBatchTarget: _pendingResultBatchTarget, ...remaining } = state;
+      const resultBatchTarget = state.pendingResultBatchTarget === undefined
+        ? undefined
+        : { candidateCount: state.pendingResultBatchTarget, met: event.candidateIds.length === state.pendingResultBatchTarget };
       return {
         state: {
           ...remaining,
@@ -576,6 +595,7 @@ function transition(
             viewedCandidateIds: [...(state.selectionSession?.viewedCandidateIds ?? [])],
             shortlistCandidateIds: [...(state.selectionSession?.shortlistCandidateIds ?? [])],
             ...(state.selectionSession?.feedback?.length ? { feedback: [...state.selectionSession.feedback] } : {}),
+            ...(resultBatchTarget ? { resultBatchTarget } : {}),
           },
         },
         commands: [],
@@ -609,6 +629,7 @@ function transition(
             viewedCandidateIds: [...new Set([...(state.selectionSession?.viewedCandidateIds ?? []), event.candidateId])],
             shortlistCandidateIds: [...(state.selectionSession?.shortlistCandidateIds ?? [])],
             ...(state.selectionSession?.feedback?.length ? { feedback: [...state.selectionSession.feedback] } : {}),
+            ...(state.selectionSession?.resultBatchTarget ? { resultBatchTarget: structuredClone(state.selectionSession.resultBatchTarget) } : {}),
           },
         },
         commands: [],
@@ -631,6 +652,7 @@ function transition(
             viewedCandidateIds: [...(state.selectionSession?.viewedCandidateIds ?? [])],
             shortlistCandidateIds,
             ...(state.selectionSession?.feedback?.length ? { feedback: [...state.selectionSession.feedback] } : {}),
+            ...(state.selectionSession?.resultBatchTarget ? { resultBatchTarget: structuredClone(state.selectionSession.resultBatchTarget) } : {}),
           },
         },
         commands: [],
@@ -648,6 +670,7 @@ function transition(
             viewedCandidateIds: [...(state.selectionSession?.viewedCandidateIds ?? [])],
             shortlistCandidateIds: [...(state.selectionSession?.shortlistCandidateIds ?? [])],
             feedback: [...new Set([...(state.selectionSession?.feedback ?? []), feedback])],
+            ...(state.selectionSession?.resultBatchTarget ? { resultBatchTarget: structuredClone(state.selectionSession.resultBatchTarget) } : {}),
           },
         },
         commands: [],

@@ -106,6 +106,8 @@ export interface RestaurantCaseView {
     viewedCandidateIds?: string[];
     shortlistCandidateIds?: string[];
     selectionFeedback?: string[];
+    /** The last explicit recommendation target and whether source limits prevented meeting it. */
+    resultBatchTarget?: { candidateCount: number; met: boolean };
     selectedCandidateId?: string;
   };
   artifacts: AgentArtifact[];

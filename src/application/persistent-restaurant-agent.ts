@@ -81,7 +81,7 @@ function isAnotherBatchMessage(message: string): boolean {
 /** Preference-only feedback must not be routed through semantic condition edits. */
 function selectionFeedback(message: string): string | undefined {
   const trimmed = message.trim();
-  return /^(?:too\s+(?:expensive|pricey)|太贵了?|太貴です?)$/iu.test(trimmed) ? trimmed : undefined;
+  return /^(?:(?:(?:these|they|this(?:\s+one)?)\s+(?:are|is)\s+)?too\s+(?:expensive|pricey)|(?:这几家|这些)?太?贵了?|(?:これら|この店)?(?:は)?太貴です?)[.!。！]?$/iu.test(trimmed) ? trimmed : undefined;
 }
 
 function eventActivity(
@@ -922,6 +922,7 @@ export class PersistentRestaurantAgentApplication {
           viewedCandidateIds: [...state.selectionSession.viewedCandidateIds],
           shortlistCandidateIds: [...state.selectionSession.shortlistCandidateIds],
           ...(state.selectionSession.feedback?.length ? { selectionFeedback: [...state.selectionSession.feedback] } : {}),
+          ...(state.selectionSession.resultBatchTarget ? { resultBatchTarget: structuredClone(state.selectionSession.resultBatchTarget) } : {}),
         } : {}),
         ...(state.selectedCandidateId ? { selectedCandidateId: state.selectedCandidateId } : {}),
       },

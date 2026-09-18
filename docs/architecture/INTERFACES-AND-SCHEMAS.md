@@ -1,8 +1,8 @@
 # Interfaces and Schemas
 
 - Status: Accepted
-- Document revision: 2.9
-- Last updated: 2026-09-04
+- Document revision: 3.0
+- Last updated: 2026-09-18
 - Source of truth for: 公共接口、DTO、内部Tool、实现状态和版本规则
 - Related ADRs: [ADR Index](../decisions/README.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md)
 - Related documents: [Task Runtime](TASK-RUNTIME.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md)
@@ -20,9 +20,9 @@
 | Restaurant Intent、Discovery Candidate、Availability、Availability Check、Read Evidence、Event与Command | `implemented: Fixture + Live Read contracts` | [`Restaurant contracts`](../../src/domains/restaurant/contracts.ts) |
 | Restaurant Semantic Interpreter / Proposal Contract | `implemented: Fixture product path` | ADR-0007职责链与ADR-0009的开放`criteria` / `HARD` / `SOFT`强度已替换产品的Fixture Intent Parser路径；真实模型仍只在评测中使用 |
 | Restaurant Semantic Compiler | `implemented: Restaurant product path` | 纯确定性Proposal → `RestaurantIntentPatch` → Domain Event翻译；不建立Core通用Compiler |
-| Restaurant Agent Context / Action / Capability / Decision | `implemented: Fixture product and Live Read slice` | `restaurant-agent-context@2`只投影可决策字段及Availability的业务状态，不含Provider/Browser详情；单一Agent提出五种业务动作，Search只可带retrieval hint、Availability只可带candidate IDs，Router绑定权威请求参数 |
+| Restaurant Agent Context / Action / Capability / Decision | `implemented: Fixture product and Live Read slice` | `restaurant-agent-context@7`只投影可决策字段及Availability的业务状态、完整候选池摘要及有界结果批次目标，不含Provider/Browser详情；单一Agent提出五种业务动作，Search只可带retrieval hint、Availability只可带candidate IDs，Router绑定权威请求参数 |
 | Restaurant Action Validator | `implemented: ADR-0011` | 仅允许、拒绝或要求Authorization；不选择下一步，不调用Tool |
-| Restaurant Agent Trajectory | `implemented: Restaurant-specific PostgreSQL + Mock artifact` | `restaurant-agent-trajectory@5`保存模型实际收到的脱敏`restaurant-agent-context@2`和`contextSchemaVersion`，并关联state/action/verdict/route/执行元数据/observation、Proposal ID及Event/Command/Attempt/Evidence causal refs；不保存raw prompt或Chain-of-Thought |
+| Restaurant Agent Trajectory | `implemented: Restaurant-specific PostgreSQL + Mock artifact` | `restaurant-agent-trajectory@5`保存模型实际收到的脱敏`restaurant-agent-context@7`和`contextSchemaVersion`，并关联state/action/verdict/route/执行元数据/observation、Proposal ID及Event/Command/Attempt/Evidence causal refs；不保存raw prompt或Chain-of-Thought |
 | `NEED_REINTERPRETATION` | `implemented: reserved safe decision` | 记录语义冲突并询问用户；不自动重解释或改State |
 | Restaurant `BookingProofBundle`与Completion Verifier | `implemented: Mock vertical slice` | [`booking-verifier.ts`](../../src/domains/restaurant/booking-verifier.ts) |
 | Restaurant Harness Run Artifact | `implemented: mock only` | [`restaurant-harness.ts`](../../src/harness/restaurant-harness.ts) |

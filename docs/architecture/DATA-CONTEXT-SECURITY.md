@@ -114,7 +114,7 @@ Context Resolver按任务需要选择最小上下文，保留来源、版本和�
 
 前台Interaction Session可以读取有限近期Conversation与当前Case摘要。后台Trigger和Follow-up不得恢复完整Conversation；它们从最新Task Snapshot、必要Attempt/Authorization引用和最小Domain Context重建。Conversation中的模型解释、Working Plan和“已经完成”文本不能覆盖Task State或Outcome。
 
-Restaurant Agent Decision只接收Domain-owned的`restaurant-agent-context@2`，而不是完整Task State。该投影只包含当前Intent Draft、派生缺失字段、显示安全Candidate/Offer、选择、phase、稳定failure code和业务含义的Availability Check状态；Authorization、Proposal terms、Provider名、Browser运行时/引擎、URL、原始Provider输出、Execution Result、Evidence Artifact和Reservation不得进入模型输入。trajectory持久化模型实际看到的这份脱敏Context及其`contextSchemaVersion`，以及独立的执行元数据，以审计`Context → Action → Validation → Execution → Observation → State/Outcome`；不得持久化raw prompt或Chain-of-Thought。完整权威State仍只供Runtime、Action Validator、Router、Policy和Verifier使用。
+Restaurant Agent Decision只接收Domain-owned的`restaurant-agent-context@7`，而不是完整Task State。该投影只包含当前Intent Draft、派生缺失字段、显示安全的完整候选池摘要、选择、phase、稳定failure code、结果批次目标和业务含义的Availability Check状态；Authorization、Proposal terms、Provider名、Browser运行时/引擎、URL、原始Provider输出、Execution Result、Evidence Artifact和Reservation不得进入模型输入。trajectory持久化模型实际看到的这份脱敏Context及其`contextSchemaVersion`，以及独立的执行元数据，以审计`Context → Action → Validation → Execution → Observation → State/Outcome`；不得持久化raw prompt或Chain-of-Thought。完整权威State仍只供Runtime、Action Validator、Router、Policy和Verifier使用。
 
 发送给DeepSeek：用户需求、结构化约束、脱敏候选、必要页面标签和错误。默认不发送银行卡、密码、Cookie、验证码、完整联系方式或与任务无关的历史。
 

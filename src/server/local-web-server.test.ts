@@ -347,7 +347,7 @@ function selectionSessionModel(calls: { model: number }, supportsConditionRevisi
         return {
           invocationId: `selection-semantic:${calls.model}`, provider: "FIXTURE", model: "selection-session-fixture",
           outputText: JSON.stringify({ schemaVersion: "3", facts: [
-            { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "RECOMMENDATION", query: "restaurants" } },
+            { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "RECOMMENDATION", query: "restaurants", selectionScope: "OPEN_ENDED" } },
             { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "Shinjuku" } },
           ] }), finishReason: "TOOL_CALLS", latencyMs: 0,
         };
@@ -392,6 +392,7 @@ test("selection-session browse and shortlist use the persistent Web entry withou
       const created = await createCase(running.baseUrl, cookie, "selection-session", "Recommend restaurants in Shinjuku.");
       assert.equal(created.case.phase, "PRESENT_RESULTS");
       assert.deepEqual(created.restaurant.presentedCandidateIds, ["a", "b", "c"]);
+      assert.deepEqual(created.restaurant.resultBatchTarget, { candidateCount: 3, met: true });
       assert.deepEqual(calls, { model: 3, search: 1, facts: 0, availability: 0 });
       const viewed = await api(running.baseUrl, cookie, `/api/cases/${encodeURIComponent(created.case.caseId)}/browse-next`, {
         method: "POST", body: JSON.stringify({ requestId: "view-first", taskVersion: created.case.taskVersion }),
@@ -407,11 +408,11 @@ test("selection-session browse and shortlist use the persistent Web entry withou
       const shortlistCase = shortlisted.payload.view as RestaurantCaseView;
       assert.deepEqual(shortlistCase.restaurant.shortlistCandidateIds, ["a"]);
       const feedback = await api(running.baseUrl, cookie, `/api/conversations/${encodeURIComponent(created.conversation.id)}/messages`, {
-        method: "POST", body: JSON.stringify({ requestId: "price-feedback", taskVersion: shortlistCase.case.taskVersion, message: "too expensive" }),
+        method: "POST", body: JSON.stringify({ requestId: "price-feedback", taskVersion: shortlistCase.case.taskVersion, message: "These are too expensive" }),
       });
       assert.equal(feedback.response.status, 200, String(feedback.payload.error));
       const feedbackCase = feedback.payload.view as RestaurantCaseView;
-      assert.deepEqual(feedbackCase.restaurant.selectionFeedback, ["too expensive"]);
+      assert.deepEqual(feedbackCase.restaurant.selectionFeedback, ["These are too expensive"]);
       assert.equal(feedbackCase.activities.at(-1)?.type, "SELECTION_FEEDBACK_RECORDED");
       const another = await api(running.baseUrl, cookie, `/api/cases/${encodeURIComponent(created.case.caseId)}/another-batch`, {
         method: "POST", body: JSON.stringify({ requestId: "another-batch", taskVersion: feedbackCase.case.taskVersion }),

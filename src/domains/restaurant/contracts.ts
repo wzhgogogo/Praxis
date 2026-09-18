@@ -14,7 +14,16 @@ export type RestaurantBlockingField = (typeof RESTAURANT_BLOCKING_FIELDS)[number
 /** The desired outcome controls required evidence; party size only parameterizes availability. */
 export const RESTAURANT_READ_GOALS = ["RECOMMENDATION", "AVAILABILITY"] as const;
 export type RestaurantReadGoal = (typeof RESTAURANT_READ_GOALS)[number];
-export interface RestaurantTarget { goal: RestaurantReadGoal; query: string; }
+export const RESTAURANT_SELECTION_SCOPES = ["OPEN_ENDED", "SPECIFIC_OUTLET"] as const;
+export type RestaurantSelectionScope = (typeof RESTAURANT_SELECTION_SCOPES)[number];
+export interface RestaurantTarget {
+  goal: RestaurantReadGoal;
+  query: string;
+  /** Explicit semantic classification; omitted legacy proposals do not guess a scope. */
+  selectionScope?: RestaurantSelectionScope;
+  /** A user-requested display count, meaningful only for an open-ended recommendation. */
+  requestedResultCount?: number;
+}
 
 /** Coordinates enter the authority path only from the named trusted source. */
 export interface RestaurantAreaCoordinates {
@@ -499,6 +508,8 @@ export interface RestaurantTaskState {
     shortlistCandidateIds: string[];
     /** User preference feedback; it is neither evidence nor an inferred constraint. */
     feedback?: string[];
+    /** Records whether the last open-ended batch met its explicit result target. */
+    resultBatchTarget?: { candidateCount: number; met: boolean };
   };
   /** An explicit request for another same-condition batch; it never changes intent. */
   pendingResultBatchTarget?: number;

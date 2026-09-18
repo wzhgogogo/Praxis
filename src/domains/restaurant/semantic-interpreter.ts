@@ -114,7 +114,14 @@ function toAttempt(response: ModelResponse): RestaurantSemanticModelAttempt {
 function modelContext(draft: RestaurantIntentDraft | undefined): Record<string, unknown> {
   if (!draft) return {};
   return {
-    ...(draft.target ? { target: { goal: draft.target.goal, query: draft.target.query } } : {}),
+    ...(draft.target ? {
+      target: {
+        goal: draft.target.goal,
+        query: draft.target.query,
+        ...(draft.target.selectionScope ? { selectionScope: draft.target.selectionScope } : {}),
+        ...(draft.target.requestedResultCount !== undefined ? { requestedResultCount: draft.target.requestedResultCount } : {}),
+      },
+    } : {}),
     ...(draft.date ? { date: draft.date } : {}),
     ...(draft.timeWindow ? { timeWindow: draft.timeWindow } : {}),
     ...(draft.partySize ? { partySize: draft.partySize } : {}),
@@ -208,6 +215,8 @@ is a short faithful summary of the requested outcome, including requested compar
 Use a named TARGET query only when the user clearly intends a particular restaurant as the specific restaurant being requested.
 
 A proper name, brand, chain, or restaurant-like phrase is not automatically a TARGET. If a named entity functions as a restaurant-selection condition or search constraint rather than the exact destination, represent that meaning as a CRITERION instead.
+
+For a new TARGET, emit selectionScope OPEN_ENDED when the user wants options or recommendations, and SPECIFIC_OUTLET only when they clearly want that particular outlet. Omit selectionScope only when the message itself leaves that distinction genuinely unresolved. If the user explicitly asks for a number of recommendations, emit requestedResultCount only with OPEN_ENDED; otherwise omit it. Never invent a requested count.
 
 ## CRITERIA
 

@@ -34,7 +34,7 @@ Restaurant Semantic Proposal Contract只验证这些表达的结构与Domain词�
 
 Reducer继续以`Old State + Event → New Authoritative State`维护权威事实。Restaurant Agent只能提出一个业务动作，Action Validator只允许、拒绝或要求Authorization；两者都不能写State或调用Provider。`NEED_REINTERPRETATION`继续是安全交互行为：不自动重新解释、覆盖State或触发Tool。
 
-模型只接收`restaurant-agent-context@2`投影：当前Intent Draft、派生缺失字段、展示安全Candidate/Offer、业务含义的`AVAILABLE` / `UNAVAILABLE` / `UNKNOWN` / `SOURCE_UNSUPPORTED` Check、选择、phase和failure code。Provider、Tabelog、浏览器引擎、URL、DOM和原始Evidence不进入模型Context。完整Task State中的Authorization、Proposal、Attempt、Provider执行结果、Evidence和Reservation继续只由Runtime、Policy、Router和Verifier读取。每个Decision trajectory保存模型实际看到的脱敏Context及其`contextSchemaVersion`，但不保存raw prompt或Chain-of-Thought。`BOOK_RESERVATION`的trajectory持久化其`proposalId`，用于和后续Authorization、Command、Attempt、Evidence与Outcome审计连接；它不使Agent拥有这些对象的写权或Outcome解释权。
+模型只接收`restaurant-agent-context@7`投影：当前Intent Draft、派生缺失字段、完整候选池的展示安全摘要、业务含义的`AVAILABLE` / `UNAVAILABLE` / `UNKNOWN` / `SOURCE_UNSUPPORTED` Check、选择、phase、failure code和有界结果批次目标。Provider、Tabelog、浏览器引擎、URL、DOM和原始Evidence不进入模型Context。完整Task State中的Authorization、Proposal、Attempt、Provider执行结果、Evidence和Reservation继续只由Runtime、Policy、Router和Verifier读取。每个Decision trajectory保存模型实际看到的脱敏Context及其`contextSchemaVersion`，但不保存raw prompt或Chain-of-Thought。`BOOK_RESERVATION`的trajectory持久化其`proposalId`，用于和后续Authorization、Command、Attempt、Evidence与Outcome审计连接；它不使Agent拥有这些对象的写权或Outcome解释权。
 
 `restaurant-state@7/@8/@9`的本地开发Task不迁移到当前`restaurant-state@10`。需要保留该类调试数据时先在外部备份；不再需要时只能用双重显式开关的本机开发重置命令删除，详见[Repository Conventions](../REPOSITORY-CONVENTIONS.md#migration与开发数据重置)。
 

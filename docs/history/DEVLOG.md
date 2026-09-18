@@ -9,6 +9,14 @@
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
+## 2026-09-18 Open-ended result target and party-boundary completion
+
+The continuous selection slice now distinguishes semantic target scope rather than treating every recommendation as a three-card UI cap. `OPEN_ENDED` recommendations carry a default result target of three qualified distinct restaurants, an explicitly requested count replaces it, and `SPECIFIC_OUTLET` or legacy unclassified targets retain their original behavior. The Reducer carries this target into the existing Agent Context; the Validator rejects a short batch while an ordinary cursor, fact, or availability read remains legal, and only records an unmet smaller batch after all such reads are unavailable. The target survives local browse, shortlist and feedback events, but a semantic condition revision clears it with the rest of request-bound investigation state.
+
+The Semantic Interpreter now retains existing target scope/count in its bounded context, so a later user revision cannot silently erase that classification. Its party transport contract has additional controlled cases for enumerated participants, explicit count correction, open groups, unknown extra attendees and a generic dated romantic recommendation; these tests prove the Proposal → Compiler → Draft path preserves a declared count and never adds one downstream. They do not claim that an external model will infer natural language correctly. The user-visible feedback recognizer accepts the bounded same-meaning phrase “These are too expensive” and Chinese/Japanese counterparts without converting it into a numeric budget.
+
+No Gold/Holdout, paid model, external source, booking or push occurred in this incremental offline change. The current loopback-enabled full suite is 432/432. Real-model scope classification, current Google results and Live continuation behavior remain separately authorized evidence gaps; original-researcher review remains pending.
+
 ## 2026-09-18 Continuous Restaurant selection session and Google pagination
 
 Google Text Search is now a real query-bound pagination path: an initial discovery obtains at most two 20-item pages, deduplicates stable outlet IDs and retains the next cursor; page-two failure preserves accepted page-one candidates and its retry cursor. Details requests keep `nextPageToken` out of their field mask. A cursor mismatching the authoritative intent, repeating a token, or reaching exhaustion cannot be reused by a retrieval hint.

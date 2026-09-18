@@ -43,6 +43,29 @@ test("Restaurant Semantic Compiler preserves the user delivery goal independentl
   });
 });
 
+test("Restaurant Semantic Compiler preserves explicit recommendation scope and count without inventing either", () => {
+  const result = compileRestaurantSemanticProposal({
+    schemaVersion: "3",
+    facts: [{
+      field: "TARGET", operation: "ASSERT",
+      value: { kind: "TARGET", goal: "RECOMMENDATION", query: "restaurants in Shibuya", selectionScope: "OPEN_ENDED", requestedResultCount: 5 },
+    }],
+  });
+  assert.deepEqual(result, {
+    status: "COMPILED",
+    patch: { schemaVersion: "3", target: { goal: "RECOMMENDATION", query: "restaurants in Shibuya", selectionScope: "OPEN_ENDED", requestedResultCount: 5 } },
+  });
+
+  const legacy = compileRestaurantSemanticProposal({
+    schemaVersion: "3",
+    facts: [{ field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "RECOMMENDATION", query: "restaurants" } }],
+  });
+  assert.deepEqual(legacy, {
+    status: "COMPILED",
+    patch: { schemaVersion: "3", target: { goal: "RECOMMENDATION", query: "restaurants" } },
+  });
+});
+
 test("Restaurant Semantic Compiler rejects singleton clear-and-set combinations independent of fact order", () => {
   const areaSet = {
     field: "AREA" as const,
