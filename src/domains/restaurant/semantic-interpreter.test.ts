@@ -4,6 +4,7 @@ import { test } from "node:test";
 import type { ModelGateway, ModelRequest, ModelResponse } from "../../core/model/contracts.js";
 import { RESTAURANT_SEMANTIC_REQUEST_TIMEOUT_MS, RestaurantSemanticInterpreter } from "./semantic-interpreter.js";
 import { RESTAURANT_SEMANTIC_PROPOSAL_JSON_SCHEMA } from "./semantic-proposal.js";
+import { compileRestaurantSemanticProposal } from "./semantic-compiler.js";
 
 class QueuedGateway implements ModelGateway {
   readonly calls: ModelRequest[] = [];
@@ -105,5 +106,35 @@ test("Semantic Interpreter rejects a structurally valid-looking state patch", as
   if (result.status === "INVALID_MODEL_OUTPUT") {
     assert.equal(result.attempts.length, 2);
     assert.match(result.errors.join(" "), /unsupported fields/);
+  }
+});
+
+test("closed-party and open-group proposals stay distinct through the semantic boundary and compiler", async () => {
+  // This is a transport/compiler contract, not a claim that a real model will
+  // infer either case correctly. Real-model quality remains a separately
+  // authorized evaluation concern.
+  const closedGateway = new QueuedGateway([response(JSON.stringify({
+    schemaVersion: "3",
+    facts: [{ field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } }],
+  }))]);
+  const closed = await new RestaurantSemanticInterpreter(closedGateway).interpret({
+    taskId: "closed-pair", message: "Dinner with my partner in Shibuya.", referenceTime: "2026-09-18T09:00:00+09:00", timezone: "Asia/Tokyo",
+  });
+  assert.equal(closed.status, "PROPOSED");
+  if (closed.status === "PROPOSED") {
+    assert.deepEqual(compileRestaurantSemanticProposal(closed.proposal), { status: "COMPILED", patch: { schemaVersion: "3", partySize: 2 } });
+  }
+  const prompt = closedGateway.calls[0]?.messages[0]?.content ?? "";
+  assert.match(prompt, /closed participant set/i);
+  assert.match(prompt, /open social group/i);
+  assert.match(prompt, /Do not substitute\s+an average or customary group size/i);
+
+  const openGateway = new QueuedGateway([response(JSON.stringify({ schemaVersion: "3", facts: [] }))]);
+  const open = await new RestaurantSemanticInterpreter(openGateway).interpret({
+    taskId: "open-group", message: "Find somewhere for a team dinner in Shibuya.", referenceTime: "2026-09-18T09:00:00+09:00", timezone: "Asia/Tokyo",
+  });
+  assert.equal(open.status, "PROPOSED");
+  if (open.status === "PROPOSED") {
+    assert.deepEqual(compileRestaurantSemanticProposal(open.proposal), { status: "COMPILED", patch: { schemaVersion: "3" } });
   }
 });
