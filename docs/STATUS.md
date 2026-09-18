@@ -1,7 +1,7 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.51
+- Document revision: 4.52
 - Last updated: 2026-09-18
 - Source of truth for: 已实现能力、已验证范围、明确未验证项与下一道门槛
 - Related ADRs: [ADR Index](decisions/README.md)
@@ -9,9 +9,13 @@
 
 ## 最新审查与当前门槛
 
+2026-09-18 H002–H005 语义链路定向修复（当前**未提交**候选）：以冻结失败快照`9cfbd4f`／Semantic Prompt@17与当前`cb35984`工作树为证据起点，H002原始 Proposal 与 Draft 均缺`PARTY_SIZE`，确认是 Interpreter 的真实模型遗漏而非 Compiler 丢失；H003的`team dinner`已在 Proposal 中降为 SOFT，Compiler 只是保留；H005原始资料恢复为`Tokyo regional cuisine`等措辞，a/c 的旧判断存在把地域主题过度确认成`local food`的风险，b 则资料不足。候选只作两项通用收窄：Semantic Prompt@19撤除`first date → 2`和`team dinner`专项文案，保留封闭参与者与改写不得反向改变强度的通用规则；Fact Judgment Prompt@3要求地域／regional cuisine 对 locality 条件具直接文本蕴含，否则为`UNKNOWN`。原始 artifact、Gold 和 evaluator sidecar 未改；H005受控组合现在如实完成来源和查位读取后为`NO_VERIFIED_RESULT`，注册验收为 FAIL，而非补造三家。
+
+同一固定八样本的 v17/v19 真实模型诊断已完成 **48 次成功语义调用**（每样本、每版本各三次，完整输入输出保存于[定向修复目录](../.eval-artifacts/restaurant-semantic-targeted-repair/)）：H002仍为0/3推断两人；H003全部四项强度从0/3到1/3，只属部分改善；封闭单数对方、开放参与者与显式人数三个对照保持3/3；两项额外强度／作用域对照仍为0/3。故不接受H002/H003为解决，也不继续叠加 Prompt 版本。H004另有[补充语义等价记录](../.eval-artifacts/restaurant-semantic-targeted-repair/h004-semantic-equivalence-supplement.json)：指定 SOFT 条件的措辞被本次对话接受为等价，但原自动`NOT_EVALUATED`及整例结论不回写。原定H005 v2/v3事实判断18调用**未运行**：48次语义调用已接近本轮50次上限，另一个重复启动进程已终止但没有result，实际调用数无法确定；未获新的明确额度前不再调用。无真实Google、网页、浏览器、预约或其他外部写入。本轮离线验收、完整门禁和原研究者 Review交接见最新测试记录；它们不替代真实来源或E2E验收。
+
 2026-09-18 固定来源真实模型回归（冻结提交`9cfbd4f`）：H001–H005各运行一次，来源环境为`SYNTHETIC_CONTROL`／离线固定传输，逐例上限为5分钟、50步、50模型调用；总计25模型调用／95,297 tokens／30,990ms、11次受控Google组合调用，未请求真实Google、真实网页、浏览器或外部写。H001在5,847ms、4模型调用中交付三家并通过独立evaluator@16及三家验收。H002在3,621ms的Proposal遗漏封闭first-date两人推断，正确停为`NEEDS_INPUT`而非伪称无位；H003虽展示三家，却把HARD `team dinner`改写为`suitable for a team dinner`，独立评价拒绝条件与证据；H004的SOFT同义改写被独立评价标为`NOT_EVALUATED`，不自动等同通过；H005在8,441ms仅展示两家，独立证据合格但三家目标`met:false`，故验收失败。五份执行artifact和evaluator sidecar保留于[固定来源模型目录](../.eval-artifacts/restaurant-fixed-source-model/)，不重跑或覆盖。
 
-该实测暴露后，Prompt@18将已接受的封闭first-date两人解释明确为可执行语义规则，并要求定义性活动保留紧凑原词，避免把`team dinner`擅改为“suitable for”条件；H005受控来源也补为每家均有明确`local food`来源文字。23项定向离线组合回归以及typecheck、arch:check、build、437/437默认测试均通过，但这些修复发生在五次真实模型运行之后，不能倒推其通过或宣称修复后的模型质量。下一门槛是原研究者审阅该次失败与离线修复；若其确认需要复测，必须登记新的、有界模型授权，不能把本轮的“一例一次”结果重写为成功。
+该实测之后曾有 Prompt@18／明确`local food` fixture 的局部候选；该候选现已被上方定向修复取代：撤去案例专用first-date／team-dinner措辞，原H005来源恢复为冻结字符串。该历史离线结果只能说明当时的本地契约，不能作为当前模型质量或原来源证据。下一门槛仍为原研究者审阅失败记录与本轮定向报告；任何事实判断或固定来源整链复测必须另行登记明确、有界的模型额度。
 
 2026-09-18 当前修正（ADR-0028）：`OPEN_ENDED`的首批三家目标现在同样适用于具体到访的`AVAILABILITY`，不再只限事实型`RECOMMENDATION`；显式数量对两种目标均有效，`SPECIFIC_OUTLET`与旧未分类目标仍不扩展。每家查位结果仍单独要求当前门店、日期、时间与人数的slot证据，不能用同店多时段或跨店证据补足数量。H001–H005固定来源环境各有三家独立候选；离线生产组合与独立验收会拒绝“只展示一家”的假成功。固定来源真实模型Runner可显式登记每例5分钟、50步、50模型调用的上限，尚未消费该额度。该证据只证明受控来源组合，不替代真实模型选择、实时Google/网页或库存。下一门槛是冻结代码后的五例真实模型＋固定来源诊断，再交原研究者Review，才进入一条有界多轮Live。
 
@@ -33,7 +37,7 @@
 
 2026-09-16 Browser Agent 当前日本餐厅只读切片完成真实闭环：复用既有观察器、LLM 决策、受控 Playwright 和来源核验，未接入 Stagehand/browser-use/Midscene 生产依赖。Tabelog 被动库存响应与店铺/日期/人数绑定，修复跨分店查询；TableCheck 非标准下拉、已选状态、TIME 范围及完整禁用时段识别已验证。复杂套餐/取消规则跨页留源，条件修订废弃旧库存。实际 Web 两店比较及修改日期/人数均 PRESENT_RESULTS、刷新恢复；首次八芳 3 时段、Maru 未确认，修订后 Maru 5 时段、八芳许可窗口内无位。限定商户不再扩展调查其他店；Web 新任务隔离、仅展示实际调查商户、过期库存提示已补齐。详见[最终复核与明确限制](history/BROWSER-AGENT-FINAL-REVIEW-2026-09-16.md)。
 
-当前版本：Browser action Prompt@4 / wire@3，Semantic Prompt@18，Restaurant Agent Decision Prompt@14，Restaurant Fact Judgment Prompt@2，独立 diagnostic evaluator/rubric@16。当前工作树完整本地套件 437/437、类型/架构/构建通过；历史真实 Chromium 验证仍仅证明其各自记录的范围。原始 Web 执行不改写，修复导出后从相同事件重新形成独立复核输入；Web 浏览器调用总数仍缺失，RESOURCES 为 NOT_EVALUATED。跨语言地址识别现有离线反例，但尚无其修复后的真实来源复验；既有 semantic regression@3 未通过，不能宣称语义或任意网站全面完成。完整地图语义、其他类别网站和真实预约写入仍属 P5；本轮无预约提交或外部写入，后续修复已仅推送至当前 `codex/feat-live-restaurant-read-path` 分支。
+当前版本：Browser action Prompt@4 / wire@3，Semantic Prompt@19，Restaurant Agent Decision Prompt@14，Restaurant Fact Judgment Prompt@3，独立 diagnostic evaluator/rubric@16。完整离线门禁的最新结果见本轮测试记录；历史真实 Chromium 验证仍仅证明其各自记录的范围。原始 Web 执行不改写，修复导出后从相同事件重新形成独立复核输入；Web 浏览器调用总数仍缺失，RESOURCES 为 NOT_EVALUATED。跨语言地址识别现有离线反例，但尚无其修复后的真实来源复验；既有 semantic regression@3 未通过，不能宣称语义或任意网站全面完成。完整地图语义、其他类别网站和真实预约写入仍属 P5；本轮无预约提交或外部写入，当前未提交候选不改变已推送的`codex/feat-live-restaurant-read-path`分支。
 
 2026-09-17 H001–H005 各一次 Hybrid Live Read-only 的新基线保存在`.eval-artifacts/restaurant-hybrid-live-read/`，每例的原始执行和 evaluator@15 sidecar 分离保存。H001在218288ms内调查10家后`NO_VERIFIED_RESULT`；H002正确因缺人数`WAITING_USER`；H003、H005分别在300009ms/300018ms到达预算并取消；H004为事实型推荐，7.4秒展示7家。它们不是5/5用户目标完成，也没有发现共享`INFRA_BLOCKER`。诊断确认正向HARD的派生判断此前只处理NEGATIVE：已将可引用、同候选具体类型事实的正向判断补入`MODEL_JUDGMENT`（Prompt@2），资料不足、宽泛类型、无引文或正向`CONFLICT`仍为UNKNOWN。固定来源反例、完整本地371/371、typecheck、arch和build通过；但唯一H003修复后Live因本次Semantic将所有条件都判SOFT而直接走availability，随后TableCheck`REQUEST_SELECTION_UNCONFIRMED`/Tabelog`BROWSER_TIMEOUT`而`EXECUTION_FAILURE`，没有实际到达新增的正向判断路径。因此不进入五例修复后回归、不宣称Live改善；人数推断/HARD-SOFT以及预约来源故障留待下一小循环。无预约、外部写、Gold/Holdout修改、commit或push。
 

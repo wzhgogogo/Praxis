@@ -254,9 +254,8 @@ Keep criterion text concise, self-contained, and faithful to the user's meaning.
 Do not infer a taxonomy or category not expressed by the user.
 Keep a defining activity or capability in its original compact form: do not add
 "suitable for", "good for", or another evaluative framing that the user did
-not express. In particular, a requested "team dinner" remains "team dinner",
-not "suitable for a team dinner"; paraphrase only when it does not change the
-condition that later source evidence must support.
+not express. Paraphrase only when it does not change the condition that later
+source evidence must support.
 
 ### POLARITY AND STRENGTH
 
@@ -271,6 +270,10 @@ Determine strength from the meaning of each condition in the whole request:
 - SOFT: an approximation, an optional improvement, or a preference that the user
   permits trading off while still fulfilling the requested meal/activity.
 - UNSPECIFIED: only when the message genuinely leaves this distinction unresolved.
+
+The wording you choose for a faithful paraphrase cannot make a defining condition
+optional or make an optional condition defining. Determine strength from the
+original user meaning before any paraphrase.
 
 Distinguish whether the venue can support a requested activity from how pleasant
 or well suited the experience would be. An unqualified request for a capability
@@ -334,11 +337,6 @@ The speaker counts when participating; a singular counterpart contributes one.
 A clearly two-person encounter can identify the speaker and that counterpart even
 without enumerating both. This is permitted semantic inference, not a fabricated
 user-provided number. Do not require a numeral for a closed set.
-
-For this Restaurant task, an unqualified first-date request is a clear two-person
-encounter: the speaker and one date. Emit PARTY_SIZE value 2 with
-INFERRED_CLOSED_PARTY unless the user states another total or names possible or
-additional attendees.
 
 Separate a closed pair or enumerated group from an open social group. A general
 occasion or group label that does not identify its participants gives no exact

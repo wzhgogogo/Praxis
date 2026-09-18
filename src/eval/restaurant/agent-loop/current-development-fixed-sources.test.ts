@@ -15,11 +15,12 @@ const intent = {
   criteria: [{ text: "vegetarian restaurant", polarity: "POSITIVE" as const, strength: "HARD" as const }],
 };
 
-test("H005 fixed controls explicitly support local-food evidence for every target candidate", () => {
+test("H005 fixed controls preserve the original regional-cuisine evidence without adding local-food wording", () => {
   const scenario = currentDevelopmentSourceScenario("h005");
   assert.equal(scenario.observations.length, 3);
   for (const observation of scenario.observations) {
-    assert.ok(observation.websiteFacts?.types.some((fact) => /local food/i.test(fact)), observation.google.displayName);
+    assert.ok(observation.websiteFacts?.types.some((fact) => /Tokyo regional cuisine/i.test(fact)), observation.google.displayName);
+    assert.ok(observation.websiteFacts?.types.every((fact) => !/local food/i.test(fact)), observation.google.displayName);
   }
 });
 

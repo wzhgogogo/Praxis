@@ -110,9 +110,12 @@ const PLANS: readonly Plan[] = [
       { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "local food", polarity: "POSITIVE", strength: "HARD" } },
       { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "fast food", polarity: "NEGATIVE", strength: "HARD" } },
     ],
-    actions: ["SEARCH_RESTAURANTS", "INVESTIGATE_CANDIDATE_FACTS", "CHECK_AVAILABILITY", "PRESENT_RESULTS"], candidateBatchSize: 3,
+    // The preserved original source says only "Tokyo regional cuisine". It
+    // cannot be scripted as local-food support merely to make a three-card
+    // development control pass.
+    actions: ["SEARCH_RESTAURANTS", "INVESTIGATE_CANDIDATE_FACTS", "CHECK_AVAILABILITY", "END_READ"], candidateBatchSize: 3,
     factJudgments: [
-      { criterion: "local food", outcome: "SUPPORTED" },
+      { criterion: "local food", outcome: "UNKNOWN" },
       { criterion: "fast food", outcome: "SUPPORTED" },
     ],
   },
@@ -214,9 +217,11 @@ test("current H001-H005 raw requests complete through the real offline Hybrid co
         googleRequests: sources.search.googleRequestUsage(`run:${taskId}:investigation:${state.investigationRevision}`) },
     };
     const evaluation = evaluateRestaurantHybridLiveArtifact(artifact, { path: `${plan.id}.mock.result.json`, sha256: "mock" });
-    assert.equal(evaluation.findings.find(finding => finding.dimension === "AUTHORITATIVE_CONDITIONS")?.status, "SATISFIED", JSON.stringify(evaluation));
-    assert.equal(evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(evaluation));
-    assert.equal(evaluation.findings.find(finding => finding.dimension === "COMPLETION_OUTCOME")?.status, "SATISFIED", JSON.stringify(evaluation));
+    if (plan.id !== "h005") {
+      assert.equal(evaluation.findings.find(finding => finding.dimension === "AUTHORITATIVE_CONDITIONS")?.status, "SATISFIED", JSON.stringify(evaluation));
+      assert.equal(evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(evaluation));
+      assert.equal(evaluation.findings.find(finding => finding.dimension === "COMPLETION_OUTCOME")?.status, "SATISFIED", JSON.stringify(evaluation));
+    }
     const acceptance = assessFixedSourceAcceptance({
       expectation: fixedSourceCaseRegistration(plan.id).expectation,
       execution: { status: "SUCCEEDED", loopStatus: loop.status, phase: state.phase },
@@ -228,7 +233,7 @@ test("current H001-H005 raw requests complete through the real offline Hybrid co
       } : {}),
       evaluation,
     });
-    assert.equal(acceptance.acceptance, "PASS", acceptance.reasons.join("\n"));
+    assert.equal(acceptance.acceptance, plan.id === "h005" ? "FAIL" : "PASS", acceptance.reasons.join("\n"));
     t.diagnostic(JSON.stringify({ caseId: plan.id, phase: state.phase, qualified: evaluation.execution.taskProducedQualifiedResult,
       completionDiagnostic: evaluation.findings.find(finding => finding.dimension === "COMPLETION_OUTCOME")?.status,
       sourceCalls: sources.calls }));
@@ -239,8 +244,13 @@ test("current H001-H005 raw requests complete through the real offline Hybrid co
     assert.deepEqual(state.intentDraft?.timeWindow, plan.timeWindow);
     assert.equal(state.intentDraft?.partySize, plan.partySize);
     if (plan.id === "h003") assert.equal(state.intentDraft?.temporalResolution?.timeWindow?.basis, "DAYPART:AFTER_WORK_BROAD_WINDOW");
-    assert.deepEqual(state.selectionSession?.resultBatchTarget, { candidateCount: 3, met: true });
-    assert.equal(state.presentedResults?.candidateIds.length, 3);
+    if (plan.id === "h005") {
+      assert.equal(state.phase, "NO_VERIFIED_RESULT");
+      assert.equal(state.presentedResults, undefined);
+    } else {
+      assert.deepEqual(state.selectionSession?.resultBatchTarget, { candidateCount: 3, met: true });
+      assert.equal(state.presentedResults?.candidateIds.length, 3);
+    }
     if (plan.id === "h004") {
       assert.equal(sources.calls.facts, 3); assert.equal(sources.calls.availability, 0);
       assert.equal(loop.status, "TERMINAL"); assert.equal(state.phase, "PRESENT_RESULTS");
@@ -248,7 +258,7 @@ test("current H001-H005 raw requests complete through the real offline Hybrid co
       assert.equal(sources.calls.facts, ["h002", "h005"].includes(plan.id) ? 3 : 0);
       assert.equal(sources.calls.availability, 3);
     }
-    if (plan.id !== "h004") {
+    if (plan.id !== "h004" && plan.id !== "h005") {
       assert.equal(state.phase, "PRESENT_RESULTS");
       for (const candidateId of state.presentedResults?.candidateIds ?? []) {
         assert.equal(state.availabilityChecks[candidateId]?.status, "AVAILABLE");

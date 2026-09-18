@@ -135,13 +135,13 @@ export const CURRENT_DEVELOPMENT_SOURCE_SCENARIOS: readonly CurrentDevelopmentSo
   ] },
   { scenarioId: "h005", provenance: "SYNTHETIC_CONTROL", observations: [
     observation("offline-h005-a", "Source Local Food", ["open", "tables", "nearby"], "5-3 Tsukiji, Chuo City, Tokyo", 35.6652, 139.7708, "+81 3-6000-1005", "https://offline.example/h005-a", "/en/source-local-food", {
-      websiteFacts: facts(["Local food Edomae sushi restaurant", "Tokyo regional cuisine"], ["Wednesday: 11:00 AM – 11:00 PM"]), availability: availability("AVAILABLE", "2026-08-19", 4, ["17:00"], "Local food Edomae sushi tasting menu"),
+      websiteFacts: facts(["Edomae sushi restaurant", "Tokyo regional cuisine"], ["Wednesday: 11:00 AM – 11:00 PM"]), availability: availability("AVAILABLE", "2026-08-19", 4, ["17:00"], "Edomae sushi tasting menu"),
     }),
     observation("offline-h005-b", "Source Tsukiji Local Kitchen", ["open", "tables", "nearby"], "4-8 Tsukiji, Chuo City, Tokyo", 35.6661, 139.7719, "+81 3-6000-1051", "https://offline.example/h005-b", "/en/source-tsukiji-local-kitchen", {
-      websiteFacts: facts(["Local food restaurant serving Tokyo regional cuisine"], ["Wednesday: 11:00 AM – 11:00 PM"]), availability: availability("AVAILABLE", "2026-08-19", 4, ["17:00"], "Tokyo local food dinner set"),
+      websiteFacts: facts(["Tokyo regional cuisine restaurant"], ["Wednesday: 11:00 AM – 11:00 PM"]), availability: availability("AVAILABLE", "2026-08-19", 4, ["17:00"], "Tokyo local dinner set"),
     }),
     observation("offline-h005-c", "Source Nihonbashi Local Grill", ["open", "tables", "nearby"], "1-6 Nihonbashi, Chuo City, Tokyo", 35.6825, 139.7765, "+81 3-6000-1052", "https://offline.example/h005-c", "/en/source-nihonbashi-local-grill", {
-      websiteFacts: facts(["Local food restaurant serving Tokyo regional cuisine"], ["Wednesday: 11:00 AM – 11:00 PM"]), availability: availability("AVAILABLE", "2026-08-19", 4, ["17:00"], "Local food grill dinner"),
+      websiteFacts: facts(["Tokyo regional cuisine restaurant"], ["Wednesday: 11:00 AM – 11:00 PM"]), availability: availability("AVAILABLE", "2026-08-19", 4, ["17:00"], "Local grill dinner"),
     }),
   ] },
   { scenarioId: "new-vegetarian-lunch", provenance: "SYNTHETIC_CONTROL", observations: [observation(

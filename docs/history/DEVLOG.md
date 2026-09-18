@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.68
+- Document revision: 4.69
 - Last updated: 2026-09-18
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -9,11 +9,19 @@
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
+## 2026-09-18 Targeted H002–H005 semantic repair (current uncommitted candidate)
+
+按照定向 Playbook 固定`9cfbd4f`失败artifact和当前`cb35984`工作树后，先分层定位而没有按测试名推断：H002的真实 Proposal 本身没有`PARTY_SIZE`，H003在 Proposal 已将`team dinner`降为SOFT，二者均非 Compiler／Reducer 丢失；H005保存的原来源为`Tokyo regional cuisine`等，a/c 旧判断过度支持`local food`，b 未支持，不能借空位或事后添加的`local food`字样回写原问题。H004只新增附加等价记录，原artifact、sidecar和`NOT_EVALUATED`不变。
+
+候选把Semantic Prompt从@18收窄至@19：删除first-date和team-dinner案例句，保留封闭参与者和“忠实改写不得反向改变定义性条件强度”的通用约束；Fact Judgment从@2升到@3，仅要求直接文本蕴含，地理／regional cuisine主题关联不足时返回UNKNOWN。H005来源fixture恢复冻结文本；同一生产组合的脚本边界也返回UNKNOWN，使三次事实和三次查位之后正常停在`NO_VERIFIED_RESULT`、注册验收FAIL。无下游人数默认、case ID分支、同义白名单、ontology、Gold或私有Holdout修改。
+
+一轮唯一候选的v17/v19真实模型语义A/B完成48个成功调用（八个开发诊断样本、每版本各三次）；H002为0/3→0/3、H003四项强度为0/3→1/3，其余控制及失败均保存，故停止而不再改Prompt。H005 v2/v3的18个事实判断没有运行：语义批次已用48，重复启动的临时进程虽终止却只留下STARTED且调用数不确定，未获新额度不继续。无Google、网页、浏览器、预约或外部写；无commit/push。详见`.eval-artifacts/restaurant-semantic-targeted-repair/REPORT.md`及本轮TEST记录。
+
 ## 2026-09-18 Fixed-source real-model findings and semantic fidelity follow-up
 
 The frozen `9cfbd4f` composition ran H001–H005 once each against `SYNTHETIC_CONTROL` sources with the real DeepSeek model and the registered 5-minute/50-step/50-call ceilings. H001 alone passed the independent three-result acceptance. H002 omitted the already accepted closed first-date party inference and correctly asked for party size; H003 paraphrased a HARD activity into a different condition; H004 retained an independently unreviewable SOFT paraphrase; H005 returned two independently supported results but correctly recorded the three-result target as unmet. Execution and evaluation artifacts are retained; no failed case was retried.
 
-The next local correction clarifies the existing semantic policy rather than adds a downstream party fallback: an unqualified first date is explicitly speaker plus one date, and a defining activity must retain its compact user form instead of gaining “suitable for” framing. H005 fixed-source controls now state `local food` explicitly for all three candidates, because the prior second observation only said “regional cuisine” and did not supply sufficient evidence for the real fact judgment. This post-run code is offline-only and cannot recast the earlier model outputs; the required next review remains with the original researcher.
+The post-run Prompt@18 / explicit-`local food` local candidate recorded here is historical only. The current targeted candidate above supersedes its case-specific sentences and restores the frozen H005 source wording; this record does not establish current model quality or original-source support. The required next review remains with the original researcher.
 
 ## 2026-09-18 Open-ended availability target and fixed-source acceptance closure
 

@@ -13,6 +13,8 @@ export interface RestaurantFactJudgmentResult {
 
 type JudgmentOutcome = "SUPPORTED" | "CONFLICT" | "UNKNOWN";
 
+export const RESTAURANT_FACT_JUDGMENT_PROMPT_VERSION = "3";
+
 function record(value: unknown): Record<string, unknown> | undefined {
   return value && typeof value === "object" && !Array.isArray(value) ? value as Record<string, unknown> : undefined;
 }
@@ -52,9 +54,9 @@ export class ModelRestaurantFactJudgment implements RestaurantFactJudgmentPort {
       const response = await this.model.complete({
         taskId: "fact-judgment:" + input.candidate.restaurant.id,
         purpose: "restaurant_fact_judgment",
-        promptVersion: "2",
+        promptVersion: RESTAURANT_FACT_JUDGMENT_PROMPT_VERSION,
         messages: [
-          { role: "system", content: "Interpret cited source-stated concrete restaurant type facts for HARD restaurant criteria. For a POSITIVE criterion, SUPPORTED requires that the cited type fact directly supports the requested property; CONFLICT and UNKNOWN do not establish it. For a NEGATIVE criterion, SUPPORTED requires a concrete stated type that supports excluding the prohibited type; CONFLICT means the prohibited type is stated. UNKNOWN means the facts are broad or insufficient. Never infer from a missing keyword, a venue name, opening hours, or an uncited general impression. A generic cuisine label does not by itself prove a vague regional request such as local food. Never decide that a restaurant has no spicy dishes." },
+          { role: "system", content: "Interpret cited source-stated concrete restaurant type facts for HARD restaurant criteria. For a POSITIVE criterion, SUPPORTED requires direct textual entailment from the cited type fact; a thematic association is not enough. CONFLICT and UNKNOWN do not establish it. For a NEGATIVE criterion, SUPPORTED requires a concrete stated type that supports excluding the prohibited type; CONFLICT means the prohibited type is stated. UNKNOWN means the facts are broad or insufficient. Never infer from a missing keyword, a venue name, opening hours, or an uncited general impression. For a regional-origin or locality criterion, a place adjective or a phrase such as regional cuisine alone is only thematic association; require an explicit source statement about local cuisine, local sourcing, or another directly entailing origin relationship, otherwise return UNKNOWN. Never decide that a restaurant has no spicy dishes." },
           { role: "user", content: JSON.stringify({ candidate: { name: input.candidate.restaurant.outletName, address: input.candidate.restaurant.address }, criteria: criteria.map((item) => ({ text: item.text, polarity: item.polarity })), observations }) },
         ],
         responseFormat: "JSON_SCHEMA",

@@ -80,3 +80,25 @@ test("a broad source type cannot be promoted by the model into exclusion evidenc
   assert.deepEqual(result.evidence, []);
   assert.equal(result.modelUsage, undefined);
 });
+
+test("regional-cuisine wording remains UNKNOWN for a locality criterion unless the model has direct support", async () => {
+  const calls: Parameters<ModelGateway["complete"]>[0][] = [];
+  const gateway: ModelGateway = {
+    async complete(request) {
+      calls.push(request);
+      return {
+        invocationId: "model", provider: "FIXTURE", model: "fixture", finishReason: "TOOL_CALLS",
+        outputText: JSON.stringify({ judgments: [{ criterion: "local food", outcome: "UNKNOWN", evidenceIds: ["source-type"] }] }), latencyMs: 1,
+      };
+    },
+  };
+  const result = await new ModelRestaurantFactJudgment(gateway).judge({
+    candidate,
+    intent: { ...intent, criteria: [{ text: "local food", polarity: "POSITIVE", strength: "HARD" }] },
+    evidence: [{ ...sourceEvidence[0]!, claims: { restaurantTypeFacts: ["Tokyo regional cuisine restaurant"] } }],
+  });
+  assert.deepEqual(result.evidence, []);
+  assert.equal(calls[0]?.promptVersion, "3");
+  assert.match(calls[0]?.messages[0]?.content ?? "", /direct textual entailment/i);
+  assert.match(calls[0]?.messages[0]?.content ?? "", /regional cuisine alone is only thematic association/i);
+});
