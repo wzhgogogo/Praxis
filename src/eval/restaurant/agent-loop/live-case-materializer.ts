@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { parseAllDocuments } from "yaml";
 
 /** Current exposed development input, shared by the actual Runner and contract tests. */
-export const RESTAURANT_READ_DEVELOPMENT_DATASET_VERSION = "restaurant-read-development@5";
+export const RESTAURANT_READ_DEVELOPMENT_DATASET_VERSION = "restaurant-read-development@6";
 export const RESTAURANT_READ_DEVELOPMENT_CASE_PATH = "src/eval/restaurant/agent-loop/cases/e2e-cases.yaml";
 
 export interface FrozenLiveCase {

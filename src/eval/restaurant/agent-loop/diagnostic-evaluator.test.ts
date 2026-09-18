@@ -5,6 +5,10 @@ import { join } from "node:path";
 import test from "node:test";
 
 import { startDiagnosticRun } from "../../shared/diagnostic-run.js";
+import { compileRestaurantSemanticProposal } from "../../../domains/restaurant/semantic-compiler.js";
+import type { RestaurantIntentDraft } from "../../../domains/restaurant/contracts.js";
+import { applyRestaurantIntentPatch } from "../../../domains/restaurant/intent-state.js";
+import { validateRestaurantSemanticProposal } from "../../../domains/restaurant/semantic-proposal.js";
 import { evaluateArtifactAfterFinish, evaluateRestaurantHybridLiveArtifact } from "./diagnostic-evaluator.js";
 
 const source = { path: "/tmp/availability-fixture.result.json", sha256: "a".repeat(64) };
@@ -443,8 +447,8 @@ test("H004 fact-only presentation requires applicable opening hours, not an avai
   domain.intentDraft.criteria[1].text = "suitable for meeting up with a friend";
   const softRewrite = evaluateRestaurantHybridLiveArtifact(artifact, source);
   assert.equal(finding(softRewrite, "AUTHORITATIVE_CONDITIONS").status, "NOT_EVALUATED");
-  assert.match(finding(softRewrite, "AUTHORITATIVE_CONDITIONS").directCause, /semantic equivalence requires review/);
-  assert.ok(softRewrite.unassessedDimensions.some((item) => item.includes("SOFT or UNSPECIFIED criterion")));
+  assert.match(finding(softRewrite, "AUTHORITATIVE_CONDITIONS").directCause, /independent semantic review/);
+  assert.ok(softRewrite.unassessedDimensions.some((item) => item.includes("Criterion text differs")));
   // A pending SOFT semantic review must not erase independently supported facts.
   assert.equal(finding(softRewrite, "REQUIRED_EVIDENCE").status, "SATISFIED");
   assert.equal(finding(softRewrite, "FINAL_CLAIM").status, "NOT_EVALUATED");
@@ -477,6 +481,115 @@ test("UNSPECIFIED is nonblocking while a HARD strength mismatch remains material
   artifact.finalSnapshot.domainState.intentDraft.criteria[0].strength = "HARD";
   const hardMismatch = evaluateRestaurantHybridLiveArtifact(artifact, source);
   assert.equal(finding(hardMismatch, "AUTHORITATIVE_CONDITIONS").status, "NOT_SATISFIED", "UNSPECIFIED→HARD is not a nonblocking rewrite");
+});
+
+test("criterion comparison preserves text-plus-polarity identities as a multiset", () => {
+  // This is the independent-review reproducer: a Map keyed only by text
+  // collapsed these two valid criteria and invented a polarity conflict.
+  const artifact: any = completeArtifact();
+  const completeCriteria = [
+    { value: "quiet", polarity: "POSITIVE", strength: "UNSPECIFIED" },
+    { value: "quiet", polarity: "NEGATIVE", strength: "HARD" },
+  ];
+  artifact.materializedCase.semantic.criteria = completeCriteria;
+  artifact.finalSnapshot.domainState.intentDraft.criteria = completeCriteria.map(({ value, ...criterion }: any) => ({ text: value, ...criterion }));
+  artifact.trajectories[0].decisionContext = { intentDraft: artifact.finalSnapshot.domainState.intentDraft };
+  artifact.finalSnapshot.domainState.readEvidence.find((item: any) => item.evidenceId === "hard-a").claims = {
+    verifiedNegativeCriteria: ["quiet"],
+  };
+  const identical = evaluateRestaurantHybridLiveArtifact(artifact, source);
+  assert.equal(finding(identical, "AUTHORITATIVE_CONDITIONS").status, "SATISFIED", JSON.stringify(finding(identical, "AUTHORITATIVE_CONDITIONS")));
+
+  // Retain the meaningful exact-text polarity mutation: POSITIVE and NEGATIVE
+  // are separate identities, so removing one and adding the other must fail.
+  artifact.finalSnapshot.domainState.intentDraft.criteria = [
+    { text: "quiet", polarity: "NEGATIVE", strength: "HARD" },
+    { text: "quiet", polarity: "NEGATIVE", strength: "HARD" },
+  ];
+  const polarityChanged = evaluateRestaurantHybridLiveArtifact(artifact, source);
+  assert.equal(finding(polarityChanged, "AUTHORITATIVE_CONDITIONS").status, "NOT_SATISFIED");
+  assert.match(finding(polarityChanged, "AUTHORITATIVE_CONDITIONS").observations.join(" "), /criteria polarity=quiet/);
+});
+
+test("grounding follows the actual authoritative criterion while textual Gold differences remain independently unresolved", () => {
+  // H002-shaped label control: the source fact names the Runtime criterion,
+  // while the older Gold label is shorter. This must not fabricate a missing
+  // evidence/lineage failure, nor turn the semantic difference into AUTO_PASS.
+  const artifact: any = completeArtifact();
+  artifact.materializedCase.semantic.criteria = [{ value: "hot pot restaurant", polarity: "NEGATIVE", strength: "HARD" }];
+  artifact.finalSnapshot.domainState.intentDraft.criteria = [{ text: "hot-pot restaurants", polarity: "NEGATIVE", strength: "HARD" }];
+  artifact.trajectories[0].decisionContext = { intentDraft: artifact.finalSnapshot.domainState.intentDraft };
+  artifact.finalSnapshot.domainState.readEvidence.find((item: any) => item.evidenceId === "hard-a").claims = {
+    verifiedNegativeCriteria: ["hot-pot restaurants"],
+  };
+  const result = evaluateRestaurantHybridLiveArtifact(artifact, source);
+  assert.equal(finding(result, "AUTHORITATIVE_CONDITIONS").status, "NOT_EVALUATED");
+  assert.match(finding(result, "AUTHORITATIVE_CONDITIONS").directCause, /independent semantic review/);
+  assert.equal(finding(result, "REQUIRED_EVIDENCE").status, "SATISFIED");
+  assert.equal(finding(result, "FINAL_CLAIM").status, "NOT_EVALUATED");
+
+  artifact.finalSnapshot.domainState.intentDraft.criteria[0] = { text: "hot pot restaurant", polarity: "POSITIVE", strength: "HARD" };
+  const polarityConflict = evaluateRestaurantHybridLiveArtifact(artifact, source);
+  assert.equal(finding(polarityConflict, "AUTHORITATIVE_CONDITIONS").status, "NOT_SATISFIED");
+  assert.match(finding(polarityConflict, "AUTHORITATIVE_CONDITIONS").observations.join(" "), /criteria polarity/);
+});
+
+test("a later HARD criterion cannot reuse an old UNSPECIFIED observation", () => {
+  // Actual Proposal -> validation -> Compiler -> Reducer. The later user turn
+  // changes only quiet's strength, retaining the unrelated omakase condition.
+  const initial = {
+    schemaVersion: "3" as const,
+    timezone: "Asia/Tokyo" as const,
+    target: { goal: "AVAILABILITY" as const, query: "find a table" },
+    date: "2026-09-08",
+    partySize: 2,
+    timeWindow: { earliest: "19:00", latest: "19:00" },
+    area: { query: "near Shibuya" },
+    criteria: [{ text: "omakase", polarity: "POSITIVE" as const, strength: "HARD" as const }],
+  };
+  const applyProposal = (current: RestaurantIntentDraft, strength: "UNSPECIFIED" | "HARD") => {
+    const parsed = validateRestaurantSemanticProposal({ schemaVersion: "3", facts: [{
+      field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "quiet", polarity: "POSITIVE", strength },
+    }] });
+    assert.equal(parsed.valid, true);
+    if (!parsed.valid) throw new Error("criterion proposal was unexpectedly invalid");
+    const compiled = compileRestaurantSemanticProposal(parsed.value);
+    assert.equal(compiled.status, "COMPILED");
+    if (compiled.status !== "COMPILED") throw new Error("criterion proposal was unexpectedly conflicting");
+    return applyRestaurantIntentPatch(current, compiled.patch);
+  };
+  const beforeUpgrade = applyProposal(initial, "UNSPECIFIED");
+  const finalIntent = applyProposal(beforeUpgrade, "HARD");
+  assert.deepEqual(finalIntent.criteria, [
+    { text: "omakase", polarity: "POSITIVE", strength: "HARD" },
+    { text: "quiet", polarity: "POSITIVE", strength: "HARD" },
+  ]);
+
+  const accepted: any = completeArtifact();
+  accepted.materializedCase.semantic.criteria = [
+    { value: "omakase", polarity: "POSITIVE", strength: "HARD" },
+    { value: "quiet", polarity: "POSITIVE", strength: "HARD" },
+  ];
+  accepted.finalSnapshot.domainState.intentDraft = finalIntent;
+  accepted.trajectories[0].decisionContext = { intentDraft: finalIntent };
+  accepted.finalSnapshot.domainState.readEvidence.find((item: any) => item.evidenceId === "hard-a").claims = {
+    verifiedHardCriteria: ["omakase", "quiet"],
+  };
+  const control = evaluateRestaurantHybridLiveArtifact(accepted, source);
+  assert.equal(finding(control, "AUTHORITATIVE_CONDITIONS").status, "SATISFIED");
+  assert.equal(finding(control, "REQUIRED_EVIDENCE").status, "SATISFIED");
+  assert.equal(finding(control, "FINAL_CLAIM").status, "SATISFIED");
+
+  // Negative control: source evidence is unchanged, but its executed context
+  // predates the HARD upgrade. The old UNSPECIFIED observation must no longer
+  // be accepted as a current-request lineage for the presented result.
+  const stale: any = structuredClone(accepted);
+  stale.trajectories[0].decisionContext = { intentDraft: beforeUpgrade };
+  const rejected = evaluateRestaurantHybridLiveArtifact(stale, source);
+  assert.equal(finding(rejected, "AUTHORITATIVE_CONDITIONS").status, "SATISFIED");
+  assert.equal(finding(rejected, "REQUIRED_EVIDENCE").status, "NOT_SATISFIED");
+  assert.equal(finding(rejected, "FINAL_CLAIM").status, "NOT_SATISFIED");
+  assert.match(finding(rejected, "REQUIRED_EVIDENCE").observations.join(" "), /lacks an executed same-candidate applicable-request observation/);
 });
 
 test("generic negative HARD criteria require a cited source judgment and preserve a conflict", () => {

@@ -240,7 +240,12 @@ Do not restrict criteria to conventional structured restaurant filters.
 
 Do not create criteria from information that is merely descriptive and does not affect restaurant selection.
 
-If the user expresses flexibility or absence of restriction on a dimension, do not create a positive criterion for that dimension.
+Do not create a criterion from a bare statement of flexibility or absence of
+restriction when it names no selection preference (for example, "any cuisine is
+fine"). When the user expresses a real selection condition and permits a
+trade-off on that condition, retain the condition with SOFT strength (for
+example, "prefer a quiet place, but we can compromise"). Flexibility does not
+erase the preference it qualifies.
 
 Generic request language such as "good", "good options", or similar phrasing should not become a standalone criterion unless it expresses a specific restaurant-selection preference.
 

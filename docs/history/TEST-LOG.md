@@ -2902,3 +2902,60 @@ The final cross-case classification and raw artifact links are in [H001/H003/H00
   Gold/Holdout, booking, commit, or push was run in this follow-up. H003's
   historical automatic gate remains rejected; the supplemental semantic review
   remains pending original-researcher signoff.
+
+## TEST-2026-09-18-SEMANTIC-CONTRACT-V6-OFFLINE
+
+- Baseline: `a66ef8a8e62c68339adb83c0b8c7aef8086b4923`; the historical
+  `restaurant-read-development@5` YAML SHA is
+  `ef57893638be2cbc295cb14295d24b6d2d7bdc2918da83de68c48ae839ca7699`.
+  Current executable data is @6; old artifacts and evaluations were not edited.
+- `npm run typecheck`: PASS. Focused command covering semantic Prompt contract,
+  current YAML materializer, actual fixed Hybrid composition, diagnostic
+  evaluator, fixed-source acceptance and the Proposal→Compiler→Reducer
+  multi-turn strength control: **71/71 PASS**, 0 fail/cancel/skip/todo.
+- Detection controls: a H002-shaped final-label/source-fact record is
+  `REQUIRED_EVIDENCE=SATISFIED` but `AUTHORITATIVE_CONDITIONS=NOT_EVALUATED`;
+  reversing polarity on the exact text is `NOT_SATISFIED`. A later HARD upgrade
+  accepts a new HARD-context observation and rejects the otherwise identical old
+  UNSPECIFIED-context observation at required-evidence/final-claim assertions.
+- Classification: offline code-contract and synthetic fixed-source evidence.
+  No real model, Google, website, browser, Live, Replay, booking, payment,
+  cancellation, Gold/private Holdout access, commit or push. Full offline
+  gates passed: `npm run arch:check`, `npm run build`, `git diff --check`, and
+  the authorized local-loopback `npm test` (**451/451 PASS**, 0 failures).
+  The initial sandbox-only test invocation had **430 pass / 21 fail** solely
+  because existing local HTTP cases could not bind `127.0.0.1` (`EPERM`); the
+  rerun did not change the test set or enable external transport.
+- H002 historical-result supplement: evaluator@18 wrote a new sidecar beside,
+  and did not alter, the @5 source result SHA-256
+  `e9a1ed498cc6c484bb12c29655fb2622b147fba1a44653e7431ec624cf368aaf`.
+  It records `systemBehavior=NOT_EVALUATED` for text without deterministic
+  equivalence and `evidenceSufficiency=SUFFICIENT_FOR_PRESENTED_RESULT` for
+  the final executed observation context. This verifies the split in one real
+  saved artifact; it is not a semantic acceptance, Gold rewrite, or model run.
+  Original-researcher pre-review remains required before any paid run.
+- Second pre-review correction: the original evaluator used a text-keyed `Map`,
+  which collapsed distinct `text + polarity` criteria. The regression now
+  passes an identical two-polarity `quiet` collection and rejects a true
+  exact-text polarity replacement. The initial scorer-only strength control is
+  retained as a local lineage check but no longer claimed as the complete
+  behavior. A new actual-Hybrid two-turn control starts from the real
+  Interpreter/Runtime composition: it first presents an `UNSPECIFIED`
+  vegetarian result, submits a second user turn making it HARD, verifies that
+  `SEMANTIC_PROPOSAL_COMPILED` clears card/evidence and increments the request
+  revision, then proves an old-card presentation is Validator-rejected without
+  a current fact read. The paired normal control produces current cited HARD
+  evidence through Router/Reducer and passes evaluator grounding. Targeted
+  `typecheck` plus evaluator/Hybrid suites: **59/59 PASS**, no external call.
+- Full recheck after that correction: `npm run typecheck`, `npm run
+  arch:check`, `npm run build`, `git diff --check`, and authorized local
+  loopback `npm test`: **455/455 PASS**, 0 fail/cancel/skip/todo, 18,758ms.
+  The loopback allowance is only for existing PGlite/local HTTP tests; it does
+  not enable model, Google, site, browser, or Live transport.
+- Authorized fixed-source real-model post-review batch: H002 → H003 → H004 exactly once each, `deepseek-flash` / Semantic Prompt@v21, each capped at 300,000ms/50 steps/50 model calls and using fixed synthetic source transport only. All three executions were `SUCCEEDED/TERMINAL/PRESENT_RESULTS` and independently had `REQUIRED_EVIDENCE=SATISFIED`; all three automatic evaluations were `NOT_EVALUATED` on non-identical criterion wording and registered acceptance was `FAIL`. H002: 9 calls/28,922 tokens/8,814ms; H003: 4/19,518/6,727ms; H004: 7/21,405/6,461ms. Aggregate: 20 calls, 69,845 tokens, 22,002ms, 10 fixed Google-composition calls, zero browser calls. H005/Live/booking/commit/push were not run. Results await original-researcher semantic review; no automatic repair or rerun followed.
+- Post-run annotation-only sync: the exact run-time @6 YAML was copied as an immutable audit snapshot with SHA-256 `75bf64732a9148720bb3d448c3fd53326195e8d7517d8689f80cec63e34df12b` before correcting only H002/H004 `acceptance.review` prose. The current YAML SHA is `00b69476e6d07eec5dcd9a657555c4e3766629fce5f8e630512710252886ffb6`; content, semantic expectations, source scenarios, code, original artifacts and existing scores were not changed, and no model/evaluator rerun occurred.
+
+
+## 2026-09-18 — Independent semantic-contract @6 checks
+
+Independent evaluator/current-development tests 59/59. Isolated old text-Map comparison fails the intended identical-polarity-set assertion; retaining Runtime old readEvidence fails real two-turn reset assertions. Original no-match identity probe excluded. Saved three-run input hashes/structured Proposals/State/citations/batch targets and original @18 findings independently checked; bounded manual acceptance 3/3, original AUTO remains FAIL 3/3. No extra model/source calls. Evidence .eval-artifacts/semantic-contract-migration-independent-review-2026-09-18/. Full 455/455 and typecheck/arch/build are Terra-run gates, not claimed as repeated independent runs.

@@ -1,10 +1,10 @@
 # Restaurant read development cases
 
 - Status: current executable development diagnostic; not a Clean Baseline
-- Document revision: 1.3
-- Dataset: `restaurant-read-development@5`
+- Document revision: 1.4
+- Dataset: `restaurant-read-development@6`
 - Acceptance contract: `restaurant-read-acceptance@2`
-- Updated: 2026-09-15
+- Updated: 2026-09-18
 - Contamination: `PROMPT_AND_RESULT_EXPOSED`; `baselineEligible: false`
 - Product authority: [Restaurant Domain](../../../../../docs/domains/RESTAURANT-BOOKING.md), [ADR-0020](../../../../../docs/decisions/0020-goal-driven-restaurant-read-path.md), [ADR-0024](../../../../../docs/decisions/0024-deterministic-time-and-diagnostic-read-completion.md), [ADR-0025](../../../../../docs/decisions/0025-model-directed-read-investigation.md)
 
@@ -21,14 +21,14 @@ The offline test now instantiates the real Google client/search, Google→websit
 | Case | Delivery goal | Conditions retained | Availability requirement |
 |---|---|---|---|
 | H001 | AVAILABILITY | Near Shibuya, omakase HARD, tonight 19:00, explicit 2 people | Mandatory matching current slot |
-| H002 | AVAILABILITY | Near Higashi-Ginza, Saturday 18:30; a closed first-date party is inferred as two and its basis is recorded; exclude hot-pot restaurants and Sichuan/Hunan cuisine as specified; first-date suitability and approximately JPY 10000/person SOFT | Mandatory matching current slot; the inference does not alter user text |
+| H002 | AVAILABILITY | Near Higashi-Ginza, Saturday 18:30; a closed first-date party is inferred as two and its basis is recorded; exclude hot-pot restaurants and Sichuan/Hunan cuisine as specified; first-date suitability is UNSPECIFIED and approximately JPY 10000/person SOFT | Mandatory matching current slot; the inference does not alter user text |
 | H003 | AVAILABILITY | Nearby, Friday, after work, explicit 10 people; team dinner and good for drinks are expressed UNSPECIFIED preferences; approximate budget/private room SOFT | Mandatory matching current slot for the preserved broad after-work window, never a silently restored 18:00–20:00 range |
-| H004 | RECOMMENDATION | Nearby cafe HARD, this afternoon 12:00–17:00; meeting-a-friend SOFT | Optional extra, never a prerequisite for core cafe recommendations |
+| H004 | RECOMMENDATION | Nearby cafe HARD, this afternoon 12:00–17:00; meeting-a-friend UNSPECIFIED | Optional extra, never a prerequisite for core cafe recommendations |
 | H005 | AVAILABILITY | Nearby, right now in Tokyo, explicit 4 people, local food HARD, no fast food HARD | Mandatory matching source-confirmed slot; open business hours alone are insufficient |
 
 Goal follows requested delivery, not an isolated verb or party-size field. A concrete dining visit with a known or confidently inferred party and temporal intent requires availability even when phrased as “recommend”, “looking for”, or “need”; open-ended exploration remains recommendation. None of these read-only cases authorizes a reservation, payment, or personal-data submission.
 
-H002's exclusion names the restaurant/main cuisine, not every dish containing spice. No case-specific exclusion mapping is injected into the model or Google. H003 preserves team-dinner/drinks as expressed `UNSPECIFIED` conditions and budget/private-room as `SOFT`; none is a source-evidence gate. After work is time-only, not an additional criterion. Dataset @5 changes only H003's four strength annotations from @4 under ADR-0029; prior @4 evidence is retained without relabeling. Its `after work` expression is retained verbatim and code materializes the documented broad 17:30–22:00 query window with an explicit basis; this is neither a user-quoted exact time nor the retired 18:00–20:00 interval. Semantic suitability and the reasonableness of broad-time interpretation require independent review; current deterministic evaluation cannot certify them fully.
+H002's exclusion names the restaurant/main cuisine, not every dish containing spice. No case-specific exclusion mapping is injected into the model or Google. H002 first-date suitability, H003 team-dinner/drinks, and H004 meeting-a-friend suitability are expressed `UNSPECIFIED` conditions; H002/H003 approximate budgets and H003 private-room remain `SOFT`. None is a source-evidence gate. After work is time-only, not an additional criterion. Dataset @5 changed H003's four strength annotations from @4; @6 changes only H002 first-date and H004 meeting-a-friend from historical `SOFT` expectations to `UNSPECIFIED` under ADR-0029. Prior @4/@5 artifacts remain exposed historical evidence without relabeling. Its `after work` expression is retained verbatim and code materializes the documented broad 17:30–22:00 query window with an explicit basis; this is neither a user-quoted exact time nor the retired 18:00–20:00 interval. Semantic suitability and the reasonableness of broad-time interpretation require independent review; current deterministic evaluation cannot certify them fully.
 
 ## Common result and investigation contract
 
@@ -59,6 +59,6 @@ Keep qualified-result rate, system-handling correctness, unsupported completion 
 
 The [pre-alignment source and rubric](../../../../../docs/superseded/eval/restaurant-read-pre-alignment-2026-09-15/README.md) are retained unchanged. The prior unversioned snapshot is named `restaurant-read-development@1` retrospectively **for this comparison only**; historical artifacts are not relabelled. Current input is @3. All five `content` strings remain unchanged. Changes are goal/annotation corrections, not a new run or stronger model result.
 
-H001–H003 recommendation-era results are not directly comparable to the current availability contract. H002 now records the constrained two-person inference and keeps its corrected exclusion scope. H003 @4 remains historical evidence; @5 changes only its exposed development strength annotations. H004 keeps its exploratory goal/window. H005 keeps its explicit availability goal; the illustrative source clock now correctly reads 17:00 Tokyo for its original 16:00 +08:00 reference, and each Live run still materializes its own time. Do not rerun or overwrite old artifacts to make historical results match this contract.
+H001–H003 recommendation-era results are not directly comparable to the current availability contract. H002 now records the constrained two-person inference and keeps its corrected exclusion scope. H003 @4 and H002/H004 @5 remain historical exposed evidence; @6 changes the two accepted semantic expectations without rewriting any original artifact or evaluation. H004 keeps its exploratory goal/window. H005 keeps its explicit availability goal; the illustrative source clock now correctly reads 17:00 Tokyo for its original 16:00 +08:00 reference, and each Live run still materializes its own time. Do not rerun or overwrite old artifacts to make historical results match this contract.
 
 Future user-promise or Gold changes must update this contract, current YAML and its dataset version together after human review; keep previous evidence and migration notes. Reuse the real-loader/materializer/evaluator regression for the affected behavior. Do not maintain duplicate dates, party sizes or mandatory tool lists in downstream case sections. API/model/Live runs retain their existing authorization and accounting boundaries.

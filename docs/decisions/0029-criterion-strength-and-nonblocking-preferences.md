@@ -36,12 +36,16 @@ candidate and no satisfaction claim may be made without candidate evidence.
 
 ## Consequences
 
-- Semantic Prompt moves to v20 and Agent Decision Prompt to 15.
-- The exposed development dataset changes from `restaurant-read-development@4`
-  to `@5` only for H003's four strength annotations; historical @4 artifacts and
-  conclusions remain unchanged.
-- A `UNSPECIFIED`/`SOFT` wording or strength mismatch remains diagnostic semantic
-  review, while any expected-or-actual `HARD` mismatch remains not satisfied.
+- Semantic Prompt moves to v21 and Agent Decision Prompt remains 15.
+- The exposed development dataset changed from `restaurant-read-development@4`
+  to `@5` for H003's four strength annotations. It now moves to `@6` to migrate
+  the accepted H002 first-date and H004 meeting-a-friend expectations from
+  `SOFT` to `UNSPECIFIED`. Historical @4/@5 artifacts and conclusions remain
+  unchanged and exposed; this does not relabel an earlier run.
+- A different-text `UNSPECIFIED`/`SOFT` wording or strength mismatch remains
+  diagnostic semantic review. The same text with a polarity or HARD-strength
+  mismatch remains not satisfied; the evaluator never guesses equivalence for
+  different text.
 - No new source provider, preference scorer, semantic judge, model call, or
   browser/Live capability is introduced by this decision.
 

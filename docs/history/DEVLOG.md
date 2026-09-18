@@ -2479,3 +2479,54 @@ Implemented the bounded H002 resolver in the actual persistent Web, Hybrid, and 
 - H003 is accepted only for the bounded fixed-source observation; H004 is not
   accepted because its meeting-friend preference regressed SOFT→UNSPECIFIED.
   These conclusions are owned by the original researcher's independent review.
+
+## 2026-09-18 semantic-contract @6 offline implementation
+
+Published the single executable exposed development manifest
+`restaurant-read-development@6`. It changes only H002 first-date and H004
+meeting-a-friend from the historical SOFT expectation to UNSPECIFIED; H003's
+existing @5 annotations remain intact. All old @4/@5 artifacts retain their
+original data/hash labels and are not rewritten. Prompt@v21 now distinguishes a
+bare absence of preference from a real preference that is explicitly tradeable:
+the latter is retained as SOFT rather than deleted.
+
+Evaluator/rubric@18 now evaluates semantic fidelity and grounding on separate
+anchors. Gold is compared to final authoritative intent for semantic conflict or
+independent-review status; the final intent binds evidence and executed-observation
+applicability. Exact same-text polarity/HARD-strength conflicts still fail, and
+different text never receives an automatic fuzzy-equivalence pass. The retained
+scorer-local strength control was supplemented after review by a real Hybrid
+two-turn Runtime/Validator/Router/Evaluator path: an old UNSPECIFIED
+presentation cannot support a later HARD requirement. No paid model, source,
+browser, Live, Gold/Holdout, booking, commit or push action was performed.
+Details: [@6 implementation record](SEMANTIC-CONTRACT-V6-IMPLEMENTATION-2026-09-18.md).
+
+## 2026-09-18 — semantic-contract @6 pre-review corrections
+
+- Corrected evaluator@18 criterion comparison from text-keyed lookup to a
+  text-plus-polarity multiset, preserving both valid opposite-polarity criteria
+  and rejecting an actual polarity replacement. Different wording remains
+  deterministic `NOT_EVALUATED`, not fuzzy-matched.
+- Replaced the claim that the scorer-only strength fixture was complete with a
+  production-composition two-turn regression. A real Hybrid Runtime resets the
+  previous presentation/evidence on `SEMANTIC_PROPOSAL_COMPILED`; a second HARD
+  condition cannot reuse the old nonblocking card, while fresh Router/Reducer
+  fact evidence enables the paired normal presentation.
+- No additional production Prompt, Schema, Gold, or source-fixture change was
+  made by this correction: the only current Gold migration remains the
+  authorized H002/H004 @6 strength change, while historical artifacts stay
+  untouched. No external model, Google, website, browser, Live action, commit,
+  or push was performed. The corrected diff then passed typecheck, arch,
+  build, diff check, and 455/455 authorized local-loopback offline tests before
+  return to independent pre-review.
+
+## 2026-09-18 — semantic-contract @6 authorized fixed-source diagnostics
+
+- Original-researcher pre-review then allowed exactly one real DeepSeek fixed-source diagnostic each for H002, H003 and H004. Each reached `PRESENT_RESULTS` with independently sufficient candidate evidence, but each retained automatic `NOT_EVALUATED` semantic wording and therefore `FAIL` acceptance. The three immutable result/evaluator pairs and resource ledger are linked from the @6 implementation record; they await independent manual semantic review and were not repaired or rerun.
+- The runner preserved structured proposals, actions, evidence and provider metadata, but not raw provider response text/messages (`outputText: null`). This was recorded as an unrecoverable retention gap after the one-run budgets were consumed; no reconstruction was substituted. No H005/Live/browser site, booking, commit or push followed.
+- The run-time @6 YAML was then copied byte-for-byte to the independent-review audit directory before synchronizing two stale human `acceptance.review` sentences with the already-unchanged H002/H004 `UNSPECIFIED` semantic strengths. Original artifacts and their scores were not altered; no model/evaluator rerun followed.
+
+
+## 2026-09-18 — Independent semantic-contract @6 acceptance
+
+Closed only the user-authorized H002–H004 exposed fixed-source semantic slice after two pre-review corrections, 3 one-shot outputs and independent paraphrase review. Historical AUTO ratings unchanged; no H005 or Live work. See SEMANTIC-CONTRACT-V6-INDEPENDENT-ACCEPTANCE-2026-09-18.md.

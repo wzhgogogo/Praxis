@@ -2,7 +2,7 @@
 # Parameter expectations live only in semantic. Acceptance notes supplement independent review, not runtime instructions.
 ---
 id: h001
-dataset: restaurant-read-development@5
+dataset: restaurant-read-development@6
 reference_time: 2026-08-19T16:20:00+08:00
 content: |
   Looking for an omakase spot near Shibuya for 2 people tonight at 7 PM.
@@ -32,7 +32,7 @@ acceptance:
 
 ---
 id: h002
-dataset: restaurant-read-development@5
+dataset: restaurant-read-development@6
 reference_time: 2026-08-19T16:22:00+08:00
 content: >
   Recommend a first-date restaurant near Higashi-Ginza for this Saturday at 6:30 PM. Around 10,000 yen per
@@ -52,7 +52,7 @@ semantic:
   criteria:
     - value: good for a first date
       polarity: POSITIVE
-      strength: SOFT
+      strength: UNSPECIFIED
     - value: around 10,000 yen per person
       polarity: POSITIVE
       strength: SOFT
@@ -70,13 +70,13 @@ acceptance:
       not a ban on every spicy dish.
   optional_investigation: []
   review:
-    - First-date suitability and approximately JPY 10000 per person are soft preferences; judge relevance and
+    - First-date suitability is UNSPECIFIED and approximately JPY 10000 per person is SOFT; judge relevance and
       source-supported explanations separately.
     - First date is a closed two-person party for this evaluation; this is a semantic inference to review, not an altered user message.
 
 ---
 id: h003
-dataset: restaurant-read-development@5
+dataset: restaurant-read-development@6
 reference_time: 2026-08-19T16:38:00+08:00
 content: >
   Need a place for a team dinner nearby this Friday after work. 10 people, around 3,000 yen per person, good
@@ -125,7 +125,7 @@ acceptance:
 
 ---
 id: h004
-dataset: restaurant-read-development@5
+dataset: restaurant-read-development@6
 reference_time: 2026-08-19T12:00:00+08:00
 content: |
   Good cafes nearby to meet up with a friend this afternoon.
@@ -149,7 +149,7 @@ semantic:
       strength: HARD
     - value: good for meeting a friend
       polarity: POSITIVE
-      strength: SOFT
+      strength: UNSPECIFIED
 acceptance:
   required_claims:
     - Correct cafe near the supplied location; opening hours support the relevant part of the materialized
@@ -158,13 +158,13 @@ acceptance:
     - Availability is an optional extra only with sufficient parameters; missing reservation support is not a
       reason to block cafe recommendations.
   review:
-    - Meeting-a-friend suitability is SOFT. Do not require a party size merely to recommend cafes.
+    - Meeting-a-friend suitability is UNSPECIFIED. Do not require a party size merely to recommend cafes.
     - Do not move an already elapsed afternoon to tomorrow to obtain a result; report the actual time
       applicability.
 
 ---
 id: h005
-dataset: restaurant-read-development@5
+dataset: restaurant-read-development@6
 reference_time: 2026-08-19T16:00:00+08:00
 content: |
   Any spots nearby with open tables right now for 4 people? Local food only, no fast food.
