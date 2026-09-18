@@ -23,7 +23,7 @@ import { FixtureModelGateway } from "../infrastructure/fixture/fixture-model-gat
 import type { ModelGateway, ModelRequest, ModelResponse } from "../core/model/contracts.js";
 import { ModelGatewayError } from "../core/model/errors.js";
 import { FixtureRestaurantSearch } from "../infrastructure/fixture/fixture-restaurant-search.js";
-import type { RestaurantAvailabilityRequest, RestaurantCandidate, RestaurantReadEvidence, RestaurantSearchRequest } from "../domains/restaurant/contracts.js";
+import type { RestaurantAvailabilityRequest, RestaurantCandidate, RestaurantCandidateFactRequest, RestaurantReadEvidence, RestaurantSearchRequest } from "../domains/restaurant/contracts.js";
 import { applyPostgresMigrations } from "../infrastructure/postgres/migrations.js";
 import type {
   SqlDatabase,
@@ -281,7 +281,7 @@ async function nextCaseEvent(reader: ReadableStreamDefaultReader<Uint8Array>, de
   return JSON.parse(data) as RestaurantCaseView;
 }
 
-function strictFixtureAction(type: "SEARCH_RESTAURANTS" | "PRESENT_RESULTS", candidateIds: string[] = []): ModelResponse {
+function strictFixtureAction(type: "SEARCH_RESTAURANTS" | "INVESTIGATE_CANDIDATE_FACTS" | "PRESENT_RESULTS", candidateIds: string[] = []): ModelResponse {
   return {
     invocationId: `selection-model:${type}:${candidateIds.join(",")}`,
     provider: "FIXTURE", model: "selection-session-fixture",
@@ -290,7 +290,11 @@ function strictFixtureAction(type: "SEARCH_RESTAURANTS" | "PRESENT_RESULTS", can
   };
 }
 
-function selectionSessionFixture(calls: { search: number; facts: number; availability: number }, paginated = false): RestaurantSearchPort & RestaurantAvailabilityPort & RestaurantCandidateFactPort {
+function selectionSessionFixture(
+  calls: { search: number; facts: number; availability: number },
+  paginated = false,
+  initiallyUnverifiedCandidateIds: readonly string[] = [],
+): RestaurantSearchPort & RestaurantAvailabilityPort & RestaurantCandidateFactPort {
   const candidates: RestaurantCandidate[] = ["a", "b", "c", "d", "e", "f"].map((id) => ({
     restaurant: { id, outletName: `Session Restaurant ${id.toUpperCase()}`, address: "Shinjuku, Tokyo", sourceIds: { googlePlaces: `place-${id}` }, provenance: {} },
     matchReasons: ["fixture"], warnings: [], executionConfidence: "HIGH",
@@ -313,7 +317,10 @@ function selectionSessionFixture(calls: { search: number; facts: number; availab
       const selectedIds = new Set(selected.map((candidate) => candidate.restaurant.id));
       return {
         candidates: selected,
-        evidence: evidence.filter((item) => selectedIds.has(item.candidateId ?? "")),
+        evidence: evidence.filter((item) => selectedIds.has(item.candidateId ?? "")
+          && (Boolean(continuation)
+            || item.kind !== "RESTAURANT_FACT"
+            || !initiallyUnverifiedCandidateIds.includes(item.candidateId ?? ""))),
         continuation: {
           intentFingerprint: JSON.stringify(request.intent),
           ...(paginated && !continuation ? { nextPageToken: "fixture:page-2" } : {}),
@@ -325,7 +332,21 @@ function selectionSessionFixture(calls: { search: number; facts: number; availab
       };
     },
     async check() { calls.availability += 1; return { offers: [], availabilityChecks: {}, evidence: [], metadata: { provider: "FIXTURE" as const, route: "STRUCTURED_ADAPTER" as const, latencyMs: 0 } }; },
-    async inspectFacts() { calls.facts += 1; return { evidence: [], factChecks: {}, metadata: { provider: "FIXTURE" as const, route: "STRUCTURED_ADAPTER" as const, latencyMs: 0 } }; },
+    async inspectFacts(request: RestaurantCandidateFactRequest) {
+      calls.facts += 1;
+      const requestedIds = new Set(request.candidateIds);
+      const factEvidence = evidence.filter((item) => item.kind === "RESTAURANT_FACT" && requestedIds.has(item.candidateId ?? ""));
+      return {
+        evidence: factEvidence,
+        factChecks: Object.fromEntries(request.candidateIds.map((candidateId) => [candidateId, {
+          status: "COMPLETED" as const,
+          checkedAt: "2026-08-08T09:00:00.000Z",
+          evidenceIds: factEvidence.filter((item) => item.candidateId === candidateId).map((item) => item.evidenceId),
+          sourceProvider: "GOOGLE_PLACES" as const,
+        }])),
+        metadata: { provider: "FIXTURE" as const, route: "STRUCTURED_ADAPTER" as const, latencyMs: 0 },
+      };
+    },
   };
 }
 
@@ -356,12 +377,14 @@ function selectionSessionModel(calls: { model: number }, supportsConditionRevisi
         candidates: Array<{ id: string }>;
         presentation: Array<{ candidateId: string; eligible: boolean }>;
         resultBatchTarget?: { candidateCount: number };
-        legalActions: { presentResults: string[] };
+        legalActions: { investigateCandidateFacts: string[]; presentResults: string[] };
       };
       return context.candidates.length === 0
         ? strictFixtureAction("SEARCH_RESTAURANTS")
         : context.resultBatchTarget && context.legalActions.presentResults.length < context.resultBatchTarget.candidateCount
-          ? strictFixtureAction("SEARCH_RESTAURANTS")
+          ? context.legalActions.investigateCandidateFacts.length > 0
+            ? strictFixtureAction("INVESTIGATE_CANDIDATE_FACTS", context.legalActions.investigateCandidateFacts.slice(0, 3))
+            : strictFixtureAction("SEARCH_RESTAURANTS")
           : strictFixtureAction("PRESENT_RESULTS", context.legalActions.presentResults.slice(0, context.resultBatchTarget?.candidateCount ?? 3));
     },
   };
@@ -427,6 +450,26 @@ test("selection-session browse and shortlist use the persistent Web entry withou
       assert.equal(viaNaturalMessage.response.status, 200, String(viaNaturalMessage.payload.error));
       assert.deepEqual((viaNaturalMessage.payload.view as RestaurantCaseView).restaurant.viewedCandidateIds, ["a", "d"]);
       assert.deepEqual(calls, { model: 3, search: 1, facts: 0, availability: 0 });
+    } finally { await running.close(); }
+  });
+});
+
+test("selection-session fills an open-ended result target with candidate fact reads before presenting", async () => {
+  await withDatabase(async ({ database, clock }) => {
+    const calls = { model: 0, search: 0, facts: 0, availability: 0 };
+    const running = await startServer(database, clock, {
+      restaurant: selectionSessionFixture(calls, false, ["b", "c", "d", "e", "f"]),
+      model: selectionSessionModel(calls),
+    });
+    try {
+      const cookie = await login(running.baseUrl, "token-a");
+      const created = await createCase(running.baseUrl, cookie, "selection-fact-replenishment", "Recommend restaurants in Shinjuku.");
+      assert.equal(created.case.phase, "PRESENT_RESULTS");
+      assert.deepEqual(calls, { model: 4, search: 1, facts: 1, availability: 0 });
+      assert.deepEqual(created.restaurant.presentedCandidateIds, ["a", "b", "c"]);
+      assert.deepEqual(created.restaurant.resultBatchTarget, { candidateCount: 3, met: true });
+      assert.equal(created.activities.some((activity) => activity.type === "CANDIDATE_FACTS_CHECKED"), true);
+      assert.equal(created.activities.filter((activity) => activity.type === "SEARCH_COMPLETED").length, 1);
     } finally { await running.close(); }
   });
 });
