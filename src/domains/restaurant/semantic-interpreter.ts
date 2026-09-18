@@ -252,6 +252,11 @@ Do not strengthen vague freshness language into a more specific restaurant prope
 
 Keep criterion text concise, self-contained, and faithful to the user's meaning.
 Do not infer a taxonomy or category not expressed by the user.
+Keep a defining activity or capability in its original compact form: do not add
+"suitable for", "good for", or another evaluative framing that the user did
+not express. In particular, a requested "team dinner" remains "team dinner",
+not "suitable for a team dinner"; paraphrase only when it does not change the
+condition that later source evidence must support.
 
 ### POLARITY AND STRENGTH
 
@@ -329,6 +334,11 @@ The speaker counts when participating; a singular counterpart contributes one.
 A clearly two-person encounter can identify the speaker and that counterpart even
 without enumerating both. This is permitted semantic inference, not a fabricated
 user-provided number. Do not require a numeral for a closed set.
+
+For this Restaurant task, an unqualified first-date request is a clear two-person
+encounter: the speaker and one date. Emit PARTY_SIZE value 2 with
+INFERRED_CLOSED_PARTY unless the user states another total or names possible or
+additional attendees.
 
 Separate a closed pair or enumerated group from an open social group. A general
 occasion or group label that does not identify its participants gives no exact

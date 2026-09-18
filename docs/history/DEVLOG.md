@@ -1,13 +1,19 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.67
+- Document revision: 4.68
 - Last updated: 2026-09-18
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## 2026-09-18 Fixed-source real-model findings and semantic fidelity follow-up
+
+The frozen `9cfbd4f` composition ran H001–H005 once each against `SYNTHETIC_CONTROL` sources with the real DeepSeek model and the registered 5-minute/50-step/50-call ceilings. H001 alone passed the independent three-result acceptance. H002 omitted the already accepted closed first-date party inference and correctly asked for party size; H003 paraphrased a HARD activity into a different condition; H004 retained an independently unreviewable SOFT paraphrase; H005 returned two independently supported results but correctly recorded the three-result target as unmet. Execution and evaluation artifacts are retained; no failed case was retried.
+
+The next local correction clarifies the existing semantic policy rather than adds a downstream party fallback: an unqualified first date is explicitly speaker plus one date, and a defining activity must retain its compact user form instead of gaining “suitable for” framing. H005 fixed-source controls now state `local food` explicitly for all three candidates, because the prior second observation only said “regional cuisine” and did not supply sufficient evidence for the real fact judgment. This post-run code is offline-only and cannot recast the earlier model outputs; the required next review remains with the original researcher.
 
 ## 2026-09-18 Open-ended availability target and fixed-source acceptance closure
 

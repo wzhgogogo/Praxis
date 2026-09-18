@@ -1,13 +1,21 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.71
+- Document revision: 4.72
 - Last updated: 2026-09-18
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## TEST-2026-09-18-H001-H005-FIXED-SOURCE-REAL-MODEL — one run per frozen development case
+
+- Scope/budget: frozen commit `9cfbd4f`; one DeepSeek fixed-source execution each for H001–H005, with per-case ceilings 300,000ms/50 steps/50 model calls. All external source pages and Google responses were `SYNTHETIC_CONTROL` fixed transport; no real Google, website, browser, login, booking or external write occurred. Total: **25 model calls**, **95,297 tokens**, **30,990ms**, 11 controlled source-composition Google calls.
+- H001: PASS — `PRESENT_RESULTS`, three distinct candidates and `{candidateCount:3, met:true}`; evaluator@16 `qualified=YES`; 5,847ms/4 model calls. Artifacts: [result](../../.eval-artifacts/restaurant-fixed-source-model/2026-09-18T04-25-07-895Z-dd1e1427-402b-4165-a38c-7ea391805ecf.result.json) and [evaluation](../../.eval-artifacts/restaurant-fixed-source-model/2026-09-18T04-25-07-895Z-dd1e1427-402b-4165-a38c-7ea391805ecf.result.evaluation.16-1789705513752.json).
+- H002: FAIL — semantic Proposal omitted `PARTY_SIZE`; Agent correctly stopped at `NEEDS_INPUT` before source reads (3,621ms/2 calls). H003: FAIL — three results were presented, but semantic output changed required `team dinner` to `suitable for a team dinner`; evaluator rejected authoritative conditions/evidence (6,586ms/4 calls). H004: FAIL/unknown — evidence was sufficient but a SOFT paraphrase made independent semantic equivalence `NOT_EVALUATED` (6,495ms/7 calls). H005: FAIL — evaluator found the two presented candidates supported, but acceptance rejected `2/3` and `met:false` (8,441ms/8 calls). Their execution/evaluation pairs remain in the same artifact directory; no rerun was made.
+- Post-run local repair: Prompt@18 explicitly states the accepted first-date pair inference and prohibits unnecessary suitability paraphrases; every H005 synthetic candidate now has explicit `local food` source text. Focused Interpreter/fixed-source/production-composition command passed **23/23** (305ms). Final `npm run typecheck`, `npm run arch:check`, and `npm run build` passed; loopback-authorized `npm test` passed **437/437**, 0 fail/cancel/skip/todo (18,557ms). This proves the revised local contracts only; it does not alter or validate the five earlier real-model results.
+- Next gate: original-researcher review of both the immutable run artifacts and the local repair. A further real-model run would require a new bounded authorization and a separately recorded snapshot.
 
 ## TEST-2026-09-18-OPEN-ENDED-AVAILABILITY-RESULT-TARGET — offline production composition and acceptance
 

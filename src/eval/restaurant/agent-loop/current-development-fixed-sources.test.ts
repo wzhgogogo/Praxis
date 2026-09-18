@@ -15,6 +15,14 @@ const intent = {
   criteria: [{ text: "vegetarian restaurant", polarity: "POSITIVE" as const, strength: "HARD" as const }],
 };
 
+test("H005 fixed controls explicitly support local-food evidence for every target candidate", () => {
+  const scenario = currentDevelopmentSourceScenario("h005");
+  assert.equal(scenario.observations.length, 3);
+  for (const observation of scenario.observations) {
+    assert.ok(observation.websiteFacts?.types.some((fact) => /local food/i.test(fact)), observation.google.displayName);
+  }
+});
+
 test("fixed source discovery is candidate-scoped and accepts equivalent retrieval wording", async () => {
   const sources = createCurrentDevelopmentFixedSources(currentDevelopmentSourceScenario("multi-candidate-control"), { now: () => "2026-08-19T08:00:00.000Z" }, model);
   const equivalent = await sources.search.search({ intent: { ...intent, target: { ...intent.target, query: "vegetarian places around Shibuya" } }, readRunId: "source-equivalent" }, new AbortController().signal);
