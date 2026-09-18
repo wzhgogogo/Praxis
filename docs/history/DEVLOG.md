@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.65
+- Document revision: 4.66
 - Last updated: 2026-09-18
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -15,9 +15,11 @@ The continuous selection slice now distinguishes semantic target scope rather th
 
 The Semantic Interpreter now retains existing target scope/count in its bounded context, so a later user revision cannot silently erase that classification. Its party transport contract has additional controlled cases for enumerated participants, explicit count correction, open groups, unknown extra attendees and a generic dated romantic recommendation; these tests prove the Proposal → Compiler → Draft path preserves a declared count and never adds one downstream. They do not claim that an external model will infer natural language correctly. The user-visible feedback recognizer accepts the bounded same-meaning phrase “These are too expensive” and Chinese/Japanese counterparts without converting it into a numeric budget.
 
+`restaurant-semantic-prompt@16` now asks each emitted party count to label `EXPLICIT` or `INFERRED_CLOSED_PARTY`. The closed enum survives Proposal → Compiler → Draft and the existing semantic Event links it to the corresponding persisted user-message request ID. It is diagnostic-only: the Router continues to bind only the numeric `partySize`, and no Policy, source Evidence, availability action, or provider request consumes the origin. Legacy proposal records remain readable without fabricated provenance; clearing a count clears the diagnostic. The Web execution artifact exports the source without exposing raw user text or model reasoning.
+
 The persistent Web composition also now has the exact shortfall path that was previously only covered by the Domain validator: discovery returns a–f but supplies grounded facts only for a; the controlled Agent selects the legal b/c/d fact read, then the existing Router, Reducer and HTTP projection present a/b/c. It asserts one discovery, one fact read, four model-boundary calls, no availability access, the met target, and no premature second discovery. This is a regression of composition behavior, not a new selection algorithm or a model-quality claim.
 
-No Gold/Holdout, paid model, external source, booking or push occurred in this incremental offline change. The current loopback-enabled full suite is 433/433. Real-model scope classification, current Google results and Live continuation behavior remain separately authorized evidence gaps; original-researcher review remains pending.
+No Gold/Holdout, paid model, external source, booking or push occurred in this incremental offline change. The current loopback-enabled full suite is 435/435. Real-model scope classification, current Google results and Live continuation behavior remain separately authorized evidence gaps; original-researcher review remains pending.
 
 ## 2026-09-18 Continuous Restaurant selection session and Google pagination
 

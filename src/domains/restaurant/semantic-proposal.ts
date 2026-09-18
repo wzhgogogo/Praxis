@@ -1,11 +1,11 @@
 import {
   RESTAURANT_CRITERION_POLARITIES,
   RESTAURANT_CRITERION_STRENGTHS,
-  type RestaurantCriterion, type RestaurantReadGoal, type RestaurantSelectionScope,
+  type RestaurantCriterion, type RestaurantPartySizeSource, type RestaurantReadGoal, type RestaurantSelectionScope,
 } from "./contracts.js";
 
 export const RESTAURANT_SEMANTIC_PROPOSAL_PURPOSE = "restaurant_semantic_interpret";
-export const RESTAURANT_SEMANTIC_PROPOSAL_PROMPT_VERSION = "v15";
+export const RESTAURANT_SEMANTIC_PROPOSAL_PROMPT_VERSION = "v16";
 export const RESTAURANT_SEMANTIC_PROPOSAL_SCHEMA = {
   name: "restaurant-semantic-proposal",
   version: "3",
@@ -44,7 +44,7 @@ export type RestaurantSemanticValue =
   | { kind: "TIME_WINDOW"; daypart: "AFTERNOON" | "AFTER_WORK" | "EVENING"; raw: string }
   | { kind: "TIME_WINDOW"; daypart: "AFTERNOON"; relativeDay: "TODAY"; raw: string }
   | { kind: "TIME_WINDOW"; relativeOffsetMinutes: number; raw: string }
-  | { kind: "PARTY_SIZE"; value: number }
+  | { kind: "PARTY_SIZE"; value: number; source?: RestaurantPartySizeSource }
   | { kind: "AREA"; query: string }
   | { kind: "BUDGET_PER_PERSON"; max: number; currency: "JPY" }
   | ({ kind: "CRITERION" } & RestaurantCriterion);
@@ -143,7 +143,10 @@ function valueSchema(field: RestaurantSemanticField): Record<string, unknown> {
         strictObject({ kind, relativeOffsetMinutes: { type: "integer", minimum: 0, maximum: 10080 }, raw: { type: "string" } }),
       ] };
     case "PARTY_SIZE":
-      return strictObject({ kind, value: { type: "integer", minimum: 1 } });
+      return { anyOf: [
+        strictObject({ kind, value: { type: "integer", minimum: 1 } }),
+        strictObject({ kind, value: { type: "integer", minimum: 1 }, source: { type: "string", enum: ["EXPLICIT", "INFERRED_CLOSED_PARTY"] } }),
+      ] };
     case "BUDGET_PER_PERSON":
       return strictObject({
         kind,
@@ -233,7 +236,8 @@ function valueMatchesField(field: RestaurantSemanticField, value: unknown): bool
         (hasOnlyKeys(value, ["kind", "relativeOffsetMinutes", "raw"]) && typeof value.relativeOffsetMinutes === "number" && Number.isInteger(value.relativeOffsetMinutes) && value.relativeOffsetMinutes >= 0 && value.relativeOffsetMinutes <= 10_080 && isNonBlankString(value.raw));
     case "PARTY_SIZE":
       return (
-        hasOnlyKeys(value, ["kind", "value"]) &&
+        (hasOnlyKeys(value, ["kind", "value"]) ||
+          (hasOnlyKeys(value, ["kind", "value", "source"]) && (value.source === "EXPLICIT" || value.source === "INFERRED_CLOSED_PARTY"))) &&
         typeof value.value === "number" &&
         Number.isInteger(value.value) &&
         value.value > 0

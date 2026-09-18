@@ -91,6 +91,7 @@ export function applyRestaurantIntentPatch(
     ...(current?.permittedAlternativeTimeWindow ? { permittedAlternativeTimeWindow: structuredClone(current.permittedAlternativeTimeWindow) } : {}),
     ...(current?.temporalResolution ? { temporalResolution: structuredClone(current.temporalResolution) } : {}),
     ...(current?.partySize ? { partySize: current.partySize } : {}),
+    ...(current?.partySizeSource ? { partySizeSource: current.partySizeSource } : {}),
     ...(current?.area ? { area: structuredClone(current.area) } : {}),
     criteria: structuredClone(current?.criteria ?? []),
     ...(current?.budgetPerPerson
@@ -122,8 +123,15 @@ export function applyRestaurantIntentPatch(
     else if (patch.temporalResolution) next.temporalResolution = structuredClone(patch.temporalResolution);
   }
   if (hasOwn(patch, "partySize")) {
-    if (patch.partySize === null) delete next.partySize;
+    if (patch.partySize === null) {
+      delete next.partySize;
+      delete next.partySizeSource;
+    }
     else if (patch.partySize) next.partySize = patch.partySize;
+  }
+  if (hasOwn(patch, "partySizeSource")) {
+    if (patch.partySizeSource === null) delete next.partySizeSource;
+    else if (patch.partySizeSource && next.partySize !== undefined) next.partySizeSource = patch.partySizeSource;
   }
   if (hasOwn(patch, "area")) {
     if (patch.area === null) delete next.area;

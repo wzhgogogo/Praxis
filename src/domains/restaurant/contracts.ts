@@ -16,6 +16,9 @@ export const RESTAURANT_READ_GOALS = ["RECOMMENDATION", "AVAILABILITY"] as const
 export type RestaurantReadGoal = (typeof RESTAURANT_READ_GOALS)[number];
 export const RESTAURANT_SELECTION_SCOPES = ["OPEN_ENDED", "SPECIFIC_OUTLET"] as const;
 export type RestaurantSelectionScope = (typeof RESTAURANT_SELECTION_SCOPES)[number];
+/** Diagnostic provenance for a party count; it never changes read authority. */
+export const RESTAURANT_PARTY_SIZE_SOURCES = ["EXPLICIT", "INFERRED_CLOSED_PARTY"] as const;
+export type RestaurantPartySizeSource = (typeof RESTAURANT_PARTY_SIZE_SOURCES)[number];
 export interface RestaurantTarget {
   goal: RestaurantReadGoal;
   query: string;
@@ -81,6 +84,8 @@ export interface RestaurantIntentDraft {
   permittedAlternativeTimeWindow?: { earliest: string; latest: string };
   temporalResolution?: RestaurantTemporalResolution;
   partySize?: number;
+  /** Untrusted semantic classification retained with its user-message event; never used as an execution input. */
+  partySizeSource?: RestaurantPartySizeSource;
   area?: { query: string; placeId?: string; radiusMeters?: number; coordinates?: RestaurantAreaCoordinates };
   criteria: RestaurantCriterion[];
   budgetPerPerson?: { max: number; currency: "JPY" };
@@ -551,6 +556,7 @@ export interface RestaurantIntentPatch {
   permittedAlternativeTimeWindow?: { earliest: string; latest: string } | null;
   temporalResolution?: RestaurantTemporalResolution | null;
   partySize?: number | null;
+  partySizeSource?: RestaurantPartySizeSource | null;
   area?: { query: string; placeId?: string; radiusMeters?: number; coordinates?: RestaurantAreaCoordinates } | null;
   budgetPerPerson?: { max: number; currency: "JPY" } | null;
   addCriteria?: RestaurantCriterion[];
@@ -572,7 +578,12 @@ export type RestaurantSemanticExpectedDecision =
   | { type: "SEARCH" };
 
 export type RestaurantEvent =
-  | (DomainEvent & { type: "SEMANTIC_PROPOSAL_COMPILED"; patch: RestaurantIntentPatch })
+  | (DomainEvent & {
+      type: "SEMANTIC_PROPOSAL_COMPILED";
+      patch: RestaurantIntentPatch;
+      /** Links party-size diagnostic provenance to the persisted user message, never to provider evidence. */
+      partySizeSourceMessageRequestId?: string;
+    })
   /** Eval-only trusted context, never a user device-location substitute or product default. */
   | (DomainEvent & { type: "EVALUATION_LOCATION_BOUND"; coordinates: RestaurantAreaCoordinates & { source: "EVALUATION"; radiusMeters?: number } })
   | (DomainEvent & { type: "SEMANTIC_CONFLICT_RECORDED"; conflict: RestaurantSemanticConflict })

@@ -15,7 +15,7 @@ test("Restaurant Semantic Compiler translates independent corrections and criter
   const proposal: RestaurantSemanticProposal = {
     schemaVersion: "3",
     facts: [
-      { field: "PARTY_SIZE", operation: "CORRECT", value: { kind: "PARTY_SIZE", value: 3 } },
+      { field: "PARTY_SIZE", operation: "CORRECT", value: { kind: "PARTY_SIZE", value: 3, source: "EXPLICIT" } },
       { field: "AREA", operation: "CORRECT", value: { kind: "AREA", query: "Shibuya" } },
       { field: "CRITERION", operation: "NEGATE", value: criterion("yakiniku") },
     ],
@@ -26,10 +26,44 @@ test("Restaurant Semantic Compiler translates independent corrections and criter
     patch: {
       schemaVersion: "3",
       partySize: 3,
+      partySizeSource: "EXPLICIT",
       area: { query: "Shibuya" },
       removeCriteria: [{ text: "yakiniku", polarity: "POSITIVE", strength: "UNSPECIFIED" }],
     },
   });
+});
+
+test("Restaurant Semantic Compiler retains party provenance only as diagnostic state and clears it with the count", () => {
+  const inferred = compileRestaurantSemanticProposal({
+    schemaVersion: "3",
+    facts: [{ field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2, source: "INFERRED_CLOSED_PARTY" } }],
+  });
+  assert.deepEqual(inferred, {
+    status: "COMPILED",
+    patch: { schemaVersion: "3", partySize: 2, partySizeSource: "INFERRED_CLOSED_PARTY" },
+  });
+  if (inferred.status !== "COMPILED") return;
+  const draft = applyRestaurantIntentPatch(undefined, inferred.patch);
+  assert.equal(draft.partySize, 2);
+  assert.equal(draft.partySizeSource, "INFERRED_CLOSED_PARTY");
+
+  const cleared = compileRestaurantSemanticProposal({ schemaVersion: "3", facts: [{ field: "PARTY_SIZE", operation: "NEGATE" }] });
+  assert.equal(cleared.status, "COMPILED");
+  if (cleared.status !== "COMPILED") return;
+  const afterClear = applyRestaurantIntentPatch(draft, cleared.patch);
+  assert.equal(afterClear.partySize, undefined);
+  assert.equal(afterClear.partySizeSource, undefined);
+
+  const legacyCorrection = compileRestaurantSemanticProposal({
+    schemaVersion: "3",
+    facts: [{ field: "PARTY_SIZE", operation: "CORRECT", value: { kind: "PARTY_SIZE", value: 3 } }],
+  });
+  assert.equal(legacyCorrection.status, "COMPILED");
+  if (legacyCorrection.status !== "COMPILED") return;
+  const noStaleSource = applyRestaurantIntentPatch(draft, legacyCorrection.patch);
+  assert.equal(noStaleSource.partySize, 3);
+  assert.equal(noStaleSource.partySizeSource, undefined);
+  assert.equal(applyRestaurantIntentPatch(undefined, { schemaVersion: "3", partySizeSource: "EXPLICIT" }).partySizeSource, undefined);
 });
 
 test("Restaurant Semantic Compiler preserves the user delivery goal independently of party size", () => {

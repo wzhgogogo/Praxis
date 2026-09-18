@@ -10,7 +10,7 @@ test("Semantic Proposal Contract accepts stable slots and open criteria without 
   const valid = validateRestaurantSemanticProposal({
     schemaVersion: "3",
     facts: [
-      { field: "PARTY_SIZE", operation: "CORRECT", value: { kind: "PARTY_SIZE", value: 3 } },
+      { field: "PARTY_SIZE", operation: "CORRECT", value: { kind: "PARTY_SIZE", value: 3, source: "EXPLICIT" } },
       { field: "AREA", operation: "NEGATE" },
       {
         field: "CRITERION",
@@ -27,6 +27,21 @@ test("Semantic Proposal Contract accepts stable slots and open criteria without 
   });
 
   assert.equal(valid.valid, true);
+});
+
+test("Semantic Proposal Contract accepts only an explicit or closed-party source for a party count", () => {
+  const inferred = validateRestaurantSemanticProposal({
+    schemaVersion: "3",
+    facts: [{ field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2, source: "INFERRED_CLOSED_PARTY" } }],
+  });
+  assert.equal(inferred.valid, true);
+
+  const invalid = validateRestaurantSemanticProposal({
+    schemaVersion: "3",
+    facts: [{ field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2, source: "MODEL_GUESS" } }],
+  });
+  assert.equal(invalid.valid, false);
+  if (!invalid.valid) assert.match(invalid.errors.join(" "), /must match PARTY_SIZE/);
 });
 
 test("Semantic Proposal Contract carries an explicit open-ended recommendation count but rejects it for a named outlet", () => {

@@ -735,6 +735,9 @@ test("W08 ordinary Web cancellation writes an immutable execution artifact and i
       assert.equal(result.mode, "WEB_READ");
       assert.equal(result.status, "CANCELLED");
       const semantic = (result.materializedCase as {semantic: Record<string, unknown>}).semantic;
+      assert.equal(semantic.party_size_source, "EXPLICIT");
+      const partySourceEvent = (result.events as Array<{ event: Record<string, unknown> }>).find((item) => item.event.type === "SEMANTIC_PROPOSAL_COMPILED");
+      assert.equal(partySourceEvent?.event.partySizeSourceMessageRequestId, "user:web-artifact-cancel");
       assert.deepEqual(semantic.time, {value: "19:00"});
       assert.deepEqual(semantic.permittedAlternativeTimeWindow, {earliest: "18:30", latest: "19:30"});
       assert.equal(evaluation.evaluatorVersion, RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION);

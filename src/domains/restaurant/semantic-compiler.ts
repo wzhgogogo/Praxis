@@ -148,6 +148,7 @@ function compileFact(patch: RestaurantIntentPatch, fact: RestaurantSemanticFact)
         return;
       case "PARTY_SIZE":
         patch.partySize = null;
+        patch.partySizeSource = null;
         return;
       case "AREA":
         patch.area = null;
@@ -178,7 +179,12 @@ function compileFact(patch: RestaurantIntentPatch, fact: RestaurantSemanticFact)
       // legitimately set both the local date and exact local clock time.
       return;
     case "PARTY_SIZE": {
-      patch.partySize = valueFor(fact, "PARTY_SIZE").value;
+      const value = valueFor(fact, "PARTY_SIZE");
+      patch.partySize = value.value;
+      // New semantic proposals carry this diagnostic source. Historical
+      // proposals remain executable without manufacturing provenance.
+      if (value.source) patch.partySizeSource = value.source;
+      else patch.partySizeSource = null;
       return;
     }
     case "AREA": {

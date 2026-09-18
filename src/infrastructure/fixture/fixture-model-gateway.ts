@@ -45,9 +45,9 @@ function fixtureSemanticProposalFor(message: string): RestaurantSemanticProposal
     });
   }
   if (/\b(three|3)\b/.test(normalized)) {
-    add({ field: "PARTY_SIZE", operation, value: { kind: "PARTY_SIZE", value: 3 } });
+    add({ field: "PARTY_SIZE", operation, value: { kind: "PARTY_SIZE", value: 3, source: "EXPLICIT" } });
   } else if (/\b(two|2)\b/.test(normalized)) {
-    add({ field: "PARTY_SIZE", operation, value: { kind: "PARTY_SIZE", value: 2 } });
+    add({ field: "PARTY_SIZE", operation, value: { kind: "PARTY_SIZE", value: 2, source: "EXPLICIT" } });
   }
   if (normalized.includes("shinjuku")) {
     add({ field: "AREA", operation, value: { kind: "AREA", query: "Shinjuku" } });

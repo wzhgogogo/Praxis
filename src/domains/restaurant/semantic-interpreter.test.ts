@@ -65,7 +65,7 @@ test("Semantic Interpreter sends the proposal schema and separates user data fro
   assert.equal(gateway.calls.length, 1);
   const request = gateway.calls[0]!;
   assert.equal(request.purpose, "restaurant_semantic_interpret");
-  assert.equal(request.promptVersion, "v15");
+  assert.equal(request.promptVersion, "v16");
   assert.deepEqual(request.outputSchema, {
     name: "restaurant-semantic-proposal",
     version: "3",
@@ -134,14 +134,14 @@ test("closed-party and open-group proposals stay distinct through the semantic b
   // authorized evaluation concern.
   const closedGateway = new QueuedGateway([response(JSON.stringify({
     schemaVersion: "3",
-    facts: [{ field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } }],
+    facts: [{ field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2, source: "INFERRED_CLOSED_PARTY" } }],
   }))]);
   const closed = await new RestaurantSemanticInterpreter(closedGateway).interpret({
     taskId: "closed-pair", message: "Dinner with my partner in Shibuya.", referenceTime: "2026-09-18T09:00:00+09:00", timezone: "Asia/Tokyo",
   });
   assert.equal(closed.status, "PROPOSED");
   if (closed.status === "PROPOSED") {
-    assert.deepEqual(compileRestaurantSemanticProposal(closed.proposal), { status: "COMPILED", patch: { schemaVersion: "3", partySize: 2 } });
+    assert.deepEqual(compileRestaurantSemanticProposal(closed.proposal), { status: "COMPILED", patch: { schemaVersion: "3", partySize: 2, partySizeSource: "INFERRED_CLOSED_PARTY" } });
   }
   const prompt = closedGateway.calls[0]?.messages[0]?.content ?? "";
   assert.match(prompt, /closed participant set/i);
@@ -163,11 +163,11 @@ test("party-size transport preserves an enumerated or explicit count and never s
   // a paid model's language understanding. They prove that the Interpreter →
   // Compiler → Draft path neither drops a declared count nor invents one.
   const cases = [
-    { id: "enumerated", message: "Dinner with Mei, Ken, and me in Ginza.", facts: [{ field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 3 } }], expected: 3, currentPartySize: undefined },
-    { id: "explicit-override", message: "Make it four people.", facts: [{ field: "PARTY_SIZE", operation: "CORRECT", value: { kind: "PARTY_SIZE", value: 4 } }], expected: 4, currentPartySize: 2 },
-    { id: "open-group", message: "Find somewhere for friends and whoever else joins.", facts: [], expected: undefined, currentPartySize: undefined },
-    { id: "extra-attendee", message: "Dinner with my partner and possibly colleagues.", facts: [], expected: undefined, currentPartySize: undefined },
-    { id: "generic-date", message: "Recommend a romantic dinner for Friday.", facts: [], expected: undefined, currentPartySize: undefined },
+    { id: "enumerated", message: "Dinner with Mei, Ken, and me in Ginza.", facts: [{ field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 3, source: "INFERRED_CLOSED_PARTY" } }], expected: 3, source: "INFERRED_CLOSED_PARTY", currentPartySize: undefined },
+    { id: "explicit-override", message: "Make it four people.", facts: [{ field: "PARTY_SIZE", operation: "CORRECT", value: { kind: "PARTY_SIZE", value: 4, source: "EXPLICIT" } }], expected: 4, source: "EXPLICIT", currentPartySize: 2 },
+    { id: "open-group", message: "Find somewhere for friends and whoever else joins.", facts: [], expected: undefined, source: undefined, currentPartySize: undefined },
+    { id: "extra-attendee", message: "Dinner with my partner and possibly colleagues.", facts: [], expected: undefined, source: undefined, currentPartySize: undefined },
+    { id: "generic-date", message: "Recommend a romantic dinner for Friday.", facts: [], expected: undefined, source: undefined, currentPartySize: undefined },
   ] as const;
 
   for (const item of cases) {
@@ -189,5 +189,6 @@ test("party-size transport preserves an enumerated or explicit count and never s
       compiled.patch,
     );
     assert.equal(draft.partySize, item.expected, item.id);
+    assert.equal(draft.partySizeSource, item.source, item.id);
   }
 });

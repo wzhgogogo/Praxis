@@ -404,7 +404,7 @@ test("isolated implementation mutations are detected by passing Hybrid controls"
       testName: "Hybrid production composition binds an explicit evaluation location before Agent investigation and independently evaluates its actual result",
       mutation: {
         relativePath: "src/domains/restaurant/semantic-compiler.ts",
-        from: "patch.partySize = valueFor(fact, \"PARTY_SIZE\").value;",
+        from: "patch.partySize = value.value;",
         to: "// mutation: explicit PARTY_SIZE is silently dropped",
       },
       expectedBusinessAssertion: /explicit party-size must survive semantic compilation/,

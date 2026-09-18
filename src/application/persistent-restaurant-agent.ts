@@ -661,6 +661,7 @@ export class PersistentRestaurantAgentApplication {
       ...(intent.target ? { target: structuredClone(intent.target) } : {}),
       ...(intent.date ? { date: { value: intent.date } } : {}),
       ...(intent.partySize !== undefined ? { party_size: intent.partySize } : {}),
+      ...(intent.partySizeSource ? { party_size_source: intent.partySizeSource } : {}),
       ...(intent.timeWindow ? { time: intent.timeWindow.earliest === intent.timeWindow.latest ? { value: intent.timeWindow.earliest } : { start: intent.timeWindow.earliest, end: intent.timeWindow.latest } } : {}),
       ...(intent.permittedAlternativeTimeWindow ? { permittedAlternativeTimeWindow: structuredClone(intent.permittedAlternativeTimeWindow) } : {}),
       ...(intent.area ? { location: { value: intent.area.query, relation: "NEAR" } } : {}),
@@ -713,8 +714,11 @@ export class PersistentRestaurantAgentApplication {
         ? { currentDraft: snapshot.domainState.intentDraft }
         : {}),
     });
+    const eventWithPartySource = event.type === "SEMANTIC_PROPOSAL_COMPILED" && event.patch.partySizeSource
+      ? { ...event, partySizeSourceMessageRequestId: `user:${requestId}` }
+      : event;
     await this.runtime.dispatch(
-      this.userEvent(snapshot, requestId, event),
+      this.userEvent(snapshot, requestId, eventWithPartySource),
       expectedVersion,
     );
     await this.store.appendMessage({

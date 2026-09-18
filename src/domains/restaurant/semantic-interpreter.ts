@@ -125,6 +125,7 @@ function modelContext(draft: RestaurantIntentDraft | undefined): Record<string, 
     ...(draft.date ? { date: draft.date } : {}),
     ...(draft.timeWindow ? { timeWindow: draft.timeWindow } : {}),
     ...(draft.partySize ? { partySize: draft.partySize } : {}),
+    ...(draft.partySizeSource ? { partySizeSource: draft.partySizeSource } : {}),
     ...(draft.area ? { area: { query: draft.area.query } } : {}),
     ...(draft.criteria.length > 0 ? { criteria: draft.criteria } : {}),
     ...(draft.budgetPerPerson ? { budgetPerPerson: draft.budgetPerPerson } : {}),
@@ -380,7 +381,7 @@ TIME_WINDOW (relative offset):
 {"kind":"TIME_WINDOW","relativeOffsetMinutes":120,"raw":"in two hours"}
 
 PARTY_SIZE:
-{"kind":"PARTY_SIZE","value":2}
+{"kind":"PARTY_SIZE","value":2,"source":"EXPLICIT|INFERRED_CLOSED_PARTY"}
 
 AREA:
 {"kind":"AREA","query":"Area Name"}
@@ -391,7 +392,7 @@ BUDGET_PER_PERSON:
 CRITERION:
 {"kind":"CRITERION","text":"...","polarity":"POSITIVE|NEGATIVE","strength":"HARD|SOFT|UNSPECIFIED"}
 
-Before returning, check that every expressed selection condition has been retained, no approximate value became a firm limit, local flexibility has not spread to neighboring conditions, and a closed participant set was counted. This check does not add facts or change the output schema. Return only the proposal, not an explanation.
+For every PARTY_SIZE you emit, use source EXPLICIT only for a number the user stated; use INFERRED_CLOSED_PARTY only when the message unambiguously describes a closed participant set. This source is a diagnostic label tied to the same user message, not an execution instruction. Before returning, check that every expressed selection condition has been retained, no approximate value became a firm limit, local flexibility has not spread to neighboring conditions, and a closed participant set was counted. This check does not add facts or change the output schema. Return only the proposal, not an explanation.
 
 Do not emit an empty facts list when the current user message expresses any restaurant-search fact.
 
