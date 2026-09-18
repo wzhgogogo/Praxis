@@ -48,6 +48,36 @@ test("source resolver always prefers TableCheck and does not call Tabelog after 
   assert.deepEqual(result.metadata.providerAttempts, [{ candidateId: candidate.restaurant.id, provider: "TABLECHECK", outcome: "AVAILABLE" }]);
 });
 
+test("a legal Tabelog same-store entrance changes only source order and still stops after its grounded no-slot observation", async () => {
+  const calls: string[] = [];
+  const hinted = {
+    ...candidate,
+    restaurant: {
+      ...candidate.restaurant,
+      sourceIds: { ...candidate.restaurant.sourceIds, googleWebsiteUri: "https://tabelog.com/tokyo/A1301/example/" },
+    },
+  };
+  const result = await new AvailabilitySourceResolver(
+    provider("TABLECHECK", { status: "AVAILABLE" }, calls),
+    provider("TABELOG", { status: "UNAVAILABLE" }, calls),
+  ).check({ ...request, candidates: [hinted] }, new AbortController().signal);
+  assert.deepEqual(calls, ["TABELOG"]);
+  assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "UNAVAILABLE");
+  assert.deepEqual(result.availabilityChecks[candidate.restaurant.id]?.sourceAttempts, [{ source: "TABELOG", outcome: "UNAVAILABLE" }]);
+});
+
+test("an unrelated or malformed URL cannot reorder the default TableCheck-first source path", async () => {
+  for (const googleWebsiteUri of ["https://evil.example/tabelog.com/restaurant", "not a URL"]) {
+    const calls: string[] = [];
+    const hinted = { ...candidate, restaurant: { ...candidate.restaurant, sourceIds: { ...candidate.restaurant.sourceIds, googleWebsiteUri } } };
+    await new AvailabilitySourceResolver(
+      provider("TABLECHECK", { status: "UNAVAILABLE" }, calls),
+      provider("TABELOG", { status: "AVAILABLE" }, calls),
+    ).check({ ...request, candidates: [hinted] }, new AbortController().signal);
+    assert.deepEqual(calls, ["TABLECHECK"], googleWebsiteUri);
+  }
+});
+
 test("source resolver falls back from a TableCheck provider failure to Tabelog", async () => {
   const calls: string[] = [];
   const result = await new AvailabilitySourceResolver(

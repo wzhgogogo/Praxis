@@ -10,6 +10,22 @@ import type { RestaurantAvailabilityProvider } from "./contracts.js";
 
 const PROVIDER_ORDER = ["TABLECHECK", "TABELOG"] as const;
 
+function hintedProviderOrder(request: RestaurantAvailabilityRequest): readonly RestaurantAvailabilityProvider["provider"][] {
+  const hint = request.candidates[0]?.restaurant.sourceIds.googleWebsiteUri;
+  if (!hint) return PROVIDER_ORDER;
+  try {
+    const hostname = new URL(hint).hostname.toLocaleLowerCase("en-US");
+    // A discovery URL may influence which provider is inspected first, but it
+    // is not itself identity or availability evidence. The selected provider
+    // must still prove the exact outlet before querying its controls.
+    if (hostname === "www.tabelog.com" || hostname === "tabelog.com") return ["TABELOG", "TABLECHECK"];
+    if (hostname === "www.tablecheck.com" || hostname === "tablecheck.com") return PROVIDER_ORDER;
+  } catch {
+    // An invalid/unrelated discovery pointer never changes the safe default.
+  }
+  return PROVIDER_ORDER;
+}
+
 function singleCandidateRequest(
   request: RestaurantAvailabilityRequest,
   candidateId: string,
@@ -65,7 +81,7 @@ export class AvailabilitySourceResolver {
         let lastCheck: RestaurantAvailabilityCheck | undefined;
         const candidateEvidence: RestaurantReadEvidence[] = [];
         const accumulatedCandidateFactUpdates: RestaurantCandidateFactUpdate[] = [];
-        for (const providerName of PROVIDER_ORDER) {
+        for (const providerName of hintedProviderOrder(candidateRequest)) {
           const provider = this.providers.find((item) => item.provider === providerName);
           if (!provider) continue;
           try {
