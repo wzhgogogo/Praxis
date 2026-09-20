@@ -125,6 +125,7 @@ class MixedStatusModel extends ScriptedExternalModel {
       return response(JSON.stringify({ judgments: [{
         criterion: "hot pot restaurant",
         outcome: input.candidate.name === "Source Hot Pot" ? "CONFLICT" : "SUPPORTED",
+        scope: "RESTAURANT_CATEGORY_TYPE",
         evidenceIds: input.observations.map((observation) => observation.evidenceId),
       }] }), `fact-judgment:${input.candidate.name}`);
     }
@@ -141,6 +142,67 @@ class MixedStatusModel extends ScriptedExternalModel {
         { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "hot pot restaurant", polarity: "NEGATIVE", strength: "HARD" } },
       ],
     }), "semantic-mixed-status");
+  }
+}
+
+class CategoryUnknownHybridModel extends ScriptedExternalModel {
+  override async complete(request: ModelRequest): Promise<ModelResponse> {
+    if (request.purpose === "restaurant_fact_judgment") {
+      const input = JSON.parse(request.messages.find((message) => message.role === "user")!.content) as { observations: Array<{ evidenceId: string }> };
+      return response(JSON.stringify({ judgments: [{ criterion: "fast food", outcome: "UNKNOWN", scope: "RESTAURANT_CATEGORY_TYPE", evidenceIds: input.observations.map((item) => item.evidenceId) }] }), "category-unknown");
+    }
+    if (request.purpose !== "restaurant_semantic_interpret") return super.complete(request);
+    return response(JSON.stringify({ schemaVersion: "3", facts: [
+      { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "RECOMMENDATION", query: "restaurants" } },
+      { field: "DATE", operation: "ASSERT", value: { kind: "DATE", relativeDay: "TOMORROW", raw: "tomorrow" } },
+      { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", daypart: "AFTERNOON", raw: "afternoon" } },
+      { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "nearby" } },
+      { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "fast food", polarity: "NEGATIVE", strength: "HARD" } },
+    ] }), "semantic-category-unknown");
+  }
+}
+
+class AddedExclusionModel extends CategoryUnknownHybridModel {
+  readonly semanticSystemPrompts: string[] = [];
+
+  constructor(private readonly exclusion: "ramen" | "conveyor-belt sushi") {
+    super(1);
+  }
+
+  override async complete(request: ModelRequest): Promise<ModelResponse> {
+    if (request.purpose === "restaurant_fact_judgment") {
+      const input = JSON.parse(request.messages.find((message) => message.role === "user")!.content) as {
+        criteria: Array<{ text: string; polarity: "POSITIVE" | "NEGATIVE" }>;
+        observations: Array<{ evidenceId: string }>;
+      };
+      const evidenceIds = input.observations.map((item) => item.evidenceId);
+      const addedCriterion = input.criteria.find((item) => item.polarity === "NEGATIVE" && item.text.toLocaleLowerCase("en-US") === this.exclusion)?.text;
+      return response(JSON.stringify({ judgments: [
+        { criterion: "fast food", outcome: "UNKNOWN", scope: "RESTAURANT_CATEGORY_TYPE", evidenceIds },
+        ...(addedCriterion ? [{ criterion: addedCriterion, outcome: "CONFLICT", scope: "RESTAURANT_CATEGORY_TYPE", evidenceIds }] : []),
+      ] }), "category-unknown-then-conflict");
+    }
+    if (request.purpose === "restaurant_agent_decide") {
+      const { context } = JSON.parse(request.messages.find((message) => message.role === "user")!.content) as {
+        context: { presentation?: Array<{ eligible: boolean }>; factInvestigableCandidateIds?: string[] };
+      };
+      if (context.presentation?.length && !context.presentation.some((candidate) => candidate.eligible) && !context.factInvestigableCandidateIds?.length) {
+        return response(JSON.stringify(strictAction("END_READ")), "agent-end-no-eligible-candidate");
+      }
+      return super.complete(request);
+    }
+    if (request.purpose !== "restaurant_semantic_interpret") return super.complete(request);
+    const userTransport = request.messages.find((item) => item.role === "user")!.content;
+    const encodedMessage = /^User restaurant message as JSON string: (.+)$/s.exec(userTransport)?.[1];
+    const message = encodedMessage ? JSON.parse(encodedMessage) : undefined;
+    if (typeof message !== "string") throw new Error("Semantic test transport did not contain a user message");
+    if (/no fast food/i.test(message)) return super.complete(request);
+    const criterion = /^no (ramen|conveyor-belt sushi)\.$/i.exec(message)?.[1]?.toLocaleLowerCase("en-US");
+    if (criterion !== this.exclusion) throw new Error(`Expected the second user message to name ${this.exclusion}, got ${message}`);
+    const system = request.messages.find((item) => item.role === "system")!.content;
+    this.semanticSystemPrompts.push(system);
+    if (!system.includes('"text":"fast food"')) throw new Error("The second semantic interpretation did not receive the current Draft");
+    return response(JSON.stringify({ schemaVersion: "3", facts: [{ field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: criterion, polarity: "NEGATIVE", strength: "HARD" } }] }), "semantic-added-exclusion");
   }
 }
 
@@ -839,6 +901,79 @@ test("real source observations distinguish a supported candidate from an explici
   assert.ok(state.readEvidence.some((item) => item.candidateId === hotPotId
     && Array.isArray(item.claims.violatedNegativeCriteria) && item.claims.violatedNegativeCriteria.includes("hot pot restaurant")));
   assert.deepEqual(state.presentedResults?.candidateIds, [cafeId]);
+});
+
+test("a real Hybrid category UNKNOWN reaches presentation without verified-negative promotion", async () => {
+  const model = new CategoryUnknownHybridModel(1);
+  const place = { id: "category-restaurant", displayName: { text: "Category Restaurant" }, formattedAddress: "Ginza 1, Tokyo", location: { latitude: 35.6697, longitude: 139.7670 }, types: ["restaurant"] };
+  const client = new GooglePlacesClient({ apiKey: "test-key", fetchImplementation: async (_url, init) => init?.method === "POST" ? new Response(JSON.stringify({ places: [place] }), { status: 200 }) : new Response(JSON.stringify({ ...place, primaryType: "restaurant", regularOpeningHours: { weekdayDescriptions: ["Wednesday: 10:00 AM – 6:00 PM", "Thursday: 10:00 AM – 6:00 PM"] } }), { status: 200 }) });
+  const google = new GooglePlacesRestaurantSearch(client, () => now.toISOString(), 10, { maxRequests: 100 }); const taskId = "integration:category-unknown";
+  const composition = createHybridReadComposition({ taskId, runId: taskId, clock, model, search: google, availability: noAvailabilityPort(), facts: composeLiveRestaurantFactRead(google, {} as BrowserRuntime, model), loop: { maxSteps: 5, timeoutMs: 5_000 } });
+  await composition.interpretAndDispatch({ taskId, message: "Find a restaurant nearby tomorrow afternoon, no fast food.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
+  assert.equal((await composition.coordinator.run(taskId)).status, "TERMINAL"); const state = composition.runtime.snapshot(taskId).domainState;
+  assert.equal(state.phase, "PRESENT_RESULTS"); assert.ok(state.readEvidence.some((item) => item.provider === "MODEL_JUDGMENT" && Array.isArray(item.claims.categoryUnknownNegativeCriteria))); assert.equal(state.readEvidence.some((item) => Array.isArray(item.claims.verifiedNegativeCriteria)), false);
+  const artifact = { status: "SUCCEEDED", stage: "AGENT_LOOP", runId: taskId, loop: { status: "TERMINAL" }, finalSnapshot: composition.runtime.snapshot(taskId), trajectories: composition.trajectories.steps, materializedCase: { semantic: { target: { goal: "RECOMMENDATION" }, date: { value: "2026-09-17" }, time: { start: "12:00", end: "17:00" }, location: { value: "nearby", relation: "NEAR_USER" }, criteria: [{ value: "fast food", polarity: "NEGATIVE", strength: "HARD" }] } }, resourceUsage: { elapsedMs: 0, agentDecisions: composition.trajectories.steps.length, browserModelCalls: 0 } };
+  const evaluation = evaluateRestaurantHybridLiveArtifact(artifact, { path: "category-unknown.result.json", sha256: "c".repeat(64) });
+  assert.equal(evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(evaluation));
+  assert.equal(evaluation.findings.find((item) => item.dimension === "REQUIRED_EVIDENCE")?.status, "SATISFIED", JSON.stringify(evaluation));
+  const artifactWithoutRawTypeFacts = structuredClone(artifact);
+  const categoryJudgment = artifactWithoutRawTypeFacts.finalSnapshot.domainState.readEvidence.find((item) => item.provider === "MODEL_JUDGMENT" && Array.isArray(item.claims.categoryUnknownNegativeCriteria));
+  assert.ok(categoryJudgment, "the accepted category UNKNOWN must cite real source facts");
+  for (const evidenceId of categoryJudgment.claims.supportingEvidenceIds as string[]) {
+    const source = artifactWithoutRawTypeFacts.finalSnapshot.domainState.readEvidence.find((item) => item.evidenceId === evidenceId);
+    assert.ok(source, `category UNKNOWN source ${evidenceId} must exist`);
+    delete source.claims.restaurantTypeFacts;
+  }
+  const missingRawTypeEvaluation = evaluateRestaurantHybridLiveArtifact(artifactWithoutRawTypeFacts, { path: "category-unknown-without-raw-types.result.json", sha256: "d".repeat(64) });
+  assert.notEqual(missingRawTypeEvaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(missingRawTypeEvaluation));
+  assert.notEqual(missingRawTypeEvaluation.findings.find((item) => item.dimension === "REQUIRED_EVIDENCE")?.status, "SATISFIED", JSON.stringify(missingRawTypeEvaluation));
+});
+
+test("a second user message adds an exclusion through real source facts and removes the conflicting candidate", async (t) => {
+  for (const control of [
+    { message: "No ramen.", criterion: "ramen", placeId: "ramen-restaurant", outletName: "Ramen Restaurant", primaryType: "ramen_restaurant" },
+    { message: "No conveyor-belt sushi.", criterion: "conveyor-belt sushi", placeId: "conveyor-belt-sushi-restaurant", outletName: "Conveyor-belt Sushi Restaurant", primaryType: "conveyor_belt_sushi_restaurant" },
+  ] as const) await t.test(control.outletName, async () => {
+    // Start/end: semantic update with currentDraft → Compiler/Reducer reset →
+    // Google Details + model fact judgment → explicit conflict → END_READ.
+    // Only Google HTTP and the external-model transport are controlled.
+    const taskId = `integration:added-exclusion:${control.placeId}`;
+    const model = new AddedExclusionModel(control.criterion);
+    const place = { id: control.placeId, displayName: { text: control.outletName }, formattedAddress: "Ginza 1, Tokyo", location: { latitude: 35.6697, longitude: 139.7670 }, types: ["restaurant"] };
+    const client = new GooglePlacesClient({
+      apiKey: "test-key",
+      fetchImplementation: async (_url, init) => init?.method === "POST"
+        ? new Response(JSON.stringify({ places: [place] }), { status: 200 })
+        : new Response(JSON.stringify({ ...place, types: [control.primaryType, "restaurant"], primaryType: control.primaryType, regularOpeningHours: { weekdayDescriptions: ["Wednesday: 10:00 AM – 6:00 PM", "Thursday: 10:00 AM – 6:00 PM"] } }), { status: 200 }),
+    });
+    const google = new GooglePlacesRestaurantSearch(client, () => now.toISOString(), 10, { maxRequests: 100 });
+    const composition = createHybridReadComposition({
+      taskId, runId: taskId, clock, model, search: google, availability: noAvailabilityPort(),
+      facts: composeLiveRestaurantFactRead(google, {} as BrowserRuntime, model), loop: { maxSteps: 5, timeoutMs: 5_000 },
+    });
+    await composition.interpretAndDispatch({ taskId, message: "Find a restaurant nearby tomorrow afternoon, no fast food.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
+    assert.equal((await composition.coordinator.run(taskId)).status, "TERMINAL");
+    const firstState = composition.runtime.snapshot(taskId).domainState;
+    assert.equal(firstState.phase, "PRESENT_RESULTS");
+    assert.equal(firstState.presentedResults?.candidateIds.length, 1);
+    assert.ok(firstState.intentDraft, "the second semantic turn must receive the authoritative first-turn draft");
+
+    await composition.interpretAndDispatch({ taskId, message: control.message, referenceTime: now.toISOString(), timezone: "Asia/Tokyo", currentDraft: firstState.intentDraft });
+    assert.equal(model.semanticSystemPrompts.length, 1, "the second message must be interpreted against the authoritative first-turn Draft");
+    assert.equal((await composition.coordinator.run(taskId)).status, "TERMINAL");
+    const finalState = composition.runtime.snapshot(taskId).domainState;
+    const candidateId = finalState.candidates.find((candidate) => candidate.restaurant.sourceIds.googlePlaces === control.placeId)?.restaurant.id;
+    assert.ok(candidateId, "the second real Google search must rediscover the candidate after the semantic reset");
+    assert.equal(finalState.phase, "NO_VERIFIED_RESULT");
+    assert.equal(finalState.presentedResults, undefined);
+    assert.ok(finalState.intentDraft?.criteria.some((item) => item.text === "fast food" && item.polarity === "NEGATIVE" && item.strength === "HARD"));
+    assert.ok(finalState.intentDraft?.criteria.some((item) => item.text === control.criterion && item.polarity === "NEGATIVE" && item.strength === "HARD"));
+    assert.ok(finalState.readEvidence.some((item) => item.candidateId === candidateId
+      && Array.isArray(item.claims.categoryUnknownNegativeCriteria) && item.claims.categoryUnknownNegativeCriteria.includes("fast food")));
+    assert.ok(finalState.readEvidence.some((item) => item.candidateId === candidateId
+      && Array.isArray(item.claims.violatedNegativeCriteria) && item.claims.violatedNegativeCriteria.includes(control.criterion)));
+    assert.equal(projectRestaurantAgentContext(finalState, now.toISOString()).presentation.find((item) => item.candidateId === candidateId)?.eligible, false);
+  });
 });
 
 test("independent candidate reads preserve coverage and results across batch partitions and order", async (t) => {

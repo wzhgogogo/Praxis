@@ -170,7 +170,7 @@ Browser检测、尝试、生效验证分别报告；静态禁止写入声明不�
 
 Web和Harness若声明同一能力，执行记录应进入同一诊断入口或明确缺口。先保存执行artifact，再生成独立评价；评价故障不能覆盖执行结果。集成测试、模型质量、来源实时可用性分别报告。
 
-`restaurant-hybrid-read-diagnostic-evaluator@18`是当前Hybrid runner与普通Web共同使用的最小确定性诊断，不是完整E2E评分器，也不调用LLM Judge。它按保存的`target.goal`分别检查预约空位展示与事实型展示；每项正向或负向HARD条件都需要同一候选的来源事实，负向条件的明确冲突保持冲突、缺事实保持`UNKNOWN`，不从关键词缺失推导满足。Gold→最终权威intent的语义保真与最终intent→实际观察的证据适用性独立判断：不同文本不作模糊等价猜测，保留`NOT_EVALUATED`和人工复核；同文本的极性或涉及HARD的强度冲突保持`NOT_SATISFIED`。派生`MODEL_JUDGMENT`必须引用同候选、已身份关联的原始事实，不能借provider或entity字段伪装为原文；任意自由文本重查理由也不会免除重复执行检查。它不按`caseId`补充或修改执行语义。执行结束后先保存原始`.result.json`，再写入一个不覆盖原记录的evaluation文件；成功、可确认无结果、用户补问、受控取消、受控预算/截止停止和内部执行失败分别记录完成类别后再尝试评价。取消和预算停止只接受artifact的实际execution status/failureCode，绝不由“没有合格结果”推导；它们仍明确报告用户目标未完成。评价本身失败时另写不可变的失败sidecar，绝不覆盖执行结果；强杀后仍可显式补评已有artifact：
+`restaurant-hybrid-read-diagnostic-evaluator@19`是当前Hybrid runner与普通Web共同使用的最小确定性诊断，不是完整E2E评分器，也不调用LLM Judge。它按保存的`target.goal`分别检查预约空位展示与事实型展示；每项正向HARD条件仍须正向来源支持，负向条件的明确冲突始终阻止展示。ADR-0030仅允许餐厅类别/类型排除的`UNKNOWN/RESTAURANT_CATEGORY_TYPE`在引用当前、同候选、HIGH身份绑定且含非空type事实时支持资格；不生成verified-negative或“确定不是该类”的断言。其他负向HARD及不明scope仍失败关闭，不从关键词缺失推导满足。Gold→最终权威intent的语义保真与最终intent→实际观察的证据适用性独立判断：不同文本不作模糊等价猜测，保留`NOT_EVALUATED`和人工复核；同文本的极性或涉及HARD的强度冲突保持`NOT_SATISFIED`。派生`MODEL_JUDGMENT`必须引用同候选、已身份关联的原始事实，不能借provider或entity字段伪装为原文；任意自由文本重查理由也不会免除重复执行检查。它不按`caseId`补充或修改执行语义。执行结束后先保存原始`.result.json`，再写入一个不覆盖原记录的evaluation文件；成功、可确认无结果、用户补问、受控取消、受控预算/截止停止和内部执行失败分别记录完成类别后再尝试评价。取消和预算停止只接受artifact的实际execution status/failureCode，绝不由“没有合格结果”推导；它们仍明确报告用户目标未完成。评价本身失败时另写不可变的失败sidecar，绝不覆盖执行结果；强杀后仍可显式补评已有artifact：
 
 ```bash
 npm run eval:restaurant:agent-loop:artifact -- <artifact.result.json>
@@ -196,3 +196,10 @@ Restaurant Agent Decision Prompt@14 补充限定商户比较的调查收束：�
 Evaluator/rubric@15 独立比对 materialized semantic 与最终 State 的 `permittedAlternativeTimeWindow`，原始偏好和许可窗口分别保存；窗口外或缺少替代标记的 Offer、未授权或被扩大的许可仍失败。地区仅统一有无 `near` 前缀，不放松不同地区、areaMatch 或 NEAR_USER 半径证据。旧 Web 导出遗漏许可时，不直接覆写原 artifact：通过实际 exporter 对保存事件/轨迹/快照离线重新导出，记录原 SHA 与用途，并验证原记录逐项不变；新版 evaluation 独立保存。缺 browserModelCalls 的资源维度仍为 NOT_EVALUATED，不能用业务维度通过替代完整系统或费用核算通过。
 
 新商户在运行前登记；失败后的修复运行是已见开发样本，不再叫首次迁移。跨分店 Maru 的原始成功标签已在独立复核中作废，原始执行保留。[本轮证据与限制](../../history/BROWSER-AGENT-FINAL-REVIEW-2026-09-16.md)。
+
+### H005 category-negative 固定诊断
+
+当前`restaurant-category-negative-fact-judgment-matrix@1`为已暴露开发诊断，非Clean Baseline：F1–F8各两次、严格16次provider attempts、零重试、零Google/Browser来源请求。沿用事实判断runner的`--category-negative --run`入口，需用户授权及`PRAXIS_ALLOW_LIVE_MODEL_EVAL=1`、`PRAXIS_ALLOW_FACT_JUDGMENT_CATEGORY_MATRIX_V1=1`。F1/F2/F8要求CONFLICT，F3–F7要求UNKNOWN/category scope；独立评分比对raw输出、原始引用与接纳claims。通过该门槛后才执行一次H005 fixed-source；失败不自动改Prompt重跑或消耗额外预算。默认批次与显式数量评分见[acceptance@3](../../../src/eval/restaurant/agent-loop/cases/README.md)。
+
+
+Fact Judgment Prompt@8 distinguishes candidate.name from cited groundedEntity: only a source-grounded entity bound to the same observation and HIGH identity may support stable category knowledge; ungrounded or ambiguous names cannot. After the category matrix gate passes, fixed-source acceptance must report automatic PASS separately from bounded manual semantic acceptance that retains original NOT_EVALUATED/FAIL. Manual review does not rewrite automated scores or establish a general synonym whitelist.

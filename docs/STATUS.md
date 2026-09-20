@@ -1,7 +1,7 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.61
+- Document revision: 4.66
 - Last updated: 2026-09-20
 - Source of truth for: 已实现能力、已验证范围、明确未验证项与下一道门槛
 - Related ADRs: [ADR Index](decisions/README.md)
@@ -9,7 +9,20 @@
 
 ## 最新审查与当前门槛
 
-2026-09-20 **H005 Local Food Semantics v2：Prompt@6 / matrix@2 的新授权复验仍未通过，当前候选停止**：在普通`local food`仍接受目的地本土料理、明确窄地域需同范围来源关联的已授权口径下，Prompt@6 的同一12样本×3、零重试真实模型矩阵共36次。N1 已由原先3/3 `SUPPORTED` 恢复为3/3 `UNKNOWN`，N2仍3/3 `CONFLICT`；但 V2-L5（Tokyo + Kyoto regional cuisine restaurant + local food）从应支持回归为3/3 `UNKNOWN`。36条均为合法、引用正确的结构化输出，并非身份、citation、输入过滤或 scorer 问题；合计34,383 tokens、28,604ms。H005 fixed-source/Live仍未运行，matrix@1、@2 Prompt@5和Prompt@6所有原始artifact不回写。当前 Fact Judgment Prompt@6 只是失败的未接纳候选；下一门槛是人工决定如何表达默认国家/文化范围与明确窄范围的边界，不自动 Prompt@7 或重跑。详见[V3 status](../.eval-artifacts/h005-locality-independent-review-2026-09-20/TERRA-V3-PHASE-STATUS.md)。
+2026-09-20 **Current integrated checkpoint: category matrix accepted, H001-H005 fixed-source real-model accepted within the documented review scope.** Fact Judgment Prompt@8 clarifies that a cited, same-source HIGH-grounded entity may support stable category knowledge; candidate.name cannot. The unchanged F1-F8 x2 matrix passed **16/16**, including both McDonald's F8 CONFLICT results with raw type still `["restaurant"]`. This preceded the passing H005 run and the H001-H005 batch: all five presented three candidates; H001/H005 were automatic PASS, H002-H004 were independently manually accepted with original automatic FAIL / NOT_EVALUATED retained. The final implementation is now integrated from Terra worktree 1135; all 138 tracked non-test src files match it byte-for-byte. Local-food text, Gold and fixed-source samples are unchanged. Final integrated gates: typecheck, architecture, build and full offline tests **483/483 PASS**. Current Fact Judgment Prompt@8 / schema@2, diagnostic evaluator/rubric@19 and fixed-source acceptance@3. This is exposed synthetic fixed-source evidence, not Live or a Clean Baseline; current websites and immediate inventory remain the next bounded verification scope. [Category and integration evidence](history/H005-CATEGORY-NEGATIVE-REVIEW-2026-09-20.md#prompt8-follow-up-and-commit-integration); [five-case independent review](history/FIXED-SOURCE-SEMANTIC-COMPARISON-2026-09-20.md).
+
+### Earlier checkpoints (historical; superseded where the current summary above differs)
+
+
+2026-09-20 **独立worktree H001–H005重跑复核：未发现H002–H004的新退化**。用户在“2026-09-20｜H005 优化：Terra 后续验收”追加五例运行；五例均展示3家且来源证据通过，H001/H005自动PASS。H002–H004自动FAIL来自同义文本的NOT_EVALUATED，其完整criteria（含文本/极性/强度）、日期/时间/人数与9月18日已人工接纳产物相同；本次独立离线重评和语义对照仍可人工接纳，原自动FAIL保留。此前三例也属于人工通过，不是AUTO_PASS；不能把本次表格解释为三个功能回归。该worktree结果未合并到本目录，亦不替代此前F8矩阵门槛。见[新旧结果对照](history/FIXED-SOURCE-SEMANTIC-COMPARISON-2026-09-20.md)。
+
+2026-09-20 **H005 Phase 2 模型门槛失败，Phase 3 未运行；完整离线门禁通过**：Prompt@7/schema@2及evaluator@19的category-UNKNOWN资格例外已接入离线组合，显式追加no ramen/no conveyor-belt sushi经过真实语义更新、来源重读和冲突排除；空/空白raw type事实不再支持资格。真实矩阵F1–F8×2共16次、零重试，14/16符合预期；F8来源HIGH身份已识别McDonald's，两次仍错误UNKNOWN并被接纳为category-unknown，因此不能声称明显快餐排除已完成。按冻结gate未启动H005 fixed-source，不自动改Prompt或加调用。全量离线483/483、typecheck/arch/build/diff通过，不能替代失败的真实模型门槛。local-food段落、Gold、用户输入、source与availability fixtures保持原样；无Live、预约、commit/push。详见[逐阶段独立审查与证据](history/H005-CATEGORY-NEGATIVE-REVIEW-2026-09-20.md)。
+
+2026-09-20 **H005 Phase 1 fixed-source batch acceptance 已完成**：H001–H005 的默认三家结果目标不再被注册为用户完成条件；`QUALIFIED_RESULT` 仍要求 `SUCCEEDED/TERMINAL/PRESENT_RESULTS`、至少一位 distinct candidate 和所有既有独立评估维度。默认目标仍输出可审计的`target/actual/met`，但来源已耗尽时的两家完整结果可通过。权威 State 只要存在`requestedResultCount`，就必须与注册的`USER_EXPLICIT`数量一致、精确满批且`met:true`；任一侧遗漏或不一致均 fail closed，绝不当作默认批次。历史 H005 fixed-source 原始artifact未回写，离线重评为`PASS`（`3/2/false`），仅说明此默认批次契约修复；不代表新的模型、Live或负条件语义验收。
+
+2026-09-20 **历史 H005 Local Food Semantics v2：Phase 1 前带明确 scope 的 Prompt@6 文案通过矩阵、首次 fixed-source 未通过当时的整例验收**：在只将“不同窄地域不得 `SUPPORTED`”限定到用户明确要求 city/region/specialty cuisine、并明确 generic `local food` 可接受目的地本土料理内其他区域菜系后，matrix@2 的12样本×3、零重试真实模型36/36通过。V2-L5 为3/3 `SUPPORTED`，N1为3/3 `UNKNOWN`，N2为3/3 `CONFLICT`（零次 `SUPPORTED`），其余样本无回归；共36,006 tokens、33,971ms。随后首次 H005 fixed-source 以一例、50 calls／50 steps／300s 上限运行；离线固定来源的三家均有 local-food 模型验证、HIGH identity 和同请求 availability，但系统仅展示a/c两家。b 缺少负条件 `fast food` 的 verified-negative evidence，故3家批次目标为`3/false`、当时的固定验收 `FAIL`；并非 local-food scope、无位、来源覆盖或时间预算失败。该历史固定来源执行只证明该受控组合，不能替代 Live，也不使 H005 CLOSED；Phase 1 后的当前 batch-contract 结论以上文为准。详见[matrix result](../.eval-artifacts/restaurant-locality-fact-judgment-matrix-v3/2026-09-20T05-30-02-765Z-21112f4f-4c99-4808-942b-69718a8c55b2.result.json)与[fixed-source result](../.eval-artifacts/restaurant-fixed-source-model/2026-09-20T05-31-02-832Z-b5b0f649-c053-47df-bb5c-61dbf40a049d.result.json)。
+
+2026-09-20 **历史 H005 Local Food Semantics v2：先前 Prompt@6 / matrix@2 复验未通过**：在普通`local food`仍接受目的地本土料理、明确窄地域需同范围来源关联的当时文案下，V2-L5（Tokyo + Kyoto regional cuisine restaurant + local food）为3/3 `UNKNOWN`。36条均为合法、引用正确的结构化输出，并非身份、citation、输入过滤或 scorer 问题；合计34,383 tokens、28,604ms。该记录不回写；后续带明确 scope 的文案及当前门槛以上文为准。详见[V3 status](../.eval-artifacts/h005-locality-independent-review-2026-09-20/TERRA-V3-PHASE-STATUS.md)。
 
 2026-09-20 **Local Food Semantics v2：Prompt@5 / matrix@2 独立复核仍未通过**。用户已将普通local food定义为目的地本土料理，旧matrix@1失败记录保持原口径不回写。新12样本×3共36次、零重试、32,301 tokens；10个普通local-food样本30/30正确，窄地域冲突N2为3/3 CONFLICT；唯一失败N1（Tokyo regional food + Japanese restaurant）3/3错误SUPPORTED并生成verifiedHardCriteria。独立核对全部36份请求/原始输出及72个逐次记录，确认不是criterion漏传或评分误判。按预定gate停止，不运行H005 fixed-source/Live，不自动Prompt@6。[独立逐项结果](../.eval-artifacts/h005-locality-independent-review-2026-09-20/matrix-v2-independent-review.json)。
 

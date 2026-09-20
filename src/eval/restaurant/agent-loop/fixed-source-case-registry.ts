@@ -14,8 +14,11 @@ export type FixedSourceExpectation = {
   /** Necessary fixture gaps block; explicitly optional gaps remain reportable. */
   coverage: { necessary: boolean; optionalSources?: readonly string[] };
   requiredDimensions: readonly ("AUTHORITATIVE_CONDITIONS" | "REQUIRED_EVIDENCE" | "FINAL_CLAIM" | "COMPLETION_OUTCOME")[];
-  /** A registered open-ended batch must prove its distinct result count. */
-  requiredResultBatch?: { candidateCount: number };
+  /**
+   * Only a count stated by the user is a completion requirement. Product
+   * defaults remain an auditable delivery objective, not an eval gate.
+   */
+  requiredResultBatch?: { source: "USER_EXPLICIT"; candidateCount: number };
 };
 
 export type FixedSourceCaseRegistration = {
@@ -34,18 +37,13 @@ const positiveExpectation: FixedSourceExpectation = {
   requiredDimensions: ["AUTHORITATIVE_CONDITIONS", "REQUIRED_EVIDENCE", "FINAL_CLAIM", "COMPLETION_OUTCOME"],
 };
 
-const openEndedThreeResultExpectation: FixedSourceExpectation = {
-  ...positiveExpectation,
-  requiredResultBatch: { candidateCount: 3 },
-};
-
 /**
  * This is registration data, rather than a Runner whitelist.  Adding an
  * offline case requires only a row and a matching source scenario; the shared
  * loader below performs the same binding checks for frozen and control input.
  */
 export const FIXED_SOURCE_CASE_REGISTRATIONS: readonly FixedSourceCaseRegistration[] = [
-  ...(["h001", "h002", "h003", "h004", "h005"] as const).map((id) => ({ id, sourceScenarioId: id, input: "FROZEN_DEVELOPMENT" as const, expectation: openEndedThreeResultExpectation })),
+  ...(["h001", "h002", "h003", "h004", "h005"] as const).map((id) => ({ id, sourceScenarioId: id, input: "FROZEN_DEVELOPMENT" as const, expectation: positiveExpectation })),
   {
     id: "new-vegetarian-lunch",
     sourceScenarioId: "new-vegetarian-lunch",
@@ -66,6 +64,26 @@ export const FIXED_SOURCE_CASE_REGISTRATIONS: readonly FixedSourceCaseRegistrati
           { value: "vegetarian restaurant", polarity: "POSITIVE", strength: "HARD" },
           { value: "ramen", polarity: "NEGATIVE", strength: "HARD" },
         ],
+      },
+    },
+  },
+  {
+    id: "explicit-two-omakase",
+    sourceScenarioId: "h001",
+    input: "CONTROL",
+    expectation: { ...positiveExpectation, requiredResultBatch: { source: "USER_EXPLICIT", candidateCount: 2 } },
+    controlInput: {
+      id: "explicit-two-omakase",
+      content: "Give me 2 omakase restaurants near Shibuya tonight at 7 PM for two people.",
+      reference_time: "2026-08-19T16:20:00+08:00",
+      dataset: "restaurant-read-development@6",
+      semantic: {
+        target: { goal: "AVAILABILITY", requestedResultCount: 2 },
+        location: { value: "Shibuya", relation: "NEAR" },
+        date: { expression: "tonight", value: "2026-08-19" },
+        time: { value: "19:00" },
+        party_size: 2,
+        criteria: [{ value: "omakase", polarity: "POSITIVE", strength: "HARD" }],
       },
     },
   },

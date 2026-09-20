@@ -91,6 +91,7 @@ try {
       presentedResult: {
         candidateIds: result.finalSnapshot.domainState.presentedResults.candidateIds,
         ...(result.finalSnapshot.domainState.selectionSession?.resultBatchTarget ? { resultBatchTarget: result.finalSnapshot.domainState.selectionSession.resultBatchTarget } : {}),
+        ...(result.finalSnapshot.domainState.intentDraft?.target?.requestedResultCount !== undefined ? { requestedResultCount: result.finalSnapshot.domainState.intentDraft.target.requestedResultCount } : {}),
       },
     } : {}),
     ...(evaluation.evaluation ? { evaluation: evaluation.evaluation } : {}),

@@ -1,10 +1,10 @@
 # Restaurant read development cases
 
 - Status: current executable development diagnostic; not a Clean Baseline
-- Document revision: 1.4
+- Document revision: 1.5
 - Dataset: `restaurant-read-development@6`
-- Acceptance contract: `restaurant-read-acceptance@2`
-- Updated: 2026-09-18
+- Acceptance contract: `restaurant-read-acceptance@3`
+- Updated: 2026-09-20
 - Contamination: `PROMPT_AND_RESULT_EXPOSED`; `baselineEligible: false`
 - Product authority: [Restaurant Domain](../../../../../docs/domains/RESTAURANT-BOOKING.md), [ADR-0020](../../../../../docs/decisions/0020-goal-driven-restaurant-read-path.md), [ADR-0024](../../../../../docs/decisions/0024-deterministic-time-and-diagnostic-read-completion.md), [ADR-0025](../../../../../docs/decisions/0025-model-directed-read-investigation.md)
 
@@ -37,9 +37,12 @@ H002's exclusion names the restaurant/main cuisine, not every dish containing sp
 - Availability needs a source-confirmed matching current slot. Reception support (reservation, explicit walk-in, both, or unknown) and inventory are separate facts; walk-in never substitutes for a requested reservable slot.
 - A current explicit negative slot result excludes that candidate under those conditions. UNKNOWN, unsupported sources, access failure or unapplied controls are not negative inventory and do not establish walk-in availability. Missing optional slot evidence does not by itself reject otherwise supported recommendations.
 - Preserve all explicit date/party/location/HARD conditions. Approximate budgets and optional preferences remain soft; source-cited model judgments may be reviewed for their meaning, without treating a citation or a model label as proof by itself. This dataset update does not implement the proposed broader model-judgment runtime.
+- For a negative HARD restaurant/category/type exclusion, the ordinary source fact remains required. Under ADR-0030 only, a cited, same-candidate `MODEL_JUDGMENT` marked `categoryUnknownNegativeCriteria` may establish eligibility for that exact category/type criterion; it never becomes `verifiedNegativeCriteria`. Allergy, contamination, safety and other non-category exclusions remain fail closed. This is a current executable rule, not a frozen-YAML change.
 - NEAR_USER uses the explicit Higashi-Ginza evaluation location in Hybrid; ordinary Web uses actual consented device location or user-provided location. Evaluation coordinates are not product defaults. Geocoding/source failures are internal/source limitations, not automatically missing user information.
 - `afternoon` is 12:00–17:00. Relative date and `right now` use the recorded reference instant and Asia/Tokyo. An elapsed requested window is not moved to another date or time to obtain inventory.
 - Only actual missing user information, required authorization or necessary human takeover justifies interrupting the user. Source failure does not authorize asking the user to debug the system.
+
+Default open-ended target 3 is a search objective, not an unstated user completion requirement. H001–H005 register `QUALIFIED_RESULT` without a hard result count. At least one distinct independently qualified candidate is required; a source-limited short batch records `defaultBatchTarget: {target, actual, met}` and may pass. Runtime still rejects an early short batch while legal reads remain. An explicit user count requires a matching `USER_EXPLICIT` registration, the exact count and `met: true`; missing/mismatched registration or an unmet explicit count cannot pass. Zero results never pass qualified-result acceptance. Acceptance@3 changes this scoring and category eligibility only; dataset@6 and its Gold/user/source inputs are unchanged.
 
 ## Completion and evaluation are separate
 

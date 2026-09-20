@@ -1,8 +1,8 @@
 # Tokyo Restaurant Agent MVP PRD
 
 - Status: Accepted
-- Document revision: 0.6
-- Last updated: 2026-09-18
+- Document revision: 0.7
+- Last updated: 2026-09-20
 - Source of truth for: 第一版产品范围、用户承诺和验收标准
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md)
 - Related documents: [User Flows](USER-FLOWS.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md), [Data, Context & Security](../architecture/DATA-CONTEXT-SECURITY.md)
@@ -43,6 +43,10 @@ Praxis第一版是一个Responsive English Web Agent，同时支持Desktop与Mob
 → 保存预约、取消入口、路线与出发时间
 → 在Case与Activity Timeline中持续显示状态和下一步
 ```
+
+按[ADR-0030](../decisions/0030-restaurant-category-negative-eligibility.md)，`no fast food`等餐厅类别排除禁止已知违规；有来源类别事实但判断未知的边界类型可以保留，不能宣称“已确认不是快餐”。连锁、便宜或出餐快本身不等于快餐。正向HARD仍须证据支持，过敏、污染、安全及无障碍等排除不适用此放宽。用户明确追加“不要拉面／回转寿司”通过普通需求更新收紧当前Task，不建立长期偏好。
+
+合法调查耗尽后的1–2家完全合格结果可以完成未指定数量的请求，同时明确默认三家目标未满足；仍有合法读取时继续调查。用户明确指定数量时，数量不足不能算完整完成。
 
 ## P0 功能
 

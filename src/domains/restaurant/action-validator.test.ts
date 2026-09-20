@@ -83,7 +83,7 @@ test("A fact-only cafe request can present opening-hours-grounded results and ma
 });
 
 test("an open-ended result target rejects an early partial batch but records a source-limited shortfall", () => {
-  const candidateId = "only-grounded-cafe";
+  const candidateIds = ["first-grounded-cafe", "second-grounded-cafe"];
   const draft = applyRestaurantIntentPatch(undefined, {
     schemaVersion: "3",
     target: { goal: "RECOMMENDATION", query: "recommend cafes", selectionScope: "OPEN_ENDED" },
@@ -95,14 +95,14 @@ test("an open-ended result target rejects an early partial batch but records a s
     phase: "SEARCHING",
     intentDraft: draft,
     pendingResultBatchTarget: 3,
-    candidates: [{ restaurant: { id: candidateId, outletName: "Only Grounded Cafe", sourceIds: { googlePlaces: "place-only" }, address: "Shibuya, Tokyo", provenance: {} }, matchReasons: [], warnings: [], executionConfidence: "HIGH" }],
-    readEvidence: [
-      { evidenceId: "area", kind: "DISCOVERY", provider: "GOOGLE_PLACES", candidateId, sourceEntityId: "place-only", observedAt: now, requestFingerprint: "request", claims: { areaQuery: "Shibuya", areaMatch: true } },
-      { evidenceId: "identity", kind: "ENTITY_MATCH", provider: "GOOGLE_PLACES", candidateId, sourceEntityId: "place-only", observedAt: now, requestFingerprint: "request", claims: {}, entityMatch: { confidence: "HIGH", matchedBy: ["GOOGLE_PLACE_ID"] } },
-      { evidenceId: "facts", kind: "RESTAURANT_FACT", provider: "GOOGLE_PLACES", candidateId, sourceEntityId: "place-only", observedAt: now, requestFingerprint: "request", claims: { verifiedHardCriteria: ["cafe"] } },
-    ],
+    candidates: candidateIds.map((candidateId) => ({ restaurant: { id: candidateId, outletName: candidateId, sourceIds: { googlePlaces: `place-${candidateId}` }, address: "Shibuya, Tokyo", provenance: {} }, matchReasons: [], warnings: [], executionConfidence: "HIGH" as const })),
+    readEvidence: candidateIds.flatMap((candidateId) => [
+      { evidenceId: `area-${candidateId}`, kind: "DISCOVERY" as const, provider: "GOOGLE_PLACES" as const, candidateId, sourceEntityId: `place-${candidateId}`, observedAt: now, requestFingerprint: "request", claims: { areaQuery: "Shibuya", areaMatch: true } },
+      { evidenceId: `identity-${candidateId}`, kind: "ENTITY_MATCH" as const, provider: "GOOGLE_PLACES" as const, candidateId, sourceEntityId: `place-${candidateId}`, observedAt: now, requestFingerprint: "request", claims: {}, entityMatch: { confidence: "HIGH" as const, matchedBy: ["GOOGLE_PLACE_ID"] } },
+      { evidenceId: `facts-${candidateId}`, kind: "RESTAURANT_FACT" as const, provider: "GOOGLE_PLACES" as const, candidateId, sourceEntityId: `place-${candidateId}`, observedAt: now, requestFingerprint: "request", claims: { verifiedHardCriteria: ["cafe"] } },
+    ]),
   };
-  const early = validateRestaurantAction({ ...base, searchContinuation: { intentFingerprint: "request", usedPageTokens: [], pagesRead: 1, exhausted: false } }, { type: "PRESENT_RESULTS", candidateIds: [candidateId] }, now);
+  const early = validateRestaurantAction({ ...base, searchContinuation: { intentFingerprint: "request", usedPageTokens: [], pagesRead: 1, exhausted: false } }, { type: "PRESENT_RESULTS", candidateIds }, now);
   assert.deepEqual(early, {
     status: "REJECTED", code: "PRESENTATION_EVIDENCE_MISSING",
     reason: "The requested next batch requires 3 distinct qualified restaurants before it can be presented",
@@ -112,7 +112,7 @@ test("an open-ended result target rejects an early partial batch but records a s
     ...base,
     sourceReadState: { googlePlacesSearchBudget: "EXHAUSTED" },
     searchContinuation: { intentFingerprint: "request", usedPageTokens: [], pagesRead: 1, exhausted: true },
-  }, { type: "PRESENT_RESULTS", candidateIds: [candidateId] }, now);
+  }, { type: "PRESENT_RESULTS", candidateIds }, now);
   assert.deepEqual(exhausted, { status: "ALLOWED" });
 
   const transitioned = restaurantBookingTaskDefinition.transition({
@@ -120,9 +120,42 @@ test("an open-ended result target rejects an early partial batch but records a s
     sourceReadState: { googlePlacesSearchBudget: "EXHAUSTED" },
     searchContinuation: { intentFingerprint: "request", usedPageTokens: [], pagesRead: 1, exhausted: true },
   }, {
-    type: "RESULTS_PRESENTED", candidateIds: [candidateId], evidenceIds: base.readEvidence.map((item) => item.evidenceId),
+    type: "RESULTS_PRESENTED", candidateIds, evidenceIds: base.readEvidence.map((item) => item.evidenceId),
   }, { taskId: "task", runId: "run", now, createId: (prefix) => prefix });
   assert.deepEqual(transitioned.state.selectionSession?.resultBatchTarget, { candidateCount: 3, met: false });
+});
+
+test("a cited category UNKNOWN can be eligible without creating a verified-negative claim, while violations and safety UNKNOWN remain blocked", () => {
+  const candidateId = "category-unknown";
+  const base: RestaurantTaskState = {
+    ...incompleteState, phase: "SEARCHING",
+    intentDraft: applyRestaurantIntentPatch(undefined, {
+      schemaVersion: "3", target: { goal: "RECOMMENDATION", query: "restaurants", selectionScope: "OPEN_ENDED" }, area: { query: "Tokyo" },
+      addCriteria: [{ text: "fast food", polarity: "NEGATIVE", strength: "HARD" }],
+    }),
+    candidates: [{ restaurant: { id: candidateId, outletName: "Category Unknown", sourceIds: { googlePlaces: "place-category" }, address: "Tokyo", provenance: {} }, matchReasons: [], warnings: [], executionConfidence: "HIGH" }],
+    readEvidence: [
+      { evidenceId: "area", kind: "DISCOVERY", provider: "GOOGLE_PLACES", candidateId, sourceEntityId: "place-category", observedAt: now, requestFingerprint: "request", claims: { areaQuery: "Tokyo", areaMatch: true } },
+      { evidenceId: "identity", kind: "ENTITY_MATCH", provider: "GOOGLE_PLACES", candidateId, sourceEntityId: "place-category", observedAt: now, requestFingerprint: "request", claims: {}, entityMatch: { confidence: "HIGH", matchedBy: ["GOOGLE_PLACE_ID"] } },
+      { evidenceId: "raw-type", kind: "RESTAURANT_FACT", provider: "GOOGLE_PLACES", candidateId, sourceEntityId: "place-category", observedAt: now, requestFingerprint: "request", claims: { restaurantTypeFacts: ["restaurant"] } },
+      { evidenceId: "category-unknown", kind: "RESTAURANT_FACT", provider: "MODEL_JUDGMENT", candidateId, observedAt: now, requestFingerprint: "request", claims: { categoryUnknownNegativeCriteria: ["fast food"], supportingEvidenceIds: ["raw-type"] } },
+    ],
+  };
+  assert.equal(validateRestaurantAction(base, { type: "PRESENT_RESULTS", candidateIds: [candidateId] }, now).status, "ALLOWED");
+  for (const restaurantTypeFacts of [undefined, [], ["  "], 42]) {
+    const unsupported = structuredClone(base);
+    unsupported.readEvidence[2]!.claims = restaurantTypeFacts === undefined ? {} : { restaurantTypeFacts };
+    assert.equal(validateRestaurantAction(unsupported, { type: "PRESENT_RESULTS", candidateIds: [candidateId] }, now).status, "REJECTED", `invalid raw type facts: ${JSON.stringify(restaurantTypeFacts)}`);
+  }
+  const violated = structuredClone(base);
+  violated.readEvidence[3]!.claims = { violatedNegativeCriteria: ["fast food"], supportingEvidenceIds: ["raw-type"] };
+  assert.equal(validateRestaurantAction(violated, { type: "PRESENT_RESULTS", candidateIds: [candidateId] }, now).status, "REJECTED");
+  const safety = structuredClone(base);
+  safety.intentDraft = applyRestaurantIntentPatch(undefined, {
+    schemaVersion: "3", target: { goal: "RECOMMENDATION", query: "restaurants", selectionScope: "OPEN_ENDED" }, area: { query: "Tokyo" },
+    addCriteria: [{ text: "peanut contamination", polarity: "NEGATIVE", strength: "HARD" }],
+  });
+  assert.equal(validateRestaurantAction(safety, { type: "PRESENT_RESULTS", candidateIds: [candidateId] }, now).status, "REJECTED");
 });
 
 test("an unscheduled recommendation can present place facts without inventing opening hours", () => {

@@ -9,7 +9,7 @@ import { createCurrentDevelopmentFixedSources } from "./current-development-fixe
 import { currentDevelopmentSourceScenario } from "./current-development-source-scenarios.js";
 import { assessFixedSourceAcceptance } from "./fixed-source-acceptance.js";
 import { executeFixedSourceCase } from "./fixed-source-case-execution.js";
-import { fixedSourceCaseRegistration, loadRegisteredFixedSourceCase, validateFixedSourceCaseRegistration } from "./fixed-source-case-registry.js";
+import { FIXED_SOURCE_CASE_REGISTRATIONS, fixedSourceCaseRegistration, loadRegisteredFixedSourceCase, validateFixedSourceCaseRegistration } from "./fixed-source-case-registry.js";
 import {
   loadFrozenLiveCases,
   RESTAURANT_READ_DEVELOPMENT_CASE_PATH,
@@ -25,10 +25,11 @@ type Plan = {
   timeWindow: { earliest: string; latest: string };
   partySize?: number;
   candidateBatchSize?: number;
+  selectedCandidateCount?: number;
   facts: Array<Record<string, unknown>>;
   actions: PlannedAction[];
   /** Explicit, cited interpretation outputs for the scripted code-contract boundary only. */
-  factJudgments?: Array<{ criterion: string; outcome: "SUPPORTED" | "CONFLICT" | "UNKNOWN" }>;
+  factJudgments?: Array<{ criterion: string; outcome: "SUPPORTED" | "CONFLICT" | "UNKNOWN"; scope: "RESTAURANT_CATEGORY_TYPE" | "OTHER" | "UNKNOWN_SCOPE" }>;
 };
 
 // Scripted model/source rows are deliberately separate from the YAML semantic
@@ -66,8 +67,8 @@ const PLANS: readonly Plan[] = [
     ],
     actions: ["SEARCH_RESTAURANTS", "INVESTIGATE_CANDIDATE_FACTS", "CHECK_AVAILABILITY", "PRESENT_RESULTS"], candidateBatchSize: 3,
     factJudgments: [
-      { criterion: "hot pot restaurant", outcome: "SUPPORTED" },
-      { criterion: "Sichuan/Hunan cuisine", outcome: "SUPPORTED" },
+      { criterion: "hot pot restaurant", outcome: "SUPPORTED", scope: "RESTAURANT_CATEGORY_TYPE" },
+      { criterion: "Sichuan/Hunan cuisine", outcome: "SUPPORTED", scope: "RESTAURANT_CATEGORY_TYPE" },
     ],
   },
   {
@@ -115,8 +116,8 @@ const PLANS: readonly Plan[] = [
     // development control pass.
     actions: ["SEARCH_RESTAURANTS", "INVESTIGATE_CANDIDATE_FACTS", "CHECK_AVAILABILITY", "END_READ"], candidateBatchSize: 3,
     factJudgments: [
-      { criterion: "local food", outcome: "UNKNOWN" },
-      { criterion: "fast food", outcome: "SUPPORTED" },
+      { criterion: "local food", outcome: "UNKNOWN", scope: "UNKNOWN_SCOPE" },
+      { criterion: "fast food", outcome: "SUPPORTED", scope: "RESTAURANT_CATEGORY_TYPE" },
     ],
   },
 ];
@@ -139,9 +140,24 @@ const NEW_VEGETARIAN_LUNCH_PLAN: Plan = {
   ],
   actions: ["SEARCH_RESTAURANTS", "INVESTIGATE_CANDIDATE_FACTS", "CHECK_AVAILABILITY", "PRESENT_RESULTS"],
   factJudgments: [
-    { criterion: "vegetarian restaurant", outcome: "SUPPORTED" },
-    { criterion: "ramen", outcome: "SUPPORTED" },
+    { criterion: "vegetarian restaurant", outcome: "SUPPORTED", scope: "UNKNOWN_SCOPE" },
+    { criterion: "ramen", outcome: "SUPPORTED", scope: "RESTAURANT_CATEGORY_TYPE" },
   ],
+};
+
+const EXPLICIT_TWO_OMAKASE_PLAN: Plan = {
+  id: "explicit-two-omakase", referenceTime: "2026-08-19T16:20:00+08:00",
+  goal: "AVAILABILITY", area: "near Shibuya", date: "2026-08-19", timeWindow: { earliest: "19:00", latest: "19:00" }, partySize: 2,
+  candidateBatchSize: 3, selectedCandidateCount: 2,
+  facts: [
+    { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "omakase near Shibuya", selectionScope: "OPEN_ENDED", requestedResultCount: 2 } },
+    { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-08-19", raw: "tonight" } },
+    { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:00", raw: "7 PM" } },
+    { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2, source: "EXPLICIT" } },
+    { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "near Shibuya" } },
+    { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "omakase", polarity: "POSITIVE", strength: "HARD" } },
+  ],
+  actions: ["SEARCH_RESTAURANTS", "CHECK_AVAILABILITY", "PRESENT_RESULTS"],
 };
 
 function modelResponse(outputText: string, invocationId: string): ModelResponse {
@@ -171,7 +187,7 @@ class FixedCurrentCaseModel implements ModelGateway {
       const evidenceIds = (payload.observations ?? []).flatMap((item) => typeof item.evidenceId === "string" ? [item.evidenceId] : []);
       assert.ok(evidenceIds.length > 0, "scripted fact judgment must cite an actual source observation");
       return modelResponse(JSON.stringify({
-        judgments: (this.plan.factJudgments ?? []).map((judgment) => ({ ...judgment, evidenceIds: [evidenceIds[0]!] })),
+        judgments: (this.plan.factJudgments ?? []).map((judgment) => ({ ...judgment, evidenceIds: [evidenceIds.at(-1)!] })),
       }), `fact-judgment:${this.plan.id}`);
     }
     if (request.purpose !== "restaurant_agent_decide") throw new Error(`Unprepared model purpose: ${request.purpose}`);
@@ -182,7 +198,7 @@ class FixedCurrentCaseModel implements ModelGateway {
     if (["CHECK_AVAILABILITY", "INVESTIGATE_CANDIDATE_FACTS", "PRESENT_RESULTS"].includes(next)) {
       const expectedBatchSize = this.plan.candidateBatchSize ?? 1;
       if (candidateIds.length !== expectedBatchSize) throw new Error(`${next} requires ${expectedBatchSize} independently grounded candidate(s), got ${candidateIds.length}`);
-      return modelResponse(JSON.stringify(action(next, candidateIds)), `agent:${this.plan.id}:${next}`);
+      return modelResponse(JSON.stringify(action(next, candidateIds.slice(0, this.plan.selectedCandidateCount ?? candidateIds.length))), `agent:${this.plan.id}:${next}`);
     }
     return modelResponse(JSON.stringify(action(next)), `agent:${this.plan.id}:${next}`);
   }
@@ -231,7 +247,7 @@ class TwoTurnStrengthUpgradeModel implements ModelGateway {
       const payload = JSON.parse(request.messages.find((message) => message.role === "user")!.content) as { observations?: Array<{ evidenceId?: string }> };
       const evidenceId = payload.observations?.find((item) => item.evidenceId)?.evidenceId;
       assert.ok(evidenceId, "new HARD judgment must cite a current source observation");
-      return modelResponse(JSON.stringify({ judgments: [{ criterion: "vegetarian restaurant", outcome: "SUPPORTED", evidenceIds: [evidenceId] }] }), "fact-judgment:strength-upgrade");
+      return modelResponse(JSON.stringify({ judgments: [{ criterion: "vegetarian restaurant", outcome: "SUPPORTED", scope: "UNKNOWN_SCOPE", evidenceIds: [evidenceId] }] }), "fact-judgment:strength-upgrade");
     }
     if (request.purpose !== "restaurant_agent_decide") throw new Error(`Unprepared model purpose: ${request.purpose}`);
     const next = this.actions.shift();
@@ -377,6 +393,8 @@ test("current H001-H005 raw requests complete through the real offline Hybrid co
     if (plan.id === "h005") {
       assert.equal(state.phase, "NO_VERIFIED_RESULT");
       assert.equal(state.presentedResults, undefined);
+      assert.equal(evaluation.execution.taskProducedQualifiedResult, "NO", "a real no-result path with no presentation cannot be accepted as a qualified short default batch");
+      assert.equal(acceptance.acceptance, "FAIL");
     } else {
       assert.deepEqual(state.selectionSession?.resultBatchTarget, { candidateCount: 3, met: true });
       assert.equal(state.presentedResults?.candidateIds.length, 3);
@@ -436,12 +454,23 @@ test("registered control cases use the shared execution, evaluator, and acceptan
   const result = await executeFixedSourceCase({ registration, materializedCase, model, taskId: "offline-registered:new-vegetarian" });
   assert.equal(result.execution.status, "SUCCEEDED");
   assert.equal(result.execution.phase, "PRESENT_RESULTS");
+  const finalSnapshot = result.finalSnapshot;
+  assert.ok(finalSnapshot, "a successful presentation must retain its final authoritative snapshot");
   const artifact = {
     status: result.execution.status, stage: "AGENT_LOOP", caseId: registration.id, runId: "offline-registered:new-vegetarian",
-    materializedCase, finalSnapshot: result.finalSnapshot, trajectories: result.trajectories, loop: result.loop,
+    materializedCase, finalSnapshot, trajectories: result.trajectories, loop: result.loop,
     resourceUsage: { elapsedMs: result.elapsedMs, agentDecisions: result.trajectories.length, browserModelCalls: 0 },
   };
-  const accepted = assessFixedSourceAcceptance({ expectation: registration.expectation, execution: result.execution, evaluation: evaluateRestaurantHybridLiveArtifact(artifact, { path: "new-vegetarian.result.json", sha256: "fixture" }) });
+  const accepted = assessFixedSourceAcceptance({
+    expectation: registration.expectation,
+    execution: result.execution,
+    evaluation: evaluateRestaurantHybridLiveArtifact(artifact, { path: "new-vegetarian.result.json", sha256: "fixture" }),
+    presentedResult: {
+      candidateIds: finalSnapshot.domainState.presentedResults?.candidateIds ?? [],
+      ...(finalSnapshot.domainState.selectionSession?.resultBatchTarget ? { resultBatchTarget: finalSnapshot.domainState.selectionSession.resultBatchTarget } : {}),
+      ...(finalSnapshot.domainState.intentDraft?.target?.requestedResultCount !== undefined ? { requestedResultCount: finalSnapshot.domainState.intentDraft.target.requestedResultCount } : {}),
+    },
+  });
   assert.equal(accepted.acceptance, "PASS", accepted.reasons.join("\n"));
   const broken = structuredClone(artifact) as any;
   broken.finalSnapshot.domainState.readEvidence = [];
@@ -450,7 +479,43 @@ test("registered control cases use the shared execution, evaluator, and acceptan
   model.assertConsumed();
 });
 
+test("an explicit result count travels from control input through authoritative State into fixed-source acceptance", async () => {
+  const { registration, materializedCase } = await loadRegisteredFixedSourceCase("explicit-two-omakase");
+  const model = new FixedCurrentCaseModel(EXPLICIT_TWO_OMAKASE_PLAN, String(materializedCase.content));
+  const result = await executeFixedSourceCase({ registration, materializedCase, model, taskId: "offline-registered:explicit-two-omakase" });
+  assert.deepEqual(result.execution, { status: "SUCCEEDED", loopStatus: "TERMINAL", phase: "PRESENT_RESULTS" });
+  const finalSnapshot = result.finalSnapshot;
+  assert.ok(finalSnapshot);
+  const state = finalSnapshot.domainState;
+  assert.equal(state.intentDraft?.target?.requestedResultCount, 2, "the Interpreter/Compiler result must remain authoritative in State");
+  assert.deepEqual(state.selectionSession?.resultBatchTarget, { candidateCount: 2, met: true });
+  assert.equal(state.presentedResults?.candidateIds.length, 2);
+  const artifact = {
+    status: result.execution.status, stage: "AGENT_LOOP", caseId: registration.id, runId: "offline-registered:explicit-two-omakase",
+    materializedCase, finalSnapshot, trajectories: result.trajectories, loop: result.loop,
+    resourceUsage: { elapsedMs: result.elapsedMs, agentDecisions: result.trajectories.length, browserModelCalls: 0 },
+  };
+  const acceptance = assessFixedSourceAcceptance({
+    expectation: registration.expectation,
+    execution: result.execution,
+    evaluation: evaluateRestaurantHybridLiveArtifact(artifact, { path: "explicit-two-omakase.result.json", sha256: "fixture" }),
+    presentedResult: {
+      candidateIds: state.presentedResults?.candidateIds ?? [],
+      requestedResultCount: state.intentDraft?.target?.requestedResultCount,
+      ...(state.selectionSession?.resultBatchTarget ? { resultBatchTarget: state.selectionSession.resultBatchTarget } : {}),
+    },
+  });
+  assert.deepEqual(acceptance, { acceptance: "PASS", userGoalCompletion: "COMPLETE", reasons: [], exitCode: 0 });
+  model.assertConsumed();
+});
+
 test("fixed-source registration refuses unknown IDs and missing bindings", () => {
   assert.throws(() => fixedSourceCaseRegistration("not-registered"), { code: "FIXED_SOURCE_CASE_UNREGISTERED" });
   assert.throws(() => validateFixedSourceCaseRegistration({ id: "bad", input: "CONTROL", sourceScenarioId: "" as any, expectation: {} as any }), { code: "FIXED_SOURCE_CASE_INVALID" });
+});
+
+test("frozen H001-H005 registrations do not convert the product default batch target into a user requirement", () => {
+  const frozen = FIXED_SOURCE_CASE_REGISTRATIONS.filter((registration) => registration.input === "FROZEN_DEVELOPMENT");
+  assert.deepEqual(frozen.map((registration) => registration.id), ["h001", "h002", "h003", "h004", "h005"]);
+  for (const registration of frozen) assert.equal(registration.expectation.requiredResultBatch, undefined, `${registration.id} has no user-stated result count`);
 });

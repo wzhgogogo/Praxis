@@ -19,7 +19,7 @@ test("the locality matrix is frozen to V2-L1 through V2-L10 plus N1/N2 and uses 
       const payload = JSON.parse(request.messages[1]!.content) as { criteria: Array<{ text: string }>; observations: Array<{ evidenceId: string }> };
       return {
         invocationId: `fixture:${requests.length}`, provider: "FIXTURE", model: "fixture", finishReason: "TOOL_CALLS", latencyMs: 0,
-        outputText: JSON.stringify({ judgments: [{ criterion: payload.criteria[0]!.text, outcome: "UNKNOWN", evidenceIds: [payload.observations[0]!.evidenceId] }] }),
+        outputText: JSON.stringify({ judgments: [{ criterion: payload.criteria[0]!.text, outcome: "UNKNOWN", scope: "UNKNOWN_SCOPE", evidenceIds: [payload.observations[0]!.evidenceId] }] }),
       };
     },
   };
@@ -43,7 +43,7 @@ test("the locality matrix does not let a fixture answer bypass cited evidence", 
     async complete() {
       return {
         invocationId: "fixture:uncited", provider: "FIXTURE", model: "fixture", finishReason: "TOOL_CALLS", latencyMs: 0,
-        outputText: JSON.stringify({ judgments: [{ criterion: input.intent.criteria[0]!.text, outcome: "SUPPORTED", evidenceIds: ["not-a-source"] }] }),
+        outputText: JSON.stringify({ judgments: [{ criterion: input.intent.criteria[0]!.text, outcome: "SUPPORTED", scope: "UNKNOWN_SCOPE", evidenceIds: ["not-a-source"] }] }),
       };
     },
   };

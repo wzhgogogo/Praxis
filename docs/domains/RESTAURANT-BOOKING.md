@@ -1,10 +1,10 @@
 # Restaurant Booking Domain
 
 - Status: Accepted
-- Document revision: 3.3
-- Last updated: 2026-09-18
+- Document revision: 3.4
+- Last updated: 2026-09-20
 - Source of truth for: 餐厅预约Domain模型、状态、搜索和完成条件
-- Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0009](../decisions/0009-semantic-strength-and-clean-holdout-baseline.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md), [ADR-0014](../decisions/0014-search-only-results-completion.md), [ADR-0019](../decisions/0019-fact-grounded-read-only-recommendations.md), [ADR-0020](../decisions/0020-goal-driven-restaurant-read-path.md), [ADR-0021](../decisions/0021-cited-source-fact-investigation.md), [ADR-0022](../decisions/0022-current-source-fact-lifecycle-and-identity.md), [ADR-0024](../decisions/0024-deterministic-time-and-diagnostic-read-completion.md), [ADR-0025](../decisions/0025-model-directed-read-investigation.md), [ADR-0026](../decisions/0026-concrete-visit-goal-and-reception-semantics.md), [ADR-0028](../decisions/0028-open-ended-result-targets-for-availability.md)
+- Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0009](../decisions/0009-semantic-strength-and-clean-holdout-baseline.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md), [ADR-0014](../decisions/0014-search-only-results-completion.md), [ADR-0019](../decisions/0019-fact-grounded-read-only-recommendations.md), [ADR-0020](../decisions/0020-goal-driven-restaurant-read-path.md), [ADR-0021](../decisions/0021-cited-source-fact-investigation.md), [ADR-0022](../decisions/0022-current-source-fact-lifecycle-and-identity.md), [ADR-0024](../decisions/0024-deterministic-time-and-diagnostic-read-completion.md), [ADR-0025](../decisions/0025-model-directed-read-investigation.md), [ADR-0026](../decisions/0026-concrete-visit-goal-and-reception-semantics.md), [ADR-0028](../decisions/0028-open-ended-result-targets-for-availability.md), [ADR-0030](../decisions/0030-restaurant-category-negative-eligibility.md)
 - Related documents: [MVP PRD](../product/MVP-PRD.md), [User Flows](../product/USER-FLOWS.md), [Policy & Execution](../architecture/POLICY-EXECUTION-VERIFICATION.md), [Data, Context & Security](../architecture/DATA-CONTEXT-SECURITY.md), [Search Service](../architecture/SEARCH-SERVICE.md)
 
 ## 只读目标的当前验收口径
@@ -15,6 +15,8 @@
 
 
 复合事实读取的`sourceAttempts`保留失败来源，不能从成功evidence反推本次全部来源范围。Reducer在当前请求的fact check中累计`supersededEvidenceIds`；同来源旧事实和显式刷新前的复合读取事实若未重新证实，不再支持当前展示，但原始历史记录不变。Context与展示共用当前事实视图，MODEL_JUDGMENT的全部原始支持必须仍有效；空位展示引用独立来源事实时同时引用各自HIGH身份。上述是现有字段的增量只读审计信息，不建立旧执行器、双写或生产迁移。
+
+负向HARD默认仍须有当前、同候选、来源绑定的`verifiedNegativeCriteria`，任何`violatedNegativeCriteria`都阻止展示。唯一例外是[ADR-0030](../decisions/0030-restaurant-category-negative-eligibility.md)：同一Fact Judgment对精确的餐厅/菜系/门店类型排除，基于带引用的type事实返回`UNKNOWN/RESTAURANT_CATEGORY_TYPE`时，记录`categoryUnknownNegativeCriteria`并仅可用于资格。它不是确认“不是该类型”的事实，不显示为已验证负向条件；`OTHER`或`UNKNOWN_SCOPE`（例如过敏、污染、医疗、安全、无障碍）仍失败关闭。名称、缺失关键词、跨候选引用或已被替代的来源事实均不适用。
 
 ## Implementation Status
 

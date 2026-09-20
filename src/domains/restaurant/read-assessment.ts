@@ -104,7 +104,17 @@ function presentationEvidenceIds(
     const supported = groundedCurrentFacts.some((evidence) =>
       stringListClaim(evidence, "verifiedNegativeCriteria").some((value) => normalized(value) === normalized(criterion.text)),
     );
-    if (!supported) return { valid: false, reason: `Candidate ${candidateId} has no source fact supporting negative criterion ${criterion.text}` };
+    if (supported) continue;
+    // A cited category/type judgment may establish only that no violation is
+    // known. It is deliberately not a verified-negative claim, and every
+    // other negative HARD condition retains the original fail-closed gate.
+    const categoryUnknown = groundedCurrentFacts.some((evidence) =>
+      evidence.provider === "MODEL_JUDGMENT"
+      && stringListClaim(evidence, "supportingEvidenceIds").length > 0
+      && stringListClaim(evidence, "supportingEvidenceIds").every((id) => groundedCurrentFacts.some((source) => source.provider !== "MODEL_JUDGMENT" && source.evidenceId === id && stringListClaim(source, "restaurantTypeFacts").some((value) => value.trim().length > 0)))
+      && stringListClaim(evidence, "categoryUnknownNegativeCriteria").some((value) => normalized(value) === normalized(criterion.text)),
+    );
+    if (!categoryUnknown) return { valid: false, reason: `Candidate ${candidateId} has no source fact supporting negative criterion ${criterion.text}` };
   }
   if (!restaurantGoalRequiresAvailability(intent)) {
     const openingHours = intent.date && intent.timeWindow

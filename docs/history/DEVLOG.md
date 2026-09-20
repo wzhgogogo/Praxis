@@ -2548,3 +2548,30 @@ Closed only the user-authorized H002–H004 exposed fixed-source semantic slice 
 在新的明确授权下，仅将 Fact Judgment Prompt 收窄为：无修饰的 `local food` 可由目的地本土料理支持；明确的城市／地区／特色条件必须有同一窄范围的引用事实，不能从候选地址、名称或更宽国家料理推导。矩阵及评分器保持 matrix@2 的12样本×3执行形状，增加逐 attempt 的 dispatch／settled 不可变日志；没有改Gold、来源或固定来源／Live路径。
 
 同一真实模型矩阵36次、零重试、34,383 tokens、28,604ms，N1由 Prompt@5 的3/3错误 `SUPPORTED` 变为3/3正确 `UNKNOWN`，N2继续3/3 `CONFLICT`。但普通 `local food` 的 V2-L5（Tokyo 中 Kyoto regional cuisine）3/3输出 `UNKNOWN`，而冻结期望为 `SUPPORTED`；所有36次的结构化响应和引用均合法，故不是身份、输入过滤、citation或 scorer 造成的失败。按预设停止门槛，不写 Prompt@7、不运行 H005 fixed-source/Live，也不回写历史 artifact。详见[独立 V3 状态](../../.eval-artifacts/h005-locality-independent-review-2026-09-20/TERRA-V3-PHASE-STATUS.md)。
+
+## 2026-09-20 Local Food Semantics v2 explicit-scope matrix and first H005 fixed-source run
+
+仅将 Prompt@6 中“不同窄地域”的禁止 `SUPPORTED` 规则改为条件化文案：用户明确要求 city/region/specialty cuisine 时才适用；generic `local food` 允许目的地本土菜系语境中的其他区域菜系。matrix@2 的代码、12样本、三次重复、scorer、来源和Gold均未变。真实模型36次、零重试全部通过：V2-L5 3/3 `SUPPORTED`，N1 3/3 `UNKNOWN`，N2 3/3 `CONFLICT`，其余无失败；总36,006 tokens、33,971ms。
+
+按该门槛首次运行 H005 固定来源真实模型组合：一例、`SYNTHETIC_CONTROL`／离线固定来源、50 model calls／50 steps／300s上限，无真实Google、网站、浏览器或预约。执行为 `SUCCEEDED/TERMINAL/PRESENT_RESULTS`，8次模型调用、28,522 tokens、10,877ms；三家均完成 facts、HIGH identity 及4人17:00 availability 读取，且三家 `local food` 均有 verified-hard evidence。a/c 还具有 `fast food` 负条件的 verified-negative evidence；b 没有该负证据，故只展示a/c，批次目标为3但`met:false`，固定验收 `FAIL`。未把此失败改写为无位、local-food失败或来源缺口；不重跑、不改规则、不进入Live。
+
+## 2026-09-20 H005 Phase 1 fixed-source default batch acceptance
+
+将 fixed-source 的结果数量契约收敛为两种来源：仅用户明确的`requestedResultCount`才能注册为`USER_EXPLICIT` completion requirement；H001–H005 的`OPEN_ENDED`默认三家继续是产品调查目标，不再作为 fixed-source acceptance 的硬失败条件。`QUALIFIED_RESULT`仍必须是`SUCCEEDED/TERMINAL/PRESENT_RESULTS`、独立评估为合格、并有至少一位 distinct presented candidate；空展示不能通过。默认批次一律将`target/actual/met`输出为`defaultBatchTarget`，故完整三家为`3/3/true`，合法来源耗尽后的两家为`3/2/false`且可通过。明确数量仍要求同数 distinct result、权威 State 中的`requestedResultCount`以及已满足的 Runtime batch target。审查补充关闭一条 false-PASS：若 State 已有`requestedResultCount`、但注册遗漏`USER_EXPLICIT`，或两者数值不一致，验收直接失败且不得产生`defaultBatchTarget`；不能借由注册遗漏把用户数量降格为产品默认。
+
+没有修改`requestedResultBatchTarget()`、`resultTargetCannotBeMetWithFurtherRead()`、Action Validator early-short-batch gate、Agent bounded investigation、H005 input/Gold/fixture、local-food Prompt或任何负条件策略。历史真实 H005 fixed-source artifact 只读离线重评：原执行及 evaluator sidecar 的SHA保持不变，新侧车结论为`PASS/COMPLETE`和`defaultBatchTarget=3/2/false`。Phase 2 `no fast food` category policy 未开始，等待独立审查与授权。
+## 2026-09-20 — H005 Phase 2 category-negative eligibility (offline only)
+
+- Added ADR-0030 and Prompt@7 schema scope. A cited `UNKNOWN/RESTAURANT_CATEGORY_TYPE` may create only `categoryUnknownNegativeCriteria`; Runtime eligibility and evaluator@19 accept that exact, current candidate-bound claim without promoting it to a verified-negative fact. Violations and all non-category unknowns remain blocked.
+- Kept the prior locality prompt text unchanged and appended the scoped rule. No Gold, H001–H005 YAML, source scenario, historical artifact, provider, browser, website, Live or booking work was changed or run.
+- The existing fixed Hybrid composition remains the only end-to-end runner. Paid 16-attempt matrix execution remains pending approval; no retry budget was consumed.
+
+
+## 2026-09-20 H005 review continuation — bounded category eligibility and failed model gate
+
+Completed true internal composition and explicit follow-up exclusions, independent raw-type checks and acceptance@3/product documentation. Prompt@7/schema@2 matrix ran once: 14/16; grounded McDonalds F8 was UNKNOWN twice. Phase 3 not run. This is an unaccepted development candidate, not a completed H005 slice. Frozen source/local-food/Gold preserved; no commit/push. See [independent review](H005-CATEGORY-NEGATIVE-REVIEW-2026-09-20.md) for immutable artifacts, actual behavior coverage, failure attribution and limits.
+
+
+## 2026-09-20 Prompt@8 and accepted fixed-source integration
+
+Integrated Terra's final groundedEntity/category clarification and second-turn transport assertions into the current branch after user authorization to commit and push. The successful unchanged category matrix preceded H005 and H001-H005 fixed-source runs; earlier status summaries had omitted that successful follow-up. Current STATUS and review addenda now distinguish historical Prompt@7/network failures from accepted Prompt@8 and five-case results. H001/H005 are automatic PASS; H002-H004 retain automatic FAIL plus independent manual semantic acceptance. All 138 tracked production src files match the run worktree, and locality text, Gold and fixed-source samples remain unchanged. No new paid or Live run was needed. Details: [integration review](H005-CATEGORY-NEGATIVE-REVIEW-2026-09-20.md#prompt8-follow-up-and-commit-integration).

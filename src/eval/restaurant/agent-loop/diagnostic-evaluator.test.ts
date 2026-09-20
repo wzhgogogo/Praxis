@@ -50,6 +50,33 @@ test("diagnostic evaluator independently accepts current-runner-shaped grounded 
   assert.ok(result.findings.every((item) => item.status === "SATISFIED"));
 });
 
+test("diagnostic evaluator independently verifies cited category UNKNOWN eligibility without treating it as verified-negative", () => {
+  const artifact: any = completeArtifact();
+  const domain = artifact.finalSnapshot.domainState;
+  const negative = { text: "fast food", polarity: "NEGATIVE", strength: "HARD" };
+  artifact.materializedCase.semantic.criteria.push({ value: "fast food", polarity: "NEGATIVE", strength: "HARD" });
+  domain.intentDraft.criteria.push(negative);
+  domain.readEvidence.push(
+    { evidenceId: "raw-category-a", kind: "RESTAURANT_FACT", provider: "TABLECHECK", candidateId: "candidate-a", sourceEntityId: "outlet-a", observedAt: "2026-09-08T07:45:00.000Z", requestFingerprint: "facts", claims: { restaurantTypeFacts: ["restaurant"] } },
+    { evidenceId: "category-unknown-a", kind: "RESTAURANT_FACT", provider: "MODEL_JUDGMENT", candidateId: "candidate-a", observedAt: "2026-09-08T07:45:00.000Z", requestFingerprint: "facts", claims: { categoryUnknownNegativeCriteria: ["fast food"], supportingEvidenceIds: ["raw-category-a"] } },
+  );
+  domain.availabilityChecks["candidate-a"].evidenceIds.push("raw-category-a", "category-unknown-a");
+  domain.presentedResults.evidenceIds.push("raw-category-a", "category-unknown-a");
+  artifact.trajectories[0].observation.evidenceIds.push("raw-category-a", "category-unknown-a");
+  const result = evaluateRestaurantHybridLiveArtifact(artifact, source);
+  assert.equal(result.execution.taskProducedQualifiedResult, "YES", JSON.stringify(result));
+  for (const restaurantTypeFacts of [undefined, [], ["  "], [42]]) {
+    const invalidTypes = structuredClone(artifact);
+    invalidTypes.finalSnapshot.domainState.readEvidence.find((item: any) => item.evidenceId === "raw-category-a").claims = restaurantTypeFacts === undefined ? {} : { restaurantTypeFacts };
+    const rejected = evaluateRestaurantHybridLiveArtifact(invalidTypes, source);
+    assert.notEqual(rejected.execution.taskProducedQualifiedResult, "YES", `invalid raw type facts: ${JSON.stringify(restaurantTypeFacts)}`);
+    assert.notEqual(finding(rejected, "REQUIRED_EVIDENCE").status, "SATISFIED");
+  }
+  const unsupported = structuredClone(artifact);
+  delete unsupported.finalSnapshot.domainState.readEvidence.find((item: any) => item.evidenceId === "category-unknown-a").claims.categoryUnknownNegativeCriteria;
+  assert.equal(finding(evaluateRestaurantHybridLiveArtifact(unsupported, source), "REQUIRED_EVIDENCE").status, "NOT_EVALUATED");
+});
+
 /**
  * Public, source-shaped artifact mutations.  Each starts from a fresh copy of
  * the passing control above: these are not edits to a historical artifact and

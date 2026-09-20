@@ -1,8 +1,8 @@
 # MVP User Flows
 
 - Status: Accepted
-- Document revision: 0.7
-- Last updated: 2026-09-18
+- Document revision: 0.8
+- Last updated: 2026-09-20
 - Source of truth for: 用户可见流程、确认点和终态
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md)
 - Related documents: [MVP PRD](MVP-PRD.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md)
@@ -89,6 +89,10 @@ flowchart TD
 ## 持续选店与另一批
 
 开放式推荐和开放式具体查位都以三家不同、已满足其各自证据门槛的结果为首批目标；用户明确数量时按该数量，指定店铺不扩展。用户可逐家查看、加入或移除备选、要求同条件的另一批，或给出不改变条件的定性反馈。查看和备选只更新当前可恢复会话，不触发模型、来源读取或预约。另一批优先返回已有池中未展示且仍有效的结果；不足时才在同一权威条件、预算与游标下继续有界调查。用户修改人数、日期、时间、区域或HARD条件时，旧请求的结果不再当作当前合格结果，备选保留为需重新核验的用户记忆。
+
+按[ADR-0030](../decisions/0030-restaurant-category-negative-eligibility.md)，`no fast food`等餐厅类别排除禁止已知违规；有来源类别事实但判断未知的边界类型可以保留，不能宣称“已确认不是快餐”。连锁、便宜或出餐快本身不等于快餐。正向HARD仍须证据支持，过敏、污染、安全及无障碍等排除不适用此放宽。用户明确追加“不要拉面／回转寿司”通过普通需求更新收紧当前Task，不建立长期偏好。
+
+默认三家不足时，只在合法读取耗尽后展示实际合格数量并说明目标差额；此时可完成未显式指定数量的请求。显式要求的数量不足仍为未完整完成。
 
 ## 取消
 

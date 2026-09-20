@@ -13,6 +13,8 @@ export type FixedSourceAcceptanceResult = {
   acceptance: "PASS" | "FAIL" | "BLOCKED";
   userGoalCompletion: "COMPLETE" | "NOT_COMPLETE" | "UNKNOWN";
   reasons: string[];
+  /** Runtime's default open-ended target is reported even when it is unmet. */
+  defaultBatchTarget?: { target: number; actual: number; met: boolean };
   exitCode: 0 | 1;
 };
 
@@ -34,6 +36,8 @@ export function assessFixedSourceAcceptance(input: {
   presentedResult?: {
     candidateIds: readonly string[];
     resultBatchTarget?: { candidateCount: number; met: boolean };
+    /** Authoritative semantic result, passed through from the final State. */
+    requestedResultCount?: number;
   };
 }): FixedSourceAcceptanceResult {
   const reasons: string[] = [];
@@ -65,20 +69,40 @@ export function assessFixedSourceAcceptance(input: {
   if (input.expectation.kind === "NEEDS_USER_INPUT" && evaluation.execution.completion !== "NEEDS_USER_INPUT") reasons.push(`Expected NEEDS_USER_INPUT evaluator completion, got ${evaluation.execution.completion}.`);
   if (input.expectation.kind === "USER_CANCELLED" && evaluation.execution.completion !== "CANCELLED") reasons.push(`Expected CANCELLED evaluator completion, got ${evaluation.execution.completion}.`);
   if (input.expectation.kind === "BUDGET_OR_DEADLINE_STOP" && evaluation.execution.completion !== "BUDGET_OR_DEADLINE_STOP") reasons.push(`Expected BUDGET_OR_DEADLINE_STOP evaluator completion, got ${evaluation.execution.completion}.`);
-  const requiredBatch = input.expectation.requiredResultBatch;
-  if (requiredBatch) {
-    const presented = input.presentedResult;
-    const distinctCandidateCount = presented ? new Set(presented.candidateIds).size : 0;
-    if (!presented || presented.candidateIds.length !== requiredBatch.candidateCount || distinctCandidateCount !== requiredBatch.candidateCount) {
-      reasons.push(`Expected exactly ${requiredBatch.candidateCount} distinct presented candidates, got ${presented ? `${distinctCandidateCount} distinct of ${presented.candidateIds.length}` : "no presentation record"}.`);
+  const presented = input.presentedResult;
+  const distinctCandidateCount = presented ? new Set(presented.candidateIds).size : 0;
+  if (input.expectation.kind === "QUALIFIED_RESULT" && (!presented || distinctCandidateCount === 0 || presented.candidateIds.length !== distinctCandidateCount)) {
+    reasons.push(`Expected one or more distinct presented candidates, got ${presented ? `${distinctCandidateCount} distinct of ${presented.candidateIds.length}` : "no presentation record"}.`);
+  }
+  const registeredUserBatch = input.expectation.requiredResultBatch;
+  const stateRequestedCount = presented?.requestedResultCount;
+  // State is authoritative about what the user asked. Registration is the
+  // frozen assertion that the case text contains that request; either source
+  // missing or disagreeing is a contract error, never a default batch.
+  if (stateRequestedCount !== undefined && !registeredUserBatch) {
+    reasons.push(`Authoritative State requested ${stateRequestedCount} results, but the fixed-source registration has no USER_EXPLICIT result-count expectation.`);
+  }
+  if (registeredUserBatch && stateRequestedCount === undefined) {
+    reasons.push(`Registered USER_EXPLICIT result count ${registeredUserBatch.candidateCount} is missing from authoritative State.`);
+  }
+  if (registeredUserBatch && stateRequestedCount !== undefined && stateRequestedCount !== registeredUserBatch.candidateCount) {
+    reasons.push(`Registered USER_EXPLICIT result count ${registeredUserBatch.candidateCount} disagrees with authoritative State count ${stateRequestedCount}.`);
+  }
+  const requiredCount = registeredUserBatch?.candidateCount;
+  if (requiredCount !== undefined) {
+    if (!presented || presented.candidateIds.length !== requiredCount || distinctCandidateCount !== requiredCount) {
+      reasons.push(`Expected exactly ${requiredCount} distinct presented candidates, got ${presented ? `${distinctCandidateCount} distinct of ${presented.candidateIds.length}` : "no presentation record"}.`);
     }
-    if (presented?.resultBatchTarget?.candidateCount !== requiredBatch.candidateCount || presented.resultBatchTarget.met !== true) {
-      reasons.push(`Expected met result batch target of ${requiredBatch.candidateCount}, got ${presented?.resultBatchTarget ? `${presented.resultBatchTarget.candidateCount}/${presented.resultBatchTarget.met}` : "MISSING"}.`);
+    if (presented?.resultBatchTarget?.candidateCount !== requiredCount || presented.resultBatchTarget.met !== true) {
+      reasons.push(`Expected met result batch target of ${requiredCount}, got ${presented?.resultBatchTarget ? `${presented.resultBatchTarget.candidateCount}/${presented.resultBatchTarget.met}` : "MISSING"}.`);
     }
   }
   const acceptance = reasons.length ? "FAIL" : "PASS";
   // Completion is derived from the independently evaluated produced result,
   // never merely copied from a case registration boolean.
   const userGoalCompletion = acceptance !== "PASS" ? "UNKNOWN" : qualified === "YES" ? "COMPLETE" : "NOT_COMPLETE";
-  return { acceptance, userGoalCompletion, reasons, exitCode: acceptance === "PASS" ? 0 : 1 };
+  const defaultBatchTarget = stateRequestedCount === undefined && !registeredUserBatch && presented?.resultBatchTarget
+    ? { target: presented.resultBatchTarget.candidateCount, actual: distinctCandidateCount, met: presented.resultBatchTarget.met }
+    : undefined;
+  return { acceptance, userGoalCompletion, reasons, ...(defaultBatchTarget ? { defaultBatchTarget } : {}), exitCode: acceptance === "PASS" ? 0 : 1 };
 }

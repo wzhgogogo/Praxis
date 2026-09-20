@@ -1,8 +1,8 @@
 # Architecture Decision Records
 
 - Status: Accepted
-- Document revision: 1.5
-- Last updated: 2026-09-18
+- Document revision: 1.6
+- Last updated: 2026-09-20
 - Source of truth for: 已接受架构决策及其替代关系
 - Related ADRs: 本目录
 - Related documents: [Architecture Overview](../architecture/OVERVIEW.md)
@@ -40,6 +40,7 @@
 | [0027](0027-continuous-read-only-selection-sessions.md) | Accepted | 结果批次可续接、持久候选池与受限游标补货 |
 | [0028](0028-open-ended-result-targets-for-availability.md) | Accepted | 开放式查位与推荐共享三家结果目标 |
 | [0029](0029-criterion-strength-and-nonblocking-preferences.md) | Accepted | 表达但未标记强制/让步的条件为UNSPECIFIED，并仅以HARD形成证据门槛 |
+| [0030](0030-restaurant-category-negative-eligibility.md) | Accepted | 类别/类型排除的受限`UNKNOWN`仅用于资格，不成为已验证负向事实 |
 
 ## 规则
 

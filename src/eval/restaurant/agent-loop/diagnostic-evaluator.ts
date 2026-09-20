@@ -4,8 +4,8 @@ import { basename, dirname, resolve } from "node:path";
 import { openingHoursForRequest } from "../../../domains/restaurant/read-grounding.js";
 
 
-export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@18";
-export const RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION = "restaurant-hybrid-read-diagnostic-rubric@18";
+export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@19";
+export const RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION = "restaurant-hybrid-read-diagnostic-rubric@19";
 
 type JsonRecord = Record<string, unknown>;
 export type DiagnosticEvaluationStatus = "SATISFIED" | "NOT_SATISFIED" | "NOT_EVALUATED";
@@ -483,7 +483,11 @@ function assessPresentedCandidate(candidateId: string, domain: JsonRecord, reque
     if (facts.some((item) => strings(asRecord(item.claims)?.violatedNegativeCriteria).some((value) => normalized(value) === hardCriterion))) {
       conflicts.push(`negative HARD criterion ${hardCriterion} is violated by cited source fact`);
     } else if (!facts.some((item) => strings(asRecord(item.claims)?.verifiedNegativeCriteria).some((value) => normalized(value) === hardCriterion))) {
-      missing.push(`negative HARD criterion ${hardCriterion}`);
+      const categoryUnknown = facts.some((item) => item.provider === "MODEL_JUDGMENT"
+        && strings(asRecord(item.claims)?.supportingEvidenceIds).length > 0
+        && strings(asRecord(item.claims)?.supportingEvidenceIds).every((id) => facts.some((source) => source.provider !== "MODEL_JUDGMENT" && source.evidenceId === id && strings(asRecord(source.claims)?.restaurantTypeFacts).some((value) => value.trim().length > 0)))
+        && strings(asRecord(item.claims)?.categoryUnknownNegativeCriteria).some((value) => normalized(value) === hardCriterion));
+      if (!categoryUnknown) missing.push(`negative HARD criterion ${hardCriterion}`);
     }
   }
   if (factOnly) {
