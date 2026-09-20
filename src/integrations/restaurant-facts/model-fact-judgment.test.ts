@@ -81,7 +81,7 @@ test("a broad source type cannot be promoted by the model into exclusion evidenc
   assert.equal(result.modelUsage, undefined);
 });
 
-test("regional-cuisine wording remains UNKNOWN for a locality criterion unless the model has direct support", async () => {
+test("a locality-cuisine UNKNOWN remains unverified while receiving authoritative locality context", async () => {
   const calls: Parameters<ModelGateway["complete"]>[0][] = [];
   const gateway: ModelGateway = {
     async complete(request) {
@@ -98,7 +98,40 @@ test("regional-cuisine wording remains UNKNOWN for a locality criterion unless t
     evidence: [{ ...sourceEvidence[0]!, claims: { restaurantTypeFacts: ["Tokyo regional cuisine restaurant"] } }],
   });
   assert.deepEqual(result.evidence, []);
-  assert.equal(calls[0]?.promptVersion, "3");
+  assert.equal(calls[0]?.promptVersion, "6");
   assert.match(calls[0]?.messages[0]?.content ?? "", /direct textual entailment/i);
-  assert.match(calls[0]?.messages[0]?.content ?? "", /regional cuisine alone is only thematic association/i);
+  assert.match(calls[0]?.messages[0]?.content ?? "", /destination's native culinary context/i);
+  assert.match(calls[0]?.messages[0]?.content ?? "", /broader national or destination-compatible cuisine does not establish that narrower condition/i);
+  const input = JSON.parse(calls[0]?.messages[1]?.content ?? "{}") as { candidate?: { address?: string }; requestContext?: { area?: string } };
+  assert.equal(input.candidate?.address, "Tokyo");
+  assert.equal(input.requestContext?.area, "Tokyo");
+});
+
+test("candidate address and venue name alone never invoke or verify a locality-food criterion", async () => {
+  let calls = 0;
+  const gateway: ModelGateway = {
+    async complete() {
+      calls += 1;
+      throw new Error("a generic type must be filtered before a model call");
+    },
+  };
+  const result = await new ModelRestaurantFactJudgment(gateway).judge({
+    candidate: { ...candidate, restaurant: { ...candidate.restaurant, outletName: "Tokyo Local Kitchen", address: "1 Matrix Lane, Chuo City, Tokyo" } },
+    intent: { ...intent, criteria: [{ text: "local food", polarity: "POSITIVE", strength: "HARD" }] },
+    evidence: [{ ...sourceEvidence[0]!, claims: { restaurantTypeFacts: ["restaurant"] } }],
+  });
+  assert.equal(calls, 0);
+  assert.deepEqual(result.evidence, []);
+});
+
+test("a cited native-cuisine support remains a model judgment rather than a deterministic cuisine mapping", async () => {
+  const result = await new ModelRestaurantFactJudgment(model({
+    judgments: [{ criterion: "local food", outcome: "SUPPORTED", evidenceIds: ["source-type"] }],
+  })).judge({
+    candidate,
+    intent: { ...intent, criteria: [{ text: "local food", polarity: "POSITIVE", strength: "HARD" }] },
+    evidence: [{ ...sourceEvidence[0]!, claims: { restaurantTypeFacts: ["Japanese restaurant"] } }],
+  });
+  assert.deepEqual(result.evidence[0]?.claims.verifiedHardCriteria, ["local food"]);
+  assert.deepEqual(result.evidence[0]?.claims.supportingEvidenceIds, ["source-type"]);
 });

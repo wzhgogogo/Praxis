@@ -30,6 +30,23 @@ export async function startDiagnosticRun(directory: string, metadata: Record<str
   return {
     startPath,
     resultPath,
+    /**
+     * A caller that needs durable per-request audit can record an immutable
+     * dispatch and settlement pair.  Normal diagnostics still retain only
+     * their start/result records; callers choose their own safe payload.
+     */
+    async recordAttempt(
+      attempt: number,
+      stage: "DISPATCHED" | "SETTLED",
+      record: Record<string, unknown>,
+    ) {
+      if (!Number.isSafeInteger(attempt) || attempt < 1) {
+        throw new Error("Diagnostic attempt number must be a positive safe integer");
+      }
+      const path = `${base}.attempt-${String(attempt).padStart(3, "0")}.${stage.toLocaleLowerCase("en-US")}.json`;
+      await writeFile(path, JSON.stringify({ ...identity, attempt, stage, recordedAt: new Date().toISOString(), ...record }, null, 2), { flag: "wx" });
+      return path;
+    },
     async finish(result: Record<string, unknown> & { status: "SUCCEEDED" | "FAILED" | "CANCELLED" }) {
       await writeFile(resultPath, JSON.stringify({
         ...metadata, ...result, ...identity, finishedAt: new Date().toISOString(),

@@ -22,6 +22,7 @@
     "eval:restaurant:search:fixture": "node --import tsx src/eval/restaurant/search-fixture/run.ts",
     "eval:restaurant:agent-loop:hybrid-live-read": "node --env-file-if-exists=.env --import tsx src/eval/restaurant/agent-loop/runners/run-hybrid-live-read.ts",
     "eval:restaurant:agent-loop:fixed-source-model": "node --env-file-if-exists=.env --import tsx src/eval/restaurant/agent-loop/runners/run-current-development-fixed-source-model.ts",
+    "eval:restaurant:fact-judgment:locality-matrix": "node --env-file-if-exists=.env --import tsx src/eval/restaurant/agent-loop/runners/run-locality-fact-judgment-matrix.ts",
     "eval:restaurant:agent-loop:artifact": "node --import tsx src/eval/restaurant/agent-loop/runners/run-hybrid-artifact-evaluation.ts",
     "test:postgres:live": "node --env-file-if-exists=.env --import tsx src/infrastructure/postgres/postgres-live-smoke.ts",
     "reset:dev:restaurant-state": "node --env-file-if-exists=.env --import tsx src/infrastructure/postgres/reset-restaurant-dev-data.ts",

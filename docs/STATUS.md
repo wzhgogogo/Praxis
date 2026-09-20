@@ -1,13 +1,19 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.58
-- Last updated: 2026-09-18
+- Document revision: 4.61
+- Last updated: 2026-09-20
 - Source of truth for: 已实现能力、已验证范围、明确未验证项与下一道门槛
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Documentation Index](INDEX.md), [Roadmap](roadmap.md), [Verification History](history/TEST-LOG.md)
 
 ## 最新审查与当前门槛
+
+2026-09-20 **H005 Local Food Semantics v2：Prompt@6 / matrix@2 的新授权复验仍未通过，当前候选停止**：在普通`local food`仍接受目的地本土料理、明确窄地域需同范围来源关联的已授权口径下，Prompt@6 的同一12样本×3、零重试真实模型矩阵共36次。N1 已由原先3/3 `SUPPORTED` 恢复为3/3 `UNKNOWN`，N2仍3/3 `CONFLICT`；但 V2-L5（Tokyo + Kyoto regional cuisine restaurant + local food）从应支持回归为3/3 `UNKNOWN`。36条均为合法、引用正确的结构化输出，并非身份、citation、输入过滤或 scorer 问题；合计34,383 tokens、28,604ms。H005 fixed-source/Live仍未运行，matrix@1、@2 Prompt@5和Prompt@6所有原始artifact不回写。当前 Fact Judgment Prompt@6 只是失败的未接纳候选；下一门槛是人工决定如何表达默认国家/文化范围与明确窄范围的边界，不自动 Prompt@7 或重跑。详见[V3 status](../.eval-artifacts/h005-locality-independent-review-2026-09-20/TERRA-V3-PHASE-STATUS.md)。
+
+2026-09-20 **Local Food Semantics v2：Prompt@5 / matrix@2 独立复核仍未通过**。用户已将普通local food定义为目的地本土料理，旧matrix@1失败记录保持原口径不回写。新12样本×3共36次、零重试、32,301 tokens；10个普通local-food样本30/30正确，窄地域冲突N2为3/3 CONFLICT；唯一失败N1（Tokyo regional food + Japanese restaurant）3/3错误SUPPORTED并生成verifiedHardCriteria。独立核对全部36份请求/原始输出及72个逐次记录，确认不是criterion漏传或评分误判。按预定gate停止，不运行H005 fixed-source/Live，不自动Prompt@6。[独立逐项结果](../.eval-artifacts/h005-locality-independent-review-2026-09-20/matrix-v2-independent-review.json)。
+
+2026-09-20 **历史 H005 locality Prompt@4 matrix 独立复核未通过，按停止条件结束**：L1–L8×3共24次真实模型、零重试、20,548 tokens；24份原始请求/响应及逐次落盘记录已核对。L3（Tokyo + Japanese restaurant）3/3错误SUPPORTED并进入verifiedHardCriteria；L5为CONFLICT/UNKNOWN/UNKNOWN，未误接纳，但Italian样本带地域信息，不能干净隔离location-only，预审遗漏已承认。L1/L2/L8正例9/9、L4/L7不足证据6/6、L6地区不匹配3/3均符合各自预期，仍不足以接纳Prompt@4。这是 Prompt@4 的历史失败记录；后续 Prompt@5/@6 运行及当前门槛以上文为准。详见[独立矩阵复核](../.eval-artifacts/h005-locality-independent-review-2026-09-20/MATRIX-REVIEW.md)。
 
 2026-09-18 **H002–H004 semantic-contract @6 本轮收敛已独立接纳（未提交；固定合成来源真实模型，不是 Live）**：H002 first-date、H004 meeting-friend 的 UNSPECIFIED 迁移及人工说明已对齐；Prompt@21修复 flexibility 删除偏好的冲突；evaluator@18拆分语义保真与实际证据。预审发现并修复 text-only 条件身份误判及多轮测试未达 Runtime 的缺口。完整本地门禁455/455；独立定向59/59及两种隔离错误的目标断言检错有效。H002/H003/H004各一次真实模型运行均交付3家、证据充分，独立复核确认人数/时间/条件/极性/强度保真，接受各自同义改写，因此本轮有限 semantic slice CLOSED。原三份自动验收仍为FAIL（语义及关联终态NOT_EVALUATED），原评分不回写，不宣称AUTO_PASS。共20模型调用、69,845 tokens、22,002ms；H005和Live未运行。运行后仅更正两条YAML人工说明，保留运行时完整YAML及旧/新hash；provider原始文本未保留，但完整结构化Proposal及State/引用可审。详见[独立验收](history/SEMANTIC-CONTRACT-V6-INDEPENDENT-ACCEPTANCE-2026-09-18.md)与[实施证据](history/SEMANTIC-CONTRACT-V6-IMPLEMENTATION-2026-09-18.md)。下一项是H005专项，尚未启动；以下同日旧诊断仅作历史追溯。
 

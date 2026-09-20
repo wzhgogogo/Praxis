@@ -19,6 +19,18 @@ test("diagnostic start survives early failure and results cannot overwrite prior
   } finally { await rm(directory, { recursive: true, force: true }); }
 });
 
+test("diagnostic attempt dispatch and settlement records are immutable", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "praxis-diagnostic-attempt-test-"));
+  try {
+    const run = await startDiagnosticRun(directory, { mode: "FIXTURE" });
+    const dispatched = await run.recordAttempt(1, "DISPATCHED", { request: { purpose: "fixture" } });
+    const settled = await run.recordAttempt(1, "SETTLED", { status: "SUCCEEDED", rawOutput: "{}" });
+    assert.equal(JSON.parse(await readFile(dispatched, "utf8")).stage, "DISPATCHED");
+    assert.equal(JSON.parse(await readFile(settled, "utf8")).rawOutput, "{}");
+    await assert.rejects(run.recordAttempt(1, "DISPATCHED", { request: "replacement" }), { code: "EEXIST" });
+  } finally { await rm(directory, { recursive: true, force: true }); }
+});
+
 test("diagnostics remove URL credentials, query and fragments and never return raw errors", () => {
   assert.equal(diagnosticUrl("https://user:password@tablecheck.com/en/shop?token=secret#secret"), "https://tablecheck.com/en/shop");
   assert.equal(diagnosticFailureCode(new Error("sk-secret")), "DIAGNOSTIC_FAILED");

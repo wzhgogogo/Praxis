@@ -2959,3 +2959,22 @@ The final cross-case classification and raw artifact links are in [H001/H003/H00
 ## 2026-09-18 — Independent semantic-contract @6 checks
 
 Independent evaluator/current-development tests 59/59. Isolated old text-Map comparison fails the intended identical-polarity-set assertion; retaining Runtime old readEvidence fails real two-turn reset assertions. Original no-match identity probe excluded. Saved three-run input hashes/structured Proposals/State/citations/batch targets and original @18 findings independently checked; bounded manual acceptance 3/3, original AUTO remains FAIL 3/3. No extra model/source calls. Evidence .eval-artifacts/semantic-contract-migration-independent-review-2026-09-18/. Full 455/455 and typecheck/arch/build are Terra-run gates, not claimed as repeated independent runs.
+
+
+## 2026-09-20 H005 locality matrix independent stop review
+
+2026-09-20 **H005 locality Prompt@4 matrix 独立复核未通过，按停止条件结束**：L1–L8×3共24次真实模型、零重试、20,548 tokens；24份原始请求/响应及逐次落盘记录已核对。L3（Tokyo + Japanese restaurant）3/3错误SUPPORTED并进入verifiedHardCriteria；L5为CONFLICT/UNKNOWN/UNKNOWN，未误接纳，但Italian样本带地域信息，不能干净隔离location-only，预审遗漏已承认。L1/L2/L8正例9/9、L4/L7不足证据6/6、L6地区不匹配3/3均符合各自预期，仍不足以接纳Prompt@4。当前@4仅未提交候选，H005 fixed-source、Live、Prompt@5均未运行；禁止自动重跑。详见[独立矩阵复核](../../.eval-artifacts/h005-locality-independent-review-2026-09-20/MATRIX-REVIEW.md)。
+
+独立复核未新增模型调用；前置定向检查14/14、typecheck及diff check通过，只证明预审代码边界。原始矩阵及Gold不改写。
+
+
+## 2026-09-20 Local Food Semantics v2 independent stop review
+
+2026-09-20 **Local Food Semantics v2：Prompt@5 / matrix@2 独立复核仍未通过**。用户已将普通local food定义为目的地本土料理，旧matrix@1失败记录保持原口径不回写。新12样本×3共36次、零重试、32,301 tokens；10个普通local-food样本30/30正确，窄地域冲突N2为3/3 CONFLICT；唯一失败N1（Tokyo regional food + Japanese restaurant）3/3错误SUPPORTED并生成verifiedHardCriteria。独立核对全部36份请求/原始输出及72个逐次记录，确认不是criterion漏传或评分误判。按预定gate停止，不运行H005 fixed-source/Live，不自动Prompt@6。[独立逐项结果](../../.eval-artifacts/h005-locality-independent-review-2026-09-20/matrix-v2-independent-review.json)。
+
+## TEST-2026-09-20-H005-LOCALITY-PROMPT-6-MATRIX
+
+- Focused local contract command covering Fact Judgment Prompt@6, dispatch/settled journal immutability, matrix request shape and scorer controls: **18/18 PASS**. `npm run typecheck` and `git diff --check` passed before the authorized matrix; no fixture, Gold, source fact or fixed-source acceptance path was changed.
+- Final repository gates: `npm run arch:check`, `npm run build`, `npm run typecheck`, and `git diff --check` all passed. `npm test` first reported 444 pass / 21 fail only because the restricted sandbox denied the existing localhost listener (`listen EPERM 127.0.0.1`); the identical offline suite with localhost permission then passed **465/465**. Neither invocation enabled provider, Google, browser or Live transport.
+- Authorized model evaluation only: matrix@2, 12 samples × 3 repetitions, 36 exact provider attempts, zero retries, `deepseek-flash`; all calls returned valid structured results. The runner recorded 36 dispatch and 36 settled immutable attempt journals, plus started/result records. Total provider usage: **34,383 tokens**, summed model latency **28,604ms**; Google/browser/booking use was zero.
+- Result: **FAIL / stopped**. N1 (`Tokyo regional food` + Japanese restaurant) was `UNKNOWN` 3/3 and N2 (`Tokyo regional food` + Kyoto regional cuisine) was `CONFLICT` 3/3, but V2-L5 (Tokyo + Kyoto regional cuisine + unqualified `local food`) was `UNKNOWN` 3/3 where the frozen expectation is `SUPPORTED`. The raw responses and accepted citations are valid, so this does not establish a wire/scorer defect. No Prompt@7, H005 fixed-source run, Live run, Gold rewrite or retry followed. Evidence: [matrix result](../../.eval-artifacts/restaurant-locality-fact-judgment-matrix-v3/2026-09-20T04-32-59-815Z-2c991cb2-fd3c-44d0-8bf1-438f077fb673.result.json) and [independent V3 status](../../.eval-artifacts/h005-locality-independent-review-2026-09-20/TERRA-V3-PHASE-STATUS.md).

@@ -2530,3 +2530,21 @@ Details: [@6 implementation record](SEMANTIC-CONTRACT-V6-IMPLEMENTATION-2026-09-
 ## 2026-09-18 — Independent semantic-contract @6 acceptance
 
 Closed only the user-authorized H002–H004 exposed fixed-source semantic slice after two pre-review corrections, 3 one-shot outputs and independent paraphrase review. Historical AUTO ratings unchanged; no H005 or Live work. See SEMANTIC-CONTRACT-V6-INDEPENDENT-ACCEPTANCE-2026-09-18.md.
+
+
+## 2026-09-20 H005 locality matrix independent stop review
+
+2026-09-20 **H005 locality Prompt@4 matrix 独立复核未通过，按停止条件结束**：L1–L8×3共24次真实模型、零重试、20,548 tokens；24份原始请求/响应及逐次落盘记录已核对。L3（Tokyo + Japanese restaurant）3/3错误SUPPORTED并进入verifiedHardCriteria；L5为CONFLICT/UNKNOWN/UNKNOWN，未误接纳，但Italian样本带地域信息，不能干净隔离location-only，预审遗漏已承认。L1/L2/L8正例9/9、L4/L7不足证据6/6、L6地区不匹配3/3均符合各自预期，仍不足以接纳Prompt@4。当前@4仅未提交候选，H005 fixed-source、Live、Prompt@5均未运行；禁止自动重跑。详见[独立矩阵复核](../../.eval-artifacts/h005-locality-independent-review-2026-09-20/MATRIX-REVIEW.md)。
+
+独立复核未新增模型调用；前置定向检查14/14、typecheck及diff check通过，只证明预审代码边界。原始矩阵及Gold不改写。
+
+
+## 2026-09-20 Local Food Semantics v2 independent stop review
+
+2026-09-20 **Local Food Semantics v2：Prompt@5 / matrix@2 独立复核仍未通过**。用户已将普通local food定义为目的地本土料理，旧matrix@1失败记录保持原口径不回写。新12样本×3共36次、零重试、32,301 tokens；10个普通local-food样本30/30正确，窄地域冲突N2为3/3 CONFLICT；唯一失败N1（Tokyo regional food + Japanese restaurant）3/3错误SUPPORTED并生成verifiedHardCriteria。独立核对全部36份请求/原始输出及72个逐次记录，确认不是criterion漏传或评分误判。按预定gate停止，不运行H005 fixed-source/Live，不自动Prompt@6。[独立逐项结果](../../.eval-artifacts/h005-locality-independent-review-2026-09-20/matrix-v2-independent-review.json)。
+
+## 2026-09-20 Local Food Semantics v2 Prompt@6 matrix stop
+
+在新的明确授权下，仅将 Fact Judgment Prompt 收窄为：无修饰的 `local food` 可由目的地本土料理支持；明确的城市／地区／特色条件必须有同一窄范围的引用事实，不能从候选地址、名称或更宽国家料理推导。矩阵及评分器保持 matrix@2 的12样本×3执行形状，增加逐 attempt 的 dispatch／settled 不可变日志；没有改Gold、来源或固定来源／Live路径。
+
+同一真实模型矩阵36次、零重试、34,383 tokens、28,604ms，N1由 Prompt@5 的3/3错误 `SUPPORTED` 变为3/3正确 `UNKNOWN`，N2继续3/3 `CONFLICT`。但普通 `local food` 的 V2-L5（Tokyo 中 Kyoto regional cuisine）3/3输出 `UNKNOWN`，而冻结期望为 `SUPPORTED`；所有36次的结构化响应和引用均合法，故不是身份、输入过滤、citation或 scorer 造成的失败。按预设停止门槛，不写 Prompt@7、不运行 H005 fixed-source/Live，也不回写历史 artifact。详见[独立 V3 状态](../../.eval-artifacts/h005-locality-independent-review-2026-09-20/TERRA-V3-PHASE-STATUS.md)。
