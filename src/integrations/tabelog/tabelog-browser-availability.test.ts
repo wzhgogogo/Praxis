@@ -278,6 +278,36 @@ test("Tabelog bot challenge and external booking redirect remain non-available r
   assert.equal(redirect.availabilityChecks[candidate.restaurant.id]?.status, "SOURCE_UNSUPPORTED");
 });
 
+test("Tabelog recovers one challenged canonical page through an observed alternate-language outlet", async () => {
+  const session = new FixtureBrowserSession([
+    { url: "https://tabelog.com/en/rstLst/?sw=Restaurant", title: "search", text: "Restaurant 1", html: '<a href="https://tabelog.com/en/tokyo/A1304/A130401/123/" data-address="1-1 Shinjuku, Tokyo">Restaurant 1</a>' },
+    { url: "https://tabelog.com/en/tokyo/A1304/A130401/123/", title: "Restaurant 1", text: "Restaurant 1", html: '<link rel="canonical" href="/tokyo/A1304/A130401/123/"><h1>Restaurant 1</h1><p class="rstinfo-table__address">1-1 Shinjuku, Tokyo</p>' },
+    { url: "https://tabelog.com/tokyo/A1304/A130401/123/", title: "Verify", text: "verify you are human", html: "" },
+    { url: "https://tabelog.com/en/tokyo/A1304/A130401/123/", title: "Restaurant 1", text: "Restaurant 1 予約 人数 19:00", html: '<link rel="canonical" href="/en/tokyo/A1304/A130401/123/"><h1>Restaurant 1</h1><p class="rstinfo-table__address">1-1 Shinjuku, Tokyo</p><select name="party"><option value="2">2</option></select><select name="date"><option value="2026-08-05">2026-08-05</option></select><button class="slot is-available" data-time="19:00">19:00</button>' },
+  ]);
+  const result = await new TabelogBrowserAvailability({ openSession: async () => session }, () => "2026-08-05T09:00:00.000Z").check(
+    { candidateIds: [candidate.restaurant.id], candidates: [candidate], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: 2, hardCriteria: ["yakiniku"] }, new AbortController().signal,
+  );
+  assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE");
+  assert.equal(session.navigated.filter((url) => url === "https://tabelog.com/en/tokyo/A1304/A130401/123/").length, 2);
+  assert.equal(session.navigated.filter((url) => url === "https://tabelog.com/tokyo/A1304/A130401/123/").length, 1);
+});
+
+test("Tabelog rejects a challenged alternate that no longer proves the same outlet and keeps the earlier HIGH identity", async () => {
+  const session = new FixtureBrowserSession([
+    { url: "https://tabelog.com/en/rstLst/?sw=Restaurant", title: "search", text: "Restaurant 1", html: '<a href="https://tabelog.com/en/tokyo/A1304/A130401/123/" data-address="1-1 Shinjuku, Tokyo">Restaurant 1</a>' },
+    { url: "https://tabelog.com/en/tokyo/A1304/A130401/123/", title: "Restaurant 1", text: "Restaurant 1", html: '<link rel="canonical" href="/tokyo/A1304/A130401/123/"><h1>Restaurant 1</h1><p class="rstinfo-table__address">1-1 Shinjuku, Tokyo</p>' },
+    { url: "https://tabelog.com/tokyo/A1304/A130401/123/", title: "Verify", text: "Just a moment...", html: "" },
+    { url: "https://tabelog.com/en/tokyo/A1304/A130401/123/", title: "Other Restaurant 1", text: "Restaurant 1", html: '<h1>Restaurant 1</h1><p class="rstinfo-table__address">1-2 Shinjuku, Tokyo</p>' },
+  ]);
+  const result = await new TabelogBrowserAvailability({ openSession: async () => session }, () => "2026-08-05T09:00:00.000Z").check(
+    { candidateIds: [candidate.restaurant.id], candidates: [candidate], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: 2, hardCriteria: ["yakiniku"] }, new AbortController().signal,
+  );
+  assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "UNKNOWN");
+  assert.equal(result.availabilityChecks[candidate.restaurant.id]?.reasonCode, "BOT_CHALLENGE");
+  assert.equal(result.evidence.some((item) => item.kind === "ENTITY_MATCH" && item.entityMatch?.confidence === "HIGH"), true);
+});
+
 test("Tabelog pauses a challenged local session for explicit human intervention, then resumes the same page/session without an automated retry", async () => {
   const session = new ChallengeResumeSession();
   let intervention: {

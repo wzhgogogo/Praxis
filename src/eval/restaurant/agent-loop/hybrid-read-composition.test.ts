@@ -17,6 +17,11 @@ import { createHybridReadComposition } from "./hybrid-read-composition.js";
 import { projectRestaurantAgentContext } from "../../../domains/restaurant/agent-context.js";
 import { groundTableCheckAvailability } from "../../../domains/restaurant/read-grounding.js";
 import { HIGASHI_GINZA_EVALUATION_LOCATION } from "./live-evaluation-location.js";
+import { captureHybridLiveProgress } from "./hybrid-live-artifact.js";
+import { settleAtRunDeadline } from "./live-run-deadline.js";
+import { BrowserRuntimeError } from "../../../infrastructure/browser/browser-runtime-errors.js";
+import type { BrowserExecutionDiagnostic } from "../../../infrastructure/browser/browser-task-executor.js";
+import { startDiagnosticRun } from "../../shared/diagnostic-run.js";
 
 const now = new Date("2026-09-16T03:00:00.000Z"); // Wednesday noon in Tokyo.
 const clock = { now: () => new Date(now) };
@@ -462,6 +467,16 @@ test("isolated implementation mutations are detected by passing Hybrid controls"
   // mutations live in diagnostic-evaluator.test.ts and likewise start from clones.
   const mutations = [
     {
+      name: "source mutation: a failed batch is incorrectly promoted to task failure",
+      testName: "Hybrid source failures in A/B/C leave D reachable and outside candidates out of every Agent pool",
+      mutation: {
+        relativePath: "src/application/restaurant-execution-router.ts",
+        from: "const metadata: RestaurantReadExecutionMetadata = {\n            ...read.metadata,",
+        to: 'if (Object.values(read.availabilityChecks).every(check => check.status === "UNKNOWN")) return { route: this.availability.executionRoute, failure: { source: "PROVIDER", code: "BROWSER_TIMEOUT", reason: "mutant batch escalation", scope: "TASK", terminal: true } }; const metadata: RestaurantReadExecutionMetadata = { ...read.metadata,',
+      },
+      expectedBusinessAssertion: /local failure batch must not terminate viable candidate work/,
+    },
+    {
       name: "M01 compiler drops an explicit party-size field",
       testName: "Hybrid production composition binds an explicit evaluation location before Agent investigation and independently evaluates its actual result",
       mutation: {
@@ -486,8 +501,8 @@ test("isolated implementation mutations are detected by passing Hybrid controls"
       testName: "independent source boundary controls cover zero, one, and exactly one fact-read batch",
       mutation: {
         relativePath: "src/integrations/google/google-places-restaurant-search.ts",
-        from: "const grounded = places.map((place) => groundGoogleDiscovery(rawObservation(place), {",
-        to: "const grounded = places.slice(0, 1).map((place) => groundGoogleDiscovery(rawObservation(place), { // mutation: discovery truncation",
+        from: "const grounded = places.map((place) => {",
+        to: "const grounded = places.slice(0, 1).map((place) => { // mutation: discovery truncation",
       },
       expectedBusinessAssertion: /discovery conservation=/,
     },
@@ -710,7 +725,7 @@ test("an explicitly permitted alternate time is queried as a bounded range and p
   const offer = state.availability[state.presentedResults!.candidateIds[0]!]![0]!;
   assert.equal(offer.dateTime.slice(11, 16), "18:30");
   assert.equal(offer.alternativeToRequestedTime, true);
-  assert.equal(state.phase, "PRESENT_RESULTS");
+  assert.equal(state.phase, "PRESENT_RESULTS", JSON.stringify(state.availabilityChecks));
 });
 
 test("fixed-seed bounded exploration records and shrinks an independent Hybrid contract failure", async () => {
@@ -804,9 +819,8 @@ test("Hybrid production composition binds an explicit evaluation location before
   });
   assert.equal(snapshot.domainState.intentDraft?.partySize, 2, "explicit party-size must survive semantic compilation");
   assert.equal(snapshot.domainState.intentDraft?.criteria[0]?.text, "cafe");
-  assert.deepEqual(bodies[0]?.locationBias, {
-    circle: { center: { latitude: HIGASHI_GINZA_EVALUATION_LOCATION.latitude, longitude: HIGASHI_GINZA_EVALUATION_LOCATION.longitude }, radius: HIGASHI_GINZA_EVALUATION_LOCATION.radiusMeters },
-  });
+  assert.ok(bodies[0]?.locationRestriction, "coordinate-backed discovery uses a strict provider rectangle");
+  assert.equal(bodies[0]?.locationBias, undefined);
   const readRunId = `${snapshot.runId}:investigation:${snapshot.domainState.investigationRevision}`;
   assert.deepEqual(google.googleRequestUsage(readRunId), {
     limit: 100, total: 4, namedPlaceResolution: 0, discovery: 1, placeDetails: 3,
@@ -1072,8 +1086,11 @@ test("a website observation for another candidate cannot revive an unknown Googl
     waitFor: async () => {}, screenshot: async () => new Uint8Array(), close: async () => {},
   }) };
   const taskId = "integration:mixed-source-scope";
+  const browserDiagnostics: BrowserExecutionDiagnostic[] = [];
   const composition = createHybridReadComposition({ taskId, runId: "run:mixed-source-scope", clock, model, search: google,
-    availability: noAvailabilityPort(), facts: composeLiveRestaurantFactRead(google, browser, model), loop: { maxSteps: 5, timeoutMs: 5_000 },
+    availability: noAvailabilityPort(),
+    facts: composeLiveRestaurantFactRead(google, browser, model, undefined, undefined, diagnostic => browserDiagnostics.push(diagnostic)),
+    loop: { maxSteps: 5, timeoutMs: 5_000 },
   });
   await composition.interpretAndDispatch({ taskId, message: "Find cafes nearby tomorrow afternoon for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
   await composition.coordinator.run(taskId);
@@ -1084,6 +1101,9 @@ test("a website observation for another candidate cannot revive an unknown Googl
   assert.ok(state.readEvidence.some(e => e.candidateId === bId && e.provider === "RESTAURANT_WEBSITE" && e.kind === "RESTAURANT_FACT"), "Fixture must reach the real website evidence producer");
   assert.ok(state.presentedResults?.candidateIds.includes(bId), "B's independent supported result must remain deliverable");
   assert.ok(!state.presentedResults?.candidateIds.includes(aId), "B's website must not make A's superseded Google fact eligible");
+  assert.ok(browserDiagnostics.some(item => item.source === "WEBSITE" && item.event === "OPERATION_STARTED"), "the real website executor must expose runtime cost to the shared diagnostic sink");
+  assert.equal(browserDiagnostics.find(item => item.source === "WEBSITE" && item.event === "PROVIDER_STARTED")?.lifecycle.providerRuntimeOperations, 0);
+  assert.equal(browserDiagnostics.find(item => item.source === "WEBSITE" && item.event === "PROVIDER_FINISHED")?.lifecycle.reason, "ADAPTER_RETURNED");
 });
 
 /** Scripted legitimate completion after the selected refresh, not a production policy. */
@@ -1170,4 +1190,187 @@ test("a closed-hours refresh removes historical support from the Agent context",
   const currentHours = state.readEvidence.filter(e => currentCheckIds.includes(e.evidenceId) && e.kind === "RESTAURANT_FACT").map(e => e.claims.openingHoursMatch);
   assert.ok(currentHours.includes(false), "source really produced closed-hours evidence");
   assert.equal(context.candidates[0]?.observedFacts.openingHoursMatch, false, "Context must not summarize superseded opening hours as true");
+});
+
+/** Actual CLI composition: only Google HTTP, model transport and browser I/O are replaced. */
+async function runScopedFailureComposition(mode: "local" | "model-budget" | "agent-budget" | "runtime-outage" | "cancel" | "google-cancel") {
+  const taskId = `integration:scoped-${mode}`;
+  const controller = new AbortController();
+  const diagnostics: BrowserExecutionDiagnostic[] = [];
+  const seenBrowserNames: string[] = [];
+  const agentPools: string[][] = [];
+  let agentCalls = 0;
+  let notifyRead!: () => void;
+  const readStarted = new Promise<void>(resolve => { notifyRead = resolve; });
+  let notifyGoogleRequest!: () => void;
+  const googleRequestStarted = new Promise<void>(resolve => { notifyGoogleRequest = resolve; });
+  let googleRequestAborted = false;
+  const model: ModelGateway = { async complete(request) {
+    if (request.purpose === "restaurant_semantic_interpret") return response(JSON.stringify({ schemaVersion: "3", facts: [
+      { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "restaurants" } },
+      { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-09-17", raw: "tomorrow" } },
+      { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "13:00", latest: "13:00", raw: "1 pm" } },
+      { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } },
+      { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "nearby" } },
+    ] }), "semantic");
+    if (request.purpose === "browser_read_decide") {
+      if (mode === "model-budget") throw Object.assign(new Error("Run model-call ceiling reached"), { code: "MODEL_CALL_BUDGET_EXHAUSTED" });
+      return response(JSON.stringify({ action: "REQUEST_HUMAN_HELP", targetRef: "", authoritativeField: "NONE", requestedState: "NONE", reason: "No supported source control" }), "browser-stop");
+    }
+    assert.equal(request.purpose, "restaurant_agent_decide");
+    if (mode === "agent-budget" && ++agentCalls > 1) throw Object.assign(new Error("Run model-call ceiling reached"), { code: "MODEL_CALL_BUDGET_EXHAUSTED" });
+    const { context } = JSON.parse(request.messages.find(item => item.role === "user")!.content) as {
+      context: { candidates: Array<{ id: string }>; checkableCandidateIds: string[]; presentation: Array<{ candidateId: string; eligible: boolean }> };
+    };
+    agentPools.push((context.candidates ?? []).map(item => item.id));
+    if (!context.candidates?.length) return response(JSON.stringify(strictAction("SEARCH_RESTAURANTS")), "search");
+    const eligible = context.presentation?.filter(item => item.eligible).map(item => item.candidateId) ?? [];
+    if (eligible.length) return response(JSON.stringify(strictAction("PRESENT_RESULTS", eligible)), "present");
+    if (context.checkableCandidateIds?.length) return response(JSON.stringify(strictAction("CHECK_AVAILABILITY", context.checkableCandidateIds.slice(0, 3))), "check");
+    return response(JSON.stringify(strictAction("END_READ")), "end");
+  } };
+  const places = ["a", "b", "c", "d", "outside", "missing"].map((name, index) => ({
+    id: name, displayName: { text: `Fixture ${name}` }, formattedAddress: "1-1 Ginza, Chuo City, Tokyo",
+    types: ["restaurant"], nationalPhoneNumber: `03-1111-${1000 + index}`,
+    websiteUri: `https://tabelog.com/tokyo/A1304/A130401/${1000 + index}/`,
+    ...(name === "missing" ? {} : { location: name === "outside" ? { latitude: 34.05, longitude: -118.24 } : { latitude: 35.6697, longitude: 139.767 } }),
+  }));
+  const google = new GooglePlacesRestaurantSearch(new GooglePlacesClient({
+    apiKey: "fixture",
+    fetchImplementation: async (_url, init) => {
+      if (mode === "google-cancel") {
+        notifyGoogleRequest();
+        const signal = init?.signal;
+        await new Promise<never>((_resolve, reject) => {
+          const abort = () => { googleRequestAborted = true; reject(signal?.reason); };
+          if (signal?.aborted) abort(); else signal?.addEventListener("abort", abort, { once: true });
+        });
+      }
+      return new Response(JSON.stringify({ places }), { status: 200 });
+    },
+  }), () => now.toISOString());
+  const browser: BrowserRuntime = { async openSession({ signal }) {
+    if (mode === "runtime-outage") throw new BrowserRuntimeError("BROWSER_RUNTIME_UNAVAILABLE", "Fixture browser launch unavailable");
+    let url = "", name = "a";
+    return {
+      metadata: { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM", engine: "CHROMIUM", startedAt: now.toISOString() },
+      async navigate(value) {
+        url = value;
+        const decoded = decodeURIComponent(value).replaceAll("+", " ");
+        name = decoded.match(/Fixture ([abcd])/)?.[1] ?? ["a", "b", "c", "d"][Number(decoded.match(/\/(100[0-3])\//)?.[1] ?? "1000") - 1000]!;
+        seenBrowserNames.push(name);
+        if (mode === "local" && (name === "a" || name === "c")) throw new BrowserRuntimeError(name === "a" ? "BROWSER_TIMEOUT" : "BROWSER_RUNTIME_FAILED", "Fixture source failure");
+      },
+      async snapshot() {
+        if (mode === "cancel") {
+          notifyRead();
+          await new Promise<void>(resolve => { if (signal.aborted) resolve(); else signal.addEventListener("abort", () => resolve(), { once: true }); });
+        }
+        if (name === "b") return { url, title: "Challenge", text: "verify you are human", html: "" };
+        if (mode === "model-budget") return { url, title: "Search", text: "No public results", html: "" };
+        return { url, title: "Fixture d", text: "Fixture d 予約 人数 13:00", html: '<h1>Fixture d</h1><a href="tel:03-1111-1003">Call</a><p class="rstinfo-table__address">1-1 Ginza, Chuo City, Tokyo</p><select name="party"><option value="2">2</option></select><select name="date"><option value="2026-09-17">2026-09-17</option></select><button class="slot is-available" data-time="13:00">13:00</button>' };
+      },
+      async select(_target, value) { return [value]; }, async fill() {}, async click() {}, async waitFor() {},
+      async screenshot() { return new Uint8Array(); }, async close() {},
+    };
+  } };
+  const availability = new LiveBrowserAvailability(browser, model, { now: () => now.toISOString(), onBrowserDiagnostic: item => diagnostics.push(item) });
+  const composition = createHybridReadComposition({ taskId, runId: taskId, clock, model, search: google, availability, loop: { maxSteps: 8, timeoutMs: 5_000 } });
+  await composition.interpretAndDispatch({ taskId, message: "Find nearby restaurants tomorrow at 1 pm for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
+  const work = composition.coordinator.run(taskId, controller.signal);
+  const capture = () => {
+    const snapshot = composition.runtime.snapshot(taskId);
+    return captureHybridLiveProgress({
+      composition, taskId, startedAtMs: 0, nowMs: 50, modelInvocations: [],
+      googleRequestUsage: google.googleRequestUsage(`${snapshot.runId}:investigation:${snapshot.domainState.investigationRevision ?? 0}`),
+      diagnostics: { tablecheckIdentity: [], tabelogIdentity: [], tabelogUserInterventions: [], browserExecution: diagnostics },
+    });
+  };
+  let loop;
+  if (mode === "cancel" || mode === "google-cancel") {
+    const bounded = settleAtRunDeadline(work, controller.signal);
+    await (mode === "google-cancel" ? googleRequestStarted : readStarted);
+    controller.abort();
+    await assert.rejects(bounded, (error: unknown) => error instanceof Error && "code" in error && error.code === "CANCELLED");
+    // Capture through the CLI's actual shared builder at the cancellation boundary.
+    const partial = capture();
+    const partialAtCapture = JSON.stringify(partial);
+    await work;
+    assert.equal(JSON.stringify(partial), partialAtCapture, "settling cancellation cannot mutate the finalized capture");
+    return { composition, partial, agentPools, seenBrowserNames, googleRequestAborted };
+  }
+  loop = await work;
+  const partial = capture();
+  return { composition, partial, loop, agentPools, seenBrowserNames, googleRequestAborted };
+}
+
+test("Hybrid source failures in A/B/C leave D reachable and outside candidates out of every Agent pool", async () => {
+  // Real Interpreter/Compiler/Runtime/Google grounding/LiveBrowserAvailability/Resolver/Router/Agent.
+  // Browser snapshots and transport errors are independent source input; no state/evidence injection.
+  const result = await runScopedFailureComposition("local");
+  const state = result.partial.finalSnapshot!.domainState;
+  assert.equal(result.loop?.status, "TERMINAL", `local failure batch must not terminate viable candidate work: ${JSON.stringify(state.failure)}`);
+  assert.equal(state.phase, "PRESENT_RESULTS");
+  assert.deepEqual(state.candidates.map(item => item.restaurant.outletName), ["Fixture a", "Fixture b", "Fixture c", "Fixture d"]);
+  assert.ok(result.seenBrowserNames.includes("d"), "second batch must reach the fourth independent candidate");
+  assert.equal(Object.keys(state.availabilityChecks).length, 4);
+  const acceptedIds = new Set(state.candidates.map(item => item.restaurant.id));
+  assert.ok(result.agentPools.every(pool => pool.every(id => acceptedIds.has(id))));
+  assert.equal(result.partial.searchState.remainingAvailabilityCandidateIds.length, 0);
+  const evaluation = evaluateRestaurantHybridLiveArtifact({
+    ...result.partial, status: "SUCCEEDED", loop: result.loop,
+    materializedCase: { semantic: { target: { goal: "AVAILABILITY" }, date: { value: "2026-09-17" }, party_size: 2, time: { start: "13:00", end: "13:00" }, location: { value: "nearby", relation: "NEAR_USER" }, criteria: [] } },
+  }, { path: "scoped-failures.result.json", sha256: "c".repeat(64) });
+  assert.equal(evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(evaluation));
+});
+
+test("Hybrid shared model budget and browser launch outage remain task failures", async t => {
+  for (const mode of ["model-budget", "agent-budget", "runtime-outage"] as const) await t.test(mode, async () => {
+    const result = await runScopedFailureComposition(mode);
+    assert.equal(result.loop?.status, mode === "agent-budget" ? "MODEL_FAILURE" : "EXECUTION_FAILURE");
+    assert.equal(result.partial.finalSnapshot?.domainState.phase, "FAILED");
+    assert.equal(result.partial.termination?.scope, "TASK");
+    assert.equal(result.partial.termination?.code, mode === "runtime-outage" ? "BROWSER_RUNTIME_UNAVAILABLE" : "MODEL_CALL_BUDGET_EXHAUSTED");
+    assert.equal(result.seenBrowserNames.includes("d"), false);
+  });
+});
+
+test("Hybrid deadline captures immutable partial browser, Google and search evidence through the CLI artifact builder", async () => {
+  const result = await runScopedFailureComposition("cancel");
+  assert.equal(result.partial.resourceUsage.discoveryCandidates, 4);
+  assert.ok(result.partial.resourceUsage.googleRequests!.total > 0);
+  assert.ok(result.partial.diagnostics.browserExecution.length > 0);
+  assert.equal(result.partial.searchState.remainingAvailabilityCandidateIds.length, 4);
+  // The coordinator completed its own cancellation after the CLI boundary capture.
+  assert.notEqual(result.partial.events, result.composition.runtime.eventLog);
+  assert.equal(result.composition.runtime.snapshot("integration:scoped-cancel").domainState.phase, "FAILED");
+  const directory = await mkdtemp(join(tmpdir(), "praxis-partial-artifact-"));
+  try {
+    const journal = await startDiagnosticRun(directory, { mode: "OFFLINE_COMPOSITION" });
+    await journal.finish({ ...result.partial, status: "CANCELLED", partial: true, failureCode: "CANCELLED" });
+    const saved = JSON.parse(await readFile(journal.resultPath, "utf8"));
+    assert.equal(saved.status, "CANCELLED");
+    assert.equal(saved.partial, true);
+    assert.ok(saved.resourceUsage.browserRuntimeCalls > 0, "in-flight failed operations must still count as cost");
+    assert.deepEqual(saved.searchState, result.partial.searchState);
+    assert.deepEqual(saved.diagnostics, result.partial.diagnostics);
+    assert.deepEqual(saved.finalSnapshot, result.partial.finalSnapshot);
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
+});
+
+test("Hybrid capture counts a sent Google request cancelled before any discovery trajectory", async () => {
+  const result = await runScopedFailureComposition("google-cancel");
+  assert.equal(result.googleRequestAborted, true, "the real Google client relay must abort the in-flight HTTP request");
+  assert.deepEqual(result.partial.resourceUsage.googleRequests, {
+    limit: Number.POSITIVE_INFINITY,
+    total: 1,
+    namedPlaceResolution: 0,
+    discovery: 1,
+    placeDetails: 0,
+  });
+  assert.equal(result.partial.resourceUsage.discoveryCandidates, 0);
+  assert.equal(result.partial.trajectories.some(step => step.executionMetadata?.googleRequests), false, "the request had not completed into a Router trajectory");
+  assert.equal(result.partial.trajectories.some(step => step.executionMetadata?.googleGeoDiagnostics), false, "a response-free request cannot fabricate geo rejection diagnostics");
 });

@@ -1,4 +1,5 @@
 import type { RestaurantCandidate } from "../../domains/restaurant/contracts.js";
+import type { BrowserSessionMetadata } from "../../infrastructure/browser/browser-runtime.js";
 
 export type TableCheckIdentityEvidenceSource = "TABLECHECK_URL" | "JSON_LD" | "DOM" | "TEL_LINK" | "ABSENT";
 
@@ -79,3 +80,21 @@ export interface TableCheckAvailabilityPageObservation {
   excerpt?: string;
   failureCode?: string;
 }
+
+/** Eval-only pause metadata. It never exposes page content, credentials, or a solver. */
+export interface TableCheckUserInterventionRequired {
+  state: "USER_INTERVENTION_REQUIRED";
+  provider: "TABLECHECK";
+  stage: "DISCOVERY" | "IDENTITY" | "AVAILABILITY";
+  candidate: { id: string; outletName: string };
+  requestedSchedule: {
+    date: string;
+    timeWindow: { earliest: string; latest: string };
+    partySize: number;
+  };
+  browser: BrowserSessionMetadata;
+  page: { url: string; title: string };
+}
+
+/** One human pause can resume the exact source page; it cannot automate verification. */
+export type TableCheckUserInterventionHandler = (input: TableCheckUserInterventionRequired) => Promise<void>;

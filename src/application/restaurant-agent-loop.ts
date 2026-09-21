@@ -238,7 +238,8 @@ export class RestaurantAgentLoopCoordinator {
         const reason = decision.status === "MODEL_FAILURE"
           ? `Model decision failed: ${decision.errorCode}`
           : `Model action was invalid: ${decision.errors.join("; ")}`;
-        const after = await this.dispatch(snapshot, { type: "AGENT_DECISION_FAILED", reason }, "SYSTEM");
+        const code = decision.status === "MODEL_FAILURE" ? decision.errorCode : "AGENT_DECISION_FAILED";
+        const after = await this.dispatch(snapshot, { type: "AGENT_DECISION_FAILED", code, reason }, "SYSTEM");
         await this.trajectories.append({
           ...base,
           ...(decision.status === "INVALID_MODEL_OUTPUT" && decision.modelAttempt ? { modelAttempt: decision.modelAttempt } : {}),
@@ -298,7 +299,9 @@ export class RestaurantAgentLoopCoordinator {
           return { status: "CANCELLED", steps: step + 1 };
         }
         const reason = error instanceof Error ? error.message : "Restaurant action execution failed";
-        const after = await this.dispatch(snapshot, { type: "AGENT_EXECUTION_FAILED", reason }, "SYSTEM");
+        const code = error && typeof error === "object" && "code" in error && typeof error.code === "string"
+          ? error.code : "AGENT_EXECUTION_FAILED";
+        const after = await this.dispatch(snapshot, { type: "AGENT_EXECUTION_FAILED", code, reason }, "SYSTEM");
         await this.trajectories.append({
           ...base,
           agentAction: decision.action,

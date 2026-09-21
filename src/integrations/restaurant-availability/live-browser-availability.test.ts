@@ -5,6 +5,7 @@ import type { ModelGateway, ModelRequest, ModelResponse } from "../../core/model
 import type { RestaurantAvailabilityRequest } from "../../domains/restaurant/contracts.js";
 import { fixtureCandidates, fixtureIntent } from "../../harness/restaurant-fixtures.js";
 import type { BrowserRuntime, BrowserSession, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
+import type { BrowserExecutionDiagnostic } from "../../infrastructure/browser/browser-task-executor.js";
 import { LiveBrowserAvailability } from "./live-browser-availability.js";
 
 class Session implements BrowserSession {
@@ -40,11 +41,17 @@ test("Live browser composition keeps TableCheck then Tabelog in one session and 
   ]);
   let opens = 0;
   const runtime: BrowserRuntime = { openSession: async () => { opens += 1; return session; } };
-  const result = await new LiveBrowserAvailability(runtime, neverCalledModel).check(request, new AbortController().signal);
+  const diagnostics: BrowserExecutionDiagnostic[] = [];
+  const result = await new LiveBrowserAvailability(runtime, neverCalledModel, {
+    onBrowserDiagnostic: (diagnostic) => diagnostics.push(diagnostic),
+  }).check(request, new AbortController().signal);
   assert.equal(opens, 1);
   assert.equal(session.closed, 1);
   assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE");
   assert.deepEqual(result.metadata.providerAttempts?.map((attempt) => attempt.provider), ["TABLECHECK", "TABELOG"]);
+  assert.deepEqual(diagnostics.filter(item => item.event === "PROVIDER_STARTED").map(item => item.source), ["TABLECHECK", "TABELOG"]);
+  assert.deepEqual(diagnostics.filter(item => item.event === "PROVIDER_FINISHED").map(item => item.lifecycle.outcome), ["FINISHED", "FINISHED"]);
+  assert.ok(diagnostics.filter(item => item.event === "OPERATION_STARTED").every(item => item.lifecycle.candidateRuntimeOperations >= item.lifecycle.providerRuntimeOperations));
 });
 
 test("Live composition reuses a source-observed Hajime entrance across candidate batches, but re-identifies it", async () => {

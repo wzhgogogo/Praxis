@@ -23,7 +23,9 @@ test("initial discovery reads at most two 20-result pages, dedupes stable outlet
       requests.push(body);
       return new Response(JSON.stringify(body.pageToken === "page-2"
         ? { places: [place("b"), place("c")], nextPageToken: "page-3" }
-        : { places: [place("a"), place("b")], nextPageToken: "page-2" }), { status: 200 });
+        : body.pageToken === "page-3"
+          ? { places: [place("d")] }
+          : { places: [place("a"), place("b")], nextPageToken: "page-2" }), { status: 200 });
     },
   });
   const result = await new GooglePlacesRestaurantSearch(client).search({ intent: fixtureIntent, readRunId: "two-pages" }, new AbortController().signal);
@@ -36,7 +38,18 @@ test("initial discovery reads at most two 20-result pages, dedupes stable outlet
     usedPageTokens: ["page-2"],
     pagesRead: 2,
     exhausted: false,
+    sourceRequestContext: { textQuery: buildGooglePlacesTextQuery({ intent: fixtureIntent }) },
   });
+  const continued = await new GooglePlacesRestaurantSearch(client).search({
+    intent: fixtureIntent,
+    retrievalHint: "different wording must not alter this cursor",
+    readRunId: "two-pages",
+    continuation: result.continuation,
+  }, new AbortController().signal);
+  assert.deepEqual(requests.map((request) => request.textQuery), Array(3).fill(buildGooglePlacesTextQuery({ intent: fixtureIntent })), "a page token must retain the first request query even when the Agent supplies a later retrieval hint");
+  assert.deepEqual(continued.candidates.map((candidate) => candidate.restaurant.sourceIds.googlePlaces), ["d"]);
+  assert.ok(continued.continuation);
+  assert.equal(continued.continuation.exhausted, true);
 });
 
 test("a second-page provider failure preserves accepted first-page candidates and records a bounded retry cursor", async () => {
@@ -60,6 +73,7 @@ test("a second-page provider failure preserves accepted first-page candidates an
     pagesRead: 1,
     exhausted: false,
     lastFailureCode: "GOOGLE_SERVICE_REJECTED",
+    sourceRequestContext: { textQuery: buildGooglePlacesTextQuery({ intent: fixtureIntent }) },
   });
 });
 
@@ -83,6 +97,8 @@ test("a named nearby place is resolved to observed coordinates and grounds candi
       }, {
         id: "cafe-far", displayName: { text: "Far Cafe" }, formattedAddress: "Tokyo",
         location: { latitude: 35.69, longitude: 139.79 }, types: ["cafe"],
+      }, {
+        id: "cafe-missing-coordinate", displayName: { text: "Coordinate-less Cafe" }, formattedAddress: "Tokyo", types: ["cafe"],
       }] }), { status: 200 });
     },
   });
@@ -91,12 +107,41 @@ test("a named nearby place is resolved to observed coordinates and grounds candi
     readRunId: "named-place",
   }, new AbortController().signal);
   assert.equal(call, 2);
-  assert.deepEqual(result.candidates.map((candidate) => candidate.restaurant.outletName), ["Nearby Cafe", "Far Cafe"]);
+  assert.deepEqual(result.candidates.map((candidate) => candidate.restaurant.outletName), ["Nearby Cafe"]);
   const near = result.evidence.find((item) => item.candidateId === result.candidates[0]?.restaurant.id && item.kind === "DISCOVERY");
   assert.equal(near?.claims.areaMatchBasis, "NAMED_PLACE_RADIUS");
   assert.equal(near?.claims.distanceMeters, 48);
-  assert.equal(result.evidence.find((item) => item.candidateId === result.candidates[1]?.restaurant.id && item.kind === "DISCOVERY")?.claims.areaMatch, false);
+  assert.equal(result.evidence.some((item) => item.kind === "DISCOVERY" && item.claims.areaMatch === false), false, "a candidate outside the named-place radius must not be emitted as discovery evidence");
   assert.equal(result.evidence[0]?.claims.locationResolutionSource, "GOOGLE_TEXT_SEARCH");
+  assert.deepEqual({
+    providerMode: result.metadata.googleGeoDiagnostics?.providerMode,
+    requestMode: result.metadata.googleGeoDiagnostics?.requestMode,
+    exactRadiusGate: result.metadata.googleGeoDiagnostics?.exactRadiusGate,
+    center: result.metadata.googleGeoDiagnostics?.center,
+    radiusMeters: result.metadata.googleGeoDiagnostics?.radiusMeters,
+    areaMatchBasis: result.metadata.googleGeoDiagnostics?.areaMatchBasis,
+  }, {
+    providerMode: "GOOGLE_TEXT_SEARCH",
+    requestMode: "LOCATION_RESTRICTION_RECTANGLE",
+    exactRadiusGate: "ENFORCED",
+    center: { latitude: 35.6697, longitude: 139.767 },
+    radiusMeters: 1_000,
+    areaMatchBasis: "NAMED_PLACE_RADIUS",
+  });
+  const namedDiagnostics = result.metadata.googleGeoDiagnostics?.candidates ?? [];
+  assert.equal(namedDiagnostics.length, 3);
+  assert.deepEqual(namedDiagnostics.map(({ sourcePlaceId, accepted, reasonCode }) => ({ sourcePlaceId, accepted, reasonCode })), [
+    { sourcePlaceId: "cafe-near", accepted: true, reasonCode: "ACCEPTED" },
+    { sourcePlaceId: "cafe-far", accepted: false, reasonCode: "GOOGLE_OUTSIDE_REQUESTED_RADIUS" },
+    { sourcePlaceId: "cafe-missing-coordinate", accepted: false, reasonCode: "GOOGLE_LOCATION_REQUIRED_FOR_RADIUS" },
+  ]);
+  assert.deepEqual(namedDiagnostics[0]?.sourceCoordinates, { latitude: 35.6701, longitude: 139.7672 });
+  assert.ok(namedDiagnostics[0]?.distanceMeters && namedDiagnostics[0].distanceMeters > 0 && namedDiagnostics[0].distanceMeters < 1_000, "the diagnostic retains the unrounded distance used by the gate");
+  assert.deepEqual(namedDiagnostics[1]?.sourceCoordinates, { latitude: 35.69, longitude: 139.79 });
+  assert.ok((namedDiagnostics[1]?.distanceMeters ?? 0) > 1_000);
+  assert.equal(namedDiagnostics[2]?.sourceCoordinates, undefined);
+  assert.equal(namedDiagnostics[2]?.distanceMeters, undefined);
+  assert.equal(result.evidence.some((item) => item.claims.placeId === "cafe-far" || item.claims.placeId === "cafe-missing-coordinate"), false, "rejected raw observations are diagnostics only");
   assert.deepEqual(result.metadata.googleRequests, {
     limit: 2,
     total: 2,
@@ -130,6 +175,31 @@ test("named-place resolution rejects an unmatched suffix instead of treating add
     { code: "GOOGLE_LOCATION_UNRESOLVED" },
   );
   assert.equal(call, 1);
+});
+
+test("named-place resolution accepts a provider-typed station suffix but rejects an administrative-area-to-station substitution", async () => {
+  const station = { id: "higashi-ginza", displayName: { text: "Higashi-ginza Sta." }, formattedAddress: "Chuo City, Tokyo", location: { latitude: 35.6697, longitude: 139.767 }, types: ["subway_station", "transit_station"], addressComponents: [{ longText: "Chuo City", types: ["locality"] }] };
+  const client = new GooglePlacesClient({ apiKey: "key", fetchImplementation: async (_url, init) => {
+    const body = JSON.parse(String(init?.body)) as { textQuery: string };
+    if (body.textQuery === "Higashi-Ginza") return new Response(JSON.stringify({ places: [station] }), { status: 200 });
+    return new Response(JSON.stringify({ places: [] }), { status: 200 });
+  } });
+  const result = await new GooglePlacesRestaurantSearch(client, undefined, 10, { maxRequests: 2 }).search({ intent: { ...fixtureIntent, area: { query: "near Higashi-Ginza" } } }, new AbortController().signal);
+  assert.equal(result.evidence[0]?.claims.resolvedPlaceId, "higashi-ginza");
+
+  const ambiguousRegion = new GooglePlacesClient({ apiKey: "key", fetchImplementation: async () => new Response(JSON.stringify({ places: [{
+    id: "tokyo-station", displayName: { text: "Tokyo Station" }, formattedAddress: "Chiyoda City, Tokyo", location: { latitude: 35.6812, longitude: 139.7671 }, types: ["train_station", "transit_station"],
+    addressComponents: [{ longText: "Tokyo", types: ["administrative_area_level_1"] }],
+  }] }), { status: 200 }) });
+  await assert.rejects(new GooglePlacesRestaurantSearch(ambiguousRegion, undefined, 10, { maxRequests: 2 }).search({ intent: { ...fixtureIntent, area: { query: "near Tokyo" } } }, new AbortController().signal), { code: "GOOGLE_LOCATION_UNRESOLVED" });
+});
+
+test("named-place suffix matching fails closed without a corresponding provider type and independent geographic context", async () => {
+  const client = new GooglePlacesClient({ apiKey: "key", fetchImplementation: async () => new Response(JSON.stringify({ places: [
+    { id: "wrong-type", displayName: { text: "Higashi-Ginza Station" }, location: { latitude: 35.6697, longitude: 139.767 }, types: ["park"], addressComponents: [{ longText: "Chuo City", types: ["locality"] }] },
+    { id: "missing-context", displayName: { text: "Higashi-Ginza Station" }, location: { latitude: 35.6697, longitude: 139.767 }, types: ["subway_station"] },
+  ] }), { status: 200 }) });
+  await assert.rejects(new GooglePlacesRestaurantSearch(client, undefined, 10, { maxRequests: 2 }).search({ intent: { ...fixtureIntent, area: { query: "near Higashi-Ginza" } } }, new AbortController().signal), { code: "GOOGLE_LOCATION_UNRESOLVED" });
 });
 
 test("only source-level duplicate exact named locations ask for disambiguation", async () => {
@@ -180,23 +250,54 @@ test("Google Places text search uses the explicit small field mask and stable ca
   assert.equal(repeated.candidates[0]?.restaurant.id, result.candidates[0]?.restaurant.id);
 });
 
-test("Google Places sends only explicit evaluation coordinates as NEAR_USER location bias", async () => {
+test("Google Places reports eval-radius decisions separately from its accepted discovery pool", async () => {
   let body: Record<string, unknown> | undefined;
   const client = new GooglePlacesClient({
     apiKey: "key",
     fetchImplementation: async (_url, init) => {
       body = JSON.parse(String(init?.body)) as Record<string, unknown>;
-      return new Response(JSON.stringify({ places: [] }), { status: 200 });
+      return new Response(JSON.stringify({ places: [
+        { id: "eval-near", displayName: { text: "Eval Near" }, formattedAddress: "Tokyo", location: { latitude: 35.6763, longitude: 139.6504 }, types: ["restaurant"] },
+        { id: "eval-far", displayName: { text: "Eval Far" }, formattedAddress: "Tokyo", location: { latitude: 35.8, longitude: 139.8 }, types: ["restaurant"] },
+        { id: "eval-missing", displayName: { text: "Eval Missing" }, formattedAddress: "Tokyo", types: ["restaurant"] },
+      ] }), { status: 200 });
     },
   });
   const search = new GooglePlacesRestaurantSearch(client, undefined, 10, {
     evaluationLocation: { latitude: 35.6762, longitude: 139.6503 },
   });
-  await search.search({ intent: { ...fixtureIntent, area: { query: "nearby" } } }, new AbortController().signal);
-  assert.deepEqual(body?.locationBias, {
-    circle: { center: { latitude: 35.6762, longitude: 139.6503 }, radius: 3_000 },
-  });
+  const result = await search.search({ intent: { ...fixtureIntent, area: { query: "nearby" } } }, new AbortController().signal);
+  const rectangle = (body?.locationRestriction as { rectangle?: { low: { latitude: number; longitude: number }; high: { latitude: number; longitude: number } } } | undefined)?.rectangle;
+  assert.ok(rectangle);
+  assert.ok(rectangle.low.latitude < 35.6762 && rectangle.high.latitude > 35.6762);
+  assert.ok(rectangle.low.longitude < 139.6503 && rectangle.high.longitude > 139.6503);
+  assert.equal(body?.locationBias, undefined);
   assert.doesNotMatch(String(body?.textQuery), /near nearby/i);
+  assert.deepEqual(result.candidates.map((candidate) => candidate.restaurant.sourceIds.googlePlaces), ["eval-near"]);
+  assert.deepEqual({
+    providerMode: result.metadata.googleGeoDiagnostics?.providerMode,
+    requestMode: result.metadata.googleGeoDiagnostics?.requestMode,
+    exactRadiusGate: result.metadata.googleGeoDiagnostics?.exactRadiusGate,
+    center: result.metadata.googleGeoDiagnostics?.center,
+    radiusMeters: result.metadata.googleGeoDiagnostics?.radiusMeters,
+    areaMatchBasis: result.metadata.googleGeoDiagnostics?.areaMatchBasis,
+  }, {
+    providerMode: "GOOGLE_TEXT_SEARCH",
+    requestMode: "LOCATION_RESTRICTION_RECTANGLE",
+    exactRadiusGate: "ENFORCED",
+    center: { latitude: 35.6762, longitude: 139.6503 },
+    radiusMeters: 3_000,
+    areaMatchBasis: "EVALUATION_LOCATION_RADIUS",
+  });
+  const evalDiagnostics = result.metadata.googleGeoDiagnostics?.candidates ?? [];
+  assert.deepEqual(evalDiagnostics.map(({ distanceMeters: _distanceMeters, ...diagnostic }) => diagnostic), [
+    { sourcePlaceId: "eval-near", sourceCoordinates: { latitude: 35.6763, longitude: 139.6504 }, accepted: true, reasonCode: "ACCEPTED" },
+    { sourcePlaceId: "eval-far", sourceCoordinates: { latitude: 35.8, longitude: 139.8 }, accepted: false, reasonCode: "GOOGLE_OUTSIDE_REQUESTED_RADIUS" },
+    { sourcePlaceId: "eval-missing", accepted: false, reasonCode: "GOOGLE_LOCATION_REQUIRED_FOR_RADIUS" },
+  ]);
+  assert.ok((evalDiagnostics[0]?.distanceMeters ?? 0) < 3_000);
+  assert.ok((evalDiagnostics[1]?.distanceMeters ?? 0) > 3_000);
+  assert.equal(result.evidence.some((item) => item.claims.placeId === "eval-far" || item.claims.placeId === "eval-missing"), false, "rejected eval observations are diagnostics only");
 });
 
 test("Google Places request budget is mechanical and isolated by persistent read run", async () => {

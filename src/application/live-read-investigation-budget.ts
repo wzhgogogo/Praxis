@@ -19,6 +19,10 @@ export const LIVE_READ_DEBUG_INVESTIGATION_BUDGET = {
   maxBrowserModelCallsPerCandidate: 20,
   maxBrowserModelCallsTotal: 120,
   maxBrowserOperationsPerCandidate: 80,
+  /** Keeps one outlet/provider path from consuming the entire Live deadline. */
+  maxCandidateBrowserMs: 60_000,
+  /** A single provider must leave time for a source-supported alternate. */
+  maxProviderBrowserMs: 30_000,
   maxAutomaticBrowserMs: 20 * 60_000,
   maxAgentSteps: 30,
   maxRejectedActions: 5,

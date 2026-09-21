@@ -5,7 +5,7 @@ import type { BrowserRuntime, BrowserSession, BrowserSessionMetadata, BrowserSna
 import { BrowserRuntimeError } from "../../infrastructure/browser/browser-runtime-errors.js";
 import { BrowserTaskExecutor } from "../../infrastructure/browser/browser-task-executor.js";
 import type { RestaurantAvailabilityProvider } from "../restaurant-availability/contracts.js";
-import type { TableCheckAvailabilityPageObservation, TableCheckIdentityDiagnostic, TableCheckOutletIdentityExtraction } from "./tablecheck-contracts.js";
+import type { TableCheckAvailabilityPageObservation, TableCheckIdentityDiagnostic, TableCheckOutletIdentityExtraction, TableCheckUserInterventionHandler } from "./tablecheck-contracts.js";
 import { inspectTableCheckEntity } from "./tablecheck-entity-resolver.js";
 import {
   hasTableCheckBotChallenge,
@@ -31,6 +31,15 @@ function diagnosticUrl(value: string): string {
     return url.toString();
   } catch {
     return "<invalid-url>";
+  }
+}
+
+function sourceUrlKey(value: string): string | undefined {
+  try {
+    const url = new URL(value);
+    return `${url.origin}${url.pathname.replace(/\/$/, "")}`;
+  } catch {
+    return undefined;
   }
 }
 
@@ -95,6 +104,8 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
   private sessionsOpened = 0;
   private readonly executor: BrowserTaskExecutor;
   private readonly ownsExecutor: boolean;
+  /** At most one explicit human pause per candidate/provider read. */
+  private readonly interventionRequestedCandidates = new Set<string>();
 
   constructor(
     browser: BrowserRuntime | BrowserTaskExecutor,
@@ -102,6 +113,8 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
     private readonly options: {
       maxBrowserSessions?: number;
       onIdentityDiagnostic?: (diagnostic: TableCheckIdentityDiagnostic) => void;
+      /** Eval-only explicit pause; absence preserves the ordinary fail-closed path. */
+      onUserInterventionRequired?: TableCheckUserInterventionHandler;
       /** Router-owned and reset at read-run boundaries; never process-global. */
       entryLedger?: TableCheckEntryLedger;
     } = {},
@@ -119,7 +132,80 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
     try { this.options.onIdentityDiagnostic?.(structuredClone(diagnostic)); } catch { /* diagnostics never affect a read */ }
   }
 
+  private async resumeAfterUserIntervention(
+    candidate: RestaurantAvailabilityRequest["candidates"][number],
+    request: RestaurantAvailabilityRequest,
+    session: BrowserSession,
+    page: BrowserSnapshot,
+    stage: "DISCOVERY" | "IDENTITY" | "AVAILABILITY",
+    signal: AbortSignal,
+  ): Promise<BrowserSnapshot> {
+    if (!hasTableCheckBotChallenge(page) || !this.options.onUserInterventionRequired || this.interventionRequestedCandidates.has(candidate.restaurant.id)) return page;
+    this.interventionRequestedCandidates.add(candidate.restaurant.id);
+    await this.options.onUserInterventionRequired({
+      state: "USER_INTERVENTION_REQUIRED",
+      provider: "TABLECHECK",
+      stage,
+      candidate: { id: candidate.restaurant.id, outletName: candidate.restaurant.outletName },
+      requestedSchedule: { date: request.date, timeWindow: structuredClone(request.timeWindow), partySize: request.partySize },
+      browser: structuredClone(session.metadata),
+      page: { url: diagnosticUrl(page.url), title: page.title },
+    });
+    return this.executor.snapshot({ source: "TABLECHECK", stage, signal, session });
+  }
+
+  /**
+   * Only a canonical or alternate-language source URL observed while proving
+   * this outlet can recover a challenge. The alternate independently needs
+   * HIGH identity, so a same-brand but different branch is rejected.
+   */
+  private async recoverObservedAlternate(
+    candidate: RestaurantAvailabilityRequest["candidates"][number],
+    request: RestaurantAvailabilityRequest,
+    session: BrowserSession,
+    signal: AbortSignal,
+    selected: {
+      extraction: TableCheckOutletIdentityExtraction;
+      inspection: ReturnType<typeof inspectTableCheckEntity>;
+      page: BrowserSnapshot;
+      reservation: NonNullable<ReturnType<typeof resolveTableCheckReservationTarget>>;
+      observedOutletUrls: readonly string[];
+    },
+  ): Promise<{ selected: typeof selected; page: BrowserSnapshot } | undefined> {
+    const currentKey = sourceUrlKey(selected.extraction.outlet.sourceUrl);
+    const alternate = selected.observedOutletUrls.find((url) => sourceUrlKey(url) !== currentKey);
+    if (!alternate) return undefined;
+    await this.executor.navigate({ source: "TABLECHECK", stage: "IDENTITY", signal, allowedOrigins: ["https://www.tablecheck.com"], session, url: alternate, observed: true });
+    const page = await this.executor.snapshot({ source: "TABLECHECK", stage: "IDENTITY", signal, session });
+    if (hasTableCheckBotChallenge(page) || inspectTableCheckPageUnavailable(page).pageUnavailable) return undefined;
+    const extraction = parseTableCheckOutletIdentityWithEvidence(page, alternate);
+    if (!extraction) return undefined;
+    const inspection = inspectTableCheckEntity(candidate, extraction.outlet);
+    if (inspection.resolution.confidence !== "HIGH") return undefined;
+    const reservation = resolveTableCheckReservationTarget(page, extraction.outlet);
+    if (!reservation) return undefined;
+    let availabilityPage = page;
+    if (reservation.kind === "LINKED_PAGE") {
+      await this.executor.navigate({
+        source: "TABLECHECK", stage: "AVAILABILITY", signal, allowedOrigins: ["https://www.tablecheck.com"], session,
+        url: tableCheckRequestedReservationUrl(reservation, request.date, request.partySize), observed: true,
+      });
+      availabilityPage = await this.executor.snapshot({ source: "TABLECHECK", stage: "AVAILABILITY", signal, session });
+    }
+    return {
+      selected: {
+        extraction,
+        inspection,
+        page,
+        reservation,
+        observedOutletUrls: [...new Set([alternate, extraction.outlet.sourceUrl, ...(extraction.canonicalUrl ? [extraction.canonicalUrl] : [])])],
+      },
+      page: availabilityPage,
+    };
+  }
+
   async check(request: RestaurantAvailabilityRequest, signal: AbortSignal) {
+    this.interventionRequestedCandidates.clear();
     const startedAt = Date.now();
     const offers = [] as import("../../domains/restaurant/contracts.js").AvailabilityOffer[];
     const evidence = [] as import("../../domains/restaurant/contracts.js").RestaurantReadEvidence[];
@@ -163,6 +249,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
     browser?: BrowserSessionMetadata;
   }> {
     const observedAt = this.now();
+    let retainedIdentity: { extraction: TableCheckOutletIdentityExtraction; inspection: ReturnType<typeof inspectTableCheckEntity> } | undefined;
     if (this.sessionsOpened >= (this.options.maxBrowserSessions ?? Number.POSITIVE_INFINITY)) {
       return this.ground(candidate, request, {
         candidate, observedAt, entityMatch: { confidence: "LOW", matchedBy: [] }, pageState: "EXTRACTION_FAILED", failureCode: "READ_BUDGET_EXCEEDED",
@@ -170,6 +257,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
     }
     this.sessionsOpened += 1;
     this.executor.beginCandidate(candidate.restaurant.id);
+      this.executor.beginProvider(candidate.restaurant.id, "TABLECHECK");
     let session: BrowserSession | undefined;
     const attemptedPages: TableCheckIdentityDiagnostic["attemptedPages"] = [];
     try {
@@ -191,7 +279,8 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         await this.executor.navigate({
           source: "TABLECHECK", stage: "IDENTITY", signal, allowedOrigins: ["https://www.tablecheck.com"], session, url: listedOutletUrl, observed: true,
         });
-        const page = await this.executor.snapshot({ source: "TABLECHECK", stage: "IDENTITY", signal, session });
+        let page = await this.executor.snapshot({ source: "TABLECHECK", stage: "IDENTITY", signal, session });
+        page = await this.resumeAfterUserIntervention(candidate, request, session, page, "IDENTITY", signal);
         if (!hasTableCheckBotChallenge(page) && !inspectTableCheckPageUnavailable(page).pageUnavailable) {
           const extraction = parseTableCheckOutletIdentityWithEvidence(page, listedOutletUrl);
           directIdentityVerified = extraction !== undefined && inspectTableCheckEntity(candidate, extraction.outlet).resolution.confidence === "HIGH";
@@ -217,6 +306,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
           await this.executor.waitFor({ source: "TABLECHECK", stage: "DISCOVERY", signal, session, selector: 'a[href*="search_text="]', timeoutMs: 10_000 });
         } catch { /* inspected below */ }
         discovery = await this.executor.snapshot({ source: "TABLECHECK", stage: "DISCOVERY", signal, session });
+        discovery = await this.resumeAfterUserIntervention(candidate, request, session, discovery, "DISCOVERY", signal);
         discoveryBase = { requestedUrl: diagnosticUrl(discoveryUrl), finalUrl: diagnosticUrl(discovery.url), title: discovery.title };
         const unavailable = inspectTableCheckPageUnavailable(discovery);
         if (hasTableCheckBotChallenge(discovery) || unavailable.pageUnavailable) {
@@ -312,13 +402,15 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         inspection: ReturnType<typeof inspectTableCheckEntity>;
         page: BrowserSnapshot;
         reservation: NonNullable<ReturnType<typeof resolveTableCheckReservationTarget>>;
+        observedOutletUrls: readonly string[];
       } | undefined;
       let highIdentityWithoutReservation: { extraction: TableCheckOutletIdentityExtraction; inspection: ReturnType<typeof inspectTableCheckEntity> } | undefined;
       for (const outletUrl of outletUrls) {
         await this.executor.navigate({
           source: "TABLECHECK", stage: "IDENTITY", signal, allowedOrigins: ["https://www.tablecheck.com"], session, url: outletUrl, observed: true,
         });
-        const page = await this.executor.snapshot({ source: "TABLECHECK", stage: "IDENTITY", signal, session });
+        let page = await this.executor.snapshot({ source: "TABLECHECK", stage: "IDENTITY", signal, session });
+        page = await this.resumeAfterUserIntervention(candidate, request, session, page, "IDENTITY", signal);
         if (hasTableCheckBotChallenge(page)) {
           attemptedPages.push({ requestedUrl: diagnosticUrl(outletUrl), finalUrl: diagnosticUrl(page.url), title: page.title, botChallenge: true });
           continue;
@@ -352,7 +444,13 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
             continue;
           }
           const exactPhone = inspection.resolution.matchedBy.includes("EXACT_PHONE");
-          if (exactPhone || !selected) selected = { extraction, inspection, page, reservation };
+          if (exactPhone || !selected) selected = {
+            extraction,
+            inspection,
+            page,
+            reservation,
+            observedOutletUrls: [...new Set([outletUrl, extraction.outlet.sourceUrl, ...(extraction.canonicalUrl ? [extraction.canonicalUrl] : [])])],
+          };
           // A disagreeing phone does not veto complete identity, but an exact
           // phone outlet is stronger and must get a chance to replace it.
           if (exactPhone || inspection.comparison.phone !== "CONFLICT") break;
@@ -397,23 +495,35 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
           failureCode: unresolvedReason,
         }, browser);
       }
-      const reservationUrl = tableCheckRequestedReservationUrl(selected.reservation, request.date, request.partySize);
-      let page = selected.page;
-      if (selected.reservation.kind === "LINKED_PAGE") {
+      retainedIdentity = selected;
+      let activeSelected = selected;
+      let alternateRecoveryUsed = false;
+      let page = activeSelected.page;
+      if (activeSelected.reservation.kind === "LINKED_PAGE") {
         await this.executor.navigate({
-          source: "TABLECHECK", stage: "AVAILABILITY", signal, allowedOrigins: ["https://www.tablecheck.com"], session, url: reservationUrl, observed: true,
+          source: "TABLECHECK", stage: "AVAILABILITY", signal, allowedOrigins: ["https://www.tablecheck.com"], session,
+          url: tableCheckRequestedReservationUrl(activeSelected.reservation, request.date, request.partySize), observed: true,
         });
         page = await this.executor.snapshot({ source: "TABLECHECK", stage: "AVAILABILITY", signal, session });
       }
+      page = await this.resumeAfterUserIntervention(candidate, request, session, page, "AVAILABILITY", signal);
+      if (hasTableCheckBotChallenge(page) && !alternateRecoveryUsed) {
+        alternateRecoveryUsed = true;
+        const recovered = await this.recoverObservedAlternate(candidate, request, session, signal, activeSelected);
+        if (recovered) {
+          activeSelected = recovered.selected;
+          page = recovered.page;
+        }
+      }
       if (hasTableCheckBotChallenge(page)) return this.ground(candidate, request, {
-        candidate, observedAt, sourceEntityId: selected.extraction.outlet.sourceEntityId, sourceUrl: selected.extraction.outlet.sourceUrl,
-        entityMatch: selected.inspection.resolution, pageState: "BOT_CHALLENGE", failureCode: "BOT_CHALLENGE", excerpt: tableCheckPageExcerpt(page),
+        candidate, observedAt, sourceEntityId: retainedIdentity.extraction.outlet.sourceEntityId, sourceUrl: retainedIdentity.extraction.outlet.sourceUrl,
+        entityMatch: retainedIdentity.inspection.resolution, pageState: "BOT_CHALLENGE", failureCode: "BOT_CHALLENGE", excerpt: tableCheckPageExcerpt(page),
       }, browser);
-      const availabilityRead = await this.executor.runSkill({
+      const readAvailability = () => this.executor.runSkill({
         taskId: `browser-read:${candidate.restaurant.id}`,
         source: "TABLECHECK",
         stage: "AVAILABILITY",
-        session,
+        session: session!,
         signal,
         allowedOrigins: ["https://www.tablecheck.com"],
         goal: { outlet: { name: candidate.restaurant.outletName, address: candidate.restaurant.address }, date: request.date, partySize: request.partySize, timeWindow: request.timeWindow, hardCriteria: request.hardCriteria },
@@ -454,16 +564,30 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
           },
         },
       });
+      let availabilityRead = await readAvailability();
       page = availabilityRead.snapshot;
+      page = await this.resumeAfterUserIntervention(candidate, request, session, page, "AVAILABILITY", signal);
+      if (hasTableCheckBotChallenge(page) && !alternateRecoveryUsed) {
+        alternateRecoveryUsed = true;
+        const recovered = await this.recoverObservedAlternate(candidate, request, session, signal, activeSelected);
+        if (recovered) {
+          activeSelected = recovered.selected;
+          // The earlier controls/status belong to the challenged page. Read
+          // the recovered source page again before accepting any request or slot.
+          availabilityRead = await readAvailability();
+          page = availabilityRead.snapshot;
+          page = await this.resumeAfterUserIntervention(candidate, request, session, page, "AVAILABILITY", signal);
+        }
+      }
       if (hasTableCheckBotChallenge(page)) return this.ground(candidate, request, {
-        candidate, observedAt, sourceEntityId: selected.extraction.outlet.sourceEntityId, sourceUrl: selected.extraction.outlet.sourceUrl,
-        entityMatch: selected.inspection.resolution, pageState: "BOT_CHALLENGE", failureCode: "BOT_CHALLENGE", excerpt: tableCheckPageExcerpt(page),
+        candidate, observedAt, sourceEntityId: retainedIdentity.extraction.outlet.sourceEntityId, sourceUrl: retainedIdentity.extraction.outlet.sourceUrl,
+        entityMatch: retainedIdentity.inspection.resolution, pageState: "BOT_CHALLENGE", failureCode: "BOT_CHALLENGE", excerpt: tableCheckPageExcerpt(page),
       }, browser);
       const controlSlots = parseTableCheckControlAvailability(availabilityRead.controls, request.date, request.partySize, page.url, request.timeWindow);
       const requestConfirmed = hasTableCheckSelectedRequest(page, request.date, request.partySize) || controlSlots.queryComplete;
       if (!["COMPLETED", "MODEL_HANDOFF"].includes(availabilityRead.status) || !requestConfirmed) return this.ground(candidate, request, {
-        candidate, observedAt, sourceEntityId: selected.extraction.outlet.sourceEntityId, sourceUrl: selected.extraction.outlet.sourceUrl,
-        entityMatch: selected.inspection.resolution, pageState: "EXTRACTION_FAILED", failureCode: "REQUEST_SELECTION_UNCONFIRMED",
+        candidate, observedAt, sourceEntityId: activeSelected.extraction.outlet.sourceEntityId, sourceUrl: activeSelected.extraction.outlet.sourceUrl,
+        entityMatch: activeSelected.inspection.resolution, pageState: "EXTRACTION_FAILED", failureCode: "REQUEST_SELECTION_UNCONFIRMED",
       }, browser);
       const parsedSlots = parseTableCheckAvailabilitySlots(page, { date: request.date, partySize: request.partySize, timeWindow: request.timeWindow });
       const slots = {
@@ -477,8 +601,8 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
       const immediateSlotNotOffered = request.immediateAvailability !== undefined
         && !qualifying && !slots.explicitlyEmpty && slots.hasExplicitSlotUi;
       return this.ground(candidate, request, {
-        candidate, observedAt: this.now(), sourceEntityId: selected.extraction.outlet.sourceEntityId, sourceUrl: selected.extraction.outlet.sourceUrl,
-        entityMatch: selected.inspection.resolution, requestedDate: request.date, requestedPartySize: request.partySize,
+        candidate, observedAt: this.now(), sourceEntityId: activeSelected.extraction.outlet.sourceEntityId, sourceUrl: activeSelected.extraction.outlet.sourceUrl,
+        entityMatch: activeSelected.inspection.resolution, requestedDate: request.date, requestedPartySize: request.partySize,
         pageState: qualifying ? "AVAILABLE" : immediateSlotNotOffered ? "EXTRACTION_FAILED" : slots.queryComplete && (slots.explicitlyEmpty || slots.hasExplicitSlotUi) ? "NO_MATCHING_SLOT" : "EXTRACTION_FAILED",
         ...(immediateSlotNotOffered ? { failureCode: "IMMEDIATE_SLOT_NOT_OFFERED" } : {}),
         visibleSlots: slots.availableSlots,
@@ -486,13 +610,19 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         excerpt: tableCheckPageExcerpt(page),
       }, browser);
     } catch (error) {
+      if (signal.aborted || (error instanceof BrowserRuntimeError && (error.code === "BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED" || error.code === "BROWSER_RUNTIME_UNAVAILABLE" || error.code === "BROWSER_ABORTED")) || (error && typeof error === "object" && "code" in error && error.code === "MODEL_CALL_BUDGET_EXHAUSTED")) throw error;
       const failureCode = error instanceof BrowserRuntimeError
         ? (error.code === "BROWSER_ABORTED" ? "BROWSER_TIMEOUT" : error.code)
         : "BROWSER_RUNTIME_FAILED";
       return this.ground(candidate, request, {
-        candidate, observedAt: this.now(), entityMatch: { confidence: "LOW", matchedBy: [] }, pageState: "EXTRACTION_FAILED", failureCode,
+        candidate, observedAt: this.now(),
+        ...(retainedIdentity
+          ? { sourceEntityId: retainedIdentity.extraction.outlet.sourceEntityId, sourceUrl: retainedIdentity.extraction.outlet.sourceUrl, entityMatch: retainedIdentity.inspection.resolution }
+          : { entityMatch: { confidence: "LOW" as const, matchedBy: [] } }),
+        pageState: "EXTRACTION_FAILED", failureCode,
       }, session ? { ...session.metadata } : undefined);
     } finally {
+      this.executor.endProvider();
       if (this.ownsExecutor) await this.executor.close();
     }
   }

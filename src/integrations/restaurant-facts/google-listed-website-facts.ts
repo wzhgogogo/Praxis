@@ -10,7 +10,7 @@ import type {
   RestaurantCandidateFactRead,
   RestaurantCandidateFactRequest,
 } from "../../domains/restaurant/contracts.js";
-import { BrowserTaskExecutor, type BrowserExecutionBudget } from "../../infrastructure/browser/browser-task-executor.js";
+import { BrowserTaskExecutor, type BrowserExecutionBudget, type BrowserExecutionDiagnostic } from "../../infrastructure/browser/browser-task-executor.js";
 import type { BrowserRuntime, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
 import type { BrowserReadActionDecisionPort } from "../../infrastructure/browser/browser-action-decision.js";
 
@@ -269,6 +269,7 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
     private readonly now: () => string = () => new Date().toISOString(),
     private readonly modelDecision?: BrowserReadActionDecisionPort,
     private readonly browserBudget?: BrowserExecutionBudget,
+    private readonly onBrowserDiagnostic?: (diagnostic: BrowserExecutionDiagnostic) => void,
   ) {}
 
   async inspectFacts(request: RestaurantCandidateFactRequest, signal: AbortSignal): Promise<RestaurantCandidateFactRead> {
@@ -285,6 +286,11 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
       const executor = new BrowserTaskExecutor(this.runtime, {
         ...(this.modelDecision ? { modelDecision: this.modelDecision, maxModelCallsPerCandidate: 4, maxModelCallsTotal: this.browserBudget ? (this.browserBudget.maxModelCalls ?? 12) : 4 } : {}),
         ...(this.browserBudget ? { budget: this.browserBudget } : {}),
+        ...(this.onBrowserDiagnostic ? { onDiagnostic: this.onBrowserDiagnostic } : {}),
+        // A website is one provider path inside the existing 45-second
+        // candidate investigation, never a reason to extend the run ceiling.
+        maxElapsedMsPerCandidate: 45_000,
+        maxElapsedMsPerProvider: 30_000,
         maxAutomaticElapsedMs: 45_000,
         // Public terms and courses may live on separate observed pages. The
         // shared run budget still applies; this does not permit form submission.
@@ -307,6 +313,7 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
       let failureCode: string | undefined;
       try {
         executor.beginCandidate(candidate.restaurant.id);
+        executor.beginProvider(candidate.restaurant.id, "WEBSITE", "FACTS");
         const session = await executor.acquire(signal, "WEBSITE", "FACTS");
         await executor.navigate({ source: "WEBSITE", stage: "FACTS", signal, allowedOrigins: [listed.origin], session, url: listed.toString() });
         const generic = await executor.runSkill({
@@ -326,9 +333,13 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
         });
         remember(generic.snapshot);
         if (!complete()) failureCode = pages.size ? "WEBSITE_REQUESTED_FACTS_UNCONFIRMED" : "WEBSITE_STRUCTURED_IDENTITY_UNVERIFIED";
-      } catch {
+      } catch (error) {
+        // A runner-owned budget/cancellation is task-global. Do not disguise
+        // it as a candidate website gap and let later fact code continue.
+        if (error && typeof error === "object" && "code" in error && (error.code === "MODEL_CALL_BUDGET_EXHAUSTED" || error.code === "BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED" || error.code === "BROWSER_RUNTIME_UNAVAILABLE" || error.code === "BROWSER_ABORTED")) throw error;
         failureCode = "WEBSITE_FACT_READ_FAILED";
       } finally {
+        executor.endProvider();
         await executor.close();
       }
       const candidateEvidence = [...pages.values()].flatMap(page => groundRestaurantWebsiteFacts(candidate, request.intent, page.observation).evidence.map(item => ({

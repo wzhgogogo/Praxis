@@ -1,6 +1,6 @@
 import type { ModelGateway } from "../../core/model/contracts.js";
 import { ModelBrowserReadActionDecision } from "../../infrastructure/browser/browser-action-decision.js";
-import type { BrowserExecutionBudget } from "../../infrastructure/browser/browser-task-executor.js";
+import type { BrowserExecutionBudget, BrowserExecutionDiagnostic } from "../../infrastructure/browser/browser-task-executor.js";
 import type { BrowserRuntime } from "../../infrastructure/browser/browser-runtime.js";
 import type { RestaurantCandidateFactPort } from "../../application/restaurant-execution-router.js";
 import { GoogleListedWebsiteFactRead } from "./google-listed-website-facts.js";
@@ -17,10 +17,11 @@ export function composeLiveRestaurantFactRead(
   model: ModelGateway,
   browserBudget?: BrowserExecutionBudget,
   now?: () => string,
+  onBrowserDiagnostic?: (diagnostic: BrowserExecutionDiagnostic) => void,
 ): RestaurantCandidateFactPort {
   return new GoogleThenWebsiteFactRead(
     google,
-    new GoogleListedWebsiteFactRead(runtime, now, new ModelBrowserReadActionDecision(model), browserBudget),
+    new GoogleListedWebsiteFactRead(runtime, now, new ModelBrowserReadActionDecision(model), browserBudget, onBrowserDiagnostic),
     new ModelRestaurantFactJudgment(model, now),
   );
 }

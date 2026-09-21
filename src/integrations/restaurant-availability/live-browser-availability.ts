@@ -19,6 +19,8 @@ export interface LiveBrowserAvailabilityOptions {
   maxModelCallsPerCandidate?: number;
   maxModelCallsTotal?: number;
   maxOperationsPerCandidate?: number;
+  maxElapsedMsPerCandidate?: number;
+  maxElapsedMsPerProvider?: number;
   maxAutomaticElapsedMs?: number;
   onBrowserDiagnostic?: (diagnostic: BrowserExecutionDiagnostic) => void;
   onTableCheckIdentityDiagnostic?: (diagnostic: TableCheckIdentityDiagnostic) => void;
@@ -63,6 +65,8 @@ export class LiveBrowserAvailability {
       ...(this.options.maxModelCallsPerCandidate !== undefined ? { maxModelCallsPerCandidate: this.options.maxModelCallsPerCandidate } : {}),
       ...(this.options.maxModelCallsTotal !== undefined ? { maxModelCallsTotal: this.options.maxModelCallsTotal } : {}),
       ...(this.options.maxOperationsPerCandidate !== undefined ? { maxOperationsPerCandidate: this.options.maxOperationsPerCandidate } : {}),
+      ...(this.options.maxElapsedMsPerCandidate !== undefined ? { maxElapsedMsPerCandidate: this.options.maxElapsedMsPerCandidate } : {}),
+      ...(this.options.maxElapsedMsPerProvider !== undefined ? { maxElapsedMsPerProvider: this.options.maxElapsedMsPerProvider } : {}),
       ...(this.options.maxAutomaticElapsedMs !== undefined ? { maxAutomaticElapsedMs: this.options.maxAutomaticElapsedMs } : {}),
       ...(this.options.onBrowserDiagnostic ? { onDiagnostic: this.options.onBrowserDiagnostic } : {}),
       budget: this.browserBudget,

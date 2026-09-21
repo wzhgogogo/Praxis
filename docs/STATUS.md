@@ -1,13 +1,18 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.66
-- Last updated: 2026-09-20
+- Document revision: 4.67
+- Last updated: 2026-09-21
 - Source of truth for: 已实现能力、已验证范围、明确未验证项与下一道门槛
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Documentation Index](INDEX.md), [Roadmap](roadmap.md), [Verification History](history/TEST-LOG.md)
 
 ## 最新审查与当前门槛
+
+2026-09-21 **Live Read P0 offline implementation accepted; bounded Live pending.** Google discovery now sends a strict rectangle and rejects candidates outside the declared exact-radius gate or without coordinates, preserving rejected observations only in diagnostics. Source-supported typed station suffixes and continuation retain authoritative geography. Local candidate/provider/batch failures leave other viable work reachable; genuine shared model budget, parent cancellation and Chromium launch outage retain their TASK root cause. Candidate/provider browser limits are 60/30 seconds; lifecycle and cancellation artifacts retain costs, stop reasons and remaining work. The actual Hybrid composition proves failed A/B/C can reach D; mutation controls catch the former task-global escalation. Final offline tests 509/509, typecheck, architecture, build and local real Chromium fixture 23/23 passed. Source alternate recovery, identity retention, same-provider clocks, website diagnostic coverage and in-flight Google request accounting passed targeted controls. No new H001–H003 Live has run yet, so this is not completion of the P0 playbook. [Independent review and acceptance](history/LIVE-READ-P0-REVIEW-2026-09-21.md).
+
+The prior H005 fixed-source checkpoint below remains historical accepted evidence; this P0 does not change its prompt, Gold or meaning of automatic versus manual acceptance.
+
 
 2026-09-20 **Current integrated checkpoint: category matrix accepted, H001-H005 fixed-source real-model accepted within the documented review scope.** Fact Judgment Prompt@8 clarifies that a cited, same-source HIGH-grounded entity may support stable category knowledge; candidate.name cannot. The unchanged F1-F8 x2 matrix passed **16/16**, including both McDonald's F8 CONFLICT results with raw type still `["restaurant"]`. This preceded the passing H005 run and the H001-H005 batch: all five presented three candidates; H001/H005 were automatic PASS, H002-H004 were independently manually accepted with original automatic FAIL / NOT_EVALUATED retained. The final implementation is now integrated from Terra worktree 1135; all 138 tracked non-test src files match it byte-for-byte. Local-food text, Gold and fixed-source samples are unchanged. Final integrated gates: typecheck, architecture, build and full offline tests **483/483 PASS**. Current Fact Judgment Prompt@8 / schema@2, diagnostic evaluator/rubric@19 and fixed-source acceptance@3. This is exposed synthetic fixed-source evidence, not Live or a Clean Baseline; current websites and immediate inventory remain the next bounded verification scope. [Category and integration evidence](history/H005-CATEGORY-NEGATIVE-REVIEW-2026-09-20.md#prompt8-follow-up-and-commit-integration); [five-case independent review](history/FIXED-SOURCE-SEMANTIC-COMPARISON-2026-09-20.md).
 

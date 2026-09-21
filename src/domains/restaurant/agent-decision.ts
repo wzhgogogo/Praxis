@@ -54,7 +54,7 @@ export type RestaurantAgentDecisionResult =
       modelAttempt: RestaurantAgentModelAttempt;
     }
   | { status: "INVALID_MODEL_OUTPUT"; errors: string[]; modelAttempt?: RestaurantAgentModelAttempt }
-  | { status: "MODEL_FAILURE"; errorCode: ModelGatewayErrorCode; retryable: boolean };
+  | { status: "MODEL_FAILURE"; errorCode: ModelGatewayErrorCode | "MODEL_CALL_BUDGET_EXHAUSTED"; retryable: boolean };
 
 export interface RestaurantAgentDecisionPort {
   decide(input: RestaurantAgentDecisionInput): Promise<RestaurantAgentDecisionResult>;
@@ -175,6 +175,9 @@ export class RestaurantAgentDecision implements RestaurantAgentDecisionPort {
         thinking: "disabled",
       });
     } catch (error) {
+      if (error && typeof error === "object" && "code" in error && error.code === "MODEL_CALL_BUDGET_EXHAUSTED") {
+        return { status: "MODEL_FAILURE", errorCode: "MODEL_CALL_BUDGET_EXHAUSTED", retryable: false };
+      }
       const modelError = error instanceof ModelGatewayError
         ? error
         : new ModelGatewayError("Restaurant Agent decision failed", "NETWORK", true);

@@ -83,7 +83,10 @@ export class ModelRestaurantFactJudgment implements RestaurantFactJudgmentPort {
       modelUsage = { calls: 1, ...(response.usage ? { usage: response.usage } : {}) };
       if (response.finishReason !== "TOOL_CALLS") return { evidence: [], modelUsage };
       output = JSON.parse(response.outputText);
-    } catch { return { evidence: [], ...(modelUsage ? { modelUsage } : {}) }; }
+    } catch (error) {
+      if (error && typeof error === "object" && "code" in error && error.code === "MODEL_CALL_BUDGET_EXHAUSTED") throw error;
+      return { evidence: [], ...(modelUsage ? { modelUsage } : {}) };
+    }
     const sourceById = new Map(observations.map((item) => [item.evidenceId, item]));
     const seen = new Set<string>(); const verifiedPositive: string[] = []; const verifiedNegative: string[] = []; const violatedNegative: string[] = []; const categoryUnknownNegative: string[] = []; const citations: string[] = []; const negativeCitations: string[] = [];
     const rawJudgments = record(output)?.judgments;

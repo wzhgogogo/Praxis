@@ -47,6 +47,13 @@ test("strict browser wire COMPLETE accepts only a current observed placeholder a
   assert.deepEqual(await decision.decide(input), { type: "COMPLETE", reason: "The read-only page is ready." });
 });
 
+test("runner model-call budget exhaustion remains a task cause, not a browser network failure", async () => {
+  const decision = new ModelBrowserReadActionDecision({
+    async complete() { throw Object.assign(new Error("run model-call ceiling reached"), { code: "MODEL_CALL_BUDGET_EXHAUSTED" }); },
+  });
+  await assert.rejects(decision.decide(input), { code: "MODEL_CALL_BUDGET_EXHAUSTED" });
+});
+
 test("strict browser wire COMPLETE rejects a fabricated placeholder or an authoritative field", async () => {
   const fabricated = new ModelBrowserReadActionDecision(gateway({
     action: "COMPLETE",

@@ -61,6 +61,29 @@ export type GroundedGoogleDiscovery =
   | { accepted: true; candidate: RestaurantCandidate; evidence: RestaurantReadEvidence; additionalEvidence: RestaurantReadEvidence[] }
   | { accepted: false; reasonCode: string };
 
+export interface GoogleDiscoveryGeoDiagnostics {
+  sourceCoordinates?: { latitude: number; longitude: number };
+  /** Unrounded value used by the exact-radius admission gate. */
+  distanceMeters?: number;
+}
+
+export interface GoogleDiscoveryGroundingInput {
+  requestFingerprint: string;
+  observedAt: string;
+  areaQuery: string;
+  evaluationLocation?: {
+    latitude: number;
+    longitude: number;
+    radiusMeters: number;
+    label: string;
+    areaMatchBasis?: "TASK_LOCATION_RADIUS" | "EVALUATION_LOCATION_RADIUS" | "NAMED_PLACE_RADIUS";
+  };
+  requiredTypeCriteria?: string[];
+  negativeCriteria?: string[];
+  requestedDate?: string;
+  requestedTimeWindow?: { earliest: string; latest: string };
+}
+
 export interface GroundedAvailability {
   offers: AvailabilityOffer[];
   check: RestaurantAvailabilityCheck;
@@ -93,6 +116,26 @@ function requestedAreaName(areaQuery: string): string | undefined {
   const match = areaQuery.trim().match(/^near\s+(.+)$/i);
   const value = (match?.[1] ?? areaQuery).trim();
   return value ? value : undefined;
+}
+
+/** Shares the exact distance calculation used for coordinate-backed admission diagnostics. */
+export function googleDiscoveryGeoDiagnostics(
+  observation: UntrustedGooglePlaceObservation,
+  input: Pick<GoogleDiscoveryGroundingInput, "evaluationLocation">,
+): GoogleDiscoveryGeoDiagnostics {
+  const latitude = observation.location?.latitude;
+  const longitude = observation.location?.longitude;
+  const sourceCoordinates = typeof latitude === "number" && typeof longitude === "number"
+    ? { latitude, longitude }
+    : undefined;
+  if (!input.evaluationLocation || !sourceCoordinates) return { ...(sourceCoordinates ? { sourceCoordinates } : {}) };
+  return {
+    sourceCoordinates,
+    distanceMeters: 111_320 * Math.hypot(
+      sourceCoordinates.latitude - input.evaluationLocation.latitude,
+      (sourceCoordinates.longitude - input.evaluationLocation.longitude) * Math.cos(input.evaluationLocation.latitude * Math.PI / 180),
+    ),
+  };
 }
 
 function matchingAddressComponent(
@@ -278,20 +321,27 @@ export function groundRestaurantWebsiteFacts(
  */
 export function groundGoogleDiscovery(
   observation: UntrustedGooglePlaceObservation,
-  input: { requestFingerprint: string; observedAt: string; areaQuery: string; evaluationLocation?: { latitude: number; longitude: number; radiusMeters: number; label: string; areaMatchBasis?: "TASK_LOCATION_RADIUS" | "EVALUATION_LOCATION_RADIUS" | "NAMED_PLACE_RADIUS" }; requiredTypeCriteria?: string[]; negativeCriteria?: string[]; requestedDate?: string; requestedTimeWindow?: { earliest: string; latest: string } },
+  input: GoogleDiscoveryGroundingInput,
 ): GroundedGoogleDiscovery {
   if (!observation.placeId?.trim()) return { accepted: false, reasonCode: "GOOGLE_PLACE_ID_MISSING" };
   if (!observation.displayName?.trim()) return { accepted: false, reasonCode: "GOOGLE_NAME_MISSING" };
   if (!observation.formattedAddress?.trim()) return { accepted: false, reasonCode: "GOOGLE_ADDRESS_MISSING" };
   if (!usableRestaurant(observation)) return { accepted: false, reasonCode: "GOOGLE_PLACE_TYPE_UNUSABLE" };
   const areaComponent = matchingAddressComponent(observation, input.areaQuery);
-  const latitude = observation.location?.latitude;
-  const longitude = observation.location?.longitude;
-  const distanceMeters = input.evaluationLocation && latitude !== undefined && longitude !== undefined
-    ? Math.round(111_320 * Math.hypot(latitude - input.evaluationLocation.latitude, (longitude - input.evaluationLocation.longitude) * Math.cos(input.evaluationLocation.latitude * Math.PI / 180)))
-    : undefined;
-  const locationMatch = distanceMeters !== undefined && input.evaluationLocation !== undefined && distanceMeters <= input.evaluationLocation.radiusMeters;
+  const geo = googleDiscoveryGeoDiagnostics(observation, input);
+  const rawDistanceMeters = geo.distanceMeters;
+  const locationMatch = rawDistanceMeters !== undefined && input.evaluationLocation !== undefined && rawDistanceMeters <= input.evaluationLocation.radiusMeters;
+  const distanceMeters = rawDistanceMeters === undefined ? undefined : Math.round(rawDistanceMeters);
   const areaMatch = areaComponent !== undefined || locationMatch;
+  // A coordinate-backed nearby request is an explicit hard geographic bound.
+  // Address text may remain useful evidence, but cannot bypass a missing or
+  // out-of-radius source coordinate.
+  if (input.evaluationLocation && !geo.sourceCoordinates) {
+    return { accepted: false, reasonCode: "GOOGLE_LOCATION_REQUIRED_FOR_RADIUS" };
+  }
+  if (input.evaluationLocation && !locationMatch) {
+    return { accepted: false, reasonCode: "GOOGLE_OUTSIDE_REQUESTED_RADIUS" };
+  }
   const candidateId = stableCandidateId(observation.placeId);
   const evidence: RestaurantReadEvidence = {
     evidenceId: evidenceId("google-discovery", { placeId: observation.placeId, observedAt: input.observedAt }),

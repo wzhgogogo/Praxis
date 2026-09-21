@@ -156,7 +156,7 @@ export const CURRENT_DEVELOPMENT_SOURCE_SCENARIOS: readonly CurrentDevelopmentSo
     observation("offline-multi-unavailable", "Source First Full", ["vegetarian", "lunch"], "1-2 Udagawacho, Shibuya City, Tokyo", 35.6613, 139.6977, "+81 3-6000-1101", "https://offline.example/multi-first", "/en/source-first-full", {
       landmark: { displayName: "Shibuya", coordinates: { latitude: 35.6595, longitude: 139.7005 } }, availability: availability("UNAVAILABLE", "2026-08-20", 3, [], "Vegetarian lunch set"),
     }),
-    observation("offline-multi-available", "Source Second Open", ["vegetarian", "lunch"], "2-20 Jingumae, Shibuya City, Tokyo", 35.6690, 139.7050, "+81 3-6000-1102", "https://offline.example/multi-second", "/en/source-second-open", {
+    observation("offline-multi-available", "Source Second Open", ["vegetarian", "lunch"], "2-20 Jingumae, Shibuya City, Tokyo", 35.6660, 139.7050, "+81 3-6000-1102", "https://offline.example/multi-second", "/en/source-second-open", {
       availability: availability("AVAILABLE", "2026-08-20", 3, ["12:30"], "Vegetarian lunch set"),
     }),
   ] },

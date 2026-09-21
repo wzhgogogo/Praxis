@@ -439,19 +439,19 @@ describe("restaurant booking mock harness", () => {
     assert.equal(step?.executionRoute, "GENERIC_BROWSER");
   });
 
-  test("a terminal browser read failure stops internally without asking the user to resolve it", async () => {
+  test("a candidate-scoped browser read failure can end without asking the user to resolve provider infrastructure", async () => {
     const harness = createHarness({
       availabilityRoute: "GENERIC_BROWSER",
       availabilityFailure: "browser session unavailable",
       agentActions: [
         { type: "SEARCH_RESTAURANTS" },
         { type: "CHECK_AVAILABILITY", candidateIds: [fixtureCandidates[0]!.restaurant.id] },
-        { type: "ASK_USER", question: "This must not be reached." },
+        { type: "END_READ" },
       ],
     });
     const snapshot = await harness.start(fixtureIntent);
-    assert.equal(harness.lastAgentLoopResult?.status, "EXECUTION_FAILURE");
-    assert.equal(snapshot.domainState.phase, "FAILED");
+    assert.equal(harness.lastAgentLoopResult?.status, "TERMINAL");
+    assert.equal(snapshot.domainState.phase, "NO_VERIFIED_RESULT");
     assert.equal(snapshot.domainState.pendingUserQuestion, undefined);
     assert.equal(harness.runtime.eventLog.some((entry) => entry.event.type === "AGENT_ASKED_USER"), false);
   });

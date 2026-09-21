@@ -196,6 +196,9 @@ export class ModelBrowserReadActionDecision implements BrowserReadActionDecision
         thinking: "disabled",
       });
     } catch (error) {
+      // Runner-owned cost/deadline limits are task termination causes, not a
+      // malformed browser-model response or a retryable provider network error.
+      if (error && typeof error === "object" && "code" in error && error.code === "MODEL_CALL_BUDGET_EXHAUSTED") throw error;
       const modelError = error instanceof ModelGatewayError
         ? error
         : new ModelGatewayError("Browser read decision failed", "NETWORK", true);

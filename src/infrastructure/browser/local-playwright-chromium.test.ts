@@ -85,7 +85,7 @@ test("Local Playwright Chromium maps launch failures into the fail-closed Browse
   const runtime = new LocalPlaywrightChromium({ browserType: { launch: async () => { throw new Error("browser binary missing"); } } });
   await assert.rejects(
     runtime.openSession({ signal: new AbortController().signal }),
-    (error: unknown) => error instanceof BrowserRuntimeError && error.code === "BROWSER_RUNTIME_FAILED" && /install a Playwright Chromium browser binary/.test(error.message),
+    (error: unknown) => error instanceof BrowserRuntimeError && error.code === "BROWSER_RUNTIME_UNAVAILABLE" && /install a Playwright Chromium browser binary/.test(error.message),
   );
 });
 

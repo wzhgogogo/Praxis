@@ -62,6 +62,7 @@ export class GooglePlacesClient {
               },
             },
           } : {}),
+          ...(request.locationRestriction ? { locationRestriction: { rectangle: request.locationRestriction } } : {}),
         }),
       },
       GOOGLE_PLACES_RESTAURANT_FIELD_MASK,

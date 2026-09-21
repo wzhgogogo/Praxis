@@ -175,7 +175,7 @@ export class LocalPlaywrightChromium implements BrowserRuntime {
       if (!contextOwnsBrowser) await closeQuietly(browser);
       if (error instanceof BrowserRuntimeError) throw error;
       throw new BrowserRuntimeError(
-        "BROWSER_RUNTIME_FAILED",
+        "BROWSER_RUNTIME_UNAVAILABLE",
         "Local Playwright Chromium could not launch a browser; install a Playwright Chromium browser binary before using PRAXIS_BROWSER_ENGINE=LOCAL_CHROMIUM",
         error,
       );

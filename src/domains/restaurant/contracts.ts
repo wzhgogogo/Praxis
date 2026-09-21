@@ -260,9 +260,23 @@ export interface RestaurantSearchContinuation {
   exhausted: boolean;
   /** A partial initial read keeps its accepted first page and records this failure. */
   lastFailureCode?: string;
+  /** Source-observed coordinate context must survive an opaque provider page cursor. */
+  locationContext?: {
+    latitude: number;
+    longitude: number;
+    radiusMeters: number;
+    label: string;
+    areaMatchBasis: "TASK_LOCATION_RADIUS" | "EVALUATION_LOCATION_RADIUS" | "NAMED_PLACE_RADIUS";
+  };
+  /**
+   * The source request identity paired with an opaque page token.  A later
+   * retrieval hint may start a fresh search, but it may never change the
+   * request parameters of an already-issued provider cursor.
+   */
+  sourceRequestContext?: { textQuery: string };
 }
 
-/** Stable only within the Domain contract; provider query wording is not part of cursor ownership. */
+/** Stable only within the Domain contract; a provider query is retained only when paired with its opaque cursor. */
 export function restaurantSearchIntentFingerprint(intent: RestaurantSearchIntent): string {
   return JSON.stringify(intent);
 }
@@ -327,6 +341,8 @@ export interface RestaurantReadExecutionMetadata {
   route: RestaurantExecutionRoute;
   latencyMs: number;
   failureCode?: string;
+  /** Failure boundary determined by the executor, never inferred from matching codes. */
+  failureScope?: "CANDIDATE" | "PROVIDER" | "BATCH" | "TASK";
   freshnessPolicyVersion?: string;
   recheckReason?: NonNullable<RestaurantAvailabilityRequest["recheck"]>["reason"];
   /** Bounded model work inside a read adapter; agent decisions are recorded separately. */
@@ -343,6 +359,23 @@ export interface RestaurantReadExecutionMetadata {
     namedPlaceResolution: number;
     discovery: number;
     placeDetails: number;
+  };
+  /** Read-only Google discovery geography diagnostics; rejected observations never become candidates or evidence. */
+  googleGeoDiagnostics?: {
+    providerMode: "GOOGLE_TEXT_SEARCH";
+    requestMode: "LOCATION_RESTRICTION_RECTANGLE" | "UNRESTRICTED";
+    exactRadiusGate: "ENFORCED" | "NOT_APPLICABLE";
+    center?: { latitude: number; longitude: number };
+    radiusMeters?: number;
+    areaMatchBasis?: "TASK_LOCATION_RADIUS" | "EVALUATION_LOCATION_RADIUS" | "NAMED_PLACE_RADIUS";
+    candidates: Array<{
+      sourcePlaceId?: string;
+      sourceCoordinates?: { latitude: number; longitude: number };
+      /** Unrounded value used by the exact-radius admission gate. */
+      distanceMeters?: number;
+      accepted: boolean;
+      reasonCode: string;
+    }>;
   };
   /** Internal read-only source chain trace; never projected into Agent context. */
   providerAttempts?: Array<{
@@ -596,8 +629,8 @@ export type RestaurantEvent =
       reason: string;
     })
   | (DomainEvent & { type: "AGENT_ASKED_USER"; question: string; relatedFields?: string[] })
-  | (DomainEvent & { type: "AGENT_DECISION_FAILED"; reason: string })
-  | (DomainEvent & { type: "AGENT_EXECUTION_FAILED"; reason: string })
+  | (DomainEvent & { type: "AGENT_DECISION_FAILED"; code: string; reason: string })
+  | (DomainEvent & { type: "AGENT_EXECUTION_FAILED"; code: string; reason: string })
   | (DomainEvent & { type: "AGENT_LOOP_TERMINATED"; termination: RestaurantAgentLoopTermination; reason: string })
   | (DomainEvent & {
       type: "SEARCH_COMPLETED";

@@ -7,7 +7,6 @@ import { createInterface } from "node:readline/promises";
 import { LIVE_READ_DEBUG_INVESTIGATION_BUDGET } from "../../../../application/live-read-investigation-budget.js";
 import type { ModelGateway, ModelInvocationRecord } from "../../../../core/model/contracts.js";
 import { RestaurantSemanticInterpreter } from "../../../../domains/restaurant/semantic-interpreter.js";
-import type { RestaurantReadExecutionMetadata } from "../../../../domains/restaurant/contracts.js";
 import { browserRuntimeFromEnvironment } from "../../../../infrastructure/browser/browser-runtime-factory.js";
 import type { BrowserExecutionBudget } from "../../../../infrastructure/browser/browser-task-executor.js";
 import type { BrowserExecutionDiagnostic } from "../../../../infrastructure/browser/browser-task-executor.js";
@@ -22,6 +21,7 @@ import { loadFrozenLiveCases, materializeLiveCase, RESTAURANT_READ_DEVELOPMENT_C
 import { HIGASHI_GINZA_EVALUATION_LOCATION } from "../live-evaluation-location.js";
 import { requiresEvaluationLocation } from "../evaluation-location-selection.js";
 import { createHybridReadComposition } from "../hybrid-read-composition.js";
+import { captureHybridLiveProgress } from "../hybrid-live-artifact.js";
 import { RestaurantPartySizeSupplementResolver } from "../../../../domains/restaurant/party-size-supplement-resolver.js";
 import { evaluateArtifactAfterFinish, RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION } from "../diagnostic-evaluator.js";
 import { settleAtRunDeadline } from "../live-run-deadline.js";
@@ -145,6 +145,8 @@ const liveReadLimits = {
   maxGoogleRequests: runCeiling("--max-google-requests", LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxGoogleRequests),
   maxAutomaticBrowserMs: runCeiling("--timeout-ms", LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxAutomaticBrowserMs),
   maxBrowserOperationsPerCandidate: runCeiling("--max-browser-operations", LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxBrowserOperationsPerCandidate),
+  maxCandidateBrowserMs: runCeiling("--max-candidate-browser-ms", LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxCandidateBrowserMs),
+  maxProviderBrowserMs: runCeiling("--max-provider-browser-ms", LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxProviderBrowserMs),
 };
 let modelCallsStarted = 0;
 const taskId = `hybrid-live:${materialized.id}:${startedAt.valueOf()}`;
@@ -171,6 +173,35 @@ const lifecycleKeepAlive = setInterval(() => undefined, 30_000);
 let stage = "SEMANTIC";
 let semantic: Awaited<ReturnType<RestaurantSemanticInterpreter["interpret"]>> | undefined;
 let composition: ReturnType<typeof createHybridReadComposition> | undefined;
+let googleSearch: GooglePlacesRestaurantSearch | undefined;
+// These append-only records are intentionally allocated before provider setup:
+// a timeout/error artifact must preserve work observed before the failing
+// await, not merely the successful-path summary.
+const tabelogIdentityDiagnostics: TabelogIdentityDiagnostic[] = [];
+const tableCheckIdentityDiagnostics: TableCheckIdentityDiagnostic[] = [];
+const tabelogUserInterventions: TabelogUserInterventionRequired[] = [];
+const browserExecutionDiagnostics: BrowserExecutionDiagnostic[] = [];
+const browserBudget: BrowserExecutionBudget = { totalModelCalls: 0 };
+
+function captureProgress() {
+  let googleRequestUsage: ReturnType<GooglePlacesRestaurantSearch["googleRequestUsage"]> | undefined;
+  try {
+    const snapshot = composition?.runtime.snapshot(taskId);
+    if (googleSearch && snapshot) {
+      googleRequestUsage = googleSearch.googleRequestUsage(`${snapshot.runId}:investigation:${snapshot.domainState.investigationRevision ?? 0}`);
+    }
+  } catch { /* The shared capture still preserves completed trajectory data when Runtime state is unavailable. */ }
+  return captureHybridLiveProgress({
+    composition, taskId, startedAtMs: startedAt.valueOf(), modelInvocations,
+    ...(googleRequestUsage ? { googleRequestUsage } : {}),
+    diagnostics: {
+      tablecheckIdentity: tableCheckIdentityDiagnostics,
+      tabelogIdentity: tabelogIdentityDiagnostics,
+      tabelogUserInterventions,
+      browserExecution: browserExecutionDiagnostics,
+    },
+  });
+}
 try {
   const providerModel = DeepSeekModelGateway.fromEnvironment(process.env, {
     observer: { observe: (record) => { modelInvocations.push(structuredClone(record)); } },
@@ -198,12 +229,8 @@ try {
     candidateLimit,
     { maxRequests: liveReadLimits.maxGoogleRequests },
   );
-  const tabelogIdentityDiagnostics: TabelogIdentityDiagnostic[] = [];
-  const tableCheckIdentityDiagnostics: TableCheckIdentityDiagnostic[] = [];
-  const tabelogUserInterventions: TabelogUserInterventionRequired[] = [];
-  const browserExecutionDiagnostics: BrowserExecutionDiagnostic[] = [];
+  googleSearch = search;
   const browser = browserRuntimeFromEnvironment();
-  const browserBudget: BrowserExecutionBudget = { totalModelCalls: 0 };
   const availability = new LiveBrowserAvailability(browser, model, {
     browserBudget,
     maxTableCheckBrowserSessions: liveReadLimits.maxTableCheckBrowserSessions,
@@ -212,6 +239,8 @@ try {
     maxModelCallsPerCandidate: liveReadLimits.maxBrowserModelCallsPerCandidate,
     maxModelCallsTotal: liveReadLimits.maxBrowserModelCallsTotal,
     maxOperationsPerCandidate: liveReadLimits.maxBrowserOperationsPerCandidate,
+    maxElapsedMsPerCandidate: liveReadLimits.maxCandidateBrowserMs,
+    maxElapsedMsPerProvider: liveReadLimits.maxProviderBrowserMs,
     maxAutomaticElapsedMs: liveReadLimits.maxAutomaticBrowserMs,
     onBrowserDiagnostic: (diagnostic) => browserExecutionDiagnostics.push(structuredClone(diagnostic)),
     onTableCheckIdentityDiagnostic: (diagnostic) => tableCheckIdentityDiagnostics.push(diagnostic),
@@ -233,7 +262,7 @@ try {
     search,
     availability,
     partySizeSupplementResolver: new RestaurantPartySizeSupplementResolver(model),
-    facts: composeLiveRestaurantFactRead(search, browser, model, browserBudget),
+    facts: composeLiveRestaurantFactRead(search, browser, model, browserBudget, undefined, (diagnostic) => browserExecutionDiagnostics.push(structuredClone(diagnostic))),
     router: {
       structuredReadTimeoutMs: liveReadLimits.maxStructuredReadMs,
       // An explicit human pause is outside the automatic browser-read deadline.
@@ -255,7 +284,7 @@ try {
   }, evaluationLocation), deadline);
   if (semantic.status !== "PROPOSED") throw Object.assign(new Error("Semantic Interpreter did not produce a proposal"), { code: semantic.status });
   stage = "AGENT_LOOP";
-  const { runtime, trajectories, coordinator } = composition;
+  const { coordinator } = composition;
   console.log(JSON.stringify({
     mode: "HYBRID_LIVE_READ",
     caseId: materialized.id,
@@ -266,29 +295,9 @@ try {
     safety: "READ_ONLY_CODE_PATH",
   }));
   const loop = await settleAtRunDeadline(coordinator.run(taskId, deadline), deadline);
-  const finalSnapshot = runtime.snapshot(taskId);
-  const browserOperationsByCandidate = browserExecutionDiagnostics.reduce<Record<string, number>>((counts, diagnostic) => {
-    if (diagnostic.event === "SITE_METHOD" && diagnostic.candidateId) {
-      counts[diagnostic.candidateId] = (counts[diagnostic.candidateId] ?? 0) + 1;
-    }
-    return counts;
-  }, {});
-  const googleRequests = trajectories.steps.reduce<NonNullable<RestaurantReadExecutionMetadata["googleRequests"]> | undefined>((latest, step) => {
-    const usage = step.executionMetadata?.googleRequests;
-    return usage && (!latest || usage.total >= latest.total) ? usage : latest;
-  }, undefined);
-  const resourceUsage = {
-    discoveryCandidates: finalSnapshot.domainState.candidates.length,
-    candidatesChecked: Object.keys(finalSnapshot.domainState.availabilityChecks).length,
-    agentDecisions: trajectories.steps.filter((step) => step.modelAttempt?.purpose === "restaurant_agent_decide").length,
-    browserModelCalls: modelInvocations.filter((invocation) => invocation.purpose === "browser_read_decide").length,
-    /** All executor calls, including reads; model-initiated clicks/navigation are listed separately. */
-    browserRuntimeCalls: browserExecutionDiagnostics.filter((diagnostic) => diagnostic.event === "SITE_METHOD").length,
-    browserOperationsByCandidate,
-    browserModelActions: browserExecutionDiagnostics.filter((diagnostic) => diagnostic.event === "MODEL_ACTION").length,
-    ...(googleRequests ? { googleRequests } : {}),
-    elapsedMs: Date.now() - startedAt.valueOf(),
-  };
+  const progress = captureProgress();
+  const { finalSnapshot, resourceUsage } = progress;
+  if (!finalSnapshot) throw new Error("Completed run has no runtime snapshot");
   const artifact = {
     schemaVersion: "1",
     mode: "HYBRID_LIVE_READ",
@@ -299,16 +308,7 @@ try {
     materializedCase,
     runtimeContext,
     semantic,
-    modelInvocations,
-    events: runtime.eventLog,
-    trajectories: trajectories.steps,
-    diagnostics: {
-      tablecheckIdentity: tableCheckIdentityDiagnostics,
-      tabelogIdentity: tabelogIdentityDiagnostics,
-      tabelogUserInterventions,
-      browserExecution: browserExecutionDiagnostics,
-    },
-    finalSnapshot,
+    ...progress,
     loop,
     resourceUsage,
     resolvedEvalLocation: evaluationLocation,
@@ -322,13 +322,17 @@ try {
   if (!completed) process.exitCode = 1;
 } catch (error) {
   const failureCode = diagnosticFailureCode(error);
+  const progress = captureProgress();
+  const { resourceUsage } = progress;
   await journal.finish({
     status: failureCode === "CANCELLED" ? "CANCELLED" : "FAILED", stage, failureCode,
     materializedCase, runtimeContext,
-    semanticStatus: semantic?.status ?? "NOT_RETURNED", modelInvocations,
-    events: composition?.runtime.eventLog ?? [], trajectories: composition?.trajectories.steps ?? [],
+    semanticStatus: semantic?.status ?? "NOT_RETURNED",
+    ...progress,
+    termination: { scope: "TASK", code: failureCode, reason: stage === "SEMANTIC" ? "Run stopped before execution" : "Run failed or was cancelled during execution" },
+    partial: true,
     downstream: stage === "SEMANTIC" ? "GOOGLE_BROWSER_AGENT_NOT_REACHED" : "SEE_EXECUTED_EVENTS",
-    latencyMs: Date.now() - startedAt.valueOf(),
+    latencyMs: resourceUsage.elapsedMs,
   });
   const evaluation = await evaluateArtifactAfterFinish(journal.resultPath);
   console.error(JSON.stringify({ failureCode, stage, artifactPath: journal.resultPath, evaluationPath: evaluation.outputPath, evaluationFailure: evaluation.evaluationFailure, evaluationFailurePath: evaluation.failurePath }));

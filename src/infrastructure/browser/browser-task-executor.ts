@@ -1,5 +1,5 @@
 import type { BrowserControlHint, BrowserPageControl, BrowserRuntime, BrowserSession, BrowserSnapshot } from "./browser-runtime.js";
-import { BrowserRuntimeError } from "./browser-runtime-errors.js";
+import { BrowserRuntimeError, type BrowserDeadlineScope, type BrowserRuntimeFailureCode } from "./browser-runtime-errors.js";
 import {
   type BrowserReadAction,
   type BrowserReadActionDecisionPort,
@@ -13,8 +13,27 @@ export interface BrowserExecutionDiagnostic {
   candidateId?: string;
   source: "TABLECHECK" | "TABELOG" | "WEBSITE";
   stage: "DISCOVERY" | "IDENTITY" | "AVAILABILITY" | "FACTS";
-  event: "SESSION_OPENED" | "OBSERVED" | "SITE_METHOD" | "SKILL_STARTED" | "METHOD_INCOMPLETE" | "MODEL_ACTION" | "MODEL_STOP" | "ASYNC_WAIT" | "POST_ACTION_VERIFIED" | "REJECTED" | "CLOSED";
+  event: "CANDIDATE_STARTED" | "CANDIDATE_FINISHED" | "PROVIDER_STARTED" | "PROVIDER_FINISHED"
+    | "SESSION_OPENING" | "SESSION_OPENED" | "SESSION_OPEN_FAILED"
+    | "OPERATION_STARTED" | "OPERATION_FINISHED" | "OPERATION_FAILED"
+    | "MODEL_DECISION_STARTED" | "MODEL_DECISION_FINISHED" | "MODEL_DECISION_FAILED"
+    | "BUDGET_EXHAUSTED"
+    | "OBSERVED" | "SKILL_STARTED" | "METHOD_INCOMPLETE" | "MODEL_ACTION" | "MODEL_STOP" | "ASYNC_WAIT" | "POST_ACTION_VERIFIED" | "REJECTED" | "CLOSED";
   elapsedMs: number;
+  /** Executor lifecycle accounting. `FINISHED` means the scope returned to its adapter, not an availability assertion. */
+  lifecycle: {
+    outcome: "STARTED" | "FINISHED" | "FAILED" | "ABANDONED";
+    candidateElapsedMs: number;
+    providerElapsedMs: number;
+    candidateModelCalls: number;
+    providerModelCalls: number;
+    candidateRuntimeOperations: number;
+    providerRuntimeOperations: number;
+    runModelCalls: number;
+    scope?: BrowserDeadlineScope;
+    reason?: BrowserExecutionReason;
+    failureCode?: BrowserRuntimeFailureCode;
+  };
   url?: string;
   detail?: string;
   observation?: {
@@ -24,11 +43,19 @@ export interface BrowserExecutionDiagnostic {
   };
 }
 
+export type BrowserExecutionReason = "ADAPTER_RETURNED" | "SOURCE_SCOPE_REPLACED" | "EXECUTOR_CLOSED" | "PARENT_ABORTED"
+  | "DEADLINE_EXCEEDED" | "MODEL_BUDGET_EXHAUSTED" | "OPERATION_BUDGET_EXHAUSTED"
+  | "RUNTIME_UNAVAILABLE" | "RUNTIME_FAILURE" | "OPERATION_FAILED";
+
 export interface BrowserTaskExecutorOptions {
   modelDecision?: BrowserReadActionDecisionPort;
   maxModelCallsPerCandidate?: number;
   maxModelCallsTotal?: number;
   maxOperationsPerCandidate?: number;
+  /** Bounds all browser work for an outlet across source fallback. */
+  maxElapsedMsPerCandidate?: number;
+  /** Bounds one provider path without resetting the candidate-wide budget. */
+  maxElapsedMsPerProvider?: number;
   maxAutomaticElapsedMs?: number;
   onDiagnostic?: (diagnostic: BrowserExecutionDiagnostic) => void;
   /** Shared only by one Live availability composition, never process-global. */
@@ -153,6 +180,13 @@ export class BrowserTaskExecutor {
   private modelCalls = 0;
   private readonly budget: BrowserExecutionBudget;
   private candidateId: string | undefined;
+  private candidateStartedAt = Date.now();
+  private providerStartedAt = Date.now();
+  private providerModelCallsAtStart = 0;
+  private providerOperationCountAtStart = 0;
+  private activeLifecycle: Pick<BrowserExecutionDiagnostic, "source" | "stage"> | undefined;
+  private candidateLifecycleOpen = false;
+  private providerLifecycleOpen = false;
   private observationRevision = 0;
   private readonly startedAt = Date.now();
 
@@ -163,22 +197,90 @@ export class BrowserTaskExecutor {
   /** A source fallback for the same outlet shares its budget; a new outlet starts a new bounded unit. */
   beginCandidate(candidateId: string): void {
     if (this.candidateId === candidateId) return;
+    this.finishProvider("ABANDONED", "SOURCE_SCOPE_REPLACED");
+    this.finishCandidate("FINISHED", "ADAPTER_RETURNED");
     this.candidateId = candidateId;
     this.operationCount = 0;
     this.modelCalls = 0;
+    this.candidateStartedAt = Date.now();
+    this.providerStartedAt = this.candidateStartedAt;
+  }
+
+  /** A source fallback receives a fresh provider window, never a fresh candidate budget. */
+  beginProvider(
+    candidateId: string,
+    source: BrowserExecutionDiagnostic["source"],
+    stage: BrowserExecutionDiagnostic["stage"] = "DISCOVERY",
+  ): void {
+    if (this.candidateId !== candidateId) this.beginCandidate(candidateId);
+    this.finishProvider("ABANDONED", "SOURCE_SCOPE_REPLACED");
+    this.providerStartedAt = Date.now();
+    this.providerModelCallsAtStart = this.modelCalls;
+    this.providerOperationCountAtStart = this.operationCount;
+    this.activeLifecycle = { source, stage };
+    this.ensureLifecycle(source, stage);
+  }
+
+  /** Adapters finish their own source attempt; this never asserts an availability result. */
+  endProvider(outcome: "FINISHED" | "FAILED" | "ABANDONED" = "FINISHED", reason: BrowserExecutionReason = "ADAPTER_RETURNED"): void {
+    this.finishProvider(outcome, reason);
   }
 
   async acquire(signal: AbortSignal, source: BrowserExecutionDiagnostic["source"], stage: BrowserExecutionDiagnostic["stage"]): Promise<BrowserSession> {
-    this.assertActive(signal);
+    this.ensureLifecycle(source, stage);
+    try {
+      this.assertActive(signal);
+    } catch (error) {
+      this.recordLifecycleFailure(source, stage, "SESSION_OPEN_FAILED", error);
+      this.finishProvider(error instanceof BrowserRuntimeError && error.code === "BROWSER_ABORTED" ? "ABANDONED" : "FAILED", this.reasonForFailure(error));
+      throw error;
+    }
     if (this.session) return this.session;
+    // Session acquisition is provider work too. Race it against the candidate
+    // deadline without passing a disposable candidate timer into the runtime:
+    // several runtimes retain their input signal for the session lifetime, and
+    // that would otherwise close a shared session during a later candidate.
+    const timeoutMs = Math.max(1, this.remaining(Number.MAX_SAFE_INTEGER));
+    let timeoutHandle: ReturnType<typeof setTimeout> | undefined;
+    let timedOut = false;
+    let rejectAbort: ((reason: BrowserRuntimeError) => void) | undefined;
+    this.record({ source, stage, event: "SESSION_OPENING", detail: "OPEN_SESSION" });
+    const opening = Promise.resolve().then(() => this.runtime.openSession({ signal }));
+    const deadline = new Promise<never>((_resolve, reject) => {
+      timeoutHandle = setTimeout(() => {
+        timedOut = true;
+        reject(new BrowserRuntimeError("BROWSER_TIMEOUT", `Browser session creation exceeded the ${this.deadlineScope()} deadline`));
+      }, timeoutMs);
+    });
+    const parentAbort = new Promise<never>((_resolve, reject) => { rejectAbort = reject; });
+    const onAbort = () => rejectAbort?.(new BrowserRuntimeError("BROWSER_ABORTED", "Browser session creation was aborted"));
+    signal.addEventListener("abort", onAbort, { once: true });
+    let session: BrowserSession;
+    try {
+      session = await Promise.race([opening, deadline, parentAbort]);
+      this.assertActive(signal);
+    } catch (error) {
+      if (timedOut || signal.aborted) {
+        void opening.then((lateSession) => lateSession.close()).catch(() => undefined);
+      }
+      const failure = signal.aborted
+        ? new BrowserRuntimeError("BROWSER_ABORTED", "Browser session creation was aborted", error)
+        : error;
+      this.recordLifecycleFailure(source, stage, "SESSION_OPEN_FAILED", failure, timedOut ? "DEADLINE_EXCEEDED" : undefined);
+      if (signal.aborted) this.finishProvider("ABANDONED", "PARENT_ABORTED");
+      else this.finishProvider("FAILED", this.reasonForFailure(failure, timedOut ? "DEADLINE_EXCEEDED" : undefined));
+      throw failure;
+    } finally {
+      if (timeoutHandle) clearTimeout(timeoutHandle);
+      signal.removeEventListener("abort", onAbort);
+    }
     this.sessionSignal = signal;
-    const session = await this.runtime.openSession({ signal });
     if (signal.aborted) {
       await session.close();
       throw new BrowserRuntimeError("BROWSER_ABORTED", "Browser session creation was aborted");
     }
     this.session = session;
-    signal.addEventListener("abort", () => { void this.close(); }, { once: true });
+    signal.addEventListener("abort", () => { void this.close("PARENT_ABORTED"); }, { once: true });
     this.record({ source, stage, event: "SESSION_OPENED", detail: session.metadata.runtimeProvider });
     return session;
   }
@@ -226,15 +328,36 @@ export class BrowserTaskExecutor {
     let shortcutUsed = false;
     let postAction = false;
     let unchangedPageKey: string | undefined;
+    const pageVisits = new Map<string, number>();
+    const recordPageVisit = (value: BrowserSnapshot, controls: BrowserPageControl[]) => {
+      const key = observationKey(value, controls);
+      const count = (pageVisits.get(key) ?? 0) + 1;
+      pageVisits.set(key, count);
+      return count;
+    };
     const pendingControlKeys = new Set<string>();
     for (;;) {
-      if (this.modelCalls >= (this.options.maxModelCallsPerCandidate ?? 6) || this.budget.totalModelCalls >= (this.options.maxModelCallsTotal ?? 12) || this.operationCount >= (this.options.maxOperationsPerCandidate ?? 24) || this.remaining(1) <= 0) {
+      if (this.budget.totalModelCalls >= (this.options.maxModelCallsTotal ?? 12)) {
+        const error = new BrowserRuntimeError("BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED", "Shared browser-model budget exhausted for this read run");
+        this.recordLifecycleFailure(input.source, input.stage, "BUDGET_EXHAUSTED", error);
+        throw error;
+      }
+      if (this.modelCalls >= (this.options.maxModelCallsPerCandidate ?? 6)) {
+        this.recordBudgetExhausted(input, "MODEL_BUDGET_EXHAUSTED");
+        return { status: "BUDGET_EXCEEDED", snapshot, controls: [] };
+      }
+      if (this.operationCount >= (this.options.maxOperationsPerCandidate ?? 24)) {
+        this.recordBudgetExhausted(input, "OPERATION_BUDGET_EXHAUSTED");
+        return { status: "BUDGET_EXCEEDED", snapshot, controls: [] };
+      }
+      if (this.remaining(1) <= 0) {
+        this.recordBudgetExhausted(input, "DEADLINE_EXCEEDED");
         return { status: "BUDGET_EXCEEDED", snapshot, controls: [] };
       }
       if (!shortcutUsed && input.shortcut) {
         shortcutUsed = true;
         try {
-          await input.shortcut.run(snapshot);
+          await this.bounded(input, "SHORTCUT", () => input.shortcut!.run(snapshot));
           snapshot = await this.snapshot(input);
           completion = input.completion(snapshot);
           if (completion.complete) return { status: "COMPLETED", snapshot, controls: [] };
@@ -251,6 +374,7 @@ export class BrowserTaskExecutor {
       if (!this.options.modelDecision) return { status: "NO_SAFE_ACTION", snapshot, controls: [] };
       const observation = await this.observe(input, snapshot);
       if (!postAction) {
+        recordPageVisit(snapshot, observation.controls);
         this.record({
           source: input.source,
           stage: input.stage,
@@ -283,7 +407,8 @@ export class BrowserTaskExecutor {
       try {
         this.modelCalls += 1;
         this.budget.totalModelCalls += 1;
-        action = await this.options.modelDecision.decide({
+        this.record({ source: input.source, stage: input.stage, event: "MODEL_DECISION_STARTED", detail: "MODEL_DECISION" });
+        action = await this.bounded(input, "MODEL_DECISION", () => this.options.modelDecision!.decide({
           taskId: input.taskId,
           source: input.source,
           stage: input.stage,
@@ -298,9 +423,12 @@ export class BrowserTaskExecutor {
             visibleText: safeText(observation.snapshot.text),
             targets: actionTargets.map(({ controlId: _controlId, stableKey: _stableKey, nativeTag: _nativeTag, ...target }) => target),
           },
-        });
+        }));
+        this.record({ source: input.source, stage: input.stage, event: "MODEL_DECISION_FINISHED", detail: "MODEL_DECISION" });
       } catch (error) {
+        this.recordLifecycleFailure(input.source, input.stage, "MODEL_DECISION_FAILED", error);
         this.record({ source: input.source, stage: input.stage, event: "REJECTED", url: snapshot.url, detail: safeErrorDetail(error) });
+        if (error instanceof BrowserRuntimeError || (error && typeof error === "object" && "code" in error && error.code === "MODEL_CALL_BUDGET_EXHAUSTED")) throw error;
         if (error instanceof BrowserReadDecisionError && error.code === "INVALID_MODEL_OUTPUT") {
           progress = `The previous proposed action was rejected: ${safeErrorDetail(error, 240)}. Correct those action fields using a current observed target, or request human help.`;
           continue;
@@ -348,6 +476,10 @@ export class BrowserTaskExecutor {
       });
       completion = input.completion(snapshot);
       if (completion.complete) return { status: "COMPLETED", snapshot, controls: postActionObservation.controls };
+      if (recordPageVisit(snapshot, postActionObservation.controls) >= 3) {
+        this.record({ source: input.source, stage: input.stage, event: "METHOD_INCOMPLETE", url: snapshot.url, detail: "NO_PROGRESS_PAGE_CYCLE" });
+        return { status: "NO_SAFE_ACTION", snapshot, controls: postActionObservation.controls };
+      }
       if (!effectVerified && sameObservation(priorSnapshot, snapshot)) {
         unchangedPageKey = observationKey(snapshot);
         pendingControlKeys.add(target.stableKey);
@@ -360,12 +492,23 @@ export class BrowserTaskExecutor {
     }
   }
 
-  async close(): Promise<void> {
-    if (!this.session) return this.closing;
+  async close(reason: BrowserExecutionReason = "EXECUTOR_CLOSED"): Promise<void> {
+    const outcome = reason === "PARENT_ABORTED" || reason === "DEADLINE_EXCEEDED" ? "ABANDONED" : "FINISHED";
+    if (!this.session) {
+      this.finishProvider(outcome, reason);
+      this.finishCandidate(outcome, reason);
+      return this.closing;
+    }
     const session = this.session;
     this.session = undefined;
     this.sessionSignal = undefined;
-    this.closing = session.close().finally(() => { this.closing = undefined; });
+    this.closing = session.close().finally(() => {
+      const lifecycle = this.activeLifecycle;
+      if (lifecycle) this.record({ ...lifecycle, event: "CLOSED", detail: "SESSION_CLOSED" });
+      this.finishProvider(outcome, reason);
+      this.finishCandidate(outcome, reason);
+      this.closing = undefined;
+    });
     await this.closing;
   }
 
@@ -522,30 +665,101 @@ export class BrowserTaskExecutor {
   ): Promise<Value> {
     this.assertActive(input.signal);
     if (this.operationCount >= (this.options.maxOperationsPerCandidate ?? 24)) {
-      throw new BrowserRuntimeError("BROWSER_TIMEOUT", "Browser operation budget exceeded");
+      throw new BrowserRuntimeError("BROWSER_TIMEOUT", "Browser operation budget exceeded", undefined, "CANDIDATE");
     }
+    this.ensureLifecycle(input.source, input.stage);
     this.operationCount += 1;
+    this.record({ source: input.source, stage: input.stage, event: "OPERATION_STARTED", detail: label });
     try {
-      const value = await operation();
+      const value = await this.bounded(input, label, operation);
       this.assertActive(input.signal);
-      this.record({ source: input.source, stage: input.stage, event: "SITE_METHOD", detail: label });
+      this.record({ source: input.source, stage: input.stage, event: "OPERATION_FINISHED", detail: label });
       return value;
     } catch (error) {
-      if (input.signal.aborted) throw new BrowserRuntimeError("BROWSER_ABORTED", "Browser operation was aborted", error);
+      const failure = input.signal.aborted
+        ? new BrowserRuntimeError("BROWSER_ABORTED", "Browser operation was aborted", error)
+        : error;
+      this.recordLifecycleFailure(input.source, input.stage, "OPERATION_FAILED", failure);
+      throw failure;
+    }
+  }
+
+  /**
+   * Every awaited provider/runtime/model operation consumes the remaining
+   * candidate window. On expiry discard the shared session so a late action
+   * cannot race a later candidate through the same page.
+   */
+  private async bounded<Value>(
+    input: Pick<BrowserSkillReadInput, "signal">,
+    label: string,
+    work: () => Promise<Value>,
+  ): Promise<Value> {
+    this.assertActive(input.signal);
+    const timeoutMs = this.remaining(Number.MAX_SAFE_INTEGER);
+    if (timeoutMs <= 0) throw this.timeoutError(label);
+    let timedOut = false;
+    let handle: ReturnType<typeof setTimeout> | undefined;
+    let rejectAbort: ((reason: BrowserRuntimeError) => void) | undefined;
+    const pending = work();
+    const deadline = new Promise<never>((_resolve, reject) => {
+      handle = setTimeout(() => {
+        timedOut = true;
+        reject(this.timeoutError(label));
+      }, timeoutMs);
+    });
+    const parentAbort = new Promise<never>((_resolve, reject) => {
+      rejectAbort = reject;
+    });
+    const onAbort = () => rejectAbort?.(new BrowserRuntimeError("BROWSER_ABORTED", "Browser operation was aborted"));
+    input.signal.addEventListener("abort", onAbort, { once: true });
+    try {
+      return await Promise.race([pending, deadline, parentAbort]);
+    } catch (error) {
+      if (timedOut || input.signal.aborted) {
+        void pending.catch(() => undefined);
+        void this.close(timedOut ? "DEADLINE_EXCEEDED" : "PARENT_ABORTED").catch(() => undefined);
+      }
       throw error;
+    } finally {
+      if (handle) clearTimeout(handle);
+      input.signal.removeEventListener("abort", onAbort);
     }
   }
 
   private remaining(limit: number): number {
     const total = this.options.maxAutomaticElapsedMs ?? 300_000;
-    return Math.max(1, Math.min(limit, total - (Date.now() - this.startedAt)));
+    const candidate = this.options.maxElapsedMsPerCandidate ?? total;
+    const provider = this.options.maxElapsedMsPerProvider ?? candidate;
+    return Math.min(limit, total - (Date.now() - this.startedAt), candidate - (Date.now() - this.candidateStartedAt), provider - (Date.now() - this.providerStartedAt));
   }
 
   private assertActive(signal: AbortSignal): void {
     if (signal.aborted || this.sessionSignal?.aborted) throw new BrowserRuntimeError("BROWSER_ABORTED", "Browser execution was aborted");
-    if (Date.now() - this.startedAt >= (this.options.maxAutomaticElapsedMs ?? 300_000)) {
-      throw new BrowserRuntimeError("BROWSER_TIMEOUT", "Browser execution exceeded its automatic deadline");
+    const scope = this.deadlineScope();
+    if (scope === "run") {
+      throw new BrowserRuntimeError("BROWSER_TIMEOUT", "Browser execution exceeded its automatic deadline", undefined, "RUN");
     }
+    if (scope === "candidate") {
+      throw new BrowserRuntimeError("BROWSER_TIMEOUT", "Browser candidate investigation exceeded its automatic deadline", undefined, "CANDIDATE");
+    }
+    if (scope === "provider") {
+      throw new BrowserRuntimeError("BROWSER_TIMEOUT", "Browser provider investigation exceeded its automatic deadline", undefined, "PROVIDER");
+    }
+  }
+
+  private deadlineScope(): "run" | "candidate" | "provider" | "available" {
+    const now = Date.now();
+    const runRemaining = (this.options.maxAutomaticElapsedMs ?? 300_000) - (now - this.startedAt);
+    const candidateLimit = this.options.maxElapsedMsPerCandidate ?? (this.options.maxAutomaticElapsedMs ?? 300_000);
+    const candidateRemaining = candidateLimit - (now - this.candidateStartedAt);
+    const providerLimit = this.options.maxElapsedMsPerProvider ?? candidateLimit;
+    const providerRemaining = providerLimit - (now - this.providerStartedAt);
+    if (runRemaining > 0 && candidateRemaining > 0 && providerRemaining > 0) return "available";
+    const expired = (["run", "candidate", "provider"] as const)
+      .map((scope) => ({ scope, remaining: scope === "run" ? runRemaining : scope === "candidate" ? candidateRemaining : providerRemaining }))
+      .filter((entry) => entry.remaining <= 0)
+      .sort((left, right) => left.remaining - right.remaining);
+    return expired[0]?.scope ?? "available";
   }
 
   private allowedUrl(value: string, allowedOrigins: readonly string[]): string | undefined {
@@ -562,12 +776,116 @@ export class BrowserTaskExecutor {
     return new BrowserRuntimeError("UNEXPECTED_PAGE", detail);
   }
 
-  private record(input: Omit<BrowserExecutionDiagnostic, "elapsedMs">): void {
+  private timeoutError(label: string): BrowserRuntimeError {
+    const scope = this.deadlineScope();
+    const typedScope: BrowserDeadlineScope = scope === "run" ? "RUN" : scope === "candidate" ? "CANDIDATE" : "PROVIDER";
+    return new BrowserRuntimeError("BROWSER_TIMEOUT", `Browser ${label} exceeded the ${scope} deadline`, undefined, typedScope);
+  }
+
+  private ensureLifecycle(source: BrowserExecutionDiagnostic["source"], stage: BrowserExecutionDiagnostic["stage"]): void {
+    if (!this.candidateLifecycleOpen) {
+      this.candidateLifecycleOpen = true;
+      this.record({ source, stage, event: "CANDIDATE_STARTED", detail: "CANDIDATE_SCOPE" });
+    }
+    if (!this.providerLifecycleOpen) {
+      this.providerLifecycleOpen = true;
+      this.activeLifecycle = { source, stage };
+      this.providerStartedAt = Date.now();
+      this.providerModelCallsAtStart = this.modelCalls;
+      this.providerOperationCountAtStart = this.operationCount;
+      this.record({ source, stage, event: "PROVIDER_STARTED", detail: "PROVIDER_SCOPE" });
+    }
+  }
+
+  private finishProvider(outcome: "FINISHED" | "FAILED" | "ABANDONED", reason: BrowserExecutionReason): void {
+    if (!this.providerLifecycleOpen || !this.activeLifecycle) return;
+    this.record({ ...this.activeLifecycle, event: "PROVIDER_FINISHED", detail: "PROVIDER_SCOPE", lifecycle: { outcome, reason } });
+    this.providerLifecycleOpen = false;
+  }
+
+  private finishCandidate(outcome: "FINISHED" | "FAILED" | "ABANDONED", reason: BrowserExecutionReason): void {
+    if (!this.candidateLifecycleOpen || !this.activeLifecycle) return;
+    this.record({ ...this.activeLifecycle, event: "CANDIDATE_FINISHED", detail: "CANDIDATE_SCOPE", lifecycle: { outcome, reason } });
+    this.candidateLifecycleOpen = false;
+  }
+
+  private reasonForFailure(error: unknown, fallback: BrowserExecutionReason = "OPERATION_FAILED"): BrowserExecutionReason {
+    if (error instanceof BrowserRuntimeError) {
+      if (error.code === "BROWSER_ABORTED") return "PARENT_ABORTED";
+      if (error.code === "BROWSER_TIMEOUT") return "DEADLINE_EXCEEDED";
+      if (error.code === "BROWSER_RUNTIME_UNAVAILABLE") return "RUNTIME_UNAVAILABLE";
+      if (error.code === "BROWSER_RUNTIME_FAILED") return "RUNTIME_FAILURE";
+      if (error.code === "BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED") return "MODEL_BUDGET_EXHAUSTED";
+    }
+    return fallback;
+  }
+
+  private recordLifecycleFailure(
+    source: BrowserExecutionDiagnostic["source"],
+    stage: BrowserExecutionDiagnostic["stage"],
+    event: "SESSION_OPEN_FAILED" | "OPERATION_FAILED" | "MODEL_DECISION_FAILED" | "BUDGET_EXHAUSTED",
+    error: unknown,
+    fallback?: BrowserExecutionReason,
+  ): void {
+    const runtime = error instanceof BrowserRuntimeError ? error : undefined;
+    this.record({
+      source,
+      stage,
+      event,
+      detail: safeErrorDetail(error),
+      lifecycle: {
+        outcome: runtime?.code === "BROWSER_ABORTED" ? "ABANDONED" : "FAILED",
+        reason: this.reasonForFailure(error, fallback),
+        ...(runtime?.scope ? { scope: runtime.scope } : {}),
+        ...(runtime ? { failureCode: runtime.code } : {}),
+      },
+    });
+  }
+
+  private recordBudgetExhausted(
+    input: Pick<BrowserSkillReadInput, "source" | "stage">,
+    reason: Extract<BrowserExecutionReason, "MODEL_BUDGET_EXHAUSTED" | "OPERATION_BUDGET_EXHAUSTED" | "DEADLINE_EXCEEDED">,
+  ): void {
+    const scope = reason === "DEADLINE_EXCEEDED" ? this.timeoutError("budget").scope : undefined;
+    this.record({
+      source: input.source,
+      stage: input.stage,
+      event: "BUDGET_EXHAUSTED",
+      detail: reason,
+      lifecycle: {
+        outcome: "FAILED",
+        reason,
+        ...(scope ? { scope } : {}),
+      },
+    });
+  }
+
+  private record(
+    input: Omit<BrowserExecutionDiagnostic, "elapsedMs" | "lifecycle"> & { lifecycle?: Partial<BrowserExecutionDiagnostic["lifecycle"]> },
+  ): void {
     try {
+      const now = Date.now();
+      const defaultOutcome = input.event === "CANDIDATE_STARTED" || input.event === "PROVIDER_STARTED"
+        || input.event === "SESSION_OPENING" || input.event === "OPERATION_STARTED" || input.event === "MODEL_DECISION_STARTED"
+        ? "STARTED"
+        : "FINISHED";
       this.options.onDiagnostic?.({
         ...input,
         ...(this.candidateId ? { candidateId: this.candidateId } : {}),
-        elapsedMs: Date.now() - this.startedAt,
+        elapsedMs: now - this.startedAt,
+        lifecycle: {
+          outcome: input.lifecycle?.outcome ?? defaultOutcome,
+          candidateElapsedMs: now - this.candidateStartedAt,
+          providerElapsedMs: now - this.providerStartedAt,
+          candidateModelCalls: this.modelCalls,
+          providerModelCalls: this.modelCalls - this.providerModelCallsAtStart,
+          candidateRuntimeOperations: this.operationCount,
+          providerRuntimeOperations: this.operationCount - this.providerOperationCountAtStart,
+          runModelCalls: this.budget.totalModelCalls,
+          ...(input.lifecycle?.scope ? { scope: input.lifecycle.scope } : {}),
+          ...(input.lifecycle?.reason ? { reason: input.lifecycle.reason } : {}),
+          ...(input.lifecycle?.failureCode ? { failureCode: input.lifecycle.failureCode } : {}),
+        },
       });
     } catch { /* diagnostics cannot affect execution */ }
   }
@@ -580,8 +898,20 @@ function sameObservation(left: BrowserSnapshot, right: BrowserSnapshot): boolean
   return left.url === right.url && left.title === right.title && left.text === right.text;
 }
 
-function observationKey(snapshot: BrowserSnapshot): string {
-  return `${snapshot.url}\n${snapshot.title}\n${snapshot.text}`;
+function observationKey(snapshot: BrowserSnapshot, controls: BrowserPageControl[] = []): string {
+  // A read-only filter can change live checkbox/range/select state while keeping
+  // the same URL, title and prose.  The loop guard therefore keys off browser-
+  // observed control state, without using opaque session ids or model refs.
+  const controlState = controls.map((control) => JSON.stringify({
+    kind: control.kind, role: control.role, label: control.label, value: control.value,
+    href: control.href, type: control.type, disabled: control.disabled, visible: control.visible,
+    selected: control.selected, expanded: control.expanded, checked: control.checked,
+    min: control.min, max: control.max, valueText: control.valueText,
+    scrollable: control.scrollable, scrollTop: control.scrollTop,
+    blockedByActiveLayer: control.blockedByActiveLayer, observationOnly: control.observationOnly,
+    options: control.options,
+  })).sort().join("\n");
+  return `${snapshot.url}\n${snapshot.title}\n${snapshot.text}\n${controlState}`;
 }
 
 /**

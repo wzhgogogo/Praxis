@@ -62,29 +62,7 @@ export interface RestaurantActionExecution {
   event?: RestaurantEvent;
   observation?: RestaurantReadObservation;
   executionMetadata?: RestaurantReadExecutionMetadata;
-  failure?: { source: "PROVIDER"; code: string; reason: string; terminal?: boolean };
-}
-
-function terminalBrowserReadFailure(
-  read: RestaurantAvailabilityRead,
-  candidateIds: string[],
-): "BROWSER_RUNTIME_FAILED" | "BROWSER_TIMEOUT" | undefined {
-  const providerAttempts = read.metadata.providerAttempts;
-  if (providerAttempts?.length) {
-    const code = providerAttempts[0]?.failureCode;
-    if (
-      (code === "BROWSER_RUNTIME_FAILED" || code === "BROWSER_TIMEOUT") &&
-      providerAttempts.length >= candidateIds.length &&
-      providerAttempts.every((attempt) => attempt.failureCode === code)
-    ) return code;
-  }
-  const codes = candidateIds.map((candidateId) => read.availabilityChecks[candidateId]?.reasonCode);
-  const code = codes[0];
-  return codes.length > 0 &&
-    (code === "BROWSER_RUNTIME_FAILED" || code === "BROWSER_TIMEOUT") &&
-    codes.every((item) => item === code)
-    ? code
-    : undefined;
+  failure?: { source: "PROVIDER"; code: string; reason: string; scope: "CANDIDATE" | "PROVIDER" | "BATCH" | "TASK"; terminal?: boolean };
 }
 
 function stableFailureCode(error: unknown, fallback: string): string {
@@ -241,14 +219,14 @@ export class RestaurantExecutionRouter {
               failureCode: code,
               ...googleUsageMetadata(this.search, readRunId),
             },
-            failure: { source: "PROVIDER", code, reason },
+            failure: { source: "PROVIDER", code, reason, scope: "PROVIDER" },
           };
         }
       }
       case "INVESTIGATE_CANDIDATE_FACTS": {
         if (!this.facts) {
           return {
-            event: { type: "AGENT_EXECUTION_FAILED", reason: "Candidate fact investigation is unavailable in this composition" },
+            event: { type: "AGENT_EXECUTION_FAILED", code: "AGENT_EXECUTION_FAILED", reason: "Candidate fact investigation is unavailable in this composition" },
             observation: { type: "FACTS_UNAVAILABLE", detail: "Candidate fact investigation is unavailable" },
           };
         }
@@ -289,6 +267,7 @@ export class RestaurantExecutionRouter {
             executionMetadata: { ...read.metadata, ...(request.recheck ? { recheckReason: request.recheck.reason } : {}) },
           };
         } catch (error) {
+          if (parentSignal?.aborted || (error && typeof error === "object" && "code" in error && (error.code === "BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED" || error.code === "BROWSER_RUNTIME_UNAVAILABLE" || error.code === "MODEL_CALL_BUDGET_EXHAUSTED"))) throw error;
           const reason = error instanceof Error ? error.message : "Unknown candidate fact investigation failure";
           const code = stableFailureCode(error, "FACT_INVESTIGATION_FAILED");
           return {
@@ -302,7 +281,7 @@ export class RestaurantExecutionRouter {
             },
             observation: { type: "CANDIDATE_FACTS_UNKNOWN", detail: reason, candidateIds: request.candidateIds },
             executionMetadata: { provider: "GOOGLE_PLACES", route: this.facts.executionRoute, latencyMs: 0, failureCode: code, ...googleUsageMetadata(this.facts, readRunId), ...(request.recheck ? { recheckReason: request.recheck.reason } : {}) },
-            failure: { source: "PROVIDER", code, reason },
+            failure: { source: "PROVIDER", code, reason, scope: "PROVIDER" },
           };
         }
       }
@@ -342,7 +321,6 @@ export class RestaurantExecutionRouter {
             this.availability.executionRoute === "GENERIC_BROWSER",
             parentSignal,
           );
-          const terminalFailureCode = terminalBrowserReadFailure(read, request.candidateIds);
           const metadata: RestaurantReadExecutionMetadata = {
             ...read.metadata,
             freshnessPolicyVersion: RESTAURANT_AVAILABILITY_DISPLAY_FRESHNESS.version,
@@ -353,16 +331,12 @@ export class RestaurantExecutionRouter {
             event: { type: "AVAILABILITY_CHECKED", request, ...read, metadata },
             observation: { type: "AVAILABILITY", detail: `${read.offers.length} offers observed`, candidateIds: request.candidateIds, evidenceIds: read.evidence.map((evidence) => evidence.evidenceId) },
             executionMetadata: metadata,
-            ...(terminalFailureCode ? {
-              failure: {
-                source: "PROVIDER" as const,
-                code: terminalFailureCode,
-                reason: `Tabelog browser read could not establish a safe session: ${terminalFailureCode}`,
-                terminal: true,
-              },
-            } : {}),
           };
         } catch (error) {
+          // The coordinator's outer cancellation/deadline and the shared
+          // browser-model ceiling are task facts. They must stop this run,
+          // rather than being converted into a local no-result outcome.
+          if (parentSignal?.aborted || (error && typeof error === "object" && "code" in error && (error.code === "BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED" || error.code === "BROWSER_RUNTIME_UNAVAILABLE" || error.code === "MODEL_CALL_BUDGET_EXHAUSTED"))) throw error;
           const reason = error instanceof Error ? error.message : "Unknown Restaurant availability failure";
           const code = stableFailureCode(
             error,
@@ -392,6 +366,7 @@ export class RestaurantExecutionRouter {
                 route: this.availability.executionRoute,
                 latencyMs: 0,
                 failureCode: code,
+                failureScope: "BATCH",
                 freshnessPolicyVersion: RESTAURANT_AVAILABILITY_DISPLAY_FRESHNESS.version,
                 ...(request.recheck ? { recheckReason: request.recheck.reason } : {}),
               },
@@ -402,10 +377,15 @@ export class RestaurantExecutionRouter {
               route: this.availability.executionRoute,
               latencyMs: 0,
               failureCode: code,
+              failureScope: "BATCH",
               freshnessPolicyVersion: RESTAURANT_AVAILABILITY_DISPLAY_FRESHNESS.version,
               ...(request.recheck ? { recheckReason: request.recheck.reason } : {}),
             },
-            failure: { source: "PROVIDER", code, reason, ...(this.availability.executionRoute === "GENERIC_BROWSER" ? { terminal: true } : {}) },
+            // A source/batch browser failure is candidate-scoped evidence, not
+            // proof that the whole task cannot continue with another outlet,
+            // cursor page, or source. The coordinator owns task-global budget
+            // and deadline termination.
+            failure: { source: "PROVIDER", code, reason, scope: "BATCH" },
           };
         }
       }

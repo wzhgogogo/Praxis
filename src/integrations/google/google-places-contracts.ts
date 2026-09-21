@@ -40,6 +40,11 @@ export interface GooglePlacesTextSearchRequest {
     longitude: number;
     radiusMeters?: number;
   };
+  /** A hard rectangle restriction for a user-authorized nearby search. */
+  locationRestriction?: {
+    low: { latitude: number; longitude: number };
+    high: { latitude: number; longitude: number };
+  };
 }
 
 export interface GooglePlacesRawPlace {

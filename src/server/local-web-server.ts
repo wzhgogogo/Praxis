@@ -402,6 +402,8 @@ async function start(): Promise<void> {
         maxModelCallsPerCandidate: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxBrowserModelCallsPerCandidate,
         maxModelCallsTotal: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxBrowserModelCallsTotal,
         maxOperationsPerCandidate: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxBrowserOperationsPerCandidate,
+        maxElapsedMsPerCandidate: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxCandidateBrowserMs,
+        maxElapsedMsPerProvider: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxProviderBrowserMs,
         maxAutomaticElapsedMs: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxAutomaticBrowserMs,
       });
   const application = new PersistentRestaurantAgentApplication({

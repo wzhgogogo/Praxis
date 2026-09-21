@@ -4,6 +4,7 @@ import { test } from "node:test";
 import type { BrowserPageControl, BrowserRuntime, BrowserSession, BrowserSnapshot } from "./browser-runtime.js";
 import { BrowserTaskExecutor } from "./browser-task-executor.js";
 import { BrowserReadDecisionError, type BrowserReadActionDecisionPort, type BrowserReadDecisionInput } from "./browser-action-decision.js";
+import { BrowserRuntimeError } from "./browser-runtime-errors.js";
 
 class FixtureSession implements BrowserSession {
   readonly metadata = { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM" as const, engine: "CHROMIUM" as const, sessionId: "fixture:shared", startedAt: "2026-09-07T00:00:00.000Z" };
@@ -72,6 +73,168 @@ test("BrowserTaskExecutor shares one browser session across source work and clos
   assert.equal(session.closed, 1);
 });
 
+test("BrowserTaskExecutor records candidate and provider lifecycle costs through a normal close", async () => {
+  const diagnostics: import("./browser-task-executor.js").BrowserExecutionDiagnostic[] = [];
+  const session = new FixtureSession([{ url: "https://www.tablecheck.com/en/japan", title: "search", text: "", html: "" }]);
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { onDiagnostic: (diagnostic) => diagnostics.push(diagnostic) });
+  executor.beginProvider("candidate-1", "TABLECHECK");
+  const acquired = await executor.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY");
+  await executor.snapshot({ source: "TABLECHECK", stage: "DISCOVERY", signal: new AbortController().signal, session: acquired });
+  await executor.close();
+  assert.equal(diagnostics.find(item => item.event === "CANDIDATE_STARTED")?.candidateId, "candidate-1");
+  assert.equal(diagnostics.find(item => item.event === "PROVIDER_STARTED")?.lifecycle.outcome, "STARTED");
+  assert.equal(diagnostics.filter(item => item.event === "OPERATION_STARTED").length, 1);
+  assert.equal(diagnostics.find(item => item.event === "OPERATION_FINISHED")?.lifecycle.candidateRuntimeOperations, 1);
+  assert.equal(diagnostics.find(item => item.event === "PROVIDER_FINISHED")?.lifecycle.reason, "EXECUTOR_CLOSED");
+  assert.equal(diagnostics.find(item => item.event === "CANDIDATE_FINISHED")?.lifecycle.outcome, "FINISHED");
+});
+
+test("BrowserTaskExecutor records the real acquisition root cause instead of inferring a run failure", async () => {
+  const diagnostics: import("./browser-task-executor.js").BrowserExecutionDiagnostic[] = [];
+  const executor = new BrowserTaskExecutor({
+    openSession: async () => { throw new BrowserRuntimeError("BROWSER_RUNTIME_UNAVAILABLE", "Chromium binary is unavailable"); },
+  }, { onDiagnostic: (diagnostic) => diagnostics.push(diagnostic) });
+  executor.beginProvider("candidate-1", "TABLECHECK");
+  await assert.rejects(executor.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY"), { code: "BROWSER_RUNTIME_UNAVAILABLE" });
+  const failure = diagnostics.find(item => item.event === "SESSION_OPEN_FAILED");
+  assert.deepEqual(failure?.lifecycle, {
+    outcome: "FAILED", candidateElapsedMs: failure?.lifecycle.candidateElapsedMs, providerElapsedMs: failure?.lifecycle.providerElapsedMs,
+    candidateModelCalls: 0, providerModelCalls: 0, candidateRuntimeOperations: 0, providerRuntimeOperations: 0,
+    runModelCalls: 0, reason: "RUNTIME_UNAVAILABLE", failureCode: "BROWSER_RUNTIME_UNAVAILABLE",
+  });
+  assert.equal(diagnostics.find(item => item.event === "PROVIDER_FINISHED")?.lifecycle.outcome, "FAILED");
+});
+
+test("BrowserTaskExecutor emits a typed provider deadline before opening a session", async () => {
+  const diagnostics: import("./browser-task-executor.js").BrowserExecutionDiagnostic[] = [];
+  const executor = new BrowserTaskExecutor({ openSession: async () => new FixtureSession([]) }, {
+    maxElapsedMsPerProvider: 0,
+    onDiagnostic: (diagnostic) => diagnostics.push(diagnostic),
+  });
+  executor.beginProvider("candidate-1", "TABLECHECK");
+  await assert.rejects(executor.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY"), { code: "BROWSER_TIMEOUT" });
+  const failure = diagnostics.find(item => item.event === "SESSION_OPEN_FAILED");
+  assert.equal(failure?.lifecycle.reason, "DEADLINE_EXCEEDED");
+  assert.equal(failure?.lifecycle.scope, "PROVIDER");
+});
+
+test("BrowserTaskExecutor aborts session acquisition immediately and closes a late session", async () => {
+  const diagnostics: import("./browser-task-executor.js").BrowserExecutionDiagnostic[] = [];
+  const late = new FixtureSession([{ url: "https://www.tablecheck.com/en/japan", title: "late", text: "", html: "" }]);
+  let resolveLate: ((session: BrowserSession) => void) | undefined;
+  const executor = new BrowserTaskExecutor({
+    openSession: async () => new Promise<BrowserSession>((resolve) => { resolveLate = resolve; }),
+  }, { onDiagnostic: (diagnostic) => diagnostics.push(diagnostic) });
+  executor.beginProvider("candidate-1", "TABLECHECK");
+  const controller = new AbortController();
+  const acquisition = executor.acquire(controller.signal, "TABLECHECK", "DISCOVERY");
+  controller.abort();
+  await assert.rejects(acquisition, { code: "BROWSER_ABORTED" });
+  resolveLate!(late);
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(late.closed, 1);
+  assert.equal(diagnostics.find(item => item.event === "SESSION_OPEN_FAILED")?.lifecycle.reason, "PARENT_ABORTED");
+  assert.equal(diagnostics.find(item => item.event === "PROVIDER_FINISHED")?.lifecycle.outcome, "ABANDONED");
+});
+
+test("BrowserTaskExecutor records a failed runtime operation with its local cause", async () => {
+  const diagnostics: import("./browser-task-executor.js").BrowserExecutionDiagnostic[] = [];
+  const session = new FixtureSession([{ url: "https://www.tablecheck.com/en/japan", title: "search", text: "", html: "" }]);
+  session.snapshot = async () => { throw new BrowserRuntimeError("BROWSER_RUNTIME_FAILED", "socket reset"); };
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { onDiagnostic: (diagnostic) => diagnostics.push(diagnostic) });
+  executor.beginProvider("candidate-1", "TABLECHECK");
+  const acquired = await executor.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY");
+  await assert.rejects(executor.snapshot({ source: "TABLECHECK", stage: "DISCOVERY", signal: new AbortController().signal, session: acquired }), { code: "BROWSER_RUNTIME_FAILED" });
+  const failure = diagnostics.find(item => item.event === "OPERATION_FAILED");
+  assert.equal(failure?.lifecycle.reason, "RUNTIME_FAILURE");
+  assert.equal(failure?.lifecycle.failureCode, "BROWSER_RUNTIME_FAILED");
+  await executor.close();
+});
+
+test("BrowserTaskExecutor aborts an in-flight operation, closes once asynchronously, and never reuses that session", async () => {
+  const session = new FixtureSession([{ url: "https://www.tablecheck.com/en/japan", title: "search", text: "", html: "" }]);
+  let resolveSnapshot: ((snapshot: BrowserSnapshot) => void) | undefined;
+  session.snapshot = async () => new Promise<BrowserSnapshot>((resolve) => { resolveSnapshot = resolve; });
+  const next = new FixtureSession([{ url: "https://www.tablecheck.com/en/next", title: "next", text: "", html: "" }]);
+  let opens = 0;
+  const executor = new BrowserTaskExecutor({ openSession: async () => (++opens === 1 ? session : next) });
+  executor.beginProvider("candidate-1", "TABLECHECK");
+  const acquired = await executor.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY");
+  const controller = new AbortController();
+  const pending = executor.snapshot({ source: "TABLECHECK", stage: "DISCOVERY", signal: controller.signal, session: acquired });
+  controller.abort();
+  await assert.rejects(pending, { code: "BROWSER_ABORTED" });
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(session.closed, 1);
+  resolveSnapshot!({ url: "https://www.tablecheck.com/en/japan", title: "late", text: "", html: "" });
+  executor.beginCandidate("candidate-2");
+  assert.equal(await executor.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY"), next);
+  await executor.close();
+});
+
+test("BrowserTaskExecutor bounds a late session acquisition without leaking its deadline into the next candidate", async () => {
+  const late = new FixtureSession([{ url: "https://www.tablecheck.com/en/japan", title: "late", text: "", html: "" }]);
+  const next = new FixtureSession([{ url: "https://www.tablecheck.com/en/japan", title: "next", text: "", html: "" }]);
+  let resolveLate: ((session: BrowserSession) => void) | undefined;
+  let opens = 0;
+  const executor = new BrowserTaskExecutor({ openSession: async () => {
+    opens += 1;
+    if (opens === 1) return new Promise<BrowserSession>((resolve) => { resolveLate = resolve; });
+    return next;
+  } }, { maxElapsedMsPerCandidate: 10 });
+  executor.beginCandidate("first");
+  await assert.rejects(executor.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY"), { code: "BROWSER_TIMEOUT" });
+  resolveLate!(late);
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(late.closed, 1, "a session that resolves after its candidate deadline is closed rather than cached");
+  executor.beginCandidate("second");
+  assert.equal(await executor.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY"), next);
+  assert.equal(next.closed, 0, "the first candidate's deadline cannot close the next candidate's shared session");
+  await executor.close();
+});
+
+test("BrowserTaskExecutor times out a hanging snapshot, closes that session, and permits the next candidate", async () => {
+  const stuck = new FixtureSession([{ url: "https://www.tablecheck.com/en/stuck", title: "stuck", text: "", html: "" }]);
+  stuck.snapshot = async () => new Promise<BrowserSnapshot>(() => {});
+  const next = new FixtureSession([{ url: "https://www.tablecheck.com/en/next", title: "next", text: "", html: "" }]);
+  let opens = 0;
+  const executor = new BrowserTaskExecutor({ openSession: async () => (++opens === 1 ? stuck : next) }, { maxElapsedMsPerCandidate: 10 });
+  executor.beginCandidate("stuck");
+  const first = await executor.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY");
+  await assert.rejects(executor.snapshot({ source: "TABLECHECK", stage: "DISCOVERY", signal: new AbortController().signal, session: first }), { code: "BROWSER_TIMEOUT" });
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(stuck.closed, 1);
+  executor.beginCandidate("next");
+  assert.equal(await executor.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY"), next);
+  await executor.close();
+});
+
+test("BrowserTaskExecutor stops a repeated two-page cycle without spending the full operation budget", async () => {
+  let page = 0;
+  const pages: BrowserSnapshot[] = [
+    { url: "https://www.tablecheck.com/en/a", title: "A", text: "page A", html: "" },
+    { url: "https://www.tablecheck.com/en/b", title: "B", text: "page B", html: "" },
+  ];
+  let closes = 0;
+  const session: BrowserSession = {
+    metadata: { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM", engine: "CHROMIUM", sessionId: "fixture:cycle", startedAt: "2026-09-07T00:00:00.000Z" },
+    async navigate() {}, async snapshot() { return pages[page]!; },
+    async observeControls() { return [{ id: "cycle", stableKey: "cycle", kind: "BUTTON", role: "button", label: "Next", type: "button", disabled: false, visible: true }]; },
+    async click() { page = page === 0 ? 1 : 0; }, async fill() {}, async select() { return []; }, async waitFor() {},
+    async waitForChange() { return true; }, async screenshot() { return new Uint8Array(); }, async close() { closes += 1; },
+  };
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { maxOperationsPerCandidate: 24, onDiagnostic: (diagnostic) => diagnostics.push(diagnostic.detail ?? ""), modelDecision: {
+    async decide(value) { return { type: "CLICK", targetRef: value.observation.targets[0]!.ref, reason: "Inspect next public page" }; },
+  } });
+  const acquired = await executor.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY");
+  const diagnostics: string[] = [];
+  const result = await executor.runSkill({ ...input(acquired), completion: () => ({ complete: false, reason: "Continue" }) });
+  assert.equal(result.status, "NO_SAFE_ACTION");
+  assert.ok(diagnostics.includes("NO_PROGRESS_PAGE_CYCLE"));
+  await executor.close();
+  assert.equal(closes, 1);
+});
+
 test("BrowserTaskExecutor keeps a model-call ceiling across sequential candidate executors", async () => {
   const budget = { totalModelCalls: 0 };
   let decisions = 0;
@@ -90,7 +253,10 @@ test("BrowserTaskExecutor keeps a model-call ceiling across sequential candidate
   const secondSession = new FixtureSession([{ url: "https://www.tablecheck.com/en/japan/search", title: "search", text: "", html: "" }]);
   const second = new BrowserTaskExecutor({ openSession: async () => secondSession }, { modelDecision, maxModelCallsTotal: 1, budget });
   const acquiredSecond = await second.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY");
-  assert.equal((await second.runSkill({ ...input(acquiredSecond), completion: () => ({ complete: false, reason: "continue" }) })).status, "BUDGET_EXCEEDED");
+  await assert.rejects(
+    second.runSkill({ ...input(acquiredSecond), completion: () => ({ complete: false, reason: "continue" }) }),
+    { code: "BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED" },
+  );
   assert.equal(decisions, 1);
   await second.close();
 });

@@ -85,6 +85,18 @@ test("a task-bound device coordinate is distinguished from an eval-only location
   if (result.accepted) assert.equal(result.evidence.claims.areaMatchBasis, "TASK_LOCATION_RADIUS");
 });
 
+test("coordinate-backed nearby discovery fails closed for out-of-radius and coordinate-less candidates", () => {
+  const context = { requestFingerprint: "request", observedAt: now, areaQuery: "nearby", evaluationLocation: { latitude: 35.6697, longitude: 139.767, radiusMeters: 3_000, label: "evaluation" } };
+  const outside = groundGoogleDiscovery({
+    placeId: "outside", displayName: "Outside", formattedAddress: "Tokyo", location: { latitude: 35.9, longitude: 139.7 }, types: ["restaurant"],
+  }, context);
+  assert.deepEqual(outside, { accepted: false, reasonCode: "GOOGLE_OUTSIDE_REQUESTED_RADIUS" });
+  const missing = groundGoogleDiscovery({
+    placeId: "missing", displayName: "Missing", formattedAddress: "Tokyo", types: ["restaurant"],
+  }, context);
+  assert.deepEqual(missing, { accepted: false, reasonCode: "GOOGLE_LOCATION_REQUIRED_FOR_RADIUS" });
+});
+
 test("Google cafe facts require a matching source opening-hours interval for a fact-only afternoon recommendation", () => {
   const result = groundGoogleDiscovery({
     placeId: "cafe-hours", displayName: "Afternoon Cafe", formattedAddress: "Tokyo",

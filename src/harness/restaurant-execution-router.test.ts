@@ -269,7 +269,7 @@ test("Execution Router binds a fact-only read to known candidates and the author
   });
 });
 
-test("Execution Router marks a shared browser startup failure terminal after all requested candidates fail", async () => {
+test("Execution Router keeps a shared browser startup failure candidate-scoped after all requested candidates fail", async () => {
   const router = new RestaurantExecutionRouter(
     { executionRoute: "STRUCTURED_ADAPTER", async search() { return { candidates: fixtureCandidates, evidence: [], metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 } }; } },
     {
@@ -288,11 +288,10 @@ test("Execution Router marks a shared browser startup failure terminal after all
     { type: "CHECK_AVAILABILITY", candidateIds: [fixtureCandidates[0]!.restaurant.id] },
     { ...state, phase: "SEARCHING", candidates: fixtureCandidates },
   );
-  assert.equal(execution.failure?.code, "BROWSER_RUNTIME_FAILED");
-  assert.equal(execution.failure?.terminal, true);
+  assert.equal(execution.failure, undefined);
 });
 
-test("Execution Router preserves an all-provider browser failure as terminal after source fallback is exhausted", async () => {
+test("Execution Router preserves all-provider browser failure evidence without escalating it to task terminal", async () => {
   const router = new RestaurantExecutionRouter(
     { executionRoute: "STRUCTURED_ADAPTER", async search() { return { candidates: fixtureCandidates, evidence: [], metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 } }; } },
     {
@@ -320,6 +319,5 @@ test("Execution Router preserves an all-provider browser failure as terminal aft
     { type: "CHECK_AVAILABILITY", candidateIds: [fixtureCandidates[0]!.restaurant.id] },
     { ...state, phase: "SEARCHING", candidates: fixtureCandidates },
   );
-  assert.equal(execution.failure?.code, "BROWSER_RUNTIME_FAILED");
-  assert.equal(execution.failure?.terminal, true);
+  assert.equal(execution.failure, undefined);
 });

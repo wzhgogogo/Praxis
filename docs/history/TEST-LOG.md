@@ -1,13 +1,21 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.78
-- Last updated: 2026-09-18
+- Document revision: 4.79
+- Last updated: 2026-09-21
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## TEST-2026-09-21-LIVE-READ-P0 — offline integration and browser review
+
+- Mode: offline model/network/runtime fixtures plus real local Chromium fixture; no new real-site/paid Live calls yet and no controlled Live-write.
+- Actual Hybrid composition: A/B/C source failures leave D presentable, outside/missing-coordinate observations never enter the Agent pool, shared gateway budget and runtime launch outage stay TASK failures, cancellation writes immutable partial state/cost/search diagnostics using the CLI's shared production capture. Independent evaluation consumes the produced result; isolated mutations must fail business assertions.
+- Final default suite: 509/509 PASS in the local loopback environment. The sandbox attempt failed on `listen EPERM` HTTP fixtures; the same command succeeded outside it. Full real-browser fixture: 23/23 PASS; the prior text-only cycle-key regression failed the public-filter fixture and was corrected to observe actual control state. Initial sandbox Chromium launch failures are environmental and are not fixture passes.
+- Logs: `.eval-artifacts/live-read-p0-review-2026-09-21/final-default-tests.log` and `final-browser-fixture.log`. Final source recovery review, typecheck, arch:check, build and diff check passed; clean-HEAD H001–H003 Live remains pending. No H004/H005 Live, no automatic paid retry. [Behavioral matrix and retained failed controls](LIVE-READ-P0-REVIEW-2026-09-21.md).
+
 
 ## TEST-2026-09-18-PARTY-SIZE-SUPPLEMENT — bounded real-model transport gate
 

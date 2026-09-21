@@ -1,13 +1,18 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.74
-- Last updated: 2026-09-18
+- Document revision: 4.75
+- Last updated: 2026-09-21
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## 2026-09-21 Live Read P0 execution closure implementation
+
+Strict Google geographic admission and stable continuation, contextual named-location resolution, scoped candidate/provider failures, bounded browser acquisition/operations and diagnostics are integrated in the working tree. The CLI shares immutable success/failure/cancellation capture with real-composition tests. Root-cause codes survive Agent/Router/Reducer. Independent review caught timer lifetime, shared-budget masking, identity-loss and false no-progress defects and required corrections before Live. No semantic prompts, HARD/SOFT rules, frozen H001–H005 fixtures or global ceilings changed. Actual Hybrid composition and isolated mutation controls replace reliance on local adapter success alone. Final recovery review passed; single-pass clean-HEAD H001–H003 Live remains pending; [audit report](LIVE-READ-P0-REVIEW-2026-09-21.md) retains the original failed reviews.
+
 
 ## 2026-09-18 H002/H003/H004 semantic closure (no production candidate)
 

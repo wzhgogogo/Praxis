@@ -18,6 +18,7 @@ import {
 } from "./tablecheck-page-parser.js";
 import { BrowserTaskExecutor, type BrowserExecutionDiagnostic } from "../../infrastructure/browser/browser-task-executor.js";
 import type { BrowserReadActionDecisionPort } from "../../infrastructure/browser/browser-action-decision.js";
+import { BrowserRuntimeError } from "../../infrastructure/browser/browser-runtime-errors.js";
 
 const candidate = {
   ...fixtureCandidates[0]!,
@@ -352,6 +353,75 @@ function matchingOutletPage(url = "https://www.tablecheck.com/en/restaurant1"): 
     ].join(""),
   };
 }
+
+test("TableCheck recovers one challenged canonical availability page through its observed alternate-language outlet", async () => {
+  const session = new FixtureBrowserSession([
+    discoveryPage({ href: "/en/restaurant1?search_text=Restaurant+1", text: "Restaurant 1" }),
+    {
+      url: "https://www.tablecheck.com/en/restaurant1", title: "Restaurant 1", text: "Restaurant 1 1-1 Shinjuku, Tokyo 03-1111-2222",
+      html: '<link rel="canonical" href="/ja/restaurant1"><h1>Restaurant 1</h1><p class="address">1-1 Shinjuku, Tokyo</p><a href="tel:03-1111-2222">Call</a><a href="/ja/restaurant1/reserve/landing">Book a table</a>',
+    },
+    { url: "https://www.tablecheck.com/ja/restaurant1/reserve/landing", title: "Verify", text: "verify you are human", html: "" },
+    {
+      url: "https://www.tablecheck.com/en/restaurant1", title: "Restaurant 1", text: "Restaurant 1 2 guests 2026-08-05 19:00",
+      html: '<link rel="canonical" href="/en/restaurant1"><div data-testid="Venue Availability" data-selected-date="2026-08-05" data-pax="2"></div><h1>Restaurant 1</h1><p class="address">1-1 Shinjuku, Tokyo</p><a href="tel:03-1111-2222">Call</a><section data-availability-state="complete"><button class="time-slot is-available" data-time="19:00">19:00</button></section>',
+    },
+  ]);
+  const result = await new TableCheckBrowserAvailability({ openSession: async () => session }, () => "2026-08-05T09:00:00.000Z").check(request, new AbortController().signal);
+  assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE");
+  assert.equal(session.navigations.filter((url) => url === "https://www.tablecheck.com/en/restaurant1").length, 2);
+  assert.equal(session.navigations.filter((url) => url === "https://www.tablecheck.com/ja/restaurant1/reserve/landing?start_date=2026-08-05&pax=2").length, 1);
+});
+
+test("TableCheck does not invent an alternate after a challenged high-identity outlet and retains that identity", async () => {
+  const session = new FixtureBrowserSession([
+    discoveryPage({ href: "/en/restaurant1?search_text=Restaurant+1", text: "Restaurant 1" }),
+    matchingOutletPage(),
+    { url: "https://www.tablecheck.com/en/restaurant1/reserve/landing", title: "Verify", text: "Just a moment...", html: "" },
+  ]);
+  const result = await new TableCheckBrowserAvailability({ openSession: async () => session }, () => "2026-08-05T09:00:00.000Z").check(request, new AbortController().signal);
+  assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "UNKNOWN");
+  assert.equal(result.availabilityChecks[candidate.restaurant.id]?.reasonCode, "BOT_CHALLENGE");
+  assert.equal(session.navigations.length, 3, "no unobserved URL is tried after the challenge");
+  assert.equal(result.evidence.some((item) => item.kind === "ENTITY_MATCH" && item.entityMatch?.confidence === "HIGH"), true);
+});
+
+test("TableCheck rejects a recovered alternate whose high identity cannot be re-established", async () => {
+  const session = new FixtureBrowserSession([
+    discoveryPage({ href: "/en/restaurant1?search_text=Restaurant+1", text: "Restaurant 1" }),
+    {
+      url: "https://www.tablecheck.com/en/restaurant1", title: "Restaurant 1", text: "Restaurant 1 1-1 Shinjuku, Tokyo 03-1111-2222",
+      html: '<link rel="canonical" href="/ja/restaurant1"><h1>Restaurant 1</h1><p class="address">1-1 Shinjuku, Tokyo</p><a href="tel:03-1111-2222">Call</a><a href="/ja/restaurant1/reserve/landing">Book a table</a>',
+    },
+    { url: "https://www.tablecheck.com/ja/restaurant1/reserve/landing", title: "Verify", text: "verify you are human", html: "" },
+    {
+      url: "https://www.tablecheck.com/en/restaurant1", title: "Other Restaurant 1", text: "Restaurant 1 1-2 Shinjuku, Tokyo 03-9999-8888",
+      html: '<h1>Restaurant 1</h1><p class="address">1-2 Shinjuku, Tokyo</p><a href="tel:03-9999-8888">Call</a><div data-testid="Venue Availability"></div>',
+    },
+  ]);
+  const result = await new TableCheckBrowserAvailability({ openSession: async () => session }, () => "2026-08-05T09:00:00.000Z").check(request, new AbortController().signal);
+  assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "UNKNOWN");
+  assert.equal(result.availabilityChecks[candidate.restaurant.id]?.reasonCode, "BOT_CHALLENGE");
+  assert.equal(result.evidence.some((item) => item.kind === "ENTITY_MATCH" && item.entityMatch?.confidence === "HIGH"), true);
+});
+
+test("TableCheck retains verified identity when later availability controls time out", async () => {
+  let url = "";
+  const session: BrowserSession = {
+    metadata: { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM", engine: "CHROMIUM", startedAt: "2026-08-05T09:00:00.000Z" },
+    async navigate(value) { url = value; },
+    async snapshot() {
+      if (url.includes("/reserve/")) throw new BrowserRuntimeError("BROWSER_TIMEOUT", "fixture availability timeout");
+      if (url.includes("/japan/search")) return discoveryPage({ href: "/en/restaurant1?search_text=Restaurant+1", text: "Restaurant 1" });
+      return matchingOutletPage();
+    },
+    async observeControls() { return []; },
+    async click() {}, async fill() {}, async select() { return []; }, async waitFor() {}, async waitForChange() { return true; }, async screenshot() { return new Uint8Array(); }, async close() {},
+  };
+  const result = await new TableCheckBrowserAvailability({ openSession: async () => session }, () => "2026-08-05T09:00:00.000Z").check(request, new AbortController().signal);
+  assert.equal(result.availabilityChecks[candidate.restaurant.id]?.reasonCode, "BROWSER_TIMEOUT");
+  assert.equal(result.evidence.some((item) => item.kind === "ENTITY_MATCH" && item.entityMatch?.confidence === "HIGH"), true);
+});
 
 test("TableCheck executor grounds a discovered same-outlet page and real linked reservation page without booking actions", async () => {
   const session = new FixtureBrowserSession([

@@ -122,6 +122,12 @@ export class AvailabilitySourceResolver {
             });
           } catch (error) {
             if (signal.aborted) throw error;
+            if (error && typeof error === "object" && "code" in error && (
+              error.code === "BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED"
+              || error.code === "MODEL_CALL_BUDGET_EXHAUSTED"
+              || error.code === "BROWSER_RUNTIME_UNAVAILABLE"
+              || error.code === "BROWSER_ABORTED"
+            )) throw error;
             attempts.push({ candidateId, provider: provider.provider, outcome: "PROVIDER_FAILURE", failureCode: stableFailureCode(error) });
           }
         }

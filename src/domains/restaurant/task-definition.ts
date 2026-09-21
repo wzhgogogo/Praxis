@@ -313,7 +313,7 @@ function transition(
         state: {
           ...remaining,
           phase: "FAILED",
-          failure: { code: "AGENT_DECISION_FAILED", message: event.reason },
+          failure: { code: event.code, message: event.reason },
         },
         commands: [],
       };
@@ -326,7 +326,7 @@ function transition(
         state: {
           ...remaining,
           phase: "FAILED",
-          failure: { code: "AGENT_EXECUTION_FAILED", message: event.reason },
+          failure: { code: event.code, message: event.reason },
         },
         commands: [],
       };

@@ -1,8 +1,8 @@
 import { createHash } from "node:crypto";
 
 import type { RestaurantCandidateFactPort, RestaurantSearchPort } from "../../application/restaurant-execution-router.js";
-import { groundGoogleDiscovery, type UntrustedGooglePlaceObservation } from "../../domains/restaurant/read-grounding.js";
-import { restaurantSearchIntentFingerprint, type RestaurantCandidateFactRequest, type RestaurantSearchContinuation, type RestaurantSearchRequest } from "../../domains/restaurant/contracts.js";
+import { googleDiscoveryGeoDiagnostics, groundGoogleDiscovery, type GoogleDiscoveryGroundingInput, type UntrustedGooglePlaceObservation } from "../../domains/restaurant/read-grounding.js";
+import { restaurantSearchIntentFingerprint, type RestaurantCandidateFactRequest, type RestaurantSearchContinuation, type RestaurantSearchRead, type RestaurantSearchRequest } from "../../domains/restaurant/contracts.js";
 import { GooglePlacesClient } from "./google-places-client.js";
 import { GooglePlacesError, type GooglePlacesRawPlace } from "./google-places-contracts.js";
 
@@ -94,14 +94,35 @@ function namedNearbyQuery(value: string): string | undefined {
     .trim() || undefined;
 }
 
-function sameNamedLocation(value: string, query: string): boolean {
+function sameNamedLocation(place: GooglePlacesRawPlace, query: string): boolean {
+  const value = string(place.displayName?.text);
+  if (!value) return false;
   const normalizedValue = normalizedLocationName(value);
   const normalizedQuery = normalizedLocationName(query);
   // Text-search rank, a returned address, and arbitrary name suffixes do not
   // establish that a place is the landmark the user named.  Source-provided
   // language/alias correspondence is required before we broaden this beyond
   // normalized public display-name equality.
-  return normalizedValue.length > 0 && normalizedValue === normalizedQuery;
+  if (normalizedValue.length > 0 && normalizedValue === normalizedQuery) return true;
+  const suffix = value.trim().match(/\s+(station|sta\.?|airport|park|terminal)$/iu)?.[1]?.toLocaleLowerCase("en-US");
+  if (!suffix) return false;
+  const valueCore = normalizedLocationName(value.slice(0, value.length - suffix.length).trim());
+  const supportedTypes = suffix === "station" || suffix.startsWith("sta")
+    ? ["subway_station", "transit_station", "train_station", "bus_station"]
+    : suffix === "airport" ? ["airport"]
+      : suffix === "park" ? ["park"]
+        : ["transit_station", "bus_station", "airport"];
+  const sourceTypes = Array.isArray(place.types) && place.types.every((type) => typeof type === "string") ? place.types : [];
+  const components = addressComponents(place) ?? [];
+  const hasSupportedType = sourceTypes.some((type) => supportedTypes.includes(type));
+  const queryIsAdministrativeArea = components.some((component) =>
+    component.types.some((type) => type === "locality" || type.startsWith("administrative_area")) &&
+    (normalizedLocationName(component.longText) === normalizedQuery || normalizedLocationName(component.shortText ?? "") === normalizedQuery),
+  );
+  const hasIndependentGeographicContext = components.some((component) =>
+    component.types.some((type) => type === "locality" || type.startsWith("administrative_area")),
+  );
+  return hasSupportedType && hasIndependentGeographicContext && !queryIsAdministrativeArea && valueCore.length > 0 && valueCore === normalizedQuery;
 }
 
 function normalizedLocationName(value: string): string {
@@ -118,6 +139,16 @@ function namedLocationObservation(place: GooglePlacesRawPlace): string {
   const point = coordinates(place);
   const coordinate = point ? `${point.latitude},${point.longitude}` : "missing-coordinates";
   return `name=${JSON.stringify(name)} address=${JSON.stringify(address)} types=${JSON.stringify(types)} placeId=${JSON.stringify(placeId)} coordinate=${JSON.stringify(coordinate)}`;
+}
+
+/** Google Text Search restricts by rectangle; grounding retains the exact circular radius gate. */
+function geographicRectangle(location: { latitude: number; longitude: number; radiusMeters: number }) {
+  const latitudeDelta = location.radiusMeters / 111_320;
+  const longitudeDelta = location.radiusMeters / Math.max(1, 111_320 * Math.cos(location.latitude * Math.PI / 180));
+  return {
+    low: { latitude: location.latitude - latitudeDelta, longitude: location.longitude - longitudeDelta },
+    high: { latitude: location.latitude + latitudeDelta, longitude: location.longitude + longitudeDelta },
+  };
 }
 
 export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, RestaurantCandidateFactPort {
@@ -188,7 +219,7 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
     const places = await this.client.textSearch({ textQuery: query, pageSize: Math.max(10, this.maxResults) }, signal);
     const exactMatches = places.filter((item) => {
       const label = string(item.displayName?.text); const point = coordinates(item);
-      return point !== undefined && label !== undefined && sameNamedLocation(label, query);
+      return point !== undefined && label !== undefined && sameNamedLocation(item, query);
     });
     const sourceObservations = places.map(namedLocationObservation).join("; ") || "no returned places";
     if (exactMatches.length > 1) {
@@ -229,9 +260,12 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
     };
   }
 
-  async search(request: RestaurantSearchRequest, signal: AbortSignal) {
+  async search(request: RestaurantSearchRequest, signal: AbortSignal): Promise<RestaurantSearchRead> {
     const startedAt = Date.now();
-    const textQuery = buildGooglePlacesTextQuery(request);
+    // Google page tokens are bound to the original request.  The Agent may
+    // change a retrieval hint only for a new search; a continuation must keep
+    // the first page's query exactly, alongside its persisted geography.
+    const textQuery = request.continuation?.sourceRequestContext?.textQuery ?? buildGooglePlacesTextQuery(request);
     const intentFingerprint = restaurantSearchIntentFingerprint(request.intent);
     if (request.continuation && request.continuation.intentFingerprint !== intentFingerprint) {
       throw new GooglePlacesError("GOOGLE_MALFORMED_RESPONSE", "Google Places continuation does not belong to the authoritative restaurant intent");
@@ -249,7 +283,7 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
     const namedLocation = taskLocation || request.continuation ? {} : await this.resolveNamedNearbyLocation(request, signal);
     const locationContext = taskLocation
       ? { latitude: taskLocation.latitude, longitude: taskLocation.longitude, radiusMeters: request.intent.area.radiusMeters ?? 3_000, label: request.intent.area.query, areaMatchBasis: "TASK_LOCATION_RADIUS" as const }
-      : namedLocation.location ?? (request.intent.area.query.trim().toLowerCase() === "nearby" && this.options.evaluationLocation
+      : request.continuation?.locationContext ?? namedLocation.location ?? (request.intent.area.query.trim().toLowerCase() === "nearby" && this.options.evaluationLocation
         ? { latitude: this.options.evaluationLocation.latitude, longitude: this.options.evaluationLocation.longitude, radiusMeters: this.options.evaluationLocation.radiusMeters ?? 3_000, label: this.options.evaluationLocation.label ?? "explicit evaluation location", areaMatchBasis: "EVALUATION_LOCATION_RADIUS" as const }
         : undefined);
     const firstPageToken = request.continuation?.nextPageToken;
@@ -271,7 +305,7 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
         textQuery,
         pageSize: 20,
         ...(pageToken ? { pageToken } : {}),
-        ...(locationContext ? { locationBias: locationContext } : {}),
+        ...(locationContext ? { locationRestriction: geographicRectangle(locationContext) } : {}),
       }, signal);
     };
     const first = await readPage(firstPageToken);
@@ -305,7 +339,7 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
     const places = pages.flat();
     const observedAt = this.now();
     const requestFingerprint = createHash("sha256").update(JSON.stringify({ textQuery, area: request.intent.area })).digest("hex");
-    const grounded = places.map((place) => groundGoogleDiscovery(rawObservation(place), {
+    const groundingInput: GoogleDiscoveryGroundingInput = {
       requestFingerprint,
       observedAt,
       areaQuery: request.intent.area.query,
@@ -318,13 +352,18 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
       ...(request.intent.date ? { requestedDate: request.intent.date } : {}),
       ...(request.intent.timeWindow ? { requestedTimeWindow: request.intent.timeWindow } : {}),
       ...(locationContext ? { evaluationLocation: locationContext } : {}),
-    }));
+    };
+    const grounded = places.map((place) => {
+      const observation = rawObservation(place);
+      const result = groundGoogleDiscovery(observation, groundingInput);
+      return { result, sourcePlaceId: observation.placeId, diagnostics: googleDiscoveryGeoDiagnostics(observation, groundingInput) };
+    });
     // Google may return an outlet again on the next page. Preserve only the
     // first grounded observation for each stable Domain outlet ID so the pool
     // cannot present one physical restaurant as two investigation targets.
-    const acceptedGrounded = [...new Map(grounded
-      .filter((result) => result.accepted)
-      .map((result) => [result.candidate.restaurant.id, result] as const)).values()];
+    const acceptedGrounded = [...new Map(grounded.flatMap(({ result }) =>
+      result.accepted ? [[result.candidate.restaurant.id, result] as const] : [],
+    )).values()];
     return {
       candidates: acceptedGrounded.map((result) => result.candidate),
       evidence: [...(namedLocation.evidence ? [namedLocation.evidence] : []), ...acceptedGrounded.flatMap((result) => [result.evidence, ...result.additionalEvidence])],
@@ -335,6 +374,8 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
         pagesRead: (request.continuation?.pagesRead ?? 0) + pages.length,
         exhausted: !nextPageToken,
         ...(lastFailureCode ? { lastFailureCode } : {}),
+        ...(locationContext ? { locationContext } : {}),
+        sourceRequestContext: { textQuery },
       } satisfies RestaurantSearchContinuation,
       metadata: {
         provider: "GOOGLE_PLACES" as const,
@@ -342,6 +383,23 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
         latencyMs: Date.now() - startedAt,
         ...(lastFailureCode ? { failureCode: lastFailureCode } : {}),
         googleRequests: this.googleRequestUsage(request.readRunId),
+        googleGeoDiagnostics: {
+          providerMode: "GOOGLE_TEXT_SEARCH" as const,
+          requestMode: locationContext ? "LOCATION_RESTRICTION_RECTANGLE" as const : "UNRESTRICTED" as const,
+          exactRadiusGate: locationContext ? "ENFORCED" as const : "NOT_APPLICABLE" as const,
+          ...(locationContext ? {
+            center: { latitude: locationContext.latitude, longitude: locationContext.longitude },
+            radiusMeters: locationContext.radiusMeters,
+            areaMatchBasis: locationContext.areaMatchBasis,
+          } : {}),
+          candidates: grounded.map(({ result, sourcePlaceId, diagnostics }) => ({
+            ...(sourcePlaceId ? { sourcePlaceId } : {}),
+            ...(diagnostics.sourceCoordinates ? { sourceCoordinates: diagnostics.sourceCoordinates } : {}),
+            ...(diagnostics.distanceMeters !== undefined ? { distanceMeters: diagnostics.distanceMeters } : {}),
+            accepted: result.accepted,
+            reasonCode: result.accepted ? "ACCEPTED" : result.reasonCode,
+          })),
+        },
       },
     };
   }
