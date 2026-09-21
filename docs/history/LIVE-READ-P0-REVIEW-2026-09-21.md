@@ -1,9 +1,58 @@
 # Live Read P0 independent diagnosis and review - 2026-09-21
 
-- Status: draft / not integrated; offline implementation accepted; bounded Live not yet run
-- Document revision: 0.2
+- Status: current integrated implementation; bounded Live reviewed; P0-2 acceptance NOT CLOSED
+- Document revision: 0.3
 - Scope: geographic candidate grounding, scoped browser failures and bounded investigation, named-location identity
 - Evidence class: exposed development diagnostics; historical Live runs are DIRTY snapshots, not Clean Baselines
+
+
+## Current verdict after the authorized single-pass Live gate
+
+Implementation commit **`325880d1bdc408b783cbc5106d96780002d8121e`** is locally committed. All three runs record exactly that HEAD and **CLEAN**. They ran sequentially, once each, with the unchanged exposed development inputs, temporary Local Chromium, no human intervention, 300000 ms / 50 shared model calls. No H004/H005, retries, booking, payment, cancellation-of-booking or other external-write path was run. The read-only code path is recorded; external side-effect count is not independently instrumented.
+
+**The Playbook is not fully accepted.** P0-1 geography and P0-3 named resolution have targeted Live support. P0-2 local-failure scope and per-provider bounding work in these samples, but efficient normal completion remains unfulfilled: H001 fails on an invalid model action; H002/H003 hit the true global deadline. Neither deadline result is relabelled `NO_VERIFIED_RESULT` or PASS.
+
+| Case | Actual outcome / first blocker | Discovery / completed availability / remaining | Runtime operations / browser-model calls / elapsed |
+| --- | --- | --- | --- |
+| H001 | FAILED / AGENT_DECISION_FAILED: `INVESTIGATE_CANDIDATE_FACTS contains non-placeholder fields` | 40 / 3 / 37 | 90 / 6 / 100992 ms |
+| H002 | CANCELLED / true 300 s run deadline | 40 / 9 / 31 | 417 / 11 / 299999 ms |
+| H003 | CANCELLED / true 300 s run deadline | 28 / 6 / 22 | 435 / 26 / 300039 ms |
+
+The deadline captures preserve the in-flight authoritative snapshot (H002/H003 still SEARCHING) plus explicit TASK/CANCELLED termination, partial=true, source diagnostics and costs. This is a cancellation snapshot, not completion. Browser operations now count started/failed/in-flight work including website facts; historical SITE_METHOD counts have different coverage and are not a directly comparable efficiency denominator. Timing includes scheduling/cleanup overhead: provider diagnostic maxima can slightly exceed 30000 ms (H001 30020, H002 30002, H003 30034); do not claim a strict zero-overhead wall-clock bound.
+
+### P0-1: geographic candidate admission
+
+- Confirmed root cause: soft Google locationBias plus grounding that admitted areaMatch=false candidates.
+- Implementation/files: `google-places-client.ts`, `google-places-contracts.ts`, `google-places-restaurant-search.ts`, `read-grounding.ts`, domain contracts. Text Search strict rectangle plus exact unrounded radius gate, stable cursor query/center/radius; rejected coordinates/distance/reasons remain diagnostic-only.
+- Tests: actual Google adapter positive/outside/missing controls, named continuation controls, actual Hybrid pool assertions and isolated mutation detection; default 509/509 and local Chromium 23/23 passed before commit.
+- Live: H003 binds the expected Higashi-Ginza evaluation coordinate and 3000 m radius; all 28 source observations accepted are within it, maximum 2614.375 m, no US candidates. H001/H002 use 1000 m named-place radii, maxima 986.712 / 671.917 m. These three responses contained no rejected raw observations, so Live does not independently exercise the negative branch; offline controls do.
+- Remaining risk: VPS A/B is inconclusive; source coverage and ranking quality remain external uncertainties. Geographic correctness does not imply availability or completion.
+
+### P0-2: bounded investigation and failure scope
+
+- Confirmed root cause: identical local failure batches escalated to task failure; no candidate/provider elapsed bound, loop/identity/recovery/diagnostic gaps.
+- Implementation/files: `restaurant-execution-router.ts`, `restaurant-agent-loop.ts`, domain failure events/reducer, `browser-task-executor.ts`, Local Chromium, availability resolver/adapters, website facts, shared Live artifact and runner. Local failures remain local; genuine global budget/runtime outage/cancellation retain typed task causes. Availability candidate/provider windows are 60/30 s; website limits are 45/30 s without increasing existing model/operation caps. Source-observed alternate-once requires fresh HIGH identity; no guessed URL, CAPTCHA solving or default human takeover. Proven identity survives later source failure; recovered TableCheck controls are re-observed.
+- Tests: actual composition reaches viable D after failing A/B/C; mutant task escalation is detected. Global budget/launch outage stay FAILED. In-flight browser and Google cancellation preserve evidence/cost. Real Chromium filter positive plus navigation-cycle negative catch false no-progress. Source-adapter recovery and wrong-outlet controls pass.
+- Live: H002 completes three batches after source failures and starts another candidate; H003 completes two batches and continues: browser diagnostics touch 9 candidates, while only 6 have completed checks; two further browser reads are not yet committed as a completed batch and the ninth has only an in-flight started operation at the deadline snapshot. Thus local failures do not recreate the old automatic task termination. However both still exhaust the overall 300 s budget, with identity uncertainty and unconfirmed request controls prominent. H001 reaches another Agent decision after the source read, then its malformed action ends the task. No normal completion or qualified result occurred in this three-case run.
+- Remaining blocker: **NOT CLOSED.** First isolate the existing Agent action wire-contract invalidity without changing Semantic/HARD/SOFT/Gold; the saved artifact identifies the action and validation class but omits the invalid raw fields, so it cannot support an invented field-level diagnosis. Separately use the saved source diagnostics to address repeated identity/request-selection failures and costly unproductive reads. Do not enlarge budgets, convert deadline to success, or infer general site recovery from offline alternate fixtures.
+
+### P0-3: named-location resolution
+
+- Confirmed root cause: exact public-name matching rejected typed `Higashi-ginza Sta.` for the user's `Higashi-Ginza`.
+- Implementation/files: Google search adapter and its tests; only source-compatible station/airport/park/terminal suffixes with independent geographic context may match. Administrative-area substitution and ambiguous matches fail closed.
+- Tests: source-supported positive plus type mismatch, missing context, Tokyo-vs-Station, Shibuya Stream / Ginza SIX and ambiguity controls. No case-ID or venue aliases.
+- Live: H002 records actual Google resolution `Higashi-Ginza` → `Higashi-ginza Sta.` at (35.6697003, 139.7671399), then discovery of 40 local candidates. Inferred party=2 and both negative HARD constraints survive. Text paraphrases remain evaluator NOT_EVALUATED; they are not silently promoted to automatic semantic passes.
+- Remaining risk: named-resolution subgoal passed this sample; H002 as a whole is CANCELLED. Broader source aliases/ambiguity remain bounded by the same fail-closed contract.
+
+### Live evidence and next boundary
+
+The original execution artifacts and separate evaluator@19 outputs are retained unchanged. Evaluator reports H001 FAILED and H002/H003 CANCELLED, without qualified-result or completion passes. These are exposed development diagnostics, never Clean Baselines even though code provenance is clean.
+
+- H001: [execution](../../.eval-artifacts/restaurant-hybrid-live-read/2026-09-21T08-14-03-822Z-ab40f775-7036-494a-b444-19f21d5c5ce7.result.json) · [evaluation](../../.eval-artifacts/restaurant-hybrid-live-read/2026-09-21T08-14-03-822Z-ab40f775-7036-494a-b444-19f21d5c5ce7.result.evaluation.19-1789978544797.json); execution SHA-256 `9feb884c3f082031f3a98645286525ad1c6e4e9c202989d4e58dbe8013aacd5d`.
+- H002: [execution](../../.eval-artifacts/restaurant-hybrid-live-read/2026-09-21T08-16-36-565Z-dec0c307-e839-4373-bbd8-30114af55de8.result.json) · [evaluation](../../.eval-artifacts/restaurant-hybrid-live-read/2026-09-21T08-16-36-565Z-dec0c307-e839-4373-bbd8-30114af55de8.result.evaluation.19-1789978896552.json); execution SHA-256 `6caf788e6b3fb28b5a09330b5e927ee7d8d8f1891965e779c6b6ad2293c84103`.
+- H003: [execution](../../.eval-artifacts/restaurant-hybrid-live-read/2026-09-21T08-22-23-338Z-f50f6434-235d-4133-a91d-5d4dfcb5f941.result.json) · [evaluation](../../.eval-artifacts/restaurant-hybrid-live-read/2026-09-21T08-22-23-338Z-f50f6434-235d-4133-a91d-5d4dfcb5f941.result.evaluation.19-1789979243383.json); execution SHA-256 `4133dfe6f991be8643f4599841ff220236be8e9134d514280c7067bd3ee493a5`.
+
+[Machine-readable run summary](../../.eval-artifacts/live-read-p0-review-2026-09-21/live-summary.json). Recommended rerun remains the affected H001/H002/H003 subset only **after** the first remaining blocker is reproduced and corrected offline, with a separately recorded bounded run; no retry was performed in this gate. Remaining P1: H005 immediate-time lifecycle, broader website compatibility and long-term real-model success rates. Original diagnostic/review chronology below is retained and superseded by this verdict where it differs.
 
 ## Slice and ownership
 

@@ -1,13 +1,22 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.79
+- Document revision: 4.80
 - Last updated: 2026-09-21
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## TEST-2026-09-21-LIVE-READ-P0-SINGLE-PASS — failed overall gate, partial execution improvements
+
+- Provenance: implementation `325880d1bdc408b783cbc5106d96780002d8121e`; H001/H002/H003 all CLEAN, temporary Local Chromium, 300000 ms / 50 shared model calls, no human takeover. Each ran once, with original execution and separate evaluator@19 retained. Exposed development evidence, not Clean Baseline.
+- H001: FAILED / AGENT_DECISION_FAILED invalid INVESTIGATE_CANDIDATE_FACTS non-placeholder fields; 40 discovered / 3 availability checked / 37 remaining; 90 browser operations / 6 browser-model calls / 100992 ms.
+- H002: CANCELLED at actual global deadline; named Higashi-ginza Sta. resolved, 40 discovered / 9 checked / 31 remaining, 417 operations / 11 browser-model calls / 299999 ms. One additional in-flight candidate contributes cost but is not counted as checked. Party=2 and negative HARD retained; evaluator paraphrase dimensions remain NOT_EVALUATED.
+- H003: CANCELLED at actual global deadline; 28 candidates all within 3 km (max 2614.375m), 6 checked / 22 remaining, 435 operations / 26 browser-model calls / 300039 ms. No US candidate; no qualified result or completion claimed.
+- Local-failure scope and geography have real evidence; normal completion/efficiency remains unaccepted. No paid retries, H004/H005, or controlled Live-write. Full immutable paths/hashes, diagnostic coverage limits, and next bounded reproduction are in the [review](LIVE-READ-P0-REVIEW-2026-09-21.md).
+
 
 ## TEST-2026-09-21-LIVE-READ-P0 — offline integration and browser review
 

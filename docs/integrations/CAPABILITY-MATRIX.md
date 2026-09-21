@@ -1,7 +1,7 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.19
+- Document revision: 1.20
 - Last updated: 2026-09-21
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
@@ -28,7 +28,7 @@ Web workspace lifecycle: `LIVE_READ` uses one visible, in-process bounded run pe
 
 P0 challenge-recovery update (offline contract only): after a TableCheck or Tabelog page has independently established a candidate's HIGH outlet identity, one source-observed canonical or alternate-language HTTPS outlet URL may be read on a challenge. The alternate is never synthesized and must independently re-establish HIGH identity; a branch mismatch, absent alternate or a second challenge returns provider-scoped `BOT_CHALLENGE` while retaining the earlier identity as identity-only evidence. When its corresponding eval handler is explicitly configured, an adapter may emit at most one `USER_INTERVENTION_REQUIRED` pause per candidate/provider. Source failures still permit the resolver's next provider; parent abort, global model-budget exhaustion and `BROWSER_RUNTIME_UNAVAILABLE` propagate as task-level failures. This change has no Live verification and adds no CAPTCHA automation, booking, or external write capability.
 
-Google discovery/grounding update (offline contract only): discovery sends a strict rectangle restriction, while grounding applies the exact requested radius; rejected out-of-radius or missing-coordinate observations remain diagnostic-only. A named-place suffix can contribute only with a compatible provider type and independent geographic context; address text, rank or administrative-area labels cannot substitute. This evidence is synthetic/offline and makes no Live Google claim.
+Google discovery/grounding update (offline controls and bounded Live samples): discovery sends a strict rectangle restriction, while grounding applies the exact requested radius; rejected out-of-radius or missing-coordinate observations remain diagnostic-only. A named-place suffix can contribute only with a compatible provider type and independent geographic context; address text, rank or administrative-area labels cannot substitute. The single-pass clean-code Live gate at `325880d` supports actual wiring: H002 resolves the source-observed Higashi-ginza Sta. and reaches discovery; H003 admits 28 candidates within 3 km with no US outlet. All three H001–H003 executions remain FAILED/CANCELLED overall, so neither source availability nor normal completion is accepted. Negative admission branches remain covered offline because these responses returned no out-of-radius or missing-coordinate observations. See [independent review](../history/LIVE-READ-P0-REVIEW-2026-09-21.md).
 
 
 Mock contract update (2026-09-15): the Google→website fact composition retains both source attempts even when the website returns no evidence. Failed refreshes invalidate prior compound-read facts; source history stays auditable. The actual Google/website/TableCheck/resolver composition is covered by H001–H005 synthetic HTTP/page fixtures and independent artifact diagnostics. This is offline contract coverage and makes no new Live capability claim.

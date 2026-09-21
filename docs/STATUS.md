@@ -1,7 +1,7 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.67
+- Document revision: 4.68
 - Last updated: 2026-09-21
 - Source of truth for: 已实现能力、已验证范围、明确未验证项与下一道门槛
 - Related ADRs: [ADR Index](decisions/README.md)
@@ -9,7 +9,7 @@
 
 ## 最新审查与当前门槛
 
-2026-09-21 **Live Read P0 offline implementation accepted; bounded Live pending.** Google discovery now sends a strict rectangle and rejects candidates outside the declared exact-radius gate or without coordinates, preserving rejected observations only in diagnostics. Source-supported typed station suffixes and continuation retain authoritative geography. Local candidate/provider/batch failures leave other viable work reachable; genuine shared model budget, parent cancellation and Chromium launch outage retain their TASK root cause. Candidate/provider browser limits are 60/30 seconds; lifecycle and cancellation artifacts retain costs, stop reasons and remaining work. The actual Hybrid composition proves failed A/B/C can reach D; mutation controls catch the former task-global escalation. Final offline tests 509/509, typecheck, architecture, build and local real Chromium fixture 23/23 passed. Source alternate recovery, identity retention, same-provider clocks, website diagnostic coverage and in-flight Google request accounting passed targeted controls. No new H001–H003 Live has run yet, so this is not completion of the P0 playbook. [Independent review and acceptance](history/LIVE-READ-P0-REVIEW-2026-09-21.md).
+2026-09-21 **Live Read P0 implementation integrated; overall acceptance NOT CLOSED.** Local commit `325880d` passed typecheck, architecture, build, default tests **509/509** and real local Chromium fixture **23/23**. H001/H002/H003 each ran once on that same CLEAN HEAD with temporary Local Chromium, 300000 ms / 50 model calls and no human takeover. Geographic/named-location fixes have targeted Live evidence: H003 has 28 candidates within 3 km and no US outlets; H002 resolves Higashi-Ginza to its source-observed station and reaches 40 candidates. All three overall executions remain unsuccessful: H001 fails after 101 s on invalid `INVESTIGATE_CANDIDATE_FACTS` non-placeholder fields; H002/H003 hit the real 300 s deadline after 9/6 completed availability checks. Local failure no longer automatically kills other viable work, but browser investigation efficiency and normal completion remain the P0-2 blocker. No timeout was relabelled NO_VERIFIED_RESULT, no model/semantic/Gold or budget expansion, and no rerun/H004/H005 Live. [Full per-P0 verdict and immutable evidence](history/LIVE-READ-P0-REVIEW-2026-09-21.md).
 
 The prior H005 fixed-source checkpoint below remains historical accepted evidence; this P0 does not change its prompt, Gold or meaning of automatic versus manual acceptance.
 
