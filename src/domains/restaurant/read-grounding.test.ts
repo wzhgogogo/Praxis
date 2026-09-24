@@ -173,6 +173,13 @@ test("Google primary-type facts report explicit exclusion conflicts but never in
     assert.deepEqual(claims?.violatedNegativeCriteria, ["hot pot restaurant"]);
     assert.deepEqual(claims?.negativeCriterionJudgments, ["hot pot restaurant<=types:hot pot restaurant"]);
   }
+  const liveWording = groundGoogleDiscovery({
+    placeId: "place-hotpot-plural", displayName: "Observed Restaurant", formattedAddress: "Higashi-Ginza, Tokyo",
+    addressComponents: [{ longText: "Higashi-Ginza", types: ["sublocality_level_1"] }],
+    types: ["hot_pot_restaurant", "japanese_restaurant", "restaurant"], primaryType: "japanese_restaurant",
+  }, { requestFingerprint: "request", observedAt: now, areaQuery: "near Higashi-Ginza", negativeCriteria: ["hot-pot restaurants"] });
+  assert.equal(liveWording.accepted, true);
+  if (liveWording.accepted) assert.deepEqual(liveWording.additionalEvidence.find((item) => item.kind === "RESTAURANT_FACT")?.claims.violatedNegativeCriteria, ["hot-pot restaurants"]);
 });
 
 

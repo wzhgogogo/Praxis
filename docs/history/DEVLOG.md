@@ -1,13 +1,17 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.77
+- Document revision: 4.78
 - Last updated: 2026-09-24
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## 2026-09-24 bounded H001/H002 Live review and D wording correction
+
+Clean `fb1b48a` H001/H002 remain cancelled at their original 300 s ceiling; automatic evaluations retain no qualified user result. H001 has two eligible candidates in State but never presents them. H002 reduces browser operations but still has no eligible result. The live source showed Hyoki's `hot_pot_restaurant` in Google `types`; the existing D regression's singular `restaurant` missed the actual plural/hyphen HARD wording. The Domain test now uses that observed wording and the matcher accepts both singular and plural scoped type terms. Original runs remain unchanged; no H002 paid retry. [Evidence](EXECUTION-CORRECTNESS-2026-09-24.md).
 
 ## 2026-09-24 A–D execution correctness offline slice
 

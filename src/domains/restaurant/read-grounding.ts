@@ -179,7 +179,7 @@ function negativeTypeConflicts(
   const sourceTypes = [...new Set([...(types ?? []), ...(primaryType ? [primaryType] : [])]
     .map((value) => normalized(value.replace(/_/g, " ")))
     .filter((value) => value && !["restaurant", "cafe", "food"].includes(value)))];
-  const typeScoped = (criteria ?? []).filter((criterion) => /\b(restaurant|cuisine|dining type)\b/i.test(criterion));
+  const typeScoped = (criteria ?? []).filter((criterion) => /\b(restaurants?|cuisines?|dining type)\b/i.test(criterion));
   const result = { verified: [] as string[], violated: [] as string[], judgments: [] as string[] };
   for (const criterion of typeScoped) {
     const criterionTerms = normalized(criterion).split(/[^\p{L}\p{N}]+/u).filter((term) => term.length > 2 && !["restaurant", "cuisine", "dining", "type"].includes(term));

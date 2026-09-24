@@ -1,13 +1,20 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.82
+- Document revision: 4.83
 - Last updated: 2026-09-24
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## TEST-2026-09-24-A-D-LIVE-H001-H002 — failed normal acceptance
+
+- Mode: Live Read-only, exposed development set, clean `fb1b48a`, temporary Local Chromium, each case at 300000 ms / 50 shared model calls, no human takeover or external-write route. The initial sandbox H001 `NETWORK` failure stopped at Semantic; separate artifact preserved. The same command outside the sandbox produced the H001 execution result; H002 ran once outside the sandbox.
+- H001 CANCELLED at 300034 ms: 18 completed checks, 8 UNAVAILABLE / 8 UNKNOWN / 2 AVAILABLE and currently eligible, but no presentation. Browser operations 333, browser-model calls 9. Automatic evaluation: no qualified user result.
+- H002 CANCELLED at 300036 ms: 9 completed checks, 7 UNKNOWN / 2 AVAILABLE but neither eligible. Browser operations 247 versus 417 in old H002, browser-model calls 19. Automatic evaluation: no qualified user result. Hyoki had source `hot_pot_restaurant` but the real plural HARD criterion was not detected before availability; an added same-suite wording regression catches this after the run. No H002 retry or post-fix Live pass claimed. [Artifact links and acceptance comparison](EXECUTION-CORRECTNESS-2026-09-24.md).
+- Post-Live D wording correction: typecheck, architecture check, build, diff check and default tests 518/518 pass. Browser fixture was not repeated because the correction touches only Domain type-criterion matching.
 
 ## TEST-2026-09-24-A-D-OFFLINE — implementation checks, no Live acceptance
 
