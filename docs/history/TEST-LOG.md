@@ -1,13 +1,19 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.83
+- Document revision: 4.84
 - Last updated: 2026-09-24
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## TEST-2026-09-24-A-D-LIVE-H003 — failed normal acceptance
+
+- Mode: Live Read-only, exposed development case H003, clean `605dc82`, temporary Local Chromium, original 300000 ms / 50 shared model calls, no human takeover or external write. A direct runner invocation lacked `.env` and stopped before execution; the project script loaded local configuration and made the sole H003 Live run.
+- Result: CANCELLED at 300038 ms, 30 discovered, 9 completed checks (5 request unconfirmed, 3 evidence incomplete, 1 source-grounded available offer); no presentation. Browser operations 281 versus old H003 435; browser-model calls 30 versus 26. Automatic evaluator says no qualified user result and leaves criterion wording equivalence unassessed. The single offer emerged near the deadline, so it cannot be counted as budgeted completion. [Artifact links and manual acceptance](EXECUTION-CORRECTNESS-2026-09-24.md).
+- Overall A–D acceptance: H001, H002 and H003 all failed to produce a qualified user result within the unchanged deadline. Safety stops and offline controls pass within their scope; they do not close the promised normal-result path. No additional paid retry was performed.
 
 ## TEST-2026-09-24-A-D-LIVE-H001-H002 — failed normal acceptance
 

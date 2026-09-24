@@ -1,7 +1,7 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.72
+- Document revision: 4.73
 - Last updated: 2026-09-24
 - Source of truth for: 已实现能力、已验证范围、明确未验证项与下一道门槛
 - Related ADRs: [ADR Index](decisions/README.md)
@@ -9,7 +9,9 @@
 
 ## 最新审查与当前门槛
 
-2026-09-24 **A–D首轮有界Live：H001/H002仍未完成；D发现并修复一个真实措辞覆盖遗漏。** 同一干净提交`fb1b48a`的H001完成18次查位、得到8个可信无位和2个当前合格但未展示的候选，300034 ms结束为CANCELLED；H002完成9次查位、浏览器操作由旧417降到247，但2个有位候选均不满足负向HARD，300036 ms亦CANCELLED。自动评价两例均为无合格用户结果，不能签收。H002的Hyoki来源`types`含`hot_pot_restaurant`，现有回归仅覆盖单数条件，实际`hot-pot restaurants`漏过；已在同一Domain主回归补真实措辞并修正，尚无该修正后的Live证据。H001沙箱网络失败记录与其沙箱外执行分开保存；H003尚未运行。[本轮复核](history/EXECUTION-CORRECTNESS-2026-09-24.md)。
+2026-09-24 **A–D首轮H001–H003 Live验收未通过。** H003在修正D真实复数措辞的干净提交`605dc82`上运行，9次检查中1个有来源支撑的可用时段接近截止才写入State，最终未展示；300038 ms受控取消。浏览器操作相对旧H003由435降至281，浏览器模型调用由26升至30。H001/H002也均未在原300 s预算内交付合格用户结果。三个自动评价均已对照本轮acceptance复核，不能以安全退出或中间结论签收。下一门槛是针对未完成的正常结果路径做有界修复，并在原预算内验证实际交付；H002复数修正没有后续Live通过证据。[本轮复核](history/EXECUTION-CORRECTNESS-2026-09-24.md)。
+
+2026-09-24 **A–D首轮有界Live：H001/H002仍未完成；D发现并修复一个真实措辞覆盖遗漏。** 同一干净提交`fb1b48a`的H001完成18次查位、得到8个可信无位和2个当前合格但未展示的候选，300034 ms结束为CANCELLED；H002完成9次查位、浏览器操作由旧417降到247，但2个有位候选均不满足负向HARD，300036 ms亦CANCELLED。自动评价两例均为无合格用户结果，不能签收。H002的Hyoki来源`types`含`hot_pot_restaurant`，现有回归仅覆盖单数条件，实际`hot-pot restaurants`漏过；已在同一Domain主回归补真实措辞并修正，尚无该修正后的Live证据。H001沙箱网络失败记录与其沙箱外执行分开保存。[本轮复核](history/EXECUTION-CORRECTNESS-2026-09-24.md)。
 
 2026-09-24 **A–D执行正确性离线切片已接线，Live验收未关闭。** TableCheck返回已选门店页再查位、复用本run身份页、拒绝旧查询链接；Agent格式错误记录脱敏字段路径并最多一次计入原预算的重生成；浏览器在同状态重复被拒动作后退出；Google完整`types`的明确负向HARD冲突阻断后续网站、模型事实和查位。TWO ROOMS与銀座七芳的历史identity记录不足以放宽HIGH，Sushi Inase跨动作同源读取的可安全合并范围仍待真实轨迹确认。默认离线测试518/518、typecheck、arch、build通过；本地Chromium Fixture 24/24，包含多结果链接下零模型调用的正确门店可用结果。它们不代表H001–H003 Live完成；下一门槛是在原300000 ms／50共享模型调用预算内取得更多可信结论，并独立核对新artifact和automatic evaluation。[本轮范围与证据](history/EXECUTION-CORRECTNESS-2026-09-24.md)。
 
