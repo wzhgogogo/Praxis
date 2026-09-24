@@ -1,13 +1,21 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.85
+- Document revision: 4.86
 - Last updated: 2026-09-24
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## TEST-2026-09-24-TWO-ROOMS-A2-A3 — local wiring supported, current source not reached
+
+- Mode: frozen H001/H003 identity fields, field-derived synthetic TableCheck page fixture through actual parser/Router/Runtime reducer, and one Live Read-only single-provider probe. No full-page historical Replay is claimed. Existing wrong-floor/street, same-phone branch and missing-address controls were reused.
+- A2: Kazumasa and Komachi remain `CONFLICT` with different field mechanisms; neither is a floor-postcode case or a proven same-outlet expectation. A3 local test retains HIGH identity evidence for provider ID `trnihombashi`, navigates to its reservation page, and keeps unconfirmed inventory non-AVAILABLE.
+- Targeted Live: [source artifact](../../.eval-artifacts/restaurant-identity-targeted/two-rooms-2026-09-24T07-47-18-671Z.json), one session, zero model calls, ceiling 45 seconds / 30 browser operations, elapsed about 11.5 seconds. TableCheck search yielded five other merchants; none passed identity and `trnihombashi` was not inspected. Verdict: source discovery **uncovered** for this identity mechanism, UNKNOWN correctly retained. The first temporary script attempt failed compilation before browser startup; one actual read followed. No repeat or full H003.
+- Evaluator: current provider diagnostic plus independent manual stage verdict; no claim of a general Live evaluator pass or successful inventory. [Detailed scope and stage attribution](TWO-ROOMS-IDENTITY-2026-09-24.md).
+- Offline gates after the added production-path control: typecheck, architecture check, build, diff check and default tests 520/520 pass.
 
 ## TEST-2026-09-24-TWO-ROOMS-IDENTITY — local mechanism supported
 

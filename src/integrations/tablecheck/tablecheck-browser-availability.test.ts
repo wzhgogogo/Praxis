@@ -1,6 +1,10 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 
+import { RestaurantExecutionRouter } from "../../application/restaurant-execution-router.js";
+import type { RestaurantTaskState } from "../../domains/restaurant/contracts.js";
+import { applyRestaurantIntentPatch } from "../../domains/restaurant/intent-state.js";
+import { restaurantBookingTaskDefinition } from "../../domains/restaurant/task-definition.js";
 import { fixtureCandidates, fixtureIntent } from "../../harness/restaurant-fixtures.js";
 import type { BrowserPageControl, BrowserRuntime, BrowserSession, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
 import { TableCheckBrowserAvailability, TableCheckEntryLedger } from "./tablecheck-browser-availability.js";
@@ -252,6 +256,54 @@ test("historical TWO ROOMS postal variation preserves same outlet while real bra
   const kazen = inspectTableCheckEntity({ ...candidate, restaurant: { ...candidate.restaurant, outletName: "Ginza Kazen", address: "Japan, 〒104-0061 Tokyo, Chuo City, Ginza, 6-chōme−3−１１ 2F", sourceIds: { ...candidate.restaurant.sourceIds, phone: "050-3138-5851" } } },
     { sourceEntityId: "shinkantonsai-kazen", sourceUrl: "https://www.tablecheck.com/en/shinkantonsai-kazen", outletName: "Ginza Kazen", address: "104-0061 Tokyo Chuo Ginza 6-3-11 NISHI GINZA Building2F", phone: "+81362746338" });
   assert.notEqual(kazen.resolution.confidence, "HIGH");
+});
+
+test("TWO ROOMS frozen identity fields pass the production TableCheck extraction gate before availability", async () => {
+  // Synthetic page framing around H003's saved source fields: this exercises
+  // search, extraction, shared comparison, provider ID and page restoration.
+  // It is not a replay of the original full DOM or a current inventory claim.
+  const scoped = { ...candidate, restaurant: { ...candidate.restaurant,
+    outletName: "Two rooms cafe grill bar",
+    address: "Japan, 〒103-0027 Tokyo, Chuo City, Nihonbashi, 2-chōme−5−１ 高島屋 新館 ７階",
+    sourceIds: { ...candidate.restaurant.sourceIds, phone: "03-6262-3177" },
+  } };
+  const searchUrl = tableCheckDiscoveryUrl(scoped);
+  const guide: BrowserSnapshot = {
+    url: "https://www.tablecheck.com/en/trnihombashi", title: "TWO ROOMS CAFE|GRILL|BAR NIHOMBASHI - TableCheck",
+    text: "TWO ROOMS CAFE|GRILL|BAR NIHOMBASHI 103-6107 Tokyo Chuo-ku 2-5-1 NIhonbashi Nihonbashi Takashimaya S.C. Shinkan 7F 03-6262-3177",
+    html: [
+      '<link rel="canonical" href="/en/trnihombashi">',
+      '<h1>TWO ROOMS CAFE|GRILL|BAR NIHOMBASHI</h1>',
+      '<p class="address">103-6107 Tokyo Chuo-ku 2-5-1 NIhonbashi Nihonbashi Takashimaya S.C. Shinkan 7F</p>',
+      '<a href="tel:+81362623177">03-6262-3177</a>',
+      '<a href="/en/trnihombashi/reserve/landing">Book a table</a>',
+    ].join(""),
+  };
+  const session = new FixtureBrowserSession([
+    { url: searchUrl, title: "Map Search - Japan", text: "1 venue found", html: '<a href="/en/trnihombashi?search_text=Two+rooms+cafe+grill+bar">TWO ROOMS CAFE|GRILL|BAR NIHOMBASHI</a>' },
+    guide,
+    { url: "https://www.tablecheck.com/en/trnihombashi/reserve/landing", title: "TWO ROOMS reservation", text: "Select date and party", html: "<main>Select date and party</main>" },
+  ]);
+  const diagnostics: Array<{ resolution: { confidence: string }; attemptedPages: Array<{ comparison?: { address: string } }> }> = [];
+  const now = "2026-08-05T09:00:00.000Z";
+  const context = { taskId: "two-rooms", runId: "local-identity", now, createId: (prefix: string) => prefix };
+  const adapter = new TableCheckBrowserAvailability({ openSession: async () => session }, () => now,
+    { onIdentityDiagnostic: (item) => diagnostics.push(item) });
+  const state: RestaurantTaskState = { ...restaurantBookingTaskDefinition.create(undefined, context), phase: "SEARCHING", candidates: [scoped],
+    intentDraft: applyRestaurantIntentPatch(undefined, { schemaVersion: "3", target: { goal: "AVAILABILITY", query: "TWO ROOMS" },
+      date: request.date, timeWindow: request.timeWindow, partySize: request.partySize, area: { query: "Nihonbashi" } }),
+  };
+  const router = new RestaurantExecutionRouter({ executionRoute: "STRUCTURED_ADAPTER", search: async () => { throw new Error("Search is outside this identity slice"); } }, adapter);
+  const execution = await router.execute({ type: "CHECK_AVAILABILITY", candidateIds: [scoped.restaurant.id] }, state, now);
+  assert.equal(execution.event?.type, "AVAILABILITY_CHECKED");
+  if (execution.event?.type !== "AVAILABILITY_CHECKED") return;
+  const saved = restaurantBookingTaskDefinition.transition(state, execution.event, context).state;
+  assert.equal(diagnostics[0]?.resolution.confidence, "HIGH");
+  assert.equal(diagnostics[0]?.attemptedPages[0]?.comparison?.address, "INSUFFICIENT");
+  assert.equal(saved.readEvidence.find((item) => item.kind === "ENTITY_MATCH")?.entityMatch?.confidence, "HIGH");
+  assert.equal(saved.readEvidence.find((item) => item.kind === "ENTITY_MATCH")?.sourceEntityId, "trnihombashi");
+  assert.equal(session.navigations.some((url) => url.includes("/trnihombashi/reserve/landing")), true);
+  assert.notEqual(saved.availabilityChecks[scoped.restaurant.id]?.status, "AVAILABLE", "unconfirmed synthetic inventory is not a success");
 });
 
 test("TableCheck treats historical Japanese and Latin floor forms as the same stated unit", () => {

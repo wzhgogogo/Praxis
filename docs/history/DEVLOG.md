@@ -1,13 +1,17 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.80
+- Document revision: 4.81
 - Last updated: 2026-09-24
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## 2026-09-24 TWO ROOMS A2/A3 extension and targeted read
+
+Existing missing-address, wrong-street/floor and same-name/shared-phone branch controls cover the postal rule boundary. Kazumasa and Komachi still conflict for distinct mechanisms and were not folded into the postal edit. A new field-derived local composition passes TWO ROOMS from source extraction through shared identity, Router and Task Runtime, and navigates to its reservation page without inventing inventory. One bounded zero-model TableCheck read failed earlier at discovery: it found five different merchants, never `trnihombashi`. The current external identity path is untested, not an invalidation of the local postal comparison. This discovery failure belongs to B1. [Stage evidence](TWO-ROOMS-IDENTITY-2026-09-24.md).
 
 ## 2026-09-24 TWO ROOMS identity postal comparison experiment
 
