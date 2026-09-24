@@ -1,13 +1,20 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.92
+- Document revision: 4.93
 - Last updated: 2026-09-24
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## TEST-2026-09-24-LAVAROCK-A-ENTRANCE — same-entity booking target
+
+- Prior failure: the C1f Adapter fixture could not reach LAVAROCK's separate shops reservation page. The old resolver preferred an embedded guide widget and only recognized links below the guide path, so the current source-owned booking target was missed. The old main regression used a same-path booking fixture and did not expose this mechanism.
+- Independent expectation and budget were fixed before editing: a booking URL explicitly supplied by the same guide's Restaurant JSON-LD entity should be selected, an unrelated entity or external URL rejected, and a verified outlet should reach a request-bound available result on a feasible synthetic form. One public guide GET, <=15 seconds, zero model calls; no booking submission or H003 Live. The new resolver test failed on old code before the correction.
+- Live Read-only source evidence: the [saved minimal record](../../.eval-artifacts/restaurant-control-targeted/lavarock-a-entrance-2026-09-24.json) retains current guide response hash, same-entity `@id`, address/phone and both explicit reservation targets; GET completed in about 1.2 seconds. The production parser on that downloaded HTML now returns the observed `/en/shops/cytokyo-lavarock/reserve` target. Source evidence proves the entrance relationship, not inventory.
+- Offline controlled Adapter: the existing main TableCheck test now routes guide → distinct shops page and returns AVAILABLE only with current selected date/adults and a completed synthetic slot; unrelated-entity and external-target controls reject. TableCheck 42/42, full offline 524/524, typecheck, architecture check, build and `git diff --check` passed. Existing TableCheck identity/request/slot evaluator was reused with independent source-target review; full H003 evaluator does not apply to this local slice. No model call or external write was made. Current LAVAROCK inventory and end-to-end H003 remain unassessed.
 
 ## TEST-2026-09-24-H001-RESOURCE-EVAL — current Runner ceiling calibration
 

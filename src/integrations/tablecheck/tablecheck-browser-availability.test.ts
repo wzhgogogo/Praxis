@@ -191,6 +191,19 @@ test("TableCheck resolves a real linked reservation page and only sets read para
   );
 });
 
+test("TableCheck accepts a source-owned reservation page on a distinct shops route only for the selected guide", () => {
+  const guide = "https://www.tablecheck.com/en/cytokyo-lavarock";
+  const reserve = "https://www.tablecheck.com/en/shops/cytokyo-lavarock/reserve";
+  const outlet = { sourceEntityId: "cytokyo-lavarock", sourceUrl: guide, outletName: "Dining&Bar LAVAROCK" };
+  const snapshot = (id: string, target: string, embedded = false): BrowserSnapshot => ({
+    url: guide, title: outlet.outletName, text: "Book a table",
+    html: `<script type="application/ld+json">${JSON.stringify({ "@type": "Restaurant", "@id": id, name: outlet.outletName, acceptsReservations: target })}</script>${embedded ? '<div data-testid="Venue Availability"></div>' : ""}`,
+  });
+  assert.deepEqual(resolveTableCheckReservationTarget(snapshot(guide, reserve, true), outlet), { kind: "LINKED_PAGE", url: reserve });
+  assert.equal(resolveTableCheckReservationTarget(snapshot("https://www.tablecheck.com/en/other-branch", reserve), outlet), undefined);
+  assert.equal(resolveTableCheckReservationTarget(snapshot(guide, "https://example.com/en/shops/cytokyo-lavarock/reserve"), outlet), undefined);
+});
+
 test("TableCheck identity uses exact phone or name and full address, never name alone", () => {
   const snapshot: BrowserSnapshot = {
     url: "https://www.tablecheck.com/en/restaurant1",
@@ -532,20 +545,27 @@ test("TableCheck retains verified identity when later availability controls time
 });
 
 test("TableCheck executor grounds a discovered same-outlet page and real linked reservation page without booking actions", async () => {
+  const guide = matchingOutletPage();
+  const sourceOwnedGuide = { ...guide, html: `${guide.html}<div data-testid="Venue Availability"></div><script type="application/ld+json">${JSON.stringify({ "@type": "Restaurant", "@id": guide.url, acceptsReservations: "https://www.tablecheck.com/en/shops/restaurant1/reserve" })}</script>` };
   const session = new FixtureBrowserSession([
     discoveryPage({ href: "/en/restaurant1?search_text=Restaurant+1", text: "Restaurant 1" }),
-    matchingOutletPage(),
+    sourceOwnedGuide,
     {
-      url: "https://www.tablecheck.com/en/restaurant1/reserve/landing",
+      url: "https://www.tablecheck.com/en/shops/restaurant1/reserve",
       title: "Restaurant 1 reservation",
       text: "Restaurant 1 2 guest 2026-08-05 19:00 Omakase course",
       html: [
-        '<div data-selected-date="2026-08-05" data-pax="2"></div>',
+        '<form><input name="reservation[start_date]" value="2026-08-05"><select name="reservation[num_people_adult]"><option value="2" selected>2</option></select></form>',
         '<section class="featured-menu">Omakase course</section>',
         '<section data-availability-state="complete"><button class="time-slot is-available" data-time="19:00">19:00</button></section>',
       ].join(""),
     },
   ]);
+  const baseControls = session.observeControls.bind(session);
+  session.observeControls = async () => session.navigations.length === 3 ? [
+    { id: "date", stableKey: "date", kind: "INPUT", role: "textbox", label: "2026-08-05", value: "2026-08-05", visible: true, disabled: false, structure: { tag: "INPUT", name: "reservation[start_date]", classes: [], dialogLabel: "", formClass: "booking", sliderCount: 0 } },
+    { id: "adult", stableKey: "adult", kind: "SELECT", role: "combobox", label: "2", value: "2", visible: true, disabled: false, options: [{ value: "2", label: "2", selected: true, disabled: false }], structure: { tag: "SELECT", name: "reservation[num_people_adult]", classes: [], dialogLabel: "", formClass: "booking", sliderCount: 0 } },
+  ] : baseControls();
   const browser: BrowserRuntime = { openSession: async () => session };
   const result = await new TableCheckBrowserAvailability(browser, () => "2026-08-05T09:00:00.000Z").check(request, new AbortController().signal);
   assert.equal(result.metadata.provider, "TABLECHECK");
@@ -556,7 +576,7 @@ test("TableCheck executor grounds a discovered same-outlet page and real linked 
   assert.equal(session.navigations.length, 3);
   assert.equal(session.navigations[0]?.includes("/en/japan/search?"), true);
   assert.equal(session.navigations[1], "https://www.tablecheck.com/en/restaurant1");
-  assert.equal(session.navigations[2]?.includes("start_date=2026-08-05&pax=2"), true);
+  assert.equal(session.navigations[2], "https://www.tablecheck.com/en/shops/restaurant1/reserve?start_date=2026-08-05&pax=2");
   assert.equal(session.clicks, 0);
   assert.equal(session.fills, 0);
   assert.equal(session.closed, true);

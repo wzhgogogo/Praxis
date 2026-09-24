@@ -1,13 +1,15 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.81
+- Document revision: 4.82
 - Last updated: 2026-09-24
 - Source of truth for: 已实现能力、已验证范围、明确未验证项与下一道门槛
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Documentation Index](INDEX.md), [Roadmap](roadmap.md), [Verification History](history/TEST-LOG.md)
 
 ## 最新审查与当前门槛
+
+2026-09-24 **TableCheck 同店介绍页到独立预约页的入口已接线。** 当前 LAVAROCK 介绍页的同一 Restaurant JSON-LD 实体明确给出 `/en/shops/cytokyo-lavarock/reserve`；解析器现在优先采用这个来源目标，再考虑嵌入式组件，不拼接店名路径。异店实体和外域目标仍拒绝。现有 Adapter 主回归通过来源身份→预约入口→已选请求→合成可用时段，42/42 TableCheck 与全量524/524通过；真实库存及 H003 整单仍未验证。[证据与边界](history/LAVAROCK-CONTROL-2026-09-24.md#a-entrance-follow-up-source-owned-guide-to-shops-reservation)。
 
 2026-09-24 **公共资源评价已修正为读取现行`runCeilings`。** Evaluator/rubric@20对当前Runner要求时间、Agent步骤和浏览器模型调用的限额及使用值；缺必要限额为`NOT_EVALUATED`，超限为`NOT_SATISFIED`，旧`limits`格式仍按其既有字段补评。旧规则在H001原始300034/300000 ms上误给`RESOURCES=SATISFIED`；不覆盖原件的@20 sidecar改判`NOT_SATISFIED`。这是评价修复，不是H001执行进步，也未解除E2私有上下文发送的自动审批阻断。[验证记录](history/TEST-LOG.md)。
 

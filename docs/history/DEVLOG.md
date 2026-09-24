@@ -1,13 +1,17 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.87
+- Document revision: 4.88
 - Last updated: 2026-09-24
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## 2026-09-24 TableCheck source-owned shops entrance
+
+The C1f Adapter attempt stopped at the guide-to-booking entrance. A current LAVAROCK public guide GET showed one Restaurant JSON-LD entity whose `@id` matches the guide and whose `acceptsReservations` and ReserveAction target point to the distinct `/en/shops/cytokyo-lavarock/reserve` page. The resolver now uses that explicit same-entity TableCheck target ahead of the guide's embedded widget. The existing Adapter main fixture reaches the distinct page and accepts a fully selected synthetic request and slot, while unrelated JSON-LD entity and external-link controls remain blocked. No live inventory or whole H003 result was claimed. [Stage record](LAVAROCK-CONTROL-2026-09-24.md#a-entrance-follow-up-source-owned-guide-to-shops-reservation).
 
 ## 2026-09-24 current Runner resource-limit evaluator correction
 

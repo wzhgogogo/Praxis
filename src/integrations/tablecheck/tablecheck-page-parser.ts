@@ -254,11 +254,29 @@ export function resolveTableCheckReservationTarget(
   snapshot: BrowserSnapshot,
   outlet: TableCheckOutletObservation,
 ): TableCheckReservationTarget | undefined {
+  let outletUrl: URL;
+  try { outletUrl = new URL(outlet.sourceUrl); } catch { return undefined; }
+  // A guide may publish its booking surface on /shops/ rather than beneath
+  // the guide URL. Accept that route only when the guide's own Restaurant
+  // record names this exact entity and explicitly supplies the target.
+  const pageUrl = absoluteTableCheckUrl(snapshot.url, snapshot.url);
+  if (pageUrl && new URL(pageUrl).origin === outletUrl.origin && new URL(pageUrl).pathname.replace(/\/$/, "") === outletUrl.pathname.replace(/\/$/, "")) {
+    for (const entity of jsonLdObjects(snapshot.html)) {
+      if (entity["@type"] !== "Restaurant") continue;
+      const entityId = typeof entity["@id"] === "string" ? absoluteTableCheckUrl(entity["@id"], snapshot.url) : undefined;
+      if (!entityId || new URL(entityId).origin !== outletUrl.origin || new URL(entityId).pathname.replace(/\/$/, "") !== outletUrl.pathname.replace(/\/$/, "")) continue;
+      if (typeof entity.acceptsReservations !== "string") continue;
+      const link = absoluteTableCheckUrl(entity.acceptsReservations, snapshot.url);
+      if (!link) continue;
+      const target = new URL(link);
+      if (/^\/(?:en|ja)\/shops\/[^/]+\/reserve\/?$/.test(target.pathname)) {
+        return { kind: "LINKED_PAGE", url: target.toString() };
+      }
+    }
+  }
   if (/data-testid=["']Venue Availability["']/i.test(snapshot.html)) {
     return { kind: "EMBEDDED_AVAILABILITY", url: outlet.sourceUrl };
   }
-  let outletUrl: URL;
-  try { outletUrl = new URL(outlet.sourceUrl); } catch { return undefined; }
   for (const match of snapshot.html.matchAll(/<a\b[^>]*href=["']([^"']+)["'][^>]*>/gi)) {
     const link = absoluteTableCheckUrl(match[1] ?? "", snapshot.url);
     if (!link) continue;
