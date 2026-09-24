@@ -4,5 +4,6 @@
 
 - [Dev Log](DEVLOG.md)：实现、设计取舍和边界。
 - [Test Log](TEST-LOG.md)：验证命令、模式、结果、未覆盖项和外部副作用。
+- [2026-09-24 Test/Eval Skill纸面审查](TEST-EVAL-SKILL-REVIEW-2026-09-24.md)：规程重整的覆盖/评分设计；draft / not integrated，不是运行证据。
 
 判断当前能力、证据与下一步，始终先读 [当前状态](../STATUS.md)；判断当前设计则读 [文档索引](../INDEX.md) 所列的产品、架构、Domain 与 Accepted ADR。

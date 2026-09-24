@@ -1,13 +1,15 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.68
-- Last updated: 2026-09-21
+- Document revision: 4.69
+- Last updated: 2026-09-24
 - Source of truth for: 已实现能力、已验证范围、明确未验证项与下一道门槛
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Documentation Index](INDEX.md), [Roadmap](roadmap.md), [Verification History](history/TEST-LOG.md)
 
 ## 最新审查与当前门槛
+
+2026-09-24 **Test/Eval skills documentation restructure; no product capability change.** Test now derives applicable normal, false-accept, false-reject, unknown/conflict, change/recovery and resource/batch coverage from authoritative contracts and failure mechanisms. Eval now separates independent quality oracles, evidence, denominators, comparability, contamination and pre-fixed thresholds. The accompanying three-case review is paper-only and explicitly leaves rolling `right now` behavior and real booking recovery unimplemented. [Review](history/TEST-EVAL-SKILL-REVIEW-2026-09-24.md).
 
 2026-09-21 **Live Read P0 implementation integrated; overall acceptance NOT CLOSED.** Local commit `325880d` passed typecheck, architecture, build, default tests **509/509** and real local Chromium fixture **23/23**. H001/H002/H003 each ran once on that same CLEAN HEAD with temporary Local Chromium, 300000 ms / 50 model calls and no human takeover. Geographic/named-location fixes have targeted Live evidence: H003 has 28 candidates within 3 km and no US outlets; H002 resolves Higashi-Ginza to its source-observed station and reaches 40 candidates. All three overall executions remain unsuccessful: H001 fails after 101 s on invalid `INVESTIGATE_CANDIDATE_FACTS` non-placeholder fields; H002/H003 hit the real 300 s deadline after 9/6 completed availability checks. Local failure no longer automatically kills other viable work, but browser investigation efficiency and normal completion remain the P0-2 blocker. No timeout was relabelled NO_VERIFIED_RESULT, no model/semantic/Gold or budget expansion, and no rerun/H004/H005 Live. [Full per-P0 verdict and immutable evidence](history/LIVE-READ-P0-REVIEW-2026-09-21.md).
 

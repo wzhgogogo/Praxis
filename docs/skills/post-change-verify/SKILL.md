@@ -1,34 +1,19 @@
 ---
 name: praxis-post-change-verify
-description: 按Praxis Test矩阵完成改动验证、文档同步与交付，保留真实证据和未验证边界。
+description: 按Praxis Test和Eval规程完成改动验证、事实同步与交付，保留真实证据和未验证边界。
 ---
 
 # Praxis Post-change Verify
 
-验证要求只由[Test](../test/SKILL.md)维护。本文件负责适用检查、事实同步与交付，不复制测试矩阵。
+- Document revision: 1.0
+- Last updated: 2026-09-24
 
-1. 确认本次diff与已有用户改动的边界，复核实际影响的ADR和安全规则；已读且未变化的材料可复用。
-2. 按Test矩阵运行必要检查，修复本次引入的问题；既有失败和环境阻塞单独报告，不声称未运行的模式通过。
-   执行链切片同时核对[Test三步验证](../test/SKILL.md#执行链变更的三步验证)的适用结果、Eval影响与未覆盖项；用真实接线和产物关闭验收，不以局部读取、手工构造成功State或测试数量代替产品完成。对重要改动，以[Test的行为覆盖与测试有效性](../test/SKILL.md#行为覆盖与测试有效性)小表逐项签收：每个声明的失败类型须有具体测试入口、目标断言的检错证据和未覆盖边界；缺任一项不能仅凭全仓全绿签收。
-3. 核对状态权威、外部写入授权、结果不明确、PII和敏感数据；Mock通过不能替代实际审阅。
-4. 只更新内容确实变化的权威文档；当前能力/证据/下一门槛变化时更新STATUS，非trivial实现与验证分别追加DEVLOG、TEST-LOG。涉及Hybrid Live时，确认原始execution artifact与独立evaluation报告分别保存，且evaluation失败不能覆盖执行结果。
-5. 涉及测试时按Test维护规则检查重复覆盖与旧测试退役，交付注明覆盖去向。检查diff和命名，概述行为、验证和限制。提交/推送遵守[Conventions](../../REPOSITORY-CONVENTIONS.md)，只暂存本次范围；未获授权不推送，区分本地commit与远端结果。
+本文件负责适用检查、事实同步与交付；验证矩阵、覆盖/检错和故障关闭只由[Test](../test/SKILL.md)维护，质量oracle、评分和门槛只由[Eval](../eval/SKILL.md)维护。
 
-## 文档归属
+1. 确认本次diff与已有用户改动的边界，复核实际影响的ADR和[Arch Guard](../arch-guard/SKILL.md)边界。
+2. 按[Test](../test/SKILL.md)运行适用检查，修复本次引入的问题；对执行链切片逐项交付实际入口、检错证据、未覆盖边界及Eval影响。既有失败和环境阻塞单独报告，不声称未运行的模式通过。
+3. 按[Eval](../eval/SKILL.md)核对评价对象、证据状态、分母、门槛和独立evaluation；执行artifact与evaluation分开保存，评价失败不得覆盖执行结果。
+4. 只更新确实变化的权威文档；当前能力/证据/下一门槛变化时更新STATUS，非trivial实现与验证分别追加DEVLOG、TEST-LOG。产品、架构、Domain、平台、入口和命名的归属以[INDEX](../../INDEX.md)和[Conventions](../../REPOSITORY-CONVENTIONS.md)为准。
+5. 检查diff和命名，说明覆盖的合并/退役去向、行为、实际检查、失败/未运行及原因、模式、副作用和限制。提交/推送遵守Conventions；未获授权不推送。
 
-| 实际变化 | 对应文档 |
-|---|---|
-| 产品承诺、交互或确认点 | PRD / User Flows |
-| 职责、权限、依赖、数据政策 | 对应Architecture；改变Accepted Decision时新增ADR；长期不变量才同步Arch Guard |
-| Domain语义或DTO | Domain / Interfaces |
-| 平台能力和证明范围 | Capability Matrix / Harness |
-| 测试、评分或运行协议 | Test / Eval / 对应Harness协议 |
-| 入口、变量和命令 | README / .env.example；命名规则只归Conventions |
-
-不因目录改动机械更新全部文档。历史ADR、日志、标注和artifact不按当前命名重写，用户排除的数据保持原样。
-
-## 交付报告
-
-先对照[Planning的切片承诺](../planning/SKILL.md#切片收敛与偏离提醒)说明用户可观察的改善是否兑现、对应证据及首个剩余阻断。区分局部探针成功、离线组合通过和真实链路验收；未闭环时给出有停止条件的最小下一步，不把新增功能或测试数量作为完成依据。发生范围/口径偏离时按Planning主动提醒，不自动扩展下一轮。
-
-说明范围、行为、实际检查、失败/未运行及原因、模式与副作用、文档同步。涉及语义链时按Interpreter、Contract、Compiler、Reducer、Agent、Validator、Router分别归因；端到端结果不能掩盖上游错误。报告长度与改动相称。
+交付先对照[Planning的切片承诺](../planning/SKILL.md#切片收敛与偏离提醒)说明改善是否兑现、证据及首个剩余阻断。区分探针、离线组合、真实只读和受控写入；发生范围或口径偏离时按Planning说明并收敛，不自动扩展下一轮。

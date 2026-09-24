@@ -1,8 +1,8 @@
 # Praxis 开发文档索引
 
 - Status: Accepted
-- Document revision: 0.9
-- Last updated: 2026-09-05
+- Document revision: 1.0
+- Last updated: 2026-09-24
 - Source of truth for: 开发文档导航、阅读路径、文档职责和冲突处理
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Project Positioning](PROJECT-POSITIONING.md)
@@ -72,6 +72,7 @@ Accepted ADR
 - [Dev Log](history/DEVLOG.md)：仅保留按时间的设计、实现与取舍追溯。
 - [Test Log](history/TEST-LOG.md)：仅保留按时间的验证命令、模式、结果与未覆盖项。
 - [2026-09-05全量测试审查](history/TEST-SUITE-REVIEW-2026-09-05.md)：2026-09-06完成的逐文件/逐测试历史快照，不是需随每次改动维护的门禁清单。
+- [2026-09-24 Test/Eval Skill纸面审查](history/TEST-EVAL-SKILL-REVIEW-2026-09-24.md)：覆盖与评价规程的draft / not integrated审查，不是运行或产品能力证据。
 
 ## Superseded Archive
 

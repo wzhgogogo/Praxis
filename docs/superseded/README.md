@@ -1,8 +1,8 @@
 # Superseded Archive
 
 - Status: Accepted
-- Document revision: 1.0
-- Last updated: 2026-08-20
+- Document revision: 1.1
+- Last updated: 2026-09-24
 - Source of truth for: 已退出当前主链但仍有Retro、Review或审计价值的材料索引
 - Related documents: [Documentation Index](../INDEX.md), [Current Status](../STATUS.md), [Dev Log](../history/DEVLOG.md)
 
@@ -12,6 +12,7 @@
 
 ## Restaurant Harness与Eval
 
+- [2026-09-24前Test/Eval Skill迁移映射](skills/TEST-EVAL-SKILL-PRE-RESTRUCTURE-2026-09-24.md)：旧Skill阶段性叙述的可审计去向；包含[原Eval全文快照](skills/EVAL-SKILL-PRE-RESTRUCTURE-2026-09-24.md)，当前规程以Test/Eval Skill为准。
 - [2026-09-15对齐前的H001–H005与Rubric](eval/restaurant-read-pre-alignment-2026-09-15/README.md)：原样归档的旧标注，不再作为当前Runner输入。
 
 - [Progressive Decision Eval](harness/RESTAURANT-PROGRESSIVE-DECISION-EVAL.md)：已删除可执行实现的历史Eval Plan、Scorer设计与结果记录。
