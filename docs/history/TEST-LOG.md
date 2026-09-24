@@ -1,13 +1,21 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.86
+- Document revision: 4.87
 - Last updated: 2026-09-24
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## TEST-2026-09-24-MARUNOUCHI-B1 — targeted source read and Adapter regression
+
+- Mode: Live Read-only targeted Tabelog search, then offline Adapter Mock; no model call, booking or external write.
+- Frozen H003 failure: unscoped `MARUNOUCHI BASE` search returned Aichi results and no same-store match. Independent [Tabelog Tokyo outlet](https://tabelog.com/en/tokyo/A1302/A130201/13251017/) fixes the expected source door. First Tokyo probe showed the region but its limited extraction did not decide target presence; second [saved observation](../../.eval-artifacts/restaurant-source-targeted/marunouchi-2026-09-24T07-54-22-129Z.json) parsed the correct outlet with the production parser.
+- Red/green: existing Adapter navigation assertion changed to the expected Tokyo-scoped entrance and failed before the code edit; it passed after. Added a field-derived MARUNOUCHI BASE synthetic search/detail path in the same Adapter test file, with HIGH identity diagnostic and no invented availability; an Osaka candidate retains the unscoped search in the existing challenge diagnostic test. Synthetic HTML is not real-page Replay.
+- Checks: `node --import tsx --test src/integrations/tabelog/tabelog-browser-availability.test.ts` 26/26; `npm run typecheck`, `npm run arch:check`, `npm run build` passed. Initial sandbox `npm test` hit `listen EPERM 127.0.0.1` in local Web tests; the authorized local-listener run passed 521/521. `git diff --check` pending final diff review.
+- Stage evaluator: existing Tabelog identity diagnostic reused, with independent manual source/outlet verdict; whole-task Eval was not used. Current Tabelog detail, real inventory, other regions and complete H003 remain unverified. The source-discovery stage has a current feasible target within one bounded source query, but no claim of full user-goal completion.
 
 ## TEST-2026-09-24-TWO-ROOMS-A2-A3 — local wiring supported, current source not reached
 

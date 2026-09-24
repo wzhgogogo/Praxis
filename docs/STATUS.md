@@ -1,13 +1,15 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.75
+- Document revision: 4.76
 - Last updated: 2026-09-24
 - Source of truth for: 已实现能力、已验证范围、明确未验证项与下一道门槛
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Documentation Index](INDEX.md), [Roadmap](roadmap.md), [Verification History](history/TEST-LOG.md)
 
 ## 最新审查与当前门槛
+
+2026-09-24 **MARUNOUCHI BASE 来源检索 B1 得到有限支持。** H003 原始 Tabelog 无地区搜索落在爱知；东京范围的定向只读搜索返回正确门店，生产解析器可提取其真实链接。现仅对地址明确含 Tokyo／東京都的候选使用 Tabelog 东京搜索入口，既有身份及库存核验不变。旧目标断言红、修复后 Adapter 对照通过；默认离线521/521、typecheck、arch、build通过。当前来源详情和库存、其他都道府县及 H003 最终交付未获验收。下一步分别做 C1 控件、E1 结果收尾的最小实验，不把 B1 结果外推为整例成功。[B1记录](history/MARUNOUCHI-SOURCE-DISCOVERY-2026-09-24.md)。
 
 2026-09-24 **TWO ROOMS身份 A2/A3：边界与本地生产接线支持，真实来源路径未覆盖。** 既有异街号／楼层及缺证回归足以保护邮编规则；Kazumasa、Komachi仍冲突且属不同地址机制，未被放行。新同套测试让保存字段通过TableCheck提取、比较、门店ID、Router、Runtime，再进入预约页；未确认库存未判有位。一次45秒／零模型定向Live在约11.5秒结束，但搜索只给五个异店入口，未触发`trnihombashi`比较，返回正确的UNKNOWN。下一步把这条来源发现阻断交给B1单独定位；A3真实门店入口仍未签收，不重复这次单店读。[A2/A3记录](history/TWO-ROOMS-IDENTITY-2026-09-24.md)。
 

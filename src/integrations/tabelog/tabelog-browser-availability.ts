@@ -26,8 +26,9 @@ import type {
 
 import { hasTabelogSelectedQuery, tabelogQueryControlHints, TABELOG_QUERY_READY_SELECTOR, TABELOG_VACANCY_RESPONSES } from "./tabelog-query-controls.js";
 
-function searchUrl(candidateName: string): string {
-  return `https://tabelog.com/en/rstLst/?sw=${encodeURIComponent(candidateName)}`;
+function searchUrl(candidateName: string, candidateAddress: string): string {
+  const region = /(?:\bTokyo\b|東京都)/i.test(candidateAddress) ? "tokyo/" : "";
+  return `https://tabelog.com/en/${region}rstLst/?sw=${encodeURIComponent(candidateName)}`;
 }
 
 /** A Google-listed Tabelog URL may be read, but still needs page identity proof. */
@@ -57,7 +58,7 @@ function mergeOutlets<T extends { sourceUrl: string }>(listed: T | undefined, di
 function diagnosticUrl(value: string): string {
   try {
     const url = new URL(value);
-    const searchQuery = url.pathname === "/en/rstLst/" ? url.searchParams.get("sw") : undefined;
+    const searchQuery = /^\/en\/(?:tokyo\/)?rstLst\/$/.test(url.pathname) ? url.searchParams.get("sw") : undefined;
     url.search = searchQuery === null || searchQuery === undefined ? "" : `?sw=${encodeURIComponent(searchQuery)}`;
     url.hash = "";
     return url.toString();
@@ -253,7 +254,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
       session = await this.executor.acquire(signal, "TABELOG", "DISCOVERY");
       await session.captureResponses?.(TABELOG_VACANCY_RESPONSES);
       const browser = { ...session.metadata };
-      const requestedSearchUrl = searchUrl(candidate.restaurant.outletName);
+      const requestedSearchUrl = searchUrl(candidate.restaurant.outletName, candidate.restaurant.address);
       const listedOutlet = listedTabelogOutlet(candidate);
       let directIdentityVerified = false;
       let directPage: BrowserSnapshot | undefined;
@@ -325,7 +326,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
       if (!outlets.length && candidate.restaurant.sourceIds.googleWebsiteUri && candidate.restaurant.sourceIds.phone) {
         const alias = await this.websiteSearchName(candidate, session, signal);
         if (alias) {
-          await this.executor.navigate({ source: "TABELOG", stage: "DISCOVERY", signal, allowedOrigins: ["https://tabelog.com"], session, url: searchUrl(alias) });
+          await this.executor.navigate({ source: "TABELOG", stage: "DISCOVERY", signal, allowedOrigins: ["https://tabelog.com"], session, url: searchUrl(alias, candidate.restaurant.address) });
           search = await this.executor.snapshot({ source: "TABELOG", stage: "DISCOVERY", signal, session });
           if (hasBotChallenge(search)) return this.ground(candidate, request, { candidate, observedAt, entityMatch: { confidence: "LOW", matchedBy: [] }, pageState: "BOT_CHALLENGE", excerpt: pageExcerpt(search) }, browser);
           outlets = mergeOutlets(listedOutlet, parseTabelogSearchOutlets(search), this.maxCandidateMatches);

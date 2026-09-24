@@ -1,13 +1,17 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.81
+- Document revision: 4.82
 - Last updated: 2026-09-24
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## 2026-09-24 MARUNOUCHI BASE B1 source-discovery slice
+
+The H003 saved Tabelog search went to Aichi despite a Tokyo candidate. An independently located Tokyo Tabelog page and a bounded real search established that `/en/tokyo/rstLst/?sw=MARUNOUCHI%20BASE` exposes the correct outlet to the current parser. Added Tokyo/東京都 address scoping only to the Tabelog search URL, including an observed alias search and diagnostic URL handling. Reused the Adapter's identity/inventory guards and added one field-derived example in its existing main test file; non-Tokyo remains unscoped. No retries, identity threshold, evaluator, other provider or budget changed. See [bounded evidence and limits](MARUNOUCHI-SOURCE-DISCOVERY-2026-09-24.md).
 
 ## 2026-09-24 TWO ROOMS A2/A3 extension and targeted read
 

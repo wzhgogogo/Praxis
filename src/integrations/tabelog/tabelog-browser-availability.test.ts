@@ -201,7 +201,7 @@ class ChallengeResumeSession implements BrowserSession {
 
   async navigate(url: string): Promise<void> {
     this.navigated.push(url);
-    if (url.includes("/tokyo/")) this.current = this.detail;
+    if (url.includes("/A1304/")) this.current = this.detail;
   }
   async snapshot(): Promise<BrowserSnapshot> { return structuredClone(this.current); }
   async click(): Promise<void> {}
@@ -222,12 +222,46 @@ test("Tabelog executor grounds a deterministic browser observation and never sub
   const browser: BrowserRuntime = { openSession: async () => session };
   const adapter = new TabelogBrowserAvailability(browser, () => "2026-08-05T09:00:00.000Z");
   const result = await adapter.check({ candidateIds: [candidate.restaurant.id], candidates: [candidate], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: 2, hardCriteria: ["yakiniku"] }, new AbortController().signal);
-  assert.equal(session.navigated[0], "https://tabelog.com/en/rstLst/?sw=Restaurant%201");
+  assert.equal(session.navigated[0], "https://tabelog.com/en/tokyo/rstLst/?sw=Restaurant%201");
   assert.equal(result.metadata.route, "GENERIC_BROWSER");
   assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE");
   assert.equal(result.offers.length, 1);
   assert.equal(session.clicks, 0);
   assert.equal(session.fills, 0);
+});
+
+test("Tabelog Tokyo discovery carries MARUNOUCHI BASE into outlet comparison without granting inventory", async () => {
+  const tokyoCandidate = {
+    ...candidate,
+    restaurant: {
+      ...candidate.restaurant,
+      outletName: "MARUNOUCHI BASE",
+      address: "1-3-4 Marunouchi, Chiyoda City, Tokyo",
+      sourceIds: { ...candidate.restaurant.sourceIds, phone: "050-2018-8952" },
+    },
+  };
+  const session = new FixtureBrowserSession([
+    {
+      url: "https://tabelog.com/en/tokyo/rstLst/?sw=MARUNOUCHI%20BASE",
+      title: "Best Restaurants in Tokyo | Tabelog",
+      text: "MARUNOUCHI BASE",
+      html: '<a class="list-rst__rst-name-target" href="https://tabelog.com/en/tokyo/A1302/A130201/13251017/">MARUNOUCHI BASE</a>',
+    },
+    {
+      url: "https://tabelog.com/en/tokyo/A1302/A130201/13251017/",
+      title: "MARUNOUCHI BASE",
+      text: "MARUNOUCHI BASE 1-3-4 Marunouchi, Chiyoda City, Tokyo",
+      html: '<script type="application/ld+json">{"@type":"Restaurant","name":"MARUNOUCHI BASE","telephone":"050-2018-8952","address":{"streetAddress":"1-3-4 Marunouchi","addressLocality":"Chiyoda City","addressRegion":"Tokyo"}}</script>',
+    },
+  ]);
+  const diagnostics: unknown[] = [];
+  const result = await new TabelogBrowserAvailability({ openSession: async () => session }, () => "2026-09-24T00:00:00.000Z", 5, {
+    onIdentityDiagnostic: (diagnostic) => diagnostics.push(diagnostic),
+  }).check({ candidateIds: [tokyoCandidate.restaurant.id], candidates: [tokyoCandidate], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: 2, hardCriteria: [] }, new AbortController().signal);
+  assert.equal(session.navigated[0], "https://tabelog.com/en/tokyo/rstLst/?sw=MARUNOUCHI%20BASE");
+  assert.equal(session.navigated.includes("https://tabelog.com/en/tokyo/A1302/A130201/13251017/"), true);
+  assert.equal((diagnostics[0] as { resolution: { confidence: string } }).resolution.confidence, "HIGH");
+  assert.notEqual(result.availabilityChecks[tokyoCandidate.restaurant.id]?.status, "AVAILABLE");
 });
 
 test("Tabelog reads a Google-listed merchant page through the identity gate before a wrong discovery branch", async () => {
@@ -425,7 +459,7 @@ test("Tabelog entity failure sends a sanitized search, detail, and comparison di
     resolution: { reason: string };
   };
   assert.equal(diagnostics.length, 1);
-  assert.equal(diagnostic.search.requestedUrl, "https://tabelog.com/en/rstLst/?sw=Restaurant%201");
+  assert.equal(diagnostic.search.requestedUrl, "https://tabelog.com/en/tokyo/rstLst/?sw=Restaurant%201");
   assert.equal(diagnostic.search.finalUrl, "https://tabelog.com/en/rstLst/?sw=Restaurant%201");
   assert.equal(diagnostic.search.title, "Tabelog search");
   assert.deepEqual(diagnostic.searchResults[0], {
@@ -445,6 +479,7 @@ test("Tabelog entity failure sends a sanitized search, detail, and comparison di
 
 test("Tabelog search challenge records its cause while removing transient challenge tokens", async () => {
   const diagnostics: unknown[] = [];
+  const nonTokyoCandidate = { ...candidate, restaurant: { ...candidate.restaurant, address: "1-1 Umeda, Osaka" } };
   const browser: BrowserRuntime = { openSession: async () => new FixtureBrowserSession([{
     url: "https://tabelog.com/en/rstLst/?sw=Restaurant+1&__cf_chl_rt_tk=ephemeral-token",
     title: "Just a moment...",
@@ -454,11 +489,12 @@ test("Tabelog search challenge records its cause while removing transient challe
   const result = await new TabelogBrowserAvailability(browser, () => "2026-08-05T09:00:00.000Z", 5, {
     onIdentityDiagnostic: (diagnostic) => diagnostics.push(diagnostic),
   }).check(
-    { candidateIds: [candidate.restaurant.id], candidates: [candidate], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: 2, hardCriteria: ["yakiniku"] },
+    { candidateIds: [nonTokyoCandidate.restaurant.id], candidates: [nonTokyoCandidate], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: 2, hardCriteria: ["yakiniku"] },
     new AbortController().signal,
   );
-  assert.equal(result.availabilityChecks[candidate.restaurant.id]?.reasonCode, "BOT_CHALLENGE");
-  const diagnostic = diagnostics[0] as { search: { finalUrl: string }; resolution: { reason: string }; comparedOutlets: unknown[] };
+  assert.equal(result.availabilityChecks[nonTokyoCandidate.restaurant.id]?.reasonCode, "BOT_CHALLENGE");
+  const diagnostic = diagnostics[0] as { search: { requestedUrl: string; finalUrl: string }; resolution: { reason: string }; comparedOutlets: unknown[] };
+  assert.equal(diagnostic.search.requestedUrl, "https://tabelog.com/en/rstLst/?sw=Restaurant%201");
   assert.equal(diagnostic.search.finalUrl, "https://tabelog.com/en/rstLst/?sw=Restaurant%201");
   assert.equal(diagnostic.search.finalUrl.includes("__cf_chl_rt_tk"), false);
   assert.equal(diagnostic.resolution.reason, "SEARCH_BOT_CHALLENGE");
