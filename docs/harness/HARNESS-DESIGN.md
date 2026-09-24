@@ -1,8 +1,8 @@
 # Harness Design
 
 - Status: Accepted
-- Document revision: 3.9
-- Last updated: 2026-09-05
+- Document revision: 4.0
+- Last updated: 2026-09-24
 - Source of truth for: Agent Workspace、Task、Search和Browser的模拟、回放、断言与故障注入
 - Related ADRs: [ADR-0001](../decisions/0001-general-task-runtime.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md)
 - Related documents: [Golden Scenarios](GOLDEN-SCENARIOS.md), [Superseded Progressive Decision Eval](../superseded/harness/RESTAURANT-PROGRESSIVE-DECISION-EVAL.md), [Test Skill](../skills/test/SKILL.md)
@@ -74,6 +74,8 @@ Stage 2A/2B覆盖完整/缺失Intent、最多3个Fixture候选，以及由Agent�
 ### Browser Harness
 
 断言页面阶段、单步动作、Checkpoint、接管、提交次数和Evidence。未知页面不得越过最终提交Guard。
+
+当前TableCheck本地Chromium场景从多条同查询搜索链接进入：一条错店、一条有HIGH身份和请求绑定slot的目标店；断言在本地候选预算内得到目标店可用结论，未执行模型动作或外写。配套Adapter Fixture将“先选中目标又浏览别店”恢复目标页、历史入口只复用身份资料、旧查询链接拒绝、同店预约页绑定和无位UNKNOWN边界分开检错。浏览器动作Fixture另覆盖相同状态下两次被拒提议的有界停止及一次纠正后合法推进；这不证明真实TableCheck当前DOM或Live库存。
 
 ### Progressive Decision Eval Harness
 

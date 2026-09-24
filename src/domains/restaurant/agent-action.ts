@@ -92,10 +92,14 @@ function emptyList(value: unknown): boolean {
   return Array.isArray(value) && value.length === 0;
 }
 
-function onlyExpectedStrictPlaceholders(value: Record<string, unknown>, allowed: ReadonlySet<string>): boolean {
-  return Object.entries(value).every(([key, item]) =>
-    key === "type" || key === "decisionSummary" || allowed.has(key) || emptyString(item) || emptyList(item),
-  );
+function unexpectedStrictFields(value: Record<string, unknown>, allowed: ReadonlySet<string>): string[] {
+  return Object.entries(value).filter(([key, item]) =>
+    key !== "type" && key !== "decisionSummary" && !allowed.has(key) && !emptyString(item) && !emptyList(item),
+  ).map(([key]) => `$.${key}`);
+}
+
+function nonPlaceholderError(action: string, fields: string[]): string[] {
+  return [`${action} contains non-placeholder fields: ${fields.join(", ")}`];
 }
 
 /** Converts the strict all-fields wire value into the canonical @4 action shape. */
@@ -110,24 +114,24 @@ export function normalizeRestaurantAgentActionStrictWire(value: unknown):
   const decisionSummary = nonBlank(value.decisionSummary) ? value.decisionSummary.trim() : undefined;
   switch (value.type) {
     case "ASK_USER":
-      if (!onlyExpectedStrictPlaceholders(value, new Set(["question", "relatedFields"]))) return { valid: false, errors: ["ASK_USER contains non-placeholder fields"] };
+      if (unexpectedStrictFields(value, new Set(["question", "relatedFields"])).length) return { valid: false, errors: nonPlaceholderError("ASK_USER", unexpectedStrictFields(value, new Set(["question", "relatedFields"]))) };
       return { valid: true, value: { type: value.type, question: value.question, ...(emptyList(value.relatedFields) ? {} : { relatedFields: value.relatedFields }), ...(decisionSummary ? { decisionSummary } : {}) } };
     case "SEARCH_RESTAURANTS":
-      if (!onlyExpectedStrictPlaceholders(value, new Set(["retrievalHint"]))) return { valid: false, errors: ["SEARCH_RESTAURANTS contains non-placeholder fields"] };
+      if (unexpectedStrictFields(value, new Set(["retrievalHint"])).length) return { valid: false, errors: nonPlaceholderError("SEARCH_RESTAURANTS", unexpectedStrictFields(value, new Set(["retrievalHint"]))) };
       return { valid: true, value: { type: value.type, ...(nonBlank(value.retrievalHint) ? { retrievalHint: value.retrievalHint } : {}), ...(decisionSummary ? { decisionSummary } : {}) } };
     case "INVESTIGATE_CANDIDATE_FACTS":
     case "CHECK_AVAILABILITY":
     case "PRESENT_RESULTS":
-      if (!onlyExpectedStrictPlaceholders(value, new Set(["candidateIds"]))) return { valid: false, errors: [`${value.type} contains non-placeholder fields`] };
+      if (unexpectedStrictFields(value, new Set(["candidateIds"])).length) return { valid: false, errors: nonPlaceholderError(value.type, unexpectedStrictFields(value, new Set(["candidateIds"]))) };
       return { valid: true, value: { type: value.type, candidateIds: value.candidateIds, ...(decisionSummary ? { decisionSummary } : {}) } };
     case "END_READ":
-      if (!onlyExpectedStrictPlaceholders(value, new Set())) return { valid: false, errors: ["END_READ contains non-placeholder fields"] };
+      if (unexpectedStrictFields(value, new Set()).length) return { valid: false, errors: nonPlaceholderError("END_READ", unexpectedStrictFields(value, new Set())) };
       return { valid: true, value: { type: value.type, ...(decisionSummary ? { decisionSummary } : {}) } };
     case "SELECT_CANDIDATE":
-      if (!onlyExpectedStrictPlaceholders(value, new Set(["candidateId", "offerId"]))) return { valid: false, errors: ["SELECT_CANDIDATE contains non-placeholder fields"] };
+      if (unexpectedStrictFields(value, new Set(["candidateId", "offerId"])).length) return { valid: false, errors: nonPlaceholderError("SELECT_CANDIDATE", unexpectedStrictFields(value, new Set(["candidateId", "offerId"]))) };
       return { valid: true, value: { type: value.type, candidateId: value.candidateId, ...(nonBlank(value.offerId) ? { offerId: value.offerId } : {}), ...(decisionSummary ? { decisionSummary } : {}) } };
     case "BOOK_RESERVATION":
-      if (!onlyExpectedStrictPlaceholders(value, new Set(["candidateId", "offerId"]))) return { valid: false, errors: ["BOOK_RESERVATION contains non-placeholder fields"] };
+      if (unexpectedStrictFields(value, new Set(["candidateId", "offerId"])).length) return { valid: false, errors: nonPlaceholderError("BOOK_RESERVATION", unexpectedStrictFields(value, new Set(["candidateId", "offerId"]))) };
       return { valid: true, value: { type: value.type, candidateId: value.candidateId, offerId: value.offerId, ...(decisionSummary ? { decisionSummary } : {}) } };
     default:
       return { valid: true, value };

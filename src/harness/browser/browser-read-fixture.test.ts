@@ -587,6 +587,31 @@ test("TableCheck waits for its guide result and grounds exact-query empty availa
   } finally { await executor.close(); }
 });
 
+test("TableCheck handles multiple current search links and reads only the identity-bound outlet", async () => {
+  const { TableCheckBrowserAvailability } = await import("../../integrations/tablecheck/tablecheck-browser-availability.js");
+  const { fixtureCandidates } = await import("../restaurant-fixtures.js");
+  const { tableCheckDiscoveryUrl } = await import("../../integrations/tablecheck/tablecheck-page-parser.js");
+  const candidate = structuredClone(fixtureCandidates[0]!);
+  candidate.restaurant.sourceIds.phone = "03-1111-2222";
+  const searchUrl = tableCheckDiscoveryUrl(candidate);
+  const query = new URL(searchUrl).searchParams.get("search_text")!;
+  const correctUrl = "https://www.tablecheck.com/en/restaurant1";
+  const otherUrl = "https://www.tablecheck.com/en/other-restaurant";
+  const resultHtml = `<a href="${otherUrl}?search_text=${encodeURIComponent(query)}">Other Restaurant</a><a href="${correctUrl}?search_text=${encodeURIComponent(query)}">Restaurant 1</a>`;
+  const correctHtml = '<h1>Restaurant 1</h1><a href="tel:03-1111-2222">Phone</a><div data-testid="Venue Availability" data-selected-date="2026-09-16" data-pax="2"></div><section data-availability-state="complete"><button class="time-slot is-available" data-time="19:00">19:00</button></section>';
+  const executor = new BrowserTaskExecutor(localFixture({
+    [searchUrl]: resultHtml,
+    [otherUrl]: '<h1>Other Restaurant</h1><a href="tel:03-9999-8888">Phone</a>',
+    [correctUrl]: correctHtml,
+  }), { modelDecision: { async decide() { assert.fail("known feasible guide requires no browser model action"); } } });
+  try {
+    const result = await new TableCheckBrowserAvailability(executor).check({ candidates: [candidate], candidateIds: [candidate.restaurant.id],
+      date: "2026-09-16", partySize: 2, timeWindow: { earliest: "19:00", latest: "19:00" }, hardCriteria: [] }, new AbortController().signal);
+    assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE", JSON.stringify(result));
+    assert.equal(result.offers.length, 1);
+  } finally { await executor.close(); }
+});
+
 // Regression from the live 4-person failure: disabled selected day is evidence,
 // and ARIA combobox/options must be operable without allowing booking submission.
 for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {

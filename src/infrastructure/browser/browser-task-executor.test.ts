@@ -444,6 +444,29 @@ test("BrowserTaskExecutor keeps an invalid model action in the same bounded sess
   await executor.close();
 });
 
+test("BrowserTaskExecutor abandons two identical rejected proposals on an unchanged page", async () => {
+  const session = new FixtureSession([{
+    url: "https://www.tablecheck.com/en/restaurant1", title: "availability", text: "10 guests unavailable",
+    html: '<button id="party" data-value="2">2 guests</button>',
+  }]);
+  let calls = 0;
+  const diagnostics: string[] = [];
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {
+    modelDecision: { async decide() {
+      calls += 1;
+      throw new BrowserReadDecisionError("INVALID_MODEL_OUTPUT", "Selected party option is not an observed target");
+    } },
+    onDiagnostic: (event) => { if (event.detail) diagnostics.push(event.detail); },
+  });
+  const acquired = await executor.acquire(new AbortController().signal, "TABLECHECK", "AVAILABILITY");
+  const result = await executor.runSkill({ ...input(acquired), stage: "AVAILABILITY", completion: () => ({ complete: false, reason: "Party remains unconfirmed." }) });
+  assert.equal(result.status, "NO_SAFE_ACTION");
+  assert.equal(calls, 2);
+  assert.equal(session.clicks, 0);
+  assert.ok(diagnostics.includes("NO_PROGRESS_REJECTED_ACTION"));
+  await executor.close();
+});
+
 test("BrowserTaskExecutor removes an observed target after its action makes no page progress and continues in the same session", async () => {
   const session = new FixtureSession([
     { url: "https://www.tablecheck.com/en/sushi", title: "availability", text: "Select date and party", html: '<button id="date" data-date="2026-9-10" data-hydrated="1">Monday 10</button><button id="party" data-value="2">2 guests</button>' },

@@ -36,12 +36,19 @@ function normalized(value: string): string {
   return value.trim().toLocaleLowerCase("en-US");
 }
 
+function hasExplicitHardConflict(read: RestaurantCandidateFactRead, candidateId: string, intent: RestaurantCandidateFactRequest["intent"]): boolean {
+  const excluded = new Set(intent.criteria.filter((criterion) => criterion.polarity === "NEGATIVE" && criterion.strength === "HARD")
+    .map((criterion) => normalized(criterion.text)));
+  return stringClaims(read, candidateId, "violatedNegativeCriteria").some((claim) => excluded.has(normalized(claim)));
+}
+
 /** Browser work is gap-driven; an already sufficient Google fact read ends here. */
 function needsWebsiteFactEvidence(
   read: RestaurantCandidateFactRead,
   candidateId: string,
   intent: RestaurantCandidateFactRequest["intent"],
 ): boolean {
+  if (hasExplicitHardConflict(read, candidateId, intent)) return false;
   const verifiedPositive = new Set(stringClaims(read, candidateId, "verifiedHardCriteria").map(normalized));
   const verifiedNegative = new Set(stringClaims(read, candidateId, "verifiedNegativeCriteria").map(normalized));
   const positiveMissing = intent.criteria.some((criterion) =>
@@ -90,7 +97,8 @@ export class GoogleThenWebsiteFactRead implements RestaurantCandidateFactPort {
     });
     if (!candidates.length) {
       const judgments = this.judgment
-        ? await Promise.all(request.candidates.map((candidate) => this.judgment!.judge({ candidate, intent: request.intent, evidence: google.evidence })))
+        ? await Promise.all(request.candidates.filter((candidate) => !hasExplicitHardConflict(google, candidate.restaurant.id, request.intent))
+          .map((candidate) => this.judgment!.judge({ candidate, intent: request.intent, evidence: google.evidence })))
         : [];
       const modelUsage = accumulatedModelUsage(judgments);
       const evidence = [...google.evidence, ...judgments.flatMap((item) => item.evidence)];
@@ -128,7 +136,8 @@ export class GoogleThenWebsiteFactRead implements RestaurantCandidateFactPort {
     }
     const sourceEvidence = [...google.evidence, ...website.evidence];
     const judgments = this.judgment
-      ? await Promise.all(request.candidates.map((candidate) => this.judgment!.judge({ candidate, intent: request.intent, evidence: sourceEvidence })))
+      ? await Promise.all(request.candidates.filter((candidate) => !hasExplicitHardConflict(google, candidate.restaurant.id, request.intent))
+        .map((candidate) => this.judgment!.judge({ candidate, intent: request.intent, evidence: sourceEvidence })))
       : [];
     const modelUsage = accumulatedModelUsage(judgments);
     const evidence = [...sourceEvidence, ...judgments.flatMap((item) => item.evidence)];

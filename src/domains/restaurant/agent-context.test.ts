@@ -109,6 +109,33 @@ test("Restaurant Agent context exposes a stable exhausted-discovery state withou
   assert.equal(JSON.stringify(context).includes("provider-specific private detail"), false);
 });
 
+test("current identity-bound negative HARD conflict removes an outlet from costly fact and availability reads", () => {
+  const candidateId = fixtureCandidates[0]!.restaurant.id;
+  const criteria = [{ text: "hot pot restaurant", polarity: "NEGATIVE" as const, strength: "HARD" as const }];
+  const context = projectRestaurantAgentContext({
+    schemaVersion: "10", phase: "SEARCHING", intentDraft: { ...fixtureIntent, schemaVersion: "3", criteria },
+    intent: { ...fixtureIntent, criteria }, candidates: [fixtureCandidates[0]!], availability: {}, availabilityChecks: {}, searchRevision: 1,
+    readEvidence: [{ evidenceId: "identity", kind: "ENTITY_MATCH", provider: "GOOGLE_PLACES", candidateId, sourceEntityId: "place-1",
+      observedAt: "2026-08-05T09:00:00.000Z", requestFingerprint: "request", claims: {}, entityMatch: { confidence: "HIGH", matchedBy: ["GOOGLE_PLACE_ID"] } },
+    { evidenceId: "hotpot", kind: "RESTAURANT_FACT", provider: "GOOGLE_PLACES", candidateId, sourceEntityId: "place-1",
+      observedAt: "2026-08-05T09:00:00.000Z", requestFingerprint: "request", claims: { violatedNegativeCriteria: ["hot pot restaurant"], restaurantTypeFacts: ["hot pot restaurant"] } }],
+  });
+  assert.equal(context.candidates[0]?.observedFacts.violatedNegativeCriteria.includes("hot pot restaurant"), true);
+  assert.equal(context.legalActions.checkAvailability.includes(candidateId), false);
+  assert.equal(context.legalActions.investigateCandidateFacts.includes(candidateId), false);
+});
+
+test("missing negative HARD evidence stays UNKNOWN and leaves a legal read path", () => {
+  const candidateId = fixtureCandidates[0]!.restaurant.id;
+  const criteria = [{ text: "hot pot restaurant", polarity: "NEGATIVE" as const, strength: "HARD" as const }];
+  const context = projectRestaurantAgentContext({
+    schemaVersion: "10", phase: "SEARCHING", intentDraft: { ...fixtureIntent, schemaVersion: "3", criteria },
+    intent: { ...fixtureIntent, criteria }, candidates: [fixtureCandidates[0]!], availability: {}, availabilityChecks: {}, readEvidence: [], searchRevision: 1,
+  });
+  assert.equal(context.candidates[0]?.observedFacts.violatedNegativeCriteria.length, 0);
+  assert.equal(context.legalActions.checkAvailability.includes(candidateId), true);
+});
+
 test("Restaurant Agent context exposes bounded candidate facts, provider attempts, reception and code-derived next actions", () => {
   const candidateId = fixtureCandidates[0]!.restaurant.id;
   const context = projectRestaurantAgentContext({

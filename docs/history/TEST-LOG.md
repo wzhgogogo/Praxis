@@ -1,13 +1,19 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.81
+- Document revision: 4.82
 - Last updated: 2026-09-24
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## TEST-2026-09-24-A-D-OFFLINE — implementation checks, no Live acceptance
+
+- Reused TableCheck Adapter, Agent action/decision, Browser Executor, Domain grounding/context and website fact suites with synthetic negative and normal controls. A new scenario in the existing local Chromium Harness reads the correct outlet from two current search links with zero model actions. The original H001 invalid fields are unavailable; its new malformed-wire cases are explicitly synthetic.
+- Final `npm run typecheck`, `npm run arch:check`, `npm run build`, `git diff --check` PASS; default `npm test` **518/518 PASS** and `npm run test:browser:fixture` **24/24 PASS**. Initial sandbox-only test and Chromium failures were permission errors (`listen EPERM`, browser MachPort denial); identical commands passed outside the sandbox.
+- Mode: Mock plus real local Chromium Fixture. No new real model, source Live, private Holdout, controlled Live-write, booking or payment. Fixture normal completion and rejection controls are distinct from H001–H003 acceptance; automatic evaluation and a new Live comparison remain pending.
 
 ## TEST-2026-09-24-TEST-EVAL-HOLDOUT-PROTOCOL — documentation verification
 

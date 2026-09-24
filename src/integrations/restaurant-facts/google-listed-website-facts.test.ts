@@ -4,6 +4,7 @@ import { test } from "node:test";
 import type { RestaurantCandidateFactRequest } from "../../domains/restaurant/contracts.js";
 import type { BrowserRuntime, BrowserSession } from "../../infrastructure/browser/browser-runtime.js";
 import { GoogleListedWebsiteFactRead } from "./google-listed-website-facts.js";
+import { GoogleThenWebsiteFactRead } from "./google-then-website-facts.js";
 
 const request: RestaurantCandidateFactRequest = {
   candidateIds: ["cafe-a"],
@@ -17,6 +18,27 @@ const request: RestaurantCandidateFactRequest = {
     timeWindow: { earliest: "12:00", latest: "15:00" }, area: { query: "Ginza" }, criteria: [{ text: "cafe", polarity: "POSITIVE", strength: "HARD" }],
   },
 };
+
+test("an identity-bound Google HARD exclusion stops website and model fact work", async () => {
+  let websiteCalls = 0;
+  let judgmentCalls = 0;
+  const excludedRequest = { ...request, intent: { ...request.intent, criteria: [{ text: "hot pot restaurant", polarity: "NEGATIVE" as const, strength: "HARD" as const }] } };
+  const read = await new GoogleThenWebsiteFactRead(
+    { executionRoute: "STRUCTURED_ADAPTER", async inspectFacts() { return {
+      evidence: [{ evidenceId: "google-identity", kind: "ENTITY_MATCH" as const, provider: "GOOGLE_PLACES" as const, candidateId: "cafe-a", sourceEntityId: "place-a",
+        observedAt: "2026-09-14T00:00:00.000Z", requestFingerprint: "request", claims: {}, entityMatch: { confidence: "HIGH" as const, matchedBy: ["GOOGLE_PLACE_ID"] } },
+      { evidenceId: "google-facts", kind: "RESTAURANT_FACT" as const, provider: "GOOGLE_PLACES" as const, candidateId: "cafe-a", sourceEntityId: "place-a",
+        observedAt: "2026-09-14T00:00:00.000Z", requestFingerprint: "request", claims: { violatedNegativeCriteria: ["hot pot restaurant"], restaurantTypeFacts: ["hot pot restaurant"], websiteUri: "https://cafe.example/about" } }],
+      factChecks: { "cafe-a": { status: "COMPLETED" as const, checkedAt: "2026-09-14T00:00:00.000Z", evidenceIds: ["google-identity", "google-facts"] } },
+      metadata: { provider: "GOOGLE_PLACES" as const, route: "STRUCTURED_ADAPTER" as const, latencyMs: 1 },
+    }; } },
+    { executionRoute: "GENERIC_BROWSER", async inspectFacts() { websiteCalls += 1; throw new Error("excluded outlet must not open website"); } },
+    { async judge() { judgmentCalls += 1; throw new Error("excluded outlet must not call model judgment"); } },
+  ).inspectFacts(excludedRequest, new AbortController().signal);
+  assert.equal(read.factChecks["cafe-a"]?.status, "COMPLETED");
+  assert.equal(websiteCalls, 0);
+  assert.equal(judgmentCalls, 0);
+});
 
 function runtime(html: string, text = "untrusted visible prose"): BrowserRuntime {
   const session: BrowserSession = {

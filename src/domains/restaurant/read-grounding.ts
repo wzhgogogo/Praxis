@@ -164,30 +164,33 @@ function sourceRestaurantTypeFacts(observation: UntrustedGooglePlaceObservation)
 }
 
 /**
- * A Google primary type can establish an explicit conflict, but cannot prove
+ * An observed Google type can establish an explicit conflict, but cannot prove
  * that a restaurant satisfies a negative cuisine/type constraint.  In
  * particular, "japanese_restaurant" does not prove "not hot pot", and a
  * missing term never proves a negative.  A positive exclusion judgment needs
  * an applicable, identity-bound source fact instead.
  */
 function negativeTypeConflicts(
+  types: string[] | undefined,
   primaryType: string | undefined,
   criteria: string[] | undefined,
 ): { verified: string[]; violated: string[]; judgments: string[] } {
   const normalizedPrimary = primaryType ? normalized(primaryType.replace(/_/g, " ")) : undefined;
-  if (!normalizedPrimary || ["restaurant", "cafe", "food"].includes(normalizedPrimary)) {
-    return { verified: [], violated: [], judgments: [] };
-  }
-  const primaryTerms = new Set(normalizedPrimary.split(/[^\p{L}\p{N}]+/u).filter(Boolean));
+  const sourceTypes = [...new Set([...(types ?? []), ...(primaryType ? [primaryType] : [])]
+    .map((value) => normalized(value.replace(/_/g, " ")))
+    .filter((value) => value && !["restaurant", "cafe", "food"].includes(value)))];
   const typeScoped = (criteria ?? []).filter((criterion) => /\b(restaurant|cuisine|dining type)\b/i.test(criterion));
   const result = { verified: [] as string[], violated: [] as string[], judgments: [] as string[] };
   for (const criterion of typeScoped) {
     const criterionTerms = normalized(criterion).split(/[^\p{L}\p{N}]+/u).filter((term) => term.length > 2 && !["restaurant", "cuisine", "dining", "type"].includes(term));
     if (criterionTerms.length === 0) continue;
-    const overlaps = criterionTerms.some((term) => primaryTerms.has(term));
-    if (overlaps) {
+    const matchingType = sourceTypes.find((sourceType) => {
+      const terms = new Set(sourceType.split(/[^\p{L}\p{N}]+/u).filter(Boolean));
+      return criterionTerms.some((term) => terms.has(term));
+    });
+    if (matchingType) {
       result.violated.push(criterion);
-      result.judgments.push(`${criterion}<=primaryType:${normalizedPrimary}`);
+      result.judgments.push(`${criterion}<=${matchingType === normalizedPrimary ? "primaryType" : "types"}:${matchingType}`);
     }
   }
   return result;
@@ -288,7 +291,7 @@ export function groundRestaurantWebsiteFacts(
   };
   const types = [...new Set((observation.restaurantTypeFacts ?? []).map(normalized).filter(Boolean))];
   const positive = supportedTypeCriteria(types, intent.criteria.filter((item) => item.polarity === "POSITIVE" && item.strength === "HARD").map((item) => item.text));
-  const negative = negativeTypeConflicts(types.join(" "), intent.criteria.filter((item) => item.polarity === "NEGATIVE" && item.strength === "HARD").map((item) => item.text));
+  const negative = negativeTypeConflicts(types, undefined, intent.criteria.filter((item) => item.polarity === "NEGATIVE" && item.strength === "HARD").map((item) => item.text));
   const openingHours = intent.date && intent.timeWindow
     ? openingHoursForRequest(observation.regularOpeningHours, intent.date, intent.timeWindow)
     : undefined;
@@ -383,7 +386,7 @@ export function groundGoogleDiscovery(
   };
   const restaurantTypeFacts = sourceRestaurantTypeFacts(observation);
   const verifiedHardCriteria = supportedTypeCriteria(restaurantTypeFacts, input.requiredTypeCriteria);
-  const negativeTypes = negativeTypeConflicts(observation.primaryType, input.negativeCriteria);
+  const negativeTypes = negativeTypeConflicts(observation.types, observation.primaryType, input.negativeCriteria);
   const openingHours = openingHoursForRequest(observation.regularOpeningHours, input.requestedDate, input.requestedTimeWindow);
   const facts: RestaurantReadEvidence[] = restaurantTypeFacts.length || openingHours !== undefined ? [{
     evidenceId: evidenceId("google-facts", { placeId: observation.placeId, observedAt: input.observedAt, verifiedHardCriteria, openingHours }),

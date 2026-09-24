@@ -1,8 +1,8 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.20
-- Last updated: 2026-09-21
+- Document revision: 1.21
+- Last updated: 2026-09-24
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
 - Related documents: [Restaurant Domain](../domains/RESTAURANT-BOOKING.md), [Data & Security](../architecture/DATA-CONTEXT-SECURITY.md)
@@ -36,6 +36,8 @@ Mock contract update (2026-09-15): the Google→website fact composition retains
 Live/control update (2026-09-15): the first current H003 read performed one Google discovery and ten Place Details requests. All ten website attempts remained unknown (nine identity-unverified, one read failure); all ten availability checks remained UNKNOWN, not confirmed unavailable. Three HIGH-identity TableCheck candidates reached model-directed party selection but exposed a local runtime bug: opaque observed DOM references were parsed as CSS selectors. Local and Cloudflare session fill/select now resolve those references through the existing control registry. Actual executor plus local Chromium fixtures pass for both session implementations; Cloudflare remote service has not been retested. The follow-up H003 eliminated DOM-reference CSS errors but five custom comboboxes still failed because they were operated as native selects; all ten website identities and all ten inventories remained unverified. Both runs ended NO_VERIFIED_RESULT with no independently qualified result. Live execution and outstanding source/model gaps are recorded separately in [STATUS](../STATUS.md) and [TEST-LOG](../history/TEST-LOG.md). This does not establish general website identity, ten-person inventory or successful reservations.
 
 ## 官方来源
+
+2026-09-24离线契约补充：TableCheck当前run内已读的门店身份页可供后续候选独立重比，进入查位前仍须回到选中门店并重新确认HIGH身份；预约页须保持详情页实际观察到的目标路径。搜索页有多个结果链接时等待任一可见链接，但只接纳与本次`search_text`一致的页面和结果链接。真实Chromium本地Fixture已验证多链接正常结果，旧查询、错页与重复入口由离线回归覆盖；尚未取得本轮新Live证据。Google发现的完整`types`与`primaryType`可提供明确负向HARD类型冲突，缺少该类型仍是UNKNOWN，不能由店名或缺项推断满足排除条件。
 
 ### DeepSeek
 

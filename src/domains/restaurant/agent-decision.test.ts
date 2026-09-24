@@ -4,6 +4,7 @@ import { test } from "node:test";
 import type { RestaurantAgentContext } from "./agent-context.js";
 import { RESTAURANT_AGENT_DECISION_MAX_OUTPUT_TOKENS, RestaurantAgentDecision } from "./agent-decision.js";
 import { RESTAURANT_AGENT_CAPABILITIES } from "./restaurant-capabilities.js";
+import type { ModelGateway, ModelResponse } from "../../core/model/contracts.js";
 import { DeepSeekModelGateway } from "../../infrastructure/deepseek/deepseek-model-gateway.js";
 
 const context: RestaurantAgentContext = {
@@ -49,9 +50,36 @@ test("Restaurant Agent sends a DeepSeek-strict compatible wire schema and restor
   if (result.status !== "PROPOSED") return;
   assert.deepEqual(result.action, { type: "SEARCH_RESTAURANTS", retrievalHint: "omakase near Shibuya" });
   assert.equal(result.decisionSummary, "Search first.");
-  assert.equal(result.modelAttempt.promptVersion, "15");
+  assert.equal(result.modelAttempt.promptVersion, "16");
   assert.equal(result.modelAttempt.providerRequestId, "request-123");
   assert.deepEqual(result.modelAttempt.outputSchema, { name: "restaurant_agent_action", version: "4" });
+});
+
+test("Restaurant Agent retries one synthetic non-placeholder format error within the same budgeted gateway", async () => {
+  const calls: string[] = [];
+  const wire = { type: "INVESTIGATE_CANDIDATE_FACTS", question: "", relatedFields: [], retrievalHint: "", candidateIds: ["restaurant-a"], candidateId: "", offerId: "", decisionSummary: "Read facts." };
+  const gateway: ModelGateway = { async complete(request): Promise<ModelResponse> {
+    calls.push(JSON.stringify(request.messages));
+    return { invocationId: `format-${calls.length}`, provider: "FIXTURE", model: "fixture", finishReason: "TOOL_CALLS", latencyMs: 1,
+      outputText: JSON.stringify(calls.length === 1 ? { ...wire, retrievalHint: "old search hint" } : wire) };
+  } };
+  const result = await new RestaurantAgentDecision(gateway).decide({ taskId: "format-repair", context, recentExecutionHistory: [], capabilities: RESTAURANT_AGENT_CAPABILITIES });
+  assert.equal(calls.length, 2);
+  assert.match(calls[1]!, /\$\.retrievalHint/);
+  assert.equal(result.status, "PROPOSED");
+  if (result.status === "PROPOSED") assert.deepEqual(result.action, { type: "INVESTIGATE_CANDIDATE_FACTS", candidateIds: ["restaurant-a"] });
+});
+
+test("Restaurant Agent stops after a repeated synthetic format error and exposes only rejected field paths", async () => {
+  let calls = 0;
+  const gateway: ModelGateway = { async complete(): Promise<ModelResponse> {
+    calls += 1;
+    return { invocationId: `format-${calls}`, provider: "FIXTURE", model: "fixture", finishReason: "TOOL_CALLS", latencyMs: 1,
+      outputText: JSON.stringify({ type: "INVESTIGATE_CANDIDATE_FACTS", question: "", relatedFields: [], retrievalHint: "unsafe hint", candidateIds: ["restaurant-a"], candidateId: "", offerId: "", decisionSummary: "" }) };
+  } };
+  const result = await new RestaurantAgentDecision(gateway).decide({ taskId: "format-reject", context, recentExecutionHistory: [], capabilities: RESTAURANT_AGENT_CAPABILITIES });
+  assert.equal(calls, 2);
+  assert.deepEqual(result.status === "INVALID_MODEL_OUTPUT" ? result.errors : [], ["INVESTIGATE_CANDIDATE_FACTS contains non-placeholder fields: $.retrievalHint"]);
 });
 
 test("Restaurant Agent supplies candidate commercial comparisons only as source-backed notes", async () => {

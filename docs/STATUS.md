@@ -1,13 +1,15 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.70
+- Document revision: 4.71
 - Last updated: 2026-09-24
 - Source of truth for: 已实现能力、已验证范围、明确未验证项与下一道门槛
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Documentation Index](INDEX.md), [Roadmap](roadmap.md), [Verification History](history/TEST-LOG.md)
 
 ## 最新审查与当前门槛
+
+2026-09-24 **A–D执行正确性离线切片已接线，Live验收未关闭。** TableCheck返回已选门店页再查位、复用本run身份页、拒绝旧查询链接；Agent格式错误记录脱敏字段路径并最多一次计入原预算的重生成；浏览器在同状态重复被拒动作后退出；Google完整`types`的明确负向HARD冲突阻断后续网站、模型事实和查位。TWO ROOMS与銀座七芳的历史identity记录不足以放宽HIGH，Sushi Inase跨动作同源读取的可安全合并范围仍待真实轨迹确认。默认离线测试518/518、typecheck、arch、build通过；本地Chromium Fixture 24/24，包含多结果链接下零模型调用的正确门店可用结果。它们不代表H001–H003 Live完成；下一门槛是在原300000 ms／50共享模型调用预算内取得更多可信结论，并独立核对新artifact和automatic evaluation。[本轮范围与证据](history/EXECUTION-CORRECTNESS-2026-09-24.md)。
 
 2026-09-24 **Test/Eval规程和Holdout运行协议补充；产品能力未变化。** 已知故障关闭前需核对同机制历史Live、Test Log和主回归，解释旧覆盖为何漏过；时间/成本相关执行链的正常控制须在约定预算内完成有已知可行解的受控任务，Eval须关联有效产出与投入，且本轮必过维度缺证据不得整体通过。现行Holdout协议接回已暴露Gold SHA变化时Runner的确认、前序artifact及`COMMON_UNCHANGED_TURNS`限制；未重新运行Holdout。此前纸面审查仍是当时范围的历史记录，不代表本补充已取得产品或Live验收。
 

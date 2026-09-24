@@ -328,6 +328,13 @@ export class BrowserTaskExecutor {
     let shortcutUsed = false;
     let postAction = false;
     let unchangedPageKey: string | undefined;
+    let lastRejectedProposal: string | undefined;
+    let repeatedRejectedProposals = 0;
+    const recordRejectedProposal = (key: string) => {
+      repeatedRejectedProposals = key === lastRejectedProposal ? repeatedRejectedProposals + 1 : 1;
+      lastRejectedProposal = key;
+      return repeatedRejectedProposals >= 2;
+    };
     const pageVisits = new Map<string, number>();
     const recordPageVisit = (value: BrowserSnapshot, controls: BrowserPageControl[]) => {
       const key = observationKey(value, controls);
@@ -430,6 +437,10 @@ export class BrowserTaskExecutor {
         this.record({ source: input.source, stage: input.stage, event: "REJECTED", url: snapshot.url, detail: safeErrorDetail(error) });
         if (error instanceof BrowserRuntimeError || (error && typeof error === "object" && "code" in error && error.code === "MODEL_CALL_BUDGET_EXHAUSTED")) throw error;
         if (error instanceof BrowserReadDecisionError && error.code === "INVALID_MODEL_OUTPUT") {
+          if (recordRejectedProposal(`${observationKey(snapshot, observation.controls)}|${safeErrorDetail(error, 240)}`)) {
+            this.record({ source: input.source, stage: input.stage, event: "METHOD_INCOMPLETE", url: snapshot.url, detail: "NO_PROGRESS_REJECTED_ACTION" });
+            return { status: "NO_SAFE_ACTION", snapshot, controls: observation.controls };
+          }
           progress = `The previous proposed action was rejected: ${safeErrorDetail(error, 240)}. Correct those action fields using a current observed target, or request human help.`;
           continue;
         }
@@ -456,9 +467,15 @@ export class BrowserTaskExecutor {
       } catch (error) {
         this.record({ source: input.source, stage: input.stage, event: "REJECTED", url: snapshot.url, detail: safeErrorDetail(error) });
         if (error instanceof BrowserRuntimeError) return { status: "NO_SAFE_ACTION", snapshot, controls: observation.controls };
+        if (recordRejectedProposal(`${observationKey(snapshot, observation.controls)}|${action.type}|${target.stableKey}|${safeErrorDetail(error, 240)}`)) {
+          this.record({ source: input.source, stage: input.stage, event: "METHOD_INCOMPLETE", url: snapshot.url, detail: "NO_PROGRESS_REJECTED_ACTION" });
+          return { status: "NO_SAFE_ACTION", snapshot, controls: observation.controls };
+        }
         progress = `The previous proposed action was rejected by the executor: ${safeErrorDetail(error, 240)}. Choose another observed safe target, or request human help.`;
         continue;
       }
+      lastRejectedProposal = undefined;
+      repeatedRejectedProposals = 0;
       const priorSnapshot = snapshot;
       const waitedForAsyncChange = action.type === "OPEN_LINK" || action.type === "CLICK" || action.type === "CLICK_AUTHORITATIVE";
       const changed = waitedForAsyncChange ? await this.waitForChange(input, priorSnapshot) : false;

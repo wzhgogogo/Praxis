@@ -64,6 +64,13 @@ export function restaurantCurrentFactEvidence(state: Readonly<RestaurantTaskStat
   });
 }
 
+function hasCurrentHardConflict(state: Readonly<RestaurantTaskState>, candidateId: string, intent: NonNullable<ReturnType<typeof completeRestaurantSearchIntent>>): boolean {
+  const excluded = intent.criteria.filter((item) => item.polarity === "NEGATIVE" && item.strength === "HARD");
+  if (excluded.length === 0) return false;
+  return restaurantCurrentFactEvidence(state, candidateId).some((evidence) =>
+    stringListClaim(evidence, "violatedNegativeCriteria").some((value) => excluded.some((criterion) => normalized(value) === normalized(criterion.text))));
+}
+
 function presentationEvidenceIds(
   state: Readonly<RestaurantTaskState>,
   candidateId: string,
@@ -171,9 +178,12 @@ export function assessRestaurantRead(state: Readonly<RestaurantTaskState>, now: 
   const excludedFromPendingBatch = new Set(state.pendingResultBatchTarget === undefined
     ? []
     : state.selectionSession?.deliveredCandidateIds ?? []);
+  const hardConflictedCandidates = new Set(state.candidates.filter((candidate) =>
+    hasCurrentHardConflict(state, candidate.restaurant.id, intent)).map((candidate) => candidate.restaurant.id));
   const factInvestigableCandidateIds = presentation.filter((item) => {
     if (excludedFromPendingBatch.has(item.candidateId)) return false;
     const refreshing = factRefreshTargets.includes(item.candidateId);
+    if (hardConflictedCandidates.has(item.candidateId) && !refreshing) return false;
     if (factRefreshTargets.length && !refreshing) return false;
     if (!refreshing && state.factChecks?.[item.candidateId] !== undefined) return false;
     const candidate = state.candidates.find((value) => value.restaurant.id === item.candidateId);
@@ -181,7 +191,8 @@ export function assessRestaurantRead(state: Readonly<RestaurantTaskState>, now: 
   }).map((item) => item.candidateId);
   const completeBookingIntent = completeRestaurantIntent(state.intentDraft);
   const checkableCandidateIds = completeBookingIntent ? presentation.filter((item) =>
-    !excludedFromPendingBatch.has(item.candidateId) && (state.availabilityChecks[item.candidateId] === undefined || item.recheckReason !== undefined),
+    !excludedFromPendingBatch.has(item.candidateId) && !hardConflictedCandidates.has(item.candidateId)
+      && (state.availabilityChecks[item.candidateId] === undefined || item.recheckReason !== undefined),
   ).map((item) => item.candidateId) : [];
   const investigationRecorded = state.searchRevision > 0 || Object.keys(state.factChecks ?? {}).length > 0 || Object.keys(state.availabilityChecks).length > 0;
   const relevantPresentation = presentation.filter((item) => !excludedFromPendingBatch.has(item.candidateId));

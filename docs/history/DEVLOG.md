@@ -1,13 +1,17 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.76
-- Last updated: 2026-09-21
+- Document revision: 4.77
+- Last updated: 2026-09-24
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## 2026-09-24 A–D execution correctness offline slice
+
+Starting at clean `0220d2a`, the code differs from the `325880d` Live implementation only by Test/Eval documentation changes. TableCheck now keeps run-scoped parsed identity observations, rechecks the selected page before inventory, binds linked reservation pages to their observed URL, and rejects stale search queries. Agent strict-wire failures name only rejected field paths and permit one budgeted regeneration; persistent invalid output stops. Browser Executor stops identical rejected proposals on an unchanged observation. Google negative HARD type conflicts use full observed `types` plus `primaryType` and remove explicitly conflicting candidates from further website/model fact and availability work. Semantic, Gold, global ceilings and external-write boundaries were unchanged. C's two identity samples do not justify changing HIGH matching; cross-action website/availability reuse is not claimed. [Package-specific evidence and limitations](EXECUTION-CORRECTNESS-2026-09-24.md).
 
 ## 2026-09-21 Live P0 single-pass review after implementation commit
 

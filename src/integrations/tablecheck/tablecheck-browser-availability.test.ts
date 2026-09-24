@@ -528,6 +528,13 @@ test("TableCheck keeps an immediate non-slot UNKNOWN rather than treating nearby
 
 test("TableCheck reuses a verified outlet entry only after independently matching a second candidate", async () => {
   const alias = { ...candidate, restaurant: { ...candidate.restaurant, id: "fixture-restaurant-1-alias" } };
+  const ledger = new TableCheckEntryLedger();
+  const unrelatedPage = { ...matchingOutletPage("https://www.tablecheck.com/en/unrelated"),
+    title: "Unrelated", html: '<h1>Unrelated</h1><p class="address">9-9 Other, Tokyo</p>' };
+  const unrelatedExtraction = parseTableCheckOutletIdentityWithEvidence(unrelatedPage, unrelatedPage.url);
+  assert.ok(unrelatedExtraction);
+  ledger.observe(unrelatedPage.url);
+  ledger.rememberIdentity(unrelatedPage.url, unrelatedPage, unrelatedExtraction);
   const reservation = {
     url: "https://www.tablecheck.com/en/restaurant1/reserve/landing", title: "Restaurant 1 reservation", text: "Restaurant 1 2 guest 2026-08-05 19:00",
     html: '<div data-selected-date="2026-08-05" data-pax="2"></div><section data-availability-state="complete"><button class="time-slot is-available" data-time="19:00">19:00</button></section>',
@@ -535,11 +542,12 @@ test("TableCheck reuses a verified outlet entry only after independently matchin
   const first = new FixtureBrowserSession([discoveryPage({ href: "/en/restaurant1?search_text=Restaurant+1", text: "Restaurant 1" }), matchingOutletPage(), reservation]);
   const second = new FixtureBrowserSession([discoveryPage(), matchingOutletPage(), reservation]);
   let opens = 0;
-  const result = await new TableCheckBrowserAvailability({ openSession: async () => [first, second][opens++]! }, () => "2026-08-05T09:00:00.000Z", { entryLedger: new TableCheckEntryLedger() }).check(
+  const result = await new TableCheckBrowserAvailability({ openSession: async () => [first, second][opens++]! }, () => "2026-08-05T09:00:00.000Z", { entryLedger: ledger }).check(
     { ...request, candidateIds: [candidate.restaurant.id, alias.restaurant.id], candidates: [candidate, alias] }, new AbortController().signal,
   );
   assert.equal(result.availabilityChecks[alias.restaurant.id]?.status, "AVAILABLE");
   assert.equal(second.navigations[1], "https://www.tablecheck.com/en/restaurant1");
+  assert.equal(second.navigations.includes(unrelatedPage.url), false, "a prior identity page is compared without reopening it");
   assert.notEqual(result.evidence.find((item) => item.candidateId === alias.restaurant.id && item.kind === "AVAILABILITY")?.candidateId, candidate.restaurant.id);
 });
 
@@ -664,6 +672,44 @@ test("TableCheck uses the one exact-phone outlet among multiple discovered same-
     "https://www.tablecheck.com/en/restaurant1-other",
     "https://www.tablecheck.com/en/restaurant1",
   ]);
+});
+
+test("TableCheck returns to the selected outlet after inspecting another branch before reading slots", async () => {
+  const selected = {
+    ...matchingOutletPage(),
+    text: "Restaurant 1 1-1 Shinjuku, Tokyo 03-9999-8888",
+    html: matchingOutletPage().html.replaceAll("03-1111-2222", "03-9999-8888"),
+  };
+  const session = new FixtureBrowserSession([
+    discoveryPage(
+      { href: "/en/restaurant1?search_text=Restaurant+1", text: "Restaurant 1" },
+      { href: "/en/restaurant1-other?search_text=Restaurant+1", text: "Restaurant 1 Other" },
+    ),
+    selected,
+    { url: "https://www.tablecheck.com/en/restaurant1-other", title: "Other branch", text: "Other branch",
+      html: '<h1>Restaurant 1 Other</h1><p class="address">2-2 Shinjuku, Tokyo</p>' },
+    selected,
+    { url: "https://www.tablecheck.com/en/restaurant1/reserve/landing", title: "Restaurant 1 reservation",
+      text: "Restaurant 1 2 guests 2026-08-05 19:00", html: '<div data-selected-date="2026-08-05" data-pax="2"></div><section data-availability-state="complete"><button class="time-slot is-available" data-time="19:00">19:00</button></section>' },
+  ]);
+  const result = await new TableCheckBrowserAvailability({ openSession: async () => session }, () => "2026-08-05T09:00:00.000Z")
+    .check(request, new AbortController().signal);
+  assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE");
+  assert.deepEqual(session.navigations.slice(1, 4), [
+    "https://www.tablecheck.com/en/restaurant1",
+    "https://www.tablecheck.com/en/restaurant1-other",
+    "https://www.tablecheck.com/en/restaurant1",
+  ]);
+});
+
+test("TableCheck rejects hydrated links from a prior search query", async () => {
+  const stale = discoveryPage({ href: "/en/restaurant1?search_text=Old+Query", text: "Restaurant 1" });
+  const session = new FixtureBrowserSession([stale]);
+  const result = await new TableCheckBrowserAvailability({ openSession: async () => session }, () => "2026-08-05T09:00:00.000Z")
+    .check(request, new AbortController().signal);
+  assert.equal(result.availabilityChecks[candidate.restaurant.id]?.reasonCode, "TABLECHECK_DISCOVERY_INCOMPLETE");
+  assert.equal(result.offers.length, 0);
+  assert.equal(session.navigations.length, 1);
 });
 
 test("TableCheck fails closed when discovered same-name branches have no HIGH identity evidence", async () => {

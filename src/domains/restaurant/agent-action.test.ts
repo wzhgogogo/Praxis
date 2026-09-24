@@ -32,7 +32,7 @@ test("strict Agent wire output normalizes back into canonical restaurant_agent_a
 
 test("strict Agent wire output rejects meaningful fields outside its selected action", () => {
   const normalized = normalizeRestaurantAgentActionStrictWire({ ...searchWire, candidateIds: ["candidate-1"] });
-  assert.deepEqual(normalized, { valid: false, errors: ["SEARCH_RESTAURANTS contains non-placeholder fields"] });
+  assert.deepEqual(normalized, { valid: false, errors: ["SEARCH_RESTAURANTS contains non-placeholder fields: $.candidateIds"] });
 });
 
 test("strict Agent wire permits END_READ only with placeholders and never accepts a model supplied outcome", () => {
@@ -46,6 +46,6 @@ test("strict Agent wire permits END_READ only with placeholders and never accept
   });
   assert.deepEqual(
     normalizeRestaurantAgentActionStrictWire({ ...endWire, candidateIds: ["candidate-1"] }),
-    { valid: false, errors: ["END_READ contains non-placeholder fields"] },
+    { valid: false, errors: ["END_READ contains non-placeholder fields: $.candidateIds"] },
   );
 });

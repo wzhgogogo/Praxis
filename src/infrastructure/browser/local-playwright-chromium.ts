@@ -101,7 +101,7 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
     await this.run(() => (this.controls.locator(target) ?? this.page.locator(target)).evaluate((element, delta) => (element as HTMLElement).scrollBy(0, delta), deltaY));
   }
   async waitFor(target: string, timeoutMs?: number): Promise<void> {
-    await this.run(() => this.page.locator(target).waitFor(timeoutMs === undefined ? {} : { timeout: timeoutMs }));
+    await this.run(() => this.page.locator(target).first().waitFor(timeoutMs === undefined ? {} : { timeout: timeoutMs }));
   }
   async waitForChange(previous: Pick<BrowserSnapshot, "url" | "title" | "text">, timeoutMs = 2_500): Promise<boolean> {
     return this.run(() => waitForVisibleChange(this.page, previous, timeoutMs));

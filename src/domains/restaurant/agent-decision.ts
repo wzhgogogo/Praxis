@@ -17,7 +17,7 @@ import {
 import type { RestaurantAgentCapability } from "./restaurant-capabilities.js";
 
 export const RESTAURANT_AGENT_DECISION_PURPOSE = "restaurant_agent_decide" as const;
-export const RESTAURANT_AGENT_DECISION_PROMPT_VERSION = "15" as const;
+export const RESTAURANT_AGENT_DECISION_PROMPT_VERSION = "16" as const;
 /**
  * Strict-function responses include a provider envelope as well as the action
  * arguments.  Ten discovery candidates can otherwise make a valid second
@@ -145,9 +145,11 @@ export class RestaurantAgentDecision implements RestaurantAgentDecisionPort {
   async decide(input: RestaurantAgentDecisionInput): Promise<RestaurantAgentDecisionResult> {
     const inputErrors = validInput(input);
     if (inputErrors.length > 0) return { status: "INVALID_MODEL_OUTPUT", errors: inputErrors };
-    let response: ModelResponse;
-    try {
-      response = await this.modelGateway.complete({
+    let correction: string | undefined;
+    for (let attempt = 0; attempt < 2; attempt += 1) {
+      let response: ModelResponse;
+      try {
+        response = await this.modelGateway.complete({
         taskId: input.taskId,
         purpose: RESTAURANT_AGENT_DECISION_PURPOSE,
         promptVersion: RESTAURANT_AGENT_DECISION_PROMPT_VERSION,
@@ -162,6 +164,7 @@ export class RestaurantAgentDecision implements RestaurantAgentDecisionPort {
               ...(input.lastRejection ? { lastRejection: input.lastRejection } : {}),
             }),
           },
+          ...(correction ? [{ role: "user" as const, content: correction }] : []),
         ],
         responseFormat: "JSON_SCHEMA",
         outputSchema: {
@@ -173,44 +176,48 @@ export class RestaurantAgentDecision implements RestaurantAgentDecisionPort {
         maxOutputTokens: RESTAURANT_AGENT_DECISION_MAX_OUTPUT_TOKENS,
         temperature: 0,
         thinking: "disabled",
-      });
-    } catch (error) {
-      if (error && typeof error === "object" && "code" in error && error.code === "MODEL_CALL_BUDGET_EXHAUSTED") {
-        return { status: "MODEL_FAILURE", errorCode: "MODEL_CALL_BUDGET_EXHAUSTED", retryable: false };
+        });
+      } catch (error) {
+        if (error && typeof error === "object" && "code" in error && error.code === "MODEL_CALL_BUDGET_EXHAUSTED") {
+          return { status: "MODEL_FAILURE", errorCode: "MODEL_CALL_BUDGET_EXHAUSTED", retryable: false };
+        }
+        const modelError = error instanceof ModelGatewayError
+          ? error
+          : new ModelGatewayError("Restaurant Agent decision failed", "NETWORK", true);
+        return { status: "MODEL_FAILURE", errorCode: modelError.code, retryable: modelError.retryable };
       }
-      const modelError = error instanceof ModelGatewayError
-        ? error
-        : new ModelGatewayError("Restaurant Agent decision failed", "NETWORK", true);
-      return { status: "MODEL_FAILURE", errorCode: modelError.code, retryable: modelError.retryable };
-    }
 
-    const modelAttempt = toAttempt(response);
-    if (response.finishReason !== "TOOL_CALLS") {
+      const modelAttempt = toAttempt(response);
+      if (response.finishReason !== "TOOL_CALLS") {
+        return { status: "INVALID_MODEL_OUTPUT", errors: [`Model response finished with ${response.finishReason}`], modelAttempt };
+      }
+      let parsed: unknown;
+      try {
+        parsed = JSON.parse(response.outputText);
+      } catch {
+        return { status: "INVALID_MODEL_OUTPUT", errors: ["Model response is not valid JSON"], modelAttempt };
+      }
+      const wire = normalizeRestaurantAgentActionStrictWire(parsed);
+      if (!wire.valid) {
+        if (attempt === 0 && wire.errors.length > 0 && wire.errors.every((error) => error.includes("contains non-placeholder fields:"))) {
+          correction = `The prior action was rejected before execution: ${wire.errors.join("; ")}. `
+            + "Regenerate one complete strict action object. Keep only fields for the selected action meaningful; "
+            + "set every other wire field to an empty string or empty array. Do not change the user's conditions or bypass legalActions.";
+          continue;
+        }
+        return { status: "INVALID_MODEL_OUTPUT", errors: wire.errors, modelAttempt };
+      }
+      const validation = validateRestaurantAgentAction(wire.value);
+      if (!validation.valid) {
+        return { status: "INVALID_MODEL_OUTPUT", errors: validation.errors, modelAttempt };
+      }
       return {
-        status: "INVALID_MODEL_OUTPUT",
-        errors: [`Model response finished with ${response.finishReason}`],
+        status: "PROPOSED",
+        action: validation.value.action,
+        ...(validation.value.decisionSummary ? { decisionSummary: validation.value.decisionSummary } : {}),
         modelAttempt,
       };
     }
-    let parsed: unknown;
-    try {
-      parsed = JSON.parse(response.outputText);
-    } catch {
-      return { status: "INVALID_MODEL_OUTPUT", errors: ["Model response is not valid JSON"], modelAttempt };
-    }
-    const wire = normalizeRestaurantAgentActionStrictWire(parsed);
-    if (!wire.valid) {
-      return { status: "INVALID_MODEL_OUTPUT", errors: wire.errors, modelAttempt };
-    }
-    const validation = validateRestaurantAgentAction(wire.value);
-    if (!validation.valid) {
-      return { status: "INVALID_MODEL_OUTPUT", errors: validation.errors, modelAttempt };
-    }
-    return {
-      status: "PROPOSED",
-      action: validation.value.action,
-      ...(validation.value.decisionSummary ? { decisionSummary: validation.value.decisionSummary } : {}),
-      modelAttempt,
-    };
+    throw new Error("Agent format correction exceeded its single retry");
   }
 }
