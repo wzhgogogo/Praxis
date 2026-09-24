@@ -56,6 +56,22 @@ function sameSequence(left: string[], right: string[]): boolean {
   return left.length > 0 && left.length === right.length && left.every((value, index) => value === right[index]);
 }
 
+function possibleFloorPostalVariation(left: string, right: string, leftPostal: string, rightPostal: string, units: string[]): boolean {
+  if (leftPostal.slice(0, 3) !== rightPostal.slice(0, 3) || units.length !== 1 || !/^\d+F$/u.test(units[0]!)) return false;
+  const floor = Number(units[0]!.slice(0, -1));
+  // Japan Post can assign a separate high-rise postcode whose last two digits
+  // identify the floor.  Treat the mismatch as unresolved, never as proof of
+  // address equality.  The caller still needs independent identity evidence.
+  const floorPostal = [leftPostal, rightPostal].some((postal) => {
+    const buildingBlock = Number(postal.slice(3, 5));
+    return buildingBlock >= 50 && buildingBlock <= 79 && Number(postal.slice(-2)) === floor;
+  });
+  if (!floorPostal) return false;
+  const generic = new Set(["japan", "tokyo", "city", "chuo", "minato", "shibuya", "ku", "to"]);
+  const rightTokens = new Set(tokens(right));
+  return tokens(left).some((token) => token.length >= 5 && !generic.has(token) && rightTokens.has(token));
+}
+
 function hasSufficientAddress(value: string): boolean {
   if (streetNumbers(value).length === 0) return false;
   const addressTokens = tokens(value);
@@ -78,7 +94,10 @@ export function compareCompleteOutletAddress(
   const leftNumbers = streetNumbers(left); const rightNumbers = streetNumbers(right);
   if (!sameSequence(leftNumbers, rightNumbers)) return "CONFLICT";
   const leftPostal = postalCode(left); const rightPostal = postalCode(right);
-  if (leftPostal && rightPostal) return leftPostal === rightPostal ? "MATCH" : "CONFLICT";
+  if (leftPostal && rightPostal) {
+    if (leftPostal === rightPostal) return "MATCH";
+    return possibleFloorPostalVariation(left, right, leftPostal, rightPostal, leftUnits) ? "INSUFFICIENT" : "CONFLICT";
+  }
   const leftTokens = tokens(left); const rightTokens = tokens(right);
   if (leftTokens.length > 0 && leftTokens.length === rightTokens.length && leftTokens.every((value, index) => value === rightTokens[index])) return "MATCH";
   return "CONFLICT";

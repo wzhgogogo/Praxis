@@ -1,13 +1,15 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.73
+- Document revision: 4.74
 - Last updated: 2026-09-24
 - Source of truth for: 已实现能力、已验证范围、明确未验证项与下一道门槛
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Documentation Index](INDEX.md), [Roadmap](roadmap.md), [Verification History](history/TEST-LOG.md)
 
 ## 最新审查与当前门槛
+
+2026-09-24 **TWO ROOMS身份最小实验得到支持，尚不代表H003完成。** 冻结H003原始Google／TableCheck字段，并用餐厅官方地址与日本邮便楼层邮编独立确定同店预期；旧比较器把`103-0027`与`103-6107`直接当作地址冲突，压过精确电话。仅将满足同邮区、同街号、同楼层、高楼楼层邮编形态和共享地区词的邮编差异降为地址证据不足，电话匹配因此可判HIGH。旧规则目标断言红、修复后四项对照绿；默认测试519/519和适用门禁通过。未运行定向Live或完整H003，库存与最终交付仍未验证；Ginza Kazen的不同地址解析问题保持另案。[实验记录](history/TWO-ROOMS-IDENTITY-2026-09-24.md)。
 
 2026-09-24 **A–D首轮H001–H003 Live验收未通过。** H003在修正D真实复数措辞的干净提交`605dc82`上运行，9次检查中1个有来源支撑的可用时段接近截止才写入State，最终未展示；300038 ms受控取消。浏览器操作相对旧H003由435降至281，浏览器模型调用由26升至30。H001/H002也均未在原300 s预算内交付合格用户结果。三个自动评价均已对照本轮acceptance复核，不能以安全退出或中间结论签收。下一门槛是针对未完成的正常结果路径做有界修复，并在原预算内验证实际交付；H002复数修正没有后续Live通过证据。[本轮复核](history/EXECUTION-CORRECTNESS-2026-09-24.md)。
 

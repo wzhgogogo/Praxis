@@ -1,13 +1,17 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.79
+- Document revision: 4.80
 - Last updated: 2026-09-24
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## 2026-09-24 TWO ROOMS identity postal comparison experiment
+
+The H003 Google candidate and TableCheck page had an exact phone, matching Nihombashi street number and seventh floor, but town postcode `103-0027` versus building-floor postcode `103-6107` caused a false address conflict. The restaurant's own access page and Japan Post fixed the same-outlet expectation before the edit. The shared comparator now treats the narrowly corroborated postcode variation as insufficient address evidence rather than a conflict; it does not create an address match. Four source-frozen controls support the mechanism without running H003 again. This does not establish current inventory or final delivery. [Experiment and scope](TWO-ROOMS-IDENTITY-2026-09-24.md).
 
 ## 2026-09-24 bounded H003 Live and A–D acceptance
 

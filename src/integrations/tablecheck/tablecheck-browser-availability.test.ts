@@ -220,6 +220,40 @@ test("TableCheck blocks HIGH identity for a stated floor conflict or a shared ph
   }).comparison.address, "INSUFFICIENT");
 });
 
+test("historical TWO ROOMS postal variation preserves same outlet while real branches and other controls stay distinct", () => {
+  // Frozen H003 Google/TableCheck fields; expected same outlet is established by
+  // the restaurant's own access page, not by the current resolver result.
+  const nihombashi = {
+    ...candidate,
+    restaurant: { ...candidate.restaurant, outletName: "Two rooms cafe grill bar", address: "Japan, 〒103-0027 Tokyo, Chuo City, Nihonbashi, 2-chōme−5−１ 高島屋 新館 ７階", sourceIds: { ...candidate.restaurant.sourceIds, phone: "03-6262-3177" } },
+  };
+  const nihombashiPage = { sourceEntityId: "trnihombashi", sourceUrl: "https://www.tablecheck.com/en/trnihombashi", outletName: "TWO ROOMS CAFE|GRILL|BAR NIHOMBASHI", address: "103-6107 Tokyo Chuo-ku 2-5-1 NIhonbashi Nihonbashi Takashimaya S.C. Shinkan 7F", phone: "+81362623177" };
+  const same = inspectTableCheckEntity(nihombashi, nihombashiPage);
+  assert.equal(same.comparison.address, "INSUFFICIENT", "different town/building-floor postal codes alone do not prove a conflict");
+  assert.equal(same.comparison.phone, "MATCH");
+  assert.equal(same.resolution.confidence, "HIGH");
+
+  // Existing H002 same-outlet normal control: bills Ginza has matching full
+  // address and name despite the provider phone differing from Google's.
+  const bills = inspectTableCheckEntity({ ...candidate, restaurant: { ...candidate.restaurant, outletName: "bills Ginza", address: "Japan, 〒104-0061 Tokyo, Chuo City, Ginza, 2-chōme−6−１２ Okura House 12F", sourceIds: { ...candidate.restaurant.sourceIds, phone: "050-3188-6633" } } },
+    { sourceEntityId: "bills-ginza", sourceUrl: "https://www.tablecheck.com/en/bills-ginza", outletName: "bills Ginza", address: "104-0061 Tokyo Chuo-ku 2-6-12 Ginza Okura House 12F", phone: "+81355241900" });
+  assert.equal(bills.resolution.confidence, "HIGH");
+  assert.equal(bills.comparison.address, "MATCH");
+
+  // The restaurant and TableCheck independently identify the Aoyama sister
+  // outlet at a different street, floor and phone.
+  const aoyama = inspectTableCheckEntity(nihombashi,
+    { sourceEntityId: "tworooms", sourceUrl: "https://www.tablecheck.com/en/tworooms", outletName: "TWOROOMS", address: "107-0061 3-11-7 Kitaaoyama, AO Bldg. 5F, Minato-ku, Tokyo", phone: "03-3498-0002" });
+  assert.equal(aoyama.comparison.address, "CONFLICT");
+  assert.notEqual(aoyama.resolution.confidence, "HIGH");
+
+  // H002 Ginza Kazen has equal postcodes and a separate address parsing
+  // discrepancy; this postal variation rule must not silently recategorize it.
+  const kazen = inspectTableCheckEntity({ ...candidate, restaurant: { ...candidate.restaurant, outletName: "Ginza Kazen", address: "Japan, 〒104-0061 Tokyo, Chuo City, Ginza, 6-chōme−3−１１ 2F", sourceIds: { ...candidate.restaurant.sourceIds, phone: "050-3138-5851" } } },
+    { sourceEntityId: "shinkantonsai-kazen", sourceUrl: "https://www.tablecheck.com/en/shinkantonsai-kazen", outletName: "Ginza Kazen", address: "104-0061 Tokyo Chuo Ginza 6-3-11 NISHI GINZA Building2F", phone: "+81362746338" });
+  assert.notEqual(kazen.resolution.confidence, "HIGH");
+});
+
 test("TableCheck treats historical Japanese and Latin floor forms as the same stated unit", () => {
   // Historical extracted address/name fields, not a page replay. Deliberately
   // omit source phones: HIGH must come from the address rule being wired in.

@@ -1,13 +1,19 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.84
+- Document revision: 4.85
 - Last updated: 2026-09-24
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## TEST-2026-09-24-TWO-ROOMS-IDENTITY — local mechanism supported
+
+- Mode: frozen historical Google/TableCheck identity fields plus independent restaurant/Japan Post sources; no model or Live execution. Four controls are TWO ROOMS Nihombashi, bills Ginza, actual Aoyama sister outlet and Ginza Kazen. The current diagnostic comparison is reused with a separately fixed expected identity verdict; the general Live Evaluator does not contain gold same-outlet labels for this local hypothesis.
+- Detector: the target assertion failed on unmodified code (`CONFLICT` versus independently expected `INSUFFICIENT`); the old suite had no town-postcode/building-floor-postcode pair. After the one-rule correction, TableCheck tests pass 39/39, address tests 3/3 and all four control decisions match expectations. Aoyama remains below HIGH; Ginza Kazen remains below HIGH for a separate issue.
+- Gates: typecheck, architecture check, build, diff check and default tests 519/519 pass. No targeted Live or full H003 rerun. Identity comparison is supported locally; inventory and task completion remain unassessed. [Evidence and limitations](TWO-ROOMS-IDENTITY-2026-09-24.md).
 
 ## TEST-2026-09-24-A-D-LIVE-H003 — failed normal acceptance
 
