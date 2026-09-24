@@ -320,7 +320,36 @@ function tableCheckGuideQuery(snapshot: BrowserSnapshot): { html: string; date: 
   return {html, date:`${date[1]}-${date[2]!.padStart(2,"0")}-${date[3]!.padStart(2,"0")}`,party,time:clock};
 }
 
-export function hasTableCheckSelectedRequest(snapshot: BrowserSnapshot, date: string, partySize: number): boolean {
+/** A booking form's HTML attributes can be stale after JavaScript changes its controls. */
+function isReservationFormPage(snapshot: BrowserSnapshot): boolean {
+  try {
+    const url = new URL(snapshot.url);
+    return TABLECHECK_URL.test(snapshot.url) && /^\/(?:en\/)?shops\/[^/]+\/reserve\/?$/.test(url.pathname);
+  } catch { return false; }
+}
+
+function reservationFormSelectedRequest(snapshot: BrowserSnapshot, date: string, partySize: number, controls: readonly BrowserPageControl[] | undefined): boolean {
+  if (!controls) return false;
+  const attribute = (tag: string, name: string) => tag.match(new RegExp(`\\b${name}=["']([^"']*)["']`, "i"))?.[1];
+  let matchingForms = 0;
+  for (const form of snapshot.html.matchAll(/<form\b[^>]*>([\s\S]*?)<\/form>/gi)) {
+    const html = form[1] ?? "";
+    const dateInputs = [...html.matchAll(/<input\b[^>]*>/gi)].map((item) => item[0])
+      .filter((tag) => attribute(tag, "name") === "reservation[start_date]");
+    const adultSelects = [...html.matchAll(/<select\b[^>]*>([\s\S]*?)<\/select>/gi)]
+      .filter((item) => attribute(item[0], "name") === "reservation[num_people_adult]");
+    if (dateInputs.length === 1 && adultSelects.length === 1) matchingForms += 1;
+  }
+  if (matchingForms !== 1) return false;
+  const dates = controls.filter((item) => item.visible && !item.disabled && item.kind === "INPUT" && item.structure?.name === "reservation[start_date]");
+  const adults = controls.filter((item) => item.visible && !item.disabled && item.kind === "SELECT" && item.structure?.name === "reservation[num_people_adult]");
+  if (dates.length !== 1 || adults.length !== 1 || dates[0]!.value !== date || adults[0]!.value !== String(partySize)) return false;
+  const selected = adults[0]!.options?.filter((option) => option.selected) ?? [];
+  return selected.length === 1 && selected[0]!.value === String(partySize);
+}
+
+export function hasTableCheckSelectedRequest(snapshot: BrowserSnapshot, date: string, partySize: number, controls?: readonly BrowserPageControl[]): boolean {
+  if (isReservationFormPage(snapshot)) return reservationFormSelectedRequest(snapshot, date, partySize, controls);
   const guide = tableCheckGuideQuery(snapshot);
   if (guide?.date === date && guide.party === String(partySize)) return true;
   for (const element of snapshot.html.matchAll(/<(?:form|section|div|main)[^>]*>/gi)) {

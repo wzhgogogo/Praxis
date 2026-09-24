@@ -84,7 +84,7 @@ export interface BrowserSkillReadInput {
   /** A source-owned, already-authorized shortcut; its effect is always post-condition checked. */
   shortcut?: { name: string; run(snapshot: BrowserSnapshot): Promise<void> };
   controlHints?(snapshot: Readonly<BrowserSnapshot>): readonly BrowserControlHint[];
-  completion(snapshot: BrowserSnapshot): { complete: boolean; reason: string };
+  completion(snapshot: BrowserSnapshot, controls: BrowserPageControl[]): { complete: boolean; reason: string };
   /** Code-owned source classification, never model/page-provided permission. Absence
    * denies event-producing checkbox/range changes, including consent controls. */
   permitQueryControl?(input: {
@@ -322,7 +322,7 @@ export class BrowserTaskExecutor {
 
   async runSkill(input: BrowserSkillReadInput): Promise<BrowserGenericReadResult> {
     let snapshot = await this.snapshot(input);
-    let completion = input.completion(snapshot);
+    let completion = input.completion(snapshot, []);
     if (completion.complete) return { status: "COMPLETED", snapshot, controls: [] };
     let progress = input.methodReason ?? completion.reason;
     let shortcutUsed = false;
@@ -366,7 +366,7 @@ export class BrowserTaskExecutor {
         try {
           await this.bounded(input, "SHORTCUT", () => input.shortcut!.run(snapshot));
           snapshot = await this.snapshot(input);
-          completion = input.completion(snapshot);
+          completion = input.completion(snapshot, []);
           if (completion.complete) return { status: "COMPLETED", snapshot, controls: [] };
           progress = completion.reason;
           this.record({ source: input.source, stage: input.stage, event: "METHOD_INCOMPLETE", url: snapshot.url, detail: `${input.shortcut.name}: ${progress}` });
@@ -378,8 +378,10 @@ export class BrowserTaskExecutor {
       // The browser model may only choose a safe observed navigation/control.
       // It never writes or asserts a Restaurant fact; the adapter grounds a
       // later observation against candidate identity and source excerpts.
-      if (!this.options.modelDecision) return { status: "NO_SAFE_ACTION", snapshot, controls: [] };
       const observation = await this.observe(input, snapshot);
+      completion = input.completion(snapshot, observation.controls);
+      if (completion.complete) return { status: "COMPLETED", snapshot, controls: observation.controls };
+      if (!this.options.modelDecision) return { status: "NO_SAFE_ACTION", snapshot, controls: observation.controls };
       if (!postAction) {
         recordPageVisit(snapshot, observation.controls);
         this.record({
@@ -454,7 +456,7 @@ export class BrowserTaskExecutor {
         detail: `${action.type}: ${safeText(action.reason, 240)}`,
       });
       if (action.type === "COMPLETE") {
-        completion = input.completion(snapshot);
+        completion = input.completion(snapshot, observation.controls);
         // COMPLETE is only a browser-read handoff. The provider verifier still owns
         // request/result evidence and can fail closed using this same DOM observation.
         return { status: completion.complete ? "COMPLETED" : "MODEL_HANDOFF", snapshot, controls: observation.controls };
@@ -491,7 +493,7 @@ export class BrowserTaskExecutor {
         detail: effectVerified ? "OBSERVED_CHANGE_AFTER_MODEL_ACTION" : "ASYNC_RESULT_NOT_READY_AFTER_MODEL_ACTION",
         observation: this.diagnosticObservation(postActionObservation),
       });
-      completion = input.completion(snapshot);
+      completion = input.completion(snapshot, postActionObservation.controls);
       if (completion.complete) return { status: "COMPLETED", snapshot, controls: postActionObservation.controls };
       if (recordPageVisit(snapshot, postActionObservation.controls) >= 3) {
         this.record({ source: input.source, stage: input.stage, event: "METHOD_INCOMPLETE", url: snapshot.url, detail: "NO_PROGRESS_PAGE_CYCLE" });

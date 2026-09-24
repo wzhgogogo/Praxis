@@ -1,13 +1,17 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.84
+- Document revision: 4.85
 - Last updated: 2026-09-24
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## 2026-09-24 LAVAROCK C1 live-control request binding
+
+Current TableCheck LAVAROCK read-only evidence showed both selected date and adults on one reservation form. The first HTML-only parser addition was rejected after a 10→9 control change left the markup and URL at 10. The final TableCheck parser requires the live values and selected adult option from the same Browser observation, with the source form establishing the field pair. Browser Executor now passes that observation to its completion check. A bounded repeat accepted 10 before the change, rejected stale 10 and accepted 9 after it; no completed inventory or booking was inferred. A separate Adapter fixture attempt could not reach the `/shops/.../reserve` form from the guide entrance; that selected-outlet binding remains work package A. Two pre-existing Tabelog local route maps were aligned to B1's Tokyo-scoped search so the browser Fixture could exercise its actual production entrance. [Detailed evidence](LAVAROCK-CONTROL-2026-09-24.md).
 
 ## 2026-09-24 Choryumon D1 fixed-source diagnosis
 

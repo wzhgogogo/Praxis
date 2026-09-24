@@ -1,13 +1,20 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.89
+- Document revision: 4.90
 - Last updated: 2026-09-24
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## TEST-2026-09-24-LAVAROCK-C1 — live request values, stale markup and fixture closure
+
+- Historical H003 trace showed a 10-guest click followed by reopening the guest control but omitted post-action DOM values. Current LAVAROCK source read C1b separately saved date `2026-09-25` and selected adult `10` in one form; old parser rejected it. C1e supplied the independent false-accept counterexample: selecting 9 changed the live control while HTML and URL still said 10. The initial HTML-only fix was rejected.
+- Local TableCheck parser regression failed on old code, then accepted matching live date/adult controls while rejecting missing controls, mismatched date, changed adult and split forms. Browser Executor passes the same observed controls into completion. [C1f Live Read-only artifact](../../.eval-artifacts/restaurant-control-targeted/lavarock-c1f-2026-09-24T08-26-56-057Z.json) used one authorized Chromium session, 20-second ceiling, zero model calls, one read-only select and no submit: 10 accepted before, 10 rejected and 9 accepted after. Inventory remained unconfirmed. The default sandbox failed to launch Chromium before the authorized retry and made no source visit.
+- Gates: TableCheck targeted 41/41, default `npm test` 522/522, typecheck, arch:check, build and `git diff --check` passed. Local Chromium Fixture first exposed two route maps still intercepting pre-B1 nationwide Tabelog search URLs; after aligning them to the actual Tokyo entrance, target pairs passed and the full Fixture passed 24/24. This is a fixture repair, not a new Tabelog production result.
+- Independent evaluation reused the exact-request parser and source-observed live values; full H003 Evaluator is not applicable to this one-form slice. A production Adapter fixture attempt exposed the separate guide-to-`/shops/.../reserve` entrance binding gap before request selection; full TableCheck production connection, completed inventory and overall H003 remain unverified. [Stage record](LAVAROCK-CONTROL-2026-09-24.md).
 
 ## TEST-2026-09-24-CHORYUMON-D1 — fixed-source real-model prompt candidate rejected
 

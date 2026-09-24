@@ -1,9 +1,9 @@
 # LAVAROCK request-control C1 bounded diagnostic
 
 - Status: current diagnostic / exposed development data
-- Document revision: 0.2
+- Document revision: 0.3
 - Baseline: `93914d8`
-- Scope: one TableCheck LAVAROCK request-control observation; no general Browser or Parser change yet
+- Scope: bounded TableCheck LAVAROCK request-control diagnosis and live-value extraction correction
 
 ## Precommitted question and budget
 
@@ -19,4 +19,36 @@ Evaluator: reuse the existing TableCheck selected-request and inventory diagnost
 
 The one bounded [read-only artifact](../../.eval-artifacts/restaurant-control-targeted/lavarock-2026-09-24T07-59-40-509Z.json) reached the same LAVAROCK reservation entrance with `start_date=2026-09-25&pax=10`. The visible adult `SELECT` reported value `10` and selected option `10`; the existing `hasTableCheckSelectedRequest` returned `false`. The saved observation has no source-owned selected date marker and no complete post-action HTML. The recorded query URL and selected adult control do not independently prove that both date and party were applied to the resulting inventory. No click or submit occurred in this diagnostic.
 
-**C1 verdict: uncovered for the historical operation and full request.** The present page suggests a request-confirmation gap, but does not establish whether the original click failed, the date was unselected, or the parser missed a valid combined state. Do not relax the gate from an adult value alone. Next bounded step is to observe a source-owned date state and linked result before/after a controlled party selection on this page, then apply one extraction or action fix with a normal asynchronous control and open-only negative control. No production code, budget or evaluator changed.
+**C1 interim verdict: uncovered for the historical operation and full request.** The present page suggests a request-confirmation gap, but does not establish whether the original click failed, the date was unselected, or the parser missed a valid combined state. Do not relax the gate from an adult value alone. The next bounded step is to observe a source-owned date state and linked result before/after a controlled party selection on this page, then apply one extraction or action fix with a normal asynchronous control and open-only negative control. No production code, budget or evaluator changed.
+
+## C1b predeclared current-page inspection
+
+The first read retained only the adult select value, so it cannot decide whether the source-owned date is selected. In one new temporary Chromium session, revisit the already observed LAVAROCK reservation entrance and save only sanitized date/party control labels, values, selected/disabled state, relevant input attributes and request-bound result links. Budget: 30 seconds, zero model calls, at most one read-only page navigation; no form submit and no inventory claim. If source date and party are both visible, compare them with the existing `hasTableCheckSelectedRequest` parser; if date is absent or controls are not source-owned, stop this parser hypothesis and keep `UNKNOWN`. This current-site observation does not replay the H003 action.
+
+The [C1b observation](../../.eval-artifacts/restaurant-control-targeted/lavarock-c1b-2026-09-24T08-14-11-195Z.json) confirms source-owned `reservation[start_date]` input value `2026-09-25` and `reservation[num_people_adult]` select value `10` with selected option `10` on the same LAVAROCK reservation page. The current parser returns false. The time select remains at `-- Select Time --`, and no completed slot UI/result is present. This supports a **request-state extraction defect**, not an inventory-success conclusion or historical click replay.
+
+## C1c bounded correction
+
+Add only an exact reservation-form date/adult selection path to the existing TableCheck request-confirmation parser, still requiring one source-owned form and both fields. Before editing, make the current source-derived pair fail in the existing TableCheck test. Controls: same-form selected date+party passes; missing or stale date, adult option merely present but not selected, fields in separate forms, and a correct URL query without selected controls all fail. The existing asynchronous guide-widget and request-bound inventory tests remain the normal and safety controls. After the local red/green, perform at most one 20-second zero-model read-only confirmation against the current page; no booking submit or full H003. Acceptance here is selected-request recognition plus continued refusal to invent a slot, not an AVAILABLE result.
+
+The existing TableCheck parser test failed on the source-derived reservation form before the edit and passed after. The [20-second current-page read](../../.eval-artifacts/restaurant-control-targeted/lavarock-c1c-2026-09-24T08-16-20-129Z.json) initially reported `requestConfirmed:true`, with adult `10` and date `2026-09-25`; time was unselected and the slot parser remained incomplete with zero available slots. C1e below later showed that this HTML-only parser could falsely accept stale selected markup, so this initial verdict is superseded by the live-control correction and must not be used alone as acceptance evidence.
+
+## C1d time-selection probe before inventory acceptance
+
+Use one more temporary Chromium session, at most 30 seconds and zero model calls, on the same source-observed reservation page. Inspect its time select; only if it exposes an enabled 17:30–22:00 option, select exactly one such value by the observed control ID and read the post-selection date, adult and time values plus any explicit result state. Do not click Next Step, submit, log in or create a booking. If no enabled in-window option exists, stop with `UNKNOWN` for inventory. An option merely listed or a selected time without an explicit completed source result is not availability proof. The independent acceptance for C1d is the actual selected request and a current, request-bound inventory result; otherwise report the first remaining gap.
+
+The [C1d observation](../../.eval-artifacts/restaurant-control-targeted/lavarock-c1d-2026-09-24T08-17-29-240Z.json) selected the source-observed enabled 17:30 option. The browser reported date `2026-09-25`, adult `10` and time `17:30` afterward, but no completed result or bookable slot; `Next Step` remained disabled. Thus the control operation worked in this current reservation form, while inventory remains unconfirmed. It does not reproduce the old guide-page click.
+
+## C1e stale-DOM safety probe
+
+Before accepting the new HTML request parser, check whether dynamic select changes leave a stale `selected` HTML attribute. In one 20-second, zero-model, read-only session, open the same observed reservation form initially set to ten adults and change only the adult select to nine by its observed control ID. Record the browser-reported selected adult value and the parser verdict for both 10 and 9, without submitting. The correct verdict is **10 false, 9 true** for the same source-owned date. If old HTML says 10 while the live control says 9, the parser must use the live value or fail closed; do not retain a false-accepting HTML-only rule.
+
+The [C1e observation](../../.eval-artifacts/restaurant-control-targeted/lavarock-c1e-2026-09-24T08-19-25-275Z.json) changed the live adult value to 9 while the page HTML still marked 10 selected and the URL retained `pax=10`. The HTML-only implementation incorrectly accepted 10. This is a current-source counterexample, not a historical H003 replay. The correction requires the live input and selected adult option, with the source form used only to establish the two fields belong to one reservation form.
+
+## C1f corrected live-control check and adapter boundary
+
+Before another code edit, a focused adapter-level fixture was attempted. It stopped before request selection: the existing outlet entrance resolver did not reach a distinct `/en/shops/.../reserve` link from its guide page. This is a separate selected-outlet/entrance binding issue under work package A. It cannot be counted as a failed C1 control comparison or a successful production connection; no fixture was retained in the default suite with an unrelated red result.
+
+For C1f, repeat the bounded 10→9 current-page selection once with the corrected parser and pass the live Browser controls from the same observation. Budget: 20 seconds, one session, zero model calls, one read-only selection, no submit. The independent expected verdict is 10 accepted before selection, then 10 rejected and 9 accepted after selection, while inventory stays unconfirmed. A missing control or site change yields uncovered, not pass. This closes only the current-form request-state mechanism; the guide-to-reservation entrance and full H003 remain separate acceptance boundaries.
+
+The first C1f invocation could not launch Chromium under the default filesystem/process sandbox and made no site visit. The authorized retry [saved the actual read-only result](../../.eval-artifacts/restaurant-control-targeted/lavarock-c1f-2026-09-24T08-26-56-057Z.json): before selection the live 10-person control accepted 10 and rejected 9; after selection the live 9-person control rejected 10 and accepted 9, while source HTML still marked 10 and the URL still said `pax=10`. This satisfies the predeclared C1f request-state verdict without claiming any bookable inventory. The existing TableCheck parser regression covers the stale markup and changed control; Browser Executor passes the same observation's controls into completion. The full default offline suite passed 522/522, typecheck, architecture check and build passed. The browser Fixture initially failed four Tabelog cases because B1's Tokyo-scoped production URL was absent from two local route maps; after aligning both fixtures to the current URL, the full local Chromium Fixture passed 24/24. This repairs an older test coverage omission, not Tabelog production behavior.

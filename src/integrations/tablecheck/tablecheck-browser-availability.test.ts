@@ -47,6 +47,28 @@ test("TableCheck binds a request only to explicit complete date and party contro
   assert.equal(hasTableCheckSelectedRequest({ ...snapshot, html: '<div data-selected-date="2026-09-07"></div><div data-pax="2"></div>' }, "2026-09-07", 2), false);
 });
 
+test("TableCheck reservation form binds the selected date and adult count without inventing inventory", () => {
+  const form = '<form><input name="reservation[start_date]" value="2026-09-25"><select name="reservation[num_people_adult]"><option value="2">2</option><option value="10" selected>10</option></select><select name="reservation[time]"><option value="" selected>-- Select Time --</option></select></form>';
+  const snapshot: BrowserSnapshot = { url: "https://www.tablecheck.com/en/shops/cytokyo-lavarock/reserve?start_date=2026-09-25&pax=10", title: "LAVAROCK", text: "", html: form };
+  const controls: BrowserPageControl[] = [
+    { id: "date", stableKey: "date", kind: "INPUT", role: "textbox", label: "2026-09-25", value: "2026-09-25", visible: true, disabled: false, structure: { tag: "INPUT", name: "reservation[start_date]", classes: [], dialogLabel: "", formClass: "booking", sliderCount: 0 } },
+    { id: "adult", stableKey: "adult", kind: "SELECT", role: "combobox", label: "-- Adults -- 2 10", value: "10", visible: true, disabled: false, options: [{ value: "2", label: "2", selected: false, disabled: false }, { value: "10", label: "10", selected: true, disabled: false }], structure: { tag: "SELECT", name: "reservation[num_people_adult]", classes: [], dialogLabel: "", formClass: "booking", sliderCount: 0 } },
+  ];
+  assert.equal(hasTableCheckSelectedRequest(snapshot, "2026-09-25", 10), false, "HTML attributes alone can be stale after selection");
+  assert.equal(hasTableCheckSelectedRequest(snapshot, "2026-09-25", 10, controls), true);
+  const changed = [controls[0]!, { ...controls[1]!, value: "9", options: [{ value: "9", label: "9", selected: true, disabled: false }, { value: "10", label: "10", selected: false, disabled: false }] }];
+  assert.equal(hasTableCheckSelectedRequest(snapshot, "2026-09-25", 10, changed), false);
+  assert.equal(hasTableCheckSelectedRequest(snapshot, "2026-09-25", 9, changed), true);
+  assert.equal(hasTableCheckSelectedRequest(snapshot, "2026-09-25", 10, [controls[0]!, { ...controls[1]!, options: [{ value: "10", label: "10", selected: false, disabled: false }] }]), false);
+  assert.equal(hasTableCheckSelectedRequest(snapshot, "2026-09-25", 10, [{ ...controls[0]!, value: "2026-09-24" }, controls[1]!]), false);
+  assert.equal(hasTableCheckSelectedRequest({ ...snapshot, html: form.replace('value="2026-09-25"', 'value="2026-09-24"') }, "2026-09-25", 10, controls), true, "live input value must take precedence over an old HTML attribute");
+  assert.equal(parseTableCheckAvailabilitySlots(snapshot, { date: "2026-09-25", partySize: 10 }).queryComplete, false);
+  for (const html of [
+    '<form><input name="reservation[start_date]" value="2026-09-25"></form><form><select name="reservation[num_people_adult]"><option value="10" selected>10</option></select></form>',
+    '',
+  ]) assert.equal(hasTableCheckSelectedRequest({ ...snapshot, html }, "2026-09-25", 10, controls), false);
+});
+
 test("TableCheck recognizes its explicit public no-table widget state but not ordinary restaurant prose", () => {
   const noTable: BrowserSnapshot = {
     url: "https://www.tablecheck.com/en/restaurant1", title: "Restaurant 1", html: '<section data-availability-state="empty"></section>',

@@ -533,7 +533,7 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
       document.querySelectorAll('.js-people-button').forEach(el=>el.onclick=()=>{document.querySelector('.is-active').classList.remove('is-active');el.classList.add('is-active');document.querySelector('input').value=el.textContent});
       </script>`;
     let calls = 0;
-    const searchUrl = "https://tabelog.com/en/rstLst/?sw=Restaurant%201";
+    const searchUrl = "https://tabelog.com/en/tokyo/rstLst/?sw=Restaurant%201";
     const searchHtml = `<a class="list-rst__rst-name-target" href="${sourceUrl}" data-address="1-1 Shinjuku, Tokyo">Restaurant 1</a>`;
     const executor = new BrowserTaskExecutor(localFixture({[sourceUrl]:html,[searchUrl]:searchHtml}, runtimeKind), { modelDecision: { async decide(input) {
       assert.ok(!input.observation.targets.some(target=>target.label === "Disabled date"));
@@ -671,7 +671,7 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
       document.querySelectorAll('.js-calendar-day-target').forEach(el=>el.onclick=()=>{document.querySelector('.is-current').classList.remove('is-current');el.classList.add('is-current');query()});
       document.querySelectorAll('.js-people-button').forEach(el=>el.onclick=()=>{document.querySelector('.is-active').classList.remove('is-active');el.classList.add('is-active');document.querySelector('input').value=el.textContent;query()});</script>`;
     const payload=(members:number,time:string)=>JSON.stringify({base_date:{year:2026,month:9,day:20},members,selection:{0:{time,url:`/en/booking/form_course/new?rcd=13292459&member=${members}&visit_date=20260920&visit_time=${time.replace(':','')}`}}});
-    const pages={ [sourceUrl]:html,"https://tabelog.com/en/rstLst/?sw=Restaurant%201":`<a class="list-rst__rst-name-target" href="${sourceUrl}" data-address="1-1 Shinjuku, Tokyo">Restaurant 1</a>`,[endpoint+"?member=2"]:payload(2,"19:00"),[endpoint+"?member=4"]:payload(4,"18:45"),"https://tabelog.com/unrelated.json":JSON.stringify({private:"must not capture"}) };
+    const pages={ [sourceUrl]:html,"https://tabelog.com/en/tokyo/rstLst/?sw=Restaurant%201":`<a class="list-rst__rst-name-target" href="${sourceUrl}" data-address="1-1 Shinjuku, Tokyo">Restaurant 1</a>`,[endpoint+"?member=2"]:payload(2,"19:00"),[endpoint+"?member=4"]:payload(4,"18:45"),"https://tabelog.com/unrelated.json":JSON.stringify({private:"must not capture"}) };
     let calls=0;
     const executor=new BrowserTaskExecutor(localFixture(pages,runtimeKind),{modelDecision:{async decide(input){const field=++calls===1?"DATE" as const:"PARTY_SIZE" as const;if(calls===2)assert.ok(!input.observation.targets.some(t=>t.label==="Date 2026-09-20"), "selected date is evidence, not a repeat action");const target=input.observation.targets.find(t=>t.label===(field==="DATE"?"Date 2026-09-20":"Guests 4"));assert.ok(target);return {type:"CLICK_AUTHORITATIVE",field,targetRef:target.ref,reason:"Exact query"}}},maxModelCallsPerCandidate:2});
     const signal=new AbortController().signal;

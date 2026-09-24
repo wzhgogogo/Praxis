@@ -1,13 +1,15 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.78
+- Document revision: 4.79
 - Last updated: 2026-09-24
 - Source of truth for: 已实现能力、已验证范围、明确未验证项与下一道门槛
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Documentation Index](INDEX.md), [Roadmap](roadmap.md), [Verification History](history/TEST-LOG.md)
 
 ## 最新审查与当前门槛
+
+2026-09-24 **C1 LAVAROCK当前预约表单请求值识别已修正，生产入口和库存仍未签收。** 定向只读观察发现人数由10改9后，HTML及URL仍保留10；旧HTML解析会误接纳过期请求。现用同次浏览器观察的实时日期和人数控件确认请求，真实页面对照得到改前10通过、改后10拒绝且9通过；没有提交预约，也没有获得完成的库存结果。TableCheck所属回归、默认离线522/522、typecheck、arch、build及本地Chromium Fixture 24/24通过。Fixture两处旧Tabelog搜索URL已同步B1的东京入口。生产适配器从介绍页进入独立`/shops/.../reserve`的绑定仍有缺口。[C1记录](history/LAVAROCK-CONTROL-2026-09-24.md)。
 
 2026-09-24 **D1 跳龙门事实误排已定位、候选修法未接纳。** H002历史产物无原始模型响应；一次新固定来源 Prompt@8 调用保存原始输出，明确把主营广东料理误判为川湘辣菜排除项`CONFLICT`，转换层如实映射。随后三次预设对照中的局部 Prompt@9 候选将目标改判为`SUPPORTED`，形成尚无充分来源支撑的反向排除证明；明确川湘与宽泛 Chinese 对照分别正确。按停止条件撤回候选，生产仍为 Prompt@8；D1未修复，D2／D3不能借此签收。[D1记录](history/CHORYUMON-FACT-JUDGMENT-2026-09-24.md)。
 

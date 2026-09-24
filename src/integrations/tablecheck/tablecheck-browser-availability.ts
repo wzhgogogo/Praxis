@@ -597,9 +597,9 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         goal: { outlet: { name: candidate.restaurant.outletName, address: candidate.restaurant.address }, date: request.date, partySize: request.partySize, timeWindow: request.timeWindow, hardCriteria: request.hardCriteria },
         objective: "For the already identity-grounded outlet, set and verify the requested date, party size, and time window, then read the latest explicit public availability result. Do not submit a reservation.",
         methodReason: "The verifier has not yet established a completed availability result for the full Router-bound request.",
-        completion: (current) => ({
+        completion: (current, controls) => ({
           complete: hasTableCheckBotChallenge(current)
-            || (hasTableCheckSelectedRequest(current, request.date, request.partySize) && (() => {
+            || (hasTableCheckSelectedRequest(current, request.date, request.partySize, controls) && (() => {
               const result = parseTableCheckAvailabilitySlots(current, { date: request.date, partySize: request.partySize, timeWindow: request.timeWindow });
               return result.queryComplete && (
                 result.availableSlots.some((slot) => slot >= request.timeWindow.earliest && slot <= request.timeWindow.latest)
@@ -607,7 +607,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
                 || result.hasExplicitSlotUi
               );
             })()),
-          reason: hasTableCheckSelectedRequest(current, request.date, request.partySize)
+          reason: hasTableCheckSelectedRequest(current, request.date, request.partySize, controls)
             ? "Date and party are selected, but no completed result supports the requested time window. If the mealtime differs, open the observed time combobox and choose a time inside the goal window; otherwise wait for its result."
             : "The latest page must explicitly confirm the complete authoritative date and party size before any result can be used.",
         }),
@@ -652,7 +652,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         entityMatch: retainedIdentity.inspection.resolution, pageState: "BOT_CHALLENGE", failureCode: "BOT_CHALLENGE", excerpt: tableCheckPageExcerpt(page),
       }, browser);
       const controlSlots = parseTableCheckControlAvailability(availabilityRead.controls, request.date, request.partySize, page.url, request.timeWindow);
-      const requestConfirmed = hasTableCheckSelectedRequest(page, request.date, request.partySize) || controlSlots.queryComplete;
+      const requestConfirmed = hasTableCheckSelectedRequest(page, request.date, request.partySize, availabilityRead.controls) || controlSlots.queryComplete;
       if (!["COMPLETED", "MODEL_HANDOFF"].includes(availabilityRead.status) || !requestConfirmed) return this.ground(candidate, request, {
         candidate, observedAt, sourceEntityId: activeSelected.extraction.outlet.sourceEntityId, sourceUrl: activeSelected.extraction.outlet.sourceUrl,
         entityMatch: activeSelected.inspection.resolution, pageState: "EXTRACTION_FAILED", failureCode: "REQUEST_SELECTION_UNCONFIRMED",
