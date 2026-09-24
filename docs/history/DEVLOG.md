@@ -1,13 +1,17 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.83
+- Document revision: 4.84
 - Last updated: 2026-09-24
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## 2026-09-24 Choryumon D1 fixed-source diagnosis
+
+The H002 saved Google-listed website states Cantonese as the main cuisine, yet its derived model fact marked the venue as conflicting with the Sichuan/Hunan spicy-focus exclusion. Since the historic raw judgment was not saved, one new fixed-source Prompt@8 call captured exact request and raw `CONFLICT`, locating the initial error in the model judgment. A local Prompt@9 wording candidate was exercised on the saved fact, an explicit synthetic prohibited-type fact and a broad Chinese fact. It changed the target to `SUPPORTED`, creating an insufficiently supported verified-negative claim under the overlap-aware category contract. The candidate was reverted; production Prompt@8 and all existing semantic baselines remain unchanged. See [D1 evidence and stop verdict](CHORYUMON-FACT-JUDGMENT-2026-09-24.md).
 
 ## 2026-09-24 C1 and E1 bounded diagnosis
 

@@ -1,13 +1,15 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.77
+- Document revision: 4.78
 - Last updated: 2026-09-24
 - Source of truth for: 已实现能力、已验证范围、明确未验证项与下一道门槛
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Documentation Index](INDEX.md), [Roadmap](roadmap.md), [Verification History](history/TEST-LOG.md)
 
 ## 最新审查与当前门槛
+
+2026-09-24 **D1 跳龙门事实误排已定位、候选修法未接纳。** H002历史产物无原始模型响应；一次新固定来源 Prompt@8 调用保存原始输出，明确把主营广东料理误判为川湘辣菜排除项`CONFLICT`，转换层如实映射。随后三次预设对照中的局部 Prompt@9 候选将目标改判为`SUPPORTED`，形成尚无充分来源支撑的反向排除证明；明确川湘与宽泛 Chinese 对照分别正确。按停止条件撤回候选，生产仍为 Prompt@8；D1未修复，D2／D3不能借此签收。[D1记录](history/CHORYUMON-FACT-JUDGMENT-2026-09-24.md)。
 
 2026-09-24 **C1／E1 最小诊断未签收修复。** LAVAROCK 一次25秒内、零模型的当前页面只读观察看见成人选择框值10，但缺少可独立核验的日期，现有完整请求确认返回false；历史“点击10人又重开”仍无法归因到点击或解析，未改代码。[C1记录](history/LAVAROCK-CONTROL-2026-09-24.md)。H001原始轨迹在截止前约45秒已有两家合格结果、仍有22家可查，当前ADR-0028与Domain明确禁止在合法读取未耗尽时展示不足3家；这是预算交付的合同缺口，需新ADR界定默认目标的交付预留窗口，再做实际`PRESENT_RESULTS`受控闭环。[E1诊断](history/H001-DELIVERY-WINDOW-2026-09-24.md)。
 

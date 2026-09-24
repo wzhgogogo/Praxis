@@ -1,13 +1,19 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.88
+- Document revision: 4.89
 - Last updated: 2026-09-24
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## TEST-2026-09-24-CHORYUMON-D1 — fixed-source real-model prompt candidate rejected
+
+- Source: immutable H002 event candidate, intent, HIGH-associated Google/website identity and fact records. Independent expectation: Cantonese-primary facts do not justify `CONFLICT` with a Sichuan/Hunan spicy-focus exclusion; explicit prohibited focus must still conflict; broad Chinese remains unknown.
+- Model-only diagnosis: one Prompt@8/schema@2 provider attempt, zero retry and zero browser/Google calls. [Saved exact request/raw output](../../.eval-artifacts/restaurant-fact-targeted/choryumon-2026-09-24T08-05-25-800Z.result.json) has `CONFLICT` on the Cantonese website fact and matching derived violation. This is a new fixed-source result, not a historical raw-output replay.
+- Temporary Prompt@9 candidate: [three saved controls](../../.eval-artifacts/restaurant-fact-targeted/choryumon-controls-2026-09-24T08-07-57-020Z.result.json), three provider attempts, zero retries. The explicit Sichuan/Hunan case remained `CONFLICT`, broad Chinese was `UNKNOWN`, but Cantonese-primary became `SUPPORTED` and emitted `verifiedNegativeCriteria` without a source-explicit exclusion. This violates the conservative independent oracle. Candidate reverted; no production code or evaluator change, so the diagnosis is not a repair and no full offline gate or H002 Live was run for it.
 
 ## TEST-2026-09-24-C1-E1-DIAGNOSIS — no repair claimed
 
