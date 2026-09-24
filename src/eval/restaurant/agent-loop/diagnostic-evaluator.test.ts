@@ -373,6 +373,26 @@ test("missing trajectory and empty resource object remain not evaluated", () => 
   assert.equal(result.execution.systemBehavior, "NOT_EVALUATED");
 });
 
+test("current runner resource ceilings are required and reject over-budget work", () => {
+  const artifact: any = completeArtifact();
+  delete artifact.limits;
+  artifact.runCeilings = { maxAutomaticBrowserMs: 300, maxAgentSteps: 30, maxBrowserModelCallsTotal: 120 };
+  assert.equal(finding(evaluateRestaurantHybridLiveArtifact(artifact, source), "RESOURCES").status, "SATISFIED");
+  artifact.resourceUsage.elapsedMs = 301;
+  assert.equal(finding(evaluateRestaurantHybridLiveArtifact(artifact, source), "RESOURCES").status, "NOT_SATISFIED");
+  artifact.resourceUsage.elapsedMs = 100;
+  for (const [field, over] of [["agentDecisions", 31], ["browserModelCalls", 121]] as const) {
+    const original = artifact.resourceUsage[field];
+    artifact.resourceUsage[field] = over;
+    assert.equal(finding(evaluateRestaurantHybridLiveArtifact(artifact, source), "RESOURCES").status, "NOT_SATISFIED", field);
+    artifact.resourceUsage[field] = original;
+  }
+  delete artifact.runCeilings.maxAgentSteps;
+  assert.equal(finding(evaluateRestaurantHybridLiveArtifact(artifact, source), "RESOURCES").status, "NOT_EVALUATED");
+  delete artifact.runCeilings;
+  assert.equal(finding(evaluateRestaurantHybridLiveArtifact(artifact, source), "RESOURCES").status, "NOT_EVALUATED");
+});
+
 test("a changed request version can legitimately recheck a candidate", () => {
   const artifact: any = completeArtifact();
   artifact.trajectories.push({ stateHashBefore: "request-v2", stepOutcome: "EXECUTED", agentAction: { type: "CHECK_AVAILABILITY", candidateIds: ["candidate-a"] }, executionMetadata: { providerAttempts: [{ candidateId: "candidate-a", provider: "TABLECHECK", outcome: "AVAILABLE" }] } });

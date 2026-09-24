@@ -1,13 +1,20 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.91
+- Document revision: 4.92
 - Last updated: 2026-09-24
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## TEST-2026-09-24-H001-RESOURCE-EVAL — current Runner ceiling calibration
+
+- Historical failure: the immutable H001 Live artifact records `elapsedMs=300034` and `runCeilings.maxAutomaticBrowserMs=300000`, but the diagnostic evaluator@19 read only legacy `limits` and reported `RESOURCES=SATISFIED`. Its resource check therefore missed a real current-Runner budget overage. The existing evaluator regression lacked a current `runCeilings` fixture; this is why the earlier green suite did not catch the false pass.
+- Independent expected verdict, fixed before the edit: the 34 ms overage must be `NOT_SATISFIED`; a current artifact with complete in-budget elapsed/Agent/browser-model values must pass; an absent required ceiling must be `NOT_EVALUATED`. Added these controls in the existing diagnostic-evaluator test. The overage control first failed against @19 and passed with @20. The legacy `limits` fixture remains in its existing regression.
+- Evaluation: retained the original [H001 artifact](../../.eval-artifacts/restaurant-hybrid-live-read/2026-09-24T03-56-54-360Z-31020bc5-a3c3-45bb-ae39-9c4cdb138093.result.json) and @19 sidecar. A separate [@20 sidecar](../../.eval-artifacts/restaurant-hybrid-live-read/2026-09-24T03-56-54-360Z-31020bc5-a3c3-45bb-ae39-9c4cdb138093.result.evaluation.20-1790242202838.json) reports `RESOURCES=NOT_SATISFIED`, `overLimit=elapsedMs>maxAutomaticBrowserMs`. This is a retrospective evaluator correction, not a new Live result or proof of user-goal completion. It checks the three mapped ceilings only; no new threshold was introduced.
+- Gates: focused evaluator 49/49, fixed-source acceptance 57/57, hybrid composition 41/41, full offline `npm test` 523/523, typecheck, architecture check and build passed. No model call, source visit, booking or external write occurred in this slice.
 
 ## TEST-2026-09-24-H001-E1 — default delivery-window controlled execution
 

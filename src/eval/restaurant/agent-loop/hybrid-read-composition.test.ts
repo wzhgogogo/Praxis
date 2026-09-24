@@ -831,6 +831,7 @@ test("Hybrid production composition binds an explicit evaluation location before
     finalSnapshot: snapshot,
     trajectories: composition.trajectories.steps,
     loop: { status: "TERMINAL" },
+    runCeilings: { maxAutomaticBrowserMs: 5_000, maxAgentSteps: 8, maxBrowserModelCallsTotal: 120 },
     resourceUsage: { elapsedMs: 0, agentDecisions: 3, browserModelCalls: 0, googleRequests: google.googleRequestUsage(readRunId) },
   }, { path: "integration.result.json", sha256: "a".repeat(64) });
   assert.equal(evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(evaluation));

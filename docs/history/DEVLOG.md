@@ -1,13 +1,17 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.86
+- Document revision: 4.87
 - Last updated: 2026-09-24
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## 2026-09-24 current Runner resource-limit evaluator correction
+
+The H001 Playbook audit found that the diagnostic evaluator read only legacy `limits`, while current Hybrid Live artifacts write `runCeilings`. Its resource dimension could therefore report satisfaction with no recognized ceiling. Evaluator/rubric@20 maps current elapsed, Agent-decision and browser-model usage to the corresponding run ceilings; missing required limits remain unassessed and overages fail. Legacy `limits` remains a retrospective input. The original H001 result and @19 sidecar are immutable; a new @20 sidecar reports the observed 34 ms deadline overage. This changes evaluation, not source execution or the accepted result contract.
 
 ## 2026-09-24 E1 default first-batch delivery reserve
 

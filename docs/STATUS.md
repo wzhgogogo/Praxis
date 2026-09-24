@@ -1,13 +1,15 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.80
+- Document revision: 4.81
 - Last updated: 2026-09-24
 - Source of truth for: 已实现能力、已验证范围、明确未验证项与下一道门槛
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Documentation Index](INDEX.md), [Roadmap](roadmap.md), [Verification History](history/TEST-LOG.md)
 
 ## 最新审查与当前门槛
+
+2026-09-24 **公共资源评价已修正为读取现行`runCeilings`。** Evaluator/rubric@20对当前Runner要求时间、Agent步骤和浏览器模型调用的限额及使用值；缺必要限额为`NOT_EVALUATED`，超限为`NOT_SATISFIED`，旧`limits`格式仍按其既有字段补评。旧规则在H001原始300034/300000 ms上误给`RESOURCES=SATISFIED`；不覆盖原件的@20 sidecar改判`NOT_SATISFIED`。这是评价修复，不是H001执行进步，也未解除E2私有上下文发送的自动审批阻断。[验证记录](history/TEST-LOG.md)。
 
 2026-09-24 **E1 默认首批预算交付完成离线受控接线，真实模型和 H001 尚未签收。** ADR-0031为不少于90秒的只读run增加最后45秒交付窗口：已有1—2家当前合格结果时，Domain停止新读取、允许短批并记录`met:false`；显式数量、后续批次、刷新和过期证据不借此放行。可行查位State的受控测试实际经过Coordinator→Router→Reducer执行`PRESENT_RESULTS`；原窗口前拒绝、显式数量和过期对照通过。默认离线522/522、typecheck、arch、build通过。固定H001上下文的一次DeepSeek E2调用被自动审批在执行前拒绝，未发送数据；真实模型选路、生产来源组合、整体H001仍待验证。[E1记录](history/H001-DELIVERY-WINDOW-2026-09-24.md)。
 
