@@ -1,8 +1,8 @@
 # Restaurant Semantic Holdout
 
 - Status: Accepted
-- Document revision: 3.0
-- Last updated: 2026-08-20
+- Document revision: 3.1
+- Last updated: 2026-09-24
 - Source of truth for: `restaurant-semantic-holdout@2`的私有标注格式、冻结清单、Preflight和单次Baseline运行协议
 - Related ADRs: [ADR-0007](../decisions/0007-semantic-proposal-compiler-and-decision-kernel.md), [ADR-0009](../decisions/0009-semantic-strength-and-clean-holdout-baseline.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md)
 - Related documents: [Current Status](../STATUS.md), [Eval Skill](../skills/eval/SKILL.md), [Eval Directory](../../src/eval/README.md)
@@ -77,7 +77,8 @@ User message → Semantic Interpreter → Proposal Contract → Restaurant Compi
 - 标注时运行`npm run eval:restaurant:semantic:holdout:preflight`；完成后运行`npm run eval:restaurant:semantic:holdout:preflight:complete`。只有`READY_FOR_BASELINE`允许下一步。
 - 任何Prompt、Proposal Schema、Gateway strict transport或Provider配置改动后，首次Clean Baseline前必须先运行已暴露`restaurant-semantic-regression@3`的真实DeepSeek Smoke。它不读取Holdout、不能替代Baseline，并仍需要显式付费网络授权。
 - 第一次真实Baseline开始前，runner以独占方式写入Git忽略artifact的`datasetStatus: EXPOSED`与`exposedAt`；其中包含Dataset SHA、git commit SHA、scorer版本和prompt/schema hash。无论成功或中断，该Dataset都不得再次作为Clean Holdout使用。
-- 已暴露数据上的Prompt诊断必须使用`eval:restaurant:semantic:holdout:exposed-regression`，并显式设定`PRAXIS_CONFIRM_EXPOSED_HOLDOUT_REGRESSION=1`。该入口只写新的Git忽略JSON记录，逐turn保存Gold、实际结果和field-level诊断，并与Prompt `@4`实际可达的同一turn集合比较；原Baseline artifact不可修改，输出固定为`baselineEligible:false`。
+- 已暴露数据上的Prompt诊断必须使用`eval:restaurant:semantic:holdout:exposed-regression`，并显式设定`PRAXIS_CONFIRM_EXPOSED_HOLDOUT_REGRESSION=1`。该入口只写新的Git忽略JSON记录，逐turn保存Gold、实际结果和field-level诊断；私有Dataset SHA与原Baseline相同时，与Prompt `@4`实际可达的同一turn集合比较。原Baseline artifact不可修改，输出固定为`baselineEligible:false`。
+- 如当前私有Dataset SHA与原Baseline artifact不同，须先明确接纳当前已暴露Gold为canonical，并设`PRAXIS_CONFIRM_CURRENT_EXPOSED_GOLD_VERSION=1`；还须用`PRAXIS_PREVIOUS_EXPOSED_REGRESSION_ARTIFACT`指定同一Gold SHA、已完成且属于当前Prompt前一版本的exposed-regression artifact。Runner仅在`COMMON_UNCHANGED_TURNS`范围比较，不跨Gold cohort推断改进；这些条件只适用于SHA变化的已暴露回归，不恢复Clean资格。
 
 ## 评分边界
 

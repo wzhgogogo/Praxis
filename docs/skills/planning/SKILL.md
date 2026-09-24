@@ -5,7 +5,7 @@ description: 按范围规划Praxis诊断实验、局部实现或架构与安全�
 
 # Praxis Planning
 
-- Document revision: 1.0
+- Document revision: 1.1
 - Last updated: 2026-09-24
 
 按[INDEX](../../INDEX.md)选择权威阅读范围并核对真实代码/证据。小型文案、链接和配置说明修正不需要完整设计问卷；非trivial工作在开工时写一条切片承诺：用户或Harness可观察的改善、完成证据和停止条件。
@@ -28,6 +28,6 @@ description: 按范围规划Praxis诊断实验、局部实现或架构与安全�
 
 ## 验收接线
 
-列出用户承诺 → 必要输入/动作 → 证据生产与接纳 → 完成/停止/恢复 → 用户后续操作，并检查实际Web、Runner或其他调用方。测试覆盖、模式、检错和故障关闭只按[Test](../test/SKILL.md#覆盖推导与检错有效性)与[Test三步验证](../test/SKILL.md#执行链变更的三步验证)规划；质量维度、oracle、评分和门槛只按[Eval](../eval/SKILL.md#质量维度与独立oracle)规划。简记Evaluator是复用、修改、补充或不适用及理由。
+列出用户承诺 → 必要输入/动作 → 证据生产与接纳 → 完成/停止/恢复 → 用户后续操作，并检查实际Web、Runner或其他调用方。测试覆盖、模式、检错和故障关闭只按[Test](../test/SKILL.md#覆盖推导与检错有效性)、[Test三步验证](../test/SKILL.md#执行链变更的三步验证)与[Test故障关闭](../test/SKILL.md#故障关闭)规划；质量维度、oracle、评分和门槛只按[Eval](../eval/SKILL.md#质量维度与独立oracle)规划。简记Evaluator是复用、修改、补充或不适用及理由。
 
 改变已接受的供应商、职责、权限、部署、Runtime/Domain依赖、Outcome权威或关键数据政策时新增ADR；局部实现和诊断输入选择无需ADR。计划不复写Test/Eval规则。

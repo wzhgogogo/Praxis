@@ -1,13 +1,18 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.80
-- Last updated: 2026-09-21
+- Document revision: 4.81
+- Last updated: 2026-09-24
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## TEST-2026-09-24-TEST-EVAL-HOLDOUT-PROTOCOL — documentation verification
+
+- Mode: static documentation/Runner inspection only. Checked Planning→Test fault-closure anchor, Test/Eval acceptance wording, and current Holdout SHA-change requirements against `run-exposed-holdout-regression.ts`.
+- `git diff --check` passed. No code test, real model, private Holdout, Live, or external write was run; no product or Clean Baseline acceptance is claimed.
 
 ## TEST-2026-09-21-LIVE-READ-P0-SINGLE-PASS — failed overall gate, partial execution improvements
 
