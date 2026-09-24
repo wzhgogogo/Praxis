@@ -1,13 +1,15 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.76
+- Document revision: 4.77
 - Last updated: 2026-09-24
 - Source of truth for: 已实现能力、已验证范围、明确未验证项与下一道门槛
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Documentation Index](INDEX.md), [Roadmap](roadmap.md), [Verification History](history/TEST-LOG.md)
 
 ## 最新审查与当前门槛
+
+2026-09-24 **C1／E1 最小诊断未签收修复。** LAVAROCK 一次25秒内、零模型的当前页面只读观察看见成人选择框值10，但缺少可独立核验的日期，现有完整请求确认返回false；历史“点击10人又重开”仍无法归因到点击或解析，未改代码。[C1记录](history/LAVAROCK-CONTROL-2026-09-24.md)。H001原始轨迹在截止前约45秒已有两家合格结果、仍有22家可查，当前ADR-0028与Domain明确禁止在合法读取未耗尽时展示不足3家；这是预算交付的合同缺口，需新ADR界定默认目标的交付预留窗口，再做实际`PRESENT_RESULTS`受控闭环。[E1诊断](history/H001-DELIVERY-WINDOW-2026-09-24.md)。
 
 2026-09-24 **MARUNOUCHI BASE 来源检索 B1 得到有限支持。** H003 原始 Tabelog 无地区搜索落在爱知；东京范围的定向只读搜索返回正确门店，生产解析器可提取其真实链接。现仅对地址明确含 Tokyo／東京都的候选使用 Tabelog 东京搜索入口，既有身份及库存核验不变。旧目标断言红、修复后 Adapter 对照通过；默认离线521/521、typecheck、arch、build通过。当前来源详情和库存、其他都道府县及 H003 最终交付未获验收。下一步分别做 C1 控件、E1 结果收尾的最小实验，不把 B1 结果外推为整例成功。[B1记录](history/MARUNOUCHI-SOURCE-DISCOVERY-2026-09-24.md)。
 

@@ -1,13 +1,18 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.87
+- Document revision: 4.88
 - Last updated: 2026-09-24
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## TEST-2026-09-24-C1-E1-DIAGNOSIS — no repair claimed
+
+- C1 Live Read-only: one LAVAROCK TableCheck reservation-page visit, <=25 seconds, one temporary Chromium session, zero model calls, no submit. [Artifact](../../.eval-artifacts/restaurant-control-targeted/lavarock-2026-09-24T07-59-40-509Z.json) records selected adult value 10, no independently saved selected date, and `hasTableCheckSelectedRequest=false`. This does not replay the H003 click or establish a completed 10-person/date query. Existing request/inventory gate was reused; no tests or evaluator changed, no availability asserted.
+- E1 historical artifact diagnosis: [H001 result](../../.eval-artifacts/restaurant-hybrid-live-read/2026-09-24T03-56-54-360Z-31020bc5-a3c3-45bb-ae39-9c4cdb138093.result.json) retains two eligible candidates in the last contexts and 22 checkable candidates about 45 seconds before run end. Current ADR-0028, prompt and Domain Validator intentionally reject a short batch while reads remain legal; existing `action-validator.test.ts` covers that rule. This is a contract gap for budget-aware delivery, not a repaired bug. No controlled presentation, real-model E2 or new Live was run; the existing result evaluator and manual acceptance remain FAIL for H001.
 
 ## TEST-2026-09-24-MARUNOUCHI-B1 — targeted source read and Adapter regression
 

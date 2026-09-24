@@ -1,13 +1,17 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.82
+- Document revision: 4.83
 - Last updated: 2026-09-24
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## 2026-09-24 C1 and E1 bounded diagnosis
+
+Read the saved H003 LAVAROCK action trace and one current, read-only reservation page. Adult selection reported 10, but no independent selected-date observation was preserved and the current combined-request parser returned false. This did not justify relaxing the request or inventory gate; [C1 remains uncovered](LAVAROCK-CONTROL-2026-09-24.md). Separately, H001 already had two independently eligible results with about 45 seconds left, but the [accepted three-result contract](../decisions/0028-open-ended-result-targets-for-availability.md) and matching Validator/prompt explicitly require continued legal reads. Recorded [E1 as a contract gap](H001-DELIVERY-WINDOW-2026-09-24.md), with a predeclared 45-second controlled reserve proposal. No production change or claim of completed presentation in either diagnostic.
 
 ## 2026-09-24 MARUNOUCHI BASE B1 source-discovery slice
 
