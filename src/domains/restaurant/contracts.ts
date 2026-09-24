@@ -551,6 +551,8 @@ export interface RestaurantTaskState {
   };
   /** An explicit request for another same-condition batch; it never changes intent. */
   pendingResultBatchTarget?: number;
+  /** Code-opened first default-batch delivery reserve; never model or user supplied. */
+  defaultBatchDeliveryWindow?: { openedAt: string; deadlineAt: string };
   readEvidence: RestaurantReadEvidence[];
   searchRevision: number;
   /** Increments only when the user changes authoritative semantics. */
@@ -632,6 +634,7 @@ export type RestaurantEvent =
   | (DomainEvent & { type: "AGENT_DECISION_FAILED"; code: string; reason: string })
   | (DomainEvent & { type: "AGENT_EXECUTION_FAILED"; code: string; reason: string })
   | (DomainEvent & { type: "AGENT_LOOP_TERMINATED"; termination: RestaurantAgentLoopTermination; reason: string })
+  | (DomainEvent & { type: "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED"; deadlineAt: string })
   | (DomainEvent & {
       type: "SEARCH_COMPLETED";
       request: RestaurantSearchRequest;

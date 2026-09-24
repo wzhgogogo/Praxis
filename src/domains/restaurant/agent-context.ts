@@ -6,6 +6,7 @@ import type {
 } from "./contracts.js";
 import { missingBlockingFields, missingSearchFields } from "./intent-state.js";
 import { assessRestaurantRead, restaurantCurrentFactEvidence } from "./read-assessment.js";
+import { defaultBatchDeliveryWindowActive } from "./action-validator.js";
 
 export const RESTAURANT_AGENT_CONTEXT_SCHEMA = {
   name: "restaurant_agent_context",
@@ -99,6 +100,7 @@ export function projectRestaurantAgentContext(
   now = new Date().toISOString(),
 ): RestaurantAgentContext {
   const assessment = assessRestaurantRead(state, now);
+  const deliveryWindow = defaultBatchDeliveryWindowActive(state, now);
   const presentation = assessment.presentation;
   const candidateSummary = (candidateId: string) => {
     const facts = restaurantCurrentFactEvidence(state, candidateId);
@@ -192,11 +194,13 @@ export function projectRestaurantAgentContext(
       ]),
     ),
     presentation,
-    searchAvailability: state.sourceReadState?.googlePlacesSearchBudget === "EXHAUSTED" || state.searchContinuation?.exhausted === true
+    searchAvailability: deliveryWindow
+      ? { available: false, reason: "DEFAULT_BATCH_DELIVERY_WINDOW" }
+      : state.sourceReadState?.googlePlacesSearchBudget === "EXHAUSTED" || state.searchContinuation?.exhausted === true
       ? { available: false, reason: state.searchContinuation?.exhausted ? "GOOGLE_DISCOVERY_EXHAUSTED" : "GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED" }
       : { available: true },
-    ...(assessment.checkableCandidateIds.length ? { checkableCandidateIds: assessment.checkableCandidateIds } : {}),
-    ...(assessment.factInvestigableCandidateIds.length ? { factInvestigableCandidateIds: assessment.factInvestigableCandidateIds } : {}),
+    ...(!deliveryWindow && assessment.checkableCandidateIds.length ? { checkableCandidateIds: assessment.checkableCandidateIds } : {}),
+    ...(!deliveryWindow && assessment.factInvestigableCandidateIds.length ? { factInvestigableCandidateIds: assessment.factInvestigableCandidateIds } : {}),
     readCompletion: {
       allowed: assessment.canEndRead,
       investigationRecorded: assessment.investigationRecorded,
@@ -204,9 +208,9 @@ export function projectRestaurantAgentContext(
       ...(assessment.endReadBlockReason ? { reason: assessment.endReadBlockReason } : {}),
     },
     legalActions: {
-      search: state.sourceReadState?.googlePlacesSearchBudget !== "EXHAUSTED" && state.searchContinuation?.exhausted !== true && missingSearchFields(state.intentDraft ?? {}).length === 0,
-      investigateCandidateFacts: [...assessment.factInvestigableCandidateIds],
-      checkAvailability: [...assessment.checkableCandidateIds],
+      search: !deliveryWindow && state.sourceReadState?.googlePlacesSearchBudget !== "EXHAUSTED" && state.searchContinuation?.exhausted !== true && missingSearchFields(state.intentDraft ?? {}).length === 0,
+      investigateCandidateFacts: deliveryWindow ? [] : [...assessment.factInvestigableCandidateIds],
+      checkAvailability: deliveryWindow ? [] : [...assessment.checkableCandidateIds],
       presentResults: presentation
         .filter((item) => item.eligible && !(state.pendingResultBatchTarget !== undefined && (state.selectionSession?.deliveredCandidateIds ?? []).includes(item.candidateId)))
         .map((item) => item.candidateId),

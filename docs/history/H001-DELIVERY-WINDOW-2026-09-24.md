@@ -1,7 +1,7 @@
 # H001 result delivery E1 contract diagnostic
 
 - Status: current diagnostic / exposed development data
-- Document revision: 0.1
+- Document revision: 0.2
 - Baseline: `93914d8`
 - Scope: default result target and bounded delivery, no change to eligibility, evidence or full Live budget
 
@@ -18,3 +18,15 @@ Evaluator reuse: the existing result presentation/claim evaluator applies to any
 [ADR-0028](../decisions/0028-open-ended-result-targets-for-availability.md) and the current [Restaurant Domain contract](../domains/RESTAURANT-BOOKING.md) require a default batch of three and permit a smaller batch only after no ordinary bounded read remains. `resultTargetCannotBeMetWithFurtherRead` in the Domain Validator implements precisely this condition; the Agent prompt also tells the model to continue while a legal read exists. H001 therefore has both a decision-level instruction to continue and a validator-level rejection of a two-result presentation while checkable candidates remain. Existing `action-validator.test.ts` explicitly covers this behavior; the historical miss is a **contract gap**, not an implementation regression or an untested branch of that old contract.
 
 **E1 verdict: the proposed budget-window behavior fails under the current accepted contract.** A local test that only scripts `PRESENT_RESULTS` would be rejected and could not meet the experiment's completion requirement. The next step is a new ADR that narrows ADR-0028's continue-until-exhausted rule for the default batch at a durable, run-scoped delivery deadline, followed by a controlled Router/Runtime test that actually executes presentation. This diagnosis does not change or claim acceptance of the product behavior.
+
+## E1 implementation and E2 decision probe plan
+
+[ADR-0031](../decisions/0031-default-result-delivery-window.md) narrows the default first-batch rule at the predeclared 45-second reserve for runs of at least 90 seconds. The Coordinator records a deadline-bound delivery event; the Domain Validator stops further read proposals only while one or two currently eligible, unshown results remain. A controlled availability state with a source-grounded slot now executes `PRESENT_RESULTS` through Coordinator → Router → Reducer and persists `met:false`. An explicit user count cannot open the window, and expired evidence cannot use it. This is a controlled state-driven experiment, not a full H001 or real-model acceptance.
+
+E2 next uses the saved H001 step-7 `decisionContext` as fixed input. Preserve its two eligible candidate IDs and all candidate/evidence summaries; apply only the code-defined delivery-window projection (search unavailable with reason `DEFAULT_BATCH_DELIVERY_WINDOW`, no fact or availability read IDs). Before the provider call, the independent expected action is `PRESENT_RESULTS` with exactly those two IDs. Budget: one DeepSeek decision request, ten-second request ceiling, zero source calls, no booking or external write. An invalid response or request failure is uncovered, not a pass. This model-only result cannot substitute for a true Runner/Runtime fixed-source result or full H001.
+
+## Current E1 result and remaining acceptance
+
+The existing availability action test now exercises the actual Coordinator → Router → Reducer path. With one independent source-grounded slot and default target three, a deadline exactly 45 seconds away opens the durable window, `PRESENT_RESULTS` executes, and State records one displayed candidate with `met:false`. Further read actions are rejected while that current result is eligible. The controls confirm the normal pre-window short-batch rejection, reject hiding a second currently eligible restaurant, reject an explicit user count at window creation, reject expired evidence, and prevent a pre-aborted user cancellation from opening the window. Existing default-three offline composition still verifies a full batch with `met:true`; this implementation does not raise the established 300-second or source/model limits. The local control uses a constructed State carrying independently checkable evidence; it is not a source-production artifact or H001 replay.
+
+The default offline suite passed 522/522, typecheck, architecture check and build passed. The predeclared one-call E2 attempt was rejected by automatic approval **before execution** because it would export a private H001 artifact-derived context to DeepSeek without payload-specific authorization. No E2 request or source visit occurred. The user's authorization is pending; until then real-model choice, fixed-source production composition and H001 Live acceptance remain unverified. Evaluator reuse is limited to the existing qualified-result/short-batch acceptance rule, with this record's manual elapsed-budget and actual-transition check; no overall evaluator pass is claimed.

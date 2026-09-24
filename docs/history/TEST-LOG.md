@@ -1,13 +1,20 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.90
+- Document revision: 4.91
 - Last updated: 2026-09-24
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## TEST-2026-09-24-H001-E1 — default delivery-window controlled execution
+
+- Failure basis: saved H001 Live step 7 had two eligible candidates and about 45 seconds remaining, but chose another availability read and ended cancelled without presentation. ADR-0028 and the old action-validator test deliberately rejected a short batch while any read remained, so this was a contract gap rather than an implementation regression.
+- Controlled E1: before the window, one supported availability result with default target three is rejected for early presentation. With a durable window event 45 seconds before the deadline, Coordinator chooses the scripted `PRESENT_RESULTS`, Router emits `RESULTS_PRESENTED`, Reducer saves the short result and `resultBatchTarget={candidateCount:3,met:false}`; zero provider calls occur after the window. An explicit user count cannot open that event; expired evidence remains rejected. Existing default-three composition tests continue to cover a full `met:true` batch. This state-driven controlled test does not produce a real-source H001 result.
+- Gates: `npm run typecheck`, `npm run arch:check`, `npm run build` and default `npm test` 522/522 passed. The first default suite attempt exposed a stale Prompt@16 assertion after Decision Prompt@17; the version assertion was corrected and the second full run passed. No browser DOM path changed in E1; the prior 24/24 browser Fixture result belongs to C1.
+- Evaluator: existing fixed-source acceptance already distinguishes default short batch `met:false` from explicit requested count; manual E1 review checks actual transition and 45-second reserve. The predeclared one-call E2 DeepSeek probe was rejected by automatic approval before execution because its H001 private artifact-derived context would leave the workspace. No model call, source read, booking or external write occurred. Fixed-source model choice and full H001 remain unassessed. [Stage record](H001-DELIVERY-WINDOW-2026-09-24.md).
 
 ## TEST-2026-09-24-LAVAROCK-C1 — live request values, stale markup and fixture closure
 

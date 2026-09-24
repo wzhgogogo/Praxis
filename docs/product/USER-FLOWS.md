@@ -1,8 +1,8 @@
 # MVP User Flows
 
 - Status: Accepted
-- Document revision: 0.8
-- Last updated: 2026-09-20
+- Document revision: 0.9
+- Last updated: 2026-09-24
 - Source of truth for: 用户可见流程、确认点和终态
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md)
 - Related documents: [MVP PRD](MVP-PRD.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md)
@@ -92,7 +92,7 @@ flowchart TD
 
 按[ADR-0030](../decisions/0030-restaurant-category-negative-eligibility.md)，`no fast food`等餐厅类别排除禁止已知违规；有来源类别事实但判断未知的边界类型可以保留，不能宣称“已确认不是快餐”。连锁、便宜或出餐快本身不等于快餐。正向HARD仍须证据支持，过敏、污染、安全及无障碍等排除不适用此放宽。用户明确追加“不要拉面／回转寿司”通过普通需求更新收紧当前Task，不建立长期偏好。
 
-默认三家不足时，只在合法读取耗尽后展示实际合格数量并说明目标差额；此时可完成未显式指定数量的请求。显式要求的数量不足仍为未完整完成。
+默认三家不足时，合法读取耗尽后展示实际合格数量并说明目标差额。长时只读任务进入预留交付窗口且已有当前合格结果时，也先展示这些结果并标明未达三家，用户仍可要求续查；不能以过期或未证实的候选凑数。显式要求的数量不足仍为未完整完成，取消不会自动展示结果。
 
 ## 取消
 

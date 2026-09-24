@@ -12,7 +12,7 @@ import {
   projectRestaurantAgentContext,
   type RestaurantAgentContext,
 } from "../domains/restaurant/agent-context.js";
-import { validateRestaurantAction } from "../domains/restaurant/action-validator.js";
+import { defaultBatchDeliveryCandidateIds, validateRestaurantAction } from "../domains/restaurant/action-validator.js";
 import { assessRestaurantRead } from "../domains/restaurant/read-assessment.js";
 import type {
   RestaurantAgentLoopTermination,
@@ -153,22 +153,23 @@ export class RestaurantAgentLoopCoordinator {
     this.onStateUpdated = options.onStateUpdated;
   }
 
-  async run(taskId: string, signal?: AbortSignal): Promise<RestaurantAgentLoopResult> {
+  async run(taskId: string, signal?: AbortSignal, readDeadlineAt?: Date): Promise<RestaurantAgentLoopResult> {
     this.router.beginReadRun();
     try {
-      return await this.runWithinReadBudget(taskId, signal);
+      return await this.runWithinReadBudget(taskId, signal, readDeadlineAt);
     } finally {
       this.router.endReadRun();
     }
   }
 
-  private async runWithinReadBudget(taskId: string, signal?: AbortSignal): Promise<RestaurantAgentLoopResult> {
+  private async runWithinReadBudget(taskId: string, signal?: AbortSignal, readDeadlineAt?: Date): Promise<RestaurantAgentLoopResult> {
     const priorSteps = await this.trajectories.list(taskId);
     let stepNumber = priorSteps.length;
     let rejectedActions = 0;
     let lastRejection: { code: string; reason: string } | undefined;
     let lastRejectedAction: string | undefined;
     const startedAt = this.clock.now().valueOf();
+    const deadlineAt = new Date(Math.min(startedAt + this.timeoutMs, readDeadlineAt?.valueOf() ?? Number.POSITIVE_INFINITY));
     const recentExecutionHistory: Array<{ type: string; detail: string }> = priorSteps.slice(-12).map((step) => ({
       type: step.stepOutcome,
       detail: step.stepOutcome === "EXECUTION_FAILURE"
@@ -177,10 +178,16 @@ export class RestaurantAgentLoopCoordinator {
     }));
 
     for (let step = 0; step < this.maxSteps; step += 1) {
-      const snapshot = await this.runtime.snapshot(taskId);
+      let snapshot = await this.runtime.snapshot(taskId);
       if (signal?.aborted) return this.cancel(snapshot, taskId, stepNumber, signal);
       if (terminal(snapshot.domainState)) return { status: "TERMINAL", steps: step };
       if (waitingForUser(snapshot.domainState)) return { status: "WAITING_USER", steps: step };
+      const remainingDeliveryMs = deadlineAt.valueOf() - this.clock.now().valueOf();
+      if (this.timeoutMs >= 90_000 && !snapshot.domainState.defaultBatchDeliveryWindow
+        && remainingDeliveryMs >= 0 && remainingDeliveryMs <= 45_000
+        && defaultBatchDeliveryCandidateIds(snapshot.domainState, this.clock.now().toISOString()).length > 0) {
+        snapshot = (await this.dispatch(snapshot, { type: "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED", deadlineAt: deadlineAt.toISOString() }, "SYSTEM")).snapshot;
+      }
       if (noExecutableDiscoveryPath(snapshot.domainState, this.clock.now().toISOString())) {
         stepNumber += 1;
         await this.terminate(

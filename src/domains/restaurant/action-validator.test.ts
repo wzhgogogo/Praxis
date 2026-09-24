@@ -6,6 +6,12 @@ import { MAX_AVAILABILITY_CHECK_BATCH, validateRestaurantAction } from "./action
 import { restaurantCurrentFactEvidence, restaurantPresentationEvidenceIds } from "./read-assessment.js";
 import { applyRestaurantIntentPatch, missingBlockingFields } from "./intent-state.js";
 import { restaurantBookingTaskDefinition } from "./task-definition.js";
+import { RestaurantExecutionRouter } from "../../application/restaurant-execution-router.js";
+import { RestaurantAgentLoopCoordinator } from "../../application/restaurant-agent-loop.js";
+import { ScriptedRestaurantAgentDecisionPort } from "./agent-decision.js";
+import { InMemoryRestaurantAgentTrajectoryStore } from "../../infrastructure/postgres/restaurant-agent-trajectory-store.js";
+import type { TaskSnapshot } from "../../core/task-runtime/contracts.js";
+import type { RestaurantOutcome } from "./contracts.js";
 
 const incompleteState: RestaurantTaskState = {
   schemaVersion: "10",
@@ -107,6 +113,10 @@ test("an open-ended result target rejects an early partial batch but records a s
     status: "REJECTED", code: "PRESENTATION_EVIDENCE_MISSING",
     reason: "The requested next batch requires 3 distinct qualified restaurants before it can be presented",
   });
+  const windowState = restaurantBookingTaskDefinition.transition(base, { type: "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED", deadlineAt: "2026-08-05T09:00:45.000Z" },
+    { taskId: "task", runId: "run", now, createId: (prefix) => prefix }).state;
+  assert.equal(validateRestaurantAction(windowState, { type: "PRESENT_RESULTS", candidateIds: [candidateIds[0]!] }, now).status, "REJECTED", "a window cannot hide the second eligible restaurant");
+  assert.equal(validateRestaurantAction(windowState, { type: "PRESENT_RESULTS", candidateIds }, now).status, "ALLOWED");
 
   const exhausted = validateRestaurantAction({
     ...base,
@@ -318,7 +328,7 @@ test("Action validator keeps investigation batches bounded without truncating th
   );
 });
 
-test("PRESENT_RESULTS fails closed until area, HARD criterion, identity, and availability are evidenced", () => {
+test("PRESENT_RESULTS fails closed until area, HARD criterion, identity, and availability are evidenced", async () => {
   const candidate = { restaurant: { id: "a", outletName: "A", sourceIds: {}, address: "Shinjuku, Tokyo", provenance: {} }, matchReasons: [], warnings: [], executionConfidence: "HIGH" as const };
   const draft = applyRestaurantIntentPatch(undefined, {
     schemaVersion: "3", target: { goal: "AVAILABILITY", query: "find a table" }, date: "2026-08-05", timeWindow: { earliest: "19:00", latest: "19:30" }, partySize: 2,
@@ -340,6 +350,59 @@ test("PRESENT_RESULTS fails closed until area, HARD criterion, identity, and ava
     ],
   };
   assert.deepEqual(validateRestaurantAction(grounded, { type: "PRESENT_RESULTS", candidateIds: ["a"] }, now), { status: "ALLOWED" });
+  const defaultBatch: RestaurantTaskState = {
+    ...grounded, intentDraft: applyRestaurantIntentPatch(grounded.intentDraft, { schemaVersion: "3", target: { goal: "AVAILABILITY", query: "find a table", selectionScope: "OPEN_ENDED" } }),
+    pendingResultBatchTarget: 3,
+  };
+  assert.equal(validateRestaurantAction(defaultBatch, { type: "PRESENT_RESULTS", candidateIds: ["a"] }, now).status, "REJECTED");
+  const deadlineAt = "2026-08-05T09:00:45.000Z";
+  const delivery = restaurantBookingTaskDefinition.transition(defaultBatch, { type: "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED", deadlineAt },
+    { taskId: "task", runId: "run", now, createId: (prefix) => prefix }).state;
+  assert.equal(validateRestaurantAction(delivery, { type: "SEARCH_RESTAURANTS" }, now).status, "REJECTED");
+  assert.equal(validateRestaurantAction(delivery, { type: "PRESENT_RESULTS", candidateIds: ["a"] }, now).status, "ALLOWED");
+  let providerCalls = 0;
+  const router = new RestaurantExecutionRouter(
+    { executionRoute: "STRUCTURED_ADAPTER", async search() { providerCalls++; throw new Error("delivery must not call search"); } },
+    { executionRoute: "STRUCTURED_ADAPTER", async check() { providerCalls++; throw new Error("delivery must not call availability"); } },
+  );
+  const executed = await router.execute({ type: "PRESENT_RESULTS", candidateIds: ["a"] }, delivery, now);
+  assert.equal(executed.event?.type, "RESULTS_PRESENTED");
+  if (executed.event?.type !== "RESULTS_PRESENTED") throw new Error("Router failed to execute presentation");
+  const delivered = restaurantBookingTaskDefinition.transition(delivery, executed.event,
+    { taskId: "task", runId: "run", now, createId: (prefix) => prefix }).state;
+  assert.equal(delivered.phase, "PRESENT_RESULTS");
+  assert.deepEqual(delivered.selectionSession?.resultBatchTarget, { candidateCount: 3, met: false });
+  assert.equal(providerCalls, 0);
+  let current: TaskSnapshot<RestaurantTaskState, RestaurantOutcome> = {
+    id: "task", runId: "run", taskType: "restaurant_booking", definitionVersion: "10", lifecycleState: restaurantBookingTaskDefinition.getLifecycleState(defaultBatch),
+    domainState: defaultBatch, outcome: null, version: 1, createdAt: now, updatedAt: now,
+  };
+  const coordinator = new RestaurantAgentLoopCoordinator({
+    async snapshot() { return current; },
+    async dispatch(envelope, expectedVersion) {
+      assert.equal(expectedVersion, current.version);
+      const transition = restaurantBookingTaskDefinition.transition(current.domainState, envelope.event,
+        { taskId: current.id, runId: current.runId, now: envelope.occurredAt, createId: (prefix) => prefix });
+      current = { ...current, domainState: transition.state, version: current.version + 1, updatedAt: envelope.occurredAt,
+        lifecycleState: restaurantBookingTaskDefinition.getLifecycleState(transition.state) };
+      return { snapshot: current, commands: [], duplicateEvent: false };
+    },
+  }, new ScriptedRestaurantAgentDecisionPort([{ type: "PRESENT_RESULTS", candidateIds: ["a"] }]), router,
+    new InMemoryRestaurantAgentTrajectoryStore(), { now: () => new Date(now) }, { timeoutMs: 300_000, maxSteps: 2 }, (prefix) => prefix);
+  const coordinated = await coordinator.run("task", undefined, new Date(deadlineAt));
+  assert.equal(coordinated.status, "TERMINAL", "the budget event, Agent action, Router and Reducer must complete inside the reserve");
+  assert.equal(current.domainState.phase, "PRESENT_RESULTS");
+  assert.deepEqual(current.domainState.selectionSession?.resultBatchTarget, { candidateCount: 3, met: false });
+  assert.equal(providerCalls, 0);
+  current = { ...current, domainState: defaultBatch, lifecycleState: restaurantBookingTaskDefinition.getLifecycleState(defaultBatch) };
+  const cancelledSignal = new AbortController();
+  cancelledSignal.abort(new Error("User cancelled"));
+  assert.equal((await coordinator.run("task", cancelledSignal.signal, new Date(deadlineAt))).status, "CANCELLED");
+  assert.equal(current.domainState.defaultBatchDeliveryWindow, undefined, "cancellation cannot open a delivery window or present results");
+  const explicitCount = { ...defaultBatch, intentDraft: applyRestaurantIntentPatch(defaultBatch.intentDraft, { schemaVersion: "3", target: { goal: "AVAILABILITY", query: "find a table", selectionScope: "OPEN_ENDED", requestedResultCount: 3 } }) };
+  assert.throws(() => restaurantBookingTaskDefinition.transition(explicitCount, { type: "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED", deadlineAt },
+    { taskId: "task", runId: "run", now, createId: (prefix) => prefix }));
+  assert.equal(validateRestaurantAction(delivery, { type: "PRESENT_RESULTS", candidateIds: ["a"] }, "2026-08-05T09:03:00.000Z").status, "REJECTED", "expired evidence cannot use a past delivery window");
   const timely = validateRestaurantAction(grounded, { type: "CHECK_AVAILABILITY", candidateIds: ["a"] }, now);
   assert.equal(timely.status, "REJECTED");
   if (timely.status === "REJECTED") assert.equal(timely.code, "AVAILABILITY_ALREADY_CHECKED");

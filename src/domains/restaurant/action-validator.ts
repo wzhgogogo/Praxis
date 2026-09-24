@@ -99,6 +99,25 @@ function resultTargetCannotBeMetWithFurtherRead(state: Readonly<RestaurantTaskSt
   return !discoveryAvailable && assessment.factInvestigableCandidateIds.length === 0 && assessment.checkableCandidateIds.length === 0;
 }
 
+/** Only the product default first batch may spend its final read window on delivery. */
+export function defaultBatchDeliveryCandidateIds(state: Readonly<RestaurantTaskState>, now: string): string[] {
+  if (state.phase !== "SEARCHING" || state.pendingResultBatchTarget !== 3
+    || state.intentDraft?.target?.selectionScope !== "OPEN_ENDED"
+    || state.intentDraft.target.requestedResultCount !== undefined
+    || state.selectionSession !== undefined
+    || state.refreshRequestedCandidateIds?.length || state.factRefreshRequestedCandidateIds?.length) return [];
+  const eligible = assessRestaurantRead(state, now).presentation.filter((item) => item.eligible).map((item) => item.candidateId);
+  return eligible.length >= 1 && eligible.length <= 2 ? eligible : [];
+}
+
+export function defaultBatchDeliveryWindowActive(state: Readonly<RestaurantTaskState>, now: string): boolean {
+  const window = state.defaultBatchDeliveryWindow;
+  const current = Date.parse(now);
+  return window !== undefined && Number.isFinite(current)
+    && current >= Date.parse(window.openedAt) && current <= Date.parse(window.deadlineAt)
+    && defaultBatchDeliveryCandidateIds(state, now).length > 0;
+}
+
 /** Domain-owned invariant guard. It never chooses an action and never invokes a provider. */
 export function validateRestaurantAction(
   state: Readonly<RestaurantTaskState>,
@@ -119,6 +138,7 @@ export function validateRestaurantAction(
   }
 
   if (action.type === "SEARCH_RESTAURANTS") {
+    if (defaultBatchDeliveryWindowActive(state, now)) return rejected("PRESENTATION_READY", "The default batch delivery window is open; present the currently eligible results before the read deadline");
     if (state.sourceReadState?.googlePlacesSearchBudget === "EXHAUSTED") {
       return rejected("DISCOVERY_UNAVAILABLE", "The local per-run Google request budget is exhausted; changing retrieval wording cannot restore it");
     }
@@ -138,6 +158,7 @@ export function validateRestaurantAction(
   }
 
   if (action.type === "INVESTIGATE_CANDIDATE_FACTS") {
+    if (defaultBatchDeliveryWindowActive(state, now)) return rejected("PRESENTATION_READY", "The default batch delivery window is open; present the currently eligible results before the read deadline");
     const intent = requireCompleteSearchIntent(state);
     if (!intent.valid) return intent.verdict;
     if (action.candidateIds.length === 0 || new Set(action.candidateIds).size !== action.candidateIds.length) {
@@ -159,6 +180,7 @@ export function validateRestaurantAction(
   }
 
   if (action.type === "CHECK_AVAILABILITY") {
+    if (defaultBatchDeliveryWindowActive(state, now)) return rejected("PRESENTATION_READY", "The default batch delivery window is open; present the currently eligible results before the read deadline");
     const intent = requireCompleteIntent(state);
     if (!intent.valid) return intent.verdict;
     const presentation = restaurantPresentationReadiness(state, now);
@@ -200,8 +222,14 @@ export function validateRestaurantAction(
       if (action.candidateIds.length > state.pendingResultBatchTarget) {
         return rejected("PRESENTATION_EVIDENCE_MISSING", `The current result target allows at most ${state.pendingResultBatchTarget} qualified restaurants`);
       }
-      if (action.candidateIds.length < state.pendingResultBatchTarget && !resultTargetCannotBeMetWithFurtherRead(state, now)) {
+      if (action.candidateIds.length < state.pendingResultBatchTarget && !defaultBatchDeliveryWindowActive(state, now) && !resultTargetCannotBeMetWithFurtherRead(state, now)) {
         return rejected("PRESENTATION_EVIDENCE_MISSING", `The requested next batch requires ${state.pendingResultBatchTarget} distinct qualified restaurants before it can be presented`);
+      }
+      if (action.candidateIds.length < state.pendingResultBatchTarget && defaultBatchDeliveryWindowActive(state, now)) {
+        const eligible = defaultBatchDeliveryCandidateIds(state, now);
+        if (action.candidateIds.length !== eligible.length || action.candidateIds.some((candidateId) => !eligible.includes(candidateId))) {
+          return rejected("PRESENTATION_EVIDENCE_MISSING", "The delivery window must include every currently eligible unshown restaurant");
+        }
       }
       const delivered = new Set(state.selectionSession?.deliveredCandidateIds ?? []);
       if (action.candidateIds.some((candidateId) => delivered.has(candidateId))) {

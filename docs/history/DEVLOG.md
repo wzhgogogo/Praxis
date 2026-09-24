@@ -1,13 +1,17 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.85
+- Document revision: 4.86
 - Last updated: 2026-09-24
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## 2026-09-24 E1 default first-batch delivery reserve
+
+The H001 exposed read had two eligible restaurants but no presentation before its deadline. ADR-0031 narrows ADR-0028 only for the default first batch: with 45 seconds left in a long read run, a code-recorded window makes the current supported short batch presentable and stops new reads. State, Domain Validator, Agent Context, Decision Prompt@17 and the Live Runner's absolute deadline are wired to the same condition. The controlled availability test executes presentation through Coordinator, Router and Reducer with `met:false`, preserving explicit-count and stale-evidence rejection. The one-call fixed-source real-model probe was blocked by automatic approval before any request, so model choice and H001 final delivery remain unverified. [E1 record](H001-DELIVERY-WINDOW-2026-09-24.md).
 
 ## 2026-09-24 LAVAROCK C1 live-control request binding
 

@@ -22,7 +22,7 @@ import type {
 import { restaurantAvailabilityRequestFingerprint, restaurantSearchIntentFingerprint } from "./contracts.js";
 import { applyRestaurantIntentPatch } from "./intent-state.js";
 import { restaurantIntentPatchHasChanges } from "./semantic-compiler.js";
-import { validateRestaurantAction } from "./action-validator.js";
+import { defaultBatchDeliveryCandidateIds, validateRestaurantAction } from "./action-validator.js";
 
 function requirePhase(state: Readonly<RestaurantTaskState>, allowed: RestaurantPhase[], eventType: string) {
   if (!allowed.includes(state.phase)) {
@@ -61,6 +61,7 @@ function resetForSemanticUpdate(
     refreshRequestedCandidateIds: _refreshRequestedCandidateIds,
     factRefreshRequestedCandidateIds: _factRefreshRequestedCandidateIds,
     pendingResultBatchTarget: _pendingResultBatchTarget,
+    defaultBatchDeliveryWindow: _defaultBatchDeliveryWindow,
     sourceReadState: _sourceReadState,
     searchContinuation: _searchContinuation,
     ...remaining
@@ -305,6 +306,15 @@ function transition(
         state: { ...state, phase: "NEEDS_INPUT", pendingUserQuestion: { question: event.question, ...(event.relatedFields ? { relatedFields: [...event.relatedFields] } : {}) } },
         commands: [],
       };
+    case "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED": {
+      requirePhase(state, ["SEARCHING"], event.type);
+      const remainingMs = Date.parse(event.deadlineAt) - Date.parse(context.now);
+      if (state.defaultBatchDeliveryWindow || !Number.isFinite(remainingMs) || remainingMs < 0 || remainingMs > 45_000
+        || defaultBatchDeliveryCandidateIds(state, context.now).length === 0) {
+        throw new Error("Default batch delivery window requires a current eligible short batch inside the reserved deadline");
+      }
+      return { state: { ...state, defaultBatchDeliveryWindow: { openedAt: context.now, deadlineAt: event.deadlineAt } }, commands: [] };
+    }
     case "AGENT_DECISION_FAILED":
       requirePhase(state, ["UNDERSTANDING", "NEEDS_INPUT", "SEARCHING", "SELECTION_REQUIRED"], event.type);
       {
@@ -581,7 +591,7 @@ function transition(
       if (event.evidenceIds.length === 0 || !event.evidenceIds.every((id) => availableEvidence.has(id))) {
         throw new Error("Results presentation must reference current authoritative evidence");
       }
-      const { pendingResultBatchTarget: _pendingResultBatchTarget, ...remaining } = state;
+      const { pendingResultBatchTarget: _pendingResultBatchTarget, defaultBatchDeliveryWindow: _defaultBatchDeliveryWindow, ...remaining } = state;
       const resultBatchTarget = state.pendingResultBatchTarget === undefined
         ? undefined
         : { candidateCount: state.pendingResultBatchTarget, met: event.candidateIds.length === state.pendingResultBatchTarget };

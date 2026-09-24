@@ -1,13 +1,15 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.79
+- Document revision: 4.80
 - Last updated: 2026-09-24
 - Source of truth for: 已实现能力、已验证范围、明确未验证项与下一道门槛
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Documentation Index](INDEX.md), [Roadmap](roadmap.md), [Verification History](history/TEST-LOG.md)
 
 ## 最新审查与当前门槛
+
+2026-09-24 **E1 默认首批预算交付完成离线受控接线，真实模型和 H001 尚未签收。** ADR-0031为不少于90秒的只读run增加最后45秒交付窗口：已有1—2家当前合格结果时，Domain停止新读取、允许短批并记录`met:false`；显式数量、后续批次、刷新和过期证据不借此放行。可行查位State的受控测试实际经过Coordinator→Router→Reducer执行`PRESENT_RESULTS`；原窗口前拒绝、显式数量和过期对照通过。默认离线522/522、typecheck、arch、build通过。固定H001上下文的一次DeepSeek E2调用被自动审批在执行前拒绝，未发送数据；真实模型选路、生产来源组合、整体H001仍待验证。[E1记录](history/H001-DELIVERY-WINDOW-2026-09-24.md)。
 
 2026-09-24 **C1 LAVAROCK当前预约表单请求值识别已修正，生产入口和库存仍未签收。** 定向只读观察发现人数由10改9后，HTML及URL仍保留10；旧HTML解析会误接纳过期请求。现用同次浏览器观察的实时日期和人数控件确认请求，真实页面对照得到改前10通过、改后10拒绝且9通过；没有提交预约，也没有获得完成的库存结果。TableCheck所属回归、默认离线522/522、typecheck、arch、build及本地Chromium Fixture 24/24通过。Fixture两处旧Tabelog搜索URL已同步B1的东京入口。生产适配器从介绍页进入独立`/shops/.../reserve`的绑定仍有缺口。[C1记录](history/LAVAROCK-CONTROL-2026-09-24.md)。
 

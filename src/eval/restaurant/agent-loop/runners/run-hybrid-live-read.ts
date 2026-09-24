@@ -294,7 +294,7 @@ try {
     limits: liveReadLimits,
     safety: "READ_ONLY_CODE_PATH",
   }));
-  const loop = await settleAtRunDeadline(coordinator.run(taskId, deadline), deadline);
+  const loop = await settleAtRunDeadline(coordinator.run(taskId, deadline, new Date(startedAt.valueOf() + liveReadLimits.maxAutomaticBrowserMs)), deadline);
   const progress = captureProgress();
   const { finalSnapshot, resourceUsage } = progress;
   if (!finalSnapshot) throw new Error("Completed run has no runtime snapshot");
