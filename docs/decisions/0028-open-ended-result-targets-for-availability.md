@@ -1,6 +1,6 @@
 # ADR-0028: Open-ended result targets for availability
 
-- Status: Accepted; default first-batch deadline detail superseded in part by ADR-0031
+- Status: Accepted; default first-batch delivery details superseded in part by ADR-0031 and ADR-0033
 - Last updated: 2026-09-18
 - Source of truth for: Open-ended Restaurant result-count targets across recommendation and availability goals
 - Supersedes in part: [ADR-0027](0027-continuous-read-only-selection-sessions.md) first-batch target limited to `RECOMMENDATION`

@@ -11,6 +11,10 @@ import type { RestaurantAvailabilityProvider } from "./contracts.js";
 const PROVIDER_ORDER = ["TABLECHECK", "TABELOG"] as const;
 
 function hintedProviderOrder(request: RestaurantAvailabilityRequest): readonly RestaurantAvailabilityProvider["provider"][] {
+  const nativeIds = request.candidates[0]?.restaurant.sourceIds;
+  if (nativeIds?.tabelogNativeDetailUri && nativeIds.tabelog && !nativeIds.tablecheckNativeGuideUri) return ["TABELOG"];
+  if (nativeIds?.tablecheckNativeGuideUri && nativeIds.tablecheck && !nativeIds.tabelogNativeDetailUri) return ["TABLECHECK"];
+  if (nativeIds?.tabelogNativeDetailUri || nativeIds?.tablecheckNativeGuideUri) return [];
   const hint = request.candidates[0]?.restaurant.sourceIds.googleWebsiteUri;
   if (!hint) return PROVIDER_ORDER;
   try {
@@ -152,7 +156,8 @@ export class AvailabilitySourceResolver {
       }
       const allFailed = request.candidateIds.every((candidateId) => {
         const check = availabilityChecks[candidateId];
-        return check?.status === "UNKNOWN" && (check.sourceAttempts?.length ?? 0) >= PROVIDER_ORDER.length &&
+        const expectedSources = hintedProviderOrder(singleCandidateRequest(request, candidateId)).length;
+        return expectedSources > 0 && check?.status === "UNKNOWN" && (check.sourceAttempts?.length ?? 0) >= expectedSources &&
           check?.sourceAttempts?.every((attempt) => attempt.outcome === "FAILED");
       });
       return {

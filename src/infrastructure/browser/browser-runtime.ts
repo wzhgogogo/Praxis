@@ -47,7 +47,7 @@ export interface BrowserPageControl {
   /** Browser-observed structural facts, never a page assertion of safety. */
   formMethod?: "GET" | "POST" | "UNKNOWN";
   /** Observed structure for source-owned control contracts; never a permission itself. */
-  structure?: { tag: string; name: string; classes: string[]; dialogLabel: string; formClass: string; sliderCount: number };
+  structure?: { tag: string; name: string; classes: string[]; dialogLabel: string; formClass: string; sliderCount: number; listboxId?: string };
   type?: string;
   disabled: boolean;
   visible: boolean;
@@ -67,6 +67,9 @@ export interface BrowserPageControl {
   observationOnly?: boolean;
   /** Select options remain distinct from the control's current value. */
   options?: Array<{ value: string; label: string; selected: boolean; disabled: boolean }>;
+  /** A custom role=option is actionable only when bound to an observed combobox. */
+  optionOwnerId?: string;
+  controlledListboxId?: string;
 }
 
 export interface BrowserSessionMetadata {
@@ -86,7 +89,7 @@ export interface BrowserSession {
   observeControls?(hints?: readonly BrowserControlHint[]): Promise<BrowserPageControl[]>;
   click(target: string): Promise<void>;
   /** Opens one already-observed public link. A target=_blank link remains in this session but becomes the active page. */
-  openLink?(target: string): Promise<void>;
+  openLink?(target: string, observedHref?: string): Promise<void>;
   fill(target: string, value: string): Promise<void>;
   /** Returns the values the remote browser reports as selected. */
   select(target: string, value: string): Promise<string[]>;

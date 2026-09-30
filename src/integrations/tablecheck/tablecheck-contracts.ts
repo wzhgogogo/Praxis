@@ -1,4 +1,5 @@
 import type { RestaurantCandidate } from "../../domains/restaurant/contracts.js";
+import type { NativeOutletContinuity } from "../restaurant-availability/native-outlet-continuity.js";
 import type { BrowserSessionMetadata } from "../../infrastructure/browser/browser-runtime.js";
 
 export type TableCheckIdentityEvidenceSource = "TABLECHECK_URL" | "JSON_LD" | "DOM" | "TEL_LINK" | "ABSENT";
@@ -35,6 +36,7 @@ export interface TableCheckOutletIdentityExtraction {
 
 /** Eval-only public-page diagnostic. It is not Restaurant Domain evidence. */
 export interface TableCheckIdentityDiagnostic {
+  nativeContinuity?: NativeOutletContinuity;
   candidateId: string;
   candidate: Pick<RestaurantCandidate["restaurant"], "outletName" | "address" | "sourceIds">;
   discovery: {
@@ -57,7 +59,7 @@ export interface TableCheckIdentityDiagnostic {
     comparison?: { outletName: "MATCH" | "CONFLICT" | "MISSING"; address: "MATCH" | "CONFLICT" | "INSUFFICIENT" | "MISSING"; phone: "MATCH" | "CONFLICT" | "MISSING" };
     reservation?: { kind: "EMBEDDED_AVAILABILITY" | "LINKED_PAGE"; url: string };
   }>;
-  resolution: { confidence: TableCheckEntityResolution["confidence"]; matchedBy: string[]; reason: "HIGH_EXACT_PHONE" | "HIGH_NAME_AND_ADDRESS" | "KNOWN_PHONE_CONFLICT" | "NAME_ONLY_MATCH" | "NO_COMPARABLE_IDENTITY_SIGNAL" | "BOT_CHALLENGE" | "MODEL_FAILURE" | "READ_BUDGET_EXCEEDED" | "TABLECHECK_DISCOVERY_NO_RESULT" | "TABLECHECK_DISCOVERY_INCOMPLETE" | "TABLECHECK_ENTITY_MATCH_UNCERTAIN" | "TABLECHECK_PAGE_UNAVAILABLE" | "TABLECHECK_PARSE_FAILED" };
+  resolution: { confidence: TableCheckEntityResolution["confidence"]; matchedBy: string[]; reason: "HIGH_EXACT_PHONE" | "HIGH_NAME_AND_ADDRESS" | "NATIVE_SOURCE_ID_AND_DETAIL" | "KNOWN_PHONE_CONFLICT" | "NAME_ONLY_MATCH" | "NO_COMPARABLE_IDENTITY_SIGNAL" | "BOT_CHALLENGE" | "MODEL_FAILURE" | "READ_BUDGET_EXCEEDED" | "TABLECHECK_DISCOVERY_NO_RESULT" | "TABLECHECK_DISCOVERY_INCOMPLETE" | "TABLECHECK_ENTITY_MATCH_UNCERTAIN" | "TABLECHECK_PAGE_UNAVAILABLE" | "TABLECHECK_PARSE_FAILED" };
 }
 
 export interface TableCheckAvailabilityPageObservation {

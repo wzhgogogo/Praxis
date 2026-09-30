@@ -284,6 +284,42 @@ test("Tabelog reads a Google-listed merchant page through the identity gate befo
   assert.equal(session.navigated.some((url) => url.includes("/rstLst/")), false);
 });
 
+test("Tabelog native result keeps its observed outlet ID and skips name search without self-matching a phone", async () => {
+  const url = "https://tabelog.com/tokyo/A1304/A130401/123/";
+  const native = { ...candidate, restaurant: { ...candidate.restaurant, id: "tabelog:tokyo/A1304/A130401/123",
+    sourceIds: { tabelog: "tokyo/A1304/A130401/123", tabelogNativeDetailUri: url } } };
+  const page: BrowserSnapshot = { url, title: "Restaurant 1", text: "Restaurant 1 予約 人数 19:00", html:
+    '<script type="application/ld+json">{"@type":"Restaurant","name":"Restaurant 1","address":{"streetAddress":"1-1 Shinjuku","addressRegion":"Tokyo"}}</script><select name="party"><option value="2">2</option></select><select name="date"><option value="2026-08-05">2026-08-05</option></select><button class="slot is-available" data-time="19:00">19:00</button>' };
+  const session = new FixtureBrowserSession([page, page]);
+  const nativeDiagnostics: Array<{ nativeContinuity?: { confirmed: boolean; reason: string; observedSourceEntityId?: string } }> = [];
+  const result = await new TabelogBrowserAvailability({ openSession: async () => session }, () => "2026-08-05T09:00:00.000Z", 5,
+    { onIdentityDiagnostic: (diagnostic) => nativeDiagnostics.push(diagnostic) })
+    .check({ candidateIds: [native.restaurant.id], candidates: [native], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: 2, hardCriteria: [] }, new AbortController().signal);
+  assert.equal(session.navigated.some((value) => value.includes("/rstLst/")), false);
+  assert.equal(result.availabilityChecks[native.restaurant.id]?.status, "AVAILABLE");
+  assert.equal(result.evidence.some((item) => item.kind === "ENTITY_MATCH" && item.entityMatch?.matchedBy.includes("NATIVE_SOURCE_ID_AND_DETAIL")), true);
+  assert.deepEqual(nativeDiagnostics[0]?.nativeContinuity, { confirmed: true, reason: "SAME_SOURCE_OUTLET",
+    expectedSourceEntityId: "tokyo/A1304/A130401/123", observedSourceEntityId: "tokyo/A1304/A130401/123" });
+  const wrong = { ...native, restaurant: { ...native.restaurant, sourceIds: { ...native.restaurant.sourceIds, tabelog: "tokyo/other" } } };
+  const wrongSession = new FixtureBrowserSession([page, page]);
+  const bad = await new TabelogBrowserAvailability({ openSession: async () => wrongSession }, () => "2026-08-05T09:00:00.000Z")
+    .check({ candidateIds: [wrong.restaurant.id], candidates: [wrong], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: 2, hardCriteria: [] }, new AbortController().signal);
+  assert.equal(bad.offers.length, 0);
+  assert.equal(wrongSession.navigated.some((value) => value.includes("/rstLst/")), false, "wrong native ID must not fall back to source-wide name search");
+  const changedAddress = { ...native, restaurant: { ...native.restaurant, address: "2-2 Shinjuku, Tokyo" } };
+  const changed = await new TabelogBrowserAvailability({ openSession: async () => new FixtureBrowserSession([page, page]) }, () => "2026-08-05T09:00:00.000Z")
+    .check({ candidateIds: [native.restaurant.id], candidates: [changedAddress], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: 2, hardCriteria: [] }, new AbortController().signal);
+  assert.equal(changed.availabilityChecks[native.restaurant.id]?.status, "AVAILABLE", "source-owned outlet continuity does not rematch address formatting");
+  const otherOutletPage = { ...page, url: "https://tabelog.com/tokyo/A1304/A130401/456/" };
+  const swapped = await new TabelogBrowserAvailability({ openSession: async () => new FixtureBrowserSession([otherOutletPage]) }, () => "2026-08-05T09:00:00.000Z")
+    .check({ candidateIds: [native.restaurant.id], candidates: [native], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: 2, hardCriteria: [] }, new AbortController().signal);
+  assert.equal(swapped.offers.length, 0, "a same-name page at a different source outlet ID cannot contribute inventory");
+  const errorPage = { ...page, title: "404 Not Found" };
+  const errored = await new TabelogBrowserAvailability({ openSession: async () => new FixtureBrowserSession([errorPage]) }, () => "2026-08-05T09:00:00.000Z")
+    .check({ candidateIds: [native.restaurant.id], candidates: [native], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: 2, hardCriteria: [] }, new AbortController().signal);
+  assert.equal(errored.offers.length, 0, "an error document at the same URL is not outlet continuity");
+});
+
 test("Tabelog keeps an immediate non-slot UNKNOWN rather than treating a nearby source slot as unavailable", async () => {
   const session = new FixtureBrowserSession([
     { url: "https://tabelog.com/en/rstLst/?sw=Restaurant", title: "search", text: "Restaurant 1", html: '<a href="https://tabelog.com/tokyo/A1304/A130401/123/" data-address="1-1 Shinjuku, Tokyo">Restaurant 1</a>' },

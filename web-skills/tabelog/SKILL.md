@@ -8,4 +8,6 @@ Never submit a reservation, enter personal details, or navigate outside the allo
 
 The source may label nonstandard calendar controls as `Date YYYY-MM-DD` and guest controls as `Guests N`. These labels are derived from the observed element, not the task goal. Use CLICK_AUTHORITATIVE with DATE or PARTY_SIZE for the exact requested value. Selected query controls and visible time choices alone do not establish bookable inventory.
 
+Wait for a visible selectable date and an enabled visible guest control on the current calendar. Hidden future-month dates and disabled guest controls do not make the query ready. If the source reports that the current guest query cannot be adjusted, stop with a source-control limit; do not infer no availability for the requested date.
+
 The observed English calendar time buttons navigate into booking forms. They are evidence-only; do not click them to inspect availability. Source-owned verification reads only captured public vacancy-query responses with matching merchant/date/party/time.

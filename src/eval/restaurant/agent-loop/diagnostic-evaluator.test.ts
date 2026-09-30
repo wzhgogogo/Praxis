@@ -376,7 +376,8 @@ test("missing trajectory and empty resource object remain not evaluated", () => 
 test("current runner resource ceilings are required and reject over-budget work", () => {
   const artifact: any = completeArtifact();
   delete artifact.limits;
-  artifact.runCeilings = { maxAutomaticBrowserMs: 300, maxAgentSteps: 30, maxBrowserModelCallsTotal: 120 };
+  artifact.runCeilings = { maxAutomaticBrowserMs: 300, maxAgentSteps: 30, maxBrowserModelCallsTotal: 120, maxModelCalls: 50 };
+  artifact.resourceUsage.modelCallsStarted = 2;
   assert.equal(finding(evaluateRestaurantHybridLiveArtifact(artifact, source), "RESOURCES").status, "SATISFIED");
   artifact.resourceUsage.elapsedMs = 301;
   assert.equal(finding(evaluateRestaurantHybridLiveArtifact(artifact, source), "RESOURCES").status, "NOT_SATISFIED");
@@ -391,6 +392,26 @@ test("current runner resource ceilings are required and reject over-budget work"
   assert.equal(finding(evaluateRestaurantHybridLiveArtifact(artifact, source), "RESOURCES").status, "NOT_EVALUATED");
   delete artifact.runCeilings;
   assert.equal(finding(evaluateRestaurantHybridLiveArtifact(artifact, source), "RESOURCES").status, "NOT_EVALUATED");
+});
+
+test("current Runner model-call ceiling counts started attempts and known overages outrank missing limits", () => {
+  const artifact: any = completeArtifact();
+  delete artifact.limits;
+  artifact.runCeilings = { maxAutomaticBrowserMs: 300, maxAgentSteps: 30, maxBrowserModelCallsTotal: 120, maxModelCalls: 1 };
+  artifact.modelInvocations = [
+    { purpose: "restaurant_agent_decide", outcome: "SUCCEEDED" },
+    { purpose: "restaurant_agent_decide", outcome: "TIMEOUT" },
+  ];
+  assert.equal(finding(evaluateRestaurantHybridLiveArtifact(artifact, source), "RESOURCES").status, "NOT_SATISFIED", "two recorded starts exceed one permitted call");
+  delete artifact.runCeilings.maxAgentSteps;
+  assert.equal(finding(evaluateRestaurantHybridLiveArtifact(artifact, source), "RESOURCES").status, "NOT_SATISFIED", "a known overage survives another missing ceiling");
+  artifact.runCeilings.maxAgentSteps = 30;
+  artifact.runCeilings.maxModelCalls = 3;
+  assert.equal(finding(evaluateRestaurantHybridLiveArtifact(artifact, source), "RESOURCES").status, "NOT_EVALUATED", "records alone may omit an in-flight started call");
+  artifact.resourceUsage.modelCallsStarted = 2;
+  assert.equal(finding(evaluateRestaurantHybridLiveArtifact(artifact, source), "RESOURCES").status, "SATISFIED");
+  artifact.resourceUsage.modelCallsStarted = 4;
+  assert.equal(finding(evaluateRestaurantHybridLiveArtifact(artifact, source), "RESOURCES").status, "NOT_SATISFIED", "failed or incomplete attempts still count at start");
 });
 
 test("a changed request version can legitimately recheck a candidate", () => {

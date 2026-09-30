@@ -309,7 +309,8 @@ function transition(
     case "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED": {
       requirePhase(state, ["SEARCHING"], event.type);
       const remainingMs = Date.parse(event.deadlineAt) - Date.parse(context.now);
-      if (state.defaultBatchDeliveryWindow || !Number.isFinite(remainingMs) || remainingMs < 0 || remainingMs > 45_000
+      if ((state.defaultBatchDeliveryWindow && Date.parse(state.defaultBatchDeliveryWindow.deadlineAt) >= Date.parse(context.now))
+        || !Number.isFinite(remainingMs) || remainingMs < 0 || remainingMs > 45_000
         || defaultBatchDeliveryCandidateIds(state, context.now).length === 0) {
         throw new Error("Default batch delivery window requires a current eligible short batch inside the reserved deadline");
       }
@@ -349,7 +350,11 @@ function transition(
           state: {
             ...remaining,
             phase: "FAILED",
-            failure: { code: `AGENT_LOOP_${event.termination}`, message: event.reason },
+            failure: {
+              code: event.termination === "NO_PROGRESS" && state.failure?.code === "GOOGLE_NETWORK_FAILED"
+                ? state.failure.code : `AGENT_LOOP_${event.termination}`,
+              message: event.reason,
+            },
           },
           commands: [],
         };

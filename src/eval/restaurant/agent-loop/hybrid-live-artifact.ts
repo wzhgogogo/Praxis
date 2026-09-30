@@ -16,6 +16,8 @@ export function captureHybridLiveProgress(input: {
   /** Adapter snapshot includes sent reads that have not yet produced a trajectory event. */
   googleRequestUsage?: RestaurantReadExecutionMetadata["googleRequests"];
   modelInvocations: ModelInvocationRecord[];
+  /** Counted before provider dispatch, including failed and still in-flight attempts. */
+  modelCallsStarted?: number;
   diagnostics: {
     tablecheckIdentity: TableCheckIdentityDiagnostic[];
     tabelogIdentity: TabelogIdentityDiagnostic[];
@@ -54,6 +56,7 @@ export function captureHybridLiveProgress(input: {
       candidatesChecked: checked.size,
       agentDecisions: trajectories.filter(step => step.modelAttempt?.purpose === "restaurant_agent_decide").length,
       browserModelCalls: input.modelInvocations.filter(item => item.purpose === "browser_read_decide").length,
+      ...(input.modelCallsStarted !== undefined ? { modelCallsStarted: input.modelCallsStarted } : {}),
       browserRuntimeCalls: browser.filter(item => item.event === "OPERATION_STARTED").length,
       browserOperationsByCandidate,
       browserModelActions: browser.filter(item => item.event === "MODEL_ACTION").length,

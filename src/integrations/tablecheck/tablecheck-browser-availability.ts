@@ -4,6 +4,7 @@ import type { RestaurantAvailabilityRequest } from "../../domains/restaurant/con
 import type { BrowserRuntime, BrowserSession, BrowserSessionMetadata, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
 import { BrowserRuntimeError } from "../../infrastructure/browser/browser-runtime-errors.js";
 import { BrowserTaskExecutor } from "../../infrastructure/browser/browser-task-executor.js";
+import { inspectNativeOutletContinuity } from "../restaurant-availability/native-outlet-continuity.js";
 import type { RestaurantAvailabilityProvider } from "../restaurant-availability/contracts.js";
 import type { TableCheckAvailabilityPageObservation, TableCheckIdentityDiagnostic, TableCheckOutletIdentityExtraction, TableCheckUserInterventionHandler } from "./tablecheck-contracts.js";
 import { inspectTableCheckEntity } from "./tablecheck-entity-resolver.js";
@@ -69,6 +70,31 @@ function firstListedTableCheckOutletUrl(...values: Array<string | undefined>): s
   }
   return undefined;
 }
+
+function inspectCandidateOutlet(candidate: RestaurantAvailabilityRequest["candidates"][number], extraction: TableCheckOutletIdentityExtraction, page: BrowserSnapshot) {
+  const nativeUrl = candidate.restaurant.sourceIds.tablecheckNativeGuideUri;
+  if (!nativeUrl) return inspectTableCheckEntity(candidate, extraction.outlet);
+  const continuity = inspectNativeOutletContinuity({ provider: "TABLECHECK", sourceEntityId: candidate.restaurant.sourceIds.tablecheck ?? "", sourceUrl: nativeUrl }, page, {
+    sourceEntityId: extraction.outlet.sourceEntityId, sourceUrl: extraction.outlet.sourceUrl, canonicalUrl: extraction.canonicalUrl,
+    pageOwnedName: extraction.fields.outletName.source !== "ABSENT",
+    pageOwnedAddress: extraction.fields.address.source !== "ABSENT",
+  });
+  return {
+    resolution: continuity.confirmed
+      ? { confidence: "HIGH" as const, outlet: extraction.outlet, matchedBy: ["NATIVE_SOURCE_ID_AND_DETAIL"] }
+      : { confidence: "LOW" as const, matchedBy: [] },
+    comparison: { outletName: "MISSING" as const, address: "MISSING" as const, phone: "MISSING" as const },
+    reason: continuity.confirmed ? "NATIVE_SOURCE_ID_AND_DETAIL" as const : "NO_COMPARABLE_IDENTITY_SIGNAL" as const,
+  };
+}
+
+type MatchedTableCheckOutlet = {
+  extraction: TableCheckOutletIdentityExtraction;
+  inspection: ReturnType<typeof inspectTableCheckEntity>;
+  page: BrowserSnapshot;
+  reservation: NonNullable<ReturnType<typeof resolveTableCheckReservationTarget>>;
+  observedOutletUrls: readonly string[];
+};
 
 /**
  * Source-observed TableCheck entrances for one Router-owned read run.  They
@@ -212,7 +238,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
     if (hasTableCheckBotChallenge(page) || inspectTableCheckPageUnavailable(page).pageUnavailable) return undefined;
     const extraction = parseTableCheckOutletIdentityWithEvidence(page, alternate);
     if (!extraction) return undefined;
-    const inspection = inspectTableCheckEntity(candidate, extraction.outlet);
+    const inspection = inspectCandidateOutlet(candidate, extraction, page);
     if (inspection.resolution.confidence !== "HIGH") return undefined;
     const reservation = resolveTableCheckReservationTarget(page, extraction.outlet);
     if (!reservation) return undefined;
@@ -297,6 +323,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
       const browser = { ...session.metadata };
       const discoveryUrl = tableCheckDiscoveryUrl(candidate);
       const listedOutletUrl = firstListedTableCheckOutletUrl(
+        candidate.restaurant.sourceIds.tablecheckNativeGuideUri,
         candidate.restaurant.sourceIds.googleListedTableCheckUri,
         candidate.restaurant.sourceIds.googleWebsiteUri,
         candidate.restaurant.sourceIds.googleMapsUri,
@@ -313,11 +340,49 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         });
         let page = await this.executor.snapshot({ source: "TABLECHECK", stage: "IDENTITY", signal, session });
         page = await this.resumeAfterUserIntervention(candidate, request, session, page, "IDENTITY", signal);
+        directPage = page;
         if (!hasTableCheckBotChallenge(page) && !inspectTableCheckPageUnavailable(page).pageUnavailable) {
           const extraction = parseTableCheckOutletIdentityWithEvidence(page, listedOutletUrl);
-          directIdentityVerified = extraction !== undefined && inspectTableCheckEntity(candidate, extraction.outlet).resolution.confidence === "HIGH";
+          const inspection = extraction && inspectCandidateOutlet(candidate, extraction, page);
+          directIdentityVerified = inspection?.resolution.confidence === "HIGH";
+          if (candidate.restaurant.sourceIds.tablecheckNativeGuideUri) {
+            const nativeContinuity = extraction && inspectNativeOutletContinuity({ provider: "TABLECHECK",
+              sourceEntityId: candidate.restaurant.sourceIds.tablecheck ?? "", sourceUrl: candidate.restaurant.sourceIds.tablecheckNativeGuideUri }, page, {
+              sourceEntityId: extraction.outlet.sourceEntityId, sourceUrl: extraction.outlet.sourceUrl, canonicalUrl: extraction.canonicalUrl,
+              pageOwnedName: extraction.fields.outletName.source !== "ABSENT", pageOwnedAddress: extraction.fields.address.source !== "ABSENT",
+            });
+            this.recordIdentityDiagnostic({ candidateId: candidate.restaurant.id, candidate: structuredClone(candidate.restaurant),
+              ...(nativeContinuity ? { nativeContinuity } : {}),
+              discovery: { requestedUrl: diagnosticUrl(listedOutletUrl), finalUrl: diagnosticUrl(page.url), title: page.title,
+                status: extraction ? "RESULTS" : "PARSE_FAILED", discoveredOutletUrls: extraction ? [extraction.outlet.sourceUrl] : [] },
+              attemptedPages: [{ requestedUrl: diagnosticUrl(listedOutletUrl), finalUrl: diagnosticUrl(page.url), title: page.title,
+                botChallenge: false, ...(extraction && inspection ? { extracted: extraction.fields, comparison: inspection.comparison } : {}) }],
+              resolution: { confidence: inspection?.resolution.confidence ?? "LOW", matchedBy: inspection?.resolution.matchedBy ?? [],
+                reason: inspection?.reason ?? "TABLECHECK_PARSE_FAILED" },
+            });
+          }
         }
-        if (directIdentityVerified) directPage = page;
+      }
+      if (candidate.restaurant.sourceIds.tablecheckNativeGuideUri && !directIdentityVerified) {
+        const challenged = directPage && hasTableCheckBotChallenge(directPage);
+        return this.ground(candidate, request, { candidate, observedAt, entityMatch: { confidence: "LOW", matchedBy: [] },
+          pageState: challenged ? "BOT_CHALLENGE" : "EXTRACTION_FAILED",
+          failureCode: challenged ? "BOT_CHALLENGE" : "ENTITY_MATCH_UNCERTAIN",
+          ...(directPage ? { excerpt: tableCheckPageExcerpt(directPage) } : {}),
+        }, browser);
+      }
+      if (candidate.restaurant.sourceIds.tablecheckNativeGuideUri && directPage && listedOutletUrl) {
+        const extraction = parseTableCheckOutletIdentityWithEvidence(directPage, listedOutletUrl);
+        const inspection = extraction && inspectCandidateOutlet(candidate, extraction, directPage);
+        const reservation = extraction && resolveTableCheckReservationTarget(directPage, extraction.outlet);
+        if (!extraction || !inspection || !reservation) return this.ground(candidate, request, {
+          candidate, observedAt, entityMatch: inspection?.resolution ?? { confidence: "LOW", matchedBy: [] },
+          pageState: "EXTRACTION_FAILED", failureCode: "TABLECHECK_PARSE_FAILED",
+        }, browser);
+        const selected = { extraction, inspection, reservation, page: directPage,
+          observedOutletUrls: [listedOutletUrl, extraction.outlet.sourceUrl, ...(extraction.canonicalUrl ? [extraction.canonicalUrl] : [])] };
+        retainedIdentity = selected;
+        return await this.readMatchedOutlet(candidate, request, session, signal, observedAt, browser, selected);
       }
       let discovery: BrowserSnapshot;
       let discoveryBase: { requestedUrl: string; finalUrl: string; title: string };
@@ -471,7 +536,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
           continue;
         }
         if (!cached) this.options.entryLedger?.rememberIdentity(outletUrl, page, extraction);
-        const inspection = inspectTableCheckEntity(candidate, extraction.outlet);
+        const inspection = inspectCandidateOutlet(candidate, extraction, page);
         const attempted = {
           requestedUrl: diagnosticUrl(outletUrl), finalUrl: diagnosticUrl(page.url), title: page.title,
           ...(extraction.canonicalUrl ? { canonicalUrl: diagnosticUrl(extraction.canonicalUrl) } : {}),
@@ -542,6 +607,36 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
           failureCode: unresolvedReason,
         }, browser);
       }
+      retainedIdentity = selected;
+      return await this.readMatchedOutlet(candidate, request, session, signal, observedAt, browser, selected);
+    } catch (error) {
+      if (signal.aborted || (error instanceof BrowserRuntimeError && (error.code === "BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED" || error.code === "BROWSER_RUNTIME_UNAVAILABLE" || error.code === "BROWSER_ABORTED")) || (error && typeof error === "object" && "code" in error && error.code === "MODEL_CALL_BUDGET_EXHAUSTED")) throw error;
+      const failureCode = error instanceof BrowserRuntimeError
+        ? (error.code === "BROWSER_ABORTED" ? "BROWSER_TIMEOUT" : error.code)
+        : "BROWSER_RUNTIME_FAILED";
+      return this.ground(candidate, request, {
+        candidate, observedAt: this.now(),
+        ...(retainedIdentity
+          ? { sourceEntityId: retainedIdentity.extraction.outlet.sourceEntityId, sourceUrl: retainedIdentity.extraction.outlet.sourceUrl, entityMatch: retainedIdentity.inspection.resolution }
+          : { entityMatch: { confidence: "LOW" as const, matchedBy: [] } }),
+        pageState: "EXTRACTION_FAILED", failureCode,
+      }, session ? { ...session.metadata } : undefined);
+    } finally {
+      this.executor.endProvider();
+      if (this.ownsExecutor) await this.executor.close();
+    }
+  }
+
+  /** Shared request-control and slot tail after either cross-source or native HIGH identity. */
+  private async readMatchedOutlet(
+    candidate: RestaurantAvailabilityRequest["candidates"][number],
+    request: RestaurantAvailabilityRequest,
+    session: BrowserSession,
+    signal: AbortSignal,
+    observedAt: string,
+    browser: BrowserSessionMetadata,
+    selected: MatchedTableCheckOutlet,
+  ) {
       // A prior identity observation may be reused for matching, but the live
       // page must be the selected outlet before any request controls are read.
       let selectedPage = await this.executor.snapshot({ source: "TABLECHECK", stage: "IDENTITY", signal, session });
@@ -551,7 +646,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         selectedPage = await this.executor.snapshot({ source: "TABLECHECK", stage: "IDENTITY", signal, session });
       }
       const freshExtraction = parseTableCheckOutletIdentityWithEvidence(selectedPage, selected.page.url);
-      const freshInspection = freshExtraction && inspectTableCheckEntity(candidate, freshExtraction.outlet);
+      const freshInspection = freshExtraction && inspectCandidateOutlet(candidate, freshExtraction, selectedPage);
       const freshReservation = freshExtraction && resolveTableCheckReservationTarget(selectedPage, freshExtraction.outlet);
       if (!freshExtraction || freshInspection?.resolution.confidence !== "HIGH" || !freshReservation
         || sourceUrlKey(freshExtraction.outlet.sourceUrl) !== sourceUrlKey(selected.extraction.outlet.sourceUrl)) {
@@ -559,7 +654,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
           pageState: "EXTRACTION_FAILED", failureCode: "TABLECHECK_ENTITY_MATCH_UNCERTAIN" }, browser);
       }
       selected = { ...selected, extraction: freshExtraction, inspection: freshInspection, reservation: freshReservation, page: selectedPage };
-      retainedIdentity = selected;
+      let retainedIdentity = selected;
       let activeSelected = selected;
       let alternateRecoveryUsed = false;
       let page = activeSelected.page;
@@ -677,22 +772,6 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         verifiedHardCriteria: parseTableCheckVerifiedHardCriteria(page, request.hardCriteria),
         excerpt: tableCheckPageExcerpt(page),
       }, browser);
-    } catch (error) {
-      if (signal.aborted || (error instanceof BrowserRuntimeError && (error.code === "BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED" || error.code === "BROWSER_RUNTIME_UNAVAILABLE" || error.code === "BROWSER_ABORTED")) || (error && typeof error === "object" && "code" in error && error.code === "MODEL_CALL_BUDGET_EXHAUSTED")) throw error;
-      const failureCode = error instanceof BrowserRuntimeError
-        ? (error.code === "BROWSER_ABORTED" ? "BROWSER_TIMEOUT" : error.code)
-        : "BROWSER_RUNTIME_FAILED";
-      return this.ground(candidate, request, {
-        candidate, observedAt: this.now(),
-        ...(retainedIdentity
-          ? { sourceEntityId: retainedIdentity.extraction.outlet.sourceEntityId, sourceUrl: retainedIdentity.extraction.outlet.sourceUrl, entityMatch: retainedIdentity.inspection.resolution }
-          : { entityMatch: { confidence: "LOW" as const, matchedBy: [] } }),
-        pageState: "EXTRACTION_FAILED", failureCode,
-      }, session ? { ...session.metadata } : undefined);
-    } finally {
-      this.executor.endProvider();
-      if (this.ownsExecutor) await this.executor.close();
-    }
   }
 
   private ground(

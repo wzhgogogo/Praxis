@@ -6,7 +6,7 @@ import { normalizeTableCheckIdentity, normalizeTableCheckPhone } from "./tablech
 export interface TableCheckEntityInspection {
   resolution: TableCheckEntityResolution;
   comparison: { outletName: "MATCH" | "CONFLICT" | "MISSING"; address: "MATCH" | "CONFLICT" | "INSUFFICIENT" | "MISSING"; phone: "MATCH" | "CONFLICT" | "MISSING" };
-  reason: "HIGH_EXACT_PHONE" | "HIGH_NAME_AND_ADDRESS" | "KNOWN_PHONE_CONFLICT" | "NAME_ONLY_MATCH" | "NO_COMPARABLE_IDENTITY_SIGNAL";
+  reason: "HIGH_EXACT_PHONE" | "HIGH_NAME_AND_ADDRESS" | "NATIVE_SOURCE_ID_AND_DETAIL" | "KNOWN_PHONE_CONFLICT" | "NAME_ONLY_MATCH" | "NO_COMPARABLE_IDENTITY_SIGNAL";
 }
 
 function strongTextMatch(left: string | undefined, right: string | undefined, minimumLength: number): boolean {

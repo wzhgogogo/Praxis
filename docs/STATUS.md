@@ -1,23 +1,111 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.82
-- Last updated: 2026-09-24
+- Document revision: 4.127
+- Last updated: 2026-09-30
 - Source of truth for: 已实现能力、已验证范围、明确未验证项与下一道门槛
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Documentation Index](INDEX.md), [Roadmap](roadmap.md), [Verification History](history/TEST-LOG.md)
 
 ## 最新审查与当前门槛
 
+2026-09-30 **H001 Teppen 目标日期当前来源状态已明确，但19:00库存仍未知。** 用户授权的单页只读采证约8.9秒：9月30日在9月日历中为`closed`且无可选/已选日期标记，Guests 2选中但禁用，未来月份隐藏，未捕获库存响应；此探针不查位、不核身份、零模型/预约动作。Tabelog Adapter已离线修复为同一月份目标日归因：保存页真实Chromium修前笼统`RESTRICTED`红、修后`UNKNOWN / TABELOG_REQUEST_DATE_CLOSED_ON_CALENDAR`绿，`full`/电话/隐藏月份对照通过；完整本地Chromium54/54、默认离线564/564及typecheck/arch/build通过。**未重跑修后Live Adapter或整单**；关闭日格只说明该来源当日无法在线选择，不证明19:00无位或H001成功。[真实采证、代码与验证边界](history/H001-TEPPEN-TARGET-DATE-2026-09-30.md)。
+
+2026-09-30 **H001 Teppen 的诊断记录缺口此前已离线修复。** 旧运行只留整页哈希和有限标签，无法复原当前日期格/隐藏祖先；现在 Browser Case Slice 与单页只读探针共用脱敏预约区域记录，完整保留观察到的控件数组及只读/禁用状态、日期/人数原始标记和被动库存响应的允许字段，不存整页评论正文。旧artifact目标断言红；保存的Teppen DOM经实际trace包装与本地Chromium 1/1读到30日关闭格，探针加载→稳定记录回归通过。该阶段未重新访问Teppen；上段记录随后经单独授权取得的当前单页采证。[先前记录修复](history/H001-TEPPEN-QUERY-CAPTURE-2026-09-30.md)。
+
+2026-09-30 **H001 Teppen 查询状态先前已用保存的完整来源DOM离线核对，未发现“已选日期被过滤”实证。** 9月29日完整DOM没有`.is-current`日期；当月29日为电话状态、30日为关闭状态，均无可操作日期属性，未来月份的可选日期不能代替目标日。9月30日诊断产物只保留脱敏标签而非完整DOM：2人按钮选中但禁用、隐藏值2，未保存当前日期标记或库存响应。因此仍只能给`UNKNOWN / TABELOG_VISIBLE_QUERY_CONTROLS_RESTRICTED`，不能把通用无位文字判为9月30日19:00无位。该次离线核对未改生产代码、未新访问来源；上段记录后续诊断记录修复。[先前证据边界](history/H001-TEPPEN-QUERY-STATE-OFFLINE-2026-09-30.md)。
+
+2026-09-30 **修复后 H003 真实来源只读复跑停在导航，控件修复仍未获真实验证。** 同一历史 TableCheck 门店、10月2日17:30–22:00／10人，一次运行20,107ms；`page.goto` 等待 `domcontentloaded` 达20秒上限，`UNKNOWN / BROWSER_RUNTIME_FAILED`，1浏览器操作、0快照、0模型调用、0身份/库存证据和0 Offer。未自动重试，也未写预约。运行从来源入口起计，仍不含原生发现和3km核验；不能宣称查位成功、无位或整体架构收益。[逐次证据](history/BROWSER-CASE-SLICE-LIVE-2026-09-30.md#follow-up-after-the-2026-09-30-offline-h003-repair)。
+
+2026-09-30 **H003此前真实浏览器阻断已做最小离线修复。** 真实轨迹首次人数列表仅露1–8、完整可滚动列表包含10，模型之后转去日期再开人数；旧执行器每次点击后无条件等待，使第五动作点击10人正好用完24操作。共享执行器现在先快照/观察，确有变化且选项已确认时省掉多余等待，未变或未确认仍有界等待并重新读回；同时不再把`10+ guests`判成精确10人。完整TableCheck Adapter合成Chromium五动作回归读到精确日期、10人和同源时段，**22/24操作**；隔离旧等待行为为4决策/24操作后预算失败。H001当前页面虽有“2人无位”文字，但缺9月30日日期和19:00请求绑定，继续`UNKNOWN`。默认离线561/561、真实Chromium本地Fixture54/54及typecheck/arch/build通过；此离线修复不能报告为真实查位成功。[离线反例与边界](history/BROWSER-CASE-SLICE-REPAIR-2026-09-30.md)。
+
+2026-09-30 **离线修复后的真实来源只读复查仍未取得请求绑定库存。** H003 TableCheck 历史原生门店同源身份 HIGH；模型先开人数、切月份/日期、再开人数，第五次动作点选10人后在24/24操作上限停止，未回读人数或查到库存，23,262ms／5模型调用。H001 Tabelog 诊断Runner修正来源ID后同源身份 HIGH；当前日历稳定后可见人数按钮禁用，`UNKNOWN / TABELOG_VISIBLE_QUERY_CONTROLS_RESTRICTED`，7,869ms／0模型调用。两站零Offer、零预约写；这两次仅从已知来源门店入口计时，未重跑原生搜索、地理编码、HARD事实、完整展示或独立Eval，不能判断整体架构收益成立，也不能宣称无位。[逐次证据](history/BROWSER-CASE-SLICE-LIVE-2026-09-30.md)。
+
+2026-09-29 **H001/H002/H003/H005 浏览器执行切片已各运行一次，均未确认请求绑定库存。** 四次真实只读合计77,048ms、9模型调用、44浏览器操作、零重试/预约写：H005 TableCheck导航20秒超时；H002 日期控件异步失效后5调用额度尽；H003同源HIGH身份，日期及10人点击返回，但第24次操作后无法回读或查位，结果UNKNOWN；H001诊断Runner错填裸Tabelog ID，页面虽加载却被原有同源核验拒绝，0模型调用。H002/H005的历史H003门店只作控件探针，不能构成合格Case。随后仅离线修复共享disabled只读投影、重复观察及明确操作额度诊断，H001 Runner修正为历史完整ID并补诊断；原Live结果不回写。真实Chromium完整Adapter四动作Fixture修后在24操作内完成请求值回读/来源结果，隔离旧行为复现预算失败；全量离线561/561及浏览器Fixture54/54通过。当前真实来源库存、H003整体收益及H001完整交付仍未验收。[四次Live及离线归因](history/BROWSER-CASE-SLICE-LIVE-2026-09-29.md)。
+
+2026-09-29 **共享 Browser Read 的两站控件修复仅通过离线验证。** TableCheck 搜索外层 `DIV role=combobox` 与内层原生 input 已区分；已观察同源公用结果链接受卡片覆盖时，滚动入视口后核对当前 href 与命中点，再单次导航并重新观察。按钮可见文字继续优先于 `name` 元数据，以免丢失时间标签或放行 Reserve。Tabelog 等待可见可操作日期／人数或明确来源限制，并在等待后重新观察；保存的 Teppen 日历由加载态变为隐藏未来日期、禁用人数和来源限制时，实际 Adapter 返回 UNKNOWN，未证明目标日期无位。真实 Chromium Fixture 53/53、全量 Mock/Fixture 558/558、typecheck、arch/build 通过。未进行新的 Live、模型调用、库存断言或预约写；搜索文字仍没有新的模型自由填写动作，真实两站需独立再验。[测试记录](history/TEST-LOG.md#test-2026-09-29-shared-browser-controls-offline)。
+
+2026-09-29 **用户授权的 H001 Google 专用10808整轮 Live 已完成，合格结果仍为 NO。** Google Shibuya 地名解析通过本机10808一次成功，69,930ms 从语义解析前计时，8模型调用／5 Agent步；零Google餐厅发现或跨站匹配。Tabelog原生接纳749m内的 Sushi Teppen，同源HIGH身份及有引用的 omakase HARD 事实成立；原日期／2人控件未确认，库存`UNKNOWN / REQUEST_SELECTION_UNCONFIRMED`，零Offer。TableCheck见21原始链接，只解析前5个且均在范围外，`sourceExhausted=UNKNOWN`，不能称无店或无位。最终`NO_VERIFIED_RESULT`、独立Eval qualified NO；`SUCCEEDED`仅是正常收尾。Google代理仅在服务端Google客户端配置，DeepSeek与两站浏览器仍走默认路径；离线假代理CONNECT、单次真实Google只读探针、完整558/558测试及typecheck/arch/build通过。此前Google网络错误重复搜索已改为首次失败后停止并保留`GOOGLE_NETWORK_FAILED`，本次Live并未触发该失败分支。下道门槛是Tabelog请求控件确认和TableCheck有界批次覆盖，不能由此推断来源无库存。[本次Live与独立Eval](history/H001-NATIVE-GOOGLE10808-LIVE-2026-09-29.md)。
+
+同轮离线复核确认：Live产物只保留前40个控件和1,000字页面摘要，模型实际收到的可操作控件列表更长但未保存在产物；没有原始DOM，因此无法判断控件缺失、未打开还是观察漏读，也没有依据改动控件路径。另已修正展示诊断的顺序：无请求绑定库存时先报告缺少库存证据，不再误报该门店没有HIGH身份；离线40/40和全量558/558通过，未新增Live。[控件诊断](history/H001-NATIVE-GOOGLE10808-LIVE-2026-09-29.md#post-run-offline-control-diagnosis)。
+
+随后经用户单独授权的Teppen单页只读采证在13,695ms完成：默认本地Chromium网络，生产观察器返回111个可见控件，但未输出Date/Guests目标。全页HTML字串计数为零`js-calendar-day-target`、一处`js-people-button`；保存的DOM仅有部分opening tags，未保存该元素本体或日历下半部截图。严格的按钮入口筛选未命中，零点击、零模型/Google/预约写；不能据此说页面没有其他预约入口。此新样本不能重建上次Live DOM，也不能证明无库存；目前无依据修改共享控件链。[单页证据及限制](history/H001-NATIVE-GOOGLE10808-LIVE-2026-09-29.md#separately-authorized-one-page-control-probe)。
+
+2026-09-29 **H001原生后段离线修复和固定页模型检查点（本次Live前）。** Native同源facts/availability改为核验provider、稳定门店ID、页面入口与页面自有身份信号；跨来源matcher仍只用于跨来源候选。Tabelog与TableCheck各调查一个有界批次，发现funnel记录raw、parsed、地理/重复拒绝、接纳、页数和批次终点；`exhausted=false`仍表示双来源游标未尽，不代表Tabelog单站仍应翻页。完整H001离线组合产物涵盖首站失败/UNKNOWN后继续、第二站多候选、合格短批展示和两站无结果安全停止；12份脚本模型固定页执行与独立Eval分别保存，7份展示均qualified YES、5份未展示均NO；包括TableCheck raw>0/parsed=0的诊断反例。默认`npm test` 556/556、真实Chromium本地Fixture 44/44、typecheck、arch:check、build通过；两者均不证明当前真实页面与库存。独立Review已放行且只运行一次固定来源真实DeepSeek `TABLECHECK_CONTINUES`：16,461ms、13模型调用／7步；Tabelog A无位/B未知后，TableCheck A无位/B有位并展示B，默认三家目标`met:false`，独立Eval qualified YES／六维SATISFIED。该结果只证明固定页模型决策；真实餐厅页面与库存仍未验证。后续Live结果及网络配置变化见上方当前结论。[ADR-0033](decisions/0033-native-source-batch-delivery.md)、[离线产物](../.eval-artifacts/h001-native-downstream-20260929-review-final/)、[本轮记录](history/H001-NATIVE-DOWNSTREAM-2026-09-29.md)。
+
+2026-09-29 **H001原生路径唯一一次正式Live只读运行未交付合格结果，Playbook Live门槛未通过。** 原始H001物化为东京当日19:00、2人、涩谷附近、omakase HARD；默认Shibuya地点解析半径1km。39,515ms从语义/地点解析前起计、5步、6模型调用、Google地点请求1次且餐厅搜索0次。Tabelog原生接纳Sushi Teppen一店（749m），但同源查位`ENTITY_MATCH_UNCERTAIN`、事实`NATIVE_SOURCE_IDENTITY_UNCONFIRMED`，两者均UNKNOWN且零库存/omakase证据；TableCheck续批零接纳候选，产物未保存原始搜索页和拒绝原因，不能说该站无店或无位。终态为有界`NO_VERIFIED_RESULT`，独立Eval qualified NO；`SUCCEEDED`仅表示正常收尾，非用户目标成功。没有第二次Live或预约写。下一步先补可审计的门店字段级身份差异与TableCheck零接纳原因，再决定是否另开有界验证；固定页11.8/17.1秒不代表真实来源收益。[单次Live证据](history/H001-NATIVE-LIVE-2026-09-29.md)。
+
+2026-09-29 **H001原生两站固定来源真实模型接续均通过；本段为上方单次Live前的检查点。** 首次普通沙箱尝试因DeepSeek DNS失败未得到模型响应；自动审批随后拒绝未明确授权的数据外发，用户明确授权冻结H001请求及派生提示送往DeepSeek后，按原300秒／50模型调用／30步上限分别重跑。`TABELOG_DELIVERS`在11,800ms、9调用内展示3家；`TABLECHECK_RECOVERS`在17,076ms、14调用内由首站接续至TableCheck展示3家；两场景独立Eval均qualified YES、六维SATISFIED。每场景只用固定Shibuya地点解析，零Google餐厅搜索；来源均为离线固定页面，没有真实网站库存、覆盖和耗时证据。后续Live结果见上；固定来源通过不等于Playbook整体完成。[执行与独立评价](history/H001-NATIVE-FIXED-SOURCE-MODEL-2026-09-29.md)。
+
+2026-09-29 **H001原生两站已接正式只读组合并通过离线三主场景及范围外反例；本段为固定来源真实模型运行前的预检快照。** 从冻结H001原始请求进入Interpreter/Compiler/Router/Runtime/Agent：Tabelog一批可产生3个实际展示结果且TableCheck零调用；第一批不能交付时TableCheck以自己的3个门店展示；两站有界空批或仅范围外门店均正常结束为`NO_VERIFIED_RESULT`，明确留下未评估更广覆盖的缺口。独立审查修复后六对执行/独立Eval产物中三个展示均为qualified YES、三个未展示均为NO；每次只有1个Google涩谷地点解析，零Google餐厅发现/跨源餐厅匹配。失效浏览器会话在单详情失败后关闭，下个候选用新会话且保留本批其他候选；早切源和第一站空批后的过早END_READ均被Domain拦截；原生错ID不再反查全站；疑似跨来源同店不重复计数。离线固定页及脚本模型不证明真实来源耗时、覆盖或库存。类型、架构、构建通过；默认测试548/548在允许本地HTTP Fixture监听的环境通过。既有fixed-source Runner仍走Google候选；新增原生专用Runner已接；后续固定来源真实模型结果见上，仍不签收真实来源Live。[阶段2预检与证据](history/H001-NATIVE-STAGE2-PREFLIGHT-2026-09-29.md)；[ADR-0032](decisions/0032-source-native-restaurant-discovery.md)。
+
+2026-09-29 **H001同源查位后段先行检查点（已由上方离线组合进展替代）。** 原生ID＋详情URL经页面自有名称/完整地址复核后才可HIGH，原生候选仅进入所属站查位；当时定向76/76及默认离线539/539通过。一次误恢复旧H003的Live只读运行额外消耗77.685秒/11模型调用，两候选均UNKNOWN超时，已停止并单列范围偏离，绝不计入H001。[阶段2预检](history/H001-NATIVE-STAGE2-PREFLIGHT-2026-09-29.md)；[范围偏离证据](history/H003-TABLECHECK-NATIVE-LOOP2-SCOPE-DEVIATION-2026-09-29.md)。
+
+2026-09-28 **新VPN／默认路径两站mini-live越过访问阻断，原生发现与一店HARD事实有进展，库存未确认。** 按最新用户指令移除本机显式10808。Tabelog17.411秒发现两店：一店1,032m筛除，Sushi Teppen748m且模型／原文均支持omakase；目标9月29日无可操作日期、人数禁用，模型请求人工帮助，无绑定库存。2模型调用34,950tokens。TableCheck13.061秒显示19店，前5详情均超1km，剩余未读；是首5排序／地区筛选实验限制，非无店结论。0Google调用、无生产改动或Offer。支持继续native-first小切片，尚未验收完整查位或生产替换。[两站独立结果](history/NATIVE-TWO-SOURCE-VPN-2026-09-28.md)。
+
+2026-09-28 **双网站对照确认不是同一种故障：Tabelog默认路径本次成功，TableCheck有明确HTTP拒绝。** Tabelog涩谷页默认5.697秒读到候选；TableCheck默认主文档200但API预检403（awselb/2.0），10808则主文档403（nginx）。默认系统路由实测主站IP走en0，API及Tabelog IP走utun8，不能称全直连或统一出口。此前Tabelog10808 TLS停滞与本轮HTTP拒绝分开记录；服务器拒绝规则及更深传输原因未证实。无生产改动，保存10808偏好不变。[对照证据](history/BROWSER-NETWORK-PATHS-2026-09-28.md)。
+
+2026-09-28 **10808地区页面新定向失败已定位到TLS握手阶段。** Chromium NetLog证明本地TCP及CONNECT隧道200成功，发出ClientHello后至25秒deadline未观察到握手响应；尚未发出网站HTTP请求。近时同URL／同显式代理curl2.138秒HTTP200。不是10808端口未通，也不是控件或身份匹配失败；代理出口／中间链路／浏览器握手差异的更深原因仍未知，不外推全部历史超时。0模型调用、无生产改动。[阶段证据与归因限制](history/TABELOG-NATIVE-MINI-PROXY-2026-09-28.md#follow-up-why10808-can-still-time-out)。
+
+2026-09-28 **10808原生mini-live已取得Tabelog候选，地区入口仍超时，未到查位。** 已按用户要求在本机.env固定本地浏览器代理；默认路径排查暂缓。Tokyo单关键词omakase搜索5.869秒可读，既有解析器取到5个未经地理／HARD接纳的门店链接；随后沿页面实际涩谷地区链接，在同一300秒窗口、相同10808代理下约30秒文档请求超时，总累计79.654秒，Google／模型调用均0。原生发现无需Google餐厅match已得到局部证据，但同源事实与库存未到达，不能宣称Google-first生产替换验收通过。[实验与独立判定](history/TABELOG-NATIVE-MINI-PROXY-2026-09-28.md)。
+
+2026-09-28 **显式10808代理已打通Tabelog页面访问，并接入本地浏览器配置。** 同URL默认路径31秒超时；临时浏览器显式`http://127.0.0.1:10808`后1.805秒收到200、5.094秒读完页面。新增可选`PRAXIS_LOCAL_CHROMIUM_PROXY_SERVER`，正式Runtime Factory诊断入口再次5.815秒CONTENT_OBSERVED；536/536及typecheck/arch/build通过。0模型调用，尚无门店或库存结果：页面显示组合关键词`Tokyo Shibuya omakase`无匹配。下一步按网站实际地区与关键词查询继续原生诊断；TableCheck接口和网络更深原因仍未验证。未改系统代理／TUN或本地.env，后续启动显式指定该变量。[证据与限制](history/TABELOG-NATIVE-2026-09-28.md#follow-up-explicit-localhost10808-proxy)。
+
+2026-09-28 **Tabelog替代来源单次诊断未到搜索结果：浏览器首个文档请求超时，而同URL的HTTPS对照200。** 用户授权明晚19:00／2人／涩谷omakase原生诊断，31,033ms、0模型调用，初始文档`net::ERR_TIMED_OUT`、未观察到响应；同URL随后curl2.443秒HTTP200。不能归因TableCheck的CORS，也不能证明TUN或反机器人原因；当前待定位本地Chromium与普通HTTPS路径的差异或瞬态失败。无生产代码改动，详情／事实／控件／库存均未到达。[结果与归因边界](history/TABELOG-NATIVE-2026-09-28.md)。
+
+2026-09-28 **原生搜索已取得具体来源失败证据：TableCheck页面200，但搜索API预检403。** 用户指定明晚9月29日19:00、2人、涩谷omakase作为诊断变体；关键词搜索与同预算区域检索均正常加载页面，但搜索fetch失败后页面显示空结果。CDP确认`PreflightMissingAllowOriginHeader`与HTTP403，不能接纳为无门店／无位，也不能据此归因此前导航超时或TUN。0模型调用、0候选查位，生产代码未改。Tabelog另经UI访问首页与地点补全，未完成目标日期筛选，非生产链验收。后续已检查用户给定的实际Chrome原页面：同一`omakase ginza`查询也有预检缺少允许跨域响应头及ERR_FAILED，页面当前为空态加推荐列表；未刷新，Chrome本次未取得HTTP状态。不能只归因自动化，也不能否定用户此前成功。下一门槛是定位预检拒绝的响应／出口原因，未获正常搜索对照。[独立诊断](history/NATIVE-SOURCE-ACCESS-2026-09-28.md)。
+
+2026-09-28 **H003旧指令误恢复导致额外复试，属于范围偏离，不计入H001验收。** 当前工作树的选项绑定／选择后确认修正通过定向72/72及本机Chromium Fixture 44/44；按权威H003重新物化为东京10月2日、10人、17:30–22:00后，唯一一次从无店名原生搜索起计时的Live只读运行在35秒`page.goto`超时，总35,158ms、0模型调用、0候选／详情／查位／Offer。控件修正未获得Live验收；原9月24日两店和耗时仅是历史阶段证据，不能与本次换日期和代码的运行作A/B。下一门槛是有界取得原生搜索DOM，再观察同源候选的完整请求绑定与库存。[复试记录](history/H003-TABLECHECK-NATIVE-LOOP2-RETRY-2026-09-28.md)。
+
+2026-09-28 **H001 TableCheck原生路径单次Live阻断于搜索导航，未接纳门店或库存。** 冻结H001物化为东京今日19:00、2人、omakase HARD；Google只解析一次Shibuya地点，未搜餐厅。TableCheck原生`omakase`搜索在本地Chromium的35秒`page.goto`上超时，37,106ms总耗时、0模型调用、0候选/详情/查位/Offer。底层导航超时保留，不能当作零结果或无位。临时来源指针接线未被使用，已撤回；此前H003来源与控件进展不能外推本轮。当前首个门槛是原生查询能在有界时间内返回可观察DOM。[单次实验](history/H001-TABLECHECK-NATIVE-2026-09-28.md)。
+
+
+2026-09-28 **定向真实模型验证完成：阅读收尾和调查推进有改善，事实引用尚未验收。** 用户明确授权后运行6次DeepSeek调用、10,709ms、31,419tokens，全部请求成功。Matsue页面一次COMPLETE；原H001无收获事实批次后的上下文改选合法CHECK_AVAILABILITY。fact judgment11仍把段落ID当来源ID、部分UNKNOWN漏引用，未形成可接纳事实；Labo另有超出3条的选择。已最小修为fact judgment12/schema4：引用ID限定为当前来源枚举、明确UNKNOWN引用要求，保留原接纳门槛；定向59/59、默认536/536与typecheck/arch/build通过。**修正后没有追加真实模型，整单H001未跑**；Sushiki不同电话/跨语地址与Labo共享菜单归属仍开放。[完整结果与限制](history/TEST-LOG.md#test-2026-09-28-source-fact-model-validation)。
+
+2026-09-28 **事实交接的共享修复已通过离线组合，真实模型与整单Live尚未验收。** Web/Hybrid共用的官网读取现在保留有门店身份依据的原文片段，既有事实模型按观察到的片段ID引用；Browser可COMPLETE交接，Agent@19引导无收获事实调查后推进合法查位，fact judgment@11/schema3不再只接收窄关键词抽取结果。受控链路走到PRESENT_RESULTS，独立评价通过，默认536/536与typecheck/arch/build通过。真实6页回放中Matsue两页可绑定；Sushiki原始Google电话与网站不同、Labo共享菜单归属不足，仍未解决，不能称全部identity已修。新增真实模型验证被自动审批拒绝、未启动，等待本批数据外发授权；未跑整单、未commit/push。[证据及剩余缺口](history/TEST-LOG.md#test-2026-09-28-source-fact-handoff-offline)。
+
+2026-09-28 **最新H001网络已通，但事实调查耗尽模型预算，整单未通过。** 189,355ms/50模型调用（浏览器31），无模型网络失败；Google发现38候选。连续5批事实调查，12候选已完成读取但Agent仍缺omakase硬条件支持，未进入任何查位、零交付。记录到登录墙/403/Cloudflare、来源身份或事实未确认、局部预算与页面循环；不能归因刚通过的时间回读。下一步诊断事实证据接纳及事实/查位调度，不扩大额度或重跑碰运气。[最新结果与限制](history/TEST-LOG.md#test-2026-09-28-h001-network-recovered-fact-budget)。
+
+2026-09-28 **DeepSeek网络诊断缺口已修，当前连接仍未恢复。** 新H001在第一次语义模型请求失败，Google/浏览器未到达；无凭据对照现在Google可达，DeepSeek连接重置。Gateway已安全保留TRANSPORT/ECONNRESET，响应正文中断不再误报JSON错误；真实keyless Semantic→Gateway链记录该原因，零推理调用。相关13/13、默认533/533及三项代码检查通过。历史丢失的cause不能追回，具体代理节点/分流原因待确认；未加重试、未改semantic或网络配置，也未再跑整单。[证据和未关闭项](history/TEST-LOG.md#test-2026-09-28-deepseek-transport-diagnostics)。
+
+2026-09-28 **用户报告TUN问题后授权重跑，Google连接仍未恢复。** H001第二次300,038ms取消，27模型调用、26地名解析请求、25次已完成失败搜索，仍零候选/浏览器/查位。一次无凭据Node连接检查得到UND_ERR_CONNECT_TIMEOUT（10,529ms）；具体网络配置原因待查，先验证实际Node出口再跑整单。生产候选未变，已有定向回读通过证据不变；稳定失败无进展循环仍待修。[本轮独立证据](history/TEST-LOG.md#test-2026-09-28-h001-tun-rerun)。
+
+2026-09-28 **控件修复后的H001整单Live未通过，阻断发生在浏览器之前。** Google地点解析持续GOOGLE_NETWORK_FAILED；300,038ms取消，27次模型调用、26次地名解析尝试、25次已完成失败搜索，零候选/查位/浏览器操作。具体transport原因被客户端包装丢失，尚不能定因DNS/代理。失败后搜索仍为合法动作而结束调查不可用，造成无进展循环；下一步应最小化诊断网络并修正稳定失败收尾，不扩semantic或重跑整单。已通过的Tokyo19:00→19:30定向回读证据仍有效，完整身份/库存/交付未验证。[证据与归因](history/TEST-LOG.md#test-2026-09-28-h001-after-readback-live)。
+
+2026-09-28 **空值焦点代理回读已通过当前Tokyo来源定向Live。** 实际从19:00切换到19:30；最终input仍为空、菜单折叠且aria-controls消失，值容器显示19:30，Executor完成。独立原始DOM与trusted option点击一致。2次真实模型调用、14,579ms、12,791 tokens，候选源码未变。此次关闭该组件结构的实际切换/回读缺口；身份、库存和完整H001仍未复验，不推断其他网站全部稳定。下一门槛是完整H001只读链路。[本次证据与边界](history/TEST-LOG.md#test-2026-09-28-tokyo-readback-live-pass)。
+
+2026-09-28 **空值焦点代理的选中显示绑定已通过独立离线验收，当前来源尚未验收。** 浏览器观察器仅在同一显式`Value Container`中有唯一`singleValue`显示、且只属于该combobox时读取当前值；Executor用原控件节点身份在菜单折叠、`aria-controls`消失后确认选项。历史真实TableCheck HTML的结构依据与9月28日Live局部观察分开记录，后者不能单独证明当前标记属性。主任务独立定向5/5，包括17:30→19:00、初始已选零调用、错归属及两个runtime的实际Adapter路径；另用保存的真实页面片段独立读出时间20:30、人数2 guests，原input均为空。实施方默认532/532、浏览器44/44与后续受影响用例及代码门禁证据已核对，未重复全套。最终源码hash固定，上游semantic/业务Prompt/fact/identity/Gold未变。没有新Live或H001结果；下一门槛是新增有界授权下的当前来源验证，不能称完整任务通过。[红绿、独立验收与范围](history/TEST-LOG.md#test-2026-09-28-browser-proxy-selected-value-offline)。
+
+2026-09-28 **新增一次授权定向Live：实际点击19:00，选中值回读仍未通过。** 使用最终节点绑定候选，生产代码未改。Tokyo公开时间控件探针29,282ms、6次模型调用、44,808 tokens；浏览器点击事件记录的实际option标签为19:00，同控件附近显示19:00，但Time input.value为空，Executor持续`OPTION_VALUE_NOT_CONFIRMED`并耗尽调用预算。页面初始已显示19:00，因此只证明本次点击对象正确，不能宣称完成了从其他时间切换或证明历史错选同因。既有proxy/旁侧显示值绑定缺口仍开放；未再跑OpenTable、H001或额外Live，没有放宽成功条件。[证据、独立评价与停止点](history/TEST-LOG.md#test-2026-09-28-tokyo-final-binding-live)。
+
+2026-09-26 **Test/Eval收敛为最小充分验证，并补强已有测试的前置检错能力。** Test/Eval各revision 1.2：实施前只挑战影响当前交付的关键假设，优先复用覆盖与产物；不为假想风险加测试、全量Eval或框架，证据充分即停止。浏览器三处主覆盖原位补强，未增加测试数量或生产代码；相关11个场景最终通过，现有Evaluator对照组通过。隔离去掉选中值确认时，旧异步测试仍绿，改后在实际页面尚未选定的断言上失败，正常实现通过。此次关闭的是测试漏检；Tokyo选中值绑定与OpenTable访问仍待来源验证。[验证与范围记录](history/TEST-LOG.md#test-2026-09-26-minimal-frontloaded-verification)。
+
+2026-09-26 **覆盖落实补查：正常节点替换恢复已从独立临时脚本补入正式浏览器主回归。** 同组正常恢复/非法变化定向3/3通过，隔离副本禁用恢复时目标完成断言失败；生产代码、总纲、模型及Gold未改，没有追加Live或全量运行。此前完整41/41保留当时口径；当前Tokyo选中值绑定和来源验收仍未关闭。[正式覆盖与总纲落实说明](history/BROWSER-GENERIC-INDEPENDENT-REVIEW-2026-09-26.md#总纲落实与正式回归核对)。
+
+2026-09-26 **通用浏览器本轮独立Review完成，真实来源验收未关闭。** A导航失败隔离、B统一选项与回读，以及本轮新发现的动态DOM目标漂移均已修复并通过独立本地复核。最终默认532/532、本地Chromium41/41，typecheck/arch/build通过；旧节点失效可在原预算内重新观察并由模型选择新目标，不增加站点分支或重试框架。先前真实DeepSeek四个受控场景4/4通过、共6调用；三个Live探针均未完成：Tokyo两次未确认，OpenTable在导航阶段HTTP/2错误。最后Tokyo模型选择19:00、页面显示17:30；本地复现并修复nth动态定位缺陷，但不能据此宣称该Live同因已证实或当前来源已通过。Tokyo焦点proxy的input.value为空，选中显示另在兄弟节点，可靠当前值绑定仍缺证据。外部额度已耗尽，目标绑定最终修复后未追加模型/Live，H001机制前置条件未满足，未启动。上游semantic、Gold、业务Prompt、identity保持冻结；无commit/push。[独立证据、原因与下一门槛](history/BROWSER-GENERIC-INDEPENDENT-REVIEW-2026-09-26.md)。
+
+2026-09-26 **通用浏览器执行改造已授权实施，尚未验收。** [Playbook](BROWSER-AGENT-GENERIC-OPERATIONS-PLAYBOOK.md)交由原6-sol-medium任务执行：A导航失败后的会话隔离，B已观察选项在不同控件结构上的统一选择与回读。上游semantic、Gold、业务Agent、identity与证据资格保持冻结；复用现有执行器和webskills，不增加站点专用操作链或通用框架。主任务独立review后才推进有界外部验收。
+
+2026-09-26 **授权后直接验证：D1真实模型6/6通过，E2混合模型受控收尾通过；固定来源H001/H005自动通过，H002–H004保留自动未通过。** 五例均实际展示结果；后三例因条件同义措辞缺乏自动等价规则，必要维度为NOT_EVALUATED，独立语义复核另存且未覆盖自动结果。所有固定来源run还暴露了新版Evaluator与Runner资源字段不匹配，RESOURCES未评估。H001真实网站只读单次验证在300040ms取消：12家完成查位中9 UNKNOWN、3无匹配时段，零Offer、未展示；真实交付未通过，未触发已有合格结果的交付窗口。未commit/push。[完整记录与问题](history/AUTHORIZED-MODEL-VALIDATION-2026-09-26.md)。
+
+2026-09-24 **D1–D3 后续离线切片已接线，真实模型与完整 Live 未签收。** D1 Prompt@10 工作树候选将负向类别分为来源明确冲突、明确否认和证据不足；六项固定控制与最多6次／60秒、零重试的诊断入口已冻结，但尚未获外发授权，未调用模型，故不能宣称提示词质量修复。D2 复用真实 Google `types`→事实判断→Agent 合法动作的组合回归，以历史 `hot_pot_restaurant`／`primaryType=japanese_restaurant`及复数条件验证冲突候选不进入后续模型事实、网站和查位，正常候选仍展示；这是离线修复验证，不是新 H002 Live。D3 Prompt@18 增加仅对当前请求、未过期库存且只缺合法可补事实时优先补事实的指导；脚本化生产组合实际补事实并展示默认3家，不能证明真实模型会作该选择。默认离线528/528、typecheck、arch、build通过；过期、刷新、已失败事实读取的现有边界仍保持。A/B/C/E的真实来源和整单验收继续未完成。
+
+2026-09-24 **Playbook 独立审查：四项缺陷退回修订后通过有界离线验收，整轮仍未完成。** 修复了慢读取/模型决策跨过交付窗口、TableCheck 日文表单绕过实时控件校验、旧库存与新请求拼接，以及总模型调用限额漏评。Evaluator/rubric@21保存并核验已发起总调用；缺完整历史计数不自动通过。Root独立相关测试185/185及真实Chromium本地异步对照通过，实施任务默认526/526、typecheck、arch、build通过。A3真实来源、B2、真实库存、D1及其后续D2/D3、E2和对应完整Live仍未签收；本次未调用付费模型或Live、未commit/push。[独立审查](history/LIVE-PLAYBOOK-INDEPENDENT-REVIEW-2026-09-24.md)。
+
 2026-09-24 **TableCheck 同店介绍页到独立预约页的入口已接线。** 当前 LAVAROCK 介绍页的同一 Restaurant JSON-LD 实体明确给出 `/en/shops/cytokyo-lavarock/reserve`；解析器现在优先采用这个来源目标，再考虑嵌入式组件，不拼接店名路径。异店实体和外域目标仍拒绝。现有 Adapter 主回归通过来源身份→预约入口→已选请求→合成可用时段，42/42 TableCheck 与全量524/524通过；真实库存及 H003 整单仍未验证。[证据与边界](history/LAVAROCK-CONTROL-2026-09-24.md#a-entrance-follow-up-source-owned-guide-to-shops-reservation)。
 
 2026-09-24 **公共资源评价已修正为读取现行`runCeilings`。** Evaluator/rubric@20对当前Runner要求时间、Agent步骤和浏览器模型调用的限额及使用值；缺必要限额为`NOT_EVALUATED`，超限为`NOT_SATISFIED`，旧`limits`格式仍按其既有字段补评。旧规则在H001原始300034/300000 ms上误给`RESOURCES=SATISFIED`；不覆盖原件的@20 sidecar改判`NOT_SATISFIED`。这是评价修复，不是H001执行进步，也未解除E2私有上下文发送的自动审批阻断。[验证记录](history/TEST-LOG.md)。
 
+2026-09-24 **H003 TableCheck 原生路径一次连续复试到达查位，但两店均无完整库存结论。** 本地 Chromium 来源复查恢复后，从无店名的区域搜索起，约13.1秒出现结果，16.7秒完成首五家详情与3km核验，2家合格门店进入既有 TableCheck 只读适配器；两店重开页面均为同源`HIGH / EXACT_PHONE`。10人、周五、17:30–22:00查位遇到控件状态确认/提取耗时，两店均在各30秒来源预算内返回`UNKNOWN / BROWSER_TIMEOUT`，零Offer。总耗时76.8秒、浏览器模型10次，计入原生搜索及详情；未经过完整Router/Runtime，且门店对比字段同出TableCheck，故不能称产品查位成功或整体收益成立。生产代码未改。[连续复试记录](history/H003-TABLECHECK-NATIVE-LOOPS-2026-09-24.md#follow-up-one-contiguous-retry-after-browser-connectivity-check)。
+
+
 2026-09-24 **E1 默认首批预算交付完成离线受控接线，真实模型和 H001 尚未签收。** ADR-0031为不少于90秒的只读run增加最后45秒交付窗口：已有1—2家当前合格结果时，Domain停止新读取、允许短批并记录`met:false`；显式数量、后续批次、刷新和过期证据不借此放行。可行查位State的受控测试实际经过Coordinator→Router→Reducer执行`PRESENT_RESULTS`；原窗口前拒绝、显式数量和过期对照通过。默认离线522/522、typecheck、arch、build通过。固定H001上下文的一次DeepSeek E2调用被自动审批在执行前拒绝，未发送数据；真实模型选路、生产来源组合、整体H001仍待验证。[E1记录](history/H001-DELIVERY-WINDOW-2026-09-24.md)。
+
+2026-09-24 **H003 TableCheck 原生发现初次探针：Loop 1 有限成立、当时 Loop 2 未到查位。** 从既有东银座评估坐标出发，TableCheck 5km 粗召回在约11.7秒出现结果；首五个原生门店详情在14.4秒内读到站内 ID、地址与自身坐标，经原3km门槛有2家进入小样本。未用已知成功店名或 Google 餐厅名单匹配。随后初次组合运行遇到本地`ERR_CONNECTION_CLOSED`与远端建会话失败；本条是前序状态，以上连续复试更新了查位阶段结论。[实验记录](history/H003-TABLECHECK-NATIVE-LOOPS-2026-09-24.md)。
 
 2026-09-24 **C1 LAVAROCK当前预约表单请求值识别已修正，生产入口和库存仍未签收。** 定向只读观察发现人数由10改9后，HTML及URL仍保留10；旧HTML解析会误接纳过期请求。现用同次浏览器观察的实时日期和人数控件确认请求，真实页面对照得到改前10通过、改后10拒绝且9通过；没有提交预约，也没有获得完成的库存结果。TableCheck所属回归、默认离线522/522、typecheck、arch、build及本地Chromium Fixture 24/24通过。Fixture两处旧Tabelog搜索URL已同步B1的东京入口。生产适配器从介绍页进入独立`/shops/.../reserve`的绑定仍有缺口。[C1记录](history/LAVAROCK-CONTROL-2026-09-24.md)。
 
-2026-09-24 **D1 跳龙门事实误排已定位、候选修法未接纳。** H002历史产物无原始模型响应；一次新固定来源 Prompt@8 调用保存原始输出，明确把主营广东料理误判为川湘辣菜排除项`CONFLICT`，转换层如实映射。随后三次预设对照中的局部 Prompt@9 候选将目标改判为`SUPPORTED`，形成尚无充分来源支撑的反向排除证明；明确川湘与宽泛 Chinese 对照分别正确。按停止条件撤回候选，生产仍为 Prompt@8；D1未修复，D2／D3不能借此签收。[D1记录](history/CHORYUMON-FACT-JUDGMENT-2026-09-24.md)。
+2026-09-24 **D1 跳龙门事实误排的前序诊断与 Prompt@9 回滚。** H002历史产物无原始模型响应；一次新固定来源 Prompt@8 调用保存原始输出，明确把主营广东料理误判为川湘辣菜排除项`CONFLICT`，转换层如实映射。随后三次预设对照中的局部 Prompt@9 候选将目标改判为`SUPPORTED`，形成尚无充分来源支撑的反向排除证明；明确川湘与宽泛 Chinese 对照分别正确。按当时停止条件撤回 Prompt@9，原集成版本维持 Prompt@8；本页顶部记录的 Prompt@10 是后续尚未真实模型验收的工作树候选，不能用来改写此前诊断结论。[D1记录](history/CHORYUMON-FACT-JUDGMENT-2026-09-24.md)。
 
 2026-09-24 **C1／E1 最小诊断未签收修复。** LAVAROCK 一次25秒内、零模型的当前页面只读观察看见成人选择框值10，但缺少可独立核验的日期，现有完整请求确认返回false；历史“点击10人又重开”仍无法归因到点击或解析，未改代码。[C1记录](history/LAVAROCK-CONTROL-2026-09-24.md)。H001原始轨迹在截止前约45秒已有两家合格结果、仍有22家可查，当前ADR-0028与Domain明确禁止在合法读取未耗尽时展示不足3家；这是预算交付的合同缺口，需新ADR界定默认目标的交付预留窗口，再做实际`PRESENT_RESULTS`受控闭环。[E1诊断](history/H001-DELIVERY-WINDOW-2026-09-24.md)。
 

@@ -26,7 +26,11 @@ class FixtureSession implements BrowserSession {
       const href = attrs.match(/href=["']([^"']+)/i)?.[1];
       const type = attrs.match(/type=["']([^"']+)/i)?.[1];
       let absoluteHref: string | undefined; try { absoluteHref = href ? new URL(href, this.pages[this.index]!.url).toString() : undefined; } catch { /* malformed markup is not a control */ }
-      controls.push({ id: `fixture:${this.index}:${controls.length}`, stableKey: `${tag}|${label}|${value ?? ""}|${controls.length}`, kind: tag === "a" ? "LINK" : tag === "select" ? "SELECT" : tag === "input" ? "INPUT" : "BUTTON", role: tag === "a" ? "link" : tag === "button" ? "button" : tag, label, ...(value ? { value } : {}), ...(absoluteHref ? { href: absoluteHref } : {}), ...(attrs.match(/formmethod=["']post/i) ? { formMethod: "POST" as const } : attrs.match(/formmethod=["']get/i) ? { formMethod: "GET" as const } : {}), ...(type ? { type } : {}), disabled: /disabled|aria-disabled=["']true/i.test(attrs), visible: true });
+      const options = tag === "select" ? [...html.matchAll(/<option\b([^>]*)>([^<]*)/gi)].map(option => ({
+        value: option[1]?.match(/value=["']([^"']+)/i)?.[1] ?? option[2] ?? "",
+        label: option[2] ?? "", selected: /selected/i.test(option[1] ?? ""), disabled: /disabled/i.test(option[1] ?? ""),
+      })) : undefined;
+      controls.push({ id: `fixture:${this.index}:${controls.length}`, stableKey: `${tag}|${label}|${value ?? ""}|${controls.length}`, kind: tag === "a" ? "LINK" : tag === "select" ? "SELECT" : tag === "input" ? "INPUT" : "BUTTON", role: tag === "a" ? "link" : tag === "button" ? "button" : tag === "select" ? "combobox" : tag, label, ...(value ? { value } : {}), ...(absoluteHref ? { href: absoluteHref } : {}), ...(attrs.match(/formmethod=["']post/i) ? { formMethod: "POST" as const } : attrs.match(/formmethod=["']get/i) ? { formMethod: "GET" as const } : {}), ...(type ? { type } : {}), ...(options?.length ? { options } : {}), disabled: /disabled|aria-disabled=["']true/i.test(attrs), visible: true });
     }
     return controls;
   }
@@ -89,6 +93,36 @@ test("BrowserTaskExecutor records candidate and provider lifecycle costs through
   assert.equal(diagnostics.find(item => item.event === "CANDIDATE_FINISHED")?.lifecycle.outcome, "FINISHED");
 });
 
+test("BrowserTaskExecutor identifies an operation ceiling before a denied next observation", async () => {
+  const diagnostics: import("./browser-task-executor.js").BrowserExecutionDiagnostic[] = [];
+  const session = new FixtureSession([{ url: "https://www.tablecheck.com/en/sushi", title: "query", text: "", html: "" }]);
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {
+    maxOperationsPerCandidate: 1, onDiagnostic: item => diagnostics.push(item),
+  });
+  const signal = new AbortController().signal;
+  const acquired = await executor.acquire(signal, "TABLECHECK", "AVAILABILITY");
+  await executor.snapshot({ source: "TABLECHECK", stage: "AVAILABILITY", signal, session: acquired });
+  await assert.rejects(executor.snapshot({ source: "TABLECHECK", stage: "AVAILABILITY", signal, session: acquired }),
+    (error: unknown) => error instanceof BrowserRuntimeError && error.code === "BROWSER_TIMEOUT" && /operation budget/.test(error.message));
+  assert.equal(diagnostics.find(item => item.event === "BUDGET_EXHAUSTED")?.lifecycle.reason, "OPERATION_BUDGET_EXHAUSTED");
+  assert.equal(diagnostics.filter(item => item.event === "OPERATION_STARTED").length, 1);
+  await executor.close();
+
+  const actionSession = new FixtureSession([{ url: "https://www.tablecheck.com/en/sushi", title: "query", text: "Choose date", html: '<button type="button" data-date="2026-9-10">Thursday 10</button>' }]);
+  const actionDiagnostics: import("./browser-task-executor.js").BrowserExecutionDiagnostic[] = [];
+  const actionExecutor = new BrowserTaskExecutor({ openSession: async () => actionSession }, {
+    maxOperationsPerCandidate: 3,
+    onDiagnostic: item => actionDiagnostics.push(item),
+    modelDecision: decisions(async value => ({ type: "CLICK_AUTHORITATIVE", targetRef: value.observation.targets[0]!.ref, field: "DATE", reason: "Select date." })),
+  });
+  const actionAcquired = await actionExecutor.acquire(signal, "TABLECHECK", "AVAILABILITY");
+  const actionResult = await actionExecutor.runSkill({ ...input(actionAcquired, signal), stage: "AVAILABILITY", completion: () => ({ complete: false, reason: "Date unconfirmed." }) });
+  assert.equal(actionResult.status, "BUDGET_EXCEEDED");
+  assert.equal(actionSession.clicks, 0, "A click must not consume the last operation without room to verify it");
+  assert.equal(actionDiagnostics.find(item => item.event === "BUDGET_EXHAUSTED")?.lifecycle.reason, "OPERATION_BUDGET_EXHAUSTED");
+  await actionExecutor.close();
+});
+
 test("BrowserTaskExecutor records the real acquisition root cause instead of inferring a run failure", async () => {
   const diagnostics: import("./browser-task-executor.js").BrowserExecutionDiagnostic[] = [];
   const executor = new BrowserTaskExecutor({
@@ -149,6 +183,69 @@ test("BrowserTaskExecutor records a failed runtime operation with its local caus
   assert.equal(failure?.lifecycle.reason, "RUNTIME_FAILURE");
   assert.equal(failure?.lifecycle.failureCode, "BROWSER_RUNTIME_FAILED");
   await executor.close();
+});
+
+test("a runtime navigation failure retires its session before the next candidate without resetting the run", async () => {
+  const failed = new FixtureSession([{ url: "https://www.tablecheck.com/old", title: "old", text: "old", html: "" }]);
+  failed.navigate = async () => { throw new BrowserRuntimeError("BROWSER_RUNTIME_FAILED", "navigation failed"); };
+  const next = new FixtureSession([{ url: "https://www.tablecheck.com/new", title: "new", text: "new", html: "" }]);
+  let opens = 0;
+  const budget = { totalModelCalls: 3 };
+  const executor = new BrowserTaskExecutor({ openSession: async () => ++opens === 1 ? failed : next }, { budget });
+  const signal = new AbortController().signal;
+  executor.beginProvider("first", "TABLECHECK");
+  const old = await executor.acquire(signal, "TABLECHECK", "DISCOVERY");
+  await assert.rejects(executor.navigate({ source: "TABLECHECK", stage: "DISCOVERY", signal, session: old, url: "https://www.tablecheck.com/fail", allowedOrigins: ["https://www.tablecheck.com"] }), { code: "BROWSER_RUNTIME_FAILED" });
+  executor.beginProvider("second", "TABLECHECK");
+  assert.equal(await executor.acquire(signal, "TABLECHECK", "DISCOVERY"), next);
+  assert.equal(failed.closed, 1);
+  assert.equal(opens, 2);
+  assert.equal(budget.totalModelCalls, 3);
+  await executor.close();
+});
+
+test("a stuck old close cannot delay cancellation or overwrite the next candidate", async () => {
+  const failed = new FixtureSession([{ url: "https://www.tablecheck.com/old", title: "old", text: "old", html: "" }]);
+  failed.navigate = async () => { throw new BrowserRuntimeError("BROWSER_RUNTIME_FAILED", "navigation failed"); };
+  let finishClose: (() => void) | undefined;
+  failed.close = async () => new Promise<void>(resolve => { finishClose = resolve; });
+  const next = new FixtureSession([{ url: "https://www.tablecheck.com/new", title: "new", text: "new", html: "" }]);
+  const diagnostics: import("./browser-task-executor.js").BrowserExecutionDiagnostic[] = [];
+  let opens = 0;
+  const executor = new BrowserTaskExecutor({ openSession: async () => ++opens === 1 ? failed : next }, {
+    maxElapsedMsPerCandidate: 40, onDiagnostic: diagnostic => diagnostics.push(diagnostic),
+  });
+  const oldSignal = new AbortController();
+  executor.beginProvider("old", "TABLECHECK");
+  const old = await executor.acquire(oldSignal.signal, "TABLECHECK", "IDENTITY");
+  await assert.rejects(executor.navigate({ source: "TABLECHECK", stage: "IDENTITY", signal: oldSignal.signal, session: old, url: "https://www.tablecheck.com/fail", allowedOrigins: ["https://www.tablecheck.com"] }), { code: "BROWSER_RUNTIME_FAILED" });
+  oldSignal.abort();
+  executor.beginProvider("next", "TABLECHECK");
+  const nextSignal = new AbortController().signal;
+  const fresh = await executor.acquire(nextSignal, "TABLECHECK", "IDENTITY");
+  assert.equal(fresh, next);
+  assert.equal((await executor.snapshot({ source: "TABLECHECK", stage: "IDENTITY", signal: nextSignal, session: fresh })).title, "new");
+  finishClose!();
+  await new Promise(resolve => setImmediate(resolve));
+  assert.equal(diagnostics.filter(item => item.candidateId === "next" && item.event === "CANDIDATE_FINISHED").length, 0);
+  await executor.close();
+});
+
+test("a stuck runtime cleanup does not hold a canceled read or reset its candidate deadline", async () => {
+  const failed = new FixtureSession([{ url: "https://www.tablecheck.com/old", title: "old", text: "old", html: "" }]);
+  failed.navigate = async () => { throw new BrowserRuntimeError("BROWSER_RUNTIME_FAILED", "navigation failed"); };
+  let finishClose: (() => void) | undefined;
+  failed.close = async () => new Promise<void>(resolve => { finishClose = resolve; });
+  const executor = new BrowserTaskExecutor({ openSession: async () => failed }, { maxElapsedMsPerCandidate: 15 });
+  const controller = new AbortController();
+  executor.beginProvider("old", "TABLECHECK");
+  const session = await executor.acquire(controller.signal, "TABLECHECK", "IDENTITY");
+  const navigation = executor.navigate({ source: "TABLECHECK", stage: "IDENTITY", signal: controller.signal, session, url: "https://www.tablecheck.com/fail", allowedOrigins: ["https://www.tablecheck.com"] });
+  controller.abort();
+  await assert.rejects(navigation, { code: "BROWSER_ABORTED" });
+  await new Promise(resolve => setTimeout(resolve, 20));
+  await assert.rejects(executor.acquire(new AbortController().signal, "TABLECHECK", "IDENTITY"), { code: "BROWSER_TIMEOUT" });
+  finishClose?.();
 });
 
 test("BrowserTaskExecutor aborts an in-flight operation, closes once asynchronously, and never reuses that session", async () => {
@@ -318,7 +415,15 @@ test("BrowserTaskExecutor binds model-controlled fields to the Router authority 
   ]);
   const executor = new BrowserTaskExecutor({ openSession: async () => session }, {
     modelDecision: decisions(
-      async (value) => ({ type: "SELECT_AUTHORITATIVE", targetRef: value.observation.targets.find((target) => target.kind === "SELECT")!.ref, field: "DATE", reason: "set requested date" }),
+      async (value) => {
+        const select = value.observation.targets.find(target => target.kind === "SELECT");
+        const option = value.observation.targets.find(target => target.kind === "OPTION");
+        const submit = value.observation.targets.find(target => target.label === "Reserve now");
+        assert.equal(select?.rejectionReason, "CHOOSE_AN_OBSERVED_OPTION");
+        assert.deepEqual(option?.availableActions, ["CHOOSE_OPTION:DATE"]);
+        assert.equal(submit?.rejectionReason, "WRITE_PROHIBITED");
+        return { type: "CHOOSE_OPTION", targetRef: option!.ref, field: "DATE", reason: "set requested date" };
+      },
       async (value) => ({ type: "CLICK", targetRef: value.observation.targets.find((target) => target.label === "Reserve now")!.ref, reason: "must reject write-looking click" }),
       async () => ({ type: "REQUEST_HUMAN_HELP", reason: "No other read-only control is observed." }),
     ),
@@ -354,6 +459,50 @@ test("BrowserTaskExecutor permits only an exact non-submit calendar button for a
   const result = await executor.runSkill({ ...input(acquired), stage: "AVAILABILITY", completion: (snapshot) => ({ complete: /applied/.test(snapshot.text), reason: "Date has not been visibly applied." }) });
   assert.equal(result.status, "COMPLETED");
   assert.equal(session.clicks, 1);
+  await executor.close();
+});
+
+test("BrowserTaskExecutor shows a disabled date as read-only and rejects a proposed click", async () => {
+  const session = new FixtureSession([{
+    url: "https://www.tablecheck.com/en/sushi", title: "availability", text: "Choose date",
+    html: '<button type="button" data-date="2026-9-10" disabled>Thursday 10</button>',
+  }]);
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {
+    modelDecision: decisions(async (value) => {
+      const date = value.observation.targets.find(target => target.value === "2026-9-10")!;
+      assert.equal(date.disabled, true);
+      assert.deepEqual(date.availableActions, []);
+      assert.equal(date.rejectionReason, "DISABLED");
+      return { type: "CLICK_AUTHORITATIVE", targetRef: date.ref, field: "DATE", reason: "Try the disabled date." };
+    }, async () => ({ type: "REQUEST_HUMAN_HELP", reason: "The requested date cannot be selected." })),
+  });
+  const acquired = await executor.acquire(new AbortController().signal, "TABLECHECK", "AVAILABILITY");
+  const result = await executor.runSkill({ ...input(acquired), stage: "AVAILABILITY", completion: () => ({ complete: false, reason: "No verified date." }) });
+  assert.equal(result.status, "REQUESTED_HUMAN_HELP");
+  assert.equal(session.clicks, 0);
+  await executor.close();
+});
+
+test("BrowserTaskExecutor reuses post-action controls to confirm two selections within the operation limit", async () => {
+  const session = new FixtureSession([
+    { url: "https://www.tablecheck.com/en/sushi", title: "availability", text: "Choose date", html: '<button type="button" data-date="2026-9-10">Thursday 10</button>' },
+    { url: "https://www.tablecheck.com/en/sushi", title: "availability", text: "Choose guests", html: '<button type="button" data-value="2">2 guests</button>' },
+    { url: "https://www.tablecheck.com/en/sushi", title: "availability", text: "Date and guests confirmed", html: '<p>Selected request</p>' },
+  ]);
+  const events: import("./browser-task-executor.js").BrowserExecutionDiagnostic[] = [];
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {
+    maxOperationsPerCandidate: 8,
+    onDiagnostic: event => events.push(event),
+    modelDecision: decisions(
+      async value => ({ type: "CLICK_AUTHORITATIVE", targetRef: value.observation.targets.find(target => target.value === "2026-9-10")!.ref, field: "DATE", reason: "Select date." }),
+      async value => ({ type: "CLICK_AUTHORITATIVE", targetRef: value.observation.targets.find(target => target.value === "2")!.ref, field: "PARTY_SIZE", reason: "Select guests." }),
+    ),
+  });
+  const acquired = await executor.acquire(new AbortController().signal, "TABLECHECK", "AVAILABILITY");
+  const result = await executor.runSkill({ ...input(acquired), stage: "AVAILABILITY", completion: snapshot => ({ complete: /confirmed/.test(snapshot.text), reason: "Request is not visibly selected." }) });
+  assert.equal(result.status, "COMPLETED");
+  assert.equal(session.clicks, 2);
+  assert.equal(events.filter(event => event.event === "OPERATION_STARTED").length, 8);
   await executor.close();
 });
 

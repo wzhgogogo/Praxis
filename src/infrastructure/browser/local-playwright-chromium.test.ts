@@ -79,6 +79,20 @@ test("environment gates keep ordinary profiles temporary and enable persistence 
     assert.deepEqual(launches.at(-1), expected, `interactive=${interactive}, manual=${manual}`);
   }
   assert.deepEqual(counts, { page: 4, context: 4, browser: 3 });
+  for (const interactive of ["0", "1"]) {
+    const runtime = LocalPlaywrightChromium.fromEnvironment({
+      PRAXIS_LOCAL_CHROMIUM_INTERACTIVE: interactive,
+      PRAXIS_EVAL_ALLOW_TABELOG_MANUAL_INTERVENTION: interactive,
+      PRAXIS_LOCAL_CHROMIUM_PROXY_SERVER: "http://127.0.0.1:10808",
+    });
+    const session = await runtime.openSession({ signal: new AbortController().signal });
+    await session.close();
+    assert.deepEqual(launches.at(-1), {
+      headless: interactive === "0",
+      proxy: { server: "http://127.0.0.1:10808" },
+      ...(interactive === "1" ? { userDataDir: resolve(".eval-artifacts", "local-chromium-profile") } : {}),
+    });
+  }
 });
 
 test("Local Playwright Chromium maps launch failures into the fail-closed BrowserRuntime error", async () => {

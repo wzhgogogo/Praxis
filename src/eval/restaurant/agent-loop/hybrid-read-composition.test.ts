@@ -127,8 +127,8 @@ class MixedStatusModel extends ScriptedExternalModel {
       const input = JSON.parse(request.messages.find((message) => message.role === "user")!.content) as {
         candidate: { name: string }; observations: Array<{ evidenceId: string }>;
       };
-      return response(JSON.stringify({ judgments: [{
-        criterion: "hot pot restaurant",
+      return response(JSON.stringify({ sourceSelections: [], judgments: [{
+        criterion: "hot-pot restaurants",
         outcome: input.candidate.name === "Source Hot Pot" ? "CONFLICT" : "SUPPORTED",
         scope: "RESTAURANT_CATEGORY_TYPE",
         evidenceIds: input.observations.map((observation) => observation.evidenceId),
@@ -144,7 +144,7 @@ class MixedStatusModel extends ScriptedExternalModel {
         { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } },
         { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "nearby" } },
         { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "cafe", polarity: "POSITIVE", strength: "HARD" } },
-        { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "hot pot restaurant", polarity: "NEGATIVE", strength: "HARD" } },
+        { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "hot-pot restaurants", polarity: "NEGATIVE", strength: "HARD" } },
       ],
     }), "semantic-mixed-status");
   }
@@ -154,7 +154,7 @@ class CategoryUnknownHybridModel extends ScriptedExternalModel {
   override async complete(request: ModelRequest): Promise<ModelResponse> {
     if (request.purpose === "restaurant_fact_judgment") {
       const input = JSON.parse(request.messages.find((message) => message.role === "user")!.content) as { observations: Array<{ evidenceId: string }> };
-      return response(JSON.stringify({ judgments: [{ criterion: "fast food", outcome: "UNKNOWN", scope: "RESTAURANT_CATEGORY_TYPE", evidenceIds: input.observations.map((item) => item.evidenceId) }] }), "category-unknown");
+      return response(JSON.stringify({ sourceSelections: [], judgments: [{ criterion: "fast food", outcome: "UNKNOWN", scope: "RESTAURANT_CATEGORY_TYPE", evidenceIds: input.observations.map((item) => item.evidenceId) }] }), "category-unknown");
     }
     if (request.purpose !== "restaurant_semantic_interpret") return super.complete(request);
     return response(JSON.stringify({ schemaVersion: "3", facts: [
@@ -182,7 +182,7 @@ class AddedExclusionModel extends CategoryUnknownHybridModel {
       };
       const evidenceIds = input.observations.map((item) => item.evidenceId);
       const addedCriterion = input.criteria.find((item) => item.polarity === "NEGATIVE" && item.text.toLocaleLowerCase("en-US") === this.exclusion)?.text;
-      return response(JSON.stringify({ judgments: [
+      return response(JSON.stringify({ sourceSelections: [], judgments: [
         { criterion: "fast food", outcome: "UNKNOWN", scope: "RESTAURANT_CATEGORY_TYPE", evidenceIds },
         ...(addedCriterion ? [{ criterion: addedCriterion, outcome: "CONFLICT", scope: "RESTAURANT_CATEGORY_TYPE", evidenceIds }] : []),
       ] }), "category-unknown-then-conflict");
@@ -728,6 +728,137 @@ test("an explicitly permitted alternate time is queried as a bounded range and p
   assert.equal(state.phase, "PRESENT_RESULTS", JSON.stringify(state.availabilityChecks));
 });
 
+test("fresh request-bound inventory can receive missing facts before another inventory read and reach three results", async () => {
+  // Start/end: semantic input -> Google discovery -> one grounded slot -> Google Details facts
+  // -> remaining grounded slots/facts -> Runtime PRESENT_RESULTS. The scripted model proves a legal
+  // path, not that Prompt@18 will choose it. Only model/source transports are fixed.
+  const actions: string[] = [];
+  const model: ModelGateway = { async complete(request) {
+    if (request.purpose === "restaurant_semantic_interpret") return response(JSON.stringify({ schemaVersion: "3", facts: [
+      { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "cafes", selectionScope: "OPEN_ENDED" } },
+      { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-09-17", raw: "tomorrow" } },
+      { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "13:00", latest: "13:00", raw: "1 pm" } },
+      { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } },
+      { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "nearby" } },
+      { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "cafe", polarity: "POSITIVE", strength: "HARD" } },
+    ] }), "semantic-fresh-stock-facts");
+    assert.equal(request.purpose, "restaurant_agent_decide");
+    const { context } = JSON.parse(request.messages.find(item => item.role === "user")!.content) as { context: {
+      candidates: Array<{ id: string }>; factInvestigableCandidateIds?: string[]; checkableCandidateIds?: string[];
+      availability: Record<string, Array<{ dateTime: string; partySize: number; displayExpiresAt?: string }>>;
+      presentation: Array<{ candidateId: string; eligible: boolean }>;
+    } };
+    let type: string; let ids: string[] = [];
+    if (!context.candidates.length) type = "SEARCH_RESTAURANTS";
+    else {
+      const readyForFacts = context.factInvestigableCandidateIds?.find(id => context.availability[id]?.some(offer =>
+        offer.dateTime.startsWith("2026-09-17T13:00") && offer.partySize === 2 && Date.parse(offer.displayExpiresAt ?? "") > now.valueOf()));
+      if (readyForFacts) { type = "INVESTIGATE_CANDIDATE_FACTS"; ids = [readyForFacts]; }
+      else if (context.checkableCandidateIds?.length) { type = "CHECK_AVAILABILITY"; ids = actions.length === 1 ? context.checkableCandidateIds.slice(0, 1) : context.checkableCandidateIds.slice(0, 3); }
+      else if (context.factInvestigableCandidateIds?.length) { type = "INVESTIGATE_CANDIDATE_FACTS"; ids = context.factInvestigableCandidateIds.slice(0, 3); }
+      else { type = "PRESENT_RESULTS"; ids = context.presentation.filter(item => item.eligible).map(item => item.candidateId); }
+    }
+    actions.push(`${type}:${ids.length}`);
+    return response(JSON.stringify(strictAction(type, ids)), `fresh-stock-action-${actions.length}`);
+  } };
+  const google = googleSearch([], { maxRequests: 100 }, ["one", "two", "three"]);
+  const availability = { executionRoute: "STRUCTURED_ADAPTER" as const,
+    async check(request: import("../../../domains/restaurant/contracts.js").RestaurantAvailabilityRequest) {
+      const grounded = request.candidates.map(candidate => groundTableCheckAvailability(candidate, request, {
+        candidateId: candidate.restaurant.id, sourceEntityId: `tablecheck:${candidate.restaurant.id}`,
+        sourceUrl: `https://www.tablecheck.com/en/${candidate.restaurant.id}`, observedAt: now.toISOString(),
+        requestedDate: request.date, requestedPartySize: request.partySize,
+        entityMatch: { confidence: "HIGH", matchedBy: ["EXACT_PHONE"] }, pageState: "AVAILABLE", visibleSlots: ["13:00"],
+      }, now.toISOString()));
+      return { offers: grounded.flatMap(item => item.offers), evidence: grounded.flatMap(item => item.evidence),
+        availabilityChecks: Object.fromEntries(grounded.map((item, index) => [request.candidates[index]!.restaurant.id, item.check])),
+        metadata: { provider: "TABLECHECK" as const, route: "STRUCTURED_ADAPTER" as const, latencyMs: 0 } };
+    },
+  };
+  const taskId = "integration:fresh-stock-facts";
+  const composition = createHybridReadComposition({ taskId, runId: taskId, clock, model, search: google, availability, facts: google,
+    loop: { maxSteps: 12, timeoutMs: 10_000 } });
+  await composition.interpretAndDispatch({ taskId, message: "Find cafes nearby tomorrow at 1 pm for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
+  assert.equal((await composition.coordinator.run(taskId)).status, "TERMINAL", JSON.stringify(actions));
+  const state = composition.runtime.snapshot(taskId).domainState;
+  assert.equal(state.phase, "PRESENT_RESULTS", JSON.stringify({ actions, presentation: projectRestaurantAgentContext(state, now.toISOString()).presentation }));
+  assert.deepEqual(state.selectionSession?.resultBatchTarget, { candidateCount: 3, met: true });
+  assert.equal(state.presentedResults?.candidateIds.length, 3);
+  assert.deepEqual(actions.slice(0, 3), ["SEARCH_RESTAURANTS:0", "CHECK_AVAILABILITY:1", "INVESTIGATE_CANDIDATE_FACTS:1"]);
+  assert.equal(actions.at(-1), "PRESENT_RESULTS:3");
+});
+
+test("default delivery keeps a produced source-backed result when the next availability batch would consume the reserve", async () => {
+  for (const mode of ["slow-read", "slow-decision"] as const) {
+  const started = now.valueOf();
+  let currentTime = started;
+  const movingClock = { now: () => new Date(currentTime) };
+  const source = googleSearch([], { maxRequests: 100 }, ["one", "two", "three"]);
+  const actions: string[] = [];
+  const model: ModelGateway = { async complete(input) {
+    if (input.purpose === "restaurant_semantic_interpret") return response(JSON.stringify({ schemaVersion: "3", facts: [
+      { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "find a table", selectionScope: "OPEN_ENDED" } },
+      { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-09-17", raw: "tomorrow" } },
+      { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:00", raw: "7 pm" } },
+      { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } },
+      { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "nearby" } },
+    ] }), "semantic-delivery-reserve");
+    assert.equal(input.purpose, "restaurant_agent_decide");
+    const { context } = JSON.parse(input.messages.find((item) => item.role === "user")!.content) as {
+      context: { candidates?: Array<{ id: string }>; presentation?: Array<{ candidateId: string; eligible: boolean }>; checkableCandidateIds?: string[] };
+    };
+    const eligible = context.presentation?.filter((item) => item.eligible).map((item) => item.candidateId) ?? [];
+    const type = !context.candidates?.length ? "SEARCH_RESTAURANTS" : eligible.length && !context.checkableCandidateIds?.length
+      ? "PRESENT_RESULTS" : "CHECK_AVAILABILITY";
+    const ids = type === "PRESENT_RESULTS" ? eligible : type === "CHECK_AVAILABILITY"
+      ? context.checkableCandidateIds!.slice(0, eligible.length ? 2 : 1) : [];
+    if (mode === "slow-decision" && eligible.length && type === "CHECK_AVAILABILITY") currentTime = started + 256_000;
+    actions.push(`${type}:${ids.length}`);
+    return response(JSON.stringify(strictAction(type, ids)), `decision-${actions.length}`);
+  } };
+  let calls = 0;
+  const availability = { executionRoute: "GENERIC_BROWSER" as const,
+    async check(request: import("../../../domains/restaurant/contracts.js").RestaurantAvailabilityRequest, actionSignal: AbortSignal) {
+      calls += 1;
+      if (calls === 2) {
+        await new Promise<void>((resolve) => {
+          const fallback = setTimeout(resolve, 1_500);
+          actionSignal.addEventListener("abort", () => { clearTimeout(fallback); resolve(); }, { once: true });
+        });
+        if (actionSignal.aborted) {
+          currentTime = started + 255_000;
+          throw actionSignal.reason;
+        }
+        currentTime = started + 300_000;
+        return { offers: [], evidence: [], availabilityChecks: Object.fromEntries(request.candidateIds.map((id) => [id, { status: "UNKNOWN" as const, checkedAt: movingClock.now().toISOString(), evidenceIds: [], reasonCode: "BROWSER_TIMEOUT" as const }])),
+          metadata: { provider: "TABLECHECK" as const, route: "GENERIC_BROWSER" as const, latencyMs: 46_000 } };
+      }
+      currentTime = started + 254_000;
+      const candidate = request.candidates[0]!;
+      const grounded = groundTableCheckAvailability(candidate, request, {
+        candidateId: candidate.restaurant.id, sourceEntityId: "tablecheck:one", sourceUrl: "https://www.tablecheck.com/en/one",
+        observedAt: movingClock.now().toISOString(), requestedDate: request.date, requestedPartySize: request.partySize,
+        entityMatch: { confidence: "HIGH", matchedBy: ["EXACT_PHONE"] }, pageState: "AVAILABLE", visibleSlots: ["19:00"],
+      }, movingClock.now().toISOString());
+      return { offers: grounded.offers, evidence: grounded.evidence, availabilityChecks: { [candidate.restaurant.id]: grounded.check },
+        metadata: { provider: "TABLECHECK" as const, route: "GENERIC_BROWSER" as const, latencyMs: 254_000 } };
+    },
+  };
+  const taskId = `integration:default-delivery-${mode}`;
+  const composition = createHybridReadComposition({ taskId, runId: taskId, clock: movingClock, model, search: source, availability,
+    loop: { maxSteps: 8, timeoutMs: 300_000 } });
+  await composition.interpretAndDispatch({ taskId, message: "Find a table nearby tomorrow at 7 pm for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
+  const result = await composition.coordinator.run(taskId, undefined, new Date(started + 300_000));
+  const final = composition.runtime.snapshot(taskId).domainState;
+  assert.equal(result.status, "TERMINAL", JSON.stringify({ actions, calls, phase: final.phase }));
+  assert.equal(final.phase, "PRESENT_RESULTS");
+  assert.deepEqual(final.selectionSession?.resultBatchTarget, { candidateCount: 3, met: false });
+  assert.equal(calls, mode === "slow-read" ? 2 : 1, "the read must not consume the delivery reserve");
+  assert.equal(currentTime, started + (mode === "slow-read" ? 255_000 : 256_000));
+  assert.equal(composition.trajectories.steps.some((item) => item.observation?.detail.startsWith("DELIVERY_RESERVE_REACHED")), mode === "slow-read");
+  }
+});
+
 test("fixed-seed bounded exploration records and shrinks an independent Hybrid contract failure", async () => {
   // This is deliberately finite: it exercises batch boundaries and legal independent read order,
   // rather than pretending all action permutations are equivalent. Failure output is the durable
@@ -831,11 +962,40 @@ test("Hybrid production composition binds an explicit evaluation location before
     finalSnapshot: snapshot,
     trajectories: composition.trajectories.steps,
     loop: { status: "TERMINAL" },
-    runCeilings: { maxAutomaticBrowserMs: 5_000, maxAgentSteps: 8, maxBrowserModelCallsTotal: 120 },
-    resourceUsage: { elapsedMs: 0, agentDecisions: 3, browserModelCalls: 0, googleRequests: google.googleRequestUsage(readRunId) },
+    runCeilings: { maxAutomaticBrowserMs: 5_000, maxAgentSteps: 8, maxBrowserModelCallsTotal: 120, maxModelCalls: 10 },
+    resourceUsage: { elapsedMs: 0, agentDecisions: 3, browserModelCalls: 0, modelCallsStarted: 4, googleRequests: google.googleRequestUsage(readRunId) },
   }, { path: "integration.result.json", sha256: "a".repeat(64) });
   assert.equal(evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(evaluation));
   assert.ok(evaluation.findings.every((finding) => finding.status === "SATISFIED"), JSON.stringify(evaluation.findings));
+});
+
+test("a Google network failure before candidate discovery stops the Agent after one failed search", async () => {
+  let googleRequests = 0;
+  const model = new ScriptedExternalModel();
+  const google = new GooglePlacesRestaurantSearch(new GooglePlacesClient({
+    apiKey: "test-key",
+    fetchImplementation: async () => {
+      googleRequests += 1;
+      throw new Error("offline provider");
+    },
+  }), () => now.toISOString(), 10, { maxRequests: 100 });
+  const taskId = "integration:google-network-failed";
+  const composition = createHybridReadComposition({
+    taskId, runId: "run:integration:google-network-failed", clock, model, search: google,
+    availability: noAvailabilityPort(), facts: composeLiveRestaurantFactRead(google, {} as BrowserRuntime, model),
+    loop: { maxSteps: 8, timeoutMs: 5_000 },
+  });
+  await composition.interpretAndDispatch({
+    taskId, message: "Find cafes nearby tomorrow afternoon for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo",
+  }, HIGASHI_GINZA_EVALUATION_LOCATION);
+  const loop = await composition.coordinator.run(taskId);
+  const snapshot = composition.runtime.snapshot(taskId);
+  assert.equal(loop.status, "NO_PROGRESS");
+  assert.equal(snapshot.domainState.phase, "FAILED");
+  assert.equal(snapshot.domainState.failure?.code, "GOOGLE_NETWORK_FAILED");
+  assert.equal(googleRequests, 1);
+  assert.equal(model.requests.filter((request) => request.purpose === "restaurant_agent_decide").length, 1);
+  assert.equal(snapshot.domainState.candidates.length, 0);
 });
 
 test("Hybrid production composition asks for location without an evaluation context and never calls a source", async () => {
@@ -893,7 +1053,7 @@ test("real source observations distinguish a supported candidate from an explici
       regularOpeningHours: { weekdayDescriptions: ["Wednesday: 10:00 AM – 6:00 PM", "Thursday: 10:00 AM – 6:00 PM"] },
     }), { status: 200 });
     return new Response(JSON.stringify({
-      ...places[1], types: ["hot_pot_restaurant", "restaurant"], primaryType: "hot_pot_restaurant",
+      ...places[1], types: ["hot_pot_restaurant", "japanese_restaurant", "restaurant"], primaryType: "japanese_restaurant", websiteUri: "https://hot-pot.example/about",
       regularOpeningHours: { weekdayDescriptions: ["Wednesday: 10:00 AM – 6:00 PM", "Thursday: 10:00 AM – 6:00 PM"] },
     }), { status: 200 });
   } });
@@ -903,7 +1063,7 @@ test("real source observations distinguish a supported candidate from an explici
     taskId, runId: "run:source-statuses", clock, model, search: google,
     availability: noAvailabilityPort(), facts: composeLiveRestaurantFactRead(google, {} as BrowserRuntime, model), loop: { maxSteps: 5, timeoutMs: 5_000 },
   });
-  await composition.interpretAndDispatch({ taskId, message: "Find cafes nearby tomorrow afternoon for two, but not hot pot restaurants.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
+  await composition.interpretAndDispatch({ taskId, message: "Find cafes nearby tomorrow afternoon for two, but not hot-pot restaurants.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
   const loop = await composition.coordinator.run(taskId);
   const state = composition.runtime.snapshot(taskId).domainState;
   const cafeId = state.candidates.find((candidate) => candidate.restaurant.sourceIds.googlePlaces === "source-cafe")!.restaurant.id;
@@ -914,7 +1074,10 @@ test("real source observations distinguish a supported candidate from an explici
   assert.ok(state.readEvidence.some((item) => item.candidateId === cafeId
     && Array.isArray(item.claims.verifiedHardCriteria) && item.claims.verifiedHardCriteria.includes("cafe")));
   assert.ok(state.readEvidence.some((item) => item.candidateId === hotPotId
-    && Array.isArray(item.claims.violatedNegativeCriteria) && item.claims.violatedNegativeCriteria.includes("hot pot restaurant")));
+    && Array.isArray(item.claims.violatedNegativeCriteria) && item.claims.violatedNegativeCriteria.includes("hot-pot restaurants")));
+  assert.equal(model.requests.filter((request) => request.purpose === "restaurant_fact_judgment")
+    .some((request) => request.messages.some((message) => message.content.includes("Source Hot Pot"))), false, "explicit Google types conflict must avoid downstream model fact work");
+  assert.equal(projectRestaurantAgentContext(state).legalActions.checkAvailability.includes(hotPotId), false, "the conflicting outlet cannot enter availability");
   assert.deepEqual(state.presentedResults?.candidateIds, [cafeId]);
 });
 
@@ -1065,6 +1228,92 @@ test("Google fact exhaustion must leave a separately executable browser investig
   });
 });
 
+
+test("source text handoff reaches request-bound availability and presentation through the production composition", async () => {
+  // Semantic input → real Google/website fact composition → real browser availability → presentation/evaluator.
+  // Only model transport, Google HTTP and browser I/O are replaced. No facts, eligibility or State are injected.
+  // Oracle: the Japanese source sentence supports a tasting menu; the separate availability page supplies 13:00 for two.
+  const quotation = "旬のつまみからはじまるおまかせコースをご用意しております。";
+  const requests: ModelRequest[] = [];
+  const actions: string[] = [];
+  const model: ModelGateway = { async complete(request) {
+    requests.push(request);
+    if (request.purpose === "restaurant_semantic_interpret") return response(JSON.stringify({ schemaVersion: "3", facts: [
+      { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "restaurants" } },
+      { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-09-17", raw: "tomorrow" } },
+      { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "13:00", latest: "13:00", raw: "1 pm" } },
+      { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } },
+      { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "nearby" } },
+      { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "chef's tasting menu", polarity: "POSITIVE", strength: "HARD" } },
+    ] }), "semantic");
+    if (request.purpose === "browser_read_decide") return response(JSON.stringify({ action: "COMPLETE", targetRef: "", authoritativeField: "NONE", requestedState: "NONE", reason: "Public source statement is ready for interpretation." }), "browser-handoff");
+    if (request.purpose === "restaurant_fact_judgment") {
+      const { sourceDocuments } = JSON.parse(request.messages.find(item => item.role === "user")!.content) as { sourceDocuments: Array<{ id: string; statements: Array<{ id: string; text: string }> }> };
+      const document = sourceDocuments.find(d => d.statements.some(s => s.text === quotation));
+      assert.ok(document, "actual website reader must supply the source sentence to the judgment");
+      return response(JSON.stringify({ sourceSelections: [{ documentId: document.id, statementIds: [document.statements.find(s => s.text === quotation)!.id] }], judgments: [
+        { criterion: "chef's tasting menu", outcome: "SUPPORTED", scope: "RESTAURANT_CATEGORY_TYPE", evidenceIds: [document.id] },
+      ] }), "fact-judgment");
+    }
+    assert.equal(request.purpose, "restaurant_agent_decide");
+    const { context } = JSON.parse(request.messages.find(item => item.role === "user")!.content);
+    const eligible = context.presentation?.filter((item: { eligible: boolean }) => item.eligible).map((item: { candidateId: string }) => item.candidateId) ?? [];
+    const action = !context.candidates?.length ? strictAction("SEARCH_RESTAURANTS")
+      : eligible.length ? strictAction("PRESENT_RESULTS", eligible)
+      : context.factInvestigableCandidateIds?.length ? strictAction("INVESTIGATE_CANDIDATE_FACTS", context.factInvestigableCandidateIds.slice(0, 1))
+      : context.checkableCandidateIds?.length ? strictAction("CHECK_AVAILABILITY", context.checkableCandidateIds.slice(0, 1))
+      : strictAction("END_READ");
+    actions.push(action.type as string);
+    return response(JSON.stringify(action), "agent");
+  } };
+  const place = { id: "source-prose", displayName: { text: "Source Kitchen" }, formattedAddress: "1 Ginza, Tokyo", nationalPhoneNumber: "03-1111-1003", types: ["restaurant"],
+    websiteUri: "https://source.example/menu", location: { latitude: 35.6697, longitude: 139.767 } };
+  const google = new GooglePlacesRestaurantSearch(new GooglePlacesClient({ apiKey: "fixture", fetchImplementation: async (_url, init) => new Response(JSON.stringify(init?.method === "POST" ? { places: [place] } : place), { status: 200 }) }), () => now.toISOString());
+  const browser: BrowserRuntime = { async openSession() {
+    let url = "";
+    return {
+      metadata: { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM", engine: "CHROMIUM", startedAt: now.toISOString() },
+      async navigate(value) { url = value; },
+      async snapshot() {
+        if (url.includes("source.example")) return { url, title: "季節の料理", text: quotation, html: '<a href="tel:03-1111-1003">電話する</a>' };
+        if (url.includes("/japan/search")) return { url, title: "Search", text: "Source Kitchen", html: '<a href="https://www.tablecheck.com/en/source-kitchen">Source Kitchen</a>' };
+        return { url, title: "Source Kitchen", text: "Source Kitchen 2026-09-17 2 guests 13:00", html: '<h1>Source Kitchen</h1><a href="tel:03-1111-1003">Call</a><p class="address">1 Ginza, Tokyo</p><div data-testid="Venue Availability" data-selected-date="2026-09-17" data-pax="2"><a href="/en/shops/source-kitchen/reserve?start_date=2026-09-17&num_people=2&start_time=13:00">13:00</a></div>' };
+      },
+      async click() { throw new Error("No click needed for this read-only source"); }, async fill() { throw new Error("No fill needed"); }, async select() { return []; },
+      async waitFor() {}, async screenshot() { return new Uint8Array(); }, async close() {},
+    };
+  } };
+  const taskId = "integration:source-handoff";
+  const composition = createHybridReadComposition({ taskId, runId: taskId, clock, model, search: google,
+    facts: composeLiveRestaurantFactRead(google, browser, model, undefined, () => now.toISOString()),
+    availability: new LiveBrowserAvailability(browser, model, { now: () => now.toISOString() }), loop: { maxSteps: 6, timeoutMs: 5_000 },
+  });
+  await composition.interpretAndDispatch({ taskId, message: "Find a restaurant with a chef's tasting menu nearby tomorrow at 1 pm for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
+  const loop = await composition.coordinator.run(taskId);
+  const snapshot = composition.runtime.snapshot(taskId);
+  const state = snapshot.domainState;
+  assert.equal(state.phase, "PRESENT_RESULTS", JSON.stringify({ actions, failure: state.failure, factChecks: state.factChecks, availability: state.availabilityChecks }));
+  assert.deepEqual(actions, ["SEARCH_RESTAURANTS", "INVESTIGATE_CANDIDATE_FACTS", "CHECK_AVAILABILITY", "PRESENT_RESULTS"]);
+  const raw = state.readEvidence.find(e => e.provider === "RESTAURANT_WEBSITE" && Array.isArray(e.claims.restaurantTypeFacts) && e.claims.restaurantTypeFacts.includes(quotation));
+  assert.ok(raw);
+  assert.equal(raw.sourceUrl, place.websiteUri);
+  assert.equal(raw.claims.verifiedHardCriteria, undefined, "a quotation is not a verified conclusion");
+  assert.ok(state.readEvidence.some(e => e.provider === "MODEL_JUDGMENT" && Array.isArray(e.claims.supportingEvidenceIds) && e.claims.supportingEvidenceIds.includes(raw.evidenceId)));
+  const presentedId = state.presentedResults!.candidateIds[0]!;
+  assert.equal(state.availabilityChecks[presentedId]?.status, "AVAILABLE");
+  assert.ok(state.readEvidence.some(e => e.kind === "AVAILABILITY" && e.candidateId === presentedId && e.claims.date === "2026-09-17" && e.claims.partySize === 2 && Array.isArray(e.claims.visibleSlots) && e.claims.visibleSlots.includes("13:00")));
+  assert.ok(requests.length <= 10, `Expected useful output within the existing bounded path, got ${requests.length} calls`);
+  const evaluation = evaluateRestaurantHybridLiveArtifact({
+    status: "SUCCEEDED", stage: "AGENT_LOOP", caseId: taskId, runId: taskId,
+    materializedCase: { semantic: { target: { goal: "AVAILABILITY" }, date: { value: "2026-09-17" }, party_size: 2, time: { start: "13:00", end: "13:00" }, location: { value: "nearby", relation: "NEAR_USER" }, criteria: [{ value: "chef's tasting menu", polarity: "POSITIVE", strength: "HARD" }] } },
+    finalSnapshot: snapshot, trajectories: composition.trajectories.steps, loop,
+    runCeilings: { maxAutomaticBrowserMs: 5_000, maxAgentSteps: 6, maxBrowserModelCallsTotal: 12, maxModelCalls: 10 },
+    resourceUsage: { elapsedMs: 0, agentDecisions: actions.length, browserModelCalls: requests.filter(r => r.purpose === "browser_read_decide").length, modelCallsStarted: requests.length, googleRequests: google.googleRequestUsage(`${taskId}:investigation:${state.investigationRevision}`) },
+  }, { path: "source-handoff.result.json", sha256: "a".repeat(64) });
+  assert.equal(evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(evaluation));
+  assert.ok(evaluation.findings.every(f => f.status === "SATISFIED"), JSON.stringify(evaluation.findings));
+});
+
 test("a website observation for another candidate cannot revive an unknown Google fact", async () => {
   // Start/end: actual Hybrid semantic input → Google discovery/Details + website HTML → Reducer → presentation.
   // Only model transport, Google HTTP and browser snapshots are synthetic. Grounding and source composition are real.
@@ -1194,19 +1443,22 @@ test("a closed-hours refresh removes historical support from the Agent context",
 });
 
 /** Actual CLI composition: only Google HTTP, model transport and browser I/O are replaced. */
-async function runScopedFailureComposition(mode: "local" | "model-budget" | "agent-budget" | "runtime-outage" | "cancel" | "google-cancel") {
+async function runScopedFailureComposition(mode: "local" | "option" | "model-budget" | "agent-budget" | "runtime-outage" | "cancel" | "google-cancel") {
   const taskId = `integration:scoped-${mode}`;
   const controller = new AbortController();
   const diagnostics: BrowserExecutionDiagnostic[] = [];
   const seenBrowserNames: string[] = [];
   const agentPools: string[][] = [];
   let agentCalls = 0;
+  let startedModelCalls = 0;
+  let observedOptionActions = 0;
   let notifyRead!: () => void;
   const readStarted = new Promise<void>(resolve => { notifyRead = resolve; });
   let notifyGoogleRequest!: () => void;
   const googleRequestStarted = new Promise<void>(resolve => { notifyGoogleRequest = resolve; });
   let googleRequestAborted = false;
   const model: ModelGateway = { async complete(request) {
+    startedModelCalls += 1;
     if (request.purpose === "restaurant_semantic_interpret") return response(JSON.stringify({ schemaVersion: "3", facts: [
       { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "restaurants" } },
       { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-09-17", raw: "tomorrow" } },
@@ -1216,6 +1468,14 @@ async function runScopedFailureComposition(mode: "local" | "model-budget" | "age
     ] }), "semantic");
     if (request.purpose === "browser_read_decide") {
       if (mode === "model-budget") throw Object.assign(new Error("Run model-call ceiling reached"), { code: "MODEL_CALL_BUDGET_EXHAUSTED" });
+      if (mode === "option") {
+        const payload = JSON.parse(request.messages.find(item => item.role === "user")!.content) as { stage: string; observation: { targets: Array<{ ref: string; kind: string; label: string; ownerRef?: string; availableActions?: string[] }> } };
+        const option = payload.stage === "AVAILABILITY" ? payload.observation.targets.find(target => target.kind === "OPTION" && target.label === "1:00 PM" && target.ownerRef && target.availableActions?.includes("CHOOSE_OPTION:TIME")) : undefined;
+        if (option) {
+          observedOptionActions += 1;
+          return response(JSON.stringify({ action: "CHOOSE_OPTION", targetRef: option.ref, authoritativeField: "TIME", requestedState: "NONE", reason: "Choose the observed query time" }), "browser-option");
+        }
+      }
       return response(JSON.stringify({ action: "REQUEST_HUMAN_HELP", targetRef: "", authoritativeField: "NONE", requestedState: "NONE", reason: "No supported source control" }), "browser-stop");
     }
     assert.equal(request.purpose, "restaurant_agent_decide");
@@ -1253,14 +1513,16 @@ async function runScopedFailureComposition(mode: "local" | "model-budget" | "age
   const browser: BrowserRuntime = { async openSession({ signal }) {
     if (mode === "runtime-outage") throw new BrowserRuntimeError("BROWSER_RUNTIME_UNAVAILABLE", "Fixture browser launch unavailable");
     let url = "", name = "a";
+    let selectedTime = false;
     return {
       metadata: { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM", engine: "CHROMIUM", startedAt: now.toISOString() },
       async navigate(value) {
         url = value;
+        selectedTime = false;
         const decoded = decodeURIComponent(value).replaceAll("+", " ");
-        name = decoded.match(/Fixture ([abcd])/)?.[1] ?? ["a", "b", "c", "d"][Number(decoded.match(/\/(100[0-3])\//)?.[1] ?? "1000") - 1000]!;
+        name = decoded.includes("/restaurant-d") ? "d" : decoded.match(/Fixture ([abcd])/)?.[1] ?? ["a", "b", "c", "d"][Number(decoded.match(/\/(100[0-3])\//)?.[1] ?? "1000") - 1000]!;
         seenBrowserNames.push(name);
-        if (mode === "local" && (name === "a" || name === "c")) throw new BrowserRuntimeError(name === "a" ? "BROWSER_TIMEOUT" : "BROWSER_RUNTIME_FAILED", "Fixture source failure");
+        if ((mode === "local" || mode === "option") && (name === "a" || name === "c")) throw new BrowserRuntimeError(name === "a" ? "BROWSER_TIMEOUT" : "BROWSER_RUNTIME_FAILED", "Fixture source failure");
       },
       async snapshot() {
         if (mode === "cancel") {
@@ -1269,9 +1531,12 @@ async function runScopedFailureComposition(mode: "local" | "model-budget" | "age
         }
         if (name === "b") return { url, title: "Challenge", text: "verify you are human", html: "" };
         if (mode === "model-budget") return { url, title: "Search", text: "No public results", html: "" };
-        return { url, title: "Fixture d", text: "Fixture d 予約 人数 13:00", html: '<h1>Fixture d</h1><a href="tel:03-1111-1003">Call</a><p class="rstinfo-table__address">1-1 Ginza, Chuo City, Tokyo</p><select name="party"><option value="2">2</option></select><select name="date"><option value="2026-09-17">2026-09-17</option></select><button class="slot is-available" data-time="13:00">13:00</button>' };
+        if (mode === "option" && url.includes("tablecheck.com/en/japan/search") && name === "d") return { url, title: "Search", text: "Fixture d", html: '<a href="https://www.tablecheck.com/en/restaurant-d">Fixture d</a>' };
+        if (mode === "option" && url.includes("tablecheck.com/en/restaurant-d")) return { url, title: "Fixture d", text: selectedTime ? "Fixture d 2026-09-17 2 guests 13:00" : "Fixture d 2026-09-17 2 guests Choose time", html: `<h1>Fixture d</h1><a href="tel:03-1111-1003">Call</a><p class="address">1-1 Ginza, Chuo City, Tokyo</p><div data-testid="Venue Availability" data-selected-date="2026-09-17" data-pax="2"><select aria-label="Arrival time"><option value="">Choose</option><option value="opaque-time"${selectedTime ? " selected" : ""}>1:00 PM</option></select>${selectedTime ? '<a href="/en/shops/restaurant-d/reserve?start_date=2026-09-17&num_people=2&start_time=13:00">13:00</a>' : ""}</div>` };
+        return { url, title: "Fixture d", text: selectedTime || mode !== "option" ? "Fixture d 予約 人数 13:00" : "Fixture d 予約 人数 Select time", html: `<h1>Fixture d</h1><a href="tel:03-1111-1003">Call</a><p class="rstinfo-table__address">1-1 Ginza, Chuo City, Tokyo</p><select name="party"><option value="2">2</option></select><select name="date"><option value="2026-09-17">2026-09-17</option></select>${selectedTime || mode !== "option" ? '<button class="slot is-available" data-time="13:00">13:00</button>' : '<select aria-label="Arrival time"><option value="">Choose</option><option value="opaque-time">1:00 PM</option></select>'}` };
       },
-      async select(_target, value) { return [value]; }, async fill() {}, async click() {}, async waitFor() {},
+      async observeControls() { return mode === "option" && name === "d" && url.includes("tablecheck.com/en/restaurant-d") ? [{ id: "fixture:time", stableKey: "fixture:arrival", kind: "SELECT" as const, role: "combobox", label: "Arrival time", value: selectedTime ? "opaque-time" : "", visible: true, disabled: false, options: [{ value: "", label: "Choose", selected: !selectedTime, disabled: false }, { value: "opaque-time", label: "1:00 PM", selected: selectedTime, disabled: false }] }] : []; },
+      async select(_target, value) { if (mode === "option" && name === "d" && value === "opaque-time") selectedTime = true; return [value]; }, async fill() {}, async click() {}, async waitFor() {},
       async screenshot() { return new Uint8Array(); }, async close() {},
     };
   } };
@@ -1282,7 +1547,7 @@ async function runScopedFailureComposition(mode: "local" | "model-budget" | "age
   const capture = () => {
     const snapshot = composition.runtime.snapshot(taskId);
     return captureHybridLiveProgress({
-      composition, taskId, startedAtMs: 0, nowMs: 50, modelInvocations: [],
+      composition, taskId, startedAtMs: 0, nowMs: 50, modelInvocations: [], modelCallsStarted: startedModelCalls,
       googleRequestUsage: google.googleRequestUsage(`${snapshot.runId}:investigation:${snapshot.domainState.investigationRevision ?? 0}`),
       diagnostics: { tablecheckIdentity: [], tabelogIdentity: [], tabelogUserInterventions: [], browserExecution: diagnostics },
     });
@@ -1298,12 +1563,26 @@ async function runScopedFailureComposition(mode: "local" | "model-budget" | "age
     const partialAtCapture = JSON.stringify(partial);
     await work;
     assert.equal(JSON.stringify(partial), partialAtCapture, "settling cancellation cannot mutate the finalized capture");
-    return { composition, partial, agentPools, seenBrowserNames, googleRequestAborted };
+    return { composition, partial, agentPools, seenBrowserNames, googleRequestAborted, startedModelCalls };
   }
   loop = await work;
   const partial = capture();
-  return { composition, partial, loop, agentPools, seenBrowserNames, googleRequestAborted };
+  return { composition, partial, loop, agentPools, seenBrowserNames, googleRequestAborted, startedModelCalls, observedOptionActions };
 }
+
+test("Hybrid production composition uses the observed-option browser wire before accepting source evidence", async () => {
+  const result = await runScopedFailureComposition("option");
+  const state = result.partial.finalSnapshot!.domainState;
+  assert.ok((result.observedOptionActions ?? 0) > 0, JSON.stringify({ checks: state.availabilityChecks, browser: result.partial.diagnostics?.browserExecution?.filter(item => ["MODEL_DECISION_STARTED", "METHOD_INCOMPLETE", "REJECTED"].includes(item.event)).map(item => ({ source: item.source, stage: item.stage, detail: item.detail })) }));
+  assert.equal(state.phase, "PRESENT_RESULTS", JSON.stringify({ checks: state.availabilityChecks, evidence: state.readEvidence.map(evidence => ({ kind: evidence.kind, candidateId: evidence.candidateId, claims: evidence.claims })) }));
+  const accepted = state.presentedResults?.candidateIds ?? [];
+  assert.ok(accepted.length > 0);
+  assert.ok(accepted.every(candidateId => state.availabilityChecks[candidateId]?.status === "AVAILABLE"));
+  assert.ok(state.readEvidence.some(evidence => evidence.kind === "AVAILABILITY" && !!evidence.candidateId && accepted.includes(evidence.candidateId)
+    && evidence.provider === "TABLECHECK" && evidence.entityMatch?.confidence === "HIGH"
+    && evidence.claims.date === "2026-09-17" && evidence.claims.partySize === 2
+    && Array.isArray(evidence.claims.visibleSlots) && evidence.claims.visibleSlots.includes("13:00")));
+});
 
 test("Hybrid source failures in A/B/C leave D reachable and outside candidates out of every Agent pool", async () => {
   // Real Interpreter/Compiler/Runtime/Google grounding/LiveBrowserAvailability/Resolver/Router/Agent.
@@ -1340,6 +1619,7 @@ test("Hybrid deadline captures immutable partial browser, Google and search evid
   const result = await runScopedFailureComposition("cancel");
   assert.equal(result.partial.resourceUsage.discoveryCandidates, 4);
   assert.ok(result.partial.resourceUsage.googleRequests!.total > 0);
+  assert.equal(result.partial.resourceUsage.modelCallsStarted, result.startedModelCalls, "started calls remain in a partial artifact before provider records settle");
   assert.ok(result.partial.diagnostics.browserExecution.length > 0);
   assert.equal(result.partial.searchState.remainingAvailabilityCandidateIds.length, 4);
   // The coordinator completed its own cancellation after the CLI boundary capture.

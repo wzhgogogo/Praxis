@@ -19,7 +19,7 @@ import { completeRestaurantIntent, completeRestaurantSearchIntent } from "../dom
 import { RESTAURANT_AVAILABILITY_DISPLAY_FRESHNESS } from "../domains/restaurant/availability-freshness.js";
 
 export interface RestaurantSearchPort {
-  readonly executionRoute: "STRUCTURED_ADAPTER";
+  readonly executionRoute: "STRUCTURED_ADAPTER" | "GENERIC_BROWSER";
   search(request: RestaurantSearchRequest, signal: AbortSignal): Promise<RestaurantSearchRead>;
   /** Optional source-owned cumulative accounting; never visible to the Agent. */
   googleRequestUsage?(readRunId: string | undefined): NonNullable<RestaurantReadExecutionMetadata["googleRequests"]>;
@@ -184,13 +184,13 @@ export class RestaurantExecutionRouter {
         try {
           const read = await this.withProviderReadDeadline(
             "Restaurant search",
-            this.structuredReadTimeoutMs,
+            this.search.executionRoute === "GENERIC_BROWSER" ? this.browserReadTimeoutMs : this.structuredReadTimeoutMs,
             (signal) => this.search.search(request, signal),
-            false,
+            this.search.executionRoute === "GENERIC_BROWSER",
             parentSignal,
           );
           return {
-            route: "STRUCTURED_ADAPTER",
+            route: this.search.executionRoute,
             event: { type: "SEARCH_COMPLETED", request, ...read },
             // A provider can return ten ranked rows while every one is already
             // in the authoritative candidate pool. Record the delta before
@@ -209,12 +209,14 @@ export class RestaurantExecutionRouter {
           const reason = error instanceof Error ? error.message : "Unknown Restaurant search failure";
           const code = stableFailureCode(error, "SEARCH_FAILED");
           return {
-            route: "STRUCTURED_ADAPTER",
+            route: this.search.executionRoute,
             event: { type: "SEARCH_FAILED", reason, code },
             observation: { type: "DISCOVERY_FAILED", detail: reason },
             executionMetadata: {
-              provider: "GOOGLE_PLACES",
-              route: "STRUCTURED_ADAPTER",
+              provider: this.search.executionRoute === "GENERIC_BROWSER"
+                ? (request.continuation?.nativeStage === "TABELOG_DONE" ? "TABLECHECK" : "TABELOG")
+                : "GOOGLE_PLACES",
+              route: this.search.executionRoute,
               latencyMs: 0,
               failureCode: code,
               ...googleUsageMetadata(this.search, readRunId),
@@ -400,12 +402,15 @@ export class RestaurantExecutionRouter {
       }
       case "END_READ": {
         const assessment = assessRestaurantRead(state, now);
+        const boundedNativeGap = state.searchContinuation?.nativeStage === "TABLECHECK_DONE"
+          ? [`The bounded Tabelog and TableCheck native batches ended without a grounded result; wider source coverage was not evaluated${state.searchContinuation.lastFailureCode ? `; last source failure: ${state.searchContinuation.lastFailureCode}` : ""}`]
+          : [];
         return {
           event: {
             type: "READ_ENDED_NO_VERIFIED_RESULT",
             investigatedCandidateIds: state.candidates.map((candidate) => candidate.restaurant.id),
             unresolvedCandidateIds: assessment.unresolvedCandidateIds,
-            remainingGaps: assessment.presentation.filter((item) => !item.eligible).map((item) => item.missingReason ?? `Candidate ${item.candidateId} is not displayable`),
+            remainingGaps: [...assessment.presentation.filter((item) => !item.eligible).map((item) => item.missingReason ?? `Candidate ${item.candidateId} is not displayable`), ...boundedNativeGap],
           },
           observation: { type: "READ_ENDED", detail: "Bounded read ended without a grounded result", candidateIds: state.candidates.map((candidate) => candidate.restaurant.id), unresolvedCandidateIds: assessment.unresolvedCandidateIds },
         };

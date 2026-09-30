@@ -44,6 +44,56 @@ test("Action validator binds search to complete authoritative intent", () => {
   assert.equal(validateRestaurantAction(state, { type: "SEARCH_RESTAURANTS", retrievalHint: "broaden omakase search" }, now).status, "ALLOWED");
 });
 
+test("A native second-source search waits for the first batch candidates to be processed", () => {
+  const draft = applyRestaurantIntentPatch(undefined, { schemaVersion: "3", target: { goal: "AVAILABILITY", query: "omakase" },
+    date: "2026-08-05", timeWindow: { earliest: "19:00", latest: "19:30" }, partySize: 2,
+    area: { query: "Shibuya" }, addCriteria: [{ text: "omakase", polarity: "POSITIVE", strength: "HARD" }] });
+  const candidateId = "tabelog:tokyo/A1304/A130401/100";
+  const firstBatch: RestaurantTaskState = { ...incompleteState, phase: "SEARCHING", intentDraft: draft, searchRevision: 1,
+    searchContinuation: { intentFingerprint: "current", usedPageTokens: [], pagesRead: 1, exhausted: false, nativeStage: "TABELOG_DONE" },
+    candidates: [{ restaurant: { id: candidateId, outletName: "Omakase", address: "Shibuya, Tokyo",
+      sourceIds: { tabelog: "tokyo/A1304/A130401/100", tabelogNativeDetailUri: "https://tabelog.com/tokyo/A1304/A130401/100/" }, provenance: {} },
+      matchReasons: [], warnings: [], executionConfidence: "MEDIUM" }],
+  };
+  assert.equal(validateRestaurantAction(firstBatch, { type: "SEARCH_RESTAURANTS" }, now).status, "REJECTED");
+  assert.equal(validateRestaurantAction({ ...firstBatch, factChecks: { [candidateId]: { status: "COMPLETED", checkedAt: now, evidenceIds: [] } } },
+    { type: "SEARCH_RESTAURANTS" }, now).status, "ALLOWED", "unsupported HARD fact ends this candidate's read without a slot check");
+  const supported: RestaurantTaskState = { ...firstBatch,
+    factChecks: { [candidateId]: { status: "COMPLETED", checkedAt: now, evidenceIds: ["identity", "omakase-fact"], sourceProvider: "TABELOG" } },
+    readEvidence: [
+      { evidenceId: "identity", kind: "ENTITY_MATCH", provider: "TABELOG", candidateId, sourceEntityId: "tokyo/A1304/A130401/100", observedAt: now, requestFingerprint: "current", claims: {}, entityMatch: { confidence: "HIGH", matchedBy: ["NATIVE_SOURCE_ID_AND_DETAIL"] } },
+      { evidenceId: "omakase-fact", kind: "RESTAURANT_FACT", provider: "TABELOG", candidateId, sourceEntityId: "tokyo/A1304/A130401/100", observedAt: now, requestFingerprint: "current", claims: { verifiedHardCriteria: ["omakase"] } },
+    ],
+  };
+  assert.equal(validateRestaurantAction(supported, { type: "SEARCH_RESTAURANTS" }, now).status, "REJECTED", "a HARD-qualified first-batch outlet still needs its availability read");
+  assert.equal(validateRestaurantAction({ ...supported, availabilityChecks: { [candidateId]: { status: "UNKNOWN", checkedAt: now, evidenceIds: [] } } },
+    { type: "SEARCH_RESTAURANTS" }, now).status, "ALLOWED", "a completed inconclusive slot read permits the next bounded source");
+});
+
+test("An empty first native batch cannot end the read while the second bounded source remains", () => {
+  const state: RestaurantTaskState = { ...incompleteState, phase: "SEARCHING", searchRevision: 1,
+    intentDraft: applyRestaurantIntentPatch(undefined, { schemaVersion: "3", target: { goal: "AVAILABILITY", query: "omakase" },
+      date: "2026-08-05", timeWindow: { earliest: "19:00", latest: "19:30" }, partySize: 2, area: { query: "Shibuya" } }),
+    searchContinuation: { intentFingerprint: "current", nativeStage: "TABELOG_DONE", usedPageTokens: [], pagesRead: 1, exhausted: false },
+  };
+  assert.equal(validateRestaurantAction(state, { type: "SEARCH_RESTAURANTS" }, now).status, "ALLOWED");
+  assert.equal(validateRestaurantAction(state, { type: "END_READ" }, now).status, "REJECTED");
+});
+
+test("Two native source records with unresolved same-outlet signals cannot fill two result positions", () => {
+  const state: RestaurantTaskState = { ...incompleteState, phase: "SEARCHING",
+    intentDraft: applyRestaurantIntentPatch(undefined, { schemaVersion: "3", target: { goal: "AVAILABILITY", query: "omakase" },
+      date: "2026-08-05", timeWindow: { earliest: "19:00", latest: "19:30" }, partySize: 2, area: { query: "Shibuya" } }),
+    candidates: [
+      { restaurant: { id: "tabelog:a", outletName: "Same Omakase", address: "1-1 Shibuya, Tokyo", sourceIds: { tabelog: "a", tabelogNativeDetailUri: "https://tabelog.com/tokyo/a/" }, provenance: {} }, matchReasons: [], warnings: [], executionConfidence: "MEDIUM" },
+      { restaurant: { id: "tablecheck:b", outletName: "Same Omakase", address: "1-1 Shibuya, Tokyo", sourceIds: { tablecheck: "b", tablecheckNativeGuideUri: "https://www.tablecheck.com/en/b" }, provenance: {} }, matchReasons: [], warnings: [], executionConfidence: "MEDIUM" },
+    ],
+  };
+  const verdict = validateRestaurantAction(state, { type: "PRESENT_RESULTS", candidateIds: ["tabelog:a", "tablecheck:b"] }, now);
+  assert.equal(verdict.status, "REJECTED");
+  assert.match("reason" in verdict ? verdict.reason : "", /distinct|duplicate|same outlet/i);
+});
+
 test("Availability keeps its delivery goal while candidate discovery waits only for discovery inputs", () => {
   const state: RestaurantTaskState = {
     ...incompleteState,
@@ -207,7 +257,7 @@ test("The requested goal, not party size, determines whether availability eviden
   assert.equal(validateRestaurantAction(recommendation, { type: "PRESENT_RESULTS", candidateIds: [candidateId] }, now).status, "ALLOWED");
   assert.equal(validateRestaurantAction(availability, { type: "INVESTIGATE_CANDIDATE_FACTS", candidateIds: [candidateId] }, now).status, "ALLOWED");
   assert.deepEqual(validateRestaurantAction(availability, { type: "PRESENT_RESULTS", candidateIds: [candidateId] }, now), {
-    status: "REJECTED", code: "PRESENTATION_EVIDENCE_MISSING", reason: `Candidate ${candidateId} has no HIGH outlet identity evidence associated with its availability source`,
+    status: "REJECTED", code: "PRESENTATION_EVIDENCE_MISSING", reason: `Candidate ${candidateId} lacks fresh evidenced availability for the authoritative request`,
   });
 });
 
@@ -360,6 +410,13 @@ test("PRESENT_RESULTS fails closed until area, HARD criterion, identity, and ava
     { taskId: "task", runId: "run", now, createId: (prefix) => prefix }).state;
   assert.equal(validateRestaurantAction(delivery, { type: "SEARCH_RESTAURANTS" }, now).status, "REJECTED");
   assert.equal(validateRestaurantAction(delivery, { type: "PRESENT_RESULTS", candidateIds: ["a"] }, now).status, "ALLOWED");
+  assert.throws(() => restaurantBookingTaskDefinition.transition(delivery, { type: "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED", deadlineAt },
+    { taskId: "task", runId: "run", now, createId: (prefix) => prefix }), "one active run cannot reopen its own window");
+  const laterNow = "2026-08-05T09:01:00.000Z";
+  const laterDeadline = "2026-08-05T09:01:45.000Z";
+  const nextRun = restaurantBookingTaskDefinition.transition(delivery, { type: "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED", deadlineAt: laterDeadline },
+    { taskId: "task", runId: "run", now: laterNow, createId: (prefix) => prefix }).state;
+  assert.deepEqual(nextRun.defaultBatchDeliveryWindow, { openedAt: laterNow, deadlineAt: laterDeadline }, "an expired prior-run window cannot suppress a later read run");
   let providerCalls = 0;
   const router = new RestaurantExecutionRouter(
     { executionRoute: "STRUCTURED_ADAPTER", async search() { providerCalls++; throw new Error("delivery must not call search"); } },

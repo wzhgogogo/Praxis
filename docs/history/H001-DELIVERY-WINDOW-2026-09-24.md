@@ -1,7 +1,7 @@
 # H001 result delivery E1 contract diagnostic
 
 - Status: current diagnostic / exposed development data
-- Document revision: 0.2
+- Document revision: 0.3
 - Baseline: `93914d8`
 - Scope: default result target and bounded delivery, no change to eligibility, evidence or full Live budget
 
@@ -30,3 +30,13 @@ E2 next uses the saved H001 step-7 `decisionContext` as fixed input. Preserve it
 The existing availability action test now exercises the actual Coordinator → Router → Reducer path. With one independent source-grounded slot and default target three, a deadline exactly 45 seconds away opens the durable window, `PRESENT_RESULTS` executes, and State records one displayed candidate with `met:false`. Further read actions are rejected while that current result is eligible. The controls confirm the normal pre-window short-batch rejection, reject hiding a second currently eligible restaurant, reject an explicit user count at window creation, reject expired evidence, and prevent a pre-aborted user cancellation from opening the window. Existing default-three offline composition still verifies a full batch with `met:true`; this implementation does not raise the established 300-second or source/model limits. The local control uses a constructed State carrying independently checkable evidence; it is not a source-production artifact or H001 replay.
 
 The default offline suite passed 522/522, typecheck, architecture check and build passed. The predeclared one-call E2 attempt was rejected by automatic approval **before execution** because it would export a private H001 artifact-derived context to DeepSeek without payload-specific authorization. No E2 request or source visit occurred. The user's authorization is pending; until then real-model choice, fixed-source production composition and H001 Live acceptance remain unverified. Evaluator reuse is limited to the existing qualified-result/short-batch acceptance rule, with this record's manual elapsed-budget and actual-transition check; no overall evaluator pass is claimed.
+
+## Follow-up review: evidence required before E2 acceptance
+
+The [independent review](LIVE-PLAYBOOK-INDEPENDENT-REVIEW-2026-09-24.md) subsequently closed the offline reserve-consumption defects using source-backed production composition, including a slow read and a decision crossing the reserve boundary. Those tests use a scripted model and do not establish real-model delivery. The earlier one-call artifact-context proposal above remains a historical, unexecuted proposal; it is not sufficient for E2 Runtime acceptance.
+
+For the next bounded experiment, fix the oracle before execution: the default first-batch target is three, one or two candidates have independently supported current slots, other candidates still have legal reads, and execution enters the predeclared final 45-second reserve. Success requires a real model to propose `PRESENT_RESULTS`, the production validator/Router/Runtime to accept it before the deadline, and the durable result to contain all currently eligible unshown candidates with `resultBatchTarget.met:false`. Independently check source identity, request/date/party/time, currentness, and applicable criteria for each displayed candidate. A suggested action alone, a patched final snapshot, an ordinary three-result success, or a run that never reaches this precondition does not pass this experiment.
+
+A scripted production-chain prelude followed by a real-model delivery decision may isolate the delivery behavior without seeding Task State directly. If used, report it as **mixed-model controlled delivery**, not a complete real-model H001 run. A complete fixed-source real-model run and a full Live run remain separate evidence. Keep the existing explicit-count, cancellation, expired/incomplete-evidence and normal full-batch controls as offline regressions; no extra paid runs are implied.
+
+Proposed external budget, pending the user's payload/destination-specific answer: one fixed-source run, at most 20 model calls and 120 seconds, zero retries and zero real source or write operations. D1 has a separate six-call cap. A denial, timeout, model failure, missing source support, or unmet scenario precondition is recorded explicitly and does not trigger an automatic retry or budget increase. No new E2 external request has been made in this follow-up review.

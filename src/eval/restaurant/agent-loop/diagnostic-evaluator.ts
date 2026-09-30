@@ -4,8 +4,8 @@ import { basename, dirname, resolve } from "node:path";
 import { openingHoursForRequest } from "../../../domains/restaurant/read-grounding.js";
 
 
-export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@20";
-export const RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION = "restaurant-hybrid-read-diagnostic-rubric@20";
+export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@21";
+export const RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION = "restaurant-hybrid-read-diagnostic-rubric@21";
 
 type JsonRecord = Record<string, unknown>;
 export type DiagnosticEvaluationStatus = "SATISFIED" | "NOT_SATISFIED" | "NOT_EVALUATED";
@@ -660,11 +660,15 @@ export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceAr
   const resourceUsage = asRecord(root.resourceUsage);
   const currentRunner = root.runCeilings !== undefined;
   const limits = currentRunner ? asRecord(root.runCeilings) : asRecord(root.limits);
+  const recordedModelCalls = Array.isArray(root.modelInvocations) ? root.modelInvocations.length : undefined;
+  const startedModelCalls = asNumber(resourceUsage?.modelCallsStarted);
   const requiredResourceFields = ["elapsedMs", "agentDecisions", "browserModelCalls"];
   const missingResourceFields = resourceUsage ? requiredResourceFields.filter((field) => asNumber(resourceUsage[field]) === undefined) : requiredResourceFields;
+  if (currentRunner && startedModelCalls === undefined) missingResourceFields.push("modelCallsStarted");
   const invalidResourceFields = resourceUsage ? requiredResourceFields.filter((field) => (asNumber(resourceUsage[field]) ?? 0) < 0) : [];
+  if (currentRunner && startedModelCalls !== undefined && (!Number.isInteger(startedModelCalls) || startedModelCalls < 0 || recordedModelCalls !== undefined && recordedModelCalls > startedModelCalls)) invalidResourceFields.push("modelCallsStarted");
   const boundedResources: Array<[string, string]> = currentRunner
-    ? [["elapsedMs", "maxAutomaticBrowserMs"], ["agentDecisions", "maxAgentSteps"], ["browserModelCalls", "maxBrowserModelCallsTotal"]]
+    ? [["elapsedMs", "maxAutomaticBrowserMs"], ["agentDecisions", "maxAgentSteps"], ["browserModelCalls", "maxBrowserModelCallsTotal"], ["modelCallsStarted", "maxModelCalls"]]
     : [["agentDecisions", "maxSteps"], ["browserModelCalls", "maxBrowserModelCallsTotal"]];
   const missingLimitFields = boundedResources.filter(([, limit]) => asNumber(limits?.[limit]) === undefined).map(([, limit]) => limit);
   const invalidLimitFields = boundedResources.filter(([, limit]) => { const value = asNumber(limits?.[limit]); return value !== undefined && value <= 0; }).map(([, limit]) => limit);
@@ -672,8 +676,9 @@ export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceAr
     const usedValue = asNumber(resourceUsage[used]); const limitValue = asNumber(limits[limit]);
     return usedValue !== undefined && limitValue !== undefined && usedValue > limitValue ? [`${used}>${limit}`] : [];
   }) : [];
+  if (currentRunner && limits && recordedModelCalls !== undefined && recordedModelCalls > (asNumber(limits.maxModelCalls) ?? Number.POSITIVE_INFINITY)) overLimit.push("modelInvocations>maxModelCalls");
   const missingConditionRecords = [...expected.missing, ...(actual?.missing ?? []), ...(finalAuthoritativeIntent ? [] : ["final authoritative intentDraft"])];
-  const resourcesStatus: DiagnosticEvaluationStatus = !resourceUsage || missingResourceFields.length || !limits || missingLimitFields.length ? "NOT_EVALUATED" : invalidResourceFields.length || invalidLimitFields.length || overLimit.length ? "NOT_SATISFIED" : "SATISFIED";
+  const resourcesStatus: DiagnosticEvaluationStatus = invalidResourceFields.length || invalidLimitFields.length || overLimit.length ? "NOT_SATISFIED" : !resourceUsage || missingResourceFields.length || !limits || missingLimitFields.length ? "NOT_EVALUATED" : "SATISFIED";
   const conditionsStatus: DiagnosticEvaluationStatus = missingConditionRecords.length ? "NOT_EVALUATED" : conditionMismatchesList.length || criteriaComparison.conflicts.length ? "NOT_SATISFIED" : criteriaComparison.unresolved.length ? "NOT_EVALUATED" : "SATISFIED";
   const investigationStatus: DiagnosticEvaluationStatus = !observations ? "NOT_EVALUATED" : duplicateVisits.length ? "NOT_SATISFIED" : "SATISFIED";
   const claimStatus: DiagnosticEvaluationStatus = finalPhase !== "PRESENT_RESULTS" ? "NOT_EVALUATED" : loopStatus !== "TERMINAL" ? "NOT_SATISFIED" : conditionsStatus === "NOT_SATISFIED" || evidenceStatus === "NOT_SATISFIED" || investigationStatus === "NOT_SATISFIED" ? "NOT_SATISFIED" : conditionsStatus === "NOT_EVALUATED" || evidenceStatus === "NOT_EVALUATED" || investigationStatus === "NOT_EVALUATED" ? "NOT_EVALUATED" : "SATISFIED";

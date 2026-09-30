@@ -104,7 +104,7 @@ export class GoogleThenWebsiteFactRead implements RestaurantCandidateFactPort {
       const evidence = [...google.evidence, ...judgments.flatMap((item) => item.evidence)];
       const factChecks = structuredClone(google.factChecks);
       for (const candidate of request.candidates) {
-        const judgmentEvidenceIds = evidence.filter((item) => item.candidateId === candidate.restaurant.id && item.provider === "MODEL_JUDGMENT").map((item) => item.evidenceId);
+        const judgmentEvidenceIds = judgments.flatMap(result => result.evidence).filter(item => item.candidateId === candidate.restaurant.id).map(item => item.evidenceId);
         if (judgmentEvidenceIds.length && factChecks[candidate.restaurant.id]) factChecks[candidate.restaurant.id]!.evidenceIds.push(...judgmentEvidenceIds);
       }
       return { ...google, evidence, factChecks, metadata: { ...google.metadata, latencyMs: Date.now() - startedAt, ...(modelUsage ? { modelUsage } : {}) } };
@@ -137,12 +137,12 @@ export class GoogleThenWebsiteFactRead implements RestaurantCandidateFactPort {
     const sourceEvidence = [...google.evidence, ...website.evidence];
     const judgments = this.judgment
       ? await Promise.all(request.candidates.filter((candidate) => !hasExplicitHardConflict(google, candidate.restaurant.id, request.intent))
-        .map((candidate) => this.judgment!.judge({ candidate, intent: request.intent, evidence: sourceEvidence })))
+        .map((candidate) => this.judgment!.judge({ candidate, intent: request.intent, evidence: sourceEvidence, ...(website.sourceDocuments ? { sourceDocuments: website.sourceDocuments } : {}) })))
       : [];
     const modelUsage = accumulatedModelUsage(judgments);
     const evidence = [...sourceEvidence, ...judgments.flatMap((item) => item.evidence)];
     for (const candidate of request.candidates) {
-      const judgmentEvidenceIds = evidence.filter((item) => item.candidateId === candidate.restaurant.id && item.provider === "MODEL_JUDGMENT").map((item) => item.evidenceId);
+      const judgmentEvidenceIds = judgments.flatMap(result => result.evidence).filter(item => item.candidateId === candidate.restaurant.id).map(item => item.evidenceId);
       if (judgmentEvidenceIds.length && factChecks[candidate.restaurant.id]) factChecks[candidate.restaurant.id]!.evidenceIds.push(...judgmentEvidenceIds);
     }
     return {

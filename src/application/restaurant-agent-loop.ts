@@ -81,13 +81,13 @@ function cancellationReason(signal: AbortSignal): string {
 }
 
 /**
- * A provider budget is a run-scoped capability boundary, not a user-input
- * problem.  Once discovery has failed before yielding any candidate, there is
- * no legal read action left: wording changes cannot replenish the provider.
+ * A failed location lookup, failed network read or spent provider budget
+ * cannot establish nearby candidates by repeating the unchanged search.
  * Stop before asking the model to improvise repeated searches.
  */
 function noExecutableDiscoveryPath(state: RestaurantTaskState, now: string): boolean {
   if (state.failure?.code === "GOOGLE_LOCATION_UNRESOLVED" && state.candidates.length === 0) return true;
+  if (state.failure?.code === "GOOGLE_NETWORK_FAILED" && state.candidates.length === 0) return true;
   if (state.sourceReadState?.googlePlacesSearchBudget !== "EXHAUSTED") return false;
   if (state.candidates.length === 0) return true;
   // Google exhaustion does not decide whether the task can progress.  A
@@ -170,6 +170,17 @@ export class RestaurantAgentLoopCoordinator {
     let lastRejectedAction: string | undefined;
     const startedAt = this.clock.now().valueOf();
     const deadlineAt = new Date(Math.min(startedAt + this.timeoutMs, readDeadlineAt?.valueOf() ?? Number.POSITIVE_INFINITY));
+    const openDeliveryWindow = async (current: TaskSnapshot<RestaurantTaskState, RestaurantOutcome>) => {
+      const now = this.clock.now();
+      const remainingMs = deadlineAt.valueOf() - now.valueOf();
+      const oldWindow = current.domainState.defaultBatchDeliveryWindow;
+      if (this.timeoutMs >= 90_000 && (!oldWindow || Date.parse(oldWindow.deadlineAt) < now.valueOf())
+        && remainingMs >= 0 && remainingMs <= 45_000
+        && defaultBatchDeliveryCandidateIds(current.domainState, now.toISOString()).length > 0) {
+        return (await this.dispatch(current, { type: "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED", deadlineAt: deadlineAt.toISOString() }, "SYSTEM")).snapshot;
+      }
+      return current;
+    };
     const recentExecutionHistory: Array<{ type: string; detail: string }> = priorSteps.slice(-12).map((step) => ({
       type: step.stepOutcome,
       detail: step.stepOutcome === "EXECUTION_FAILURE"
@@ -182,12 +193,7 @@ export class RestaurantAgentLoopCoordinator {
       if (signal?.aborted) return this.cancel(snapshot, taskId, stepNumber, signal);
       if (terminal(snapshot.domainState)) return { status: "TERMINAL", steps: step };
       if (waitingForUser(snapshot.domainState)) return { status: "WAITING_USER", steps: step };
-      const remainingDeliveryMs = deadlineAt.valueOf() - this.clock.now().valueOf();
-      if (this.timeoutMs >= 90_000 && !snapshot.domainState.defaultBatchDeliveryWindow
-        && remainingDeliveryMs >= 0 && remainingDeliveryMs <= 45_000
-        && defaultBatchDeliveryCandidateIds(snapshot.domainState, this.clock.now().toISOString()).length > 0) {
-        snapshot = (await this.dispatch(snapshot, { type: "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED", deadlineAt: deadlineAt.toISOString() }, "SYSTEM")).snapshot;
-      }
+      snapshot = await openDeliveryWindow(snapshot);
       if (noExecutableDiscoveryPath(snapshot.domainState, this.clock.now().toISOString())) {
         stepNumber += 1;
         await this.terminate(
@@ -196,11 +202,13 @@ export class RestaurantAgentLoopCoordinator {
           "NO_PROGRESS",
           snapshot.domainState.failure?.code === "GOOGLE_LOCATION_UNRESOLVED"
             ? "The named location could not be resolved to coordinates by the available source; no result may claim nearby compliance"
+            : snapshot.domainState.failure?.code === "GOOGLE_NETWORK_FAILED"
+            ? "Google discovery failed at the network boundary before any candidate was observed; repeating the unchanged search cannot establish nearby results"
             : "The local per-run Google request budget is exhausted and no candidate has a remaining lawful fact path; no valid read action remains",
         );
         return { status: "NO_PROGRESS", steps: step };
       }
-      if (this.timedOut(startedAt)) {
+      if (this.timedOut(deadlineAt)) {
         stepNumber += 1;
         await this.terminate(snapshot, this.base(taskId, stepNumber, snapshot), "TIMEOUT", `Agent loop exceeded ${this.timeoutMs}ms`);
         return { status: "TIMEOUT", steps: step };
@@ -215,14 +223,15 @@ export class RestaurantAgentLoopCoordinator {
         ...(lastRejection ? { lastRejection } : {}),
       });
       stepNumber += 1;
-      const base = this.base(taskId, stepNumber, snapshot, context);
+      snapshot = await this.runtime.snapshot(taskId);
+      let base = this.base(taskId, stepNumber, snapshot, context);
 
       if (signal?.aborted) {
         await this.terminate(snapshot, base, "CANCELLED", cancellationReason(signal));
         return { status: "CANCELLED", steps: step + 1 };
       }
 
-      if (this.timedOut(startedAt)) {
+      if (this.timedOut(deadlineAt)) {
         await this.terminate(
           snapshot,
           base,
@@ -240,6 +249,8 @@ export class RestaurantAgentLoopCoordinator {
         );
         return { status: "TIMEOUT", steps: step + 1 };
       }
+      snapshot = await openDeliveryWindow(snapshot);
+      base = this.base(taskId, stepNumber, snapshot, context);
 
       if (decision.status !== "PROPOSED") {
         const reason = decision.status === "MODEL_FAILURE"
@@ -292,15 +303,41 @@ export class RestaurantAgentLoopCoordinator {
       }
 
       let execution;
+      const readAction = decision.action.type === "SEARCH_RESTAURANTS" || decision.action.type === "INVESTIGATE_CANDIDATE_FACTS"
+        || decision.action.type === "CHECK_AVAILABILITY";
+      const reserveMs = deadlineAt.valueOf() - this.clock.now().valueOf() - 45_000;
+      const preserveDelivery = this.timeoutMs >= 90_000 && readAction && reserveMs > 0
+        && defaultBatchDeliveryCandidateIds(snapshot.domainState, this.clock.now().toISOString()).length > 0;
+      const readController = preserveDelivery ? new AbortController() : undefined;
+      let reserveReached = false;
+      const onParentAbort = () => readController?.abort(signal?.reason);
+      if (readController && signal) signal.addEventListener("abort", onParentAbort, { once: true });
+      const reserveTimer = readController ? setTimeout(() => {
+        reserveReached = true;
+        readController.abort(new Error("Default result delivery reserve reached"));
+      }, reserveMs) : undefined;
+      const recordDeliveryReserve = async () => {
+        const detail = "DELIVERY_RESERVE_REACHED: source read stopped before the reserved result-delivery window";
+        const observationType = decision.action.type === "CHECK_AVAILABILITY" ? "AVAILABILITY_UNKNOWN"
+          : decision.action.type === "INVESTIGATE_CANDIDATE_FACTS" ? "CANDIDATE_FACTS_UNKNOWN" : "DISCOVERY_FAILED";
+        await this.trajectories.append({ ...base, agentAction: decision.action, modelAttempt: decision.modelAttempt,
+          actionValidation: verdict, observation: { type: observationType, detail },
+          stateVersionAfter: snapshot.version, stateHashAfter: stateHash(snapshot.domainState), stepOutcome: "EXECUTION_FAILURE" });
+        recentExecutionHistory.push({ type: "DELIVERY_RESERVE_REACHED", detail });
+      };
       try {
         execution = await this.router.execute(
           decision.action,
           snapshot.domainState,
           this.clock.now().toISOString(),
           snapshot.runId + ":investigation:" + String(snapshot.domainState.investigationRevision ?? 0),
-          signal,
+          readController?.signal ?? signal,
         );
       } catch (error) {
+        if (reserveReached && !signal?.aborted) {
+          await recordDeliveryReserve();
+          continue;
+        }
         if (signal?.aborted) {
           await this.terminate(snapshot, base, "CANCELLED", cancellationReason(signal));
           return { status: "CANCELLED", steps: step + 1 };
@@ -321,8 +358,15 @@ export class RestaurantAgentLoopCoordinator {
           stepOutcome: "EXECUTION_FAILURE",
         });
         return { status: "EXECUTION_FAILURE", steps: step + 1 };
+      } finally {
+        if (reserveTimer) clearTimeout(reserveTimer);
+        if (signal) signal.removeEventListener("abort", onParentAbort);
       }
 
+      if (reserveReached && !signal?.aborted) {
+        await recordDeliveryReserve();
+        continue;
+      }
       if (signal?.aborted) {
         await this.terminate(snapshot, base, "CANCELLED", cancellationReason(signal));
         return { status: "CANCELLED", steps: step + 1 };
@@ -408,8 +452,8 @@ export class RestaurantAgentLoopCoordinator {
     return { status: "CANCELLED", steps: nextStep };
   }
 
-  private timedOut(startedAt: number): boolean {
-    return this.clock.now().valueOf() - startedAt >= this.timeoutMs;
+  private timedOut(deadlineAt: Date): boolean {
+    return this.clock.now().valueOf() >= deadlineAt.valueOf();
   }
 
   private base(

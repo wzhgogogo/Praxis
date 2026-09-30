@@ -145,11 +145,12 @@ function presentationEvidenceIds(
   const availability = candidateEvidence.find((evidence) => evidence.kind === "AVAILABILITY" && isDisplayFresh(evidence.displayExpiresAt, now) &&
     stringClaim(evidence, "date") === bookingIntent.date && evidence.claims.partySize === bookingIntent.partySize && offer !== undefined &&
     stringListClaim(evidence, "visibleSlots").includes(offer.dateTime.slice(11, 16)));
-  const entity = availability ? entities.find((item) => item.provider === availability.provider && item.sourceEntityId === availability.sourceEntityId) : undefined;
-  if (!entity) return { valid: false, reason: `Candidate ${candidateId} has no HIGH outlet identity evidence associated with its availability source` };
   if (!offer || state.availabilityChecks[candidateId]?.status !== "AVAILABLE" || !availability) return { valid: false, reason: `Candidate ${candidateId} lacks fresh evidenced availability for the authoritative request` };
+  const entity = entities.find((item) => item.provider === availability.provider && item.sourceEntityId === availability.sourceEntityId);
+  if (!entity) return { valid: false, reason: `Candidate ${candidateId} has no HIGH outlet identity evidence associated with its availability source` };
   const factIdentityIds = groundedCurrentFacts.flatMap(fact => sourceFactsFor(fact).map(source => identityFor(source)!.evidenceId));
-  return { valid: true, evidenceIds: [...new Set([entity.evidenceId, area.evidenceId, availability.evidenceId, ...factIdentityIds, ...groundedCurrentFacts.map((evidence) => evidence.evidenceId)])] };
+  const checkEvidenceIds = state.availabilityChecks[candidateId].evidenceIds.filter((id) => candidateEvidence.some((evidence) => evidence.evidenceId === id));
+  return { valid: true, evidenceIds: [...new Set([entity.evidenceId, area.evidenceId, availability.evidenceId, ...checkEvidenceIds, ...factIdentityIds, ...groundedCurrentFacts.map((evidence) => evidence.evidenceId)])] };
 }
 
 export function restaurantPresentationEvidenceIds(state: Readonly<RestaurantTaskState>, candidateId: string, now: string): string[] | undefined {
@@ -187,7 +188,10 @@ export function assessRestaurantRead(state: Readonly<RestaurantTaskState>, now: 
     if (factRefreshTargets.length && !refreshing) return false;
     if (!refreshing && state.factChecks?.[item.candidateId] !== undefined) return false;
     const candidate = state.candidates.find((value) => value.restaurant.id === item.candidateId);
-    return state.sourceReadState?.googlePlacesSearchBudget !== "EXHAUSTED" || Boolean(candidate?.restaurant.sourceIds.googleWebsiteUri);
+    return state.sourceReadState?.googlePlacesSearchBudget !== "EXHAUSTED"
+      || Boolean(candidate?.restaurant.sourceIds.googleWebsiteUri)
+      || Boolean(candidate?.restaurant.sourceIds.tabelogNativeDetailUri)
+      || Boolean(candidate?.restaurant.sourceIds.tablecheckNativeGuideUri);
   }).map((item) => item.candidateId);
   const completeBookingIntent = completeRestaurantIntent(state.intentDraft);
   const checkableCandidateIds = completeBookingIntent ? presentation.filter((item) =>
@@ -199,6 +203,76 @@ export function assessRestaurantRead(state: Readonly<RestaurantTaskState>, now: 
   const unresolvedCandidateIds = relevantPresentation.filter((item) => !item.eligible).map((item) => item.candidateId);
   const refreshPending = (state.refreshRequestedCandidateIds?.length ?? 0) > 0 || (state.factRefreshRequestedCandidateIds?.length ?? 0) > 0;
   const internalFailure = state.failure && /^(AGENT_|SEMANTIC_|BROWSER_RUNTIME|BROWSER_TIMEOUT)/.test(state.failure.code);
-  const canEndRead = investigationRecorded && !refreshPending && !internalFailure && !relevantPresentation.some((item) => item.eligible);
-  return { presentation, factInvestigableCandidateIds, checkableCandidateIds, investigationRecorded, canEndRead, ...(canEndRead ? {} : { endReadBlockReason: !investigationRecorded ? "No actual source investigation is recorded" : refreshPending ? "A user-requested refresh remains pending" : internalFailure ? "An internal execution failure is recorded" : "A grounded result is available and must not be ignored" }), unresolvedCandidateIds };
+  const nativeSecondBatchPending = state.searchContinuation?.nativeStage === "TABELOG_DONE" && !state.searchContinuation.exhausted;
+  const nativeSecondBatchInvestigationPending = state.searchContinuation?.nativeStage === "TABLECHECK_DONE"
+    ? nativeBatchInvestigationBlockReason(state, "TABLECHECK") : undefined;
+  const canEndRead = investigationRecorded && !refreshPending && !internalFailure && !nativeSecondBatchPending
+    && !nativeSecondBatchInvestigationPending && !relevantPresentation.some((item) => item.eligible);
+  return { presentation, factInvestigableCandidateIds, checkableCandidateIds, investigationRecorded, canEndRead, ...(canEndRead ? {} : { endReadBlockReason: !investigationRecorded ? "No actual source investigation is recorded" : refreshPending ? "A user-requested refresh remains pending" : internalFailure ? "An internal execution failure is recorded" : nativeSecondBatchPending ? "The bounded TableCheck native batch has not been read" : nativeSecondBatchInvestigationPending ?? "A grounded result is available and must not be ignored" }), unresolvedCandidateIds };
+}
+
+function nativeBatchInvestigationBlockReason(state: Readonly<RestaurantTaskState>, source: "TABELOG" | "TABLECHECK"): string | undefined {
+  const intent = completeRestaurantSearchIntent(state.intentDraft);
+  const batch = state.candidates.filter((candidate) => source === "TABELOG"
+    ? Boolean(candidate.restaurant.sourceIds.tabelogNativeDetailUri) : Boolean(candidate.restaurant.sourceIds.tablecheckNativeGuideUri));
+  for (const candidate of batch) {
+    const candidateId = candidate.restaurant.id;
+    const facts = state.factChecks?.[candidateId];
+    if (!facts) return `${source} candidate ${candidateId} still needs its fact read before batch completion`;
+    if (facts.status !== "COMPLETED" || !intent || !restaurantGoalRequiresAvailability(intent)) continue;
+    const currentFacts = restaurantCurrentFactEvidence(state, candidateId);
+    const positiveSupported = intent.criteria.filter((criterion) => criterion.polarity === "POSITIVE" && criterion.strength === "HARD")
+      .every((criterion) => currentFacts.some((evidence) => stringListClaim(evidence, "verifiedHardCriteria")
+        .some((value) => normalized(value) === normalized(criterion.text))));
+    if (positiveSupported && !hasCurrentHardConflict(state, candidateId, intent) && !state.availabilityChecks[candidateId]) {
+      return `${source} candidate ${candidateId} still needs its availability read before batch completion`;
+    }
+  }
+  return undefined;
+}
+
+/** The second native batch can start only after the observed first batch has been investigated. */
+export function nativeSecondBatchSearchBlockReason(state: Readonly<RestaurantTaskState>, now: string): string | undefined {
+  if (state.searchContinuation?.nativeStage !== "TABELOG_DONE") return undefined;
+  const pending = nativeBatchInvestigationBlockReason(state, "TABELOG");
+  if (pending) return pending;
+  const firstBatch = state.candidates.filter((candidate) => Boolean(candidate.restaurant.sourceIds.tabelogNativeDetailUri));
+  const assessment = assessRestaurantRead(state, now);
+  const delivered = new Set(state.selectionSession?.deliveredCandidateIds ?? []);
+  const firstBatchEligible = assessment.presentation.filter((item) => firstBatch.some((candidate) => candidate.restaurant.id === item.candidateId)
+    && item.eligible && !delivered.has(item.candidateId));
+  if (firstBatchEligible.length > 0 && state.intentDraft?.target?.requestedResultCount === undefined) {
+    return "The investigated Tabelog native batch has a grounded result to deliver";
+  }
+  return undefined;
+}
+
+/** For open-ended native reads, one completed source batch may deliver a short grounded batch. */
+export function nativeShortBatchDeliveryReady(state: Readonly<RestaurantTaskState>, now: string): boolean {
+  if (state.intentDraft?.target?.requestedResultCount !== undefined || state.intentDraft?.target?.selectionScope !== "OPEN_ENDED") return false;
+  if (state.searchContinuation?.nativeStage === "TABLECHECK_DONE") return nativeBatchInvestigationBlockReason(state, "TABLECHECK") === undefined;
+  return state.searchContinuation?.nativeStage === "TABELOG_DONE"
+    && nativeSecondBatchSearchBlockReason(state, now) === "The investigated Tabelog native batch has a grounded result to deliver";
+}
+
+/** Keep independently evidenced source records separate while refusing to count an unresolved same outlet twice. */
+export function distinctNativeResultCandidateIds(state: Readonly<RestaurantTaskState>, candidateIds: readonly string[]): string[] {
+  const compact = (value: string) => value.normalize("NFKC").toLocaleLowerCase("en-US").replace(/[^\p{L}\p{N}]+/gu, "");
+  const selected: string[] = [];
+  for (const id of candidateIds) {
+    const candidate = state.candidates.find((item) => item.restaurant.id === id)?.restaurant;
+    if (!candidate) { selected.push(id); continue; }
+    const source = candidate.sourceIds.tabelogNativeDetailUri ? "TABELOG" : candidate.sourceIds.tablecheckNativeGuideUri ? "TABLECHECK" : undefined;
+    const unresolvedSameOutlet = selected.some((priorId) => {
+      const prior = state.candidates.find((item) => item.restaurant.id === priorId)?.restaurant;
+      if (!prior) return false;
+      const priorSource = prior.sourceIds.tabelogNativeDetailUri ? "TABELOG" : prior.sourceIds.tablecheckNativeGuideUri ? "TABLECHECK" : undefined;
+      if (!source || !priorSource || source === priorSource) return false;
+      const name = compact(candidate.outletName); const priorName = compact(prior.outletName);
+      const address = compact(candidate.address); const priorAddress = compact(prior.address);
+      return (name.length > 0 && name === priorName) || (address.length > 0 && address === priorAddress);
+    });
+    if (!unresolvedSameOutlet) selected.push(id);
+  }
+  return selected;
 }

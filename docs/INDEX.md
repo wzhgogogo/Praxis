@@ -1,8 +1,8 @@
 # Praxis 开发文档索引
 
 - Status: Accepted
-- Document revision: 1.0
-- Last updated: 2026-09-24
+- Document revision: 1.1
+- Last updated: 2026-09-26
 - Source of truth for: 开发文档导航、阅读路径、文档职责和冲突处理
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Project Positioning](PROJECT-POSITIONING.md)
@@ -99,6 +99,7 @@ Accepted ADR
 
 ## 仓库治理
 
+- [Browser Agent 通用操作与会话可靠性 Playbook](BROWSER-AGENT-GENERIC-OPERATIONS-PLAYBOOK.md)：2026-09-26授权实施切片；冻结上游semantic，修复共享会话隔离与控件选择契约，不代表已验收能力。
 - [Browser Agent 餐厅实施与 Review 计划](BROWSER-AGENT-RESTAURANT-IMPLEMENTATION-PLAN.md)：当前 P0–P4 只读切片及 P5 边界；早期交接状态和额度属于历史记录，后续授权与最终结果单列。
 - [Browser Agent 最终复核（2026-09-16）](history/BROWSER-AGENT-FINAL-REVIEW-2026-09-16.md)：本轮实现、真实两店比较/修订、新商户失败、独立结果复核、测试和未覆盖范围。
 - [Browser Agent P0–P4 交付记录（2026-09-16）](history/BROWSER-AGENT-RESTAURANT-P0-P4-DELIVERY-2026-09-16.md)：本轮改动、B1–B14 实际证据、命令和未完成项；不是独立 Review 或 Live 验收。

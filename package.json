@@ -22,6 +22,7 @@
     "eval:restaurant:search:fixture": "node --import tsx src/eval/restaurant/search-fixture/run.ts",
     "eval:restaurant:agent-loop:hybrid-live-read": "node --env-file-if-exists=.env --import tsx src/eval/restaurant/agent-loop/runners/run-hybrid-live-read.ts",
     "eval:restaurant:agent-loop:fixed-source-model": "node --env-file-if-exists=.env --import tsx src/eval/restaurant/agent-loop/runners/run-current-development-fixed-source-model.ts",
+    "eval:restaurant:agent-loop:native-fixed-source-model": "node --env-file-if-exists=.env --import tsx src/eval/restaurant/agent-loop/runners/run-native-fixed-source-model.ts",
     "eval:restaurant:fact-judgment:locality-matrix": "node --env-file-if-exists=.env --import tsx src/eval/restaurant/agent-loop/runners/run-locality-fact-judgment-matrix.ts",
     "eval:restaurant:agent-loop:artifact": "node --import tsx src/eval/restaurant/agent-loop/runners/run-hybrid-artifact-evaluation.ts",
     "test:postgres:live": "node --env-file-if-exists=.env --import tsx src/infrastructure/postgres/postgres-live-smoke.ts",
@@ -40,6 +41,7 @@
   "dependencies": {
     "pg": "^8.22.0",
     "playwright-core": "^1.62.1",
+    "undici": "^7.25.0",
     "yaml": "^2.9.0"
   }
 }

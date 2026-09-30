@@ -299,3 +299,32 @@ test("DeepSeek gateway records only the safe structured-output shape when a tool
   });
   assert.equal(JSON.stringify(records[0]).includes("must-not-log"), false);
 });
+
+// The real Node fetch failure is TypeError(cause.code=ECONNRESET).
+// Exercise the public gateway and persisted observer record, including body reads.
+test("DeepSeek gateway preserves safe transport causes without retries or body misclassification", async () => {
+  for (const phase of ["connect", "body"] as const) {
+    const records: ModelInvocationRecord[] = [];
+    let calls = 0;
+    const reset = new TypeError("private URL and credential must-not-log", {
+      cause: Object.assign(new Error("private socket detail must-not-log"), { code: "ECONNRESET" }),
+    });
+    const gateway = new DeepSeekModelGateway({
+      apiKey: "test-key", model: "deepseek-v4-flash",
+      observer: { observe: record => { records.push(record); } },
+      fetchImplementation: async () => {
+        calls++;
+        if (phase === "connect") throw reset;
+        return new Response(new ReadableStream({ start(controller) { controller.error(reset); } }));
+      },
+    });
+    await assert.rejects(() => gateway.complete(request), (error: unknown) =>
+      error instanceof ModelGatewayError && error.code === "NETWORK"
+      && error.providerError?.type === "TRANSPORT" && error.providerError.code === "ECONNRESET");
+    assert.equal(calls, 1);
+    assert.equal(records.length, 1);
+    assert.equal(records[0]?.errorCode, "NETWORK");
+    assert.deepEqual(records[0]?.providerError, { type: "TRANSPORT", code: "ECONNRESET" });
+    assert.equal(JSON.stringify(records).includes("must-not-log"), false);
+  }
+});

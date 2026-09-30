@@ -1,13 +1,218 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.88
-- Last updated: 2026-09-24
+- Document revision: 4.132
+- Last updated: 2026-09-30
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## 2026-09-30 — H001 Teppen requested-date restriction after authorized page read
+
+The new one-page read preserved the currently displayed September calendar: Sep 30 is a plain closed day cell without a selected/date-target marker, Guests 2 is selected but disabled, and no passive vacancy response was captured. The existing generic restricted reason lost this source-specific target-date state. A focused Tabelog query-controls parser now binds a requested day to the same booking calendar table's month/year and excludes markup-hidden future tables; the Adapter maps closed/full/telephone-only to distinct UNKNOWN reasons only after its existing restricted-state gate. The request-bound availability and identity rules remain unchanged. Saved-DOM real Chromium red/green and [full limits](H001-TEPPEN-TARGET-DATE-2026-09-30.md) are separate from the one-page Live observation; no post-change source rerun or booking write occurred.
+
+## 2026-09-30 — H001 Teppen diagnostic capture path repair
+
+The first saved-DOM diagnosis correctly retained UNKNOWN but left the recurring source-observation defect unresolved: the case-slice Runner discarded current query markup. The Runner now records a sanitized booking subtree and all observed controls with profile fields redacted; passive Tabelog response data is narrowed to request-binding fields. The existing one-page read probe reuses that recorder with initial and post-wait snapshots, a 30-second default-network ceiling and no model or booking action. No identity, requested date, stock-acceptance rule or Gold changed. The old artifact remains immutable and still lacks those fields. [Implementation, offline test and prepared one-page command](H001-TEPPEN-QUERY-CAPTURE-2026-09-30.md).
+
+## 2026-09-30 — H001 Teppen saved-query-state diagnosis
+
+Checked the Sep 30 sanitized browser trace against the separately saved complete Sep 29 Teppen DOM and current Tabelog query-control code. The proposed selected-but-nonselectable date omission is a possible generic hint gap, but the saved Teppen DOM has no selected date node at all; its September 29/30 cells have telephone/closed states without dated target attributes. The later trace lacks a current-date marker and captured vacancy response. Existing restricted-state and normal-query Chromium coverage already exercise the applicable behavior, so this diagnosis made no speculative production or test change. The precise evidence limit and future same-snapshot data needed are in [the H001 diagnosis](H001-TEPPEN-QUERY-STATE-OFFLINE-2026-09-30.md).
+
+## 2026-09-30 — One H003 real-source check after the local repair
+
+At the user's request, invoked the bounded H003 TableCheck browser-only Runner once against the same historical source entrance and request. Navigation timed out before any snapshot or model action, so the new action-observation code was not exercised on the real page. This is a source-access stop, with no identity or inventory judgment and no automatic retry. No code, budget, Google route, source choice or booking behavior changed. [Execution artifact and interpretation](BROWSER-CASE-SLICE-LIVE-2026-09-30.md#follow-up-after-the-2026-09-30-offline-h003-repair).
+
+## 2026-09-30 — Shared browser action observation after H003 real-source budget stop
+
+The 2026-09-30 H003 trace showed both date and party at entry, but opening the scrollable guest list exposed only 1–8 as actionable options. Five legitimate browser actions, including revisiting the guest list after selecting the date, exhausted the unchanged 24-operation limit because the Executor unconditionally waited after every click. It now observes the post-click snapshot/control state first and waits only if no change or no selected-option confirmation is visible. The model continues to choose actions; stale references, disabled controls, booking writes and source result grounding remain guarded. The same trace exposed `10+ guests` as an unsafe exact-ten hint; exact party matching now rejects that label. Browser-read Skill guidance now directs a partial combobox list toward its observed scrollable region and a fresh observation, without imposing a fixed field order. H001's unbound no-seat prose remains UNKNOWN with no grounding change. The full failure-driven local Chromium result, independent raw DOM check and no-new-Live boundary are in [the repair record](BROWSER-CASE-SLICE-REPAIR-2026-09-30.md).
+
+## 2026-09-30 — Real-source browser read after offline repair
+
+Ran one bounded H003 TableCheck and one H001 Tabelog browser-only Live read at their historical native outlet entrances. H003 retained HIGH same-source identity but the model's early party-open action consumed enough of the fixed 24 operations that the final ten-person click could not be followed by a request-value readback; it returned UNKNOWN with no Offer. H001's corrected diagnostic Runner ID passed the unchanged native continuity check, then current visible query controls were restricted; it also returned UNKNOWN with no Offer. No implementation, prompt, Gold, budget, source, Google route or reservation behavior changed in this follow-up. Both source outcomes and the missing end-to-end timing/qualification boundary are recorded in [the Live report](BROWSER-CASE-SLICE-LIVE-2026-09-30.md).
+
+## 2026-09-29 — Four bounded Live browser slices and offline operation repair
+
+Executed H005, H002, H003 and the explicitly authorized Sep 30 H001 diagnostic variant once each under the browser-only plan: 77,048ms, 9 DeepSeek calls and 44 browser operations total. Each stopped without a request-bound Offer. H003's four model actions reached the 24-operation ceiling after selecting ten guests; H002 lost its date target during asynchronous page replacement; H001's new diagnostic Runner used a bare numeric Tabelog ID inconsistent with the historical production path ID. See [per-run evidence](BROWSER-CASE-SLICE-LIVE-2026-09-29.md); these are Live read-only probes, not full Case or independent Eval results.
+
+Follow-up stayed offline. The shared Executor now exposes visible disabled controls as read-only model observations while rejecting all actions on them, reuses a fresh confirmed post-action observation when the page changed, and emits an explicit operation-budget diagnostic. The H001 Runner uses the historical path ID, validates it against the detail URL before external work and records the existing Adapter's identity diagnostic; production identity acceptance was not changed. A real Chromium TableCheck Adapter four-action fixture now confirms the final query and source result within the unchanged 24-operation budget. In an isolated copy with old duplicate observation, that same test fails at the operation ceiling. No new Live, model, Google, booking write, commit or push followed the four runs.
+
+## 2026-09-29 — Shared Browser Read source-control repair
+
+The TableCheck search wrapper is projected as a non-fillable combobox while its real nested input retains a source-observed placeholder label and native fill path. A public result link whose center is covered may navigate once to its exact current observed href after origin and sensitive-path checks, followed by a fresh observation; normal same-page/popup clicks remain intact. Tabelog's calendar wait now settles on either visible actionable date/guest controls or a visible source restriction, then takes a new snapshot and classifies the current controls. This closes the loading-to-restriction gap without treating hidden future dates, disabled guests or source prose as request-bound inventory. Skills and Capability Matrix were updated. The Browser wire, Domain state, H001 semantic request, source identity, radius and fact rules were unchanged. This increment used saved public DOM and offline Chromium only; no Live or model invocation. [Verification](TEST-LOG.md#test-2026-09-29-shared-browser-controls-offline).
+
+Independent review then exposed two shared edge failures. The covered-link hit test was performed before Playwright scrolled a below-viewport result into view, so the eventual click was still intercepted; the helper now scrolls once before checking the exact observed href and pointer hit. A general `name` label fallback also masked visible button text; placeholder/name now fill only missing native input labels, retaining `20:00` and the Reserve safety label. No action schema or source permission was expanded. Offline counterexamples and the ordinary popup path pass. The reviewer's original red output was overwritten by a later rerun of the same temporary script; the red observation remains in the main-chat review record and tool output, while the separate independent green result is `/private/tmp/praxis-browser-shared-review/probe-results-independent-green.json`.
+
+The next authorized scope is four Case browser execution slices, not complete Live. A plan-only CLI now reads the current exposed YAML and materializer, then binds one historical native source entrance to the existing Tabelog or TableCheck availability Adapter without invoking semantic, Google, facts or Runtime. It has an explicitly gated `--execute` mode for later main-chat review. H002/H005 use the historically observed H003 TableCheck outlet as a widget probe only, and H001's present “tonight 19:00” is already elapsed. [Review plan](BROWSER-CASE-SLICE-PLAN-2026-09-29.md). No new external read or model call was made while preparing it.
+
+## 2026-09-29 — Teppen one-page control observation after H001
+
+After separate user authorization, one default-network local Chromium read of the actual Teppen outlet page saved the 111 controls returned by production observation, limited DOM opening-tag markers and a viewport screenshot. The observer emitted no Date/Guests target. Full-HTML string counts found zero date-target markers and one people-button class occurrence, but the saved markers lack the latter element's tag/visibility/parent structure; the screenshot omits the lower calendar. A narrow button-opener filter found no match and clicked nothing; this does not rule out other page entrances. This new observation does not reconstruct the prior H001 Live page or prove inventory. No source-control fix, model, Google or booking call followed. [Probe result](H001-NATIVE-GOOGLE10808-LIVE-2026-09-29.md#separately-authorized-one-page-control-probe).
+
+## 2026-09-29 — H001 post-Live offline control diagnosis
+
+Read the immutable 10808 Live artifact against the Browser Executor and Tabelog adapter. Saved diagnostic targets are capped at 40 and visible text at 1,000 characters, while the model sees the full eligible target list; raw HTML/full model observation were not retained. The model stopped without an action, but the evidence cannot distinguish absent, unopened or unobserved date/party controls. No source control change or new Live was made. Corrected a separate first-missing-reason bug in read assessment: missing request-bound availability now precedes availability-source identity, so the already HIGH-identified outlet is not misreported as lacking identity. [Offline attribution](H001-NATIVE-GOOGLE10808-LIVE-2026-09-29.md#post-run-offline-control-diagnosis).
+
+## 2026-09-29 — Google-only 10808 transport and authorized H001 full Live rerun
+
+Added a scoped Undici ProxyAgent to Google Places, wired both server-side Live entry points, and set the ignored local `.env` Google proxy to 10808. DeepSeek and browser source paths remain default. A local CONNECT contract and one real Google API read established the path. The previous pre-candidate Google network error's repeated Agent search is now an offline-proven one-failure stop preserving `GOOGLE_NETWORK_FAILED`. After 558/558 offline tests and code gates, the newly authorized H001 full Live completed in 69,930ms: Google location succeeded, Tabelog admitted one in-radius outlet with cited omakase HARD evidence, but availability stayed UNKNOWN; TableCheck inspected five outside-radius outlets from 21 raw links and had no admitted candidate. Independent Eval qualified NO, no Offer or presentation, no booking write or further retry. [Result and limits](H001-NATIVE-GOOGLE10808-LIVE-2026-09-29.md).
+
+## 2026-09-29 — H001 native downstream offline closure for independent review
+
+Replaced legacy cross-source rematching on native fact/availability reads with same-source outlet continuity and negative controls. A full bounded batch now investigates later candidates after a candidate failure, records source discovery funnel and proceeds to TableCheck only when the Tabelog batch cannot deliver. Default native short-batch delivery is explicit in ADR-0033; the full H001 fixed-page composition reaches supported presentation or scoped stop. Saved 11 execution/Eval pairs for independent review. The newly authorized Live remains unrun pending that review; no commit or push. [Detailed handoff](H001-NATIVE-DOWNSTREAM-2026-09-29.md).
+
+## 2026-09-29 — H001 downstream independent-review corrections
+
+The reviewer reproduced premature END_READ after second-source discovery and a same-URL challenge accepted by native facts. One shared per-source pending-investigation gate now blocks early stop/short delivery; continuity rejects source challenges and explicit error documents before HIGH identity. Tabelog continuity preserves the full outlet path across language variants. Corrected the scripted H001 semantic proposal to retain `OPEN_ENDED`, regenerated 12 execution/Eval pairs and prepared one `TABLECHECK_CONTINUES` fixed-source real-model command for review. No model or Live call has run after this correction. [Counterexamples and limits](H001-NATIVE-DOWNSTREAM-2026-09-29.md#independent-review-correction).
+
+## 2026-09-29 — H001 downstream one fixed-source model decision run
+
+After independent release, ran only `TABLECHECK_CONTINUES` with real DeepSeek and fixed source pages. It followed Tabelog A unavailable/B unknown into TableCheck A unavailable/B available, then delivered B with the default three-result target recorded unmet. 13 model calls, 7 Agent steps, 16,461 ms; independent Eval qualified YES. No actual provider pages or Live read; Live release remains with main review. [Execution and evaluation](H001-NATIVE-DOWNSTREAM-2026-09-29.md#one-released-fixed-source-real-model-run).
+
+## 2026-09-29 — H001 downstream one Live stopped at Google location network failure
+
+The unique reviewed H001 Live preserved the frozen request but 25 completed Agent searches all failed in Google Shibuya named-place resolution before native source access. The 300-second deadline cancelled the run with 26 Google location requests and no candidates or inventory reads. The no-progress loop and exact evidence are recorded; no automatic Live retry or source/radius expansion. [Live diagnostic](H001-NATIVE-DOWNSTREAM-LIVE-2026-09-29.md).
+
+## 2026-09-29 — Native fixed-source model transport blocked before Semantic
+
+Ran the independently released first fixed-source H001 scenario once. It failed before a model response or source read because the ordinary sandbox could not resolve DeepSeek; a no-key unsandboxed HTTP check reached the host. Preserved the execution/evaluation artifacts, did not invoke the second scenario and did not retry paid model work. [Evidence](H001-NATIVE-FIXED-SOURCE-MODEL-2026-09-29.md).
+
+## 2026-09-29 — H001 second review: bounded end and session isolation
+
+Closed a premature `END_READ` after empty Tabelog discovery by making the still-unread second native batch part of the Domain read-completion gate. Replaced a failed detail navigation session before the next observed candidate, while retaining already grounded outlets and recording candidate-scoped failure metadata; no failed outlet retry. The poisoned-session Fixture and early-end Agent scenario both reproduce the old defect and pass after repair. Six offline artifacts and independent evaluations have been regenerated; real model and Live remain frozen for review. [Evidence](H001-NATIVE-STAGE2-PREFLIGHT-2026-09-29.md#second-independent-review-correction-2026-09-29).
+
+## 2026-09-29 — H001 independent review corrections
+
+Closed the reviewer-observed single-detail batch loss and premature second-source search with explicit red/green counterexamples. Native ID mismatch now stops at the direct source detail instead of falling back to site-wide name search. Tabelog and TableCheck adapters now each route cross-source and native HIGH identity into one extracted availability tail. A conservative presentation guard prevents unresolved cross-source native same-outlet records from filling two result positions without merging their evidence or inventory. Five fixed-page artifacts and independent Eval were regenerated; paid model and Live remain unrun pending renewed review. [Evidence and limits](H001-NATIVE-STAGE2-PREFLIGHT-2026-09-29.md#independent-review-correction-2026-09-29).
+
+## 2026-09-29 — H001 bounded source-native composition, offline checkpoint
+
+Added Tabelog then TableCheck one-batch native discovery through the existing Router/Runtime/Agent chain, exact named-location radius admission, source-bound fact and availability reads, and an explicit bounded-scope no-result reason. Corrected presentation evidence to cite the availability check's own HIGH identity alongside its slot. ADR-0032 records the narrow change from ADR-0015; the capability matrix links the four source-page Harness scenarios. Existing Google candidate execution remains separate. Offline execution and independent Eval pass for both actual presentation paths and reject empty/outside-radius cases. A dedicated native fixed-source real-model Runner is prepared for the review gate; paid model and current-source Live are still unrun; no commit or push. [Stage 2 record](H001-NATIVE-STAGE2-PREFLIGHT-2026-09-29.md).
+
+## 2026-09-28 — Two-source native mini-live on new VPN/default path
+
+Removed the explicit browser proxy override per latest user direction. Both source searches now yielded native candidates; Tabelog reached one geographically eligible venue with citedomakase support but no actionable requested date, while TableCheck's firstfive Best match sample lay outside the fixed radius. Recorded these as distinct source-state and experimental-selection limits, not access failures or accepted inventory. No production source changes. [Results](NATIVE-TWO-SOURCE-VPN-2026-09-28.md).
+
+## 2026-09-28 — Default versus proxy network diagnosis
+
+Compared both observed site URLs with bounded NetLog probes. Distinguished Tabelog's now-successful default navigation from TableCheck's API403/default and main-document403/proxy. Read-only routing evidence shows main/API traffic differs; no causal claim about egress rejection rules or all past TLS failures. No production/network changes. [Evidence](BROWSER-NETWORK-PATHS-2026-09-28.md).
+
+## 2026-09-28 — Proxy timeout narrowed to TLS phase
+
+Recorded a focused Chromium NetLog and explicit-proxy curl comparison for the failed regional URL. Chromium connected to localhost and receivedCONNECT200, then waited afterClientHello until cancellation; curl completed TLS/HTTP through the same proxy. Preserved deeper-cause uncertainty and did not change browser security, network settings or production code. [Evidence](TABELOG-NATIVE-MINI-PROXY-2026-09-28.md#follow-up-why10808-can-still-time-out).
+
+## 2026-09-28 — Native mini-live and persistent local proxy preference
+
+Applied the user's10808 preference to local browser configuration and ran one bounded Tabelog native discovery experiment. Keyword-only Tokyo search returned candidate links, but the observed Shibuya regional navigation timed out through the same proxy before any detail/model/availability read. Recorded partial native-discovery evidence separately from untested production replacement; deferred default-network diagnosis as requested. No production code changes. [Outcome](TABELOG-NATIVE-MINI-PROXY-2026-09-28.md).
+
+## 2026-09-28 — Explicit local Chromium proxy configuration
+
+User-proposed localhost10808 proxy made the previously failing Tabelog document readable. Added one optional environment/constructor setting, passed through to both Playwright launch modes; no retries, fallback or system-network changes. Existing launch coverage and536 default tests pass, with a successful production-factory single-page Live observation. Search content remains empty for the combined keyword; inventory and TableCheck are unvalidated. [Evidence](TABELOG-NATIVE-2026-09-28.md#follow-up-explicit-localhost10808-proxy).
+
+## 2026-09-28 — Tabelog alternative-source diagnostic
+
+Reused existing runtime, parsers and planned shared browser execution in an ignored bounded native diagnostic. Initial search navigation failed before model invocation; one same-URL HTTPS comparison returned200. Preserved browser failure separately from HTTP reachability and recorded all downstream stages as not reached. No production change or further full-run retry. [Evidence](TABELOG-NATIVE-2026-09-28.md).
+
+## 2026-09-28 — User Chrome comparison recorded
+
+Inspected the supplied search URL in the user's existing Chrome tab without reload. Its empty-state page and same-query preflight CORS errors reproduce the search-access symptom outside the diagnostic browser. Recorded the observation separately from the earlier HTTP403 capture; no fresh request status or origin/egress root cause is asserted. No production change or new model run. [Evidence](NATIVE-SOURCE-ACCESS-2026-09-28.md#actual-user-chrome-comparison).
+
+## 2026-09-28 — Native search failure diagnosis
+
+Added only ignored, bounded diagnostic scripts and preserved source snapshots/network events. The user-selected next-day request reached TableCheck search DOM, but HTTP403 preflight responses prevented search-data reads while the UI rendered an empty state. No production code change or model call. Tabelog UI entry was reachable, with requested-date and availability still unconfirmed. [Independent findings and limits](NATIVE-SOURCE-ACCESS-2026-09-28.md).
+
+## 2026-09-28 — H003 TableCheck Loop 2 bounded retry
+
+Reused the already present shared browser option-selection correction and changed only an ignored diagnostic to materialize current H003 input instead of the elapsed historical date. Targeted unit and real local Chromium Fixture checks passed. One continuous TableCheck native-search-to-check Live read stopped at initial search navigation timeout before any candidate, so the corrected controls and inventory were not Live exercised. No production adapter edit or external write. This H003 invocation incorrectly resumed an old request after the assigned H001 run; it was an additional, out-of-scope Live attempt and is not H001 acceptance. [Stage outcome](H003-TABLECHECK-NATIVE-LOOP2-RETRY-2026-09-28.md).
+
+## 2026-09-28 — H001 TableCheck-native single read-only run
+
+Prepared a gitignored bounded diagnostic from current H001, using Google only for Shibuya locality resolution, then a TableCheck native query and planned same-source geography, omakase and availability checks. One temporary direct-guide pointer was added to the existing TableCheck adapter, but the sole Live run timed out while navigating the initial native search, before any candidate used that pointer; it was removed. The artifact records 37,106ms, zero model calls and no source DOM, candidate, inventory or external write. No production search or evidence contract changed. [Outcome and stop boundary](H001-TABLECHECK-NATIVE-2026-09-28.md).
+
+
+## 2026-09-28 — Fixed-source model validation exposed citation namespace ambiguity
+
+With explicit user authorization, one six-call fixed-source run demonstrated a single-step browser handoff and a lawful availability decision in the historical H001 post-fact context. It did not pass the complete fact contract: the model correctly interpreted a recorded omakase sentence but cited its paragraph number instead of the source document; other UNKNOWN outputs omitted citations, and one selection exceeded the existing three-statement bound. Network requests succeeded.
+
+Applied a small offline correction, fact Prompt12/schema4: strict citation enums come from this read's supplied source IDs; instructions distinguish selected paragraphs from cited documents and require assessed-source references for UNKNOWN. Kept the original evidence and selection validation, with no guessed repair, retry or website condition. Existing citation/production tests and all default gates pass. No model invocation after this correction and no full H001; the real-model acceptance and remaining identity cases stay open. [Results and limitations](TEST-LOG.md#test-2026-09-28-source-fact-model-validation).
+
+## 2026-09-28 — Shared source-text handoff and investigation guidance (offline candidate)
+
+Extended the existing Google-listed website → fact judgment → Runtime composition used by both Web and Hybrid. An identity-bound page supplies transient bounded statement IDs; the existing judgment call selects exact source lines and returns cited conclusions. Code materializes only observed selections with their same-source identity, keeping quotations separate from derived judgments and inventory. Public telephone links use the existing exact-phone identity path. Browser COMPLETE now explicitly hands relevant prose to interpretation; Agent@19 describes lawful availability progress after fruitless fact reads. Fact judgment@11/schema3 retains prior criterion semantics; no upstream semantic, retry framework, site patch or additional per-page judgment invocation.
+
+Production-composition positive and pre-change negative controls plus the existing independent evaluator pass; all default gates pass. Replay corrected an implementation assumption: Sushiki's original Google phone differs from its site, so this patch does not solve that identity case. Shared-menu scope also remains open. A bounded model check was prepared but automatic approval review rejected this data transfer pending explicit user authorization; it did not run. [Validation, boundaries and evidence](TEST-LOG.md#test-2026-09-28-source-fact-handoff-offline).
+
+## 2026-09-28 — H001 reached facts, exhausted model budget before availability
+
+A newly authorized single run completed 50 model invocations without provider failure and discovered 38 candidates through Google. It stopped at 189,355ms on the unchanged 50-call ceiling after consecutive fact-investigation batches, with no availability read or delivery. Preserved access obstructions, identity/claim acceptance limits and browser page cycles separately; no code change, extra budget or retry was introduced. [Evidence and next diagnostic slice](TEST-LOG.md#test-2026-09-28-h001-network-recovered-fact-budget).
+
+## 2026-09-28 — DeepSeek transport diagnostics, connection still blocked
+
+Preserved allowlisted transport cause codes in the existing gateway observer record and separated response-body I/O from JSON parsing. A real keyless reset now survives the production Semantic→Gateway→observer path as NETWORK / TRANSPORT / ECONNRESET. No schema, semantic, retry, provider, dependency or proxy setting changed. Local verification passed; current network failure remains open rather than being relabelled as fixed. [Evidence](TEST-LOG.md#test-2026-09-28-deepseek-transport-diagnostics).
+
+## 2026-09-28 — User-authorized TUN follow-up Live
+
+Repeated H001 once after the user reported the missing TUN setup. Google named-place requests still failed before candidate discovery; a single keyless Node host check independently returned UND_ERR_CONNECT_TIMEOUT. Preserved both runs and the repeated-failure control finding, without changing code or network settings. Next verification must establish the actual Node transport path before another full run. [Evidence](TEST-LOG.md#test-2026-09-28-h001-tun-rerun).
+
+## 2026-09-28 — Bounded H001 Live blocked before browser
+
+The user-authorized 300-second/50-call run reached no candidate: repeated Google named-place transport failures left SEARCH_RESTAURANTS legal and END_READ unavailable until cancellation. Independent review distinguishes the unrecorded low-level network cause from the confirmed repeated-failure control gap. No implementation, semantic, prompt, retry policy or budget changed; no second run was launched. [Evidence and minimal next slice](TEST-LOG.md#test-2026-09-28-h001-after-readback-live).
+
+## 2026-09-28 — Current-source selected-value readback verified
+
+One newly authorized read-only probe verified a real Tokyo time transition from 19:00 to 19:30 with the independently reviewed candidate unchanged. Raw value-container DOM, trusted option click and production completion agree despite the empty input and collapsed menu. Two model calls completed in 14,579ms; no production changes, repeated suites, H001, commit or push. [Evidence and remaining scope](TEST-LOG.md#test-2026-09-28-tokyo-readback-live-pass).
+
+## 2026-09-28 — Browser proxy selected-value offline candidate
+
+The September 28 Tokyo Live recorded one trusted click on the 19:00 option, but the readonly Time input kept an empty value and Executor could not confirm selection. Earlier saved TableCheck HTML in `browser-final-2026-09-16/registry-combobox-probe.json` and `browser-tabelog-repair-2026-09-16/tablecheck-region.json` shows an explicit `Value Container` containing one `singleValue` display and the focus input. The September 28 artifact records only their local text relationship, so source compatibility remains unverified.
+
+The shared Registry now exposes that narrowly bound display as the current combobox value and carries the actual combobox node identity through its existing `stableKey`. Executor compares the post-action value on that same node; a collapsed menu need not retain `aria-controls`, while option ownership before action still requires the explicit expanded combobox/listbox relation. No site name, React Select numeric ID, prompt, semantic, fact, identity, Gold, inventory rule, retry, or budget changed. The existing browser regression and TableCheck Adapter fixture were strengthened in place; this is an offline candidate, not a closed Live result. [Verification](TEST-LOG.md#test-2026-09-28-browser-proxy-selected-value-offline).
+
+Root independent review accepted the final hashed offline candidate after a separate 5/5 targeted real local Chromium run and a network-blocked replay of the historical raw value-container fragment. Distinct values were correctly bound to their empty inputs, and the actual Adapter paths consumed the selected values. Historical source support, synthetic transitions and current Live remain separate claims; no additional external run or commit/push occurred. [Independent evidence](../../.eval-artifacts/browser-readback-review-2026-09-28/REVIEW.md).
+
+## 2026-09-28 — One authorized final-binding Live probe
+
+Reused the bounded public-control probe with an actual option-click trace to address the previous evidence gap. The final production candidate clicked the observed 19:00 option, but selected-value confirmation still failed for the empty focus input with adjacent display text. The page already displayed 19:00 initially, so this is target-click evidence, not a changed-value transition or proof of the historical cause. No production patch or new testing framework was introduced. One run consumed the authorized six-call allocation; H001 remains gated on reliable readback. [Run, attribution and limitations](TEST-LOG.md#test-2026-09-28-tokyo-final-binding-live).
+
+## 2026-09-26 — Minimal frontloaded Test/Eval verification
+
+User clarified that avoiding excessive defensive testing and Eval is a permanent constraint. Test now owns minimum sufficient investment and stopping rules: challenge only consequential current assumptions before implementation, reuse existing coverage, choose the earliest adequate verification layer, and stop when evidence is sufficient. Controlled mutations are targeted tools when assertion effectiveness is in doubt, not a per-test obligation. Eval reuses existing oracles/artifacts and separates actual effect, safe handling and completion without a new score or reporting framework; Planning/Post-change reference those rules.
+
+Three existing browser behaviors were strengthened in place, with no added test cases or production changes: native selection records expose an earlier wrong choice even if the final value is correct; dynamic custom selection checks actual page effects independently of Registry values; asynchronous confirmation uses an explicit fixture release instead of a timer, and inventory readiness no longer supplies selected-value confirmation on the executor's behalf. One isolated executor fault proves the previous async test missed this omission and the strengthened test detects it. Existing evaluator controls are reused. See [verification record](TEST-LOG.md#test-2026-09-26-minimal-frontloaded-verification).
+
+## 2026-09-26 — Promote normal stale-target recovery into the existing regression
+
+The coverage audit found legal DOM replacement recovery had only an independent temporary probe, while committed-path fixtures stopped at rejection/human help. Extended the existing changed-option parameter group with the successful replacement continuation, preserving the illegal-role and submit replacement controls and a three-call ceiling. An isolated stale-branch mutation causes the new completion assertion to fail; the normal candidate passes all three controls. No production or Skill contract change. The audit records why the existing Test requirements were not fully translated into browser timing scenarios and maps formal coverage versus unresolved Live gaps in the [independent report](BROWSER-GENERIC-INDEPENDENT-REVIEW-2026-09-26.md#总纲落实与正式回归核对).
+
+## 2026-09-26 — Browser independent review and bounded real validation
+
+Independent review returned and verified persistent selection confirmation, cross-field pending overwrite, duplicate button-combobox ownership and DOM-property readback defects. Bounded real-model controls passed, but current-source probes did not. Tokyo's new trace distinguishes a correct model 19:00 proposal from a page announcing 17:30; an independent real local Chromium control then proved mutable ordinal locators can change actual target during model latency. This shared target-identity defect is returned to the same implementation task. Do not attribute Tokyo to property-only extraction or claim Live success. Upstream semantic/identity/Gold remain frozen, all external probe allotments are consumed and H001 is not started without its mechanism prerequisite. [Independent report](BROWSER-GENERIC-INDEPENDENT-REVIEW-2026-09-26.md).
+
+The dynamic-target correction now pins observed ElementHandles and checks action-relevant semantics/permission fields before acting; style-only changes are not rejected. Native select reuses the existing stableKey for actual-node identity across observations, without a second public identity field or compatibility fallback. A stale node triggers a fresh observation in the existing bounded model loop. Independent local insertion, permission-change, selected-value confirmation and replacement-recovery controls pass, as do final code gates (532 default / 41 Chromium). No further external model or Live was run after this final correction; source proxy-value binding and real delivery remain open.
+
+## 2026-09-26 — Browser A/B offline implementation candidate
+
+A: Historical H001 navigation interruption and the executor's earlier session reuse were traced to runtime `page.goto` failure arriving before the executor deadline. The shared executor now detaches the failed session synchronously, closes it independently, removes its old abort listener and opens a fresh session for later legal work. Delayed cleanup cannot block cancellation, reset budgets or finish a newer candidate's lifecycle. Both Local and Cloudflare session implementations use the same executor rule.
+
+B: Native time select exposed a visible 7:00 PM label with an opaque timestamp value, while the old action wire supported time only as a custom option click. `browser_read_action@4` and Browser Prompt@5 replace native `SELECT_AUTHORITATIVE` and custom option `CLICK_AUTHORITATIVE` with `CHOOSE_OPTION` on a current observed option. The registry binds custom options only through an explicit expanded combobox/listbox relationship; the executor validates label against the Router request, preserves selected value confirmation across later observations and rejects another option while the previous selection is unconfirmed. The generic Skill owns selection instructions; TableCheck Skill retains source facts. No upstream semantic, business Agent, identity or Grounding rule changed. This is an offline implementation candidate pending independent review and bounded model/Live validation.
+
+Independent review added a standard native button combobox variant. The control was duplicated in BUTTON and INPUT groups, so the option correctly failed owner binding but a normal query could not advance. The INPUT selector now excludes native buttons; the explicit parent relation remains mandatory. A new existing Hybrid composition case drives the new action through the real `LiveBrowserAvailability` and TableCheck Adapter to grounded availability evidence and a presented result, without injecting State or source evidence. The obsolete generic option-click TIME branch and outdated combobox guidance were removed.
+
+The bounded real-source probe then exposed a separate custom-input readback gap: an already-supported readonly INPUT combobox is classified as BUTTON for safe opening, but its current DOM `value` property was omitted from BUTTON observations when `aria-label` stayed fixed. Registry now reads that current property only for observed BUTTON-group combobox inputs. The existing custom-control production Adapter fixture uses property-only updates for party and time and verifies both selected values after operation; it failed before this change and passes afterward. No site branch, business request change or extra model call was added.
+
+## 2026-09-26 — 通用浏览器操作与会话可靠性实施计划
+
+基于授权H001 Live及后续代码/零网络控制，确认底层导航异常与Executor deadline的会话处理不一致，以及native SELECT观察、时间动作和Skill指导不一致。用户要求通用Browser Agent解法、冻结上游semantic，并指定原6-sol-medium任务实施。新增[Playbook](../BROWSER-AGENT-GENERIC-OPERATIONS-PLAYBOOK.md)，按A会话隔离、B统一选项选择两个可运行切片推进；复用既有控件/执行/验证机制，不增加跨业务DSL、兼容层或多级重试。计划与派工不代表实现通过。主任务保留独立验收职责，实际结果后续追加。
+
+## 2026-09-24 D1–D3 offline continuation
+
+D1 reviewed the H002 Choryumon Prompt@8 false CONFLICT and the rolled-back Prompt@9 false SUPPORTED. Prompt@10 is an unaccepted working-tree candidate: negative category conflict requires positive source identification with the criterion's qualifiers; support requires explicit source denial; a different primary cuisine remains UNKNOWN. The existing HIGH same-source grounded-entity exception stays intact. Six fixed exposed controls and a bounded model-only runner retain raw outcome, scope, citations, converted claims and final eligibility separately; no model call has been made. D2 strengthened the existing Hybrid composition with the actual plural HARD wording and non-primary Google hot-pot type; no new matcher or search path was added. D3 changed only Agent guidance (Prompt@18) and added a production-composition path in which fresh request-bound stock is followed by missing facts and three presented results. The scripted model proves this legal route, not model-choice quality. Semantic, Gold, global run budgets, and source adapters were not changed; complete Live acceptance remains open.
+
+## 2026-09-24 Independent Playbook review corrections
+
+Returned four concrete counterexamples to the original implementation task and reviewed the fixes: bound ongoing reads at the delivery reserve and revalidate after decisions; recognize Japanese reservation forms; require current same-outlet request-bound stock instead of combining fresh controls with old inventory; record/check total model starts in Evaluator@21. A proposed synthetic result-attribute production path was rejected and removed. A local asynchronous Chromium control uses the existing bounded WAIT. No new Live, paid model, booking, commit or push. The separate H003 work remains intact. [Independent review and remaining gates](LIVE-PLAYBOOK-INDEPENDENT-REVIEW-2026-09-24.md).
 
 ## 2026-09-24 TableCheck source-owned shops entrance
 
@@ -17,9 +222,17 @@ The C1f Adapter attempt stopped at the guide-to-booking entrance. A current LAVA
 
 The H001 Playbook audit found that the diagnostic evaluator read only legacy `limits`, while current Hybrid Live artifacts write `runCeilings`. Its resource dimension could therefore report satisfaction with no recognized ceiling. Evaluator/rubric@20 maps current elapsed, Agent-decision and browser-model usage to the corresponding run ceilings; missing required limits remain unassessed and overages fail. Legacy `limits` remains a retrospective input. The original H001 result and @19 sidecar are immutable; a new @20 sidecar reports the observed 34 ms deadline overage. This changes evaluation, not source execution or the accepted result contract.
 
+## 2026-09-24 H003 native TableCheck contiguous retry
+
+Read-only connectivity checks showed the earlier local search connection error was not stable; no production browser code change was justified. The gitignored diagnostic's source sublimits were corrected to the existing 60-second candidate and 30-second provider caps. One contiguous search-to-check retry then carried two geographically admitted, source-identified TableCheck candidates into the existing provider adapter. Both independently reopened their source guide and reached HIGH exact-phone continuity, but date/10-person/time controls did not yield a complete request-bound result before source timeout. Total 76,797 ms and ten browser-model calls produced zero offers. This is an adapter-level diagnostic, not full Router/Runtime delivery or a validated architecture benefit. [Full sequence and limits](H003-TABLECHECK-NATIVE-LOOPS-2026-09-24.md#follow-up-one-contiguous-retry-after-browser-connectivity-check).
+
 ## 2026-09-24 E1 default first-batch delivery reserve
 
 The H001 exposed read had two eligible restaurants but no presentation before its deadline. ADR-0031 narrows ADR-0028 only for the default first batch: with 45 seconds left in a long read run, a code-recorded window makes the current supported short batch presentable and stops new reads. State, Domain Validator, Agent Context, Decision Prompt@17 and the Live Runner's absolute deadline are wired to the same condition. The controlled availability test executes presentation through Coordinator, Router and Reducer with `met:false`, preserving explicit-count and stale-evidence rejection. The one-call fixed-source real-model probe was blocked by automatic approval before any request, so model choice and H001 final delivery remain unverified. [E1 record](H001-DELIVERY-WINDOW-2026-09-24.md).
+
+## 2026-09-24 H003 TableCheck native discovery and availability experiment
+
+Kept the H003 evaluation coordinate, exact 3 km gate and original 10-person Friday after-work request. A TableCheck-only region search without a known restaurant name exposed five traceable guide pages; two guide-owned coordinates passed 3 km. No Google restaurant matching was used. The contiguous search-to-availability composition could not reach source navigation because the local browser path returned `ERR_CONNECTION_CLOSED` twice and the existing remote path failed session creation. No production adapter, search strategy, Gold or evaluation contract was changed; the [stage record](H003-TABLECHECK-NATIVE-LOOPS-2026-09-24.md) preserves the limited positive discovery result and the unmeasured Loop 2 gate.
 
 ## 2026-09-24 LAVAROCK C1 live-control request binding
 
@@ -2637,3 +2850,12 @@ Integrated Terra's final groundedEntity/category clarification and second-turn t
 ## 2026-09-24 Test/Eval Skill structure
 
 Reorganized the four execution skills without changing product contracts, source fixtures, Gold, ADRs or code. Test now owns contract/failed-mechanism coverage, verification method, assertion effectiveness and fault closure; Eval owns independent quality oracles, evidence, scoring units/denominators, comparability, contamination and frozen thresholds. Planning and Post-change Verify now only compose and sign off those rules. Archived the full prior Eval Skill snapshot with a migration map, and added a paper review independently accepted after corrections for multi-candidate availability, H005 clocks and future booking recovery. The review explicitly keeps rolling `right now` behavior and real provider recovery unimplemented.
+## 2026-09-29 H001 native tail checkpoint and H003 scope correction
+
+The current H001 Playbook remains stages 1/2, offline before independent review and Live. This checkpoint connects source-native ID/detail pointers to the existing TableCheck/Tabelog availability tail, requires page-owned name and complete-address continuity before HIGH, removes same-page phone as identity proof, and routes each native candidate only to its own platform. The existing Google candidate path remains intact because formal native discovery, location grounding, source facts and Router/Runtime composition are not yet implemented. No new generic entity merger or source-selection policy was added. The three required composition scenarios and planned model command are specified in [stage-2 preflight](H001-NATIVE-STAGE2-PREFLIGHT-2026-09-29.md); no fixed-source real model or H001 Live ran.
+
+An older H003 Loop 2 request was incorrectly treated as active and produced one additional real TableCheck read before the main-task scope correction arrived. Its 77,685 ms and 11 model calls are retained in [scope deviation](H003-TABLECHECK-NATIVE-LOOP2-SCOPE-DEVIATION-2026-09-29.md), excluded from H001 acceptance. No further H003 work or Live followed.
+
+## 2026-09-30 Native source read path checkpoint
+
+Completed the bounded native discovery-to-read composition and its source-owned outlet continuity checks. The later H001 Google-only 10808 Live read reached a Tabelog candidate but produced no request-bound inventory or qualified result; the H003 TableCheck control retry also remained UNKNOWN. Browser Case Slice offline repairs addressed disabled-control observation and post-action budget usage without treating historical Live failures as successes. A separately authorized Teppen page read showed the September 30 calendar day closed for online selection; the Adapter now retains this precise date restriction as UNKNOWN, without asserting 19:00 stock. Current status, per-run timing, limitations and independent Eval are recorded in [STATUS](../STATUS.md) and the dated H001/H003/browser reports. No booking write occurred.

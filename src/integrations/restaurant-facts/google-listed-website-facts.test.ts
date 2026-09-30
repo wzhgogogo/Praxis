@@ -301,3 +301,30 @@ test("multilingual website facts retain cancellation and complete course cards a
     } else { assert.equal(read.evidence.length, 0); assert.equal(read.factChecks['cafe-a']?.status, "UNKNOWN"); }
   }
 });
+
+test("a telephone-link-bound page hands source statements off once without claiming the criterion", async () => {
+  // Observed 2026-09-28: Sushiki exposes this phone only in a tel link;
+  // Matsue's dinner page uses tel://. Neither source needs an English name.
+  for (const control of [
+    { links: '<a href="tel:03-6455-3030">電話する</a>', bound: true },
+    { links: '<a href="tel://03-6455-3030">電話する</a>', bound: true },
+    { links: '<a href="tel:03-6455-9999">別店舗</a>', bound: false },
+    { links: '<a href="tel:03-6455-3030">店舗 A</a><a href="tel:03-6455-9999">店舗 B</a>', bound: false },
+  ]) {
+    const input: RestaurantCandidateFactRequest = {
+      ...request,
+      candidates: [{ ...request.candidates[0]!, restaurant: { ...request.candidates[0]!.restaurant, sourceIds: { googleWebsiteUri: "https://cafe.example/about", phone: "03-6455-3030" } } }],
+      intent: { ...request.intent, target: { goal: "AVAILABILITY", query: "omakase" }, criteria: [{ text: "omakase", polarity: "POSITIVE", strength: "HARD" }] },
+    };
+    let decisions = 0;
+    const read = await new GoogleListedWebsiteFactRead(
+      runtime(control.links, "おまかせコース\n季節の旬の食材を楽しむコースです。"),
+      () => "2026-09-28T00:00:00.000Z",
+      { decide: async () => { decisions++; return { type: "COMPLETE", reason: "Relevant public menu statements are ready for fact interpretation." }; } },
+    ).inspectFacts(input, new AbortController().signal);
+    assert.equal(decisions, 1);
+    assert.equal(read.evidence.find(e => e.kind === "ENTITY_MATCH")?.entityMatch?.confidence, control.bound ? "HIGH" : undefined);
+    assert.equal(read.sourceDocuments?.some(d => d.statements.some(s => s.text === "おまかせコース")), control.bound);
+    assert.equal(read.evidence.some(e => e.claims.verifiedHardCriteria), false);
+  }
+});

@@ -5,16 +5,18 @@ description: 为Praxis模型和端到端质量定义独立oracle、证据、评�
 
 # Praxis Eval
 
-- Document revision: 1.1
-- Last updated: 2026-09-24
+- Document revision: 1.2
+- Last updated: 2026-09-26
 
 Eval负责质量维度、证据/评分规格、比较方法和验收门槛；不替代[Test](../test/SKILL.md)的功能覆盖与故障关闭。产品语义和安全边界以Accepted ADR、Domain/Architecture为准；H001–H005当前执行输入、自动/人工边界和命令以[当前只读验收契约](../../../src/eval/restaurant/agent-loop/cases/README.md)为准。
 
+评价投入遵循[Test的最小充分验证](../test/SKILL.md#验证投入与停止)。先复用现有oracle、评分器和artifact，只评价会影响当前取舍的维度；缺口能靠已有产物补评或局部核验解决，就不重跑模型或整单。普通确定性修改不自动触发模型Eval，也不为未知未来风险新增指标、评分器或全量矩阵。
+
 ## 评价对象与证据状态
 
-每次评价先声明对象、代码/配置快照、数据集/Gold版本、Evaluator版本、输入/位置/参考时间、预算和执行模式。执行artifact、evaluation和acceptance是三个不可互相覆盖的记录：执行说明发生了什么，evaluation说明已核验的维度，acceptance按预先固定门槛作出结论。
+每次评价先声明对象、代码/配置快照、数据集/Gold版本、Evaluator版本、输入/位置/参考时间、预算和执行模式；沿用现有切片/运行记录，局部检查不为形式另建报告或Schema。执行artifact、evaluation和acceptance是三个不可互相覆盖的记录：执行说明发生了什么，evaluation说明已核验的维度，acceptance按预先固定门槛作出结论。
 
-材料只可标为`current executable`、`frozen regression`、`superseded retrospective`或`draft / not integrated`。每份报告还记录`cohort`、`contaminationStatus`、`baselineEligible`、dataset hash、git commit、prompt/schema/scorer版本、调用数、延迟、Token和成本状态。开发集、Fixture、Mock、Replay、Live Read-only、Controlled Live-write与Clean Holdout不能互相替代或混报。
+材料只可标为`current executable`、`frozen regression`、`superseded retrospective`或`draft / not integrated`。模型、端到端与基线比较报告还记录`cohort`、`contaminationStatus`、`baselineEligible`、dataset hash、git commit、prompt/schema/scorer版本、调用数、延迟、Token和成本状态；局部确定性核验引用已有版本与记录，不为不适用字段补一套元数据。开发集、Fixture、Mock、Replay、Live Read-only、Controlled Live-write与Clean Holdout不能互相替代或混报。
 
 历史阶段叙述、旧版本运行状态和已退出的规程见[迁移映射](../../superseded/skills/TEST-EVAL-SKILL-PRE-RESTRUCTURE-2026-09-24.md)及历史日志；它们不改变当前合同或能力判断。
 
@@ -32,6 +34,8 @@ Eval负责质量维度、证据/评分规格、比较方法和验收门槛；不
 | 用户目标完成 | 用户承诺和被支持的结果 | 完整结果、完成类别及上述支持性结论 | 每个用户目标；安全处理正确不自动等于完成 |
 
 对执行效率相关切片，除资源合规外，选择能够关联有效产出与投入的指标，例如首个合格结果耗时、取得可信结论的比例或重复无进展消耗。指标按当前能力选择，不要求全部实现；验收阈值在对应合同或本轮计划中预先约定，诊断指标不临时升级为通过门槛。
+
+对操作与恢复切片，分别判断动作实际效果、处理是否安全、用户目标是否在预算内完成；所需证据可来自同一次运行。提前固定正常/恢复成功和不可恢复停止的预期，不能把所有拒绝或安全退出都算成功。只读控件值确认与库存结果、局部机制通过与整单交付分别评价，不为此新建一套总分。
 
 评价器可复用纯解析，但独立oracle的预期必须能与执行器独立变化。被测控制面、生产eligibility、Verifier verdict或成功标志都不是自身oracle：外写/Outcome评价还要将授权Proposal、Attempt与原始provider proof独立核对编号、候选/门店、时段、人数、确认状态以及冲突/缺字段。自动规则无法判断的同义、主观适用性、调查充分性或来源语义，明确标`NOT_EVALUATED`并给出人工审查输入；人工结论不得回写或伪装成自动分数。
 

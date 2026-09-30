@@ -1,4 +1,4 @@
-import type { BrowserRuntime, BrowserSession, BrowserSnapshot } from "../../../infrastructure/browser/browser-runtime.js";
+import type { BrowserControlHint, BrowserPageControl, BrowserResponseRule, BrowserRuntime, BrowserSession, BrowserSnapshot } from "../../../infrastructure/browser/browser-runtime.js";
 import { BrowserRuntimeError } from "../../../infrastructure/browser/browser-runtime-errors.js";
 import type { RestaurantCandidate } from "../../../domains/restaurant/contracts.js";
 import { inspectTableCheckEntity } from "../../../integrations/tablecheck/tablecheck-entity-resolver.js";
@@ -14,6 +14,10 @@ export interface BrowserReadProbeInput {
   timeoutMs?: number;
   expectedCandidate?: RestaurantCandidate;
   schedule?: { date: string; partySize: number };
+  /** Optional passive recorder; observes only, without adding a browser action. */
+  queryObservation?: { hints: (snapshot: BrowserSnapshot) => readonly BrowserControlHint[];
+    responses: readonly BrowserResponseRule[];
+    record: (snapshot: BrowserSnapshot, controls: readonly BrowserPageControl[]) => void | Promise<void> };
 }
 
 export function probeProvider(value: string): "TABLECHECK" | "TABELOG" {
@@ -74,12 +78,17 @@ export async function runBrowserReadProbe(runtime: BrowserRuntime, input: Browse
     const operation = (async () => {
       session = await runtime.openSession({ signal: controller.signal });
       if (controller.signal.aborted) { await session.close(); throw new BrowserRuntimeError("BROWSER_TIMEOUT", "Browser probe deadline exceeded"); }
+      if (input.queryObservation) await session.captureResponses?.(input.queryObservation.responses);
       await session.navigate(input.url, { timeoutMs });
       let page = await session.snapshot();
+      if (input.queryObservation) await input.queryObservation.record(page, await session.observeControls?.(input.queryObservation.hints(page)) ?? []);
       let observation = inspectProbePage(input, page);
       if (observation.pageState === "CONTENT_OBSERVED" && input.readySelector) {
-        await session.waitFor(input.readySelector, timeoutMs);
+        let waitError: unknown;
+        try { await session.waitFor(input.readySelector, timeoutMs); } catch (error) { waitError = error; }
         page = await session.snapshot();
+        if (input.queryObservation) await input.queryObservation.record(page, await session.observeControls?.(input.queryObservation.hints(page)) ?? []);
+        if (waitError) throw waitError;
         observation = inspectProbePage(input, page);
       }
       return { ...observation, browser: session.metadata, readyMarker: input.readySelector && observation.pageState === "CONTENT_OBSERVED" ? "OBSERVED" : "NOT_OBSERVED_OR_NOT_REQUESTED" };

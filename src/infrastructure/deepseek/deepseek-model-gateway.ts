@@ -40,6 +40,22 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
+// Retain only known transport codes, never exception messages, URLs or socket data.
+function transportDiagnostic(error: unknown): ModelProviderErrorDiagnostic {
+  const codes = new Set([
+    "ECONNRESET", "ECONNREFUSED", "ETIMEDOUT", "ENOTFOUND", "EAI_AGAIN",
+    "UND_ERR_CONNECT_TIMEOUT", "UND_ERR_SOCKET", "UND_ERR_HEADERS_TIMEOUT", "UND_ERR_BODY_TIMEOUT",
+    "CERT_HAS_EXPIRED", "DEPTH_ZERO_SELF_SIGNED_CERT", "UNABLE_TO_VERIFY_LEAF_SIGNATURE",
+    "ERR_TLS_CERT_ALTNAME_INVALID",
+  ]);
+  for (let depth = 0; depth < 4 && isRecord(error); depth++, error = error.cause) {
+    if (typeof error.code === "string" && codes.has(error.code)) {
+      return { type: "TRANSPORT", code: error.code };
+    }
+  }
+  return { type: "TRANSPORT" };
+}
+
 function nonBlankEnvironmentValue(
   environment: NodeJS.ProcessEnv,
   key: "DEEPSEEK_API_KEY" | "DEEPSEEK_MODEL",
@@ -336,8 +352,10 @@ export class DeepSeekModelGateway implements ModelGateway {
       }
 
       let body: unknown;
+      // Reading can fail at the transport layer after successful response headers.
+      const text = await response.text();
       try {
-        body = await response.json();
+        body = JSON.parse(text);
       } catch {
         throw new ModelGatewayError(
           "Model provider returned a non-JSON response",
@@ -401,7 +419,10 @@ export class DeepSeekModelGateway implements ModelGateway {
         true,
       );
     }
-    return new ModelGatewayError("DeepSeek completion request failed at the network layer", "NETWORK", true);
+    return new ModelGatewayError(
+      "DeepSeek completion request failed at the network layer", "NETWORK", true,
+      undefined, undefined, transportDiagnostic(caught),
+    );
   }
 
   private async recordFailure(

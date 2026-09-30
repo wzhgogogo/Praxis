@@ -21,6 +21,7 @@ import { browserRuntimeFromEnvironment } from "../infrastructure/browser/browser
 import { type BrowserExecutionBudget } from "../infrastructure/browser/browser-task-executor.js";
 import { GooglePlacesClient } from "../integrations/google/google-places-client.js";
 import { GooglePlacesRestaurantSearch } from "../integrations/google/google-places-restaurant-search.js";
+import { composeNativeRestaurantRead } from "../integrations/restaurant-search/native-read-composition.js";
 import { LiveBrowserAvailability } from "../integrations/restaurant-availability/live-browser-availability.js";
 import { composeLiveRestaurantFactRead } from "../integrations/restaurant-facts/live-restaurant-facts.js";
 import { applyPostgresMigrations } from "../infrastructure/postgres/migrations.js";
@@ -380,18 +381,24 @@ async function start(): Promise<void> {
   await applyPostgresMigrations(database);
   const providerMode = localRestaurantProviderMode();
   const fixtureMode = providerMode === "FIXTURE";
+  const fixtureSearch = fixtureMode ? new FixtureRestaurantSearch() : undefined;
   if (!fixtureMode) assertLocalLiveReadEnvironment(process.env);
   const model = fixtureMode ? new FixtureModelGateway() : DeepSeekModelGateway.fromEnvironment();
-  const restaurantSearch = fixtureMode
-    ? new FixtureRestaurantSearch()
-    : new GooglePlacesRestaurantSearch(
-        new GooglePlacesClient({ apiKey: process.env.GOOGLE_MAPS_API_KEY ?? "", timeoutMs: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxStructuredReadMs }),
+  const googleSearch = fixtureMode ? undefined : new GooglePlacesRestaurantSearch(
+        new GooglePlacesClient({
+          apiKey: process.env.GOOGLE_MAPS_API_KEY ?? "",
+          proxyServer: process.env.PRAXIS_GOOGLE_API_PROXY_SERVER,
+          timeoutMs: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxStructuredReadMs,
+        }),
         undefined,
         10,
         { maxRequests: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxGoogleRequests },
       );
   const browserRuntime = fixtureMode ? undefined : browserRuntimeFromEnvironment();
   const browserBudget: BrowserExecutionBudget | undefined = fixtureMode ? undefined : { totalModelCalls: 0 };
+  const nativeRead = !fixtureMode && process.env.PRAXIS_RESTAURANT_NATIVE_DISCOVERY === "1"
+    ? composeNativeRestaurantRead(googleSearch!, browserRuntime!, model, browserBudget) : undefined;
+  const restaurantSearch = fixtureSearch ?? nativeRead?.search ?? googleSearch!;
   const restaurantAvailability = fixtureMode
     ? new FixtureRestaurantSearch()
     : new LiveBrowserAvailability(browserRuntime!, model, {
@@ -413,7 +420,7 @@ async function start(): Promise<void> {
     agentDecision: new RestaurantAgentDecision(model),
     restaurantSearch,
     restaurantAvailability,
-    restaurantFacts: fixtureMode ? restaurantSearch : composeLiveRestaurantFactRead(restaurantSearch, browserRuntime!, model, browserBudget),
+    restaurantFacts: fixtureSearch ?? nativeRead?.facts ?? composeLiveRestaurantFactRead(googleSearch!, browserRuntime!, model, browserBudget),
     workspaceMode: providerMode,
     ...(fixtureMode ? {} : {
       liveReadLimits: LIVE_READ_DEBUG_INVESTIGATION_BUDGET,

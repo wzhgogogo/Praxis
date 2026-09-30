@@ -1,6 +1,6 @@
 # ADR-0015: Supported-source search evidence
 
-- Status: Accepted
+- Status: Accepted; Google候选前提及原生路径来源顺序 superseded in part by ADR-0032
 - Document revision: 1.0
 - Last updated: 2026-09-05
 - Source of truth for: 只读结果的跨来源门店身份与空位证据范围

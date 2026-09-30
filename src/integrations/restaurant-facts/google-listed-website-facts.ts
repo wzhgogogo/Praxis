@@ -133,10 +133,11 @@ function candidateStructuredObservation(
  * public phone on the Google-listed origin, then accepts source-labelled facts.
  * The browser model may navigate observed pages but never supplies these facts.
  */
-function exactVisiblePhone(candidate: RestaurantCandidate, text: string): boolean {
+function exactSourcePhone(candidate: RestaurantCandidate, text: string, html: string): boolean {
   const normalize = (value: string) => value.replace(/[^0-9]/g, "").replace(/^81/, "0");
   const expected = normalize(candidate.restaurant.sourceIds.phone ?? "");
-  const phones = new Set((text.match(/(?:\+81[- ]?|0)\d{1,4}[-ー ]\d{1,4}[-ー ]\d{3,4}\b/g) ?? []).map(normalize));
+  const telephoneLinks = [...html.matchAll(/<a\b[^>]*\bhref=["']tel:(?:\/\/)?([+0-9()ー\s-]+)["'][^>]*>/giu)].map(match => match[1]!);
+  const phones = new Set([...(text.match(/(?:\+81[- ]?|0)\d{1,4}[-ー ]\d{1,4}[-ー ]\d{3,4}\b/g) ?? []), ...telephoneLinks].map(normalize));
   return expected.length >= 10 && phones.size === 1 && phones.has(expected);
 }
 
@@ -151,7 +152,7 @@ function candidateVisibleObservation(
   const normalizedText = normalized(text);
   const candidateName = normalized(candidate.restaurant.outletName);
   const candidateAddress = normalized(candidate.restaurant.address);
-  const matchedPhone = exactVisiblePhone(candidate, visibleText);
+  const matchedPhone = exactSourcePhone(candidate, visibleText, html);
   if (!matchedPhone && (!candidateName || !candidateAddress || !normalizedText.includes(candidateName) || !addressMatches(candidate.restaurant.address, text))) return undefined;
   const lines = visibleText.split(/\r?\n/).map((line) => line.replace(/\s+/gu, " ").trim()).filter(Boolean);
   const restaurantTypeFacts = [
@@ -275,6 +276,7 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
   async inspectFacts(request: RestaurantCandidateFactRequest, signal: AbortSignal): Promise<RestaurantCandidateFactRead> {
     const startedAt = Date.now();
     const evidence: RestaurantCandidateFactRead["evidence"] = [];
+    const sourceDocuments: NonNullable<RestaurantCandidateFactRead["sourceDocuments"]> = [];
     const factChecks: RestaurantCandidateFactRead["factChecks"] = {};
     for (const candidate of request.candidates) {
       const listed = safeWebsiteUrl(candidate.restaurant.sourceIds.googleWebsiteUri);
@@ -325,10 +327,12 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
             ...(request.intent.timeWindow ? { timeWindow: request.intent.timeWindow } : {}),
             hardCriteria: request.intent.criteria.map(criterion => criterion.text),
           },
-          objective: `Find public candidate-bound type, opening-hours and requested commercial facts (${requestedCommercialFields(request.intent).join(", ") || "none requested"}); read observed public disclosures or course/menu links when needed. Earlier verified pages are retained with their own source. Never log in or submit.`,
+          objective: `Read source-authored public statements relevant to the goal criteria and requested commercial facts (${requestedCommercialFields(request.intent).join(", ") || "none requested"}). Opening hours are required only for a recommendation with a visit window. Once relevant text is visible, use COMPLETE to hand it to source-fact interpretation, even when deterministic extraction has not recognized its wording; COMPLETE never asserts that a criterion is satisfied. If the page only links to relevant content, follow an observed public link. Do not revisit already-read pages to make the parser accept them. Earlier candidate-bound pages are retained with their own source. Never log in or submit.`,
           completion: page => {
             remember(page);
-            return { complete: complete(), reason: "The observed pages have not yet supplied all requested candidate-bound facts. Read an observed relevant public link if available." };
+            return { complete: complete(), reason: pages.size
+              ? "Candidate-bound source text is retained. Use COMPLETE when relevant statements have been read so fact interpretation can evaluate them; navigate only if relevant content is still missing."
+              : "The current page has no confirmed candidate identity. Read an observed outlet-specific public link if available; otherwise hand off the limitation." };
           },
         });
         remember(generic.snapshot);
@@ -346,6 +350,21 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
         ...item, artifactRef: { kind: "DOM_EXCERPT" as const, reference: `website-visible:${websiteFactDocumentFingerprint(page.text)}` },
       })));
       evidence.push(...candidateEvidence);
+      // Keep source statements transient until the judgment selects citations.
+      // A document is bound only by its own observed identity, not its origin alone.
+      let remainingText = 6_000;
+      for (const page of pages.values()) {
+        const identity = candidateEvidence.find(item => item.kind === "ENTITY_MATCH" && item.sourceUrl === page.observation.sourceUrl);
+        if (!identity || remainingText <= 0) continue;
+        const id = `website-document:${websiteFactDocumentFingerprint(`${identity.evidenceId}\n${page.text}`)}`;
+        const statements: Array<{ id: string; text: string }> = [];
+        for (const line of page.text.split(/\r?\n/u).map(line => line.replace(/\s+/gu, " ").trim()).filter(Boolean)) {
+          if (line.length > remainingText) break;
+          statements.push({ id: String(statements.length), text: line });
+          remainingText -= line.length;
+        }
+        if (statements.length) sourceDocuments.push({ id, candidateId: candidate.restaurant.id, identityEvidenceId: identity.evidenceId, statements });
+      }
       factChecks[candidate.restaurant.id] = {
         status: complete() ? "COMPLETED" : "UNKNOWN", checkedAt,
         evidenceIds: candidateEvidence.map(item => item.evidenceId),
@@ -355,6 +374,7 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
     return {
       evidence,
       factChecks,
+      sourceDocuments,
       metadata: { provider: "RESTAURANT_WEBSITE", route: this.executionRoute, latencyMs: Date.now() - startedAt },
     };
   }

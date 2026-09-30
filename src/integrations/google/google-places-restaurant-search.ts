@@ -202,7 +202,7 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
    * capability as discovery.  Its coordinates are an observed source fact,
    * not an address-string alias or a hidden test coordinate.
    */
-  private async resolveNamedNearbyLocation(
+  async resolveNamedNearbyLocation(
     request: RestaurantSearchRequest,
     signal: AbortSignal,
   ): Promise<{ location?: { latitude: number; longitude: number; radiusMeters: number; label: string; areaMatchBasis: "NAMED_PLACE_RADIUS" }; evidence?: import("../../domains/restaurant/contracts.js").RestaurantReadEvidence }> {

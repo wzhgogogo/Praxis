@@ -342,7 +342,7 @@ function tableCheckGuideQuery(snapshot: BrowserSnapshot): { html: string; date: 
 function isReservationFormPage(snapshot: BrowserSnapshot): boolean {
   try {
     const url = new URL(snapshot.url);
-    return TABLECHECK_URL.test(snapshot.url) && /^\/(?:en\/)?shops\/[^/]+\/reserve\/?$/.test(url.pathname);
+    return TABLECHECK_URL.test(snapshot.url) && /^\/(?:(?:en|ja)\/)?shops\/[^/]+\/reserve\/?$/.test(url.pathname);
   } catch { return false; }
 }
 
@@ -403,6 +403,17 @@ export function parseTableCheckAvailabilitySlots(
   request?: { date: string; partySize: number; timeWindow?: { earliest: string; latest: string } },
 ): TableCheckSlotParse {
   const guide = tableCheckGuideQuery(snapshot);
+  if (request && isReservationFormPage(snapshot)) {
+    // Live form controls confirm what is selected; an older result container
+    // can remain on the page until the new request finishes. Only the
+    // existing same-outlet slot-link format binds stock to this request.
+    const availableSlots = tableCheckReservationLinks(snapshot, request.date, request.partySize);
+    // A complete list containing only other mealtimes, or an empty marker for
+    // one selected mealtime, does not prove the whole requested window empty.
+    const inWindow = availableSlots.some((time) => !request.timeWindow || time >= request.timeWindow.earliest && time <= request.timeWindow.latest);
+    return { availableSlots, hasExplicitSlotUi: availableSlots.length > 0, explicitlyEmpty: false,
+      queryComplete: inWindow };
+  }
   // A message for one selected mealtime cannot prove an entire alternative-time window empty.
   if (request && guide?.date === request.date && guide.party === String(request.partySize)
     && request.timeWindow?.earliest === guide.time && request.timeWindow.latest === guide.time

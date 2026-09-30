@@ -187,6 +187,7 @@ class FixedCurrentCaseModel implements ModelGateway {
       const evidenceIds = (payload.observations ?? []).flatMap((item) => typeof item.evidenceId === "string" ? [item.evidenceId] : []);
       assert.ok(evidenceIds.length > 0, "scripted fact judgment must cite an actual source observation");
       return modelResponse(JSON.stringify({
+        sourceSelections: [],
         judgments: (this.plan.factJudgments ?? []).map((judgment) => ({ ...judgment, evidenceIds: [evidenceIds.at(-1)!] })),
       }), `fact-judgment:${this.plan.id}`);
     }
@@ -247,7 +248,7 @@ class TwoTurnStrengthUpgradeModel implements ModelGateway {
       const payload = JSON.parse(request.messages.find((message) => message.role === "user")!.content) as { observations?: Array<{ evidenceId?: string }> };
       const evidenceId = payload.observations?.find((item) => item.evidenceId)?.evidenceId;
       assert.ok(evidenceId, "new HARD judgment must cite a current source observation");
-      return modelResponse(JSON.stringify({ judgments: [{ criterion: "vegetarian restaurant", outcome: "SUPPORTED", scope: "UNKNOWN_SCOPE", evidenceIds: [evidenceId] }] }), "fact-judgment:strength-upgrade");
+      return modelResponse(JSON.stringify({ sourceSelections: [], judgments: [{ criterion: "vegetarian restaurant", outcome: "SUPPORTED", scope: "UNKNOWN_SCOPE", evidenceIds: [evidenceId] }] }), "fact-judgment:strength-upgrade");
     }
     if (request.purpose !== "restaurant_agent_decide") throw new Error(`Unprepared model purpose: ${request.purpose}`);
     const next = this.actions.shift();

@@ -11,7 +11,7 @@ import type {
 } from "./browser-runtime.js";
 import { BrowserRuntimeError } from "./browser-runtime-errors.js";
 import { PlaywrightResponseObserver } from "./playwright-response-observer.js";
-import { PlaywrightControlRegistry, waitForVisibleChange, activateObservedControl } from "./playwright-browser-controls.js";
+import { PlaywrightControlRegistry, waitForVisibleChange, activateObservedControl, observedLinkCovered } from "./playwright-browser-controls.js";
 
 export interface CloudflareBrowserRunConfig {
   accountId: string;
@@ -105,17 +105,22 @@ class CloudflareBrowserSession implements BrowserSession {
   async observeControls(hints?: readonly BrowserControlHint[]): Promise<BrowserPageControl[]> { return this.run(() => this.controls.observe(this.page, hints)); }
   async click(target: string): Promise<void> {
     await this.run(async () => {
-      const locator = this.controls.locator(target);
+      const locator = await this.controls.target(target);
       // Only BrowserTaskExecutor passes opaque `dom:` references. Existing deterministic
       // adapter code keeps its explicit, code-owned locator capability.
       if (locator) await activateObservedControl(locator);
       else await this.page.locator(target).click();
     });
   }
-  async openLink(target: string): Promise<void> {
+  async openLink(target: string, observedHref?: string): Promise<void> {
     await this.run(async () => {
-      const locator = this.controls.locator(target);
+      const locator = await this.controls.target(target);
       if (!locator) throw new Error("Observed link reference is no longer available");
+      if (observedHref && await observedLinkCovered(locator, observedHref)) {
+        this.responses.reset();
+        await this.page.goto(observedHref, { waitUntil: "domcontentloaded" });
+        return;
+      }
       const opener = this.page;
       const popup = opener.waitForEvent("popup", { timeout: 1_000 }).catch(() => undefined);
       await locator.click();
@@ -126,12 +131,16 @@ class CloudflareBrowserSession implements BrowserSession {
       await next.waitForLoadState("domcontentloaded", { timeout: 2_500 }).catch(() => undefined);
     });
   }
-  async fill(target: string, value: string): Promise<void> { await this.run(() => (this.controls.locator(target) ?? this.page.locator(target)).fill(value)); }
-  async select(target: string, value: string): Promise<string[]> { return this.run(() => (this.controls.locator(target) ?? this.page.locator(target)).selectOption(value)); }
-  async setChecked(target: string, checked: boolean): Promise<void> { await this.run(() => (this.controls.locator(target) ?? this.page.locator(target)).setChecked(checked)); }
-  async press(target: string, key: "ArrowLeft" | "ArrowRight"): Promise<void> { await this.run(() => (this.controls.locator(target) ?? this.page.locator(target)).press(key)); }
+  async fill(target: string, value: string): Promise<void> { await this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).fill(value)); }
+  async select(target: string, value: string): Promise<string[]> { return this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).selectOption(value)); }
+  async setChecked(target: string, checked: boolean): Promise<void> { await this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).setChecked(checked)); }
+  async press(target: string, key: "ArrowLeft" | "ArrowRight"): Promise<void> { await this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).press(key)); }
   async scroll(target: string, deltaY: number): Promise<void> {
-    await this.run(() => (this.controls.locator(target) ?? this.page.locator(target)).evaluate((element, delta) => (element as HTMLElement).scrollBy(0, delta), deltaY));
+    await this.run(async () => {
+      const observed = await this.controls.target(target);
+      if (observed) await observed.evaluate((element, delta) => (element as HTMLElement).scrollBy(0, delta), deltaY);
+      else await this.page.locator(target).evaluate((element, delta) => (element as HTMLElement).scrollBy(0, delta), deltaY);
+    });
   }
   async waitFor(target: string, timeoutMs?: number): Promise<void> {
     await this.run(() => this.page.locator(target).waitFor(timeoutMs === undefined ? {} : { timeout: timeoutMs }));
@@ -144,6 +153,7 @@ class CloudflareBrowserSession implements BrowserSession {
   async close(): Promise<void> {
     if (this.closed) return;
     this.closed = true;
+    await this.controls.dispose();
     await closeQuietly(this.browser);
   }
 

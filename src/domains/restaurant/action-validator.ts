@@ -3,6 +3,9 @@ import { type AvailabilityOffer, type RestaurantTaskState } from "./contracts.js
 import { completeRestaurantIntent, completeRestaurantSearchIntent } from "./intent-state.js";
 import {
   assessRestaurantRead,
+  distinctNativeResultCandidateIds,
+  nativeShortBatchDeliveryReady,
+  nativeSecondBatchSearchBlockReason,
   type RestaurantPresentationReadiness,
 } from "./read-assessment.js";
 
@@ -106,7 +109,7 @@ export function defaultBatchDeliveryCandidateIds(state: Readonly<RestaurantTaskS
     || state.intentDraft.target.requestedResultCount !== undefined
     || state.selectionSession !== undefined
     || state.refreshRequestedCandidateIds?.length || state.factRefreshRequestedCandidateIds?.length) return [];
-  const eligible = assessRestaurantRead(state, now).presentation.filter((item) => item.eligible).map((item) => item.candidateId);
+  const eligible = distinctNativeResultCandidateIds(state, assessRestaurantRead(state, now).presentation.filter((item) => item.eligible).map((item) => item.candidateId));
   return eligible.length >= 1 && eligible.length <= 2 ? eligible : [];
 }
 
@@ -139,11 +142,15 @@ export function validateRestaurantAction(
 
   if (action.type === "SEARCH_RESTAURANTS") {
     if (defaultBatchDeliveryWindowActive(state, now)) return rejected("PRESENTATION_READY", "The default batch delivery window is open; present the currently eligible results before the read deadline");
+    const nativeBlock = nativeSecondBatchSearchBlockReason(state, now);
+    if (nativeBlock) return rejected("DISCOVERY_UNAVAILABLE", nativeBlock);
     if (state.sourceReadState?.googlePlacesSearchBudget === "EXHAUSTED") {
       return rejected("DISCOVERY_UNAVAILABLE", "The local per-run Google request budget is exhausted; changing retrieval wording cannot restore it");
     }
     if (state.searchContinuation?.exhausted) {
-      return rejected("DISCOVERY_UNAVAILABLE", "The current authoritative Google discovery cursor is exhausted; changing retrieval wording cannot restart it");
+      return rejected("DISCOVERY_UNAVAILABLE", state.searchContinuation.nativeStage === "TABLECHECK_DONE"
+        ? "The two bounded native source batches have ended; changing retrieval wording cannot restart them"
+        : "The current authoritative Google discovery cursor is exhausted; changing retrieval wording cannot restart it");
     }
     const intent = requireCompleteSearchIntent(state);
     if (!intent.valid) return intent.verdict;
@@ -218,11 +225,15 @@ export function validateRestaurantAction(
     if (action.candidateIds.length === 0 || new Set(action.candidateIds).size !== action.candidateIds.length) {
       return rejected("CANDIDATE_UNKNOWN", "Presenting results requires one or more unique known candidate IDs");
     }
+    if (distinctNativeResultCandidateIds(state, action.candidateIds).length !== action.candidateIds.length) {
+      return rejected("PRESENTATION_EVIDENCE_MISSING", "Native source records with unresolved same-outlet signals cannot count as distinct restaurants");
+    }
     if (state.pendingResultBatchTarget !== undefined) {
       if (action.candidateIds.length > state.pendingResultBatchTarget) {
         return rejected("PRESENTATION_EVIDENCE_MISSING", `The current result target allows at most ${state.pendingResultBatchTarget} qualified restaurants`);
       }
-      if (action.candidateIds.length < state.pendingResultBatchTarget && !defaultBatchDeliveryWindowActive(state, now) && !resultTargetCannotBeMetWithFurtherRead(state, now)) {
+      if (action.candidateIds.length < state.pendingResultBatchTarget && !defaultBatchDeliveryWindowActive(state, now)
+        && !resultTargetCannotBeMetWithFurtherRead(state, now) && !nativeShortBatchDeliveryReady(state, now)) {
         return rejected("PRESENTATION_EVIDENCE_MISSING", `The requested next batch requires ${state.pendingResultBatchTarget} distinct qualified restaurants before it can be presented`);
       }
       if (action.candidateIds.length < state.pendingResultBatchTarget && defaultBatchDeliveryWindowActive(state, now)) {

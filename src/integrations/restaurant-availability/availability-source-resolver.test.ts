@@ -66,6 +66,23 @@ test("a legal Tabelog same-store entrance changes only source order and still st
   assert.deepEqual(result.availabilityChecks[candidate.restaurant.id]?.sourceAttempts, [{ source: "TABELOG", outcome: "UNAVAILABLE" }]);
 });
 
+test("a source-native outlet is checked only on its own platform even when the read is unknown", async () => {
+  for (const native of [
+    { tablecheck: "restaurant1", tablecheckNativeGuideUri: "https://www.tablecheck.com/en/restaurant1" },
+    { tabelog: "tokyo/A1301/123", tabelogNativeDetailUri: "https://tabelog.com/tokyo/A1301/123/" },
+  ]) {
+    const calls: string[] = [];
+    const nativeCandidate = { ...candidate, restaurant: { ...candidate.restaurant, sourceIds: native } };
+    const result = await new AvailabilitySourceResolver(
+      provider("TABLECHECK", { status: "UNKNOWN", reasonCode: "REQUEST_UNCONFIRMED" }, calls),
+      provider("TABELOG", { status: "AVAILABLE" }, calls),
+    ).check({ ...request, candidates: [nativeCandidate] }, new AbortController().signal);
+    const expected = "tablecheck" in native ? "TABLECHECK" : "TABELOG";
+    assert.deepEqual(calls, [expected]);
+    assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, expected === "TABLECHECK" ? "UNKNOWN" : "AVAILABLE");
+  }
+});
+
 test("an unrelated or malformed URL cannot reorder the default TableCheck-first source path", async () => {
   for (const googleWebsiteUri of ["https://evil.example/tabelog.com/restaurant", "not a URL"]) {
     const calls: string[] = [];

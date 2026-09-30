@@ -1,0 +1,28 @@
+# Real-source browser read after the offline repair, 2026-09-30
+
+- Status: exposed Live read-only development evidence; not a full Case result or Clean Baseline
+- Scope: one TableCheck H003 native guide and one Tabelog H001 native detail, each invoked once after the 2026-09-29 shared-browser repair. No source discovery, new geocoding, Google, cross-source matching, semantic facts, Router/Runtime presentation, booking write, retry, or source substitution.
+- Request authority: `restaurant-read-development@6` via the existing materializer; H001 uses the separately authorized 2026-09-30 19:00/2 diagnostic date, while original H001 Gold remains unchanged.
+- Limits per source: 45 seconds total, 30 seconds provider, 24 browser operations and 5 browser-model calls. Time starts before browser session/source navigation, not after obtaining the correct URL. These reads do **not** include the earlier native search/geographic discovery time; they therefore cannot measure the full native-path benefit.
+
+| Source | Request | Observed result | Actual cost |
+| --- | --- | --- | --- |
+| TableCheck `0711-ginzabistro` (historical H003 native candidate) | Oct 2, 17:30–22:00, 10 | `UNKNOWN / BROWSER_TIMEOUT`; one HIGH same-source identity evidence, zero Offer. The model opened the party control, advanced the calendar, selected Oct 2, reopened the party control, then clicked the 10-person option. The click returned, but operation 24/24 was spent there; the following wait/readback was refused with `BUDGET_EXHAUSTED / OPERATION_BUDGET_EXHAUSTED`. The selected guest value and request-bound inventory remain unconfirmed. | 23,262 ms; 5 model calls/actions; 24 browser operations. |
+| Tabelog `Sushi Teppen`, source path `en/tokyo/A1303/A130301/13308491` | Sep 30, 19:00, 2, authorized diagnostic variant | `UNKNOWN / TABELOG_VISIBLE_QUERY_CONTROLS_RESTRICTED`; one HIGH same-source identity evidence, zero Offer. The corrected source ID matched the loaded outlet detail; page-owned JSON-LD name/address were extracted. After the calendar settled, visible guest buttons including Guests 2 were disabled and no actionable exact request controls were accepted. No model action or inventory query was made. This is a control/access restriction, not proof of no tables. | 7,869 ms; 0 model calls/actions; 4 browser operations. |
+
+Combined actual runner time: **31,131 ms, 5 model calls, 28 browser operations**; two source invocations, no retries and no external write. Both were browser-only probes. The TableCheck candidate's H003 suitability beyond historical location/native identity (budget, private room and drinks) was not checked in these runs. H001 omakase HARD facts, H002 negative-condition acceptance, full presentation and independent Eval were not run because neither source produced a request-bound Offer. No claim of complete H001/H003 success or native-architecture time saving follows from these results.
+
+Git-ignored artifacts:
+
+- `.eval-artifacts/browser-case-slices/2026-09-30T01-55-00-398Z-c171c1f4-1bd0-4dc0-83fd-adb70ee0e22c.result.json`
+- `.eval-artifacts/browser-case-slices/2026-09-30T01-56-03-670Z-a28db7af-18a2-4bc9-935e-29d96c99149f.result.json`
+
+Compared with the 2026-09-29 slices, the Tabelog Runner input defect is closed for this source identity: the current artifact contains `SAME_SOURCE_OUTLET / HIGH`. The TableCheck operation-budget fix passed its local four-action Adapter Fixture but did **not** close the real H003 browser path: the model used an extra early party-open action and still exhausted the unchanged 24-operation ceiling. The smallest next investigation is offline action-order/budget diagnosis using this trace; it is not evidence to increase the budget or re-run the source automatically. The possible judgment remains: cross-Google matching cost fell, while current native-source coverage/control time has not shown an overall gain.
+
+## Follow-up after the 2026-09-30 offline H003 repair
+
+The user subsequently requested a real-source run. One H003 TableCheck read-only invocation used the same historical outlet entrance and unchanged Oct 2, 17:30–22:00, 10-person request and 45-second/30-second provider/24-operation/5-model-call limits. The plan was checked immediately beforehand. This was an execution probe of the repaired control path, **not** a repeat of native discovery, 3km geocoding, facts, full Case or independent Eval. H001 was not rerun because its date-control restriction had no new repair to test.
+
+The single invocation returned `UNKNOWN / BROWSER_RUNTIME_FAILED` after **20,107ms**, with **one browser operation (NAVIGATE), zero snapshots, zero model calls/actions, zero identity evidence and zero Offers**. `page.goto` timed out at its 20-second limit while awaiting `domcontentloaded` for `https://www.tablecheck.com/en/0711-ginzabistro`. The source page never reached the request controls, so this observation neither verifies nor refutes the offline five-action repair and cannot establish availability or unavailability. The previous Live observations remain separate; this run has no booking or other external write and no Google call. No automatic retry or source substitution followed the navigation failure.
+
+Artifact: `.eval-artifacts/browser-case-slices/2026-09-30T02-26-19-278Z-2a483bc2-26e5-46fe-8ad7-3928a138d5c0.result.json`. The first remaining blocker is source navigation on the current default browser network. Earlier network diagnostics established that source access can vary by path and time, but this trace alone does not identify a DNS, TLS, route, server or bot-policy cause. Full native-path time and architecture benefit remain unmeasured.

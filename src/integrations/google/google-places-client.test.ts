@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { createServer } from "node:http";
 import { test } from "node:test";
 
 import { GooglePlacesClient } from "./google-places-client.js";
@@ -69,4 +70,31 @@ test("Google Places distinguishes service rate/permission responses from local r
     quotaOrPermission.textSearch({ textQuery: "restaurant", pageSize: 1 }, new AbortController().signal),
     (error: unknown) => typeof error === "object" && error !== null && "code" in error && error.code === "GOOGLE_SERVICE_QUOTA_OR_PERMISSION",
   );
+});
+
+test("Google Places sends its API request through its own configured proxy", { timeout: 5_000 }, async () => {
+  const targets: string[] = [];
+  const proxy = createServer();
+  proxy.on("connect", (request, socket) => {
+    targets.push(request.url ?? "");
+    socket.end("HTTP/1.1 502 Bad Gateway\r\nContent-Length: 0\r\n\r\n");
+  });
+  await new Promise<void>((resolve) => proxy.listen(0, "127.0.0.1", resolve));
+  try {
+    const address = proxy.address();
+    assert.ok(address && typeof address !== "string");
+    const client = new GooglePlacesClient({
+      apiKey: "test-key",
+      proxyServer: `http://127.0.0.1:${address.port}`,
+      timeoutMs: 1_000,
+    });
+    await assert.rejects(
+      client.textSearch({ textQuery: "Shibuya", pageSize: 1 }, new AbortController().signal),
+      (error: unknown) => typeof error === "object" && error !== null && "code" in error && error.code === "GOOGLE_NETWORK_FAILED",
+    );
+    assert.deepEqual(targets, ["places.googleapis.com:443"]);
+  } finally {
+    proxy.closeAllConnections();
+    await new Promise<void>((resolve) => proxy.close(() => resolve()));
+  }
 });

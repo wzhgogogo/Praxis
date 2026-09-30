@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { test } from "node:test";
 import { chromium } from "playwright-core";
 import { LocalPlaywrightChromium } from "../../infrastructure/browser/local-playwright-chromium.js";
@@ -36,8 +37,9 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
             { value: "10", label: "10", selected: false, disabled: false },
           ]);
         }
+        const option = input.observation.targets.find(item => item.kind === "OPTION" && item.ownerRef === target.ref && item.label === "10");
         return party
-          ? { type: "SELECT_AUTHORITATIVE", targetRef: target.ref, field: "PARTY_SIZE", reason: "Apply the requested party." }
+          ? { type: "CHOOSE_OPTION", targetRef: option!.ref, field: "PARTY_SIZE", reason: "Apply the requested party." }
           : { type: "FILL_AUTHORITATIVE", targetRef: target.ref, field: "DATE", reason: "Apply the requested date." };
       },
     } });
@@ -58,8 +60,398 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
   });
 }
 
+test("TableCheck real Chromium Adapter confirms a five-action date and scrollable guest query within 24 operations", async () => {
+  const { TableCheckBrowserAvailability } = await import("../../integrations/tablecheck/tablecheck-browser-availability.js");
+  const { fixtureCandidates } = await import("../restaurant-fixtures.js");
+  const candidate = structuredClone(fixtureCandidates[0]!);
+  candidate.restaurant.outletName = "Fixture restaurant";
+  candidate.restaurant.address = "1-1 Tokyo Fixture Street";
+  candidate.restaurant.sourceIds = { tablecheck: "fixture", tablecheckNativeGuideUri: url };
+  const guestOptions = Array.from({ length: 8 }, (_, index) => `<div role="option">${index + 1} ${index === 0 ? "guest" : "guests"}</div>`).join("");
+  const runtime = localFixture(`<title>TableCheck query</title>${identity}
+    <style>#guests{height:170px;overflow-y:auto}#guests [role=option]{height:26px}</style>
+    <div data-testid="Venue Availability"><form method="post">
+    <button id="next" type="button" onclick="nextMonth()">Next month</button>
+    <button id="date" type="button" data-testid="day" data-date="2026-10-2" hidden onclick="selectDate()">Friday 2</button>
+    <div data-testid="Venue Pax Select" id="pax-2"><button id="party" type="button" role="combobox" aria-controls="guests" aria-expanded="false" onclick="openParty()">Any party size</button>
+    <div id="guests" role="listbox" aria-label="1 guest 2 guests 3 guests 4 guests 5 guests 6 guests 7 guests 8 guests 9 guests 10 guests 10+ guests" hidden>${guestOptions}</div></div>
+    <div data-testid="Venue Time Select" id="time-19:00"></div><div id="slots"></div><output id="selected">No selected request</output>
+    <button type="submit">Book</button></form></div>
+    <script>let dateSelected=false;function openParty(){const list=document.querySelector('#guests');list.hidden=false;document.querySelector('#party').setAttribute('aria-expanded','true');if(dateSelected){if(list.querySelectorAll('[role=option]').length===8){for(const label of ['9 guests','10 guests','10+ guests']){const option=document.createElement('div');option.setAttribute('role','option');option.textContent=label;if(label==='10 guests')option.onclick=selectGuest;list.append(option)}}list.scrollTop=list.scrollHeight}}
+    function nextMonth(){document.querySelector('#date').hidden=false;document.querySelector('#next').hidden=true;document.querySelector('#guests').hidden=true;document.querySelector('#party').setAttribute('aria-expanded','false')}
+    function selectDate(){dateSelected=true;document.querySelector('#date').setAttribute('aria-selected','true')}
+    function selectGuest(){document.querySelector('[data-testid="Venue Pax Select"]').id='pax-10';document.querySelector('#party').textContent='10 guests';document.querySelector('#party').setAttribute('aria-expanded','false');document.querySelector('#guests').hidden=true;document.querySelector('#selected').textContent='2026-10-02 / 10 guests';const slot=document.createElement('a');slot.href='/en/shops/fixture/reserve?start_date=2026-10-02&pax=10&start_time=19:00';slot.textContent='19:00';document.querySelector('#slots').append(slot)}</script>`);
+  let step = 0;
+  const events: import("../../infrastructure/browser/browser-task-executor.js").BrowserExecutionDiagnostic[] = [];
+  const executor = new BrowserTaskExecutor(runtime, {
+    maxOperationsPerCandidate: 24,
+    onDiagnostic: event => events.push(event),
+    modelDecision: { async decide(input) {
+      const labels = ["Any party size", "Next month", "Friday 2", "Any party size", "10 guests"];
+      const label = labels[step++]!;
+      if (step === 2) {
+        assert.equal(input.observation.targets.some(item => item.label === "10 guests"), false, "the first open exposes only the visible part of the scrollable list");
+        assert.ok(input.observation.targets.some(item => item.role === "listbox" && item.scrollable && item.label.includes("10 guests")));
+      }
+      const target = input.observation.targets.find(item => item.label === label);
+      assert.ok(target, `Fresh observation must contain ${label}`);
+      if (step === 3) return { type: "CLICK_AUTHORITATIVE", targetRef: target.ref, field: "DATE", reason: "Select exact date." };
+      if (step === 5) {
+        const more = input.observation.targets.find(item => item.label === "10+ guests");
+        assert.ok(more, "the adjacent non-exact option is visible with ten guests");
+        assert.equal(more?.availableActions?.includes("CHOOSE_OPTION:PARTY_SIZE"), false, "10+ is not an exact party of ten");
+        return { type: "CHOOSE_OPTION", targetRef: target.ref, field: "PARTY_SIZE", reason: "Select ten guests." };
+      }
+      return { type: "CLICK", targetRef: target.ref, reason: "Open the observed query control." };
+    } },
+  });
+  const signal = new AbortController().signal;
+  try {
+    const result = await new TableCheckBrowserAvailability(executor).check({
+      candidates: [candidate], candidateIds: [candidate.restaurant.id], date: "2026-10-02", partySize: 10,
+      timeWindow: { earliest: "17:30", latest: "22:00" }, hardCriteria: [],
+    }, signal);
+    assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE", JSON.stringify({ result, step, events }));
+    assert.equal(result.offers.length, 1);
+    assert.equal(step, 5);
+    const session = await executor.acquire(signal, "TABLECHECK", "AVAILABILITY");
+    const finalPage = await session.snapshot();
+    assert.match(finalPage.text, /2026-10-02 \/ 10 guests/);
+    assert.match(finalPage.html, /data-date="2026-10-2"[^>]*aria-selected="true"/);
+    assert.match(finalPage.html, /id="pax-10"/);
+    assert.match(finalPage.html, /href="\/en\/shops\/fixture\/reserve\?start_date=2026-10-02&amp;pax=10&amp;start_time=19:00"/);
+    assert.equal(events.some(event => event.event === "BUDGET_EXHAUSTED"), false);
+    assert.ok(events.filter(event => event.event === "OPERATION_STARTED").length <= 24);
+  } finally { await executor.close(); }
+});
+
+test("button name metadata does not replace visible time or Reserve safety label", async () => {
+  const runtime = localFixture(`<button name="action" value="slot-20" type="button">20:00</button><button name="action" value="reserve" type="button">Reserve</button>`);
+  const executor = new BrowserTaskExecutor(runtime, { modelDecision: { async decide(input) {
+    const time = input.observation.targets.find(target => target.label === "20:00");
+    const reserve = input.observation.targets.find(target => target.label === "Reserve");
+    assert.ok(time?.availableActions?.includes("CLICK"));
+    assert.equal(reserve?.availableActions?.includes("CLICK"), false);
+    assert.equal(reserve?.rejectionReason, "WRITE_PROHIBITED");
+    return { type: "REQUEST_HUMAN_HELP", reason: "Read-only label audit complete" };
+  } } });
+  const signal = new AbortController().signal;
+  const session = await executor.acquire(signal, "TABLECHECK", "AVAILABILITY");
+  try {
+    await executor.navigate({ source: "TABLECHECK", stage: "AVAILABILITY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
+    await executor.runSkill({ taskId: "button-visible-label", source: "TABLECHECK", stage: "AVAILABILITY", session, signal,
+      allowedOrigins: ["https://www.tablecheck.com"], goal: { outlet: { name: "Fixture" }, hardCriteria: [] }, objective: "Audit public controls",
+      completion: () => ({ complete: false, reason: "No availability" }) });
+  } finally { await executor.close(); }
+});
+
+for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
+  test(`${runtimeKind} chooses a visible time option with an opaque native value and reads it back`, async () => {
+    const runtime = localFixture(`<title>Public time query</title>
+      <label for="arrival">Arrival time</label><select id="arrival" aria-label="Arrival time">
+        <option value="">Choose time</option><option value="1763593200000">7:00 PM</option><option value="1763600400000">9:00 PM</option>
+      </select><output id="selected">No time selected</output>
+      <script>document.querySelector('select').onchange=event=>{document.body.dataset.selections=(document.body.dataset.selections||'')+event.target.value+';';document.querySelector('output').textContent=event.target.selectedOptions[0].textContent;if(event.target.value==='1763593200000'){const other=document.createElement('select');other.setAttribute('aria-label','Unrelated');document.body.prepend(other)}};</script>`, runtimeKind);
+    const attempted: string[] = [];
+    const executor = new BrowserTaskExecutor(runtime, { modelDecision: { async decide(input) {
+      const owner = input.observation.targets.find(target => target.kind === "SELECT" && target.label === "Arrival time");
+      assert.ok(owner);
+      const desired = input.observation.targets.find(target => target.kind === "OPTION" && target.ownerRef === owner.ref && target.label === (attempted.length ? "7:00 PM" : "9:00 PM"));
+      assert.ok(desired);
+      attempted.push(desired.label);
+      return { type: "CHOOSE_OPTION", targetRef: desired.ref, field: "TIME", reason: "Choose the observed arrival time." };
+    } } });
+    const signal = new AbortController().signal;
+    const session = await executor.acquire(signal, "TABLECHECK", "AVAILABILITY");
+    try {
+      await executor.navigate({ source: "TABLECHECK", stage: "AVAILABILITY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
+      const result = await executor.runSkill({
+        taskId: "fixture:opaque-time", source: "TABLECHECK", stage: "AVAILABILITY", session, signal,
+        allowedOrigins: ["https://www.tablecheck.com"],
+        goal: { outlet: { name: "Fixture Restaurant" }, date: "2026-09-18", partySize: 2, timeWindow: { earliest: "18:30", latest: "19:30" }, hardCriteria: [] },
+        objective: "Choose a requested public query time.",
+        completion: (snapshot, controls) => ({ complete: /7:00 PM/.test(snapshot.text) && controls.some(control => control.kind === "SELECT" && control.value === "1763593200000"), reason: "The requested time is not selected." }),
+      });
+      assert.equal(result.status, "COMPLETED");
+      assert.deepEqual(attempted, ["9:00 PM", "7:00 PM"]);
+      assert.equal(result.controls.find(control => control.kind === "SELECT" && control.label === "Arrival time")?.value, "1763593200000");
+      // Read page effects independently of the Registry: a final correct value
+      // must not conceal an earlier out-of-request selection.
+      const actual = await session.snapshot();
+      assert.match(actual.html, /data-selections="1763593200000;"/);
+      assert.match(actual.html, /<output id="selected">7:00 PM<\/output>/);
+    } finally { await executor.close(); }
+  });
+}
+
+for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
+  test(`${runtimeKind} binds a button combobox to its own listbox option through the strict browser wire`, async () => {
+    const runtime = localFixture(`<button type="button" role="combobox" aria-controls="arrival-list" aria-expanded="false" aria-label="Arrival time" onclick="this.setAttribute('aria-expanded','true');document.getElementById('arrival-list').hidden=false">Choose time</button>
+      <ul id="arrival-list" role="listbox" hidden><li role="option" onclick="document.querySelector('button').setAttribute('aria-label','7:15 PM');document.querySelector('button').setAttribute('aria-expanded','false');document.getElementById('arrival-list').hidden=true;document.querySelector('output').textContent='Selection settled'">7:15 PM</li></ul><output>Waiting</output>`, runtimeKind);
+    let calls = 0;
+    const decision = new ModelBrowserReadActionDecision({ async complete(request) {
+      const payload = JSON.parse(request.messages[1]!.content) as { observation: { targets: Array<{ ref: string; kind: string; label: string; ownerRef?: string; availableActions?: string[] }> } };
+      calls += 1;
+      if (calls === 1) assert.equal(payload.observation.targets.filter(target => target.label === "Arrival time").length, 1, "button combobox is observed once");
+      const target = calls === 1 ? payload.observation.targets.find(item => item.kind === "BUTTON" && item.label === "Arrival time")
+        : payload.observation.targets.find(item => item.kind === "OPTION" && item.label === "7:15 PM" && item.ownerRef);
+      assert.ok(target);
+      assert.ok(target.availableActions?.includes(calls === 1 ? "CLICK" : "CHOOSE_OPTION:TIME"));
+      return { invocationId: `fixture:button-combobox:${calls}`, provider: "FIXTURE", model: "fixture", finishReason: "TOOL_CALLS" as const, latencyMs: 0,
+        outputText: JSON.stringify({ action: calls === 1 ? "CLICK" : "CHOOSE_OPTION", targetRef: target.ref, authoritativeField: calls === 1 ? "NONE" : "TIME", requestedState: "NONE", reason: "Choose the observed query control" }) };
+    } });
+    const executor = new BrowserTaskExecutor(runtime, { modelDecision: decision });
+    const signal = new AbortController().signal;
+    const session = await executor.acquire(signal, "TABLECHECK", "AVAILABILITY");
+    try {
+      await executor.navigate({ source: "TABLECHECK", stage: "AVAILABILITY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
+      const result = await executor.runSkill({ taskId: "fixture:button-combobox", source: "TABLECHECK", stage: "AVAILABILITY", session, signal,
+        allowedOrigins: ["https://www.tablecheck.com"], goal: { outlet: { name: "Fixture" }, timeWindow: { earliest: "19:00", latest: "19:30" }, hardCriteria: [] },
+        objective: "Choose the observed arrival time.", completion: snapshot => ({ complete: /Selection settled/.test(snapshot.text), reason: "The choice has not settled." }) });
+      assert.equal(result.status, "COMPLETED");
+      assert.equal(calls, 2);
+      assert.equal(result.controls.find(control => control.role === "combobox")?.label, "7:15 PM");
+    } finally { await executor.close(); }
+  });
+}
+
+for (const initialTime of ["17:30", "19:00"] as const) {
+  test(`empty input reads its own selected display and ${initialTime === "17:30" ? "confirms a changed option" : "avoids a duplicate choice"}`, async () => {
+    const runtime = localFixture(`<div data-testid="Value Container" id="other-value"><div class="fixture-singleValue">19:00</div><input role="combobox" aria-label="Other time" aria-readonly="true" aria-expanded="false" value=""></div>
+      <div>Nearby time: 19:00</div>
+      <div data-testid="Value Container" id="time-value"><div class="fixture-singleValue">${initialTime}</div><div><input id="time-input" role="combobox" aria-label="Time" aria-readonly="true" aria-expanded="false" value="" onkeydown="if(event.key==='ArrowDown'){this.setAttribute('aria-expanded','true');this.setAttribute('aria-controls','time-options');document.getElementById('time-options').hidden=false}"></div></div>
+      <div id="time-options" role="listbox" hidden><div role="option" onclick="document.querySelector('#time-value .fixture-singleValue').textContent='19:00';document.body.dataset.selectedTime='19:00';document.getElementById('time-input').setAttribute('aria-expanded','false');document.getElementById('time-input').removeAttribute('aria-controls');document.getElementById('time-options').hidden=true">19:00</div></div>
+      <script>document.body.dataset.selectedTime='${initialTime}'</script>`, "LOCAL");
+    let calls = 0;
+    const seenValues: Array<string | undefined> = [];
+    const decision = new ModelBrowserReadActionDecision({ async complete(request) {
+      const payload = JSON.parse(request.messages[1]!.content) as { observation: { targets: Array<{ ref: string; kind: string; role: string; label: string; value?: string; ownerRef?: string }> } };
+      calls += 1;
+      const time = payload.observation.targets.find(target => target.role === "combobox" && target.label === "Time");
+      seenValues.push(time?.value);
+      const option = payload.observation.targets.find(target => target.kind === "OPTION" && target.label === "19:00" && target.ownerRef);
+      const action = calls === 1 && time?.value === "19:00" ? "COMPLETE" : calls === 1 ? "CLICK" : option ? "CHOOSE_OPTION" : "REQUEST_HUMAN_HELP";
+      return { invocationId: `fixture:proxy-time:${calls}`, provider: "FIXTURE", model: "fixture", finishReason: "TOOL_CALLS" as const, latencyMs: 0,
+        outputText: JSON.stringify({ action, targetRef: action === "CLICK" ? time?.ref : action === "CHOOSE_OPTION" ? option?.ref : "", authoritativeField: action === "CHOOSE_OPTION" ? "TIME" : "NONE", requestedState: "NONE", reason: "Use the current bound time value" }) };
+    } });
+    const executor = new BrowserTaskExecutor(runtime, { modelDecision: decision });
+    const signal = new AbortController().signal;
+    const session = await executor.acquire(signal, "WEBSITE", "FACTS");
+    try {
+      await executor.navigate({ source: "WEBSITE", stage: "FACTS", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
+      const initialControls = await session.observeControls!();
+      assert.equal(initialControls.find(control => control.role === "combobox" && control.label === "Time")?.value, initialTime);
+      const result = await executor.runSkill({ taskId: `fixture:proxy-time:${initialTime}`, source: "WEBSITE", stage: "FACTS", session, signal,
+        allowedOrigins: ["https://www.tablecheck.com"], goal: { outlet: { name: "Fixture" }, timeWindow: { earliest: "19:00", latest: "19:00" }, hardCriteria: [] },
+        objective: "Confirm the currently selected time.", completion: snapshot => ({ complete: /data-selected-time="19:00"/.test(snapshot.html), reason: "The actual page state has not selected 19:00." }) });
+      assert.equal(result.status, "COMPLETED", JSON.stringify({ seenValues, controls: result.controls.filter(control => control.role === "combobox") }));
+      if (initialTime === "17:30") {
+        assert.equal(result.controls.find(control => control.role === "combobox" && control.label === "Time")?.value, "19:00", JSON.stringify(result.controls.filter(control => control.role === "combobox")));
+        assert.equal(result.controls.find(control => control.role === "combobox" && control.label === "Time")?.controlledListboxId, undefined);
+        assert.equal(result.controls.find(control => control.role === "combobox" && control.label === "Other time")?.value, "19:00");
+        assert.deepEqual(seenValues, ["17:30", undefined]);
+        assert.equal(calls, 2);
+      } else {
+        assert.equal(calls, 0, "the already selected page needs no redundant model action");
+        assert.deepEqual(seenValues, []);
+      }
+      const settled = await session.snapshot();
+      assert.match(settled.html, /data-selected-time="19:00"/);
+      assert.match(settled.html, /id="time-input"[^>]*value=""/);
+    } finally { await executor.close(); }
+  });
+}
+
+for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
+  test(`${runtimeKind} keeps the observed option node when unrelated buttons arrive during model decision`, async () => {
+    const runtime = localFixture(`<button id="arrival" type="button" role="combobox" aria-controls="choices" aria-expanded="false" aria-label="Arrival time" onclick="this.setAttribute('aria-expanded','true');document.getElementById('choices').hidden=false">Arrival time</button>
+      <ul id="choices" role="listbox" hidden>${["17:30", "18:00", "18:30", "19:00"].map(time => `<li role="option" onclick="document.body.dataset.selections=(document.body.dataset.selections||'')+'${time};';document.getElementById('arrival').setAttribute('aria-label','${time}');document.getElementById('arrival').setAttribute('aria-expanded','false');document.getElementById('choices').hidden=true;document.querySelector('output').textContent='Selection settled'">${time}</li>`).join("")}</ul>
+      <button id="shift" type="button" onclick="for(let i=0;i<3;i++){const b=document.createElement('button');b.type='button';b.textContent='Late page navigation '+i;document.body.prepend(b)}">Fixture layout change</button>
+      <button id="style" type="button" onclick="[...document.querySelectorAll('[role=option]')].find(item=>item.textContent==='19:00').style.color='red'">Fixture style change</button><output>Waiting</output>`, runtimeKind);
+    let calls = 0;
+    let session!: Awaited<ReturnType<typeof runtime.openSession>>;
+    const decision = new ModelBrowserReadActionDecision({ async complete(request) {
+      const payload = JSON.parse(request.messages[1]!.content) as { observation: { targets: Array<{ ref: string; kind: string; role: string; label: string }> } };
+      calls += 1;
+      if (calls > 2) return { invocationId: `fixture:shifted-option:${calls}`, provider: "FIXTURE", model: "fixture", finishReason: "TOOL_CALLS" as const, latencyMs: 0,
+        outputText: JSON.stringify({ action: "REQUEST_HUMAN_HELP", targetRef: "", authoritativeField: "NONE", requestedState: "NONE", reason: "The selected time did not match." }) };
+      const target = payload.observation.targets.find(item => calls === 1 ? item.role === "combobox" : item.kind === "OPTION" && item.label === "19:00");
+      assert.ok(target);
+      if (calls === 2) { await session.click("#shift"); await session.click("#style"); }
+      return { invocationId: `fixture:shifted-option:${calls}`, provider: "FIXTURE", model: "fixture", finishReason: "TOOL_CALLS" as const, latencyMs: 0,
+        outputText: JSON.stringify({ action: calls === 1 ? "CLICK" : "CHOOSE_OPTION", targetRef: target.ref, authoritativeField: calls === 1 ? "NONE" : "TIME", requestedState: "NONE", reason: "Choose the observed 19:00 option" }) };
+    } });
+    const executor = new BrowserTaskExecutor(runtime, { modelDecision: decision });
+    const signal = new AbortController().signal;
+    session = await executor.acquire(signal, "WEBSITE", "FACTS");
+    try {
+      await executor.navigate({ source: "WEBSITE", stage: "FACTS", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
+      const result = await executor.runSkill({ taskId: "fixture:shifted-option", source: "WEBSITE", stage: "FACTS", session, signal,
+        allowedOrigins: ["https://www.tablecheck.com"], goal: { outlet: { name: "Fixture" }, timeWindow: { earliest: "19:00", latest: "19:00" }, hardCriteria: [] },
+        objective: "Choose the observed 19:00 time.", completion: snapshot => ({ complete: /Selection settled/.test(snapshot.text), reason: "No selected time." }) });
+      assert.equal(result.controls.find(control => control.role === "combobox")?.label, "19:00");
+      assert.equal(result.status, "COMPLETED");
+      assert.equal(calls, 2);
+      assert.match((await session.snapshot()).html, /data-selections="19:00;"/, "the page actually received only the requested selection");
+    } finally { await executor.close(); }
+  });
+}
+
+for (const mutation of ["role-change", "replacement", "legal-replacement"] as const) {
+  test(`changed observed option ${mutation} is rejected before execution`, async () => {
+    const canRecover = mutation === "legal-replacement";
+    const runtime = localFixture(`<button id="arrival" type="button" role="combobox" aria-controls="choices" aria-expanded="false" aria-label="Arrival time" onclick="this.setAttribute('aria-expanded','true');document.getElementById('choices').hidden=false">Arrival time</button>
+      <ul id="choices" role="listbox" hidden><li role="option" onclick="document.body.dataset.executed='yes';document.getElementById('arrival').setAttribute('aria-label','19:00')">19:00</li></ul>
+      <button id="mutate" type="button" onclick="mutateOption()">Change control</button>
+      <script>function mutateOption(){const option=document.querySelector('[role=option]');${canRecover ? "option.replaceWith(option.cloneNode(true))" : mutation === "replacement" ? "const next=document.createElement('button');next.type='submit';next.textContent='19:00';next.onclick=()=>document.body.dataset.executed='yes';option.replaceWith(next)" : "option.setAttribute('role','button');option.setAttribute('type','submit')"}}</script>`, "LOCAL");
+    let calls = 0;
+    const rejections: string[] = [];
+    let session!: Awaited<ReturnType<typeof runtime.openSession>>;
+    const decision = new ModelBrowserReadActionDecision({ async complete(request) {
+      const payload = JSON.parse(request.messages[1]!.content) as { observation: { targets: Array<{ ref: string; kind: string; role: string; label: string }> } };
+      calls += 1;
+      const target = payload.observation.targets.find(item => calls === 1 ? item.role === "combobox" : item.kind === "OPTION" && item.label === "19:00");
+      if (calls === 2) await session.click("#mutate");
+      const chooseOption = calls === 2 || (canRecover && calls === 3);
+      return { invocationId: `fixture:stale-option:${calls}`, provider: "FIXTURE", model: "fixture", finishReason: "TOOL_CALLS" as const, latencyMs: 0,
+        outputText: JSON.stringify({ action: calls === 1 ? "CLICK" : chooseOption ? "CHOOSE_OPTION" : "REQUEST_HUMAN_HELP", targetRef: calls === 1 || chooseOption ? target?.ref : "", authoritativeField: chooseOption ? "TIME" : "NONE", requestedState: "NONE", reason: "Use only the currently observed option" }) };
+    } });
+    const executor = new BrowserTaskExecutor(runtime, { modelDecision: decision, maxModelCallsPerCandidate: 3,
+      onDiagnostic: item => { if (item.event === "REJECTED") rejections.push(item.detail ?? ""); } });
+    const signal = new AbortController().signal;
+    session = await executor.acquire(signal, "WEBSITE", "FACTS");
+    try {
+      await executor.navigate({ source: "WEBSITE", stage: "FACTS", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
+      const result = await executor.runSkill({ taskId: `fixture:stale-option:${mutation}`, source: "WEBSITE", stage: "FACTS", session, signal,
+        allowedOrigins: ["https://www.tablecheck.com"], goal: { outlet: { name: "Fixture" }, timeWindow: { earliest: "19:00", latest: "19:00" }, hardCriteria: [] },
+        objective: "Choose the observed 19:00 time.", completion: snapshot => ({ complete: snapshot.html.includes('data-executed="yes"'), reason: "No selected time." }) });
+      assert.equal(result.status, canRecover ? "COMPLETED" : "REQUESTED_HUMAN_HELP");
+      assert.equal(calls, 3);
+      assert.ok(rejections.some(detail => detail.includes("Observed target changed or detached")), "the old observed node is rejected before a fresh decision");
+      if (canRecover) {
+        assert.match(result.snapshot.html, /data-executed="yes"/);
+        assert.equal(result.controls.find(control => control.role === "combobox")?.label, "19:00");
+      } else assert.doesNotMatch(result.snapshot.html, /data-executed="yes"/);
+    } finally { await executor.close(); }
+  });
+}
+
+test("a visible option from another listbox cannot be claimed by the expanded combobox", async () => {
+  const runtime = localFixture(`<input role="combobox" aria-readonly="true" aria-controls="expected" aria-expanded="true" aria-label="Arrival time">
+    <div id="expected" role="listbox"><div role="option">6:00 PM</div></div>
+    <div id="unrelated" role="listbox"><div role="option" onclick="document.body.dataset.foreign='clicked'">7:00 PM</div></div>`);
+  const diagnostics: string[] = [];
+  let calls = 0;
+  const executor = new BrowserTaskExecutor(runtime, { onDiagnostic: item => { if (item.event === "REJECTED") diagnostics.push(item.detail ?? ""); }, modelDecision: {
+    async decide(input) {
+      if (++calls > 1) return { type: "REQUEST_HUMAN_HELP", reason: "No bound option remains." };
+      const foreign = input.observation.targets.find(target => target.kind === "OPTION" && target.label === "7:00 PM");
+      assert.ok(foreign);
+      assert.equal(foreign.ownerRef, undefined);
+      return { type: "CHOOSE_OPTION", targetRef: foreign.ref, field: "TIME", reason: "Try the visible option." };
+    },
+  } });
+  const signal = new AbortController().signal;
+  const session = await executor.acquire(signal, "TABLECHECK", "AVAILABILITY");
+  try {
+    await executor.navigate({ source: "TABLECHECK", stage: "AVAILABILITY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
+    const result = await executor.runSkill({ taskId: "fixture:wrong-owner", source: "TABLECHECK", stage: "AVAILABILITY", session, signal,
+      allowedOrigins: ["https://www.tablecheck.com"], goal: { outlet: { name: "Fixture" }, timeWindow: { earliest: "19:00", latest: "19:30" }, hardCriteria: [] },
+      objective: "Select a bound public query time.", completion: () => ({ complete: false, reason: "No selection confirmed." }) });
+    assert.equal(result.status, "REQUESTED_HUMAN_HELP");
+    assert.ok(diagnostics.some(detail => detail.includes("no observed parent combobox")));
+    assert.doesNotMatch(result.snapshot.html, /data-foreign="clicked"/);
+  } finally { await executor.close(); }
+});
+
+for (const variant of ["disabled", "unchanged", "complete"] as const) {
+  test(`native option ${variant} cannot be signed off as a selected time`, async () => {
+    const runtime = localFixture(`<select aria-label="Arrival time"><option value="">Choose</option><option value="opaque" ${variant === "disabled" ? "disabled" : ""}>7:00 PM</option></select><output>Waiting</output>
+      <script>document.querySelector('select').onchange=event=>{ ${variant !== "disabled" ? "event.target.value='';document.querySelector('output').textContent='Inventory ready';" : ""} };</script>`);
+    const diagnostics: string[] = [];
+    let calls = 0;
+    const executor = new BrowserTaskExecutor(runtime, { onDiagnostic: item => { if (item.event === "REJECTED" || item.detail === "OPTION_VALUE_NOT_CONFIRMED") diagnostics.push(item.detail ?? ""); }, modelDecision: {
+      async decide(input) {
+        if (++calls > 1) return variant === "complete"
+          ? { type: "COMPLETE", reason: "The independent result changed." }
+          : { type: "REQUEST_HUMAN_HELP", reason: "Selection did not persist." };
+        const option = input.observation.targets.find(target => target.kind === "OPTION" && target.label === "7:00 PM");
+        assert.ok(option);
+        return { type: "CHOOSE_OPTION", targetRef: option.ref, field: "TIME", reason: "Try the observed time." };
+      },
+    } });
+    const signal = new AbortController().signal;
+    const session = await executor.acquire(signal, "TABLECHECK", "AVAILABILITY");
+    try {
+      await executor.navigate({ source: "TABLECHECK", stage: "AVAILABILITY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
+      const result = await executor.runSkill({ taskId: `fixture:${variant}`, source: "TABLECHECK", stage: "AVAILABILITY", session, signal,
+        allowedOrigins: ["https://www.tablecheck.com"], goal: { outlet: { name: "Fixture" }, timeWindow: { earliest: "19:00", latest: "19:30" }, hardCriteria: [] },
+        objective: "Select a public query time.", completion: snapshot => ({ complete: /Inventory ready/.test(snapshot.text), reason: "No result yet." }) });
+      assert.equal(result.status, variant === "complete" ? "NO_SAFE_ACTION" : "REQUESTED_HUMAN_HELP");
+      assert.ok(diagnostics.some(detail => variant === "disabled" ? detail.includes("disabled") : detail === "OPTION_VALUE_NOT_CONFIRMED"));
+      assert.notEqual(result.controls.find(control => control.kind === "SELECT")?.value, "opaque");
+    } finally { await executor.close(); }
+  });
+}
+
+test("an asynchronously applied option can complete after a later selected-value observation", async () => {
+  const runtime = localFixture(`<select aria-label="Arrival time"><option value="">Choose</option><option value="opaque">7:00 PM</option></select><output>Waiting</output>
+    <button id="settle" type="button" onclick="document.querySelector('select').value='opaque';document.querySelector('output').textContent='Inventory ready / 7:00 PM';document.body.dataset.settled='yes'">Fixture release</button>
+    <script>document.querySelector('select').onchange=event=>{event.target.value='';document.querySelector('output').textContent='Inventory ready';};</script>`);
+  let calls = 0;
+  let session!: Awaited<ReturnType<typeof runtime.openSession>>;
+  const executor = new BrowserTaskExecutor(runtime, { maxModelCallsPerCandidate: 2, modelDecision: { async decide(input) {
+    if (++calls > 1) {
+      assert.equal(input.observation.targets.find(target => target.kind === "SELECT")?.options?.find(option => option.selected)?.value, "", "inventory readiness does not confirm the selected time");
+      // Release only after the pending state was observed; no wall-clock race.
+      await session.click("#settle");
+      return { type: "WAIT", targetRef: input.observation.targets.find(target => target.kind === "SELECT")!.ref, reason: "Wait for the selected value." };
+    }
+    return { type: "CHOOSE_OPTION", targetRef: input.observation.targets.find(target => target.kind === "OPTION" && target.label === "7:00 PM")!.ref, field: "TIME", reason: "Choose the observed time." };
+  } } });
+  const signal = new AbortController().signal;
+  session = await executor.acquire(signal, "TABLECHECK", "AVAILABILITY");
+  try {
+    await executor.navigate({ source: "TABLECHECK", stage: "AVAILABILITY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
+    const result = await executor.runSkill({ taskId: "fixture:async-option", source: "TABLECHECK", stage: "AVAILABILITY", session, signal,
+      allowedOrigins: ["https://www.tablecheck.com"], goal: { outlet: { name: "Fixture" }, timeWindow: { earliest: "19:00", latest: "19:30" }, hardCriteria: [] },
+      objective: "Observe the requested time after it settles.",
+      completion: snapshot => ({ complete: /Inventory ready/.test(snapshot.text), reason: "No inventory result yet." }) });
+    assert.ok((await session.snapshot()).html.includes('data-settled="yes"'), "completion requires actual selected-value settlement");
+    assert.equal(result.status, "COMPLETED");
+    assert.equal(calls, 2);
+    assert.equal(result.controls.find(control => control.kind === "SELECT")?.value, "opaque");
+  } finally { await executor.close(); }
+});
+
+test("an unconfirmed time choice cannot be replaced by a successful party choice", async () => {
+  const runtime = localFixture(`<select aria-label="Arrival time"><option value="">Choose time</option><option value="time-opaque">7:00 PM</option></select>
+    <select aria-label="Party size"><option value="2">2</option><option value="4">4 guests</option></select><output>Waiting</output>
+    <script>document.querySelectorAll('select')[0].onchange=event=>{event.target.value='';document.querySelector('output').textContent='Inventory ready';};</script>`);
+  let calls = 0;
+  const diagnostics: string[] = [];
+  const executor = new BrowserTaskExecutor(runtime, { onDiagnostic: item => { if (item.event === "REJECTED") diagnostics.push(item.detail ?? ""); }, modelDecision: { async decide(input) {
+    calls += 1;
+    if (calls === 3) return { type: "COMPLETE", reason: "The result text changed." };
+    const option = input.observation.targets.find(target => target.kind === "OPTION" && target.label === (calls === 1 ? "7:00 PM" : "4 guests"));
+    assert.ok(option);
+    return { type: "CHOOSE_OPTION", targetRef: option.ref, field: calls === 1 ? "TIME" : "PARTY_SIZE", reason: "Choose an observed request option." };
+  } } });
+  const signal = new AbortController().signal;
+  const session = await executor.acquire(signal, "TABLECHECK", "AVAILABILITY");
+  try {
+    await executor.navigate({ source: "TABLECHECK", stage: "AVAILABILITY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
+    const result = await executor.runSkill({ taskId: "fixture:cross-option", source: "TABLECHECK", stage: "AVAILABILITY", session, signal,
+      allowedOrigins: ["https://www.tablecheck.com"], goal: { outlet: { name: "Fixture" }, partySize: 4, timeWindow: { earliest: "19:00", latest: "19:30" }, hardCriteria: [] },
+      objective: "Confirm both requested values.", completion: snapshot => ({ complete: /Inventory ready/.test(snapshot.text), reason: "No result yet." }) });
+    assert.equal(result.status, "NO_SAFE_ACTION");
+    assert.ok(diagnostics.some(detail => detail.includes("previous option is still unconfirmed")));
+    assert.equal(result.controls.find(control => control.label === "Party size")?.value, "2");
+  } finally { await executor.close(); }
+});
+
 /** Real Chromium, wholly intercepted local HTML; all other network requests are aborted. */
-function localFixture(html: string | Record<string, string>, runtimeKind: "LOCAL" | "CLOUDFLARE_SESSION" = "LOCAL") {
+function localFixture(html: string | Record<string, string>, runtimeKind: "LOCAL" | "CLOUDFLARE_SESSION" = "LOCAL", delayedNavigation?: { url: string; release: Promise<void>; finished(): void }) {
   const pages = typeof html === "string" ? { [url]: html } : html;
   const browserType = {
     async launch(options: Parameters<typeof chromium.launch>[0]) {
@@ -67,7 +459,14 @@ function localFixture(html: string | Record<string, string>, runtimeKind: "LOCAL
       const createContext = browser.newContext.bind(browser);
       browser.newContext = async (contextOptions) => {
         const context = await createContext(contextOptions);
-        await context.route("**/*", (route) => {
+        await context.route("**/*", async (route) => {
+          if (route.request().url() === delayedNavigation?.url) {
+            await delayedNavigation.release;
+            try { await route.fulfill({ contentType: "text/html; charset=utf-8", body: "<title>Late old page</title><h1>Old candidate</h1>" }); }
+            catch { /* Closing the timed-out session may already have canceled the old request. */ }
+            finally { delayedNavigation.finished(); }
+            return;
+          }
           const body = pages[route.request().url()];
           return body === undefined
             ? route.abort()
@@ -90,6 +489,157 @@ function localFixture(html: string | Record<string, string>, runtimeKind: "LOCAL
     });
   }
   return new LocalPlaywrightChromium({ browserType });
+}
+
+for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
+  test(`${runtimeKind} projects TableCheck search wrapper as combobox and only its native input as fillable`, async () => {
+    const saved = readFileSync(new URL("./fixtures/tablecheck-search-control-20260929.html", import.meta.url), "utf8");
+    const runtime = localFixture(saved, runtimeKind);
+    let projected = false;
+    const executor = new BrowserTaskExecutor(runtime, { modelDecision: { async decide(input) {
+      const wrapper = input.observation.targets.find(target => target.role === "combobox" && target.kind === "BUTTON");
+      const field = input.observation.targets.find(target => target.label === "Sushi tonight for 2 in Ginza" && target.kind === "INPUT");
+      assert.ok(wrapper?.availableActions?.includes("CLICK"));
+      assert.equal(wrapper!.availableActions?.some(action => action.startsWith("FILL")), false);
+      assert.equal(field?.availableActions?.some(action => action.startsWith("FILL")), false, "no unbound free-text model fill");
+      projected = true;
+      return { type: "REQUEST_HUMAN_HELP", reason: "No code-bound search text is supplied" };
+    } } });
+    const signal = new AbortController().signal;
+    const session = await executor.acquire(signal, "TABLECHECK", "DISCOVERY");
+    try {
+      await session.navigate(url);
+      const controls = await session.observeControls!();
+      const outer = controls.find(control => control.structure?.tag === "DIV" && control.role === "combobox");
+      const inner = controls.find(control => control.structure?.tag === "INPUT" && control.structure.name === "search_text");
+      assert.equal(outer?.kind, "BUTTON");
+      assert.equal(inner?.kind, "INPUT");
+      assert.equal(inner?.label, "Sushi tonight for 2 in Ginza");
+      await assert.rejects(session.fill(outer!.id, "Sushi"));
+      await session.fill(inner!.id, "Sushi");
+      assert.equal((await session.observeControls!()).find(control => control.structure?.name === "search_text")?.value, "Sushi");
+      await executor.runSkill({ taskId: "saved-search-control", source: "TABLECHECK", stage: "DISCOVERY", session, signal,
+        allowedOrigins: ["https://www.tablecheck.com"], goal: { outlet: { name: "Fixture" }, hardCriteria: [] }, objective: "Inspect the search field",
+        completion: () => ({ complete: false, reason: "No query result" }) });
+      assert.equal(projected, true);
+    } finally { await executor.close(); }
+  });
+
+  for (const offset of [0, 1400]) test(`${runtimeKind} opens an observed covered public result at offset ${offset}`, async () => {
+    const detail = "https://www.tablecheck.com/en/ginza-iwa?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.65860374437126&geo_longitude=139.74541383382513&search_text=omakase+ginza";
+    const savedCard = readFileSync(new URL("./fixtures/tablecheck-ginza-card-20260929.html", import.meta.url), "utf8");
+    const runtime = localFixture({
+      [url]: savedCard.replace("</style>", `</style><div style="height:${offset}px"></div>`),
+      [detail]: "<title>Ginza iwa</title><h1>Ginza iwa detail</h1>",
+    }, runtimeKind);
+    const executor = new BrowserTaskExecutor(runtime, { modelDecision: { async decide(input) {
+      const link = input.observation.targets.find(target => target.label === "Ginza iwa");
+      assert.ok(link?.availableActions?.includes("OPEN_LINK"));
+      return { type: "OPEN_LINK", targetRef: link!.ref, reason: "Open observed public result." };
+    } } });
+    const signal = new AbortController().signal;
+    const session = await executor.acquire(signal, "TABLECHECK", "DISCOVERY");
+    try {
+      await executor.navigate({ source: "TABLECHECK", stage: "DISCOVERY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
+      const result = await executor.runSkill({ taskId: "covered-link", source: "TABLECHECK", stage: "DISCOVERY", session, signal,
+        allowedOrigins: ["https://www.tablecheck.com"], goal: { outlet: { name: "Ginza iwa" }, hardCriteria: [] }, objective: "Open a public result",
+        completion: snapshot => ({ complete: snapshot.url === detail && snapshot.text.includes("Ginza iwa detail"), reason: "Detail not observed" }) });
+      assert.equal(result.status, "COMPLETED");
+      assert.equal(result.snapshot.url, detail);
+    } finally { await executor.close(); }
+  });
+}
+
+test("saved Tabelog calendar keeps hidden future dates and disabled guests out of ready state", async () => {
+  const { tabelogQueryControlHints, tabelogQueryControlsRestricted, tabelogRequestedDateState, TABELOG_QUERY_READY_SELECTOR } = await import("../../integrations/tabelog/tabelog-query-controls.js");
+  const { traceBrowserSession, safeRecord } = await import("../../eval/restaurant/agent-loop/runners/browser-case-slice-evidence.js");
+  const sourceUrl = "https://tabelog.com/en/tokyo/A1303/A130301/13308491/";
+  const saved = readFileSync(new URL("./fixtures/tabelog-teppen-calendar-20260929.html", import.meta.url), "utf8");
+  const runtime = localFixture({ [sourceUrl]: `<style>.is-hidden{display:none}</style>${saved}` });
+  const session = await runtime.openSession({ signal: new AbortController().signal });
+  const trace: Array<{ sequence: number; kind: string; detail: unknown }> = [];
+  const observed = traceBrowserSession(session, "TABELOG", (kind, detail) => {
+    const sequence = trace.length + 1;
+    trace.push({ sequence, kind, detail: safeRecord(detail) });
+    return sequence;
+  });
+  try {
+    await observed.navigate(sourceUrl);
+    const snapshot = await observed.snapshot();
+    const controls = await observed.observeControls!(tabelogQueryControlHints(snapshot));
+    assert.equal(controls.some(control => control.label.startsWith("Date ")), false);
+    assert.equal(controls.filter(control => /^Guests \d+$/.test(control.label)).every(control => control.disabled), true);
+    assert.equal(tabelogQueryControlsRestricted(snapshot, controls, 2), true);
+    assert.equal(tabelogQueryControlsRestricted(snapshot, controls, 10), false);
+    assert.equal(tabelogRequestedDateState(snapshot, "2026-09-28"), "FULL");
+    assert.equal(tabelogRequestedDateState(snapshot, "2026-09-29"), "PHONE_ONLY");
+    assert.equal(tabelogRequestedDateState(snapshot, "2026-09-30"), "CLOSED");
+    assert.equal(tabelogRequestedDateState(snapshot, "2026-10-01"), "UNOBSERVED", "hidden future month is not the current query surface");
+    const snapshotRecord = trace.find(event => event.kind === "SNAPSHOT")!;
+    const region = (snapshotRecord.detail as { queryRegions: Array<{ markup: string; computedVisibility: string }> }).queryRegions[0]!;
+    assert.match(region.markup, /p-booking-calendar__day-num--closed">30<\/span>/);
+    assert.equal(region.computedVisibility, "UNKNOWN");
+    const controlsRecord = trace.find(event => event.kind === "CONTROLS")!;
+    assert.equal((controlsRecord.detail as { totalObserved: number }).totalObserved, controls.length);
+    assert.equal((controlsRecord.detail as { controls: unknown[] }).controls.length, controls.length);
+    assert.equal((controlsRecord.detail as { snapshotSequence: number }).snapshotSequence, snapshotRecord.sequence);
+    await assert.rejects(observed.waitFor(TABELOG_QUERY_READY_SELECTOR, 250));
+  } finally { await session.close(); }
+});
+
+test("Tabelog Adapter consumes loading-to-restricted calendar without model action or timeout", async () => {
+  const { TabelogBrowserAvailability } = await import("../../integrations/tabelog/tabelog-browser-availability.js");
+  const { fixtureCandidates } = await import("../restaurant-fixtures.js");
+  const candidate = structuredClone(fixtureCandidates[0]!);
+  candidate.restaurant.sourceIds.phone = "03-1111-2222";
+  const sourceUrl = "https://tabelog.com/en/tokyo/A1301/A130103/13292459/";
+  const searchUrl = "https://tabelog.com/en/tokyo/rstLst/?sw=Restaurant%201";
+  const calendarUrl = "https://tabelog.com/fixture-calendar";
+  const saved = readFileSync(new URL("./fixtures/tabelog-teppen-calendar-20260929.html", import.meta.url), "utf8");
+  const loading = `<style>.is-hidden{display:none}</style><h1>Restaurant 1</h1><p>1-1 Shinjuku, Tokyo</p><a href="tel:03-1111-2222">Phone</a><div class="p-booking-calendar">Reserve Guests — Loading calendar</div>
+    <script>setTimeout(async()=>{document.querySelector('.p-booking-calendar').outerHTML=await(await fetch('/fixture-calendar')).text()},150)</script>`;
+  const executor = new BrowserTaskExecutor(localFixture({
+    [searchUrl]: `<a class="list-rst__rst-name-target" href="${sourceUrl}" data-address="1-1 Shinjuku, Tokyo">Restaurant 1</a>`,
+    [sourceUrl]: loading, [calendarUrl]: saved,
+  }), { modelDecision: { async decide() { assert.fail("restricted current query must not start the model loop"); } } });
+  try {
+    const result = await new TabelogBrowserAvailability(executor).check({
+      candidates: [candidate], candidateIds: [candidate.restaurant.id], date: "2026-09-30", partySize: 2,
+      timeWindow: { earliest: "19:00", latest: "19:00" }, hardCriteria: [],
+    }, new AbortController().signal);
+    assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "UNKNOWN");
+    assert.equal(result.availabilityChecks[candidate.restaurant.id]?.reasonCode, "TABELOG_REQUEST_DATE_CLOSED_ON_CALENDAR");
+    assert.equal(result.offers.length, 0);
+  } finally { await executor.close(); }
+});
+
+for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
+  test(`${runtimeKind} retires a real Chromium session after a delayed failed navigation`, async () => {
+    const failedUrl = "https://www.tablecheck.com/en/delayed-failure";
+    let releaseOld!: () => void;
+    let oldFinished!: () => void;
+    const release = new Promise<void>(resolve => { releaseOld = resolve; });
+    const finished = new Promise<void>(resolve => { oldFinished = resolve; });
+    const runtime = localFixture({ [url]: "<title>Fresh page</title><h1>New candidate</h1>" }, runtimeKind, { url: failedUrl, release, finished: oldFinished });
+    const executor = new BrowserTaskExecutor(runtime);
+    const signal = new AbortController().signal;
+    executor.beginCandidate("failed");
+    const failedSession = await executor.acquire(signal, "TABLECHECK", "IDENTITY");
+    await assert.rejects(
+      executor.navigate({ source: "TABLECHECK", stage: "IDENTITY", session: failedSession, signal, allowedOrigins: ["https://www.tablecheck.com"], url: failedUrl, timeoutMs: 30 }),
+      { code: "BROWSER_RUNTIME_FAILED" },
+    );
+    executor.beginCandidate("next");
+    const freshSession = await executor.acquire(signal, "TABLECHECK", "IDENTITY");
+    try {
+      assert.notEqual(freshSession, failedSession);
+      await executor.navigate({ source: "TABLECHECK", stage: "IDENTITY", session: freshSession, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
+      assert.match((await executor.snapshot({ source: "TABLECHECK", stage: "IDENTITY", session: freshSession, signal })).text, /New candidate/);
+      releaseOld();
+      await finished;
+      assert.match((await executor.snapshot({ source: "TABLECHECK", stage: "IDENTITY", session: freshSession, signal })).text, /New candidate/);
+    } finally { await executor.close(); }
+  });
 }
 
 test("real browser waits for the requested page update instead of reporting stale slots", async () => {
@@ -536,7 +1086,10 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
     const searchUrl = "https://tabelog.com/en/tokyo/rstLst/?sw=Restaurant%201";
     const searchHtml = `<a class="list-rst__rst-name-target" href="${sourceUrl}" data-address="1-1 Shinjuku, Tokyo">Restaurant 1</a>`;
     const executor = new BrowserTaskExecutor(localFixture({[sourceUrl]:html,[searchUrl]:searchHtml}, runtimeKind), { modelDecision: { async decide(input) {
-      assert.ok(!input.observation.targets.some(target=>target.label === "Disabled date"));
+      const disabledDate = input.observation.targets.find(target=>target.label === "Disabled date");
+      assert.equal(disabledDate?.disabled, true);
+      assert.deepEqual(disabledDate?.availableActions, []);
+      assert.equal(disabledDate?.rejectionReason, "DISABLED");
       assert.ok(!input.observation.targets.some(target=>target.label.includes("7:00 PM")), "booking time buttons are evidence-only, not model actions");
       const field = ++calls === 1 ? "DATE" as const : "PARTY_SIZE" as const;
       const label = field === "DATE" ? "Date 2026-09-20" : "Guests 4";
@@ -612,6 +1165,41 @@ test("TableCheck handles multiple current search links and reads only the identi
   } finally { await executor.close(); }
 });
 
+test("TableCheck form waits past old inventory until a current same-outlet slot link appears", async () => {
+  const { TableCheckBrowserAvailability } = await import("../../integrations/tablecheck/tablecheck-browser-availability.js");
+  const { fixtureCandidates } = await import("../restaurant-fixtures.js");
+  const { tableCheckDiscoveryUrl } = await import("../../integrations/tablecheck/tablecheck-page-parser.js");
+  const candidate = structuredClone(fixtureCandidates[0]!);
+  candidate.restaurant.sourceIds.phone = "03-1111-2222";
+  const guide = "https://www.tablecheck.com/en/restaurant1";
+  const reserve = "https://www.tablecheck.com/en/shops/restaurant1/reserve?start_date=2026-09-16&pax=2";
+  const link = "/en/shops/restaurant1/reserve?start_date=2026-09-16&pax=2&start_time=19:00";
+  const guideHtml = `<h1>Restaurant 1</h1><a href="tel:03-1111-2222">Phone</a><div data-testid="Venue Availability"></div><script type="application/ld+json">${JSON.stringify({ "@type": "Restaurant", "@id": guide, acceptsReservations: reserve.split("?")[0] })}</script>`;
+  const formHtml = `<h1>Restaurant 1</h1><form><input name="reservation[start_date]" value="2026-09-16"><select name="reservation[num_people_adult]"><option value="2" selected>2</option></select></form><section data-availability-state="complete" data-date="2026-09-15" data-pax="4"><button class="time-slot is-available" data-time="19:00">19:00</button></section><div id="fresh"></div><script>setTimeout(()=>{const a=document.createElement('a');a.href='${link}';a.textContent='19:00';document.getElementById('fresh').appendChild(a)},200)</script>`;
+  let modelDecisionCalls = 0;
+  const executor = new BrowserTaskExecutor(localFixture({
+    [tableCheckDiscoveryUrl(candidate)]: `<a href="${guide}">Restaurant 1</a>`, [guide]: guideHtml, [reserve]: formHtml,
+  }), { modelDecision: { async decide(input) {
+    modelDecisionCalls += 1;
+    assert.equal(input.observation.url, reserve, "wait only for the selected reservation form");
+    assert.equal(modelDecisionCalls, 1, "one bounded wait suffices for the controlled update");
+    const target = input.observation.targets[0];
+    assert.ok(target, "the current page supplies an observed wait target");
+    return { type: "WAIT", targetRef: target.ref, reason: "Wait for the selected request's result to load" };
+  } } });
+  const signal = new AbortController().signal;
+  try {
+    const result = await new TableCheckBrowserAvailability(executor).check({ candidates: [candidate], candidateIds: [candidate.restaurant.id],
+      date: "2026-09-16", partySize: 2, timeWindow: { earliest: "19:00", latest: "19:00" }, hardCriteria: [] }, signal);
+    const session = await executor.acquire(signal, "TABLECHECK", "AVAILABILITY");
+    const finalPage = await session.snapshot();
+    assert.equal(modelDecisionCalls, 1);
+    assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE");
+    assert.match(finalPage.html, /start_time=19:00/, "the current request link arrived before availability was accepted");
+    assert.match(finalPage.html, /data-date="2026-09-15"/, "old inventory remained on the page but was not accepted");
+  } finally { await executor.close(); }
+});
+
 // Regression from the live 4-person failure: disabled selected day is evidence,
 // and ARIA combobox/options must be operable without allowing booking submission.
 for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
@@ -624,22 +1212,22 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
   const sourceUrl = "https://www.tablecheck.com/en/restaurant1";
   const html = `<h1>Restaurant 1</h1><a href="tel:03-1111-2222">Phone</a><div data-testid="Venue Availability"><form method="post">
     <button type="button">Sep 19th</button><button type="button" data-testid="day" data-date="2026-9-19" aria-selected="true" disabled>19</button>
-    <div data-testid="Venue Pax Select" id="pax-2"><input role="combobox" aria-readonly="true" aria-label="Any party size" aria-expanded="false" style="pointer-events:none" onkeydown="if(event.key==='ArrowDown')openList(this,'guests')"></div>
-    <div id="guests" role="listbox" hidden><div role="option" onclick="document.querySelector('#pax-2').id='pax-4';finishChoice()">4 guests</div></div>
-    <div data-testid="Venue Time Select" id="time-20:00"><input role="combobox" aria-readonly="true" aria-label="Time" aria-expanded="false" style="pointer-events:none" onkeydown="if(event.key==='ArrowDown')openList(this,'times')"></div>
-    <div id="times" role="listbox" hidden><div role="option" onclick="document.getElementById('time-20:00').id='time-19:00';finishChoice()">19:00</div><div role="option" onclick="document.body.dataset.outside='changed';finishChoice()">20:00</div></div>
+    <div data-testid="Venue Pax Select" id="pax-2"><input role="combobox" aria-controls="guests" aria-readonly="true" aria-label="Any party size" aria-expanded="false" style="pointer-events:none" onkeydown="if(event.key==='ArrowDown')openList(this,'guests')"></div>
+    <div id="guests" role="listbox" hidden><div role="option" onclick="document.querySelector('#pax-2 input').value='4 guests';document.querySelector('#pax-2').id='pax-4';finishChoice()">4 guests</div></div>
+    <div data-testid="Venue Time Select" id="time-20:00"><div data-testid="Value Container"><div class="fixture-singleValue">20:00</div><div><input role="combobox" aria-readonly="true" aria-label="Time" aria-expanded="false" value="" style="pointer-events:none" onkeydown="if(event.key==='ArrowDown')openList(this,'times')"></div></div></div>
+    <div id="times" role="listbox" hidden><div role="option" onclick="document.getElementById('time-20:00').querySelector('.fixture-singleValue').textContent='19:00';document.getElementById('time-20:00').id='time-19:00';finishChoice()">19:00</div><div role="option" onclick="document.body.dataset.outside='changed';finishChoice()">20:00</div></div>
     <div id="result"></div><button type="submit">Book</button></form></div>
-    <script>function openList(input,id){document.getElementById(id).hidden=false;input.setAttribute('aria-expanded','true')}
-    function finishChoice(){document.querySelectorAll('[role=listbox]').forEach(e=>e.hidden=true);document.querySelectorAll('[role=combobox]').forEach(e=>e.setAttribute('aria-expanded','false'));const time=document.querySelector('[data-testid="Venue Time Select"]').id.slice(5);document.querySelector('#result').innerHTML='<a href="/en/shops/restaurant1/reserve?start_date=2026-09-19&pax=4&start_time='+time+'">'+time+'</a>'}</script>`;
+    <script>function openList(input,id){document.getElementById(id).hidden=false;input.setAttribute('aria-expanded','true');input.setAttribute('aria-controls',id)}
+    function finishChoice(){document.querySelectorAll('[role=listbox]').forEach(e=>e.hidden=true);document.querySelectorAll('[role=combobox]').forEach(e=>{e.setAttribute('aria-expanded','false');e.removeAttribute('aria-controls')});const time=document.querySelector('[data-testid="Venue Time Select"]').id.slice(5);document.querySelector('#result').innerHTML='<a href="/en/shops/restaurant1/reserve?start_date=2026-09-19&pax=4&start_time='+time+'">'+time+'</a>'}</script>`;
   let calls=0;const diagnostics:string[]=[];
-  const executor = new BrowserTaskExecutor(localFixture({[tableCheckDiscoveryUrl(candidate)]:`<a href="${sourceUrl}">Restaurant 1</a>`,[sourceUrl]:html},runtimeKind),{maxOperationsPerCandidate:80,onDiagnostic:d=>{if(d.event==="REJECTED"||d.event==="MODEL_ACTION")diagnostics.push(d.detail??"")},modelDecision:{async decide(input){
+  const executor = new BrowserTaskExecutor(localFixture({[tableCheckDiscoveryUrl(candidate)]:`<a href="${sourceUrl}">Restaurant 1</a>`,[sourceUrl]:html},runtimeKind),{maxOperationsPerCandidate:80,onDiagnostic:d=>{if(d.event==="REJECTED"||d.event==="MODEL_ACTION"||d.event==="METHOD_INCOMPLETE"||d.event==="POST_ACTION_VERIFIED")diagnostics.push(`${d.event}: ${d.detail??""}`)},modelDecision:{async decide(input){
     calls++;
     assert.ok(!input.observation.targets.some(t=>t.label==='Sep 19th'),"selected disabled calendar day must prevent repeated date trigger clicks");
     if(calls===2 || calls>=4) assert.ok(!input.observation.targets.some(t=>t.role==='combobox'&&t.label===(calls===2?'Any party size':'Time')), 'an already open list must not invite another open action');
     const label=calls===1?'Any party size':calls===2?'4 guests':calls===3?'Time':calls===6?'19:00':'20:00';
     const target=input.observation.targets.find(t=>t.label===label&&t.role===(calls===1||calls===3?'combobox':'option'));
-    assert.ok(target);assert.equal(target.kind,'BUTTON');
-    return calls===1||calls===3||calls===5?{type:'CLICK',targetRef:target.ref,reason:'Open choices or test rejected out-of-window click'}:{type:'CLICK_AUTHORITATIVE',field:calls===2?'PARTY_SIZE':'TIME',targetRef:target.ref,reason:'Select observed authoritative query choice'};
+    assert.ok(target);assert.equal(target.kind,calls===1||calls===3?'BUTTON':'OPTION');
+    return calls===1||calls===3||calls===5?{type:'CLICK',targetRef:target.ref,reason:'Open choices or test rejected out-of-window click'}:{type:'CHOOSE_OPTION',field:calls===2?'PARTY_SIZE':'TIME',targetRef:target.ref,reason:'Select observed authoritative query choice'};
   }}});
   try {
     const signal=new AbortController().signal;
@@ -647,6 +1235,11 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
     assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status,'AVAILABLE',JSON.stringify({result,calls,diagnostics}));
     assert.equal(result.offers.length,1);assert.equal(calls,6);
     const session=await executor.acquire(signal,'TABLECHECK','AVAILABILITY');
+    const selectedControls = await session.observeControls!();
+    assert.equal(selectedControls.find(control=>control.role==='combobox'&&control.label==='Any party size')?.value,'4 guests');
+    assert.equal(selectedControls.find(control=>control.role==='combobox'&&control.label==='Time')?.value,'19:00');
+    assert.equal(selectedControls.find(control=>control.role==='combobox'&&control.label==='Time')?.controlledListboxId,undefined);
+    assert.match((await session.snapshot()).html, /aria-label="Time"[^>]*value=""/, "the production Adapter consumed the proxy display while input.value remained empty");
     assert.ok(!(await session.snapshot()).html.includes('data-outside="changed"'),'neither authoritative nor generic clicks may select outside the allowed time window');
   } finally {await executor.close();}
 });

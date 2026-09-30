@@ -252,6 +252,8 @@ export interface RestaurantSearchRequest {
 /** Durable, opaque pagination state for one exact Restaurant search intent. */
 export interface RestaurantSearchContinuation {
   intentFingerprint: string;
+  /** Fixed native source sequence; one batch per source, never Agent-selected. */
+  nativeStage?: "TABELOG_DONE" | "TABLECHECK_DONE";
   /** The next provider page, when the source exposed one. */
   nextPageToken?: string;
   /** Tokens already sent, retained to stop a malformed response looping forever. */
@@ -334,6 +336,15 @@ export interface RestaurantCandidateFactRead {
   evidence: RestaurantReadEvidence[];
   factChecks: Record<string, RestaurantCandidateFactCheck>;
   metadata: RestaurantReadExecutionMetadata;
+  /** Transient source input for the fact judgment; never persisted as Task State. */
+  sourceDocuments?: RestaurantFactSourceDocument[];
+}
+
+export interface RestaurantFactSourceDocument {
+  id: string;
+  candidateId: string;
+  identityEvidenceId: string;
+  statements: Array<{ id: string; text: string }>;
 }
 
 export interface RestaurantReadExecutionMetadata {
@@ -384,6 +395,31 @@ export interface RestaurantReadExecutionMetadata {
     outcome: "AVAILABLE" | "UNAVAILABLE" | "PROVIDER_FAILURE";
     failureCode?: string;
   }>;
+  /** Candidate-scoped native discovery failures; other observed outlets in the batch remain usable. */
+  candidateFailures?: Array<{ sourceUrl: string; reasonCode: string }>;
+  /** Eval-only same-source identity observations; they do not grant Domain evidence. */
+  nativeContinuity?: Array<{
+    candidateId: string;
+    provider: "TABELOG" | "TABLECHECK";
+    expectedSourceEntityId: string;
+    observedSourceEntityId?: string;
+    confirmed: boolean;
+    reason: string;
+  }>;
+  /** Observed native batch funnel; `exhausted` on the durable cursor includes the next source. */
+  nativeDiscoveryFunnel?: {
+    source: "TABELOG" | "TABLECHECK";
+    rawSourceLinks: number;
+    parsedOutlets: number;
+    newOutlets: number;
+    rejected: Array<{ sourceUrl: string; reasonCode: string }>;
+    accepted: number;
+    pagesRead: number;
+    batchLimitReached: boolean;
+    sourceExhausted: boolean | "UNKNOWN";
+    batchEnded: boolean;
+    progressionReason: "FIRST_SOURCE_BATCH" | "FIRST_SOURCE_BATCH_ENDED" | "SOURCE_FAILURE";
+  };
   browser?: {
     runtimeProvider: "CLOUDFLARE_BROWSER_RUN" | "LOCAL_PLAYWRIGHT_CHROMIUM";
     engine: "KITESURF" | "CHROMIUM";

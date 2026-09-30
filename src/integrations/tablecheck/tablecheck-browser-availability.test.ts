@@ -62,7 +62,22 @@ test("TableCheck reservation form binds the selected date and adult count withou
   assert.equal(hasTableCheckSelectedRequest(snapshot, "2026-09-25", 10, [controls[0]!, { ...controls[1]!, options: [{ value: "10", label: "10", selected: false, disabled: false }] }]), false);
   assert.equal(hasTableCheckSelectedRequest(snapshot, "2026-09-25", 10, [{ ...controls[0]!, value: "2026-09-24" }, controls[1]!]), false);
   assert.equal(hasTableCheckSelectedRequest({ ...snapshot, html: form.replace('value="2026-09-25"', 'value="2026-09-24"') }, "2026-09-25", 10, controls), true, "live input value must take precedence over an old HTML attribute");
+  const japanesePage = { ...snapshot, url: snapshot.url.replace("/en/shops/", "/ja/shops/"), html: form.replace("<form>", '<form data-selected-date="2026-09-25" data-pax="10">') };
+  assert.equal(hasTableCheckSelectedRequest(japanesePage, "2026-09-25", 10, changed), false, "Japanese reservation forms must not accept stale HTML after a live 10→9 change");
+  assert.equal(hasTableCheckSelectedRequest(japanesePage, "2026-09-25", 9, changed), true);
   assert.equal(parseTableCheckAvailabilitySlots(snapshot, { date: "2026-09-25", partySize: 10 }).queryComplete, false);
+  const oldInventory = { ...snapshot, html: `${form}<section data-availability-state="complete" data-date="2026-09-24" data-pax="2"><button class="time-slot is-available" data-time="19:00">19:00</button></section>` };
+  assert.equal(parseTableCheckAvailabilitySlots(oldInventory, { date: "2026-09-25", partySize: 10 }).queryComplete, false, "a previous request's complete result cannot follow newly selected controls");
+  assert.deepEqual(parseTableCheckAvailabilitySlots(oldInventory, { date: "2026-09-25", partySize: 10 }).availableSlots, []);
+  const loadingInventory = { ...snapshot, html: `${form}<section data-availability-state="loading" data-date="2026-09-25" data-pax="10"><button class="time-slot is-available" data-time="19:00">19:00</button></section>` };
+  assert.equal(parseTableCheckAvailabilitySlots(loadingInventory, { date: "2026-09-25", partySize: 10 }).queryComplete, false);
+  const currentInventory = { ...snapshot, html: `${form}<section data-availability-state="complete" data-date="2026-09-25" data-pax="10"><button class="time-slot is-available" data-time="19:00">19:00</button></section>` };
+  assert.equal(parseTableCheckAvailabilitySlots(currentInventory, { date: "2026-09-25", partySize: 10 }).queryComplete, false, "synthetic result attributes are not a source-proven booking link");
+  const linkedInventory = { ...snapshot, html: `${form}<a href="/en/shops/cytokyo-lavarock/reserve?start_date=2026-09-25&pax=10&start_time=19:00">19:00</a>` };
+  assert.deepEqual(parseTableCheckAvailabilitySlots(linkedInventory, { date: "2026-09-25", partySize: 10 }).availableSlots, ["19:00"]);
+  assert.equal(parseTableCheckAvailabilitySlots(linkedInventory, { date: "2026-09-25", partySize: 10 }).queryComplete, true);
+  assert.equal(parseTableCheckAvailabilitySlots(linkedInventory, { date: "2026-09-25", partySize: 10, timeWindow: { earliest: "18:00", latest: "18:30" } }).queryComplete, false, "a slot outside the requested window cannot prove the window empty");
+  assert.equal(parseTableCheckAvailabilitySlots({ ...snapshot, html: `${form}<section data-availability-state="empty" data-date="2026-09-25" data-pax="10"></section>` }, { date: "2026-09-25", partySize: 10, timeWindow: { earliest: "18:00", latest: "19:00" } }).queryComplete, false, "one empty marker has no whole-window proof");
   for (const html of [
     '<form><input name="reservation[start_date]" value="2026-09-25"></form><form><select name="reservation[num_people_adult]"><option value="10" selected>10</option></select></form>',
     '',
@@ -475,6 +490,41 @@ function matchingOutletPage(url = "https://www.tablecheck.com/en/restaurant1"): 
   };
 }
 
+test("TableCheck native guide uses its own ID and linked booking entrance without a name search", async () => {
+  const native = { ...candidate, restaurant: { ...candidate.restaurant, id: "tablecheck:restaurant1",
+    sourceIds: { tablecheck: "restaurant1", tablecheckNativeGuideUri: "https://www.tablecheck.com/en/restaurant1" } } };
+  const reservation: BrowserSnapshot = { url: "https://www.tablecheck.com/en/restaurant1/reserve/landing", title: "Restaurant 1 reservation",
+    text: "Restaurant 1 2 guests 2026-08-05 19:00", html: '<div data-selected-date="2026-08-05" data-pax="2"></div><section data-availability-state="complete"><button class="time-slot is-available" data-time="19:00">19:00</button></section>' };
+  const session = new FixtureBrowserSession([matchingOutletPage(), reservation]);
+  const nativeDiagnostics: Array<{ nativeContinuity?: { confirmed: boolean; reason: string; observedSourceEntityId?: string } }> = [];
+  const result = await new TableCheckBrowserAvailability({ openSession: async () => session }, () => "2026-08-05T09:00:00.000Z",
+    { onIdentityDiagnostic: (diagnostic) => nativeDiagnostics.push(diagnostic) })
+    .check({ ...request, candidateIds: [native.restaurant.id], candidates: [native], hardCriteria: [] }, new AbortController().signal);
+  assert.equal(session.navigations.some((value) => value.includes("/japan/search")), false);
+  assert.equal(result.availabilityChecks[native.restaurant.id]?.status, "AVAILABLE", JSON.stringify({ checks: result.availabilityChecks, navigations: session.navigations }));
+  assert.equal(result.evidence.some((item) => item.kind === "ENTITY_MATCH" && item.entityMatch?.matchedBy.includes("NATIVE_SOURCE_ID_AND_DETAIL")), true);
+  assert.deepEqual(nativeDiagnostics[0]?.nativeContinuity, { confirmed: true, reason: "SAME_SOURCE_OUTLET",
+    expectedSourceEntityId: "restaurant1", observedSourceEntityId: "restaurant1" });
+  const wrong = { ...native, restaurant: { ...native.restaurant, sourceIds: { ...native.restaurant.sourceIds, tablecheck: "another-branch" } } };
+  const wrongSession = new FixtureBrowserSession([matchingOutletPage(), reservation]);
+  const bad = await new TableCheckBrowserAvailability({ openSession: async () => wrongSession }, () => "2026-08-05T09:00:00.000Z")
+    .check({ ...request, candidateIds: [wrong.restaurant.id], candidates: [wrong], hardCriteria: [] }, new AbortController().signal);
+  assert.equal(bad.offers.length, 0);
+  assert.equal(wrongSession.navigations.some((value) => value.includes("/japan/search")), false, "wrong native ID must not fall back to source-wide name search");
+  const changedAddress = { ...native, restaurant: { ...native.restaurant, address: "2-2 Shinjuku, Tokyo" } };
+  const changed = await new TableCheckBrowserAvailability({ openSession: async () => new FixtureBrowserSession([matchingOutletPage(), reservation]) }, () => "2026-08-05T09:00:00.000Z")
+    .check({ ...request, candidateIds: [native.restaurant.id], candidates: [changedAddress], hardCriteria: [] }, new AbortController().signal);
+  assert.equal(changed.availabilityChecks[native.restaurant.id]?.status, "AVAILABLE", "source-owned outlet continuity does not rematch address formatting");
+  const otherOutletPage = { ...matchingOutletPage(), url: "https://www.tablecheck.com/en/another-branch" };
+  const swapped = await new TableCheckBrowserAvailability({ openSession: async () => new FixtureBrowserSession([otherOutletPage]) }, () => "2026-08-05T09:00:00.000Z")
+    .check({ ...request, candidateIds: [native.restaurant.id], candidates: [native], hardCriteria: [] }, new AbortController().signal);
+  assert.equal(swapped.offers.length, 0, "a same-name page at another guide slug cannot contribute inventory");
+  const errorPage = { ...matchingOutletPage(), title: "404 Not Found" };
+  const errored = await new TableCheckBrowserAvailability({ openSession: async () => new FixtureBrowserSession([errorPage]) }, () => "2026-08-05T09:00:00.000Z")
+    .check({ ...request, candidateIds: [native.restaurant.id], candidates: [native], hardCriteria: [] }, new AbortController().signal);
+  assert.equal(errored.offers.length, 0, "an error document at the same URL is not outlet continuity");
+});
+
 test("TableCheck recovers one challenged canonical availability page through its observed alternate-language outlet", async () => {
   const session = new FixtureBrowserSession([
     discoveryPage({ href: "/en/restaurant1?search_text=Restaurant+1", text: "Restaurant 1" }),
@@ -547,7 +597,14 @@ test("TableCheck retains verified identity when later availability controls time
 test("TableCheck executor grounds a discovered same-outlet page and real linked reservation page without booking actions", async () => {
   const guide = matchingOutletPage();
   const sourceOwnedGuide = { ...guide, html: `${guide.html}<div data-testid="Venue Availability"></div><script type="application/ld+json">${JSON.stringify({ "@type": "Restaurant", "@id": guide.url, acceptsReservations: "https://www.tablecheck.com/en/shops/restaurant1/reserve" })}</script>` };
-  const session = new FixtureBrowserSession([
+  for (const fixture of [
+    { state: "complete", date: "2026-08-04", party: 3, time: "19:00", expected: "UNKNOWN" },
+    { state: "loading", date: "2026-08-05", party: 2, time: "19:00", expected: "UNKNOWN" },
+    { state: "empty", date: "2026-08-05", party: 2, time: "19:00", expected: "UNKNOWN" },
+    { state: "complete", date: "2026-08-05", party: 2, time: "18:00", expected: "UNKNOWN" },
+    { state: "complete", date: "2026-08-05", party: 2, time: "19:00", expected: "AVAILABLE" },
+  ] as const) {
+    const session = new FixtureBrowserSession([
     discoveryPage({ href: "/en/restaurant1?search_text=Restaurant+1", text: "Restaurant 1" }),
     sourceOwnedGuide,
     {
@@ -557,7 +614,8 @@ test("TableCheck executor grounds a discovered same-outlet page and real linked 
       html: [
         '<form><input name="reservation[start_date]" value="2026-08-05"><select name="reservation[num_people_adult]"><option value="2" selected>2</option></select></form>',
         '<section class="featured-menu">Omakase course</section>',
-        '<section data-availability-state="complete"><button class="time-slot is-available" data-time="19:00">19:00</button></section>',
+        `<section data-availability-state="${fixture.state}" data-date="${fixture.date}" data-pax="${fixture.party}"><button class="time-slot is-available" data-time="${fixture.time}">${fixture.time}</button></section>`,
+        fixture.expected === "AVAILABLE" ? '<a href="/en/shops/restaurant1/reserve?start_date=2026-08-05&pax=2&start_time=19:00">19:00</a>' : "",
       ].join(""),
     },
   ]);
@@ -569,9 +627,14 @@ test("TableCheck executor grounds a discovered same-outlet page and real linked 
   const browser: BrowserRuntime = { openSession: async () => session };
   const result = await new TableCheckBrowserAvailability(browser, () => "2026-08-05T09:00:00.000Z").check(request, new AbortController().signal);
   assert.equal(result.metadata.provider, "TABLECHECK");
-  assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE");
-  assert.equal(result.offers[0]?.source, "TABLECHECK");
-  assert.deepEqual(result.evidence.map((item) => item.kind), ["ENTITY_MATCH", "RESTAURANT_FACT", "AVAILABILITY"]);
+  assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, fixture.expected, fixture.state + ":" + fixture.date);
+  if (fixture.expected === "AVAILABLE") {
+    assert.equal(result.offers[0]?.source, "TABLECHECK");
+    assert.deepEqual(result.evidence.map((item) => item.kind), ["ENTITY_MATCH", "RESTAURANT_FACT", "AVAILABILITY"]);
+  } else {
+    assert.equal(result.offers.length, 0, "old or loading inventory cannot create an offer");
+    assert.equal(result.evidence.some((item) => item.kind === "AVAILABILITY"), false);
+  }
   assert.equal(result.evidence.every((item) => item.provider === "TABLECHECK"), true);
   assert.equal(session.navigations.length, 3);
   assert.equal(session.navigations[0]?.includes("/en/japan/search?"), true);
@@ -580,6 +643,7 @@ test("TableCheck executor grounds a discovered same-outlet page and real linked 
   assert.equal(session.clicks, 0);
   assert.equal(session.fills, 0);
   assert.equal(session.closed, true);
+  }
 });
 
 test("TableCheck reads a Google-listed merchant page through the same identity gate before using discovery results", async () => {

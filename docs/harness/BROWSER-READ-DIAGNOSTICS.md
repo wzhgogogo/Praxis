@@ -1,12 +1,14 @@
 # Browser Read Diagnostics
 
 - Status: Accepted
-- Document revision: 0.7
-- Last updated: 2026-09-16
+- Document revision: 0.9
+- Last updated: 2026-09-30
 - Source of truth for: 单页浏览器只读诊断操作与证据范围
 - Related ADRs: [ADR-0015](../decisions/0015-supported-source-search-evidence.md)、[ADR-0016](../decisions/0016-local-eval-browser-profile-lifecycle.md)
 
 ## 当前切片
+
+2026-09-30 Tabelog目标日期限制回归复用保存的Teppen日历与真实本地Chromium Adapter：加载→受限后，同一可见月份的30日`closed`返回`UNKNOWN / TABELOG_REQUEST_DATE_CLOSED_ON_CALENDAR`、零Offer且不启动模型动作；同页29日电话状态、28日`full`各保留独立只读分类，隐藏的10月可选日期不得冒充当前查询面。修前同一目标断言为笼统`TABELOG_VISIBLE_QUERY_CONTROLS_RESTRICTED`，修后通过；该回归不是当日完整原DOM Replay，也不证明19:00精确无位。[当前只读采证及界限](../history/H001-TEPPEN-TARGET-DATE-2026-09-30.md)。
 
 2026-09-16 P1 将共享观察/动作 strict wire 升为`browser_read_action@2`：control snapshot 增加 checkbox、range、可滚动 region、selected options 与 active modal 对背景目标的遮挡状态。Executor 仍只使用同一 Playwright session 和不透明`dom:`引用；新增动作只能明确设置勾选状态、让滑条移动一个键盘步进或滚动已观察容器。动作后会重新观察控件状态，避免把 URL/文本未变化误作失败，也不会把滚动位置当成查询或地图语义成功。已观察的公开新标签链接会在同一context成为新active page，旧页引用被废弃并必须重新观察。真实 Chromium 本地 Fixture 当前为13/13，覆盖 modal 阻挡、selected≠options、checkbox、range、region scroll、来源许可的 Update/reopen/reset、公开新标签页和既有 Local/Cloudflare-session 引用解析；不访问真实站点，不证明当前平台兼容性或库存。
 
@@ -21,6 +23,8 @@ PRAXIS_ALLOW_LIVE_RESTAURANT_READ=1 PRAXIS_ALLOW_BROWSER_RUN=1 \
 PRAXIS_BROWSER_ENGINE=LOCAL_CHROMIUM PRAXIS_LOCAL_CHROMIUM_INTERACTIVE=1 \
 npm run probe:restaurant:browser:read -- --url 'https://www.tablecheck.com/实际公开入口' --network-path DIRECT --timeout-ms 20000
 ```
+
+本地Chromium可显式设置`PRAXIS_LOCAL_CHROMIUM_PROXY_SERVER=http://127.0.0.1:10808`，通过Playwright的proxy参数应用于临时及专用持久eval profile。不设置时保持默认网络路径；不改变系统代理、TUN或模型出口，也不自动回退。该变量只由`fromEnvironment`读取；直接构造运行时的诊断须显式传入`proxyServer`。
 
 示例URL必须替换为实际公开入口。`--network-path DIRECT|PROXY|UNKNOWN`是操作者报告，工具不检测系统TUN。可按页面证据添加`--ready-selector`；不得猜测选择器后把超时认作网站不可用。可选`--outlet-name`、`--address`、`--phone`提供对照身份；`--date YYYY-MM-DD`与`--party-size`必须一起提供。工具观察已有页面参数，不操作日期人数控件。手工输入不充当Google Discovery证据。
 

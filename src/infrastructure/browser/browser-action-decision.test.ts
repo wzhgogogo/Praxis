@@ -74,17 +74,18 @@ test("strict browser wire COMPLETE rejects a fabricated placeholder or an author
   await assert.rejects(() => authority.decide(input), (error: unknown) => error instanceof BrowserReadDecisionError && error.code === "INVALID_MODEL_OUTPUT");
 });
 
-test("strict browser wire restores authoritative calendar and time-option actions", async () => {
+test("strict browser wire restores authoritative calendar and observed-option actions", async () => {
  for (const field of ["DATE", "TIME"] as const) {
+  const action = field === "TIME" ? "CHOOSE_OPTION" : "CLICK_AUTHORITATIVE";
   const decision = new ModelBrowserReadActionDecision(gateway({
-    action: "CLICK_AUTHORITATIVE",
+    action,
     targetRef: "observation:1:target:1",
     authoritativeField: field,
     requestedState: "NONE",
     reason: "Choose the requested calendar day.",
   }));
   assert.deepEqual(await decision.decide(input), {
-    type: "CLICK_AUTHORITATIVE",
+    type: action,
     targetRef: "observation:1:target:1",
     field,
     reason: "Choose the requested calendar day.",

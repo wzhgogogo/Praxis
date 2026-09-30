@@ -25,7 +25,7 @@
 | [0012](0012-migration-and-agent-loop-hardening.md) | Accepted | Migration不可变性、开发State重置、Agent Context与Loop审计收口 |
 | [0013](0013-agent-loop-final-hardening.md) | Accepted | 失败后Agent恢复、route taxonomy、Decision Context trajectory与Hybrid E2E门槛 |
 | [0014](0014-search-only-results-completion.md) | Superseded in part by ADR-0027; provider identity scope superseded by ADR-0015 | 只读结果证据门槛保持；终态解释已替换 |
-| [0015](0015-supported-source-search-evidence.md) | Accepted | 受支持来源的HIGH门店身份与请求对应空位证据，不降低只读结果门槛 |
+| [0015](0015-supported-source-search-evidence.md) | Accepted; Google候选前提与原生路径来源顺序由ADR-0032替代 | 受支持来源的HIGH门店身份与请求对应空位证据，不降低只读结果门槛 |
 | [0016](0016-local-eval-browser-profile-lifecycle.md) | Accepted | 本地eval持久profile窄例外，产品隔离与销毁规则保持 |
 | [0017](0017-controlled-browser-read-executor.md) | Draft / authorized local-eval implementation | 两来源共享受控浏览器只读执行；模型只提议已观察元素动作 |
 | [0018](0018-availability-display-freshness-and-recheck.md) | Accepted | 展示新鲜度与预订前核查分离；以理由受限的只读重查替代永久已检查 |
@@ -38,10 +38,12 @@
 | [0025](0025-model-directed-read-investigation.md) | Accepted | 模型调查顺序、统一只读证据评估、有界观察反馈与正常无可靠结果收尾 |
 | [0026](0026-concrete-visit-goal-and-reception-semantics.md) | Accepted | 具体到访的Availability语义、动作参数边界与接待方式/库存分离 |
 | [0027](0027-continuous-read-only-selection-sessions.md) | Accepted | 结果批次可续接、持久候选池与受限游标补货 |
-| [0028](0028-open-ended-result-targets-for-availability.md) | Accepted; default first-batch deadline detail superseded in part by ADR-0031 | 开放式查位与推荐共享三家结果目标 |
+| [0028](0028-open-ended-result-targets-for-availability.md) | Accepted; default first-batch delivery details superseded in part by ADR-0031/0033 | 开放式查位与推荐共享三家结果目标 |
 | [0029](0029-criterion-strength-and-nonblocking-preferences.md) | Accepted | 表达但未标记强制/让步的条件为UNSPECIFIED，并仅以HARD形成证据门槛 |
 | [0030](0030-restaurant-category-negative-eligibility.md) | Accepted | 类别/类型排除的受限`UNKNOWN`仅用于资格，不成为已验证负向事实 |
 | [0031](0031-default-result-delivery-window.md) | Accepted | 默认首批在有界交付窗口内展示已有合格短批 |
+| [0032](0032-source-native-restaurant-discovery.md) | Accepted | 有界来源原生发现、同源身份与查位、Tabelog→TableCheck固定两批 |
+| [0033](0033-native-source-batch-delivery.md) | Accepted | 原生路径完成一来源有界调查后可展示已核实短批，保留目标缺口 |
 
 ## 规则
 

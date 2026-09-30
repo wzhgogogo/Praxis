@@ -1,0 +1,22 @@
+# H003 TableCheck native Loop 2 retry
+
+- Status: scope deviation; Live Read-only; not integrated; excluded from the current H001 assignment's acceptance
+- Date: 2026-09-28
+- Input: current exposed `restaurant-read-development@6` H003, materialized at `2026-09-28T10:02:38.252Z` to Tokyo Friday `2026-10-02`, 10 people, `17:30–22:00`. Fixed Higashi-Ginza evaluation center `35.6697,139.7670` and exact 3,000 m gate. The historical `2026-09-25` request was not reused.
+- Scope: TableCheck native search and, if admitted, the same source candidates into the existing read-only availability adapter. No Google restaurant matching, booking submission, or other external write.
+
+**Assignment correction:** the latest explicit assignment for this work was one H001 native run, 300,000 ms / 50 model calls. This H003 attempt followed when an older user request to repair and retry Loop 2 was mistakenly restored as the active task. It was an actual external read attempt and its 35,158 ms must remain in resource accounting, but it is **not a valid run for the current H001 assignment** and cannot serve as H001 acceptance or a controlled comparison. The earlier H001 run consumed 37,106 ms; both runs used zero model calls. No further Live work follows from this historical H003 request.
+
+## Repair and preflight
+
+The prior contiguous run reached two same-source widgets but repeated guest-control actions and timed out before a complete request-bound result. The current shared browser working tree already contains a strict `CHOOSE_OPTION` contract for observed native/custom options, owner binding, action hints, and post-action selection confirmation. This retry did not author those existing shared edits or change the production TableCheck adapter. The diagnostic runner was copied into a new ignored file and changed only to materialize the current H003 date/time/party from the authoritative YAML, preserving the 300,000 ms run cap, 50 model-call cap, first-five native results, 3 km final gate, and 30-second provider / 60-second candidate sublimits.
+
+The relevant browser-decision, executor and TableCheck adapter unit tests passed **72/72**. Local Chromium Fixture initially could not launch under the filesystem/process sandbox (`MachPortRendezvousServer ... Permission denied`); the same fixture then passed **44/44** in the permitted local environment. These are offline control checks, not current TableCheck inventory evidence.
+
+## One continuous Live retry
+
+The actual read-only invocation began before native search. TableCheck `/en/japan/search` used the original center, `geo_distance=5km` only for coarse retrieval, and no restaurant name. Local Chromium `page.goto` did not reach `domcontentloaded` within 35,000 ms. The wrapper reported `BROWSER_RUNTIME_FAILED` with the underlying navigation timeout. The run returned at **35,158 ms**, with **0 model calls, 0 parsed native results, 0 source details, 0 geographic admissions, 0 availability checks, and 0 offers**. No page DOM was returned. The ignored [execution artifact](../../.eval-artifacts/h003-native-tablecheck-loop2-retry-2026-09-28.result.json) and [runner](../../.eval-artifacts/h003-native-tablecheck-loop2-retry-2026-09-28.ts) preserve the request, timing and failure. Neither this artifact nor H001's records main-document request/response, redirects, `requestfailed`, final URL, `readyState`, timeout snapshot or trace; the network root cause, including any TUN role, is undetermined.
+
+## Verdict and boundary
+
+The control change has offline support but **Loop 2 remains Live-unverified**: its entry condition, native discovery, was not reached. The failure is neither a zero-result search nor a negative inventory result. The 2026-09-24 contiguous run's two candidates and 76.8-second timing remain historical stage evidence, not this run's candidates or an A/B comparison after the date and working tree changed. Artifact review marks control behavior, identity continuity, current slots, full Router/Runtime delivery, and architecture benefit as **NOT_REACHED**; user-goal completion fails for this run. The immediate gate for any future authorized native search is observable DOM within a declared bound. This H003 attempt was itself an **additional Live run after H001**, despite the earlier report's incorrect “no additional Live retry” wording. No further run, provider switch, enlarged budget, commit or push was made.

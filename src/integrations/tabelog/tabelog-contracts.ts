@@ -1,5 +1,6 @@
 import type { RestaurantCandidate } from "../../domains/restaurant/contracts.js";
 import type { BrowserSessionMetadata } from "../../infrastructure/browser/browser-runtime.js";
+import type { NativeOutletContinuity } from "../restaurant-availability/native-outlet-continuity.js";
 
 export interface TabelogOutletObservation {
   sourceEntityId: string;
@@ -43,6 +44,7 @@ export type TabelogEntityResolutionReason =
   | "DETAIL_BOT_CHALLENGE"
   | "NO_OUTLETS_PARSED"
   | "NO_COMPARABLE_IDENTITY_SIGNAL"
+  | "NATIVE_SOURCE_ID_AND_DETAIL"
   | "KNOWN_PHONE_CONFLICT"
   | "AMBIGUOUS_TOP_MATCH"
   | "NAME_ONLY_MATCH"
@@ -82,6 +84,7 @@ export interface TabelogEntityResolutionDiagnostic {
 }
 
 export interface TabelogIdentityDiagnostic extends TabelogEntityResolutionDiagnostic {
+  nativeContinuity?: NativeOutletContinuity;
   search: {
     query: string;
     requestedUrl: string;

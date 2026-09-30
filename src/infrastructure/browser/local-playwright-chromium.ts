@@ -6,12 +6,14 @@ import { chromium, type Browser, type BrowserContext, type Page } from "playwrig
 import type { BrowserResponseRule, BrowserControlHint, BrowserPageControl, BrowserRuntime, BrowserSession, BrowserSessionMetadata, BrowserSnapshot } from "./browser-runtime.js";
 import { BrowserRuntimeError } from "./browser-runtime-errors.js";
 import { PlaywrightResponseObserver } from "./playwright-response-observer.js";
-import { PlaywrightControlRegistry, waitForVisibleChange, activateObservedControl } from "./playwright-browser-controls.js";
+import { PlaywrightControlRegistry, waitForVisibleChange, activateObservedControl, observedLinkCovered } from "./playwright-browser-controls.js";
 
 export interface LocalPlaywrightChromiumConfig {
   browserType?: Pick<typeof chromium, "launch"> & Partial<Pick<typeof chromium, "launchPersistentContext">>;
   /** Defaults to headless; interactive eval explicitly opts into headed Chromium. */
   headless?: boolean;
+  /** Explicit local/eval proxy; otherwise use Chromium's normal network path. */
+  proxyServer?: string;
   /** A dedicated, gitignored eval profile makes cookies persist across local eval sessions. */
   userDataDir?: string;
 }
@@ -72,17 +74,22 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
   async observeControls(hints?: readonly BrowserControlHint[]): Promise<BrowserPageControl[]> { return this.run(() => this.controls.observe(this.page, hints)); }
   async click(target: string): Promise<void> {
     await this.run(async () => {
-      const locator = this.controls.locator(target);
+      const locator = await this.controls.target(target);
       // Only BrowserTaskExecutor passes opaque `dom:` references. Existing deterministic
       // adapter and local-fixture code keeps its explicit, code-owned locator capability.
       if (locator) await activateObservedControl(locator);
       else await this.page.locator(target).click();
     });
   }
-  async openLink(target: string): Promise<void> {
+  async openLink(target: string, observedHref?: string): Promise<void> {
     await this.run(async () => {
-      const locator = this.controls.locator(target);
+      const locator = await this.controls.target(target);
       if (!locator) throw new Error("Observed link reference is no longer available");
+      if (observedHref && await observedLinkCovered(locator, observedHref)) {
+        this.responses.reset();
+        await this.page.goto(observedHref, { waitUntil: "domcontentloaded" });
+        return;
+      }
       const opener = this.page;
       const popup = opener.waitForEvent("popup", { timeout: 1_000 }).catch(() => undefined);
       await locator.click();
@@ -93,12 +100,16 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
       await next.waitForLoadState("domcontentloaded", { timeout: 2_500 }).catch(() => undefined);
     });
   }
-  async fill(target: string, value: string): Promise<void> { await this.run(() => (this.controls.locator(target) ?? this.page.locator(target)).fill(value)); }
-  async select(target: string, value: string): Promise<string[]> { return this.run(() => (this.controls.locator(target) ?? this.page.locator(target)).selectOption(value)); }
-  async setChecked(target: string, checked: boolean): Promise<void> { await this.run(() => (this.controls.locator(target) ?? this.page.locator(target)).setChecked(checked)); }
-  async press(target: string, key: "ArrowLeft" | "ArrowRight"): Promise<void> { await this.run(() => (this.controls.locator(target) ?? this.page.locator(target)).press(key)); }
+  async fill(target: string, value: string): Promise<void> { await this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).fill(value)); }
+  async select(target: string, value: string): Promise<string[]> { return this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).selectOption(value)); }
+  async setChecked(target: string, checked: boolean): Promise<void> { await this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).setChecked(checked)); }
+  async press(target: string, key: "ArrowLeft" | "ArrowRight"): Promise<void> { await this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).press(key)); }
   async scroll(target: string, deltaY: number): Promise<void> {
-    await this.run(() => (this.controls.locator(target) ?? this.page.locator(target)).evaluate((element, delta) => (element as HTMLElement).scrollBy(0, delta), deltaY));
+    await this.run(async () => {
+      const observed = await this.controls.target(target);
+      if (observed) await observed.evaluate((element, delta) => (element as HTMLElement).scrollBy(0, delta), deltaY);
+      else await this.page.locator(target).evaluate((element, delta) => (element as HTMLElement).scrollBy(0, delta), deltaY);
+    });
   }
   async waitFor(target: string, timeoutMs?: number): Promise<void> {
     await this.run(() => this.page.locator(target).first().waitFor(timeoutMs === undefined ? {} : { timeout: timeoutMs }));
@@ -111,6 +122,7 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
   async close(): Promise<void> {
     if (this.closed) return;
     this.closed = true;
+    await this.controls.dispose();
     await closeQuietly(this.page);
     await closeQuietly(this.context);
     if (!this.contextOwnsBrowser) await closeQuietly(this.browser);
@@ -134,13 +146,16 @@ export class LocalPlaywrightChromium implements BrowserRuntime {
   static fromEnvironment(environment: NodeJS.ProcessEnv = process.env): LocalPlaywrightChromium {
     const interactive = environment.PRAXIS_LOCAL_CHROMIUM_INTERACTIVE === "1";
     const persistent = interactive && environment.PRAXIS_EVAL_ALLOW_TABELOG_MANUAL_INTERVENTION === "1";
-    return new LocalPlaywrightChromium(interactive
-      ? {
+    return new LocalPlaywrightChromium({
+      ...(environment.PRAXIS_LOCAL_CHROMIUM_PROXY_SERVER?.trim()
+        ? { proxyServer: environment.PRAXIS_LOCAL_CHROMIUM_PROXY_SERVER.trim() }
+        : {}),
+      ...(interactive ? {
           headless: false,
           // This directory is gitignored and deliberately never points to a user Chrome profile.
           ...(persistent ? { userDataDir: resolve(".eval-artifacts", "local-chromium-profile") } : {}),
-        }
-      : {});
+        } : {}),
+    });
   }
 
   async openSession(input: { signal: AbortSignal }): Promise<BrowserSession> {
@@ -151,14 +166,18 @@ export class LocalPlaywrightChromium implements BrowserRuntime {
     let contextOwnsBrowser = false;
     try {
       const browserType = this.config.browserType ?? chromium;
+      const launchOptions = {
+        headless: this.config.headless ?? true,
+        ...(this.config.proxyServer ? { proxy: { server: this.config.proxyServer } } : {}),
+      };
       if (this.config.userDataDir) {
         if (!browserType.launchPersistentContext) {
           throw new Error("The configured Playwright browser type does not support persistent contexts");
         }
-        context = await browserType.launchPersistentContext(this.config.userDataDir, { headless: this.config.headless ?? true });
+        context = await browserType.launchPersistentContext(this.config.userDataDir, launchOptions);
         contextOwnsBrowser = true;
       } else {
-        browser = await browserType.launch({ headless: this.config.headless ?? true });
+        browser = await browserType.launch(launchOptions);
         context = await browser.newContext();
       }
       page = await context.newPage();

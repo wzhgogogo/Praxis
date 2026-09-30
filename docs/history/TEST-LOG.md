@@ -1,13 +1,294 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.93
-- Last updated: 2026-09-24
+- Document revision: 4.137
+- Last updated: 2026-09-30
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## TEST-2026-09-30-H001-TARGET-DATE-RESTRICTION
+
+Live Read-only: one separately authorized Teppen single-page probe, about 8.9 seconds, one source URL, initial and settled sanitized query observations, zero model/control action/booking write. Current Sep 30 source day is `closed`; selected/disabled Guests 2, hidden future months and no captured vacancy response. Probe result remains page observation only, not inventory acceptance. Artifact and limits: [target-date report](H001-TEPPEN-TARGET-DATE-2026-09-30.md).
+
+Offline Adapter/Chromium: existing loading-to-restricted Teppen test requests Sep 30. Pre-change target assertion RED at generic `TABELOG_VISIBLE_QUERY_CONTROLS_RESTRICTED` (`/private/tmp/praxis-h001-target-date-red.log`); post-change GREEN at `UNKNOWN / TABELOG_REQUEST_DATE_CLOSED_ON_CALENDAR`, zero Offer and no model action. Same saved-DOM test reads Sep 28 FULL, Sep 29 PHONE_ONLY, Sep 30 CLOSED and hidden Oct 1 UNOBSERVED. The sanitized current probe regions were separately reconstructed for a diagnostic-only parser check (`/private/tmp/praxis-h001-current-query-state-check.log`), **not** treated as a full DOM Replay. Complete local Chromium Fixture **54/54 PASS** (`/private/tmp/praxis-h001-target-date-browser-fixture.log`), default offline **564/564 PASS** (`/private/tmp/praxis-h001-target-date-npm-test.log`), typecheck, architecture check and build PASS. No new model/source call after this Adapter edit; current live Adapter result remains unverified.
+
+## TEST-2026-09-30-H001-TEPPEN-QUERY-CAPTURE
+
+Mode: offline saved real-source DOM, scripted BrowserSession and **real local Chromium Fixture**, no external network/model/booking write. The immutable prior browser-slice artifact fails the recoverable-query-region assertion (`/private/tmp/praxis-h001-query-recorder-old-artifact-red.log`). The new actual `BrowserSession` trace wrapper plus durable journal preserves the Teppen September 30 closed day cell, all control entries (including a classless alternate entrance and disabled Guests 2), ancestor/child markup-hidden facts and `computedVisibility: UNKNOWN`; profile link label/key and tokenized URL are absent from the artifact. A separate loading→settled probe test records both snapshots and only passive Tabelog response fields. Targeted recorder/probe tests **6/6 PASS**; the existing saved-DOM real Chromium test extended with trace assertions **1/1 PASS**. Default `npm test` first hit sandbox localhost `listen EPERM`; approved final offline rerun **564/564 PASS** (`/private/tmp/praxis-h001-query-recorder-final-npm-test.log`). Typecheck, architecture check and build pass. No current Teppen source read was run, so this closes recording fidelity only; request-bound inventory remains unverified. [Detailed boundary and prepared command](H001-TEPPEN-QUERY-CAPTURE-2026-09-30.md).
+
+## TEST-2026-09-30-H001-SAVED-QUERY-STATE-DIAGNOSIS
+
+Mode: offline inspection of the saved complete Sep 29 Teppen DOM, the Sep 30 sanitized browser-slice trace, and current production query-control code; no new Live/model call. The complete earlier DOM has zero `.is-current` nodes, no dated selectable target for Sep 29/30, and disabled guest buttons. The later trace has selected/disabled Guests 2, hidden guest value 2, no preserved current-date marker and no captured vacancy response. Existing saved-DOM Chromium tests already cover restricted `UNKNOWN` and a normal actionable date/party query; no new implementation or test was added. This evidence does not prove the exact Sep 30 DOM or request-bound 19:00 unavailability. [Detailed diagnosis](H001-TEPPEN-QUERY-STATE-OFFLINE-2026-09-30.md).
+
+## TEST-2026-09-30-H003-REAL-SOURCE-AFTER-OFFLINE-REPAIR
+
+Mode: one user-requested **Live Read-only** TableCheck H003 browser-slice invocation, default Chromium browser network, historical native outlet entrance, unchanged Oct 2/10-person request and 45s/30s/24-operation/5-model-call limits. Plan-only materialization checked immediately before execution. Result `UNKNOWN / BROWSER_RUNTIME_FAILED`: navigation `page.goto` reached its 20-second `domcontentloaded` timeout, **20,107ms total, one NAVIGATE operation, zero snapshot/model calls/identity evidence/Offers**. No model or inventory control path was reached; no Google, source substitution, retry, reservation or external write. The local five-action repair remains unverified against the live page. The artifact and exact boundary are in [the follow-up Live section](BROWSER-CASE-SLICE-LIVE-2026-09-30.md#follow-up-after-the-2026-09-30-offline-h003-repair). No implementation changed in this execution-only follow-up; existing offline gates are not a substitute for the missing Live observation.
+
+## TEST-2026-09-30-H003-POSTLIVE-BROWSER-REPAIR
+
+Mode: Mock and **real local Chromium against synthetic Fixture pages**, no external source or paid model. Existing actual TableCheck Adapter regression now starts with both date and guest controls visible, initially exposes only guest options 1–8 plus an observed scrollable list region, follows the five-action shape in the Sep 30 Live trace, and independently checks the final DOM's Oct 2 selection, `pax-10` and same-source 19:00 link. Repaired behavior: one `AVAILABLE` Offer and **22/24 browser operations** (`/private/tmp/praxis-loop2-five-action-green-final.log`, count in `/private/tmp/praxis-loop2-five-action-green-count.log`). Isolated red control with the same test and all other Executor source aligned except unconditional post-click wait: four model decisions, 24 operations, `UNKNOWN / REQUEST_SELECTION_UNCONFIRMED` plus `OPERATION_BUDGET_EXHAUSTED` before action five (`/private/tmp/praxis-loop2-five-action-red-aligned.log`). The synthetic guest-list transition represents two observed projections, not a proven real-site cause or real-model action sequence.
+
+Focused Executor/TableCheck/Tabelog tests **98/98 PASS**; complete local Chromium Fixture **54/54 PASS** (`/private/tmp/praxis-loop2-repair-browser-fixture.log`), including existing async option, stale-target, disabled and write-prohibited controls; default offline suite **561/561 PASS** (`/private/tmp/praxis-loop2-repair-npm-test.log`). `npm run typecheck`, `npm run arch:check` and `npm run build` passed. The short browser-read Skill now guides a partially visible combobox to scroll its observed owning region and re-observe; no further test matrix was added for this guidance. Final diff check is recorded at handoff. H001's unbound no-seat prose remains UNKNOWN. Current-source behavior, real-model choice and full native-path timing remain unverified after this repair. [Mechanism and scope](BROWSER-CASE-SLICE-REPAIR-2026-09-30.md).
+
+## TEST-2026-09-30-TWO-REAL-SOURCE-BROWSER-READS
+
+Mode: user-requested **Live Read-only**, one invocation each of the existing bounded browser-slice Runner after the 2026-09-29 repair. H003 TableCheck: 23,262ms, 5 model calls, 24 operations, HIGH native identity, zero Offer, `UNKNOWN/BROWSER_TIMEOUT`; the 10-person option click returned, then the next wait was refused by the exact `OPERATION_BUDGET_EXHAUSTED` diagnostic. H001 Tabelog: 7,869ms, zero model calls, four operations, HIGH native identity, zero Offer, `UNKNOWN/TABELOG_VISIBLE_QUERY_CONTROLS_RESTRICTED` after disabled visible guest controls. Together **31,131ms / 5 model calls / 28 operations**, no retry, Google request, reservation or other write. [Artifacts, request variants and interpretation](BROWSER-CASE-SLICE-LIVE-2026-09-30.md). These probes begin at historical source entrances; original native discovery/geocoding time and full Case/independent Eval are not included. No new offline code or test run was needed for this execution-only follow-up.
+
+## TEST-2026-09-29-FOUR-BROWSER-CASE-SLICES-AND-OFFLINE-REPAIR
+
+Live Read-only: H005/H002/H003/H001 diagnostic variant executed once each, **77,048ms / 9 model calls / 44 browser operations**, no retry or booking write. None returned a request-bound Offer; specific stop reasons, identity evidence and saved artifact paths are in [the Live report](BROWSER-CASE-SLICE-LIVE-2026-09-29.md). This is not a full Case execution or independent Eval. H001 original Gold and prior H001 Live conclusions remain unchanged.
+
+Offline Mock/real local Chromium: focused shared Executor tests **28/28 PASS** (disabled visible/read-only and rejected on attempted click, two actions within ten operations, explicit operation-budget diagnostic). Complete real Chromium Fixture **54/54 PASS** in the permitted local environment (`/private/tmp/praxis-browser-case-fixture-final4.log`), including native TableCheck identity→four query actions→selected ten-person request→same-source result under 24 operations. In an isolated source copy with the old repeated observation, the same Adapter fixture is **RED** at `BROWSER_TIMEOUT / OPERATION_BUDGET_EXHAUSTED` after four actions (`/private/tmp/praxis-browser-four-action-red2.log`); repaired single case **GREEN** (`/private/tmp/praxis-browser-four-action3.log`). Default offline suite `npm test` **561/561 PASS** (`/private/tmp/praxis-browser-case-npm-test-final.log`). Typecheck, arch:check, build and diff check passed before the final fixture refinement and are rerun at handoff. No Live follow-up, source network, paid model, Google or external write occurred in this repair.
+
+## TEST-2026-09-29-SHARED-BROWSER-CONTROLS-OFFLINE
+
+Mode: saved real public DOM Replay plus local Chromium Fixture; no network, model or booking write. TableCheck 2026-09-29 saved search control proves outer `DIV role=combobox` is BUTTON and inner `input[name=search_text]` is INPUT with its placeholder label; outer native fill fails, inner fill and readback succeed in local and Cloudflare-session implementations. The saved Ginza iwa result card with an injected pointer-cover style proves the same observed public href opens without a 30-second intercepted click; normal `target=_blank` popup and authoritative native date/party paths also pass. The saved Teppen calendar with hidden future months and disabled guests fails actionable readiness and yields a source query-control restriction; an Adapter fixture first shows a loading shell, then asynchronously inserts that saved calendar, and exits `UNKNOWN / TABELOG_VISIBLE_QUERY_CONTROLS_RESTRICTED` without model action or timeout. No date-specific no-slot claim. Final default Mock/Fixture suite `npm test` **558/558 PASS** (log `/private/tmp/praxis-browser-shared-final-npm-test-20260929.log`); separate real Chromium `npm run test:browser:fixture` **50/50 PASS** (log `/private/tmp/praxis-browser-shared-final-browser-fixture-20260929.log`). Initial ordinary-sandbox Chromium launch failed with macOS Mach port EPERM; approved offline runner launch passed. Final `npm run typecheck`, `npm run arch:check`, `npm run build`, and `git diff --check` passed. Remaining: the Browser model has no free-text search action, and real source current behavior is unverified.
+
+Independent-review correction: a lower card at 1400px initially timed out after scrolling, and `button name="action">20:00</button>` initially surfaced label `action`. The original red results were overwritten when the same temporary script was rerun; the main-chat review record/tool output retains the red observations. After correction, the reviewer's fully routed offline probe showed offset 0 and 1400 both navigated to the observed detail URL with label `20:00`; main chat saved its independent green run separately at `/private/tmp/praxis-browser-shared-review/probe-results-independent-green.json`. New local/Cloudflare Chromium tests cover both offsets; a Reserve button retains its visible label and `WRITE_PROHIBITED`; normal popup remains green. Final default `npm test` **558/558 PASS** (`/private/tmp/praxis-browser-shared-review-final-npm-test.log`), dedicated Chromium Fixture **53/53 PASS** (`/private/tmp/praxis-browser-shared-review-final-browser.log`), typecheck, arch:check, build and diff check PASS. No new network, model, Live or external write.
+
+Four-Case browser-slice preflight: `run-browser-case-slice.ts --plan --case h001|h002|h003|h005` returned the current YAML/materializer-bound request for each Case without keys, network or model. At 2026-09-29 22:45 JST the plans resolved H001 Sep 29 19:00/2 as `REQUEST_WINDOW_ELAPSED`, H002 Sat Oct 3 18:30/2, H003 Fri Oct 2 17:30–22:00/10, and H005 Sep 29 22:45/4 with exact one-minute validity. An `--execute` invocation without the existing Live gates stopped before runtime/model construction. Typecheck, arch:check, build and diff check PASS after adding the entry. No external call, model invocation, Adapter result or independent Eval occurred. [Plan and limits](BROWSER-CASE-SLICE-PLAN-2026-09-29.md).
+
+## TEST-2026-09-29-TEPPEN-CONTROL-ONE-PAGE-LIVE-READ
+
+Mode: separately user-authorized **Live Read-only** source observation, not H001 full-chain rerun. `LocalPlaywrightChromium.fromEnvironment()` on the default browser network navigated once to the existing Teppen outlet URL and captured one page snapshot, the complete 111 controls output by production observation, limited sanitized opening-tag markers and a viewport screenshot in 13,695ms. Calendar shell present; full-HTML string count found zero `js-calendar-day-target` occurrences, while the observer output no Date/Guests target. One `js-people-button` class occurrence was counted but its tag, visibility and parent structure were not saved. A narrow button-opener filter found no match; zero click and no after-page assertion. This cannot establish that the page lacks any other entrance. No Google, DeepSeek, reservation submission, retry, commit or push. [Evidence and limit](H001-NATIVE-GOOGLE10808-LIVE-2026-09-29.md#separately-authorized-one-page-control-probe). This later page cannot establish the earlier Live page's precise DOM or inventory.
+
+## TEST-2026-09-29-H001-POSTLIVE-CONTROL-DIAGNOSIS
+
+Read-only artifact/source inspection found `SKILL_STARTED` diagnostic truncation at 40 targets/1,000 visible characters; production model input is not truncated to those diagnostic bounds. No raw DOM or complete model observation was saved, so no real-source control replay or control-path fix is claimed. The independent availability-source identity reason was corrected only when no fresh request-bound availability exists. Focused action-validator plus H001 native composition **40/40 PASS**; `npm run typecheck`, `npm run arch:check`, `npm run build`, `git diff --check` PASS; full local Mock `npm test` **558/558 PASS**. Log: `/private/tmp/praxis-h001-postlive-diagnostic-test-20260929.log`. No network, model, Live, booking, commit or push in this follow-up. [Analysis](H001-NATIVE-GOOGLE10808-LIVE-2026-09-29.md#post-run-offline-control-diagnosis).
+
+## TEST-2026-09-29-H001-GOOGLE-ONLY-PROXY-AND-LIVE
+
+- Mock/contract: local fake proxy received exactly one `CONNECT places.googleapis.com:443` from GooglePlacesClient; a production Hybrid composition with a failed Google fetch stopped after one search/model decision, retained `GOOGLE_NETWORK_FAILED` in final Task failure, and had zero candidates. Initial ordinary-sandbox fake-proxy test failed solely at `listen EPERM`; permitted localhost rerun passed. `npm run typecheck`, `npm run arch:check`, `npm run build`, `git diff --check` passed; full `npm test` **558/558 PASS** with permitted localhost Fixture binding. Log: `/private/tmp/praxis-h001-google-proxy-prelive-test-20260929.log`.
+- Live Read-only transport probe: one Google Places request through local10808 returned one place in 1,197ms. This proves Google API transport only; it is separate from the full run and did not involve browser sources or DeepSeek.
+- User-authorized H001 full Live Read-only: **69,930ms**, 8/50 model calls, 5/30 Agent steps, one successful Google named-place resolution, zero Google restaurant search/details, five browser runtime calls, one browser model call and zero browser model actions. Tabelog admitted Sushi Teppen at 749m and established HIGH same-source identity plus cited omakase HARD evidence; its availability was `UNKNOWN / REQUEST_SELECTION_UNCONFIRMED`. TableCheck raw21/parsed5/rejected outside radius5/admitted0 with `sourceExhausted=UNKNOWN`. Final `NO_VERIFIED_RESULT`, zero Offer/presentation; independent Eval qualified **NO**. No booking or other Agent external write; side-effect audit `NOT_MEASURED`. [Execution and separate Eval](H001-NATIVE-GOOGLE10808-LIVE-2026-09-29.md). No second Live after this result, commit or push.
+
+## TEST-2026-09-29-H001-NATIVE-DOWNSTREAM-OFFLINE
+
+Twelve frozen H001 execution/Eval pairs in `.eval-artifacts/h001-native-downstream-20260929-review-final/`: seven actual supported presentations independently qualified YES, five controls NO. The added first-source and second-source continuation, default short delivery, true no-result and raw>0/parsed=0 TableCheck cases all pass through Interpreter/Compiler/Router/Runtime/Agent. Typecheck, arch:check, build and diff check pass. Default `npm test` 556/556 with permitted localhost Fixture binding; local Chromium Fixture 44/44; native availability adapter suites and continuity fact controls 72/72 after diagnostic assertion additions. Ordinary sandbox initial full test failed only because local server binding returned EPERM. Logs and scope: [handoff](H001-NATIVE-DOWNSTREAM-2026-09-29.md). Mode is Mock/fixed public pages and scripted model, not Replay or Live. No paid model, new Live, booking write, commit or push.
+
+## TEST-2026-09-29-H001-NATIVE-DOWNSTREAM-FIXED-MODEL
+
+One independently released real DeepSeek + fixed-source `TABLECHECK_CONTINUES` invocation, no retry: 16,461 ms, 13/50 model calls, 7/30 Agent steps, 8 Agent decisions, 0 browser model actions, one fixed Google Shibuya response, zero Google restaurant requests. Tabelog A unavailable/B unknown; TableCheck A unavailable/B available; one-result `PRESENT_RESULTS` with `resultBatchTarget={candidateCount:3,met:false}`. Execution and independent Eval sidecar report qualified YES with six SATISFIED dimensions for this controlled fixed-page run. No real source page, stock, booking or Live read. [Artifact and detailed limits](H001-NATIVE-DOWNSTREAM-2026-09-29.md#one-released-fixed-source-real-model-run).
+
+## TEST-2026-09-29-H001-NATIVE-DOWNSTREAM-LIVE
+
+One approved Live Read-only invocation only, no retry: 300,019 ms outer deadline, `CANCELLED`, 27/50 model calls and 25 completed/30 allowed Agent steps. Google named-place requests 26/100, all 25 completed searches `GOOGLE_NETWORK_FAILED`; zero Google restaurant requests, native browser reads, candidates, facts, availability or presentation. The 26th location request was in flight at cancellation. Independent Eval qualified NO, resources NOT_SATISFIED; source and inventory outcomes NOT_EVALUATED. The repeated no-progress search is recorded as a control-path deficiency, not no restaurant or no slot. No booking or other Agent external write. [STARTED, result, Eval and limits](H001-NATIVE-DOWNSTREAM-LIVE-2026-09-29.md).
+
+## TEST-2026-09-29-H001-NATIVE-FIXED-MODEL-TRANSPORT
+
+Fixed-source real-model mode, first authorized `TABELOG_DELIVERS` invocation only: Semantic model call started 1, response 0, `NETWORK/ENOTFOUND` after 21ms, 26ms total, phase `UNDERSTANDING`, source navigation 0, Google query 0, token usage unavailable. Independent Eval qualified UNKNOWN; no path or H001 acceptance judgment. Keyless sandbox host check failed DNS, approved unsandboxed keyless check returned HTTP401. `TABLECHECK_RECOVERS`, model rerun and Live NOT_RUN. Artifacts and command log are linked in [diagnostic](H001-NATIVE-FIXED-SOURCE-MODEL-2026-09-29.md).
+
+## TEST-2026-09-29-H001-NATIVE-SECOND-REVIEW-FIXED
+
+Offline fixed transport/page controls: six H001 composition scenarios 6/6. New early-end scenario records rejected `END_READ` after empty Tabelog, then one TableCheck batch and truthful bounded `NO_VERIFIED_RESULT`. The one-detail failure scenario now poisons its original browser session; `/100/` and `/102/` are admitted through distinct sessions, `/101/` is not retried and carries candidate-scoped `BROWSER_TIMEOUT` metadata. Prior red logs: `/private/tmp/praxis-h001-native-early-end-red-20260929.log` and `/private/tmp/praxis-h001-native-poisoned-session-red-20260929.log`. Six execution/evaluation pairs: `.eval-artifacts/h001-native-stage2-20260929-review2-final/`; three actual presentations qualified YES, three controls NO with no independent NOT_SATISFIED finding. Final typecheck, arch:check, build, diff check pass; default offline test 548/548 in allowed localhost Fixture environment, log `/private/tmp/praxis-h001-native-review2-final-npm-test-20260929.log`. No paid model, Live read or external write.
+
+## TEST-2026-09-29-H001-NATIVE-REVIEW-FIXED
+
+Offline fixed transport/page review: original three H001 scenarios plus outside-radius and one Tabelog detail navigation failure, all 5/5. Independent Eval yields qualified YES for Tabelog delivery, TableCheck recovery and the candidate-isolated failure path; bounded empty and outside-radius return NO with no false presentation. Artifacts: `.eval-artifacts/h001-native-stage2-20260929-review2-final/`. Red logs before fixes: `/private/tmp/praxis-h001-native-single-detail-red-20260929.log`, `/private/tmp/praxis-h001-native-early-switch-red-20260929.log`, `/private/tmp/praxis-h001-native-no-fallback-red-20260929.log`, `/private/tmp/praxis-h001-native-duplicate-red-20260929.log`. Tabelog/TableCheck matcher-tail and native/no-fallback tests 75/75; current typecheck, arch:check, build, diff check pass. Default offline `npm test` 546/546 in the allowed localhost Fixture environment, log `/private/tmp/praxis-h001-native-review-fixed-final-npm-test-20260929.log`. No paid model, Live read or external write. Differently named/translated potential duplicates still require independent outlet identity evidence; the current conservative guard handles same normalized name or exact address only.
+
+## TEST-2026-09-29-H001-NATIVE-STAGE2-OFFLINE
+
+Offline fixed transport and fixed source pages, raw frozen H001 request through production Interpreter/Compiler/Router/Runtime/Agent. Four scenarios pass: Tabelog 3-result `PRESENT_RESULTS` with TableCheck zero; TableCheck 3-result `PRESENT_RESULTS` after Tabelog cannot deliver; both bounded empty; both sources outside the existing Shibuya radius. Independent Evaluator returns qualified YES for the two presentations and NO for the two nonpresentations. Final execution/evaluation pairs are in `.eval-artifacts/h001-native-stage2-20260929-reviewed/`; one named-place Google call and zero restaurant search/matching per scenario. Model transport is scripted (8 and 12 calls in the success paths), so no actual model reasoning, live DOM/network, real latency or stock is proven. Typecheck, arch:check, build, diff check passed. Default `npm test` first failed only on sandbox localhost listen EPERM; allowed local HTTP Fixture rerun passed 543/543 (log `/private/tmp/praxis-h001-native-stage2-npm-test-runner-20260929.log`). A dedicated native fixed-source real-model Runner was typechecked and built but not executed; the old H001 Runner still targets Google candidates. No external write, paid model or Live was run. [Scenario and limitation record](H001-NATIVE-STAGE2-PREFLIGHT-2026-09-29.md).
+
+## TEST-2026-09-28-NATIVE-TWO-SOURCE-VPN-DEFAULT
+
+Live Read-only两站各一次、默认路径、新VPN、9月29日19:00／2人／涩谷1kmomakase。Tabelog17,411ms／2模型调用34,950tokens：原生两店，748m店原文与事实判断支持HARD；目标日无可操作日期／人数禁用，REQUESTED_HUMAN_HELP，无请求绑定库存。TableCheck13,061ms／0模型调用：19店搜索，既有解析前5详情均超1km，无后续查位；不能推断剩余候选或无位。两站访问均推进，无额外重跑／写入。源码hash未变，复用既有门禁，诊断syntax及diff通过；清除本地.env显式10808遵守最新用户选择。[证据和实验限制](NATIVE-TWO-SOURCE-VPN-2026-09-28.md)。
+
+## TEST-2026-09-28-BROWSER-NETWORK-PATH-COMPARISON
+
+三个一次导航Live Read-only短探针、每次25秒导航上限、0模型调用：Tabelog默认200／5.697秒读候选；TableCheck默认主文档200但API预检403；TableCheck10808主文档403。独立NetLog确认成功TLS及响应头，不将generic内容读取标签视作业务成功。实际OS路由主站en0、API与Tabelog utun8；不反推历史超时均同因。无代码／系统设置改动，浏览器已关闭；仅diff检查，无新全套。[原始证据及限制](BROWSER-NETWORK-PATHS-2026-09-28.md)。
+
+## TEST-2026-09-28-TABELOG-PROXY-TLS-DIAGNOSIS
+
+Live Read-only短诊断：同涩谷URL／显式HTTP10808，Chromium NetLog显示TCP和CONNECT200成功，ClientHello后无接收事件至25秒取消；未到网站HTTP请求。curl同代理近时TLS成功并2.138秒HTTP200。仅定位新失败阶段，具体链路原因和历史超时同因尚未证明。0模型调用，无代码或配置变更，无整单重跑。默认536/536既有结果复用，本轮diff检查通过。[证据及边界](TABELOG-NATIVE-MINI-PROXY-2026-09-28.md#follow-up-why10808-can-still-time-out)。
+
+## TEST-2026-09-28-TABELOG-NATIVE-MINI-PROXY
+
+Live Read-only原生mini-loop，9月29日19:00／2人／涩谷1km omakase。明确10808代理、原300秒窗口：Tokyo单关键词搜索5.869秒取得候选链接，既有解析器返回5条；随后沿观察到的涩谷地区链接约30秒ERR_TIMED_OUT，无response，累计79.654秒后结束。Google／模型调用0，详情／HARD／控件／库存NOT_REACHED，无Offer。源码hash未变，复用上轮536/536门禁，仅更新本地代理配置、忽略的诊断及日志；未继续网络排查或重跑。[独立评价与证据](TABELOG-NATIVE-MINI-PROXY-2026-09-28.md)。
+
+## TEST-2026-09-28-LOCAL-CHROMIUM-EXPLICIT-PROXY
+
+用户授权显式10808试验：同URL／headless Chromium／临时profile，代理后1.805秒HTTP200、5.094秒页面可读；无匹配是页面文案，非无库存判定。新增单一可选代理参数，既有启动测试补强默认／普通／持久profile配置透传，修前缺proxy断言红、修后绿。typecheck／arch／build通过；默认套件首次因沙箱localhost listen EPERM阻断，获准环境536/536通过。正式单页Runner通过Runtime Factory实际接线、5.815秒CONTENT_OBSERVED。0模型调用、未运行整单或TableCheck代理复验。[原始记录及评价边界](TABELOG-NATIVE-2026-09-28.md#follow-up-explicit-localhost10808-proxy)。
+
+## TEST-2026-09-28-TABELOG-NATIVE-DIAGNOSTIC
+
+Live Read-only单次诊断变体：9月29日19:00、2人、涩谷1km omakase。Tabelog英文搜索初始文档请求30,970ms报`net::ERR_TIMED_OUT`，未收到response事件，总31,033ms／0模型调用，后续全部NOT_REACHED。原5分钟窗口内另做一次无凭据同URL curl对照，2.443秒HTTP200；不证明搜索内容成功，也不能确定浏览器传输根因。无生产代码／配置改动，未预约／未重跑整单，临时浏览器关闭。脚本syntax与diff检查通过，源码hash未变，未重复离线全套。[独立评价与原始证据](TABELOG-NATIVE-2026-09-28.md)。
+
+## TEST-2026-09-28-USER-CHROME-SEARCH-COMPARISON
+
+Live Read-only人工浏览器对照：用户提供Chrome与精确`omakase ginza`搜索URL；读取其既有页面及Console，未刷新或重新搜索。页面当前显示无精确匹配和Popular lists；相同查询的搜索API记录预检缺少`Access-Control-Allow-Origin`及`net::ERR_FAILED`。Chrome本次未捕获HTTP状态或新请求时间，不能把早先诊断403直接移植，也不能否定历史手动成功。证明当前故障并非仅测试浏览器可见，尚未区分网站／边缘策略／出口原因。0额外模型调用，无生产改动、外部写入或配置改变，诊断面板已关闭。[证据与边界](NATIVE-SOURCE-ACCESS-2026-09-28.md#actual-user-chrome-comparison)。
+
+## TEST-2026-09-28-NATIVE-SEARCH-API-ACCESS
+
+Live Read-only诊断变体：用户指定2026-09-29 19:00、2人、涩谷omakase。原生关键词搜索10,617ms；保留原300秒deadline的区域检索至累计66,362ms；针对已观察fetch失败的单次CDP定位至累计140,682ms。主页面200、搜索API403、预检缺少允许跨域响应头；来源空结果不可当业务无结果。0模型调用／tokens，0详情／查位／Offer。另有Tabelog IAB入口UI检查，未完成日期确认；其电脑操作不计入DeepSeek调用数。未修改生产源、未外写、未commit/push。旧原始记录不改写，诊断脚本syntax通过。当前根因只到搜索数据访问被拒绝，不外推TUN、反机器人具体规则或此前导航timeout。[证据与独立判定](NATIVE-SOURCE-ACCESS-2026-09-28.md)。
+
+## TEST-2026-09-28-H001-H003-NATIVE-ASSIGNMENT-CORRECTION
+
+本轮最新明确派工是**一次H001 TableCheck原生路径实验**，上限300000ms/50模型调用。H001实际运行37,106ms、0模型调用，止于来源搜索导航，尚未接通指定`ModelFactJudgment` HARD证据链。随后误将旧H003 Loop 2请求恢复为当前任务，额外实际运行35,158ms、0模型调用，同样止于来源搜索导航；这是范围偏离，**不计入本轮H001有效验收**，但计入实际Live资源与请求次数。两次合计72,264ms、0模型调用；原始artifact均保留不改写。两份产物都没有主文档request/response、redirect、`requestfailed`、最终URL、`readyState`、超时快照或trace，不能判定网络根因，也不能归因TUN。[H001报告](H001-TABLECHECK-NATIVE-2026-09-28.md)、[H003偏离记录](H003-TABLECHECK-NATIVE-LOOP2-RETRY-2026-09-28.md)。后续只以主任务最新明确派工作为当前切片。
+
+## TEST-2026-09-28-H003-TABLECHECK-NATIVE-LOOP2-RETRY
+
+模式：旧请求误恢复后的范围偏离；本机Chromium Fixture及一次实际Live Read-only，**不计入本轮H001有效验收**。输入为exposed H003，东京2026-10-02、10人、17:30–22:00，东银座评估点3km。旧9月25日未复用。浏览器／TableCheck定向单元72/72；本机Fixture 44/44。初次Fixture因沙箱Chromium启动权限失败，获准环境同一命令通过，非产品失败或Live证据。
+
+Live从原生搜索开始计时，上限300000ms／50模型调用，5km仅粗召回。`page.goto`等待`domcontentloaded` 35000ms超时，35,158ms返回；模型0、候选0、详情0、地理接纳0、查位0、Offer0。没有来源DOM，不得推断零搜索结果或无位。未进入控件／库存路径，故Loop 2修正的Live状态为未验证，完整Runtime/Evaluator也未到达。未预约、未外写、未再试或切换Provider；但本次本身是H001之后额外的Live运行，不能写成没有追加Live。导航根因未知。[原始artifact](../../.eval-artifacts/h003-native-tablecheck-loop2-retry-2026-09-28.result.json)与[偏离记录](H003-TABLECHECK-NATIVE-LOOP2-RETRY-2026-09-28.md)。
+
+## TEST-2026-09-28-H001-TABLECHECK-NATIVE-SINGLE-RUN
+
+模式：一次Live Read-only，当前H001 exposed development input，东京2026-09-28 19:00/2人/omakase HARD，Google仅1次Shibuya地点解析。开始前HEAD `f4bf46ae2c929480b6e35f36cc13ce47f1f38268`且工作树已有大量其他改动；来源hash与预算在[manifest](../../.eval-artifacts/h001-tablecheck-native-2026-09-28/manifest.json)。本轮上限300000ms/50总模型调用、最多5详情/3查位，候选/来源子限额不提高。
+
+执行：Google准确返回唯一Shibuya locality及坐标，1,701ms。TableCheck native `search_text=omakase`的Chromium导航在35,000ms未到DOM，底层`page.goto: Timeout 35000ms exceeded`、包装`BROWSER_RUNTIME_FAILED`；总37,106ms。模型0调用/0 token，候选0、详情0、查位0、Offer0；来源HTML未返回，无可归档原始DOM。没有Google餐厅列表、手选门店、H001再试、换网络/Provider、预约提交或其他外部写入。该导航失败既不是平台零结果也不是确认无位；缺主文档网络/就绪trace，不能判定TUN或其他网络根因。**本H001运行之后另有误恢复的H003 Live运行**，见上文。[原始执行](../../.eval-artifacts/h001-tablecheck-native-2026-09-28/execution.result.json)、[独立阶段审查](../../.eval-artifacts/h001-tablecheck-native-2026-09-28/REVIEW.md)、[短报告](H001-TABLECHECK-NATIVE-2026-09-28.md)。
+
+准备验证：临时TableCheck来源指针一行接线期间既有Adapter测试42/42通过；该入口在Live未执行，故已撤回，无生产代码改动。Runner只用`parseTableCheckVerifiedHardCriteria`且未接当前`ModelFactJudgment`；即使来源导航成功，也不足以完成指定HARD事实证据链。候选电话若由TableCheck详情复制，再用同源页面匹配，仅能证明来源连续性，不能作为独立身份核验。全量代码门禁、浏览器Fixture、Replay、完整H001 Runtime/Evaluator及Controlled Live-write未运行，因为来源导航是首个阻断，不能用离线通过替代。本轮H001目标和原生闭环均未通过；与2026-09-24 H003仅作阶段历史对照，不作A/B。
+
+
+## TEST-2026-09-28-SOURCE-FACT-MODEL-VALIDATION
+
+用户回复“授权”，明确允许本批公开网页及H001调查上下文发送到现有DeepSeek API。一次上限8calls/60秒的REAL_MODEL_FIXED_SOURCE运行，实际 **6calls / 10,709ms / 31,419tokens**，模型deepseek-flash，六次均成功，无网络失败。来源冻结为已有真实页面快照/原H001候选；exposed development，非Clean Baseline；无新Google请求、实时库存读取、外部写操作或自动重试。
+
+独立结论：**整体未通过，但两项行为改善有直接证据。** Browser5在Matsue原页面一次COMPLETE交接；Agent19在原H001第一批无收获事实读取后的同一Context改选CHECK_AVAILABILITY且3个ID均合法，原决策为继续事实批次。这只证明本次单步选择，不宣称完整调查持续收敛或整单交付。
+
+fact judgment11/schema3：Matsue选中的原文第13段明确含おまかせコース，SUPPORTED解释有原文依据，但`evidenceIds`误填段落`13`而非document ID，转换正确拒绝，未产生verifiedHardCriteria。Labo返回UNKNOWN无错误omakase支持，却选4段超过原3段合同；不能将粗粒度安全通过当接口完全通过。广义restaurant的fast-food UNKNOWN漏引用，未形成可审计categoryUnknownNegativeCriteria；Italian→local food保持UNKNOWN无错误正向支持，但也无引用。没有调用旧Prompt作配对，不能断言某项相较旧模型版本退化。
+
+后续仅离线修正：fact judgment12/schema4以当前observation/document IDs的strict enum限定引用，Prompt/字段说明要求UNKNOWN引用被评估来源并区分段落ID；不猜测错误引用、不放宽条件、不加重试。DeepSeek[官方strict文档](https://api-docs.deepseek.com/guides/tool_calls/)不支持array minItems/maxItems，因此未添加，仍由既有代码检查数量。扩展既有引用测试：旧代码在引用namespace断言失败，新代码及实际生产组合 **59/59**，默认 **536/536**，arch/build通过。初次typecheck的测试optional schema类型错误修复，最终typecheck通过。未新增测试框架/矩阵。**Prompt12未跑真实模型**；未使用剩余两次额度自动复试，原执行artifact保留不覆盖。
+
+证据根目录`.eval-artifacts/fact-progress-fix-2026-09-28/`：`model-validation.authorization.json`、不可覆盖的`model-validation.result.json`、独立`model-validation.review.json`/[可读结论](../../.eval-artifacts/fact-progress-fix-2026-09-28/MODEL-REVIEW.md)、`citation-wire-red.log`/`citation-wire-green.log`及`citation-*`代码门禁日志。来源电话/跨语地址和共享菜单归属仍开放；无新H001、commit或push。
+
+## TEST-2026-09-28-SOURCE-FACT-HANDOFF-OFFLINE
+
+- 模式/口径：Mock production composition + Replay；current executable candidate、exposed development，不是Clean Baseline。切片从已有dirty工作树开始，使用`.eval-artifacts/fact-progress-fix-2026-09-28/start.json`与五份`.before`区分本轮；不把浏览器、DeepSeek和其他既有改动算成本轮成果。
+- 主要机制：源页面存在相关原文但窄抽取未识别，事实判断拿不到原文，Browser继续找“可接受字段”。新增引用式交接复用既有judge调用：每候选有界原文、同来源HIGH身份、观察到的statement IDs→原始短引用→MODEL_JUDGMENT引用链；未知ID/错候选不接纳；宽泛类型不升级具体结论。公开tel链接复用exact-phone身份门槛，不加站点分支。
+- 检错/正常对照：既有website/fact测试补强电话链接、冲突电话、无引用及错候选；`hybrid-read-composition.test.ts`增加同一交接失效的生产组合主覆盖，从真实初始化/语义Compiler/Google与官网Grounding/Router/Reducer/实际LiveBrowserAvailability到PRESENT_RESULTS，仅替换模型transport、Google HTTP和Browser I/O。隔离副本换回本轮前3个fact源文件时，已观测库存仍因缺事实而NO_VERIFIED_RESULT、原文引用断言失败；修复后3个定向主测试通过。现有evaluator消费该组合的实际snapshot/trajectory，所有findings SATISFIED。脚本Agent只证明路径可运行，不证明模型会选它。
+- 真实来源回放：公开6页先由真实Chromium采集，`page-0..5.json`保留原始HTML/text；`replay.mts`复用原H001候选，不改电话。Matsue门店/晚餐页与Labo门店页可提供绑定原文；Sushiki两页电话050-1720-2788 vs 03-6455-3030，原名称/地址窄匹配仍失败；Labo共用菜单无本页门店证明，仍未知。这是修正“tel链接足以修Sushiki”的假设，不得把合成匹配电话测试当其原故障通过。
+- 门禁：`npm run typecheck`、`npm run arch:check`、`npm test` **536/536**、`npm run build`全部通过；完整测试后只明确了新增测试的END_READ对照分支，定向复跑仍通过，生产代码未变。没有修改DOM操作层，复用既有Chromium机制证据，不扩浏览器测试矩阵。
+- 版本/未覆盖：Agent19、fact judgment11/schema3；upstream semantic不变，Gold/负向条件规则/库存资格不变。历史locality matrix的Prompt10 guard仍拒绝新版本，旧分数不沿用。定向真实模型计划最多8calls/60秒，自动审批因本批网页与历史上下文外发授权不明确拒绝启动；**实际0calls，等待用户回复**。未跑新H001、未做预约/外部写、未commit/push。跨语地址、不同电话、共享菜单归属及真实模型调查推进仍开放。
+- 证据：[独立离线结论](../../.eval-artifacts/fact-progress-fix-2026-09-28/REVIEW.md)、`composition-before-final.log`/`composition-final.log`、`replay.result.json`和四项gate日志。不能把本地交接机制关闭等同于Live问题2–4全部关闭。
+
+## TEST-2026-09-28-H001-NETWORK-RECOVERED-FACT-BUDGET
+
+用户“重跑h001 live”授权一次300秒/50模型调用的正式只读H001。沿用已通过代码门禁的DeepSeek诊断修复和浏览器候选，不改semantic/Gold/来源，不自动重跑。当前东京2026-09-28今晚19:00、2人、Shibuya附近omakase HARD；临时Local Chromium。源码hash运行前后相同。
+
+**FAIL，但网络阶段本轮正常。** Run `a4a1e40b-db69-4af1-8856-2a0b33d5d11a`，189,355ms，50次模型调用全部有成功记录（semantic 1、Agent 6、fact judgment 12、browser 31），238,769 tokens；Google18请求（地点解析1、discovery2、Details15）、发现38候选、138浏览器操作。以MODEL_CALL_BUDGET_EXHAUSTED结束，0查位、0Offer/交付。未到时间选择路径，不能宣称回读修复回归。网络本轮正常不证明长期稳定或此前网络配置变更的因果。
+
+行为与第一阻断：一次发现后连续5批INVESTIGATE_CANDIDATE_FACTS；已完成12候选事实读取，第五批在处理中耗尽模型额度。12份factChecks中9个WEBSITE_STRUCTURED_IDENTITY_UNVERIFIED、2个WEBSITE_REQUESTED_FACTS_UNCONFIRMED、1个无该reason；COMPLETED表示读取结束，不等于omakase条件已成立。各轮Agent说明硬条件尚无证据，因此继续事实调查，虽然上下文已存在合法CHECK_AVAILABILITY候选，实际没有选择查位。浏览器记录Instagram登录墙、403、Cloudflare；可读来源另见三处局部MODEL_BUDGET_EXHAUSTED、两处NO_PROGRESS_PAGE_CYCLE、3次不合法WAIT被拒、一次OPEN_LINK达到provider deadline。这些不应合并成同一网络或身份根因。已看到菜单文字不自动等于受信同店事实；来源身份和事实接纳、以及事实/查位的调查顺序是下一最小诊断切片，不扩大额度或绕过HARD门槛。
+
+Evaluator@21：AUTHORITATIVE_CONDITIONS、INVESTIGATION_BEHAVIOR来源链与RESOURCES为SATISFIED；必要证据/最终claim/完成为NOT_EVALUATED；这不表示整体通过或调查策略高效。原始[execution](../../.eval-artifacts/restaurant-hybrid-live-read/2026-09-28T07-42-32-461Z-a4a1e40b-db69-4af1-8856-2a0b33d5d11a.result.json)、[evaluation](../../.eval-artifacts/restaurant-hybrid-live-read/2026-09-28T07-42-32-461Z-a4a1e40b-db69-4af1-8856-2a0b33d5d11a.result.evaluation.21-1790581541805.json)与[独立归因](../../.eval-artifacts/h001-network-diagnostic-live-2026-09-28/independent-review.json)分离。开发暴露集，非Clean Baseline；READ_ONLY_CODE_PATH，无Agent预约/支付动作，不声称网站后台流量全量审计；无commit/push。
+
+## TEST-2026-09-28-DEEPSEEK-TRANSPORT-DIAGNOSTICS
+
+用户要求修复DeepSeek时断时续。先核对新增H001 run `9813f848-e9a4-4c34-89f3-f6ff36a8a1bf`：SEMANTIC阶段MODEL_FAILURE / NETWORK，Google/浏览器未到达。历史artifact无底层cause，不能追溯确定具体网络原因。当前一次无凭据Node检查重现DeepSeek ECONNRESET（2,379ms），Google HTTP404（2,221ms，证明HTTP可达而非Places鉴权）；curl普通路径与显式本地系统HTTP代理127.0.0.1:10808均TLS握手失败。读取到v2rayN/Xray与TUN/混合入站，未修改客户端、出口或规则；并未证明绕开TUN的真实直连结果，不能将两个请求模式当成独立网络出口。
+
+代码局部修复：共享DeepSeek Gateway沿cause链只保留已知传输错误码，写入既有providerError（type=TRANSPORT），不写原始message、URL、socket或凭据。正文读取与JSON.parse分开，读取中断进入NETWORK/TIMEOUT，真正JSON错误继续MALFORMED_RESPONSE；无重试、备用provider、依赖、Prompt/Schema/semantic变化。原有Gateway主回归补一个传输场景，覆盖连接重置和响应正文中断，验证observer持久记录、无敏感消息、每次仅一请求。未修路径对应断言失败，红日志保留；修复后Gateway+Interpreter 13/13，默认533/533、typecheck、arch:check、build通过。首次全套因沙箱禁止本地listen出现EPERM，允许本地Fixture后全套通过，未当产品失败。
+
+实际接线检查：生产Semantic→Gateway→observer，仅将出站替换成无凭据GET（不发Prompt/Key、零推理费用），一次请求2,277ms后记录MODEL_FAILURE/NETWORK及providerError TRANSPORT/ECONNRESET。这证明诊断接线和故障分类修复，不证明DeepSeek连通性或模型质量恢复；未跑完整H001。原Evaluator复用既有modelInvocations，不修改评分器/Gold。所有[证据与结论](../../.eval-artifacts/deepseek-network-fix-2026-09-28/review.json)、红绿日志、源码增量、keyless探针保存于同目录。网络恢复仍开放，等待确认工作节点/分流路径；不commit/push。
+
+## TEST-2026-09-28-H001-TUN-RERUN
+
+用户说明上一轮未开TUN并明确要求重跑。新增且仅执行一次H001，300秒/50调用上限，生产代码、候选hash、数据合同和运行配置不变；时间按新启动点物化。网络环境变化由用户报告，未把“TUN已生效”作为已证事实。
+
+**FAIL，仍在浏览器之前。** Run `3db27434-8597-4fe4-89be-10f8ea5385e1`，300,038ms取消，27模型调用、94,231 tokens、26次地名解析请求；25条已完成搜索均GOOGLE_NETWORK_FAILED，0门店发现/查位/浏览器操作。身份和库存NOT_REACHED；仍没有合格交付。原有无进展循环再次出现，不因环境归因而撤销该控制缺口。Evaluator@21资源严格超限38ms保留。
+
+为避免第三次盲跑，只补一次无凭据、无模型的Node GET `https://places.googleapis.com/`，15秒上限，10,529ms返回`TypeError / UND_ERR_CONNECT_TIMEOUT`。这证实当前Node到Google主机的连接未恢复，不证明TUN为何未生效、DNS/路由/代理具体原因，也不是Places鉴权测试；生产client仍丢失旧请求的底层cause。未增加生产重试或修改系统网络设置。下一步先修通并短验证实际Node网络路径，再考虑新的整单预算。
+
+原始[execution](../../.eval-artifacts/restaurant-hybrid-live-read/2026-09-28T03-09-06-036Z-3db27434-8597-4fe4-89be-10f8ea5385e1.result.json)、[evaluation](../../.eval-artifacts/restaurant-hybrid-live-read/2026-09-28T03-09-06-036Z-3db27434-8597-4fe4-89be-10f8ea5385e1.result.evaluation.21-1790565246053.json)、[独立记录与连接检查](../../.eval-artifacts/h001-tun-live-2026-09-28/independent-review.json)保留。开发暴露集，非Clean Baseline；没有预约/支付/外部写动作，没有commit/push或额外整单重跑。
+
+## TEST-2026-09-28-H001-AFTER-READBACK-LIVE
+
+用户“执行live”授权单次H001完整Live Read-only；沿用当前dataset/Gold与正式Runner，当前时间物化为2026-09-28东京今晚19:00、2人、Shibuya附近、omakase HARD。300秒/50模型调用上限、临时Local Chromium、其余来源上限不变；没有固定门店、注入库存、外部写入、整单重跑或commit/push。启动前后离线验收候选三个源hash一致。
+
+**FAIL，浏览器未到达。** Run `315edc49-ab6c-41b6-9d35-a09c1aaa0a5b` 在300,038ms取消，27次模型启动/记录、94,167 tokens；26次Google请求全部属于地名解析，0 discovery、0 details，25条已完成SEARCH_RESTAURANTS轨迹均DISCOVERY_FAILED / GOOGLE_NETWORK_FAILED。最后一个请求启动不等于完成；0候选、0查位、0浏览器操作、0合格交付。此结果不能判定刚通过定向Live的控件修复回归，identity和库存均NOT_REACHED。
+
+首个阻断是Google Places传输失败。当前client将非HTTP/非已分类异常转换为GOOGLE_NETWORK_FAILED并丢弃原cause，因此DNS、代理、连接或TLS原因仍未证实，不能写成具体网络根因。第二个明确缺口为无进展重复搜索：State保留failure，但agent-context的searchAvailability与legalActions.search只因额度/发现耗尽等条件关闭；本次连续失败后仍为true，END_READ为false。Agent最后两次理由均“search is the only legal action”。这不是缺用户信息，也不能靠改上游semantic修复。下一最小切片为脱敏保留transport错误分类并验证稳定来源失败的收尾；不加多级重试或备用provider。
+
+自动Evaluator@21保留：条件一致SATISFIED；调查来源链SATISFIED仅检查已执行事实/查位的重复与来源，并未评价25次失败搜索的效率，不据此宣称调查行为整体良好；RESOURCES因超限38ms为NOT_SATISFIED；无结果交付。原始[execution](../../.eval-artifacts/restaurant-hybrid-live-read/2026-09-28T03-01-22-359Z-315edc49-ab6c-41b6-9d35-a09c1aaa0a5b.result.json)、[evaluation](../../.eval-artifacts/restaurant-hybrid-live-read/2026-09-28T03-01-22-359Z-315edc49-ab6c-41b6-9d35-a09c1aaa0a5b.result.evaluation.21-1790564782377.json)及[独立归因](../../.eval-artifacts/h001-readback-live-2026-09-28/independent-review.json)分开保留。开发暴露集，非Clean Baseline；未测成本金额，READ_ONLY_CODE_PATH不声称后台请求全量外写审计。
+
+## TEST-2026-09-28-TOKYO-READBACK-LIVE-PASS
+
+用户“你再验证一下”授权新增一次定向只读Live，60秒/最多6次模型调用、零自动重跑；复用单页探针，将目标预先改为19:30，独立保存初始/最终控件原始DOM与实际option点击。生产候选hash在运行前后与独立离线验收一致。
+
+**PASS（当前来源时间切换与回读）**：Tokyo初始Time显示19:00，模型打开控件并选择已观察的19:30；trusted click记录标签19:30。最终同一Time值容器显示19:30，input.value仍为空，菜单折叠且aria-controls不存在，生产Executor返回COMPLETED。2次真实DeepSeek调用、14,579ms、12,791 tokens，均在上限内。初始与最终节点编号因页面hydration不同，未用固定编号作成功条件；独立核对原始值容器及实际动作，而非只相信完成标志。原有19:00已选场景与此次19:00→19:30变化证据分开保存。
+
+Run `f2360df1-27b1-4631-9604-e7955a99d899`；证据目录`.eval-artifacts/browser-readback-live-2026-09-28/`含单次started、两组dispatch/settlement、result、独立evaluation、source-check和运行脚本。临时Local Chromium、继承本机网络配置，非网络A/B；exposed-development，非Clean Baseline。未执行预约、登录、支付或表单提交；网站后台流量不作为完整副作用审计。本次关闭该页面已观察组件结构的选择/回读缺口，不代表任意网站、身份匹配、库存或完整H001通过。H001未运行；不自动追加本次探针额度，不commit/push。
+
+## TEST-2026-09-28-BROWSER-PROXY-SELECTED-VALUE-OFFLINE
+
+切片承诺：空值readonly combobox的同控件选中显示能被观察；从17:30选19:00后，折叠并失去`aria-controls`仍由同一节点确认；已选目标不重复操作。保持原6调用/60秒上限，不扩展Semantic、Prompt、身份、事实、Gold或库存规则。Evaluator复用现有结果归因口径；本地控件无Restaurant结果artifact，不另建评分器。开工HEAD `f4bf46ae2c929480b6e35f36cc13ce47f1f38268`、原dirty tracked diff SHA256 `42ccf316751c69d5088872aa5db994165d57172d904887e8726c9ba8e2637e4b`；保留前轮改动，本轮只改共享Registry/Executor和既有浏览器Fixture。元数据与本轮代码增量分别见`.eval-artifacts/browser-proxy-value-2026-09-28/manifest.json`及同目录`code-incremental.patch`；它们不包含前轮脏工作树改动。
+
+直接历史故障为上条Tokyo Live：option点击对象已证实为19:00，input.value始终为空、附近显示19:00，旧确认未通过；由于初始已19:00，历史Live本身不证明时间切换。旧正常Fixture让input.value或aria-label直接变化，且确认依赖折叠后仍存在的`aria-controls`，因此漏过此次来源表现。另查历史公开页面原始HTML：`.eval-artifacts/browser-final-2026-09-16/registry-combobox-probe.json`的`snapshot.html`可见`data-testid="Value Container"`内的`css-…-singleValue`与`react-select-3-input`；`.eval-artifacts/browser-tabelog-repair-2026-09-16/tablecheck-region.json`和`.eval-artifacts/browser-final-2026-09-16/tablecheck-pax-keyboard.json`保留相同组件结构。这只支持此类显式单值容器，不证明9月28日当前DOM仍保留那些标记。
+
+修复前，在隔离副本中还原本轮生产改动前路径并运行新增的既有Browser Fixture入口，两个目标断言均红：17:30和19:00的空值焦点input均未观察到当前值；另一次原工作树未修运行，实际切换场景返回`REQUESTED_HUMAN_HELP`。原始隔离红日志为`.eval-artifacts/browser-proxy-value-red-2026-09-28.log`。修复后同入口绿色5/5：从17:30到19:00实际页面状态变化、input始终空值、2次模型替身调用内完成；初始已19:00由当前控件观察识别、0次模型调用且无重复点击；另一控件和邻近同名时间不冒充当前值；错listbox option不归属；两个本地runtime的TableCheck Adapter组合都产出可用结果并读取代理显示，折叠后`aria-controls`消失。独立页面`data-selected-time`与Adapter实际结果作为效果oracle，Registry自身完成标志不充当预期。最终定向绿日志为`.eval-artifacts/browser-proxy-value-green-verified-2026-09-28.log`。
+
+适用离线检查：全量本地Chromium 44/44（在既有Adapter Fixture改为代理显示前；修改后该受影响Adapter场景单独2/2，最终合并定向5/5；删除不再使用的内部owner字段后核心定向3/3）、默认`npm test` 532/532、typecheck、arch:check、build、diff检查通过；日志同名前缀在`.eval-artifacts/`。未运行外部模型、当前来源Live、H001或Controlled Live-write；无Agent预约、登录、支付或外写。当前来源兼容性、完整库存与用户交付仍未签收；主任务独立审查前只称离线候选。未commit/push。
+
+主任务独立验收（实施任务交回后）：审阅本轮增量、原始结构与红例，接受此组件结构范围内的**离线修复**。独立真实Chromium定向5/5，24,122ms，核对不同初始值切换、初始已选零模型调用、错归属以及Local/Cloudflare session两条生产TableCheck Adapter路径；后者使用本地Chromium连接替身，并非Cloudflare远端。另将历史`tablecheck-pax-keyboard.json`的原始before片段在所有网络请求阻断的本地Chromium中加载，生产Registry分别读出Time=20:30、人数=2 guests，原input均为空。该检查证明来源结构提取，不证明当前站点、hydration或真实切换。候选三个源文件hash在独立检查后和交回时一致；全src基线对照仅Registry/Executor/该Fixture变化，上游冻结层未动。[独立记录](../../.eval-artifacts/browser-readback-review-2026-09-28/REVIEW.md)、[最终源码hash](../../.eval-artifacts/browser-readback-review-2026-09-28/candidate-hashes.json)、[定向结果](../../.eval-artifacts/browser-readback-review-2026-09-28/independent-controls.log)、[真实片段结果](../../.eval-artifacts/browser-readback-review-2026-09-28/source-fragment.result.json)。当前来源与H001仍开放；额度已耗尽，本轮验收结束，不自动追加Live。
+
+## TEST-2026-09-28-TOKYO-FINAL-BINDING-LIVE
+
+用户在“一次60秒/最多6次模型调用的定向只读Live，选择与回读通过后才进入H001”的计划后明确要求执行。本轮新增额度只使用一次，不沿用或覆盖9月26日已经耗尽的探针。入口复用已有一次性探针，追加记录真实option点击事件与有限控件结构；生产Browser/semantic/业务Prompt/fact/identity/Gold均未改。与最终节点绑定源码清单比较，唯一差异是前轮已记录的浏览器测试补强，见[source check](../../.eval-artifacts/browser-generic-live-2026-09-28/source-check.json)。
+
+Run `98976c7b-9af1-43e5-97c8-ce6df8a3d2df`，公开页面`https://www.tablecheck.com/en/sushitokyo-ten-shibuya`，只核对19:00时间控件。临时Local Chromium、真实DeepSeek、继承本机网络配置，非A/B网络验证。1次启动/完成，6次模型dispatch/settlement，29,282ms、44,808 tokens，零自动重跑，金额未估算；在60秒/6调用上限内，**验收FAIL**。原始[result](../../.eval-artifacts/browser-generic-live-2026-09-28/2026-09-28T02-16-25-907Z-98976c7b-9af1-43e5-97c8-ce6df8a3d2df.result.json)与独立[evaluation](../../.eval-artifacts/browser-generic-live-2026-09-28/2026-09-28T02-16-25-907Z-98976c7b-9af1-43e5-97c8-ce6df8a3d2df.evaluation.json)分开保存，cohort为exposed-development、非Clean Baseline。
+
+有效新证据：模型选择19:00，实际受信任click事件落在`react-select-3-option-15`，role=option、label=19:00、所属listbox=`react-select-3-listbox`；仅一次option点击。最终Time控件同一局部结构显示19:00，input.value为空。页面在第一次模型调用前已显示19:00，所以此次不证明不同值之间的切换，不用跨日期页面状态差异反推9月26日错误点击的历史原因。
+
+首个阻断为**已知选中值绑定缺口**：当前观察没有把焦点input旁的选中显示绑定为控件当前值；Executor的custom confirmation依赖owner的label/value，始终无法确认。后续模型重新展开、等待，另有一次WAIT字段错误和一次重复选择被拒；这些是首个失败后的无效消耗。最终终止码`BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED`是结果，不是最初根因。未将父级任意文本直接升级为权威值，也未为此增加站点特判或放宽完成条件。
+
+停止点：本轮额度已用完，未启动H001或OpenTable复验。下一项仍是可靠的当前选中值与控件归属绑定，现有模型观察缺少结构化selected依据，不能只凭“页面出现19:00”关闭问题。页面无位文字不属于本次库存/门店身份验收，二者NOT_EVALUATED。轨迹无Agent预约、表单提交、登录、付款或同意操作；网站后台请求不视为完整副作用审计。未commit/push。生产实现未变，复用已完成离线验证，不追加全套测试。
+
+## TEST-2026-09-26-MINIMAL-FRONTLOADED-VERIFICATION
+
+本切片只优化Test/Eval规则和既有覆盖，承诺以更少的重复验证提前抓住当前机制缺口；不修来源、不新增产品功能。实施前选择的关键假设是：最终选中值不会掩盖先前错误动作；观察后DOM变化仍操作原目标；库存结果出现不等于选中值已确认，恢复后仍应在原预算完成。全部沿用`browser-read-fixture.test.ts`现有入口。源码起点和改后hash保存在`.eval-artifacts/test-eval-frontloading-2026-09-26/`，与起点相比只有该测试文件变化，生产实现、Prompt、Gold及Evaluator未变；本轮没有新增测试用例、Runner、依赖或框架。
+
+| 核验 | 结果与证据 |
+|---|---|
+| 本地真实Chromium：native、动态DOM、合法恢复/非法变化、未确认选择 | 11个相关场景最终通过。首次`browser-controls.log`为10/11：新增测试将省略的空value误断言为空字符串，属测试编写错误；改为检查实际selected placeholder后，仅重跑该项，`async-final.log`为1/1。没有把首次失败记为产品红例，也没有重跑整套 |
+| 一个有依据的隔离错误：删除Executor设置pending confirmation的语句 | `before-confirmation.log`旧测试1/1通过，说明旧completion自身检查控件值掩盖了Executor漏检；`after-confirmation-final.log`改后在“completion requires actual selected-value settlement”断言失败；未改生产文件。正常实现同例通过，证明拒绝错误完成的同时可恢复成功 |
+| 现有独立Evaluator对照 | `eval-controls.log`通过：2个正常控制、8个有界artifact变异，含测试容器共11项；覆盖条件遗漏、错候选/请求、UNKNOWN误归无位、过期证据与缺轨迹。复用现有口径，不新增评分维度或改阈值 |
+| 适用检查 | typecheck、arch:check（0违规）、build、4个Skill格式检查与文档链接/diff检查通过。未重复默认532项或完整Chromium套件；生产路径未变，复用此前门禁并运行上述受影响覆盖 |
+
+本次是公开合成本地Fixture、模型传输替身与离线artifact核验，非真实模型质量或Live；没有加载`.env`、新增外部调用、真实预约写入或commit/push。已在Test/Eval总纲落实长期“最小充分验证”：只补有依据且影响当前交付/关键安全边界的缺口，已有覆盖和证据足够即停止，不机械遍历维度或要求每条断言做变异。此次停止于覆盖缺陷已修正；Tokyo proxy值与OpenTable访问缺口仍开放，不据此宣称浏览器Live或H001交付通过。
+
+## TEST-2026-09-26-BROWSER-RECOVERY-COVERAGE-AUDIT
+
+核对总纲落实时发现，合法节点替换后的正常恢复只在独立临时脚本中，未进入正式主回归。已在`browser-read-fixture.test.ts`现有`changed observed option`参数组加入`legal-replacement`，与非法role/submit替换共用入口；真实Chromium、生产Decision/Executor/Runtime验证旧引用拒绝、新观察选择与原3调用上限内完成。定向3/3、typecheck、diff检查通过。隔离副本禁用stale后的重新观察，新用例在实际NO_SAFE_ACTION与预期COMPLETED的目标断言上失败；原生产代码未变。证据：`.eval-artifacts/browser-generic-review-2026-09-26/recovery-main-regression.log`、`recovery-mutation-red.log`与`recovery-mutation-evaluation.json`。
+
+未追加真实模型、Live或全量套件；之前532/532、41/41保留当时口径。Tokyo特殊proxy选中值与OpenTable访问缺口仍未关闭。[总纲落实与正式覆盖映射](BROWSER-GENERIC-INDEPENDENT-REVIEW-2026-09-26.md#总纲落实与正式回归核对)。
+
+## TEST-2026-09-26-BROWSER-GENERIC-INDEPENDENT-EXTERNAL
+
+Root独立完成property修复版typecheck、arch、build、diff检查，默认532/532、本地Chromium37/37；14个冻结文件与开工工作树一致。真实模型+受控DOM四run全部通过（native/button/missing/property），合计6 calls、11853 tokens。真实来源三探针全部未完成目标：Tokyo 27410ms/6 calls未确认；OpenTable 2951ms/0 calls HTTP/2导航错误；Tokyo property复验32881ms/6 calls，模型选19:00、页面实际17:30。Live合计87549 tokens，额度用尽；H001机制前提未满足，没有启动。
+
+新的独立本地Chromium红例在观察后插入三个无关button，证明Registry的动态nth引用将19:00点为17:30；已退回返修，前述全绿不覆盖这项失败。真实模型/来源结果与独立evaluation分别保存，原件不覆盖。无Agent预约/付款/登录/同意提交，无commit/push；网站后台POST不等于Agent提交，也不声称完整网络副作用审计。[完整证据和边界](BROWSER-GENERIC-INDEPENDENT-REVIEW-2026-09-26.md)。
+
+最终目标绑定返修复核：默认532/532、真实本地Chromium41/41、typecheck/arch/build/diff全部通过，14个冻结源一致。独立五项控制通过：无关button插入、原生select插入后的同节点确认、同节点变submit拒绝、无关颜色变化正常、合法替换节点的重新观察恢复（原3调用预算内完成）。最终候选源hash及identity门禁日志见独立报告。真实模型4/4与Live0/3属于前一候选；最后绑定修复后没有新外部验证，不能外推整体通过。
+
+## TEST-2026-09-26-BROWSER-GENERIC-A-B-OFFLINE-CANDIDATE
+
+- A red control: runtime navigation threw `BROWSER_RUNTIME_FAILED` before executor deadline and the old session was reused. The corrected lifecycle test and slow-close/cancel/deadline controls pass 25/25 executor cases; the run's shared model-call count stays unchanged. Real Chromium local fixtures for both Local and Cloudflare session classes make `page.goto` itself time out at 30 ms, hold its response behind a latch until the fresh candidate page has been read, then release the old response and confirm the new page is unchanged (2/2). This proves session isolation, not the actual cause of the historical Live interruption.
+- B: The old Browser wire had no native TIME select action; old fixture coverage selected DATE/PARTY only or clicked custom options. Browser wire@4 / Prompt@5 and the shared executor now accept one observed `CHOOSE_OPTION` action for native select or an explicitly bound custom option. Real Chromium controls cover visible 7:00 PM with opaque native value; out-of-window, disabled and wrong-owner rejection; immediate selection rollback despite a changed result; both next-loop completion and model COMPLETE rejection; cross-field overwrite rejection; and delayed legitimate selection recovery. The existing TableCheck Adapter plus shared Executor completes the custom query in both runtime classes. `npm run typecheck`, `npm run arch:check`, `npm run build`, `git diff --check` and focused browser decision/executor tests 30/30 passed. A full browser fixture run passed 34/34 before the final cross-field pending guard; affected positive/negative paths were rerun 6/6 after it. Final complete gates and independent review remain pending.
+- Modes: Unit/Mock and real local Chromium with wholly intercepted HTML only. No new external model call, public source Live, Controlled Live-write, booking, payment or cancellation. Selected control state is the independent oracle for action effect; Adapter identity/request/inventory checks are reused separately. Current real-source compatibility and whole H001 outcome remain `NOT_EVALUATED`.
+- Independent review found a standard `button[role=combobox]` was observed twice as BUTTON and INPUT, leaving its listbox option without a unique owner. The original reviewer control is retained under `.eval-artifacts/browser-generic-review-2026-09-26/independent-button-combobox.result.json` as a red artifact. The shared Registry now excludes native buttons from the INPUT combobox group; the same structural variant with strict browser wire passes in Local and Cloudflare-backed real Chromium fixtures (2/2), while the unrelated-listbox wrong-owner negative control still rejects (1/1). An existing Hybrid production composition test now drives semantic request → Google candidate → `LiveBrowserAvailability` → TableCheck Adapter/Executor through `ModelBrowserReadActionDecision` and a current observed `CHOOSE_OPTION`; it reaches `PRESENT_RESULTS` with HIGH source identity and request-bound date, party and 13:00 slot evidence. The existing local failure composition still passes (2/2 targeted composition cases). These are synthetic source and model-transport controls, not model-quality or real-source Live acceptance.
+- A later Tokyo Ten read-only guide probe opened its custom time input and attempted the observed 19:00 option, but ended `OPTION_VALUE_NOT_CONFIRMED` under the original six-call/30-second slice. Independent local Chromium reproduced the exact observation gap with a readonly INPUT combobox: DOM `input.value` became `7:15 PM` while its `aria-label` stayed `Arrival time`, yet Registry classified the control as BUTTON and read only the static value attribute. In the existing TableCheck custom-control fixture, changing only the DOM property was red (`UNKNOWN / REQUEST_SELECTION_UNCONFIRMED`, with `OPTION_VALUE_NOT_CONFIRMED`). Registry now reads the current input property for that already-supported BUTTON-classified combobox, including an empty value; it does not change action safety. The same fixture passes for Local and Cloudflare-backed sessions (2/2), with explicit post-read assertions that labels remain constant and values are `4 guests`/`19:00`; wrong-owner and unchanged-selection negatives remain green (2/2). Typecheck passed. The original independent red result is preserved; no external model/Live rerun occurred in this implementation task.
+
+## TEST-2026-09-26-AUTHORIZED-MODEL-VALIDATION
+
+用户授权前次DeepSeek外发范围及必要测试，并要求主任务直接运行。D1六项真实模型6/6；E2仅一次真实收尾决策，混合模型受控链实际PRESENT_RESULTS、默认3家目标met:false。H001–H005各一次固定来源真实模型：均展示，自动acceptance为PASS/FAIL/FAIL/FAIL/PASS；后三例为条件措辞未自动评估，单独语义review保留。五例资源维度因Runner/Evaluator字段不一致未评估。各例调用4/9/4/7/8，耗时5.197/8.869/5.231/5.912/7.822秒；不重复执行。Live H001一次只读在300040ms取消，16模型调用启动、3 Google请求；12家查位为9 UNKNOWN/3 UNAVAILABLE，零Offer未展示，资源评价因超40ms保留NOT_SATISFIED。未变生产代码，复用9月24日离线528/528和四门禁，不做无变化重跑。详细artifact、独立检查、缺口与Live结果见[本轮记录](AUTHORIZED-MODEL-VALIDATION-2026-09-26.md)。
+
+## TEST-2026-09-24-D1-D3-OFFLINE-CONTINUATION
+
+- D1 first failure and independent oracle: H002 saved new fixed-source Prompt@8 response wrongly marked the Cantonese-primary source `CONFLICT`; temporary Prompt@9 wrongly marked it `SUPPORTED`. Current six predeclared controls require UNKNOWN for that overlapping cuisine, CONFLICT for an explicit excluded focus, SUPPORTED only for an explicit source denial, UNKNOWN for a broad parent, CONFLICT for the existing F8 HIGH grounded McDonald's entity, and UNKNOWN for the same ungrounded name. The last control remains ineligible without HIGH same-source identity. The new runner's plan-only command is `node --import tsx src/eval/restaurant/agent-loop/runners/run-d1-fact-judgment-controls.ts`; it records an exposed cohort, Git working-tree snapshot, six planned units, 8-second per-call and 60-second total ceilings. The gated `--run` path was **not run**; real Prompt@10 quality is NOT_EVALUATED. The existing frozen category scorer remains a regression; this six-control runner independently checks each raw outcome, scope, citation, converted claim and final eligibility, including its distinct `SUPPORTED` row, without calling that scorer. A scripted raw-output→conversion→eligibility regression 13/13 passed, but does not score real model output.
+- D2 existing Hybrid production composition now uses Google Details `types=[hot_pot_restaurant,japanese_restaurant,restaurant]`, `primaryType=japanese_restaurant` and the real `hot-pot restaurants` HARD wording. Targeted test passes: grounded violation blocks downstream website/model fact work and removes that candidate from legal availability; independent normal candidate reaches `PRESENT_RESULTS`. Historical H002 was the red Live evidence; prior singular-only regression was the coverage omission. No new Google or browser visit was made.
+- D3 production composition starts at semantic input, reads a current request-bound slot, then Google Details facts for that candidate before remaining inventory, and reaches `PRESENT_RESULTS` with three distinct supported candidates and default batch `met:true`. This controlled model action script proves feasible routing only. Existing expiry, user-refresh and failed-fact-read regressions protect against stale availability and illegal repeat reads; Prompt@18's real model choice and original H003 completion remain unassessed.
+- Local modes and gates: D2/D3 targeted 2/2; `npm run typecheck`, `npm run arch:check`, `npm run build`, `git diff --check` passed; default `npm test` **528/528 PASS**. No `.env` read, paid model call, Live source visit, booking or external write. The earlier TableCheck local Chromium fixture remains a separate mode; no new Browser Adapter DOM behavior was introduced in D1–D3.
+
+## TEST-2026-09-24-PLAYBOOK-INDEPENDENT-REVIEW
+
+- Baseline: `57017b6..f4bf46a`; original related tests 142/142 passed but missed the four reviewed failures. Review counterexamples and correction boundaries are recorded in the [independent review](LIVE-PLAYBOOK-INDEPENDENT-REVIEW-2026-09-24.md).
+- Root rerun after correction: 185/185 related tests, zero failures/skips/todo; actual PRESENT_RESULTS after slow-source and slow-decision window crossing. TableCheck stale/mismatched/loading/out-of-window inventory remains unsupported.
+- Root real Chromium local asynchronous test: 1/1 passed after sandbox launch escalation. All page requests are locally intercepted. A current request-bound slot link arrives after a bounded scripted WAIT; old inventory remains in the DOM and is not used. This is a synthetic browser fixture, not historical Replay or Live. The earlier fixture failure came from an unconditional model-decision assertion, not accepted inventory behavior.
+- Implementation task gates verified in its command records: npm test 526/526, typecheck, arch:check and build PASS; root git diff --check PASS. Evaluator/rubric@21 checks total model starts and preserves known overrun despite another missing field. Historical artifacts unchanged.
+- No paid model, Google, Live site, private Holdout or external write; no commit/push. E2 and overall Playbook acceptance remain open.
 
 ## TEST-2026-09-24-LAVAROCK-A-ENTRANCE — same-entity booking target
 
@@ -23,12 +304,25 @@
 - Evaluation: retained the original [H001 artifact](../../.eval-artifacts/restaurant-hybrid-live-read/2026-09-24T03-56-54-360Z-31020bc5-a3c3-45bb-ae39-9c4cdb138093.result.json) and @19 sidecar. A separate [@20 sidecar](../../.eval-artifacts/restaurant-hybrid-live-read/2026-09-24T03-56-54-360Z-31020bc5-a3c3-45bb-ae39-9c4cdb138093.result.evaluation.20-1790242202838.json) reports `RESOURCES=NOT_SATISFIED`, `overLimit=elapsedMs>maxAutomaticBrowserMs`. This is a retrospective evaluator correction, not a new Live result or proof of user-goal completion. It checks the three mapped ceilings only; no new threshold was introduced.
 - Gates: focused evaluator 49/49, fixed-source acceptance 57/57, hybrid composition 41/41, full offline `npm test` 523/523, typecheck, architecture check and build passed. No model call, source visit, booking or external write occurred in this slice.
 
+## TEST-2026-09-24-H003-TABLECHECK-NATIVE-RETRY — one contiguous Live Read-only run
+
+- Precheck: public TableCheck search HTTP 200; a separate local Chromium source read completed search and five guides in 34,025 ms. This isolated the earlier `ERR_CONNECTION_CLOSED` as unreproduced in the current local route; no production network change. The diagnostic-only candidate/provider caps were aligned to the existing 60,000/30,000 ms limits before the single full retry.
+- [Saved retry artifact](../../.eval-artifacts/h003-native-tablecheck-check.retry-2026-09-24.json): search results at 13,078 ms, five source details/geographic gate at 16,687 ms, final at 76,797 ms. The same two source-native candidates passed exact 3 km. Their existing TableCheck adapter reads each reported HIGH exact-phone same-source identity; both availability checks returned `UNKNOWN / BROWSER_TIMEOUT` after 30-second provider caps. Model calls 10/50, Offer 0, no completed 10-person inventory result and no observed external write. No Google restaurant matching call was made.
+- Independent manual review checked source ID/URL/coordinates against the saved native detail events and kept identity-only evidence separate from slot evidence. Candidate fields and later identity pages share TableCheck as source, so the comparison is not an independent cross-provider oracle. The probe entered the production provider adapter through diagnostic-built candidates, not the full Router/Runtime or whole-case Evaluator. Mock, Replay, full H003 product Live and Controlled Live-write were not run; no new production code or default tests changed. [Scope and outcome](H003-TABLECHECK-NATIVE-LOOPS-2026-09-24.md#follow-up-one-contiguous-retry-after-browser-connectivity-check).
+
 ## TEST-2026-09-24-H001-E1 — default delivery-window controlled execution
 
 - Failure basis: saved H001 Live step 7 had two eligible candidates and about 45 seconds remaining, but chose another availability read and ended cancelled without presentation. ADR-0028 and the old action-validator test deliberately rejected a short batch while any read remained, so this was a contract gap rather than an implementation regression.
 - Controlled E1: before the window, one supported availability result with default target three is rejected for early presentation. With a durable window event 45 seconds before the deadline, Coordinator chooses the scripted `PRESENT_RESULTS`, Router emits `RESULTS_PRESENTED`, Reducer saves the short result and `resultBatchTarget={candidateCount:3,met:false}`; zero provider calls occur after the window. An explicit user count cannot open that event; expired evidence remains rejected. Existing default-three composition tests continue to cover a full `met:true` batch. This state-driven controlled test does not produce a real-source H001 result.
 - Gates: `npm run typecheck`, `npm run arch:check`, `npm run build` and default `npm test` 522/522 passed. The first default suite attempt exposed a stale Prompt@16 assertion after Decision Prompt@17; the version assertion was corrected and the second full run passed. No browser DOM path changed in E1; the prior 24/24 browser Fixture result belongs to C1.
 - Evaluator: existing fixed-source acceptance already distinguishes default short batch `met:false` from explicit requested count; manual E1 review checks actual transition and 45-second reserve. The predeclared one-call E2 DeepSeek probe was rejected by automatic approval before execution because its H001 private artifact-derived context would leave the workspace. No model call, source read, booking or external write occurred. Fixed-source model choice and full H001 remain unassessed. [Stage record](H001-DELIVERY-WINDOW-2026-09-24.md).
+
+## TEST-2026-09-24-H003-TABLECHECK-NATIVE-LOOPS — Live Read-only diagnostic, incomplete composition
+
+- Input and budget: current H003 materialized to `2026-09-25`, 10 people, `17:30–22:00`; existing public evaluation coordinate and exact 3 km gate; TableCheck only; contiguous composition ceiling 300,000 ms / 50 model calls. No Google restaurant query, model call in completed Loop 1, reservation submission or external write.
+- Loop 1 source observation: the early search shell had no venue links; after hydration the source reported `50+ venues found`. Five native guide IDs/addresses/JSON-LD coordinates were read in 14,374 ms from the search start. Exact Haversine gate admitted 0711 GiNZA BiSTRO (548 m) and 100 Spoons TOYOSU (2,976 m), rejecting the other three (3,908 m, 4,873 m, 4,516 m). This proves only a small traceable geographic sample; budget/private-room suitability and inventory were not accepted.
+- Loop 2 attempts: local contiguous run stopped at initial `page.goto` after 2,259 ms; one repeat stopped after 2,164 ms with `net::ERR_CONNECTION_CLOSED`. The existing remote Browser Run failed `connectOverCDP` during session creation. No candidate, date/party control or slot extractor was reached; total search-to-check time is **NOT_MEASURED**, and current availability is UNKNOWN. A URL-only timing was not substituted. [Detailed source and failure record](H003-TABLECHECK-NATIVE-LOOPS-2026-09-24.md).
+- Verification mode: Live Read-only probe only. No product code changed, so code gates and full H003 evaluator were not run; the evaluator has no execution artifact with a completed check to score. Mock, Replay and Controlled Live-write were not run. Side-effect count: no observed external write.
 
 ## TEST-2026-09-24-LAVAROCK-C1 — live request values, stale markup and fixture closure
 
@@ -3128,3 +3422,41 @@ Read-only reevaluation of five saved worktree-1135 artifacts: H001/H005 all dime
 - Scope: pure documentation restructure for Test/Eval/Planning/Post-change, one superseded Eval snapshot/migration map, and an independently accepted paper review. No source code, ADR, Gold, fixture, private Holdout, artifact, provider, browser, Live or external write changed or ran.
 - Checks: `git diff --check` passed. Root independently checked the current modified/new Markdown local links and anchors (13 documents, 342 references): no errors. All 11 referenced package scripts exist; the archived Eval body is byte-identical to commit `2b64388` (SHA-256 `3db37975cd23dfe0e5298878071ee9a8121e6b4cb37da81ae9ab83f07b147a4a`). No code suite is claimed or required for this document-only scope.
 - The paper review is design evidence only: its multi-candidate, H005 time and booking recovery rows are not test executions, implementation acceptance, or future provider capability claims. Current contracts and the documented Live P0 blocker remain unchanged.
+## TEST-2026-09-29-H001-NATIVE-TAIL-CHECKPOINT-AND-H003-DEVIATION
+
+- Offline local identity/availability/source-route regression: `node --import tsx --test src/integrations/tabelog/tabelog-browser-availability.test.ts src/integrations/tablecheck/tablecheck-browser-availability.test.ts src/integrations/restaurant-availability/availability-source-resolver.test.ts` — **76/76 PASS**. Native wrong-ID and changed-address controls reject cross-outlet success; native UNKNOWN stays on its own platform.
+- `npm run typecheck`, `npm run arch:check`, `npm run build` — PASS. Default `npm test` in the restricted sandbox failed only when HTTP tests attempted `127.0.0.1` listening (`EPERM`); the same offline suite in the permitted local environment passed **539/539**, zero skip/todo. Full suite log: `/private/tmp/praxis-h001-stage1-npm-test-20260929.log`.
+- No native-search→Router/Runtime/Agent composition test, independent H001 evaluation, fixed-source real-model run or H001 Live run has been performed; stage 1/2 is not complete. The old H003 read consumed **77,685 ms / 11 model calls** and returned two `UNKNOWN/BROWSER_TIMEOUT` checks, zero Offer. It is an out-of-scope Live Read-only result, not part of the offline tests or H001 evidence; see [deviation record](H003-TABLECHECK-NATIVE-LOOP2-SCOPE-DEVIATION-2026-09-29.md).
+
+## TEST-2026-09-29-H001-NATIVE-FIXED-SOURCE-REAL-MODEL
+
+- Mode: real DeepSeek model with offline fixed source pages and fixed Google location response. Frozen exposed H001 request and derived prompts were sent only after the user explicitly authorized this data transfer; an earlier unsandboxed command was rejected by automatic approval review and did not run. The first ordinary-sandbox attempt had `NETWORK/ENOTFOUND` before a model response and remains a separate inconclusive artifact.
+- `TABELOG_DELIVERS`: `SUCCEEDED/TERMINAL/PRESENT_RESULTS`, three Tabelog candidates, **11,800 ms / 9 model calls / 35,596 tokens**. Independent Eval: qualified `YES`, all six findings `SATISFIED`. TableCheck navigation count zero; one fixed Shibuya location resolution, zero Google restaurant search or details. [Execution](../../.eval-artifacts/h001-native-fixed-source-model/2026-09-29T04-12-11-311Z-a5791cc6-4f6d-4804-b2d7-c0bed9c2d9d0.result.json), [independent Eval](../../.eval-artifacts/h001-native-fixed-source-model/2026-09-29T04-12-11-311Z-a5791cc6-4f6d-4804-b2d7-c0bed9c2d9d0.result.evaluation.21-1790655143120.json).
+- `TABLECHECK_RECOVERS`: first Tabelog batch did not deliver, then three distinct TableCheck candidates reached `SUCCEEDED/TERMINAL/PRESENT_RESULTS`, **17,076 ms / 14 model calls / 54,431 tokens**. Independent Eval: qualified `YES`, all six findings `SATISFIED`. One fixed Shibuya location resolution, zero Google restaurant search or details. [Execution](../../.eval-artifacts/h001-native-fixed-source-model/2026-09-29T04-13-08-370Z-07e46c54-52b1-4068-872e-56d08e2a0335.result.json), [independent Eval](../../.eval-artifacts/h001-native-fixed-source-model/2026-09-29T04-13-08-370Z-07e46c54-52b1-4068-872e-56d08e2a0335.result.evaluation.21-1790655205456.json).
+- Both invocations used their own unchanged 300,000 ms / 50 model-call / 30-step ceiling. No real restaurant/Google request, booking write, `BOTH_BOUNDED_EMPTY` paid-model control or H001 Live run occurred. These timings cover semantic, fixed location, native search, detail, facts and same-source availability in the controlled environment; they do not estimate real website latency or live inventory. Full offline code gates were previously 548/548 with typecheck/arch/build passed; no production code changed in this model-only follow-up, so those gates were not repeated.
+
+## TEST-2026-09-29-H001-NATIVE-SINGLE-LIVE-READ
+
+- Mode: one user-authorized real-source Live Read-only via the formal hybrid runner with `--native-discovery`, local Chromium/default network. The first proposed command was previously rejected by automatic approval review before start because fixed-page authorization did not cover real Google/Tabelog/TableCheck access; the user then explicitly authorized Live. This section records **one** actual invocation only. Frozen H001 was materialized to Tokyo `2026-09-29` 19:00, 2 people, Shibuya NEAR, omakase HARD; no evaluation-location/proxy/radius override.
+- Actual run: **39,515 ms from before semantic/location/native search**, 5 Agent steps, 6 model calls / 25,315 tokens, 1 Google Shibuya location resolution, 0 Google restaurant discovery/details, 2 browser runtime operations for the later Tabelog candidate check, 0 browser model actions. Limits: 300,000 ms whole run, 50 total model calls, 30 steps, 60,000 ms candidate, 30,000 ms provider. Tabelog admitted one geographically verified Sushi Teppen candidate at 749 m; its availability was `UNKNOWN / ENTITY_MATCH_UNCERTAIN` with zero Offer, and native fact read `UNKNOWN / NATIVE_SOURCE_IDENTITY_UNCONFIRMED`. TableCheck continuation admitted zero candidates with no explicit failure code; raw page/rejection counts were not captured, so no all-site/no-inventory conclusion is valid.
+- Terminal phase `NO_VERIFIED_RESULT`, no presentation, no HARD omakase support or request-bound slot. Process `SUCCEEDED` denotes normal scoped stop only. Independent Eval: `taskProducedQualifiedResult=NO`; authoritative conditions, investigation and resources `SATISFIED`, required evidence, final claim and completion outcome `NOT_EVALUATED`. [Execution](../../.eval-artifacts/restaurant-hybrid-live-read/2026-09-29T04-49-44-008Z-230092e7-b54a-433a-8799-e974bd4f6373.result.json), [independent Eval](../../.eval-artifacts/restaurant-hybrid-live-read/2026-09-29T04-49-44-008Z-230092e7-b54a-433a-8799-e974bd4f6373.result.evaluation.21-1790657423499.json), [review and limit](H001-NATIVE-LIVE-2026-09-29.md).
+- No code changed for this run, so the previously passed 548/548 offline suite and typecheck/arch/build were not repeated. No second Live, booking submission, external Agent write, commit or push. External side-effect count remains `NOT_MEASURED` in the runner artifact, so this is not a full network side-effect audit.
+
+
+## TEST-2026-09-29-TABELOG-LEAD-PATH-DIAGNOSIS
+
+- 主任务按用户截图亲自执行真实来源只读主页→Tokyo→单店，并通过生产 Chromium/observer/click 验证日期和人数变更；无模型、H001 整轮或预约提交。
+- 正常店铺控件延迟出现后可读取与操作，库存接口 200；Teppen 当前日期电话/关闭、人数禁用，现有 ready 条件仍通过。明确区分来源限制、观察缺口及未知精确库存。
+- [完整诊断及原始证据](TABELOG-LEAD-PATH-DIAGNOSIS-2026-09-29.md)包含首轮 popup 混合记录排除及末尾可选局部截图失败；未改生产代码，未重复全量离线门禁，未声称 H001/Playbook 通过。
+
+
+## TEST-2026-09-29-TABLECHECK-LEAD-PATH-DIAGNOSIS
+
+- Live Read-only 主任务诊断 + 保存来源页的离线生产解析；无模型/H001整轮/预约提交。主页与搜索成功，实际日期/人数/时间修改及回读成功；稳定来源库存解析能完成。
+- 发现搜索外层 combobox 被标为可填写 INPUT、店名链接默认点击位置被卡片文字遮挡（一次定向复现30秒，底层cause已保存）。直接同href导航成功不算原点击链通过。
+- 最近 H001 TC 是前五候选地点过滤，未进入单店；旧导航超时与旧控件回读失败不能混同。详见[诊断与证据](TABLECHECK-LEAD-PATH-DIAGNOSIS-2026-09-29.md)。未修改生产代码，不重复全量测试，不声明 H001 通过。
+
+## TEST-2026-09-30-NATIVE-SOURCE-READ-CHECKPOINT
+
+- Latest offline gates after the Teppen target-date Adapter repair: `npm test` **564/564 PASS**, local Chromium browser Fixture **54/54 PASS**, `npm run typecheck`, `npm run arch:check`, `npm run build` and `git diff --check` PASS. The saved Teppen DOM Chromium test failed on the old generic restriction reason and passed with the specific target-date UNKNOWN reason; the date-state control also distinguishes FULL, PHONE_ONLY, CLOSED and hidden-month UNOBSERVED. See [target-date evidence](H001-TEPPEN-TARGET-DATE-2026-09-30.md).
+- The authorized same-day Teppen single-page read was Live Read-only, not an Adapter or full H001 rerun. It observed a closed September 30 calendar cell, selected but disabled guest count, and no captured inventory response. The H003 post-repair Live retry stopped at navigation timeout. Neither run produced an Offer or booking write; no current source inventory or end-to-end H001 acceptance is claimed. See [browser case evidence](BROWSER-CASE-SLICE-LIVE-2026-09-30.md) and [query capture](H001-TEPPEN-QUERY-CAPTURE-2026-09-30.md).

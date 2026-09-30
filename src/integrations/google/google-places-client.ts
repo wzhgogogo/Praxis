@@ -1,3 +1,5 @@
+import { ProxyAgent } from "undici";
+
 import {
   GOOGLE_PLACES_RESTAURANT_FIELD_MASK,
   GOOGLE_PLACES_DETAILS_FIELD_MASK,
@@ -13,6 +15,7 @@ import {
 export interface GooglePlacesClientOptions {
   apiKey: string;
   fetchImplementation?: typeof fetch;
+  proxyServer?: string | undefined;
   timeoutMs?: number;
 }
 
@@ -27,12 +30,27 @@ export class GooglePlacesClient {
 
   constructor(private readonly options: GooglePlacesClientOptions) {
     nonBlank(options.apiKey, "Google Places API key");
-    this.fetchImplementation = options.fetchImplementation ?? fetch;
+    let googleFetch = fetch;
+    if (options.proxyServer?.trim()) {
+      let agent: ProxyAgent;
+      try {
+        const proxy = new URL(options.proxyServer);
+        if (proxy.protocol !== "http:" && proxy.protocol !== "https:") throw new Error("Unsupported proxy protocol");
+        agent = new ProxyAgent(proxy.toString());
+      } catch {
+        throw new GooglePlacesError("GOOGLE_CONFIGURATION_ERROR", "Google Places proxy must be a valid HTTP(S) URL");
+      }
+      googleFetch = (url, init) => fetch(url, { ...init, dispatcher: agent } as RequestInit);
+    }
+    this.fetchImplementation = options.fetchImplementation ?? googleFetch;
     this.timeoutMs = options.timeoutMs ?? 8_000;
   }
 
   static fromEnvironment(environment: NodeJS.ProcessEnv = process.env): GooglePlacesClient {
-    return new GooglePlacesClient({ apiKey: environment.GOOGLE_MAPS_API_KEY ?? "" });
+    return new GooglePlacesClient({
+      apiKey: environment.GOOGLE_MAPS_API_KEY ?? "",
+      proxyServer: environment.PRAXIS_GOOGLE_API_PROXY_SERVER,
+    });
   }
 
   /** Compatibility helper for callers that intentionally need one unpaged result list. */

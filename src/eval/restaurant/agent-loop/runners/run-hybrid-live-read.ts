@@ -13,6 +13,7 @@ import type { BrowserExecutionDiagnostic } from "../../../../infrastructure/brow
 import { DeepSeekModelGateway } from "../../../../infrastructure/deepseek/deepseek-model-gateway.js";
 import { GooglePlacesClient } from "../../../../integrations/google/google-places-client.js";
 import { GooglePlacesRestaurantSearch } from "../../../../integrations/google/google-places-restaurant-search.js";
+import { composeNativeRestaurantRead } from "../../../../integrations/restaurant-search/native-read-composition.js";
 import { LiveBrowserAvailability } from "../../../../integrations/restaurant-availability/live-browser-availability.js";
 import { composeLiveRestaurantFactRead } from "../../../../integrations/restaurant-facts/live-restaurant-facts.js";
 import type { TableCheckIdentityDiagnostic } from "../../../../integrations/tablecheck/tablecheck-contracts.js";
@@ -192,7 +193,7 @@ function captureProgress() {
     }
   } catch { /* The shared capture still preserves completed trajectory data when Runtime state is unavailable. */ }
   return captureHybridLiveProgress({
-    composition, taskId, startedAtMs: startedAt.valueOf(), modelInvocations,
+    composition, taskId, startedAtMs: startedAt.valueOf(), modelInvocations, modelCallsStarted,
     ...(googleRequestUsage ? { googleRequestUsage } : {}),
     diagnostics: {
       tablecheckIdentity: tableCheckIdentityDiagnostics,
@@ -223,14 +224,23 @@ try {
         source: "PRAXIS_EVAL_USER_LAT/PRAXIS_EVAL_USER_LNG",
       }
     : requiresEvaluationLocation(frozen) ? HIGASHI_GINZA_EVALUATION_LOCATION : undefined;
-  const search = new GooglePlacesRestaurantSearch(
-    new GooglePlacesClient({ apiKey: process.env.GOOGLE_MAPS_API_KEY ?? "", timeoutMs: liveReadLimits.maxStructuredReadMs }),
+  const google = new GooglePlacesRestaurantSearch(
+    new GooglePlacesClient({
+      apiKey: process.env.GOOGLE_MAPS_API_KEY ?? "",
+      proxyServer: process.env.PRAXIS_GOOGLE_API_PROXY_SERVER,
+      timeoutMs: liveReadLimits.maxStructuredReadMs,
+    }),
     undefined,
     candidateLimit,
     { maxRequests: liveReadLimits.maxGoogleRequests },
   );
-  googleSearch = search;
+  googleSearch = google;
   const browser = browserRuntimeFromEnvironment();
+  const nativeRead = process.argv.includes("--native-discovery")
+    ? composeNativeRestaurantRead(google, browser, model, browserBudget,
+        (diagnostic) => browserExecutionDiagnostics.push(structuredClone(diagnostic)), evaluationLocation)
+    : undefined;
+  const search = nativeRead?.search ?? google;
   const availability = new LiveBrowserAvailability(browser, model, {
     browserBudget,
     maxTableCheckBrowserSessions: liveReadLimits.maxTableCheckBrowserSessions,
@@ -262,7 +272,7 @@ try {
     search,
     availability,
     partySizeSupplementResolver: new RestaurantPartySizeSupplementResolver(model),
-    facts: composeLiveRestaurantFactRead(search, browser, model, browserBudget, undefined, (diagnostic) => browserExecutionDiagnostics.push(structuredClone(diagnostic))),
+    facts: nativeRead?.facts ?? composeLiveRestaurantFactRead(google, browser, model, browserBudget, undefined, (diagnostic) => browserExecutionDiagnostics.push(structuredClone(diagnostic))),
     router: {
       structuredReadTimeoutMs: liveReadLimits.maxStructuredReadMs,
       // An explicit human pause is outside the automatic browser-read deadline.
