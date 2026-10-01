@@ -748,7 +748,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
       }, browser);
       const controlSlots = parseTableCheckControlAvailability(availabilityRead.controls, request.date, request.partySize, page.url, request.timeWindow);
       const requestConfirmed = hasTableCheckSelectedRequest(page, request.date, request.partySize, availabilityRead.controls) || controlSlots.queryComplete;
-      if (!["COMPLETED", "MODEL_HANDOFF"].includes(availabilityRead.status) || !requestConfirmed) return this.ground(candidate, request, {
+      if (availabilityRead.status !== "COMPLETED" || !requestConfirmed) return this.ground(candidate, request, {
         candidate, observedAt, sourceEntityId: activeSelected.extraction.outlet.sourceEntityId, sourceUrl: activeSelected.extraction.outlet.sourceUrl,
         entityMatch: activeSelected.inspection.resolution, pageState: "EXTRACTION_FAILED", failureCode: "REQUEST_SELECTION_UNCONFIRMED",
       }, browser);

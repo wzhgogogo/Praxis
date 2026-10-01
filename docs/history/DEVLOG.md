@@ -1,13 +1,19 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.139
-- Last updated: 2026-09-30
+- Document revision: 4.140
+- Last updated: 2026-10-01
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## 2026-10-01 — H001 discovery/execution closure work packages A/B/C
+
+Implemented only the first three work packages of the H001 closure playbook. Native discovery keeps five details as a work chunk while persisting inspected and pending native entrances through a ten-detail, 90-second per-source ceiling and an explicit six-page Tabelog/two-page TableCheck listing ceiling; each chunk may consume at most three and one listing pages respectively. A pending Tabelog entrance continues Tabelog before the fixed TableCheck transition. The continuation and funnel make this scheduling boundary explicit and do not claim site-wide exhaustion. Native list, region and detail reads now run through the shared BrowserTaskExecutor `DISCOVERY` lifecycle.
+
+Browser `COMPLETE` is now a completion request: when the source predicate is still unmet, the executor returns the concrete missing condition to the same model/session/request/budget loop. A repeated identical request terminates as no progress. TableCheck final parsing now requires an executor-completed read, and its sanitized `Venue Availability` query regions are retained for audit. The work includes composition and browser regression coverage for later same-source candidate investigation, early completion followed by an observed safe action, and TableCheck result-region capture. No model, source, booking write, commit or push was run; per the playbook instruction this work stops after A/B/C for user review.
 
 ## 2026-09-30 — Two bounded real-source browser-control diagnostics
 

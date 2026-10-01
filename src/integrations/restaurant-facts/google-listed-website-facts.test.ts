@@ -302,7 +302,7 @@ test("multilingual website facts retain cancellation and complete course cards a
   }
 });
 
-test("a telephone-link-bound page hands source statements off once without claiming the criterion", async () => {
+test("a telephone-link-bound page retains source statements without claiming the criterion", async () => {
   // Observed 2026-09-28: Sushiki exposes this phone only in a tel link;
   // Matsue's dinner page uses tel://. Neither source needs an English name.
   for (const control of [
@@ -322,7 +322,7 @@ test("a telephone-link-bound page hands source statements off once without claim
       () => "2026-09-28T00:00:00.000Z",
       { decide: async () => { decisions++; return { type: "COMPLETE", reason: "Relevant public menu statements are ready for fact interpretation." }; } },
     ).inspectFacts(input, new AbortController().signal);
-    assert.equal(decisions, 1);
+    assert.equal(decisions, 2, "an incomplete COMPLETE is fed back once, then fails closed without duplicating source statements");
     assert.equal(read.evidence.find(e => e.kind === "ENTITY_MATCH")?.entityMatch?.confidence, control.bound ? "HIGH" : undefined);
     assert.equal(read.sourceDocuments?.some(d => d.statements.some(s => s.text === "おまかせコース")), control.bound);
     assert.equal(read.evidence.some(e => e.claims.verifiedHardCriteria), false);

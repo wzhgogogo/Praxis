@@ -514,9 +514,19 @@ export class BrowserTaskExecutor {
       if (action.type === "COMPLETE") {
         completion = input.completion(snapshot, observation.controls);
         if (pendingOption) return { status: "NO_SAFE_ACTION", snapshot, controls: observation.controls };
-        // COMPLETE is only a browser-read handoff. The provider verifier still owns
-        // request/result evidence and can fail closed using this same DOM observation.
-        return { status: completion.complete ? "COMPLETED" : "MODEL_HANDOFF", snapshot, controls: observation.controls };
+        if (completion.complete) return { status: "COMPLETED", snapshot, controls: observation.controls };
+        // COMPLETE is a request to finish, never evidence that the source has
+        // finished.  Keep the same browser session and give the concrete
+        // missing predicate back to the model.  A second COMPLETE on the same
+        // unmodified observation has made no progress and fails closed.
+        if (recordRejectedProposal(`${observationKey(snapshot, observation.controls)}|COMPLETE`)) {
+          this.record({ source: input.source, stage: input.stage, event: "METHOD_INCOMPLETE", url: snapshot.url, detail: "NO_PROGRESS_COMPLETE_REQUEST" });
+          return { status: "NO_SAFE_ACTION", snapshot, controls: observation.controls };
+        }
+        progress = `Completion was not accepted: ${completion.reason} Continue with an observed safe action, wait for a visible result, or request human help.`;
+        this.record({ source: input.source, stage: input.stage, event: "METHOD_INCOMPLETE", url: snapshot.url, detail: "COMPLETE_PREDICATE_UNSATISFIED" });
+        postAction = true;
+        continue;
       }
       if (action.type === "REQUEST_HUMAN_HELP") return { status: "REQUESTED_HUMAN_HELP", snapshot, controls: observation.controls };
       const target = action.targetRef ? observation.targets.get(action.targetRef) : undefined;

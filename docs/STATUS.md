@@ -1,13 +1,15 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.134
-- Last updated: 2026-09-30
+- Document revision: 4.135
+- Last updated: 2026-10-01
 - Source of truth for: 已实现能力、已验证范围、明确未验证项与下一道门槛
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Documentation Index](INDEX.md), [Roadmap](roadmap.md), [Verification History](history/TEST-LOG.md)
 
 ## 最新审查与当前门槛
+
+2026-10-01 **H001 查店与查询结果闭环的工作包 A/B/C 已完成离线实现，等待用户 review。** 原生发现的五详情限制现在只是工作分块：当前来源保留已检查与待处理入口，在每来源十次详情、Tabelog 六页／TableCheck 两页和累计90秒的上限内继续同源调查；每个五详情块最多读取 Tabelog 三页或 TableCheck 一页。只有当前来源已无待处理入口或达到该来源上限才进入下一个固定来源，且不把该边界解释成网站穷尽。原生发现的读取操作统一经共享 Browser Executor 的 `DISCOVERY` 生命周期。浏览器模型在完成谓词仍未满足时收到结构化缺口并在同一会话、请求和预算中继续；同一观察重复 `COMPLETE` 则无进展停止。TableCheck 审计现在保存脱敏的可用性查询区域，且只有完成的来源读取可进入最终结果解析。相关离线组合、正常和拒绝反例通过；未运行真实模型、真实来源或 H001 Live，因此没有新的库存、展示或 H001 成功结论。本轮按用户指令停止在 A/B/C，等待 review 后再决定是否进入固定来源模型或真实来源阶段。
 
 2026-09-30 **两次真实来源浏览器控件诊断证明局部操作，不证明查位。** 0711 GiNZA BiSTRO 真实页面中，模型完成一次“下一月”日历点击并读到10月；目标10月3日为禁用控件，执行器拒绝后续点击，`UNKNOWN / REQUEST_SELECTION_UNCONFIRMED`，13,593ms／3次模型决策／零Offer。LAVAROCK同源身份HIGH，预约页读回已有的`2026-10-01`／成人2；模型仅实际选择一次6:30 PM，并经后置控件读回，`UNKNOWN / EXTRACTION_FAILED`，14,682ms／2次模型决策／零Offer。前述日期和人数是本次页面读回，不是模型本次修改。两次合计28,275ms／5次模型决策，均无预约写。当前证据只支持“生产浏览器能在两个公开页面完成这些局部动作”；不支持该网站没有公开库存、库存必需POST、完整浏览器查位已通过或H001/H002/H003/H005成功。下一门槛是以完整请求绑定库存结果验证一个来源路径，不能把时段控件或未捕获的响应当库存。[原始记录](history/TEST-LOG.md#test-2026-09-30-two-real-source-browser-control-diagnostics)。
 

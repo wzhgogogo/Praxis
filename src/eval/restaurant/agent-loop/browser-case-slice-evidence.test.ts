@@ -77,3 +77,18 @@ test("browser case slice journal distinguishes loading and absent booking region
   assert.match((selected.queryRegions as Array<{ markup: string }>)[0]!.markup, /js-calendar-day-target is-current" data-year="2026" data-month="9" data-day="30"/);
   assert.match((selected.queryRegions as Array<{ markup: string }>)[0]!.markup, /js-people-hidden-value" value="2"/);
 });
+
+test("browser case slice journal retains a TableCheck availability region without retaining the page profile", () => {
+  const record = snapshotRecord({
+    url: "https://www.tablecheck.com/en/shops/example/reserve?start_date=2026-10-02&pax=2",
+    title: "Example",
+    text: "Book a table",
+    html: '<main><section data-testid="Venue Availability"><div data-testid="Venue Pax Select"><button>2 guests</button></div><div data-testid="Venue Time Select"><a href="/en/shops/example/reserve?start_time=19:00">19:00</a></div></section><p>private profile text</p></main>',
+  });
+  const regions = record.queryRegions as Array<{ markup: string }>;
+  assert.equal(regions.length, 1);
+  assert.match(regions[0]!.markup, /data-testid="Venue Availability"/);
+  assert.match(regions[0]!.markup, /data-testid="Venue Time Select"/);
+  assert.doesNotMatch(regions[0]!.markup, /private profile text/);
+  assert.doesNotMatch(regions[0]!.markup, /start_time/);
+});

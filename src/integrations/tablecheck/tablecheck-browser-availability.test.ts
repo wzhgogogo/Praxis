@@ -1088,7 +1088,7 @@ test("TableCheck guide empty result is bound to one ready widget and exact selec
   }
 });
 
-test("TableCheck independently verifies live control evidence after model handoff", async () => {
+test("TableCheck does not accept live control evidence after an incomplete model COMPLETE", async () => {
   for (const date of [request.date, "2099-01-01"]) {
     const session = new FixtureBrowserSession([
       discoveryPage({href:"/en/restaurant1",text:"Restaurant 1"}),
@@ -1098,7 +1098,8 @@ test("TableCheck independently verifies live control evidence after model handof
     const executor = new BrowserTaskExecutor({openSession:async()=>session},{modelDecision:{async decide(){return {type:"COMPLETE",reason:"Hand back observed controls for verification"}}}});
     try {
       const result = await new TableCheckBrowserAvailability(executor).check(request,new AbortController().signal);
-      assert.equal(result.offers.length,date===request.date?1:0);
+      assert.equal(result.offers.length,0);
+      assert.equal(result.availabilityChecks[request.candidateIds[0]!]?.status,"UNKNOWN");
     } finally {await executor.close()}
   }
 });

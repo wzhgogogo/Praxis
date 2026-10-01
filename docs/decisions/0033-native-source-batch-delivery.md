@@ -1,8 +1,8 @@
 # ADR-0033: Delivery after a bounded native source batch
 
 - Status: Accepted
-- Document revision: 1.0
-- Last updated: 2026-09-29
+- Document revision: 1.1
+- Last updated: 2026-10-01
 - Source of truth for: Default open-ended Restaurant result delivery on the source-native read path
 - Supersedes in part: [ADR-0028](0028-open-ended-result-targets-for-availability.md) continue-until-no-read rule and [ADR-0031](0031-default-result-delivery-window.md) deadline-only short-batch condition, only for the native path
 - Related documents: [ADR-0032](0032-source-native-restaurant-discovery.md), [Restaurant Booking Domain](../domains/RESTAURANT-BOOKING.md), [H001 downstream Playbook](../H001-NATIVE-DOWNSTREAM-PLAYBOOK.md)
@@ -17,12 +17,13 @@ For an initial, open-ended native Restaurant read with the product default resul
 
 An explicit user-requested count retains the ordinary target rule. Every presented candidate still requires its own current source identity, HARD facts and request-bound availability evidence. A partial candidate investigation, an unresolved or stale result, or a source failure cannot be treated as a qualified result. The Agent proposes `PRESENT_RESULTS`; Domain validation decides whether it is legal. No model output changes Task State or executes a booking.
 
-The bounded source search may visit several observed results under its existing per-source and global ceilings. The durable continuation cursor's `exhausted` describes the two-source chain; `TABELOG_DONE` describes completion of the current bounded Tabelog batch and does not assert that the Tabelog website has no more pages.
+The bounded source search may visit several observed results under its existing per-source and global ceilings. A five-detail work chunk is a scheduling unit, not a source terminal: when the chunk leaves observed outlets pending and the source ceiling remains, the durable cursor keeps the same source and its inspected entrances for a later chunk. `TABELOG_DONE` is written only when that source's observed work or configured source ceiling ends; it does not assert that the Tabelog website has no more pages. The durable continuation cursor's `exhausted` still describes the two-source chain.
 
 ## Consequences
 
 - Native reads can deliver one or two fully supported restaurants before the deadline reserve of ADR-0031, without calling the second source merely to chase the default target.
 - Each source batch must expose its parsed, admitted, rejected and page counts and its actual progression reason. A bounded batch ending does not prove site-wide exhaustion or no inventory.
+- The source funnel distinguishes the five-detail chunk from the per-source detail ceiling and retains pending observed entrances. This preserves the existing global read budget while preventing a first chunk from being reported as an empty source.
 - The Google candidate path and explicit result counts retain their existing rules. Live source coverage, latency, controls and inventory require separate read-only evidence.
 
 ## Alternatives considered

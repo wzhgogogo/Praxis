@@ -51,7 +51,7 @@ function attr(tag: string, name: string): string | undefined {
 function safeCalendarTag(tag: string): string {
   const name = tag.match(/^<([a-z][\w-]*)\b/i)?.[1]?.toLowerCase();
   if (!name) return "";
-  const allowed = ["div", "table", "caption", "em", "thead", "tbody", "tr", "th", "td", "p", "span", "button", "input", "a", "br"];
+  const allowed = ["div", "section", "table", "caption", "em", "thead", "tbody", "tr", "th", "td", "p", "span", "button", "input", "a", "br"];
   if (!allowed.includes(name)) return "";
   const attributes: string[] = [];
   const classes = attr(tag, "class")?.split(/\s+/).filter(value => /^[a-z0-9_-]{1,100}$/i.test(value)).join(" ");
@@ -61,6 +61,8 @@ function safeCalendarTag(tag: string): string {
     if (value !== undefined && /^(?:\d{1,4}|true|false|disabled)$/i.test(value)) attributes.push(`${key}="${value}"`);
     else if (key === "disabled" && /\sdisabled(?:\s|>|=)/i.test(tag)) attributes.push("disabled");
   }
+  const testId = attr(tag, "data-testid");
+  if (testId && /^(?:Venue Availability|Venue Pax Select|Venue Time Select)$/i.test(testId)) attributes.push(`data-testid="${testId}"`);
   if (markupHidden(tag)) attributes.push('data-markup-hidden="true"');
   if (name === "input" && classes && /(?:^| )(?:js-people-hidden-value|js-time-hidden-value)(?: |$)/.test(classes)) {
     const value = attr(tag, "value");
@@ -107,7 +109,10 @@ export function bookingQueryRegions(html: string): Array<{ markup: string; trunc
     if (opening) {
       const name = opening[1]!.toLowerCase();
       const classes = attr(token, "class")?.split(/\s+/) ?? [];
-      if (depth < 0 && name === "div" && classes.includes("p-booking-calendar")) {
+      const testId = attr(token, "data-testid");
+      const isTabelogCalendar = name === "div" && classes.includes("p-booking-calendar");
+      const isTableCheckAvailability = /^(?:Venue Availability|Venue Pax Select|Venue Time Select)$/i.test(testId ?? "");
+      if (depth < 0 && (isTabelogCalendar || isTableCheckAvailability)) {
         depth = stack.length + 1;
         ancestorMarkupHidden = hiddenStack.includes(true);
       }

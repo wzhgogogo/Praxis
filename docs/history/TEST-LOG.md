@@ -1,13 +1,22 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.144
-- Last updated: 2026-09-30
+- Document revision: 4.145
+- Last updated: 2026-10-01
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## TEST-2026-10-01-H001-DISCOVERY-EXECUTION-CLOSURE-WORK-PACKAGES-ABC
+
+- Mode: offline unit, fixed-source composition and local browser-fixture verification only. No real source request, paid-model call, browser control diagnostic, H001 Live run, booking write, commit or push occurred.
+- A — native discovery: a six-entry Tabelog observation proves that the first five form one work chunk and the sixth stays in durable source progress, is investigated by a later Tabelog read, and is not rewritten as source exhaustion. Existing Tabelog-first/TableCheck-second, local candidate failure and bounded no-result compositions remain covered.
+- B — browser completion: an initially incomplete model `COMPLETE` receives the source completion gap and then executes a newly observed safe action in the same executor session. Repeated identical early completion remains a no-progress stop. TableCheck does not parse a `MODEL_HANDOFF` as a completed source read.
+- C — source evidence: sanitized TableCheck `Venue Availability`/party/time query regions are retained while private profile text and request query parameters are omitted. The test is evidence capture only; it does not turn selected controls or a page region into an availability Offer.
+- Targeted gate: the A/B/C composition and Browser Executor suites plus TableCheck Adapter suite — **89/89 PASS**; the affected website-fact regression suite — **17/17 PASS**. A local-port-permitted full default suite passed **570/570**, and `npm run test:browser:fixture`, `npm run typecheck`, `npm run arch:check`, `npm run build`, and `git diff --check` passed. The first sandboxed full-suite attempt could not bind `127.0.0.1`; the permitted rerun remained offline and passed.
+- Scope boundary: this validates the A/B/C mechanism and its safety cases. It does not prove a current Tabelog/TableCheck result expression, a real-model sequence, `PRESENT_RESULTS`, or H001 qualification.
 
 ## TEST-2026-09-30-TWO-REAL-SOURCE-BROWSER-CONTROL-DIAGNOSTICS
 

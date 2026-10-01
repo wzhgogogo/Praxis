@@ -644,12 +644,37 @@ test("BrowserTaskExecutor removes an observed target after its action makes no p
 });
 
 
-test("model COMPLETE cannot claim that the source completion predicate passed", async () => {
+test("model COMPLETE is returned to the same browser loop until the completion predicate passes or makes no progress", async () => {
   const session = new FixtureSession([{ url: "https://www.tablecheck.com/en/japan/search", title: "Options only", text: "19:00 19:15 19:30", html: "<p>Options only</p>" }]);
-  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { modelDecision: decisions(async () => ({ type: "COMPLETE", reason: "Options are visible" })) });
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { modelDecision: decisions(
+    async () => ({ type: "COMPLETE", reason: "Options are visible" }),
+    async () => ({ type: "COMPLETE", reason: "Options are visible" }),
+  ) });
   const acquired = await executor.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY");
   try {
     const result = await executor.runSkill({ ...input(acquired), completion: () => ({ complete: false, reason: "Date and party are unconfirmed" }) });
-    assert.equal(result.status, "MODEL_HANDOFF");
+    assert.equal(result.status, "NO_SAFE_ACTION");
+  } finally { await executor.close(); }
+});
+
+test("an early COMPLETE receives the missing predicate and can take a later safe action in the same session", async () => {
+  const session = new FixtureSession([
+    { url: "https://www.tablecheck.com/en/search", title: "Search", text: "Choose a public result", html: '<button type="button" data-date="2026-09-10">Sep 10</button>' },
+    { url: "https://www.tablecheck.com/en/search", title: "Result", text: "Inventory ready", html: '<p>Inventory ready</p>' },
+  ]);
+  let secondProgress = "";
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { modelDecision: decisions(
+    async () => ({ type: "COMPLETE", reason: "I am done" }),
+    async value => {
+      secondProgress = value.progress;
+      return { type: "CLICK_AUTHORITATIVE", targetRef: value.observation.targets[0]!.ref, field: "DATE", reason: "Open the observed result" };
+    },
+  ) });
+  const acquired = await executor.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY");
+  try {
+    const result = await executor.runSkill({ ...input(acquired), completion: snapshot => ({ complete: snapshot.text === "Inventory ready", reason: "A request-bound result is not yet visible." }) });
+    assert.equal(result.status, "COMPLETED");
+    assert.equal(session.clicks, 1);
+    assert.match(secondProgress, /Completion was not accepted: A request-bound result is not yet visible/);
   } finally { await executor.close(); }
 });

@@ -276,6 +276,21 @@ export interface RestaurantSearchContinuation {
    * request parameters of an already-issued provider cursor.
    */
   sourceRequestContext?: { textQuery: string };
+  /**
+   * Reducer-owned progress inside the current native source.  A discovery
+   * chunk is deliberately smaller than the source ceiling; this cursor keeps
+   * already observed detail entrances from being silently discarded before a
+   * later same-source read.
+   */
+  nativeSourceProgress?: {
+    source: "TABELOG" | "TABLECHECK";
+    inspectedSourceIds: string[];
+    detailAttempts: number;
+    pagesRead: number;
+    /** Browser time already spent in this bounded source across its chunks. */
+    elapsedMs?: number;
+    pendingSourceIds: string[];
+  };
 }
 
 /** Stable only within the Domain contract; a provider query is retained only when paired with its opaque cursor. */
@@ -414,6 +429,14 @@ export interface RestaurantReadExecutionMetadata {
     /** Detail attempts in this bounded batch, including attributable local failures. */
     inspectedOutlets: number;
     batchCap: number;
+    /** Total detail ceiling for this source; `batchCap` is only one chunk. */
+    sourceDetailCap: number;
+    sourceDetailAttempts: number;
+    /** Explicit source ceilings; a work chunk never resets either one. */
+    sourcePageCap?: number;
+    sourceElapsedCapMs?: number;
+    sourceElapsedMs?: number;
+    sourceTimeLimitReached?: boolean;
     /** Observed detail entrances deliberately left for a later bounded batch; never rejections. */
     deferredByBatchCap: Array<{ sourceUrl: string; reasonCode: "DETAIL_BATCH_CAP" }>;
     rejected: Array<{ sourceUrl: string; reasonCode: string }>;
@@ -422,6 +445,8 @@ export interface RestaurantReadExecutionMetadata {
     batchLimitReached: boolean;
     sourceExhausted: boolean | "UNKNOWN";
     batchEnded: boolean;
+    /** True only when this source's observed work or configured source ceiling ended. */
+    sourceEnded: boolean;
     progressionReason: "FIRST_SOURCE_BATCH" | "FIRST_SOURCE_BATCH_ENDED" | "SOURCE_FAILURE";
   };
   browser?: {

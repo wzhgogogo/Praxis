@@ -267,21 +267,21 @@ test("H001 TableCheck search with a raw link but no parsed outlet retains the ob
     reason: step?.executionMetadata?.nativeDiscoveryFunnel?.progressionReason },
   { raw: 1, parsed: 0, accepted: 0, reason: "SOURCE_FAILURE" });
   assert.equal(result.state.presentedResults, undefined);
-  assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "NO");
+  assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "UNKNOWN", "a source discovery failure must not be rewritten as a completed no-result read");
 });
 
-test("native detail cap is recorded separately from all parsed Tabelog results", async () => {
+test("native detail chunk continues through later observed Tabelog results before changing source", async () => {
   const result = await runScenario("TABELOG_BATCH_CAP");
   const funnel = result.trajectories.find((step) => step.executionMetadata?.provider === "TABELOG")?.executionMetadata?.nativeDiscoveryFunnel;
   assert.deepEqual({ raw: funnel?.rawSourceLinks, parsed: funnel?.parsedOutlets, inspected: funnel?.inspectedOutlets,
     cap: funnel?.batchCap, limited: funnel?.batchLimitReached, exhausted: funnel?.sourceExhausted },
-  { raw: 6, parsed: 6, inspected: 5, cap: 5, limited: true, exhausted: "UNKNOWN" });
+  { raw: 6, parsed: 6, inspected: 5, cap: 5, limited: true, exhausted: false });
   assert.deepEqual(funnel?.deferredByBatchCap, [{
     sourceUrl: "https://tabelog.com/tokyo/A1304/A130401/105/",
     reasonCode: "DETAIL_BATCH_CAP",
   }], "the observed sixth entrance is deferred, not rejected or represented as source exhaustion");
-  assert.equal(new Set(result.navigations.filter((url) => /tabelog\.com\/tokyo\/A1304\/A130401\/\d+\/$/.test(url))).size, 5,
-    "the bounded detail batch must not be represented as source exhaustion even if the formal loop revisits the same bounded batch");
+  assert.equal(new Set(result.navigations.filter((url) => /tabelog\.com\/tokyo\/A1304\/A130401\/\d+\/$/.test(url))).size, 6,
+    "the sixth observed entrance is inspected in a later Tabelog chunk before the source changes");
 });
 
 test("H001 rejects early end and short presentation after TableCheck discovery until its batch is investigated", async () => {
