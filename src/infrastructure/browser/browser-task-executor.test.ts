@@ -38,7 +38,7 @@ class FixtureSession implements BrowserSession {
   async fill(): Promise<void> {}
   async select(_target: string, value: string): Promise<string[]> { this.selected.push(value); return [value]; }
   async waitFor(): Promise<void> {}
-  async waitForChange(previous: Pick<BrowserSnapshot, "url" | "title" | "text">): Promise<boolean> {
+  async waitForChange(previous: Pick<BrowserSnapshot, "url" | "title" | "text" | "interactiveState">): Promise<boolean> {
     const current = this.pages[this.index]!;
     return current.url !== previous.url || current.title !== previous.title || current.text !== previous.text;
   }

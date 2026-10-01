@@ -1,12 +1,22 @@
 # Browser Read Diagnostics
 
 - Status: Accepted
-- Document revision: 0.9
+- Document revision: 0.10
 - Last updated: 2026-09-30
 - Source of truth for: 单页浏览器只读诊断操作与证据范围
 - Related ADRs: [ADR-0015](../decisions/0015-supported-source-search-evidence.md)、[ADR-0016](../decisions/0016-local-eval-browser-profile-lifecycle.md)
 
 ## 当前切片
+
+2026-09-30 Stage 1/2 浏览器收口：等待投影把可见控件的
+`value`、`aria-selected`、`disabled` 与 checkbox `checked` 作为重新读取的
+触发条件；`type=hidden` 或 `visibility:hidden` 字段变化不触发。触发只说明
+页面值得重新观察，不能自行接受选中结果或库存。真实本地 Chromium fixture
+通过同一 Executor 与 TableCheck Adapter 在两种顺序完成滚动人数控件：
+`PARTY→NEXT→SCROLL→TEN→DATE` 和
+`NEXT→DATE→PARTY→SCROLL→TEN`。fixture 直接核对页面拥有的日期、人数与
+请求链接；不将 `10+` 作为精确十人，也不代表当前来源页面或库存已经验证。
+详情与全套离线门禁见[Stage 1/2 计划及验证记录](../history/BROWSER-CONVERGENCE-H001-PLAN-2026-09-30.md)。
 
 2026-09-30 Tabelog目标日期限制回归复用保存的Teppen日历与真实本地Chromium Adapter：加载→受限后，同一可见月份的30日`closed`返回`UNKNOWN / TABELOG_REQUEST_DATE_CLOSED_ON_CALENDAR`、零Offer且不启动模型动作；同页29日电话状态、28日`full`各保留独立只读分类，隐藏的10月可选日期不得冒充当前查询面。修前同一目标断言为笼统`TABELOG_VISIBLE_QUERY_CONTROLS_RESTRICTED`，修后通过；该回归不是当日完整原DOM Replay，也不证明19:00精确无位。[当前只读采证及界限](../history/H001-TEPPEN-TARGET-DATE-2026-09-30.md)。
 

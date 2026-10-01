@@ -18,7 +18,7 @@ const userRequestedThree: FixedSourceExpectation = {
 
 function evaluation(overrides: Partial<RestaurantHybridDiagnosticEvaluation["execution"]> = {}, failedDimension?: string): RestaurantHybridDiagnosticEvaluation {
   return {
-    schemaVersion: "1", evaluatorVersion: "restaurant-hybrid-read-diagnostic-evaluator@21", rubricVersion: "restaurant-hybrid-read-diagnostic-rubric@21", rubricStatus: "DRAFT_DIAGNOSTIC_ONLY",
+    schemaVersion: "1", evaluatorVersion: "restaurant-hybrid-read-diagnostic-evaluator@22", rubricVersion: "restaurant-hybrid-read-diagnostic-rubric@21", rubricStatus: "DRAFT_DIAGNOSTIC_ONLY",
     sourceArtifact: { path: "fixture", sha256: "fixture" },
     execution: { status: "SUCCEEDED", stage: "AGENT_LOOP", taskProducedQualifiedResult: "YES", systemBehavior: "SUPPORTED_BY_EVIDENCE", externalConditions: "OBSERVED", evidenceSufficiency: "SUFFICIENT_FOR_PRESENTED_RESULT", completion: "PRESENTATION_RECORDED", ...overrides },
     candidateSummaries: [],

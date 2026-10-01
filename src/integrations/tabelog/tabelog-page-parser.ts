@@ -75,7 +75,7 @@ export function parseTabelogSearchOutlets(snapshot: BrowserSnapshot): TabelogOut
       ...(phone ? { phone } : {}),
     });
   }
-  return [...results.values()].slice(0, 5);
+  return [...results.values()];
 }
 
 function jsonLdObjects(html: string): Record<string, unknown>[] {

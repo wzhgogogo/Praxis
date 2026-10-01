@@ -34,6 +34,21 @@ export async function observedLinkCovered(element: ElementHandle<SVGElement | HT
 }
 
 /**
+ * A role=option inside a clipped, scrollable owner is not an actionable target
+ * until it is actually in that owner's viewport.  The owner itself is still
+ * observed as a scroll region, so the model can legally reveal it.
+ */
+async function visibleWithinScrollableOwner(locator: ElementHandle<SVGElement | HTMLElement>): Promise<boolean> {
+  return locator.evaluate((element) => {
+    const owner = element.closest('[role="listbox"], [data-praxis-scroll-region]') as HTMLElement | null;
+    if (!owner || owner.scrollHeight <= owner.clientHeight) return true;
+    const item = element.getBoundingClientRect();
+    const bounds = owner.getBoundingClientRect();
+    return item.bottom > bounds.top && item.top < bounds.bottom;
+  }).catch(() => false);
+}
+
+/**
  * Observes accessibility-facing DOM facts and pins each offered action to its
  * ElementHandle. The model receives only opaque ids; no selector or JavaScript
  * crosses the model boundary.
@@ -140,6 +155,10 @@ export class PlaywrightControlRegistry {
         const release = () => locator.dispose().catch(() => undefined);
         if (!group.hint && hintedSelector && await locator.evaluate((element, selector) => element.matches(selector), hintedSelector)) { await release(); continue; }
         if (!await locator.isVisible().catch(() => false)) { await release(); continue; }
+        if (group.defaultRole === "button" && await locator.getAttribute("role") === "option" && !await visibleWithinScrollableOwner(locator)) {
+          await release();
+          continue;
+        }
         const initialSignature = await this.signature(locator, group.hint?.selectedClass).catch(() => undefined);
         if (!initialSignature) { await release(); continue; }
         const disabled = await locator.isDisabled() || await locator.getAttribute("aria-disabled") === "true"
@@ -317,12 +336,35 @@ export class PlaywrightControlRegistry {
 
 export async function waitForVisibleChange(
   page: Page,
-  previous: Pick<BrowserSnapshot, "url" | "title" | "text">,
+  previous: Pick<BrowserSnapshot, "url" | "title" | "text" | "interactiveState">,
   timeoutMs: number,
 ): Promise<boolean> {
   try {
     await page.waitForFunction(
-      ({ url, title, text }) => location.href !== url || document.title !== title || (document.body?.innerText ?? "") !== text,
+      ({ url, title, text, interactiveState }) => {
+        if (location.href !== url || document.title !== title) return true;
+        const state = [...document.querySelectorAll("input,select,textarea,button,[role=combobox],[role=option],[role=checkbox],[role=slider]")]
+          .filter(element => {
+            const style = getComputedStyle(element);
+            return (element as HTMLElement).getClientRects().length > 0 && style.display !== "none" && style.visibility !== "hidden";
+          })
+          .map((element, index) => {
+          const field = element as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
+          return JSON.stringify({ index, tag: element.tagName, role: element.getAttribute("role"), name: element.getAttribute("name"), id: element.id,
+            value: "value" in field ? field.value : element.getAttribute("data-value"),
+            checked: field instanceof HTMLInputElement && field.type === "checkbox" ? field.checked : undefined,
+            selected: element.getAttribute("aria-selected"),
+            disabled: (element as HTMLButtonElement).disabled || element.getAttribute("aria-disabled") === "true" || element.getAttribute("data-state") === "disabled",
+            expanded: element.getAttribute("aria-expanded") });
+        }).join("\n");
+        // This is only a bounded wake-up signal. A fresh executor observation
+        // and the source adapter still decide whether a control effect or
+        // request-bound inventory result exists. Keeping visible text here
+        // avoids waiting out a rendered result that is not itself a control.
+        return interactiveState === undefined
+          ? (document.body?.innerText ?? "") !== text
+          : state !== interactiveState || (document.body?.innerText ?? "") !== text;
+      },
       previous,
       { timeout: timeoutMs },
     );
@@ -331,6 +373,30 @@ export async function waitForVisibleChange(
     if (error instanceof Error && /timeout/i.test(error.message)) return false;
     throw error;
   }
+}
+
+/** A small browser-owned projection for waiting, never model-supplied state. */
+export async function interactiveState(page: Page): Promise<string> {
+  return page.evaluate(() => [...document.querySelectorAll("input,select,textarea,button,[role=combobox],[role=option],[role=checkbox],[role=slider]")]
+    .filter(element => {
+      const style = getComputedStyle(element);
+      return (element as HTMLElement).getClientRects().length > 0 && style.display !== "none" && style.visibility !== "hidden";
+    })
+    .map((element, index) => {
+    const field = element as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
+    return JSON.stringify({
+      index,
+      tag: element.tagName,
+      role: element.getAttribute("role"),
+      name: element.getAttribute("name"),
+      id: element.id,
+      value: "value" in field ? field.value : element.getAttribute("data-value"),
+      checked: field instanceof HTMLInputElement && field.type === "checkbox" ? field.checked : undefined,
+      selected: element.getAttribute("aria-selected"),
+      disabled: (element as HTMLButtonElement).disabled || element.getAttribute("aria-disabled") === "true" || element.getAttribute("data-state") === "disabled",
+      expanded: element.getAttribute("aria-expanded"),
+    });
+  }).join("\n"));
 }
 
 /** Read-only ARIA inputs may be tiny focus proxies rather than pointer targets.

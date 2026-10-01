@@ -270,6 +270,20 @@ test("H001 TableCheck search with a raw link but no parsed outlet retains the ob
   assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "NO");
 });
 
+test("native detail cap is recorded separately from all parsed Tabelog results", async () => {
+  const result = await runScenario("TABELOG_BATCH_CAP");
+  const funnel = result.trajectories.find((step) => step.executionMetadata?.provider === "TABELOG")?.executionMetadata?.nativeDiscoveryFunnel;
+  assert.deepEqual({ raw: funnel?.rawSourceLinks, parsed: funnel?.parsedOutlets, inspected: funnel?.inspectedOutlets,
+    cap: funnel?.batchCap, limited: funnel?.batchLimitReached, exhausted: funnel?.sourceExhausted },
+  { raw: 6, parsed: 6, inspected: 5, cap: 5, limited: true, exhausted: "UNKNOWN" });
+  assert.deepEqual(funnel?.deferredByBatchCap, [{
+    sourceUrl: "https://tabelog.com/tokyo/A1304/A130401/105/",
+    reasonCode: "DETAIL_BATCH_CAP",
+  }], "the observed sixth entrance is deferred, not rejected or represented as source exhaustion");
+  assert.equal(new Set(result.navigations.filter((url) => /tabelog\.com\/tokyo\/A1304\/A130401\/\d+\/$/.test(url))).size, 5,
+    "the bounded detail batch must not be represented as source exhaustion even if the formal loop revisits the same bounded batch");
+});
+
 test("H001 rejects early end and short presentation after TableCheck discovery until its batch is investigated", async () => {
   const result = await runScenario("TABLECHECK_EARLY_ACTIONS");
   assert.equal(result.state.intentDraft?.target?.selectionScope, "OPEN_ENDED");

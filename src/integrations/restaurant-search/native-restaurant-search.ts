@@ -10,6 +10,7 @@ import { hasTableCheckBotChallenge, hasTableCheckDiscoveryNoResult, inspectTable
 
 type Location = NonNullable<NonNullable<RestaurantSearchRequest["continuation"]>["locationContext"]>;
 type Source = "TABELOG" | "TABLECHECK";
+const NATIVE_DETAIL_BATCH_CAP = 5;
 
 function taskLevelFailure(error: unknown, signal: AbortSignal): boolean {
   return signal.aborted || (error !== null && typeof error === "object" && "code" in error && (
@@ -162,12 +163,15 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
     const admitted = new Map<string, { candidate: RestaurantCandidate; evidence: RestaurantReadEvidence }>();
     const candidateFailures: Array<{ sourceUrl: string; reasonCode: string }> = [];
     const rejected: Array<{ sourceUrl: string; reasonCode: string }> = [];
+    const deferredByBatchCap: Array<{ sourceUrl: string; reasonCode: "DETAIL_BATCH_CAP" }> = [];
     let raw = 0;
     let parsed = 0;
+    let inspected = 0;
     let batchLimitReached = false;
     let sourceExhausted: boolean | "UNKNOWN" = "UNKNOWN";
     let listingPagesRead = 0;
-    const funnel = (failed = false) => ({ source, rawSourceLinks: raw, parsedOutlets: parsed, newOutlets: parsed, rejected, accepted: admitted.size,
+    const funnel = (failed = false) => ({ source, rawSourceLinks: raw, parsedOutlets: parsed, inspectedOutlets: inspected,
+      batchCap: NATIVE_DETAIL_BATCH_CAP, deferredByBatchCap, rejected, accepted: admitted.size,
       pagesRead: listingPagesRead, batchLimitReached, sourceExhausted, batchEnded: true,
       progressionReason: failed ? "SOURCE_FAILURE" as const : source === "TABELOG" ? "FIRST_SOURCE_BATCH" as const : "FIRST_SOURCE_BATCH_ENDED" as const });
     try {
@@ -195,10 +199,12 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
         const outlets = parseTabelogSearchOutlets(page);
         raw = rawSourceLinks(page, source);
         parsed = outlets.length;
-        batchLimitReached = outlets.length >= 5;
-        sourceExhausted = /\b(?:no|0)\s+(?:restaurants?|results?)\s+(?:found|match(?:es)?)/i.test(page.text) ? true : "UNKNOWN";
-        for (const outlet of outlets) {
+        batchLimitReached = outlets.length >= NATIVE_DETAIL_BATCH_CAP;
+        sourceExhausted = !raw && /\b(?:no|0)\s+(?:restaurants?|results?)\s+(?:found|match(?:es)?)/i.test(page.text) ? true : "UNKNOWN";
+        deferredByBatchCap.push(...outlets.slice(NATIVE_DETAIL_BATCH_CAP).map((outlet) => ({ sourceUrl: outlet.sourceUrl, reasonCode: "DETAIL_BATCH_CAP" as const })));
+        for (const outlet of outlets.slice(0, NATIVE_DETAIL_BATCH_CAP)) {
           if (signal.aborted) throw Object.assign(new Error("Native search aborted"), { code: "BROWSER_ABORTED" });
+          inspected += 1;
           if (!session) {
             try { session = await this.runtime.openSession({ signal }); }
             catch (error) {
@@ -270,10 +276,12 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
         }
         raw = rawSourceLinks(page, source);
         parsed = links.length;
-        batchLimitReached = links.length >= 5;
-        sourceExhausted = hasTableCheckDiscoveryNoResult(page) ? true : "UNKNOWN";
-        for (const link of links) {
+        batchLimitReached = links.length >= NATIVE_DETAIL_BATCH_CAP;
+        sourceExhausted = !raw && hasTableCheckDiscoveryNoResult(page) ? true : "UNKNOWN";
+        deferredByBatchCap.push(...links.slice(NATIVE_DETAIL_BATCH_CAP).map((sourceUrl) => ({ sourceUrl, reasonCode: "DETAIL_BATCH_CAP" as const })));
+        for (const link of links.slice(0, NATIVE_DETAIL_BATCH_CAP)) {
           if (signal.aborted) throw Object.assign(new Error("Native search aborted"), { code: "BROWSER_ABORTED" });
+          inspected += 1;
           if (!session) {
             try { session = await this.runtime.openSession({ signal }); }
             catch (error) {
@@ -333,7 +341,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
     const source: Source = request.continuation?.nativeStage === "TABELOG_DONE" ? "TABLECHECK" : "TABELOG";
     if (request.continuation?.nativeStage === "TABLECHECK_DONE") throw new Error("Native source batches are exhausted");
     let batch: Awaited<ReturnType<NativeRestaurantSearch["batch"]>> = { candidates: [], evidence: [], candidateFailures: [],
-      funnel: { source, rawSourceLinks: 0, parsedOutlets: 0, newOutlets: 0, rejected: [], accepted: 0,
+      funnel: { source, rawSourceLinks: 0, parsedOutlets: 0, inspectedOutlets: 0, batchCap: NATIVE_DETAIL_BATCH_CAP, deferredByBatchCap: [], rejected: [], accepted: 0,
         pagesRead: 0, batchLimitReached: false, sourceExhausted: "UNKNOWN", batchEnded: true,
         progressionReason: source === "TABELOG" ? "FIRST_SOURCE_BATCH" : "FIRST_SOURCE_BATCH_ENDED" } };
     let failureCode: string | undefined;

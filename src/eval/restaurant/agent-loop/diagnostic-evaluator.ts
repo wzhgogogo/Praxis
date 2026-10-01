@@ -4,7 +4,7 @@ import { basename, dirname, resolve } from "node:path";
 import { openingHoursForRequest } from "../../../domains/restaurant/read-grounding.js";
 
 
-export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@21";
+export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@22";
 export const RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION = "restaurant-hybrid-read-diagnostic-rubric@21";
 
 type JsonRecord = Record<string, unknown>;
@@ -418,11 +418,27 @@ function assessPresentedCandidate(candidateId: string, domain: JsonRecord, reque
   const offers = asArray(availability[candidateId]).map(asRecord).filter((item): item is JsonRecord => Boolean(item));
   const listedEvidence = allEvidence.filter((item) => item.candidateId === candidateId && presentedEvidenceIds.has(asString(item.evidenceId) ?? ""));
   const requiredRefs = strings(check?.evidenceIds); const observations: string[] = []; const refs: string[] = []; const missing: string[] = []; const conflicts: string[] = [];
+  const candidateReads = executedReads?.filter(read => read.applicableRequest && read.candidateIds.includes(candidateId)) ?? [];
+  const isSupersededAvailabilityFact = (evidenceId: string): boolean => {
+    const fact = allEvidence.find((item) => asString(item.evidenceId) === evidenceId);
+    if (fact?.kind !== "RESTAURANT_FACT" || fact.provider === "MODEL_JUDGMENT") return false;
+    const origin = candidateReads.findIndex(read => read.evidenceIds.includes(evidenceId));
+    if (origin < 0) return false;
+    return candidateReads.slice(origin + 1).some(read => read.actionType === "INVESTIGATE_CANDIDATE_FACTS"
+      && !read.evidenceIds.includes(evidenceId)
+      && read.factSources.some(source => source.candidateId === candidateId && source.source === fact.provider));
+  };
   const factOnly = request.goal === "RECOMMENDATION";
   if (!factOnly) {
     if (!check) missing.push("availability check"); else if (check.status !== "AVAILABLE") conflicts.push(`availability check status=${String(check.status)}`);
     if (offers.length === 0) missing.push("offer"); if (requiredRefs.length === 0) missing.push("check evidenceIds");
-    for (const evidenceId of requiredRefs) if (!presentedEvidenceIds.has(evidenceId)) conflicts.push(`check evidence ${evidenceId} was not cited by presentation`);
+    // A check may have carried a provisional source fact.  Once a later
+    // same-source fact observation supersedes that fact, the check still
+    // requires its identity and availability evidence but must not force the
+    // presentation to revive the obsolete fact citation.
+    for (const evidenceId of requiredRefs.filter((id) => !isSupersededAvailabilityFact(id))) {
+      if (!presentedEvidenceIds.has(evidenceId)) conflicts.push(`check evidence ${evidenceId} was not cited by presentation`);
+    }
   }
   if (presentedEvidenceIds.size === 0) missing.push("presented evidenceIds");
   if (listedEvidence.length === 0) missing.push("candidate-scoped cited evidence");
@@ -436,7 +452,6 @@ function assessPresentedCandidate(candidateId: string, domain: JsonRecord, reque
   const byKind = (kind: string) => listedEvidence.filter((item) => item.kind === kind); const entity = byKind("ENTITY_MATCH"); const facts = byKind("RESTAURANT_FACT"); const availabilityEvidence = byKind("AVAILABILITY"); const discovery = byKind("DISCOVERY");
   // Reconstruct source replacement from actual ordered reads, independently
   // of the production State's eligibility or superseded-reference projection.
-  const candidateReads = executedReads?.filter(read => read.applicableRequest && read.candidateIds.includes(candidateId)) ?? [];
   for (const fact of facts.filter(item => item.provider !== "MODEL_JUDGMENT")) {
     const id = asString(fact.evidenceId) ?? "";
     const origin = candidateReads.findIndex(read => read.evidenceIds.includes(id));

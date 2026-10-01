@@ -132,6 +132,15 @@ test("Tabelog relative search links are enriched with page identity before an ex
   });
 });
 
+test("Tabelog parser reports every observed outlet; the native batch owns the detail cap", () => {
+  const html = Array.from({ length: 6 }, (_, index) => {
+    const id = 900 + index;
+    return `<a class="list-rst__rst-name-target" href="/en/tokyo/A1303/A130301/${id}/" data-address="Tokyo ${id}">Outlet ${id}</a>`;
+  }).join("");
+  const outlets = parseTabelogSearchOutlets({ url: "https://tabelog.com/en/tokyo/rstLst/?sw=omakase", title: "Search", text: "Restaurants", html });
+  assert.equal(outlets.length, 6, "parser output must not silently become the five-detail batch");
+});
+
 test("Tabelog identity parser extracts JSON-LD identity field provenance", () => {
   const extraction = parseTabelogOutletIdentityWithEvidence({
     url: "https://tabelog.com/tokyo/A1304/A130401/123/",

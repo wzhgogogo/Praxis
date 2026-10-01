@@ -50,6 +50,47 @@ test("diagnostic evaluator independently accepts current-runner-shaped grounded 
   assert.ok(result.findings.every((item) => item.status === "SATISFIED"));
 });
 
+function artifactWithSameSourceFactRefresh(options: { citeSuperseded?: boolean; retainSupersededInRefresh?: boolean; currentFactSatisfiesHardCriterion?: boolean } = {}) {
+  const artifact: any = completeArtifact();
+  const domain = artifact.finalSnapshot.domainState;
+  const currentFact = structuredClone(domain.readEvidence.find((item: any) => item.evidenceId === "hard-a"));
+  currentFact.evidenceId = "hard-b";
+  currentFact.observedAt = "2026-09-08T07:45:20.000Z";
+  currentFact.requestFingerprint = "hard-refresh";
+  currentFact.claims = { verifiedHardCriteria: options.currentFactSatisfiesHardCriterion === false ? [] : ["omakase"] };
+  domain.readEvidence.push(currentFact);
+  domain.presentedResults.evidenceIds = ["discovery-a", "identity-a", "hard-b", "availability-a"];
+  if (options.citeSuperseded) domain.presentedResults.evidenceIds.push("hard-a");
+  artifact.trajectories.push({
+    stateHashBefore: "request-v1", stepOutcome: "EXECUTED",
+    agentAction: { type: "INVESTIGATE_CANDIDATE_FACTS", candidateIds: ["candidate-a"] },
+    decisionContext: { intentDraft: domain.intentDraft },
+    observation: {
+      type: "CANDIDATE_FACTS", candidateIds: ["candidate-a"],
+      evidenceIds: options.retainSupersededInRefresh ? ["identity-a", "hard-a", "hard-b"] : ["identity-a", "hard-b"],
+      factSourceAttempts: [{ candidateId: "candidate-a", source: "TABLECHECK" }],
+    },
+  });
+  return artifact;
+}
+
+test("diagnostic evaluator retires an availability-read source fact only when the later same-source read replaces it", () => {
+  const accepted = evaluateRestaurantHybridLiveArtifact(artifactWithSameSourceFactRefresh(), source);
+  assert.equal(accepted.execution.taskProducedQualifiedResult, "YES", JSON.stringify(accepted.findings));
+
+  const citedOldFact = evaluateRestaurantHybridLiveArtifact(artifactWithSameSourceFactRefresh({ citeSuperseded: true }), source);
+  assert.equal(citedOldFact.execution.taskProducedQualifiedResult, "NO");
+  assert.match(finding(citedOldFact, "REQUIRED_EVIDENCE").observations.join(" "), /cited fact hard-a was superseded/);
+
+  const retainedOldFact = evaluateRestaurantHybridLiveArtifact(artifactWithSameSourceFactRefresh({ retainSupersededInRefresh: true }), source);
+  assert.equal(retainedOldFact.execution.taskProducedQualifiedResult, "NO");
+  assert.match(finding(retainedOldFact, "REQUIRED_EVIDENCE").observations.join(" "), /check evidence hard-a was not cited/);
+
+  const conflictingCurrentFact = evaluateRestaurantHybridLiveArtifact(artifactWithSameSourceFactRefresh({ currentFactSatisfiesHardCriterion: false }), source);
+  assert.notEqual(conflictingCurrentFact.execution.taskProducedQualifiedResult, "YES");
+  assert.notEqual(finding(conflictingCurrentFact, "FINAL_CLAIM").status, "SATISFIED");
+});
+
 test("diagnostic evaluator independently verifies cited category UNKNOWN eligibility without treating it as verified-negative", () => {
   const artifact: any = completeArtifact();
   const domain = artifact.finalSnapshot.domainState;

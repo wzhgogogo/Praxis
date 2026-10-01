@@ -1,11 +1,13 @@
 import type { BrowserRuntime, BrowserSession, BrowserSnapshot } from "../../../infrastructure/browser/browser-runtime.js";
+import { chromium } from "playwright-core";
+import { LocalPlaywrightChromium } from "../../../infrastructure/browser/local-playwright-chromium.js";
 
 export const reference = new Date("2026-08-19T07:20:00.000Z");
 export const center = { latitude: 35.6619707, longitude: 139.703795 };
 export const date = "2026-08-19";
 
 export type SourceScenario = "TABELOG_DELIVERS" | "TABLECHECK_RECOVERS" | "BOTH_BOUNDED_EMPTY" | "OUTSIDE_RADIUS" | "TABELOG_ONE_DETAIL_FAILS" | "EARLY_END_ATTEMPT"
-  | "TABELOG_CONTINUES" | "TABLECHECK_CONTINUES" | "NATIVE_PARTIAL" | "NATIVE_TRUE_NO_RESULT" | "TABLECHECK_UNPARSED" | "TABLECHECK_EARLY_ACTIONS";
+  | "TABELOG_CONTINUES" | "TABLECHECK_CONTINUES" | "NATIVE_PARTIAL" | "NATIVE_TRUE_NO_RESULT" | "TABLECHECK_UNPARSED" | "TABLECHECK_EARLY_ACTIONS" | "TABELOG_BATCH_CAP" | "DYNAMIC_TABELOG_DELIVERS";
 
 function page(url: string, html: string, text: string, title = "Restaurant"): BrowserSnapshot { return { url, html, text, title }; }
 
@@ -32,6 +34,7 @@ class NativeFixtureSession implements BrowserSession {
 
 export function sourcePages(scenario: SourceScenario, navigations: string[], sessionsOpened?: number[], navigationSessionIds?: number[], closedSessionIds?: number[]) {
   const tabelogCount = scenario === "TABELOG_DELIVERS" || scenario === "TABELOG_ONE_DETAIL_FAILS" || scenario === "TABELOG_CONTINUES" ? 3
+    : scenario === "TABELOG_BATCH_CAP" ? 6
     : scenario === "NATIVE_PARTIAL" || scenario === "TABLECHECK_CONTINUES" || scenario === "NATIVE_TRUE_NO_RESULT" || scenario === "TABLECHECK_EARLY_ACTIONS" ? 2
     : scenario === "TABLECHECK_RECOVERS" || scenario === "OUTSIDE_RADIUS" ? 1 : 0;
   const tablecheckCount = scenario === "TABLECHECK_RECOVERS" ? 3
@@ -90,4 +93,88 @@ export function sourcePages(scenario: SourceScenario, navigations: string[], ses
     return new NativeFixtureSession(lookup, navigations, sessionId, navigationSessionIds, closedSessionIds);
   } };
   return runtime;
+}
+
+/**
+ * A wholly intercepted, local Chromium page used only to prove that the
+ * Tabelog adapter can operate a native-detail page whose query starts
+ * unresolved.  It deliberately has one provider-shaped outlet and exposes no
+ * real network path or booking submission.
+ */
+export function dynamicTabelogSourcePages(options: { result?: "AVAILABLE" | "UNAVAILABLE" } = {}): BrowserRuntime {
+  const detailUrl = "https://tabelog.com/en/tokyo/A1304/A130401/100/";
+  const vacancyPath = "/en/booking/calendar/find_vacancy/";
+  const result = options.result ?? "AVAILABLE";
+  const detailHtml = `<title>Native Dynamic Tabelog 100</title>
+    <script type="application/ld+json">${JSON.stringify({ "@type": "Restaurant", name: "Native Dynamic Tabelog 100", address: "Shibuya 100, Tokyo", geo: center })}</script>
+    <h1 class="rstinfo-table__name">Native Dynamic Tabelog 100</h1><p class="rstinfo-table__address">Shibuya 100, Tokyo</p>
+    <div class="course menu">Omakase course</div><p>Reserve Guests</p>
+    <div class="p-booking-calendar"><table class="p-booking-calendar__calendar"><caption><em>Aug 2026</em></caption><tbody><tr>
+      <td><p class="js-calendar-day-target is-selectable is-current" data-year="2026" data-month="8" data-day="18" onclick="pickDate(this)"><span class="p-booking-calendar__day-num">18</span></p></td>
+      <td><p class="js-calendar-day-target is-selectable" data-year="2026" data-month="8" data-day="19" onclick="pickDate(this)"><span class="p-booking-calendar__day-num">19</span></p></td>
+    </tr></tbody></table>
+    <button type="button" class="js-people-button is-active" onclick="pickGuests(this)">1</button>
+    <button type="button" class="js-people-button" onclick="pickGuests(this)">2</button>
+    <input class="js-people-hidden-value" type="hidden" value="1"><div id="availability"></div></div>
+    <script>
+      let selectedDate='2026-08-18'; let selectedGuests=1;
+      function refresh(){ if(selectedDate!=='2026-08-19'||selectedGuests!==2)return;
+        fetch('${vacancyPath}?date='+selectedDate+'&member='+selectedGuests).then(r=>r.json()).then(()=>{
+          document.querySelector('#availability').innerHTML='${result === "AVAILABLE" ? '<button class="slot is-available" data-time="19:00">19:00</button>' : '<button class="slot is-unavailable" data-time="19:00">19:00</button>'}';
+        }); }
+      function pickDate(node){document.querySelector('.js-calendar-day-target.is-current').classList.remove('is-current');node.classList.add('is-current');selectedDate='2026-08-'+node.dataset.day;refresh();}
+      function pickGuests(node){document.querySelector('.js-people-button.is-active').classList.remove('is-active');node.classList.add('is-active');selectedGuests=Number(node.textContent);document.querySelector('.js-people-hidden-value').value=String(selectedGuests);refresh();}
+    </script>`;
+  const pages: Record<string, { contentType: string; body: string }> = {
+    [detailUrl]: { contentType: "text/html; charset=utf-8", body: detailHtml },
+  };
+  const browserType = {
+    async launch(options: Parameters<typeof chromium.launch>[0]) {
+      const browser = await chromium.launch(options);
+      const createContext = browser.newContext.bind(browser);
+      browser.newContext = async (contextOptions) => {
+        const context = await createContext(contextOptions);
+        await context.route("**/*", async (route) => {
+          const request = new URL(route.request().url());
+          if (request.origin === "https://tabelog.com" && request.pathname === "/en/tokyo/rstLst/") {
+            // The native search owns the URL shape; the fixture only accepts the
+            // frozen HARD criterion and deliberately tolerates parameter order.
+            if (request.searchParams.get("sw") !== "omakase") { await route.abort(); return; }
+            // Keep the source-shaped class but also meet the native parser's
+            // observed name-marker contract.  Otherwise the dynamic page has
+            // a raw link but deliberately yields no parsed outlet, which
+            // exercises neither the same-source availability path nor the
+            // fixed-order continuation it is meant to cover.
+            await route.fulfill({ contentType: "text/html; charset=utf-8", body: `<a class="list-rst__rst-name-target restaurant-name" href="${detailUrl}" data-address="Shibuya 100, Tokyo">Native Dynamic Tabelog 100</a>` });
+            return;
+          }
+          if (request.origin === "https://www.tablecheck.com" && request.pathname === "/en/japan/search") {
+            // A legal second native source must end as observed no-result, not
+            // as an unconfigured browser failure, if the Router reaches it.
+            await route.fulfill({ contentType: "text/html; charset=utf-8", body: "<title>TableCheck search</title><main>0 venues found</main>" });
+            return;
+          }
+          if (request.origin === "https://tabelog.com" && request.pathname === vacancyPath) {
+            const member = Number(request.searchParams.get("member"));
+            const requestedDate = request.searchParams.get("date");
+            const exactQuery = member === 2 && requestedDate === "2026-08-19";
+            const body = exactQuery
+              ? { base_date: { year: 2026, month: 8, day: 19 }, members: 2,
+                selection: result === "AVAILABLE"
+                  ? { 0: { time: "19:00", url: "/en/booking/form_course/new?rcd=100&member=2&visit_date=20260819&visit_time=1900" } }
+                  : [] }
+              : { base_date: { year: 2026, month: 8, day: 18 }, members: 1, selection: {} };
+            await route.fulfill({ contentType: "application/json; charset=utf-8", body: JSON.stringify(body) });
+            return;
+          }
+          const page = pages[request.toString()];
+          if (!page) { await route.abort(); return; }
+          await route.fulfill(page);
+        });
+        return context;
+      };
+      return browser;
+    },
+  };
+  return new LocalPlaywrightChromium({ browserType });
 }

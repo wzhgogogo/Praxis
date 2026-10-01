@@ -411,7 +411,11 @@ export interface RestaurantReadExecutionMetadata {
     source: "TABELOG" | "TABLECHECK";
     rawSourceLinks: number;
     parsedOutlets: number;
-    newOutlets: number;
+    /** Detail attempts in this bounded batch, including attributable local failures. */
+    inspectedOutlets: number;
+    batchCap: number;
+    /** Observed detail entrances deliberately left for a later bounded batch; never rejections. */
+    deferredByBatchCap: Array<{ sourceUrl: string; reasonCode: "DETAIL_BATCH_CAP" }>;
     rejected: Array<{ sourceUrl: string; reasonCode: string }>;
     accepted: number;
     pagesRead: number;

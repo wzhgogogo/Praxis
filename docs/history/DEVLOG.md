@@ -1,13 +1,66 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.132
+- Document revision: 4.139
 - Last updated: 2026-09-30
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## 2026-09-30 — Two bounded real-source browser-control diagnostics
+
+Ran the already implemented production TableCheck BrowserTaskExecutor/Adapter path against two public, same-origin entries under a combined two-run cap. No production source code changed. The 0711 run proved only a model-driven calendar-month transition before the chosen October 3 target was observed disabled. The LAVAROCK run used the source-owned guide-to-reservation path, preserved HIGH same-source continuity, read the existing date/adult fields, and executed one real time-select operation with post-action readback. Neither run captured a request-bound provider inventory result; neither was interpreted as a no-availability finding or a full browser/Case acceptance. Exact artifacts and accounting are in [TEST-LOG](TEST-LOG.md#test-2026-09-30-two-real-source-browser-control-diagnostics).
+
+## 2026-09-30 — H001 tomorrow variant runner boundary and one native real-source read
+
+Added the smallest Runner input boundary needed for a user-authorized diagnostic date variant:
+`--case-source` accepts only an artifact-local YAML source which explicitly declares a
+variant dataset and the current frozen dataset parent hash. The standard source and its
+frozen validation path were retained. The separate H001 tomorrow source keeps the same
+semantics and records the parent rather than editing the original case.
+
+The single authorized real-source run used it to materialize 2026-10-01 19:00/2 in Tokyo.
+It retained the native Tabelog-first/TableCheck-second pipeline and produced a normal
+scoped `NO_VERIFIED_RESULT`, not a presentation. See
+[the execution record](H001-TOMORROW-VARIANT-NATIVE-LIVE-2026-09-30.md) for the exact
+funnel and independent evaluation.
+
+## 2026-09-30 — H001 dynamic fixed-source Stage 3 corrected model recheck
+
+After the evidence-refresh correction, the three original failure artifacts
+were re-evaluated with `restaurant-hybrid-read-diagnostic-evaluator@22` and
+remained qualified `NO`; they were not overwritten. Three new authorized,
+sequential DeepSeek runs then used the same wholly intercepted dynamic Tabelog
+detail composition. All three performed observed date and party actions,
+received a request-bound same-outlet 19:00 response, reached `PRESENT_RESULTS`,
+and evaluated qualified `YES`. They used 29 model calls and 39,151ms in total.
+The rubric remains `restaurant-hybrid-read-diagnostic-rubric@21`; only the
+Evaluator version changed because the previous required-reference calculation
+was wrong for an actually superseded same-source fact.
+
+This closes the controlled dynamic-model gate, not H001 Live. The pages and
+availability response remained fixed and intercepted, so no current provider
+inventory, real source latency, booking write, commit or push was exercised.
+
+## 2026-09-30 — Native dynamic Tabelog detail fixture
+
+Added one wholly intercepted local Chromium native-detail fixture beside the existing static fixed-source pages. Its initial calendar and guest controls deliberately disagree with H001; a real observed date click and guest click are required before the page fetches a same-outlet, date/party/time-bound vacancy response. The existing Tabelog Adapter accepts the resulting 19:00 offer only after that response and the page-owned selection state agree. This is a controlled Adapter path using a scripted browser-decision port, not a real model or a complete H001 Runtime/Agent run; it makes the remaining dynamic-model closure explicit rather than pre-answering controls in the static source fixture.
+
+The existing native fixed-source real-model Runner now has an explicit `DYNAMIC_TABELOG_DELIVERS` mode. It preserves the same Interpreter/Compiler/Router/Runtime/Agent/facts/Browser/acceptance/presentation composition and the same 50-call/30-step/300-second ceiling, while recording `LOCAL_CHROMIUM_DYNAMIC_FIXED_PAGE` instead of static pages. The runner remains gated by `PRAXIS_ALLOW_LIVE_MODEL_EVAL=1` and has not been invoked.
+
+The dynamic Runner wraps each local browser session with the existing sanitized evidence trace and sends BrowserTaskExecutor diagnostics into its artifact. It therefore keeps ordered navigation and action records, observed controls, booking-region state and narrowed passive vacancy responses on both success and failure. A browser-fixture formal composition now drives the entire H001 chain from semantic input to `PRESENT_RESULTS` through that dynamic page with a scripted model port; it does not substitute for the registered real-model run.
+
+The intercepted source permits the normal Tabelog list URL by pathname plus frozen `sw=omakase`, without relying on query ordering, and supplies a public TableCheck `0 venues found` page if the formal Router legally reaches its second source. An unconfigured origin or path is still aborted, so a test environment omission cannot be misclassified as a provider result.
+
+The same dynamic page now has an explicit unavailable branch. It keeps the final request-bound date and party in its passive response while exposing an unavailable slot, so the formal composition proves a real Tabelog control sequence can continue to TableCheck's own native empty batch and end `NO_VERIFIED_RESULT`. The fixture does not turn a missing selection array into stock evidence; the provider page's explicit unavailable control is required for that branch.
+
+## 2026-09-30 — H001 native/browser convergence Stage 1/2 offline closure
+
+Removed the parser-owned five-result truncation from both native sources. The shared bounded detail cap now records inspected outlets and every observed detail entrance deferred by that cap, keeping deferral separate from rejection and source exhaustion. The shared browser wait projection now includes visible control values, selection, disabled and checked state while ignoring hidden form mutations; the executor still requires a fresh observation and source Adapter request binding after any wake-up.
+
+The local Chromium TableCheck Adapter fixture now uses existing scrollable options instead of injecting a result-dependent option. It completes both legal sequences—party then date, and date then party—by selecting exact ten rather than `10+`, and asserts page-owned selected date, party and request URL before accepting the source result. These fixed/local paths and static production composition remain separate evidence: neither proves a real model can operate a dynamic provider page. No model, Live, booking write, commit or push occurred. [Plan and remaining gate](BROWSER-CONVERGENCE-H001-PLAN-2026-09-30.md).
 
 ## 2026-09-30 — H001 Teppen requested-date restriction after authorized page read
 
@@ -2859,3 +2912,12 @@ An older H003 Loop 2 request was incorrectly treated as active and produced one 
 ## 2026-09-30 Native source read path checkpoint
 
 Completed the bounded native discovery-to-read composition and its source-owned outlet continuity checks. The later H001 Google-only 10808 Live read reached a Tabelog candidate but produced no request-bound inventory or qualified result; the H003 TableCheck control retry also remained UNKNOWN. Browser Case Slice offline repairs addressed disabled-control observation and post-action budget usage without treating historical Live failures as successes. A separately authorized Teppen page read showed the September 30 calendar day closed for online selection; the Adapter now retains this precise date restriction as UNKNOWN, without asserting 19:00 stock. Current status, per-run timing, limitations and independent Eval are recorded in [STATUS](../STATUS.md) and the dated H001/H003/browser reports. No booking write occurred.
+
+
+## 2026-09-30 — H001 dynamic fixed-source Stage 3 evidence-refresh closure
+
+Three separately authorized fixed-source DeepSeek runs exercised the intercepted dynamic Tabelog detail page. Each made the page-owned date and party changes and reached `PRESENT_RESULTS`, but independent evaluation returned qualified `NO`: a later same-source fact observation had superseded the availability read’s provisional fact while presentation cited that obsolete ID again.
+
+The read assessment now retains the current identity and availability evidence while omitting only superseded restaurant-fact IDs from the availability check’s cited set. The independent evaluator applies the same ordered-read condition when calculating required availability references; it still rejects a presentation that cites stale evidence. A local Chromium formal H001 composition recreates the legal availability-first sequence and proves qualified `YES` after the correction; its unavailable counterpart still continues to the TableCheck empty batch and ends `NO_VERIFIED_RESULT`. A follow-up review aligned native fact judgment with the controlled composition clock and narrowed evaluator replacement detection so a later same-source read must omit the old ID before it can retire it. The correction passed `npm test` 568/568, native composition 13/13, evaluator 51/51, the dynamic local Chromium availability/unavailable composition, browser fixture, typecheck, architecture check, build and diff check.
+
+At this checkpoint, no corrected paid-model replacement, external provider request, H001 Live run, booking write, commit or push had occurred. The three original model artifacts remain immutable failure evidence; the later corrected model recheck is recorded at the top of this log. Current H001 Live delivery is still not signed off.

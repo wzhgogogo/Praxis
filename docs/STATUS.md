@@ -1,13 +1,19 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.127
+- Document revision: 4.134
 - Last updated: 2026-09-30
 - Source of truth for: 已实现能力、已验证范围、明确未验证项与下一道门槛
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Documentation Index](INDEX.md), [Roadmap](roadmap.md), [Verification History](history/TEST-LOG.md)
 
 ## 最新审查与当前门槛
+
+2026-09-30 **两次真实来源浏览器控件诊断证明局部操作，不证明查位。** 0711 GiNZA BiSTRO 真实页面中，模型完成一次“下一月”日历点击并读到10月；目标10月3日为禁用控件，执行器拒绝后续点击，`UNKNOWN / REQUEST_SELECTION_UNCONFIRMED`，13,593ms／3次模型决策／零Offer。LAVAROCK同源身份HIGH，预约页读回已有的`2026-10-01`／成人2；模型仅实际选择一次6:30 PM，并经后置控件读回，`UNKNOWN / EXTRACTION_FAILED`，14,682ms／2次模型决策／零Offer。前述日期和人数是本次页面读回，不是模型本次修改。两次合计28,275ms／5次模型决策，均无预约写。当前证据只支持“生产浏览器能在两个公开页面完成这些局部动作”；不支持该网站没有公开库存、库存必需POST、完整浏览器查位已通过或H001/H002/H003/H005成功。下一门槛是以完整请求绑定库存结果验证一个来源路径，不能把时段控件或未捕获的响应当库存。[原始记录](history/TEST-LOG.md#test-2026-09-30-two-real-source-browser-control-diagnostics)。
+
+2026-09-30 **一次 H001 “明晚19:00／2人”原生真实来源诊断变体正常收尾，但未交付结果。** 原始 H001、Gold 与冻结 `restaurant-read-development@6` 未改；独立 `restaurant-read-development-variant@1` 在东京物化为10月1日19:00／2人。一次只读运行43,414ms、7模型调用、1次Google地点解析、记录`browserRuntimeCalls=4`，该候选的受控操作计数为4、模型控件动作0；未执行预约／支付动作、零Offer／零重跑；外部副作用独立计量尚未接入。固定顺序实际走完 Tabelog→TableCheck：Tabelog 2 raw／2 parsed／2 inspected，1家Sushi Teppen在1km内（749m），另一家范围外；该店同源身份HIGH且omakase HARD事实通过，但10月1日19:00／2人的可确认预约控件受限，结果为`UNKNOWN / TABELOG_VISIBLE_QUERY_CONTROLS_RESTRICTED`，没有把它写成无位。随后TableCheck 21 raw／19 parsed／5 inspected，五家均在当前实现采用的1km门槛外，另14家因既有详情批上限明确标记为deferred；`sourceExhausted: UNKNOWN`，不伪称来源或全网耗尽。该1km实现门槛是否符合产品地点语义仍未决；同一门槛下历史Google-first有更多候选，不能把本次单店现象单归因于半径。终态`NO_VERIFIED_RESULT`，独立Evaluator@22仅确认条件、调查与资源，qualified result为`NO`。这次实证表明“只剩一店”来自当前Tabelog页的实现1km接纳与TableCheck首批排序/限额组合，而不是matcher；本轮未改变半径、翻页或详情批上限。[完整真实产物与边界](history/H001-TOMORROW-VARIANT-NATIVE-LIVE-2026-09-30.md)。
+
+2026-09-30 **H001 原生发现与共享浏览器的 Stage 1/2 已离线收口，Stage 3 动态控件固定来源模型复核 3/3 通过。** 原生发现仍固定 Tabelog 一批、未能交付才 TableCheck 一批；解析器不再截断为五个结果，详情批次上限由调用方执行，并逐项记录已观察但因上限延期的入口，不把它们写成拒绝或来源穷尽。固定来源生产组合继续覆盖 Tabelog 直接展示、Tabelog 不足后 TableCheck 自己的多候选展示、两站有界无结果三条路径。共享浏览器等待读取可见控件的 value/selected/disabled/checked 变化，隐藏字段不触发；本地 Chromium 夹具以两条不同顺序完成动态日期与精确十人选择、滚动、请求链接及库存读回。动态 Tabelog 详情页从错误日期/人数开始，只有 Adapter 的实际两次 DOM 操作才会生成带门店、日期、人数和时段绑定的被动库存响应；无位分支会在完成两项操作后进入 TableCheck 原生空批次并以`NO_VERIFIED_RESULT`收尾。早先三次真实 DeepSeek、固定来源、全拦截本地 Chromium运行到达`PRESENT_RESULTS`但独立Evaluator均为qualified `NO`：后续同源事实复读已替代可用性读取中附带的旧事实，展示仍重新引用旧事实。修复后展示排除已替代事实、Evaluator只在后续同源读不再携带旧事实ID时认定替代，原生事实判断复用受控运行时钟。旧三份 artifact 用Evaluator@22重新评估仍为`NO`；随后三次受控真实 DeepSeek复核均实际点选日期和2人、取得同店19:00绑定结果、`PRESENT_RESULTS`且Evaluator@22为qualified `YES`（29调用／39,151ms）。动态 Chromium正常与无位续查、独立Evaluator回归、默认离线 **568/568**、native composition **13/13**、typecheck、arch:check、build 与diff检查通过。**这些均为固定来源、拦截页面证据；没有当前真实Tabelog／TableCheck库存或H001 Live结论。** 下一道门槛是单独决定是否授权真实 H001 Live。[计划与边界](history/BROWSER-CONVERGENCE-H001-PLAN-2026-09-30.md)。
 
 2026-09-30 **H001 Teppen 目标日期当前来源状态已明确，但19:00库存仍未知。** 用户授权的单页只读采证约8.9秒：9月30日在9月日历中为`closed`且无可选/已选日期标记，Guests 2选中但禁用，未来月份隐藏，未捕获库存响应；此探针不查位、不核身份、零模型/预约动作。Tabelog Adapter已离线修复为同一月份目标日归因：保存页真实Chromium修前笼统`RESTRICTED`红、修后`UNKNOWN / TABELOG_REQUEST_DATE_CLOSED_ON_CALENDAR`绿，`full`/电话/隐藏月份对照通过；完整本地Chromium54/54、默认离线564/564及typecheck/arch/build通过。**未重跑修后Live Adapter或整单**；关闭日格只说明该来源当日无法在线选择，不证明19:00无位或H001成功。[真实采证、代码与验证边界](history/H001-TEPPEN-TARGET-DATE-2026-09-30.md)。
 
@@ -580,7 +586,7 @@ candidate/page/request scoped, with an explicit fixture-coverage diagnostic for
 unconfigured legal reads. Business time advances from the reference time while
 the real outer deadline stays independent.
 
-Current offline evidence: focused 62/62, authorized local `npm test` 404/404,
+Current offline evidence at that checkpoint: focused 62/62, authorized local `npm test` 404/404,
 and local Chromium fixture 17/17 pass; sandbox loopback failure is recorded as
 environment-only. No paid model or Live run was made for this slice. This closes
 the A–D testing mechanism gaps only; real-model interpretation, free-text

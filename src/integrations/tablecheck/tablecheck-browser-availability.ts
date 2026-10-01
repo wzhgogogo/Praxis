@@ -434,7 +434,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
           return this.ground(candidate, request, { candidate, observedAt, entityMatch: { confidence: "LOW", matchedBy: [] },
             pageState: "EXTRACTION_FAILED", failureCode: "TABLECHECK_DISCOVERY_INCOMPLETE" }, browser);
         }
-        currentOutletUrls = parseTableCheckDiscoveryOutletUrls(discovery, candidate.restaurant.outletName);
+        currentOutletUrls = parseTableCheckDiscoveryOutletUrls(discovery, candidate.restaurant.outletName).slice(0, 5);
         for (const url of currentOutletUrls) this.options.entryLedger?.observe(url);
       }
       let outletUrls = [...new Set([
@@ -463,7 +463,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         handoff = { reason: "TABLECHECK_DISCOVERY_HAS_NO_EXTRACTABLE_OUTLET_LINK", outcome: generic.status };
         discovery = generic.snapshot;
         currentOutletUrls = matchesDiscoveryQuery(discovery, discoveryUrl)
-          ? parseTableCheckDiscoveryOutletUrls(discovery, candidate.restaurant.outletName) : [];
+          ? parseTableCheckDiscoveryOutletUrls(discovery, candidate.restaurant.outletName).slice(0, 5) : [];
         for (const url of currentOutletUrls) this.options.entryLedger?.observe(url);
         outletUrls = [...new Set([
           ...(listedOutletUrl ? [listedOutletUrl] : []),

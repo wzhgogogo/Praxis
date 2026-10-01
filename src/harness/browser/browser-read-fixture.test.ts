@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { test } from "node:test";
 import { chromium } from "playwright-core";
@@ -60,49 +61,120 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
   });
 }
 
-test("TableCheck real Chromium Adapter confirms a five-action date and scrollable guest query within 24 operations", async () => {
+for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
+  test(`${runtimeKind} wakes for delayed visible query state and ignores hidden state`, async () => {
+    const runtime = localFixture(`<title>Query state</title>
+      <button id="apply" type="button">Apply</button><select id="party"><option value="2" selected>2</option><option value="4">4</option></select>
+      <p id="noise">Still loading</p><script>
+        window.setTimeout(()=>document.querySelector('#noise').textContent='Unrelated page message',20);
+        document.querySelector('#apply').onclick=()=>window.setTimeout(()=>{
+          const party=document.querySelector('#party');party.value='4';party.disabled=true;
+        },20);
+      </script>`, runtimeKind);
+    const session = await runtime.openSession({ signal: new AbortController().signal });
+    try {
+      await session.navigate(url);
+      const beforeNoise = await session.snapshot();
+      assert.notEqual(beforeNoise.interactiveState, undefined);
+      assert.equal(await session.waitForChange!(beforeNoise, 80), true, "visible text wakes a fresh read but cannot itself accept a result");
+      await session.click("#apply");
+      const beforeApply = await session.snapshot();
+      assert.equal(await session.waitForChange!(beforeApply, 250), true, "a delayed selected value or disabled state wakes the bounded wait");
+      const after = await session.snapshot();
+      assert.match(after.interactiveState ?? "", /\"value\":\"4\"/);
+      assert.match(after.interactiveState ?? "", /\"disabled\":true/);
+    } finally { await session.close(); }
+  });
+}
+
+for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
+  test(`${runtimeKind} ignores hidden form mutations but wakes for a visible property-only control mutation`, async () => {
+    const runtime = localFixture(`<title>Wait projection</title>
+      <input id="analytics" type="hidden" value="before"><input id="hidden-style" value="before" style="visibility:hidden">
+      <button id="apply" type="button">Apply</button><input id="consent" type="checkbox" aria-label="Observed state"><script>
+        window.setTimeout(()=>{document.querySelector('#analytics').value='after';document.querySelector('#hidden-style').value='after'},20);
+        document.querySelector('#apply').onclick=()=>window.setTimeout(()=>{document.querySelector('#consent').checked=true},20);
+      </script>`, runtimeKind);
+    const session = await runtime.openSession({ signal: new AbortController().signal });
+    try {
+      await session.navigate(url);
+      const beforeHidden = await session.snapshot();
+      assert.equal(await session.waitForChange!(beforeHidden, 80), false, "hidden analytics and visibility:hidden inputs are not query-state progress");
+      await session.click("#apply");
+      const beforeChecked = await session.snapshot();
+      assert.equal(await session.waitForChange!(beforeChecked, 120), true, "a visible checked property mutation wakes a fresh read");
+      assert.match((await session.snapshot()).interactiveState ?? "", /\"checked\":true/);
+    } finally { await session.close(); }
+  });
+}
+
+for (const order of ["party-first", "date-first"] as const) test(`TableCheck real Chromium Adapter completes a dynamic scrollable guest query (${order}) within 24 operations`, async () => {
   const { TableCheckBrowserAvailability } = await import("../../integrations/tablecheck/tablecheck-browser-availability.js");
   const { fixtureCandidates } = await import("../restaurant-fixtures.js");
   const candidate = structuredClone(fixtureCandidates[0]!);
   candidate.restaurant.outletName = "Fixture restaurant";
   candidate.restaurant.address = "1-1 Tokyo Fixture Street";
   candidate.restaurant.sourceIds = { tablecheck: "fixture", tablecheckNativeGuideUri: url };
-  const guestOptions = Array.from({ length: 8 }, (_, index) => `<div role="option">${index + 1} ${index === 0 ? "guest" : "guests"}</div>`).join("");
+  const guestOptions = Array.from({ length: 11 }, (_, index) => {
+    const count = index === 10 ? "10+" : String(index + 1);
+    return `<div role="option" ${count === "10" ? 'onclick="selectGuest()"' : ""}>${count} ${count === "1" ? "guest" : "guests"}</div>`;
+  }).join("");
   const runtime = localFixture(`<title>TableCheck query</title>${identity}
     <style>#guests{height:170px;overflow-y:auto}#guests [role=option]{height:26px}</style>
     <div data-testid="Venue Availability"><form method="post">
     <button id="next" type="button" onclick="nextMonth()">Next month</button>
     <button id="date" type="button" data-testid="day" data-date="2026-10-2" hidden onclick="selectDate()">Friday 2</button>
     <div data-testid="Venue Pax Select" id="pax-2"><button id="party" type="button" role="combobox" aria-controls="guests" aria-expanded="false" onclick="openParty()">Any party size</button>
-    <div id="guests" role="listbox" aria-label="1 guest 2 guests 3 guests 4 guests 5 guests 6 guests 7 guests 8 guests 9 guests 10 guests 10+ guests" hidden>${guestOptions}</div></div>
+    <div id="guests" role="listbox" aria-label="Guest choices" hidden>${guestOptions}</div></div>
+    <input id="actual-date" type="hidden" value=""><input id="actual-pax" type="hidden" value="">
     <div data-testid="Venue Time Select" id="time-19:00"></div><div id="slots"></div><output id="selected">No selected request</output>
     <button type="submit">Book</button></form></div>
-    <script>let dateSelected=false;function openParty(){const list=document.querySelector('#guests');list.hidden=false;document.querySelector('#party').setAttribute('aria-expanded','true');if(dateSelected){if(list.querySelectorAll('[role=option]').length===8){for(const label of ['9 guests','10 guests','10+ guests']){const option=document.createElement('div');option.setAttribute('role','option');option.textContent=label;if(label==='10 guests')option.onclick=selectGuest;list.append(option)}}list.scrollTop=list.scrollHeight}}
-    function nextMonth(){document.querySelector('#date').hidden=false;document.querySelector('#next').hidden=true;document.querySelector('#guests').hidden=true;document.querySelector('#party').setAttribute('aria-expanded','false')}
-    function selectDate(){dateSelected=true;document.querySelector('#date').setAttribute('aria-selected','true')}
-    function selectGuest(){document.querySelector('[data-testid="Venue Pax Select"]').id='pax-10';document.querySelector('#party').textContent='10 guests';document.querySelector('#party').setAttribute('aria-expanded','false');document.querySelector('#guests').hidden=true;document.querySelector('#selected').textContent='2026-10-02 / 10 guests';const slot=document.createElement('a');slot.href='/en/shops/fixture/reserve?start_date=2026-10-02&pax=10&start_time=19:00';slot.textContent='19:00';document.querySelector('#slots').append(slot)}</script>`);
-  let step = 0;
+    <script>let dateSelected=false,guestSelected=false;function openParty(){const list=document.querySelector('#guests');list.hidden=false;document.querySelector('#party').setAttribute('aria-expanded','true')}
+    function nextMonth(){document.querySelector('#date').hidden=false;document.querySelector('#next').hidden=true}
+    function selectDate(){dateSelected=true;document.querySelector('#actual-date').value='2026-10-02';document.querySelector('#date').setAttribute('aria-selected','true');maybeResult()}
+    function selectGuest(){guestSelected=true;document.querySelector('#actual-pax').value='10';document.querySelector('[data-testid="Venue Pax Select"]').id='pax-10';document.querySelector('#party').textContent='10 guests';document.querySelector('#party').setAttribute('aria-expanded','false');document.querySelector('#guests').hidden=true;maybeResult()}
+    function maybeResult(){if(!dateSelected||!guestSelected)return;document.querySelector('#selected').textContent='2026-10-02 / 10 guests';const slot=document.createElement('a');slot.href='/en/shops/fixture/reserve?start_date=2026-10-02&pax=10&start_time=19:00';slot.textContent='19:00';document.querySelector('#slots').append(slot)}</script>`);
+  const actions: string[] = [];
   const events: import("../../infrastructure/browser/browser-task-executor.js").BrowserExecutionDiagnostic[] = [];
   const executor = new BrowserTaskExecutor(runtime, {
     maxOperationsPerCandidate: 24,
     onDiagnostic: event => events.push(event),
     modelDecision: { async decide(input) {
-      const labels = ["Any party size", "Next month", "Friday 2", "Any party size", "10 guests"];
-      const label = labels[step++]!;
-      if (step === 2) {
-        assert.equal(input.observation.targets.some(item => item.label === "10 guests"), false, "the first open exposes only the visible part of the scrollable list");
-        assert.ok(input.observation.targets.some(item => item.role === "listbox" && item.scrollable && item.label.includes("10 guests")));
+      const targets = input.observation.targets;
+      const party = targets.find(item => item.role === "combobox" && (item.label === "Any party size" || item.label === "10 guests"));
+      const next = targets.find(item => item.label === "Next month");
+      const date = targets.find(item => item.label === "Friday 2");
+      const list = targets.find(item => item.role === "listbox" && item.scrollable);
+      const ten = targets.find(item => item.label === "10 guests" && item.kind === "OPTION");
+      const tenPlus = targets.find(item => item.label === "10+ guests");
+      if (tenPlus) assert.equal(tenPlus.availableActions?.includes("CHOOSE_OPTION:PARTY_SIZE"), false, "10+ is not an exact party of ten");
+      const selectDate = () => ({ type: "CLICK_AUTHORITATIVE" as const, targetRef: date!.ref, field: "DATE" as const, reason: "Select exact date." });
+      const openParty = () => ({ type: "CLICK" as const, targetRef: party!.ref, reason: "Open the observed party choices." });
+      const partyIsTen = party?.label === "10 guests";
+      const nextMonth = () => ({ type: "CLICK" as const, targetRef: next!.ref, reason: "Reveal the next observed calendar month." });
+      const scrollGuests = () => ({ type: "SCROLL_REGION" as const, targetRef: list!.ref, direction: "DOWN" as const, reason: "Reveal the next observed options in this list." });
+      const chooseTen = () => ({ type: "CHOOSE_OPTION" as const, targetRef: ten!.ref, field: "PARTY_SIZE" as const, reason: "Select exactly ten guests." });
+      const needScroll = () => {
+        assert.equal(targets.some(item => item.label === "10 guests" && item.kind === "OPTION"), false, "the exact option exists in the page but is not actionable before its owner list is scrolled");
+        actions.push("SCROLL");
+        return scrollGuests();
+      };
+      if (order === "party-first") {
+        if (!partyIsTen && party && !list && !ten) { actions.push("PARTY"); return openParty(); }
+        if (next) { actions.push("NEXT"); return nextMonth(); }
+        if (list && !ten) return needScroll();
+        if (!partyIsTen && ten) { actions.push("TEN"); return chooseTen(); }
+        assert.ok(date && !date.selected, "the exact date remains actionable after the selected party is confirmed");
+        actions.push("DATE");
+        return selectDate();
       }
-      const target = input.observation.targets.find(item => item.label === label);
-      assert.ok(target, `Fresh observation must contain ${label}`);
-      if (step === 3) return { type: "CLICK_AUTHORITATIVE", targetRef: target.ref, field: "DATE", reason: "Select exact date." };
-      if (step === 5) {
-        const more = input.observation.targets.find(item => item.label === "10+ guests");
-        assert.ok(more, "the adjacent non-exact option is visible with ten guests");
-        assert.equal(more?.availableActions?.includes("CHOOSE_OPTION:PARTY_SIZE"), false, "10+ is not an exact party of ten");
-        return { type: "CHOOSE_OPTION", targetRef: target.ref, field: "PARTY_SIZE", reason: "Select ten guests." };
-      }
-      return { type: "CLICK", targetRef: target.ref, reason: "Open the observed query control." };
+      if (next) { actions.push("NEXT"); return nextMonth(); }
+      if (date && !date.selected) { actions.push("DATE"); return selectDate(); }
+      if (!partyIsTen && party && !list && !ten) { actions.push("PARTY"); return openParty(); }
+      if (list && !ten) return needScroll();
+      assert.ok(!partyIsTen && ten, "the exact option becomes observable only after scrolling its existing owner list");
+      actions.push("TEN");
+      return chooseTen();
     } },
   });
   const signal = new AbortController().signal;
@@ -111,12 +183,17 @@ test("TableCheck real Chromium Adapter confirms a five-action date and scrollabl
       candidates: [candidate], candidateIds: [candidate.restaurant.id], date: "2026-10-02", partySize: 10,
       timeWindow: { earliest: "17:30", latest: "22:00" }, hardCriteria: [],
     }, signal);
-    assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE", JSON.stringify({ result, step, events }));
+    assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE", JSON.stringify({ result, actions, events }));
     assert.equal(result.offers.length, 1);
-    assert.equal(step, 5);
+    assert.ok(actions.includes("SCROLL"));
+    assert.deepEqual(actions, order === "party-first"
+      ? ["PARTY", "NEXT", "SCROLL", "TEN", "DATE"]
+      : ["NEXT", "DATE", "PARTY", "SCROLL", "TEN"]);
     const session = await executor.acquire(signal, "TABLECHECK", "AVAILABILITY");
     const finalPage = await session.snapshot();
     assert.match(finalPage.text, /2026-10-02 \/ 10 guests/);
+    assert.match(finalPage.html, /id="actual-date"[^>]*value="2026-10-02"/);
+    assert.match(finalPage.html, /id="actual-pax"[^>]*value="10"/);
     assert.match(finalPage.html, /data-date="2026-10-2"[^>]*aria-selected="true"/);
     assert.match(finalPage.html, /id="pax-10"/);
     assert.match(finalPage.html, /href="\/en\/shops\/fixture\/reserve\?start_date=2026-10-02&amp;pax=10&amp;start_time=19:00"/);
@@ -124,6 +201,222 @@ test("TableCheck real Chromium Adapter confirms a five-action date and scrollabl
     assert.ok(events.filter(event => event.event === "OPERATION_STARTED").length <= 24);
   } finally { await executor.close(); }
 });
+
+test("native Tabelog detail uses real local Chromium controls before accepting its bound vacancy response", async () => {
+  const { dynamicTabelogSourcePages, date, reference } = await import("../../eval/restaurant/agent-loop/native-fixed-source-pages.js");
+  const { TabelogBrowserAvailability } = await import("../../integrations/tabelog/tabelog-browser-availability.js");
+  const { fixtureCandidates } = await import("../restaurant-fixtures.js");
+  const candidate = structuredClone(fixtureCandidates[0]!);
+  candidate.restaurant.id = "tabelog:en/tokyo/A1304/A130401/100";
+  candidate.restaurant.outletName = "Native Dynamic Tabelog 100";
+  candidate.restaurant.address = "Shibuya 100, Tokyo";
+  candidate.restaurant.sourceIds = {
+    tabelog: "en/tokyo/A1304/A130401/100",
+    tabelogNativeDetailUri: "https://tabelog.com/en/tokyo/A1304/A130401/100/",
+  };
+  const actions: string[] = [];
+  const executor = new BrowserTaskExecutor(dynamicTabelogSourcePages(), { modelDecision: { async decide(input) {
+    const dateTarget = input.observation.targets.find((target) => target.label === "Date 2026-08-19");
+    const guestsTarget = input.observation.targets.find((target) => target.label === "Guests 2");
+    if (dateTarget && !dateTarget.selected) {
+      actions.push("DATE");
+      return { type: "CLICK_AUTHORITATIVE" as const, targetRef: dateTarget.ref, field: "DATE" as const, reason: "Select the observed requested date." };
+    }
+    assert.ok(guestsTarget && !guestsTarget.selected, "the unselected exact party control is exposed after the date selection");
+    actions.push("PARTY_SIZE");
+    return { type: "CLICK_AUTHORITATIVE" as const, targetRef: guestsTarget.ref, field: "PARTY_SIZE" as const, reason: "Select the observed requested party size." };
+  } } });
+  const signal = new AbortController().signal;
+  try {
+    const read = await new TabelogBrowserAvailability(executor, () => reference.toISOString()).check({
+      candidates: [candidate], candidateIds: [candidate.restaurant.id], date, partySize: 2,
+      timeWindow: { earliest: "19:00", latest: "19:00" }, hardCriteria: ["omakase"],
+    }, signal);
+    const session = await executor.acquire(signal, "TABELOG", "AVAILABILITY");
+    const page = await session.snapshot();
+    assert.equal(read.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE", JSON.stringify(read));
+    assert.equal(read.offers.length, 1);
+    assert.deepEqual(actions, ["DATE", "PARTY_SIZE"]);
+    assert.equal(read.offers[0]?.dateTime, "2026-08-19T19:00:00+09:00");
+    assert.match(page.html, /class="js-calendar-day-target is-selectable is-current"[^>]*data-year="2026"[^>]*data-month="8"[^>]*data-day="19"/);
+    assert.match(page.html, /js-people-hidden-value" type="hidden" value="2"/);
+    const vacancy = page.responses?.find((response) => response.url.includes("/en/booking/calendar/find_vacancy/"));
+    assert.deepEqual(vacancy?.body, {
+      base_date: { year: 2026, month: 8, day: 19 }, members: 2,
+      selection: { 0: { time: "19:00", url: "/en/booking/form_course/new?rcd=100&member=2&visit_date=20260819&visit_time=1900" } },
+    });
+  } finally {
+    await executor.close();
+  }
+});
+
+for (const outcome of ["AVAILABLE", "UNAVAILABLE"] as const) {
+test(`native dynamic Tabelog ${outcome} reaches formal H001 ${outcome === "AVAILABLE" ? "presentation" : "TableCheck continuation and no verified result"} with page-owned query evidence`, async () => {
+  const { dynamicTabelogSourcePages, center, date, reference } = await import("../../eval/restaurant/agent-loop/native-fixed-source-pages.js");
+  const { traceBrowserSession } = await import("../../eval/restaurant/agent-loop/runners/browser-case-slice-evidence.js");
+  const { GooglePlacesClient } = await import("../../integrations/google/google-places-client.js");
+  const { GooglePlacesRestaurantSearch } = await import("../../integrations/google/google-places-restaurant-search.js");
+  const { composeNativeRestaurantRead } = await import("../../integrations/restaurant-search/native-read-composition.js");
+  const { LiveBrowserAvailability } = await import("../../integrations/restaurant-availability/live-browser-availability.js");
+  const { createHybridReadComposition } = await import("../../eval/restaurant/agent-loop/hybrid-read-composition.js");
+  const { evaluateRestaurantHybridLiveArtifact } = await import("../../eval/restaurant/agent-loop/diagnostic-evaluator.js");
+  const { loadFrozenLiveCases, RESTAURANT_READ_DEVELOPMENT_CASE_PATH } = await import("../../eval/restaurant/agent-loop/live-case-materializer.js");
+  const trace: Array<{ kind: string; detail: unknown }> = [];
+  const rawRuntime = dynamicTabelogSourcePages({ result: outcome });
+  const runtime = { openSession: async (input: { signal: AbortSignal }) => traceBrowserSession(
+    await rawRuntime.openSession(input), "TABELOG", (kind, detail) => { trace.push({ kind, detail }); return trace.length; },
+  ) };
+  const reply = (outputText: string, purpose: string) => ({ invocationId: purpose, provider: "FIXTURE" as const, model: "scripted-formal-browser", outputText, finishReason: "TOOL_CALLS" as const, latencyMs: 0 });
+  const browserActions: string[] = [];
+  let modelCalls = 0;
+  let availabilityReadFirst = false;
+  const model: import("../../core/model/contracts.js").ModelGateway = { async complete(request) {
+    assert.ok(++modelCalls <= 50, "the formal local composition retains its total model-call ceiling");
+    if (request.purpose === "restaurant_semantic_interpret") return reply(JSON.stringify({ schemaVersion: "3", facts: [
+      { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "omakase spot", selectionScope: "OPEN_ENDED" } },
+      { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "near Shibuya" } },
+      { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: date, raw: "tonight" } },
+      { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:00", raw: "7 PM" } },
+      { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } },
+      { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "omakase", strength: "HARD", polarity: "POSITIVE" } },
+    ] }), request.purpose);
+    if (request.purpose === "restaurant_fact_judgment") {
+      const input = JSON.parse(request.messages.find(item => item.role === "user")!.content) as { sourceDocuments: Array<{ id: string; statements: Array<{ id: string; text: string }> }> };
+      const selected = input.sourceDocuments.flatMap(document => document.statements.filter(item => /omakase course/i.test(item.text)).map(item => ({ documentId: document.id, statementIds: [item.id] })))[0];
+      return reply(JSON.stringify({ sourceSelections: selected ? [selected] : [], judgments: selected ? [{ criterion: "omakase", outcome: "SUPPORTED", scope: "RESTAURANT_CATEGORY_TYPE", evidenceIds: [selected.documentId] }] : [] }), request.purpose);
+    }
+    if (request.purpose === "browser_read_decide") {
+      const input = JSON.parse(request.messages.find(item => item.role === "user")!.content) as { observation: { targets: Array<{ ref: string; label: string; selected?: boolean }> } };
+      const dateTarget = input.observation.targets.find(target => target.label === "Date 2026-08-19" && !target.selected);
+      const partyTarget = input.observation.targets.find(target => target.label === "Guests 2" && !target.selected);
+      const target = dateTarget ?? partyTarget;
+      assert.ok(target, "the browser model receives only the remaining observed authoritative control");
+      browserActions.push(dateTarget ? "DATE" : "PARTY_SIZE");
+      return reply(JSON.stringify({ action: "CLICK_AUTHORITATIVE", targetRef: target.ref, authoritativeField: dateTarget ? "DATE" : "PARTY_SIZE", requestedState: "NONE", reason: "Choose the observed requested query value." }), request.purpose);
+    }
+    if (request.purpose === "restaurant_agent_decide") {
+      const context = (JSON.parse(request.messages.find(item => item.role === "user")!.content) as { context: {
+        factInvestigableCandidateIds?: string[]; checkableCandidateIds?: string[]; presentation?: Array<{ candidateId: string; eligible: boolean }>;
+        searchAvailability?: { available: boolean }; readCompletion?: { allowed: boolean };
+      } }).context;
+      const eligible = context.presentation?.filter(item => item.eligible).map(item => item.candidateId) ?? [];
+      const action = (type: string, candidateIds: string[] = []) => ({ type, question: "", relatedFields: [], retrievalHint: "", candidateIds, candidateId: "", offerId: "", decisionSummary: "Use current evidence" });
+      // The real model legally checked availability before it requested a
+      // same-source fact read. Keep that ordering here so the later fact
+      // observation must retire the former availability-read fact citation.
+      if (outcome === "AVAILABLE" && !availabilityReadFirst && context.checkableCandidateIds?.length) {
+        availabilityReadFirst = true;
+        return reply(JSON.stringify(action("CHECK_AVAILABILITY", context.checkableCandidateIds)), request.purpose);
+      }
+      if (context.factInvestigableCandidateIds?.length) return reply(JSON.stringify(action("INVESTIGATE_CANDIDATE_FACTS", context.factInvestigableCandidateIds)), request.purpose);
+      if (context.checkableCandidateIds?.length) return reply(JSON.stringify(action("CHECK_AVAILABILITY", context.checkableCandidateIds)), request.purpose);
+      if (eligible.length) return reply(JSON.stringify(action("PRESENT_RESULTS", eligible)), request.purpose);
+      if (context.searchAvailability?.available) return reply(JSON.stringify(action("SEARCH_RESTAURANTS")), request.purpose);
+      if (context.readCompletion?.allowed) return reply(JSON.stringify(action("END_READ")), request.purpose);
+      assert.fail(`No permitted formal agent action: ${JSON.stringify(context)}`);
+    }
+    assert.fail(`Unexpected fixture model purpose ${request.purpose}`);
+  } };
+  const google = new GooglePlacesRestaurantSearch(new GooglePlacesClient({ apiKey: "fixture-only", fetchImplementation: async () => new Response(JSON.stringify({ places: [{ id: "shibuya", displayName: { text: "Shibuya" }, formattedAddress: "Shibuya, Tokyo", location: center, types: ["train_station"], addressComponents: [{ longText: "Tokyo", types: ["locality"] }] }] }), { status: 200 }) }), () => reference.toISOString(), 10, { maxRequests: 5 });
+  const native = composeNativeRestaurantRead(google, runtime, model, undefined, undefined, undefined, () => reference.toISOString());
+  const availability = new LiveBrowserAvailability(runtime, model, { now: () => reference.toISOString(), maxModelCallsTotal: 50 });
+  const taskId = `native-dynamic-tabelog-formal:${outcome}`;
+  const composition = createHybridReadComposition({ taskId, runId: `run:${taskId}`, clock: { now: () => reference }, model, search: native.search, facts: native.facts, availability, loop: { maxSteps: 30, timeoutMs: 300_000 } });
+  const frozen = (await loadFrozenLiveCases(RESTAURANT_READ_DEVELOPMENT_CASE_PATH)).find(item => item.id === "h001")!;
+  const semantic = await composition.interpretAndDispatch({ taskId, message: String(frozen.content), referenceTime: frozen.reference_time, timezone: "Asia/Tokyo" });
+  assert.equal(semantic.status, "PROPOSED");
+  const loop = await composition.coordinator.run(taskId);
+  const state = composition.runtime.snapshot(taskId).domainState;
+  const candidateId = "tabelog:en/tokyo/A1304/A130401/100";
+  assert.equal(state.availabilityChecks[candidateId]?.status, outcome, JSON.stringify(state));
+  // The reducer's check is intentionally compact; the provider identity lives
+  // on the accepted AVAILABILITY evidence it names, rather than on a duplicate
+  // check field.
+  const availabilityEvidence = state.readEvidence.find((item) => item.kind === "AVAILABILITY" && item.candidateId === candidateId);
+  assert.equal(availabilityEvidence?.entityMatch?.confidence, "HIGH");
+  assert.equal(state.factChecks?.[candidateId]?.status, "COMPLETED");
+  const sourceFacts = state.readEvidence.filter((evidence) => evidence.candidateId === candidateId
+    && evidence.kind === "RESTAURANT_FACT" && evidence.provider !== "MODEL_JUDGMENT");
+  assert.ok(sourceFacts.length > 0);
+  assert.ok(sourceFacts.every((evidence) => evidence.observedAt === reference.toISOString()),
+    "native source facts use the controlled composition clock rather than wall time");
+  assert.ok(state.candidates.find((candidate) => candidate.restaurant.id === candidateId)?.matchReasons
+    .includes("Verified HARD criterion from source: omakase"));
+  assert.deepEqual(browserActions, ["DATE", "PARTY_SIZE"], "request values must come from real observed DOM actions");
+  const navigations = trace.filter(item => item.kind === "SESSION_CALL" && (item.detail as { method?: string }).method === "navigate")
+    .map(item => (item.detail as { args: string[] }).args[0]!);
+  assert.match(navigations[0]!, /^https:\/\/tabelog\.com\/en\/tokyo\/rstLst\//);
+  const tableCheckSearches = navigations.filter(value => new URL(value).hostname === "www.tablecheck.com");
+  if (outcome === "AVAILABLE") {
+    assert.equal(state.phase, "PRESENT_RESULTS", JSON.stringify(state));
+    assert.deepEqual(state.presentedResults?.candidateIds, [candidateId]);
+    assert.deepEqual(tableCheckSearches, [], "the qualified first source delivers directly");
+    const reads = composition.trajectories.steps.filter(step => step.actionValidation?.status === "ALLOWED"
+      && (step.agentAction?.type === "CHECK_AVAILABILITY" || step.agentAction?.type === "INVESTIGATE_CANDIDATE_FACTS"));
+    assert.deepEqual(reads.slice(0, 2).map(step => step.agentAction?.type), ["CHECK_AVAILABILITY", "INVESTIGATE_CANDIDATE_FACTS"]);
+    const superseded = state.factChecks?.[candidateId]?.supersededEvidenceIds ?? [];
+    assert.ok(superseded.some(id => id.includes("tabelog-hard-criteria")), "the later same-source fact read must retire the availability-read fact");
+    const cited = new Set(state.presentedResults?.evidenceIds ?? []);
+    assert.equal(superseded.some(id => cited.has(id)), false, "presentation must not revive a superseded availability-read fact");
+    const currentFactIds = (state.factChecks?.[candidateId]?.evidenceIds ?? []).filter(id =>
+      state.readEvidence.some(evidence => evidence.evidenceId === id && evidence.kind === "RESTAURANT_FACT"),
+    );
+    assert.ok(currentFactIds.length > 0 && currentFactIds.every(id => cited.has(id)), "presentation cites the latest same-source fact record");
+    assert.equal(loop.status, "TERMINAL");
+    const artifact = {
+      schemaVersion: "1", mode: "SYNTHETIC_CONTROL", status: "SUCCEEDED", stage: "AGENT_LOOP", caseId: "h001", runId: `run:${taskId}`,
+      materializedCase: frozen, semantic, finalSnapshot: composition.runtime.snapshot(taskId), trajectories: composition.trajectories.steps,
+      events: composition.runtime.eventLog, loop, sourceEnvironment: { network: "OFFLINE_FIXED_TRANSPORT", browser: "LOCAL_CHROMIUM_DYNAMIC_FIXED_PAGE" },
+      runCeilings: { maxAutomaticBrowserMs: 300_000, maxAgentSteps: 30, maxBrowserModelCallsTotal: 50, maxModelCalls: 50 },
+      resourceUsage: { elapsedMs: 1, modelCallsStarted: modelCalls, browserModelCalls: browserActions.length, agentDecisions: 0, googleRequests: { total: 1, namedPlaceResolution: 1, discovery: 0, placeDetails: 0 } },
+    };
+    const encoded = JSON.stringify(artifact);
+    const evaluation = evaluateRestaurantHybridLiveArtifact(artifact, { path: "dynamic-availability-first.execution.json", sha256: createHash("sha256").update(encoded).digest("hex") });
+    assert.equal(evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(evaluation.findings));
+  } else {
+    assert.equal(state.phase, "NO_VERIFIED_RESULT", JSON.stringify(state));
+    assert.equal(state.presentedResults, undefined);
+    assert.equal(Object.values(state.availability).flat().length, 0);
+    assert.equal(tableCheckSearches.length, 1, "Tabelog UNAVAILABLE must cause an actual second-source navigation");
+    assert.equal(new URL(tableCheckSearches[0]!).pathname, "/en/japan/search");
+    assert.equal(state.searchContinuation?.nativeStage, "TABLECHECK_DONE");
+    assert.match(state.noVerifiedResult?.remainingGaps.join(" ") ?? "", /bounded Tabelog and TableCheck native batches/);
+    const steps = composition.trajectories.steps;
+    assert.equal(steps.some(step => step.agentAction?.type === "PRESENT_RESULTS"), false);
+    const funnels = steps.flatMap(step => step.executionMetadata?.nativeDiscoveryFunnel ? [step.executionMetadata.nativeDiscoveryFunnel] : []);
+    assert.deepEqual(funnels.map(funnel => ({ source: funnel.source, raw: funnel.rawSourceLinks,
+      parsed: funnel.parsedOutlets, inspected: funnel.inspectedOutlets, accepted: funnel.accepted,
+      rejected: funnel.rejected.length, deferred: funnel.deferredByBatchCap.length, exhausted: funnel.sourceExhausted })), [
+      { source: "TABELOG", raw: 1, parsed: 1, inspected: 1, accepted: 1, rejected: 0, deferred: 0, exhausted: "UNKNOWN" },
+      { source: "TABLECHECK", raw: 0, parsed: 0, inspected: 0, accepted: 0, rejected: 0, deferred: 0, exhausted: true },
+    ]);
+    assert.ok(steps.findIndex(step => step.executionMetadata?.provider === "TABLECHECK")
+      > steps.findIndex(step => step.agentAction?.type === "CHECK_AVAILABILITY"), "source continuation follows the first-source availability read");
+    assert.equal(steps.at(-1)?.agentAction?.type, "END_READ");
+  }
+  // The second-source snapshot is empty; retain the last first-source query observation as the oracle.
+  const finalSnapshot = [...trace].reverse().find(item => {
+    const snapshot = item.detail as { queryRegions?: unknown[]; responses?: Array<{ body?: { base_date?: unknown } }> };
+    return item.kind === "SNAPSHOT" && (snapshot.queryRegions?.length ?? 0) > 0
+      && snapshot.responses?.some(response => response.body?.base_date !== undefined);
+  })?.detail as { queryRegions?: Array<{ markup: string }>; responses?: Array<{ body?: { base_date?: { year?: number; month?: number; day?: number }; members?: number; selection?: unknown[] } }> } | undefined;
+  assert.ok(finalSnapshot?.queryRegions?.length, "the artifact-safe trace retains the provider booking region");
+  assert.equal(finalSnapshot?.responses?.at(-1)?.body?.base_date?.day, 19);
+  assert.equal(finalSnapshot?.responses?.at(-1)?.body?.members, 2);
+  assert.match(finalSnapshot!.queryRegions![0]!.markup, /js-calendar-day-target is-selectable is-current[^>]*data-year="2026"[^>]*data-month="8"[^>]*data-day="19"/);
+  assert.match(finalSnapshot!.queryRegions![0]!.markup, /js-people-button is-active[^>]*>2<\/button>/);
+  if (outcome === "UNAVAILABLE") {
+    const body = finalSnapshot?.responses?.at(-1)?.body;
+    assert.deepEqual({ base_date: body?.base_date, members: body?.members }, {
+      base_date: { year: 2026, month: 8, day: 19 }, members: 2,
+    }, "empty vacancy responses still retain the final source query date and party");
+    // The artifact sanitizer omits an empty selection array.  Its absence is
+    // not stock proof; the provider page's explicit unavailable slot drives
+    // the UNAVAILABLE outcome above.
+    assert.equal("selection" in (body ?? {}), false);
+  }
+});
+}
 
 test("button name metadata does not replace visible time or Reserve safety label", async () => {
   const runtime = localFixture(`<button name="action" value="slot-20" type="button">20:00</button><button name="action" value="reserve" type="button">Reserve</button>`);

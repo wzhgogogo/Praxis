@@ -1,7 +1,7 @@
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
-import { resolve } from "node:path";
+import { relative, resolve } from "node:path";
 import { createInterface } from "node:readline/promises";
 
 import { LIVE_READ_DEBUG_INVESTIGATION_BUDGET } from "../../../../application/live-read-investigation-budget.js";
@@ -39,6 +39,21 @@ function requiredValue(key: string): void {
 function caseIdFromArgs(): string {
   const index = process.argv.indexOf("--case");
   return index >= 0 && process.argv[index + 1] ? process.argv[index + 1]! : "h001";
+}
+
+function caseSourceFromArgs(): string | undefined {
+  const index = process.argv.indexOf("--case-source");
+  if (index < 0) return undefined;
+  const supplied = process.argv[index + 1];
+  if (!supplied?.trim()) throw new Error("--case-source requires a YAML file below .eval-artifacts");
+  const sourcePath = resolve(supplied);
+  const artifactRoot = resolve(".eval-artifacts");
+  const pathFromRoot = relative(artifactRoot, sourcePath);
+  if (!pathFromRoot || pathFromRoot.startsWith("..") || pathFromRoot.includes("../")) {
+    throw new Error("--case-source must be a file below .eval-artifacts");
+  }
+  if (!/\.ya?ml$/i.test(sourcePath)) throw new Error("--case-source must name a YAML file");
+  return sourcePath;
 }
 
 /** Eval-only discovery cap; the frozen case input itself is unchanged. */
@@ -99,13 +114,25 @@ if (manualTabelogIntervention && process.env.PRAXIS_LOCAL_CHROMIUM_INTERACTIVE !
 if (manualTabelogIntervention && !process.stdin.isTTY) {
   throw new Error("PRAXIS_EVAL_ALLOW_TABELOG_MANUAL_INTERVENTION=1 requires an interactive terminal");
 }
-const sourcePath = resolve(RESTAURANT_READ_DEVELOPMENT_CASE_PATH);
+const defaultSourcePath = resolve(RESTAURANT_READ_DEVELOPMENT_CASE_PATH);
+const customCaseSourcePath = caseSourceFromArgs();
+const sourcePath = customCaseSourcePath ?? defaultSourcePath;
 const selectedId = caseIdFromArgs();
 const candidateLimit = candidateLimitFromArgs();
 const source = await loadFrozenLiveCases(sourcePath);
 const frozen = source.find((entry) => entry.id === selectedId);
 if (!frozen) throw new Error(`Unknown frozen E2E case: ${selectedId}`);
-if (frozen.dataset !== RESTAURANT_READ_DEVELOPMENT_DATASET_VERSION) throw new Error("Development case dataset version does not match the Runner");
+const customVariant = customCaseSourcePath !== undefined;
+const variantParent = frozen.parent;
+if (!customVariant && frozen.dataset !== RESTAURANT_READ_DEVELOPMENT_DATASET_VERSION) throw new Error("Development case dataset version does not match the Runner");
+if (customVariant) {
+  const parent = variantParent && typeof variantParent === "object" && !Array.isArray(variantParent) ? variantParent as Record<string, unknown> : undefined;
+  if (frozen.dataset !== "restaurant-read-development-variant@1"
+    || parent?.dataset !== RESTAURANT_READ_DEVELOPMENT_DATASET_VERSION
+    || parent.sha256 !== fileSha256(defaultSourcePath)) {
+    throw new Error("Custom case source must declare restaurant-read-development-variant@1 with the current development dataset parent and SHA-256");
+  }
+}
 if ((process.env.PRAXIS_EVAL_USER_LAT && !process.env.PRAXIS_EVAL_USER_LNG) || (!process.env.PRAXIS_EVAL_USER_LAT && process.env.PRAXIS_EVAL_USER_LNG)) {
   throw new Error("PRAXIS_EVAL_USER_LAT and PRAXIS_EVAL_USER_LNG must be set together");
 }
@@ -116,9 +143,10 @@ const { content: rawRequest, ...materializedCase } = materialized;
 const runtimeContext = {
   ...safeGitContext(),
   dataset: {
-    version: RESTAURANT_READ_DEVELOPMENT_DATASET_VERSION,
-    sourcePath: RESTAURANT_READ_DEVELOPMENT_CASE_PATH,
+    version: String(frozen.dataset),
+    sourcePath: customVariant ? relative(process.cwd(), sourcePath) : RESTAURANT_READ_DEVELOPMENT_CASE_PATH,
     sha256: fileSha256(sourcePath),
+    ...(customVariant ? { parent: structuredClone(variantParent) } : {}),
     cohort: "DEVELOPMENT_DIAGNOSTIC",
     contaminationStatus: "PROMPT_AND_RESULT_EXPOSED",
     baselineEligible: false,

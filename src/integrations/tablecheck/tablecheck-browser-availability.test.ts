@@ -193,6 +193,14 @@ test("TableCheck discovers public guide pages by restaurant name and coordinates
   ]);
 });
 
+test("TableCheck parser reports every observed guide; callers own bounded detail inspection", () => {
+  const snapshot: BrowserSnapshot = {
+    url: "https://www.tablecheck.com/en/japan/search?search_text=Omakase", title: "Search", text: "venues found",
+    html: Array.from({ length: 6 }, (_, index) => `<a href="/en/omakase-${index + 1}">Omakase ${index + 1}</a>`).join(""),
+  };
+  assert.equal(parseTableCheckDiscoveryOutletUrls(snapshot, "").length, 6);
+});
+
 test("TableCheck resolves a real linked reservation page and only sets read parameters", () => {
   const outlet = { sourceEntityId: "restaurant1", sourceUrl: "https://www.tablecheck.com/en/restaurant1", outletName: "Restaurant 1" };
   const target = resolveTableCheckReservationTarget({

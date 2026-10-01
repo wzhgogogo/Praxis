@@ -201,8 +201,9 @@ export function parseTableCheckDiscoveryOutletUrls(snapshot: BrowserSnapshot, ca
     });
   const unique = [...new Map(candidates.map((item) => [item.url, item])).values()];
   const related = unique.filter((item) => relatedDiscoveryName(candidateName, item.text));
-  // Name relevance only limits public pages inspected; HIGH still requires detail-page identity evidence.
-  return (related.length ? related : unique).slice(0, 5).map((item) => item.url);
+  // Parsing reports the observed list; callers bound detail inspection separately.
+  // HIGH still requires detail-page identity evidence.
+  return (related.length ? related : unique).map((item) => item.url);
 }
 
 export function hasTableCheckDiscoveryNoResult(snapshot: BrowserSnapshot): boolean {

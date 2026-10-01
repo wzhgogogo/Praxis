@@ -16,6 +16,12 @@ export interface BrowserSnapshot {
   html: string;
   text: string;
   title: string;
+  /**
+   * Browser-derived state of public interactive controls.  It is deliberately
+   * separate from page text: a query may change value, selection or disabled
+   * state without changing the visible prose.
+   */
+  interactiveState?: string;
   /** Opaque, session-local page identity. It changes only when an observed link opens a new page. */
   pageId?: string;
   /** Source-allowlisted passive GET responses; never model-supplied evidence. */
@@ -99,7 +105,7 @@ export interface BrowserSession {
   scroll?(target: string, deltaY: number): Promise<void>;
   waitFor(target: string, timeoutMs?: number): Promise<void>;
   /** Wait only until the user-visible page state changes; returns false on the bounded timeout. */
-  waitForChange?(previous: Pick<BrowserSnapshot, "url" | "title" | "text">, timeoutMs?: number): Promise<boolean>;
+  waitForChange?(previous: Pick<BrowserSnapshot, "url" | "title" | "text" | "interactiveState">, timeoutMs?: number): Promise<boolean>;
   screenshot(): Promise<Uint8Array>;
   close(): Promise<void>;
 }

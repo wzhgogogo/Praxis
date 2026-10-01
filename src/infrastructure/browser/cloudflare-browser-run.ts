@@ -11,7 +11,7 @@ import type {
 } from "./browser-runtime.js";
 import { BrowserRuntimeError } from "./browser-runtime-errors.js";
 import { PlaywrightResponseObserver } from "./playwright-response-observer.js";
-import { PlaywrightControlRegistry, waitForVisibleChange, activateObservedControl, observedLinkCovered } from "./playwright-browser-controls.js";
+import { PlaywrightControlRegistry, waitForVisibleChange, interactiveState, activateObservedControl, observedLinkCovered } from "./playwright-browser-controls.js";
 
 export interface CloudflareBrowserRunConfig {
   accountId: string;
@@ -92,14 +92,18 @@ class CloudflareBrowserSession implements BrowserSession {
   async captureResponses(rules: readonly BrowserResponseRule[]): Promise<void> { this.responses.configure(this.page, rules); }
 
   async snapshot(): Promise<BrowserSnapshot> {
-    return this.run(async () => ({
-      url: this.page.url(),
-      html: await this.page.content(),
-      text: await this.page.locator("body").innerText(),
-      title: await this.page.title(),
-      pageId: this.pageId(this.page),
-      responses: await this.responses.snapshot(this.page),
-    }));
+    return this.run(async () => {
+      const state = await interactiveState(this.page).catch(() => undefined);
+      return {
+        url: this.page.url(),
+        html: await this.page.content(),
+        text: await this.page.locator("body").innerText(),
+        title: await this.page.title(),
+        ...(state === undefined ? {} : { interactiveState: state }),
+        pageId: this.pageId(this.page),
+        responses: await this.responses.snapshot(this.page),
+      };
+    });
   }
 
   async observeControls(hints?: readonly BrowserControlHint[]): Promise<BrowserPageControl[]> { return this.run(() => this.controls.observe(this.page, hints)); }
@@ -145,7 +149,7 @@ class CloudflareBrowserSession implements BrowserSession {
   async waitFor(target: string, timeoutMs?: number): Promise<void> {
     await this.run(() => this.page.locator(target).waitFor(timeoutMs === undefined ? {} : { timeout: timeoutMs }));
   }
-  async waitForChange(previous: Pick<BrowserSnapshot, "url" | "title" | "text">, timeoutMs = 2_500): Promise<boolean> {
+  async waitForChange(previous: Pick<BrowserSnapshot, "url" | "title" | "text" | "interactiveState">, timeoutMs = 2_500): Promise<boolean> {
     return this.run(() => waitForVisibleChange(this.page, previous, timeoutMs));
   }
   async screenshot(): Promise<Uint8Array> { return this.run(() => this.page.screenshot()); }

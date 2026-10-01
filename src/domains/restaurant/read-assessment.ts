@@ -149,7 +149,16 @@ function presentationEvidenceIds(
   const entity = entities.find((item) => item.provider === availability.provider && item.sourceEntityId === availability.sourceEntityId);
   if (!entity) return { valid: false, reason: `Candidate ${candidateId} has no HIGH outlet identity evidence associated with its availability source` };
   const factIdentityIds = groundedCurrentFacts.flatMap(fact => sourceFactsFor(fact).map(source => identityFor(source)!.evidenceId));
-  const checkEvidenceIds = state.availabilityChecks[candidateId].evidenceIds.filter((id) => candidateEvidence.some((evidence) => evidence.evidenceId === id));
+  // An availability read can include its own contemporaneous fact evidence.
+  // If a later fact read from the same source supersedes one of those facts,
+  // the presentation must retain the availability/identity evidence but not
+  // revive the obsolete fact merely because it was named by the earlier
+  // availability check.
+  const currentFactIds = new Set(groundedCurrentFacts.map((evidence) => evidence.evidenceId));
+  const checkEvidenceIds = state.availabilityChecks[candidateId].evidenceIds.filter((id) => {
+    const evidence = candidateEvidence.find((item) => item.evidenceId === id);
+    return evidence !== undefined && (evidence.kind !== "RESTAURANT_FACT" || currentFactIds.has(id));
+  });
   return { valid: true, evidenceIds: [...new Set([entity.evidenceId, area.evidenceId, availability.evidenceId, ...checkEvidenceIds, ...factIdentityIds, ...groundedCurrentFacts.map((evidence) => evidence.evidenceId)])] };
 }
 
