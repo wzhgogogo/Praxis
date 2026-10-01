@@ -583,6 +583,10 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
       continuation: {
         intentFingerprint: restaurantSearchIntentFingerprint(request.intent),
         ...(nativeStage ? { nativeStage } : {}),
+        nativeCurrentBatch: {
+          source,
+          candidateIds: batch.candidates.map((candidate) => candidate.restaurant.id),
+        },
         usedPageTokens: [], pagesRead: (request.continuation?.pagesRead ?? 0) + batch.funnel.pagesRead,
         exhausted: source === "TABLECHECK" && sourceEnded,
         ...(!sourceEnded || failureCode ? { nativeSourceProgress: batch.progress } : {}),

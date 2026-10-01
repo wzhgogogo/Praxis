@@ -1,13 +1,22 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.145
+- Document revision: 4.148
 - Last updated: 2026-10-01
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## TEST-2026-10-01-H001-NATIVE-CURRENT-BATCH-DELIVERY
+
+- Mode: fixed-source formal Router/Runtime/Agent/Evaluator composition; all browser and Google responses are intercepted fixtures. No external network, paid model, H001 Live, booking write, or source inventory claim occurred.
+- New A regression: a nonempty Tabelog listing exposes one unsuitable outlet and a source-owned Shibuya region link. The composition preserves the authoritative `omakase` query, navigates through the observed region link before opening the unsuitable detail page, investigates the refreshed related outlet, and reaches independently qualified `PRESENT_RESULTS`.
+- New B regressions: Tabelog and TableCheck each return six observed entries. Their first five-entry current batch is fully investigated; exactly one candidate is independently eligible. Each composition executes `PRESENT_RESULTS`, preserves the sixth source entry in `nativeSourceProgress`, leaves the source nonterminal, and avoids the next source/chunk. This validates current-batch delivery separately from source exhaustion.
+- C review: saved LAVAROCK artifacts prove selected request controls but contain neither a request-bound result region nor a compatible response. No parser was loosened. Status is `PENDING_SOURCE_EVIDENCE`; selected time alone remains insufficient for an Offer.
+- Verification: native composition **19/19**, action-validator and Agent-context **34/34**, and the permitted full offline suite **578/578** passed. `npm run typecheck`, `npm run arch:check`, `npm run build`, and `git diff --check` passed. The fully intercepted local Chromium fixture suite required the permitted host runtime after the restricted environment denied the macOS browser rendezvous port; it then passed **62/62**. No fixture request left the local interception boundary.
+- Follow-up report-layer audit: `run-native-fixed-source-model.ts` now writes the four required scenario-report fields and `browserDiagnostics` for every registered fixed-source scenario, including static-page scenarios. `npm run typecheck` and the controlled native-composition plus fixed-source acceptance suite **27/27** passed. No `PRAXIS_ALLOW_LIVE_MODEL_EVAL` invocation occurred, so the newly registered scenarios remain unexecuted at the real-model layer.
 
 ## TEST-2026-10-01-H001-DISCOVERY-EXECUTION-CLOSURE-WORK-PACKAGES-ABC
 
@@ -3516,3 +3525,13 @@ Read-only reevaluation of five saved worktree-1135 artifacts: H001/H005 all dime
 
 - Offline/local gates: native discovery composition **16/16**, TableCheck availability + native composition + Browser Executor **91/91**, and browser case-slice evidence **3/3**. `npm run typecheck`, `npm run arch:check`, `npm run build`, and `git diff --check` passed. The complete default suite passed **575/575** in the permitted host environment. The restricted sandbox's 22 failures were all `EPERM` on `127.0.0.1` listener setup and did not execute a product assertion. Local Chromium fixture passed in the host environment.
 - Authorized paid model, fixed-source-only paths, each bounded at 20 model calls, 20 agent steps, and 120 seconds: `TABLECHECK_DISCOVERY_RECOVERS` was `SUCCEEDED/PRESENT_RESULTS`, 8 calls/9,120ms, one TableCheck Offer, independent evaluator qualified `YES`; `DYNAMIC_TABELOG_DELIVERS` was `SUCCEEDED/PRESENT_RESULTS`, 9 calls/10,779ms, one Tabelog Offer after model-controlled date and party selection, qualified `YES`; `BOTH_BOUNDED_EMPTY` was `SUCCEEDED/NO_VERIFIED_RESULT`, 4 calls/5,035ms, qualified `NO`. The first two demonstrate evidence-grounded presentation; the third demonstrates bounded no-result handling. All page and Google data were fixed/intercepted. No real-source access, H001 Live, reservation write, retry, or claim of current availability occurred. [Artifacts and limits](H001-ABC-REMEDIATION-2026-10-01.md).
+
+## TEST-2026-10-01-TABLECHECK-EXACT-QUERY-RESPONSE-COMPATIBILITY
+
+- Adapter contract: `node --import tsx --test src/integrations/tablecheck/tablecheck-browser-availability.test.ts` — **47/47 PASS**. The new cases prove that only a page-owned same-shop GET response with the exact Tokyo date, adult count and a single requested time can ground an explicit `failure/data:null` result; wrong outlet, party, response status and wider time window remain unaccepted. The adapter integration verifies passive response-rule registration before grounding.
+- Current-source diagnostic: one user-authorized, 30-second, no-model local Chromium LAVAROCK probe selected only observed native adult and time controls. It made no click, fill, link open, form submission or POST. The final controls confirmed `2026-10-03`, 2 adults and 19:00, but no same-shop `/available` response arrived and the submit control remained disabled. Artifact: `.eval-artifacts/tablecheck-availability-query-probe/2026-10-01T10-12-35-545Z-8323cbcb-2011-4f55-afc6-628d5516833d.result.json`. This is not current inventory or H001 acceptance.
+
+## TEST-2026-10-01-TABLECHECK-EXACT-QUERY-RESPONSE-FINAL
+
+- Final regression after the passive exact-response compatibility change: `npm test` **580/580 PASS** in the permitted local host environment; `npm run test:browser:fixture` passed in the same environment; `npm run typecheck`, `npm run arch:check`, `npm run build`, and `git diff --check` passed. The restricted sandbox cannot launch macOS Chromium because its browser rendezvous port is denied before fixture execution; that environment failure is not recorded as a product assertion failure.
+- The compatibility code is fail-closed: only an observed page-owned same-shop response whose URL carries the exact Tokyo date, adult count, and one requested time can ground the provider's explicit empty result. The bounded LAVAROCK diagnostic produced no such response and left submission disabled, so this remains `PENDING_SOURCE_EVIDENCE`, not `UNAVAILABLE`, an Offer, or H001 success.

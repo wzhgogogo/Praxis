@@ -300,6 +300,39 @@ test("H001 preserves the authoritative keyword when an observed Tabelog area lin
   assert.equal(result.navigations.some((url) => url.endsWith("/100/")), true);
 });
 
+test("H001 refines a nonempty Tabelog list through an observed source area link before investigating an unsuitable candidate", async () => {
+  const result = await runScenario("TABELOG_NONEMPTY_REGION_RECOVERS");
+  assert.deepEqual(result.state.presentedResults?.candidateIds, ["tabelog:tokyo/A1304/A130401/100"]);
+  assert.equal(result.navigations.some((url) => url.includes("/en/tokyo/A1303/A130301/rstLst/")), true);
+  assert.equal(result.navigations.some((url) => url.endsWith("/199/")), false, "the observed source refinement precedes unsuitable detail investigation");
+  assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(result.evaluation.findings));
+});
+
+test("H001 presents one investigated Tabelog current-batch result without exhausting the source or starting TableCheck", async () => {
+  const result = await runScenario("TABELOG_CURRENT_BATCH_DELIVERS");
+  assert.deepEqual(result.state.presentedResults?.candidateIds, ["tabelog:tokyo/A1304/A130401/100"]);
+  assert.equal(result.state.searchContinuation?.nativeStage, undefined, "the source remains open after the current bounded batch");
+  assert.deepEqual(result.state.searchContinuation?.nativeCurrentBatch, {
+    source: "TABELOG",
+    candidateIds: ["tabelog:tokyo/A1304/A130401/100", "tabelog:tokyo/A1304/A130401/101", "tabelog:tokyo/A1304/A130401/102", "tabelog:tokyo/A1304/A130401/103", "tabelog:tokyo/A1304/A130401/104"],
+  });
+  assert.deepEqual(result.state.searchContinuation?.nativeSourceProgress?.pendingSourceIds, ["tokyo/A1304/A130401/105"]);
+  assert.equal(result.navigations.some((url) => url.includes("tablecheck.com")), false);
+  assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(result.evaluation.findings));
+});
+
+test("H001 presents one investigated TableCheck current-batch result without reading a second TableCheck chunk", async () => {
+  const result = await runScenario("TABLECHECK_CURRENT_BATCH_DELIVERS");
+  assert.deepEqual(result.state.presentedResults?.candidateIds, ["tablecheck:native-omakase-1"]);
+  assert.deepEqual(result.state.searchContinuation?.nativeCurrentBatch, {
+    source: "TABLECHECK",
+    candidateIds: ["tablecheck:native-omakase-1", "tablecheck:native-omakase-2", "tablecheck:native-omakase-3", "tablecheck:native-omakase-4", "tablecheck:native-omakase-5"],
+  });
+  assert.deepEqual(result.state.searchContinuation?.nativeSourceProgress?.pendingSourceIds, ["native-omakase-6"]);
+  assert.equal(result.navigations.filter((url) => url.includes("/en/japan/search")).length, 1);
+  assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(result.evaluation.findings));
+});
+
 test("H001 restores a pending Tabelog detail entrance when its refreshed list no longer contains it", async () => {
   const result = await runScenario("TABELOG_PENDING_RESTORED");
   assert.equal(result.navigations.filter((url) => url.includes("/rstLst/")).length >= 2, true);

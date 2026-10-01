@@ -1,13 +1,22 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.140
+- Document revision: 4.143
 - Last updated: 2026-10-01
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## DEV-2026-10-01-H001-NATIVE-CURRENT-BATCH-DELIVERY
+
+- Added a reducer-persisted `nativeCurrentBatch` continuation record containing the source and candidate IDs admitted by the most recently completed bounded native read chunk. It is deliberately separate from `nativeSourceProgress.pendingSourceEntries` and source terminal state.
+- Replaced the open-ended native short-delivery gate's implicit `TABELOG_DONE` / `TABLECHECK_DONE` dependency with a current-batch investigation gate. It requires every admitted current-batch candidate to have completed applicable fact and availability investigation and at least one independently eligible, undelivered candidate. It does not set source `DONE`, discard a retained entrance, loosen explicit-count behavior, or accept unsupported inventory.
+- Projected this ready state into the normal Agent context as a no-further-search delivery state, leaving the Agent to select `PRESENT_RESULTS` through the existing validator and Runtime path.
+- Added formal source fixtures for: a nonempty pre-refinement Tabelog list with an observed source area link; an open Tabelog source with a sixth retained entry; and an open TableCheck source with a sixth retained entry. These are controlled source pages, not Live evidence.
+- Reviewed all retained LAVAROCK artifacts before changing inventory extraction. They prove request control readback but not a current request-bound result. Kept the existing fail-closed parser and recorded `PENDING_SOURCE_EVIDENCE` rather than adding a speculative parser.
+- Prepared the fixed-source real-model Runner for the new controlled A/B scenarios without running it: its bounded scenario allowlist now includes the nonempty-list recovery and both current-batch delivery paths; every result persists a scenario expectation, actual terminal/source behavior, evaluator qualified result, pass/fail comparison, and the sanitized browser diagnostics array. This changes diagnostic reporting only and does not authorize a model call.
 
 ## 2026-10-01 — H001 discovery/execution closure work packages A/B/C
 
@@ -2933,3 +2942,9 @@ At this checkpoint, no corrected paid-model replacement, external provider reque
 Completed the H001 A/B/C review-remediation slice: retained source-owned pending detail entrances and progress across refreshes/errors; preserved the Tabelog keyword through observed region navigation; routed an observed discovery action through the existing formal Browser Executor; retained only same-source TableCheck reservation entrances; refreshed a rejected browser `COMPLETE`; and restored request-bound TableCheck DOM-only Offer parsing while rejecting wrong requests. The runner now registers the controlled `TABLECHECK_DISCOVERY_RECOVERS` source scenario for paid fixed-source verification.
 
 Three user-authorized DeepSeek runs used only fixed source pages and a fixed Google response. TableCheck discovery recovery and dynamic local-Chromium Tabelog controls both presented a qualified result; the bounded-empty path truthfully finished with no result. No current website, H001 Live, booking write, Gold/semantic/fact-policy change, commit or push occurred. See [A/B/C record](H001-ABC-REMEDIATION-2026-10-01.md).
+
+## 2026-10-01 TableCheck exact-query response compatibility
+
+The TableCheck availability tail now subscribes only to a page-owned same-shop `/available` GET endpoint after HIGH identity and the observed reservation entrance are established. A source response can mark one exact time unavailable only when its URL binds the selected Tokyo date and adult count and its JSON is the provider's explicit `failure/data:null` form. Cross-shop, mismatched request, success/unknown payload, no response, and a broader requested window stay UNKNOWN. The diagnostic does not invoke a reservation form action.
+
+One bounded no-model Chromium diagnostic of Dining&Bar LAVAROCK selected a diagnostic date, two adults and 19:00 through observed native controls. The controls read back, but the page emitted no `/available` response and retained a disabled submit control. This is recorded as a source-completion limitation, not a no-availability result or H001 result. See [inventory evidence boundary](H001-NEXT-ITERATION-INVENTORY-EVIDENCE-2026-10-01.md).

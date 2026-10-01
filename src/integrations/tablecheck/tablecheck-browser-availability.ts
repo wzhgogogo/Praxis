@@ -1,4 +1,5 @@
 import { permitsTableCheckQueryControl } from "./tablecheck-public-query.js";
+import { parseTableCheckCapturedAvailability, tableCheckAvailabilityResponseRule } from "./tablecheck-availability-response.js";
 import { groundTableCheckAvailability } from "../../domains/restaurant/read-grounding.js";
 import type { RestaurantAvailabilityRequest } from "../../domains/restaurant/contracts.js";
 import type { BrowserRuntime, BrowserSession, BrowserSessionMetadata, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
@@ -682,6 +683,11 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         candidate, observedAt, sourceEntityId: retainedIdentity.extraction.outlet.sourceEntityId, sourceUrl: retainedIdentity.extraction.outlet.sourceUrl,
         entityMatch: retainedIdentity.inspection.resolution, pageState: "BOT_CHALLENGE", failureCode: "BOT_CHALLENGE", excerpt: tableCheckPageExcerpt(page),
       }, browser);
+      // This is passive GET capture only.  The page-owned reservation target
+      // yields the exact same-outlet endpoint; no form action is observed or
+      // invoked here.
+      const availabilityResponseRule = tableCheckAvailabilityResponseRule(activeSelected.reservation);
+      if (availabilityResponseRule) await session.captureResponses?.([availabilityResponseRule]);
       const readAvailability = () => this.executor.runSkill({
         taskId: `browser-read:${candidate.restaurant.id}`,
         source: "TABLECHECK",
@@ -695,6 +701,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         completion: (current, controls) => {
           const selected = hasTableCheckSelectedRequest(current, request.date, request.partySize, controls);
           const html = parseTableCheckAvailabilitySlots(current, { date: request.date, partySize: request.partySize, timeWindow: request.timeWindow });
+          const response = parseTableCheckCapturedAvailability(current.responses, activeSelected.reservation, request);
           // Some TableCheck pages render the public, request-bound result only
           // as live controls. Evaluate that evidence at completion as well as
           // during final grounding, otherwise a correct DOM-only slot is
@@ -707,7 +714,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
             || html.hasExplicitSlotUi
           );
           return {
-            complete: hasTableCheckBotChallenge(current) || (requestConfirmed && (htmlComplete || live.queryComplete)),
+            complete: hasTableCheckBotChallenge(current) || (requestConfirmed && (htmlComplete || live.queryComplete || response?.exactTimeEmpty === true)),
             reason: requestConfirmed
               ? "Date and party are selected, but no completed result supports the requested time window. If the mealtime differs, open the observed time combobox and choose a time inside the goal window; otherwise wait for its result."
               : "The latest page must explicitly confirm the complete authoritative date and party size before any result can be used.",
@@ -760,11 +767,12 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         entityMatch: activeSelected.inspection.resolution, pageState: "EXTRACTION_FAILED", failureCode: "REQUEST_SELECTION_UNCONFIRMED",
       }, browser);
       const parsedSlots = parseTableCheckAvailabilitySlots(page, { date: request.date, partySize: request.partySize, timeWindow: request.timeWindow });
+      const response = parseTableCheckCapturedAvailability(page.responses, activeSelected.reservation, request);
       const slots = {
         availableSlots: [...new Set([...parsedSlots.availableSlots, ...controlSlots.availableSlots])].sort(),
         hasExplicitSlotUi: parsedSlots.hasExplicitSlotUi || controlSlots.hasExplicitSlotUi,
-        explicitlyEmpty: parsedSlots.explicitlyEmpty,
-        queryComplete: parsedSlots.queryComplete || controlSlots.queryComplete,
+        explicitlyEmpty: parsedSlots.explicitlyEmpty || response?.exactTimeEmpty === true,
+        queryComplete: parsedSlots.queryComplete || controlSlots.queryComplete || response?.exactTimeEmpty === true,
       };
       const qualifying = slots.queryComplete
         && slots.availableSlots.some((slot) => slot >= request.timeWindow.earliest && slot <= request.timeWindow.latest);

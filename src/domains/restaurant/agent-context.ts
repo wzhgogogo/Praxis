@@ -5,7 +5,7 @@ import type {
   RestaurantTaskState,
 } from "./contracts.js";
 import { missingBlockingFields, missingSearchFields } from "./intent-state.js";
-import { assessRestaurantRead, distinctNativeResultCandidateIds, nativeSecondBatchSearchBlockReason, restaurantCurrentFactEvidence } from "./read-assessment.js";
+import { assessRestaurantRead, distinctNativeResultCandidateIds, nativeShortBatchDeliveryReady, nativeSecondBatchSearchBlockReason, restaurantCurrentFactEvidence } from "./read-assessment.js";
 import { defaultBatchDeliveryWindowActive } from "./action-validator.js";
 
 export const RESTAURANT_AGENT_CONTEXT_SCHEMA = {
@@ -101,6 +101,7 @@ export function projectRestaurantAgentContext(
 ): RestaurantAgentContext {
   const assessment = assessRestaurantRead(state, now);
   const deliveryWindow = defaultBatchDeliveryWindowActive(state, now);
+  const nativeBatchDeliveryReady = nativeShortBatchDeliveryReady(state, now);
   const presentation = assessment.presentation;
   const candidateSummary = (candidateId: string) => {
     const facts = restaurantCurrentFactEvidence(state, candidateId);
@@ -196,6 +197,8 @@ export function projectRestaurantAgentContext(
     presentation,
     searchAvailability: deliveryWindow
       ? { available: false, reason: "DEFAULT_BATCH_DELIVERY_WINDOW" }
+      : nativeBatchDeliveryReady
+      ? { available: false, reason: "NATIVE_CURRENT_BATCH_DELIVERY_READY" }
       : nativeSecondBatchSearchBlockReason(state, now)
       ? { available: false, reason: "NATIVE_FIRST_BATCH_PENDING" }
       : state.sourceReadState?.googlePlacesSearchBudget === "EXHAUSTED" || state.searchContinuation?.exhausted === true
@@ -212,7 +215,7 @@ export function projectRestaurantAgentContext(
       ...(assessment.endReadBlockReason ? { reason: assessment.endReadBlockReason } : {}),
     },
     legalActions: {
-      search: !deliveryWindow && !nativeSecondBatchSearchBlockReason(state, now) && state.sourceReadState?.googlePlacesSearchBudget !== "EXHAUSTED" && state.searchContinuation?.exhausted !== true && missingSearchFields(state.intentDraft ?? {}).length === 0,
+      search: !deliveryWindow && !nativeBatchDeliveryReady && !nativeSecondBatchSearchBlockReason(state, now) && state.sourceReadState?.googlePlacesSearchBudget !== "EXHAUSTED" && state.searchContinuation?.exhausted !== true && missingSearchFields(state.intentDraft ?? {}).length === 0,
       investigateCandidateFacts: deliveryWindow ? [] : [...assessment.factInvestigableCandidateIds],
       checkAvailability: deliveryWindow ? [] : [...assessment.checkableCandidateIds],
       presentResults: distinctNativeResultCandidateIds(state, presentation

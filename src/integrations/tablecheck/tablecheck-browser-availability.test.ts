@@ -6,8 +6,9 @@ import type { RestaurantTaskState } from "../../domains/restaurant/contracts.js"
 import { applyRestaurantIntentPatch } from "../../domains/restaurant/intent-state.js";
 import { restaurantBookingTaskDefinition } from "../../domains/restaurant/task-definition.js";
 import { fixtureCandidates, fixtureIntent } from "../../harness/restaurant-fixtures.js";
-import type { BrowserPageControl, BrowserRuntime, BrowserSession, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
+import type { BrowserPageControl, BrowserResponseRule, BrowserRuntime, BrowserSession, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
 import { TableCheckBrowserAvailability, TableCheckEntryLedger } from "./tablecheck-browser-availability.js";
+import { parseTableCheckCapturedAvailability, tableCheckAvailabilityResponseRule } from "./tablecheck-availability-response.js";
 import { inspectTableCheckEntity } from "./tablecheck-entity-resolver.js";
 import {
   inspectTableCheckPageUnavailable,
@@ -45,6 +46,25 @@ test("TableCheck binds a request only to explicit complete date and party contro
   assert.equal(hasTableCheckSelectedRequest({ ...snapshot, html: '<div data-selected-date="2025-09-07" data-pax="2"></div>' }, "2026-09-07", 2), false);
   assert.equal(hasTableCheckSelectedRequest({ ...snapshot, html: '<div data-selected-date="2026-09-07" data-pax="3"></div>' }, "2026-09-07", 2), false);
   assert.equal(hasTableCheckSelectedRequest({ ...snapshot, html: '<div data-selected-date="2026-09-07"></div><div data-pax="2"></div>' }, "2026-09-07", 2), false);
+});
+
+test("TableCheck accepts only a same-shop, exact-date/party/time public availability failure response", () => {
+  const target = { kind: "LINKED_PAGE" as const, url: "https://www.tablecheck.com/en/shops/cytokyo-lavarock/reserve" };
+  assert.deepEqual(tableCheckAvailabilityResponseRule(target), {
+    origin: "https://www.tablecheck.com", pathname: "/en/shops/cytokyo-lavarock/available",
+  });
+  const request = { date: "2026-10-03", partySize: 2, timeWindow: { earliest: "19:00", latest: "19:00" } };
+  const exact = {
+    url: "https://www.tablecheck.com/en/shops/cytokyo-lavarock/available?reservation%5Bstart_at_epoch%5D=1791021600&reservation%5Bnum_people_adult%5D=2",
+    status: 200, observedAt: "2026-10-01T10:10:00.000Z", sequence: 3, body: { status: "failure", data: null },
+  };
+  assert.deepEqual(parseTableCheckCapturedAvailability([exact], target, request), {
+    exactTimeEmpty: true, observedAt: "2026-10-01T10:10:00.000Z", time: "19:00",
+  });
+  assert.equal(parseTableCheckCapturedAvailability([{ ...exact, url: exact.url.replace("num_people_adult%5D=2", "num_people_adult%5D=3") }], target, request), undefined);
+  assert.equal(parseTableCheckCapturedAvailability([{ ...exact, url: exact.url.replace("cytokyo-lavarock", "other-branch") }], target, request), undefined);
+  assert.equal(parseTableCheckCapturedAvailability([exact], target, { ...request, timeWindow: { earliest: "18:30", latest: "19:00" } }), undefined);
+  assert.equal(parseTableCheckCapturedAvailability([{ ...exact, body: { status: "success", data: null } }], target, request), undefined);
 });
 
 test("TableCheck reservation form binds the selected date and adult count without inventing inventory", () => {
@@ -138,6 +158,7 @@ class FixtureBrowserSession implements BrowserSession {
   readonly navigations: string[] = [];
   clicks = 0;
   fills = 0;
+  capturedResponseRules: BrowserResponseRule[] = [];
   closed = false;
   private current = -1;
 
@@ -145,6 +166,7 @@ class FixtureBrowserSession implements BrowserSession {
 
   async navigate(url: string): Promise<void> { this.navigations.push(url); this.current = Math.min(this.current + 1, this.pages.length - 1); }
   async snapshot(): Promise<BrowserSnapshot> { return this.pages[this.current]!; }
+  async captureResponses(rules: readonly BrowserResponseRule[]): Promise<void> { this.capturedResponseRules = [...rules]; }
   async observeControls(): Promise<BrowserPageControl[]> {
     const page = this.pages[this.current]!;
     const controls: BrowserPageControl[] = [];
@@ -163,6 +185,48 @@ class FixtureBrowserSession implements BrowserSession {
   async screenshot(): Promise<Uint8Array> { return new Uint8Array(); }
   async close(): Promise<void> { this.closed = true; }
 }
+
+class ResponseFixtureBrowserSession extends FixtureBrowserSession {
+  constructor(pages: BrowserSnapshot[], private readonly controls: BrowserPageControl[]) { super(pages); }
+  override async observeControls(): Promise<BrowserPageControl[]> { return structuredClone(this.controls); }
+}
+
+test("TableCheck grounds an exact public availability failure only after the adapter captures the selected outlet response", async () => {
+  const guide = "https://www.tablecheck.com/en/cytokyo-lavarock";
+  const reserve = "https://www.tablecheck.com/en/shops/cytokyo-lavarock/reserve";
+  const scoped = { ...candidate, restaurant: { ...candidate.restaurant, id: "lavarock-response", outletName: "Dining&Bar LAVAROCK", address: "1-1 Tokyo", sourceIds: {
+    tablecheck: "cytokyo-lavarock", tablecheckNativeGuideUri: guide,
+  } } };
+  const date = "2026-10-03";
+  const guidePage: BrowserSnapshot = {
+    url: guide, title: "Dining&Bar LAVAROCK", text: "Dining&Bar LAVAROCK 1-1 Tokyo Book a table",
+    html: '<link rel="canonical" href="/en/cytokyo-lavarock"><h1>Dining&Bar LAVAROCK</h1><p class="address">1-1 Tokyo</p><a href="/en/shops/cytokyo-lavarock/reserve">Book a table</a>',
+  };
+  const reservation: BrowserSnapshot = {
+    url: reserve, title: "Dining&Bar LAVAROCK reservation", text: "Dining&Bar LAVAROCK 2 adults Oct 3 7:00 PM",
+    html: '<form><input name="reservation[start_date]" value="2026-10-03"><select name="reservation[num_people_adult]"><option value="2" selected>2</option></select></form>',
+    responses: [{
+      url: "https://www.tablecheck.com/en/shops/cytokyo-lavarock/available?reservation%5Bstart_at_epoch%5D=1791021600&reservation%5Bnum_people_adult%5D=2",
+      status: 200, observedAt: "2026-10-01T10:10:00.000Z", sequence: 1, body: { status: "failure", data: null },
+    }],
+  };
+  const controls: BrowserPageControl[] = [
+    { id: "date", stableKey: "date", kind: "INPUT", role: "textbox", label: "Oct 3", value: date, visible: true, disabled: false,
+      structure: { tag: "INPUT", name: "reservation[start_date]", classes: [], dialogLabel: "", formClass: "", sliderCount: 0 } },
+    { id: "adult", stableKey: "adult", kind: "SELECT", role: "combobox", label: "Adults", value: "2", visible: true, disabled: false,
+      options: [{ value: "2", label: "2", selected: true, disabled: false }],
+      structure: { tag: "SELECT", name: "reservation[num_people_adult]", classes: [], dialogLabel: "", formClass: "", sliderCount: 0 } },
+  ];
+  const session = new ResponseFixtureBrowserSession([guidePage, reservation], controls);
+  const result = await new TableCheckBrowserAvailability({ openSession: async () => session }, () => "2026-10-01T10:10:01.000Z").check({
+    candidateIds: [scoped.restaurant.id], candidates: [scoped], date, partySize: 2,
+    timeWindow: { earliest: "19:00", latest: "19:00" }, hardCriteria: [],
+  }, new AbortController().signal);
+  assert.deepEqual(session.capturedResponseRules, [{ origin: "https://www.tablecheck.com", pathname: "/en/shops/cytokyo-lavarock/available" }]);
+  assert.equal(result.availabilityChecks[scoped.restaurant.id]?.status, "UNAVAILABLE");
+  assert.equal(result.availabilityChecks[scoped.restaurant.id]?.reasonCode, "NO_MATCHING_SLOT");
+  assert.ok(result.evidence.some(item => item.kind === "AVAILABILITY" && item.claims.inventoryStatus === "UNAVAILABLE"));
+});
 
 const request = {
   candidateIds: [candidate.restaurant.id],

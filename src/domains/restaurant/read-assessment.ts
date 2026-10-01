@@ -256,12 +256,39 @@ export function nativeSecondBatchSearchBlockReason(state: Readonly<RestaurantTas
   return undefined;
 }
 
-/** For open-ended native reads, one completed source batch may deliver a short grounded batch. */
+function nativeCurrentBatchInvestigationBlockReason(state: Readonly<RestaurantTaskState>): string | undefined {
+  const currentBatch = state.searchContinuation?.nativeCurrentBatch;
+  if (!currentBatch || currentBatch.candidateIds.length === 0) return "The current native batch has no admitted candidate to deliver";
+  const expectedSource = currentBatch.source === "TABELOG"
+    ? (candidate: RestaurantTaskState["candidates"][number]) => Boolean(candidate.restaurant.sourceIds.tabelogNativeDetailUri)
+    : (candidate: RestaurantTaskState["candidates"][number]) => Boolean(candidate.restaurant.sourceIds.tablecheckNativeGuideUri);
+  const batchIds = new Set(currentBatch.candidateIds);
+  const candidates = state.candidates.filter((candidate) => batchIds.has(candidate.restaurant.id) && expectedSource(candidate));
+  if (candidates.length !== currentBatch.candidateIds.length) return "The current native batch no longer has a complete candidate record";
+  const intent = completeRestaurantSearchIntent(state.intentDraft);
+  for (const candidate of candidates) {
+    const candidateId = candidate.restaurant.id;
+    const facts = state.factChecks?.[candidateId];
+    if (!facts) return `${currentBatch.source} candidate ${candidateId} still needs its fact read before current-batch delivery`;
+    if (facts.status !== "COMPLETED" || !intent || !restaurantGoalRequiresAvailability(intent)) continue;
+    const currentFacts = restaurantCurrentFactEvidence(state, candidateId);
+    const positiveSupported = intent.criteria.filter((criterion) => criterion.polarity === "POSITIVE" && criterion.strength === "HARD")
+      .every((criterion) => currentFacts.some((evidence) => stringListClaim(evidence, "verifiedHardCriteria")
+        .some((value) => normalized(value) === normalized(criterion.text))));
+    if (positiveSupported && !hasCurrentHardConflict(state, candidateId, intent) && !state.availabilityChecks[candidateId]) {
+      return `${currentBatch.source} candidate ${candidateId} still needs its availability read before current-batch delivery`;
+    }
+  }
+  return undefined;
+}
+
+/** For open-ended native reads, a completed current batch may deliver a grounded short batch. */
 export function nativeShortBatchDeliveryReady(state: Readonly<RestaurantTaskState>, now: string): boolean {
   if (state.intentDraft?.target?.requestedResultCount !== undefined || state.intentDraft?.target?.selectionScope !== "OPEN_ENDED") return false;
-  if (state.searchContinuation?.nativeStage === "TABLECHECK_DONE") return nativeBatchInvestigationBlockReason(state, "TABLECHECK") === undefined;
-  return state.searchContinuation?.nativeStage === "TABELOG_DONE"
-    && nativeSecondBatchSearchBlockReason(state, now) === "The investigated Tabelog native batch has a grounded result to deliver";
+  if (nativeCurrentBatchInvestigationBlockReason(state) !== undefined) return false;
+  const batchIds = new Set(state.searchContinuation?.nativeCurrentBatch?.candidateIds ?? []);
+  const delivered = new Set(state.selectionSession?.deliveredCandidateIds ?? []);
+  return assessRestaurantRead(state, now).presentation.some((item) => batchIds.has(item.candidateId) && item.eligible && !delivered.has(item.candidateId));
 }
 
 /** Keep independently evidenced source records separate while refusing to count an unresolved same outlet twice. */

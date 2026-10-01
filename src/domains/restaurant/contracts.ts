@@ -282,6 +282,16 @@ export interface RestaurantSearchContinuation {
    * already observed detail entrances from being silently discarded before a
    * later same-source read.
    */
+  /**
+   * The candidate IDs admitted from the most recently completed bounded native
+   * read chunk.  This is intentionally separate from source exhaustion and
+   * pending source entrances: a complete current batch can be deliverable
+   * while the same source still has more observed work.
+   */
+  nativeCurrentBatch?: {
+    source: "TABELOG" | "TABLECHECK";
+    candidateIds: string[];
+  };
   nativeSourceProgress?: {
     source: "TABELOG" | "TABLECHECK";
     inspectedSourceIds: string[];

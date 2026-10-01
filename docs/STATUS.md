@@ -1,13 +1,17 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.136
+- Document revision: 4.139
 - Last updated: 2026-10-01
 - Source of truth for: 已实现能力、已验证范围、明确未验证项与下一道门槛
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Documentation Index](INDEX.md), [Roadmap](roadmap.md), [Verification History](history/TEST-LOG.md)
 
 ## 最新审查与当前门槛
+
+2026-10-01 **H001 有效查店与当前批次交付已补齐为正式原生组合回归；真实库存兼容仍待来源证据。** Tabelog 的已观察地区入口现在有“初始列表非空但当前区域不适用”的回归：系统先保持查询词、应用来源入口，再调查刷新后相关候选，而不把“解析到一条不适用入口”当作有效查店。每次原生搜索续查状态还保存当前完成分块的来源和已接纳候选 ID；开放式默认目标下，该批全部完成事实／查位调查并有独立合格结果时，Agent 可执行 `PRESENT_RESULTS`，即使同源仍保存后续入口。Tabelog 和 TableCheck 的受控正式组合均验证一家具备证据的短批展示、未读第六入口保留、无第二来源或第二分块调用。显式数量目标、未完成批次、HARD 事实缺失、错误库存和 `BOTH_BOUNDED_EMPTY` 规则未放宽。TableCheck Adapter 现被动记录页面已实际发出的同店`/available` GET；只有URL绑定精确东京日期、成人数和单一时段且返回明确`failure/data:null`时，才接纳该时段无位。一次30秒无模型 LAVAROCK 当前页探针读回了诊断输入的日期、2人和19:00，但没有该GET响应，提交控件仍禁用；因此仍为 **PENDING_SOURCE_EVIDENCE**，未产生库存、H001结果、模型调用或预约写。[库存证据边界](history/H001-NEXT-ITERATION-INVENTORY-EVIDENCE-2026-10-01.md)
+
+同次审查补齐固定来源 Runner 的报告契约：受控场景现在持久化`场景预期｜实际系统行为｜qualified user result｜是否符合预期`，并且不再只在动态 Tabelog 路径保存脱敏`browserDiagnostics`。这项代码通过静态和固定来源组合验证；尚未以付费模型运行新场景，故不把它当作模型链路证据。
 
 2026-10-01 **H001 查店与查询结果闭环的 A/B/C 修复及固定来源真实模型整链已完成。** 原生发现保留待处理入口、来源进度和查询词；刷新、分块和来源错误不会把同源调查归零。真实来源排序保持原列表顺序，不新增不可验证的排序层。TableCheck 保留已观察的同 ID 预约入口，Tabelog 只把明确 `CLOSED`／`FULL`／`PHONE_ONLY` 的目标日期视为受限；拒绝的 `COMPLETE` 会先完整重新观察。TableCheck 同店同请求的实时 DOM 链接可形成一条 Offer，错误日期仍拒绝。三条 DeepSeek 真实模型、固定来源运行分别验证了 TableCheck 发现交互后展示、动态 Tabelog 日期／人数操作后展示，以及两站有界空结果收尾；前两条独立评估为 qualified `YES`，空结果为 qualified `NO`。完整默认测试在宿主环境575/575，相关组合91/91、原生组合16/16、切片证据3/3，typecheck、arch、build与diff通过。**所有来源页面和 Google 响应均为固定数据；未运行 H001 Live、未读取当前库存、未写预约。** 按用户指令停止在固定来源真实模型阶段，等待 review。[完整记录](history/H001-ABC-REMEDIATION-2026-10-01.md)
 

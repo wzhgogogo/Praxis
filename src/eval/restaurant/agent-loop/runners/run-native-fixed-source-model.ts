@@ -11,11 +11,72 @@ import { GooglePlacesRestaurantSearch } from "../../../../integrations/google/go
 import { LiveBrowserAvailability } from "../../../../integrations/restaurant-availability/live-browser-availability.js";
 import { composeNativeRestaurantRead } from "../../../../integrations/restaurant-search/native-read-composition.js";
 import { diagnosticFailureCode, startDiagnosticRun } from "../../../shared/diagnostic-run.js";
-import { evaluateArtifactAfterFinish } from "../diagnostic-evaluator.js";
+import { evaluateArtifactAfterFinish, evaluateRestaurantHybridLiveArtifact } from "../diagnostic-evaluator.js";
 import { createHybridReadComposition } from "../hybrid-read-composition.js";
 import { loadFrozenLiveCases, RESTAURANT_READ_DEVELOPMENT_CASE_PATH } from "../live-case-materializer.js";
 import { center, dynamicTabelogSourcePages, reference, sourcePages, type SourceScenario } from "../native-fixed-source-pages.js";
 import { errorRecord, traceBrowserSession } from "./browser-case-slice-evidence.js";
+
+type ScenarioExpectation = Readonly<{
+  terminalPhase: "PRESENT_RESULTS" | "NO_VERIFIED_RESULT";
+  qualifiedUserResult: "YES" | "NO";
+  requiredSources: readonly ("TABELOG" | "TABLECHECK")[];
+  forbiddenSources?: readonly ("TABELOG" | "TABLECHECK")[];
+  zeroPresentedResults?: boolean;
+}>;
+
+const FIXED_SOURCE_RUNNER_SCENARIOS = [
+  "TABELOG_DELIVERS", "TABLECHECK_RECOVERS", "BOTH_BOUNDED_EMPTY", "TABLECHECK_CONTINUES",
+  "DYNAMIC_TABELOG_DELIVERS", "TABLECHECK_DISCOVERY_RECOVERS", "TABELOG_NONEMPTY_REGION_RECOVERS",
+  "TABELOG_CURRENT_BATCH_DELIVERS", "TABLECHECK_CURRENT_BATCH_DELIVERS",
+] as const;
+type FixedSourceRunnerScenario = typeof FIXED_SOURCE_RUNNER_SCENARIOS[number];
+
+const FIXED_SOURCE_SCENARIO_EXPECTATIONS: Readonly<Record<FixedSourceRunnerScenario, ScenarioExpectation>> = {
+  TABELOG_DELIVERS: { terminalPhase: "PRESENT_RESULTS", qualifiedUserResult: "YES", requiredSources: ["TABELOG"], forbiddenSources: ["TABLECHECK"] },
+  TABLECHECK_RECOVERS: { terminalPhase: "PRESENT_RESULTS", qualifiedUserResult: "YES", requiredSources: ["TABELOG", "TABLECHECK"] },
+  BOTH_BOUNDED_EMPTY: { terminalPhase: "NO_VERIFIED_RESULT", qualifiedUserResult: "NO", requiredSources: ["TABELOG", "TABLECHECK"], zeroPresentedResults: true },
+  TABLECHECK_CONTINUES: { terminalPhase: "PRESENT_RESULTS", qualifiedUserResult: "YES", requiredSources: ["TABELOG", "TABLECHECK"] },
+  DYNAMIC_TABELOG_DELIVERS: { terminalPhase: "PRESENT_RESULTS", qualifiedUserResult: "YES", requiredSources: ["TABELOG"], forbiddenSources: ["TABLECHECK"] },
+  TABLECHECK_DISCOVERY_RECOVERS: { terminalPhase: "PRESENT_RESULTS", qualifiedUserResult: "YES", requiredSources: ["TABELOG", "TABLECHECK"] },
+  TABELOG_NONEMPTY_REGION_RECOVERS: { terminalPhase: "PRESENT_RESULTS", qualifiedUserResult: "YES", requiredSources: ["TABELOG"], forbiddenSources: ["TABLECHECK"] },
+  TABELOG_CURRENT_BATCH_DELIVERS: { terminalPhase: "PRESENT_RESULTS", qualifiedUserResult: "YES", requiredSources: ["TABELOG"], forbiddenSources: ["TABLECHECK"] },
+  TABLECHECK_CURRENT_BATCH_DELIVERS: { terminalPhase: "PRESENT_RESULTS", qualifiedUserResult: "YES", requiredSources: ["TABELOG", "TABLECHECK"] },
+};
+
+function sourceUsage(navigations: readonly string[]) {
+  return {
+    tabelog: navigations.some((url) => new URL(url).hostname === "tabelog.com"),
+    tablecheck: navigations.some((url) => new URL(url).hostname === "www.tablecheck.com"),
+  };
+}
+
+function scenarioResult(
+  scenario: FixedSourceRunnerScenario,
+  status: "SUCCEEDED" | "FAILED" | "CANCELLED",
+  phase: string,
+  presentedCandidateIds: readonly string[],
+  navigations: readonly string[],
+  qualifiedUserResult: "YES" | "NO" | "UNKNOWN" | undefined,
+) {
+  const expectation = FIXED_SOURCE_SCENARIO_EXPECTATIONS[scenario];
+  const usage = sourceUsage(navigations);
+  const used = { TABELOG: usage.tabelog, TABLECHECK: usage.tablecheck } as const;
+  const sourcesMatch = expectation.requiredSources.every((source) => used[source])
+    && (expectation.forbiddenSources ?? []).every((source) => !used[source]);
+  const presentationMatches = !expectation.zeroPresentedResults || presentedCandidateIds.length === 0;
+  const meetsExpectation = status === "SUCCEEDED"
+    && phase === expectation.terminalPhase
+    && qualifiedUserResult === expectation.qualifiedUserResult
+    && sourcesMatch
+    && presentationMatches;
+  return {
+    scenarioExpectation: expectation,
+    actualSystemBehavior: { status, phase, presentedCandidateIds, sourceUsage: usage },
+    qualifiedUserResult: qualifiedUserResult ?? "UNKNOWN",
+    meetsScenarioExpectation: meetsExpectation,
+  };
+}
 
 function option(name: string): string {
   const index = process.argv.indexOf(name);
@@ -32,8 +93,9 @@ function boundedOption(name: string, maximum: number): number {
 if (process.env.PRAXIS_ALLOW_LIVE_MODEL_EVAL !== "1") throw new Error("Set PRAXIS_ALLOW_LIVE_MODEL_EVAL=1 for this paid fixed-source model run");
 if (!process.env.DEEPSEEK_API_KEY?.trim()) throw new Error("DEEPSEEK_API_KEY is required");
 if (option("--case") !== "h001") throw new Error("Only the frozen h001 request is registered for native fixed sources");
-const scenario = option("--scenario") as SourceScenario;
-if (!["TABELOG_DELIVERS", "TABLECHECK_RECOVERS", "BOTH_BOUNDED_EMPTY", "TABLECHECK_CONTINUES", "DYNAMIC_TABELOG_DELIVERS", "TABLECHECK_DISCOVERY_RECOVERS"].includes(scenario)) throw new Error("Unknown native fixed-source scenario");
+const scenarioInput = option("--scenario");
+if (!(FIXED_SOURCE_RUNNER_SCENARIOS as readonly string[]).includes(scenarioInput)) throw new Error("Unknown native fixed-source scenario");
+const scenario = scenarioInput as FixedSourceRunnerScenario;
 const maxModelCalls = boundedOption("--max-model-calls", 50);
 const maxSteps = boundedOption("--max-steps", 30);
 const timeoutMs = boundedOption("--timeout-ms", 300_000);
@@ -94,25 +156,33 @@ try {
   const snapshot = composition.runtime.snapshot(taskId);
   const status = loop?.status === "TERMINAL" && ["PRESENT_RESULTS", "NO_VERIFIED_RESULT"].includes(snapshot.domainState.phase) ? "SUCCEEDED"
     : loop?.status === "CANCELLED" || deadline.aborted ? "CANCELLED" : "FAILED";
-  await journal.finish({ schemaVersion: "1", mode: "FIXED_SOURCE_REAL_MODEL", status, stage: "AGENT_LOOP", caseId: "h001", runId: snapshot.runId,
+  const presentedCandidateIds = snapshot.domainState.presentedResults?.candidateIds ?? [];
+  const result = { schemaVersion: "1", mode: "FIXED_SOURCE_REAL_MODEL", status, stage: "AGENT_LOOP", caseId: "h001", runId: snapshot.runId,
     materializedCase: frozen, semantic, finalSnapshot: snapshot, trajectories: composition.trajectories.steps, events: composition.runtime.eventLog, loop,
     modelInvocations: invocations, sourceEnvironment: { network: "OFFLINE_FIXED_TRANSPORT", browser: dynamicSource ? "LOCAL_CHROMIUM_DYNAMIC_FIXED_PAGE" : "OFFLINE_FIXED_PAGES", scenario },
-    sourceTrace: { navigations, googleQueries, ...(dynamicSource ? { browserTrace, browserDiagnostics } : {}) }, runCeilings: { maxAutomaticBrowserMs: timeoutMs, maxAgentSteps: maxSteps, maxBrowserModelCallsTotal: maxModelCalls, maxModelCalls },
+    sourceTrace: { navigations, googleQueries, browserDiagnostics, ...(dynamicSource ? { browserTrace } : {}) }, runCeilings: { maxAutomaticBrowserMs: timeoutMs, maxAgentSteps: maxSteps, maxBrowserModelCallsTotal: maxModelCalls, maxModelCalls },
     resourceUsage: { elapsedMs: Date.now() - startedAt, modelCallsStarted: modelCalls, browserModelCalls: invocations.filter((item) => item.purpose === "browser_read_decide").length,
       agentDecisions: invocations.filter((item) => item.purpose === "restaurant_agent_decide").length, googleRequests: { total: googleQueries.length, namedPlaceResolution: googleQueries.length, discovery: 0, placeDetails: 0 } },
     safety: { policy: "READ_ONLY_CODE_PATH", externalSideEffectCount: 0 },
     execution: { status, loopStatus: loop?.status, phase: snapshot.domainState.phase },
+  } as const;
+  const preliminaryEvaluation = evaluateRestaurantHybridLiveArtifact(result, {
+    path: journal.resultPath,
+    sha256: createHash("sha256").update(JSON.stringify(result)).digest("hex"),
   });
-  const evaluation = await evaluateArtifactAfterFinish(journal.resultPath);
+  const report = scenarioResult(scenario, status, snapshot.domainState.phase, presentedCandidateIds, navigations,
+    preliminaryEvaluation.execution.taskProducedQualifiedResult);
+  await journal.finish({ ...result, ...report });
+  const finalizedEvaluation = await evaluateArtifactAfterFinish(journal.resultPath);
   console.log(JSON.stringify({ mode: "FIXED_SOURCE_REAL_MODEL", scenario, status, phase: snapshot.domainState.phase,
-    presentedCandidateIds: snapshot.domainState.presentedResults?.candidateIds ?? [], modelCalls, elapsedMs: Date.now() - startedAt,
-    sourceTrace: { navigations, googleQueries, ...(dynamicSource ? { browserTrace, browserDiagnostics } : {}) }, artifactPath: journal.resultPath, evaluationPath: evaluation.outputPath,
-    evaluationFailure: evaluation.evaluationFailure }, null, 2));
-  if (status !== "SUCCEEDED" || evaluation.evaluation?.execution.taskProducedQualifiedResult !== (scenario === "BOTH_BOUNDED_EMPTY" ? "NO" : "YES")) process.exitCode = 1;
+    presentedCandidateIds, modelCalls, elapsedMs: Date.now() - startedAt,
+    sourceTrace: { navigations, googleQueries, browserDiagnostics, ...(dynamicSource ? { browserTrace } : {}) }, artifactPath: journal.resultPath, evaluationPath: finalizedEvaluation.outputPath,
+    evaluationFailure: finalizedEvaluation.evaluationFailure, ...report }, null, 2));
+  if (!report.meetsScenarioExpectation) process.exitCode = 1;
 } catch (error) {
   const code = diagnosticFailureCode(error);
   await journal.finish({ status: code === "CANCELLED" ? "CANCELLED" : "FAILED", stage: "EXECUTION", failureCode: code,
-    modelInvocations: invocations, sourceTrace: { navigations, googleQueries, ...(dynamicSource ? { browserTrace, browserDiagnostics } : {}) }, elapsedMs: Date.now() - startedAt });
+    modelInvocations: invocations, sourceTrace: { navigations, googleQueries, browserDiagnostics, ...(dynamicSource ? { browserTrace } : {}) }, elapsedMs: Date.now() - startedAt });
   const evaluation = await evaluateArtifactAfterFinish(journal.resultPath);
   console.error(JSON.stringify({ failureCode: code, artifactPath: journal.resultPath, evaluationPath: evaluation.outputPath }));
   process.exitCode = 1;
