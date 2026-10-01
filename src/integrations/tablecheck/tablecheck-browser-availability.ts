@@ -692,20 +692,27 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         goal: { outlet: { name: candidate.restaurant.outletName, address: candidate.restaurant.address }, date: request.date, partySize: request.partySize, timeWindow: request.timeWindow, hardCriteria: request.hardCriteria },
         objective: "For the already identity-grounded outlet, set and verify the requested date, party size, and time window, then read the latest explicit public availability result. Do not submit a reservation.",
         methodReason: "The verifier has not yet established a completed availability result for the full Router-bound request.",
-        completion: (current, controls) => ({
-          complete: hasTableCheckBotChallenge(current)
-            || (hasTableCheckSelectedRequest(current, request.date, request.partySize, controls) && (() => {
-              const result = parseTableCheckAvailabilitySlots(current, { date: request.date, partySize: request.partySize, timeWindow: request.timeWindow });
-              return result.queryComplete && (
-                result.availableSlots.some((slot) => slot >= request.timeWindow.earliest && slot <= request.timeWindow.latest)
-                || result.explicitlyEmpty
-                || result.hasExplicitSlotUi
-              );
-            })()),
-          reason: hasTableCheckSelectedRequest(current, request.date, request.partySize, controls)
-            ? "Date and party are selected, but no completed result supports the requested time window. If the mealtime differs, open the observed time combobox and choose a time inside the goal window; otherwise wait for its result."
-            : "The latest page must explicitly confirm the complete authoritative date and party size before any result can be used.",
-        }),
+        completion: (current, controls) => {
+          const selected = hasTableCheckSelectedRequest(current, request.date, request.partySize, controls);
+          const html = parseTableCheckAvailabilitySlots(current, { date: request.date, partySize: request.partySize, timeWindow: request.timeWindow });
+          // Some TableCheck pages render the public, request-bound result only
+          // as live controls. Evaluate that evidence at completion as well as
+          // during final grounding, otherwise a correct DOM-only slot is
+          // rejected before the Domain can inspect it.
+          const live = parseTableCheckControlAvailability(controls, request.date, request.partySize, current.url, request.timeWindow);
+          const requestConfirmed = selected || live.queryComplete;
+          const htmlComplete = html.queryComplete && (
+            html.availableSlots.some((slot) => slot >= request.timeWindow.earliest && slot <= request.timeWindow.latest)
+            || html.explicitlyEmpty
+            || html.hasExplicitSlotUi
+          );
+          return {
+            complete: hasTableCheckBotChallenge(current) || (requestConfirmed && (htmlComplete || live.queryComplete)),
+            reason: requestConfirmed
+              ? "Date and party are selected, but no completed result supports the requested time window. If the mealtime differs, open the observed time combobox and choose a time inside the goal window; otherwise wait for its result."
+              : "The latest page must explicitly confirm the complete authoritative date and party size before any result can be used.",
+          };
+        },
         shortcut: {
           name: "OBSERVED_STANDARD_DATE_PARTY_FIELDS",
           run: async (current) => {

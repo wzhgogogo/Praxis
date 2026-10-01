@@ -227,6 +227,18 @@ test("TableCheck accepts a source-owned reservation page on a distinct shops rou
   assert.equal(resolveTableCheckReservationTarget(snapshot(guide, "https://example.com/en/shops/cytokyo-lavarock/reserve"), outlet), undefined);
 });
 
+test("TableCheck retains an observed same-entity shops reservation entrance when guide JSON-LD omits acceptsReservations", () => {
+  const outlet = { sourceEntityId: "restaurant1", sourceUrl: "https://www.tablecheck.com/en/restaurant1", outletName: "Restaurant 1" };
+  const page: BrowserSnapshot = {
+    url: outlet.sourceUrl, title: outlet.outletName, text: "Book a table",
+    html: '<a href="/en/shops/restaurant1/reserve">Book a table</a><a href="/en/shops/other-branch/reserve">Other branch</a>',
+  };
+  assert.deepEqual(resolveTableCheckReservationTarget(page, outlet), {
+    kind: "LINKED_PAGE", url: "https://www.tablecheck.com/en/shops/restaurant1/reserve",
+  });
+  assert.equal(resolveTableCheckReservationTarget({ ...page, html: '<a href="/en/shops/other-branch/reserve">Other branch</a>' }, outlet), undefined);
+});
+
 test("TableCheck identity uses exact phone or name and full address, never name alone", () => {
   const snapshot: BrowserSnapshot = {
     url: "https://www.tablecheck.com/en/restaurant1",
@@ -1088,7 +1100,7 @@ test("TableCheck guide empty result is bound to one ready widget and exact selec
   }
 });
 
-test("TableCheck does not accept live control evidence after an incomplete model COMPLETE", async () => {
+test("TableCheck accepts a correct realtime control slot and rejects its wrong-date counterpart", async () => {
   for (const date of [request.date, "2099-01-01"]) {
     const session = new FixtureBrowserSession([
       discoveryPage({href:"/en/restaurant1",text:"Restaurant 1"}),
@@ -1098,8 +1110,8 @@ test("TableCheck does not accept live control evidence after an incomplete model
     const executor = new BrowserTaskExecutor({openSession:async()=>session},{modelDecision:{async decide(){return {type:"COMPLETE",reason:"Hand back observed controls for verification"}}}});
     try {
       const result = await new TableCheckBrowserAvailability(executor).check(request,new AbortController().signal);
-      assert.equal(result.offers.length,0);
-      assert.equal(result.availabilityChecks[request.candidateIds[0]!]?.status,"UNKNOWN");
+      assert.equal(result.offers.length, date === request.date ? 1 : 0);
+      assert.equal(result.availabilityChecks[request.candidateIds[0]!]?.status, date === request.date ? "AVAILABLE" : "UNKNOWN");
     } finally {await executor.close()}
   }
 });

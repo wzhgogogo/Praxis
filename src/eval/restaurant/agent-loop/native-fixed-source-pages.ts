@@ -1,4 +1,4 @@
-import type { BrowserRuntime, BrowserSession, BrowserSnapshot } from "../../../infrastructure/browser/browser-runtime.js";
+import type { BrowserPageControl, BrowserRuntime, BrowserSession, BrowserSnapshot } from "../../../infrastructure/browser/browser-runtime.js";
 import { chromium } from "playwright-core";
 import { LocalPlaywrightChromium } from "../../../infrastructure/browser/local-playwright-chromium.js";
 
@@ -7,7 +7,7 @@ export const center = { latitude: 35.6619707, longitude: 139.703795 };
 export const date = "2026-08-19";
 
 export type SourceScenario = "TABELOG_DELIVERS" | "TABLECHECK_RECOVERS" | "BOTH_BOUNDED_EMPTY" | "OUTSIDE_RADIUS" | "TABELOG_ONE_DETAIL_FAILS" | "EARLY_END_ATTEMPT"
-  | "TABELOG_CONTINUES" | "TABLECHECK_CONTINUES" | "NATIVE_PARTIAL" | "NATIVE_TRUE_NO_RESULT" | "TABLECHECK_UNPARSED" | "TABLECHECK_EARLY_ACTIONS" | "TABELOG_BATCH_CAP" | "DYNAMIC_TABELOG_DELIVERS";
+  | "TABELOG_CONTINUES" | "TABLECHECK_CONTINUES" | "NATIVE_PARTIAL" | "NATIVE_TRUE_NO_RESULT" | "TABLECHECK_UNPARSED" | "TABLECHECK_EARLY_ACTIONS" | "TABELOG_BATCH_CAP" | "DYNAMIC_TABELOG_DELIVERS" | "TABLECHECK_DISCOVERY_RECOVERS" | "TABELOG_REGION_PRESERVES_QUERY" | "TABELOG_PENDING_RESTORED";
 
 function page(url: string, html: string, text: string, title = "Restaurant"): BrowserSnapshot { return { url, html, text, title }; }
 
@@ -16,7 +16,8 @@ class NativeFixtureSession implements BrowserSession {
   private current?: BrowserSnapshot;
   private navigationUnusable = false;
   constructor(private readonly lookup: (url: string) => BrowserSnapshot, private readonly navigations: string[],
-    private readonly sessionId: number, private readonly navigationSessionIds?: number[], private readonly closedSessionIds?: number[]) {}
+    private readonly sessionId: number, private readonly navigationSessionIds?: number[], private readonly closedSessionIds?: number[],
+    private readonly onReadOnlyClick?: () => void) {}
   async navigate(url: string): Promise<void> {
     if (this.navigationUnusable) throw Object.assign(new Error("Prior navigation is still unresolved"), { code: "BROWSER_TIMEOUT" });
     this.navigations.push(url);
@@ -24,7 +25,28 @@ class NativeFixtureSession implements BrowserSession {
     try { this.current = this.lookup(url); } catch (error) { this.navigationUnusable = true; throw error; }
   }
   async snapshot(): Promise<BrowserSnapshot> { if (!this.current) throw new Error("No source page navigated"); return this.current; }
-  async click(): Promise<void> { throw new Error("No model-controlled click is expected in fixed source pages"); }
+  async observeControls(): Promise<BrowserPageControl[]> {
+    if (!this.current) return [];
+    const controls: BrowserPageControl[] = [];
+    for (const match of this.current.html.matchAll(/<button\b([^>]*)>([\s\S]*?)<\/button>/gi)) {
+      const attrs = match[1] ?? "";
+      const label = (match[2] ?? "").replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+      const type = attrs.match(/\btype=["']([^"']+)/i)?.[1];
+      controls.push({
+        id: `native:${this.sessionId}:button:${controls.length}`,
+        stableKey: `button|${label}|${controls.length}`,
+        kind: "BUTTON", role: "button", label,
+        ...(type ? { type } : {}),
+        disabled: /\bdisabled\b|aria-disabled=["']true/i.test(attrs), visible: true,
+      });
+    }
+    return controls;
+  }
+  async click(): Promise<void> {
+    if (!this.onReadOnlyClick || !this.current) throw new Error("No model-controlled click is expected in fixed source pages");
+    this.onReadOnlyClick();
+    this.current = this.lookup(this.current.url);
+  }
   async fill(): Promise<void> { throw new Error("No model-controlled fill is expected in fixed source pages"); }
   async select(_target: string, value: string): Promise<string[]> { return [value]; }
   async waitFor(): Promise<void> {}
@@ -33,22 +55,30 @@ class NativeFixtureSession implements BrowserSession {
 }
 
 export function sourcePages(scenario: SourceScenario, navigations: string[], sessionsOpened?: number[], navigationSessionIds?: number[], closedSessionIds?: number[]) {
+  let tableCheckDiscoveryRevealed = false;
+  let tabelogListingVisits = 0;
   const tabelogCount = scenario === "TABELOG_DELIVERS" || scenario === "TABELOG_ONE_DETAIL_FAILS" || scenario === "TABELOG_CONTINUES" ? 3
-    : scenario === "TABELOG_BATCH_CAP" ? 6
+    : scenario === "TABELOG_BATCH_CAP" || scenario === "TABELOG_PENDING_RESTORED" ? 6
+    : scenario === "TABELOG_REGION_PRESERVES_QUERY" ? 1
     : scenario === "NATIVE_PARTIAL" || scenario === "TABLECHECK_CONTINUES" || scenario === "NATIVE_TRUE_NO_RESULT" || scenario === "TABLECHECK_EARLY_ACTIONS" ? 2
     : scenario === "TABLECHECK_RECOVERS" || scenario === "OUTSIDE_RADIUS" ? 1 : 0;
   const tablecheckCount = scenario === "TABLECHECK_RECOVERS" ? 3
     : scenario === "TABLECHECK_CONTINUES" || scenario === "TABLECHECK_EARLY_ACTIONS" ? 2 : scenario === "NATIVE_TRUE_NO_RESULT" ? 1
-    : scenario === "OUTSIDE_RADIUS" ? 1 : 0;
+    : scenario === "OUTSIDE_RADIUS" || scenario === "TABLECHECK_DISCOVERY_RECOVERS" ? 1 : 0;
   const sourcePoint = scenario === "OUTSIDE_RADIUS" ? { latitude: 35.75, longitude: 139.80 } : center;
   const lookup = (url: string): BrowserSnapshot => {
     const parsed = new URL(url);
     if (parsed.hostname === "tabelog.com" && parsed.pathname.includes("/rstLst/")) {
-      const links = Array.from({ length: tabelogCount }, (_, index) => {
+      tabelogListingVisits += 1;
+      if (scenario === "TABELOG_REGION_PRESERVES_QUERY" && tabelogListingVisits === 1) {
+        return page(url, '<a href="/en/tokyo/A1303/A130301/rstLst/">Shibuya</a>', "Choose Shibuya", "Tabelog search");
+      }
+      const count = scenario === "TABELOG_PENDING_RESTORED" && tabelogListingVisits > 1 ? 0 : tabelogCount;
+      const links = Array.from({ length: count }, (_, index) => {
         const id = 100 + index;
         return `<a class="list-rst__rst-name-target" href="/tokyo/A1304/A130401/${id}/" data-address="Shibuya ${id}, Tokyo">Native Tabelog ${id}</a>`;
       }).join("");
-      return page(url, links, tabelogCount ? "Restaurants" : "No restaurants found", "Tabelog search");
+      return page(url, links, count ? "Restaurants" : "No restaurants found", "Tabelog search");
     }
     const tabelogId = parsed.pathname.match(/^\/tokyo\/A1304\/A130401\/(\d+)\/$/)?.[1];
     if (tabelogId) {
@@ -69,6 +99,9 @@ export function sourcePages(scenario: SourceScenario, navigations: string[], ses
     }
     if (parsed.hostname === "www.tablecheck.com" && parsed.pathname === "/en/japan/search") {
       if (scenario === "TABLECHECK_UNPARSED") return page(url, '<a href="/en/search">Search</a>', "Search results loading", "TableCheck search");
+      if (scenario === "TABLECHECK_DISCOVERY_RECOVERS" && !tableCheckDiscoveryRevealed) {
+        return page(url, '<button type="button">Show public venues</button>', "Search filters ready", "TableCheck search");
+      }
       const links = Array.from({ length: tablecheckCount }, (_, index) => `<a href="/en/native-omakase-${index + 1}">Native TableCheck ${index + 1}</a>`).join("");
       return page(url, links, tablecheckCount ? `${tablecheckCount} venues found` : "No venues found", "TableCheck search");
     }
@@ -76,7 +109,7 @@ export function sourcePages(scenario: SourceScenario, navigations: string[], ses
     if (tablecheckId) {
       const name = `Native TableCheck ${tablecheckId}`;
       const address = `Shibuya ${tablecheckId}, Tokyo`;
-      const available = scenario === "TABLECHECK_RECOVERS" || scenario === "TABLECHECK_EARLY_ACTIONS" || (scenario === "TABLECHECK_CONTINUES" && tablecheckId === "2");
+      const available = scenario === "TABLECHECK_RECOVERS" || scenario === "TABLECHECK_EARLY_ACTIONS" || scenario === "TABLECHECK_DISCOVERY_RECOVERS" || (scenario === "TABLECHECK_CONTINUES" && tablecheckId === "2");
       return page(url, [
         `<script type="application/ld+json">${JSON.stringify({ "@type": "Restaurant", name, address, geo: sourcePoint })}</script>`,
         `<link rel="canonical" href="${url}"><h1>${name}</h1><p class="address">${address}</p>`,
@@ -90,7 +123,8 @@ export function sourcePages(scenario: SourceScenario, navigations: string[], ses
   const runtime: BrowserRuntime = { openSession: async () => {
     const sessionId = (sessionsOpened?.length ?? 0) + 1;
     sessionsOpened?.push(sessionId);
-    return new NativeFixtureSession(lookup, navigations, sessionId, navigationSessionIds, closedSessionIds);
+    return new NativeFixtureSession(lookup, navigations, sessionId, navigationSessionIds, closedSessionIds,
+      scenario === "TABLECHECK_DISCOVERY_RECOVERS" ? () => { tableCheckDiscoveryRevealed = true; } : undefined);
   } };
   return runtime;
 }

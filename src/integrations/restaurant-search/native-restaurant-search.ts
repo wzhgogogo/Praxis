@@ -5,12 +5,17 @@ import { restaurantSearchIntentFingerprint, type RestaurantCandidate, type Resta
 import { googleDiscoveryGeoDiagnostics } from "../../domains/restaurant/read-grounding.js";
 import type { BrowserRuntime, BrowserSession, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
 import { BrowserTaskExecutor } from "../../infrastructure/browser/browser-task-executor.js";
+import type { BrowserExecutionBudget, BrowserExecutionDiagnostic } from "../../infrastructure/browser/browser-task-executor.js";
+import type { BrowserReadActionDecisionPort } from "../../infrastructure/browser/browser-action-decision.js";
 import { GooglePlacesRestaurantSearch } from "../google/google-places-restaurant-search.js";
 import { hasBotChallenge, parseTabelogOutletIdentityWithEvidence, parseTabelogSearchOutlets } from "../tabelog/tabelog-page-parser.js";
 import { hasTableCheckBotChallenge, hasTableCheckDiscoveryNoResult, inspectTableCheckPageUnavailable, parseTableCheckDiscoveryOutletUrls, parseTableCheckOutletIdentityWithEvidence } from "../tablecheck/tablecheck-page-parser.js";
 
 type Location = NonNullable<NonNullable<RestaurantSearchRequest["continuation"]>["locationContext"]>;
 type Source = "TABELOG" | "TABLECHECK";
+type NativeSourceProgress = NonNullable<RestaurantSearchRequest["continuation"]>["nativeSourceProgress"] extends infer Progress
+  ? NonNullable<Progress> : never;
+type PendingSourceEntry = NonNullable<NativeSourceProgress["pendingSourceEntries"]>[number];
 /** One read chunk.  It is not a statement that the source has been exhausted. */
 const NATIVE_DETAIL_BATCH_CAP = 5;
 /** Keep the second source and final presentation within the existing run budget. */
@@ -58,6 +63,35 @@ function rawSourceLinks(page: BrowserSnapshot, source: Source): number {
 
 function areaLabel(value: string): string {
   return value.replace(/\b(?:near|nearby)\b|附近|周辺|周边/giu, " ").replace(/^[\s,，]+|[\s,，]+$/gu, "").trim();
+}
+
+function pendingEntry(
+  sourceEntityId: string,
+  sourceUrl: string,
+  observedAt: string,
+  fields: { outletName?: string; address?: string; phone?: string } = {},
+): PendingSourceEntry {
+  return { sourceEntityId, sourceUrl, observedAt, ...fields };
+}
+
+function retainedPendingEntries(
+  source: Source,
+  priorProgress: NativeSourceProgress | undefined,
+): PendingSourceEntry[] {
+  if (priorProgress?.source !== source) return [];
+  const entries = priorProgress.pendingSourceEntries ?? priorProgress.pendingSourceIds.map((sourceEntityId) => ({
+    sourceEntityId,
+    sourceUrl: "",
+    observedAt: "",
+  }));
+  return entries.filter((entry) => {
+    try {
+      const url = new URL(entry.sourceUrl);
+      return source === "TABELOG" ? url.origin === "https://tabelog.com" : url.origin === "https://www.tablecheck.com";
+    } catch {
+      return false;
+    }
+  });
 }
 
 function observedTabelogRegion(page: BrowserSnapshot, label: string): string | undefined {
@@ -151,6 +185,9 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
     private readonly locality: GooglePlacesRestaurantSearch,
     private readonly now: () => string = () => new Date().toISOString(),
     private readonly evaluationLocation?: { latitude: number; longitude: number; radiusMeters: number; label: string },
+    private readonly discoveryDecision?: BrowserReadActionDecisionPort,
+    private readonly browserBudget?: BrowserExecutionBudget,
+    private readonly onBrowserDiagnostic?: (diagnostic: BrowserExecutionDiagnostic) => void,
   ) {}
 
   googleRequestUsage(readRunId: string | undefined) { return this.locality.googleRequestUsage(readRunId); }
@@ -189,9 +226,16 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
     const deferredByBatchCap: Array<{ sourceUrl: string; reasonCode: "DETAIL_BATCH_CAP" }> = [];
     const priorInspected = new Set(priorProgress?.source === source ? priorProgress.inspectedSourceIds : []);
     const sourceDetailAttemptsBefore = priorProgress?.source === source ? priorProgress.detailAttempts : 0;
+    const sourcePagesBefore = priorProgress?.source === source ? priorProgress.pagesRead : 0;
     const sourceElapsedBefore = priorProgress?.source === source ? priorProgress.elapsedMs ?? 0 : 0;
     const sourceElapsedRemaining = Math.max(0, NATIVE_SOURCE_ELAPSED_CAP_MS - sourceElapsedBefore);
-    const executor = new BrowserTaskExecutor(this.runtime, { maxElapsedMsPerCandidate: Math.max(1, sourceElapsedRemaining) });
+    const retainedEntries = retainedPendingEntries(source, priorProgress);
+    const executor = new BrowserTaskExecutor(this.runtime, {
+      maxElapsedMsPerCandidate: Math.max(1, sourceElapsedRemaining),
+      ...(this.discoveryDecision ? { modelDecision: this.discoveryDecision } : {}),
+      ...(this.browserBudget ? { budget: this.browserBudget } : {}),
+      ...(this.onBrowserDiagnostic ? { onDiagnostic: this.onBrowserDiagnostic } : {}),
+    });
     executor.beginCandidate(`native-discovery:${source}`);
     const allowedOrigins = source === "TABELOG" ? ["https://tabelog.com"] : ["https://www.tablecheck.com"];
     const navigate = async (url: string, timeoutMs: number) => executor.navigate({
@@ -200,7 +244,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
     const snapshot = async () => executor.snapshot({ source, stage: "DISCOVERY", signal, session: session! });
     const waitFor = async (selector: string, timeoutMs: number) => executor.waitFor({ source, stage: "DISCOVERY", signal, session: session!, selector, timeoutMs });
     let inspectedSourceIds = [...priorInspected];
-    let pendingSourceIds: string[] = [];
+    let pendingSourceEntries: PendingSourceEntry[] = [...retainedEntries];
     let raw = 0;
     let parsed = 0;
     let inspected = 0;
@@ -219,12 +263,19 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
       progressionReason: failed ? "SOURCE_FAILURE" as const : source === "TABELOG" ? "FIRST_SOURCE_BATCH" as const : "FIRST_SOURCE_BATCH_ENDED" as const });
     try {
       if (sourceTimeLimitReached) {
-        pendingSourceIds = priorProgress?.source === source ? [...priorProgress.pendingSourceIds] : [];
         sourceEnded = true;
         return { candidates: [], evidence: [], candidateFailures,
           progress: { source, inspectedSourceIds: [...new Set(inspectedSourceIds)], detailAttempts: sourceDetailAttemptsBefore,
-            pagesRead: priorProgress?.source === source ? priorProgress.pagesRead : 0, elapsedMs: sourceElapsedBefore,
-            pendingSourceIds: [...new Set(pendingSourceIds)] },
+            pagesRead: sourcePagesBefore, elapsedMs: sourceElapsedBefore,
+            pendingSourceEntries: [...new Map(pendingSourceEntries.map((entry) => [entry.sourceEntityId, entry])).values()],
+            pendingSourceIds: [...new Set(pendingSourceEntries.map((entry) => entry.sourceEntityId))] },
+          funnel: funnel() };
+      }
+      if (sourcePagesBefore >= NATIVE_LISTING_PAGE_CAP[source] && retainedEntries.length === 0) {
+        sourceEnded = true;
+        return { candidates: [], evidence: [], candidateFailures,
+          progress: { source, inspectedSourceIds: [...new Set(inspectedSourceIds)], detailAttempts: sourceDetailAttemptsBefore,
+            pagesRead: sourcePagesBefore, elapsedMs: sourceElapsedBefore, pendingSourceEntries: [], pendingSourceIds: [] },
           funnel: funnel() };
       }
       session = await this.runtime.openSession({ signal });
@@ -242,21 +293,59 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
         for (let level = 0; level < NATIVE_LISTING_PAGE_CHUNK_CAP.TABELOG - 1; level += 1) {
           const region = observedTabelogRegion(page, label);
           if (!region || region === page.url) break;
-          await navigate(region, 25_000);
+          // Area navigation is source-owned, but an observed region link may
+          // omit the active text query. Preserve the authoritative retrieval
+          // term rather than silently changing the result set mid-search.
+          const regionUrl = new URL(region);
+          if (!regionUrl.searchParams.has("sw")) regionUrl.searchParams.set("sw", keyword);
+          await navigate(regionUrl.toString(), 25_000);
           page = await snapshot();
           listingPagesRead += 1;
           raw = rawSourceLinks(page, source);
           if (hasBotChallenge(page)) throw Object.assign(new Error("Tabelog source challenge"), { code: "TABELOG_BOT_CHALLENGE" });
           if (normalized(page.url).includes(normalized(label)) && parseTabelogSearchOutlets(page).length) break;
         }
-        const outlets = parseTabelogSearchOutlets(page);
+        let observedOutlets = parseTabelogSearchOutlets(page);
+        if (!observedOutlets.length && !/\b(?:no|0)\s+(?:restaurants?|results?)\s+(?:found|match(?:es)?)/i.test(page.text)) {
+          const discovery = await executor.runSkill({
+            taskId: `browser-read:native-discovery:${source}`,
+            source,
+            stage: "DISCOVERY",
+            session: session!,
+            signal,
+            allowedOrigins,
+            goal: { outlet: { name: keyword, address: request.intent.area.query }, hardCriteria: request.intent.criteria.filter((item) => item.polarity === "POSITIVE" && item.strength === "HARD").map((item) => item.text) },
+            objective: "Apply the current source search and reveal its public restaurant results for the authoritative area and retrieval terms. Do not submit a reservation.",
+            methodReason: "The Tabelog listing has not yet produced a parsed public restaurant result or an explicit empty result.",
+            completion: (current) => {
+              const complete = parseTabelogSearchOutlets(current).length > 0
+                || /\b(?:no|0)\s+(?:restaurants?|results?)\s+(?:found|match(?:es)?)/i.test(current.text);
+              return { complete, reason: "Reveal a current public restaurant result list or wait for an explicit empty listing state." };
+            },
+          });
+          page = discovery.snapshot;
+          observedOutlets = parseTabelogSearchOutlets(page);
+        }
+        const retainedOutlets = retainedEntries.map((entry) => ({
+          sourceEntityId: entry.sourceEntityId,
+          sourceUrl: entry.sourceUrl,
+          outletName: entry.outletName ?? entry.sourceEntityId,
+          ...(entry.address ? { address: entry.address } : {}),
+          ...(entry.phone ? { phone: entry.phone } : {}),
+        }));
+        // Keep an observed detail entrance ahead of a newly rendered list. A
+        // reordered list is not evidence that the earlier entrance vanished.
+        const outlets = [...new Map([...retainedOutlets, ...observedOutlets].map((outlet) => [outlet.sourceEntityId, outlet])).values()];
         raw = rawSourceLinks(page, source);
         parsed = outlets.length;
         const remainingDetailBudget = Math.max(0, NATIVE_DETAIL_SOURCE_CAP - sourceDetailAttemptsBefore);
         const unseenOutlets = outlets.filter((outlet) => !priorInspected.has(outlet.sourceEntityId));
         const chunk = unseenOutlets.slice(0, Math.min(NATIVE_DETAIL_BATCH_CAP, remainingDetailBudget));
         const pendingOutlets = unseenOutlets.slice(chunk.length);
-        pendingSourceIds = pendingOutlets.map((outlet) => outlet.sourceEntityId);
+        pendingSourceEntries = pendingOutlets.map((outlet) => pendingEntry(
+          outlet.sourceEntityId, outlet.sourceUrl, this.now(),
+          { outletName: outlet.outletName, ...(outlet.address ? { address: outlet.address } : {}), ...(outlet.phone ? { phone: outlet.phone } : {}) },
+        ));
         batchLimitReached = pendingOutlets.length > 0 && remainingDetailBudget > chunk.length;
         sourceEnded = pendingOutlets.length === 0 || remainingDetailBudget === 0 || chunk.length === remainingDetailBudget;
         sourceExhausted = pendingOutlets.length ? false : !raw && /\b(?:no|0)\s+(?:restaurants?|results?)\s+(?:found|match(?:es)?)/i.test(page.text) ? true : "UNKNOWN";
@@ -327,6 +416,28 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
           raw = rawSourceLinks(page, source);
           links = parseTableCheckDiscoveryOutletUrls(page, "");
         }
+        if (!links.length && !hasTableCheckDiscoveryNoResult(page) && !inspectTableCheckPageUnavailable(page).pageUnavailable) {
+          const discovery = await executor.runSkill({
+            taskId: `browser-read:native-discovery:${source}`,
+            source,
+            stage: "DISCOVERY",
+            session: session!,
+            signal,
+            allowedOrigins,
+            goal: { outlet: { name: keyword ?? request.intent.target?.query ?? "restaurant", address: request.intent.area.query }, hardCriteria: request.intent.criteria.filter((item) => item.polarity === "POSITIVE" && item.strength === "HARD").map((item) => item.text) },
+            objective: "Apply the current TableCheck search and reveal public venue result cards for the authoritative area and retrieval terms. Do not submit a reservation.",
+            methodReason: "The TableCheck listing has not yet produced a parsed public venue result or an explicit empty result.",
+            completion: (current) => {
+              const complete = parseTableCheckDiscoveryOutletUrls(current, "").length > 0 || hasTableCheckDiscoveryNoResult(current);
+              return { complete, reason: "Reveal a current public venue result list or wait for an explicit empty listing state." };
+            },
+          });
+          page = discovery.snapshot;
+          raw = rawSourceLinks(page, source);
+          links = parseTableCheckDiscoveryOutletUrls(page, "");
+        }
+        const retainedLinks = retainedEntries.map((entry) => entry.sourceUrl);
+        links = [...new Map([...retainedLinks, ...links].map((link) => [link, link])).values()];
         parsed = links.length;
         if (hasTableCheckBotChallenge(page) || inspectTableCheckPageUnavailable(page).pageUnavailable) {
           throw Object.assign(new Error("TableCheck search page unavailable"), { code: "TABLECHECK_PAGE_UNAVAILABLE" });
@@ -344,7 +455,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
         const unseenLinks = links.filter((link) => !priorInspected.has(sourceId(link)));
         const chunk = unseenLinks.slice(0, Math.min(NATIVE_DETAIL_BATCH_CAP, remainingDetailBudget));
         const pendingLinks = unseenLinks.slice(chunk.length);
-        pendingSourceIds = pendingLinks.map(sourceId);
+        pendingSourceEntries = pendingLinks.map((link) => pendingEntry(sourceId(link), link, this.now()));
         batchLimitReached = pendingLinks.length > 0 && remainingDetailBudget > chunk.length;
         sourceEnded = pendingLinks.length === 0 || remainingDetailBudget === 0 || chunk.length === remainingDetailBudget;
         sourceExhausted = pendingLinks.length ? false : !raw && hasTableCheckDiscoveryNoResult(page) ? true : "UNKNOWN";
@@ -402,10 +513,22 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
         progress: { source, inspectedSourceIds: [...new Set(inspectedSourceIds)], detailAttempts: sourceDetailAttemptsBefore + inspected,
           pagesRead: (priorProgress?.source === source ? priorProgress.pagesRead : 0) + listingPagesRead,
           elapsedMs: sourceElapsedMs(),
-          pendingSourceIds: [...new Set(pendingSourceIds)] },
+          pendingSourceEntries: [...new Map(pendingSourceEntries.map((entry) => [entry.sourceEntityId, entry])).values()],
+          pendingSourceIds: [...new Set(pendingSourceEntries.map((entry) => entry.sourceEntityId))] },
         funnel: funnel() };
     } catch (error) {
-      if (error && typeof error === "object") Object.assign(error, { nativeFunnel: funnel(true) });
+      if (error && typeof error === "object") Object.assign(error, {
+        nativeFunnel: funnel(true),
+        nativeProgress: {
+          source,
+          inspectedSourceIds: [...new Set(inspectedSourceIds)],
+          detailAttempts: sourceDetailAttemptsBefore + inspected,
+          pagesRead: sourcePagesBefore + listingPagesRead,
+          elapsedMs: sourceElapsedMs(),
+          pendingSourceEntries: [...new Map(pendingSourceEntries.map((entry) => [entry.sourceEntityId, entry])).values()],
+          pendingSourceIds: [...new Set(pendingSourceEntries.map((entry) => entry.sourceEntityId))],
+        },
+      });
       throw error;
     } finally {
       if (session) await session.close();
@@ -419,7 +542,15 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
     const source: Source = request.continuation?.nativeStage === "TABELOG_DONE" ? "TABLECHECK" : "TABELOG";
     if (request.continuation?.nativeStage === "TABLECHECK_DONE") throw new Error("Native source batches are exhausted");
     let batch: Awaited<ReturnType<NativeRestaurantSearch["batch"]>> = { candidates: [], evidence: [], candidateFailures: [],
-      progress: { source, inspectedSourceIds: [], detailAttempts: 0, pagesRead: 0, elapsedMs: 0, pendingSourceIds: [] },
+      progress: {
+        source,
+        inspectedSourceIds: request.continuation?.nativeSourceProgress?.source === source ? [...request.continuation.nativeSourceProgress.inspectedSourceIds] : [],
+        detailAttempts: request.continuation?.nativeSourceProgress?.source === source ? request.continuation.nativeSourceProgress.detailAttempts : 0,
+        pagesRead: request.continuation?.nativeSourceProgress?.source === source ? request.continuation.nativeSourceProgress.pagesRead : 0,
+        elapsedMs: request.continuation?.nativeSourceProgress?.source === source ? request.continuation.nativeSourceProgress.elapsedMs ?? 0 : 0,
+        pendingSourceEntries: retainedPendingEntries(source, request.continuation?.nativeSourceProgress),
+        pendingSourceIds: request.continuation?.nativeSourceProgress?.source === source ? [...request.continuation.nativeSourceProgress.pendingSourceIds] : [],
+      },
       funnel: { source, rawSourceLinks: 0, parsedOutlets: 0, inspectedOutlets: 0, batchCap: NATIVE_DETAIL_BATCH_CAP, sourceDetailCap: NATIVE_DETAIL_SOURCE_CAP, sourceDetailAttempts: 0, deferredByBatchCap: [], rejected: [], accepted: 0,
         sourcePageCap: NATIVE_LISTING_PAGE_CAP[source], sourceElapsedCapMs: NATIVE_SOURCE_ELAPSED_CAP_MS, sourceElapsedMs: 0, sourceTimeLimitReached: false,
         pagesRead: 0, batchLimitReached: false, sourceExhausted: "UNKNOWN", batchEnded: true, sourceEnded: true,
@@ -430,7 +561,14 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
     } catch (error) {
       if (taskLevelFailure(error, signal)) throw error;
       if (error && typeof error === "object" && "nativeFunnel" in error && error.nativeFunnel) {
-        batch = { ...batch, funnel: error.nativeFunnel as typeof batch.funnel };
+        // A source-level parser/navigation failure is not a completed empty
+        // batch and must not reopen the same source with zeroed progress.
+        // Preserve its cursor for diagnosis while allowing the fixed source
+        // sequence to move on (or finish with an explicit failure).
+        batch = { ...batch, funnel: { ...(error.nativeFunnel as typeof batch.funnel), sourceEnded: true } };
+      }
+      if (error && typeof error === "object" && "nativeProgress" in error && error.nativeProgress) {
+        batch = { ...batch, progress: error.nativeProgress as typeof batch.progress };
       }
       failureCode = error && typeof error === "object" && "code" in error && typeof error.code === "string"
         ? error.code : `${source}_NATIVE_DISCOVERY_FAILED`;
@@ -447,7 +585,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
         ...(nativeStage ? { nativeStage } : {}),
         usedPageTokens: [], pagesRead: (request.continuation?.pagesRead ?? 0) + batch.funnel.pagesRead,
         exhausted: source === "TABLECHECK" && sourceEnded,
-        ...(!sourceEnded ? { nativeSourceProgress: batch.progress } : {}),
+        ...(!sourceEnded || failureCode ? { nativeSourceProgress: batch.progress } : {}),
         ...(failureCode ? { lastFailureCode: failureCode } : {}),
         locationContext: location,
       },

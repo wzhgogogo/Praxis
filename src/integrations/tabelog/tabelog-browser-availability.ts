@@ -552,8 +552,9 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
         });
         page = await this.executor.snapshot({ source: "TABELOG", stage: "AVAILABILITY", signal, session });
         const visibleQueryControls = await session.observeControls?.(tabelogQueryControlHints(page)) ?? [];
-        if (tabelogQueryControlsRestricted(page, visibleQueryControls, request.partySize)) {
-          const dateState = tabelogRequestedDateState(page, request.date);
+        const dateState = tabelogRequestedDateState(page, request.date);
+        const terminalDateRestriction = dateState === "CLOSED" || dateState === "FULL" || dateState === "PHONE_ONLY";
+        if (tabelogQueryControlsRestricted(page, visibleQueryControls, request.partySize) && terminalDateRestriction) {
           const dateRestriction = { CLOSED: "TABELOG_REQUEST_DATE_CLOSED_ON_CALENDAR",
             FULL: "TABELOG_REQUEST_DATE_FULL_ON_CALENDAR", PHONE_ONLY: "TABELOG_REQUEST_DATE_PHONE_ONLY_ON_CALENDAR" } as const;
           return this.ground(candidate, request, {

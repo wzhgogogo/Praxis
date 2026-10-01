@@ -525,6 +525,19 @@ export class BrowserTaskExecutor {
         }
         progress = `Completion was not accepted: ${completion.reason} Continue with an observed safe action, wait for a visible result, or request human help.`;
         this.record({ source: input.source, stage: input.stage, event: "METHOD_INCOMPLETE", url: snapshot.url, detail: "COMPLETE_PREDICATE_UNSATISFIED" });
+        // A rejected completion is not an action, but it may race a source's
+        // asynchronous result rendering.  Refresh the entire observation once
+        // before asking the model again: controls alone cannot expose a result
+        // region that hydrated without changing a control value.
+        if (this.operationCount + 3 > (this.options.maxOperationsPerCandidate ?? 24)) {
+          this.recordBudgetExhausted(input, "OPERATION_BUDGET_EXHAUSTED");
+          return { status: "BUDGET_EXCEEDED", snapshot, controls: observation.controls };
+        }
+        await this.waitForChange(input, snapshot);
+        snapshot = await this.snapshot(input);
+        verifiedObservation = await this.observe(input, snapshot);
+        completion = input.completion(snapshot, verifiedObservation.controls);
+        if (completion.complete) return { status: "COMPLETED", snapshot, controls: verifiedObservation.controls };
         postAction = true;
         continue;
       }

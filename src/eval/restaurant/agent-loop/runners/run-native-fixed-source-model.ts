@@ -33,7 +33,7 @@ if (process.env.PRAXIS_ALLOW_LIVE_MODEL_EVAL !== "1") throw new Error("Set PRAXI
 if (!process.env.DEEPSEEK_API_KEY?.trim()) throw new Error("DEEPSEEK_API_KEY is required");
 if (option("--case") !== "h001") throw new Error("Only the frozen h001 request is registered for native fixed sources");
 const scenario = option("--scenario") as SourceScenario;
-if (!["TABELOG_DELIVERS", "TABLECHECK_RECOVERS", "BOTH_BOUNDED_EMPTY", "TABLECHECK_CONTINUES", "DYNAMIC_TABELOG_DELIVERS"].includes(scenario)) throw new Error("Unknown native fixed-source scenario");
+if (!["TABELOG_DELIVERS", "TABLECHECK_RECOVERS", "BOTH_BOUNDED_EMPTY", "TABLECHECK_CONTINUES", "DYNAMIC_TABELOG_DELIVERS", "TABLECHECK_DISCOVERY_RECOVERS"].includes(scenario)) throw new Error("Unknown native fixed-source scenario");
 const maxModelCalls = boundedOption("--max-model-calls", 50);
 const maxSteps = boundedOption("--max-steps", 30);
 const timeoutMs = boundedOption("--timeout-ms", 300_000);

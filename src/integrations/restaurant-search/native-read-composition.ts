@@ -1,6 +1,7 @@
 import type { ModelGateway } from "../../core/model/contracts.js";
 import type { BrowserExecutionBudget, BrowserExecutionDiagnostic } from "../../infrastructure/browser/browser-task-executor.js";
 import type { BrowserRuntime } from "../../infrastructure/browser/browser-runtime.js";
+import { ModelBrowserReadActionDecision } from "../../infrastructure/browser/browser-action-decision.js";
 import { GooglePlacesRestaurantSearch } from "../google/google-places-restaurant-search.js";
 import { composeLiveRestaurantFactRead } from "../restaurant-facts/live-restaurant-facts.js";
 import { ModelRestaurantFactJudgment } from "../restaurant-facts/model-fact-judgment.js";
@@ -18,7 +19,7 @@ export function composeNativeRestaurantRead(
   now?: () => string,
 ) {
   return {
-    search: new NativeRestaurantSearch(runtime, google, now, evaluationLocation),
+    search: new NativeRestaurantSearch(runtime, google, now, evaluationLocation, new ModelBrowserReadActionDecision(model), browserBudget, onBrowserDiagnostic),
     facts: new SourceAwareFactRead(
       new NativeSourceFactRead(runtime, new ModelRestaurantFactJudgment(model, now), now),
       composeLiveRestaurantFactRead(google, runtime, model, browserBudget, undefined, onBrowserDiagnostic),

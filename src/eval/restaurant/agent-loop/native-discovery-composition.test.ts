@@ -50,6 +50,16 @@ class H001NativeModel implements ModelGateway {
         criterion: "omakase", outcome: "SUPPORTED", scope: "RESTAURANT_CATEGORY_TYPE", evidenceIds: [selected.documentId],
       }] : [] }), request.purpose);
     }
+    if (request.purpose === "browser_read_decide") {
+      const input = JSON.parse(request.messages.find((item) => item.role === "user")!.content) as {
+        observation: { targets: Array<{ ref: string; label: string }> };
+      };
+      const reveal = input.observation.targets.find((target) => target.label === "Show public venues");
+      return reply(JSON.stringify(reveal
+        ? { action: "CLICK", targetRef: reveal.ref, authoritativeField: "NONE", requestedState: "NONE", reason: "Reveal the observed public venue results." }
+        : { action: "REQUEST_HUMAN_HELP", targetRef: "", authoritativeField: "NONE", requestedState: "NONE", reason: "No safe observed discovery action remains." },
+      ), request.purpose);
+    }
     if (request.purpose === "restaurant_agent_decide") {
       const input = JSON.parse(request.messages.find((item) => item.role === "user")!.content) as { context: {
         candidates?: Array<{ id: string }>; searchAvailability?: { available: boolean };
@@ -169,6 +179,14 @@ test("H001 second native batch introduces its own TableCheck results after Tabel
   assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(result.evaluation.findings));
 });
 
+test("H001 native discovery uses the shared browser model loop to reveal an observed TableCheck result list", async () => {
+  const result = await runScenario("TABLECHECK_DISCOVERY_RECOVERS");
+  assert.deepEqual(result.state.presentedResults?.candidateIds, ["tablecheck:native-omakase-1"]);
+  assert.equal(result.model.purposes.includes("browser_read_decide"), true);
+  assert.equal(result.navigations.some((url) => url.includes("/en/native-omakase-1")), true);
+  assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(result.evaluation.findings));
+});
+
 test("H001 two bounded empty source batches cannot claim inventory or results", async () => {
   const result = await runScenario("BOTH_BOUNDED_EMPTY");
   assert.equal(result.state.presentedResults, undefined);
@@ -267,7 +285,28 @@ test("H001 TableCheck search with a raw link but no parsed outlet retains the ob
     reason: step?.executionMetadata?.nativeDiscoveryFunnel?.progressionReason },
   { raw: 1, parsed: 0, accepted: 0, reason: "SOURCE_FAILURE" });
   assert.equal(result.state.presentedResults, undefined);
+  assert.deepEqual({ source: result.state.searchContinuation?.nativeSourceProgress?.source,
+    pagesRead: result.state.searchContinuation?.nativeSourceProgress?.pagesRead,
+    inspected: result.state.searchContinuation?.nativeSourceProgress?.inspectedSourceIds },
+  { source: "TABLECHECK", pagesRead: 1, inspected: [] }, "a failed source keeps its spent cursor instead of reopening with zero progress");
   assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "UNKNOWN", "a source discovery failure must not be rewritten as a completed no-result read");
+});
+
+test("H001 preserves the authoritative keyword when an observed Tabelog area link changes the listing route", async () => {
+  const result = await runScenario("TABELOG_REGION_PRESERVES_QUERY");
+  const region = result.navigations.find((url) => url.includes("/en/tokyo/A1303/A130301/rstLst/"));
+  assert.ok(region);
+  assert.equal(new URL(region!).searchParams.get("sw"), "omakase");
+  assert.equal(result.navigations.some((url) => url.endsWith("/100/")), true);
+});
+
+test("H001 restores a pending Tabelog detail entrance when its refreshed list no longer contains it", async () => {
+  const result = await runScenario("TABELOG_PENDING_RESTORED");
+  assert.equal(result.navigations.filter((url) => url.includes("/rstLst/")).length >= 2, true);
+  assert.equal(result.navigations.some((url) => url.endsWith("/105/")), true,
+    "the sixth observed entrance must survive the changed second listing");
+  assert.equal(new Set(result.navigations.filter((url) => /\/tokyo\/A1304\/A130401\/\d+\/$/.test(url))).size, 6,
+    "already inspected entries are not re-read while the retained one is consumed");
 });
 
 test("native detail chunk continues through later observed Tabelog results before changing source", async () => {

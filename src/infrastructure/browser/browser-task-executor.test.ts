@@ -13,7 +13,7 @@ class FixtureSession implements BrowserSession {
   selected: string[] = [];
   private index = 0;
 
-  constructor(private readonly pages: BrowserSnapshot[]) {}
+  constructor(private readonly pages: BrowserSnapshot[], private readonly advanceOnWait = false) {}
 
   async navigate(): Promise<void> { this.index = Math.min(this.index + 1, this.pages.length - 1); }
   async snapshot(): Promise<BrowserSnapshot> { return this.pages[this.index]!; }
@@ -39,6 +39,7 @@ class FixtureSession implements BrowserSession {
   async select(_target: string, value: string): Promise<string[]> { this.selected.push(value); return [value]; }
   async waitFor(): Promise<void> {}
   async waitForChange(previous: Pick<BrowserSnapshot, "url" | "title" | "text" | "interactiveState">): Promise<boolean> {
+    if (this.advanceOnWait) this.index = Math.min(this.index + 1, this.pages.length - 1);
     const current = this.pages[this.index]!;
     return current.url !== previous.url || current.title !== previous.title || current.text !== previous.text;
   }
@@ -676,5 +677,26 @@ test("an early COMPLETE receives the missing predicate and can take a later safe
     assert.equal(result.status, "COMPLETED");
     assert.equal(session.clicks, 1);
     assert.match(secondProgress, /Completion was not accepted: A request-bound result is not yet visible/);
+  } finally { await executor.close(); }
+});
+
+test("a rejected COMPLETE refreshes an asynchronous result before requesting another model decision", async () => {
+  const session = new FixtureSession([
+    { url: "https://www.tablecheck.com/en/search", title: "Search", text: "Loading availability", html: "<p>Loading availability</p>" },
+    { url: "https://www.tablecheck.com/en/search", title: "Search", text: "Inventory ready", html: "<p>Inventory ready</p>" },
+  ], true);
+  let decisionsRequested = 0;
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { modelDecision: decisions(
+    async () => { decisionsRequested += 1; return { type: "COMPLETE", reason: "The page may have settled" }; },
+  ) });
+  const acquired = await executor.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY");
+  try {
+    const result = await executor.runSkill({ ...input(acquired), completion: snapshot => ({
+      complete: snapshot.text === "Inventory ready",
+      reason: "A request-bound result is not yet visible.",
+    }) });
+    assert.equal(result.status, "COMPLETED");
+    assert.equal(result.snapshot.text, "Inventory ready");
+    assert.equal(decisionsRequested, 1);
   } finally { await executor.close(); }
 });

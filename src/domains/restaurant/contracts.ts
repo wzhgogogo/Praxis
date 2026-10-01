@@ -289,6 +289,19 @@ export interface RestaurantSearchContinuation {
     pagesRead: number;
     /** Browser time already spent in this bounded source across its chunks. */
     elapsedMs?: number;
+    /**
+     * A source-observed detail entrance retained across a chunk boundary.
+     * It is a navigation hint only: the detail page must still prove its
+     * current outlet identity and facts before it becomes a candidate.
+     */
+    pendingSourceEntries?: Array<{
+      sourceEntityId: string;
+      sourceUrl: string;
+      observedAt: string;
+      outletName?: string;
+      address?: string;
+      phone?: string;
+    }>;
     pendingSourceIds: string[];
   };
 }

@@ -285,6 +285,13 @@ export function resolveTableCheckReservationTarget(
     if (target.pathname.startsWith(`${outletUrl.pathname.replace(/\/$/, "")}/reserve`)) {
       return { kind: "LINKED_PAGE", url: target.toString() };
     }
+    // A guide and its public reservation page may use different route shapes.
+    // The page itself is still allowed to provide that entrance when the
+    // observed shops slug equals the source entity ID; this is a same-source
+    // structural relation, not a name or URL guess.
+    const shop = target.pathname.match(/^\/(?:en|ja)\/shops\/([^/]+)\/reserve\/?$/)?.[1];
+    const sourceEntityId = outlet.sourceEntityId.replace(/^\/(?:en|ja)\//, "").replace(/^shops\//, "").replace(/\/$/, "");
+    if (shop && shop === sourceEntityId) return { kind: "LINKED_PAGE", url: target.toString() };
   }
   return undefined;
 }
