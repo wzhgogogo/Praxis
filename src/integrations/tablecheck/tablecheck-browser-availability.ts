@@ -2,7 +2,7 @@ import { permitsTableCheckQueryControl } from "./tablecheck-public-query.js";
 import { parseTableCheckCapturedAvailability, tableCheckAvailabilityResponseRule } from "./tablecheck-availability-response.js";
 import { groundTableCheckAvailability } from "../../domains/restaurant/read-grounding.js";
 import type { RestaurantAvailabilityRequest } from "../../domains/restaurant/contracts.js";
-import type { BrowserRuntime, BrowserSession, BrowserSessionMetadata, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
+import type { BrowserPageControl, BrowserRuntime, BrowserSession, BrowserSessionMetadata, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
 import { BrowserRuntimeError } from "../../infrastructure/browser/browser-runtime-errors.js";
 import { BrowserTaskExecutor } from "../../infrastructure/browser/browser-task-executor.js";
 import { inspectNativeOutletContinuity } from "../restaurant-availability/native-outlet-continuity.js";
@@ -11,6 +11,8 @@ import type { TableCheckAvailabilityPageObservation, TableCheckIdentityDiagnosti
 import { inspectTableCheckEntity } from "./tablecheck-entity-resolver.js";
 import {
   hasTableCheckBotChallenge,
+  hasTableCheckDisabledRequestMarkup,
+  hasTableCheckDisabledRequestControl,
   hasTableCheckDiscoveryNoResult,
   inspectTableCheckPageUnavailable,
   hasTableCheckSelectedRequest,
@@ -245,6 +247,11 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
     if (!reservation) return undefined;
     let availabilityPage = page;
     if (reservation.kind === "LINKED_PAGE") {
+      // This is a distinct observed reservation target. Install its source
+      // rule before navigation so a same-navigation initialization GET is
+      // retained as diagnostic chronology.
+      const responseRule = tableCheckAvailabilityResponseRule(reservation);
+      if (responseRule) await session.captureResponses?.([responseRule]);
       await this.executor.navigate({
         source: "TABLECHECK", stage: "AVAILABILITY", signal, allowedOrigins: ["https://www.tablecheck.com"], session,
         url: tableCheckRequestedReservationUrl(reservation, request.date, request.partySize), observed: true,
@@ -398,11 +405,10 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         await this.executor.navigate({
           source: "TABLECHECK", stage: "DISCOVERY", signal, allowedOrigins: ["https://www.tablecheck.com"], session, url: discoveryUrl,
         });
-        // Search results are hydrated after navigation. A timeout is not a second request;
-        // snapshotting immediately afterwards distinguishes an empty result from parser failure.
-        try {
-          await this.executor.waitFor({ source: "TABLECHECK", stage: "DISCOVERY", signal, session, selector: 'a[href*="search_text="]', timeoutMs: 10_000 });
-        } catch { /* inspected below */ }
+        // Snapshot first: a parsed result or explicit empty state is ready now.
+        // Otherwise the shared skill receives the parser state and decides
+        // whether a public control or a bounded wait is appropriate; no URL
+        // parameter is treated as a universal loading selector.
         discovery = await this.executor.snapshot({ source: "TABLECHECK", stage: "DISCOVERY", signal, session });
         discovery = await this.resumeAfterUserIntervention(candidate, request, session, discovery, "DISCOVERY", signal);
         discoveryBase = { requestedUrl: diagnosticUrl(discoveryUrl), finalUrl: diagnosticUrl(discovery.url), title: discovery.title };
@@ -659,6 +665,11 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
       let activeSelected = selected;
       let alternateRecoveryUsed = false;
       let page = activeSelected.page;
+      // Configure passive GET capture before any lawful navigation that can
+      // itself issue the source-owned availability request.  Capture is never
+      // an availability oracle, but late registration loses its chronology.
+      const availabilityResponseRule = tableCheckAvailabilityResponseRule(activeSelected.reservation);
+      if (availabilityResponseRule) await session.captureResponses?.([availabilityResponseRule]);
       if (activeSelected.reservation.kind === "LINKED_PAGE") {
         await this.executor.navigate({
           source: "TABLECHECK", stage: "AVAILABILITY", signal, allowedOrigins: ["https://www.tablecheck.com"], session,
@@ -683,11 +694,24 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         candidate, observedAt, sourceEntityId: retainedIdentity.extraction.outlet.sourceEntityId, sourceUrl: retainedIdentity.extraction.outlet.sourceUrl,
         entityMatch: retainedIdentity.inspection.resolution, pageState: "BOT_CHALLENGE", failureCode: "BOT_CHALLENGE", excerpt: tableCheckPageExcerpt(page),
       }, browser);
-      // This is passive GET capture only.  The page-owned reservation target
-      // yields the exact same-outlet endpoint; no form action is observed or
-      // invoked here.
-      const availabilityResponseRule = tableCheckAvailabilityResponseRule(activeSelected.reservation);
-      if (availabilityResponseRule) await session.captureResponses?.([availabilityResponseRule]);
+      const currentResult = (current: BrowserSnapshot, controls: readonly BrowserPageControl[]) => {
+        const selected = hasTableCheckSelectedRequest(current, request.date, request.partySize, controls);
+        const html = parseTableCheckAvailabilitySlots(current, { date: request.date, partySize: request.partySize, timeWindow: request.timeWindow });
+        const live = parseTableCheckControlAvailability(controls, request.date, request.partySize, current.url, request.timeWindow);
+        const htmlRejected = hasTableCheckDisabledRequestMarkup(current, request.date, request.partySize, request.timeWindow, live.availableSlots);
+        const liveRejected = hasTableCheckDisabledRequestControl(controls, request.date, request.partySize, current.url, request.timeWindow, html.availableSlots);
+        const htmlCurrent = selected && html.queryComplete;
+        const liveCurrent = live.queryComplete;
+        // HTML and live controls are two readings of one current result.  Do
+        // not OR their slots into a synthetic answer: if both are complete,
+        // they must agree about requested-window availability/emptiness.
+        const inRequestWindow = (slots: readonly string[]) => slots.filter((slot) => slot >= request.timeWindow.earliest && slot <= request.timeWindow.latest);
+        const sameResult = !htmlCurrent || !liveCurrent
+          || (html.explicitlyEmpty === live.explicitlyEmpty
+            && inRequestWindow(html.availableSlots).join(",") === inRequestWindow(live.availableSlots).join(","));
+        const result = htmlRejected || liveRejected || !sameResult ? undefined : htmlCurrent ? html : liveCurrent ? live : undefined;
+        return { selected, html, live, htmlRejected, liveRejected, result, complete: result !== undefined };
+      };
       const readAvailability = () => this.executor.runSkill({
         taskId: `browser-read:${candidate.restaurant.id}`,
         source: "TABLECHECK",
@@ -699,24 +723,21 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         objective: "For the already identity-grounded outlet, set and verify the requested date, party size, and time window, then read the latest explicit public availability result. Do not submit a reservation.",
         methodReason: "The verifier has not yet established a completed availability result for the full Router-bound request.",
         completion: (current, controls) => {
-          const selected = hasTableCheckSelectedRequest(current, request.date, request.partySize, controls);
-          const html = parseTableCheckAvailabilitySlots(current, { date: request.date, partySize: request.partySize, timeWindow: request.timeWindow });
-          const response = parseTableCheckCapturedAvailability(current.responses, activeSelected.reservation, request);
+          const assessed = currentResult(current, controls);
+          const capturedResponse = parseTableCheckCapturedAvailability(current.responses, activeSelected.reservation, request);
+          // A captured `failure/data:null` payload is kept as page diagnostic
+          // material. It has no source semantic contract for inventory and is
+          // therefore deliberately excluded from completion and slot grounding.
           // Some TableCheck pages render the public, request-bound result only
           // as live controls. Evaluate that evidence at completion as well as
           // during final grounding, otherwise a correct DOM-only slot is
           // rejected before the Domain can inspect it.
-          const live = parseTableCheckControlAvailability(controls, request.date, request.partySize, current.url, request.timeWindow);
-          const requestConfirmed = selected || live.queryComplete;
-          const htmlComplete = html.queryComplete && (
-            html.availableSlots.some((slot) => slot >= request.timeWindow.earliest && slot <= request.timeWindow.latest)
-            || html.explicitlyEmpty
-            || html.hasExplicitSlotUi
-          );
           return {
-            complete: hasTableCheckBotChallenge(current) || (requestConfirmed && (htmlComplete || live.queryComplete || response?.exactTimeEmpty === true)),
-            reason: requestConfirmed
-              ? "Date and party are selected, but no completed result supports the requested time window. If the mealtime differs, open the observed time combobox and choose a time inside the goal window; otherwise wait for its result."
+            complete: hasTableCheckBotChallenge(current) || assessed.complete,
+            reason: assessed.selected
+              ? capturedResponse
+                ? "The page returned an unclassified response for the selected request; wait for explicit public slot UI or a request-bound HTML/control result before drawing an inventory conclusion."
+                : "Date and party are selected, but the latest HTML/control observations do not yet form one completed, non-conflicting result for the requested time window. If the mealtime differs, open the observed time combobox and choose a time inside the goal window; otherwise wait for its result."
               : "The latest page must explicitly confirm the complete authoritative date and party size before any result can be used.",
           };
         },
@@ -760,20 +781,18 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         candidate, observedAt, sourceEntityId: retainedIdentity.extraction.outlet.sourceEntityId, sourceUrl: retainedIdentity.extraction.outlet.sourceUrl,
         entityMatch: retainedIdentity.inspection.resolution, pageState: "BOT_CHALLENGE", failureCode: "BOT_CHALLENGE", excerpt: tableCheckPageExcerpt(page),
       }, browser);
-      const controlSlots = parseTableCheckControlAvailability(availabilityRead.controls, request.date, request.partySize, page.url, request.timeWindow);
-      const requestConfirmed = hasTableCheckSelectedRequest(page, request.date, request.partySize, availabilityRead.controls) || controlSlots.queryComplete;
-      if (availabilityRead.status !== "COMPLETED" || !requestConfirmed) return this.ground(candidate, request, {
+      const assessed = currentResult(page, availabilityRead.controls);
+      if (availabilityRead.status !== "COMPLETED" || !assessed.complete) return this.ground(candidate, request, {
         candidate, observedAt, sourceEntityId: activeSelected.extraction.outlet.sourceEntityId, sourceUrl: activeSelected.extraction.outlet.sourceUrl,
-        entityMatch: activeSelected.inspection.resolution, pageState: "EXTRACTION_FAILED", failureCode: "REQUEST_SELECTION_UNCONFIRMED",
+        entityMatch: activeSelected.inspection.resolution, pageState: "EXTRACTION_FAILED",
+        failureCode: assessed.selected ? "AVAILABILITY_RESULT_UNOBSERVED" : "REQUEST_SELECTION_UNCONFIRMED",
       }, browser);
-      const parsedSlots = parseTableCheckAvailabilitySlots(page, { date: request.date, partySize: request.partySize, timeWindow: request.timeWindow });
-      const response = parseTableCheckCapturedAvailability(page.responses, activeSelected.reservation, request);
-      const slots = {
-        availableSlots: [...new Set([...parsedSlots.availableSlots, ...controlSlots.availableSlots])].sort(),
-        hasExplicitSlotUi: parsedSlots.hasExplicitSlotUi || controlSlots.hasExplicitSlotUi,
-        explicitlyEmpty: parsedSlots.explicitlyEmpty || response?.exactTimeEmpty === true,
-        queryComplete: parsedSlots.queryComplete || controlSlots.queryComplete || response?.exactTimeEmpty === true,
-      };
+      const capturedResponse = parseTableCheckCapturedAvailability(page.responses, activeSelected.reservation, request);
+      // Never turn an unclassified passive payload into slot or completion
+      // evidence. The page controls/HTML must independently bind request and
+      // inventory before the Domain sees AVAILABLE or UNAVAILABLE.
+      void capturedResponse;
+      const slots = assessed.result!;
       const qualifying = slots.queryComplete
         && slots.availableSlots.some((slot) => slot >= request.timeWindow.earliest && slot <= request.timeWindow.latest);
       const immediateSlotNotOffered = request.immediateAvailability !== undefined

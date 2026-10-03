@@ -7,6 +7,7 @@ import { BrowserRuntimeError } from "../../infrastructure/browser/browser-runtim
 import { inspectTabelogEntity, resolveTabelogEntity } from "./tabelog-entity-resolver.js";
 import { TabelogBrowserAvailability } from "./tabelog-browser-availability.js";
 import { parseTabelogAvailabilitySlots, parseTabelogOutletIdentityWithEvidence, parseTabelogSearchOutlets } from "./tabelog-page-parser.js";
+import { tabelogQueryControlsRestricted, tabelogRequestedDateState } from "./tabelog-query-controls.js";
 
 const candidate = fixtureCandidates[0]!;
 
@@ -159,6 +160,31 @@ test("Tabelog slot parser ignores prose times and trusts only explicit available
   const controls = parseTabelogAvailabilitySlots({ url: "https://tabelog.com/x/", title: "x", text: "", html: '<button class="slot is-available" data-time="19:00">19:00</button><button class="slot full" data-time="19:30">19:30</button>' });
   assert.deepEqual(prose, { availableSlots: [], hasExplicitSlotUi: false });
   assert.deepEqual(controls, { availableSlots: ["19:00"], hasExplicitSlotUi: true });
+});
+
+test("Tabelog reads the visible requested calendar restriction without treating loading or hidden projected dates as terminal", () => {
+  const closedDate = "2026-08-05";
+  const calendar = (content: string, notice = "No available seats for 2 guests.") => ({
+    url: "https://tabelog.com/en/tokyo/A1304/A130401/123/", title: "Restaurant 1", text: notice,
+    html: `<div class="p-booking-calendar"><table class="p-booking-calendar__calendar"><caption><em>Aug 2026</em></caption><tbody><tr><td>${content}</td></tr></tbody></table></div>`,
+  });
+  const closed = calendar('<span class="p-booking-calendar__day-num p-booking-calendar__day-num--closed">5</span>');
+  assert.equal(tabelogRequestedDateState(closed, closedDate), "CLOSED");
+  assert.equal(tabelogQueryControlsRestricted(closed, [{ label: "Guests 2", disabled: true }], 2), true);
+
+  const loading = { ...closed, text: "Loading calendar availability" };
+  assert.equal(tabelogQueryControlsRestricted(loading, [{ label: "Guests 2", disabled: true }], 2), false,
+    "a disabled control during loading remains recoverable rather than a date restriction");
+
+  const visibleClosedWithHiddenFuture = {
+    ...closed,
+    html: `${closed.html}<div class="p-booking-calendar is-hidden"><table class="p-booking-calendar__calendar"><caption><em>Aug 2026</em></caption><tbody><tr><td><p class="js-calendar-day-target is-selectable" data-year="2026" data-month="8" data-day="5"></p><span class="p-booking-calendar__day-num">5</span></td></tr></tbody></table></div>`,
+  };
+  assert.equal(tabelogRequestedDateState(visibleClosedWithHiddenFuture, closedDate), "CLOSED",
+    "a hidden projected calendar cannot reopen the current restricted request");
+
+  const selectable = calendar('<p class="js-calendar-day-target is-selectable" data-year="2026" data-month="8" data-day="5"></p><span class="p-booking-calendar__day-num">5</span>');
+  assert.equal(tabelogRequestedDateState(selectable, closedDate), "SELECTABLE");
 });
 
 class FixtureBrowserSession implements BrowserSession {

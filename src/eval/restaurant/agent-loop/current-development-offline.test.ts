@@ -311,6 +311,7 @@ test("a second-turn HARD upgrade resets the real Runtime and cannot reuse an old
       status: final.phase === "PRESENT_RESULTS" ? "SUCCEEDED" : "FAILED", stage: "AGENT_LOOP", caseId: "strength-upgrade", runId: taskId,
       materializedCase: strengthUpgradeMaterializedCase(), finalSnapshot,
       trajectories: composition.trajectories.steps, loop: secondLoop,
+      sourceTrace: { browserTrace: sources.calls.browserTrace },
       resourceUsage: { elapsedMs: 0, agentDecisions: composition.trajectories.steps.length, browserModelCalls: 0 },
     };
     const evaluation = evaluateRestaurantHybridLiveArtifact(artifact, { path: `${control}.result.json`, sha256: "fixture" });
@@ -360,6 +361,7 @@ test("current H001-H005 raw requests complete through the real offline Hybrid co
     const artifact = {
       status: "SUCCEEDED", stage: "AGENT_LOOP", caseId: plan.id, runId: taskId, materializedCase: sourceCase,
       finalSnapshot: composition.runtime.snapshot(taskId), trajectories: composition.trajectories.steps, loop,
+      sourceTrace: { browserTrace: sources.calls.browserTrace },
       resourceUsage: { elapsedMs: 0, agentDecisions: composition.trajectories.steps.length, browserModelCalls: 0,
         googleRequests: sources.search.googleRequestUsage(`run:${taskId}:investigation:${state.investigationRevision}`) },
     };
@@ -460,6 +462,7 @@ test("registered control cases use the shared execution, evaluator, and acceptan
   const artifact = {
     status: result.execution.status, stage: "AGENT_LOOP", caseId: registration.id, runId: "offline-registered:new-vegetarian",
     materializedCase, finalSnapshot, trajectories: result.trajectories, loop: result.loop,
+    sourceTrace: result.sourceTrace,
     resourceUsage: { elapsedMs: result.elapsedMs, agentDecisions: result.trajectories.length, browserModelCalls: 0 },
   };
   const accepted = assessFixedSourceAcceptance({
@@ -494,6 +497,7 @@ test("an explicit result count travels from control input through authoritative 
   const artifact = {
     status: result.execution.status, stage: "AGENT_LOOP", caseId: registration.id, runId: "offline-registered:explicit-two-omakase",
     materializedCase, finalSnapshot, trajectories: result.trajectories, loop: result.loop,
+    sourceTrace: result.sourceTrace,
     resourceUsage: { elapsedMs: result.elapsedMs, agentDecisions: result.trajectories.length, browserModelCalls: 0 },
   };
   const acceptance = assessFixedSourceAcceptance({

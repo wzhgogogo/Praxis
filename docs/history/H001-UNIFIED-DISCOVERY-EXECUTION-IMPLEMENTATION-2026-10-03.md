@@ -1,0 +1,96 @@
+# H001 unified discovery/execution implementation — 2026-10-03
+
+- Status: implemented offline; real-model fixed-source and H001 Live not run in this slice
+- Scope: work packages A/C/D/E from `H001_Unified_Discovery_Execution_Playbook`
+- Baseline: `47f0d5a` plus the already-dirty 2026-10-01 H001 tomorrow diagnostic
+
+## Contract changes
+
+1. A persisted, source-owned native detail entrance is consumed before reopening its volatile listing. It remains only an entrance: each later detail page is re-read for same-source identity, location, facts, and availability. Detail entries remain pending until an attempt starts, so a partial batch failure does not discard unstarted entries.
+2. TableCheck `2xx {status:"failure",data:null}` is now an exact-request diagnostic only. The implementation keeps passive capture, but no longer derives `UNAVAILABLE`, `queryComplete`, or an empty slot result from that payload without independent source semantics.
+3. The native source executor receives the configured browser operation ceiling. Source elapsed diagnostics preserve actual elapsed time while the existing 90-second source cap controls further work.
+4. Fixed-source real-model scenarios now persist the execution artifact before independent evaluation. A separate immutable acceptance sidecar records expectation, observed navigation-plus-snapshot source usage, qualified result, evaluator dimensions, and the final exit decision. Missing/failed evaluation or an unmet required dimension fails the runner.
+5. TableCheck discovery no longer waits on the retired `search_text` href marker. A current parsed list is used immediately; an incomplete page is handed to the existing bounded observed-control/model mechanism.
+
+## Offline evidence
+
+- TableCheck adapter regression: 47/47.
+- Native discovery + Runtime/Agent composition: 19/19.
+- Repository typecheck, architecture check, and build: passed.
+- Full repository test suite: 580/580 passed when run with host loopback permission. The sandbox-only run had 22 `listen EPERM` failures and no product assertion failure.
+
+## Deliberate limits before the next gate
+
+- No new real-site probe, paid fixed-source model call, H001 Live, or booking write was made here.
+- The repository has no independent public-source semantic proof that the TableCheck failure payload means empty inventory; it therefore remains UNKNOWN.
+- The next authorized gate is the fixed-source real-model behavior set. H001 Live remains a separate final gate.
+
+## 2026-10-03 review-return repair slice (in progress)
+
+**Slice and acceptance.** Repair the existing generic native-discovery and TableCheck read paths so a retained source entrance is consumed only when attempted, an observed public discovery control can advance a nonempty unsuitable list, and a current request result is accepted only from mutually consistent, enabled raw/DOM/control evidence. The fixed-source composition must then present a known feasible result inside the existing limits; interruption, disabled/loading/conflicting results and ordinary bounded-empty paths remain fail-closed. This is an offline implementation slice. It stops before the separately authorized fixed-source real-model and final Live runs.
+
+**A — continuation and retrieval.** The first packet removed the volatile-list prerequisite, but still counted a selected detail as inspected before a replacement session existed and marked the source ended before the remaining queue was known. The prior regression only asserted multiple listing reads, so it missed a failed reopen dropping unstarted work. The normal control is a retained sixth candidate reached despite the second listing failing; the rejection controls are navigation plus session-reopen failure, timeout and exhausted source budget. The affected regression is the native discovery composition and its diagnostic funnel; it must report actual elapsed time and the source-stage scope without resetting shared run budget. Retrieval variants must distinguish current nonempty results, old results while a new query is loading, explicit empty, source error and a confirmed refreshed list.
+
+**B/C — accurate page query and current inventory.** The old browser goal only represents date, party and time, so a `retrievalHint` could not reach an observed search input, filter or next-page control. The existing tests also accepted request-shaped HTML links even when the link was disabled. Normal evidence is one observed query action followed by a fresh request-bound result; rejection controls are target not expanded, omitted projection, loading, disabled selector/link, stale response, conflict and an exact date/party mismatch. The TableCheck behavior test and local Chromium fixture remain the regression consumers. Passive response capture must be armed before a lawful navigation or query action that can emit the response; unclassified payloads remain diagnostics and never inventory.
+
+**D — read completion.** `nativeShortBatchDeliveryReady`, Context and Validator currently compute adjacent conditions separately. The common read assessment is the only completion source: an unfinished current batch rejects END; a completed open-ended batch with a qualified result delivers without a new SEARCH; no result with pending work continues in source order. The production native composition supplies the normal/rejection path, including an unstarted sixth entry.
+
+**E — independent acceptance.** The first packet persisted the artifact before evaluating it, but still imposed the same mandatory dimensions on ordinary bounded-empty scenarios and derived forbidden-source usage from successful observation. The fixed-source acceptance must take required dimensions from the scenario registration, require observed sources only where required, and reject any navigation attempt to a forbidden source. Missing or failing final evaluation and resource failure remain nonzero without overwriting the immutable artifact.
+
+## 2026-10-03 review-return repair result
+
+- **A.** Pending native detail entrances now remain queued until Executor emits `OPERATION_STARTED/NAVIGATE`; an operation ceiling, deadline admission failure, failed replacement session, or unstarted later entry stays in continuation. A real navigation failure is recorded once, and source completion is recomputed from the remaining queue, actual detail cap, and actual elapsed 90-second cap. The fixed-source re-open failure control reaches the retained next outlet without reopening the volatile listing.
+- **A2/A3.** `retrievalHint` reaches the existing Browser goal as an immutable bounded retrieval expression. The shared executor permits `FILL_AUTHORITATIVE/RETRIEVAL` only for an observed public search input, then requires a fresh observed result. The TableCheck fixture begins with a nonempty stale list, proves the input's stale/current value and loading state block completion, fills the bounded expression, clicks an observed public search control, and presents a refreshed candidate. The existing Tabelog/TableCheck search URL continues to preserve area, HARD criteria, date, party, and time authority.
+- **C.** Request-shaped TableCheck anchors now read precise Boolean markup state: native `disabled` attributes always disable, while ARIA/data flags require a true-like value, so `data-is-disabled="false"` keeps the real positive replay eligible. Initial and shortcut completion always re-read live controls. A live disabled exact slot vetoes only the same slot claimed available by HTML; unrelated disabled times do not erase an enabled requested slot. HTML/control comparison is restricted to the requested window. Capture is armed before primary and alternate lawful reservation navigation, and captured payloads remain diagnostic-only.
+- **D.** Read assessment now treats an empty exhausted `nativeCurrentBatch` as no investigation block, while any populated current batch continues to require its own facts and availability before END or short-batch delivery. Context and Validator consume the shared assessment outcome.
+- **Raw diagnostic lineage.** The Hybrid Live runner now wraps the existing session tracer and persists redacted snapshot, live-control, passive-response, action, and sequence chronology beside Executor diagnostics. This supports independent current-result evaluation without a parallel logging path. A missing raw chain remains not evaluated rather than a positive claim.
+
+### Local repair evidence
+
+- `npm run typecheck`: pass.
+- A/C/D focused suite (native discovery composition, TableCheck adapter/parser, Browser executor): 99/99 pass.
+- No real-source, paid-model, H001 Live, or write operation was performed in this repair slice. The fixed-source real-model gate and final Live gate remain owned by the main review workflow.
+
+### 2026-10-03 frozen-source final-gate handoff
+
+- **A/B/D and controlled evidence.** The source fixture now drives the same bounded `BrowserTaskExecutor` path used by production: a nonempty stale TableCheck list exposes a live stale input value, performs the observed `RETRIEVAL` fill, waits for a visible current-query busy state, then activates the observed public result control. The ready variant proves that a script literal and hidden busy element do not suppress completion. The successful same-outlet availability path is a read-only observed action followed by an exact date/party/time reservation link and current controls; it records the raw action/snapshot/control chronology rather than manufacturing a claim.
+- **C boundary and oracle.** TableCheck disabled markup treats HTML's native `disabled` attribute as Boolean regardless of attribute value, while ARIA/data attributes require a true-like value. A disabled exact claimed slot rejects availability; a different disabled slot in the request window does not. Current-result evaluation is intentionally independent of production availability claims and returns `NOT_EVALUATED` when no raw request/sequence/source chain exists.
+- **D and budget scope.** Context and Validator share the current-batch assessment. A nonempty uninvestigated batch blocks both `SEARCH_RESTAURANTS` and `END_READ`; an exhausted empty batch may continue in source order. Native detail entries are removed only after an observable detail navigation begins, so admission/deadline/session-reopen failures retain unstarted work and use the same shared source budget.
+- **Offline verification before final gate.** `npm run typecheck`, `npm run arch:check`, `npm run build`, `git diff --check`, the A/B/D focused suite (**145/145**), and native discovery composition (**21/21**) passed. The local Chromium fixture cannot start in the restricted sandbox because macOS denies its Mach rendezvous port before an assertion. Its authorized host-local fixed-page run passed; no network/model/Live/write request was made.
+- **Final-gate stop and ownership.** The one host-loopback `npm test` gate found a real compatibility regression in evaluator@23: legacy Hybrid/fixed controlled artifacts with TableCheck availability but no raw browser trace were changed from their prior evaluator result to `NOT_EVALUATED`, causing eight `current-development-offline` assertions and acceptance failures. This is not represented as a product pass. The raw-evaluator owner must restore the intended applicability boundary or supply its owned generic trace evidence; no implementation change was made here while that ownership review is active. Existing artifacts remain immutable and are not overwritten.
+- **Next authorized gates.** After the evaluator compatibility repair and final review, rerun the complete offline gate once. The main workflow's preselected paid fixed-source scenario is `TABLECHECK_DISCOVERY_RECOVERS`, bounded at 300 seconds, 50 model calls and 30 steps. It exercises current-query retrieval, refreshed same-outlet discovery, request-bound evidence and `PRESENT_RESULTS`; it is separate from the offline evidence above. The main workflow owns the three fixed-source runs and the final read-only Live run.
+
+### 2026-10-03 final offline regression (frozen source)
+
+- The final reviewer variants found and then closed two stale-query paths: an old explicit empty listing and old nonempty cards after `REQUEST_HUMAN_HELP` now both remain incomplete until the same current-query completion predicate accepts a fresh source result. Neither site can inspect a stale detail entrance.
+- Source session acquisition now uses the existing Executor provider lifecycle. A retained Tabelog detail with 1 ms remaining source budget and a 20 ms opening delay performs zero navigation, records the elapsed cap, and retains the pending entrance. This is a source-budget regression, not a new retry path.
+- A hidden TableCheck reservation-link subtree is excluded before HTML availability parsing; a visible sibling remains observable. The actual Adapter variant with a hidden exact link and no live slot returns `UNKNOWN`, while visible request-bound slots retain their established behavior.
+- Final offline gates passed: `npm run typecheck`, `npm run arch:check`, `npm run build`, `git diff --check`, host-loopback `npm test`, and host-local fixed Chromium `npm run test:browser:fixture`. The restricted sandbox Chromium run still fails before assertions at macOS Mach rendezvous setup; the host-local result is the applicable fixture evidence. No model, real provider, Live read, or write was run.
+
+### 2026-10-03 nested hidden-subtree correction
+
+- Final review reproduced a nested same-tag hidden ancestor that the first lightweight filter closed too early. The parser now uses one local tag stack to omit every descendant of a hidden source element while retaining visible siblings. Actual Adapter regressions cover the nested hidden exact request link (`UNKNOWN`) and a same-link visible sibling (`AVAILABLE`). `npm run typecheck` and TableCheck Adapter **53/53** pass; no unrelated full gate was repeated.
+
+### 2026-10-03 post-review Live query-field correction
+
+- The first post-review H001 Live stopped with zero candidates. A same-session, read-only Tabelog comparison isolated the regression: the natural-language Agent hint returned the source's explicit no-match text, while the unchanged HARD term `omakase` returned five public listings. This was a retrieval-field regression, not an inventory or parser conclusion.
+- Tabelog now retains its established structured positive-HARD keyword contract before a free-form retrieval hint. TableCheck remains unchanged because its public search accepts the observed natural-language query expression. Region navigation still preserves Tabelog's keyword and now ignores a fragment-only link to the current listing.
+- The fixed source session derives its expected retrieval expression from the current source URL's `search_text`, stores the actual filled value, and retains that value in the post-click DOM observation. A wrong phrase cannot expose the refreshed candidate; the exact current URL phrase (`omakase near Shibuya, Tokyo` in the regression) can. This is fixture transport behavior, not a synthetic availability claim.
+- `npm run typecheck`, `npm run arch:check`, `npm run build`, `git diff --check`, and native discovery composition **25/25** passed. No further model, real-site, Live or write operation was performed.
+
+### 2026-10-03 stock-only control-observation repair declaration
+
+- **Historical relation and failure.** The post-review, single-candidate stock-only read reached HIGH same-source identity and then stopped at `CONTROLS_ERROR`: a non-target login-page element was removed after visibility inspection and before `ElementHandle.isDisabled()`. The independently preserved original-page replay matches the recorded snapshot hash; this repair does not copy that HTML into logs. It establishes no inventory or qualification claim.
+- **Regression oracle.** A real local Chromium page deterministically disconnects one observed button after its stable initial signature and before its disabled read. The observation must retain attached enabled and attached disabled controls, omit only that positively disconnected handle, and retain action-time stale-target validation. Any error for which connectedness cannot be confirmed false must still surface as an observation failure.
+- **Budget and evaluation.** This changes one enumeration boundary only: it adds no BrowserTaskExecutor operation, retry, source navigation, model call, request, criteria, identity rule, or action permission. Existing raw-evidence evaluation remains applicable only to its recorded trace; this offline fixture proves control observation behavior and cannot claim current availability. The follow-up external check remains one separately owned 45-second, five-call stock-only diagnostic rather than a new H001 run.
+
+### 2026-10-03 passive-response navigation lifecycle repair declaration
+
+- **Historical relation and failure.** The same local Chromium fixture packet previously reset passive response observations before every navigation. Its removal allowed a prior page's request-bound Tabelog stock response to survive a later navigation, invalidating the two established Local/Cloudflare lifecycle controls. The response observer's reset clears records and advances its generation while retaining the installed rules/listener, so it is safe before initial and alternate lawful navigation.
+- **Regression oracle and scope.** The two existing controls require the post-navigation snapshot to exclude the old response, while existing initial-navigation capture proves that a response from the destination is still recorded under the new generation. The only production change restores reset immediately before `page.goto` in both BrowserSession implementations. No rule, capture timing, retry, source action, request, model, budget, identity, availability meaning, or evaluator contract changes.
+
+### 2026-10-03 passive-response lifecycle repair result
+
+- This is an implementation regression in the current packet, not an unrelated fixture failure: four `responses.reset()` calls had been removed before standard and covered-link navigation in Local Playwright Chromium and Cloudflare Browser Run. Reset preserves the installed passive listener/rules, so destination GET capture remains active under its new generation while prior-page records cannot cross a navigation.
+- The first full fixture result exposed the gap rather than closing it. Earlier reported browser-fixture success did not establish matching-code provenance for this reset removal; the final host-local **64/64** result below supersedes it for this worktree. No broader historical audit was required.
+- Focused host-local Chromium: the two response-lifecycle regressions and the two control-observation regressions passed **4/4**. Final host-local `npm run test:browser:fixture` passed **64/64**. `npm run typecheck`, `npm run arch:check`, `npm run build`, and `git diff --check` passed. The fixture uses synthetic intercepted pages; no model, external request, Live read, or write occurred.

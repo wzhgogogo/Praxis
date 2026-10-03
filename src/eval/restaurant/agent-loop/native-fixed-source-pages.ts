@@ -8,7 +8,7 @@ export const date = "2026-08-19";
 
 export type SourceScenario = "TABELOG_DELIVERS" | "TABLECHECK_RECOVERS" | "BOTH_BOUNDED_EMPTY" | "OUTSIDE_RADIUS" | "TABELOG_ONE_DETAIL_FAILS" | "EARLY_END_ATTEMPT"
   | "TABELOG_CONTINUES" | "TABLECHECK_CONTINUES" | "NATIVE_PARTIAL" | "NATIVE_TRUE_NO_RESULT" | "TABLECHECK_UNPARSED" | "TABLECHECK_EARLY_ACTIONS" | "TABELOG_BATCH_CAP" | "DYNAMIC_TABELOG_DELIVERS" | "TABLECHECK_DISCOVERY_RECOVERS" | "TABELOG_REGION_PRESERVES_QUERY" | "TABELOG_PENDING_RESTORED"
-  | "TABELOG_NONEMPTY_REGION_RECOVERS" | "TABELOG_CURRENT_BATCH_DELIVERS" | "TABLECHECK_CURRENT_BATCH_DELIVERS";
+  | "TABELOG_NONEMPTY_REGION_RECOVERS" | "TABELOG_CURRENT_BATCH_DELIVERS" | "TABLECHECK_CURRENT_BATCH_DELIVERS" | "TABELOG_REOPEN_RETAINS" | "TABLECHECK_QUERY_READY" | "TABELOG_STALE_REJECTS" | "TABLECHECK_STALE_REJECTS";
 
 function page(url: string, html: string, text: string, title = "Restaurant"): BrowserSnapshot { return { url, html, text, title }; }
 
@@ -18,7 +18,7 @@ class NativeFixtureSession implements BrowserSession {
   private navigationUnusable = false;
   constructor(private readonly lookup: (url: string) => BrowserSnapshot, private readonly navigations: string[],
     private readonly sessionId: number, private readonly navigationSessionIds?: number[], private readonly closedSessionIds?: number[],
-    private readonly onReadOnlyClick?: () => void) {}
+    private readonly onReadOnlyClick?: (url: string) => void, private readonly onReadOnlyFill?: (value: string) => void) {}
   async navigate(url: string): Promise<void> {
     if (this.navigationUnusable) throw Object.assign(new Error("Prior navigation is still unresolved"), { code: "BROWSER_TIMEOUT" });
     this.navigations.push(url);
@@ -41,14 +41,43 @@ class NativeFixtureSession implements BrowserSession {
         disabled: /\bdisabled\b|aria-disabled=["']true/i.test(attrs), visible: true,
       });
     }
+    for (const match of this.current.html.matchAll(/<input\b([^>]*)>/gi)) {
+      const attrs = match[1] ?? "";
+      const label = attrs.match(/(?:aria-label|placeholder|name)=["']([^"']+)/i)?.[1] ?? "";
+      const type = attrs.match(/\btype=["']([^"']+)/i)?.[1];
+      const value = attrs.match(/\bdata-live-value=["']([^"']*)/i)?.[1] ?? attrs.match(/\bvalue=["']([^"']*)/i)?.[1];
+      controls.push({ id: `native:${this.sessionId}:input:${controls.length}`, stableKey: `input|${label}|${controls.length}`,
+        kind: "INPUT", role: "textbox", label, ...(type ? { type } : {}),
+        ...(value !== undefined ? { value } : {}),
+        disabled: /\bdisabled\b|aria-disabled=["']true/i.test(attrs), visible: true,
+        structure: { tag: "INPUT", name: attrs.match(/\bname=["']([^"']+)/i)?.[1] ?? "", classes: [], dialogLabel: "", formClass: "", sliderCount: 0 } });
+    }
+    for (const match of this.current.html.matchAll(/<select\b([^>]*)>([\s\S]*?)<\/select>/gi)) {
+      const attrs = match[1] ?? ""; const optionMarkup = match[2] ?? "";
+      const name = attrs.match(/\bname=["']([^"']+)/i)?.[1] ?? "";
+      const selected = [...optionMarkup.matchAll(/<option\b([^>]*)>([\s\S]*?)<\/option>/gi)].map((option) => ({
+        value: option[1]?.match(/\bvalue=["']([^"']*)/i)?.[1] ?? "",
+        label: (option[2] ?? "").replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim(),
+        selected: /\bselected\b/i.test(option[1] ?? ""), disabled: /\bdisabled\b/i.test(option[1] ?? ""),
+      }));
+      const value = selected.find((option) => option.selected)?.value;
+      controls.push({ id: `native:${this.sessionId}:select:${controls.length}`, stableKey: `select|${name}|${controls.length}`,
+        kind: "SELECT", role: "combobox", label: name, ...(value !== undefined ? { value } : {}),
+        disabled: /\bdisabled\b|aria-disabled=["']true/i.test(attrs), visible: true, options: selected,
+        structure: { tag: "SELECT", name, classes: [], dialogLabel: "", formClass: "", sliderCount: 0 } });
+    }
     return controls;
   }
   async click(): Promise<void> {
     if (!this.onReadOnlyClick || !this.current) throw new Error("No model-controlled click is expected in fixed source pages");
-    this.onReadOnlyClick();
+    this.onReadOnlyClick(this.current.url);
     this.current = this.lookup(this.current.url);
   }
-  async fill(): Promise<void> { throw new Error("No model-controlled fill is expected in fixed source pages"); }
+  async fill(_target: string, value: string): Promise<void> {
+    if (!this.onReadOnlyFill || !this.current) throw new Error("No model-controlled fill is expected in fixed source pages");
+    this.onReadOnlyFill(value);
+    this.current = this.lookup(this.current.url);
+  }
   async select(_target: string, value: string): Promise<string[]> { return [value]; }
   async waitFor(): Promise<void> {}
   async screenshot(): Promise<Uint8Array> { return new Uint8Array(); }
@@ -57,21 +86,27 @@ class NativeFixtureSession implements BrowserSession {
 
 export function sourcePages(scenario: SourceScenario, navigations: string[], sessionsOpened?: number[], navigationSessionIds?: number[], closedSessionIds?: number[]) {
   let tableCheckDiscoveryRevealed = false;
+  let tableCheckDiscoveryInputValue = "stale query";
+  let tableCheckDiscoveryExpectedQuery = "";
+  const tableCheckAvailabilityRevealed = new Set<string>();
   let tabelogListingVisits = 0;
   const tabelogCount = scenario === "TABELOG_DELIVERS" || scenario === "TABELOG_ONE_DETAIL_FAILS" || scenario === "TABELOG_CONTINUES" ? 3
-    : scenario === "TABELOG_BATCH_CAP" || scenario === "TABELOG_PENDING_RESTORED" || scenario === "TABELOG_CURRENT_BATCH_DELIVERS" ? 6
+    : scenario === "TABELOG_BATCH_CAP" || scenario === "TABELOG_PENDING_RESTORED" || scenario === "TABELOG_CURRENT_BATCH_DELIVERS" || scenario === "TABELOG_REOPEN_RETAINS" ? 6
     : scenario === "TABELOG_NONEMPTY_REGION_RECOVERS" || scenario === "TABELOG_REGION_PRESERVES_QUERY" ? 1
     : scenario === "NATIVE_PARTIAL" || scenario === "TABLECHECK_CONTINUES" || scenario === "NATIVE_TRUE_NO_RESULT" || scenario === "TABLECHECK_EARLY_ACTIONS" ? 2
     : scenario === "TABLECHECK_RECOVERS" || scenario === "OUTSIDE_RADIUS" ? 1 : 0;
   const tablecheckCount = scenario === "TABLECHECK_RECOVERS" ? 3
     : scenario === "TABLECHECK_CURRENT_BATCH_DELIVERS" ? 6
     : scenario === "TABLECHECK_CONTINUES" || scenario === "TABLECHECK_EARLY_ACTIONS" ? 2 : scenario === "NATIVE_TRUE_NO_RESULT" ? 1
-    : scenario === "OUTSIDE_RADIUS" || scenario === "TABLECHECK_DISCOVERY_RECOVERS" ? 1 : 0;
+    : scenario === "OUTSIDE_RADIUS" || scenario === "TABLECHECK_DISCOVERY_RECOVERS" || scenario === "TABLECHECK_QUERY_READY" ? 1 : 0;
   const sourcePoint = scenario === "OUTSIDE_RADIUS" ? { latitude: 35.75, longitude: 139.80 } : center;
   const lookup = (url: string): BrowserSnapshot => {
     const parsed = new URL(url);
     if (parsed.hostname === "tabelog.com" && parsed.pathname.includes("/rstLst/")) {
       tabelogListingVisits += 1;
+      if (scenario === "TABELOG_STALE_REJECTS") return page(url,
+        '<input type="search" name="search_text" aria-label="Search restaurants" value="omakase" data-live-value="old-query"><div aria-busy="true">Loading current search</div><a class="list-rst__rst-name-target" href="/tokyo/A1304/A130401/100/">Old Tabelog result</a>',
+        "Loading current search", "Tabelog search");
       if (scenario === "TABELOG_REGION_PRESERVES_QUERY" && tabelogListingVisits === 1) {
         return page(url, '<a href="/en/tokyo/A1303/A130301/rstLst/">Shibuya</a>', "Choose Shibuya", "Tabelog search");
       }
@@ -87,10 +122,10 @@ export function sourcePages(scenario: SourceScenario, navigations: string[], ses
     }
     const tabelogId = parsed.pathname.match(/^\/tokyo\/A1304\/A130401\/(\d+)\/$/)?.[1];
     if (tabelogId) {
-      if (scenario === "TABELOG_ONE_DETAIL_FAILS" && tabelogId === "101") throw Object.assign(new Error("One detail navigation failed"), { code: "BROWSER_TIMEOUT" });
+      if ((scenario === "TABELOG_ONE_DETAIL_FAILS" && tabelogId === "101") || (scenario === "TABELOG_REOPEN_RETAINS" && tabelogId === "100")) throw Object.assign(new Error("One detail navigation failed"), { code: "BROWSER_TIMEOUT" });
       const name = `Native Tabelog ${tabelogId}`;
       const address = `Shibuya ${tabelogId}, Tokyo`;
-      const available = scenario === "TABELOG_DELIVERS" || scenario === "TABELOG_ONE_DETAIL_FAILS"
+      const available = scenario === "TABELOG_DELIVERS" || scenario === "TABELOG_ONE_DETAIL_FAILS" || scenario === "TABELOG_REOPEN_RETAINS"
         || (scenario === "TABELOG_CURRENT_BATCH_DELIVERS" && tabelogId === "100")
         || (scenario === "TABELOG_NONEMPTY_REGION_RECOVERS" && tabelogId === "100")
         || (scenario === "TABELOG_CONTINUES" && tabelogId === "102")
@@ -102,13 +137,28 @@ export function sourcePages(scenario: SourceScenario, navigations: string[], ses
         `<h1>${name}</h1><p class="rstinfo-table__address">${address}</p>`,
         unknown ? "" : `<select name="party"><option value="2" selected>2</option></select><select name="date"><option value="${date}" selected>${date}</option></select>`,
         available ? '<button class="slot is-available" data-time="19:00">19:00</button>' : unknown ? "" : '<button class="slot is-unavailable" data-time="19:00">19:00</button>',
-      ].join(""), `${name}\n${address}\n${unknown ? "" : "予約\n"}${["TABELOG_DELIVERS", "TABELOG_ONE_DETAIL_FAILS", "TABELOG_CONTINUES", "TABLECHECK_CONTINUES", "TABLECHECK_EARLY_ACTIONS", "NATIVE_PARTIAL", "NATIVE_TRUE_NO_RESULT", "TABELOG_CURRENT_BATCH_DELIVERS", "TABELOG_NONEMPTY_REGION_RECOVERS"].includes(scenario) ? "Omakase course\n" : "Dinner course\n"}2 guests\n${date}\n19:00`);
+      ].join(""), `${name}\n${address}\n${unknown ? "" : "予約\n"}${["TABELOG_DELIVERS", "TABELOG_ONE_DETAIL_FAILS", "TABELOG_REOPEN_RETAINS", "TABELOG_CONTINUES", "TABLECHECK_CONTINUES", "TABLECHECK_EARLY_ACTIONS", "NATIVE_PARTIAL", "NATIVE_TRUE_NO_RESULT", "TABELOG_CURRENT_BATCH_DELIVERS", "TABELOG_NONEMPTY_REGION_RECOVERS"].includes(scenario) ? "Omakase course\n" : "Dinner course\n"}2 guests\n${date}\n19:00`);
     }
     if (parsed.hostname === "www.tablecheck.com" && parsed.pathname === "/en/japan/search") {
       if (scenario === "TABLECHECK_UNPARSED") return page(url, '<a href="/en/search">Search</a>', "Search results loading", "TableCheck search");
-      if (scenario === "TABLECHECK_DISCOVERY_RECOVERS" && !tableCheckDiscoveryRevealed) {
-        return page(url, '<button type="button">Show public venues</button>', "Search filters ready", "TableCheck search");
+      if (scenario === "TABLECHECK_DISCOVERY_RECOVERS") {
+        const queryFromSourceUrl = parsed.searchParams.get("search_text")?.trim() ?? "";
+        if (queryFromSourceUrl) tableCheckDiscoveryExpectedQuery = queryFromSourceUrl;
+        const currentValue = tableCheckDiscoveryExpectedQuery;
+        const liveValue = tableCheckDiscoveryInputValue;
+        if (tableCheckDiscoveryRevealed) return page(url,
+          `<input type="search" name="search_text" aria-label="Search venues" value="${currentValue}" data-live-value="${liveValue}"><a href="/en/native-omakase-1">Native TableCheck 1</a>`,
+          "1 venue found", "TableCheck search");
+        return page(url,
+          `<input type="search" name="search_text" aria-label="Search venues" value="${currentValue}" data-live-value="${liveValue}"><a href="/en/stale-result">Stale venue</a>${liveValue === currentValue ? '<div aria-busy="true">Loading current search</div>' : ''}<button type="button">Show public venues</button>`,
+          liveValue === currentValue ? "Loading current search" : "Search filters ready", "TableCheck search");
       }
+      if (scenario === "TABLECHECK_QUERY_READY") return page(url,
+        '<input type="search" name="search_text" aria-label="Search venues" value="omakase"><script>const loading = false;</script><div class="is-hidden" aria-busy="true">Loading old results</div><a href="/en/native-omakase-1">Native TableCheck 1</a>',
+        "1 venue found", "TableCheck search");
+      if (scenario === "TABLECHECK_STALE_REJECTS") return page(url,
+        '<input type="search" name="search_text" aria-label="Search venues" value="omakase" data-live-value="old-query"><div aria-busy="true">Loading current search</div><a href="/en/native-omakase-1">Old venue</a><p>No venues found</p>',
+        "Loading current search\nNo venues found", "TableCheck search");
       const links = Array.from({ length: tablecheckCount }, (_, index) => `<a href="/en/native-omakase-${index + 1}">Native TableCheck ${index + 1}</a>`).join("");
       return page(url, links, tablecheckCount ? `${tablecheckCount} venues found` : "No venues found", "TableCheck search");
     }
@@ -116,22 +166,38 @@ export function sourcePages(scenario: SourceScenario, navigations: string[], ses
     if (tablecheckId) {
       const name = `Native TableCheck ${tablecheckId}`;
       const address = `Shibuya ${tablecheckId}, Tokyo`;
-      const available = scenario === "TABLECHECK_RECOVERS" || scenario === "TABLECHECK_EARLY_ACTIONS" || scenario === "TABLECHECK_DISCOVERY_RECOVERS" || (scenario === "TABLECHECK_CURRENT_BATCH_DELIVERS" && tablecheckId === "1") || (scenario === "TABLECHECK_CONTINUES" && tablecheckId === "2");
+      const available = scenario === "TABLECHECK_RECOVERS" || scenario === "TABLECHECK_EARLY_ACTIONS" || scenario === "TABLECHECK_DISCOVERY_RECOVERS" || scenario === "TABLECHECK_QUERY_READY" || (scenario === "TABLECHECK_CURRENT_BATCH_DELIVERS" && tablecheckId === "1") || (scenario === "TABLECHECK_CONTINUES" && tablecheckId === "2");
+      const availabilityWidget = !available
+        ? `<div data-testid="Venue Availability" data-selected-date="${date}" data-pax="2"></div><section data-availability-state="empty" data-date="${date}" data-pax="2"></section>`
+        : !tableCheckAvailabilityRevealed.has(tablecheckId)
+        ? '<div data-testid="Venue Availability"><button type="button" data-praxis-read-only="true">Show availability</button></div>'
+        : `<div data-testid="Venue Availability" data-selected-date="${date}" data-pax="2"><form><input name="reservation[start_date]" value="${date}"><select name="reservation[num_people_adult]"><option value="2" selected>2</option></select><a href="https://www.tablecheck.com/en/shops/native-omakase-${tablecheckId}/reserve?start_date=${date}&amp;num_people=2&amp;start_time=19:00">19:00</a></form></div>`;
       return page(url, [
         `<script type="application/ld+json">${JSON.stringify({ "@type": "Restaurant", name, address, geo: sourcePoint })}</script>`,
         `<link rel="canonical" href="${url}"><h1>${name}</h1><p class="address">${address}</p>`,
-        `<div data-testid="Venue Availability" data-selected-date="${date}" data-pax="2"></div>`,
-        available ? '<section data-availability-state="complete"><button class="time-slot is-available" data-time="19:00">19:00</button></section>'
-          : `<section data-availability-state="empty" data-date="${date}" data-pax="2"></section>`,
+        availabilityWidget,
       ].join(""), `${name}\n${address}\nOmakase course\n2 guests\n${date}\n19:00`);
     }
     throw new Error(`Unconfigured public source page: ${url}`);
   };
+  let reopenFailureInjected = false;
   const runtime: BrowserRuntime = { openSession: async () => {
     const sessionId = (sessionsOpened?.length ?? 0) + 1;
+    if (scenario === "TABELOG_REOPEN_RETAINS" && sessionId === 2 && !reopenFailureInjected) {
+      reopenFailureInjected = true;
+      throw Object.assign(new Error("Replacement session unavailable"), { code: "BROWSER_RUNTIME_FAILED" });
+    }
     sessionsOpened?.push(sessionId);
     return new NativeFixtureSession(lookup, navigations, sessionId, navigationSessionIds, closedSessionIds,
-      scenario === "TABLECHECK_DISCOVERY_RECOVERS" ? () => { tableCheckDiscoveryRevealed = true; } : undefined);
+      (url) => {
+        if (scenario === "TABLECHECK_DISCOVERY_RECOVERS" && new URL(url).pathname === "/en/japan/search" && tableCheckDiscoveryExpectedQuery !== "" && tableCheckDiscoveryInputValue === tableCheckDiscoveryExpectedQuery) {
+          tableCheckDiscoveryRevealed = true;
+          return;
+        }
+        const id = new URL(url).pathname.match(/^\/en\/native-omakase-(\d+)$/)?.[1];
+        if (id) tableCheckAvailabilityRevealed.add(id);
+      },
+      scenario === "TABLECHECK_DISCOVERY_RECOVERS" ? (value) => { tableCheckDiscoveryInputValue = value; } : undefined);
   } };
   return runtime;
 }

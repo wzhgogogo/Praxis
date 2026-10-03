@@ -4,7 +4,7 @@ import { basename, dirname, resolve } from "node:path";
 import { openingHoursForRequest } from "../../../domains/restaurant/read-grounding.js";
 
 
-export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@22";
+export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@24";
 export const RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION = "restaurant-hybrid-read-diagnostic-rubric@21";
 
 type JsonRecord = Record<string, unknown>;
@@ -412,7 +412,173 @@ function executedObservations(trajectories: unknown[], request: RequestShape): E
     }];
   });
 }
-function assessPresentedCandidate(candidateId: string, domain: JsonRecord, request: RequestShape, presentedEvidenceIds: Set<string>, presentedAt: unknown, observationsByCandidate: Set<string> | undefined, executedReads?: ExecutedObservation[]): { status: DiagnosticEvaluationStatus; observations: string[]; refs: string[] } {
+interface RawTableCheckAssessment {
+  status: DiagnosticEvaluationStatus;
+  outcome?: "AVAILABLE" | "EMPTY";
+  observations: string[];
+  refs: string[];
+}
+
+/**
+ * Read the redacted browser chronology as raw evidence.  The production
+ * availability check and its claims identify the candidate only; they do not
+ * establish the current result.  A trace can do so only when one captured
+ * post-query snapshot binds the requested date and party to an enabled slot.
+ */
+function tableCheckTraceGroups(root: JsonRecord): JsonRecord[][] {
+  return [asRecord(root.diagnostics)?.browserTrace, asRecord(root.sourceTrace)?.browserTrace]
+    .map(asArray)
+    .map(items => items.map(asRecord).filter((item): item is JsonRecord => Boolean(item)))
+    .filter(items => items.length > 0);
+}
+function traceSequence(entry: JsonRecord): number | undefined { const value = asNumber(entry.sequence); return value !== undefined && Number.isInteger(value) && value > 0 ? value : undefined; }
+function traceControlsForSnapshot(trace: JsonRecord[], sequence: number): JsonRecord[] | undefined {
+  const controls = trace.filter(entry => entry.kind === "CONTROLS" && asNumber(asRecord(entry.detail)?.snapshotSequence) === sequence);
+  const latest = controls.at(-1);
+  return latest ? asArray(asRecord(latest.detail)?.controls).map(asRecord).filter((item): item is JsonRecord => Boolean(item)) : undefined;
+}
+function traceControlField(control: JsonRecord): string {
+  const structure = asRecord(control.structure);
+  return normalized(asString(structure?.name) ?? asString(control.name) ?? asString(control.label));
+}
+function traceControlValues(control: JsonRecord): string[] {
+  const own = asString(control.value);
+  const selected = asArray(control.options).map(asRecord).filter((item): item is JsonRecord => Boolean(item?.selected))
+    .flatMap(item => [asString(item.value), asString(item.label)]).filter((item): item is string => Boolean(item));
+  return [...new Set([own, ...selected].filter((item): item is string => Boolean(item)))];
+}
+function traceRegionSlots(detail: JsonRecord, request: RequestShape, sourceEntityId: unknown): Array<{ time: string; disabled: boolean }> {
+  const slots: Array<{ time: string; disabled: boolean }> = [];
+  const allowedWindow = request.permittedAlternativeTimeWindow ?? request.timeWindow;
+  for (const region of asArray(detail.queryRegions).map(asRecord).filter((item): item is JsonRecord => Boolean(item))) {
+    if (region.truncated === true || region.ancestorMarkupHidden === true) continue;
+    const markup = visibleQueryMarkup(asString(region.markup) ?? "");
+    for (const match of markup.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/gi)) {
+      const attrs = match[1] ?? ""; const child = match[2] ?? "";
+      const date = attrs.match(/\bdata-reservation-date="([^"]+)"/i)?.[1];
+      const party = attrs.match(/\bdata-reservation-party="([^"]+)"/i)?.[1];
+      const time = attrs.match(/\bdata-reservation-time="([^"]+)"/i)?.[1];
+      const source = attrs.match(/\bdata-reservation-source="([^"]+)"/i)?.[1];
+      if (/data-markup-hidden="true"/i.test(`${attrs}>${child}`) || !source || !traceSourceMatches(`https://www.tablecheck.com${source}`, sourceEntityId) || date !== request.date || Number(party) !== request.partySize || !time || !allowedWindow || time < allowedWindow.earliest || time > allowedWindow.latest) continue;
+      slots.push({ time, disabled: /\bdisabled(?:\s|>|=)|aria-disabled="true"/i.test(`${attrs}>${child}`) });
+    }
+  }
+  return slots;
+}
+function visibleQueryMarkup(markup: string): string {
+  // Query-region markup is a restricted, tag-balanced capture.  Pair the
+  // marked element with its own closing tag so a nested element of the same
+  // name cannot leak a hidden descendant into the raw availability review.
+  const tag = /<\s*(\/?)\s*([a-z][\w-]*)\b[^>]*>/gi;
+  const omitted: Array<{ start: number; end: number }> = [];
+  for (let match = tag.exec(markup); match; match = tag.exec(markup)) {
+    const closing = match[1] === "/";
+    const name = match[2]!.toLowerCase();
+    if (closing || !/\bdata-markup-hidden="true"/i.test(match[0])) continue;
+    if (/\/\s*>$/.test(match[0])) { omitted.push({ start: match.index, end: tag.lastIndex }); continue; }
+    const start = match.index;
+    let depth = 1;
+    let end = markup.length; // An unclosed marked subtree remains untrusted.
+    for (let nested = tag.exec(markup); nested; nested = tag.exec(markup)) {
+      if (nested[2]!.toLowerCase() !== name) continue;
+      if (nested[1] === "/") depth--;
+      else if (!/\/\s*>$/.test(nested[0])) depth++;
+      if (depth === 0) { end = tag.lastIndex; break; }
+    }
+    omitted.push({ start, end });
+  }
+  if (!omitted.length) return markup;
+  let cursor = 0;
+  return omitted.sort((left, right) => left.start - right.start).map(range => {
+    const visible = range.start < cursor ? "" : markup.slice(cursor, range.start);
+    cursor = Math.max(cursor, range.end);
+    return visible;
+  }).join("") + markup.slice(cursor);
+}
+function traceExplicitEmpty(detail: JsonRecord, request: RequestShape): boolean {
+  return asArray(detail.queryRegions).map(asRecord).filter((item): item is JsonRecord => Boolean(item)).some(region => {
+    if (region.truncated === true || region.ancestorMarkupHidden === true) return false;
+    const markup = visibleQueryMarkup(asString(region.markup) ?? "");
+    return markup.includes(`data-reservation-empty-date="${request.date}"`) && markup.includes(`data-reservation-empty-party="${request.partySize}"`);
+  });
+}
+function traceSourceMatches(url: unknown, sourceEntityId: unknown): boolean {
+  const entity = normalized(asString(sourceEntityId)); if (!entity) return false;
+  try {
+    const parsed = new URL(asString(url) ?? "");
+    if (!/(^|\.)tablecheck\.com$/i.test(parsed.hostname)) return false;
+    const parts = parsed.pathname.split("/").filter(Boolean).map(normalized);
+    if (["en", "ja"].includes(parts[0] ?? "")) parts.shift();
+    const entityParts = entity.split("/").filter(Boolean);
+    const slug = entityParts.at(-1);
+    return Boolean(slug && (parts[0] === slug || (parts[0] === "shops" && parts[1] === slug)));
+  } catch { return false; }
+}
+function rawTableCheckCurrentResult(root: JsonRecord, request: RequestShape, evidence: JsonRecord[], expected: "AVAILABLE" | "EMPTY", presentedTimes: string[] = []): RawTableCheckAssessment | undefined {
+  const anyTableCheckEvidence = evidence.filter(item => item.provider === "TABLECHECK" && item.kind === "AVAILABILITY");
+  if (!anyTableCheckEvidence.length) return undefined;
+  const tableCheckEvidence = anyTableCheckEvidence.filter(item => asString(item.sourceEntityId));
+  if (!tableCheckEvidence.length) return { status: "NOT_EVALUATED", observations: ["raw TableCheck source entity is missing."], refs: [ref("finalSnapshot.domainState.readEvidence")] };
+  if (!request.date || request.partySize === undefined || !request.timeWindow) {
+    return { status: "NOT_EVALUATED", observations: ["raw TableCheck current-result review requires a requested date, party size, and time window."], refs: [ref("diagnostics.browserTrace"), ref("sourceTrace.browserTrace")] };
+  }
+  const groups = tableCheckTraceGroups(root);
+  if (!groups.length) return { status: "NOT_EVALUATED", observations: ["raw TableCheck browser trace is missing."], refs: [ref("diagnostics.browserTrace"), ref("sourceTrace.browserTrace")] };
+  const reviews: Array<{ groupIndex: number; sequence: number; state: "MATCH" | "CONFLICT" | "INCOMPLETE"; outcome?: "AVAILABLE" | "EMPTY"; loading: boolean; ref: string }> = [];
+  for (const [groupIndex, trace] of groups.entries()) {
+    const ordered = [...trace].sort((left, right) => (traceSequence(left) ?? Number.POSITIVE_INFINITY) - (traceSequence(right) ?? Number.POSITIVE_INFINITY));
+    if (ordered.some(entry => traceSequence(entry) === undefined)) continue;
+    for (const entry of ordered) {
+      if (entry.kind !== "SNAPSHOT") continue;
+      const sequence = traceSequence(entry)!; const detail = asRecord(entry.detail) ?? {};
+      const source = tableCheckEvidence.find(item => traceSourceMatches(detail.url, item.sourceEntityId));
+      if (!source) continue;
+      const controls = (traceControlsForSnapshot(ordered, sequence) ?? []).filter(control => control.visible === true && control.disabled !== true);
+      const dates = controls.filter(control => /(?:start_date|\bdate\b)/.test(traceControlField(control))).flatMap(traceControlValues);
+      const parties = controls.filter(control => /(?:num_people|party|adult|guest|pax)/.test(traceControlField(control))).flatMap(traceControlValues);
+      const dateState = dates.length ? dates.includes(request.date) ? "MATCH" : "CONFLICT" : "INCOMPLETE";
+      const partyState = parties.length ? parties.some(value => Number(value) === request.partySize) ? "MATCH" : "CONFLICT" : "INCOMPLETE";
+      const slots = traceRegionSlots(detail, request, source.sourceEntityId);
+      const exactLinkBindsRequest = slots.length > 0 || traceExplicitEmpty(detail, request);
+      let state: "MATCH" | "CONFLICT" | "INCOMPLETE" = dateState === "CONFLICT" || partyState === "CONFLICT" ? "CONFLICT" : exactLinkBindsRequest || dateState === "MATCH" && partyState === "MATCH" ? "MATCH" : "INCOMPLETE";
+      const regions = asArray(detail.queryRegions).map(asRecord).filter((item): item is JsonRecord => Boolean(item));
+      const loading = regions.some(region => region.truncated === true || /\bloading\b/i.test(asString(region.markup) ?? ""));
+      const relevantSlots = presentedTimes.length ? slots.filter(slot => presentedTimes.includes(slot.time)) : slots;
+      const sameSlotConflict = relevantSlots.some(slot => slot.disabled) && relevantSlots.some(slot => !slot.disabled && relevantSlots.some(other => other.time === slot.time && other.disabled));
+      if (sameSlotConflict) state = "CONFLICT";
+      const everyPresentedTimeEnabled = presentedTimes.length > 0 && presentedTimes.every(time => relevantSlots.some(slot => slot.time === time && !slot.disabled));
+      const outcome = state !== "MATCH" || loading ? undefined
+        : expected === "EMPTY" ? traceExplicitEmpty(detail, request) ? "EMPTY" : undefined
+        : !relevantSlots.length || sameSlotConflict ? undefined
+        : presentedTimes.length ? everyPresentedTimeEnabled ? "AVAILABLE" : relevantSlots.some(slot => slot.disabled) ? "EMPTY" : undefined
+        : relevantSlots.some(slot => !slot.disabled) ? "AVAILABLE" : "EMPTY";
+      reviews.push({ groupIndex, sequence, state, ...(outcome ? { outcome } : {}), loading, ref: `browserTrace[sequence=${sequence}]` });
+    }
+  }
+  const latest = reviews.sort((left, right) => left.sequence - right.sequence).at(-1);
+  if (!latest) return { status: "NOT_EVALUATED", observations: ["raw TableCheck trace has no source-matching post-query snapshot."], refs: [ref("diagnostics.browserTrace"), ref("sourceTrace.browserTrace")] };
+  let leftLatestSource = false;
+  const trailingMutation = groups[latest.groupIndex]!
+    .filter(entry => (traceSequence(entry) ?? 0) > latest.sequence)
+    .some(entry => {
+      if (entry.kind !== "SESSION_CALL") return false;
+      const detail = asRecord(entry.detail) ?? {}; const method = asString(detail.method) ?? ""; const args = asArray(detail.args);
+      if (method === "navigate" || method === "openLink") {
+        const target = method === "navigate" ? args[0] : args[1];
+        const returnsToLatestSource = tableCheckEvidence.some(item => traceSourceMatches(target, item.sourceEntityId));
+        leftLatestSource = !returnsToLatestSource;
+        return returnsToLatestSource;
+      }
+      return !leftLatestSource && ["select", "click", "fill", "press"].includes(method);
+    });
+  if (trailingMutation) return { status: "NOT_EVALUATED", observations: [`raw TableCheck snapshot sequence ${latest.sequence} was followed by a browser mutation without a newer settled result.`], refs: [latest.ref] };
+  if (latest.state === "CONFLICT") return { status: "NOT_SATISFIED", observations: [`raw TableCheck snapshot sequence ${latest.sequence} binds a different requested date or party size.`], refs: [latest.ref] };
+  if (latest.state !== "MATCH" || latest.loading || !latest.outcome) return { status: "NOT_EVALUATED", observations: [`raw TableCheck snapshot sequence ${latest.sequence} lacks a settled request-bound slot result.`], refs: [latest.ref] };
+  if (latest.outcome !== expected) return { status: "NOT_SATISFIED", observations: [`raw TableCheck snapshot sequence ${latest.sequence} reports ${latest.outcome} for the requested slot.`], refs: [latest.ref] };
+  return { status: "SATISFIED", outcome: latest.outcome, observations: [`raw TableCheck snapshot sequence ${latest.sequence} reports ${latest.outcome} for the requested date, party size, and time.`], refs: [latest.ref] };
+}
+
+function assessPresentedCandidate(candidateId: string, root: JsonRecord, domain: JsonRecord, request: RequestShape, presentedEvidenceIds: Set<string>, presentedAt: unknown, observationsByCandidate: Set<string> | undefined, executedReads?: ExecutedObservation[]): { status: DiagnosticEvaluationStatus; observations: string[]; refs: string[]; rawTableCheck?: RawTableCheckAssessment } {
   const checks = asRecord(domain.availabilityChecks) ?? {}; const availability = asRecord(domain.availability) ?? {};
   const allEvidence = asArray(domain.readEvidence).map(asRecord).filter((item): item is JsonRecord => Boolean(item)); const check = asRecord(checks[candidateId]);
   const offers = asArray(availability[candidateId]).map(asRecord).filter((item): item is JsonRecord => Boolean(item));
@@ -542,9 +708,12 @@ function assessPresentedCandidate(candidateId: string, domain: JsonRecord, reque
       const freshness = validDuringPresentation(offer.checkedAt, offer.displayExpiresAt ?? offer.expiresAt, presentedAt); if (freshness === "MISSING") missing.push("offer observation/display freshness"); if (freshness === "INVALID") conflicts.push("offer display-freshness ordering is invalid"); if (freshness === "FUTURE_OBSERVATION") conflicts.push("offer was checked after presentation"); if (freshness === "EXPIRED") conflicts.push("offer was expired when presented");
     }
   }
+  const rawTableCheck = factOnly ? undefined : rawTableCheckCurrentResult(root, request, availabilityEvidence, "AVAILABLE", offers.filter(offer => offer.source === "TABLECHECK").map(offer => timeFromDateTime(offer.dateTime)).filter((time): time is string => Boolean(time)));
+  if (rawTableCheck?.status === "NOT_SATISFIED") conflicts.push(...rawTableCheck.observations);
+  if (rawTableCheck?.status === "NOT_EVALUATED") missing.push(...rawTableCheck.observations);
   observations.push(`candidate=${candidateId}`, `citedEvidence=${listedEvidence.length}`, `offers=${offers.length}`, ...missing.map((item) => `missing=${item}`), ...conflicts.map((item) => `conflict=${item}`));
-  listedEvidence.forEach((item) => refs.push(ref(`finalSnapshot.domainState.readEvidence[evidenceId=${asString(item.evidenceId) ?? "missing"}]`))); offers.forEach((item) => refs.push(ref(`finalSnapshot.domainState.availability[${candidateId}][id=${asString(item.id) ?? "missing"}]`)));
-  if (conflicts.length) return { status: "NOT_SATISFIED", observations, refs }; if (missing.length) return { status: "NOT_EVALUATED", observations, refs }; return { status: "SATISFIED", observations, refs };
+  listedEvidence.forEach((item) => refs.push(ref(`finalSnapshot.domainState.readEvidence[evidenceId=${asString(item.evidenceId) ?? "missing"}]`))); offers.forEach((item) => refs.push(ref(`finalSnapshot.domainState.availability[${candidateId}][id=${asString(item.id) ?? "missing"}]`))); refs.push(...(rawTableCheck?.refs ?? []));
+  if (conflicts.length) return { status: "NOT_SATISFIED", observations, refs, ...(rawTableCheck ? { rawTableCheck } : {}) }; if (missing.length) return { status: "NOT_EVALUATED", observations, refs, ...(rawTableCheck ? { rawTableCheck } : {}) }; return { status: "SATISFIED", observations, refs, ...(rawTableCheck ? { rawTableCheck } : {}) };
 }
 
 /**
@@ -573,8 +742,9 @@ function assessNoResult(root: JsonRecord, domain: JsonRecord, request: RequestSh
     const check = asRecord(availabilityChecks[id]);
     if (check?.status !== "UNAVAILABLE") return false;
     const evidenceIds = new Set(strings(check.evidenceIds));
-    return !evidenceIds.size || !evidence.some((item) => {
-      if (item.candidateId !== id || item.kind !== "AVAILABILITY" || !evidenceIds.has(asString(item.evidenceId) ?? "")) return false;
+    const currentEvidence = evidence.filter((item) => item.candidateId === id && item.kind === "AVAILABILITY" && evidenceIds.has(asString(item.evidenceId) ?? ""));
+    if (currentEvidence.some(item => item.provider === "TABLECHECK")) return false;
+    return !currentEvidence.some((item) => {
       const claims = asRecord(item.claims) ?? {};
       // A visible empty booking result is source evidence only for this exact
       // request.  It cannot be borrowed from another date/party, nor can an
@@ -585,6 +755,17 @@ function assessNoResult(root: JsonRecord, domain: JsonRecord, request: RequestSh
   if (unsupportedUnavailable.length) {
     return { status: "NOT_SATISFIED", observations: [`Unsupported explicit no-availability conclusion for ${unsupportedUnavailable.join(", ")}: a candidate-bound, current-request inventory-negative source record is required.`], refs: [ref("finalSnapshot.domainState.availabilityChecks"), ref("finalSnapshot.domainState.readEvidence")] };
   }
+  const rawUnavailable = ids.flatMap((id) => {
+    const check = asRecord(availabilityChecks[id]);
+    if (check?.status !== "UNAVAILABLE") return [];
+    const evidenceIds = new Set(strings(check.evidenceIds));
+    const currentTableCheck = evidence.filter(item => item.candidateId === id && item.kind === "AVAILABILITY" && item.provider === "TABLECHECK" && evidenceIds.has(asString(item.evidenceId) ?? ""));
+    return currentTableCheck.length ? [{ id, assessment: rawTableCheckCurrentResult(root, request, currentTableCheck, "EMPTY")! }] : [];
+  });
+  const contradictedUnavailable = rawUnavailable.filter(item => item.assessment.status === "NOT_SATISFIED");
+  if (contradictedUnavailable.length) return { status: "NOT_SATISFIED", observations: contradictedUnavailable.flatMap(item => item.assessment.observations), refs: contradictedUnavailable.flatMap(item => item.assessment.refs) };
+  const incompleteUnavailable = rawUnavailable.filter(item => item.assessment.status === "NOT_EVALUATED");
+  if (incompleteUnavailable.length) return { status: "NOT_EVALUATED", observations: incompleteUnavailable.flatMap(item => item.assessment.observations), refs: incompleteUnavailable.flatMap(item => item.assessment.refs) };
   const qualified = ids.filter(id => {
     const factCheck = asRecord(factChecks[id]);
     const availabilityCheck = asRecord(availabilityChecks[id]);
@@ -599,7 +780,7 @@ function assessNoResult(root: JsonRecord, domain: JsonRecord, request: RequestSh
     const observedEvidenceIds = observations === undefined ? undefined : new Set(observations
       .filter((item) => item.applicableRequest && item.candidateIds.includes(id))
       .flatMap((item) => item.evidenceIds));
-    return assessPresentedCandidate(id, domain, request, currentRefs, endedAt, observedEvidenceIds, observations).status === "SATISFIED";
+    return assessPresentedCandidate(id, root, domain, request, currentRefs, endedAt, observedEvidenceIds, observations).status === "SATISFIED";
   });
   if (qualified.length) return { status: "NOT_SATISFIED", observations: [`No-result contradicts independently supported candidates: ${qualified.join(", ")}`], refs: qualified.map(id => ref(`finalSnapshot.domainState.availability[${id}]`)) };
   const unknown = (reason: string) => ({ status: "NOT_EVALUATED" as const, observations: [reason], refs: [ref("finalSnapshot.domainState.noVerifiedResult"), ref("trajectories")] });
@@ -665,7 +846,7 @@ export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceAr
     const observedEvidenceIds = observations === undefined ? undefined : new Set(observations
       .filter((item) => item.applicableRequest && item.candidateIds.includes(candidateId))
       .flatMap((item) => item.evidenceIds));
-    return assessPresentedCandidate(candidateId, domain, groundingRequest, citedIds, presentedAt, observedEvidenceIds, observations);
+    return assessPresentedCandidate(candidateId, root, domain, groundingRequest, citedIds, presentedAt, observedEvidenceIds, observations);
   });
   const evidenceStatus: DiagnosticEvaluationStatus = candidateAssessments.length === 0 ? "NOT_EVALUATED" : candidateAssessments.some((item) => item.status === "NOT_SATISFIED") ? "NOT_SATISFIED" : candidateAssessments.some((item) => item.status === "NOT_EVALUATED") || expected.unsupportedHardCriteria.length ? "NOT_EVALUATED" : "SATISFIED";
   const visits = Array.isArray(trajectoriesValue) ? executedInvestigationVisits(trajectories) : undefined;
@@ -695,7 +876,8 @@ export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceAr
   const missingConditionRecords = [...expected.missing, ...(actual?.missing ?? []), ...(finalAuthoritativeIntent ? [] : ["final authoritative intentDraft"])];
   const resourcesStatus: DiagnosticEvaluationStatus = invalidResourceFields.length || invalidLimitFields.length || overLimit.length ? "NOT_SATISFIED" : !resourceUsage || missingResourceFields.length || !limits || missingLimitFields.length ? "NOT_EVALUATED" : "SATISFIED";
   const conditionsStatus: DiagnosticEvaluationStatus = missingConditionRecords.length ? "NOT_EVALUATED" : conditionMismatchesList.length || criteriaComparison.conflicts.length ? "NOT_SATISFIED" : criteriaComparison.unresolved.length ? "NOT_EVALUATED" : "SATISFIED";
-  const investigationStatus: DiagnosticEvaluationStatus = !observations ? "NOT_EVALUATED" : duplicateVisits.length ? "NOT_SATISFIED" : "SATISFIED";
+  const rawTableCheckAssessments = candidateAssessments.flatMap(item => item.rawTableCheck ? [item.rawTableCheck] : []);
+  const investigationStatus: DiagnosticEvaluationStatus = !observations ? "NOT_EVALUATED" : duplicateVisits.length || rawTableCheckAssessments.some(item => item.status === "NOT_SATISFIED") ? "NOT_SATISFIED" : rawTableCheckAssessments.some(item => item.status === "NOT_EVALUATED") ? "NOT_EVALUATED" : "SATISFIED";
   const claimStatus: DiagnosticEvaluationStatus = finalPhase !== "PRESENT_RESULTS" ? "NOT_EVALUATED" : loopStatus !== "TERMINAL" ? "NOT_SATISFIED" : conditionsStatus === "NOT_SATISFIED" || evidenceStatus === "NOT_SATISFIED" || investigationStatus === "NOT_SATISFIED" ? "NOT_SATISFIED" : conditionsStatus === "NOT_EVALUATED" || evidenceStatus === "NOT_EVALUATED" || investigationStatus === "NOT_EVALUATED" ? "NOT_EVALUATED" : "SATISFIED";
   const completion = completionKind({ phase: finalPhase, loopStatus, failure: asRecord(domain.failure), executionStatus: asString(root.status), executionFailureCode });
   const noResultRecord = asRecord(domain.noVerifiedResult);
@@ -706,7 +888,7 @@ export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceAr
   const findings: DiagnosticFinding[] = [
     { dimension: "AUTHORITATIVE_CONDITIONS", status: conditionsStatus, stage: "SEMANTIC_TO_FINAL_STATE", requirement: "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.", observations: missingConditionRecords.length ? [`Missing or invalid comparison records: ${missingConditionRecords.join(", ")}.`] : conditionMismatchesList.length || criteriaComparison.conflicts.length ? [`Conflicting fields: ${[...conditionMismatchesList, ...criteriaComparison.conflicts].join(", ")}.`] : criteriaComparison.unresolved.length ? [`Unresolved criterion wording: ${criteriaComparison.unresolved.join(", ")}.`] : ["All independently readable applicable request fields match."], directCause: missingConditionRecords.length ? "The artifact lacks a required authority record; no condition conflict can be inferred." : conditionMismatchesList.length || criteriaComparison.conflicts.length ? "The recorded authoritative request conflicts with the materialized request." : criteriaComparison.unresolved.length ? "Criterion text differs without a deterministic equivalence rule; independent semantic review is required." : "No conflict observed.", rootCauseHypothesis: missingConditionRecords.length ? "Final-state serialization or historical artifact schema needs review." : conditionMismatchesList.length || criteriaComparison.conflicts.length ? "Requires semantic/compiler/runtime trace review." : criteriaComparison.unresolved.length ? "The model may have paraphrased, omitted, or added a criterion; the evaluator does not guess which." : "Not applicable.", certainty: missingConditionRecords.length || criteriaComparison.unresolved.length ? "UNKNOWN" : "CONFIRMED", evidenceRefs: [ref("materializedCase.semantic"), ref("finalSnapshot.domainState.intentDraft")], downstreamImpact: missingConditionRecords.length || conditionMismatchesList.length || criteriaComparison.conflicts.length ? "Final acceptance is blocked by a semantic conflict, while grounding remains independently evaluated against the actual request." : criteriaComparison.unresolved.length ? "Do not claim automatic semantic fidelity for the text difference; grounding remains independently evaluated against the actual request." : "Grounding can be evaluated against one request." },
     { dimension: "REQUIRED_EVIDENCE", status: evidenceStatus, stage: "GROUNDING", requirement: "Each presented candidate must independently cite same-candidate HIGH identity, area, applicable HARD facts, and only when the user requested availability, fresh request-bound slot evidence.", observations: [...candidateAssessments.flatMap((item) => item.observations), ...(expected.unsupportedHardCriteria.length ? [`NOT_EVALUATED unsupported HARD evidence contract: ${expected.unsupportedHardCriteria.join(", ")}`] : [])], directCause: evidenceStatus === "SATISFIED" ? "Every presented candidate has independently linked evidence." : evidenceStatus === "NOT_SATISFIED" ? "A cited candidate record conflicts with identity, request, source, freshness, or offer invariants." : "Artifact records or accepted evidence contract are insufficient for an independent conclusion.", rootCauseHypothesis: evidenceStatus === "NOT_SATISFIED" ? "Grounding, serialization, or presentation selection requires review." : "Execution artifact or accepted evidence contract lacks required detail.", certainty: evidenceStatus === "NOT_EVALUATED" ? "UNKNOWN" : "CONFIRMED", evidenceRefs: candidateAssessments.flatMap((item) => item.refs), downstreamImpact: evidenceStatus === "SATISFIED" ? "The presentation is independently supported." : "Do not claim an evidence-grounded result from this artifact." },
-    { dimension: "INVESTIGATION_BEHAVIOR", status: investigationStatus, stage: "AGENT_LOOP", requirement: "Cited presentation evidence must originate in actually executed same-candidate observations for the applicable request; duplicate fact/availability reads remain checked without requiring either action type.", observations: !observations ? ["Trajectory record is missing; executed observation lineage cannot be evaluated."] : presentedWithoutExecutedObservation ? ["A result was presented but no trajectory observation records applicable candidate-bound evidence."] : [`executedObservations=${observations.length}`, `applicableObservations=${observations.filter((item) => item.applicableRequest).length}`, `executedInvestigationVisits=${visits?.length ?? 0}`, `authorizedRechecks=${visits?.filter((item) => item.recheckReason).map((item) => item.candidateId + ":" + item.recheckReason).join(",") || "none"}`, `duplicates=${duplicateVisits.map((item) => item.actionType + ":" + item.candidateId).join(",") || "none"}`], directCause: !observations ? "No trajectory record." : presentedWithoutExecutedObservation ? "The artifact records no applicable executed observation supporting its presentation." : duplicateVisits.length ? "The same candidate was executed more than once for the same request version without an authorized recheck reason." : "Executed observations are attributable without a duplicate fact/availability read.", rootCauseHypothesis: !observations || presentedWithoutExecutedObservation ? "Historical artifact or execution serialization omits actual observation lineage." : duplicateVisits.length ? "Agent/context/validator no-progress handling needs review." : "Not applicable.", certainty: !observations || presentedWithoutExecutedObservation ? "UNKNOWN" : "CONFIRMED", evidenceRefs: !observations ? [ref("artifact.trajectories")] : observations.map((item) => item.ref), downstreamImpact: investigationStatus === "SATISFIED" ? "Observation lineage and duplicate-read accounting remain attributable." : "Coverage and evidence-lineage claims cannot be inferred from this artifact." },
+    { dimension: "INVESTIGATION_BEHAVIOR", status: investigationStatus, stage: "AGENT_LOOP", requirement: "Cited presentation evidence must originate in actually executed same-candidate observations for the applicable request; duplicate fact/availability reads remain checked without requiring either action type.", observations: !observations ? ["Trajectory record is missing; executed observation lineage cannot be evaluated."] : presentedWithoutExecutedObservation ? ["A result was presented but no trajectory observation records applicable candidate-bound evidence."] : [...rawTableCheckAssessments.flatMap(item => item.observations), `executedObservations=${observations.length}`, `applicableObservations=${observations.filter((item) => item.applicableRequest).length}`, `executedInvestigationVisits=${visits?.length ?? 0}`, `authorizedRechecks=${visits?.filter((item) => item.recheckReason).map((item) => item.candidateId + ":" + item.recheckReason).join(",") || "none"}`, `duplicates=${duplicateVisits.map((item) => item.actionType + ":" + item.candidateId).join(",") || "none"}`], directCause: !observations ? "No trajectory record." : presentedWithoutExecutedObservation ? "The artifact records no applicable executed observation supporting its presentation." : duplicateVisits.length ? "The same candidate was executed more than once for the same request version without an authorized recheck reason." : rawTableCheckAssessments.some(item => item.status !== "SATISFIED") ? "The captured TableCheck result does not independently establish the current request result." : "Executed observations are attributable without a duplicate fact/availability read.", rootCauseHypothesis: !observations || presentedWithoutExecutedObservation ? "Historical artifact or execution serialization omits actual observation lineage." : duplicateVisits.length ? "Agent/context/validator no-progress handling needs review." : rawTableCheckAssessments.some(item => item.status !== "SATISFIED") ? "Browser trace capture or current-result selection requires review." : "Not applicable.", certainty: !observations || presentedWithoutExecutedObservation || rawTableCheckAssessments.some(item => item.status === "NOT_EVALUATED") ? "UNKNOWN" : "CONFIRMED", evidenceRefs: !observations ? [ref("artifact.trajectories")] : [...observations.map((item) => item.ref), ...rawTableCheckAssessments.flatMap(item => item.refs)], downstreamImpact: investigationStatus === "SATISFIED" ? "Observation lineage and duplicate-read accounting remain attributable." : "Coverage and evidence-lineage claims cannot be inferred from this artifact." },
     { dimension: "FINAL_CLAIM", status: claimStatus, stage: "PRESENT_RESULTS", requirement: "A terminal presentation must agree with the independently checked, candidate-specific request and evidence records.", observations: [`phase=${finalPhase ?? "missing"}`, `loop=${loopStatus ?? "missing"}`, `presentedCandidates=${presentedIds.length}`], directCause: claimStatus === "SATISFIED" ? "Terminal presentation and independently evaluated evidence agree." : finalPhase !== "PRESENT_RESULTS" ? "No terminal presentation was executed." : "Terminal presentation has conflicting or insufficient independent support.", rootCauseHypothesis: claimStatus === "SATISFIED" ? "Not applicable." : "Verifier, serialization, or upstream execution record requires review.", certainty: claimStatus === "NOT_EVALUATED" ? "UNKNOWN" : "CONFIRMED", evidenceRefs: [ref("loop"), ref("finalSnapshot.domainState.presentedResults"), ref("finalSnapshot.domainState.availability"), ref("finalSnapshot.domainState.readEvidence")], downstreamImpact: claimStatus === "SATISFIED" ? "Execution produced a qualified read-only result." : "No qualified completion can be claimed." },
     { dimension: "COMPLETION_OUTCOME", status: completionStatus, stage: "TERMINATION", requirement: "A scoped no-result outcome, user-input pause, controlled cancellation, budget/deadline stop, and internal execution failure must remain distinguishable from one another and from independently verified presentation.", observations: [`completion=${completion}`, `phase=${finalPhase ?? "missing"}`, `loop=${loopStatus ?? "missing"}`, `noVerifiedResult=${noResultRecord ? "recorded" : "missing"}`, `failureCode=${executionFailureCode ?? "missing"}`, ...(noResultAssessment?.observations ?? [])], directCause: completion === "NO_VERIFIED_RESULT" ? noResultAssessment!.observations.join(" ") : completion === "NEEDS_USER_INPUT" ? "A required user field remains absent." : completion === "CANCELLED" ? "The immutable execution record reports controlled cancellation." : completion === "BUDGET_OR_DEADLINE_STOP" ? "The immutable execution record reports that the configured budget or deadline stopped further work." : completion === "INTERNAL_EXECUTION_FAILURE" ? "The execution record reports an internal failure; it is not a normal no-result outcome." : completion === "PRESENTATION_RECORDED" ? "A presentation was recorded and is checked independently above." : "Artifact lacks enough terminal information to classify the outcome.", rootCauseHypothesis: completion === "INTERNAL_EXECUTION_FAILURE" ? "Execution, Router, or model transport requires review." : completion === "NOT_EVALUATED" ? "Historical artifact or terminal serialization requires review." : "Not applicable.", certainty: completionStatus === "NOT_EVALUATED" ? "UNKNOWN" : "CONFIRMED", evidenceRefs: [ref("status"), ref("execution.failureCode"), ref("loop.status"), ref("finalSnapshot.domainState.phase"), ref("finalSnapshot.domainState.noVerifiedResult"), ref("finalSnapshot.domainState.failure"), ...(noResultAssessment?.refs ?? [])], downstreamImpact: completion === "NO_VERIFIED_RESULT" ? "Do not represent the scoped stop as a source-confirmed global negative result." : completion === "INTERNAL_EXECUTION_FAILURE" ? "Do not ask the user to cure an internal failure or report it as normal search exhaustion." : completion === "NEEDS_USER_INPUT" ? "Request only the recorded missing user information." : completion === "CANCELLED" || completion === "BUDGET_OR_DEADLINE_STOP" ? "Do not represent this controlled stop as a qualified result, a source-confirmed no-result, or a user-information failure." : completion === "PRESENTATION_RECORDED" ? "Presentation support remains independently auditable." : "No reliable outcome classification can be claimed." },
     { dimension: "RESOURCES", status: resourcesStatus, stage: "RUN_ACCOUNTING", requirement: "Artifact must provide valid applicable resource values; an object alone does not prove complete accounting or budget compliance.", observations: !resourceUsage ? ["resourceUsage is missing."] : [...missingResourceFields.map((field) => `missing=${field}`), ...invalidResourceFields.map((field) => `invalid=${field}`), ...missingLimitFields.map((field) => `missingLimit=${field}`), ...invalidLimitFields.map((field) => `invalidLimit=${field}`), ...overLimit.map((item) => `overLimit=${item}`)], directCause: resourcesStatus === "SATISFIED" ? "Required resource fields are present and within readable applicable limits." : resourcesStatus === "NOT_SATISFIED" ? "Resource record is invalid or over a declared limit." : "Required resource accounting is missing.", rootCauseHypothesis: resourcesStatus === "NOT_EVALUATED" ? "Historical artifact or interrupted execution lacks complete accounting." : "Runner limit/accounting requires review.", certainty: resourcesStatus === "NOT_EVALUATED" ? "UNKNOWN" : "CONFIRMED", evidenceRefs: [ref("resourceUsage"), ref(currentRunner ? "runCeilings" : "limits"), ref("modelInvocations")], downstreamImpact: resourcesStatus === "SATISFIED" ? "Recorded budget use can be reviewed." : "Do not infer limit compliance or a stopping cause." },

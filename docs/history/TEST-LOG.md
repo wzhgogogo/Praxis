@@ -1,8 +1,8 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.148
-- Last updated: 2026-10-01
+- Document revision: 4.150
+- Last updated: 2026-10-03
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
@@ -3535,3 +3535,59 @@ Read-only reevaluation of five saved worktree-1135 artifacts: H001/H005 all dime
 
 - Final regression after the passive exact-response compatibility change: `npm test` **580/580 PASS** in the permitted local host environment; `npm run test:browser:fixture` passed in the same environment; `npm run typecheck`, `npm run arch:check`, `npm run build`, and `git diff --check` passed. The restricted sandbox cannot launch macOS Chromium because its browser rendezvous port is denied before fixture execution; that environment failure is not recorded as a product assertion failure.
 - The compatibility code is fail-closed: only an observed page-owned same-shop response whose URL carries the exact Tokyo date, adult count, and one requested time can ground the provider's explicit empty result. The bounded LAVAROCK diagnostic produced no such response and left submission disabled, so this remains `PENDING_SOURCE_EVIDENCE`, not `UNAVAILABLE`, an Offer, or H001 success.
+
+## TEST-2026-10-01-H001-TOMORROW-NATIVE-LIVE
+
+- Mode: one user-authorized real-source Hybrid Live Read-only run using `LOCAL_CHROMIUM`, real DeepSeek, one Google named-place resolution, and the H001 tomorrow-date variant. The original H001 input and Gold were unchanged; runtime materialized Tokyo `2026-10-02 19:00`, two people. The command fixed 300,000ms, 50 model calls, 30 Agent steps, 30 availability-browser operations per candidate, 60,000ms per availability candidate, and 30,000ms per provider. No retry, booking, payment, cancellation, or other external write was performed.
+- Execution: `SUCCEEDED / NO_VERIFIED_RESULT`, 143,778ms, 13 model calls, six Agent steps, one named-place Google request, zero Google restaurant discovery/details, zero Offer. Tabelog ran first and accepted Sushi Teppen only after native same-source HIGH identity and omakase facts; the exact October 2 calendar date was not observed as a safe control, so the final availability result was `UNKNOWN / REQUEST_SELECTION_UNCONFIRMED`. TableCheck then ran: 21 raw, 19 parsed, five inspected and no candidates through the unchanged 1km gate; fourteen entries remained deferred. Its bounded continuation stopped at `BROWSER_TIMEOUT` waiting for a public source result anchor, not an empty result.
+- Independent evaluator@22: authoritative conditions, investigation lineage and readable resource accounting `SATISFIED`; qualified user result `UNKNOWN`; evidence, final claim and completion result `NOT_EVALUATED` because no request-bound slot reached presentation. The artifact records 31 native-discovery TableCheck runtime operations despite `--max-browser-operations 30`, exposing that this command ceiling currently reaches availability but not native discovery. This is a scope/accounting defect; it is not treated as a successful global-cap check. [Full record](H001-TOMORROW-VARIANT-NATIVE-LIVE-2026-10-01.md).
+
+## TEST-2026-10-03-H001-UNIFIED-DISCOVERY-EXECUTION
+
+- Scope: H001 work packages A/C/D/E offline repair; no provider/model/Live run.
+- `node --import tsx --test src/integrations/tablecheck/tablecheck-browser-availability.test.ts src/eval/restaurant/agent-loop/native-discovery-composition.test.ts`: **66/66 PASS**.
+- `npm run typecheck`, `npm run arch:check`, `npm run build`, and `git diff --check`: **PASS**.
+- `npm test` in the sandbox: 558/580 with 22 `listen EPERM` loopback-environment failures. Re-run with the approved host-loopback execution: **580/580 PASS**.
+- Not covered: real TableCheck failure-payload semantics, fixed-source paid-model runs, and H001 Live. These remain separate gates and were not inferred from fixtures.
+
+## TEST-2026-10-03-H001-TOMORROW-NATIVE-LIVE-TRANSPORT
+
+- One user-authorized real-source, read-only H001 tomorrow variant ran with `LOCAL_CHROMIUM`, the existing Google-only proxy, native discovery, and ceilings of 300,000ms, 50 model calls, 30 Agent steps, and 30 browser operations per candidate. It materialized `2026-10-04 19:00` for two and executed no booking write or retry.
+- The real host run stopped `FAILED / LIVE_CASE_NOT_COMPLETED`: semantic interpretation and one Agent discovery decision succeeded, while its single Google named-place request failed as `GOOGLE_NETWORK_FAILED`. Usage was 3,490ms, two model calls, zero source browser calls, zero candidates, and zero inventory results. The no-progress guard closed the run after that first failed search.
+- The source client intentionally emits a stable error code but does not retain a redacted transport cause, so this result does not distinguish proxy availability, DNS, TLS, or upstream connectivity. It does not exercise or validate the Tabelog/TableCheck/browser repairs. [Artifacts and limits](H001-TOMORROW-VARIANT-NATIVE-LIVE-2026-10-03.md).
+
+## TEST-2026-10-03-H001-UNIFIED-REVIEW-RETURN
+
+- Offline regression after A–D review return: `npm run typecheck` passed; `node --import tsx --test src/eval/restaurant/agent-loop/native-discovery-composition.test.ts src/integrations/tablecheck/tablecheck-browser-availability.test.ts src/infrastructure/browser/browser-task-executor.test.ts` passed **99/99**.
+- The controls include: retained native entrance after a failed detail and failed replacement session; stale nonempty TableCheck discovery followed by observed retrieval fill and refreshed result; disabled HTML/control exact-slot conflict; historical `data-is-disabled="false"` positive behavior; requested-window-only control comparison; and current batch completion gating. This is offline fixture evidence, not a real provider or model result.
+- Final host-loopback gate: `npm run arch:check`, `npm run build`, and `git diff --check` passed; `npm test` passed **587/587**. The sandbox-only full test had 22 pre-assertion loopback `listen EPERM` failures; host-loopback execution is the recorded definitive local result.
+
+## TEST-2026-10-03-H001-UNIFIED-FINAL-OFFLINE-REGRESSION
+
+- Focused evidence: native discovery composition **23/23** (including stale explicit-empty/nonempty `REQUEST_HUMAN_HELP` rejection and a 1 ms source-session deadline retaining its pending entrance); TableCheck Adapter **52/52** (including hidden exact request link with no live slot → `UNKNOWN`). Current fixed-source/diagnostic trace regression **83/83**.
+- Final gates: `npm run typecheck`, `npm run arch:check`, `npm run build`, host-loopback `npm test`, host-local `npm run test:browser:fixture`, and `git diff --check` all passed. The unrestricted host execution is required only because sandboxed macOS Chromium fails before test assertions at Mach rendezvous setup.
+- This is fixed-page/offline evidence. It makes no claim about current provider inventory and does not include a paid fixed-source model run, H001 Live run, or any booking write.
+
+## TEST-2026-10-03-H001-NESTED-HIDDEN-SLOT
+
+- Actual TableCheck Adapter fixtures cover a nested hidden same-tag ancestor containing the exact request link (`UNKNOWN`, zero Offer) and an enabled visible same-link sibling (`AVAILABLE`, one Offer). `npm run typecheck` and `tablecheck-browser-availability.test.ts` **53/53** pass. This is an offline parser correction only.
+
+## TEST-2026-10-03-H001-POST-REVIEW-LIVE-QUERY-FIELD
+
+- Native composition **25/25**: a full reservation-sentence `retrievalHint` yields Tabelog `sw=omakase` from the structured HARD criterion; fixed TableCheck input readback derives the expected phrase from the source URL's `search_text`, rejects a wrong phrase, and reveals a candidate only after the exact current URL phrase.
+- `npm run typecheck`, `npm run arch:check`, `npm run build`, and `git diff --check` passed. The paired real Tabelog reading is diagnostic evidence of query semantics only; it makes no stock or end-to-end success claim.
+
+## TEST-2026-10-03-H001-TABLECHECK-OBSERVED-RESERVATION-PATH
+
+- First red run: the added same-outlet Omotesandoria fixture failed because the parser admitted only `/en|ja/shops/<slug>/reserve[/landing]`; its enabled, request-bound `/en/omotesandoria/reserve/landing` link yielded no slot.
+- Green regression: TableCheck Adapter **54/54** passes with the observed non-`shops` landing path and the established `shops` path. The new control keeps same-slug exact-date/party/time acceptance while rejecting a neighbouring outlet, wrong date, wrong party and disabled link in both HTML and hydrated-control parsing.
+- `npm run typecheck`, `npm run arch:check`, `npm run build`, and `git diff --check` pass. The Live trace supplies a raw reconstruction of the selected controls and reservation URL, not an original full-HTML replay or a restaurant qualification/inventory conclusion. Bellwood's `require_service_category` remains outside this URL-format slice.
+
+## TEST-2026-10-03-H001-FINAL-MODEL-LIVE-AND-STOCK-ACCEPTANCE
+
+- **Historical relation and independent expectation:** existing saved-entrance and slot tests missed actual list reread, false-disabled attributes, nested hidden descendants and the observed non-`shops` reservation path. Review reuses those behavior tests and saved source responses; synthetic mutations remain labelled. Root subsequently recovered the original full HTML from the immutable Live callback argument and verified its hash equals Snapshot 129. Original replay gives nine slots including 19:00; isolated foreign outlet, wrong date and wrong party give zero slots. This supersedes only the earlier reconstruction-only evidence limit, not the original failed run.
+- **Offline final:** native composition 25/25, TableCheck Adapter 54/54, collector/current-development/raw-evaluator/acceptance 98/98; typecheck, architecture, build and diff checks pass. The actual DOM-hydration counterexample initially exposed both per-handle error propagation and live-index successor omission. Existing Chromium coverage was extended with a removed first node preserving later enabled/disabled controls and an attached error that must rethrow. The full fixture exposed two existing passive-response lifecycle tests failing after this packet removed navigation reset (62/64); restoring reset preserves initial destination capture. Focused affected controls 4/4, definitive full host-local fixture 64/64 PASS. Earlier reported browser-green evidence lacked matching-code provenance and is superseded; sandbox Mach startup denial is separately an environment limitation.
+- **Fixed-source real model:** the corrected `TABLECHECK_DISCOVERY_RECOVERS` fixture preserves actual query fill/readback; three fresh runs f810cfe0…, e5a7d830…, 7299f4f3… each executed PRESENT_RESULTS with one independently qualified result, ten calls, 13,687/12,967/13,299ms. All six mandatory dimensions SATISFIED and acceptance PASS. These are real model/fixed transport, not current website stock. The first three Boolean-fill fixture runs remain historical evidence with the stated retrieval-readback limitation.
+- **Complete Live Read-only:** `61053f42-5ba3-412f-94da-6aecbee10476`, tomorrow variant October4/two/19:00, unchanged 1km/HARD omakase, 300,000ms/50calls. Actual 231,118ms / 38 calls / 109 runtime calls / one Google named-place request, five admitted candidates/five stock checks, zero qualified presentation. Evaluator@24: conditions/investigation/resources SATISFIED; evidence / final claim / completion NOT_EVALUATED. Predeclared manual H001 acceptance FAIL. Compared with October1 one candidate/one stock read, stages progressed; changed date/site state prevents a strict performance A/B. First failed post-review Live 65e6734b… and its diagnosed Tabelog query regression remain preserved.
+- **Targeted current-stock Live Read-only:** budget45s overall/30sprovider/5calls/24operations, same observed Omotesandoria and Oct4/two/19:00. First 045fb39b… failed control observation at 8,432ms/zero calls; after generic repair, 341dabbc… returned AVAILABLE/one 19:00 Offer in 15,975ms / one call / 11 operations. Independent raw acceptance verifies source/title continuity, observed enabled date control 34→proposal 41→actual click 45→exact current link Snapshot 49→selected/enabled Controls 53, with no later state mutation or booking write. Stock-only acceptance PASS; HARD omakase and Runtime delivery NOT_ASSESSED, full H001 Evaluator inapplicable for this slice. Complete H001 stays FAIL.
+- **Evidence and freeze:** [final review](H001-UNIFIED-REVIEW-2026-10-03.md); final 222-file executable hash `2efb2b612165abb272d2896840ef521b74ad3cd8d2f8a26d7ac3986380155551`; immutable Live acceptance `.eval-artifacts/h001-unified-review-20261003/post-repair-live.acceptance.json` and stock acceptance `stock-only-live/2026-10-03T07-49-57-132Z-341dabbc-3f1a-453d-a6d5-d16c006fef3e.result.acceptance.json` under that review artifact directory. No Clean Holdout, Gold, Semantic or booking-write change. Remaining service-category/date/observation-cost gaps are recorded without expanding this slice.

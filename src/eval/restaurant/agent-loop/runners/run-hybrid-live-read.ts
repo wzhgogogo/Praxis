@@ -8,6 +8,7 @@ import { LIVE_READ_DEBUG_INVESTIGATION_BUDGET } from "../../../../application/li
 import type { ModelGateway, ModelInvocationRecord } from "../../../../core/model/contracts.js";
 import { RestaurantSemanticInterpreter } from "../../../../domains/restaurant/semantic-interpreter.js";
 import { browserRuntimeFromEnvironment } from "../../../../infrastructure/browser/browser-runtime-factory.js";
+import type { BrowserRuntime } from "../../../../infrastructure/browser/browser-runtime.js";
 import type { BrowserExecutionBudget } from "../../../../infrastructure/browser/browser-task-executor.js";
 import type { BrowserExecutionDiagnostic } from "../../../../infrastructure/browser/browser-task-executor.js";
 import { DeepSeekModelGateway } from "../../../../infrastructure/deepseek/deepseek-model-gateway.js";
@@ -27,6 +28,7 @@ import { RestaurantPartySizeSupplementResolver } from "../../../../domains/resta
 import { evaluateArtifactAfterFinish, RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION } from "../diagnostic-evaluator.js";
 import { settleAtRunDeadline } from "../live-run-deadline.js";
 import { diagnosticFailureCode, startDiagnosticRun } from "../../../shared/diagnostic-run.js";
+import { safeRecord, traceBrowserSession } from "./browser-case-slice-evidence.js";
 
 function requiredGate(key: string): void {
   if (process.env[key] !== "1") throw new Error(`Set ${key}=1 to run a Live / Hybrid read diagnostic`);
@@ -210,6 +212,13 @@ const tabelogIdentityDiagnostics: TabelogIdentityDiagnostic[] = [];
 const tableCheckIdentityDiagnostics: TableCheckIdentityDiagnostic[] = [];
 const tabelogUserInterventions: TabelogUserInterventionRequired[] = [];
 const browserExecutionDiagnostics: BrowserExecutionDiagnostic[] = [];
+const browserTrace: Array<{ sequence: number; at: string; kind: string; detail: unknown }> = [];
+let browserTraceSequence = 0;
+const recordBrowserTrace = (kind: string, detail: unknown) => {
+  const sequence = ++browserTraceSequence;
+  browserTrace.push({ sequence, at: new Date().toISOString(), kind, detail: safeRecord(detail) });
+  return sequence;
+};
 const browserBudget: BrowserExecutionBudget = { totalModelCalls: 0 };
 
 function captureProgress() {
@@ -228,6 +237,7 @@ function captureProgress() {
       tabelogIdentity: tabelogIdentityDiagnostics,
       tabelogUserInterventions,
       browserExecution: browserExecutionDiagnostics,
+      browserTrace,
     },
   });
 }
@@ -263,10 +273,18 @@ try {
     { maxRequests: liveReadLimits.maxGoogleRequests },
   );
   googleSearch = google;
-  const browser = browserRuntimeFromEnvironment();
+  const rawBrowser = browserRuntimeFromEnvironment();
+  // Keep the same runtime and executor path while retaining a redacted raw
+  // observation sequence. The source label is descriptive only; snapshots
+  // carry the actual safe origin for independent evaluation.
+  const browser: BrowserRuntime = { openSession: async (input) => {
+    try { return traceBrowserSession(await rawBrowser.openSession(input), "TABLECHECK", recordBrowserTrace); }
+    catch (error) { recordBrowserTrace("SESSION_OPEN_ERROR", { code: diagnosticFailureCode(error) }); throw error; }
+  } };
   const nativeRead = process.argv.includes("--native-discovery")
     ? composeNativeRestaurantRead(google, browser, model, browserBudget,
-        (diagnostic) => browserExecutionDiagnostics.push(structuredClone(diagnostic)), evaluationLocation)
+        (diagnostic) => browserExecutionDiagnostics.push(structuredClone(diagnostic)), evaluationLocation, undefined,
+        { maxOperationsPerCandidate: liveReadLimits.maxBrowserOperationsPerCandidate })
     : undefined;
   const search = nativeRead?.search ?? google;
   const availability = new LiveBrowserAvailability(browser, model, {

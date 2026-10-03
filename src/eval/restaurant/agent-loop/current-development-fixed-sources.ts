@@ -5,6 +5,7 @@ import { GooglePlacesRestaurantSearch } from "../../../integrations/google/googl
 import { LiveBrowserAvailability } from "../../../integrations/restaurant-availability/live-browser-availability.js";
 import { composeLiveRestaurantFactRead } from "../../../integrations/restaurant-facts/live-restaurant-facts.js";
 import type { CurrentDevelopmentSourceScenario, FixedSourceObservation } from "./current-development-source-scenarios.js";
+import { safeRecord, traceBrowserSession } from "./runners/browser-case-slice-evidence.js";
 
 export type FixedSourceCoverageGap = {
   source: "GOOGLE_SEARCH" | "GOOGLE_DETAILS" | "WEBSITE" | "TABLECHECK" | "BROWSER";
@@ -29,6 +30,8 @@ export type FixedSourceCalls = {
   namedPlace: number;
   website: number;
   browserNavigations: string[];
+  /** Redacted source chronology from the production browser adapters. */
+  browserTrace: Array<{ sequence: number; at: string; kind: string; detail: unknown }>;
   coverageGaps: FixedSourceCoverageGap[];
   observations: FixedSourceObservationTime[];
 };
@@ -104,7 +107,7 @@ export function createCurrentDevelopmentFixedSources(
   const byId = new Map(observations.map((item) => [item.google.placeId, item]));
   const calls: FixedSourceCalls = {
     search: 0, facts: 0, availability: 0, namedPlace: 0, website: 0,
-    coverageGaps: [], observations: [], browserNavigations: [],
+    coverageGaps: [], observations: [], browserNavigations: [], browserTrace: [],
   };
   const observed = (
     source: FixedSourceObservationTime["source"],
@@ -145,11 +148,17 @@ export function createCurrentDevelopmentFixedSources(
     return new Response(JSON.stringify(googlePlace(source)), { status: 200 });
   } });
   const search = new GooglePlacesRestaurantSearch(client, () => asIso(clock), 10, { maxRequests: 10 });
-  const browser: BrowserRuntime = { openSession: async () => {
+  let browserTraceSequence = 0;
+  const recordBrowserTrace = (kind: string, detail: unknown) => {
+    const sequence = ++browserTraceSequence;
+    calls.browserTrace.push({ sequence, at: asIso(clock), kind, detail: safeRecord(detail) });
+    return sequence;
+  };
+  const rawBrowser: BrowserRuntime = { openSession: async () => {
     let page: BrowserSnapshot | undefined;
     const sourceForTableCheckPath = (pathname: string) => observations.find((item) => {
       const path = item.tableCheck?.reservationEntryPath;
-      return path !== undefined && (pathname === path || pathname === path + "/reserve/landing");
+      return path !== undefined && (pathname === path || pathname === path + "/reserve" || pathname === path + "/reserve/landing");
     });
     return {
       metadata: { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM", engine: "CHROMIUM", startedAt: asIso(clock) },
@@ -205,10 +214,10 @@ export function createCurrentDevelopmentFixedSources(
         });
         calls.availability++;
         observed("TABLECHECK", "AVAILABILITY", { candidateId: source.google.placeId, sampleCapturedAt: inventory.sampleCapturedAt });
-        const slots = inventory.visibleSlots.map((slot) => "<button class=\"time-slot is-available\" data-time=\"" + slot + "\">" + slot + "</button>").join("");
+        const slots = inventory.visibleSlots.map((slot) => "<a href=\"" + tableCheck.reservationEntryPath + "/reserve?start_date=" + inventory.date + "&amp;pax=" + inventory.partySize + "&amp;start_time=" + slot + "\"><button class=\"time-slot is-available\" data-time=\"" + slot + "\">" + slot + "</button></a>").join("");
         page = { url: target, title: tableCheck.displayName, text: inventory.menuText + " " + inventory.visibleSlots.join(" "),
-          html: "<div data-selected-date=\"" + inventory.date + "\" data-pax=\"" + inventory.partySize + "\"></div><section class=\"featured-menu\">" + inventory.menuText + "</section>" +
-            (inventory.status === "UNAVAILABLE" ? "<section id=\"availability-results\" data-availability-state=\"empty\"></section>" : "<section id=\"availability-results\" data-availability-state=\"complete\">" + slots + "</section>") };
+          html: "<div data-testid=\"Venue Availability\" data-selected-date=\"" + inventory.date + "\" data-pax=\"" + inventory.partySize + "\"><section class=\"featured-menu\">" + inventory.menuText + "</section>" +
+            (inventory.status === "UNAVAILABLE" ? "<section id=\"availability-results\" data-availability-state=\"empty\" data-date=\"" + inventory.date + "\" data-pax=\"" + inventory.partySize + "\"></section>" : "<section id=\"availability-results\" data-availability-state=\"complete\">" + slots + "</section>") + "</div>" };
       },
       snapshot: async () => { if (!page) throw sourceGap({ source: "BROWSER", stage: "SNAPSHOT", request: "<none>", reason: "Browser snapshot occurred before navigation" }); return page; },
       click: async () => { throw sourceGap({ source: "BROWSER", stage: "CLICK", request: "<opaque>", reason: "Fixture does not configure write-like browser interaction" }); },
@@ -222,6 +231,7 @@ export function createCurrentDevelopmentFixedSources(
       screenshot: async () => new Uint8Array(), close: async () => {},
     };
   } };
+  const browser: BrowserRuntime = { openSession: async (input) => traceBrowserSession(await rawBrowser.openSession(input), "TABLECHECK", recordBrowserTrace) };
   return {
     search,
     facts: composeLiveRestaurantFactRead(search, browser, model, undefined, () => asIso(clock)),

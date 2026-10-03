@@ -23,6 +23,8 @@ export function captureHybridLiveProgress(input: {
     tabelogIdentity: TabelogIdentityDiagnostic[];
     tabelogUserInterventions: TabelogUserInterventionRequired[];
     browserExecution: BrowserExecutionDiagnostic[];
+    /** Redacted snapshot/control/passive-response chronology for independent current-result review. */
+    browserTrace?: readonly unknown[];
   };
 }) {
   let finalSnapshot: ReturnType<Composition["runtime"]["snapshot"]> | undefined;

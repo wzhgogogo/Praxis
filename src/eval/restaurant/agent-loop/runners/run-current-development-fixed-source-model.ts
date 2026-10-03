@@ -78,7 +78,7 @@ try {
     requestMetadata: { sha256: createHash("sha256").update(String(materializedCase.content ?? "")).digest("hex"), characterCount: String(materializedCase.content ?? "").length },
     materializedCase: caseWithoutRawContent, sourceEnvironment: { scenario: registration.sourceScenarioId, provenance: scenario.provenance },
     clocks: { business: { mode: "CASE_REFERENCE_ADVANCING_WALL_CLOCK", referenceTime: materializedCase.reference_time }, execution: { mode: "REAL_WALL_CLOCK", startedAt: startedAt.toISOString() } },
-    semantic: result.semantic, modelInvocations: invocations, events: result.events, trajectories: result.trajectories, finalSnapshot: result.finalSnapshot, loop: result.loop,
+    semantic: result.semantic, modelInvocations: invocations, events: result.events, trajectories: result.trajectories, finalSnapshot: result.finalSnapshot, loop: result.loop, sourceTrace: result.sourceTrace,
     resourceUsage, sourceCalls: result.sourceCalls, safety: { policy: "READ_ONLY_CODE_PATH", externalSideEffectCount: 0 }, latencyMs: result.elapsedMs,
   };
   await journal.finish({ ...artifact, status: result.execution.status, stage: result.execution.status === "SUCCEEDED" ? "AGENT_LOOP" : "EXECUTION", failureCode: result.execution.failureCode ?? null, execution: result.execution });

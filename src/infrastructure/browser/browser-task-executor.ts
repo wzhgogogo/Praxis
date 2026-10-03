@@ -368,8 +368,13 @@ export class BrowserTaskExecutor {
 
   async runSkill(input: BrowserSkillReadInput): Promise<BrowserGenericReadResult> {
     let snapshot = await this.snapshot(input);
-    let completion = input.completion(snapshot, []);
-    if (completion.complete) return { status: "COMPLETED", snapshot, controls: [] };
+    // A request-shaped HTML link can be stale while the live control carrying
+    // the same URL is disabled. Read both representations before accepting a
+    // completion, including on the initial snapshot and after a source-owned
+    // shortcut. HTML alone is never a shortcut around current DOM evidence.
+    let verifiedObservation: Observation | undefined = await this.observe(input, snapshot);
+    let completion = input.completion(snapshot, verifiedObservation.controls);
+    if (completion.complete) return { status: "COMPLETED", snapshot, controls: verifiedObservation.controls };
     let progress = input.methodReason ?? completion.reason;
     let shortcutUsed = false;
     let postAction = false;
@@ -377,7 +382,6 @@ export class BrowserTaskExecutor {
     let unchangedPageKey: string | undefined;
     let lastRejectedProposal: string | undefined;
     let repeatedRejectedProposals = 0;
-    let verifiedObservation: Observation | undefined;
     const recordRejectedProposal = (key: string) => {
       repeatedRejectedProposals = key === lastRejectedProposal ? repeatedRejectedProposals + 1 : 1;
       lastRejectedProposal = key;
@@ -414,8 +418,9 @@ export class BrowserTaskExecutor {
         try {
           await this.bounded(input, "SHORTCUT", () => input.shortcut!.run(snapshot));
           snapshot = await this.snapshot(input);
-          completion = input.completion(snapshot, []);
-          if (completion.complete) return { status: "COMPLETED", snapshot, controls: [] };
+          verifiedObservation = await this.observe(input, snapshot);
+          completion = input.completion(snapshot, verifiedObservation.controls);
+          if (completion.complete) return { status: "COMPLETED", snapshot, controls: verifiedObservation.controls };
           progress = completion.reason;
           this.record({ source: input.source, stage: input.stage, event: "METHOD_INCOMPLETE", url: snapshot.url, detail: `${input.shortcut.name}: ${progress}` });
         } catch (error) {
@@ -429,7 +434,7 @@ export class BrowserTaskExecutor {
       // A post-action observation was already taken from this fresh snapshot.
       // Reuse it for the next decision; observing again spends budget without
       // making the target any fresher than the snapshot it belongs to.
-      const observation = verifiedObservation ?? await this.observe(input, snapshot);
+      const observation: Observation = verifiedObservation ?? await this.observe(input, snapshot);
       verifiedObservation = undefined;
       if (pendingOption && this.optionSelectionObserved(pendingOption, observation.controls)) pendingOption = undefined;
       completion = input.completion(snapshot, observation.controls);
@@ -578,7 +583,7 @@ export class BrowserTaskExecutor {
       repeatedRejectedProposals = 0;
       if (action.type === "CHOOSE_OPTION") pendingOption = target;
       const priorSnapshot = snapshot;
-      const waitedForAsyncChange = action.type === "OPEN_LINK" || action.type === "CLICK" || action.type === "CLICK_AUTHORITATIVE" || action.type === "CHOOSE_OPTION";
+      const waitedForAsyncChange = action.type === "OPEN_LINK" || action.type === "CLICK" || action.type === "CLICK_AUTHORITATIVE" || action.type === "FILL_AUTHORITATIVE" || action.type === "CHOOSE_OPTION";
       snapshot = await this.snapshot(input);
       let postActionObservation = await this.observe(input, snapshot);
       let observedControlChange = controlsChanged(observation.controls, postActionObservation.controls);
@@ -710,6 +715,7 @@ export class BrowserTaskExecutor {
     } else if (target.kind === "INPUT") {
       if (input.goal.date && this.boundInputField(target, "DATE")) availableActions.push("FILL_AUTHORITATIVE:DATE");
       if (input.goal.partySize !== undefined && this.boundInputField(target, "PARTY_SIZE")) availableActions.push("FILL_AUTHORITATIVE:PARTY_SIZE");
+      if (input.goal.retrievalExpression && this.boundInputField(target, "RETRIEVAL")) availableActions.push("FILL_AUTHORITATIVE:RETRIEVAL");
       if (!availableActions.length) rejectionReason = "NO_BOUND_INPUT_FIELD";
     } else if (target.kind === "CHECKBOX" || target.kind === "RANGE") {
       const control = observation.controls.find(item => item.id === target.controlId);
@@ -724,10 +730,11 @@ export class BrowserTaskExecutor {
     return { availableActions, ...(rejectionReason ? { rejectionReason } : {}) };
   }
 
-  private boundInputField(target: ObservedTarget, field: "DATE" | "PARTY_SIZE"): boolean {
+  private boundInputField(target: ObservedTarget, field: "DATE" | "PARTY_SIZE" | "RETRIEVAL"): boolean {
     if (target.kind !== "INPUT" || !["INPUT", "TEXTAREA"].includes(target.nativeTag ?? "")) return false;
-    return field === "DATE" ? target.type === "date" || /\bdate\b/i.test(target.label)
-      : /(?:party|guest|people|persons|名|人数)/i.test(target.label);
+    if (field === "DATE") return target.type === "date" || /\bdate\b/i.test(target.label);
+    if (field === "PARTY_SIZE") return /(?:party|guest|people|persons|名|人数)/i.test(target.label);
+    return /(?:search|keyword|restaurant|venue|店名|検索)/i.test(target.label);
   }
 
   private diagnosticObservation(observation: Observation): NonNullable<BrowserExecutionDiagnostic["observation"]> {
@@ -840,7 +847,8 @@ export class BrowserTaskExecutor {
       await this.operation(input, "SCROLL_REGION", () => input.session.scroll!(target.controlId, action.direction === "DOWN" ? 480 : -480));
       return;
     }
-    const authoritative = action.field === "DATE" ? input.goal.date : input.goal.partySize;
+    const authoritative = action.field === "DATE" ? input.goal.date
+      : action.field === "PARTY_SIZE" ? input.goal.partySize : input.goal.retrievalExpression;
     if (authoritative === undefined) throw this.rejected(input.source, input.stage, `The current read has no authoritative ${action.field.toLowerCase()} value`);
     const value = String(authoritative);
     if (!this.boundInputField(target, action.field)) {

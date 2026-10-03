@@ -51,11 +51,13 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
   }
 
   async navigate(url: string, options: { waitUntil?: "domcontentloaded" | "load"; timeoutMs?: number } = {}): Promise<void> {
-    this.responses.reset();
-    await this.run(() => this.page.goto(url, {
+    await this.run(() => {
+      this.responses.reset();
+      return this.page.goto(url, {
       waitUntil: options.waitUntil ?? "domcontentloaded",
       ...(options.timeoutMs !== undefined ? { timeout: options.timeoutMs } : {}),
-    }));
+      });
+    });
   }
 
   async captureResponses(rules: readonly BrowserResponseRule[]): Promise<void> { this.responses.configure(this.page, rules); }

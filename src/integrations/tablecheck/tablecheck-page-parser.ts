@@ -400,7 +400,51 @@ export interface TableCheckSlotParse {
 }
 
 function timeIn(value: string): string | undefined { return value.match(/\b([01]\d|2[0-3]):[0-5]\d\b/)?.[0]; }
-function unavailable(value: string): boolean { return /disabled|aria-disabled=["']true|unavailable|sold[\s-]?out|full|満席|予約不可/i.test(value); }
+/**
+ * Read disabled state from markup attributes, never from arbitrary card text
+ * or a request URL. In particular `data-is-disabled="false"` remains an
+ * enabled slot in the provider's historical markup.
+ */
+function disabledControlMarkup(value: string): boolean {
+  // Native `disabled` is a Boolean attribute: any value, including an empty
+  // string or `"false"`, leaves the element disabled. ARIA/data flags carry
+  // an explicit Boolean value and therefore accept only true-like values.
+  return /<[^>]*\sdisabled(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+))?(?=\s|\/?>)/i.test(value)
+    || /<[^>]*\s(?:aria-disabled|data-(?:is-)?disabled)\s*=\s*(?:["'](?:true|disabled|1)["']|(?:true|disabled|1))(?=\s|\/?>)/i.test(value);
+}
+
+/**
+ * Saved source markup can retain prior reservation cards under a hidden
+ * container. Those descendants are not current public slots. Remove only the
+ * hidden subtree so a visible sibling card in the same result region remains
+ * observable.
+ */
+function visibleTableCheckMarkup(html: string): string {
+  const hidden = /\bhidden\b|aria-hidden=["']true["']|\bis-hidden\b|display\s*:\s*none|visibility\s*:\s*hidden/i;
+  const voidTags = new Set(["area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr"]);
+  const stack: Array<{ tag: string; hidden: boolean }> = [];
+  let visible = "";
+  let cursor = 0;
+  for (const match of html.matchAll(/<\/?([a-z][\w-]*)([^>]*)>/gi)) {
+    const whole = match[0] ?? "";
+    const tag = (match[1] ?? "").toLowerCase();
+    const closing = /^<\//.test(whole);
+    const parentHidden = stack.at(-1)?.hidden === true;
+    if (!parentHidden) visible += html.slice(cursor, match.index);
+    if (closing) {
+      const entry = stack.pop();
+      if (!entry?.hidden) visible += whole;
+    } else {
+      const entryHidden = parentHidden || hidden.test(match[2] ?? "");
+      if (!entryHidden) visible += whole;
+      if (!voidTags.has(tag) && !/\/\s*>$/.test(whole)) stack.push({ tag, hidden: entryHidden });
+    }
+    cursor = (match.index ?? cursor) + whole.length;
+  }
+  if (stack.at(-1)?.hidden !== true) visible += html.slice(cursor);
+  return visible;
+}
+function unavailable(value: string): boolean { return disabledControlMarkup(value) || /\b(?:unavailable|sold[\s-]?out|full)\b|満席|予約不可/i.test(value); }
 function explicitAvailability(value: string): boolean {
   return /data-(?:available|bookable)=["']true|data-(?:status|state)=["']available|class=["'][^"']*(?:available|bookable)[^"']*["']/i.test(value);
 }
@@ -410,12 +454,13 @@ export function parseTableCheckAvailabilitySlots(
   snapshot: BrowserSnapshot,
   request?: { date: string; partySize: number; timeWindow?: { earliest: string; latest: string } },
 ): TableCheckSlotParse {
-  const guide = tableCheckGuideQuery(snapshot);
-  if (request && isReservationFormPage(snapshot)) {
+  const visibleSnapshot = { ...snapshot, html: visibleTableCheckMarkup(snapshot.html) };
+  const guide = tableCheckGuideQuery(visibleSnapshot);
+  if (request && isReservationFormPage(visibleSnapshot)) {
     // Live form controls confirm what is selected; an older result container
     // can remain on the page until the new request finishes. Only the
     // existing same-outlet slot-link format binds stock to this request.
-    const availableSlots = tableCheckReservationLinks(snapshot, request.date, request.partySize);
+    const availableSlots = tableCheckReservationLinks(visibleSnapshot, request.date, request.partySize);
     // A complete list containing only other mealtimes, or an empty marker for
     // one selected mealtime, does not prove the whole requested window empty.
     const inWindow = availableSlots.some((time) => !request.timeWindow || time >= request.timeWindow.earliest && time <= request.timeWindow.latest);
@@ -461,7 +506,7 @@ export function parseTableCheckAvailabilitySlots(
   // A page-wide phrase or a stray time must never be treated as a query result. The
   // provider needs an explicit result-state element; the caller binds it to the current
   // request component before accepting the result.
-  for (const match of snapshot.html.matchAll(/<(?:section|div|main)[^>]+(?:data-(?:availability|query|result)-(?:state|status)|aria-live)[^>]*>/gi)) {
+  for (const match of visibleSnapshot.html.matchAll(/<(?:section|div|main)[^>]+(?:data-(?:availability|query|result)-(?:state|status)|aria-live)[^>]*>/gi)) {
     const attrs = match[0] ?? "";
     if (/data-(?:availability|query|result)-(?:state|status)=["'](?:empty|no[_-]?results|unavailable)["']/i.test(attrs)) {
       hasExplicitSlotUi = true;
@@ -471,7 +516,7 @@ export function parseTableCheckAvailabilitySlots(
     if (/data-(?:availability|query|result)-(?:state|status)=["'](?:complete|ready|empty|no[_-]?results|unavailable)["']|data-availability-complete=["']true["']/i.test(attrs)) queryComplete = true;
   }
   const element = /<(button|a)[^>]*?(?:data-(?:time|start-time|slot)|class=["'][^"']*(?:slot|time|availability)[^"']*)[^>]*>([\s\S]{0,500}?)<\/\1>/gi;
-  for (const match of snapshot.html.matchAll(element)) {
+  for (const match of visibleSnapshot.html.matchAll(element)) {
     const whole = match[0] ?? "";
     const time = whole.match(/data-(?:time|start-time|slot)=["']([^"']+)["']/i)?.[1] ?? timeIn(`${whole} ${plainText(match[2] ?? "")}`);
     if (!time || !/^([01]\d|2[0-3]):[0-5]\d$/.test(time)) continue;
@@ -479,7 +524,7 @@ export function parseTableCheckAvailabilitySlots(
     if (explicitAvailability(whole) && !unavailable(whole)) slots.add(time);
   }
   if (request) {
-    const linkedSlots = tableCheckReservationLinks(snapshot, request.date, request.partySize);
+    const linkedSlots = tableCheckReservationLinks(visibleSnapshot, request.date, request.partySize);
     for (const slot of linkedSlots) slots.add(slot);
     // A public slot link includes the provider's exact request parameters and is a
     // completed result for that request. It is read as evidence only; never opened.
@@ -495,13 +540,21 @@ export function parseTableCheckAvailabilitySlots(
 /** A neighbouring restaurant's reservation link is never this outlet's stock. */
 function sameReservationOutlet(sourceUrl: string, link: URL): boolean {
   const expected = stableSourceEntityId(sourceUrl).replace(/^shops\//, "");
-  const actual = link.pathname.match(/^\/(?:en|ja)\/shops\/([^/]+)\/reserve(?:\/landing)?\/?$/)?.[1];
+  // TableCheck publishes both the legacy /shops/<slug>/reserve path and the
+  // guide-owned /<slug>/reserve[/landing] path. Both still have to name the
+  // same observed outlet; URL shape alone is never an identity assertion.
+  const actual = link.pathname.match(/^\/(?:en|ja)\/(?:shops\/)?([^/]+)\/reserve(?:\/landing)?\/?$/)?.[1];
   return expected !== "unknown" && actual === expected;
 }
 
 function tableCheckReservationLinks(snapshot: BrowserSnapshot, date: string, partySize: number): string[] {
   const slots = new Set<string>();
   for (const match of snapshot.html.matchAll(/<a\b[^>]*href=["']([^"']+)["'][^>]*>([\s\S]{0,2400}?)<\/a>/gi)) {
+    const renderedCard = match[0] ?? "";
+    // A request-shaped URL is only an inventory result while its rendered card
+    // remains enabled and ready.  A disabled anchor or disabled child button
+    // must not revive availability that the live control registry rejected.
+    if (disabledControlMarkup(renderedCard) || /(?:\bskeleton\b|\bloading\b|aria-busy=["']true)/i.test(renderedCard)) continue;
     const href = absoluteTableCheckUrl(match[1] ?? "", snapshot.url);
     if (!href) continue;
     const url = new URL(href);
@@ -515,9 +568,38 @@ function tableCheckReservationLinks(snapshot: BrowserSnapshot, date: string, par
   return [...slots].sort();
 }
 
+/**
+ * An enabled hydrated link cannot revive an exact request whose rendered
+ * source card is explicitly disabled (including a disabled child button).
+ */
+export function hasTableCheckDisabledRequestMarkup(
+  snapshot: BrowserSnapshot,
+  date: string,
+  partySize: number,
+  timeWindow: { earliest: string; latest: string },
+  availableSlots?: readonly string[],
+): boolean {
+  const visibleHtml = visibleTableCheckMarkup(snapshot.html);
+  for (const match of visibleHtml.matchAll(/<a\b[^>]*href=["']([^"']+)["'][^>]*>([\s\S]{0,2400}?)<\/a>/gi)) {
+    const renderedCard = match[0] ?? "";
+    if (!disabledControlMarkup(renderedCard)) continue;
+    const href = absoluteTableCheckUrl(match[1] ?? "", snapshot.url);
+    if (!href) continue;
+    const url = new URL(href);
+    if (!sameReservationOutlet(snapshot.url, url)) continue;
+    const selectedDate = url.searchParams.get("start_date") ?? url.searchParams.get("date");
+    const selectedParty = url.searchParams.get("num_people") ?? url.searchParams.get("pax") ?? url.searchParams.get("party_size");
+    const time = url.searchParams.get("start_time") ?? timeIn(plainText(match[2] ?? ""));
+    if (selectedDate === date && selectedParty === String(partySize) && time
+      && time >= timeWindow.earliest && time <= timeWindow.latest
+      && (availableSlots === undefined || availableSlots.includes(time))) return true;
+  }
+  return false;
+}
+
 /** Same public result evidence as the HTML parser, acquired from the live DOM only. */
 export function parseTableCheckControlAvailability(
-  controls: BrowserPageControl[],
+  controls: readonly BrowserPageControl[],
   date: string,
   partySize: number,
   sourceUrl: string,
@@ -536,6 +618,29 @@ export function parseTableCheckControlAvailability(
   }
   const availableSlots = [...slots].sort();
   return { availableSlots, hasExplicitSlotUi: availableSlots.length > 0, explicitlyEmpty: false, queryComplete: availableSlots.some(time => time >= timeWindow.earliest && time <= timeWindow.latest) };
+}
+
+/** A live disabled exact-request control vetoes a stale enabled HTML anchor. */
+export function hasTableCheckDisabledRequestControl(
+  controls: readonly BrowserPageControl[],
+  date: string,
+  partySize: number,
+  sourceUrl: string,
+  timeWindow: { earliest: string; latest: string },
+  availableSlots?: readonly string[],
+): boolean {
+  return controls.some((control) => {
+    if (control.kind !== "LINK" || !control.href || !control.disabled) return false;
+    let url: URL;
+    try { url = new URL(control.href); } catch { return false; }
+    if (!isTableCheckUrl(url.toString()) || !sameReservationOutlet(sourceUrl, url)) return false;
+    const selectedDate = url.searchParams.get("start_date") ?? url.searchParams.get("date");
+    const selectedParty = url.searchParams.get("num_people") ?? url.searchParams.get("pax") ?? url.searchParams.get("party_size");
+    const time = url.searchParams.get("start_time") ?? timeIn(control.label);
+    return selectedDate === date && selectedParty === String(partySize) && time !== undefined
+      && time >= timeWindow.earliest && time <= timeWindow.latest
+      && (availableSlots === undefined || availableSlots.includes(time));
+  });
 }
 
 function aliases(criterion: string): string[] {

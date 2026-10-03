@@ -6,6 +6,8 @@ Checkbox/range changes require an explicit source-owned query contract; GET form
 
 Never submit a reservation, enter personal details, or navigate outside the allowed Tabelog origin.
 
+On an observed public listing search input, Discovery may fill only the supplied retrieval expression. Re-observe the current page and use an observed public query control or current result; never use the field to change the area, HARD criteria, date, party size, or time.
+
 The source may label nonstandard calendar controls as `Date YYYY-MM-DD` and guest controls as `Guests N`. These labels are derived from the observed element, not the task goal. Use CLICK_AUTHORITATIVE with DATE or PARTY_SIZE for the exact requested value. Selected query controls and visible time choices alone do not establish bookable inventory.
 
 Wait for a visible selectable date and an enabled visible guest control on the current calendar. Hidden future-month dates and disabled guest controls do not make the query ready. If the source reports that the current guest query cannot be adjusted, stop with a source-control limit; do not infer no availability for the requested date.

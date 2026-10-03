@@ -2,8 +2,13 @@ import type { BrowserCapturedResponse, BrowserResponseRule } from "../../infrast
 import type { TableCheckReservationTarget } from "./tablecheck-page-parser.js";
 
 export interface TableCheckCapturedAvailability {
-  /** The source has returned a completed negative result for one exact selected mealtime. */
-  exactTimeEmpty: boolean;
+  /**
+   * The page-owned endpoint answered `failure/data:null` for one exact request.
+   * The payload contract has not established whether that means no inventory,
+   * validation failure, or an otherwise unavailable widget, so it is diagnostic
+   * evidence only and must never ground an availability result.
+   */
+  classification: "UNCLASSIFIED_FAILURE";
   observedAt: string;
   time: string;
 }
@@ -44,10 +49,10 @@ function isExplicitFailure(body: unknown): boolean {
 }
 
 /**
- * A passive response is useful only when its URL itself carries the exact
- * source request.  `failure` is intentionally accepted only for one exact
- * requested time: a failed 19:00 lookup cannot establish an empty 18:30–20:00
- * range.
+ * A passive response is useful for diagnosis only when its URL itself carries
+ * the exact source request. A `failure/data:null` payload has no independently
+ * established inventory meaning, so this function deliberately does not return
+ * an AVAILABLE or UNAVAILABLE conclusion.
  */
 export function parseTableCheckCapturedAvailability(
   responses: readonly BrowserCapturedResponse[] | undefined,
@@ -65,7 +70,7 @@ export function parseTableCheckCapturedAvailability(
     const selected = dateTimeInTokyo(url.searchParams.get("reservation[start_at_epoch]") ?? "");
     if (!selected || selected.date !== request.date || selected.time !== request.timeWindow.earliest) continue;
     if (url.searchParams.get("reservation[num_people_adult]") !== String(request.partySize)) continue;
-    return { exactTimeEmpty: true, observedAt: response.observedAt, time: selected.time };
+    return { classification: "UNCLASSIFIED_FAILURE", observedAt: response.observedAt, time: selected.time };
   }
   return undefined;
 }

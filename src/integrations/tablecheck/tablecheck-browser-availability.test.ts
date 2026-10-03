@@ -48,7 +48,7 @@ test("TableCheck binds a request only to explicit complete date and party contro
   assert.equal(hasTableCheckSelectedRequest({ ...snapshot, html: '<div data-selected-date="2026-09-07"></div><div data-pax="2"></div>' }, "2026-09-07", 2), false);
 });
 
-test("TableCheck accepts only a same-shop, exact-date/party/time public availability failure response", () => {
+test("TableCheck records only a same-shop, exact-date/party/time unclassified availability failure response", () => {
   const target = { kind: "LINKED_PAGE" as const, url: "https://www.tablecheck.com/en/shops/cytokyo-lavarock/reserve" };
   assert.deepEqual(tableCheckAvailabilityResponseRule(target), {
     origin: "https://www.tablecheck.com", pathname: "/en/shops/cytokyo-lavarock/available",
@@ -59,7 +59,7 @@ test("TableCheck accepts only a same-shop, exact-date/party/time public availabi
     status: 200, observedAt: "2026-10-01T10:10:00.000Z", sequence: 3, body: { status: "failure", data: null },
   };
   assert.deepEqual(parseTableCheckCapturedAvailability([exact], target, request), {
-    exactTimeEmpty: true, observedAt: "2026-10-01T10:10:00.000Z", time: "19:00",
+    classification: "UNCLASSIFIED_FAILURE", observedAt: "2026-10-01T10:10:00.000Z", time: "19:00",
   });
   assert.equal(parseTableCheckCapturedAvailability([{ ...exact, url: exact.url.replace("num_people_adult%5D=2", "num_people_adult%5D=3") }], target, request), undefined);
   assert.equal(parseTableCheckCapturedAvailability([{ ...exact, url: exact.url.replace("cytokyo-lavarock", "other-branch") }], target, request), undefined);
@@ -143,6 +143,44 @@ test("TableCheck binds a public slot result only when its reservation link carri
     "links for another mealtime do not complete the requested availability window");
 });
 
+test("TableCheck binds the observed non-shops reservation landing path only to the same exact request", () => {
+  const snapshot: BrowserSnapshot = {
+    url: "https://www.tablecheck.com/en/omotesandoria", title: "Omotesandoria", text: "19:00",
+    html: [
+      '<a href="/en/omotesandoria/reserve/landing?start_date=2026-10-04&start_time=19:00&num_people=2">19:00</a>',
+      '<a href="/en/other-branch/reserve/landing?start_date=2026-10-04&start_time=19:00&num_people=2">19:00</a>',
+      '<a href="/en/omotesandoria/reserve/landing?start_date=2026-10-05&start_time=19:00&num_people=2">19:00</a>',
+      '<a href="/en/omotesandoria/reserve/landing?start_date=2026-10-04&start_time=19:00&num_people=3">19:00</a>',
+      '<a aria-disabled="true" href="/en/omotesandoria/reserve/landing?start_date=2026-10-04&start_time=19:30&num_people=2">19:30</a>',
+    ].join(""),
+  };
+  const request = { date: "2026-10-04", partySize: 2, timeWindow: { earliest: "19:00", latest: "19:00" } };
+  assert.equal(hasTableCheckSelectedRequest(snapshot, request.date, request.partySize), true);
+  assert.deepEqual(parseTableCheckAvailabilitySlots(snapshot, request), {
+    availableSlots: ["19:00"], hasExplicitSlotUi: true, explicitlyEmpty: false, queryComplete: true,
+  });
+  assert.deepEqual(parseTableCheckControlAvailability([
+    { id: "exact", stableKey: "exact", kind: "LINK", role: "link", label: "19:00", href: "https://www.tablecheck.com/en/omotesandoria/reserve/landing?start_date=2026-10-04&start_time=19:00&num_people=2", disabled: false, visible: true },
+    { id: "other", stableKey: "other", kind: "LINK", role: "link", label: "19:00", href: "https://www.tablecheck.com/en/other-branch/reserve/landing?start_date=2026-10-04&start_time=19:00&num_people=2", disabled: false, visible: true },
+    { id: "wrong-party", stableKey: "wrong-party", kind: "LINK", role: "link", label: "19:00", href: "https://www.tablecheck.com/en/omotesandoria/reserve/landing?start_date=2026-10-04&start_time=19:00&num_people=3", disabled: false, visible: true },
+    { id: "disabled", stableKey: "disabled", kind: "LINK", role: "link", label: "19:30", href: "https://www.tablecheck.com/en/omotesandoria/reserve/landing?start_date=2026-10-04&start_time=19:30&num_people=2", disabled: true, visible: true },
+  ], request.date, request.partySize, snapshot.url, request.timeWindow), {
+    availableSlots: ["19:00"], hasExplicitSlotUi: true, explicitlyEmpty: false, queryComplete: true,
+  });
+});
+
+test("TableCheck excludes a disabled exact-request reservation link from current availability", () => {
+  const snapshot: BrowserSnapshot = {
+    url: "https://www.tablecheck.com/en/restaurant1", title: "Restaurant 1", text: "18:30",
+    html: '<a aria-disabled="true" href="/en/shops/restaurant1/reserve?start_date=2026-09-07&start_time=18:30&num_people=2"><button disabled>18:30</button></a>',
+  };
+  const request = { date: "2026-09-07", partySize: 2, timeWindow: { earliest: "18:30", latest: "18:30" } };
+  assert.equal(hasTableCheckSelectedRequest(snapshot, request.date, request.partySize), false);
+  assert.deepEqual(parseTableCheckAvailabilitySlots(snapshot, request), {
+    availableSlots: [], hasExplicitSlotUi: false, explicitlyEmpty: false, queryComplete: false,
+  });
+});
+
 test("TableCheck reads the same exact request binding from live DOM controls when hydration omits it from HTML", () => {
   assert.deepEqual(parseTableCheckControlAvailability([
     { id: "slot", stableKey: "slot", kind: "LINK", role: "link", label: "19:00", href: "https://www.tablecheck.com/en/shops/restaurant1/reserve?start_date=2026-09-07&start_time=19:00&num_people=2", disabled: false, visible: true },
@@ -191,7 +229,7 @@ class ResponseFixtureBrowserSession extends FixtureBrowserSession {
   override async observeControls(): Promise<BrowserPageControl[]> { return structuredClone(this.controls); }
 }
 
-test("TableCheck grounds an exact public availability failure only after the adapter captures the selected outlet response", async () => {
+test("TableCheck keeps an exact captured failure diagnostic-only until page inventory evidence exists", async () => {
   const guide = "https://www.tablecheck.com/en/cytokyo-lavarock";
   const reserve = "https://www.tablecheck.com/en/shops/cytokyo-lavarock/reserve";
   const scoped = { ...candidate, restaurant: { ...candidate.restaurant, id: "lavarock-response", outletName: "Dining&Bar LAVAROCK", address: "1-1 Tokyo", sourceIds: {
@@ -223,9 +261,104 @@ test("TableCheck grounds an exact public availability failure only after the ada
     timeWindow: { earliest: "19:00", latest: "19:00" }, hardCriteria: [],
   }, new AbortController().signal);
   assert.deepEqual(session.capturedResponseRules, [{ origin: "https://www.tablecheck.com", pathname: "/en/shops/cytokyo-lavarock/available" }]);
-  assert.equal(result.availabilityChecks[scoped.restaurant.id]?.status, "UNAVAILABLE");
-  assert.equal(result.availabilityChecks[scoped.restaurant.id]?.reasonCode, "NO_MATCHING_SLOT");
-  assert.ok(result.evidence.some(item => item.kind === "AVAILABILITY" && item.claims.inventoryStatus === "UNAVAILABLE"));
+  assert.equal(result.availabilityChecks[scoped.restaurant.id]?.status, "UNKNOWN");
+  assert.equal(result.availabilityChecks[scoped.restaurant.id]?.reasonCode, "AVAILABILITY_RESULT_UNOBSERVED");
+  assert.equal(result.evidence.some(item => item.kind === "AVAILABILITY" && item.claims.inventoryStatus === "UNAVAILABLE"), false);
+});
+
+test("TableCheck does not complete an enabled HTML slot when its current live control is disabled", async () => {
+  const guide = "https://www.tablecheck.com/en/restaurant1";
+  const reserve = "https://www.tablecheck.com/en/shops/restaurant1/reserve";
+  const date = request.date;
+  const session = new ResponseFixtureBrowserSession([
+    discoveryPage({ href: "/en/restaurant1", text: "Restaurant 1" }),
+    { url: guide, title: "Restaurant 1", text: "Restaurant 1", html: '<h1>Restaurant 1</h1><a href="tel:03-1111-2222">Phone</a><a href="/en/shops/restaurant1/reserve">Book a table</a>' },
+    { url: reserve, title: "Restaurant 1 reservation", text: "Restaurant 1 2 adults", html: `<form><input name="reservation[start_date]" value="${date}"><select name="reservation[num_people_adult]"><option value="${request.partySize}" selected>${request.partySize}</option></select><a href="/en/shops/restaurant1/reserve?start_date=${date}&amp;num_people=${request.partySize}&amp;start_time=19:00">19:00</a></form>` },
+  ], [
+    { id: "date", stableKey: "date", kind: "INPUT", role: "textbox", label: date, value: date, visible: true, disabled: false, structure: { tag: "INPUT", name: "reservation[start_date]", classes: [], dialogLabel: "", formClass: "", sliderCount: 0 } },
+    { id: "adults", stableKey: "adults", kind: "SELECT", role: "combobox", label: "Adults", value: String(request.partySize), visible: true, disabled: false, options: [{ value: String(request.partySize), label: String(request.partySize), selected: true, disabled: false }], structure: { tag: "SELECT", name: "reservation[num_people_adult]", classes: [], dialogLabel: "", formClass: "", sliderCount: 0 } },
+    { id: "disabled-current-slot", stableKey: "disabled-current-slot", kind: "LINK", role: "link", label: "19:00", href: `${reserve}?start_date=${date}&num_people=${request.partySize}&start_time=19:00`, visible: true, disabled: true },
+  ]);
+  const result = await new TableCheckBrowserAvailability({ openSession: async () => session }, () => "2026-08-05T09:00:00.000Z").check(request, new AbortController().signal);
+  assert.equal(result.offers.length, 0);
+  assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "UNKNOWN");
+  assert.equal(result.availabilityChecks[candidate.restaurant.id]?.reasonCode, "AVAILABILITY_RESULT_UNOBSERVED");
+});
+
+test("TableCheck does not promote an exact reservation link hidden from the current DOM", async () => {
+  const guide = "https://www.tablecheck.com/en/restaurant1";
+  const reserve = "https://www.tablecheck.com/en/shops/restaurant1/reserve";
+  const date = request.date;
+  const session = new ResponseFixtureBrowserSession([
+    discoveryPage({ href: "/en/restaurant1", text: "Restaurant 1" }),
+    { url: guide, title: "Restaurant 1", text: "Restaurant 1", html: '<h1>Restaurant 1</h1><a href="tel:03-1111-2222">Phone</a><a href="/en/shops/restaurant1/reserve">Book a table</a>' },
+    { url: reserve, title: "Restaurant 1 reservation", text: "Restaurant 1 2 adults", html: `<form><input name="reservation[start_date]" value="${date}"><select name="reservation[num_people_adult]"><option value="${request.partySize}" selected>${request.partySize}</option></select><div hidden><div>Nested prior result</div><a href="/en/shops/restaurant1/reserve?start_date=${date}&amp;num_people=${request.partySize}&amp;start_time=19:00">19:00</a></div></form>` },
+  ], [
+    { id: "date", stableKey: "date", kind: "INPUT", role: "textbox", label: date, value: date, visible: true, disabled: false, structure: { tag: "INPUT", name: "reservation[start_date]", classes: [], dialogLabel: "", formClass: "", sliderCount: 0 } },
+    { id: "adults", stableKey: "adults", kind: "SELECT", role: "combobox", label: "Adults", value: String(request.partySize), visible: true, disabled: false, options: [{ value: String(request.partySize), label: String(request.partySize), selected: true, disabled: false }], structure: { tag: "SELECT", name: "reservation[num_people_adult]", classes: [], dialogLabel: "", formClass: "", sliderCount: 0 } },
+  ]);
+  const result = await new TableCheckBrowserAvailability({ openSession: async () => session }, () => "2026-08-05T09:00:00.000Z").check(request, new AbortController().signal);
+  assert.equal(result.offers.length, 0);
+  assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "UNKNOWN");
+  assert.equal(result.availabilityChecks[candidate.restaurant.id]?.reasonCode, "AVAILABILITY_RESULT_UNOBSERVED");
+});
+
+test("TableCheck keeps a visible exact sibling when a nested hidden prior result has the same link", async () => {
+  const guide = "https://www.tablecheck.com/en/restaurant1";
+  const reserve = "https://www.tablecheck.com/en/shops/restaurant1/reserve";
+  const date = request.date;
+  const slot = `/en/shops/restaurant1/reserve?start_date=${date}&amp;num_people=${request.partySize}&amp;start_time=19:00`;
+  const session = new ResponseFixtureBrowserSession([
+    discoveryPage({ href: "/en/restaurant1", text: "Restaurant 1" }),
+    { url: guide, title: "Restaurant 1", text: "Restaurant 1", html: '<h1>Restaurant 1</h1><a href="tel:03-1111-2222">Phone</a><a href="/en/shops/restaurant1/reserve">Book a table</a>' },
+    { url: reserve, title: "Restaurant 1 reservation", text: "Restaurant 1 2 adults", html: `<form><input name="reservation[start_date]" value="${date}"><select name="reservation[num_people_adult]"><option value="${request.partySize}" selected>${request.partySize}</option></select><div hidden><div>Nested prior result</div><a href="${slot}">19:00</a></div><a href="${slot}">19:00</a></form>` },
+  ], [
+    { id: "date", stableKey: "date", kind: "INPUT", role: "textbox", label: date, value: date, visible: true, disabled: false, structure: { tag: "INPUT", name: "reservation[start_date]", classes: [], dialogLabel: "", formClass: "", sliderCount: 0 } },
+    { id: "adults", stableKey: "adults", kind: "SELECT", role: "combobox", label: "Adults", value: String(request.partySize), visible: true, disabled: false, options: [{ value: String(request.partySize), label: String(request.partySize), selected: true, disabled: false }], structure: { tag: "SELECT", name: "reservation[num_people_adult]", classes: [], dialogLabel: "", formClass: "", sliderCount: 0 } },
+  ]);
+  const result = await new TableCheckBrowserAvailability({ openSession: async () => session }, () => "2026-08-05T09:00:00.000Z").check(request, new AbortController().signal);
+  assert.equal(result.offers.length, 1);
+  assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE");
+});
+
+test("TableCheck does not revive a disabled request card through an enabled hydrated link", async () => {
+  const guide = "https://www.tablecheck.com/en/restaurant1";
+  const reserve = "https://www.tablecheck.com/en/shops/restaurant1/reserve";
+  const date = request.date;
+  const session = new ResponseFixtureBrowserSession([
+    discoveryPage({ href: "/en/restaurant1", text: "Restaurant 1" }),
+    { url: guide, title: "Restaurant 1", text: "Restaurant 1", html: '<h1>Restaurant 1</h1><a href="tel:03-1111-2222">Phone</a><a href="/en/shops/restaurant1/reserve">Book a table</a>' },
+    { url: reserve, title: "Restaurant 1 reservation", text: "Restaurant 1 2 adults", html: `<form><input name="reservation[start_date]" value="${date}"><select name="reservation[num_people_adult]"><option value="${request.partySize}" selected>${request.partySize}</option></select><a href="/en/shops/restaurant1/reserve?start_date=${date}&amp;num_people=${request.partySize}&amp;start_time=19:00"><button disabled>19:00</button></a></form>` },
+  ], [
+    { id: "date", stableKey: "date", kind: "INPUT", role: "textbox", label: date, value: date, visible: true, disabled: false, structure: { tag: "INPUT", name: "reservation[start_date]", classes: [], dialogLabel: "", formClass: "", sliderCount: 0 } },
+    { id: "adults", stableKey: "adults", kind: "SELECT", role: "combobox", label: "Adults", value: String(request.partySize), visible: true, disabled: false, options: [{ value: String(request.partySize), label: String(request.partySize), selected: true, disabled: false }], structure: { tag: "SELECT", name: "reservation[num_people_adult]", classes: [], dialogLabel: "", formClass: "", sliderCount: 0 } },
+    { id: "hydrated-slot", stableKey: "hydrated-slot", kind: "LINK", role: "link", label: "19:00", href: `${reserve}?start_date=${date}&num_people=${request.partySize}&start_time=19:00`, visible: true, disabled: false },
+  ]);
+  const result = await new TableCheckBrowserAvailability({ openSession: async () => session }, () => "2026-08-05T09:00:00.000Z").check(request, new AbortController().signal);
+  assert.equal(result.offers.length, 0);
+  assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "UNKNOWN");
+  assert.equal(result.availabilityChecks[candidate.restaurant.id]?.reasonCode, "AVAILABILITY_RESULT_UNOBSERVED");
+});
+
+test("TableCheck keeps an enabled exact slot when a different slot in the requested window is disabled", async () => {
+  const guide = "https://www.tablecheck.com/en/restaurant1";
+  const reserve = "https://www.tablecheck.com/en/shops/restaurant1/reserve";
+  const date = request.date;
+  const mixedRequest = { ...request, timeWindow: { earliest: "18:30", latest: "19:00" } };
+  const session = new ResponseFixtureBrowserSession([
+    discoveryPage({ href: "/en/restaurant1", text: "Restaurant 1" }),
+    { url: guide, title: "Restaurant 1", text: "Restaurant 1", html: '<h1>Restaurant 1</h1><a href="tel:03-1111-2222">Phone</a><a href="/en/shops/restaurant1/reserve">Book a table</a>' },
+    { url: reserve, title: "Restaurant 1 reservation", text: "Restaurant 1 2 adults", html: `<form><input name="reservation[start_date]" value="${date}"><select name="reservation[num_people_adult]"><option value="${request.partySize}" selected>${request.partySize}</option></select><a href="/en/shops/restaurant1/reserve?start_date=${date}&amp;num_people=${request.partySize}&amp;start_time=18:30">18:30</a><a href="/en/shops/restaurant1/reserve?start_date=${date}&amp;num_people=${request.partySize}&amp;start_time=19:00"><button disabled>19:00</button></a></form>` },
+  ], [
+    { id: "date", stableKey: "date", kind: "INPUT", role: "textbox", label: date, value: date, visible: true, disabled: false, structure: { tag: "INPUT", name: "reservation[start_date]", classes: [], dialogLabel: "", formClass: "", sliderCount: 0 } },
+    { id: "adults", stableKey: "adults", kind: "SELECT", role: "combobox", label: "Adults", value: String(request.partySize), visible: true, disabled: false, options: [{ value: String(request.partySize), label: String(request.partySize), selected: true, disabled: false }], structure: { tag: "SELECT", name: "reservation[num_people_adult]", classes: [], dialogLabel: "", formClass: "", sliderCount: 0 } },
+    { id: "available-1830", stableKey: "available-1830", kind: "LINK", role: "link", label: "18:30", href: `${reserve}?start_date=${date}&num_people=${request.partySize}&start_time=18:30`, visible: true, disabled: false },
+    { id: "disabled-1900", stableKey: "disabled-1900", kind: "LINK", role: "link", label: "19:00", href: `${reserve}?start_date=${date}&num_people=${request.partySize}&start_time=19:00`, visible: true, disabled: true },
+  ]);
+  const result = await new TableCheckBrowserAvailability({ openSession: async () => session }, () => "2026-08-05T09:00:00.000Z").check(mixedRequest, new AbortController().signal);
+  assert.equal(result.offers.length, 1);
+  assert.match(result.offers[0]?.dateTime ?? "", /T18:30/);
+  assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE");
 });
 
 const request = {
@@ -578,7 +711,7 @@ test("TableCheck native guide uses its own ID and linked booking entrance withou
   const native = { ...candidate, restaurant: { ...candidate.restaurant, id: "tablecheck:restaurant1",
     sourceIds: { tablecheck: "restaurant1", tablecheckNativeGuideUri: "https://www.tablecheck.com/en/restaurant1" } } };
   const reservation: BrowserSnapshot = { url: "https://www.tablecheck.com/en/restaurant1/reserve/landing", title: "Restaurant 1 reservation",
-    text: "Restaurant 1 2 guests 2026-08-05 19:00", html: '<div data-selected-date="2026-08-05" data-pax="2"></div><section data-availability-state="complete"><button class="time-slot is-available" data-time="19:00">19:00</button></section>' };
+    text: "Restaurant 1 2 guests 2026-08-05 19:00", html: '<div data-selected-date="2026-08-05" data-pax="2"></div><section data-availability-state="complete"><button class="time-slot is-available" data-time="19:00">19:00</button></section><a href="/en/restaurant1/reserve/landing?start_date=2026-08-05&pax=2&start_time=19:00">19:00</a>' };
   const session = new FixtureBrowserSession([matchingOutletPage(), reservation]);
   const nativeDiagnostics: Array<{ nativeContinuity?: { confirmed: boolean; reason: string; observedSourceEntityId?: string } }> = [];
   const result = await new TableCheckBrowserAvailability({ openSession: async () => session }, () => "2026-08-05T09:00:00.000Z",

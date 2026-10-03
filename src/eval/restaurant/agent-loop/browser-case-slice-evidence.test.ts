@@ -31,12 +31,16 @@ test("browser case slice journal retains the saved Teppen query region without p
         { id: "entry", stableKey: "a[href]|link|Online reservation", kind: "LINK", role: "link", label: "Online reservation", href: "https://tabelog.com/en/booking/calendar/", disabled: false, visible: true },
         { id: "review", stableKey: "a[href]|link|Jane Doe", kind: "LINK", role: "link", label: "Jane Doe", href: "https://tabelog.com/en/tokyo/A1303/A130301/13308491/dtlrvwlst/B123/", disabled: false, visible: true },
       ],
-      click: async () => {}, fill: async () => {}, select: async () => [], waitFor: async () => {}, screenshot: async () => new Uint8Array(), close: async () => {},
+      click: async () => {}, fill: async () => {}, select: async () => [], waitFor: async () => {}, waitForChange: async () => true, screenshot: async () => new Uint8Array(), close: async () => {},
     };
     const observed = traceBrowserSession(session, "TABELOG", record);
     await observed.navigate("https://tabelog.com/en/tokyo/A1303/A130301/13308491/");
     await observed.snapshot();
     await observed.observeControls?.();
+    await observed.waitForChange?.({ url: "https://tabelog.com/en/tokyo/A1303/A130301/13308491/?csrf_token=secret", title: "Private page", text: "Jane Doe private source text", interactiveState: "private" });
+    const waitCall = trace.find(event => event.kind === "SESSION_CALL" && (event.detail as { method?: string }).method === "waitForChange")!;
+    assert.doesNotMatch(JSON.stringify(waitCall.detail), /Jane Doe|private source text|csrf_token=secret/);
+    assert.match(JSON.stringify(waitCall.detail), /sha256/);
     await journal.finish({ status: "SUCCEEDED", trace });
     const artifact = JSON.parse(await readFile(journal.resultPath, "utf8")) as { trace: Array<{ sequence: number; kind: string; detail: Record<string, unknown> }> };
     const snapshotEvent = artifact.trace.find(event => event.kind === "SNAPSHOT")!;
@@ -83,12 +87,14 @@ test("browser case slice journal retains a TableCheck availability region withou
     url: "https://www.tablecheck.com/en/shops/example/reserve?start_date=2026-10-02&pax=2",
     title: "Example",
     text: "Book a table",
-    html: '<main><section data-testid="Venue Availability"><div data-testid="Venue Pax Select"><button>2 guests</button></div><div data-testid="Venue Time Select"><a href="/en/shops/example/reserve?start_time=19:00">19:00</a></div></section><p>private profile text</p></main>',
+    html: '<main><section data-testid="Venue Availability"><div data-testid="Venue Pax Select"><button>2 guests</button></div><div data-testid="Venue Time Select"><a href="/en/shops/example/reserve?start_date=2026-10-02&amp;pax=2&amp;start_time=19:00"><button disabled>19:00</button></a></div></section><p>private profile text</p></main>',
   });
   const regions = record.queryRegions as Array<{ markup: string }>;
   assert.equal(regions.length, 1);
   assert.match(regions[0]!.markup, /data-testid="Venue Availability"/);
   assert.match(regions[0]!.markup, /data-testid="Venue Time Select"/);
   assert.doesNotMatch(regions[0]!.markup, /private profile text/);
-  assert.doesNotMatch(regions[0]!.markup, /start_time/);
+  assert.match(regions[0]!.markup, /data-reservation-source="\/en\/shops\/example\/reserve" data-reservation-date="2026-10-02" data-reservation-party="2" data-reservation-time="19:00"/);
+  assert.match(regions[0]!.markup, /<button disabled>19:00<\/button>/);
+  assert.doesNotMatch(regions[0]!.markup, /href=|private profile text/);
 });

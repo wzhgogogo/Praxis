@@ -3,7 +3,7 @@ import { createHash } from "node:crypto";
 import type { RestaurantSearchPort } from "../../application/restaurant-execution-router.js";
 import { restaurantSearchIntentFingerprint, type RestaurantCandidate, type RestaurantReadEvidence, type RestaurantSearchRead, type RestaurantSearchRequest } from "../../domains/restaurant/contracts.js";
 import { googleDiscoveryGeoDiagnostics } from "../../domains/restaurant/read-grounding.js";
-import type { BrowserRuntime, BrowserSession, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
+import type { BrowserPageControl, BrowserRuntime, BrowserSession, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
 import { BrowserTaskExecutor } from "../../infrastructure/browser/browser-task-executor.js";
 import type { BrowserExecutionBudget, BrowserExecutionDiagnostic } from "../../infrastructure/browser/browser-task-executor.js";
 import type { BrowserReadActionDecisionPort } from "../../infrastructure/browser/browser-action-decision.js";
@@ -63,6 +63,38 @@ function rawSourceLinks(page: BrowserSnapshot, source: Source): number {
 
 function areaLabel(value: string): string {
   return value.replace(/\b(?:near|nearby)\b|附近|周辺|周边/giu, " ").replace(/^[\s,，]+|[\s,，]+$/gu, "").trim();
+}
+
+/**
+ * A nonempty card list may belong to a preceding query while the current
+ * search is still loading. Only an observed public search input can bind that
+ * intermediate page to the retrieval expression; its absence stays neutral.
+ */
+function publicDiscoverySearchInput(page: BrowserSnapshot): string | undefined {
+  return page.html.match(/<input\b[^>]*(?:name|aria-label|placeholder)=["'][^"']*(?:search|keyword|venue|restaurant)[^"']*["'][^>]*>/i)?.[0];
+}
+
+/** A source-visible busy marker, excluding script/style and hidden shells, keeps old cards from becoming a current result. */
+function visibleDiscoveryQueryBusy(page: BrowserSnapshot): boolean {
+  const rendered = page.html.replace(/<script\b[^>]*>[\s\S]*?<\/script\s*>|<style\b[^>]*>[\s\S]*?<\/style\s*>|<!--[\s\S]*?-->/gi, "");
+  return [...rendered.matchAll(/<([a-z][\w-]*)([^>]*)>/gi)].some((match) => {
+    const attributes = match[2] ?? "";
+    const hidden = /\bhidden\b|aria-hidden=["']true["']|\bis-hidden\b|display\s*:\s*none|visibility\s*:\s*hidden/i.test(attributes);
+    return !hidden && /aria-busy=["']true["']|data-(?:query|search|result)-(?:state|status)=["']loading["']/i.test(attributes);
+  });
+}
+
+function discoveryQueryNeedsCurrentQuery(page: BrowserSnapshot, expression: string, controls: readonly BrowserPageControl[] = []): boolean {
+  const liveSearch = controls.find((control) => control.kind === "INPUT" && control.visible
+    && /(?:search|keyword|venue|restaurant|店名|検索)/i.test(`${control.label} ${control.structure?.name ?? ""}`));
+  // DOM properties are authoritative over serialized markup: after a fill,
+  // Chromium can retain the old value attribute while the observed input value
+  // already represents the current public query.
+  if (liveSearch) return liveSearch.value?.trim() !== expression || visibleDiscoveryQueryBusy(page);
+  const input = publicDiscoverySearchInput(page);
+  if (!input) return false;
+  const value = input.match(/\bvalue=["']([^"']*)["']/i)?.[1]?.trim();
+  return value !== expression || visibleDiscoveryQueryBusy(page);
 }
 
 function pendingEntry(
@@ -188,6 +220,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
     private readonly discoveryDecision?: BrowserReadActionDecisionPort,
     private readonly browserBudget?: BrowserExecutionBudget,
     private readonly onBrowserDiagnostic?: (diagnostic: BrowserExecutionDiagnostic) => void,
+    private readonly discoveryLimits?: { maxOperationsPerCandidate?: number },
   ) {}
 
   googleRequestUsage(readRunId: string | undefined) { return this.locality.googleRequestUsage(readRunId); }
@@ -230,19 +263,32 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
     const sourceElapsedBefore = priorProgress?.source === source ? priorProgress.elapsedMs ?? 0 : 0;
     const sourceElapsedRemaining = Math.max(0, NATIVE_SOURCE_ELAPSED_CAP_MS - sourceElapsedBefore);
     const retainedEntries = retainedPendingEntries(source, priorProgress);
+    let attemptingDetailSourceId: string | undefined;
+    let detailNavigationStarted = false;
     const executor = new BrowserTaskExecutor(this.runtime, {
       maxElapsedMsPerCandidate: Math.max(1, sourceElapsedRemaining),
+      ...(this.discoveryLimits?.maxOperationsPerCandidate !== undefined
+        ? { maxOperationsPerCandidate: this.discoveryLimits.maxOperationsPerCandidate }
+        : {}),
       ...(this.discoveryDecision ? { modelDecision: this.discoveryDecision } : {}),
       ...(this.browserBudget ? { budget: this.browserBudget } : {}),
-      ...(this.onBrowserDiagnostic ? { onDiagnostic: this.onBrowserDiagnostic } : {}),
+      onDiagnostic: (diagnostic) => {
+        // `operation` emits this only after its budget/deadline admission and
+        // immediately before calling the runtime. It is therefore the narrow
+        // boundary between a queued detail entrance and an attempted one.
+        if (attemptingDetailSourceId && diagnostic.event === "OPERATION_STARTED" && diagnostic.detail === "NAVIGATE") {
+          detailNavigationStarted = true;
+        }
+        this.onBrowserDiagnostic?.(diagnostic);
+      },
     });
     executor.beginCandidate(`native-discovery:${source}`);
     const allowedOrigins = source === "TABELOG" ? ["https://tabelog.com"] : ["https://www.tablecheck.com"];
+    executor.beginProvider(`native-discovery:${source}`, source, "DISCOVERY");
     const navigate = async (url: string, timeoutMs: number) => executor.navigate({
       source, stage: "DISCOVERY", signal, allowedOrigins, session: session!, url, timeoutMs,
     });
     const snapshot = async () => executor.snapshot({ source, stage: "DISCOVERY", signal, session: session! });
-    const waitFor = async (selector: string, timeoutMs: number) => executor.waitFor({ source, stage: "DISCOVERY", signal, session: session!, selector, timeoutMs });
     let inspectedSourceIds = [...priorInspected];
     let pendingSourceEntries: PendingSourceEntry[] = [...retainedEntries];
     let raw = 0;
@@ -253,7 +299,9 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
     let sourceTimeLimitReached = sourceElapsedRemaining === 0;
     let sourceExhausted: boolean | "UNKNOWN" = "UNKNOWN";
     let listingPagesRead = 0;
-    const sourceElapsedMs = () => Math.min(NATIVE_SOURCE_ELAPSED_CAP_MS, sourceElapsedBefore + (Date.now() - batchStartedAt));
+    // The cap governs further work; diagnostics must retain the actual elapsed
+    // value so a source deadline cannot look like an unfinished healthy batch.
+    const sourceElapsedMs = () => sourceElapsedBefore + (Date.now() - batchStartedAt);
     const funnel = (failed = false) => ({ source, rawSourceLinks: raw, parsedOutlets: parsed, inspectedOutlets: inspected,
       batchCap: NATIVE_DETAIL_BATCH_CAP, sourceDetailCap: NATIVE_DETAIL_SOURCE_CAP,
       sourceDetailAttempts: sourceDetailAttemptsBefore + inspected, deferredByBatchCap, rejected, accepted: admitted.size,
@@ -278,54 +326,11 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
             pagesRead: sourcePagesBefore, elapsedMs: sourceElapsedBefore, pendingSourceEntries: [], pendingSourceIds: [] },
           funnel: funnel() };
       }
-      session = await this.runtime.openSession({ signal });
+      // Session acquisition is source work.  Keeping it in the existing
+      // Executor makes the source's remaining deadline apply before the
+      // first listing navigation and to a replacement session alike.
+      session = await executor.acquire(signal, source, "DISCOVERY");
       if (source === "TABELOG") {
-        const keyword = request.intent.criteria.find((item) => item.polarity === "POSITIVE" && item.strength === "HARD")?.text
-          ?? request.intent.target?.query ?? "restaurant";
-        const url = new URL("https://tabelog.com/en/tokyo/rstLst/");
-        url.searchParams.set("sw", keyword);
-        await navigate(url.toString(), 35_000);
-        let page = await snapshot();
-        listingPagesRead += 1;
-        raw = rawSourceLinks(page, source);
-        if (hasBotChallenge(page)) throw Object.assign(new Error("Tabelog source challenge"), { code: "TABELOG_BOT_CHALLENGE" });
-        const label = areaLabel(request.intent.area.query);
-        for (let level = 0; level < NATIVE_LISTING_PAGE_CHUNK_CAP.TABELOG - 1; level += 1) {
-          const region = observedTabelogRegion(page, label);
-          if (!region || region === page.url) break;
-          // Area navigation is source-owned, but an observed region link may
-          // omit the active text query. Preserve the authoritative retrieval
-          // term rather than silently changing the result set mid-search.
-          const regionUrl = new URL(region);
-          if (!regionUrl.searchParams.has("sw")) regionUrl.searchParams.set("sw", keyword);
-          await navigate(regionUrl.toString(), 25_000);
-          page = await snapshot();
-          listingPagesRead += 1;
-          raw = rawSourceLinks(page, source);
-          if (hasBotChallenge(page)) throw Object.assign(new Error("Tabelog source challenge"), { code: "TABELOG_BOT_CHALLENGE" });
-          if (normalized(page.url).includes(normalized(label)) && parseTabelogSearchOutlets(page).length) break;
-        }
-        let observedOutlets = parseTabelogSearchOutlets(page);
-        if (!observedOutlets.length && !/\b(?:no|0)\s+(?:restaurants?|results?)\s+(?:found|match(?:es)?)/i.test(page.text)) {
-          const discovery = await executor.runSkill({
-            taskId: `browser-read:native-discovery:${source}`,
-            source,
-            stage: "DISCOVERY",
-            session: session!,
-            signal,
-            allowedOrigins,
-            goal: { outlet: { name: keyword, address: request.intent.area.query }, hardCriteria: request.intent.criteria.filter((item) => item.polarity === "POSITIVE" && item.strength === "HARD").map((item) => item.text) },
-            objective: "Apply the current source search and reveal its public restaurant results for the authoritative area and retrieval terms. Do not submit a reservation.",
-            methodReason: "The Tabelog listing has not yet produced a parsed public restaurant result or an explicit empty result.",
-            completion: (current) => {
-              const complete = parseTabelogSearchOutlets(current).length > 0
-                || /\b(?:no|0)\s+(?:restaurants?|results?)\s+(?:found|match(?:es)?)/i.test(current.text);
-              return { complete, reason: "Reveal a current public restaurant result list or wait for an explicit empty listing state." };
-            },
-          });
-          page = discovery.snapshot;
-          observedOutlets = parseTabelogSearchOutlets(page);
-        }
         const retainedOutlets = retainedEntries.map((entry) => ({
           sourceEntityId: entry.sourceEntityId,
           sourceUrl: entry.sourceUrl,
@@ -333,29 +338,98 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
           ...(entry.address ? { address: entry.address } : {}),
           ...(entry.phone ? { phone: entry.phone } : {}),
         }));
+        let page: BrowserSnapshot | undefined;
+        let observedOutlets: ReturnType<typeof parseTabelogSearchOutlets> = [];
+        // A retained observed entrance is already a source-owned continuation.
+        // Reopening a volatile list first can discard it or waste the source
+        // budget before its detail page is ever inspected.
+        if (retainedEntries.length === 0) {
+        // Tabelog's verified listing contract takes the structured HARD term.
+        // An Agent retrieval hint may be a full natural-language request with
+        // date, party and place prose; it must not replace the source keyword.
+        const keyword = request.intent.criteria.find((item) => item.polarity === "POSITIVE" && item.strength === "HARD")?.text
+          ?? request.intent.target?.query ?? request.retrievalHint?.trim() ?? "restaurant";
+        const url = new URL("https://tabelog.com/en/tokyo/rstLst/");
+        url.searchParams.set("sw", keyword);
+        await navigate(url.toString(), 35_000);
+        page = await snapshot();
+        listingPagesRead += 1;
+        raw = rawSourceLinks(page, source);
+        if (hasBotChallenge(page)) throw Object.assign(new Error("Tabelog source challenge"), { code: "TABELOG_BOT_CHALLENGE" });
+        const label = areaLabel(request.intent.area.query);
+        for (let level = 0; level < NATIVE_LISTING_PAGE_CHUNK_CAP.TABELOG - 1; level += 1) {
+          const region = observedTabelogRegion(page, label);
+          if (!region) break;
+          // Area navigation is source-owned, but an observed region link may
+          // omit the active text query. Preserve the authoritative retrieval
+          // term rather than silently changing the result set mid-search.
+          const regionUrl = new URL(region);
+          regionUrl.hash = "";
+          if (!regionUrl.searchParams.has("sw")) regionUrl.searchParams.set("sw", keyword);
+          const currentUrl = new URL(page.url);
+          currentUrl.hash = "";
+          if (regionUrl.href === currentUrl.href) break;
+          await navigate(regionUrl.toString(), 25_000);
+          page = await snapshot();
+          listingPagesRead += 1;
+          raw = rawSourceLinks(page, source);
+          if (hasBotChallenge(page)) throw Object.assign(new Error("Tabelog source challenge"), { code: "TABELOG_BOT_CHALLENGE" });
+          if (normalized(page.url).includes(normalized(label)) && parseTabelogSearchOutlets(page).length) break;
+        }
+        const listingComplete = (current: BrowserSnapshot, controls: readonly BrowserPageControl[] = []) => !discoveryQueryNeedsCurrentQuery(current, keyword, controls)
+          && (parseTabelogSearchOutlets(current).length > 0 || /\b(?:no|0)\s+(?:restaurants?|results?)\s+(?:found|match(?:es)?)/i.test(current.text));
+        observedOutlets = parseTabelogSearchOutlets(page);
+        // An explicit empty result is current only after the same observed
+        // input/busy check.  Otherwise an old empty or card list can silently
+        // end discovery before the bounded public retrieval is attempted.
+        if (publicDiscoverySearchInput(page) || !listingComplete(page)) {
+          const discovery = await executor.runSkill({
+            taskId: `browser-read:native-discovery:${source}`,
+            source,
+            stage: "DISCOVERY",
+            session: session!,
+            signal,
+            allowedOrigins,
+            goal: { outlet: { name: keyword, address: request.intent.area.query }, retrievalExpression: keyword, hardCriteria: request.intent.criteria.filter((item) => item.polarity === "POSITIVE" && item.strength === "HARD").map((item) => item.text) },
+            objective: "Apply the current source search and reveal its public restaurant results for the authoritative area and retrieval terms. Do not submit a reservation.",
+            methodReason: "The Tabelog listing has not yet produced a parsed public restaurant result or an explicit empty result.",
+            completion: (current, controls) => ({ complete: listingComplete(current, controls), reason: "Reveal a current public restaurant result list or wait for an explicit empty listing state." }),
+          });
+          page = discovery.snapshot;
+          if (discovery.status !== "COMPLETED" || !listingComplete(page, discovery.controls)) {
+            throw Object.assign(new Error("Tabelog current public results were not observed"), { code: "TABELOG_DISCOVERY_INCOMPLETE" });
+          }
+          observedOutlets = parseTabelogSearchOutlets(page);
+        }
+        }
         // Keep an observed detail entrance ahead of a newly rendered list. A
         // reordered list is not evidence that the earlier entrance vanished.
         const outlets = [...new Map([...retainedOutlets, ...observedOutlets].map((outlet) => [outlet.sourceEntityId, outlet])).values()];
-        raw = rawSourceLinks(page, source);
+        raw = page ? rawSourceLinks(page, source) : 0;
         parsed = outlets.length;
         const remainingDetailBudget = Math.max(0, NATIVE_DETAIL_SOURCE_CAP - sourceDetailAttemptsBefore);
         const unseenOutlets = outlets.filter((outlet) => !priorInspected.has(outlet.sourceEntityId));
         const chunk = unseenOutlets.slice(0, Math.min(NATIVE_DETAIL_BATCH_CAP, remainingDetailBudget));
         const pendingOutlets = unseenOutlets.slice(chunk.length);
-        pendingSourceEntries = pendingOutlets.map((outlet) => pendingEntry(
+        // Keep the selected chunk persisted until each detail attempt actually
+        // begins. A timeout/session failure halfway through this loop must not
+        // silently discard the unstarted entries selected for this batch.
+        pendingSourceEntries = unseenOutlets.map((outlet) => pendingEntry(
           outlet.sourceEntityId, outlet.sourceUrl, this.now(),
           { outletName: outlet.outletName, ...(outlet.address ? { address: outlet.address } : {}), ...(outlet.phone ? { phone: outlet.phone } : {}) },
         ));
         batchLimitReached = pendingOutlets.length > 0 && remainingDetailBudget > chunk.length;
-        sourceEnded = pendingOutlets.length === 0 || remainingDetailBudget === 0 || chunk.length === remainingDetailBudget;
-        sourceExhausted = pendingOutlets.length ? false : !raw && /\b(?:no|0)\s+(?:restaurants?|results?)\s+(?:found|match(?:es)?)/i.test(page.text) ? true : "UNKNOWN";
+        // This is only a provisional listing observation.  The source may end
+        // only after the selected work has actually been attempted, because a
+        // replacement-session failure leaves the unstarted part of this chunk
+        // as the next continuation.
+        sourceEnded = false;
+        sourceExhausted = pendingOutlets.length ? false : page && !raw && /\b(?:no|0)\s+(?:restaurants?|results?)\s+(?:found|match(?:es)?)/i.test(page.text) ? true : "UNKNOWN";
         deferredByBatchCap.push(...pendingOutlets.map((outlet) => ({ sourceUrl: outlet.sourceUrl, reasonCode: "DETAIL_BATCH_CAP" as const })));
         for (const outlet of chunk) {
           if (signal.aborted) throw Object.assign(new Error("Native search aborted"), { code: "BROWSER_ABORTED" });
-          inspected += 1;
-          inspectedSourceIds.push(outlet.sourceEntityId);
           if (!session) {
-            try { session = await this.runtime.openSession({ signal }); }
+            try { session = await executor.acquire(signal, source, "DISCOVERY"); }
             catch (error) {
               if (taskLevelFailure(error, signal)) throw error;
               candidateFailures.push({ sourceUrl: outlet.sourceUrl, reasonCode: candidateFailureCode(error, source) });
@@ -363,9 +437,23 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
               break;
             }
           }
+          // Opening a session is not a detail attempt. A rejected executor
+          // budget/deadline occurs before `OPERATION_STARTED`, so it also
+          // leaves this observed entrance queued for the next continuation.
+          attemptingDetailSourceId = outlet.sourceEntityId;
+          detailNavigationStarted = false;
+          let consumed = false;
+          const consumeStartedDetail = () => {
+            if (consumed || !detailNavigationStarted) return;
+            consumed = true;
+            inspected += 1;
+            inspectedSourceIds.push(outlet.sourceEntityId);
+            pendingSourceEntries = pendingSourceEntries.filter((entry) => entry.sourceEntityId !== outlet.sourceEntityId);
+          };
           let detailObserved = false;
           try {
             await navigate(outlet.sourceUrl, 30_000);
+            consumeStartedDetail();
             const detail = await snapshot();
             detailObserved = true;
             if (hasBotChallenge(detail)) { rejected.push({ sourceUrl: outlet.sourceUrl, reasonCode: "BOT_CHALLENGE" }); continue; }
@@ -385,16 +473,25 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
               else admitted.set(grounded.candidate.restaurant.id, grounded);
             } else rejected.push({ sourceUrl: outlet.sourceUrl, reasonCode: "OUTSIDE_EXACT_RADIUS" });
           } catch (error) {
+            consumeStartedDetail();
             if (taskLevelFailure(error, signal)) throw error;
             candidateFailures.push({ sourceUrl: outlet.sourceUrl, reasonCode: candidateFailureCode(error, source) });
             rejected.push({ sourceUrl: outlet.sourceUrl, reasonCode: candidateFailureCode(error, source) });
             if (!detailObserved) {
-              void session.close().catch(() => undefined);
+              await executor.close("RUNTIME_FAILURE");
               session = undefined;
             }
+          } finally {
+            attemptingDetailSourceId = undefined;
           }
         }
       } else {
+        let page: BrowserSnapshot | undefined;
+        let links = retainedEntries.map((entry) => entry.sourceUrl);
+        // As with Tabelog, a persisted public detail entrance is sufficient to
+        // continue the same source batch. Do not make it dependent on a fresh,
+        // dynamically hydrated search listing.
+        if (retainedEntries.length === 0) {
         const url = new URL("https://www.tablecheck.com/en/japan/search");
         url.searchParams.set("service_mode", "dining");
         url.searchParams.set("sort_by", "relevance");
@@ -403,20 +500,20 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
         url.searchParams.set("geo_longitude", String(location.longitude));
         url.searchParams.set("geo_distance", "5km");
         url.searchParams.set("auto_geolocate", "false");
-        const keyword = request.intent.criteria.find((item) => item.polarity === "POSITIVE" && item.strength === "HARD")?.text;
+        const keyword = request.retrievalHint?.trim() || request.intent.criteria.find((item) => item.polarity === "POSITIVE" && item.strength === "HARD")?.text;
         if (keyword) url.searchParams.set("search_text", keyword);
         await navigate(url.toString(), 35_000);
-        let page = await snapshot();
+        page = await snapshot();
         listingPagesRead += 1;
         raw = rawSourceLinks(page, source);
-        let links = parseTableCheckDiscoveryOutletUrls(page, "");
-        if (!links.length && !hasTableCheckDiscoveryNoResult(page) && !inspectTableCheckPageUnavailable(page).pageUnavailable) {
-          await waitFor('a[href*="search_text="]', 10_000).catch(() => undefined);
-          page = await snapshot();
-          raw = rawSourceLinks(page, source);
-          links = parseTableCheckDiscoveryOutletUrls(page, "");
-        }
-        if (!links.length && !hasTableCheckDiscoveryNoResult(page) && !inspectTableCheckPageUnavailable(page).pageUnavailable) {
+        links = parseTableCheckDiscoveryOutletUrls(page, "");
+        // A missing legacy query parameter is not a loading signal. The
+        // parser's current page state decides whether the shared skill needs
+        // to wait or use an observed public search control.
+        const expression = keyword ?? request.intent.target?.query ?? "restaurant";
+        const listingComplete = (current: BrowserSnapshot, controls: readonly BrowserPageControl[] = []) => !discoveryQueryNeedsCurrentQuery(current, expression, controls)
+          && (parseTableCheckDiscoveryOutletUrls(current, "").length > 0 || hasTableCheckDiscoveryNoResult(current));
+        if ((publicDiscoverySearchInput(page) || !listingComplete(page)) && !inspectTableCheckPageUnavailable(page).pageUnavailable) {
           const discovery = await executor.runSkill({
             taskId: `browser-read:native-discovery:${source}`,
             source,
@@ -424,28 +521,28 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
             session: session!,
             signal,
             allowedOrigins,
-            goal: { outlet: { name: keyword ?? request.intent.target?.query ?? "restaurant", address: request.intent.area.query }, hardCriteria: request.intent.criteria.filter((item) => item.polarity === "POSITIVE" && item.strength === "HARD").map((item) => item.text) },
+            goal: { outlet: { name: expression, address: request.intent.area.query }, retrievalExpression: expression, hardCriteria: request.intent.criteria.filter((item) => item.polarity === "POSITIVE" && item.strength === "HARD").map((item) => item.text) },
             objective: "Apply the current TableCheck search and reveal public venue result cards for the authoritative area and retrieval terms. Do not submit a reservation.",
             methodReason: "The TableCheck listing has not yet produced a parsed public venue result or an explicit empty result.",
-            completion: (current) => {
-              const complete = parseTableCheckDiscoveryOutletUrls(current, "").length > 0 || hasTableCheckDiscoveryNoResult(current);
-              return { complete, reason: "Reveal a current public venue result list or wait for an explicit empty listing state." };
-            },
+            completion: (current, controls) => ({ complete: listingComplete(current, controls), reason: "Reveal a current public venue result list or wait for an explicit empty listing state." }),
           });
           page = discovery.snapshot;
+          if (discovery.status !== "COMPLETED" || !listingComplete(page, discovery.controls)) {
+            throw Object.assign(new Error("TableCheck current public results were not observed"), { code: "TABLECHECK_DISCOVERY_INCOMPLETE" });
+          }
           raw = rawSourceLinks(page, source);
           links = parseTableCheckDiscoveryOutletUrls(page, "");
         }
-        const retainedLinks = retainedEntries.map((entry) => entry.sourceUrl);
-        links = [...new Map([...retainedLinks, ...links].map((link) => [link, link])).values()];
+        }
+        links = [...new Map(links.map((link) => [link, link])).values()];
         parsed = links.length;
-        if (hasTableCheckBotChallenge(page) || inspectTableCheckPageUnavailable(page).pageUnavailable) {
+        if (page && (hasTableCheckBotChallenge(page) || inspectTableCheckPageUnavailable(page).pageUnavailable)) {
           throw Object.assign(new Error("TableCheck search page unavailable"), { code: "TABLECHECK_PAGE_UNAVAILABLE" });
         }
-        if (!links.length && !hasTableCheckDiscoveryNoResult(page)) {
+        if (!links.length && (!page || !hasTableCheckDiscoveryNoResult(page))) {
           throw Object.assign(new Error("TableCheck native results were not observed"), { code: "TABLECHECK_DISCOVERY_INCOMPLETE" });
         }
-        raw = rawSourceLinks(page, source);
+        raw = page ? rawSourceLinks(page, source) : 0;
         parsed = links.length;
         const remainingDetailBudget = Math.max(0, NATIVE_DETAIL_SOURCE_CAP - sourceDetailAttemptsBefore);
         const sourceId = (link: string) => {
@@ -455,17 +552,19 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
         const unseenLinks = links.filter((link) => !priorInspected.has(sourceId(link)));
         const chunk = unseenLinks.slice(0, Math.min(NATIVE_DETAIL_BATCH_CAP, remainingDetailBudget));
         const pendingLinks = unseenLinks.slice(chunk.length);
-        pendingSourceEntries = pendingLinks.map((link) => pendingEntry(sourceId(link), link, this.now()));
+        // Persist all unattempted entries, including this chosen chunk, until
+        // each detail navigation has actually started.
+        pendingSourceEntries = unseenLinks.map((link) => pendingEntry(sourceId(link), link, this.now()));
         batchLimitReached = pendingLinks.length > 0 && remainingDetailBudget > chunk.length;
-        sourceEnded = pendingLinks.length === 0 || remainingDetailBudget === 0 || chunk.length === remainingDetailBudget;
-        sourceExhausted = pendingLinks.length ? false : !raw && hasTableCheckDiscoveryNoResult(page) ? true : "UNKNOWN";
+        // Keep chosen links in the continuation until their detail navigation
+        // has actually started; see the parallel Tabelog branch above.
+        sourceEnded = false;
+        sourceExhausted = pendingLinks.length ? false : page && !raw && hasTableCheckDiscoveryNoResult(page) ? true : "UNKNOWN";
         deferredByBatchCap.push(...pendingLinks.map((sourceUrl) => ({ sourceUrl, reasonCode: "DETAIL_BATCH_CAP" as const })));
         for (const link of chunk) {
           if (signal.aborted) throw Object.assign(new Error("Native search aborted"), { code: "BROWSER_ABORTED" });
-          inspected += 1;
-          inspectedSourceIds.push(sourceId(link));
           if (!session) {
-            try { session = await this.runtime.openSession({ signal }); }
+            try { session = await executor.acquire(signal, source, "DISCOVERY"); }
             catch (error) {
               if (taskLevelFailure(error, signal)) throw error;
               candidateFailures.push({ sourceUrl: link, reasonCode: candidateFailureCode(error, source) });
@@ -473,9 +572,21 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
               break;
             }
           }
+          const entryId = sourceId(link);
+          attemptingDetailSourceId = entryId;
+          detailNavigationStarted = false;
+          let consumed = false;
+          const consumeStartedDetail = () => {
+            if (consumed || !detailNavigationStarted) return;
+            consumed = true;
+            inspected += 1;
+            inspectedSourceIds.push(entryId);
+            pendingSourceEntries = pendingSourceEntries.filter((entry) => entry.sourceEntityId !== entryId);
+          };
           let detailObserved = false;
           try {
             await navigate(link, 30_000);
+            consumeStartedDetail();
             const detail = await snapshot();
             detailObserved = true;
             if (hasTableCheckBotChallenge(detail) || inspectTableCheckPageUnavailable(detail).pageUnavailable) {
@@ -497,18 +608,25 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
               else admitted.set(grounded.candidate.restaurant.id, grounded);
             } else rejected.push({ sourceUrl: link, reasonCode: "OUTSIDE_EXACT_RADIUS" });
           } catch (error) {
+            consumeStartedDetail();
             if (taskLevelFailure(error, signal)) throw error;
             candidateFailures.push({ sourceUrl: link, reasonCode: candidateFailureCode(error, source) });
             rejected.push({ sourceUrl: link, reasonCode: candidateFailureCode(error, source) });
             if (!detailObserved) {
-              void session.close().catch(() => undefined);
+              await executor.close("RUNTIME_FAILURE");
               session = undefined;
             }
+          } finally {
+            attemptingDetailSourceId = undefined;
           }
         }
       }
       sourceTimeLimitReached = sourceElapsedMs() >= NATIVE_SOURCE_ELAPSED_CAP_MS;
-      if (sourceTimeLimitReached) sourceEnded = true;
+      // A batch selection is not consumption.  Recompute after the loop so a
+      // navigation/session interruption retains all entries it never began.
+      sourceEnded = pendingSourceEntries.length === 0
+        || sourceDetailAttemptsBefore + inspected >= NATIVE_DETAIL_SOURCE_CAP
+        || sourceTimeLimitReached;
       return { candidates: [...admitted.values()].map((item) => item.candidate), evidence: [...admitted.values()].map((item) => item.evidence), candidateFailures,
         progress: { source, inspectedSourceIds: [...new Set(inspectedSourceIds)], detailAttempts: sourceDetailAttemptsBefore + inspected,
           pagesRead: (priorProgress?.source === source ? priorProgress.pagesRead : 0) + listingPagesRead,
@@ -517,6 +635,8 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
           pendingSourceIds: [...new Set(pendingSourceEntries.map((entry) => entry.sourceEntityId))] },
         funnel: funnel() };
     } catch (error) {
+      sourceTimeLimitReached = sourceElapsedMs() >= NATIVE_SOURCE_ELAPSED_CAP_MS;
+      if (sourceTimeLimitReached) sourceEnded = true;
       if (error && typeof error === "object") Object.assign(error, {
         nativeFunnel: funnel(true),
         nativeProgress: {
@@ -531,7 +651,6 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
       });
       throw error;
     } finally {
-      if (session) await session.close();
       await executor.close();
     }
   }
@@ -561,11 +680,19 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
     } catch (error) {
       if (taskLevelFailure(error, signal)) throw error;
       if (error && typeof error === "object" && "nativeFunnel" in error && error.nativeFunnel) {
-        // A source-level parser/navigation failure is not a completed empty
-        // batch and must not reopen the same source with zeroed progress.
-        // Preserve its cursor for diagnosis while allowing the fixed source
-        // sequence to move on (or finish with an explicit failure).
-        batch = { ...batch, funnel: { ...(error.nativeFunnel as typeof batch.funnel), sourceEnded: true } };
+        // A source failure is not a completed empty batch.  If it still has
+        // unstarted observed entrances, retain the source stage so the next
+        // read consumes that queue rather than silently jumping to TableCheck.
+        const nativeError = error as { nativeFunnel: typeof batch.funnel; nativeProgress?: typeof batch.progress };
+        const failedFunnel = nativeError.nativeFunnel;
+        const failedProgress = nativeError.nativeProgress;
+        batch = { ...batch, funnel: { ...failedFunnel,
+          sourceEnded: failedProgress
+            ? failedProgress.pendingSourceEntries.length === 0
+              || failedProgress.detailAttempts >= failedFunnel.sourceDetailCap
+              || failedFunnel.sourceTimeLimitReached
+            : failedFunnel.sourceEnded,
+        } };
       }
       if (error && typeof error === "object" && "nativeProgress" in error && error.nativeProgress) {
         batch = { ...batch, progress: error.nativeProgress as typeof batch.progress };

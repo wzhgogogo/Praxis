@@ -213,11 +213,11 @@ export function assessRestaurantRead(state: Readonly<RestaurantTaskState>, now: 
   const refreshPending = (state.refreshRequestedCandidateIds?.length ?? 0) > 0 || (state.factRefreshRequestedCandidateIds?.length ?? 0) > 0;
   const internalFailure = state.failure && /^(AGENT_|SEMANTIC_|BROWSER_RUNTIME|BROWSER_TIMEOUT)/.test(state.failure.code);
   const nativeSecondBatchPending = state.searchContinuation?.nativeStage === "TABELOG_DONE" && !state.searchContinuation.exhausted;
-  const nativeSecondBatchInvestigationPending = state.searchContinuation?.nativeStage === "TABLECHECK_DONE"
-    ? nativeBatchInvestigationBlockReason(state, "TABLECHECK") : undefined;
+  const nativeCurrentBatchPending = state.searchContinuation?.nativeCurrentBatch
+    ? nativeCurrentBatchInvestigationBlockReason(state) : undefined;
   const canEndRead = investigationRecorded && !refreshPending && !internalFailure && !nativeSecondBatchPending
-    && !nativeSecondBatchInvestigationPending && !relevantPresentation.some((item) => item.eligible);
-  return { presentation, factInvestigableCandidateIds, checkableCandidateIds, investigationRecorded, canEndRead, ...(canEndRead ? {} : { endReadBlockReason: !investigationRecorded ? "No actual source investigation is recorded" : refreshPending ? "A user-requested refresh remains pending" : internalFailure ? "An internal execution failure is recorded" : nativeSecondBatchPending ? "The bounded TableCheck native batch has not been read" : nativeSecondBatchInvestigationPending ?? "A grounded result is available and must not be ignored" }), unresolvedCandidateIds };
+    && !nativeCurrentBatchPending && !relevantPresentation.some((item) => item.eligible);
+  return { presentation, factInvestigableCandidateIds, checkableCandidateIds, investigationRecorded, canEndRead, ...(canEndRead ? {} : { endReadBlockReason: !investigationRecorded ? "No actual source investigation is recorded" : refreshPending ? "A user-requested refresh remains pending" : internalFailure ? "An internal execution failure is recorded" : nativeSecondBatchPending ? "The bounded TableCheck native batch has not been read" : nativeCurrentBatchPending ?? "A grounded result is available and must not be ignored" }), unresolvedCandidateIds };
 }
 
 function nativeBatchInvestigationBlockReason(state: Readonly<RestaurantTaskState>, source: "TABELOG" | "TABLECHECK"): string | undefined {
@@ -242,6 +242,12 @@ function nativeBatchInvestigationBlockReason(state: Readonly<RestaurantTaskState
 
 /** The second native batch can start only after the observed first batch has been investigated. */
 export function nativeSecondBatchSearchBlockReason(state: Readonly<RestaurantTaskState>, now: string): string | undefined {
+  // SEARCH, Context, END and short-batch delivery all consult this shared
+  // assessment. A populated current batch is never bypassed merely because it
+  // is the TableCheck batch or because nativeStage is no longer TABELOG_DONE.
+  const currentBlock = nativeCurrentBatchInvestigationBlockReason(state);
+  if (currentBlock) return currentBlock;
+  if (nativeShortBatchDeliveryReady(state, now)) return "The investigated native batch has a grounded result to deliver";
   if (state.searchContinuation?.nativeStage !== "TABELOG_DONE") return undefined;
   const pending = nativeBatchInvestigationBlockReason(state, "TABELOG");
   if (pending) return pending;
@@ -258,7 +264,10 @@ export function nativeSecondBatchSearchBlockReason(state: Readonly<RestaurantTas
 
 function nativeCurrentBatchInvestigationBlockReason(state: Readonly<RestaurantTaskState>): string | undefined {
   const currentBatch = state.searchContinuation?.nativeCurrentBatch;
-  if (!currentBatch || currentBatch.candidateIds.length === 0) return "The current native batch has no admitted candidate to deliver";
+  // An exhausted source records an empty current batch. There is no admitted
+  // candidate left to investigate, so it must not prevent source handoff or
+  // an evidence-backed empty conclusion.
+  if (!currentBatch || currentBatch.candidateIds.length === 0) return undefined;
   const expectedSource = currentBatch.source === "TABELOG"
     ? (candidate: RestaurantTaskState["candidates"][number]) => Boolean(candidate.restaurant.sourceIds.tabelogNativeDetailUri)
     : (candidate: RestaurantTaskState["candidates"][number]) => Boolean(candidate.restaurant.sourceIds.tablecheckNativeGuideUri);

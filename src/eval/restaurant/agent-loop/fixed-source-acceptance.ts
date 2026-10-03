@@ -18,6 +18,59 @@ export type FixedSourceAcceptanceResult = {
   exitCode: 0 | 1;
 };
 
+export type FixedSourceSourceUsage = Readonly<Record<string, Readonly<{
+  attempted: boolean;
+  observed: boolean;
+}>>>;
+
+type BrowserTrace = Readonly<{ kind: string; detail: unknown }>;
+type FixedNativeSource = "TABELOG" | "TABLECHECK";
+
+function sourceForUrl(value: unknown): FixedNativeSource | undefined {
+  if (typeof value !== "string") return undefined;
+  try {
+    const hostname = new URL(value).hostname.toLowerCase();
+    if (hostname === "tabelog.com" || hostname.endsWith(".tabelog.com")) return "TABELOG";
+    if (hostname === "tablecheck.com" || hostname.endsWith(".tablecheck.com")) return "TABLECHECK";
+  } catch { /* Trace records may contain failed or malformed targets. */ }
+  return undefined;
+}
+
+/**
+ * Navigation attempts and successful observations are intentionally separate:
+ * a failed forbidden navigation still violates the scenario, while a required
+ * source needs a snapshot from the actual source before it can satisfy it.
+ */
+export function fixedNativeSourceUsage(
+  navigations: readonly string[],
+  trace: readonly BrowserTrace[],
+): Readonly<Record<FixedNativeSource, { attempted: boolean; observed: boolean }>> {
+  const attempted = new Set<FixedNativeSource>();
+  const observed = new Set<FixedNativeSource>();
+  for (const url of navigations) {
+    const source = sourceForUrl(url);
+    if (source) attempted.add(source);
+  }
+  for (const entry of trace) {
+    if (!entry.detail || typeof entry.detail !== "object") continue;
+    const detail = entry.detail as { method?: unknown; args?: unknown; url?: unknown };
+    if (entry.kind === "SESSION_CALL" && typeof detail.method === "string" && Array.isArray(detail.args)) {
+      const method = detail.method.toLowerCase();
+      const target = method === "navigate" ? detail.args[0] : method === "openlink" ? detail.args[1] : undefined;
+      const source = sourceForUrl(target);
+      if (source) attempted.add(source);
+    }
+    if (entry.kind === "SNAPSHOT") {
+      const source = sourceForUrl(detail.url);
+      if (source) observed.add(source);
+    }
+  }
+  return {
+    TABELOG: { attempted: attempted.has("TABELOG"), observed: observed.has("TABELOG") },
+    TABLECHECK: { attempted: attempted.has("TABLECHECK"), observed: observed.has("TABLECHECK") },
+  };
+}
+
 function findingStatus(evaluation: RestaurantHybridDiagnosticEvaluation, dimension: DiagnosticFinding["dimension"]): string | undefined {
   return evaluation.findings.find((finding) => finding.dimension === dimension)?.status;
 }
@@ -33,6 +86,9 @@ export function assessFixedSourceAcceptance(input: {
   evaluation?: RestaurantHybridDiagnosticEvaluation;
   evaluationFailure?: string;
   coverageGaps?: readonly FixedSourceCoverageGap[];
+  /** Runner-recorded source facts, kept separate from evaluator findings. */
+  sourceRequirements?: { requiredSources: readonly string[]; forbiddenSources?: readonly string[] };
+  sourceUsage?: FixedSourceSourceUsage;
   presentedResult?: {
     candidateIds: readonly string[];
     resultBatchTarget?: { candidateCount: number; met: boolean };
@@ -51,6 +107,14 @@ export function assessFixedSourceAcceptance(input: {
   const evaluation = input.evaluation;
   if (gaps.length && !input.expectation.coverage.necessary && evaluation.execution.taskProducedQualifiedResult !== "YES") {
     return { acceptance: "BLOCKED", userGoalCompletion: "UNKNOWN", reasons: ["Optional fixture gaps have no independently sufficient qualified result.", ...gaps.map((gap) => `Optional fixture coverage gap: ${gap.source}/${gap.stage}: ${gap.reason}`)], exitCode: 1 };
+  }
+  for (const source of input.sourceRequirements?.requiredSources ?? []) {
+    const usage = input.sourceUsage?.[source];
+    if (!usage?.attempted) reasons.push(`Required source ${source} was not attempted.`);
+    else if (!usage.observed) reasons.push(`Required source ${source} was attempted but not successfully observed.`);
+  }
+  for (const source of input.sourceRequirements?.forbiddenSources ?? []) {
+    if (input.sourceUsage?.[source]?.attempted) reasons.push(`Forbidden source ${source} was attempted.`);
   }
   for (const dimension of input.expectation.requiredDimensions) {
     const status = findingStatus(evaluation, dimension);
@@ -73,6 +137,9 @@ export function assessFixedSourceAcceptance(input: {
   const distinctCandidateCount = presented ? new Set(presented.candidateIds).size : 0;
   if (input.expectation.kind === "QUALIFIED_RESULT" && (!presented || distinctCandidateCount === 0 || presented.candidateIds.length !== distinctCandidateCount)) {
     reasons.push(`Expected one or more distinct presented candidates, got ${presented ? `${distinctCandidateCount} distinct of ${presented.candidateIds.length}` : "no presentation record"}.`);
+  }
+  if (input.expectation.expectedPresentation === "NONE" && (presented?.candidateIds.length ?? 0) !== 0) {
+    reasons.push(`Expected no presented candidates, got ${presented?.candidateIds.length ?? 0}.`);
   }
   const registeredUserBatch = input.expectation.requiredResultBatch;
   const stateRequestedCount = presented?.requestedResultCount;

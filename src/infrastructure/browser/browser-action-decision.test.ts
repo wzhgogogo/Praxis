@@ -93,6 +93,21 @@ test("strict browser wire restores authoritative calendar and observed-option ac
  }
 });
 
+test("strict browser wire permits retrieval only as an observed public input fill", async () => {
+  const scoped = {
+    ...input,
+    goal: { ...input.goal, retrievalExpression: "omakase" },
+    observation: { ...input.observation, targets: [{ ref: "observation:1:target:1", kind: "INPUT" as const, role: "textbox", label: "Search venues" }] },
+  };
+  const decision = new ModelBrowserReadActionDecision(gateway({
+    action: "FILL_AUTHORITATIVE", targetRef: "observation:1:target:1", authoritativeField: "RETRIEVAL", requestedState: "NONE",
+    reason: "Use the current public search expression.",
+  }));
+  assert.deepEqual(await decision.decide(scoped), {
+    type: "FILL_AUTHORITATIVE", targetRef: "observation:1:target:1", field: "RETRIEVAL", reason: "Use the current public search expression.",
+  });
+});
+
 test("strict browser wire restores only bounded observed checkbox, slider, and region actions", async () => {
   const targets = [
     { ref: "observation:1:target:1", kind: "CHECKBOX" as const, role: "checkbox", label: "Sushi", checked: false },

@@ -122,6 +122,13 @@ export class PlaywrightControlRegistry {
     }, selectedClass);
   }
 
+  /** A disconnected handle is a vanished observation, never an enabled control. */
+  private async disconnected(element: ElementHandle<SVGElement | HTMLElement>): Promise<boolean> {
+    // Do not classify a protocol/runtime failure as a removed node. The caller
+    // may omit a control only when the page itself confirms `isConnected=false`.
+    return element.evaluate(node => !node.isConnected).catch(() => false);
+  }
+
   async observe(page: Page, hints: readonly BrowserControlHint[] = []): Promise<BrowserPageControl[]> {
     this.revision += 1;
     const previousTargets = this.targets;
@@ -148,13 +155,16 @@ export class PlaywrightControlRegistry {
     ];
     for (const group of groups) {
       const groupLocator = page.locator(group.selector);
-      const count = await groupLocator.count();
-      for (let index = 0; index < count; index += 1) {
-        const locator = await groupLocator.nth(index).elementHandle();
+      // Pin this observation's handles before reading any of them. A source page
+      // can remove one unrelated node during the pass; a native one-call
+      // ElementHandle snapshot keeps later controls from shifting indices.
+      const handles = await groupLocator.elementHandles() as Array<ElementHandle<SVGElement | HTMLElement>>;
+      for (const [index, locator] of handles.entries()) {
         if (!locator) continue;
         const release = () => locator.dispose().catch(() => undefined);
+        try {
         if (!group.hint && hintedSelector && await locator.evaluate((element, selector) => element.matches(selector), hintedSelector)) { await release(); continue; }
-        if (!await locator.isVisible().catch(() => false)) { await release(); continue; }
+        if (!await locator.isVisible()) { await release(); continue; }
         if (group.defaultRole === "button" && await locator.getAttribute("role") === "option" && !await visibleWithinScrollableOwner(locator)) {
           await release();
           continue;
@@ -279,6 +289,11 @@ export class PlaywrightControlRegistry {
           ...(options?.length ? { options } : {}),
           ...(controlledListboxId ? { controlledListboxId } : {}),
         });
+        } catch (error) {
+          if (await this.disconnected(locator)) { await release(); continue; }
+          await release();
+          throw error;
+        }
       }
     }
     const expanded = controls.filter(item => item.role === "combobox" && item.expanded === true);

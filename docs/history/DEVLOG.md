@@ -1,8 +1,8 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.143
-- Last updated: 2026-10-01
+- Document revision: 4.145
+- Last updated: 2026-10-03
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
@@ -2948,3 +2948,39 @@ Three user-authorized DeepSeek runs used only fixed source pages and a fixed Goo
 The TableCheck availability tail now subscribes only to a page-owned same-shop `/available` GET endpoint after HIGH identity and the observed reservation entrance are established. A source response can mark one exact time unavailable only when its URL binds the selected Tokyo date and adult count and its JSON is the provider's explicit `failure/data:null` form. Cross-shop, mismatched request, success/unknown payload, no response, and a broader requested window stay UNKNOWN. The diagnostic does not invoke a reservation form action.
 
 One bounded no-model Chromium diagnostic of Dining&Bar LAVAROCK selected a diagnostic date, two adults and 19:00 through observed native controls. The controls read back, but the page emitted no `/available` response and retained a disabled submit control. This is recorded as a source-completion limitation, not a no-availability result or H001 result. See [inventory evidence boundary](H001-NEXT-ITERATION-INVENTORY-EVIDENCE-2026-10-01.md).
+
+## 2026-10-01 H001 tomorrow native Live diagnostic
+
+Ran the single user-authorized read-only H001 tomorrow variant after the native-current-batch and TableCheck response compatibility changes. Tabelog first reached a HIGH same-source Sushi Teppen and established omakase, but no safe October 2 date control existed; its wrong-date model proposal was rejected and no inventory was inferred. TableCheck then ran its own source batch, retained later entries, and recorded a public search result-anchor timeout rather than an empty provider result. The run uncovered that the explicit availability browser-operation ceiling was not propagated to native discovery: the latter recorded 31 operations under a command value of 30. No code changed in this diagnostic, no retry occurred, and no booking write was attempted. See [run record](H001-TOMORROW-VARIANT-NATIVE-LIVE-2026-10-01.md).
+
+## 2026-10-03 H001 unified discovery/execution offline repair
+
+Implemented the bounded A/C/D/E repair slice without a new model or real-site call. Native continuation now consumes retained source-owned detail entrances directly and preserves chunk entries until actually attempted; discovery operation ceilings propagate from the Live runner and source elapsed diagnostics are no longer clamped. TableCheck's unproven exact `failure/data:null` passive response remains captured but is diagnostic-only, never an inventory conclusion. The fixed-source runner now requires an immutable execution artifact, final independent evaluator sidecar, and scenario acceptance sidecar before its exit code can report success. The old `search_text`-href wait was removed in favor of current parser state plus the existing bounded shared browser loop. See [implementation record](H001-UNIFIED-DISCOVERY-EXECUTION-IMPLEMENTATION-2026-10-03.md). No H001 Live or booking write occurred.
+
+## 2026-10-03 H001 tomorrow native Live transport stop
+
+At the user's direction, ran one read-only H001 tomorrow-date variant against real sources after the offline repair. The semantic and Agent decisions succeeded, then Google named-place resolution for Shibuya failed through the configured Google-only proxy before native discovery began. The runtime retained `GOOGLE_NETWORK_FAILED` and stopped after one search decision, rather than reopening the same request. No browser source, candidate, inventory, result presentation, or booking write occurred; this is transport evidence only, not a verdict on the repaired reservation-site path. The immutable result and independent diagnostic evaluation are recorded in [the run record](H001-TOMORROW-VARIANT-NATIVE-LIVE-2026-10-03.md).
+
+## 2026-10-03 H001 unified review-return A–D repair
+
+Closed the review-return implementation for native pending-entry consumption, observed retrieval, TableCheck current-result grounding, and current-batch completion. Pending details now consume at Executor navigation admission, stale nonempty search results cannot complete during a current-query load, and only an enabled, request-window-consistent HTML/control result can reach availability grounding. The Hybrid Live diagnostic artifact reuses the existing redacted browser session trace so independent evaluation can inspect snapshots, controls, passive responses, and sequence order. The repair is offline-only; the fixed-source real-model and final Live gates remain pending in the main review workflow.
+
+## 2026-10-03 H001 unified final offline regression
+
+Closed the final stale-query, source-session-budget and hidden-slot review variants in the existing native executor and TableCheck parser. Current-query completion is shared by initial and post-action listing reads; incomplete pages keep diagnostics and cannot admit stale cards. The source deadline includes session acquisition, and hidden reservation descendants cannot ground availability. Final offline typecheck, architecture check, build, full host-loopback test suite, fixed Chromium fixture, and diff check passed. The separately authorized fixed-source model and Live gates remain outside this offline record.
+
+## 2026-10-03 H001 post-review Live query-field correction
+
+A read-only Live comparison found that the native Tabelog path had started sending the full Agent retrieval sentence as `sw`, producing the source's explicit no-match response where the established HARD `omakase` keyword produced public listings. Tabelog now prioritizes the structured HARD term; TableCheck keeps its existing natural-language search behavior. The fixed discovery fixture now preserves actual fill values and verifies wrong-fill rejection. Offline gates for the changed path passed; no new model or Live run was performed here.
+
+## 2026-10-03 H001 TableCheck observed reservation-path correction
+
+A later read-only H001 trace reached Omotesandoria's selected date, party and enabled 19:00 link, but the shared same-outlet parser accepted only the existing `/shops/<slug>/reserve` shape and omitted the observed guide-owned `/<slug>/reserve/landing` shape. The parser now admits either public path only when its slug remains the current outlet and its URL binds the exact date, adult count and time; cross-outlet, wrong-request and disabled controls remain rejected. This closes a pre-existing URL-format coverage omission, not a restaurant-specific rule or a qualification claim. Bellwood's `require_service_category` state remains a separate unresolved source-control limitation; no course/category selection path was added. No model, source request, booking action or Live rerun was made for this correction.
+
+## 2026-10-03 H001 final independent review and current-source verification
+
+5.6 Terra delivered the implementation and the root/independent reviewers returned incomplete packets until the affected contracts closed. Besides current-query retrieval, saved-entrance continuation, current-result grounding and artifact/evaluation/acceptance ordering, final corrections cover a generic DOM-hydration race and a passive-response navigation regression. Control enumeration obtains one current group of handles; only positively disconnected nodes are discarded, while attached read errors and stale/disabled action validation remain. Local/Cloudflare navigation restores its prior response reset without removing capture rules/listeners. The final host-local fixture passes 64/64; the preceding 62/64 failure is preserved as a real current-packet regression. Earlier fixture-green provenance could not be matched to that code and is superseded. No retry framework, store whitelist, new executor or broader permission was introduced.
+
+Three corrected-fixture real-model runs each delivered one controlled qualified result in 12,967–13,687ms / ten model calls. The subsequent full H001 tomorrow Live reached five admitted candidates/five stock checks and eight TableCheck details, within 231,118ms / 38 calls. It still presented no qualified result, so manual acceptance against the unchanged contract is FAIL. Omotesandoria exposed an old optional-`shops` path coverage omission; Bellwood exposed a required service-category control gap. Other candidates retain precise request-unconfirmed/timeout limits, not sold-out claims.
+
+The optional-path repair now has a hash-matched original full-HTML replay and independently rejected foreign-outlet/date/party variants. A first targeted stock Live stopped on a detached Login element; after the generic observation repair, its single same-budget repeat read actual October 4/two-person/19:00 stock in 15,975ms / one model call. Independent raw stock acceptance is PASS, while HARD omakase and Runtime presentation remain outside the slice. H001's failed complete-run verdict is unchanged. Original execution records are immutable; future trace callbacks hash full HTML/text and preserve allowlisted evaluation evidence. [Final review, code freeze and artifacts](H001-UNIFIED-REVIEW-2026-10-03.md).

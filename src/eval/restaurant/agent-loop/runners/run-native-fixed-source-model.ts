@@ -11,18 +11,19 @@ import { GooglePlacesRestaurantSearch } from "../../../../integrations/google/go
 import { LiveBrowserAvailability } from "../../../../integrations/restaurant-availability/live-browser-availability.js";
 import { composeNativeRestaurantRead } from "../../../../integrations/restaurant-search/native-read-composition.js";
 import { diagnosticFailureCode, startDiagnosticRun } from "../../../shared/diagnostic-run.js";
-import { evaluateArtifactAfterFinish, evaluateRestaurantHybridLiveArtifact } from "../diagnostic-evaluator.js";
+import { evaluateArtifactAfterFinish } from "../diagnostic-evaluator.js";
+import { assessFixedSourceAcceptance, fixedNativeSourceUsage } from "../fixed-source-acceptance.js";
+import type { FixedSourceExpectation } from "../fixed-source-case-registry.js";
 import { createHybridReadComposition } from "../hybrid-read-composition.js";
 import { loadFrozenLiveCases, RESTAURANT_READ_DEVELOPMENT_CASE_PATH } from "../live-case-materializer.js";
 import { center, dynamicTabelogSourcePages, reference, sourcePages, type SourceScenario } from "../native-fixed-source-pages.js";
-import { errorRecord, traceBrowserSession } from "./browser-case-slice-evidence.js";
+import { errorRecord, safeRecord, traceBrowserSession } from "./browser-case-slice-evidence.js";
+import { finalizeNativeFixedSourceRun, type NativeFixedSourceFinalizationProgress } from "./native-fixed-source-runner-finalization.js";
 
 type ScenarioExpectation = Readonly<{
-  terminalPhase: "PRESENT_RESULTS" | "NO_VERIFIED_RESULT";
-  qualifiedUserResult: "YES" | "NO";
+  acceptance: FixedSourceExpectation;
   requiredSources: readonly ("TABELOG" | "TABLECHECK")[];
   forbiddenSources?: readonly ("TABELOG" | "TABLECHECK")[];
-  zeroPresentedResults?: boolean;
 }>;
 
 const FIXED_SOURCE_RUNNER_SCENARIOS = [
@@ -32,24 +33,32 @@ const FIXED_SOURCE_RUNNER_SCENARIOS = [
 ] as const;
 type FixedSourceRunnerScenario = typeof FIXED_SOURCE_RUNNER_SCENARIOS[number];
 
-const FIXED_SOURCE_SCENARIO_EXPECTATIONS: Readonly<Record<FixedSourceRunnerScenario, ScenarioExpectation>> = {
-  TABELOG_DELIVERS: { terminalPhase: "PRESENT_RESULTS", qualifiedUserResult: "YES", requiredSources: ["TABELOG"], forbiddenSources: ["TABLECHECK"] },
-  TABLECHECK_RECOVERS: { terminalPhase: "PRESENT_RESULTS", qualifiedUserResult: "YES", requiredSources: ["TABELOG", "TABLECHECK"] },
-  BOTH_BOUNDED_EMPTY: { terminalPhase: "NO_VERIFIED_RESULT", qualifiedUserResult: "NO", requiredSources: ["TABELOG", "TABLECHECK"], zeroPresentedResults: true },
-  TABLECHECK_CONTINUES: { terminalPhase: "PRESENT_RESULTS", qualifiedUserResult: "YES", requiredSources: ["TABELOG", "TABLECHECK"] },
-  DYNAMIC_TABELOG_DELIVERS: { terminalPhase: "PRESENT_RESULTS", qualifiedUserResult: "YES", requiredSources: ["TABELOG"], forbiddenSources: ["TABLECHECK"] },
-  TABLECHECK_DISCOVERY_RECOVERS: { terminalPhase: "PRESENT_RESULTS", qualifiedUserResult: "YES", requiredSources: ["TABELOG", "TABLECHECK"] },
-  TABELOG_NONEMPTY_REGION_RECOVERS: { terminalPhase: "PRESENT_RESULTS", qualifiedUserResult: "YES", requiredSources: ["TABELOG"], forbiddenSources: ["TABLECHECK"] },
-  TABELOG_CURRENT_BATCH_DELIVERS: { terminalPhase: "PRESENT_RESULTS", qualifiedUserResult: "YES", requiredSources: ["TABELOG"], forbiddenSources: ["TABLECHECK"] },
-  TABLECHECK_CURRENT_BATCH_DELIVERS: { terminalPhase: "PRESENT_RESULTS", qualifiedUserResult: "YES", requiredSources: ["TABELOG", "TABLECHECK"] },
-};
+const qualifiedResultAcceptance = {
+  kind: "QUALIFIED_RESULT",
+  execution: { status: "SUCCEEDED", loopStatus: "TERMINAL", phase: "PRESENT_RESULTS" },
+  coverage: { necessary: true },
+  requiredDimensions: ["AUTHORITATIVE_CONDITIONS", "REQUIRED_EVIDENCE", "INVESTIGATION_BEHAVIOR", "FINAL_CLAIM", "COMPLETION_OUTCOME", "RESOURCES"],
+} satisfies FixedSourceExpectation;
+const boundedEmptyAcceptance = {
+  kind: "VERIFIED_NO_RESULT",
+  execution: { status: "SUCCEEDED", loopStatus: "TERMINAL", phase: "NO_VERIFIED_RESULT" },
+  coverage: { necessary: true },
+  // There is no presented claim to score in an ordinary bounded empty run.
+  requiredDimensions: ["AUTHORITATIVE_CONDITIONS", "INVESTIGATION_BEHAVIOR", "COMPLETION_OUTCOME", "RESOURCES"],
+  expectedPresentation: "NONE",
+} satisfies FixedSourceExpectation;
 
-function sourceUsage(navigations: readonly string[]) {
-  return {
-    tabelog: navigations.some((url) => new URL(url).hostname === "tabelog.com"),
-    tablecheck: navigations.some((url) => new URL(url).hostname === "www.tablecheck.com"),
-  };
-}
+const FIXED_SOURCE_SCENARIO_EXPECTATIONS: Readonly<Record<FixedSourceRunnerScenario, ScenarioExpectation>> = {
+  TABELOG_DELIVERS: { acceptance: qualifiedResultAcceptance, requiredSources: ["TABELOG"], forbiddenSources: ["TABLECHECK"] },
+  TABLECHECK_RECOVERS: { acceptance: qualifiedResultAcceptance, requiredSources: ["TABELOG", "TABLECHECK"] },
+  BOTH_BOUNDED_EMPTY: { acceptance: boundedEmptyAcceptance, requiredSources: ["TABELOG", "TABLECHECK"] },
+  TABLECHECK_CONTINUES: { acceptance: qualifiedResultAcceptance, requiredSources: ["TABELOG", "TABLECHECK"] },
+  DYNAMIC_TABELOG_DELIVERS: { acceptance: qualifiedResultAcceptance, requiredSources: ["TABELOG"], forbiddenSources: ["TABLECHECK"] },
+  TABLECHECK_DISCOVERY_RECOVERS: { acceptance: qualifiedResultAcceptance, requiredSources: ["TABELOG", "TABLECHECK"] },
+  TABELOG_NONEMPTY_REGION_RECOVERS: { acceptance: qualifiedResultAcceptance, requiredSources: ["TABELOG"], forbiddenSources: ["TABLECHECK"] },
+  TABELOG_CURRENT_BATCH_DELIVERS: { acceptance: qualifiedResultAcceptance, requiredSources: ["TABELOG"], forbiddenSources: ["TABLECHECK"] },
+  TABLECHECK_CURRENT_BATCH_DELIVERS: { acceptance: qualifiedResultAcceptance, requiredSources: ["TABELOG", "TABLECHECK"] },
+};
 
 function scenarioResult(
   scenario: FixedSourceRunnerScenario,
@@ -57,24 +66,15 @@ function scenarioResult(
   phase: string,
   presentedCandidateIds: readonly string[],
   navigations: readonly string[],
+  browserTrace: readonly Readonly<{ kind: string; detail: unknown }>[],
   qualifiedUserResult: "YES" | "NO" | "UNKNOWN" | undefined,
 ) {
   const expectation = FIXED_SOURCE_SCENARIO_EXPECTATIONS[scenario];
-  const usage = sourceUsage(navigations);
-  const used = { TABELOG: usage.tabelog, TABLECHECK: usage.tablecheck } as const;
-  const sourcesMatch = expectation.requiredSources.every((source) => used[source])
-    && (expectation.forbiddenSources ?? []).every((source) => !used[source]);
-  const presentationMatches = !expectation.zeroPresentedResults || presentedCandidateIds.length === 0;
-  const meetsExpectation = status === "SUCCEEDED"
-    && phase === expectation.terminalPhase
-    && qualifiedUserResult === expectation.qualifiedUserResult
-    && sourcesMatch
-    && presentationMatches;
+  const usage = fixedNativeSourceUsage(navigations, browserTrace);
   return {
-    scenarioExpectation: expectation,
+    scenarioExpectation: { ...expectation, acceptance: expectation.acceptance },
     actualSystemBehavior: { status, phase, presentedCandidateIds, sourceUsage: usage },
     qualifiedUserResult: qualifiedUserResult ?? "UNKNOWN",
-    meetsScenarioExpectation: meetsExpectation,
   };
 }
 
@@ -110,9 +110,11 @@ const googleQueries: string[] = [];
 const browserTrace: Array<{ sequence: number; at: string; kind: string; detail: unknown }> = [];
 const browserDiagnostics: BrowserExecutionDiagnostic[] = [];
 let browserTraceSequence = 0;
+const finalizationProgress: NativeFixedSourceFinalizationProgress = { executionArtifactSaved: false };
+let finalizedEvaluation: Awaited<ReturnType<typeof evaluateArtifactAfterFinish>> | undefined;
 const recordBrowserTrace = (kind: string, detail: unknown) => {
   const sequence = ++browserTraceSequence;
-  browserTrace.push({ sequence, at: new Date().toISOString(), kind, detail });
+  browserTrace.push({ sequence, at: new Date().toISOString(), kind, detail: safeRecord(detail) });
   return sequence;
 };
 const sourcePath = resolve(RESTAURANT_READ_DEVELOPMENT_CASE_PATH);
@@ -136,10 +138,12 @@ try {
   } };
   const clock = { now: () => new Date(reference.valueOf() + Date.now() - startedAt) };
   const rawBrowser = dynamicSource ? dynamicTabelogSourcePages() : sourcePages(scenario, navigations);
-  const browser: BrowserRuntime = dynamicSource ? { openSession: async (input) => {
+  // Source usage is evidence of both a navigation attempt and a page that was
+  // actually observed. A fixture URL alone cannot satisfy a source scenario.
+  const browser: BrowserRuntime = { openSession: async (input) => {
     try { return traceBrowserSession(await rawBrowser.openSession(input), "TABELOG", recordBrowserTrace); }
     catch (error) { recordBrowserTrace("SESSION_OPEN_ERROR", errorRecord(error)); throw error; }
-  } } : rawBrowser;
+  } };
   const google = new GooglePlacesRestaurantSearch(new GooglePlacesClient({ apiKey: "fixed-transport-only", fetchImplementation: async (_url, init) => {
     const query = JSON.parse(String(init?.body)) as { textQuery: string };
     googleQueries.push(query.textQuery);
@@ -160,30 +164,64 @@ try {
   const result = { schemaVersion: "1", mode: "FIXED_SOURCE_REAL_MODEL", status, stage: "AGENT_LOOP", caseId: "h001", runId: snapshot.runId,
     materializedCase: frozen, semantic, finalSnapshot: snapshot, trajectories: composition.trajectories.steps, events: composition.runtime.eventLog, loop,
     modelInvocations: invocations, sourceEnvironment: { network: "OFFLINE_FIXED_TRANSPORT", browser: dynamicSource ? "LOCAL_CHROMIUM_DYNAMIC_FIXED_PAGE" : "OFFLINE_FIXED_PAGES", scenario },
-    sourceTrace: { navigations, googleQueries, browserDiagnostics, ...(dynamicSource ? { browserTrace } : {}) }, runCeilings: { maxAutomaticBrowserMs: timeoutMs, maxAgentSteps: maxSteps, maxBrowserModelCallsTotal: maxModelCalls, maxModelCalls },
+    sourceTrace: { navigations, googleQueries, browserDiagnostics, browserTrace }, runCeilings: { maxAutomaticBrowserMs: timeoutMs, maxAgentSteps: maxSteps, maxBrowserModelCallsTotal: maxModelCalls, maxModelCalls },
     resourceUsage: { elapsedMs: Date.now() - startedAt, modelCallsStarted: modelCalls, browserModelCalls: invocations.filter((item) => item.purpose === "browser_read_decide").length,
       agentDecisions: invocations.filter((item) => item.purpose === "restaurant_agent_decide").length, googleRequests: { total: googleQueries.length, namedPlaceResolution: googleQueries.length, discovery: 0, placeDetails: 0 } },
     safety: { policy: "READ_ONLY_CODE_PATH", externalSideEffectCount: 0 },
     execution: { status, loopStatus: loop?.status, phase: snapshot.domainState.phase },
   } as const;
-  const preliminaryEvaluation = evaluateRestaurantHybridLiveArtifact(result, {
-    path: journal.resultPath,
-    sha256: createHash("sha256").update(JSON.stringify(result)).digest("hex"),
+  let acceptance: ReturnType<typeof assessFixedSourceAcceptance> | undefined;
+  const finalized = await finalizeNativeFixedSourceRun({
+    journal,
+    result,
+    progress: finalizationProgress,
+    evaluate: evaluateArtifactAfterFinish,
+    buildAcceptanceSidecar: (evaluation) => {
+      finalizedEvaluation = evaluation;
+      const report = scenarioResult(scenario, status, snapshot.domainState.phase, presentedCandidateIds, navigations, browserTrace,
+        evaluation.evaluation?.execution.taskProducedQualifiedResult);
+      const scenarioExpectation = FIXED_SOURCE_SCENARIO_EXPECTATIONS[scenario];
+      const sourceUsage = fixedNativeSourceUsage(navigations, browserTrace);
+      acceptance = assessFixedSourceAcceptance({
+        expectation: scenarioExpectation.acceptance,
+        execution: { status, ...(loop?.status ? { loopStatus: loop.status } : {}), phase: snapshot.domainState.phase },
+        ...(evaluation.evaluation ? { evaluation: evaluation.evaluation } : {}),
+        ...(evaluation.evaluationFailure ? { evaluationFailure: evaluation.evaluationFailure } : {}),
+        sourceRequirements: { requiredSources: scenarioExpectation.requiredSources, ...(scenarioExpectation.forbiddenSources ? { forbiddenSources: scenarioExpectation.forbiddenSources } : {}) },
+        sourceUsage,
+        presentedResult: {
+          candidateIds: presentedCandidateIds,
+          ...(snapshot.domainState.selectionSession?.resultBatchTarget ? { resultBatchTarget: snapshot.domainState.selectionSession.resultBatchTarget } : {}),
+          ...(snapshot.domainState.intentDraft?.target?.requestedResultCount !== undefined ? { requestedResultCount: snapshot.domainState.intentDraft.target.requestedResultCount } : {}),
+        },
+      });
+      return {
+        schemaVersion: "1",
+        sourceArtifact: { path: journal.resultPath },
+        ...(evaluation.outputPath ? { evaluationPath: evaluation.outputPath } : {}),
+        ...(evaluation.evaluationFailure ? { evaluationFailure: evaluation.evaluationFailure } : {}),
+        scenario,
+        ...report,
+        acceptance,
+      };
+    },
   });
-  const report = scenarioResult(scenario, status, snapshot.domainState.phase, presentedCandidateIds, navigations,
-    preliminaryEvaluation.execution.taskProducedQualifiedResult);
-  await journal.finish({ ...result, ...report });
-  const finalizedEvaluation = await evaluateArtifactAfterFinish(journal.resultPath);
-  console.log(JSON.stringify({ mode: "FIXED_SOURCE_REAL_MODEL", scenario, status, phase: snapshot.domainState.phase,
+  finalizedEvaluation = finalized.evaluation;
+  if (!acceptance) throw new Error("Fixed-source acceptance sidecar was not produced");
+  console.log(JSON.stringify({ mode: "FIXED_SOURCE_REAL_MODEL", status, phase: snapshot.domainState.phase,
     presentedCandidateIds, modelCalls, elapsedMs: Date.now() - startedAt,
-    sourceTrace: { navigations, googleQueries, browserDiagnostics, ...(dynamicSource ? { browserTrace } : {}) }, artifactPath: journal.resultPath, evaluationPath: finalizedEvaluation.outputPath,
-    evaluationFailure: finalizedEvaluation.evaluationFailure, ...report }, null, 2));
-  if (!report.meetsScenarioExpectation) process.exitCode = 1;
+    sourceTrace: { navigations, googleQueries, browserDiagnostics, browserTrace }, artifactPath: journal.resultPath, acceptancePath: finalized.acceptancePath,
+    evaluationPath: finalizedEvaluation.outputPath, evaluationFailure: finalizedEvaluation.evaluationFailure, acceptance }, null, 2));
+  process.exitCode = acceptance.exitCode;
 } catch (error) {
   const code = diagnosticFailureCode(error);
-  await journal.finish({ status: code === "CANCELLED" ? "CANCELLED" : "FAILED", stage: "EXECUTION", failureCode: code,
-    modelInvocations: invocations, sourceTrace: { navigations, googleQueries, browserDiagnostics, ...(dynamicSource ? { browserTrace } : {}) }, elapsedMs: Date.now() - startedAt });
-  const evaluation = await evaluateArtifactAfterFinish(journal.resultPath);
-  console.error(JSON.stringify({ failureCode: code, artifactPath: journal.resultPath, evaluationPath: evaluation.outputPath }));
+  if (!finalizationProgress.executionArtifactSaved) {
+    await journal.finish({ status: code === "CANCELLED" ? "CANCELLED" : "FAILED", stage: "EXECUTION", failureCode: code,
+      modelInvocations: invocations, sourceTrace: { navigations, googleQueries, browserDiagnostics, browserTrace }, elapsedMs: Date.now() - startedAt });
+    finalizationProgress.executionArtifactSaved = true;
+  }
+  finalizedEvaluation ??= finalizationProgress.evaluation ?? await evaluateArtifactAfterFinish(journal.resultPath);
+  console.error(JSON.stringify({ failureCode: code, artifactPath: journal.resultPath, evaluationPath: finalizedEvaluation.outputPath,
+    evaluationFailure: finalizedEvaluation.evaluationFailure, evaluationFailurePath: finalizedEvaluation.failurePath }));
   process.exitCode = 1;
 }

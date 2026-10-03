@@ -80,6 +80,30 @@ test("An empty first native batch cannot end the read while the second bounded s
   assert.equal(validateRestaurantAction(state, { type: "END_READ" }, now).status, "REJECTED");
 });
 
+test("A populated current native batch blocks both a new search and END until every candidate is investigated", () => {
+  const candidateId = "tablecheck:current";
+  const state: RestaurantTaskState = {
+    ...incompleteState,
+    phase: "SEARCHING",
+    searchRevision: 2,
+    intentDraft: applyRestaurantIntentPatch(undefined, {
+      schemaVersion: "3", target: { goal: "AVAILABILITY", query: "omakase", selectionScope: "OPEN_ENDED" },
+      date: "2026-08-05", timeWindow: { earliest: "19:00", latest: "19:30" }, partySize: 2, area: { query: "Shibuya" },
+      addCriteria: [{ text: "omakase", polarity: "POSITIVE", strength: "HARD" }],
+    }),
+    searchContinuation: {
+      intentFingerprint: "current", usedPageTokens: [], pagesRead: 2, exhausted: false,
+      nativeStage: "TABLECHECK_DONE", nativeCurrentBatch: { source: "TABLECHECK", candidateIds: [candidateId] },
+    },
+    candidates: [{ restaurant: {
+      id: candidateId, outletName: "Current TableCheck", address: "Shibuya, Tokyo",
+      sourceIds: { tablecheck: "current", tablecheckNativeGuideUri: "https://www.tablecheck.com/en/current" }, provenance: {},
+    }, matchReasons: [], warnings: [], executionConfidence: "MEDIUM" }],
+  };
+  assert.equal(validateRestaurantAction(state, { type: "SEARCH_RESTAURANTS" }, now).status, "REJECTED");
+  assert.equal(validateRestaurantAction(state, { type: "END_READ" }, now).status, "REJECTED");
+});
+
 test("Two native source records with unresolved same-outlet signals cannot fill two result positions", () => {
   const state: RestaurantTaskState = { ...incompleteState, phase: "SEARCHING",
     intentDraft: applyRestaurantIntentPatch(undefined, { schemaVersion: "3", target: { goal: "AVAILABILITY", query: "omakase" },

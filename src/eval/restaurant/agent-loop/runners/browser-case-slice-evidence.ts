@@ -19,8 +19,9 @@ export function safeString(value: string): string {
 
 export function safeRecord(value: unknown, key = ""): unknown {
   if (/(?:secret|password|cookie|authorization|api[_-]?key|access[_-]?token|csrf|session[_-]?id)/i.test(key)) return "[REDACTED]";
-  if (key === "html" && typeof value === "string") return {
-    sha256: createHash("sha256").update(value).digest("hex"), length: value.length, observedStateTags: observedStateTags(value),
+  if ((key === "html" || key === "text") && typeof value === "string") return {
+    sha256: createHash("sha256").update(value).digest("hex"), length: value.length,
+    ...(key === "html" ? { observedStateTags: observedStateTags(value) } : {}),
   };
   if (typeof value === "string") return /(?:url|uri|href)$/i.test(key) ? safeUrl(value) : safeString(value);
   if (Array.isArray(value)) return value.map(item => safeRecord(item));
@@ -45,10 +46,11 @@ function observedStateTags(html: string): Record<string, string>[] {
 }
 
 function attr(tag: string, name: string): string | undefined {
-  return tag.match(new RegExp(`\\b${name}=(?:"([^"]*)"|'([^']*)')`, "i"))?.slice(1).find(Boolean);
+  const exactName = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return tag.match(new RegExp(`(?:^|\\s)${exactName}\\s*=(?:"([^"]*)"|'([^']*)')`, "i"))?.slice(1).find(Boolean);
 }
 
-function safeCalendarTag(tag: string): string {
+function safeCalendarTag(tag: string, sourceUrl?: string): string {
   const name = tag.match(/^<([a-z][\w-]*)\b/i)?.[1]?.toLowerCase();
   if (!name) return "";
   const allowed = ["div", "section", "table", "caption", "em", "thead", "tbody", "tr", "th", "td", "p", "span", "button", "input", "a", "br"];
@@ -63,6 +65,34 @@ function safeCalendarTag(tag: string): string {
   }
   const testId = attr(tag, "data-testid");
   if (testId && /^(?:Venue Availability|Venue Pax Select|Venue Time Select)$/i.test(testId)) attributes.push(`data-testid="${testId}"`);
+  // The normal URL redaction remains in force.  A TableCheck booking anchor
+  // is the exception: retain only the three public query fields that bind a
+  // visible slot to a date and party, so the evaluator can audit the captured
+  // result without retaining an arbitrary link or any account/session data.
+  if (name === "a") {
+    const href = attr(tag, "href")?.replace(/&amp;/gi, "&");
+    try {
+      const url = new URL(href ?? "", sourceUrl);
+      if (/(^|\.)tablecheck\.com$/i.test(url.hostname)) {
+        const source = url.pathname;
+        const date = url.searchParams.get("start_date") ?? url.searchParams.get("date");
+        const party = url.searchParams.get("num_people") ?? url.searchParams.get("pax");
+        const time = url.searchParams.get("start_time") ?? url.searchParams.get("time");
+        if (/^\/(?:en|ja)\/(?:shops\/)?[a-z0-9][a-z0-9-]{0,199}(?:\/reserve(?:\/landing)?)?$/i.test(source)) attributes.push(`data-reservation-source="${source}"`);
+        if (date && /^\d{4}-\d{2}-\d{2}$/.test(date)) attributes.push(`data-reservation-date="${date}"`);
+        if (party && /^\d{1,3}$/.test(party)) attributes.push(`data-reservation-party="${party}"`);
+        if (time && /^\d{2}:\d{2}$/.test(time)) attributes.push(`data-reservation-time="${time}"`);
+      }
+    } catch { /* Keep malformed links redacted. */ }
+  }
+  let sourceIsTableCheck = false;
+  try { sourceIsTableCheck = Boolean(sourceUrl && /(^|\.)tablecheck\.com$/i.test(new URL(sourceUrl).hostname)); } catch { /* Invalid source URL cannot grant raw evidence. */ }
+  if (sourceIsTableCheck && name === "section" && attr(tag, "data-availability-state") === "empty") {
+    const date = attr(tag, "data-date") ?? attr(tag, "data-selected-date");
+    const party = attr(tag, "data-pax");
+    if (date && /^\d{4}-\d{2}-\d{2}$/.test(date)) attributes.push(`data-reservation-empty-date="${date}"`);
+    if (party && /^\d{1,3}$/.test(party)) attributes.push(`data-reservation-empty-party="${party}"`);
+  }
   if (markupHidden(tag)) attributes.push('data-markup-hidden="true"');
   if (name === "input" && classes && /(?:^| )(?:js-people-hidden-value|js-time-hidden-value)(?: |$)/.test(classes)) {
     const value = attr(tag, "value");
@@ -78,7 +108,7 @@ function markupHidden(tag: string): boolean {
 }
 
 /** Retain only source booking widget structure; no links, scripts, form fields or page profiles. */
-export function bookingQueryRegions(html: string): Array<{ markup: string; truncated: boolean; ancestorMarkupHidden: boolean; computedVisibility: "UNKNOWN" }> {
+export function bookingQueryRegions(html: string, sourceUrl?: string): Array<{ markup: string; truncated: boolean; ancestorMarkupHidden: boolean; computedVisibility: "UNKNOWN" }> {
   const regions: Array<{ markup: string; truncated: boolean; ancestorMarkupHidden: boolean; computedVisibility: "UNKNOWN" }> = [];
   const tokens = html.match(/<!--[\s\S]*?-->|<script\b[^>]*>[\s\S]*?<\/script\s*>|<style\b[^>]*>[\s\S]*?<\/style\s*>|<\/?[a-z][^>]*>|[^<]+/gi) ?? [];
   const stack: string[] = [];
@@ -116,7 +146,7 @@ export function bookingQueryRegions(html: string): Array<{ markup: string; trunc
         depth = stack.length + 1;
         ancestorMarkupHidden = hiddenStack.includes(true);
       }
-      if (depth >= 0) append(safeCalendarTag(token));
+      if (depth >= 0) append(safeCalendarTag(token, sourceUrl));
       if (!new Set(["input", "br", "hr", "img", "meta", "link"]).has(name) && !token.endsWith("/>")) {
         stack.push(name); hiddenStack.push(markupHidden(token));
       }
@@ -234,7 +264,7 @@ function passiveResponses(snapshot: BrowserSnapshot): unknown {
 }
 
 export function snapshotRecord(snapshot: BrowserSnapshot): Record<string, unknown> {
-  const queryRegions = bookingQueryRegions(snapshot.html);
+  const queryRegions = bookingQueryRegions(snapshot.html, snapshot.url);
   return { url: safeUrl(snapshot.url), title: safeString(snapshot.title),
     textSha256: createHash("sha256").update(snapshot.text).digest("hex"), textLength: snapshot.text.length,
     pageId: snapshot.pageId, htmlSha256: createHash("sha256").update(snapshot.html).digest("hex"),

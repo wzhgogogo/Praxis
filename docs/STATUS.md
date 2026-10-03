@@ -1,15 +1,21 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.139
-- Last updated: 2026-10-01
+- Document revision: 4.142
+- Last updated: 2026-10-03
 - Source of truth for: 已实现能力、已验证范围、明确未验证项与下一道门槛
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Documentation Index](INDEX.md), [Roadmap](roadmap.md), [Verification History](history/TEST-LOG.md)
 
 ## 最新审查与当前门槛
 
-2026-10-01 **H001 有效查店与当前批次交付已补齐为正式原生组合回归；真实库存兼容仍待来源证据。** Tabelog 的已观察地区入口现在有“初始列表非空但当前区域不适用”的回归：系统先保持查询词、应用来源入口，再调查刷新后相关候选，而不把“解析到一条不适用入口”当作有效查店。每次原生搜索续查状态还保存当前完成分块的来源和已接纳候选 ID；开放式默认目标下，该批全部完成事实／查位调查并有独立合格结果时，Agent 可执行 `PRESENT_RESULTS`，即使同源仍保存后续入口。Tabelog 和 TableCheck 的受控正式组合均验证一家具备证据的短批展示、未读第六入口保留、无第二来源或第二分块调用。显式数量目标、未完成批次、HARD 事实缺失、错误库存和 `BOTH_BOUNDED_EMPTY` 规则未放宽。TableCheck Adapter 现被动记录页面已实际发出的同店`/available` GET；只有URL绑定精确东京日期、成人数和单一时段且返回明确`failure/data:null`时，才接纳该时段无位。一次30秒无模型 LAVAROCK 当前页探针读回了诊断输入的日期、2人和19:00，但没有该GET响应，提交控件仍禁用；因此仍为 **PENDING_SOURCE_EVIDENCE**，未产生库存、H001结果、模型调用或预约写。[库存证据边界](history/H001-NEXT-ITERATION-INVENTORY-EVIDENCE-2026-10-01.md)
+2026-10-03 **H001 明晚真实只读运行再次在浏览器之前停止，当前后段修复未获真实来源验收。** 明晚变体准确物化为10月4日19:00／2人，语义模型与Agent均成功；Agent选择`SEARCH_RESTAURANTS`后，涩谷命名地点解析经配置的Google专用`127.0.0.1:10808`代理失败，稳定收口为`GOOGLE_NETWORK_FAILED`。整轮3,490ms、2次模型调用、1次Google地点请求、零Tabelog／TableCheck浏览器调用、零候选与零Offer；失败后没有重复同一搜索。它不是无位或站点浏览器回归结论，Tabelog-first、TableCheck接续和库存后段本次均未到达。下一道最小门槛是保留脱敏传输原因的Google连通性探针；在其成功前重跑整单不会检验浏览器修复。[真实运行记录](history/H001-TOMORROW-VARIANT-NATIVE-LIVE-2026-10-03.md)
+
+2026-10-03 **H001 统一发现／执行离线修复已完成，尚未运行新的固定来源模型或 H001 Live。** 原生续查现在优先消费保存的同源详情入口，且只有实际开始详情尝试才从待处理队列移除；重载动态列表不再是后续入口的前置条件。Native Discovery 也接收整单浏览器操作上限，来源耗时记录真实值。TableCheck 的`failure/data:null`响应降为诊断，不能单独产生`UNAVAILABLE`。固定来源 Runner 改为“不可变执行产物→独立评估→验收 sidecar→退出码”，来源使用同时要求实际导航和成功页面观察。离线组合、Adapter、类型、架构、构建和宿主全量测试均通过；真实来源语义、固定来源真实模型和正式 H001 Live 仍是后续独立门槛。[实施记录](history/H001-UNIFIED-DISCOVERY-EXECUTION-IMPLEMENTATION-2026-10-03.md)
+
+2026-10-01 **一次新 H001 明晚变体真实只读运行证明固定来源顺序与证据 fail-closed 行为，但未交付库存。** 东京物化为10月2日19:00／2人；143,778ms、13次模型调用、1次Shibuya地点解析，未执行预约写。Tabelog 先接纳Sushi Teppen，同源身份HIGH并通过omakase事实，但真实页面没有10月2日可安全操作日期，模型错误选择10月3日被执行器拒绝，后续正确停在`UNKNOWN / REQUEST_SELECTION_UNCONFIRMED`。运行随后进入TableCheck：首批21 raw／19 parsed／5 inspected均未通过既有1km地点门槛，14家保留为待处理；续查在公开搜索页等待来源结果锚点超时，记为`BROWSER_TIMEOUT`，没有伪装成无门店或无位。新发现是`--max-browser-operations=30`只接入Availability而未接入原生Discovery，后者记录31次runtime操作；这是预算接线缺口，不把本次称为全局30操作合规。终态`NO_VERIFIED_RESULT`、零Offer；独立Evaluator只确认条件、调查与资源记录，qualified结果为`UNKNOWN`。[完整产物与边界](history/H001-TOMORROW-VARIANT-NATIVE-LIVE-2026-10-01.md)
+
+2026-10-01 **H001 有效查店与当前批次交付已补齐为正式原生组合回归；真实库存兼容仍待来源证据。** Tabelog 的已观察地区入口现在有“初始列表非空但当前区域不适用”的回归：系统先保持查询词、应用来源入口，再调查刷新后相关候选，而不把“解析到一条不适用入口”当作有效查店。每次原生搜索续查状态还保存当前完成分块的来源和已接纳候选 ID；开放式默认目标下，该批全部完成事实／查位调查并有独立合格结果时，Agent 可执行 `PRESENT_RESULTS`，即使同源仍保存后续入口。Tabelog 和 TableCheck 的受控正式组合均验证一家具备证据的短批展示、未读第六入口保留、无第二来源或第二分块调用。显式数量目标、未完成批次、HARD 事实缺失、错误库存和 `BOTH_BOUNDED_EMPTY` 规则未放宽。TableCheck Adapter 仍被动记录页面已实际发出的同店`/available` GET；但尚无独立来源语义证明`failure/data:null`等于库存为空，因此该精确请求响应现在只保留为诊断，不能接纳为无位。一次30秒无模型 LAVAROCK 当前页探针读回了诊断输入的日期、2人和19:00，但没有该GET响应，提交控件仍禁用；因此仍为 **PENDING_SOURCE_EVIDENCE**，未产生库存、H001结果、模型调用或预约写。[库存证据边界](history/H001-NEXT-ITERATION-INVENTORY-EVIDENCE-2026-10-01.md)
 
 同次审查补齐固定来源 Runner 的报告契约：受控场景现在持久化`场景预期｜实际系统行为｜qualified user result｜是否符合预期`，并且不再只在动态 Tabelog 路径保存脱敏`browserDiagnostics`。这项代码通过静态和固定来源组合验证；尚未以付费模型运行新场景，故不把它当作模型链路证据。
 
@@ -618,3 +624,23 @@ Prompt@v2 adds only general lexical relational/event arity and modifier constrai
 ## 2026-09-18 H002/H003 semantic contract closure — H003 gate stopped dependent runs
 
 Historical snapshot (superseded by the current paragraph): H002 is integrated as a bounded production composition supplement: wire@2 returns only `{status,partySize}`, Prompt@v2 semantic-arity text is hash-frozen, and code—not the model—assigns `INFERRED_CLOSED_PARTY`. Persistent, Hybrid, and fixed-source compositions share the resolver guard; primary explicit parties, recommendation/H004, UNKNOWN, and model failures remain fail-closed. H002 real-model wire gate is **ACCEPTED 8/8**. `restaurant-read-development@5` was the prior ADR-0029 step for H003 only. Its retained strength-gate artifact is historical and not relabelled. The configured `deepseek-v4-flash` and returned `deepseek-flash` names differ; this is recorded, not silently normalized. Full evidence and independent-review handoff: [semantic contract closure](history/H002-H003-SEMANTIC-CONTRACT-CLOSURE-2026-09-18.md).
+
+## 2026-10-03 H001 unified final offline state
+
+The A–D and raw-evidence review variants are closed in offline fixed-page evidence: stale discovery lists cannot bypass current-query completion, source session opening is inside the remaining source budget, hidden request-bound slots cannot become Offers, and the raw evaluator consumes the existing trace chronology. Final host-local offline gates pass. This status does not establish current website inventory; the main workflow still owns the bounded fixed-source model scenario and the final read-only Live gate.
+
+## 2026-10-03 H001 post-review Live query-field correction
+
+The first post-review Live exposed an implementation regression in native Tabelog retrieval: a free-form Agent sentence replaced the established structured HARD keyword and the source returned an explicit no-match list. Tabelog now keeps the HARD keyword, while TableCheck retains its separately verified natural-language search behavior. Offline regression for the changed query and fixture readback passes; a new authorized fixed-source/Live gate is still required for current external behavior.
+
+## 2026-10-03 H001 observed TableCheck reservation-path correction
+
+The later H001 read trace reached a same-outlet public `/en/omotesandoria/reserve/landing` link with selected date, party and enabled 19:00 controls. The current parser omitted this guide-owned public path while already accepting `/shops/<slug>/reserve`; it now accepts both only for the same observed slug and exact request. Offline Adapter, type, architecture, build and diff gates pass. The initial reconstruction was subsequently confirmed by hash-matched original HTML replay, including separate foreign-outlet/date/party rejection variants. Current real-source stock verification and the full H001 verdict are recorded below. Bellwood's `require_service_category` remains an open source-control limitation.
+
+## 2026-10-03 H001 final reviewed state — stock slice passes, full delivery fails
+
+5.6 Terra completed the implementation and review returns; the final browser observation uses one current handle snapshot, discards only positively disconnected nodes, and preserves attached failures and action-time validation. Navigation again clears prior passive responses while retaining capture rules for the destination's initial response. Final host-local Chromium fixture is **64/64 PASS**; typecheck, architecture, build and diff gates pass. Earlier reported fixture success lacked matching-code provenance and is superseded by this definitive gate.
+
+The corrected fixed-source real-model scenario passed **3/3**, each actually presenting one independently qualified controlled result. Complete H001 tomorrow Live (`2026-10-04 19:00`, two people, unchanged 1km/HARD omakase) reached **five candidates and five stock checks**, versus one and one on October 1; saved TableCheck continuation finished eight detail visits. It consumed **231,118ms / 38 model calls**, within 300 seconds / 50 calls, but presented **zero qualified results**. Independent evaluation lacks three mandatory delivery dimensions, so complete H001 acceptance remains **FAIL**, despite its safe execution outcome.
+
+After the concrete path and DOM-race repairs, one bounded production Adapter read of Omotesandoria returned **AVAILABLE / one exact 19:00 Offer in 15,975ms / one model call**. Independent raw review confirms actual October 4/two-person/19:00 selection, enabled same-outlet stock, chronology and no booking write; the stock-only slice is **PASS**. HARD omakase and final Runtime delivery were outside that probe, so it cannot upgrade H001. Remaining concrete gaps include Bellwood's required service-category selection, unresolved date observation/restriction and expensive control observation under existing provider limits. See [final review and immutable evidence](history/H001-UNIFIED-REVIEW-2026-10-03.md).

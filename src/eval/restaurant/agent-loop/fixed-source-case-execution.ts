@@ -20,6 +20,7 @@ export type FixedSourceCaseExecution = {
   trajectories: ReturnType<typeof createHybridReadComposition>["trajectories"]["steps"];
   events: ReturnType<typeof createHybridReadComposition>["runtime"]["eventLog"];
   sourceCalls: ReturnType<typeof createCurrentDevelopmentFixedSources>["calls"];
+  sourceTrace: { browserTrace: ReturnType<typeof createCurrentDevelopmentFixedSources>["calls"]["browserTrace"] };
   /** Actual calls admitted by this controlled transport, including semantic parsing. */
   modelCalls: number;
   execution: { status: "SUCCEEDED" | "FAILED" | "CANCELLED"; loopStatus?: string; phase?: string; failureCode?: string };
@@ -105,7 +106,7 @@ export async function executeFixedSourceCase(input: {
     const success = (loop.status === "TERMINAL" && ["PRESENT_RESULTS", "NO_VERIFIED_RESULT"].includes(finalSnapshot.domainState.phase)) || loop.status === "WAITING_USER";
     return {
       registration: input.registration, materializedCase: input.materializedCase, sourceScenarioId: scenario.scenarioId, semantic, loop, finalSnapshot,
-      trajectories: composition.trajectories.steps, events: composition.runtime.eventLog, sourceCalls: sources.calls, modelCalls,
+      trajectories: composition.trajectories.steps, events: composition.runtime.eventLog, sourceCalls: sources.calls, sourceTrace: { browserTrace: sources.calls.browserTrace }, modelCalls,
       execution: success ? { status: "SUCCEEDED", loopStatus: loop.status, phase: finalSnapshot.domainState.phase } : loop.status === "CANCELLED" ? { status: "CANCELLED", loopStatus: loop.status, phase: finalSnapshot.domainState.phase, failureCode: "CANCELLED" } : { status: "FAILED", loopStatus: loop.status, phase: finalSnapshot.domainState.phase, failureCode: lastModelFailureCode ?? "FIXED_SOURCE_CASE_NOT_COMPLETED" },
       elapsedMs: Date.now() - started,
     };
@@ -114,7 +115,7 @@ export async function executeFixedSourceCase(input: {
     const code = failureCode(error);
     return {
       registration: input.registration, materializedCase: input.materializedCase, sourceScenarioId: scenario.scenarioId, semantic,
-      trajectories: composition.trajectories.steps, events: composition.runtime.eventLog, sourceCalls: sources.calls, modelCalls, finalSnapshot,
+      trajectories: composition.trajectories.steps, events: composition.runtime.eventLog, sourceCalls: sources.calls, sourceTrace: { browserTrace: sources.calls.browserTrace }, modelCalls, finalSnapshot,
       execution: { status: code === "CANCELLED" ? "CANCELLED" : "FAILED", phase: finalSnapshot.domainState.phase, failureCode: code },
       elapsedMs: Date.now() - started,
     };

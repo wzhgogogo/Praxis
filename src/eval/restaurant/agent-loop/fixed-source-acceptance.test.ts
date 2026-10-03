@@ -1,11 +1,12 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { assessFixedSourceAcceptance } from "./fixed-source-acceptance.js";
+import { assessFixedSourceAcceptance, fixedNativeSourceUsage } from "./fixed-source-acceptance.js";
 import type { RestaurantHybridDiagnosticEvaluation } from "./diagnostic-evaluator.js";
 import type { FixedSourceExpectation } from "./fixed-source-case-registry.js";
 
 const required = ["AUTHORITATIVE_CONDITIONS", "REQUIRED_EVIDENCE", "FINAL_CLAIM", "COMPLETION_OUTCOME"] as const;
+const allDimensions = ["AUTHORITATIVE_CONDITIONS", "REQUIRED_EVIDENCE", "INVESTIGATION_BEHAVIOR", "FINAL_CLAIM", "COMPLETION_OUTCOME", "RESOURCES"] as const;
 const positive: FixedSourceExpectation = { kind: "QUALIFIED_RESULT", execution: { status: "SUCCEEDED", loopStatus: "TERMINAL", phase: "PRESENT_RESULTS" }, coverage: { necessary: true }, requiredDimensions: required };
 const unavailable: FixedSourceExpectation = { kind: "VERIFIED_NO_RESULT", execution: { status: "SUCCEEDED", loopStatus: "TERMINAL", phase: "NO_VERIFIED_RESULT" }, coverage: { necessary: true }, requiredDimensions: required };
 const missingInput: FixedSourceExpectation = { kind: "NEEDS_USER_INPUT", execution: { status: "SUCCEEDED", loopStatus: "WAITING_USER", phase: "NEEDS_INPUT" }, coverage: { necessary: true }, requiredDimensions: ["COMPLETION_OUTCOME"] };
@@ -18,11 +19,11 @@ const userRequestedThree: FixedSourceExpectation = {
 
 function evaluation(overrides: Partial<RestaurantHybridDiagnosticEvaluation["execution"]> = {}, failedDimension?: string): RestaurantHybridDiagnosticEvaluation {
   return {
-    schemaVersion: "1", evaluatorVersion: "restaurant-hybrid-read-diagnostic-evaluator@22", rubricVersion: "restaurant-hybrid-read-diagnostic-rubric@21", rubricStatus: "DRAFT_DIAGNOSTIC_ONLY",
+    schemaVersion: "1", evaluatorVersion: "restaurant-hybrid-read-diagnostic-evaluator@24", rubricVersion: "restaurant-hybrid-read-diagnostic-rubric@21", rubricStatus: "DRAFT_DIAGNOSTIC_ONLY",
     sourceArtifact: { path: "fixture", sha256: "fixture" },
     execution: { status: "SUCCEEDED", stage: "AGENT_LOOP", taskProducedQualifiedResult: "YES", systemBehavior: "SUPPORTED_BY_EVIDENCE", externalConditions: "OBSERVED", evidenceSufficiency: "SUFFICIENT_FOR_PRESENTED_RESULT", completion: "PRESENTATION_RECORDED", ...overrides },
     candidateSummaries: [],
-    findings: required.map((dimension) => ({ dimension, status: dimension === failedDimension ? "NOT_SATISFIED" : "SATISFIED", stage: "TEST", requirement: "fixture", observations: [], directCause: "fixture", rootCauseHypothesis: "fixture", certainty: "CONFIRMED", evidenceRefs: [], downstreamImpact: "fixture" })),
+    findings: allDimensions.map((dimension) => ({ dimension, status: dimension === failedDimension ? "NOT_SATISFIED" : "SATISFIED", stage: "TEST", requirement: "fixture", observations: [], directCause: "fixture", rootCauseHypothesis: "fixture", certainty: "CONFIRMED", evidenceRefs: [], downstreamImpact: "fixture" })),
     unassessedDimensions: [],
   };
 }
@@ -177,4 +178,82 @@ test("coverage gaps and unassessed evaluator dimensions are nonzero outcomes", (
     presentedResult: { candidateIds: ["a"], resultBatchTarget: { candidateCount: 3, met: false } },
   });
   assert.equal(optionalWithIndependentResult.acceptance, "PASS");
+});
+
+test("source-required acceptance treats failed navigation as an attempt and keeps normal empty on its applicable dimensions", () => {
+  const positiveWithResources: FixedSourceExpectation = {
+    ...positive,
+    requiredDimensions: ["AUTHORITATIVE_CONDITIONS", "REQUIRED_EVIDENCE", "INVESTIGATION_BEHAVIOR", "FINAL_CLAIM", "COMPLETION_OUTCOME", "RESOURCES"],
+  };
+  const forbiddenAttempt = assessFixedSourceAcceptance({
+    expectation: positiveWithResources,
+    execution: { status: "SUCCEEDED", loopStatus: "TERMINAL", phase: "PRESENT_RESULTS" },
+    evaluation: evaluation(),
+    presentedResult: { candidateIds: ["a"] },
+    sourceRequirements: { requiredSources: ["TABELOG"], forbiddenSources: ["TABLECHECK"] },
+    sourceUsage: { TABELOG: { attempted: true, observed: true }, TABLECHECK: { attempted: true, observed: false } },
+  });
+  assert.equal(forbiddenAttempt.acceptance, "FAIL");
+  assert.match(forbiddenAttempt.reasons.join("\n"), /Forbidden source TABLECHECK was attempted/);
+
+  const unobservedRequired = assessFixedSourceAcceptance({
+    expectation: positiveWithResources,
+    execution: { status: "SUCCEEDED", loopStatus: "TERMINAL", phase: "PRESENT_RESULTS" },
+    evaluation: evaluation(),
+    presentedResult: { candidateIds: ["a"] },
+    sourceRequirements: { requiredSources: ["TABELOG"] },
+    sourceUsage: { TABELOG: { attempted: true, observed: false } },
+  });
+  assert.equal(unobservedRequired.acceptance, "FAIL");
+  assert.match(unobservedRequired.reasons.join("\n"), /attempted but not successfully observed/);
+
+  const resourceViolation = assessFixedSourceAcceptance({
+    expectation: positiveWithResources,
+    execution: { status: "SUCCEEDED", loopStatus: "TERMINAL", phase: "PRESENT_RESULTS" },
+    evaluation: evaluation({}, "RESOURCES"),
+    presentedResult: { candidateIds: ["a"] },
+    sourceRequirements: { requiredSources: ["TABELOG"] },
+    sourceUsage: { TABELOG: { attempted: true, observed: true } },
+  });
+  assert.equal(resourceViolation.acceptance, "FAIL");
+  assert.match(resourceViolation.reasons.join("\n"), /Required evaluator dimension RESOURCES is NOT_SATISFIED/);
+
+  const normalPositive = assessFixedSourceAcceptance({
+    expectation: positiveWithResources,
+    execution: { status: "SUCCEEDED", loopStatus: "TERMINAL", phase: "PRESENT_RESULTS" },
+    evaluation: evaluation(),
+    presentedResult: { candidateIds: ["a"] },
+    sourceRequirements: { requiredSources: ["TABELOG"] },
+    sourceUsage: { TABELOG: { attempted: true, observed: true } },
+  });
+  assert.equal(normalPositive.acceptance, "PASS");
+
+  const normalEmpty: FixedSourceExpectation = {
+    kind: "VERIFIED_NO_RESULT",
+    execution: { status: "SUCCEEDED", loopStatus: "TERMINAL", phase: "NO_VERIFIED_RESULT" },
+    coverage: { necessary: true },
+    requiredDimensions: ["AUTHORITATIVE_CONDITIONS", "INVESTIGATION_BEHAVIOR", "COMPLETION_OUTCOME", "RESOURCES"],
+    expectedPresentation: "NONE",
+  };
+  const normalEmptyEvaluation = evaluation({ taskProducedQualifiedResult: "NO", completion: "NO_VERIFIED_RESULT" }, "REQUIRED_EVIDENCE");
+  normalEmptyEvaluation.findings.find((finding) => finding.dimension === "FINAL_CLAIM")!.status = "NOT_EVALUATED";
+  const boundedEmpty = assessFixedSourceAcceptance({
+    expectation: normalEmpty,
+    execution: { status: "SUCCEEDED", loopStatus: "TERMINAL", phase: "NO_VERIFIED_RESULT" },
+    evaluation: normalEmptyEvaluation,
+    sourceRequirements: { requiredSources: ["TABELOG", "TABLECHECK"] },
+    sourceUsage: { TABELOG: { attempted: true, observed: true }, TABLECHECK: { attempted: true, observed: true } },
+  });
+  assert.equal(boundedEmpty.acceptance, "PASS");
+});
+
+test("native source usage reads attempted navigation and observed snapshot URLs independently", () => {
+  assert.deepEqual(fixedNativeSourceUsage([], [
+    { kind: "SESSION_CALL", detail: { method: "navigate", args: ["https://www.tablecheck.com/en/japan/search"] } },
+    { kind: "SESSION_CALL", detail: { method: "openLink", args: ["native:control:1", "https://tabelog.com/tokyo/A1304/A130401/100/"] } },
+    { kind: "SNAPSHOT", detail: { url: "https://tabelog.com/tokyo/A1304/A130401/100/?private=value" } },
+  ]), {
+    TABELOG: { attempted: true, observed: true },
+    TABLECHECK: { attempted: true, observed: false },
+  });
 });

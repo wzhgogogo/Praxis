@@ -1,3 +1,4 @@
+import type { DiagnosticFinding } from "./diagnostic-evaluator.js";
 import { loadFrozenLiveCases, type FrozenLiveCase, RESTAURANT_READ_DEVELOPMENT_CASE_PATH } from "./live-case-materializer.js";
 import type { CurrentDevelopmentScenarioId } from "./current-development-source-scenarios.js";
 
@@ -13,7 +14,9 @@ export type FixedSourceExpectation = {
   };
   /** Necessary fixture gaps block; explicitly optional gaps remain reportable. */
   coverage: { necessary: boolean; optionalSources?: readonly string[] };
-  requiredDimensions: readonly ("AUTHORITATIVE_CONDITIONS" | "REQUIRED_EVIDENCE" | "FINAL_CLAIM" | "COMPLETION_OUTCOME")[];
+  requiredDimensions: readonly DiagnosticFinding["dimension"][];
+  /** No-result scenarios must not retain a terminal presentation. */
+  expectedPresentation?: "NONE";
   /**
    * Only a count stated by the user is a completion requirement. Product
    * defaults remain an auditable delivery objective, not an eval gate.

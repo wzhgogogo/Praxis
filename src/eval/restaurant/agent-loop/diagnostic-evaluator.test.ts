@@ -10,6 +10,7 @@ import type { RestaurantIntentDraft } from "../../../domains/restaurant/contract
 import { applyRestaurantIntentPatch } from "../../../domains/restaurant/intent-state.js";
 import { validateRestaurantSemanticProposal } from "../../../domains/restaurant/semantic-proposal.js";
 import { evaluateArtifactAfterFinish, evaluateRestaurantHybridLiveArtifact } from "./diagnostic-evaluator.js";
+import { snapshotRecord } from "./runners/browser-case-slice-evidence.js";
 
 const source = { path: "/tmp/availability-fixture.result.json", sha256: "a".repeat(64) };
 const finding = (result: ReturnType<typeof evaluateRestaurantHybridLiveArtifact>, dimension: string) => result.findings.find((item) => item.dimension === dimension)!;
@@ -24,6 +25,15 @@ function completeArtifact() {
     materializedCase: { semantic: { target: { goal: "AVAILABILITY" }, date: { value: "2026-09-08" }, party_size: 2, time: { value: "19:00" }, location: { value: "Shibuya", relation: "NEAR" }, criteria: [{ value: "omakase", polarity: "POSITIVE", strength: "HARD" }] } },
     loop: { status: "TERMINAL" }, resourceUsage: { elapsedMs: 100, agentDecisions: 3, browserModelCalls: 2 },
     trajectories: [{ stateHashBefore: "request-v1", stepOutcome: "EXECUTED", agentAction: { type: "CHECK_AVAILABILITY", candidateIds: [candidateId] }, decisionContext: { intentDraft }, observation: { type: "AVAILABILITY", candidateIds: [candidateId], evidenceIds: ["discovery-a", "identity-a", "hard-a", "availability-a"] }, executionMetadata: { providerAttempts: [{ candidateId, provider: "TABLECHECK", outcome: "AVAILABLE" }] } }],
+    diagnostics: { browserTrace: [
+      { sequence: 1, at: "2026-10-03T01:00:00.000Z", kind: "SESSION_CALL", detail: { method: "select", args: ["date", "2026-09-08"] } },
+      { sequence: 2, at: "2026-10-03T01:00:01.000Z", kind: "SNAPSHOT", detail: { url: "https://www.tablecheck.com/en/shops/outlet-a/reserve", queryRegions: [{ markup: '<section data-testid="Venue Availability"><a data-reservation-source="/en/shops/outlet-a/reserve" data-reservation-date="2026-09-08" data-reservation-party="2" data-reservation-time="19:00">19:00</a></section>', truncated: false, ancestorMarkupHidden: false }] } },
+      { sequence: 3, at: "2026-10-03T01:00:02.000Z", kind: "CONTROLS", detail: { snapshotSequence: 2, controls: [
+        { kind: "INPUT", label: "2026-09-08", value: "2026-09-08", visible: true, disabled: false, structure: { name: "reservation[start_date]" } },
+        { kind: "SELECT", label: "2", value: "2", visible: true, disabled: false, structure: { name: "reservation[num_people_adult]" } },
+        { kind: "LINK", label: "19:00", visible: true, disabled: false },
+      ] } },
+    ] },
     finalSnapshot: { domainState: {
       phase: "PRESENT_RESULTS", intentDraft,
       candidates: [{ restaurant: { id: candidateId, outletName: "A" } }],
@@ -48,6 +58,122 @@ test("diagnostic evaluator independently accepts current-runner-shaped grounded 
   assert.deepEqual(result.candidateSummaries[0]?.providers, ["TABLECHECK"]);
   assert.match(result.candidateSummaries[0]?.providerAttempts[0]?.evidenceRef ?? "", /trajectories\[0\]/);
   assert.ok(result.findings.every((item) => item.status === "SATISFIED"));
+});
+
+test("raw TableCheck trace requires a current request-bound settled result", async (t) => {
+  const evaluate = (artifact: any) => evaluateRestaurantHybridLiveArtifact(artifact, source);
+  await t.test("enabled public reservation link supports the presented result", () => {
+    assert.equal(finding(evaluate(completeArtifact()), "REQUIRED_EVIDENCE").status, "SATISFIED");
+  });
+  await t.test("disabled child vetoes a same-time enabled-looking result", () => {
+    const artifact: any = completeArtifact();
+    artifact.diagnostics.browserTrace[1].detail.queryRegions[0].markup = '<section data-testid="Venue Availability"><a data-reservation-source="/en/shops/outlet-a/reserve" data-reservation-date="2026-09-08" data-reservation-party="2" data-reservation-time="19:00"><button disabled>19:00</button></a></section>';
+    const result = evaluate(artifact);
+    assert.equal(finding(result, "REQUIRED_EVIDENCE").status, "NOT_SATISFIED");
+    assert.equal(finding(result, "INVESTIGATION_BEHAVIOR").status, "NOT_SATISFIED");
+  });
+  await t.test("a selected different party is a request conflict", () => {
+    const artifact: any = completeArtifact(); artifact.diagnostics.browserTrace[2].detail.controls[1].value = "3";
+    assert.equal(finding(evaluate(artifact), "REQUIRED_EVIDENCE").status, "NOT_SATISFIED");
+  });
+  await t.test("a later matching snapshot invalidates an earlier available slot", () => {
+    const artifact: any = completeArtifact();
+    artifact.diagnostics.browserTrace.push(
+      { sequence: 4, kind: "SESSION_CALL", detail: { method: "select", args: ["date", "2026-09-08"] } },
+      { sequence: 5, kind: "SNAPSHOT", detail: { url: "https://www.tablecheck.com/en/shops/outlet-a/reserve", queryRegions: [{ markup: '<section data-testid="Venue Availability"><a data-reservation-source="/en/shops/outlet-a/reserve" data-reservation-date="2026-09-08" data-reservation-party="2" data-reservation-time="19:00"><button disabled>19:00</button></a></section>', truncated: false, ancestorMarkupHidden: false }] } },
+      { sequence: 6, kind: "CONTROLS", detail: { snapshotSequence: 5, controls: structuredClone(artifact.diagnostics.browserTrace[2].detail.controls) } },
+    );
+    assert.equal(finding(evaluate(artifact), "REQUIRED_EVIDENCE").status, "NOT_SATISFIED");
+  });
+  for (const variant of [
+    { name: "stale control snapshot", mutate: (artifact: any) => { artifact.diagnostics.browserTrace[1].detail.queryRegions = [{ markup: '<section data-testid="Venue Availability"></section>', truncated: false, ancestorMarkupHidden: false }]; artifact.diagnostics.browserTrace[2].detail.snapshotSequence = 1; } },
+    { name: "loading region", mutate: (artifact: any) => { artifact.diagnostics.browserTrace[1].detail.queryRegions = [{ markup: '<section data-testid="Venue Availability">Loading</section>', truncated: false, ancestorMarkupHidden: false }]; } },
+    { name: "missing trace", mutate: (artifact: any) => { delete artifact.diagnostics; } },
+  ]) await t.test(`${variant.name} remains not evaluated`, () => {
+    const artifact: any = completeArtifact(); variant.mutate(artifact);
+    const result = evaluate(artifact);
+    assert.equal(finding(result, "REQUIRED_EVIDENCE").status, "NOT_EVALUATED");
+    assert.equal(finding(result, "INVESTIGATION_BEHAVIOR").status, "NOT_EVALUATED");
+  });
+  for (const variant of [
+    { name: "neighbor outlet link", markup: '<section data-testid="Venue Availability"><a data-reservation-source="/en/shops/outlet-b/reserve" data-reservation-date="2026-09-08" data-reservation-party="2" data-reservation-time="19:00">19:00</a></section>' },
+    { name: "hidden descendant link", markup: '<section data-testid="Venue Availability"><div data-markup-hidden="true"><a data-reservation-source="/en/shops/outlet-a/reserve" data-reservation-date="2026-09-08" data-reservation-party="2" data-reservation-time="19:00">19:00</a></div></section>' },
+    { name: "hidden availability region", markup: '<section data-testid="Venue Availability" data-markup-hidden="true"><a data-reservation-source="/en/shops/outlet-a/reserve" data-reservation-date="2026-09-08" data-reservation-party="2" data-reservation-time="19:00">19:00</a></section>' },
+  ]) await t.test(`${variant.name} cannot support availability`, () => {
+    const artifact: any = completeArtifact(); artifact.diagnostics.browserTrace[1].detail.queryRegions[0].markup = variant.markup;
+    assert.equal(finding(evaluate(artifact), "REQUIRED_EVIDENCE").status, "NOT_EVALUATED");
+  });
+  await t.test("a hidden sibling does not erase a visible same-source slot", () => {
+    const artifact: any = completeArtifact();
+    artifact.diagnostics.browserTrace[1].detail.queryRegions[0].markup = '<section data-testid="Venue Availability"><div data-markup-hidden="true"><a data-reservation-source="/en/shops/outlet-b/reserve" data-reservation-date="2026-09-08" data-reservation-party="2" data-reservation-time="19:00">19:00</a></div><a data-reservation-source="/en/shops/outlet-a/reserve" data-reservation-date="2026-09-08" data-reservation-party="2" data-reservation-time="19:00">19:00</a></section>';
+    assert.equal(finding(evaluate(artifact), "REQUIRED_EVIDENCE").status, "SATISFIED");
+  });
+  await t.test("snapshotRecord hides a nested same-tag subtree but retains a visible sibling", () => {
+    const artifact: any = completeArtifact();
+    const captured = snapshotRecord({
+      url: "https://www.tablecheck.com/en/shops/outlet-a/reserve",
+      title: "A", text: "Book", html: '<section data-testid="Venue Availability"><div hidden><div>Nested heading</div><a href="https://www.tablecheck.com/en/shops/outlet-a/reserve?start_date=2026-09-08&amp;start_time=19:00&amp;num_people=2">19:00</a></div><a href="https://www.tablecheck.com/en/shops/outlet-a/reserve?start_date=2026-09-08&amp;start_time=19:00&amp;num_people=2">19:00</a></section>',
+    });
+    artifact.diagnostics.browserTrace[1].detail = captured;
+    assert.equal(finding(evaluate(artifact), "REQUIRED_EVIDENCE").status, "SATISFIED");
+    const hiddenOnly: any = completeArtifact();
+    hiddenOnly.diagnostics.browserTrace[1].detail = snapshotRecord({
+      url: "https://www.tablecheck.com/en/shops/outlet-a/reserve",
+      title: "A", text: "Book", html: '<section data-testid="Venue Availability"><div hidden><div>Nested heading</div><a href="https://www.tablecheck.com/en/shops/outlet-a/reserve?start_date=2026-09-08&amp;start_time=19:00&amp;num_people=2">19:00</a></div></section>',
+    });
+    assert.equal(finding(evaluate(hiddenOnly), "REQUIRED_EVIDENCE").status, "NOT_EVALUATED");
+  });
+  await t.test("snapshotRecord preserves a false data-disabled flag but rejects an actual disabled slot", () => {
+    const availability = (slot: string) => snapshotRecord({
+      url: "https://www.tablecheck.com/en/shops/outlet-a/reserve",
+      title: "A", text: "Book", html: `<section data-testid="Venue Availability"><a href="https://www.tablecheck.com/en/shops/outlet-a/reserve?start_date=2026-09-08&amp;start_time=19:00&amp;num_people=2"><button ${slot}>19:00</button></a></section>`,
+    });
+    const enabled: any = completeArtifact(); enabled.diagnostics.browserTrace[1].detail = availability('data-is-disabled="false"');
+    assert.equal(finding(evaluate(enabled), "REQUIRED_EVIDENCE").status, "SATISFIED");
+    const disabled: any = completeArtifact(); disabled.diagnostics.browserTrace[1].detail = availability("disabled");
+    assert.equal(finding(evaluate(disabled), "REQUIRED_EVIDENCE").status, "NOT_SATISFIED");
+  });
+  await t.test("a mutation after the last source snapshot leaves the current result unknown", () => {
+    const artifact: any = completeArtifact(); artifact.diagnostics.browserTrace.push({ sequence: 4, kind: "SESSION_CALL", detail: { method: "select", args: ["party", "3"] } });
+    assert.equal(finding(evaluate(artifact), "REQUIRED_EVIDENCE").status, "NOT_EVALUATED");
+  });
+  await t.test("each presented offer time needs its own raw enabled slot", () => {
+    const artifact: any = completeArtifact();
+    artifact.materializedCase.semantic.time = { start: "18:30", end: "20:00" }; artifact.finalSnapshot.domainState.intentDraft.timeWindow = { earliest: "18:30", latest: "20:00" };
+    artifact.diagnostics.browserTrace[1].detail.queryRegions[0].markup = '<section data-testid="Venue Availability"><a data-reservation-source="/en/shops/outlet-a/reserve" data-reservation-date="2026-09-08" data-reservation-party="2" data-reservation-time="18:30">18:30</a></section>';
+    assert.equal(finding(evaluate(artifact), "REQUIRED_EVIDENCE").status, "NOT_EVALUATED");
+  });
+  await t.test("one raw slot cannot support only part of a multi-offer presentation", () => {
+    const artifact: any = completeArtifact(); const domain = artifact.finalSnapshot.domainState;
+    artifact.materializedCase.semantic.time = { start: "18:30", end: "20:00" }; domain.intentDraft.timeWindow = { earliest: "18:30", latest: "20:00" };
+    domain.availability["candidate-a"].push({ ...domain.availability["candidate-a"][0], id: "offer-b", dateTime: "2026-09-08T19:30:00+09:00" });
+    domain.readEvidence.find((item: any) => item.evidenceId === "availability-a").claims.visibleSlots.push("19:30");
+    assert.equal(finding(evaluate(artifact), "REQUIRED_EVIDENCE").status, "NOT_EVALUATED");
+  });
+  await t.test("every presented offer passes when every raw slot is enabled", () => {
+    const artifact: any = completeArtifact(); const domain = artifact.finalSnapshot.domainState;
+    artifact.materializedCase.semantic.time = { start: "18:30", end: "20:00" }; domain.intentDraft.timeWindow = { earliest: "18:30", latest: "20:00" };
+    domain.availability["candidate-a"].push({ ...domain.availability["candidate-a"][0], id: "offer-b", dateTime: "2026-09-08T19:30:00+09:00" });
+    domain.readEvidence.find((item: any) => item.evidenceId === "availability-a").claims.visibleSlots.push("19:30");
+    artifact.diagnostics.browserTrace[1].detail.queryRegions[0].markup = '<section data-testid="Venue Availability"><a data-reservation-source="/en/shops/outlet-a/reserve" data-reservation-date="2026-09-08" data-reservation-party="2" data-reservation-time="19:00">19:00</a><a data-reservation-source="/en/shops/outlet-a/reserve" data-reservation-date="2026-09-08" data-reservation-party="2" data-reservation-time="19:30">19:30</a></section>';
+    assert.equal(finding(evaluate(artifact), "REQUIRED_EVIDENCE").status, "SATISFIED");
+  });
+  await t.test("a disabled different time does not erase the enabled presented offer", () => {
+    const artifact: any = completeArtifact();
+    artifact.materializedCase.semantic.time = { start: "18:30", end: "20:00" }; artifact.finalSnapshot.domainState.intentDraft.timeWindow = { earliest: "18:30", latest: "20:00" };
+    artifact.diagnostics.browserTrace[1].detail.queryRegions[0].markup = '<section data-testid="Venue Availability"><a data-reservation-source="/en/shops/outlet-a/reserve" data-reservation-date="2026-09-08" data-reservation-party="2" data-reservation-time="18:30"><button disabled>18:30</button></a><a data-reservation-source="/en/shops/outlet-a/reserve" data-reservation-date="2026-09-08" data-reservation-party="2" data-reservation-time="19:00">19:00</a></section>';
+    assert.equal(finding(evaluate(artifact), "REQUIRED_EVIDENCE").status, "SATISFIED");
+  });
+});
+
+test("a raw matching settled TableCheck empty result is distinct from an unsupported negative", () => {
+  const artifact: any = unknownAvailabilityNoResultArtifact(); const domain = artifact.finalSnapshot.domainState;
+  domain.availabilityChecks["candidate-a"] = { status: "UNAVAILABLE", evidenceIds: ["negative-a"] };
+  domain.readEvidence.push({ evidenceId: "negative-a", kind: "AVAILABILITY", provider: "TABLECHECK", candidateId: "candidate-a", sourceEntityId: "outlet-a", observedAt: artifact.finishedAt, requestFingerprint: "negative", claims: { date: "2026-09-08", partySize: 2, visibleSlots: [], inventoryStatus: "UNAVAILABLE" } });
+  artifact.diagnostics.browserTrace[1].detail.queryRegions[0].markup = '<section data-testid="Venue Availability"><section data-reservation-empty-date="2026-09-08" data-reservation-empty-party="2"></section></section>';
+  const result = evaluateRestaurantHybridLiveArtifact(artifact, source);
+  assert.equal(finding(result, "COMPLETION_OUTCOME").status, "NOT_EVALUATED", JSON.stringify(result));
+  assert.doesNotMatch(finding(result, "COMPLETION_OUTCOME").observations.join(" "), /Unsupported explicit no-availability conclusion/);
 });
 
 function artifactWithSameSourceFactRefresh(options: { citeSuperseded?: boolean; retainSupersededInRefresh?: boolean; currentFactSatisfiesHardCriterion?: boolean } = {}) {
@@ -196,7 +322,7 @@ test("diagnostic evaluator distinguishes paired artifact controls from bounded c
         domain.readEvidence.push({ evidenceId: "negative-a", kind: "AVAILABILITY", provider: "TABLECHECK", candidateId: "candidate-a", sourceEntityId: "outlet-a", observedAt: artifact.finishedAt, requestFingerprint: "negative", claims: { date: "2026-09-08", partySize: 3, visibleSlots: [], inventoryStatus: "UNAVAILABLE", receptionMode: "UNKNOWN" } });
         return artifact;
       },
-      assertCaught: (result) => assert.equal(finding(result, "COMPLETION_OUTCOME").status, "NOT_SATISFIED"),
+      assertCaught: (result) => assert.equal(finding(result, "COMPLETION_OUTCOME").status, "NOT_EVALUATED"),
     },
     {
       name: "M06 expired availability evidence is retained for presentation",
@@ -519,6 +645,7 @@ test("complete availability time windows are evaluated without H001 exact-time a
   artifact.finalSnapshot.domainState.intentDraft.timeWindow = { earliest: "18:00", latest: "20:00" };
   artifact.finalSnapshot.domainState.availability["candidate-a"][0].dateTime = "2026-09-08T19:30:00+09:00";
   artifact.finalSnapshot.domainState.readEvidence.find((item: any) => item.evidenceId === "availability-a").claims = { date: "2026-09-08", partySize: 2, visibleSlots: ["19:30"] };
+  artifact.diagnostics.browserTrace[1].detail.queryRegions[0].markup = '<section data-testid="Venue Availability"><a data-reservation-source="/en/shops/outlet-a/reserve" data-reservation-date="2026-09-08" data-reservation-party="2" data-reservation-time="19:30">19:30</a></section>';
   const result = evaluateRestaurantHybridLiveArtifact(artifact, source);
   assert.equal(finding(result, "AUTHORITATIVE_CONDITIONS").status, "SATISFIED");
   assert.equal(finding(result, "REQUIRED_EVIDENCE").status, "SATISFIED");
@@ -786,6 +913,7 @@ test("explicit alternative permission and equivalent area labels are independent
   const offer = domain.availability['candidate-a'][0];
   offer.dateTime = '2026-09-08T18:30:00+09:00'; offer.alternativeToRequestedTime = true;
   domain.readEvidence.find((e:any)=>e.kind==='AVAILABILITY').claims.visibleSlots = ['18:30'];
+  artifact.diagnostics.browserTrace[1].detail.queryRegions[0].markup = '<section data-testid="Venue Availability"><a data-reservation-source="/en/shops/outlet-a/reserve" data-reservation-date="2026-09-08" data-reservation-party="2" data-reservation-time="18:30">18:30</a></section>';
   assert.equal(evaluateRestaurantHybridLiveArtifact(artifact,source).execution.taskProducedQualifiedResult,'YES');
   for (const mutate of [
     (a:any)=>{delete a.materializedCase.semantic.permittedAlternativeTimeWindow},

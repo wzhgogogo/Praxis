@@ -5,6 +5,7 @@ import { test } from "node:test";
 import { chromium } from "playwright-core";
 import { LocalPlaywrightChromium } from "../../infrastructure/browser/local-playwright-chromium.js";
 import { CloudflareBrowserRun } from "../../infrastructure/browser/cloudflare-browser-run.js";
+import { PlaywrightControlRegistry } from "../../infrastructure/browser/playwright-browser-controls.js";
 import { BrowserTaskExecutor } from "../../infrastructure/browser/browser-task-executor.js";
 import type { BrowserReadActionDecisionPort } from "../../infrastructure/browser/browser-action-decision.js";
 import { ModelBrowserReadActionDecision } from "../../infrastructure/browser/browser-action-decision.js";
@@ -64,9 +65,9 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
 for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
   test(`${runtimeKind} wakes for delayed visible query state and ignores hidden state`, async () => {
     const runtime = localFixture(`<title>Query state</title>
-      <button id="apply" type="button">Apply</button><select id="party"><option value="2" selected>2</option><option value="4">4</option></select>
+      <button id="trigger" type="button">Trigger visible update</button><button id="apply" type="button">Apply</button><select id="party"><option value="2" selected>2</option><option value="4">4</option></select>
       <p id="noise">Still loading</p><script>
-        window.setTimeout(()=>document.querySelector('#noise').textContent='Unrelated page message',20);
+        document.querySelector('#trigger').onclick=()=>window.setTimeout(()=>document.querySelector('#noise').textContent='Unrelated page message',20);
         document.querySelector('#apply').onclick=()=>window.setTimeout(()=>{
           const party=document.querySelector('#party');party.value='4';party.disabled=true;
         },20);
@@ -76,6 +77,7 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
       await session.navigate(url);
       const beforeNoise = await session.snapshot();
       assert.notEqual(beforeNoise.interactiveState, undefined);
+      await session.click("#trigger");
       assert.equal(await session.waitForChange!(beforeNoise, 80), true, "visible text wakes a fresh read but cannot itself accept a result");
       await session.click("#apply");
       const beforeApply = await session.snapshot();
@@ -783,6 +785,72 @@ function localFixture(html: string | Record<string, string>, runtimeKind: "LOCAL
   }
   return new LocalPlaywrightChromium({ browserType });
 }
+
+test("Chromium control observation discards only a handle confirmed disconnected between reads", async () => {
+  const browser = await chromium.launch({ headless: true });
+  try {
+    const page = await browser.newPage();
+    await page.setContent('<button id="transient">Transient</button><button id="attached">Attached</button><button id="disabled" disabled>Disabled</button>');
+    const registry = new PlaywrightControlRegistry();
+    let removed = false;
+    const observedPage = {
+      locator(selector: string) {
+        const locator = page.locator(selector);
+        if (!selector.startsWith("button,")) return locator;
+        return {
+          elementHandles: async () => (await locator.elementHandles()).map((handle, index) => {
+            if (index !== 0) return handle;
+            const evaluate = handle.evaluate.bind(handle) as (...args: any[]) => Promise<unknown>;
+            return new Proxy(handle, {
+              get(target, property, receiver) {
+                if (property === "evaluate") return async (...args: any[]) => {
+                  const result = await evaluate(...args);
+                  if (!removed) {
+                    removed = true;
+                    await page.locator("#transient").evaluate(element => element.remove());
+                  }
+                  return result;
+                };
+                const value = Reflect.get(target, property, receiver);
+                return typeof value === "function" ? value.bind(target) : value;
+              },
+            });
+          }),
+        };
+      },
+      url: () => page.url(),
+    } as Parameters<PlaywrightControlRegistry["observe"]>[0];
+    const controls = await registry.observe(observedPage);
+    assert.equal(removed, true);
+    assert.deepEqual(controls.map(control => [control.label, control.disabled]), [["Attached", false], ["Disabled", true]]);
+  } finally { await browser.close(); }
+});
+
+test("Chromium control observation preserves an attached control-read failure", async () => {
+  const browser = await chromium.launch({ headless: true });
+  try {
+    const page = await browser.newPage();
+    await page.setContent('<button id="attached">Attached</button>');
+    const registry = new PlaywrightControlRegistry();
+    const observedPage = {
+      locator(selector: string) {
+        const locator = page.locator(selector);
+        if (!selector.startsWith("button,")) return locator;
+        return {
+          elementHandles: async () => (await locator.elementHandles()).map(handle => new Proxy(handle, {
+            get(target, property, receiver) {
+              if (property === "isDisabled") return async () => { throw new Error("CONTROL_READ_FAILURE"); };
+              const value = Reflect.get(target, property, receiver);
+              return typeof value === "function" ? value.bind(target) : value;
+            },
+          })),
+        };
+      },
+      url: () => page.url(),
+    } as Parameters<PlaywrightControlRegistry["observe"]>[0];
+    await assert.rejects(registry.observe(observedPage), /CONTROL_READ_FAILURE/);
+  } finally { await browser.close(); }
+});
 
 for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
   test(`${runtimeKind} projects TableCheck search wrapper as combobox and only its native input as fillable`, async () => {
