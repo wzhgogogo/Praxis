@@ -121,6 +121,16 @@ export interface RestaurantOutlet {
   provenance: Record<string, string>;
 }
 
+/** A source-observed category selection that scopes current inventory and facts. */
+export interface RestaurantServiceScope {
+  /** Source field name, for example a public reservation category field. */
+  field: string;
+  /** Opaque observed control-group identity; equal labels do not merge scopes. */
+  group: string;
+  value: string;
+  label: string;
+}
+
 export interface AvailabilityOffer {
   id: string;
   restaurantId: string;
@@ -128,6 +138,8 @@ export interface AvailabilityOffer {
   dateTime: string;
   timezone: "Asia/Tokyo";
   partySize: number;
+  /** Current inventory is only asserted for this source-observed service scope. */
+  serviceScope?: RestaurantServiceScope;
   /** The returned slot is within an explicitly user-permitted alternative range, not the original target window. */
   alternativeToRequestedTime?: boolean;
   seating?: string;
@@ -183,6 +195,8 @@ export interface RestaurantAvailabilityCheck {
   reasonCode?: string;
   /** Bound by the reducer from the exact authoritative availability request. */
   requestFingerprint?: string;
+  /** A scoped no-slot result never excludes inventory in unobserved compatible scopes. */
+  serviceScope?: RestaurantServiceScope;
 }
 
 /** Stable request binding for a completed slot/no-slot observation. */
@@ -252,7 +266,7 @@ export interface RestaurantSearchRequest {
 /** Durable, opaque pagination state for one exact Restaurant search intent. */
 export interface RestaurantSearchContinuation {
   intentFingerprint: string;
-  /** Fixed native source sequence; one batch per source, never Agent-selected. */
+  /** Fixed native source sequence with bounded same-source chunks, never Agent-selected. */
   nativeStage?: "TABELOG_DONE" | "TABLECHECK_DONE";
   /** The next provider page, when the source exposed one. */
   nextPageToken?: string;
@@ -299,6 +313,9 @@ export interface RestaurantSearchContinuation {
     pagesRead: number;
     /** Browser time already spent in this bounded source across its chunks. */
     elapsedMs?: number;
+    /** Actual source-observed result pagination; its query must not be rewritten. */
+    nextListing?: { sourceUrl: string; observedOn: string; observedAt: string };
+    visitedListingUrls?: string[];
     /**
      * A source-observed detail entrance retained across a chunk boundary.
      * It is a navigation hint only: the detail page must still prove its
@@ -382,6 +399,8 @@ export interface RestaurantFactSourceDocument {
   id: string;
   candidateId: string;
   identityEvidenceId: string;
+  /** Observed source range for this text; absent means whole-outlet scope. */
+  serviceScope?: RestaurantServiceScope;
   statements: Array<{ id: string; text: string }>;
 }
 
@@ -460,6 +479,9 @@ export interface RestaurantReadExecutionMetadata {
     sourceElapsedCapMs?: number;
     sourceElapsedMs?: number;
     sourceTimeLimitReached?: boolean;
+    /** Source query and visible listing counts, distinct from detail admission. */
+    listingObservations?: Array<{ sourceUrl: string; parsedOutlets: number; resultCount?: number; nextPageUrl?: string }>;
+    queryAdjustment?: string;
     /** Observed detail entrances deliberately left for a later bounded batch; never rejections. */
     deferredByBatchCap: Array<{ sourceUrl: string; reasonCode: "DETAIL_BATCH_CAP" }>;
     rejected: Array<{ sourceUrl: string; reasonCode: string }>;
@@ -613,7 +635,7 @@ export interface VerifiedReservation {
 }
 
 export interface RestaurantTaskState {
-  schemaVersion: "10";
+  schemaVersion: "11";
   phase: RestaurantPhase;
   intentDraft?: RestaurantIntentDraft;
   intent?: RestaurantSearchIntent;

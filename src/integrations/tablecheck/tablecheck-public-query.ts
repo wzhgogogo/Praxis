@@ -20,3 +20,20 @@ export const permitsTableCheckQueryControl: NonNullable<BrowserSkillReadInput["p
   return action === "CLICK" && control.kind === "BUTTON" && structure.tag === "BUTTON"
     && control.type === "submit" && control.label === "Update";
 };
+
+/** A source-owned availability category can be read only after its radio state is re-observed. */
+export const permitsTableCheckAvailabilityServiceCategory: NonNullable<BrowserSkillReadInput["permitQueryControl"]> = ({ control, snapshot, action }) => {
+  if (action !== "SET_CHECKED") return false;
+  let url: URL;
+  try { url = new URL(snapshot.url); } catch { return false; }
+  if (url.origin !== "https://www.tablecheck.com") return false;
+  const structure = control.structure;
+  if (!structure || control.kind !== "RADIO" || control.type !== "radio" || structure.tag !== "INPUT"
+    || control.disabled || !control.visible || control.blockedByActiveLayer) return false;
+  // This exact observed reservation-query shape excludes radios in account,
+  // consent, checkout, and booking-commit flows. HTTP method is deliberately
+  // not a safety signal: the public query form observed in the source is POST.
+  if (!/^\/(?:en|ja)\/(?:shops\/)?[^/]+\/reserve(?:\/landing)?\/?$/i.test(url.pathname)) return false;
+  return structure.name === "reservation[service_category]"
+    && /(?:^|\s)reserveform(?:\s|$)/i.test(structure.formClass);
+};

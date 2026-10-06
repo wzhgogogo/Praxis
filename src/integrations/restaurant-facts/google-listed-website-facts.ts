@@ -13,6 +13,7 @@ import type {
 import { BrowserTaskExecutor, type BrowserExecutionBudget, type BrowserExecutionDiagnostic } from "../../infrastructure/browser/browser-task-executor.js";
 import type { BrowserRuntime, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
 import type { BrowserReadActionDecisionPort } from "../../infrastructure/browser/browser-action-decision.js";
+import type { RestaurantFactJudgmentPort } from "./model-fact-judgment.js";
 
 function normalized(value: string): string {
   return value.normalize("NFKC").toLocaleLowerCase("en-US").replace(/[^\p{L}\p{N}]+/gu, "").trim();
@@ -101,7 +102,7 @@ function hoursFromSpecification(value: unknown): string[] {
   });
 }
 
-function candidateStructuredObservation(
+export function candidateStructuredObservation(
   candidate: RestaurantCandidate,
   sourceUrl: string,
   observedAt: string,
@@ -141,18 +142,19 @@ function exactSourcePhone(candidate: RestaurantCandidate, text: string, html: st
   return expected.length >= 10 && phones.size === 1 && phones.has(expected);
 }
 
-function candidateVisibleObservation(
+export function candidateVisibleObservation(
   candidate: RestaurantCandidate,
   sourceUrl: string,
   observedAt: string,
   visibleText: string,
   html = "",
+  options: { allowExactSourcePhone?: boolean } = {},
 ): UntrustedRestaurantWebsiteObservation | undefined {
   const text = visibleText.replace(/\s+/gu, " ").trim();
   const normalizedText = normalized(text);
   const candidateName = normalized(candidate.restaurant.outletName);
   const candidateAddress = normalized(candidate.restaurant.address);
-  const matchedPhone = exactSourcePhone(candidate, visibleText, html);
+  const matchedPhone = options.allowExactSourcePhone !== false && exactSourcePhone(candidate, visibleText, html);
   if (!matchedPhone && (!candidateName || !candidateAddress || !normalizedText.includes(candidateName) || !addressMatches(candidate.restaurant.address, text))) return undefined;
   const lines = visibleText.split(/\r?\n/).map((line) => line.replace(/\s+/gu, " ").trim()).filter(Boolean);
   const restaurantTypeFacts = [
@@ -248,12 +250,47 @@ export function requestedCommercialFields(intent: RestaurantCandidateFactRequest
   return fields;
 }
 
-function hasRequestedFacts(observation: UntrustedRestaurantWebsiteObservation, request: RestaurantCandidateFactRequest): boolean {
-  const needsType = request.intent.criteria.some((criterion) => criterion.strength === "HARD");
+function normalizedCriterion(value: string): string {
+  return value.trim().toLocaleLowerCase("en-US");
+}
+
+/** A cited judgment, rather than page keyword extraction, ends a HARD inquiry. */
+function hardFactsResolved(
+  intent: RestaurantCandidateFactRequest["intent"],
+  evidence: readonly RestaurantCandidateFactRead["evidence"][number][],
+): boolean {
+  const values = (key: string) => evidence.flatMap((item) => Array.isArray(item.claims[key])
+    && item.claims[key].every((value) => typeof value === "string") ? item.claims[key] as string[] : []);
+  const positive = new Set(values("verifiedHardCriteria").map(normalizedCriterion));
+  const verifiedNegative = new Set(values("verifiedNegativeCriteria").map(normalizedCriterion));
+  const conflicts = new Set(values("violatedNegativeCriteria").map(normalizedCriterion));
+  const categoryUnknown = new Set(values("categoryUnknownNegativeCriteria").map(normalizedCriterion));
+  return intent.criteria.filter((criterion) => criterion.strength === "HARD").every((criterion) => criterion.polarity === "POSITIVE"
+    ? positive.has(normalizedCriterion(criterion.text))
+    : verifiedNegative.has(normalizedCriterion(criterion.text)) || conflicts.has(normalizedCriterion(criterion.text)) || categoryUnknown.has(normalizedCriterion(criterion.text)));
+}
+
+function hasConfirmedNegativeConflict(intent: RestaurantCandidateFactRequest["intent"], evidence: readonly RestaurantCandidateFactRead["evidence"][number][]): boolean {
+  const excluded = new Set(intent.criteria.filter((criterion) => criterion.strength === "HARD" && criterion.polarity === "NEGATIVE")
+    .map((criterion) => normalizedCriterion(criterion.text)));
+  return evidence.some((item) => Array.isArray(item.claims.violatedNegativeCriteria)
+    && item.claims.violatedNegativeCriteria.some((value) => typeof value === "string" && excluded.has(normalizedCriterion(value))));
+}
+
+/** Source fields and cited HARD judgments both have to be current before the reader may finish. */
+function requestedFactsResolved(
+  request: RestaurantCandidateFactRequest,
+  sourceEvidence: readonly RestaurantCandidateFactRead["evidence"][number][],
+  judgedEvidence: readonly RestaurantCandidateFactRead["evidence"][number][],
+): boolean {
+  const facts = sourceEvidence.filter(item => item.kind === "RESTAURANT_FACT");
+  const hasClaim = (key: string) => facts.some(item => item.claims[key] !== undefined);
   const needsHours = request.intent.target?.goal === "RECOMMENDATION" && request.intent.date !== undefined && request.intent.timeWindow !== undefined;
-  return requestedCommercialFields(request.intent).every(field => observation.publicCommercialTerms?.[field] !== undefined || (field === "coursePriceYen" && !!observation.publicCommercialTerms?.listedCourseDetails?.length))
-    && (!needsType || (observation.restaurantTypeFacts?.length ?? 0) > 0)
-    && (!needsHours || (observation.regularOpeningHours?.length ?? 0) > 0);
+  const commercialReady = requestedCommercialFields(request.intent).every(field => hasClaim(field)
+    || field === "coursePriceYen" && facts.some(item => Array.isArray(item.claims.listedCourseDetails) && item.claims.listedCourseDetails.length > 0));
+  return hardFactsResolved(request.intent, judgedEvidence)
+    && commercialReady
+    && (!needsHours || facts.some(item => item.claims.openingHoursMatch === true));
 }
 
 /**
@@ -267,6 +304,8 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
 
   constructor(
     private readonly runtime: BrowserRuntime,
+    /** Shared cited judgment for this same browser session; it decides whether another observed page is needed. */
+    private readonly judgment: RestaurantFactJudgmentPort,
     private readonly now: () => string = () => new Date().toISOString(),
     private readonly modelDecision?: BrowserReadActionDecisionPort,
     private readonly browserBudget?: BrowserExecutionBudget,
@@ -274,10 +313,12 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
   ) {}
 
   async inspectFacts(request: RestaurantCandidateFactRequest, signal: AbortSignal): Promise<RestaurantCandidateFactRead> {
+    const judgment = this.judgment;
     const startedAt = Date.now();
     const evidence: RestaurantCandidateFactRead["evidence"] = [];
     const sourceDocuments: NonNullable<RestaurantCandidateFactRead["sourceDocuments"]> = [];
     const factChecks: RestaurantCandidateFactRead["factChecks"] = {};
+    let modelCalls = 0;
     for (const candidate of request.candidates) {
       const listed = safeWebsiteUrl(candidate.restaurant.sourceIds.googleWebsiteUri);
       const checkedAt = this.now();
@@ -308,11 +349,30 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
         );
         if (observation) pages.set(landed.toString(), { observation, text: snapshot.text });
       };
-      const complete = (): boolean => {
-        const combined = [...pages.values()].reduce<UntrustedRestaurantWebsiteObservation | undefined>((prior, page) => mergeObservations(prior, page.observation), undefined);
-        return combined !== undefined && hasRequestedFacts(combined, request);
+      const materialize = (): { evidence: RestaurantCandidateFactRead["evidence"]; documents: NonNullable<RestaurantCandidateFactRead["sourceDocuments"]> } => {
+        const pageEvidence = [...pages.values()].flatMap(page => groundRestaurantWebsiteFacts(candidate, request.intent, page.observation).evidence.map(item => ({
+          ...item, artifactRef: { kind: "DOM_EXCERPT" as const, reference: `website-visible:${websiteFactDocumentFingerprint(page.text)}` },
+        })));
+        let remainingText = 6_000;
+        const documents: NonNullable<RestaurantCandidateFactRead["sourceDocuments"]> = [];
+        for (const page of pages.values()) {
+          const identity = pageEvidence.find(item => item.kind === "ENTITY_MATCH" && item.sourceUrl === page.observation.sourceUrl);
+          if (!identity || remainingText <= 0) continue;
+          const id = `website-document:${websiteFactDocumentFingerprint(`${identity.evidenceId}\n${page.text}`)}`;
+          const statements: Array<{ id: string; text: string }> = [];
+          for (const line of page.text.split(/\r?\n/u).map(line => line.replace(/\s+/gu, " ").trim()).filter(Boolean)) {
+            if (line.length > remainingText) break;
+            statements.push({ id: String(statements.length), text: line });
+            remainingText -= line.length;
+          }
+          if (statements.length) documents.push({ id, candidateId: candidate.restaurant.id, identityEvidenceId: identity.evidenceId, statements });
+        }
+        return { evidence: pageEvidence, documents };
       };
       let failureCode: string | undefined;
+      let judgedEvidence: RestaurantCandidateFactRead["evidence"] = [];
+      let judgedDocuments: NonNullable<RestaurantCandidateFactRead["sourceDocuments"]> = [];
+      let judgmentCalls = 0;
       try {
         executor.beginCandidate(candidate.restaurant.id);
         executor.beginProvider(candidate.restaurant.id, "WEBSITE", "FACTS");
@@ -330,13 +390,55 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
           objective: `Read source-authored public statements relevant to the goal criteria and requested commercial facts (${requestedCommercialFields(request.intent).join(", ") || "none requested"}). Opening hours are required only for a recommendation with a visit window. Once relevant text is visible, use COMPLETE to hand it to source-fact interpretation, even when deterministic extraction has not recognized its wording; COMPLETE never asserts that a criterion is satisfied. If the page only links to relevant content, follow an observed public link. Do not revisit already-read pages to make the parser accept them. Earlier candidate-bound pages are retained with their own source. Never log in or submit.`,
           completion: page => {
             remember(page);
-            return { complete: complete(), reason: pages.size
+            // With the cited judgment wired, a candidate-bound source page is
+            // the first bounded investigation unit.  Its cited result, not a
+            // keyword matcher, decides whether the same session follows an
+            // observed menu or official link.
+            return { complete: pages.size > 0, reason: pages.size
               ? "Candidate-bound source text is retained. Use COMPLETE when relevant statements have been read so fact interpretation can evaluate them; navigate only if relevant content is still missing."
               : "The current page has no confirmed candidate identity. Read an observed outlet-specific public link if available; otherwise hand off the limitation." };
           },
         });
         remember(generic.snapshot);
-        if (!complete()) failureCode = pages.size ? "WEBSITE_REQUESTED_FACTS_UNCONFIRMED" : "WEBSITE_STRUCTURED_IDENTITY_UNVERIFIED";
+        const initial = materialize();
+        let currentSourceEvidence = initial.evidence;
+        judgedDocuments = initial.documents;
+        if (initial.evidence.length) {
+          const judged = await judgment.judge({ candidate, intent: request.intent, evidence: initial.evidence, sourceDocuments: initial.documents });
+          judgmentCalls += judged.modelUsage?.calls ?? 0;
+          judgedEvidence = judged.evidence;
+          // Follow a new observed public page only while the cited result has
+          // a real HARD gap. The executor keeps the same 45/30/4/24 budget.
+          for (let followUps = 0; followUps < 2
+            && !requestedFactsResolved(request, currentSourceEvidence, judgedEvidence)
+            && !hasConfirmedNegativeConflict(request.intent, judgedEvidence)
+            && this.modelDecision; followUps += 1) {
+            const documentIdsBefore = new Set(currentSourceEvidence
+              .filter(item => item.kind === "ENTITY_MATCH")
+              .map(item => item.artifactRef?.reference));
+            const continued = await executor.runSkill({
+              taskId: request.readRunId ?? candidate.restaurant.id, source: "WEBSITE", stage: "FACTS", signal, session, allowedOrigins: [listed.origin],
+              goal: { outlet: { name: candidate.restaurant.outletName, address: candidate.restaurant.address }, hardCriteria: request.intent.criteria.filter(criterion => criterion.strength === "HARD").map(criterion => criterion.text) },
+              objective: "The prior cited source material leaves a HARD criterion unresolved. Follow one observed public menu, course, or official information link relevant to that gap. Do not log in, submit, revisit a page, or treat navigation itself as evidence.",
+              completion: (page) => {
+                remember(page);
+                const changed = materialize().evidence.some(item => item.kind === "ENTITY_MATCH" && !documentIdsBefore.has(item.artifactRef?.reference));
+                return { complete: changed, reason: "A new candidate-bound public source page is required before another cited HARD-fact judgment." };
+              },
+            });
+            remember(continued.snapshot);
+            const next = materialize();
+            if (next.evidence.every(item => item.kind !== "ENTITY_MATCH" || documentIdsBefore.has(item.artifactRef?.reference))) break;
+            currentSourceEvidence = next.evidence;
+            judgedDocuments = next.documents;
+            const judged = await judgment.judge({ candidate, intent: request.intent, evidence: next.evidence, sourceDocuments: next.documents });
+            judgmentCalls += judged.modelUsage?.calls ?? 0;
+            // A newly cited menu fact supplements a prior cited source page;
+            // it must not erase the already-resolved HARD condition.
+            judgedEvidence = [...judgedEvidence, ...judged.evidence];
+          }
+        }
+        if (!requestedFactsResolved(request, currentSourceEvidence, judgedEvidence)) failureCode = pages.size ? "WEBSITE_REQUESTED_FACTS_UNCONFIRMED" : "WEBSITE_STRUCTURED_IDENTITY_UNVERIFIED";
       } catch (error) {
         // A runner-owned budget/cancellation is task-global. Do not disguise
         // it as a candidate website gap and let later fact code continue.
@@ -346,36 +448,24 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
         executor.endProvider();
         await executor.close();
       }
-      const candidateEvidence = [...pages.values()].flatMap(page => groundRestaurantWebsiteFacts(candidate, request.intent, page.observation).evidence.map(item => ({
-        ...item, artifactRef: { kind: "DOM_EXCERPT" as const, reference: `website-visible:${websiteFactDocumentFingerprint(page.text)}` },
-      })));
+      const materialized = materialize();
+      const candidateEvidence = materialized.evidence;
       evidence.push(...candidateEvidence);
-      // Keep source statements transient until the judgment selects citations.
-      // A document is bound only by its own observed identity, not its origin alone.
-      let remainingText = 6_000;
-      for (const page of pages.values()) {
-        const identity = candidateEvidence.find(item => item.kind === "ENTITY_MATCH" && item.sourceUrl === page.observation.sourceUrl);
-        if (!identity || remainingText <= 0) continue;
-        const id = `website-document:${websiteFactDocumentFingerprint(`${identity.evidenceId}\n${page.text}`)}`;
-        const statements: Array<{ id: string; text: string }> = [];
-        for (const line of page.text.split(/\r?\n/u).map(line => line.replace(/\s+/gu, " ").trim()).filter(Boolean)) {
-          if (line.length > remainingText) break;
-          statements.push({ id: String(statements.length), text: line });
-          remainingText -= line.length;
-        }
-        if (statements.length) sourceDocuments.push({ id, candidateId: candidate.restaurant.id, identityEvidenceId: identity.evidenceId, statements });
-      }
+      sourceDocuments.push(...materialized.documents);
+      evidence.push(...judgedEvidence);
       factChecks[candidate.restaurant.id] = {
-        status: complete() ? "COMPLETED" : "UNKNOWN", checkedAt,
-        evidenceIds: candidateEvidence.map(item => item.evidenceId),
-        ...(!complete() ? { reasonCode: failureCode ?? "WEBSITE_REQUESTED_FACTS_UNCONFIRMED" } : {}),
+        status: requestedFactsResolved(request, candidateEvidence, judgedEvidence) ? "COMPLETED" : "UNKNOWN", checkedAt,
+        evidenceIds: [...candidateEvidence, ...judgedEvidence].map(item => item.evidenceId),
+        ...(!requestedFactsResolved(request, candidateEvidence, judgedEvidence) ? { reasonCode: failureCode ?? "WEBSITE_REQUESTED_FACTS_UNCONFIRMED" } : {}),
       };
+      modelCalls += judgmentCalls;
     }
     return {
       evidence,
       factChecks,
       sourceDocuments,
-      metadata: { provider: "RESTAURANT_WEBSITE", route: this.executionRoute, latencyMs: Date.now() - startedAt },
+      metadata: { provider: "RESTAURANT_WEBSITE", route: this.executionRoute, latencyMs: Date.now() - startedAt,
+        ...(modelCalls ? { modelUsage: { calls: modelCalls } } : {}) },
     };
   }
 }

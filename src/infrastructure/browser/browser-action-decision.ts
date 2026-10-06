@@ -3,7 +3,7 @@ import { ModelGatewayError } from "../../core/model/errors.js";
 
 export const BROWSER_ACTION_DECISION_SCHEMA = {
   name: "browser_read_action",
-  version: "5",
+  version: "6",
 } as const;
 
 export const BROWSER_ACTION_DECISION_STRICT_WIRE_JSON_SCHEMA: Record<string, unknown> = {
@@ -27,7 +27,7 @@ export type BrowserReadAction =
   | { type: "CLICK"; targetRef: string; reason: string }
   | { type: "CLICK_AUTHORITATIVE"; targetRef: string; field: "DATE" | "PARTY_SIZE"; reason: string }
   | { type: "FILL_AUTHORITATIVE"; targetRef: string; field: "DATE" | "PARTY_SIZE" | "RETRIEVAL"; reason: string }
-  | { type: "CHOOSE_OPTION"; targetRef: string; field: "DATE" | "PARTY_SIZE" | "TIME"; reason: string }
+  | { type: "CHOOSE_OPTION"; targetRef: string; field: "DATE" | "PARTY_SIZE" | "TIME" | "RETRIEVAL"; reason: string }
   | { type: "SET_CHECKED"; targetRef: string; checked: boolean; reason: string }
   | { type: "ADJUST_RANGE"; targetRef: string; direction: "INCREASE" | "DECREASE"; reason: string }
   | { type: "SCROLL_REGION"; targetRef: string; direction: "UP" | "DOWN"; reason: string }
@@ -37,7 +37,7 @@ export type BrowserReadAction =
 
 export interface BrowserReadActionTarget {
   ref: string;
-  kind: "LINK" | "BUTTON" | "INPUT" | "SELECT" | "OPTION" | "CHECKBOX" | "RANGE" | "REGION";
+  kind: "LINK" | "BUTTON" | "INPUT" | "SELECT" | "OPTION" | "CHECKBOX" | "RADIO" | "RANGE" | "REGION";
   role: string;
   label: string;
   value?: string;
@@ -120,10 +120,10 @@ function decodeAction(value: unknown, observedTargetRefs: ReadonlySet<string>): 
       }
       return { type: value.action, targetRef: value.targetRef, field: value.authoritativeField as "DATE" | "PARTY_SIZE", reason };
     case "CHOOSE_OPTION":
-      if (!nonBlank(value.targetRef) || !["DATE", "PARTY_SIZE", "TIME"].includes(value.authoritativeField) || value.requestedState !== "NONE") {
-        throw new Error("CHOOSE_OPTION requires DATE, PARTY_SIZE or TIME and requestedState NONE");
+      if (!nonBlank(value.targetRef) || !["DATE", "PARTY_SIZE", "TIME", "RETRIEVAL"].includes(value.authoritativeField) || value.requestedState !== "NONE") {
+        throw new Error("CHOOSE_OPTION requires DATE, PARTY_SIZE, TIME or RETRIEVAL and requestedState NONE");
       }
-      return { type: value.action, targetRef: value.targetRef, field: value.authoritativeField as "DATE" | "PARTY_SIZE" | "TIME", reason };
+      return { type: value.action, targetRef: value.targetRef, field: value.authoritativeField as "DATE" | "PARTY_SIZE" | "TIME" | "RETRIEVAL", reason };
     case "FILL_AUTHORITATIVE":
       if (!nonBlank(value.targetRef) || !["DATE", "PARTY_SIZE", "RETRIEVAL"].includes(value.authoritativeField) || value.requestedState !== "NONE") {
         throw new Error(`${value.action} requires DATE, PARTY_SIZE or RETRIEVAL`);
@@ -165,7 +165,11 @@ Choose one action only from the observed target references and its availableActi
 
 To open a custom BUTTON whose role is combobox, use CLICK with authoritativeField NONE. Re-observe, then use CHOOSE_OPTION on an observed OPTION with the correct ownerRef. A native SELECT already exposes its OPTION targets; choose the option directly. Match the visible label to the authoritative date, party size, or time window; an opaque option value is never a reason to guess. For CLICK, OPEN_LINK and WAIT the authoritativeField MUST be NONE.
 
-OPEN_LINK is only for an observed public result link. CLICK is for an observed, structurally non-submit UI control such as a calendar navigation button or public search control; it is still rejected if it can submit or navigate to a sensitive workflow. CLICK_AUTHORITATIVE is for an observed non-submit calendar or guest button matching the exact DATE or PARTY_SIZE. CHOOSE_OPTION is the single action for an observed native-select or custom-list option; use TIME only inside the authoritative window. A label consisting only of digits is never sufficient for a date. SET_CHECKED sets one observed checkbox to the stated value. ADJUST_RANGE moves one observed slider by one safe keyboard step only. A slider's valueText is a page-displayed label, distinct from value/min/max positions. SCROLL_REGION moves one observed region by one bounded viewport. WAIT waits for a bounded visible result change. If no safe action is available, request human help. COMPLETE only hands the page to deterministic verification; it does not claim identity, availability, or success.
+During DISCOVERY, an expanded public search combobox may expose CHOOSE_OPTION:RETRIEVAL for the exact goal.retrievalExpression, optionally displayed in quotation marks. Choose that option to apply the existing query and close its suggestions before using background controls. Do not choose Nearby or a different suggested query. Its current search value and closed suggestion state must be re-observed; selecting it is not proof of search results.
+
+A LINK can represent a same-page UI control when its observed href differs from the current document only by a fragment (including #). If its availableActions includes CLICK, use CLICK to expand or change that UI and re-observe. Ordinary public links continue to use OPEN_LINK. Use the visible control label and its page context to match the objective; an unrelated unlabeled button is not a substitute for a named category or filter control.
+
+OPEN_LINK is only for an observed public result link. CLICK is for an observed, structurally non-submit UI control such as a calendar navigation button or public search control; it is still rejected if it can submit or navigate to a sensitive workflow. CLICK_AUTHORITATIVE is for an observed non-submit calendar or guest button matching the exact DATE or PARTY_SIZE. CHOOSE_OPTION is the single action for an observed native-select or custom-list option; use TIME only inside the authoritative window. A label consisting only of digits is never sufficient for a date. SET_CHECKED sets one source-permitted observed checkbox, or selects one source-permitted observed radio with CHECKED; a radio must not be unset or selected by guessing a group. When the objective or progress states that no service category is selected, a target with SET_CHECKED is a read-only query prerequisite that may occur before a time or result is visible. Select exactly one current permitted category only where current public text supports its relevance to a HARD criterion; otherwise request human help. ADJUST_RANGE moves one observed slider by one safe keyboard step only. A slider's valueText is a page-displayed label, distinct from value/min/max positions. SCROLL_REGION moves one observed region by one bounded viewport. WAIT waits for a bounded visible result change. If no safe action is available, request human help. COMPLETE only hands the page to deterministic verification; it does not claim identity, availability, or success.
 
 Return exactly the strict JSON object. For actions without a target, use an empty targetRef. For actions without an authoritative field, use NONE. For actions without a requested state, use NONE. Keep reason short and do not include hidden reasoning.`;
 }
@@ -180,7 +184,7 @@ export class ModelBrowserReadActionDecision implements BrowserReadActionDecision
       response = await this.model.complete({
         taskId: input.taskId,
         purpose: "browser_read_decide",
-        promptVersion: "5",
+        promptVersion: "9",
         messages: [
           { role: "system", content: buildBrowserReadDecisionSystemPrompt() },
           {

@@ -108,7 +108,7 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
   }
   async fill(target: string, value: string): Promise<void> { await this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).fill(value)); }
   async select(target: string, value: string): Promise<string[]> { return this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).selectOption(value)); }
-  async setChecked(target: string, checked: boolean): Promise<void> { await this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).setChecked(checked)); }
+  async setChecked(target: string, checked: boolean): Promise<void> { await this.run(async () => { if (await this.controls.setChecked(target, checked)) return; await this.page.locator(target).setChecked(checked); }); }
   async press(target: string, key: "ArrowLeft" | "ArrowRight"): Promise<void> { await this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).press(key)); }
   async scroll(target: string, deltaY: number): Promise<void> {
     await this.run(async () => {

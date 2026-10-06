@@ -30,10 +30,15 @@ class H001NativeModel implements ModelGateway {
   readonly purposes: string[] = [];
   retrievalFillUsed = false;
   readonly discoveryActions: string[] = [];
+  readonly browserDecisionInputs: Array<{
+    objective: string;
+    progress: string;
+    observation: { targets: Array<{ ref: string; label: string; availableActions?: string[] }> };
+  }> = [];
   private searches = 0;
   private earlyEndAttempted = false;
   private earlyPartialAttempted = false;
-  constructor(private readonly scenario: SourceScenario) {}
+  constructor(private readonly scenario: SourceScenario, private readonly availabilityFirst = false) {}
   async complete(request: ModelRequest): Promise<ModelResponse> {
     this.purposes.push(request.purpose);
     if (this.purposes.length > 50) throw new Error("H001 shared 50-call model ceiling exceeded");
@@ -57,18 +62,39 @@ class H001NativeModel implements ModelGateway {
     }
     if (request.purpose === "browser_read_decide") {
       const input = JSON.parse(request.messages.find((item) => item.role === "user")!.content) as {
+        objective: string;
+        progress: string;
         observation: { visibleText?: string; targets: Array<{ ref: string; label: string; availableActions?: string[] }> };
       };
+      this.browserDecisionInputs.push({ objective: input.objective, progress: input.progress, observation: { targets: input.observation.targets } });
+      if (["TABELOG_RETRIEVAL_CATEGORY_DELIVERS", "TABELOG_RESULT_PAGES_CONTINUE"].includes(this.scenario) && input.objective.includes("related category")) {
+        const link = input.observation.targets.find((target) => /^(?:Sushi|omakase ×)$/.test(target.label) && target.availableActions?.includes("OPEN_LINK"));
+        if (link) return reply(JSON.stringify({ action: "OPEN_LINK", targetRef: link.ref, authoritativeField: "NONE", requestedState: "NONE", reason: "Use a related source category for discovery; retain the HARD fact requirement." }), request.purpose);
+      }
       const retrieval = input.observation.visibleText?.includes("Loading current search") ? undefined
         : input.observation.targets.find((target) => /search|venue/i.test(target.label) && target.availableActions?.includes("FILL_AUTHORITATIVE:RETRIEVAL"));
+      const menu = input.observation.targets.find((target) => /menu|course/i.test(target.label) && target.availableActions?.includes("OPEN_LINK"));
+      const category = this.scenario === "TABLECHECK_SCOPED_MENU_DELIVERS"
+        ? input.observation.targets.find((target) => target.label === "Sushi" && target.availableActions?.includes("SET_CHECKED"))
+        : undefined;
       const reveal = input.observation.targets.find((target) => target.label === "Show public venues");
       const availabilityReveal = input.observation.targets.find((target) => target.label === "Show availability");
+      const loadingRegion = /Loading\s+(?:current\s+)?availability/i.test(input.observation.visibleText ?? "")
+        ? input.observation.targets.find((target) => target.label === "Venue Availability" && target.availableActions?.includes("WAIT"))
+          ?? input.observation.targets.find((target) => target.availableActions?.includes("WAIT"))
+        : undefined;
       return reply(JSON.stringify(retrieval
         ? (this.retrievalFillUsed = true, this.discoveryActions.push("FILL_AUTHORITATIVE"), { action: "FILL_AUTHORITATIVE", targetRef: retrieval.ref, authoritativeField: "RETRIEVAL", requestedState: "NONE", reason: "Apply the bounded public venue search expression." })
+        : menu
+        ? { action: "OPEN_LINK", targetRef: menu.ref, authoritativeField: "NONE", requestedState: "NONE", reason: "Read the observed public menu page for the missing HARD criterion." }
+        : category
+        ? { action: "SET_CHECKED", targetRef: category.ref, authoritativeField: "NONE", requestedState: "CHECKED", reason: "Read the permitted public service category and re-observe its current result." }
         : reveal
         ? (this.discoveryActions.push("CLICK"), { action: "CLICK", targetRef: reveal.ref, authoritativeField: "NONE", requestedState: "NONE", reason: "Reveal the observed public venue results." })
         : availabilityReveal
         ? { action: "CLICK", targetRef: availabilityReveal.ref, authoritativeField: "NONE", requestedState: "NONE", reason: "Reveal the observed public availability result." }
+        : loadingRegion
+        ? { action: "WAIT", targetRef: loadingRegion.ref, authoritativeField: "NONE", requestedState: "NONE", reason: "Wait only for the visible current availability result." }
         : { action: "REQUEST_HUMAN_HELP", targetRef: "", authoritativeField: "NONE", requestedState: "NONE", reason: "No safe observed discovery action remains." },
       ), request.purpose);
     }
@@ -102,6 +128,9 @@ class H001NativeModel implements ModelGateway {
         if (context.checkableCandidateIds?.length) return reply(JSON.stringify(action("CHECK_AVAILABILITY", context.checkableCandidateIds.slice(0, 1))), request.purpose);
         if (eligible.length) return reply(JSON.stringify(action("PRESENT_RESULTS", eligible)), request.purpose);
       }
+      if (this.availabilityFirst && context.checkableCandidateIds?.length) {
+        return reply(JSON.stringify(action("CHECK_AVAILABILITY", context.checkableCandidateIds.slice(0, 1))), request.purpose);
+      }
       if (context.factInvestigableCandidateIds?.length) return reply(JSON.stringify(action("INVESTIGATE_CANDIDATE_FACTS", context.factInvestigableCandidateIds.slice(0, 3))), request.purpose);
       if (context.checkableCandidateIds?.length) return reply(JSON.stringify(action("CHECK_AVAILABILITY", context.checkableCandidateIds.slice(0, 3))), request.purpose);
       if (eligible.length >= 3) return reply(JSON.stringify(action("PRESENT_RESULTS", eligible.slice(0, 3))), request.purpose);
@@ -117,7 +146,7 @@ class H001NativeModel implements ModelGateway {
   }
 }
 
-async function runScenario(scenario: SourceScenario) {
+async function runScenario(scenario: SourceScenario, options: { availabilityFirst?: boolean } = {}) {
   const startedAt = Date.now();
   const frozen = (await loadFrozenLiveCases(RESTAURANT_READ_DEVELOPMENT_CASE_PATH)).find((item) => item.id === "h001")!;
   const navigations: string[] = [];
@@ -132,7 +161,7 @@ async function runScenario(scenario: SourceScenario) {
       formattedAddress: "Shibuya, Tokyo", location: center, types: ["train_station"],
       addressComponents: [{ longText: "Tokyo", types: ["locality"] }] }] }), { status: 200 });
   } }), () => reference.toISOString(), 10, { maxRequests: 100 });
-  const model = new H001NativeModel(scenario);
+  const model = new H001NativeModel(scenario, options.availabilityFirst);
   const rawBrowser = sourcePages(scenario, navigations, sessionsOpened, navigationSessionIds, closedSessionIds);
   const browserTrace: Array<{ sequence: number; at: string; kind: string; detail: unknown }> = [];
   let browserTraceSequence = 0;
@@ -144,12 +173,15 @@ async function runScenario(scenario: SourceScenario) {
     },
   ) };
   const native = composeNativeRestaurantRead(google, browser, model, undefined, undefined, undefined, () => reference.toISOString());
-  const availability = new LiveBrowserAvailability(browser, model, { now: () => reference.toISOString(), maxModelCallsTotal: 50 });
+  const availability = new LiveBrowserAvailability(browser, model, {
+    now: () => reference.toISOString(), maxModelCallsPerCandidate: 20, maxModelCallsTotal: 50,
+    maxOperationsPerCandidate: 30, maxElapsedMsPerCandidate: 60_000, maxElapsedMsPerProvider: 45_000, maxAutomaticElapsedMs: 60_000,
+  });
   const taskId = `native-h001:${scenario}`;
   const composition = createHybridReadComposition({ taskId, runId: `run:${taskId}`, clock: { now: () => reference },
     model, search: native.search, facts: native.facts, availability,
-    router: { structuredReadTimeoutMs: 30_000, browserReadTimeoutMs: 300_000 },
-    loop: { maxSteps: 30, timeoutMs: 300_000 },
+    router: { structuredReadTimeoutMs: 30_000, browserReadTimeoutMs: 60_000 },
+    loop: { maxSteps: 20, timeoutMs: 60_000 },
   });
   const semantic = await composition.interpretAndDispatch({ taskId, message: String(frozen.content),
     referenceTime: frozen.reference_time, timezone: "Asia/Tokyo" });
@@ -161,20 +193,27 @@ async function runScenario(scenario: SourceScenario) {
     materializedCase: frozen, semantic, finalSnapshot: snapshot, trajectories: composition.trajectories.steps,
     events: composition.runtime.eventLog, loop, sourceEnvironment: { network: "OFFLINE_FIXED_TRANSPORT", browser: "OFFLINE_FIXED_PAGES" },
     sourceTrace: { navigations, googleQueries: googleCalls.map((item) => item.query), browserTrace },
-    runCeilings: { maxAutomaticBrowserMs: 300_000, maxAgentSteps: 30, maxBrowserModelCallsTotal: 50, maxModelCalls: 50 },
+    runCeilings: { maxAutomaticBrowserMs: 60_000, maxProviderBrowserMs: 45_000, maxAgentSteps: 20, maxBrowserModelCallsTotal: 50, maxModelCalls: 50 },
     resourceUsage: { elapsedMs: Date.now() - startedAt, agentDecisions: model.purposes.filter((item) => item === "restaurant_agent_decide").length,
       browserModelCalls: model.purposes.filter((item) => item === "browser_read_decide").length,
       modelCallsStarted: model.purposes.length, googleRequests: google.googleRequestUsage(readRunId) },
   };
-  const raw = JSON.stringify(artifact);
-  const evaluation = evaluateRestaurantHybridLiveArtifact(artifact, { path: `${scenario}.execution.json`, sha256: createHash("sha256").update(raw).digest("hex") });
+  // The evaluator hashes the exact execution bytes that are retained for
+  // independent replay; compact hashing while writing pretty JSON made the
+  // recorded digest unverifiable from the saved artifact.
+  const raw = JSON.stringify(artifact, null, 2);
+  const executionPath = `${scenario}.execution.json`;
   if (process.env.PRAXIS_WRITE_NATIVE_STAGE2_ARTIFACTS === "1") {
     const directory = resolve(".eval-artifacts", process.env.PRAXIS_NATIVE_STAGE2_ARTIFACT_DIR ?? "h001-native-stage2-20260929-review2-final");
     await mkdir(directory, { recursive: true });
-    await writeFile(resolve(directory, `${scenario}.execution.json`), JSON.stringify(artifact, null, 2), { flag: "wx" });
+    await writeFile(resolve(directory, executionPath), raw, { flag: "wx" });
+  }
+  const evaluation = evaluateRestaurantHybridLiveArtifact(artifact, { path: executionPath, sha256: createHash("sha256").update(raw).digest("hex") });
+  if (process.env.PRAXIS_WRITE_NATIVE_STAGE2_ARTIFACTS === "1") {
+    const directory = resolve(".eval-artifacts", process.env.PRAXIS_NATIVE_STAGE2_ARTIFACT_DIR ?? "h001-native-stage2-20260929-review2-final");
     await writeFile(resolve(directory, `${scenario}.evaluation.json`), JSON.stringify(evaluation, null, 2), { flag: "wx" });
   }
-  return { semantic, loop, state: snapshot.domainState, navigations, sessionsOpened, navigationSessionIds, closedSessionIds, googleCalls, model, evaluation, trajectories: composition.trajectories.steps };
+  return { semantic, loop, state: snapshot.domainState, navigations, sessionsOpened, navigationSessionIds, closedSessionIds, googleCalls, model, evaluation, trajectories: composition.trajectories.steps, elapsedMs: Date.now() - startedAt };
 }
 
 test("H001 native first batch presents three source-bound Tabelog results without TableCheck", async () => {
@@ -188,6 +227,40 @@ test("H001 native first batch presents three source-bound Tabelog results withou
   assert.equal(new Set(result.navigations.slice(0, 4).map((_url, index) => result.navigationSessionIds[index])).size, 1,
     "a healthy Tabelog list and its three details share one browser session");
   assert.deepEqual(result.googleCalls.map((item) => item.query), ["Shibuya"]);
+  assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(result.evaluation.findings));
+});
+
+test("H001 native cited-menu follow-up carries source-bound HARD evidence to a current Tabelog result", async () => {
+  const result = await runScenario("NATIVE_FACT_FOLLOWUP_DELIVERS");
+  assert.deepEqual(result.state.presentedResults?.candidateIds, ["tabelog:tokyo/A1304/A130401/100"], JSON.stringify({ phase: result.state.phase, failure: result.state.failure, facts: result.state.factChecks, availability: result.state.availabilityChecks, purposes: result.model.purposes, navigations: result.navigations }));
+  assert.equal(result.navigations.some((url) => url.endsWith("/100/menu/")), true, "the native fact reader follows the observed same-source menu link before citing HARD evidence");
+  assert.equal(result.model.purposes.filter((purpose) => purpose === "restaurant_fact_judgment").length, 2, "the cited judgment runs once per retained source document set");
+  assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(result.evaluation.findings));
+});
+
+test("H001 TableCheck reserve-menu scope reaches a synthetic-only current result without borrowing a sibling menu", async () => {
+  const result = await runScenario("TABLECHECK_SCOPED_MENU_DELIVERS");
+  assert.deepEqual(result.state.presentedResults?.candidateIds, ["tablecheck:native-omakase-1"], JSON.stringify({ phase: result.state.phase, failure: result.state.failure, facts: result.state.factChecks, availability: result.state.availabilityChecks, purposes: result.model.purposes, navigations: result.navigations }));
+  assert.equal(result.navigations.some((url) => url === "https://www.tablecheck.com/en/native-omakase-1"), true, "the guide is read first and has no scoped menu text");
+  assert.equal(result.navigations.some((url) => url.startsWith("https://www.tablecheck.com/en/shops/native-omakase-1/reserve")), true, "the scoped menu comes from the guide-observed same-outlet reserve entrance");
+  assert.equal(result.model.purposes.filter((purpose) => purpose === "browser_read_decide").length >= 2, true, "the production executor selects the category then waits for its new current result");
+  const scopedFacts = result.state.readEvidence.filter((item) => item.kind === "RESTAURANT_FACT" && item.claims.serviceScopeValue === "sushi");
+  assert.equal(scopedFacts.some((item) => Array.isArray(item.claims.verifiedHardCriteria) && item.claims.verifiedHardCriteria.includes("omakase")), true);
+  const actions = result.trajectories.flatMap((step) => step.agentAction ? [step.agentAction.type] : []);
+  assert.ok(actions.indexOf("INVESTIGATE_CANDIDATE_FACTS") < actions.indexOf("CHECK_AVAILABILITY"), `expected facts before availability, received ${actions.join(",")}`);
+  assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(result.evaluation.findings));
+});
+
+test("H001 TableCheck reserve-menu scope can check availability before facts and exposes the service-radio prerequisite", async () => {
+  const result = await runScenario("TABLECHECK_SCOPED_MENU_DELIVERS", { availabilityFirst: true });
+  assert.deepEqual(result.state.presentedResults?.candidateIds, ["tablecheck:native-omakase-1"], JSON.stringify({ phase: result.state.phase, failure: result.state.failure, facts: result.state.factChecks, availability: result.state.availabilityChecks, purposes: result.model.purposes }));
+  const categoryPrompt = result.model.browserDecisionInputs.find((input) => input.observation.targets.some((target) => target.label === "Sushi"));
+  assert.ok(categoryPrompt, "the production browser executor sends a category decision input");
+  assert.match(categoryPrompt.objective, /service-category radio/i);
+  assert.match(categoryPrompt.progress, /no selected service category/i);
+  assert.deepEqual(categoryPrompt.observation.targets.find((target) => target.label === "Sushi")?.availableActions, ["SET_CHECKED"]);
+  const actions = result.trajectories.flatMap((step) => step.agentAction ? [step.agentAction.type] : []);
+  assert.ok(actions.indexOf("CHECK_AVAILABILITY") < actions.indexOf("INVESTIGATE_CANDIDATE_FACTS"), `expected availability before facts, received ${actions.join(",")}`);
   assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(result.evaluation.findings));
 });
 
@@ -406,6 +479,26 @@ test("H001 preserves the authoritative keyword when an observed Tabelog area lin
   assert.ok(region);
   assert.equal(new URL(region!).searchParams.get("sw"), "omakase");
   assert.equal(result.navigations.some((url) => url.endsWith("/100/")), true);
+});
+
+test("native discovery adjusts a sparse keyword through an observed category without relaxing HARD facts", async () => {
+  const result = await runScenario("TABELOG_RETRIEVAL_CATEGORY_DELIVERS");
+  assert.deepEqual(result.state.presentedResults?.candidateIds, ["tabelog:tokyo/A1304/A130401/101"]);
+  assert.equal(result.navigations.includes("https://tabelog.com/en/tokyo/rstLst/sushi/"), true);
+  assert.equal(result.navigations.some((url) => url.includes("tablecheck.com")), false);
+  assert.deepEqual(result.state.intent?.criteria, [{ text: "omakase", polarity: "POSITIVE", strength: "HARD" }]);
+  assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES");
+});
+
+test("native discovery retains category pagination including links revealed by a query action and deduplicates outlets", async () => {
+  const result = await runScenario("TABELOG_RESULT_PAGES_CONTINUE");
+  assert.deepEqual(result.state.presentedResults?.candidateIds, ["tabelog:tokyo/A1304/A130401/106"]);
+  assert.equal(result.navigations.includes("https://tabelog.com/en/tokyo/rstLst/sushi/2/"), true);
+  assert.equal(result.navigations.includes("https://tabelog.com/en/tokyo/rstLst/sushi/3/"), true);
+  assert.equal(result.navigations.some((url) => url.includes("tablecheck.com")), false);
+  const reads = result.trajectories.filter((step) => step.executionMetadata?.provider === "TABELOG" && step.agentAction?.type === "SEARCH_RESTAURANTS");
+  assert.deepEqual(reads.map((step) => step.executionMetadata?.nativeDiscoveryFunnel?.inspectedOutlets), [5, 1, 1]);
+  assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES");
 });
 
 test("H001 refines a nonempty Tabelog list through an observed source area link before investigating an unsuitable candidate", async () => {

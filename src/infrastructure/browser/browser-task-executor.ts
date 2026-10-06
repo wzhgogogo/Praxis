@@ -101,7 +101,7 @@ export interface BrowserGenericReadResult {
   controls: BrowserPageControl[];
 }
 
-interface ObservedTarget extends BrowserReadActionTarget { controlId: string; stableKey: string; nativeTag?: string; optionNative?: boolean; optionOwnerId?: string; ownerStableKey?: string; }
+interface ObservedTarget extends BrowserReadActionTarget { controlId: string; stableKey: string; nativeTag?: string; optionNative?: boolean; optionOwnerId?: string; ownerStableKey?: string; radioGroupKey?: string; retrievalValue?: string; }
 
 interface Observation {
   revision: number;
@@ -180,6 +180,7 @@ function toObservedTargets(controls: BrowserPageControl[], revision: number): Ma
     controlRefs.set(control.id, ref);
     targets.set(ref, {
       ref, controlId: control.id, stableKey: control.stableKey, ...(control.structure ? { nativeTag: control.structure.tag } : {}), kind: control.kind, role: control.role, label: control.label,
+      ...(control.kind === "RADIO" && control.structure?.radioGroupKey ? { radioGroupKey: control.structure.radioGroupKey } : {}),
       ...(control.value ? { value: control.value } : {}), ...(control.href ? { href: control.href } : {}), ...(control.formMethod ? { formMethod: control.formMethod } : {}), ...(control.type ? { type: control.type } : {}), ...(control.selected ? { selected: true } : {}),
       ...(control.disabled ? { disabled: true } : {}), ...(control.optionOwnerId ? { optionOwnerId: control.optionOwnerId } : {}),
       ...(control.checked !== undefined ? { checked: control.checked } : {}), ...(control.min ? { min: control.min } : {}), ...(control.max ? { max: control.max } : {}), ...(control.valueText ? { valueText: control.valueText } : {}), ...(control.scrollable !== undefined ? { scrollable: control.scrollable } : {}), ...(control.scrollTop !== undefined ? { scrollTop: control.scrollTop } : {}), ...(control.blockedByActiveLayer ? { blockedByActiveLayer: true } : {}), ...(control.options ? { options: control.options } : {}),
@@ -357,13 +358,19 @@ export class BrowserTaskExecutor {
   async waitFor(
     input: Pick<BrowserSkillReadInput, "source" | "stage" | "signal"> & { session: BrowserSession; selector: string; timeoutMs?: number },
   ): Promise<void> {
-    await this.operation(input, "WAIT", () => input.session.waitFor(input.selector, Math.min(input.timeoutMs ?? 10_000, this.remaining(10_000))));
+    await this.operation(input, "WAIT", () => input.session.waitFor(input.selector, this.remaining(input.timeoutMs ?? 10_000)));
   }
 
   async snapshot(input: Pick<BrowserSkillReadInput, "source" | "stage" | "signal"> & { session: BrowserSession }): Promise<BrowserSnapshot> {
     const snapshot = await this.operation(input, "SNAPSHOT", () => input.session.snapshot());
     this.record({ source: input.source, stage: input.stage, event: "OBSERVED", url: snapshot.url });
     return snapshot;
+  }
+
+  /** Reads the current source controls through the same operation/deadline budget as a skill observation. */
+  async observeControls(input: Pick<BrowserSkillReadInput, "source" | "stage" | "signal"> & { session: BrowserSession }): Promise<BrowserPageControl[]> {
+    if (!input.session.observeControls) return [];
+    return this.operation(input, "OBSERVE_CONTROLS", () => input.session.observeControls!());
   }
 
   async runSkill(input: BrowserSkillReadInput): Promise<BrowserGenericReadResult> {
@@ -379,6 +386,7 @@ export class BrowserTaskExecutor {
     let shortcutUsed = false;
     let postAction = false;
     let pendingOption: ObservedTarget | undefined;
+    let pendingRadio: ObservedTarget | undefined;
     let unchangedPageKey: string | undefined;
     let lastRejectedProposal: string | undefined;
     let repeatedRejectedProposals = 0;
@@ -437,8 +445,9 @@ export class BrowserTaskExecutor {
       const observation: Observation = verifiedObservation ?? await this.observe(input, snapshot);
       verifiedObservation = undefined;
       if (pendingOption && this.optionSelectionObserved(pendingOption, observation.controls)) pendingOption = undefined;
+      if (pendingRadio && this.radioSelectionObserved(pendingRadio, observation.controls)) pendingRadio = undefined;
       completion = input.completion(snapshot, observation.controls);
-      if (completion.complete && !pendingOption) return { status: "COMPLETED", snapshot, controls: observation.controls };
+      if (completion.complete && !pendingOption && !pendingRadio) return { status: "COMPLETED", snapshot, controls: observation.controls };
       if (!this.options.modelDecision) return { status: "NO_SAFE_ACTION", snapshot, controls: observation.controls };
       if (!postAction) {
         recordPageVisit(snapshot, observation.controls);
@@ -489,8 +498,8 @@ export class BrowserTaskExecutor {
             url: observation.snapshot.url,
             title: observation.snapshot.title,
             visibleText: safeText(observation.snapshot.text),
-            targets: actionTargets.map(({ controlId: _controlId, stableKey: _stableKey, nativeTag: _nativeTag, optionNative: _optionNative, optionOwnerId: _optionOwnerId, ownerStableKey: _ownerStableKey, ...target }) => ({
-              ...target, ...this.actionHints(input, observation, observation.targets.get(target.ref)!, pendingOption !== undefined, postAction),
+            targets: actionTargets.map(({ controlId: _controlId, stableKey: _stableKey, nativeTag: _nativeTag, optionNative: _optionNative, optionOwnerId: _optionOwnerId, ownerStableKey: _ownerStableKey, radioGroupKey: _radioGroupKey, ...target }) => ({
+              ...target, ...this.actionHints(input, observation, observation.targets.get(target.ref)!, pendingOption !== undefined || pendingRadio !== undefined, postAction),
             })),
           },
         }));
@@ -518,7 +527,7 @@ export class BrowserTaskExecutor {
       });
       if (action.type === "COMPLETE") {
         completion = input.completion(snapshot, observation.controls);
-        if (pendingOption) return { status: "NO_SAFE_ACTION", snapshot, controls: observation.controls };
+        if (pendingOption || pendingRadio) return { status: "NO_SAFE_ACTION", snapshot, controls: observation.controls };
         if (completion.complete) return { status: "COMPLETED", snapshot, controls: observation.controls };
         // COMPLETE is a request to finish, never evidence that the source has
         // finished.  Keep the same browser session and give the concrete
@@ -581,7 +590,11 @@ export class BrowserTaskExecutor {
       }
       lastRejectedProposal = undefined;
       repeatedRejectedProposals = 0;
-      if (action.type === "CHOOSE_OPTION") pendingOption = target;
+      if (action.type === "CHOOSE_OPTION") pendingOption = action.field === "RETRIEVAL"
+        ? { ...target, retrievalValue: input.goal.retrievalExpression! } : target;
+      if (action.type === "SET_CHECKED" && target.kind === "RADIO") {
+        pendingRadio = target;
+      }
       const priorSnapshot = snapshot;
       const waitedForAsyncChange = action.type === "OPEN_LINK" || action.type === "CLICK" || action.type === "CLICK_AUTHORITATIVE" || action.type === "FILL_AUTHORITATIVE" || action.type === "CHOOSE_OPTION";
       snapshot = await this.snapshot(input);
@@ -590,7 +603,9 @@ export class BrowserTaskExecutor {
       let changed = !sameObservation(priorSnapshot, snapshot) || observedControlChange;
       // A synchronous visible change needs no second browser wait. An unchanged
       // page or unconfirmed option still gets a bounded wait and fresh readback.
-      if (waitedForAsyncChange && (!changed || pendingOption && !this.optionSelectionObserved(pendingOption, postActionObservation.controls))) {
+      if (waitedForAsyncChange && (!changed
+        || pendingOption && !this.optionSelectionObserved(pendingOption, postActionObservation.controls)
+        || pendingRadio && !this.radioSelectionObserved(pendingRadio, postActionObservation.controls))) {
         const waitingFrom = snapshot;
         await this.waitForChange(input, waitingFrom);
         snapshot = await this.snapshot(input);
@@ -599,7 +614,8 @@ export class BrowserTaskExecutor {
         changed = !sameObservation(priorSnapshot, snapshot) || observedControlChange;
       }
       if (pendingOption && this.optionSelectionObserved(pendingOption, postActionObservation.controls)) pendingOption = undefined;
-      const optionConfirmed = !pendingOption;
+      if (pendingRadio && this.radioSelectionObserved(pendingRadio, postActionObservation.controls)) pendingRadio = undefined;
+      const optionConfirmed = !pendingOption && !pendingRadio;
       // A source that did not show an async page change may still be settling
       // its controls. Reobserve on the next turn in that case.
       verifiedObservation = changed && optionConfirmed ? postActionObservation : undefined;
@@ -615,8 +631,8 @@ export class BrowserTaskExecutor {
       completion = input.completion(snapshot, postActionObservation.controls);
       if (completion.complete && optionConfirmed) return { status: "COMPLETED", snapshot, controls: postActionObservation.controls };
       if (!optionConfirmed) {
-        pendingControlKeys.add(pendingOption!.stableKey);
-        progress = "The chosen option was not confirmed by a fresh control observation. Wait for a visible selected value or use another observed safe action; do not repeat the same option blindly.";
+        pendingControlKeys.add((pendingOption ?? pendingRadio)!.stableKey);
+        progress = "The selected query option was not confirmed by a fresh control observation. Wait for a visible selected value or use another observed safe action; do not repeat the same option blindly.";
         this.record({ source: input.source, stage: input.stage, event: "METHOD_INCOMPLETE", url: snapshot.url, detail: "OPTION_VALUE_NOT_CONFIRMED" });
         postAction = true;
         continue;
@@ -672,6 +688,10 @@ export class BrowserTaskExecutor {
   }
 
   private optionSelectionObserved(target: ObservedTarget, controls: BrowserPageControl[]): boolean {
+    if (target.retrievalValue !== undefined) {
+      return controls.some(control => control.role === "combobox" && control.stableKey === target.ownerStableKey
+        && control.value === target.retrievalValue && control.expanded === false);
+    }
     if (target.optionNative) {
       return controls.some(control => control.kind === "SELECT" && control.stableKey === target.ownerStableKey
         && control.value === target.value && control.options?.some(option => option.value === target.value && option.selected));
@@ -680,7 +700,15 @@ export class BrowserTaskExecutor {
       && (control.value?.trim() === target.label.trim() || control.label.trim() === target.label.trim()));
   }
 
-  private actionHints(input: BrowserSkillReadInput, observation: Observation, target: ObservedTarget, pendingOption: boolean, postAction: boolean): Pick<BrowserReadActionTarget, "availableActions" | "rejectionReason"> {
+  /** Radio selection is valid only when its observed owning group now has this one selected item. */
+  private radioSelectionObserved(target: ObservedTarget, controls: BrowserPageControl[]): boolean {
+    if (target.kind !== "RADIO" || !target.radioGroupKey) return false;
+    const group = controls.filter(control => control.kind === "RADIO" && control.structure?.radioGroupKey === target.radioGroupKey);
+    const selected = group.filter(control => control.checked === true);
+    return selected.length === 1 && selected[0]!.stableKey === target.stableKey;
+  }
+
+  private actionHints(input: BrowserSkillReadInput, observation: Observation, target: ObservedTarget, pendingSelection: boolean, postAction: boolean): Pick<BrowserReadActionTarget, "availableActions" | "rejectionReason"> {
     const availableActions: string[] = [];
     let rejectionReason: string | undefined;
     if (target.disabled) return { availableActions, rejectionReason: "DISABLED" };
@@ -688,18 +716,22 @@ export class BrowserTaskExecutor {
       const owner = target.ownerRef ? observation.targets.get(target.ownerRef) : undefined;
       if (!owner || owner.controlId !== target.optionOwnerId || owner.role !== "combobox") rejectionReason = "WRONG_OPTION_OWNER";
       else if (target.disabled || target.selected) rejectionReason = "DISABLED_OR_SELECTED";
-      else if (pendingOption) rejectionReason = "PREVIOUS_OPTION_UNCONFIRMED";
+      else if (pendingSelection) rejectionReason = "PREVIOUS_OPTION_UNCONFIRMED";
       else if (!target.optionNative && !this.safeGenericClick(target)) rejectionReason = "WRITE_PROHIBITED";
       else {
         for (const field of ["DATE", "PARTY_SIZE", "TIME"] as const) {
           if (matchesAuthoritativeControl({ ...target, value: target.label }, field, input.goal)) availableActions.push(`CHOOSE_OPTION:${field}`);
         }
+        if (this.matchesRetrievalOption(input, target, owner)) availableActions.push("CHOOSE_OPTION:RETRIEVAL");
         if (!availableActions.length) rejectionReason = "CONSTRAINT_MISMATCH";
       }
     } else if (target.kind === "SELECT") {
       rejectionReason = "CHOOSE_AN_OBSERVED_OPTION";
     } else if (target.kind === "LINK") {
-      if (target.href && this.allowedUrl(target.href, input.allowedOrigins)
+      if (this.sameDocumentFragment(target, observation.snapshot.url)) {
+        if (this.safeFragmentClick(input, observation.snapshot, target)) availableActions.push("CLICK");
+        else rejectionReason = "WRITE_PROHIBITED";
+      } else if (target.href && this.allowedUrl(target.href, input.allowedOrigins)
         && !/\/(?:login|signin|account|checkout|payment|reserve|booking|cancel)(?:\/|$)/i.test(new URL(target.href).pathname)) availableActions.push("OPEN_LINK");
       else rejectionReason = "NAVIGATION_PROHIBITED";
     } else if (target.kind === "BUTTON") {
@@ -717,10 +749,12 @@ export class BrowserTaskExecutor {
       if (input.goal.partySize !== undefined && this.boundInputField(target, "PARTY_SIZE")) availableActions.push("FILL_AUTHORITATIVE:PARTY_SIZE");
       if (input.goal.retrievalExpression && this.boundInputField(target, "RETRIEVAL")) availableActions.push("FILL_AUTHORITATIVE:RETRIEVAL");
       if (!availableActions.length) rejectionReason = "NO_BOUND_INPUT_FIELD";
-    } else if (target.kind === "CHECKBOX" || target.kind === "RANGE") {
+    } else if (target.kind === "CHECKBOX" || target.kind === "RADIO" || target.kind === "RANGE") {
       const control = observation.controls.find(item => item.id === target.controlId);
-      const action = target.kind === "CHECKBOX" ? "SET_CHECKED" : "ADJUST_RANGE";
-      if (control && input.permitQueryControl?.({ control, snapshot: observation.snapshot, action }) === true) availableActions.push(action);
+      const action = target.kind === "RANGE" ? "ADJUST_RANGE" : "SET_CHECKED";
+      if (pendingSelection) rejectionReason = "PREVIOUS_OPTION_UNCONFIRMED";
+      else if (control && (target.kind !== "RADIO" || target.checked !== true)
+        && input.permitQueryControl?.({ control, snapshot: observation.snapshot, action }) === true) availableActions.push(action);
       else rejectionReason = "QUERY_PERMISSION_REQUIRED";
     } else if (target.kind === "REGION") {
       if (target.scrollable) availableActions.push("SCROLL_REGION");
@@ -735,6 +769,14 @@ export class BrowserTaskExecutor {
     if (field === "DATE") return target.type === "date" || /\bdate\b/i.test(target.label);
     if (field === "PARTY_SIZE") return /(?:party|guest|people|persons|名|人数)/i.test(target.label);
     return /(?:search|keyword|restaurant|venue|店名|検索)/i.test(target.label);
+  }
+
+  private matchesRetrievalOption(input: BrowserSkillReadInput, target: ObservedTarget, owner: ObservedTarget): boolean {
+    if (input.stage !== "DISCOVERY" || !input.goal.retrievalExpression || target.optionNative
+      || owner.kind !== "BUTTON" || owner.value !== input.goal.retrievalExpression) return false;
+    const label = target.label.trim();
+    const query = input.goal.retrievalExpression;
+    return label === query || label === `"${query}"` || label === `“${query}”`;
   }
 
   private diagnosticObservation(observation: Observation): NonNullable<BrowserExecutionDiagnostic["observation"]> {
@@ -763,6 +805,7 @@ export class BrowserTaskExecutor {
     if (target.disabled) throw new Error("Observed target is disabled");
     if (action.type === "OPEN_LINK") {
       if (target.kind !== "LINK" || !target.href) throw new Error("OPEN_LINK target is not an observed link");
+      if (this.sameDocumentFragment(target, observation.snapshot.url)) throw new Error("Same-document fragment controls use CLICK, then re-observe the page");
       if (!this.allowedUrl(target.href, input.allowedOrigins)) throw new Error("OPEN_LINK target is outside the allowed origin");
       if (/\/(?:login|signin|account|checkout|payment|reserve|booking|cancel)(?:\/|$)/i.test(new URL(target.href).pathname)) {
         throw new Error("OPEN_LINK target has a sensitive navigation path");
@@ -784,7 +827,7 @@ export class BrowserTaskExecutor {
       if (target.role === "option") throw new Error("CLICK cannot choose an option; use CHOOSE_OPTION with its observed owner");
       const control = observation.controls.find(item => item.id === target.controlId);
       const permittedQuerySubmit = control && input.permitQueryControl?.({ control, snapshot: observation.snapshot, action: "CLICK" }) === true;
-      if (!this.safeGenericClick(target) && !permittedQuerySubmit) {
+      if (!this.safeGenericClick(target) && !this.safeFragmentClick(input, observation.snapshot, target) && !permittedQuerySubmit) {
         throw new Error("CLICK target has submit, navigation, or other write-capable structure");
       }
       await this.operation(input, "CLICK", () => input.session.click(target.controlId));
@@ -806,7 +849,8 @@ export class BrowserTaskExecutor {
         throw new Error("CHOOSE_OPTION has the wrong control kind or no observed parent combobox");
       }
       if (target.disabled || target.selected) throw new Error("CHOOSE_OPTION target is disabled or already selected");
-      if (!matchesAuthoritativeControl({ ...target, value: target.label }, action.field, input.goal)) {
+      if (!(action.field === "RETRIEVAL" ? this.matchesRetrievalOption(input, target, owner)
+        : matchesAuthoritativeControl({ ...target, value: target.label }, action.field, input.goal))) {
         throw new Error("CHOOSE_OPTION label conflicts with the authoritative request");
       }
       if (target.optionNative) {
@@ -825,8 +869,9 @@ export class BrowserTaskExecutor {
       }
     }
     if (action.type === "SET_CHECKED") {
-      if (target.kind !== "CHECKBOX" || target.checked === undefined || target.checked === action.checked || !input.session.setChecked) {
-        throw new Error("SET_CHECKED target is not an observed changeable checkbox");
+      if ((target.kind !== "CHECKBOX" && target.kind !== "RADIO") || target.checked === undefined || target.checked === action.checked
+        || target.kind === "RADIO" && !action.checked || !input.session.setChecked) {
+        throw new Error("SET_CHECKED target is not an observed permitted checkbox or selected radio option");
       }
       await this.operation(input, "SET_CHECKED", () => input.session.setChecked!(target.controlId, action.checked));
       return;
@@ -875,6 +920,22 @@ export class BrowserTaskExecutor {
   }
 
   /** Structural permit only: labels and a page's claimed read-only status never authorize an operation. */
+  private sameDocumentFragment(target: ObservedTarget, currentUrl: string): boolean {
+    if (target.kind !== "LINK" || target.nativeTag !== "A" || !target.href?.includes("#")) return false;
+    const destination = new URL(target.href);
+    const current = new URL(currentUrl);
+    destination.hash = "";
+    current.hash = "";
+    return destination.href === current.href;
+  }
+
+  private safeFragmentClick(input: BrowserSkillReadInput, snapshot: BrowserSnapshot, target: ObservedTarget): boolean {
+    return this.sameDocumentFragment(target, snapshot.url)
+      && !!this.allowedUrl(target.href!, input.allowedOrigins)
+      && !/\/(?:login|signin|account|checkout|payment|reserve|booking|cancel)(?:\/|$)/i.test(new URL(target.href!).pathname)
+      && !/\b(?:login|sign\s*in|register|reserve|book|checkout|pay|purchase|cancel|delete|confirm)\b/i.test(target.label);
+  }
+
   private safeGenericClick(target: ObservedTarget): boolean {
     if (target.kind !== "BUTTON" && target.kind !== "OPTION") return false;
     // A `type=button` calendar/navigation control may live inside a POST form but

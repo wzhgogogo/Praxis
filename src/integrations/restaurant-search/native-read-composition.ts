@@ -22,7 +22,7 @@ export function composeNativeRestaurantRead(
   return {
     search: new NativeRestaurantSearch(runtime, google, now, evaluationLocation, new ModelBrowserReadActionDecision(model), browserBudget, onBrowserDiagnostic, nativeDiscoveryLimits),
     facts: new SourceAwareFactRead(
-      new NativeSourceFactRead(runtime, new ModelRestaurantFactJudgment(model, now), now),
+      new NativeSourceFactRead(runtime, new ModelRestaurantFactJudgment(model, now), now, new ModelBrowserReadActionDecision(model), browserBudget, onBrowserDiagnostic),
       composeLiveRestaurantFactRead(google, runtime, model, browserBudget, undefined, onBrowserDiagnostic),
     ),
   };

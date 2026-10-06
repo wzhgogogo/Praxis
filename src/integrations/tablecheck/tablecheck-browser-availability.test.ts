@@ -7,7 +7,7 @@ import { applyRestaurantIntentPatch } from "../../domains/restaurant/intent-stat
 import { restaurantBookingTaskDefinition } from "../../domains/restaurant/task-definition.js";
 import { fixtureCandidates, fixtureIntent } from "../../harness/restaurant-fixtures.js";
 import type { BrowserPageControl, BrowserResponseRule, BrowserRuntime, BrowserSession, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
-import { TableCheckBrowserAvailability, TableCheckEntryLedger } from "./tablecheck-browser-availability.js";
+import { hasTableCheckScopeBoundSlot, TableCheckBrowserAvailability, TableCheckEntryLedger } from "./tablecheck-browser-availability.js";
 import { parseTableCheckCapturedAvailability, tableCheckAvailabilityResponseRule } from "./tablecheck-availability-response.js";
 import { inspectTableCheckEntity } from "./tablecheck-entity-resolver.js";
 import {
@@ -17,6 +17,7 @@ import {
   parseTableCheckControlAvailability,
   parseTableCheckDiscoveryOutletUrls,
   parseTableCheckOutletIdentityWithEvidence,
+  parseTableCheckScopedMenuExcerpts,
   resolveTableCheckReservationTarget,
   tableCheckDiscoveryUrl,
   tableCheckRequestedReservationUrl,
@@ -190,6 +191,41 @@ test("TableCheck reads the same exact request binding from live DOM controls whe
     availableSlots: ["19:00"], hasExplicitSlotUi: true, explicitlyEmpty: false, queryComplete: true,
   });
 });
+
+test("TableCheck category scope binds every presented slot to a visible enabled same-outlet control", () => {
+  const page = { url: "https://www.tablecheck.com/en/restaurant1/reserve/landing", title: "Restaurant 1", text: "", html: "" };
+  const scope = { field: "reservation[service_category]", group: "form:0|name:reservation[service_category]", value: "sushi", label: "Sushi" };
+  const current = (path: string, time: string, extras = "") => `https://www.tablecheck.com${path}?start_date=2026-08-05&num_people=2&start_time=${time}${extras}`;
+  const controls: BrowserPageControl[] = [
+    { id: "old", stableKey: "old", kind: "LINK", role: "link", label: "19:00", href: current("/en/restaurant1/reserve/landing", "19:00"), visible: true, disabled: false },
+    { id: "hidden-new", stableKey: "hidden-new", kind: "LINK", role: "link", label: "19:00", href: current("/en/restaurant1/reserve/landing", "19:00", "&service_category=sushi"), visible: false, disabled: false },
+    { id: "foreign", stableKey: "foreign", kind: "LINK", role: "link", label: "19:00", href: current("/en/other-branch/reserve/landing", "19:00", "&service_category=sushi"), visible: true, disabled: false },
+    { id: "disabled", stableKey: "disabled", kind: "LINK", role: "link", label: "19:00", href: current("/en/restaurant1/reserve/landing", "19:00", "&service_category=sushi"), visible: true, disabled: true },
+  ];
+  assert.equal(hasTableCheckScopeBoundSlot(page, controls, { date: "2026-08-05", partySize: 2, timeWindow: { earliest: "19:00", latest: "19:30" } }, scope, ["19:00"]), false);
+  const exact = { id: "exact", stableKey: "exact", kind: "LINK" as const, role: "link", label: "19:00", href: current("/en/restaurant1/reserve/landing", "19:00", "&service_category=sushi"), visible: true, disabled: false };
+  assert.equal(hasTableCheckScopeBoundSlot(page, [...controls, exact], { date: "2026-08-05", partySize: 2, timeWindow: { earliest: "19:00", latest: "19:30" } }, scope, ["19:00"]), true);
+  assert.equal(hasTableCheckScopeBoundSlot(page, [...controls, exact, { ...controls[0]!, id: "old-later", stableKey: "old-later", label: "19:30", href: current("/en/restaurant1/reserve/landing", "19:30") }], { date: "2026-08-05", partySize: 2, timeWindow: { earliest: "19:00", latest: "19:30" } }, scope, ["19:00", "19:30"]), false);
+});
+
+test("TableCheck reads scoped menu text only from a real outer menu item", () => {
+  const scopeControl: BrowserPageControl = {
+    id: "sushi", stableKey: "sushi", kind: "RADIO", role: "radio", label: "Sushi", value: "sushi", checked: false,
+    visible: true, disabled: false,
+    structure: { tag: "INPUT", name: "reservation[service_category]", classes: ["radio_buttons"], dialogLabel: "", formClass: "reserveform", sliderCount: 0, radioGroupKey: "form:reserve|name:reservation[service_category]" },
+  };
+  const scoped = '<article class="menu-item"><h3 class="menu-item-title">Sushi Omakase</h3><div class="menu-item-data" data-service-categories="[&quot;sushi&quot;]"></div><p class="menu-item-description">Twelve pieces</p><input name="irrelevant"></article>';
+  const snapshot = (html: string): BrowserSnapshot => ({ url: "https://www.tablecheck.com/en/shops/example/reserve", title: "Example", text: "", html });
+  assert.deepEqual(parseTableCheckScopedMenuExcerpts(snapshot(scoped), [scopeControl]).map((item) => ({ value: item.serviceScope.value, text: item.text })), [{ value: "sushi", text: "Sushi Omakase\nTwelve pieces" }]);
+  for (const hiddenMarkup of [
+    `<!-- ${scoped} -->`,
+    `<style>${scoped}</style>`,
+    `<script>const template = ${JSON.stringify(scoped)};</script>`,
+  ]) assert.deepEqual(parseTableCheckScopedMenuExcerpts(snapshot(hiddenMarkup), [scopeControl]), []);
+  const malformed = `<article class="menu-item">${scoped}<div><span>Unclosed</article><article class="menu-item"><p>Plain sibling</p></article>`;
+  assert.equal(parseTableCheckScopedMenuExcerpts(snapshot(malformed), [scopeControl]).length, 1, "a mismatched close cannot carry the prior category into its sibling");
+});
+
 
 class FixtureBrowserSession implements BrowserSession {
   readonly metadata = { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM" as const, engine: "CHROMIUM" as const, startedAt: "2026-08-05T09:00:00.000Z" };

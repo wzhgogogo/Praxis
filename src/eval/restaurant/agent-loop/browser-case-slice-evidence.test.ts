@@ -87,7 +87,7 @@ test("browser case slice journal retains a TableCheck availability region withou
     url: "https://www.tablecheck.com/en/shops/example/reserve?start_date=2026-10-02&pax=2",
     title: "Example",
     text: "Book a table",
-    html: '<main><section data-testid="Venue Availability"><div data-testid="Venue Pax Select"><button>2 guests</button></div><div data-testid="Venue Time Select"><a href="/en/shops/example/reserve?start_date=2026-10-02&amp;pax=2&amp;start_time=19:00"><button disabled>19:00</button></a></div></section><p>private profile text</p></main>',
+    html: '<main><section data-testid="Venue Availability"><fieldset><legend>Service category</legend><input type="radio" name="reservation[service_category]" value="public-sushi" checked></fieldset><div data-testid="Venue Pax Select"><button>2 guests</button></div><div data-testid="Venue Time Select"><a href="/en/shops/example/reserve?start_date=2026-10-02&amp;pax=2&amp;start_time=19:00"><button disabled>19:00</button></a></div></section><p>private profile text</p></main>',
   });
   const regions = record.queryRegions as Array<{ markup: string }>;
   assert.equal(regions.length, 1);
@@ -96,5 +96,6 @@ test("browser case slice journal retains a TableCheck availability region withou
   assert.doesNotMatch(regions[0]!.markup, /private profile text/);
   assert.match(regions[0]!.markup, /data-reservation-source="\/en\/shops\/example\/reserve" data-reservation-date="2026-10-02" data-reservation-party="2" data-reservation-time="19:00"/);
   assert.match(regions[0]!.markup, /<button disabled>19:00<\/button>/);
+  assert.match(regions[0]!.markup, /name="reservation\[service_category\]" type="radio" value="public-sushi" checked/);
   assert.doesNotMatch(regions[0]!.markup, /href=|private profile text/);
 });

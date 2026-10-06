@@ -63,7 +63,7 @@ if (!categoryMode && (LOCALITY_FACT_JUDGMENT_MATRIX.length !== 12 || RESTAURANT_
   throw new Error("The authorized locality matrix is exactly V2-L1–V2-L10 plus N1/N2 with three repetitions; do not add cases or retries");
 }
 if (categoryMode && (CATEGORY_NEGATIVE_FACT_JUDGMENT_MATRIX.length !== 8 || RESTAURANT_CATEGORY_NEGATIVE_FACT_JUDGMENT_MATRIX_REPETITIONS !== 2)) throw new Error("The authorized category matrix is exactly F1–F8 with two repetitions and no retries");
-if (String(RESTAURANT_FACT_JUDGMENT_PROMPT_VERSION) !== "10") throw new Error("The current fact-judgment matrices require ModelRestaurantFactJudgment Prompt@10");
+if (String(RESTAURANT_FACT_JUDGMENT_PROMPT_VERSION) !== "14") throw new Error("The current fact-judgment matrices require ModelRestaurantFactJudgment Prompt@14");
 
 const activeMatrix = categoryMode ? CATEGORY_NEGATIVE_FACT_JUDGMENT_MATRIX : LOCALITY_FACT_JUDGMENT_MATRIX;
 const repetitions = categoryMode ? RESTAURANT_CATEGORY_NEGATIVE_FACT_JUDGMENT_MATRIX_REPETITIONS : RESTAURANT_LOCALITY_FACT_JUDGMENT_MATRIX_REPETITIONS;

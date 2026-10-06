@@ -1,4 +1,4 @@
-import type { RestaurantCandidate } from "../../domains/restaurant/contracts.js";
+import type { RestaurantCandidate, RestaurantServiceScope } from "../../domains/restaurant/contracts.js";
 import type { NativeOutletContinuity } from "../restaurant-availability/native-outlet-continuity.js";
 import type { BrowserSessionMetadata } from "../../infrastructure/browser/browser-runtime.js";
 
@@ -69,6 +69,7 @@ export interface TableCheckAvailabilityPageObservation {
   observedAt: string;
   requestedDate?: string;
   requestedPartySize?: number;
+  serviceScope?: RestaurantServiceScope;
   entityMatch: TableCheckEntityResolution;
   pageState:
     | "AVAILABLE"

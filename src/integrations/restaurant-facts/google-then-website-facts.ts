@@ -136,14 +136,29 @@ export class GoogleThenWebsiteFactRead implements RestaurantCandidateFactPort {
     }
     const sourceEvidence = [...google.evidence, ...website.evidence];
     const judgments = this.judgment
-      ? await Promise.all(request.candidates.filter((candidate) => !hasExplicitHardConflict(google, candidate.restaurant.id, request.intent))
+      ? await Promise.all(request.candidates.filter((candidate) => !hasExplicitHardConflict(google, candidate.restaurant.id, request.intent)
+        // The website reader may already have made the bounded cited judgment
+        // in its own browser session to decide whether to follow a source link.
+        // Do not spend a second model call over the same source documents.
+        && !website.evidence.some((item) => item.candidateId === candidate.restaurant.id && item.provider === "MODEL_JUDGMENT"))
         .map((candidate) => this.judgment!.judge({ candidate, intent: request.intent, evidence: sourceEvidence, ...(website.sourceDocuments ? { sourceDocuments: website.sourceDocuments } : {}) })))
       : [];
-    const modelUsage = accumulatedModelUsage(judgments);
+    const finalUsage = accumulatedModelUsage(judgments);
+    const modelCalls = (website.metadata.modelUsage?.calls ?? 0) + (finalUsage?.calls ?? 0);
     const evidence = [...sourceEvidence, ...judgments.flatMap((item) => item.evidence)];
     for (const candidate of request.candidates) {
       const judgmentEvidenceIds = judgments.flatMap(result => result.evidence).filter(item => item.candidateId === candidate.restaurant.id).map(item => item.evidenceId);
-      if (judgmentEvidenceIds.length && factChecks[candidate.restaurant.id]) factChecks[candidate.restaurant.id]!.evidenceIds.push(...judgmentEvidenceIds);
+      const check = factChecks[candidate.restaurant.id];
+      if (!check) continue;
+      if (judgmentEvidenceIds.length) check.evidenceIds.push(...judgmentEvidenceIds);
+      // The website reader only retains candidate-bound source material. A
+      // cited judgment over that material, rather than a keyword substring in
+      // the HTML, determines whether the current HARD inquiry is complete.
+      const judgedRead: RestaurantCandidateFactRead = { evidence, factChecks: { [candidate.restaurant.id]: check }, metadata: { provider: "RESTAURANT_WEBSITE", route: this.executionRoute, latencyMs: 0 } };
+      if (!needsWebsiteFactEvidence(judgedRead, candidate.restaurant.id, request.intent)) {
+        check.status = "COMPLETED";
+        delete check.reasonCode;
+      }
     }
     return {
       evidence,
@@ -152,7 +167,7 @@ export class GoogleThenWebsiteFactRead implements RestaurantCandidateFactPort {
         provider: website.evidence.length ? "RESTAURANT_WEBSITE" : google.metadata.provider,
         route: this.website.executionRoute,
         latencyMs: Date.now() - startedAt,
-        ...(modelUsage ? { modelUsage } : {}),
+        ...(modelCalls ? { modelUsage: { calls: modelCalls } } : {}),
         ...(google.metadata.googleRequests ? { googleRequests: google.metadata.googleRequests } : {}),
         ...(google.metadata.failureCode ? { failureCode: google.metadata.failureCode } : website.metadata.failureCode ? { failureCode: website.metadata.failureCode } : {}),
       },

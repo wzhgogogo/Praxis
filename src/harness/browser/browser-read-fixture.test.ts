@@ -7,6 +7,7 @@ import { LocalPlaywrightChromium } from "../../infrastructure/browser/local-play
 import { CloudflareBrowserRun } from "../../infrastructure/browser/cloudflare-browser-run.js";
 import { PlaywrightControlRegistry } from "../../infrastructure/browser/playwright-browser-controls.js";
 import { BrowserTaskExecutor } from "../../infrastructure/browser/browser-task-executor.js";
+import type { BrowserRuntime, BrowserSession } from "../../infrastructure/browser/browser-runtime.js";
 import type { BrowserReadActionDecisionPort } from "../../infrastructure/browser/browser-action-decision.js";
 import { ModelBrowserReadActionDecision } from "../../infrastructure/browser/browser-action-decision.js";
 import { inspectProbePage, runBrowserReadProbe } from "../../eval/restaurant/agent-loop/browser-read-probe.js";
@@ -79,8 +80,10 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
       assert.notEqual(beforeNoise.interactiveState, undefined);
       await session.click("#trigger");
       assert.equal(await session.waitForChange!(beforeNoise, 80), true, "visible text wakes a fresh read but cannot itself accept a result");
-      await session.click("#apply");
       const beforeApply = await session.snapshot();
+      assert.match(beforeApply.interactiveState ?? "", /"value":"2"/);
+      assert.match(beforeApply.interactiveState ?? "", /"disabled":false/);
+      await session.click("#apply");
       assert.equal(await session.waitForChange!(beforeApply, 250), true, "a delayed selected value or disabled state wakes the bounded wait");
       const after = await session.snapshot();
       assert.match(after.interactiveState ?? "", /\"value\":\"4\"/);
@@ -102,8 +105,9 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
       await session.navigate(url);
       const beforeHidden = await session.snapshot();
       assert.equal(await session.waitForChange!(beforeHidden, 80), false, "hidden analytics and visibility:hidden inputs are not query-state progress");
-      await session.click("#apply");
       const beforeChecked = await session.snapshot();
+      assert.match(beforeChecked.interactiveState ?? "", /"checked":false/);
+      await session.click("#apply");
       assert.equal(await session.waitForChange!(beforeChecked, 120), true, "a visible checked property mutation wakes a fresh read");
       assert.match((await session.snapshot()).interactiveState ?? "", /\"checked\":true/);
     } finally { await session.close(); }
@@ -886,6 +890,59 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
     } finally { await executor.close(); }
   });
 
+  test(`${runtimeKind} completes an exact bound search suggestion without clicking its covered background control`, async () => {
+    const query = "vegetarian restaurants near Central Station";
+    const saved = readFileSync(new URL("./fixtures/tablecheck-search-control-20260929.html", import.meta.url), "utf8");
+    // Synthetic interaction around the saved wrapper and the Oct 7 observed
+    // listbox/quoted query option shape; this is not a saved-response Replay.
+    const runtime = localFixture(`${saved}
+      <style>[role=combobox]{height:40px}#background{position:absolute;top:60px;left:10px;width:400px;height:40px}
+      [role=listbox]{position:absolute;top:50px;left:0;width:450px;height:150px;background:white;z-index:2}
+      [role=option]{height:50px}</style>
+      <button id="background" type="button">Find availability</button>
+      <div id="search-suggestions" role="listbox" hidden>
+        <div role="option" aria-selected="false" aria-label='"${query}"' id="exact">Search for: "${query}"</div>
+        <div role="option" aria-selected="false">Nearby</div>
+      </div><output></output><script>
+      const wrapper=document.querySelector('[role=combobox]'), field=wrapper.querySelector('input'), list=document.querySelector('[role=listbox]');
+      field.value=${JSON.stringify(query)};
+      wrapper.onclick=()=>{wrapper.setAttribute('aria-expanded','true');list.hidden=false};
+      document.querySelector('#background').onclick=()=>{document.querySelector('output').textContent='WRONG_BACKGROUND_ACTION'};
+      document.querySelector('#exact').onclick=()=>{wrapper.setAttribute('aria-expanded','false');list.hidden=true;
+        document.querySelector('output').innerHTML='<a href="/en/public-result">Public result for '+field.value+'</a>'};
+      </script>`, runtimeKind);
+    let decisions = 0;
+    const executor = new BrowserTaskExecutor(runtime, { modelDecision: { async decide(input) {
+      decisions++;
+      const option = input.observation.targets.find(target => target.kind === "OPTION" && target.label === `"${query}"`);
+      if (!option) {
+        const wrapper = input.observation.targets.find(target => target.role === "combobox");
+        assert.ok(wrapper?.availableActions?.includes("CLICK"));
+        return { type: "CLICK", targetRef: wrapper!.ref, reason: "Open the public query suggestions." };
+      }
+      assert.ok(option.availableActions?.includes("CHOOSE_OPTION:RETRIEVAL"), "the exact bound retrieval option must be actionable");
+      assert.equal(input.observation.targets.some(target => target.label === "Find availability"), false, "the listbox-covered background control is not an action target");
+      assert.equal(input.observation.targets.find(target => target.label === "Nearby")?.availableActions?.includes("CHOOSE_OPTION:RETRIEVAL"), false, "a different suggestion cannot replace the bound query");
+      assert.equal(input.observation.targets.find(target => target.label === "Search")?.availableActions?.includes("CLICK"), false, "query selection grants no general submit permission");
+      if (decisions === 2) return { type: "CHOOSE_OPTION", targetRef: input.observation.targets.find(target => target.label === "Nearby")!.ref, field: "RETRIEVAL", reason: "Counterexample: attempt an unrelated suggestion." };
+      assert.match(input.progress, /label conflicts with the authoritative request/);
+      return { type: "CHOOSE_OPTION", targetRef: option.ref, field: "RETRIEVAL", reason: "Submit the exact observed query suggestion." };
+    } } });
+    const signal = new AbortController().signal;
+    const session = await executor.acquire(signal, "TABLECHECK", "DISCOVERY");
+    try {
+      await executor.navigate({ source: "TABLECHECK", stage: "DISCOVERY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
+      const result = await executor.runSkill({ taskId: "bound-search-suggestion", source: "TABLECHECK", stage: "DISCOVERY", session, signal,
+        allowedOrigins: ["https://www.tablecheck.com"], goal: { outlet: { name: "Public search" }, retrievalExpression: query, hardCriteria: [] }, objective: "Find public result links for the bound query",
+        completion: snapshot => ({ complete: snapshot.text.includes(`Public result for ${query}`), reason: "No result link observed" }) });
+      assert.equal(result.status, "COMPLETED");
+      assert.equal(decisions, 3);
+      assert.equal(result.controls.find(control => control.role === "combobox")?.value, query);
+      assert.equal(result.controls.find(control => control.role === "combobox")?.expanded, false);
+      assert.equal(result.snapshot.text.includes("WRONG_BACKGROUND_ACTION"), false);
+    } finally { await executor.close(); }
+  });
+
   for (const offset of [0, 1400]) test(`${runtimeKind} opens an observed covered public result at offset ${offset}`, async () => {
     const detail = "https://www.tablecheck.com/en/ginza-iwa?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.65860374437126&geo_longitude=139.74541383382513&search_text=omakase+ginza";
     const savedCard = readFileSync(new URL("./fixtures/tablecheck-ginza-card-20260929.html", import.meta.url), "utf8");
@@ -910,6 +967,68 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
     } finally { await executor.close(); }
   });
 }
+
+test("Tabelog category discovery expands observed links and removes the keyword within the same area", async () => {
+  const areaRoot = "https://tabelog.com/en/tokyo/A1303/A130301/rstLst/";
+  const keywordUrl = `${areaRoot}?sw=omakase`;
+  const categoryWithKeyword = `${areaRoot}sushi/?sw=omakase`;
+  const categoryUrl = `${areaRoot}sushi/`;
+  const runtime = localFixture({
+    [keywordUrl]: `<title>Keyword results</title><h1>Shibuya restaurant search</h1>
+      <h2>Search by category</h2><a class="list-sidebar__item-target" href="#" id="js-leftnavi-genre-anchor"><span class="list-sidebar__item-title">All</span></a>
+      <nav id="categories" hidden><a href="${categoryWithKeyword}">Sushi</a></nav>
+      <p>One keyword result</p><script>
+      document.querySelector('#js-leftnavi-genre-anchor').onclick=event=>{event.preventDefault();document.querySelector('#categories').hidden=false};
+      </script>`,
+    [categoryWithKeyword]: `<title>Filtered category results</title><h1>Shibuya Sushi</h1>
+      <p>Keyword: omakase</p><a href="${categoryUrl}">Remove keyword omakase</a><p>One keyword result</p>`,
+    [categoryUrl]: `<title>Category results</title><h1>Shibuya Sushi</h1><p>Expanded category results</p>
+      <a class="list-rst__rst-name-target" href="/en/tokyo/A1303/A130301/13000001/">New public restaurant</a>`,
+  });
+  const visited: string[] = [];
+  let categoryControlActions: string[] | undefined;
+  const executor = new BrowserTaskExecutor(runtime, { modelDecision: { async decide(input) {
+    visited.push(input.observation.url);
+    assert.deepEqual(input.goal.hardCriteria, ["omakase"], "retrieval navigation does not rewrite the HARD criterion");
+    let label: string;
+    if (visited.length === 1) {
+      assert.equal(input.observation.targets.some(target => target.label === "Sushi"), false, "a hidden category is not an observed target");
+      label = "All";
+    } else if (visited.length === 2) {
+      assert.equal(input.observation.url, keywordUrl, "opening category navigation keeps the current result page");
+      label = "Sushi";
+    } else {
+      assert.equal(input.observation.url, categoryWithKeyword, "the observed category link first retains the keyword");
+      label = "Remove keyword omakase";
+    }
+    const target = input.observation.targets.find(item => item.label === label);
+    assert.ok(target);
+    if (label === "All") {
+      categoryControlActions = target.availableActions;
+      return { type: "CLICK", targetRef: target.ref, reason: "Expand the observed Search by category control." };
+    }
+    assert.ok(target.availableActions?.includes("OPEN_LINK"));
+    assert.equal(target.availableActions?.includes("CLICK"), false, "a category URL is still public navigation, not a same-page control");
+    return { type: "OPEN_LINK", targetRef: target.ref, reason: "Follow the observed public category navigation." };
+  } } });
+  const signal = new AbortController().signal;
+  const session = await executor.acquire(signal, "TABELOG", "DISCOVERY");
+  try {
+    await executor.navigate({ source: "TABELOG", stage: "DISCOVERY", session, signal, allowedOrigins: ["https://tabelog.com"], url: keywordUrl });
+    const result = await executor.runSkill({ taskId: "observed-category-discovery", source: "TABELOG", stage: "DISCOVERY", session, signal,
+      allowedOrigins: ["https://tabelog.com"], goal: { outlet: { name: "omakase", address: "Shibuya" }, hardCriteria: ["omakase"] },
+      objective: "Use an observed related category and remove the keyword while keeping the same area.",
+      completion: snapshot => ({ complete: snapshot.url === categoryUrl && snapshot.text.includes("Expanded category results"), reason: "The current category list still needs to be observed without the keyword." }) });
+    assert.deepEqual(categoryControlActions, ["CLICK"], "the fragment UI control exposes its actual click action");
+    assert.equal(result.status, "COMPLETED");
+    assert.deepEqual(visited, [keywordUrl, keywordUrl, categoryWithKeyword]);
+    assert.equal(new URL(result.snapshot.url).pathname, new URL(categoryUrl).pathname);
+    assert.equal(result.snapshot.url.startsWith(areaRoot), true);
+    assert.equal(new URL(result.snapshot.url).searchParams.has("sw"), false);
+    assert.equal(result.snapshot.title, "Category results");
+    assert.ok(result.controls.some(control => control.kind === "LINK" && control.label === "New public restaurant"));
+  } finally { await executor.close(); }
+});
 
 test("saved Tabelog calendar keeps hidden future dates and disabled guests out of ready state", async () => {
   const { tabelogQueryControlHints, tabelogQueryControlsRestricted, tabelogRequestedDateState, TABELOG_QUERY_READY_SELECTOR } = await import("../../integrations/tabelog/tabelog-query-controls.js");
@@ -1423,6 +1542,59 @@ test("TableCheck Budget contract permits its slider and query Update, not consen
   } finally { await executor.close(); }
 });
 
+// Sanitized structural fixture from the observed public reservation category
+// form: the host form is POST, but the only executor action is changing an
+// observed radio and reading the resulting public slot. No submit is allowed.
+for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
+  test(`${runtimeKind} confirms one permitted TableCheck service category and its bound result without submitting`, async () => {
+    const { permitsTableCheckAvailabilityServiceCategory } = await import("../../integrations/tablecheck/tablecheck-public-query.js");
+    const categoryUrl = "https://www.tablecheck.com/en/fixture/reserve/landing";
+    const runtime = localFixture({ [categoryUrl]: `<title>Service category</title>
+      <form id="reservation-form" class="simple_form form-horizontal reserveform" method="post"></form>
+        <style>input[type=radio]{position:absolute;width:1px;height:1px;clip:rect(0 0 0 0)}</style>
+        <label><input form="reservation-form" type="radio" name="reservation[service_category]" value="sushi" aria-label="Bell Sushi">Bell Sushi</label>
+        <label><input form="reservation-form" type="radio" name="reservation[service_category]" value="bar" aria-label="The Bellwood" checked>The Bellwood</label>
+        <button form="reservation-form" type="submit" onclick="document.title='SUBMITTED'">Reserve</button>
+      <output id="inventory"><a href="/en/fixture/reserve/landing?start_date=2026-10-07&amp;num_people=2&amp;start_time=19:00&amp;service_category=bar">19:00</a></output>
+      <script>document.documentElement.dataset.changes='0'; document.querySelectorAll('input[type=radio]').forEach(input=>input.onchange=()=>{
+        if(!input.checked)return; document.documentElement.dataset.changes=String(Number(document.documentElement.dataset.changes)+1); document.getElementById('inventory').innerHTML=input.value==='sushi'
+          ? '<a href="/en/fixture/reserve/landing?start_date=2026-10-07&amp;num_people=2&amp;start_time=19:00&amp;service_category=sushi">19:00</a>'
+          : '<a href="/en/fixture/reserve/landing?start_date=2026-10-07&amp;num_people=2&amp;start_time=19:00&amp;service_category=bar">19:00</a>';
+      });</script>` }, runtimeKind);
+    let decisions = 0;
+    const executor = new BrowserTaskExecutor(runtime, { modelDecision: { async decide(input) {
+      const sushi = input.observation.targets.find(target => target.kind === "RADIO" && target.label === "Bell Sushi");
+      assert.ok(sushi, "the public category radio is observed as a radio, not as a generic input");
+      assert.equal(sushi.checked, false);
+      decisions += 1;
+      return { type: "SET_CHECKED", targetRef: sushi.ref, checked: true, reason: "Read the observed public category's availability." };
+    } } });
+    const signal = new AbortController().signal;
+    const session = await executor.acquire(signal, "TABLECHECK", "AVAILABILITY");
+    try {
+      await executor.navigate({ session, signal, source: "TABLECHECK", stage: "AVAILABILITY", allowedOrigins: ["https://www.tablecheck.com"], url: categoryUrl });
+      const before = await session.snapshot();
+      const beforeControls = await session.observeControls!();
+      const sushi = beforeControls.find(control => control.kind === "RADIO" && control.label === "Bell Sushi")!;
+      const bar = beforeControls.find(control => control.kind === "RADIO" && control.label === "The Bellwood")!;
+      assert.equal(permitsTableCheckAvailabilityServiceCategory({ control: sushi, snapshot: before, action: "SET_CHECKED" }), true);
+      assert.equal(permitsTableCheckAvailabilityServiceCategory({ control: { ...sushi, structure: { ...sushi.structure!, name: "account[service_category]" } }, snapshot: before, action: "SET_CHECKED" }), false);
+      assert.equal(permitsTableCheckAvailabilityServiceCategory({ control: bar, snapshot: { ...before, url: "https://www.tablecheck.com/en/account/edit" }, action: "SET_CHECKED" }), false);
+      await session.setChecked!(bar.id, true);
+      assert.match((await session.snapshot()).html, /data-changes="0"/, "an already selected native radio remains idempotent");
+      const result = await executor.runSkill({ taskId: "service-category", session, signal, source: "TABLECHECK", stage: "AVAILABILITY", allowedOrigins: ["https://www.tablecheck.com"],
+        goal: { outlet: { name: "Fixture" }, date: "2026-10-07", partySize: 2, timeWindow: { earliest: "19:00", latest: "19:00" }, hardCriteria: ["omakase"] },
+        objective: "Read public service-category availability only.", permitQueryControl: permitsTableCheckAvailabilityServiceCategory,
+        completion: (page, controls) => ({ complete: /service_category=sushi/.test(page.html) && controls.filter(control => control.kind === "RADIO" && control.checked).length === 1 && controls.some(control => control.kind === "RADIO" && control.label === "Bell Sushi" && control.checked), reason: "The requested category and its new public result are not both observed." }),
+      });
+      assert.equal(result.status, "COMPLETED", JSON.stringify(result));
+      assert.equal(decisions, 1);
+      assert.match(result.snapshot.html, /service_category=sushi/);
+      assert.notEqual(result.snapshot.title, "SUBMITTED");
+    } finally { await executor.close(); }
+  });
+}
+
 // Live failure: paragraph dates were absent; numeric guest buttons were mistaken for days.
 // Exercise source hints -> production Executor -> both Playwright sessions; inventory is NOT implied.
 for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
@@ -1499,6 +1671,83 @@ test("TableCheck waits for its guide result and grounds exact-query empty availa
     assert.equal(result.availabilityChecks[candidate.restaurant.id]?.reasonCode,"NO_MATCHING_SLOT");
     assert.equal(result.offers.length,0);
   } finally { await executor.close(); }
+});
+
+test("real Chromium TableCheck source observation crosses the retired 30s provider window but completes inside 45s", async () => {
+  const { TableCheckBrowserAvailability } = await import("../../integrations/tablecheck/tablecheck-browser-availability.js");
+  const { fixtureCandidates } = await import("../restaurant-fixtures.js");
+  const { tableCheckDiscoveryUrl } = await import("../../integrations/tablecheck/tablecheck-page-parser.js");
+  const candidate = structuredClone(fixtureCandidates[0]!);
+  candidate.restaurant.sourceIds.phone = "03-1111-2222";
+  const sourceUrl = "https://www.tablecheck.com/en/restaurant1";
+  const resultLink = "/en/shops/restaurant1/reserve?start_date=2026-09-16&num_people=2&start_time=19:00";
+  const delayedPage = `<h1>Restaurant 1</h1><a href="tel:03-1111-2222">Phone</a><div data-testid="Venue Availability"><form><input name="reservation[start_date]" value="2026-09-16"><select name="reservation[num_people_adult]"><option value="2" selected>2</option></select></form><span class="skeleton"></span><div id="result"></div></div><script>setTimeout(()=>{document.querySelector('.skeleton').remove();const link=document.createElement('a');link.href='${resultLink}';link.textContent='19:00';document.querySelector('#result').append(link)},100)</script>`;
+  const delayedSourceObservation = (runtime: BrowserRuntime): BrowserRuntime => ({
+    async openSession(input) {
+      const raw = await runtime.openSession(input);
+      let delayNextSourceSnapshot = false;
+      let cancelDelay: (() => void) | undefined;
+      const session = Object.create(raw) as BrowserSession;
+      session.navigate = async (target, options) => {
+        await raw.navigate(target, options);
+        delayNextSourceSnapshot = target === sourceUrl;
+      };
+      session.snapshot = async () => {
+        if (delayNextSourceSnapshot) {
+          delayNextSourceSnapshot = false;
+          await new Promise<void>((resolve, reject) => {
+            let timer: ReturnType<typeof setTimeout> | undefined;
+            const finish = () => {
+              if (timer) clearTimeout(timer);
+              input.signal.removeEventListener("abort", onAbort);
+              cancelDelay = undefined;
+            };
+            const onAbort = () => {
+              finish();
+              reject(new Error("parent aborted delayed source observation"));
+            };
+            cancelDelay = () => {
+              finish();
+              reject(new Error("source observation closed"));
+            };
+            timer = setTimeout(() => {
+              finish();
+              resolve();
+            }, 31_000);
+            input.signal.addEventListener("abort", onAbort, { once: true });
+          });
+        }
+        return raw.snapshot();
+      };
+      session.close = async () => {
+        cancelDelay?.();
+        await raw.close();
+      };
+      return session;
+    },
+  });
+  const run = async (providerBudgetMs: number) => {
+    const diagnostics: import("../../infrastructure/browser/browser-task-executor.js").BrowserExecutionDiagnostic[] = [];
+    const startedAt = Date.now();
+    const executor = new BrowserTaskExecutor(delayedSourceObservation(localFixture({
+      [tableCheckDiscoveryUrl(candidate)]: `<a href="${sourceUrl}">Restaurant 1</a>`, [sourceUrl]: delayedPage,
+    })), { maxElapsedMsPerCandidate: 60_000, maxElapsedMsPerProvider: providerBudgetMs, maxAutomaticElapsedMs: 60_000,
+      onDiagnostic: diagnostic => diagnostics.push(diagnostic) });
+    try {
+      const result = await new TableCheckBrowserAvailability(executor).check({ candidates: [candidate], candidateIds: [candidate.restaurant.id],
+        date: "2026-09-16", partySize: 2, timeWindow: { earliest: "19:00", latest: "19:00" }, hardCriteria: [] }, new AbortController().signal);
+      return { result, elapsedMs: Date.now() - startedAt, diagnostics };
+    } finally { await executor.close(); }
+  };
+  const retiredWindow = await run(30_000);
+  assert.equal(retiredWindow.result.availabilityChecks[candidate.restaurant.id]?.status, "UNKNOWN", JSON.stringify(retiredWindow.result));
+  assert.ok(retiredWindow.elapsedMs >= 29_000, `the retired provider deadline must cut off the delayed source read, elapsed ${retiredWindow.elapsedMs}ms`);
+  assert.ok(retiredWindow.diagnostics.some(item => item.event === "OPERATION_FAILED" && item.lifecycle.failureCode === "BROWSER_TIMEOUT"), JSON.stringify(retiredWindow.diagnostics));
+  const extendedWindow = await run(45_000);
+  assert.equal(extendedWindow.result.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE", JSON.stringify(extendedWindow.result));
+  assert.ok(extendedWindow.elapsedMs >= 30_000, `the extended provider window must retain the delayed source observation, elapsed ${extendedWindow.elapsedMs}ms`);
+  assert.ok(extendedWindow.diagnostics.some(item => item.event === "OPERATION_FINISHED" && item.detail === "SNAPSHOT"), JSON.stringify(extendedWindow.diagnostics));
+  assert.equal(extendedWindow.result.offers.length, 1, "the current post-update slot is grounded through the production Adapter");
 });
 
 test("TableCheck handles multiple current search links and reads only the identity-bound outlet", async () => {

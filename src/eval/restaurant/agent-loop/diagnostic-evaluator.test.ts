@@ -62,8 +62,69 @@ test("diagnostic evaluator independently accepts current-runner-shaped grounded 
 
 test("raw TableCheck trace requires a current request-bound settled result", async (t) => {
   const evaluate = (artifact: any) => evaluateRestaurantHybridLiveArtifact(artifact, source);
+  const sushiScope = { field: "reservation[service_category]", group: "form:reservation-form|name:reservation[service_category]", value: "sushi", label: "Sushi" };
+  const scopedArtifact = (): any => {
+    const artifact: any = completeArtifact();
+    // Each mutation below must be isolated. Reusing this scope object let the
+    // wrong-offer control rewrite the later normal negative-scope fixture.
+    const scope = { ...sushiScope };
+    artifact.finalSnapshot.domainState.availability["candidate-a"][0].serviceScope = scope;
+    // This is a synthetic evaluator contract only.  The real TableCheck
+    // category-result binding remains unconfirmed by the source probe.
+    artifact.provenance = "SYNTHETIC_CONTROL";
+    Object.assign(artifact.finalSnapshot.domainState.readEvidence.find((item: any) => item.evidenceId === "hard-a").claims, {
+      serviceScopeField: scope.field, serviceScopeGroup: scope.group, serviceScopeValue: scope.value, serviceScopeLabel: scope.label,
+    });
+    Object.assign(artifact.finalSnapshot.domainState.readEvidence.find((item: any) => item.evidenceId === "availability-a").claims, {
+      serviceScopeField: scope.field, serviceScopeGroup: scope.group, serviceScopeValue: scope.value, serviceScopeLabel: scope.label,
+    });
+    artifact.diagnostics.browserTrace[1].detail.queryRegions[0].markup = '<section data-testid="Venue Availability"><a data-reservation-source="/en/shops/outlet-a/reserve" data-reservation-date="2026-09-08" data-reservation-party="2" data-reservation-time="19:00" data-reservation-service-category="sushi">19:00</a></section>';
+    artifact.diagnostics.browserTrace[2].detail.controls.push({ kind: "RADIO", label: "Sushi", value: "sushi", checked: true, visible: true, disabled: false, structure: { name: scope.field, radioGroupKey: scope.group } });
+    return artifact;
+  };
   await t.test("enabled public reservation link supports the presented result", () => {
     assert.equal(finding(evaluate(completeArtifact()), "REQUIRED_EVIDENCE").status, "SATISFIED");
+  });
+  await t.test("a synthetic scoped offer requires matching source scope, checked raw radio, scope-bound slot, and HARD support", () => {
+    assert.equal(finding(evaluate(scopedArtifact()), "REQUIRED_EVIDENCE").status, "SATISFIED");
+    const unrelatedRadio = scopedArtifact(); unrelatedRadio.diagnostics.browserTrace[2].detail.controls.push({ kind: "RADIO", label: "Newsletter", value: "yes", checked: true, visible: true, disabled: false, structure: { name: "newsletter", radioGroupKey: "form:newsletter|name:newsletter" } });
+    assert.equal(finding(evaluate(unrelatedRadio), "REQUIRED_EVIDENCE").status, "SATISFIED");
+    const wrongOffer = scopedArtifact(); wrongOffer.finalSnapshot.domainState.availability["candidate-a"][0].serviceScope.value = "bar";
+    assert.equal(finding(evaluate(wrongOffer), "REQUIRED_EVIDENCE").status, "NOT_SATISFIED");
+    const wrongHardFact = scopedArtifact(); wrongHardFact.finalSnapshot.domainState.readEvidence.find((item: any) => item.evidenceId === "hard-a").claims.serviceScopeValue = "bar";
+    assert.equal(finding(evaluate(wrongHardFact), "REQUIRED_EVIDENCE").status, "NOT_SATISFIED");
+    const unscopedHardFact = scopedArtifact();
+    for (const key of ["serviceScopeField", "serviceScopeGroup", "serviceScopeValue", "serviceScopeLabel"]) delete unscopedHardFact.finalSnapshot.domainState.readEvidence.find((item: any) => item.evidenceId === "hard-a").claims[key];
+    assert.equal(finding(evaluate(unscopedHardFact), "REQUIRED_EVIDENCE").status, "NOT_SATISFIED");
+    const scopedNegative = scopedArtifact();
+    const negative = { value: "bar", polarity: "NEGATIVE", strength: "HARD" };
+    scopedNegative.materializedCase.semantic.criteria.push(negative);
+    scopedNegative.finalSnapshot.domainState.intentDraft.criteria.push({ text: "bar", polarity: "NEGATIVE", strength: "HARD" });
+    scopedNegative.finalSnapshot.domainState.readEvidence.find((item: any) => item.evidenceId === "hard-a").claims.verifiedNegativeCriteria = ["bar"];
+    assert.equal(finding(evaluate(scopedNegative), "REQUIRED_EVIDENCE").status, "SATISFIED");
+    const wrongNegativeFact = scopedNegative;
+    wrongNegativeFact.finalSnapshot.domainState.readEvidence.find((item: any) => item.evidenceId === "hard-a").claims.serviceScopeValue = "bar";
+    assert.equal(finding(evaluate(wrongNegativeFact), "REQUIRED_EVIDENCE").status, "NOT_SATISFIED");
+    const mismatchedModelSupport = scopedArtifact();
+    const raw = mismatchedModelSupport.finalSnapshot.domainState.readEvidence.find((item: any) => item.evidenceId === "hard-a");
+    raw.claims = { restaurantTypeFacts: ["Omakase counter"], serviceScopeField: sushiScope.field, serviceScopeGroup: sushiScope.group, serviceScopeValue: "bar", serviceScopeLabel: "Bar" };
+    const judgment = { evidenceId: "judgment-a", kind: "RESTAURANT_FACT", provider: "MODEL_JUDGMENT", candidateId: "candidate-a", observedAt: raw.observedAt, requestFingerprint: "facts", claims: { verifiedHardCriteria: ["omakase"], supportingEvidenceIds: ["hard-a"], serviceScopeField: sushiScope.field, serviceScopeGroup: sushiScope.group, serviceScopeValue: sushiScope.value, serviceScopeLabel: sushiScope.label } };
+    mismatchedModelSupport.finalSnapshot.domainState.readEvidence.push(judgment);
+    mismatchedModelSupport.finalSnapshot.domainState.availabilityChecks["candidate-a"].evidenceIds.push("judgment-a");
+    mismatchedModelSupport.finalSnapshot.domainState.presentedResults.evidenceIds.push("judgment-a");
+    mismatchedModelSupport.trajectories[0].observation.evidenceIds.push("judgment-a");
+    assert.equal(finding(evaluate(mismatchedModelSupport), "REQUIRED_EVIDENCE").status, "NOT_SATISFIED");
+    const twoCheckedSameGroup = scopedArtifact(); twoCheckedSameGroup.diagnostics.browserTrace[2].detail.controls.push({ kind: "RADIO", label: "Bar", value: "bar", checked: true, visible: true, disabled: false, structure: { name: "reservation[service_category]", radioGroupKey: "form:reservation-form|name:reservation[service_category]" } });
+    assert.equal(finding(evaluate(twoCheckedSameGroup), "REQUIRED_EVIDENCE").status, "NOT_SATISFIED");
+    const missingRadio = scopedArtifact(); missingRadio.diagnostics.browserTrace[2].detail.controls.pop();
+    assert.equal(finding(evaluate(missingRadio), "REQUIRED_EVIDENCE").status, "NOT_EVALUATED");
+    const staleAfterSetChecked = scopedArtifact(); staleAfterSetChecked.diagnostics.browserTrace.push({ sequence: 4, kind: "SESSION_CALL", detail: { method: "setChecked", args: ["scope", "sushi"] } });
+    assert.equal(finding(evaluate(staleAfterSetChecked), "REQUIRED_EVIDENCE").status, "NOT_EVALUATED");
+    const omittedProductionScope = scopedArtifact(); delete omittedProductionScope.finalSnapshot.domainState.availability["candidate-a"][0].serviceScope;
+    for (const evidence of omittedProductionScope.finalSnapshot.domainState.readEvidence) if (evidence.claims) {
+      delete evidence.claims.serviceScopeField; delete evidence.claims.serviceScopeGroup; delete evidence.claims.serviceScopeValue; delete evidence.claims.serviceScopeLabel;
+    }
+    assert.equal(finding(evaluate(omittedProductionScope), "REQUIRED_EVIDENCE").status, "NOT_SATISFIED");
   });
   await t.test("disabled child vetoes a same-time enabled-looking result", () => {
     const artifact: any = completeArtifact();

@@ -65,6 +65,15 @@ function safeCalendarTag(tag: string, sourceUrl?: string): string {
   }
   const testId = attr(tag, "data-testid");
   if (testId && /^(?:Venue Availability|Venue Pax Select|Venue Time Select)$/i.test(testId)) attributes.push(`data-testid="${testId}"`);
+  // Retain only the observed public category query field, its opaque public
+  // value and checked state. This lets evaluation rebuild scope from raw
+  // source controls without retaining arbitrary form inputs or profiles.
+  if (name === "input" && attr(tag, "name") === "reservation[service_category]" && attr(tag, "type")?.toLowerCase() === "radio") {
+    attributes.push('name="reservation[service_category]"', 'type="radio"');
+    const value = attr(tag, "value");
+    if (value && /^[a-z0-9_-]{1,160}$/i.test(value)) attributes.push(`value="${value}"`);
+    if (/\schecked(?:\s|>|=)/i.test(tag)) attributes.push("checked");
+  }
   // The normal URL redaction remains in force.  A TableCheck booking anchor
   // is the exception: retain only the three public query fields that bind a
   // visible slot to a date and party, so the evaluator can audit the captured
@@ -78,10 +87,12 @@ function safeCalendarTag(tag: string, sourceUrl?: string): string {
         const date = url.searchParams.get("start_date") ?? url.searchParams.get("date");
         const party = url.searchParams.get("num_people") ?? url.searchParams.get("pax");
         const time = url.searchParams.get("start_time") ?? url.searchParams.get("time");
+        const serviceCategory = url.searchParams.get("service_category");
         if (/^\/(?:en|ja)\/(?:shops\/)?[a-z0-9][a-z0-9-]{0,199}(?:\/reserve(?:\/landing)?)?$/i.test(source)) attributes.push(`data-reservation-source="${source}"`);
         if (date && /^\d{4}-\d{2}-\d{2}$/.test(date)) attributes.push(`data-reservation-date="${date}"`);
         if (party && /^\d{1,3}$/.test(party)) attributes.push(`data-reservation-party="${party}"`);
         if (time && /^\d{2}:\d{2}$/.test(time)) attributes.push(`data-reservation-time="${time}"`);
+        if (serviceCategory && /^[a-z0-9_-]{1,160}$/i.test(serviceCategory)) attributes.push(`data-reservation-service-category="${serviceCategory}"`);
       }
     } catch { /* Keep malformed links redacted. */ }
   }
@@ -171,6 +182,19 @@ function safeControlFields(control: { href?: string; label: string }, value: unk
     if (typeof safe.label === "string") safe.label = safe.label
       .replace(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi, "[REDACTED_EMAIL]")
       .replace(/\+?\d[\d()\s-]{8,}\d/g, "[REDACTED_PHONE]");
+    try {
+      const url = control.href ? new URL(control.href) : undefined;
+      if (url && /(^|\.)tablecheck\.com$/i.test(url.hostname)) {
+        const date = url.searchParams.get("start_date") ?? url.searchParams.get("date");
+        const party = url.searchParams.get("num_people") ?? url.searchParams.get("pax");
+        const time = url.searchParams.get("start_time") ?? url.searchParams.get("time");
+        const serviceCategory = url.searchParams.get("service_category");
+        if (date && /^\d{4}-\d{2}-\d{2}$/.test(date) && party && /^\d{1,3}$/.test(party) && time && /^\d{2}:\d{2}$/.test(time)) {
+          safe.reservationBinding = { source: url.pathname, date, party, time,
+            ...(serviceCategory && /^[a-z0-9_-]{1,160}$/i.test(serviceCategory) ? { serviceCategory } : {}) };
+        }
+      }
+    } catch { /* redacted URL remains sufficient when a binding cannot be reconstructed */ }
     return safe;
 }
 

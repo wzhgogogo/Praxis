@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 
 import type { ModelGateway, ModelRequest, ModelResponse } from "../../core/model/contracts.js";
-import { BrowserReadDecisionError, ModelBrowserReadActionDecision } from "./browser-action-decision.js";
+import { BrowserReadDecisionError, ModelBrowserReadActionDecision, buildBrowserReadDecisionSystemPrompt } from "./browser-action-decision.js";
 
 const input = {
   taskId: "task:browser-wire",
@@ -93,7 +93,7 @@ test("strict browser wire restores authoritative calendar and observed-option ac
  }
 });
 
-test("strict browser wire permits retrieval only as an observed public input fill", async () => {
+test("strict browser wire restores bound retrieval input fill and observed query-option selection", async () => {
   const scoped = {
     ...input,
     goal: { ...input.goal, retrievalExpression: "omakase" },
@@ -106,6 +106,10 @@ test("strict browser wire permits retrieval only as an observed public input fil
   assert.deepEqual(await decision.decide(scoped), {
     type: "FILL_AUTHORITATIVE", targetRef: "observation:1:target:1", field: "RETRIEVAL", reason: "Use the current public search expression.",
   });
+  const option = { ...scoped, observation: { ...scoped.observation, targets: [{ ref: "observation:1:target:1", kind: "OPTION" as const, role: "option", label: '"omakase"', ownerRef: "observation:1:target:2" }] } };
+  assert.deepEqual(await new ModelBrowserReadActionDecision(gateway({
+    action: "CHOOSE_OPTION", targetRef: "observation:1:target:1", authoritativeField: "RETRIEVAL", requestedState: "NONE", reason: "Select the exact public query.",
+  })).decide(option), { type: "CHOOSE_OPTION", targetRef: "observation:1:target:1", field: "RETRIEVAL", reason: "Select the exact public query." });
 });
 
 test("strict browser wire restores only bounded observed checkbox, slider, and region actions", async () => {
@@ -124,4 +128,11 @@ test("strict browser wire restores only bounded observed checkbox, slider, and r
   assert.deepEqual(await new ModelBrowserReadActionDecision(gateway({
     action: "SCROLL_REGION", targetRef: targets[2]!.ref, authoritativeField: "NONE", requestedState: "DOWN", reason: "Read the next visible part of this dialog.",
   })).decide(scoped), { type: "SCROLL_REGION", targetRef: targets[2]!.ref, direction: "DOWN", reason: "Read the next visible part of this dialog." });
+});
+
+test("browser prompt identifies a permitted service radio as a query prerequisite without selecting by position", () => {
+  const prompt = buildBrowserReadDecisionSystemPrompt();
+  assert.match(prompt, /service category is selected/i);
+  assert.match(prompt, /before a time or result is visible/i);
+  assert.match(prompt, /current public text supports its relevance to a HARD criterion/i);
 });

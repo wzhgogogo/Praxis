@@ -5,7 +5,7 @@ import type { FixedSourceCaseRegistration } from "./fixed-source-case-registry.j
 import type { FrozenLiveCase } from "./live-case-materializer.js";
 import { requiresEvaluationLocation } from "./evaluation-location-selection.js";
 import { HIGASHI_GINZA_EVALUATION_LOCATION } from "./live-evaluation-location.js";
-import { settleAtRunDeadline } from "./live-run-deadline.js";
+import { createRunDeadlineSignal, RUN_DEADLINE_EXCEEDED, settleAtRunDeadline } from "./live-run-deadline.js";
 import { createHybridReadComposition } from "./hybrid-read-composition.js";
 import { currentDevelopmentSourceScenario } from "./current-development-source-scenarios.js";
 import { RestaurantPartySizeSupplementResolver } from "../../../domains/restaurant/party-size-supplement-resolver.js";
@@ -58,14 +58,17 @@ export async function executeFixedSourceCase(input: {
   // Default time begins at the registered reference point and advances with
   // real elapsed execution; deterministic snapshots must opt in via `clock`.
   const businessClock = input.clock ?? { now: () => new Date(businessStart + Date.now() - started) };
-  const deadline = input.signal
-    ? AbortSignal.any([AbortSignal.timeout(Math.max(1, input.deadlineMs ?? 5_000)), input.signal])
-    : AbortSignal.timeout(Math.max(1, input.deadlineMs ?? 5_000));
+  const deadline = createRunDeadlineSignal(Math.max(1, input.deadlineMs ?? 5_000), input.signal);
   let modelCalls = 0;
   let lastModelFailureCode: string | undefined;
   const guardedModel: ModelGateway = {
     async complete(request) {
-      if (deadline.aborted) throw Object.assign(new Error("Run deadline reached before model invocation"), { code: "CANCELLED" });
+      if (deadline.signal.aborted) {
+        const reason = deadline.signal.reason;
+        const code = reason && typeof reason === "object" && "code" in reason && reason.code === RUN_DEADLINE_EXCEEDED
+          ? RUN_DEADLINE_EXCEEDED : "CANCELLED";
+        throw Object.assign(new Error("Run stopped before model invocation"), { code });
+      }
       if (input.maxModelCalls !== undefined && modelCalls >= input.maxModelCalls) {
         lastModelFailureCode = "MODEL_CALL_BUDGET_EXHAUSTED";
         throw Object.assign(new Error("Fixed-source model-call budget reached"), { code: lastModelFailureCode });
@@ -73,7 +76,7 @@ export async function executeFixedSourceCase(input: {
       modelCalls += 1;
       const remainingMs = Math.max(1, (input.deadlineMs ?? 5_000) - (Date.now() - started));
       try {
-        return await settleAtRunDeadline(input.model.complete({ ...request, timeoutMs: Math.min(request.timeoutMs, remainingMs) }), deadline);
+        return await settleAtRunDeadline(input.model.complete({ ...request, timeoutMs: Math.min(request.timeoutMs, remainingMs) }), deadline.signal);
       } catch (error) {
         lastModelFailureCode = failureCode(error);
         throw error;
@@ -89,6 +92,11 @@ export async function executeFixedSourceCase(input: {
     search: sources.search,
     facts: sources.facts,
     availability: sources.availability,
+    // The production Router owns the browser read timeout.  Keep it inside
+    // the registered run deadline so an offline 60-second candidate control
+    // exercises the same provider window rather than the Web's 20-second UI
+    // default.
+    router: { browserReadTimeoutMs: Math.min(input.deadlineMs ?? 5_000, 60_000) },
     partySizeSupplementResolver: new RestaurantPartySizeSupplementResolver(guardedModel),
     loop: { maxSteps: input.maxSteps ?? 6, timeoutMs: input.deadlineMs ?? 5_000 },
   });
@@ -99,15 +107,15 @@ export async function executeFixedSourceCase(input: {
       message: String(input.materializedCase.content ?? ""),
       referenceTime: input.materializedCase.reference_time,
       timezone: "Asia/Tokyo",
-    }, requiresEvaluationLocation(input.materializedCase) ? HIGASHI_GINZA_EVALUATION_LOCATION : undefined), deadline);
+    }, requiresEvaluationLocation(input.materializedCase) ? HIGASHI_GINZA_EVALUATION_LOCATION : undefined), deadline.signal);
     if ((semantic as { status?: string }).status !== "PROPOSED") throw Object.assign(new Error("Semantic Interpreter did not produce a proposal"), { code: (semantic as { status?: string }).status ?? "SEMANTIC_FAILED" });
-    const loop = await settleAtRunDeadline(composition.coordinator.run(input.taskId, deadline), deadline);
+    const loop = await settleAtRunDeadline(composition.coordinator.run(input.taskId, deadline.signal), deadline.signal);
     const finalSnapshot = composition.runtime.snapshot(input.taskId);
     const success = (loop.status === "TERMINAL" && ["PRESENT_RESULTS", "NO_VERIFIED_RESULT"].includes(finalSnapshot.domainState.phase)) || loop.status === "WAITING_USER";
     return {
       registration: input.registration, materializedCase: input.materializedCase, sourceScenarioId: scenario.scenarioId, semantic, loop, finalSnapshot,
       trajectories: composition.trajectories.steps, events: composition.runtime.eventLog, sourceCalls: sources.calls, sourceTrace: { browserTrace: sources.calls.browserTrace }, modelCalls,
-      execution: success ? { status: "SUCCEEDED", loopStatus: loop.status, phase: finalSnapshot.domainState.phase } : loop.status === "CANCELLED" ? { status: "CANCELLED", loopStatus: loop.status, phase: finalSnapshot.domainState.phase, failureCode: "CANCELLED" } : { status: "FAILED", loopStatus: loop.status, phase: finalSnapshot.domainState.phase, failureCode: lastModelFailureCode ?? "FIXED_SOURCE_CASE_NOT_COMPLETED" },
+      execution: success ? { status: "SUCCEEDED", loopStatus: loop.status, phase: finalSnapshot.domainState.phase } : loop.status === "CANCELLED" ? { status: "CANCELLED", loopStatus: loop.status, phase: finalSnapshot.domainState.phase, failureCode: "CANCELLED" } : { status: "FAILED", loopStatus: loop.status, phase: finalSnapshot.domainState.phase, failureCode: loop.status === "TIMEOUT" ? RUN_DEADLINE_EXCEEDED : lastModelFailureCode ?? "FIXED_SOURCE_CASE_NOT_COMPLETED" },
       elapsedMs: Date.now() - started,
     };
   } catch (error) {
@@ -119,5 +127,7 @@ export async function executeFixedSourceCase(input: {
       execution: { status: code === "CANCELLED" ? "CANCELLED" : "FAILED", phase: finalSnapshot.domainState.phase, failureCode: code },
       elapsedMs: Date.now() - started,
     };
+  } finally {
+    deadline.dispose();
   }
 }

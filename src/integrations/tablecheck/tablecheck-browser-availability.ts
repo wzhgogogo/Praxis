@@ -1,7 +1,7 @@
-import { permitsTableCheckQueryControl } from "./tablecheck-public-query.js";
+import { permitsTableCheckAvailabilityServiceCategory, permitsTableCheckQueryControl } from "./tablecheck-public-query.js";
 import { parseTableCheckCapturedAvailability, tableCheckAvailabilityResponseRule } from "./tablecheck-availability-response.js";
 import { groundTableCheckAvailability } from "../../domains/restaurant/read-grounding.js";
-import type { RestaurantAvailabilityRequest } from "../../domains/restaurant/contracts.js";
+import type { RestaurantAvailabilityRequest, RestaurantServiceScope } from "../../domains/restaurant/contracts.js";
 import type { BrowserPageControl, BrowserRuntime, BrowserSession, BrowserSessionMetadata, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
 import { BrowserRuntimeError } from "../../infrastructure/browser/browser-runtime-errors.js";
 import { BrowserTaskExecutor } from "../../infrastructure/browser/browser-task-executor.js";
@@ -18,6 +18,7 @@ import {
   hasTableCheckSelectedRequest,
   parseTableCheckAvailabilitySlots,
   parseTableCheckControlAvailability,
+  sameReservationOutlet,
   parseTableCheckDiscoveryOutletUrls,
   parseTableCheckOutletIdentityWithEvidence,
   parseTableCheckVerifiedHardCriteria,
@@ -98,6 +99,57 @@ type MatchedTableCheckOutlet = {
   reservation: NonNullable<ReturnType<typeof resolveTableCheckReservationTarget>>;
   observedOutletUrls: readonly string[];
 };
+
+/** A service-category radio must have exactly one current observed selection. */
+function selectedServiceScope(controls: readonly BrowserPageControl[]): RestaurantServiceScope | null | undefined {
+  const choices = controls.filter((control) => control.kind === "RADIO"
+    && control.structure?.name === "reservation[service_category]");
+  if (!choices.length) return undefined;
+  const selected = choices.filter((control) => control.checked === true);
+  if (selected.length !== 1) return null;
+  const control = selected[0]!;
+  const value = control.value?.trim();
+  const label = control.label.trim();
+  const group = control.structure?.radioGroupKey;
+  return value && label && group ? { field: control.structure!.name, group, value, label } : null;
+}
+
+/**
+ * A checked category is query state, not inventory evidence.  Keep a scoped
+ * result only where the same public reservation link carries the observed
+ * category value with its date, party and time.  This deliberately leaves an
+ * unbound empty/result panel UNKNOWN rather than relabelling an older scope.
+ */
+export function hasTableCheckScopeBoundSlot(
+  page: BrowserSnapshot,
+  controls: readonly BrowserPageControl[],
+  request: Pick<RestaurantAvailabilityRequest, "date" | "partySize" | "timeWindow">,
+  scope: RestaurantServiceScope | undefined,
+  slots: readonly string[],
+): boolean {
+  if (!scope) return true;
+  if (!slots.length) return false;
+  const matches = (href: string | undefined, label: string) => {
+    if (!href || !/^\d{2}:\d{2}$/.test(label) || label < request.timeWindow.earliest || label > request.timeWindow.latest) return false;
+    try {
+      const url = new URL(href.replace(/&amp;/g, "&"), page.url);
+      return url.origin === "https://www.tablecheck.com"
+        && sameReservationOutlet(page.url, url)
+        && url.searchParams.get("start_date") === request.date
+        && url.searchParams.get("num_people") === String(request.partySize)
+        && url.searchParams.get("start_time") === label
+        && url.searchParams.get("service_category") === scope.value;
+    } catch { return false; }
+  };
+  const observedTimes = new Set<string>();
+  // The live registry has already applied the browser's rendered visibility,
+  // disabled and active-layer checks. Do not recreate a weaker HTML scanner
+  // here: a hidden or disabled new-category anchor cannot bless an old slot.
+  for (const control of controls) {
+    if (control.kind === "LINK" && control.visible && !control.disabled && matches(control.href, control.label.trim())) observedTimes.add(control.label.trim());
+  }
+  return slots.every((slot) => observedTimes.has(slot));
+}
 
 /**
  * Source-observed TableCheck entrances for one Router-owned read run.  They
@@ -695,7 +747,14 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         entityMatch: retainedIdentity.inspection.resolution, pageState: "BOT_CHALLENGE", failureCode: "BOT_CHALLENGE", excerpt: tableCheckPageExcerpt(page),
       }, browser);
       const currentResult = (current: BrowserSnapshot, controls: readonly BrowserPageControl[]) => {
-        const selected = hasTableCheckSelectedRequest(current, request.date, request.partySize, controls);
+        const serviceScope = selectedServiceScope(controls);
+        const requestSelected = hasTableCheckSelectedRequest(current, request.date, request.partySize, controls);
+        // A page without this source-specific radio remains compatible with
+        // ordinary TableCheck request binding. When the observed group exists,
+        // however, no checked member is a distinct query prerequisite rather
+        // than evidence that date or party selection failed.
+        const categorySelected = serviceScope !== null;
+        const selected = requestSelected && categorySelected;
         const html = parseTableCheckAvailabilitySlots(current, { date: request.date, partySize: request.partySize, timeWindow: request.timeWindow });
         const live = parseTableCheckControlAvailability(controls, request.date, request.partySize, current.url, request.timeWindow);
         const htmlRejected = hasTableCheckDisabledRequestMarkup(current, request.date, request.partySize, request.timeWindow, live.availableSlots);
@@ -709,8 +768,10 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         const sameResult = !htmlCurrent || !liveCurrent
           || (html.explicitlyEmpty === live.explicitlyEmpty
             && inRequestWindow(html.availableSlots).join(",") === inRequestWindow(live.availableSlots).join(","));
-        const result = htmlRejected || liveRejected || !sameResult ? undefined : htmlCurrent ? html : liveCurrent ? live : undefined;
-        return { selected, html, live, htmlRejected, liveRejected, result, complete: result !== undefined };
+        const rawResult = htmlRejected || liveRejected || !sameResult ? undefined : htmlCurrent ? html : liveCurrent ? live : undefined;
+        const scopeBound = hasTableCheckScopeBoundSlot(current, controls, request, serviceScope ?? undefined, rawResult?.availableSlots ?? []);
+        const result = rawResult && scopeBound ? rawResult : undefined;
+        return { selected, requestSelected, categorySelected, serviceScope, scopeBound, html, live, htmlRejected, liveRejected, result, complete: result !== undefined };
       };
       const readAvailability = () => this.executor.runSkill({
         taskId: `browser-read:${candidate.restaurant.id}`,
@@ -720,8 +781,9 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         signal,
         allowedOrigins: ["https://www.tablecheck.com"],
         goal: { outlet: { name: candidate.restaurant.outletName, address: candidate.restaurant.address }, date: request.date, partySize: request.partySize, timeWindow: request.timeWindow, hardCriteria: request.hardCriteria },
-        objective: "For the already identity-grounded outlet, set and verify the requested date, party size, and time window, then read the latest explicit public availability result. Do not submit a reservation.",
+        objective: "For the already identity-grounded outlet, set and verify the requested date, party size, and time window, then read the latest explicit public availability result. If the current public query exposes a source-permitted service-category radio, selecting one current permitted category and reading back its checked state is a query prerequisite before its category-bound result can appear. Do not submit a reservation.",
         methodReason: "The verifier has not yet established a completed availability result for the full Router-bound request.",
+        permitQueryControl: permitsTableCheckAvailabilityServiceCategory,
         completion: (current, controls) => {
           const assessed = currentResult(current, controls);
           const capturedResponse = parseTableCheckCapturedAvailability(current.responses, activeSelected.reservation, request);
@@ -734,11 +796,15 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
           // rejected before the Domain can inspect it.
           return {
             complete: hasTableCheckBotChallenge(current) || assessed.complete,
-            reason: assessed.selected
+            reason: !assessed.requestSelected
+              ? "The latest page must explicitly confirm the complete authoritative date and party size before any result can be used."
+              : !assessed.categorySelected
+              ? "Date and party are already selected, but this public query has no selected service category. If one current radio target offers SET_CHECKED, select exactly one source-permitted category with CHECKED, re-observe its checked state, then wait for the latest category-bound result; otherwise request human help."
+              : assessed.selected
               ? capturedResponse
                 ? "The page returned an unclassified response for the selected request; wait for explicit public slot UI or a request-bound HTML/control result before drawing an inventory conclusion."
                 : "Date and party are selected, but the latest HTML/control observations do not yet form one completed, non-conflicting result for the requested time window. If the mealtime differs, open the observed time combobox and choose a time inside the goal window; otherwise wait for its result."
-              : "The latest page must explicitly confirm the complete authoritative date and party size before any result can be used.",
+              : "The selected request is incomplete; continue only with a current permitted query action or request human help.",
           };
         },
         shortcut: {
@@ -800,10 +866,14 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
       return this.ground(candidate, request, {
         candidate, observedAt: this.now(), sourceEntityId: activeSelected.extraction.outlet.sourceEntityId, sourceUrl: activeSelected.extraction.outlet.sourceUrl,
         entityMatch: activeSelected.inspection.resolution, requestedDate: request.date, requestedPartySize: request.partySize,
+        ...(assessed.scopeBound && assessed.serviceScope ? { serviceScope: assessed.serviceScope } : {}),
         pageState: qualifying ? "AVAILABLE" : immediateSlotNotOffered ? "EXTRACTION_FAILED" : slots.queryComplete && (slots.explicitlyEmpty || slots.hasExplicitSlotUi) ? "NO_MATCHING_SLOT" : "EXTRACTION_FAILED",
         ...(immediateSlotNotOffered ? { failureCode: "IMMEDIATE_SLOT_NOT_OFFERED" } : {}),
         visibleSlots: slots.availableSlots,
-        verifiedHardCriteria: parseTableCheckVerifiedHardCriteria(page, request.hardCriteria),
+        // A selected radio scopes inventory, never all visible menu prose.
+        // This source has no observed public menu-to-category binding yet, so
+        // scoped inventory leaves HARD facts for cited source judgment.
+        verifiedHardCriteria: assessed.serviceScope ? [] : parseTableCheckVerifiedHardCriteria(page, request.hardCriteria),
         excerpt: tableCheckPageExcerpt(page),
       }, browser);
   }
@@ -821,6 +891,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
       observedAt: observation.observedAt,
       ...(observation.requestedDate ? { requestedDate: observation.requestedDate } : {}),
       ...(observation.requestedPartySize !== undefined ? { requestedPartySize: observation.requestedPartySize } : {}),
+      ...(observation.serviceScope ? { serviceScope: observation.serviceScope } : {}),
       entityMatch: observation.entityMatch,
       pageState: observation.pageState,
       ...(observation.visibleSlots ? { visibleSlots: observation.visibleSlots } : {}),

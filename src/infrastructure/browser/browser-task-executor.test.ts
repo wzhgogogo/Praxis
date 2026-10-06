@@ -407,6 +407,37 @@ test("BrowserTaskExecutor allows an observed GET availability-search control but
   await executor.close();
 });
 
+test("fragment UI click permission cannot be used for another document, origin, or sensitive action", async () => {
+  const cases = [
+    { name: "external origin", href: "https://other.test/en/japan/search#filters", label: "Filters" },
+    { name: "different query", href: "?query=changed#filters", label: "Filters" },
+    { name: "ordinary same-page URL", href: "https://www.tablecheck.com/en/japan/search", label: "Filters" },
+    { name: "sensitive action", href: "#", label: "Confirm booking" },
+    { name: "sensitive page", href: "#filters", label: "Filters", url: "https://www.tablecheck.com/en/fixture/reserve" },
+  ];
+  for (const scenario of cases) {
+    const session = new FixtureSession([{ url: scenario.url ?? "https://www.tablecheck.com/en/japan/search", title: "Public page", text: scenario.label,
+      html: `<a href="${scenario.href}">${scenario.label}</a>` }]);
+    const observe = session.observeControls.bind(session);
+    session.observeControls = async () => (await observe()).map(control => ({ ...control,
+      structure: { tag: "A", name: "", classes: [], dialogLabel: "", formClass: "", sliderCount: 0 } }));
+    const executor = new BrowserTaskExecutor({ openSession: async () => session }, { modelDecision: decisions(
+      async value => {
+        const target = value.observation.targets[0]!;
+        assert.equal(target.availableActions?.includes("CLICK"), false, scenario.name);
+        return { type: "CLICK", targetRef: target.ref, reason: "Counterexample: try a prohibited fragment click." };
+      },
+      async () => ({ type: "REQUEST_HUMAN_HELP", reason: "The unrelated or sensitive control is not allowed." }),
+    ) });
+    const acquired = await executor.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY");
+    try {
+      const result = await executor.runSkill(input(acquired));
+      assert.equal(result.status, "REQUESTED_HUMAN_HELP", scenario.name);
+      assert.equal(session.clicks, 0, scenario.name);
+    } finally { await executor.close(); }
+  }
+});
+
 test("BrowserTaskExecutor binds model-controlled fields to the Router authority and blocks an unsafe submit-looking click", async () => {
   const session = new FixtureSession([
     {

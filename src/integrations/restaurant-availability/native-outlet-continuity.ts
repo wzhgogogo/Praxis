@@ -34,6 +34,10 @@ function outletKey(provider: NativeOutletRef["provider"], value: string, isUrl: 
   }
   if (parts[0] === "en" || parts[0] === "ja") parts.shift();
   if (parts.at(-1) === "reserve") parts.pop();
+  if (parts[0] === "shops") {
+    const id = parts[1];
+    return parts.length === 2 && id && /^[a-z0-9][a-z0-9-]*$/i.test(id) ? id.toLowerCase() : undefined;
+  }
   return parts.length === 1 && /^[a-z0-9][a-z0-9-]*$/i.test(parts[0] ?? "") ? parts[0]!.toLowerCase() : undefined;
 }
 
@@ -52,13 +56,13 @@ export function inspectNativeOutletContinuity(
   const base = { expectedSourceEntityId: ref.sourceEntityId,
     ...(observedPage ? { observedSourceEntityId: observedPage } : {}) };
   if (!expected || !entrance || expected !== entrance) return { ...base, confirmed: false, reason: "SOURCE_REF_INVALID" };
-  if (!observedPage) return { ...base, confirmed: false, reason: "PROVIDER_CHANGED" };
   if (ref.provider === "TABELOG" ? hasBotChallenge(page) : hasTableCheckBotChallenge(page)) {
     return { ...base, confirmed: false, reason: "BOT_CHALLENGE" };
   }
   if (hasTableCheckPageUnavailable(page) || /^(?:page unavailable|ページが見つかりません)$/i.test(page.title.trim())) {
     return { ...base, confirmed: false, reason: "PAGE_UNAVAILABLE" };
   }
+  if (!observedPage) return { ...base, confirmed: false, reason: "PROVIDER_CHANGED" };
   if (observedPage !== expected || observedId !== expected || observedUrl !== expected
     || (observed.canonicalUrl && canonical !== expected)) return { ...base, confirmed: false, reason: "OUTLET_CHANGED" };
   if (!observed.pageOwnedName && !observed.pageOwnedAddress) return { ...base, confirmed: false, reason: "PAGE_IDENTITY_ABSENT" };

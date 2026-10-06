@@ -240,6 +240,19 @@ test("a completed slot extraction with no qualifying slot becomes UNAVAILABLE", 
   assert.equal(result.offers.length, 0);
 });
 
+test("a no-slot result scoped to one observed service category remains UNKNOWN for the outlet", () => {
+  const scope = { field: "reservation[service_category]", group: "form:0|name:reservation[service_category]", value: "sushi", label: "Sushi" };
+  const result = groundTabelogAvailability(candidate, request, {
+    candidateId: candidate.restaurant.id, observedAt: now, requestedDate: fixtureIntent.date, requestedPartySize: 2,
+    entityMatch: { confidence: "HIGH", matchedBy: ["NORMALIZED_NAME_AND_ADDRESS"] },
+    pageState: "NO_MATCHING_SLOT", visibleSlots: [], serviceScope: scope,
+  }, now);
+  assert.equal(result.check.status, "UNKNOWN");
+  assert.equal(result.check.reasonCode, "NO_MATCHING_SLOT_SCOPED");
+  assert.deepEqual(result.check.serviceScope, scope);
+  assert.equal(result.evidence.find((evidence) => evidence.kind === "AVAILABILITY")?.claims.serviceScopeValue, "sushi");
+});
+
 test("walk-in reception is admitted only from explicit page evidence and never turns a no-slot result into availability", () => {
   const base = {
     candidateId: candidate.restaurant.id, observedAt: now, requestedDate: fixtureIntent.date, requestedPartySize: 2,

@@ -161,7 +161,7 @@ test("a locality-cuisine UNKNOWN remains unverified while receiving authoritativ
     evidence: [{ ...sourceEvidence[0]!, claims: { restaurantTypeFacts: ["Tokyo regional cuisine restaurant"] } }],
   });
   assert.deepEqual(result.evidence, []);
-  assert.equal(calls[0]?.promptVersion, "12");
+  assert.equal(calls[0]?.promptVersion, "14");
   assert.match(calls[0]?.messages[0]?.content ?? "", /direct textual entailment/i);
   assert.match(calls[0]?.messages[0]?.content ?? "", /destination's native culinary context/i);
   assert.match(calls[0]?.messages[0]?.content ?? "", /broader national or destination-compatible cuisine does not establish that narrower condition/i);
@@ -221,7 +221,7 @@ test("negative category raw judgments reach conversion and the current presentat
     const result = await new ModelRestaurantFactJudgment(model(raw), now).judge({ candidate, intent: factIntent, evidence });
     assert.deepEqual(result.evidence[0]?.claims[control.claim], [criterion], control.name);
     const state: RestaurantTaskState = {
-      schemaVersion: "10", phase: "SEARCHING", candidates: [candidate], availability: {}, availabilityChecks: {}, searchRevision: 0,
+      schemaVersion: "11", phase: "SEARCHING", candidates: [candidate], availability: {}, availabilityChecks: {}, searchRevision: 0,
       intentDraft: applyRestaurantIntentPatch(undefined, { schemaVersion: "3", target: { goal: "RECOMMENDATION", query: "restaurant" }, area: { query: "Tokyo" }, addCriteria: [{ text: criterion, polarity: "NEGATIVE", strength: "HARD" }] }),
       readEvidence: [...evidence, ...result.evidence],
     };
@@ -268,4 +268,35 @@ test("website judgments preserve selected source statements and reject invented 
     assert.equal(source?.claims.verifiedHardCriteria, undefined);
     assert.deepEqual(read.evidence.find(e => e.provider === "MODEL_JUDGMENT")?.claims.supportingEvidenceIds, [document.id]);
   }
+});
+
+test("a model fact judgment keeps one cited service scope and rejects mixed scope citations", async () => {
+  const scoped = (evidenceId: string, value: string): RestaurantReadEvidence => ({
+    ...sourceEvidence[0]!, evidenceId, claims: {
+      restaurantTypeFacts: ["omakase restaurant"],
+      serviceScopeField: "reservation[service_category]", serviceScopeGroup: "form:reserve|name:reservation[service_category]",
+      serviceScopeValue: value, serviceScopeLabel: value,
+    },
+  });
+  const scopedIntent = { ...positiveIntent, criteria: [{ text: "omakase", polarity: "POSITIVE" as const, strength: "HARD" as const }] };
+  const single = await new ModelRestaurantFactJudgment(model({
+    judgments: [{ criterion: "omakase", outcome: "SUPPORTED", scope: "UNKNOWN_SCOPE", evidenceIds: ["sushi"] }],
+  })).judge({ candidate, intent: scopedIntent, evidence: [scoped("sushi", "sushi"), scoped("bar", "bar")] });
+  const judgment = single.evidence.find(item => item.provider === "MODEL_JUDGMENT");
+  assert.equal(judgment?.claims.serviceScopeValue, "sushi");
+  assert.deepEqual(judgment?.claims.supportingEvidenceIds, ["sushi"]);
+  const mixed = await new ModelRestaurantFactJudgment(model({
+    judgments: [{ criterion: "omakase", outcome: "SUPPORTED", scope: "UNKNOWN_SCOPE", evidenceIds: ["sushi", "bar"] }],
+  })).judge({ candidate, intent: scopedIntent, evidence: [scoped("sushi", "sushi"), scoped("bar", "bar")] });
+  assert.equal(mixed.evidence.some(item => item.provider === "MODEL_JUDGMENT"), false, "two service scopes cannot be merged into an outlet-wide positive");
+  const outletConflict = await new ModelRestaurantFactJudgment(model({
+    judgments: [
+      { criterion: "omakase", outcome: "SUPPORTED", scope: "UNKNOWN_SCOPE", evidenceIds: ["sushi"] },
+      { criterion: "hot pot restaurant", outcome: "CONFLICT", scope: "RESTAURANT_CATEGORY_TYPE", evidenceIds: ["outlet"] },
+    ],
+  })).judge({ candidate, intent: { ...scopedIntent, criteria: [...scopedIntent.criteria, { text: "hot pot restaurant", polarity: "NEGATIVE", strength: "HARD" }] }, evidence: [scoped("sushi", "sushi"), { ...sourceEvidence[0]!, evidenceId: "outlet", claims: { restaurantTypeFacts: ["hot pot restaurant"] } }] });
+  const scopedPositive = outletConflict.evidence.find(item => item.provider === "MODEL_JUDGMENT" && item.claims.verifiedHardCriteria !== undefined);
+  const unscopedConflict = outletConflict.evidence.find(item => item.provider === "MODEL_JUDGMENT" && item.claims.violatedNegativeCriteria !== undefined);
+  assert.equal(scopedPositive?.claims.serviceScopeValue, "sushi");
+  assert.equal(unscopedConflict?.claims.serviceScopeValue, undefined, "outlet conflict remains an outlet-level fact");
 });

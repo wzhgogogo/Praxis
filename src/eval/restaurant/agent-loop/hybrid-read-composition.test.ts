@@ -22,6 +22,7 @@ import { settleAtRunDeadline } from "./live-run-deadline.js";
 import { BrowserRuntimeError } from "../../../infrastructure/browser/browser-runtime-errors.js";
 import type { BrowserExecutionDiagnostic } from "../../../infrastructure/browser/browser-task-executor.js";
 import { startDiagnosticRun } from "../../shared/diagnostic-run.js";
+import { traceBrowserSession } from "./runners/browser-case-slice-evidence.js";
 
 const now = new Date("2026-09-16T03:00:00.000Z"); // Wednesday noon in Tokyo.
 const clock = { now: () => new Date(now) };
@@ -1283,10 +1284,19 @@ test("source text handoff reaches request-bound availability and presentation th
       async waitFor() {}, async screenshot() { return new Uint8Array(); }, async close() {},
     };
   } };
+  const browserTrace: Array<{ sequence: number; at: string; kind: string; detail: unknown }> = [];
+  let browserTraceSequence = 0;
+  const tracedBrowser: BrowserRuntime = { openSession: async (input) => traceBrowserSession(
+    await browser.openSession(input), "TABLECHECK", (kind, detail) => {
+      const sequence = ++browserTraceSequence;
+      browserTrace.push({ sequence, at: now.toISOString(), kind, detail });
+      return sequence;
+    },
+  ) };
   const taskId = "integration:source-handoff";
   const composition = createHybridReadComposition({ taskId, runId: taskId, clock, model, search: google,
-    facts: composeLiveRestaurantFactRead(google, browser, model, undefined, () => now.toISOString()),
-    availability: new LiveBrowserAvailability(browser, model, { now: () => now.toISOString() }), loop: { maxSteps: 6, timeoutMs: 5_000 },
+    facts: composeLiveRestaurantFactRead(google, tracedBrowser, model, undefined, () => now.toISOString()),
+    availability: new LiveBrowserAvailability(tracedBrowser, model, { now: () => now.toISOString() }), loop: { maxSteps: 6, timeoutMs: 5_000 },
   });
   await composition.interpretAndDispatch({ taskId, message: "Find a restaurant with a chef's tasting menu nearby tomorrow at 1 pm for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
   const loop = await composition.coordinator.run(taskId);
@@ -1307,6 +1317,7 @@ test("source text handoff reaches request-bound availability and presentation th
     status: "SUCCEEDED", stage: "AGENT_LOOP", caseId: taskId, runId: taskId,
     materializedCase: { semantic: { target: { goal: "AVAILABILITY" }, date: { value: "2026-09-17" }, party_size: 2, time: { start: "13:00", end: "13:00" }, location: { value: "nearby", relation: "NEAR_USER" }, criteria: [{ value: "chef's tasting menu", polarity: "POSITIVE", strength: "HARD" }] } },
     finalSnapshot: snapshot, trajectories: composition.trajectories.steps, loop,
+    diagnostics: { browserTrace }, sourceTrace: { browserTrace },
     runCeilings: { maxAutomaticBrowserMs: 5_000, maxAgentSteps: 6, maxBrowserModelCallsTotal: 12, maxModelCalls: 10 },
     resourceUsage: { elapsedMs: 0, agentDecisions: actions.length, browserModelCalls: requests.filter(r => r.purpose === "browser_read_decide").length, modelCallsStarted: requests.length, googleRequests: google.googleRequestUsage(`${taskId}:investigation:${state.investigationRevision}`) },
   }, { path: "source-handoff.result.json", sha256: "a".repeat(64) });

@@ -19,9 +19,10 @@ export function composeLiveRestaurantFactRead(
   now?: () => string,
   onBrowserDiagnostic?: (diagnostic: BrowserExecutionDiagnostic) => void,
 ): RestaurantCandidateFactPort {
+  const judgment = new ModelRestaurantFactJudgment(model, now);
   return new GoogleThenWebsiteFactRead(
     google,
-    new GoogleListedWebsiteFactRead(runtime, now, new ModelBrowserReadActionDecision(model), browserBudget, onBrowserDiagnostic),
-    new ModelRestaurantFactJudgment(model, now),
+    new GoogleListedWebsiteFactRead(runtime, judgment, now, new ModelBrowserReadActionDecision(model), browserBudget, onBrowserDiagnostic),
+    judgment,
   );
 }

@@ -6,6 +6,30 @@ import type { BrowserRuntime, BrowserSession } from "../../infrastructure/browse
 import { GoogleListedWebsiteFactRead } from "./google-listed-website-facts.js";
 import { GoogleThenWebsiteFactRead } from "./google-then-website-facts.js";
 
+const fixtureJudgment = {
+  async judge(input: { candidate: { restaurant: { id: string } }; intent: RestaurantCandidateFactRequest["intent"]; evidence: Array<{ claims: Record<string, unknown> }>; sourceDocuments?: Array<{ statements: Array<{ text: string }> }> }) {
+    const sourceText = input.sourceDocuments?.flatMap(document => document.statements.map(statement => statement.text)).join("\n") ?? "";
+    const typeFacts = input.evidence.flatMap(item => Array.isArray(item.claims.restaurantTypeFacts) ? item.claims.restaurantTypeFacts : [])
+      .filter((value): value is string => typeof value === "string");
+    const supported = input.intent.criteria.filter(criterion => criterion.strength === "HARD" && criterion.polarity === "POSITIVE" && (
+      typeFacts.some(value => value.trim().toLowerCase() === criterion.text.trim().toLowerCase())
+      || /cancellation\s+policy/iu.test(criterion.text) && /cancellation/iu.test(sourceText)
+    )).map(criterion => criterion.text);
+    return { evidence: supported.length ? [{ evidenceId: `fixture-judgment:${input.candidate.restaurant.id}:${supported.join(",")}`, kind: "RESTAURANT_FACT" as const, provider: "MODEL_JUDGMENT" as const, candidateId: input.candidate.restaurant.id, observedAt: "2026-09-11T00:00:00.000Z", requestFingerprint: "fixture", claims: { verifiedHardCriteria: supported } }] : [] };
+  },
+};
+
+function reader(
+  browser: BrowserRuntime,
+  now?: () => string,
+  decision?: ConstructorParameters<typeof GoogleListedWebsiteFactRead>[3],
+  budget?: ConstructorParameters<typeof GoogleListedWebsiteFactRead>[4],
+  diagnostic?: ConstructorParameters<typeof GoogleListedWebsiteFactRead>[5],
+  judgment: ConstructorParameters<typeof GoogleListedWebsiteFactRead>[1] = fixtureJudgment,
+): GoogleListedWebsiteFactRead {
+  return new GoogleListedWebsiteFactRead(browser, judgment, now, decision, budget, diagnostic);
+}
+
 const request: RestaurantCandidateFactRequest = {
   candidateIds: ["cafe-a"],
   candidates: [{
@@ -92,7 +116,7 @@ test("website facts require candidate-bound structured identity and do not promo
     address: { "@type": "PostalAddress", streetAddress: "1 Ginza", addressLocality: "Tokyo" },
     servesCuisine: "Cafe", openingHoursSpecification: { dayOfWeek: "https://schema.org/Monday", opens: "10:00:00", closes: "18:00:00" },
   })}</script><p>We are definitely open forever</p>`;
-  const read = await new GoogleListedWebsiteFactRead(runtime(html), () => "2026-09-11T00:00:00.000Z").inspectFacts(request, new AbortController().signal);
+  const read = await reader(runtime(html), () => "2026-09-11T00:00:00.000Z").inspectFacts(request, new AbortController().signal);
   assert.equal(read.factChecks["cafe-a"]?.status, "COMPLETED");
   const facts = read.evidence.find((item) => item.kind === "RESTAURANT_FACT");
   assert.equal(facts?.provider, "RESTAURANT_WEBSITE");
@@ -103,7 +127,7 @@ test("website facts require candidate-bound structured identity and do not promo
 
 test("website prose without exact structured name and address remains unknown", async () => {
   const html = `<script type="application/ld+json">${JSON.stringify({ "@type": "Restaurant", name: "Different Cafe", address: "Tokyo" })}</script>`;
-  const read = await new GoogleListedWebsiteFactRead(runtime(html)).inspectFacts(request, new AbortController().signal);
+  const read = await reader(runtime(html)).inspectFacts(request, new AbortController().signal);
   assert.deepEqual(read.factChecks["cafe-a"], {
     status: "UNKNOWN", checkedAt: read.factChecks["cafe-a"]?.checkedAt, evidenceIds: [], reasonCode: "WEBSITE_STRUCTURED_IDENTITY_UNVERIFIED",
   });
@@ -111,7 +135,7 @@ test("website prose without exact structured name and address remains unknown", 
 });
 
 test("candidate-bound visible opening hours are grounded when JSON-LD is absent", async () => {
-  const read = await new GoogleListedWebsiteFactRead(
+  const read = await reader(
     runtime("<main>plain public page</main>", "Cafe A\n1 Ginza, Tokyo\nCafe\nMonday: 10:00 - 18:00"),
     () => "2026-09-11T00:00:00.000Z",
   ).inspectFacts(request, new AbortController().signal);
@@ -126,7 +150,7 @@ test("a differently punctuated but equivalent numbered address can identify the 
     ...request,
     candidates: [{ ...request.candidates[0]!, restaurant: { ...request.candidates[0]!.restaurant, address: "Tokyo Ginza 1 2" } }],
   };
-  const read = await new GoogleListedWebsiteFactRead(
+  const read = await reader(
     runtime("<main>plain public page</main>", "Cafe A\nTokyo, Ginza 1-2\nCafe\nMonday: 10:00 - 18:00"),
   ).inspectFacts(altered, new AbortController().signal);
   assert.equal(read.factChecks["cafe-a"]?.status, "COMPLETED");
@@ -134,7 +158,7 @@ test("a differently punctuated but equivalent numbered address can identify the 
 });
 
 test("a same-name page without the candidate address does not become an outlet fact", async () => {
-  const read = await new GoogleListedWebsiteFactRead(
+  const read = await reader(
     runtime("<main>plain public page</main>", "Cafe A\n2 Ginza, Tokyo\nCafe\nMonday: 10:00 - 18:00"),
   ).inspectFacts(request, new AbortController().signal);
   assert.equal(read.factChecks["cafe-a"]?.status, "UNKNOWN");
@@ -142,7 +166,7 @@ test("a same-name page without the candidate address does not become an outlet f
 });
 
 test("matching street numbers cannot bind same-name outlets in different cities", async () => {
-  const read = await new GoogleListedWebsiteFactRead(
+  const read = await reader(
     runtime("<main>plain public page</main>", "Cafe A\n1 Ginza, Chiba\nCafe\nMonday: 10:00 - 18:00"),
   ).inspectFacts(request, new AbortController().signal);
   assert.equal(read.factChecks["cafe-a"]?.status, "UNKNOWN");
@@ -151,7 +175,7 @@ test("matching street numbers cannot bind same-name outlets in different cities"
 
 test("identity-only JSON-LD does not prevent the same page's visible facts from completing a gap", async () => {
   const html = `<script type="application/ld+json">${JSON.stringify({ "@type": "CafeOrCoffeeShop", name: "Cafe A", address: "1 Ginza, Tokyo" })}</script>`;
-  const read = await new GoogleListedWebsiteFactRead(
+  const read = await reader(
     runtime(html, "Cafe A\n1 Ginza, Tokyo\nCafe\nMonday: 10:00 - 18:00"),
     () => "2026-09-11T00:00:00.000Z",
   ).inspectFacts(request, new AbortController().signal);
@@ -164,7 +188,7 @@ test("candidate-bound public commercial terms retain price, tax, room minimum, c
     "@type": "Restaurant", name: "Cafe A", address: "1 Ginza, Tokyo", servesCuisine: "Cafe",
     openingHours: "Monday: 10:00 - 18:00",
   })}</script>`;
-  const read = await new GoogleListedWebsiteFactRead(
+  const read = await reader(
     runtime(html, [
       "Cafe A", "1 Ginza, Tokyo", "Cafe", "Monday: 10:00 - 18:00",
       "Course price: ¥8,000 (tax included)",
@@ -183,7 +207,7 @@ test("candidate-bound public commercial terms retain price, tax, room minimum, c
 });
 
 test("the production website reader expands an observed public terms section before grounding its candidate-bound evidence", async () => {
-  const read = await new GoogleListedWebsiteFactRead(
+  const read = await reader(
     expandableTermsRuntime(),
     () => "2026-09-11T00:00:00.000Z",
     {
@@ -201,12 +225,47 @@ test("the production website reader expands an observed public terms section bef
   assert.equal(facts?.claims.cancellationTerms, "Cancellation: 50% fee after 17:00.");
 });
 
+test("a cited website judgment drives one same-session observed menu follow-up for a missing HARD fact", async () => {
+  let current = "https://cafe.example/about";
+  let opened = 0;
+  let judged = 0;
+  const sourceRuntime: BrowserRuntime = { async openSession() { return {
+    metadata: { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM" as const, engine: "CHROMIUM" as const, startedAt: "2026-10-06T00:00:00.000Z" },
+    async navigate(url) { current = url; },
+    async snapshot() { return current.endsWith("/menu")
+      ? { url: current, title: "Cafe A menu", html: "<main></main>", text: "Cafe A\n1 Ginza, Tokyo\nOmakase course" }
+      : { url: current, title: "Cafe A", html: "<main></main>", text: "Cafe A\n1 Ginza, Tokyo\nCafe" }; },
+    async observeControls() { return current.endsWith("/menu") ? [] : [{ id: "menu", stableKey: "menu", kind: "LINK" as const, role: "link", label: "Menu", href: "https://cafe.example/menu", disabled: false, visible: true }]; },
+    async click() {}, async fill() {}, async select() { return []; }, async waitForChange() { return true; }, async waitFor() {}, async screenshot() { return new Uint8Array(); }, async close() {},
+  }; } };
+  const read = await reader(
+    sourceRuntime,
+    () => "2026-10-06T00:00:00.000Z",
+    { async decide(input) {
+      const menu = input.observation.targets.find(target => target.label === "Menu");
+      if (menu) { opened += 1; return { type: "OPEN_LINK", targetRef: menu.ref, reason: "Read the observed menu for the unresolved criterion." }; }
+      return { type: "COMPLETE", reason: "The new source page is ready for the cited fact judgment." };
+    } },
+    undefined,
+    undefined,
+    { async judge(input) {
+      judged += 1;
+      assert.equal(input.sourceDocuments?.length, judged, "each cited judgment sees only the accumulated candidate-bound documents");
+      return { evidence: judged === 1 ? [] : [{ evidenceId: "judged-menu", kind: "RESTAURANT_FACT" as const, provider: "MODEL_JUDGMENT" as const, candidateId: "cafe-a", observedAt: "2026-10-06T00:00:00.000Z", requestFingerprint: "menu", claims: { verifiedHardCriteria: ["omakase"] } }] };
+    } },
+  ).inspectFacts({ ...request, intent: { ...request.intent, target: { goal: "AVAILABILITY", query: "omakase" }, criteria: [{ text: "omakase", polarity: "POSITIVE", strength: "HARD" }] } }, new AbortController().signal);
+  assert.equal(opened, 1);
+  assert.equal(judged, 2);
+  assert.equal(read.factChecks["cafe-a"]?.status, "COMPLETED");
+  assert.equal(read.evidence.some(item => item.evidenceId === "judged-menu"), true);
+});
+
 test("a bare public yen amount does not become a price or room-minimum fact", async () => {
   const html = `<script type="application/ld+json">${JSON.stringify({
     "@type": "Restaurant", name: "Cafe A", address: "1 Ginza, Tokyo", servesCuisine: "Cafe",
     openingHours: "Monday: 10:00 - 18:00",
   })}</script>`;
-  const read = await new GoogleListedWebsiteFactRead(
+  const read = await reader(
     runtime(html, "Cafe A\n1 Ginza, Tokyo\nCafe\nMonday: 10:00 - 18:00\nAn old poster mentions ¥8,000."),
   ).inspectFacts(request, new AbortController().signal);
   const facts = read.evidence.find((item) => item.kind === "RESTAURANT_FACT");
@@ -227,7 +286,7 @@ test("two candidate website reads keep cross-page commercial evidence scoped to 
     "@type": "Restaurant", name, address, servesCuisine: "Cafe", openingHours: "Monday: 10:00 - 18:00",
   })}</script>`;
   const navigated: string[] = [];
-  const read = await new GoogleListedWebsiteFactRead(multiCandidateRuntime({
+  const read = await reader(multiCandidateRuntime({
     "https://cafe.example/about": { html: structured("Cafe A", "1 Ginza, Tokyo"), text: "Cafe A\n1 Ginza, Tokyo\nCafe\nMonday: 10:00 - 18:00\nCourse price: ¥8,000 (tax included)" },
     "https://cafe.example/b": { html: structured("Cafe B", "2 Ginza, Tokyo"), text: "Cafe B\n2 Ginza, Tokyo\nCafe\nMonday: 10:00 - 18:00\nPrivate room minimum spend: ¥20,000\nCancellation: no fee until 17:00." },
   }, navigated), () => "2026-09-11T00:00:00.000Z").inspectFacts(comparisonRequest, new AbortController().signal);
@@ -248,7 +307,7 @@ test("ambiguous amounts and multiple courses are not promoted to a single commer
     "Course price: ¥8,000\nCourse price: ¥12,000",
     "Private room minimum: deposit ¥3,000; total ¥20,000",
   ]) {
-    const read = await new GoogleListedWebsiteFactRead(runtime("<main></main>", "Cafe A\n1 Ginza, Tokyo\nCafe\nMonday: 10:00 - 18:00\n" + line)).inspectFacts(request, new AbortController().signal);
+    const read = await reader(runtime("<main></main>", "Cafe A\n1 Ginza, Tokyo\nCafe\nMonday: 10:00 - 18:00\n" + line)).inspectFacts(request, new AbortController().signal);
     const claims = read.evidence.find(item => item.kind === "RESTAURANT_FACT")?.claims;
     assert.equal(claims?.coursePriceYen, undefined, line);
     assert.equal(claims?.privateRoomMinimumYen, undefined, line);
@@ -257,7 +316,7 @@ test("ambiguous amounts and multiple courses are not promoted to a single commer
 
 
 test("missing requested cancellation facts remain unknown even when type and hours are known", async () => {
-  const read = await new GoogleListedWebsiteFactRead(runtime("<main></main>", "Cafe A\n1 Ginza, Tokyo\nCafe\nMonday: 10:00 - 18:00")).inspectFacts({
+  const read = await reader(runtime("<main></main>", "Cafe A\n1 Ginza, Tokyo\nCafe\nMonday: 10:00 - 18:00")).inspectFacts({
     ...request, intent: { ...request.intent, criteria: [...request.intent.criteria, { text: "cancellation policy", polarity: "POSITIVE", strength: "HARD" }] },
   }, new AbortController().signal);
   assert.equal(read.factChecks["cafe-a"]?.status, "UNKNOWN");
@@ -268,7 +327,7 @@ test("missing requested cancellation facts remain unknown even when type and hou
 test("commercial information requests continue from Google to a real website fact read without invented hard criteria", async () => {
   const { GoogleThenWebsiteFactRead } = await import("./google-then-website-facts.js");
   const google = { executionRoute: "STRUCTURED_ADAPTER" as const, async inspectFacts() { return { evidence: [], factChecks: { "cafe-a": { status: "COMPLETED" as const, checkedAt: "2026-09-11T00:00:00.000Z", evidenceIds: [] } }, metadata: { provider: "GOOGLE_PLACES" as const, route: "STRUCTURED_ADAPTER" as const, latencyMs: 0 } }; } };
-  const website = new GoogleListedWebsiteFactRead(runtime("", "Cafe A\n1 Ginza, Tokyo\nMonday: 10:00 - 18:00\nCancellation: 50% after 17:00."));
+  const website = reader(runtime("", "Cafe A\n1 Ginza, Tokyo\nMonday: 10:00 - 18:00\nCancellation: 50% after 17:00."));
   const read = await new GoogleThenWebsiteFactRead(google, website).inspectFacts({ ...request, intent: { ...request.intent, target: { goal: "AVAILABILITY", query: "Compare cancellation policies" }, criteria: [] } }, new AbortController().signal);
   assert.equal(read.evidence.find(item => item.kind === "RESTAURANT_FACT")?.claims.cancellationTerms, "Cancellation: 50% after 17:00.");
 });
@@ -291,7 +350,7 @@ test("multilingual website facts retain cancellation and complete course cards a
     }; } };
     const revised: RestaurantCandidateFactRequest = { ...request, candidates: [{ ...request.candidates[0]!, restaurant: { ...request.candidates[0]!.restaurant, sourceIds: { phone: "03-1111-2222", googleWebsiteUri: "https://venue.owst.jp/" } } }], intent: { ...request.intent, target: { goal: "AVAILABILITY", query: "Compare course prices and cancellation policies" }, criteria: [] } };
     const budget = { totalModelCalls: 5, maxModelCalls: 20 };
-    const read = await new GoogleListedWebsiteFactRead(sourceRuntime, undefined, { async decide(input) { return input.observation.url.endsWith('/courses') ? { type: "COMPLETE", reason: "No further public page" } : { type: "OPEN_LINK", targetRef: input.observation.targets[0]!.ref, reason: "Read courses" }; } }, budget).inspectFacts(revised, new AbortController().signal);
+    const read = await reader(sourceRuntime, undefined, { async decide(input) { return input.observation.url.endsWith('/courses') ? { type: "COMPLETE", reason: "No further public page" } : { type: "OPEN_LINK", targetRef: input.observation.targets[0]!.ref, reason: "Read courses" }; } }, budget).inspectFacts(revised, new AbortController().signal);
     const facts = read.evidence.filter(item => item.kind === "RESTAURANT_FACT");
     if (matchingPhone) {
       assert.equal(read.factChecks['cafe-a']?.status, "COMPLETED");
@@ -317,7 +376,7 @@ test("a telephone-link-bound page retains source statements without claiming the
       intent: { ...request.intent, target: { goal: "AVAILABILITY", query: "omakase" }, criteria: [{ text: "omakase", polarity: "POSITIVE", strength: "HARD" }] },
     };
     let decisions = 0;
-    const read = await new GoogleListedWebsiteFactRead(
+    const read = await reader(
       runtime(control.links, "おまかせコース\n季節の旬の食材を楽しむコースです。"),
       () => "2026-09-28T00:00:00.000Z",
       { decide: async () => { decisions++; return { type: "COMPLETE", reason: "Relevant public menu statements are ready for fact interpretation." }; } },

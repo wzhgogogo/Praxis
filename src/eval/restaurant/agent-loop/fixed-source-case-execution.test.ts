@@ -9,6 +9,7 @@ import { evaluateArtifactFile, type RestaurantHybridDiagnosticEvaluation } from 
 import { assessFixedSourceAcceptance } from "./fixed-source-acceptance.js";
 import { executeFixedSourceCase, type FixedSourceCaseExecution } from "./fixed-source-case-execution.js";
 import { loadRegisteredFixedSourceCase, type FixedSourceExpectation } from "./fixed-source-case-registry.js";
+import { RUN_DEADLINE_EXCEEDED } from "./live-run-deadline.js";
 
 function response(outputText: string, invocationId: string): ModelResponse {
   return { invocationId, provider: "FIXTURE", model: "deadline-control", outputText, finishReason: "TOOL_CALLS", latencyMs: 0 };
@@ -90,8 +91,8 @@ test("a frozen business clock cannot freeze the real outer deadline or admit a l
   } };
   const started = Date.now();
   const result = await executeFixedSourceCase({ registration, materializedCase, model, taskId: "deadline:frozen-business-clock", deadlineMs: 20, clock: { now: () => new Date(materializedCase.reference_time) } });
-  assert.equal(result.execution.status, "CANCELLED");
-  assert.equal(result.execution.failureCode, "CANCELLED");
+  assert.equal(result.execution.status, "FAILED");
+  assert.equal(result.execution.failureCode, RUN_DEADLINE_EXCEEDED);
   assert.ok(result.elapsedMs < 500, `deadline did not bound execution: ${result.elapsedMs}ms`);
   assert.equal(calls, 1, "the deadline must stop later model/agent work from starting");
   const terminal = structuredClone(result.execution);

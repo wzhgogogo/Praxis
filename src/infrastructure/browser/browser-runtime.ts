@@ -45,7 +45,7 @@ export interface BrowserControlHint {
 export interface BrowserPageControl {
   id: string;
   stableKey: string;
-  kind: "LINK" | "BUTTON" | "INPUT" | "SELECT" | "CHECKBOX" | "RANGE" | "REGION";
+  kind: "LINK" | "BUTTON" | "INPUT" | "SELECT" | "CHECKBOX" | "RADIO" | "RANGE" | "REGION";
   role: string;
   label: string;
   value?: string;
@@ -53,7 +53,7 @@ export interface BrowserPageControl {
   /** Browser-observed structural facts, never a page assertion of safety. */
   formMethod?: "GET" | "POST" | "UNKNOWN";
   /** Observed structure for source-owned control contracts; never a permission itself. */
-  structure?: { tag: string; name: string; classes: string[]; dialogLabel: string; formClass: string; sliderCount: number; listboxId?: string };
+  structure?: { tag: string; name: string; classes: string[]; dialogLabel: string; formClass: string; sliderCount: number; listboxId?: string; radioGroupLabel?: string; radioGroupKey?: string };
   type?: string;
   disabled: boolean;
   visible: boolean;

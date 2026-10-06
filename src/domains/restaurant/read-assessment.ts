@@ -89,6 +89,22 @@ function presentationEvidenceIds(
   const sourceFactsFor = (evidence: RestaurantTaskState["readEvidence"][number]) => evidence.provider === "MODEL_JUDGMENT"
     ? stringListClaim(evidence, "supportingEvidenceIds").map(id => groundedCurrentFacts.find(item => item.evidenceId === id)!)
     : [evidence];
+  const scopeFor = (evidence: RestaurantTaskState["readEvidence"][number]) => {
+    const field = stringClaim(evidence, "serviceScopeField");
+    const group = stringClaim(evidence, "serviceScopeGroup");
+    const value = stringClaim(evidence, "serviceScopeValue");
+    return field && group && value ? { field, group, value } : undefined;
+  };
+  const scopeMatchesOffer = (evidence: RestaurantTaskState["readEvidence"][number], offer: NonNullable<RestaurantTaskState["availability"][string]>[number]) => {
+    const scope = scopeFor(evidence);
+    // Inventory for a selected public service category is narrower than an
+    // outlet-wide claim.  A menu fact without source evidence tying it to the
+    // selected category cannot qualify that category's offer.  Venue-wide
+    // negative conflicts are checked separately below and remain applicable.
+    if (!offer.serviceScope) return scope === undefined;
+    return scope !== undefined
+      && offer.serviceScope.field === scope.field && offer.serviceScope.group === scope.group && offer.serviceScope.value === scope.value;
+  };
   const area = candidateEvidence.find((evidence) =>
     evidence.kind === "DISCOVERY" && evidence.claims.areaMatch === true && normalized(stringClaim(evidence, "areaQuery") ?? "") === normalized(intent.area.query),
   );
@@ -97,33 +113,41 @@ function presentationEvidenceIds(
   const currentNoSlot = !restaurantGoalRequiresAvailability(intent) && currentBookingIntent && state.availabilityChecks[candidateId]?.status === "UNAVAILABLE" &&
     state.availabilityChecks[candidateId]?.requestFingerprint === restaurantAvailabilityRequestFingerprint(currentBookingIntent);
   if (currentNoSlot) return { valid: false, reason: `Candidate ${candidateId} has an explicit no-matching-slot observation for the current request` };
-  for (const criterion of intent.criteria.filter((item) => item.polarity === "POSITIVE" && item.strength === "HARD")) {
-    const supported = groundedCurrentFacts.some((evidence) =>
-      stringListClaim(evidence, "verifiedHardCriteria").some((value) => normalized(value) === normalized(criterion.text)),
-    );
-    if (!supported) return { valid: false, reason: `Candidate ${candidateId} has no evidence for HARD criterion ${criterion.text}` };
-  }
-  for (const criterion of intent.criteria.filter((item) => item.polarity === "NEGATIVE" && item.strength === "HARD")) {
+  const verifyHardCriteria = (facts: RestaurantTaskState["readEvidence"]) => {
+    for (const criterion of intent.criteria.filter((item) => item.polarity === "POSITIVE" && item.strength === "HARD")) {
+      const supported = facts.some((evidence) =>
+        stringListClaim(evidence, "verifiedHardCriteria").some((value) => normalized(value) === normalized(criterion.text)),
+      );
+      if (!supported) return `Candidate ${candidateId} has no evidence for HARD criterion ${criterion.text}`;
+    }
+    for (const criterion of intent.criteria.filter((item) => item.polarity === "NEGATIVE" && item.strength === "HARD")) {
+    // A confirmed negative HARD conflict describes the outlet itself. A
+    // service-category selection can scope menu/slot support, but cannot
+    // erase that already evidenced restaurant-level exclusion.
     const violated = groundedCurrentFacts.some((evidence) =>
       stringListClaim(evidence, "violatedNegativeCriteria").some((value) => normalized(value) === normalized(criterion.text)),
     );
-    if (violated) return { valid: false, reason: `Candidate ${candidateId} violates negative criterion ${criterion.text}` };
-    const supported = groundedCurrentFacts.some((evidence) =>
+    if (violated) return `Candidate ${candidateId} violates negative criterion ${criterion.text}`;
+    const supported = facts.some((evidence) =>
       stringListClaim(evidence, "verifiedNegativeCriteria").some((value) => normalized(value) === normalized(criterion.text)),
     );
     if (supported) continue;
     // A cited category/type judgment may establish only that no violation is
     // known. It is deliberately not a verified-negative claim, and every
     // other negative HARD condition retains the original fail-closed gate.
-    const categoryUnknown = groundedCurrentFacts.some((evidence) =>
+    const categoryUnknown = facts.some((evidence) =>
       evidence.provider === "MODEL_JUDGMENT"
       && stringListClaim(evidence, "supportingEvidenceIds").length > 0
-      && stringListClaim(evidence, "supportingEvidenceIds").every((id) => groundedCurrentFacts.some((source) => source.provider !== "MODEL_JUDGMENT" && source.evidenceId === id && stringListClaim(source, "restaurantTypeFacts").some((value) => value.trim().length > 0)))
+      && stringListClaim(evidence, "supportingEvidenceIds").every((id) => facts.some((source) => source.provider !== "MODEL_JUDGMENT" && source.evidenceId === id && stringListClaim(source, "restaurantTypeFacts").some((value) => value.trim().length > 0)))
       && stringListClaim(evidence, "categoryUnknownNegativeCriteria").some((value) => normalized(value) === normalized(criterion.text)),
     );
-    if (!categoryUnknown) return { valid: false, reason: `Candidate ${candidateId} has no source fact supporting negative criterion ${criterion.text}` };
-  }
+    if (!categoryUnknown) return `Candidate ${candidateId} has no source fact supporting negative criterion ${criterion.text}`;
+    }
+    return undefined;
+  };
   if (!restaurantGoalRequiresAvailability(intent)) {
+    const hardFailure = verifyHardCriteria(groundedCurrentFacts);
+    if (hardFailure) return { valid: false, reason: hardFailure };
     const openingHours = intent.date && intent.timeWindow
       ? groundedCurrentFacts.find((evidence) => evidence.claims.openingHoursMatch === true)
       : undefined;
@@ -144,22 +168,26 @@ function presentationEvidenceIds(
   );
   const availability = candidateEvidence.find((evidence) => evidence.kind === "AVAILABILITY" && isDisplayFresh(evidence.displayExpiresAt, now) &&
     stringClaim(evidence, "date") === bookingIntent.date && evidence.claims.partySize === bookingIntent.partySize && offer !== undefined &&
-    stringListClaim(evidence, "visibleSlots").includes(offer.dateTime.slice(11, 16)));
+    stringListClaim(evidence, "visibleSlots").includes(offer.dateTime.slice(11, 16)) && scopeMatchesOffer(evidence, offer));
   if (!offer || state.availabilityChecks[candidateId]?.status !== "AVAILABLE" || !availability) return { valid: false, reason: `Candidate ${candidateId} lacks fresh evidenced availability for the authoritative request` };
+  const applicableFacts = groundedCurrentFacts.filter((fact) => scopeMatchesOffer(fact, offer)
+    && (fact.provider !== "MODEL_JUDGMENT" || sourceFactsFor(fact).every((source) => scopeMatchesOffer(source, offer))));
+  const hardFailure = verifyHardCriteria(applicableFacts);
+  if (hardFailure) return { valid: false, reason: hardFailure };
   const entity = entities.find((item) => item.provider === availability.provider && item.sourceEntityId === availability.sourceEntityId);
   if (!entity) return { valid: false, reason: `Candidate ${candidateId} has no HIGH outlet identity evidence associated with its availability source` };
-  const factIdentityIds = groundedCurrentFacts.flatMap(fact => sourceFactsFor(fact).map(source => identityFor(source)!.evidenceId));
+  const factIdentityIds = applicableFacts.flatMap(fact => sourceFactsFor(fact).map(source => identityFor(source)!.evidenceId));
   // An availability read can include its own contemporaneous fact evidence.
   // If a later fact read from the same source supersedes one of those facts,
   // the presentation must retain the availability/identity evidence but not
   // revive the obsolete fact merely because it was named by the earlier
   // availability check.
-  const currentFactIds = new Set(groundedCurrentFacts.map((evidence) => evidence.evidenceId));
+  const currentFactIds = new Set(applicableFacts.map((evidence) => evidence.evidenceId));
   const checkEvidenceIds = state.availabilityChecks[candidateId].evidenceIds.filter((id) => {
     const evidence = candidateEvidence.find((item) => item.evidenceId === id);
     return evidence !== undefined && (evidence.kind !== "RESTAURANT_FACT" || currentFactIds.has(id));
   });
-  return { valid: true, evidenceIds: [...new Set([entity.evidenceId, area.evidenceId, availability.evidenceId, ...checkEvidenceIds, ...factIdentityIds, ...groundedCurrentFacts.map((evidence) => evidence.evidenceId)])] };
+  return { valid: true, evidenceIds: [...new Set([entity.evidenceId, area.evidenceId, availability.evidenceId, ...checkEvidenceIds, ...factIdentityIds, ...applicableFacts.map((evidence) => evidence.evidenceId)])] };
 }
 
 export function restaurantPresentationEvidenceIds(state: Readonly<RestaurantTaskState>, candidateId: string, now: string): string[] | undefined {

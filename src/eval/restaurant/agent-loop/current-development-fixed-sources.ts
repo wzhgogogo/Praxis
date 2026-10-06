@@ -65,7 +65,11 @@ function escapeRegExp(value: string): string {
 }
 
 function matchesSelector(html: string, selector: string): boolean {
-  const value = selector.trim();
+  // The production Adapter waits for a visible Venue Availability region that
+  // has no skeleton descendant.  This controlled transport has no skeleton
+  // renderer, so retain the observed region selector rather than treating its
+  // harmless readiness predicate as an unavailable fixture control.
+  const value = selector.trim().replace(/:not\(:has\([^)]*\)\)$/, "");
   if (!value) return false;
   const id = value.match(/^#([\w-]+)$/);
   if (id) return new RegExp("\\bid=[\"'][^\"']*\\b" + escapeRegExp(id[1]!) + "\\b[^\"']*[\"']", "i").test(html);
@@ -220,6 +224,9 @@ export function createCurrentDevelopmentFixedSources(
             (inventory.status === "UNAVAILABLE" ? "<section id=\"availability-results\" data-availability-state=\"empty\" data-date=\"" + inventory.date + "\" data-pax=\"" + inventory.partySize + "\"></section>" : "<section id=\"availability-results\" data-availability-state=\"complete\">" + slots + "</section>") + "</div>" };
       },
       snapshot: async () => { if (!page) throw sourceGap({ source: "BROWSER", stage: "SNAPSHOT", request: "<none>", reason: "Browser snapshot occurred before navigation" }); return page; },
+      observeControls: async () => page?.html.includes('data-testid="Venue Availability"')
+        ? [{ id: "fixture:availability-region", stableKey: "fixture:availability-region", kind: "REGION" as const, role: "region", label: "Venue Availability", visible: true, disabled: false }]
+        : [],
       click: async () => { throw sourceGap({ source: "BROWSER", stage: "CLICK", request: "<opaque>", reason: "Fixture does not configure write-like browser interaction" }); },
       fill: async () => { throw sourceGap({ source: "BROWSER", stage: "FILL", request: "<opaque>", reason: "Fixture does not configure write-like browser interaction" }); },
       select: async () => { throw sourceGap({ source: "BROWSER", stage: "SELECT", request: "<opaque>", reason: "Fixture does not configure write-like browser interaction" }); },
@@ -235,7 +242,10 @@ export function createCurrentDevelopmentFixedSources(
   return {
     search,
     facts: composeLiveRestaurantFactRead(search, browser, model, undefined, () => asIso(clock)),
-    availability: new LiveBrowserAvailability(browser, model, { now: () => asIso(clock) }),
+    availability: new LiveBrowserAvailability(browser, model, {
+      now: () => asIso(clock), maxElapsedMsPerCandidate: 60_000, maxElapsedMsPerProvider: 45_000, maxAutomaticElapsedMs: 60_000,
+      maxOperationsPerCandidate: 30,
+    }),
     browser,
     calls,
   };

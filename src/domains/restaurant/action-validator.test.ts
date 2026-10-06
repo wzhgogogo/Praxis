@@ -14,7 +14,7 @@ import type { TaskSnapshot } from "../../core/task-runtime/contracts.js";
 import type { RestaurantOutcome } from "./contracts.js";
 
 const incompleteState: RestaurantTaskState = {
-  schemaVersion: "10",
+  schemaVersion: "11",
   phase: "UNDERSTANDING",
   candidates: [],
   availability: {},
@@ -424,6 +424,43 @@ test("PRESENT_RESULTS fails closed until area, HARD criterion, identity, and ava
     ],
   };
   assert.deepEqual(validateRestaurantAction(grounded, { type: "PRESENT_RESULTS", candidateIds: ["a"] }, now), { status: "ALLOWED" });
+  // One outlet can expose multiple public service categories. A fact proven
+  // for one category cannot qualify the different category whose slot is
+  // being presented, even when every other request value matches.
+  const serviceScope = { field: "reservation[service_category]", group: "form:0|name:reservation[service_category]", value: "sushi", label: "Sushi" };
+  const scopedMismatchedFact: RestaurantTaskState = {
+    ...grounded,
+    availability: { a: [{ ...grounded.availability.a![0]!, serviceScope }] },
+    readEvidence: grounded.readEvidence.map((evidence) => evidence.evidenceId === "availability"
+      ? { ...evidence, claims: { ...evidence.claims, serviceScopeField: serviceScope.field, serviceScopeGroup: serviceScope.group, serviceScopeValue: serviceScope.value, serviceScopeLabel: serviceScope.label } }
+      : evidence.evidenceId === "fact"
+        ? { ...evidence, claims: { ...evidence.claims, serviceScopeField: serviceScope.field, serviceScopeGroup: serviceScope.group, serviceScopeValue: "bar", serviceScopeLabel: "Bar" } }
+        : evidence),
+  };
+  assert.equal(validateRestaurantAction(scopedMismatchedFact, { type: "PRESENT_RESULTS", candidateIds: ["a"] }, now).status, "REJECTED");
+  const scopedUnboundFact: RestaurantTaskState = {
+    ...scopedMismatchedFact,
+    readEvidence: scopedMismatchedFact.readEvidence.map((evidence) => evidence.evidenceId === "fact"
+      ? { ...evidence, claims: { verifiedHardCriteria: ["omakase"] } }
+      : evidence),
+  };
+  assert.equal(validateRestaurantAction(scopedUnboundFact, { type: "PRESENT_RESULTS", candidateIds: ["a"] }, now).status, "REJECTED",
+    "an outlet-wide menu fact cannot qualify a selected service category without source scope binding");
+  const scopedMatchingFact: RestaurantTaskState = {
+    ...scopedMismatchedFact,
+    readEvidence: scopedMismatchedFact.readEvidence.map((evidence) => evidence.evidenceId === "fact"
+      ? { ...evidence, claims: { ...evidence.claims, serviceScopeValue: serviceScope.value, serviceScopeLabel: serviceScope.label } }
+      : evidence),
+  };
+  assert.equal(validateRestaurantAction(scopedMatchingFact, { type: "PRESENT_RESULTS", candidateIds: ["a"] }, now).status, "ALLOWED");
+  const outletConflictInOtherScope: RestaurantTaskState = {
+    ...scopedMatchingFact,
+    readEvidence: scopedMatchingFact.readEvidence.map((evidence) => evidence.evidenceId === "fact"
+      ? { ...evidence, claims: { ...evidence.claims, violatedNegativeCriteria: ["hot pot restaurant"], serviceScopeValue: "bar" } }
+      : evidence),
+    intentDraft: applyRestaurantIntentPatch(scopedMatchingFact.intentDraft, { schemaVersion: "3", addCriteria: [{ text: "hot pot restaurant", polarity: "NEGATIVE", strength: "HARD" }] }),
+  };
+  assert.equal(validateRestaurantAction(outletConflictInOtherScope, { type: "PRESENT_RESULTS", candidateIds: ["a"] }, now).status, "REJECTED", "a restaurant-level negative conflict cannot be hidden by choosing a different service category");
   const defaultBatch: RestaurantTaskState = {
     ...grounded, intentDraft: applyRestaurantIntentPatch(grounded.intentDraft, { schemaVersion: "3", target: { goal: "AVAILABILITY", query: "find a table", selectionScope: "OPEN_ENDED" } }),
     pendingResultBatchTarget: 3,

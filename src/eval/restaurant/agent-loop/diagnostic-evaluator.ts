@@ -4,7 +4,7 @@ import { basename, dirname, resolve } from "node:path";
 import { openingHoursForRequest } from "../../../domains/restaurant/read-grounding.js";
 
 
-export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@24";
+export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@25";
 export const RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION = "restaurant-hybrid-read-diagnostic-rubric@21";
 
 type JsonRecord = Record<string, unknown>;
@@ -311,7 +311,7 @@ function completionKind(input: { phase: string | undefined; loopStatus: string |
   // do not relabel it as a no-result merely because no offer was produced.
   const failureCode = input.executionFailureCode ?? asString(input.failure?.code) ?? "";
   if (failureCode === "CANCELLED" && input.executionStatus === "CANCELLED") return "CANCELLED";
-  if (/^(MODEL_CALL_BUDGET_EXHAUSTED|RUN_BUDGET_EXHAUSTED|RUN_DEADLINE_EXCEEDED|DEADLINE_EXCEEDED)$/.test(failureCode) && input.executionStatus === "FAILED") {
+  if (/^(MODEL_CALL_BUDGET_EXHAUSTED|RUN_BUDGET_EXHAUSTED|RUN_DEADLINE_EXCEEDED|DEADLINE_EXCEEDED|AGENT_LOOP_TIMEOUT)$/.test(failureCode) && input.executionStatus === "FAILED") {
     return "BUDGET_OR_DEADLINE_STOP";
   }
   if (input.executionStatus === "EXECUTION_FAILURE" || /^(SEMANTIC_INTERPRETATION_FAILED|AGENT_DECISION_FAILED|AGENT_EXECUTION_FAILED|AGENT_LOOP_EXECUTION_FAILURE)$/.test(failureCode)) {
@@ -447,8 +447,52 @@ function traceControlValues(control: JsonRecord): string[] {
     .flatMap(item => [asString(item.value), asString(item.label)]).filter((item): item is string => Boolean(item));
   return [...new Set([own, ...selected].filter((item): item is string => Boolean(item)))];
 }
-function traceRegionSlots(detail: JsonRecord, request: RequestShape, sourceEntityId: unknown): Array<{ time: string; disabled: boolean }> {
-  const slots: Array<{ time: string; disabled: boolean }> = [];
+interface TraceServiceScope { field: string; group: string; value: string; }
+function traceServiceScope(value: unknown): TraceServiceScope | undefined {
+  const scope = asRecord(value);
+  const field = asString(scope?.field); const group = asString(scope?.group); const selected = asString(scope?.value);
+  return field && group && selected ? { field, group, value: selected } : undefined;
+}
+function sameTraceServiceScope(left: TraceServiceScope | undefined, right: TraceServiceScope | undefined): boolean {
+  return left !== undefined && right !== undefined && left.field === right.field && left.group === right.group && left.value === right.value;
+}
+function evidenceServiceScope(item: JsonRecord): TraceServiceScope | undefined {
+  const claims = asRecord(item.claims);
+  const field = asString(claims?.serviceScopeField); const group = asString(claims?.serviceScopeGroup); const value = asString(claims?.serviceScopeValue);
+  return field && group && value ? { field, group, value } : undefined;
+}
+/**
+ * A scoped offer needs a scope-bound HARD fact.  A model judgment is derived
+ * evidence, so its own label is insufficient: every raw fact it cites must
+ * carry the same source-observed service range.  This mirrors the Domain's
+ * fail-closed read assessment without using its eligibility result as oracle.
+ */
+function factSupportsServiceScope(fact: JsonRecord, expected: TraceServiceScope, facts: readonly JsonRecord[]): boolean {
+  if (!sameTraceServiceScope(evidenceServiceScope(fact), expected)) return false;
+  if (fact.provider !== "MODEL_JUDGMENT") return true;
+  const citations = strings(asRecord(fact.claims)?.supportingEvidenceIds);
+  if (!citations.length) return false;
+  return citations.every((id) => {
+    const source = facts.find((item) => asString(item.evidenceId) === id);
+    return source?.kind === "RESTAURANT_FACT" && source.provider !== "MODEL_JUDGMENT"
+      && sameTraceServiceScope(evidenceServiceScope(source), expected);
+  });
+}
+function rawSelectedServiceScope(controls: readonly JsonRecord[], expected: TraceServiceScope): { state: "MATCH" | "CONFLICT" | "INCOMPLETE"; scope?: TraceServiceScope } {
+  const checked = controls.filter(control => control.kind === "RADIO" && control.checked === true
+    && traceControlField(control) === normalized(expected.field)
+    && asString(asRecord(control.structure)?.radioGroupKey) === expected.group);
+  if (!checked.length) return { state: "INCOMPLETE" };
+  const scopes = checked.flatMap(control => {
+    const structure = asRecord(control.structure);
+    const field = asString(structure?.name); const group = asString(structure?.radioGroupKey); const value = asString(control.value);
+    return field && group && value ? [{ field, group, value }] : [];
+  });
+  if (scopes.length !== checked.length || scopes.length !== 1) return { state: "CONFLICT" };
+  return { state: "MATCH", scope: scopes[0]! };
+}
+function traceRegionSlots(detail: JsonRecord, request: RequestShape, sourceEntityId: unknown, serviceScopeValue?: string): Array<{ time: string; disabled: boolean; serviceScopeValue?: string }> {
+  const slots: Array<{ time: string; disabled: boolean; serviceScopeValue?: string }> = [];
   const allowedWindow = request.permittedAlternativeTimeWindow ?? request.timeWindow;
   for (const region of asArray(detail.queryRegions).map(asRecord).filter((item): item is JsonRecord => Boolean(item))) {
     if (region.truncated === true || region.ancestorMarkupHidden === true) continue;
@@ -459,8 +503,9 @@ function traceRegionSlots(detail: JsonRecord, request: RequestShape, sourceEntit
       const party = attrs.match(/\bdata-reservation-party="([^"]+)"/i)?.[1];
       const time = attrs.match(/\bdata-reservation-time="([^"]+)"/i)?.[1];
       const source = attrs.match(/\bdata-reservation-source="([^"]+)"/i)?.[1];
-      if (/data-markup-hidden="true"/i.test(`${attrs}>${child}`) || !source || !traceSourceMatches(`https://www.tablecheck.com${source}`, sourceEntityId) || date !== request.date || Number(party) !== request.partySize || !time || !allowedWindow || time < allowedWindow.earliest || time > allowedWindow.latest) continue;
-      slots.push({ time, disabled: /\bdisabled(?:\s|>|=)|aria-disabled="true"/i.test(`${attrs}>${child}`) });
+      const scope = attrs.match(/\bdata-reservation-service-category="([^"]+)"/i)?.[1];
+      if (/data-markup-hidden="true"/i.test(`${attrs}>${child}`) || !source || !traceSourceMatches(`https://www.tablecheck.com${source}`, sourceEntityId) || date !== request.date || Number(party) !== request.partySize || !time || !allowedWindow || time < allowedWindow.earliest || time > allowedWindow.latest || (serviceScopeValue !== undefined && scope !== serviceScopeValue)) continue;
+      slots.push({ time, disabled: /\bdisabled(?:\s|>|=)|aria-disabled="true"/i.test(`${attrs}>${child}`), ...(scope ? { serviceScopeValue: scope } : {}) });
     }
   }
   return slots;
@@ -514,7 +559,7 @@ function traceSourceMatches(url: unknown, sourceEntityId: unknown): boolean {
     return Boolean(slug && (parts[0] === slug || (parts[0] === "shops" && parts[1] === slug)));
   } catch { return false; }
 }
-function rawTableCheckCurrentResult(root: JsonRecord, request: RequestShape, evidence: JsonRecord[], expected: "AVAILABLE" | "EMPTY", presentedTimes: string[] = []): RawTableCheckAssessment | undefined {
+function rawTableCheckCurrentResult(root: JsonRecord, request: RequestShape, evidence: JsonRecord[], expected: "AVAILABLE" | "EMPTY", presentedTimes: string[] = [], expectedScope?: TraceServiceScope): RawTableCheckAssessment | undefined {
   const anyTableCheckEvidence = evidence.filter(item => item.provider === "TABLECHECK" && item.kind === "AVAILABILITY");
   if (!anyTableCheckEvidence.length) return undefined;
   const tableCheckEvidence = anyTableCheckEvidence.filter(item => asString(item.sourceEntityId));
@@ -531,16 +576,26 @@ function rawTableCheckCurrentResult(root: JsonRecord, request: RequestShape, evi
     for (const entry of ordered) {
       if (entry.kind !== "SNAPSHOT") continue;
       const sequence = traceSequence(entry)!; const detail = asRecord(entry.detail) ?? {};
-      const source = tableCheckEvidence.find(item => traceSourceMatches(detail.url, item.sourceEntityId));
+      const source = tableCheckEvidence.find(item => traceSourceMatches(detail.url, item.sourceEntityId)
+        && (expectedScope === undefined || sameTraceServiceScope(evidenceServiceScope(item), expectedScope)));
       if (!source) continue;
       const controls = (traceControlsForSnapshot(ordered, sequence) ?? []).filter(control => control.visible === true && control.disabled !== true);
       const dates = controls.filter(control => /(?:start_date|\bdate\b)/.test(traceControlField(control))).flatMap(traceControlValues);
       const parties = controls.filter(control => /(?:num_people|party|adult|guest|pax)/.test(traceControlField(control))).flatMap(traceControlValues);
       const dateState = dates.length ? dates.includes(request.date) ? "MATCH" : "CONFLICT" : "INCOMPLETE";
       const partyState = parties.length ? parties.some(value => Number(value) === request.partySize) ? "MATCH" : "CONFLICT" : "INCOMPLETE";
-      const slots = traceRegionSlots(detail, request, source.sourceEntityId);
+      const scopeValue = evidenceServiceScope(source)?.value;
+      const slots = traceRegionSlots(detail, request, source.sourceEntityId, scopeValue);
       const exactLinkBindsRequest = slots.length > 0 || traceExplicitEmpty(detail, request);
-      let state: "MATCH" | "CONFLICT" | "INCOMPLETE" = dateState === "CONFLICT" || partyState === "CONFLICT" ? "CONFLICT" : exactLinkBindsRequest || dateState === "MATCH" && partyState === "MATCH" ? "MATCH" : "INCOMPLETE";
+      const selectedScope = expectedScope === undefined ? undefined : rawSelectedServiceScope(controls, expectedScope);
+      const scopeState = expectedScope === undefined ? "MATCH"
+        : selectedScope?.state === "CONFLICT" || selectedScope?.state === "MATCH" && !sameTraceServiceScope(selectedScope.scope, expectedScope) ? "CONFLICT"
+        : selectedScope?.state === "MATCH" ? "MATCH" : "INCOMPLETE";
+      let state: "MATCH" | "CONFLICT" | "INCOMPLETE" = dateState === "CONFLICT" || partyState === "CONFLICT" || scopeState === "CONFLICT" ? "CONFLICT" : exactLinkBindsRequest || dateState === "MATCH" && partyState === "MATCH" ? scopeState === "MATCH" ? "MATCH" : "INCOMPLETE" : "INCOMPLETE";
+      // A raw category-bound slot is evidence that scope matters. An unscoped
+      // production Offer/availability claim may not silently downgrade it to
+      // the legacy path.
+      if (expectedScope === undefined && slots.some(slot => slot.serviceScopeValue !== undefined)) state = "CONFLICT";
       const regions = asArray(detail.queryRegions).map(asRecord).filter((item): item is JsonRecord => Boolean(item));
       const loading = regions.some(region => region.truncated === true || /\bloading\b/i.test(asString(region.markup) ?? ""));
       const relevantSlots = presentedTimes.length ? slots.filter(slot => presentedTimes.includes(slot.time)) : slots;
@@ -569,7 +624,7 @@ function rawTableCheckCurrentResult(root: JsonRecord, request: RequestShape, evi
         leftLatestSource = !returnsToLatestSource;
         return returnsToLatestSource;
       }
-      return !leftLatestSource && ["select", "click", "fill", "press"].includes(method);
+      return !leftLatestSource && ["select", "click", "fill", "press", "setChecked"].includes(method);
     });
   if (trailingMutation) return { status: "NOT_EVALUATED", observations: [`raw TableCheck snapshot sequence ${latest.sequence} was followed by a browser mutation without a newer settled result.`], refs: [latest.ref] };
   if (latest.state === "CONFLICT") return { status: "NOT_SATISFIED", observations: [`raw TableCheck snapshot sequence ${latest.sequence} binds a different requested date or party size.`], refs: [latest.ref] };
@@ -705,10 +760,35 @@ function assessPresentedCandidate(candidateId: string, root: JsonRecord, domain:
       const matchingAvailabilityEvidence = availabilityEvidence.filter((item) => item.provider === offer.source && identities.some((identity) => identity.provider === item.provider && identity.sourceEntityId === item.sourceEntityId));
       if (availabilityEvidence.length > 0 && matchingAvailabilityEvidence.length === 0) conflicts.push("offer source is not represented by cited availability evidence");
       if (time && matchingAvailabilityEvidence.length > 0 && !matchingAvailabilityEvidence.some((item) => strings(asRecord(item.claims)?.visibleSlots).includes(time))) conflicts.push("offer time is not present in its cited availability evidence");
+      const offerScope = traceServiceScope(offer.serviceScope);
+      if (offerScope && !matchingAvailabilityEvidence.some(item => sameTraceServiceScope(evidenceServiceScope(item), offerScope))) {
+        conflicts.push("offer service scope is not present in its cited availability evidence");
+      }
+      if (offerScope) {
+        for (const hardCriterion of positiveHard) {
+          const scopedSupport = facts.some((fact) => strings(asRecord(fact.claims)?.verifiedHardCriteria)
+            .some((value) => normalized(value) === hardCriterion)
+            && factSupportsServiceScope(fact, offerScope, facts));
+          if (!scopedSupport) conflicts.push(`HARD criterion ${hardCriterion} lacks a scope-bound raw support chain for the presented offer`);
+        }
+        for (const hardCriterion of negativeHard) {
+          const scopedNegativeSupport = facts.some((fact) => strings(asRecord(fact.claims)?.verifiedNegativeCriteria)
+            .some((value) => normalized(value) === hardCriterion)
+            && factSupportsServiceScope(fact, offerScope, facts));
+          const scopedCategoryUnknown = facts.some((fact) => fact.provider === "MODEL_JUDGMENT"
+            && strings(asRecord(fact.claims)?.categoryUnknownNegativeCriteria).some((value) => normalized(value) === hardCriterion)
+            && factSupportsServiceScope(fact, offerScope, facts));
+          if (!scopedNegativeSupport && !scopedCategoryUnknown) conflicts.push(`negative HARD criterion ${hardCriterion} lacks a scope-bound raw support chain for the presented offer`);
+        }
+      }
       const freshness = validDuringPresentation(offer.checkedAt, offer.displayExpiresAt ?? offer.expiresAt, presentedAt); if (freshness === "MISSING") missing.push("offer observation/display freshness"); if (freshness === "INVALID") conflicts.push("offer display-freshness ordering is invalid"); if (freshness === "FUTURE_OBSERVATION") conflicts.push("offer was checked after presentation"); if (freshness === "EXPIRED") conflicts.push("offer was expired when presented");
     }
   }
-  const rawTableCheck = factOnly ? undefined : rawTableCheckCurrentResult(root, request, availabilityEvidence, "AVAILABLE", offers.filter(offer => offer.source === "TABLECHECK").map(offer => timeFromDateTime(offer.dateTime)).filter((time): time is string => Boolean(time)));
+  const tableCheckOffers = offers.filter(offer => offer.source === "TABLECHECK");
+  const tableCheckScopes = tableCheckOffers.map(offer => traceServiceScope(offer.serviceScope));
+  const expectedScope = tableCheckScopes.find((scope): scope is TraceServiceScope => scope !== undefined);
+  if (expectedScope && tableCheckScopes.some(scope => !sameTraceServiceScope(scope, expectedScope))) conflicts.push("TableCheck offers mix scoped and unscoped or different service scopes");
+  const rawTableCheck = factOnly ? undefined : rawTableCheckCurrentResult(root, request, availabilityEvidence, "AVAILABLE", tableCheckOffers.map(offer => timeFromDateTime(offer.dateTime)).filter((time): time is string => Boolean(time)), expectedScope);
   if (rawTableCheck?.status === "NOT_SATISFIED") conflicts.push(...rawTableCheck.observations);
   if (rawTableCheck?.status === "NOT_EVALUATED") missing.push(...rawTableCheck.observations);
   observations.push(`candidate=${candidateId}`, `citedEvidence=${listedEvidence.length}`, `offers=${offers.length}`, ...missing.map((item) => `missing=${item}`), ...conflicts.map((item) => `conflict=${item}`));

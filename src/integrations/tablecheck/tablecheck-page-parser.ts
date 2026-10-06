@@ -1,5 +1,5 @@
 import type { BrowserPageControl, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
-import type { RestaurantCandidate } from "../../domains/restaurant/contracts.js";
+import type { RestaurantCandidate, RestaurantServiceScope } from "../../domains/restaurant/contracts.js";
 import type {
   TableCheckIdentityEvidenceSource,
   TableCheckIdentityField,
@@ -79,6 +79,159 @@ function stableSourceEntityId(url: string): string {
 
 function plainText(value: string): string {
   return value.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+}
+
+/** Preserve source paragraph boundaries for later bounded document statements. */
+function sourceText(value: string): string {
+  return value
+    .replace(/<(?:br\s*\/?|\/(?:address|article|aside|div|h[1-6]|li|main|p|section|tr|ul|ol))\s*>/gi, "\n")
+    .replace(/<[^>]+>/g, " ")
+    .split(/\r?\n/)
+    .map((line) => line.replace(/[ \t\f\v]+/g, " ").trim())
+    .filter(Boolean)
+    .join("\n");
+}
+
+function decodedAttribute(value: string): string {
+  return value.replace(/&quot;/gi, '"').replace(/&#(?:x27|39);/gi, "'").replace(/&amp;/gi, "&");
+}
+
+function markupAttribute(markup: string, name: string): string | undefined {
+  const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const found = markup.match(new RegExp(`\\b${escaped}\\s*=\\s*(?:"([^"]*)"|'([^']*)'|([^\\s>]+))`, "i"));
+  const value = found?.[1] ?? found?.[2] ?? found?.[3];
+  return value === undefined ? undefined : decodedAttribute(value);
+}
+
+function menuCategoryValues(markup: string): string[] {
+  const raw = markupAttribute(markup, "data-service-categories");
+  if (!raw) return [];
+  try {
+    const values = JSON.parse(raw) as unknown;
+    return Array.isArray(values) && values.every((value) => typeof value === "string" && value.trim())
+      ? [...new Set(values.map((value) => value.trim()))]
+      : [];
+  } catch { return []; }
+}
+
+interface MenuMarkupNode {
+  name: string;
+  start: number;
+  contentStart: number;
+  menuContainer: boolean;
+  categories: Set<string>;
+}
+
+function isMenuContainer(markup: string): boolean {
+  const classes = (markupAttribute(markup, "class") ?? "").split(/\s+/).filter(Boolean);
+  // `menu-item-data` is metadata inside the outer menu item; labels such as
+  // `menu-item-title` and `menu-item-description` are siblings, not scopes.
+  return classes.some((value) => value.toLowerCase() === "menu-item");
+}
+
+/** Remove markup that browsers do not expose as DOM menu content, preserving offsets. */
+function tableCheckDomMarkup(html: string): string {
+  const blank = (value: string) => value.replace(/[^\n\r]/g, " ");
+  return html
+    .replace(/<!--[\s\S]*?-->/g, blank)
+    .replace(/<(script|style)\b[^>]*>[\s\S]*?<\/\1\s*>/gi, blank);
+}
+
+function observedTableCheckServiceScopes(controls: readonly BrowserPageControl[]): Map<string, RestaurantServiceScope> {
+  const scopes = new Map<string, RestaurantServiceScope>();
+  for (const control of controls) {
+    const field = control.structure?.name;
+    const group = control.structure?.radioGroupKey;
+    const value = control.value?.trim();
+    const label = control.label.trim();
+    if (control.kind !== "RADIO" || !control.visible || control.disabled || field !== "reservation[service_category]" || !group || !value || !label) continue;
+    scopes.set(value, { field, group, value, label });
+  }
+  return scopes;
+}
+
+export interface TableCheckScopedMenuExcerpt {
+  serviceScope: RestaurantServiceScope;
+  /** Public text structurally contained by the category-tagged menu item. */
+  text: string;
+}
+
+export interface TableCheckScopedMenuSourcePartition {
+  scoped: TableCheckScopedMenuExcerpt[];
+  /** Remaining visible page text after recognized category menu items are removed. */
+  unscopedText: string;
+}
+
+/**
+ * Reads public menu category data only when a category-tagged element is
+ * structurally inside a menu item and names a visible observed radio value.
+ * It is cited source text, never an availability result.
+ */
+export function parseTableCheckScopedMenuSourcePartition(
+  snapshot: BrowserSnapshot,
+  controls: readonly BrowserPageControl[],
+): TableCheckScopedMenuSourcePartition {
+  if (!isTableCheckUrl(snapshot.url)) return { scoped: [], unscopedText: sourceText(tableCheckDomMarkup(snapshot.html)) };
+  const scopes = observedTableCheckServiceScopes(controls);
+  if (!scopes.size) return { scoped: [], unscopedText: sourceText(tableCheckDomMarkup(snapshot.html)) };
+  const html = tableCheckDomMarkup(snapshot.html);
+  const nodes: MenuMarkupNode[] = [];
+  const completed: Array<MenuMarkupNode & { end: number }> = [];
+  const voidTags = new Set(["area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr"]);
+  const tags = /<\s*(\/?)\s*([a-z][\w-]*)\b[^>]*>/gi;
+  for (let match = tags.exec(html); match; match = tags.exec(html)) {
+    const closing = match[1] === "/";
+    const name = match[2]!.toLowerCase();
+    const markup = match[0];
+    if (!closing) {
+      const categories = menuCategoryValues(markup);
+      if (categories.length) {
+        const owner = [...nodes].reverse().find((item) => item.menuContainer);
+        if (owner) categories.forEach((value) => owner.categories.add(value));
+      }
+      if (!voidTags.has(name) && !/\/\s*>$/.test(markup)) {
+        nodes.push({ name, start: match.index, contentStart: tags.lastIndex, menuContainer: isMenuContainer(markup), categories: new Set<string>() });
+      }
+      continue;
+    }
+    const index = nodes.map((node) => node.name).lastIndexOf(name);
+    if (index < 0) continue;
+    // A closing ancestor also closes any malformed unclosed descendants. Drop
+    // those descendants rather than letting their categories leak into the
+    // next sibling menu item.
+    const [node] = nodes.splice(index, nodes.length - index);
+    if (node?.menuContainer && node.categories.size) completed.push({ ...node, end: match.index });
+  }
+  const excerpts: TableCheckScopedMenuExcerpt[] = [];
+  const scopedRanges: Array<{ start: number; end: number }> = [];
+  const seen = new Set<string>();
+  for (const item of completed) {
+    const text = sourceText(html.slice(item.contentStart, item.end));
+    if (!text) continue;
+    let hasObservedScope = false;
+    for (const value of item.categories) {
+      const serviceScope = scopes.get(value);
+      if (!serviceScope) continue;
+      hasObservedScope = true;
+      const fingerprint = `${serviceScope.field}\u0000${serviceScope.group}\u0000${serviceScope.value}\u0000${text}`;
+      if (seen.has(fingerprint)) continue;
+      seen.add(fingerprint);
+      excerpts.push({ serviceScope, text });
+    }
+    if (hasObservedScope) scopedRanges.push({ start: item.start, end: item.end });
+  }
+  let unscopedMarkup = html;
+  for (const range of scopedRanges.sort((left, right) => right.start - left.start)) {
+    unscopedMarkup = `${unscopedMarkup.slice(0, range.start)}${" ".repeat(range.end - range.start)}${unscopedMarkup.slice(range.end)}`;
+  }
+  return { scoped: excerpts, unscopedText: sourceText(unscopedMarkup) };
+}
+
+export function parseTableCheckScopedMenuExcerpts(
+  snapshot: BrowserSnapshot,
+  controls: readonly BrowserPageControl[],
+): TableCheckScopedMenuExcerpt[] {
+  return parseTableCheckScopedMenuSourcePartition(snapshot, controls).scoped;
 }
 
 function firstElementText(html: string, marker: RegExp): string | undefined {
@@ -538,7 +691,7 @@ export function parseTableCheckAvailabilitySlots(
 }
 
 /** A neighbouring restaurant's reservation link is never this outlet's stock. */
-function sameReservationOutlet(sourceUrl: string, link: URL): boolean {
+export function sameReservationOutlet(sourceUrl: string, link: URL): boolean {
   const expected = stableSourceEntityId(sourceUrl).replace(/^shops\//, "");
   // TableCheck publishes both the legacy /shops/<slug>/reserve path and the
   // guide-owned /<slug>/reserve[/landing] path. Both still have to name the
