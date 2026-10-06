@@ -17,13 +17,15 @@ export const LIVE_READ_DEBUG_INVESTIGATION_BUDGET = {
   maxAvailabilityReads: 20,
   maxBrowserRuntimeFallbacks: 1,
   maxBrowserModelCallsPerCandidate: 20,
+  /** Browser-only sublimit; the outer run-scoped gateway separately caps all model purposes at fifty. */
   maxBrowserModelCallsTotal: 120,
   maxBrowserOperationsPerCandidate: 80,
   /** Keeps one outlet/provider path from consuming the entire Live deadline. */
   maxCandidateBrowserMs: 60_000,
-  /** A single provider must leave time for a source-supported alternate. */
-  maxProviderBrowserMs: 30_000,
-  maxAutomaticBrowserMs: 20 * 60_000,
+  /** Extends one slow public observation while preserving 15s of the 60s candidate cap for an alternate. */
+  maxProviderBrowserMs: 45_000,
+  /** Whole read budget. Candidate/provider limits retain time for a legal alternate. */
+  maxAutomaticBrowserMs: 500_000,
   maxAgentSteps: 30,
   maxRejectedActions: 5,
 } as const;

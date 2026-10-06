@@ -10,6 +10,7 @@ import {
   type PilotAccessEntry,
 } from "../application/persistent-restaurant-agent.js";
 import { LIVE_READ_DEBUG_INVESTIGATION_BUDGET } from "../application/live-read-investigation-budget.js";
+import { RunBoundedModelGateway } from "../application/run-bounded-model-gateway.js";
 import type { RestaurantCaseView } from "../application/agent-workspace.js";
 import { RestaurantSemanticInterpreter } from "../domains/restaurant/semantic-interpreter.js";
 import { RestaurantAgentDecision } from "../domains/restaurant/agent-decision.js";
@@ -383,7 +384,11 @@ async function start(): Promise<void> {
   const fixtureMode = providerMode === "FIXTURE";
   const fixtureSearch = fixtureMode ? new FixtureRestaurantSearch() : undefined;
   if (!fixtureMode) assertLocalLiveReadEnvironment(process.env);
-  const model = fixtureMode ? new FixtureModelGateway() : DeepSeekModelGateway.fromEnvironment();
+  const providerModel = fixtureMode ? new FixtureModelGateway() : DeepSeekModelGateway.fromEnvironment();
+  // The wrapper scope begins in PersistentRestaurantAgentApplication before
+  // semantic interpretation and propagates through its async read lifecycle.
+  const model = fixtureMode ? providerModel : new RunBoundedModelGateway(providerModel, 50, LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxAutomaticBrowserMs);
+  const modelRunBudget = fixtureMode ? undefined : model as RunBoundedModelGateway;
   const googleSearch = fixtureMode ? undefined : new GooglePlacesRestaurantSearch(
         new GooglePlacesClient({
           apiKey: process.env.GOOGLE_MAPS_API_KEY ?? "",
@@ -424,6 +429,7 @@ async function start(): Promise<void> {
     workspaceMode: providerMode,
     ...(fixtureMode ? {} : {
       liveReadLimits: LIVE_READ_DEBUG_INVESTIGATION_BUDGET,
+      ...(modelRunBudget ? { modelRunBudget } : {}),
       executionRouterOptions: {
         structuredReadTimeoutMs: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxStructuredReadMs,
         browserReadTimeoutMs: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxAutomaticBrowserMs,

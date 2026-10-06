@@ -15,7 +15,7 @@ import {
   type PilotAccessEntry,
 } from "../application/persistent-restaurant-agent.js";
 import type { RestaurantAvailabilityPort, RestaurantCandidateFactPort, RestaurantSearchPort } from "../application/restaurant-execution-router.js";
-import { RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION } from "../eval/restaurant/agent-loop/diagnostic-evaluator.js";
+import { evaluateRestaurantHybridLiveArtifact, RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION } from "../eval/restaurant/agent-loop/diagnostic-evaluator.js";
 import { FakeClock } from "../harness/fake-clock.js";
 import { RestaurantSemanticInterpreter } from "../domains/restaurant/semantic-interpreter.js";
 import { RestaurantAgentDecision, ScriptedRestaurantAgentDecisionPort, type RestaurantAgentDecisionPort } from "../domains/restaurant/agent-decision.js";
@@ -23,6 +23,7 @@ import type { RestaurantSemanticInterpreterPort, RestaurantPartySizeSupplementRe
 import type { RestaurantPartySizeSupplementResult } from "../domains/restaurant/party-size-supplement-resolver.js";
 import type { RestaurantSemanticProposal } from "../domains/restaurant/semantic-proposal.js";
 import { FixtureModelGateway } from "../infrastructure/fixture/fixture-model-gateway.js";
+import { RunBoundedModelGateway } from "../application/run-bounded-model-gateway.js";
 import type { ModelGateway, ModelRequest, ModelResponse } from "../core/model/contracts.js";
 import { ModelGatewayError } from "../core/model/errors.js";
 import { FixtureRestaurantSearch } from "../infrastructure/fixture/fixture-restaurant-search.js";
@@ -83,6 +84,7 @@ interface StartServerOptions {
   semanticInterpreter?: RestaurantSemanticInterpreterPort;
   partySizeSupplementResolver?: RestaurantPartySizeSupplementResolverPort;
   agentDecision?: RestaurantAgentDecisionPort;
+  modelRunBudget?: { run<T>(taskId: string, work: (signal: AbortSignal) => Promise<T>): Promise<T>; hold?(): () => void; usage?(taskId: string): { calls: number; elapsedMs?: number } | undefined };
 }
 
 async function startServer(database: SqlDatabase, clock: FakeClock, options: StartServerOptions = {}): Promise<TestServer> {
@@ -99,6 +101,7 @@ async function startServer(database: SqlDatabase, clock: FakeClock, options: Sta
     restaurantFacts: restaurant,
     ...(options.liveReadLimits ? { liveReadLimits: options.liveReadLimits } : {}),
     ...(options.mode ? { workspaceMode: options.mode } : {}),
+    ...(options.modelRunBudget ? { modelRunBudget: options.modelRunBudget } : {}),
   });
   const sessions = new PilotSessionService(application.store, ACCESS, clock);
   const server = createLocalWebServer({
@@ -133,16 +136,31 @@ class MeteredGoogleFixtureRestaurantSearch implements RestaurantSearchPort, Rest
     const read = await this.fixture.search(request, signal);
     return {
       ...read,
+      evidence: read.candidates.map((candidate) => ({
+        evidenceId: `metered-discovery:${candidate.restaurant.id}`, kind: "DISCOVERY" as const, provider: "GOOGLE_PLACES" as const,
+        candidateId: candidate.restaurant.id, sourceEntityId: candidate.restaurant.id, observedAt: "2026-08-08T09:00:00.000Z", requestFingerprint: "metered-discovery",
+        claims: { areaMatch: true, areaQuery: request.intent.area.query },
+      })),
       metadata: {
         ...read.metadata,
         provider: "GOOGLE_PLACES" as const,
-        googleRequests: { limit: 100, total: 4, namedPlaceResolution: 1, discovery: 2, placeDetails: 1 },
+        googleRequests: { limit: 50, total: 4, namedPlaceResolution: 1, discovery: 2, placeDetails: 1 },
       },
     };
   }
 
-  check(...arguments_: Parameters<FixtureRestaurantSearch["check"]>) {
-    return this.fixture.check(...arguments_);
+  async check(request: RestaurantAvailabilityRequest, signal: AbortSignal) {
+    const read = await this.fixture.check(request, signal);
+    const evidence: RestaurantReadEvidence[] = request.candidateIds.flatMap((candidateId) => [
+      { evidenceId: `metered-identity:${candidateId}`, kind: "ENTITY_MATCH" as const, provider: "TABLECHECK" as const, candidateId, sourceEntityId: candidateId,
+        observedAt: "2026-08-08T09:00:00.000Z", requestFingerprint: "metered-availability", claims: {}, entityMatch: { confidence: "HIGH" as const, matchedBy: ["FIXTURE_SOURCE"] } },
+      { evidenceId: `metered-hours:${candidateId}`, kind: "RESTAURANT_FACT" as const, provider: "TABLECHECK" as const, candidateId, sourceEntityId: candidateId,
+        observedAt: "2026-08-08T09:00:00.000Z", requestFingerprint: "metered-availability", claims: { openingHoursMatch: true, restaurantTypeFacts: ["fixture restaurant"] }, entityMatch: { confidence: "HIGH" as const, matchedBy: ["FIXTURE_SOURCE"] } },
+      { evidenceId: `metered-availability:${candidateId}`, kind: "AVAILABILITY" as const, provider: "TABLECHECK" as const, candidateId, sourceEntityId: candidateId,
+        observedAt: "2026-08-08T09:00:00.000Z", expiresAt: "2026-12-31T23:59:00.000Z", displayExpiresAt: "2026-12-31T23:59:00.000Z", requestFingerprint: "metered-availability",
+        claims: { date: request.date, partySize: request.partySize, visibleSlots: read.offers.filter(offer => offer.restaurantId === candidateId).map(offer => offer.dateTime.slice(11, 16)) }, entityMatch: { confidence: "HIGH" as const, matchedBy: ["FIXTURE_SOURCE"] } },
+    ]);
+    return { ...read, evidence, availabilityChecks: Object.fromEntries(Object.entries(read.availabilityChecks).map(([candidateId, check]) => [candidateId, { ...check, evidenceIds: [`metered-identity:${candidateId}`, `metered-hours:${candidateId}`, `metered-availability:${candidateId}`] }])) };
   }
 
   inspectFacts(...arguments_: Parameters<FixtureRestaurantSearch["inspectFacts"]>) {
@@ -153,12 +171,22 @@ class MeteredGoogleFixtureRestaurantSearch implements RestaurantSearchPort, Rest
 class BlockingRestaurantSearch extends FixtureRestaurantSearch {
   private resolveStarted?: () => void;
   readonly started = new Promise<void>((resolve) => { this.resolveStarted = resolve; });
+  aborted = false;
 
   override async search(_request: RestaurantSearchRequest, signal: AbortSignal) {
     this.resolveStarted?.();
     return new Promise<never>((_resolve, reject) => {
-      signal.addEventListener("abort", () => reject(signal.reason ?? new Error("aborted")), { once: true });
+      signal.addEventListener("abort", () => { this.aborted = true; reject(signal.reason ?? new Error("aborted")); }, { once: true });
     });
+  }
+}
+
+class DelayedFixtureModelGateway implements ModelGateway {
+  constructor(private readonly delayMs: number) {}
+  private readonly fixture = new FixtureModelGateway();
+  async complete(request: ModelRequest): Promise<ModelResponse> {
+    if (request.purpose === "restaurant_semantic_interpret") await new Promise<void>((resolve) => setTimeout(resolve, this.delayMs));
+    return this.fixture.complete(request);
   }
 }
 
@@ -628,10 +656,12 @@ test("H002 persistent duplicate message delivery invokes the supplement once; co
       status: "MODEL_FAILURE", errorCode: "NETWORK", retryable: false, attempts: [],
     }));
     const refreshCalls = { model: 0, search: 0, facts: 0, availability: 0 };
+    const refreshModel = new RunBoundedModelGateway(selectionSessionModel(refreshCalls), 50, 5_000);
     const refreshServer = await startServer(database, clock, {
       partySizeSupplementResolver: refreshResolver,
       restaurant: selectionSessionFixture(refreshCalls),
-      model: selectionSessionModel(refreshCalls),
+      model: refreshModel,
+      modelRunBudget: refreshModel,
     });
     try {
       const cookie = await login(refreshServer.baseUrl, "token-a");
@@ -644,6 +674,7 @@ test("H002 persistent duplicate message delivery invokes the supplement once; co
       });
       assert.equal(refreshed.response.status, 200, String(refreshed.payload.error));
       assert.equal(refreshResolver.messages.length, 0, "availability refresh never re-interprets or supplements the original request");
+      assert.ok((refreshModel.usage(created.case.caseId)?.calls ?? 0) > 0, "a direct refresh owns a fresh bounded model scope rather than borrowing the completed message run");
     } finally {
       await refreshServer.close();
     }
@@ -1030,30 +1061,73 @@ test("W10 ordinary Web persists a semantic-model failure as a failed case and ar
 
 test("W11 ordinary Web artifact retains shared Google request limits and category totals", async () => {
   await withDatabase(async ({ database, clock }) => {
-    const artifactDirectory = await mkdtemp(join(tmpdir(), "praxis-web-google-accounting-"));
+    const boundedModel = new RunBoundedModelGateway(new FixtureModelGateway(), 50, 5_000);
+    const fixtureIds = ["fixture-restaurant-1", "fixture-restaurant-2", "fixture-restaurant-3"];
     const running = await startServer(database, clock, {
+      mode: "LIVE_READ",
+      model: boundedModel,
+      modelRunBudget: boundedModel,
       restaurant: new MeteredGoogleFixtureRestaurantSearch(),
-      artifactDirectory,
+      agentDecision: new ScriptedRestaurantAgentDecisionPort([
+        { type: "SEARCH_RESTAURANTS" },
+        { type: "CHECK_AVAILABILITY", candidateIds: fixtureIds },
+        { type: "PRESENT_RESULTS", candidateIds: fixtureIds },
+      ]),
       liveReadLimits: { maxGoogleRequests: 100 },
     });
     try {
       const cookie = await login(running.baseUrl, "token-a");
-      await createCase(running.baseUrl, cookie, "web-google-accounting");
-      const files = await readdir(artifactDirectory);
-      const resultName = files.find((file) => file.endsWith(".result.json"));
-      assert.ok(resultName, "finished Web reads must export their resource accounting");
-      const artifact = JSON.parse(await readFile(join(artifactDirectory, resultName), "utf8")) as {
+      const finished = new Promise<void>((resolve) => {
+        const unsubscribe = running.application.subscribeReadFinished(() => { unsubscribe(); resolve(); });
+      });
+      const created = await createCase(running.baseUrl, cookie, "web-google-accounting");
+      await finished;
+      // `readFinished` subscribers deliberately run concurrently so artifact
+      // persistence cannot delay UI completion. Export from the completed
+      // application state here to test the production accounting contract.
+      const artifact = await running.application.exportReadArtifact(created.case.caseId) as {
         limits?: Record<string, number>;
-        resourceUsage?: { googleRequests?: Record<string, number> };
+        resourceUsage?: { googleRequests?: Record<string, number>; modelCallsStarted?: number; elapsedMs?: number };
+        finalSnapshot?: { domainState?: { phase?: string; presentedResults?: { candidateIds?: string[] } } };
+        trajectories?: unknown;
       };
       assert.equal(artifact.limits?.maxGoogleRequests, 100);
       assert.deepEqual(artifact.resourceUsage?.googleRequests, {
-        limit: 100,
+        limit: 50,
         total: 4,
         namedPlaceResolution: 1,
         discovery: 2,
         placeDetails: 1,
       });
+      assert.ok((artifact.resourceUsage?.modelCallsStarted ?? 0) > 0, "the artifact records the model calls made under its live per-run scope");
+      assert.ok((artifact.resourceUsage?.elapsedMs ?? 0) >= 0, "resource elapsed time is taken from the same completed per-run scope");
+      assert.equal(artifact.finalSnapshot?.domainState?.phase, "PRESENT_RESULTS", JSON.stringify({ snapshot: artifact.finalSnapshot, trajectories: artifact.trajectories }));
+      assert.ok((artifact.finalSnapshot?.domainState?.presentedResults?.candidateIds?.length ?? 0) > 0);
+    } finally {
+      await running.close();
+    }
+  });
+});
+
+test("W12 Live Persistent run keeps the semantic-started deadline through a blocking provider read", async () => {
+  await withDatabase(async ({ database, clock }) => {
+    const restaurant = new BlockingRestaurantSearch();
+    const boundedModel = new RunBoundedModelGateway(new DelayedFixtureModelGateway(20), 50, 55);
+    const running = await startServer(database, clock, {
+      mode: "LIVE_READ", restaurant, model: boundedModel, modelRunBudget: boundedModel,
+    });
+    try {
+      const cookie = await login(running.baseUrl, "token-a");
+      const finished = new Promise<void>((resolve) => {
+        const unsubscribe = running.application.subscribeReadFinished(() => { unsubscribe(); resolve(); });
+      });
+      const created = await createCase(running.baseUrl, cookie, "web-whole-read-deadline");
+      await restaurant.started;
+      await withinTestTimeout(finished, "the semantic-started whole-read deadline");
+      assert.equal(restaurant.aborted, true, "the original run signal interrupts a source read after semantic time has elapsed");
+      const artifact = await running.application.exportReadArtifact(created.case.caseId);
+      assert.equal((artifact.finalSnapshot as { domainState?: { failure?: { code?: string } } }).domainState?.failure?.code, "AGENT_LOOP_TIMEOUT");
+      assert.equal(evaluateRestaurantHybridLiveArtifact(artifact, { path: "w12-deadline.result.json", sha256: "fixture" }).execution.completion, "BUDGET_OR_DEADLINE_STOP");
     } finally {
       await running.close();
     }

@@ -80,6 +80,11 @@ function cancellationReason(signal: AbortSignal): string {
     : "The user cancelled this read-only investigation.";
 }
 
+function isRunDeadline(signal: AbortSignal): boolean {
+  return !!signal.reason && typeof signal.reason === "object" && "code" in signal.reason
+    && signal.reason.code === "RUN_DEADLINE_EXCEEDED";
+}
+
 /**
  * A failed location lookup, failed network read or spent provider budget
  * cannot establish nearby candidates by repeating the unchanged search.
@@ -226,10 +231,7 @@ export class RestaurantAgentLoopCoordinator {
       snapshot = await this.runtime.snapshot(taskId);
       let base = this.base(taskId, stepNumber, snapshot, context);
 
-      if (signal?.aborted) {
-        await this.terminate(snapshot, base, "CANCELLED", cancellationReason(signal));
-        return { status: "CANCELLED", steps: step + 1 };
-      }
+      if (signal?.aborted) return this.abort(snapshot, taskId, step + 1, base, signal);
 
       if (this.timedOut(deadlineAt)) {
         await this.terminate(
@@ -338,10 +340,7 @@ export class RestaurantAgentLoopCoordinator {
           await recordDeliveryReserve();
           continue;
         }
-        if (signal?.aborted) {
-          await this.terminate(snapshot, base, "CANCELLED", cancellationReason(signal));
-          return { status: "CANCELLED", steps: step + 1 };
-        }
+        if (signal?.aborted) return this.abort(snapshot, taskId, step + 1, base, signal);
         const reason = error instanceof Error ? error.message : "Restaurant action execution failed";
         const code = error && typeof error === "object" && "code" in error && typeof error.code === "string"
           ? error.code : "AGENT_EXECUTION_FAILED";
@@ -367,10 +366,7 @@ export class RestaurantAgentLoopCoordinator {
         await recordDeliveryReserve();
         continue;
       }
-      if (signal?.aborted) {
-        await this.terminate(snapshot, base, "CANCELLED", cancellationReason(signal));
-        return { status: "CANCELLED", steps: step + 1 };
-      }
+      if (signal?.aborted) return this.abort(snapshot, taskId, step + 1, base, signal);
 
       const after = execution.event
         ? await this.dispatch(snapshot, execution.event, execution.route === "STRUCTURED_ADAPTER" || execution.route === "GENERIC_BROWSER" ? "ADAPTER" : "SYSTEM")
@@ -448,8 +444,22 @@ export class RestaurantAgentLoopCoordinator {
   ): Promise<RestaurantAgentLoopResult> {
     if (terminal(snapshot.domainState)) return { status: "TERMINAL", steps: stepNumber };
     const nextStep = stepNumber + 1;
-    await this.terminate(snapshot, this.base(taskId, nextStep, snapshot), "CANCELLED", cancellationReason(signal));
-    return { status: "CANCELLED", steps: nextStep };
+    return this.abort(snapshot, taskId, nextStep, this.base(taskId, nextStep, snapshot), signal);
+  }
+
+  private async abort(
+    snapshot: TaskSnapshot<RestaurantTaskState, RestaurantOutcome>,
+    _taskId: string,
+    steps: number,
+    base: TrajectoryBase,
+    signal: AbortSignal,
+  ): Promise<RestaurantAgentLoopResult> {
+    if (isRunDeadline(signal)) {
+      await this.terminate(snapshot, base, "TIMEOUT", cancellationReason(signal));
+      return { status: "TIMEOUT", steps };
+    }
+    await this.terminate(snapshot, base, "CANCELLED", cancellationReason(signal));
+    return { status: "CANCELLED", steps };
   }
 
   private timedOut(deadlineAt: Date): boolean {

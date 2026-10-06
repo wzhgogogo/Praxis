@@ -26,7 +26,7 @@ import { createHybridReadComposition } from "../hybrid-read-composition.js";
 import { captureHybridLiveProgress } from "../hybrid-live-artifact.js";
 import { RestaurantPartySizeSupplementResolver } from "../../../../domains/restaurant/party-size-supplement-resolver.js";
 import { evaluateArtifactAfterFinish, RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION } from "../diagnostic-evaluator.js";
-import { settleAtRunDeadline } from "../live-run-deadline.js";
+import { createRunDeadlineSignal, RUN_DEADLINE_EXCEEDED, settleAtRunDeadline } from "../live-run-deadline.js";
 import { diagnosticFailureCode, startDiagnosticRun } from "../../../shared/diagnostic-run.js";
 import { safeRecord, traceBrowserSession } from "./browser-case-slice-evidence.js";
 
@@ -170,7 +170,7 @@ function runCeiling(flag: string, fallback: number): number {
   return value;
 }
 
-const maxModelCalls = runCeiling("--max-model-calls", 150);
+const maxModelCalls = runCeiling("--max-model-calls", 50);
 const liveReadLimits = {
   ...LIVE_READ_DEBUG_INVESTIGATION_BUDGET,
   maxGoogleRequests: runCeiling("--max-google-requests", LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxGoogleRequests),
@@ -195,7 +195,8 @@ const journal = await startDiagnosticRun(resolve(".eval-artifacts", "restaurant-
 // This is real elapsed time, deliberately independent of the Runtime clock
 // used to materialize business dates and evidence freshness.  It begins before
 // semantic interpretation so Parser/model setup cannot sit outside the run cap.
-const deadline = AbortSignal.timeout(liveReadLimits.maxAutomaticBrowserMs);
+const deadlineControl = createRunDeadlineSignal(liveReadLimits.maxAutomaticBrowserMs);
+const deadline = deadlineControl.signal;
 // Some browser/provider implementations leave only unref'ed work while a
 // promise is still pending. Keep this diagnostic process alive until its
 // result artifact has been finalized; an orphaned STARTED record is neither a
@@ -249,7 +250,7 @@ try {
     if (modelCallsStarted >= maxModelCalls) throw Object.assign(new Error("Run model-call ceiling reached"), { code: "MODEL_CALL_BUDGET_EXHAUSTED" });
     modelCallsStarted += 1;
     const remainingMs = liveReadLimits.maxAutomaticBrowserMs - (Date.now() - startedAt.valueOf());
-    if (remainingMs <= 0) throw Object.assign(new Error("Run deadline reached"), { code: "CANCELLED" });
+    if (remainingMs <= 0) throw Object.assign(new Error("Run deadline reached"), { code: RUN_DEADLINE_EXCEEDED });
     return providerModel.complete({ ...request, timeoutMs: Math.min(request.timeoutMs, remainingMs) });
   } };
   stage = "PROVIDER_SETUP";
@@ -394,5 +395,6 @@ try {
   console.error(JSON.stringify({ failureCode, stage, artifactPath: journal.resultPath, evaluationPath: evaluation.outputPath, evaluationFailure: evaluation.evaluationFailure, evaluationFailurePath: evaluation.failurePath }));
   process.exitCode = 1;
 } finally {
+  deadlineControl.dispose();
   clearInterval(lifecycleKeepAlive);
 }

@@ -278,6 +278,13 @@ export interface PersistentRestaurantAgentOptions {
   agentLoopOptions?: RestaurantAgentLoopOptions;
   /** Explicit, caller-owned Live debugging limits included in exported Web artifacts only. */
   liveReadLimits?: Readonly<Record<string, number>>;
+  /** Starts the whole read budget before semantic interpretation and preserves it through the asynchronous Agent loop. */
+  modelRunBudget?: {
+    run<T>(taskId: string, work: (signal: AbortSignal) => Promise<T>): Promise<T>;
+    /** Keeps the parent read deadline alive while LIVE work continues after the HTTP mutation returns. */
+    hold?(): () => void;
+    usage?(taskId: string): { calls: number; elapsedMs?: number } | undefined;
+  };
 }
 
 export type RestaurantCaseUpdateListener = (view: RestaurantCaseView) => void | Promise<void>;
@@ -300,6 +307,7 @@ export class PersistentRestaurantAgentApplication {
   private readonly createId: IdFactory;
   private readonly workspaceMode: AgentWorkspaceMode;
   private readonly liveReadLimits: Readonly<Record<string, number>> | undefined;
+  private readonly modelRunBudget: PersistentRestaurantAgentOptions["modelRunBudget"];
   private readonly activeReads = new Map<string, ActiveRead>();
   /** Narrow in-process guard for a duplicated HTTP delivery of one user message. */
   private readonly applyingUserMessages = new Map<string, Promise<unknown>>();
@@ -311,6 +319,7 @@ export class PersistentRestaurantAgentApplication {
     this.createId = options.createId ?? ((prefix) => `${prefix}:${randomUUID()}`);
     this.workspaceMode = options.workspaceMode ?? "FIXTURE";
     this.liveReadLimits = options.liveReadLimits;
+    this.modelRunBudget = options.modelRunBudget;
     this.interpreter = options.semanticInterpreter;
     this.partySizeSupplementResolver = options.partySizeSupplementResolver;
     this.store = new PostgresAgentWorkspaceStore(options.database);
@@ -572,7 +581,7 @@ export class PersistentRestaurantAgentApplication {
         requestId: `user:${input.requestId}`,
         createdAt: this.clock.now().toISOString(),
       });
-      await this.runAfterUserInput(record, input.requestId);
+      await this.runUserInitiatedRead(record, input.requestId);
       return this.project(record);
     }
     const evidenceIds = candidates.flatMap((candidateId) => restaurantPresentationEvidenceIds(snapshot.domainState, candidateId, this.clock.now().toISOString()) ?? []);
@@ -622,7 +631,7 @@ export class PersistentRestaurantAgentApplication {
       requestId: `user:${input.requestId}`,
       createdAt: this.clock.now().toISOString(),
     });
-    await this.runAfterUserInput(record, input.requestId);
+    await this.runUserInitiatedRead(record, input.requestId);
     return this.project(record);
   }
 
@@ -644,7 +653,7 @@ export class PersistentRestaurantAgentApplication {
       patch: { schemaVersion: "3", area: { ...area, coordinates: { latitude: input.latitude, longitude: input.longitude, ...(input.accuracyMeters !== undefined ? { accuracyMeters: input.accuracyMeters } : {}), observedAt: now, source: "DEVICE" } } },
     }), input.expectedVersion);
     await this.store.appendMessage({ id: `message:0:${hash(`${record.id}:${input.requestId}`).slice(0, 24)}`, conversationId: record.id, role: "USER", content: "Device location shared for this search", requestId: `user:${input.requestId}`, createdAt: now });
-    await this.runAfterUserInput(record, input.requestId);
+    await this.runUserInitiatedRead(record, input.requestId);
     return this.project(record);
   }
 
@@ -700,13 +709,17 @@ export class PersistentRestaurantAgentApplication {
     const loopStatus = snapshot.domainState.phase === "PRESENT_RESULTS" || snapshot.domainState.phase === "NO_VERIFIED_RESULT"
       ? "TERMINAL"
       : lastOutcome === "CANCELLED" ? "CANCELLED" : lastOutcome ?? "NOT_RECORDED";
-    const elapsedMs = Math.max(0, Date.parse(snapshot.updatedAt) - Date.parse(snapshot.createdAt));
+    // A whole-read budget is started before semantic work and released when
+    // the Live loop finishes. It is the only elapsed-time measure for that
+    // run; a Case's lifetime may contain later user turns.
+    const lifecycleElapsedMs = Math.max(0, Date.parse(snapshot.updatedAt) - Date.parse(snapshot.createdAt));
     const agentDecisions = trajectories.filter((step) => step.modelAttempt?.purpose === "restaurant_agent_decide").length;
     const googleRequests = trajectories.reduce<RestaurantReadExecutionMetadata["googleRequests"]>((latest, step) => {
       const usage = step.executionMetadata?.googleRequests;
       return usage && (!latest || usage.total >= latest.total) ? structuredClone(usage) : latest;
     }, undefined);
     const status = loopStatus === "CANCELLED" ? "CANCELLED" : ["PRESENT_RESULTS", "NO_VERIFIED_RESULT"].includes(snapshot.domainState.phase) ? "SUCCEEDED" : "FAILED";
+    const modelUsage = this.modelRunBudget?.usage?.(caseId);
     return {
       schemaVersion: "1",
       mode: "WEB_READ",
@@ -720,7 +733,7 @@ export class PersistentRestaurantAgentApplication {
       trajectories,
       finalSnapshot: snapshot,
       loop: { status: loopStatus },
-      resourceUsage: { elapsedMs, agentDecisions, ...(googleRequests ? { googleRequests } : {}) },
+      resourceUsage: { elapsedMs: modelUsage?.elapsedMs ?? lifecycleElapsedMs, agentDecisions, ...(googleRequests ? { googleRequests } : {}), ...(modelUsage ? { modelCallsStarted: modelUsage.calls } : {}) },
       resourceAccounting: { browserModelCalls: "UNKNOWN", cost: "UNKNOWN" },
       ...(this.liveReadLimits ? { limits: structuredClone(this.liveReadLimits) } : {}),
       safety: { policy: "READ_ONLY_CODE_PATH", externalSideEffectCount: "NOT_MEASURED" },
@@ -733,7 +746,23 @@ export class PersistentRestaurantAgentApplication {
     requestId: string,
     expectedVersion: number,
   ): Promise<void> {
-    await this.applyMessageOnce(record, message, requestId, expectedVersion);
+    const work = (signal?: AbortSignal) => this.applyMessageOnce(record, message, requestId, expectedVersion, signal);
+    if (this.modelRunBudget) await this.modelRunBudget.run(record.rootTaskId, (signal) => work(signal));
+    else await work();
+  }
+
+  /**
+   * Refresh, another-batch replenishment, and a newly supplied location each
+   * begin a fresh Web investigation.  Unlike `applyMessage`, they have no
+   * semantic wrapper already carrying the whole-read deadline, so create one
+   * here before launching the asynchronous Agent loop.
+   */
+  private async runUserInitiatedRead(record: ConversationRecord, requestId: string): Promise<void> {
+    if (!this.modelRunBudget || this.activeReads.has(record.rootTaskId)) {
+      await this.runAfterUserInput(record, requestId);
+      return;
+    }
+    await this.modelRunBudget.run(record.rootTaskId, (signal) => this.runAfterUserInput(record, requestId, signal));
   }
 
   private async applyMessageOnce(
@@ -741,6 +770,7 @@ export class PersistentRestaurantAgentApplication {
     message: string,
     requestId: string,
     expectedVersion: number,
+    runDeadlineSignal?: AbortSignal,
   ): Promise<void> {
     const snapshot = await this.runtime.snapshot(record.rootTaskId);
     const userEventId = `event:user:${hash(`${snapshot.id}:${requestId}`).slice(0, 32)}`;
@@ -778,24 +808,28 @@ export class PersistentRestaurantAgentApplication {
       await this.notifyCaseUpdate(record);
       return;
     }
-    await this.runAfterUserInput(record, requestId);
+    await this.runAfterUserInput(record, requestId, runDeadlineSignal);
   }
 
-  private async runAfterUserInput(record: ConversationRecord, requestId: string): Promise<void> {
+  private async runAfterUserInput(record: ConversationRecord, requestId: string, runDeadlineSignal?: AbortSignal): Promise<void> {
     if (this.workspaceMode === "FIXTURE") {
-      const result = await this.agentLoop.run(record.rootTaskId);
+      const result = await this.agentLoop.run(record.rootTaskId, runDeadlineSignal);
       await this.notifyReadFinished(record.rootTaskId, result);
       await this.appendAssistant(record, requestId);
       return;
     }
     if (this.activeReads.has(record.rootTaskId)) return;
+    // The web mutation returns before the live loop. Retain the enclosing
+    // whole-read budget so semantic time and this asynchronous loop share one deadline.
+    const releaseBudget = this.modelRunBudget?.hold?.();
     const controller = new AbortController();
     let finish: (() => void) | undefined;
     const completion = new Promise<void>((resolve) => { finish = resolve; });
     this.activeReads.set(record.rootTaskId, { controller, completion, record });
     void (async () => {
       try {
-        await this.agentLoop.run(record.rootTaskId, controller.signal);
+        const signal = runDeadlineSignal ? AbortSignal.any([controller.signal, runDeadlineSignal]) : controller.signal;
+        await this.agentLoop.run(record.rootTaskId, signal);
       } catch (error) {
         await this.recordUnexpectedRunFailure(record, error);
       } finally {
@@ -805,7 +839,7 @@ export class PersistentRestaurantAgentApplication {
           await this.appendAssistant(record, requestId);
           await this.notifyCaseUpdate(record);
         } finally {
-          finish?.();
+          try { finish?.(); } finally { releaseBudget?.(); }
         }
       }
     })();
