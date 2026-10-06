@@ -1,13 +1,17 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.142
-- Last updated: 2026-10-03
+- Document revision: 4.145
+- Last updated: 2026-10-07
 - Source of truth for: 已实现能力、已验证范围、明确未验证项与下一道门槛
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Documentation Index](INDEX.md), [Roadmap](roadmap.md), [Verification History](history/TEST-LOG.md)
 
 ## 最新审查与当前门槛
+
+2026-10-07 **本轮仅查店：TableCheck 查询建议选择已获真实证据；Tabelog 类别扩查仍未完成 Live 验收。** 既有 Native Search 增加稀疏关键词列表的一次相关类别调整，以及同地区、来源实际提供的下一页续查；详情待处理队列优先、原有来源时间／详情／页数上限不变。共享浏览器支持精确原查询的 `CHOOSE_OPTION:RETRIEVAL`、选后回读和被建议层遮挡的控件识别。一次仅发现 Live 在 **66,810ms／9次模型调用** 内，TableCheck 实际执行该选择、解析16家并分两批读10家详情，接纳 Shibuya Sushi Nasu（906m）与 Namikibashi Sushihajime（621m）；其余6家因详情上限未读取。Tabelog 仍只接纳 Teppen（749m）：模型误点无标签日历按钮，随后对同页 `#` 类别入口的 CLICK 被共享合同拒绝，扩查失败。独立验收总体 **FAIL**，三家仅为来源身份／坐标支持的候选，不代表 HARD 或库存合格。随后强化原 Chromium 场景并修复同页锚点的 CLICK 接线，普通导航仍走 OPEN_LINK；该后续修复尚未重新 Live。下一门槛是这条类别展开→相关类别→移除关键词的真实模型路径，未扩展日期、查位或完整 H001。[验证及边界](history/TEST-LOG.md#test-2026-10-07-bounded-native-discovery)；[不可变运行与独立签收](../.eval-artifacts/h001-discovery-20261007/live/2026-10-06T20-16-09-612Z-fcf5a3a3-98ab-4ba7-af9e-ef279b411fc3.acceptance.json)。
+
+2026-10-07 **H001 离线与追加固定来源真实模型验收通过；绕过10808的完整Live已进入真实网站，但交付仍FAIL。** 类别范围事实、必要同店菜单追查、全店排除事实保留、请求与类别反馈及原预算接线完成。最终默认宿主 **640/640**、typecheck、architecture、build通过，受影响Chromium类别控件 **2/2**；此前完整66/67的fixture时序错误修正后4/4通过，未重跑全套。首个固定来源真实模型12,347ms／9调用未交付，保留FAIL；修正决策上下文后的授权追加运行 **13,230ms／10调用** 实际选择类别、取得合成库存、引用HARD并展示，root的17项原始检查及6维均通过。第一个完整Live3,365ms／2调用被Google代理连接阻断；用户随后授权进程内置空Google专用代理重跑，同一东京10月7日19:00／2人输入、500秒／50调用与源码不变。新运行 **88,187ms／12次成功模型调用／1次成功Google地点请求／28次浏览器操作**，发现一家具备HARD事实的Sushi Teppen；来源将10月7日标为closed且2人控件禁用，模型未改查其他日期，库存UNKNOWN。TableCheck搜索先拒绝不合法WAIT，随后搜索建议层遮挡Find availability按钮，点击等待30秒超时，`TABLECHECK_DISCOVERY_INCOMPLETE`；零库存／零展示、独立签收FAIL。类别查位在本次TableCheck路径未到达，真实正向类别库存仍无证据。当前下一最小修复点是此搜索交互阻断；受控通过不能代替完整Live交付。[独立Review与原始JSON](history/H001-QUALIFIED-DELIVERY-REVIEW-2026-10-07.md)。
 
 2026-10-03 **H001 明晚真实只读运行再次在浏览器之前停止，当前后段修复未获真实来源验收。** 明晚变体准确物化为10月4日19:00／2人，语义模型与Agent均成功；Agent选择`SEARCH_RESTAURANTS`后，涩谷命名地点解析经配置的Google专用`127.0.0.1:10808`代理失败，稳定收口为`GOOGLE_NETWORK_FAILED`。整轮3,490ms、2次模型调用、1次Google地点请求、零Tabelog／TableCheck浏览器调用、零候选与零Offer；失败后没有重复同一搜索。它不是无位或站点浏览器回归结论，Tabelog-first、TableCheck接续和库存后段本次均未到达。下一道最小门槛是保留脱敏传输原因的Google连通性探针；在其成功前重跑整单不会检验浏览器修复。[真实运行记录](history/H001-TOMORROW-VARIANT-NATIVE-LIVE-2026-10-03.md)
 
@@ -287,7 +291,7 @@ H002在浏览器前漏掉当前契约的first-date两人推断，并把近似预
 
 ## 原始只读里程碑与历史验证
 
-ADR-0014定义了H001所需的只读终态：Semantic Interpreter继续经Compiler/Reducer写入权威State；单一Restaurant Agent只接收最小Decision Context，Action Validator守护不变量，Router绑定权威只读请求。`restaurant-state@10`保存Availability Check、最小Read Evidence和`PRESENT_RESULTS`。2026-09-08 的原始冻结 LOCAL_CHROMIUM H001 从 Google Discovery 调查 10 个去重候选，按 3/3/3/1 批次继续；其中 KINKA Sushi Bar Izakaya 渋谷以 Google 结构化地址组件支持 `near Shibuya`、TableCheck exact phone 达到 HIGH、来源页验证 `omakase` HARD criterion，并读取同一 2026-09-08、2 人、19:00 的公开 slot。Runtime 已进入 `PRESENT_RESULTS`；artifact 只保存脱敏 identity/provider/browser diagnostics 和 evidence 引用，不保存 HTML、凭证、Cookie 或挑战 token。2026-09-09另有一次独立的真实 Web Live Read-only：从页面提交未来Shibuya omakase请求，记录模型、Google与TableCheck/Tabelog调用后在5分钟预算到期进入`NEEDS_INPUT`；它证明Web真实路径会fail closed，不以H001或Fixture替代，也不代表任何门店/日期可用或`PRESENT_RESULTS`成功。
+ADR-0014定义了H001所需的只读终态：Semantic Interpreter继续经Compiler/Reducer写入权威State；单一Restaurant Agent只接收最小Decision Context，Action Validator守护不变量，Router绑定权威只读请求。当前`restaurant-state@11`保存Availability Check、最小Read Evidence和`PRESENT_RESULTS`。2026-09-08 的原始冻结 LOCAL_CHROMIUM H001 从 Google Discovery 调查 10 个去重候选，按 3/3/3/1 批次继续；其中 KINKA Sushi Bar Izakaya 渋谷以 Google 结构化地址组件支持 `near Shibuya`、TableCheck exact phone 达到 HIGH、来源页验证 `omakase` HARD criterion，并读取同一 2026-09-08、2 人、19:00 的公开 slot。Runtime 已进入 `PRESENT_RESULTS`；artifact 只保存脱敏 identity/provider/browser diagnostics 和 evidence 引用，不保存 HTML、凭证、Cookie 或挑战 token。2026-09-09另有一次独立的真实 Web Live Read-only：从页面提交未来Shibuya omakase请求，记录模型、Google与TableCheck/Tabelog调用后在5分钟预算到期进入`NEEDS_INPUT`；它证明Web真实路径会fail closed，不以H001或Fixture替代，也不代表任何门店/日期可用或`PRESENT_RESULTS`成功。
 
 ## 2026-09-05整改与最新人工对照
 
@@ -375,7 +379,7 @@ H002类型排除模型判断只引用已经观察到的具体类型事实，宽�
 |---|---|
 | 产品Release | 尚未发布；package为`0.1.0` |
 | 当前架构决策 | `ADR-0014` + `ADR-0015`来源证据范围 + `ADR-0016`本地eval profile + `ADR-0025`调查收敛 + `ADR-0026`具体到访语义 |
-| Restaurant State | `restaurant-state@10` |
+| Restaurant State | `restaurant-state@11` |
 | Semantic Proposal / Draft / Eval Schema | `restaurant-semantic-proposal@3` |
 | Semantic Prompt | `restaurant-semantic-prompt@10`；历史Artifact字段保持原`promptVersion` |
 | Agent Context / Decision Prompt / Action / Trajectory / Harness Artifact | `restaurant-agent-context@6` / `restaurant-agent-decision-prompt@12` / `restaurant-agent-action@3` / `restaurant-agent-trajectory@5` / `restaurant-harness-artifact@6` |
@@ -417,7 +421,7 @@ H002类型排除模型判断只引用已经观察到的具体类型事实，宽�
 - 每个Agent decision step保存state版本/hash、capability、模型实际收到的脱敏`restaurant-agent-context@6`与`contextSchemaVersion`、action、verdict、route、observation、执行metadata、after-state链接、BOOK `proposalId`及Event/Command/Attempt/Evidence causal refs；不保存raw prompt或Chain-of-Thought。完整链为`Context → Action → Validation → Execution → Observation → State/Outcome`。
 - 长期Execution Route仅为`STRUCTURED_ADAPTER`、未来`GENERIC_BROWSER`或未来`HUMAN_TAKEOVER`；Fixture/Mock/Live是运行模式或Provider metadata，Runtime/Policy checkpoint不是外部execution route。
 - Migration `0006`保持原始evidence refs形态，`0007`追加因果引用与Proposal ID，`0008`追加Decision Context字段，`0009`追加read execution metadata；不会再改写Migration。`restaurant-state@7`和`@8`开发Task不能被当前Runtime解释，必须先备份后用双重开关的本机重置命令删除，绝不自动迁移或用于真实数据。
-- 当前标识固定为`restaurant-semantic-prompt@10`、`restaurant-semantic-proposal@3`与`restaurant-state@10`。`CRITERION{text, polarity, strength}`是唯一开放集合，strength固定为`HARD` / `SOFT` / `UNSPECIFIED`；具体到访的`TARGET.goal=AVAILABILITY`决定slot展示标准。Agent Context为`@6`、Decision Prompt为`@12`、Action为`@3`、Trajectory为`@5`；不建taxonomy、Provider mapping或动态Tool Registry。
+- 当前标识固定为`restaurant-semantic-prompt@10`、`restaurant-semantic-proposal@3`与`restaurant-state@11`。`CRITERION{text, polarity, strength}`是唯一开放集合，strength固定为`HARD` / `SOFT` / `UNSPECIFIED`；具体到访的`TARGET.goal=AVAILABILITY`决定slot展示标准。Agent Context为`@6`、Decision Prompt为`@12`、Action为`@3`、Trajectory为`@5`；不建taxonomy、Provider mapping或动态Tool Registry。
 - ADR-0007的`DECIDE_RESTAURANT_NEXT` / `RESTAURANT_DECISION_MADE`以及耦合Offer的`ExecutableCandidate`可执行路径已删除；历史next-step标注只保留为语义评测审计输入，不再代表产品Runtime。
 - `restaurant-semantic-prompt@4` Baseline的结果不得用于改动后重跑；Prompt `@7`的任何质量结论均需要另一份未见Holdout。当前Gold更新后的诊断只能标记为`EXPOSED_GOLD_ACCEPTANCE_DIAGNOSTIC`，Prompt `@7`与`@6`只比较`COMMON_UNCHANGED_TURNS`。
 - 旧分类Criteria Contract下未运行的私有标注不兼容`restaurant-semantic-proposal@3`，不能迁入或报告为当前Holdout。当前空模板、私有入口、结构适配Preflight、确定性Scorer和一次性真实Runner已实现；runner在首个模型请求前写入Git忽略的`EXPOSED` artifact，并记录Dataset SHA、git SHA、scorer与prompt/schema hash。
@@ -644,3 +648,36 @@ The later H001 read trace reached a same-outlet public `/en/omotesandoria/reserv
 The corrected fixed-source real-model scenario passed **3/3**, each actually presenting one independently qualified controlled result. Complete H001 tomorrow Live (`2026-10-04 19:00`, two people, unchanged 1km/HARD omakase) reached **five candidates and five stock checks**, versus one and one on October 1; saved TableCheck continuation finished eight detail visits. It consumed **231,118ms / 38 model calls**, within 300 seconds / 50 calls, but presented **zero qualified results**. Independent evaluation lacks three mandatory delivery dimensions, so complete H001 acceptance remains **FAIL**, despite its safe execution outcome.
 
 After the concrete path and DOM-race repairs, one bounded production Adapter read of Omotesandoria returned **AVAILABLE / one exact 19:00 Offer in 15,975ms / one model call**. Independent raw review confirms actual October 4/two-person/19:00 selection, enabled same-outlet stock, chronology and no booking write; the stock-only slice is **PASS**. HARD omakase and final Runtime delivery were outside that probe, so it cannot upgrade H001. Remaining concrete gaps include Bellwood's required service-category selection, unresolved date observation/restriction and expensive control observation under existing provider limits. See [final review and immutable evidence](history/H001-UNIFIED-REVIEW-2026-10-03.md).
+
+## 2026-10-03 H001 provider-observation budget@45s configuration variant
+
+With explicit user authorization, the shared Web/H001 Live Read-only investigation ceiling for one provider observation changes from 30 to 45 seconds. The 60-second candidate ceiling and every other global, operation, and model budget are unchanged, leaving the existing candidate path 15 seconds for an alternate observation. Historical Live results, including `61053f42`, retain their original 30-second provider ceiling and are not re-evaluated. This is configuration only: no model, network, or Live validation ran. A later H001 command may declare this variant with `--timeout-ms 300000 --max-model-calls 50 --max-provider-browser-ms 45000`; an explicit 30-second override remains a tighter valid command.
+
+## 2026-10-06 H001 qualified-delivery implementation — offline, review pending
+
+ADR-0034 now records the bounded category-query and fact-continuation slice. The shared browser control path observes native/ARIA radios with group ownership, permits only the observed public TableCheck `reservation[service_category]` radio, and re-reads selection. A styled radio now uses its visible associated label and verifies the input state without force-setting it. The real source probe confirmed the radio/form structure but did **not** confirm a post-selection request or result binding; therefore scoped category inventory remains `UNKNOWN` and the synthetic `service_category` link fixture proves only the internal safety chain.
+
+The fact path retains separately identity-confirmed source/menu/official documents, emits scope-separated derived judgments, and preserves outlet-level negative conflicts. The Web entry now uses a 500-second, 50-call whole-read model scope from before semantic interpretation, while Google remains at its existing 100-request quota and browser 120-call sublimit. Focused offline composition and evaluator checks have passed; the final required matrix remains pending. No paid model, external provider or 2026-10-07 Live variant has run. Root review must still accept the controlled composition/evaluation artifact before either external gate.
+
+## 2026-10-06 qualified-delivery review returns — offline, review pending
+
+The live Web scope now remains active after the HTTP mutation returns: semantic interpretation and the background Agent loop share the same 500-second signal and 50-call counter. Failed model calls consume that counter; concurrent Cases retain separate scopes. The Web artifact reports the scoped started-call count. This was exercised through the ordinary persistent LIVE_READ composition with fixture transport, not a provider call.
+
+For TableCheck category reads, the observed public radio can be selected and read back but the source has not published an observed category-to-menu or category-to-slot URL contract. A scoped inventory result therefore cannot derive HARD facts from general page menu text; the fact remains UNKNOWN until cited, scope-applicable source evidence exists. Raw evaluation separately requires the offer, cited availability evidence, checked radio field/group/value, and a visible enabled same-scope source link to agree. The two earlier bounded source probes remain FAIL evidence for post-selection compatibility and are not overwritten. No model, external provider, booking, or 2026-10-07 Live variant was run.
+
+2026-10-07 **Native menu continuation and the controlled slow-source slice have separate evidence; complete H001 remains unaccepted.** `NATIVE_FACT_FOLLOWUP_DELIVERS` demonstrates detail→observed menu→cited HARD fact→current Tabelog slot→`PRESENT_RESULTS` and has a byte-hashed, independently accepted artifact. Local Chromium verifies a cancellable 31-second source snapshot delay: the old 30-second cap stops without an Offer and the new 45-second cap completes the current request, with unchanged model `WAIT` and source readiness limits. Final offline gates pass: typecheck, architecture, build, default tests **633/633** and local Chromium **67/67**. The first genuine default-suite failures and the repaired run remain separate. Real service-category result applicability and the B delivery chain remain unconfirmed; no fixed-source real-model or complete Live run has executed. The user selected **2026-10-07 19:00 Asia/Tokyo** as independent H001 variant, with 500 seconds／50 cumulative model calls and unchanged HARD/location conditions. [Independent review, freeze and remaining gate](history/H001-QUALIFIED-DELIVERY-REVIEW-2026-10-07.md).
+
+
+## 2026-10-07 H001 qualified-delivery B scoped menu — offline controlled chain only
+
+The public TableCheck source evidence now supports a narrow fact path: an insufficient guide is judged first, then one guide-observed same-outlet `/shops/<slug>/reserve` page may be read within the existing fact budget. Public `menu-item-data[data-service-categories]` text is retained only with its observed visible `reservation[service_category]` radio field/group/value; the page remainder retains venue-wide facts without duplicating the scoped menu text. The controlled production composition reaches `PRESENT_RESULTS` after Sushi selection, checked readback and a synthetic current result; its immutable execution/evaluation pair is `.eval-artifacts/h001-qualified-tablecheck-scoped-menu-20261007/`. This is not a real positive category-inventory claim.
+
+The real three-probe sequence observed category readback, scoped menu text and a category-bearing current query, but its only response was `failure/data:null`, which remains unclassified. A real positive category-bound slot/result has not been observed. Fixed-source real-model and the absolute `2026-10-07 19:00 Asia/Tokyo`, two-person H001 variant remain root-owned external gates; full Playbook/H001 acceptance is open.
+
+### 2026-10-07 scoped reserve remainder boundary
+
+The reservation-page source partition now preserves each public block-text boundary in its unscoped remainder before the existing 1,600-character statement and 6,000-character document limits apply. This prevents a long page remainder from being flattened into one discarded statement and keeps venue-wide conflicts available alongside separately scoped menu excerpts. The change has targeted parser/native-fact/model/composition coverage (**106/106**) and typecheck/diff validation; it does not add a source request, a model call, or a category-inventory conclusion. Root's independently saved production-path challenge is green; no pre-change red artifact exists, so this is recorded as a code-review finding rather than a replay claim.
+
+### 2026-10-07 fixed-source model decision-return repair — offline only
+
+The first authorized fixed-source model run stopped safely at `REQUESTED_HUMAN_HELP`: its availability browser decision saw two visible permitted category radios but received a progress message that incorrectly described the missing state as date/party selection. The provider response was legal; it neither guessed nor selected a radio. Current request binding and service-category selection are now reported separately. The browser prompt and TableCheck skill explain that a currently permitted category radio can be a read-only query prerequisite before time or result controls exist, while requiring current public relevance to a HARD criterion and one checked readback. A controlled availability-first composition records the exact `SET_CHECKED` target/action input, then reaches a synthetic-only scoped result; the existing facts-first composition still reaches the same controlled result. Its new execution/evaluation pair is `.eval-artifacts/h001-qualified-tablecheck-availability-first-20261007/`. This does not retest the real model or establish a real positive category-bound slot.

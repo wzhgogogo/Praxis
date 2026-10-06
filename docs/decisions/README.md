@@ -44,6 +44,7 @@
 | [0031](0031-default-result-delivery-window.md) | Accepted | 默认首批在有界交付窗口内展示已有合格短批 |
 | [0032](0032-source-native-restaurant-discovery.md) | Accepted | 有界来源原生发现、同源身份与查位、Tabelog→TableCheck固定两批 |
 | [0033](0033-native-source-batch-delivery.md) | Accepted | 原生路径完成一来源有界调查后可展示已核实短批，保留目标缺口 |
+| [0034](0034-qualified-read-scope-and-investigation-budget.md) | Accepted | 类别查询范围、同次事实追查与500秒/50调用只读调查上限 |
 
 ## 规则
 
