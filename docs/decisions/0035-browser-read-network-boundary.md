@@ -1,7 +1,7 @@
 # ADR-0035: Source-owned browser read network boundary
 
-- Status: Accepted
-- Document revision: 1.6
+- Status: Accepted; unknown-GET admission and guarded UI permissions superseded in part by ADR-0036
+- Document revision: 1.7
 - Last updated: 2026-10-07
 - Source of truth for: Browser-context network admission for controlled public reads
 - Related documents: [Data, Context and Security](../architecture/DATA-CONTEXT-SECURITY.md), [Policy, Execution and Verification](../architecture/POLICY-EXECUTION-VERIFICATION.md), [Capability Matrix](../integrations/CAPABILITY-MATRIX.md), [ADR-0017](0017-controlled-browser-read-executor.md), [ADR-0034](0034-qualified-read-scope-and-investigation-budget.md)
@@ -30,6 +30,11 @@ routing sees only the first URL of a redirect, so a later hop can otherwise
 reach an unreviewed origin.
 
 ## Decision
+
+The following records the original boundary. [ADR-0036](0036-generic-public-read-network-policy.md)
+replaces its unknown-GET default and source-specific guarded UI permissions;
+isolation, redirect review, exact public query POST rules and evidence boundaries
+remain applicable. Acceptance of ADR-0036 does not establish implementation.
 
 Every guarded read starts in a new isolated browser context. The runtime sets
 `serviceWorkers: "block"`, installs HTTP routing and WebSocket routing before

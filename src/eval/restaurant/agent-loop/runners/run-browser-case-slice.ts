@@ -14,13 +14,14 @@ import { TableCheckBrowserAvailability } from "../../../../integrations/tableche
 import { loadFrozenLiveCases, materializeLiveCase, RESTAURANT_READ_DEVELOPMENT_CASE_PATH } from "../live-case-materializer.js";
 import { startDiagnosticRun } from "../../../shared/diagnostic-run.js";
 import { errorRecord, safeActionTargets, safeRecord, traceBrowserRuntime } from "./browser-case-slice-evidence.js";
+import { environmentWithEffectiveLiveNetwork, resolveEffectiveLiveNetworkConfiguration, runLivePreflight } from "../live-preflight.js";
 
 const caseId = process.argv[process.argv.indexOf("--case") + 1];
 const execute = process.argv.includes("--execute");
 const h001Tomorrow = process.argv.includes("--h001-tomorrow");
 if (!caseId || !["h001", "h002", "h003", "h005"].includes(caseId)) throw new Error("Use --case h001|h002|h003|h005");
 if (h001Tomorrow && caseId !== "h001") throw new Error("--h001-tomorrow applies only to H001");
-if (process.argv.some(arg => arg.startsWith("--") && !["--case", "--execute", "--plan", "--h001-tomorrow"].includes(arg))) throw new Error("Unknown option");
+if (process.argv.some(arg => arg.startsWith("--") && !["--case", "--execute", "--plan", "--h001-tomorrow", "--no-proxy"].includes(arg))) throw new Error("Unknown option");
 
 // Historical native entrances are browser-control probes, not newly qualified
 // Case candidates. Their current identity and inventory must be re-observed.
@@ -89,10 +90,18 @@ if (!execute || process.argv.includes("--plan")) { console.log(JSON.stringify(pl
 for (const gate of ["PRAXIS_ALLOW_LIVE_RESTAURANT_READ", "PRAXIS_ALLOW_BROWSER_RUN", "PRAXIS_ALLOW_LIVE_MODEL_EVAL"] as const) {
   if (process.env[gate] !== "1") throw new Error(`${gate}=1 is required for the explicit browser-only read`);
 }
-if (process.env.PRAXIS_BROWSER_ENGINE !== "LOCAL_CHROMIUM" || process.env.PRAXIS_LOCAL_CHROMIUM_PROXY_SERVER) {
+const effectiveNetwork = resolveEffectiveLiveNetworkConfiguration(process.env);
+const effectiveEnvironment = environmentWithEffectiveLiveNetwork(process.env, effectiveNetwork);
+if (effectiveEnvironment.PRAXIS_BROWSER_ENGINE !== "LOCAL_CHROMIUM" || effectiveEnvironment.PRAXIS_LOCAL_CHROMIUM_PROXY_SERVER) {
   throw new Error("Use LOCAL_CHROMIUM on its default browser network without a browser proxy");
 }
 if (elapsedWindow) throw new Error(`The materialized ${caseId} request window has elapsed; no stale inventory query was sent`);
+const preflight = await runLivePreflight({
+  runner: "BROWSER_CASE_SLICE",
+  targets: ["DEEPSEEK", source.provider],
+  network: effectiveNetwork,
+  timeoutMs: 10_000,
+});
 const trace: Array<Record<string, unknown>> = [];
 let sequence = 0;
 const record = (kind: string, detail: unknown): number => {
@@ -101,7 +110,7 @@ const record = (kind: string, detail: unknown): number => {
   return current;
 };
 let modelCalls = 0;
-const gateway = DeepSeekModelGateway.fromEnvironment(process.env, { observer: { observe: invocation => { record("MODEL_INVOCATION", invocation); } } });
+const gateway = DeepSeekModelGateway.fromEnvironment(effectiveEnvironment, { observer: { observe: invocation => { record("MODEL_INVOCATION", invocation); } } });
 const model: ModelGateway = { async complete(input) {
   if (modelCalls >= 5) throw Object.assign(new Error("Browser slice model-call ceiling reached"), { code: "MODEL_CALL_BUDGET_EXHAUSTED" });
   modelCalls += 1;
@@ -120,7 +129,7 @@ const modelDecision: BrowserReadActionDecisionPort = { async decide(input) {
     throw error;
   }
 } };
-const underlyingRuntime = LocalPlaywrightChromium.fromEnvironment();
+const underlyingRuntime = LocalPlaywrightChromium.fromEnvironment(effectiveEnvironment);
 const runtime: BrowserRuntime = traceBrowserRuntime(underlyingRuntime, source.provider, record);
 const executor = new BrowserTaskExecutor(runtime, {
   modelDecision, maxModelCallsPerCandidate: 5, maxModelCallsTotal: 5,
@@ -129,6 +138,7 @@ const executor = new BrowserTaskExecutor(runtime, {
 });
 const journal = await startDiagnosticRun(resolve(".eval-artifacts", "browser-case-slices"), {
   mode: "LIVE_READ_ONLY_BROWSER_EXECUTION_SLICE", caseId, plan: safeRecord(plan),
+  preflight: { artifactPath: preflight.artifactPath, elapsedMs: preflight.elapsedMs },
 });
 const startedAt = Date.now();
 const signal = AbortSignal.timeout(45_000);

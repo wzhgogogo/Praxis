@@ -20,6 +20,7 @@ import { center, dynamicTabelogSourcePages, reference, sourcePages, type SourceS
 import { errorRecord, safeRecord, traceBrowserRuntime } from "./browser-case-slice-evidence.js";
 import { finalizeNativeFixedSourceRun, type NativeFixedSourceFinalizationProgress } from "./native-fixed-source-runner-finalization.js";
 import { createRunDeadlineSignal, RUN_DEADLINE_EXCEEDED } from "../live-run-deadline.js";
+import { resolveEffectiveLiveNetworkConfiguration, runLivePreflight } from "../live-preflight.js";
 
 type ScenarioExpectation = Readonly<{
   acceptance: FixedSourceExpectation;
@@ -112,6 +113,12 @@ const nativeReadLimits = {
   maxBrowserOperations: 30,
   maxBrowserModelCallsPerCandidate: 20,
 } as const;
+const preflight = await runLivePreflight({
+  runner: "NATIVE_FIXED_SOURCE_MODEL",
+  targets: ["DEEPSEEK"],
+  network: resolveEffectiveLiveNetworkConfiguration(process.env),
+  timeoutMs: 10_000,
+});
 const frozen = (await loadFrozenLiveCases(RESTAURANT_READ_DEVELOPMENT_CASE_PATH)).find((item) => item.id === "h001");
 if (!frozen) throw new Error("Frozen H001 is absent");
 const startedAt = Date.now();
@@ -139,6 +146,7 @@ const journal = await startDiagnosticRun(resolve(".eval-artifacts", "h001-native
   sourceEnvironment: { network: "OFFLINE_FIXED_TRANSPORT", browser: dynamicSource ? "LOCAL_CHROMIUM_DYNAMIC_FIXED_PAGE" : "OFFLINE_FIXED_PAGES" },
   runCeilings: { maxModelCalls, maxSteps, timeoutMs, ...nativeReadLimits },
   safety: { policy: "READ_ONLY_CODE_PATH", externalSideEffectCount: 0 },
+  preflight: { artifactPath: preflight.artifactPath, elapsedMs: preflight.elapsedMs },
 });
 
 try {

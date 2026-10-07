@@ -11,6 +11,7 @@ import { executeFixedSourceCase } from "../fixed-source-case-execution.js";
 import { fixedSourceCaseRegistration, loadRegisteredFixedSourceCase } from "../fixed-source-case-registry.js";
 import { currentDevelopmentSourceScenario } from "../current-development-source-scenarios.js";
 import { RESTAURANT_READ_DEVELOPMENT_CASE_PATH } from "../live-case-materializer.js";
+import { resolveEffectiveLiveNetworkConfiguration, runLivePreflight } from "../live-preflight.js";
 
 function requiredGate(key: string): void {
   if (process.env[key] !== "1") throw new Error(`Set ${key}=1 to run this paid fixed-source model diagnostic`);
@@ -39,6 +40,12 @@ const caseId = selectedCaseId();
 const maxModelCalls = boundedOption("--max-model-calls", 30, 50);
 const maxSteps = boundedOption("--max-steps", 12, 50);
 const timeoutMs = boundedOption("--timeout-ms", 30_000, 300_000);
+const preflight = await runLivePreflight({
+  runner: "FIXED_SOURCE_MODEL",
+  targets: ["DEEPSEEK"],
+  network: resolveEffectiveLiveNetworkConfiguration(process.env),
+  timeoutMs: 10_000,
+});
 const sourcePath = resolve(RESTAURANT_READ_DEVELOPMENT_CASE_PATH);
 const { registration, materializedCase } = await loadRegisteredFixedSourceCase(caseId);
 const scenario = currentDevelopmentSourceScenario(registration.sourceScenarioId);
@@ -54,6 +61,7 @@ const journal = await startDiagnosticRun(resolve(".eval-artifacts", "restaurant-
   clocks: { business: "CASE_REFERENCE_ADVANCING_WALL_CLOCK", execution: "REAL_WALL_CLOCK" },
   runCeilings: { maxModelCalls, maxSteps, timeoutMs },
   safety: { policy: "READ_ONLY_CODE_PATH", externalSideEffectCount: 0 },
+  preflight: { artifactPath: preflight.artifactPath, elapsedMs: preflight.elapsedMs },
 });
 try {
   const provider = DeepSeekModelGateway.fromEnvironment(process.env, { observer: { observe: (record) => { invocations.push(structuredClone(record)); } } });

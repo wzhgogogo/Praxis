@@ -29,6 +29,7 @@ import { evaluateArtifactAfterFinish, RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VER
 import { createRunDeadlineSignal, RUN_DEADLINE_EXCEEDED, settleAtRunDeadline } from "../live-run-deadline.js";
 import { diagnosticFailureCode, startDiagnosticRun } from "../../../shared/diagnostic-run.js";
 import { safeRecord, traceBrowserRuntime } from "./browser-case-slice-evidence.js";
+import { environmentWithEffectiveLiveNetwork, resolveEffectiveLiveNetworkConfiguration, runLivePreflight } from "../live-preflight.js";
 
 function requiredGate(key: string): void {
   if (process.env[key] !== "1") throw new Error(`Set ${key}=1 to run a Live / Hybrid read diagnostic`);
@@ -102,20 +103,29 @@ requiredGate("PRAXIS_ALLOW_BROWSER_RUN");
 requiredGate("PRAXIS_ALLOW_LIVE_MODEL_EVAL");
 requiredValue("DEEPSEEK_API_KEY");
 requiredValue("GOOGLE_MAPS_API_KEY");
-if (process.env.PRAXIS_BROWSER_ENGINE !== "LOCAL_CHROMIUM") {
+// Resolve the CLI transport override once. Preflight and all actual provider/browser factories below receive this copied environment.
+const effectiveNetwork = resolveEffectiveLiveNetworkConfiguration(process.env);
+const effectiveEnvironment = environmentWithEffectiveLiveNetwork(process.env, effectiveNetwork);
+if (effectiveEnvironment.PRAXIS_BROWSER_ENGINE !== "LOCAL_CHROMIUM") {
   requiredValue("CLOUDFLARE_ACCOUNT_ID");
   requiredValue("CLOUDFLARE_API_TOKEN");
 }
 const manualTabelogIntervention = manualTabelogInterventionEnabled();
-if (manualTabelogIntervention && process.env.PRAXIS_BROWSER_ENGINE !== "LOCAL_CHROMIUM") {
+if (manualTabelogIntervention && effectiveEnvironment.PRAXIS_BROWSER_ENGINE !== "LOCAL_CHROMIUM") {
   throw new Error("PRAXIS_EVAL_ALLOW_TABELOG_MANUAL_INTERVENTION=1 requires PRAXIS_BROWSER_ENGINE=LOCAL_CHROMIUM");
 }
-if (manualTabelogIntervention && process.env.PRAXIS_LOCAL_CHROMIUM_INTERACTIVE !== "1") {
+if (manualTabelogIntervention && effectiveEnvironment.PRAXIS_LOCAL_CHROMIUM_INTERACTIVE !== "1") {
   throw new Error("PRAXIS_EVAL_ALLOW_TABELOG_MANUAL_INTERVENTION=1 requires PRAXIS_LOCAL_CHROMIUM_INTERACTIVE=1");
 }
 if (manualTabelogIntervention && !process.stdin.isTTY) {
   throw new Error("PRAXIS_EVAL_ALLOW_TABELOG_MANUAL_INTERVENTION=1 requires an interactive terminal");
 }
+const preflight = await runLivePreflight({
+  runner: "HYBRID_LIVE_READ",
+  targets: ["DEEPSEEK", "GOOGLE", "TABELOG", "TABLECHECK"],
+  network: effectiveNetwork,
+  timeoutMs: 10_000,
+}, effectiveEnvironment);
 const defaultSourcePath = resolve(RESTAURANT_READ_DEVELOPMENT_CASE_PATH);
 const customCaseSourcePath = caseSourceFromArgs();
 const sourcePath = customCaseSourcePath ?? defaultSourcePath;
@@ -153,7 +163,8 @@ const runtimeContext = {
     contaminationStatus: "PROMPT_AND_RESULT_EXPOSED",
     baselineEligible: false,
   },
-  browserEngine: process.env.PRAXIS_BROWSER_ENGINE ?? "AUTO",
+  browserEngine: effectiveEnvironment.PRAXIS_BROWSER_ENGINE ?? "AUTO",
+  preflight: { artifactPath: preflight.artifactPath, elapsedMs: preflight.elapsedMs, targetCount: preflight.attempts.length },
   nodeVersion: process.version,
   skillHashes: {
     browserRead: fileSha256("web-skills/browser-read/SKILL.md"),
@@ -243,7 +254,7 @@ function captureProgress() {
   });
 }
 try {
-  const providerModel = DeepSeekModelGateway.fromEnvironment(process.env, {
+  const providerModel = DeepSeekModelGateway.fromEnvironment(effectiveEnvironment, {
     observer: { observe: (record) => { modelInvocations.push(structuredClone(record)); } },
   });
   const model: ModelGateway = { async complete(request) {
@@ -265,8 +276,8 @@ try {
     : requiresEvaluationLocation(frozen) ? HIGASHI_GINZA_EVALUATION_LOCATION : undefined;
   const google = new GooglePlacesRestaurantSearch(
     new GooglePlacesClient({
-      apiKey: process.env.GOOGLE_MAPS_API_KEY ?? "",
-      proxyServer: process.env.PRAXIS_GOOGLE_API_PROXY_SERVER,
+      apiKey: effectiveEnvironment.GOOGLE_MAPS_API_KEY ?? "",
+      proxyServer: effectiveEnvironment.PRAXIS_GOOGLE_API_PROXY_SERVER,
       timeoutMs: liveReadLimits.maxStructuredReadMs,
     }),
     undefined,
@@ -274,7 +285,7 @@ try {
     { maxRequests: liveReadLimits.maxGoogleRequests },
   );
   googleSearch = google;
-  const rawBrowser = browserRuntimeFromEnvironment();
+  const rawBrowser = browserRuntimeFromEnvironment(effectiveEnvironment);
   // Keep the same runtime and executor path while retaining a redacted raw
   // observation sequence. The source label is descriptive only; snapshots
   // carry the actual safe origin for independent evaluation.
@@ -342,7 +353,8 @@ try {
   console.log(JSON.stringify({
     mode: "HYBRID_LIVE_READ",
     caseId: materialized.id,
-    browserEngine: process.env.PRAXIS_BROWSER_ENGINE ?? "AUTO",
+    browserEngine: effectiveEnvironment.PRAXIS_BROWSER_ENGINE ?? "AUTO",
+    preflight: { artifactPath: preflight.artifactPath, elapsedMs: preflight.elapsedMs, targetCount: preflight.attempts.length },
     candidateLimit,
     profileMode: manualTabelogIntervention ? "PERSISTENT_EVAL" : "TEMPORARY",
     limits: liveReadLimits,

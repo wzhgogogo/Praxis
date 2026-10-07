@@ -1,7 +1,7 @@
 # 历史记录
 
 - Status: Accepted
-- Document revision: 1.0
+- Document revision: 1.1
 - Last updated: 2026-10-07
 - Source of truth for: 月度历史摘要、逐条记录索引与原文阅读入口
 
@@ -19,6 +19,7 @@
 
 ## 原文与专题
 
+- [2026年10月 STATUS 基线快照](monthly/2026-10-status-baseline.md)：完整保留 e90dc94 时的历史检查点，仅重定位相对链接；不是当前能力。
 - [原始 Dev Log](DEVLOG.md)：实现、设计取舍和边界，完整保留。
 - [原始 Test Log](TEST-LOG.md)：验证命令、模式、结果、未覆盖项和外部副作用，完整保留。
 - [2026-09-24 Test/Eval Skill纸面审查](TEST-EVAL-SKILL-REVIEW-2026-09-24.md)：规程重整的覆盖/评分设计；draft / not integrated，不是运行证据。

@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.149
+- Document revision: 4.150
 - Last updated: 2026-10-07
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,13 @@
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## DEV-2026-10-07-PLAYBOOK-PHASE0
+
+- Evidence status: exposed development evidence. Dependency-specific preflight now precedes gateway/task/browser startup in five actual runners; CLI `--no-proxy` and provider factories share a copied effective environment. No model generation is used for health checks.
+- Root review returned incorrect transport classification, TCP/TLS claims, response cleanup and HTTP rejection handling; existing phase tests now retain red/green evidence. Source/public-entry reachability is distinct from browser and restaurant acceptance.
+- STATUS history moved to [monthly baseline snapshot](monthly/2026-10-status-baseline.md); reverse link normalization restores the e90dc94 original exactly. Current STATUS is 15 lines; original logs remain intact.
+- User selected permissive same-origin GET after the alternatives were explained; [ADR-0036](../decisions/0036-generic-public-read-network-policy.md) accepts the policy with residual risk, implementation pending. Phase1 follows only after Phase0 root acceptance.
 
 ## DEV-2026-10-07-BROWSER-READ-RELIABILITY
 

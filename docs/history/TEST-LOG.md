@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.155
+- Document revision: 4.156
 - Last updated: 2026-10-07
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,16 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-07-PLAYBOOK-PHASE0
+
+- Scope/mode: network preflight and history navigation; restaurant Evaluator **NOT_APPLICABLE**, no result/stock claim. [Root acceptance](../../.eval-artifacts/h001-h005-playbook-20261007/root.phase0.acceptance.json).
+- Historical network failures may be stopped before task startup; CF receiver, wrong inventory region and missing calendar rules remain distinct product failures. Old-core [red evidence](../../.eval-artifacts/live-preflight-phase0/pre-review-old-core.red.json) detects nested causes, aborts, HTTP rejection, incorrect TLS claims and unread-body cleanup.
+- Offline: focused **12/12**, host default **676/676**, typecheck/architecture/build/diff PASS; [raw logs](../../.eval-artifacts/live-preflight-phase0/). Earlier sandbox loopback restriction is not a provider failure. Chromium unchanged; existing evidence reused.
+- Root actual-runner injected controls PASS: failed preflight creates no downstream task/model call; successful preflight reaches one injected downstream model call. Zero external requests; deliberate downstream stop is not delivery success.
+- Live Read-only preflight: **4,119ms**, no explicit10808; DeepSeek `/models`200, Google unauthenticated root404 (TLS only), Tabelog200, TableCheck206. Zero model generation/restaurant search; not Places permissions, browser readiness or inventory evidence.
+- Denominator: **2 attempted / 1 successful / 1 failed**. The worker's accidental 1s Google-only attempt failed; scratch output was deleted, so only [reconstructed retrospective](../../.eval-artifacts/h001-h005-playbook-20261007/root.phase0.mistaken-google-attempt.json) remains; subcause UNKNOWN. No rerun added.
+- History check: 689-line STATUS snapshot restores the baseline exactly after link normalization; 15-line current summary. Full H001 remains unaccepted; next gate Phase1.
 
 ## TEST-2026-10-07-BROWSER-READ-RELIABILITY
 
