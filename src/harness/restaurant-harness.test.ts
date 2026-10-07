@@ -240,8 +240,8 @@ describe("restaurant booking mock harness", () => {
       assert.equal(Array.isArray(trajectory.causalRefs.attemptIds), true);
       assert.equal(Array.isArray(trajectory.causalRefs.evidenceIds), true);
       assert.equal(trajectory.causalRefs.eventIds.every((eventId) => eventIds.has(eventId)), true);
-      assert.equal(trajectory.contextSchemaVersion, "7");
-      assert.equal(trajectory.decisionContext?.schemaVersion, "7");
+      assert.equal(trajectory.contextSchemaVersion, "8");
+      assert.equal(trajectory.decisionContext?.schemaVersion, "8");
       assert.equal("authorization" in (trajectory.decisionContext ?? {}), false);
       assert.equal("proposal" in (trajectory.decisionContext ?? {}), false);
       assert.equal("lastExecutionResult" in (trajectory.decisionContext ?? {}), false);
@@ -360,7 +360,7 @@ describe("restaurant booking mock harness", () => {
     if (rejected?.actionValidation?.status === "REJECTED") assert.equal(rejected.actionValidation.code, "AVAILABILITY_ALREADY_CHECKED");
   });
 
-  test("Harness binds shared search facts and availability-only party size from authoritative task state", async () => {
+  test("Harness binds party-size discovery metadata and availability arguments from authoritative task state", async () => {
     const harness = createHarness();
     await harness.start(fixtureIntent);
 
@@ -373,6 +373,7 @@ describe("restaurant booking mock harness", () => {
       target: fixtureIntent.target,
       date: fixtureIntent.date,
       timeWindow: fixtureIntent.timeWindow,
+      partySize: fixtureIntent.partySize,
       area: fixtureIntent.area,
       criteria: fixtureIntent.criteria,
       budgetPerPerson: fixtureIntent.budgetPerPerson,

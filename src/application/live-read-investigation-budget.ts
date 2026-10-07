@@ -11,9 +11,10 @@ export const LIVE_READ_DEBUG_INVESTIGATION_BUDGET = {
   maxGoogleRequests: 100,
   /** One bounded Google/structured read; separate from the 20-minute whole investigation cap. */
   maxStructuredReadMs: 30_000,
-  maxTableCheckBrowserSessions: 3,
-  maxTabelogBrowserSessions: 3,
-  maxTabelogCandidateMatches: 3,
+  /** Per source-pack browser session ceiling; source selection belongs to the Pack plan. */
+  maxAvailabilitySourceBrowserSessions: 3,
+  /** Per source-pack candidate-match ceiling; adapters apply it to their observed list. */
+  maxAvailabilitySourceCandidateMatches: 3,
   maxAvailabilityReads: 20,
   maxBrowserRuntimeFallbacks: 1,
   maxBrowserModelCallsPerCandidate: 20,

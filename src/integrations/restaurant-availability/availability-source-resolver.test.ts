@@ -5,6 +5,7 @@ import { fixtureCandidates, fixtureIntent } from "../../harness/restaurant-fixtu
 import type { RestaurantAvailabilityRead, RestaurantAvailabilityRequest } from "../../domains/restaurant/contracts.js";
 import type { RestaurantAvailabilityProvider } from "./contracts.js";
 import { AvailabilitySourceResolver } from "./availability-source-resolver.js";
+import { tableCheckDiscoveryPack, tabelogDiscoveryPack } from "../restaurant-search/source-packs.js";
 
 const candidate = fixtureCandidates[0]!;
 const request: RestaurantAvailabilityRequest = {
@@ -37,9 +38,13 @@ function provider(
   };
 }
 
+function resolver(tableCheck: RestaurantAvailabilityProvider, tabelog: RestaurantAvailabilityProvider) {
+  return new AvailabilitySourceResolver([{ pack: tableCheckDiscoveryPack, provider: tableCheck }, { pack: tabelogDiscoveryPack, provider: tabelog }]);
+}
+
 test("source resolver always prefers TableCheck and does not call Tabelog after a conclusive read", async () => {
   const calls: string[] = [];
-  const result = await new AvailabilitySourceResolver(
+  const result = await resolver(
     provider("TABLECHECK", { status: "AVAILABLE" }, calls),
     provider("TABELOG", { status: "AVAILABLE" }, calls),
   ).check(request, new AbortController().signal);
@@ -57,7 +62,7 @@ test("a legal Tabelog same-store entrance changes only source order and still st
       sourceIds: { ...candidate.restaurant.sourceIds, googleWebsiteUri: "https://tabelog.com/tokyo/A1301/example/" },
     },
   };
-  const result = await new AvailabilitySourceResolver(
+  const result = await resolver(
     provider("TABLECHECK", { status: "AVAILABLE" }, calls),
     provider("TABELOG", { status: "UNAVAILABLE" }, calls),
   ).check({ ...request, candidates: [hinted] }, new AbortController().signal);
@@ -73,7 +78,7 @@ test("a source-native outlet is checked only on its own platform even when the r
   ]) {
     const calls: string[] = [];
     const nativeCandidate = { ...candidate, restaurant: { ...candidate.restaurant, sourceIds: native } };
-    const result = await new AvailabilitySourceResolver(
+    const result = await resolver(
       provider("TABLECHECK", { status: "UNKNOWN", reasonCode: "REQUEST_UNCONFIRMED" }, calls),
       provider("TABELOG", { status: "AVAILABLE" }, calls),
     ).check({ ...request, candidates: [nativeCandidate] }, new AbortController().signal);
@@ -87,7 +92,7 @@ test("an unrelated or malformed URL cannot reorder the default TableCheck-first 
   for (const googleWebsiteUri of ["https://evil.example/tabelog.com/restaurant", "not a URL"]) {
     const calls: string[] = [];
     const hinted = { ...candidate, restaurant: { ...candidate.restaurant, sourceIds: { ...candidate.restaurant.sourceIds, googleWebsiteUri } } };
-    await new AvailabilitySourceResolver(
+    await resolver(
       provider("TABLECHECK", { status: "UNAVAILABLE" }, calls),
       provider("TABELOG", { status: "AVAILABLE" }, calls),
     ).check({ ...request, candidates: [hinted] }, new AbortController().signal);
@@ -97,7 +102,7 @@ test("an unrelated or malformed URL cannot reorder the default TableCheck-first 
 
 test("source resolver falls back from a TableCheck provider failure to Tabelog", async () => {
   const calls: string[] = [];
-  const result = await new AvailabilitySourceResolver(
+  const result = await resolver(
     provider("TABLECHECK", { status: "UNKNOWN", reasonCode: "EXTRACTION_FAILED" }, calls),
     provider("TABELOG", { status: "UNAVAILABLE" }, calls),
   ).check(request, new AbortController().signal);
@@ -111,7 +116,7 @@ test("source resolver falls back from a TableCheck provider failure to Tabelog",
 
 test("Tabelog bot challenge remains provider-scoped and all providers exhausted fail closed", async () => {
   const calls: string[] = [];
-  const result = await new AvailabilitySourceResolver(
+  const result = await resolver(
     provider("TABLECHECK", { status: "UNKNOWN", reasonCode: "TABLECHECK_DISCOVERY_NO_RESULT" }, calls),
     provider("TABELOG", { status: "UNKNOWN", reasonCode: "BOT_CHALLENGE" }, calls),
   ).check(request, new AbortController().signal);

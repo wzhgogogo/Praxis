@@ -593,8 +593,8 @@ test(`native dynamic Tabelog ${outcome} reaches formal H001 ${outcome === "AVAIL
     assert.equal(Object.values(state.availability).flat().length, 0);
     assert.equal(tableCheckSearches.length, 1, "Tabelog UNAVAILABLE must cause an actual second-source navigation");
     assert.equal(new URL(tableCheckSearches[0]!).pathname, "/en/japan/search");
-    assert.equal(state.searchContinuation?.nativeStage, "TABLECHECK_DONE");
-    assert.match(state.noVerifiedResult?.remainingGaps.join(" ") ?? "", /bounded Tabelog and TableCheck native batches/);
+    assert.equal(state.searchContinuation?.exhausted, true);
+    assert.match(state.noVerifiedResult?.remainingGaps.join(" ") ?? "", /bounded discovery plan/);
     const steps = composition.trajectories.steps;
     assert.equal(steps.some(step => step.agentAction?.type === "PRESENT_RESULTS"), false);
     const funnels = steps.flatMap(step => step.executionMetadata?.nativeDiscoveryFunnel ? [step.executionMetadata.nativeDiscoveryFunnel] : []);

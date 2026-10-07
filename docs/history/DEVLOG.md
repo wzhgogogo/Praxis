@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.151
+- Document revision: 4.152
 - Last updated: 2026-10-07
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,14 @@
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## DEV-2026-10-07-PLAYBOOK-PHASE2
+
+- [ADR-0037](../decisions/0037-request-driven-discovery-source-packs.md)实现请求驱动Planner／三Pack；旧二选一开关、固定nativeStage与旧观察type alias退役，State@12／Context@8同步全部调用方。
+- Pack持有发现URL／解析／入口、Skill与查位factory／affinity／URL／ground；Google保留命名位置和发现，已解析位置复用，无关键词走Nearby circle。当前源标签／诊断保留，不宣称第三站接入已验证。
+- root两轮返修闭合真实五案映射、Tokyo同日、重复地点解析、URL字段泄漏、Shibuya named入口、遗漏Skill与H002半径；原错误artifact保留。
+- 原始@6／Semantic／Gold／HARD／身份／半径与500s／50调用不变；旧开发State按显式重置协议处理，本轮未执行数据库删除。
+- [离线签收](../../.eval-artifacts/h001-h005-playbook-20261007/root.phase2.acceptance.json)通过；真实源／库存和完整H001未签收，下一门槛Phase3；验证见[Test](TEST-LOG.md#test-2026-10-07-playbook-phase2)。
 
 ## DEV-2026-10-07-PLAYBOOK-PHASE1
 

@@ -57,9 +57,6 @@ export interface UntrustedProviderAvailabilityObservation {
   failureCode?: string;
 }
 
-export type UntrustedTabelogAvailabilityObservation = UntrustedProviderAvailabilityObservation;
-export type UntrustedTableCheckAvailabilityObservation = UntrustedProviderAvailabilityObservation;
-
 export type GroundedGoogleDiscovery =
   | { accepted: true; candidate: RestaurantCandidate; evidence: RestaurantReadEvidence; additionalEvidence: RestaurantReadEvidence[] }
   | { accepted: false; reasonCode: string };
@@ -455,10 +452,10 @@ function receptionModeFor(observation: UntrustedProviderAvailabilityObservation)
 }
 
 function checkForFailure(
-  observation: UntrustedTabelogAvailabilityObservation,
+  observation: UntrustedProviderAvailabilityObservation,
 ): RestaurantAvailabilityCheck {
   const checkedAt = observation.observedAt;
-  // A browser session failure occurs before Tabelog identity evidence exists.
+  // A browser session failure occurs before provider identity evidence exists.
   // Do not mislabel that infrastructure failure as an outlet mismatch.
   if (observation.pageState === "EXTRACTION_FAILED" && (
     observation.failureCode === "BROWSER_RUNTIME_FAILED" || observation.failureCode === "BROWSER_TIMEOUT"
@@ -634,7 +631,7 @@ export function groundProviderAvailability(
 export function groundTabelogAvailability(
   candidate: RestaurantCandidate,
   request: RestaurantAvailabilityRequest,
-  observation: UntrustedTabelogAvailabilityObservation,
+  observation: UntrustedProviderAvailabilityObservation,
   now: string,
 ): GroundedAvailability {
   return groundProviderAvailability("TABELOG", candidate, request, observation, now);
@@ -643,7 +640,7 @@ export function groundTabelogAvailability(
 export function groundTableCheckAvailability(
   candidate: RestaurantCandidate,
   request: RestaurantAvailabilityRequest,
-  observation: UntrustedTableCheckAvailabilityObservation,
+  observation: UntrustedProviderAvailabilityObservation,
   now: string,
 ): GroundedAvailability {
   return groundProviderAvailability("TABLECHECK", candidate, request, observation, now);

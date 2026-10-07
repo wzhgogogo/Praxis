@@ -213,9 +213,7 @@ export class RestaurantExecutionRouter {
             event: { type: "SEARCH_FAILED", reason, code },
             observation: { type: "DISCOVERY_FAILED", detail: reason },
             executionMetadata: {
-              provider: this.search.executionRoute === "GENERIC_BROWSER"
-                ? (request.continuation?.nativeStage === "TABELOG_DONE" ? "TABLECHECK" : "TABELOG")
-                : "GOOGLE_PLACES",
+              provider: this.search.executionRoute === "GENERIC_BROWSER" ? "AVAILABILITY_SOURCE_RESOLVER" : "GOOGLE_PLACES",
               route: this.search.executionRoute,
               latencyMs: 0,
               failureCode: code,
@@ -364,7 +362,7 @@ export class RestaurantExecutionRouter {
               availabilityChecks,
               evidence: [],
               metadata: {
-                provider: this.availability.executionRoute === "GENERIC_BROWSER" ? "TABELOG" : "FIXTURE",
+                provider: this.availability.executionRoute === "GENERIC_BROWSER" ? "AVAILABILITY_SOURCE_RESOLVER" : "FIXTURE",
                 route: this.availability.executionRoute,
                 latencyMs: 0,
                 failureCode: code,
@@ -375,7 +373,7 @@ export class RestaurantExecutionRouter {
             },
             observation: { type: "AVAILABILITY_UNKNOWN", detail: reason, candidateIds: request.candidateIds },
             executionMetadata: {
-              provider: this.availability.executionRoute === "GENERIC_BROWSER" ? "TABELOG" : "FIXTURE",
+              provider: this.availability.executionRoute === "GENERIC_BROWSER" ? "AVAILABILITY_SOURCE_RESOLVER" : "FIXTURE",
               route: this.availability.executionRoute,
               latencyMs: 0,
               failureCode: code,
@@ -402,8 +400,8 @@ export class RestaurantExecutionRouter {
       }
       case "END_READ": {
         const assessment = assessRestaurantRead(state, now);
-        const boundedNativeGap = state.searchContinuation?.nativeStage === "TABLECHECK_DONE"
-          ? [`The bounded Tabelog and TableCheck native batches ended without a grounded result; wider source coverage was not evaluated${state.searchContinuation.lastFailureCode ? `; last source failure: ${state.searchContinuation.lastFailureCode}` : ""}`]
+        const boundedNativeGap = state.searchContinuation?.discoveryPlan && state.searchContinuation.exhausted
+          ? [`The bounded discovery plan ended without a grounded result; wider source coverage was not evaluated${state.searchContinuation.lastFailureCode ? `; last source failure: ${state.searchContinuation.lastFailureCode}` : ""}`]
           : [];
         return {
           event: {

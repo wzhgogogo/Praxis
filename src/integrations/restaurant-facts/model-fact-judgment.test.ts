@@ -221,7 +221,7 @@ test("negative category raw judgments reach conversion and the current presentat
     const result = await new ModelRestaurantFactJudgment(model(raw), now).judge({ candidate, intent: factIntent, evidence });
     assert.deepEqual(result.evidence[0]?.claims[control.claim], [criterion], control.name);
     const state: RestaurantTaskState = {
-      schemaVersion: "11", phase: "SEARCHING", candidates: [candidate], availability: {}, availabilityChecks: {}, searchRevision: 0,
+      schemaVersion: "12", phase: "SEARCHING", candidates: [candidate], availability: {}, availabilityChecks: {}, searchRevision: 0,
       intentDraft: applyRestaurantIntentPatch(undefined, { schemaVersion: "3", target: { goal: "RECOMMENDATION", query: "restaurant" }, area: { query: "Tokyo" }, addCriteria: [{ text: criterion, polarity: "NEGATIVE", strength: "HARD" }] }),
       readEvidence: [...evidence, ...result.evidence],
     };

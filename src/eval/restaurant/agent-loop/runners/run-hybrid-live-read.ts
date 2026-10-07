@@ -16,7 +16,6 @@ import { GooglePlacesClient } from "../../../../integrations/google/google-place
 import { GooglePlacesRestaurantSearch } from "../../../../integrations/google/google-places-restaurant-search.js";
 import { composeNativeRestaurantRead } from "../../../../integrations/restaurant-search/native-read-composition.js";
 import { LiveBrowserAvailability } from "../../../../integrations/restaurant-availability/live-browser-availability.js";
-import { composeLiveRestaurantFactRead } from "../../../../integrations/restaurant-facts/live-restaurant-facts.js";
 import type { TableCheckIdentityDiagnostic } from "../../../../integrations/tablecheck/tablecheck-contracts.js";
 import type { TabelogIdentityDiagnostic, TabelogUserInterventionRequired } from "../../../../integrations/tabelog/tabelog-contracts.js";
 import { loadFrozenLiveCases, materializeLiveCase, RESTAURANT_READ_DEVELOPMENT_CASE_PATH, RESTAURANT_READ_DEVELOPMENT_DATASET_VERSION } from "../live-case-materializer.js";
@@ -70,7 +69,7 @@ function candidateLimitFromArgs(): number {
 }
 
 function manualTabelogInterventionEnabled(environment: NodeJS.ProcessEnv = process.env): boolean {
-  return environment.PRAXIS_EVAL_ALLOW_TABELOG_MANUAL_INTERVENTION === "1";
+  return environment.PRAXIS_EVAL_ALLOW_BROWSER_MANUAL_INTERVENTION === "1";
 }
 
 function safeGitContext(): { commitSha: string; worktree: "CLEAN" | "DIRTY" | "UNKNOWN" } {
@@ -113,13 +112,13 @@ if (effectiveEnvironment.PRAXIS_BROWSER_ENGINE !== "LOCAL_CHROMIUM") {
 }
 const manualTabelogIntervention = manualTabelogInterventionEnabled();
 if (manualTabelogIntervention && effectiveEnvironment.PRAXIS_BROWSER_ENGINE !== "LOCAL_CHROMIUM") {
-  throw new Error("PRAXIS_EVAL_ALLOW_TABELOG_MANUAL_INTERVENTION=1 requires PRAXIS_BROWSER_ENGINE=LOCAL_CHROMIUM");
+  throw new Error("PRAXIS_EVAL_ALLOW_BROWSER_MANUAL_INTERVENTION=1 requires PRAXIS_BROWSER_ENGINE=LOCAL_CHROMIUM");
 }
 if (manualTabelogIntervention && effectiveEnvironment.PRAXIS_LOCAL_CHROMIUM_INTERACTIVE !== "1") {
-  throw new Error("PRAXIS_EVAL_ALLOW_TABELOG_MANUAL_INTERVENTION=1 requires PRAXIS_LOCAL_CHROMIUM_INTERACTIVE=1");
+  throw new Error("PRAXIS_EVAL_ALLOW_BROWSER_MANUAL_INTERVENTION=1 requires PRAXIS_LOCAL_CHROMIUM_INTERACTIVE=1");
 }
 if (manualTabelogIntervention && !process.stdin.isTTY) {
-  throw new Error("PRAXIS_EVAL_ALLOW_TABELOG_MANUAL_INTERVENTION=1 requires an interactive terminal");
+  throw new Error("PRAXIS_EVAL_ALLOW_BROWSER_MANUAL_INTERVENTION=1 requires an interactive terminal");
 }
 const preflight = await runLivePreflight({
   runner: "HYBRID_LIVE_READ",
@@ -306,17 +305,14 @@ try {
     browserExecutionDiagnostics.push(structuredClone(diagnostic));
     recordBrowserTrace("EXECUTOR_DIAGNOSTIC", diagnostic);
   };
-  const nativeRead = process.argv.includes("--native-discovery")
-    ? composeNativeRestaurantRead(google, browser, model, browserBudget,
-        recordBrowserDiagnostic, evaluationLocation, undefined,
-        { maxOperationsPerCandidate: liveReadLimits.maxBrowserOperationsPerCandidate })
-    : undefined;
-  const search = nativeRead?.search ?? google;
+  const nativeRead = composeNativeRestaurantRead(google, browser, model, browserBudget,
+    recordBrowserDiagnostic, evaluationLocation, undefined,
+    { maxOperationsPerCandidate: liveReadLimits.maxBrowserOperationsPerCandidate });
+  const search = nativeRead.search;
   const availability = new LiveBrowserAvailability(browser, model, {
     browserBudget,
-    maxTableCheckBrowserSessions: liveReadLimits.maxTableCheckBrowserSessions,
-    maxTabelogBrowserSessions: liveReadLimits.maxTabelogBrowserSessions,
-    maxTabelogCandidateMatches: liveReadLimits.maxTabelogCandidateMatches,
+    maxAvailabilitySourceBrowserSessions: liveReadLimits.maxAvailabilitySourceBrowserSessions,
+    maxAvailabilitySourceCandidateMatches: liveReadLimits.maxAvailabilitySourceCandidateMatches,
     maxModelCallsPerCandidate: liveReadLimits.maxBrowserModelCallsPerCandidate,
     maxModelCallsTotal: liveReadLimits.maxBrowserModelCallsTotal,
     maxOperationsPerCandidate: liveReadLimits.maxBrowserOperationsPerCandidate,
@@ -343,7 +339,7 @@ try {
     search,
     availability,
     partySizeSupplementResolver: new RestaurantPartySizeSupplementResolver(model),
-    facts: nativeRead?.facts ?? composeLiveRestaurantFactRead(google, browser, model, browserBudget, undefined, recordBrowserDiagnostic),
+    facts: nativeRead.facts,
     router: {
       structuredReadTimeoutMs: liveReadLimits.maxStructuredReadMs,
       // An explicit human pause is outside the automatic browser-read deadline.

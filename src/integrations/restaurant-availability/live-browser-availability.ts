@@ -3,20 +3,20 @@ import type { RestaurantAvailabilityRead, RestaurantAvailabilityRequest } from "
 import { ModelBrowserReadActionDecision } from "../../infrastructure/browser/browser-action-decision.js";
 import { BrowserTaskExecutor, type BrowserExecutionBudget, type BrowserExecutionDiagnostic } from "../../infrastructure/browser/browser-task-executor.js";
 import type { BrowserReadNetworkPolicy, BrowserRuntime } from "../../infrastructure/browser/browser-runtime.js";
-import { TableCheckBrowserAvailability, TableCheckEntryLedger } from "../tablecheck/tablecheck-browser-availability.js";
+import { TableCheckEntryLedger } from "../tablecheck/tablecheck-browser-availability.js";
 import type { TableCheckIdentityDiagnostic } from "../tablecheck/tablecheck-contracts.js";
-import { TabelogBrowserAvailability } from "../tabelog/tabelog-browser-availability.js";
+
 import type { TabelogIdentityDiagnostic, TabelogUserInterventionHandler } from "../tabelog/tabelog-contracts.js";
 import { AvailabilitySourceResolver } from "./availability-source-resolver.js";
 import { restaurantPublicReadNetworkPolicy } from "./public-browser-read-network-policy.js";
+import { restaurantDiscoveryPacks } from "../restaurant-search/source-packs.js";
 
 export interface LiveBrowserAvailabilityOptions {
   now?: () => string;
   /** Shared with fact reads for one Router-owned investigation, never process-global. */
   browserBudget?: BrowserExecutionBudget;
-  maxTableCheckBrowserSessions?: number;
-  maxTabelogBrowserSessions?: number;
-  maxTabelogCandidateMatches?: number;
+  maxAvailabilitySourceBrowserSessions?: number;
+  maxAvailabilitySourceCandidateMatches?: number;
   maxModelCallsPerCandidate?: number;
   maxModelCallsTotal?: number;
   maxOperationsPerCandidate?: number;
@@ -77,18 +77,19 @@ export class LiveBrowserAvailability {
       ...(this.options.onBrowserDiagnostic ? { onDiagnostic: this.options.onBrowserDiagnostic } : {}),
       budget: this.browserBudget,
     });
-    const tableCheck = new TableCheckBrowserAvailability(executor, this.options.now, {
-      ...(this.options.maxTableCheckBrowserSessions !== undefined ? { maxBrowserSessions: this.options.maxTableCheckBrowserSessions } : {}),
-      ...(this.options.onTableCheckIdentityDiagnostic ? { onIdentityDiagnostic: this.options.onTableCheckIdentityDiagnostic } : {}),
-      entryLedger: this.tableCheckEntryLedger,
+    const providerContext = {
+      executor,
+      ...(this.options.now ? { now: this.options.now } : {}),
+      ...(this.options.maxAvailabilitySourceBrowserSessions !== undefined ? { maxBrowserSessions: this.options.maxAvailabilitySourceBrowserSessions } : {}),
+      ...(this.options.maxAvailabilitySourceCandidateMatches !== undefined ? { maxCandidateMatches: this.options.maxAvailabilitySourceCandidateMatches } : {}),
+      tableCheckEntryLedger: this.tableCheckEntryLedger,
+      ...(this.options.onTableCheckIdentityDiagnostic ? { onTableCheckIdentityDiagnostic: this.options.onTableCheckIdentityDiagnostic } : {}),
+      ...(this.options.onTabelogIdentityDiagnostic ? { onTabelogIdentityDiagnostic: this.options.onTabelogIdentityDiagnostic } : {}),
+      ...(this.options.onTabelogUserInterventionRequired ? { onTabelogUserInterventionRequired: this.options.onTabelogUserInterventionRequired } : {}),
       ...(this.networkPolicy ? { networkPolicy: this.networkPolicy } : {}),
-    });
-    const tabelog = new TabelogBrowserAvailability(executor, this.options.now, this.options.maxTabelogCandidateMatches, {
-      ...(this.options.maxTabelogBrowserSessions !== undefined ? { maxBrowserSessions: this.options.maxTabelogBrowserSessions } : {}),
-      ...(this.options.onTabelogIdentityDiagnostic ? { onIdentityDiagnostic: this.options.onTabelogIdentityDiagnostic } : {}),
-      ...(this.options.onTabelogUserInterventionRequired ? { onUserInterventionRequired: this.options.onTabelogUserInterventionRequired } : {}),
-      ...(this.networkPolicy ? { networkPolicy: this.networkPolicy } : {}),
-    });
-    return new AvailabilitySourceResolver(tableCheck, tabelog, { afterRead: () => executor.close() }).check(request, signal);
+    };
+    const bindings = restaurantDiscoveryPacks
+      .flatMap((pack) => pack.availability ? [{ pack, provider: pack.availability.createProvider(providerContext) }] : []);
+    return new AvailabilitySourceResolver(bindings, { afterRead: () => executor.close() }).check(request, signal);
   }
 }

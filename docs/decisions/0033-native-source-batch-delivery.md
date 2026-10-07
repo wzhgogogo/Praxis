@@ -1,8 +1,8 @@
 # ADR-0033: Delivery after a bounded native source batch
 
-- Status: Accepted
-- Document revision: 1.2
-- Last updated: 2026-10-01
+- Status: Accepted; fixed source-stage continuation superseded in part by ADR-0037
+- Document revision: 1.3
+- Last updated: 2026-10-07
 - Source of truth for: Default open-ended Restaurant result delivery on the source-native read path
 - Supersedes in part: [ADR-0028](0028-open-ended-result-targets-for-availability.md) continue-until-no-read rule and [ADR-0031](0031-default-result-delivery-window.md) deadline-only short-batch condition, only for the native path
 - Related documents: [ADR-0032](0032-source-native-restaurant-discovery.md), [Restaurant Booking Domain](../domains/RESTAURANT-BOOKING.md), [H001 downstream Playbook](../H001-NATIVE-DOWNSTREAM-PLAYBOOK.md)

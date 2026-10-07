@@ -77,7 +77,7 @@ if (!process.argv.includes("--run")) {
       const accepted = Array.isArray(claims[claim]) && claims[claim].includes(control.intent.criteria[0]!.text);
       const noOtherConclusion = ["violatedNegativeCriteria", "verifiedNegativeCriteria", "categoryUnknownNegativeCriteria"].filter(key => key !== claim).every(key => claims[key] === undefined);
       const candidateId = control.candidate.restaurant.id;
-      const state: RestaurantTaskState = { schemaVersion: "11", phase: "SEARCHING", candidates: [control.candidate], availability: {}, availabilityChecks: {}, searchRevision: 0,
+      const state: RestaurantTaskState = { schemaVersion: "12", phase: "SEARCHING", candidates: [control.candidate], availability: {}, availabilityChecks: {}, searchRevision: 0,
         intentDraft: applyRestaurantIntentPatch(undefined, { schemaVersion: "3", target: { goal: "RECOMMENDATION", query: "restaurant" }, area: { query: control.intent.area.query }, addCriteria: control.intent.criteria }),
         readEvidence: [
           { evidenceId: `${control.id}:area`, kind: "DISCOVERY", provider: "GOOGLE_PLACES", candidateId, observedAt: "2026-09-24T09:00:00.000Z", requestFingerprint: control.id, claims: { areaQuery: control.intent.area.query, areaMatch: true } },

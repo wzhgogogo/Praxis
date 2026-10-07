@@ -25,7 +25,6 @@ import { GooglePlacesRestaurantSearch } from "../integrations/google/google-plac
 import { composeNativeRestaurantRead } from "../integrations/restaurant-search/native-read-composition.js";
 import { LiveBrowserAvailability } from "../integrations/restaurant-availability/live-browser-availability.js";
 import { restaurantPublicReadNetworkPolicy } from "../integrations/restaurant-availability/public-browser-read-network-policy.js";
-import { composeLiveRestaurantFactRead } from "../integrations/restaurant-facts/live-restaurant-facts.js";
 import { applyPostgresMigrations } from "../infrastructure/postgres/migrations.js";
 import { NodePostgresDatabase } from "../infrastructure/postgres/node-postgres-database.js";
 import { LOCAL_WORKSPACE_PAGE } from "../web/local-workspace-page.js";
@@ -402,16 +401,14 @@ async function start(): Promise<void> {
       );
   const browserRuntime = fixtureMode ? undefined : browserRuntimeFromEnvironment();
   const browserBudget: BrowserExecutionBudget | undefined = fixtureMode ? undefined : { totalModelCalls: 0 };
-  const nativeRead = !fixtureMode && process.env.PRAXIS_RESTAURANT_NATIVE_DISCOVERY === "1"
-    ? composeNativeRestaurantRead(googleSearch!, browserRuntime!, model, browserBudget) : undefined;
-  const restaurantSearch = fixtureSearch ?? nativeRead?.search ?? googleSearch!;
+  const nativeRead = fixtureMode ? undefined : composeNativeRestaurantRead(googleSearch!, browserRuntime!, model, browserBudget);
+  const restaurantSearch = fixtureSearch ?? nativeRead!.search;
   const restaurantAvailability = fixtureMode
     ? new FixtureRestaurantSearch()
     : new LiveBrowserAvailability(browserRuntime!, model, {
         ...(browserBudget ? { browserBudget } : {}),
-        maxTableCheckBrowserSessions: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxTableCheckBrowserSessions,
-        maxTabelogBrowserSessions: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxTabelogBrowserSessions,
-        maxTabelogCandidateMatches: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxTabelogCandidateMatches,
+        maxAvailabilitySourceBrowserSessions: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxAvailabilitySourceBrowserSessions,
+        maxAvailabilitySourceCandidateMatches: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxAvailabilitySourceCandidateMatches,
         maxModelCallsPerCandidate: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxBrowserModelCallsPerCandidate,
         maxModelCallsTotal: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxBrowserModelCallsTotal,
         maxOperationsPerCandidate: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxBrowserOperationsPerCandidate,
@@ -427,7 +424,7 @@ async function start(): Promise<void> {
     agentDecision: new RestaurantAgentDecision(model),
     restaurantSearch,
     restaurantAvailability,
-    restaurantFacts: fixtureSearch ?? nativeRead?.facts ?? composeLiveRestaurantFactRead(googleSearch!, browserRuntime!, model, browserBudget),
+    restaurantFacts: fixtureSearch ?? nativeRead!.facts,
     workspaceMode: providerMode,
     ...(fixtureMode ? {} : {
       liveReadLimits: LIVE_READ_DEBUG_INVESTIGATION_BUDGET,

@@ -72,7 +72,7 @@ test("environment gates keep ordinary profiles temporary and enable persistence 
   ] as const) {
     const runtime = LocalPlaywrightChromium.fromEnvironment({
       PRAXIS_LOCAL_CHROMIUM_INTERACTIVE: interactive,
-      PRAXIS_EVAL_ALLOW_TABELOG_MANUAL_INTERVENTION: manual,
+      PRAXIS_EVAL_ALLOW_BROWSER_MANUAL_INTERVENTION: manual,
     });
     const session = await runtime.openSession({ signal: new AbortController().signal });
     await session.close();
@@ -82,7 +82,7 @@ test("environment gates keep ordinary profiles temporary and enable persistence 
   for (const interactive of ["0", "1"]) {
     const runtime = LocalPlaywrightChromium.fromEnvironment({
       PRAXIS_LOCAL_CHROMIUM_INTERACTIVE: interactive,
-      PRAXIS_EVAL_ALLOW_TABELOG_MANUAL_INTERVENTION: interactive,
+      PRAXIS_EVAL_ALLOW_BROWSER_MANUAL_INTERVENTION: interactive,
       PRAXIS_LOCAL_CHROMIUM_PROXY_SERVER: "http://127.0.0.1:10808",
     });
     const session = await runtime.openSession({ signal: new AbortController().signal });

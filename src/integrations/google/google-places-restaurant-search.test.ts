@@ -13,6 +13,48 @@ test("Google query is discovery-owned and does not serialize criteria into retri
   assert.doesNotMatch(query, /yakiniku/);
 });
 
+test("a positive-HARD pack query keeps only its keyword and resolved location in Text Search", () => {
+  const query = buildGooglePlacesTextQuery({ intent: fixtureIntent, discoveryQuery: {
+    category: "omakase", keyword: "omakase",
+    location: { latitude: 35.658, longitude: 139.7, radiusMeters: 1_000, label: "Shibuya", areaMatchBasis: "TASK_LOCATION_RADIUS" },
+  } });
+  assert.equal(query, "omakase Shibuya");
+});
+
+test("a source-plan location prevents a second named-place lookup before Google discovery", async () => {
+  const queries: string[] = [];
+  const client = new GooglePlacesClient({ apiKey: "key", fetchImplementation: async (_url, init) => {
+    const body = JSON.parse(String(init?.body)) as { textQuery: string };
+    queries.push(body.textQuery);
+    return new Response(JSON.stringify({ places: [] }), { status: 200 });
+  } });
+  await new GooglePlacesRestaurantSearch(client).search({
+    intent: { ...fixtureIntent, area: { query: "near Shibuya" } },
+    discoveryQuery: {
+      category: "omakase", keyword: "omakase",
+      location: { latitude: 35.658, longitude: 139.7016, radiusMeters: 1_000, label: "Shibuya", areaMatchBasis: "NAMED_PLACE_RADIUS" },
+    },
+    readRunId: "source-plan-location",
+  }, new AbortController().signal);
+  assert.deepEqual(queries, ["omakase Shibuya"]);
+});
+
+test("a pack query without a positive HARD keyword uses Nearby Search's exact circle instead of location-only text", async () => {
+  const requests: Array<{ url: string; body: Record<string, unknown> }> = [];
+  const client = new GooglePlacesClient({ apiKey: "key", fetchImplementation: async (url, init) => {
+    requests.push({ url: String(url), body: JSON.parse(String(init?.body)) as Record<string, unknown> });
+    return new Response(JSON.stringify({ places: [{ id: "nearby-1", displayName: { text: "Nearby restaurant" }, formattedAddress: "Tokyo", location: { latitude: 35.6697, longitude: 139.767 }, types: ["restaurant"] }] }), { status: 200 });
+  } });
+  const result = await new GooglePlacesRestaurantSearch(client).search({
+    intent: { ...fixtureIntent, criteria: [], area: { query: "Higashi-Ginza", coordinates: { latitude: 35.6697, longitude: 139.767, observedAt: "2026-10-07T00:00:00.000Z", source: "MANUAL_PLACE" }, radiusMeters: 3_000 } },
+    discoveryQuery: { category: "restaurant", location: { latitude: 35.6697, longitude: 139.767, radiusMeters: 3_000, label: "Higashi-Ginza", areaMatchBasis: "TASK_LOCATION_RADIUS" } },
+  }, new AbortController().signal);
+  assert.equal(requests[0]?.url, "https://places.googleapis.com/v1/places:searchNearby");
+  assert.equal((requests[0]?.body.locationRestriction as { circle: { radius: number } }).circle.radius, 3_000);
+  assert.equal(result.metadata.googleGeoDiagnostics?.providerMode, "GOOGLE_NEARBY_SEARCH");
+  assert.equal(result.continuation?.exhausted, true);
+});
+
 test("initial discovery reads at most two 20-result pages, dedupes stable outlets, and retains the next cursor", async () => {
   const requests: Array<Record<string, unknown>> = [];
   const place = (id: string) => ({ id, displayName: { text: `Restaurant ${id}` }, formattedAddress: "Tokyo", location: { latitude: 35.6, longitude: 139.7 }, types: ["restaurant"] });

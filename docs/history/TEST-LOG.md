@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.157
+- Document revision: 4.158
 - Last updated: 2026-10-07
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,15 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-07-PLAYBOOK-PHASE2
+
+- History: 固定来源／旧简化向量漏测请求差异；root独立红证据复现重复Google地名、UTC同日与Shibuya回根目录；现有Planner／Adapter／生产composition覆盖补强，无新测试平台。
+- Five plans: 未改@6原文SHA00b69476；[round2输出](../../.eval-artifacts/phase2-source-pack-planning-20261007/frozen-h001-h005-plans-round2.json)保留H001/H0021km、H003–H0053km和原日期人数时窗；H004排除预约-only，负向不入检索词。
+- Offline gates: 受影响184/184；宿主默认712/712（35,596ms）；最终类型／architecture／build／diff PASS，纯type rename后复用行为门禁；Chromium73/73复用，后续只改组合／类型，无受影响Chromium机制。
+- Independent root controls: 三个原红点23ms转绿；实际生产三Pack受控Tabelog交付3家124ms，现有TableCheck恢复交付1家69ms，均≤15s／50脚本调用，实际模型／外网0；原执行和evaluation独立保存。
+- Evaluator: Planner **NOT_APPLICABLE**；生产组合复用现有Evaluator六维SATISFIED，root核对冻结条件、原来源观察、引用及预算；退出0／全绿未单独替代签收。
+- Acceptance: **Phase2 PASS**，[root证据](../../.eval-artifacts/h001-h005-playbook-20261007/root.phase2.acceptance.json)；未验证真实Nearby／地区精炼／当前库存、第三Pack或完整Live，下一步Phase3。原红与错误3km向量保留，不称当前能力。
 
 ## TEST-2026-10-07-PLAYBOOK-PHASE1
 

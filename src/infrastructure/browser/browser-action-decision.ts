@@ -3,7 +3,7 @@ import { ModelGatewayError } from "../../core/model/errors.js";
 
 export const BROWSER_ACTION_DECISION_SCHEMA = {
   name: "browser_read_action",
-  version: "7",
+  version: "8",
 } as const;
 
 export const BROWSER_ACTION_DECISION_STRICT_WIRE_JSON_SCHEMA: Record<string, unknown> = {
@@ -78,7 +78,7 @@ export interface BrowserReadGoal {
 
 export interface BrowserReadDecisionInput {
   taskId: string;
-  source: "TABLECHECK" | "TABELOG" | "WEBSITE";
+  source: string;
   stage: "DISCOVERY" | "IDENTITY" | "AVAILABILITY" | "FACTS";
   observation: {
     revision: number;

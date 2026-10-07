@@ -4,12 +4,14 @@ import {
   GOOGLE_PLACES_RESTAURANT_FIELD_MASK,
   GOOGLE_PLACES_DETAILS_FIELD_MASK,
   GOOGLE_PLACES_DETAILS_URL,
+  GOOGLE_PLACES_NEARBY_SEARCH_URL,
   GOOGLE_PLACES_TEXT_SEARCH_URL,
   GooglePlacesError,
   type GooglePlacesRawPlace,
   type GooglePlacesTextSearchRequest,
   type GooglePlacesTextSearchPage,
   type GooglePlacesTextSearchResponse,
+  type GooglePlacesNearbySearchRequest,
 } from "./google-places-contracts.js";
 
 export interface GooglePlacesClientOptions {
@@ -97,6 +99,25 @@ export class GooglePlacesClient {
           places: response.places ?? [],
           ...(typeof response.nextPageToken === "string" ? { nextPageToken: response.nextPageToken } : {}),
         };
+      },
+    );
+  }
+
+  /** One documented type-and-circle Nearby Search request; it has no cursor. */
+  async nearbySearch(request: GooglePlacesNearbySearchRequest, signal: AbortSignal): Promise<GooglePlacesRawPlace[]> {
+    return this.requestJson(
+      GOOGLE_PLACES_NEARBY_SEARCH_URL,
+      { method: "POST", body: JSON.stringify({
+        includedTypes: request.includedTypes,
+        maxResultCount: request.maxResultCount,
+        locationRestriction: { circle: { center: { latitude: request.location.latitude, longitude: request.location.longitude }, radius: request.location.radiusMeters } },
+      }) },
+      GOOGLE_PLACES_RESTAURANT_FIELD_MASK.split(",").filter((field) => field !== "nextPageToken").join(","),
+      signal,
+      (payload) => {
+        const response = payload as GooglePlacesTextSearchResponse;
+        if (response.places !== undefined && !Array.isArray(response.places)) throw new GooglePlacesError("GOOGLE_MALFORMED_RESPONSE", "Google Places Nearby response has invalid places");
+        return response.places ?? [];
       },
     );
   }

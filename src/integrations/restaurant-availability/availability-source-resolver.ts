@@ -7,27 +7,29 @@ import type {
   RestaurantReadExecutionMetadata,
 } from "../../domains/restaurant/contracts.js";
 import type { RestaurantAvailabilityProvider } from "./contracts.js";
+import type { DiscoverySourcePack } from "../restaurant-search/source-packs.js";
 
-const PROVIDER_ORDER = ["TABLECHECK", "TABELOG"] as const;
+/** A pack owns its provider label and candidate affinity; the resolver only orders bindings. */
+export interface AvailabilitySourceBinding {
+  pack: Pick<DiscoverySourcePack, "meta" | "availability">;
+  provider: RestaurantAvailabilityProvider;
+}
 
-function hintedProviderOrder(request: RestaurantAvailabilityRequest): readonly RestaurantAvailabilityProvider["provider"][] {
-  const nativeIds = request.candidates[0]?.restaurant.sourceIds;
-  if (nativeIds?.tabelogNativeDetailUri && nativeIds.tabelog && !nativeIds.tablecheckNativeGuideUri) return ["TABELOG"];
-  if (nativeIds?.tablecheckNativeGuideUri && nativeIds.tablecheck && !nativeIds.tabelogNativeDetailUri) return ["TABLECHECK"];
-  if (nativeIds?.tabelogNativeDetailUri || nativeIds?.tablecheckNativeGuideUri) return [];
-  const hint = request.candidates[0]?.restaurant.sourceIds.googleWebsiteUri;
-  if (!hint) return PROVIDER_ORDER;
-  try {
-    const hostname = new URL(hint).hostname.toLocaleLowerCase("en-US");
-    // A discovery URL may influence which provider is inspected first, but it
-    // is not itself identity or availability evidence. The selected provider
-    // must still prove the exact outlet before querying its controls.
-    if (hostname === "www.tabelog.com" || hostname === "tabelog.com") return ["TABELOG", "TABLECHECK"];
-    if (hostname === "www.tablecheck.com" || hostname === "tablecheck.com") return PROVIDER_ORDER;
-  } catch {
-    // An invalid/unrelated discovery pointer never changes the safe default.
-  }
-  return PROVIDER_ORDER;
+function hintedProviderOrder(
+  request: RestaurantAvailabilityRequest,
+  bindings: readonly AvailabilitySourceBinding[],
+): readonly RestaurantAvailabilityProvider[] {
+  const candidate = request.candidates[0]?.restaurant;
+  if (!candidate) return [];
+  const ranked = bindings.map((binding) => ({ binding, affinity: binding.pack.availability?.candidateBinding(candidate) ?? "INAPPLICABLE" }));
+  const exclusive = ranked.filter((item) => item.affinity === "EXCLUSIVE");
+  if (exclusive.length === 1) return [exclusive[0]!.binding.provider];
+  if (exclusive.length > 1) return [];
+  const applicable = ranked.filter((item) => item.affinity !== "INAPPLICABLE");
+  const byPackPriority = (left: typeof applicable[number], right: typeof applicable[number]) =>
+    (right.binding.pack.availability?.availabilityPriority ?? 0) - (left.binding.pack.availability?.availabilityPriority ?? 0);
+  return [...applicable.filter((item) => item.affinity === "PREFERRED").sort(byPackPriority), ...applicable.filter((item) => item.affinity === "NEUTRAL").sort(byPackPriority)]
+    .map((item) => item.binding.provider);
 }
 
 function singleCandidateRequest(
@@ -49,23 +51,16 @@ function usable(check: RestaurantAvailabilityCheck | undefined): check is Restau
   return check !== undefined && (check.status === "AVAILABLE" || check.status === "UNAVAILABLE");
 }
 
-/**
- * Deterministic Restaurant-only source routing. It is intentionally not a dynamic
- * provider registry and does not expose provider choice to the Agent.
- */
+/** Pack-bound deterministic Restaurant routing. Provider choice remains internal to the Adapter. */
 export class AvailabilitySourceResolver {
   readonly executionRoute = "GENERIC_BROWSER" as const;
-  private readonly providers: RestaurantAvailabilityProvider[];
-
   constructor(
-    tableCheck: RestaurantAvailabilityProvider,
-    tabelog: RestaurantAvailabilityProvider,
+    private readonly bindings: readonly AvailabilitySourceBinding[],
     private readonly options: { afterRead?: () => Promise<void> } = {},
   ) {
-    if (tableCheck.provider !== "TABLECHECK" || tabelog.provider !== "TABELOG") {
-      throw new Error("Availability source resolver requires TABLECHECK followed by TABELOG providers");
+    if (!bindings.length || bindings.some(({ pack, provider }) => !pack.availability || pack.availability.provider !== provider.provider)) {
+      throw new Error("Availability source resolver requires each provider to be bound by its Pack metadata");
     }
-    this.providers = [tableCheck, tabelog];
   }
 
   async check(request: RestaurantAvailabilityRequest, signal: AbortSignal): Promise<RestaurantAvailabilityRead> {
@@ -85,9 +80,7 @@ export class AvailabilitySourceResolver {
         let lastCheck: RestaurantAvailabilityCheck | undefined;
         const candidateEvidence: RestaurantReadEvidence[] = [];
         const accumulatedCandidateFactUpdates: RestaurantCandidateFactUpdate[] = [];
-        for (const providerName of hintedProviderOrder(candidateRequest)) {
-          const provider = this.providers.find((item) => item.provider === providerName);
-          if (!provider) continue;
+        for (const provider of hintedProviderOrder(candidateRequest, this.bindings)) {
           try {
             const read = await provider.check(candidateRequest, signal);
             const check = read.availabilityChecks[candidateId];
@@ -156,7 +149,7 @@ export class AvailabilitySourceResolver {
       }
       const allFailed = request.candidateIds.every((candidateId) => {
         const check = availabilityChecks[candidateId];
-        const expectedSources = hintedProviderOrder(singleCandidateRequest(request, candidateId)).length;
+        const expectedSources = hintedProviderOrder(singleCandidateRequest(request, candidateId), this.bindings).length;
         return expectedSources > 0 && check?.status === "UNKNOWN" && (check.sourceAttempts?.length ?? 0) >= expectedSources &&
           check?.sourceAttempts?.every((attempt) => attempt.outcome === "FAILED");
       });

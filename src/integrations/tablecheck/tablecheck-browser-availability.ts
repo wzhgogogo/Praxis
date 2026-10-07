@@ -1,10 +1,10 @@
 import { parseTableCheckCapturedAvailability, tableCheckAvailabilityResponseRule } from "./tablecheck-availability-response.js";
-import { groundTableCheckAvailability } from "../../domains/restaurant/read-grounding.js";
 import type { RestaurantAvailabilityRequest, RestaurantServiceScope } from "../../domains/restaurant/contracts.js";
 import type { BrowserPageControl, BrowserReadNetworkPolicy, BrowserRuntime, BrowserSession, BrowserSessionMetadata, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
 import { BrowserRuntimeError } from "../../infrastructure/browser/browser-runtime-errors.js";
 import { BrowserTaskExecutor } from "../../infrastructure/browser/browser-task-executor.js";
 import { inspectNativeOutletContinuity } from "../restaurant-availability/native-outlet-continuity.js";
+import { tableCheckDiscoveryPack } from "../restaurant-search/source-packs.js";
 import type { RestaurantAvailabilityProvider } from "../restaurant-availability/contracts.js";
 import type { TableCheckAvailabilityPageObservation, TableCheckIdentityDiagnostic, TableCheckOutletIdentityExtraction, TableCheckUserInterventionHandler } from "./tablecheck-contracts.js";
 import { inspectTableCheckEntity } from "./tablecheck-entity-resolver.js";
@@ -26,7 +26,6 @@ import {
   resolveTableCheckReservationTarget,
   tableCheckDiscoveryUrl,
   tableCheckPageExcerpt,
-  tableCheckRequestedReservationUrl,
 } from "./tablecheck-page-parser.js";
 
 function diagnosticUrl(value: string): string {
@@ -309,7 +308,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
       if (responseRule) await session.captureResponses?.([responseRule]);
       await this.executor.navigate({
         source: "TABLECHECK", stage: "AVAILABILITY", signal, allowedOrigins: ["https://www.tablecheck.com"], session,
-        url: tableCheckRequestedReservationUrl(reservation, request.date, request.partySize, request.timeWindow), observed: true,
+        url: tableCheckDiscoveryPack.availability!.buildRequestUrl({ candidate: candidate.restaurant, request, target: reservation })!, observed: true,
       });
       availabilityPage = await this.executor.snapshot({ source: "TABLECHECK", stage: "AVAILABILITY", signal, session });
     }
@@ -509,6 +508,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         const generic = await this.executor.runSkill({
           taskId: `browser-read:${candidate.restaurant.id}`,
           source: "TABLECHECK",
+          ...(tableCheckDiscoveryPack.skillPath ? { sourceSkillPath: tableCheckDiscoveryPack.skillPath } : {}),
           stage: "DISCOVERY",
           session,
           signal,
@@ -724,12 +724,11 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
       // an availability oracle, but late registration loses its chronology.
       const availabilityResponseRule = tableCheckAvailabilityResponseRule(activeSelected.reservation);
       if (availabilityResponseRule) await session.captureResponses?.([availabilityResponseRule]);
-      const requestedReservationUrl = tableCheckRequestedReservationUrl(
-        activeSelected.reservation,
-        request.date,
-        request.partySize,
-        request.timeWindow,
-      );
+      const requestedReservationUrl = tableCheckDiscoveryPack.availability!.buildRequestUrl({
+        candidate: candidate.restaurant,
+        request,
+        target: activeSelected.reservation,
+      })!;
       if (requestedReservationUrl !== page.url) {
         await this.executor.navigate({
           source: "TABLECHECK", stage: "AVAILABILITY", signal, allowedOrigins: ["https://www.tablecheck.com"], session,
@@ -790,6 +789,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
       const readAvailability = () => this.executor.runSkill({
         taskId: `browser-read:${candidate.restaurant.id}`,
         source: "TABLECHECK",
+        ...(tableCheckDiscoveryPack.skillPath ? { sourceSkillPath: tableCheckDiscoveryPack.skillPath } : {}),
         stage: "AVAILABILITY",
         session: session!,
         signal,
@@ -899,7 +899,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
     observation: TableCheckAvailabilityPageObservation,
     metadata?: BrowserSessionMetadata,
   ) {
-    const grounded = groundTableCheckAvailability(candidate, request, {
+    const grounded = tableCheckDiscoveryPack.availability!.ground(candidate, request, {
       candidateId: candidate.restaurant.id,
       ...(observation.sourceEntityId ? { sourceEntityId: observation.sourceEntityId } : {}),
       ...(observation.sourceUrl ? { sourceUrl: observation.sourceUrl } : {}),

@@ -5,16 +5,16 @@ import type {
   RestaurantTaskState,
 } from "./contracts.js";
 import { missingBlockingFields, missingSearchFields } from "./intent-state.js";
-import { assessRestaurantRead, distinctNativeResultCandidateIds, nativeShortBatchDeliveryReady, nativeSecondBatchSearchBlockReason, restaurantCurrentFactEvidence } from "./read-assessment.js";
+import { assessRestaurantRead, distinctDiscoveryResultCandidateIds, discoveryShortBatchDeliveryReady, discoveryPlanSearchBlockReason, restaurantCurrentFactEvidence } from "./read-assessment.js";
 import { defaultBatchDeliveryWindowActive } from "./action-validator.js";
 
 export const RESTAURANT_AGENT_CONTEXT_SCHEMA = {
   name: "restaurant_agent_context",
-  version: "7",
+  version: "8",
 } as const;
 
 export interface RestaurantAgentContext {
-  schemaVersion: "7";
+  schemaVersion: "8";
   now: string;
   phase: RestaurantPhase;
   intentDraft?: RestaurantIntentDraft;
@@ -101,7 +101,7 @@ export function projectRestaurantAgentContext(
 ): RestaurantAgentContext {
   const assessment = assessRestaurantRead(state, now);
   const deliveryWindow = defaultBatchDeliveryWindowActive(state, now);
-  const nativeBatchDeliveryReady = nativeShortBatchDeliveryReady(state, now);
+  const nativeBatchDeliveryReady = discoveryShortBatchDeliveryReady(state, now);
   const presentation = assessment.presentation;
   const candidateSummary = (candidateId: string) => {
     const facts = restaurantCurrentFactEvidence(state, candidateId);
@@ -151,7 +151,7 @@ export function projectRestaurantAgentContext(
     };
   };
   return {
-    schemaVersion: "7",
+    schemaVersion: "8",
     now,
     phase: state.phase,
     ...(state.intentDraft ? { intentDraft: structuredClone(state.intentDraft) } : {}),
@@ -199,12 +199,10 @@ export function projectRestaurantAgentContext(
       ? { available: false, reason: "DEFAULT_BATCH_DELIVERY_WINDOW" }
       : nativeBatchDeliveryReady
       ? { available: false, reason: "NATIVE_CURRENT_BATCH_DELIVERY_READY" }
-      : nativeSecondBatchSearchBlockReason(state, now)
+      : discoveryPlanSearchBlockReason(state, now)
       ? { available: false, reason: "NATIVE_FIRST_BATCH_PENDING" }
       : state.sourceReadState?.googlePlacesSearchBudget === "EXHAUSTED" || state.searchContinuation?.exhausted === true
-      ? { available: false, reason: state.searchContinuation?.nativeStage === "TABLECHECK_DONE"
-        ? "NATIVE_DISCOVERY_BOUNDED_END"
-        : state.searchContinuation?.exhausted ? "GOOGLE_DISCOVERY_EXHAUSTED" : "GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED" }
+      ? { available: false, reason: state.searchContinuation?.exhausted ? "DISCOVERY_PLAN_EXHAUSTED" : "GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED" }
       : { available: true },
     ...(!deliveryWindow && assessment.checkableCandidateIds.length ? { checkableCandidateIds: assessment.checkableCandidateIds } : {}),
     ...(!deliveryWindow && assessment.factInvestigableCandidateIds.length ? { factInvestigableCandidateIds: assessment.factInvestigableCandidateIds } : {}),
@@ -215,10 +213,10 @@ export function projectRestaurantAgentContext(
       ...(assessment.endReadBlockReason ? { reason: assessment.endReadBlockReason } : {}),
     },
     legalActions: {
-      search: !deliveryWindow && !nativeBatchDeliveryReady && !nativeSecondBatchSearchBlockReason(state, now) && state.sourceReadState?.googlePlacesSearchBudget !== "EXHAUSTED" && state.searchContinuation?.exhausted !== true && missingSearchFields(state.intentDraft ?? {}).length === 0,
+      search: !deliveryWindow && !nativeBatchDeliveryReady && !discoveryPlanSearchBlockReason(state, now) && state.sourceReadState?.googlePlacesSearchBudget !== "EXHAUSTED" && state.searchContinuation?.exhausted !== true && missingSearchFields(state.intentDraft ?? {}).length === 0,
       investigateCandidateFacts: deliveryWindow ? [] : [...assessment.factInvestigableCandidateIds],
       checkAvailability: deliveryWindow ? [] : [...assessment.checkableCandidateIds],
-      presentResults: distinctNativeResultCandidateIds(state, presentation
+      presentResults: distinctDiscoveryResultCandidateIds(state, presentation
         .filter((item) => item.eligible && !(state.pendingResultBatchTarget !== undefined && (state.selectionSession?.deliveredCandidateIds ?? []).includes(item.candidateId)))
         .map((item) => item.candidateId)),
       endRead: assessment.canEndRead,

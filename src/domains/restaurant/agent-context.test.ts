@@ -7,7 +7,7 @@ import { projectRestaurantAgentContext } from "./agent-context.js";
 
 test("Restaurant Agent context retains bounded observations and action scope while excluding execution authority and raw provider artifacts", () => {
   const state: RestaurantTaskState = {
-    schemaVersion: "11",
+    schemaVersion: "12",
     phase: "SEARCHING",
     intentDraft: { ...fixtureIntent, schemaVersion: "3" },
     intent: fixtureIntent,
@@ -66,7 +66,7 @@ test("Restaurant Agent context retains bounded observations and action scope whi
   const context = projectRestaurantAgentContext(state);
 
   assert.deepEqual(context.missingBlockingFields, []);
-  assert.equal(context.schemaVersion, "7");
+  assert.equal(context.schemaVersion, "8");
   assert.deepEqual(context.searchAvailability, { available: true });
   assert.deepEqual(context.failure, { code: "SEARCH_FAILED" });
   assert.deepEqual(context.availabilityChecks, {
@@ -100,7 +100,7 @@ test("Restaurant Agent context retains bounded observations and action scope whi
 
 test("Restaurant Agent context exposes a stable exhausted-discovery state without provider internals", () => {
   const context = projectRestaurantAgentContext({
-    schemaVersion: "11", phase: "SEARCHING", candidates: [], availability: {}, availabilityChecks: {}, readEvidence: [], searchRevision: 1,
+    schemaVersion: "12", phase: "SEARCHING", candidates: [], availability: {}, availabilityChecks: {}, readEvidence: [], searchRevision: 1,
     failure: { code: "GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED", message: "provider-specific private detail" },
     sourceReadState: { googlePlacesSearchBudget: "EXHAUSTED" },
   });
@@ -113,7 +113,7 @@ test("current identity-bound negative HARD conflict removes an outlet from costl
   const candidateId = fixtureCandidates[0]!.restaurant.id;
   const criteria = [{ text: "hot pot restaurant", polarity: "NEGATIVE" as const, strength: "HARD" as const }];
   const context = projectRestaurantAgentContext({
-    schemaVersion: "11", phase: "SEARCHING", intentDraft: { ...fixtureIntent, schemaVersion: "3", criteria },
+    schemaVersion: "12", phase: "SEARCHING", intentDraft: { ...fixtureIntent, schemaVersion: "3", criteria },
     intent: { ...fixtureIntent, criteria }, candidates: [fixtureCandidates[0]!], availability: {}, availabilityChecks: {}, searchRevision: 1,
     readEvidence: [{ evidenceId: "identity", kind: "ENTITY_MATCH", provider: "GOOGLE_PLACES", candidateId, sourceEntityId: "place-1",
       observedAt: "2026-08-05T09:00:00.000Z", requestFingerprint: "request", claims: {}, entityMatch: { confidence: "HIGH", matchedBy: ["GOOGLE_PLACE_ID"] } },
@@ -129,7 +129,7 @@ test("missing negative HARD evidence stays UNKNOWN and leaves a legal read path"
   const candidateId = fixtureCandidates[0]!.restaurant.id;
   const criteria = [{ text: "hot pot restaurant", polarity: "NEGATIVE" as const, strength: "HARD" as const }];
   const context = projectRestaurantAgentContext({
-    schemaVersion: "11", phase: "SEARCHING", intentDraft: { ...fixtureIntent, schemaVersion: "3", criteria },
+    schemaVersion: "12", phase: "SEARCHING", intentDraft: { ...fixtureIntent, schemaVersion: "3", criteria },
     intent: { ...fixtureIntent, criteria }, candidates: [fixtureCandidates[0]!], availability: {}, availabilityChecks: {}, readEvidence: [], searchRevision: 1,
   });
   assert.equal(context.candidates[0]?.observedFacts.violatedNegativeCriteria.length, 0);
@@ -139,7 +139,7 @@ test("missing negative HARD evidence stays UNKNOWN and leaves a legal read path"
 test("Restaurant Agent context exposes bounded candidate facts, provider attempts, reception and code-derived next actions", () => {
   const candidateId = fixtureCandidates[0]!.restaurant.id;
   const context = projectRestaurantAgentContext({
-    schemaVersion: "11", phase: "SEARCHING", intentDraft: { ...fixtureIntent, schemaVersion: "3" }, intent: fixtureIntent,
+    schemaVersion: "12", phase: "SEARCHING", intentDraft: { ...fixtureIntent, schemaVersion: "3" }, intent: fixtureIntent,
     candidates: fixtureCandidates, availability: {}, searchRevision: 1,
     availabilityChecks: {
       [candidateId]: {
@@ -171,7 +171,7 @@ test("Restaurant Agent context exposes bounded candidate facts, provider attempt
 test("Restaurant Agent context exposes only current candidate-bound commercial notes with their evidence source", () => {
   const candidateId = fixtureCandidates[0]!.restaurant.id;
   const context = projectRestaurantAgentContext({
-    schemaVersion: "11", phase: "SEARCHING", intentDraft: { ...fixtureIntent, schemaVersion: "3" }, intent: fixtureIntent,
+    schemaVersion: "12", phase: "SEARCHING", intentDraft: { ...fixtureIntent, schemaVersion: "3" }, intent: fixtureIntent,
     candidates: fixtureCandidates, availability: {}, availabilityChecks: {}, searchRevision: 1,
     factChecks: {
       [candidateId]: {

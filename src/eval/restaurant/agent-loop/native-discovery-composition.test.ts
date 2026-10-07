@@ -5,12 +5,14 @@ import { resolve } from "node:path";
 import test from "node:test";
 
 import type { ModelGateway, ModelRequest, ModelResponse } from "../../../core/model/contracts.js";
+import { RestaurantExecutionRouter } from "../../../application/restaurant-execution-router.js";
 import { GooglePlacesClient } from "../../../integrations/google/google-places-client.js";
 import { GooglePlacesRestaurantSearch } from "../../../integrations/google/google-places-restaurant-search.js";
 import { LiveBrowserAvailability } from "../../../integrations/restaurant-availability/live-browser-availability.js";
 import { composeNativeRestaurantRead } from "../../../integrations/restaurant-search/native-read-composition.js";
 import { NativeRestaurantSearch } from "../../../integrations/restaurant-search/native-restaurant-search.js";
-import { restaurantSearchIntentFingerprint } from "../../../domains/restaurant/contracts.js";
+import { restaurantDiscoveryPacks, tableCheckDiscoveryPack, tabelogDiscoveryPack, type DiscoverySourcePack } from "../../../integrations/restaurant-search/source-packs.js";
+import { restaurantSearchIntentFingerprint, type RestaurantTaskState } from "../../../domains/restaurant/contracts.js";
 import { createHybridReadComposition } from "./hybrid-read-composition.js";
 import { evaluateRestaurantHybridLiveArtifact } from "./diagnostic-evaluator.js";
 import { loadFrozenLiveCases, RESTAURANT_READ_DEVELOPMENT_CASE_PATH } from "./live-case-materializer.js";
@@ -34,6 +36,7 @@ class H001NativeModel implements ModelGateway {
     objective: string;
     progress: string;
     observation: { pageActions?: string[]; targets: Array<{ ref: string; label: string; availableActions?: string[] }> };
+    skillSource?: string;
   }> = [];
   private searches = 0;
   private earlyEndAttempted = false;
@@ -65,8 +68,9 @@ class H001NativeModel implements ModelGateway {
         objective: string;
         progress: string;
         observation: { visibleText?: string; pageActions?: string[]; targets: Array<{ ref: string; label: string; availableActions?: string[] }> };
+        skills?: { source?: string };
       };
-      this.browserDecisionInputs.push({ objective: input.objective, progress: input.progress, observation: { targets: input.observation.targets, ...(input.observation.pageActions ? { pageActions: input.observation.pageActions } : {}) } });
+      this.browserDecisionInputs.push({ objective: input.objective, progress: input.progress, observation: { targets: input.observation.targets, ...(input.observation.pageActions ? { pageActions: input.observation.pageActions } : {}) }, ...(input.skills?.source ? { skillSource: input.skills.source } : {}) });
       if (["TABELOG_RETRIEVAL_CATEGORY_DELIVERS", "TABELOG_RESULT_PAGES_CONTINUE"].includes(this.scenario) && input.objective.includes("related category")) {
         const link = input.observation.targets.find((target) => /^(?:Sushi|omakase ×)$/.test(target.label) && target.availableActions?.includes("OPEN_LINK"));
         if (link) return reply(JSON.stringify({ action: "OPEN_LINK", targetRef: link.ref, authoritativeField: "NONE", requestedState: "NONE", reason: "Use a related source category for discovery; retain the HARD fact requirement." }), request.purpose);
@@ -144,7 +148,7 @@ class H001NativeModel implements ModelGateway {
   }
 }
 
-async function runScenario(scenario: SourceScenario, options: { availabilityFirst?: boolean; guardedDiscoverySubmit?: boolean } = {}) {
+async function runScenario(scenario: SourceScenario, options: { availabilityFirst?: boolean; guardedDiscoverySubmit?: boolean; packs?: readonly DiscoverySourcePack[] } = {}) {
   const startedAt = Date.now();
   const frozen = (await loadFrozenLiveCases(RESTAURANT_READ_DEVELOPMENT_CASE_PATH)).find((item) => item.id === "h001")!;
   const navigations: string[] = [];
@@ -176,7 +180,7 @@ async function runScenario(scenario: SourceScenario, options: { availabilityFirs
       return sequence;
     },
   ) };
-  const native = composeNativeRestaurantRead(google, browser, model, undefined, undefined, undefined, () => reference.toISOString());
+  const native = composeNativeRestaurantRead(google, browser, model, undefined, undefined, undefined, () => reference.toISOString(), undefined, options.packs ?? [tabelogDiscoveryPack, tableCheckDiscoveryPack]);
   const availability = new LiveBrowserAvailability(browser, model, {
     now: () => reference.toISOString(), maxModelCallsPerCandidate: 20, maxModelCallsTotal: 50,
     maxOperationsPerCandidate: 30, maxElapsedMsPerCandidate: 60_000, maxElapsedMsPerProvider: 45_000, maxAutomaticElapsedMs: 60_000,
@@ -221,13 +225,14 @@ async function runScenario(scenario: SourceScenario, options: { availabilityFirs
 }
 
 test("H001 native first batch presents three source-bound Tabelog results without TableCheck", async () => {
-  const result = await runScenario("TABELOG_DELIVERS");
+  const result = await runScenario("TABELOG_DELIVERS", { packs: restaurantDiscoveryPacks });
   assert.equal(result.semantic.status, "PROPOSED");
   assert.equal(result.state.presentedResults?.candidateIds.length, 3, JSON.stringify({ phase: result.state.phase, failure: result.state.failure,
     candidates: result.state.candidates.map((item) => item.restaurant.id), checks: result.state.availabilityChecks,
     factChecks: result.state.factChecks, continuation: result.state.searchContinuation, navigations: result.navigations, purposes: result.model.purposes }));
   assert.equal(result.state.presentedResults?.candidateIds.every((id) => id.startsWith("tabelog:")), true);
   assert.equal(result.navigations.some((url) => url.includes("tablecheck.com")), false);
+  assert.deepEqual(result.state.searchContinuation?.discoveryPlan?.entries.map((entry) => entry.sourceId), ["tabelog", "tablecheck", "google-places"], "the production composition retains the full three-pack plan while the first pack delivers");
   assert.equal(new Set(result.navigations.slice(0, 4).map((_url, index) => result.navigationSessionIds[index])).size, 1,
     "a healthy Tabelog list and its three details share one browser session");
   assert.deepEqual(result.googleCalls.map((item) => item.query), ["Shibuya"]);
@@ -286,6 +291,8 @@ test("H001 native discovery uses the shared browser model loop to reveal an obse
   assert.deepEqual(result.state.presentedResults?.candidateIds, ["tablecheck:native-omakase-1"], JSON.stringify({ phase: result.state.phase, availability: result.state.availabilityChecks, browserInputs: result.model.browserDecisionInputs, purposes: result.model.purposes, navigations: result.navigations }));
   assert.equal(result.model.purposes.includes("browser_read_decide"), true);
   assert.equal(result.model.retrievalFillUsed, true);
+  assert.equal(result.model.browserDecisionInputs.some((input) => input.objective.includes("public source search") && input.skillSource?.includes("# TableCheck Public Read")), true,
+    "the production VENUE_SEARCH decision receives its Pack-owned TableCheck skill");
   assert.deepEqual(result.model.discoveryActions, ["FILL_AUTHORITATIVE", "CLICK"], "a stale nonempty list and loading query cannot complete before the observed current-query action");
   assert.equal(result.navigations.some((url) => url.includes("/en/native-omakase-1")), true);
   assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(result.evaluation.findings));
@@ -334,12 +341,12 @@ test("native source session acquisition consumes the remaining source window and
   };
   const result = await native.search({ intent, continuation: {
     intentFingerprint: restaurantSearchIntentFingerprint(intent), usedPageTokens: [], pagesRead: 0, exhausted: false,
-    nativeSourceProgress: { source: "TABELOG", inspectedSourceIds: [], detailAttempts: 0, pagesRead: 0, elapsedMs: 89_999,
+    sourceProgress: { sourceId: "tabelog", inspectedSourceIds: [], detailAttempts: 0, pagesRead: 0, elapsedMs: 89_999,
       pendingSourceIds: ["tokyo/A1304/A130401/100"], pendingSourceEntries: [{ sourceEntityId: "tokyo/A1304/A130401/100", sourceUrl: "https://tabelog.com/tokyo/A1304/A130401/100/", observedAt: reference.toISOString() }] },
   } }, new AbortController().signal);
   assert.equal(navigations.length, 0, "a session that misses the remaining source window cannot begin detail navigation");
   assert.equal(result.metadata.nativeDiscoveryFunnel?.sourceTimeLimitReached, true);
-  assert.deepEqual(result.continuation?.nativeSourceProgress?.pendingSourceIds, ["tokyo/A1304/A130401/100"]);
+  assert.deepEqual(result.continuation?.sourceProgress?.pendingSourceIds, ["tokyo/A1304/A130401/100"]);
 });
 
 test("Tabelog keeps the structured HARD retrieval keyword when an Agent hint repeats the whole reservation request", async () => {
@@ -357,6 +364,53 @@ test("Tabelog keeps the structured HARD retrieval keyword when an Agent hint rep
   await native.search({ intent, retrievalHint: "omakase near Shibuya, party of 2, 2026-10-04 19:00" }, new AbortController().signal);
   const listing = new URL(navigations[0]!);
   assert.equal(listing.searchParams.get("sw"), "omakase");
+});
+
+test("the production Router advances the default three-pack cursor and reaches Google Nearby Search after bounded source batches", async () => {
+  const navigations: string[] = [];
+  const browser = sourcePages("BOTH_BOUNDED_EMPTY", navigations);
+  const nearbyRequests: unknown[] = [];
+  const google = new GooglePlacesRestaurantSearch(new GooglePlacesClient({
+    apiKey: "fixture-only",
+    fetchImplementation: async (url, init) => {
+      assert.equal(String(url), "https://places.googleapis.com/v1/places:searchNearby");
+      const body = JSON.parse(String(init?.body));
+      nearbyRequests.push(body);
+      return new Response(JSON.stringify({ places: [{
+        id: "nearby-directory-result", displayName: { text: "Nearby restaurant" },
+        formattedAddress: "Shibuya, Tokyo", location: center, types: ["restaurant"],
+        addressComponents: [{ longText: "Shibuya", types: ["locality"] }],
+      }] }), { status: 200, headers: { "content-type": "application/json" } });
+    },
+  }), () => reference.toISOString(), 10, { maxRequests: 100 });
+  const native = new NativeRestaurantSearch(browser, google, () => reference.toISOString());
+  const router = new RestaurantExecutionRouter(native, {
+    executionRoute: "STRUCTURED_ADAPTER",
+    async check() { return { offers: [], availabilityChecks: {}, evidence: [], metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 } }; },
+  });
+  const intentDraft: NonNullable<RestaurantTaskState["intentDraft"]> = {
+    schemaVersion: "3" as const, timezone: "Asia/Tokyo", target: { goal: "AVAILABILITY" as const, query: "nearby dinner" },
+    date, timeWindow: { earliest: "19:00", latest: "19:00" }, partySize: 2,
+    area: { query: "Shibuya", coordinates: { ...center, observedAt: reference.toISOString(), source: "MANUAL_PLACE" as const } }, criteria: [],
+  };
+  let state: RestaurantTaskState = { schemaVersion: "12", phase: "UNDERSTANDING", intentDraft, candidates: [], availability: {}, availabilityChecks: {}, readEvidence: [], searchRevision: 0 };
+  const first = await router.execute({ type: "SEARCH_RESTAURANTS" }, state, reference.toISOString(), "phase2-router-pack");
+  assert.equal(first.event?.type, "SEARCH_COMPLETED");
+  if (first.event?.type !== "SEARCH_COMPLETED") throw new Error("expected first discovery result");
+  assert.equal(first.event.continuation?.discoveryPlan?.entries[first.event.continuation.discoveryPlan.cursor]?.sourceId, "tablecheck");
+  state = { ...state, phase: "SEARCHING" as const, searchContinuation: first.event.continuation! };
+  const second = await router.execute({ type: "SEARCH_RESTAURANTS" }, state, reference.toISOString(), "phase2-router-pack");
+  assert.equal(second.event?.type, "SEARCH_COMPLETED");
+  if (second.event?.type !== "SEARCH_COMPLETED") throw new Error("expected second discovery result");
+  assert.equal(second.event.continuation?.discoveryPlan?.entries[second.event.continuation.discoveryPlan.cursor]?.sourceId, "google-places");
+  state = { ...state, searchContinuation: second.event.continuation! };
+  const third = await router.execute({ type: "SEARCH_RESTAURANTS" }, state, reference.toISOString(), "phase2-router-pack");
+  assert.equal(third.event?.type, "SEARCH_COMPLETED");
+  if (third.event?.type !== "SEARCH_COMPLETED") throw new Error("expected Google discovery result");
+  assert.equal(third.event.candidates.length, 1, "Nearby pack should return its grounded candidate");
+  assert.deepEqual(nearbyRequests, [{ includedTypes: ["restaurant"], maxResultCount: 20, locationRestriction: { circle: { center, radius: 3_000 } } }]);
+  assert.equal(third.event.continuation?.exhausted, true);
+  assert.equal(navigations.some((url) => url.includes("tablecheck.com")), true);
 });
 
 test("fixed TableCheck discovery stores the actual filled value and cannot reveal the current result after a wrong fill", async () => {
@@ -385,8 +439,8 @@ test("fixed TableCheck discovery stores the actual filled value and cannot revea
 test("H001 two bounded empty source batches cannot claim inventory or results", async () => {
   const result = await runScenario("BOTH_BOUNDED_EMPTY");
   assert.equal(result.state.presentedResults, undefined);
-  assert.equal(result.state.searchContinuation?.nativeStage, "TABLECHECK_DONE");
-  assert.match(result.state.noVerifiedResult?.remainingGaps.join(" ") ?? "", /bounded Tabelog and TableCheck native batches/);
+  assert.equal(result.state.searchContinuation?.exhausted, true);
+  assert.match(result.state.noVerifiedResult?.remainingGaps.join(" ") ?? "", /bounded discovery plan/);
   assert.equal(result.navigations.filter((url) => url.includes("/rstLst/")).length, 1);
   assert.equal(result.navigations.filter((url) => url.includes("/japan/search")).length, 1);
   assert.deepEqual(result.googleCalls.map((item) => item.query), ["Shibuya"]);
@@ -396,7 +450,7 @@ test("H001 both source lists reject page-owned coordinates outside the existing 
   const result = await runScenario("OUTSIDE_RADIUS");
   assert.equal(result.state.candidates.length, 0);
   assert.equal(result.state.presentedResults, undefined);
-  assert.equal(result.state.searchContinuation?.nativeStage, "TABLECHECK_DONE");
+  assert.equal(result.state.searchContinuation?.exhausted, true);
   assert.equal(result.navigations.filter((url) => url.includes("/rstLst/")).length, 1);
   assert.equal(result.navigations.filter((url) => url.includes("/japan/search")).length, 1);
   const funnels = result.trajectories.flatMap((step) => step.executionMetadata?.nativeDiscoveryFunnel ? [step.executionMetadata.nativeDiscoveryFunnel] : []);
@@ -426,7 +480,7 @@ test("H001 rejects an early END_READ after an empty Tabelog batch and continues 
   const result = await runScenario("EARLY_END_ATTEMPT");
   assert.equal(result.trajectories.some((step) => step.agentAction?.type === "END_READ" && step.actionValidation?.status === "REJECTED"), true);
   assert.equal(result.navigations.filter((url) => url.includes("/japan/search")).length, 1);
-  assert.equal(result.state.searchContinuation?.nativeStage, "TABLECHECK_DONE");
+  assert.equal(result.state.searchContinuation?.exhausted, true);
   assert.equal(result.state.phase, "NO_VERIFIED_RESULT");
 });
 
@@ -456,7 +510,7 @@ test("H001 open-ended native target three delivers one qualified outlet when the
   const result = await runScenario("NATIVE_PARTIAL");
   assert.equal(result.state.intentDraft?.target?.selectionScope, "OPEN_ENDED");
   assert.equal(result.state.pendingResultBatchTarget, undefined);
-  assert.deepEqual(result.state.presentedResults?.candidateIds, ["tabelog:tokyo/A1304/A130401/101"]);
+  assert.deepEqual(result.state.presentedResults?.candidateIds, ["tabelog:tokyo/A1304/A130401/101"], JSON.stringify({ phase: result.state.phase, failure: result.state.failure, navigations: result.navigations, candidates: result.state.candidates.map((candidate) => candidate.restaurant.id) }));
   assert.equal(result.navigations.some((url) => url.includes("tablecheck.com")), false);
   assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(result.evaluation.findings));
 });
@@ -465,7 +519,7 @@ test("H001 two investigated native batches with no qualified outlet stop without
   const result = await runScenario("NATIVE_TRUE_NO_RESULT");
   assert.equal(result.state.phase, "NO_VERIFIED_RESULT");
   assert.equal(result.state.presentedResults, undefined);
-  assert.equal(result.state.searchContinuation?.nativeStage, "TABLECHECK_DONE");
+  assert.equal(result.state.searchContinuation?.exhausted, true);
   assert.equal(result.navigations.some((url) => url.includes("tablecheck.com/en/native-omakase-1")), true);
   assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "NO");
 });
@@ -473,21 +527,21 @@ test("H001 two investigated native batches with no qualified outlet stop without
 test("H001 TableCheck search with a raw link but no parsed outlet retains the observed funnel and fails incomplete", async () => {
   const result = await runScenario("TABLECHECK_UNPARSED");
   const step = result.trajectories.find((item) => item.executionMetadata?.provider === "TABLECHECK");
-  assert.equal(step?.executionMetadata?.failureCode, "TABLECHECK_DISCOVERY_INCOMPLETE");
+  assert.equal(step?.executionMetadata?.failureCode, "DISCOVERY_SOURCE_INCOMPLETE");
   assert.deepEqual({ raw: step?.executionMetadata?.nativeDiscoveryFunnel?.rawSourceLinks,
     parsed: step?.executionMetadata?.nativeDiscoveryFunnel?.parsedOutlets,
     accepted: step?.executionMetadata?.nativeDiscoveryFunnel?.accepted,
     reason: step?.executionMetadata?.nativeDiscoveryFunnel?.progressionReason },
   { raw: 1, parsed: 0, accepted: 0, reason: "SOURCE_FAILURE" });
   assert.equal(result.state.presentedResults, undefined);
-  assert.deepEqual({ source: result.state.searchContinuation?.nativeSourceProgress?.source,
-    pagesRead: result.state.searchContinuation?.nativeSourceProgress?.pagesRead,
-    inspected: result.state.searchContinuation?.nativeSourceProgress?.inspectedSourceIds },
-  { source: "TABLECHECK", pagesRead: 1, inspected: [] }, "a failed source keeps its spent cursor instead of reopening with zero progress");
+  assert.deepEqual({ source: result.state.searchContinuation?.sourceProgress?.sourceId,
+    pagesRead: result.state.searchContinuation?.sourceProgress?.pagesRead,
+    inspected: result.state.searchContinuation?.sourceProgress?.inspectedSourceIds },
+  { source: "tablecheck", pagesRead: 1, inspected: [] }, "a failed source keeps its spent cursor instead of reopening with zero progress");
   assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "UNKNOWN", "a source discovery failure must not be rewritten as a completed no-result read");
 });
 
-test("H001 preserves the authoritative keyword when an observed Tabelog area link changes the listing route", async () => {
+test("H001 enters the observed named Shibuya directory with the authoritative keyword", async () => {
   const result = await runScenario("TABELOG_REGION_PRESERVES_QUERY");
   const region = result.navigations.find((url) => url.includes("/en/tokyo/A1303/A130301/rstLst/"));
   assert.ok(region);
@@ -498,7 +552,7 @@ test("H001 preserves the authoritative keyword when an observed Tabelog area lin
 test("native discovery adjusts a sparse keyword through an observed category without relaxing HARD facts", async () => {
   const result = await runScenario("TABELOG_RETRIEVAL_CATEGORY_DELIVERS");
   assert.deepEqual(result.state.presentedResults?.candidateIds, ["tabelog:tokyo/A1304/A130401/101"]);
-  assert.equal(result.navigations.includes("https://tabelog.com/en/tokyo/rstLst/sushi/"), true);
+  assert.equal(result.navigations.includes("https://tabelog.com/en/tokyo/A1303/A130301/rstLst/sushi/"), true);
   assert.equal(result.navigations.some((url) => url.includes("tablecheck.com")), false);
   assert.deepEqual(result.state.intent?.criteria, [{ text: "omakase", polarity: "POSITIVE", strength: "HARD" }]);
   assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES");
@@ -507,15 +561,15 @@ test("native discovery adjusts a sparse keyword through an observed category wit
 test("native discovery retains category pagination including links revealed by a query action and deduplicates outlets", async () => {
   const result = await runScenario("TABELOG_RESULT_PAGES_CONTINUE");
   assert.deepEqual(result.state.presentedResults?.candidateIds, ["tabelog:tokyo/A1304/A130401/106"]);
-  assert.equal(result.navigations.includes("https://tabelog.com/en/tokyo/rstLst/sushi/2/"), true);
-  assert.equal(result.navigations.includes("https://tabelog.com/en/tokyo/rstLst/sushi/3/"), true);
+  assert.equal(result.navigations.includes("https://tabelog.com/en/tokyo/A1303/A130301/rstLst/sushi/2/"), true);
+  assert.equal(result.navigations.includes("https://tabelog.com/en/tokyo/A1303/A130301/rstLst/sushi/3/"), true);
   assert.equal(result.navigations.some((url) => url.includes("tablecheck.com")), false);
   const reads = result.trajectories.filter((step) => step.executionMetadata?.provider === "TABELOG" && step.agentAction?.type === "SEARCH_RESTAURANTS");
   assert.deepEqual(reads.map((step) => step.executionMetadata?.nativeDiscoveryFunnel?.inspectedOutlets), [5, 1, 1]);
   assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES");
 });
 
-test("H001 refines a nonempty Tabelog list through an observed source area link before investigating an unsuitable candidate", async () => {
+test("H001's named Shibuya entry avoids an unrelated root-list candidate before investigation", async () => {
   const result = await runScenario("TABELOG_NONEMPTY_REGION_RECOVERS");
   assert.deepEqual(result.state.presentedResults?.candidateIds, ["tabelog:tokyo/A1304/A130401/100"]);
   assert.equal(result.navigations.some((url) => url.includes("/en/tokyo/A1303/A130301/rstLst/")), true);
@@ -526,12 +580,12 @@ test("H001 refines a nonempty Tabelog list through an observed source area link 
 test("H001 presents one investigated Tabelog current-batch result without exhausting the source or starting TableCheck", async () => {
   const result = await runScenario("TABELOG_CURRENT_BATCH_DELIVERS");
   assert.deepEqual(result.state.presentedResults?.candidateIds, ["tabelog:tokyo/A1304/A130401/100"]);
-  assert.equal(result.state.searchContinuation?.nativeStage, undefined, "the source remains open after the current bounded batch");
-  assert.deepEqual(result.state.searchContinuation?.nativeCurrentBatch, {
-    source: "TABELOG",
+  assert.equal(result.state.searchContinuation?.exhausted, false, "the source remains open after the current bounded batch");
+  assert.deepEqual(result.state.searchContinuation?.currentDiscoveryBatch, {
+    sourceId: "tabelog",
     candidateIds: ["tabelog:tokyo/A1304/A130401/100", "tabelog:tokyo/A1304/A130401/101", "tabelog:tokyo/A1304/A130401/102", "tabelog:tokyo/A1304/A130401/103", "tabelog:tokyo/A1304/A130401/104"],
   });
-  assert.deepEqual(result.state.searchContinuation?.nativeSourceProgress?.pendingSourceIds, ["tokyo/A1304/A130401/105"]);
+  assert.deepEqual(result.state.searchContinuation?.sourceProgress?.pendingSourceIds, ["tokyo/A1304/A130401/105"]);
   assert.equal(result.navigations.some((url) => url.includes("tablecheck.com")), false);
   assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(result.evaluation.findings));
 });
@@ -539,11 +593,11 @@ test("H001 presents one investigated Tabelog current-batch result without exhaus
 test("H001 presents one investigated TableCheck current-batch result without reading a second TableCheck chunk", async () => {
   const result = await runScenario("TABLECHECK_CURRENT_BATCH_DELIVERS");
   assert.deepEqual(result.state.presentedResults?.candidateIds, ["tablecheck:native-omakase-1"]);
-  assert.deepEqual(result.state.searchContinuation?.nativeCurrentBatch, {
-    source: "TABLECHECK",
+  assert.deepEqual(result.state.searchContinuation?.currentDiscoveryBatch, {
+    sourceId: "tablecheck",
     candidateIds: ["tablecheck:native-omakase-1", "tablecheck:native-omakase-2", "tablecheck:native-omakase-3", "tablecheck:native-omakase-4", "tablecheck:native-omakase-5"],
   });
-  assert.deepEqual(result.state.searchContinuation?.nativeSourceProgress?.pendingSourceIds, ["native-omakase-6"]);
+  assert.deepEqual(result.state.searchContinuation?.sourceProgress?.pendingSourceIds, ["native-omakase-6"]);
   assert.equal(result.navigations.filter((url) => url.includes("/en/japan/search")).length, 1);
   assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(result.evaluation.findings));
 });

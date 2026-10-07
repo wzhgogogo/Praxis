@@ -7,9 +7,9 @@ import { composeLiveRestaurantFactRead } from "../restaurant-facts/live-restaura
 import { ModelRestaurantFactJudgment } from "../restaurant-facts/model-fact-judgment.js";
 import { NativeSourceFactRead, SourceAwareFactRead } from "../restaurant-facts/native-source-facts.js";
 import { NativeRestaurantSearch } from "./native-restaurant-search.js";
-import { restaurantPublicReadNetworkPolicy } from "../restaurant-availability/public-browser-read-network-policy.js";
+import { discoveryPackNetworkPolicy, restaurantDiscoveryPacks, type DiscoverySourcePack } from "./source-packs.js";
 
-/** Shared Web/Hybrid composition; flag selection belongs at the outer entry. */
+/** Shared Web/Hybrid composition; every production discovery read follows the injected pack cursor. */
 export function composeNativeRestaurantRead(
   google: GooglePlacesRestaurantSearch,
   runtime: BrowserRuntime,
@@ -19,10 +19,12 @@ export function composeNativeRestaurantRead(
   evaluationLocation?: { latitude: number; longitude: number; radiusMeters: number; label: string },
   now?: () => string,
   nativeDiscoveryLimits?: { maxOperationsPerCandidate?: number },
+  packs?: readonly DiscoverySourcePack[],
 ) {
-  const networkPolicy = runtime.readNetworkBoundaryCapability === "ISOLATED_CONTEXT" ? restaurantPublicReadNetworkPolicy : undefined;
+  const selectedPacks = packs ?? restaurantDiscoveryPacks;
+  const networkPolicy = runtime.readNetworkBoundaryCapability === "ISOLATED_CONTEXT" ? discoveryPackNetworkPolicy(selectedPacks) : undefined;
   return {
-    search: new NativeRestaurantSearch(runtime, google, now, evaluationLocation, new ModelBrowserReadActionDecision(model), browserBudget, onBrowserDiagnostic, nativeDiscoveryLimits, networkPolicy),
+    search: new NativeRestaurantSearch(runtime, google, now, evaluationLocation, new ModelBrowserReadActionDecision(model), browserBudget, onBrowserDiagnostic, nativeDiscoveryLimits, networkPolicy, selectedPacks),
     facts: new SourceAwareFactRead(
       new NativeSourceFactRead(runtime, new ModelRestaurantFactJudgment(model, now), now, new ModelBrowserReadActionDecision(model), browserBudget, onBrowserDiagnostic, networkPolicy),
       composeLiveRestaurantFactRead(google, runtime, model, browserBudget, undefined, onBrowserDiagnostic),

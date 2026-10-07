@@ -60,6 +60,12 @@ function rawObservation(place: GooglePlacesRawPlace): UntrustedGooglePlaceObserv
 
 /** Domain-safe query construction: only retrieval words vary; intent schedule remains untouched. */
 export function buildGooglePlacesTextQuery(request: RestaurantSearchRequest): string {
+  if (request.discoveryQuery?.keyword) {
+    // The planner has already selected the sole positive HARD retrieval term.
+    // Do not reintroduce the full task sentence (date, party, exclusions) as
+    // a Places text query.
+    return `${request.discoveryQuery.keyword} ${request.discoveryQuery.location.label}`.trim();
+  }
   // Discovery is not condition verification.  The target and optional retrieval
   // hint are owned by the Agent; the full authoritative criteria remain in the
   // request for later grounding instead of being mechanically repeated here.
@@ -71,7 +77,7 @@ export function buildGooglePlacesTextQuery(request: RestaurantSearchRequest): st
     .join(" ");
 }
 
-const NAMED_PLACE_NEARBY_RADIUS_METERS = 1_000;
+export const NAMED_PLACE_NEARBY_RADIUS_METERS = 1_000;
 type GoogleRequestKind = "namedPlaceResolution" | "discovery" | "placeDetails";
 type GoogleRequestUsage = {
   limit: number;
@@ -262,6 +268,8 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
 
   async search(request: RestaurantSearchRequest, signal: AbortSignal): Promise<RestaurantSearchRead> {
     const startedAt = Date.now();
+    const nearbyCategory = request.discoveryQuery?.keyword ? undefined : request.discoveryQuery?.category;
+    const usesNearbySearch = nearbyCategory !== undefined;
     // Google page tokens are bound to the original request.  The Agent may
     // change a retrieval hint only for a new search; a continuation must keep
     // the first page's query exactly, alongside its persisted geography.
@@ -278,14 +286,23 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
       };
     }
     const taskLocation = request.intent.area.coordinates;
+    // A request-driven Discovery Pack has already resolved its source-plan
+    // location before Google is reached. This is separate from a Google page
+    // cursor, so it avoids repeating named-place Text Search between packs.
+    const plannedLocation = request.discoveryQuery?.location;
     // A continuation reuses the original query/area exactly; it must not run
     // another named-place lookup whose result could drift between pages.
-    const namedLocation = taskLocation || request.continuation ? {} : await this.resolveNamedNearbyLocation(request, signal);
-    const locationContext = taskLocation
+    const namedLocation = taskLocation || plannedLocation || request.continuation ? {} : await this.resolveNamedNearbyLocation(request, signal);
+    const locationContext = plannedLocation
+      ? { ...plannedLocation }
+      : taskLocation
       ? { latitude: taskLocation.latitude, longitude: taskLocation.longitude, radiusMeters: request.intent.area.radiusMeters ?? 3_000, label: request.intent.area.query, areaMatchBasis: "TASK_LOCATION_RADIUS" as const }
       : request.continuation?.locationContext ?? namedLocation.location ?? (request.intent.area.query.trim().toLowerCase() === "nearby" && this.options.evaluationLocation
         ? { latitude: this.options.evaluationLocation.latitude, longitude: this.options.evaluationLocation.longitude, radiusMeters: this.options.evaluationLocation.radiusMeters ?? 3_000, label: this.options.evaluationLocation.label ?? "explicit evaluation location", areaMatchBasis: "EVALUATION_LOCATION_RADIUS" as const }
         : undefined);
+    if (usesNearbySearch && !locationContext) {
+      throw new GooglePlacesError("GOOGLE_LOCATION_UNRESOLVED", "Google Nearby Search requires the planner's resolved circle");
+    }
     const firstPageToken = request.continuation?.nextPageToken;
     const usedPageTokens = [...(request.continuation?.usedPageTokens ?? [])];
     if (firstPageToken && usedPageTokens.includes(firstPageToken)) {
@@ -301,6 +318,14 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
       }
       this.consumeRequest(request.readRunId, "discovery");
       if (pageToken) usedPageTokens.push(pageToken);
+      if (usesNearbySearch) {
+        if (pageToken) throw new GooglePlacesError("GOOGLE_MALFORMED_RESPONSE", "Google Nearby Search does not accept a page cursor");
+        return { places: await this.client.nearbySearch({
+          includedTypes: [nearbyCategory],
+          location: locationContext!,
+          maxResultCount: 20,
+        }, signal) };
+      }
       return this.client.textSearchPage({
         textQuery,
         pageSize: 20,
@@ -314,7 +339,7 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
     let lastFailureCode: string | undefined;
     // An initial read intentionally obtains at most two 20-result pages. A
     // later explicit replenishment consumes one durable cursor page at a time.
-    if (!request.continuation && nextPageToken) {
+    if (!usesNearbySearch && !request.continuation && nextPageToken) {
       if (usedPageTokens.includes(nextPageToken)) {
         lastFailureCode = "GOOGLE_PAGINATION_REPEATED_TOKEN";
         nextPageToken = undefined;
@@ -338,7 +363,7 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
     }
     const places = pages.flat();
     const observedAt = this.now();
-    const requestFingerprint = createHash("sha256").update(JSON.stringify({ textQuery, area: request.intent.area })).digest("hex");
+    const requestFingerprint = createHash("sha256").update(JSON.stringify({ textQuery, nearbyCategory, area: request.intent.area })).digest("hex");
     const groundingInput: GoogleDiscoveryGroundingInput = {
       requestFingerprint,
       observedAt,
@@ -375,7 +400,7 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
         exhausted: !nextPageToken,
         ...(lastFailureCode ? { lastFailureCode } : {}),
         ...(locationContext ? { locationContext } : {}),
-        sourceRequestContext: { textQuery },
+        sourceRequestContext: { textQuery: usesNearbySearch ? `nearby:${nearbyCategory}` : textQuery },
       } satisfies RestaurantSearchContinuation,
       metadata: {
         provider: "GOOGLE_PLACES" as const,
@@ -384,8 +409,8 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
         ...(lastFailureCode ? { failureCode: lastFailureCode } : {}),
         googleRequests: this.googleRequestUsage(request.readRunId),
         googleGeoDiagnostics: {
-          providerMode: "GOOGLE_TEXT_SEARCH" as const,
-          requestMode: locationContext ? "LOCATION_RESTRICTION_RECTANGLE" as const : "UNRESTRICTED" as const,
+          providerMode: usesNearbySearch ? "GOOGLE_NEARBY_SEARCH" as const : "GOOGLE_TEXT_SEARCH" as const,
+          requestMode: usesNearbySearch ? "LOCATION_RESTRICTION_CIRCLE" as const : locationContext ? "LOCATION_RESTRICTION_RECTANGLE" as const : "UNRESTRICTED" as const,
           exactRadiusGate: locationContext ? "ENFORCED" as const : "NOT_APPLICABLE" as const,
           ...(locationContext ? {
             center: { latitude: locationContext.latitude, longitude: locationContext.longitude },

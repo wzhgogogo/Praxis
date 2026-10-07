@@ -99,6 +99,8 @@ export interface RestaurantSearchIntent {
   date?: string;
   timeWindow?: { earliest: string; latest: string };
   permittedAlternativeTimeWindow?: { earliest: string; latest: string };
+  /** Discovery ordering may use an already-authoritative group size; it never grants an availability claim. */
+  partySize?: number;
   area: { query: string; placeId?: string; radiusMeters?: number; coordinates?: RestaurantAreaCoordinates };
   criteria: RestaurantCriterion[];
   budgetPerPerson?: { max: number; currency: "JPY" };
@@ -261,13 +263,34 @@ export interface RestaurantSearchRequest {
   continuation?: RestaurantSearchContinuation;
   /** Runtime-bound persistent task run identity for provider budget isolation. */
   readRunId?: string;
+  /** Router-owned current pack query; adapters never derive it from free prose. */
+  discoveryQuery?: RestaurantDiscoveryPlan["entries"][number]["query"];
+}
+
+/** Durable, integration-opaque source sequence selected from the authoritative request. */
+export interface RestaurantDiscoveryPlan {
+  entries: Array<{
+    sourceId: string;
+    query: {
+      category: string;
+      keyword?: string;
+      location: {
+        latitude: number;
+        longitude: number;
+        radiusMeters: number;
+        label: string;
+        areaMatchBasis: "TASK_LOCATION_RADIUS" | "EVALUATION_LOCATION_RADIUS" | "NAMED_PLACE_RADIUS";
+      };
+    };
+  }>;
+  cursor: number;
 }
 
 /** Durable, opaque pagination state for one exact Restaurant search intent. */
 export interface RestaurantSearchContinuation {
   intentFingerprint: string;
-  /** Fixed native source sequence with bounded same-source chunks, never Agent-selected. */
-  nativeStage?: "TABELOG_DONE" | "TABLECHECK_DONE";
+  /** Reducer-owned discovery sequence and cursor; integrations own opaque source IDs. */
+  discoveryPlan?: RestaurantDiscoveryPlan;
   /** The next provider page, when the source exposed one. */
   nextPageToken?: string;
   /** Tokens already sent, retained to stop a malformed response looping forever. */
@@ -302,12 +325,12 @@ export interface RestaurantSearchContinuation {
    * pending source entrances: a complete current batch can be deliverable
    * while the same source still has more observed work.
    */
-  nativeCurrentBatch?: {
-    source: "TABELOG" | "TABLECHECK";
+  currentDiscoveryBatch?: {
+    sourceId: string;
     candidateIds: string[];
   };
-  nativeSourceProgress?: {
-    source: "TABELOG" | "TABLECHECK";
+  sourceProgress?: {
+    sourceId: string;
     inspectedSourceIds: string[];
     detailAttempts: number;
     pagesRead: number;
@@ -430,8 +453,8 @@ export interface RestaurantReadExecutionMetadata {
   };
   /** Read-only Google discovery geography diagnostics; rejected observations never become candidates or evidence. */
   googleGeoDiagnostics?: {
-    providerMode: "GOOGLE_TEXT_SEARCH";
-    requestMode: "LOCATION_RESTRICTION_RECTANGLE" | "UNRESTRICTED";
+    providerMode: "GOOGLE_TEXT_SEARCH" | "GOOGLE_NEARBY_SEARCH";
+    requestMode: "LOCATION_RESTRICTION_RECTANGLE" | "LOCATION_RESTRICTION_CIRCLE" | "UNRESTRICTED";
     exactRadiusGate: "ENFORCED" | "NOT_APPLICABLE";
     center?: { latitude: number; longitude: number };
     radiusMeters?: number;
@@ -635,7 +658,7 @@ export interface VerifiedReservation {
 }
 
 export interface RestaurantTaskState {
-  schemaVersion: "11";
+  schemaVersion: "12";
   phase: RestaurantPhase;
   intentDraft?: RestaurantIntentDraft;
   intent?: RestaurantSearchIntent;

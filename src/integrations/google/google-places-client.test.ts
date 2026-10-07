@@ -29,6 +29,20 @@ test("Google Text Search carries an opaque page token and keeps its response fie
   assert.doesNotMatch(GOOGLE_PLACES_DETAILS_FIELD_MASK, /nextPageToken/);
 });
 
+test("Google Nearby Search sends only the pack-selected type and exact planner circle", async () => {
+  let request: { url: string; body: Record<string, unknown>; mask?: string } | undefined;
+  const client = new GooglePlacesClient({ apiKey: "test-key", fetchImplementation: async (url, init) => {
+    const mask = (init?.headers as Record<string, string>)["X-Goog-FieldMask"];
+    request = { url: String(url), body: JSON.parse(String(init?.body)) as Record<string, unknown>, ...(mask ? { mask } : {}) };
+    return new Response(JSON.stringify({ places: [{ id: "place-1" }] }), { status: 200 });
+  } });
+  const places = await client.nearbySearch({ includedTypes: ["restaurant"], location: { latitude: 35.6697, longitude: 139.767, radiusMeters: 3_000 }, maxResultCount: 20 }, new AbortController().signal);
+  assert.equal(request?.url, "https://places.googleapis.com/v1/places:searchNearby");
+  assert.deepEqual(request?.body, { includedTypes: ["restaurant"], maxResultCount: 20, locationRestriction: { circle: { center: { latitude: 35.6697, longitude: 139.767 }, radius: 3_000 } } });
+  assert.doesNotMatch(request?.mask ?? "", /nextPageToken/);
+  assert.equal(places.length, 1);
+});
+
 test("Google Places hard deadline rejects even when fetch ignores AbortSignal", { timeout: 2_000 }, async () => {
   const client = new GooglePlacesClient({
     apiKey: "test-key",

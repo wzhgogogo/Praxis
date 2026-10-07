@@ -68,7 +68,7 @@ const journal = await startDiagnosticRun(resolve(".eval-artifacts", "restaurant-
   browserSelection: effectiveEnvironment.PRAXIS_BROWSER_ENGINE ?? "AUTO",
   preflight: { artifactPath: preflight.artifactPath, elapsedMs: preflight.elapsedMs },
   profileMode: effectiveEnvironment.PRAXIS_BROWSER_ENGINE === "LOCAL_CHROMIUM"
-    ? effectiveEnvironment.PRAXIS_LOCAL_CHROMIUM_INTERACTIVE === "1" && effectiveEnvironment.PRAXIS_EVAL_ALLOW_TABELOG_MANUAL_INTERVENTION === "1" ? "PERSISTENT_EVAL" : "TEMPORARY"
+    ? effectiveEnvironment.PRAXIS_LOCAL_CHROMIUM_INTERACTIVE === "1" && effectiveEnvironment.PRAXIS_EVAL_ALLOW_BROWSER_MANUAL_INTERVENTION === "1" ? "PERSISTENT_EVAL" : "TEMPORARY"
     : "REMOTE_SESSION",
   safety: { allowedOperations: ["NAVIGATE", "SNAPSHOT", "WAIT_FOR"], externalSideEffectCount: "NOT_MEASURED" },
   ...(values["capture-query-state"] ? { queryCapture: "SANITIZED_BOOKING_REGION_AND_PASSIVE_VACANCY_RESPONSE" } : {}),

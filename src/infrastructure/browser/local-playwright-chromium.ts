@@ -197,7 +197,7 @@ export class LocalPlaywrightChromium implements BrowserRuntime {
 
   static fromEnvironment(environment: NodeJS.ProcessEnv = process.env): LocalPlaywrightChromium {
     const interactive = environment.PRAXIS_LOCAL_CHROMIUM_INTERACTIVE === "1";
-    const persistent = interactive && environment.PRAXIS_EVAL_ALLOW_TABELOG_MANUAL_INTERVENTION === "1";
+    const persistent = interactive && environment.PRAXIS_EVAL_ALLOW_BROWSER_MANUAL_INTERVENTION === "1";
     return new LocalPlaywrightChromium({
       ...(environment.PRAXIS_LOCAL_CHROMIUM_PROXY_SERVER?.trim()
         ? { proxyServer: environment.PRAXIS_LOCAL_CHROMIUM_PROXY_SERVER.trim() }

@@ -192,6 +192,7 @@ export function completeRestaurantSearchIntent(
     ...(draft.date ? { date: draft.date } : {}),
     ...(draft.timeWindow ? { timeWindow: structuredClone(draft.timeWindow) } : {}),
     ...(draft.permittedAlternativeTimeWindow ? { permittedAlternativeTimeWindow: structuredClone(draft.permittedAlternativeTimeWindow) } : {}),
+    ...(draft.partySize ? { partySize: draft.partySize } : {}),
     area: structuredClone(draft.area),
     criteria: structuredClone(draft.criteria),
     ...(draft.budgetPerPerson ? { budgetPerPerson: structuredClone(draft.budgetPerPerson) } : {}),

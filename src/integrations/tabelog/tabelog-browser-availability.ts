@@ -1,10 +1,10 @@
-import { groundTabelogAvailability } from "../../domains/restaurant/read-grounding.js";
 import type { RestaurantAvailabilityRequest } from "../../domains/restaurant/contracts.js";
 import type { BrowserReadNetworkPolicy, BrowserRuntime, BrowserSession, BrowserSessionMetadata, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
 import type { RestaurantAvailabilityProvider } from "../restaurant-availability/contracts.js";
 import { BrowserRuntimeError } from "../../infrastructure/browser/browser-runtime-errors.js";
 import { BrowserTaskExecutor } from "../../infrastructure/browser/browser-task-executor.js";
 import { inspectNativeOutletContinuity, sameNativeOutletUrl } from "../restaurant-availability/native-outlet-continuity.js";
+import { tabelogDiscoveryPack } from "../restaurant-search/source-packs.js";
 import { inspectTabelogEntity, normalizeTabelogPhone, normalizeTabelogIdentity } from "./tabelog-entity-resolver.js";
 import {
   detectExternalReservationRedirect,
@@ -28,10 +28,6 @@ import type {
 
 import { hasTabelogSelectedQuery, tabelogQueryControlHints, tabelogQueryControlsRestricted, tabelogRequestedDateState, TABELOG_QUERY_SETTLED_SELECTOR, TABELOG_VACANCY_RESPONSES } from "./tabelog-query-controls.js";
 
-function searchUrl(candidateName: string, candidateAddress: string): string {
-  const region = /(?:\bTokyo\b|東京都)/i.test(candidateAddress) ? "tokyo/" : "";
-  return `https://tabelog.com/en/${region}rstLst/?sw=${encodeURIComponent(candidateName)}`;
-}
 
 /** A Google-listed Tabelog URL may be read, but still needs page identity proof. */
 function listedTabelogOutlet(candidate: RestaurantAvailabilityRequest["candidates"][number]) {
@@ -287,7 +283,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
       session = await this.executor.acquire(signal, "TABELOG", "DISCOVERY", this.options.networkPolicy);
       await session.captureResponses?.(TABELOG_VACANCY_RESPONSES);
       const browser = { ...session.metadata };
-      const requestedSearchUrl = searchUrl(candidate.restaurant.outletName, candidate.restaurant.address);
+      const requestedSearchUrl = tabelogDiscoveryPack.availability!.buildRequestUrl({ candidate: candidate.restaurant, request })!;
       const listedOutlet = listedTabelogOutlet(candidate);
       let directIdentityVerified = false;
       let directPage: BrowserSnapshot | undefined;
@@ -368,6 +364,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
         const generic = await this.executor.runSkill({
           taskId: `browser-read:${candidate.restaurant.id}`,
           source: "TABELOG",
+          ...(tabelogDiscoveryPack.skillPath ? { sourceSkillPath: tabelogDiscoveryPack.skillPath } : {}),
           stage: "DISCOVERY",
           session,
           signal,
@@ -389,7 +386,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
       if (!outlets.length && candidate.restaurant.sourceIds.googleWebsiteUri && candidate.restaurant.sourceIds.phone) {
         const alias = await this.websiteSearchName(candidate, session, signal);
         if (alias) {
-          await this.executor.navigate({ source: "TABELOG", stage: "DISCOVERY", signal, allowedOrigins: ["https://tabelog.com"], session, url: searchUrl(alias, candidate.restaurant.address) });
+          await this.executor.navigate({ source: "TABELOG", stage: "DISCOVERY", signal, allowedOrigins: ["https://tabelog.com"], session, url: tabelogDiscoveryPack.availability!.buildRequestUrl({ candidate: candidate.restaurant, request, outletName: alias })! });
           search = await this.executor.snapshot({ source: "TABELOG", stage: "DISCOVERY", signal, session });
           if (hasBotChallenge(search)) return this.ground(candidate, request, { candidate, observedAt, entityMatch: { confidence: "LOW", matchedBy: [] }, pageState: "BOT_CHALLENGE", excerpt: pageExcerpt(search) }, browser);
           outlets = mergeOutlets(listedOutlet, parseTabelogSearchOutlets(search), this.maxCandidateMatches);
@@ -567,7 +564,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
           }, browser);
         }
         const query = await this.executor.runSkill({
-          taskId: `browser-read:${candidate.restaurant.id}`, source: "TABELOG", stage: "AVAILABILITY",
+          taskId: `browser-read:${candidate.restaurant.id}`, source: "TABELOG", ...(tabelogDiscoveryPack.skillPath ? { sourceSkillPath: tabelogDiscoveryPack.skillPath } : {}), stage: "AVAILABILITY",
           session, signal, allowedOrigins: ["https://tabelog.com"], controlHints: tabelogQueryControlHints,
           goal: { outlet: { name: candidate.restaurant.outletName, address: candidate.restaurant.address }, date: request.date, partySize: request.partySize, timeWindow: request.timeWindow, hardCriteria: request.hardCriteria },
           objective: "Apply the exact requested date and guest count to the public calendar. Date and Guests labels describe source-observed controls. Use CLICK_AUTHORITATIVE for those fields. Do not open Reserve or any booking form. Selected time options alone are not verified availability.",
@@ -636,7 +633,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
     observation: TabelogAvailabilityPageObservation,
     metadata?: BrowserSessionMetadata,
   ) {
-    const grounded = groundTabelogAvailability(candidate, request, {
+    const grounded = tabelogDiscoveryPack.availability!.ground(candidate, request, {
       candidateId: candidate.restaurant.id,
       ...(observation.sourceEntityId ? { sourceEntityId: observation.sourceEntityId } : {}),
       ...(observation.sourceUrl ? { sourceUrl: observation.sourceUrl } : {}),

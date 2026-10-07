@@ -12,7 +12,7 @@ import { loadBrowserReadSkills } from "./browser-read-skills.js";
 
 export interface BrowserExecutionDiagnostic {
   candidateId?: string;
-  source: "TABLECHECK" | "TABELOG" | "WEBSITE";
+  source: string;
   stage: "DISCOVERY" | "IDENTITY" | "AVAILABILITY" | "FACTS";
   event: "CANDIDATE_STARTED" | "CANDIDATE_FINISHED" | "PROVIDER_STARTED" | "PROVIDER_FINISHED"
     | "SESSION_OPENING" | "SESSION_OPENED" | "SESSION_OPEN_FAILED"
@@ -72,7 +72,7 @@ export interface BrowserExecutionBudget {
 
 export interface BrowserSkillReadInput {
   taskId: string;
-  source: "TABLECHECK" | "TABELOG" | "WEBSITE";
+  source: string;
   stage: "DISCOVERY" | "IDENTITY" | "AVAILABILITY" | "FACTS";
   session: BrowserSession;
   signal: AbortSignal;
@@ -80,6 +80,8 @@ export interface BrowserSkillReadInput {
   /** Complete Router-bound target; model guidance cannot alter it. */
   goal: BrowserReadGoal;
   objective: string;
+  /** Pack-owned source guidance; the browser core never chooses a site skill. */
+  sourceSkillPath?: string;
   /** Current method result; it is context for continuation, never a provider failure by itself. */
   methodReason?: string;
   /** A source-owned, already-authorized shortcut; its effect is always post-condition checked. */
@@ -518,7 +520,7 @@ export class BrowserTaskExecutor {
           stage: input.stage,
           objective: input.objective,
           progress: `${progress}${alreadySelected.length ? ` Already selected (do not repeat): ${alreadySelected.map(target => target.label).join(", ")}.` : ""}`,
-          skills: loadBrowserReadSkills(input.source),
+          skills: loadBrowserReadSkills(input.source, input.sourceSkillPath),
           goal: input.goal,
           observation: {
             revision: observation.revision,

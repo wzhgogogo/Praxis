@@ -7,7 +7,7 @@ import { completeRestaurantSearchIntent } from "../domains/restaurant/intent-sta
 import { fixtureCandidates, fixtureIntent } from "./restaurant-fixtures.js";
 
 const state: RestaurantTaskState = {
-  schemaVersion: "11",
+  schemaVersion: "12",
   phase: "UNDERSTANDING",
   intentDraft: { ...fixtureIntent, schemaVersion: "3" },
   candidates: [],
@@ -262,6 +262,7 @@ test("Execution Router binds a fact-only read to known candidates and the author
       target: fixtureIntent.target,
       date: fixtureIntent.date,
       timeWindow: fixtureIntent.timeWindow,
+      partySize: fixtureIntent.partySize,
       area: fixtureIntent.area,
       criteria: fixtureIntent.criteria,
       budgetPerPerson: fixtureIntent.budgetPerPerson,

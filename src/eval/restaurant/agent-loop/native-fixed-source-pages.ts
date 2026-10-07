@@ -163,6 +163,8 @@ export function sourcePages(
   const lookup = (url: string): BrowserSnapshot => {
     const parsed = new URL(url);
     if (parsed.hostname === "tabelog.com" && parsed.pathname.includes("/rstLst/")) {
+      const listingRoot = parsed.pathname.slice(0, parsed.pathname.indexOf("/rstLst/") + "/rstLst/".length);
+      const categoryUrl = (suffix: string) => `${parsed.origin}${listingRoot}${suffix.replace(/^\//, "")}`;
       tabelogListingVisits += 1;
       if (scenario === "TABELOG_RETRIEVAL_CATEGORY_DELIVERS") {
         const category = parsed.pathname.includes("/sushi/");
@@ -170,7 +172,7 @@ export function sourcePages(
         const ids = category && !keyword ? [100, 101, 102] : [100];
         return page(url, [
           ...ids.map((id) => `<a class="list-rst__rst-name-target" href="/tokyo/A1304/A130401/${id}/">Native Tabelog ${id}</a>`),
-          category ? '<a href="/en/tokyo/rstLst/sushi/">omakase ×</a>' : '<a href="/en/tokyo/rstLst/sushi/?sw=omakase">Sushi</a>',
+          category ? `<a href="${categoryUrl("sushi/")}">omakase ×</a>` : `<a href="${categoryUrl("sushi/?sw=omakase")}">Sushi</a>`,
         ].join(""), `${category ? "Sushi" : "Restaurants"} in Tokyo\n1～${ids.length}／${ids.length}`, "Tabelog search");
       }
       if (scenario === "TABELOG_RESULT_PAGES_CONTINUE") {
@@ -181,21 +183,21 @@ export function sourcePages(
         if (second && !tabelogSecondPageRevealed) return page(url,
           '<button type="button">Show public venues</button>', "Reveal the current public venue results", "Tabelog search");
         const ids = !category || keyword ? [100] : third ? [106] : second ? [104, 105] : [100, 101, 102, 103, 104];
-        const route = !category ? '<a href="/en/tokyo/rstLst/sushi/?sw=omakase">Sushi</a>'
-          : keyword ? '<a href="/en/tokyo/rstLst/sushi/">omakase ×</a>'
+        const route = !category ? `<a href="${categoryUrl("sushi/?sw=omakase")}">Sushi</a>`
+          : keyword ? `<a href="${categoryUrl("sushi/")}">omakase ×</a>`
           : third ? '<input type="search" name="keyword" aria-label="Search restaurants" value="">'
-          : second ? '<a rel="next" href="/en/tokyo/rstLst/sushi/3/">Next 20</a>'
-          : '<a rel="next" href="/en/tokyo/rstLst/sushi/2/">Next 20</a>';
+          : second ? `<a rel="next" href="${categoryUrl("sushi/3/")}">Next 20</a>`
+          : `<a rel="next" href="${categoryUrl("sushi/2/")}">Next 20</a>`;
         return page(url, ids.map((id) => `<a class="list-rst__rst-name-target" href="/tokyo/A1304/A130401/${id}/">Native Tabelog ${id}</a>`).join("") + route,
           `Sushi in Tokyo\n${third ? "7～7" : second ? "6～6" : "1～5"}／7`, "Tabelog search");
       }
       if (scenario === "TABELOG_STALE_REJECTS") return page(url,
         '<input type="search" name="search_text" aria-label="Search restaurants" value="omakase" data-live-value="old-query"><div aria-busy="true">Loading current search</div><a class="list-rst__rst-name-target" href="/tokyo/A1304/A130401/100/">Old Tabelog result</a>',
         "Loading current search", "Tabelog search");
-      if (scenario === "TABELOG_REGION_PRESERVES_QUERY" && tabelogListingVisits === 1) {
+      if (scenario === "TABELOG_REGION_PRESERVES_QUERY" && tabelogListingVisits === 1 && listingRoot === "/en/tokyo/rstLst/") {
         return page(url, '<a href="/en/tokyo/A1303/A130301/rstLst/">Shibuya</a>', "Choose Shibuya", "Tabelog search");
       }
-      if (scenario === "TABELOG_NONEMPTY_REGION_RECOVERS" && tabelogListingVisits === 1) {
+      if (scenario === "TABELOG_NONEMPTY_REGION_RECOVERS" && tabelogListingVisits === 1 && listingRoot === "/en/tokyo/rstLst/") {
         return page(url, '<a class="list-rst__rst-name-target" href="/tokyo/A1304/A130401/199/">Outside current area</a><a href="/en/tokyo/A1303/A130301/rstLst/">Shibuya</a>', "Restaurants in Tokyo. Choose Shibuya to refine this search.", "Tabelog search");
       }
       const count = scenario === "TABELOG_PENDING_RESTORED" && tabelogListingVisits > 1 ? 0 : tabelogCount;

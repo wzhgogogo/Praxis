@@ -1,8 +1,8 @@
 # ADR-0032: Source-native restaurant discovery for bounded read-only results
 
-- Status: Accepted
-- Document revision: 1.0
-- Last updated: 2026-09-29
+- Status: Accepted; fixed order and mutually exclusive discovery superseded in part by ADR-0037
+- Document revision: 1.1
+- Last updated: 2026-10-07
 - Source of truth for: 原生候选的身份入口与本轮固定来源顺序
 - Related documents: [ADR-0015](0015-supported-source-search-evidence.md), [H001 native Playbook](../H001-NATIVE-DISCOVERY-PLAYBOOK.md), [Capability Matrix](../integrations/CAPABILITY-MATRIX.md)
 

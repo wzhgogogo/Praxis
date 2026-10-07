@@ -1,4 +1,5 @@
 export const GOOGLE_PLACES_TEXT_SEARCH_URL = "https://places.googleapis.com/v1/places:searchText";
+export const GOOGLE_PLACES_NEARBY_SEARCH_URL = "https://places.googleapis.com/v1/places:searchNearby";
 export const GOOGLE_PLACES_DETAILS_URL = "https://places.googleapis.com/v1/places";
 
 /** Kept explicit to constrain billing and prevent accidental raw-place retention. */
@@ -70,6 +71,13 @@ export interface GooglePlacesTextSearchResponse {
 export interface GooglePlacesTextSearchPage {
   places: GooglePlacesRawPlace[];
   nextPageToken?: string;
+}
+
+/** Nearby Search has no opaque page token; it reads one bounded circle/type result set. */
+export interface GooglePlacesNearbySearchRequest {
+  includedTypes: string[];
+  location: { latitude: number; longitude: number; radiusMeters: number };
+  maxResultCount: number;
 }
 
 export class GooglePlacesError extends Error {
