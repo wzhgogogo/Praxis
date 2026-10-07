@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.152
+- Document revision: 4.153
 - Last updated: 2026-10-07
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,15 @@
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## DEV-2026-10-07-PLAYBOOK-PHASE3
+
+- Evidence status: exposed development evidence. 复用生产NativeRestaurantSearch新增冻结Discovery诊断入口；Runtime、位置输入、轮次和预算独立落盘，不接入新评分平台。
+- 真源第二轮发现共享budget被忽略和公开301误拦；补强现有Executor／Guard回归。当前执行取共享与局部上限较小值，跳转目的地逐跳按现有文档规则重新准入，无站点分支或自动Runtime回退。
+- Google失败诊断保留有限公开地点字段；不修改位置匹配标准。单页探针实际传递`--no-proxy`，仅改有效环境副本。
+- root返修模式误入Live、超预算证据丢失、地点label漂移及“任意列表即成功”；退役未使用的直接Pack测试路径，仅保留生产发现组合。
+- 三轮矩阵完整分母均FAIL；原始记录不覆盖。末轮名义7列表中，全国漂移误报被拒；6份列表有原半径候选，未证明库存或整单交付。真实日历HAR回放仍NO_COVERAGE。
+- 按本轮三次矩阵上限停止，未跑其余矩阵或Phase4–6；[独立验收](../../.eval-artifacts/h001-h005-playbook-20261007/root.phase3.acceptance.json)与[验证记录](TEST-LOG.md#test-2026-10-07-playbook-phase3)分别记录代码修复与阶段FAIL。
 
 ## DEV-2026-10-07-PLAYBOOK-PHASE2
 

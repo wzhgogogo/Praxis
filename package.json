@@ -29,6 +29,7 @@
     "reset:dev:restaurant-state": "node --env-file-if-exists=.env --import tsx src/infrastructure/postgres/reset-restaurant-dev-data.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "probe:restaurant:browser:read": "node --env-file-if-exists=.env --import tsx src/eval/restaurant/agent-loop/runners/run-browser-read-probe.ts",
+    "probe:restaurant:source-stage": "node --env-file-if-exists=.env --import tsx src/eval/restaurant/agent-loop/runners/run-source-stage-probe.ts",
     "test:browser:fixture": "node --import tsx --test src/harness/browser/*.test.ts"
   },
   "devDependencies": {

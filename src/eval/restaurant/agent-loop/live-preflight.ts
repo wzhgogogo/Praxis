@@ -13,7 +13,8 @@ export type LivePreflightRunner =
   | "BROWSER_CASE_SLICE"
   | "BROWSER_READ_PROBE"
   | "NATIVE_FIXED_SOURCE_MODEL"
-  | "FIXED_SOURCE_MODEL";
+  | "FIXED_SOURCE_MODEL"
+  | "SOURCE_STAGE_PROBE";
 
 export type EffectiveLiveNetworkConfiguration = Readonly<{
   proxyMode: "ENVIRONMENT" | "DISABLED_BY_CLI";

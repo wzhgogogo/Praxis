@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.158
+- Document revision: 4.159
 - Last updated: 2026-10-07
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,18 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-07-PLAYBOOK-PHASE3
+
+- History／scope: 既有整单Live没有覆盖公开跳转与传入共享模型上限；真源第二轮揭示301误拦和4/2调用超支，复用Executor／Guard及生产发现回归；没有新评分平台。
+- Frozen acceptance: 60s／2模型/样本，30min／50模型/矩阵，最多3轮、阶段150调用；Discovery≥9/10且零误拦，失败真源Replay需实际复现；Semantic／Gold／HARD／身份／半径不变。
+- Offline gates: 核心修复后默认720/720；阶段覆盖10/10后最后Runner7/7及类型通过，纯阶段4项和architecture／build复用；原73项Chromium不重跑，由下述实际receiver覆盖本次跳转变化。另一次误在sandbox全测为697/721、24项EPERM；仅有明确标记的重建摘要，无原stdout，不报通过。
+- Controlled actual Chromium: root21项receiver316ms／15s通过，公开GET／HEAD及两跳导航成功；敏感、凭据、跨源和普通POST反例零目标到达；零外网／真实模型。[原结果](../../.eval-artifacts/h001-h005-playbook-20261007/root.phase3.receiver-redirect-review.json)。
+- Live Discovery: 三轮各10样本完整分母；Cloudflare首轮0列表，本地第二轮名义4但d01超支；末轮名义7列表、2调用，root独立核对6样本原半径候选、d04全国漂移FAIL、d07/08位置未解析、d01预算内未完成；三轮实际模型合计6次。
+- Geography: 四次独立Google位置读取、零模型；Shibuya／Higashi-Ginza解析，新宿两次失败，后一次公开观察为Shinjuku City；不能以现行拒绝规则本身证明预期正确，也未改成站点白名单。
+- Feasibility／Replay: 2资格尝试，TC预检503未启浏览器，TL7,227ms只观察其他日期，0可行目标库存；真HAR同入口回放30,020ms没恢复原10个日期，NO_COVERAGE、零网络回退。[独立评价](../../.eval-artifacts/h001-h005-playbook-20261007/root.phase3.qualification.evaluation.json)。
+- Evaluator: Discovery／被拒请求／资格观察不产餐厅claim，六维Evaluator NOT_APPLICABLE；root单独核对地区、预算和原始观察。Guard误拦未逐项评价为NOT_ASSESSED，不能以命令退出0或列表解析代替验收。
+- Acceptance: **Phase3 FAIL**，代码局部修复单独审查；[root验收](../../.eval-artifacts/h001-h005-playbook-20261007/root.phase3.acceptance.json)。按三轮上限停止，其他Pack／身份／库存／官网事实矩阵及Phase4–6 NOT_RUN；本次无完整H001 Live。
 
 ## TEST-2026-10-07-PLAYBOOK-PHASE2
 

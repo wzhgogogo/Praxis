@@ -147,6 +147,49 @@ function namedLocationObservation(place: GooglePlacesRawPlace): string {
   return `name=${JSON.stringify(name)} address=${JSON.stringify(address)} types=${JSON.stringify(types)} placeId=${JSON.stringify(placeId)} coordinate=${JSON.stringify(coordinate)}`;
 }
 
+/**
+ * A bounded public projection for a failed named-place resolution.  It lets a
+ * source-stage artifact explain why exact identity matching rejected the
+ * response without retaining provider headers, raw result bodies, phones, or
+ * website links.  It is diagnostic evidence only and never selects a place.
+ */
+export type PublicNamedLocationObservation = {
+  placeId?: string;
+  displayName?: string;
+  types: string[];
+  addressComponents: Array<{ longText: string; shortText?: string; types: string[] }>;
+  coordinates?: { latitude: number; longitude: number };
+};
+
+function publicNamedLocationObservations(places: readonly GooglePlacesRawPlace[]): PublicNamedLocationObservation[] {
+  return places.slice(0, 20).map((place) => {
+    const point = coordinates(place);
+    const components = addressComponents(place) ?? [];
+    const types = Array.isArray(place.types) ? place.types.filter((value): value is string => typeof value === "string").slice(0, 20) : [];
+    const placeId = string(place.id);
+    const displayName = string(place.displayName?.text);
+    return {
+      ...(placeId ? { placeId } : {}),
+      ...(displayName ? { displayName } : {}),
+      types,
+      addressComponents: components.slice(0, 20).map((component) => ({
+        longText: component.longText,
+        ...(component.shortText ? { shortText: component.shortText } : {}),
+        types: component.types.slice(0, 12),
+      })),
+      ...(point?.latitude !== undefined && point.longitude !== undefined ? { coordinates: { latitude: point.latitude, longitude: point.longitude } } : {}),
+    };
+  });
+}
+
+function namedLocationResolutionError(
+  code: "GOOGLE_LOCATION_UNRESOLVED" | "GOOGLE_LOCATION_AMBIGUOUS",
+  message: string,
+  places: readonly GooglePlacesRawPlace[],
+): GooglePlacesError & { publicLocationObservations: PublicNamedLocationObservation[] } {
+  return Object.assign(new GooglePlacesError(code, message), { publicLocationObservations: publicNamedLocationObservations(places) });
+}
+
 /** Google Text Search restricts by rectangle; grounding retains the exact circular radius gate. */
 function geographicRectangle(location: { latitude: number; longitude: number; radiusMeters: number }) {
   const latitudeDelta = location.radiusMeters / 111_320;
@@ -229,7 +272,7 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
     });
     const sourceObservations = places.map(namedLocationObservation).join("; ") || "no returned places";
     if (exactMatches.length > 1) {
-      throw new GooglePlacesError("GOOGLE_LOCATION_AMBIGUOUS", `Google Places returned multiple coordinate-bearing matches for the named location ${JSON.stringify(query)}. Observations: ${sourceObservations}`);
+      throw namedLocationResolutionError("GOOGLE_LOCATION_AMBIGUOUS", `Google Places returned multiple coordinate-bearing matches for the named location ${JSON.stringify(query)}. Observations: ${sourceObservations}`, places);
     }
     // Text-search relevance is not location identity.  In particular, never
     // turn the first unrelated result into the user's named landmark just
@@ -239,7 +282,7 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
     const label = place && string(place.displayName?.text);
     const resolved = place && coordinates(place);
     if (!placeId || !label || !resolved) {
-      throw new GooglePlacesError("GOOGLE_LOCATION_UNRESOLVED", `Google Places could not resolve coordinates for the named location ${JSON.stringify(query)}. Observations: ${sourceObservations}`);
+      throw namedLocationResolutionError("GOOGLE_LOCATION_UNRESOLVED", `Google Places could not resolve coordinates for the named location ${JSON.stringify(query)}. Observations: ${sourceObservations}`, places);
     }
     const observedAt = this.now();
     const radiusMeters = request.intent.area.radiusMeters ?? NAMED_PLACE_NEARBY_RADIUS_METERS;

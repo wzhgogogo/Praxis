@@ -433,7 +433,11 @@ export class BrowserTaskExecutor {
     };
     const pendingControlKeys = new Set<string>();
     for (;;) {
-      if (this.budget.totalModelCalls >= (this.options.maxModelCallsTotal ?? 12)) {
+      const runModelCeiling = Math.min(
+        this.options.maxModelCallsTotal ?? 12,
+        this.budget.maxModelCalls ?? Number.POSITIVE_INFINITY,
+      );
+      if (this.budget.totalModelCalls >= runModelCeiling) {
         const error = new BrowserRuntimeError("BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED", "Shared browser-model budget exhausted for this read run");
         this.recordLifecycleFailure(input.source, input.stage, "BUDGET_EXHAUSTED", error);
         throw error;

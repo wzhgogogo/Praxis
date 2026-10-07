@@ -93,6 +93,21 @@ export class PlaywrightReadNetworkGuard {
     if (this.sensitiveGenericRead(url) && !this.matchesReviewedDocument(url)) throw new Error("Browser read sensitive document is not admitted");
   }
 
+  /**
+   * Route.fetch never follows redirects: every hop is admitted as a new
+   * document request.  A target may proceed only when it meets the same
+   * prepared-document constraints as an explicit navigation.
+   */
+  private admittedRedirectTarget(from: URL, location: string | undefined): URL | undefined {
+    if (!location) return undefined;
+    let target: URL;
+    try { target = new URL(location, from); } catch { return undefined; }
+    try { this.assertSafePreparedDocument(target); } catch { return undefined; }
+    if (!this.policy.documentOrigins.includes(target.origin)
+      && !(this.policy.genericPublicRead && this.genericOrigins.has(target.origin))) return undefined;
+    return target;
+  }
+
   /** A source rule may explicitly admit an otherwise sensitive-looking public query document. */
   private matchesReviewedDocument(url: URL): boolean {
     return [...this.policy.staticResources, ...this.policy.dynamicReads].some(rule => {
@@ -151,7 +166,14 @@ export class PlaywrightReadNetworkGuard {
     try {
       this.requests.push({ outcome: "ADMITTED", origin: url.origin, pathname: url.pathname, method, resourceType: type, queryKeys: [...new Set(url.searchParams.keys())].sort() });
       const response = await route.fetch({ maxRedirects: 0, timeout: this.requestTimeoutMs });
-      if (response.status() >= 300 && response.status() < 400) { this.blocked("BLOCKED_REDIRECT", url, method, type); await route.abort("blockedbyclient"); return; }
+      if (response.status() >= 300 && response.status() < 400) {
+        const target = this.admittedRedirectTarget(url, response.headers()["location"]);
+        if (!target) { this.blocked("BLOCKED_REDIRECT", url, method, type); await route.abort("blockedbyclient"); return; }
+        this.documents.add(requestKey(target.toString()));
+        if (this.policy.genericPublicRead) this.genericOrigins.add(target.origin);
+        await route.fulfill({ response });
+        return;
+      }
       if (this.recordResponse) {
         const contentType = response.headers()["content-type"] ?? "";
         await this.recordResponse({ url: url.toString(), method, status: response.status(), contentType, body: await response.body() });

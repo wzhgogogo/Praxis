@@ -1,7 +1,7 @@
 # Browser Read Diagnostics
 
 - Status: Accepted
-- Document revision: 0.12
+- Document revision: 0.13
 - Last updated: 2026-10-07
 - Source of truth for: 单页浏览器只读诊断操作与证据范围
 - Related ADRs: [ADR-0015](../decisions/0015-supported-source-search-evidence.md)、[ADR-0016](../decisions/0016-local-eval-browser-profile-lifecycle.md)
@@ -15,7 +15,23 @@ origin/path、method、resource type 与公共字段名，不保存 query 值、
 token 或原始异常；既有脱敏 DOM/控件证据仍可保留允许的日期、人数和时段绑定。
 TableCheck/Tabelog和Google-listed官网路径共用Guard。Generic档允许非敏感同源
 公开GET/HEAD，Reviewed档补精确公开查询grammar；已安装边界才开放共享控件操作，
-敏感操作、凭据／PII、普通POST及跳转仍阻断。未知GET副作用是已接受的限制。
+敏感操作、凭据／PII、普通POST及未准入跳转仍阻断；公开跳转逐跳重验目的地。
+未知GET副作用是已接受的限制。
+
+### 分阶段Discovery探针
+
+`probe:restaurant:source-stage -- --manifest <冻结JSON> --no-proxy`只落计划；
+`--execute`仅执行`LIVE_READ_ONLY`的Discovery，复用生产NativeRestaurantSearch。
+Manifest冻结Pack、意图／已解析位置、LOCAL_CHROMIUM或KITESURF、数据集SHA及预算：
+每样本≤60s／2模型调用，每矩阵≤30min／50调用，最多3轮、阶段≤150调用。
+Identity／Availability／Website Facts与REPLAY执行尚未接通；不能把计划或录制标签
+报告为这些模式通过。失败、超预算与未运行样本保留分母，评价／验收独立落盘。
+`--resolve-named-location`仅允许冻结样本的公开位置label，经Google预检后单次读取。
+单页探针的`--no-proxy`也传入同一有效环境；两个入口均不改.env或系统网络配置。
+
+本轮三次Tabelog矩阵未达标；全国列表误报被root独立审查拒绝。正确阻断与误拦
+需逐项判读，未评价不能报告“零误拦”。真实Teppen HAR没有恢复原日历，
+`REPLAYABLE`仅为格式资格，不是回放验收。[本轮记录](../history/TEST-LOG.md#test-2026-10-07-playbook-phase3)。
 
 ### 可选Record与本地Replay
 

@@ -151,6 +151,30 @@ test("read network guard admits only prepared public documents and exact source 
   assert.equal(socketClosed, true);
 });
 
+test("read network guard re-admits a safe same-origin redirect hop and rejects unprepared or sensitive targets", async () => {
+  let http: (route: any) => Promise<void> = async () => assert.fail("route handler missing");
+  const guard = new PlaywrightReadNetworkGuard({ ...policy, genericPublicRead: true });
+  await guard.install({ route: async (_pattern: string, handler: typeof http) => { http = handler; }, routeWebSocket: async () => {} } as any);
+
+  guard.prepareNavigation("https://public.example/guide", 700);
+  const sameOrigin = fakeRoute({ url: "https://public.example/guide", type: "document", status: 301, responseHeaders: { location: "/public-index" } });
+  await http(sameOrigin.route);
+  assert.deepEqual(sameOrigin.calls, ["fetch:0:700", "fulfill"]);
+  const redirectedDocument = fakeRoute({ url: "https://public.example/public-index", type: "document" });
+  await http(redirectedDocument.route);
+  assert.deepEqual(redirectedDocument.calls, ["fetch:0:700", "fulfill"], "the re-admitted hop is still one-shot");
+
+  guard.prepareNavigation("https://public.example/guide", 700);
+  const crossOrigin = fakeRoute({ url: "https://public.example/guide", type: "document", status: 302, responseHeaders: { location: "https://other.example/public-index" } });
+  await http(crossOrigin.route);
+  assert.deepEqual(crossOrigin.calls, ["fetch:0:700", "abort"]);
+  guard.prepareNavigation("https://public.example/guide", 700);
+  const sensitive = fakeRoute({ url: "https://public.example/guide", type: "document", status: 302, responseHeaders: { location: "/booking/calendar/cancel" } });
+  await http(sensitive.route);
+  assert.deepEqual(sensitive.calls, ["fetch:0:700", "abort"]);
+  assert.deepEqual(guard.snapshotDiagnostics().map(item => item.code), ["BLOCKED_REDIRECT", "BLOCKED_REDIRECT"]);
+});
+
 test("ADR-0036 permits prepared same-origin public GET reads but keeps sensitive and cross-origin reads outside the boundary", async () => {
   let http: (route: any) => Promise<void> = async () => assert.fail("route handler missing");
   const guard = new PlaywrightReadNetworkGuard({ ...policy, genericPublicRead: true });

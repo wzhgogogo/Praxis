@@ -270,6 +270,33 @@ test("an unrelated first search result never becomes a named nearby landmark", a
   );
 });
 
+test("unresolved named-place diagnostics retain only bounded public identity observations", async () => {
+  const client = new GooglePlacesClient({
+    apiKey: "key",
+    fetchImplementation: async () => new Response(JSON.stringify({ places: [{
+      id: "wrong", displayName: { text: "Different Station" }, formattedAddress: "not-retained-address",
+      location: { latitude: 35.6, longitude: 139.7 }, types: ["transit_station"],
+      addressComponents: [{ longText: "Shinjuku City", shortText: "Shinjuku", types: ["locality"] }],
+      nationalPhoneNumber: "private-phone", websiteUri: "https://private.example",
+    }] }), { status: 200 }),
+  });
+  const search = new GooglePlacesRestaurantSearch(client, undefined, 10, { maxRequests: 2 });
+  await assert.rejects(
+    search.search({ intent: { ...fixtureIntent, area: { query: "near Central Station" } } }, new AbortController().signal),
+    (error: unknown) => {
+      if (!error || typeof error !== "object" || !("publicLocationObservations" in error)) return false;
+      const observations = error.publicLocationObservations as Array<Record<string, unknown>>;
+      assert.deepEqual(observations, [{
+        placeId: "wrong", displayName: "Different Station", types: ["transit_station"],
+        addressComponents: [{ longText: "Shinjuku City", shortText: "Shinjuku", types: ["locality"] }],
+        coordinates: { latitude: 35.6, longitude: 139.7 },
+      }]);
+      assert.doesNotMatch(JSON.stringify(observations), /private-phone|private\.example|not-retained-address/);
+      return true;
+    },
+  );
+});
+
 test("Google Places text search uses the explicit small field mask and stable candidate IDs", async () => {
   let captured: RequestInit | undefined;
   const client = new GooglePlacesClient({

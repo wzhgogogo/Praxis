@@ -21,7 +21,7 @@ const { values } = parseArgs({ options: {
 if (!values.url) throw new Error("--url is required");
 const provider = probeProvider(values.url);
 if (values["capture-query-state"] && provider !== "TABELOG") throw new Error("--capture-query-state currently applies only to Tabelog");
-const effectiveNetwork = resolveEffectiveLiveNetworkConfiguration(process.env);
+const effectiveNetwork = resolveEffectiveLiveNetworkConfiguration(process.env, process.argv);
 const effectiveEnvironment = environmentWithEffectiveLiveNetwork(process.env, effectiveNetwork);
 if (values["capture-query-state"] && (effectiveEnvironment.PRAXIS_BROWSER_ENGINE !== "LOCAL_CHROMIUM" || effectiveEnvironment.PRAXIS_LOCAL_CHROMIUM_PROXY_SERVER)) {
   throw new Error("Tabelog query-state capture requires LOCAL_CHROMIUM on the default browser network");

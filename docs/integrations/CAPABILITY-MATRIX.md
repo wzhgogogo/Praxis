@@ -1,7 +1,7 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.42
+- Document revision: 1.43
 - Last updated: 2026-10-07
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
@@ -30,8 +30,10 @@ Local Chromium source and Google-listed website sessions use ADR-0036's
 isolated context, with network/WebSocket rules installed before the first page
 and Service Workers blocked. Generic mode admits non-sensitive same-origin
 public GET/HEAD; Reviewed mode adds source-owned exact query grammars, including
-reviewed POST. Sensitive operations, credentials/PII, ordinary POST and redirects
-remain blocked. An installed boundary permits shared UI operations; goal-bound
+reviewed POST. Redirects are fetched without automatic following; every target
+must pass document admission on an admitted origin before the next hop. Sensitive
+operations, credentials/PII, ordinary POST and unadmitted redirects remain blocked.
+An installed boundary permits shared UI operations; goal-bound
 date/party/time and result checks remain separate. Unknown GET effects are a
 stated limitation. Cloudflare has the same boundary code but no current remote
 provider-session Live acceptance.
@@ -58,6 +60,12 @@ Only bounded safe GET/HEAD bodies/query shapes are replayable; unsupported POST,
 media or unsafe/private content is explicitly NOT_REPLAYABLE. Controlled captures
 prove status/visibility/dynamic-response fidelity, not a complete real-failure
 corpus or arbitrary-site robustness. [Protocol](../harness/BROWSER-READ-DIAGNOSTICS.md).
+
+## 2026-10-07 Phase3真实探针（未通过）
+
+独立Discovery入口复用生产NativeRestaurantSearch，固定Runtime、输入与60s／2模型调用预算；共享Executor现在同时执行传入的模型上限。Tabelog三轮完整10样本分母均FAIL：首轮Cloudflare快照失败；本地第二轮暴露公开重定向误拦及4/2调用超支；末轮重定向恢复、模型调用2次，名义列表7/10。root按冻结圆形半径核对仅6样本产出地区候选，另一个涩谷无关键词路径漂到全国列表且首批全超半径，不能计通过。两份新宿样本未解析位置；当前修复不改变地点或身份判断标准。
+
+真实Record未满足失败回放：末轮录制标记不安全／未捕获；另一次Teppen录制虽标REPLAYABLE，同一生产观察入口回放没有恢复原10个可见日期，NO_COVERAGE、零网络回退。TableCheck资格探针被预检HTTP503阻止；Tabelog观察没有建立目标日期／时段的可行库存。其他Pack及身份／库存／官网事实矩阵未运行，完整Live门未进入。[独立审查](../../.eval-artifacts/h001-h005-playbook-20261007/root.phase3.raw-discovery-review.json)；[验证记录](../history/TEST-LOG.md#test-2026-10-07-playbook-phase3)。
 
 ## 2026-10-07 request-driven Source Packs（离线已验收）
 

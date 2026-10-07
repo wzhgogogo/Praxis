@@ -569,6 +569,36 @@ test("BrowserTaskExecutor keeps a model-call ceiling across sequential candidate
   await second.close();
 });
 
+test("BrowserTaskExecutor enforces the shared budget ceiling when no caller-specific option is supplied", async () => {
+  const budget = { totalModelCalls: 0, maxModelCalls: 1 };
+  let decisions = 0;
+  const modelDecision: BrowserReadActionDecisionPort = {
+    async decide() {
+      decisions += 1;
+      return { type: "REQUEST_HUMAN_HELP", reason: "fixture stop" };
+    },
+  };
+  const first = new BrowserTaskExecutor(
+    { openSession: async () => new FixtureSession([{ url: "https://www.tablecheck.com/en/japan/search", title: "search", text: "", html: "" }]) },
+    { modelDecision, budget },
+  );
+  const firstSession = await first.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY");
+  assert.equal((await first.runSkill({ ...input(firstSession), completion: () => ({ complete: false, reason: "continue" }) })).status, "REQUESTED_HUMAN_HELP");
+  await first.close();
+
+  const second = new BrowserTaskExecutor(
+    { openSession: async () => new FixtureSession([{ url: "https://www.tablecheck.com/en/japan/search", title: "search", text: "", html: "" }]) },
+    { modelDecision, budget },
+  );
+  const secondSession = await second.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY");
+  await assert.rejects(
+    second.runSkill({ ...input(secondSession), completion: () => ({ complete: false, reason: "continue" }) }),
+    { code: "BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED" },
+  );
+  assert.equal(decisions, 1);
+  await second.close();
+});
+
 test("BrowserTaskExecutor accepts only observed, read-only targets and invalidates old references after every observation", async () => {
   const session = new FixtureSession([
     {
