@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 
 import type { BrowserReadActionTarget } from "../../../../infrastructure/browser/browser-action-decision.js";
-import type { BrowserCapturedResponse, BrowserPageControl, BrowserSession, BrowserSnapshot } from "../../../../infrastructure/browser/browser-runtime.js";
+import type { BrowserCapturedResponse, BrowserPageControl, BrowserRuntime, BrowserSession, BrowserSnapshot } from "../../../../infrastructure/browser/browser-runtime.js";
 
 export function safeUrl(value: string): string {
   try {
@@ -258,6 +258,21 @@ export function traceBrowserSession(session: BrowserSession, source: "TABELOG" |
   } });
 }
 
+/** Preserve the runtime-owned Guard capability while tracing its safe sessions. */
+export function traceBrowserRuntime(
+  runtime: BrowserRuntime,
+  source: "TABELOG" | "TABLECHECK",
+  record: (kind: string, detail: unknown) => number,
+): BrowserRuntime {
+  return {
+    ...(runtime.readNetworkBoundaryCapability ? { readNetworkBoundaryCapability: runtime.readNetworkBoundaryCapability } : {}),
+    openSession: async input => {
+      try { return traceBrowserSession(await runtime.openSession(input), source, record); }
+      catch (error) { record("SESSION_OPEN_ERROR", errorRecord(error)); throw error; }
+    },
+  };
+}
+
 function passiveResponses(snapshot: BrowserSnapshot): unknown {
   if (!snapshot.url.startsWith("https://tabelog.com/")) return safeRecord(snapshot.responses ?? []);
   return (snapshot.responses ?? []).map((response: BrowserCapturedResponse) => {
@@ -294,5 +309,9 @@ export function snapshotRecord(snapshot: BrowserSnapshot): Record<string, unknow
     pageId: snapshot.pageId, htmlSha256: createHash("sha256").update(snapshot.html).digest("hex"),
     htmlLength: snapshot.html.length, observedStateTags: observedStateTags(snapshot.html),
     queryRegions,
-    responses: passiveResponses(snapshot) };
+    responses: passiveResponses(snapshot),
+    ...(snapshot.networkDiagnostics?.length ? { networkDiagnostics: snapshot.networkDiagnostics.map(item => ({
+      code: item.code, origin: item.origin, pathname: item.pathname,
+      method: item.method, resourceType: item.resourceType, queryKeys: item.queryKeys,
+    })) } : {}) };
 }

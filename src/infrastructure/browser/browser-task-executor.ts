@@ -1,10 +1,11 @@
-import type { BrowserControlHint, BrowserPageControl, BrowserRuntime, BrowserSession, BrowserSnapshot } from "./browser-runtime.js";
+import type { BrowserControlHint, BrowserPageControl, BrowserReadNetworkPolicy, BrowserRuntime, BrowserSession, BrowserSnapshot } from "./browser-runtime.js";
 import { BrowserRuntimeError, type BrowserDeadlineScope, type BrowserRuntimeFailureCode } from "./browser-runtime-errors.js";
 import {
   type BrowserReadAction,
   type BrowserReadActionDecisionPort,
   type BrowserReadGoal,
   type BrowserReadActionTarget,
+  type BrowserActionWireRejection,
   BrowserReadDecisionError,
 } from "./browser-action-decision.js";
 import { loadBrowserReadSkills } from "./browser-read-skills.js";
@@ -92,6 +93,12 @@ export interface BrowserSkillReadInput {
     snapshot: Readonly<BrowserSnapshot>;
     action: "SET_CHECKED" | "ADJUST_RANGE" | "CLICK";
   }): boolean;
+  /**
+   * Source-owned public query controls may use ordinary buttons only in a
+   * runtime-created guarded context. Radio/range selection remains source
+   * classified and authoritative values remain bound below.
+   */
+  allowGuardedQueryControls?: boolean;
 }
 
 export interface BrowserGenericReadResult {
@@ -101,7 +108,7 @@ export interface BrowserGenericReadResult {
   controls: BrowserPageControl[];
 }
 
-interface ObservedTarget extends BrowserReadActionTarget { controlId: string; stableKey: string; nativeTag?: string; optionNative?: boolean; optionOwnerId?: string; ownerStableKey?: string; radioGroupKey?: string; retrievalValue?: string; }
+interface ObservedTarget extends BrowserReadActionTarget { controlId: string; stableKey: string; nativeTag?: string; inputName?: string; optionNative?: boolean; optionOwnerId?: string; ownerStableKey?: string; radioGroupKey?: string; retrievalValue?: string; }
 
 interface Observation {
   revision: number;
@@ -170,6 +177,27 @@ function safeErrorDetail(error: unknown, limit = 360): string {
   return safeText(message.replace(/(?:authorization|bearer|api[_-]?key|token)\s*[:=]\s*\S+/ig, "$1=<redacted>"), limit);
 }
 
+/** Invalid action wires are model input, so trace only the fixed diagnostic projection. */
+function safeWireRejectionDetail(rejection: BrowserActionWireRejection | undefined): string {
+  if (!rejection) return "MODEL_WIRE_REJECTED";
+  return `MODEL_WIRE_REJECTED:${JSON.stringify({
+    action: rejection.action,
+    targetRef: rejection.targetRef,
+    authoritativeField: rejection.authoritativeField,
+    requestedState: rejection.requestedState,
+    fieldPath: rejection.fieldPath,
+    valueType: rejection.valueType,
+    reason: rejection.reason,
+  })}`;
+}
+
+/** Playwright includes this stable actionability class when a visible layer owns the click point. */
+function pointerObstruction(error: unknown): boolean {
+  const cause = error instanceof BrowserRuntimeError && error.cause instanceof Error ? error.cause.message : "";
+  const message = error instanceof Error ? `${error.message} ${cause}` : "";
+  return /(?:intercepts pointer events|would receive the pointer event|another element would receive)/i.test(message);
+}
+
 function toObservedTargets(controls: BrowserPageControl[], revision: number): Map<string, ObservedTarget> {
   const targets = new Map<string, ObservedTarget>();
   const controlRefs = new Map<string, string>();
@@ -179,7 +207,7 @@ function toObservedTargets(controls: BrowserPageControl[], revision: number): Ma
     const ref = `observation:${revision}:target:${targets.size + 1}`;
     controlRefs.set(control.id, ref);
     targets.set(ref, {
-      ref, controlId: control.id, stableKey: control.stableKey, ...(control.structure ? { nativeTag: control.structure.tag } : {}), kind: control.kind, role: control.role, label: control.label,
+      ref, controlId: control.id, stableKey: control.stableKey, ...(control.structure ? { nativeTag: control.structure.tag, ...(control.structure.name ? { inputName: control.structure.name } : {}) } : {}), kind: control.kind, role: control.role, label: control.label,
       ...(control.kind === "RADIO" && control.structure?.radioGroupKey ? { radioGroupKey: control.structure.radioGroupKey } : {}),
       ...(control.value ? { value: control.value } : {}), ...(control.href ? { href: control.href } : {}), ...(control.formMethod ? { formMethod: control.formMethod } : {}), ...(control.type ? { type: control.type } : {}), ...(control.selected ? { selected: true } : {}),
       ...(control.disabled ? { disabled: true } : {}), ...(control.optionOwnerId ? { optionOwnerId: control.optionOwnerId } : {}),
@@ -271,7 +299,7 @@ export class BrowserTaskExecutor {
     this.finishProvider(outcome, reason);
   }
 
-  async acquire(signal: AbortSignal, source: BrowserExecutionDiagnostic["source"], stage: BrowserExecutionDiagnostic["stage"]): Promise<BrowserSession> {
+  async acquire(signal: AbortSignal, source: BrowserExecutionDiagnostic["source"], stage: BrowserExecutionDiagnostic["stage"], networkPolicy?: BrowserReadNetworkPolicy): Promise<BrowserSession> {
     this.ensureLifecycle(source, stage);
     try {
       this.assertActive(signal);
@@ -290,7 +318,7 @@ export class BrowserTaskExecutor {
     let timedOut = false;
     let rejectAbort: ((reason: BrowserRuntimeError) => void) | undefined;
     this.record({ source, stage, event: "SESSION_OPENING", detail: "OPEN_SESSION" });
-    const opening = Promise.resolve().then(() => this.runtime.openSession({ signal }));
+    const opening = Promise.resolve().then(() => this.runtime.openSession({ signal, ...(networkPolicy ? { networkPolicy } : {}) }));
     const deadline = new Promise<never>((_resolve, reject) => {
       timeoutHandle = setTimeout(() => {
         timedOut = true;
@@ -324,6 +352,13 @@ export class BrowserTaskExecutor {
       await session.close();
       throw new BrowserRuntimeError("BROWSER_ABORTED", "Browser session creation was aborted");
     }
+    if (networkPolicy && session.metadata.readNetworkBoundary !== "INSTALLED") {
+      await session.close();
+      const failure = new BrowserRuntimeError("BROWSER_RUNTIME_FAILED", "Browser runtime did not install the required read network boundary");
+      this.recordLifecycleFailure(source, stage, "SESSION_OPEN_FAILED", failure);
+      this.finishProvider("FAILED", this.reasonForFailure(failure));
+      throw failure;
+    }
     this.session = session;
     const onSessionAbort = () => { if (this.session === session) void this.close("PARENT_ABORTED"); };
     signal.addEventListener("abort", onSessionAbort, { once: true });
@@ -338,21 +373,25 @@ export class BrowserTaskExecutor {
     const url = this.allowedUrl(input.url, input.allowedOrigins);
     if (input.observed && !url) throw this.rejected(input.source, input.stage, "Observed navigation target is outside the source allowlist");
     if (!url) throw this.rejected(input.source, input.stage, "Site method navigation target is outside the source allowlist");
-    await this.operation(input, "NAVIGATE", () => input.session.navigate(url, { waitUntil: "domcontentloaded", timeoutMs: this.remaining(input.timeoutMs ?? 20_000) }));
+    await this.operation(input, "NAVIGATE", async () => {
+      const timeoutMs = this.remaining(input.timeoutMs ?? 20_000);
+      await input.session.prepareNavigation?.(url, { timeoutMs });
+      await input.session.navigate(url, { waitUntil: "domcontentloaded", timeoutMs });
+    });
   }
 
   async select(
     input: Pick<BrowserSkillReadInput, "source" | "stage" | "signal"> & { session: BrowserSession; selector: string; value: string; authoritativeValue: string },
   ): Promise<string[]> {
     if (input.value !== input.authoritativeValue) throw this.rejected(input.source, input.stage, "A site method attempted to select a non-authoritative value");
-    return this.operation(input, "SELECT", () => input.session.select(input.selector, input.value));
+    return this.operation(input, "SELECT", () => input.session.select(input.selector, input.value, this.actionOptions()));
   }
 
   async fill(
     input: Pick<BrowserSkillReadInput, "source" | "stage" | "signal"> & { session: BrowserSession; selector: string; value: string; authoritativeValue: string },
   ): Promise<void> {
     if (input.value !== input.authoritativeValue) throw this.rejected(input.source, input.stage, "A site method attempted to fill a non-authoritative value");
-    await this.operation(input, "FILL", () => input.session.fill(input.selector, input.value));
+    await this.operation(input, "FILL", () => input.session.fill(input.selector, input.value, this.actionOptions()));
   }
 
   async waitFor(
@@ -390,6 +429,7 @@ export class BrowserTaskExecutor {
     let unchangedPageKey: string | undefined;
     let lastRejectedProposal: string | undefined;
     let repeatedRejectedProposals = 0;
+    const recoveredObstructions = new Set<string>();
     const recordRejectedProposal = (key: string) => {
       repeatedRejectedProposals = key === lastRejectedProposal ? repeatedRejectedProposals + 1 : 1;
       lastRejectedProposal = key;
@@ -498,22 +538,25 @@ export class BrowserTaskExecutor {
             url: observation.snapshot.url,
             title: observation.snapshot.title,
             visibleText: safeText(observation.snapshot.text),
+            pageActions: ["WAIT"],
             targets: actionTargets.map(({ controlId: _controlId, stableKey: _stableKey, nativeTag: _nativeTag, optionNative: _optionNative, optionOwnerId: _optionOwnerId, ownerStableKey: _ownerStableKey, radioGroupKey: _radioGroupKey, ...target }) => ({
-              ...target, ...this.actionHints(input, observation, observation.targets.get(target.ref)!, pendingOption !== undefined || pendingRadio !== undefined, postAction),
+              ...target, ...this.actionHints(input, observation, observation.targets.get(target.ref)!, pendingOption !== undefined || pendingRadio !== undefined),
             })),
           },
         }));
         this.record({ source: input.source, stage: input.stage, event: "MODEL_DECISION_FINISHED", detail: "MODEL_DECISION" });
       } catch (error) {
         this.recordLifecycleFailure(input.source, input.stage, "MODEL_DECISION_FAILED", error);
-        this.record({ source: input.source, stage: input.stage, event: "REJECTED", url: snapshot.url, detail: safeErrorDetail(error) });
+        const rejectionDetail = error instanceof BrowserReadDecisionError && error.code === "INVALID_MODEL_OUTPUT"
+          ? safeWireRejectionDetail(error.wireRejection) : safeErrorDetail(error);
+        this.record({ source: input.source, stage: input.stage, event: "REJECTED", url: snapshot.url, detail: rejectionDetail });
         if (error instanceof BrowserRuntimeError || (error && typeof error === "object" && "code" in error && error.code === "MODEL_CALL_BUDGET_EXHAUSTED")) throw error;
         if (error instanceof BrowserReadDecisionError && error.code === "INVALID_MODEL_OUTPUT") {
-          if (recordRejectedProposal(`${observationKey(snapshot, observation.controls)}|${safeErrorDetail(error, 240)}`)) {
+          if (recordRejectedProposal(`${observationKey(snapshot, observation.controls)}|${rejectionDetail}`)) {
             this.record({ source: input.source, stage: input.stage, event: "METHOD_INCOMPLETE", url: snapshot.url, detail: "NO_PROGRESS_REJECTED_ACTION" });
             return { status: "NO_SAFE_ACTION", snapshot, controls: observation.controls };
           }
-          progress = `The previous proposed action was rejected: ${safeErrorDetail(error, 240)}. Correct those action fields using a current observed target, or request human help.`;
+          progress = `The previous proposed action was rejected: ${rejectionDetail}. Correct those action fields using a current observed target, or request human help.`;
           continue;
         }
         return { status: "MODEL_FAILURE", snapshot, controls: observation.controls };
@@ -523,7 +566,9 @@ export class BrowserTaskExecutor {
         stage: input.stage,
         event: action.type === "COMPLETE" || action.type === "REQUEST_HUMAN_HELP" ? "MODEL_STOP" : "MODEL_ACTION",
         url: snapshot.url,
-        detail: `${action.type}: ${safeText(action.reason, 240)}`,
+        // Model reasons are untrusted free text. The action type is enough to
+        // reconstruct the executor path without retaining source/user content.
+        detail: `MODEL_${action.type}`,
       });
       if (action.type === "COMPLETE") {
         completion = input.completion(snapshot, observation.controls);
@@ -556,8 +601,8 @@ export class BrowserTaskExecutor {
         continue;
       }
       if (action.type === "REQUEST_HUMAN_HELP") return { status: "REQUESTED_HUMAN_HELP", snapshot, controls: observation.controls };
-      const target = action.targetRef ? observation.targets.get(action.targetRef) : undefined;
-      if (!target) {
+      const target = action.type === "WAIT" ? undefined : observation.targets.get(action.targetRef);
+      if (!target && action.type !== "WAIT") {
         this.record({ source: input.source, stage: input.stage, event: "REJECTED", url: snapshot.url, detail: "STALE_OR_UNKNOWN_TARGET_REF" });
         return { status: "NO_SAFE_ACTION", snapshot, controls: observation.controls };
       }
@@ -572,7 +617,23 @@ export class BrowserTaskExecutor {
         }
         await this.applyGenericAction(input, observation, target, action);
       } catch (error) {
-        this.record({ source: input.source, stage: input.stage, event: "REJECTED", url: snapshot.url, detail: safeErrorDetail(error) });
+        const obstruction = target !== undefined && pointerObstruction(error);
+        this.record({ source: input.source, stage: input.stage, event: "REJECTED", url: snapshot.url, detail: obstruction ? "ACTION_OBSTRUCTED" : safeErrorDetail(error) });
+        if (obstruction && input.session.dismissTransientObstruction && !recoveredObstructions.has(target.stableKey)) {
+          recoveredObstructions.add(target.stableKey);
+          try {
+            const recovery = await this.operation(input, "DISMISS_TRANSIENT_OBSTRUCTION", () => input.session.dismissTransientObstruction!(target.controlId, this.actionOptions()));
+            snapshot = await this.snapshot(input);
+            verifiedObservation = await this.observe(input, snapshot);
+            progress = "A visible page layer blocked the previous action. One bounded Escape/blur recovery was applied; inspect the fresh page before choosing another safe action.";
+            postAction = true;
+            this.record({ source: input.source, stage: input.stage, event: "METHOD_INCOMPLETE", url: snapshot.url, detail: `ACTION_OBSTRUCTION_RECOVERED:${recovery.occluder}` });
+            continue;
+          } catch (recoveryError) {
+            if (recoveryError instanceof BrowserRuntimeError && (recoveryError.code === "BROWSER_ABORTED" || recoveryError.code === "BROWSER_TIMEOUT")) throw recoveryError;
+            this.record({ source: input.source, stage: input.stage, event: "METHOD_INCOMPLETE", url: snapshot.url, detail: "ACTION_OBSTRUCTION_RECOVERY_FAILED" });
+          }
+        }
         if (error instanceof BrowserRuntimeError && error.code === "BROWSER_STALE_TARGET") {
           snapshot = await this.snapshot(input);
           verifiedObservation = undefined;
@@ -581,7 +642,7 @@ export class BrowserTaskExecutor {
           continue;
         }
         if (error instanceof BrowserRuntimeError) return { status: "NO_SAFE_ACTION", snapshot, controls: observation.controls };
-        if (recordRejectedProposal(`${observationKey(snapshot, observation.controls)}|${action.type}|${target.stableKey}|${safeErrorDetail(error, 240)}`)) {
+        if (recordRejectedProposal(`${observationKey(snapshot, observation.controls)}|${action.type}|${target?.stableKey ?? "PAGE"}|${safeErrorDetail(error, 240)}`)) {
           this.record({ source: input.source, stage: input.stage, event: "METHOD_INCOMPLETE", url: snapshot.url, detail: "NO_PROGRESS_REJECTED_ACTION" });
           return { status: "NO_SAFE_ACTION", snapshot, controls: observation.controls };
         }
@@ -590,9 +651,9 @@ export class BrowserTaskExecutor {
       }
       lastRejectedProposal = undefined;
       repeatedRejectedProposals = 0;
-      if (action.type === "CHOOSE_OPTION") pendingOption = action.field === "RETRIEVAL"
+      if (action.type === "CHOOSE_OPTION" && target) pendingOption = action.field === "RETRIEVAL"
         ? { ...target, retrievalValue: input.goal.retrievalExpression! } : target;
-      if (action.type === "SET_CHECKED" && target.kind === "RADIO") {
+      if (action.type === "SET_CHECKED" && target?.kind === "RADIO") {
         pendingRadio = target;
       }
       const priorSnapshot = snapshot;
@@ -643,8 +704,10 @@ export class BrowserTaskExecutor {
       }
       if (!effectVerified && sameObservation(priorSnapshot, snapshot)) {
         unchangedPageKey = observationKey(snapshot);
-        pendingControlKeys.add(target.stableKey);
-        progress = `The previous ${action.type} was accepted, but its result is still not observable. Do not repeat that action on this unchanged page; use another observed safe control or WAIT for a bounded page-state change.`;
+        if (target) pendingControlKeys.add(target.stableKey);
+        progress = target
+          ? `The previous ${action.type} was accepted, but its result is still not observable. Do not repeat that action on this unchanged page; use another observed safe control or WAIT for a bounded page-state change.`
+          : "The bounded page-level wait ended without a visible result change. Choose another observed safe action or request human help.";
         this.record({ source: input.source, stage: input.stage, event: "METHOD_INCOMPLETE", url: snapshot.url, detail: "ASYNC_RESULT_NOT_READY" });
       } else {
         progress = completion.reason;
@@ -708,7 +771,7 @@ export class BrowserTaskExecutor {
     return selected.length === 1 && selected[0]!.stableKey === target.stableKey;
   }
 
-  private actionHints(input: BrowserSkillReadInput, observation: Observation, target: ObservedTarget, pendingSelection: boolean, postAction: boolean): Pick<BrowserReadActionTarget, "availableActions" | "rejectionReason"> {
+  private actionHints(input: BrowserSkillReadInput, observation: Observation, target: ObservedTarget, pendingSelection: boolean): Pick<BrowserReadActionTarget, "availableActions" | "rejectionReason"> {
     const availableActions: string[] = [];
     let rejectionReason: string | undefined;
     if (target.disabled) return { availableActions, rejectionReason: "DISABLED" };
@@ -737,9 +800,9 @@ export class BrowserTaskExecutor {
     } else if (target.kind === "BUTTON") {
       const control = observation.controls.find(item => item.id === target.controlId);
       const permittedQuerySubmit = control && input.permitQueryControl?.({ control, snapshot: observation.snapshot, action: "CLICK" }) === true;
-      if (this.safeGenericClick(target) || permittedQuerySubmit) availableActions.push("CLICK");
+      if (this.safeGenericClick(target) || permittedQuerySubmit || this.guardedReadClick(input, target)) availableActions.push("CLICK");
       else rejectionReason = "WRITE_PROHIBITED";
-      if (this.safeGenericClick(target) && target.role !== "combobox" && target.selected !== true) {
+      if ((this.safeGenericClick(target) || this.guardedReadClick(input, target)) && target.role !== "combobox" && target.selected !== true) {
         for (const field of ["DATE", "PARTY_SIZE"] as const) {
           if (matchesAuthoritativeControl(target, field, input.goal)) availableActions.push(`CLICK_AUTHORITATIVE:${field}`);
         }
@@ -760,7 +823,6 @@ export class BrowserTaskExecutor {
       if (target.scrollable) availableActions.push("SCROLL_REGION");
       else rejectionReason = "NOT_SCROLLABLE";
     }
-    if (postAction) availableActions.push("WAIT");
     return { availableActions, ...(rejectionReason ? { rejectionReason } : {}) };
   }
 
@@ -768,7 +830,16 @@ export class BrowserTaskExecutor {
     if (target.kind !== "INPUT" || !["INPUT", "TEXTAREA"].includes(target.nativeTag ?? "")) return false;
     if (field === "DATE") return target.type === "date" || /\bdate\b/i.test(target.label);
     if (field === "PARTY_SIZE") return /(?:party|guest|people|persons|名|人数)/i.test(target.label);
-    return /(?:search|keyword|restaurant|venue|店名|検索)/i.test(target.label);
+    // Placeholders can describe an example request rather than the input's
+    // purpose. Bind retrieval only to a text entry whose observed native name
+    // or visible label identifies it as search, never to email/phone/password
+    // fields that happen to mention a restaurant.
+    const type = target.type?.toLowerCase();
+    if (type && !["text", "search"].includes(type)) return false;
+    const name = target.inputName ?? "";
+    if (/(?:email|e-mail|phone|tel|password|card|address)/i.test(name)) return false;
+    return /(?:search|keyword|query|restaurant|venue|店名|検索)/i.test(name)
+      || /(?:search|keyword|restaurant|venue|店名|検索)/i.test(target.label);
   }
 
   private matchesRetrievalOption(input: BrowserSkillReadInput, target: ObservedTarget, owner: ObservedTarget): boolean {
@@ -801,7 +872,12 @@ export class BrowserTaskExecutor {
     }
   }
 
-  private async applyGenericAction(input: BrowserSkillReadInput, observation: Observation, target: ObservedTarget, action: Exclude<BrowserReadAction, { type: "COMPLETE" | "REQUEST_HUMAN_HELP" }>): Promise<void> {
+  private async applyGenericAction(input: BrowserSkillReadInput, observation: Observation, target: ObservedTarget | undefined, action: Exclude<BrowserReadAction, { type: "COMPLETE" | "REQUEST_HUMAN_HELP" }>): Promise<void> {
+    if (action.type === "WAIT") {
+      await this.waitForChange(input, observation.snapshot);
+      return;
+    }
+    if (!target) throw new Error("Action requires a current observed target");
     if (target.disabled) throw new Error("Observed target is disabled");
     if (action.type === "OPEN_LINK") {
       if (target.kind !== "LINK" || !target.href) throw new Error("OPEN_LINK target is not an observed link");
@@ -811,7 +887,11 @@ export class BrowserTaskExecutor {
         throw new Error("OPEN_LINK target has a sensitive navigation path");
       }
       if (input.session.openLink) {
-        await this.operation(input, "OPEN_LINK", () => input.session.openLink!(target.controlId, target.href!));
+        await this.operation(input, "OPEN_LINK", async () => {
+          if (input.session.prepareObservedNavigation) await input.session.prepareObservedNavigation(target.href!, this.actionOptions());
+          else await input.session.prepareNavigation?.(target.href!, this.actionOptions());
+          await input.session.openLink!(target.controlId, target.href!, this.actionOptions());
+        });
       } else {
         // A runtime without popup support may only retain the existing same-page
         // behavior; it never fabricates a new-page identity.
@@ -819,27 +899,26 @@ export class BrowserTaskExecutor {
       }
       return;
     }
-    if (action.type === "WAIT") {
-      await this.waitForChange(input, observation.snapshot);
-      return;
-    }
     if (action.type === "CLICK") {
       if (target.role === "option") throw new Error("CLICK cannot choose an option; use CHOOSE_OPTION with its observed owner");
       const control = observation.controls.find(item => item.id === target.controlId);
       const permittedQuerySubmit = control && input.permitQueryControl?.({ control, snapshot: observation.snapshot, action: "CLICK" }) === true;
-      if (!this.safeGenericClick(target) && !this.safeFragmentClick(input, observation.snapshot, target) && !permittedQuerySubmit) {
+      if (!this.safeGenericClick(target) && !this.safeFragmentClick(input, observation.snapshot, target)
+        && !permittedQuerySubmit && !this.guardedReadClick(input, target)) {
         throw new Error("CLICK target has submit, navigation, or other write-capable structure");
       }
-      await this.operation(input, "CLICK", () => input.session.click(target.controlId));
+      await this.operation(input, "CLICK", () => input.session.click(target.controlId, this.actionOptions()));
       return;
     }
     if (action.type === "CLICK_AUTHORITATIVE") {
       if (target.role === "option") throw new Error("CLICK_AUTHORITATIVE cannot choose an option; use CHOOSE_OPTION");
       if (target.role === "combobox") throw new Error("Open a custom combobox with CLICK, then choose its newly observed option with CHOOSE_OPTION.");
-      if (target.kind !== "BUTTON" || target.selected === true || !this.safeGenericClick(target) || !matchesAuthoritativeControl(target, action.field, input.goal)) {
+      if (target.kind !== "BUTTON" || target.selected === true
+        || (!this.safeGenericClick(target) && !this.guardedReadClick(input, target))
+        || !matchesAuthoritativeControl(target, action.field, input.goal)) {
         throw new Error("CLICK_AUTHORITATIVE target is not a visible, exact, non-submit authoritative control");
       }
-      await this.operation(input, "CLICK_AUTHORITATIVE", () => input.session.click(target.controlId));
+      await this.operation(input, "CLICK_AUTHORITATIVE", () => input.session.click(target.controlId, this.actionOptions()));
       return;
     }
     if (action.type === "CHOOSE_OPTION") {
@@ -854,11 +933,11 @@ export class BrowserTaskExecutor {
         throw new Error("CHOOSE_OPTION label conflicts with the authoritative request");
       }
       if (target.optionNative) {
-        const selected = await this.operation(input, "CHOOSE_OPTION", () => input.session.select(owner.controlId, target.value ?? ""));
+        const selected = await this.operation(input, "CHOOSE_OPTION", () => input.session.select(owner.controlId, target.value ?? "", this.actionOptions()));
         if (!selected.includes(target.value ?? "")) throw new Error("Browser did not report the observed option value");
       } else {
         if (!this.safeGenericClick(target)) throw new Error("CHOOSE_OPTION has write-prohibited structure");
-        await this.operation(input, "CHOOSE_OPTION", () => input.session.click(target.controlId));
+        await this.operation(input, "CHOOSE_OPTION", () => input.session.click(target.controlId, this.actionOptions()));
       }
       return;
     }
@@ -873,7 +952,7 @@ export class BrowserTaskExecutor {
         || target.kind === "RADIO" && !action.checked || !input.session.setChecked) {
         throw new Error("SET_CHECKED target is not an observed permitted checkbox or selected radio option");
       }
-      await this.operation(input, "SET_CHECKED", () => input.session.setChecked!(target.controlId, action.checked));
+      await this.operation(input, "SET_CHECKED", () => input.session.setChecked!(target.controlId, action.checked, this.actionOptions()));
       return;
     }
     if (action.type === "ADJUST_RANGE") {
@@ -882,14 +961,14 @@ export class BrowserTaskExecutor {
       if (target.kind !== "RANGE" || !Number.isFinite(current) || !Number.isFinite(boundary) || (action.direction === "INCREASE" ? current >= boundary : current <= boundary) || !input.session.press) {
         throw new Error("ADJUST_RANGE target is not an observed in-range slider with a supported keyboard action");
       }
-      await this.operation(input, "ADJUST_RANGE", () => input.session.press!(target.controlId, action.direction === "INCREASE" ? "ArrowRight" : "ArrowLeft"));
+      await this.operation(input, "ADJUST_RANGE", () => input.session.press!(target.controlId, action.direction === "INCREASE" ? "ArrowRight" : "ArrowLeft", this.actionOptions()));
       return;
     }
     if (action.type === "SCROLL_REGION") {
       if (target.kind !== "REGION" || target.scrollable !== true || !input.session.scroll) {
         throw new Error("SCROLL_REGION target is not an observed scrollable region");
       }
-      await this.operation(input, "SCROLL_REGION", () => input.session.scroll!(target.controlId, action.direction === "DOWN" ? 480 : -480));
+      await this.operation(input, "SCROLL_REGION", () => input.session.scroll!(target.controlId, action.direction === "DOWN" ? 480 : -480, this.actionOptions()));
       return;
     }
     const authoritative = action.field === "DATE" ? input.goal.date
@@ -899,7 +978,7 @@ export class BrowserTaskExecutor {
     if (!this.boundInputField(target, action.field)) {
       throw new Error(`${action.type} target has the wrong control kind`);
     }
-    await this.operation(input, "FILL_AUTHORITATIVE", () => input.session.fill(target.controlId, value));
+    await this.operation(input, "FILL_AUTHORITATIVE", () => input.session.fill(target.controlId, value, this.actionOptions()));
     // A new observation revision invalidates every prior reference, including this one.
     void observation;
   }
@@ -917,6 +996,11 @@ export class BrowserTaskExecutor {
       detail: changed ? "PAGE_STATE_CHANGED" : "PAGE_STATE_UNCHANGED_WITHIN_BOUND",
     });
     return changed;
+  }
+
+  /** Interactive Playwright APIs otherwise inherit their 30 second default. */
+  private actionOptions(): { timeoutMs: number } {
+    return { timeoutMs: Math.max(1, this.remaining(5_000)) };
   }
 
   /** Structural permit only: labels and a page's claimed read-only status never authorize an operation. */
@@ -949,6 +1033,13 @@ export class BrowserTaskExecutor {
     if (target.type?.toLowerCase() === "submit" || (!target.type && target.formMethod === "POST" && !nonSubmittingChoice)) return false;
     if (/\b(?:login|sign\s*in|register|reserve|book|checkout|pay|purchase|cancel|delete|confirm)\b/i.test(target.label)) return false;
     return true;
+  }
+
+  /** Network admission, not page markup, makes this limited wider button path safe. */
+  private guardedReadClick(input: BrowserSkillReadInput, target: ObservedTarget): boolean {
+    if (input.allowGuardedQueryControls !== true || input.session.metadata.readNetworkBoundary !== "INSTALLED") return false;
+    if (target.kind !== "BUTTON" || target.role === "option") return false;
+    return !/\b(?:login|sign\s*in|register|reserve|book|checkout|pay|purchase|cancel|delete|confirm)\b/i.test(target.label);
   }
 
   private async operation<Value>(

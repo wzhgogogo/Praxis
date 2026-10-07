@@ -28,7 +28,7 @@ import { RestaurantPartySizeSupplementResolver } from "../../../../domains/resta
 import { evaluateArtifactAfterFinish, RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION } from "../diagnostic-evaluator.js";
 import { createRunDeadlineSignal, RUN_DEADLINE_EXCEEDED, settleAtRunDeadline } from "../live-run-deadline.js";
 import { diagnosticFailureCode, startDiagnosticRun } from "../../../shared/diagnostic-run.js";
-import { safeRecord, traceBrowserSession } from "./browser-case-slice-evidence.js";
+import { safeRecord, traceBrowserRuntime } from "./browser-case-slice-evidence.js";
 
 function requiredGate(key: string): void {
   if (process.env[key] !== "1") throw new Error(`Set ${key}=1 to run a Live / Hybrid read diagnostic`);
@@ -278,10 +278,7 @@ try {
   // Keep the same runtime and executor path while retaining a redacted raw
   // observation sequence. The source label is descriptive only; snapshots
   // carry the actual safe origin for independent evaluation.
-  const browser: BrowserRuntime = { openSession: async (input) => {
-    try { return traceBrowserSession(await rawBrowser.openSession(input), "TABLECHECK", recordBrowserTrace); }
-    catch (error) { recordBrowserTrace("SESSION_OPEN_ERROR", { code: diagnosticFailureCode(error) }); throw error; }
-  } };
+  const browser: BrowserRuntime = traceBrowserRuntime(rawBrowser, "TABLECHECK", recordBrowserTrace);
   const nativeRead = process.argv.includes("--native-discovery")
     ? composeNativeRestaurantRead(google, browser, model, browserBudget,
         (diagnostic) => browserExecutionDiagnostics.push(structuredClone(diagnostic)), evaluationLocation, undefined,

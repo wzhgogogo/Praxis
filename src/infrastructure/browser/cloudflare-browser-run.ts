@@ -1,8 +1,10 @@
-import { chromium, type Browser, type Page } from "playwright-core";
+import { chromium, type Browser, type BrowserContext, type Page } from "playwright-core";
 
 import type {
   BrowserEngine,
   BrowserEngineMode,
+  BrowserActionOptions,
+  BrowserReadNetworkPolicy,
   BrowserResponseRule, BrowserControlHint, BrowserPageControl,
   BrowserRuntime,
   BrowserSession,
@@ -10,8 +12,15 @@ import type {
   BrowserSnapshot,
 } from "./browser-runtime.js";
 import { BrowserRuntimeError } from "./browser-runtime-errors.js";
+import { PlaywrightReadNetworkGuard } from "./playwright-read-network-guard.js";
 import { PlaywrightResponseObserver } from "./playwright-response-observer.js";
 import { PlaywrightControlRegistry, waitForVisibleChange, interactiveState, activateObservedControl, observedLinkCovered } from "./playwright-browser-controls.js";
+
+const INTERACTIVE_ACTION_TIMEOUT_MS = 5_000;
+
+function actionTimeout(options: BrowserActionOptions): number {
+  return options.timeoutMs ?? INTERACTIVE_ACTION_TIMEOUT_MS;
+}
 
 export interface CloudflareBrowserRunConfig {
   accountId: string;
@@ -43,8 +52,8 @@ function fallbackEligible(error: unknown): boolean {
   return !(error instanceof BrowserRuntimeError && error.code === "BROWSER_ABORTED");
 }
 
-async function closeQuietly(browser: Browser): Promise<void> {
-  try { await browser.close(); } catch { /* remote browser may already be closed */ }
+async function closeQuietly(value: { close(): Promise<void> } | undefined): Promise<void> {
+  try { await value?.close(); } catch { /* remote browser may already be closed */ }
 }
 
 class CloudflareBrowserSession implements BrowserSession {
@@ -55,11 +64,12 @@ class CloudflareBrowserSession implements BrowserSession {
   private pageSequence = 0;
   readonly metadata: BrowserSessionMetadata;
 
-  private constructor(private readonly browser: Browser, engine: BrowserEngine, private page: Page) {
+  private constructor(private readonly browser: Browser, engine: BrowserEngine, private page: Page, private readonly networkGuard?: PlaywrightReadNetworkGuard) {
     this.metadata = {
       runtimeProvider: "CLOUDFLARE_BROWSER_RUN",
       engine,
       startedAt: new Date().toISOString(),
+      ...(networkGuard ? { readNetworkBoundary: "INSTALLED" } : {}),
     };
   }
 
@@ -71,14 +81,20 @@ class CloudflareBrowserSession implements BrowserSession {
     return created;
   }
 
-  static async create(browser: Browser, engine: BrowserEngine): Promise<CloudflareBrowserSession> {
-    const context = browser.contexts()[0];
-    if (!context) {
+  static async create(browser: Browser, engine: BrowserEngine, networkPolicy?: BrowserReadNetworkPolicy): Promise<CloudflareBrowserSession> {
+    let context: BrowserContext | undefined;
+    try {
+      context = networkPolicy ? await browser.newContext({ serviceWorkers: "block" }) : browser.contexts()[0];
+      if (!context) throw new BrowserRuntimeError("BROWSER_RUNTIME_FAILED", "Browser Run did not create a browser context");
+      const networkGuard = networkPolicy ? new PlaywrightReadNetworkGuard(networkPolicy) : undefined;
+      if (networkGuard) await networkGuard.install(context);
+      const page = networkPolicy ? await context.newPage() : context.pages()[0] ?? await context.newPage();
+      return new CloudflareBrowserSession(browser, engine, page, networkGuard);
+    } catch (error) {
+      await closeQuietly(context);
       await closeQuietly(browser);
-      throw new BrowserRuntimeError("BROWSER_RUNTIME_FAILED", "Browser Run did not create a browser context");
+      throw error;
     }
-    const page = context.pages()[0] ?? await context.newPage();
-    return new CloudflareBrowserSession(browser, engine, page);
   }
 
   async navigate(url: string, options: { waitUntil?: "domcontentloaded" | "load"; timeoutMs?: number } = {}): Promise<void> {
@@ -90,6 +106,9 @@ class CloudflareBrowserSession implements BrowserSession {
       });
     });
   }
+
+  async prepareNavigation(url: string, options: BrowserActionOptions = {}): Promise<void> { this.networkGuard?.prepareNavigation(url, options.timeoutMs); }
+  async prepareObservedNavigation(url: string, options: BrowserActionOptions = {}): Promise<void> { this.networkGuard?.prepareObservedNavigation(url, options.timeoutMs); }
 
   async captureResponses(rules: readonly BrowserResponseRule[]): Promise<void> { this.responses.configure(this.page, rules); }
 
@@ -104,48 +123,71 @@ class CloudflareBrowserSession implements BrowserSession {
         ...(state === undefined ? {} : { interactiveState: state }),
         pageId: this.pageId(this.page),
         responses: await this.responses.snapshot(this.page),
+        ...(this.networkGuard?.snapshotDiagnostics().length ? { networkDiagnostics: this.networkGuard.snapshotDiagnostics() } : {}),
       };
     });
   }
 
   async observeControls(hints?: readonly BrowserControlHint[]): Promise<BrowserPageControl[]> { return this.run(() => this.controls.observe(this.page, hints)); }
-  async click(target: string): Promise<void> {
+  async click(target: string, options: BrowserActionOptions = {}): Promise<void> {
     await this.run(async () => {
+      const timeout = actionTimeout(options);
       const locator = await this.controls.target(target);
       // Only BrowserTaskExecutor passes opaque `dom:` references. Existing deterministic
       // adapter code keeps its explicit, code-owned locator capability.
-      if (locator) await activateObservedControl(locator);
-      else await this.page.locator(target).click();
+      if (locator) await activateObservedControl(locator, timeout);
+      else await this.page.locator(target).click({ timeout });
     });
   }
-  async openLink(target: string, observedHref?: string): Promise<void> {
+  async openLink(target: string, observedHref?: string, options: BrowserActionOptions = {}): Promise<void> {
     await this.run(async () => {
+      const timeout = actionTimeout(options);
       const locator = await this.controls.target(target);
       if (!locator) throw new Error("Observed link reference is no longer available");
-      if (observedHref && await observedLinkCovered(locator, observedHref)) {
+      if (observedHref && await observedLinkCovered(locator, observedHref, timeout)) {
         this.responses.reset();
-        await this.page.goto(observedHref, { waitUntil: "domcontentloaded" });
+        await this.page.goto(observedHref, { waitUntil: "domcontentloaded", timeout });
         return;
       }
       const opener = this.page;
-      const popup = opener.waitForEvent("popup", { timeout: 1_000 }).catch(() => undefined);
-      await locator.click();
+      const popup = opener.waitForEvent("popup", { timeout: Math.min(1_000, timeout) }).catch(() => undefined);
+      await locator.click({ timeout });
       const next = await popup;
       if (!next) return;
       this.page = next;
       this.pageId(next);
-      await next.waitForLoadState("domcontentloaded", { timeout: 2_500 }).catch(() => undefined);
+      await next.waitForLoadState("domcontentloaded", { timeout: Math.min(2_500, timeout) }).catch(() => undefined);
     });
   }
-  async fill(target: string, value: string): Promise<void> { await this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).fill(value)); }
-  async select(target: string, value: string): Promise<string[]> { return this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).selectOption(value)); }
-  async setChecked(target: string, checked: boolean): Promise<void> { await this.run(async () => { if (await this.controls.setChecked(target, checked)) return; await this.page.locator(target).setChecked(checked); }); }
-  async press(target: string, key: "ArrowLeft" | "ArrowRight"): Promise<void> { await this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).press(key)); }
-  async scroll(target: string, deltaY: number): Promise<void> {
+  async fill(target: string, value: string, options: BrowserActionOptions = {}): Promise<void> { await this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).fill(value, { timeout: actionTimeout(options) })); }
+  async select(target: string, value: string, options: BrowserActionOptions = {}): Promise<string[]> { return this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).selectOption(value, { timeout: actionTimeout(options) })); }
+  async setChecked(target: string, checked: boolean, options: BrowserActionOptions = {}): Promise<void> { await this.run(async () => { if (await this.controls.setChecked(target, checked, actionTimeout(options))) return; await this.page.locator(target).setChecked(checked, { timeout: actionTimeout(options) }); }); }
+  async press(target: string, key: "ArrowLeft" | "ArrowRight", options: BrowserActionOptions = {}): Promise<void> { await this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).press(key, { timeout: actionTimeout(options) })); }
+  async scroll(target: string, deltaY: number, options: BrowserActionOptions = {}): Promise<void> {
     await this.run(async () => {
       const observed = await this.controls.target(target);
       if (observed) await observed.evaluate((element, delta) => (element as HTMLElement).scrollBy(0, delta), deltaY);
       else await this.page.locator(target).evaluate((element, delta) => (element as HTMLElement).scrollBy(0, delta), deltaY);
+    });
+  }
+  async dismissTransientObstruction(target: string, options: BrowserActionOptions = {}): Promise<{ occluder: string }> {
+    return this.run(async () => {
+      void actionTimeout(options);
+      const observed = await this.controls.target(target);
+      if (!observed) throw new BrowserRuntimeError("BROWSER_STALE_TARGET", "Observed target changed before obstruction recovery");
+      const occluder = await observed.evaluate(node => {
+        const rect = node.getBoundingClientRect();
+        const hit = rect.width && rect.height ? document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2) : null;
+        if (!hit || node.contains(hit)) return "UNKNOWN";
+        const role = hit.getAttribute("role");
+        return `${hit.tagName.toLowerCase()}${role ? `[role=${role.slice(0, 32)}]` : ""}`;
+      });
+      await this.page.keyboard.press("Escape");
+      await this.page.evaluate(() => {
+        const active = document.activeElement;
+        if (active instanceof HTMLElement && active !== document.body) active.blur();
+      });
+      return { occluder };
     });
   }
   async waitFor(target: string, timeoutMs?: number): Promise<void> {
@@ -175,6 +217,7 @@ class CloudflareBrowserSession implements BrowserSession {
 }
 
 export class CloudflareBrowserRun implements BrowserRuntime {
+  readonly readNetworkBoundaryCapability = "ISOLATED_CONTEXT" as const;
   private readonly mode: BrowserEngineMode;
   private readonly connectTimeoutMs: number;
 
@@ -196,17 +239,25 @@ export class CloudflareBrowserRun implements BrowserRuntime {
     });
   }
 
-  async openSession(input: { signal: AbortSignal; engineMode?: BrowserEngineMode }): Promise<BrowserSession> {
+  async openSession(input: { signal: AbortSignal; engineMode?: BrowserEngineMode; networkPolicy?: BrowserReadNetworkPolicy }): Promise<BrowserSession> {
     if (input.signal.aborted) throw new BrowserRuntimeError("BROWSER_ABORTED", "Browser session creation was aborted");
     const mode = input.engineMode ?? this.mode;
     let lastError: unknown;
     for (const engine of candidateEngines(mode)) {
       try {
-        const browser = await (this.config.connectOverCdp ?? chromium.connectOverCDP)(endpoint(this.config.accountId, engine), {
+        // `connectOverCDP` is a BrowserType method. Calling an extracted
+        // default function loses its Playwright receiver; injected tests keep
+        // their explicit callback contract.
+        const browser = this.config.connectOverCdp
+          ? await this.config.connectOverCdp(endpoint(this.config.accountId, engine), {
+              headers: { Authorization: `Bearer ${this.config.apiToken}` },
+              timeout: this.connectTimeoutMs,
+            })
+          : await chromium.connectOverCDP(endpoint(this.config.accountId, engine), {
           headers: { Authorization: `Bearer ${this.config.apiToken}` },
           timeout: this.connectTimeoutMs,
         });
-        const session = await CloudflareBrowserSession.create(browser, engine);
+        const session = await CloudflareBrowserSession.create(browser, engine, input.networkPolicy);
         const onAbort = () => { void session.close(); };
         input.signal.addEventListener("abort", onAbort, { once: true });
         return session;

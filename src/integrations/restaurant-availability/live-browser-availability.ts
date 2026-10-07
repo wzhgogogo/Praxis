@@ -2,12 +2,13 @@ import type { ModelGateway } from "../../core/model/contracts.js";
 import type { RestaurantAvailabilityRead, RestaurantAvailabilityRequest } from "../../domains/restaurant/contracts.js";
 import { ModelBrowserReadActionDecision } from "../../infrastructure/browser/browser-action-decision.js";
 import { BrowserTaskExecutor, type BrowserExecutionBudget, type BrowserExecutionDiagnostic } from "../../infrastructure/browser/browser-task-executor.js";
-import type { BrowserRuntime } from "../../infrastructure/browser/browser-runtime.js";
+import type { BrowserReadNetworkPolicy, BrowserRuntime } from "../../infrastructure/browser/browser-runtime.js";
 import { TableCheckBrowserAvailability, TableCheckEntryLedger } from "../tablecheck/tablecheck-browser-availability.js";
 import type { TableCheckIdentityDiagnostic } from "../tablecheck/tablecheck-contracts.js";
 import { TabelogBrowserAvailability } from "../tabelog/tabelog-browser-availability.js";
 import type { TabelogIdentityDiagnostic, TabelogUserInterventionHandler } from "../tabelog/tabelog-contracts.js";
 import { AvailabilitySourceResolver } from "./availability-source-resolver.js";
+import { restaurantPublicReadNetworkPolicy } from "./public-browser-read-network-policy.js";
 
 export interface LiveBrowserAvailabilityOptions {
   now?: () => string;
@@ -26,6 +27,8 @@ export interface LiveBrowserAvailabilityOptions {
   onTableCheckIdentityDiagnostic?: (diagnostic: TableCheckIdentityDiagnostic) => void;
   onTabelogIdentityDiagnostic?: (diagnostic: TabelogIdentityDiagnostic) => void;
   onTabelogUserInterventionRequired?: TabelogUserInterventionHandler;
+  /** Required before this composition uses its broader observed-query controls. */
+  networkPolicy?: BrowserReadNetworkPolicy;
 }
 
 /**
@@ -36,6 +39,7 @@ export class LiveBrowserAvailability {
   readonly executionRoute = "GENERIC_BROWSER" as const;
   /** Persists across candidate batches in one Live availability composition. */
   private readonly browserBudget: BrowserExecutionBudget;
+  private readonly networkPolicy: BrowserReadNetworkPolicy | undefined;
   private tableCheckEntryLedger = new TableCheckEntryLedger();
 
   constructor(
@@ -44,6 +48,8 @@ export class LiveBrowserAvailability {
     private readonly options: LiveBrowserAvailabilityOptions = {},
   ) {
     this.browserBudget = options.browserBudget ?? { totalModelCalls: 0 };
+    this.networkPolicy = options.networkPolicy
+      ?? (runtime.readNetworkBoundaryCapability === "ISOLATED_CONTEXT" ? restaurantPublicReadNetworkPolicy : undefined);
     if (options.maxModelCallsTotal !== undefined) this.browserBudget.maxModelCalls = options.maxModelCallsTotal;
   }
 
@@ -75,11 +81,13 @@ export class LiveBrowserAvailability {
       ...(this.options.maxTableCheckBrowserSessions !== undefined ? { maxBrowserSessions: this.options.maxTableCheckBrowserSessions } : {}),
       ...(this.options.onTableCheckIdentityDiagnostic ? { onIdentityDiagnostic: this.options.onTableCheckIdentityDiagnostic } : {}),
       entryLedger: this.tableCheckEntryLedger,
+      ...(this.networkPolicy ? { networkPolicy: this.networkPolicy } : {}),
     });
     const tabelog = new TabelogBrowserAvailability(executor, this.options.now, this.options.maxTabelogCandidateMatches, {
       ...(this.options.maxTabelogBrowserSessions !== undefined ? { maxBrowserSessions: this.options.maxTabelogBrowserSessions } : {}),
       ...(this.options.onTabelogIdentityDiagnostic ? { onIdentityDiagnostic: this.options.onTabelogIdentityDiagnostic } : {}),
       ...(this.options.onTabelogUserInterventionRequired ? { onUserInterventionRequired: this.options.onTabelogUserInterventionRequired } : {}),
+      ...(this.networkPolicy ? { networkPolicy: this.networkPolicy } : {}),
     });
     return new AvailabilitySourceResolver(tableCheck, tabelog, { afterRead: () => executor.close() }).check(request, signal);
   }

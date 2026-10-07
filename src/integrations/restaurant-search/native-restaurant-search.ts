@@ -3,7 +3,7 @@ import { createHash } from "node:crypto";
 import type { RestaurantSearchPort } from "../../application/restaurant-execution-router.js";
 import { restaurantSearchIntentFingerprint, type RestaurantCandidate, type RestaurantReadEvidence, type RestaurantSearchRead, type RestaurantSearchRequest } from "../../domains/restaurant/contracts.js";
 import { googleDiscoveryGeoDiagnostics } from "../../domains/restaurant/read-grounding.js";
-import type { BrowserPageControl, BrowserRuntime, BrowserSession, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
+import type { BrowserPageControl, BrowserReadNetworkPolicy, BrowserRuntime, BrowserSession, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
 import { BrowserTaskExecutor } from "../../infrastructure/browser/browser-task-executor.js";
 import type { BrowserExecutionBudget, BrowserExecutionDiagnostic } from "../../infrastructure/browser/browser-task-executor.js";
 import type { BrowserReadActionDecisionPort } from "../../infrastructure/browser/browser-action-decision.js";
@@ -245,6 +245,8 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
     private readonly browserBudget?: BrowserExecutionBudget,
     private readonly onBrowserDiagnostic?: (diagnostic: BrowserExecutionDiagnostic) => void,
     private readonly discoveryLimits?: { maxOperationsPerCandidate?: number },
+    /** Actual compositions provide the source-owned isolated read policy. */
+    private readonly networkPolicy?: BrowserReadNetworkPolicy,
   ) {}
 
   googleRequestUsage(readRunId: string | undefined) { return this.locality.googleRequestUsage(readRunId); }
@@ -367,7 +369,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
       // Session acquisition is source work.  Keeping it in the existing
       // Executor makes the source's remaining deadline apply before the
       // first listing navigation and to a replacement session alike.
-      session = await executor.acquire(signal, source, "DISCOVERY");
+      session = await executor.acquire(signal, source, "DISCOVERY", this.networkPolicy);
       if (source === "TABELOG") {
         const retainedOutlets = retainedEntries.map((entry) => ({
           sourceEntityId: entry.sourceEntityId,
@@ -435,6 +437,10 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
             session: session!,
             signal,
             allowedOrigins,
+            // A source-owned isolated read boundary may safely expose an
+            // observed, non-sensitive query button. The executor still keeps
+            // Router-bound fields and current opaque references authoritative.
+            allowGuardedQueryControls: true,
             goal: { outlet: { name: keyword, address: request.intent.area.query }, retrievalExpression: activeExpression, hardCriteria: request.intent.criteria.filter((item) => item.polarity === "POSITIVE" && item.strength === "HARD").map((item) => item.text) },
             objective: "Apply the current source search and reveal its public restaurant results for the authoritative area and retrieval terms. Do not submit a reservation.",
             methodReason: "The Tabelog listing has not yet produced a parsed public restaurant result or an explicit empty result.",
@@ -458,6 +464,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
           pendingSourceEntries = observedOutlets.map((outlet) => pendingEntry(outlet.sourceEntityId, outlet.sourceUrl, this.now(), { outletName: outlet.outletName }));
           const adjusted = await executor.runSkill({
             taskId: `browser-read:native-discovery:${source}`, source, stage: "DISCOVERY", session: session!, signal, allowedOrigins,
+            allowGuardedQueryControls: true,
             goal: { outlet: { name: keyword, address: request.intent.area.query }, hardCriteria: request.intent.criteria.filter((item) => item.polarity === "POSITIVE" && item.strength === "HARD").map((item) => item.text) },
             objective: "The keyword list is sparse. Use an observed related category for broader restaurant discovery in the same area. Open Search by category if needed, choose the most relevant category, and remove the keyword using the site's own filter-removal link. This changes retrieval only: every candidate still needs separate HARD fact verification. Do not change area, dates or party size, or open restaurant details yet.",
             methodReason: "A short keyword result list does not establish source coverage. Follow one relevant source category and remove the old keyword filter.",
@@ -506,7 +513,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
         for (const outlet of chunk) {
           if (signal.aborted) throw Object.assign(new Error("Native search aborted"), { code: "BROWSER_ABORTED" });
           if (!session) {
-            try { session = await executor.acquire(signal, source, "DISCOVERY"); }
+            try { session = await executor.acquire(signal, source, "DISCOVERY", this.networkPolicy); }
             catch (error) {
               if (taskLevelFailure(error, signal)) throw error;
               candidateFailures.push({ sourceUrl: outlet.sourceUrl, reasonCode: candidateFailureCode(error, source) });
@@ -584,7 +591,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
         listingPagesRead += 1;
         raw = rawSourceLinks(page, source);
         links = parseTableCheckDiscoveryOutletUrls(page, "");
-        // A missing legacy query parameter is not a loading signal. The
+        // A missing search query parameter is not a loading signal. The
         // parser's current page state decides whether the shared skill needs
         // to wait or use an observed public search control.
         const expression = keyword ?? request.intent.target?.query ?? "restaurant";
@@ -598,6 +605,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
             session: session!,
             signal,
             allowedOrigins,
+            allowGuardedQueryControls: true,
             goal: { outlet: { name: expression, address: request.intent.area.query }, retrievalExpression: expression, hardCriteria: request.intent.criteria.filter((item) => item.polarity === "POSITIVE" && item.strength === "HARD").map((item) => item.text) },
             objective: "Apply the current TableCheck search and reveal public venue result cards for the authoritative area and retrieval terms. Do not submit a reservation.",
             methodReason: "The TableCheck listing has not yet produced a parsed public venue result or an explicit empty result.",
@@ -641,7 +649,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
         for (const link of chunk) {
           if (signal.aborted) throw Object.assign(new Error("Native search aborted"), { code: "BROWSER_ABORTED" });
           if (!session) {
-            try { session = await executor.acquire(signal, source, "DISCOVERY"); }
+            try { session = await executor.acquire(signal, source, "DISCOVERY", this.networkPolicy); }
             catch (error) {
               if (taskLevelFailure(error, signal)) throw error;
               candidateFailures.push({ sourceUrl: link, reasonCode: candidateFailureCode(error, source) });

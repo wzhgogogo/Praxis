@@ -1,6 +1,6 @@
 import { groundTabelogAvailability } from "../../domains/restaurant/read-grounding.js";
 import type { RestaurantAvailabilityRequest } from "../../domains/restaurant/contracts.js";
-import type { BrowserRuntime, BrowserSession, BrowserSessionMetadata, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
+import type { BrowserReadNetworkPolicy, BrowserRuntime, BrowserSession, BrowserSessionMetadata, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
 import type { RestaurantAvailabilityProvider } from "../restaurant-availability/contracts.js";
 import { BrowserRuntimeError } from "../../infrastructure/browser/browser-runtime-errors.js";
 import { BrowserTaskExecutor } from "../../infrastructure/browser/browser-task-executor.js";
@@ -137,6 +137,8 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
       onIdentityDiagnostic?: (diagnostic: TabelogIdentityDiagnostic) => void;
       /** Eval-only explicit pause; absence preserves the ordinary fail-closed BOT_CHALLENGE path. */
       onUserInterventionRequired?: TabelogUserInterventionHandler;
+      /** Live composition passes an installed source-owned read boundary. */
+      networkPolicy?: BrowserReadNetworkPolicy;
     } = {},
   ) {
     if (browser instanceof BrowserTaskExecutor) {
@@ -282,7 +284,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
       this.sessionsOpened += 1;
       this.executor.beginCandidate(candidate.restaurant.id);
       this.executor.beginProvider(candidate.restaurant.id, "TABELOG");
-      session = await this.executor.acquire(signal, "TABELOG", "DISCOVERY");
+      session = await this.executor.acquire(signal, "TABELOG", "DISCOVERY", this.options.networkPolicy);
       await session.captureResponses?.(TABELOG_VACANCY_RESPONSES);
       const browser = { ...session.metadata };
       const requestedSearchUrl = searchUrl(candidate.restaurant.outletName, candidate.restaurant.address);
@@ -370,6 +372,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
           session,
           signal,
           allowedOrigins: ["https://tabelog.com"],
+          allowGuardedQueryControls: true,
           goal: { outlet: { name: candidate.restaurant.outletName, address: candidate.restaurant.address }, date: request.date, partySize: request.partySize, timeWindow: request.timeWindow, hardCriteria: request.hardCriteria },
           objective: "Reveal public Tabelog restaurant search results without booking or logging in.",
           methodReason: "Tabelog discovery has no extractable restaurant result yet.",
@@ -567,6 +570,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
         const query = await this.executor.runSkill({
           taskId: `browser-read:${candidate.restaurant.id}`, source: "TABELOG", stage: "AVAILABILITY",
           session, signal, allowedOrigins: ["https://tabelog.com"], controlHints: tabelogQueryControlHints,
+          allowGuardedQueryControls: true,
           goal: { outlet: { name: candidate.restaurant.outletName, address: candidate.restaurant.address }, date: request.date, partySize: request.partySize, timeWindow: request.timeWindow, hardCriteria: request.hardCriteria },
           objective: "Apply the exact requested date and guest count to the public calendar. Date and Guests labels describe source-observed controls. Use CLICK_AUTHORITATIVE for those fields. Do not open Reserve or any booking form. Selected time options alone are not verified availability.",
           completion: current => ({ complete: hasTabelogSelectedQuery(current, request.date, request.partySize) && parseTabelogAvailabilitySlots(current, request).hasExplicitSlotUi, reason: "Both the requested calendar date and guest count must be selected; model completion alone does not confirm them." }),

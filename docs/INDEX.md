@@ -1,7 +1,7 @@
 # Praxis 开发文档索引
 
 - Status: Accepted
-- Document revision: 1.3
+- Document revision: 1.4
 - Last updated: 2026-10-07
 - Source of truth for: 开发文档导航、阅读路径、文档职责和冲突处理
 - Related ADRs: [ADR Index](decisions/README.md)
@@ -100,6 +100,7 @@ Accepted ADR
 
 ## 仓库治理
 
+- [浏览器只读可靠性独立复核（2026-10-07）](history/BROWSER-READ-RELIABILITY-REVIEW-2026-10-07.md)：通用执行、来源网络规则、受控交付及三次Live的证据；代码局部通过，完整交付仍FAIL。
 - [H001 可信结果交付 Playbook](H001-QUALIFIED-DELIVERY-PLAYBOOK.md)：draft / not integrated；500 秒开发预算下的查询前置选项、必要事实追查、证据范围和完整交付验收计划，不代表能力已实现或新 Live 已获授权。
 - [H001 可信交付独立复核（2026-10-07）](history/H001-QUALIFIED-DELIVERY-REVIEW-2026-10-07.md)：固定来源模型通过，完整Live交付FAIL；后续仅发现Live证明TableCheck查询建议选择，Tabelog类别扩查仍FAIL，锚点修复仅获离线验证。
 - [Browser Agent 通用操作与会话可靠性 Playbook](BROWSER-AGENT-GENERIC-OPERATIONS-PLAYBOOK.md)：2026-09-26授权实施切片；冻结上游semantic，修复共享会话隔离与控件选择契约，不代表已验收能力。

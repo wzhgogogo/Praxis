@@ -3,10 +3,17 @@ import { resolve } from "node:path";
 
 import { chromium, type Browser, type BrowserContext, type Page } from "playwright-core";
 
-import type { BrowserResponseRule, BrowserControlHint, BrowserPageControl, BrowserRuntime, BrowserSession, BrowserSessionMetadata, BrowserSnapshot } from "./browser-runtime.js";
+import type { BrowserActionOptions, BrowserReadNetworkPolicy, BrowserResponseRule, BrowserControlHint, BrowserPageControl, BrowserRuntime, BrowserSession, BrowserSessionMetadata, BrowserSnapshot } from "./browser-runtime.js";
 import { BrowserRuntimeError } from "./browser-runtime-errors.js";
+import { PlaywrightReadNetworkGuard } from "./playwright-read-network-guard.js";
 import { PlaywrightResponseObserver } from "./playwright-response-observer.js";
 import { PlaywrightControlRegistry, waitForVisibleChange, interactiveState, activateObservedControl, observedLinkCovered } from "./playwright-browser-controls.js";
+
+const INTERACTIVE_ACTION_TIMEOUT_MS = 5_000;
+
+function actionTimeout(options: BrowserActionOptions): number {
+  return options.timeoutMs ?? INTERACTIVE_ACTION_TIMEOUT_MS;
+}
 
 export interface LocalPlaywrightChromiumConfig {
   browserType?: Pick<typeof chromium, "launch"> & Partial<Pick<typeof chromium, "launchPersistentContext">>;
@@ -28,19 +35,23 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
   private readonly responses = new PlaywrightResponseObserver();
   private readonly pageIds = new Map<Page, string>();
   private pageSequence = 0;
-  readonly metadata: BrowserSessionMetadata = {
-    runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM",
-    engine: "CHROMIUM",
-    sessionId: `local:${randomUUID()}`,
-    startedAt: new Date().toISOString(),
-  };
+  readonly metadata: BrowserSessionMetadata;
 
   constructor(
     private readonly browser: Browser | undefined,
     private readonly context: BrowserContext,
     private page: Page,
     private readonly contextOwnsBrowser: boolean,
-  ) {}
+    private readonly networkGuard?: PlaywrightReadNetworkGuard,
+  ) {
+    this.metadata = {
+      runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM",
+      engine: "CHROMIUM",
+      sessionId: `local:${randomUUID()}`,
+      startedAt: new Date().toISOString(),
+      ...(networkGuard ? { readNetworkBoundary: "INSTALLED" } : {}),
+    };
+  }
 
   private pageId(page: Page): string {
     const existing = this.pageIds.get(page);
@@ -60,6 +71,9 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
     });
   }
 
+  async prepareNavigation(url: string, options: BrowserActionOptions = {}): Promise<void> { this.networkGuard?.prepareNavigation(url, options.timeoutMs); }
+  async prepareObservedNavigation(url: string, options: BrowserActionOptions = {}): Promise<void> { this.networkGuard?.prepareObservedNavigation(url, options.timeoutMs); }
+
   async captureResponses(rules: readonly BrowserResponseRule[]): Promise<void> { this.responses.configure(this.page, rules); }
 
   async snapshot(): Promise<BrowserSnapshot> {
@@ -73,48 +87,71 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
         ...(state === undefined ? {} : { interactiveState: state }),
         pageId: this.pageId(this.page),
         responses: await this.responses.snapshot(this.page),
+        ...(this.networkGuard?.snapshotDiagnostics().length ? { networkDiagnostics: this.networkGuard.snapshotDiagnostics() } : {}),
       };
     });
   }
 
   async observeControls(hints?: readonly BrowserControlHint[]): Promise<BrowserPageControl[]> { return this.run(() => this.controls.observe(this.page, hints)); }
-  async click(target: string): Promise<void> {
+  async click(target: string, options: BrowserActionOptions = {}): Promise<void> {
     await this.run(async () => {
+      const timeout = actionTimeout(options);
       const locator = await this.controls.target(target);
       // Only BrowserTaskExecutor passes opaque `dom:` references. Existing deterministic
       // adapter and local-fixture code keeps its explicit, code-owned locator capability.
-      if (locator) await activateObservedControl(locator);
-      else await this.page.locator(target).click();
+      if (locator) await activateObservedControl(locator, timeout);
+      else await this.page.locator(target).click({ timeout });
     });
   }
-  async openLink(target: string, observedHref?: string): Promise<void> {
+  async openLink(target: string, observedHref?: string, options: BrowserActionOptions = {}): Promise<void> {
     await this.run(async () => {
+      const timeout = actionTimeout(options);
       const locator = await this.controls.target(target);
       if (!locator) throw new Error("Observed link reference is no longer available");
-      if (observedHref && await observedLinkCovered(locator, observedHref)) {
+      if (observedHref && await observedLinkCovered(locator, observedHref, timeout)) {
         this.responses.reset();
-        await this.page.goto(observedHref, { waitUntil: "domcontentloaded" });
+        await this.page.goto(observedHref, { waitUntil: "domcontentloaded", timeout });
         return;
       }
       const opener = this.page;
-      const popup = opener.waitForEvent("popup", { timeout: 1_000 }).catch(() => undefined);
-      await locator.click();
+      const popup = opener.waitForEvent("popup", { timeout: Math.min(1_000, timeout) }).catch(() => undefined);
+      await locator.click({ timeout });
       const next = await popup;
       if (!next) return;
       this.page = next;
       this.pageId(next);
-      await next.waitForLoadState("domcontentloaded", { timeout: 2_500 }).catch(() => undefined);
+      await next.waitForLoadState("domcontentloaded", { timeout: Math.min(2_500, timeout) }).catch(() => undefined);
     });
   }
-  async fill(target: string, value: string): Promise<void> { await this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).fill(value)); }
-  async select(target: string, value: string): Promise<string[]> { return this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).selectOption(value)); }
-  async setChecked(target: string, checked: boolean): Promise<void> { await this.run(async () => { if (await this.controls.setChecked(target, checked)) return; await this.page.locator(target).setChecked(checked); }); }
-  async press(target: string, key: "ArrowLeft" | "ArrowRight"): Promise<void> { await this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).press(key)); }
-  async scroll(target: string, deltaY: number): Promise<void> {
+  async fill(target: string, value: string, options: BrowserActionOptions = {}): Promise<void> { await this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).fill(value, { timeout: actionTimeout(options) })); }
+  async select(target: string, value: string, options: BrowserActionOptions = {}): Promise<string[]> { return this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).selectOption(value, { timeout: actionTimeout(options) })); }
+  async setChecked(target: string, checked: boolean, options: BrowserActionOptions = {}): Promise<void> { await this.run(async () => { if (await this.controls.setChecked(target, checked, actionTimeout(options))) return; await this.page.locator(target).setChecked(checked, { timeout: actionTimeout(options) }); }); }
+  async press(target: string, key: "ArrowLeft" | "ArrowRight", options: BrowserActionOptions = {}): Promise<void> { await this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).press(key, { timeout: actionTimeout(options) })); }
+  async scroll(target: string, deltaY: number, options: BrowserActionOptions = {}): Promise<void> {
     await this.run(async () => {
       const observed = await this.controls.target(target);
       if (observed) await observed.evaluate((element, delta) => (element as HTMLElement).scrollBy(0, delta), deltaY);
       else await this.page.locator(target).evaluate((element, delta) => (element as HTMLElement).scrollBy(0, delta), deltaY);
+    });
+  }
+  async dismissTransientObstruction(target: string, options: BrowserActionOptions = {}): Promise<{ occluder: string }> {
+    return this.run(async () => {
+      void actionTimeout(options);
+      const observed = await this.controls.target(target);
+      if (!observed) throw new BrowserRuntimeError("BROWSER_STALE_TARGET", "Observed target changed before obstruction recovery");
+      const occluder = await observed.evaluate(node => {
+        const rect = node.getBoundingClientRect();
+        const hit = rect.width && rect.height ? document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2) : null;
+        if (!hit || node.contains(hit)) return "UNKNOWN";
+        const role = hit.getAttribute("role");
+        return `${hit.tagName.toLowerCase()}${role ? `[role=${role.slice(0, 32)}]` : ""}`;
+      });
+      await this.page.keyboard.press("Escape");
+      await this.page.evaluate(() => {
+        const active = document.activeElement;
+        if (active instanceof HTMLElement && active !== document.body) active.blur();
+      });
+      return { occluder };
     });
   }
   async waitFor(target: string, timeoutMs?: number): Promise<void> {
@@ -147,6 +184,7 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
 
 /** Development/eval-only local browser runtime. It never uses Cloudflare credentials or endpoints. */
 export class LocalPlaywrightChromium implements BrowserRuntime {
+  readonly readNetworkBoundaryCapability = "ISOLATED_CONTEXT" as const;
   constructor(private readonly config: LocalPlaywrightChromiumConfig = {}) {}
 
   static fromEnvironment(environment: NodeJS.ProcessEnv = process.env): LocalPlaywrightChromium {
@@ -164,13 +202,16 @@ export class LocalPlaywrightChromium implements BrowserRuntime {
     });
   }
 
-  async openSession(input: { signal: AbortSignal }): Promise<BrowserSession> {
+  async openSession(input: { signal: AbortSignal; networkPolicy?: BrowserReadNetworkPolicy }): Promise<BrowserSession> {
     if (input.signal.aborted) throw new BrowserRuntimeError("BROWSER_ABORTED", "Local browser session creation was aborted");
     let browser: Browser | undefined;
     let context: BrowserContext | undefined;
     let page: Page | undefined;
     let contextOwnsBrowser = false;
     try {
+      if (input.networkPolicy && this.config.userDataDir) {
+        throw new BrowserRuntimeError("BROWSER_RUNTIME_UNAVAILABLE", "Guarded browser reads require a new isolated context, not a persistent profile");
+      }
       const browserType = this.config.browserType ?? chromium;
       const launchOptions = {
         headless: this.config.headless ?? true,
@@ -184,10 +225,12 @@ export class LocalPlaywrightChromium implements BrowserRuntime {
         contextOwnsBrowser = true;
       } else {
         browser = await browserType.launch(launchOptions);
-        context = await browser.newContext();
+        context = await browser.newContext(input.networkPolicy ? { serviceWorkers: "block" } : {});
       }
+      const networkGuard = input.networkPolicy ? new PlaywrightReadNetworkGuard(input.networkPolicy) : undefined;
+      if (networkGuard) await networkGuard.install(context);
       page = await context.newPage();
-      const session = new LocalPlaywrightChromiumSession(browser, context, page, contextOwnsBrowser);
+      const session = new LocalPlaywrightChromiumSession(browser, context, page, contextOwnsBrowser, networkGuard);
       if (input.signal.aborted) {
         await session.close();
         throw new BrowserRuntimeError("BROWSER_ABORTED", "Local browser creation was aborted");

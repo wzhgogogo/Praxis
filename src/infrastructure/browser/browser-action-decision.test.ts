@@ -130,9 +130,56 @@ test("strict browser wire restores only bounded observed checkbox, slider, and r
   })).decide(scoped), { type: "SCROLL_REGION", targetRef: targets[2]!.ref, direction: "DOWN", reason: "Read the next visible part of this dialog." });
 });
 
+test("strict browser wire accepts page-level WAIT and rejects non-empty or non-canonical wait fields without retaining values", async () => {
+  const wait = await new ModelBrowserReadActionDecision(gateway({
+    action: "WAIT", targetRef: "", authoritativeField: "NONE", requestedState: "NONE", reason: "Wait for the public result.",
+  })).decide(input);
+  assert.deepEqual(wait, { type: "WAIT", reason: "Wait for the public result." });
+
+  for (const wire of [
+    { action: "WAIT", targetRef: "observation:1:target:1", authoritativeField: "NONE", requestedState: "NONE", reason: "Wait" },
+    { action: "WAIT", targetRef: "", authoritativeField: "DATE", requestedState: "NONE", reason: "Wait" },
+    { action: "WAIT", targetRef: "", authoritativeField: "NONE", requestedState: "CHECKED", reason: "Wait" },
+    { action: "WAIT", targetRef: "", authoritativeField: "NONE", requestedState: "NONE", reason: "Wait", authorization: "secret-marker-do-not-log" },
+  ]) {
+    await assert.rejects(
+      () => new ModelBrowserReadActionDecision(gateway(wire)).decide(input),
+      (error: unknown) => error instanceof BrowserReadDecisionError
+        && error.code === "INVALID_MODEL_OUTPUT"
+        && !error.message.includes("secret-marker-do-not-log"),
+    );
+  }
+});
+
+test("strict browser wire records only a typed rejection projection for an extra field", async () => {
+  await assert.rejects(
+    () => new ModelBrowserReadActionDecision(gateway({
+      action: "CLICK", targetRef: "observation:1:target:1", authoritativeField: "NONE", requestedState: "NONE", reason: "Use current control.",
+      authorization: "secret-marker-do-not-log",
+    })).decide(input),
+    (error: unknown) => error instanceof BrowserReadDecisionError
+      && error.wireRejection?.action === "CLICK"
+      && error.wireRejection.fieldPath === "$.authorization"
+      && error.wireRejection.valueType === "string"
+      && error.wireRejection.reason === "UNSUPPORTED_FIELD"
+      && !JSON.stringify(error.wireRejection).includes("secret-marker-do-not-log"),
+  );
+  await assert.rejects(
+    () => new ModelBrowserReadActionDecision(gateway({
+      action: "CLICK", targetRef: "observation:1:target:1", authoritativeField: "DATE", requestedState: "NONE", reason: "Invalid field.",
+    })).decide(input),
+    (error: unknown) => error instanceof BrowserReadDecisionError
+      && error.wireRejection?.fieldPath === "$.authoritativeField"
+      && error.wireRejection.reason === "EXPECTED_NONE",
+  );
+});
+
 test("browser prompt identifies a permitted service radio as a query prerequisite without selecting by position", () => {
   const prompt = buildBrowserReadDecisionSystemPrompt();
   assert.match(prompt, /service category is selected/i);
   assert.match(prompt, /before a time or result is visible/i);
   assert.match(prompt, /current public text supports its relevance to a HARD criterion/i);
+  assert.match(prompt, /WAIT waits for one bounded visible result change at page level/i);
+  assert.match(prompt, /isolated read boundary may expose an ordinary public-query button/i);
+  assert.match(prompt, /including a submit-shaped control/i);
 });

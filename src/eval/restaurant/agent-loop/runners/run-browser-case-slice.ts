@@ -13,7 +13,7 @@ import { TabelogBrowserAvailability } from "../../../../integrations/tabelog/tab
 import { TableCheckBrowserAvailability } from "../../../../integrations/tablecheck/tablecheck-browser-availability.js";
 import { loadFrozenLiveCases, materializeLiveCase, RESTAURANT_READ_DEVELOPMENT_CASE_PATH } from "../live-case-materializer.js";
 import { startDiagnosticRun } from "../../../shared/diagnostic-run.js";
-import { errorRecord, safeActionTargets, safeRecord, traceBrowserSession } from "./browser-case-slice-evidence.js";
+import { errorRecord, safeActionTargets, safeRecord, traceBrowserRuntime } from "./browser-case-slice-evidence.js";
 
 const caseId = process.argv[process.argv.indexOf("--case") + 1];
 const execute = process.argv.includes("--execute");
@@ -121,10 +121,7 @@ const modelDecision: BrowserReadActionDecisionPort = { async decide(input) {
   }
 } };
 const underlyingRuntime = LocalPlaywrightChromium.fromEnvironment();
-const runtime: BrowserRuntime = { async openSession(input) {
-  const session = await underlyingRuntime.openSession(input);
-  return traceBrowserSession(session, source.provider, record);
-} };
+const runtime: BrowserRuntime = traceBrowserRuntime(underlyingRuntime, source.provider, record);
 const executor = new BrowserTaskExecutor(runtime, {
   modelDecision, maxModelCallsPerCandidate: 5, maxModelCallsTotal: 5,
   maxElapsedMsPerCandidate: 45_000, maxElapsedMsPerProvider: 30_000, maxAutomaticElapsedMs: 45_000,

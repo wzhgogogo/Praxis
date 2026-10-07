@@ -1,7 +1,7 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.146
+- Document revision: 4.147
 - Last updated: 2026-10-07
 - Source of truth for: 已实现能力、已验证范围、明确未验证项与下一道门槛
 - Related ADRs: [ADR Index](decisions/README.md)
@@ -10,6 +10,10 @@
 ## 最新审查与当前门槛
 
 历史追溯从[月度摘要与逐条索引](history/README.md)进入；原始开发／验证记录完整保留。日志导航整理不改变以下能力与验收结论。
+
+2026-10-07 **通用浏览器执行修复和已知可行受控交付通过；完整 H001 Live 仍未通过。** Terra实现，root独立复核：page-level WAIT／严格动作诊断、短点击与受限遮挡恢复、批量属性观察、来源自有网络准入和已核实的确定性请求参数已接生产入口。root实际Chromium接收端验证合法查询有效、未许可请求零到达；100控件受控测量中位观察耗时降低84.475%，不外推所有网站。最终默认 **664/664**、完整拦截Chromium **73/73**、typecheck／architecture／build通过；固定来源真实DeepSeek **13,794ms／10调用**实际展示，root17项与Evaluator六维通过。公开日历查询、控件选中值或预约入口URL仍不能单独证明库存。[本轮独立复核](history/BROWSER-READ-RELIABILITY-REVIEW-2026-10-07.md)、[验证记录](history/TEST-LOG.md#test-2026-10-07-browser-read-reliability)、[ADR-0035](decisions/0035-browser-read-network-boundary.md)。
+
+同轮三次完整Live保持500秒／50调用，东京 **10月8日19:00／2人**独立variant。首轮AUTO在Cloudflare默认方法receiver丢失处停止；第二轮LOCAL曾错误展示加载区外的预约链接，独立验收FAIL，已补唯一且完成加载的库存区域接纳；第三轮 **80,341ms／18调用**为NO_VERIFIED_RESULT，Teppen查位10秒就绪超时，TableCheck失效ref已恢复，但4家详情均在原半径外。root定位新Guard漏掉Tabelog公开初始日历，并对照历史真实控件与当前官方客户端补齐四条公开查询grammar；同时移除误套的5秒网络读取cap。后修接线由实际Chromium receiver在6,878ms内验证：四类合法请求各一次到达、12个非法字段反例零到达、6.141秒加载在8秒窗口内完成、100ms短窗口正确超时。**这些后修尚未真实来源复验，不追认第三次Live通过。** 下一最小门槛是公开日历接线及当前发现查询的定向真实验证；未改变HARD、身份、半径或总预算，不声称当日无位或整体浏览器稳健。Cloudflare隔离边界也未获真实验证。
 
 2026-10-07 **本轮仅查店：TableCheck 查询建议选择已获真实证据；Tabelog 类别扩查仍未完成 Live 验收。** 既有 Native Search 增加稀疏关键词列表的一次相关类别调整，以及同地区、来源实际提供的下一页续查；详情待处理队列优先、原有来源时间／详情／页数上限不变。共享浏览器支持精确原查询的 `CHOOSE_OPTION:RETRIEVAL`、选后回读和被建议层遮挡的控件识别。一次仅发现 Live 在 **66,810ms／9次模型调用** 内，TableCheck 实际执行该选择、解析16家并分两批读10家详情，接纳 Shibuya Sushi Nasu（906m）与 Namikibashi Sushihajime（621m）；其余6家因详情上限未读取。Tabelog 仍只接纳 Teppen（749m）：模型误点无标签日历按钮，随后对同页 `#` 类别入口的 CLICK 被共享合同拒绝，扩查失败。独立验收总体 **FAIL**，三家仅为来源身份／坐标支持的候选，不代表 HARD 或库存合格。随后强化原 Chromium 场景并修复同页锚点的 CLICK 接线，普通导航仍走 OPEN_LINK；该后续修复尚未重新 Live。下一门槛是这条类别展开→相关类别→移除关键词的真实模型路径，未扩展日期、查位或完整 H001。[验证及边界](history/TEST-LOG.md#test-2026-10-07-bounded-native-discovery)；[不可变运行与独立签收](../.eval-artifacts/h001-discovery-20261007/live/2026-10-06T20-16-09-612Z-fcf5a3a3-98ab-4ba7-af9e-ef279b411fc3.acceptance.json)。
 

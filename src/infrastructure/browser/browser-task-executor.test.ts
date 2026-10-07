@@ -1,19 +1,25 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 
-import type { BrowserPageControl, BrowserRuntime, BrowserSession, BrowserSnapshot } from "./browser-runtime.js";
+import type { BrowserPageControl, BrowserReadNetworkPolicy, BrowserRuntime, BrowserSession, BrowserSnapshot } from "./browser-runtime.js";
 import { BrowserTaskExecutor } from "./browser-task-executor.js";
 import { BrowserReadDecisionError, type BrowserReadActionDecisionPort, type BrowserReadDecisionInput } from "./browser-action-decision.js";
 import { BrowserRuntimeError } from "./browser-runtime-errors.js";
 
 class FixtureSession implements BrowserSession {
-  readonly metadata = { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM" as const, engine: "CHROMIUM" as const, sessionId: "fixture:shared", startedAt: "2026-09-07T00:00:00.000Z" };
+  readonly metadata: BrowserSession["metadata"];
   closed = 0;
   clicks = 0;
   selected: string[] = [];
+  dismisses = 0;
   private index = 0;
 
-  constructor(private readonly pages: BrowserSnapshot[], private readonly advanceOnWait = false) {}
+  constructor(private readonly pages: BrowserSnapshot[], private readonly advanceOnWait = false, guarded = false) {
+    this.metadata = {
+      runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM", engine: "CHROMIUM", sessionId: "fixture:shared", startedAt: "2026-09-07T00:00:00.000Z",
+      ...(guarded ? { readNetworkBoundary: "INSTALLED" } : {}),
+    };
+  }
 
   async navigate(): Promise<void> { this.index = Math.min(this.index + 1, this.pages.length - 1); }
   async snapshot(): Promise<BrowserSnapshot> { return this.pages[this.index]!; }
@@ -42,6 +48,11 @@ class FixtureSession implements BrowserSession {
     if (this.advanceOnWait) this.index = Math.min(this.index + 1, this.pages.length - 1);
     const current = this.pages[this.index]!;
     return current.url !== previous.url || current.title !== previous.title || current.text !== previous.text;
+  }
+  async dismissTransientObstruction(): Promise<{ occluder: string }> {
+    this.dismisses += 1;
+    this.index = Math.min(this.index + 1, this.pages.length - 1);
+    return { occluder: "header" };
   }
   async screenshot(): Promise<Uint8Array> { return new Uint8Array(); }
   async close(): Promise<void> { this.closed += 1; }
@@ -78,6 +89,17 @@ test("BrowserTaskExecutor shares one browser session across source work and clos
   assert.equal(session.closed, 1);
 });
 
+test("BrowserTaskExecutor refuses a policy read when a runtime only exposes an unguarded session", async () => {
+  const session = new FixtureSession([{ url: "https://www.tablecheck.com/en/japan", title: "search", text: "", html: "" }]);
+  const policy: BrowserReadNetworkPolicy = { documentOrigins: ["https://www.tablecheck.com"], staticResources: [], dynamicReads: [] };
+  const executor = new BrowserTaskExecutor({ openSession: async () => session });
+  await assert.rejects(
+    () => executor.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY", policy),
+    (error: unknown) => error instanceof BrowserRuntimeError && error.code === "BROWSER_RUNTIME_FAILED",
+  );
+  assert.equal(session.closed, 1);
+});
+
 test("BrowserTaskExecutor records candidate and provider lifecycle costs through a normal close", async () => {
   const diagnostics: import("./browser-task-executor.js").BrowserExecutionDiagnostic[] = [];
   const session = new FixtureSession([{ url: "https://www.tablecheck.com/en/japan", title: "search", text: "", html: "" }]);
@@ -92,6 +114,142 @@ test("BrowserTaskExecutor records candidate and provider lifecycle costs through
   assert.equal(diagnostics.find(item => item.event === "OPERATION_FINISHED")?.lifecycle.candidateRuntimeOperations, 1);
   assert.equal(diagnostics.find(item => item.event === "PROVIDER_FINISHED")?.lifecycle.reason, "EXECUTOR_CLOSED");
   assert.equal(diagnostics.find(item => item.event === "CANDIDATE_FINISHED")?.lifecycle.outcome, "FINISHED");
+});
+
+test("BrowserTaskExecutor completes after a canonical page-level WAIT without an observed target", async () => {
+  const diagnostics: import("./browser-task-executor.js").BrowserExecutionDiagnostic[] = [];
+  const session = new FixtureSession([
+    { url: "https://www.tablecheck.com/en/query", title: "query", text: "Loading current availability", html: "<div>Loading current availability</div>" },
+    { url: "https://www.tablecheck.com/en/query", title: "query", text: "Sushi Inase 19:00", html: "<div>Sushi Inase 19:00</div>" },
+  ], true);
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {
+    modelDecision: { async decide(value) {
+      assert.deepEqual(value.observation.pageActions, ["WAIT"]);
+      assert.equal(value.observation.targets.some(target => target.availableActions?.includes("WAIT")), false);
+      return { type: "WAIT", reason: "Wait for the current public result." };
+    } },
+    onDiagnostic: event => diagnostics.push(event),
+  });
+  const signal = new AbortController().signal;
+  const acquired = await executor.acquire(signal, "TABLECHECK", "AVAILABILITY");
+  try {
+    const result = await executor.runSkill({ ...input(acquired, signal), stage: "AVAILABILITY" as const, objective: "Wait for the current public availability result." });
+    assert.equal(result.status, "COMPLETED", JSON.stringify(result));
+    assert.equal(diagnostics.some(item => item.event === "MODEL_ACTION" && item.detail === "MODEL_WAIT"), true);
+    assert.equal(diagnostics.some(item => item.event === "ASYNC_WAIT" && item.detail === "PAGE_STATE_CHANGED"), true);
+  } finally {
+    await executor.close();
+  }
+});
+
+test("BrowserTaskExecutor applies one obstruction recovery and re-observes instead of retrying an old click", async () => {
+  const session = new FixtureSession([
+    { url: "https://www.tablecheck.com/en/query", title: "query", text: "Find availability", html: '<button type="button" data-praxis-read-only="true">Find availability</button>' },
+    { url: "https://www.tablecheck.com/en/query", title: "query", text: "Sushi Inase 19:00", html: "<div>Sushi Inase 19:00</div>" },
+  ]);
+  session.click = async () => {
+    session.clicks += 1;
+    throw new BrowserRuntimeError("BROWSER_RUNTIME_FAILED", "Click failed", new Error("header strong intercepts pointer events"));
+  };
+  const diagnostics: import("./browser-task-executor.js").BrowserExecutionDiagnostic[] = [];
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {
+    modelDecision: { async decide(value) {
+      const target = value.observation.targets.find(item => item.label === "Find availability");
+      assert.ok(target);
+      return { type: "CLICK", targetRef: target.ref, reason: "Use the observed public query control." };
+    } },
+    onDiagnostic: event => diagnostics.push(event),
+  });
+  const signal = new AbortController().signal;
+  const acquired = await executor.acquire(signal, "TABLECHECK", "AVAILABILITY");
+  try {
+    const result = await executor.runSkill({ ...input(acquired, signal), stage: "AVAILABILITY", objective: "Read the current public availability." });
+    assert.equal(result.status, "COMPLETED");
+    assert.equal(session.clicks, 1, "recovery must not replay the blocked click");
+    assert.equal(session.dismisses, 1);
+    assert.ok(diagnostics.some(item => item.detail === "ACTION_OBSTRUCTED"));
+    assert.ok(diagnostics.some(item => item.detail === "ACTION_OBSTRUCTION_RECOVERED:header"));
+  } finally {
+    await executor.close();
+  }
+});
+
+test("BrowserTaskExecutor exposes an ordinary observed query submit only in an installed read boundary", async () => {
+  const pages = [
+    { url: "https://www.tablecheck.com/en/query", title: "query", text: "Find a table", html: '<button type="submit">Find availability</button>' },
+    { url: "https://www.tablecheck.com/en/query", title: "query", text: "Sushi Inase 19:00", html: "<main>Sushi Inase 19:00</main>" },
+  ];
+  const guarded = new FixtureSession(pages, false, true);
+  const executor = new BrowserTaskExecutor({ openSession: async () => guarded }, {
+    modelDecision: { async decide(value) {
+      const target = value.observation.targets.find(item => item.label === "Find availability");
+      assert.deepEqual(target?.availableActions, ["CLICK"]);
+      return { type: "CLICK", targetRef: target!.ref, reason: "Use the current public query control." };
+    } },
+  });
+  const signal = new AbortController().signal;
+  const acquired = await executor.acquire(signal, "TABLECHECK", "DISCOVERY");
+  try {
+    const result = await executor.runSkill({ ...input(acquired, signal), allowGuardedQueryControls: true });
+    assert.equal(result.status, "COMPLETED");
+    assert.equal(guarded.clicks, 1);
+  } finally { await executor.close(); }
+
+  const unguarded = new FixtureSession(pages);
+  const unguardedExecutor = new BrowserTaskExecutor({ openSession: async () => unguarded }, {
+    modelDecision: { async decide(value) {
+      const target = value.observation.targets.find(item => item.label === "Find availability");
+      assert.deepEqual(target?.availableActions, []);
+      return { type: "REQUEST_HUMAN_HELP", reason: "No installed request boundary." };
+    } },
+  });
+  const second = await unguardedExecutor.acquire(signal, "TABLECHECK", "DISCOVERY");
+  try {
+    const result = await unguardedExecutor.runSkill({ ...input(second, signal), allowGuardedQueryControls: true });
+    assert.equal(result.status, "REQUESTED_HUMAN_HELP");
+    assert.equal(unguarded.clicks, 0);
+  } finally { await unguardedExecutor.close(); }
+});
+
+test("BrowserTaskExecutor keeps an observed sensitive submit unavailable even in an installed read boundary", async () => {
+  const session = new FixtureSession([
+    { url: "https://www.tablecheck.com/en/query", title: "query", text: "Reserve", html: '<button type="submit">Reserve table</button>' },
+  ], false, true);
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {
+    modelDecision: { async decide(value) {
+      const target = value.observation.targets.find(item => item.label === "Reserve table");
+      assert.deepEqual(target?.availableActions, []);
+      return { type: "REQUEST_HUMAN_HELP", reason: "Sensitive intent remains unavailable." };
+    } },
+  });
+  const signal = new AbortController().signal;
+  const acquired = await executor.acquire(signal, "TABLECHECK", "DISCOVERY");
+  try {
+    const result = await executor.runSkill({ ...input(acquired, signal), allowGuardedQueryControls: true });
+    assert.equal(result.status, "REQUESTED_HUMAN_HELP");
+    assert.equal(session.clicks, 0);
+  } finally { await executor.close(); }
+});
+
+test("BrowserTaskExecutor executes a guarded authoritative date button only for the Router-bound date", async () => {
+  const session = new FixtureSession([
+    { url: "https://www.tablecheck.com/en/query", title: "query", text: "Choose date", html: '<button type="submit" data-date="2026-09-10">10</button>' },
+    { url: "https://www.tablecheck.com/en/query", title: "query", text: "Sushi Inase 19:00", html: "<main>Sushi Inase 19:00</main>" },
+  ], false, true);
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {
+    modelDecision: { async decide(value) {
+      const target = value.observation.targets.find(item => item.label === "10");
+      assert.ok(target?.availableActions?.includes("CLICK_AUTHORITATIVE:DATE"));
+      return { type: "CLICK_AUTHORITATIVE", targetRef: target!.ref, field: "DATE", reason: "Select the exact Router-bound date." };
+    } },
+  });
+  const signal = new AbortController().signal;
+  const acquired = await executor.acquire(signal, "TABLECHECK", "AVAILABILITY");
+  try {
+    const result = await executor.runSkill({ ...input(acquired, signal), stage: "AVAILABILITY", allowGuardedQueryControls: true });
+    assert.equal(result.status, "COMPLETED");
+    assert.equal(session.clicks, 1);
+  } finally { await executor.close(); }
 });
 
 test("BrowserTaskExecutor identifies an operation ceiling before a denied next observation", async () => {
@@ -468,6 +626,38 @@ test("BrowserTaskExecutor binds model-controlled fields to the Router authority 
   await executor.close();
 });
 
+test("BrowserTaskExecutor binds a public retrieval field by observed native name without admitting PII entries", async () => {
+  const session = new FixtureSession([{ url: "https://www.tablecheck.com/en/japan/search", title: "search", text: "Search", html: "" }]);
+  const controls: BrowserPageControl[] = [
+    { id: "search", stableKey: "input|search_text", kind: "INPUT", role: "textbox", label: "Sushi tonight for 2 in Ginza", value: "omakase",
+      disabled: false, visible: true, structure: { tag: "INPUT", name: "search_text", classes: [], dialogLabel: "", formClass: "", sliderCount: 0 } },
+    { id: "email", stableKey: "input|email", kind: "INPUT", role: "textbox", label: "Restaurant contact", value: "",
+      type: "email", disabled: false, visible: true, structure: { tag: "INPUT", name: "customer_email", classes: [], dialogLabel: "", formClass: "", sliderCount: 0 } },
+  ];
+  session.observeControls = async () => controls;
+  const fills: string[] = [];
+  const browserSession: BrowserSession = session;
+  browserSession.fill = async target => { fills.push(target); };
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { modelDecision: decisions(
+    async decision => {
+      const search = decision.observation.targets.find(target => target.label === "Sushi tonight for 2 in Ginza")!;
+      const email = decision.observation.targets.find(target => target.label === "Restaurant contact")!;
+      assert.ok(search.availableActions?.includes("FILL_AUTHORITATIVE:RETRIEVAL"));
+      assert.equal(email.availableActions?.includes("FILL_AUTHORITATIVE:RETRIEVAL"), false);
+      assert.equal(email.rejectionReason, "NO_BOUND_INPUT_FIELD");
+      return { type: "FILL_AUTHORITATIVE", targetRef: search.ref, field: "RETRIEVAL", reason: "Use the observed public search field." };
+    },
+    async () => ({ type: "REQUEST_HUMAN_HELP", reason: "The test stops after the bound fill." }),
+  ) });
+  const signal = new AbortController().signal;
+  const acquired = await executor.acquire(signal, "TABLECHECK", "DISCOVERY");
+  const result = await executor.runSkill({ ...input(acquired, signal), goal: { outlet: { name: "Sushi" }, retrievalExpression: "omakase", hardCriteria: [] },
+    completion: () => ({ complete: false, reason: "This verifies only the input binding." }) });
+  assert.equal(result.status, "REQUESTED_HUMAN_HELP");
+  assert.deepEqual(fills, ["search"]);
+  await executor.close();
+});
+
 test("BrowserTaskExecutor permits only an exact non-submit calendar button for a model-controlled date", async () => {
   const session = new FixtureSession([
     {
@@ -611,7 +801,7 @@ test("BrowserTaskExecutor keeps an invalid model action in the same bounded sess
     modelDecision: decisions(
       async () => { throw new BrowserReadDecisionError("INVALID_MODEL_OUTPUT", "CLICK requires a targetRef and no authoritative field or requested state"); },
       async (value) => {
-        assert.match(value.progress, /no authoritative field or requested state/);
+        assert.match(value.progress, /MODEL_WIRE_REJECTED/);
         return { type: "CLICK", targetRef: value.observation.targets[0]!.ref, reason: "Use the observed public result control" };
       },
     ),

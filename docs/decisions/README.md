@@ -1,8 +1,8 @@
 # Architecture Decision Records
 
 - Status: Accepted
-- Document revision: 1.7
-- Last updated: 2026-09-24
+- Document revision: 1.8
+- Last updated: 2026-10-07
 - Source of truth for: 已接受架构决策及其替代关系
 - Related ADRs: 本目录
 - Related documents: [Architecture Overview](../architecture/OVERVIEW.md)
@@ -45,6 +45,7 @@
 | [0032](0032-source-native-restaurant-discovery.md) | Accepted | 有界来源原生发现、同源身份与查位、Tabelog→TableCheck固定两批 |
 | [0033](0033-native-source-batch-delivery.md) | Accepted | 原生路径完成一来源有界调查后可展示已核实短批，保留目标缺口 |
 | [0034](0034-qualified-read-scope-and-investigation-budget.md) | Accepted | 类别查询范围、同次事实追查与500秒/50调用只读调查上限 |
+| [0035](0035-browser-read-network-boundary.md) | Accepted | Source-owned browser read network admission and isolated contexts |
 
 ## 规则
 

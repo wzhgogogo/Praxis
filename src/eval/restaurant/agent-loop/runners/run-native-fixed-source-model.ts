@@ -17,7 +17,7 @@ import type { FixedSourceExpectation } from "../fixed-source-case-registry.js";
 import { createHybridReadComposition } from "../hybrid-read-composition.js";
 import { loadFrozenLiveCases, RESTAURANT_READ_DEVELOPMENT_CASE_PATH } from "../live-case-materializer.js";
 import { center, dynamicTabelogSourcePages, reference, sourcePages, type SourceScenario } from "../native-fixed-source-pages.js";
-import { errorRecord, safeRecord, traceBrowserSession } from "./browser-case-slice-evidence.js";
+import { errorRecord, safeRecord, traceBrowserRuntime } from "./browser-case-slice-evidence.js";
 import { finalizeNativeFixedSourceRun, type NativeFixedSourceFinalizationProgress } from "./native-fixed-source-runner-finalization.js";
 import { createRunDeadlineSignal, RUN_DEADLINE_EXCEEDED } from "../live-run-deadline.js";
 
@@ -154,10 +154,7 @@ try {
   const rawBrowser = dynamicSource ? dynamicTabelogSourcePages() : sourcePages(scenario, navigations);
   // Source usage is evidence of both a navigation attempt and a page that was
   // actually observed. A fixture URL alone cannot satisfy a source scenario.
-  const browser: BrowserRuntime = { openSession: async (input) => {
-    try { return traceBrowserSession(await rawBrowser.openSession(input), "TABELOG", recordBrowserTrace); }
-    catch (error) { recordBrowserTrace("SESSION_OPEN_ERROR", errorRecord(error)); throw error; }
-  } };
+  const browser: BrowserRuntime = traceBrowserRuntime(rawBrowser, "TABELOG", recordBrowserTrace);
   const google = new GooglePlacesRestaurantSearch(new GooglePlacesClient({ apiKey: "fixed-transport-only", fetchImplementation: async (_url, init) => {
     const query = JSON.parse(String(init?.body)) as { textQuery: string };
     googleQueries.push(query.textQuery);

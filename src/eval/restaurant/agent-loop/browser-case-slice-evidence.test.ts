@@ -5,9 +5,9 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
 
-import type { BrowserSession } from "../../../infrastructure/browser/browser-runtime.js";
+import type { BrowserRuntime, BrowserSession } from "../../../infrastructure/browser/browser-runtime.js";
 import { startDiagnosticRun } from "../../shared/diagnostic-run.js";
-import { safeRecord, snapshotRecord, traceBrowserSession } from "./runners/browser-case-slice-evidence.js";
+import { safeRecord, snapshotRecord, traceBrowserRuntime, traceBrowserSession } from "./runners/browser-case-slice-evidence.js";
 
 test("browser case slice journal retains the saved Teppen query region without page secrets", async () => {
   const html = readFileSync(new URL("../../../harness/browser/fixtures/tabelog-teppen-calendar-20260929.html", import.meta.url), "utf8");
@@ -80,6 +80,29 @@ test("browser case slice journal distinguishes loading and absent booking region
   const selected = snapshotRecord({ url: "https://tabelog.com/en/tokyo/A1303/A130301/13308491/", title: "Selected", text: "", html: '<div class="p-booking-calendar"><p class="js-calendar-day-target is-current" data-year="2026" data-month="9" data-day="30">30</p><button class="js-people-button is-active" disabled>2</button><input class="js-people-hidden-value" value="2"></div>' });
   assert.match((selected.queryRegions as Array<{ markup: string }>)[0]!.markup, /js-calendar-day-target is-current" data-year="2026" data-month="9" data-day="30"/);
   assert.match((selected.queryRegions as Array<{ markup: string }>)[0]!.markup, /js-people-hidden-value" value="2"/);
+});
+
+test("browser case slice trace retains the installed read boundary and safe Guard diagnostics", async () => {
+  const session: BrowserSession = {
+    metadata: { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM", engine: "CHROMIUM", startedAt: "2026-10-07T00:00:00.000Z", readNetworkBoundary: "INSTALLED" },
+    navigate: async () => {},
+    snapshot: async () => ({ url: "https://www.tablecheck.com/en/japan/search", title: "Search", text: "Search", html: "<main>Search</main>",
+      networkDiagnostics: [{ code: "BLOCKED_FIELDS", origin: "https://example.invalid", pathname: "/query", method: "POST", resourceType: "fetch", queryKeys: ["unexpected"] }] }),
+    click: async () => {}, fill: async () => {}, select: async () => [], waitFor: async () => {}, screenshot: async () => new Uint8Array(), close: async () => {},
+  };
+  let receivedPolicy = false;
+  const raw: BrowserRuntime = { readNetworkBoundaryCapability: "ISOLATED_CONTEXT", openSession: async input => {
+    receivedPolicy = input.networkPolicy !== undefined;
+    return session;
+  } };
+  const trace: Array<{ kind: string; detail: unknown }> = [];
+  const traced = traceBrowserRuntime(raw, "TABLECHECK", (kind, detail) => { trace.push({ kind, detail }); return trace.length; });
+  assert.equal(traced.readNetworkBoundaryCapability, "ISOLATED_CONTEXT");
+  const opened = await traced.openSession({ signal: new AbortController().signal, networkPolicy: { documentOrigins: ["https://www.tablecheck.com"], staticResources: [], dynamicReads: [] } });
+  await opened.snapshot();
+  assert.equal(receivedPolicy, true);
+  const snapshot = trace.find(item => item.kind === "SNAPSHOT")!.detail as { networkDiagnostics?: Array<{ code: string; origin: string; pathname: string; method: string; resourceType: string; queryKeys: string[] }> };
+  assert.deepEqual(snapshot.networkDiagnostics, [{ code: "BLOCKED_FIELDS", origin: "https://example.invalid", pathname: "/query", method: "POST", resourceType: "fetch", queryKeys: ["unexpected"] }]);
 });
 
 test("browser case slice journal retains a TableCheck availability region without retaining the page profile", () => {

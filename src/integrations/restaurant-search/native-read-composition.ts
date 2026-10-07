@@ -7,6 +7,7 @@ import { composeLiveRestaurantFactRead } from "../restaurant-facts/live-restaura
 import { ModelRestaurantFactJudgment } from "../restaurant-facts/model-fact-judgment.js";
 import { NativeSourceFactRead, SourceAwareFactRead } from "../restaurant-facts/native-source-facts.js";
 import { NativeRestaurantSearch } from "./native-restaurant-search.js";
+import { restaurantPublicReadNetworkPolicy } from "../restaurant-availability/public-browser-read-network-policy.js";
 
 /** Shared Web/Hybrid composition; flag selection belongs at the outer entry. */
 export function composeNativeRestaurantRead(
@@ -19,10 +20,11 @@ export function composeNativeRestaurantRead(
   now?: () => string,
   nativeDiscoveryLimits?: { maxOperationsPerCandidate?: number },
 ) {
+  const networkPolicy = runtime.readNetworkBoundaryCapability === "ISOLATED_CONTEXT" ? restaurantPublicReadNetworkPolicy : undefined;
   return {
-    search: new NativeRestaurantSearch(runtime, google, now, evaluationLocation, new ModelBrowserReadActionDecision(model), browserBudget, onBrowserDiagnostic, nativeDiscoveryLimits),
+    search: new NativeRestaurantSearch(runtime, google, now, evaluationLocation, new ModelBrowserReadActionDecision(model), browserBudget, onBrowserDiagnostic, nativeDiscoveryLimits, networkPolicy),
     facts: new SourceAwareFactRead(
-      new NativeSourceFactRead(runtime, new ModelRestaurantFactJudgment(model, now), now, new ModelBrowserReadActionDecision(model), browserBudget, onBrowserDiagnostic),
+      new NativeSourceFactRead(runtime, new ModelRestaurantFactJudgment(model, now), now, new ModelBrowserReadActionDecision(model), browserBudget, onBrowserDiagnostic, networkPolicy),
       composeLiveRestaurantFactRead(google, runtime, model, browserBudget, undefined, onBrowserDiagnostic),
     ),
   };

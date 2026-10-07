@@ -449,9 +449,27 @@ export function resolveTableCheckReservationTarget(
   return undefined;
 }
 
-/** A linked public reservation page remains provider-owned; only the requested read parameters are set. */
-export function tableCheckRequestedReservationUrl(target: TableCheckReservationTarget, date: string, partySize: number): string {
-  if (target.kind === "EMBEDDED_AVAILABILITY") return target.url;
+/**
+ * A source-owned public reservation page remains provider-owned. The observed
+ * guide serializer accepts an exact date, party and time only when the request
+ * itself is for one time; a range remains on the guide for the existing UI read.
+ */
+export function tableCheckRequestedReservationUrl(
+  target: TableCheckReservationTarget,
+  date: string,
+  partySize: number,
+  timeWindow?: { earliest: string; latest: string },
+): string {
+  if (target.kind === "EMBEDDED_AVAILABILITY") {
+    if (!timeWindow || timeWindow.earliest !== timeWindow.latest) return target.url;
+    const url = new URL(target.url);
+    url.searchParams.set("date", date);
+    url.searchParams.set("time", timeWindow.earliest);
+    url.searchParams.set("num_people", String(partySize));
+    url.searchParams.set("availability_format", "datetime");
+    url.searchParams.set("availability_mode", "same_meal_time");
+    return url.toString();
+  }
   const url = new URL(target.url);
   url.searchParams.set("start_date", date);
   url.searchParams.set("pax", String(partySize));
@@ -467,13 +485,8 @@ function selectedAttribute(attrs: string, names: string[]): string | undefined {
   return undefined;
 }
 
-/**
- * The provider must expose one explicit current-request component. Combining a date
- * found in one unrelated control with a party size found elsewhere can bind stale
- * results to a new request, so page-wide value co-occurrence is deliberately invalid.
- */
 /** Isolate the one source-owned availability widget, not unrelated page-wide values. */
-function tableCheckGuideQuery(snapshot: BrowserSnapshot): { html: string; date: string; party: string; time: string } | undefined {
+function tableCheckAvailabilityWidget(snapshot: BrowserSnapshot): string | undefined {
   const starts = [...snapshot.html.matchAll(/<div\b[^>]*data-testid=["']Venue Availability["'][^>]*>/gi)];
   if (starts.length !== 1) return undefined;
   const start = starts[0]!;
@@ -484,7 +497,27 @@ function tableCheckGuideQuery(snapshot: BrowserSnapshot): { html: string; date: 
     depth += tag[0].startsWith("</") ? -1 : 1;
     if (depth === 0) { html = tail.slice(0, tag.index! + tag[0].length); break; }
   }
-  if (!html || /class=["'][^"']*\bskeleton\b/.test(html)) return undefined;
+  return html || undefined;
+}
+
+function hasTableCheckAvailabilityWidgetMarker(snapshot: BrowserSnapshot): boolean {
+  return /<div\b[^>]*data-testid=["']Venue Availability["'][^>]*>/i.test(snapshot.html);
+}
+
+function tableCheckAvailabilityWidgetLoading(html: string): boolean {
+  // This is intentionally scoped to the one current availability widget. A
+  // loading class elsewhere on a guide cannot invalidate an explicit result.
+  return /(?:\bCalendarSkeleton\b|class=["'][^"']*\bskeleton\b[^"']*["']|aria-busy=["']true["'])/i.test(html);
+}
+
+/**
+ * The provider must expose one explicit current-request component. Combining a date
+ * found in one unrelated control with a party size found elsewhere can bind stale
+ * results to a new request, so page-wide value co-occurrence is deliberately invalid.
+ */
+function tableCheckGuideQuery(snapshot: BrowserSnapshot): { html: string; date: string; party: string; time: string } | undefined {
+  const html = tableCheckAvailabilityWidget(snapshot);
+  if (!html || tableCheckAvailabilityWidgetLoading(html)) return undefined;
   const attr = (tag: string, name: string) => tag.match(new RegExp(`\\b${name}=["']([^"']*)["']`, "i"))?.[1];
   const dates = [...html.matchAll(/<button\b[^>]*>/gi)].map(match => match[0])
     .filter(tag => attr(tag, "data-testid") === "day" && attr(tag, "aria-selected") === "true")
@@ -497,6 +530,25 @@ function tableCheckGuideQuery(snapshot: BrowserSnapshot): { html: string; date: 
   const clock = time.length === 1 ? attr(time[0]!, "id")?.match(/^time-([0-2]\d:[0-5]\d)$/)?.[1] : undefined;
   if (!date || !party || !clock) return undefined;
   return {html, date:`${date[1]}-${date[2]!.padStart(2,"0")}-${date[3]!.padStart(2,"0")}`,party,time:clock};
+}
+
+/**
+ * Exact reservation links can remain in a request-bound widget while the
+ * provider replaces the actual result. Treat that one widget as incomplete
+ * until its loading state clears; page-wide loading indicators are irrelevant.
+ */
+export function hasTableCheckAvailabilityResultLoading(snapshot: BrowserSnapshot): boolean {
+  const visible = { ...snapshot, html: visibleTableCheckMarkup(snapshot.html) };
+  const html = tableCheckAvailabilityWidget(visible);
+  return html !== undefined && tableCheckAvailabilityWidgetLoading(html);
+}
+
+/** A rendered guide owns exactly one source availability-result widget. */
+export function hasTableCheckAvailabilityWidget(snapshot: BrowserSnapshot): boolean {
+  const visible = { ...snapshot, html: visibleTableCheckMarkup(snapshot.html) };
+  // More than one visible widget is ambiguous, but it is still a source
+  // result surface. Do not let that ambiguity revive page-wide booking links.
+  return hasTableCheckAvailabilityWidgetMarker(visible);
 }
 
 /** A booking form's HTML attributes can be stale after JavaScript changes its controls. */
@@ -702,16 +754,24 @@ export function sameReservationOutlet(sourceUrl: string, link: URL): boolean {
 
 function tableCheckReservationLinks(snapshot: BrowserSnapshot, date: string, partySize: number): string[] {
   const slots = new Set<string>();
-  for (const match of snapshot.html.matchAll(/<a\b[^>]*href=["']([^"']+)["'][^>]*>([\s\S]{0,2400}?)<\/a>/gi)) {
+  const visible = { ...snapshot, html: visibleTableCheckMarkup(snapshot.html) };
+  // A guide can retain ordinary reservation entrances outside its live result
+  // component. Once the source renders that component, only its own current
+  // result markup can bind inventory; pages without the component retain the
+  // historical public reservation-link behavior.
+  const widget = tableCheckAvailabilityWidget(visible);
+  if (!widget && hasTableCheckAvailabilityWidgetMarker(visible)) return [];
+  const markup = widget ?? visible.html;
+  for (const match of markup.matchAll(/<a\b[^>]*href=["']([^"']+)["'][^>]*>([\s\S]{0,2400}?)<\/a>/gi)) {
     const renderedCard = match[0] ?? "";
     // A request-shaped URL is only an inventory result while its rendered card
     // remains enabled and ready.  A disabled anchor or disabled child button
     // must not revive availability that the live control registry rejected.
     if (disabledControlMarkup(renderedCard) || /(?:\bskeleton\b|\bloading\b|aria-busy=["']true)/i.test(renderedCard)) continue;
-    const href = absoluteTableCheckUrl(match[1] ?? "", snapshot.url);
+    const href = absoluteTableCheckUrl(match[1] ?? "", visible.url);
     if (!href) continue;
     const url = new URL(href);
-    if (!sameReservationOutlet(snapshot.url, url)) continue;
+    if (!sameReservationOutlet(visible.url, url)) continue;
     const selectedDate = url.searchParams.get("start_date") ?? url.searchParams.get("date");
     const selectedParty = url.searchParams.get("num_people") ?? url.searchParams.get("pax") ?? url.searchParams.get("party_size");
     if (selectedDate !== date || selectedParty !== String(partySize)) continue;

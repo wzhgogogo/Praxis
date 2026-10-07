@@ -6,6 +6,7 @@ import { hasTableCheckBotChallenge, hasTableCheckPageUnavailable, hasTableCheckS
 import { hasBotChallenge, parseTabelogAvailabilitySlots, parseTabelogOutletIdentityWithEvidence } from "../../../integrations/tabelog/tabelog-page-parser.js";
 import { resolveTabelogEntity } from "../../../integrations/tabelog/tabelog-entity-resolver.js";
 import { diagnosticUrl } from "../../shared/diagnostic-run.js";
+import { restaurantPublicReadNetworkPolicy } from "../../../integrations/restaurant-availability/public-browser-read-network-policy.js";
 
 export interface BrowserReadProbeInput {
   url: string;
@@ -67,6 +68,7 @@ export async function runBrowserReadProbe(runtime: BrowserRuntime, input: Browse
   const timeoutMs = input.timeoutMs ?? 20_000;
   if (!Number.isInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > 60_000) throw new Error("Probe timeout must be 1–60000 ms");
   const controller = new AbortController();
+  const networkPolicy = runtime.readNetworkBoundaryCapability === "ISOLATED_CONTEXT" ? restaurantPublicReadNetworkPolicy : undefined;
   let session: BrowserSession | undefined;
   let rejectTimeout: (error: Error) => void = () => {};
   const timeout = new Promise<never>((_, reject) => { rejectTimeout = reject; });
@@ -76,9 +78,14 @@ export async function runBrowserReadProbe(runtime: BrowserRuntime, input: Browse
   }, timeoutMs);
   try {
     const operation = (async () => {
-      session = await runtime.openSession({ signal: controller.signal });
+      session = await runtime.openSession({ signal: controller.signal, ...(networkPolicy ? { networkPolicy } : {}) });
       if (controller.signal.aborted) { await session.close(); throw new BrowserRuntimeError("BROWSER_TIMEOUT", "Browser probe deadline exceeded"); }
+      if (networkPolicy && session.metadata.readNetworkBoundary !== "INSTALLED") {
+        await session.close();
+        throw new BrowserRuntimeError("BROWSER_RUNTIME_FAILED", "Browser probe runtime did not install the required read network boundary");
+      }
       if (input.queryObservation) await session.captureResponses?.(input.queryObservation.responses);
+      await session.prepareNavigation?.(input.url, { timeoutMs });
       await session.navigate(input.url, { timeoutMs });
       let page = await session.snapshot();
       if (input.queryObservation) await input.queryObservation.record(page, await session.observeControls?.(input.queryObservation.hints(page)) ?? []);

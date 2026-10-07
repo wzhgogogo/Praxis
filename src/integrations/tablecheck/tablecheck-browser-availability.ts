@@ -2,7 +2,7 @@ import { permitsTableCheckAvailabilityServiceCategory, permitsTableCheckQueryCon
 import { parseTableCheckCapturedAvailability, tableCheckAvailabilityResponseRule } from "./tablecheck-availability-response.js";
 import { groundTableCheckAvailability } from "../../domains/restaurant/read-grounding.js";
 import type { RestaurantAvailabilityRequest, RestaurantServiceScope } from "../../domains/restaurant/contracts.js";
-import type { BrowserPageControl, BrowserRuntime, BrowserSession, BrowserSessionMetadata, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
+import type { BrowserPageControl, BrowserReadNetworkPolicy, BrowserRuntime, BrowserSession, BrowserSessionMetadata, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
 import { BrowserRuntimeError } from "../../infrastructure/browser/browser-runtime-errors.js";
 import { BrowserTaskExecutor } from "../../infrastructure/browser/browser-task-executor.js";
 import { inspectNativeOutletContinuity } from "../restaurant-availability/native-outlet-continuity.js";
@@ -11,6 +11,8 @@ import type { TableCheckAvailabilityPageObservation, TableCheckIdentityDiagnosti
 import { inspectTableCheckEntity } from "./tablecheck-entity-resolver.js";
 import {
   hasTableCheckBotChallenge,
+  hasTableCheckAvailabilityWidget,
+  hasTableCheckAvailabilityResultLoading,
   hasTableCheckDisabledRequestMarkup,
   hasTableCheckDisabledRequestControl,
   hasTableCheckDiscoveryNoResult,
@@ -230,6 +232,8 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
       onUserInterventionRequired?: TableCheckUserInterventionHandler;
       /** Router-owned and reset at read-run boundaries; never process-global. */
       entryLedger?: TableCheckEntryLedger;
+      /** Live composition passes an installed source-owned read boundary. */
+      networkPolicy?: BrowserReadNetworkPolicy;
     } = {},
   ) {
     if (browser instanceof BrowserTaskExecutor) {
@@ -306,7 +310,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
       if (responseRule) await session.captureResponses?.([responseRule]);
       await this.executor.navigate({
         source: "TABLECHECK", stage: "AVAILABILITY", signal, allowedOrigins: ["https://www.tablecheck.com"], session,
-        url: tableCheckRequestedReservationUrl(reservation, request.date, request.partySize), observed: true,
+        url: tableCheckRequestedReservationUrl(reservation, request.date, request.partySize, request.timeWindow), observed: true,
       });
       availabilityPage = await this.executor.snapshot({ source: "TABLECHECK", stage: "AVAILABILITY", signal, session });
     }
@@ -379,7 +383,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
     let session: BrowserSession | undefined;
     const attemptedPages: TableCheckIdentityDiagnostic["attemptedPages"] = [];
     try {
-      session = await this.executor.acquire(signal, "TABLECHECK", "DISCOVERY");
+      session = await this.executor.acquire(signal, "TABLECHECK", "DISCOVERY", this.options.networkPolicy);
       const browser = { ...session.metadata };
       const discoveryUrl = tableCheckDiscoveryUrl(candidate);
       const listedOutletUrl = firstListedTableCheckOutletUrl(
@@ -510,6 +514,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
           session,
           signal,
           allowedOrigins: ["https://www.tablecheck.com"],
+          allowGuardedQueryControls: true,
           goal: { outlet: { name: candidate.restaurant.outletName, address: candidate.restaurant.address }, date: request.date, partySize: request.partySize, timeWindow: request.timeWindow, hardCriteria: request.hardCriteria },
           objective: "Reveal public TableCheck restaurant search results without submitting a reservation.",
           methodReason: "TableCheck discovery has no extractable public outlet link yet.",
@@ -722,10 +727,16 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
       // an availability oracle, but late registration loses its chronology.
       const availabilityResponseRule = tableCheckAvailabilityResponseRule(activeSelected.reservation);
       if (availabilityResponseRule) await session.captureResponses?.([availabilityResponseRule]);
-      if (activeSelected.reservation.kind === "LINKED_PAGE") {
+      const requestedReservationUrl = tableCheckRequestedReservationUrl(
+        activeSelected.reservation,
+        request.date,
+        request.partySize,
+        request.timeWindow,
+      );
+      if (requestedReservationUrl !== page.url) {
         await this.executor.navigate({
           source: "TABLECHECK", stage: "AVAILABILITY", signal, allowedOrigins: ["https://www.tablecheck.com"], session,
-          url: tableCheckRequestedReservationUrl(activeSelected.reservation, request.date, request.partySize), observed: true,
+          url: requestedReservationUrl, observed: true,
         });
         page = await this.executor.snapshot({ source: "TABLECHECK", stage: "AVAILABILITY", signal, session });
         if (!matchesReservationPage(page, activeSelected.reservation.url)) {
@@ -759,8 +770,14 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         const live = parseTableCheckControlAvailability(controls, request.date, request.partySize, current.url, request.timeWindow);
         const htmlRejected = hasTableCheckDisabledRequestMarkup(current, request.date, request.partySize, request.timeWindow, live.availableSlots);
         const liveRejected = hasTableCheckDisabledRequestControl(controls, request.date, request.partySize, current.url, request.timeWindow, html.availableSlots);
-        const htmlCurrent = selected && html.queryComplete;
-        const liveCurrent = live.queryComplete;
+        const loading = hasTableCheckAvailabilityResultLoading(current);
+        const hasResultWidget = hasTableCheckAvailabilityWidget(current);
+        const htmlCurrent = !loading && selected && html.queryComplete;
+        // A live link cannot establish that it belongs to a guide's result
+        // component when the source HTML has an explicit component but no
+        // matching in-component result. Keep the historical live-only path
+        // for public reservation pages without that widget.
+        const liveCurrent = !loading && live.queryComplete && (!hasResultWidget || html.queryComplete);
         // HTML and live controls are two readings of one current result.  Do
         // not OR their slots into a synthetic answer: if both are complete,
         // they must agree about requested-window availability/emptiness.
@@ -771,7 +788,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         const rawResult = htmlRejected || liveRejected || !sameResult ? undefined : htmlCurrent ? html : liveCurrent ? live : undefined;
         const scopeBound = hasTableCheckScopeBoundSlot(current, controls, request, serviceScope ?? undefined, rawResult?.availableSlots ?? []);
         const result = rawResult && scopeBound ? rawResult : undefined;
-        return { selected, requestSelected, categorySelected, serviceScope, scopeBound, html, live, htmlRejected, liveRejected, result, complete: result !== undefined };
+        return { selected, requestSelected, categorySelected, serviceScope, scopeBound, html, live, loading, htmlRejected, liveRejected, result, complete: result !== undefined };
       };
       const readAvailability = () => this.executor.runSkill({
         taskId: `browser-read:${candidate.restaurant.id}`,
@@ -780,6 +797,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         session: session!,
         signal,
         allowedOrigins: ["https://www.tablecheck.com"],
+        allowGuardedQueryControls: true,
         goal: { outlet: { name: candidate.restaurant.outletName, address: candidate.restaurant.address }, date: request.date, partySize: request.partySize, timeWindow: request.timeWindow, hardCriteria: request.hardCriteria },
         objective: "For the already identity-grounded outlet, set and verify the requested date, party size, and time window, then read the latest explicit public availability result. If the current public query exposes a source-permitted service-category radio, selecting one current permitted category and reading back its checked state is a query prerequisite before its category-bound result can appear. Do not submit a reservation.",
         methodReason: "The verifier has not yet established a completed availability result for the full Router-bound request.",
@@ -800,6 +818,8 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
               ? "The latest page must explicitly confirm the complete authoritative date and party size before any result can be used."
               : !assessed.categorySelected
               ? "Date and party are already selected, but this public query has no selected service category. If one current radio target offers SET_CHECKED, select exactly one source-permitted category with CHECKED, re-observe its checked state, then wait for the latest category-bound result; otherwise request human help."
+              : assessed.loading
+              ? "The current availability widget is still loading. Do not use its prior slot links; wait for the current result to settle."
               : assessed.selected
               ? capturedResponse
                 ? "The page returned an unclassified response for the selected request; wait for explicit public slot UI or a request-bound HTML/control result before drawing an inventory conclusion."

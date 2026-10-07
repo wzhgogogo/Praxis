@@ -2,7 +2,7 @@ import { createHash } from "node:crypto";
 
 import type { RestaurantCandidateFactPort } from "../../application/restaurant-execution-router.js";
 import type { RestaurantCandidateFactRead, RestaurantCandidateFactRequest, RestaurantReadEvidence, RestaurantFactSourceDocument, RestaurantServiceScope } from "../../domains/restaurant/contracts.js";
-import type { BrowserRuntime, BrowserSnapshot, BrowserPageControl } from "../../infrastructure/browser/browser-runtime.js";
+import type { BrowserReadNetworkPolicy, BrowserRuntime, BrowserSnapshot, BrowserPageControl } from "../../infrastructure/browser/browser-runtime.js";
 import { BrowserTaskExecutor, type BrowserExecutionBudget, type BrowserExecutionDiagnostic } from "../../infrastructure/browser/browser-task-executor.js";
 import type { BrowserReadActionDecisionPort } from "../../infrastructure/browser/browser-action-decision.js";
 import { inspectNativeOutletContinuity, sameNativeOutletUrl } from "../restaurant-availability/native-outlet-continuity.js";
@@ -79,6 +79,8 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
     private readonly modelDecision?: BrowserReadActionDecisionPort,
     private readonly browserBudget?: BrowserExecutionBudget,
     private readonly onBrowserDiagnostic?: (diagnostic: BrowserExecutionDiagnostic) => void,
+    /** Actual compositions provide the source-owned isolated read policy. */
+    private readonly networkPolicy?: BrowserReadNetworkPolicy,
   ) {}
 
   async inspectFacts(request: RestaurantCandidateFactRequest, signal: AbortSignal): Promise<RestaurantCandidateFactRead> {
@@ -108,7 +110,7 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
       try {
         executor.beginCandidate(candidate.restaurant.id);
         executor.beginProvider(candidate.restaurant.id, provider, "FACTS");
-        const session = await executor.acquire(signal, provider, "FACTS");
+        const session = await executor.acquire(signal, provider, "FACTS", this.networkPolicy);
         await executor.navigate({ source: provider, stage: "FACTS", signal, allowedOrigins: [new URL(sourceUrl).origin], session, url: sourceUrl });
         const documents: RestaurantFactSourceDocument[] = [];
         const identities: RestaurantReadEvidence[] = [];

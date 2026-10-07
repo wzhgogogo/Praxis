@@ -1,12 +1,26 @@
 # Browser Read Diagnostics
 
 - Status: Accepted
-- Document revision: 0.10
-- Last updated: 2026-09-30
+- Document revision: 0.11
+- Last updated: 2026-10-07
 - Source of truth for: 单页浏览器只读诊断操作与证据范围
 - Related ADRs: [ADR-0015](../decisions/0015-supported-source-search-evidence.md)、[ADR-0016](../decisions/0016-local-eval-browser-profile-lifecycle.md)
 
 ## 当前切片
+
+2026-10-07 浏览器可靠性切片使用[ADR-0035](../decisions/0035-browser-read-network-boundary.md)
+的隔离只读 context：路由、WebSocket 阻断与 source-owned 公共读取规则在第一
+个 page 前安装，Service Worker 被禁用。**网络边界阻断诊断**只保存稳定码、
+origin/path、method、resource type 与公共字段名，不保存 query 值、body、Cookie、
+token 或原始异常；既有脱敏 DOM/控件证据仍可保留允许的日期、人数和时段绑定。
+当前受 guard 的是 TableCheck/Tabelog 已审查公共来源；Google-listed
+官网路径仍只使用原有窄控件合同。
+
+TableCheck 的单页诊断把 `Venue Availability` 视为唯一当前库存区域：区域内
+`skeleton`、`CalendarSkeleton` 或 `aria-busy=true` 存在时，即使同页还有精确
+预约链接也只报告未完成观察；区域外的预约入口同样不能补成库存。fixture 正常
+对照要求区域内已就绪、同门店/日期/人数/时段绑定的结果。该规则防止错误成功，
+不把 `UNKNOWN` 当作当前无位或 Live 验收通过。
 
 2026-09-30 Stage 1/2 浏览器收口：等待投影把可见控件的
 `value`、`aria-selected`、`disabled` 与 checkbox `checked` 作为重新读取的

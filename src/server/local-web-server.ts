@@ -24,6 +24,7 @@ import { GooglePlacesClient } from "../integrations/google/google-places-client.
 import { GooglePlacesRestaurantSearch } from "../integrations/google/google-places-restaurant-search.js";
 import { composeNativeRestaurantRead } from "../integrations/restaurant-search/native-read-composition.js";
 import { LiveBrowserAvailability } from "../integrations/restaurant-availability/live-browser-availability.js";
+import { restaurantPublicReadNetworkPolicy } from "../integrations/restaurant-availability/public-browser-read-network-policy.js";
 import { composeLiveRestaurantFactRead } from "../integrations/restaurant-facts/live-restaurant-facts.js";
 import { applyPostgresMigrations } from "../infrastructure/postgres/migrations.js";
 import { NodePostgresDatabase } from "../infrastructure/postgres/node-postgres-database.js";
@@ -417,6 +418,7 @@ async function start(): Promise<void> {
         maxElapsedMsPerCandidate: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxCandidateBrowserMs,
         maxElapsedMsPerProvider: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxProviderBrowserMs,
         maxAutomaticElapsedMs: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxAutomaticBrowserMs,
+        networkPolicy: restaurantPublicReadNetworkPolicy,
       });
   const application = new PersistentRestaurantAgentApplication({
     database,

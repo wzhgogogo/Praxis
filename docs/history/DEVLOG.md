@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.148
+- Document revision: 4.149
 - Last updated: 2026-10-07
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,14 @@
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## DEV-2026-10-07-BROWSER-READ-RELIABILITY
+
+- Evidence status: exposed development evidence, not Clean Baseline. Terra implemented; root independently reviewed and returned contract, Runner-capability, observation-value, source-grammar, inventory-loading and fixture-isolation defects before acceptance. [Concise independent review](BROWSER-READ-RELIABILITY-REVIEW-2026-10-07.md).
+- Shared Browser: canonical page WAIT, strict redacted wire diagnostics, bounded interactive calls, one obstruction-triggered Escape/blur with fresh observation, and per-element batched attributes. Presentation classes no longer invalidate a target, but actual owner/value/selection changes do. Prompt@11 and action-schema@6 replace the old contract; no compatibility path.
+- Source-owned request rules now precede wider ordinary query-button operation in isolated local/Cloudflare contexts. Unknown endpoints/fields, business writes, sockets, Service Workers and redirects fail closed; public query POST requires its reviewed flat field schema. TableCheck deterministic exact-query parameters and existing budget fields are preserved; no restaurant-name exceptions. Runner and Web wiring preserve the installed capability. Cloudflare default CDP method receiver is fixed; remote guarded context remains Live-unverified.
+- Live exposed new public cuisines[] omission and unsupported Offer from a loading widget's outside reservation links; existing Adapter and production-composition tests now cover loading, duplicate-widget, wrong-region and settled positive controls. Subsequent Live exposed omitted Tabelog initial calendar; historical actual control records plus current official client fixed all four public calendar query shapes. Network reads retain the caller's read window rather than inheriting the 5s interactive cap.
+- Final source repair is accepted with local gates and an independent actual Chromium receiver, not post-fix current inventory evidence. All three original Live results remain FAIL and intact. No Semantic/Gold/HARD/identity/radius/global-budget changes, new test platform, provider fallback, booking write, or fourth Live. See Test Log for the exact mode-separated evidence.
 
 ## DEV-2026-10-07-MONTHLY-HISTORY-NAVIGATION
 

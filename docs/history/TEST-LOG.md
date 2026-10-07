@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.154
+- Document revision: 4.155
 - Last updated: 2026-10-07
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,27 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-07-BROWSER-READ-RELIABILITY
+
+- Scope/acceptance: predeclared browser reliability and known-feasible delivery; total actual-model cap240, fixed-source120s/20 and full Live500s/50. The initial full-run count2 was amended before the third run for concrete source-grammar and false-inventory fixes; per-run limits and pass thresholds did not increase. Original starts, script errors, sandbox DNS/local-port failures and Live failures stay in the denominator. [Independent review and local evidence links](BROWSER-READ-RELIABILITY-REVIEW-2026-10-07.md).
+- Historical mechanisms: Oct7 WAIT/30s obstruction; prior per-attribute observer; Sep29 actually successful Tabelog date/party calendar reads; this round's public-field block and loading/outside-link false Offer. Old coverage omitted public dynamic grammar and result-region combinations. Existing Browser Executor, Guard, Adapter, native composition and Chromium Harness were strengthened; no independent test platform.
+
+| Verification mode | Actual result | Limit of evidence |
+| --- | --- | --- |
+| Required offline gates | Final host default664/664; typecheck, architecture, build and diff check PASS | Logs: `browser-reliability-20261007/tabelog-calendar-complete-grammar-{default-tests-host,arch,build}.log`, `tabelog-calendar-grammar-and-timeout-typecheck.log` |
+| Fully intercepted Chromium | Final73/73 PASS; 30s stop and existing45s known-feasible completion actually wait31s each | `final-gates-terra/browser-fixture-final.log`; final source-policy-only changes do not affect this unguarded fixture facade, so no duplicate slow-suite rerun |
+| Independent controlled Chromium | Original public query / query POST succeed; unknown write/read, redirect, popup, worker and socket paths have zero unpermitted receiver arrivals | `root.network-runtime-73610880-5160-47dc-adb1-2c33a84e5316.json` and `root.guarded-ui-50d2fd4e-5e7f-4097-b69d-800f46a34757.json`; zero paid models/external traffic |
+| Final Tabelog policy / read-window integration | Actual Chromium6878ms: four legal GET shapes each arrive once;12 missing/extra/repeated-field requests never arrive; delayed script6141ms succeeds in8s;100ms producesREAD_TIMEOUT | `root.tabelog-guard-runtime-fb3d12f4-8db2-4ceb-9cfe-65ff8f4c38fb.json`; actual policies mirrored only by origin to receiver. Guard34/34 unit tests use fakeRoute, separately reported |
+| Observer measurement | Same independent100-control input, old/new three samples; median84.475% faster, selected/value/owner truth and stale rejection preserved | Controlled-page performance only; CDP message counts are not serial round trips |
+| Real DeepSeek / fixed source | Sandbox36ms/1 started call DNS FAIL retained; host13794ms/10 successful calls, actual qualifiedPRESENT, root17/17 andEvaluator six dimensions PASS | Offline frozen pages; not current inventory. Requested model deepseek-v4-flash, provider reports deepseek-flash; no model configuration change |
+| Full Live1 AUTO | 6104ms/4calls; existing unbound Cloudflare method receiver prevents browser creation | FAIL; later unit repair does not establish remote guard Live acceptance |
+| Full Live2 LOCAL | 121864ms/25calls;3 candidates, Nasu PRESENT unsupported by raw loading-widget evidence | FAIL; no evaluator threshold relaxation or original overwrite |
+| Full Live3 LOCAL | 80341ms/18calls;1 candidate,0 offers,NO_VERIFIED_RESULT | FAIL; actual new initial-calendar block repaired only afterwards. TC stale recovered; all4details outside current radius. TC inventory-loading fix NOT_COVERED in this run |
+
+- Evaluator reused@25/rubric@21; root mechanism and raw-acceptance sidecars supplement its unassessed dimensions. Last Live required grounding/final claim/completion lack evidence; budget compliance or exit0 cannot supply it. Explicit HARD and current-slot requirements remain unchanged.
+- Failures retained: first Chromium69/73 and accidental repeat failed from fixture Guard capability/precision URL routes; two fixture probes may have attempted real `/en/fixture` GET and cannot be counted as zero-network evidence. Fully intercepted routes were corrected before73/73. Static public-client GET15s partial timeout and Range206 completion are separate zero-model contract investigation, no inventory calls.
+- Google process proxy empty / Browser proxy=false; no .env or system-network changes. All full runs are read-only code paths; global external side-effect count remains NOT_MEASURED, separate from controlled receiver zero-arrival evidence. No booking/login/payment/cancellation or fourth full Live. Final source grammar/timeout repair still needs a bounded real-source phase check.
 
 ## TEST-2026-10-07-MONTHLY-HISTORY-NAVIGATION
 

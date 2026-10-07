@@ -14,14 +14,20 @@ export type SourceScenario = "TABELOG_DELIVERS" | "TABLECHECK_RECOVERS" | "BOTH_
 function page(url: string, html: string, text: string, title = "Restaurant"): BrowserSnapshot { return { url, html, text, title }; }
 
 class NativeFixtureSession implements BrowserSession {
-  readonly metadata = { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM" as const, engine: "CHROMIUM" as const, startedAt: reference.toISOString() };
+  readonly metadata: BrowserSession["metadata"];
   private current?: BrowserSnapshot;
   private navigationUnusable = false;
   constructor(private readonly lookup: (url: string) => BrowserSnapshot, private readonly navigations: string[],
     private readonly sessionId: number, private readonly navigationSessionIds?: number[], private readonly closedSessionIds?: number[],
     private readonly onReadOnlyClick?: (url: string) => void, private readonly onReadOnlyFill?: (value: string) => void,
     private readonly onReadOnlySetChecked?: (url: string, value: string, checked: boolean) => void,
-    private readonly onReadOnlyWaitForChange?: (url: string) => boolean) {}
+    private readonly onReadOnlyWaitForChange?: (url: string) => boolean,
+    guardedReadBoundary = false) {
+    this.metadata = {
+      runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM", engine: "CHROMIUM", startedAt: reference.toISOString(),
+      ...(guardedReadBoundary ? { readNetworkBoundary: "INSTALLED" } : {}),
+    };
+  }
   async navigate(url: string): Promise<void> {
     if (this.navigationUnusable) throw Object.assign(new Error("Prior navigation is still unresolved"), { code: "BROWSER_TIMEOUT" });
     this.navigations.push(url);
@@ -128,7 +134,14 @@ class NativeFixtureSession implements BrowserSession {
   async close(): Promise<void> { this.closedSessionIds?.push(this.sessionId); }
 }
 
-export function sourcePages(scenario: SourceScenario, navigations: string[], sessionsOpened?: number[], navigationSessionIds?: number[], closedSessionIds?: number[]) {
+export function sourcePages(
+  scenario: SourceScenario,
+  navigations: string[],
+  sessionsOpened?: number[],
+  navigationSessionIds?: number[],
+  closedSessionIds?: number[],
+  options: { guardedReadBoundary?: boolean; guardedQuerySubmit?: boolean } = {},
+) {
   let tableCheckDiscoveryRevealed = false;
   let tableCheckDiscoveryInputValue = "stale query";
   let tableCheckDiscoveryExpectedQuery = "";
@@ -239,7 +252,7 @@ export function sourcePages(scenario: SourceScenario, navigations: string[], ses
           `<input type="search" name="search_text" aria-label="Search venues" value="${currentValue}" data-live-value="${liveValue}"><a href="/en/native-omakase-1">Native TableCheck 1</a>`,
           "1 venue found", "TableCheck search");
         return page(url,
-          `<input type="search" name="search_text" aria-label="Search venues" value="${currentValue}" data-live-value="${liveValue}"><a href="/en/stale-result">Stale venue</a>${liveValue === currentValue ? '<div aria-busy="true">Loading current search</div>' : ''}<button type="button">Show public venues</button>`,
+          `<input type="search" name="search_text" aria-label="Search venues" value="${currentValue}" data-live-value="${liveValue}"><a href="/en/stale-result">Stale venue</a>${liveValue === currentValue ? '<div aria-busy="true">Loading current search</div>' : ''}${options.guardedQuerySubmit ? '<form><button type="submit">Show public venues</button></form>' : '<button type="button">Show public venues</button>'}`,
           liveValue === currentValue ? "Loading current search" : "Search filters ready", "TableCheck search");
       }
       if (scenario === "TABLECHECK_QUERY_READY") return page(url,
@@ -293,7 +306,7 @@ export function sourcePages(scenario: SourceScenario, navigations: string[], ses
     throw new Error(`Unconfigured public source page: ${url}`);
   };
   let reopenFailureInjected = false;
-  const runtime: BrowserRuntime = { openSession: async () => {
+  const runtime: BrowserRuntime = { ...(options.guardedReadBoundary ? { readNetworkBoundaryCapability: "ISOLATED_CONTEXT" as const } : {}), openSession: async () => {
     const sessionId = (sessionsOpened?.length ?? 0) + 1;
     if (scenario === "TABELOG_REOPEN_RETAINS" && sessionId === 2 && !reopenFailureInjected) {
       reopenFailureInjected = true;
@@ -324,7 +337,8 @@ export function sourcePages(scenario: SourceScenario, navigations: string[], ses
         if (new URL(url).pathname !== "/en/shops/native-omakase-1/reserve" || tableCheckScopedCategory !== "sushi" || tableCheckScopedResultReady) return false;
         tableCheckScopedResultReady = true;
         return true;
-      } : undefined);
+      } : undefined,
+      options.guardedReadBoundary === true);
   } };
   return runtime;
 }

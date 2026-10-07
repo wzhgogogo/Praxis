@@ -397,6 +397,66 @@ test("TableCheck keeps an enabled exact slot when a different slot in the reques
   assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE");
 });
 
+test("TableCheck does not complete a current exact slot while its availability widget still has a skeleton", async () => {
+  const guide = "https://www.tablecheck.com/en/restaurant1";
+  const reserve = "https://www.tablecheck.com/en/shops/restaurant1/reserve";
+  const date = request.date;
+  const exact = `${reserve}?start_date=${date}&num_people=${request.partySize}&start_time=19:00`;
+  const controls: BrowserPageControl[] = [
+    { id: "date", stableKey: "date", kind: "INPUT", role: "textbox", label: date, value: date, visible: true, disabled: false, structure: { tag: "INPUT", name: "reservation[start_date]", classes: [], dialogLabel: "", formClass: "", sliderCount: 0 } },
+    { id: "adults", stableKey: "adults", kind: "SELECT", role: "combobox", label: "Adults", value: String(request.partySize), visible: true, disabled: false, options: [{ value: String(request.partySize), label: String(request.partySize), selected: true, disabled: false }], structure: { tag: "SELECT", name: "reservation[num_people_adult]", classes: [], dialogLabel: "", formClass: "", sliderCount: 0 } },
+    { id: "current-slot", stableKey: "current-slot", kind: "LINK", role: "link", label: "19:00", href: exact, visible: true, disabled: false },
+  ];
+  const loadingSession = new ResponseFixtureBrowserSession([
+    discoveryPage({ href: "/en/restaurant1", text: "Restaurant 1" }),
+    { url: guide, title: "Restaurant 1", text: "Restaurant 1", html: '<h1>Restaurant 1</h1><a href="tel:03-1111-2222">Phone</a><a href="/en/shops/restaurant1/reserve">Book a table</a>' },
+    { url: reserve, title: "Restaurant 1 reservation", text: "Restaurant 1 2 adults 19:00", html: `<form><input name="reservation[start_date]" value="${date}"><select name="reservation[num_people_adult]"><option value="${request.partySize}" selected>${request.partySize}</option></select><div data-testid="Venue Availability"><div class="CalendarSkeleton"></div><a href="${exact}">19:00</a></div></form>` },
+  ], controls);
+  const loading = await new TableCheckBrowserAvailability({ openSession: async () => loadingSession }, () => "2026-08-05T09:00:00.000Z").check(request, new AbortController().signal);
+  assert.equal(loading.offers.length, 0);
+  assert.equal(loading.availabilityChecks[candidate.restaurant.id]?.status, "UNKNOWN");
+  assert.equal(loading.availabilityChecks[candidate.restaurant.id]?.reasonCode, "AVAILABILITY_RESULT_UNOBSERVED");
+
+  const settledSession = new ResponseFixtureBrowserSession([
+    discoveryPage({ href: "/en/restaurant1", text: "Restaurant 1" }),
+    { url: guide, title: "Restaurant 1", text: "Restaurant 1", html: '<h1>Restaurant 1</h1><a href="tel:03-1111-2222">Phone</a><a href="/en/shops/restaurant1/reserve">Book a table</a>' },
+    { url: reserve, title: "Restaurant 1 reservation", text: "Restaurant 1 2 adults 19:00", html: `<form><input name="reservation[start_date]" value="${date}"><select name="reservation[num_people_adult]"><option value="${request.partySize}" selected>${request.partySize}</option></select><div class="skeleton">unrelated page loading</div><div data-testid="Venue Availability"><a href="${exact}">19:00</a></div></form>` },
+  ], controls);
+  const settled = await new TableCheckBrowserAvailability({ openSession: async () => settledSession }, () => "2026-08-05T09:00:00.000Z").check(request, new AbortController().signal);
+  assert.equal(settled.offers.length, 1, "a skeleton outside the source result widget must not reject a settled exact slot");
+  assert.equal(settled.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE");
+});
+
+test("TableCheck does not treat an outside or ambiguous-widget reservation entrance as inventory", async () => {
+  const guide = "https://www.tablecheck.com/en/restaurant1";
+  const reserve = "https://www.tablecheck.com/en/shops/restaurant1/reserve";
+  const date = request.date;
+  const exact = `${reserve}?start_date=${date}&num_people=${request.partySize}&start_time=19:00`;
+  const controls: BrowserPageControl[] = [
+    { id: "date", stableKey: "date", kind: "INPUT", role: "textbox", label: date, value: date, visible: true, disabled: false, structure: { tag: "INPUT", name: "reservation[start_date]", classes: [], dialogLabel: "", formClass: "", sliderCount: 0 } },
+    { id: "adults", stableKey: "adults", kind: "SELECT", role: "combobox", label: "Adults", value: String(request.partySize), visible: true, disabled: false, options: [{ value: String(request.partySize), label: String(request.partySize), selected: true, disabled: false }], structure: { tag: "SELECT", name: "reservation[num_people_adult]", classes: [], dialogLabel: "", formClass: "", sliderCount: 0 } },
+    { id: "outside-entrance", stableKey: "outside-entrance", kind: "LINK", role: "link", label: "19:00", href: exact, visible: true, disabled: false },
+  ];
+  const session = new ResponseFixtureBrowserSession([
+    discoveryPage({ href: "/en/restaurant1", text: "Restaurant 1" }),
+    { url: guide, title: "Restaurant 1", text: "Restaurant 1", html: '<h1>Restaurant 1</h1><a href="tel:03-1111-2222">Phone</a><a href="/en/shops/restaurant1/reserve">Book a table</a>' },
+    { url: reserve, title: "Restaurant 1 reservation", text: "Restaurant 1 2 adults 19:00", html: `<form><input name="reservation[start_date]" value="${date}"><select name="reservation[num_people_adult]"><option value="${request.partySize}" selected>${request.partySize}</option></select><div data-testid="Venue Availability"><button data-testid="day" data-date="${date}" aria-selected="true">${date}</button><div data-testid="Venue Pax Select" id="pax-${request.partySize}"></div><div data-testid="Venue Time Select" id="time-19:00"></div></div><a href="${exact}">Private room</a></form>` },
+  ], controls);
+  const result = await new TableCheckBrowserAvailability({ openSession: async () => session }, () => "2026-08-05T09:00:00.000Z").check(request, new AbortController().signal);
+  assert.equal(result.offers.length, 0);
+  assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "UNKNOWN");
+  assert.equal(result.availabilityChecks[candidate.restaurant.id]?.reasonCode, "AVAILABILITY_RESULT_UNOBSERVED");
+
+  const duplicatedWidget = new ResponseFixtureBrowserSession([
+    discoveryPage({ href: "/en/restaurant1", text: "Restaurant 1" }),
+    { url: guide, title: "Restaurant 1", text: "Restaurant 1", html: '<h1>Restaurant 1</h1><a href="tel:03-1111-2222">Phone</a><a href="/en/shops/restaurant1/reserve">Book a table</a>' },
+    { url: reserve, title: "Restaurant 1 reservation", text: "Restaurant 1 2 adults 19:00", html: `<form><input name="reservation[start_date]" value="${date}"><select name="reservation[num_people_adult]"><option value="${request.partySize}" selected>${request.partySize}</option></select><div data-testid="Venue Availability"><a href="${exact}">19:00</a></div><div data-testid="Venue Availability"><a href="${exact}">19:00</a></div></form>` },
+  ], controls);
+  const ambiguous = await new TableCheckBrowserAvailability({ openSession: async () => duplicatedWidget }, () => "2026-08-05T09:00:00.000Z").check(request, new AbortController().signal);
+  assert.equal(ambiguous.offers.length, 0, "ambiguous current widgets must not fall back to page-wide reservation links");
+  assert.equal(ambiguous.availabilityChecks[candidate.restaurant.id]?.status, "UNKNOWN");
+});
+
 const request = {
   candidateIds: [candidate.restaurant.id],
   candidates: [candidate],
@@ -444,6 +504,19 @@ test("TableCheck resolves a real linked reservation page and only sets read para
   assert.equal(
     tableCheckRequestedReservationUrl(target!, "2026-08-05", 2),
     "https://www.tablecheck.com/en/restaurant1/reserve/landing?utm_source=tablecheck_portal&start_date=2026-08-05&pax=2",
+  );
+});
+
+test("TableCheck pre-fills only an exact observed guide request without turning it into inventory", () => {
+  const target = { kind: "EMBEDDED_AVAILABILITY" as const, url: "https://www.tablecheck.com/en/sushihajime-shibuya" };
+  assert.equal(
+    tableCheckRequestedReservationUrl(target, "2026-10-08", 2, { earliest: "19:00", latest: "19:00" }),
+    "https://www.tablecheck.com/en/sushihajime-shibuya?date=2026-10-08&time=19%3A00&num_people=2&availability_format=datetime&availability_mode=same_meal_time",
+  );
+  assert.equal(
+    tableCheckRequestedReservationUrl(target, "2026-10-08", 2, { earliest: "18:00", latest: "19:00" }),
+    target.url,
+    "the observed serializer does not justify picking a time from a requested range",
   );
 });
 
@@ -1307,7 +1380,7 @@ test("TableCheck discovery 403 documents are provider-page failures, not outlet 
 test("public query permission requires the observed source dialog and control structure", async () => {
   const { permitsTableCheckQueryControl } = await import("./tablecheck-public-query.js");
   const snapshot = { url: "https://www.tablecheck.com/en/japan/search", title: "Search", text: "", html: "" };
-  const control = { id: "observed", stableKey: "observed", kind: "CHECKBOX" as const, role: "checkbox", label: "Sushi", type: "checkbox", visible: true, disabled: false, structure: { tag: "INPUT", name: "cuisines", classes: ["checkbox"], dialogLabel: "Cuisine", formClass: "Form_f1pf9bb6", sliderCount: 0 } };
+  const control = { id: "observed", stableKey: "observed", kind: "CHECKBOX" as const, role: "checkbox", label: "Sushi", type: "checkbox", visible: true, disabled: false, structure: { tag: "INPUT", name: "cuisines", classes: ["checkbox"], dialogLabel: "Cuisine", formClass: "source-form-class-may-change", sliderCount: 0 } };
   assert.equal(permitsTableCheckQueryControl({ control, snapshot, action: "SET_CHECKED" }), true);
   const { structure: _structure, ...withoutStructure } = control;
   for (const rejected of [
@@ -1333,11 +1406,11 @@ test("TableCheck guide empty result is bound to one ready widget and exact selec
   }
 });
 
-test("TableCheck accepts a correct realtime control slot and rejects its wrong-date counterpart", async () => {
+test("TableCheck accepts a correct realtime control slot inside its ready widget and rejects its wrong-date counterpart", async () => {
   for (const date of [request.date, "2099-01-01"]) {
     const session = new FixtureBrowserSession([
       discoveryPage({href:"/en/restaurant1",text:"Restaurant 1"}),
-      {url:"https://www.tablecheck.com/en/restaurant1",title:"Restaurant 1",text:"Restaurant 1",html:'<h1>Restaurant 1</h1><a href="tel:03-1111-2222">Phone</a><div data-testid="Venue Availability"></div><div class="menu">omakase</div>'},
+      {url:"https://www.tablecheck.com/en/restaurant1",title:"Restaurant 1",text:"Restaurant 1",html:`<h1>Restaurant 1</h1><a href="tel:03-1111-2222">Phone</a><div data-testid="Venue Availability"><a href="/en/shops/restaurant1/reserve?start_date=${date}&pax=${request.partySize}&start_time=19:00">19:00</a></div><div class="menu">omakase</div>`},
     ]);
     session.observeControls = async () => [{id:"slot",stableKey:"slot",kind:"LINK",role:"link",label:"19:00",href:`https://www.tablecheck.com/en/shops/restaurant1/reserve?start_date=${date}&pax=${request.partySize}&start_time=19:00`,visible:true,disabled:false}];
     const executor = new BrowserTaskExecutor({openSession:async()=>session},{modelDecision:{async decide(){return {type:"COMPLETE",reason:"Hand back observed controls for verification"}}}});

@@ -1,7 +1,7 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.38
+- Document revision: 1.40
 - Last updated: 2026-10-07
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
@@ -24,11 +24,37 @@
 | Google-listed Restaurant Website | 仅已发现候选的Google `websiteUri` | 有界只读的JSON-LD、可见字段及引用式原文事实交接 | 否 | 否 | 否 | 否 | 代码实现、尚待本切片Live实测。仅复用受控只读Browser Executor打开HTTP(S)同源网址，移除query/fragment并拒绝凭据、跨源跳转及不安全控件。候选名称加地址包含、同序门牌加可用地域词对应，或唯一公开电话（可见数字/tel链接）精确对应，才可建立HIGH identity；门牌数字本身、同名、缺地址或明确不同城市/街区均为UNKNOWN。JSON-LD是快捷路径，不会遮住同页可见事实；身份确认后才接纳明确标注的公开套餐价/税费、包间低消、取消和no-show字段，裸金额不推断；字段彼此不派生。候选身份确认后可把每候选最多6,000字符的原文按片段ID临时交给既有事实模型；模型每页最多选择3条原文，代码仅按观察到的ID保存短引用及同来源身份，不保存整页原文到Task State。派生`MODEL_JUDGMENT`只保存到原始来源事实的引用链，不伪装为页面来源。交接不证明条件或库存；Agent仍负责后续调查。536项默认测试与生产组合通过，Matsue两页Replay可绑定；不同电话/跨语言地址及共享菜单归属未解决，一次固定来源真实模型已证明Matsue阅读交接，但fact judgment11有引用格式失败；当前12/schema4以当前来源ID枚举约束引用，仅离线门禁通过，尚无修正后的模型或新整单Live验收。Google Maps URL、Google列出的网址或模型结论都不单独证明官网/门店事实；失败为candidate-scoped UNKNOWN，绝不构成无位 |
 | Phone-only Restaurant | 可能 | 电话 | 否 | 否 | 用户/餐厅确认 | 用户 | `unsupported`于MVP |
 
+## 2026-10-07 guarded browser reads and current-result binding
+
+The Local Chromium source sessions for the currently reviewed TableCheck and
+Tabelog public pages create an isolated context with Service Workers blocked,
+network and WebSocket rules installed before the first page, and adapter-owned
+read grammars. The boundary admits only reviewed documents, static resources
+and dynamic public reads; unknown GET/POST, redirects, and unadmitted worker,
+popup or socket requests stop before dispatch. Google-listed websites retain their existing
+narrow UI path and are **not** covered by this source boundary. Cloudflare has
+the same code path but no current provider-session Live acceptance.
+
+TableCheck's public result may use exact reservation links only after the
+single visible `Venue Availability` component is settled. A skeleton within
+that component, or a date/party/time-shaped reservation entrance outside it,
+is `UNKNOWN`; it cannot create inventory or an Offer. This is a Local
+Fixture/controlled adapter contract, reinforced by a Live diagnostic artifact,
+not acceptance of current availability. The exact source policy and evidence
+boundary are defined in [ADR-0035](../decisions/0035-browser-read-network-boundary.md).
+
+For Tabelog, the guarded calendar read chain admits only the observed public
+GET grammar for initial dates, date status, party choices, and time choices.
+Those four exact paths have bounded key sets in the source-owned policy;
+unknown, missing, or repeated keys stop before dispatch. A permitted response
+is still only a read input: outlet, selected date/party, and explicit slot
+binding remain required before availability or an Offer can be accepted.
+
 ## 2026-10-07 bounded native discovery
 
 The native source path now distinguishes sparse keyword retrieval from HARD fact verification. Tabelog can ask the existing model to select one observed relevant category, remove the keyword through its own visible link, and retain observed same-area pagination in the existing source continuation. Current pending details remain first. Its six-page ceiling covers initial region navigation, category adjustment and later result pages together; a short keyword list is not site-wide exhaustion. No restaurant branch, cuisine dictionary or new source framework was introduced. Controlled composition covers category discovery, deduplication, and pagination links that appear only after a query action.
 
-Shared Browser Read uses action schema 6 / prompt 9. An exact original-query suggestion can be selected through `CHOOSE_OPTION:RETRIEVAL` only in Discovery, with current owner/query and closed-listbox readback. Same-document fragment anchors expose CLICK for UI expansion, while ordinary public navigation uses OPEN_LINK; sensitive actions and origins remain restricted. The existing intercepted Chromium scenarios cover both mechanisms. Site-specific entry semantics stay in the source skill/adapter; this is extensible shared execution, not a claim of arbitrary-site support.
+Shared Browser Read uses action schema 6 / prompt 11. An exact original-query suggestion can be selected through `CHOOSE_OPTION:RETRIEVAL` only in Discovery, with current owner/query and closed-listbox readback. Same-document fragment anchors expose CLICK for UI expansion, while ordinary public navigation uses OPEN_LINK; sensitive actions and origins remain restricted. The existing intercepted Chromium scenarios cover both mechanisms. Site-specific entry semantics stay in the source skill/adapter; this is extensible shared execution, not a claim of arbitrary-site support. The earlier prompt 9 belongs only to its historical Live artifacts.
 
 One discovery-only Live used 66,810ms and nine model decisions. TableCheck actually selected exact-query suggestions, parsed 16 outlets, read ten details and admitted two within the unchanged 1km radius; six remaining details were not read. Tabelog admitted only Teppen and failed category adjustment because its observed All fragment anchor's CLICK was rejected. Overall independent acceptance is FAIL. The subsequent fragment-action correction has local verification only, with no further Live run. All three admissions are discovery evidence, not HARD or availability results. [Execution and independent acceptance](../../.eval-artifacts/h001-discovery-20261007/live/2026-10-06T20-16-09-612Z-fcf5a3a3-98ab-4ba7-af9e-ef279b411fc3.acceptance.json).
 

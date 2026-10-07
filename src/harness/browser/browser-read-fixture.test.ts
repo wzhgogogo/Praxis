@@ -15,6 +15,17 @@ import { inspectProbePage, runBrowserReadProbe } from "../../eval/restaurant/age
 const url = "https://www.tablecheck.com/en/fixture";
 const identity = '<h1>Fixture restaurant</h1><p class="address">1-1 Tokyo Fixture Street</p><a href="tel:03-1111-2222">Phone</a>';
 
+/** Match the documented exact-time guide serializer used by the production Adapter. */
+function exactGuideAvailabilityUrl(sourceUrl: string, date: string, partySize: number, time: string): string {
+  const value = new URL(sourceUrl);
+  value.searchParams.set("date", date);
+  value.searchParams.set("time", time);
+  value.searchParams.set("num_people", String(partySize));
+  value.searchParams.set("availability_format", "datetime");
+  value.searchParams.set("availability_mode", "same_meal_time");
+  return value.toString();
+}
+
 // Live H003 reached observed party controls but passed dom: references as CSS selectors.
 // Exercise real Executor -> runtime -> DOM for both session implementations. The model
 // and network are synthetic; the resulting date/party display is the independent oracle.
@@ -111,6 +122,42 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
       assert.equal(await session.waitForChange!(beforeChecked, 120), true, "a visible checked property mutation wakes a fresh read");
       assert.match((await session.snapshot()).interactiveState ?? "", /\"checked\":true/);
     } finally { await session.close(); }
+  });
+}
+
+for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
+  test(`${runtimeKind} recovers once from a visible header obstruction and re-observes before the next click`, async () => {
+    const runtime = localFixture(`<title>Obstructed query</title>
+      <style>#blocker{position:fixed;inset:0 auto auto 0;width:100%;height:90px;z-index:3;background:#fff}</style>
+      <button id="apply" type="button" style="position:relative;z-index:1" onclick="document.querySelector('#result').textContent='Current availability 19:00'">Find availability</button>
+      <header id="blocker"><strong>Search suggestions</strong></header><output id="result">Select the public query.</output>
+      <script>addEventListener('keydown',event=>{if(event.key==='Escape')document.querySelector('#blocker')?.remove()})</script>`, runtimeKind);
+    const diagnostics: import("../../infrastructure/browser/browser-task-executor.js").BrowserExecutionDiagnostic[] = [];
+    let decisions = 0;
+    const executor = new BrowserTaskExecutor(runtime, {
+      onDiagnostic: event => diagnostics.push(event),
+      modelDecision: { async decide(input) {
+        decisions += 1;
+        const action = input.observation.targets.find(target => target.label === "Find availability");
+        assert.ok(action);
+        return { type: "CLICK", targetRef: action.ref, reason: "Run the observed public query." };
+      } },
+    });
+    const signal = new AbortController().signal;
+    const session = await executor.acquire(signal, "TABLECHECK", "AVAILABILITY");
+    try {
+      await executor.navigate({ source: "TABLECHECK", stage: "AVAILABILITY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
+      const result = await executor.runSkill({
+        taskId: `fixture:obstruction:${runtimeKind}`, source: "TABLECHECK", stage: "AVAILABILITY", session, signal,
+        allowedOrigins: ["https://www.tablecheck.com"],
+        goal: { outlet: { name: "Fixture" }, hardCriteria: [] }, objective: "Run the public availability query.",
+        completion: snapshot => ({ complete: /Current availability 19:00/.test(snapshot.text), reason: "The current public result is not visible." }),
+      });
+      assert.equal(result.status, "COMPLETED", JSON.stringify(result));
+      assert.equal(decisions, 2, "the recovery must re-observe and obtain a fresh proposal");
+      assert.ok(diagnostics.some(event => event.detail === "ACTION_OBSTRUCTED"));
+      assert.ok(diagnostics.some(event => event.detail === "ACTION_OBSTRUCTION_RECOVERED:header"));
+    } finally { await executor.close(); }
   });
 }
 
@@ -704,7 +751,7 @@ test("an asynchronously applied option can complete after a later selected-value
       assert.equal(input.observation.targets.find(target => target.kind === "SELECT")?.options?.find(option => option.selected)?.value, "", "inventory readiness does not confirm the selected time");
       // Release only after the pending state was observed; no wall-clock race.
       await session.click("#settle");
-      return { type: "WAIT", targetRef: input.observation.targets.find(target => target.kind === "SELECT")!.ref, reason: "Wait for the selected value." };
+      return { type: "WAIT", reason: "Wait for the selected value." };
     }
     return { type: "CHOOSE_OPTION", targetRef: input.observation.targets.find(target => target.kind === "OPTION" && target.label === "7:00 PM")!.ref, field: "TIME", reason: "Choose the observed time." };
   } } });
@@ -776,8 +823,8 @@ function localFixture(html: string | Record<string, string>, runtimeKind: "LOCAL
       return browser;
     },
   };
-  if (runtimeKind === "CLOUDFLARE_SESSION") {
-    return new CloudflareBrowserRun({
+  const runtime: BrowserRuntime = runtimeKind === "CLOUDFLARE_SESSION"
+    ? new CloudflareBrowserRun({
       accountId: "fixture", apiToken: "fixture", engineMode: "CHROMIUM_ONLY",
       // Replace only the remote connection; exercise the production Cloudflare session on local Chromium.
       connectOverCdp: async () => {
@@ -785,9 +832,12 @@ function localFixture(html: string | Record<string, string>, runtimeKind: "LOCAL
         await browser.newContext();
         return browser;
       },
-    });
-  }
-  return new LocalPlaywrightChromium({ browserType });
+    })
+    : new LocalPlaywrightChromium({ browserType });
+  // The fixture intercepts every request itself.  It is not a production
+  // isolated context, so probe code must not install a second policy whose
+  // route.fetch would bypass this fixture's controlled response map.
+  return { openSession: (input: Parameters<BrowserRuntime["openSession"]>[0]) => runtime.openSession(input) };
 }
 
 test("Chromium control observation discards only a handle confirmed disconnected between reads", async () => {
@@ -843,7 +893,7 @@ test("Chromium control observation preserves an attached control-read failure", 
         return {
           elementHandles: async () => (await locator.elementHandles()).map(handle => new Proxy(handle, {
             get(target, property, receiver) {
-              if (property === "isDisabled") return async () => { throw new Error("CONTROL_READ_FAILURE"); };
+              if (property === "isVisible") return async () => { throw new Error("CONTROL_READ_FAILURE"); };
               const value = Reflect.get(target, property, receiver);
               return typeof value === "function" ? value.bind(target) : value;
             },
@@ -853,6 +903,34 @@ test("Chromium control observation preserves an attached control-read failure", 
       url: () => page.url(),
     } as Parameters<PlaywrightControlRegistry["observe"]>[0];
     await assert.rejects(registry.observe(observedPage), /CONTROL_READ_FAILURE/);
+  } finally { await browser.close(); }
+});
+
+test("Chromium control signatures ignore presentation-only classes but reject value and owner changes", async () => {
+  const browser = await chromium.launch({ headless: true });
+  try {
+    const page = await browser.newPage();
+    await page.setContent(`<form id="first"><label><input id="choice" type="radio" name="category" value="sushi"> Sushi</label></form><form id="second"></form><button id="attribute-value" value="public-query">Open public query</button>`);
+    const registry = new PlaywrightControlRegistry();
+    try {
+      const initial = await registry.observe(page);
+      const first = initial.find(control => control.kind === "RADIO");
+      assert.ok(first);
+      assert.equal(initial.find(control => control.label === "Open public query")?.value, "public-query", "a non-native public value attribute remains observable");
+      await page.locator("#choice").evaluate(element => {
+        element.classList.add("hovered-by-page");
+        (element as HTMLInputElement).form?.classList.add("transitioning-layout");
+      });
+      assert.ok(await registry.target(first.id), "presentational control and form class changes leave the observed semantic target actionable");
+
+      await page.locator("#choice").evaluate(element => { (element as HTMLInputElement).value = "bar"; });
+      await assert.rejects(registry.target(first.id), /Observed target changed/, "a changed public radio value invalidates its earlier target");
+
+      const second = (await registry.observe(page)).find(control => control.kind === "RADIO");
+      assert.ok(second);
+      await page.locator("#choice").evaluate(element => element.setAttribute("form", "second"));
+      await assert.rejects(registry.target(second.id), /Observed target changed/, "a changed native form owner invalidates its earlier target");
+    } finally { await registry.dispose(); }
   } finally { await browser.close(); }
 });
 
@@ -1664,7 +1742,12 @@ test("TableCheck waits for its guide result and grounds exact-query empty availa
   const sourceUrl = "https://www.tablecheck.com/en/restaurant1";
   const html = '<h1>Restaurant 1</h1><a href="tel:03-1111-2222">Phone</a><div data-testid="Venue Availability"><form><button type="button" data-testid="day" data-date="2026-9-16" aria-selected="true" data-state="disabled">16</button><div data-testid="Venue Pax Select" id="pax-2"></div><div data-testid="Venue Time Select" id="time-19:00"></div><span class="skeleton"></span></form></div><script>setTimeout(()=>{document.querySelector(".skeleton").outerHTML=\'<span data-testid="Venue Unavailable Msg">We could not find a table on Sep 16th for the selected mealtime</span>\'},200)</script>';
   const searchUrl = tableCheckDiscoveryUrl(candidate);
-  const executor = new BrowserTaskExecutor(localFixture({[searchUrl]:`<a href="${sourceUrl}">Restaurant 1</a>`,[sourceUrl]:html}),{modelDecision:{async decide(){assert.fail("ready explicit empty result should need no model")}}});
+  const requestedUrl = exactGuideAvailabilityUrl(sourceUrl, "2026-09-16", 2, "19:00");
+  const executor = new BrowserTaskExecutor(localFixture({
+    [searchUrl]: `<a href="${sourceUrl}">Restaurant 1</a>`,
+    [sourceUrl]: html,
+    [requestedUrl]: html,
+  }), { modelDecision: { async decide() { assert.fail("ready explicit empty result should need no model"); } } });
   try {
     const result = await new TableCheckBrowserAvailability(executor).check({candidates:[candidate],candidateIds:[candidate.restaurant.id],date:"2026-09-16",partySize:2,timeWindow:{earliest:"19:00",latest:"19:00"},hardCriteria:[]},new AbortController().signal);
     assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status,"UNAVAILABLE",JSON.stringify(result));
@@ -1681,6 +1764,7 @@ test("real Chromium TableCheck source observation crosses the retired 30s provid
   candidate.restaurant.sourceIds.phone = "03-1111-2222";
   const sourceUrl = "https://www.tablecheck.com/en/restaurant1";
   const resultLink = "/en/shops/restaurant1/reserve?start_date=2026-09-16&num_people=2&start_time=19:00";
+  const requestedSourceUrl = exactGuideAvailabilityUrl(sourceUrl, "2026-09-16", 2, "19:00");
   const delayedPage = `<h1>Restaurant 1</h1><a href="tel:03-1111-2222">Phone</a><div data-testid="Venue Availability"><form><input name="reservation[start_date]" value="2026-09-16"><select name="reservation[num_people_adult]"><option value="2" selected>2</option></select></form><span class="skeleton"></span><div id="result"></div></div><script>setTimeout(()=>{document.querySelector('.skeleton').remove();const link=document.createElement('a');link.href='${resultLink}';link.textContent='19:00';document.querySelector('#result').append(link)},100)</script>`;
   const delayedSourceObservation = (runtime: BrowserRuntime): BrowserRuntime => ({
     async openSession(input) {
@@ -1690,7 +1774,10 @@ test("real Chromium TableCheck source observation crosses the retired 30s provid
       const session = Object.create(raw) as BrowserSession;
       session.navigate = async (target, options) => {
         await raw.navigate(target, options);
-        delayNextSourceSnapshot = target === sourceUrl;
+        // The production Adapter now navigates through the exact guide query
+        // before its first availability snapshot.  Delay that source read,
+        // not the earlier identity guide navigation.
+        delayNextSourceSnapshot = target === requestedSourceUrl;
       };
       session.snapshot = async () => {
         if (delayNextSourceSnapshot) {
@@ -1730,7 +1817,9 @@ test("real Chromium TableCheck source observation crosses the retired 30s provid
     const diagnostics: import("../../infrastructure/browser/browser-task-executor.js").BrowserExecutionDiagnostic[] = [];
     const startedAt = Date.now();
     const executor = new BrowserTaskExecutor(delayedSourceObservation(localFixture({
-      [tableCheckDiscoveryUrl(candidate)]: `<a href="${sourceUrl}">Restaurant 1</a>`, [sourceUrl]: delayedPage,
+      [tableCheckDiscoveryUrl(candidate)]: `<a href="${sourceUrl}">Restaurant 1</a>`,
+      [sourceUrl]: delayedPage,
+      [requestedSourceUrl]: delayedPage,
     })), { maxElapsedMsPerCandidate: 60_000, maxElapsedMsPerProvider: providerBudgetMs, maxAutomaticElapsedMs: 60_000,
       onDiagnostic: diagnostic => diagnostics.push(diagnostic) });
     try {
@@ -1760,12 +1849,16 @@ test("TableCheck handles multiple current search links and reads only the identi
   const query = new URL(searchUrl).searchParams.get("search_text")!;
   const correctUrl = "https://www.tablecheck.com/en/restaurant1";
   const otherUrl = "https://www.tablecheck.com/en/other-restaurant";
-  const resultHtml = `<a href="${otherUrl}?search_text=${encodeURIComponent(query)}">Other Restaurant</a><a href="${correctUrl}?search_text=${encodeURIComponent(query)}">Restaurant 1</a>`;
-  const correctHtml = '<h1>Restaurant 1</h1><a href="tel:03-1111-2222">Phone</a><div data-testid="Venue Availability" data-selected-date="2026-09-16" data-pax="2"></div><section data-availability-state="complete"><button class="time-slot is-available" data-time="19:00">19:00</button></section>';
+  const correctSearchUrl = `${correctUrl}?search_text=${encodeURIComponent(query)}`;
+  const requestedUrl = exactGuideAvailabilityUrl(correctUrl, "2026-09-16", 2, "19:00");
+  const resultHtml = `<a href="${otherUrl}?search_text=${encodeURIComponent(query)}">Other Restaurant</a><a href="${correctSearchUrl}">Restaurant 1</a>`;
+  const correctHtml = '<h1>Restaurant 1</h1><a href="tel:03-1111-2222">Phone</a><div data-testid="Venue Availability" data-selected-date="2026-09-16" data-pax="2"><section data-availability-state="complete"><a href="/en/shops/restaurant1/reserve?start_date=2026-09-16&num_people=2&start_time=19:00">19:00</a></section></div>';
   const executor = new BrowserTaskExecutor(localFixture({
     [searchUrl]: resultHtml,
     [otherUrl]: '<h1>Other Restaurant</h1><a href="tel:03-9999-8888">Phone</a>',
     [correctUrl]: correctHtml,
+    [correctSearchUrl]: correctHtml,
+    [requestedUrl]: correctHtml,
   }), { modelDecision: { async decide() { assert.fail("known feasible guide requires no browser model action"); } } });
   try {
     const result = await new TableCheckBrowserAvailability(executor).check({ candidates: [candidate], candidateIds: [candidate.restaurant.id],
@@ -1793,9 +1886,7 @@ test("TableCheck form waits past old inventory until a current same-outlet slot 
     modelDecisionCalls += 1;
     assert.equal(input.observation.url, reserve, "wait only for the selected reservation form");
     assert.equal(modelDecisionCalls, 1, "one bounded wait suffices for the controlled update");
-    const target = input.observation.targets[0];
-    assert.ok(target, "the current page supplies an observed wait target");
-    return { type: "WAIT", targetRef: target.ref, reason: "Wait for the selected request's result to load" };
+    return { type: "WAIT", reason: "Wait for the selected request's result to load" };
   } } });
   const signal = new AbortController().signal;
   try {

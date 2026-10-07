@@ -14,12 +14,13 @@ const CONTROL_GROUPS: Array<{ selector: string; kind: BrowserPageControl["kind"]
   { selector: "input:not([type=checkbox]):not([type=radio]):not([type=range]):not([role=combobox][aria-readonly=true]),textarea,[role=textbox]:not([role=combobox])", kind: "INPUT", defaultRole: "textbox" },
   { selector: "[data-praxis-scroll-region],dialog[open],[role=dialog],[role=alertdialog],[role=listbox],[role=region]", kind: "REGION", defaultRole: "region" },
 ];
+const INTERACTIVE_ACTION_TIMEOUT_MS = 5_000;
 
 /** Check the current observed link before a single public GET navigation fallback. */
-export async function observedLinkCovered(element: ElementHandle<SVGElement | HTMLElement>, expectedHref: string): Promise<boolean> {
+export async function observedLinkCovered(element: ElementHandle<SVGElement | HTMLElement>, expectedHref: string, timeoutMs = INTERACTIVE_ACTION_TIMEOUT_MS): Promise<boolean> {
   // Playwright would scroll before clicking; inspect the same on-screen center
   // after that scroll so lower result cards cannot fall through to a blocked click.
-  await element.scrollIntoViewIfNeeded();
+  await element.scrollIntoViewIfNeeded({ timeout: timeoutMs });
   return element.evaluate((node, expected) => {
     if (!(node instanceof HTMLAnchorElement) || !node.isConnected || new URL(node.href, document.baseURI).href !== expected) {
       throw new Error("Observed link changed before navigation");
@@ -83,7 +84,14 @@ export class PlaywrightControlRegistry {
     });
   }
 
-  private async signature(element: ElementHandle<SVGElement | HTMLElement>, selectedClass?: string): Promise<string | undefined> {
+  /**
+   * Read the inexpensive, browser-owned control projection once.  The
+   * `signature` intentionally excludes presentation-only fields such as the
+   * full CSS class list and scroll position: they help describe a control, but
+   * a hover/animation must not invalidate an otherwise identical observed
+   * target before its one permitted action.
+   */
+  private async snapshot(element: ElementHandle<SVGElement | HTMLElement>, selectedClass?: string): Promise<string | undefined> {
     return element.evaluate((node, hintClass) => {
       if (!node.isConnected) return undefined;
       // Native controls may belong to a form through the `form` attribute,
@@ -101,7 +109,7 @@ export class PlaywrightControlRegistry {
       const nestedInputs = node.getAttribute("role") === "combobox"
         ? [...node.querySelectorAll("input")].filter(input => ["text", "search"].includes(input.type)) : [];
       const value = node instanceof HTMLInputElement || node instanceof HTMLSelectElement || node instanceof HTMLTextAreaElement ? node.value
-        : nestedInputs.length === 1 ? nestedInputs[0]!.value : undefined;
+        : nestedInputs.length === 1 ? nestedInputs[0]!.value : node.getAttribute("value") ?? undefined;
       const selectedOptions = node instanceof HTMLSelectElement
         ? [...node.options].slice(0, 24).map(option => [option.value, option.label, option.disabled, option.selected]) : undefined;
       const modalSelector = 'dialog[open], [role=dialog][aria-modal="true"], [role=alertdialog][aria-modal="true"]';
@@ -122,12 +130,18 @@ export class PlaywrightControlRegistry {
         && [...document.querySelectorAll('[role="combobox"][aria-expanded="true"]')]
           .some(owner => owner.getAttribute("aria-controls")?.split(/\s+/).includes(coveringListbox.id));
       const blockedByActiveLayer = !!activeModal && !activeModal.contains(node) || coveredBySuggestions;
-      return JSON.stringify({
-        tag: node.tagName, role: node.getAttribute("role"), type: node.getAttribute("type"),
+      const dialog = node.closest('[role="dialog"],dialog');
+      const labelledBy = dialog?.getAttribute("aria-labelledby")?.split(/\s+/) ?? [];
+      const dialogLabel = dialog?.getAttribute("aria-label") || labelledBy.map(id => document.getElementById(id)?.textContent ?? "").join(" ");
+      const labelContainer = node.closest('fieldset,[role="radiogroup"]');
+      const legend = labelContainer?.querySelector("legend")?.textContent ?? "";
+      const groupLabel = radioGroup?.getAttribute("aria-label") || (radioGroup?.getAttribute("aria-labelledby") ?? "").split(/\s+/).map(id => document.getElementById(id)?.textContent ?? "").join(" ") || legend;
+      const projection = {
+        tag: node.tagName, classes: [...node.classList], role: node.getAttribute("role"), type: node.getAttribute("type"),
         label: node.getAttribute("aria-label"), title: node.getAttribute("title"),
-        text: node instanceof HTMLSelectElement ? undefined : (node as HTMLElement).innerText?.replace(/\s+/g, " ").trim().slice(0, 240) ?? "",
+        text: (node as HTMLElement).innerText?.replace(/\s+/g, " ").trim().slice(0, 240) ?? "",
         associatedLabel: [...((node as HTMLInputElement).labels ?? [])].map(label => label.innerText.replace(/\s+/g, " ").trim()).join(" "),
-        value, href: node.getAttribute("href"), name: node.getAttribute("name"),
+        value, href: node.getAttribute("href"), name: node.getAttribute("name"), placeholder: node.getAttribute("placeholder"),
         formOwner: form ? `${form.id || formIndex}` : "", radioGroupKey,
         formMethodOverride: node.getAttribute("formmethod"), formTarget: node.getAttribute("formtarget"),
         disabled: (node as HTMLElement).matches(":disabled") || node.getAttribute("aria-disabled") === "true" || node.getAttribute("data-state") === "disabled",
@@ -136,14 +150,55 @@ export class PlaywrightControlRegistry {
         dataDate: node.getAttribute("data-date"), dataValue: node.getAttribute("data-value"),
         dateParts: [node.getAttribute("data-year"), node.getAttribute("data-month"), node.getAttribute("data-day")],
         checked: node instanceof HTMLInputElement && (node.type === "checkbox" || node.type === "radio") ? node.checked : (node.getAttribute("role") === "checkbox" || node.getAttribute("role") === "radio") ? node.getAttribute("aria-checked") : undefined,
-        min: node.getAttribute("min") ?? node.getAttribute("aria-valuemin"), max: node.getAttribute("max") ?? node.getAttribute("aria-valuemax"),
-        rangeValue: node.getAttribute("aria-valuenow"),
+        min: node.getAttribute("aria-valuemin") ?? node.getAttribute("min"), max: node.getAttribute("aria-valuemax") ?? node.getAttribute("max"),
+        rangeValue: node.getAttribute("aria-valuenow"), valueText: node.getAttribute("aria-valuetext"),
+        scrollable: (node as HTMLElement).scrollHeight > (node as HTMLElement).clientHeight,
+        scrollTop: (node as HTMLElement).scrollTop,
         selectedOptions,
-        listboxId: node.closest('[role="listbox"]')?.id ?? "",
-        formMethod: form?.getAttribute("method") ?? "",
+        listboxId: node.closest('[role="listbox"]')?.id ?? "", dialogLabel: dialogLabel?.replace(/\s+/g, " ").trim() ?? "",
+        formMethod: form?.getAttribute("method") ?? "", formClass: form?.className ?? "", sliderCount: dialog?.querySelectorAll('[role="slider"]').length ?? 0,
+        radioGroupLabel: groupLabel.replace(/\s+/g, " ").trim(),
         blockedByActiveLayer,
-      });
+      };
+      const {
+        // These fields describe the current rendered presentation. They are
+        // deliberately not action-time identity: changing a CSS class or
+        // scrolling a region does not authorize rejecting a still-current
+        // public control.
+        classes: _classes,
+        scrollable: _scrollable,
+        scrollTop: _scrollTop,
+        formClass: _formClass,
+        ...signature
+      } = projection;
+      return JSON.stringify({ projection, signature });
     }, selectedClass);
+  }
+
+  private decodeSnapshot(snapshot: string): { signature: string; projection: {
+    tag: string; classes?: string[]; role?: string | null; type?: string | null; label?: string | null; title?: string | null; text?: string;
+    associatedLabel?: string; value?: string; href?: string | null; name?: string | null; placeholder?: string | null;
+    disabled?: boolean; selected?: boolean; expanded?: string | null; checked?: boolean | string;
+    dataDate?: string | null; dataValue?: string | null; dateParts?: Array<string | null>; min?: string | null; max?: string | null;
+    rangeValue?: string | null; valueText?: string | null; selectedOptions?: Array<[string, string, boolean, boolean]>; listboxId?: string; controls?: string | null;
+    formMethodOverride?: string | null; formMethod?: string; formClass?: string; dialogLabel?: string; sliderCount?: number;
+    radioGroupLabel?: string; radioGroupKey?: string; scrollable?: boolean; scrollTop?: number; blockedByActiveLayer?: boolean;
+  } } {
+    const parsed = JSON.parse(snapshot) as { signature: object; projection: {
+      tag: string; classes?: string[]; role?: string | null; type?: string | null; label?: string | null; title?: string | null; text?: string;
+      associatedLabel?: string; value?: string; href?: string | null; name?: string | null; placeholder?: string | null;
+      disabled?: boolean; selected?: boolean; expanded?: string | null; checked?: boolean | string;
+      dataDate?: string | null; dataValue?: string | null; dateParts?: Array<string | null>; min?: string | null; max?: string | null;
+      rangeValue?: string | null; valueText?: string | null; selectedOptions?: Array<[string, string, boolean, boolean]>; listboxId?: string; controls?: string | null;
+      formMethodOverride?: string | null; formMethod?: string; formClass?: string; dialogLabel?: string; sliderCount?: number;
+      radioGroupLabel?: string; radioGroupKey?: string; scrollable?: boolean; scrollTop?: number; blockedByActiveLayer?: boolean;
+    } };
+    return { signature: JSON.stringify(parsed.signature), projection: parsed.projection };
+  }
+
+  private async actionSignature(element: ElementHandle<SVGElement | HTMLElement>, selectedClass?: string): Promise<string | undefined> {
+    const snapshot = await this.snapshot(element, selectedClass);
+    return snapshot ? this.decodeSnapshot(snapshot).signature : undefined;
   }
 
   /** A disconnected handle is a vanished observation, never an enabled control. */
@@ -180,30 +235,21 @@ export class PlaywrightControlRegistry {
           await release();
           continue;
         }
-        const initialSignature = await this.signature(locator, group.hint?.selectedClass).catch(() => undefined);
-        if (!initialSignature) { await release(); continue; }
-        const disabled = await locator.isDisabled() || await locator.getAttribute("aria-disabled") === "true"
-          || await locator.getAttribute("data-state") === "disabled";
-        const ariaLabel = await locator.getAttribute("aria-label");
-        const title = await locator.getAttribute("title");
-        const text = await locator.innerText().catch(() => "");
-        const role = await locator.getAttribute("role") ?? group.defaultRole;
+        const initialSnapshot = await this.snapshot(locator, group.hint?.selectedClass).catch(() => undefined);
+        if (!initialSnapshot) { await release(); continue; }
+        const { signature: initialSignature, projection } = this.decodeSnapshot(initialSnapshot);
+        const disabled = projection.disabled === true;
+        const text = projection.text ?? "";
+        const role = projection.role ?? group.defaultRole;
         const comboboxInput = group.kind === "BUTTON" && role === "combobox"
-          ? await locator.evaluate(element => {
-            if (element instanceof HTMLInputElement) return { value: element.value };
-            const inputs = [...element.querySelectorAll("input")].filter(input => ["text", "search"].includes(input.type));
-            return inputs.length === 1 ? { value: inputs[0]!.value } : undefined;
-          })
+          ? projection.value === undefined ? undefined : { value: projection.value }
           : undefined;
         const inputValue = group.kind === "INPUT" || group.kind === "SELECT" || group.kind === "RANGE"
-          ? await locator.inputValue().catch(() => "") : comboboxInput?.value ?? "";
+          ? projection.value ?? "" : comboboxInput?.value ?? "";
         const selectedDisplay = role === "combobox" && !inputValue ? await this.selectedDisplay(locator).catch(() => undefined) : undefined;
-        const associatedLabel = await locator.evaluate(element => [...((element as HTMLInputElement).labels ?? [])].map(label => label.innerText).join(" "));
-        const placeholder = await locator.getAttribute("placeholder");
-        const name = await locator.getAttribute("name");
-        const inputFallback = group.kind === "INPUT" ? placeholder || name : undefined;
-        let label = (ariaLabel || title || associatedLabel || inputFallback || text || inputValue).replace(/\s+/g, " ").trim().slice(0, 240);
-        const href = await locator.getAttribute("href");
+        const inputFallback = group.kind === "INPUT" ? projection.placeholder || projection.name || undefined : undefined;
+        let label = (projection.label || projection.title || projection.associatedLabel || inputFallback || text || inputValue).replace(/\s+/g, " ").trim().slice(0, 240);
+        const href = projection.href;
         let resolvedHref: string | undefined;
         if (href) {
           try {
@@ -212,71 +258,47 @@ export class PlaywrightControlRegistry {
             // An invalid href is not a navigable model target.
           }
         }
-        const dataDate = await locator.getAttribute("data-date");
-        const dataValue = await locator.getAttribute("data-value");
+        const dataDate = projection.dataDate;
+        const dataValue = projection.dataValue;
         let value = group.kind === "RANGE"
-          ? await locator.getAttribute("aria-valuenow") ?? inputValue
+          ? projection.rangeValue ?? inputValue
           : group.kind === "INPUT" || group.kind === "SELECT" || comboboxInput !== undefined
           ? inputValue || selectedDisplay || ""
-            : dataDate ?? dataValue ?? await locator.getAttribute("value") ?? "";
-        const formMethodAttribute = await locator.getAttribute("formmethod");
-        const enclosingMethod = await locator.evaluate(element => {
-          const form = element instanceof HTMLInputElement || element instanceof HTMLButtonElement
-            || element instanceof HTMLSelectElement || element instanceof HTMLTextAreaElement
-            ? element.form : element.closest("form");
-          return form?.getAttribute("method") ?? null;
-        });
-        const method = (formMethodAttribute ?? enclosingMethod ?? "").toUpperCase();
-        const controlledListboxId = role === "combobox" ? await locator.getAttribute("aria-controls") : null;
-        const type = await locator.getAttribute("type");
-        const expanded = await locator.getAttribute("aria-expanded");
-        let selected = await locator.getAttribute("aria-selected") === "true" || await locator.getAttribute("aria-pressed") === "true";
+            : dataDate ?? dataValue ?? projection.value ?? "";
+        const method = (projection.formMethodOverride ?? projection.formMethod ?? "").toUpperCase();
+        const controlledListboxId = role === "combobox" ? projection.controls ?? null : null;
+        const type = projection.type ?? null;
+        const expanded = projection.expanded ?? null;
+        let selected = projection.selected === true;
         if (group.hint) {
           const hint = group.hint;
           if (hint.value === "DATE_PARTS") {
-            const parts = await locator.evaluate(element => ["year", "month", "day"].map(part => element.getAttribute(`data-${part}`)));
+            const parts = projection.dateParts ?? [];
             if (!parts.every(part => part && /^\d+$/.test(part))) { await release(); continue; }
             const [year, month, day] = parts.map(Number);
             if (!year || !month || !day || month > 12 || day > 31) { await release(); continue; }
             value = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
           } else value = text.trim();
           label = `${hint.labelPrefix} ${value}`;
-          selected = await locator.evaluate((element, selectedClass) => element.classList.contains(selectedClass), hint.selectedClass);
+          selected = projection.selected === true;
         }
         const checked = group.kind === "CHECKBOX" || group.kind === "RADIO"
-          ? await locator.isChecked().catch(async () => await locator.getAttribute("aria-checked") === "true")
+          ? projection.checked === true || projection.checked === "true"
           : undefined;
-        const min = group.kind === "RANGE" ? await locator.getAttribute("aria-valuemin") ?? await locator.getAttribute("min") ?? undefined : undefined;
-        const max = group.kind === "RANGE" ? await locator.getAttribute("aria-valuemax") ?? await locator.getAttribute("max") ?? undefined : undefined;
-        const valueText = group.kind === "RANGE" ? await locator.getAttribute("aria-valuetext") ?? undefined : undefined;
+        const min = group.kind === "RANGE" ? projection.min ?? undefined : undefined;
+        const max = group.kind === "RANGE" ? projection.max ?? undefined : undefined;
+        const valueText = group.kind === "RANGE" ? projection.valueText ?? undefined : undefined;
         const scrollable = group.kind === "REGION"
-          ? await locator.evaluate((element) => element.scrollHeight > element.clientHeight).catch(() => false)
+          ? projection.scrollable === true
           : undefined;
         const scrollTop = group.kind === "REGION"
-          ? await locator.evaluate((element) => element.scrollTop).catch(() => 0)
+          ? projection.scrollTop ?? 0
           : undefined;
         const options = group.kind === "SELECT" ? await this.observeOptions(locator) : undefined;
-        const blockedByActiveLayer = JSON.parse(initialSignature).blockedByActiveLayer === true;
-        const structure = await locator.evaluate(element => {
-          const dialog = element.closest('[role="dialog"],dialog');
-          const label = dialog?.getAttribute("aria-label") || (dialog?.getAttribute("aria-labelledby") ?? "").split(/\s+/).map(id => document.getElementById(id)?.textContent ?? "").join(" ");
-          const nativeRadio = element instanceof HTMLInputElement && element.type === "radio";
-          const radioGroup = nativeRadio ? undefined : element.closest('[role="radiogroup"]');
-          const labelContainer = element.closest('fieldset,[role="radiogroup"]');
-          const legend = labelContainer?.querySelector("legend")?.textContent ?? "";
-          const groupLabel = radioGroup?.getAttribute("aria-label") || (radioGroup?.getAttribute("aria-labelledby") ?? "").split(/\s+/).map(id => document.getElementById(id)?.textContent ?? "").join(" ") || legend;
-          const form = element instanceof HTMLInputElement || element instanceof HTMLButtonElement
-            || element instanceof HTMLSelectElement || element instanceof HTMLTextAreaElement
-            ? element.form : element.closest("form");
-          const formIndex = form ? [...document.querySelectorAll("form")].indexOf(form) : -1;
-          const groupIndex = radioGroup ? [...document.querySelectorAll('[role="radiogroup"]')].indexOf(radioGroup) : -1;
-          const name = element.getAttribute("name") ?? "";
-          const groupKey = nativeRadio && name ? `form:${form?.id || formIndex}|name:${name}`
-            : radioGroup ? `group:${radioGroup.id || groupIndex}` : undefined;
-          return { tag: element.tagName, name, classes: [...element.classList], dialogLabel: label.trim(), formClass: form?.className ?? "", sliderCount: dialog?.querySelectorAll('[role="slider"]').length ?? 0, listboxId: element.closest('[role="listbox"]')?.id ?? "", ...(groupLabel.trim() ? { radioGroupLabel: groupLabel.replace(/\s+/g, " ").trim().slice(0, 240) } : {}), ...(groupKey ? { radioGroupKey: groupKey } : {}) };
-        });
+        const blockedByActiveLayer = projection.blockedByActiveLayer === true;
+        const structure = { tag: projection.tag, name: projection.name ?? "", classes: projection.classes ?? [], dialogLabel: projection.dialogLabel ?? "", formClass: projection.formClass ?? "", sliderCount: projection.sliderCount ?? 0, listboxId: projection.listboxId ?? "", ...(projection.radioGroupLabel ? { radioGroupLabel: projection.radioGroupLabel.slice(0, 240) } : {}), ...(projection.radioGroupKey ? { radioGroupKey: projection.radioGroupKey } : {}) };
         const id = `dom:${this.revision}:${controls.length + 1}`;
-        if (await this.signature(locator, group.hint?.selectedClass).catch(() => undefined) !== initialSignature) { await release(); continue; }
+        if (await this.actionSignature(locator, group.hint?.selectedClass).catch(() => undefined) !== initialSignature) { await release(); continue; }
         let nodeIdentity: string | undefined;
         if (group.kind === "SELECT" || role === "combobox") {
           for (const previous of previousTargets.values()) {
@@ -342,13 +364,13 @@ export class PlaywrightControlRegistry {
     const observed = this.targets.get(id);
     if (!observed) return undefined;
     try {
-      if (await this.signature(observed.element, observed.selectedClass) !== observed.signature
+      if (await this.actionSignature(observed.element, observed.selectedClass) !== observed.signature
         || !await observed.element.isVisible() || await observed.element.isDisabled()) {
         throw new Error("Observed target changed, detached, hidden, or disabled");
       }
       if (observed.ownerId) {
         const owner = this.targets.get(observed.ownerId);
-        if (!owner || await this.signature(owner.element, owner.selectedClass) !== owner.signature
+        if (!owner || await this.actionSignature(owner.element, owner.selectedClass) !== owner.signature
           || !await owner.element.isVisible() || await owner.element.isDisabled()) {
           throw new Error("Observed option owner changed, detached, hidden, or disabled");
         }
@@ -364,7 +386,7 @@ export class PlaywrightControlRegistry {
    * label. Clicking that observed label is the ordinary browser interaction;
    * it avoids force-setting a hidden input and always verifies the input state.
    */
-  async setChecked(id: string, checked: boolean): Promise<boolean> {
+  async setChecked(id: string, checked: boolean, timeoutMs = INTERACTIVE_ACTION_TIMEOUT_MS): Promise<boolean> {
     const element = await this.target(id);
     if (!element) return false;
     if (await element.isChecked() === checked) return true;
@@ -374,8 +396,8 @@ export class PlaywrightControlRegistry {
     });
     const label = labelHandle.asElement() as ElementHandle<SVGElement | HTMLElement> | null;
     try {
-      if (label) await label.click();
-      else await element.setChecked(checked);
+      if (label) await label.click({ timeout: timeoutMs });
+      else await element.setChecked(checked, { timeout: timeoutMs });
       const current = await element.isChecked();
       if (current !== checked) throw new Error("Observed checked control did not reach the requested state");
       return true;
@@ -385,20 +407,12 @@ export class PlaywrightControlRegistry {
   }
 
   private async observeOptions(locator: ElementHandle<SVGElement | HTMLElement>): Promise<Array<{ value: string; label: string; selected: boolean; disabled: boolean }>> {
-    const options = await locator.$$("option");
-    const count = Math.min(options.length, 24);
-    const observed: Array<{ value: string; label: string; selected: boolean; disabled: boolean }> = [];
-    try { for (let index = 0; index < count; index += 1) {
-      const option = options[index]!;
-      const value = await option.evaluate(element => (element as HTMLOptionElement).value);
-      const label = (await option.innerText().catch(() => "")).replace(/\s+/g, " ").trim().slice(0, 160);
-      const selected = await option.evaluate((element) => (element as HTMLOptionElement).selected).catch(() => false);
-      const disabled = (await option.getAttribute("disabled")) !== null;
-      observed.push({ value, label, selected, disabled });
-    } } finally {
-      await Promise.all(options.map(option => option.dispose().catch(() => undefined)));
-    }
-    return observed;
+    return locator.evaluate(element => [...element.querySelectorAll("option")].slice(0, 24).map(option => ({
+      value: option.value,
+      label: (option.textContent ?? "").replace(/\s+/g, " ").trim().slice(0, 160),
+      selected: option.selected,
+      disabled: option.disabled,
+    })));
   }
 }
 
@@ -471,9 +485,10 @@ export async function interactiveState(page: Page): Promise<string> {
  * ArrowDown opens their native accessible choice list without force-clicking an
  * overlaid input. The Executor still validates the target and verifies new state.
  */
-export async function activateObservedControl(locator: ElementHandle<SVGElement | HTMLElement>): Promise<void> {
+export async function activateObservedControl(locator: ElementHandle<SVGElement | HTMLElement>, timeoutMs = INTERACTIVE_ACTION_TIMEOUT_MS): Promise<void> {
+  const options = { timeout: timeoutMs };
   if (await locator.getAttribute("role") === "combobox" && await locator.getAttribute("aria-readonly") === "true"
     && await locator.evaluate(element => element.tagName === "INPUT")) {
-    await locator.press("ArrowDown");
-  } else await locator.click();
+    await locator.press("ArrowDown", options);
+  } else await locator.click(options);
 }

@@ -33,7 +33,7 @@ class H001NativeModel implements ModelGateway {
   readonly browserDecisionInputs: Array<{
     objective: string;
     progress: string;
-    observation: { targets: Array<{ ref: string; label: string; availableActions?: string[] }> };
+    observation: { pageActions?: string[]; targets: Array<{ ref: string; label: string; availableActions?: string[] }> };
   }> = [];
   private searches = 0;
   private earlyEndAttempted = false;
@@ -64,9 +64,9 @@ class H001NativeModel implements ModelGateway {
       const input = JSON.parse(request.messages.find((item) => item.role === "user")!.content) as {
         objective: string;
         progress: string;
-        observation: { visibleText?: string; targets: Array<{ ref: string; label: string; availableActions?: string[] }> };
+        observation: { visibleText?: string; pageActions?: string[]; targets: Array<{ ref: string; label: string; availableActions?: string[] }> };
       };
-      this.browserDecisionInputs.push({ objective: input.objective, progress: input.progress, observation: { targets: input.observation.targets } });
+      this.browserDecisionInputs.push({ objective: input.objective, progress: input.progress, observation: { targets: input.observation.targets, ...(input.observation.pageActions ? { pageActions: input.observation.pageActions } : {}) } });
       if (["TABELOG_RETRIEVAL_CATEGORY_DELIVERS", "TABELOG_RESULT_PAGES_CONTINUE"].includes(this.scenario) && input.objective.includes("related category")) {
         const link = input.observation.targets.find((target) => /^(?:Sushi|omakase ×)$/.test(target.label) && target.availableActions?.includes("OPEN_LINK"));
         if (link) return reply(JSON.stringify({ action: "OPEN_LINK", targetRef: link.ref, authoritativeField: "NONE", requestedState: "NONE", reason: "Use a related source category for discovery; retain the HARD fact requirement." }), request.purpose);
@@ -80,9 +80,7 @@ class H001NativeModel implements ModelGateway {
       const reveal = input.observation.targets.find((target) => target.label === "Show public venues");
       const availabilityReveal = input.observation.targets.find((target) => target.label === "Show availability");
       const loadingRegion = /Loading\s+(?:current\s+)?availability/i.test(input.observation.visibleText ?? "")
-        ? input.observation.targets.find((target) => target.label === "Venue Availability" && target.availableActions?.includes("WAIT"))
-          ?? input.observation.targets.find((target) => target.availableActions?.includes("WAIT"))
-        : undefined;
+        && input.observation.pageActions?.includes("WAIT");
       return reply(JSON.stringify(retrieval
         ? (this.retrievalFillUsed = true, this.discoveryActions.push("FILL_AUTHORITATIVE"), { action: "FILL_AUTHORITATIVE", targetRef: retrieval.ref, authoritativeField: "RETRIEVAL", requestedState: "NONE", reason: "Apply the bounded public venue search expression." })
         : menu
@@ -94,7 +92,7 @@ class H001NativeModel implements ModelGateway {
         : availabilityReveal
         ? { action: "CLICK", targetRef: availabilityReveal.ref, authoritativeField: "NONE", requestedState: "NONE", reason: "Reveal the observed public availability result." }
         : loadingRegion
-        ? { action: "WAIT", targetRef: loadingRegion.ref, authoritativeField: "NONE", requestedState: "NONE", reason: "Wait only for the visible current availability result." }
+        ? { action: "WAIT", targetRef: "", authoritativeField: "NONE", requestedState: "NONE", reason: "Wait only for the visible current availability result." }
         : { action: "REQUEST_HUMAN_HELP", targetRef: "", authoritativeField: "NONE", requestedState: "NONE", reason: "No safe observed discovery action remains." },
       ), request.purpose);
     }
@@ -146,7 +144,7 @@ class H001NativeModel implements ModelGateway {
   }
 }
 
-async function runScenario(scenario: SourceScenario, options: { availabilityFirst?: boolean } = {}) {
+async function runScenario(scenario: SourceScenario, options: { availabilityFirst?: boolean; guardedDiscoverySubmit?: boolean } = {}) {
   const startedAt = Date.now();
   const frozen = (await loadFrozenLiveCases(RESTAURANT_READ_DEVELOPMENT_CASE_PATH)).find((item) => item.id === "h001")!;
   const navigations: string[] = [];
@@ -162,10 +160,13 @@ async function runScenario(scenario: SourceScenario, options: { availabilityFirs
       addressComponents: [{ longText: "Tokyo", types: ["locality"] }] }] }), { status: 200 });
   } }), () => reference.toISOString(), 10, { maxRequests: 100 });
   const model = new H001NativeModel(scenario, options.availabilityFirst);
-  const rawBrowser = sourcePages(scenario, navigations, sessionsOpened, navigationSessionIds, closedSessionIds);
+  const rawBrowser = sourcePages(scenario, navigations, sessionsOpened, navigationSessionIds, closedSessionIds, {
+    guardedReadBoundary: options.guardedDiscoverySubmit === true,
+    guardedQuerySubmit: options.guardedDiscoverySubmit === true,
+  });
   const browserTrace: Array<{ sequence: number; at: string; kind: string; detail: unknown }> = [];
   let browserTraceSequence = 0;
-  const browser = { openSession: async (input: { signal: AbortSignal }) => traceBrowserSession(
+  const browser = { ...(rawBrowser.readNetworkBoundaryCapability ? { readNetworkBoundaryCapability: rawBrowser.readNetworkBoundaryCapability } : {}), openSession: async (input: { signal: AbortSignal }) => traceBrowserSession(
     await rawBrowser.openSession(input), "TABLECHECK", (kind, detail) => {
       const sequence = ++browserTraceSequence;
       browserTrace.push({ sequence, at: reference.toISOString(), kind, detail });
@@ -259,6 +260,9 @@ test("H001 TableCheck reserve-menu scope can check availability before facts and
   assert.match(categoryPrompt.objective, /service-category radio/i);
   assert.match(categoryPrompt.progress, /no selected service category/i);
   assert.deepEqual(categoryPrompt.observation.targets.find((target) => target.label === "Sushi")?.availableActions, ["SET_CHECKED"]);
+  const waitPrompt = result.model.browserDecisionInputs.find((input) => input.observation.pageActions?.includes("WAIT"));
+  assert.ok(waitPrompt, "the loading result exposes canonical WAIT as a page action, never as a target capability");
+  assert.equal(waitPrompt.observation.targets.some((target) => target.availableActions?.includes("WAIT")), false);
   const actions = result.trajectories.flatMap((step) => step.agentAction ? [step.agentAction.type] : []);
   assert.ok(actions.indexOf("CHECK_AVAILABILITY") < actions.indexOf("INVESTIGATE_CANDIDATE_FACTS"), `expected availability before facts, received ${actions.join(",")}`);
   assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(result.evaluation.findings));
@@ -281,6 +285,13 @@ test("H001 native discovery uses the shared browser model loop to reveal an obse
   assert.equal(result.model.retrievalFillUsed, true);
   assert.deepEqual(result.model.discoveryActions, ["FILL_AUTHORITATIVE", "CLICK"], "a stale nonempty list and loading query cannot complete before the observed current-query action");
   assert.equal(result.navigations.some((url) => url.includes("/en/native-omakase-1")), true);
+  assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(result.evaluation.findings));
+});
+
+test("H001 native discovery uses an observed ordinary query submit only in its installed read boundary", async () => {
+  const result = await runScenario("TABLECHECK_DISCOVERY_RECOVERS", { guardedDiscoverySubmit: true });
+  assert.deepEqual(result.state.presentedResults?.candidateIds, ["tablecheck:native-omakase-1"]);
+  assert.deepEqual(result.model.discoveryActions, ["FILL_AUTHORITATIVE", "CLICK"]);
   assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(result.evaluation.findings));
 });
 
