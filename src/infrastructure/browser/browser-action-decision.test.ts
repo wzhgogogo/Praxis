@@ -54,7 +54,7 @@ test("runner model-call budget exhaustion remains a task cause, not a browser ne
   await assert.rejects(decision.decide(input), { code: "MODEL_CALL_BUDGET_EXHAUSTED" });
 });
 
-test("strict browser wire COMPLETE rejects a fabricated placeholder or an authoritative field", async () => {
+test("strict browser wire canonicalizes inert page-action envelope fields", async () => {
   const fabricated = new ModelBrowserReadActionDecision(gateway({
     action: "COMPLETE",
     targetRef: "observation:1:target:999",
@@ -62,7 +62,7 @@ test("strict browser wire COMPLETE rejects a fabricated placeholder or an author
     requestedState: "NONE",
     reason: "Ready.",
   }));
-  await assert.rejects(() => fabricated.decide(input), (error: unknown) => error instanceof BrowserReadDecisionError && error.code === "INVALID_MODEL_OUTPUT");
+  assert.deepEqual(await fabricated.decide(input), { type: "COMPLETE", reason: "Ready." });
 
   const authority = new ModelBrowserReadActionDecision(gateway({
     action: "COMPLETE",
@@ -71,7 +71,7 @@ test("strict browser wire COMPLETE rejects a fabricated placeholder or an author
     requestedState: "NONE",
     reason: "Ready.",
   }));
-  await assert.rejects(() => authority.decide(input), (error: unknown) => error instanceof BrowserReadDecisionError && error.code === "INVALID_MODEL_OUTPUT");
+  assert.deepEqual(await authority.decide(input), { type: "COMPLETE", reason: "Ready." });
 });
 
 test("strict browser wire restores authoritative calendar and observed-option actions", async () => {
@@ -130,7 +130,7 @@ test("strict browser wire restores only bounded observed checkbox, slider, and r
   })).decide(scoped), { type: "SCROLL_REGION", targetRef: targets[2]!.ref, direction: "DOWN", reason: "Read the next visible part of this dialog." });
 });
 
-test("strict browser wire accepts page-level WAIT and rejects non-empty or non-canonical wait fields without retaining values", async () => {
+test("strict browser wire accepts page-level WAIT with inert envelope fields and rejects unknown fields", async () => {
   const wait = await new ModelBrowserReadActionDecision(gateway({
     action: "WAIT", targetRef: "", authoritativeField: "NONE", requestedState: "NONE", reason: "Wait for the public result.",
   })).decide(input);
@@ -140,23 +140,20 @@ test("strict browser wire accepts page-level WAIT and rejects non-empty or non-c
     { action: "WAIT", targetRef: "observation:1:target:1", authoritativeField: "NONE", requestedState: "NONE", reason: "Wait" },
     { action: "WAIT", targetRef: "", authoritativeField: "DATE", requestedState: "NONE", reason: "Wait" },
     { action: "WAIT", targetRef: "", authoritativeField: "NONE", requestedState: "CHECKED", reason: "Wait" },
-    { action: "WAIT", targetRef: "", authoritativeField: "NONE", requestedState: "NONE", reason: "Wait", authorization: "secret-marker-do-not-log" },
-  ]) {
-    await assert.rejects(
-      () => new ModelBrowserReadActionDecision(gateway(wire)).decide(input),
-      (error: unknown) => error instanceof BrowserReadDecisionError
-        && error.code === "INVALID_MODEL_OUTPUT"
-        && !error.message.includes("secret-marker-do-not-log"),
-    );
-  }
+  ]) assert.deepEqual(await new ModelBrowserReadActionDecision(gateway(wire)).decide(input), { type: "WAIT", reason: "Wait" });
+  await assert.rejects(
+    () => new ModelBrowserReadActionDecision(gateway({ action: "WAIT", targetRef: "", authoritativeField: "NONE", requestedState: "NONE", reason: "Wait", authorization: "secret-marker-do-not-log" })).decide(input),
+    (error: unknown) => error instanceof BrowserReadDecisionError && error.code === "INVALID_MODEL_OUTPUT" && !error.message.includes("secret-marker-do-not-log"),
+  );
 });
 
-test("strict browser wire records only a typed rejection projection for an extra field", async () => {
+test("strict browser wire canonicalizes inert metadata but records a typed rejection for an extra field", async () => {
+  const rejected = new ModelBrowserReadActionDecision(gateway({
+    action: "CLICK", targetRef: "observation:1:target:1", authoritativeField: "NONE", requestedState: "NONE", reason: "Use current control.",
+    authorization: "secret-marker-do-not-log",
+  }));
   await assert.rejects(
-    () => new ModelBrowserReadActionDecision(gateway({
-      action: "CLICK", targetRef: "observation:1:target:1", authoritativeField: "NONE", requestedState: "NONE", reason: "Use current control.",
-      authorization: "secret-marker-do-not-log",
-    })).decide(input),
+    () => rejected.decide(input),
     (error: unknown) => error instanceof BrowserReadDecisionError
       && error.wireRejection?.action === "CLICK"
       && error.wireRejection.fieldPath === "$.authorization"
@@ -164,22 +161,47 @@ test("strict browser wire records only a typed rejection projection for an extra
       && error.wireRejection.reason === "UNSUPPORTED_FIELD"
       && !JSON.stringify(error.wireRejection).includes("secret-marker-do-not-log"),
   );
+  assert.deepEqual(rejected.takeLastWireRecord?.(), {
+    action: "CLICK", targetRef: "observation:1:target:1", authoritativeField: "NONE", requestedState: "NONE", reason: "REDACTED",
+    extras: [{ fieldPath: "$.authorization", valueType: "string" }],
+  });
+  assert.deepEqual(await new ModelBrowserReadActionDecision(gateway({
+    action: "CLICK", targetRef: "observation:1:target:1", authoritativeField: "DATE", requestedState: "CHECKED", reason: "Use current control.",
+  })).decide(input), { type: "CLICK", targetRef: "observation:1:target:1", reason: "Use current control." });
+});
+
+test("strict browser wire ignores only action-inert metadata", async () => {
+  const target = "observation:1:target:1";
+  assert.deepEqual(await new ModelBrowserReadActionDecision(gateway({
+    action: "FILL_AUTHORITATIVE", targetRef: target, authoritativeField: "RETRIEVAL", requestedState: "CHECKED", reason: "Fill public query.",
+  })).decide({ ...input, goal: { ...input.goal, retrievalExpression: "omakase" } }), { type: "FILL_AUTHORITATIVE", targetRef: target, field: "RETRIEVAL", reason: "Fill public query." });
+  assert.deepEqual(await new ModelBrowserReadActionDecision(gateway({
+    action: "SET_CHECKED", targetRef: target, authoritativeField: "DATE", requestedState: "CHECKED", reason: "Apply filter.",
+  })).decide(input), { type: "SET_CHECKED", targetRef: target, checked: true, reason: "Apply filter." });
   await assert.rejects(
     () => new ModelBrowserReadActionDecision(gateway({
-      action: "CLICK", targetRef: "observation:1:target:1", authoritativeField: "DATE", requestedState: "NONE", reason: "Invalid field.",
+      action: "SET_CHECKED", targetRef: target, authoritativeField: "NONE", requestedState: "UP", reason: "Invalid checked state.",
     })).decide(input),
-    (error: unknown) => error instanceof BrowserReadDecisionError
-      && error.wireRejection?.fieldPath === "$.authoritativeField"
-      && error.wireRejection.reason === "EXPECTED_NONE",
+    (error: unknown) => error instanceof BrowserReadDecisionError && error.wireRejection?.fieldPath === "$.requestedState",
   );
 });
 
-test("browser prompt identifies a permitted service radio as a query prerequisite without selecting by position", () => {
+test("browser record keeps a valid wire shape but redacts its free-text reason", async () => {
+  const decision = new ModelBrowserReadActionDecision(gateway({
+    action: "WAIT", targetRef: "", authoritativeField: "NONE", requestedState: "NONE", reason: "A private reason must not be recorded.",
+  }));
+  await decision.decide(input);
+  assert.deepEqual(decision.takeLastWireRecord?.(), {
+    action: "WAIT", targetRef: "", authoritativeField: "NONE", requestedState: "NONE", reason: "REDACTED", extras: [],
+  });
+});
+
+test("browser prompt describes installed public-query controls and page-level recovery", () => {
   const prompt = buildBrowserReadDecisionSystemPrompt();
-  assert.match(prompt, /service category is selected/i);
-  assert.match(prompt, /before a time or result is visible/i);
-  assert.match(prompt, /current public text supports its relevance to a HARD criterion/i);
+  assert.match(prompt, /checkbox\/radio, option, range, and region scroll/i);
+  assert.match(prompt, /Targeted actions are permitted only when their current availableActions explicitly list them/i);
   assert.match(prompt, /WAIT waits for one bounded visible result change at page level/i);
-  assert.match(prompt, /isolated read boundary may expose an ordinary public-query button/i);
-  assert.match(prompt, /including a submit-shaped control/i);
+  assert.match(prompt, /PRESS_ESCAPE closes one page layer then requires a fresh observation/i);
+  assert.match(prompt, /installed isolated read boundary may expose ordinary public-query controls/i);
+  assert.match(prompt, /including a submit-shaped query control/i);
 });

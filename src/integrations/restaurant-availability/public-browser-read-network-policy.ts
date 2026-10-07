@@ -5,6 +5,7 @@ import { tabelogPublicReadNetworkPolicy } from "../tabelog/tabelog-public-query.
 /** The one guarded browser session may inspect either discovered public source. */
 export const restaurantPublicReadNetworkPolicy: BrowserReadNetworkPolicy = {
   documentOrigins: [...tableCheckPublicReadNetworkPolicy.documentOrigins, ...tabelogPublicReadNetworkPolicy.documentOrigins],
+  genericPublicRead: true,
   staticResources: [...tableCheckPublicReadNetworkPolicy.staticResources, ...tabelogPublicReadNetworkPolicy.staticResources],
   dynamicReads: [...tableCheckPublicReadNetworkPolicy.dynamicReads, ...tabelogPublicReadNetworkPolicy.dynamicReads],
 };

@@ -221,38 +221,80 @@ export function errorRecord(error: unknown): Record<string, unknown> {
   return visit(error, 0) ?? { name: "UnknownError" };
 }
 
-const observedSessionMethods = new Set(["navigate", "click", "openLink", "fill", "select", "setChecked", "press", "scroll", "waitFor", "waitForChange", "captureResponses"]);
+const observedSessionMethods = new Set(["navigate", "click", "openLink", "fill", "select", "setChecked", "press", "pressEscape", "scroll", "waitFor", "waitForChange", "captureResponses"]);
+
+/** Optional sink for the same sanitized trace that a runner already emits. */
+export interface BrowserTraceRecordingSink {
+  record(kind: string, detail: unknown): void;
+  /** Receives the in-memory page only to construct a sanitized replay document. */
+  recordSnapshot?(snapshot: BrowserSnapshot, sanitized: unknown): void;
+  recordResponse?(response: { url: string; method: string; status: number; contentType: string; body: Uint8Array }): Promise<void> | void;
+  /** Only runtime-masked pixels may be persisted; tracing never writes raw screenshots. */
+  captureScreenshot?(png: Uint8Array, disposition: "LAYOUT_ONLY_CONTENT_MASKED"): Promise<void>;
+}
+
+/** Trace only method shape and opaque targets; free-text fill values and URL query values never enter a recording. */
+function safeSessionArgs(method: string, args: readonly unknown[]): unknown[] {
+  return args.map((value, index) => {
+    if ((method === "navigate" && index === 0) || (method === "openLink" && index === 1)) {
+      return typeof value === "string" ? safeUrl(value) : "[REDACTED]";
+    }
+    if (method === "fill" && index === 1) return "[REDACTED]";
+    if (method === "waitForChange" && index === 0 && value && typeof value === "object") {
+      return safeRecord(value);
+    }
+    return safeRecord(value);
+  });
+}
 
 /** Exact BrowserSession trace wrapper used by the Live case-slice runner. */
-export function traceBrowserSession(session: BrowserSession, source: "TABELOG" | "TABLECHECK", record: (kind: string, detail: unknown) => number): BrowserSession {
+export function traceBrowserSession(
+  session: BrowserSession,
+  source: "TABELOG" | "TABLECHECK",
+  record: (kind: string, detail: unknown) => number,
+  recording?: BrowserTraceRecordingSink,
+): BrowserSession {
+  const trace = (kind: string, detail: unknown): number => {
+    const sequence = record(kind, detail);
+    recording?.record(kind, detail);
+    return sequence;
+  };
   let lastSnapshotUrl: string | undefined;
   let lastSnapshotSequence: number | undefined;
-  record("SESSION_OPENED", session.metadata);
+  trace("SESSION_OPENED", session.metadata);
   return new Proxy(session, { get(target, property) {
     if (property === "snapshot") return async () => {
       try {
         const snapshot = await target.snapshot();
         lastSnapshotUrl = snapshot.url;
-        lastSnapshotSequence = record("SNAPSHOT", snapshotRecord(snapshot));
+        const sanitized = snapshotRecord(snapshot);
+        lastSnapshotSequence = trace("SNAPSHOT", sanitized);
+        recording?.recordSnapshot?.(snapshot, sanitized);
+        if (recording?.captureScreenshot && target.screenshotLayoutOnly) {
+          try { await recording.captureScreenshot(await target.screenshotLayoutOnly(), "LAYOUT_ONLY_CONTENT_MASKED"); }
+          catch { trace("RECORDING_SCREENSHOT_OMITTED", { reason: "LAYOUT_MASK_FAILED" }); }
+        } else if (recording?.captureScreenshot) {
+          trace("RECORDING_SCREENSHOT_OMITTED", { reason: "NO_LAYOUT_MASK_CAPABILITY" });
+        }
         return snapshot;
-      } catch (error) { record("SNAPSHOT_ERROR", errorRecord(error)); throw error; }
+      } catch (error) { trace("SNAPSHOT_ERROR", errorRecord(error)); throw error; }
     };
     if (property === "observeControls" && target.observeControls) return async (hints?: Parameters<NonNullable<typeof target.observeControls>>[0]) => {
       try {
         const controls = await target.observeControls!(hints);
-        record("CONTROLS", { snapshotSequence: lastSnapshotSequence, url: lastSnapshotUrl ? safeUrl(lastSnapshotUrl) : "UNKNOWN",
+        trace("CONTROLS", { snapshotSequence: lastSnapshotSequence, url: lastSnapshotUrl ? safeUrl(lastSnapshotUrl) : "UNKNOWN",
           totalObserved: controls.length, scope: "ALL_OBSERVED_REDACTED", controls: safeObservedControls(controls) });
         return controls;
-      } catch (error) { record("CONTROLS_ERROR", errorRecord(error)); throw error; }
+      } catch (error) { trace("CONTROLS_ERROR", errorRecord(error)); throw error; }
     };
     const value = Reflect.get(target, property, target);
     if (typeof property === "string" && observedSessionMethods.has(property) && typeof value === "function") return async (...args: unknown[]) => {
-      record("SESSION_CALL", { method: property, args });
+      trace("SESSION_CALL", { method: property, args: safeSessionArgs(property, args) });
       try {
         const result: unknown = await value.apply(target, args);
-        record("SESSION_RETURN", { method: property, result });
+        trace("SESSION_RETURN", { method: property, result });
         return result;
-      } catch (error) { record("SESSION_ERROR", { method: property, error: errorRecord(error) }); throw error; }
+      } catch (error) { trace("SESSION_ERROR", { method: property, error: errorRecord(error) }); throw error; }
     };
     return typeof value === "function" ? value.bind(target) : value;
   } });
@@ -263,11 +305,12 @@ export function traceBrowserRuntime(
   runtime: BrowserRuntime,
   source: "TABELOG" | "TABLECHECK",
   record: (kind: string, detail: unknown) => number,
+  recording?: BrowserTraceRecordingSink,
 ): BrowserRuntime {
   return {
     ...(runtime.readNetworkBoundaryCapability ? { readNetworkBoundaryCapability: runtime.readNetworkBoundaryCapability } : {}),
     openSession: async input => {
-      try { return traceBrowserSession(await runtime.openSession(input), source, record); }
+      try { return traceBrowserSession(await runtime.openSession({ ...input, ...(recording?.recordResponse ? { recordResponse: recording.recordResponse } : {}) }), source, record, recording); }
       catch (error) { record("SESSION_OPEN_ERROR", errorRecord(error)); throw error; }
     },
   };
@@ -312,6 +355,10 @@ export function snapshotRecord(snapshot: BrowserSnapshot): Record<string, unknow
     responses: passiveResponses(snapshot),
     ...(snapshot.networkDiagnostics?.length ? { networkDiagnostics: snapshot.networkDiagnostics.map(item => ({
       code: item.code, origin: item.origin, pathname: item.pathname,
+      method: item.method, resourceType: item.resourceType, queryKeys: item.queryKeys,
+    })) } : {}),
+    ...(snapshot.networkRequests?.length ? { networkRequests: snapshot.networkRequests.map(item => ({
+      outcome: item.outcome, origin: item.origin, pathname: item.pathname,
       method: item.method, resourceType: item.resourceType, queryKeys: item.queryKeys,
     })) } : {}) };
 }

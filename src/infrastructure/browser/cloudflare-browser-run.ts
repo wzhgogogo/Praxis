@@ -81,12 +81,12 @@ class CloudflareBrowserSession implements BrowserSession {
     return created;
   }
 
-  static async create(browser: Browser, engine: BrowserEngine, networkPolicy?: BrowserReadNetworkPolicy): Promise<CloudflareBrowserSession> {
+  static async create(browser: Browser, engine: BrowserEngine, networkPolicy?: BrowserReadNetworkPolicy, recordResponse?: (response: { url: string; method: string; status: number; contentType: string; body: Uint8Array }) => Promise<void> | void): Promise<CloudflareBrowserSession> {
     let context: BrowserContext | undefined;
     try {
       context = networkPolicy ? await browser.newContext({ serviceWorkers: "block" }) : browser.contexts()[0];
       if (!context) throw new BrowserRuntimeError("BROWSER_RUNTIME_FAILED", "Browser Run did not create a browser context");
-      const networkGuard = networkPolicy ? new PlaywrightReadNetworkGuard(networkPolicy) : undefined;
+      const networkGuard = networkPolicy ? new PlaywrightReadNetworkGuard(networkPolicy, 5_000, recordResponse) : undefined;
       if (networkGuard) await networkGuard.install(context);
       const page = networkPolicy ? await context.newPage() : context.pages()[0] ?? await context.newPage();
       return new CloudflareBrowserSession(browser, engine, page, networkGuard);
@@ -124,6 +124,7 @@ class CloudflareBrowserSession implements BrowserSession {
         pageId: this.pageId(this.page),
         responses: await this.responses.snapshot(this.page),
         ...(this.networkGuard?.snapshotDiagnostics().length ? { networkDiagnostics: this.networkGuard.snapshotDiagnostics() } : {}),
+        ...(this.networkGuard?.snapshotRequests().length ? { networkRequests: this.networkGuard.snapshotRequests() } : {}),
       };
     });
   }
@@ -163,6 +164,7 @@ class CloudflareBrowserSession implements BrowserSession {
   async select(target: string, value: string, options: BrowserActionOptions = {}): Promise<string[]> { return this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).selectOption(value, { timeout: actionTimeout(options) })); }
   async setChecked(target: string, checked: boolean, options: BrowserActionOptions = {}): Promise<void> { await this.run(async () => { if (await this.controls.setChecked(target, checked, actionTimeout(options))) return; await this.page.locator(target).setChecked(checked, { timeout: actionTimeout(options) }); }); }
   async press(target: string, key: "ArrowLeft" | "ArrowRight", options: BrowserActionOptions = {}): Promise<void> { await this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).press(key, { timeout: actionTimeout(options) })); }
+  async pressEscape(_options: BrowserActionOptions = {}): Promise<void> { await this.run(() => this.page.keyboard.press("Escape")); }
   async scroll(target: string, deltaY: number, options: BrowserActionOptions = {}): Promise<void> {
     await this.run(async () => {
       const observed = await this.controls.target(target);
@@ -197,6 +199,12 @@ class CloudflareBrowserSession implements BrowserSession {
     return this.run(() => waitForVisibleChange(this.page, previous, timeoutMs));
   }
   async screenshot(): Promise<Uint8Array> { return this.run(() => this.page.screenshot()); }
+  async screenshotLayoutOnly(): Promise<Uint8Array> {
+    return this.run(async () => {
+      const mask = await this.page.addStyleTag({ content: `*,*::before,*::after{color:transparent!important;text-shadow:none!important;background-image:none!important;caret-color:transparent!important}input,textarea,select,option{color:transparent!important;-webkit-text-fill-color:transparent!important}img,video,canvas,iframe,svg,picture{visibility:hidden!important}` });
+      try { return await this.page.screenshot(); } finally { await mask.evaluate(element => element.parentNode?.removeChild(element)).catch(() => undefined); }
+    });
+  }
 
   async close(): Promise<void> {
     if (this.closed) return;
@@ -239,8 +247,14 @@ export class CloudflareBrowserRun implements BrowserRuntime {
     });
   }
 
-  async openSession(input: { signal: AbortSignal; engineMode?: BrowserEngineMode; networkPolicy?: BrowserReadNetworkPolicy }): Promise<BrowserSession> {
+  async openSession(input: { signal: AbortSignal; engineMode?: BrowserEngineMode; networkPolicy?: BrowserReadNetworkPolicy; recordResponse?: (response: { url: string; method: string; status: number; contentType: string; body: Uint8Array }) => Promise<void> | void; replayHarPath?: string }): Promise<BrowserSession> {
     if (input.signal.aborted) throw new BrowserRuntimeError("BROWSER_ABORTED", "Browser session creation was aborted");
+    // routeFromHAR is a local Playwright capability.  A remote CDP session
+    // cannot promise that a missing replay entry stays off the remote network,
+    // so reject instead of silently opening a live Cloudflare page.
+    if (input.replayHarPath) {
+      throw new BrowserRuntimeError("BROWSER_RUNTIME_UNAVAILABLE", "Cloudflare Browser Run does not support isolated HAR replay");
+    }
     const mode = input.engineMode ?? this.mode;
     let lastError: unknown;
     for (const engine of candidateEngines(mode)) {
@@ -257,7 +271,7 @@ export class CloudflareBrowserRun implements BrowserRuntime {
           headers: { Authorization: `Bearer ${this.config.apiToken}` },
           timeout: this.connectTimeoutMs,
         });
-        const session = await CloudflareBrowserSession.create(browser, engine, input.networkPolicy);
+        const session = await CloudflareBrowserSession.create(browser, engine, input.networkPolicy, input.recordResponse);
         const onAbort = () => { void session.close(); };
         input.signal.addEventListener("abort", onAbort, { once: true });
         return session;

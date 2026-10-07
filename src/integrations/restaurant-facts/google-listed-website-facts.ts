@@ -11,7 +11,7 @@ import type {
   RestaurantCandidateFactRequest,
 } from "../../domains/restaurant/contracts.js";
 import { BrowserTaskExecutor, type BrowserExecutionBudget, type BrowserExecutionDiagnostic } from "../../infrastructure/browser/browser-task-executor.js";
-import type { BrowserRuntime, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
+import type { BrowserReadNetworkPolicy, BrowserRuntime, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
 import type { BrowserReadActionDecisionPort } from "../../infrastructure/browser/browser-action-decision.js";
 import type { RestaurantFactJudgmentPort } from "./model-fact-judgment.js";
 
@@ -310,6 +310,7 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
     private readonly modelDecision?: BrowserReadActionDecisionPort,
     private readonly browserBudget?: BrowserExecutionBudget,
     private readonly onBrowserDiagnostic?: (diagnostic: BrowserExecutionDiagnostic) => void,
+    private readonly networkPolicy?: BrowserReadNetworkPolicy,
   ) {}
 
   async inspectFacts(request: RestaurantCandidateFactRequest, signal: AbortSignal): Promise<RestaurantCandidateFactRead> {
@@ -376,7 +377,7 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
       try {
         executor.beginCandidate(candidate.restaurant.id);
         executor.beginProvider(candidate.restaurant.id, "WEBSITE", "FACTS");
-        const session = await executor.acquire(signal, "WEBSITE", "FACTS");
+        const session = await executor.acquire(signal, "WEBSITE", "FACTS", this.networkPolicy);
         await executor.navigate({ source: "WEBSITE", stage: "FACTS", signal, allowedOrigins: [listed.origin], session, url: listed.toString() });
         const generic = await executor.runSkill({
           taskId: request.readRunId ?? candidate.restaurant.id,

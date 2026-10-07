@@ -1,7 +1,7 @@
 # ADR-0036: Generic public browser reads and reviewed source queries
 
-- Status: Accepted; implementation pending
-- Document revision: 1.0
+- Status: Accepted; implemented and Phase 1 verified
+- Document revision: 1.1
 - Last updated: 2026-10-07
 - Source of truth for: Generic public browser network admission and guarded UI permissions
 - Related ADRs: [ADR-0035](0035-browser-read-network-boundary.md), [ADR-0017](0017-controlled-browser-read-executor.md)
@@ -30,6 +30,10 @@ Replace the unknown-GET default in ADR-0035 with two modes:
    personal-data or credential query fields, cross-origin dynamic reads and
    all other methods before dispatch. Do not load a personal profile, inject
    account credentials or fill personal-data fields.
+   Sensitive operation segments take precedence throughout the path. A booking
+   namespace alone does not establish a write: public calendar, availability,
+   vacancy, status, search and list reads may pass, but a nested cancellation,
+   confirmation or account operation remains blocked.
 2. **Reviewed source.** Use the generic policy plus source-owned declarations
    for independently reviewed public reads, including exact POST endpoint,
    field and primitive-type grammar. An explicitly reviewed public query or

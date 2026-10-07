@@ -12,6 +12,7 @@ class FixtureSession implements BrowserSession {
   clicks = 0;
   selected: string[] = [];
   dismisses = 0;
+  escapes = 0;
   private index = 0;
 
   constructor(private readonly pages: BrowserSnapshot[], private readonly advanceOnWait = false, guarded = false) {
@@ -53,6 +54,10 @@ class FixtureSession implements BrowserSession {
     this.dismisses += 1;
     this.index = Math.min(this.index + 1, this.pages.length - 1);
     return { occluder: "header" };
+  }
+  async pressEscape(): Promise<void> {
+    this.escapes += 1;
+    this.index = Math.min(this.index + 1, this.pages.length - 1);
   }
   async screenshot(): Promise<Uint8Array> { return new Uint8Array(); }
   async close(): Promise<void> { this.closed += 1; }
@@ -121,10 +126,10 @@ test("BrowserTaskExecutor completes after a canonical page-level WAIT without an
   const session = new FixtureSession([
     { url: "https://www.tablecheck.com/en/query", title: "query", text: "Loading current availability", html: "<div>Loading current availability</div>" },
     { url: "https://www.tablecheck.com/en/query", title: "query", text: "Sushi Inase 19:00", html: "<div>Sushi Inase 19:00</div>" },
-  ], true);
+  ], true, true);
   const executor = new BrowserTaskExecutor({ openSession: async () => session }, {
     modelDecision: { async decide(value) {
-      assert.deepEqual(value.observation.pageActions, ["WAIT"]);
+      assert.deepEqual(value.observation.pageActions, ["WAIT", "PRESS_ESCAPE"]);
       assert.equal(value.observation.targets.some(target => target.availableActions?.includes("WAIT")), false);
       return { type: "WAIT", reason: "Wait for the current public result." };
     } },
@@ -140,6 +145,27 @@ test("BrowserTaskExecutor completes after a canonical page-level WAIT without an
   } finally {
     await executor.close();
   }
+});
+
+test("BrowserTaskExecutor spends one bounded operation on page-level Escape then re-observes", async () => {
+  const session = new FixtureSession([
+    { url: "https://www.tablecheck.com/en/query", title: "modal", text: "Search dialog open", html: "<dialog>Search dialog open</dialog>" },
+    { url: "https://www.tablecheck.com/en/query", title: "results", text: "Sushi Inase 19:00", html: "<main>Sushi Inase 19:00</main>" },
+  ], false, true);
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {
+    modelDecision: { async decide(input) {
+      assert.deepEqual(input.observation.pageActions, ["WAIT", "PRESS_ESCAPE"]);
+      return { type: "PRESS_ESCAPE", reason: "Close the observed public layer before reading the result." };
+    } },
+  });
+  const signal = new AbortController().signal;
+  const acquired = await executor.acquire(signal, "TABLECHECK", "DISCOVERY");
+  try {
+    const result = await executor.runSkill({ ...input(acquired, signal) });
+    assert.equal(result.status, "COMPLETED");
+    assert.equal(session.escapes, 1);
+    assert.equal(result.snapshot.title, "results", "Escape must be followed by a fresh page observation");
+  } finally { await executor.close(); }
 });
 
 test("BrowserTaskExecutor applies one obstruction recovery and re-observes instead of retrying an old click", async () => {
@@ -190,7 +216,7 @@ test("BrowserTaskExecutor exposes an ordinary observed query submit only in an i
   const signal = new AbortController().signal;
   const acquired = await executor.acquire(signal, "TABLECHECK", "DISCOVERY");
   try {
-    const result = await executor.runSkill({ ...input(acquired, signal), allowGuardedQueryControls: true });
+    const result = await executor.runSkill({ ...input(acquired, signal) });
     assert.equal(result.status, "COMPLETED");
     assert.equal(guarded.clicks, 1);
   } finally { await executor.close(); }
@@ -205,7 +231,7 @@ test("BrowserTaskExecutor exposes an ordinary observed query submit only in an i
   });
   const second = await unguardedExecutor.acquire(signal, "TABLECHECK", "DISCOVERY");
   try {
-    const result = await unguardedExecutor.runSkill({ ...input(second, signal), allowGuardedQueryControls: true });
+    const result = await unguardedExecutor.runSkill({ ...input(second, signal) });
     assert.equal(result.status, "REQUESTED_HUMAN_HELP");
     assert.equal(unguarded.clicks, 0);
   } finally { await unguardedExecutor.close(); }
@@ -225,9 +251,35 @@ test("BrowserTaskExecutor keeps an observed sensitive submit unavailable even in
   const signal = new AbortController().signal;
   const acquired = await executor.acquire(signal, "TABLECHECK", "DISCOVERY");
   try {
-    const result = await executor.runSkill({ ...input(acquired, signal), allowGuardedQueryControls: true });
+    const result = await executor.runSkill({ ...input(acquired, signal) });
     assert.equal(result.status, "REQUESTED_HUMAN_HELP");
     assert.equal(session.clicks, 0);
+  } finally { await executor.close(); }
+});
+
+test("BrowserTaskExecutor exposes generic public query controls only after the Guard boundary is installed", async () => {
+  const session = new FixtureSession([{ url: "https://www.tablecheck.com/en/query", title: "query", text: "Filters", html: "" }], false, true);
+  session.observeControls = async () => [
+    { id: "radio", stableKey: "radio", kind: "RADIO", role: "radio", label: "Sushi", value: "sushi", checked: false, disabled: false, visible: true },
+    { id: "check", stableKey: "check", kind: "CHECKBOX", role: "checkbox", label: "Counter", checked: false, disabled: false, visible: true },
+    { id: "range", stableKey: "range", kind: "RANGE", role: "slider", label: "Budget", value: "3", min: "0", max: "5", disabled: false, visible: true },
+    { id: "region", stableKey: "region", kind: "REGION", role: "region", label: "Filters", scrollable: true, disabled: false, visible: true },
+    { id: "search", stableKey: "search", kind: "INPUT", role: "textbox", label: "Search", value: "", disabled: false, visible: true, structure: { tag: "INPUT", name: "search_text", classes: [], dialogLabel: "", formClass: "", sliderCount: 0 } },
+  ];
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { modelDecision: { async decide(input) {
+    const action = (label: string) => input.observation.targets.find(target => target.label === label)?.availableActions ?? [];
+    assert.deepEqual(action("Sushi"), ["SET_CHECKED"]);
+    assert.deepEqual(action("Counter"), ["SET_CHECKED"]);
+    assert.deepEqual(action("Budget"), ["ADJUST_RANGE"]);
+    assert.deepEqual(action("Filters"), ["SCROLL_REGION"]);
+    assert.deepEqual(action("Search"), ["FILL_AUTHORITATIVE:RETRIEVAL"]);
+    return { type: "REQUEST_HUMAN_HELP", reason: "The fixture verifies exposure only." };
+  } } });
+  const signal = new AbortController().signal;
+  const acquired = await executor.acquire(signal, "TABLECHECK", "DISCOVERY");
+  try {
+    const result = await executor.runSkill({ ...input(acquired, signal), goal: { outlet: { name: "Sushi" }, retrievalExpression: "omakase", hardCriteria: [] } });
+    assert.equal(result.status, "REQUESTED_HUMAN_HELP");
   } finally { await executor.close(); }
 });
 
@@ -246,7 +298,7 @@ test("BrowserTaskExecutor executes a guarded authoritative date button only for 
   const signal = new AbortController().signal;
   const acquired = await executor.acquire(signal, "TABLECHECK", "AVAILABILITY");
   try {
-    const result = await executor.runSkill({ ...input(acquired, signal), stage: "AVAILABILITY", allowGuardedQueryControls: true });
+    const result = await executor.runSkill({ ...input(acquired, signal), stage: "AVAILABILITY" });
     assert.equal(result.status, "COMPLETED");
     assert.equal(session.clicks, 1);
   } finally { await executor.close(); }
@@ -627,7 +679,7 @@ test("BrowserTaskExecutor binds model-controlled fields to the Router authority 
 });
 
 test("BrowserTaskExecutor binds a public retrieval field by observed native name without admitting PII entries", async () => {
-  const session = new FixtureSession([{ url: "https://www.tablecheck.com/en/japan/search", title: "search", text: "Search", html: "" }]);
+  const session = new FixtureSession([{ url: "https://www.tablecheck.com/en/japan/search", title: "search", text: "Search", html: "" }], false, true);
   const controls: BrowserPageControl[] = [
     { id: "search", stableKey: "input|search_text", kind: "INPUT", role: "textbox", label: "Sushi tonight for 2 in Ginza", value: "omakase",
       disabled: false, visible: true, structure: { tag: "INPUT", name: "search_text", classes: [], dialogLabel: "", formClass: "", sliderCount: 0 } },
@@ -920,4 +972,15 @@ test("a rejected COMPLETE refreshes an asynchronous result before requesting ano
     assert.equal(result.snapshot.text, "Inventory ready");
     assert.equal(decisionsRequested, 1);
   } finally { await executor.close(); }
+});
+
+test("BrowserTaskExecutor never advertises or executes page Escape without an installed read boundary", async () => {
+  const session = new FixtureSession([{ url: "https://www.tablecheck.com/en/query", title: "modal", text: "Search dialog", html: "<dialog>Search dialog</dialog>" }]);
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { modelDecision: { async decide(input) {
+    assert.deepEqual(input.observation.pageActions, ["WAIT"]);
+    return { type: "PRESS_ESCAPE", reason: "Try a page action." };
+  } } });
+  const signal = new AbortController().signal; const acquired = await executor.acquire(signal, "TABLECHECK", "DISCOVERY");
+  try { const result = await executor.runSkill({ ...input(acquired, signal) }); assert.equal(result.status, "NO_SAFE_ACTION"); assert.equal(session.escapes, 0); }
+  finally { await executor.close(); }
 });

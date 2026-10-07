@@ -19,7 +19,7 @@ export interface BrowserExecutionDiagnostic {
     | "OPERATION_STARTED" | "OPERATION_FINISHED" | "OPERATION_FAILED"
     | "MODEL_DECISION_STARTED" | "MODEL_DECISION_FINISHED" | "MODEL_DECISION_FAILED"
     | "BUDGET_EXHAUSTED"
-    | "OBSERVED" | "SKILL_STARTED" | "METHOD_INCOMPLETE" | "MODEL_ACTION" | "MODEL_STOP" | "ASYNC_WAIT" | "POST_ACTION_VERIFIED" | "REJECTED" | "CLOSED";
+    | "OBSERVED" | "SKILL_STARTED" | "METHOD_INCOMPLETE" | "MODEL_WIRE" | "MODEL_ACTION" | "MODEL_STOP" | "ASYNC_WAIT" | "POST_ACTION_VERIFIED" | "REJECTED" | "CLOSED";
   elapsedMs: number;
   /** Executor lifecycle accounting. `FINISHED` means the scope returned to its adapter, not an availability assertion. */
   lifecycle: {
@@ -86,19 +86,6 @@ export interface BrowserSkillReadInput {
   shortcut?: { name: string; run(snapshot: BrowserSnapshot): Promise<void> };
   controlHints?(snapshot: Readonly<BrowserSnapshot>): readonly BrowserControlHint[];
   completion(snapshot: BrowserSnapshot, controls: BrowserPageControl[]): { complete: boolean; reason: string };
-  /** Code-owned source classification, never model/page-provided permission. Absence
-   * denies event-producing checkbox/range changes, including consent controls. */
-  permitQueryControl?(input: {
-    control: Readonly<BrowserPageControl>;
-    snapshot: Readonly<BrowserSnapshot>;
-    action: "SET_CHECKED" | "ADJUST_RANGE" | "CLICK";
-  }): boolean;
-  /**
-   * Source-owned public query controls may use ordinary buttons only in a
-   * runtime-created guarded context. Radio/range selection remains source
-   * classified and authoritative values remain bound below.
-   */
-  allowGuardedQueryControls?: boolean;
 }
 
 export interface BrowserGenericReadResult {
@@ -538,14 +525,18 @@ export class BrowserTaskExecutor {
             url: observation.snapshot.url,
             title: observation.snapshot.title,
             visibleText: safeText(observation.snapshot.text),
-            pageActions: ["WAIT"],
+            pageActions: input.session.pressEscape && input.session.metadata.readNetworkBoundary === "INSTALLED" ? ["WAIT", "PRESS_ESCAPE"] : ["WAIT"],
             targets: actionTargets.map(({ controlId: _controlId, stableKey: _stableKey, nativeTag: _nativeTag, optionNative: _optionNative, optionOwnerId: _optionOwnerId, ownerStableKey: _ownerStableKey, radioGroupKey: _radioGroupKey, ...target }) => ({
               ...target, ...this.actionHints(input, observation, observation.targets.get(target.ref)!, pendingOption !== undefined || pendingRadio !== undefined),
             })),
           },
         }));
+        const wire = this.options.modelDecision!.takeLastWireRecord?.();
+        if (wire) this.record({ source: input.source, stage: input.stage, event: "MODEL_WIRE", url: snapshot.url, detail: `MODEL_WIRE:${JSON.stringify(wire)}` });
         this.record({ source: input.source, stage: input.stage, event: "MODEL_DECISION_FINISHED", detail: "MODEL_DECISION" });
       } catch (error) {
+        const wire = this.options.modelDecision!.takeLastWireRecord?.();
+        if (wire) this.record({ source: input.source, stage: input.stage, event: "MODEL_WIRE", url: snapshot.url, detail: `MODEL_WIRE:${JSON.stringify(wire)}` });
         this.recordLifecycleFailure(input.source, input.stage, "MODEL_DECISION_FAILED", error);
         const rejectionDetail = error instanceof BrowserReadDecisionError && error.code === "INVALID_MODEL_OUTPUT"
           ? safeWireRejectionDetail(error.wireRejection) : safeErrorDetail(error);
@@ -601,8 +592,8 @@ export class BrowserTaskExecutor {
         continue;
       }
       if (action.type === "REQUEST_HUMAN_HELP") return { status: "REQUESTED_HUMAN_HELP", snapshot, controls: observation.controls };
-      const target = action.type === "WAIT" ? undefined : observation.targets.get(action.targetRef);
-      if (!target && action.type !== "WAIT") {
+      const target = action.type === "WAIT" || action.type === "PRESS_ESCAPE" ? undefined : observation.targets.get(action.targetRef);
+      if (!target && action.type !== "WAIT" && action.type !== "PRESS_ESCAPE") {
         this.record({ source: input.source, stage: input.stage, event: "REJECTED", url: snapshot.url, detail: "STALE_OR_UNKNOWN_TARGET_REF" });
         return { status: "NO_SAFE_ACTION", snapshot, controls: observation.controls };
       }
@@ -798,11 +789,9 @@ export class BrowserTaskExecutor {
         && !/\/(?:login|signin|account|checkout|payment|reserve|booking|cancel)(?:\/|$)/i.test(new URL(target.href).pathname)) availableActions.push("OPEN_LINK");
       else rejectionReason = "NAVIGATION_PROHIBITED";
     } else if (target.kind === "BUTTON") {
-      const control = observation.controls.find(item => item.id === target.controlId);
-      const permittedQuerySubmit = control && input.permitQueryControl?.({ control, snapshot: observation.snapshot, action: "CLICK" }) === true;
-      if (this.safeGenericClick(target) || permittedQuerySubmit || this.guardedReadClick(input, target)) availableActions.push("CLICK");
+      if (this.safeGenericClick(target) || this.guardedReadControl(input, target)) availableActions.push("CLICK");
       else rejectionReason = "WRITE_PROHIBITED";
-      if ((this.safeGenericClick(target) || this.guardedReadClick(input, target)) && target.role !== "combobox" && target.selected !== true) {
+      if ((this.safeGenericClick(target) || this.guardedReadControl(input, target)) && target.role !== "combobox" && target.selected !== true) {
         for (const field of ["DATE", "PARTY_SIZE"] as const) {
           if (matchesAuthoritativeControl(target, field, input.goal)) availableActions.push(`CLICK_AUTHORITATIVE:${field}`);
         }
@@ -810,17 +799,15 @@ export class BrowserTaskExecutor {
     } else if (target.kind === "INPUT") {
       if (input.goal.date && this.boundInputField(target, "DATE")) availableActions.push("FILL_AUTHORITATIVE:DATE");
       if (input.goal.partySize !== undefined && this.boundInputField(target, "PARTY_SIZE")) availableActions.push("FILL_AUTHORITATIVE:PARTY_SIZE");
-      if (input.goal.retrievalExpression && this.boundInputField(target, "RETRIEVAL")) availableActions.push("FILL_AUTHORITATIVE:RETRIEVAL");
+      if (input.goal.retrievalExpression && this.boundInputField(target, "RETRIEVAL") && this.guardedReadControl(input, target)) availableActions.push("FILL_AUTHORITATIVE:RETRIEVAL");
       if (!availableActions.length) rejectionReason = "NO_BOUND_INPUT_FIELD";
     } else if (target.kind === "CHECKBOX" || target.kind === "RADIO" || target.kind === "RANGE") {
-      const control = observation.controls.find(item => item.id === target.controlId);
       const action = target.kind === "RANGE" ? "ADJUST_RANGE" : "SET_CHECKED";
       if (pendingSelection) rejectionReason = "PREVIOUS_OPTION_UNCONFIRMED";
-      else if (control && (target.kind !== "RADIO" || target.checked !== true)
-        && input.permitQueryControl?.({ control, snapshot: observation.snapshot, action }) === true) availableActions.push(action);
+      else if (this.guardedReadControl(input, target) && (target.kind !== "RADIO" || target.checked !== true)) availableActions.push(action);
       else rejectionReason = "QUERY_PERMISSION_REQUIRED";
     } else if (target.kind === "REGION") {
-      if (target.scrollable) availableActions.push("SCROLL_REGION");
+      if (target.scrollable && this.guardedReadControl(input, target)) availableActions.push("SCROLL_REGION");
       else rejectionReason = "NOT_SCROLLABLE";
     }
     return { availableActions, ...(rejectionReason ? { rejectionReason } : {}) };
@@ -877,6 +864,11 @@ export class BrowserTaskExecutor {
       await this.waitForChange(input, observation.snapshot);
       return;
     }
+    if (action.type === "PRESS_ESCAPE") {
+      if (!input.session.pressEscape || input.session.metadata.readNetworkBoundary !== "INSTALLED") throw new Error("Page Escape requires an installed read boundary");
+      await this.operation(input, "PRESS_ESCAPE", () => input.session.pressEscape!(this.actionOptions()));
+      return;
+    }
     if (!target) throw new Error("Action requires a current observed target");
     if (target.disabled) throw new Error("Observed target is disabled");
     if (action.type === "OPEN_LINK") {
@@ -901,10 +893,8 @@ export class BrowserTaskExecutor {
     }
     if (action.type === "CLICK") {
       if (target.role === "option") throw new Error("CLICK cannot choose an option; use CHOOSE_OPTION with its observed owner");
-      const control = observation.controls.find(item => item.id === target.controlId);
-      const permittedQuerySubmit = control && input.permitQueryControl?.({ control, snapshot: observation.snapshot, action: "CLICK" }) === true;
       if (!this.safeGenericClick(target) && !this.safeFragmentClick(input, observation.snapshot, target)
-        && !permittedQuerySubmit && !this.guardedReadClick(input, target)) {
+        && !this.guardedReadControl(input, target)) {
         throw new Error("CLICK target has submit, navigation, or other write-capable structure");
       }
       await this.operation(input, "CLICK", () => input.session.click(target.controlId, this.actionOptions()));
@@ -914,7 +904,7 @@ export class BrowserTaskExecutor {
       if (target.role === "option") throw new Error("CLICK_AUTHORITATIVE cannot choose an option; use CHOOSE_OPTION");
       if (target.role === "combobox") throw new Error("Open a custom combobox with CLICK, then choose its newly observed option with CHOOSE_OPTION.");
       if (target.kind !== "BUTTON" || target.selected === true
-        || (!this.safeGenericClick(target) && !this.guardedReadClick(input, target))
+        || (!this.safeGenericClick(target) && !this.guardedReadControl(input, target))
         || !matchesAuthoritativeControl(target, action.field, input.goal)) {
         throw new Error("CLICK_AUTHORITATIVE target is not a visible, exact, non-submit authoritative control");
       }
@@ -936,16 +926,13 @@ export class BrowserTaskExecutor {
         const selected = await this.operation(input, "CHOOSE_OPTION", () => input.session.select(owner.controlId, target.value ?? "", this.actionOptions()));
         if (!selected.includes(target.value ?? "")) throw new Error("Browser did not report the observed option value");
       } else {
-        if (!this.safeGenericClick(target)) throw new Error("CHOOSE_OPTION has write-prohibited structure");
+        if (!this.safeGenericClick(target) && !this.guardedReadControl(input, target)) throw new Error("CHOOSE_OPTION has write-prohibited structure");
         await this.operation(input, "CHOOSE_OPTION", () => input.session.click(target.controlId, this.actionOptions()));
       }
       return;
     }
-    if (action.type === "SET_CHECKED" || action.type === "ADJUST_RANGE") {
-      const control = observation.controls.find(control => control.id === target.controlId);
-      if (!control || input.permitQueryControl?.({ control, snapshot: observation.snapshot, action: action.type }) !== true) {
-        throw new Error("Source has not classified this control as a permitted read-only query operation");
-      }
+    if ((action.type === "SET_CHECKED" || action.type === "ADJUST_RANGE") && !this.guardedReadControl(input, target)) {
+      throw new Error("A guarded read boundary is required for this public query control");
     }
     if (action.type === "SET_CHECKED") {
       if ((target.kind !== "CHECKBOX" && target.kind !== "RADIO") || target.checked === undefined || target.checked === action.checked
@@ -975,7 +962,7 @@ export class BrowserTaskExecutor {
       : action.field === "PARTY_SIZE" ? input.goal.partySize : input.goal.retrievalExpression;
     if (authoritative === undefined) throw this.rejected(input.source, input.stage, `The current read has no authoritative ${action.field.toLowerCase()} value`);
     const value = String(authoritative);
-    if (!this.boundInputField(target, action.field)) {
+    if (!this.boundInputField(target, action.field) || action.field === "RETRIEVAL" && !this.guardedReadControl(input, target)) {
       throw new Error(`${action.type} target has the wrong control kind`);
     }
     await this.operation(input, "FILL_AUTHORITATIVE", () => input.session.fill(target.controlId, value, this.actionOptions()));
@@ -1035,10 +1022,11 @@ export class BrowserTaskExecutor {
     return true;
   }
 
-  /** Network admission, not page markup, makes this limited wider button path safe. */
-  private guardedReadClick(input: BrowserSkillReadInput, target: ObservedTarget): boolean {
-    if (input.allowGuardedQueryControls !== true || input.session.metadata.readNetworkBoundary !== "INSTALLED") return false;
-    if (target.kind !== "BUTTON" || target.role === "option") return false;
+  /** Network admission, not page markup, is the one wider UI permission. */
+  private guardedReadControl(input: BrowserSkillReadInput, target: ObservedTarget): boolean {
+    if (input.session.metadata.readNetworkBoundary !== "INSTALLED") return false;
+    if (!["BUTTON", "CHECKBOX", "RADIO", "RANGE", "REGION", "OPTION", "INPUT"].includes(target.kind)) return false;
+    if (target.kind === "INPUT" && !this.boundInputField(target, "RETRIEVAL")) return false;
     return !/\b(?:login|sign\s*in|register|reserve|book|checkout|pay|purchase|cancel|delete|confirm)\b/i.test(target.label);
   }
 

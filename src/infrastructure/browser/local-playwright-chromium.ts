@@ -88,6 +88,7 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
         pageId: this.pageId(this.page),
         responses: await this.responses.snapshot(this.page),
         ...(this.networkGuard?.snapshotDiagnostics().length ? { networkDiagnostics: this.networkGuard.snapshotDiagnostics() } : {}),
+        ...(this.networkGuard?.snapshotRequests().length ? { networkRequests: this.networkGuard.snapshotRequests() } : {}),
       };
     });
   }
@@ -127,6 +128,7 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
   async select(target: string, value: string, options: BrowserActionOptions = {}): Promise<string[]> { return this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).selectOption(value, { timeout: actionTimeout(options) })); }
   async setChecked(target: string, checked: boolean, options: BrowserActionOptions = {}): Promise<void> { await this.run(async () => { if (await this.controls.setChecked(target, checked, actionTimeout(options))) return; await this.page.locator(target).setChecked(checked, { timeout: actionTimeout(options) }); }); }
   async press(target: string, key: "ArrowLeft" | "ArrowRight", options: BrowserActionOptions = {}): Promise<void> { await this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).press(key, { timeout: actionTimeout(options) })); }
+  async pressEscape(_options: BrowserActionOptions = {}): Promise<void> { await this.run(() => this.page.keyboard.press("Escape")); }
   async scroll(target: string, deltaY: number, options: BrowserActionOptions = {}): Promise<void> {
     await this.run(async () => {
       const observed = await this.controls.target(target);
@@ -161,6 +163,12 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
     return this.run(() => waitForVisibleChange(this.page, previous, timeoutMs));
   }
   async screenshot(): Promise<Uint8Array> { return this.run(() => this.page.screenshot()); }
+  async screenshotLayoutOnly(): Promise<Uint8Array> {
+    return this.run(async () => {
+      const mask = await this.page.addStyleTag({ content: `*,*::before,*::after{color:transparent!important;text-shadow:none!important;background-image:none!important;caret-color:transparent!important}input,textarea,select,option{color:transparent!important;-webkit-text-fill-color:transparent!important}img,video,canvas,iframe,svg,picture{visibility:hidden!important}` });
+      try { return await this.page.screenshot(); } finally { await mask.evaluate(element => element.parentNode?.removeChild(element)).catch(() => undefined); }
+    });
+  }
 
   async close(): Promise<void> {
     if (this.closed) return;
@@ -202,15 +210,18 @@ export class LocalPlaywrightChromium implements BrowserRuntime {
     });
   }
 
-  async openSession(input: { signal: AbortSignal; networkPolicy?: BrowserReadNetworkPolicy }): Promise<BrowserSession> {
+  async openSession(input: { signal: AbortSignal; networkPolicy?: BrowserReadNetworkPolicy; recordResponse?: (response: { url: string; method: string; status: number; contentType: string; body: Uint8Array }) => Promise<void> | void; replayHarPath?: string }): Promise<BrowserSession> {
     if (input.signal.aborted) throw new BrowserRuntimeError("BROWSER_ABORTED", "Local browser session creation was aborted");
     let browser: Browser | undefined;
     let context: BrowserContext | undefined;
     let page: Page | undefined;
     let contextOwnsBrowser = false;
     try {
-      if (input.networkPolicy && this.config.userDataDir) {
+      if ((input.networkPolicy || input.replayHarPath) && this.config.userDataDir) {
         throw new BrowserRuntimeError("BROWSER_RUNTIME_UNAVAILABLE", "Guarded browser reads require a new isolated context, not a persistent profile");
+      }
+      if (input.replayHarPath && !input.networkPolicy) {
+        throw new BrowserRuntimeError("BROWSER_RUNTIME_UNAVAILABLE", "Browser replay requires an installed read network boundary");
       }
       const browserType = this.config.browserType ?? chromium;
       const launchOptions = {
@@ -225,10 +236,11 @@ export class LocalPlaywrightChromium implements BrowserRuntime {
         contextOwnsBrowser = true;
       } else {
         browser = await browserType.launch(launchOptions);
-        context = await browser.newContext(input.networkPolicy ? { serviceWorkers: "block" } : {});
+        context = await browser.newContext((input.networkPolicy || input.replayHarPath) ? { serviceWorkers: "block" } : {});
       }
-      const networkGuard = input.networkPolicy ? new PlaywrightReadNetworkGuard(input.networkPolicy) : undefined;
-      if (networkGuard) await networkGuard.install(context);
+      const networkGuard = input.networkPolicy ? new PlaywrightReadNetworkGuard(input.networkPolicy, 5_000, input.recordResponse) : undefined;
+      if (input.replayHarPath) await context.routeFromHAR(input.replayHarPath, { notFound: "abort" });
+      if (networkGuard) await networkGuard.install(context, { replay: input.replayHarPath !== undefined });
       page = await context.newPage();
       const session = new LocalPlaywrightChromiumSession(browser, context, page, contextOwnsBrowser, networkGuard);
       if (input.signal.aborted) {

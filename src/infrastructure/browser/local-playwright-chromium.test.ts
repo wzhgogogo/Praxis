@@ -103,6 +103,28 @@ test("Local Playwright Chromium maps launch failures into the fail-closed Browse
   );
 });
 
+test("Local Playwright Chromium installs HAR replay before the Guard and refuses replay without that boundary", async () => {
+  const calls: string[] = [];
+  const page = {
+    goto: async () => null, content: async () => "<main>Replay</main>", locator: () => ({ innerText: async () => "Replay", click: async () => {}, fill: async () => {}, selectOption: async () => [], waitFor: async () => {} }),
+    title: async () => "Replay", screenshot: async () => new Uint8Array(), url: () => "https://replay.example/guide", close: async () => {}, keyboard: { press: async () => {} },
+  };
+  const context = {
+    newPage: async () => page,
+    routeFromHAR: async (_path: string, options: { notFound: string }) => { calls.push(`har:${options.notFound}`); },
+    routeWebSocket: async () => { calls.push("websocket"); },
+    route: async () => { calls.push("guard-route"); },
+    close: async () => {},
+  };
+  const runtime = new LocalPlaywrightChromium({ browserType: { launch: async () => ({ newContext: async () => context, close: async () => {} }) as never } });
+  const policy = { documentOrigins: ["https://replay.example"], genericPublicRead: true, staticResources: [], dynamicReads: [] } as const;
+  await assert.rejects(runtime.openSession({ signal: new AbortController().signal, replayHarPath: "/tmp/replay.har" }), BrowserRuntimeError);
+  const session = await runtime.openSession({ signal: new AbortController().signal, networkPolicy: policy, replayHarPath: "/tmp/replay.har" });
+  assert.deepEqual(calls, ["har:abort", "websocket", "guard-route"]);
+  assert.equal(session.metadata.readNetworkBoundary, "INSTALLED");
+  await session.close();
+});
+
 test("passive query capture invalidates old stock at request time and rejects late responses", async () => {
   const { EventEmitter } = await import("node:events");
   const { PlaywrightResponseObserver } = await import("./playwright-response-observer.js");
@@ -121,4 +143,17 @@ test("passive query capture invalidates old stock at request time and rejects la
   assert.deepEqual(await observer.snapshot(page), [], "a newly requested query cannot reuse the old result");
   emit.emit("response", response(current, Promise.resolve('{"slot":"18:45"}')));
   assert.deepEqual((await observer.snapshot(page)).map(item => item.body), [{ slot: "18:45" }]);
+});
+
+test("layout-only screenshot is a PNG and leaves observed controls unchanged", async () => {
+  const runtime = new LocalPlaywrightChromium();
+  const session = await runtime.openSession({ signal: new AbortController().signal });
+  try {
+    await session.navigate("data:text/html,<button id=keep type=button>Keep</button><input value=private>");
+    const before = await session.observeControls?.();
+    const png = await session.screenshotLayoutOnly?.();
+    const after = await session.observeControls?.();
+    assert.ok(png && png[0] === 137 && png[1] === 80 && png[2] === 78 && png[3] === 71);
+    assert.deepEqual(after?.map(item => [item.kind, item.label, item.value]), before?.map(item => [item.kind, item.label, item.value]));
+  } finally { await session.close(); }
 });

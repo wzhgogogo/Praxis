@@ -25,6 +25,8 @@ export interface BrowserReadNetworkRequestRule {
 export interface BrowserReadNetworkPolicy {
   /** Exact public document URLs are admitted only after Executor prepares navigation. */
   documentOrigins: readonly string[];
+  /** ADR-0036: prepared public document origins may issue non-sensitive GET/HEAD reads. */
+  genericPublicRead?: boolean;
   staticResources: readonly BrowserReadNetworkRequestRule[];
   dynamicReads: readonly BrowserReadNetworkRequestRule[];
 }
@@ -34,6 +36,16 @@ export interface BrowserCapturedResponse {
   observedAt: string;
   sequence: number;
   body: unknown;
+}
+
+/** A value-free request shape captured by an installed read boundary. */
+export interface BrowserReadNetworkObservation {
+  outcome: "ADMITTED" | "BLOCKED" | "REDIRECT_BLOCKED" | "FAILED" | "TIMED_OUT";
+  origin: string;
+  pathname: string;
+  method: string;
+  resourceType: string;
+  queryKeys: string[];
 }
 
 export interface BrowserSnapshot {
@@ -61,6 +73,8 @@ export interface BrowserSnapshot {
     resourceType: string;
     queryKeys: string[];
   }>;
+  /** Value-free Guard request chronology for optional Record and PolicyDraft evidence. */
+  networkRequests?: BrowserReadNetworkObservation[];
 }
 
 /** Code-owned descriptions of nonstandard source controls. Never accepted from a model. */
@@ -146,6 +160,8 @@ export interface BrowserSession {
   /** Optional read-only query controls. Unsupported runtimes fail closed in the Executor. */
   setChecked?(target: string, checked: boolean, options?: BrowserActionOptions): Promise<void>;
   press?(target: string, key: "ArrowLeft" | "ArrowRight", options?: BrowserActionOptions): Promise<void>;
+  /** Page-level read-only recovery. It never targets or submits a control. */
+  pressEscape?(options?: BrowserActionOptions): Promise<void>;
   scroll?(target: string, deltaY: number, options?: BrowserActionOptions): Promise<void>;
   /** One bounded, browser-owned recovery for an observed transient overlay. */
   dismissTransientObstruction?(target: string, options?: BrowserActionOptions): Promise<{ occluder: string }>;
@@ -153,11 +169,21 @@ export interface BrowserSession {
   /** Wait only until the user-visible page state changes; returns false on the bounded timeout. */
   waitForChange?(previous: Pick<BrowserSnapshot, "url" | "title" | "text" | "interactiveState">, timeoutMs?: number): Promise<boolean>;
   screenshot(): Promise<Uint8Array>;
+  /** Code-owned privacy-safe layout capture: masks content without changing control state. */
+  screenshotLayoutOnly?(): Promise<Uint8Array>;
   close(): Promise<void>;
 }
 
 export interface BrowserRuntime {
   /** Runtime-owned capability: only these implementations may install a guarded isolated context. */
   readonly readNetworkBoundaryCapability?: "ISOLATED_CONTEXT";
-  openSession(input: { signal: AbortSignal; engineMode?: BrowserEngineMode; networkPolicy?: BrowserReadNetworkPolicy }): Promise<BrowserSession>;
+  openSession(input: {
+    signal: AbortSignal;
+    engineMode?: BrowserEngineMode;
+    networkPolicy?: BrowserReadNetworkPolicy;
+    /** Receives an in-memory admitted public response for an optional sanitized Record artifact. */
+    recordResponse?: (response: { url: string; method: string; status: number; contentType: string; body: Uint8Array }) => Promise<void> | void;
+    /** A caller-provided, already sanitized HAR. Local replay never falls back to live network. */
+    replayHarPath?: string;
+  }): Promise<BrowserSession>;
 }

@@ -1377,21 +1377,6 @@ test("TableCheck discovery 403 documents are provider-page failures, not outlet 
   assert.equal(diagnostic.attemptedPages.length, 0);
 });
 
-test("public query permission requires the observed source dialog and control structure", async () => {
-  const { permitsTableCheckQueryControl } = await import("./tablecheck-public-query.js");
-  const snapshot = { url: "https://www.tablecheck.com/en/japan/search", title: "Search", text: "", html: "" };
-  const control = { id: "observed", stableKey: "observed", kind: "CHECKBOX" as const, role: "checkbox", label: "Sushi", type: "checkbox", visible: true, disabled: false, structure: { tag: "INPUT", name: "cuisines", classes: ["checkbox"], dialogLabel: "Cuisine", formClass: "source-form-class-may-change", sliderCount: 0 } };
-  assert.equal(permitsTableCheckQueryControl({ control, snapshot, action: "SET_CHECKED" }), true);
-  const { structure: _structure, ...withoutStructure } = control;
-  for (const rejected of [
-    { ...control, structure: { ...control.structure, name: "consent" }, label: "利用規約に同意する" },
-    { ...control, structure: { ...control.structure, dialogLabel: "Booking" } },
-    withoutStructure,
-    { ...control, blockedByActiveLayer: true },
-  ]) assert.equal(permitsTableCheckQueryControl({ control: rejected, snapshot, action: "SET_CHECKED" }), false);
-  assert.equal(permitsTableCheckQueryControl({ control, snapshot: { ...snapshot, url: "https://www.tablecheck.com/en/reserve" }, action: "SET_CHECKED" }), false);
-});
-
 test("TableCheck guide empty result is bound to one ready widget and exact selected request", () => {
   const html = '<div data-testid="Venue Availability"><form><button data-testid="day" data-date="2026-9-16" aria-selected="true" data-state="disabled">16</button><div data-testid="Venue Pax Select" id="pax-2"></div><div data-testid="Venue Time Select" id="time-19:00"></div><span data-testid="Venue Unavailable Msg">We could not find a table on Sep 16th for the selected mealtime</span></form></div>';
   const snapshot = {url:"https://www.tablecheck.com/en/sushiinase",title:"Sushi Inase",text:"",html};

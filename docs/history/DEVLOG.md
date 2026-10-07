@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.150
+- Document revision: 4.151
 - Last updated: 2026-10-07
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,13 @@
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## DEV-2026-10-07-PLAYBOOK-PHASE1
+
+- Evidence status: exposed development evidence. Shared Guard implements ADR-0036 for source and official-website sessions; installed sessions use generic UI actions and page Escape. Action schema7/prompt12 normalizes inert fields while preserving goal and authority checks; source UI permission functions were removed.
+- Optional Record keeps per-observation sanitized DOM, masked layout screenshots, complete targets, request shapes and a sanitized wire projection. Local HAR Replay retains status, safe scripts/CSS and form semantics through the same Guard; missing entries abort. Policy drafts are never installed automatically.
+- Root returned prepared-navigation leaks, unguarded Escape, hidden-token persistence and Replay status/visibility defects. The calendar slice's third repair passed local mutation controls and the true-source Generic probe; all original failures remain intact.
+- Phase1 accepted with default697/697, Chromium73/73 and independent receiver/normal-task evidence. The 9,537ms source probe proves initial-query admission only; real failure-corpus coverage and full restaurant delivery remain later gates. [Acceptance](../../.eval-artifacts/h001-h005-playbook-20261007/root.phase1.acceptance.json).
 
 ## DEV-2026-10-07-PLAYBOOK-PHASE0
 

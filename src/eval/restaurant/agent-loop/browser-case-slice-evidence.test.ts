@@ -31,16 +31,22 @@ test("browser case slice journal retains the saved Teppen query region without p
         { id: "entry", stableKey: "a[href]|link|Online reservation", kind: "LINK", role: "link", label: "Online reservation", href: "https://tabelog.com/en/booking/calendar/", disabled: false, visible: true },
         { id: "review", stableKey: "a[href]|link|Jane Doe", kind: "LINK", role: "link", label: "Jane Doe", href: "https://tabelog.com/en/tokyo/A1303/A130301/13308491/dtlrvwlst/B123/", disabled: false, visible: true },
       ],
-      click: async () => {}, fill: async () => {}, select: async () => [], waitFor: async () => {}, waitForChange: async () => true, screenshot: async () => new Uint8Array(), close: async () => {},
+      click: async () => {}, fill: async () => {}, select: async () => [], pressEscape: async () => {}, waitFor: async () => {}, waitForChange: async () => true, screenshot: async () => new Uint8Array(), close: async () => {},
     };
     const observed = traceBrowserSession(session, "TABELOG", record);
     await observed.navigate("https://tabelog.com/en/tokyo/A1303/A130301/13308491/");
     await observed.snapshot();
     await observed.observeControls?.();
+    await observed.fill("guest-search", "guest@example.test");
+    await observed.pressEscape?.();
     await observed.waitForChange?.({ url: "https://tabelog.com/en/tokyo/A1303/A130301/13308491/?csrf_token=secret", title: "Private page", text: "Jane Doe private source text", interactiveState: "private" });
     const waitCall = trace.find(event => event.kind === "SESSION_CALL" && (event.detail as { method?: string }).method === "waitForChange")!;
     assert.doesNotMatch(JSON.stringify(waitCall.detail), /Jane Doe|private source text|csrf_token=secret/);
     assert.match(JSON.stringify(waitCall.detail), /sha256/);
+    const fillCall = trace.find(event => event.kind === "SESSION_CALL" && (event.detail as { method?: string }).method === "fill")!;
+    assert.doesNotMatch(JSON.stringify(fillCall.detail), /guest@example\.test/);
+    assert.match(JSON.stringify(fillCall.detail), /REDACTED/);
+    assert.ok(trace.some(event => event.kind === "SESSION_CALL" && (event.detail as { method?: string }).method === "pressEscape"));
     await journal.finish({ status: "SUCCEEDED", trace });
     const artifact = JSON.parse(await readFile(journal.resultPath, "utf8")) as { trace: Array<{ sequence: number; kind: string; detail: Record<string, unknown> }> };
     const snapshotEvent = artifact.trace.find(event => event.kind === "SNAPSHOT")!;
@@ -103,6 +109,26 @@ test("browser case slice trace retains the installed read boundary and safe Guar
   assert.equal(receivedPolicy, true);
   const snapshot = trace.find(item => item.kind === "SNAPSHOT")!.detail as { networkDiagnostics?: Array<{ code: string; origin: string; pathname: string; method: string; resourceType: string; queryKeys: string[] }> };
   assert.deepEqual(snapshot.networkDiagnostics, [{ code: "BLOCKED_FIELDS", origin: "https://example.invalid", pathname: "/query", method: "POST", resourceType: "fetch", queryKeys: ["unexpected"] }]);
+});
+
+test("optional browser trace recording receives only sanitized snapshots and sanitizer-approved pixels", async () => {
+  const session: BrowserSession = {
+    metadata: { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM", engine: "CHROMIUM", startedAt: "2026-10-07T00:00:00.000Z" },
+    navigate: async () => {},
+    snapshot: async () => ({ url: "https://www.tablecheck.com/en/shops/example?token=secret", title: "Example", text: "Private Jane Doe", html: "<main>Private Jane Doe</main>" }),
+    click: async () => {}, fill: async () => {}, select: async () => [], waitFor: async () => {}, screenshot: async () => assert.fail("raw screenshot must not be captured"), screenshotLayoutOnly: async () => new Uint8Array([137, 2, 3]), close: async () => {},
+  };
+  const trace: Array<{ kind: string; detail: unknown }> = [];
+  const recorded: Array<{ kind: string; detail: unknown }> = [];
+  const pixels: Uint8Array[] = [];
+  const observed = traceBrowserSession(session, "TABLECHECK", (kind, detail) => { trace.push({ kind, detail }); return trace.length; }, {
+    record: (kind, detail) => recorded.push({ kind, detail }),
+    captureScreenshot: async (png, disposition) => { assert.equal(disposition, "LAYOUT_ONLY_CONTENT_MASKED"); pixels.push(png); },
+  });
+  await observed.snapshot();
+  assert.equal(recorded.some(entry => entry.kind === "SNAPSHOT"), true);
+  assert.doesNotMatch(JSON.stringify(recorded), /token=secret|Jane Doe/);
+  assert.deepEqual(pixels.map(value => [...value]), [[137, 2, 3]]);
 });
 
 test("browser case slice journal retains a TableCheck availability region without retaining the page profile", () => {

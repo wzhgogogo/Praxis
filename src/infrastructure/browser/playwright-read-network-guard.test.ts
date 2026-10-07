@@ -17,7 +17,7 @@ const policy: BrowserReadNetworkPolicy = {
   ],
 };
 
-function fakeRoute(input: { url: string; method?: string; type?: string; status?: number; contentType?: string; body?: string; fetchError?: Error; fetchDelayMs?: number }) {
+function fakeRoute(input: { url: string; method?: string; type?: string; status?: number; contentType?: string; body?: string; fetchError?: Error; fetchDelayMs?: number; responseBody?: Uint8Array; responseHeaders?: Record<string, string> }) {
   const calls: string[] = [];
   const route = {
     request: () => ({ url: () => input.url, method: () => input.method ?? "GET", resourceType: () => input.type ?? "document", headerValue: async () => input.contentType ?? null, postData: () => input.body ?? null }),
@@ -29,10 +29,11 @@ function fakeRoute(input: { url: string; method?: string; type?: string; status?
         if (input.fetchDelayMs > options.timeout) throw Object.assign(new Error("timed out"), { name: "TimeoutError" });
       }
       if (input.fetchError) throw input.fetchError;
-      return { status: () => input.status ?? 200 };
+      return { status: () => input.status ?? 200, body: async () => input.responseBody ?? new Uint8Array(), headers: () => input.responseHeaders ?? {} };
     },
     fulfill: async () => { calls.push("fulfill"); },
     abort: async () => { calls.push("abort"); },
+    fallback: async () => { calls.push("fallback"); },
   };
   return { route, calls };
 }
@@ -150,6 +151,47 @@ test("read network guard admits only prepared public documents and exact source 
   assert.equal(socketClosed, true);
 });
 
+test("ADR-0036 permits prepared same-origin public GET reads but keeps sensitive and cross-origin reads outside the boundary", async () => {
+  let http: (route: any) => Promise<void> = async () => assert.fail("route handler missing");
+  const guard = new PlaywrightReadNetworkGuard({ ...policy, genericPublicRead: true });
+  await guard.install({ route: async (_pattern: string, handler: typeof http) => { http = handler; }, routeWebSocket: async () => {} } as any);
+  guard.prepareNavigation("https://public.example/guide", 700);
+  const document = fakeRoute({ url: "https://public.example/guide", type: "document" });
+  await http(document.route);
+  const publicRead = fakeRoute({ url: "https://public.example/public-menu?section=dinner", type: "fetch" });
+  await http(publicRead.route);
+  assert.deepEqual(publicRead.calls, ["fetch:0:700", "fulfill"]);
+  const publicSearchDocument = fakeRoute({ url: "https://public.example/search?query=omakase", type: "document" });
+  await http(publicSearchDocument.route);
+  assert.deepEqual(publicSearchDocument.calls, ["fetch:0:700", "fulfill"], "a guarded public GET form navigation is a same-origin document read");
+  const sensitivePath = fakeRoute({ url: "https://public.example/account", type: "fetch" });
+  const sensitiveQuery = fakeRoute({ url: "https://public.example/public-menu?email=guest@example.test", type: "fetch" });
+  const crossOrigin = fakeRoute({ url: "https://other.example/public-menu", type: "fetch" });
+  await http(sensitivePath.route);
+  await http(sensitiveQuery.route);
+  await http(crossOrigin.route);
+  assert.deepEqual(sensitivePath.calls, ["abort"]);
+  assert.deepEqual(sensitiveQuery.calls, ["abort"]);
+  assert.deepEqual(crossOrigin.calls, ["abort"]);
+  assert.deepEqual(guard.snapshotDiagnostics().map(item => item.code), ["BLOCKED_ENDPOINT", "BLOCKED_ENDPOINT", "BLOCKED_ENDPOINT"]);
+});
+
+test("replay applies the same admission before falling through to a HAR and never route-fetches", async () => {
+  let http: (route: any) => Promise<void> = async () => assert.fail("route handler missing");
+  const guard = new PlaywrightReadNetworkGuard({ ...policy, genericPublicRead: true });
+  await guard.install({ route: async (_pattern: string, handler: typeof http) => { http = handler; }, routeWebSocket: async () => {} } as any, { replay: true });
+  guard.prepareNavigation("https://public.example/guide", 700);
+  const document = fakeRoute({ url: "https://public.example/guide", type: "document" });
+  const read = fakeRoute({ url: "https://public.example/public-menu", type: "fetch" });
+  const forbidden = fakeRoute({ url: "https://public.example/account", type: "fetch" });
+  await http(document.route);
+  await http(read.route);
+  await http(forbidden.route);
+  assert.deepEqual(document.calls, ["fallback"]);
+  assert.deepEqual(read.calls, ["fallback"]);
+  assert.deepEqual(forbidden.calls, ["abort"]);
+});
+
 test("TableCheck calendar admission requires the captured four-string public schema", async () => {
   let http: (route: any) => Promise<void> = async () => assert.fail("route handler missing");
   const guard = new PlaywrightReadNetworkGuard(tableCheckPublicReadNetworkPolicy);
@@ -247,4 +289,61 @@ test("TableCheck search prerequisites admit only the observed geolocation and au
   assert.deepEqual(sourceShopSearch.calls, ["fetch:0:5000", "fulfill"], "the public non-AI search shares the reviewed grammar");
   assert.deepEqual(unreviewedSearch.calls, ["abort"]);
   assert.deepEqual(guard.snapshotDiagnostics().map(item => item.code), ["BLOCKED_FIELDS", "BLOCKED_FIELDS"]);
+});
+
+test("prepared documents cannot bypass credential, sensitive-path, or sensitive-query admission", () => {
+  const guard = new PlaywrightReadNetworkGuard({ ...policy, genericPublicRead: true });
+  assert.throws(() => guard.prepareNavigation("https://user:pass@public.example/guide"), /credentials/);
+  assert.throws(() => guard.prepareNavigation("https://public.example/cancel?date=2026-10-08"), /sensitive/);
+  assert.throws(() => guard.prepareObservedNavigation("https://public.example/guide?token=opaque"), /sensitive/);
+});
+
+test("generic public reads block explicit destructive query values but keep an exact reviewed public query document", () => {
+  const reviewed: BrowserReadNetworkPolicy = { ...policy, genericPublicRead: true, dynamicReads: [...policy.dynamicReads, { origin: "https://public.example", pathname: "/reserve/public-query", resourceTypes: ["fetch"], queryKeys: ["date", "party"] }] };
+  const guard = new PlaywrightReadNetworkGuard(reviewed);
+  assert.throws(() => guard.prepareNavigation("https://public.example/public/operation?action=cancel"), /sensitive/);
+  guard.prepareNavigation("https://public.example/reserve/public-query?date=2026-10-08&party=2");
+});
+
+test("generic public GET admits a calendar query namespace but not a booking action", async () => {
+  let http: (route: any) => Promise<void> = async () => assert.fail("route handler missing");
+  const genericTabelog: BrowserReadNetworkPolicy = {
+    documentOrigins: ["https://tabelog.example"], staticResources: [], dynamicReads: [], genericPublicRead: true,
+  };
+  const guard = new PlaywrightReadNetworkGuard(genericTabelog);
+  await guard.install({ route: async (_pattern: string, handler: typeof http) => { http = handler; }, routeWebSocket: async () => {} } as any);
+  guard.prepareNavigation("https://tabelog.example/en/fixture");
+  const document = fakeRoute({ url: "https://tabelog.example/en/fixture", type: "document" });
+  const calendar = fakeRoute({ url: "https://tabelog.example/en/booking/calendar/initial_vacancy?exclude_unavailable_time=true&rst_id=public-outlet", type: "fetch" });
+  const action = fakeRoute({ url: "https://tabelog.example/en/booking/confirm?rst_id=public-outlet", type: "fetch" });
+  const nestedCancel = fakeRoute({ url: "https://tabelog.example/en/booking/calendar/cancel?rst_id=public-outlet", type: "fetch" });
+  const nestedConfirm = fakeRoute({ url: "https://tabelog.example/en/booking/calendar/confirm?rst_id=public-outlet", type: "fetch" });
+  const accountPrefix = fakeRoute({ url: "https://tabelog.example/en/account/booking/calendar/initial_vacancy?rst_id=public-outlet", type: "fetch" });
+  const destructiveQuery = fakeRoute({ url: "https://tabelog.example/en/booking/calendar/initial_vacancy?action=cancel&rst_id=public-outlet", type: "fetch" });
+  await http(document.route);
+  await http(calendar.route);
+  await http(action.route);
+  await http(nestedCancel.route);
+  await http(nestedConfirm.route);
+  await http(accountPrefix.route);
+  await http(destructiveQuery.route);
+  assert.deepEqual(calendar.calls, ["fetch:0:5000", "fulfill"]);
+  assert.deepEqual(action.calls, ["abort"]);
+  assert.deepEqual(nestedCancel.calls, ["abort"]);
+  assert.deepEqual(nestedConfirm.calls, ["abort"]);
+  assert.deepEqual(accountPrefix.calls, ["abort"]);
+  assert.deepEqual(destructiveQuery.calls, ["abort"]);
+  assert.deepEqual(guard.snapshotDiagnostics().map(item => item.code), ["BLOCKED_ENDPOINT", "BLOCKED_ENDPOINT", "BLOCKED_ENDPOINT", "BLOCKED_ENDPOINT", "BLOCKED_ENDPOINT"]);
+});
+
+
+test("guard supplies an admitted response to the in-memory recorder before fulfilling it", async () => {
+  let http: (route: any) => Promise<void> = async () => assert.fail("route handler missing");
+  const captured: Array<{ url: string; method: string; contentType: string; body: Uint8Array }> = [];
+  const guard = new PlaywrightReadNetworkGuard(policy, 5_000, response => { captured.push(response); });
+  await guard.install({ route: async (_pattern: string, handler: typeof http) => { http = handler; }, routeWebSocket: async () => {} } as any);
+  const response = fakeRoute({ url: "https://public.example/query?date=2026-10-08&party=2", type: "fetch", responseHeaders: { "content-type": "application/json" }, responseBody: new TextEncoder().encode('{"available":true}') });
+  await http(response.route);
+  assert.deepEqual(response.calls, ["fetch:0:5000", "fulfill"]);
+  assert.equal(captured.length, 1); assert.equal(captured[0]!.contentType, "application/json");
 });

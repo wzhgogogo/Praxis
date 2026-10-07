@@ -1,4 +1,3 @@
-import { permitsTableCheckAvailabilityServiceCategory, permitsTableCheckQueryControl } from "./tablecheck-public-query.js";
 import { parseTableCheckCapturedAvailability, tableCheckAvailabilityResponseRule } from "./tablecheck-availability-response.js";
 import { groundTableCheckAvailability } from "../../domains/restaurant/read-grounding.js";
 import type { RestaurantAvailabilityRequest, RestaurantServiceScope } from "../../domains/restaurant/contracts.js";
@@ -514,11 +513,9 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
           session,
           signal,
           allowedOrigins: ["https://www.tablecheck.com"],
-          allowGuardedQueryControls: true,
           goal: { outlet: { name: candidate.restaurant.outletName, address: candidate.restaurant.address }, date: request.date, partySize: request.partySize, timeWindow: request.timeWindow, hardCriteria: request.hardCriteria },
           objective: "Reveal public TableCheck restaurant search results without submitting a reservation.",
           methodReason: "TableCheck discovery has no extractable public outlet link yet.",
-          permitQueryControl: permitsTableCheckQueryControl,
           completion: (page) => ({
             complete: parseTableCheckDiscoveryOutletUrls(page, candidate.restaurant.outletName).length > 0 || hasTableCheckDiscoveryNoResult(page),
             reason: "Continue until an observed public outlet result is available, or the page explicitly reports no results.",
@@ -797,11 +794,9 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         session: session!,
         signal,
         allowedOrigins: ["https://www.tablecheck.com"],
-        allowGuardedQueryControls: true,
         goal: { outlet: { name: candidate.restaurant.outletName, address: candidate.restaurant.address }, date: request.date, partySize: request.partySize, timeWindow: request.timeWindow, hardCriteria: request.hardCriteria },
         objective: "For the already identity-grounded outlet, set and verify the requested date, party size, and time window, then read the latest explicit public availability result. If the current public query exposes a source-permitted service-category radio, selecting one current permitted category and reading back its checked state is a query prerequisite before its category-bound result can appear. Do not submit a reservation.",
         methodReason: "The verifier has not yet established a completed availability result for the full Router-bound request.",
-        permitQueryControl: permitsTableCheckAvailabilityServiceCategory,
         completion: (current, controls) => {
           const assessed = currentResult(current, controls);
           const capturedResponse = parseTableCheckCapturedAvailability(current.responses, activeSelected.reservation, request);

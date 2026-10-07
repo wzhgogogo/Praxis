@@ -161,7 +161,10 @@ async function runScenario(scenario: SourceScenario, options: { availabilityFirs
   } }), () => reference.toISOString(), 10, { maxRequests: 100 });
   const model = new H001NativeModel(scenario, options.availabilityFirst);
   const rawBrowser = sourcePages(scenario, navigations, sessionsOpened, navigationSessionIds, closedSessionIds, {
-    guardedReadBoundary: options.guardedDiscoverySubmit === true,
+    // This controlled source owns the same installed read boundary needed for
+    // its public service-category query. Unguarded fixtures retain the narrow
+    // action contract and cannot exercise Phase 1's wider query controls.
+    guardedReadBoundary: options.guardedDiscoverySubmit === true || scenario === "TABLECHECK_SCOPED_MENU_DELIVERS" || scenario === "TABLECHECK_DISCOVERY_RECOVERS",
     guardedQuerySubmit: options.guardedDiscoverySubmit === true,
   });
   const browserTrace: Array<{ sequence: number; at: string; kind: string; detail: unknown }> = [];
@@ -241,7 +244,7 @@ test("H001 native cited-menu follow-up carries source-bound HARD evidence to a c
 
 test("H001 TableCheck reserve-menu scope reaches a synthetic-only current result without borrowing a sibling menu", async () => {
   const result = await runScenario("TABLECHECK_SCOPED_MENU_DELIVERS");
-  assert.deepEqual(result.state.presentedResults?.candidateIds, ["tablecheck:native-omakase-1"], JSON.stringify({ phase: result.state.phase, failure: result.state.failure, facts: result.state.factChecks, availability: result.state.availabilityChecks, purposes: result.model.purposes, navigations: result.navigations }));
+  assert.deepEqual(result.state.presentedResults?.candidateIds, ["tablecheck:native-omakase-1"], JSON.stringify({ phase: result.state.phase, failure: result.state.failure, facts: result.state.factChecks, availability: result.state.availabilityChecks, purposes: result.model.purposes, browserInputs: result.model.browserDecisionInputs, navigations: result.navigations }));
   assert.equal(result.navigations.some((url) => url === "https://www.tablecheck.com/en/native-omakase-1"), true, "the guide is read first and has no scoped menu text");
   assert.equal(result.navigations.some((url) => url.startsWith("https://www.tablecheck.com/en/shops/native-omakase-1/reserve")), true, "the scoped menu comes from the guide-observed same-outlet reserve entrance");
   assert.equal(result.model.purposes.filter((purpose) => purpose === "browser_read_decide").length >= 2, true, "the production executor selects the category then waits for its new current result");
@@ -280,7 +283,7 @@ test("H001 second native batch introduces its own TableCheck results after Tabel
 
 test("H001 native discovery uses the shared browser model loop to reveal an observed TableCheck result list", async () => {
   const result = await runScenario("TABLECHECK_DISCOVERY_RECOVERS");
-  assert.deepEqual(result.state.presentedResults?.candidateIds, ["tablecheck:native-omakase-1"]);
+  assert.deepEqual(result.state.presentedResults?.candidateIds, ["tablecheck:native-omakase-1"], JSON.stringify({ phase: result.state.phase, availability: result.state.availabilityChecks, browserInputs: result.model.browserDecisionInputs, purposes: result.model.purposes, navigations: result.navigations }));
   assert.equal(result.model.purposes.includes("browser_read_decide"), true);
   assert.equal(result.model.retrievalFillUsed, true);
   assert.deepEqual(result.model.discoveryActions, ["FILL_AUTHORITATIVE", "CLICK"], "a stale nonempty list and loading query cannot complete before the observed current-query action");

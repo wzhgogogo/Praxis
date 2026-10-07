@@ -1,7 +1,7 @@
 # Architecture Decision Records
 
 - Status: Accepted
-- Document revision: 1.9
+- Document revision: 1.10
 - Last updated: 2026-10-07
 - Source of truth for: 已接受架构决策及其替代关系
 - Related ADRs: 本目录
@@ -46,7 +46,7 @@
 | [0033](0033-native-source-batch-delivery.md) | Accepted | 原生路径完成一来源有界调查后可展示已核实短批，保留目标缺口 |
 | [0034](0034-qualified-read-scope-and-investigation-budget.md) | Accepted | 类别查询范围、同次事实追查与500秒/50调用只读调查上限 |
 | [0035](0035-browser-read-network-boundary.md) | Accepted; unknown-GET admission and guarded UI permissions superseded in part by ADR-0036 | Source-owned browser read network admission and isolated contexts |
-| [0036](0036-generic-public-read-network-policy.md) | Accepted; implementation pending | Generic public GET reads, sensitive-request blocking and shared guarded UI permissions |
+| [0036](0036-generic-public-read-network-policy.md) | Accepted; implemented and Phase 1 verified | Generic public GET reads, sensitive-request blocking and shared guarded UI permissions |
 
 ## 规则
 

@@ -440,7 +440,6 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
             // A source-owned isolated read boundary may safely expose an
             // observed, non-sensitive query button. The executor still keeps
             // Router-bound fields and current opaque references authoritative.
-            allowGuardedQueryControls: true,
             goal: { outlet: { name: keyword, address: request.intent.area.query }, retrievalExpression: activeExpression, hardCriteria: request.intent.criteria.filter((item) => item.polarity === "POSITIVE" && item.strength === "HARD").map((item) => item.text) },
             objective: "Apply the current source search and reveal its public restaurant results for the authoritative area and retrieval terms. Do not submit a reservation.",
             methodReason: "The Tabelog listing has not yet produced a parsed public restaurant result or an explicit empty result.",
@@ -464,7 +463,6 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
           pendingSourceEntries = observedOutlets.map((outlet) => pendingEntry(outlet.sourceEntityId, outlet.sourceUrl, this.now(), { outletName: outlet.outletName }));
           const adjusted = await executor.runSkill({
             taskId: `browser-read:native-discovery:${source}`, source, stage: "DISCOVERY", session: session!, signal, allowedOrigins,
-            allowGuardedQueryControls: true,
             goal: { outlet: { name: keyword, address: request.intent.area.query }, hardCriteria: request.intent.criteria.filter((item) => item.polarity === "POSITIVE" && item.strength === "HARD").map((item) => item.text) },
             objective: "The keyword list is sparse. Use an observed related category for broader restaurant discovery in the same area. Open Search by category if needed, choose the most relevant category, and remove the keyword using the site's own filter-removal link. This changes retrieval only: every candidate still needs separate HARD fact verification. Do not change area, dates or party size, or open restaurant details yet.",
             methodReason: "A short keyword result list does not establish source coverage. Follow one relevant source category and remove the old keyword filter.",
@@ -605,7 +603,6 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
             session: session!,
             signal,
             allowedOrigins,
-            allowGuardedQueryControls: true,
             goal: { outlet: { name: expression, address: request.intent.area.query }, retrievalExpression: expression, hardCriteria: request.intent.criteria.filter((item) => item.polarity === "POSITIVE" && item.strength === "HARD").map((item) => item.text) },
             objective: "Apply the current TableCheck search and reveal public venue result cards for the authoritative area and retrieval terms. Do not submit a reservation.",
             methodReason: "The TableCheck listing has not yet produced a parsed public venue result or an explicit empty result.",

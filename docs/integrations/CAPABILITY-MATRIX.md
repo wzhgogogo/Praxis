@@ -1,7 +1,7 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.40
+- Document revision: 1.41
 - Last updated: 2026-10-07
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
@@ -14,26 +14,27 @@
 | DeepSeek API | — | — | Tool Call提议 | — | 仅辅助抽取 | — | `verified`连接；Semantic与Agent使用Beta strict function。strict wire object的所有字段均为required并关闭additional properties，Domain再恢复canonical可选字段；non-blank等其余规则由本地Validator保证。安全诊断保留status/request ID/code/type/脱敏message；传输错误仅保留已知cause code（不保留原始异常文本），正文读取失败与JSON格式失败分开，模型不直接执行工具或写状态 |
 | Google Places API (New) | Live Text Search Discovery；已知Place ID的Place Details事实重读（代码实现；尚待本切片Live实测） | 无库存；可返回常规营业时段及网站指针 | 否 | 否 | 否 | 否 | `verified`官方HTTP/FieldMask契约；Praxis只请求最小字段、结构化address components、电话、类型、`regularOpeningHours`及Place Details的`websiteUri`。命名“附近”地点先在同一run额度内解析坐标，再以记录的半径距离判断；只有多个同名坐标结果才请求消歧。事实重读只用已保存Place ID，不以名称再次搜索；命名地点解析、Discovery和Details在同一持久task run累计请求且按三类导出，失败的已发送请求也计数，不同task run隔离。调试用本地请求上限不等于Google账户配额：本地耗尽、429限流、403配额或权限拒绝及网络失败以不同稳定码保存。`websiteUri`只是Google列出的网站指针，不是Google Maps URL、更不是官方事实或页面内容。UNKNOWN不会变成无位；常规营业时段不能表示当前营业、特殊日期营业或有桌；内容保存和展示仍受Google政策限制 |
 | Cloudflare Browser Run | 浏览器基础设施（代码实现；一次live会话建立失败已记录） | 通过受限Browser Executor读取 | 否 | 否 | 否 | 否 | CDP远程浏览器；Kitesurf为首选Beta引擎，发生一次兼容/运行时失败才回退Chromium；不绕过bot challenge。会话未建立的稳定失败为`BROWSER_RUNTIME_FAILED`/`BROWSER_TIMEOUT`，不得伪报为目标网页或门店identity事实 |
-| Local Playwright Chromium | 仅开发/eval浏览器基础设施 | 通过同一受限Browser Executor读取 | 否 | 否 | 否 | 否 | 仅当`PRAXIS_BROWSER_ENGINE=LOCAL_CHROMIUM`显式选择；不访问Cloudflare、不读取其凭证、不改变Cloudflare AUTO。要求本机已安装Playwright Chromium binary；缺失时稳定`BROWSER_RUNTIME_UNAVAILABLE`，不回退远端Provider。两个eval-only interactive gate同时开启时，headed `launchPersistentContext`固定使用gitignored `.eval-artifacts/local-chromium-profile`，人手验证期间保留同一page/context/browser；正常结束只关闭session，不自动删除profile。共享`browser_read_action@6`可在同一会话回读观察到的 checkbox、range、region scroll、已观察选项和公开搜索输入的精确retrieval expression；等待同时观察可见文本及可见控件的 value/selected/disabled/checked，隐藏分析字段不构成进展；唤醒后仍须重新观察并由来源Adapter绑定结果。modal 背景目标不可执行；已观察`target=_blank`公开链接在同一context切换active page后必须重新观察。选项及导航故障隔离目前只经真实本地Chromium Fixture覆盖，不代表真实来源identity、slot或availability已验证 |
+| Local Playwright Chromium | 仅开发/eval浏览器基础设施 | 通过同一受限Browser Executor读取 | 否 | 否 | 否 | 否 | 仅当`PRAXIS_BROWSER_ENGINE=LOCAL_CHROMIUM`显式选择；不访问Cloudflare、不读取其凭证、不改变Cloudflare AUTO。要求本机已安装Playwright Chromium binary；缺失时稳定`BROWSER_RUNTIME_UNAVAILABLE`，不回退远端Provider。两个eval-only interactive gate同时开启时，headed `launchPersistentContext`固定使用gitignored `.eval-artifacts/local-chromium-profile`，人手验证期间保留同一page/context/browser；正常结束只关闭session，不自动删除profile。共享`browser_read_action@7`可在同一会话回读观察到的 checkbox、range、region scroll、已观察选项和公开搜索输入的精确retrieval expression；等待同时观察可见文本及可见控件的 value/selected/disabled/checked，隐藏分析字段不构成进展；唤醒后仍须重新观察并由来源Adapter绑定结果。modal 背景目标不可执行；已观察`target=_blank`公开链接在同一context切换active page后必须重新观察。选项及导航故障隔离目前只经真实本地Chromium Fixture覆盖，不代表真实来源identity、slot或availability已验证 |
 | Tabelog Web | 来源页；原生发现按受控 Executor 操作，在每个五详情工作块后保留同源未处理入口至十详情／六列表页／90秒来源上限（初始地区定位最多三页；类别调整与翻页共用六页来源总额） | 只读开发期Availability Executor（代码实现；页面兼容性部分实测） | 否 | 否 | 否 | Eval-only terminal pause | 仅限Tabelog域名；结果页只接受可识别的restaurant-result链接，relative/canonical outlet URL在门店页补全身份，只有exact phone或name+address可HIGH匹配，已知电话号码冲突直接拒绝；日本显式`+81`号码与国内格式规范后才比较。只接受明确标记available的slot控件。实体非HIGH、CAPTCHA/`Just a moment...` challenge、页面异常、未确认的日期/人数、超时或外部跳转均不是`UNAVAILABLE`；challenge先于identity归类为`BOT_CHALLENGE`。模型的`COMPLETE`仅是请求：来源完成谓词未满足时，Executor在同一会话和原预算内反馈缺口；重复未变化的请求才无进展停止。2026-09-07 H001已读到真实详情，Sushisho Isseki Sancho以exact phone达HIGH，但其availability转至当前不支持的外部预约Provider，因此没有slot或Offer。仅在显式local interactive eval中，adapter发送脱敏`USER_INTERVENTION_REQUIRED`、终端等待用户手动完成站点验证并仅snapshot同一页面；没有CAPTCHA自动化、stealth、自动retry或cookie/token记录。历史eval identity artifact不保存整页HTML；当前受控浏览器诊断仅保存脱敏预约区域结构、完整脱敏控件和被动库存响应允许字段，不保存整页评论/个人资料。Browser会话建立失败不构成实体不确定。生产适用性须经兼容性、可靠性和法律约束单独验证 |
 | Google Routes | — | 交通路线 | 否 | 否 | Route响应 | 否 | `verified`；支持Transit到达/出发时间 |
 | Hot Pepper Web Service | 餐厅、区域、预算等 | 未见公开库存API | 未见公开Consumer Booking API | 否 | 否 | 否 | `verified` Discovery；预约需网页或合作能力 |
 | Hot Pepper Web | 餐厅页 | 网页可查 | Browser | Browser/管理链接 | 成功页、邮件、订单状态 | 登录/验证/支付 | `assumed`，需逐流程Adapter验证；Request Booking不是即时成功 |
 | TableCheck API | 有集成能力 | 可能 | 可能 | 可能 | 可能 | 取决于流程 | `requires partnership`；不作为MVP无条件依赖 |
-| TableCheck Web | 公开的`/en/japan/search`按候选名称和Google坐标发现渲染出的guide页链接；原生入口同样按五详情工作块保留后续已观察入口至十详情／二列表页／90秒来源上限（每块最多一列表页） | H001只读Browser Adapter（已在原始 H001 得到一个完整 grounded slot） | 否 | 否 | 否 | 受控模型接管仅限同一会话中已观察到的只读目标 | 固定优先于Tabelog。搜索排序只限制待读取页面，不构成identity；详情页必须以JSON-LD/DOM/tel link的Google exact phone或name+full address达到HIGH。预约页只接受详情页实际链接或其嵌入的公开Availability结构，绝不派生slug；仅设置只读日期/人数参数并读取明确bookable slot。对详情页实际观察到的同门店`/shops/<same-shop>/reserve`或`/<same-shop>/reserve[/landing]`入口，Adapter可被动记录页面自己发出的同店`GET /available` JSON；即使响应URL精确绑定东京日期、成人数和单一请求时段，`failure/data:null`也只保留为诊断，不能接纳无位。不同门店、日期、人数、成功/未知响应、缺失响应或宽时间窗一律保持UNKNOWN。公开`/en/japan/search`上的已观察 checkbox/range 仅在GET form且通过来源代码持有的查询控制许可时可调整；同意条款、营销、登录、支付、预订和未知作用控件一律拒绝，模型理由或页面文案不能授权。公开预约页已观察的`reservation[service_category]` radio仅可在其确认的查询表单内选择并读回；真实选后库存结果绑定尚未观察，故范围库存仍为UNKNOWN。结果审计保存脱敏`Venue Availability`查询区域和当前控件；页面未确认请求、等待中、解析器不支持的结果与确认的无在线结果保持不同状态。`TABLECHECK_DISCOVERY_NO_RESULT`、`TABLECHECK_DISCOVERY_INCOMPLETE`、`TABLECHECK_ENTITY_MATCH_UNCERTAIN`、`TABLECHECK_PAGE_UNAVAILABLE`和`TABLECHECK_PARSE_FAILED`分开保留；`PAGE_UNAVAILABLE`仅可由错误页title/primary heading证明，不能由正文数字或任意`not found`字样触发。搜索页未抽取链接时同一session交给受限模型，artifact记录交接原因、观察、动作和动作后验证；耗尽后才退出该来源。2026-09-08冻结 H001 在 KINKA Sushi Bar Izakaya 渋谷通过Google exact phone达到HIGH，回读`2026-09-08`、2 人、`19:00`的公开可订slot，并进入`PRESENT_RESULTS`；这只证明该次来源/库存，不保证其他门店、日期或Web UI已验收。没有登录、个人资料、支付、点击确认或提交。identity、日期/人数或slot不确定时fail closed。TableCheck API仍`requires partnership` |
-| Google-listed Restaurant Website | 仅已发现候选的Google `websiteUri` | 有界只读的JSON-LD、可见字段及引用式原文事实交接 | 否 | 否 | 否 | 否 | 代码实现、尚待本切片Live实测。仅复用受控只读Browser Executor打开HTTP(S)同源网址，移除query/fragment并拒绝凭据、跨源跳转及不安全控件。候选名称加地址包含、同序门牌加可用地域词对应，或唯一公开电话（可见数字/tel链接）精确对应，才可建立HIGH identity；门牌数字本身、同名、缺地址或明确不同城市/街区均为UNKNOWN。JSON-LD是快捷路径，不会遮住同页可见事实；身份确认后才接纳明确标注的公开套餐价/税费、包间低消、取消和no-show字段，裸金额不推断；字段彼此不派生。候选身份确认后可把每候选最多6,000字符的原文按片段ID临时交给既有事实模型；模型每页最多选择3条原文，代码仅按观察到的ID保存短引用及同来源身份，不保存整页原文到Task State。派生`MODEL_JUDGMENT`只保存到原始来源事实的引用链，不伪装为页面来源。交接不证明条件或库存；Agent仍负责后续调查。536项默认测试与生产组合通过，Matsue两页Replay可绑定；不同电话/跨语言地址及共享菜单归属未解决，一次固定来源真实模型已证明Matsue阅读交接，但fact judgment11有引用格式失败；当前12/schema4以当前来源ID枚举约束引用，仅离线门禁通过，尚无修正后的模型或新整单Live验收。Google Maps URL、Google列出的网址或模型结论都不单独证明官网/门店事实；失败为candidate-scoped UNKNOWN，绝不构成无位 |
+| TableCheck Web | 公开的`/en/japan/search`按候选名称和Google坐标发现渲染出的guide页链接；原生入口同样按五详情工作块保留后续已观察入口至十详情／二列表页／90秒来源上限（每块最多一列表页） | H001只读Browser Adapter（已在原始 H001 得到一个完整 grounded slot） | 否 | 否 | 否 | 受控模型接管仅限同一会话中已观察到的只读目标 | 固定优先于Tabelog。搜索排序只限制待读取页面，不构成identity；详情页必须以JSON-LD/DOM/tel link的Google exact phone或name+full address达到HIGH。预约页只接受详情页实际链接或其嵌入的公开Availability结构，绝不派生slug；仅设置只读日期/人数参数并读取明确bookable slot。对详情页实际观察到的同门店`/shops/<same-shop>/reserve`或`/<same-shop>/reserve[/landing]`入口，Adapter可被动记录页面自己发出的同店`GET /available` JSON；即使响应URL精确绑定东京日期、成人数和单一请求时段，`failure/data:null`也只保留为诊断，不能接纳无位。不同门店、日期、人数、成功/未知响应、缺失响应或宽时间窗一律保持UNKNOWN。公开查询控件在隔离网络边界确实INSTALLED后使用共享click／checkbox／radio／range合同；无需来源UI权限函数或哈希class。敏感业务操作、个人字段仍拒绝，日期／人数／时间操作继续绑定目标并读回；真实选后库存结果绑定尚未观察，故范围库存仍为UNKNOWN。结果审计保存脱敏`Venue Availability`查询区域和当前控件；页面未确认请求、等待中、解析器不支持的结果与确认的无在线结果保持不同状态。`TABLECHECK_DISCOVERY_NO_RESULT`、`TABLECHECK_DISCOVERY_INCOMPLETE`、`TABLECHECK_ENTITY_MATCH_UNCERTAIN`、`TABLECHECK_PAGE_UNAVAILABLE`和`TABLECHECK_PARSE_FAILED`分开保留；`PAGE_UNAVAILABLE`仅可由错误页title/primary heading证明，不能由正文数字或任意`not found`字样触发。搜索页未抽取链接时同一session交给受限模型，artifact记录交接原因、观察、动作和动作后验证；耗尽后才退出该来源。2026-09-08冻结 H001 在 KINKA Sushi Bar Izakaya 渋谷通过Google exact phone达到HIGH，回读`2026-09-08`、2 人、`19:00`的公开可订slot，并进入`PRESENT_RESULTS`；这只证明该次来源/库存，不保证其他门店、日期或Web UI已验收。没有登录、个人资料、支付、点击确认或提交。identity、日期/人数或slot不确定时fail closed。TableCheck API仍`requires partnership` |
+| Google-listed Restaurant Website | 仅已发现候选的Google `websiteUri` | 有界只读的JSON-LD、可见字段及引用式原文事实交接 | 否 | 否 | 否 | 否 | 代码实现、尚待本切片Live实测。复用受控Browser Executor及Generic网络档打开HTTP(S)同源网址，移除query/fragment并拒绝凭据、跨源跳转及敏感控件。候选名称加地址包含、同序门牌加可用地域词对应，或唯一公开电话（可见数字/tel链接）精确对应，才可建立HIGH identity；门牌数字本身、同名、缺地址或明确不同城市/街区均为UNKNOWN。JSON-LD是快捷路径，不会遮住同页可见事实；身份确认后才接纳明确标注的公开套餐价/税费、包间低消、取消和no-show字段，裸金额不推断；字段彼此不派生。候选身份确认后可把每候选最多6,000字符的原文按片段ID临时交给既有事实模型；模型每页最多选择3条原文，代码仅按观察到的ID保存短引用及同来源身份，不保存整页原文到Task State。派生`MODEL_JUDGMENT`只保存到原始来源事实的引用链，不伪装为页面来源。交接不证明条件或库存；Agent仍负责后续调查。536项默认测试与生产组合通过，Matsue两页Replay可绑定；不同电话/跨语言地址及共享菜单归属未解决，一次固定来源真实模型已证明Matsue阅读交接，但fact judgment11有引用格式失败；当前12/schema4以当前来源ID枚举约束引用，仅离线门禁通过，尚无修正后的模型或新整单Live验收。Google Maps URL、Google列出的网址或模型结论都不单独证明官网/门店事实；失败为candidate-scoped UNKNOWN，绝不构成无位 |
 | Phone-only Restaurant | 可能 | 电话 | 否 | 否 | 用户/餐厅确认 | 用户 | `unsupported`于MVP |
 
 ## 2026-10-07 guarded browser reads and current-result binding
 
-The Local Chromium source sessions for the currently reviewed TableCheck and
-Tabelog public pages create an isolated context with Service Workers blocked,
-network and WebSocket rules installed before the first page, and adapter-owned
-read grammars. The boundary admits only reviewed documents, static resources
-and dynamic public reads; unknown GET/POST, redirects, and unadmitted worker,
-popup or socket requests stop before dispatch. Google-listed websites retain their existing
-narrow UI path and are **not** covered by this source boundary. Cloudflare has
-the same code path but no current provider-session Live acceptance.
+Local Chromium source and Google-listed website sessions use ADR-0036's
+isolated context, with network/WebSocket rules installed before the first page
+and Service Workers blocked. Generic mode admits non-sensitive same-origin
+public GET/HEAD; Reviewed mode adds source-owned exact query grammars, including
+reviewed POST. Sensitive operations, credentials/PII, ordinary POST and redirects
+remain blocked. An installed boundary permits shared UI operations; goal-bound
+date/party/time and result checks remain separate. Unknown GET effects are a
+stated limitation. Cloudflare has the same boundary code but no current remote
+provider-session Live acceptance.
 
 TableCheck's public result may use exact reservation links only after the
 single visible `Venue Availability` component is settled. A skeleton within
@@ -41,20 +42,28 @@ that component, or a date/party/time-shaped reservation entrance outside it,
 is `UNKNOWN`; it cannot create inventory or an Offer. This is a Local
 Fixture/controlled adapter contract, reinforced by a Live diagnostic artifact,
 not acceptance of current availability. The exact source policy and evidence
-boundary are defined in [ADR-0035](../decisions/0035-browser-read-network-boundary.md).
+boundary are defined in [ADR-0036](../decisions/0036-generic-public-read-network-policy.md).
 
-For Tabelog, the guarded calendar read chain admits only the observed public
-GET grammar for initial dates, date status, party choices, and time choices.
-Those four exact paths have bounded key sets in the source-owned policy;
-unknown, missing, or repeated keys stop before dispatch. A permitted response
-is still only a read input: outlet, selected date/party, and explicit slot
-binding remain required before availability or an Offer can be accepted.
+For Tabelog, four reviewed calendar query shapes remain available. Generic mode
+also admits public calendar reads without a per-endpoint declaration, while
+nested cancel/confirm/account operations remain blocked. A targeted real-source
+probe removed the exact initial-query rule and observed an admitted response in
+9,537ms. This proves admission only: outlet, selected date/party and explicit
+slot binding are still required before availability or an Offer.
+
+Optional Record saves sanitized per-observation HTML, masked layout PNG, full
+targets, request shapes and sanitized action-wire projections. Local HAR Replay
+uses the same Guard and aborts missing entries; Cloudflare Replay is unsupported.
+Only bounded safe GET/HEAD bodies/query shapes are replayable; unsupported POST,
+media or unsafe/private content is explicitly NOT_REPLAYABLE. Controlled captures
+prove status/visibility/dynamic-response fidelity, not a complete real-failure
+corpus or arbitrary-site robustness. [Protocol](../harness/BROWSER-READ-DIAGNOSTICS.md).
 
 ## 2026-10-07 bounded native discovery
 
 The native source path now distinguishes sparse keyword retrieval from HARD fact verification. Tabelog can ask the existing model to select one observed relevant category, remove the keyword through its own visible link, and retain observed same-area pagination in the existing source continuation. Current pending details remain first. Its six-page ceiling covers initial region navigation, category adjustment and later result pages together; a short keyword list is not site-wide exhaustion. No restaurant branch, cuisine dictionary or new source framework was introduced. Controlled composition covers category discovery, deduplication, and pagination links that appear only after a query action.
 
-Shared Browser Read uses action schema 6 / prompt 11. An exact original-query suggestion can be selected through `CHOOSE_OPTION:RETRIEVAL` only in Discovery, with current owner/query and closed-listbox readback. Same-document fragment anchors expose CLICK for UI expansion, while ordinary public navigation uses OPEN_LINK; sensitive actions and origins remain restricted. The existing intercepted Chromium scenarios cover both mechanisms. Site-specific entry semantics stay in the source skill/adapter; this is extensible shared execution, not a claim of arbitrary-site support. The earlier prompt 9 belongs only to its historical Live artifacts.
+Shared Browser Read uses action schema7 / prompt12, including page Escape and normalization of inert wire fields. An exact original-query suggestion can be selected through `CHOOSE_OPTION:RETRIEVAL` only in Discovery, with current owner/query and closed-listbox readback. Same-document fragment anchors expose CLICK for UI expansion, while ordinary public navigation uses OPEN_LINK; sensitive actions and origins remain restricted. The existing intercepted Chromium scenarios cover both mechanisms. Site-specific entry semantics stay in the source skill/adapter; this is extensible shared execution, not a claim of arbitrary-site support. Earlier prompt revisions belong only to their historical artifacts.
 
 One discovery-only Live used 66,810ms and nine model decisions. TableCheck actually selected exact-query suggestions, parsed 16 outlets, read ten details and admitted two within the unchanged 1km radius; six remaining details were not read. Tabelog admitted only Teppen and failed category adjustment because its observed All fragment anchor's CLICK was rejected. Overall independent acceptance is FAIL. The subsequent fragment-action correction has local verification only, with no further Live run. All three admissions are discovery evidence, not HARD or availability results. [Execution and independent acceptance](../../.eval-artifacts/h001-discovery-20261007/live/2026-10-06T20-16-09-612Z-fcf5a3a3-98ab-4ba7-af9e-ef279b411fc3.acceptance.json).
 

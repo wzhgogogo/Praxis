@@ -29,6 +29,7 @@ import { evaluateArtifactAfterFinish, RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VER
 import { createRunDeadlineSignal, RUN_DEADLINE_EXCEEDED, settleAtRunDeadline } from "../live-run-deadline.js";
 import { diagnosticFailureCode, startDiagnosticRun } from "../../../shared/diagnostic-run.js";
 import { safeRecord, traceBrowserRuntime } from "./browser-case-slice-evidence.js";
+import { BrowserReadRecording, type BrowserReadRecordingResult } from "./browser-read-recording.js";
 import { environmentWithEffectiveLiveNetwork, resolveEffectiveLiveNetworkConfiguration, runLivePreflight } from "../live-preflight.js";
 
 function requiredGate(key: string): void {
@@ -150,6 +151,16 @@ if ((process.env.PRAXIS_EVAL_USER_LAT && !process.env.PRAXIS_EVAL_USER_LNG) || (
 }
 
 const startedAt = new Date();
+const recordBrowser = process.argv.includes("--record-browser");
+const browserRecording = recordBrowser
+  ? new BrowserReadRecording({ directory: resolve(".eval-artifacts", "recordings"), runId: `hybrid-${startedAt.valueOf()}` })
+  : undefined;
+let browserRecordingResult: BrowserReadRecordingResult | undefined;
+async function finishBrowserRecording(): Promise<BrowserReadRecordingResult | undefined> {
+  if (!browserRecording || browserRecordingResult) return browserRecordingResult;
+  browserRecordingResult = await browserRecording.finish();
+  return browserRecordingResult;
+}
 const materialized = materializeLiveCase(frozen, startedAt.toISOString());
 const { content: rawRequest, ...materializedCase } = materialized;
 const runtimeContext = {
@@ -229,6 +240,7 @@ let browserTraceSequence = 0;
 const recordBrowserTrace = (kind: string, detail: unknown) => {
   const sequence = ++browserTraceSequence;
   browserTrace.push({ sequence, at: new Date().toISOString(), kind, detail: safeRecord(detail) });
+  browserRecording?.record(kind, detail);
   return sequence;
 };
 const browserBudget: BrowserExecutionBudget = { totalModelCalls: 0 };
@@ -289,10 +301,14 @@ try {
   // Keep the same runtime and executor path while retaining a redacted raw
   // observation sequence. The source label is descriptive only; snapshots
   // carry the actual safe origin for independent evaluation.
-  const browser: BrowserRuntime = traceBrowserRuntime(rawBrowser, "TABLECHECK", recordBrowserTrace);
+  const browser: BrowserRuntime = traceBrowserRuntime(rawBrowser, "TABLECHECK", recordBrowserTrace, browserRecording?.snapshotSink());
+  const recordBrowserDiagnostic = (diagnostic: BrowserExecutionDiagnostic) => {
+    browserExecutionDiagnostics.push(structuredClone(diagnostic));
+    recordBrowserTrace("EXECUTOR_DIAGNOSTIC", diagnostic);
+  };
   const nativeRead = process.argv.includes("--native-discovery")
     ? composeNativeRestaurantRead(google, browser, model, browserBudget,
-        (diagnostic) => browserExecutionDiagnostics.push(structuredClone(diagnostic)), evaluationLocation, undefined,
+        recordBrowserDiagnostic, evaluationLocation, undefined,
         { maxOperationsPerCandidate: liveReadLimits.maxBrowserOperationsPerCandidate })
     : undefined;
   const search = nativeRead?.search ?? google;
@@ -307,7 +323,7 @@ try {
     maxElapsedMsPerCandidate: liveReadLimits.maxCandidateBrowserMs,
     maxElapsedMsPerProvider: liveReadLimits.maxProviderBrowserMs,
     maxAutomaticElapsedMs: liveReadLimits.maxAutomaticBrowserMs,
-    onBrowserDiagnostic: (diagnostic) => browserExecutionDiagnostics.push(structuredClone(diagnostic)),
+    onBrowserDiagnostic: recordBrowserDiagnostic,
     onTableCheckIdentityDiagnostic: (diagnostic) => tableCheckIdentityDiagnostics.push(diagnostic),
     onTabelogIdentityDiagnostic: (diagnostic) => tabelogIdentityDiagnostics.push(diagnostic),
     ...(manualTabelogIntervention
@@ -327,7 +343,7 @@ try {
     search,
     availability,
     partySizeSupplementResolver: new RestaurantPartySizeSupplementResolver(model),
-    facts: nativeRead?.facts ?? composeLiveRestaurantFactRead(google, browser, model, browserBudget, undefined, (diagnostic) => browserExecutionDiagnostics.push(structuredClone(diagnostic))),
+    facts: nativeRead?.facts ?? composeLiveRestaurantFactRead(google, browser, model, browserBudget, undefined, recordBrowserDiagnostic),
     router: {
       structuredReadTimeoutMs: liveReadLimits.maxStructuredReadMs,
       // An explicit human pause is outside the automatic browser-read deadline.
@@ -380,6 +396,7 @@ try {
     resolvedEvalLocation: evaluationLocation,
     latencyMs: resourceUsage.elapsedMs,
     safety: { policy: "READ_ONLY_CODE_PATH", externalSideEffectCount: "NOT_MEASURED" },
+    ...(await finishBrowserRecording() ? { browserRecording: browserRecordingResult } : {}),
   };
   const completed = ["PRESENT_RESULTS", "NO_VERIFIED_RESULT"].includes(finalSnapshot.domainState.phase) && loop.status === "TERMINAL";
   await journal.finish({ ...artifact, status: completed ? "SUCCEEDED" : "FAILED", stage: "AGENT_LOOP", failureCode: completed ? null : "LIVE_CASE_NOT_COMPLETED" });
@@ -399,6 +416,7 @@ try {
     partial: true,
     downstream: stage === "SEMANTIC" ? "GOOGLE_BROWSER_AGENT_NOT_REACHED" : "SEE_EXECUTED_EVENTS",
     latencyMs: resourceUsage.elapsedMs,
+    ...(await finishBrowserRecording() ? { browserRecording: browserRecordingResult } : {}),
   });
   const evaluation = await evaluateArtifactAfterFinish(journal.resultPath);
   console.error(JSON.stringify({ failureCode, stage, artifactPath: journal.resultPath, evaluationPath: evaluation.outputPath, evaluationFailure: evaluation.evaluationFailure, evaluationFailurePath: evaluation.failurePath }));

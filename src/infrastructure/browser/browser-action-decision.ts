@@ -3,7 +3,7 @@ import { ModelGatewayError } from "../../core/model/errors.js";
 
 export const BROWSER_ACTION_DECISION_SCHEMA = {
   name: "browser_read_action",
-  version: "6",
+  version: "7",
 } as const;
 
 export const BROWSER_ACTION_DECISION_STRICT_WIRE_JSON_SCHEMA: Record<string, unknown> = {
@@ -13,7 +13,7 @@ export const BROWSER_ACTION_DECISION_STRICT_WIRE_JSON_SCHEMA: Record<string, unk
   properties: {
     action: {
       type: "string",
-      enum: ["OPEN_LINK", "CLICK", "CLICK_AUTHORITATIVE", "FILL_AUTHORITATIVE", "CHOOSE_OPTION", "SET_CHECKED", "ADJUST_RANGE", "SCROLL_REGION", "WAIT", "COMPLETE", "REQUEST_HUMAN_HELP"],
+      enum: ["OPEN_LINK", "CLICK", "CLICK_AUTHORITATIVE", "FILL_AUTHORITATIVE", "CHOOSE_OPTION", "SET_CHECKED", "ADJUST_RANGE", "SCROLL_REGION", "PRESS_ESCAPE", "WAIT", "COMPLETE", "REQUEST_HUMAN_HELP"],
     },
     targetRef: { type: "string" },
     authoritativeField: { type: "string", enum: ["NONE", "DATE", "PARTY_SIZE", "TIME", "RETRIEVAL"] },
@@ -31,6 +31,7 @@ export type BrowserReadAction =
   | { type: "SET_CHECKED"; targetRef: string; checked: boolean; reason: string }
   | { type: "ADJUST_RANGE"; targetRef: string; direction: "INCREASE" | "DECREASE"; reason: string }
   | { type: "SCROLL_REGION"; targetRef: string; direction: "UP" | "DOWN"; reason: string }
+  | { type: "PRESS_ESCAPE"; reason: string }
   /** Page-level wait: the strict wire retains an empty targetRef placeholder. */
   | { type: "WAIT"; reason: string }
   | { type: "COMPLETE"; reason: string }
@@ -96,6 +97,22 @@ export interface BrowserReadDecisionInput {
 
 export interface BrowserReadActionDecisionPort {
   decide(input: BrowserReadDecisionInput): Promise<BrowserReadAction>;
+  /** A single sanitized transport envelope, consumed by optional Record mode. */
+  takeLastWireRecord?(): BrowserActionWireRecord | undefined;
+}
+
+/**
+ * A safe substitute for provider wire JSON in a Record artifact.  It retains
+ * schema positions and opaque references, but never the provider's free text
+ * reason or arbitrary values such as credentials/PII.
+ */
+export interface BrowserActionWireRecord {
+  action: string | "UNKNOWN";
+  targetRef: string;
+  authoritativeField: string;
+  requestedState: string;
+  reason: "REDACTED";
+  extras: Array<{ fieldPath: string; valueType: string }>;
 }
 
 /**
@@ -122,7 +139,7 @@ function nonBlank(value: unknown): value is string {
 }
 
 const WIRE_FIELDS = ["action", "targetRef", "authoritativeField", "requestedState", "reason"] as const;
-const KNOWN_ACTIONS = new Set(["OPEN_LINK", "CLICK", "CLICK_AUTHORITATIVE", "FILL_AUTHORITATIVE", "CHOOSE_OPTION", "SET_CHECKED", "ADJUST_RANGE", "SCROLL_REGION", "WAIT", "COMPLETE", "REQUEST_HUMAN_HELP"]);
+const KNOWN_ACTIONS = new Set(["OPEN_LINK", "CLICK", "CLICK_AUTHORITATIVE", "FILL_AUTHORITATIVE", "CHOOSE_OPTION", "SET_CHECKED", "ADJUST_RANGE", "SCROLL_REGION", "PRESS_ESCAPE", "WAIT", "COMPLETE", "REQUEST_HUMAN_HELP"]);
 const KNOWN_FIELDS = new Set(["NONE", "DATE", "PARTY_SIZE", "TIME", "RETRIEVAL"]);
 const KNOWN_STATES = new Set(["NONE", "CHECKED", "UNCHECKED", "INCREASE", "DECREASE", "UP", "DOWN"]);
 
@@ -137,7 +154,7 @@ function diagnosticPath(key: string): string {
 function wireRejection(value: unknown, observedTargetRefs: ReadonlySet<string>, fieldPath: string, rejectedValue: unknown, reason: BrowserActionWireRejection["reason"]): BrowserActionWireRejection {
   const record = isRecord(value) ? value : {};
   const action = typeof record.action === "string" && KNOWN_ACTIONS.has(record.action) ? record.action : "UNKNOWN";
-  const targetRef = typeof record.targetRef === "string" && (record.targetRef === "" || observedTargetRefs.has(record.targetRef))
+  const targetRef = typeof record.targetRef === "string" && (record.targetRef === "" || observedTargetRefs.has(record.targetRef) || /^observation:\d+:target:\d+$/.test(record.targetRef))
     ? record.targetRef : "REDACTED";
   const authoritativeField = typeof record.authoritativeField === "string" && KNOWN_FIELDS.has(record.authoritativeField)
     ? record.authoritativeField : "UNKNOWN";
@@ -154,6 +171,22 @@ function wireRejection(value: unknown, observedTargetRefs: ReadonlySet<string>, 
   };
 }
 
+export function safeActionWireRecord(value: unknown, observedTargetRefs: ReadonlySet<string>): BrowserActionWireRecord {
+  const record = isRecord(value) ? value : {};
+  const action = typeof record.action === "string" && KNOWN_ACTIONS.has(record.action) ? record.action : "UNKNOWN";
+  const targetRef = typeof record.targetRef === "string" && (record.targetRef === "" || observedTargetRefs.has(record.targetRef) || /^observation:\d+:target:\d+$/.test(record.targetRef))
+    ? record.targetRef : "REDACTED";
+  const authoritativeField = typeof record.authoritativeField === "string" && KNOWN_FIELDS.has(record.authoritativeField)
+    ? record.authoritativeField : "UNKNOWN";
+  const requestedState = typeof record.requestedState === "string" && KNOWN_STATES.has(record.requestedState)
+    ? record.requestedState : "UNKNOWN";
+  const extras = isRecord(value)
+    ? Object.entries(value).filter(([key]) => !WIRE_FIELDS.includes(key as typeof WIRE_FIELDS[number]))
+      .map(([key, entry]) => ({ fieldPath: diagnosticPath(key), valueType: entry === null ? "null" : Array.isArray(entry) ? "array" : typeof entry }))
+    : [];
+  return { action, targetRef, authoritativeField, requestedState, reason: "REDACTED", extras };
+}
+
 class BrowserActionWireError extends Error {
   constructor(readonly diagnostic: BrowserActionWireRejection) {
     super("Invalid browser action wire");
@@ -165,10 +198,8 @@ function rejectWire(value: unknown, observedTargetRefs: ReadonlySet<string>, fie
   throw new BrowserActionWireError(wireRejection(value, observedTargetRefs, fieldPath, rejectedValue, reason));
 }
 
-function targetAndNoneViolation(value: Record<string, unknown>, observedTargetRefs: ReadonlySet<string>): never | undefined {
+function targetRequired(value: Record<string, unknown>, observedTargetRefs: ReadonlySet<string>): never | undefined {
   if (!nonBlank(value.targetRef)) return rejectWire(value, observedTargetRefs, "$.targetRef", value.targetRef, "REQUIRED_NONBLANK");
-  if (value.authoritativeField !== "NONE") return rejectWire(value, observedTargetRefs, "$.authoritativeField", value.authoritativeField, "EXPECTED_NONE");
-  if (value.requestedState !== "NONE") return rejectWire(value, observedTargetRefs, "$.requestedState", value.requestedState, "EXPECTED_NONE");
   return undefined;
 }
 
@@ -187,52 +218,46 @@ function decodeAction(value: unknown, observedTargetRefs: ReadonlySet<string>): 
   switch (value.action) {
     case "OPEN_LINK":
     case "CLICK":
-      targetAndNoneViolation(value, observedTargetRefs);
+      targetRequired(value, observedTargetRefs);
       return { type: value.action, targetRef: value.targetRef, reason };
     case "WAIT":
-      if (value.targetRef !== "" || value.authoritativeField !== "NONE" || value.requestedState !== "NONE") {
-        return rejectWire(value, observedTargetRefs, value.targetRef !== "" ? "$.targetRef" : value.authoritativeField !== "NONE" ? "$.authoritativeField" : "$.requestedState", value.targetRef !== "" ? value.targetRef : value.authoritativeField !== "NONE" ? value.authoritativeField : value.requestedState, value.targetRef !== "" ? "INVALID_STATE" : "EXPECTED_NONE");
-      }
-      return { type: "WAIT", reason };
+    case "PRESS_ESCAPE":
+    case "COMPLETE":
+    case "REQUEST_HUMAN_HELP":
+      // These page actions do not consume a control. A provider may retain a
+      // stale/placeholder target or inert field/state metadata in its strict
+      // envelope; canonicalize it rather than spend a decision on rejection.
+      return { type: value.action, reason };
     case "CLICK_AUTHORITATIVE":
-      if (!nonBlank(value.targetRef) || !["DATE", "PARTY_SIZE"].includes(value.authoritativeField) || value.requestedState !== "NONE") {
-        return rejectWire(value, observedTargetRefs, !nonBlank(value.targetRef) ? "$.targetRef" : value.authoritativeField !== "DATE" && value.authoritativeField !== "PARTY_SIZE" ? "$.authoritativeField" : "$.requestedState", !nonBlank(value.targetRef) ? value.targetRef : value.authoritativeField !== "DATE" && value.authoritativeField !== "PARTY_SIZE" ? value.authoritativeField : value.requestedState, !nonBlank(value.targetRef) ? "REQUIRED_NONBLANK" : value.requestedState !== "NONE" ? "EXPECTED_NONE" : "INVALID_STATE");
+      if (!nonBlank(value.targetRef) || !["DATE", "PARTY_SIZE"].includes(value.authoritativeField)) {
+        return rejectWire(value, observedTargetRefs, !nonBlank(value.targetRef) ? "$.targetRef" : "$.authoritativeField", !nonBlank(value.targetRef) ? value.targetRef : value.authoritativeField, !nonBlank(value.targetRef) ? "REQUIRED_NONBLANK" : "INVALID_STATE");
       }
       return { type: value.action, targetRef: value.targetRef, field: value.authoritativeField as "DATE" | "PARTY_SIZE", reason };
     case "CHOOSE_OPTION":
-      if (!nonBlank(value.targetRef) || !["DATE", "PARTY_SIZE", "TIME", "RETRIEVAL"].includes(value.authoritativeField) || value.requestedState !== "NONE") {
-        return rejectWire(value, observedTargetRefs, !nonBlank(value.targetRef) ? "$.targetRef" : !["DATE", "PARTY_SIZE", "TIME", "RETRIEVAL"].includes(value.authoritativeField) ? "$.authoritativeField" : "$.requestedState", !nonBlank(value.targetRef) ? value.targetRef : !["DATE", "PARTY_SIZE", "TIME", "RETRIEVAL"].includes(value.authoritativeField) ? value.authoritativeField : value.requestedState, !nonBlank(value.targetRef) ? "REQUIRED_NONBLANK" : value.requestedState !== "NONE" ? "EXPECTED_NONE" : "INVALID_STATE");
+      if (!nonBlank(value.targetRef) || !["DATE", "PARTY_SIZE", "TIME", "RETRIEVAL"].includes(value.authoritativeField)) {
+        return rejectWire(value, observedTargetRefs, !nonBlank(value.targetRef) ? "$.targetRef" : "$.authoritativeField", !nonBlank(value.targetRef) ? value.targetRef : value.authoritativeField, !nonBlank(value.targetRef) ? "REQUIRED_NONBLANK" : "INVALID_STATE");
       }
       return { type: value.action, targetRef: value.targetRef, field: value.authoritativeField as "DATE" | "PARTY_SIZE" | "TIME" | "RETRIEVAL", reason };
     case "FILL_AUTHORITATIVE":
-      if (!nonBlank(value.targetRef) || !["DATE", "PARTY_SIZE", "RETRIEVAL"].includes(value.authoritativeField) || value.requestedState !== "NONE") {
-        return rejectWire(value, observedTargetRefs, !nonBlank(value.targetRef) ? "$.targetRef" : !["DATE", "PARTY_SIZE", "RETRIEVAL"].includes(value.authoritativeField) ? "$.authoritativeField" : "$.requestedState", !nonBlank(value.targetRef) ? value.targetRef : !["DATE", "PARTY_SIZE", "RETRIEVAL"].includes(value.authoritativeField) ? value.authoritativeField : value.requestedState, !nonBlank(value.targetRef) ? "REQUIRED_NONBLANK" : value.requestedState !== "NONE" ? "EXPECTED_NONE" : "INVALID_STATE");
+      if (!nonBlank(value.targetRef) || !["DATE", "PARTY_SIZE", "RETRIEVAL"].includes(value.authoritativeField)) {
+        return rejectWire(value, observedTargetRefs, !nonBlank(value.targetRef) ? "$.targetRef" : "$.authoritativeField", !nonBlank(value.targetRef) ? value.targetRef : value.authoritativeField, !nonBlank(value.targetRef) ? "REQUIRED_NONBLANK" : "INVALID_STATE");
       }
       return { type: value.action, targetRef: value.targetRef, field: value.authoritativeField as "DATE" | "PARTY_SIZE" | "RETRIEVAL", reason };
     case "SET_CHECKED":
-      if (!nonBlank(value.targetRef) || value.authoritativeField !== "NONE" || (value.requestedState !== "CHECKED" && value.requestedState !== "UNCHECKED")) {
-        return rejectWire(value, observedTargetRefs, !nonBlank(value.targetRef) ? "$.targetRef" : value.authoritativeField !== "NONE" ? "$.authoritativeField" : "$.requestedState", !nonBlank(value.targetRef) ? value.targetRef : value.authoritativeField !== "NONE" ? value.authoritativeField : value.requestedState, !nonBlank(value.targetRef) ? "REQUIRED_NONBLANK" : value.authoritativeField !== "NONE" ? "EXPECTED_NONE" : "INVALID_STATE");
+      if (!nonBlank(value.targetRef) || (value.requestedState !== "CHECKED" && value.requestedState !== "UNCHECKED")) {
+        return rejectWire(value, observedTargetRefs, !nonBlank(value.targetRef) ? "$.targetRef" : "$.requestedState", !nonBlank(value.targetRef) ? value.targetRef : value.requestedState, !nonBlank(value.targetRef) ? "REQUIRED_NONBLANK" : "INVALID_STATE");
       }
       return { type: "SET_CHECKED", targetRef: value.targetRef, checked: value.requestedState === "CHECKED", reason };
     case "ADJUST_RANGE":
-      if (!nonBlank(value.targetRef) || value.authoritativeField !== "NONE" || (value.requestedState !== "INCREASE" && value.requestedState !== "DECREASE")) {
-        return rejectWire(value, observedTargetRefs, !nonBlank(value.targetRef) ? "$.targetRef" : value.authoritativeField !== "NONE" ? "$.authoritativeField" : "$.requestedState", !nonBlank(value.targetRef) ? value.targetRef : value.authoritativeField !== "NONE" ? value.authoritativeField : value.requestedState, !nonBlank(value.targetRef) ? "REQUIRED_NONBLANK" : value.authoritativeField !== "NONE" ? "EXPECTED_NONE" : "INVALID_STATE");
+      if (!nonBlank(value.targetRef) || (value.requestedState !== "INCREASE" && value.requestedState !== "DECREASE")) {
+        return rejectWire(value, observedTargetRefs, !nonBlank(value.targetRef) ? "$.targetRef" : "$.requestedState", !nonBlank(value.targetRef) ? value.targetRef : value.requestedState, !nonBlank(value.targetRef) ? "REQUIRED_NONBLANK" : "INVALID_STATE");
       }
       return { type: "ADJUST_RANGE", targetRef: value.targetRef, direction: value.requestedState, reason };
     case "SCROLL_REGION":
-      if (!nonBlank(value.targetRef) || value.authoritativeField !== "NONE" || (value.requestedState !== "UP" && value.requestedState !== "DOWN")) {
-        return rejectWire(value, observedTargetRefs, !nonBlank(value.targetRef) ? "$.targetRef" : value.authoritativeField !== "NONE" ? "$.authoritativeField" : "$.requestedState", !nonBlank(value.targetRef) ? value.targetRef : value.authoritativeField !== "NONE" ? value.authoritativeField : value.requestedState, !nonBlank(value.targetRef) ? "REQUIRED_NONBLANK" : value.authoritativeField !== "NONE" ? "EXPECTED_NONE" : "INVALID_STATE");
+      if (!nonBlank(value.targetRef) || (value.requestedState !== "UP" && value.requestedState !== "DOWN")) {
+        return rejectWire(value, observedTargetRefs, !nonBlank(value.targetRef) ? "$.targetRef" : "$.requestedState", !nonBlank(value.targetRef) ? value.targetRef : value.requestedState, !nonBlank(value.targetRef) ? "REQUIRED_NONBLANK" : "INVALID_STATE");
       }
       return { type: "SCROLL_REGION", targetRef: value.targetRef, direction: value.requestedState, reason };
-    case "COMPLETE":
-    case "REQUEST_HUMAN_HELP":
-      // DeepSeek strict wire objects require this field even when the canonical action
-      // has no target. It may echo a current observation reference as that placeholder;
-      // an unknown reference is still rejected and the canonical action discards it.
-      if ((value.targetRef.trim() && !observedTargetRefs.has(value.targetRef)) || value.authoritativeField !== "NONE" || value.requestedState !== "NONE") {
-        return rejectWire(value, observedTargetRefs, value.targetRef.trim() && !observedTargetRefs.has(value.targetRef) ? "$.targetRef" : value.authoritativeField !== "NONE" ? "$.authoritativeField" : "$.requestedState", value.targetRef.trim() && !observedTargetRefs.has(value.targetRef) ? value.targetRef : value.authoritativeField !== "NONE" ? value.authoritativeField : value.requestedState, value.targetRef.trim() && !observedTargetRefs.has(value.targetRef) ? "INVALID_STATE" : "EXPECTED_NONE");
-      }
-      return { type: value.action, reason };
     default:
       return rejectWire(value, observedTargetRefs, "$.action", value.action, "UNSUPPORTED_ACTION");
   }
@@ -243,28 +268,36 @@ export function buildBrowserReadDecisionSystemPrompt(): string {
 
 Choose one action only from the observed target references and their availableActions, except a listed pageActions action. A target's rejectionReason explains why another action is unavailable; do not override it. Never invent a target reference, selector, URL, JavaScript, shell command, credential, cookie, login step, booking submission, payment, cancellation, or personal information. The outlet identity, date, party size, time window, and HARD criteria in the goal are immutable. When selecting or filling a date or party size, select the named authoritative field and no other value. FILL_AUTHORITATIVE with RETRIEVAL is allowed only for an observed public search input and fills exactly goal.retrievalExpression; it cannot change area, HARD criteria, date, party size, or time.
 
-To open a custom BUTTON whose role is combobox, use CLICK with authoritativeField NONE. Re-observe, then use CHOOSE_OPTION on an observed OPTION with the correct ownerRef. A native SELECT already exposes its OPTION targets; choose the option directly. Match the visible label to the authoritative date, party size, or time window; an opaque option value is never a reason to guess. For CLICK, OPEN_LINK and WAIT the authoritativeField MUST be NONE.
+To open a custom BUTTON whose role is combobox, use CLICK with authoritativeField NONE. Re-observe, then use CHOOSE_OPTION on an observed OPTION with the correct ownerRef. A native SELECT already exposes its OPTION targets; choose the option directly. Match the visible label to the authoritative date, party size, or time window; an opaque option value is never a reason to guess. For targeted actions, authoritativeField and requestedState must match the action contract. Page actions ignore targetRef and inert field/state placeholders.
 
 During DISCOVERY, an expanded public search combobox may expose CHOOSE_OPTION:RETRIEVAL for the exact goal.retrievalExpression, optionally displayed in quotation marks. Choose that option to apply the existing query and close its suggestions before using background controls. Do not choose Nearby or a different suggested query. Its current search value and closed suggestion state must be re-observed; selecting it is not proof of search results.
 
 A LINK can represent a same-page UI control when its observed href differs from the current document only by a fragment (including #). If its availableActions includes CLICK, use CLICK to expand or change that UI and re-observe. Ordinary public links continue to use OPEN_LINK. Use the visible control label and its page context to match the objective; an unrelated unlabeled button is not a substitute for a named category or filter control.
 
-OPEN_LINK is only for an observed public result link. CLICK and CLICK_AUTHORITATIVE are permitted only when their current availableActions explicitly lists them. A source-owned isolated read boundary may expose an ordinary public-query button, including a submit-shaped control, only after code has admitted its requests; it does not permit sensitive workflows. Login, registration, reservation, booking, checkout, payment, purchase, cancellation, deletion, and confirmation remain unavailable. CLICK_AUTHORITATIVE must also match the exact DATE or PARTY_SIZE. CHOOSE_OPTION is the single action for an observed native-select or custom-list option; use TIME only inside the authoritative window. A label consisting only of digits is never sufficient for a date. SET_CHECKED sets one source-permitted observed checkbox, or selects one source-permitted observed radio with CHECKED; a radio must not be unset or selected by guessing a group. When the objective or progress states that no service category is selected, a target with SET_CHECKED is a read-only query prerequisite that may occur before a time or result is visible. Select exactly one current permitted category only where current public text supports its relevance to a HARD criterion; otherwise request human help. ADJUST_RANGE moves one observed slider by one safe keyboard step only. A slider's valueText is a page-displayed label, distinct from value/min/max positions. SCROLL_REGION moves one observed region by one bounded viewport. WAIT waits for one bounded visible result change at page level: use empty targetRef with NONE field and state. If no safe action is available, request human help. COMPLETE only hands the page to deterministic verification; it does not claim identity, availability, or success.
+OPEN_LINK is only for an observed public result link. Targeted actions are permitted only when their current availableActions explicitly list them. An installed isolated read boundary may expose ordinary public-query controls, including a submit-shaped query control, checkbox/radio, option, range, and region scroll after code has admitted the page's requests; it does not permit sensitive workflows. Login, registration, reservation, booking, checkout, payment, purchase, cancellation, deletion, and confirmation remain unavailable. CLICK_AUTHORITATIVE must also match the exact DATE or PARTY_SIZE. CHOOSE_OPTION is the single action for an observed native-select or custom-list option; use TIME only inside the authoritative window. A label consisting only of digits is never sufficient for a date. SET_CHECKED selects one current permitted checkbox or radio with CHECKED; a radio must not be unset or selected by guessing a group. ADJUST_RANGE moves one observed slider by one safe keyboard step only. A slider's valueText is a page-displayed label, distinct from value/min/max positions. SCROLL_REGION moves one observed region by one bounded viewport. PRESS_ESCAPE closes one page layer then requires a fresh observation. WAIT waits for one bounded visible result change at page level. If no safe action is available, request human help. COMPLETE only hands the page to deterministic verification; it does not claim identity, availability, or success.
 
 Return exactly the strict JSON object. For actions without a target, use an empty targetRef. For actions without an authoritative field, use NONE. For actions without a requested state, use NONE. Keep reason short and do not include hidden reasoning.`;
 }
 
 /** Provider-facing strict transport only; BrowserTaskExecutor remains the action authority. */
 export class ModelBrowserReadActionDecision implements BrowserReadActionDecisionPort {
+  private lastWireRecord: BrowserActionWireRecord | undefined;
   constructor(private readonly model: ModelGateway) {}
 
+  takeLastWireRecord(): BrowserActionWireRecord | undefined {
+    const result = this.lastWireRecord;
+    this.lastWireRecord = undefined;
+    return result;
+  }
+
   async decide(input: BrowserReadDecisionInput): Promise<BrowserReadAction> {
+    this.lastWireRecord = undefined;
     let response: ModelResponse;
     try {
       response = await this.model.complete({
         taskId: input.taskId,
         purpose: "browser_read_decide",
-        promptVersion: "11",
+        promptVersion: "12",
         messages: [
           { role: "system", content: buildBrowserReadDecisionSystemPrompt() },
           {
@@ -301,10 +334,14 @@ export class ModelBrowserReadActionDecision implements BrowserReadActionDecision
       throw new BrowserReadDecisionError("MODEL_FAILURE", modelError.code);
     }
     if (response.finishReason !== "TOOL_CALLS") throw new BrowserReadDecisionError("INVALID_MODEL_OUTPUT", `finish reason ${response.finishReason}`);
+    const observedTargetRefs = new Set(input.observation.targets.map((target) => target.ref));
     try {
-      return decodeAction(JSON.parse(response.outputText), new Set(input.observation.targets.map((target) => target.ref)));
+      const wire = JSON.parse(response.outputText);
+      this.lastWireRecord = safeActionWireRecord(wire, observedTargetRefs);
+      return decodeAction(wire, observedTargetRefs);
     } catch (error) {
       if (error instanceof BrowserActionWireError) throw new BrowserReadDecisionError("INVALID_MODEL_OUTPUT", "Invalid browser action wire", error.diagnostic);
+      this.lastWireRecord = safeActionWireRecord(undefined, observedTargetRefs);
       throw new BrowserReadDecisionError("INVALID_MODEL_OUTPUT", "Invalid browser action JSON", wireRejection(undefined, new Set(), "$.wire", undefined, "REQUIRED_OBJECT"));
     }
   }

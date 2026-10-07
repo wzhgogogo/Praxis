@@ -372,7 +372,6 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
           session,
           signal,
           allowedOrigins: ["https://tabelog.com"],
-          allowGuardedQueryControls: true,
           goal: { outlet: { name: candidate.restaurant.outletName, address: candidate.restaurant.address }, date: request.date, partySize: request.partySize, timeWindow: request.timeWindow, hardCriteria: request.hardCriteria },
           objective: "Reveal public Tabelog restaurant search results without booking or logging in.",
           methodReason: "Tabelog discovery has no extractable restaurant result yet.",
@@ -570,7 +569,6 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
         const query = await this.executor.runSkill({
           taskId: `browser-read:${candidate.restaurant.id}`, source: "TABELOG", stage: "AVAILABILITY",
           session, signal, allowedOrigins: ["https://tabelog.com"], controlHints: tabelogQueryControlHints,
-          allowGuardedQueryControls: true,
           goal: { outlet: { name: candidate.restaurant.outletName, address: candidate.restaurant.address }, date: request.date, partySize: request.partySize, timeWindow: request.timeWindow, hardCriteria: request.hardCriteria },
           objective: "Apply the exact requested date and guest count to the public calendar. Date and Guests labels describe source-observed controls. Use CLICK_AUTHORITATIVE for those fields. Do not open Reserve or any booking form. Selected time options alone are not verified availability.",
           completion: current => ({ complete: hasTabelogSelectedQuery(current, request.date, request.partySize) && parseTabelogAvailabilitySlots(current, request).hasExplicitSlotUi, reason: "Both the requested calendar date and guest count must be selected; model completion alone does not confirm them." }),

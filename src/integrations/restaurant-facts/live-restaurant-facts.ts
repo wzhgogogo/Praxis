@@ -6,6 +6,7 @@ import type { RestaurantCandidateFactPort } from "../../application/restaurant-e
 import { GoogleListedWebsiteFactRead } from "./google-listed-website-facts.js";
 import { GoogleThenWebsiteFactRead } from "./google-then-website-facts.js";
 import { ModelRestaurantFactJudgment } from "./model-fact-judgment.js";
+import { restaurantPublicReadNetworkPolicy } from "../restaurant-availability/public-browser-read-network-policy.js";
 
 /**
  * The sole real browser-backed fact composition.  Web and Hybrid diagnostics
@@ -20,9 +21,10 @@ export function composeLiveRestaurantFactRead(
   onBrowserDiagnostic?: (diagnostic: BrowserExecutionDiagnostic) => void,
 ): RestaurantCandidateFactPort {
   const judgment = new ModelRestaurantFactJudgment(model, now);
+  const networkPolicy = runtime.readNetworkBoundaryCapability === "ISOLATED_CONTEXT" ? restaurantPublicReadNetworkPolicy : undefined;
   return new GoogleThenWebsiteFactRead(
     google,
-    new GoogleListedWebsiteFactRead(runtime, judgment, now, new ModelBrowserReadActionDecision(model), browserBudget, onBrowserDiagnostic),
+    new GoogleListedWebsiteFactRead(runtime, judgment, now, new ModelBrowserReadActionDecision(model), browserBudget, onBrowserDiagnostic, networkPolicy),
     judgment,
   );
 }

@@ -41,6 +41,19 @@ test("Browser Run keeps Kitesurf on successful AUTO session creation", async () 
   await session.close();
 });
 
+test("Browser Run rejects HAR replay before opening a remote browser", async () => {
+  let connects = 0;
+  const runtime = new CloudflareBrowserRun({
+    accountId: "account", apiToken: "token",
+    connectOverCdp: async () => { connects += 1; return fakeBrowser(() => {}) as never; },
+  });
+  await assert.rejects(
+    runtime.openSession({ signal: new AbortController().signal, replayHarPath: "/tmp/replay.har" }),
+    (error: unknown) => error instanceof Error && /does not support isolated HAR replay/.test(error.message),
+  );
+  assert.equal(connects, 0);
+});
+
 test("Browser Run preserves the Playwright receiver for its default CDP connector", async () => {
   const descriptor = Object.getOwnPropertyDescriptor(chromium, "connectOverCDP");
   let receivedThis: unknown;

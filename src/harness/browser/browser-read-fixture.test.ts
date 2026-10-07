@@ -1,6 +1,10 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
+import { createServer } from "node:http";
 import { readFileSync } from "node:fs";
+import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { test } from "node:test";
 import { chromium } from "playwright-core";
 import { LocalPlaywrightChromium } from "../../infrastructure/browser/local-playwright-chromium.js";
@@ -11,9 +15,166 @@ import type { BrowserRuntime, BrowserSession } from "../../infrastructure/browse
 import type { BrowserReadActionDecisionPort } from "../../infrastructure/browser/browser-action-decision.js";
 import { ModelBrowserReadActionDecision } from "../../infrastructure/browser/browser-action-decision.js";
 import { inspectProbePage, runBrowserReadProbe } from "../../eval/restaurant/agent-loop/browser-read-probe.js";
+import { BrowserReadRecording } from "../../eval/restaurant/agent-loop/runners/browser-read-recording.js";
+import { traceBrowserRuntime } from "../../eval/restaurant/agent-loop/runners/browser-case-slice-evidence.js";
 
 const url = "https://www.tablecheck.com/en/fixture";
 const identity = '<h1>Fixture restaurant</h1><p class="address">1-1 Tokyo Fixture Street</p><a href="tel:03-1111-2222">Phone</a>';
+
+function replayHar(url: string, html: string): string {
+  return replayHarPages({ [url]: html });
+}
+
+function replayHarPages(pages: Record<string, string>): string {
+  return JSON.stringify({ log: { version: "1.2", creator: { name: "Praxis fixture", version: "1" }, entries: Object.entries(pages).map(([url, html]) => ({
+    startedDateTime: "2026-10-07T00:00:00.000Z",
+    request: { method: "GET", url, httpVersion: "HTTP/1.1", headers: [], queryString: [], cookies: [], headersSize: -1, bodySize: -1 },
+    response: { status: 200, statusText: "OK", httpVersion: "HTTP/1.1", headers: [{ name: "content-type", value: "text/html; charset=utf-8" }], cookies: [], content: { size: html.length, mimeType: "text/html", text: html }, redirectURL: "", headersSize: -1, bodySize: -1 },
+    cache: {}, timings: { send: 0, wait: 0, receive: 0 },
+  })) } });
+}
+
+test("guarded HAR replay drives the production executor offline and keeps missing requests off the network", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "praxis-browser-replay-"));
+  const replayUrl = "https://replay.example/guide";
+  const harPath = join(directory, "public-read.har");
+  const html = `<title>Public search</title><input name="search_text" aria-label="Search venues"><label>Sushi <input type="radio" name="cuisine" value="sushi"></label><label>Counter <input type="checkbox"></label><input type="range" aria-label="Budget" min="0" max="2" value="0"><div role="region" aria-label="Filters" data-praxis-scroll-region style="height:20px;overflow:auto"><div style="height:300px">Public filters</div></div><button type="submit">Find availability</button><output id="result">Waiting</output><script>
+    const result=document.querySelector('#result');
+    document.querySelector('input[name=search_text]').oninput=()=>result.textContent='Search ready';
+    document.querySelector('input[type=radio]').onchange=()=>result.textContent='Category ready';
+    document.querySelector('input[type=checkbox]').onchange=()=>result.textContent='Filter ready';
+    document.querySelector('input[type=range]').oninput=()=>result.textContent='Budget ready';
+    document.querySelector('[role=region]').onscroll=()=>result.textContent='Region ready';
+    document.querySelector('button').onclick=(event)=>{event.preventDefault();result.textContent='Result ready Sushi';};
+  </script>`;
+  await writeFile(harPath, replayHar(replayUrl, html));
+  const raw = new LocalPlaywrightChromium();
+  const policy = { documentOrigins: ["https://replay.example"], genericPublicRead: true, staticResources: [], dynamicReads: [] } as const;
+  const runtime: BrowserRuntime = { readNetworkBoundaryCapability: "ISOLATED_CONTEXT", openSession: input => raw.openSession({ ...input, networkPolicy: policy, replayHarPath: harPath }) };
+  let step = 0;
+  const executor = new BrowserTaskExecutor(runtime, { maxOperationsPerCandidate: 40, maxModelCallsPerCandidate: 8, modelDecision: { async decide(input) {
+    const find = (label: string) => input.observation.targets.find(target => target.label === label)!;
+    switch (++step) {
+      case 1: return { type: "FILL_AUTHORITATIVE", targetRef: find("Search venues").ref, field: "RETRIEVAL", reason: "Use the observed public search input." };
+      case 2: return { type: "SET_CHECKED", targetRef: find("Sushi").ref, checked: true, reason: "Apply the observed public filter." };
+      case 3: return { type: "SET_CHECKED", targetRef: find("Counter").ref, checked: true, reason: "Apply the observed public filter." };
+      case 4: return { type: "ADJUST_RANGE", targetRef: find("Budget").ref, direction: "INCREASE", reason: "Adjust the observed public range." };
+      case 5: return { type: "SCROLL_REGION", targetRef: find("Filters").ref, direction: "DOWN", reason: "Read the observed public filter region." };
+      default: return { type: "CLICK", targetRef: find("Find availability").ref, reason: "Run the observed public search." };
+    }
+  } } });
+  const signal = new AbortController().signal;
+  const session = await executor.acquire(signal, "TABLECHECK", "DISCOVERY");
+  try {
+    await executor.navigate({ session, signal, source: "TABLECHECK", stage: "DISCOVERY", allowedOrigins: ["https://replay.example"], url: replayUrl });
+    const result = await executor.runSkill({ taskId: "fixture:har-replay", session, signal, source: "TABLECHECK", stage: "DISCOVERY", allowedOrigins: ["https://replay.example"], goal: { outlet: { name: "Fixture" }, retrievalExpression: "omakase", hardCriteria: [] }, objective: "Read an offline public search result.", completion: snapshot => ({ complete: /Result ready Sushi/.test(snapshot.text), reason: "The replayed public result is not visible." }) });
+    assert.equal(result.status, "COMPLETED", JSON.stringify(result));
+    assert.equal(step, 6);
+    await session.prepareNavigation?.("https://replay.example/missing", { timeoutMs: 500 });
+    await assert.rejects(session.navigate("https://replay.example/missing", { timeoutMs: 500 }), /blocked|failed|route/i, "a Guard-admitted HAR miss must not use the network");
+  } finally { await executor.close(); await rm(directory, { recursive: true, force: true }); }
+});
+
+test("recorded public documents replay through the production TableCheck availability Adapter without a network escape", async () => {
+  const { TableCheckBrowserAvailability } = await import("../../integrations/tablecheck/tablecheck-browser-availability.js");
+  const directory = await mkdtemp(join(tmpdir(), "praxis-tablecheck-replay-"));
+  const guide = "https://www.tablecheck.com/en/fixture";
+  const requestUrl = "https://www.tablecheck.com/en/fixture?date=2026-10-08&time=19%3A00&num_people=2&availability_format=datetime&availability_mode=same_meal_time";
+  const html = `<title>Fixture restaurant</title><h1>Fixture restaurant</h1><p class="address">1-1 Tokyo Fixture Street</p><a href="tel:03-1111-2222">Phone</a>
+    <div data-testid="Venue Availability" data-selected-date="2026-10-08" data-pax="2"><section data-availability-state="complete"><a href="/en/fixture/reserve?start_date=2026-10-08&amp;num_people=2&amp;start_time=19:00">19:00</a></section></div>`;
+  // Recording receives observed source documents and only then writes its own
+  // sanitized HAR. The Adapter below has no hand-authored HAR input.
+  const recording = new BrowserReadRecording({ directory, runId: "tablecheck-capture" });
+  recording.recordSnapshot({ url: guide, title: "Fixture restaurant", text: "Fixture restaurant", html });
+  recording.recordSnapshot({ url: requestUrl, title: "Fixture restaurant", text: "Fixture restaurant", html });
+  const captured = await recording.finish();
+  assert.equal(captured.replay.status, "REPLAYABLE");
+  if (captured.replay.status !== "REPLAYABLE") throw new Error("fixture recording must be replayable");
+  const capturedHarPath = captured.replay.harPath;
+  const raw = new LocalPlaywrightChromium();
+  const policy = { documentOrigins: ["https://www.tablecheck.com"], genericPublicRead: true, staticResources: [], dynamicReads: [] } as const;
+  const runtime: BrowserRuntime = {
+    readNetworkBoundaryCapability: "ISOLATED_CONTEXT",
+    openSession: input => raw.openSession({ ...input, networkPolicy: policy, replayHarPath: capturedHarPath }),
+  };
+  const candidate = {
+    restaurant: {
+      id: "tablecheck:fixture", outletName: "Fixture restaurant", address: "1-1 Tokyo Fixture Street",
+      sourceIds: { tablecheck: "fixture", tablecheckNativeGuideUri: guide }, provenance: { fixture: "sanitized-har" },
+    }, matchReasons: [], warnings: [], executionConfidence: "HIGH" as const,
+  };
+  const executor = new BrowserTaskExecutor(runtime);
+  try {
+    const result = await new TableCheckBrowserAvailability(executor, () => "2026-10-07T00:00:00.000Z", { networkPolicy: policy }).check({
+      candidates: [candidate], candidateIds: [candidate.restaurant.id], date: "2026-10-08", partySize: 2,
+      timeWindow: { earliest: "19:00", latest: "19:00" }, hardCriteria: [],
+    }, new AbortController().signal);
+    assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE", JSON.stringify(result));
+    assert.deepEqual(result.offers.map(offer => offer.dateTime.slice(11, 16)), ["19:00"]);
+  } finally {
+    await executor.close();
+    await rm(directory, { recursive: true, force: true });
+  }
+});
+
+
+
+test("guarded dynamic TableCheck recording replays through the same production Adapter without receiver traffic", async () => {
+  const { TableCheckBrowserAvailability } = await import("../../integrations/tablecheck/tablecheck-browser-availability.js");
+  let arrivals = 0;
+  const receiver = createServer((request, response) => {
+    const path = new URL(request.url ?? "/", `http://${request.headers.host}`).pathname;
+    if (path === "/slots") { arrivals += 1; response.setHeader("content-type", "application/json"); response.end('{"available":true}'); return; }
+    if (path === "/app.js") { response.setHeader("content-type", "application/javascript"); response.end(`fetch('/slots').then(r=>r.json()).then(()=>document.querySelector('[data-testid="Venue Availability"]').innerHTML='<section data-availability-state="complete"><a href="/en/fixture/reserve?start_date=2026-10-08&num_people=2&start_time=19:00">19:00</a></section>')`); return; }
+    response.setHeader("content-type", "text/html");
+    response.end(`<title>Fixture restaurant</title><h1>Fixture restaurant</h1><p class="address">1-1 Tokyo Fixture Street</p><a href="tel:03-1111-2222">Phone</a><div data-testid="Venue Availability" data-selected-date="2026-10-08" data-pax="2"><span class="skeleton">Loading</span></div><script src="/app.js"></script>`);
+  });
+  await new Promise<void>(resolve => receiver.listen(0, "127.0.0.1", resolve));
+  const address = receiver.address(); if (!address || typeof address === "string") throw new Error("fixture receiver did not bind");
+  const transportOrigin = `http://127.0.0.1:${address.port}`;
+  // The page and Guard retain the canonical production origin. Only the test
+  // transport behind an admitted route.fetch is mapped to the receiver.
+  const browserType = { async launch(options: Parameters<typeof chromium.launch>[0]) {
+    const browser = await chromium.launch(options); const create = browser.newContext.bind(browser);
+    browser.newContext = async contextOptions => {
+      const context = await create(contextOptions); const route = context.route.bind(context);
+      context.route = async (pattern, handler) => route(pattern, async original => {
+        const wrapped = new Proxy(original, { get(target, property, receiverProxy) {
+          if (property === "fetch") return async (options: Parameters<typeof original.fetch>[0] = {}) => {
+            const source = new URL(original.request().url()); const mapped = new URL(source.pathname + source.search, transportOrigin).toString();
+            return target.fetch({ ...options, url: mapped });
+          };
+          const value = Reflect.get(target, property, receiverProxy); return typeof value === "function" ? value.bind(target) : value;
+        } });
+        return handler(wrapped as typeof original, original.request());
+      });
+      return context;
+    }; return browser;
+  } };
+  const guide = "https://www.tablecheck.com/en/fixture";
+  const policy = { documentOrigins: ["https://www.tablecheck.com"], genericPublicRead: true, staticResources: [], dynamicReads: [{ origin: "https://www.tablecheck.com", pathname: "/slots", resourceTypes: ["fetch"], queryKeys: [] }] } as const;
+  const directory = await mkdtemp(join(tmpdir(), "praxis-dynamic-recording-")); const recording = new BrowserReadRecording({ directory, runId: "dynamic" });
+  const sourceRaw = new LocalPlaywrightChromium({ browserType });
+  const sourceRuntime: BrowserRuntime = { readNetworkBoundaryCapability: "ISOLATED_CONTEXT", openSession: input => sourceRaw.openSession({ ...input, networkPolicy: policy, recordResponse: response => recording.recordResponse(response) }) };
+  const candidate = { restaurant: { id: "tablecheck:fixture", outletName: "Fixture restaurant", address: "1-1 Tokyo Fixture Street", sourceIds: { tablecheck: "fixture", tablecheckNativeGuideUri: guide }, provenance: { fixture: "guarded-dynamic-record" } }, matchReasons: [], warnings: [], executionConfidence: "HIGH" as const };
+  const request = { candidates: [candidate], candidateIds: [candidate.restaurant.id], date: "2026-10-08", partySize: 2, timeWindow: { earliest: "19:00", latest: "19:00" }, hardCriteria: [] };
+  const sourceExecutor = new BrowserTaskExecutor(traceBrowserRuntime(sourceRuntime, "TABLECHECK", () => 0, recording.snapshotSink()));
+  try {
+    const source = await new TableCheckBrowserAvailability(sourceExecutor, () => "2026-10-07T00:00:00.000Z", { networkPolicy: policy }).check(request, new AbortController().signal);
+    assert.equal(source.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE", JSON.stringify(source)); assert.ok(arrivals >= 1, "the guarded source task must consume its public dynamic response");
+    const captured = await recording.finish(); assert.equal(captured.replay.status, "REPLAYABLE"); if (captured.replay.status !== "REPLAYABLE") throw new Error("public dynamic capture must replay");
+    const capturedHarPath = captured.replay.harPath;
+    const capturedHar = await readFile(capturedHarPath, "utf8");
+    assert.match(capturedHar, /application\/javascript/);
+    assert.match(capturedHar, /fetch\('\/slots'\)/, "the replay HAR retains the safe same-origin script needed to consume slots");
+    const beforeReplay = arrivals;
+    const replayRaw = new LocalPlaywrightChromium(); const replayRuntime: BrowserRuntime = { readNetworkBoundaryCapability: "ISOLATED_CONTEXT", openSession: input => replayRaw.openSession({ ...input, networkPolicy: policy, replayHarPath: capturedHarPath }) };
+    const replayTrace: unknown[] = [];
+    const replayExecutor = new BrowserTaskExecutor(traceBrowserRuntime(replayRuntime, "TABLECHECK", (_kind, detail) => { replayTrace.push(detail); return replayTrace.length; }));
+    try { const replay = await new TableCheckBrowserAvailability(replayExecutor, () => "2026-10-07T00:00:00.000Z", { networkPolicy: policy }).check(request, new AbortController().signal); assert.equal(replay.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE", JSON.stringify(replay)); assert.equal(arrivals, beforeReplay, "replay consumes only recorded HAR responses"); assert.equal(replayTrace.some(detail => JSON.stringify(detail).includes('"pathname":"/slots"') && JSON.stringify(detail).includes('"outcome":"ADMITTED"')), true, "Replay must consume the recorded dynamic response"); }
+    finally { await replayExecutor.close(); }
+  } finally { await sourceExecutor.close(); await new Promise<void>(resolve => receiver.close(() => resolve())); await rm(directory, { recursive: true, force: true }); }
+});
 
 /** Match the documented exact-time guide serializer used by the production Adapter. */
 function exactGuideAvailabilityUrl(sourceUrl: string, date: string, partySize: number, time: string): string {
@@ -1390,7 +1551,7 @@ test("an active language dialog blocks background calendar actions until the dia
   } finally { await executor.close(); }
 });
 
-test("shared executor applies, reopens, and resets permitted public filters without booking", async () => {
+test("shared executor keeps unguarded public filters unavailable", async () => {
   const searchUrl = "https://www.tablecheck.com/en/japan/search";
   const runtime = localFixture({ [searchUrl]: `<title>Filters</title><form method="get">
     <input id="sushi" type="checkbox" aria-label="Sushi">
@@ -1422,35 +1583,12 @@ test("shared executor applies, reopens, and resets permitted public filters with
         assert.ok(target, `expected observed ${label}`);
         return target;
       };
-      if (step <= 3) {
+      if (step === 1) {
         const sushi = find("Sushi");
-        assert.equal(sushi.checked, step === 2);
-        return { type: "SET_CHECKED", targetRef: sushi.ref, checked: step !== 2, reason: "Apply the observed public Sushi filter." };
+        assert.deepEqual(sushi.availableActions, [], "a local fixture without an installed boundary must retain the narrow action policy");
+        return { type: "REQUEST_HUMAN_HELP", reason: "No installed read boundary permits public query controls." };
       }
-      if (step === 4) {
-        const minimum = find("Minimum budget");
-        const maximum = find("Maximum budget");
-        assert.deepEqual([minimum.value, minimum.min, minimum.max, minimum.valueText], ["5000", "0", "50000", "JPY 5,000"]);
-        assert.deepEqual([maximum.value, maximum.min, maximum.max, maximum.valueText], ["20000", "0", "50000", "JPY 20,000"]);
-        return { type: "ADJUST_RANGE", targetRef: minimum.ref, direction: "INCREASE", reason: "Move the observed lower budget bound one displayed-currency step." };
-      }
-      if (step === 5) {
-        const minimum = find("Minimum budget");
-        assert.deepEqual([minimum.value, minimum.valueText, find("Maximum budget").valueText], ["6000", "JPY 6,000", "JPY 20,000"], "the observation must read the changed lower bound and retain the distinct upper amount");
-        const region = find("Filters");
-        assert.equal(region.scrollable, true);
-        return { type: "SCROLL_REGION", targetRef: region.ref, direction: "DOWN", reason: "Read the next visible filter region." };
-      }
-      if (step === 6) {
-        const update = find("Update filters");
-        return { type: "CLICK", targetRef: update.ref, reason: "Apply the observed public search filters." };
-      }
-      if (step === 7) {
-        const reopen = find("Open filters");
-        return { type: "CLICK", targetRef: reopen.ref, reason: "Re-open the observed public filter panel to confirm it retained its state." };
-      }
-      const reset = find("Reset filters");
-      return { type: "CLICK", targetRef: reset.ref, reason: "Reset the observed public filters without submitting a reservation." };
+      throw new Error("unexpected extra model decision");
     },
   } });
   const signal = new AbortController().signal;
@@ -1460,14 +1598,10 @@ test("shared executor applies, reopens, and resets permitted public filters with
     const result = await executor.runSkill({
       taskId: "fixture:filters", source: "TABLECHECK", stage: "DISCOVERY", session, signal, allowedOrigins: ["https://www.tablecheck.com"],
       goal: { outlet: { name: "Fixture Restaurant" }, hardCriteria: [] }, objective: "Read a public filtered result without booking.",
-      // This synthetic source explicitly defines only these controls as query filters.
-      // No production source gains permission from DOM labels or this fixture.
-      permitQueryControl: ({ control, snapshot }) => snapshot.url === searchUrl &&
-        ((control.kind === "CHECKBOX" && control.label === "Sushi") || (control.kind === "RANGE" && control.label === "Minimum budget")),
-      completion: (snapshot) => ({ complete: /sushi=true;minimumBudget=6000;maximumBudget=20000;scrolled=true;reopened=true;reset=sushi:false,minimum:5000,maximum:20000/.test(snapshot.text), reason: "The public filter update, retained panel state, and reset state are not all visibly confirmed." }),
+      completion: () => ({ complete: false, reason: "No guarded action should run." }),
     });
-    assert.equal(result.status, "COMPLETED", JSON.stringify(result));
-    assert.equal(step, 8);
+    assert.equal(result.status, "REQUESTED_HUMAN_HELP", JSON.stringify(result));
+    assert.equal(step, 1);
   } finally { await executor.close(); }
 });
 
@@ -1591,87 +1725,9 @@ test("Web refresh replaces commercial terms and cites the displayed fact source"
   } finally { await browser.close(); }
 });
 
-// Sanitized structural fixture derived from the 2026-09-16 live Budget observation.
-// Uses the source contract, registry, executor and real Chromium; no live network.
-test("TableCheck Budget contract permits its slider and query Update, not consent", async () => {
-  const { permitsTableCheckQueryControl } = await import("../../integrations/tablecheck/tablecheck-public-query.js");
-  const searchUrl = "https://www.tablecheck.com/en/japan/search";
-  const runtime = localFixture({ [searchUrl]: `<title>Budget</title><div role="dialog" aria-modal="true" aria-labelledby="heading">
-    <h2 id="heading">Budget</h2><form class="Form_f1pf9bb6" onsubmit="event.preventDefault();history.replaceState({},'', '?budget_dinner_avg_min=1000');document.title='Applied';">
-    <div role="slider" tabindex="0" class="rc-slider-handle rc-slider-handle-1" aria-valuemin="0" aria-valuemax="15" aria-valuenow="0" style="width:20px;height:20px" onkeydown="this.setAttribute('aria-valuenow','1');document.querySelector('output').textContent='¥1,000';"></div>
-    <div role="slider" class="rc-slider-handle rc-slider-handle-2" aria-valuemin="0" aria-valuemax="15" aria-valuenow="15" style="width:20px;height:20px"></div>
-    <output>¥0</output><label><input type="checkbox">利用規約に同意する</label><button type="submit">Update</button></form></div>` });
-  let step = 0;
-  const executor = new BrowserTaskExecutor(runtime, { modelDecision: { async decide(input) {
-    if (++step === 1) return { type: "ADJUST_RANGE", targetRef: input.observation.targets.find(t => t.kind === "RANGE" && t.value === "0")!.ref, direction: "INCREASE", reason: "Public budget query" };
-    return { type: "CLICK", targetRef: input.observation.targets.find(t => t.label === "Update")!.ref, reason: "Apply budget query" };
-  } } });
-  const signal = new AbortController().signal;
-  const session = await executor.acquire(signal, "TABLECHECK", "DISCOVERY");
-  try {
-    await executor.navigate({ session, signal, source: "TABLECHECK", stage: "DISCOVERY", allowedOrigins: ["https://www.tablecheck.com"], url: searchUrl });
-    const snapshot = await session.snapshot();
-    const consent = (await session.observeControls!()).find(c => c.kind === "CHECKBOX")!;
-    assert.equal(permitsTableCheckQueryControl({ control: consent, snapshot, action: "SET_CHECKED" }), false);
-    const result = await executor.runSkill({ taskId: "budget-contract", session, signal, source: "TABLECHECK", stage: "DISCOVERY", allowedOrigins: ["https://www.tablecheck.com"], goal: { outlet: { name: "fixture" }, hardCriteria: [] }, objective: "Read public budget query", permitQueryControl: permitsTableCheckQueryControl, completion: page => ({ complete: page.title === "Applied" && new URL(page.url).searchParams.get("budget_dinner_avg_min") === "1000", reason: "Budget not applied" }) });
-    assert.equal(result.status, "COMPLETED");
-    assert.match(result.snapshot.text, /¥1,000/);
-    assert.equal((await session.observeControls!()).find(c => c.kind === "CHECKBOX")?.checked, false);
-  } finally { await executor.close(); }
-});
-
-// Sanitized structural fixture from the observed public reservation category
-// form: the host form is POST, but the only executor action is changing an
-// observed radio and reading the resulting public slot. No submit is allowed.
-for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
-  test(`${runtimeKind} confirms one permitted TableCheck service category and its bound result without submitting`, async () => {
-    const { permitsTableCheckAvailabilityServiceCategory } = await import("../../integrations/tablecheck/tablecheck-public-query.js");
-    const categoryUrl = "https://www.tablecheck.com/en/fixture/reserve/landing";
-    const runtime = localFixture({ [categoryUrl]: `<title>Service category</title>
-      <form id="reservation-form" class="simple_form form-horizontal reserveform" method="post"></form>
-        <style>input[type=radio]{position:absolute;width:1px;height:1px;clip:rect(0 0 0 0)}</style>
-        <label><input form="reservation-form" type="radio" name="reservation[service_category]" value="sushi" aria-label="Bell Sushi">Bell Sushi</label>
-        <label><input form="reservation-form" type="radio" name="reservation[service_category]" value="bar" aria-label="The Bellwood" checked>The Bellwood</label>
-        <button form="reservation-form" type="submit" onclick="document.title='SUBMITTED'">Reserve</button>
-      <output id="inventory"><a href="/en/fixture/reserve/landing?start_date=2026-10-07&amp;num_people=2&amp;start_time=19:00&amp;service_category=bar">19:00</a></output>
-      <script>document.documentElement.dataset.changes='0'; document.querySelectorAll('input[type=radio]').forEach(input=>input.onchange=()=>{
-        if(!input.checked)return; document.documentElement.dataset.changes=String(Number(document.documentElement.dataset.changes)+1); document.getElementById('inventory').innerHTML=input.value==='sushi'
-          ? '<a href="/en/fixture/reserve/landing?start_date=2026-10-07&amp;num_people=2&amp;start_time=19:00&amp;service_category=sushi">19:00</a>'
-          : '<a href="/en/fixture/reserve/landing?start_date=2026-10-07&amp;num_people=2&amp;start_time=19:00&amp;service_category=bar">19:00</a>';
-      });</script>` }, runtimeKind);
-    let decisions = 0;
-    const executor = new BrowserTaskExecutor(runtime, { modelDecision: { async decide(input) {
-      const sushi = input.observation.targets.find(target => target.kind === "RADIO" && target.label === "Bell Sushi");
-      assert.ok(sushi, "the public category radio is observed as a radio, not as a generic input");
-      assert.equal(sushi.checked, false);
-      decisions += 1;
-      return { type: "SET_CHECKED", targetRef: sushi.ref, checked: true, reason: "Read the observed public category's availability." };
-    } } });
-    const signal = new AbortController().signal;
-    const session = await executor.acquire(signal, "TABLECHECK", "AVAILABILITY");
-    try {
-      await executor.navigate({ session, signal, source: "TABLECHECK", stage: "AVAILABILITY", allowedOrigins: ["https://www.tablecheck.com"], url: categoryUrl });
-      const before = await session.snapshot();
-      const beforeControls = await session.observeControls!();
-      const sushi = beforeControls.find(control => control.kind === "RADIO" && control.label === "Bell Sushi")!;
-      const bar = beforeControls.find(control => control.kind === "RADIO" && control.label === "The Bellwood")!;
-      assert.equal(permitsTableCheckAvailabilityServiceCategory({ control: sushi, snapshot: before, action: "SET_CHECKED" }), true);
-      assert.equal(permitsTableCheckAvailabilityServiceCategory({ control: { ...sushi, structure: { ...sushi.structure!, name: "account[service_category]" } }, snapshot: before, action: "SET_CHECKED" }), false);
-      assert.equal(permitsTableCheckAvailabilityServiceCategory({ control: bar, snapshot: { ...before, url: "https://www.tablecheck.com/en/account/edit" }, action: "SET_CHECKED" }), false);
-      await session.setChecked!(bar.id, true);
-      assert.match((await session.snapshot()).html, /data-changes="0"/, "an already selected native radio remains idempotent");
-      const result = await executor.runSkill({ taskId: "service-category", session, signal, source: "TABLECHECK", stage: "AVAILABILITY", allowedOrigins: ["https://www.tablecheck.com"],
-        goal: { outlet: { name: "Fixture" }, date: "2026-10-07", partySize: 2, timeWindow: { earliest: "19:00", latest: "19:00" }, hardCriteria: ["omakase"] },
-        objective: "Read public service-category availability only.", permitQueryControl: permitsTableCheckAvailabilityServiceCategory,
-        completion: (page, controls) => ({ complete: /service_category=sushi/.test(page.html) && controls.filter(control => control.kind === "RADIO" && control.checked).length === 1 && controls.some(control => control.kind === "RADIO" && control.label === "Bell Sushi" && control.checked), reason: "The requested category and its new public result are not both observed." }),
-      });
-      assert.equal(result.status, "COMPLETED", JSON.stringify(result));
-      assert.equal(decisions, 1);
-      assert.match(result.snapshot.html, /service_category=sushi/);
-      assert.notEqual(result.snapshot.title, "SUBMITTED");
-    } finally { await executor.close(); }
-  });
-}
+// Source-specific form-contract checks were retired with the site UI permission functions.
+// Generic guarded actions are covered through the shared Executor contract and the
+// isolated Guard receiver; this local fixture deliberately remains unguarded.
 
 // Live failure: paragraph dates were absent; numeric guest buttons were mistaken for days.
 // Exercise source hints -> production Executor -> both Playwright sessions; inventory is NOT implied.

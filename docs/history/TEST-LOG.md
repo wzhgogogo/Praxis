@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.156
+- Document revision: 4.157
 - Last updated: 2026-10-07
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,17 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-07-PLAYBOOK-PHASE1
+
+- Scope: Core permission, feasible interaction and sanitized Record→Replay; restaurant six-dimension Evaluator **NOT_APPLICABLE** to this infrastructure slice. [Root acceptance](../../.eval-artifacts/h001-h005-playbook-20261007/root.phase1.acceptance.json).
+- History: Live4b6e0d3f omitted initial calendar; prior Generic controls missed booking/calendar and nested mutations. Existing Guard/Executor/Adapter/Harness regressions strengthened; no new platform. Synthetic counterexamples are not original action replay.
+- Offline gates: final default **697/697**, typecheck/architecture/build PASS; host Chromium **73/73** reused after the final classifier-only change, covered independently by the receiver below. Worker command results are in the task transcript.
+- Controlled actual Chromium, zero external/model: 14 receiver controls **149ms**; public GET form completes with one result arrival **417ms**; guarded Escape completes and unguarded Escape never executes **462ms**, each within15s.
+- Controlled recording/replay: hidden-token controls preserve public content; HTTP503, hidden CSS and external script preserve the same failure/state with **zero new receiver arrivals**, each within15s. These are controlled captures, not a real-source failure corpus.
+- Live Read-only denominator **2 attempts / 1 FAIL / 1 PASS**: first Generic calendar probe31,003ms false-blocked; final **9,537ms** admits and observes initial response with its exact reviewed rule removed. Both preflights pass; zero model generation/paid Google; no explicit10808.
+- Same calendar problem closed in repair round3; [original plan](../../.eval-artifacts/h001-h005-playbook-20261007/root.phase1.plan.json) and [stop-rule clarification](../../.eval-artifacts/h001-h005-playbook-20261007/root.phase1.calendar-slice.plan.json) remain intact.
+- Acceptance: **Phase1 PASS**. Source response is not current request/stock/Offer evidence; full H001 remains FAIL. Record wire is a sanitized projection, unsupported query/body/media are NOT_REPLAYABLE; Cloudflare Replay unsupported and remote Live unverified. Next Phase2.
 
 ## TEST-2026-10-07-PLAYBOOK-PHASE0
 
