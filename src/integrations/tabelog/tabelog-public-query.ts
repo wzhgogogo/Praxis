@@ -31,6 +31,16 @@ export const tabelogPublicReadNetworkPolicy: BrowserReadNetworkPolicy = {
   ],
   dynamicReads: [
     {
+      // Public directory documents use `sw` as the observed search
+      // expression.  This Pack-owned grammar lets Recorder preserve a
+      // current query URL without admitting arbitrary document fields.
+      origin: "https://tabelog.com",
+      pathnamePrefix: "/en/tokyo/",
+      resourceTypes: ["document"],
+      methods: ["GET"],
+      queryKeyRules: { required: [], allowed: ["sw"] },
+    },
+    {
       // Captured on a public detail page before the calendar controls hydrate.
       // This only admits the source's bootstrap read; it establishes no slot.
       origin: "https://tabelog.com",

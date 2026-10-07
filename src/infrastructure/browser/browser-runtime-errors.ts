@@ -1,5 +1,7 @@
 export type BrowserRuntimeFailureCode =
   | "BROWSER_TIMEOUT"
+  /** Operations reached their bounded count before an elapsed deadline. */
+  | "BROWSER_OPERATION_BUDGET_EXCEEDED"
   | "BROWSER_RUNTIME_FAILED"
   | "BROWSER_STALE_TARGET"
   /** The runtime could not start; this is distinct from a provider-local page operation failure. */

@@ -210,7 +210,7 @@ export class LocalPlaywrightChromium implements BrowserRuntime {
     });
   }
 
-  async openSession(input: { signal: AbortSignal; networkPolicy?: BrowserReadNetworkPolicy; recordResponse?: (response: { url: string; method: string; status: number; contentType: string; body: Uint8Array }) => Promise<void> | void; replayHarPath?: string }): Promise<BrowserSession> {
+  async openSession(input: { signal: AbortSignal; networkPolicy?: BrowserReadNetworkPolicy; recordResponse?: (response: { url: string; method: string; status: number; contentType: string; body: Uint8Array; redirectLocation?: string }) => Promise<void> | void; replayHarPath?: string }): Promise<BrowserSession> {
     if (input.signal.aborted) throw new BrowserRuntimeError("BROWSER_ABORTED", "Local browser session creation was aborted");
     let browser: Browser | undefined;
     let context: BrowserContext | undefined;

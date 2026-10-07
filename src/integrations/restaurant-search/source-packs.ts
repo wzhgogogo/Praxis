@@ -37,6 +37,13 @@ export interface SourcePackListingOutlet {
   phone?: string;
 }
 export interface SourcePackListing { outlets: SourcePackListingOutlet[]; nextPage?: string; }
+export interface SourcePackQuery {
+  url: string;
+  retrievalExpression: string;
+  mode?: "TEXT" | "NEARBY";
+  /** Whether this Pack's initial URL is already a source-observed area entrance. */
+  areaEntrance: "SOURCE_OBSERVED" | "OBSERVE_SOURCE_REGION";
+}
 /**
  * Browser execution metadata belongs with a source pack.  The shared
  * discovery executor uses only these opaque capabilities; it never selects a
@@ -44,7 +51,7 @@ export interface SourcePackListing { outlets: SourcePackListingOutlet[]; nextPag
  */
 export interface BrowserDiscoveryPackCapability {
   flow: "DIRECTORY" | "VENUE_SEARCH";
-  provider: Extract<RestaurantReadEvidenceProvider, "TABELOG" | "TABLECHECK">;
+  provider: Exclude<RestaurantReadEvidenceProvider, "MODEL_JUDGMENT">;
   listingPageChunkCap: number;
   countRawLinks(snapshot: BrowserSnapshot): number;
   acceptsDetailUrl(url: string): boolean;
@@ -63,6 +70,12 @@ export interface BrowserDiscoveryPackCapability {
     retrievalExpression(url: string): string | undefined;
     withoutRetrievalExpression(url: string): string;
     isExplicitEmpty(page: BrowserSnapshot): boolean;
+    /** A source may canonicalize an observed regional listing to its regional homepage. */
+    isSameObservedRegionHomepage?(observedListingUrl: string, currentUrl: string): boolean;
+    /** A Pack may explicitly treat that same observed homepage as a usable current listing. */
+    isObservedRegionHomepageListing?(page: BrowserSnapshot, observedListingUrl: string): boolean;
+    /** A regional homepage is not a result list: only its own observed list link may restore listing work. */
+    observedListingFromRegionHomepage?(page: BrowserSnapshot, observedListingUrl: string): string | undefined;
   };
 }
 export interface DiscoverySourcePack {
@@ -89,7 +102,7 @@ export interface DiscoverySourcePack {
     ground(candidate: RestaurantCandidate, request: RestaurantAvailabilityRequest, observation: UntrustedProviderAvailabilityObservation, now: string): GroundedAvailability;
   };
   browser?: BrowserDiscoveryPackCapability;
-  buildQuery(query: DiscoveryQuery): { url: string; retrievalExpression: string; mode?: "TEXT" | "NEARBY" };
+  buildQuery(query: DiscoveryQuery): SourcePackQuery;
   parseListing(snapshot: BrowserSnapshot): SourcePackListing;
 }
 
@@ -127,6 +140,15 @@ function directoryListingRoot(value: string): string | undefined {
   } catch { return undefined; }
 }
 
+function regionalDirectoryHomepage(value: string): string | undefined {
+  try {
+    const url = new URL(value);
+    const marker = "/rstLst/";
+    const index = url.pathname.indexOf(marker);
+    return url.origin === "https://tabelog.com" && index >= 0 ? `${url.origin}${url.pathname.slice(0, index + 1)}` : undefined;
+  } catch { return undefined; }
+}
+
 function directoryListingLinks(page: BrowserSnapshot): Array<{ url: string; label: string; attributes: string; category: boolean }> {
   const root = directoryListingRoot(page.url);
   return [...page.html.matchAll(/<a\b([^>]*\bhref=["']([^"']+)["'][^>]*)>([\s\S]*?)<\/a>/gi)].flatMap((match) => {
@@ -146,31 +168,59 @@ function observedDirectoryRegion(page: BrowserSnapshot, label: string): string |
     const text = (match[2] ?? "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
     try {
       const url = new URL((match[1] ?? "").replaceAll("&amp;", "&"), page.url);
-      return url.origin === "https://tabelog.com" && url.pathname.includes("/rstLst/") ? [{ url: url.toString(), text: compactDirectoryText(text) }] : [];
+      const listingRoot = directoryListingRoot(url.toString());
+      const homepage = listingRoot ? regionalDirectoryHomepage(url.toString()) : undefined;
+      // A directory label must name its own non-national listing entrance.
+      // Do not use a mention of an area within an arbitrary national/category
+      // anchor as permission to reset the current source region.
+      return url.origin === "https://tabelog.com" && listingRoot && homepage
+        && homepage !== "https://tabelog.com/en/" && homepage !== "https://tabelog.com/en/tokyo/"
+        ? [{ url: url.toString(), text: compactDirectoryText(text) }] : [];
     } catch { return []; }
   });
-  return (links.find((link) => link.text === target) ?? links.find((link) => link.text.includes(target)))?.url;
+  return links.find((link) => link.text === target)?.url;
 }
 
 /** Tabelog's observed region root stays pack data, never a shared-core route. */
-const tabelogRegions = [
-  // Observed in the frozen Shibuya source trace.  Other localities must be
-  // refined through a source-observed region entrance rather than borrowing
-  // this one merely because it is the nearest pack data row.
-  { label: "shibuya", url: "https://tabelog.com/en/tokyo/A1303/A130301/rstLst/" },
-] as const;
+type TabelogObservedRegion = {
+  labels: readonly string[];
+  url: string;
+  /** A typed geographic anchor can select a source partition without changing the user location. */
+  anchor?: { latitude: number; longitude: number; maximumDistanceMeters: number };
+};
 
-function nearestTabelogRegion(query: DiscoveryQuery): string {
-  // A coordinate-to-region mapping must be observed for that exact locality.
-  // The current frozen source trace validates only the Shibuya subregion; the
-  // generic directory remains the neutral public entry until this request's
-  // own observed region link establishes a narrower route.
+const tabelogRegions: readonly TabelogObservedRegion[] = [
+  // Source-observed regional entrances. `labels` are independently grounded
+  // civic representations, never a fuzzy page-text match or nearest-region
+  // heuristic. Exact candidate radius grounding remains downstream.
+  { labels: ["shibuya"], url: "https://tabelog.com/en/tokyo/A1303/A130301/rstLst/" },
+  // Renewal round one observed this public Shinjuku City entrance and Google
+  // supplied the matching LOCALITY/POLITICAL civic representation for
+  // Shinjuku. It does not establish any station or establishment mapping.
+  { labels: ["shinjuku", "shinjuku city"], url: "https://tabelog.com/en/tokyo/C13104/rstLst/" },
+  // C0 observed this Ginza listing entrance. The renewed one-request Google
+  // read located the Higashi-ginza station anchor in a typed Ginza
+  // sublocality. This only selects an upstream source partition for the same
+  // frozen anchor (or the evaluation point within 100m); it neither aliases a
+  // station to a civic place nor expands the downstream candidate radius.
+  { labels: [], url: "https://tabelog.com/en/tokyo/A1301/A130101/rstLst/", anchor: { latitude: 35.6697003, longitude: 139.7671399, maximumDistanceMeters: 100 } },
+];
+
+function distanceMeters(first: { latitude: number; longitude: number }, second: { latitude: number; longitude: number }): number {
+  return 111_320 * Math.hypot(first.latitude - second.latitude, (first.longitude - second.longitude) * Math.cos(((first.latitude + second.latitude) / 2) * Math.PI / 180));
+}
+
+function tabelogRegion(query: DiscoveryQuery): string | undefined {
   const label = query.location.label.toLocaleLowerCase("en-US");
-  const exact = (query.location.areaMatchBasis === "TASK_LOCATION_RADIUS" || query.location.areaMatchBasis === "NAMED_PLACE_RADIUS")
-    ? tabelogRegions.find((region) => region.label === label)
+  const labelRegion = (query.location.areaMatchBasis === "TASK_LOCATION_RADIUS" || query.location.areaMatchBasis === "NAMED_PLACE_RADIUS")
+    ? tabelogRegions.find((region) => region.labels.includes(label))
     : undefined;
-  if (exact) return exact.url;
-  return "https://tabelog.com/en/tokyo/rstLst/";
+  if (labelRegion) return labelRegion.url;
+  // Pack-owned typed anchor relations are deliberately narrow. They map the
+  // observed anchor to a source recall partition only; no local radius-filter
+  // result becomes evidence that the source query covered the whole circle.
+  return tabelogRegions.find((region) => region.anchor
+    && distanceMeters(query.location, region.anchor) <= region.anchor.maximumDistanceMeters)?.url;
 }
 
 function tabelogListing(snapshot: BrowserSnapshot): SourcePackListing {
@@ -259,9 +309,41 @@ export const tabelogDiscoveryPack: DiscoverySourcePack = {
       retrievalExpression(value) { try { return new URL(value).searchParams.get("sw") ?? undefined; } catch { return undefined; } },
       withoutRetrievalExpression(value) { const url = new URL(value); url.searchParams.delete("sw"); return url.toString(); },
       isExplicitEmpty: (page) => /\b(?:no|0)\s+(?:restaurants?|results?)\s+(?:found|match(?:es)?)/i.test(page.text),
+      isSameObservedRegionHomepage(observedListingUrl, currentUrl) {
+        const expected = regionalDirectoryHomepage(observedListingUrl);
+        try { const current = new URL(currentUrl); return expected === `${current.origin}${current.pathname}`; } catch { return false; }
+      },
+      isObservedRegionHomepageListing(page, observedListingUrl) {
+        return this.isSameObservedRegionHomepage?.(observedListingUrl, page.url) === true
+          && tabelogListing(page).outlets.length > 0;
+      },
+      observedListingFromRegionHomepage(page, observedListingUrl) {
+        const expectedHomepage = regionalDirectoryHomepage(observedListingUrl);
+        const expectedListingRoot = directoryListingRoot(observedListingUrl);
+        if (!expectedHomepage || !expectedListingRoot) return undefined;
+        return [...page.html.matchAll(/<a\b[^>]*href=["']([^"']+)["'][^>]*>/gi)].flatMap((match) => {
+          try {
+            const url = new URL((match[1] ?? "").replaceAll("&amp;", "&"), page.url);
+            // A homepage may expose subarea/category links before its own
+            // unfiltered directory. Only the exact originally observed
+            // listing root restores this query; a different prefix would
+            // silently change the current region or retrieval scope.
+            return url.origin === "https://tabelog.com" && `${url.origin}${url.pathname}`.startsWith(expectedHomepage)
+              && url.pathname === expectedListingRoot && !url.search && !url.hash
+              ? [url.toString()] : [];
+          } catch { return []; }
+        })[0];
+      },
     },
   },
-  buildQuery(query) { return { url: nearestTabelogRegion(query), retrievalExpression: query.keyword ?? "" }; },
+  buildQuery(query) {
+    const observedRegion = tabelogRegion(query);
+    return {
+      url: observedRegion ?? "https://tabelog.com/en/tokyo/rstLst/",
+      retrievalExpression: query.keyword ?? "",
+      areaEntrance: observedRegion ? "SOURCE_OBSERVED" : "OBSERVE_SOURCE_REGION",
+    };
+  },
   parseListing: tabelogListing,
 };
 
@@ -313,7 +395,7 @@ export const tableCheckDiscoveryPack: DiscoverySourcePack = {
     // becomes a public text-search expression.
     const expression = query.keyword ?? "";
     if (expression) url.searchParams.set("search_text", expression);
-    return { url: url.toString(), retrievalExpression: expression };
+    return { url: url.toString(), retrievalExpression: expression, areaEntrance: "SOURCE_OBSERVED" };
   },
   parseListing: tableCheckListing,
 };
@@ -329,8 +411,8 @@ export const googlePlacesDiscoveryPack: DiscoverySourcePack = {
     // Nearby Search is the documented structured path when there is no
     // positive HARD retrieval term.  It preserves the actual circle/radius
     // rather than turning date, party, or an exclusion into prose.
-    if (!query.keyword) return { url: "google-places:nearby-search", retrievalExpression: query.category, mode: "NEARBY" };
-    return { url: "google-places:text-search", retrievalExpression: `${query.keyword} ${query.location.label}`, mode: "TEXT" };
+    if (!query.keyword) return { url: "google-places:nearby-search", retrievalExpression: query.category, mode: "NEARBY", areaEntrance: "SOURCE_OBSERVED" };
+    return { url: "google-places:text-search", retrievalExpression: `${query.keyword} ${query.location.label}`, mode: "TEXT", areaEntrance: "SOURCE_OBSERVED" };
   },
   parseListing() { return { outlets: [] }; },
 };

@@ -103,6 +103,51 @@ export function hasTabelogSelectedQuery(snapshot: BrowserSnapshot, date: string,
     && hiddenPeople.length > 0 && hiddenPeople.every(value => value === partySize);
 }
 
+/**
+ * The member collection replaces the visible guest buttons after a selected
+ * date changes. Its loader is a source-owned pending signal, distinct from a
+ * generic page loading message or an old calendar result.
+ */
+export function tabelogSelectedQueryIsPending(snapshot: BrowserSnapshot, date: string): boolean {
+  if (!tabelogQueryControlHints(snapshot).length || !/^\d{4}-\d{2}-\d{2}$/.test(date)) return false;
+  const withoutNonDom = snapshot.html
+    .replace(/<!--[\s\S]*?-->/g, "")
+    .replace(/<script\b[^>]*>[\s\S]*?<\/script\s*>/gi, "")
+    .replace(/<style\b[^>]*>[\s\S]*?<\/style\s*>/gi, "");
+  const stack: Array<{ name: string; hidden: boolean; calendarId?: number }> = [];
+  const selectedCalendars = new Set<number>();
+  const loadingCalendars = new Set<number>();
+  let nextCalendarId = 0;
+  const hiddenTag = (tag: string) => hasClass(tag, "is-hidden") || /\shidden(?:\s|>|=)/i.test(tag)
+    || attribute(tag, "aria-hidden") === "true"
+    || /(?:^|;)\s*(?:display\s*:\s*none|visibility\s*:\s*hidden)\s*(?:;|$)/i.test(attribute(tag, "style") ?? "");
+  for (const match of withoutNonDom.matchAll(/<\/?[a-z][^>]*>/gi)) {
+    const tag = match[0];
+    const closing = tag.match(/^<\/([a-z][\w-]*)/i);
+    if (closing) {
+      const index = stack.map(item => item.name).lastIndexOf(closing[1]!.toLowerCase());
+      if (index >= 0) stack.length = index;
+      continue;
+    }
+    const name = tag.match(/^<([a-z][\w-]*)/i)?.[1]?.toLowerCase();
+    if (!name) continue;
+    const parent = stack.at(-1);
+    const hidden = hiddenTag(tag) || stack.some(item => item.hidden);
+    const calendarId = hasClass(tag, "p-booking-calendar") ? ++nextCalendarId : parent?.calendarId;
+    if (!hidden && calendarId !== undefined) {
+      if (name === "p" && hasClass(tag, "js-calendar-day-target") && hasClass(tag, "is-current")
+        && `${attribute(tag, "data-year")}-${String(attribute(tag, "data-month") ?? "").padStart(2, "0")}-${String(attribute(tag, "data-day") ?? "").padStart(2, "0")}` === date) {
+        selectedCalendars.add(calendarId);
+      }
+      if (hasClass(tag, "js-select-loader")) loadingCalendars.add(calendarId);
+    }
+    if (!new Set(["input", "br", "hr", "img", "meta", "link"]).has(name) && !tag.endsWith("/>")) {
+      stack.push({ name, hidden, ...(calendarId === undefined ? {} : { calendarId }) });
+    }
+  }
+  return [...selectedCalendars].some(calendarId => loadingCalendars.has(calendarId));
+}
+
 
 export const TABELOG_VACANCY_RESPONSES = [{ origin: "https://tabelog.com", pathname: "/en/booking/calendar/find_vacancy/" }] as const;
 

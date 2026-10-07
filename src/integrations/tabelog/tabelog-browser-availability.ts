@@ -26,7 +26,7 @@ import type {
   TabelogUserInterventionHandler,
 } from "./tabelog-contracts.js";
 
-import { hasTabelogSelectedQuery, tabelogQueryControlHints, tabelogQueryControlsRestricted, tabelogRequestedDateState, TABELOG_QUERY_SETTLED_SELECTOR, TABELOG_VACANCY_RESPONSES } from "./tabelog-query-controls.js";
+import { hasTabelogSelectedQuery, tabelogQueryControlHints, tabelogQueryControlsRestricted, tabelogRequestedDateState, tabelogSelectedQueryIsPending, TABELOG_QUERY_SETTLED_SELECTOR, TABELOG_VACANCY_RESPONSES } from "./tabelog-query-controls.js";
 
 
 /** A Google-listed Tabelog URL may be read, but still needs page identity proof. */
@@ -570,9 +570,21 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
           objective: "Apply the exact requested date and guest count to the public calendar. Date and Guests labels describe source-observed controls. Use CLICK_AUTHORITATIVE for those fields. Do not open Reserve or any booking form. Selected time options alone are not verified availability.",
           completion: current => ({ complete: hasTabelogSelectedQuery(current, request.date, request.partySize) && parseTabelogAvailabilitySlots(current, request).hasExplicitSlotUi, reason: "Both the requested calendar date and guest count must be selected; model completion alone does not confirm them." }),
         });
-        if (!hasTabelogSelectedQuery(query.snapshot, request.date, request.partySize)) return this.ground(candidate, request, {
-          candidate, observedAt: this.now(), ...activeSource(), sourceUrl: query.snapshot.url,
-          entityMatch: activeIdentity, pageState: "EXTRACTION_FAILED", failureCode: "REQUEST_SELECTION_UNCONFIRMED", listedCourseDetails: parseTabelogListedCourses(query.snapshot), excerpt: pageExcerpt(query.snapshot),
+        let querySnapshot = query.snapshot;
+        // A current requested date plus this calendar's visible member loader
+        // means the source has started, but not yet completed, the guest query.
+        // Wait once through the existing bounded selector; every final binding
+        // check remains unchanged below.
+        if (tabelogSelectedQueryIsPending(querySnapshot, request.date)) {
+          await this.executor.waitFor({
+            source: "TABELOG", stage: "AVAILABILITY", session, signal,
+            selector: TABELOG_QUERY_SETTLED_SELECTOR, timeoutMs: 10_000,
+          });
+          querySnapshot = await this.executor.snapshot({ source: "TABELOG", stage: "AVAILABILITY", signal, session });
+        }
+        if (!hasTabelogSelectedQuery(querySnapshot, request.date, request.partySize)) return this.ground(candidate, request, {
+          candidate, observedAt: this.now(), ...activeSource(), sourceUrl: querySnapshot.url,
+          entityMatch: activeIdentity, pageState: "EXTRACTION_FAILED", failureCode: "REQUEST_SELECTION_UNCONFIRMED", listedCourseDetails: parseTabelogListedCourses(querySnapshot), excerpt: pageExcerpt(querySnapshot),
         }, browser);
       }
       page = await this.executor.snapshot({ source: "TABELOG", stage: "AVAILABILITY", signal, session });

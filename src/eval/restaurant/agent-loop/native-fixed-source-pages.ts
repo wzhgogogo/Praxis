@@ -9,7 +9,7 @@ export const date = "2026-08-19";
 export type SourceScenario = "TABELOG_DELIVERS" | "TABLECHECK_RECOVERS" | "BOTH_BOUNDED_EMPTY" | "OUTSIDE_RADIUS" | "TABELOG_ONE_DETAIL_FAILS" | "EARLY_END_ATTEMPT"
   | "TABELOG_CONTINUES" | "TABLECHECK_CONTINUES" | "NATIVE_PARTIAL" | "NATIVE_TRUE_NO_RESULT" | "TABLECHECK_UNPARSED" | "TABLECHECK_EARLY_ACTIONS" | "TABELOG_BATCH_CAP" | "DYNAMIC_TABELOG_DELIVERS" | "TABLECHECK_DISCOVERY_RECOVERS" | "TABELOG_REGION_PRESERVES_QUERY" | "TABELOG_PENDING_RESTORED"
   | "TABELOG_NONEMPTY_REGION_RECOVERS" | "TABELOG_CURRENT_BATCH_DELIVERS" | "TABLECHECK_CURRENT_BATCH_DELIVERS" | "TABELOG_REOPEN_RETAINS" | "TABLECHECK_QUERY_READY" | "TABELOG_STALE_REJECTS" | "TABLECHECK_STALE_REJECTS" | "NATIVE_FACT_FOLLOWUP_DELIVERS" | "TABLECHECK_SCOPED_MENU_DELIVERS"
-  | "TABELOG_RETRIEVAL_CATEGORY_DELIVERS" | "TABELOG_RESULT_PAGES_CONTINUE";
+  | "TABELOG_RETRIEVAL_CATEGORY_DELIVERS" | "TABELOG_RESULT_PAGES_CONTINUE" | "TABELOG_REGION_REDIRECTS_ROOT" | "TABELOG_CATEGORY_REDIRECTS_ROOT" | "TABELOG_NEUTRAL_REGION_RECOVERS" | "TABELOG_REGION_HOMEPAGE_RECOVERS" | "TABELOG_REGION_HOMEPAGE_DRIFTS_NATIONAL";
 
 function page(url: string, html: string, text: string, title = "Restaurant"): BrowserSnapshot { return { url, html, text, title }; }
 
@@ -175,6 +175,35 @@ export function sourcePages(
           category ? `<a href="${categoryUrl("sushi/")}">omakase ×</a>` : `<a href="${categoryUrl("sushi/?sw=omakase")}">Sushi</a>`,
         ].join(""), `${category ? "Sushi" : "Restaurants"} in Tokyo\n1～${ids.length}／${ids.length}`, "Tabelog search");
       }
+      if (scenario === "TABELOG_CATEGORY_REDIRECTS_ROOT") {
+        if (parsed.pathname.includes("/sushi/")) {
+          return page("https://tabelog.com/en/rstLst/", '<a class="list-rst__rst-name-target" href="/tokyo/A1304/A130401/199/">National result</a>', "Restaurants across Japan", "Tabelog search");
+        }
+        return page(url,
+          '<a class="list-rst__rst-name-target" href="/tokyo/A1304/A130401/100/">Native Tabelog 100</a><a href="/en/tokyo/A1303/A130301/rstLst/sushi/?sw=omakase">Sushi</a>',
+          "Restaurants in Shibuya\n1～1／1", "Tabelog search");
+      }
+      if (scenario === "TABELOG_NEUTRAL_REGION_RECOVERS") {
+        if (listingRoot === "/en/tokyo/rstLst/") {
+          return page(url,
+            '<a href="/en/tokyo/A1302/A130201/rstLst/">Higashi-Ginza</a>',
+            "Tokyo directory. Choose Higashi-Ginza to refine this public list.", "Tabelog search");
+        }
+        return page(url,
+          '<a class="list-rst__rst-name-target" href="/tokyo/A1304/A130401/100/" data-address="Shibuya 100, Tokyo">Native Tabelog 100</a>',
+          "Restaurants in Higashi-Ginza\n1～1／1", "Tabelog search");
+      }
+      if (scenario === "TABELOG_REGION_HOMEPAGE_RECOVERS") {
+        if (listingRoot === "/en/tokyo/A1303/A130301/rstLst/" && tabelogListingVisits === 1) {
+          return page("https://tabelog.com/en/tokyo/A1303/A130301/", '<a href="/en/tokyo/A1303/A130301/rstLst/sushi/">Subarea sushi</a><a href="/en/tokyo/A1303/A130301/rstLst/">Restaurants in Shibuya</a>', "Shibuya regional directory", "Tabelog search");
+        }
+        return page(url, '<a class="list-rst__rst-name-target" href="/tokyo/A1304/A130401/100/" data-address="Shibuya 100, Tokyo">Native Tabelog 100</a>', "Restaurants in Shibuya\n1～1／1", "Tabelog search");
+      }
+      if (scenario === "TABELOG_REGION_HOMEPAGE_DRIFTS_NATIONAL" && listingRoot === "/en/tokyo/A1303/A130301/rstLst/") {
+        // Both pages lack a listing root only if the production check compares
+        // `undefined`. The national home must not inherit Shibuya scope.
+        return page("https://tabelog.com/en/", '<a class="list-rst__rst-name-target" href="/tokyo/A1304/A130401/199/">National result</a>', "National directory", "Tabelog search");
+      }
       if (scenario === "TABELOG_RESULT_PAGES_CONTINUE") {
         const category = parsed.pathname.includes("/sushi/");
         const keyword = parsed.searchParams.has("sw");
@@ -199,6 +228,12 @@ export function sourcePages(
       }
       if (scenario === "TABELOG_NONEMPTY_REGION_RECOVERS" && tabelogListingVisits === 1 && listingRoot === "/en/tokyo/rstLst/") {
         return page(url, '<a class="list-rst__rst-name-target" href="/tokyo/A1304/A130401/199/">Outside current area</a><a href="/en/tokyo/A1303/A130301/rstLst/">Shibuya</a>', "Restaurants in Tokyo. Choose Shibuya to refine this search.", "Tabelog search");
+      }
+      if (scenario === "TABELOG_REGION_REDIRECTS_ROOT" && listingRoot === "/en/tokyo/A1303/A130301/rstLst/") {
+        // The request began at the observed Shibuya root, but the source
+        // returned a broad listing. Candidate radius filtering cannot repair
+        // a missing current source-area result binding.
+        return page("https://tabelog.com/en/rstLst/", '<a class="list-rst__rst-name-target" href="/tokyo/A1304/A130401/199/">National result</a>', "Restaurants across Japan", "Tabelog search");
       }
       const count = scenario === "TABELOG_PENDING_RESTORED" && tabelogListingVisits > 1 ? 0 : tabelogCount;
       const links = Array.from({ length: count }, (_, index) => {
@@ -238,7 +273,7 @@ export function sourcePages(
         `<h1>${name}</h1><p class="rstinfo-table__address">${address}</p>`,
         unknown ? "" : `<select name="party"><option value="2" selected>2</option></select><select name="date"><option value="${date}" selected>${date}</option></select>`,
         available ? '<button class="slot is-available" data-time="19:00">19:00</button>' : unknown ? "" : '<button class="slot is-unavailable" data-time="19:00">19:00</button>',
-      ].join(""), `${name}\n${address}\n${unknown ? "" : "予約\n"}${["TABELOG_RETRIEVAL_CATEGORY_DELIVERS", "TABELOG_RESULT_PAGES_CONTINUE", "TABELOG_DELIVERS", "TABELOG_ONE_DETAIL_FAILS", "TABELOG_REOPEN_RETAINS", "TABELOG_CONTINUES", "TABLECHECK_CONTINUES", "TABLECHECK_EARLY_ACTIONS", "NATIVE_PARTIAL", "NATIVE_TRUE_NO_RESULT", "TABELOG_CURRENT_BATCH_DELIVERS", "TABELOG_NONEMPTY_REGION_RECOVERS"].includes(scenario) ? "Omakase course\n" : "Dinner course\n"}2 guests\n${date}\n19:00`);
+      ].join(""), `${name}\n${address}\n${unknown ? "" : "予約\n"}${["TABELOG_RETRIEVAL_CATEGORY_DELIVERS", "TABELOG_RESULT_PAGES_CONTINUE", "TABELOG_DELIVERS", "TABELOG_ONE_DETAIL_FAILS", "TABELOG_REOPEN_RETAINS", "TABELOG_CONTINUES", "TABLECHECK_CONTINUES", "TABLECHECK_EARLY_ACTIONS", "NATIVE_PARTIAL", "NATIVE_TRUE_NO_RESULT", "TABELOG_CURRENT_BATCH_DELIVERS", "TABELOG_NONEMPTY_REGION_RECOVERS", "TABELOG_NEUTRAL_REGION_RECOVERS"].includes(scenario) ? "Omakase course\n" : "Dinner course\n"}2 guests\n${date}\n19:00`);
     }
     if (scenario === "NATIVE_FACT_FOLLOWUP_DELIVERS" && parsed.pathname === "/tokyo/A1304/A130401/100/menu/") {
       return page(url, `<script type="application/ld+json">${JSON.stringify({ "@type": "Restaurant", name: "Native Tabelog 100", address: "Shibuya 100, Tokyo" })}</script><link rel="canonical" href="/tokyo/A1304/A130401/100/"><h1>Native Tabelog 100</h1><p class="rstinfo-table__address">Shibuya 100, Tokyo</p><main>Omakase course</main>`, "Native Tabelog 100\nShibuya 100, Tokyo\nOmakase course");
@@ -351,10 +386,11 @@ export function sourcePages(
  * unresolved.  It deliberately has one provider-shaped outlet and exposes no
  * real network path or booking submission.
  */
-export function dynamicTabelogSourcePages(options: { result?: "AVAILABLE" | "UNAVAILABLE" } = {}): BrowserRuntime {
+export function dynamicTabelogSourcePages(options: { result?: "AVAILABLE" | "UNAVAILABLE"; memberLoaderAfterDateMs?: number } = {}): BrowserRuntime {
   const detailUrl = "https://tabelog.com/en/tokyo/A1304/A130401/100/";
   const vacancyPath = "/en/booking/calendar/find_vacancy/";
   const result = options.result ?? "AVAILABLE";
+  const memberLoaderAfterDateMs = options.memberLoaderAfterDateMs ?? 0;
   const detailHtml = `<title>Native Dynamic Tabelog 100</title>
     <script type="application/ld+json">${JSON.stringify({ "@type": "Restaurant", name: "Native Dynamic Tabelog 100", address: "Shibuya 100, Tokyo", geo: center })}</script>
     <h1 class="rstinfo-table__name">Native Dynamic Tabelog 100</h1><p class="rstinfo-table__address">Shibuya 100, Tokyo</p>
@@ -363,16 +399,19 @@ export function dynamicTabelogSourcePages(options: { result?: "AVAILABLE" | "UNA
       <td><p class="js-calendar-day-target is-selectable is-current" data-year="2026" data-month="8" data-day="18" onclick="pickDate(this)"><span class="p-booking-calendar__day-num">18</span></p></td>
       <td><p class="js-calendar-day-target is-selectable" data-year="2026" data-month="8" data-day="19" onclick="pickDate(this)"><span class="p-booking-calendar__day-num">19</span></p></td>
     </tr></tbody></table>
-    <button type="button" class="js-people-button is-active" onclick="pickGuests(this)">1</button>
-    <button type="button" class="js-people-button" onclick="pickGuests(this)">2</button>
+    <div class="js-select-member"><button type="button" class="js-people-button is-active" onclick="pickGuests(this)">1</button>
+    <button type="button" class="js-people-button" onclick="pickGuests(this)">2</button></div>
     <input class="js-people-hidden-value" type="hidden" value="1"><div id="availability"></div></div>
     <script>
-      let selectedDate='2026-08-18'; let selectedGuests=1;
+      const fixtureResult='${result}'; let selectedDate='2026-08-18'; let selectedGuests=1;
+      function guestButton(value,active){const button=document.createElement('button');button.type='button';button.classList.add('js-'+'people-button');if(active)button.classList.add('is-'+'active');button.textContent=String(value);button.onclick=()=>pickGuests(button);return button}
+      function renderGuests(active){document.querySelector('.js-select-member').replaceChildren(guestButton(1,active===1),guestButton(2,active===2))}
       function refresh(){ if(selectedDate!=='2026-08-19'||selectedGuests!==2)return;
         fetch('${vacancyPath}?date='+selectedDate+'&member='+selectedGuests).then(r=>r.json()).then(()=>{
-          document.querySelector('#availability').innerHTML='${result === "AVAILABLE" ? '<button class="slot is-available" data-time="19:00">19:00</button>' : '<button class="slot is-unavailable" data-time="19:00">19:00</button>'}';
+          const button=document.createElement('button');button.classList.add('slot',fixtureResult==='AVAILABLE'?'is-'+'available':'is-'+'unavailable');button.dataset.time='19:00';button.textContent='19:00';document.querySelector('#availability').replaceChildren(button);
         }); }
-      function pickDate(node){document.querySelector('.js-calendar-day-target.is-current').classList.remove('is-current');node.classList.add('is-current');selectedDate='2026-08-'+node.dataset.day;refresh();}
+      function pickDate(node){document.querySelector('.js-calendar-day-target.is-current').classList.remove('is-current');node.classList.add('is-current');selectedDate='2026-08-'+node.dataset.day;
+        if(${memberLoaderAfterDateMs}>0&&selectedDate==='2026-08-19'){selectedGuests=2;document.querySelector('.js-people-hidden-value').value='2';const member=document.querySelector('.js-select-member');const loader=document.createElement('i');loader.className='js-'+'select-loader';member.replaceChildren(loader);setTimeout(()=>{renderGuests(2);refresh()},${memberLoaderAfterDateMs});return}refresh();}
       function pickGuests(node){document.querySelector('.js-people-button.is-active').classList.remove('is-active');node.classList.add('is-active');selectedGuests=Number(node.textContent);document.querySelector('.js-people-hidden-value').value=String(selectedGuests);refresh();}
     </script>`;
   const pages: Record<string, { contentType: string; body: string }> = {
@@ -386,7 +425,7 @@ export function dynamicTabelogSourcePages(options: { result?: "AVAILABLE" | "UNA
         const context = await createContext(contextOptions);
         await context.route("**/*", async (route) => {
           const request = new URL(route.request().url());
-          if (request.origin === "https://tabelog.com" && request.pathname === "/en/tokyo/rstLst/") {
+          if (request.origin === "https://tabelog.com" && request.pathname === "/en/tokyo/A1303/A130301/rstLst/") {
             // The native search owns the URL shape; the fixture only accepts the
             // frozen HARD criterion and deliberately tolerates parameter order.
             if (request.searchParams.get("sw") !== "omakase") { await route.abort(); return; }

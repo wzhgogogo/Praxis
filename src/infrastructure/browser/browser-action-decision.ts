@@ -1,3 +1,5 @@
+import { createHash } from "node:crypto";
+
 import type { ModelGateway, ModelResponse } from "../../core/model/contracts.js";
 import { ModelGatewayError } from "../../core/model/errors.js";
 
@@ -36,6 +38,21 @@ export type BrowserReadAction =
   | { type: "WAIT"; reason: string }
   | { type: "COMPLETE"; reason: string }
   | { type: "REQUEST_HUMAN_HELP"; reason: string };
+
+/**
+ * Stable replay binding for a browser-derived target. The hash is computed
+ * from the live semantic fields but never exposes those fields in a trace.
+ */
+export function browserReadActionTargetReplayFingerprint(target: Pick<BrowserReadActionTarget, "kind" | "role" | "label" | "href" | "type" | "formMethod">): string {
+  return createHash("sha256").update(JSON.stringify({
+    kind: target.kind,
+    role: target.role,
+    label: target.label,
+    href: target.href ?? null,
+    type: target.type ?? null,
+    formMethod: target.formMethod ?? null,
+  })).digest("hex");
+}
 
 export interface BrowserReadActionTarget {
   ref: string;
@@ -203,7 +220,12 @@ function targetRequired(value: Record<string, unknown>, observedTargetRefs: Read
   return undefined;
 }
 
-function decodeAction(value: unknown, observedTargetRefs: ReadonlySet<string>): BrowserReadAction {
+/**
+ * Decode one already-sanitized browser wire through the same strict action
+ * contract used for live model output. Offline replay uses this only after
+ * its original safe wire and current target rebind have both been frozen.
+ */
+export function decodeBrowserReadActionWire(value: unknown, observedTargetRefs: ReadonlySet<string>): BrowserReadAction {
   if (!isRecord(value)) return rejectWire(value, observedTargetRefs, "$.wire", value, "REQUIRED_OBJECT");
   if (!nonBlank(value.action)) return rejectWire(value, observedTargetRefs, "$.action", value.action, "REQUIRED_STRING");
   if (typeof value.targetRef !== "string") return rejectWire(value, observedTargetRefs, "$.targetRef", value.targetRef, "REQUIRED_STRING");
@@ -338,7 +360,7 @@ export class ModelBrowserReadActionDecision implements BrowserReadActionDecision
     try {
       const wire = JSON.parse(response.outputText);
       this.lastWireRecord = safeActionWireRecord(wire, observedTargetRefs);
-      return decodeAction(wire, observedTargetRefs);
+      return decodeBrowserReadActionWire(wire, observedTargetRefs);
     } catch (error) {
       if (error instanceof BrowserActionWireError) throw new BrowserReadDecisionError("INVALID_MODEL_OUTPUT", "Invalid browser action wire", error.diagnostic);
       this.lastWireRecord = safeActionWireRecord(undefined, observedTargetRefs);

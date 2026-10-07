@@ -13,6 +13,31 @@ export const tableCheckPublicReadNetworkPolicy: BrowserReadNetworkPolicy = {
     ...["https://image.cdn.tablecheck.com", "https://1.image.cdn.tablecheck.com", "https://2.image.cdn.tablecheck.com", "https://3.image.cdn.tablecheck.com", "https://4.image.cdn.tablecheck.com"].map(origin => ({ origin, pathnamePrefix: "/unsafe/", resourceTypes: ["image"] as const })),
   ],
   dynamicReads: [{
+    // The Pack's deterministic discovery entry is a public GET document.
+    // Retain its source-owned query grammar for guarded navigation and for
+    // faithful recording; values remain outside policy and diagnostics.
+    origin: "https://www.tablecheck.com",
+    pathname: "/en/japan/search",
+    resourceTypes: ["document"],
+    queryKeyRules: {
+      required: ["service_mode", "sort_by", "venue_type", "geo_latitude", "geo_longitude", "geo_distance", "auto_geolocate"],
+      allowed: ["search_text"],
+    },
+  }, {
+    // The source's public carousel continuation calls this exact GET after
+    // discovery. Its reviewed client builds `limit` and `sort_by`, adding
+    // repeated public shop IDs only for a sufficiently long source list.
+    // This admits a response transport only; it does not assert any outlet,
+    // inventory, or qualification result.
+    origin: "https://production.tablecheck.com",
+    pathname: "/v2/hub/public_shop_lists",
+    resourceTypes: ["fetch"],
+    queryKeyRules: {
+      required: ["limit", "sort_by"],
+      allowed: ["shop_ids[]"],
+      repeatable: ["shop_ids[]"],
+    },
+  }, {
     origin: "https://production.tablecheck.com",
     pathname: "/v2/hub/availability_calendar_v2",
     resourceTypes: ["fetch"], methods: ["POST"],

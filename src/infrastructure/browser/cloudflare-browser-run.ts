@@ -81,7 +81,7 @@ class CloudflareBrowserSession implements BrowserSession {
     return created;
   }
 
-  static async create(browser: Browser, engine: BrowserEngine, networkPolicy?: BrowserReadNetworkPolicy, recordResponse?: (response: { url: string; method: string; status: number; contentType: string; body: Uint8Array }) => Promise<void> | void): Promise<CloudflareBrowserSession> {
+  static async create(browser: Browser, engine: BrowserEngine, networkPolicy?: BrowserReadNetworkPolicy, recordResponse?: (response: { url: string; method: string; status: number; contentType: string; body: Uint8Array; redirectLocation?: string }) => Promise<void> | void): Promise<CloudflareBrowserSession> {
     let context: BrowserContext | undefined;
     try {
       context = networkPolicy ? await browser.newContext({ serviceWorkers: "block" }) : browser.contexts()[0];
@@ -247,7 +247,7 @@ export class CloudflareBrowserRun implements BrowserRuntime {
     });
   }
 
-  async openSession(input: { signal: AbortSignal; engineMode?: BrowserEngineMode; networkPolicy?: BrowserReadNetworkPolicy; recordResponse?: (response: { url: string; method: string; status: number; contentType: string; body: Uint8Array }) => Promise<void> | void; replayHarPath?: string }): Promise<BrowserSession> {
+  async openSession(input: { signal: AbortSignal; engineMode?: BrowserEngineMode; networkPolicy?: BrowserReadNetworkPolicy; recordResponse?: (response: { url: string; method: string; status: number; contentType: string; body: Uint8Array; redirectLocation?: string }) => Promise<void> | void; replayHarPath?: string }): Promise<BrowserSession> {
     if (input.signal.aborted) throw new BrowserRuntimeError("BROWSER_ABORTED", "Browser session creation was aborted");
     // routeFromHAR is a local Playwright capability.  A remote CDP session
     // cannot promise that a missing replay entry stays off the remote network,

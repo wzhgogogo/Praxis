@@ -9,7 +9,7 @@ export interface BrowserReadNetworkRequestRule {
   /** Static assets may use a reviewed prefix; dynamic reads require pathname. */
   pathname?: string;
   pathnamePrefix?: string;
-  resourceTypes: readonly ("script" | "stylesheet" | "font" | "image" | "media" | "xhr" | "fetch")[];
+  resourceTypes: readonly ("document" | "script" | "stylesheet" | "font" | "image" | "media" | "xhr" | "fetch")[];
   methods?: readonly ("GET" | "HEAD" | "POST")[];
   /** Omitted means no query fields; values never enter the policy or diagnostics. */
   queryKeys?: readonly string[];
@@ -182,7 +182,7 @@ export interface BrowserRuntime {
     engineMode?: BrowserEngineMode;
     networkPolicy?: BrowserReadNetworkPolicy;
     /** Receives an in-memory admitted public response for an optional sanitized Record artifact. */
-    recordResponse?: (response: { url: string; method: string; status: number; contentType: string; body: Uint8Array }) => Promise<void> | void;
+    recordResponse?: (response: { url: string; method: string; status: number; contentType: string; body: Uint8Array; redirectLocation?: string }) => Promise<void> | void;
     /** A caller-provided, already sanitized HAR. Local replay never falls back to live network. */
     replayHarPath?: string;
   }): Promise<BrowserSession>;

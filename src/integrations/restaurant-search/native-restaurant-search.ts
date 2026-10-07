@@ -284,6 +284,10 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
     let sourceTimeLimitReached = sourceElapsedRemaining === 0;
     let sourceExhausted: boolean | "UNKNOWN" = "UNKNOWN";
     let listingPagesRead = 0;
+    // A category expansion is source continuation, not a substitute for the
+    // first batch of observed details. It becomes available only after that
+    // batch has been investigated and the same source is resumed.
+    let categoryContinuationAvailable = false;
     const recordListing = (page: BrowserSnapshot) => {
       if (!visitedListingUrls.includes(page.url)) visitedListingUrls.push(page.url);
       const next = pack.parseListing(page).nextPage;
@@ -348,20 +352,75 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
         // a positive HARD term is safe to project into a public text field.
         const keyword = query.keyword ?? "";
         const continuingListing = nextListing;
-        const url = new URL(continuingListing?.sourceUrl ?? pack.buildQuery(query).url);
+        const sourceQuery = pack.buildQuery(query);
+        const url = new URL(continuingListing?.sourceUrl ?? sourceQuery.url);
         if (continuingListing && (!pack.browser!.acceptsDetailUrl(url.href) || directory.listingRoot(url.href) !== directory.listingRoot(continuingListing.observedOn))) {
           throw Object.assign(new Error("Invalid observed listing continuation"), { code: "NATIVE_LISTING_CONTINUATION_INVALID" });
         }
         const listingUrl = continuingListing ? url.toString() : keyword ? directory.withRetrievalExpression(url.toString(), keyword) : url.toString();
+        const initialListingRoot = directory.listingRoot(listingUrl);
+        // The initial source directory can be only a neutral Tokyo entrance.
+        // Once the source exposes and accepts a locality link, that observed
+        // listing root becomes the current-query boundary.  Keeping the
+        // original Tokyo root here would classify the newly grounded regional
+        // list as stale and discard it before detail investigation.
+        const listingEntranceKey = (value: string): string | undefined => {
+          const root = directory.listingRoot(value);
+          return root ? `listing:${root}` : undefined;
+        };
+        const homepageEntranceKey = (value: string, observedListingUrl: string): string | undefined => {
+          if (!directory.isSameObservedRegionHomepage?.(observedListingUrl, value)) return undefined;
+          try {
+            const url = new URL(value);
+            return `homepage:${url.origin}${url.pathname}`;
+          } catch { return undefined; }
+        };
+        let currentAreaListingUrl = listingUrl;
+        let currentAreaEntranceKey = listingEntranceKey(listingUrl);
+        let currentAreaEntranceObserved = currentAreaEntranceKey !== undefined
+          && (continuingListing !== undefined || sourceQuery.areaEntrance === "SOURCE_OBSERVED");
         const activeExpression = continuingListing ? directory.retrievalExpression(listingUrl) ?? "" : keyword;
         await navigate(listingUrl, 35_000);
         page = await snapshot();
         listingPagesRead += 1;
         recordListing(page);
+        // A source can canonicalize an observed regional listing to its own
+        // regional homepage. The homepage is not a result list, but its
+        // source-observed listing control may restore work inside the exact
+        // region. A national/root redirect remains ungrounded.
+        let currentHomepageListing = false;
+        if (currentAreaEntranceObserved && directory.listingRoot(page.url) !== initialListingRoot
+          && directory.isSameObservedRegionHomepage?.(listingUrl, page.url)) {
+          if (directory.isObservedRegionHomepageListing?.(page, listingUrl)) {
+            // The Pack has verified that this exact canonical regional home
+            // exposes current regional cards. It is a valid list boundary,
+            // unlike a national directory or merely a region-navigation page.
+            currentAreaEntranceKey = homepageEntranceKey(page.url, currentAreaListingUrl);
+            currentHomepageListing = currentAreaEntranceKey !== undefined;
+          } else {
+            const observedListing = directory.observedListingFromRegionHomepage?.(page, listingUrl);
+            if (observedListing) {
+              const restored = directory.retrievalExpression(observedListing) || !keyword
+                ? observedListing : directory.withRetrievalExpression(observedListing, keyword);
+              await navigate(restored, 25_000);
+              page = await snapshot();
+              listingPagesRead += 1;
+              recordListing(page);
+            }
+          }
+        }
+        if (currentAreaEntranceObserved && !currentHomepageListing && listingEntranceKey(page.url) !== currentAreaEntranceKey) currentAreaEntranceObserved = false;
         raw = rawSourceLinks(page, pack);
         if (pack.browser!.hasChallenge(page)) throw Object.assign(new Error("Discovery source challenge"), { code: "DISCOVERY_SOURCE_BOT_CHALLENGE" });
-        const label = areaLabel(query.location.label);
+        // A resolved location label can be a provider display name or an
+        // evaluation-anchor annotation. Only the authoritative named area
+        // query is a valid source-directory label. Coordinate-only nearby
+        // reads need their own Pack-grounded regional entrance instead of
+        // treating presentation text as a source query.
+        const label = query.location.areaMatchBasis === "NAMED_PLACE_RADIUS"
+          ? areaLabel(request.intent.area.query) : undefined;
         for (let level = 0; !continuingListing && level < NATIVE_LISTING_PAGE_CHUNK_CAP.DIRECTORY - 1; level += 1) {
+          if (!label) break;
           const region = directory.observedRegion(page, label);
           if (!region) break;
           // Area navigation is source-owned, but an observed region link may
@@ -378,12 +437,31 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
           page = await snapshot();
           listingPagesRead += 1;
           recordListing(page);
+          // The location-bearing link was observed on the preceding source
+          // page.  It establishes this directory entrance only if navigation
+          // remains inside that exact source listing root; a redirect to a
+          // national/root list is not a current-area result.
+          currentAreaListingUrl = regionWithExpression;
+          currentAreaEntranceKey = listingEntranceKey(regionWithExpression);
+          currentAreaEntranceObserved = currentAreaEntranceKey !== undefined
+            && listingEntranceKey(page.url) === currentAreaEntranceKey;
           raw = rawSourceLinks(page, pack);
           if (pack.browser!.hasChallenge(page)) throw Object.assign(new Error("Discovery source challenge"), { code: "DISCOVERY_SOURCE_BOT_CHALLENGE" });
           if (normalized(page.url).includes(normalized(label)) && pack.parseListing(page).outlets.length) break;
         }
-        const listingComplete = (current: BrowserSnapshot, controls: readonly BrowserPageControl[] = []) => !discoveryQueryNeedsCurrentQuery(current, activeExpression, controls)
-          && (pack.parseListing(current).outlets.length > 0 || directory.isExplicitEmpty(current));
+        if (!currentAreaEntranceObserved) {
+          throw Object.assign(new Error("Current public directory area entrance was not observed"), { code: "DISCOVERY_SOURCE_LOCATION_UNGROUNDED" });
+        }
+        const listingComplete = (current: BrowserSnapshot, controls: readonly BrowserPageControl[] = []) => {
+          const currentKey = listingEntranceKey(current.url)
+            ?? homepageEntranceKey(current.url, currentAreaListingUrl);
+          // A missing listing root has no scope meaning. It must never compare
+          // equal merely because both pages produced `undefined`.
+          if (!currentAreaEntranceKey || currentKey !== currentAreaEntranceKey) currentAreaEntranceObserved = false;
+          return currentAreaEntranceObserved
+            && !discoveryQueryNeedsCurrentQuery(current, activeExpression, controls)
+            && (pack.parseListing(current).outlets.length > 0 || directory.isExplicitEmpty(current));
+        };
         observedOutlets = pack.parseListing(page).outlets;
         // An explicit empty result is current only after the same observed
         // input/busy check.  Otherwise an old empty or card list can silently
@@ -416,7 +494,19 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
         // When that list is sparse, use one observed category route to widen
         // discovery. The model selects the category; no cuisine mapping is coded.
         const categoryEntrance = directory.links(page).some((link) => link.category || /js-leftnavi-genre-anchor/.test(link.attributes));
-        if (!continuingListing && keyword && observedOutlets.length < NATIVE_DETAIL_BATCH_CAP && !nextListing && categoryEntrance && this.discoveryDecision) {
+        // Preserve the first source-observed candidate batch for detail
+        // investigation. A category widening is a continuation only after
+        // every current outlet was already inspected; it must not consume the
+        // initial task's model and operation budget ahead of usable details.
+        const currentBatchAlreadyInspected = observedOutlets.length === 0
+          || observedOutlets.every((outlet) => priorInspected.has(outlet.sourceEntityId));
+        const categoryExpansionEligible = !continuingListing && Boolean(keyword) && !nextListing
+          && categoryEntrance && this.discoveryDecision !== undefined;
+        // A nonempty first batch must be inspected before expansion. Keep the
+        // source cursor open so the next production read can safely apply the
+        // observed category after those entries have actually been attempted.
+        categoryContinuationAvailable = Boolean(categoryExpansionEligible && observedOutlets.length > 0 && !currentBatchAlreadyInspected);
+        if (categoryExpansionEligible && currentBatchAlreadyInspected) {
           const initialPage = page;
           const initialRoot = directory.listingRoot(page.url)!;
           let lastUrl = page.url;
@@ -430,7 +520,8 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
               if (current.url !== lastUrl) { listingPagesRead += 1; lastUrl = current.url; recordListing(current); }
               const currentUrl = new URL(current.url);
               const suffix = currentUrl.pathname.slice(initialRoot.length);
-              const complete = directory.listingRoot(current.url) === initialRoot && /^\D[^/]*\/$/.test(suffix)
+              if (directory.listingRoot(current.url) !== initialRoot) currentAreaEntranceObserved = false;
+              const complete = currentAreaEntranceObserved && directory.listingRoot(current.url) === initialRoot && /^\D[^/]*\/$/.test(suffix)
                 && directory.retrievalExpression(current.url) === undefined && !visibleDiscoveryQueryBusy(current) && pack.parseListing(current).outlets.length > 0;
               if (!complete && sourcePagesBefore + listingPagesRead >= NATIVE_LISTING_PAGE_CAP.DIRECTORY) {
                 throw Object.assign(new Error("Native listing page ceiling reached"), { code: "NATIVE_LISTING_PAGE_LIMIT" });
@@ -440,6 +531,9 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
           });
           queryAdjustment = adjusted.status;
           page = adjusted.status === "COMPLETED" ? adjusted.snapshot : initialPage;
+          if (!currentAreaEntranceObserved) {
+            throw Object.assign(new Error("Current public directory area entrance was lost during category retrieval"), { code: "DISCOVERY_SOURCE_LOCATION_UNGROUNDED" });
+          }
           observedOutlets = [...new Map([...observedOutlets, ...pack.parseListing(page).outlets].map((outlet) => [outlet.sourceEntityId, outlet])).values()];
           recordListing(page);
         }
@@ -653,7 +747,9 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
       sourceTimeLimitReached = sourceElapsedMs() >= NATIVE_SOURCE_ELAPSED_CAP_MS;
       // A batch selection is not consumption.  Recompute after the loop so a
       // navigation/session interruption retains all entries it never began.
-      sourceEnded = (pendingSourceEntries.length === 0 && (!nextListing || sourcePagesBefore + listingPagesRead >= NATIVE_LISTING_PAGE_CAP[source]))
+      sourceEnded = (!categoryContinuationAvailable
+          && pendingSourceEntries.length === 0
+          && (!nextListing || sourcePagesBefore + listingPagesRead >= NATIVE_LISTING_PAGE_CAP[source]))
         || sourceDetailAttemptsBefore + inspected >= NATIVE_DETAIL_SOURCE_CAP
         || sourceTimeLimitReached;
       return { candidates: [...admitted.values()].map((item) => item.candidate), evidence: [...admitted.values()].map((item) => item.evidence), candidateFailures,

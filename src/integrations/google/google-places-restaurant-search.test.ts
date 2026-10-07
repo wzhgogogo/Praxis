@@ -119,6 +119,22 @@ test("a second-page provider failure preserves accepted first-page candidates an
   });
 });
 
+test("named-location resolution returns a bounded typed public observation with its coordinate", async () => {
+  const client = new GooglePlacesClient({ apiKey: "key", fetchImplementation: async () => new Response(JSON.stringify({ places: [{
+    id: "higashi-ginza", displayName: { text: "Higashi Ginza" }, formattedAddress: "Tokyo",
+    location: { latitude: 35.6697, longitude: 139.767 }, types: ["neighborhood", "political"],
+    addressComponents: [{ longText: "Ginza", types: ["sublocality_level_1", "political"] }],
+  }] }), { status: 200 }) });
+  const result = await new GooglePlacesRestaurantSearch(client, () => "2026-10-08T00:00:00.000Z", 10, { maxRequests: 1 }).resolveNamedNearbyLocation({
+    intent: { ...fixtureIntent, area: { query: "near Higashi Ginza", radiusMeters: 1_000 } }, readRunId: "typed-public-observation",
+  }, new AbortController().signal);
+  assert.deepEqual(result.publicLocationObservation, {
+    placeId: "higashi-ginza", displayName: "Higashi Ginza", types: ["neighborhood", "political"],
+    addressComponents: [{ longText: "Ginza", types: ["sublocality_level_1", "political"] }],
+    coordinates: { latitude: 35.6697, longitude: 139.767 },
+  });
+});
+
 test("a named nearby place is resolved to observed coordinates and grounds candidate distance", async () => {
   let call = 0;
   const client = new GooglePlacesClient({
@@ -234,6 +250,36 @@ test("named-place resolution accepts a provider-typed station suffix but rejects
     addressComponents: [{ longText: "Tokyo", types: ["administrative_area_level_1"] }],
   }] }), { status: 200 }) });
   await assert.rejects(new GooglePlacesRestaurantSearch(ambiguousRegion, undefined, 10, { maxRequests: 2 }).search({ intent: { ...fixtureIntent, area: { query: "near Tokyo" } } }, new AbortController().signal), { code: "GOOGLE_LOCATION_UNRESOLVED" });
+});
+
+test("named-place resolution accepts a source-typed civic locality representation without treating stations as aliases", async () => {
+  const client = new GooglePlacesClient({ apiKey: "key", fetchImplementation: async () => new Response(JSON.stringify({ places: [{
+    id: "shinjuku-city", displayName: { text: "Shinjuku City" }, formattedAddress: "Tokyo, Japan",
+    location: { latitude: 35.6938253, longitude: 139.7033559 }, types: ["locality", "political"],
+    addressComponents: [{ longText: "Shinjuku City", shortText: "Shinjuku City", types: ["locality", "political"] }],
+  }] }), { status: 200 }) });
+  const result = await new GooglePlacesRestaurantSearch(client, undefined, 10, { maxRequests: 2 }).search({
+    intent: { ...fixtureIntent, area: { query: "near Shinjuku" } },
+  }, new AbortController().signal);
+  assert.equal(result.evidence[0]?.claims.resolvedPlaceId, "shinjuku-city");
+
+  const differentPlace = new GooglePlacesClient({ apiKey: "key", fetchImplementation: async () => new Response(JSON.stringify({ places: [{
+    id: "shinjuku-city-east", displayName: { text: "Shinjuku City East" }, formattedAddress: "Tokyo, Japan",
+    location: { latitude: 35.69, longitude: 139.7 }, types: ["locality", "political"],
+    addressComponents: [{ longText: "Shinjuku City East", shortText: "Shinjuku City East", types: ["locality"] }],
+  }] }), { status: 200 }) });
+  await assert.rejects(new GooglePlacesRestaurantSearch(differentPlace, undefined, 10, { maxRequests: 2 }).search({
+    intent: { ...fixtureIntent, area: { query: "near Shinjuku" } },
+  }, new AbortController().signal), { code: "GOOGLE_LOCATION_UNRESOLVED" });
+
+  const nonCivicPlace = new GooglePlacesClient({ apiKey: "key", fetchImplementation: async () => new Response(JSON.stringify({ places: [{
+    id: "shinjuku-city-station", displayName: { text: "Shinjuku City" }, formattedAddress: "Tokyo, Japan",
+    location: { latitude: 35.69, longitude: 139.7 }, types: ["train_station"],
+    addressComponents: [{ longText: "Shinjuku City", shortText: "Shinjuku City", types: ["locality", "political"] }],
+  }] }), { status: 200 }) });
+  await assert.rejects(new GooglePlacesRestaurantSearch(nonCivicPlace, undefined, 10, { maxRequests: 2 }).search({
+    intent: { ...fixtureIntent, area: { query: "near Shinjuku" } },
+  }, new AbortController().signal), { code: "GOOGLE_LOCATION_UNRESOLVED" });
 });
 
 test("named-place suffix matching fails closed without a corresponding provider type and independent geographic context", async () => {

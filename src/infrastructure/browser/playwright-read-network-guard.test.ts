@@ -153,13 +153,18 @@ test("read network guard admits only prepared public documents and exact source 
 
 test("read network guard re-admits a safe same-origin redirect hop and rejects unprepared or sensitive targets", async () => {
   let http: (route: any) => Promise<void> = async () => assert.fail("route handler missing");
-  const guard = new PlaywrightReadNetworkGuard({ ...policy, genericPublicRead: true });
+  const recorded: Array<{ url: string; status: number; redirectLocation?: string }> = [];
+  const guard = new PlaywrightReadNetworkGuard({ ...policy, genericPublicRead: true }, 5_000, response => {
+    recorded.push({ url: response.url, status: response.status,
+      ...(response.redirectLocation ? { redirectLocation: response.redirectLocation } : {}) });
+  });
   await guard.install({ route: async (_pattern: string, handler: typeof http) => { http = handler; }, routeWebSocket: async () => {} } as any);
 
   guard.prepareNavigation("https://public.example/guide", 700);
   const sameOrigin = fakeRoute({ url: "https://public.example/guide", type: "document", status: 301, responseHeaders: { location: "/public-index" } });
   await http(sameOrigin.route);
   assert.deepEqual(sameOrigin.calls, ["fetch:0:700", "fulfill"]);
+  assert.deepEqual(recorded, [{ url: "https://public.example/guide", status: 301, redirectLocation: "https://public.example/public-index" }]);
   const redirectedDocument = fakeRoute({ url: "https://public.example/public-index", type: "document" });
   await http(redirectedDocument.route);
   assert.deepEqual(redirectedDocument.calls, ["fetch:0:700", "fulfill"], "the re-admitted hop is still one-shot");
@@ -313,6 +318,38 @@ test("TableCheck search prerequisites admit only the observed geolocation and au
   assert.deepEqual(sourceShopSearch.calls, ["fetch:0:5000", "fulfill"], "the public non-AI search shares the reviewed grammar");
   assert.deepEqual(unreviewedSearch.calls, ["abort"]);
   assert.deepEqual(guard.snapshotDiagnostics().map(item => item.code), ["BLOCKED_FIELDS", "BLOCKED_FIELDS"]);
+});
+
+test("TableCheck public list continuation admits its observed GET grammar only", async () => {
+  let http: (route: any) => Promise<void> = async () => assert.fail("route handler missing");
+  const guard = new PlaywrightReadNetworkGuard(tableCheckPublicReadNetworkPolicy);
+  await guard.install({ route: async (_pattern: string, handler: typeof http) => { http = handler; }, routeWebSocket: async () => {} } as any);
+  const publicLists = fakeRoute({
+    url: "https://production.tablecheck.com/v2/hub/public_shop_lists?limit=8&sort_by=score&shop_ids%5B%5D=one&shop_ids%5B%5D=two&shop_ids%5B%5D=three",
+    type: "fetch",
+  });
+  await http(publicLists.route);
+  assert.deepEqual(publicLists.calls, ["fetch:0:5000", "fulfill"]);
+
+  const missingSort = fakeRoute({
+    url: "https://production.tablecheck.com/v2/hub/public_shop_lists?limit=8&shop_ids%5B%5D=one",
+    type: "fetch",
+  });
+  const repeatedLimit = fakeRoute({
+    url: "https://production.tablecheck.com/v2/hub/public_shop_lists?limit=8&limit=9&sort_by=score",
+    type: "fetch",
+  });
+  const extra = fakeRoute({
+    url: "https://production.tablecheck.com/v2/hub/public_shop_lists?limit=8&sort_by=score&follow=true",
+    type: "fetch",
+  });
+  await http(missingSort.route);
+  await http(repeatedLimit.route);
+  await http(extra.route);
+  assert.deepEqual(missingSort.calls, ["abort"]);
+  assert.deepEqual(repeatedLimit.calls, ["abort"]);
+  assert.deepEqual(extra.calls, ["abort"]);
+  assert.deepEqual(guard.snapshotDiagnostics().map(item => item.code), ["BLOCKED_FIELDS", "BLOCKED_FIELDS", "BLOCKED_FIELDS"]);
 });
 
 test("prepared documents cannot bypass credential, sensitive-path, or sensitive-query admission", () => {

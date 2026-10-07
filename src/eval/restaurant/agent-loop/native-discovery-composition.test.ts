@@ -41,13 +41,13 @@ class H001NativeModel implements ModelGateway {
   private searches = 0;
   private earlyEndAttempted = false;
   private earlyPartialAttempted = false;
-  constructor(private readonly scenario: SourceScenario, private readonly availabilityFirst = false) {}
+  constructor(private readonly scenario: SourceScenario, private readonly availabilityFirst = false, private readonly areaQuery = "Shibuya") {}
   async complete(request: ModelRequest): Promise<ModelResponse> {
     this.purposes.push(request.purpose);
     if (this.purposes.length > 50) throw new Error("H001 shared 50-call model ceiling exceeded");
     if (request.purpose === "restaurant_semantic_interpret") return reply(JSON.stringify({ schemaVersion: "3", facts: [
       { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "omakase spot", selectionScope: "OPEN_ENDED" } },
-      { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "near Shibuya" } },
+      { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: `near ${this.areaQuery}` } },
       { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: date, raw: "tonight" } },
       { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:00", raw: "7 PM" } },
       { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } },
@@ -71,7 +71,7 @@ class H001NativeModel implements ModelGateway {
         skills?: { source?: string };
       };
       this.browserDecisionInputs.push({ objective: input.objective, progress: input.progress, observation: { targets: input.observation.targets, ...(input.observation.pageActions ? { pageActions: input.observation.pageActions } : {}) }, ...(input.skills?.source ? { skillSource: input.skills.source } : {}) });
-      if (["TABELOG_RETRIEVAL_CATEGORY_DELIVERS", "TABELOG_RESULT_PAGES_CONTINUE"].includes(this.scenario) && input.objective.includes("related category")) {
+      if (["TABELOG_RETRIEVAL_CATEGORY_DELIVERS", "TABELOG_RESULT_PAGES_CONTINUE", "TABELOG_CATEGORY_REDIRECTS_ROOT"].includes(this.scenario) && input.objective.includes("related category")) {
         const link = input.observation.targets.find((target) => /^(?:Sushi|omakase ×)$/.test(target.label) && target.availableActions?.includes("OPEN_LINK"));
         if (link) return reply(JSON.stringify({ action: "OPEN_LINK", targetRef: link.ref, authoritativeField: "NONE", requestedState: "NONE", reason: "Use a related source category for discovery; retain the HARD fact requirement." }), request.purpose);
       }
@@ -148,7 +148,7 @@ class H001NativeModel implements ModelGateway {
   }
 }
 
-async function runScenario(scenario: SourceScenario, options: { availabilityFirst?: boolean; guardedDiscoverySubmit?: boolean; packs?: readonly DiscoverySourcePack[] } = {}) {
+async function runScenario(scenario: SourceScenario, options: { availabilityFirst?: boolean; guardedDiscoverySubmit?: boolean; packs?: readonly DiscoverySourcePack[]; areaQuery?: string } = {}) {
   const startedAt = Date.now();
   const frozen = (await loadFrozenLiveCases(RESTAURANT_READ_DEVELOPMENT_CASE_PATH)).find((item) => item.id === "h001")!;
   const navigations: string[] = [];
@@ -159,11 +159,12 @@ async function runScenario(scenario: SourceScenario, options: { availabilityFirs
   const google = new GooglePlacesRestaurantSearch(new GooglePlacesClient({ apiKey: "fixture-only", fetchImplementation: async (_url, init) => {
     const query = JSON.parse(String(init?.body)) as { textQuery: string };
     googleCalls.push({ query: query.textQuery });
-    return new Response(JSON.stringify({ places: [{ id: "shibuya-landmark", displayName: { text: "Shibuya" },
-      formattedAddress: "Shibuya, Tokyo", location: center, types: ["train_station"],
-      addressComponents: [{ longText: "Tokyo", types: ["locality"] }] }] }), { status: 200 });
+    const requested = options.areaQuery ?? "Shibuya";
+    return new Response(JSON.stringify({ places: [{ id: `${requested.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-landmark`, displayName: { text: requested },
+      formattedAddress: `${requested}, Tokyo`, location: center, types: ["locality", "political"],
+      addressComponents: [{ longText: requested, types: ["locality", "political"] }] }] }), { status: 200 });
   } }), () => reference.toISOString(), 10, { maxRequests: 100 });
-  const model = new H001NativeModel(scenario, options.availabilityFirst);
+  const model = new H001NativeModel(scenario, options.availabilityFirst, options.areaQuery);
   const rawBrowser = sourcePages(scenario, navigations, sessionsOpened, navigationSessionIds, closedSessionIds, {
     // This controlled source owns the same installed read boundary needed for
     // its public service-category query. Unguarded fixtures retain the narrow
@@ -558,14 +559,24 @@ test("native discovery adjusts a sparse keyword through an observed category wit
   assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES");
 });
 
+test("native discovery rejects a category result that leaves the observed regional listing root", async () => {
+  const result = await runScenario("TABELOG_CATEGORY_REDIRECTS_ROOT");
+  assert.equal(result.trajectories.some((step) => step.executionMetadata?.failureCode === "DISCOVERY_SOURCE_LOCATION_UNGROUNDED"), true);
+  assert.equal(result.navigations.some((url) => url.endsWith("/199/")), false, "a category redirect cannot retain the earlier area proof");
+  assert.equal(result.state.presentedResults, undefined);
+});
+
 test("native discovery retains category pagination including links revealed by a query action and deduplicates outlets", async () => {
   const result = await runScenario("TABELOG_RESULT_PAGES_CONTINUE");
   assert.deepEqual(result.state.presentedResults?.candidateIds, ["tabelog:tokyo/A1304/A130401/106"]);
   assert.equal(result.navigations.includes("https://tabelog.com/en/tokyo/A1303/A130301/rstLst/sushi/2/"), true);
   assert.equal(result.navigations.includes("https://tabelog.com/en/tokyo/A1303/A130301/rstLst/sushi/3/"), true);
   assert.equal(result.navigations.some((url) => url.includes("tablecheck.com")), false);
+  const firstDetail = result.navigations.findIndex((url) => url.endsWith("/100/"));
+  const category = result.navigations.findIndex((url) => url.includes("/rstLst/sushi/"));
+  assert.ok(firstDetail >= 0 && category > firstDetail, "the initial observed detail is investigated before optional category widening");
   const reads = result.trajectories.filter((step) => step.executionMetadata?.provider === "TABELOG" && step.agentAction?.type === "SEARCH_RESTAURANTS");
-  assert.deepEqual(reads.map((step) => step.executionMetadata?.nativeDiscoveryFunnel?.inspectedOutlets), [5, 1, 1]);
+  assert.deepEqual(reads.map((step) => step.executionMetadata?.nativeDiscoveryFunnel?.inspectedOutlets), [1, 4, 1, 1]);
   assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES");
 });
 
@@ -575,6 +586,41 @@ test("H001's named Shibuya entry avoids an unrelated root-list candidate before 
   assert.equal(result.navigations.some((url) => url.includes("/en/tokyo/A1303/A130301/rstLst/")), true);
   assert.equal(result.navigations.some((url) => url.endsWith("/199/")), false, "the observed source refinement precedes unsuitable detail investigation");
   assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(result.evaluation.findings));
+});
+
+test("native discovery refuses a broad listing when an observed regional entrance redirects away", async () => {
+  const result = await runScenario("TABELOG_REGION_REDIRECTS_ROOT");
+  const failed = result.trajectories.find((step) => step.executionMetadata?.failureCode === "DISCOVERY_SOURCE_LOCATION_UNGROUNDED");
+  assert.ok(failed, "a redirected national list is not a current Shibuya discovery result");
+  assert.equal(result.navigations.some((url) => url.endsWith("/199/")), false, "no broad-list candidate may reach detail investigation");
+  assert.equal(result.state.presentedResults, undefined);
+});
+
+test("native discovery reaches a neutral locality only through its observed source-region entrance", async () => {
+  const result = await runScenario("TABELOG_NEUTRAL_REGION_RECOVERS", { areaQuery: "Higashi-Ginza" });
+  assert.deepEqual(result.state.candidates.map((candidate) => candidate.restaurant.id), ["tabelog:tokyo/A1304/A130401/100"], JSON.stringify({
+    phase: result.state.phase, failure: result.state.failure, navigations: result.navigations, candidates: result.state.candidates,
+    facts: result.state.factChecks, availability: result.state.availabilityChecks, trajectories: result.trajectories,
+  }));
+  assert.equal(result.navigations.some((url) => url === "https://tabelog.com/en/tokyo/A1302/A130201/rstLst/?sw=omakase"), true,
+    "the shared executor follows the public source control instead of borrowing Shibuya's Pack mapping");
+  assert.equal(result.state.availabilityChecks["tabelog:tokyo/A1304/A130401/100"]?.status, "UNAVAILABLE",
+    "the controlled discovery regression does not manufacture a slot; existing delivery controls cover PRESENT_RESULTS separately");
+});
+
+test("native discovery restores an observed regional listing after same-region homepage canonicalization", async () => {
+  const result = await runScenario("TABELOG_REGION_HOMEPAGE_RECOVERS");
+  assert.equal(result.navigations[0], "https://tabelog.com/en/tokyo/A1303/A130301/rstLst/?sw=omakase");
+  assert.equal(result.navigations[1], "https://tabelog.com/en/tokyo/A1303/A130301/rstLst/?sw=omakase",
+    "the Pack-owned homepage link restores the same observed listing rather than treating a homepage as a result list");
+  assert.deepEqual(result.state.candidates.map((candidate) => candidate.restaurant.id), ["tabelog:tokyo/A1304/A130401/100"]);
+});
+
+test("native discovery does not treat an unscoped national homepage as the observed regional homepage", async () => {
+  const result = await runScenario("TABELOG_REGION_HOMEPAGE_DRIFTS_NATIONAL");
+  assert.equal(result.trajectories.some((step) => step.executionMetadata?.failureCode === "DISCOVERY_SOURCE_LOCATION_UNGROUNDED"), true);
+  assert.equal(result.navigations.some((url) => url.endsWith("/199/")), false, "a page with no regional boundary cannot inherit the earlier source area");
+  assert.equal(result.state.presentedResults, undefined);
 });
 
 test("H001 presents one investigated Tabelog current-batch result without exhausting the source or starting TableCheck", async () => {

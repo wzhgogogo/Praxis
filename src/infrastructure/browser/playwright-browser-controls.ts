@@ -181,7 +181,7 @@ export class PlaywrightControlRegistry {
     disabled?: boolean; selected?: boolean; expanded?: string | null; checked?: boolean | string;
     dataDate?: string | null; dataValue?: string | null; dateParts?: Array<string | null>; min?: string | null; max?: string | null;
     rangeValue?: string | null; valueText?: string | null; selectedOptions?: Array<[string, string, boolean, boolean]>; listboxId?: string; controls?: string | null;
-    formMethodOverride?: string | null; formMethod?: string; formClass?: string; dialogLabel?: string; sliderCount?: number;
+    formOwner?: string; formMethodOverride?: string | null; formMethod?: string; formClass?: string; dialogLabel?: string; sliderCount?: number;
     radioGroupLabel?: string; radioGroupKey?: string; scrollable?: boolean; scrollTop?: number; blockedByActiveLayer?: boolean;
   } } {
     const parsed = JSON.parse(snapshot) as { signature: object; projection: {
@@ -190,7 +190,7 @@ export class PlaywrightControlRegistry {
       disabled?: boolean; selected?: boolean; expanded?: string | null; checked?: boolean | string;
       dataDate?: string | null; dataValue?: string | null; dateParts?: Array<string | null>; min?: string | null; max?: string | null;
       rangeValue?: string | null; valueText?: string | null; selectedOptions?: Array<[string, string, boolean, boolean]>; listboxId?: string; controls?: string | null;
-      formMethodOverride?: string | null; formMethod?: string; formClass?: string; dialogLabel?: string; sliderCount?: number;
+      formOwner?: string; formMethodOverride?: string | null; formMethod?: string; formClass?: string; dialogLabel?: string; sliderCount?: number;
       radioGroupLabel?: string; radioGroupKey?: string; scrollable?: boolean; scrollTop?: number; blockedByActiveLayer?: boolean;
     } };
     return { signature: JSON.stringify(parsed.signature), projection: parsed.projection };
@@ -260,12 +260,19 @@ export class PlaywrightControlRegistry {
         }
         const dataDate = projection.dataDate;
         const dataValue = projection.dataValue;
+        // Keep a genuinely observed empty native value.  Other controls do
+        // not acquire a synthetic empty value merely because they have no
+        // value-bearing DOM property.
         let value = group.kind === "RANGE"
-          ? projection.rangeValue ?? inputValue
+          ? projection.rangeValue ?? projection.value
           : group.kind === "INPUT" || group.kind === "SELECT" || comboboxInput !== undefined
-          ? inputValue || selectedDisplay || ""
-            : dataDate ?? dataValue ?? projection.value ?? "";
-        const method = (projection.formMethodOverride ?? projection.formMethod ?? "").toUpperCase();
+          ? selectedDisplay || projection.value
+            : dataDate ?? dataValue ?? projection.value;
+        // HTML's default method is GET, but only for a control whose actual
+        // form owner was observed. A bare submit-looking button remains
+        // structurally unclassified and cannot gain public-query permission.
+        const method = projection.formMethodOverride?.trim().toUpperCase()
+          || (projection.formOwner ? projection.formMethod?.trim().toUpperCase() || "GET" : projection.formMethod?.trim().toUpperCase() || "");
         const controlledListboxId = role === "combobox" ? projection.controls ?? null : null;
         const type = projection.type ?? null;
         const expanded = projection.expanded ?? null;
@@ -321,7 +328,11 @@ export class PlaywrightControlRegistry {
           kind: group.kind,
           role,
           label,
-          ...(value ? { value } : {}),
+          // An observed native input's empty property is meaningful current
+          // state. Do not collapse it into an absent property: discovery
+          // needs to distinguish an empty public search from an unobserved
+          // field without inventing a value for controls that have none.
+          ...(value !== undefined ? { value } : {}),
           ...(resolvedHref ? { href: resolvedHref } : {}),
           ...(method ? { formMethod: method === "GET" ? "GET" : "POST" } : {}),
           ...(type ? { type } : {}),

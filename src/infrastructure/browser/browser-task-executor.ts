@@ -5,6 +5,7 @@ import {
   type BrowserReadActionDecisionPort,
   type BrowserReadGoal,
   type BrowserReadActionTarget,
+  browserReadActionTargetReplayFingerprint,
   type BrowserActionWireRejection,
   BrowserReadDecisionError,
 } from "./browser-action-decision.js";
@@ -538,11 +539,11 @@ export class BrowserTaskExecutor {
           },
         }));
         const wire = this.options.modelDecision!.takeLastWireRecord?.();
-        if (wire) this.record({ source: input.source, stage: input.stage, event: "MODEL_WIRE", url: snapshot.url, detail: `MODEL_WIRE:${JSON.stringify(wire)}` });
+        if (wire) this.record({ source: input.source, stage: input.stage, event: "MODEL_WIRE", url: snapshot.url, detail: this.replayWireDetail(wire, actionTargets) });
         this.record({ source: input.source, stage: input.stage, event: "MODEL_DECISION_FINISHED", detail: "MODEL_DECISION" });
       } catch (error) {
         const wire = this.options.modelDecision!.takeLastWireRecord?.();
-        if (wire) this.record({ source: input.source, stage: input.stage, event: "MODEL_WIRE", url: snapshot.url, detail: `MODEL_WIRE:${JSON.stringify(wire)}` });
+        if (wire) this.record({ source: input.source, stage: input.stage, event: "MODEL_WIRE", url: snapshot.url, detail: this.replayWireDetail(wire, actionTargets) });
         this.recordLifecycleFailure(input.source, input.stage, "MODEL_DECISION_FAILED", error);
         const rejectionDetail = error instanceof BrowserReadDecisionError && error.code === "INVALID_MODEL_OUTPUT"
           ? safeWireRejectionDetail(error.wireRejection) : safeErrorDetail(error);
@@ -655,17 +656,23 @@ export class BrowserTaskExecutor {
       }
       const priorSnapshot = snapshot;
       const waitedForAsyncChange = action.type === "OPEN_LINK" || action.type === "CLICK" || action.type === "CLICK_AUTHORITATIVE" || action.type === "FILL_AUTHORITATIVE" || action.type === "CHOOSE_OPTION";
+      const publicQuerySubmit = action.type === "CLICK" && !!target && this.guardedPublicQuerySubmit(input, target);
       snapshot = await this.snapshot(input);
       let postActionObservation = await this.observe(input, snapshot);
       let observedControlChange = controlsChanged(observation.controls, postActionObservation.controls);
       let changed = !sameObservation(priorSnapshot, snapshot) || observedControlChange;
       // A synchronous visible change needs no second browser wait. An unchanged
       // page or unconfirmed option still gets a bounded wait and fresh readback.
-      if (waitedForAsyncChange && (!changed
+      // A guarded public GET submit is different: a cosmetic form mutation is
+      // not a query result, so wait once unless the current completion already
+      // has an independently bound result.
+      const immediateCompletion = input.completion(snapshot, postActionObservation.controls);
+      let publicQueryWaitChanged = false;
+      if (waitedForAsyncChange && (publicQuerySubmit && !immediateCompletion.complete || !changed
         || pendingOption && !this.optionSelectionObserved(pendingOption, postActionObservation.controls)
         || pendingRadio && !this.radioSelectionObserved(pendingRadio, postActionObservation.controls))) {
         const waitingFrom = snapshot;
-        await this.waitForChange(input, waitingFrom);
+        publicQueryWaitChanged = await this.waitForChange(input, waitingFrom);
         snapshot = await this.snapshot(input);
         postActionObservation = await this.observe(input, snapshot);
         observedControlChange = controlsChanged(observation.controls, postActionObservation.controls);
@@ -688,6 +695,13 @@ export class BrowserTaskExecutor {
       });
       completion = input.completion(snapshot, postActionObservation.controls);
       if (completion.complete && optionConfirmed) return { status: "COMPLETED", snapshot, controls: postActionObservation.controls };
+      if (publicQuerySubmit && !publicQueryWaitChanged) {
+        pendingControlKeys.add(target!.stableKey);
+        progress = "The public query submit changed only local form state and no result arrived within its bounded wait. Do not repeat that submit; wait for a result or choose another observed safe action.";
+        this.record({ source: input.source, stage: input.stage, event: "METHOD_INCOMPLETE", url: snapshot.url, detail: "PUBLIC_QUERY_RESULT_NOT_READY" });
+        postAction = true;
+        continue;
+      }
       if (!optionConfirmed) {
         pendingControlKeys.add((pendingOption ?? pendingRadio)!.stableKey);
         progress = "The selected query option was not confirmed by a fresh control observation. Wait for a visible selected value or use another observed safe action; do not repeat the same option blindly.";
@@ -852,6 +866,16 @@ export class BrowserTaskExecutor {
         ...(target.href ? { href: this.diagnosticUrl(target.href) } : {}),
       })),
     };
+  }
+
+  /**
+   * A Replay artifact cannot trust an opaque ref alone: observation indices can
+   * be reused after a DOM reorder. Store only a hash of the current semantic
+   * target; the trace already retains the safe observed control projection.
+   */
+  private replayWireDetail(wire: import("./browser-action-decision.js").BrowserActionWireRecord, targets: readonly BrowserReadActionTarget[]): string {
+    const target = targets.find(candidate => candidate.ref === wire.targetRef);
+    return `MODEL_WIRE:${JSON.stringify({ ...wire, ...(target ? { targetFingerprint: browserReadActionTargetReplayFingerprint(target) } : {}) })}`;
   }
 
   private diagnosticUrl(value: string): string {
@@ -1036,6 +1060,14 @@ export class BrowserTaskExecutor {
     return !/\b(?:login|sign\s*in|register|reserve|book|checkout|pay|purchase|cancel|delete|confirm)\b/i.test(target.label);
   }
 
+  /** A Guarded GET form submit starts a public query, not an immediate result. */
+  private guardedPublicQuerySubmit(input: BrowserSkillReadInput, target: ObservedTarget): boolean {
+    return this.guardedReadControl(input, target)
+      && target.kind === "BUTTON"
+      && target.type?.toLowerCase() === "submit"
+      && target.formMethod === "GET";
+  }
+
   private async operation<Value>(
     input: Pick<BrowserSkillReadInput, "source" | "stage" | "signal">,
     label: string,
@@ -1044,7 +1076,7 @@ export class BrowserTaskExecutor {
     this.assertActive(input.signal);
     if (this.operationCount >= (this.options.maxOperationsPerCandidate ?? 24)) {
       this.recordBudgetExhausted(input, "OPERATION_BUDGET_EXHAUSTED");
-      throw new BrowserRuntimeError("BROWSER_TIMEOUT", "Browser operation budget exceeded", undefined, "CANDIDATE");
+      throw new BrowserRuntimeError("BROWSER_OPERATION_BUDGET_EXCEEDED", "Browser operation budget exceeded", undefined, "CANDIDATE");
     }
     this.ensureLifecycle(input.source, input.stage);
     this.operationCount += 1;
@@ -1195,6 +1227,7 @@ export class BrowserTaskExecutor {
     if (error instanceof BrowserRuntimeError) {
       if (error.code === "BROWSER_ABORTED") return "PARENT_ABORTED";
       if (error.code === "BROWSER_TIMEOUT") return "DEADLINE_EXCEEDED";
+      if (error.code === "BROWSER_OPERATION_BUDGET_EXCEEDED") return "OPERATION_BUDGET_EXHAUSTED";
       if (error.code === "BROWSER_RUNTIME_UNAVAILABLE") return "RUNTIME_UNAVAILABLE";
       if (error.code === "BROWSER_RUNTIME_FAILED") return "RUNTIME_FAILURE";
       if (error.code === "BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED") return "MODEL_BUDGET_EXHAUSTED";

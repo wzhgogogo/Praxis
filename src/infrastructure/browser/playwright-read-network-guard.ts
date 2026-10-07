@@ -62,7 +62,7 @@ export class PlaywrightReadNetworkGuard {
   private readonly requests: BrowserReadNetworkObservation[] = [];
   private requestTimeoutMs: number;
 
-  constructor(private readonly policy: BrowserReadNetworkPolicy, requestTimeoutMs = 5_000, private readonly recordResponse?: (response: { url: string; method: string; status: number; contentType: string; body: Uint8Array }) => Promise<void> | void) { this.requestTimeoutMs = requestTimeoutMs; }
+  constructor(private readonly policy: BrowserReadNetworkPolicy, requestTimeoutMs = 5_000, private readonly recordResponse?: (response: { url: string; method: string; status: number; contentType: string; body: Uint8Array; redirectLocation?: string }) => Promise<void> | void) { this.requestTimeoutMs = requestTimeoutMs; }
 
   async install(context: BrowserContext, options: { replay?: boolean } = {}): Promise<void> {
     await context.routeWebSocket("**/*", socket => socket.close());
@@ -169,6 +169,13 @@ export class PlaywrightReadNetworkGuard {
       if (response.status() >= 300 && response.status() < 400) {
         const target = this.admittedRedirectTarget(url, response.headers()["location"]);
         if (!target) { this.blocked("BLOCKED_REDIRECT", url, method, type); await route.abort("blockedbyclient"); return; }
+        // Persist only the already-admitted, credential-free redirect target.
+        // Replay then begins at the original prepared document instead of
+        // silently replacing it with the final canonical page.
+        if (this.recordResponse) {
+          const contentType = response.headers()["content-type"] ?? "";
+          await this.recordResponse({ url: url.toString(), method, status: response.status(), contentType, body: await response.body(), redirectLocation: target.toString() });
+        }
         this.documents.add(requestKey(target.toString()));
         if (this.policy.genericPublicRead) this.genericOrigins.add(target.origin);
         await route.fulfill({ response });

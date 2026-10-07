@@ -488,7 +488,8 @@ export interface RestaurantReadExecutionMetadata {
   }>;
   /** Observed native batch funnel; `exhausted` on the durable cursor includes the next source. */
   nativeDiscoveryFunnel?: {
-    source: "TABELOG" | "TABLECHECK";
+    /** Browser-pack source label; model judgments never represent a source funnel. */
+    source: Exclude<RestaurantReadEvidenceProvider, "MODEL_JUDGMENT">;
     rawSourceLinks: number;
     parsedOutlets: number;
     /** Detail attempts in this bounded batch, including attributable local failures. */

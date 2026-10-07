@@ -1,6 +1,6 @@
 import type { ModelGateway } from "../../core/model/contracts.js";
 import type { RestaurantAvailabilityRead, RestaurantAvailabilityRequest } from "../../domains/restaurant/contracts.js";
-import { ModelBrowserReadActionDecision } from "../../infrastructure/browser/browser-action-decision.js";
+import { ModelBrowserReadActionDecision, type BrowserReadActionDecisionPort } from "../../infrastructure/browser/browser-action-decision.js";
 import { BrowserTaskExecutor, type BrowserExecutionBudget, type BrowserExecutionDiagnostic } from "../../infrastructure/browser/browser-task-executor.js";
 import type { BrowserReadNetworkPolicy, BrowserRuntime } from "../../infrastructure/browser/browser-runtime.js";
 import { TableCheckEntryLedger } from "../tablecheck/tablecheck-browser-availability.js";
@@ -10,6 +10,7 @@ import type { TabelogIdentityDiagnostic, TabelogUserInterventionHandler } from "
 import { AvailabilitySourceResolver } from "./availability-source-resolver.js";
 import { restaurantPublicReadNetworkPolicy } from "./public-browser-read-network-policy.js";
 import { restaurantDiscoveryPacks } from "../restaurant-search/source-packs.js";
+import type { DiscoverySourcePack } from "../restaurant-search/source-packs.js";
 
 export interface LiveBrowserAvailabilityOptions {
   now?: () => string;
@@ -27,8 +28,15 @@ export interface LiveBrowserAvailabilityOptions {
   onTableCheckIdentityDiagnostic?: (diagnostic: TableCheckIdentityDiagnostic) => void;
   onTabelogIdentityDiagnostic?: (diagnostic: TabelogIdentityDiagnostic) => void;
   onTabelogUserInterventionRequired?: TabelogUserInterventionHandler;
+  /** Frozen offline Replay may supply prior sanitized wires; live reads create the model decision below. */
+  modelDecision?: BrowserReadActionDecisionPort;
   /** Required before this composition uses its broader observed-query controls. */
   networkPolicy?: BrowserReadNetworkPolicy;
+  /**
+   * A source-stage read may deliberately exercise one reviewed Pack. Normal
+   * Hybrid execution keeps the registered set and therefore unchanged routing.
+   */
+  packs?: readonly DiscoverySourcePack[];
 }
 
 /**
@@ -67,7 +75,7 @@ export class LiveBrowserAvailability {
 
   async check(request: RestaurantAvailabilityRequest, signal: AbortSignal): Promise<RestaurantAvailabilityRead> {
     const executor = new BrowserTaskExecutor(this.runtime, {
-      modelDecision: new ModelBrowserReadActionDecision(this.model),
+      modelDecision: this.options.modelDecision ?? new ModelBrowserReadActionDecision(this.model),
       ...(this.options.maxModelCallsPerCandidate !== undefined ? { maxModelCallsPerCandidate: this.options.maxModelCallsPerCandidate } : {}),
       ...(this.options.maxModelCallsTotal !== undefined ? { maxModelCallsTotal: this.options.maxModelCallsTotal } : {}),
       ...(this.options.maxOperationsPerCandidate !== undefined ? { maxOperationsPerCandidate: this.options.maxOperationsPerCandidate } : {}),
@@ -88,7 +96,7 @@ export class LiveBrowserAvailability {
       ...(this.options.onTabelogUserInterventionRequired ? { onTabelogUserInterventionRequired: this.options.onTabelogUserInterventionRequired } : {}),
       ...(this.networkPolicy ? { networkPolicy: this.networkPolicy } : {}),
     };
-    const bindings = restaurantDiscoveryPacks
+    const bindings = (this.options.packs ?? restaurantDiscoveryPacks)
       .flatMap((pack) => pack.availability ? [{ pack, provider: pack.availability.createProvider(providerContext) }] : []);
     return new AvailabilitySourceResolver(bindings, { afterRead: () => executor.close() }).check(request, signal);
   }

@@ -7,7 +7,7 @@ import { BrowserRuntimeError } from "../../infrastructure/browser/browser-runtim
 import { inspectTabelogEntity, resolveTabelogEntity } from "./tabelog-entity-resolver.js";
 import { TabelogBrowserAvailability } from "./tabelog-browser-availability.js";
 import { parseTabelogAvailabilitySlots, parseTabelogOutletIdentityWithEvidence, parseTabelogSearchOutlets } from "./tabelog-page-parser.js";
-import { tabelogQueryControlsRestricted, tabelogRequestedDateState } from "./tabelog-query-controls.js";
+import { tabelogQueryControlsRestricted, tabelogRequestedDateState, tabelogSelectedQueryIsPending } from "./tabelog-query-controls.js";
 
 const candidate = fixtureCandidates[0]!;
 
@@ -185,6 +185,20 @@ test("Tabelog reads the visible requested calendar restriction without treating 
 
   const selectable = calendar('<p class="js-calendar-day-target is-selectable" data-year="2026" data-month="8" data-day="5"></p><span class="p-booking-calendar__day-num">5</span>');
   assert.equal(tabelogRequestedDateState(selectable, closedDate), "SELECTABLE");
+});
+
+test("Tabelog waits only for a visible member loader in the calendar holding the requested current date", () => {
+  const snapshot = (date: string, suffix = "") => ({
+    url: "https://tabelog.com/en/tokyo/A1304/A130401/123/", title: "Restaurant 1", text: "Reserve Guests",
+    html: `<div class="p-booking-calendar"><p class="js-calendar-day-target is-selectable is-current" data-year="2026" data-month="10" data-day="${date.slice(-2)}"></p><div class="js-select-member"><i class="js-select-loader"></i></div></div>${suffix}`,
+  });
+  assert.equal(tabelogSelectedQueryIsPending(snapshot("2026-10-22"), "2026-10-22"), true);
+  assert.equal(tabelogSelectedQueryIsPending(snapshot("2026-10-22"), "2026-10-21"), false, "a different selected date must not delay the request");
+  assert.equal(tabelogSelectedQueryIsPending(snapshot("2026-10-22", '<div class="p-booking-calendar"><i class="js-select-loader"></i></div>'), "2026-10-22"), true,
+    "the pending signal is allowed only when its own calendar has the requested current date");
+  const staleLoader = snapshot("2026-10-22", '<div class="p-booking-calendar"><p class="js-calendar-day-target is-current" data-year="2026" data-month="10" data-day="21"></p><i class="js-select-loader"></i></div>');
+  staleLoader.html = staleLoader.html.replace('<div class="js-select-member"><i class="js-select-loader"></i></div>', '<div class="js-select-member"></div>');
+  assert.equal(tabelogSelectedQueryIsPending(staleLoader, "2026-10-22"), false, "a loader in another calendar cannot hold this query pending");
 });
 
 class FixtureBrowserSession implements BrowserSession {

@@ -110,6 +110,27 @@ function sameNamedLocation(place: GooglePlacesRawPlace, query: string): boolean 
   // language/alias correspondence is required before we broaden this beyond
   // normalized public display-name equality.
   if (normalizedValue.length > 0 && normalizedValue === normalizedQuery) return true;
+  const components = addressComponents(place) ?? [];
+  const sourceTypes = Array.isArray(place.types) && place.types.every((type) => typeof type === "string") ? place.types : [];
+  // Google can express a requested locality as its civic administrative form
+  // (for example, "Shinjuku City").  This is not a station alias: accept it
+  // only when both the display name and a typed locality/administrative
+  // component carry the same bounded civic suffix. A ranked result or a
+  // matching address string alone still has no named-place authority.
+  const civicSuffixes = new Set(["city", "ward", "district", "ku"]);
+  const sourceAdministrativeMatch = components.some((component) => {
+    const componentName = normalizedLocationName(component.longText);
+    const componentShortName = normalizedLocationName(component.shortText ?? "");
+    const typedAdministrativeArea = component.types.some((type) => type === "locality" || type.startsWith("administrative_area"));
+    const displayMatchesComponent = normalizedValue === componentName || normalizedValue === componentShortName;
+    const civicName = normalizedLocationName(component.longText);
+    const civicSuffix = civicName.slice(normalizedQuery.length);
+    return typedAdministrativeArea
+      && displayMatchesComponent
+      && civicName.startsWith(normalizedQuery)
+      && civicSuffixes.has(civicSuffix);
+  });
+  if (sourceAdministrativeMatch && sourceTypes.some((type) => type === "locality" || type.startsWith("administrative_area"))) return true;
   const suffix = value.trim().match(/\s+(station|sta\.?|airport|park|terminal)$/iu)?.[1]?.toLocaleLowerCase("en-US");
   if (!suffix) return false;
   const valueCore = normalizedLocationName(value.slice(0, value.length - suffix.length).trim());
@@ -118,8 +139,6 @@ function sameNamedLocation(place: GooglePlacesRawPlace, query: string): boolean 
     : suffix === "airport" ? ["airport"]
       : suffix === "park" ? ["park"]
         : ["transit_station", "bus_station", "airport"];
-  const sourceTypes = Array.isArray(place.types) && place.types.every((type) => typeof type === "string") ? place.types : [];
-  const components = addressComponents(place) ?? [];
   const hasSupportedType = sourceTypes.some((type) => supportedTypes.includes(type));
   const queryIsAdministrativeArea = components.some((component) =>
     component.types.some((type) => type === "locality" || type.startsWith("administrative_area")) &&
@@ -254,7 +273,7 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
   async resolveNamedNearbyLocation(
     request: RestaurantSearchRequest,
     signal: AbortSignal,
-  ): Promise<{ location?: { latitude: number; longitude: number; radiusMeters: number; label: string; areaMatchBasis: "NAMED_PLACE_RADIUS" }; evidence?: import("../../domains/restaurant/contracts.js").RestaurantReadEvidence }> {
+  ): Promise<{ location?: { latitude: number; longitude: number; radiusMeters: number; label: string; areaMatchBasis: "NAMED_PLACE_RADIUS" }; evidence?: import("../../domains/restaurant/contracts.js").RestaurantReadEvidence; publicLocationObservation?: PublicNamedLocationObservation }> {
     const query = namedNearbyQuery(request.intent.area.query);
     if (!query) return {};
     if (!this.hasBudget(request.readRunId)) {
@@ -289,6 +308,7 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
     const requestFingerprint = createHash("sha256").update(JSON.stringify({ namedLocation: query, placeId, radiusMeters })).digest("hex");
     return {
       location: { latitude: resolved.latitude!, longitude: resolved.longitude!, radiusMeters, label, areaMatchBasis: "NAMED_PLACE_RADIUS" },
+      ...(publicNamedLocationObservations([place])[0] ? { publicLocationObservation: publicNamedLocationObservations([place])[0]! } : {}),
       evidence: {
         evidenceId: createHash("sha256").update(JSON.stringify({ namedLocation: placeId, observedAt, requestFingerprint })).digest("hex"),
         kind: "DISCOVERY",

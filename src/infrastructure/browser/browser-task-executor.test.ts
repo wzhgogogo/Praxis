@@ -10,6 +10,7 @@ class FixtureSession implements BrowserSession {
   readonly metadata: BrowserSession["metadata"];
   closed = 0;
   clicks = 0;
+  waits = 0;
   selected: string[] = [];
   dismisses = 0;
   escapes = 0;
@@ -46,6 +47,7 @@ class FixtureSession implements BrowserSession {
   async select(_target: string, value: string): Promise<string[]> { this.selected.push(value); return [value]; }
   async waitFor(): Promise<void> {}
   async waitForChange(previous: Pick<BrowserSnapshot, "url" | "title" | "text" | "interactiveState">): Promise<boolean> {
+    this.waits += 1;
     if (this.advanceOnWait) this.index = Math.min(this.index + 1, this.pages.length - 1);
     const current = this.pages[this.index]!;
     return current.url !== previous.url || current.title !== previous.title || current.text !== previous.text;
@@ -237,6 +239,31 @@ test("BrowserTaskExecutor exposes an ordinary observed query submit only in an i
   } finally { await unguardedExecutor.close(); }
 });
 
+test("BrowserTaskExecutor waits once for a guarded GET submit when cosmetic form state changes before results", async () => {
+  const pages = [
+    { url: "https://www.tablecheck.com/en/query", title: "query", text: "Find a table", html: '<form><button type="submit" formmethod="get">Search</button></form>' },
+    { url: "https://www.tablecheck.com/en/query", title: "query", text: "Search form is pending", html: '<form><button type="submit" formmethod="get" disabled>Search</button></form><p>Searching</p>' },
+    { url: "https://www.tablecheck.com/en/query", title: "query", text: "Sushi Inase 19:00", html: "<main>Sushi Inase 19:00</main>" },
+  ];
+  const session = new FixtureSession(pages, true, true);
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {
+    modelDecision: { async decide(value) {
+      const target = value.observation.targets.find(item => item.label === "Search");
+      assert.ok(target);
+      assert.ok(target.availableActions?.includes("CLICK"));
+      return { type: "CLICK", targetRef: target.ref, reason: "Submit the observed public query." };
+    } },
+  });
+  const signal = new AbortController().signal;
+  const acquired = await executor.acquire(signal, "TABLECHECK", "DISCOVERY");
+  try {
+    const result = await executor.runSkill({ ...input(acquired, signal) });
+    assert.equal(result.status, "COMPLETED");
+    assert.equal(session.clicks, 1, "a cosmetic post-submit change must not cause a second Search click");
+    assert.equal(session.waits, 1, "the single public submit gets one bounded result wait");
+  } finally { await executor.close(); }
+});
+
 test("BrowserTaskExecutor keeps an observed sensitive submit unavailable even in an installed read boundary", async () => {
   const session = new FixtureSession([
     { url: "https://www.tablecheck.com/en/query", title: "query", text: "Reserve", html: '<button type="submit">Reserve table</button>' },
@@ -314,7 +341,7 @@ test("BrowserTaskExecutor identifies an operation ceiling before a denied next o
   const acquired = await executor.acquire(signal, "TABLECHECK", "AVAILABILITY");
   await executor.snapshot({ source: "TABLECHECK", stage: "AVAILABILITY", signal, session: acquired });
   await assert.rejects(executor.snapshot({ source: "TABLECHECK", stage: "AVAILABILITY", signal, session: acquired }),
-    (error: unknown) => error instanceof BrowserRuntimeError && error.code === "BROWSER_TIMEOUT" && /operation budget/.test(error.message));
+    (error: unknown) => error instanceof BrowserRuntimeError && error.code === "BROWSER_OPERATION_BUDGET_EXCEEDED" && /operation budget/.test(error.message));
   assert.equal(diagnostics.find(item => item.event === "BUDGET_EXHAUSTED")?.lifecycle.reason, "OPERATION_BUDGET_EXHAUSTED");
   assert.equal(diagnostics.filter(item => item.event === "OPERATION_STARTED").length, 1);
   await executor.close();

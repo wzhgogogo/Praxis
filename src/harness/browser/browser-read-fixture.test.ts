@@ -11,6 +11,7 @@ import { LocalPlaywrightChromium } from "../../infrastructure/browser/local-play
 import { CloudflareBrowserRun } from "../../infrastructure/browser/cloudflare-browser-run.js";
 import { PlaywrightControlRegistry } from "../../infrastructure/browser/playwright-browser-controls.js";
 import { BrowserTaskExecutor } from "../../infrastructure/browser/browser-task-executor.js";
+import { BrowserRuntimeError } from "../../infrastructure/browser/browser-runtime-errors.js";
 import type { BrowserRuntime, BrowserSession } from "../../infrastructure/browser/browser-runtime.js";
 import type { BrowserReadActionDecisionPort } from "../../infrastructure/browser/browser-action-decision.js";
 import { ModelBrowserReadActionDecision } from "../../infrastructure/browser/browser-action-decision.js";
@@ -125,9 +126,9 @@ test("guarded dynamic TableCheck recording replays through the same production A
   const receiver = createServer((request, response) => {
     const path = new URL(request.url ?? "/", `http://${request.headers.host}`).pathname;
     if (path === "/slots") { arrivals += 1; response.setHeader("content-type", "application/json"); response.end('{"available":true}'); return; }
-    if (path === "/app.js") { response.setHeader("content-type", "application/javascript"); response.end(`fetch('/slots').then(r=>r.json()).then(()=>document.querySelector('[data-testid="Venue Availability"]').innerHTML='<section data-availability-state="complete"><a href="/en/fixture/reserve?start_date=2026-10-08&num_people=2&start_time=19:00">19:00</a></section>')`); return; }
+    if (path === "/assets/app.js") { response.setHeader("content-type", "application/javascript"); response.end(`fetch('/slots').then(r=>r.json()).then(()=>document.querySelector('[data-testid="Venue Availability"]').innerHTML='<section data-availability-state="complete"><a href="/en/fixture/reserve?start_date=2026-10-08&num_people=2&start_time=19:00">19:00</a></section>')`); return; }
     response.setHeader("content-type", "text/html");
-    response.end(`<title>Fixture restaurant</title><h1>Fixture restaurant</h1><p class="address">1-1 Tokyo Fixture Street</p><a href="tel:03-1111-2222">Phone</a><div data-testid="Venue Availability" data-selected-date="2026-10-08" data-pax="2"><span class="skeleton">Loading</span></div><script src="/app.js"></script>`);
+    response.end(`<title>Fixture restaurant</title><h1>Fixture restaurant</h1><p class="address">1-1 Tokyo Fixture Street</p><a href="tel:03-1111-2222">Phone</a><div data-testid="Venue Availability" data-selected-date="2026-10-08" data-pax="2"><span class="skeleton">Loading</span></div><script src="https://cdn.public.example/assets/app.js?rst-v1-public"></script>`);
   });
   await new Promise<void>(resolve => receiver.listen(0, "127.0.0.1", resolve));
   const address = receiver.address(); if (!address || typeof address === "string") throw new Error("fixture receiver did not bind");
@@ -152,8 +153,10 @@ test("guarded dynamic TableCheck recording replays through the same production A
     }; return browser;
   } };
   const guide = "https://www.tablecheck.com/en/fixture";
-  const policy = { documentOrigins: ["https://www.tablecheck.com"], genericPublicRead: true, staticResources: [], dynamicReads: [{ origin: "https://www.tablecheck.com", pathname: "/slots", resourceTypes: ["fetch"], queryKeys: [] }] } as const;
-  const directory = await mkdtemp(join(tmpdir(), "praxis-dynamic-recording-")); const recording = new BrowserReadRecording({ directory, runId: "dynamic" });
+  const policy = { documentOrigins: ["https://www.tablecheck.com"], genericPublicRead: true,
+    staticResources: [{ origin: "https://cdn.public.example", pathnamePrefix: "/assets/", resourceTypes: ["script"], queryKeyRules: { required: [], allowedPatterns: ["^rst-v1-[A-Za-z0-9._-]+$"] } }],
+    dynamicReads: [{ origin: "https://www.tablecheck.com", pathname: "/slots", resourceTypes: ["fetch"], queryKeys: [] }] } as const;
+  const directory = await mkdtemp(join(tmpdir(), "praxis-dynamic-recording-")); const recording = new BrowserReadRecording({ directory, runId: "dynamic", reviewedStaticResources: policy.staticResources });
   const sourceRaw = new LocalPlaywrightChromium({ browserType });
   const sourceRuntime: BrowserRuntime = { readNetworkBoundaryCapability: "ISOLATED_CONTEXT", openSession: input => sourceRaw.openSession({ ...input, networkPolicy: policy, recordResponse: response => recording.recordResponse(response) }) };
   const candidate = { restaurant: { id: "tablecheck:fixture", outletName: "Fixture restaurant", address: "1-1 Tokyo Fixture Street", sourceIds: { tablecheck: "fixture", tablecheckNativeGuideUri: guide }, provenance: { fixture: "guarded-dynamic-record" } }, matchReasons: [], warnings: [], executionConfidence: "HIGH" as const };
@@ -166,7 +169,8 @@ test("guarded dynamic TableCheck recording replays through the same production A
     const capturedHarPath = captured.replay.harPath;
     const capturedHar = await readFile(capturedHarPath, "utf8");
     assert.match(capturedHar, /application\/javascript/);
-    assert.match(capturedHar, /fetch\('\/slots'\)/, "the replay HAR retains the safe same-origin script needed to consume slots");
+    assert.match(capturedHar, /cdn\.public\.example\/assets\/app\.js/, "the initial recorded document retains the reviewed public CDN script reference");
+    assert.match(capturedHar, /fetch\('\/slots'\)/, "the replay HAR retains the reviewed public script needed to consume slots");
     const beforeReplay = arrivals;
     const replayRaw = new LocalPlaywrightChromium(); const replayRuntime: BrowserRuntime = { readNetworkBoundaryCapability: "ISOLATED_CONTEXT", openSession: input => replayRaw.openSession({ ...input, networkPolicy: policy, replayHarPath: capturedHarPath }) };
     const replayTrace: unknown[] = [];
@@ -464,6 +468,96 @@ test("native Tabelog detail uses real local Chromium controls before accepting i
   }
 });
 
+test("native Tabelog waits once for the source-owned guest loader after the requested date is selected", async () => {
+  const { dynamicTabelogSourcePages, date, reference } = await import("../../eval/restaurant/agent-loop/native-fixed-source-pages.js");
+  const { TabelogBrowserAvailability } = await import("../../integrations/tabelog/tabelog-browser-availability.js");
+  const { fixtureCandidates } = await import("../restaurant-fixtures.js");
+  const candidate = structuredClone(fixtureCandidates[0]!);
+  candidate.restaurant.id = "tabelog:en/tokyo/A1304/A130401/100";
+  candidate.restaurant.outletName = "Native Dynamic Tabelog 100";
+  candidate.restaurant.address = "Shibuya 100, Tokyo";
+  candidate.restaurant.sourceIds = { tabelog: "en/tokyo/A1304/A130401/100", tabelogNativeDetailUri: "https://tabelog.com/en/tokyo/A1304/A130401/100/" };
+  const decisions: string[] = [];
+  const rawRuntime = dynamicTabelogSourcePages({ memberLoaderAfterDateMs: 3_000 });
+  // The live failure already had an immediate cosmetic change after Date. Make
+  // the generic page-change wait observe that same no-result boundary, leaving
+  // the Adapter's source-owned loader wait as the behavior under test.
+  const runtime: BrowserRuntime = {
+    readNetworkBoundaryCapability: "ISOLATED_CONTEXT",
+    openSession: async input => {
+      const session = await rawRuntime.openSession(input);
+      return new Proxy(session, { get(target, property) {
+        if (property === "waitForChange") return async () => false;
+        const value = Reflect.get(target, property, target);
+        return typeof value === "function" ? value.bind(target) : value;
+      } });
+    },
+  };
+  const executor = new BrowserTaskExecutor(runtime, { modelDecision: { async decide(input) {
+    const dateTarget = input.observation.targets.find(target => target.label === "Date 2026-08-19");
+    if (dateTarget && !dateTarget.selected) {
+      decisions.push("DATE");
+      return { type: "CLICK_AUTHORITATIVE" as const, targetRef: dateTarget.ref, field: "DATE" as const, reason: "Select the observed requested date." };
+    }
+    decisions.push("HUMAN_HELP");
+    return { type: "REQUEST_HUMAN_HELP" as const, reason: "The source has not yet rendered the guest controls." };
+  } } });
+  try {
+    const startedAt = Date.now();
+    const read = await new TabelogBrowserAvailability(executor, () => reference.toISOString()).check({
+      candidates: [candidate], candidateIds: [candidate.restaurant.id], date, partySize: 2,
+      timeWindow: { earliest: "19:00", latest: "19:00" }, hardCriteria: [],
+    }, new AbortController().signal);
+    assert.equal(read.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE", JSON.stringify(read));
+    assert.deepEqual(decisions, ["DATE", "HUMAN_HELP"]);
+    assert.ok(Date.now() - startedAt >= 2_500, "the Adapter waited for the source-owned member collection instead of accepting its loading snapshot");
+    assert.equal(read.offers[0]?.dateTime, "2026-08-19T19:00:00+09:00");
+  } finally { await executor.close(); }
+});
+
+test("native Tabelog leaves a member loader that cannot settle as UNKNOWN", async () => {
+  const { dynamicTabelogSourcePages, date, reference } = await import("../../eval/restaurant/agent-loop/native-fixed-source-pages.js");
+  const { TabelogBrowserAvailability } = await import("../../integrations/tabelog/tabelog-browser-availability.js");
+  const { fixtureCandidates } = await import("../restaurant-fixtures.js");
+  const candidate = structuredClone(fixtureCandidates[0]!);
+  candidate.restaurant.id = "tabelog:en/tokyo/A1304/A130401/100";
+  candidate.restaurant.outletName = "Native Dynamic Tabelog 100";
+  candidate.restaurant.address = "Shibuya 100, Tokyo";
+  candidate.restaurant.sourceIds = { tabelog: "en/tokyo/A1304/A130401/100", tabelogNativeDetailUri: "https://tabelog.com/en/tokyo/A1304/A130401/100/" };
+  const rawRuntime = dynamicTabelogSourcePages({ memberLoaderAfterDateMs: 30_000 });
+  let waits = 0;
+  const runtime: BrowserRuntime = {
+    readNetworkBoundaryCapability: "ISOLATED_CONTEXT",
+    openSession: async input => {
+      const session = await rawRuntime.openSession(input);
+      return new Proxy(session, { get(target, property) {
+        if (property === "waitFor") return async (...args: Parameters<NonNullable<BrowserSession["waitFor"]>>) => {
+          waits += 1;
+          if (waits === 2) throw new BrowserRuntimeError("BROWSER_TIMEOUT", "fixture source member collection did not settle");
+          return target.waitFor!(...args);
+        };
+        const value = Reflect.get(target, property, target);
+        return typeof value === "function" ? value.bind(target) : value;
+      } });
+    },
+  };
+  const executor = new BrowserTaskExecutor(runtime, { modelDecision: { async decide(input) {
+    const dateTarget = input.observation.targets.find(target => target.label === "Date 2026-08-19");
+    assert.ok(dateTarget && !dateTarget.selected);
+    return { type: "CLICK_AUTHORITATIVE" as const, targetRef: dateTarget.ref, field: "DATE" as const, reason: "Select the observed requested date." };
+  } } });
+  try {
+    const read = await new TabelogBrowserAvailability(executor, () => reference.toISOString()).check({
+      candidates: [candidate], candidateIds: [candidate.restaurant.id], date, partySize: 2,
+      timeWindow: { earliest: "19:00", latest: "19:00" }, hardCriteria: [],
+    }, new AbortController().signal);
+    assert.equal(waits, 2, "only the initial readiness and one selected-query wait are attempted");
+    assert.equal(read.availabilityChecks[candidate.restaurant.id]?.status, "UNKNOWN");
+    assert.equal(read.availabilityChecks[candidate.restaurant.id]?.reasonCode, "BROWSER_TIMEOUT");
+    assert.equal(read.offers.length, 0);
+  } finally { await executor.close(); }
+});
+
 for (const outcome of ["AVAILABLE", "UNAVAILABLE"] as const) {
 test(`native dynamic Tabelog ${outcome} reaches formal H001 ${outcome === "AVAILABLE" ? "presentation" : "TableCheck continuation and no verified result"} with page-owned query evidence`, async () => {
   const { dynamicTabelogSourcePages, center, date, reference } = await import("../../eval/restaurant/agent-loop/native-fixed-source-pages.js");
@@ -559,7 +653,7 @@ test(`native dynamic Tabelog ${outcome} reaches formal H001 ${outcome === "AVAIL
   assert.deepEqual(browserActions, ["DATE", "PARTY_SIZE"], "request values must come from real observed DOM actions");
   const navigations = trace.filter(item => item.kind === "SESSION_CALL" && (item.detail as { method?: string }).method === "navigate")
     .map(item => (item.detail as { args: string[] }).args[0]!);
-  assert.match(navigations[0]!, /^https:\/\/tabelog\.com\/en\/tokyo\/rstLst\//);
+  assert.match(navigations[0]!, /^https:\/\/tabelog\.com\/en\/tokyo\/A1303\/A130301\/rstLst\//);
   const tableCheckSearches = navigations.filter(value => new URL(value).hostname === "www.tablecheck.com");
   if (outcome === "AVAILABLE") {
     assert.equal(state.phase, "PRESENT_RESULTS", JSON.stringify(state));
@@ -1095,6 +1189,22 @@ test("Chromium control signatures ignore presentation-only classes but reject va
   } finally { await browser.close(); }
 });
 
+test("Chromium projects an owned default-method submit as GET without classifying bare or POST submits as public GET", async () => {
+  const browser = await chromium.launch({ headless: true });
+  try {
+    const page = await browser.newPage();
+    await page.setContent(`<form id="public-search"><button id="default-get" type="submit">Search</button><button id="override-post" type="submit" formmethod="post">Post search</button></form><button id="bare" type="submit">Bare submit</button>`);
+    const registry = new PlaywrightControlRegistry();
+    try {
+      const controls = await registry.observe(page);
+      assert.equal(controls.find(control => control.label === "Search")?.formMethod, "GET");
+      assert.equal(controls.find(control => control.label === "Post search")?.formMethod, "POST");
+      assert.equal(controls.find(control => control.label === "Bare submit")?.formMethod, undefined);
+      assert.equal(controls.find(control => control.label === "Bare submit")?.value, undefined, "a non-value button does not acquire a synthetic empty value");
+    } finally { await registry.dispose(); }
+  } finally { await browser.close(); }
+});
+
 for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
   test(`${runtimeKind} projects TableCheck search wrapper as combobox and only its native input as fillable`, async () => {
     const saved = readFileSync(new URL("./fixtures/tablecheck-search-control-20260929.html", import.meta.url), "utf8");
@@ -1117,8 +1227,10 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
       const outer = controls.find(control => control.structure?.tag === "DIV" && control.role === "combobox");
       const inner = controls.find(control => control.structure?.tag === "INPUT" && control.structure.name === "search_text");
       assert.equal(outer?.kind, "BUTTON");
+      assert.equal(outer?.value, "", "a combobox may project its single observed native input value");
       assert.equal(inner?.kind, "INPUT");
       assert.equal(inner?.label, "Sushi tonight for 2 in Ginza");
+      assert.equal(inner?.value, "", "an observed empty native search property remains distinct from an absent value");
       await assert.rejects(session.fill(outer!.id, "Sushi"));
       await session.fill(inner!.id, "Sushi");
       assert.equal((await session.observeControls!()).find(control => control.structure?.name === "search_text")?.value, "Sushi");
