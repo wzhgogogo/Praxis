@@ -1,8 +1,8 @@
 # Repository Naming and Version Conventions
 
 - Status: Accepted
-- Document revision: 1.5
-- Last updated: 2026-09-03
+- Document revision: 1.6
+- Last updated: 2026-10-07
 - Source of truth for: Git branch/tag、版本标识、目录、文件、Eval数据和文档命名
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Documentation Index](INDEX.md), [Agent Instructions](../AGENTS.md)
@@ -106,6 +106,7 @@ src/eval/
 - 文档页头使用`Document revision`，不使用容易被误解为产品版本的通用`Version`。
 - Superseded文档不出现在当前阅读主链；需要高频追溯时移入Archive，否则由Git历史保留。
 - `docs/brainstorming/`保留历史思考，`docs/history/`保留追加式实施与验证日志，`docs/superseded/`保留仍有Review价值但不再生效的Plan、Golden与设计；三者都不是当前能力Source of Truth。
+- 月度历史导航位于`docs/history/monthly/YYYY-MM.md`（摘要）与`YYYY-MM-index.md`（逐条索引），入口为`docs/history/README.md`。按原记录标题日期分月，保留原始日志、重复记录和原锚点；摘要不替代执行artifact、evaluation或当前STATUS。新记录同步本月索引，已结束月份仅因新证据或导航错误修订。
 
 ## 命令
 

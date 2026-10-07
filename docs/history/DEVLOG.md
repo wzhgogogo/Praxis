@@ -1,13 +1,19 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.147
+- Document revision: 4.148
 - Last updated: 2026-10-07
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+> 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## DEV-2026-10-07-MONTHLY-HISTORY-NAVIGATION
+
+Added monthly summaries and complete entry indexes for August, September and October through October7. Original log entries, ordering, duplicate records and evidence links remain intact. INDEX now directs historical investigation through the relevant month's summary and entry index; summary maintenance records direction/evidence changes rather than duplicating every run. Product code, browser permissions, evaluation thresholds and H001 acceptance did not change.
 
 ## DEV-2026-10-07-BOUNDED-NATIVE-DISCOVERY
 

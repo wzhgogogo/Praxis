@@ -1,7 +1,7 @@
 # Praxis 开发文档索引
 
 - Status: Accepted
-- Document revision: 1.2
+- Document revision: 1.3
 - Last updated: 2026-10-07
 - Source of truth for: 开发文档导航、阅读路径、文档职责和冲突处理
 - Related ADRs: [ADR Index](decisions/README.md)
@@ -27,7 +27,7 @@ Accepted ADR
 
 ## 阅读路径
 
-入口顺序：INDEX → Repository Conventions → Arch Guard → STATUS。根据下表进入本次范围；同一会话已读且未变化的文档可复用。历史日志只在追溯时读取。
+入口顺序：INDEX → Repository Conventions → Arch Guard → STATUS。STATUS先读最新结论和与本次切片直接相关的能力／门槛；其历史检查点按需定位，不默认通读。根据下表进入本次范围；同一会话已读且未变化的文档可复用。需要追溯历史时，先从[月度历史入口](history/README.md)读相关月份摘要，再按逐条索引定位同一失效机制的原始记录；不默认通读两份完整日志。当前月份有新记录时同步对应逐条索引，摘要只在工作方向或证据结论变化时更新。
 
 | 本次工作 | 追加阅读 |
 |---|---|
@@ -69,8 +69,9 @@ Accepted ADR
 - [Golden Scenarios](harness/GOLDEN-SCENARIOS.md)
 - [Restaurant Semantic Holdout](harness/RESTAURANT-SEMANTIC-HOLDOUT.md)：`restaurant-semantic-holdout@2`的空模板、开放`criteria`标注格式、冻结清单、Preflight与一次性Baseline协议。
 - [Roadmap](roadmap.md)：后续阶段及退出条件，不记录每次实施细节。
-- [Dev Log](history/DEVLOG.md)：仅保留按时间的设计、实现与取舍追溯。
-- [Test Log](history/TEST-LOG.md)：仅保留按时间的验证命令、模式、结果与未覆盖项。
+- [月度历史入口](history/README.md)：2026年8月起的月度摘要与逐条索引；按需追溯入口。
+- [原始 Dev Log](history/DEVLOG.md)：完整保留设计、实现与取舍记录，由月度索引定位。
+- [原始 Test Log](history/TEST-LOG.md)：完整保留验证命令、模式、结果与未覆盖项，由月度索引定位。
 - [2026-09-05全量测试审查](history/TEST-SUITE-REVIEW-2026-09-05.md)：2026-09-06完成的逐文件/逐测试历史快照，不是需随每次改动维护的门禁清单。
 - [2026-09-24 Test/Eval Skill纸面审查](history/TEST-EVAL-SKILL-REVIEW-2026-09-24.md)：覆盖与评价规程的draft / not integrated审查，不是运行或产品能力证据。
 

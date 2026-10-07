@@ -1,13 +1,20 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.153
+- Document revision: 4.154
 - Last updated: 2026-10-07
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+> 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-07-MONTHLY-HISTORY-NAVIGATION
+
+- Mode: documentation-only. All582 original entries (279 development /303 verification) remain byte-for-byte intact and in their original order. Monthly indexes include all584 entries after these two navigation records;616 added local links and anchors, duplicate-heading indexing and diff whitespace checks passed. Monthly summaries retain Mock/Replay/fixed-source model/Live boundaries and do not declare a new H001 pass.
+- No product test, typecheck/build, model/API request, Live, external write, commit or push was run for this documentation change.
 
 ## TEST-2026-10-07-BOUNDED-NATIVE-DISCOVERY
 
