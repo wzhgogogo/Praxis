@@ -19,6 +19,8 @@ export interface BrowserReadProbeInput {
   queryObservation?: { hints: (snapshot: BrowserSnapshot) => readonly BrowserControlHint[];
     responses: readonly BrowserResponseRule[];
     record: (snapshot: BrowserSnapshot, controls: readonly BrowserPageControl[]) => void | Promise<void> };
+  /** Passive public-control capture for a bounded contract-read probe; it never performs an action. */
+  controlObservation?: { record: (snapshot: BrowserSnapshot, controls: readonly BrowserPageControl[]) => void | Promise<void> };
 }
 
 export function probeProvider(value: string): "TABLECHECK" | "TABELOG" {
@@ -88,13 +90,18 @@ export async function runBrowserReadProbe(runtime: BrowserRuntime, input: Browse
       await session.prepareNavigation?.(input.url, { timeoutMs });
       await session.navigate(input.url, { timeoutMs });
       let page = await session.snapshot();
-      if (input.queryObservation) await input.queryObservation.record(page, await session.observeControls?.(input.queryObservation.hints(page)) ?? []);
+      const observe = async (current: BrowserSnapshot) => {
+        const controls = await session!.observeControls?.(input.queryObservation?.hints(current)) ?? [];
+        if (input.queryObservation) await input.queryObservation.record(current, controls);
+        if (input.controlObservation) await input.controlObservation.record(current, controls);
+      };
+      await observe(page);
       let observation = inspectProbePage(input, page);
       if (observation.pageState === "CONTENT_OBSERVED" && input.readySelector) {
         let waitError: unknown;
         try { await session.waitFor(input.readySelector, timeoutMs); } catch (error) { waitError = error; }
         page = await session.snapshot();
-        if (input.queryObservation) await input.queryObservation.record(page, await session.observeControls?.(input.queryObservation.hints(page)) ?? []);
+        await observe(page);
         if (waitError) throw waitError;
         observation = inspectProbePage(input, page);
       }

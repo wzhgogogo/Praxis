@@ -1,25 +1,53 @@
 import { createHash } from "node:crypto";
 
+import type { ModelGateway, ModelRequest, ModelResponse } from "../../../core/model/contracts.js";
 import type { LivePreflightTarget } from "./live-preflight.js";
 import type { BrowserExecutionDiagnostic } from "../../../infrastructure/browser/browser-task-executor.js";
 import type { BrowserRuntime } from "../../../infrastructure/browser/browser-runtime.js";
 import { discoveryPackNetworkPolicy, type DiscoverySourcePack } from "../../../integrations/restaurant-search/source-packs.js";
-import { restaurantSearchIntentFingerprint, type RestaurantSearchIntent, type RestaurantSearchRead } from "../../../domains/restaurant/contracts.js";
+import {
+  restaurantSearchIntentFingerprint,
+  type RestaurantAvailabilityRead,
+  type RestaurantAvailabilityRequest,
+  type RestaurantCandidateFactRead,
+  type RestaurantCandidateFactRequest,
+  type RestaurantSearchIntent,
+  type RestaurantSearchRead,
+} from "../../../domains/restaurant/contracts.js";
 import { NativeRestaurantSearch } from "../../../integrations/restaurant-search/native-restaurant-search.js";
 import { GooglePlacesRestaurantSearch } from "../../../integrations/google/google-places-restaurant-search.js";
-import type { BrowserReadActionDecisionPort } from "../../../infrastructure/browser/browser-action-decision.js";
+import {
+  browserReadActionTargetReplayFingerprint,
+  decodeBrowserReadActionWire,
+  safeActionWireRecord,
+  type BrowserActionWireRecord,
+  type BrowserReadActionDecisionPort,
+  type BrowserReadDecisionInput,
+} from "../../../infrastructure/browser/browser-action-decision.js";
 import type { BrowserExecutionBudget } from "../../../infrastructure/browser/browser-task-executor.js";
+import type { RestaurantAvailabilityPort, RestaurantCandidateFactPort } from "../../../application/restaurant-execution-router.js";
+import type { RestaurantSearchPort } from "../../../application/restaurant-execution-router.js";
+import { planDiscoverySources } from "../../../domains/restaurant/discovery-planner.js";
 
 /**
  * Phase-three source probes deliberately retain planning and execution facts
  * separately. A plan is not an execution result and cannot satisfy any
  * source-matrix threshold by itself.
  */
-export const SOURCE_STAGE_PROBE_VERSION = "source-stage-probe@4";
+export const SOURCE_STAGE_PROBE_VERSION = "source-stage-probe@5";
 
-export type SourceStageProbeStage = "DISCOVERY" | "IDENTITY" | "AVAILABILITY" | "WEBSITE_FACTS";
+export type SourceStageProbeStage = "DISCOVERY" | "IDENTITY" | "AVAILABILITY" | "WEBSITE_FACTS" | "REPLAY";
 export type SourceStageProbeMode = "PLAN_ONLY" | "LIVE_READ_ONLY" | "REPLAY";
 export type SourceStageProbeEvaluatorApplicability = "REUSE_RESTAURANT_EVALUATOR" | "NOT_APPLICABLE";
+
+/**
+ * A frozen browser decision consumes the executor's replay budget, but it is
+ * never a newly dispatched model request. Keep that distinction in runner
+ * journals without changing the production executor's own budget semantics.
+ */
+export function reportedSourceStageModelCalls(stage: SourceStageProbeStage, measuredCalls: number): number {
+  return stage === "REPLAY" ? 0 : measuredCalls;
+}
 
 export interface SourceStageProbeBudget {
   sampleMaxElapsedMs: number;
@@ -80,10 +108,16 @@ function validSampleId(value: string): boolean {
 
 function assertBudget(budget: SourceStageProbeBudget): void {
   for (const [field, value] of Object.entries(budget)) {
-    if (!Number.isSafeInteger(value) || value < 1) throw new Error(`Source-stage ${field} must be a positive safe integer`);
+    const permitsZero = field === "sampleMaxModelCalls" || field === "matrixMaxModelCalls";
+    if (!Number.isSafeInteger(value) || value < (permitsZero ? 0 : 1)) {
+      throw new Error(`Source-stage ${field} must be a ${permitsZero ? "non-negative" : "positive"} safe integer`);
+    }
   }
   if (budget.sampleMaxElapsedMs > 60_000) throw new Error("Source-stage sample elapsed budget cannot exceed 60000ms");
-  if (budget.sampleMaxModelCalls > 2) throw new Error("Source-stage sample model budget cannot exceed 2 calls");
+  // The renewed Phase 3 diagnostic tranche exposes a four-call sample ceiling.
+  // Earlier two-call manifests remain immutable evidence; new manifests must
+  // state their own allowance rather than silently inheriting it.
+  if (budget.sampleMaxModelCalls > 4) throw new Error("Source-stage sample model budget cannot exceed 4 calls");
   if (budget.matrixMaxModelCalls > 50) throw new Error("Source-stage matrix model budget cannot exceed 50 calls");
   if (budget.matrixMaxElapsedMs > 1_800_000) throw new Error("Source-stage matrix elapsed budget cannot exceed 30 minutes");
   if (budget.matrixRepairRoundsMax > 3) throw new Error("Source-stage repair rounds cannot exceed 3");
@@ -91,10 +125,10 @@ function assertBudget(budget: SourceStageProbeBudget): void {
 }
 
 function evaluatorFor(stage: SourceStageProbeStage): SourceStageProbeManifest["evaluator"] {
-  if (stage === "IDENTITY" || stage === "AVAILABILITY" || stage === "WEBSITE_FACTS") {
+  if (stage === "IDENTITY" || stage === "AVAILABILITY" || stage === "WEBSITE_FACTS" || stage === "REPLAY") {
     return {
-      applicability: "REUSE_RESTAURANT_EVALUATOR",
-      reason: "Actual grounded identity, availability, or source-fact claims require the existing independent restaurant evaluator; this manifest supplies no claim by itself.",
+      applicability: "NOT_APPLICABLE",
+      reason: "A direct provider-stage artifact retains raw production output but does not materialize the full Hybrid state/trajectory required by the restaurant evaluator. Independent stage review must inspect its source-bound raw support; Phase 4 reuses the full evaluator.",
     };
   }
   return {
@@ -196,6 +230,18 @@ export function sourceStageSampleBudgetViolations(manifest: SourceStageProbeMani
   };
 }
 
+/** The runner uses this before it opens each sample, so a matrix cap is a dispatch boundary. */
+export function remainingSourceStageSampleModelCalls(
+  manifest: SourceStageProbeManifest,
+  settledAttempts: readonly Pick<SourceStageProbeAttempt, "modelCallsStarted">[],
+): number {
+  const consumed = settledAttempts.reduce((total, attempt) => {
+    nonNegativeSafeInteger(attempt.modelCallsStarted, "settled attempt modelCallsStarted");
+    return total + attempt.modelCallsStarted;
+  }, 0);
+  return Math.min(manifest.budget.sampleMaxModelCalls, Math.max(0, manifest.budget.matrixMaxModelCalls - consumed));
+}
+
 /**
  * Retains every completed attempt, including overspend. Budget violations are
  * accounting facts for acceptance, not an excuse to discard the matrix ledger.
@@ -269,6 +315,118 @@ export interface SourceStageNativeDiscoveryExecutionInput {
   browserBudget?: BrowserExecutionBudget;
   onDiagnostic?: (event: BrowserExecutionDiagnostic) => void;
   now?: () => string;
+}
+
+/**
+ * BrowserTaskExecutor charges `browser_read_decide` itself. Fact judgments
+ * invoke the same gateway directly, so charge every other stage model call to
+ * that one browser budget before dispatch. This keeps a source sample's model
+ * limit shared without teaching either provider about stage manifests.
+ */
+export function sharedSourceStageModelGateway(upstream: ModelGateway, budget: BrowserExecutionBudget): ModelGateway {
+  return {
+    async complete(request: ModelRequest): Promise<ModelResponse> {
+      if (request.purpose !== "browser_read_decide") {
+        if ((budget.maxModelCalls ?? Number.POSITIVE_INFINITY) <= budget.totalModelCalls) {
+          throw Object.assign(new Error("Shared source-stage model budget reached"), { code: "MODEL_CALL_BUDGET_EXHAUSTED" });
+        }
+        budget.totalModelCalls += 1;
+      }
+      return upstream.complete(request);
+    },
+  };
+}
+
+/**
+ * The non-discovery Stage paths intentionally stay thin: they call the same
+ * production ports the Router uses and retain their raw read. They do not
+ * synthesize a Task State or invoke the full Hybrid evaluator without one.
+ */
+export async function runSourceStageAvailabilityProbe(input: {
+  availability: RestaurantAvailabilityPort;
+  request: RestaurantAvailabilityRequest;
+  signal: AbortSignal;
+  browserBudget: BrowserExecutionBudget;
+}): Promise<{ read: RestaurantAvailabilityRead; modelCallsStarted: number }> {
+  input.availability.beginReadRun?.();
+  try {
+    const read = await input.availability.check(input.request, input.signal);
+    return { read, modelCallsStarted: input.browserBudget.totalModelCalls };
+  } catch (error) {
+    // LiveBrowserAvailability clears its shared counter as it retires a read.
+    // Preserve the measured count before that lifecycle cleanup so a failed
+    // sample cannot become a fictitious zero-model attempt in the runner.
+    throw Object.assign(error instanceof Error ? error : new Error("Availability source-stage read failed"), {
+      sourceStageModelCalls: input.browserBudget.totalModelCalls,
+    });
+  } finally {
+    input.availability.endReadRun?.();
+  }
+}
+
+export async function runSourceStageFactsProbe(input: {
+  facts: RestaurantCandidateFactPort;
+  request: RestaurantCandidateFactRequest;
+  signal: AbortSignal;
+  browserBudget: BrowserExecutionBudget;
+}): Promise<{ read: RestaurantCandidateFactRead; modelCallsStarted: number }> {
+  const read = await input.facts.inspectFacts(input.request, input.signal);
+  return { read, modelCallsStarted: input.browserBudget.totalModelCalls };
+}
+
+const REPLAY_PAGE_ACTIONS = new Set(["WAIT", "PRESS_ESCAPE", "COMPLETE", "REQUEST_HUMAN_HELP"]);
+
+export type FrozenReplayWire = BrowserActionWireRecord & {
+  /** Hash of the original live target semantic fields; no target prose is retained here. */
+  targetFingerprint?: string;
+};
+
+/**
+ * Replays a recorded, already-sanitized model wire only when the same opaque
+ * target is present in the fresh replay observation. It never asks a model to
+ * replace a missing decision and it uses the live decoder before returning an
+ * action to the production executor.
+ */
+export function createFrozenReplayBrowserDecision(
+  wires: readonly FrozenReplayWire[],
+): BrowserReadActionDecisionPort & { replayedDecisionCount(): number } {
+  let cursor = 0;
+  let lastWire: BrowserActionWireRecord | undefined;
+  return {
+    replayedDecisionCount() { return cursor; },
+    takeLastWireRecord() {
+      const result = lastWire;
+      lastWire = undefined;
+      return result;
+    },
+    async decide(input: BrowserReadDecisionInput) {
+      const wire = wires[cursor];
+      if (!wire) throw Object.assign(new Error("Replay has no frozen browser wire for this action"), { code: "REPLAY_ACTION_NO_COVERAGE" });
+      cursor += 1;
+      if (wire.extras.length) throw Object.assign(new Error("Replay wire contained rejected extra fields"), { code: "REPLAY_ACTION_NO_COVERAGE" });
+      const currentTargetRefs = new Set(input.observation.targets.map((target) => target.ref));
+      const rebound = REPLAY_PAGE_ACTIONS.has(wire.action) ? undefined
+        : input.observation.targets.filter(candidate => wire.targetFingerprint
+          && browserReadActionTargetReplayFingerprint(candidate) === wire.targetFingerprint);
+      if (rebound && rebound.length !== 1) {
+        throw Object.assign(new Error("Replay target is not semantically rebound in the fresh observation"), { code: "REPLAY_TARGET_NOT_REBOUND" });
+      }
+      if (!REPLAY_PAGE_ACTIONS.has(wire.action) && (!wire.targetFingerprint || !rebound?.[0])) {
+        throw Object.assign(new Error("Replay target is not semantically rebound in the fresh observation"), { code: "REPLAY_TARGET_NOT_REBOUND" });
+      }
+      // The original rationale is intentionally unavailable. Its fixed value
+      // meets the strict decoder but cannot introduce untrusted source text.
+      const frozenWire = {
+        action: wire.action,
+        targetRef: rebound?.[0]?.ref ?? wire.targetRef,
+        authoritativeField: wire.authoritativeField,
+        requestedState: wire.requestedState,
+        reason: "REPLAYED_FROZEN_WIRE",
+      };
+      lastWire = safeActionWireRecord(frozenWire, currentTargetRefs);
+      return decodeBrowserReadActionWire(frozenWire, currentTargetRefs);
+    },
+  };
 }
 
 export type SourceStageNativeDiscoveryExecutionResult = {
@@ -352,6 +510,47 @@ export async function runSourceStageNativeDiscoveryProbe(
     throw Object.assign(error instanceof Error ? error : new Error("Native discovery source probe failed"), {
       code: failureCode,
       sourceStageModelCalls: budget.totalModelCalls,
+    });
+  }
+}
+
+/**
+ * Google is a Discovery Pack without a browser page. It still receives the
+ * same frozen pack query and location context through its production search
+ * port, rather than being treated as a registry-only source.
+ */
+export async function runSourceStagePackDiscoveryProbe(input: {
+  pack: DiscoverySourcePack;
+  search: RestaurantSearchPort;
+  intent: RestaurantSearchIntent;
+  location: { latitude: number; longitude: number; radiusMeters: number; label: string; areaMatchBasis: "NAMED_PLACE_RADIUS" | "TASK_LOCATION_RADIUS" | "EVALUATION_LOCATION_RADIUS" };
+  readRunId: string;
+  signal: AbortSignal;
+  modelCallsStarted: number;
+}): Promise<SourceStageNativeDiscoveryExecutionResult> {
+  const startedAt = Date.now();
+  const plan = planDiscoverySources(input.intent, input.location, [input.pack.meta]);
+  const entry = plan.entries[0];
+  if (!entry) throw Object.assign(new Error("Source Pack is not eligible for frozen discovery intent"), { code: "SOURCE_STAGE_PACK_UNSUPPORTED" });
+  try {
+    const read = await input.search.search({ intent: input.intent, discoveryQuery: entry.query, readRunId: input.readRunId }, input.signal);
+    const failureCode = read.metadata.failureCode;
+    const status = failureCode ? "SOURCE_FAILED" as const : read.candidates.length ? "LIST_OBSERVED" as const : "NO_COVERAGE" as const;
+    return {
+      status,
+      discoveryCoverage: read.candidates.length ? "REGION_FILTERED_LIST_ONLY" : "NO_COVERAGE",
+      packId: input.pack.meta.id,
+      elapsedMs: Date.now() - startedAt,
+      read,
+      modelCallsStarted: input.modelCallsStarted,
+      ...(failureCode ? { failureCode } : status === "SOURCE_FAILED" ? { failureCode: "DISCOVERY_LIST_NOT_CURRENT_OR_PARSEABLE" } : {}),
+    };
+  } catch (error) {
+    const failureCode = error && typeof error === "object" && "code" in error && typeof error.code === "string"
+      ? error.code : "DISCOVERY_SOURCE_FAILED";
+    throw Object.assign(error instanceof Error ? error : new Error("Pack discovery source probe failed"), {
+      code: failureCode,
+      sourceStageModelCalls: input.modelCallsStarted,
     });
   }
 }

@@ -1,8 +1,8 @@
 # Browser Read Diagnostics
 
 - Status: Accepted
-- Document revision: 0.13
-- Last updated: 2026-10-07
+- Document revision: 0.14
+- Last updated: 2026-10-08
 - Source of truth for: 单页浏览器只读诊断操作与证据范围
 - Related ADRs: [ADR-0015](../decisions/0015-supported-source-search-evidence.md)、[ADR-0016](../decisions/0016-local-eval-browser-profile-lifecycle.md)
 
@@ -18,20 +18,22 @@ TableCheck/Tabelog和Google-listed官网路径共用Guard。Generic档允许非�
 敏感操作、凭据／PII、普通POST及未准入跳转仍阻断；公开跳转逐跳重验目的地。
 未知GET副作用是已接受的限制。
 
-### 分阶段Discovery探针
+### 分阶段来源探针
 
 `probe:restaurant:source-stage -- --manifest <冻结JSON> --no-proxy`只落计划；
-`--execute`仅执行`LIVE_READ_ONLY`的Discovery，复用生产NativeRestaurantSearch。
+`source-stage-probe@5`的`--execute`复用生产Discovery、Availability及官网Facts入口；
+Identity通过同一Availability provider读取来源身份，身份结论与后续库存结论分别验收。
 Manifest冻结Pack、意图／已解析位置、LOCAL_CHROMIUM或KITESURF、数据集SHA及预算：
-每样本≤60s／2模型调用，每矩阵≤30min／50调用，最多3轮、阶段≤150调用。
-Identity／Availability／Website Facts与REPLAY执行尚未接通；不能把计划或录制标签
-报告为这些模式通过。失败、超预算与未运行样本保留分母，评价／验收独立落盘。
+预算以对应冻结Manifest为准；10月8日续轮样本≤60s／4模型调用、矩阵≤30min／50调用，
+同问题最多3轮，阶段150调用含前轮6次；整单500s／50调用未增加。该续轮不能报告为
+与前轮2调用样本相同预算的改善。失败、超预算与未运行样本保留分母，评价／验收独立落盘。
 `--resolve-named-location`仅允许冻结样本的公开位置label，经Google预检后单次读取。
 单页探针的`--no-proxy`也传入同一有效环境；两个入口均不改.env或系统网络配置。
 
-本轮三次Tabelog矩阵未达标；全国列表误报被root独立审查拒绝。正确阻断与误拦
-需逐项判读，未评价不能报告“零误拦”。真实Teppen HAR没有恢复原日历，
-`REPLAYABLE`仅为格式资格，不是回放验收。[本轮记录](../history/TEST-LOG.md#test-2026-10-07-playbook-phase3)。
+前轮三次Tabelog矩阵未达标；全国列表误报被root独立审查拒绝。续轮当前分区／查询、
+原半径内候选、预算及Guard误拦由原页面与请求逐项审查，不以列表或命令退出判通过。
+直接provider阶段不具备完整Hybrid状态，六维Evaluator不适用；独立阶段验收仍必需。
+旧Teppen HAR未恢复日历的NO_COVERAGE保留，不能由新的成功回放覆盖。
 
 ### 可选Record与本地Replay
 
@@ -46,6 +48,13 @@ wire保留合同字段和被拒字段路径，reason遮盖；不是完整原始�
 query、POST body、媒体或不安全内容标记NOT_REPLAYABLE，不能作为通过证据。最终DOM
 静态重放不等于原动态失败回放；只有所需响应、脚本和状态保留时才签收对应行为。
 自动生成的`reviewedReads`仅为待人工审核草案，不自动安装。
+
+Stage Replay冻结原始HAR与trace SHA、Pack、原请求和位置context，经同一生产入口执行。
+模型动作只消费原脱敏wire，并在当前观察中按语义指纹重新绑定唯一目标；缺失请求、
+目标或动作为NO_COVERAGE，不调用新模型、不补网络。真实模型调用记0，原动作消费另记；
+`REPLAYABLE`仅表示录制格式资格，须比较原控件状态与结果才能签收。公开重定向保留
+原状态及准入Location；JSON-LD保留数值坐标，敏感字段脱敏；审核过的公共CDN脚本
+按字节保留。缺失动态响应／依赖、不安全或超限文档仍不具备回放资格。
 
 Phase1真实本地Chromium受控capture→Replay验证HTTP503、隐藏CSS及外部脚本状态，
 零额外receiver到达；该证据与真实来源失败语料分开。9,537ms的单来源真实探针确认
@@ -85,7 +94,7 @@ npm run probe:restaurant:browser:read -- --url 'https://www.tablecheck.com/实�
 
 本地Chromium可显式设置`PRAXIS_LOCAL_CHROMIUM_PROXY_SERVER=http://127.0.0.1:10808`，通过Playwright的proxy参数应用于临时及专用持久eval profile。不设置时保持默认网络路径；不改变系统代理、TUN或模型出口，也不自动回退。该变量只由`fromEnvironment`读取；直接构造运行时的诊断须显式传入`proxyServer`。
 
-示例URL必须替换为实际公开入口。`--network-path DIRECT|PROXY|UNKNOWN`是操作者报告，工具不检测系统TUN。可按页面证据添加`--ready-selector`；不得猜测选择器后把超时认作网站不可用。可选`--outlet-name`、`--address`、`--phone`提供对照身份；`--date YYYY-MM-DD`与`--party-size`必须一起提供。工具观察已有页面参数，不操作日期人数控件。手工输入不充当Google Discovery证据。
+示例URL必须替换为实际公开入口。`--network-path DIRECT|PROXY|UNKNOWN`是操作者报告，工具不检测系统TUN。可按页面证据添加`--ready-selector`；不得猜测选择器后把超时认作网站不可用。可选`--outlet-name`、`--address`、`--phone`提供对照身份；`--date YYYY-MM-DD`与`--party-size`必须一起提供。工具观察已有页面参数，不操作日期人数控件。手工输入不充当Google Discovery证据。`--capture-controls`可保留脱敏控件投影；不透明`dom:`引用只属于本次观察，不是后续动作授权。
 
 ## 实验顺序与停止点
 

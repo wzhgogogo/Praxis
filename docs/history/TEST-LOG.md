@@ -1,8 +1,8 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.159
-- Last updated: 2026-10-07
+- Document revision: 4.160
+- Last updated: 2026-10-08
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
@@ -10,6 +10,20 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+
+## TEST-2026-10-08-PLAYBOOK-PHASE3-RENEWAL
+
+- History／oracle：旧Live和当轮成员加载反例关联；旧同步Fixture漏了Date后成员collection sync。期望先从原始server库存／门店资料固定，再补既有行为覆盖；[独立root记录](../../.eval-artifacts/h001-h005-playbook-20261008/root.renewal.review.json)。
+- Frozen scope：stage@5，60s／4模型/诊断样本、30min／50/矩阵，同问题最多3轮；历史6＋续行累计≤150。原@6／Semantic／Gold／HARD／身份／半径及整单500s／50不变；预算变更不作同预算对比。
+- Discovery Live：Google10/10（15 API请求／0模型）；TL三轮末9/10／4模型；TC两轮末3/10／30模型，完整分母保留，守卫误拦并非全部已评。TL同问题三轮后未再跑。
+- Identity Live：TL10/10／25模型，root原始页名、ID／JSON-LD逐店核验；库存全部UNKNOWN。TC0模型返回4/10，另6正确guide后预算停止不能算身份结论通过。
+- Facts Live：生产官网入口4/10有绑定引用资料、5模型；root离线重建其中3份，另1脱敏可见性限制。首轮Google-only零官网产物不算覆盖；门槛是8可引用片段，不要求8结构化Fact。
+- Known-feasible Live：原始HAR独立确认同五家10/22／2人／17:30资格；首轮72,223ms／14模型，0/5绑定slot、0 Offer。DATE首步均成功，人数loader未结束，重复DATE拒绝是后续症状；修后同请求R2为5/5绑定slot，59,960ms／14模型，root逐项核对原HTML与200响应，0错误库存Offer（不等于HARD／完整交付）。
+- Replay：一次真实列表0外网／0模型回放五个原结果；真实日历Replay0动作、NO_COVERAGE，原失败／缺资源不能用合成HTML或Record标签替代。
+- Offline：库存等待红断言在隔离f640152 Adapter得到UNKNOWN；修后host默认757/757、实际Chromium9/9、类型／架构／build通过。之后只改动态Fixture构造，受影响Chromium4/4／生产组合37/37重验；旧71/73失败保留、长预算对照复用，不声称重跑全套。
+- Evaluation：复用现有生产Grounding与source-stage资源统计；root补原始身份／引用／请求链核对。局部阶段无最终用户claim，完整六维Evaluator不适用，不能替代Phase4交付。
+- Acceptance：Phase3仍FAIL，Phase4–6 NOT_RUN；总模型145/150，余5不足剩余矩阵；按Playbook三轮／资源停止条件结束外部执行。仅Live Read-only，无预约／登录／支付；余下必过项及当前代码签收分别记录。
 
 ## TEST-2026-10-07-PLAYBOOK-PHASE3
 

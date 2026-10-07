@@ -1,8 +1,8 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.153
-- Last updated: 2026-10-07
+- Document revision: 4.154
+- Last updated: 2026-10-08
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
@@ -10,6 +10,17 @@
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+
+## DEV-2026-10-08-PLAYBOOK-PHASE3-RENEWAL
+
+- Evidence status: exposed development evidence，基线f640152；生产Source Pack／Browser组合修复与真实阶段验收分开，原始记录不覆盖，不是Clean Baseline。
+- 来源自有地区／当前查询绑定、公共查询grammar与类别入口修正；Google支持结构化行政区名称，保留原半径；Core无门店／日期分支。
+- 共享操作／模型预算保留失败计数，矩阵剩余额度传入实际Availability构造器；真实空INPUT值、form owner默认GET及组合框代理值回读一起核验。
+- 录制保留公开脚本／资源字节、JSON-LD坐标与逐跳跳转；Replay校验Pack／请求／位置／HAR／trace及目标语义指纹，同生产decoder，缺资源拒绝、不联网补齐；旧执行兼容路径退役。
+- stage@5复用生产Discovery／Availability／官网Facts入口、冻结样本与原子结果；Google-only Facts误接线及混合Replay模式已返修，原失败保留。
+- 既有Teppen与同五家已知可行库存复现日期已选／人数加载；补所属Adapter有条件等待及实际Chromium反例，严格同店／日期／人数／slot接纳不变。真实复验与未达标项见[本轮Test](TEST-LOG.md#test-2026-10-08-playbook-phase3-renewal)。
+- 未扩展Phase4–6、总纲或平台；诊断样本4调用是预先声明的新诊断预算，整单500s／50不变；[独立验收](../../.eval-artifacts/h001-h005-playbook-20261008/root.renewal.review.json)。
 
 ## DEV-2026-10-07-PLAYBOOK-PHASE3
 

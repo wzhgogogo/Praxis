@@ -16,6 +16,7 @@ const { values } = parseArgs({ options: {
   date: { type: "string" }, "party-size": { type: "string" },
   "network-path": { type: "string", default: "UNKNOWN" },
   "capture-query-state": { type: "boolean", default: false },
+  "capture-controls": { type: "boolean", default: false },
   "no-proxy": { type: "boolean", default: false },
 } });
 if (!values.url) throw new Error("--url is required");
@@ -36,6 +37,7 @@ if (hasSchedule && (!values.date || !/^\d{4}-\d{2}-\d{2}$/.test(values.date) || 
   throw new Error("Provide --date YYYY-MM-DD and --party-size 1–100 together");
 }
 const queryTrace: Array<Record<string, unknown>> = [];
+const controlTrace: Array<Record<string, unknown>> = [];
 const preflight = await runLivePreflight({
   runner: "BROWSER_READ_PROBE",
   targets: [provider],
@@ -60,6 +62,12 @@ const input: BrowserReadProbeInput = {
         controls: safeObservedControls(controls) });
     },
   } } : {}),
+  ...(values["capture-controls"] ? { controlObservation: {
+    record(snapshot, controls) {
+      controlTrace.push({ sequence: controlTrace.length + 1, snapshot: safeRecord(snapshotRecord(snapshot)), totalObservedControls: controls.length,
+        controls: safeObservedControls(controls) });
+    },
+  } } : {}),
 };
 const journal = await startDiagnosticRun(resolve(".eval-artifacts", "restaurant-browser-probe"), {
   mode: "LIVE_READ_ONLY_BROWSER_PROBE", provider, requestedUrl: diagnosticUrl(input.url),
@@ -72,14 +80,15 @@ const journal = await startDiagnosticRun(resolve(".eval-artifacts", "restaurant-
     : "REMOTE_SESSION",
   safety: { allowedOperations: ["NAVIGATE", "SNAPSHOT", "WAIT_FOR"], externalSideEffectCount: "NOT_MEASURED" },
   ...(values["capture-query-state"] ? { queryCapture: "SANITIZED_BOOKING_REGION_AND_PASSIVE_VACANCY_RESPONSE" } : {}),
+  ...(values["capture-controls"] ? { controlCapture: "SANITIZED_PUBLIC_CONTROL_PROJECTION" } : {}),
 });
 try {
   const result = await runBrowserReadProbe(browserRuntimeFromEnvironment(effectiveEnvironment), input);
-  await journal.finish({ status: result.pageState === "CONTENT_OBSERVED" ? "SUCCEEDED" : "FAILED", stage: "PAGE_OBSERVATION", result, queryTrace });
+  await journal.finish({ status: result.pageState === "CONTENT_OBSERVED" ? "SUCCEEDED" : "FAILED", stage: "PAGE_OBSERVATION", result, queryTrace, controlTrace });
   console.log(JSON.stringify({ artifactPath: journal.resultPath, result }));
   if (result.pageState !== "CONTENT_OBSERVED") process.exitCode = 1;
 } catch (error) {
-  await journal.finish({ status: "FAILED", stage: "PAGE_OBSERVATION", failureCode: diagnosticFailureCode(error), queryTrace });
+  await journal.finish({ status: "FAILED", stage: "PAGE_OBSERVATION", failureCode: diagnosticFailureCode(error), queryTrace, controlTrace });
   console.error(JSON.stringify({ artifactPath: journal.resultPath, failureCode: diagnosticFailureCode(error) }));
   process.exitCode = 1;
 }

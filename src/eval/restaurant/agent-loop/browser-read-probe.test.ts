@@ -79,3 +79,21 @@ test("Tabelog read probe journals loading and settled saved Teppen query without
     assert.deepEqual(artifact.queryTrace[1]!.controls.map(control => [control.label, control.disabled]), [["Guests 2", true]]);
   } finally { await rm(directory, { recursive: true, force: true }); }
 });
+
+
+test("browser read probe can passively retain a sanitized public control projection without an action", async () => {
+  const url = "https://tabelog.com/en/tokyo/rstLst/";
+  const captured: Array<{ url: string; labels: string[] }> = [];
+  let observed = 0;
+  const session: BrowserSession = {
+    metadata: { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM", engine: "CHROMIUM", startedAt: new Date().toISOString() },
+    navigate: async () => {},
+    snapshot: async () => ({ url, title: "Tokyo", text: "Directory", html: '<a href="/en/tokyo/A1302/A130201/rstLst/">Higashi-Ginza</a>' }),
+    observeControls: async () => { observed += 1; return [{ id: "region", stableKey: "region", kind: "LINK", role: "link", label: "Higashi-Ginza", href: "https://tabelog.com/en/tokyo/A1302/A130201/rstLst/", disabled: false, visible: true }]; },
+    click: async () => assert.fail("passive capture must not click"), fill: async () => assert.fail("passive capture must not fill"), select: async () => assert.fail("passive capture must not select"), waitFor: async () => assert.fail("passive capture must not wait"), screenshot: async () => new Uint8Array(), close: async () => {},
+  };
+  const result = await runBrowserReadProbe({ openSession: async () => session }, { url, controlObservation: { record(snapshot, controls) { captured.push({ url: snapshot.url, labels: controls.map(control => control.label) }); } } });
+  assert.equal(result.pageState, "CONTENT_OBSERVED");
+  assert.equal(observed, 1);
+  assert.deepEqual(captured, [{ url, labels: ["Higashi-Ginza"] }]);
+});

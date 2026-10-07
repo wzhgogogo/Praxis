@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 
 import type { BrowserReadActionTarget } from "../../../../infrastructure/browser/browser-action-decision.js";
 import type { BrowserCapturedResponse, BrowserPageControl, BrowserRuntime, BrowserSession, BrowserSnapshot } from "../../../../infrastructure/browser/browser-runtime.js";
+import type { RestaurantReadEvidenceProvider } from "../../../../domains/restaurant/contracts.js";
 
 export function safeUrl(value: string): string {
   try {
@@ -250,7 +251,7 @@ function safeSessionArgs(method: string, args: readonly unknown[]): unknown[] {
 /** Exact BrowserSession trace wrapper used by the Live case-slice runner. */
 export function traceBrowserSession(
   session: BrowserSession,
-  source: "TABELOG" | "TABLECHECK",
+  source: Exclude<RestaurantReadEvidenceProvider, "MODEL_JUDGMENT">,
   record: (kind: string, detail: unknown) => number,
   recording?: BrowserTraceRecordingSink,
 ): BrowserSession {
@@ -303,7 +304,7 @@ export function traceBrowserSession(
 /** Preserve the runtime-owned Guard capability while tracing its safe sessions. */
 export function traceBrowserRuntime(
   runtime: BrowserRuntime,
-  source: "TABELOG" | "TABLECHECK",
+  source: Exclude<RestaurantReadEvidenceProvider, "MODEL_JUDGMENT">,
   record: (kind: string, detail: unknown) => number,
   recording?: BrowserTraceRecordingSink,
 ): BrowserRuntime {
