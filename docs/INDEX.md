@@ -1,8 +1,8 @@
 # Praxis 开发文档索引
 
 - Status: Accepted
-- Document revision: 1.4
-- Last updated: 2026-10-07
+- Document revision: 1.5
+- Last updated: 2026-10-09
 - Source of truth for: 开发文档导航、阅读路径、文档职责和冲突处理
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Project Positioning](PROJECT-POSITIONING.md)
@@ -99,6 +99,9 @@ Accepted ADR
 - [Post-change Verify](skills/post-change-verify/SKILL.md)
 
 ## 仓库治理
+
+- [Agent 网站操作第一阶段 Playbook](AGENT-WEB-OPERATION-PHASE-1-PLAYBOOK.md)：第一阶段总纲；本轮仅实施 P1-A／WP-A 的 eval 决策捕获，后续工作包未实施。
+- [H001–H005 已知可行基线 Playbook](H001-H005-KNOWN-FEASIBLE-BASELINE-PLAYBOOK.md)：P1-A 细则；已暴露开发诊断，非 Clean Baseline；变体与见证不随 WP-A 修改。
 
 - [浏览器只读可靠性独立复核（2026-10-07）](history/BROWSER-READ-RELIABILITY-REVIEW-2026-10-07.md)：通用执行、来源网络规则、受控交付及三次Live的证据；代码局部通过，完整交付仍FAIL。
 - [H001 可信结果交付 Playbook](H001-QUALIFIED-DELIVERY-PLAYBOOK.md)：draft / not integrated；500 秒开发预算下的查询前置选项、必要事实追查、证据范围和完整交付验收计划，不代表能力已实现或新 Live 已获授权。

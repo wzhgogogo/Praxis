@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import test from "node:test";
 
@@ -16,6 +16,9 @@ import { restaurantSearchIntentFingerprint, type RestaurantTaskState } from "../
 import { createHybridReadComposition } from "./hybrid-read-composition.js";
 import { evaluateRestaurantHybridLiveArtifact } from "./diagnostic-evaluator.js";
 import { loadFrozenLiveCases, RESTAURANT_READ_DEVELOPMENT_CASE_PATH } from "./live-case-materializer.js";
+import { ModelGatewayError } from "../../../core/model/errors.js";
+import { createHybridDecisionCapture } from "./runners/run-hybrid-live-read.js";
+import { BrowserReadRecording } from "./runners/browser-read-recording.js";
 import { traceBrowserSession } from "./runners/browser-case-slice-evidence.js";
 
 import { center, date, reference, sourcePages, type SourceScenario } from "./native-fixed-source-pages.js";
@@ -30,6 +33,8 @@ function action(type: string, candidateIds: string[] = []) {
 
 class H001NativeModel implements ModelGateway {
   readonly purposes: string[] = [];
+  readonly requests: ModelRequest[] = [];
+  private failedCaptureCall = false;
   retrievalFillUsed = false;
   readonly discoveryActions: string[] = [];
   readonly browserDecisionInputs: Array<{
@@ -41,9 +46,14 @@ class H001NativeModel implements ModelGateway {
   private searches = 0;
   private earlyEndAttempted = false;
   private earlyPartialAttempted = false;
-  constructor(private readonly scenario: SourceScenario, private readonly availabilityFirst = false, private readonly areaQuery = "Shibuya") {}
+  constructor(private readonly scenario: SourceScenario, private readonly availabilityFirst = false, private readonly areaQuery = "Shibuya", private readonly failSecondBrowserCall = false) {}
   async complete(request: ModelRequest): Promise<ModelResponse> {
     this.purposes.push(request.purpose);
+    this.requests.push(structuredClone(request));
+    if (this.failSecondBrowserCall && request.purpose === "browser_read_decide" && !this.failedCaptureCall && this.purposes.filter(purpose => purpose === "browser_read_decide").length === 2) {
+      this.failedCaptureCall = true;
+      throw new ModelGatewayError("Deliberate offline timeout", "TIMEOUT", true);
+    }
     if (this.purposes.length > 50) throw new Error("H001 shared 50-call model ceiling exceeded");
     if (request.purpose === "restaurant_semantic_interpret") return reply(JSON.stringify({ schemaVersion: "3", facts: [
       { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "omakase spot", selectionScope: "OPEN_ENDED" } },
@@ -148,7 +158,7 @@ class H001NativeModel implements ModelGateway {
   }
 }
 
-async function runScenario(scenario: SourceScenario, options: { availabilityFirst?: boolean; guardedDiscoverySubmit?: boolean; packs?: readonly DiscoverySourcePack[]; areaQuery?: string } = {}) {
+async function runScenario(scenario: SourceScenario, options: { availabilityFirst?: boolean; guardedDiscoverySubmit?: boolean; packs?: readonly DiscoverySourcePack[]; areaQuery?: string; decisionCapture?: ReturnType<typeof createHybridDecisionCapture>; failSecondBrowserCall?: boolean } = {}) {
   const startedAt = Date.now();
   const frozen = (await loadFrozenLiveCases(RESTAURANT_READ_DEVELOPMENT_CASE_PATH)).find((item) => item.id === "h001")!;
   const navigations: string[] = [];
@@ -164,7 +174,9 @@ async function runScenario(scenario: SourceScenario, options: { availabilityFirs
       formattedAddress: `${requested}, Tokyo`, location: center, types: ["locality", "political"],
       addressComponents: [{ longText: requested, types: ["locality", "political"] }] }] }), { status: 200 });
   } }), () => reference.toISOString(), 10, { maxRequests: 100 });
-  const model = new H001NativeModel(scenario, options.availabilityFirst, options.areaQuery);
+  const model = new H001NativeModel(scenario, options.availabilityFirst, options.areaQuery, options.failSecondBrowserCall);
+  const gateway: ModelGateway = options.decisionCapture
+    ? { complete: request => options.decisionCapture!.complete(request, () => model.complete(request)) } : model;
   const rawBrowser = sourcePages(scenario, navigations, sessionsOpened, navigationSessionIds, closedSessionIds, {
     // This controlled source owns the same installed read boundary needed for
     // its public service-category query. Unguarded fixtures retain the narrow
@@ -179,16 +191,16 @@ async function runScenario(scenario: SourceScenario, options: { availabilityFirs
       const sequence = ++browserTraceSequence;
       browserTrace.push({ sequence, at: reference.toISOString(), kind, detail });
       return sequence;
-    },
+    }, options.decisionCapture?.snapshotSink,
   ) };
-  const native = composeNativeRestaurantRead(google, browser, model, undefined, undefined, undefined, () => reference.toISOString(), undefined, options.packs ?? [tabelogDiscoveryPack, tableCheckDiscoveryPack]);
-  const availability = new LiveBrowserAvailability(browser, model, {
+  const native = composeNativeRestaurantRead(google, browser, gateway, undefined, undefined, undefined, () => reference.toISOString(), undefined, options.packs ?? [tabelogDiscoveryPack, tableCheckDiscoveryPack]);
+  const availability = new LiveBrowserAvailability(browser, gateway, {
     now: () => reference.toISOString(), maxModelCallsPerCandidate: 20, maxModelCallsTotal: 50,
     maxOperationsPerCandidate: 30, maxElapsedMsPerCandidate: 60_000, maxElapsedMsPerProvider: 45_000, maxAutomaticElapsedMs: 60_000,
   });
   const taskId = `native-h001:${scenario}`;
   const composition = createHybridReadComposition({ taskId, runId: `run:${taskId}`, clock: { now: () => reference },
-    model, search: native.search, facts: native.facts, availability,
+    model: gateway, search: native.search, facts: native.facts, availability,
     router: { structuredReadTimeoutMs: 30_000, browserReadTimeoutMs: 60_000 },
     loop: { maxSteps: 20, timeoutMs: 60_000 },
   });
@@ -197,8 +209,10 @@ async function runScenario(scenario: SourceScenario, options: { availabilityFirs
   const loop = await composition.coordinator.run(taskId);
   const snapshot = composition.runtime.snapshot(taskId);
   const readRunId = `${snapshot.runId}:investigation:${snapshot.domainState.investigationRevision}`;
+  const decisionCaptureResult = await options.decisionCapture?.finish();
   const artifact = {
     schemaVersion: "1", mode: "SYNTHETIC_CONTROL", status: "SUCCEEDED", stage: "AGENT_LOOP", caseId: "h001", runId: snapshot.runId,
+    ...(decisionCaptureResult ? { decisionCapture: decisionCaptureResult } : {}),
     materializedCase: frozen, semantic, finalSnapshot: snapshot, trajectories: composition.trajectories.steps,
     events: composition.runtime.eventLog, loop, sourceEnvironment: { network: "OFFLINE_FIXED_TRANSPORT", browser: "OFFLINE_FIXED_PAGES" },
     sourceTrace: { navigations, googleQueries: googleCalls.map((item) => item.query), browserTrace },
@@ -222,7 +236,7 @@ async function runScenario(scenario: SourceScenario, options: { availabilityFirs
     const directory = resolve(".eval-artifacts", process.env.PRAXIS_NATIVE_STAGE2_ARTIFACT_DIR ?? "h001-native-stage2-20260929-review2-final");
     await writeFile(resolve(directory, `${scenario}.evaluation.json`), JSON.stringify(evaluation, null, 2), { flag: "wx" });
   }
-  return { semantic, loop, state: snapshot.domainState, navigations, sessionsOpened, navigationSessionIds, closedSessionIds, googleCalls, model, evaluation, trajectories: composition.trajectories.steps, elapsedMs: Date.now() - startedAt };
+  return { semantic, loop, state: snapshot.domainState, navigations, sessionsOpened, navigationSessionIds, closedSessionIds, googleCalls, model, evaluation, trajectories: composition.trajectories.steps, elapsedMs: Date.now() - startedAt, artifact };
 }
 
 test("H001 native first batch presents three source-bound Tabelog results without TableCheck", async () => {
@@ -690,4 +704,104 @@ test("H001 rejects early end and short presentation after TableCheck discovery u
       provider: item.executionMetadata?.provider }))));
   assert.deepEqual(result.state.presentedResults?.candidateIds, ["tablecheck:native-omakase-1", "tablecheck:native-omakase-2"]);
   assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(result.evaluation.findings));
+});
+
+
+test("WP-A offline composition captures every model call including a timeout and links browser observations to DOM snapshots", async () => {
+  await mkdir(resolve(".eval-artifacts"), { recursive: true });
+  const directory = await mkdtemp(resolve(".eval-artifacts", "wp-a-decisions-"));
+  const resultPath = resolve(directory, "offline.result.json");
+  const recording = new BrowserReadRecording({ directory, runId: "browser" });
+  const capture = createHybridDecisionCapture(resultPath, recording);
+  try {
+    const result = await runScenario("TABLECHECK_SCOPED_MENU_DELIVERS", { decisionCapture: capture, failSecondBrowserCall: true });
+    const browserRecording = await recording.finish();
+    await writeFile(resultPath, JSON.stringify({ ...result.artifact, browserRecording }, null, 2), { flag: "wx" });
+    const metadata = result.artifact.decisionCapture!;
+    const bytes = await readFile(metadata.path);
+    const rows = bytes.toString().trim().split("\n").map(line => JSON.parse(line));
+    assert.equal(rows.length, result.model.purposes.length);
+    assert.equal(metadata.callsStarted, rows.length);
+    assert.equal(metadata.rowsWritten, rows.length);
+    assert.deepEqual(metadata.errors, []);
+    assert.equal(metadata.sha256, createHash("sha256").update(bytes).digest("hex"));
+    const failed = rows.filter(row => row.outcome === "FAILED");
+    assert.equal(failed.length, 1);
+    assert.equal(failed[0].errorCode, "TIMEOUT");
+    assert.equal(failed[0].outputText, null);
+    const manifest = JSON.parse(await readFile(resolve(browserRecording.path, "recording.json"), "utf8"));
+    let browserCalls = 0;
+    for (const row of rows) {
+      const request = result.model.requests[row.sequence - 1]!;
+      assert.deepEqual(row.messages, request.messages);
+      assert.equal(row.purpose, request.purpose);
+      assert.equal(row.promptVersion, request.promptVersion);
+      assert.equal(row.timeoutMs, request.timeoutMs);
+      assert.equal(row.maxOutputTokens, request.maxOutputTokens ?? null);
+      assert.equal(row.temperature, request.temperature ?? null);
+      assert.equal(row.thinking, request.thinking ?? null);
+      assert.equal(row.outputSchema.name, request.outputSchema.name);
+      assert.ok(Number.isFinite(Date.parse(row.startedAt)) && row.latencyMs >= 0);
+      if (row.outcome === "SUCCEEDED") {
+        assert.equal(typeof row.outputText, "string");
+        assert.equal(row.finishReason, "TOOL_CALLS");
+      }
+      if (row.purpose !== "browser_read_decide") continue;
+      browserCalls += 1;
+      const { observation } = JSON.parse(request.messages.find(message => message.role === "user")!.content);
+      assert.equal(row.browser.observationRevision, observation.revision);
+      assert.equal(row.browser.url, observation.url);
+      const document = manifest.documents.find((item: { snapshot: number }) => item.snapshot === row.browser.recordingSnapshot);
+      assert.ok(document, "a decision must point to an existing recorded DOM snapshot");
+      assert.equal(document.url, observation.url);
+      const html = await readFile(resolve(browserRecording.path, document.file), "utf8");
+      assert.ok(html.length > 0);
+    }
+    assert.ok(browserCalls >= 2, "normal and failed browser decisions both traverse the production executor");
+    assert.ok(rows.some(row => row.browser && row.browser.observationRevision !== row.browser.recordingSnapshot),
+      "executor revisions must not be confused with the global Recording snapshot counter");
+    if (process.env.PRAXIS_KEEP_WP_A_CAPTURE === "1") console.log(JSON.stringify({ wpAOfflineArtifact: resultPath,
+      modelCalls: rows.length, failures: failed.length, browserCalls, decisionCapture: metadata }));
+  } finally {
+    if (process.env.PRAXIS_KEEP_WP_A_CAPTURE !== "1") await rm(directory, { recursive: true, force: true });
+  }
+});
+
+
+test("WP-A capture keeps model results and errors when storage fails, and finalizes an outstanding deadline call once", async () => {
+  await mkdir(resolve(".eval-artifacts"), { recursive: true });
+  const directory = await mkdtemp(resolve(".eval-artifacts", "wp-a-capture-boundary-"));
+  const request: ModelRequest = { taskId: "offline-capture", purpose: "browser_read_decide", promptVersion: "12",
+    messages: [{ role: "user", content: JSON.stringify({ observation: { revision: 7, url: "https://example.test/calendar" } }) }],
+    outputSchema: { name: "browser-read-action", version: "1" }, responseFormat: "JSON_SCHEMA",
+    timeoutMs: 100, fallback: "FAIL_CLOSED" };
+  try {
+    const unavailable = createHybridDecisionCapture(resolve(directory, "missing", "offline.result.json"));
+    const response = { ...reply("{}", request.purpose), usage: { inputTokens: 2, outputTokens: 1, totalTokens: 3 } };
+    assert.equal(await unavailable.complete(request, async () => response), response);
+    const failure = new ModelGatewayError("Offline failed request", "NETWORK", true);
+    await assert.rejects(unavailable.complete(request, async () => { throw failure; }), error => error === failure);
+    const unavailableResult = await unavailable.finish();
+    assert.equal(unavailableResult.callsStarted, 2);
+    assert.equal(unavailableResult.rowsWritten, 0);
+    assert.equal(unavailableResult.sha256, null);
+    assert.equal(unavailableResult.errors[0]?.operation, "CREATE");
+
+    const capture = createHybridDecisionCapture(resolve(directory, "deadline.result.json"));
+    assert.equal(await capture.complete(request, async () => response), response);
+    let resolvePending!: (response: ModelResponse) => void;
+    const pendingCall = capture.complete(request, () => new Promise(resolve => { resolvePending = resolve; }));
+    const deadline = await capture.finish();
+    const before = await readFile(deadline.path, "utf8");
+    const captured = before.trim().split("\n").map(line => JSON.parse(line));
+    assert.equal(captured.length, 2);
+    assert.deepEqual(captured[0].usage, response.usage);
+    const row = captured[1];
+    assert.equal(row.outcome, "FAILED");
+    assert.equal(row.errorCode, "RUN_DEADLINE_EXCEEDED");
+    assert.deepEqual(row.browser, { observationRevision: 7, url: "https://example.test/calendar", recordingSnapshot: null });
+    resolvePending(response);
+    assert.equal(await pendingCall, response);
+    assert.equal(await readFile(deadline.path, "utf8"), before, "late provider settlement cannot append a duplicate row");
+  } finally { await rm(directory, { recursive: true, force: true }); }
 });

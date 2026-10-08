@@ -1,14 +1,16 @@
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
+import { appendFile, readFile, writeFile } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
 import { relative, resolve } from "node:path";
 import { createInterface } from "node:readline/promises";
 
 import { LIVE_READ_DEBUG_INVESTIGATION_BUDGET } from "../../../../application/live-read-investigation-budget.js";
-import type { ModelGateway, ModelInvocationRecord } from "../../../../core/model/contracts.js";
+import type { ModelGateway, ModelInvocationRecord, ModelRequest, ModelResponse } from "../../../../core/model/contracts.js";
 import { RestaurantSemanticInterpreter } from "../../../../domains/restaurant/semantic-interpreter.js";
 import { browserRuntimeFromEnvironment } from "../../../../infrastructure/browser/browser-runtime-factory.js";
-import type { BrowserRuntime } from "../../../../infrastructure/browser/browser-runtime.js";
+import type { BrowserRuntime, BrowserSnapshot } from "../../../../infrastructure/browser/browser-runtime.js";
 import type { BrowserExecutionBudget } from "../../../../infrastructure/browser/browser-task-executor.js";
 import type { BrowserExecutionDiagnostic } from "../../../../infrastructure/browser/browser-task-executor.js";
 import { DeepSeekModelGateway } from "../../../../infrastructure/deepseek/deepseek-model-gateway.js";
@@ -27,7 +29,7 @@ import { RestaurantPartySizeSupplementResolver } from "../../../../domains/resta
 import { evaluateArtifactAfterFinish, RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION } from "../diagnostic-evaluator.js";
 import { createRunDeadlineSignal, RUN_DEADLINE_EXCEEDED, settleAtRunDeadline } from "../live-run-deadline.js";
 import { diagnosticFailureCode, startDiagnosticRun } from "../../../shared/diagnostic-run.js";
-import { safeRecord, traceBrowserRuntime } from "./browser-case-slice-evidence.js";
+import { safeRecord, traceBrowserRuntime, type BrowserTraceRecordingSink } from "./browser-case-slice-evidence.js";
 import { BrowserReadRecording, type BrowserReadRecordingResult } from "./browser-read-recording.js";
 import { environmentWithEffectiveLiveNetwork, resolveEffectiveLiveNetworkConfiguration, runLivePreflight } from "../live-preflight.js";
 
@@ -98,6 +100,99 @@ async function waitForManualTabelogIntervention(input: TabelogUserInterventionRe
   }
 }
 
+/** Eval-only capture; importing this Runner never starts providers or Live preflight. */
+export function createHybridDecisionCapture(resultPath: string, recording?: BrowserReadRecording) {
+  const path = resultPath.replace(/\.result\.json$/, "") + ".decisions.jsonl";
+  const insideArtifacts = relative(resolve(".eval-artifacts"), resolve(path));
+  if (!insideArtifacts || insideArtifacts.startsWith("..")) throw new Error("Decision capture must stay below .eval-artifacts");
+  const errors: Array<{ operation: string; errorCode: string }> = [];
+  const report = (operation: string, error: unknown) => {
+    const item = { operation, errorCode: diagnosticFailureCode(error) };
+    errors.push(item);
+    console.error(JSON.stringify({ decisionCaptureError: item }));
+  };
+  let writable = true;
+  let writes = writeFile(path, "", { flag: "wx" }).catch(error => { writable = false; report("CREATE", error); });
+  let sequence = 0;
+  let rowsWritten = 0;
+  let snapshotSequence = 0;
+  // The read composition executes browser work serially. Match the current
+  // model observation before linking; Recording increments even for omitted DOMs.
+  let latestSnapshot: { url: string; title: string; visibleText: string; recordingSnapshot: number } | undefined;
+  const pending = new Map<number, { record: Record<string, unknown>; startedAtMs: number }>();
+  let finished = false;
+  const sink = recording?.snapshotSink();
+  const snapshotSink: BrowserTraceRecordingSink = {
+    ...sink,
+    record: () => undefined,
+    recordSnapshot(snapshot: BrowserSnapshot, sanitized: unknown) {
+      snapshotSequence += 1;
+      latestSnapshot = { url: snapshot.url, title: snapshot.title,
+        visibleText: snapshot.text.replace(/\s+/g, " ").trim().slice(0, 4_000), recordingSnapshot: snapshotSequence };
+      sink?.recordSnapshot?.(snapshot, sanitized);
+    },
+  };
+  const settle = (index: number, result: Record<string, unknown>) => {
+    const attempt = pending.get(index);
+    if (!attempt) return; // A run deadline can finalize an outstanding provider call first.
+    pending.delete(index);
+    const row = { ...attempt.record, latencyMs: Math.max(0, Date.now() - attempt.startedAtMs), ...result };
+    writes = writes.then(async () => {
+      if (!writable) return;
+      try { await appendFile(path, JSON.stringify(row) + "\n"); rowsWritten += 1; }
+      catch (error) { report("APPEND", error); }
+    });
+  };
+  return {
+    snapshotSink,
+    async complete(request: ModelRequest, invoke: () => Promise<ModelResponse>): Promise<ModelResponse> {
+      const index = ++sequence;
+      const startedAtMs = Date.now();
+      try {
+        const record: Record<string, unknown> = {
+          sequence: index, purpose: request.purpose, promptVersion: request.promptVersion,
+          startedAt: new Date(startedAtMs).toISOString(), timeoutMs: request.timeoutMs,
+          maxOutputTokens: request.maxOutputTokens ?? null, temperature: request.temperature ?? null,
+          thinking: request.thinking ?? null, outputSchema: { name: request.outputSchema.name, version: request.outputSchema.version },
+          responseFormat: request.responseFormat, messages: structuredClone(request.messages),
+        };
+        if (request.purpose === "browser_read_decide") {
+          const { observation } = JSON.parse(request.messages.find(message => message.role === "user")!.content);
+          const matches = latestSnapshot?.url === observation.url && latestSnapshot?.title === observation.title
+            && latestSnapshot?.visibleText === observation.visibleText;
+          record.browser = { observationRevision: observation.revision, url: observation.url,
+            recordingSnapshot: recording && matches ? latestSnapshot!.recordingSnapshot : null };
+          if (recording && !matches) report("SNAPSHOT_LINK", Object.assign(new Error(), { code: "DECISION_SNAPSHOT_MISMATCH" }));
+        }
+        if (!finished) pending.set(index, { record, startedAtMs });
+      } catch (error) { report("CAPTURE_INPUT", error); }
+      try {
+        const response = await invoke();
+        settle(index, { outputText: response.outputText, finishReason: response.finishReason,
+          outcome: "SUCCEEDED", errorCode: null, usage: response.usage ?? null });
+        return response;
+      } catch (error) {
+        settle(index, { outputText: null, finishReason: null, outcome: "FAILED",
+          errorCode: diagnosticFailureCode(error), usage: null });
+        throw error;
+      }
+    },
+    async finish() {
+      finished = true;
+      for (const index of pending.keys()) settle(index, { outputText: null, finishReason: null,
+        outcome: "FAILED", errorCode: RUN_DEADLINE_EXCEEDED, usage: null });
+      await writes;
+      let sha256: string | null = null;
+      if (writable) {
+        try { sha256 = createHash("sha256").update(await readFile(path)).digest("hex"); }
+        catch (error) { report("HASH", error); }
+      }
+      return { path, sha256, callsStarted: sequence, rowsWritten, errors: [...errors] };
+    },
+  };
+}
+
+async function runHybridLiveRead(): Promise<void> {
 requiredGate("PRAXIS_ALLOW_LIVE_RESTAURANT_READ");
 requiredGate("PRAXIS_ALLOW_BROWSER_RUN");
 requiredGate("PRAXIS_ALLOW_LIVE_MODEL_EVAL");
@@ -213,6 +308,8 @@ const journal = await startDiagnosticRun(resolve(".eval-artifacts", "restaurant-
   safety: { policy: "READ_ONLY_CODE_PATH", externalSideEffectCount: "NOT_MEASURED" },
   runCeilings: { maxModelCalls, ...liveReadLimits },
 });
+const decisionCapture = process.argv.includes("--record-decisions")
+  ? createHybridDecisionCapture(journal.resultPath, browserRecording) : undefined;
 // This is real elapsed time, deliberately independent of the Runtime clock
 // used to materialize business dates and evidence freshness.  It begins before
 // semantic interpretation so Parser/model setup cannot sit outside the run cap.
@@ -272,8 +369,12 @@ try {
     if (modelCallsStarted >= maxModelCalls) throw Object.assign(new Error("Run model-call ceiling reached"), { code: "MODEL_CALL_BUDGET_EXHAUSTED" });
     modelCallsStarted += 1;
     const remainingMs = liveReadLimits.maxAutomaticBrowserMs - (Date.now() - startedAt.valueOf());
-    if (remainingMs <= 0) throw Object.assign(new Error("Run deadline reached"), { code: RUN_DEADLINE_EXCEEDED });
-    return providerModel.complete({ ...request, timeoutMs: Math.min(request.timeoutMs, remainingMs) });
+    const actualRequest = remainingMs > 0 ? { ...request, timeoutMs: Math.min(request.timeoutMs, remainingMs) } : request;
+    const invoke = () => {
+      if (remainingMs <= 0) throw Object.assign(new Error("Run deadline reached"), { code: RUN_DEADLINE_EXCEEDED });
+      return providerModel.complete(actualRequest);
+    };
+    return decisionCapture ? decisionCapture.complete(actualRequest, invoke) : invoke();
   } };
   stage = "PROVIDER_SETUP";
   const evaluationLocation = process.env.PRAXIS_EVAL_USER_LAT && process.env.PRAXIS_EVAL_USER_LNG
@@ -300,7 +401,7 @@ try {
   // Keep the same runtime and executor path while retaining a redacted raw
   // observation sequence. The source label is descriptive only; snapshots
   // carry the actual safe origin for independent evaluation.
-  const browser: BrowserRuntime = traceBrowserRuntime(rawBrowser, "TABLECHECK", recordBrowserTrace, browserRecording?.snapshotSink());
+  const browser: BrowserRuntime = traceBrowserRuntime(rawBrowser, "TABLECHECK", recordBrowserTrace, decisionCapture?.snapshotSink ?? browserRecording?.snapshotSink());
   const recordBrowserDiagnostic = (diagnostic: BrowserExecutionDiagnostic) => {
     browserExecutionDiagnostics.push(structuredClone(diagnostic));
     recordBrowserTrace("EXECUTOR_DIAGNOSTIC", diagnostic);
@@ -392,6 +493,7 @@ try {
     resolvedEvalLocation: evaluationLocation,
     latencyMs: resourceUsage.elapsedMs,
     safety: { policy: "READ_ONLY_CODE_PATH", externalSideEffectCount: "NOT_MEASURED" },
+    ...(decisionCapture ? { decisionCapture: await decisionCapture.finish() } : {}),
     ...(await finishBrowserRecording() ? { browserRecording: browserRecordingResult } : {}),
   };
   const completed = ["PRESENT_RESULTS", "NO_VERIFIED_RESULT"].includes(finalSnapshot.domainState.phase) && loop.status === "TERMINAL";
@@ -412,6 +514,7 @@ try {
     partial: true,
     downstream: stage === "SEMANTIC" ? "GOOGLE_BROWSER_AGENT_NOT_REACHED" : "SEE_EXECUTED_EVENTS",
     latencyMs: resourceUsage.elapsedMs,
+    ...(decisionCapture ? { decisionCapture: await decisionCapture.finish() } : {}),
     ...(await finishBrowserRecording() ? { browserRecording: browserRecordingResult } : {}),
   });
   const evaluation = await evaluateArtifactAfterFinish(journal.resultPath);
@@ -421,3 +524,7 @@ try {
   deadlineControl.dispose();
   clearInterval(lifecycleKeepAlive);
 }
+
+}
+
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) await runHybridLiveRead();
