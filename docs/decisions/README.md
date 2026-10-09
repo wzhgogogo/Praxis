@@ -1,13 +1,15 @@
 # Architecture Decision Records
 
 - Status: Accepted
-- Document revision: 1.12
+- Document revision: 1.14
 - Last updated: 2026-10-09
 - Source of truth for: 已接受架构决策及其替代关系
 - Related ADRs: 本目录
 - Related documents: [Architecture Overview](../architecture/OVERVIEW.md)
 
 Proposed implementation supplement: [ADR-0039](0039-immediate-thirty-minute-window.md), C6a user-decided thirty-minute immediate window; review pending.
+
+Accepted G1 supplement: [ADR-0036 supplement](0036-tablecheck-reserve-read-supplement.md); user approved integration on 2026-10-09, fixed-query public GET documents only.
 
 ## 当前决策
 

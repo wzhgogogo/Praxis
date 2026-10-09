@@ -6,9 +6,10 @@ export interface BrowserResponseRule { origin: string; pathname: string; }
 /** Source-owned admission for public browser reads. Infrastructure only enforces it. */
 export interface BrowserReadNetworkRequestRule {
   origin: string;
-  /** Static assets may use a reviewed prefix; dynamic reads require pathname. */
+  /** Source-owned exact path, reviewed prefix, or anchored path grammar. */
   pathname?: string;
   pathnamePrefix?: string;
+  pathnamePattern?: string;
   resourceTypes: readonly ("document" | "script" | "stylesheet" | "font" | "image" | "media" | "xhr" | "fetch")[];
   methods?: readonly ("GET" | "HEAD" | "POST")[];
   /** Omitted means no query fields; values never enter the policy or diagnostics. */

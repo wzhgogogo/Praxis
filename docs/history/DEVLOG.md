@@ -3164,3 +3164,13 @@ C5a exposes enabled options clipped by the currently expanded list with outsideV
 ## DEV-2026-10-09-Q8
 
 Q8 analyzes all 11 existing runs only. discovery/queries.json and discovery/report.md retain 42 listing navigation/continuation observations, provider, actual URL and query parameters when captured, parsed versus admitted counts, recorded Agent retrievalHint, and witness appearance against existing frozen prequalification/rechecks. Repeated real navigations remain distinct; snapshots do not fabricate queries; native cursor continuation and missing Google transport are marked separately. No new source access, recheck, code, or model call. Agent-owned next retrievalHint or existing category after sparse parsed/admitted outcomes is a minimal C7 proposal; any P1-D orchestration expansion remains subject to ADR approval.
+
+
+## DEV-2026-10-09-G1
+
+G1 Proposed ADR-0036 supplement and narrow generated reserve GET document grammar implemented ONLY on codex/g1-tablecheck-reserve-read-draft. Exact origin/path, required unique start_date+pax, no other fields, GET document only. Generic Guard enforces source-owned anchored pathname grammar and prevents prepared GET from admitting HEAD/POST. No real pages, writes, model calls, or current-branch Guard changes.
+
+
+## DEV-2026-10-09-G1-INTEGRATE
+
+User approved G1 integration on 2026-10-09. Merge isolated branch with accepted ADR-0036 supplement, preserving original accepted ADR body and frozen inputs. Production Guard remains exact GET document with unique start_date+pax. Two existing reserve-menu compositions now call the production Guard with actual source-owned policy; each checks fixed-query delivery and bare-link rejection/no qualified result. The positive fixture source link has the admitted query, rather than bypassing policy. No Adapter inference or Guard expansion.

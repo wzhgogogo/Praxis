@@ -1,5 +1,6 @@
-import type { BrowserPageControl, BrowserRuntime, BrowserSession, BrowserSnapshot } from "../../../infrastructure/browser/browser-runtime.js";
-import { chromium } from "playwright-core";
+import type { BrowserActionOptions, BrowserReadNetworkObservation, BrowserPageControl, BrowserRuntime, BrowserSession, BrowserSnapshot } from "../../../infrastructure/browser/browser-runtime.js";
+import { chromium, type BrowserContext, type Route } from "playwright-core";
+import { PlaywrightReadNetworkGuard } from "../../../infrastructure/browser/playwright-read-network-guard.js";
 import { LocalPlaywrightChromium } from "../../../infrastructure/browser/local-playwright-chromium.js";
 
 export const reference = new Date("2026-08-19T07:20:00.000Z");
@@ -22,16 +23,20 @@ class NativeFixtureSession implements BrowserSession {
     private readonly onReadOnlyClick?: (url: string) => void, private readonly onReadOnlyFill?: (value: string) => void,
     private readonly onReadOnlySetChecked?: (url: string, value: string, checked: boolean) => void,
     private readonly onReadOnlyWaitForChange?: (url: string) => boolean,
-    guardedReadBoundary = false) {
+    private readonly networkGuard?: PlaywrightReadNetworkGuard,
+    private readonly admitDocument?: (url: string) => Promise<void>) {
     this.metadata = {
       runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM", engine: "CHROMIUM", startedAt: reference.toISOString(),
-      ...(guardedReadBoundary ? { readNetworkBoundary: "INSTALLED" } : {}),
+      ...(networkGuard ? { readNetworkBoundary: "INSTALLED" } : {}),
     };
   }
+  async prepareNavigation(url: string, options: BrowserActionOptions = {}): Promise<void> { this.networkGuard?.prepareNavigation(url, options.timeoutMs); }
+  async prepareObservedNavigation(url: string, options: BrowserActionOptions = {}): Promise<void> { this.networkGuard?.prepareObservedNavigation(url, options.timeoutMs); }
   async navigate(url: string): Promise<void> {
     if (this.navigationUnusable) throw Object.assign(new Error("Prior navigation is still unresolved"), { code: "BROWSER_TIMEOUT" });
     this.navigations.push(url);
     this.navigationSessionIds?.push(this.sessionId);
+    await this.admitDocument?.(url);
     try { this.current = this.lookup(url); } catch (error) { this.navigationUnusable = true; throw error; }
   }
   async snapshot(): Promise<BrowserSnapshot> { if (!this.current) throw new Error("No source page navigated"); return this.current; }
@@ -140,7 +145,7 @@ export function sourcePages(
   sessionsOpened?: number[],
   navigationSessionIds?: number[],
   closedSessionIds?: number[],
-  options: { guardedReadBoundary?: boolean; guardedQuerySubmit?: boolean } = {},
+  options: { guardedReadBoundary?: boolean; guardedQuerySubmit?: boolean; networkRequests?: BrowserReadNetworkObservation[]; bareReserveLink?: boolean } = {},
 ) {
   let tableCheckDiscoveryRevealed = false;
   let tableCheckDiscoveryInputValue = "stale query";
@@ -307,7 +312,7 @@ export function sourcePages(
       return page(url, [
         `<script type="application/ld+json">${JSON.stringify({ "@type": "Restaurant", name, address, geo: sourcePoint, acceptsReservations: "https://www.tablecheck.com/en/shops/native-omakase-1/reserve" })}</script>`,
         `<link rel="canonical" href="/en/native-omakase-1"><h1>${name}</h1><p class="address">${address}</p>`,
-        '<main>Introduction only. See the public reservation menu for service-specific courses.</main><a href="/en/shops/native-omakase-1/reserve">Reserve</a>',
+        `<main>Introduction only. See the public reservation menu for service-specific courses.</main><a href="/en/shops/native-omakase-1/reserve${options.bareReserveLink ? "" : `?start_date=${date}&amp;pax=2`}">Reserve</a>`,
       ].join(""), `${name}\n${address}\nIntroduction only`);
     }
     if (scenario === "TABLECHECK_SCOPED_MENU_DELIVERS" && parsed.pathname === "/en/shops/native-omakase-1/reserve") {
@@ -343,11 +348,32 @@ export function sourcePages(
     throw new Error(`Unconfigured public source page: ${url}`);
   };
   let reopenFailureInjected = false;
-  const runtime: BrowserRuntime = { ...(options.guardedReadBoundary ? { readNetworkBoundaryCapability: "ISOLATED_CONTEXT" as const } : {}), openSession: async () => {
+  const runtime: BrowserRuntime = { ...(options.guardedReadBoundary ? { readNetworkBoundaryCapability: "ISOLATED_CONTEXT" as const } : {}), openSession: async (input) => {
     const sessionId = (sessionsOpened?.length ?? 0) + 1;
     if (scenario === "TABELOG_REOPEN_RETAINS" && sessionId === 2 && !reopenFailureInjected) {
       reopenFailureInjected = true;
       throw Object.assign(new Error("Replacement session unavailable"), { code: "BROWSER_RUNTIME_FAILED" });
+    }
+    let networkGuard: PlaywrightReadNetworkGuard | undefined;
+    let admitDocument: ((url: string) => Promise<void>) | undefined;
+    if (options.guardedReadBoundary) {
+      if (!input.networkPolicy) throw new Error("Guarded native Fixture requires the production composition's source-owned network policy");
+      networkGuard = new PlaywrightReadNetworkGuard(input.networkPolicy);
+      let handle: (route: Route) => Promise<void> = async () => { throw new Error("Guard route not installed"); };
+      // Replace transport only: admission uses the identical production Guard.
+      // Replay mode falls through to the fixed page lookup, never route.fetch.
+      await networkGuard.install({ route: async (_pattern: string, handler: typeof handle) => { handle = handler; },
+        routeWebSocket: async () => {} } as unknown as BrowserContext, { replay: true });
+      const guard = networkGuard;
+      admitDocument = async url => {
+        let admitted = false;
+        await handle({ request: () => ({ url: () => url, method: () => "GET", resourceType: () => "document" }),
+          abort: async () => {}, fallback: async () => { admitted = true; },
+          fetch: async () => { throw new Error("Offline native Fixture cannot access network"); },
+        } as unknown as Route);
+        options.networkRequests?.push(guard.snapshotRequests().at(-1)!);
+        if (!admitted) throw new Error("Document rejected by production read network Guard");
+      };
     }
     sessionsOpened?.push(sessionId);
     return new NativeFixtureSession(lookup, navigations, sessionId, navigationSessionIds, closedSessionIds,
@@ -375,7 +401,7 @@ export function sourcePages(
         tableCheckScopedResultReady = true;
         return true;
       } : undefined,
-      options.guardedReadBoundary === true);
+      networkGuard, admitDocument);
   } };
   return runtime;
 }

@@ -1,8 +1,8 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.44
-- Last updated: 2026-10-08
+- Document revision: 1.46
+- Last updated: 2026-10-09
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
 - Related documents: [Restaurant Domain](../domains/RESTAURANT-BOOKING.md), [Data & Security](../architecture/DATA-CONTEXT-SECURITY.md)
@@ -212,3 +212,10 @@ The same source partition preserves public block-text boundaries in its unscoped
 When a confirmed public availability query exposes the permitted `reservation[service_category]` radio group with no checked member, the browser guidance treats it as a query prerequisite distinct from date/party selection. It may select one current permitted category only when current public text supports relevance to the immutable HARD criteria, then requires one checked readback and a new scope-bound result. This remains a controlled read-only path; the observed real `failure/data:null` response is not inventory, and no real positive category-bound result is claimed.
 
 The final category-decision repair passes the real-model/fixed-source production chain: one supplementary authorized run presents one scoped, independently qualified result in13,230ms / ten successful calls, with all six required dimensions and17 raw checks passing. Root's final offline default suite is640/640 and the affected intercepted Chromium controls are2/2. The subsequent full October7 Live fails at Google named-place resolution before any browser call. A separately authorized Google-proxy-bypass Live succeeds at that location request and reaches both sites in88,187ms /12 successful calls, but Teppen's October7 calendar cell is closed and TableCheck's search-suggestion layer obstructs its Find availability button until a30-second click timeout. It admits one candidate and presents no inventory/result; root acceptance FAIL. The scoped TableCheck inventory path is NOT_REACHED in this run, and the positive live category-inventory contract remains unobserved. [Independent acceptance and limits](../history/H001-QUALIFIED-DELIVERY-REVIEW-2026-10-07.md).
+
+
+## G1 已批准的公共入口读取
+
+用户于 2026-10-09 批准 [ADR-0036 补充](../decisions/0036-tablecheck-reserve-read-supplement.md)。当前 Guard 允许 TableCheck 生成器现有固定 `start_date` + `pax` GET document 形态；只读至日期、人数、时段列表。POST/HEAD、其他资源类型、额外/重复字段、后继/登录/确认路径和重定向仍拒绝，原链接带额外字段仍拒绝。身份、证据和交付资格门槛不变。权限实现和离线链路通过不代表真实来源验证。
+
+Harness 映射：`playwright-read-network-guard.test.ts` 的 `TableCheck admits only the generated reserve GET document and keeps write and sensitive shapes blocked`；两个 `native-discovery-composition.test.ts` reserve-menu 场景通过生产 Guard 检查文档 URL，固定查询正例交付、裸入口反例 UNKNOWN 且无合格展示。仅替换文档传输和页面状态；真实页面脚本/库存兼容性由获批 P1-E Live 独立汇报。

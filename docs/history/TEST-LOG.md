@@ -3840,3 +3840,13 @@ Offline red: C5a/red.log; browser-full.log retains outdated mandatory SCROLL ass
 ## TEST-2026-10-09-Q8
 
 Read-only artifact analysis with source paths, steps, funnel/listing count scopes, SEARCH_COMPLETED candidates, frozen-witness file provenance and snapshot mentions. Q8 uses final unchanged code gates (typecheck/arch/test/build), 777/777 default tests. No red/green implementation delta: analysis only; discovery/green.log records schema/provenance coverage checks, discovery/red.md marks not applicable.
+
+
+## TEST-2026-10-09-G1
+
+Offline fake Route red G1/red.log; green G1/green.log 1/1 contract scenario with positive and forbidden shapes plus sensitive redirect and method borrowing. Four gates pass, 778/778 default tests. No Live capability conclusion. Capability Matrix marks draft/not integrated and maps the Harness scenario.
+
+
+## TEST-2026-10-09-G1-INTEGRATE
+
+G1/composition-red.log catches missing Guard admission in the previously green scripted compositions. First wired run exposes bare-link rejection; original failure artifacts retained. composition-green-final.log validates both orders and their bare-link controls; evaluator@26 generated from real composition artifacts. Four gates in p1-e-early-20261009/G1. No Live before commit.

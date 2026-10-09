@@ -1,7 +1,7 @@
 # Agent 网站操作第一阶段 Playbook
 
 - Status: Draft
-- Document revision: 0.3
+- Document revision: 0.4
 - Last updated: 2026-10-09
 - Evidence status: draft / not integrated；开发集已暴露，非 Clean Baseline
 - Source of truth for: 第一阶段（通用网站操作能力）的目标、工作包、退出条件、预算与护栏；不替代 Accepted ADR、Gold@6 或当前能力记录
@@ -62,6 +62,13 @@ P1-C 的默认顺序是 C1 → C2 → C3 → C4 → C5，C6、C7 为条件项。
 **2026-10-09 按 P1-A 归因调整后的顺序：** C0（新增）→ C1 + C5 → C3 + C4 → C6 → C2 → C7；P1-D 并行。依据见 `.eval-artifacts/known-feasible-baseline-20261008/review/p1-a-baseline-summary.md`。
 
 **2026-10-09 补跑后再调整：** C0（已完成，`43b52b5`）→ C0b（保留量对读取生效）+ C5a（新增）→ C6a → E1（评估器快照绑定）→ C1 + C5b → C3 + C4 → C2 → C7；P1-D 并行。G1（TableCheck 预约入口页读取）等用户决定。
+
+**2026-10-09 夜间批次复核（独立复核，21:55 东京）：** 本地提交 `a466874` C0b、`59d0c5e` E1、`ef0ff24` C6a、`a84ed8e` P1-B、`cd82a7e` C5a、`6b216c0` 检索词分析；G1 在隔离分支 `79afc57`。均未推送，四门禁通过（最终 777/777，G1 分支 778/778）。复核结论：
+- C0b、E1、C5a 代码通过；C5a 尚无真实页面证据，由下一次 Live 验证。
+- C6a 代码通过；ADR-0039 与 Gold@7 草稿内容正确，等用户确认。遗留：未实现"当地明显不在营业时段时快速结束"。
+- P1-B 原样回放通过（冻结错误复现 88/92 = 95.65%）；静态重建受阻，Recording 没有保存 CSS，裁切、滚动几何无法还原，0 个可评价。改进效果暂以 Live 为准，Recorder 补存样式列为后续项。
+- 回放种子更新为 `seeds.v2.json`：21 个"现在"类 Agent 种子标为 SUPERSEDED_BY_CONTRACT（标签基于已退役的 1 分钟有效期）。
+- 下一步：用户确认 G1、ADR-0039/Gold@7 后，跑 kf-h001、kf-h003 两次 Live（计入 P1-E 的 5 次），见证店已于 21:48 东京复查仍有位。
 
 ## 5 P1-A 已知可行基线
 

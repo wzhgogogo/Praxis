@@ -13,6 +13,12 @@ export const tableCheckPublicReadNetworkPolicy: BrowserReadNetworkPolicy = {
     ...["https://image.cdn.tablecheck.com", "https://1.image.cdn.tablecheck.com", "https://2.image.cdn.tablecheck.com", "https://3.image.cdn.tablecheck.com", "https://4.image.cdn.tablecheck.com"].map(origin => ({ origin, pathnamePrefix: "/unsafe/", resourceTypes: ["image"] as const })),
   ],
   dynamicReads: [{
+    // G1 accepted supplement (user approved 2026-10-09): public reservation-entry document only, before any next step.
+    origin: "https://www.tablecheck.com",
+    pathnamePattern: "^/en/shops/(?!login/|signin/|sign-in/|account/|checkout/|payment/|purchase/|cancel/|delete/|confirm/)[a-z0-9]+(?:-[a-z0-9]+)*/reserve$",
+    resourceTypes: ["document"], methods: ["GET"],
+    queryKeyRules: { required: ["start_date", "pax"] },
+  }, {
     // The Pack's deterministic discovery entry is a public GET document.
     // Retain its source-owned query grammar for guarded navigation and for
     // faithful recording; values remain outside policy and diagnostics.
