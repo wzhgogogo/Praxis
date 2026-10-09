@@ -201,7 +201,7 @@ function toObservedTargets(controls: BrowserPageControl[], revision: number): Ma
       ...(control.kind === "RADIO" && control.structure?.radioGroupKey ? { radioGroupKey: control.structure.radioGroupKey } : {}),
       ...(control.value ? { value: control.value } : {}), ...(control.href ? { href: control.href } : {}), ...(control.formMethod ? { formMethod: control.formMethod } : {}), ...(control.type ? { type: control.type } : {}), ...(control.selected ? { selected: true } : {}),
       ...(control.disabled ? { disabled: true } : {}), ...(control.optionOwnerId ? { optionOwnerId: control.optionOwnerId } : {}),
-      ...(control.checked !== undefined ? { checked: control.checked } : {}), ...(control.min ? { min: control.min } : {}), ...(control.max ? { max: control.max } : {}), ...(control.valueText ? { valueText: control.valueText } : {}), ...(control.scrollable !== undefined ? { scrollable: control.scrollable } : {}), ...(control.scrollTop !== undefined ? { scrollTop: control.scrollTop } : {}), ...(control.blockedByActiveLayer ? { blockedByActiveLayer: true } : {}), ...(control.options ? { options: control.options } : {}),
+      ...(control.outsideViewport ? { outsideViewport: true } : {}), ...(control.checked !== undefined ? { checked: control.checked } : {}), ...(control.min ? { min: control.min } : {}), ...(control.max ? { max: control.max } : {}), ...(control.valueText ? { valueText: control.valueText } : {}), ...(control.scrollable !== undefined ? { scrollable: control.scrollable } : {}), ...(control.scrollTop !== undefined ? { scrollTop: control.scrollTop } : {}), ...(control.blockedByActiveLayer ? { blockedByActiveLayer: true } : {}), ...(control.options ? { options: control.options } : {}),
     });
     if (control.kind === "SELECT" && !control.disabled) {
       for (const option of control.options ?? []) {
@@ -227,6 +227,9 @@ function toObservedTargets(controls: BrowserPageControl[], revision: number): Ma
         if (ownerStableKey) target.ownerStableKey = ownerStableKey;
       }
     }
+  }
+  for (const [ref, target] of targets) {
+    if (target.kind === "OPTION" && (target.disabled || !target.ownerRef)) targets.delete(ref);
   }
   return targets;
 }

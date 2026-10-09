@@ -106,6 +106,8 @@ export interface BrowserPageControl {
   type?: string;
   disabled: boolean;
   visible: boolean;
+  /** Only clipped by its currently open list; executor reveals before selection. */
+  outsideViewport?: boolean;
   selected?: boolean;
   expanded?: boolean;
   /** A checkbox's current state is distinct from whether it is an available option. */

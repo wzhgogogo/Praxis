@@ -35,19 +35,19 @@ export async function observedLinkCovered(element: ElementHandle<SVGElement | HT
   }, expectedHref);
 }
 
-/**
- * A role=option inside a clipped, scrollable owner is not an actionable target
- * until it is actually in that owner's viewport.  The owner itself is still
- * observed as a scroll region, so the model can legally reveal it.
- */
-async function visibleWithinScrollableOwner(locator: ElementHandle<SVGElement | HTMLElement>): Promise<boolean> {
-  return locator.evaluate((element) => {
-    const owner = element.closest('[role="listbox"], [data-praxis-scroll-region]') as HTMLElement | null;
-    if (!owner || owner.scrollHeight <= owner.clientHeight) return true;
-    const item = element.getBoundingClientRect();
-    const bounds = owner.getBoundingClientRect();
-    return item.bottom > bounds.top && item.top < bounds.bottom;
-  }).catch(() => false);
+/** A clipped option is observable only through its visible owning list. */
+async function optionViewportState(locator: ElementHandle<SVGElement | HTMLElement>): Promise<{ clipped: boolean; covered: boolean }> {
+  return locator.evaluate(element => {
+    const owner = element.closest('[role="listbox"]') as HTMLElement | null;
+    if (!owner || !owner.isConnected || !owner.getClientRects().length) return { clipped: false, covered: true };
+    const item = element.getBoundingClientRect(); const bounds = owner.getBoundingClientRect();
+    const clipped = (owner.scrollHeight > owner.clientHeight || owner.scrollWidth > owner.clientWidth)
+      && (item.top < bounds.top || item.bottom > bounds.bottom || item.left < bounds.left || item.right > bounds.right);
+    const x = clipped ? Math.max(bounds.left + 1, Math.min(item.left + item.width / 2, bounds.right - 1)) : item.left + item.width / 2;
+    const y = clipped ? Math.max(bounds.top + 1, Math.min(item.top + item.height / 2, bounds.bottom - 1)) : item.top + item.height / 2;
+    const hit = document.elementFromPoint(x, y);
+    return { clipped, covered: !hit || !(clipped ? owner.contains(hit) : element.contains(hit)) };
+  }).catch(() => ({ clipped: false, covered: true }));
 }
 
 /**
@@ -231,10 +231,8 @@ export class PlaywrightControlRegistry {
         try {
         if (!group.hint && hintedSelector && await locator.evaluate((element, selector) => element.matches(selector), hintedSelector)) { await release(); continue; }
         if (!await locator.isVisible()) { await release(); continue; }
-        if (group.defaultRole === "button" && await locator.getAttribute("role") === "option" && !await visibleWithinScrollableOwner(locator)) {
-          await release();
-          continue;
-        }
+        const optionState = await locator.getAttribute("role") === "option" ? await optionViewportState(locator) : undefined;
+        if (optionState?.covered) { await release(); continue; }
         const initialSnapshot = await this.snapshot(locator, group.hint?.selectedClass).catch(() => undefined);
         if (!initialSnapshot) { await release(); continue; }
         const { signature: initialSignature, projection } = this.decodeSnapshot(initialSnapshot);
@@ -338,6 +336,7 @@ export class PlaywrightControlRegistry {
           ...(type ? { type } : {}),
           disabled,
           visible: true,
+          ...(optionState?.clipped ? { outsideViewport: true } : {}),
           ...(selected || group.kind === "RADIO" && checked === true ? { selected: true } : {}),
           ...(expanded !== null ? { expanded: expanded === "true" } : {}),
           ...(checked !== undefined ? { checked } : {}),
@@ -366,6 +365,7 @@ export class PlaywrightControlRegistry {
         control.optionOwnerId = owner.id;
         this.targets.get(control.id)!.ownerId = owner.id;
       }
+      if (!owner || control.disabled) control.observationOnly = true;
     }
     await Promise.all([...previousTargets.values()].map(target => target.element.dispose().catch(() => undefined)));
     return controls;
@@ -385,6 +385,24 @@ export class PlaywrightControlRegistry {
           || !await owner.element.isVisible() || await owner.element.isDisabled()) {
           throw new Error("Observed option owner changed, detached, hidden, or disabled");
         }
+      }
+      if (observed.ownerId && await observed.element.getAttribute("role") === "option") {
+        // Scroll this list only. Do not move the page or consume a model decision.
+        await observed.element.evaluate(node => {
+          const list = node.closest('[role="listbox"]') as HTMLElement | null;
+          if (!list) throw new Error("Option list detached");
+          const item = node.getBoundingClientRect(); const bounds = list.getBoundingClientRect();
+          if (item.top < bounds.top) list.scrollTop += item.top - bounds.top;
+          else if (item.bottom > bounds.bottom) list.scrollTop += item.bottom - bounds.bottom;
+          if (item.left < bounds.left) list.scrollLeft += item.left - bounds.left;
+          else if (item.right > bounds.right) list.scrollLeft += item.right - bounds.right;
+        });
+        const viewport = await optionViewportState(observed.element);
+        const owner = this.targets.get(observed.ownerId)!;
+        if (viewport.clipped || viewport.covered
+          || await this.actionSignature(observed.element, observed.selectedClass) !== observed.signature
+          || await this.actionSignature(owner.element, owner.selectedClass) !== owner.signature)
+          throw new Error("Revealed option changed, lost its owner, or is covered");
       }
       return observed.element;
     } catch {

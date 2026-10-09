@@ -3154,3 +3154,8 @@ Evaluator@26将TableCheck原始证据绑定至同一候选AVAILABILITY阶段、o
 ## DEV-2026-10-09-P1B
 
 新增run-decision-replay，原样messages复用真实gateway和Strict Schema，静态DOM加载禁用脚本/服务worker/WebSocket/所有外网，复用ControlRegistry和Executor runSkill捕获输入；前序记录重建动作及已有progress。冻结seeds@1不改；每种子每轮≤1次，失败计入共享night/phase预算，存储每次动作/token/耗时和标签汇总。旧Runner不存在，不增加新平台或替代生产执行。
+
+
+## DEV-2026-10-09-C5a
+
+C5a exposes enabled options clipped by the currently expanded list with outsideViewport, and CHOOSE_OPTION scrolls that list and revalidates node/label/owner/visibility before the existing click. Browser Prompt@13/Schema@9. No site knowledge or extra model calls. Existing disabled/foreign option tests previously required exposure before rejection, contrary to the explicit C5a exclusion contract; now they assert exclusion and forged-ref rejection. Dynamic guest Fixtures replace mandatory model SCROLL with four actions selecting exactly ten, preserving all date/party/evidence/DOM readback assertions. No source-site code deleted.

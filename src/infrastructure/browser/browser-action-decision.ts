@@ -5,7 +5,7 @@ import { ModelGatewayError } from "../../core/model/errors.js";
 
 export const BROWSER_ACTION_DECISION_SCHEMA = {
   name: "browser_read_action",
-  version: "8",
+  version: "9",
 } as const;
 
 export const BROWSER_ACTION_DECISION_STRICT_WIRE_JSON_SCHEMA: Record<string, unknown> = {
@@ -70,6 +70,7 @@ export interface BrowserReadActionTarget {
   max?: string;
   /** Human-visible slider display text; it is not a model-authoritative amount. */
   valueText?: string;
+  outsideViewport?: boolean;
   scrollable?: boolean;
   scrollTop?: number;
   blockedByActiveLayer?: boolean;
@@ -296,7 +297,9 @@ During DISCOVERY, an expanded public search combobox may expose CHOOSE_OPTION:RE
 
 A LINK can represent a same-page UI control when its observed href differs from the current document only by a fragment (including #). If its availableActions includes CLICK, use CLICK to expand or change that UI and re-observe. Ordinary public links continue to use OPEN_LINK. Use the visible control label and its page context to match the objective; an unrelated unlabeled button is not a substitute for a named category or filter control.
 
-OPEN_LINK is only for an observed public result link. Targeted actions are permitted only when their current availableActions explicitly list them. An installed isolated read boundary may expose ordinary public-query controls, including a submit-shaped query control, checkbox/radio, option, range, and region scroll after code has admitted the page's requests; it does not permit sensitive workflows. Login, registration, reservation, booking, checkout, payment, purchase, cancellation, deletion, and confirmation remain unavailable. CLICK_AUTHORITATIVE must also match the exact DATE or PARTY_SIZE. CHOOSE_OPTION is the single action for an observed native-select or custom-list option; use TIME only inside the authoritative window. A label consisting only of digits is never sufficient for a date. SET_CHECKED selects one current permitted checkbox or radio with CHECKED; a radio must not be unset or selected by guessing a group. ADJUST_RANGE moves one observed slider by one safe keyboard step only. A slider's valueText is a page-displayed label, distinct from value/min/max positions. SCROLL_REGION moves one observed region by one bounded viewport. PRESS_ESCAPE closes one page layer then requires a fresh observation. WAIT waits for one bounded visible result change at page level. If no safe action is available, request human help. COMPLETE only hands the page to deterministic verification; it does not claim identity, availability, or success.
+OPEN_LINK is only for an observed public result link. Targeted actions are permitted only when their current availableActions explicitly list them. An installed isolated read boundary may expose ordinary public-query controls, including a submit-shaped query control, checkbox/radio, option, range, and region scroll after code has admitted the page's requests; it does not permit sensitive workflows. Login, registration, reservation, booking, checkout, payment, purchase, cancellation, deletion, and confirmation remain unavailable. CLICK_AUTHORITATIVE must also match the exact DATE or PARTY_SIZE. An OPTION marked outsideViewport is in the current open list but clipped by its scroll viewport. Choose it directly when its availableActions match the goal; the executor scrolls that list and verifies the option before clicking, without another model call.
+
+CHOOSE_OPTION is the single action for an observed native-select or custom-list option; use TIME only inside the authoritative window. A label consisting only of digits is never sufficient for a date. SET_CHECKED selects one current permitted checkbox or radio with CHECKED; a radio must not be unset or selected by guessing a group. ADJUST_RANGE moves one observed slider by one safe keyboard step only. A slider's valueText is a page-displayed label, distinct from value/min/max positions. SCROLL_REGION moves one observed region by one bounded viewport. PRESS_ESCAPE closes one page layer then requires a fresh observation. WAIT waits for one bounded visible result change at page level. If no safe action is available, request human help. COMPLETE only hands the page to deterministic verification; it does not claim identity, availability, or success.
 
 Return exactly the strict JSON object. For actions without a target, use an empty targetRef. For actions without an authoritative field, use NONE. For actions without a requested state, use NONE. Keep reason short and do not include hidden reasoning.`;
 }
@@ -319,7 +322,7 @@ export class ModelBrowserReadActionDecision implements BrowserReadActionDecision
       response = await this.model.complete({
         taskId: input.taskId,
         purpose: "browser_read_decide",
-        promptVersion: "12",
+        promptVersion: "13",
         messages: [
           { role: "system", content: buildBrowserReadDecisionSystemPrompt() },
           {

@@ -370,17 +370,13 @@ for (const order of ["party-first", "date-first"] as const) test(`TableCheck rea
       const openParty = () => ({ type: "CLICK" as const, targetRef: party!.ref, reason: "Open the observed party choices." });
       const partyIsTen = party?.label === "10 guests";
       const nextMonth = () => ({ type: "CLICK" as const, targetRef: next!.ref, reason: "Reveal the next observed calendar month." });
-      const scrollGuests = () => ({ type: "SCROLL_REGION" as const, targetRef: list!.ref, direction: "DOWN" as const, reason: "Reveal the next observed options in this list." });
-      const chooseTen = () => ({ type: "CHOOSE_OPTION" as const, targetRef: ten!.ref, field: "PARTY_SIZE" as const, reason: "Select exactly ten guests." });
-      const needScroll = () => {
-        assert.equal(targets.some(item => item.label === "10 guests" && item.kind === "OPTION"), false, "the exact option exists in the page but is not actionable before its owner list is scrolled");
-        actions.push("SCROLL");
-        return scrollGuests();
+      const chooseTen = () => {
+        assert.equal(ten!.outsideViewport, true, "the requested option is exposed while clipped by the list");
+        return { type: "CHOOSE_OPTION" as const, targetRef: ten!.ref, field: "PARTY_SIZE" as const, reason: "Select exactly ten guests; executor reveals it." };
       };
       if (order === "party-first") {
         if (!partyIsTen && party && !list && !ten) { actions.push("PARTY"); return openParty(); }
         if (next) { actions.push("NEXT"); return nextMonth(); }
-        if (list && !ten) return needScroll();
         if (!partyIsTen && ten) { actions.push("TEN"); return chooseTen(); }
         assert.ok(date && !date.selected, "the exact date remains actionable after the selected party is confirmed");
         actions.push("DATE");
@@ -389,8 +385,7 @@ for (const order of ["party-first", "date-first"] as const) test(`TableCheck rea
       if (next) { actions.push("NEXT"); return nextMonth(); }
       if (date && !date.selected) { actions.push("DATE"); return selectDate(); }
       if (!partyIsTen && party && !list && !ten) { actions.push("PARTY"); return openParty(); }
-      if (list && !ten) return needScroll();
-      assert.ok(!partyIsTen && ten, "the exact option becomes observable only after scrolling its existing owner list");
+      assert.ok(!partyIsTen && ten, "the exact option remains selectable in its existing owner list");
       actions.push("TEN");
       return chooseTen();
     } },
@@ -403,10 +398,10 @@ for (const order of ["party-first", "date-first"] as const) test(`TableCheck rea
     }, signal);
     assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE", JSON.stringify({ result, actions, events }));
     assert.equal(result.offers.length, 1);
-    assert.ok(actions.includes("SCROLL"));
+    assert.equal(actions.includes("SCROLL"), false, "revealing an option consumes no model decision");
     assert.deepEqual(actions, order === "party-first"
-      ? ["PARTY", "NEXT", "SCROLL", "TEN", "DATE"]
-      : ["NEXT", "DATE", "PARTY", "SCROLL", "TEN"]);
+      ? ["PARTY", "NEXT", "TEN", "DATE"]
+      : ["NEXT", "DATE", "PARTY", "TEN"]);
     const session = await executor.acquire(signal, "TABLECHECK", "AVAILABILITY");
     const finalPage = await session.snapshot();
     assert.match(finalPage.text, /2026-10-02 \/ 10 guests/);
@@ -947,9 +942,8 @@ test("a visible option from another listbox cannot be claimed by the expanded co
     async decide(input) {
       if (++calls > 1) return { type: "REQUEST_HUMAN_HELP", reason: "No bound option remains." };
       const foreign = input.observation.targets.find(target => target.kind === "OPTION" && target.label === "7:00 PM");
-      assert.ok(foreign);
-      assert.equal(foreign.ownerRef, undefined);
-      return { type: "CHOOSE_OPTION", targetRef: foreign.ref, field: "TIME", reason: "Try the visible option." };
+      assert.equal(foreign, undefined, "noncurrent list options are excluded from the action inventory");
+      return { type: "CHOOSE_OPTION", targetRef: "observation:1:target:999", field: "TIME", reason: "Try an unobserved option." };
     },
   } });
   const signal = new AbortController().signal;
@@ -959,8 +953,8 @@ test("a visible option from another listbox cannot be claimed by the expanded co
     const result = await executor.runSkill({ taskId: "fixture:wrong-owner", source: "TABLECHECK", stage: "AVAILABILITY", session, signal,
       allowedOrigins: ["https://www.tablecheck.com"], goal: { outlet: { name: "Fixture" }, timeWindow: { earliest: "19:00", latest: "19:30" }, hardCriteria: [] },
       objective: "Select a bound public query time.", completion: () => ({ complete: false, reason: "No selection confirmed." }) });
-    assert.equal(result.status, "REQUESTED_HUMAN_HELP");
-    assert.ok(diagnostics.some(detail => detail.includes("no observed parent combobox")));
+    assert.equal(result.status, "NO_SAFE_ACTION");
+    assert.ok(diagnostics.some(detail => detail === "STALE_OR_UNKNOWN_TARGET_REF"));
     assert.doesNotMatch(result.snapshot.html, /data-foreign="clicked"/);
   } finally { await executor.close(); }
 });
@@ -977,8 +971,9 @@ for (const variant of ["disabled", "unchanged", "complete"] as const) {
           ? { type: "COMPLETE", reason: "The independent result changed." }
           : { type: "REQUEST_HUMAN_HELP", reason: "Selection did not persist." };
         const option = input.observation.targets.find(target => target.kind === "OPTION" && target.label === "7:00 PM");
-        assert.ok(option);
-        return { type: "CHOOSE_OPTION", targetRef: option.ref, field: "TIME", reason: "Try the observed time." };
+        if (variant === "disabled") assert.equal(option, undefined, "disabled native options are excluded from the action inventory");
+        else assert.ok(option);
+        return { type: "CHOOSE_OPTION", targetRef: option?.ref ?? "observation:1:target:999", field: "TIME", reason: "Try the observed time." };
       },
     } });
     const signal = new AbortController().signal;
@@ -988,8 +983,8 @@ for (const variant of ["disabled", "unchanged", "complete"] as const) {
       const result = await executor.runSkill({ taskId: `fixture:${variant}`, source: "TABLECHECK", stage: "AVAILABILITY", session, signal,
         allowedOrigins: ["https://www.tablecheck.com"], goal: { outlet: { name: "Fixture" }, timeWindow: { earliest: "19:00", latest: "19:30" }, hardCriteria: [] },
         objective: "Select a public query time.", completion: snapshot => ({ complete: /Inventory ready/.test(snapshot.text), reason: "No result yet." }) });
-      assert.equal(result.status, variant === "complete" ? "NO_SAFE_ACTION" : "REQUESTED_HUMAN_HELP");
-      assert.ok(diagnostics.some(detail => variant === "disabled" ? detail.includes("disabled") : detail === "OPTION_VALUE_NOT_CONFIRMED"));
+      assert.equal(result.status, variant === "complete" || variant === "disabled" ? "NO_SAFE_ACTION" : "REQUESTED_HUMAN_HELP");
+      assert.ok(diagnostics.some(detail => variant === "disabled" ? detail === "STALE_OR_UNKNOWN_TARGET_REF" : detail === "OPTION_VALUE_NOT_CONFIRMED"));
       assert.notEqual(result.controls.find(control => control.kind === "SELECT")?.value, "opaque");
     } finally { await executor.close(); }
   });
@@ -2180,4 +2175,53 @@ test("workspace New case survives a late initial case-list response", async () =
     assert.equal(oldCaseRequests,0,'a late list must not select a case after the user chose New case');
     assert.equal(await page.locator('#case-title').innerText(),'Start a case');
   } finally {release();await browser.close()}
+});
+
+for (const field of ["PARTY_SIZE", "TIME"] as const) test(`C5a one choice reveals a clipped ${field} option inside its current list`, async () => {
+  const expected = field === "PARTY_SIZE" ? "10 guests" : "19:00";
+  const choices = field === "PARTY_SIZE" ? Array.from({ length: 12 }, (_, i) => `${i + 1} guests`) : ["17:00", "17:30", "18:00", "18:30", "19:00", "19:30"];
+  const runtime = localFixture(`<style>#choices{height:80px;width:220px;overflow:auto}[role=option]{height:30px}</style>
+    <button role="combobox" aria-label="${field}" aria-expanded="true" aria-controls="choices">${field}</button>
+    <div id="choices" role="listbox">${choices.map(choice => `<div role="option" onclick="document.querySelector('button').setAttribute('aria-label','${choice}');document.querySelector('button').setAttribute('aria-expanded','false');document.querySelector('#choices').hidden=true;document.body.dataset.choice='${choice}'">${choice}</div>`).join("")}</div>`);
+  let calls = 0;
+  const executor = new BrowserTaskExecutor(runtime, { modelDecision: { async decide(input) {
+    calls++;
+    const choice = input.observation.targets.find(target => target.kind === "OPTION" && target.label === expected);
+    assert.ok(choice, "clipped requested option must be offered");
+    assert.equal(choice.outsideViewport, true);
+    assert.deepEqual(choice.availableActions, [`CHOOSE_OPTION:${field}`]);
+    return { type: "CHOOSE_OPTION", targetRef: choice.ref, field, reason: "Choose the current requested option; executor owns scrolling" };
+  } } });
+  const signal = new AbortController().signal;
+  const session = await executor.acquire(signal, "FIXTURE", "AVAILABILITY");
+  try {
+    await executor.navigate({ session, signal, source: "FIXTURE", stage: "AVAILABILITY", allowedOrigins: ["https://www.tablecheck.com"], url });
+    const result = await executor.runSkill({ taskId: "fixture:clipped-choice", source: "FIXTURE", stage: "AVAILABILITY", session, signal,
+      allowedOrigins: ["https://www.tablecheck.com"], goal: { outlet: { name: "Fixture" }, partySize: 10, timeWindow: { earliest: "19:00", latest: "19:00" }, hardCriteria: [] },
+      objective: "Select one observed query option", completion: snapshot => ({ complete: snapshot.html.includes(`data-choice="${expected}"`), reason: "Choice not observed" }) });
+    assert.equal(result.status, "COMPLETED"); assert.equal(calls, 1);
+    assert.match(result.snapshot.html, new RegExp(`data-choice="${expected}"`));
+  } finally { await executor.close(); }
+});
+
+test("C5a excludes disabled, occluded and noncurrent list options", async () => {
+  const runtime = localFixture(`<style>#current{position:relative;width:220px;height:150px}[role=option]{height:30px}.cover{position:absolute;left:0;top:30px;width:220px;height:30px;background:white;z-index:3}</style>
+    <button role="combobox" aria-label="Guests" aria-expanded="true" aria-controls="current">Guests</button>
+    <div id="current" role="listbox"><div role="option" aria-disabled="true">10 guests</div><div role="option">11 guests</div><div class="cover">Obscuring layer</div><div role="option">9 guests</div></div>
+    <div id="other" role="listbox"><div role="option">12 guests</div></div>`);
+  let calls = 0; let observed: unknown;
+  const executor = new BrowserTaskExecutor(runtime, { modelDecision: { async decide(input) {
+    calls++; observed = input.observation.targets;
+    for (const label of ["10 guests", "11 guests", "12 guests"]) assert.equal(input.observation.targets.some(target => target.kind === "OPTION" && target.label === label), false, label);
+    assert.equal(input.observation.targets.some(target => target.label === "9 guests"), true, "an unrelated enabled choice remains observed");
+    return { type: "REQUEST_HUMAN_HELP", reason: "Requested choice is not actionable" };
+  } } });
+  const signal = new AbortController().signal;
+  const session = await executor.acquire(signal, "FIXTURE", "AVAILABILITY");
+  try {
+    await executor.navigate({ session, signal, source: "FIXTURE", stage: "AVAILABILITY", allowedOrigins: ["https://www.tablecheck.com"], url });
+    const result = await executor.runSkill({ taskId: "fixture:choice-boundary", source: "FIXTURE", stage: "AVAILABILITY", session, signal, allowedOrigins: ["https://www.tablecheck.com"],
+      goal: { outlet: { name: "Fixture" }, partySize: 10, hardCriteria: [] }, objective: "Observe safe choices", completion: () => ({ complete: false, reason: "Requested choice absent" }) });
+    assert.equal(result.status, "REQUESTED_HUMAN_HELP", JSON.stringify(observed)); assert.equal(calls, 1);
+  } finally { await executor.close(); }
 });
