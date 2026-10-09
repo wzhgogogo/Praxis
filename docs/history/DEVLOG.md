@@ -3149,3 +3149,8 @@ Evaluator@26将TableCheck原始证据绑定至同一候选AVAILABILITY阶段、o
 ## DEV-2026-10-09-C6A
 
 即时请求物化改为30分钟窗口及EARLIEST_IN_WINDOW，策略@6、Agent prompt@20/context@9；Router按时刻排序，资格排除已过去的时段。窗口整体过期后拒绝发现/事实/查位，复用END_READ事件记录窗口过期及最近可订时间的用户选择；内部失败保持失败。显式时间未改。新增Gold@7草稿，默认@6不变；Proposed ADR0039记录跨午夜单日期合同缺口。旧EXACT_ONLY执行合同全部退役，不加兼容分支。
+
+
+## DEV-2026-10-09-P1B
+
+新增run-decision-replay，原样messages复用真实gateway和Strict Schema，静态DOM加载禁用脚本/服务worker/WebSocket/所有外网，复用ControlRegistry和Executor runSkill捕获输入；前序记录重建动作及已有progress。冻结seeds@1不改；每种子每轮≤1次，失败计入共享night/phase预算，存储每次动作/token/耗时和标签汇总。旧Runner不存在，不增加新平台或替代生产执行。
