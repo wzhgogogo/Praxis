@@ -195,8 +195,8 @@ export function projectRestaurantAgentContext(
       ]),
     ),
     presentation,
-    searchAvailability: assessment.endReadReason?.startsWith("MODEL_CALL_RESERVE")
-      ? { available: false, reason: "MODEL_CALL_RESERVE" }
+    searchAvailability: /^(MODEL_CALL_RESERVE|IMMEDIATE_SOURCES_CLOSED)/.test(assessment.endReadReason ?? "")
+      ? { available: false, reason: assessment.endReadReason!.split(":", 1)[0]! }
       : immediateRequestWindowExpired(state, now)
       ? { available: false, reason: "IMMEDIATE_REQUEST_EXPIRED" }
       : deliveryWindow
@@ -217,7 +217,7 @@ export function projectRestaurantAgentContext(
       ...(assessment.endReadBlockReason || assessment.endReadReason ? { reason: assessment.endReadBlockReason ?? assessment.endReadReason } : {}),
     },
     legalActions: {
-      search: !assessment.endReadReason?.startsWith("MODEL_CALL_RESERVE") && !immediateRequestWindowExpired(state, now) && !deliveryWindow && !nativeBatchDeliveryReady && !discoveryPlanSearchBlockReason(state, now) && state.sourceReadState?.googlePlacesSearchBudget !== "EXHAUSTED" && state.searchContinuation?.exhausted !== true && missingSearchFields(state.intentDraft ?? {}).length === 0,
+      search: !/^(MODEL_CALL_RESERVE|IMMEDIATE_SOURCES_CLOSED)/.test(assessment.endReadReason ?? "") && !immediateRequestWindowExpired(state, now) && !deliveryWindow && !nativeBatchDeliveryReady && !discoveryPlanSearchBlockReason(state, now) && state.sourceReadState?.googlePlacesSearchBudget !== "EXHAUSTED" && state.searchContinuation?.exhausted !== true && missingSearchFields(state.intentDraft ?? {}).length === 0,
       investigateCandidateFacts: deliveryWindow ? [] : [...assessment.factInvestigableCandidateIds],
       checkAvailability: deliveryWindow ? [] : [...assessment.checkableCandidateIds],
       presentResults: distinctDiscoveryResultCandidateIds(state, presentation

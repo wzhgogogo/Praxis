@@ -3893,3 +3893,8 @@ PASS: typecheck, arch:check, npm test 784/784, build; recording contracts 14/14 
 ## TEST-2026-10-10-C0c
 
 PASS: typecheck, arch:check, npm test 784/784, build. Existing production Hybrid budget composition now covers no-qualified/expired/qualification-crossing and no-read-yet endings: 10/10; Domain guards 34/34. C0c/red.log reproduces exhaustion; green-final3.log closes without MODEL_CALL_BUDGET_EXHAUSTED, qualified control still presents; source-invalid evidence never gains qualification. Scripted source/model boundaries only, no paid calls or Live.
+
+
+## TEST-2026-10-10-C6a
+
+C6a：有效机制红灯 red-mechanism.log（关闭触发禁用时正例失败）；绿灯 green-final4.log 14/14（十一组合模式+两个Native对照）。typecheck、arch:check、npm test（test-final.log，796/796）、build全部PASS；真实模型调用0，Live0。证据目录 .eval-artifacts/p1-c-batch-20261010/C6a/。原始无HARD试运行日志仅保留诊断，不作机制红灯依据。

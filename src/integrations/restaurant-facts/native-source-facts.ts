@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 
+import { groundRestaurantWebsiteFacts } from "../../domains/restaurant/read-grounding.js";
 import type { RestaurantCandidateFactPort } from "../../application/restaurant-execution-router.js";
 import type { RestaurantCandidateFactRead, RestaurantCandidateFactRequest, RestaurantReadEvidence, RestaurantFactSourceDocument, RestaurantServiceScope } from "../../domains/restaurant/contracts.js";
 import type { BrowserReadNetworkPolicy, BrowserRuntime, BrowserSnapshot, BrowserPageControl } from "../../infrastructure/browser/browser-runtime.js";
@@ -146,6 +147,19 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
           documents.push(...additions);
           return additions.length > 0;
         };
+        const retainPageHours = (page: BrowserSnapshot): void => {
+          const structured = candidateStructuredObservation(candidate, page.url, checkedAt, page.html);
+          const visible = candidateVisibleObservation(candidate, page.url, checkedAt, page.text, page.html, { allowExactSourcePhone: false });
+          const observation = structured ?? visible;
+          const hours = [...structured?.regularOpeningHours ?? [], ...visible?.regularOpeningHours ?? []];
+          if (!observation || !hours.length) return;
+          // Business hours are separate from menu judgments and add no HARD or stock claim.
+          const grounded = groundRestaurantWebsiteFacts(candidate, { ...request.intent, criteria: [] }, {
+            candidateId: candidate.restaurant.id, sourceUrl: page.url, observedAt: checkedAt,
+            entityMatch: observation.entityMatch, regularOpeningHours: hours,
+          });
+          for (const item of grounded.evidence) if (!identities.some(known => known.evidenceId === item.evidenceId)) identities.push(item);
+        };
         const retainNativePage = (page: BrowserSnapshot, controls: readonly BrowserPageControl[] = tableCheckServiceControls): boolean => {
           const extraction = provider === "TABELOG"
             ? parseTabelogOutletIdentityWithEvidence(page, { sourceEntityId, sourceUrl, outletName: candidate.restaurant.outletName })
@@ -175,11 +189,12 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
               evidenceId: identityEvidenceId, kind: "ENTITY_MATCH", provider,
               candidateId: candidate.restaurant.id, sourceEntityId, sourceUrl: page.url,
               observedAt: checkedAt, requestFingerprint: JSON.stringify({ candidateId: candidate.restaurant.id, sourceUrl: page.url }),
-              claims: { outletName: extraction.outlet.outletName, address: extraction.outlet.address ?? "" },
+              claims: { observationKind: "PUBLIC_PAGE", outletName: extraction.outlet.outletName, address: extraction.outlet.address ?? "" },
               entityMatch: { confidence: "HIGH", matchedBy: ["NATIVE_SOURCE_ID_AND_DETAIL"] },
             };
             identities.push(identity);
           }
+          retainPageHours(page);
           return retainDocuments(page, identity, controls);
         };
         const isObservedReservationPage = (page: BrowserSnapshot): boolean => {
@@ -215,13 +230,14 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
               evidenceId: identityEvidenceId, kind: "ENTITY_MATCH", provider: "TABLECHECK",
               candidateId: candidate.restaurant.id, sourceEntityId, sourceUrl: page.url,
               observedAt: checkedAt, requestFingerprint: JSON.stringify({ candidateId: candidate.restaurant.id, sourceUrl: page.url }),
-              claims: { outletName: extraction.outlet.outletName, address: extraction.outlet.address ?? "" },
+              claims: { observationKind: "PUBLIC_PAGE", outletName: extraction.outlet.outletName, address: extraction.outlet.address ?? "" },
               entityMatch: { confidence: "HIGH", matchedBy: ["NATIVE_SOURCE_ID_AND_RESERVATION_ENTRANCE"] },
             };
             identities.push(identity);
           }
           nativeContinuity.push({ candidateId: candidate.restaurant.id, provider, expectedSourceEntityId: sourceEntityId,
             observedSourceEntityId: extraction.outlet.sourceEntityId, confirmed: true, reason: "SAME_SOURCE_OUTLET" });
+          retainPageHours(page);
           return retainDocuments(page, identity, controls);
         };
         const retainOfficialPage = (page: BrowserSnapshot): boolean => {
@@ -238,10 +254,11 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
               candidateId: candidate.restaurant.id, sourceEntityId: `official:${createHash("sha256").update(new URL(page.url).origin + new URL(page.url).pathname).digest("hex").slice(0, 16)}`,
               sourceUrl: page.url, observedAt: checkedAt,
               requestFingerprint: JSON.stringify({ candidateId: candidate.restaurant.id, sourceUrl: page.url }),
-              claims: { outletName: candidate.restaurant.outletName, address: candidate.restaurant.address },
+              claims: { observationKind: "PUBLIC_PAGE", outletName: candidate.restaurant.outletName, address: candidate.restaurant.address },
               entityMatch: observation.entityMatch };
             identities.push(identity);
           }
+          retainPageHours(page);
           const document = sourceDocument(candidate.restaurant.id, identity.evidenceId, page.text);
           if (documents.some((item) => item.id === document.id)) return false;
           documents.push(document);

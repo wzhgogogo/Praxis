@@ -204,6 +204,25 @@ export function immediateRequestWindowExpired(state: Readonly<RestaurantTaskStat
   return until !== undefined && Number.isFinite(Date.parse(now)) && Date.parse(now) > Date.parse(until);
 }
 
+/** Only current identity-grounded public page observations can support a closed-window stop. */
+export function immediateSourcesClosed(state: Readonly<RestaurantTaskState>): boolean {
+  const intent = completeRestaurantSearchIntent(state.intentDraft);
+  if (!state.intentDraft?.temporalResolution?.immediateAvailability || !intent?.date || !intent.timeWindow) return false;
+  if (Object.values(state.availabilityChecks).some(check => check.status === "AVAILABLE")) return false;
+  const checked = state.candidates.filter(candidate => state.factChecks?.[candidate.restaurant.id] || state.availabilityChecks[candidate.restaurant.id]);
+  return checked.length > 0 && checked.every(candidate => {
+    const pages = restaurantCurrentFactEvidence(state, candidate.restaurant.id).filter(fact => fact.claims.observationKind === "PUBLIC_PAGE");
+    const checkedIds = new Set(state.factChecks?.[candidate.restaurant.id]?.evidenceIds ?? []);
+    const sourcePages = state.readEvidence.filter(item => item.candidateId === candidate.restaurant.id && item.kind === "ENTITY_MATCH"
+      && item.claims.observationKind === "PUBLIC_PAGE" && item.sourceUrl && checkedIds.has(item.evidenceId));
+    return pages.length > 0 && sourcePages.every(source => pages.some(fact => fact.sourceUrl === source.sourceUrl)) && pages.every(fact => {
+      const window = stringListClaim(fact, "openingHoursRequestedWindow");
+      return fact.claims.openingHoursNoWindow === true && fact.claims.openingHoursDate === intent.date
+        && window[0] === intent.timeWindow!.earliest && window[1] === intent.timeWindow!.latest;
+    });
+  });
+}
+
 export function assessRestaurantRead(state: Readonly<RestaurantTaskState>, now: string): RestaurantReadAssessment {
   const intent = completeRestaurantSearchIntent(state.intentDraft);
   if (!intent) return { presentation: [], factInvestigableCandidateIds: [], checkableCandidateIds: [], investigationRecorded: false, canEndRead: false, endReadBlockReason: "The current request is incomplete", unresolvedCandidateIds: [] };
@@ -260,6 +279,11 @@ export function assessRestaurantRead(state: Readonly<RestaurantTaskState>, now: 
     && state.searchContinuation.discoveryPlan.cursor < state.searchContinuation.discoveryPlan.entries.length);
   const currentBatchPending = state.searchContinuation?.currentDiscoveryBatch
     ? currentDiscoveryBatchInvestigationBlockReason(state) : undefined;
+  if (!refreshPending && !internalFailure && !relevantPresentation.some(item => item.eligible) && immediateSourcesClosed(state)) return {
+    presentation, factInvestigableCandidateIds: [], checkableCandidateIds: [], investigationRecorded,
+    canEndRead: true, unresolvedCandidateIds,
+    endReadReason: "IMMEDIATE_SOURCES_CLOSED: Every checked public page explicitly shows closed today or no opening period in the original immediate window. This concerns checked sources only; unexamined outlets remain unknown. Offer to search the nearest bookable time with a new user-approved window.",
+  };
   const endWindow = state.readEndWindow;
   const reserve = endWindow && Date.parse(now) >= Date.parse(endWindow.openedAt) && Date.parse(now) <= Date.parse(endWindow.deadlineAt);
   if (reserve && !internalFailure && !relevantPresentation.some(item => item.eligible)) return {

@@ -1,8 +1,8 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.46
-- Last updated: 2026-10-09
+- Document revision: 1.47
+- Last updated: 2026-10-10
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
 - Related documents: [Restaurant Domain](../domains/RESTAURANT-BOOKING.md), [Data & Security](../architecture/DATA-CONTEXT-SECURITY.md)
@@ -229,3 +229,8 @@ Reviewed cdn0-3 /assets/table_check/ script/stylesheet/font/image GET/HEAD imple
 The ready source widget may establish EMPTY for its selected date/party/mealtime only. Exact-time requests can return UNAVAILABLE; wider windows stop with SELECTED_MEALTIME_EMPTY / UNKNOWN, retaining the unobserved-time gap. Recorded GiNZA widget plus controlled-identity Adapter composition covers exact/wide and wrong-party cases; no new Live.
 
 C3（2026-10-10）：本地 Chromium 与 Cloudflare BrowserSession 共用动作后稳定等待：请求结束、DOM 静默 300ms、无可见通用忙碌标记，上限 4 秒并受剩余预算约束。超时快照标 PENDING，不接纳旧库存；模型可 WAIT 或换路。Tabelog 日期/人数专用加载等待与 TableCheck skeleton 选择器等待已删除，最终门店/请求绑定不变。本地动态日期→加载→人数及持续加载反例通过；未跑 Live。
+
+
+## 2026-10-10 immediate closed-source completion（C6a，离线）
+
+Google-listed网站及HIGH身份的Native/官方页面复用结构化/可见营业事实抽取，只把页面实际观察到的当日关闭或无重叠营业区间绑定到原请求日期/窗口。Google API营业信息不属于这一提前结束依据；缺失、模糊、部分重叠和前日跨夜信息保留UNKNOWN或继续调查。所有已查公共页面的当前身份引用必须有对应的关闭窗口事实；任一可订/开放冲突阻止快速结束。零偏移“现在”请求可由既有Agent END_READ说明已查范围并给出重新授权“最近可订时间”的选项，不推断库存、任意地点能力或实际最近时间。十一种生产Hybrid组合正反例和两种Native组合对照14/14；完整测试796/796，零真实模型/外部来源请求。当前Live兼容性待独立复核安排，见[ADR-0039补充](../decisions/0039-immediate-thirty-minute-window.md)。

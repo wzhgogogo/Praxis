@@ -1837,3 +1837,35 @@ test("Hybrid capture counts a sent Google request cancelled before any discovery
   assert.equal(result.partial.trajectories.some(step => step.executionMetadata?.googleRequests), false, "the request had not completed into a Router trajectory");
   assert.equal(result.partial.trajectories.some(step => step.executionMetadata?.googleGeoDiagnostics), false, "a response-free request cannot fabricate geo rejection diagnostics");
 });
+
+test("C6a observed public hours end the immediate window only when every checked page has no opening period", async t => {
+  for(const mode of ["closed","outside","open","partial","unknown","malformed","ambiguous-closed","wrong-day","overnight","api-only","explicit-time"] as const) await t.test(mode, async()=>{
+    const taskId=`hours:${mode}`;let inventoryReads=0;
+    const provider:ModelGateway={async complete(input){
+      if(input.purpose==='restaurant_semantic_interpret')return response(JSON.stringify({schemaVersion:'3',facts:[
+        {field:'TARGET',operation:'ASSERT',value:{kind:'TARGET',goal:'AVAILABILITY',query:'restaurants',selectionScope:'OPEN_ENDED'}},
+        {field:'TIME_WINDOW',operation:'ASSERT',value:mode==='explicit-time'?{kind:'TIME_WINDOW',earliest:'12:00',latest:'12:30',raw:'noon'}:{kind:'TIME_WINDOW',relativeOffsetMinutes:0,raw:'right now'}},
+        {field:'DATE',operation:'ASSERT',value:{kind:'DATE',relativeDay:'TODAY',raw:'today'}},
+        {field:'PARTY_SIZE',operation:'ASSERT',value:{kind:'PARTY_SIZE',value:2}},
+        {field:'AREA',operation:'ASSERT',value:{kind:'AREA',query:'nearby'}}, {field:'CRITERION',operation:'ASSERT',value:{kind:'CRITERION',text:'cafe',polarity:'POSITIVE',strength:'HARD'}}]}),'hours-semantic');
+      if(input.purpose==='browser_read_decide')return response(JSON.stringify({action:'REQUEST_HUMAN_HELP',targetRef:'',authoritativeField:'NONE',requestedState:'NONE',reason:'No further public control'}),'hours-browser');
+      const {context}=JSON.parse(input.messages.find(x=>x.role==='user')!.content);
+      const type=context.searchAvailability.reason==='IMMEDIATE_SOURCES_CLOSED'?'END_READ':!context.candidates.length?'SEARCH_RESTAURANTS':context.factInvestigableCandidateIds?.length?'INVESTIGATE_CANDIDATE_FACTS':'CHECK_AVAILABILITY';
+      return response(JSON.stringify(strictAction(type,type==='INVESTIGATE_CANDIDATE_FACTS'?context.factInvestigableCandidateIds:type==='CHECK_AVAILABILITY'?context.checkableCandidateIds:[])),'hours-agent');
+    }};
+    const places=['a','b'].map((id,index)=>({id,displayName:{text:`Cafe ${id}`},formattedAddress:`${index+1} Ginza, Tokyo`,location:{latitude:35.6697,longitude:139.767},types:mode==='api-only'?['cafe']:['restaurant'],...(mode==='api-only'?{regularOpeningHours:{weekdayDescriptions:['Wednesday: Closed']}}:{}),websiteUri:`https://${id}.example/about`}));
+    const client=new GooglePlacesClient({apiKey:'fixture',fetchImplementation:async(url,init)=>new Response(JSON.stringify(init?.method==='POST'?{places}:places.find(p=>String(url).endsWith('/'+p.id))),{status:200})});
+    const google=new GooglePlacesRestaurantSearch(client,()=>now.toISOString(),10,{maxRequests:100});
+    const browser:BrowserRuntime={openSession:async()=>{let current='';return {metadata:{runtimeProvider:'LOCAL_PLAYWRIGHT_CHROMIUM',engine:'CHROMIUM',startedAt:now.toISOString()},async navigate(value){current=value;},async snapshot(){const p=places.find(p=>p.websiteUri===current)!;const hours=mode==='wrong-day'?'Tuesday: Closed':mode==='overnight'?'Tuesday: 18:00 - 13:00\nWednesday: Closed':mode==='closed'||mode==='explicit-time'?'Wednesday: Closed':mode==='outside'?'Wednesday: 18:00 - 23:00':p.id==='b'&&mode==='unknown'?undefined:p.id==='b'&&mode==='malformed'?'Wednesday: See website':p.id==='b'&&mode==='ambiguous-closed'?'Wednesday: Not closed':p.id==='b'&&mode==='partial'?'Wednesday: 12:15 - 18:00':p.id==='b'&&mode==='open'?'Wednesday: 10:00 - 18:00':'Wednesday: Closed';const data={'@type':'CafeOrCoffeeShop',name:p.displayName.text,address:p.formattedAddress,...(hours?{openingHours:hours.split('\n')}:{})};return {url:current,title:p.displayName.text,text:`${p.displayName.text}\n${p.formattedAddress}\n${hours??'Hours unknown'}`,html:`<script type="application/ld+json">${JSON.stringify(data)}</script><h1>${p.displayName.text}</h1><p>${p.formattedAddress}</p>`};},async click(){},async fill(){},async select(){return[];},async waitFor(){},async waitForSettled(){return true;},async screenshot(){return new Uint8Array();},async close(){}};}};
+    const availability={executionRoute:'GENERIC_BROWSER' as const,async check(){inventoryReads++;throw new Error('fixture stops after observing whether inventory work remains legal');}};
+    const composition=createHybridReadComposition({taskId,runId:taskId,clock,model:provider,search:google,availability,facts:composeLiveRestaurantFactRead(google,browser,provider,undefined,()=>now.toISOString()),loop:{maxSteps:4,timeoutMs:5000}});
+    await composition.interpretAndDispatch({taskId,message:'Find restaurants nearby right now for two',referenceTime:now.toISOString(),timezone:'Asia/Tokyo'},HIGASHI_GINZA_EVALUATION_LOCATION);
+    await composition.coordinator.run(taskId);
+    const state=composition.runtime.snapshot(taskId).domainState;
+    if(mode==='closed'||mode==='outside'){
+      assert.equal(state.phase,'NO_VERIFIED_RESULT',JSON.stringify(state));assert.equal(inventoryReads,0);
+      assert.match(state.noVerifiedResult?.remainingGaps.join(' ')??'',/nearest bookable time/);
+      assert.ok(Object.values(state.availabilityChecks).every(check=>check.status!=='UNAVAILABLE'));
+    }else assert.ok(inventoryReads>0,'unknown, malformed, partially overlapping or non-immediate hours cannot suppress inventory reads');
+  });
+});

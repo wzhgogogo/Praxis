@@ -103,7 +103,7 @@ function noExecutableDiscoveryPath(state: RestaurantTaskState, now: string): boo
   // routed actions rather than inferring exhaustion from historical checks.
   if (state.factRefreshRequestedCandidateIds?.length) return false;
   const assessment = assessRestaurantRead(state, now);
-  if (assessment.presentation.some((item) => item.eligible) || assessment.endReadReason?.startsWith("MODEL_CALL_RESERVE")) return false;
+  if (assessment.presentation.some((item) => item.eligible) || /^(MODEL_CALL_RESERVE|IMMEDIATE_SOURCES_CLOSED)/.test(assessment.endReadReason ?? "")) return false;
   return state.candidates.every((candidate) => {
     const candidateIds = [candidate.restaurant.id];
     return validateRestaurantAction(state, { type: "INVESTIGATE_CANDIDATE_FACTS", candidateIds }, now).status !== "ALLOWED"

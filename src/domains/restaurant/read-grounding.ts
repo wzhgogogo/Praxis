@@ -220,14 +220,20 @@ export function openingHoursForRequest(
   descriptions: string[] | undefined,
   date: string | undefined,
   timeWindow: { earliest: string; latest: string } | undefined,
-): { matches: boolean; window?: string[] } | undefined {
+): { matches: boolean; window?: string[]; noWindow?: boolean } | undefined {
   if (!descriptions || !date || !timeWindow) return undefined;
   const day = new Intl.DateTimeFormat("en-US", { weekday: "long", timeZone: "Asia/Tokyo" })
     .format(new Date(`${date}T12:00:00+09:00`));
   const entry = descriptions.find((item) => normalized(item).startsWith(`${normalized(day)}:`));
   if (!entry) return undefined;
   if (/open\s*24\s*hours/i.test(entry)) return { matches: true, window: [timeWindow.earliest, timeWindow.latest] };
-  if (/closed/i.test(entry)) return { matches: false };
+  const previousDay = new Intl.DateTimeFormat("en-US", { weekday: "long", timeZone: "Asia/Tokyo" }).format(new Date(new Date(`${date}T12:00:00+09:00`).valueOf() - 86_400_000));
+  const previous = descriptions.find(item => normalized(item).startsWith(`${normalized(previousDay)}:`)) ?? "";
+  const priorOverlap = [...previous.matchAll(/(\d{1,2}(?::\d{2})?\s*(?:AM|PM)?)\s*[–-]\s*(\d{1,2}(?::\d{2})?\s*(?:AM|PM)?)/gi)].some(match => {
+    const start = minutes(match[1]!), end = minutes(match[2]!), requested = minutes(timeWindow.earliest);
+    return start !== undefined && end !== undefined && requested !== undefined && end < start && end > requested;
+  });
+  if (/^(?:closed(?: today| all day)?|not open)\.?$/i.test(entry.slice(entry.indexOf(":") + 1).trim())) return { matches: false, noWindow: !priorOverlap };
   const requestedStart = minutes(timeWindow.earliest);
   const requestedEnd = minutes(timeWindow.latest);
   if (requestedStart === undefined || requestedEnd === undefined || requestedEnd < requestedStart) return undefined;
@@ -242,8 +248,10 @@ export function openingHoursForRequest(
   // Closing time is exclusive: a 21:00 close does not support a 21:00 visit.
   // One explicit interval must cover the requested window; adjacent split
   // periods cannot be fused into an invented continuous opening.
+  if (!intervals.length) return undefined;
   const matching = intervals.find(([start, end]) => start <= requestedStart && end > requestedEnd);
-  return matching ? { matches: true, window: [hhmm(requestedStart), hhmm(requestedEnd)] } : { matches: false };
+  return matching ? { matches: true, window: [hhmm(requestedStart), hhmm(requestedEnd)], noWindow: false }
+    : { matches: false, noWindow: !priorOverlap && !intervals.some(([start, end]) => start <= requestedEnd && end > requestedStart) };
 }
 
 export interface UntrustedRestaurantWebsiteObservation {
@@ -286,7 +294,7 @@ export function groundRestaurantWebsiteFacts(
     evidenceId: evidenceId("website-entity", { candidateId: candidate.restaurant.id, sourceUrl: observation.sourceUrl, observedAt: observation.observedAt }),
     kind: "ENTITY_MATCH", provider: "RESTAURANT_WEBSITE", candidateId: candidate.restaurant.id, sourceEntityId, sourceUrl: observation.sourceUrl,
     observedAt: observation.observedAt, requestFingerprint: fingerprint({ candidateId: candidate.restaurant.id, sourceUrl: observation.sourceUrl }),
-    claims: { outletName: candidate.restaurant.outletName, sourceAssociation: "GOOGLE_LISTED_WEBSITE_URI", officialWebsiteVerified: false },
+    claims: { observationKind: "PUBLIC_PAGE", outletName: candidate.restaurant.outletName, sourceAssociation: "GOOGLE_LISTED_WEBSITE_URI", officialWebsiteVerified: false },
     entityMatch: { confidence: "HIGH", matchedBy: [...observation.entityMatch.matchedBy] },
   };
   const types = [...new Set((observation.restaurantTypeFacts ?? []).map(normalized).filter(Boolean))];
@@ -301,12 +309,13 @@ export function groundRestaurantWebsiteFacts(
     kind: "RESTAURANT_FACT", provider: "RESTAURANT_WEBSITE", candidateId: candidate.restaurant.id, sourceEntityId, sourceUrl: observation.sourceUrl,
     observedAt: observation.observedAt, requestFingerprint: fingerprint({ candidateId: candidate.restaurant.id, sourceUrl: observation.sourceUrl, intent }),
     claims: {
+      observationKind: "PUBLIC_PAGE",
       restaurantTypeFacts: types,
       ...(positive.length ? { verifiedHardCriteria: positive } : {}),
       ...(negative.violated.length ? { violatedNegativeCriteria: negative.violated } : {}),
       ...(negative.judgments.length ? { negativeCriterionJudgments: negative.judgments } : {}),
       ...(observation.regularOpeningHours ? { regularOpeningHours: [...observation.regularOpeningHours] } : {}),
-      ...(openingHours ? { openingHoursMatch: openingHours.matches, ...(openingHours.window ? { openingHoursMatchedWindow: openingHours.window } : {}) } : {}),
+      ...(openingHours ? { openingHoursMatch: openingHours.matches, openingHoursNoWindow: openingHours.noWindow === true, openingHoursDate: intent.date!, openingHoursRequestedWindow: [intent.timeWindow!.earliest, intent.timeWindow!.latest], ...(openingHours.window ? { openingHoursMatchedWindow: openingHours.window } : {}) } : {}),
       ...(commercialTerms?.listedCourseDetails?.length ? { listedCourseDetails: commercialTerms.listedCourseDetails.filter(note => note.length <= 1600).slice(0, 3) } : {}),
       ...(commercialTerms?.coursePriceYen !== undefined ? { coursePriceYen: commercialTerms.coursePriceYen } : {}),
       ...(commercialTerms?.coursePriceTax ? { coursePriceTax: commercialTerms.coursePriceTax } : {}),
