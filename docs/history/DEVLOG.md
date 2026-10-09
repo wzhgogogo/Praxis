@@ -3154,3 +3154,8 @@ Evaluator@26将TableCheck原始证据绑定至同一候选AVAILABILITY阶段、o
 ## DEV-2026-10-09-P1B
 
 新增run-decision-replay，原样messages复用真实gateway和Strict Schema，静态DOM加载禁用脚本/服务worker/WebSocket/所有外网，复用ControlRegistry和Executor runSkill捕获输入；前序记录重建动作及已有progress。冻结seeds@1不改；每种子每轮≤1次，失败计入共享night/phase预算，存储每次动作/token/耗时和标签汇总。旧Runner不存在，不增加新平台或替代生产执行。
+
+
+## DEV-2026-10-09-G1
+
+G1 Proposed ADR-0036 supplement and narrow generated reserve GET document grammar implemented ONLY on codex/g1-tablecheck-reserve-read-draft. Exact origin/path, required unique start_date+pax, no other fields, GET document only. Generic Guard enforces source-owned anchored pathname grammar and prevents prepared GET from admitting HEAD/POST. No real pages, writes, model calls, or current-branch Guard changes.

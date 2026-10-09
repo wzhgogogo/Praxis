@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.159
+- Document revision: 4.160
 - Last updated: 2026-10-09
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- G1 DRAFT on isolated branch only; user must decide accept or abandon Proposed ADR-0036 supplement before integration. Actual source access remains unverified. Current product branch unchanged.
 
 - **P1-B Runner与原样回放完成，重建验收BLOCKED。** 全部106原样调用，错误复现95.65%、正向7/7。冻结DOM不足以恢复样式：83个浏览器种子全部单列（11缺快照、72缺样式），不计通过率；Agent层独立。不能据此签收C5a质量改善。C5a仅继续可独立验证的执行器机制，C1依赖门槛尚未满足。
 

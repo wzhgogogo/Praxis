@@ -408,3 +408,44 @@ test("guard supplies an admitted response to the in-memory recorder before fulfi
   assert.deepEqual(response.calls, ["fetch:0:5000", "fulfill"]);
   assert.equal(captured.length, 1); assert.equal(captured[0]!.contentType, "application/json");
 });
+
+
+test("G1 draft admits only the generated reserve GET document and keeps write and sensitive shapes blocked", async () => {
+  const { tableCheckRequestedReservationUrl } = await import("../../integrations/tablecheck/tablecheck-page-parser.js");
+  const generated = tableCheckRequestedReservationUrl({ kind: "LINKED_PAGE", url: "https://www.tablecheck.com/en/shops/fixture-shop/reserve" }, "2026-10-22", 10);
+  const guard = new PlaywrightReadNetworkGuard(tableCheckPublicReadNetworkPolicy);
+  let http: (route: any) => Promise<void> = async () => assert.fail("route handler missing");
+  await guard.install({ route: async (_pattern: string, handler: typeof http) => { http = handler; }, routeWebSocket: async () => {} } as any);
+  guard.prepareNavigation(generated);
+  const document = fakeRoute({ url: generated, type: "document" });
+  await http(document.route);
+  assert.deepEqual(document.calls, ["fetch:0:5000", "fulfill"]);
+  const rejected = [
+    { url: generated, method: "POST" },
+    { url: generated, method: "HEAD" },
+    { url: generated, type: "fetch" },
+    { url: generated + "&start_time=19:00" },
+    { url: generated + "&pax=2" },
+    { url: generated.split("?")[0]! },
+    { url: generated.replace("/reserve?", "/reserve/next?") },
+    { url: generated.replace("/reserve?", "/reserve/confirm?") },
+    { url: generated.replace("/reserve?", "/login?") },
+    { url: generated.replace("fixture-shop", "confirm") },
+    { url: generated.replace("fixture-shop", "login") },
+    { url: generated.replace("www.tablecheck.com", "other.example") },
+  ];
+  for (const shape of rejected) {
+    const request = fakeRoute({ type: "document", ...shape });
+    await http(request.route); assert.deepEqual(request.calls, ["abort"], JSON.stringify(shape));
+    if (!shape.method && !shape.type) assert.throws(() => guard.prepareNavigation(shape.url));
+  }
+  // Prepared GET admission cannot be reused to smuggle HEAD or a write.
+  guard.prepareObservedNavigation(generated);
+  const preparedHead = fakeRoute({ url: generated, method: "HEAD" });
+  await http(preparedHead.route); assert.deepEqual(preparedHead.calls, ["abort"]);
+  guard.prepareNavigation(generated);
+  const preparedPost = fakeRoute({ url: generated, method: "POST" });
+  await http(preparedPost.route); assert.deepEqual(preparedPost.calls, ["abort"]);
+  const redirect = fakeRoute({ url: generated, status: 302, responseHeaders: { location: "/en/shops/fixture-shop/reserve/confirm" } });
+  await http(redirect.route); assert.deepEqual(redirect.calls, ["fetch:0:5000", "abort"]);
+});

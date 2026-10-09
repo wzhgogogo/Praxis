@@ -3830,3 +3830,8 @@ red.log保留旧算法对3种阶段/时间反例失败；新evaluator76/76，com
 原样106/106调用完成、无失败；FROZEN错误88/92=95.65%，浏览器65/69=94.20%，AGENT23/23；正向7/7。静态重建尝试所有106：浏览器11缺DOM、72缺保存静态样式（其中57缺滚动几何）；Agent23需独立State层，全部明确不进入浏览器通过率。保存CSS缺口使旧代码直接暴露10guests，static-probe.json为证据，未注入猜测CSS/尺寸。重建真实0；原样106，累计今晚117。单元验证消息字节序/失败计账与脚本网络关闭2/2，red类型检查错误保留。四门禁最终结果见P1B目录。
 
 - P1-B最终四门禁PASS，777/777；106原样真实调用与零重建真实调用的账本一致，无失败或重试。4个未复现的浏览器错误种子单列在summary.json，不做二次采样。
+
+
+## TEST-2026-10-09-G1
+
+Offline fake Route red G1/red.log; green G1/green.log 1/1 contract scenario with positive and forbidden shapes plus sensitive redirect and method borrowing. Four gates pass, 778/778 default tests. No Live capability conclusion. Capability Matrix marks draft/not integrated and maps the Harness scenario.

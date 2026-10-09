@@ -11,8 +11,17 @@ function requestKey(value: string): string {
   return url.toString();
 }
 
+function matchesPath(rule: BrowserReadNetworkRequestRule, url: URL): boolean {
+  if (rule.pathname !== undefined) return url.pathname === rule.pathname;
+  if (rule.pathnamePattern !== undefined) {
+    if (!rule.pathnamePattern.startsWith("^") || !rule.pathnamePattern.endsWith("$")) return false;
+    return new RegExp(rule.pathnamePattern).test(url.pathname);
+  }
+  return Boolean(rule.pathnamePrefix && url.pathname.startsWith(rule.pathnamePrefix));
+}
+
 async function allows(rule: BrowserReadNetworkRequestRule, request: Request, url: URL, method: string, resourceType: string): Promise<boolean> {
-  if (url.origin !== rule.origin || (rule.pathname ? url.pathname !== rule.pathname : !rule.pathnamePrefix || !url.pathname.startsWith(rule.pathnamePrefix))) return false;
+  if (url.origin !== rule.origin || !matchesPath(rule, url)) return false;
   if (!rule.resourceTypes.includes(resourceType as never)) return false;
   if (!(rule.methods ?? ["GET", "HEAD"]).includes(method as "GET" | "HEAD" | "POST")) return false;
   const actual = [...url.searchParams.keys()];
@@ -46,7 +55,7 @@ async function allows(rule: BrowserReadNetworkRequestRule, request: Request, url
 
 function matchesEndpoint(rule: BrowserReadNetworkRequestRule, url: URL, resourceType: string): boolean {
   return url.origin === rule.origin
-    && (rule.pathname ? url.pathname === rule.pathname : Boolean(rule.pathnamePrefix && url.pathname.startsWith(rule.pathnamePrefix)))
+    && matchesPath(rule, url)
     && rule.resourceTypes.includes(resourceType as never);
 }
 
@@ -111,7 +120,7 @@ export class PlaywrightReadNetworkGuard {
   /** A source rule may explicitly admit an otherwise sensitive-looking public query document. */
   private matchesReviewedDocument(url: URL): boolean {
     return [...this.policy.staticResources, ...this.policy.dynamicReads].some(rule => {
-      if (url.origin !== rule.origin || (rule.pathname ? url.pathname !== rule.pathname : !rule.pathnamePrefix || !url.pathname.startsWith(rule.pathnamePrefix))) return false;
+      if (url.origin !== rule.origin || !matchesPath(rule, url)) return false;
       if (!((rule.methods ?? ["GET", "HEAD"]).includes("GET"))) return false;
       const counts = new Map<string, number>(); for (const key of url.searchParams.keys()) counts.set(key, (counts.get(key) ?? 0) + 1);
       if (rule.queryKeyRules) {
@@ -138,10 +147,11 @@ export class PlaywrightReadNetworkGuard {
     const url = new URL(request.url());
     const type = request.resourceType();
     const key = requestKey(url.toString());
-    const document = type === "document" && (method === "GET" || method === "HEAD") && this.documents.delete(key);
+    const preparedDocument = type === "document" && (method === "GET" || method === "HEAD") && this.documents.delete(key);
     const rules = [...this.policy.staticResources, ...this.policy.dynamicReads];
     const sourceRule = (await Promise.all(rules
       .map(rule => allows(rule, request, url, method, type)))).some(Boolean);
+    const document = preparedDocument && (!this.sensitiveGenericRead(url) || sourceRule);
     const genericRead = this.policy.genericPublicRead === true
       && this.genericOrigins.has(url.origin)
       && (method === "GET" || method === "HEAD")
