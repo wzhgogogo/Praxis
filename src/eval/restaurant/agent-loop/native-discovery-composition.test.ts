@@ -193,8 +193,9 @@ async function runScenario(scenario: SourceScenario, options: { availabilityFirs
       return sequence;
     }, options.decisionCapture?.snapshotSink,
   ) };
-  const native = composeNativeRestaurantRead(google, browser, gateway, undefined, undefined, undefined, () => reference.toISOString(), undefined, options.packs ?? [tabelogDiscoveryPack, tableCheckDiscoveryPack]);
+  const native = composeNativeRestaurantRead(google, browser, gateway, undefined, diagnostic => { browserTrace.push({ sequence: ++browserTraceSequence, at: reference.toISOString(), kind: "EXECUTOR_DIAGNOSTIC", detail: diagnostic }); }, undefined, () => reference.toISOString(), undefined, options.packs ?? [tabelogDiscoveryPack, tableCheckDiscoveryPack]);
   const availability = new LiveBrowserAvailability(browser, gateway, {
+    onBrowserDiagnostic: diagnostic => { browserTrace.push({ sequence: ++browserTraceSequence, at: reference.toISOString(), kind: "EXECUTOR_DIAGNOSTIC", detail: diagnostic }); },
     now: () => reference.toISOString(), maxModelCallsPerCandidate: 20, maxModelCallsTotal: 50,
     maxOperationsPerCandidate: 30, maxElapsedMsPerCandidate: 60_000, maxElapsedMsPerProvider: 45_000, maxAutomaticElapsedMs: 60_000,
   });

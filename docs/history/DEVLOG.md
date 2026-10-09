@@ -3139,3 +3139,8 @@ Root independently preserves the existing evaluator and six-dimension acceptance
 
 - 读取内保护最后4次调用：新增共享transport read scope，仅在Router的发现／事实／空位provider工作内启用；资格来自coordinator权威State和当前clock。模型错误被来源吞掉时，scope在Router边界保留原因码，返回UNKNOWN而非成功；Agent不受read scope限制。Web、Hybrid、固定来源三处统一接线；无合格或在读取期间过期不保留。Accepted ADR正文未改；两份独立复核Playbook原样纳入。
 - 产物：`.eval-artifacts/p1-c-night-20261009/C0b/`；无新增站点代码，无来源／Google／真实模型调用；本地提交后继续E1，不推送。
+
+
+## DEV-2026-10-09-E1
+
+Evaluator@26将TableCheck原始证据绑定至同一候选AVAILABILITY阶段、observedAt之前最近快照；不采纳后续事实页或未来查位。rubric@21未改。固定来源及真实composition夹具补既有executor诊断sink；合成快照时钟由错误的10/3改为原证据9/8之前，未改成功断言。11份新评价写入今晚E1目录，旧评价不覆盖；只有kf-h005四维从NOT_EVALUATED到SATISFIED。

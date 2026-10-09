@@ -3811,3 +3811,8 @@ Read-only reevaluation of five saved worktree-1135 artifacts: H001/H005 all dime
 
 - 原策略正例MODEL_CALL_BUDGET_EXHAUSTED／FAILED，red.log保留；新组合ready／no-qualified／expired三子项＋父项4/4，green.log。ready在read留4时UNKNOWN随后实际PRESENT_RESULTS，默认目标未满足；反例可用尽原上限。历史kf-h001 #38完整事件重建与捕获Context一致，控制6次预算、先查位，UNKNOWN后展示，3次fixture调用、0真实模型；historical-composition.result.json及historical-green.log。typecheck、arch:check、build PASS；宿主机npm test770/770，无skip/todo。模型传输和来源为fixture，仅继承历史证据，不证明新Live。
 - 产物：`.eval-artifacts/p1-c-night-20261009/C0b/`；无新增站点代码，无来源／Google／真实模型调用；本地提交后继续E1，不推送。
+
+
+## TEST-2026-10-09-E1
+
+red.log保留旧算法对3种阶段/时间反例失败；新evaluator76/76，composition95/95，离线夹具24/24。全套首次因typed旧版本与缺阶段夹具失败，完整原日志保留；四门禁最终结果见E1/test-green-final.log等。11份重新评价all-11-diff.json：仅kf-h005借#471而非#497得到确定YES；其余10份findings与结论不变。真实模型0，未运行Live。

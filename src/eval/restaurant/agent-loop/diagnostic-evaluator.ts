@@ -4,7 +4,7 @@ import { basename, dirname, resolve } from "node:path";
 import { openingHoursForRequest } from "../../../domains/restaurant/read-grounding.js";
 
 
-export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@25";
+export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@26";
 export const RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION = "restaurant-hybrid-read-diagnostic-rubric@21";
 
 type JsonRecord = Record<string, unknown>;
@@ -559,6 +559,19 @@ function traceSourceMatches(url: unknown, sourceEntityId: unknown): boolean {
     return Boolean(slug && (parts[0] === slug || (parts[0] === "shops" && parts[1] === slug)));
   } catch { return false; }
 }
+function traceReadOwners(trace: JsonRecord[]): Map<number, { stage: string; candidateId: string }> {
+  const owners = new Map<number, { stage: string; candidateId: string }>();
+  let current: { stage: string; candidateId: string } | undefined;
+  for (const entry of trace) {
+    const detail = asRecord(entry.detail) ?? {};
+    if (entry.kind === "SESSION_OPENED") current = undefined;
+    const stage = asString(detail.stage); const candidateId = asString(detail.candidateId);
+    if ((entry.kind === "EXECUTOR_DIAGNOSTIC" || entry.kind === "SNAPSHOT") && stage && candidateId) current = { stage, candidateId };
+    const sequence = traceSequence(entry);
+    if (current && sequence !== undefined) owners.set(sequence, current);
+  }
+  return owners;
+}
 function rawTableCheckCurrentResult(root: JsonRecord, request: RequestShape, evidence: JsonRecord[], expected: "AVAILABLE" | "EMPTY", presentedTimes: string[] = [], expectedScope?: TraceServiceScope): RawTableCheckAssessment | undefined {
   const anyTableCheckEvidence = evidence.filter(item => item.provider === "TABLECHECK" && item.kind === "AVAILABILITY");
   if (!anyTableCheckEvidence.length) return undefined;
@@ -569,14 +582,19 @@ function rawTableCheckCurrentResult(root: JsonRecord, request: RequestShape, evi
   }
   const groups = tableCheckTraceGroups(root);
   if (!groups.length) return { status: "NOT_EVALUATED", observations: ["raw TableCheck browser trace is missing."], refs: [ref("diagnostics.browserTrace"), ref("sourceTrace.browserTrace")] };
-  const reviews: Array<{ groupIndex: number; sequence: number; state: "MATCH" | "CONFLICT" | "INCOMPLETE"; outcome?: "AVAILABLE" | "EMPTY"; loading: boolean; ref: string }> = [];
+  const reviews: Array<{ groupIndex: number; sequence: number; state: "MATCH" | "CONFLICT" | "INCOMPLETE"; outcome?: "AVAILABLE" | "EMPTY"; loading: boolean; observedAt: number; cutoff: number; candidateId: string; ref: string }> = [];
   for (const [groupIndex, trace] of groups.entries()) {
     const ordered = [...trace].sort((left, right) => (traceSequence(left) ?? Number.POSITIVE_INFINITY) - (traceSequence(right) ?? Number.POSITIVE_INFINITY));
     if (ordered.some(entry => traceSequence(entry) === undefined)) continue;
+    const owners = traceReadOwners(ordered);
     for (const entry of ordered) {
       if (entry.kind !== "SNAPSHOT") continue;
       const sequence = traceSequence(entry)!; const detail = asRecord(entry.detail) ?? {};
-      const source = tableCheckEvidence.find(item => traceSourceMatches(detail.url, item.sourceEntityId)
+      const owner = owners.get(sequence);
+      const snapshotAt = Date.parse(asString(entry.at) ?? "");
+      const source = tableCheckEvidence.find(item => owner?.stage === "AVAILABILITY" && owner.candidateId === item.candidateId
+        && Number.isFinite(snapshotAt) && snapshotAt <= Date.parse(asString(item.observedAt) ?? "")
+        && traceSourceMatches(detail.url, item.sourceEntityId)
         && (expectedScope === undefined || sameTraceServiceScope(evidenceServiceScope(item), expectedScope)));
       if (!source) continue;
       const controls = (traceControlsForSnapshot(ordered, sequence) ?? []).filter(control => control.visible === true && control.disabled !== true);
@@ -607,14 +625,20 @@ function rawTableCheckCurrentResult(root: JsonRecord, request: RequestShape, evi
         : !relevantSlots.length || sameSlotConflict ? undefined
         : presentedTimes.length ? everyPresentedTimeEnabled ? "AVAILABLE" : relevantSlots.some(slot => slot.disabled) ? "EMPTY" : undefined
         : relevantSlots.some(slot => !slot.disabled) ? "AVAILABLE" : "EMPTY";
-      reviews.push({ groupIndex, sequence, state, ...(outcome ? { outcome } : {}), loading, ref: `browserTrace[sequence=${sequence}]` });
+      reviews.push({ groupIndex, sequence, observedAt: snapshotAt, cutoff: Date.parse(asString(source.observedAt)!), candidateId: asString(source.candidateId)!, state, ...(outcome ? { outcome } : {}), loading, ref: `browserTrace[sequence=${sequence}]` });
     }
   }
-  const latest = reviews.sort((left, right) => left.sequence - right.sequence).at(-1);
+  const latest = reviews.sort((left, right) => left.observedAt - right.observedAt || left.sequence - right.sequence).at(-1);
   if (!latest) return { status: "NOT_EVALUATED", observations: ["raw TableCheck trace has no source-matching post-query snapshot."], refs: [ref("diagnostics.browserTrace"), ref("sourceTrace.browserTrace")] };
+  const latestOwners = traceReadOwners([...groups[latest.groupIndex]!].sort((a, b) => traceSequence(a)! - traceSequence(b)!));
   let leftLatestSource = false;
   const trailingMutation = groups[latest.groupIndex]!
-    .filter(entry => (traceSequence(entry) ?? 0) > latest.sequence)
+    .filter(entry => {
+      const owner = latestOwners.get(traceSequence(entry)!);
+      const at = Date.parse(asString(entry.at) ?? "");
+      return (traceSequence(entry) ?? 0) > latest.sequence && owner?.stage === "AVAILABILITY"
+        && owner.candidateId === latest.candidateId && (!Number.isFinite(at) || at <= latest.cutoff);
+    })
     .some(entry => {
       if (entry.kind !== "SESSION_CALL") return false;
       const detail = asRecord(entry.detail) ?? {}; const method = asString(detail.method) ?? ""; const args = asArray(detail.args);

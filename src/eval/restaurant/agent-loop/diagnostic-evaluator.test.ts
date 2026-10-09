@@ -26,9 +26,9 @@ function completeArtifact() {
     loop: { status: "TERMINAL" }, resourceUsage: { elapsedMs: 100, agentDecisions: 3, browserModelCalls: 2 },
     trajectories: [{ stateHashBefore: "request-v1", stepOutcome: "EXECUTED", agentAction: { type: "CHECK_AVAILABILITY", candidateIds: [candidateId] }, decisionContext: { intentDraft }, observation: { type: "AVAILABILITY", candidateIds: [candidateId], evidenceIds: ["discovery-a", "identity-a", "hard-a", "availability-a"] }, executionMetadata: { providerAttempts: [{ candidateId, provider: "TABLECHECK", outcome: "AVAILABLE" }] } }],
     diagnostics: { browserTrace: [
-      { sequence: 1, at: "2026-10-03T01:00:00.000Z", kind: "SESSION_CALL", detail: { method: "select", args: ["date", "2026-09-08"] } },
-      { sequence: 2, at: "2026-10-03T01:00:01.000Z", kind: "SNAPSHOT", detail: { url: "https://www.tablecheck.com/en/shops/outlet-a/reserve", queryRegions: [{ markup: '<section data-testid="Venue Availability"><a data-reservation-source="/en/shops/outlet-a/reserve" data-reservation-date="2026-09-08" data-reservation-party="2" data-reservation-time="19:00">19:00</a></section>', truncated: false, ancestorMarkupHidden: false }] } },
-      { sequence: 3, at: "2026-10-03T01:00:02.000Z", kind: "CONTROLS", detail: { snapshotSequence: 2, controls: [
+      { sequence: 1, at: "2026-09-08T07:44:58.000Z", kind: "EXECUTOR_DIAGNOSTIC", detail: { stage: "AVAILABILITY", candidateId, event: "OPERATION_STARTED", detail: "SNAPSHOT" } },
+      { sequence: 2, at: "2026-09-08T07:44:59.000Z", kind: "SNAPSHOT", detail: { stage: "AVAILABILITY", candidateId: "candidate-a", url: "https://www.tablecheck.com/en/shops/outlet-a/reserve", queryRegions: [{ markup: '<section data-testid="Venue Availability"><a data-reservation-source="/en/shops/outlet-a/reserve" data-reservation-date="2026-09-08" data-reservation-party="2" data-reservation-time="19:00">19:00</a></section>', truncated: false, ancestorMarkupHidden: false }] } },
+      { sequence: 3, at: "2026-09-08T07:44:59.100Z", kind: "CONTROLS", detail: { snapshotSequence: 2, controls: [
         { kind: "INPUT", label: "2026-09-08", value: "2026-09-08", visible: true, disabled: false, structure: { name: "reservation[start_date]" } },
         { kind: "SELECT", label: "2", value: "2", visible: true, disabled: false, structure: { name: "reservation[num_people_adult]" } },
         { kind: "LINK", label: "19:00", visible: true, disabled: false },
@@ -58,6 +58,26 @@ test("diagnostic evaluator independently accepts current-runner-shaped grounded 
   assert.deepEqual(result.candidateSummaries[0]?.providers, ["TABLECHECK"]);
   assert.match(result.candidateSummaries[0]?.providerAttempts[0]?.evidenceRef ?? "", /trajectories\[0\]/);
   assert.ok(result.findings.every((item) => item.status === "SATISFIED"));
+});
+
+test("E1 binds a slot to its availability snapshot before evidence, excluding later facts", async (t) => {
+  for (const mode of ["later-facts", "slot-only-in-facts", "future-availability"] as const) await t.test(mode, () => {
+    const artifact: any = completeArtifact();
+    const snapshot = artifact.diagnostics.browserTrace[1];
+    snapshot.at = "2026-09-08T07:44:59.000Z";
+    snapshot.detail.stage = "AVAILABILITY"; snapshot.detail.candidateId = "candidate-a";
+    if (mode === "slot-only-in-facts") snapshot.detail.queryRegions[0].markup = snapshot.detail.queryRegions[0].markup.replace('>19:00</a>', '><button disabled>19:00</button></a>');
+    const later = structuredClone(snapshot);
+    later.sequence = 5; later.at = "2026-09-08T07:45:20.000Z";
+    later.detail.stage = mode === "future-availability" ? "AVAILABILITY" : "FACTS";
+    if (mode !== "slot-only-in-facts") later.detail.queryRegions = [];
+    else later.detail.queryRegions[0].markup = later.detail.queryRegions[0].markup.replace('<button disabled>19:00</button>', '19:00');
+    artifact.diagnostics.browserTrace.push(later, { sequence: 6, at: later.at, kind: "CONTROLS", detail: { snapshotSequence: 5, controls: structuredClone(artifact.diagnostics.browserTrace[2].detail.controls) } });
+    const result = evaluateRestaurantHybridLiveArtifact(artifact, source);
+    const expected = mode === "slot-only-in-facts" ? "NOT_SATISFIED" : "SATISFIED";
+    assert.equal(finding(result, "REQUIRED_EVIDENCE").status, expected);
+    assert.equal(finding(result, "INVESTIGATION_BEHAVIOR").status, expected);
+  });
 });
 
 test("raw TableCheck trace requires a current request-bound settled result", async (t) => {
@@ -141,7 +161,7 @@ test("raw TableCheck trace requires a current request-bound settled result", asy
     const artifact: any = completeArtifact();
     artifact.diagnostics.browserTrace.push(
       { sequence: 4, kind: "SESSION_CALL", detail: { method: "select", args: ["date", "2026-09-08"] } },
-      { sequence: 5, kind: "SNAPSHOT", detail: { url: "https://www.tablecheck.com/en/shops/outlet-a/reserve", queryRegions: [{ markup: '<section data-testid="Venue Availability"><a data-reservation-source="/en/shops/outlet-a/reserve" data-reservation-date="2026-09-08" data-reservation-party="2" data-reservation-time="19:00"><button disabled>19:00</button></a></section>', truncated: false, ancestorMarkupHidden: false }] } },
+      { sequence: 5, at: "2026-09-08T07:44:59.500Z", kind: "SNAPSHOT", detail: { stage: "AVAILABILITY", candidateId: "candidate-a", url: "https://www.tablecheck.com/en/shops/outlet-a/reserve", queryRegions: [{ markup: '<section data-testid="Venue Availability"><a data-reservation-source="/en/shops/outlet-a/reserve" data-reservation-date="2026-09-08" data-reservation-party="2" data-reservation-time="19:00"><button disabled>19:00</button></a></section>', truncated: false, ancestorMarkupHidden: false }] } },
       { sequence: 6, kind: "CONTROLS", detail: { snapshotSequence: 5, controls: structuredClone(artifact.diagnostics.browserTrace[2].detail.controls) } },
     );
     assert.equal(finding(evaluate(artifact), "REQUIRED_EVIDENCE").status, "NOT_SATISFIED");

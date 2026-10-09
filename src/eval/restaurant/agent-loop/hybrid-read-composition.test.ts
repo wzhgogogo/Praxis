@@ -1459,7 +1459,7 @@ test("source text handoff reaches request-bound availability and presentation th
   const taskId = "integration:source-handoff";
   const composition = createHybridReadComposition({ taskId, runId: taskId, clock, model, search: google,
     facts: composeLiveRestaurantFactRead(google, tracedBrowser, model, undefined, () => now.toISOString()),
-    availability: new LiveBrowserAvailability(tracedBrowser, model, { now: () => now.toISOString() }), loop: { maxSteps: 6, timeoutMs: 5_000 },
+    availability: new LiveBrowserAvailability(tracedBrowser, model, { now: () => now.toISOString(), onBrowserDiagnostic: diagnostic => { browserTrace.push({ sequence: ++browserTraceSequence, at: now.toISOString(), kind: "EXECUTOR_DIAGNOSTIC", detail: diagnostic }); } }), loop: { maxSteps: 6, timeoutMs: 5_000 },
   });
   await composition.interpretAndDispatch({ taskId, message: "Find a restaurant with a chef's tasting menu nearby tomorrow at 1 pm for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
   const loop = await composition.coordinator.run(taskId);

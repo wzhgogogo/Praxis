@@ -241,10 +241,11 @@ export function createCurrentDevelopmentFixedSources(
   const browser: BrowserRuntime = { openSession: async (input) => traceBrowserSession(await rawBrowser.openSession(input), "TABLECHECK", recordBrowserTrace) };
   return {
     search,
-    facts: composeLiveRestaurantFactRead(search, browser, model, undefined, () => asIso(clock)),
+    facts: composeLiveRestaurantFactRead(search, browser, model, undefined, () => asIso(clock), diagnostic => recordBrowserTrace("EXECUTOR_DIAGNOSTIC", diagnostic)),
     availability: new LiveBrowserAvailability(browser, model, {
       now: () => asIso(clock), maxElapsedMsPerCandidate: 60_000, maxElapsedMsPerProvider: 45_000, maxAutomaticElapsedMs: 60_000,
       maxOperationsPerCandidate: 30,
+      onBrowserDiagnostic: diagnostic => recordBrowserTrace("EXECUTOR_DIAGNOSTIC", diagnostic),
     }),
     browser,
     calls,
