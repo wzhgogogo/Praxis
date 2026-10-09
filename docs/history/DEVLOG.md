@@ -3122,3 +3122,14 @@ Root independently preserves the existing evaluator and six-dimension acceptance
 - 浏览器关联：从实际模型 user message 读取 executor observation revision 和 URL；Runner 的既有 Recording sink 独立累计 snapshot 序号，并核对 URL／标题／实际可见文本后关联。两种序号不混用，不保存 headers／Secret／Cookie／整页 HTML 到 decisions 文件。
 - 验证复用：扩展现有 `native-discovery-composition.test.ts` 的真实 composition／固定来源／fixture model 路径，补捕获数量、失败调用、实际 DOM 指针、存储失败不干扰模型、运行截止晚到响应只记一次；未新增矩阵、Runner 平台或评分器。Evaluator 保持原口径，仅复用现有诊断，不声明模型质量或整单 Live 能力。
 - 边界：既有 Recorder 会省略不满足当前 grammar／sanitizer 的 DOM；snapshot 序号对应其原始计数，DOM 是否保存仍以 `recording.json` 的 documents 为准。本轮不修录制规则。两份用户提供的 Playbook 原文纳入提交；生产代码、冻结变体／见证、Gold@6、P1-B以后和任何 ADR 均未修改。离线签收后停止，不运行 Live／真实模型／外部来源，不推送。
+
+
+## 2026-10-09 — P1-C C0 call-budget delivery
+
+- 切片：用户完成P1-A独立归因后授权C0；模型剩余≤4且已有合格默认首批时复用交付窗口，不修改生产Prompt、Schema、资格或50调用／500秒上限。ADR-0038只扩展ADR-0031触发；旧Decision原文保留并标部分替代。
+- 实现：RunBoundedModelGateway只读报告当前Task剩余次数，失败计入，结束scope不作当前预算。Persistent Web、Hybrid Runner、bounded fixed-source三处实际调用方将当前整单计数接入共享coordinator；窗口在决策前后检查，经事件→Reducer写State，期限仍≤45秒且不超过run期限。模型仍提出展示；临界后旧调查提议被拒，下一步可展示。
+- 检错：复用hybrid-read-composition的Interpreter→Compiler→Grounding→Runtime→Validator→Router→展示路径，补正常与跨阈值正例，错误人数、过期、明确数量反例。原时间策略下正例失败，新策略实际PRESENT_RESULTS；W13从HTTP→Persistent→PGlite及真实计数路径证明Web接线，现有evaluator记录PRESENTATION_RECORDED。
+- 历史回放：从kf-h001真实append-only事件重建#38／#49并逐字段核对捕获Context；原样State仍拒绝短批，增加窗口后fixture模型实际展示。#38原剩余13，本轮明确设4次边界；#49原剩余2。fixture不证明真实模型选择。两份待发送输入已保存；首次真实模型请求被自动审批以未授权具体payload出境为由拒绝，未发出请求。随后用户明确授权，两次真实DeepSeek各一次均选择PRESENT_RESULTS、ALLOWED并实际展示，合计2次调用；两份输入逐字段不变。
+- 边界：不新增回放平台或阶段矩阵；一次性诊断脚本及产物只在Git忽略目录。不运行C0 Live、不改基线变体／见证／Gold、P1-B或C1以后；两份用户更新的Playbook（0.2／0.3）拟随C0提交，不推送。
+
+- 完成核验：记录`replay.final-acceptance.json`及`report.md`；完整历史来源谱系来自seed前State version 9／10的8／9条冻结真实轨迹，新增模型耗时2,228／1,783ms，零浏览器／Google／来源读取。现有诊断六维通过，明确只继承历史来源、不声明本次完整Live；最初缺谱系的诊断失败和空prefix拼装保留。C0离线与本次模型选择门槛均完成，四门禁复用最后通过结果，不再扩张测试或工作包。

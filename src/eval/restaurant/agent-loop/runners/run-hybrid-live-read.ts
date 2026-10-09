@@ -451,6 +451,7 @@ try {
       maxSteps: liveReadLimits.maxAgentSteps,
       maxRejectedActions: liveReadLimits.maxRejectedActions,
       timeoutMs: liveReadLimits.maxAutomaticBrowserMs,
+      remainingModelCalls: () => Math.max(0, maxModelCalls - modelCallsStarted),
     },
   });
   stage = "SEMANTIC";

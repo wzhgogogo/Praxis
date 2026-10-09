@@ -27,7 +27,7 @@ import { RunBoundedModelGateway } from "../application/run-bounded-model-gateway
 import type { ModelGateway, ModelRequest, ModelResponse } from "../core/model/contracts.js";
 import { ModelGatewayError } from "../core/model/errors.js";
 import { FixtureRestaurantSearch } from "../infrastructure/fixture/fixture-restaurant-search.js";
-import type { RestaurantAvailabilityRequest, RestaurantCandidate, RestaurantCandidateFactRequest, RestaurantReadEvidence, RestaurantSearchRequest } from "../domains/restaurant/contracts.js";
+import type { RestaurantAvailabilityRequest, RestaurantCandidate, RestaurantCandidateFactRequest, RestaurantReadEvidence, RestaurantSearchRequest, RestaurantTaskState } from "../domains/restaurant/contracts.js";
 import { applyPostgresMigrations } from "../infrastructure/postgres/migrations.js";
 import type {
   SqlDatabase,
@@ -84,7 +84,7 @@ interface StartServerOptions {
   semanticInterpreter?: RestaurantSemanticInterpreterPort;
   partySizeSupplementResolver?: RestaurantPartySizeSupplementResolverPort;
   agentDecision?: RestaurantAgentDecisionPort;
-  modelRunBudget?: { run<T>(taskId: string, work: (signal: AbortSignal) => Promise<T>): Promise<T>; hold?(): () => void; usage?(taskId: string): { calls: number; elapsedMs?: number } | undefined };
+  modelRunBudget?: { run<T>(taskId: string, work: (signal: AbortSignal) => Promise<T>): Promise<T>; hold?(): () => void; usage?(taskId: string): { calls: number; elapsedMs?: number } | undefined; remainingCalls?(taskId: string): number | undefined };
 }
 
 async function startServer(database: SqlDatabase, clock: FakeClock, options: StartServerOptions = {}): Promise<TestServer> {
@@ -1103,6 +1103,45 @@ test("W11 ordinary Web artifact retains shared Google request limits and categor
       assert.ok((artifact.resourceUsage?.elapsedMs ?? 0) >= 0, "resource elapsed time is taken from the same completed per-run scope");
       assert.equal(artifact.finalSnapshot?.domainState?.phase, "PRESENT_RESULTS", JSON.stringify({ snapshot: artifact.finalSnapshot, trajectories: artifact.trajectories }));
       assert.ok((artifact.finalSnapshot?.domainState?.presentedResults?.candidateIds?.length ?? 0) > 0);
+    } finally {
+      await running.close();
+    }
+  });
+});
+
+test("W13 ordinary Web presents a qualified short batch using its shared model-call reserve", async () => {
+  await withDatabase(async ({ database, clock }) => {
+    const calls = { model: 0, search: 0, facts: 0, availability: 0 };
+    const semanticModel = selectionSessionModel(calls);
+    const boundedModel = new RunBoundedModelGateway({ async complete(request) {
+      if (request.purpose === "restaurant_semantic_interpret") return semanticModel.complete(request);
+      calls.model += 1;
+      const { context } = JSON.parse(request.messages.find(message => message.role === "user")!.content);
+      return !context.candidates.length ? strictFixtureAction("SEARCH_RESTAURANTS")
+        : context.legalActions.investigateCandidateFacts.length
+          ? strictFixtureAction("INVESTIGATE_CANDIDATE_FACTS", context.legalActions.investigateCandidateFacts.slice(0, 1))
+          : strictFixtureAction("PRESENT_RESULTS", context.legalActions.presentResults);
+    } }, 6, 500_000);
+    const running = await startServer(database, clock, {
+      mode: "LIVE_READ", model: boundedModel, modelRunBudget: boundedModel,
+      restaurant: selectionSessionFixture(calls, false, ["b", "c", "d", "e", "f"]),
+    });
+    try {
+      const cookie = await login(running.baseUrl, "token-a");
+      const finished = new Promise<void>(resolve => {
+        const unsubscribe = running.application.subscribeReadFinished(() => { unsubscribe(); resolve(); });
+      });
+      const created = await createCase(running.baseUrl, cookie, "web-model-call-delivery", "Recommend restaurants in Shinjuku.");
+      await withinTestTimeout(finished, "the model-call delivery window");
+      const artifact = await running.application.exportReadArtifact(created.case.caseId);
+      const state = (artifact.finalSnapshot as { domainState: RestaurantTaskState }).domainState;
+      assert.equal(state.phase, "PRESENT_RESULTS");
+      assert.deepEqual(state.presentedResults?.candidateIds, ["a"]);
+      assert.deepEqual(state.selectionSession?.resultBatchTarget, { candidateCount: 3, met: false });
+      assert.equal(calls.facts, 0, "the shared reserve blocks further fact reads while a qualified result exists");
+      assert.equal(calls.model, 3, "semantic and both Agent decisions share the six-call scope");
+      assert.ok((artifact.events as Array<{ event: { type: string } }>).some(event => event.event.type === "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED"));
+      assert.equal(evaluateRestaurantHybridLiveArtifact(artifact, { path: "w13-call-delivery.result.json", sha256: "fixture" }).execution.completion, "PRESENTATION_RECORDED");
     } finally {
       await running.close();
     }

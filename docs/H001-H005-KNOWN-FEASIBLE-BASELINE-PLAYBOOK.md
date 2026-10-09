@@ -227,6 +227,7 @@ npm run eval:restaurant:agent-loop:hybrid-live-read -- \
 | `NO_ACTION_MEMORY` | 重复已经做过或已被拒绝的动作 | 动作历史 |
 | `ASYNC_SETTLE` | 页面未稳定就行动或判定 | 执行器统一等待 |
 | `REPETITIVE_STEPS` | 同类操作需要多次模型决策（例如人数轮播逐格点击），耗尽局部预算 | 重复性操作合同 |
+| `DELIVERY_POLICY` | 已有合格结果，但运行时或 Agent 的策略在非时间预算耗尽前没有展示（2026-10-09 新增） | 按调用预算交付 |
 | `RETRIEVAL_TERMS` | 检索词导致列表稀疏或不相关 | 模型检索规划 |
 | `REGION_BINDING` | 地点无法绑定来源地区入口 | 地区入口由 Agent 选择 |
 | `OWN_PLATFORM_ONLY` | 候选只能在原平台查位，或外部预约入口被当作停止条件 | 跟随店家预约入口（需 ADR） |
@@ -272,6 +273,8 @@ npm run eval:restaurant:agent-loop:hybrid-live-read -- \
 - 不在运行期间修复问题。
 
 ## 9 下一工作包（预告，不在本包范围内）
+
+完整安排、退出条件和预算见 [第一阶段 Playbook](AGENT-WEB-OPERATION-PHASE-1-PLAYBOOK.md)，以下为摘要。
 
 1. **真实观察回放：** 用 `decisions.jsonl` 中的回放种子，把模型实际收到的输入交给真实模型（temperature 0）离线重放，确认能复现 Live 中的错误决策。之后每项改进先在回放上验证，再上 Live。
 2. **模型可见性与执行器：** 只给模型看相关区域、加入动作历史、卡住时开启思考、操作后统一等待页面稳定、UNKNOWN 附带原因和下一步可尝试的动作。

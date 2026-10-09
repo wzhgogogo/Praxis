@@ -41,6 +41,8 @@ export interface RestaurantAgentLoopOptions {
   maxSteps?: number;
   maxRejectedActions?: number;
   timeoutMs?: number;
+  /** Trusted caller's active whole-run budget; shared by all model purposes. */
+  remainingModelCalls?: (taskId: string) => number | undefined;
   /** Observes persisted transitions for a user-visible owner; it cannot change Agent state. */
   onStateUpdated?: (taskId: string) => Promise<void> | void;
 }
@@ -141,6 +143,7 @@ export class RestaurantAgentLoopCoordinator {
   private readonly timeoutMs: number;
   private readonly createId: IdFactory;
   private readonly onStateUpdated: ((taskId: string) => Promise<void> | void) | undefined;
+  private readonly remainingModelCalls: RestaurantAgentLoopOptions["remainingModelCalls"];
 
   constructor(
     private readonly runtime: RestaurantAgentLoopRuntime,
@@ -156,6 +159,7 @@ export class RestaurantAgentLoopCoordinator {
     this.timeoutMs = options.timeoutMs ?? 30_000;
     this.createId = createId;
     this.onStateUpdated = options.onStateUpdated;
+    this.remainingModelCalls = options.remainingModelCalls;
   }
 
   async run(taskId: string, signal?: AbortSignal, readDeadlineAt?: Date): Promise<RestaurantAgentLoopResult> {
@@ -178,11 +182,15 @@ export class RestaurantAgentLoopCoordinator {
     const openDeliveryWindow = async (current: TaskSnapshot<RestaurantTaskState, RestaurantOutcome>) => {
       const now = this.clock.now();
       const remainingMs = deadlineAt.valueOf() - now.valueOf();
+      const remainingCalls = this.remainingModelCalls?.(taskId);
+      const callReserve = remainingCalls !== undefined && Number.isSafeInteger(remainingCalls)
+        && remainingCalls >= 0 && remainingCalls <= 4;
       const oldWindow = current.domainState.defaultBatchDeliveryWindow;
-      if (this.timeoutMs >= 90_000 && (!oldWindow || Date.parse(oldWindow.deadlineAt) < now.valueOf())
-        && remainingMs >= 0 && remainingMs <= 45_000
+      if ((callReserve || this.timeoutMs >= 90_000 && remainingMs <= 45_000)
+        && (!oldWindow || Date.parse(oldWindow.deadlineAt) < now.valueOf()) && remainingMs >= 0
         && defaultBatchDeliveryCandidateIds(current.domainState, now.toISOString()).length > 0) {
-        return (await this.dispatch(current, { type: "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED", deadlineAt: deadlineAt.toISOString() }, "SYSTEM")).snapshot;
+        const deliveryDeadline = new Date(Math.min(deadlineAt.valueOf(), now.valueOf() + 45_000));
+        return (await this.dispatch(current, { type: "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED", deadlineAt: deliveryDeadline.toISOString() }, "SYSTEM")).snapshot;
       }
       return current;
     };

@@ -1,7 +1,7 @@
 # ADR-0031: Default result delivery window
 
-- Status: Accepted
-- Last updated: 2026-09-24
+- Status: Superseded in part by [ADR-0038](0038-model-call-default-delivery-window.md), delivery-window trigger only
+- Last updated: 2026-10-09
 - Source of truth for: Bounded presentation of a supported partial first batch near a read deadline
 - Supersedes in part: [ADR-0028](0028-open-ended-result-targets-for-availability.md) continue-until-no-read rule for the default first batch
 - Related documents: [Restaurant Booking Domain](../domains/RESTAURANT-BOOKING.md), [H001 E1 experiment](../history/H001-DELIVERY-WINDOW-2026-09-24.md)

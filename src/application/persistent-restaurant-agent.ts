@@ -284,6 +284,7 @@ export interface PersistentRestaurantAgentOptions {
     /** Keeps the parent read deadline alive while LIVE work continues after the HTTP mutation returns. */
     hold?(): () => void;
     usage?(taskId: string): { calls: number; elapsedMs?: number } | undefined;
+    remainingCalls?(taskId: string): number | undefined;
   };
 }
 
@@ -339,6 +340,9 @@ export class PersistentRestaurantAgentApplication {
       this.clock,
       {
         ...options.agentLoopOptions,
+        ...(options.modelRunBudget?.remainingCalls ? {
+          remainingModelCalls: (taskId: string) => options.modelRunBudget!.remainingCalls!(taskId),
+        } : {}),
         onStateUpdated: async (taskId) => {
           await suppliedStateObserver?.(taskId);
           const active = this.activeReads.get(taskId);

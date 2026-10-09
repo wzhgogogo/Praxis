@@ -14,11 +14,15 @@ test("whole-read model budget starts before semantic work, counts failed calls, 
     return { invocationId: String(calls.length), provider: "FIXTURE", model: "fixture", outputText: "{}", finishReason: "STOP", latencyMs: 1 };
   } };
   const budget = new RunBoundedModelGateway(provider, 2, 5_000);
+  assert.equal(budget.remainingCalls("case-a"), undefined);
   await assert.rejects(() => budget.run("case-a", async () => {
     await assert.rejects(() => budget.complete(request), /provider failure/);
+    assert.equal(budget.remainingCalls("case-a"), 1, "failed calls consume the reported reserve");
     await budget.complete(request);
+    assert.equal(budget.remainingCalls("case-a"), 0);
     await budget.complete(request);
   }), (error: unknown) => !!error && typeof error === "object" && (error as { code?: string }).code === "MODEL_CALL_BUDGET_EXHAUSTED");
+  assert.equal(budget.remainingCalls("case-a"), undefined, "finished runs cannot open a later task's window");
   let releaseA!: () => void;
   let releaseB!: () => void;
   let releaseBarrier!: () => void;
@@ -27,13 +31,16 @@ test("whole-read model budget starts before semantic work, counts failed calls, 
     releaseA = budget.hold();
     await barrier;
     await budget.complete(request);
+    assert.equal(budget.remainingCalls("case-a"), 1);
     await budget.complete(request);
+    assert.equal(budget.remainingCalls("case-a"), 0);
     await assert.rejects(() => budget.complete(request), (error: unknown) => !!error && typeof error === "object" && (error as { code?: string }).code === "MODEL_CALL_BUDGET_EXHAUSTED");
   });
   const overlappingB = budget.run("case-b", async () => {
     releaseB = budget.hold();
     await barrier;
     await budget.complete(request);
+    assert.equal(budget.remainingCalls("case-b"), 1);
     await budget.complete(request);
     await assert.rejects(() => budget.complete(request), (error: unknown) => !!error && typeof error === "object" && (error as { code?: string }).code === "MODEL_CALL_BUDGET_EXHAUSTED");
   });

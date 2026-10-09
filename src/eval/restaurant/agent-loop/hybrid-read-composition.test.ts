@@ -19,6 +19,7 @@ import { groundTableCheckAvailability } from "../../../domains/restaurant/read-g
 import { HIGASHI_GINZA_EVALUATION_LOCATION } from "./live-evaluation-location.js";
 import { captureHybridLiveProgress } from "./hybrid-live-artifact.js";
 import { settleAtRunDeadline } from "./live-run-deadline.js";
+import { RunBoundedModelGateway } from "../../../application/run-bounded-model-gateway.js";
 import { BrowserRuntimeError } from "../../../infrastructure/browser/browser-runtime-errors.js";
 import type { BrowserExecutionDiagnostic } from "../../../infrastructure/browser/browser-task-executor.js";
 import { startDiagnosticRun } from "../../shared/diagnostic-run.js";
@@ -857,6 +858,79 @@ test("default delivery keeps a produced source-backed result when the next avail
   assert.equal(calls, mode === "slow-read" ? 2 : 1, "the read must not consume the delivery reserve");
   assert.equal(currentTime, started + (mode === "slow-read" ? 255_000 : 256_000));
   assert.equal(composition.trajectories.steps.some((item) => item.observation?.detail.startsWith("DELIVERY_RESERVE_REACHED")), mode === "slow-read");
+  }
+});
+
+test("model-call delivery reserve presents a source-backed short batch without relaxing qualification", async (t) => {
+  // Start at the real Interpreter; replace only model transport and source reads.
+  // The same counted transport is used for semantic and Agent calls. No State or
+  // presentation eligibility is injected. The independent source slot is 19:00/2.
+  for (const mode of ["ready", "crossing", "wrong-party", "expired", "explicit-count"] as const) {
+    await t.test(mode, async () => {
+      const taskId = `integration:call-delivery-${mode}`;
+      const maxCalls = mode === "crossing" ? 8 : 7;
+      const source = googleSearch([], { maxRequests: 100 }, ["one", "two", "three"]);
+      const contexts: Array<{ remaining: number; checks: number }> = [];
+      const provider: ModelGateway = { async complete(input) {
+        if (input.purpose === "restaurant_semantic_interpret") return response(JSON.stringify({ schemaVersion: "3", facts: [
+          { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "find a table", selectionScope: "OPEN_ENDED", ...(mode === "explicit-count" ? { requestedResultCount: 3 } : {}) } },
+          { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-09-17", raw: "tomorrow" } },
+          { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:00", raw: "7 pm" } },
+          { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } },
+          { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "nearby" } },
+        ] }), "semantic-call-reserve");
+        const { context } = JSON.parse(input.messages.find(item => item.role === "user")!.content);
+        const eligible = context.presentation?.filter((item: { eligible: boolean }) => item.eligible).map((item: { candidateId: string }) => item.candidateId) ?? [];
+        contexts.push({ remaining: budget.remainingCalls(taskId)!, checks: context.checkableCandidateIds?.length ?? 0 });
+        const type = !context.candidates?.length ? "SEARCH_RESTAURANTS"
+          : context.checkableCandidateIds?.length ? "CHECK_AVAILABILITY" : "PRESENT_RESULTS";
+        return response(JSON.stringify(strictAction(type, type === "CHECK_AVAILABILITY" ? context.checkableCandidateIds.slice(0, 1) : eligible)), `call-reserve-${contexts.length}`);
+      } };
+      const budget = new RunBoundedModelGateway(provider, maxCalls, 500_000);
+      let reads = 0;
+      const availability = { executionRoute: "GENERIC_BROWSER" as const,
+        async check(request: import("../../../domains/restaurant/contracts.js").RestaurantAvailabilityRequest) {
+          reads += 1;
+          const observedAt = mode === "expired" ? new Date(now.valueOf() - 20 * 60_000).toISOString() : now.toISOString();
+          const candidate = request.candidates[0]!;
+          const grounded = groundTableCheckAvailability(candidate, request, {
+            candidateId: candidate.restaurant.id, sourceEntityId: `tablecheck:${candidate.restaurant.id}`,
+            sourceUrl: "https://www.tablecheck.com/en/one", observedAt,
+            requestedDate: "2026-09-17", requestedPartySize: mode === "wrong-party" ? 4 : 2,
+            entityMatch: { confidence: "HIGH", matchedBy: ["EXACT_PHONE"] }, pageState: reads === 1 ? "AVAILABLE" : "EXTRACTION_FAILED", visibleSlots: reads === 1 ? ["19:00"] : [],
+          }, now.toISOString());
+          return { offers: grounded.offers, evidence: grounded.evidence, availabilityChecks: { [candidate.restaurant.id]: grounded.check },
+            metadata: { provider: "TABLECHECK" as const, route: "GENERIC_BROWSER" as const, latencyMs: 0 } };
+        },
+      };
+      const composition = createHybridReadComposition({ taskId, runId: taskId, clock, model: budget, search: source, availability,
+        loop: { maxSteps: 10, timeoutMs: 500_000, remainingModelCalls: id => budget.remainingCalls(id) } });
+      await budget.run(taskId, async () => {
+        await composition.interpretAndDispatch({ taskId, message: "Find a table nearby tomorrow at 7 pm for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
+        await composition.coordinator.run(taskId);
+      });
+      const state = composition.runtime.snapshot(taskId).domainState;
+      const windows = composition.runtime.eventLog.filter(item => item.event.type === "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED");
+      if (mode === "ready" || mode === "crossing") {
+        assert.equal(state.phase, "PRESENT_RESULTS", JSON.stringify({ contexts, state }));
+        assert.equal(windows.length, 1);
+        assert.equal(reads, 1, "budget reserve blocks another source read while an eligible result exists");
+        assert.deepEqual(state.selectionSession?.resultBatchTarget, { candidateCount: 3, met: false });
+        assert.equal(state.presentedResults?.candidateIds.length, 1);
+        const offers = state.availability[state.presentedResults!.candidateIds[0]!]!;
+        assert.equal(offers[0]?.dateTime, "2026-09-17T19:00:00+09:00");
+        assert.equal(offers[0]?.partySize, 2);
+        assert.equal(windows[0]!.event.type === "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED" && windows[0]!.event.deadlineAt, new Date(now.valueOf() + 45_000).toISOString());
+        assert.ok((budget.usage(taskId)?.calls ?? Infinity) <= maxCalls);
+        if (mode === "crossing") {
+          assert.ok(contexts.some(item => item.remaining === 4 && item.checks > 0), "five calls before a decision does not open the window early");
+          assert.ok(composition.trajectories.steps.some(item => item.actionValidation?.status === "REJECTED" && item.actionValidation.code === "PRESENTATION_READY"), "crossing the threshold during a decision blocks its now-stale read proposal");
+        }
+      } else {
+        assert.notEqual(state.phase, "PRESENT_RESULTS");
+        assert.equal(windows.length, 0, "unqualified/stale inventory and explicit counts never get a default short-batch exception");
+      }
+    });
   }
 });
 

@@ -47,7 +47,7 @@ export async function executeFixedSourceCase(input: {
   deadlineMs?: number;
   /** A controlled user cancellation passed into the real runtime chain. */
   signal?: AbortSignal;
-  /** A controlled transport budget; it never changes product action policy. */
+  /** Shared whole-run ceiling, also reported to the normal delivery-window policy. */
   maxModelCalls?: number;
 }): Promise<FixedSourceCaseExecution> {
   const started = Date.now();
@@ -98,7 +98,8 @@ export async function executeFixedSourceCase(input: {
     // default.
     router: { browserReadTimeoutMs: Math.min(input.deadlineMs ?? 5_000, 60_000) },
     partySizeSupplementResolver: new RestaurantPartySizeSupplementResolver(guardedModel),
-    loop: { maxSteps: input.maxSteps ?? 6, timeoutMs: input.deadlineMs ?? 5_000 },
+    loop: { maxSteps: input.maxSteps ?? 6, timeoutMs: input.deadlineMs ?? 5_000,
+      ...(input.maxModelCalls !== undefined ? { remainingModelCalls: () => Math.max(0, input.maxModelCalls! - modelCalls) } : {}) },
   });
   let semantic: unknown;
   try {

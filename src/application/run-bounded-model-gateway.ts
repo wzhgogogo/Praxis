@@ -57,6 +57,12 @@ export class RunBoundedModelGateway implements ModelGateway {
     return scope ? { calls: scope.calls, startedAt: scope.startedAt, deadlineAt: scope.deadlineAt, elapsedMs: Math.max(0, Date.now() - scope.startedAt) } : this.completed.get(taskId);
   }
 
+  /** Read-only view of the active task's shared budget, including failed calls. */
+  remainingCalls(taskId: string): number | undefined {
+    const scope = this.active.get(taskId);
+    return scope ? Math.max(0, this.maxCalls - scope.calls) : undefined;
+  }
+
   async complete(request: ModelRequest): Promise<ModelResponse> {
     const scope = this.scopes.getStore();
     if (!scope) return this.delegate.complete(request);

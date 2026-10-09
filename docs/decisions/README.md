@@ -1,8 +1,8 @@
 # Architecture Decision Records
 
 - Status: Accepted
-- Document revision: 1.11
-- Last updated: 2026-10-07
+- Document revision: 1.12
+- Last updated: 2026-10-09
 - Source of truth for: 已接受架构决策及其替代关系
 - Related ADRs: 本目录
 - Related documents: [Architecture Overview](../architecture/OVERVIEW.md)
@@ -41,13 +41,14 @@
 | [0028](0028-open-ended-result-targets-for-availability.md) | Accepted; default first-batch delivery details superseded in part by ADR-0031/0033 | 开放式查位与推荐共享三家结果目标 |
 | [0029](0029-criterion-strength-and-nonblocking-preferences.md) | Accepted | 表达但未标记强制/让步的条件为UNSPECIFIED，并仅以HARD形成证据门槛 |
 | [0030](0030-restaurant-category-negative-eligibility.md) | Accepted | 类别/类型排除的受限`UNKNOWN`仅用于资格，不成为已验证负向事实 |
-| [0031](0031-default-result-delivery-window.md) | Accepted | 默认首批在有界交付窗口内展示已有合格短批 |
+| [0031](0031-default-result-delivery-window.md) | Superseded in part by ADR-0038 (trigger only) | 默认首批在有界交付窗口内展示已有合格短批 |
 | [0032](0032-source-native-restaurant-discovery.md) | Accepted; fixed order and discovery modes superseded in part by ADR-0037 | 有界来源原生发现与同源证据门槛；固定来源顺序已替换 |
 | [0033](0033-native-source-batch-delivery.md) | Accepted; fixed continuation superseded in part by ADR-0037 | 完成来源批次调查后的合格短批与目标缺口；来源游标已替换 |
 | [0034](0034-qualified-read-scope-and-investigation-budget.md) | Accepted | 类别查询范围、同次事实追查与500秒/50调用只读调查上限 |
 | [0035](0035-browser-read-network-boundary.md) | Accepted; unknown-GET admission and guarded UI permissions superseded in part by ADR-0036 | Source-owned browser read network admission and isolated contexts |
 | [0036](0036-generic-public-read-network-policy.md) | Accepted; implemented and Phase 1 verified | Generic public GET reads, sensitive-request blocking and shared guarded UI permissions |
 | [0037](0037-request-driven-discovery-source-packs.md) | Accepted; implemented, Phase2 offline verified | 请求驱动来源计划、Source Pack及通用续查游标；保留Google与证据门槛 |
+| [0038](0038-model-call-default-delivery-window.md) | Accepted; C0 offline and recorded-context real-model verified | 剩余共享模型调用≤4且已有合格默认首批时复用交付窗口 |
 
 ## 规则
 
