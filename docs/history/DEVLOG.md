@@ -3199,3 +3199,8 @@ Recent six browser execution steps implemented with action/target/field/outcome/
 ## DEV-2026-10-10-C3
 
 Unified browser post-action settlement (requests complete, DOM quiet 300ms, no visible busy marker, bound 4s). PENDING snapshots cannot complete or yield inventory. Retired Tabelog member-loader and TableCheck skeleton waits. Synchronous fixtures use readiness semantics; settled restricted calendar still remains a supported query surface.
+
+
+## DEV-2026-10-10-Recorder
+
+Recorder schema browser-read-recording@3 saves actually received reviewed public stylesheets as standalone CSS files with URL/SHA256/byte count, and preserves admitted CSS URLs and public asset references in HAR. Runtime and Guard behavior unchanged.

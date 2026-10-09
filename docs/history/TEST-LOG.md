@@ -3883,3 +3883,8 @@ Red executor history assertion fails on old code; green-composition.log and fina
 ## TEST-2026-10-10-C3
 
 PASS: typecheck, arch:check, npm test 783/783, build. C3 local Chromium positive/timeout negative PASS; delayed-state, native Tabelog composition and stale TableCheck inventory controls PASS. Red stale-stock acceptance captured in C3/red.log; corrected behavior and final logs under C3/. Two obsolete selector-wait tests retired after generic Fixture coverage; no paid calls or Live.
+
+
+## TEST-2026-10-10-Recorder
+
+PASS: typecheck, arch:check, npm test 784/784, build; recording contracts 14/14 and local Chromium Guard-response → Recorder → offline HAR Adapter composition PASS. Red missing stylesheets manifest captured in Recorder/red.log, green captures exact bounded UTF-8 CSS including media rules and asset URLs; unreviewed URL is not retained. No paid calls or Live.

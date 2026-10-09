@@ -123,12 +123,14 @@ test("recorded public documents replay through the production TableCheck availab
 test("guarded dynamic TableCheck recording replays through the same production Adapter without receiver traffic", async () => {
   const { TableCheckBrowserAvailability } = await import("../../integrations/tablecheck/tablecheck-browser-availability.js");
   let arrivals = 0;
+  const css = '@media(max-width:600px){.menu{overflow:auto}}:root{--asset:url(./unused.png)}';
   const receiver = createServer((request, response) => {
     const path = new URL(request.url ?? "/", `http://${request.headers.host}`).pathname;
     if (path === "/slots") { arrivals += 1; response.setHeader("content-type", "application/json"); response.end('{"available":true}'); return; }
+    if (path === "/assets/reserve.css") { response.setHeader("content-type", "text/css"); response.end(css); return; }
     if (path === "/assets/app.js") { response.setHeader("content-type", "application/javascript"); response.end(`fetch('/slots').then(r=>r.json()).then(()=>document.querySelector('[data-testid="Venue Availability"]').innerHTML='<section data-availability-state="complete"><a href="/en/fixture/reserve?start_date=2026-10-08&num_people=2&start_time=19:00">19:00</a></section>')`); return; }
     response.setHeader("content-type", "text/html");
-    response.end(`<title>Fixture restaurant</title><h1>Fixture restaurant</h1><p class="address">1-1 Tokyo Fixture Street</p><a href="tel:03-1111-2222">Phone</a><div data-testid="Venue Availability" data-selected-date="2026-10-08" data-pax="2"><span class="skeleton">Loading</span></div><script src="https://cdn.public.example/assets/app.js?rst-v1-public"></script>`);
+    response.end(`<link rel="stylesheet" href="https://cdn.public.example/assets/reserve.css?rst-v1-public"><title>Fixture restaurant</title><h1>Fixture restaurant</h1><p class="address">1-1 Tokyo Fixture Street</p><a href="tel:03-1111-2222">Phone</a><div data-testid="Venue Availability" data-selected-date="2026-10-08" data-pax="2"><span class="skeleton">Loading</span></div><script src="https://cdn.public.example/assets/app.js?rst-v1-public"></script>`);
   });
   await new Promise<void>(resolve => receiver.listen(0, "127.0.0.1", resolve));
   const address = receiver.address(); if (!address || typeof address === "string") throw new Error("fixture receiver did not bind");
@@ -154,7 +156,7 @@ test("guarded dynamic TableCheck recording replays through the same production A
   } };
   const guide = "https://www.tablecheck.com/en/fixture";
   const policy = { documentOrigins: ["https://www.tablecheck.com"], genericPublicRead: true,
-    staticResources: [{ origin: "https://cdn.public.example", pathnamePrefix: "/assets/", resourceTypes: ["script"], queryKeyRules: { required: [], allowedPatterns: ["^rst-v1-[A-Za-z0-9._-]+$"] } }],
+    staticResources: [{ origin: "https://cdn.public.example", pathnamePrefix: "/assets/", resourceTypes: ["script", "stylesheet"], queryKeyRules: { required: [], allowedPatterns: ["^rst-v1-[A-Za-z0-9._-]+$"] } }],
     dynamicReads: [{ origin: "https://www.tablecheck.com", pathname: "/slots", resourceTypes: ["fetch"], queryKeys: [] }] } as const;
   const directory = await mkdtemp(join(tmpdir(), "praxis-dynamic-recording-")); const recording = new BrowserReadRecording({ directory, runId: "dynamic", reviewedStaticResources: policy.staticResources });
   const sourceRaw = new LocalPlaywrightChromium({ browserType });
@@ -166,6 +168,9 @@ test("guarded dynamic TableCheck recording replays through the same production A
     const source = await new TableCheckBrowserAvailability(sourceExecutor, () => "2026-10-07T00:00:00.000Z", { networkPolicy: policy }).check(request, new AbortController().signal);
     assert.equal(source.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE", JSON.stringify(source)); assert.ok(arrivals >= 1, "the guarded source task must consume its public dynamic response");
     const captured = await recording.finish(); assert.equal(captured.replay.status, "REPLAYABLE"); if (captured.replay.status !== "REPLAYABLE") throw new Error("public dynamic capture must replay");
+    const manifest = JSON.parse(await readFile(join(captured.path, "recording.json"), "utf8"));
+    assert.equal(manifest.stylesheets.length, 1, "capture follows the real Guard response callback for loaded CSS");
+    assert.equal(await readFile(join(captured.path, manifest.stylesheets[0].file), "utf8"), css);
     const capturedHarPath = captured.replay.harPath;
     const capturedHar = await readFile(capturedHarPath, "utf8");
     assert.match(capturedHar, /application\/javascript/);

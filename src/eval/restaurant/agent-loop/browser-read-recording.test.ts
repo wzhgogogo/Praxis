@@ -242,3 +242,27 @@ test("browser recording preserves an admitted public document redirect for repla
     });
   } finally { await rm(root, { recursive: true, force: true }); }
 });
+
+test("recorder retains only loaded reviewed stylesheets with public asset URLs byte-for-byte", async () => {
+  const root = await mkdtemp(join(tmpdir(), "stylesheet-recording-"));
+  const cssUrl = "https://cdn1.tablecheck.com/assets/table_check/reserve.css?release=20261009";
+  const css = '@font-face{font-family:public;src:url(./font.woff2)}\n@media(max-width:500px){.menu{overflow:auto}}\n' + '.menu{color:#333}\n'.repeat(1400);
+  const recording = new BrowserReadRecording({ directory: root, runId: "css", reviewedStaticResources: [{ origin: "https://cdn1.tablecheck.com", pathnamePrefix: "/assets/table_check/", resourceTypes: ["stylesheet"], queryKeys: ["release"] }] });
+  try {
+    await recording.recordResponse({ url: cssUrl, method: "GET", status: 200, contentType: "text/css; charset=utf-8", body: Buffer.from(css) });
+    await recording.recordResponse({ url: "https://stats.example/private.css?token=private", method: "GET", status: 200, contentType: "text/css", body: Buffer.from("private-marker") });
+    recording.recordSnapshot({ url: "https://www.tablecheck.com/en/shops/fixture/reserve?start_date=2026-10-22&pax=2", title: "Fixture", text: "", html: `<link rel="stylesheet" href="${cssUrl}"><link rel="stylesheet" href="https://cdn1.tablecheck.com/assets/table_check/not-loaded.css?release=20261009"><h1>Fixture</h1>`, networkRequests: [{ outcome: "ADMITTED", origin: "https://cdn1.tablecheck.com", pathname: "/assets/table_check/reserve.css", method: "GET", resourceType: "stylesheet", queryKeys: ["release"] }] });
+    const result = await recording.finish();
+    const manifest = JSON.parse(await readFile(join(result.path, "recording.json"), "utf8"));
+    assert.equal(manifest.stylesheets.length, 1);
+    assert.equal(manifest.stylesheets[0].url, cssUrl);
+    assert.equal(await readFile(join(result.path, manifest.stylesheets[0].file), "utf8"), css);
+    assert.equal(manifest.stylesheets[0].sha256, (await import("node:crypto")).createHash("sha256").update(css).digest("hex"));
+    assert.equal(result.replay.status, "REPLAYABLE");
+    if(result.replay.status !== "REPLAYABLE")throw new Error("public stylesheet capture expected");
+    const har = JSON.parse(await readFile(result.replay.harPath,"utf8"));
+    assert.equal(har.log.entries.find((entry: {request:{url:string}}) => entry.request.url === cssUrl).response.content.text, css);
+    assert.ok((await readFile(join(result.path, "snapshot-0001.html"), "utf8")).includes(cssUrl));
+    assert.equal(JSON.stringify(manifest).includes("private-marker"), false);
+  } finally { await rm(root,{recursive:true,force:true}); }
+});
