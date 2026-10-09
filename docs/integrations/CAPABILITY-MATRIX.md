@@ -223,3 +223,7 @@ Harness 映射：`playwright-read-network-guard.test.ts` 的 `TableCheck admits 
 ### G1b TableCheck static resources (2026-10-10)
 
 Reviewed cdn0-3 /assets/table_check/ script/stylesheet/font/image GET/HEAD implemented. Guard Harness covers allowed resources, wrong path, POST, fetch, third-party analytics and cdn4 refusal. Offline red/green only; new Live rendering and inventory are NOT_RUN.
+
+### TableCheck explicit mealtime empty (2026-10-10)
+
+The ready source widget may establish EMPTY for its selected date/party/mealtime only. Exact-time requests can return UNAVAILABLE; wider windows stop with SELECTED_MEALTIME_EMPTY / UNKNOWN, retaining the unobserved-time gap. Recorded GiNZA widget plus controlled-identity Adapter composition covers exact/wide and wrong-party cases; no new Live.

@@ -808,7 +808,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
           // during final grounding, otherwise a correct DOM-only slot is
           // rejected before the Domain can inspect it.
           return {
-            complete: hasTableCheckBotChallenge(current) || assessed.complete,
+            complete: hasTableCheckBotChallenge(current) || assessed.complete || (assessed.selected && !assessed.loading && !assessed.serviceScope && assessed.html.emptyMealtime !== undefined),
             reason: !assessed.requestSelected
               ? "The latest page must explicitly confirm the complete authoritative date and party size before any result can be used."
               : !assessed.categorySelected
@@ -863,6 +863,15 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         entityMatch: retainedIdentity.inspection.resolution, pageState: "BOT_CHALLENGE", failureCode: "BOT_CHALLENGE", excerpt: tableCheckPageExcerpt(page),
       }, browser);
       const assessed = currentResult(page, availabilityRead.controls);
+      if (availabilityRead.status === "COMPLETED" && assessed.selected && !assessed.loading && !assessed.serviceScope
+        && assessed.html.emptyMealtime && !assessed.html.queryComplete) {
+        return this.ground(candidate, request, {
+          candidate, observedAt: this.now(), sourceEntityId: activeSelected.extraction.outlet.sourceEntityId,
+          sourceUrl: activeSelected.extraction.outlet.sourceUrl, entityMatch: activeSelected.inspection.resolution,
+          requestedDate: request.date, requestedPartySize: request.partySize, pageState: "EXTRACTION_FAILED",
+          failureCode: "SELECTED_MEALTIME_EMPTY", excerpt: `${JSON.stringify(assessed.html.emptyMealtime)}; other times in the requested window remain UNKNOWN`,
+        }, browser);
+      }
       if (availabilityRead.status !== "COMPLETED" || !assessed.complete) return this.ground(candidate, request, {
         candidate, observedAt, sourceEntityId: activeSelected.extraction.outlet.sourceEntityId, sourceUrl: activeSelected.extraction.outlet.sourceUrl,
         entityMatch: activeSelected.inspection.resolution, pageState: "EXTRACTION_FAILED",

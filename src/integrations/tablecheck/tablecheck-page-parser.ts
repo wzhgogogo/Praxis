@@ -596,6 +596,8 @@ export function hasTableCheckSelectedRequest(snapshot: BrowserSnapshot, date: st
 }
 
 export interface TableCheckSlotParse {
+  /** Explicit no-table result for this selected mealtime, never an entire wider window. */
+  emptyMealtime?: { date: string; partySize: number; time: string; status: "EMPTY" };
   availableSlots: string[];
   hasExplicitSlotUi: boolean;
   /** A result container explicitly reports that the current completed query has no matching table. */
@@ -672,12 +674,17 @@ export function parseTableCheckAvailabilitySlots(
     return { availableSlots, hasExplicitSlotUi: availableSlots.length > 0, explicitlyEmpty: false,
       queryComplete: inWindow };
   }
-  // A message for one selected mealtime cannot prove an entire alternative-time window empty.
-  if (request && guide?.date === request.date && guide.party === String(request.partySize)
-    && request.timeWindow?.earliest === guide.time && request.timeWindow.latest === guide.time
-    && /data-testid=["']Venue Unavailable Msg["']/.test(guide.html)
-    && /We could not find a table on/.test(guide.html)) {
-    return { availableSlots: [], hasExplicitSlotUi: true, explicitlyEmpty: true, queryComplete: true };
+  // Bind the explicit message and all controls to one ready source widget.
+  const emptyGuide = tableCheckGuideQuery(snapshot);
+  const visibleResult = tableCheckAvailabilityWidget(visibleSnapshot) ?? "";
+  const emptyDate = request && `${new Date(`${request.date}T00:00:00Z`).toLocaleString("en-US", { month: "short", timeZone: "UTC" })} ${Number(request.date.slice(8))}`;
+  if (request && emptyGuide?.date === request.date && emptyGuide.party === String(request.partySize)
+    && request.timeWindow && emptyGuide.time >= request.timeWindow.earliest && emptyGuide.time <= request.timeWindow.latest
+    && /data-testid=["']Venue Unavailable Msg["']/.test(visibleResult)
+    && new RegExp(`We could not find a table on +${emptyDate}(?:st|nd|rd|th)? +for the selected mealtime`, "i").test(plainText(visibleResult))) {
+    const wholeWindow = request.timeWindow.earliest === emptyGuide.time && request.timeWindow.latest === emptyGuide.time;
+    return { availableSlots: [], hasExplicitSlotUi: true, explicitlyEmpty: wholeWindow, queryComplete: wholeWindow,
+      emptyMealtime: { date: emptyGuide.date, partySize: request.partySize, time: emptyGuide.time, status: "EMPTY" } };
   }
   const slots = new Set<string>();
   let hasExplicitSlotUi = false;

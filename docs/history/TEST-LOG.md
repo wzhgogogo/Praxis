@@ -3868,3 +3868,8 @@ Gold7/red.log fails under old default. green.log verifies actual loader/material
 ## TEST-2026-10-10-G1b
 
 Guard contract red reproduces abort of reservation assets; green all four CDNs and four types admitted, wrong path/POST/fetch/third-party/cdn4 rejected. Four gates PASS, logs G1b/typecheck.log, arch-check.log, test.log, build.log. Offline fixed transport, no real models or Live; rendering remains unverified.
+
+
+## TEST-2026-10-10-TableCheck-empty
+
+Recorded GiNZA #13 / snapshot21 fixture red fails missing mealtime classification. green-composition.log passes parser and actual Adapter composition for exact, wide and wrong-party variants; 60/60 related tests. Four gates PASS, default 782/782. No real model calls or Live; public widget extracted with provenance, controlled identity transport is explicit.

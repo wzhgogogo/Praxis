@@ -1421,3 +1421,41 @@ test("TableCheck disabled times cover only the ready widget's requested half-hou
   }
   assert.equal(parseTableCheckAvailabilitySlots(snapshot,{...query,timeWindow:{earliest:'18:15',latest:'19:30'}}).explicitlyEmpty,false);
 });
+
+test("TableCheck recorded GiNZA no-table message is EMPTY only for its bound mealtime", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const { snapshot } = JSON.parse(await readFile(new URL("./fixtures/ginza-bistro-empty.json", import.meta.url), "utf8"));
+  const query = { date: "2026-10-23", partySize: 10, timeWindow: { earliest: "17:30", latest: "22:00" } };
+  const partial = parseTableCheckAvailabilitySlots(snapshot, query);
+  assert.deepEqual((partial as any).emptyMealtime, { date: query.date, partySize: 10, time: "17:30", status: "EMPTY" });
+  assert.equal(partial.explicitlyEmpty, false, "one mealtime must not cover the whole window");
+  assert.equal(partial.queryComplete, false);
+  assert.equal(parseTableCheckAvailabilitySlots(snapshot, { ...query, timeWindow: { earliest: "17:30", latest: "17:30" } }).explicitlyEmpty, true);
+  for (const bad of [{ ...query, partySize: 9 }, { ...query, date: "2026-10-24" }]) {
+    assert.equal((parseTableCheckAvailabilitySlots(snapshot, bad) as any).emptyMealtime, undefined);
+    assert.equal(parseTableCheckAvailabilitySlots(snapshot, bad).queryComplete, false);
+  }
+});
+
+test("TableCheck actual empty widget stops mealtime loops without claiming a wider window empty", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const { snapshot } = JSON.parse(await readFile(new URL("./fixtures/ginza-bistro-empty.json", import.meta.url), "utf8"));
+  for (const variant of ["wide", "exact", "wrong-party"] as const) {
+    const query = { ...request, date: "2026-10-23", partySize: 10,
+      timeWindow: { earliest: "17:30", latest: variant === "exact" ? "17:30" : "22:00" } };
+    const widget = variant === "wrong-party" ? snapshot.html.replace('id="pax-10"', 'id="pax-9"') : snapshot.html;
+    const session = new FixtureBrowserSession([
+      discoveryPage({ href: "/en/restaurant1", text: "Restaurant 1" }),
+      { url: "https://www.tablecheck.com/en/restaurant1", title: "Restaurant 1", text: "Restaurant 1", html: `<h1>Restaurant 1</h1><a href="tel:03-1111-2222">Phone</a>${widget}` },
+    ]);
+    const executor = new BrowserTaskExecutor({openSession:async()=>session},{modelDecision:{async decide(){return {type:"COMPLETE",reason:"Return observed page for verification"}}}});
+    try {
+      const result = await new TableCheckBrowserAvailability(executor).check(query, new AbortController().signal);
+      const check = result.availabilityChecks[candidate.restaurant.id]!;
+      assert.equal(result.offers.length, 0);
+      assert.equal(check.status, variant === "exact" ? "UNAVAILABLE" : "UNKNOWN");
+      if (variant === "wide") assert.equal(check.reasonCode, "SELECTED_MEALTIME_EMPTY");
+      if (variant === "wrong-party") assert.equal(check.reasonCode, "REQUEST_SELECTION_UNCONFIRMED");
+    } finally { await executor.close(); }
+  }
+});

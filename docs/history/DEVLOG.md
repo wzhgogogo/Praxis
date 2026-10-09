@@ -3184,3 +3184,8 @@ User approved ADR-0039 and default restaurant-read-development@7 on 2026-10-09 a
 ## DEV-2026-10-10-G1b
 
 G1b reviewed static assets implemented; ADR-0036 supplement appended under user approval 10/10. Narrow source-owned CDN path/type admission, no runtime write expansion. Playbook 0.5 independent-review changes retained.
+
+
+## DEV-2026-10-10-TableCheck-empty
+
+TableCheck ready widget reports selected date/party/mealtime EMPTY. Exact-time requests return UNAVAILABLE; wider windows return SELECTED_MEALTIME_EMPTY UNKNOWN without expanding the negative claim. Source message visibility and selected request stay required.
