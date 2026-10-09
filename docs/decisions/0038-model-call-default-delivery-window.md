@@ -29,3 +29,8 @@ The Agent still chooses the action. Only the first default open-ended batch qual
 - Raise the 50-call ceiling: rejected because the resource contract remains unchanged.
 - Force presentation in deterministic code: rejected because the Agent must still propose the action and the Validator must accept it.
 - Add a second delivery event or duplicate qualification path: rejected because the existing event and rules express the required behavior.
+
+
+## C0c supplement — Accepted by user 2026-10-10
+
+When no qualified candidate exists and the trusted shared call report reaches zero to four, the System may open `READ_END_WINDOW_OPENED` for up to 45 seconds within the actual deadline. The Agent chooses END_READ; code records which outlets were actually checked, their unknown reasons and the remaining unexamined scope. Provider reads preserve the same four calls for this truthful ending. Qualification and C0 presentation for qualified default candidates are unchanged; no all-unavailable claim is supported. Semantic revision or explicit refresh clears this window. Internal failure, cancellation and real exhaustion remain separate. This extends the original qualified-only reserve with Restaurant State@13 / TaskDefinition@12; unpublished State@12 follows the existing explicit development reset protocol rather than compatibility paths. Agent Prompt@21 uses the unchanged Context@9 shape.

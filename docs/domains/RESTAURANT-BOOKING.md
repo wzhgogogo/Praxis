@@ -42,7 +42,7 @@ Reducer继续以`Old State + Event → New Authoritative State`维护权威事�
 
 模型只接收`restaurant-agent-context@8`投影：当前Intent Draft、派生缺失字段、完整候选池的展示安全摘要、业务含义的`AVAILABLE` / `UNAVAILABLE` / `UNKNOWN` / `SOURCE_UNSUPPORTED` Check、选择、phase、failure code和有界结果批次目标。Provider、Tabelog、浏览器引擎、URL、DOM和原始Evidence不进入模型Context。完整Task State中的Authorization、Proposal、Attempt、Provider执行结果、Evidence和Reservation继续只由Runtime、Policy、Router和Verifier读取。每个Decision trajectory保存模型实际看到的脱敏Context及其`contextSchemaVersion`，但不保存raw prompt或Chain-of-Thought。`BOOK_RESERVATION`的trajectory持久化其`proposalId`，用于和后续Authorization、Command、Attempt、Evidence与Outcome审计连接；它不使Agent拥有这些对象的写权或Outcome解释权。
 
-`restaurant-state@7/@8/@9/@11`的本地开发Task不迁移到当前`restaurant-state@12`。需要保留该类调试数据时先在外部备份；不再需要时只能用双重显式开关的本机开发重置命令删除，详见[Repository Conventions](../REPOSITORY-CONVENTIONS.md#migration与开发数据重置)。
+`restaurant-state@7/@8/@9/@11/@12`的本地开发Task不迁移到当前`restaurant-state@13`。需要保留该类调试数据时先在外部备份；不再需要时只能用双重显式开关的本机开发重置命令删除，详见[Repository Conventions](../REPOSITORY-CONVENTIONS.md#migration与开发数据重置)。
 
 任何LLM对结果的解释、澄清问题或条件调整建议都不是Semantic Proposal的替代品。建议必须由用户在新消息中明确确认或修改，才能再次进入正式的Interpreter → Contract → Compiler链。
 
@@ -247,3 +247,6 @@ Current read evidence may carry bounded `listedCourseDetails`: complete named pu
 ## 2026-10-09 即时查位窗口
 
 用户已决定“现在/right now”查询原参考时刻起30分钟内的最早可订时段，展示具体时刻。窗口结束后停止来源读取，正常结束或询问是否查询最近可订时间；须由用户批准新窗口，不能自动顺延。身份、HARD、人数、请求与证据新鲜度保持原规则。当前单日期合同跨东京午夜无法表达完整窗口，须明确时间澄清，不缩短窗口。C6a实现与复核限制见[Accepted ADR-0039](../decisions/0039-immediate-thirty-minute-window.md)；用户于2026-10-09复核后批准Gold@7为默认，@6原文件保留不改。
+
+
+C0c（用户 2026-10-10 批准）：共享预算剩余 ≤4 且无合格候选时，系统开启最长 45 秒的 `READ_END_WINDOW_OPENED`，Agent 可正常 END_READ。来源读取也保留最后四次调用；有合格候选仍按 C0 默认展示规则。结束记录逐店写已查/未查、未知原因、剩余证据与覆盖缺口，不得声称全部无位。Restaurant State@13 / TaskDefinition@12，旧本地开发 State@12 不兼容，使用既有显式 reset 协议，不增加兼容分支；本轮不重置数据。

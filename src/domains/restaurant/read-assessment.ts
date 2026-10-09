@@ -260,6 +260,13 @@ export function assessRestaurantRead(state: Readonly<RestaurantTaskState>, now: 
     && state.searchContinuation.discoveryPlan.cursor < state.searchContinuation.discoveryPlan.entries.length);
   const currentBatchPending = state.searchContinuation?.currentDiscoveryBatch
     ? currentDiscoveryBatchInvestigationBlockReason(state) : undefined;
+  const endWindow = state.readEndWindow;
+  const reserve = endWindow && Date.parse(now) >= Date.parse(endWindow.openedAt) && Date.parse(now) <= Date.parse(endWindow.deadlineAt);
+  if (reserve && !internalFailure && !relevantPresentation.some(item => item.eligible)) return {
+    presentation, factInvestigableCandidateIds: [], checkableCandidateIds: [], investigationRecorded,
+    canEndRead: true, unresolvedCandidateIds,
+    endReadReason: "MODEL_CALL_RESERVE: This bounded investigation is ending before its call budget is exhausted, with no qualified candidate. Checked candidates and their unknown reasons are listed separately; unread sources, candidates and evidence remain gaps. This does not establish that every restaurant has no seats.",
+  };
   const canEndRead = investigationRecorded && !refreshPending && !internalFailure && !discoveryPlanPending
     && !currentBatchPending && !relevantPresentation.some((item) => item.eligible);
   return { presentation, factInvestigableCandidateIds, checkableCandidateIds, investigationRecorded, canEndRead, ...(canEndRead ? {} : { endReadBlockReason: !investigationRecorded ? "No actual source investigation is recorded" : refreshPending ? "A user-requested refresh remains pending" : internalFailure ? "An internal execution failure is recorded" : discoveryPlanPending ? "A bounded discovery-plan source remains unread" : currentBatchPending ?? "A grounded result is available and must not be ignored" }), unresolvedCandidateIds };

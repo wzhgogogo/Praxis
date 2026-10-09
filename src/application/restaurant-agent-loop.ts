@@ -103,7 +103,7 @@ function noExecutableDiscoveryPath(state: RestaurantTaskState, now: string): boo
   // routed actions rather than inferring exhaustion from historical checks.
   if (state.factRefreshRequestedCandidateIds?.length) return false;
   const assessment = assessRestaurantRead(state, now);
-  if (assessment.presentation.some((item) => item.eligible)) return false;
+  if (assessment.presentation.some((item) => item.eligible) || assessment.endReadReason?.startsWith("MODEL_CALL_RESERVE")) return false;
   return state.candidates.every((candidate) => {
     const candidateIds = [candidate.restaurant.id];
     return validateRestaurantAction(state, { type: "INVESTIGATE_CANDIDATE_FACTS", candidateIds }, now).status !== "ALLOWED"
@@ -191,6 +191,11 @@ export class RestaurantAgentLoopCoordinator {
         && defaultBatchDeliveryCandidateIds(current.domainState, now.toISOString()).length > 0) {
         const deliveryDeadline = new Date(Math.min(deadlineAt.valueOf(), now.valueOf() + 45_000));
         return (await this.dispatch(current, { type: "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED", deadlineAt: deliveryDeadline.toISOString() }, "SYSTEM")).snapshot;
+      }
+      if (callReserve && remainingMs >= 0 && current.domainState.phase === "SEARCHING"
+        && !assessRestaurantRead(current.domainState, now.toISOString()).presentation.some(item => item.eligible)
+        && (!current.domainState.readEndWindow || Date.parse(current.domainState.readEndWindow.deadlineAt) < now.valueOf())) {
+        return (await this.dispatch(current, { type: "READ_END_WINDOW_OPENED", deadlineAt: new Date(Math.min(deadlineAt.valueOf(), now.valueOf() + 45_000)).toISOString() }, "SYSTEM")).snapshot;
       }
       return current;
     };
@@ -344,7 +349,8 @@ export class RestaurantAgentLoopCoordinator {
           readController?.signal ?? signal,
           readAction ? {
             remaining: () => this.remainingModelCalls?.(taskId),
-            qualified: () => defaultBatchDeliveryCandidateIds(snapshot.domainState, this.clock.now().toISOString()).length > 0,
+            qualified: () => defaultBatchDeliveryCandidateIds(snapshot.domainState, this.clock.now().toISOString()).length > 0
+              || !assessRestaurantRead(snapshot.domainState, this.clock.now().toISOString()).presentation.some(item => item.eligible),
           } : undefined,
         );
       } catch (error) {

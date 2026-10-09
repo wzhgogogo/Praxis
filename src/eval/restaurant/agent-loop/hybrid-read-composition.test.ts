@@ -883,7 +883,7 @@ test("model-call delivery reserve presents a source-backed short batch without r
         const { context } = JSON.parse(input.messages.find(item => item.role === "user")!.content);
         const eligible = context.presentation?.filter((item: { eligible: boolean }) => item.eligible).map((item: { candidateId: string }) => item.candidateId) ?? [];
         contexts.push({ remaining: budget.remainingCalls(taskId)!, checks: context.checkableCandidateIds?.length ?? 0 });
-        const type = !context.candidates?.length ? "SEARCH_RESTAURANTS"
+        const type = context.readCompletion?.reason?.startsWith("MODEL_CALL_RESERVE") ? "END_READ" : !context.candidates?.length ? "SEARCH_RESTAURANTS"
           : context.checkableCandidateIds?.length ? "CHECK_AVAILABILITY" : "PRESENT_RESULTS";
         return response(JSON.stringify(strictAction(type, type === "CHECK_AVAILABILITY" ? context.checkableCandidateIds.slice(0, 1) : eligible)), `call-reserve-${contexts.length}`);
       } };
@@ -912,7 +912,7 @@ test("model-call delivery reserve presents a source-backed short batch without r
       });
       const state = composition.runtime.snapshot(taskId).domainState;
       const windows = composition.runtime.eventLog.filter(item => item.event.type === "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED");
-      if (mode === "ready" || mode === "crossing") {
+      if (mode === "crossing") {
         assert.equal(state.phase, "PRESENT_RESULTS", JSON.stringify({ contexts, state }));
         assert.equal(windows.length, 1);
         assert.equal(reads, 1, "budget reserve blocks another source read while an eligible result exists");
@@ -929,6 +929,11 @@ test("model-call delivery reserve presents a source-backed short batch without r
         }
       } else {
         assert.notEqual(state.phase, "PRESENT_RESULTS");
+        if (mode === "ready") {
+          assert.equal(state.phase, "NO_VERIFIED_RESULT");
+          assert.equal(reads, 0, "a reserve reached before qualification honestly ends with unread gaps");
+          assert.deepEqual(state.noVerifiedResult?.investigatedCandidateIds, []);
+        }
         assert.equal(windows.length, 0, "unqualified/stale inventory and explicit counts never get a default short-batch exception");
       }
     });
@@ -959,7 +964,8 @@ test("C0b reserves the last four calls inside a provider read and then presents"
         const { context } = JSON.parse(input.messages.find(item => item.role === "user")!.content);
         const eligible = context.presentation?.filter((item: { eligible: boolean }) => item.eligible).map((item: { candidateId: string }) => item.candidateId) ?? [];
         contexts.push({ remaining: budget.remainingCalls(taskId)!, checks: context.checkableCandidateIds?.length ?? 0 });
-        const type = !context.candidates?.length ? "SEARCH_RESTAURANTS"
+        if (mode === "expired" && reads === 1 && currentNow.valueOf() === now.valueOf()) currentNow = new Date(now.valueOf() + 2 * 60_000);
+        const type = context.readCompletion?.reason?.startsWith("MODEL_CALL_RESERVE") ? "END_READ" : !context.candidates?.length ? "SEARCH_RESTAURANTS"
           : context.checkableCandidateIds?.length ? "CHECK_AVAILABILITY" : "PRESENT_RESULTS";
         return response(JSON.stringify(strictAction(type, type === "CHECK_AVAILABILITY" ? context.checkableCandidateIds.slice(0, 1) : eligible)), `call-reserve-${contexts.length}`);
       } };
@@ -974,7 +980,7 @@ test("C0b reserves the last four calls inside a provider read and then presents"
               await reserved.complete({ taskId, purpose: "browser_read_action", promptVersion: "fixture", fallback: "FAIL_CLOSED",
                 messages: [{ role: "user", content: "public source fixture" }], responseFormat: "JSON_OBJECT",
                 outputSchema: { name: "fixture", version: "1", jsonSchema: {} }, timeoutMs: 1000 });
-              if (mode === "expired") currentNow = new Date(now.valueOf() + 2 * 60_000);
+              // Expired source evidence is independent of the real run deadline.
             }
           }
           const observedAt = mode === "expired" ? new Date(now.valueOf() - 9 * 60_000).toISOString() : now.toISOString();
@@ -1014,10 +1020,12 @@ test("C0b reserves the last four calls inside a provider read and then presents"
         assert.ok((budget.usage(taskId)?.calls ?? Infinity) <= maxCalls);
 
       } else {
-        assert.notEqual(state.phase, "PRESENT_RESULTS");
-        assert.ok(!composition.trajectories.steps.some(item => item.executionMetadata?.failureCode === "BUDGET_RESERVED_FOR_DELIVERY"));
-        assert.equal(budget.usage(taskId)?.calls, maxCalls);
-        assert.equal(windows.length, 0, "missing or newly expired candidates never get a reserve");
+        assert.equal(state.phase, "NO_VERIFIED_RESULT", JSON.stringify({ contexts, state }));
+        assert.ok((budget.usage(taskId)?.calls ?? Infinity) < maxCalls, "honest completion precedes exhaustion");
+        assert.ok(state.noVerifiedResult?.remainingGaps.some(gap => gap.includes("MODEL_CALL_RESERVE")));
+        assert.ok(state.noVerifiedResult?.remainingGaps.some(gap => /EXTRACTION_FAILED|STALE|EXPIRED|expired/.test(gap)));
+        assert.equal(state.failure?.code, undefined);
+        assert.equal(windows.length, 0, "no qualified candidate means no presentation window");
       }
     });
   }

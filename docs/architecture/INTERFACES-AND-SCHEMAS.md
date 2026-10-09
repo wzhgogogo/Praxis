@@ -11,7 +11,7 @@
 
 ## Implementation Status
 
-Phase2（离线已验收）：`restaurant-state@12`保存opaque来源计划／游标和累计来源进度；`restaurant-agent-context@8`保持业务投影，旧State@11需按显式开发reset协议处理。Semantic@3与Gold不变。
+Phase2（frozen regression，离线已验收）：`restaurant-state@12`保存opaque来源计划／游标和累计来源进度；`restaurant-agent-context@8`保持业务投影，旧State@11需按显式开发reset协议处理。Semantic@3与Gold不变。
 
 | Contract | Status | Current implementation |
 |---|---|---|
@@ -324,3 +324,5 @@ INTERNAL_ERROR
 ## 单页浏览器诊断
 
 [Browser Read Diagnostics](../harness/BROWSER-READ-DIAGNOSTICS.md)维护独立入口、证据字段与测试映射。LOCAL_CHROMIUM单独interactive使用临时profile；interactive与manual-intervention同时开启才使用ADR-0016专用持久eval profile。真实Chromium本地Fixture不等于真实来源验证；单页观察不写Task State、不产出Offer。
+
+C0c 当前 State@13 / TaskDefinition@12 追加系统 `READ_END_WINDOW_OPENED`。旧 State@12 为 frozen regression，本地开发数据按既有显式 reset 协议，不保留兼容路径。本轮没有重置数据库。

@@ -140,6 +140,9 @@ export function validateRestaurantAction(
       : rejected("PRESENTATION_EVIDENCE_MISSING", assessment.endReadBlockReason ?? "The current read cannot end safely");
   }
 
+  if (["SEARCH_RESTAURANTS", "INVESTIGATE_CANDIDATE_FACTS", "CHECK_AVAILABILITY"].includes(action.type) && assessRestaurantRead(state, now).endReadReason?.startsWith("MODEL_CALL_RESERVE"))
+    return rejected("DISCOVERY_UNAVAILABLE", "MODEL_CALL_RESERVE: End the bounded read honestly; source work cannot consume the ending reserve");
+
   if (["SEARCH_RESTAURANTS", "INVESTIGATE_CANDIDATE_FACTS", "CHECK_AVAILABILITY"].includes(action.type) && immediateRequestWindowExpired(state, now))
     return rejected("INTENT_INCOMPLETE", "IMMEDIATE_REQUEST_EXPIRED: End this read or ask for a new nearest-bookable-time window");
 

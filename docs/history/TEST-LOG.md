@@ -3888,3 +3888,8 @@ PASS: typecheck, arch:check, npm test 783/783, build. C3 local Chromium positive
 ## TEST-2026-10-10-Recorder
 
 PASS: typecheck, arch:check, npm test 784/784, build; recording contracts 14/14 and local Chromium Guard-response → Recorder → offline HAR Adapter composition PASS. Red missing stylesheets manifest captured in Recorder/red.log, green captures exact bounded UTF-8 CSS including media rules and asset URLs; unreviewed URL is not retained. No paid calls or Live.
+
+
+## TEST-2026-10-10-C0c
+
+PASS: typecheck, arch:check, npm test 784/784, build. Existing production Hybrid budget composition now covers no-qualified/expired/qualification-crossing and no-read-yet endings: 10/10; Domain guards 34/34. C0c/red.log reproduces exhaustion; green-final3.log closes without MODEL_CALL_BUDGET_EXHAUSTED, qualified control still presents; source-invalid evidence never gains qualification. Scripted source/model boundaries only, no paid calls or Live.

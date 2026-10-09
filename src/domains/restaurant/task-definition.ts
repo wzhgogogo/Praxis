@@ -22,6 +22,7 @@ import type {
 import { restaurantAvailabilityRequestFingerprint, restaurantSearchIntentFingerprint } from "./contracts.js";
 import { applyRestaurantIntentPatch } from "./intent-state.js";
 import { restaurantIntentPatchHasChanges } from "./semantic-compiler.js";
+import { assessRestaurantRead } from "./read-assessment.js";
 import { defaultBatchDeliveryCandidateIds, validateRestaurantAction } from "./action-validator.js";
 
 function requirePhase(state: Readonly<RestaurantTaskState>, allowed: RestaurantPhase[], eventType: string) {
@@ -62,6 +63,7 @@ function resetForSemanticUpdate(
     factRefreshRequestedCandidateIds: _factRefreshRequestedCandidateIds,
     pendingResultBatchTarget: _pendingResultBatchTarget,
     defaultBatchDeliveryWindow: _defaultBatchDeliveryWindow,
+    readEndWindow: _readEndWindow,
     sourceReadState: _sourceReadState,
     searchContinuation: _searchContinuation,
     ...remaining
@@ -306,6 +308,13 @@ function transition(
         state: { ...state, phase: "NEEDS_INPUT", pendingUserQuestion: { question: event.question, ...(event.relatedFields ? { relatedFields: [...event.relatedFields] } : {}) } },
         commands: [],
       };
+    case "READ_END_WINDOW_OPENED": {
+      requirePhase(state, ["SEARCHING"], event.type);
+      const remainingMs = Date.parse(event.deadlineAt) - Date.parse(context.now);
+      if (!Number.isFinite(remainingMs) || remainingMs < 0 || remainingMs > 45_000
+        || assessRestaurantRead(state, context.now).presentation.some(item => item.eligible)) throw new Error("Read-end reserve requires no qualified result and a bounded deadline");
+      return { state: { ...state, readEndWindow: { openedAt: context.now, deadlineAt: event.deadlineAt } }, commands: [] };
+    }
     case "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED": {
       requirePhase(state, ["SEARCHING"], event.type);
       const remainingMs = Date.parse(event.deadlineAt) - Date.parse(context.now);
@@ -508,7 +517,7 @@ function transition(
       if (!event.candidateIds.every((candidateId) => state.presentedResults!.candidateIds.includes(candidateId))) {
         throw new Error("Availability refresh is limited to previously presented candidates");
       }
-      const { presentedResults: _presentedResults, failure: _failure, ...remaining } = state;
+      const { presentedResults: _presentedResults, failure: _failure, readEndWindow: _readEndWindow, ...remaining } = state;
       return {
         state: { ...remaining, phase: "SEARCHING", refreshRequestedCandidateIds: [...event.candidateIds] },
         commands: [],
@@ -522,7 +531,7 @@ function transition(
       if (!event.candidateIds.every((candidateId) => state.presentedResults!.candidateIds.includes(candidateId))) {
         throw new Error("Recommendation refresh is limited to previously presented candidates");
       }
-      const { presentedResults: _presentedResults, failure: _failure, ...remaining } = state;
+      const { presentedResults: _presentedResults, failure: _failure, readEndWindow: _readEndWindow, ...remaining } = state;
       return { state: { ...remaining, phase: "SEARCHING", factRefreshRequestedCandidateIds: [...event.candidateIds] }, commands: [] };
     }
     case "AVAILABILITY_CHECKED": {
@@ -796,10 +805,10 @@ function transition(
 
 export const restaurantBookingTaskDefinition: TaskDefinition<RestaurantTaskState, RestaurantEvent, RestaurantCommand, RestaurantOutcome> = {
   type: "restaurant.booking",
-  version: "11",
+  version: "12",
   create() {
     return {
-      schemaVersion: "12",
+      schemaVersion: "13",
       phase: "UNDERSTANDING",
       candidates: [],
       availability: {},

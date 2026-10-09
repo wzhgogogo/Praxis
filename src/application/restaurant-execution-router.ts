@@ -405,17 +405,22 @@ export class RestaurantExecutionRouter {
       }
       case "END_READ": {
         const assessment = assessRestaurantRead(state, now);
+        const investigatedCandidateIds = state.candidates.filter(candidate => state.factChecks?.[candidate.restaurant.id] || state.availabilityChecks[candidate.restaurant.id]).map(candidate => candidate.restaurant.id);
+        const reasons = state.candidates.map(candidate => {
+          const id = candidate.restaurant.id, availability = state.availabilityChecks[id], facts = state.factChecks?.[id];
+          return `${candidate.restaurant.outletName}: availability ${availability?.status ?? "NOT_CHECKED"} (${availability?.reasonCode ?? assessment.presentation.find(item => item.candidateId === id)?.recheckReason ?? "no request-bound slot established"}); facts ${facts?.status ?? "NOT_CHECKED"}${facts?.reasonCode ? ` (${facts.reasonCode})` : ""}`;
+        });
         const boundedNativeGap = state.searchContinuation?.discoveryPlan && state.searchContinuation.exhausted
           ? [`The bounded discovery plan ended without a grounded result; wider source coverage was not evaluated${state.searchContinuation.lastFailureCode ? `; last source failure: ${state.searchContinuation.lastFailureCode}` : ""}`]
           : [];
         return {
           event: {
             type: "READ_ENDED_NO_VERIFIED_RESULT",
-            investigatedCandidateIds: state.candidates.map((candidate) => candidate.restaurant.id),
+            investigatedCandidateIds,
             unresolvedCandidateIds: assessment.unresolvedCandidateIds,
-            remainingGaps: [...assessment.presentation.filter((item) => !item.eligible).map((item) => item.missingReason ?? `Candidate ${item.candidateId} is not displayable`), ...boundedNativeGap, ...(assessment.endReadReason ? [assessment.endReadReason] : [])],
+            remainingGaps: [...reasons, ...assessment.presentation.filter((item) => !item.eligible).map((item) => item.missingReason ?? `Candidate ${item.candidateId} is not displayable`), ...boundedNativeGap, ...(assessment.endReadReason ? [assessment.endReadReason] : [])],
           },
-          observation: { type: "READ_ENDED", detail: "Bounded read ended without a grounded result", candidateIds: state.candidates.map((candidate) => candidate.restaurant.id), unresolvedCandidateIds: assessment.unresolvedCandidateIds },
+          observation: { type: "READ_ENDED", detail: "Bounded read ended without a grounded result", candidateIds: investigatedCandidateIds, unresolvedCandidateIds: assessment.unresolvedCandidateIds },
         };
       }
       case "SELECT_CANDIDATE":

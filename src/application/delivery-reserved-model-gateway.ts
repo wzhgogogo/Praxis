@@ -30,6 +30,6 @@ export class DeliveryReservedModelGateway implements ModelGateway {
   }
 
   private reserveError(): Error & { code: string } {
-    return Object.assign(new Error("BUDGET_RESERVED_FOR_DELIVERY: source read stopped to preserve four model calls for a qualified default batch"), { code: "BUDGET_RESERVED_FOR_DELIVERY" });
+    return Object.assign(new Error("BUDGET_RESERVED_FOR_DELIVERY: source read stopped to preserve four model calls for qualified delivery or truthful no-result ending"), { code: "BUDGET_RESERVED_FOR_DELIVERY" });
   }
 }

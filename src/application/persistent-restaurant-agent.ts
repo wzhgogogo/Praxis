@@ -190,7 +190,7 @@ function assistantSummary(state: RestaurantTaskState): string {
     case "SELECTION_REQUIRED":
       return "The current candidate cannot continue. The Agent will evaluate another safe option.";
     case "NO_VERIFIED_RESULT":
-      return "This bounded read-only investigation found no result with evidence strong enough to present. It does not mean every restaurant is unavailable; you can refine the request to start a new investigation.";
+      return ["This bounded read-only investigation found no result with evidence strong enough to present. It does not mean every restaurant is unavailable.", ...(state.noVerifiedResult?.remainingGaps ?? []), "You can refine the request to start a new investigation."].join("\n");
     case "FAILED":
       {
         const resultKind = state.intentDraft?.target?.goal === "RECOMMENDATION"
