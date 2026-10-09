@@ -3805,3 +3805,9 @@ Read-only reevaluation of five saved worktree-1135 artifacts: H001/H005 all dime
 - **首次审批与后续授权：** 自动审批先拒绝向DeepSeek发送保存的任务／上下文，理由为未明确授权具体payload出境；该次无请求发出。两份完整输入及hash在`pending-deepseek-inputs.json`；用户随后明确授权，实际请求逐字段匹配保存输入，无Prompt或模型输入修改。
 - **真实模型回放完成：** `.eval-artifacts/p1-c-c0-20261009/replay-{38,49}.result.json`各1次DeepSeek `deepseek-flash`、模型耗时2,228／1,783ms，finishReason TOOL_CALLS；均选PRESENT_RESULTS，Validator ALLOWED并写RESULTS_PRESENTED事件。实际同一Sushi Suga、10/22／19:00／2人Offer与历史投影一致且未过期；首批target=3, met=false。合计2次模型，零浏览器／Google／餐厅来源读取，无重试；不证明长期模型成功率或完整Live改善。
 - **既有诊断与独立核验：** `replay.final-acceptance.json`核对请求hash、真实调用分母、动作、实际Phase、历史候选／slot与新事件；PASS。单步文件直接诊断因缺materializedCase、资源和历史观察谱系失败，第一次拼装误用不存在的decidedAt导致空prefix，原文件均保留。随后按seed前State version 9／10继承原冻结8／9条真实轨迹，资源明确只计本次新增决策；`replay-{38,49}.complete-lineage.{result,evaluation}.json`的既有Evaluator@25／rubric@21六维均SATISFIED，SUFFICIENT_FOR_PRESENTED_RESULT／PRESENTATION_RECORDED。不修改Evaluator／Gold，不把历史来源读取当成本次Live。C0证据门槛已完成，未运行Live或Controlled Live-write。
+
+
+## TEST-2026-10-09-C0B
+
+- 原策略正例MODEL_CALL_BUDGET_EXHAUSTED／FAILED，red.log保留；新组合ready／no-qualified／expired三子项＋父项4/4，green.log。ready在read留4时UNKNOWN随后实际PRESENT_RESULTS，默认目标未满足；反例可用尽原上限。历史kf-h001 #38完整事件重建与捕获Context一致，控制6次预算、先查位，UNKNOWN后展示，3次fixture调用、0真实模型；historical-composition.result.json及historical-green.log。typecheck、arch:check、build PASS；宿主机npm test770/770，无skip/todo。模型传输和来源为fixture，仅继承历史证据，不证明新Live。
+- 产物：`.eval-artifacts/p1-c-night-20261009/C0b/`；无新增站点代码，无来源／Google／真实模型调用；本地提交后继续E1，不推送。

@@ -1,3 +1,4 @@
+import { DeliveryReservedModelGateway } from "../../../../application/delivery-reserved-model-gateway.js";
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
@@ -365,7 +366,7 @@ try {
   const providerModel = DeepSeekModelGateway.fromEnvironment(effectiveEnvironment, {
     observer: { observe: (record) => { modelInvocations.push(structuredClone(record)); } },
   });
-  const model: ModelGateway = { async complete(request) {
+  const countedModel: ModelGateway = { async complete(request) {
     if (modelCallsStarted >= maxModelCalls) throw Object.assign(new Error("Run model-call ceiling reached"), { code: "MODEL_CALL_BUDGET_EXHAUSTED" });
     modelCallsStarted += 1;
     const remainingMs = liveReadLimits.maxAutomaticBrowserMs - (Date.now() - startedAt.valueOf());
@@ -376,6 +377,7 @@ try {
     };
     return decisionCapture ? decisionCapture.complete(actualRequest, invoke) : invoke();
   } };
+  const model = new DeliveryReservedModelGateway(countedModel);
   stage = "PROVIDER_SETUP";
   const evaluationLocation = process.env.PRAXIS_EVAL_USER_LAT && process.env.PRAXIS_EVAL_USER_LNG
     ? {
@@ -442,6 +444,7 @@ try {
     partySizeSupplementResolver: new RestaurantPartySizeSupplementResolver(model),
     facts: nativeRead.facts,
     router: {
+      modelReadReserve: model,
       structuredReadTimeoutMs: liveReadLimits.maxStructuredReadMs,
       // An explicit human pause is outside the automatic browser-read deadline.
       // The H001 outer-loop deadline is the whole diagnostic cap, not a product SLA.

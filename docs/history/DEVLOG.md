@@ -3133,3 +3133,9 @@ Root independently preserves the existing evaluator and six-dimension acceptance
 - 边界：不新增回放平台或阶段矩阵；一次性诊断脚本及产物只在Git忽略目录。不运行C0 Live、不改基线变体／见证／Gold、P1-B或C1以后；两份用户更新的Playbook（0.2／0.3）拟随C0提交，不推送。
 
 - 完成核验：记录`replay.final-acceptance.json`及`report.md`；完整历史来源谱系来自seed前State version 9／10的8／9条冻结真实轨迹，新增模型耗时2,228／1,783ms，零浏览器／Google／来源读取。现有诊断六维通过，明确只继承历史来源、不声明本次完整Live；最初缺谱系的诊断失败和空prefix拼装保留。C0离线与本次模型选择门槛均完成，四门禁复用最后通过结果，不再扩张测试或工作包。
+
+
+## DEV-2026-10-09-C0B
+
+- 读取内保护最后4次调用：新增共享transport read scope，仅在Router的发现／事实／空位provider工作内启用；资格来自coordinator权威State和当前clock。模型错误被来源吞掉时，scope在Router边界保留原因码，返回UNKNOWN而非成功；Agent不受read scope限制。Web、Hybrid、固定来源三处统一接线；无合格或在读取期间过期不保留。Accepted ADR正文未改；两份独立复核Playbook原样纳入。
+- 产物：`.eval-artifacts/p1-c-night-20261009/C0b/`；无新增站点代码，无来源／Google／真实模型调用；本地提交后继续E1，不推送。

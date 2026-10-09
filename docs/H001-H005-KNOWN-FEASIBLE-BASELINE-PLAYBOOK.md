@@ -1,7 +1,7 @@
 # H001–H005 已知可行基线 Playbook
 
 - Status: Draft
-- Document revision: 0.3
+- Document revision: 0.4
 - Last updated: 2026-10-09
 - Evidence status: draft / not integrated；开发集已暴露，非 Clean Baseline
 - Source of truth for: 已知可行变体、可行性见证、H001–H005 基线运行与第一卡点归因的实施计划；不替代 Accepted ADR、Gold@6 或当前能力记录
@@ -137,7 +137,7 @@ Batch A 预计在 24 小时之后运行，因此运行前 24 小时内须按见�
 
 ### 见证过程中观察到的来源行为（供下一工作包参考，本包不处理）
 
-1. **Tabelog 列表页自带按空位筛选。** `rstLst/?vac_net=1&svd=YYYYMMDD&svt=HHMM&svps=N` 一次返回该日期、时刻、人数下可在线预订的门店。Praxis 现在只用 `sw` 关键词发现候选，再逐家打开日历。（2026-10-09 更正：运行时 Guard 对来源会话处于 ADR-0036 的通用 GET 模式，这些参数不会被拦截；只允许 `sw` 的审核语法影响的是 Recorder 的忠实录制，以及发现代码对当前查询的判断。）
+1. **Tabelog 列表页自带按空位筛选。** `rstLst/?vac_net=1&svd=YYYYMMDD&svt=HHMM&svps=N` 一次返回该日期、时刻、人数下可在线预订的门店。Praxis 现在只用 `sw` 关键词发现候选，再逐家打开日历。（2026-10-09 更正：运行时 Guard 对来源会话处于 ADR-0036 的通用 GET 模式，这些参数不会被拦截；只允许 `sw` 的审核语法影响的是 Recorder 的忠实录制，以及发现代码对当前查询的判断。）（2026-10-09 补跑复核再更正：通用 GET 模式不覆盖预约路径。TableCheck `/en/shops/<slug>/reserve` 被 Guard 的敏感路径规则拒绝，11 次运行中 7 次出现，见第一阶段 Playbook §7 G1。）
 2. **TableCheck 搜索同样支持空位。** `date`、`num_people`、`time`、`availability_mode=same_meal_time` 会让结果卡片直接带上可预订时段链接。现有 TableCheck `buildQuery` 没有使用这些参数。
 3. **TableCheck 的 `geo_distance` 不是硬过滤。** 结果少时页面会提示 "No results found, expanding search area"，并自动从 1 km 扩到 2 km、从 3 km 扩到 4 km。涩谷 omakase 的 9 个结果全部在 1.4–2.2 km。这能解释 10/8 Live #3 中"TableCheck 4 家详情均超出原半径"：这是来源本身的行为，不是解析缺陷。
 4. **典型的通用界面形态。**

@@ -52,6 +52,7 @@ function googleUsageMetadata(
 }
 
 export interface RestaurantExecutionRouterOptions {
+  modelReadReserve?: { runRead<T>(remaining: () => number | undefined, qualified: () => boolean, work: () => Promise<T>): Promise<T> };
   structuredReadTimeoutMs?: number;
   /** `null` is eval-only: an explicit human browser pause owns its own wait. */
   browserReadTimeoutMs?: number | null;
@@ -151,7 +152,7 @@ export class RestaurantExecutionRouter {
   constructor(
     private readonly search: RestaurantSearchPort,
     private readonly availability: RestaurantAvailabilityPort,
-    options: RestaurantExecutionRouterOptions = {},
+    private readonly options: RestaurantExecutionRouterOptions = {},
     private readonly facts?: RestaurantCandidateFactPort,
   ) {
     this.structuredReadTimeoutMs = options.structuredReadTimeoutMs ?? 8_000;
@@ -171,7 +172,10 @@ export class RestaurantExecutionRouter {
     readRunId?: string,
     /** Owned by the user-visible read run; never supplied by the Agent. */
     parentSignal?: AbortSignal,
+    deliveryReserve?: { remaining: () => number | undefined; qualified: () => boolean },
   ): Promise<RestaurantActionExecution> {
+    const withModelReserve = <T>(work: () => Promise<T>): Promise<T> => deliveryReserve && this.options.modelReadReserve
+      ? this.options.modelReadReserve.runRead(deliveryReserve.remaining, deliveryReserve.qualified, work) : work();
     switch (action.type) {
       case "ASK_USER":
         return {
@@ -185,7 +189,7 @@ export class RestaurantExecutionRouter {
           const read = await this.withProviderReadDeadline(
             "Restaurant search",
             this.search.executionRoute === "GENERIC_BROWSER" ? this.browserReadTimeoutMs : this.structuredReadTimeoutMs,
-            (signal) => this.search.search(request, signal),
+            (signal) => withModelReserve(() => this.search.search(request, signal)),
             this.search.executionRoute === "GENERIC_BROWSER",
             parentSignal,
           );
@@ -249,7 +253,7 @@ export class RestaurantExecutionRouter {
           const read = await this.withProviderReadDeadline(
             "Restaurant candidate facts",
             this.facts.executionRoute === "GENERIC_BROWSER" ? this.browserReadTimeoutMs : this.structuredReadTimeoutMs,
-            (signal) => this.facts!.inspectFacts(request, signal),
+            (signal) => withModelReserve(() => this.facts!.inspectFacts(request, signal)),
             this.facts.executionRoute === "GENERIC_BROWSER",
             parentSignal,
           );
@@ -317,7 +321,7 @@ export class RestaurantExecutionRouter {
             this.availability.executionRoute === "GENERIC_BROWSER"
               ? this.browserReadTimeoutMs
               : this.structuredReadTimeoutMs,
-            (signal) => this.availability.check(request, signal),
+            (signal) => withModelReserve(() => this.availability.check(request, signal)),
             this.availability.executionRoute === "GENERIC_BROWSER",
             parentSignal,
           );

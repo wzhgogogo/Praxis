@@ -342,6 +342,10 @@ export class RestaurantAgentLoopCoordinator {
           this.clock.now().toISOString(),
           snapshot.runId + ":investigation:" + String(snapshot.domainState.investigationRevision ?? 0),
           readController?.signal ?? signal,
+          readAction ? {
+            remaining: () => this.remainingModelCalls?.(taskId),
+            qualified: () => defaultBatchDeliveryCandidateIds(snapshot.domainState, this.clock.now().toISOString()).length > 0,
+          } : undefined,
         );
       } catch (error) {
         if (reserveReached && !signal?.aborted) {

@@ -1,3 +1,4 @@
+import { DeliveryReservedModelGateway } from "../application/delivery-reserved-model-gateway.js";
 import { createServer, type IncomingMessage, type Server, type ServerResponse } from "node:http";
 import { resolve } from "node:path";
 
@@ -387,8 +388,9 @@ async function start(): Promise<void> {
   const providerModel = fixtureMode ? new FixtureModelGateway() : DeepSeekModelGateway.fromEnvironment();
   // The wrapper scope begins in PersistentRestaurantAgentApplication before
   // semantic interpretation and propagates through its async read lifecycle.
-  const model = fixtureMode ? providerModel : new RunBoundedModelGateway(providerModel, 50, LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxAutomaticBrowserMs);
-  const modelRunBudget = fixtureMode ? undefined : model as RunBoundedModelGateway;
+  const countedModel = fixtureMode ? providerModel : new RunBoundedModelGateway(providerModel, 50, LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxAutomaticBrowserMs);
+  const modelRunBudget = fixtureMode ? undefined : countedModel as RunBoundedModelGateway;
+  const model = new DeliveryReservedModelGateway(countedModel);
   const googleSearch = fixtureMode ? undefined : new GooglePlacesRestaurantSearch(
         new GooglePlacesClient({
           apiKey: process.env.GOOGLE_MAPS_API_KEY ?? "",
@@ -430,6 +432,7 @@ async function start(): Promise<void> {
       liveReadLimits: LIVE_READ_DEBUG_INVESTIGATION_BUDGET,
       ...(modelRunBudget ? { modelRunBudget } : {}),
       executionRouterOptions: {
+        modelReadReserve: model,
         structuredReadTimeoutMs: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxStructuredReadMs,
         browserReadTimeoutMs: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxAutomaticBrowserMs,
       },

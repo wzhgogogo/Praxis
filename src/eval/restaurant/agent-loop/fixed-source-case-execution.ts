@@ -1,3 +1,4 @@
+import { DeliveryReservedModelGateway } from "../../../application/delivery-reserved-model-gateway.js";
 import type { ModelGateway } from "../../../core/model/contracts.js";
 import type { RuntimeClock } from "../../../core/task-runtime/contracts.js";
 import { createCurrentDevelopmentFixedSources } from "./current-development-fixed-sources.js";
@@ -83,12 +84,13 @@ export async function executeFixedSourceCase(input: {
       }
     },
   };
-  const sources = createCurrentDevelopmentFixedSources(scenario, businessClock, guardedModel);
+  const model = new DeliveryReservedModelGateway(guardedModel);
+  const sources = createCurrentDevelopmentFixedSources(scenario, businessClock, model);
   const composition = createHybridReadComposition({
     taskId: input.taskId,
     runId: `run:${input.taskId}`,
     clock: businessClock,
-    model: guardedModel,
+    model,
     search: sources.search,
     facts: sources.facts,
     availability: sources.availability,
@@ -96,8 +98,8 @@ export async function executeFixedSourceCase(input: {
     // the registered run deadline so an offline 60-second candidate control
     // exercises the same provider window rather than the Web's 20-second UI
     // default.
-    router: { browserReadTimeoutMs: Math.min(input.deadlineMs ?? 5_000, 60_000) },
-    partySizeSupplementResolver: new RestaurantPartySizeSupplementResolver(guardedModel),
+    router: { modelReadReserve: model, browserReadTimeoutMs: Math.min(input.deadlineMs ?? 5_000, 60_000) },
+    partySizeSupplementResolver: new RestaurantPartySizeSupplementResolver(model),
     loop: { maxSteps: input.maxSteps ?? 6, timeoutMs: input.deadlineMs ?? 5_000,
       ...(input.maxModelCalls !== undefined ? { remainingModelCalls: () => Math.max(0, input.maxModelCalls! - modelCalls) } : {}) },
   });

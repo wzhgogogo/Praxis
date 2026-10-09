@@ -19,6 +19,7 @@ import { groundTableCheckAvailability } from "../../../domains/restaurant/read-g
 import { HIGASHI_GINZA_EVALUATION_LOCATION } from "./live-evaluation-location.js";
 import { captureHybridLiveProgress } from "./hybrid-live-artifact.js";
 import { settleAtRunDeadline } from "./live-run-deadline.js";
+import { DeliveryReservedModelGateway } from "../../../application/delivery-reserved-model-gateway.js";
 import { RunBoundedModelGateway } from "../../../application/run-bounded-model-gateway.js";
 import { BrowserRuntimeError } from "../../../infrastructure/browser/browser-runtime-errors.js";
 import type { BrowserExecutionDiagnostic } from "../../../infrastructure/browser/browser-task-executor.js";
@@ -929,6 +930,94 @@ test("model-call delivery reserve presents a source-backed short batch without r
       } else {
         assert.notEqual(state.phase, "PRESENT_RESULTS");
         assert.equal(windows.length, 0, "unqualified/stale inventory and explicit counts never get a default short-batch exception");
+      }
+    });
+  }
+});
+
+test("C0b reserves the last four calls inside a provider read and then presents", async (t) => {
+  // Start at the real Interpreter; replace only model transport and source reads.
+  // The same counted transport is used for semantic and Agent calls. No State or
+  // presentation eligibility is injected. The independent source slot is 19:00/2.
+  for (const mode of ["ready", "no-qualified", "expired"] as const) {
+    await t.test(mode, async () => {
+      const taskId = `integration:call-delivery-${mode}`;
+      const maxCalls = 9;
+      let currentNow = now;
+      const readClock = { now: () => currentNow };
+      const source = googleSearch([], { maxRequests: 100 }, ["one", "two", "three"]);
+      const contexts: Array<{ remaining: number; checks: number }> = [];
+      const provider: ModelGateway = { async complete(input) {
+        if (input.purpose === "restaurant_semantic_interpret") return response(JSON.stringify({ schemaVersion: "3", facts: [
+          { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "find a table", selectionScope: "OPEN_ENDED",  } },
+          { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-09-17", raw: "tomorrow" } },
+          { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:00", raw: "7 pm" } },
+          { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } },
+          { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "nearby" } },
+        ] }), "semantic-call-reserve");
+        if (input.purpose === "browser_read_action") return response("{}", "browser-reserve");
+        const { context } = JSON.parse(input.messages.find(item => item.role === "user")!.content);
+        const eligible = context.presentation?.filter((item: { eligible: boolean }) => item.eligible).map((item: { candidateId: string }) => item.candidateId) ?? [];
+        contexts.push({ remaining: budget.remainingCalls(taskId)!, checks: context.checkableCandidateIds?.length ?? 0 });
+        const type = !context.candidates?.length ? "SEARCH_RESTAURANTS"
+          : context.checkableCandidateIds?.length ? "CHECK_AVAILABILITY" : "PRESENT_RESULTS";
+        return response(JSON.stringify(strictAction(type, type === "CHECK_AVAILABILITY" ? context.checkableCandidateIds.slice(0, 1) : eligible)), `call-reserve-${contexts.length}`);
+      } };
+      const budget = new RunBoundedModelGateway(provider, maxCalls, 500_000);
+      const reserved = new DeliveryReservedModelGateway(budget);
+      let reads = 0;
+      const availability = { executionRoute: "GENERIC_BROWSER" as const,
+        async check(request: import("../../../domains/restaurant/contracts.js").RestaurantAvailabilityRequest) {
+          reads += 1;
+          if (reads > 1) {
+            for (let i = 0; i < 10; i++) {
+              await reserved.complete({ taskId, purpose: "browser_read_action", promptVersion: "fixture", fallback: "FAIL_CLOSED",
+                messages: [{ role: "user", content: "public source fixture" }], responseFormat: "JSON_OBJECT",
+                outputSchema: { name: "fixture", version: "1", jsonSchema: {} }, timeoutMs: 1000 });
+              if (mode === "expired") currentNow = new Date(now.valueOf() + 2 * 60_000);
+            }
+          }
+          const observedAt = mode === "expired" ? new Date(now.valueOf() - 9 * 60_000).toISOString() : now.toISOString();
+          const candidate = request.candidates[0]!;
+          const grounded = groundTableCheckAvailability(candidate, request, {
+            candidateId: candidate.restaurant.id, sourceEntityId: `tablecheck:${candidate.restaurant.id}`,
+            sourceUrl: "https://www.tablecheck.com/en/one", observedAt,
+            requestedDate: "2026-09-17", requestedPartySize: 2,
+            entityMatch: { confidence: "HIGH", matchedBy: ["EXACT_PHONE"] }, pageState: reads === 1 && mode !== "no-qualified" ? "AVAILABLE" : "EXTRACTION_FAILED", visibleSlots: reads === 1 && mode !== "no-qualified" ? ["19:00"] : [],
+          }, now.toISOString());
+          return { offers: grounded.offers, evidence: grounded.evidence, availabilityChecks: { [candidate.restaurant.id]: grounded.check },
+            metadata: { provider: "TABLECHECK" as const, route: "GENERIC_BROWSER" as const, latencyMs: 0 } };
+        },
+      };
+      const composition = createHybridReadComposition({ taskId, runId: taskId, clock: readClock, model: reserved, search: source, availability,
+        router: { modelReadReserve: reserved },
+        loop: { maxSteps: 10, timeoutMs: 500_000, remainingModelCalls: id => budget.remainingCalls(id) } });
+      await budget.run(taskId, async () => {
+        await composition.interpretAndDispatch({ taskId, message: "Find a table nearby tomorrow at 7 pm for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
+        await composition.coordinator.run(taskId);
+      });
+      const state = composition.runtime.snapshot(taskId).domainState;
+      const windows = composition.runtime.eventLog.filter(item => item.event.type === "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED");
+      if (mode === "ready") {
+        assert.equal(state.phase, "PRESENT_RESULTS", JSON.stringify({ contexts, state }));
+        assert.equal(windows.length, 1);
+        assert.equal(reads, 2);
+        const stopped = composition.trajectories.steps.find(item => item.executionMetadata?.failureCode === "BUDGET_RESERVED_FOR_DELIVERY");
+        assert.equal(stopped?.observation?.type, "AVAILABILITY_UNKNOWN");
+        assert.equal(budget.usage(taskId)?.calls, 6, "one browser call followed by delivery preserves the four-call reserve");
+        assert.deepEqual(state.selectionSession?.resultBatchTarget, { candidateCount: 3, met: false });
+        assert.equal(state.presentedResults?.candidateIds.length, 1);
+        const offers = state.availability[state.presentedResults!.candidateIds[0]!]!;
+        assert.equal(offers[0]?.dateTime, "2026-09-17T19:00:00+09:00");
+        assert.equal(offers[0]?.partySize, 2);
+        assert.equal(windows[0]!.event.type === "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED" && windows[0]!.event.deadlineAt, new Date(now.valueOf() + 45_000).toISOString());
+        assert.ok((budget.usage(taskId)?.calls ?? Infinity) <= maxCalls);
+
+      } else {
+        assert.notEqual(state.phase, "PRESENT_RESULTS");
+        assert.ok(!composition.trajectories.steps.some(item => item.executionMetadata?.failureCode === "BUDGET_RESERVED_FOR_DELIVERY"));
+        assert.equal(budget.usage(taskId)?.calls, maxCalls);
+        assert.equal(windows.length, 0, "missing or newly expired candidates never get a reserve");
       }
     });
   }

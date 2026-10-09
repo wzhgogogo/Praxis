@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.155
+- Document revision: 4.156
 - Last updated: 2026-10-09
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **今晚 C0b 已完成，转入 E1。** 读取动作中的模型调用现按当前合格默认首批保护最后4次；耗尽可读份额以`BUDGET_RESERVED_FOR_DELIVERY`的UNKNOWN交回Agent，再复用C0窗口实际展示。Web／Hybrid Runner／固定来源共用同一scope guard；每次调用重核已有证据新鲜度，无合格候选不限保留。四门禁通过（770/770），kf-h001 #38历史上下文的6次边界组合通过、零真实模型。今晚不运行Live；详细证据见`.eval-artifacts/p1-c-night-20261009/`。
 
 - **P1-A 基线与补跑已完成，属于已暴露开发诊断。** 冻结 `2656ce9` 上保留8次主运行及3次补跑；独立归因见 `.eval-artifacts/known-feasible-baseline-20261008/review/`。kf-h004重新归为语义目标错误，非错误展示；三次补跑累计123模型／2 Google，kf-h005实际展示，kf-h003与h005模型预算耗尽未展示，自动目标评价均UNKNOWN。补跑报告保留在冻结工作树 `.eval-artifacts/p1-a-baseline-supplement-20261009/report.md`；本轮C0不改旧结果、变体或见证。
 - **P1-C C0 实现与两次真实模型回放通过。** 共享整单调用剩余≤4且已有合格默认首批时，复用交付事件与资格规则，Web／Hybrid Runner／固定来源均接入真实计数；调用跨阈值会拒绝旧调查提议。合格正例实际展示，错误人数、过期证据及明确数量不获得例外；本地Web持久化入口也实际展示短批。[ADR-0038](decisions/0038-model-call-default-delivery-window.md)仅扩展ADR-0031触发条件。四门禁通过；[证据与未覆盖边界](history/TEST-LOG.md#test-2026-10-09-p1-c-c0-call-budget-delivery)。
