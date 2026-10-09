@@ -3194,3 +3194,8 @@ TableCheck ready widget reports selected date/party/mealtime EMPTY. Exact-time r
 ## DEV-2026-10-10-C1
 
 Recent six browser execution steps implemented with action/target/field/outcome/reason/url-change; browser prompt15/schema10. All current callers updated; replay history mode reuses frozen messages without CSS. v3 adds 22 implementer-proposed pending-independent-label seeds, v2 unchanged.
+
+
+## DEV-2026-10-10-C3
+
+Unified browser post-action settlement (requests complete, DOM quiet 300ms, no visible busy marker, bound 4s). PENDING snapshots cannot complete or yield inventory. Retired Tabelog member-loader and TableCheck skeleton waits. Synchronous fixtures use readiness semantics; settled restricted calendar still remains a supported query surface.

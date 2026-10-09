@@ -65,6 +65,9 @@ function matchesEndpoint(rule: BrowserReadNetworkRequestRule, url: URL, resource
  * of a redirect chain.
  */
 export class PlaywrightReadNetworkGuard {
+  private readonly pending = new Set<Request>();
+  private activityRevision = 0;
+  settlementActivity(): { pending: number; revision: number } { return { pending: this.pending.size, revision: this.activityRevision }; }
   private readonly documents = new Set<string>();
   private readonly genericOrigins = new Set<string>();
   private readonly diagnostics: NetworkDiagnostic[] = [];
@@ -74,6 +77,10 @@ export class PlaywrightReadNetworkGuard {
   constructor(private readonly policy: BrowserReadNetworkPolicy, requestTimeoutMs = 5_000, private readonly recordResponse?: (response: { url: string; method: string; status: number; contentType: string; body: Uint8Array; redirectLocation?: string }) => Promise<void> | void) { this.requestTimeoutMs = requestTimeoutMs; }
 
   async install(context: BrowserContext, options: { replay?: boolean } = {}): Promise<void> {
+    context.on?.("request", request => { this.pending.add(request); this.activityRevision++; });
+    const finished = (request: Request) => { if (this.pending.delete(request)) this.activityRevision++; };
+    context.on?.("requestfinished", finished);
+    context.on?.("requestfailed", finished);
     await context.routeWebSocket("**/*", socket => socket.close());
     await context.route("**/*", route => this.handle(route, options.replay === true));
   }

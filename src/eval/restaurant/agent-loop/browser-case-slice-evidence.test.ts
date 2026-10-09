@@ -31,7 +31,7 @@ test("browser case slice journal retains the saved Teppen query region without p
         { id: "entry", stableKey: "a[href]|link|Online reservation", kind: "LINK", role: "link", label: "Online reservation", href: "https://tabelog.com/en/booking/calendar/", disabled: false, visible: true },
         { id: "review", stableKey: "a[href]|link|Jane Doe", kind: "LINK", role: "link", label: "Jane Doe", href: "https://tabelog.com/en/tokyo/A1303/A130301/13308491/dtlrvwlst/B123/", disabled: false, visible: true },
       ],
-      click: async () => {}, fill: async () => {}, select: async () => [], pressEscape: async () => {}, waitFor: async () => {}, waitForChange: async () => true, screenshot: async () => new Uint8Array(), close: async () => {},
+      click: async () => {}, fill: async () => {}, select: async () => [], pressEscape: async () => {}, waitFor: async () => {}, waitForSettled: async () => true, screenshot: async () => new Uint8Array(), close: async () => {},
     };
     const observed = traceBrowserSession(session, "TABELOG", record);
     await observed.navigate("https://tabelog.com/en/tokyo/A1303/A130301/13308491/");
@@ -39,8 +39,8 @@ test("browser case slice journal retains the saved Teppen query region without p
     await observed.observeControls?.();
     await observed.fill("guest-search", "guest@example.test");
     await observed.pressEscape?.();
-    await observed.waitForChange?.({ url: "https://tabelog.com/en/tokyo/A1303/A130301/13308491/?csrf_token=secret", title: "Private page", text: "Jane Doe private source text", interactiveState: "private" });
-    const waitCall = trace.find(event => event.kind === "SESSION_CALL" && (event.detail as { method?: string }).method === "waitForChange")!;
+    await observed.waitForSettled?.({ url: "https://tabelog.com/en/tokyo/A1303/A130301/13308491/?csrf_token=secret", title: "Private page", text: "Jane Doe private source text", interactiveState: "private" });
+    const waitCall = trace.find(event => event.kind === "SESSION_CALL" && (event.detail as { method?: string }).method === "waitForSettled")!;
     assert.doesNotMatch(JSON.stringify(waitCall.detail), /Jane Doe|private source text|csrf_token=secret/);
     assert.match(JSON.stringify(waitCall.detail), /sha256/);
     const fillCall = trace.find(event => event.kind === "SESSION_CALL" && (event.detail as { method?: string }).method === "fill")!;
@@ -94,7 +94,7 @@ test("browser case slice trace retains the installed read boundary and safe Guar
     navigate: async () => {},
     snapshot: async () => ({ url: "https://www.tablecheck.com/en/japan/search", title: "Search", text: "Search", html: "<main>Search</main>",
       networkDiagnostics: [{ code: "BLOCKED_FIELDS", origin: "https://example.invalid", pathname: "/query", method: "POST", resourceType: "fetch", queryKeys: ["unexpected"] }] }),
-    click: async () => {}, fill: async () => {}, select: async () => [], waitFor: async () => {}, screenshot: async () => new Uint8Array(), close: async () => {},
+    click: async () => {}, fill: async () => {}, select: async () => [], waitFor: async () => {}, waitForSettled: async () => true, screenshot: async () => new Uint8Array(), close: async () => {},
   };
   let receivedPolicy = false;
   const raw: BrowserRuntime = { readNetworkBoundaryCapability: "ISOLATED_CONTEXT", openSession: async input => {
@@ -116,7 +116,7 @@ test("optional browser trace recording receives only sanitized snapshots and san
     metadata: { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM", engine: "CHROMIUM", startedAt: "2026-10-07T00:00:00.000Z" },
     navigate: async () => {},
     snapshot: async () => ({ url: "https://www.tablecheck.com/en/shops/example?token=secret", title: "Example", text: "Private Jane Doe", html: "<main>Private Jane Doe</main>" }),
-    click: async () => {}, fill: async () => {}, select: async () => [], waitFor: async () => {}, screenshot: async () => assert.fail("raw screenshot must not be captured"), screenshotLayoutOnly: async () => new Uint8Array([137, 2, 3]), close: async () => {},
+    click: async () => {}, fill: async () => {}, select: async () => [], waitFor: async () => {}, waitForSettled: async () => true, screenshot: async () => assert.fail("raw screenshot must not be captured"), screenshotLayoutOnly: async () => new Uint8Array([137, 2, 3]), close: async () => {},
   };
   const trace: Array<{ kind: string; detail: unknown }> = [];
   const recorded: Array<{ kind: string; detail: unknown }> = [];

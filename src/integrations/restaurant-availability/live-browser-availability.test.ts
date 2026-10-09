@@ -20,6 +20,7 @@ class Session implements BrowserSession {
   async fill(): Promise<void> {}
   async select(_selector: string, value: string): Promise<string[]> { return [value]; }
   async waitFor(): Promise<void> {}
+  async waitForSettled(): Promise<boolean> { return true; }
   async screenshot(): Promise<Uint8Array> { return new Uint8Array(); }
   async close(): Promise<void> { this.closed += 1; }
 }

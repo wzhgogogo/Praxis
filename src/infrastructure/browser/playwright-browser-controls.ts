@@ -445,45 +445,38 @@ export class PlaywrightControlRegistry {
   }
 }
 
-export async function waitForVisibleChange(
+/** DOM quiet and completed requests are readiness signals, never inventory evidence. */
+export async function waitForPageSettled(
   page: Page,
-  previous: Pick<BrowserSnapshot, "url" | "title" | "text" | "interactiveState">,
+  _previous: Pick<BrowserSnapshot, "url" | "title" | "text" | "interactiveState">,
   timeoutMs: number,
+  activity: () => { pending: number; revision: number },
 ): Promise<boolean> {
-  try {
-    await page.waitForFunction(
-      ({ url, title, text, interactiveState }) => {
-        if (location.href !== url || document.title !== title) return true;
-        const state = [...document.querySelectorAll("input,select,textarea,button,[role=combobox],[role=option],[role=checkbox],[role=radio],[role=slider]")]
-          .filter(element => {
-            const style = getComputedStyle(element);
-            return (element as HTMLElement).getClientRects().length > 0 && style.display !== "none" && style.visibility !== "hidden";
-          })
-          .map((element, index) => {
-          const field = element as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
-          return JSON.stringify({ index, tag: element.tagName, role: element.getAttribute("role"), name: element.getAttribute("name"), id: element.id,
-            value: "value" in field ? field.value : element.getAttribute("data-value"),
-            checked: field instanceof HTMLInputElement && (field.type === "checkbox" || field.type === "radio") ? field.checked : (element.getAttribute("role") === "checkbox" || element.getAttribute("role") === "radio") ? element.getAttribute("aria-checked") : undefined,
-            selected: element.getAttribute("aria-selected"),
-            disabled: (element as HTMLButtonElement).disabled || element.getAttribute("aria-disabled") === "true" || element.getAttribute("data-state") === "disabled",
-            expanded: element.getAttribute("aria-expanded") });
-        }).join("\n");
-        // This is only a bounded wake-up signal. A fresh executor observation
-        // and the source adapter still decide whether a control effect or
-        // request-bound inventory result exists. Keeping visible text here
-        // avoids waiting out a rendered result that is not itself a control.
-        return interactiveState === undefined
-          ? (document.body?.innerText ?? "") !== text
-          : state !== interactiveState || (document.body?.innerText ?? "") !== text;
-      },
-      previous,
-      { timeout: timeoutMs },
-    );
-    return true;
-  } catch (error) {
-    if (error instanceof Error && /timeout/i.test(error.message)) return false;
-    throw error;
+  const deadline = Date.now() + timeoutMs;
+  while (Date.now() < deadline) {
+    const before = activity();
+    const ready = await page.evaluate((remaining) => new Promise<boolean>(resolve => {
+      let lastMutation = performance.now();
+      const observer = new MutationObserver(() => { lastMutation = performance.now(); });
+      observer.observe(document.documentElement, { subtree: true, childList: true, attributes: true, characterData: true });
+      const started = performance.now();
+      const timer = setInterval(() => {
+        const busy = [...document.querySelectorAll('[aria-busy="true"],[role="progressbar"],[class]')].some(element => {
+          if (!element.matches('[aria-busy="true"],[role="progressbar"]') && !/(?:^|[\s_-])(?:spinner|loader|skeleton)(?:$|[\s_-])/i.test(element.className.toString())) return false;
+          const style = getComputedStyle(element);
+          return element.getClientRects().length > 0 && style.display !== "none" && style.visibility !== "hidden";
+        });
+        const settled = !busy && performance.now() - lastMutation >= 300;
+        if (settled || performance.now() - started >= remaining) {
+          clearInterval(timer); observer.disconnect(); resolve(settled);
+        }
+      }, 50);
+    }), Math.max(1, deadline - Date.now()));
+    const after = activity();
+    if (ready && before.pending === 0 && after.pending === 0 && before.revision === after.revision) return true;
+    if (!ready) return false;
   }
+  return false;
 }
 
 /** A small browser-owned projection for waiting, never model-supplied state. */

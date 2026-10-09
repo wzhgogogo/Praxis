@@ -227,3 +227,5 @@ Reviewed cdn0-3 /assets/table_check/ script/stylesheet/font/image GET/HEAD imple
 ### TableCheck explicit mealtime empty (2026-10-10)
 
 The ready source widget may establish EMPTY for its selected date/party/mealtime only. Exact-time requests can return UNAVAILABLE; wider windows stop with SELECTED_MEALTIME_EMPTY / UNKNOWN, retaining the unobserved-time gap. Recorded GiNZA widget plus controlled-identity Adapter composition covers exact/wide and wrong-party cases; no new Live.
+
+C3（2026-10-10）：本地 Chromium 与 Cloudflare BrowserSession 共用动作后稳定等待：请求结束、DOM 静默 300ms、无可见通用忙碌标记，上限 4 秒并受剩余预算约束。超时快照标 PENDING，不接纳旧库存；模型可 WAIT 或换路。Tabelog 日期/人数专用加载等待与 TableCheck skeleton 选择器等待已删除，最终门店/请求绑定不变。本地动态日期→加载→人数及持续加载反例通过；未跑 Live。

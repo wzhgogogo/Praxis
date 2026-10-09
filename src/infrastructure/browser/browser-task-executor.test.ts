@@ -46,11 +46,11 @@ class FixtureSession implements BrowserSession {
   async fill(): Promise<void> {}
   async select(_target: string, value: string): Promise<string[]> { this.selected.push(value); return [value]; }
   async waitFor(): Promise<void> {}
-  async waitForChange(previous: Pick<BrowserSnapshot, "url" | "title" | "text" | "interactiveState">): Promise<boolean> {
+  async waitForSettled(previous: Pick<BrowserSnapshot, "url" | "title" | "text" | "interactiveState">): Promise<boolean> {
     this.waits += 1;
     if (this.advanceOnWait) this.index = Math.min(this.index + 1, this.pages.length - 1);
     const current = this.pages[this.index]!;
-    return current.url !== previous.url || current.title !== previous.title || current.text !== previous.text;
+    return true;
   }
   async dismissTransientObstruction(): Promise<{ occluder: string }> {
     this.dismisses += 1;
@@ -143,7 +143,7 @@ test("BrowserTaskExecutor completes after a canonical page-level WAIT without an
     const result = await executor.runSkill({ ...input(acquired, signal), stage: "AVAILABILITY" as const, objective: "Wait for the current public availability result." });
     assert.equal(result.status, "COMPLETED", JSON.stringify(result));
     assert.equal(diagnostics.some(item => item.event === "MODEL_ACTION" && item.detail === "MODEL_WAIT"), true);
-    assert.equal(diagnostics.some(item => item.event === "ASYNC_WAIT" && item.detail === "PAGE_STATE_CHANGED"), true);
+    assert.equal(diagnostics.some(item => item.event === "ASYNC_WAIT" && item.detail === "PAGE_SETTLED"), true);
   } finally {
     await executor.close();
   }
@@ -556,7 +556,7 @@ test("BrowserTaskExecutor stops a repeated two-page cycle without spending the f
     async navigate() {}, async snapshot() { return pages[page]!; },
     async observeControls() { return [{ id: "cycle", stableKey: "cycle", kind: "BUTTON", role: "button", label: "Next", type: "button", disabled: false, visible: true }]; },
     async click() { page = page === 0 ? 1 : 0; }, async fill() {}, async select() { return []; }, async waitFor() {},
-    async waitForChange() { return true; }, async screenshot() { return new Uint8Array(); }, async close() { closes += 1; },
+    async waitForSettled() { return true; }, async screenshot() { return new Uint8Array(); }, async close() { closes += 1; },
   };
   const executor = new BrowserTaskExecutor({ openSession: async () => session }, { maxOperationsPerCandidate: 24, onDiagnostic: (diagnostic) => diagnostics.push(diagnostic.detail ?? ""), modelDecision: {
     async decide(value) { return { type: "CLICK", targetRef: value.observation.targets[0]!.ref, reason: "Inspect next public page" }; },
@@ -822,7 +822,7 @@ test("BrowserTaskExecutor reuses post-action controls to confirm two selections 
   ]);
   const events: import("./browser-task-executor.js").BrowserExecutionDiagnostic[] = [];
   const executor = new BrowserTaskExecutor({ openSession: async () => session }, {
-    maxOperationsPerCandidate: 8,
+    maxOperationsPerCandidate: 10,
     onDiagnostic: event => events.push(event),
     modelDecision: decisions(
       async value => ({ type: "CLICK_AUTHORITATIVE", targetRef: value.observation.targets.find(target => target.value === "2026-9-10")!.ref, field: "DATE", reason: "Select date." }),
@@ -833,7 +833,7 @@ test("BrowserTaskExecutor reuses post-action controls to confirm two selections 
   const result = await executor.runSkill({ ...input(acquired), stage: "AVAILABILITY", completion: snapshot => ({ complete: /confirmed/.test(snapshot.text), reason: "Request is not visibly selected." }) });
   assert.equal(result.status, "COMPLETED");
   assert.equal(session.clicks, 2);
-  assert.equal(events.filter(event => event.event === "OPERATION_STARTED").length, 8);
+  assert.equal(events.filter(event => event.event === "OPERATION_STARTED").length, 10);
   await executor.close();
 });
 

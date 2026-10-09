@@ -35,7 +35,7 @@ test("deadline includes session creation and late browser sessions are closed wi
     metadata: { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM", engine: "CHROMIUM", startedAt: new Date().toISOString() },
     close: async () => { closed = true; }, navigate: async () => { navigated = true; },
     snapshot: async () => ({ url: "", title: "", text: "", html: "" }),
-    click: async () => {}, fill: async () => {}, select: async () => [], waitFor: async () => {}, screenshot: async () => new Uint8Array(),
+    click: async () => {}, fill: async () => {}, select: async () => [], waitFor: async () => {}, waitForSettled: async () => true, screenshot: async () => new Uint8Array(),
   });
   await new Promise((resolve) => setImmediate(resolve));
   assert.equal(closed, true);

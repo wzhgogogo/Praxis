@@ -75,7 +75,7 @@ class NativeFixtureSession implements BrowserSession {
         const formAttrs = form?.[1] ?? "";
         const formId = formAttrs.match(/\bid=["']([^"']+)/i)?.[1] ?? "0";
         const name = attrs.match(/\bname=["']([^"']+)/i)?.[1] ?? "";
-        controls.push({ id: `native:${this.sessionId}:radio:${controls.length}`, stableKey: `radio|form:${formId}|name:${name}|${value ?? ""}|${controls.length}`,
+        controls.push({ id: `native:${this.sessionId}:radio:${controls.length}`, stableKey: `radio|form:${formId}|name:${name}|${value ?? ""}`,
           kind: "RADIO", role: "radio", label: radioLabel ?? label, ...(value !== undefined ? { value } : {}), type: "radio",
           checked: /\bchecked\b/i.test(attrs), disabled: /\bdisabled\b|aria-disabled=["']true/i.test(attrs), visible: true,
           structure: { tag: "INPUT", name, classes: (attrs.match(/\bclass=["']([^"']+)/i)?.[1] ?? "").split(/\s+/).filter(Boolean), dialogLabel: "", formClass: formAttrs.match(/\bclass=["']([^"']+)/i)?.[1] ?? "", sliderCount: 0, radioGroupKey: `form:${formId}|name:${name}` } });
@@ -127,11 +127,11 @@ class NativeFixtureSession implements BrowserSession {
     this.onReadOnlySetChecked(this.current.url, control.value, checked);
     this.current = this.lookup(this.current.url);
   }
-  async waitForChange(_previous: Pick<BrowserSnapshot, "url" | "title" | "text" | "interactiveState">): Promise<boolean> {
-    if (!this.current || !this.onReadOnlyWaitForChange) return false;
+  async waitForSettled(_previous: Pick<BrowserSnapshot, "url" | "title" | "text" | "interactiveState">): Promise<boolean> {
+    if (!this.current || !this.onReadOnlyWaitForChange) return true;
     const changed = this.onReadOnlyWaitForChange(this.current.url);
     if (changed) this.current = this.lookup(this.current.url);
-    return changed;
+    return true;
   }
   async select(_target: string, value: string): Promise<string[]> { return [value]; }
   async waitFor(): Promise<void> {}

@@ -50,6 +50,8 @@ export interface BrowserReadNetworkObservation {
 }
 
 export interface BrowserSnapshot {
+  /** Runtime-owned loading feedback; PENDING is never inventory completion evidence. */
+  settlement?: "SETTLED" | "PENDING";
   url: string;
   html: string;
   text: string;
@@ -169,8 +171,8 @@ export interface BrowserSession {
   /** One bounded, browser-owned recovery for an observed transient overlay. */
   dismissTransientObstruction?(target: string, options?: BrowserActionOptions): Promise<{ occluder: string }>;
   waitFor(target: string, timeoutMs?: number): Promise<void>;
-  /** Wait only until the user-visible page state changes; returns false on the bounded timeout. */
-  waitForChange?(previous: Pick<BrowserSnapshot, "url" | "title" | "text" | "interactiveState">, timeoutMs?: number): Promise<boolean>;
+  /** Wait for network completion, quiet DOM and no visible busy indicators; false on timeout. */
+  waitForSettled?(previous: Pick<BrowserSnapshot, "url" | "title" | "text" | "interactiveState">, timeoutMs?: number): Promise<boolean>;
   screenshot(): Promise<Uint8Array>;
   /** Code-owned privacy-safe layout capture: masks content without changing control state. */
   screenshotLayoutOnly?(): Promise<Uint8Array>;

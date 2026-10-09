@@ -69,7 +69,7 @@ function runtime(html: string, text = "untrusted visible prose"): BrowserRuntime
     metadata: { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM", engine: "CHROMIUM", startedAt: "2026-09-11T00:00:00.000Z" },
     navigate: async () => {},
     snapshot: async () => ({ url: "https://cafe.example/about", title: "Cafe A", text, html }),
-    click: async () => {}, fill: async () => {}, select: async () => [], waitFor: async () => {}, screenshot: async () => new Uint8Array(), close: async () => {},
+    click: async () => {}, fill: async () => {}, select: async () => [], waitFor: async () => {}, waitForSettled: async () => true, screenshot: async () => new Uint8Array(), close: async () => {},
   };
   return { openSession: async () => session };
 }
@@ -82,7 +82,7 @@ function multiCandidateRuntime(pages: Record<string, { html: string; text: strin
         metadata: { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM", engine: "CHROMIUM", startedAt: "2026-09-11T00:00:00.000Z" },
         navigate: async (url) => { current = url; navigated.push(url); },
         snapshot: async () => ({ url: current, title: "Restaurant facts", ...(pages[current] ?? { html: "", text: "" }) }),
-        click: async () => {}, fill: async () => {}, select: async () => [], waitFor: async () => {}, screenshot: async () => new Uint8Array(), close: async () => {},
+        click: async () => {}, fill: async () => {}, select: async () => [], waitFor: async () => {}, waitForSettled: async () => true, screenshot: async () => new Uint8Array(), close: async () => {},
       };
       return session;
     },
@@ -102,7 +102,7 @@ function expandableTermsRuntime(): BrowserRuntime {
           : { url: "https://cafe.example/about", title: "Cafe A", html: structured, text: "Cafe A\n1 Ginza, Tokyo\nCafe\nMonday: 10:00 - 18:00\nPublic information" },
         observeControls: async () => expanded ? [] : [{ id: "terms", stableKey: "terms", kind: "BUTTON", role: "button", label: "Show terms", type: "button", disabled: false, visible: true }],
         click: async (target) => { assert.equal(target, "terms"); expanded = true; },
-        waitForChange: async () => expanded,
+        waitForSettled: async () => true,
         fill: async () => {}, select: async () => [], waitFor: async () => {}, screenshot: async () => new Uint8Array(), close: async () => {},
       };
       return session;
@@ -236,7 +236,7 @@ test("a cited website judgment drives one same-session observed menu follow-up f
       ? { url: current, title: "Cafe A menu", html: "<main></main>", text: "Cafe A\n1 Ginza, Tokyo\nOmakase course" }
       : { url: current, title: "Cafe A", html: "<main></main>", text: "Cafe A\n1 Ginza, Tokyo\nCafe" }; },
     async observeControls() { return current.endsWith("/menu") ? [] : [{ id: "menu", stableKey: "menu", kind: "LINK" as const, role: "link", label: "Menu", href: "https://cafe.example/menu", disabled: false, visible: true }]; },
-    async click() {}, async fill() {}, async select() { return []; }, async waitForChange() { return true; }, async waitFor() {}, async screenshot() { return new Uint8Array(); }, async close() {},
+    async click() {}, async fill() {}, async select() { return []; }, async waitForSettled() { return true; }, async waitFor() {}, async screenshot() { return new Uint8Array(); }, async close() {},
   }; } };
   const read = await reader(
     sourceRuntime,
@@ -346,7 +346,7 @@ test("multilingual website facts retain cancellation and complete course cards a
         ? { url: current, title: "コース", text: `食堂一 ${phone}\n${course}`, html: '<a href="/courses/123"><h3 class="courseName">季節のコース</h3><ul><li>2 ～ 4名</li></ul><p class="coursePrice">13,000円 (税込)</p><p>ランチ限定、11:30〜14:00。</p></a>' }
         : { url: current, title: "食堂一", text: `食堂一 ${phone}\nキャンセル規定\n当日100%。前日は50%。席のみ予約は1人13,000円。`, html: '<dl><dt>キャンセル規定</dt><dd>当日100%。前日は50%。席のみ予約は1人13,000円。</dd></dl>' }; },
       async observeControls() { return [{ id: "courses", stableKey: "courses", kind: "LINK" as const, role: "link", label: "コース", href: "https://venue.owst.jp/courses", disabled: false, visible: true }]; },
-      async click() {}, async fill() {}, async select() { return []; }, async waitFor() {}, async screenshot() { return new Uint8Array(); }, async close() {},
+      async click() {}, async fill() {}, async select() { return []; }, async waitFor() {}, async waitForSettled() { return true; }, async screenshot() { return new Uint8Array(); }, async close() {},
     }; } };
     const revised: RestaurantCandidateFactRequest = { ...request, candidates: [{ ...request.candidates[0]!, restaurant: { ...request.candidates[0]!.restaurant, sourceIds: { phone: "03-1111-2222", googleWebsiteUri: "https://venue.owst.jp/" } } }], intent: { ...request.intent, target: { goal: "AVAILABILITY", query: "Compare course prices and cancellation policies" }, criteria: [] } };
     const budget = { totalModelCalls: 5, maxModelCalls: 20 };

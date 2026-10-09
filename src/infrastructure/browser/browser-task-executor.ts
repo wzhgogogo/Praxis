@@ -255,6 +255,7 @@ export class BrowserTaskExecutor {
   private candidateLifecycleOpen = false;
   private providerLifecycleOpen = false;
   private observationRevision = 0;
+  private pageUnsettled = false;
   private readonly startedAt = Date.now();
 
   constructor(private readonly runtime: BrowserRuntime, private readonly options: BrowserTaskExecutorOptions = {}) {
@@ -372,13 +373,16 @@ export class BrowserTaskExecutor {
       await input.session.prepareNavigation?.(url, { timeoutMs });
       await input.session.navigate(url, { waitUntil: "domcontentloaded", timeoutMs });
     });
+    await this.settleAfterDirectAction(input);
   }
 
   async select(
     input: Pick<BrowserSkillReadInput, "source" | "stage" | "signal"> & { session: BrowserSession; selector: string; value: string; authoritativeValue: string },
   ): Promise<string[]> {
     if (input.value !== input.authoritativeValue) throw this.rejected(input.source, input.stage, "A site method attempted to select a non-authoritative value");
-    return this.operation(input, "SELECT", () => input.session.select(input.selector, input.value, this.actionOptions()));
+    const result = await this.operation(input, "SELECT", () => input.session.select(input.selector, input.value, this.actionOptions()));
+    await this.settleAfterDirectAction(input);
+    return result;
   }
 
   async fill(
@@ -386,18 +390,17 @@ export class BrowserTaskExecutor {
   ): Promise<void> {
     if (input.value !== input.authoritativeValue) throw this.rejected(input.source, input.stage, "A site method attempted to fill a non-authoritative value");
     await this.operation(input, "FILL", () => input.session.fill(input.selector, input.value, this.actionOptions()));
+    await this.settleAfterDirectAction(input);
   }
 
-  async waitFor(
-    input: Pick<BrowserSkillReadInput, "source" | "stage" | "signal"> & { session: BrowserSession; selector: string; timeoutMs?: number },
-  ): Promise<void> {
-    await this.operation(input, "WAIT", () => input.session.waitFor(input.selector, this.remaining(input.timeoutMs ?? 10_000)));
+  private async settleAfterDirectAction(input: Pick<BrowserSkillReadInput, "source" | "stage" | "signal"> & { session: BrowserSession }): Promise<void> {
+    await this.waitForSettled(input, { url: "", title: "", text: "", html: "" }, false);
   }
 
   async snapshot(input: Pick<BrowserSkillReadInput, "source" | "stage" | "signal"> & { session: BrowserSession }): Promise<BrowserSnapshot> {
     const snapshot = await this.operation(input, "SNAPSHOT", () => input.session.snapshot());
     this.record({ source: input.source, stage: input.stage, event: "OBSERVED", url: snapshot.url });
-    return snapshot;
+    return this.pageUnsettled ? { ...snapshot, settlement: "PENDING" } : snapshot;
   }
 
   /** Reads the current source controls through the same operation/deadline budget as a skill observation. */
@@ -407,13 +410,16 @@ export class BrowserTaskExecutor {
   }
 
   async runSkill(input: BrowserSkillReadInput): Promise<BrowserGenericReadResult> {
+    const assess: BrowserSkillReadInput["completion"] = (current, controls) => current.settlement === "PENDING"
+      ? { complete: false, reason: "Page is still loading after its bounded settlement wait; old results are not usable." }
+      : input.completion(current, controls);
     let snapshot = await this.snapshot(input);
     // A request-shaped HTML link can be stale while the live control carrying
     // the same URL is disabled. Read both representations before accepting a
     // completion, including on the initial snapshot and after a source-owned
     // shortcut. HTML alone is never a shortcut around current DOM evidence.
     let verifiedObservation: Observation | undefined = await this.observe(input, snapshot);
-    let completion = input.completion(snapshot, verifiedObservation.controls);
+    let completion = assess(snapshot, verifiedObservation.controls);
     if (completion.complete) return { status: "COMPLETED", snapshot, controls: verifiedObservation.controls };
     let progress = input.methodReason ?? completion.reason;
     const history: BrowserReadHistoryStep[] = [];
@@ -470,7 +476,7 @@ export class BrowserTaskExecutor {
           await this.bounded(input, "SHORTCUT", () => input.shortcut!.run(snapshot));
           snapshot = await this.snapshot(input);
           verifiedObservation = await this.observe(input, snapshot);
-          completion = input.completion(snapshot, verifiedObservation.controls);
+          completion = assess(snapshot, verifiedObservation.controls);
           if (completion.complete) return { status: "COMPLETED", snapshot, controls: verifiedObservation.controls };
           progress = completion.reason;
           this.record({ source: input.source, stage: input.stage, event: "METHOD_INCOMPLETE", url: snapshot.url, detail: `${input.shortcut.name}: ${progress}` });
@@ -489,7 +495,7 @@ export class BrowserTaskExecutor {
       verifiedObservation = undefined;
       if (pendingOption && this.optionSelectionObserved(pendingOption, observation.controls)) pendingOption = undefined;
       if (pendingRadio && this.radioSelectionObserved(pendingRadio, observation.controls)) pendingRadio = undefined;
-      completion = input.completion(snapshot, observation.controls);
+      completion = assess(snapshot, observation.controls);
       if (completion.complete && !pendingOption && !pendingRadio) return { status: "COMPLETED", snapshot, controls: observation.controls };
       if (!this.options.modelDecision) return { status: "NO_SAFE_ACTION", snapshot, controls: observation.controls };
       if (!postAction) {
@@ -580,7 +586,7 @@ export class BrowserTaskExecutor {
         detail: `MODEL_${action.type}`,
       });
       if (action.type === "COMPLETE") {
-        completion = input.completion(snapshot, observation.controls);
+        completion = assess(snapshot, observation.controls);
         if (pendingOption || pendingRadio) return { status: "NO_SAFE_ACTION", snapshot, controls: observation.controls };
         if (completion.complete) return { status: "COMPLETED", snapshot, controls: observation.controls };
         // COMPLETE is a request to finish, never evidence that the source has
@@ -602,10 +608,10 @@ export class BrowserTaskExecutor {
           this.recordBudgetExhausted(input, "OPERATION_BUDGET_EXHAUSTED");
           return { status: "BUDGET_EXCEEDED", snapshot, controls: observation.controls };
         }
-        await this.waitForChange(input, snapshot);
+        await this.waitForSettled(input, snapshot);
         snapshot = await this.snapshot(input);
         verifiedObservation = await this.observe(input, snapshot);
-        completion = input.completion(snapshot, verifiedObservation.controls);
+        completion = assess(snapshot, verifiedObservation.controls);
         if (completion.complete) return { status: "COMPLETED", snapshot, controls: verifiedObservation.controls };
         postAction = true;
         continue;
@@ -669,29 +675,13 @@ export class BrowserTaskExecutor {
         pendingRadio = target;
       }
       const priorSnapshot = snapshot;
-      const waitedForAsyncChange = action.type === "OPEN_LINK" || action.type === "CLICK" || action.type === "CLICK_AUTHORITATIVE" || action.type === "FILL_AUTHORITATIVE" || action.type === "CHOOSE_OPTION";
       const publicQuerySubmit = action.type === "CLICK" && !!target && this.guardedPublicQuerySubmit(input, target);
+      if (action.type !== "WAIT") await this.waitForSettled(input, priorSnapshot);
       snapshot = await this.snapshot(input);
-      let postActionObservation = await this.observe(input, snapshot);
-      let observedControlChange = controlsChanged(observation.controls, postActionObservation.controls);
-      let changed = !sameObservation(priorSnapshot, snapshot) || observedControlChange;
-      // A synchronous visible change needs no second browser wait. An unchanged
-      // page or unconfirmed option still gets a bounded wait and fresh readback.
-      // A guarded public GET submit is different: a cosmetic form mutation is
-      // not a query result, so wait once unless the current completion already
-      // has an independently bound result.
-      const immediateCompletion = input.completion(snapshot, postActionObservation.controls);
-      let publicQueryWaitChanged = false;
-      if (waitedForAsyncChange && (publicQuerySubmit && !immediateCompletion.complete || !changed
-        || pendingOption && !this.optionSelectionObserved(pendingOption, postActionObservation.controls)
-        || pendingRadio && !this.radioSelectionObserved(pendingRadio, postActionObservation.controls))) {
-        const waitingFrom = snapshot;
-        publicQueryWaitChanged = await this.waitForChange(input, waitingFrom);
-        snapshot = await this.snapshot(input);
-        postActionObservation = await this.observe(input, snapshot);
-        observedControlChange = controlsChanged(observation.controls, postActionObservation.controls);
-        changed = !sameObservation(priorSnapshot, snapshot) || observedControlChange;
-      }
+      const postActionObservation = await this.observe(input, snapshot);
+      const observedControlChange = controlsChanged(observation.controls, postActionObservation.controls);
+      const changed = !sameObservation(priorSnapshot, snapshot) || observedControlChange;
+      const publicQueryWaitChanged = changed && snapshot.settlement !== "PENDING";
       if (pendingOption && this.optionSelectionObserved(pendingOption, postActionObservation.controls)) pendingOption = undefined;
       if (pendingRadio && this.radioSelectionObserved(pendingRadio, postActionObservation.controls)) pendingRadio = undefined;
       const optionConfirmed = !pendingOption && !pendingRadio;
@@ -710,7 +700,7 @@ export class BrowserTaskExecutor {
         detail: optionConfirmed ? effectVerified ? "OBSERVED_CHANGE_AFTER_MODEL_ACTION" : "ASYNC_RESULT_NOT_READY_AFTER_MODEL_ACTION" : "OPTION_VALUE_NOT_CONFIRMED",
         observation: this.diagnosticObservation(postActionObservation),
       });
-      completion = input.completion(snapshot, postActionObservation.controls);
+      completion = assess(snapshot, postActionObservation.controls);
       if (completion.complete && optionConfirmed) return { status: "COMPLETED", snapshot, controls: postActionObservation.controls };
       if (publicQuerySubmit && !publicQueryWaitChanged) {
         pendingControlKeys.add(target!.stableKey);
@@ -908,7 +898,7 @@ export class BrowserTaskExecutor {
 
   private async applyGenericAction(input: BrowserSkillReadInput, observation: Observation, target: ObservedTarget | undefined, action: Exclude<BrowserReadAction, { type: "COMPLETE" | "REQUEST_HUMAN_HELP" }>): Promise<void> {
     if (action.type === "WAIT") {
-      await this.waitForChange(input, observation.snapshot);
+      await this.waitForSettled(input, observation.snapshot);
       return;
     }
     if (action.type === "PRESS_ESCAPE") {
@@ -1017,17 +1007,19 @@ export class BrowserTaskExecutor {
     void observation;
   }
 
-  private async waitForChange(input: BrowserSkillReadInput, previous: BrowserSnapshot): Promise<boolean> {
-    const timeoutMs = this.remaining(2_500);
-    const changed = input.session.waitForChange
-      ? await this.operation(input, "WAIT_FOR_CHANGE", () => input.session.waitForChange!(previous, timeoutMs))
+  private async waitForSettled(input: Pick<BrowserSkillReadInput, "source" | "stage" | "signal"> & { session: BrowserSession }, previous: BrowserSnapshot, countOperation = true): Promise<boolean> {
+    const timeoutMs = this.remaining(4_000);
+    const changed = input.session.waitForSettled
+      ? await (countOperation ? this.operation(input, "WAIT_FOR_SETTLED", () => input.session.waitForSettled!(previous, timeoutMs))
+        : this.bounded(input, "SETTLE_DIRECT_ACTION", () => input.session.waitForSettled!(previous, timeoutMs)))
       : false;
+    this.pageUnsettled = !changed;
     this.record({
       source: input.source,
       stage: input.stage,
       event: "ASYNC_WAIT",
       url: previous.url,
-      detail: changed ? "PAGE_STATE_CHANGED" : "PAGE_STATE_UNCHANGED_WITHIN_BOUND",
+      detail: changed ? "PAGE_SETTLED" : "PAGE_STILL_LOADING_WITHIN_BOUND",
     });
     return changed;
   }

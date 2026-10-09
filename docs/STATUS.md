@@ -7,6 +7,8 @@
 
 ## 当前门槛
 
+- **2026-10-10 C3：** Unified browser post-action settlement (requests complete, DOM quiet 300ms, no visible busy marker, bound 4s). PENDING snapshots cannot complete or yield inventory. Retired Tabelog member-loader and TableCheck skeleton waits. Synchronous fixtures use readiness semantics; settled restricted calendar still remains a supported query surface. 本轮不推送、不跑 Live；证据目录 `.eval-artifacts/p1-c-batch-20261010/C3/`。
+
 - **2026-10-10 C1：** Recent six browser execution steps implemented with action/target/field/outcome/reason/url-change; browser prompt15/schema10. All current callers updated; replay history mode reuses frozen messages without CSS. v3 adds 22 implementer-proposed pending-independent-label seeds, v2 unchanged. 本轮不推送、不跑 Live；证据目录 `.eval-artifacts/p1-c-batch-20261010/C1/`。
 
 - **2026-10-10 TableCheck-empty：** TableCheck ready widget reports selected date/party/mealtime EMPTY. Exact-time requests return UNAVAILABLE; wider windows return SELECTED_MEALTIME_EMPTY UNKNOWN without expanding the negative claim. Source message visibility and selected request stay required. 本轮不推送、不跑 Live；证据目录 `.eval-artifacts/p1-c-batch-20261010/TableCheck-empty/`。

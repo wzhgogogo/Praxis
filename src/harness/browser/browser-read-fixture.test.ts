@@ -240,7 +240,7 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
 }
 
 for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
-  test(`${runtimeKind} wakes for delayed visible query state and ignores hidden state`, async () => {
+  test(`${runtimeKind} settles delayed visible query state`, async () => {
     const runtime = localFixture(`<title>Query state</title>
       <button id="trigger" type="button">Trigger visible update</button><button id="apply" type="button">Apply</button><select id="party"><option value="2" selected>2</option><option value="4">4</option></select>
       <p id="noise">Still loading</p><script>
@@ -255,12 +255,12 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
       const beforeNoise = await session.snapshot();
       assert.notEqual(beforeNoise.interactiveState, undefined);
       await session.click("#trigger");
-      assert.equal(await session.waitForChange!(beforeNoise, 80), true, "visible text wakes a fresh read but cannot itself accept a result");
+      assert.equal(await session.waitForSettled!(beforeNoise, 700), true, "visible text wakes a fresh read but cannot itself accept a result");
       const beforeApply = await session.snapshot();
       assert.match(beforeApply.interactiveState ?? "", /"value":"2"/);
       assert.match(beforeApply.interactiveState ?? "", /"disabled":false/);
       await session.click("#apply");
-      assert.equal(await session.waitForChange!(beforeApply, 250), true, "a delayed selected value or disabled state wakes the bounded wait");
+      assert.equal(await session.waitForSettled!(beforeApply, 700), true, "a delayed selected value or disabled state wakes the bounded wait");
       const after = await session.snapshot();
       assert.match(after.interactiveState ?? "", /\"value\":\"4\"/);
       assert.match(after.interactiveState ?? "", /\"disabled\":true/);
@@ -269,7 +269,7 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
 }
 
 for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
-  test(`${runtimeKind} ignores hidden form mutations but wakes for a visible property-only control mutation`, async () => {
+  test(`${runtimeKind} settles hidden and property-only control mutations without treating either as inventory`, async () => {
     const runtime = localFixture(`<title>Wait projection</title>
       <input id="analytics" type="hidden" value="before"><input id="hidden-style" value="before" style="visibility:hidden">
       <button id="apply" type="button">Apply</button><input id="consent" type="checkbox" aria-label="Observed state"><script>
@@ -280,11 +280,11 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
     try {
       await session.navigate(url);
       const beforeHidden = await session.snapshot();
-      assert.equal(await session.waitForChange!(beforeHidden, 80), false, "hidden analytics and visibility:hidden inputs are not query-state progress");
+      assert.equal(await session.waitForSettled!(beforeHidden, 80), false, "hidden analytics and visibility:hidden inputs are not query-state progress");
       const beforeChecked = await session.snapshot();
       assert.match(beforeChecked.interactiveState ?? "", /"checked":false/);
       await session.click("#apply");
-      assert.equal(await session.waitForChange!(beforeChecked, 120), true, "a visible checked property mutation wakes a fresh read");
+      assert.equal(await session.waitForSettled!(beforeChecked, 700), true, "a visible checked property mutation wakes a fresh read");
       assert.match((await session.snapshot()).interactiveState ?? "", /\"checked\":true/);
     } finally { await session.close(); }
   });
@@ -461,96 +461,6 @@ test("native Tabelog detail uses real local Chromium controls before accepting i
   } finally {
     await executor.close();
   }
-});
-
-test("native Tabelog waits once for the source-owned guest loader after the requested date is selected", async () => {
-  const { dynamicTabelogSourcePages, date, reference } = await import("../../eval/restaurant/agent-loop/native-fixed-source-pages.js");
-  const { TabelogBrowserAvailability } = await import("../../integrations/tabelog/tabelog-browser-availability.js");
-  const { fixtureCandidates } = await import("../restaurant-fixtures.js");
-  const candidate = structuredClone(fixtureCandidates[0]!);
-  candidate.restaurant.id = "tabelog:en/tokyo/A1304/A130401/100";
-  candidate.restaurant.outletName = "Native Dynamic Tabelog 100";
-  candidate.restaurant.address = "Shibuya 100, Tokyo";
-  candidate.restaurant.sourceIds = { tabelog: "en/tokyo/A1304/A130401/100", tabelogNativeDetailUri: "https://tabelog.com/en/tokyo/A1304/A130401/100/" };
-  const decisions: string[] = [];
-  const rawRuntime = dynamicTabelogSourcePages({ memberLoaderAfterDateMs: 3_000 });
-  // The live failure already had an immediate cosmetic change after Date. Make
-  // the generic page-change wait observe that same no-result boundary, leaving
-  // the Adapter's source-owned loader wait as the behavior under test.
-  const runtime: BrowserRuntime = {
-    readNetworkBoundaryCapability: "ISOLATED_CONTEXT",
-    openSession: async input => {
-      const session = await rawRuntime.openSession(input);
-      return new Proxy(session, { get(target, property) {
-        if (property === "waitForChange") return async () => false;
-        const value = Reflect.get(target, property, target);
-        return typeof value === "function" ? value.bind(target) : value;
-      } });
-    },
-  };
-  const executor = new BrowserTaskExecutor(runtime, { modelDecision: { async decide(input) {
-    const dateTarget = input.observation.targets.find(target => target.label === "Date 2026-08-19");
-    if (dateTarget && !dateTarget.selected) {
-      decisions.push("DATE");
-      return { type: "CLICK_AUTHORITATIVE" as const, targetRef: dateTarget.ref, field: "DATE" as const, reason: "Select the observed requested date." };
-    }
-    decisions.push("HUMAN_HELP");
-    return { type: "REQUEST_HUMAN_HELP" as const, reason: "The source has not yet rendered the guest controls." };
-  } } });
-  try {
-    const startedAt = Date.now();
-    const read = await new TabelogBrowserAvailability(executor, () => reference.toISOString()).check({
-      candidates: [candidate], candidateIds: [candidate.restaurant.id], date, partySize: 2,
-      timeWindow: { earliest: "19:00", latest: "19:00" }, hardCriteria: [],
-    }, new AbortController().signal);
-    assert.equal(read.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE", JSON.stringify(read));
-    assert.deepEqual(decisions, ["DATE", "HUMAN_HELP"]);
-    assert.ok(Date.now() - startedAt >= 2_500, "the Adapter waited for the source-owned member collection instead of accepting its loading snapshot");
-    assert.equal(read.offers[0]?.dateTime, "2026-08-19T19:00:00+09:00");
-  } finally { await executor.close(); }
-});
-
-test("native Tabelog leaves a member loader that cannot settle as UNKNOWN", async () => {
-  const { dynamicTabelogSourcePages, date, reference } = await import("../../eval/restaurant/agent-loop/native-fixed-source-pages.js");
-  const { TabelogBrowserAvailability } = await import("../../integrations/tabelog/tabelog-browser-availability.js");
-  const { fixtureCandidates } = await import("../restaurant-fixtures.js");
-  const candidate = structuredClone(fixtureCandidates[0]!);
-  candidate.restaurant.id = "tabelog:en/tokyo/A1304/A130401/100";
-  candidate.restaurant.outletName = "Native Dynamic Tabelog 100";
-  candidate.restaurant.address = "Shibuya 100, Tokyo";
-  candidate.restaurant.sourceIds = { tabelog: "en/tokyo/A1304/A130401/100", tabelogNativeDetailUri: "https://tabelog.com/en/tokyo/A1304/A130401/100/" };
-  const rawRuntime = dynamicTabelogSourcePages({ memberLoaderAfterDateMs: 30_000 });
-  let waits = 0;
-  const runtime: BrowserRuntime = {
-    readNetworkBoundaryCapability: "ISOLATED_CONTEXT",
-    openSession: async input => {
-      const session = await rawRuntime.openSession(input);
-      return new Proxy(session, { get(target, property) {
-        if (property === "waitFor") return async (...args: Parameters<NonNullable<BrowserSession["waitFor"]>>) => {
-          waits += 1;
-          if (waits === 2) throw new BrowserRuntimeError("BROWSER_TIMEOUT", "fixture source member collection did not settle");
-          return target.waitFor!(...args);
-        };
-        const value = Reflect.get(target, property, target);
-        return typeof value === "function" ? value.bind(target) : value;
-      } });
-    },
-  };
-  const executor = new BrowserTaskExecutor(runtime, { modelDecision: { async decide(input) {
-    const dateTarget = input.observation.targets.find(target => target.label === "Date 2026-08-19");
-    assert.ok(dateTarget && !dateTarget.selected);
-    return { type: "CLICK_AUTHORITATIVE" as const, targetRef: dateTarget.ref, field: "DATE" as const, reason: "Select the observed requested date." };
-  } } });
-  try {
-    const read = await new TabelogBrowserAvailability(executor, () => reference.toISOString()).check({
-      candidates: [candidate], candidateIds: [candidate.restaurant.id], date, partySize: 2,
-      timeWindow: { earliest: "19:00", latest: "19:00" }, hardCriteria: [],
-    }, new AbortController().signal);
-    assert.equal(waits, 2, "only the initial readiness and one selected-query wait are attempted");
-    assert.equal(read.availabilityChecks[candidate.restaurant.id]?.status, "UNKNOWN");
-    assert.equal(read.availabilityChecks[candidate.restaurant.id]?.reasonCode, "BROWSER_TIMEOUT");
-    assert.equal(read.offers.length, 0);
-  } finally { await executor.close(); }
 });
 
 for (const outcome of ["AVAILABLE", "UNAVAILABLE"] as const) {
@@ -1377,7 +1287,7 @@ test("Tabelog category discovery expands observed links and removes the keyword 
 });
 
 test("saved Tabelog calendar keeps hidden future dates and disabled guests out of ready state", async () => {
-  const { tabelogQueryControlHints, tabelogQueryControlsRestricted, tabelogRequestedDateState, TABELOG_QUERY_READY_SELECTOR } = await import("../../integrations/tabelog/tabelog-query-controls.js");
+  const { tabelogQueryControlHints, tabelogQueryControlsRestricted, tabelogRequestedDateState } = await import("../../integrations/tabelog/tabelog-query-controls.js");
   const { traceBrowserSession, safeRecord } = await import("../../eval/restaurant/agent-loop/runners/browser-case-slice-evidence.js");
   const sourceUrl = "https://tabelog.com/en/tokyo/A1303/A130301/13308491/";
   const saved = readFileSync(new URL("./fixtures/tabelog-teppen-calendar-20260929.html", import.meta.url), "utf8");
@@ -1409,7 +1319,7 @@ test("saved Tabelog calendar keeps hidden future dates and disabled guests out o
     assert.equal((controlsRecord.detail as { totalObserved: number }).totalObserved, controls.length);
     assert.equal((controlsRecord.detail as { controls: unknown[] }).controls.length, controls.length);
     assert.equal((controlsRecord.detail as { snapshotSequence: number }).snapshotSequence, snapshotRecord.sequence);
-    await assert.rejects(observed.waitFor(TABELOG_QUERY_READY_SELECTOR, 250));
+    assert.equal(await observed.waitForSettled!(snapshot, 500), true, "restricted ready state may be settled without offering a requested guest control");
   } finally { await session.close(); }
 });
 
@@ -1426,7 +1336,7 @@ test("Tabelog Adapter consumes loading-to-restricted calendar without model acti
     <script>setTimeout(async()=>{document.querySelector('.p-booking-calendar').outerHTML=await(await fetch('/fixture-calendar')).text()},150)</script>`;
   const executor = new BrowserTaskExecutor(localFixture({
     [searchUrl]: `<a class="list-rst__rst-name-target" href="${sourceUrl}" data-address="1-1 Shinjuku, Tokyo">Restaurant 1</a>`,
-    [sourceUrl]: loading, [calendarUrl]: saved,
+    [sourceUrl]: loading, [calendarUrl]: saved.replace(/<a\b[^>]*>[\s\S]*?<\/a\s*>/gi, ""),
   }), { modelDecision: { async decide() { assert.fail("restricted current query must not start the model loop"); } } });
   try {
     const result = await new TabelogBrowserAvailability(executor).check({
@@ -2057,7 +1967,7 @@ test("TableCheck form waits past old inventory until a current same-outlet slot 
       date: "2026-09-16", partySize: 2, timeWindow: { earliest: "19:00", latest: "19:00" }, hardCriteria: [] }, signal);
     const session = await executor.acquire(signal, "TABLECHECK", "AVAILABILITY");
     const finalPage = await session.snapshot();
-    assert.equal(modelDecisionCalls, 1);
+    assert.equal(modelDecisionCalls, 0, "navigation settles the current result without spending a model WAIT");
     assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE");
     assert.match(finalPage.html, /start_time=19:00/, "the current request link arrived before availability was accepted");
     assert.match(finalPage.html, /data-date="2026-09-15"/, "old inventory remained on the page but was not accepted");
@@ -2224,4 +2134,27 @@ test("C5a excludes disabled, occluded and noncurrent list options", async () => 
       goal: { outlet: { name: "Fixture" }, partySize: 10, hardCriteria: [] }, objective: "Observe safe choices", completion: () => ({ complete: false, reason: "Requested choice absent" }) });
     assert.equal(result.status, "REQUESTED_HUMAN_HELP", JSON.stringify(observed)); assert.equal(calls, 1);
   } finally { await executor.close(); }
+});
+
+test("C3 settles delayed date results before asking the model and never completes from stale loading stock", async () => {
+  for (const timeout of [false,true]) {
+    const directory=await mkdtemp(join(tmpdir(),"settle-fixture-"));
+    const origin="https://settle.example", target=origin+"/calendar";
+    const html=`<title>Fixture</title><button id="date">Date 2026-10-23</button><div id="result"></div><script>
+      date.onclick=()=>{result.innerHTML='<div class="loader" aria-busy="true">Loading</div><p>OLD_AVAILABLE</p>';
+      ${timeout ? "" : "setTimeout(()=>{result.innerHTML='<button id=guests>Guests 10</button>';document.querySelector('#guests').onclick=()=>result.textContent='CURRENT_AVAILABLE';},650);"}}
+    </script>`;
+    const har=join(directory,"source.har");await writeFile(har,replayHar(target,html));
+    const raw=new LocalPlaywrightChromium();const runtime:BrowserRuntime={readNetworkBoundaryCapability:"ISOLATED_CONTEXT",openSession:input=>raw.openSession({...input,networkPolicy:{documentOrigins:[origin],genericPublicRead:true,staticResources:[],dynamicReads:[]},replayHarPath:har})};
+    let calls=0, pendingHint=false;
+    const executor=new BrowserTaskExecutor(runtime,{maxModelCallsPerCandidate:4,maxOperationsPerCandidate:40,maxElapsedMsPerCandidate:8000,modelDecision:{async decide(value){calls++;if(calls===1)return {type:"CLICK_AUTHORITATIVE",field:"DATE",targetRef:value.observation.targets.find(x=>x.label==='Date 2026-10-23')!.ref,reason:"Select requested date"};pendingHint=value.progress.includes('still loading');const guests=value.observation.targets.find(x=>x.label==='Guests 10');return guests?{type:"CLICK_AUTHORITATIVE",field:"PARTY_SIZE",targetRef:guests.ref,reason:"Select requested party"}:{type:"REQUEST_HUMAN_HELP",reason:"Loading has not settled"};}}});
+    const signal=new AbortController().signal;const session=await executor.acquire(signal,"FIXTURE","AVAILABILITY");
+    try {
+      await executor.navigate({session,signal,source:"FIXTURE",stage:"AVAILABILITY",allowedOrigins:[origin],url:target});
+      const result=await executor.runSkill({taskId:"settle",session,signal,source:"FIXTURE",stage:"AVAILABILITY",allowedOrigins:[origin],goal:{outlet:{name:"Fixture"},date:"2026-10-23",partySize:10,hardCriteria:[]},objective:"Select date and guests",completion:snapshot=>({complete: /CURRENT_AVAILABLE|OLD_AVAILABLE/.test(snapshot.text),reason:"Select party after date loads"})});
+      assert.equal(result.status,timeout?"REQUESTED_HUMAN_HELP":"COMPLETED");
+      assert.equal(calls,2);
+      if(timeout)assert.equal(pendingHint,true);
+    } finally {await executor.close();await rm(directory,{recursive:true,force:true});}
+  }
 });

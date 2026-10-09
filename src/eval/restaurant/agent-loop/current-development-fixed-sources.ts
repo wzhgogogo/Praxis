@@ -230,6 +230,7 @@ export function createCurrentDevelopmentFixedSources(
       click: async () => { throw sourceGap({ source: "BROWSER", stage: "CLICK", request: "<opaque>", reason: "Fixture does not configure write-like browser interaction" }); },
       fill: async () => { throw sourceGap({ source: "BROWSER", stage: "FILL", request: "<opaque>", reason: "Fixture does not configure write-like browser interaction" }); },
       select: async () => { throw sourceGap({ source: "BROWSER", stage: "SELECT", request: "<opaque>", reason: "Fixture does not configure write-like browser interaction" }); },
+      waitForSettled: async () => true,
       waitFor: async (selector) => {
         if (!page || !matchesSelector(page.html, selector)) throw sourceGap({
           source: "BROWSER", stage: "WAIT_FOR", request: selector, reason: "The requested browser wait target is not present in the configured page",

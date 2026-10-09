@@ -1,7 +1,7 @@
 import { resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { browserRuntimeFromEnvironment } from "../../../../infrastructure/browser/browser-runtime-factory.js";
-import { tabelogQueryControlHints, TABELOG_QUERY_SETTLED_SELECTOR, TABELOG_VACANCY_RESPONSES } from "../../../../integrations/tabelog/tabelog-query-controls.js";
+import { tabelogQueryControlHints, TABELOG_VACANCY_RESPONSES } from "../../../../integrations/tabelog/tabelog-query-controls.js";
 import { diagnosticFailureCode, diagnosticUrl, startDiagnosticRun } from "../../../shared/diagnostic-run.js";
 import { probeProvider, runBrowserReadProbe, type BrowserReadProbeInput } from "../browser-read-probe.js";
 import { safeObservedControls, safeRecord, snapshotRecord } from "./browser-case-slice-evidence.js";
@@ -47,7 +47,7 @@ const preflight = await runLivePreflight({
 const input: BrowserReadProbeInput = {
   url: values.url,
   timeoutMs,
-  ...(values["ready-selector"] || values["capture-query-state"] ? { readySelector: values["ready-selector"] ?? TABELOG_QUERY_SETTLED_SELECTOR } : {}),
+  ...(values["ready-selector"] ? { readySelector: values["ready-selector"] } : {}),
   ...(values.date ? { schedule: { date: values.date, partySize } } : {}),
   ...(values["outlet-name"] ? { expectedCandidate: {
     restaurant: {

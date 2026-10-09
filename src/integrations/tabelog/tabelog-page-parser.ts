@@ -160,7 +160,7 @@ export function detectExternalReservationRedirect(snapshot: BrowserSnapshot): bo
 }
 
 export function hasReservationControls(snapshot: BrowserSnapshot): boolean {
-  return /予約|空席|予約する|reserve|availability/i.test(snapshot.text)
+  return /予約|空席|予約する|reserve|availability|No available seats for \d+ guests/i.test(snapshot.text)
     && /<select|<input[^>]+type=["']date|party|人数|guests?/i.test(snapshot.html);
 }
 
@@ -190,6 +190,7 @@ function available(value: string): boolean {
  * A time appearing in ordinary prose, opening hours, or a header is never a slot.
  */
 export function parseTabelogAvailabilitySlots(snapshot: BrowserSnapshot, request?: {date:string;partySize:number}): TabelogSlotParse {
+  if (snapshot.settlement === "PENDING") return { availableSlots: [], hasExplicitSlotUi: false };
   const captured = request ? tabelogCapturedSlots(snapshot, request.date, request.partySize) : undefined;
   if (captured) return captured;
   const slots = new Set<string>();

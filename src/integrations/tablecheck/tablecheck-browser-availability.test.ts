@@ -255,7 +255,7 @@ class FixtureBrowserSession implements BrowserSession {
   async fill(): Promise<void> { this.fills += 1; }
   async select(_target: string, value: string): Promise<string[]> { return [value]; }
   async waitFor(): Promise<void> {}
-  async waitForChange(): Promise<boolean> { return true; }
+  async waitForSettled(): Promise<boolean> { return true; }
   async screenshot(): Promise<Uint8Array> { return new Uint8Array(); }
   async close(): Promise<void> { this.closed = true; }
 }
@@ -913,7 +913,7 @@ test("TableCheck retains verified identity when later availability controls time
       return matchingOutletPage();
     },
     async observeControls() { return []; },
-    async click() {}, async fill() {}, async select() { return []; }, async waitFor() {}, async waitForChange() { return true; }, async screenshot() { return new Uint8Array(); }, async close() {},
+    async click() {}, async fill() {}, async select() { return []; }, async waitFor() {}, async waitForSettled() { return true; }, async screenshot() { return new Uint8Array(); }, async close() {},
   };
   const result = await new TableCheckBrowserAvailability({ openSession: async () => session }, () => "2026-08-05T09:00:00.000Z").check(request, new AbortController().signal);
   assert.equal(result.availabilityChecks[candidate.restaurant.id]?.reasonCode, "BROWSER_TIMEOUT");

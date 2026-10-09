@@ -661,6 +661,7 @@ export function parseTableCheckAvailabilitySlots(
   snapshot: BrowserSnapshot,
   request?: { date: string; partySize: number; timeWindow?: { earliest: string; latest: string } },
 ): TableCheckSlotParse {
+  if (snapshot.settlement === "PENDING") return { availableSlots: [], hasExplicitSlotUi: false, explicitlyEmpty: false, queryComplete: false };
   const visibleSnapshot = { ...snapshot, html: visibleTableCheckMarkup(snapshot.html) };
   const guide = tableCheckGuideQuery(visibleSnapshot);
   if (request && isReservationFormPage(visibleSnapshot)) {

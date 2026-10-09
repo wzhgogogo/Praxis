@@ -222,7 +222,7 @@ export function errorRecord(error: unknown): Record<string, unknown> {
   return visit(error, 0) ?? { name: "UnknownError" };
 }
 
-const observedSessionMethods = new Set(["navigate", "click", "openLink", "fill", "select", "setChecked", "press", "pressEscape", "scroll", "waitFor", "waitForChange", "captureResponses"]);
+const observedSessionMethods = new Set(["navigate", "click", "openLink", "fill", "select", "setChecked", "press", "pressEscape", "scroll", "waitFor", "waitForSettled", "captureResponses"]);
 
 /** Optional sink for the same sanitized trace that a runner already emits. */
 export interface BrowserTraceRecordingSink {
@@ -241,7 +241,7 @@ function safeSessionArgs(method: string, args: readonly unknown[]): unknown[] {
       return typeof value === "string" ? safeUrl(value) : "[REDACTED]";
     }
     if (method === "fill" && index === 1) return "[REDACTED]";
-    if (method === "waitForChange" && index === 0 && value && typeof value === "object") {
+    if (method === "waitForSettled" && index === 0 && value && typeof value === "object") {
       return safeRecord(value);
     }
     return safeRecord(value);

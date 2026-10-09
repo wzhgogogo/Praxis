@@ -41,7 +41,7 @@ test("Local Playwright Chromium preserves the BrowserType method binding, expose
   const snapshot = await session.snapshot();
   const { pageId, ...page } = snapshot;
   assert.deepEqual(page, {
-    url: "https://example.com/", html: "<html><body>Example Domain</body></html>", text: "Example Domain", title: "Example Domain", responses: [],
+    settlement: "SETTLED", url: "https://example.com/", html: "<html><body>Example Domain</body></html>", text: "Example Domain", title: "Example Domain", responses: [],
   });
   assert.equal(pageId, "page:1");
   assert.equal(session.metadata.runtimeProvider, "LOCAL_PLAYWRIGHT_CHROMIUM");

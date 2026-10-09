@@ -1371,7 +1371,7 @@ test("Google fact exhaustion must leave a separately executable browser investig
       snapshot: async () => ({ url, title: "Just a moment...", text: "Verify you are human", html: '<div id="cf-chl-widget">Verify you are human</div>' }),
       click: async () => { throw new Error("Challenge fixture must not click"); },
       fill: async () => { throw new Error("Challenge fixture must not fill"); },
-      select: async () => [], waitFor: async () => {}, screenshot: async () => new Uint8Array(), close: async () => {},
+      select: async () => [], waitFor: async () => {}, waitForSettled: async () => true, screenshot: async () => new Uint8Array(), close: async () => {},
     };
   } };
   const model = new ScriptedExternalModel(3, false, true);
@@ -1444,7 +1444,7 @@ test("source text handoff reaches request-bound availability and presentation th
         return { url, title: "Source Kitchen", text: "Source Kitchen 2026-09-17 2 guests 13:00", html: '<h1>Source Kitchen</h1><a href="tel:03-1111-1003">Call</a><p class="address">1 Ginza, Tokyo</p><div data-testid="Venue Availability" data-selected-date="2026-09-17" data-pax="2"><a href="/en/shops/source-kitchen/reserve?start_date=2026-09-17&num_people=2&start_time=13:00">13:00</a></div>' };
       },
       async click() { throw new Error("No click needed for this read-only source"); }, async fill() { throw new Error("No fill needed"); }, async select() { return []; },
-      async waitFor() {}, async screenshot() { return new Uint8Array(); }, async close() {},
+      async waitFor() {}, async waitForSettled() { return true; }, async screenshot() { return new Uint8Array(); }, async close() {},
     };
   } };
   const browserTrace: Array<{ sequence: number; at: string; kind: string; detail: unknown }> = [];
@@ -1507,7 +1507,7 @@ test("a website observation for another candidate cannot revive an unknown Googl
     metadata: { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM", engine: "CHROMIUM", startedAt: now.toISOString() },
     navigate: async () => {}, snapshot: async () => ({ url: b.websiteUri, title: "Cafe B", text: "Cafe B", html }),
     click: async () => { throw new Error("The complete source page needs no action"); }, fill: async () => {}, select: async () => [],
-    waitFor: async () => {}, screenshot: async () => new Uint8Array(), close: async () => {},
+    waitFor: async () => {}, waitForSettled: async () => true, screenshot: async () => new Uint8Array(), close: async () => {},
   }) };
   const taskId = "integration:mixed-source-scope";
   const browserDiagnostics: BrowserExecutionDiagnostic[] = [];
@@ -1559,7 +1559,7 @@ test("a failed compound refresh invalidates prior facts and independent evaluati
     return {
       metadata: { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM", engine: "CHROMIUM", startedAt: time.toISOString() },
       navigate: async () => {}, snapshot: async () => ({ url: place.websiteUri, title: "Cafe Refresh", text: "Cafe Refresh", html }),
-      click: async () => {}, fill: async () => {}, select: async () => [], waitFor: async () => {}, screenshot: async () => new Uint8Array(), close: async () => {},
+      click: async () => {}, fill: async () => {}, select: async () => [], waitFor: async () => {}, waitForSettled: async () => true, screenshot: async () => new Uint8Array(), close: async () => {},
     };
   } };
   const taskId = "review:refresh-website";
@@ -1710,7 +1710,7 @@ async function runScopedFailureComposition(mode: "local" | "option" | "model-bud
         return { url, title: "Fixture d", text: selectedTime || mode !== "option" ? "Fixture d 予約 人数 13:00" : "Fixture d 予約 人数 Select time", html: `<h1>Fixture d</h1><a href="tel:03-1111-1003">Call</a><p class="rstinfo-table__address">1-1 Ginza, Chuo City, Tokyo</p><select name="party"><option value="2">2</option></select><select name="date"><option value="2026-09-17">2026-09-17</option></select>${selectedTime || mode !== "option" ? '<button class="slot is-available" data-time="13:00">13:00</button>' : '<select aria-label="Arrival time"><option value="">Choose</option><option value="opaque-time">1:00 PM</option></select>'}` };
       },
       async observeControls() { return mode === "option" && name === "d" && url.includes("tablecheck.com/en/restaurant-d") ? [{ id: "fixture:time", stableKey: "fixture:arrival", kind: "SELECT" as const, role: "combobox", label: "Arrival time", value: selectedTime ? "opaque-time" : "", visible: true, disabled: false, options: [{ value: "", label: "Choose", selected: !selectedTime, disabled: false }, { value: "opaque-time", label: "1:00 PM", selected: selectedTime, disabled: false }] }] : []; },
-      async select(_target, value) { if (mode === "option" && name === "d" && value === "opaque-time") selectedTime = true; return [value]; }, async fill() {}, async click() {}, async waitFor() {},
+      async select(_target, value) { if (mode === "option" && name === "d" && value === "opaque-time") selectedTime = true; return [value]; }, async fill() {}, async click() {}, async waitFor() {}, async waitForSettled() { return true; },
       async screenshot() { return new Uint8Array(); }, async close() {},
     };
   } };
@@ -1748,7 +1748,7 @@ test("Hybrid production composition uses the observed-option browser wire before
   const result = await runScopedFailureComposition("option");
   const state = result.partial.finalSnapshot!.domainState;
   assert.ok((result.observedOptionActions ?? 0) > 0, JSON.stringify({ checks: state.availabilityChecks, browser: result.partial.diagnostics?.browserExecution?.filter(item => ["MODEL_DECISION_STARTED", "METHOD_INCOMPLETE", "REJECTED"].includes(item.event)).map(item => ({ source: item.source, stage: item.stage, detail: item.detail })) }));
-  assert.equal(state.phase, "PRESENT_RESULTS", JSON.stringify({ checks: state.availabilityChecks, evidence: state.readEvidence.map(evidence => ({ kind: evidence.kind, candidateId: evidence.candidateId, claims: evidence.claims })) }));
+  assert.equal(state.phase, "PRESENT_RESULTS", JSON.stringify({ browser: result.partial.diagnostics?.browserExecution, checks: state.availabilityChecks, evidence: state.readEvidence.map(evidence => ({ kind: evidence.kind, candidateId: evidence.candidateId, claims: evidence.claims })) }));
   const accepted = state.presentedResults?.candidateIds ?? [];
   assert.ok(accepted.length > 0);
   assert.ok(accepted.every(candidateId => state.availabilityChecks[candidateId]?.status === "AVAILABLE"));

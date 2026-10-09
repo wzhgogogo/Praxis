@@ -3878,3 +3878,8 @@ Recorded GiNZA #13 / snapshot21 fixture red fails missing mealtime classificatio
 ## TEST-2026-10-10-C1
 
 Red executor history assertion fails on old code; green-composition.log and final four gates PASS (784/784). Two paid history rounds: 48+48=96/250, zero failed calls. Frozen baseline NO_ACTION_MEMORY 0/2 and MODEL_DECISION 1/10; final 1/2 and 2/10, positive controls 7/7 both rounds. First-round MODEL_DECISION 4/10 retained, final declines there; no cherry-picked aggregate. Seven NEEDS_INVESTIGATION and 22 new labels unscored. No Live/static rebuild; comparison.json and started source hashes preserve exact intervention.
+
+
+## TEST-2026-10-10-C3
+
+PASS: typecheck, arch:check, npm test 783/783, build. C3 local Chromium positive/timeout negative PASS; delayed-state, native Tabelog composition and stale TableCheck inventory controls PASS. Red stale-stock acceptance captured in C3/red.log; corrected behavior and final logs under C3/. Two obsolete selector-wait tests retired after generic Fixture coverage; no paid calls or Live.

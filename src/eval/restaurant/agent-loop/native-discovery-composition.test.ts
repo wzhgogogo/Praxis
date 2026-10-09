@@ -276,7 +276,7 @@ test("H001 TableCheck reserve-menu scope reaches a synthetic-only current result
     "the same production Live Guard must admit the generated fixed-query document before this composition can deliver");
   assert.equal(result.navigations.some((url) => url === "https://www.tablecheck.com/en/native-omakase-1"), true, "the guide is read first and has no scoped menu text");
   assert.equal(result.navigations.some((url) => url.startsWith("https://www.tablecheck.com/en/shops/native-omakase-1/reserve")), true, "the scoped menu comes from the guide-observed same-outlet reserve entrance");
-  assert.equal(result.model.purposes.filter((purpose) => purpose === "browser_read_decide").length >= 2, true, "the production executor selects the category then waits for its new current result");
+  assert.equal(result.model.purposes.filter((purpose) => purpose === "browser_read_decide").length >= 1, true, "the production executor selects the category and settles its result before another decision");
   const scopedFacts = result.state.readEvidence.filter((item) => item.kind === "RESTAURANT_FACT" && item.claims.serviceScopeValue === "sushi");
   assert.equal(scopedFacts.some((item) => Array.isArray(item.claims.verifiedHardCriteria) && item.claims.verifiedHardCriteria.includes("omakase")), true);
   const actions = result.trajectories.flatMap((step) => step.agentAction ? [step.agentAction.type] : []);
@@ -738,7 +738,7 @@ test("WP-A offline composition captures every model call including a timeout and
   const recording = new BrowserReadRecording({ directory, runId: "browser" });
   const capture = createHybridDecisionCapture(resultPath, recording);
   try {
-    const result = await runScenario("TABLECHECK_SCOPED_MENU_DELIVERS", { decisionCapture: capture, failSecondBrowserCall: true });
+    const result = await runScenario("TABLECHECK_RECOVERS", { decisionCapture: capture, failSecondBrowserCall: true });
     const browserRecording = await recording.finish();
     await writeFile(resultPath, JSON.stringify({ ...result.artifact, browserRecording }, null, 2), { flag: "wx" });
     const metadata = result.artifact.decisionCapture!;

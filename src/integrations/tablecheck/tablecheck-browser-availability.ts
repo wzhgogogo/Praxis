@@ -766,7 +766,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         const live = parseTableCheckControlAvailability(controls, request.date, request.partySize, current.url, request.timeWindow);
         const htmlRejected = hasTableCheckDisabledRequestMarkup(current, request.date, request.partySize, request.timeWindow, live.availableSlots);
         const liveRejected = hasTableCheckDisabledRequestControl(controls, request.date, request.partySize, current.url, request.timeWindow, html.availableSlots);
-        const loading = hasTableCheckAvailabilityResultLoading(current);
+        const loading = current.settlement === "PENDING" || hasTableCheckAvailabilityResultLoading(current);
         const hasResultWidget = hasTableCheckAvailabilityWidget(current);
         const htmlCurrent = !loading && selected && html.queryComplete;
         // A live link cannot establish that it belongs to a guide's result
@@ -825,10 +825,6 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         shortcut: {
           name: "OBSERVED_STANDARD_DATE_PARTY_FIELDS",
           run: async (current) => {
-            if (/data-testid=["']Venue Availability["']/.test(current.html)) await this.executor.waitFor({
-              source: "TABLECHECK", stage: "AVAILABILITY", session: session!, signal,
-              selector: '[data-testid="Venue Availability"]:not(:has(.skeleton))', timeoutMs: 10_000,
-            });
             const party = selectedPartyField(current);
             const date = selectedDateField(current);
             if (!party && !date) return;
