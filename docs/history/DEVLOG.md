@@ -3189,3 +3189,8 @@ G1b reviewed static assets implemented; ADR-0036 supplement appended under user 
 ## DEV-2026-10-10-TableCheck-empty
 
 TableCheck ready widget reports selected date/party/mealtime EMPTY. Exact-time requests return UNAVAILABLE; wider windows return SELECTED_MEALTIME_EMPTY UNKNOWN without expanding the negative claim. Source message visibility and selected request stay required.
+
+
+## DEV-2026-10-10-C1
+
+Recent six browser execution steps implemented with action/target/field/outcome/reason/url-change; browser prompt15/schema10. All current callers updated; replay history mode reuses frozen messages without CSS. v3 adds 22 implementer-proposed pending-independent-label seeds, v2 unchanged.

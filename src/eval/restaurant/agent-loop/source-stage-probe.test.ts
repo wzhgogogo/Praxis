@@ -165,7 +165,7 @@ test("source-stage facts and browser decisions share one bounded model counter",
 });
 
 test("frozen Replay wires use the production decoder and require a fresh opaque target rebind", async () => {
-  const input: BrowserReadDecisionInput = {
+  const input: BrowserReadDecisionInput = { history: [],
     taskId: "replay-fixture", source: "TABELOG", stage: "AVAILABILITY", objective: "fixture", progress: "fixture",
     skills: { generic: "", source: "" }, goal: { outlet: { name: "Fixture" }, hardCriteria: [] },
     observation: {

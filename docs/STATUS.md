@@ -7,6 +7,8 @@
 
 ## 当前门槛
 
+- **2026-10-10 C1：** Recent six browser execution steps implemented with action/target/field/outcome/reason/url-change; browser prompt15/schema10. All current callers updated; replay history mode reuses frozen messages without CSS. v3 adds 22 implementer-proposed pending-independent-label seeds, v2 unchanged. 本轮不推送、不跑 Live；证据目录 `.eval-artifacts/p1-c-batch-20261010/C1/`。
+
 - **2026-10-10 TableCheck-empty：** TableCheck ready widget reports selected date/party/mealtime EMPTY. Exact-time requests return UNAVAILABLE; wider windows return SELECTED_MEALTIME_EMPTY UNKNOWN without expanding the negative claim. Source message visibility and selected request stay required. 本轮不推送、不跑 Live；证据目录 `.eval-artifacts/p1-c-batch-20261010/TableCheck-empty/`。
 
 - **2026-10-10 G1b：** G1b reviewed static assets implemented; ADR-0036 supplement appended under user approval 10/10. Narrow source-owned CDN path/type admission, no runtime write expansion. Playbook 0.5 independent-review changes retained. 本轮不推送、不跑 Live；证据目录 `.eval-artifacts/p1-c-batch-20261010/G1b/`。

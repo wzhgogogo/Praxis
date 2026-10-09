@@ -1041,3 +1041,23 @@ test("BrowserTaskExecutor never advertises or executes page Escape without an in
   try { const result = await executor.runSkill({ ...input(acquired, signal) }); assert.equal(result.status, "NO_SAFE_ACTION"); assert.equal(session.escapes, 0); }
   finally { await executor.close(); }
 });
+
+test("BrowserTaskExecutor passes only the recent six executed or rejected steps to the next decision", async () => {
+  const captured: BrowserReadDecisionInput[] = [];
+  const pages = Array.from({length: 9}, (_, i) => ({ url: `https://www.tablecheck.com/en/japan?step=${i}`, title: "search", text: i === 8 ? "Sushi Inase" : `step ${i}`, html: "" }));
+  const session = new FixtureSession(pages, true);
+  const executor = new BrowserTaskExecutor({openSession:async()=>session}, {maxModelCallsPerCandidate:10,maxOperationsPerCandidate:100,modelDecision:{async decide(value){captured.push(structuredClone(value));return {type:"WAIT",reason:"Await next source state"};}}});
+  assert.equal((await executor.runSkill(input(session))).status,"COMPLETED");
+  assert.deepEqual((captured[0] as any).history, []);
+  const history = (captured.at(-1) as any).history;
+  assert.equal(history.length,6);
+  assert.ok(history.every((x:any)=>x.action==='WAIT' && x.outcome==='PAGE_CHANGED' && x.urlChanged===true));
+  await executor.close();
+  const rejected: BrowserReadDecisionInput[]=[];
+  const stuck=new FixtureSession([pages[0]!, pages[1]!],true);
+  const other=new BrowserTaskExecutor({openSession:async()=>stuck},{modelDecision:{async decide(value){rejected.push(value);return rejected.length===1?{type:"COMPLETE",reason:"Unverified finish"}:{type:"REQUEST_HUMAN_HELP",reason:"No safe completion"};}}});
+  assert.equal((await other.runSkill(input(stuck))).status,"REQUESTED_HUMAN_HELP");
+  assert.equal((rejected[1] as any).history[0].outcome,"REJECTED");
+  assert.equal((rejected[1] as any).history[0].reason,"COMPLETE_PREDICATE_UNSATISFIED");
+  await other.close();
+});

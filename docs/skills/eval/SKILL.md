@@ -84,3 +84,7 @@ npm run eval:restaurant:agent-loop:artifact -- <artifact.result.json>
 ## 当前餐厅默认数据集切换（2026-10-09）
 
 用户批准的 `restaurant-read-development@7` 是 H001–H005 默认输入，文件 `e2e-cases.gold7.yaml`。只改 H005 的30分钟即时窗口与验收，其他用例原条件不变；旧 `e2e-cases.yaml` / @6 留作 frozen regression，不改原文件或历史产物。Evaluator仍为@26、rubric@21；显式变体运行仍引用各自冻结原文和hash，不因默认Gold更新而重新标注它们。
+
+## C1 action-history replay (2026-10-10)
+
+Production browser action prompt@15 / schema@10 supplies the recent six executor decisions with effect/rejection feedback. Existing decision replay adds mode `history`: retain captured messages, goal and targets, inject only preceding captured steps and the shared history instruction. Request versions distinguish captured prompt plus history@1/@2 from full production prompt; no CSS rebuild or source requests. Frozen seeds.v2 browser labels remain unchanged; seeds.v3 adds implementer-proposed pending independent labels, excluded from pass rates. Two C1 rounds use 96/250 real model calls, positive controls 7/7 each; final NO_ACTION_MEMORY 1/2 and MODEL_DECISION 2/10 versus original 0/2 and 1/10. Recorded repetition and pending labels are descriptive, not scored passes.

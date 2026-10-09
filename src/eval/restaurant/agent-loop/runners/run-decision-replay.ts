@@ -8,7 +8,7 @@ import { DeepSeekModelGateway } from "../../../../infrastructure/deepseek/deepse
 import { BrowserTaskExecutor } from "../../../../infrastructure/browser/browser-task-executor.js";
 import { PlaywrightControlRegistry } from "../../../../infrastructure/browser/playwright-browser-controls.js";
 import type { BrowserSession, BrowserSnapshot } from "../../../../infrastructure/browser/browser-runtime.js";
-import { ModelBrowserReadActionDecision, decodeBrowserReadActionWire, BROWSER_ACTION_DECISION_STRICT_WIRE_JSON_SCHEMA, type BrowserReadDecisionInput } from "../../../../infrastructure/browser/browser-action-decision.js";
+import { ModelBrowserReadActionDecision, decodeBrowserReadActionWire, BROWSER_ACTION_DECISION_STRICT_WIRE_JSON_SCHEMA, BROWSER_ACTION_DECISION_SCHEMA, BROWSER_READ_HISTORY_INSTRUCTION, type BrowserReadDecisionInput, type BrowserReadHistoryStep } from "../../../../infrastructure/browser/browser-action-decision.js";
 import { normalizeRestaurantAgentActionStrictWire, RESTAURANT_AGENT_ACTION_STRICT_WIRE_JSON_SCHEMA } from "../../../../domains/restaurant/agent-action.js";
 import { restaurantDiscoveryPacks } from "../../../../integrations/restaurant-search/source-packs.js";
 import { tabelogQueryControlHints } from "../../../../integrations/tabelog/tabelog-query-controls.js";
@@ -72,6 +72,42 @@ function originalRequest(seed: ReplaySeed, row: CapturedDecision): ModelRequest 
     ...(row.maxOutputTokens === null ? {} : { maxOutputTokens: row.maxOutputTokens }),
     ...(row.temperature === null ? {} : { temperature: row.temperature }), ...(row.thinking == null ? {} : { thinking: row.thinking }) };
 }
+
+/** Infer only feedback present in the following captured observation; no CSS rebuild or source execution. */
+export function injectedBrowserHistory(rows: CapturedDecision[], current: CapturedDecision): BrowserReadHistoryStep[] {
+  const input = userInput(current);
+  const prior = rows.filter(row => row.sequence < current.sequence && row.purpose === "browser_read_decide");
+  const contiguous: CapturedDecision[] = [];
+  let next = input;
+  for (const row of prior.reverse()) {
+    const previous = userInput(row);
+    if (previous.source !== input.source || previous.stage !== input.stage || previous.goal.outlet.name !== input.goal.outlet.name
+      || previous.observation.revision >= next.observation.revision) break;
+    contiguous.unshift(row); next = previous;
+    if (contiguous.length === 6) break;
+  }
+  return contiguous.map((row, index) => {
+    const before = userInput(row), after = contiguous[index + 1] ? userInput(contiguous[index + 1]!) : input;
+    let action: ActionLabel;
+    try { action = browserLabel(row.outputText ?? "", before); }
+    catch { return { action: "MODEL_OUTPUT", outcome: "REJECTED", reason: "RECORDED_MODEL_OUTPUT_REJECTED", urlChanged: false }; }
+    const rejected = /rejected|Completion was not accepted/i.test(after.progress ?? "");
+    const changed = before.observation.url !== after.observation.url || before.observation.visibleText !== after.observation.visibleText;
+    return { action: action.type, ...(action.field ? {field: action.field} : {}),
+      ...(action.targetLabel ? {targetLabel: action.targetLabel.slice(0,160)} : {}), ...(action.targetKind ? {targetKind:action.targetKind} : {}),
+      outcome: rejected ? "REJECTED" : changed ? "PAGE_CHANGED" : "NO_CHANGE",
+      ...(rejected ? {reason:(after.progress ?? "").slice(0,240)} : {}), urlChanged: before.observation.url !== after.observation.url };
+  });
+}
+
+export function historyInjectedRequest(seed: ReplaySeed, row: CapturedDecision, rows: CapturedDecision[]): ModelRequest {
+  if (seed.level !== "BROWSER") throw new Error("HISTORY_INJECTION_REQUIRES_BROWSER_SEED");
+  const request = originalRequest(seed, row);
+  return { ...request, promptVersion: `${row.promptVersion}+history@2`,
+    outputSchema: { ...BROWSER_ACTION_DECISION_SCHEMA, jsonSchema: BROWSER_ACTION_DECISION_STRICT_WIRE_JSON_SCHEMA },
+    messages: row.messages.map(message => message.role === "system" ? { ...message, content: message.content + "\n\n" + BROWSER_READ_HISTORY_INSTRUCTION }
+      : message.role === "user" ? { ...message, content: JSON.stringify({ ...JSON.parse(message.content), history: injectedBrowserHistory(rows, row) }) } : message) };
+}
 /** Static saved DOM only. Page scripts, sockets and every external resource are disabled. */
 export async function rebuildBrowserInput(html: string, input: BrowserReadDecisionInput, history: ReturnType<typeof capturedBrowserHistory>): Promise<{ input: BrowserReadDecisionInput; limitations: string[] }> {
   const browser = await chromium.launch({ channel: "chrome", headless: true });
@@ -117,7 +153,7 @@ export async function rebuildBrowserInput(html: string, input: BrowserReadDecisi
     return { input: rebuilt, limitations: [...new Set(limitations)] };
   } finally { await registry.dispose(); await context.close(); await browser.close(); }
 }
-export async function runDecisionReplay(options: { mode: "original" | "rebuild"; seedsPath: string; sourceRoot: string; outputDir: string; budgetPath: string; item: string; round: number; select?: string[]; gateway: ModelGateway }) {
+export async function runDecisionReplay(options: { mode: "original" | "rebuild" | "history"; seedsPath: string; sourceRoot: string; outputDir: string; budgetPath: string; item: string; round: number; select?: string[]; gateway: ModelGateway }) {
   await mkdir(options.outputDir, { recursive: true });
   const seedBytes = await readFile(options.seedsPath);
   const all = (JSON.parse(seedBytes.toString()) as { seeds: ReplaySeed[] }).seeds;
@@ -168,8 +204,8 @@ export async function runDecisionReplay(options: { mode: "original" | "rebuild";
         finally { result.request = request; result.response = response; await writeFile(options.budgetPath, JSON.stringify(budget, null, 2)); }
       } };
       let action: ActionLabel;
-      if (options.mode === "original") {
-        response = await counted.complete(originalRequest(seed, row));
+      if (options.mode === "original" || options.mode === "history") {
+        response = await counted.complete(options.mode === "history" ? historyInjectedRequest(seed,row,rows) : originalRequest(seed, row));
         if (response.finishReason !== "TOOL_CALLS") throw new Error(`INVALID_FINISH_REASON:${response.finishReason}`);
         if (seed.level === "BROWSER") action = browserLabel(response.outputText, input!);
         else { const canonical = normalizeRestaurantAgentActionStrictWire(JSON.parse(response.outputText)); if (!canonical.valid) throw new Error("INVALID_AGENT_WIRE"); action = canonical.value as ActionLabel; }
@@ -194,7 +230,7 @@ export async function runDecisionReplay(options: { mode: "original" | "rebuild";
 }
 async function main() {
   const args = process.argv.slice(2); const get = (key: string, fallback?: string) => { const index = args.indexOf(key); return index < 0 ? fallback : args[index + 1]; };
-  const mode = get("--mode"); if (mode !== "original" && mode !== "rebuild") throw new Error("--mode original|rebuild required");
+  const mode = get("--mode"); if (mode !== "original" && mode !== "rebuild" && mode !== "history") throw new Error("--mode original|rebuild|history required");
   const required = (key: string) => { const value = get(key); if (!value) throw new Error(`${key} required`); return value; };
   const summary = await runDecisionReplay({ mode, seedsPath: required("--seeds"), sourceRoot: required("--source-root"), outputDir: required("--out-dir"), budgetPath: required("--budget-file"), item: required("--item"), round: Number(get("--round", "1")), ...(get("--select") ? { select: get("--select")!.split(",") } : {}), gateway: DeepSeekModelGateway.fromEnvironment() });
   console.log(JSON.stringify({ ...summary, results: undefined }, null, 2));

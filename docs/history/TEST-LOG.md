@@ -3873,3 +3873,8 @@ Guard contract red reproduces abort of reservation assets; green all four CDNs a
 ## TEST-2026-10-10-TableCheck-empty
 
 Recorded GiNZA #13 / snapshot21 fixture red fails missing mealtime classification. green-composition.log passes parser and actual Adapter composition for exact, wide and wrong-party variants; 60/60 related tests. Four gates PASS, default 782/782. No real model calls or Live; public widget extracted with provenance, controlled identity transport is explicit.
+
+
+## TEST-2026-10-10-C1
+
+Red executor history assertion fails on old code; green-composition.log and final four gates PASS (784/784). Two paid history rounds: 48+48=96/250, zero failed calls. Frozen baseline NO_ACTION_MEMORY 0/2 and MODEL_DECISION 1/10; final 1/2 and 2/10, positive controls 7/7 both rounds. First-round MODEL_DECISION 4/10 retained, final declines there; no cherry-picked aggregate. Seven NEEDS_INVESTIGATION and 22 new labels unscored. No Live/static rebuild; comparison.json and started source hashes preserve exact intervention.

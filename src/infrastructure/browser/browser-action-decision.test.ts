@@ -4,7 +4,7 @@ import { test } from "node:test";
 import type { ModelGateway, ModelRequest, ModelResponse } from "../../core/model/contracts.js";
 import { BrowserReadDecisionError, ModelBrowserReadActionDecision, buildBrowserReadDecisionSystemPrompt } from "./browser-action-decision.js";
 
-const input = {
+const input = { history: [],
   taskId: "task:browser-wire",
   source: "TABLECHECK" as const,
   stage: "DISCOVERY" as const,

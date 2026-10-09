@@ -29,7 +29,7 @@ test("P1-B original replay preserves complete captured messages and counts the f
 });
 
 test("P1-B static saved DOM uses current Executor targets with scripts and external requests disabled", async () => {
-  const input = { taskId: "static-fixture", source: "FIXTURE", stage: "AVAILABILITY" as const,
+  const input = { history: [], taskId: "static-fixture", source: "FIXTURE", stage: "AVAILABILITY" as const,
     objective: "Observe the guest choice", progress: "Prior action opened the list", skills: { generic: "fixture", source: "fixture" },
     goal: { outlet: { name: "Fixture" }, partySize: 10, hardCriteria: [] },
     observation: { revision: 4, url: "https://offline.invalid/venue", title: "Fixture", visibleText: "10 guests", targets: [] } };
@@ -40,4 +40,18 @@ test("P1-B static saved DOM uses current Executor targets with scripts and exter
   assert.equal(target?.kind, "OPTION"); assert.deepEqual(target?.availableActions, ["CHOOSE_OPTION:PARTY_SIZE"]);
   assert.equal(result.input.observation.visibleText.includes("scripts executed"), false);
   assert.equal(result.input.progress, input.progress);
+});
+
+test("C1 injection preserves captured goals and targets and limits history to six steps in the same read", async () => {
+  const { historyInjectedRequest, injectedBrowserHistory } = await import("./runners/run-decision-replay.js");
+  const rows = Array.from({length:9},(_,i)=>({sequence:i+1,purpose:"browser_read_decide",promptVersion:"12",messages:[{role:"system" as const,content:"captured rules"},{role:"user" as const,content:JSON.stringify({source:"FIXTURE",stage:"DISCOVERY",goal:{outlet:{name:"A"}},progress:i===2?"The previous proposed action was rejected: forbidden":"wait",observation:{revision:i+1,url:"https://fixture.example",visibleText:`state ${i}`,targets:[]}})}],outputSchema:{name:"browser_read_action",version:"8"},responseFormat:"JSON_SCHEMA" as const,timeoutMs:1000,maxOutputTokens:320,temperature:0,thinking:"disabled" as const,outputText:'{"action":"WAIT","targetRef":"","authoritativeField":"NONE","requestedState":"NONE","reason":"Recorded wait"}'}));
+  const seed:ReplaySeed={seedId:"history",level:"BROWSER",subCause:"NO_ACTION_MEMORY",labelStatus:"FROZEN",origin:{run:"fixture",runArtifact:"none",decisionIndex:9,recordingDir:"none"},recordedAction:{type:"WAIT"},acceptableActions:[{type:"WAIT"}]};
+  const row=rows.at(-1)!; const before=JSON.parse(row.messages[1]!.content);
+  const request=historyInjectedRequest(seed,row,rows), after=JSON.parse(request.messages[1]!.content);
+  assert.equal(after.history.length,6);delete after.history;assert.deepEqual(after,before);
+  assert.ok(request.messages[0]!.content.startsWith(row.messages[0]!.content));
+  assert.equal(injectedBrowserHistory(rows,rows[2]!)[1]?.outcome,"REJECTED");
+  const reset={...row,messages:[row.messages[0]!,{...row.messages[1]!,content:JSON.stringify({...before,goal:{outlet:{name:"B"}}})}]};
+  assert.deepEqual(injectedBrowserHistory(rows,reset),[]);
+  assert.equal(row.messages[1]!.content,JSON.stringify(before));
 });

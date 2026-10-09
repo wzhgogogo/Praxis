@@ -5,6 +5,7 @@ import {
   type BrowserReadActionDecisionPort,
   type BrowserReadGoal,
   type BrowserReadActionTarget,
+  type BrowserReadHistoryStep,
   browserReadActionTargetReplayFingerprint,
   type BrowserActionWireRejection,
   BrowserReadDecisionError,
@@ -415,6 +416,11 @@ export class BrowserTaskExecutor {
     let completion = input.completion(snapshot, verifiedObservation.controls);
     if (completion.complete) return { status: "COMPLETED", snapshot, controls: verifiedObservation.controls };
     let progress = input.methodReason ?? completion.reason;
+    const history: BrowserReadHistoryStep[] = [];
+    const remember = (step: BrowserReadHistoryStep) => {
+      history.push(step);
+      if (history.length > 6) history.shift();
+    };
     let shortcutUsed = false;
     let postAction = false;
     let pendingOption: ObservedTarget | undefined;
@@ -524,6 +530,7 @@ export class BrowserTaskExecutor {
         this.record({ source: input.source, stage: input.stage, event: "MODEL_DECISION_STARTED", detail: "MODEL_DECISION" });
         action = await this.bounded(input, "MODEL_DECISION", () => this.options.modelDecision!.decide({
           taskId: input.taskId,
+          history: structuredClone(history),
           source: input.source,
           stage: input.stage,
           objective: input.objective,
@@ -553,6 +560,7 @@ export class BrowserTaskExecutor {
         this.record({ source: input.source, stage: input.stage, event: "REJECTED", url: snapshot.url, detail: rejectionDetail });
         if (error instanceof BrowserRuntimeError || (error && typeof error === "object" && "code" in error && error.code === "MODEL_CALL_BUDGET_EXHAUSTED")) throw error;
         if (error instanceof BrowserReadDecisionError && error.code === "INVALID_MODEL_OUTPUT") {
+          remember({ action: "MODEL_OUTPUT", outcome: "REJECTED", reason: rejectionDetail, urlChanged: false });
           if (recordRejectedProposal(`${observationKey(snapshot, observation.controls)}|${rejectionDetail}`)) {
             this.record({ source: input.source, stage: input.stage, event: "METHOD_INCOMPLETE", url: snapshot.url, detail: "NO_PROGRESS_REJECTED_ACTION" });
             return { status: "NO_SAFE_ACTION", snapshot, controls: observation.controls };
@@ -584,6 +592,7 @@ export class BrowserTaskExecutor {
           return { status: "NO_SAFE_ACTION", snapshot, controls: observation.controls };
         }
         progress = `Completion was not accepted: ${completion.reason} Continue with an observed safe action, wait for a visible result, or request human help.`;
+        remember({ action: "COMPLETE", outcome: "REJECTED", reason: "COMPLETE_PREDICATE_UNSATISFIED", urlChanged: false });
         this.record({ source: input.source, stage: input.stage, event: "METHOD_INCOMPLETE", url: snapshot.url, detail: "COMPLETE_PREDICATE_UNSATISFIED" });
         // A rejected completion is not an action, but it may race a source's
         // asynchronous result rendering.  Refresh the entire observation once
@@ -619,6 +628,8 @@ export class BrowserTaskExecutor {
         await this.applyGenericAction(input, observation, target, action);
       } catch (error) {
         const obstruction = target !== undefined && pointerObstruction(error);
+        remember({ action: action.type, ...(target ? { targetLabel: safeText(target.label, 160), targetKind: target.kind } : {}),
+          ...("field" in action ? { field: action.field } : {}), outcome: "REJECTED", reason: safeErrorDetail(error, 240), urlChanged: false });
         this.record({ source: input.source, stage: input.stage, event: "REJECTED", url: snapshot.url, detail: obstruction ? "ACTION_OBSTRUCTED" : safeErrorDetail(error) });
         if (obstruction && input.session.dismissTransientObstruction && !recoveredObstructions.has(target.stableKey)) {
           recoveredObstructions.add(target.stableKey);
@@ -688,6 +699,9 @@ export class BrowserTaskExecutor {
       // its controls. Reobserve on the next turn in that case.
       verifiedObservation = changed && optionConfirmed ? postActionObservation : undefined;
       const effectVerified = changed || observedControlChange;
+      remember({ action: action.type, ...(target ? { targetLabel: safeText(target.label, 160), targetKind: target.kind } : {}),
+        ...("field" in action ? { field: action.field } : {}), outcome: effectVerified ? "PAGE_CHANGED" : "NO_CHANGE",
+        urlChanged: priorSnapshot.url !== snapshot.url });
       this.record({
         source: input.source,
         stage: input.stage,
