@@ -3898,3 +3898,8 @@ PASS: typecheck, arch:check, npm test 784/784, build. Existing production Hybrid
 ## TEST-2026-10-10-C6a
 
 C6a：有效机制红灯 red-mechanism.log（关闭触发禁用时正例失败）；绿灯 green-final4.log 14/14（十一组合模式+两个Native对照）。typecheck、arch:check、npm test（test-final.log，796/796）、build全部PASS；真实模型调用0，Live0。证据目录 .eval-artifacts/p1-c-batch-20261010/C6a/。原始无HARD试运行日志仅保留诊断，不作机制红灯依据。
+
+
+## TEST-2026-10-10-P1-D
+
+P1-D仅文档：Proposed状态、局部ADR链接和零src diff检查通过。按用户要求额外运行四门禁：typecheck、arch:check、npm test（796/796）、build全部PASS。没有适用行为红/绿测试；文档检查日志 document-check.log。发现探测0、真实模型0、Live0。证据目录 .eval-artifacts/p1-c-batch-20261010/P1-D/。

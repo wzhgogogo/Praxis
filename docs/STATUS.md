@@ -7,6 +7,8 @@
 
 ## 当前门槛
 
+- **2026-10-10 P1-D：** 新增ADR-0040 Proposed窄草稿：待批准后删除地区表、Agent选择观察入口、权威LOCATION、详情坐标半径与一次换入口；五新地点仅列发现探测计划，代码未实施。 本轮不推送、不跑 Live；证据目录 `.eval-artifacts/p1-c-batch-20261010/P1-D/`。
+
 - **2026-10-10 C6a：** 页面营业事实支持的零偏移现在窗口提前结束：已查公共来源全部明确关闭/无重叠营业区间时允许END_READ与最近可订时间选项；未知、API-only、部分重叠、跨夜与明确钟点不触发。Agent prompt@22，资格与原窗口保持。 本轮不推送、不跑 Live；证据目录 `.eval-artifacts/p1-c-batch-20261010/C6a/`。
 
 - **2026-10-10 C0c：** C0c preserves four shared model calls for honest END_READ when no candidate is eligible. System READ_END_WINDOW_OPENED persists the bounded reserve; qualified results retain C0 delivery. Router and Web report actually checked shops, per-shop unknown/unread causes and remaining scope. State@13/TaskDefinition@12/Agent Prompt@21; current callers updated, no compatibility path or data reset. 本轮不推送、不跑 Live；证据目录 `.eval-artifacts/p1-c-batch-20261010/C0c/`。
