@@ -3159,3 +3159,8 @@ Evaluator@26将TableCheck原始证据绑定至同一候选AVAILABILITY阶段、o
 ## DEV-2026-10-09-C5a
 
 C5a exposes enabled options clipped by the currently expanded list with outsideViewport, and CHOOSE_OPTION scrolls that list and revalidates node/label/owner/visibility before the existing click. Browser Prompt@13/Schema@9. No site knowledge or extra model calls. Existing disabled/foreign option tests previously required exposure before rejection, contrary to the explicit C5a exclusion contract; now they assert exclusion and forged-ref rejection. Dynamic guest Fixtures replace mandatory model SCROLL with four actions selecting exactly ten, preserving all date/party/evidence/DOM readback assertions. No source-site code deleted.
+
+
+## DEV-2026-10-09-Q8
+
+Q8 analyzes all 11 existing runs only. discovery/queries.json and discovery/report.md retain 42 listing navigation/continuation observations, provider, actual URL and query parameters when captured, parsed versus admitted counts, recorded Agent retrievalHint, and witness appearance against existing frozen prequalification/rechecks. Repeated real navigations remain distinct; snapshots do not fabricate queries; native cursor continuation and missing Google transport are marked separately. No new source access, recheck, code, or model call. Agent-owned next retrievalHint or existing category after sparse parsed/admitted outcomes is a minimal C7 proposal; any P1-D orchestration expansion remains subject to ADR approval.

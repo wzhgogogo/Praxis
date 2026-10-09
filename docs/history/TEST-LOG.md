@@ -3835,3 +3835,8 @@ red.log保留旧算法对3种阶段/时间反例失败；新evaluator76/76，com
 ## TEST-2026-10-09-C5a
 
 Offline red: C5a/red.log; browser-full.log retains outdated mandatory SCROLL assertion failures. green-final.log 9/9; final four gates and all Chromium Fixtures in C5a/*-final.log. Rebuild all 54 list seeds + 7 positive controls: 61 excluded (57 styles+geometry missing, 3 styles missing, 1 snapshot missing), C5a/rebuild-after/summary.json. Real model calls 0. Before/after and positive-control changes NOT_EVALUATED; denominator zero.
+
+
+## TEST-2026-10-09-Q8
+
+Read-only artifact analysis with source paths, steps, funnel/listing count scopes, SEARCH_COMPLETED candidates, frozen-witness file provenance and snapshot mentions. Q8 uses final unchanged code gates (typecheck/arch/test/build), 777/777 default tests. No red/green implementation delta: analysis only; discovery/green.log records schema/provenance coverage checks, discovery/red.md marks not applicable.
