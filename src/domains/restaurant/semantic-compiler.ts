@@ -243,6 +243,8 @@ export function compileRestaurantSemanticProposal(
       referenceTime: temporalContext?.referenceTime ?? "1970-01-01T00:00:00+09:00",
       timezone: temporalContext?.timezone ?? "Asia/Tokyo",
     });
+    if (materialized.temporalResolution?.immediateAvailability && materialized.timeWindow && materialized.timeWindow.earliest > materialized.timeWindow.latest)
+      return { status: "CONFLICT", conflict: { code: "UNSUPPORTED_SEMANTIC_EXPRESSION", affectedFields: ["TIME_WINDOW"], message: "The immediate thirty-minute window crosses midnight; clarify an explicit date/time before reading" } };
     if (materialized.date) patch.date = materialized.date;
     if (materialized.timeWindow) patch.timeWindow = materialized.timeWindow;
     if (timeWindow && "alternativeEarliest" in timeWindow && timeWindow.alternativeEarliest && timeWindow.alternativeLatest) {

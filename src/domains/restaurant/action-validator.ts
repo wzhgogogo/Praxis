@@ -2,7 +2,7 @@ import type { RestaurantAgentAction } from "./agent-action.js";
 import { type AvailabilityOffer, type RestaurantTaskState } from "./contracts.js";
 import { completeRestaurantIntent, completeRestaurantSearchIntent } from "./intent-state.js";
 import {
-  assessRestaurantRead,
+  assessRestaurantRead, immediateRequestWindowExpired,
   distinctDiscoveryResultCandidateIds,
   discoveryShortBatchDeliveryReady,
   discoveryPlanSearchBlockReason,
@@ -139,6 +139,9 @@ export function validateRestaurantAction(
       ? { status: "ALLOWED" }
       : rejected("PRESENTATION_EVIDENCE_MISSING", assessment.endReadBlockReason ?? "The current read cannot end safely");
   }
+
+  if (["SEARCH_RESTAURANTS", "INVESTIGATE_CANDIDATE_FACTS", "CHECK_AVAILABILITY"].includes(action.type) && immediateRequestWindowExpired(state, now))
+    return rejected("INTENT_INCOMPLETE", "IMMEDIATE_REQUEST_EXPIRED: End this read or ask for a new nearest-bookable-time window");
 
   if (action.type === "SEARCH_RESTAURANTS") {
     if (defaultBatchDeliveryWindowActive(state, now)) return rejected("PRESENTATION_READY", "The default batch delivery window is open; present the currently eligible results before the read deadline");

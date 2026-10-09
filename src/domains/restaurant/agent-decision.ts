@@ -17,7 +17,7 @@ import {
 import type { RestaurantAgentCapability } from "./restaurant-capabilities.js";
 
 export const RESTAURANT_AGENT_DECISION_PURPOSE = "restaurant_agent_decide" as const;
-export const RESTAURANT_AGENT_DECISION_PROMPT_VERSION = "19" as const;
+export const RESTAURANT_AGENT_DECISION_PROMPT_VERSION = "20" as const;
 /**
  * Strict-function responses include a provider envelope as well as the action
  * arguments.  Ten discovery candidates can otherwise make a valid second
@@ -123,6 +123,8 @@ When target.query names specific restaurants to investigate or compare, keep inv
 For an AVAILABILITY goal, a missing HARD fact does not require exhausting fact investigation before checking availability: the legal availability read can supply both source facts and inventory. After a fact-read batch adds no support for the missing HARD criterion, prefer a legal availability read on promising known candidates before starting another broad fact batch. Treat completed unknown or inaccessible source reads as limitations; repeatedly visiting different candidates through the same unproductive fact path is not progress. Preserve all evidence requirements for presentation and all legal-action boundaries.
 
 INVESTIGATE_CANDIDATE_FACTS is allowed only for context.factInvestigableCandidateIds, at most three at once, and can establish facts for either delivery goal. CHECK_AVAILABILITY is allowed only for context.checkableCandidateIds, at most three at once, and can return request-bound availability plus source facts. A previously checked candidate appears there only when code supplies a recheckReason (expired display evidence or an explicit user refresh); use that bounded recheck instead of treating it as permanently checked. Do not recheck UNKNOWN or UNAVAILABLE candidates unless they are listed as checkable. An explicit matching no-slot observation excludes that candidate for the current request; an unknown, inaccessible, or unapplied condition does not mean no slot or no walk-in. If lastRejection is supplied, choose a different valid action that addresses it; never repeat the same rejected action. SEARCH_RESTAURANTS is available only when context.searchAvailability.available is true. A source budget or stable tool failure is not missing user input: do not ask the user to cure it or retry by changing wording. Never change date, time, area, party size, or HARD criteria yourself.
+
+For an immediate request, the authoritative timeWindow covers thirty minutes from the original reference instant. Report the earliest observed qualifying slot with its actual time, never as a seat at this instant. When searchAvailability.reason is IMMEDIATE_REQUEST_EXPIRED, stop source reads: END_READ if allowed, or ASK_USER whether to search the nearest bookable time. Do not silently move the window forward.
 
 Use END_READ only if context.readCompletion.allowed is true. It records a bounded normal completion with no grounded result; it does not claim every restaurant is unavailable and it cannot replace a presentation, missing-user question, cancellation, or internal failure.
 

@@ -7,6 +7,8 @@
 - Related ADRs: 本目录
 - Related documents: [Architecture Overview](../architecture/OVERVIEW.md)
 
+Proposed implementation supplement: [ADR-0039](0039-immediate-thirty-minute-window.md), C6a user-decided thirty-minute immediate window; review pending.
+
 ## 当前决策
 
 | ADR | Status | Decision |

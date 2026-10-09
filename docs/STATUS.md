@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.157
+- Document revision: 4.158
 - Last updated: 2026-10-09
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **C6a代码已完成、回放验收PARTIAL，继续P1-B。** 30分钟策略@6、Agent prompt@20/context@9和过期快速结束链路已有离线证据；历史#40–50在新窗口内，6/11询问新时间、5/11继续合法查位，标签的旧1分钟过期前提须独立复核。Gold@7草稿默认不启用，跨午夜仍须明确时间澄清。
 
 - **E1已实现，继续C6a。** evaluator@26绑定候选查位阶段与证据时刻，rubric@21不变；11次旧产物仅kf-h005变为有证据支持的确定YES，其余10次结论不变。旧文件保留；开发集重评非新Live证据。今晚产物见`.eval-artifacts/p1-c-night-20261009/E1/`。
 

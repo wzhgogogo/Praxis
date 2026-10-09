@@ -3816,3 +3816,10 @@ Read-only reevaluation of five saved worktree-1135 artifacts: H001/H005 all dime
 ## TEST-2026-10-09-E1
 
 red.log保留旧算法对3种阶段/时间反例失败；新evaluator76/76，composition95/95，离线夹具24/24。全套首次因typed旧版本与缺阶段夹具失败，完整原日志保留；四门禁最终结果见E1/test-green-final.log等。11份重新评价all-11-diff.json：仅kf-h005借#471而非#497得到确定YES；其余10份findings与结论不变。真实模型0，未运行Live。
+
+
+## TEST-2026-10-09-C6A
+
+旧物化对新窗口断言失败red.log；关闭到期快速收尾的mutation反例red-expiry.log失败，恢复后green-final49/49；正例展示18:10真实slot，过期通过Router事件实际NO_VERIFIED_RESULT、零来源调用。11次DeepSeek Agent层counterfactual #40–50：6/11 ASK_USER，5/11合法CHECK，全ALLOWED。历史时刻在新窗口内，冻结标签前提有冲突，不能为期望而虚构过期。未声明回放完全验收；真实11调用/零Live。门禁最终记录见C6a目录。
+
+- C6a最终四门禁PASS，775/775；首次完整套件保存旧context/prompt版本及H005代码合同17:00单点断言失败，caller fixture与用户10/9明确决定同步为30分钟，Gold@6原文未改、旧质量FAIL断言保留。这是合同变更，不是迁就实现；新版草稿仅待人工批准。

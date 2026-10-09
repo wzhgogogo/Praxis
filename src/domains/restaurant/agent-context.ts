@@ -5,16 +5,16 @@ import type {
   RestaurantTaskState,
 } from "./contracts.js";
 import { missingBlockingFields, missingSearchFields } from "./intent-state.js";
-import { assessRestaurantRead, distinctDiscoveryResultCandidateIds, discoveryShortBatchDeliveryReady, discoveryPlanSearchBlockReason, restaurantCurrentFactEvidence } from "./read-assessment.js";
+import { assessRestaurantRead, distinctDiscoveryResultCandidateIds, discoveryShortBatchDeliveryReady, discoveryPlanSearchBlockReason, restaurantCurrentFactEvidence, immediateRequestWindowExpired } from "./read-assessment.js";
 import { defaultBatchDeliveryWindowActive } from "./action-validator.js";
 
 export const RESTAURANT_AGENT_CONTEXT_SCHEMA = {
   name: "restaurant_agent_context",
-  version: "8",
+  version: "9",
 } as const;
 
 export interface RestaurantAgentContext {
-  schemaVersion: "8";
+  schemaVersion: "9";
   now: string;
   phase: RestaurantPhase;
   intentDraft?: RestaurantIntentDraft;
@@ -151,7 +151,7 @@ export function projectRestaurantAgentContext(
     };
   };
   return {
-    schemaVersion: "8",
+    schemaVersion: "9",
     now,
     phase: state.phase,
     ...(state.intentDraft ? { intentDraft: structuredClone(state.intentDraft) } : {}),
@@ -195,7 +195,9 @@ export function projectRestaurantAgentContext(
       ]),
     ),
     presentation,
-    searchAvailability: deliveryWindow
+    searchAvailability: immediateRequestWindowExpired(state, now)
+      ? { available: false, reason: "IMMEDIATE_REQUEST_EXPIRED" }
+      : deliveryWindow
       ? { available: false, reason: "DEFAULT_BATCH_DELIVERY_WINDOW" }
       : nativeBatchDeliveryReady
       ? { available: false, reason: "NATIVE_CURRENT_BATCH_DELIVERY_READY" }
@@ -210,10 +212,10 @@ export function projectRestaurantAgentContext(
       allowed: assessment.canEndRead,
       investigationRecorded: assessment.investigationRecorded,
       unresolvedCandidateIds: assessment.unresolvedCandidateIds,
-      ...(assessment.endReadBlockReason ? { reason: assessment.endReadBlockReason } : {}),
+      ...(assessment.endReadBlockReason || assessment.endReadReason ? { reason: assessment.endReadBlockReason ?? assessment.endReadReason } : {}),
     },
     legalActions: {
-      search: !deliveryWindow && !nativeBatchDeliveryReady && !discoveryPlanSearchBlockReason(state, now) && state.sourceReadState?.googlePlacesSearchBudget !== "EXHAUSTED" && state.searchContinuation?.exhausted !== true && missingSearchFields(state.intentDraft ?? {}).length === 0,
+      search: !immediateRequestWindowExpired(state, now) && !deliveryWindow && !nativeBatchDeliveryReady && !discoveryPlanSearchBlockReason(state, now) && state.sourceReadState?.googlePlacesSearchBudget !== "EXHAUSTED" && state.searchContinuation?.exhausted !== true && missingSearchFields(state.intentDraft ?? {}).length === 0,
       investigateCandidateFacts: deliveryWindow ? [] : [...assessment.factInvestigableCandidateIds],
       checkAvailability: deliveryWindow ? [] : [...assessment.checkableCandidateIds],
       presentResults: distinctDiscoveryResultCandidateIds(state, presentation

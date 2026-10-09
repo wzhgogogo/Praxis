@@ -2,13 +2,13 @@ import type { RestaurantTemporalResolution } from "./contracts.js";
 import type { RestaurantSemanticValue } from "./semantic-proposal.js";
 
 export const RESTAURANT_TEMPORAL_MATERIALIZATION_POLICY = {
-  version: "restaurant-temporal-materialization@5",
+  version: "restaurant-temporal-materialization@6",
   timezone: "Asia/Tokyo" as const,
   evening: { earliest: "18:00", latest: "23:00" },
   afternoon: { earliest: "12:00", latest: "17:00" },
   /** A broad query range, never a claim that the user specified exact hours. */
   afterWork: { earliest: "17:30", latest: "22:00" },
-  immediate: { validityMinutes: 1 },
+  immediate: { validityMinutes: 30 },
 } as const;
 
 type TimeContext = { referenceTime: string; timezone: "Asia/Tokyo" };
@@ -86,7 +86,8 @@ function timeResolution(
   const reference = new Date(context.referenceTime);
   if (Number.isNaN(reference.valueOf())) throw new Error("Temporal materialization requires a valid reference time");
   const resolved = inTokyo(new Date(reference.valueOf() + value.relativeOffsetMinutes * 60_000));
-  return { date: resolved.date, timeWindow: { earliest: resolved.time, latest: resolved.time }, record: { expression: value.raw, resolvedTimeWindow: { earliest: resolved.time, latest: resolved.time }, basis: `RELATIVE_OFFSET_MINUTES:${value.relativeOffsetMinutes}` } };
+  const latest = value.relativeOffsetMinutes === 0 ? inTokyo(new Date(reference.valueOf() + RESTAURANT_TEMPORAL_MATERIALIZATION_POLICY.immediate.validityMinutes * 60_000)).time : resolved.time;
+  return { date: resolved.date, timeWindow: { earliest: resolved.time, latest }, record: { expression: value.raw, resolvedTimeWindow: { earliest: resolved.time, latest }, basis: `RELATIVE_OFFSET_MINUTES:${value.relativeOffsetMinutes}` } };
 }
 
 /** Code-owned materialization of a deliberately small temporal semantic contract. */
@@ -109,7 +110,7 @@ export function materializeRestaurantTemporalFacts(input: {
       if (Number.isNaN(reference.valueOf())) throw new Error("Temporal materialization requires a valid reference time");
       return {
         validUntil: new Date(reference.valueOf() + RESTAURANT_TEMPORAL_MATERIALIZATION_POLICY.immediate.validityMinutes * 60_000).toISOString(),
-        sourceSlotPolicy: "EXACT_ONLY",
+        sourceSlotPolicy: "EARLIEST_IN_WINDOW",
       } as const;
     })()
     : undefined;

@@ -376,7 +376,7 @@ test("Tabelog keeps an immediate non-slot UNKNOWN rather than treating a nearby 
   ]);
   const result = await new TabelogBrowserAvailability({ openSession: async () => session }, () => "2026-08-05T09:00:30.000Z").check({
     candidateIds: [candidate.restaurant.id], candidates: [candidate], date: fixtureIntent.date, timeWindow: { earliest: "12:08", latest: "12:08" }, partySize: 2, hardCriteria: ["yakiniku"],
-    immediateAvailability: { validUntil: "2026-08-05T09:01:00.000Z", sourceSlotPolicy: "EXACT_ONLY" },
+    immediateAvailability: { validUntil: "2026-08-05T09:01:00.000Z", sourceSlotPolicy: "EARLIEST_IN_WINDOW" },
   }, new AbortController().signal);
   assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "UNKNOWN");
   assert.equal(result.availabilityChecks[candidate.restaurant.id]?.reasonCode, "IMMEDIATE_SLOT_NOT_OFFERED");

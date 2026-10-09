@@ -21,6 +21,7 @@ export interface RestaurantReadAssessment {
   investigationRecorded: boolean;
   canEndRead: boolean;
   endReadBlockReason?: string;
+  endReadReason?: string;
   unresolvedCandidateIds: string[];
 }
 
@@ -163,7 +164,7 @@ function presentationEvidenceIds(
   if (!bookingIntent) return { valid: false, reason: "Availability requested but party size is missing" };
   const permittedWindow = bookingIntent.permittedAlternativeTimeWindow ?? bookingIntent.timeWindow;
   const offer = state.availability[candidateId]?.find((item) =>
-    isDisplayFresh(item.displayExpiresAt, now) && item.partySize === bookingIntent.partySize && item.dateTime.slice(0, 10) === bookingIntent.date &&
+    (!immediate || Date.parse(item.dateTime) >= Date.parse(now)) && isDisplayFresh(item.displayExpiresAt, now) && item.partySize === bookingIntent.partySize && item.dateTime.slice(0, 10) === bookingIntent.date &&
     item.dateTime.slice(11, 16) >= permittedWindow.earliest && item.dateTime.slice(11, 16) <= permittedWindow.latest,
   );
   const availability = candidateEvidence.find((evidence) => evidence.kind === "AVAILABILITY" && isDisplayFresh(evidence.displayExpiresAt, now) &&
@@ -197,6 +198,12 @@ export function restaurantPresentationEvidenceIds(state: Readonly<RestaurantTask
   return result.valid ? result.evidenceIds : undefined;
 }
 
+/** Code-owned impossibility: it cannot be cured by visiting another source. */
+export function immediateRequestWindowExpired(state: Readonly<RestaurantTaskState>, now: string): boolean {
+  const until = state.intentDraft?.temporalResolution?.immediateAvailability?.validUntil;
+  return until !== undefined && Number.isFinite(Date.parse(now)) && Date.parse(now) > Date.parse(until);
+}
+
 export function assessRestaurantRead(state: Readonly<RestaurantTaskState>, now: string): RestaurantReadAssessment {
   const intent = completeRestaurantSearchIntent(state.intentDraft);
   if (!intent) return { presentation: [], factInvestigableCandidateIds: [], checkableCandidateIds: [], investigationRecorded: false, canEndRead: false, endReadBlockReason: "The current request is incomplete", unresolvedCandidateIds: [] };
@@ -210,6 +217,15 @@ export function assessRestaurantRead(state: Readonly<RestaurantTaskState>, now: 
     const hasExpiredDisplayEvidence = check?.status === "AVAILABLE" && !isDisplayFresh(check.displayExpiresAt, now);
     return { candidateId, eligible: false, missingReason: evidence.reason, ...(hasExpiredDisplayEvidence ? { recheckReason: "DISPLAY_EVIDENCE_EXPIRED" as const } : {}) };
   });
+  if (immediateRequestWindowExpired(state, now)) {
+    const internalFailure = state.failure && /^(AGENT_|SEMANTIC_|BROWSER_RUNTIME|BROWSER_TIMEOUT)/.test(state.failure.code);
+    return { presentation, factInvestigableCandidateIds: [], checkableCandidateIds: [],
+      investigationRecorded: state.searchRevision > 0 || Object.keys(state.availabilityChecks).length > 0,
+      canEndRead: !internalFailure,
+      ...(internalFailure ? { endReadBlockReason: "An internal execution failure is recorded" }
+        : { endReadReason: "IMMEDIATE_REQUEST_EXPIRED: The requested thirty-minute window has elapsed. Offer to search the nearest bookable time with a new user-approved window." }),
+      unresolvedCandidateIds: state.candidates.map(candidate => candidate.restaurant.id) };
+  }
   const factRefreshTargets = state.factRefreshRequestedCandidateIds ?? [];
   // A pending next batch is a continuation of the same request, not a reason
   // to reopen or count an already delivered restaurant again.

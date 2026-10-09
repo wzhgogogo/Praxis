@@ -11,6 +11,7 @@ import { RestaurantAgentLoopCoordinator } from "../../application/restaurant-age
 import { ScriptedRestaurantAgentDecisionPort } from "./agent-decision.js";
 import { InMemoryRestaurantAgentTrajectoryStore } from "../../infrastructure/postgres/restaurant-agent-trajectory-store.js";
 import type { TaskSnapshot } from "../../core/task-runtime/contracts.js";
+import { fixtureCandidates, fixtureIntent } from "../../harness/restaurant-fixtures.js";
 import type { RestaurantOutcome } from "./contracts.js";
 
 const incompleteState: RestaurantTaskState = {
@@ -547,29 +548,29 @@ test("PRESENT_RESULTS fails closed until area, HARD criterion, identity, and ava
 
 test("an immediate availability result cannot be presented after its own validity window", () => {
   const candidateId = "immediate";
-  const validNow = "2026-08-05T09:00:30.000Z";
+  const validNow = "2026-08-05T09:01:30.000Z";
   const state: RestaurantTaskState = {
     ...incompleteState,
     phase: "SEARCHING",
     intentDraft: applyRestaurantIntentPatch(undefined, {
-      schemaVersion: "3", target: { goal: "AVAILABILITY", query: "right now" }, area: { query: "Shinjuku" }, date: "2026-08-05", timeWindow: { earliest: "18:00", latest: "18:00" }, partySize: 2,
+      schemaVersion: "3", target: { goal: "AVAILABILITY", query: "right now" }, area: { query: "Shinjuku" }, date: "2026-08-05", timeWindow: { earliest: "18:00", latest: "18:30" }, partySize: 2,
       temporalResolution: {
-        policyVersion: "restaurant-temporal-materialization@5", referenceTime: "2026-08-05T09:00:00.000Z", timezone: "Asia/Tokyo",
-        timeWindow: { expression: "right now", resolvedTimeWindow: { earliest: "18:00", latest: "18:00" }, basis: "RELATIVE_OFFSET_MINUTES:0" },
-        immediateAvailability: { validUntil: "2026-08-05T09:01:00.000Z", sourceSlotPolicy: "EXACT_ONLY" },
+        policyVersion: "restaurant-temporal-materialization@6", referenceTime: "2026-08-05T09:00:00.000Z", timezone: "Asia/Tokyo",
+        timeWindow: { expression: "right now", resolvedTimeWindow: { earliest: "18:00", latest: "18:30" }, basis: "RELATIVE_OFFSET_MINUTES:0" },
+        immediateAvailability: { validUntil: "2026-08-05T09:30:00.000Z", sourceSlotPolicy: "EARLIEST_IN_WINDOW" },
       },
     }),
     candidates: [{ restaurant: { id: candidateId, outletName: "Immediate", sourceIds: {}, address: "Shinjuku, Tokyo", provenance: {} }, matchReasons: [], warnings: [], executionConfidence: "HIGH" }],
-    availability: { [candidateId]: [{ id: "slot", restaurantId: candidateId, source: "TABLECHECK", dateTime: "2026-08-05T18:00:00+09:00", timezone: "Asia/Tokyo", partySize: 2, bookingMode: "REQUEST", executionMode: "BROWSER", checkedAt: validNow, expiresAt: "2026-08-05T09:02:00.000Z", displayExpiresAt: "2026-08-05T09:02:00.000Z" }] },
+    availability: { [candidateId]: [{ id: "slot", restaurantId: candidateId, source: "TABLECHECK", dateTime: "2026-08-05T18:10:00+09:00", timezone: "Asia/Tokyo", partySize: 2, bookingMode: "REQUEST", executionMode: "BROWSER", checkedAt: validNow, expiresAt: "2026-08-05T09:02:00.000Z", displayExpiresAt: "2026-08-05T09:02:00.000Z" }] },
     availabilityChecks: { [candidateId]: { status: "AVAILABLE", checkedAt: validNow, evidenceIds: ["discovery", "entity", "availability"], displayExpiresAt: "2026-08-05T09:02:00.000Z" } },
     readEvidence: [
       { evidenceId: "discovery", kind: "DISCOVERY", provider: "GOOGLE_PLACES", candidateId, observedAt: validNow, requestFingerprint: "d", claims: { areaQuery: "Shinjuku", areaMatch: true } },
       { evidenceId: "entity", kind: "ENTITY_MATCH", provider: "TABLECHECK", candidateId, observedAt: validNow, requestFingerprint: "e", claims: {}, entityMatch: { confidence: "HIGH", matchedBy: ["NORMALIZED_NAME_AND_ADDRESS"] } },
-      { evidenceId: "availability", kind: "AVAILABILITY", provider: "TABLECHECK", candidateId, observedAt: validNow, requestFingerprint: "a", displayExpiresAt: "2026-08-05T09:02:00.000Z", claims: { date: "2026-08-05", partySize: 2, visibleSlots: ["18:00"] } },
+      { evidenceId: "availability", kind: "AVAILABILITY", provider: "TABLECHECK", candidateId, observedAt: validNow, requestFingerprint: "a", displayExpiresAt: "2026-08-05T09:02:00.000Z", claims: { date: "2026-08-05", partySize: 2, visibleSlots: ["18:10"] } },
     ],
   };
   assert.equal(validateRestaurantAction(state, { type: "PRESENT_RESULTS", candidateIds: [candidateId] }, validNow).status, "ALLOWED");
-  const expired = validateRestaurantAction(state, { type: "PRESENT_RESULTS", candidateIds: [candidateId] }, "2026-08-05T09:01:01.000Z");
+  const expired = validateRestaurantAction(state, { type: "PRESENT_RESULTS", candidateIds: [candidateId] }, "2026-08-05T09:30:01.000Z");
   assert.equal(expired.status, "REJECTED");
   if (expired.status === "REJECTED") assert.match(expired.reason, /immediate availability observation has expired/);
 });
@@ -767,4 +768,30 @@ test("a provider fact from the current availability observation supplements rath
   };
   assert.equal(validateRestaurantAction(state, { type: "PRESENT_RESULTS", candidateIds: [candidateId] }, now).status, "ALLOWED");
   assert.ok(restaurantPresentationEvidenceIds(state, candidateId, now)?.includes("provider-fact"));
+});
+
+
+test("C6a expired immediate window ends without investigating another candidate", async () => {
+  const expired = { ...incompleteState, phase: "SEARCHING" as const,
+    intentDraft: { ...fixtureIntent, schemaVersion: "3" as const,
+      temporalResolution: { policyVersion: "restaurant-temporal-materialization@6" as const,
+        referenceTime: "2026-08-05T09:00:00.000Z", timezone: "Asia/Tokyo" as const,
+        immediateAvailability: { validUntil: "2026-08-05T09:30:00.000Z", sourceSlotPolicy: "EARLIEST_IN_WINDOW" as const } } },
+    candidates: fixtureCandidates, searchRevision: 1 };
+  const later = "2026-08-05T09:30:01.000Z";
+  assert.equal(validateRestaurantAction(expired, { type: "END_READ" }, later).status, "ALLOWED");
+  for (const action of [{ type: "SEARCH_RESTAURANTS" as const },
+    { type: "CHECK_AVAILABILITY" as const, candidateIds: [fixtureCandidates[0]!.restaurant.id] },
+    { type: "INVESTIGATE_CANDIDATE_FACTS" as const, candidateIds: [fixtureCandidates[0]!.restaurant.id] }])
+    assert.equal(validateRestaurantAction(expired, action, later).status, "REJECTED");
+  let sourceCalls = 0;
+  const router = new RestaurantExecutionRouter({ executionRoute: "STRUCTURED_ADAPTER", async search() { sourceCalls++; throw new Error("Expired request must not discover"); } },
+    { executionRoute: "STRUCTURED_ADAPTER", async check() { sourceCalls++; throw new Error("Expired request must not query inventory"); } });
+  const execution = await router.execute({ type: "END_READ" }, expired, later);
+  assert.equal(execution.event?.type, "READ_ENDED_NO_VERIFIED_RESULT");
+  if (execution.event?.type !== "READ_ENDED_NO_VERIFIED_RESULT") throw new Error("Missing ending");
+  assert.match(execution.event.remainingGaps.join(" "), /nearest bookable time/);
+  const ended = restaurantBookingTaskDefinition.transition(expired, execution.event, { taskId: "expiry", runId: "expiry", now: later, createId: prefix => prefix });
+  assert.equal(ended.state.phase, "NO_VERIFIED_RESULT");
+  assert.equal(sourceCalls, 0);
 });

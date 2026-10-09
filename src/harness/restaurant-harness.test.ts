@@ -240,8 +240,8 @@ describe("restaurant booking mock harness", () => {
       assert.equal(Array.isArray(trajectory.causalRefs.attemptIds), true);
       assert.equal(Array.isArray(trajectory.causalRefs.evidenceIds), true);
       assert.equal(trajectory.causalRefs.eventIds.every((eventId) => eventIds.has(eventId)), true);
-      assert.equal(trajectory.contextSchemaVersion, "8");
-      assert.equal(trajectory.decisionContext?.schemaVersion, "8");
+      assert.equal(trajectory.contextSchemaVersion, "9");
+      assert.equal(trajectory.decisionContext?.schemaVersion, "9");
       assert.equal("authorization" in (trajectory.decisionContext ?? {}), false);
       assert.equal("proposal" in (trajectory.decisionContext ?? {}), false);
       assert.equal("lastExecutionResult" in (trajectory.decisionContext ?? {}), false);

@@ -175,9 +175,9 @@ test("Execution Router preserves a current exact immediate request for source-si
       ...fixtureIntent,
       schemaVersion: "3",
       temporalResolution: {
-        policyVersion: "restaurant-temporal-materialization@5", referenceTime: "2026-08-05T09:00:00.000Z", timezone: "Asia/Tokyo",
+        policyVersion: "restaurant-temporal-materialization@6", referenceTime: "2026-08-05T09:00:00.000Z", timezone: "Asia/Tokyo",
         timeWindow: { expression: "right now", resolvedTimeWindow: fixtureIntent.timeWindow, basis: "RELATIVE_OFFSET_MINUTES:0" },
-        immediateAvailability: { validUntil: "2026-08-05T09:01:00.000Z", sourceSlotPolicy: "EXACT_ONLY" },
+        immediateAvailability: { validUntil: "2026-08-05T09:01:00.000Z", sourceSlotPolicy: "EARLIEST_IN_WINDOW" },
       },
     },
   };
@@ -212,9 +212,9 @@ test("Execution Router forwards only a current exact immediate slot to the provi
       schemaVersion: "3",
       timeWindow: { earliest: "12:00", latest: "12:00" },
       temporalResolution: {
-        policyVersion: "restaurant-temporal-materialization@5", referenceTime: "2026-08-05T09:00:00.000Z", timezone: "Asia/Tokyo",
+        policyVersion: "restaurant-temporal-materialization@6", referenceTime: "2026-08-05T09:00:00.000Z", timezone: "Asia/Tokyo",
         timeWindow: { expression: "right now", resolvedTimeWindow: { earliest: "12:00", latest: "12:00" }, basis: "RELATIVE_OFFSET_MINUTES:0" },
-        immediateAvailability: { validUntil: "2026-08-05T09:01:00.000Z", sourceSlotPolicy: "EXACT_ONLY" },
+        immediateAvailability: { validUntil: "2026-08-05T09:01:00.000Z", sourceSlotPolicy: "EARLIEST_IN_WINDOW" },
       },
     },
   };
@@ -227,7 +227,7 @@ test("Execution Router forwards only a current exact immediate slot to the provi
     candidates: [fixtureCandidates[0]!],
     date: fixtureIntent.date,
     timeWindow: { earliest: "12:00", latest: "12:00" },
-    immediateAvailability: { validUntil: "2026-08-05T09:01:00.000Z", sourceSlotPolicy: "EXACT_ONLY" },
+    immediateAvailability: { validUntil: "2026-08-05T09:01:00.000Z", sourceSlotPolicy: "EARLIEST_IN_WINDOW" },
     partySize: fixtureIntent.partySize,
     hardCriteria: ["yakiniku"],
   });

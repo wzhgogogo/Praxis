@@ -66,7 +66,7 @@ test("Restaurant Agent context retains bounded observations and action scope whi
   const context = projectRestaurantAgentContext(state);
 
   assert.deepEqual(context.missingBlockingFields, []);
-  assert.equal(context.schemaVersion, "8");
+  assert.equal(context.schemaVersion, "9");
   assert.deepEqual(context.searchAvailability, { available: true });
   assert.deepEqual(context.failure, { code: "SEARCH_FAILED" });
   assert.deepEqual(context.availabilityChecks, {

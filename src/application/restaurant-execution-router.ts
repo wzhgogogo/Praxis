@@ -332,7 +332,8 @@ export class RestaurantExecutionRouter {
           };
           return {
             route: this.availability.executionRoute,
-            event: { type: "AVAILABILITY_CHECKED", request, ...read, metadata },
+            event: { type: "AVAILABILITY_CHECKED", request, ...read,
+              ...(request.immediateAvailability ? { offers: [...read.offers].sort((a, b) => Date.parse(a.dateTime) - Date.parse(b.dateTime)) } : {}), metadata },
             observation: { type: "AVAILABILITY", detail: `${read.offers.length} offers observed`, candidateIds: request.candidateIds, evidenceIds: read.evidence.map((evidence) => evidence.evidenceId) },
             executionMetadata: metadata,
           };
@@ -412,7 +413,7 @@ export class RestaurantExecutionRouter {
             type: "READ_ENDED_NO_VERIFIED_RESULT",
             investigatedCandidateIds: state.candidates.map((candidate) => candidate.restaurant.id),
             unresolvedCandidateIds: assessment.unresolvedCandidateIds,
-            remainingGaps: [...assessment.presentation.filter((item) => !item.eligible).map((item) => item.missingReason ?? `Candidate ${item.candidateId} is not displayable`), ...boundedNativeGap],
+            remainingGaps: [...assessment.presentation.filter((item) => !item.eligible).map((item) => item.missingReason ?? `Candidate ${item.candidateId} is not displayable`), ...boundedNativeGap, ...(assessment.endReadReason ? [assessment.endReadReason] : [])],
           },
           observation: { type: "READ_ENDED", detail: "Bounded read ended without a grounded result", candidateIds: state.candidates.map((candidate) => candidate.restaurant.id), unresolvedCandidateIds: assessment.unresolvedCandidateIds },
         };

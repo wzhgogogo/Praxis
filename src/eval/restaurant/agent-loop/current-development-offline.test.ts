@@ -102,7 +102,7 @@ const PLANS: readonly Plan[] = [
   },
   {
     id: "h005", referenceTime: "2026-08-19T16:00:00+08:00",
-    goal: "AVAILABILITY", area: "nearby", date: "2026-08-19", timeWindow: { earliest: "17:00", latest: "17:00" }, partySize: 4,
+    goal: "AVAILABILITY", area: "nearby", date: "2026-08-19", timeWindow: { earliest: "17:00", latest: "17:30" }, partySize: 4,
     facts: [
       { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "open tables nearby", selectionScope: "OPEN_ENDED" } },
       { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", relativeOffsetMinutes: 0, raw: "right now" } },

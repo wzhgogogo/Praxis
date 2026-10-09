@@ -67,7 +67,7 @@ const request: RestaurantAvailabilityRequest = {
   hardCriteria: [], // Facts and Case qualification are outside this browser-control slice.
   ...(caseId === "h005" ? { immediateAvailability: {
     validUntil: new Date(new Date(referenceTime).valueOf() + RESTAURANT_TEMPORAL_MATERIALIZATION_POLICY.immediate.validityMinutes * 60_000).toISOString(),
-    sourceSlotPolicy: "EXACT_ONLY" as const,
+    sourceSlotPolicy: "EARLIEST_IN_WINDOW" as const,
   } } : {}),
 };
 const requestFingerprint = restaurantAvailabilityRequestFingerprint(request);

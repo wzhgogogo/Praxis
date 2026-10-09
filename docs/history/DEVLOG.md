@@ -3144,3 +3144,8 @@ Root independently preserves the existing evaluator and six-dimension acceptance
 ## DEV-2026-10-09-E1
 
 Evaluator@26将TableCheck原始证据绑定至同一候选AVAILABILITY阶段、observedAt之前最近快照；不采纳后续事实页或未来查位。rubric@21未改。固定来源及真实composition夹具补既有executor诊断sink；合成快照时钟由错误的10/3改为原证据9/8之前，未改成功断言。11份新评价写入今晚E1目录，旧评价不覆盖；只有kf-h005四维从NOT_EVALUATED到SATISFIED。
+
+
+## DEV-2026-10-09-C6A
+
+即时请求物化改为30分钟窗口及EARLIEST_IN_WINDOW，策略@6、Agent prompt@20/context@9；Router按时刻排序，资格排除已过去的时段。窗口整体过期后拒绝发现/事实/查位，复用END_READ事件记录窗口过期及最近可订时间的用户选择；内部失败保持失败。显式时间未改。新增Gold@7草稿，默认@6不变；Proposed ADR0039记录跨午夜单日期合同缺口。旧EXACT_ONLY执行合同全部退役，不加兼容分支。
