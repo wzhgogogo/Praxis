@@ -3850,3 +3850,8 @@ Offline fake Route red G1/red.log; green G1/green.log 1/1 contract scenario with
 ## TEST-2026-10-09-G1-INTEGRATE
 
 G1/composition-red.log catches missing Guard admission in the previously green scripted compositions. First wired run exposes bare-link rejection; original failure artifacts retained. composition-green-final.log validates both orders and their bare-link controls; evaluator@26 generated from real composition artifacts. Four gates in p1-e-early-20261009/G1. No Live before commit.
+
+
+## TEST-2026-10-09-GOLD7-DEFAULT
+
+Gold7/red.log fails under old default. green.log verifies actual loader/materializer/evaluator and independent 30-minute expectation; approved default, both bounds, literal text preservation, H001-H004 equality, frozen Gold6 content and valid/invalid variant parent hashes. Final four gates in p1-e-early-20261009/Gold7. G1 two-order admitted versus bare-link composition remains in default suite.

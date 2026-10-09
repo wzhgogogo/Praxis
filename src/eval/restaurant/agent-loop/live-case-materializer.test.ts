@@ -4,7 +4,7 @@ import { readFile } from "node:fs/promises";
 import { test } from "node:test";
 
 import { evaluateRestaurantHybridLiveArtifact } from "./diagnostic-evaluator.js";
-import { loadFrozenLiveCases, materializeLiveCase, RESTAURANT_READ_DEVELOPMENT_CASE_PATH, RESTAURANT_READ_DEVELOPMENT_DATASET_VERSION } from "./live-case-materializer.js";
+import { loadFrozenLiveCases, materializeLiveCase, validDevelopmentVariantParent, RESTAURANT_READ_DEVELOPMENT_CASE_PATH, RESTAURANT_READ_DEVELOPMENT_DATASET_VERSION } from "./live-case-materializer.js";
 
 test("live materialization resolves tonight and updates every dependent date without mutating source", () => {
   const source = {
@@ -64,7 +64,7 @@ test("real case loader through materialization and evaluator agrees with indepen
     { goal: "AVAILABILITY", date: "2026-09-19", partySize: 2, area: { query: "near Higashi-Ginza" }, timeWindow: point("18:30"), criteria: [criterion("good for a first date", "POSITIVE", "UNSPECIFIED"), criterion("around 10,000 yen per person", "POSITIVE", "SOFT"), criterion("Sichuan/Hunan cuisine", "NEGATIVE"), criterion("hot pot restaurant", "NEGATIVE")] },
     { goal: "AVAILABILITY", date: "2026-09-18", partySize: 10, area: { query: "nearby" }, timeWindow: { earliest: "17:30", latest: "22:00" }, criteria: [criterion("team dinner", "POSITIVE", "UNSPECIFIED"), criterion("around 3,000 yen per person", "POSITIVE", "SOFT"), criterion("good for drinks", "POSITIVE", "UNSPECIFIED"), criterion("private room", "POSITIVE", "SOFT")] },
     { goal: "RECOMMENDATION", date: "2026-09-16", area: { query: "nearby" }, timeWindow: { earliest: "12:00", latest: "17:00" }, criteria: [criterion("cafe"), criterion("good for meeting a friend", "POSITIVE", "UNSPECIFIED")] },
-    { goal: "AVAILABILITY", date: "2026-09-16", partySize: 4, area: { query: "nearby" }, timeWindow: point("12:00"), criteria: [criterion("local food"), criterion("fast food", "NEGATIVE")] },
+    { goal: "AVAILABILITY", date: "2026-09-16", partySize: 4, area: { query: "nearby" }, timeWindow: { earliest: "12:00", latest: "12:30" }, criteria: [criterion("local food"), criterion("fast food", "NEGATIVE")] },
   ];
   const cases = await loadFrozenLiveCases(RESTAURANT_READ_DEVELOPMENT_CASE_PATH);
   for (const [index, item] of cases.entries()) {
@@ -91,4 +91,26 @@ test("relative expectation updates never rewrite literal dates or times in the a
   assert.equal(result.semantic?.date?.value, "2026-09-16");
   assert.equal(result.semantic?.time?.value, "12:00");
   assert.equal(result.content, content);
+});
+
+
+test("approved Gold7 is the default and right-now window materializes both bounds without changing Gold6", async () => {
+  const frozen = await loadFrozenLiveCases(RESTAURANT_READ_DEVELOPMENT_CASE_PATH);
+  assert.equal(RESTAURANT_READ_DEVELOPMENT_DATASET_VERSION, "restaurant-read-development@7");
+  assert.ok(frozen.every(item => item.dataset === "restaurant-read-development@7"));
+  const original = frozen.find(item => item.id === "h005")!;
+  const result = materializeLiveCase(original, "2026-10-09T16:47:09+09:00");
+  assert.deepEqual(result.semantic?.time, { expression: "right now", type: "TIME_WINDOW", start: "16:47", end: "17:17" });
+  assert.deepEqual(original.semantic?.time, { expression: "right now", type: "TIME_WINDOW", start: "17:00", end: "17:30" });
+  assert.equal(result.content, original.content);
+  const historical = await loadFrozenLiveCases("src/eval/restaurant/agent-loop/cases/e2e-cases.yaml");
+  assert.ok(historical.every(item => item.dataset === "restaurant-read-development@6"));
+  const frozenParent = { dataset: "restaurant-read-development@6", sha256: "00b69476e6d07eec5dcd9a657555c4e3766629fce5f8e630512710252886ffb6" };
+  assert.equal(await validDevelopmentVariantParent(frozenParent), true, "approved frozen variants retain their actual Gold6 parent after switching the default");
+  assert.equal(await validDevelopmentVariantParent({ ...frozenParent, sha256: "0".repeat(64) }), false);
+  assert.equal(await validDevelopmentVariantParent({ ...frozenParent, dataset: "unknown-dataset" }), false);
+  for (const item of frozen.filter(item => item.id !== "h005")) {
+    const previous = historical.find(entry => entry.id === item.id)!;
+    assert.deepEqual({ ...item, dataset: previous.dataset }, previous, "H001-H004 keep their independent expectations");
+  }
 });

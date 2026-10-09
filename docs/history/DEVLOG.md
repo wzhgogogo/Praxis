@@ -3174,3 +3174,8 @@ G1 Proposed ADR-0036 supplement and narrow generated reserve GET document gramma
 ## DEV-2026-10-09-G1-INTEGRATE
 
 User approved G1 integration on 2026-10-09. Merge isolated branch with accepted ADR-0036 supplement, preserving original accepted ADR body and frozen inputs. Production Guard remains exact GET document with unique start_date+pax. Two existing reserve-menu compositions now call the production Guard with actual source-owned policy; each checks fixed-query delivery and bare-link rejection/no qualified result. The positive fixture source link has the admitted query, rather than bypassing policy. No Adapter inference or Guard expansion.
+
+
+## DEV-2026-10-09-GOLD7-DEFAULT
+
+User approved ADR-0039 and default restaurant-read-development@7 on 2026-10-09 after independent night review. Promote the separate Gold7 file (no draft executable duplicate); default loader/registry use it, Gold6 bytes retained unchanged. Materializer resolves both immediate window bounds from the original live reference; existing H001-H004 and literal user messages retained. Frozen variants still validate their declared retained parent dataset and exact SHA, rather than incorrectly requiring the new default parent. No variant, semantic prompt, qualification, evaluator or rubric change.

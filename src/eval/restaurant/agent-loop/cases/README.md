@@ -1,16 +1,16 @@
 # Restaurant read development cases
 
 - Status: current executable development diagnostic; not a Clean Baseline
-- Document revision: 1.5
-- Dataset: `restaurant-read-development@6`
+- Document revision: 1.6
+- Dataset: `restaurant-read-development@7`
 - Acceptance contract: `restaurant-read-acceptance@3`
-- Updated: 2026-09-20
+- Updated: 2026-10-09
 - Contamination: `PROMPT_AND_RESULT_EXPOSED`; `baselineEligible: false`
 - Product authority: [Restaurant Domain](../../../../../docs/domains/RESTAURANT-BOOKING.md), [ADR-0020](../../../../../docs/decisions/0020-goal-driven-restaurant-read-path.md), [ADR-0024](../../../../../docs/decisions/0024-deterministic-time-and-diagnostic-read-completion.md), [ADR-0025](../../../../../docs/decisions/0025-model-directed-read-investigation.md)
 
 ## Scope and actual wiring
 
-This is the single current H001–H005 input for `run-hybrid-live-read.ts`. `content` is the user message; `semantic` is the independent evaluation expectation. The model receives the message and trusted time/location context, never Gold or acceptance notes. Runtime does not branch on a case ID. The materializer resolves dates and `right now` in Asia/Tokyo without changing user text. Runner artifacts record dataset version, file SHA, cohort and contamination, including failures.
+`e2e-cases.gold7.yaml` is the default; `e2e-cases.yaml` / Gold@6 is retained unchanged as frozen historical evidence. Gold@7 and ADR-0039 were user approved on 2026-10-09. This is the single current H001–H005 input for `run-hybrid-live-read.ts`. `content` is the user message; `semantic` is the independent evaluation expectation. The model receives the message and trusted time/location context, never Gold or acceptance notes. Runtime does not branch on a case ID. The materializer resolves dates and `right now` in Asia/Tokyo without changing user text. Runner artifacts record dataset version, file SHA, cohort and contamination, including failures.
 
 `acceptance` contains human-readable review requirements; it is not a tool-routing DSL and is not consumed as a runtime instruction. The existing diagnostic evaluator consumes `materializedCase.semantic` and execution evidence. It does **not** automatically score every acceptance note or all recommendation quality. `FULL_RUBRIC_NOT_INTEGRATED` remains accurate. No new Judge or automatic pass threshold is introduced.
 
@@ -24,7 +24,7 @@ The offline test now instantiates the real Google client/search, Google→websit
 | H002 | AVAILABILITY | Near Higashi-Ginza, Saturday 18:30; a closed first-date party is inferred as two and its basis is recorded; exclude hot-pot restaurants and Sichuan/Hunan cuisine as specified; first-date suitability is UNSPECIFIED and approximately JPY 10000/person SOFT | Mandatory matching current slot; the inference does not alter user text |
 | H003 | AVAILABILITY | Nearby, Friday, after work, explicit 10 people; team dinner and good for drinks are expressed UNSPECIFIED preferences; approximate budget/private room SOFT | Mandatory matching current slot for the preserved broad after-work window, never a silently restored 18:00–20:00 range |
 | H004 | RECOMMENDATION | Nearby cafe HARD, this afternoon 12:00–17:00; meeting-a-friend UNSPECIFIED | Optional extra, never a prerequisite for core cafe recommendations |
-| H005 | AVAILABILITY | Nearby, right now in Tokyo, explicit 4 people, local food HARD, no fast food HARD | Mandatory matching source-confirmed slot; open business hours alone are insufficient |
+| H005 | AVAILABILITY | Nearby, earliest slot in the original thirty-minute Tokyo window, explicit 4 people, local food HARD, no fast food HARD | Mandatory matching source-confirmed slot; open business hours alone are insufficient |
 
 Goal follows requested delivery, not an isolated verb or party-size field. A concrete dining visit with a known or confidently inferred party and temporal intent requires availability even when phrased as “recommend”, “looking for”, or “need”; open-ended exploration remains recommendation. None of these read-only cases authorizes a reservation, payment, or personal-data submission.
 
@@ -42,7 +42,7 @@ H002's exclusion names the restaurant/main cuisine, not every dish containing sp
 - `afternoon` is 12:00–17:00. Relative date and `right now` use the recorded reference instant and Asia/Tokyo. An elapsed requested window is not moved to another date or time to obtain inventory.
 - Only actual missing user information, required authorization or necessary human takeover justifies interrupting the user. Source failure does not authorize asking the user to debug the system.
 
-Default open-ended target 3 is a search objective, not an unstated user completion requirement. H001–H005 register `QUALIFIED_RESULT` without a hard result count. At least one distinct independently qualified candidate is required; a source-limited short batch records `defaultBatchTarget: {target, actual, met}` and may pass. Runtime still rejects an early short batch while legal reads remain. An explicit user count requires a matching `USER_EXPLICIT` registration, the exact count and `met: true`; missing/mismatched registration or an unmet explicit count cannot pass. Zero results never pass qualified-result acceptance. Acceptance@3 changes this scoring and category eligibility only; dataset@6 and its Gold/user/source inputs are unchanged.
+Default open-ended target 3 is a search objective, not an unstated user completion requirement. H001–H005 register `QUALIFIED_RESULT` without a hard result count. At least one distinct independently qualified candidate is required; a source-limited short batch records `defaultBatchTarget: {target, actual, met}` and may pass. Runtime still rejects an early short batch while legal reads remain. An explicit user count requires a matching `USER_EXPLICIT` registration, the exact count and `met: true`; missing/mismatched registration or an unmet explicit count cannot pass. Zero results never pass qualified-result acceptance. Acceptance@3 changed scoring and category eligibility only while dataset@6 remained unchanged; Gold@7 subsequently changes only H005 immediate time semantics as approved.
 
 ## Completion and evaluation are separate
 
@@ -65,3 +65,8 @@ The [pre-alignment source and rubric](../../../../../docs/superseded/eval/restau
 H001–H003 recommendation-era results are not directly comparable to the current availability contract. H002 now records the constrained two-person inference and keeps its corrected exclusion scope. H003 @4 and H002/H004 @5 remain historical exposed evidence; @6 changes the two accepted semantic expectations without rewriting any original artifact or evaluation. H004 keeps its exploratory goal/window. H005 keeps its explicit availability goal; the illustrative source clock now correctly reads 17:00 Tokyo for its original 16:00 +08:00 reference, and each Live run still materializes its own time. Do not rerun or overwrite old artifacts to make historical results match this contract.
 
 Future user-promise or Gold changes must update this contract, current YAML and its dataset version together after human review; keep previous evidence and migration notes. Reuse the real-loader/materializer/evaluator regression for the affected behavior. Do not maintain duplicate dates, party sizes or mandatory tool lists in downstream case sections. API/model/Live runs retain their existing authorization and accounting boundaries.
+
+
+## Gold@7 immediate window
+
+Gold@7 promotes the independently reviewed H005 window [reference, reference+30min], expires at that end and requires the actual earliest qualifying future slot time to be reported. A fully elapsed window permits ending or asking for a newly approved nearest-bookable-time search; no implicit renewal. The materializer resolves both start/end at each live reference. H001–H004 and all original user messages are unchanged except dataset identifiers. Gold@6 and historical results are never rewritten or re-evaluated as Gold@7. Midnight crossing still requires explicit clarification under ADR-0039. Early rejection based on obvious local closing hours remains a known unimplemented item.

@@ -1,15 +1,29 @@
+import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 
 import { parseAllDocuments } from "yaml";
 
 /** Current exposed development input, shared by the actual Runner and contract tests. */
-export const RESTAURANT_READ_DEVELOPMENT_DATASET_VERSION = "restaurant-read-development@6";
-export const RESTAURANT_READ_DEVELOPMENT_CASE_PATH = "src/eval/restaurant/agent-loop/cases/e2e-cases.yaml";
+export const RESTAURANT_READ_DEVELOPMENT_DATASET_VERSION = "restaurant-read-development@7";
+export const RESTAURANT_READ_DEVELOPMENT_CASE_PATH = "src/eval/restaurant/agent-loop/cases/e2e-cases.gold7.yaml";
+
+/** Frozen variants retain the actual immutable parent, independent of the default. */
+const DEVELOPMENT_DATASET_SOURCES: Readonly<Record<string, string>> = {
+  "restaurant-read-development@6": "src/eval/restaurant/agent-loop/cases/e2e-cases.yaml",
+  [RESTAURANT_READ_DEVELOPMENT_DATASET_VERSION]: RESTAURANT_READ_DEVELOPMENT_CASE_PATH,
+};
+export async function validDevelopmentVariantParent(value: unknown): Promise<boolean> {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+  const parent = value as Record<string, unknown>;
+  if (typeof parent.dataset !== "string" || typeof parent.sha256 !== "string") return false;
+  const path = DEVELOPMENT_DATASET_SOURCES[parent.dataset];
+  return path !== undefined && createHash("sha256").update(await readFile(path)).digest("hex") === parent.sha256;
+}
 
 export interface FrozenLiveCase {
   id: string;
   reference_time: string;
-  semantic?: { date?: { expression?: string; value?: string }; time?: { expression?: string; value?: string } };
+  semantic?: { date?: { expression?: string; value?: string }; time?: { expression?: string; value?: string; type?: string; start?: string; end?: string } };
   [key: string]: unknown;
 }
 
@@ -93,6 +107,12 @@ export function materializeLiveCase(source: FrozenLiveCase, liveReferenceTime: s
     sourceTime,
     resolvedTime,
   ) as FrozenLiveCase;
+  if (resolvedTime && source.semantic?.time?.type === "TIME_WINDOW") {
+    // Gold7's independent immediate expectation shares the original live
+    // reference, never the frozen illustrative start/end or a renewed clock.
+    materialized.semantic!.time = { ...materialized.semantic!.time,
+      start: resolvedTime, end: tokyoTime(new Date(reference.valueOf() + 30 * 60_000)) };
+  }
   return {
     ...materialized,
     ...(content !== undefined ? { content: structuredClone(content) } : {}),

@@ -1,7 +1,7 @@
 # Restaurant Booking Domain
 
 - Status: Accepted
-- Document revision: 3.9
+- Document revision: 3.10
 - Last updated: 2026-10-09
 - Source of truth for: 餐厅预约Domain模型、状态、搜索和完成条件
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0009](../decisions/0009-semantic-strength-and-clean-holdout-baseline.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md), [ADR-0014](../decisions/0014-search-only-results-completion.md), [ADR-0019](../decisions/0019-fact-grounded-read-only-recommendations.md), [ADR-0020](../decisions/0020-goal-driven-restaurant-read-path.md), [ADR-0021](../decisions/0021-cited-source-fact-investigation.md), [ADR-0022](../decisions/0022-current-source-fact-lifecycle-and-identity.md), [ADR-0024](../decisions/0024-deterministic-time-and-diagnostic-read-completion.md), [ADR-0025](../decisions/0025-model-directed-read-investigation.md), [ADR-0026](../decisions/0026-concrete-visit-goal-and-reception-semantics.md), [ADR-0028](../decisions/0028-open-ended-result-targets-for-availability.md), [ADR-0030](../decisions/0030-restaurant-category-negative-eligibility.md), [ADR-0034](../decisions/0034-qualified-read-scope-and-investigation-budget.md)
@@ -246,4 +246,4 @@ Current read evidence may carry bounded `listedCourseDetails`: complete named pu
 
 ## 2026-10-09 即时查位窗口
 
-用户已决定“现在/right now”查询原参考时刻起30分钟内的最早可订时段，展示具体时刻。窗口结束后停止来源读取，正常结束或询问是否查询最近可订时间；须由用户批准新窗口，不能自动顺延。身份、HARD、人数、请求与证据新鲜度保持原规则。当前单日期合同跨东京午夜无法表达完整窗口，须明确时间澄清，不缩短窗口。C6a实现与复核限制见[Proposed ADR-0039](../decisions/0039-immediate-thirty-minute-window.md)；Gold@7为草稿、默认@6保留。
+用户已决定“现在/right now”查询原参考时刻起30分钟内的最早可订时段，展示具体时刻。窗口结束后停止来源读取，正常结束或询问是否查询最近可订时间；须由用户批准新窗口，不能自动顺延。身份、HARD、人数、请求与证据新鲜度保持原规则。当前单日期合同跨东京午夜无法表达完整窗口，须明确时间澄清，不缩短窗口。C6a实现与复核限制见[Accepted ADR-0039](../decisions/0039-immediate-thirty-minute-window.md)；用户于2026-10-09复核后批准Gold@7为默认，@6原文件保留不改。

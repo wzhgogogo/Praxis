@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.162
+- Document revision: 4.163
 - Last updated: 2026-10-09
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- ADR0036 supplement and ADR0039 accepted by user 10/9; default Gold7 active, Gold6 frozen unchanged. Night review passed implementation, 21 old immediate Agent seeds superseded by contract in independent seeds.v2. Static CSS replay gap and obvious closing-hours early response remain known, C1/P1-D not in this slice. After four gates/commit, run only kf-h001 then kf-h003 as authorized P1-E 2/5, stop on false display and record evaluator26 results.
 
 - G1 user-approved integration verified by all four gates (778/778 default tests); accepted supplement permits narrow read only. Gold7/ADR0039 promotion next, then two explicitly authorized P1-E Live cases. Earlier night stop/no-Live directions are superseded only for this authorized slice; C1/P1-D not included.
 

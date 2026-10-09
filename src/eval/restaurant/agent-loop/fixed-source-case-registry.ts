@@ -1,5 +1,5 @@
 import type { DiagnosticFinding } from "./diagnostic-evaluator.js";
-import { loadFrozenLiveCases, type FrozenLiveCase, RESTAURANT_READ_DEVELOPMENT_CASE_PATH } from "./live-case-materializer.js";
+import { loadFrozenLiveCases, type FrozenLiveCase, RESTAURANT_READ_DEVELOPMENT_CASE_PATH, RESTAURANT_READ_DEVELOPMENT_DATASET_VERSION } from "./live-case-materializer.js";
 import type { CurrentDevelopmentScenarioId } from "./current-development-source-scenarios.js";
 
 export type FixedSourceExpectation = {
@@ -79,7 +79,7 @@ export const FIXED_SOURCE_CASE_REGISTRATIONS: readonly FixedSourceCaseRegistrati
       id: "explicit-two-omakase",
       content: "Give me 2 omakase restaurants near Shibuya tonight at 7 PM for two people.",
       reference_time: "2026-08-19T16:20:00+08:00",
-      dataset: "restaurant-read-development@6",
+      dataset: RESTAURANT_READ_DEVELOPMENT_DATASET_VERSION,
       semantic: {
         target: { goal: "AVAILABILITY", requestedResultCount: 2 },
         location: { value: "Shibuya", relation: "NEAR" },

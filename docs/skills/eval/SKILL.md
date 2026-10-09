@@ -5,7 +5,7 @@ description: 为Praxis模型和端到端质量定义独立oracle、证据、评�
 
 # Praxis Eval
 
-- Document revision: 1.2
+- Document revision: 1.3
 - Last updated: 2026-09-26
 
 Eval负责质量维度、证据/评分规格、比较方法和验收门槛；不替代[Test](../test/SKILL.md)的功能覆盖与故障关闭。产品语义和安全边界以Accepted ADR、Domain/Architecture为准；H001–H005当前执行输入、自动/人工边界和命令以[当前只读验收契约](../../../src/eval/restaurant/agent-loop/cases/README.md)为准。
@@ -79,3 +79,8 @@ npm run eval:restaurant:agent-loop:artifact -- <artifact.result.json>
 | 固定来源或Hybrid只读 | `npm run eval:restaurant:agent-loop:fixed-source-model` / `...:hybrid-live-read` | 前者受控来源，后者本次真实只读；都不证明预约成功 |
 
 真实模型、私有Holdout、Live和Controlled Live-write遵循当前合同、开关、用户授权和预算；开关不是授权。任何实际运行保留开始记录和结束/失败/取消记录，不覆盖已有artifact，也不得记录Secret、Cookie、挑战token、接管输入或原始Provider错误。具体功能验证按[Test](../test/SKILL.md)。
+
+
+## 当前餐厅默认数据集切换（2026-10-09）
+
+用户批准的 `restaurant-read-development@7` 是 H001–H005 默认输入，文件 `e2e-cases.gold7.yaml`。只改 H005 的30分钟即时窗口与验收，其他用例原条件不变；旧 `e2e-cases.yaml` / @6 留作 frozen regression，不改原文件或历史产物。Evaluator仍为@26、rubric@21；显式变体运行仍引用各自冻结原文和hash，不因默认Gold更新而重新标注它们。

@@ -21,7 +21,7 @@ import { composeNativeRestaurantRead } from "../../../../integrations/restaurant
 import { LiveBrowserAvailability } from "../../../../integrations/restaurant-availability/live-browser-availability.js";
 import type { TableCheckIdentityDiagnostic } from "../../../../integrations/tablecheck/tablecheck-contracts.js";
 import type { TabelogIdentityDiagnostic, TabelogUserInterventionRequired } from "../../../../integrations/tabelog/tabelog-contracts.js";
-import { loadFrozenLiveCases, materializeLiveCase, RESTAURANT_READ_DEVELOPMENT_CASE_PATH, RESTAURANT_READ_DEVELOPMENT_DATASET_VERSION } from "../live-case-materializer.js";
+import { loadFrozenLiveCases, materializeLiveCase, validDevelopmentVariantParent, RESTAURANT_READ_DEVELOPMENT_CASE_PATH, RESTAURANT_READ_DEVELOPMENT_DATASET_VERSION } from "../live-case-materializer.js";
 import { HIGASHI_GINZA_EVALUATION_LOCATION } from "../live-evaluation-location.js";
 import { requiresEvaluationLocation } from "../evaluation-location-selection.js";
 import { createHybridReadComposition } from "../hybrid-read-composition.js";
@@ -234,11 +234,8 @@ const customVariant = customCaseSourcePath !== undefined;
 const variantParent = frozen.parent;
 if (!customVariant && frozen.dataset !== RESTAURANT_READ_DEVELOPMENT_DATASET_VERSION) throw new Error("Development case dataset version does not match the Runner");
 if (customVariant) {
-  const parent = variantParent && typeof variantParent === "object" && !Array.isArray(variantParent) ? variantParent as Record<string, unknown> : undefined;
-  if (frozen.dataset !== "restaurant-read-development-variant@1"
-    || parent?.dataset !== RESTAURANT_READ_DEVELOPMENT_DATASET_VERSION
-    || parent.sha256 !== fileSha256(defaultSourcePath)) {
-    throw new Error("Custom case source must declare restaurant-read-development-variant@1 with the current development dataset parent and SHA-256");
+  if (frozen.dataset !== "restaurant-read-development-variant@1" || !await validDevelopmentVariantParent(variantParent)) {
+    throw new Error("Custom case source must declare restaurant-read-development-variant@1 with a retained development dataset parent and its exact SHA-256");
   }
 }
 if ((process.env.PRAXIS_EVAL_USER_LAT && !process.env.PRAXIS_EVAL_USER_LNG) || (!process.env.PRAXIS_EVAL_USER_LAT && process.env.PRAXIS_EVAL_USER_LNG)) {
