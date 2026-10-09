@@ -2,7 +2,7 @@
 
 - Status: Accepted
 - Document revision: 4.154
-- Last updated: 2026-10-08
+- Last updated: 2026-10-10
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
@@ -3179,3 +3179,8 @@ User approved G1 integration on 2026-10-09. Merge isolated branch with accepted 
 ## DEV-2026-10-09-GOLD7-DEFAULT
 
 User approved ADR-0039 and default restaurant-read-development@7 on 2026-10-09 after independent night review. Promote the separate Gold7 file (no draft executable duplicate); default loader/registry use it, Gold6 bytes retained unchanged. Materializer resolves both immediate window bounds from the original live reference; existing H001-H004 and literal user messages retained. Frozen variants still validate their declared retained parent dataset and exact SHA, rather than incorrectly requiring the new default parent. No variant, semantic prompt, qualification, evaluator or rubric change.
+
+
+## DEV-2026-10-10-G1b
+
+G1b reviewed static assets implemented; ADR-0036 supplement appended under user approval 10/10. Narrow source-owned CDN path/type admission, no runtime write expansion. Playbook 0.5 independent-review changes retained.

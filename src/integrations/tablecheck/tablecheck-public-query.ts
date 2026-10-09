@@ -8,6 +8,7 @@ import type { BrowserReadNetworkPolicy } from "../../infrastructure/browser/brow
 export const tableCheckPublicReadNetworkPolicy: BrowserReadNetworkPolicy = {
   documentOrigins: ["https://www.tablecheck.com"],
   staticResources: [
+    ...[0, 1, 2, 3].map(cdn => ({ origin: `https://cdn${cdn}.tablecheck.com`, pathnamePrefix: "/assets/table_check/", resourceTypes: ["script", "stylesheet", "font", "image"] as const, methods: ["GET", "HEAD"] as const })),
     { origin: "https://www.tablecheck.com", pathnamePrefix: "/portal/assets/", resourceTypes: ["script", "stylesheet"] },
     { origin: "https://cdn0.tablecheck.com", pathnamePrefix: "/common/", resourceTypes: ["script", "stylesheet", "font", "image", "fetch"] },
     ...["https://image.cdn.tablecheck.com", "https://1.image.cdn.tablecheck.com", "https://2.image.cdn.tablecheck.com", "https://3.image.cdn.tablecheck.com", "https://4.image.cdn.tablecheck.com"].map(origin => ({ origin, pathnamePrefix: "/unsafe/", resourceTypes: ["image"] as const })),

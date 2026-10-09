@@ -219,3 +219,7 @@ The final category-decision repair passes the real-model/fixed-source production
 用户于 2026-10-09 批准 [ADR-0036 补充](../decisions/0036-tablecheck-reserve-read-supplement.md)。当前 Guard 允许 TableCheck 生成器现有固定 `start_date` + `pax` GET document 形态；只读至日期、人数、时段列表。POST/HEAD、其他资源类型、额外/重复字段、后继/登录/确认路径和重定向仍拒绝，原链接带额外字段仍拒绝。身份、证据和交付资格门槛不变。权限实现和离线链路通过不代表真实来源验证。
 
 Harness 映射：`playwright-read-network-guard.test.ts` 的 `TableCheck admits only the generated reserve GET document and keeps write and sensitive shapes blocked`；两个 `native-discovery-composition.test.ts` reserve-menu 场景通过生产 Guard 检查文档 URL，固定查询正例交付、裸入口反例 UNKNOWN 且无合格展示。仅替换文档传输和页面状态；真实页面脚本/库存兼容性由获批 P1-E Live 独立汇报。
+
+### G1b TableCheck static resources (2026-10-10)
+
+Reviewed cdn0-3 /assets/table_check/ script/stylesheet/font/image GET/HEAD implemented. Guard Harness covers allowed resources, wrong path, POST, fetch, third-party analytics and cdn4 refusal. Offline red/green only; new Live rendering and inventory are NOT_RUN.

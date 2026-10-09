@@ -2,7 +2,7 @@
 
 - Status: Accepted
 - Document revision: 4.160
-- Last updated: 2026-10-08
+- Last updated: 2026-10-10
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
@@ -3863,3 +3863,8 @@ Gold7/red.log fails under old default. green.log verifies actual loader/material
 - kf-h001 preflight TableCheck 503 为 ENV_FAILURE，0 模型/0 Google/未生成 Hybrid result；唯一重跑 preflight 恢复后运行 294,992ms/50模型/6 Google，MODEL_CALL_BUDGET_EXHAUSTED、无展示，@26 qualified UNKNOWN。kf-h003 首次 99,986ms/32模型/0 Google，实际展示1家；@26 证据/调查/资源 SATISFIED，条件措辞待独立确认，qualified UNKNOWN。
 - 两次由现有 Runner 自动生成 evaluator@26，source SHA256 与执行产物一致。捕获 50/32 条等于模型计账，全部浏览器决策带观察和录制快照序号，capture errors=[]。录制仍 NOT_REPLAYABLE/UNSAFE_DOCUMENT，不当作完整回放验收；外部副作用数 NOT_MEASURED。
 - [报告与 result/decisions/recording/evaluation 路径](../../.eval-artifacts/p1-e-early-20261009/report.md)。原 Gold6/variants/见证/review 哈希未变，保留所有失败与成功产物。本轮无错误展示自动判定，终局质量待独立复核；不写归因 sidecar、不修复、不运行其余3例、不推送。四门禁沿用两项实现提交前结果（G1 778/778，Gold7 779/779），本记录仅同步事实。
+
+
+## TEST-2026-10-10-G1b
+
+Guard contract red reproduces abort of reservation assets; green all four CDNs and four types admitted, wrong path/POST/fetch/third-party/cdn4 rejected. Four gates PASS, logs G1b/typecheck.log, arch-check.log, test.log, build.log. Offline fixed transport, no real models or Live; rendering remains unverified.

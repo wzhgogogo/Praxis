@@ -449,3 +449,25 @@ test("TableCheck admits only the generated reserve GET document and keeps write 
   const redirect = fakeRoute({ url: generated, status: 302, responseHeaders: { location: "/en/shops/fixture-shop/reserve/confirm" } });
   await http(redirect.route); assert.deepEqual(redirect.calls, ["fetch:0:5000", "abort"]);
 });
+
+test("TableCheck reserve static assets admit only reviewed CDN paths and read resource types", async () => {
+  let http: (route: any) => Promise<void> = async () => assert.fail("route handler missing");
+  const guard = new PlaywrightReadNetworkGuard(tableCheckPublicReadNetworkPolicy);
+  await guard.install({ route: async (_pattern: string, handler: typeof http) => { http = handler; }, routeWebSocket: async () => {} } as any);
+  for (let cdn = 0; cdn <= 3; cdn++) {
+    for (const type of ["script", "stylesheet", "font", "image"]) {
+      const url = `https://cdn${cdn}.tablecheck.com/assets/table_check/public-file`;
+      const allowed = fakeRoute({ url, type });
+      await http(allowed.route);
+      assert.deepEqual(allowed.calls, ["fetch:0:5000", "fulfill"], `${cdn}/${type}`);
+      for (const shape of [{ url, method: "POST" }, { url: url.replace("table_check/", "private/") }, { url, type: "fetch" }]) {
+        const denied = fakeRoute({ type, ...shape });
+        await http(denied.route); assert.deepEqual(denied.calls, ["abort"]);
+      }
+    }
+  }
+  for (const url of ["https://www.googletagmanager.com/gtm.js?id=public", "https://browser.sentry-cdn.com/bundle.min.js", "https://cdn4.tablecheck.com/assets/table_check/app.js"]) {
+    const denied = fakeRoute({ url, type: "script" });
+    await http(denied.route); assert.deepEqual(denied.calls, ["abort"]);
+  }
+});

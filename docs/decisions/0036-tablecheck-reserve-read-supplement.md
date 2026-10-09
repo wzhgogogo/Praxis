@@ -1,8 +1,8 @@
 # ADR-0036 补充：预约入口的有限公共读取
 
 - Status: Accepted
-- Document revision: 1.0
-- Last updated: 2026-10-09
+- Document revision: 1.1
+- Last updated: 2026-10-10
 - Source of truth for: G1 公共预约入口的有限只读文档许可；用户 2026-10-09 批准
 - Related ADRs: [ADR-0036](0036-generic-public-read-network-policy.md)
 - Related documents: [Capability Matrix](../integrations/CAPABILITY-MATRIX.md)
@@ -22,3 +22,9 @@
 Guard 形态对照验证 GET document 放行；POST/HEAD/fetch、额外/重复/缺失参数、子路径、登录/确认段、其他来源、prepared 方法借用及确认重定向仍拒绝。两个 reserve-menu 组合场景用生产 PlaywrightReadNetworkGuard 和 composition 提供的 source-owned policy 检查每次模拟文档请求，再落到离线固定页面；分别验证事实先行/查位先行时固定查询可交付、裸入口在事实追读中拒绝且没有合格交付。网络传输与页面内容为 Fixture，不能证明真实页面库存或 JavaScript 请求兼容性。
 
 用户另行批准的 P1-E 两例只读 Live 用于核对当前来源效果，错误展示立即停批。运行报告和独立复核承担来源结论；Accepted 权限决定不等于已获得 Live 能力证明。
+
+## G1b 公共预约页静态资源（用户 2026-10-10 批准）
+
+独立复核在 kf-h003 #28 与 kf-h001 Sushi Teppen 录制中确认预约文档已放行，但 CDN 静态资源被拦导致空白。追加 source-owned 静态规则：仅 `https://cdn0.tablecheck.com` 至 `https://cdn3.tablecheck.com` 下 `/assets/table_check/` 的 script、stylesheet、font、image，方法 GET/HEAD。其他路径不因本规则获得许可，POST、fetch、document、cdn4 与第三方 googletagmanager/sentry 仍拒绝。旧 /common/ 独立规则不扩大。不得因此推进任何预约下一步。
+
+Guard 正反例验证所有四个 CDN 与四种资源类型及拒绝形态；来源响应为固定传输，只证明网络准入，不证明预约页完整渲染或库存。真实效果留待重新认证后的独立 Live。
