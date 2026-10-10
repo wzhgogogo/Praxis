@@ -210,7 +210,7 @@ export function immediateSourcesClosed(state: Readonly<RestaurantTaskState>): bo
   if (!state.intentDraft?.temporalResolution?.immediateAvailability || !intent?.date || !intent.timeWindow) return false;
   if (Object.values(state.availabilityChecks).some(check => check.status === "AVAILABLE")) return false;
   const checked = state.candidates.filter(candidate => state.factChecks?.[candidate.restaurant.id] || state.availabilityChecks[candidate.restaurant.id]);
-  return checked.length > 0 && checked.every(candidate => {
+  return checked.length >= 3 && checked.every(candidate => {
     const pages = restaurantCurrentFactEvidence(state, candidate.restaurant.id).filter(fact => fact.claims.observationKind === "PUBLIC_PAGE");
     const checkedIds = new Set(state.factChecks?.[candidate.restaurant.id]?.evidenceIds ?? []);
     const sourcePages = state.readEvidence.filter(item => item.candidateId === candidate.restaurant.id && item.kind === "ENTITY_MATCH"
@@ -282,7 +282,7 @@ export function assessRestaurantRead(state: Readonly<RestaurantTaskState>, now: 
   if (!refreshPending && !internalFailure && !relevantPresentation.some(item => item.eligible) && immediateSourcesClosed(state)) return {
     presentation, factInvestigableCandidateIds: [], checkableCandidateIds: [], investigationRecorded,
     canEndRead: true, unresolvedCandidateIds,
-    endReadReason: "IMMEDIATE_SOURCES_CLOSED: Every checked public page explicitly shows closed today or no opening period in the original immediate window. This concerns checked sources only; unexamined outlets remain unknown. Offer to search the nearest bookable time with a new user-approved window.",
+    endReadReason: "IMMEDIATE_SOURCES_CLOSED: At least three checked outlets and every checked public page explicitly show closed today or no opening period in the original immediate window. This concerns checked sources only; unexamined outlets remain unknown. Offer to search the nearest bookable time with a new user-approved window.",
   };
   const endWindow = state.readEndWindow;
   const reserve = endWindow && Date.parse(now) >= Date.parse(endWindow.openedAt) && Date.parse(now) <= Date.parse(endWindow.deadlineAt);

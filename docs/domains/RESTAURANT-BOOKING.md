@@ -252,4 +252,7 @@ Current read evidence may carry bounded `listedCourseDetails`: complete named pu
 C0c（用户 2026-10-10 批准）：共享预算剩余 ≤4 且无合格候选时，系统开启最长 45 秒的 `READ_END_WINDOW_OPENED`，Agent 可正常 END_READ。来源读取也保留最后四次调用；有合格候选仍按 C0 默认展示规则。结束记录逐店写已查/未查、未知原因、剩余证据与覆盖缺口，不得声称全部无位。Restaurant State@13 / TaskDefinition@12，旧本地开发 State@12 不兼容，使用既有显式 reset 协议，不增加兼容分支；本轮不重置数据。
 
 
-2026-10-10 C6a补充（离线）：零偏移“现在”请求中，只有所有已查门店及已查公共页面均有当前HIGH身份、与原日期/窗口绑定的明确当日关闭或窗口内无营业区间证据，才允许Agent提前END_READ并提供“最近可订时间”搜索选项；后者须用户重新批准窗口，不预先编造时间。未查门店仍未知；缺失/格式不明、不同星期、部分重叠、前日跨夜区间、冲突来源及仅API营业信息均不能触发。通用当前事实Grounding复用结构化与可见营业信息，无固定餐厅营业时段，不产生无位或HARD资格结论。Agent prompt@22/context@9，State@13不变。见[ADR-0039补充](../decisions/0039-immediate-thirty-minute-window.md)。
+2026-10-10 C6a补充（离线）：零偏移“现在”请求中，只有至少三家已查门店、且所有已查门店及已查公共页面均有当前HIGH身份、与原日期/窗口绑定的明确当日关闭或窗口内无营业区间证据，才允许Agent提前END_READ并提供“最近可订时间”搜索选项；后者须用户重新批准窗口，不预先编造时间。未查门店仍未知；缺失/格式不明、不同星期、部分重叠、前日跨夜区间、冲突来源及仅API营业信息均不能触发。通用当前事实Grounding复用结构化与可见营业信息，无固定餐厅营业时段，不产生无位或HARD资格结论。Agent prompt@22/context@9，State@13不变。见[ADR-0039补充](../decisions/0039-immediate-thirty-minute-window.md)。
+
+
+2026-10-10独立复核后C6a范围修正：至少三家已查门店明确在原窗口不营业，且所有已查门店/页面无营业或未知信息，才触发IMMEDIATE_SOURCES_CLOSED；仅一家休息店仍可继续读取。Agent prompt@23。ADR-0039原Retained limits语句已恢复，状态变化仅追加补充段。

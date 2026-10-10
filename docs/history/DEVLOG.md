@@ -3229,3 +3229,8 @@ C0c preserves four shared model calls for honest END_READ when no candidate is e
 ## DEV-2026-10-10-P1PRE-reserve-results
 
 Router对事实与查位采用同一门店完成检查点：保留量/交付时间触发时保留完整返回店的证据和结果，未完成店UNKNOWN/RESERVE_REACHED；已返回执行事件不再被continue丢弃，元数据记录触发原因及已完成店。
+
+
+## DEV-2026-10-10-P1PRE-C6a
+
+IMMEDIATE_SOURCES_CLOSED限制为至少三家已查门店全部明确不营业且无已查营业/未知；一家休息仍可继续查店。按用户要求恢复ADR-0039原句，范围调整仅追加补充。Agent Prompt@23。

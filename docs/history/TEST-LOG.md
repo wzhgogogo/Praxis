@@ -3913,3 +3913,8 @@ C3/red.log复现轮播属性变化导致人工帮助；green-final.log新增三�
 ## TEST-2026-10-10-P1PRE-reserve-results
 
 有效红灯red-mechanism.log复现首店结果丢失及整批未知。green-final.log 16/16，含三店调用保留、交付时间保留、零完成反例、事实路径及来源替代不复活对照。四门禁PASS：typecheck-final、arch-check、test-confirmed 802/802、build。初始合并丢失空失败来源绑定由完整门禁检出并修正；原日志保留。零真实模型/Live。
+
+
+## TEST-2026-10-10-P1PRE-C6a
+
+C6a/red.log复现单店休息提前结束；green.log原十一模式+单店/三店混合反例14/14，green-prompt.log 4/4。typecheck、arch:check、npm test-final 804/804、build PASS。初始Prompt常量断言失败保留test.log，已同步常量。零真实模型/Live。
