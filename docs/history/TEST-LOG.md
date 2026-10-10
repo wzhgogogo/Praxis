@@ -3973,3 +3973,8 @@ Red: red-contract.log (three compile omissions), red-changing-results.log (stale
 ## TEST-2026-10-10-P1D-kf-h005-retest
 
 冻结工作树四门禁通过（828 tests）；保留首次 503 红灯和恢复 206、正式运行绿灯。诊断 PENDING 42；页面等待 87873ms，绑定结果验证 2007ms，总计 89880ms（29.43%）。按域名及逐条 busy 拒绝、选店顺序与当时 sourceCategories 见 summary.json。Mock/Replay 不替代本次 Live 事实。
+
+
+## TEST-2026-10-10-P1D-replay-matching
+
+四门禁通过（832 tests）；两规则各正反例与未知字段/全标签预验证通过，旧实现错误放行的红灯保留。v6 原动作 132 条离线计分，1–128 与 v4/v5 无变化；0129/0130 失败，0131/0132 通过。保存的原样/注入 C8 输出 12/12 通过，新增真实调用 0。

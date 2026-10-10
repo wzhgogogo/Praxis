@@ -16,13 +16,13 @@ import { observedCandidateSourceCategories } from "../../../../domains/restauran
 import { RESTAURANT_AGENT_SOURCE_CATEGORY_INSTRUCTION } from "../../../../domains/restaurant/agent-decision.js";
 import type { RestaurantReadEvidence } from "../../../../domains/restaurant/contracts.js";
 
-interface ActionLabel { type: string; field?: string; direction?: string; targetLabel?: string | null; targetKind?: string | null; targetLabelPattern?: string; }
+export interface ActionLabel { type: string; field?: string; direction?: string; targetLabel?: string | null; targetKind?: string | null; targetLabelPattern?: string; candidateIds?: string[]; excludeCandidateIds?: string[]; candidateIdsExact?: string[]; }
 export interface ReplaySeed {
   seedId: string; level: "BROWSER" | "AGENT"; subCause: string; labelStatus: string;
   origin: { run: string; runArtifact: string; decisionIndex: number; recordingDir: string; recordingSnapshot?: number; observationRevision?: number; url?: string };
   recordedAction: ActionLabel; acceptableActions: ActionLabel[]; requires?: string[];
 }
-interface CapturedDecision {
+export interface CapturedDecision {
   startedAt?: string;
   sequence: number; purpose: string; promptVersion: string; messages: ModelRequest["messages"];
   outputSchema: ModelRequest["outputSchema"]; responseFormat: ModelRequest["responseFormat"];
@@ -44,10 +44,27 @@ export function categoryInjectedRequest(seed: ReplaySeed, row: CapturedDecision,
     }) };
 }
 export function acceptableReplayAction(action: ActionLabel, acceptable: ActionLabel): boolean {
+  validateReplayMatchFields(acceptable);
+  const selected = action.candidateIds === undefined ? undefined : new Set(action.candidateIds);
+  if (acceptable.excludeCandidateIds && (!selected || acceptable.excludeCandidateIds.some(id => selected.has(id)))) return false;
+  if (acceptable.candidateIdsExact) {
+    const exact = new Set(acceptable.candidateIdsExact);
+    if (!selected || selected.size !== exact.size || [...exact].some(id => !selected.has(id))) return false;
+  }
   return action.type === acceptable.type && (!acceptable.field || action.field === acceptable.field)
     && (!acceptable.direction || action.direction === acceptable.direction)
     && (!acceptable.targetKind || action.targetKind === acceptable.targetKind)
+    && (acceptable.targetLabel == null || action.targetLabel === acceptable.targetLabel)
     && (!acceptable.targetLabelPattern || new RegExp(acceptable.targetLabelPattern).test(action.targetLabel ?? ""));
+}
+
+/** Validate every label before any scoring or paid request, including entries after a matching alternative. */
+export function validateReplayMatchFields(acceptable: ActionLabel): void {
+  const fields = new Set(["type", "field", "direction", "targetLabel", "targetKind", "targetLabelPattern", "excludeCandidateIds", "candidateIdsExact"]);
+  for (const field of Object.keys(acceptable)) if (!fields.has(field)) throw new Error(`UNSUPPORTED_REPLAY_MATCH_FIELD:${field}`);
+  for (const field of ["excludeCandidateIds", "candidateIdsExact"] as const) {
+    if (acceptable[field] !== undefined && (!Array.isArray(acceptable[field]) || !acceptable[field]!.every(id => typeof id === "string"))) throw new Error(`INVALID_REPLAY_MATCH_FIELD:${field}`);
+  }
 }
 export function reproducesRecordedAction(action: ActionLabel, recorded: ActionLabel): boolean {
   return action.type === recorded.type && (!recorded.field || recorded.field === "NONE" || !/AUTHORITATIVE|CHOOSE_OPTION/.test(recorded.type) || action.field === recorded.field)
@@ -63,6 +80,15 @@ function browserLabel(text: string, input: BrowserReadDecisionInput): ActionLabe
   const target = "targetRef" in action ? input.observation.targets.find(target => target.ref === action.targetRef) : undefined;
   return { type: action.type, ...("field" in action ? { field: action.field } : {}), ...("direction" in action ? { direction: action.direction } : {}),
     ...(target ? { targetLabel: target.label, targetKind: target.kind } : {}) };
+}
+
+/** Score captured actions without a model request, using their original observed targets. */
+export function capturedReplayAction(seed: ReplaySeed, row: CapturedDecision): ActionLabel {
+  if (!row.outputText) throw new Error("CAPTURED_MODEL_OUTPUT_MISSING");
+  if (seed.level === "BROWSER") return browserLabel(row.outputText, userInput(row));
+  const canonical = normalizeRestaurantAgentActionStrictWire(JSON.parse(row.outputText));
+  if (!canonical.valid) throw new Error("INVALID_CAPTURED_AGENT_WIRE");
+  return canonical.value as ActionLabel;
 }
 /** Preceding captured steps, limited to the same source/stage/outlet read, not new executions. */
 export function capturedBrowserHistory(rows: CapturedDecision[], current: CapturedDecision) {
@@ -175,6 +201,7 @@ export async function runDecisionReplay(options: { mode: "original" | "rebuild" 
   await mkdir(options.outputDir, { recursive: true });
   const seedBytes = await readFile(options.seedsPath);
   const all = (JSON.parse(seedBytes.toString()) as { seeds: ReplaySeed[] }).seeds;
+  for (const seed of all) for (const expected of seed.acceptableActions) validateReplayMatchFields(expected);
   const seeds = all.filter(seed => !options.select || options.select.includes(seed.seedId));
   const rowsByPath = new Map<string, CapturedDecision[]>();
   const documentsByPath = new Map<string, Array<{ snapshot: number; file: string; url: string }>>();

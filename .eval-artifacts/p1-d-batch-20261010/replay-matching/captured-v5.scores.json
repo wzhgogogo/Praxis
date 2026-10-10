@@ -1,0 +1,1579 @@
+{
+  "realModelCalls": 0,
+  "total": 130,
+  "rows": [
+    {
+      "seedId": "p1-seed-0001",
+      "level": "BROWSER",
+      "subCause": "POSITIVE_CONTROL",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK_AUTHORITATIVE",
+        "field": "DATE",
+        "targetLabel": "Date 2026-10-22",
+        "targetKind": "BUTTON"
+      },
+      "passed": true
+    },
+    {
+      "seedId": "p1-seed-0002",
+      "level": "BROWSER",
+      "subCause": "ASYNC_SETTLE",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "REQUEST_HUMAN_HELP"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0003",
+      "level": "BROWSER",
+      "subCause": "POSITIVE_CONTROL",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "All",
+        "targetKind": "LINK"
+      },
+      "passed": true
+    },
+    {
+      "seedId": "p1-seed-0004",
+      "level": "BROWSER",
+      "subCause": "NO_ACTION_MEMORY",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "All",
+        "targetKind": "LINK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0005",
+      "level": "BROWSER",
+      "subCause": "MODEL_DECISION",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "Shibuya",
+        "targetKind": "LINK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0006",
+      "level": "BROWSER",
+      "subCause": "NO_ACTION_MEMORY",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "All",
+        "targetKind": "LINK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0007",
+      "level": "BROWSER",
+      "subCause": "REPETITIVE_STEPS",
+      "labelStatus": "NEEDS_INVESTIGATION",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "Search",
+        "targetKind": "BUTTON"
+      },
+      "passed": null
+    },
+    {
+      "seedId": "p1-seed-0008",
+      "level": "BROWSER",
+      "subCause": "REPETITIVE_STEPS",
+      "labelStatus": "NEEDS_INVESTIGATION",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "omakase",
+        "targetKind": "BUTTON"
+      },
+      "passed": null
+    },
+    {
+      "seedId": "p1-seed-0009",
+      "level": "BROWSER",
+      "subCause": "REPETITIVE_STEPS",
+      "labelStatus": "NEEDS_INVESTIGATION",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "Search",
+        "targetKind": "BUTTON"
+      },
+      "passed": null
+    },
+    {
+      "seedId": "p1-seed-0010",
+      "level": "BROWSER",
+      "subCause": "REPETITIVE_STEPS",
+      "labelStatus": "NEEDS_INVESTIGATION",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "Sushi Teppen(Shibuya)",
+        "targetKind": "BUTTON"
+      },
+      "passed": null
+    },
+    {
+      "seedId": "p1-seed-0011",
+      "level": "BROWSER",
+      "subCause": "REPETITIVE_STEPS",
+      "labelStatus": "NEEDS_INVESTIGATION",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "Search",
+        "targetKind": "BUTTON"
+      },
+      "passed": null
+    },
+    {
+      "seedId": "p1-seed-0012",
+      "level": "BROWSER",
+      "subCause": "POSITIVE_CONTROL",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK_AUTHORITATIVE",
+        "field": "DATE",
+        "targetLabel": "Date 2026-10-22",
+        "targetKind": "BUTTON"
+      },
+      "passed": true
+    },
+    {
+      "seedId": "p1-seed-0013",
+      "level": "BROWSER",
+      "subCause": "ASYNC_SETTLE",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK_AUTHORITATIVE",
+        "field": "DATE"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0014",
+      "level": "BROWSER",
+      "subCause": "MODEL_DECISION",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "REQUEST_HUMAN_HELP"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0015",
+      "level": "AGENT",
+      "subCause": "DELIVERY_POLICY",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:24adb19f5c7c523a54351787",
+          "praxis:restaurant:7077156cb85a5335f73cc50d",
+          "praxis:restaurant:6343d9d19c9b69881948e082"
+        ],
+        "decisionSummary": "One eligible candidate (Sushi Suga) with a fresh 19:00 slot for 2; batch target is 3, so check availability for the next unchecked Shibuya candidates."
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0016",
+      "level": "AGENT",
+      "subCause": "DELIVERY_POLICY",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:3c2b9cc8ef4fa8f7cfaa22d3",
+          "praxis:restaurant:553876f58ad15b3904b229a7",
+          "praxis:restaurant:0620f09395d30e156b85184c"
+        ],
+        "decisionSummary": "Only one eligible candidate so far; batch target is 3. Checking availability for three unchecked Shibuya candidates to find additional matching slots."
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0017",
+      "level": "BROWSER",
+      "subCause": "MODEL_DECISION",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "COMPLETE"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0018",
+      "level": "BROWSER",
+      "subCause": "MODEL_DECISION",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "COMPLETE"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0019",
+      "level": "BROWSER",
+      "subCause": "MODEL_DECISION",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "REQUEST_HUMAN_HELP"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0020",
+      "level": "BROWSER",
+      "subCause": "MODEL_DECISION",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "REQUEST_HUMAN_HELP"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0021",
+      "level": "BROWSER",
+      "subCause": "REPETITIVE_STEPS",
+      "labelStatus": "NEEDS_INVESTIGATION",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "Sushi Suga",
+        "targetKind": "BUTTON"
+      },
+      "passed": null
+    },
+    {
+      "seedId": "p1-seed-0022",
+      "level": "BROWSER",
+      "subCause": "REPETITIVE_STEPS",
+      "labelStatus": "NEEDS_INVESTIGATION",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "Search",
+        "targetKind": "BUTTON"
+      },
+      "passed": null
+    },
+    {
+      "seedId": "p1-seed-0023",
+      "level": "BROWSER",
+      "subCause": "MODEL_DECISION",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK_AUTHORITATIVE",
+        "field": "PARTY_SIZE",
+        "targetLabel": "Guests 4",
+        "targetKind": "BUTTON"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0024",
+      "level": "BROWSER",
+      "subCause": "ASYNC_SETTLE",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "REQUEST_HUMAN_HELP"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0025",
+      "level": "BROWSER",
+      "subCause": "MODEL_DECISION",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK_AUTHORITATIVE",
+        "field": "DATE",
+        "targetLabel": "Date 2026-10-12",
+        "targetKind": "BUTTON"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0026",
+      "level": "BROWSER",
+      "subCause": "MODEL_DECISION",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK_AUTHORITATIVE",
+        "field": "DATE",
+        "targetLabel": "Date 2026-10-24",
+        "targetKind": "BUTTON"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0027",
+      "level": "BROWSER",
+      "subCause": "MODEL_DECISION",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK_AUTHORITATIVE",
+        "field": "DATE",
+        "targetLabel": "Date 2026-10-09",
+        "targetKind": "BUTTON"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0028",
+      "level": "BROWSER",
+      "subCause": "POSITIVE_CONTROL",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK_AUTHORITATIVE",
+        "field": "DATE",
+        "targetLabel": "Date 2026-10-24",
+        "targetKind": "BUTTON"
+      },
+      "passed": true
+    },
+    {
+      "seedId": "p1-seed-0029",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "",
+        "targetKind": "BUTTON"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0030",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0031",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0032",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "Time",
+        "targetKind": "BUTTON"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0033",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0034",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0035",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0036",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0037",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0038",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0039",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0040",
+      "level": "BROWSER",
+      "subCause": "POSITIVE_CONTROL",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CHOOSE_OPTION",
+        "field": "PARTY_SIZE",
+        "targetLabel": "10 guests",
+        "targetKind": "OPTION"
+      },
+      "passed": true
+    },
+    {
+      "seedId": "p1-seed-0041",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "",
+        "targetKind": "BUTTON"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0042",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0043",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0044",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0045",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0046",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0047",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "Time",
+        "targetKind": "BUTTON"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0048",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "Time",
+        "targetKind": "BUTTON"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0049",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "",
+        "targetKind": "BUTTON"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0050",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0051",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0052",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0053",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "Time",
+        "targetKind": "BUTTON"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0054",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0055",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0056",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "",
+        "targetKind": "BUTTON"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0057",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0058",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0059",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0060",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "Time",
+        "targetKind": "BUTTON"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0061",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0062",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0063",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0064",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0065",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "Time",
+        "targetKind": "BUTTON"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0066",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "",
+        "targetKind": "BUTTON"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0067",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0068",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0069",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "Time",
+        "targetKind": "BUTTON"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0070",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0071",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0072",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0073",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0074",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0075",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "Time",
+        "targetKind": "BUTTON"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0076",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "",
+        "targetKind": "BUTTON"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0077",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0078",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0079",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0080",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0081",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0082",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0083",
+      "level": "BROWSER",
+      "subCause": "OBSERVATION_GAP",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0084",
+      "level": "BROWSER",
+      "subCause": "POSITIVE_CONTROL",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CHOOSE_OPTION",
+        "field": "PARTY_SIZE",
+        "targetLabel": "10 guests",
+        "targetKind": "OPTION"
+      },
+      "passed": true
+    },
+    {
+      "seedId": "p1-seed-0085",
+      "level": "BROWSER",
+      "subCause": "POSITIVE_CONTROL",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CHOOSE_OPTION",
+        "field": "TIME",
+        "targetLabel": "17:30",
+        "targetKind": "OPTION"
+      },
+      "passed": true
+    },
+    {
+      "seedId": "p1-seed-0086",
+      "level": "AGENT",
+      "subCause": "STRICT_GATE_UNKNOWN",
+      "labelStatus": "SUPERSEDED_BY_CONTRACT",
+      "action": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:85822d178d108aa0d1d907e5",
+          "praxis:restaurant:388841b862d137d82e9bd0a7",
+          "praxis:restaurant:d169be2e3b0db364a006667c"
+        ],
+        "decisionSummary": "Immediate request expired for all prior checks; no eligible candidates. Checking availability for three promising known candidates (open-hours match) to obtain fresh request-bound slots for the 4-person immediate request."
+      },
+      "passed": null
+    },
+    {
+      "seedId": "p1-seed-0087",
+      "level": "AGENT",
+      "subCause": "STRICT_GATE_UNKNOWN",
+      "labelStatus": "SUPERSEDED_BY_CONTRACT",
+      "action": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:47f2d02a0a779468fa0f4037",
+          "praxis:restaurant:fcc9d69c3db2d5ec8ebbd96f",
+          "praxis:restaurant:007ba8cae42625c538331dfb"
+        ],
+        "decisionSummary": "All prior availability reads expired (IMMEDIATE_REQUEST_EXPIRED) and no candidate is currently eligible. Proceeding with a bounded availability read on unchecked candidates to obtain request-bound slots for the 4-person immediate request."
+      },
+      "passed": null
+    },
+    {
+      "seedId": "p1-seed-0088",
+      "level": "AGENT",
+      "subCause": "STRICT_GATE_UNKNOWN",
+      "labelStatus": "SUPERSEDED_BY_CONTRACT",
+      "action": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:a1ffb335357a32096affd6bb",
+          "praxis:restaurant:5968156336f9ad778b5c0bd9",
+          "praxis:restaurant:33e888688dffcf3bf7cf13bd"
+        ],
+        "decisionSummary": "All prior availability observations expired; no eligible candidates. Checking fresh request-bound availability for three unchecked nearby candidates to build the default batch of 3."
+      },
+      "passed": null
+    },
+    {
+      "seedId": "p1-seed-0089",
+      "level": "AGENT",
+      "subCause": "STRICT_GATE_UNKNOWN",
+      "labelStatus": "SUPERSEDED_BY_CONTRACT",
+      "action": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:42d3d1d61fdeb25425869529",
+          "praxis:restaurant:6e357eb5908d4857a27f63d5",
+          "praxis:restaurant:2d4bcba87b98334e7ef0abfb"
+        ],
+        "decisionSummary": "No eligible candidates yet; all prior availability observations expired. Checking fresh request-bound availability for three unchecked candidates to satisfy the AVAILABILITY goal."
+      },
+      "passed": null
+    },
+    {
+      "seedId": "p1-seed-0090",
+      "level": "AGENT",
+      "subCause": "STRICT_GATE_UNKNOWN",
+      "labelStatus": "SUPERSEDED_BY_CONTRACT",
+      "action": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:98d91d430426c22c5f366166",
+          "praxis:restaurant:dfb1d64521038ac5e638243f",
+          "praxis:restaurant:4aa8a96546ebe1d7dd15defa"
+        ],
+        "decisionSummary": "No eligible candidates yet; all prior availability reads expired. Checking fresh request-bound availability for three unchecked candidates to build the default batch of 3."
+      },
+      "passed": null
+    },
+    {
+      "seedId": "p1-seed-0091",
+      "level": "AGENT",
+      "subCause": "STRICT_GATE_UNKNOWN",
+      "labelStatus": "SUPERSEDED_BY_CONTRACT",
+      "action": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:3e44f33fd1e8dedf56da5c98",
+          "praxis:restaurant:284519086f37a7c8ebe2e247",
+          "praxis:restaurant:0b0cea8532ca1860020245a3"
+        ],
+        "decisionSummary": "All prior availability observations expired; no eligible candidates. Checking fresh availability for three unchecked candidates to pursue the AVAILABILITY goal."
+      },
+      "passed": null
+    },
+    {
+      "seedId": "p1-seed-0092",
+      "level": "AGENT",
+      "subCause": "STRICT_GATE_UNKNOWN",
+      "labelStatus": "SUPERSEDED_BY_CONTRACT",
+      "action": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:ebae1dc0e402741c0bfffd0f",
+          "praxis:restaurant:56352aade4b6c6bd987e5bd4",
+          "praxis:restaurant:768c21dcfe69d71e09efe4d8"
+        ],
+        "decisionSummary": "All prior availability observations expired; no eligible candidates. Checking fresh availability for the first batch of unchecked candidates to satisfy the AVAILABILITY goal and 3-result batch target."
+      },
+      "passed": null
+    },
+    {
+      "seedId": "p1-seed-0093",
+      "level": "AGENT",
+      "subCause": "STRICT_GATE_UNKNOWN",
+      "labelStatus": "SUPERSEDED_BY_CONTRACT",
+      "action": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:3d30029361dfe167cda66641",
+          "praxis:restaurant:60a7c2f24fec84de13cb7072",
+          "praxis:restaurant:37ea1448e034f7777dc3a71d"
+        ],
+        "decisionSummary": "All prior availability observations expired; check fresh request-bound availability for three unchecked candidates to build the default batch of 3."
+      },
+      "passed": null
+    },
+    {
+      "seedId": "p1-seed-0094",
+      "level": "AGENT",
+      "subCause": "STRICT_GATE_UNKNOWN",
+      "labelStatus": "SUPERSEDED_BY_CONTRACT",
+      "action": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:786a9aabfea9e19998399dc2",
+          "praxis:restaurant:2fb5d6a0ad80ab9ddec0ec28",
+          "praxis:restaurant:0222931cbf3ec6ff6fa30e3d"
+        ],
+        "decisionSummary": "All prior availability observations expired; check fresh request-bound availability for the first three unchecked candidates to build the default batch of 3."
+      },
+      "passed": null
+    },
+    {
+      "seedId": "p1-seed-0095",
+      "level": "AGENT",
+      "subCause": "STRICT_GATE_UNKNOWN",
+      "labelStatus": "SUPERSEDED_BY_CONTRACT",
+      "action": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:bb39d0ad829c98f1c72e0168",
+          "praxis:restaurant:0d21e37c22116c6c619686e5",
+          "praxis:restaurant:83eac385777f48677d465fd4"
+        ],
+        "decisionSummary": "All prior availability observations expired (IMMEDIATE_REQUEST_EXPIRED) and no candidate is presentable. The only legal availability reads are the six unchecked candidates; check the first three to obtain fresh request-bound slots and source facts."
+      },
+      "passed": null
+    },
+    {
+      "seedId": "p1-seed-0096",
+      "level": "AGENT",
+      "subCause": "STRICT_GATE_UNKNOWN",
+      "labelStatus": "SUPERSEDED_BY_CONTRACT",
+      "action": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:6e357eb5908d4857a27f63d5",
+          "praxis:restaurant:d6bcac405b94123c641d5dcb",
+          "praxis:restaurant:8125d53c64b38019bcce0e7f"
+        ],
+        "decisionSummary": "All prior availability observations expired; no eligible candidates. Checking fresh request-bound availability for three nearby candidates to obtain current slots plus source facts."
+      },
+      "passed": null
+    },
+    {
+      "seedId": "p1-seed-0097",
+      "level": "AGENT",
+      "subCause": "STRICT_GATE_UNKNOWN",
+      "labelStatus": "SUPERSEDED_BY_CONTRACT",
+      "action": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:5008a3c0f94963b172f60d2d",
+          "praxis:restaurant:4aa8a96546ebe1d7dd15defa",
+          "praxis:restaurant:83f655873bfeb28ea0779e56"
+        ],
+        "decisionSummary": "No eligible presentation yet; all prior availability observations expired. Checking fresh request-bound availability for three unchecked nearby candidates to obtain current slots plus source facts."
+      },
+      "passed": null
+    },
+    {
+      "seedId": "p1-seed-0098",
+      "level": "AGENT",
+      "subCause": "STRICT_GATE_UNKNOWN",
+      "labelStatus": "SUPERSEDED_BY_CONTRACT",
+      "action": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:0b0cea8532ca1860020245a3",
+          "praxis:restaurant:ec566a91d451c8507d3c4349",
+          "praxis:restaurant:ebae1dc0e402741c0bfffd0f"
+        ],
+        "decisionSummary": "All prior availability observations expired (IMMEDIATE_REQUEST_EXPIRED) and no candidate is currently eligible. Checking fresh request-bound availability for the first three checkable candidates to obtain current slots plus source facts for the AVAILABILITY goal."
+      },
+      "passed": null
+    },
+    {
+      "seedId": "p1-seed-0099",
+      "level": "AGENT",
+      "subCause": "STRICT_GATE_UNKNOWN",
+      "labelStatus": "SUPERSEDED_BY_CONTRACT",
+      "action": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:75ec0c794e3903b96a00dfdb",
+          "praxis:restaurant:d5ab143feea2c41f974db425",
+          "praxis:restaurant:fcac212bc36288a0a48e54ea"
+        ],
+        "decisionSummary": "No eligible candidates yet; all prior availability observations expired. Checking fresh request-bound availability for the first three checkable candidates to pursue the AVAILABILITY goal."
+      },
+      "passed": null
+    },
+    {
+      "seedId": "p1-seed-0100",
+      "level": "AGENT",
+      "subCause": "STRICT_GATE_UNKNOWN",
+      "labelStatus": "SUPERSEDED_BY_CONTRACT",
+      "action": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:1afcc144ecd9e822f39f3ba5",
+          "praxis:restaurant:b7ba97eb56bea216860a1b2d",
+          "praxis:restaurant:47f73411a317ad33ad4c472f"
+        ],
+        "decisionSummary": "All prior availability observations expired; check fresh request-bound availability for the first three unchecked candidates."
+      },
+      "passed": null
+    },
+    {
+      "seedId": "p1-seed-0101",
+      "level": "AGENT",
+      "subCause": "STRICT_GATE_UNKNOWN",
+      "labelStatus": "SUPERSEDED_BY_CONTRACT",
+      "action": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:dd3e3b63e22a90e9b69d45e0",
+          "praxis:restaurant:5f392ea172f651bd3eff51ad",
+          "praxis:restaurant:27f7576f57cca8d5253eb30c"
+        ],
+        "decisionSummary": "All prior availability observations expired; no eligible candidates. Checking fresh request-bound availability for three unchecked candidates to pursue the 3-result batch target."
+      },
+      "passed": null
+    },
+    {
+      "seedId": "p1-seed-0102",
+      "level": "AGENT",
+      "subCause": "STRICT_GATE_UNKNOWN",
+      "labelStatus": "SUPERSEDED_BY_CONTRACT",
+      "action": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:5f66bda00e5c91b4d6c65e5e",
+          "praxis:restaurant:bf0e3d28f5084d3c89d9ad1b",
+          "praxis:restaurant:eaa059c8df5b9580a8173e67"
+        ],
+        "decisionSummary": "All prior availability observations expired; no eligible candidates yet. Checking fresh request-bound availability for three unchecked candidates to build the default first batch."
+      },
+      "passed": null
+    },
+    {
+      "seedId": "p1-seed-0103",
+      "level": "AGENT",
+      "subCause": "STRICT_GATE_UNKNOWN",
+      "labelStatus": "SUPERSEDED_BY_CONTRACT",
+      "action": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:ce922b3b3b94e3e14c527767",
+          "praxis:restaurant:0d21e37c22116c6c619686e5",
+          "praxis:restaurant:64245815e6519d24ccb730bc"
+        ],
+        "decisionSummary": "All prior availability reads expired (IMMEDIATE_REQUEST_EXPIRED) and no candidate is currently eligible. Checking fresh request-bound availability for the first three checkable candidates to obtain current slots plus source facts."
+      },
+      "passed": null
+    },
+    {
+      "seedId": "p1-seed-0104",
+      "level": "AGENT",
+      "subCause": "STRICT_GATE_UNKNOWN",
+      "labelStatus": "SUPERSEDED_BY_CONTRACT",
+      "action": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:d169be2e3b0db364a006667c",
+          "praxis:restaurant:5d80ac95c7a71e3854033b6c",
+          "praxis:restaurant:a481124c00390a9d08aa5e72"
+        ],
+        "decisionSummary": "All prior availability observations expired; no eligible candidates. Checking fresh availability for three unchecked candidates to satisfy the AVAILABILITY goal and result batch target of 3."
+      },
+      "passed": null
+    },
+    {
+      "seedId": "p1-seed-0105",
+      "level": "AGENT",
+      "subCause": "STRICT_GATE_UNKNOWN",
+      "labelStatus": "SUPERSEDED_BY_CONTRACT",
+      "action": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:388841b862d137d82e9bd0a7",
+          "praxis:restaurant:37ea1448e034f7777dc3a71d",
+          "praxis:restaurant:0ca74fe22823fea06cdbeb61"
+        ],
+        "decisionSummary": "All prior availability reads expired; check fresh request-bound availability for three unchecked candidates to supply both slots and source facts."
+      },
+      "passed": null
+    },
+    {
+      "seedId": "p1-seed-0106",
+      "level": "AGENT",
+      "subCause": "STRICT_GATE_UNKNOWN",
+      "labelStatus": "SUPERSEDED_BY_CONTRACT",
+      "action": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:e321376c756575e176b08571",
+          "praxis:restaurant:0ebfb0719ca31b1bc04bc4e0",
+          "praxis:restaurant:bb39d0ad829c98f1c72e0168"
+        ],
+        "decisionSummary": "All prior availability observations expired; check fresh request-bound availability for the first three unchecked candidates."
+      },
+      "passed": null
+    },
+    {
+      "seedId": "p1-seed-0107",
+      "level": "BROWSER",
+      "subCause": "POSITIVE_CONTROL",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "All",
+        "targetKind": "LINK"
+      },
+      "passed": true
+    },
+    {
+      "seedId": "p1-seed-0108",
+      "level": "BROWSER",
+      "subCause": "NO_ACTION_MEMORY",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "All",
+        "targetKind": "LINK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0109",
+      "level": "BROWSER",
+      "subCause": "NO_ACTION_MEMORY",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "Shibuya",
+        "targetKind": "LINK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0110",
+      "level": "BROWSER",
+      "subCause": "NO_ACTION_MEMORY",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "All",
+        "targetKind": "LINK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0111",
+      "level": "BROWSER",
+      "subCause": "RETRIEVAL_TERMS",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "All",
+        "targetKind": "LINK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0112",
+      "level": "BROWSER",
+      "subCause": "NO_ACTION_MEMORY",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "All",
+        "targetKind": "LINK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0113",
+      "level": "BROWSER",
+      "subCause": "NO_ACTION_MEMORY",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "More filters",
+        "targetKind": "LINK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0114",
+      "level": "BROWSER",
+      "subCause": "NO_ACTION_MEMORY",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "All",
+        "targetKind": "LINK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0115",
+      "level": "BROWSER",
+      "subCause": "NO_ACTION_MEMORY",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "All",
+        "targetKind": "LINK"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0116",
+      "level": "BROWSER",
+      "subCause": "ASYNC_SETTLE",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "Search",
+        "targetKind": "BUTTON"
+      },
+      "passed": true
+    },
+    {
+      "seedId": "p1-seed-0117",
+      "level": "BROWSER",
+      "subCause": "ASYNC_SETTLE",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "Search",
+        "targetKind": "BUTTON"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0118",
+      "level": "BROWSER",
+      "subCause": "ASYNC_SETTLE",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "Search",
+        "targetKind": "BUTTON"
+      },
+      "passed": true
+    },
+    {
+      "seedId": "p1-seed-0119",
+      "level": "BROWSER",
+      "subCause": "ASYNC_SETTLE",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "鮨とみなか Sushi Tominaka",
+        "targetKind": "BUTTON"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0120",
+      "level": "BROWSER",
+      "subCause": "POSITIVE_CONTROL",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "REQUEST_HUMAN_HELP"
+      },
+      "passed": true
+    },
+    {
+      "seedId": "p1-seed-0121",
+      "level": "BROWSER",
+      "subCause": "ASYNC_SETTLE",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "Search",
+        "targetKind": "BUTTON"
+      },
+      "passed": true
+    },
+    {
+      "seedId": "p1-seed-0122",
+      "level": "BROWSER",
+      "subCause": "ASYNC_SETTLE",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "Search",
+        "targetKind": "BUTTON"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0123",
+      "level": "BROWSER",
+      "subCause": "ASYNC_SETTLE",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "Search",
+        "targetKind": "BUTTON"
+      },
+      "passed": true
+    },
+    {
+      "seedId": "p1-seed-0124",
+      "level": "BROWSER",
+      "subCause": "ASYNC_SETTLE",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "Sushi Suga",
+        "targetKind": "BUTTON"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0125",
+      "level": "BROWSER",
+      "subCause": "ASYNC_SETTLE",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "Search",
+        "targetKind": "BUTTON"
+      },
+      "passed": true
+    },
+    {
+      "seedId": "p1-seed-0126",
+      "level": "BROWSER",
+      "subCause": "ASYNC_SETTLE",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "Search",
+        "targetKind": "BUTTON"
+      },
+      "passed": true
+    },
+    {
+      "seedId": "p1-seed-0127",
+      "level": "BROWSER",
+      "subCause": "ASYNC_SETTLE",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "OKANOUE",
+        "targetKind": "BUTTON"
+      },
+      "passed": false
+    },
+    {
+      "seedId": "p1-seed-0128",
+      "level": "BROWSER",
+      "subCause": "ASYNC_SETTLE",
+      "labelStatus": "FROZEN",
+      "action": {
+        "type": "CLICK",
+        "targetLabel": "Search",
+        "targetKind": "BUTTON"
+      },
+      "passed": true
+    },
+    {
+      "seedId": "p1-seed-0129",
+      "level": "AGENT",
+      "subCause": "CANDIDATE_CATEGORY_SELECTION",
+      "labelStatus": "IMPLEMENTER_PROPOSED_PENDING_INDEPENDENT_LABEL",
+      "action": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:fcc9d69c3db2d5ec8ebbd96f",
+          "praxis:restaurant:007ba8cae42625c538331dfb",
+          "praxis:restaurant:33e888688dffcf3bf7cf13bd"
+        ],
+        "decisionSummary": "AVAILABILITY goal with no fresh slots yet; check the first three checkable candidates for the authoritative 2026-10-21 18:00 party of 4."
+      },
+      "passed": null
+    },
+    {
+      "seedId": "p1-seed-0130",
+      "level": "AGENT",
+      "subCause": "CANDIDATE_CATEGORY_SELECTION",
+      "labelStatus": "IMPLEMENTER_PROPOSED_PENDING_INDEPENDENT_LABEL",
+      "action": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:6e357eb5908d4857a27f63d5",
+          "praxis:restaurant:47f2d02a0a779468fa0f4037",
+          "praxis:restaurant:2d4bcba87b98334e7ef0abfb"
+        ],
+        "decisionSummary": "First three candidates returned UNKNOWN availability (source failures). Proceeding with a bounded availability read on the next three unchecked candidates to pursue the AVAILABILITY goal and the 3-result batch target."
+      },
+      "passed": null
+    }
+  ]
+}

@@ -5,6 +5,33 @@ import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { runDecisionReplay, acceptableReplayAction, reproducesRecordedAction, rebuildBrowserInput, type ReplaySeed } from "./runners/run-decision-replay.js";
 
+test("replay excludeCandidateIds rejects intersections and accepts disjoint candidate sets", () => {
+  const expected = { type: "CHECK_AVAILABILITY", excludeCandidateIds: ["excluded"] };
+  assert.equal(acceptableReplayAction({ type: "CHECK_AVAILABILITY", candidateIds: ["eligible"] }, expected), true);
+  assert.equal(acceptableReplayAction({ type: "CHECK_AVAILABILITY", candidateIds: ["eligible", "excluded"] }, expected), false);
+  assert.equal(acceptableReplayAction({ type: "CHECK_AVAILABILITY" }, expected), false, "missing selected candidates cannot establish disjointness");
+});
+
+test("replay candidateIdsExact compares sets independently of order and rejects missing or extra candidates", () => {
+  const expected = { type: "PRESENT_RESULTS", candidateIdsExact: ["a", "b"] };
+  assert.equal(acceptableReplayAction({ type: "PRESENT_RESULTS", candidateIds: ["b", "a"] }, expected), true);
+  assert.equal(acceptableReplayAction({ type: "PRESENT_RESULTS", candidateIds: ["a", "b", "extra"] }, expected), false);
+  assert.equal(acceptableReplayAction({ type: "PRESENT_RESULTS", candidateIds: ["a"] }, expected), false);
+});
+
+test("replay rejects unknown match fields rather than ignoring their requirements", () => {
+  assert.throws(() => acceptableReplayAction({ type: "WAIT" }, JSON.parse('{"type":"WAIT","futureMatchRule":true}')), /UNSUPPORTED_REPLAY_MATCH_FIELD:futureMatchRule/);
+});
+
+test("replay validates every matching alternative before any model call", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "replay-invalid-label-"));
+  const seed = { seedId: "invalid", level: "BROWSER", subCause: "FIXTURE", labelStatus: "FROZEN", origin: { run: "fixture", runArtifact: "unused.jsonl", decisionIndex: 1, recordingDir: "none" }, recordedAction: { type: "WAIT" }, acceptableActions: [{ type: "WAIT" }, { type: "WAIT", futureMatchRule: true }] };
+  await writeFile(join(directory, "seeds.json"), JSON.stringify({ seeds: [seed] }));
+  let calls = 0;
+  await assert.rejects(() => runDecisionReplay({ mode: "original", seedsPath: join(directory, "seeds.json"), sourceRoot: directory, outputDir: join(directory, "out"), budgetPath: join(directory, "budget.json"), item: "fixture", round: 1, gateway: { async complete() { calls++; throw new Error("must not call"); } } }), /UNSUPPORTED_REPLAY_MATCH_FIELD:futureMatchRule/);
+  assert.equal(calls, 0);
+});
+
 test("P1-B original replay preserves complete captured messages and counts the failed call once", async () => {
   const directory = await mkdtemp(join(tmpdir(), "decision-replay-"));
   const messages = [{ role: "system" as const, content: "captured system\nunchanged" }, { role: "user" as const, content: JSON.stringify({ source: "FIXTURE", stage: "AVAILABILITY", goal: { outlet: { name: "Fixture" } }, observation: { revision: 7, url: "https://fixture.example", targets: [] } }) }];

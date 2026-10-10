@@ -3289,3 +3289,8 @@ Require every completed browser predicate to declare its bound result key and bu
 ## DEV-2026-10-10-P1D-kf-h005-retest
 
 冻结 920bad9 在干净宿主机工作树完成一次 kf-h005 复测；首次 preflight 503，恢复后使用一次环境重跑。305451ms、47 模型、Google 0；evaluator@27 合格交付 YES，展示 Sushi Ito Akasaka。见证原始 GET 响应结束后 2 秒内保存，不作归因。
+
+
+## DEV-2026-10-10-P1D-replay-matching
+
+Replay Runner 支持 seeds.v6 的排除集合和精确候选集合匹配；未知字段在任何模型调用前硬失败。用保存的 C8 输出和原 Live 动作离线计分，不新增模型调用。
