@@ -7,6 +7,8 @@
 
 ## 当前门槛
 
+- **2026-10-10 P1C3B-Recorder：** Recorder 保存所有 Guard 放行且通过现有安全检查的实际 stylesheet 响应，包括通用 GET；录制回调补 resourceType，Runtime/Guard 准入行为不变。保留 CSS UTF-8 BOM，保存快照中的已加载 CSS URL。 本批等待独立复核，不运行整单 Live；不推送。证据目录 `.eval-artifacts/p1-c3b-20261010/Recorder/`。
+
 - **2026-10-10 P1C3B-C8：** C8 已向 Agent 上下文加入来源类别观察（Google 类型与来源列表类别），Prompt@24 / Context@10；仅影响选店优先级，不改变资格、HARD 或候选合法动作。新增 seeds.v5 两条目标种子待独立标注。 本批等待独立复核，不运行整单 Live；不推送。证据目录 `.eval-artifacts/p1-c3b-20261010/C8/`。
 
 - **2026-10-10 P1C3B-C2a：** 通用可见日历按caption月份/年份与真实格子日期暴露不可操作观察，DATE_NOT_SELECTABLE不建立无位；查位普通CLICK不得切到非请求日期。请求人数已确认且日期不可选时一次决策后以UNKNOWN原因结束；请求日期可选路径不变。 本批等待独立复核，不运行整单 Live；不推送。证据目录 `.eval-artifacts/p1-c3b-20261010/C2a/`。

@@ -3269,3 +3269,8 @@ evaluator@27按C0c区分已查、已发现和未解决集合；核验实际读�
 ## DEV-2026-10-10-P1C3B-C8
 
 C8 已向 Agent 上下文加入来源类别观察（Google 类型与来源列表类别），Prompt@24 / Context@10；仅影响选店优先级，不改变资格、HARD 或候选合法动作。新增 seeds.v5 两条目标种子待独立标注。
+
+
+## DEV-2026-10-10-P1C3B-Recorder
+
+Recorder 保存所有 Guard 放行且通过现有安全检查的实际 stylesheet 响应，包括通用 GET；录制回调补 resourceType，Runtime/Guard 准入行为不变。保留 CSS UTF-8 BOM，保存快照中的已加载 CSS URL。

@@ -14,8 +14,9 @@ export interface BrowserReadRecordingResult { path: string; screenshot: "LAYOUT_
 export interface BrowserReadRecordingOptions {
   directory: string; runId: string;
   /**
-   * Public static code may be replayed only when the source Pack already
-   * admitted its origin, path grammar and cache-buster keys.  The recorder
+   * Public JavaScript may be replayed only when the source Pack already
+   * admitted its origin, path grammar and cache-buster keys. Guard-admitted
+   * stylesheets use the existing bounded public-code safety checks. The recorder
    * receives no headers, cookies or request body, and does not alter code.
   */
   reviewedStaticResources?: readonly BrowserReadNetworkRequestRule[];
@@ -27,6 +28,8 @@ export interface BrowserReadRecordingOptions {
 export class BrowserReadRecording {
   private readonly entries: BrowserReadRecordingEntry[] = [];
   private readonly stylesheets = new Map<string, string>();
+  /** Recording-only exact URLs; these never change the Runtime or Guard policy. */
+  private readonly loadedStylesheetRules: BrowserReadNetworkRequestRule[] = [];
   private readonly documents = new Map<string, string>();
   private readonly documentSnapshots: Array<{ snapshot: number; url: string; html: string }> = [];
   private readonly responses = new Map<string, { method: "GET" | "HEAD"; status: number; mimeType: string; text: string; redirectLocation?: string }>();
@@ -51,13 +54,19 @@ export class BrowserReadRecording {
   /** Lets a runner retain its single canonical trace while supplying captured documents to this recorder. */
   snapshotSink(): BrowserTraceRecordingSink { return { record: () => undefined, recordSnapshot: snapshot => this.recordSnapshot(snapshot), recordResponse: response => this.recordResponse(response), captureScreenshot: (png, disposition) => this.captureScreenshot(png, disposition) }; }
   recordNetwork(requests: readonly BrowserReadNetworkObservation[]): void { this.record("NETWORK", requests.map(item => ({ outcome: item.outcome, origin: item.origin, pathname: item.pathname, method: item.method, resourceType: item.resourceType, queryKeys: [...item.queryKeys] }))); }
-  async recordResponse(response: { url: string; method: string; status: number; contentType: string; body: Uint8Array; redirectLocation?: string }): Promise<void> {
+  async recordResponse(response: { url: string; method: string; resourceType: string; status: number; contentType: string; body: Uint8Array; redirectLocation?: string }): Promise<void> {
     if (this.finished) throw new Error("Browser recording is already finalized");
-    const url = safeReplayUrl(response.url, this.options.reviewedStaticResources, this.options.reviewedReads);
     const mimeType = response.contentType.split(";", 1)[0]?.toLowerCase() ?? "";
+    // This callback receives only responses already admitted by the Guard.
+    // Resource kind must still agree with MIME; a CSS-looking fetch is not a stylesheet.
+    const stylesheetRule = response.resourceType === "stylesheet" && mimeType === "text/css"
+      ? publicStylesheetRecordingRule(response.url) : undefined;
+    const staticResources = [...(this.options.reviewedStaticResources ?? []), ...(stylesheetRule ? [stylesheetRule] : [])];
+    const url = safeReplayUrl(response.url, staticResources, this.options.reviewedReads);
     if (!url || !/^(?:GET|HEAD)$/.test(response.method)) { this.uncapturedResponsePaths.add(responsePath(response.url)); return; }
     let text: string;
-    try { text = new TextDecoder("utf-8", { fatal: true }).decode(response.body); }
+    // Keep a CSS UTF-8 BOM as content so the existing byte-length/hash check remains exact.
+    try { text = new TextDecoder("utf-8", { fatal: true, ignoreBOM: Boolean(stylesheetRule) }).decode(response.body); }
     catch { this.uncapturedResponsePaths.add(responsePath(response.url)); return; }
     const redirectLocation = response.redirectLocation
       ? safeReplayUrl(response.redirectLocation, this.options.reviewedStaticResources, this.options.reviewedReads)
@@ -69,11 +78,14 @@ export class BrowserReadRecording {
     const sanitized = isRecordedRedirect ? "" : mimeType.includes("json") ? sanitizePublicJson(text)
       : /^(?:text\/(?:html|plain)|application\/(?:xhtml\+xml))$/.test(mimeType) ? sanitizePublicHtml(text, response.url, this.options.reviewedStaticResources, this.options.reviewedReads)
       : /^(?:application|text)\/(?:javascript|ecmascript)$/.test(mimeType)
-        ? (reviewedStaticScriptUrl(response.url, this.options.reviewedStaticResources) && safeReviewedPublicScript(text, response.body.byteLength) ? text : undefined)
-      : mimeType === "text/css" ? (reviewedStaticStylesheetUrl(response.url, this.options.reviewedStaticResources) && safeReviewedPublicScript(text, response.body.byteLength) ? text : safeReplayCss(text) ? text : undefined)
+        ? (reviewedStaticScriptUrl(response.url, this.options.reviewedStaticResources) && safePublicStaticCode(text, response.body.byteLength) ? text : undefined)
+      : mimeType === "text/css" ? (stylesheetRule && safePublicStaticCode(text, response.body.byteLength) ? text : undefined)
       : undefined;
     if (sanitized === undefined) { this.uncapturedResponsePaths.add(responsePath(response.url)); return; }
-    if (mimeType === "text/css" && response.status === 200 && reviewedStaticStylesheetUrl(response.url, this.options.reviewedStaticResources)) this.stylesheets.set(url, sanitized);
+    if (stylesheetRule && response.status === 200) {
+      if (!this.stylesheets.has(url)) this.loadedStylesheetRules.push(stylesheetRule);
+      this.stylesheets.set(url, sanitized);
+    }
     this.responses.set(url, {
       method: response.method as "GET" | "HEAD",
       status: response.status,
@@ -99,7 +111,7 @@ export class BrowserReadRecording {
       if (path) this.requiredStaticPaths.add(path); else this.replayFailure ??= "UNCAPTURED_STATIC_DEPENDENCY";
     }
     const url = safeReplayUrl(snapshot.url, this.options.reviewedStaticResources, this.options.reviewedReads);
-    const html = sanitizePublicHtml(snapshot.html, snapshot.url, this.options.reviewedStaticResources, this.options.reviewedReads);
+    const html = sanitizePublicHtml(snapshot.html, snapshot.url, [...(this.options.reviewedStaticResources ?? []), ...this.loadedStylesheetRules], this.options.reviewedReads);
     if (!url || !html) { this.replayFailure ??= "UNSAFE_DOCUMENT"; return; }
     this.documents.set(url, html);
     this.documentSnapshots.push({ snapshot: this.snapshotCount, url, html });
@@ -140,9 +152,20 @@ export class BrowserReadRecording {
   }
 }
 const safeQueryKeys = new Set(["date", "time", "num_people", "start_date", "start_time", "pax", "party", "guests", "visit_date", "visit_time", "member", "svd", "svps", "svt", "rst_id", "plan_id", "seat_only", "exclude_unavailable_time", "availability_format", "availability_mode"]);
-const MAX_REVIEWED_STATIC_SCRIPT_BYTES = 2_500_000;
+const MAX_PUBLIC_STATIC_CODE_BYTES = 2_500_000;
 /** The renewed Tabelog source pages measured at most 311KB after load. */
 const MAX_PUBLIC_DOCUMENT_BYTES = 400_000;
+/** Exact admitted stylesheet metadata can retain cache-busters, never credential or PII query fields. */
+function publicStylesheetRecordingRule(value: string): BrowserReadNetworkRequestRule | undefined {
+  try {
+    const url = new URL(value);
+    if (url.username || url.password || [...url.searchParams].some(([key, value]) => sensitiveKey(key)
+      || /(?:email|e-mail|phone|tel|address|name|token|card|credit)/i.test(key)
+      || /(?:\bBearer\s+|\bsk-[A-Za-z0-9_-]{8,})/i.test(value))) return undefined;
+    return { origin: url.origin, pathname: url.pathname, resourceTypes: ["stylesheet"],
+      queryKeyRules: { required: [...new Set(url.searchParams.keys())], repeatable: [...new Set(url.searchParams.keys())] } };
+  } catch { return undefined; }
+}
 function responsePath(value: string): string { try { const url = new URL(value); return `${url.origin}${url.pathname}`; } catch { return "INVALID"; } }
 function observedRequestPath(origin: string, pathname: string): string | undefined {
   try {
@@ -331,14 +354,14 @@ function safeReplayScript(script: string): boolean {
     && !/(?:cookie|token|secret|password|csrf|authorization|localStorage|sessionStorage|document\.write|eval\s*\(|Function\s*\(|fetch\s*\(\s*["']https?:\/\/)/i.test(script)
     && !/\b(?:form\.submit|location\s*=|window\.open)\b/i.test(script);
 }
-/** Reviewed CDN JavaScript is public code, not a user/session capture. Preserve it byte-for-byte for Replay. */
-function safeReviewedPublicScript(script: string, originalByteLength: number): boolean {
-  // The Pack-approved CDN response is retained byte-for-byte only if it is
+/** Admitted public CSS or reviewed JavaScript is retained byte-for-byte, without session or credential material. */
+function safePublicStaticCode(script: string, originalByteLength: number): boolean {
+  // The admitted public static response is retained byte-for-byte only if it is
   // valid bounded UTF-8 public code and has no literal credential material.
   // References to browser cookie/token APIs are normal library code and do
   // not constitute a captured session value.
   return script.length > 0
-    && originalByteLength <= MAX_REVIEWED_STATIC_SCRIPT_BYTES
+    && originalByteLength <= MAX_PUBLIC_STATIC_CODE_BYTES
     && Buffer.byteLength(script) === originalByteLength
     && !/\u0000/.test(script)
     && !/(?:\bBearer\s+[A-Za-z0-9._~-]{8,}|\bsk-[A-Za-z0-9_-]{8,})/i.test(script);

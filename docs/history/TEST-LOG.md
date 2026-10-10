@@ -3953,3 +3953,8 @@ Sushi Yuu与Shibuya Sushi Labo原录制十月日历片段Chromium红绿，缺CSS
 ## TEST-2026-10-10-P1C3B-C8
 
 红灯：C8/red.log；绿灯：green.log、composition-green.log、replay-fixture-green.log。两轮原样与注入回放共 12 次真实调用，目标两轮选择一致，没有增量提升，停止调参；两条已成功交付的 Agent 对照结果相同，冻结 Agent 正向种子为 0。四门禁均通过（见 C8/gates.json）。
+
+
+## TEST-2026-10-10-P1C3B-Recorder
+
+红灯：Recorder/red.log（Chromium 通用 GET 漏存）、bom-red.log（真实 TableCheck CSS BOM 导致字节校验失败）。绿灯：unit-green-final.log（14）、chromium-green-final.log；C3b 实际响应离线保存 53/53，tblg.k-img.com 41、cdn0.tablecheck.com 5、www.tablecheck.com 5、cdn2.tablecheck.com 2。四门禁通过（Recorder/gates.json）；无新增页面访问、模型调用或整单 Live。

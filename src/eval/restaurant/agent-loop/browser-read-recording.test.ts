@@ -127,7 +127,7 @@ test("browser recording keeps a captured safe external script in the replay HAR"
       url: "https://public.example/menu", title: "Public", text: "", html: '<script src="https://cdn.public.example/assets/calendar.js?rst-v1-202610071750-public"></script><div id="calendar"></div>',
       networkRequests: [{ outcome: "ADMITTED", origin: "https://cdn.public.example/", pathname: "/assets/calendar.js", method: "GET", resourceType: "script", queryKeys: ["rst-v1-202610071750-public"] }],
     });
-    await recording.recordResponse({ url: "https://cdn.public.example/assets/calendar.js?rst-v1-202610071750-public", method: "GET", status: 200, contentType: "text/javascript", body: new TextEncoder().encode('document.cookie;document.getElementById("calendar").textContent="ready";') });
+    await recording.recordResponse({ url: "https://cdn.public.example/assets/calendar.js?rst-v1-202610071750-public", method: "GET", resourceType: "script", status: 200, contentType: "text/javascript", body: new TextEncoder().encode('document.cookie;document.getElementById("calendar").textContent="ready";') });
     const result = await recording.finish();
     assert.equal(result.replay.status, "REPLAYABLE");
     if (result.replay.status !== "REPLAYABLE") throw new Error("expected captured script to be replayable");
@@ -142,7 +142,7 @@ test("browser recording refuses a reviewed script response containing a literal 
     const recording = new BrowserReadRecording({ directory: root, runId: "run-static-secret", reviewedStaticResources: reviewedStaticScript });
     recording.recordSnapshot({ url: "https://public.example/menu", title: "Public", text: "", html: '<div></div>',
       networkRequests: [{ outcome: "ADMITTED", origin: "https://cdn.public.example/", pathname: "/assets/calendar.js", method: "GET", resourceType: "script", queryKeys: ["rst-v1-public"] }] });
-    await recording.recordResponse({ url: "https://cdn.public.example/assets/calendar.js?rst-v1-public", method: "GET", status: 200, contentType: "application/javascript", body: new TextEncoder().encode('const key = "Bearer secretvalue";') });
+    await recording.recordResponse({ url: "https://cdn.public.example/assets/calendar.js?rst-v1-public", method: "GET", resourceType: "script", status: 200, contentType: "application/javascript", body: new TextEncoder().encode('const key = "Bearer secretvalue";') });
     assert.deepEqual((await recording.finish()).replay, { status: "NOT_REPLAYABLE", reason: "UNCAPTURED_STATIC_DEPENDENCY" });
   } finally { await rm(root, { recursive: true, force: true }); }
 });
@@ -172,7 +172,7 @@ test("browser recording adds a sanitized admitted public dynamic response to rep
   try {
     const recording = new BrowserReadRecording({ directory: root, runId: "run-dynamic" });
     recording.recordSnapshot({ url: "https://public.example/menu", title: "Public", text: "", html: "<h1>Public</h1>", networkRequests: [{ outcome: "ADMITTED", origin: "https://public.example", pathname: "/v2/results", method: "GET", resourceType: "fetch", queryKeys: [] }] });
-    await recording.recordResponse({ url: "https://public.example/v2/results", method: "GET", status: 200, contentType: "application/json", body: new TextEncoder().encode('{"available":true,"slots":[19]}') });
+    await recording.recordResponse({ url: "https://public.example/v2/results", method: "GET", resourceType: "fetch", status: 200, contentType: "application/json", body: new TextEncoder().encode('{"available":true,"slots":[19]}') });
     const result = await recording.finish();
     assert.equal(result.replay.status, "REPLAYABLE");
     if (result.replay.status !== "REPLAYABLE") throw new Error("expected recorded response replay");
@@ -184,7 +184,7 @@ test("browser recording rejects HTTP failures and preserves safe CSS visibility 
   const root = await mkdtemp(join(tmpdir(), "praxis-browser-recording-"));
   try {
     const failure = new BrowserReadRecording({ directory: root, runId: "failure" });
-    await failure.recordResponse({ url: "https://public.example/v2/result", method: "GET", status: 503, contentType: "application/json", body: new TextEncoder().encode('{"error":"unavailable"}') });
+    await failure.recordResponse({ url: "https://public.example/v2/result", method: "GET", resourceType: "fetch", status: 503, contentType: "application/json", body: new TextEncoder().encode('{"error":"unavailable"}') });
     failure.recordSnapshot({ url: "https://public.example/menu", title: "Public", text: "", html: '<style>#hidden-slot{display:none}</style><a id="hidden-slot" href="/reserve?start_date=2026-10-08&amp;num_people=2&amp;start_time=19:00">19:00</a>' });
     const result = await failure.finish();
     assert.equal(result.replay.status, "REPLAYABLE");
@@ -222,11 +222,11 @@ test("browser recording preserves an admitted public document redirect for repla
   try {
     const recording = new BrowserReadRecording({ directory: root, runId: "run-redirect" });
     await recording.recordResponse({
-      url: "https://public.example/directory", method: "GET", status: 302, contentType: "text/html",
+      url: "https://public.example/directory", method: "GET", resourceType: "document", status: 302, contentType: "text/html",
       body: new TextEncoder().encode(""), redirectLocation: "https://public.example/directory/current",
     });
     await recording.recordResponse({
-      url: "https://public.example/directory/current", method: "GET", status: 200, contentType: "text/html",
+      url: "https://public.example/directory/current", method: "GET", resourceType: "document", status: 200, contentType: "text/html",
       body: new TextEncoder().encode("<main>Public directory</main>"),
     });
     recording.recordSnapshot({ url: "https://public.example/directory/current", title: "Directory", text: "", html: "<main>Public directory</main>" });
@@ -243,26 +243,33 @@ test("browser recording preserves an admitted public document redirect for repla
   } finally { await rm(root, { recursive: true, force: true }); }
 });
 
-test("recorder retains only loaded reviewed stylesheets with public asset URLs byte-for-byte", async () => {
+test("recorder retains loaded Guard-admitted public stylesheets, including generic GET, byte-for-byte", async () => {
   const root = await mkdtemp(join(tmpdir(), "stylesheet-recording-"));
   const cssUrl = "https://cdn1.tablecheck.com/assets/table_check/reserve.css?release=20261009";
-  const css = '@font-face{font-family:public;src:url(./font.woff2)}\n@media(max-width:500px){.menu{overflow:auto}}\n' + '.menu{color:#333}\n'.repeat(1400);
+  const genericCssUrl = "https://static.public.example/styles/layout.css?rst-v1-202610091550-public";
+  const css = '\uFEFF@font-face{font-family:public;src:url(./font.woff2)}\n@media(max-width:500px){.menu{overflow:auto}}\n' + '.menu{color:#333}\n'.repeat(1400);
   const recording = new BrowserReadRecording({ directory: root, runId: "css", reviewedStaticResources: [{ origin: "https://cdn1.tablecheck.com", pathnamePrefix: "/assets/table_check/", resourceTypes: ["stylesheet"], queryKeys: ["release"] }] });
   try {
-    await recording.recordResponse({ url: cssUrl, method: "GET", status: 200, contentType: "text/css; charset=utf-8", body: Buffer.from(css) });
-    await recording.recordResponse({ url: "https://stats.example/private.css?token=private", method: "GET", status: 200, contentType: "text/css", body: Buffer.from("private-marker") });
-    recording.recordSnapshot({ url: "https://www.tablecheck.com/en/shops/fixture/reserve?start_date=2026-10-22&pax=2", title: "Fixture", text: "", html: `<link rel="stylesheet" href="${cssUrl}"><link rel="stylesheet" href="https://cdn1.tablecheck.com/assets/table_check/not-loaded.css?release=20261009"><h1>Fixture</h1>`, networkRequests: [{ outcome: "ADMITTED", origin: "https://cdn1.tablecheck.com", pathname: "/assets/table_check/reserve.css", method: "GET", resourceType: "stylesheet", queryKeys: ["release"] }] });
+    await recording.recordResponse({ url: cssUrl, method: "GET", resourceType: "stylesheet", status: 200, contentType: "text/css; charset=utf-8", body: Buffer.from(css) });
+    await recording.recordResponse({ url: genericCssUrl, method: "GET", resourceType: "stylesheet", status: 200, contentType: "text/css", body: Buffer.from(css) });
+    await recording.recordResponse({ url: "https://static.public.example/wrong-kind.css", method: "GET", resourceType: "fetch", status: 200, contentType: "text/css", body: Buffer.from(css) });
+    await recording.recordResponse({ url: "https://static.public.example/unsafe.css", method: "GET", resourceType: "stylesheet", status: 200, contentType: "text/css", body: Buffer.from('a{content:"Bearer secretvalue"}') });
+    await recording.recordResponse({ url: "https://stats.example/private.css?token=private", method: "GET", resourceType: "stylesheet", status: 200, contentType: "text/css", body: Buffer.from("private-marker") });
+    recording.recordSnapshot({ url: "https://www.tablecheck.com/en/shops/fixture/reserve?start_date=2026-10-22&pax=2", title: "Fixture", text: "", html: `<link rel="stylesheet" href="${cssUrl}"><link rel="stylesheet" href="${genericCssUrl}"><link rel="stylesheet" href="https://cdn1.tablecheck.com/assets/table_check/not-loaded.css?release=20261009"><h1>Fixture</h1>`, networkRequests: [{ outcome: "ADMITTED", origin: "https://cdn1.tablecheck.com", pathname: "/assets/table_check/reserve.css", method: "GET", resourceType: "stylesheet", queryKeys: ["release"] }] });
     const result = await recording.finish();
     const manifest = JSON.parse(await readFile(join(result.path, "recording.json"), "utf8"));
-    assert.equal(manifest.stylesheets.length, 1);
+    assert.equal(manifest.stylesheets.length, 2);
     assert.equal(manifest.stylesheets[0].url, cssUrl);
     assert.equal(await readFile(join(result.path, manifest.stylesheets[0].file), "utf8"), css);
     assert.equal(manifest.stylesheets[0].sha256, (await import("node:crypto")).createHash("sha256").update(css).digest("hex"));
+    assert.equal(manifest.stylesheets[1].url, genericCssUrl);
+    assert.equal(await readFile(join(result.path, manifest.stylesheets[1].file), "utf8"), css);
     assert.equal(result.replay.status, "REPLAYABLE");
     if(result.replay.status !== "REPLAYABLE")throw new Error("public stylesheet capture expected");
     const har = JSON.parse(await readFile(result.replay.harPath,"utf8"));
     assert.equal(har.log.entries.find((entry: {request:{url:string}}) => entry.request.url === cssUrl).response.content.text, css);
     assert.ok((await readFile(join(result.path, "snapshot-0001.html"), "utf8")).includes(cssUrl));
+    assert.ok((await readFile(join(result.path, "snapshot-0001.html"), "utf8")).includes(genericCssUrl));
     assert.equal(JSON.stringify(manifest).includes("private-marker"), false);
   } finally { await rm(root,{recursive:true,force:true}); }
 });

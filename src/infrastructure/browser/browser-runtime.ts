@@ -200,7 +200,7 @@ export interface BrowserRuntime {
     engineMode?: BrowserEngineMode;
     networkPolicy?: BrowserReadNetworkPolicy;
     /** Receives an in-memory admitted public response for an optional sanitized Record artifact. */
-    recordResponse?: (response: { url: string; method: string; status: number; contentType: string; body: Uint8Array; redirectLocation?: string }) => Promise<void> | void;
+    recordResponse?: (response: { url: string; method: string; resourceType: string; status: number; contentType: string; body: Uint8Array; redirectLocation?: string }) => Promise<void> | void;
     /** A caller-provided, already sanitized HAR. Local replay never falls back to live network. */
     replayHarPath?: string;
   }): Promise<BrowserSession>;

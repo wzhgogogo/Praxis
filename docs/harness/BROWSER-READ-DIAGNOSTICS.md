@@ -1,8 +1,8 @@
 # Browser Read Diagnostics
 
 - Status: Accepted
-- Document revision: 0.14
-- Last updated: 2026-10-08
+- Document revision: 0.15
+- Last updated: 2026-10-10
 - Source of truth for: 单页浏览器只读诊断操作与证据范围
 - Related ADRs: [ADR-0015](../decisions/0015-supported-source-search-evidence.md)、[ADR-0016](../decisions/0016-local-eval-browser-profile-lifecycle.md)
 
@@ -175,3 +175,10 @@ Final follow-up regression covers complete disabled half-hour window evidence, w
 网络 readiness 只计未超过3秒的 document/xhr/fetch；其他类型及长连接仍按类型和最久挂起时间诊断。导航先作700ms readiness采样；已完成的来源结果在至少500ms间隔的两张快照上，由同一个来源完成谓词及 resultKey 核验。来源可给出当前结果的 resultBusy（例如当前查询/库存组件）；未给出的调用方仍由整页可见 busy 阻断。相关结果忙碌、绑定变化、部分结果或 skeleton 不得完成。短导航采样尚未产出完整结果时，决策前仍给原有4秒有界等待；动作及显式等待保留4秒上限和共享deadline。readiness不是身份、HARD或库存证据。
 
 超时诊断保存实际页面URL、全部未完成资源类型计数、最久挂起毫秒、阻断的数据请求数、可见busy标记及文字变化。C3b的12公开URL只读加载探测仅证明本次加载/解析；无点击、填写、模型或下一步操作，原始失败和最终数字见 `.eval-artifacts/p1-c3b-20261010/C3b/probe-summary.json`，不替代整单Live。
+
+
+### 2026-10-10 公共 CSS 录制范围
+
+Guard 的已准入响应回调携带真实 `resourceType`，不改变准入规则或页面运行。所有实际加载的 `stylesheet`、成功 `text/css` 响应均可保存，不再限定为 Pack 复核静态资源；继续检查公开 URL、敏感 query、有效 UTF-8、字节上限和凭据字面值。CSS 的 UTF-8 BOM 原样保留以通过字节一致性校验。仅录制器为已保存 CSS 保留快照中的来源 URL 和缓存参数，未改变 Runtime/Guard Policy。
+
+C3b 探测收到的 CSS 在新目录离线验证保存：53/53（按页面去重后计文件，跨页面同一 URL 可重复），各域名数量见 `.eval-artifacts/p1-c3b-20261010/Recorder/probe-stylesheets-final-summary.json`。这是既有实际响应的离线保存验证，不是新一轮页面访问；原始录制与响应文件不改。

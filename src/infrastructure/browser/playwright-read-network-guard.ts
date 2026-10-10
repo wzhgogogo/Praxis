@@ -84,7 +84,7 @@ export class PlaywrightReadNetworkGuard {
   private readonly requests: BrowserReadNetworkObservation[] = [];
   private requestTimeoutMs: number;
 
-  constructor(private readonly policy: BrowserReadNetworkPolicy, requestTimeoutMs = 5_000, private readonly recordResponse?: (response: { url: string; method: string; status: number; contentType: string; body: Uint8Array; redirectLocation?: string }) => Promise<void> | void) { this.requestTimeoutMs = requestTimeoutMs; }
+  constructor(private readonly policy: BrowserReadNetworkPolicy, requestTimeoutMs = 5_000, private readonly recordResponse?: (response: { url: string; method: string; resourceType: string; status: number; contentType: string; body: Uint8Array; redirectLocation?: string }) => Promise<void> | void) { this.requestTimeoutMs = requestTimeoutMs; }
 
   async install(context: BrowserContext, options: { replay?: boolean } = {}): Promise<void> {
     context.on?.("request", request => { this.pending.set(request, Date.now()); if (["document", "xhr", "fetch"].includes(request.resourceType())) this.activityRevision++; });
@@ -201,7 +201,7 @@ export class PlaywrightReadNetworkGuard {
         // silently replacing it with the final canonical page.
         if (this.recordResponse) {
           const contentType = response.headers()["content-type"] ?? "";
-          await this.recordResponse({ url: url.toString(), method, status: response.status(), contentType, body: await response.body(), redirectLocation: target.toString() });
+          await this.recordResponse({ url: url.toString(), method, resourceType: type, status: response.status(), contentType, body: await response.body(), redirectLocation: target.toString() });
         }
         this.documents.add(requestKey(target.toString()));
         if (this.policy.genericPublicRead) this.genericOrigins.add(target.origin);
@@ -210,7 +210,7 @@ export class PlaywrightReadNetworkGuard {
       }
       if (this.recordResponse) {
         const contentType = response.headers()["content-type"] ?? "";
-        await this.recordResponse({ url: url.toString(), method, status: response.status(), contentType, body: await response.body() });
+        await this.recordResponse({ url: url.toString(), method, resourceType: type, status: response.status(), contentType, body: await response.body() });
       }
       await route.fulfill({ response });
     } catch (error) {

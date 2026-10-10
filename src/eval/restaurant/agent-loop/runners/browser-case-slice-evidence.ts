@@ -229,7 +229,7 @@ export interface BrowserTraceRecordingSink {
   record(kind: string, detail: unknown): void;
   /** Receives the in-memory page only to construct a sanitized replay document. */
   recordSnapshot?(snapshot: BrowserSnapshot, sanitized: unknown): void;
-  recordResponse?(response: { url: string; method: string; status: number; contentType: string; body: Uint8Array }): Promise<void> | void;
+  recordResponse?(response: { url: string; method: string; resourceType: string; status: number; contentType: string; body: Uint8Array; redirectLocation?: string }): Promise<void> | void;
   /** Only runtime-masked pixels may be persisted; tracing never writes raw screenshots. */
   captureScreenshot?(png: Uint8Array, disposition: "LAYOUT_ONLY_CONTENT_MASKED"): Promise<void>;
 }
