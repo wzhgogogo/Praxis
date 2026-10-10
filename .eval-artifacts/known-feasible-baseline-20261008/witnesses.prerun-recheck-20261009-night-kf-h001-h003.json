@@ -1,0 +1,16 @@
+{
+  "status": "PRE_RUN_RECHECK",
+  "checkedAt": "2026-10-09T21:48:00+09:00",
+  "validUntil": "2026-10-10T21:48:00+09:00",
+  "checkedBy": "INDEPENDENT_REVIEWER (Claude), public endpoint read",
+  "method": "Public Tabelog find_vacancy JSON (rst_id, svd, svps, svt=1900) only. No Praxis code, no model call, no booking form opened, no time slot clicked.",
+  "results": [
+    { "variantId": "kf-h001-20261022", "outlet": "Shibuya Sushi Matsumoto", "rstId": "13261619", "request": "2026-10-22 19:00 x2", "stillAvailable": true, "note": "selection includes 19:00; members=2" },
+    { "variantId": "kf-h001-20261022", "outlet": "Shibuya Sushi Sen", "rstId": "13275802", "request": "2026-10-22 19:00 x2", "stillAvailable": true, "note": "selection includes 19:00; members=2" },
+    { "variantId": "kf-h003-20261023", "outlet": "Private rooms Izakaya Ginraku Chiyoda yuuraku chou ekimae ten", "rstId": "13266155", "request": "2026-10-23 17:30-22:00 x10", "stillAvailable": true, "note": "selection covers 17:30-22:00 every 15 min; members=10" },
+    { "variantId": "kf-h003-20261023", "outlet": "Meibutsuya Yuurakuchou ten", "rstId": "13281962", "request": "2026-10-23 17:30-22:00 x10", "stillAvailable": true, "note": "selection covers 17:30-22:00 every 15 min; members=10" },
+    { "variantId": "kf-h003-20261023", "outlet": "Uotami Tsukiji ekimae ten", "rstId": "13318227", "request": "2026-10-23 17:30-22:00 x10", "stillAvailable": true, "note": "selection covers 17:30-22:00 every 15 min; members=10" }
+  ],
+  "notRechecked": "KF-H001 backup Sushi Teppen and KF-H003 TableCheck witnesses (168 Tenshin, Aloft) were not rechecked; Teppen and 168 Tenshin are unreachable through the current read guard unless G1 is merged.",
+  "conclusion": "kf-h001 and kf-h003 remain KNOWN_FEASIBLE_SUPPORTED; run before 2026-10-10 21:48 JST."
+}

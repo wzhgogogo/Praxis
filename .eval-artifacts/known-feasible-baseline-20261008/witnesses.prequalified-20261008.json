@@ -1,0 +1,265 @@
+{
+  "status": "PREQUALIFIED_RECHECK_REQUIRED_WITHIN_24H_BEFORE_BATCH_A",
+  "qualifiedAt": "2026-10-08T21:43:00+09:00/2026-10-08T21:49:00+09:00",
+  "qualifiedBy": "INDEPENDENT_REVIEWER_ORDINARY_BROWSER",
+  "independence": "Desktop built-in browser with ordinary page navigation and same-origin read-only GET of the sources' own public search and vacancy endpoints. No Praxis adapter, Grounding, Evaluator or model call was used. No booking form was opened; no time slot was clicked.",
+  "variantsFile": ".eval-artifacts/known-feasible-baseline-20261008/variants.yaml",
+  "distanceMethod": "Equirectangular approximation from each outlet's public JSON-LD geo (Tabelog detail page / TableCheck venue page) to the stated center.",
+  "evidenceMethod": {
+    "TABELOG_SLOT": "GET https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=<id>&svd=<YYYYMMDD>&svps=<party>&svt=<HHMM>; response.members echoes party; response.selection lists bookable times with /en/booking/form_course/new?member=..&visit_date=..&visit_time=.. links",
+    "TABELOG_UI_CROSSCHECK": "One outlet (H003 Ginraku) cross-checked in the detail-page calendar UI: date 23 + guests 10 produced slot link member=10&visit_date=20261023&visit_time=1900",
+    "TABLECHECK_SLOT": "Portal search with date/num_people/time/availability_mode=same_meal_time; each result card carries reserve links with start_date/num_people/start_time",
+    "TABELOG_LIST_PREFILTER": "https://tabelog.com/en/tokyo/<area>/rstLst/?vac_net=1&svd=<YYYYMMDD>&svt=<HHMM>&svps=<party> used only to find candidates; every witness was then checked individually"
+  },
+  "variants": [
+    {
+      "variantId": "kf-h001-20261022",
+      "request": { "date": "2026-10-22", "time": "19:00", "partySize": 2, "hard": ["omakase"] },
+      "center": { "latitude": 35.6619707, "longitude": 139.703795, "radiusMeters": 1000, "witnessMarginMeters": 800, "basis": "Google named-place resolution of Shibuya recorded in Phase 3 renewal artifacts; re-confirm from the Batch A run artifact" },
+      "timeFallbackApplied": false,
+      "witnesses": [
+        {
+          "outletName": "Shibuya Sushi Matsumoto",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+          "bookingSource": "TABELOG",
+          "supportedBySystem": true,
+          "distanceMeters": 633,
+          "hardEvidence": [
+            { "criterion": "omakase", "url": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/", "quote": "We offer only the \"Omakase Course.\"" },
+            { "criterion": "omakase", "url": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/", "quote": "Omakase Nigiri Course" }
+          ],
+          "slot": { "date": "2026-10-22", "partySize": 2, "time": "19:00", "evidence": "find_vacancy rst_id=13261619 svd=20261022 svps=2: 19:00 present (17:00–21:00 every 15 min)" }
+        },
+        {
+          "outletName": "Shibuya Sushi Sen",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+          "bookingSource": "TABELOG",
+          "supportedBySystem": true,
+          "distanceMeters": 260,
+          "hardEvidence": [
+            { "criterion": "omakase", "url": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/party/", "quote": "Omakase Course" },
+            { "criterion": "omakase", "url": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/party/", "quote": "Omakase Dinner Course with All-You-Can-Drink" }
+          ],
+          "slot": { "date": "2026-10-22", "partySize": 2, "time": "19:00", "evidence": "find_vacancy rst_id=13275802 svd=20261022 svps=2: 19:00 present (17:00–21:30 every 15 min)" },
+          "notes": "Detail page shows only lunch omakase courses; dinner omakase courses are on the Set menu (/party/) page."
+        }
+      ],
+      "backupWitnesses": [
+        {
+          "outletName": "Sushi Teppen",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/",
+          "bookingSource": "TABELOG",
+          "distanceMeters": 749,
+          "hardEvidence": [{ "criterion": "omakase", "quote": "Seasonal Delicacies and Omakase Nigiri Course" }],
+          "slot": { "date": "2026-10-22", "partySize": 2, "times": ["17:30", "20:00"], "note": "No 19:00; only valid if a 20:00 fallback is ever needed" }
+        }
+      ],
+      "excluded": [
+        { "outletName": "Sushi Sho Issekisanchou", "reason": "19:00 available but 989 m from center (outside 800 m margin)" },
+        { "outletName": "Sushi Naoki", "reason": "402 m, omakase evidence present, but only 12:00/12:30/17:00 on 2026-10-22" },
+        { "source": "TABLECHECK", "reason": "Portal search omakase / 2 guests / 19:00 returned 9 venues with 19:00 slots, all 1,415–2,177 m from center; geo_distance=1km is not a hard filter" }
+      ],
+      "classification": "KNOWN_FEASIBLE_SUPPORTED",
+      "postRunRecheck": null
+    },
+    {
+      "variantId": "kf-h002-20261024",
+      "request": { "date": "2026-10-24", "time": "18:30", "partySize": 2, "hardExclusions": ["hot pot restaurant", "Sichuan/Hunan cuisine"] },
+      "center": { "latitude": 35.6697003, "longitude": 139.7671399, "radiusMeters": 1000, "witnessMarginMeters": 800, "basis": "Higashi-ginza station anchor used by the Phase 3 renewal geographic relation; re-confirm from the Batch A run artifact" },
+      "witnesses": [
+        {
+          "outletName": "Ginza Sushi Tempura Iwai",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13305528/",
+          "bookingSource": "TABELOG",
+          "supportedBySystem": true,
+          "distanceMeters": 395,
+          "categories": "Sushi, Tempura, Japanese Cuisine",
+          "priceRange": "JPY 10,000～JPY 14,999",
+          "slot": { "date": "2026-10-24", "partySize": 2, "time": "18:30", "evidence": "find_vacancy rst_id=13305528 svd=20261024 svps=2: 18:30 present" }
+        },
+        {
+          "outletName": "Ginza Wagyu Teppanyaki USHIGAMI",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13296659/",
+          "bookingSource": "TABELOG",
+          "supportedBySystem": true,
+          "distanceMeters": 394,
+          "categories": "Teppanyaki, Steak, Seafood",
+          "priceRange": "JPY 10,000～JPY 14,999",
+          "slot": { "date": "2026-10-24", "partySize": 2, "time": "18:30", "evidence": "find_vacancy rst_id=13296659 svd=20261024 svps=2: 18:30 present" }
+        },
+        {
+          "outletName": "Ginza Sushi Den",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13291473/",
+          "bookingSource": "TABELOG",
+          "supportedBySystem": true,
+          "distanceMeters": 248,
+          "categories": "Sushi, Seafood, Japanese Cuisine",
+          "priceRange": "JPY 8,000～JPY 9,999",
+          "slot": { "date": "2026-10-24", "partySize": 2, "time": "18:30", "evidence": "find_vacancy rst_id=13291473 svd=20261024 svps=2: 18:30 present" }
+        },
+        {
+          "outletName": "0711 GiNZA BiSTRO",
+          "sourceUrl": "https://www.tablecheck.com/en/0711-ginzabistro",
+          "bookingSource": "TABLECHECK",
+          "supportedBySystem": true,
+          "distanceMeters": 561,
+          "categories": "Bistro",
+          "priceRange": "¥12500",
+          "slot": { "date": "2026-10-24", "partySize": 2, "time": "18:30", "evidence": "TableCheck portal search 2026-10-24 / 2 guests / 18:30 card reserve link start_time=18:30" }
+        },
+        {
+          "outletName": "ahill ginza",
+          "sourceUrl": "https://www.tablecheck.com/en/ahill-ginza",
+          "bookingSource": "TABLECHECK",
+          "supportedBySystem": true,
+          "distanceMeters": 482,
+          "categories": "Teppanyaki",
+          "priceRange": "¥6000 - ¥12500",
+          "slot": { "date": "2026-10-24", "partySize": 2, "time": "18:30", "evidence": "TableCheck portal search card reserve link start_time=18:30" }
+        }
+      ],
+      "exclusionEvidence": "Witness categories contain no hot pot, shabu-shabu, sukiyaki or Sichuan/Hunan cuisine.",
+      "excluded": [
+        { "outletName": "Yotsumi", "reason": "Shabu shabu (Japanese hotpot) category" },
+        { "outletName": "Gyuan", "reason": "Sukiyaki / Shabu shabu (Japanese hotpot) categories" }
+      ],
+      "classification": "KNOWN_FEASIBLE_SUPPORTED",
+      "postRunRecheck": null
+    },
+    {
+      "variantId": "kf-h003-20261023",
+      "request": { "date": "2026-10-23", "timeWindow": ["17:30", "22:00"], "partySize": 10 },
+      "center": { "latitude": 35.6697, "longitude": 139.767, "radiusMeters": 3000, "witnessMarginMeters": 2800, "basis": "HIGASHI_GINZA_EVALUATION_LOCATION" },
+      "witnesses": [
+        {
+          "outletName": "Private rooms Izakaya Ginraku Chiyoda yuuraku chou ekimae ten",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130102/13266155/",
+          "bookingSource": "TABELOG",
+          "supportedBySystem": true,
+          "distanceMeters": 612,
+          "categories": "Izakaya, Yakitori, Seafood",
+          "priceRange": "JPY 3,000～JPY 3,999",
+          "privateRooms": "Available, for 10-20 people",
+          "slot": { "date": "2026-10-23", "partySize": 10, "window": "17:30–22:00", "evidence": "find_vacancy rst_id=13266155 svd=20261023 svps=10: members=10, 17:30–22:00 every 15 min; UI cross-check produced member=10&visit_date=20261023&visit_time=1900" }
+        },
+        {
+          "outletName": "Meibutsuya Yuurakuchou ten",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130102/13281962/",
+          "bookingSource": "TABELOG",
+          "supportedBySystem": true,
+          "distanceMeters": 705,
+          "categories": "Izakaya, Yakitori, Seafood",
+          "priceRange": "JPY 3,000～JPY 3,999",
+          "privateRooms": "Available, for 10-20 people",
+          "slot": { "date": "2026-10-23", "partySize": 10, "window": "17:30–22:00", "evidence": "find_vacancy rst_id=13281962 svd=20261023 svps=10: members=10, 17:30–22:00" }
+        },
+        {
+          "outletName": "Uotami Tsukiji ekimae ten",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131301/13318227/",
+          "bookingSource": "TABELOG",
+          "supportedBySystem": true,
+          "distanceMeters": 497,
+          "categories": "Izakaya, Seafood, Creative",
+          "priceRange": "JPY 2,000～JPY 2,999",
+          "privateRooms": "Available",
+          "slot": { "date": "2026-10-23", "partySize": 10, "window": "17:30–22:00", "evidence": "find_vacancy rst_id=13318227 svd=20261023 svps=10: members=10, 17:30–22:00" }
+        },
+        {
+          "outletName": "168 Tenshinyamucha & Bar Ginza Inz",
+          "sourceUrl": "https://www.tablecheck.com/en/168tenshin-ginzainz",
+          "bookingSource": "TABLECHECK",
+          "supportedBySystem": true,
+          "distanceMeters": 616,
+          "categories": "Chinese, Dim Sum, Bar",
+          "priceRange": "¥1500 - ¥4500",
+          "slot": { "date": "2026-10-23", "partySize": 10, "times": ["18:30", "18:45", "19:00", "19:15"], "evidence": "TableCheck portal search 2026-10-23 / 10 guests / 19:00 card reserve links (shops/168tenshin-ginzainz/reserve?start_date=2026-10-23&num_people=10&start_time=..)" }
+        },
+        {
+          "outletName": "Aloft by Marriott Tokyo Ginza",
+          "sourceUrl": "https://www.tablecheck.com/en/aloft-tokyo-ginza",
+          "bookingSource": "TABLECHECK",
+          "supportedBySystem": true,
+          "distanceMeters": 150,
+          "priceRange": "¥4000 - ¥8500",
+          "slot": { "date": "2026-10-23", "partySize": 10, "times": ["18:00", "18:30"], "evidence": "TableCheck portal search card reserve links start_date=2026-10-23&num_people=10" }
+        }
+      ],
+      "classification": "KNOWN_FEASIBLE_SUPPORTED",
+      "postRunRecheck": null
+    },
+    {
+      "variantId": "kf-h004-20261021",
+      "request": { "date": "2026-10-21", "timeWindow": ["12:00", "17:00"], "hard": ["cafe"], "goal": "RECOMMENDATION" },
+      "center": { "latitude": 35.6697, "longitude": 139.767, "radiusMeters": 3000, "witnessMarginMeters": 2800, "basis": "HIGASHI_GINZA_EVALUATION_LOCATION" },
+      "witnesses": [
+        {
+          "outletName": "Bunmeidou Cafe Higashi ginza ten",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13002369/",
+          "bookingSource": "NOT_REQUIRED",
+          "supportedBySystem": true,
+          "distanceMeters": 124,
+          "categories": "Cafe, Dining bar",
+          "openingHours": "Mon–Sun 11:00 AM - 7:00 PM (L.O. 6:30 PM); closed New Year's Day"
+        },
+        {
+          "outletName": "Tiffany Blue Box Cafe",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13310761/",
+          "bookingSource": "NOT_REQUIRED",
+          "supportedBySystem": true,
+          "distanceMeters": 304,
+          "categories": "Cafe",
+          "openingHours": "Mon–Sun, holidays 10:30 AM - 8:30 PM; closed Dec 29–Jan 4"
+        },
+        {
+          "outletName": "LE CAFE V",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13257245/",
+          "bookingSource": "NOT_REQUIRED",
+          "supportedBySystem": true,
+          "distanceMeters": 456,
+          "categories": "Cafe, Chocolate",
+          "openingHours": "Mon–Sun 11:00 AM - 8:00 PM (L.O. 7:00 PM)"
+        }
+      ],
+      "notes": "2026-10-21 is a Wednesday and not a Japanese public holiday.",
+      "classification": "KNOWN_FEASIBLE_SUPPORTED",
+      "postRunRecheck": null
+    },
+    {
+      "variantId": "kf-h005-20261021",
+      "request": { "date": "2026-10-21", "time": "18:00", "partySize": 4, "hard": ["local food"], "hardExclusions": ["fast food"] },
+      "center": { "latitude": 35.6697, "longitude": 139.767, "radiusMeters": 3000, "witnessMarginMeters": 2800, "basis": "HIGASHI_GINZA_EVALUATION_LOCATION" },
+      "witnesses": [
+        {
+          "outletName": "Ginza Sushi Tempura Iwai",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13305528/",
+          "bookingSource": "TABELOG",
+          "supportedBySystem": true,
+          "distanceMeters": 384,
+          "categories": "Sushi, Tempura, Japanese Cuisine",
+          "slot": { "date": "2026-10-21", "partySize": 4, "time": "18:00", "evidence": "find_vacancy rst_id=13305528 svd=20261021 svps=4: members=4, 18:00 present" }
+        },
+        {
+          "outletName": "Ginza no Miko Zushi",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13280412/",
+          "bookingSource": "TABELOG",
+          "supportedBySystem": true,
+          "distanceMeters": 259,
+          "categories": "Sushi",
+          "slot": { "date": "2026-10-21", "partySize": 4, "time": "18:00", "evidence": "find_vacancy rst_id=13280412 svd=20261021 svps=4: members=4, 18:00 present" }
+        },
+        {
+          "outletName": "Kushiyaki Bistro Fukumimi Ginza koridō ten",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13255508/",
+          "bookingSource": "TABELOG",
+          "supportedBySystem": true,
+          "distanceMeters": 639,
+          "categories": "Izakaya, Yakitori, Chicken dishes",
+          "slot": { "date": "2026-10-21", "partySize": 4, "time": "18:00", "evidence": "find_vacancy rst_id=13255508 svd=20261021 svps=4: members=4, 18:00 present" }
+        }
+      ],
+      "localFoodBasis": "Destination is Tokyo; witnesses are Japanese cuisine (sushi, tempura, izakaya/yakitori) with full-service seating, not fast food.",
+      "classification": "KNOWN_FEASIBLE_SUPPORTED",
+      "postRunRecheck": null
+    }
+  ]
+}

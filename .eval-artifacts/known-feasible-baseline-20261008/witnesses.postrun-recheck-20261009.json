@@ -1,0 +1,21 @@
+{
+  "status": "POST_RUN_RECHECK",
+  "checkedAt": "2026-10-09T04:34:11+09:00",
+  "checkedBy": "INDEPENDENT_REVIEWER_ORDINARY_BROWSER",
+  "method": "Same public Tabelog find_vacancy endpoint as the prequalification; no Praxis code, no model call, no booking form opened.",
+  "relatedRuns": ".eval-artifacts/p1-a-baseline-batch-20261009 (Codex worktree p1-a-baseline, commit 2656ce9)",
+  "results": [
+    { "variantId": "kf-h001-20261022", "outlet": "Shibuya Sushi Matsumoto", "request": "2026-10-22 19:00 x2", "stillAvailable": true, "nearbyTimes": "17:00–21:00 every 15 min" },
+    { "variantId": "kf-h001-20261022", "outlet": "Shibuya Sushi Sen", "request": "2026-10-22 19:00 x2", "stillAvailable": true, "nearbyTimes": "17:00–21:00 every 15 min" },
+    { "variantId": "kf-h001-20261022", "outlet": "Sushi Teppen (backup)", "request": "2026-10-22 19:00 x2", "stillAvailable": false, "nearbyTimes": "17:30, 20:00 (unchanged from prequalification)" },
+    { "variantId": "kf-h002-20261024", "outlet": "Ginza Sushi Tempura Iwai", "request": "2026-10-24 18:30 x2", "stillAvailable": true },
+    { "variantId": "kf-h002-20261024", "outlet": "Ginza Wagyu Teppanyaki USHIGAMI", "request": "2026-10-24 18:30 x2", "stillAvailable": true },
+    { "variantId": "kf-h002-20261024", "outlet": "Ginza Sushi Den", "request": "2026-10-24 18:30 x2", "stillAvailable": true }
+  ],
+  "notRechecked": [
+    { "variantId": "kf-h003-20261023", "reason": "Both attempts ENV_FAILURE before source work" },
+    { "variantId": "kf-h004-20261021", "reason": "RECOMMENDATION; cafe opening hours are static and were captured at prequalification" },
+    { "variantId": "kf-h005-20261021", "reason": "Not run (stop rule)" }
+  ],
+  "conclusion": "Both supported KF-H001 witnesses still had the requested 19:00 slot after the run; KF-H001 non-delivery is a capability miss candidate pending attribution."
+}

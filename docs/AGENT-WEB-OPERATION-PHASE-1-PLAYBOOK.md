@@ -1,7 +1,7 @@
 # Agent 网站操作第一阶段 Playbook
 
 - Status: Draft
-- Document revision: 0.8
+- Document revision: 0.9
 - Last updated: 2026-10-10
 - Evidence status: draft / not integrated；开发集已暴露，非 Clean Baseline
 - Source of truth for: 第一阶段（通用网站操作能力）的目标、工作包、退出条件、预算与护栏；不替代 Accepted ADR、Gold@6 或当前能力记录
@@ -90,6 +90,8 @@ P1-C 的默认顺序是 C1 → C2 → C3 → C4 → C5，C6、C7 为条件项。
 - **C3 在真实网站上几乎从不判为稳定**：三次运行等待合计占运行时长 35–51%，TableCheck 页面 0/26 次稳定。需先做 C3b。
 - 其他：evaluator@26 与 C0c 的结束范围定义不一致（需 @27）；Tabelog 日历中不可订日期不出现，模型去点其他日期；Agent 选店看不到候选类型；Recorder 样式表仍为 0。
 - P1-E 判断（§9）：负责标签作为第一卡点的次数下降（kf-h001、kf-h003 转为交付），但有 C3 引入的退步。继续，先修 C3。错误展示 0。
+
+**2026-10-10 C3b 批次（独立复核 17:40 北京，详见 `.eval-artifacts/p1-c3b-20261010/independent-review.md`）：** `6b3256c` C3b、`1d12843` E2（evaluator@27）、`b2035f3` C2a、`883e068` C8、`b5952f1` Recorder 通过，四门禁 811/811。只读页面加载探测：等待中位数 1,266 ms，TableCheck 搜索页 16 个结果可完成。遗留：完成判定未声明 `resultBusy` 时被整页忙碌标记拦下，跨来源店名搜索两条路径未覆盖。C8 在离线不可测（Live 错误不复现）。种子更新为 `seeds.v6.json`（Agent 种子与正向对照已标注）。三项批准未执行，下一批直接执行。
 
 ## 5 P1-A 已知可行基线
 
@@ -365,7 +367,7 @@ P1-C 的默认顺序是 C1 → C2 → C3 → C4 → C5，C6、C7 为条件项。
 
 **还差：**
 
-1. **下一批（Codex）：** C3b 稳定判定改为只看数据请求、超时后以完成结果一致代替整页稳定、补诊断，用只读页面加载探测验证；E2 evaluator@27 对齐 C0c 结束范围；C2a 日历中不可订日期的观察；C8 Agent 选店看候选类型；Recorder 保存通用规则放行的 CSS。
+1. **下一批（Codex）：** C3b 补齐（`resultKey`/`resultBusy` 必填，补店名搜索探测）→ kf-h005 复测 → P1-D 实施与发现探测 → 检索词最小改法（隔离分支）。C3b、E2、C2a、C8、Recorder 已完成。
 2. **P1-D（关键路径，ADR-0040 用户 10/10 批准）：** 实施 → 5 个新地点发现探测 + 1 次不退化探测。
 3. **检索词最小改法（用户 10/10 批准提前）：** 窄 ADR + 隔离分支实施，复核后合入。已在 kf-h001 #24–28、kf-h005（"local food"）和 P1-A 的 H005 中出现。
 4. **kf-h005 复测（用户 10/10 批准）：** C3b 后用 1 次 Live 确认退步已消除，从环境重跑预留中借用。

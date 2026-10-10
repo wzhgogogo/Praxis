@@ -1,0 +1,4304 @@
+{
+  "schema": "phase1-replay-seeds@1",
+  "version": 3,
+  "frozenAt": "2026-10-09T21:55:00+09:00",
+  "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+  "rules": [
+    "Seeds are frozen; corrections go into seeds.v2.json, keeping v1.",
+    "Pass rate counts only labelStatus=FROZEN seeds. NEEDS_INVESTIGATION seeds are reported descriptively.",
+    "AGENT-level seeds test the restaurant Agent decision and are valid only once the code in 'requires' is present; report them separately from browser seeds.",
+    "A model action passes when it matches any acceptableActions entry: same type; field when given; targetLabelPattern (regex) against the chosen target's visible label; direction when given.",
+    "v3 additions are implementer-proposed, pending independent label; excluded from frozen pass-rate denominator."
+  ],
+  "seeds": [
+    {
+      "seedId": "p1-seed-0001",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h001",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-19-54-446Z-c5f89a77-7f52-4945-bf4d-bf64e28e25c4.decisions.jsonl",
+        "decisionIndex": 4,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791487194378",
+        "observationRevision": 1,
+        "recordingSnapshot": 6,
+        "url": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "POSITIVE_CONTROL",
+      "recordedAction": {
+        "type": "CLICK_AUTHORITATIVE",
+        "targetLabel": "Date 2026-10-22",
+        "targetKind": "BUTTON",
+        "field": "DATE"
+      },
+      "acceptableActions": [
+        {
+          "type": "CLICK_AUTHORITATIVE",
+          "field": "DATE",
+          "targetLabelPattern": "^Date 2026-10-22$"
+        }
+      ],
+      "labelBasis": "Requested date button is visible and authoritative; clicking it is correct.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0002",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h001",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-19-54-446Z-c5f89a77-7f52-4945-bf4d-bf64e28e25c4.decisions.jsonl",
+        "decisionIndex": 5,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791487194378",
+        "observationRevision": 2,
+        "recordingSnapshot": 7,
+        "url": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "ASYNC_SETTLE",
+      "recordedAction": {
+        "type": "REQUEST_HUMAN_HELP",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "WAIT"
+        }
+      ],
+      "labelBasis": "Right after the date click the guest controls were replaced by a loading state; the date was already selected. A bounded WAIT lets the guest controls return; help is premature.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0003",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h001",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-19-54-446Z-c5f89a77-7f52-4945-bf4d-bf64e28e25c4.decisions.jsonl",
+        "decisionIndex": 9,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791487194378",
+        "observationRevision": 1,
+        "recordingSnapshot": 12,
+        "url": "https://tabelog.com/en/tokyo/A1303/A130301/rstLst/?sw=omakase"
+      },
+      "stage": "DISCOVERY",
+      "subCause": "POSITIVE_CONTROL",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "All",
+        "targetKind": "LINK",
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "CLICK",
+          "targetLabelPattern": "^All$"
+        }
+      ],
+      "labelBasis": "Category panel is closed; clicking 'All' under 'Search by category' opens it. Correct first step for widening.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0004",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h001",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-19-54-446Z-c5f89a77-7f52-4945-bf4d-bf64e28e25c4.decisions.jsonl",
+        "decisionIndex": 10,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791487194378",
+        "observationRevision": 2,
+        "recordingSnapshot": 13,
+        "url": "https://tabelog.com/en/tokyo/A1303/A130301/rstLst/?sw=omakase"
+      },
+      "stage": "DISCOVERY",
+      "subCause": "NO_ACTION_MEMORY",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "All",
+        "targetKind": "LINK",
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "OPEN_LINK",
+          "targetLabelPattern": "^(Sushi|Japanese Cuisine.*|Washoku.*)$"
+        }
+      ],
+      "labelBasis": "The category panel is already open (visible text lists Popular categories; a 'Sushi' category link is an observed OPEN_LINK target). The goal is omakase sushi, so opening a related category is correct; clicking 'All' again or 'Shibuya' does not advance.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0005",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h001",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-19-54-446Z-c5f89a77-7f52-4945-bf4d-bf64e28e25c4.decisions.jsonl",
+        "decisionIndex": 11,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791487194378",
+        "observationRevision": 5,
+        "recordingSnapshot": 15,
+        "url": "https://tabelog.com/en/tokyo/A1303/A130301/rstLst/?sw=omakase"
+      },
+      "stage": "DISCOVERY",
+      "subCause": "MODEL_DECISION",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "Shibuya",
+        "targetKind": "LINK",
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "OPEN_LINK",
+          "targetLabelPattern": "^(Sushi|Japanese Cuisine.*|Washoku.*)$"
+        }
+      ],
+      "labelBasis": "The category panel is already open (visible text lists Popular categories; a 'Sushi' category link is an observed OPEN_LINK target). The goal is omakase sushi, so opening a related category is correct; clicking 'All' again or 'Shibuya' does not advance.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0006",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h001",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-19-54-446Z-c5f89a77-7f52-4945-bf4d-bf64e28e25c4.decisions.jsonl",
+        "decisionIndex": 12,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791487194378",
+        "observationRevision": 6,
+        "recordingSnapshot": 16,
+        "url": "https://tabelog.com/en/tokyo/A1303/A130301/rstLst/?sw=omakase"
+      },
+      "stage": "DISCOVERY",
+      "subCause": "NO_ACTION_MEMORY",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "All",
+        "targetKind": "LINK",
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "OPEN_LINK",
+          "targetLabelPattern": "^(Sushi|Japanese Cuisine.*|Washoku.*)$"
+        }
+      ],
+      "labelBasis": "The category panel is already open (visible text lists Popular categories; a 'Sushi' category link is an observed OPEN_LINK target). The goal is omakase sushi, so opening a related category is correct; clicking 'All' again or 'Shibuya' does not advance.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0007",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h001",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-19-54-446Z-c5f89a77-7f52-4945-bf4d-bf64e28e25c4.decisions.jsonl",
+        "decisionIndex": 15,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791487194378",
+        "observationRevision": 2,
+        "recordingSnapshot": 21,
+        "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.6619707&geo_longitude=139.70379499999999&geo_distance=1km&auto_geolocate=false&search_text=omakase"
+      },
+      "stage": "DISCOVERY",
+      "subCause": "REPETITIVE_STEPS",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "Search",
+        "targetKind": "BUTTON",
+        "field": "NONE"
+      },
+      "acceptableActions": [],
+      "labelBasis": "TableCheck search: after FILL and submit, no result list arrived and the executor reported only local form state changed. The correct action is not established from the artifacts (the 'Search for: <query>' suggestion option is marked CONSTRAINT_MISMATCH; results may require that option or a different submit path). Report the rebuilt observation and model action descriptively; do not count in pass rates.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "NEEDS_INVESTIGATION"
+    },
+    {
+      "seedId": "p1-seed-0008",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h001",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-19-54-446Z-c5f89a77-7f52-4945-bf4d-bf64e28e25c4.decisions.jsonl",
+        "decisionIndex": 16,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791487194378",
+        "observationRevision": 4,
+        "recordingSnapshot": 23,
+        "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.6619707&geo_longitude=139.70379499999999&search_text=omakase"
+      },
+      "stage": "DISCOVERY",
+      "subCause": "REPETITIVE_STEPS",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "omakase",
+        "targetKind": "BUTTON",
+        "field": "NONE"
+      },
+      "acceptableActions": [],
+      "labelBasis": "TableCheck search: after FILL and submit, no result list arrived and the executor reported only local form state changed. The correct action is not established from the artifacts (the 'Search for: <query>' suggestion option is marked CONSTRAINT_MISMATCH; results may require that option or a different submit path). Report the rebuilt observation and model action descriptively; do not count in pass rates.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "NEEDS_INVESTIGATION"
+    },
+    {
+      "seedId": "p1-seed-0009",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h001",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-19-54-446Z-c5f89a77-7f52-4945-bf4d-bf64e28e25c4.decisions.jsonl",
+        "decisionIndex": 20,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791487194378",
+        "observationRevision": 1,
+        "recordingSnapshot": 36,
+        "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Sushi+Teppen%28Shibuya%29&geo_latitude=35.662966399999995&geo_longitude=139.69562399999998&geo_distance=5km&auto_geolocate=false"
+      },
+      "stage": "DISCOVERY",
+      "subCause": "REPETITIVE_STEPS",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "Search",
+        "targetKind": "BUTTON",
+        "field": "NONE"
+      },
+      "acceptableActions": [],
+      "labelBasis": "TableCheck search: after FILL and submit, no result list arrived and the executor reported only local form state changed. The correct action is not established from the artifacts (the 'Search for: <query>' suggestion option is marked CONSTRAINT_MISMATCH; results may require that option or a different submit path). Report the rebuilt observation and model action descriptively; do not count in pass rates.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "NEEDS_INVESTIGATION"
+    },
+    {
+      "seedId": "p1-seed-0010",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h001",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-19-54-446Z-c5f89a77-7f52-4945-bf4d-bf64e28e25c4.decisions.jsonl",
+        "decisionIndex": 21,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791487194378",
+        "observationRevision": 2,
+        "recordingSnapshot": 37,
+        "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Sushi+Teppen%28Shibuya%29&geo_latitude=35.662966399999995&geo_longitude=139.69562399999998&geo_distance=5km&auto_geolocate=false"
+      },
+      "stage": "DISCOVERY",
+      "subCause": "REPETITIVE_STEPS",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "Sushi Teppen(Shibuya)",
+        "targetKind": "BUTTON",
+        "field": "NONE"
+      },
+      "acceptableActions": [],
+      "labelBasis": "TableCheck search: after FILL and submit, no result list arrived and the executor reported only local form state changed. The correct action is not established from the artifacts (the 'Search for: <query>' suggestion option is marked CONSTRAINT_MISMATCH; results may require that option or a different submit path). Report the rebuilt observation and model action descriptively; do not count in pass rates.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "NEEDS_INVESTIGATION"
+    },
+    {
+      "seedId": "p1-seed-0011",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h001",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-19-54-446Z-c5f89a77-7f52-4945-bf4d-bf64e28e25c4.decisions.jsonl",
+        "decisionIndex": 22,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791487194378",
+        "observationRevision": 3,
+        "recordingSnapshot": 38,
+        "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Sushi+Teppen%28Shibuya%29&geo_latitude=35.662966399999995&geo_longitude=139.69562399999998&geo_distance=5km&auto_geolocate=false"
+      },
+      "stage": "DISCOVERY",
+      "subCause": "REPETITIVE_STEPS",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "Search",
+        "targetKind": "BUTTON",
+        "field": "NONE"
+      },
+      "acceptableActions": [],
+      "labelBasis": "TableCheck search: after FILL and submit, no result list arrived and the executor reported only local form state changed. The correct action is not established from the artifacts (the 'Search for: <query>' suggestion option is marked CONSTRAINT_MISMATCH; results may require that option or a different submit path). Report the rebuilt observation and model action descriptively; do not count in pass rates.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "NEEDS_INVESTIGATION"
+    },
+    {
+      "seedId": "p1-seed-0012",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h001",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-19-54-446Z-c5f89a77-7f52-4945-bf4d-bf64e28e25c4.decisions.jsonl",
+        "decisionIndex": 35,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791487194378",
+        "observationRevision": 24,
+        "recordingSnapshot": 87,
+        "url": "https://tabelog.com/en/tokyo/A1303/A130301/13231738/"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "POSITIVE_CONTROL",
+      "recordedAction": {
+        "type": "CLICK_AUTHORITATIVE",
+        "targetLabel": "Date 2026-10-22",
+        "targetKind": "BUTTON",
+        "field": "DATE"
+      },
+      "acceptableActions": [
+        {
+          "type": "CLICK_AUTHORITATIVE",
+          "field": "DATE",
+          "targetLabelPattern": "^Date 2026-10-22$"
+        }
+      ],
+      "labelBasis": "Requested date visible and authoritative.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0013",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h001",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-19-54-446Z-c5f89a77-7f52-4945-bf4d-bf64e28e25c4.decisions.jsonl",
+        "decisionIndex": 36,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791487194378",
+        "observationRevision": 25,
+        "recordingSnapshot": 88,
+        "url": "https://tabelog.com/en/tokyo/A1303/A130301/13231738/"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "ASYNC_SETTLE",
+      "recordedAction": {
+        "type": "CLICK_AUTHORITATIVE",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "DATE"
+      },
+      "acceptableActions": [
+        {
+          "type": "WAIT"
+        }
+      ],
+      "labelBasis": "Date was just selected; the guest selection is not yet observable. CLICK_AUTHORITATIVE without a target was rejected. WAIT is correct.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0014",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h001",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-19-54-446Z-c5f89a77-7f52-4945-bf4d-bf64e28e25c4.decisions.jsonl",
+        "decisionIndex": 37,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791487194378",
+        "observationRevision": 26,
+        "recordingSnapshot": 88,
+        "url": "https://tabelog.com/en/tokyo/A1303/A130301/13231738/"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "MODEL_DECISION",
+      "recordedAction": {
+        "type": "REQUEST_HUMAN_HELP",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "WAIT"
+        },
+        {
+          "type": "COMPLETE"
+        }
+      ],
+      "labelBasis": "Progress states date 2026-10-22 and Guests 2 are both selected. The result list may still be loading; WAIT or a COMPLETE handoff to deterministic verification is acceptable; REQUEST_HUMAN_HELP is not.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0015",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "AGENT",
+      "origin": {
+        "run": "kf-h001",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-19-54-446Z-c5f89a77-7f52-4945-bf4d-bf64e28e25c4.decisions.jsonl",
+        "decisionIndex": 38,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791487194378"
+      },
+      "stage": "AGENT",
+      "subCause": "DELIVERY_POLICY",
+      "recordedAction": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:24adb19f5c7c523a54351787",
+          "praxis:restaurant:7077156cb85a5335f73cc50d",
+          "praxis:restaurant:6343d9d19c9b69881948e082"
+        ]
+      },
+      "acceptableActions": [
+        {
+          "type": "PRESENT_RESULTS"
+        }
+      ],
+      "labelBasis": "Agent-level seed. An eligible result (Sushi Suga) exists. Valid only with the C0 window open (C0 replay used a 4-call boundary control).",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN",
+      "requires": [
+        "C0"
+      ]
+    },
+    {
+      "seedId": "p1-seed-0016",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "AGENT",
+      "origin": {
+        "run": "kf-h001",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-19-54-446Z-c5f89a77-7f52-4945-bf4d-bf64e28e25c4.decisions.jsonl",
+        "decisionIndex": 49,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791487194378"
+      },
+      "stage": "AGENT",
+      "subCause": "DELIVERY_POLICY",
+      "recordedAction": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:3c2b9cc8ef4fa8f7cfaa22d3",
+          "praxis:restaurant:553876f58ad15b3904b229a7",
+          "praxis:restaurant:0620f09395d30e156b85184c"
+        ]
+      },
+      "acceptableActions": [
+        {
+          "type": "PRESENT_RESULTS"
+        }
+      ],
+      "labelBasis": "Agent-level seed. 2 calls remain and an eligible result exists.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN",
+      "requires": [
+        "C0"
+      ]
+    },
+    {
+      "seedId": "p1-seed-0017",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "h001",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T18-54-05-819Z-90895360-c4d2-4a26-b31b-9283d3331d0e.decisions.jsonl",
+        "decisionIndex": 33,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791485645754",
+        "observationRevision": 21,
+        "recordingSnapshot": 80,
+        "url": "https://tabelog.com/en/tokyo/A1303/A130301/13231738/"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "MODEL_DECISION",
+      "recordedAction": {
+        "type": "COMPLETE",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "WAIT"
+        }
+      ],
+      "labelBasis": "Date and Guests 2 are both selected but the page shows no confirmed result yet; the executor does not accept COMPLETE without a visible confirmation. A bounded WAIT is the correct next step.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0018",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "h001",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T18-54-05-819Z-90895360-c4d2-4a26-b31b-9283d3331d0e.decisions.jsonl",
+        "decisionIndex": 49,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791485645754",
+        "observationRevision": 5,
+        "recordingSnapshot": 138,
+        "url": "https://tabelog.com/en/tokyo/A1303/A130301/13258999/"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "MODEL_DECISION",
+      "recordedAction": {
+        "type": "COMPLETE",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "WAIT"
+        }
+      ],
+      "labelBasis": "Date and Guests 2 are both selected but the page shows no confirmed result yet; the executor does not accept COMPLETE without a visible confirmation. A bounded WAIT is the correct next step.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0019",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "h001",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T18-54-05-819Z-90895360-c4d2-4a26-b31b-9283d3331d0e.decisions.jsonl",
+        "decisionIndex": 34,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791485645754",
+        "observationRevision": 22,
+        "recordingSnapshot": 81,
+        "url": "https://tabelog.com/en/tokyo/A1303/A130301/13231738/"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "MODEL_DECISION",
+      "recordedAction": {
+        "type": "REQUEST_HUMAN_HELP",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "WAIT"
+        }
+      ],
+      "labelBasis": "Previous COMPLETE was rejected; both fields are selected. WAIT for the result rather than requesting help.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0020",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "h001",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T18-54-05-819Z-90895360-c4d2-4a26-b31b-9283d3331d0e.decisions.jsonl",
+        "decisionIndex": 50,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791485645754",
+        "observationRevision": 6,
+        "recordingSnapshot": 139,
+        "url": "https://tabelog.com/en/tokyo/A1303/A130301/13258999/"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "MODEL_DECISION",
+      "recordedAction": {
+        "type": "REQUEST_HUMAN_HELP",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "WAIT"
+        }
+      ],
+      "labelBasis": "Previous COMPLETE was rejected; both fields are selected. WAIT for the result rather than requesting help.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0021",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "h001",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T18-54-05-819Z-90895360-c4d2-4a26-b31b-9283d3331d0e.decisions.jsonl",
+        "decisionIndex": 32,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791485645754",
+        "observationRevision": 19,
+        "recordingSnapshot": 67,
+        "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_longitude=139.7039981&geo_latitude=35.656977000000005&search_text=Sushi+Suga&geo_distance=5km&auto_geolocate=false"
+      },
+      "stage": "DISCOVERY",
+      "subCause": "REPETITIVE_STEPS",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "Sushi Suga",
+        "targetKind": "BUTTON",
+        "field": "NONE"
+      },
+      "acceptableActions": [],
+      "labelBasis": "TableCheck search loop, same as kf-h001 #15–#22. Correct action not established.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "NEEDS_INVESTIGATION"
+    },
+    {
+      "seedId": "p1-seed-0022",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "h001",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T18-54-05-819Z-90895360-c4d2-4a26-b31b-9283d3331d0e.decisions.jsonl",
+        "decisionIndex": 48,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791485645754",
+        "observationRevision": 3,
+        "recordingSnapshot": 130,
+        "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=OKANOUE&geo_latitude=35.6568021&geo_longitude=139.69703579999998&geo_distance=5km&auto_geolocate=false"
+      },
+      "stage": "DISCOVERY",
+      "subCause": "REPETITIVE_STEPS",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "Search",
+        "targetKind": "BUTTON",
+        "field": "NONE"
+      },
+      "acceptableActions": [],
+      "labelBasis": "TableCheck search loop, same as kf-h001 #15–#22. Correct action not established.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "NEEDS_INVESTIGATION"
+    },
+    {
+      "seedId": "p1-seed-0023",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "h002",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-00-20-524Z-69bb1032-de33-4231-8504-e3f90b694dc9.decisions.jsonl",
+        "decisionIndex": 5,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791486020456",
+        "observationRevision": 1,
+        "recordingSnapshot": 9,
+        "url": "https://tabelog.com/en/tokyo/A1301/A130101/13277198/"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "MODEL_DECISION",
+      "recordedAction": {
+        "type": "CLICK_AUTHORITATIVE",
+        "targetLabel": "Guests 4",
+        "targetKind": "BUTTON",
+        "field": "PARTY_SIZE"
+      },
+      "acceptableActions": [
+        {
+          "type": "WAIT"
+        }
+      ],
+      "labelBasis": "'Guests 2' is disabled (calendar not ready or date not chosen). Clicking 'Guests 4' is wrong. Acceptable: WAIT, or the requested date if it is an observed authoritative target.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0024",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "h002",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-00-20-524Z-69bb1032-de33-4231-8504-e3f90b694dc9.decisions.jsonl",
+        "decisionIndex": 8,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791486020456",
+        "observationRevision": 4,
+        "recordingSnapshot": 13,
+        "url": "https://tabelog.com/en/tokyo/A1301/A130101/13295658/"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "ASYNC_SETTLE",
+      "recordedAction": {
+        "type": "REQUEST_HUMAN_HELP",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "WAIT"
+        }
+      ],
+      "labelBasis": "After the date click no guest control is observed yet; WAIT, not help.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0025",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "h002",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-00-20-524Z-69bb1032-de33-4231-8504-e3f90b694dc9.decisions.jsonl",
+        "decisionIndex": 9,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791486020456",
+        "observationRevision": 5,
+        "recordingSnapshot": 18,
+        "url": "https://tabelog.com/en/tokyo/A1301/A130101/13291436/"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "MODEL_DECISION",
+      "recordedAction": {
+        "type": "CLICK_AUTHORITATIVE",
+        "targetLabel": "Date 2026-10-12",
+        "targetKind": "BUTTON",
+        "field": "DATE"
+      },
+      "acceptableActions": [
+        {
+          "type": "WAIT"
+        },
+        {
+          "type": "COMPLETE"
+        },
+        {
+          "type": "REQUEST_HUMAN_HELP"
+        }
+      ],
+      "labelBasis": "The model clicked a non-requested date. Any action except selecting a different date or party size is acceptable; if 'Date 2026-10-10' is an observed authoritative target, it is the only acceptable action.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0026",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "h002",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-00-20-524Z-69bb1032-de33-4231-8504-e3f90b694dc9.decisions.jsonl",
+        "decisionIndex": 13,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791486020456",
+        "observationRevision": 2,
+        "recordingSnapshot": 22,
+        "url": "https://tabelog.com/en/tokyo/A1301/A130101/13283245/"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "MODEL_DECISION",
+      "recordedAction": {
+        "type": "CLICK_AUTHORITATIVE",
+        "targetLabel": "Date 2026-10-24",
+        "targetKind": "BUTTON",
+        "field": "DATE"
+      },
+      "acceptableActions": [
+        {
+          "type": "WAIT"
+        },
+        {
+          "type": "COMPLETE"
+        },
+        {
+          "type": "REQUEST_HUMAN_HELP"
+        }
+      ],
+      "labelBasis": "The model clicked a non-requested date. Any action except selecting a different date or party size is acceptable; if 'Date 2026-10-10' is an observed authoritative target, it is the only acceptable action.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0027",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "h002",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-00-20-524Z-69bb1032-de33-4231-8504-e3f90b694dc9.decisions.jsonl",
+        "decisionIndex": 16,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791486020456",
+        "observationRevision": 5,
+        "recordingSnapshot": 28,
+        "url": "https://tabelog.com/en/tokyo/A1301/A130101/13323643/"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "MODEL_DECISION",
+      "recordedAction": {
+        "type": "CLICK_AUTHORITATIVE",
+        "targetLabel": "Date 2026-10-09",
+        "targetKind": "BUTTON",
+        "field": "DATE"
+      },
+      "acceptableActions": [
+        {
+          "type": "WAIT"
+        },
+        {
+          "type": "COMPLETE"
+        },
+        {
+          "type": "REQUEST_HUMAN_HELP"
+        }
+      ],
+      "labelBasis": "The model clicked a non-requested date. Any action except selecting a different date or party size is acceptable; if 'Date 2026-10-10' is an observed authoritative target, it is the only acceptable action.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0028",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h002",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-24-56-428Z-472a065e-c3f0-49c0-9fec-814260cd0943.decisions.jsonl",
+        "decisionIndex": 7,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791487496357",
+        "observationRevision": 3,
+        "recordingSnapshot": 12,
+        "url": "https://tabelog.com/en/tokyo/A1301/A130101/13295658/"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "POSITIVE_CONTROL",
+      "recordedAction": {
+        "type": "CLICK_AUTHORITATIVE",
+        "targetLabel": "Date 2026-10-24",
+        "targetKind": "BUTTON",
+        "field": "DATE"
+      },
+      "acceptableActions": [
+        {
+          "type": "CLICK_AUTHORITATIVE",
+          "field": "DATE",
+          "targetLabelPattern": "^Date\\ 2026\\-10\\-24$"
+        }
+      ],
+      "labelBasis": "Correct click on the requested date (2026-10-24).",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0029",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-08-09-708Z-ed920e16-99b6-4948-96c8-cb83051a8576.decisions.jsonl",
+        "decisionIndex": 7,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791486489637",
+        "observationRevision": 3,
+        "recordingSnapshot": 15,
+        "url": "https://www.tablecheck.com/en/0711-ginzabistro"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "",
+        "targetKind": "BUTTON",
+        "field": "PARTY_SIZE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0030",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-08-09-708Z-ed920e16-99b6-4948-96c8-cb83051a8576.decisions.jsonl",
+        "decisionIndex": 9,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791486489637",
+        "observationRevision": 5,
+        "recordingSnapshot": 17,
+        "url": "https://www.tablecheck.com/en/0711-ginzabistro"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0031",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-08-09-708Z-ed920e16-99b6-4948-96c8-cb83051a8576.decisions.jsonl",
+        "decisionIndex": 10,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791486489637",
+        "observationRevision": 6,
+        "recordingSnapshot": 18,
+        "url": "https://www.tablecheck.com/en/0711-ginzabistro"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0032",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-08-09-708Z-ed920e16-99b6-4948-96c8-cb83051a8576.decisions.jsonl",
+        "decisionIndex": 11,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791486489637",
+        "observationRevision": 7,
+        "recordingSnapshot": 19,
+        "url": "https://www.tablecheck.com/en/0711-ginzabistro"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "Time",
+        "targetKind": "BUTTON",
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0033",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-08-09-708Z-ed920e16-99b6-4948-96c8-cb83051a8576.decisions.jsonl",
+        "decisionIndex": 13,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791486489637",
+        "observationRevision": 9,
+        "recordingSnapshot": 21,
+        "url": "https://www.tablecheck.com/en/0711-ginzabistro"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0034",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-08-09-708Z-ed920e16-99b6-4948-96c8-cb83051a8576.decisions.jsonl",
+        "decisionIndex": 14,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791486489637",
+        "observationRevision": 10,
+        "recordingSnapshot": 22,
+        "url": "https://www.tablecheck.com/en/0711-ginzabistro"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0035",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-08-09-708Z-ed920e16-99b6-4948-96c8-cb83051a8576.decisions.jsonl",
+        "decisionIndex": 15,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791486489637",
+        "observationRevision": 11,
+        "recordingSnapshot": 23,
+        "url": "https://www.tablecheck.com/en/0711-ginzabistro"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0036",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-08-09-708Z-ed920e16-99b6-4948-96c8-cb83051a8576.decisions.jsonl",
+        "decisionIndex": 16,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791486489637",
+        "observationRevision": 12,
+        "recordingSnapshot": 24,
+        "url": "https://www.tablecheck.com/en/0711-ginzabistro"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0037",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-08-09-708Z-ed920e16-99b6-4948-96c8-cb83051a8576.decisions.jsonl",
+        "decisionIndex": 17,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791486489637",
+        "observationRevision": 13,
+        "recordingSnapshot": 25,
+        "url": "https://www.tablecheck.com/en/0711-ginzabistro"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0038",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-08-09-708Z-ed920e16-99b6-4948-96c8-cb83051a8576.decisions.jsonl",
+        "decisionIndex": 18,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791486489637",
+        "observationRevision": 14,
+        "recordingSnapshot": 26,
+        "url": "https://www.tablecheck.com/en/0711-ginzabistro"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0039",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-08-09-708Z-ed920e16-99b6-4948-96c8-cb83051a8576.decisions.jsonl",
+        "decisionIndex": 19,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791486489637",
+        "observationRevision": 15,
+        "recordingSnapshot": 27,
+        "url": "https://www.tablecheck.com/en/0711-ginzabistro"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0040",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-08-09-708Z-ed920e16-99b6-4948-96c8-cb83051a8576.decisions.jsonl",
+        "decisionIndex": 20,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791486489637",
+        "observationRevision": 16,
+        "recordingSnapshot": 28,
+        "url": "https://www.tablecheck.com/en/0711-ginzabistro"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "POSITIVE_CONTROL",
+      "recordedAction": {
+        "type": "CHOOSE_OPTION",
+        "targetLabel": "10 guests",
+        "targetKind": "OPTION",
+        "field": "PARTY_SIZE"
+      },
+      "acceptableActions": [
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "'10 guests' exposed; choosing it is correct.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0041",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-08-09-708Z-ed920e16-99b6-4948-96c8-cb83051a8576.decisions.jsonl",
+        "decisionIndex": 27,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791486489637",
+        "observationRevision": 25,
+        "recordingSnapshot": 39,
+        "url": "https://www.tablecheck.com/en/100spoons-toyosu"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "",
+        "targetKind": "BUTTON",
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0042",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-08-09-708Z-ed920e16-99b6-4948-96c8-cb83051a8576.decisions.jsonl",
+        "decisionIndex": 29,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791486489637",
+        "observationRevision": 27,
+        "recordingSnapshot": 41,
+        "url": "https://www.tablecheck.com/en/100spoons-toyosu"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0043",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-08-09-708Z-ed920e16-99b6-4948-96c8-cb83051a8576.decisions.jsonl",
+        "decisionIndex": 30,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791486489637",
+        "observationRevision": 28,
+        "recordingSnapshot": 42,
+        "url": "https://www.tablecheck.com/en/100spoons-toyosu"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0044",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-08-09-708Z-ed920e16-99b6-4948-96c8-cb83051a8576.decisions.jsonl",
+        "decisionIndex": 31,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791486489637",
+        "observationRevision": 29,
+        "recordingSnapshot": 43,
+        "url": "https://www.tablecheck.com/en/100spoons-toyosu"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0045",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-08-09-708Z-ed920e16-99b6-4948-96c8-cb83051a8576.decisions.jsonl",
+        "decisionIndex": 32,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791486489637",
+        "observationRevision": 30,
+        "recordingSnapshot": 44,
+        "url": "https://www.tablecheck.com/en/100spoons-toyosu"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0046",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-08-09-708Z-ed920e16-99b6-4948-96c8-cb83051a8576.decisions.jsonl",
+        "decisionIndex": 33,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791486489637",
+        "observationRevision": 31,
+        "recordingSnapshot": 45,
+        "url": "https://www.tablecheck.com/en/100spoons-toyosu"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0047",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-08-09-708Z-ed920e16-99b6-4948-96c8-cb83051a8576.decisions.jsonl",
+        "decisionIndex": 34,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791486489637",
+        "observationRevision": 32,
+        "recordingSnapshot": 46,
+        "url": "https://www.tablecheck.com/en/100spoons-toyosu"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "Time",
+        "targetKind": "BUTTON",
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0048",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-08-09-708Z-ed920e16-99b6-4948-96c8-cb83051a8576.decisions.jsonl",
+        "decisionIndex": 36,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791486489637",
+        "observationRevision": 34,
+        "recordingSnapshot": 48,
+        "url": "https://www.tablecheck.com/en/100spoons-toyosu"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "Time",
+        "targetKind": "BUTTON",
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0049",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-08-09-708Z-ed920e16-99b6-4948-96c8-cb83051a8576.decisions.jsonl",
+        "decisionIndex": 42,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791486489637",
+        "observationRevision": 3,
+        "recordingSnapshot": 65,
+        "url": "https://www.tablecheck.com/en/1864-ginza"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "",
+        "targetKind": "BUTTON",
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0050",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-08-09-708Z-ed920e16-99b6-4948-96c8-cb83051a8576.decisions.jsonl",
+        "decisionIndex": 44,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791486489637",
+        "observationRevision": 5,
+        "recordingSnapshot": 67,
+        "url": "https://www.tablecheck.com/en/1864-ginza"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0051",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-08-09-708Z-ed920e16-99b6-4948-96c8-cb83051a8576.decisions.jsonl",
+        "decisionIndex": 45,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791486489637",
+        "observationRevision": 6,
+        "recordingSnapshot": 68,
+        "url": "https://www.tablecheck.com/en/1864-ginza"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0052",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-08-09-708Z-ed920e16-99b6-4948-96c8-cb83051a8576.decisions.jsonl",
+        "decisionIndex": 46,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791486489637",
+        "observationRevision": 7,
+        "recordingSnapshot": 69,
+        "url": "https://www.tablecheck.com/en/1864-ginza"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "PARTY_SIZE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0053",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-08-09-708Z-ed920e16-99b6-4948-96c8-cb83051a8576.decisions.jsonl",
+        "decisionIndex": 47,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791486489637",
+        "observationRevision": 8,
+        "recordingSnapshot": 70,
+        "url": "https://www.tablecheck.com/en/1864-ginza"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "Time",
+        "targetKind": "BUTTON",
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0054",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-08-09-708Z-ed920e16-99b6-4948-96c8-cb83051a8576.decisions.jsonl",
+        "decisionIndex": 49,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791486489637",
+        "observationRevision": 10,
+        "recordingSnapshot": 72,
+        "url": "https://www.tablecheck.com/en/1864-ginza"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0055",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-08-09-708Z-ed920e16-99b6-4948-96c8-cb83051a8576.decisions.jsonl",
+        "decisionIndex": 50,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791486489637",
+        "observationRevision": 11,
+        "recordingSnapshot": 73,
+        "url": "https://www.tablecheck.com/en/1864-ginza"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0056",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-09T07-39-00-770Z-24f9af63-d088-4ff6-9934-84a09bf6587a.decisions.jsonl",
+        "decisionIndex": 8,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791531540709",
+        "observationRevision": 4,
+        "recordingSnapshot": 16,
+        "url": "https://www.tablecheck.com/en/0711-ginzabistro"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "",
+        "targetKind": "BUTTON",
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0057",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-09T07-39-00-770Z-24f9af63-d088-4ff6-9934-84a09bf6587a.decisions.jsonl",
+        "decisionIndex": 10,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791531540709",
+        "observationRevision": 6,
+        "recordingSnapshot": 18,
+        "url": "https://www.tablecheck.com/en/0711-ginzabistro"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0058",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-09T07-39-00-770Z-24f9af63-d088-4ff6-9934-84a09bf6587a.decisions.jsonl",
+        "decisionIndex": 11,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791531540709",
+        "observationRevision": 7,
+        "recordingSnapshot": 19,
+        "url": "https://www.tablecheck.com/en/0711-ginzabistro"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0059",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-09T07-39-00-770Z-24f9af63-d088-4ff6-9934-84a09bf6587a.decisions.jsonl",
+        "decisionIndex": 12,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791531540709",
+        "observationRevision": 8,
+        "recordingSnapshot": 20,
+        "url": "https://www.tablecheck.com/en/0711-ginzabistro"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0060",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-09T07-39-00-770Z-24f9af63-d088-4ff6-9934-84a09bf6587a.decisions.jsonl",
+        "decisionIndex": 13,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791531540709",
+        "observationRevision": 9,
+        "recordingSnapshot": 21,
+        "url": "https://www.tablecheck.com/en/0711-ginzabistro"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "Time",
+        "targetKind": "BUTTON",
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0061",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-09T07-39-00-770Z-24f9af63-d088-4ff6-9934-84a09bf6587a.decisions.jsonl",
+        "decisionIndex": 15,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791531540709",
+        "observationRevision": 11,
+        "recordingSnapshot": 23,
+        "url": "https://www.tablecheck.com/en/0711-ginzabistro"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0062",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-09T07-39-00-770Z-24f9af63-d088-4ff6-9934-84a09bf6587a.decisions.jsonl",
+        "decisionIndex": 16,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791531540709",
+        "observationRevision": 12,
+        "recordingSnapshot": 24,
+        "url": "https://www.tablecheck.com/en/0711-ginzabistro"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0063",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-09T07-39-00-770Z-24f9af63-d088-4ff6-9934-84a09bf6587a.decisions.jsonl",
+        "decisionIndex": 17,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791531540709",
+        "observationRevision": 13,
+        "recordingSnapshot": 25,
+        "url": "https://www.tablecheck.com/en/0711-ginzabistro"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0064",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-09T07-39-00-770Z-24f9af63-d088-4ff6-9934-84a09bf6587a.decisions.jsonl",
+        "decisionIndex": 18,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791531540709",
+        "observationRevision": 14,
+        "recordingSnapshot": 26,
+        "url": "https://www.tablecheck.com/en/0711-ginzabistro"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0065",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-09T07-39-00-770Z-24f9af63-d088-4ff6-9934-84a09bf6587a.decisions.jsonl",
+        "decisionIndex": 19,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791531540709",
+        "observationRevision": 15,
+        "recordingSnapshot": 27,
+        "url": "https://www.tablecheck.com/en/0711-ginzabistro"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "Time",
+        "targetKind": "BUTTON",
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0066",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-09T07-39-00-770Z-24f9af63-d088-4ff6-9934-84a09bf6587a.decisions.jsonl",
+        "decisionIndex": 23,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791531540709",
+        "observationRevision": 21,
+        "recordingSnapshot": 35,
+        "url": "https://www.tablecheck.com/en/100spoons-toyosu"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "",
+        "targetKind": "BUTTON",
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0067",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-09T07-39-00-770Z-24f9af63-d088-4ff6-9934-84a09bf6587a.decisions.jsonl",
+        "decisionIndex": 25,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791531540709",
+        "observationRevision": 23,
+        "recordingSnapshot": 37,
+        "url": "https://www.tablecheck.com/en/100spoons-toyosu"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0068",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-09T07-39-00-770Z-24f9af63-d088-4ff6-9934-84a09bf6587a.decisions.jsonl",
+        "decisionIndex": 26,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791531540709",
+        "observationRevision": 24,
+        "recordingSnapshot": 38,
+        "url": "https://www.tablecheck.com/en/100spoons-toyosu"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0069",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-09T07-39-00-770Z-24f9af63-d088-4ff6-9934-84a09bf6587a.decisions.jsonl",
+        "decisionIndex": 27,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791531540709",
+        "observationRevision": 25,
+        "recordingSnapshot": 39,
+        "url": "https://www.tablecheck.com/en/100spoons-toyosu"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "Time",
+        "targetKind": "BUTTON",
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0070",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-09T07-39-00-770Z-24f9af63-d088-4ff6-9934-84a09bf6587a.decisions.jsonl",
+        "decisionIndex": 29,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791531540709",
+        "observationRevision": 27,
+        "recordingSnapshot": 41,
+        "url": "https://www.tablecheck.com/en/100spoons-toyosu"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0071",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-09T07-39-00-770Z-24f9af63-d088-4ff6-9934-84a09bf6587a.decisions.jsonl",
+        "decisionIndex": 30,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791531540709",
+        "observationRevision": 28,
+        "recordingSnapshot": 42,
+        "url": "https://www.tablecheck.com/en/100spoons-toyosu"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0072",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-09T07-39-00-770Z-24f9af63-d088-4ff6-9934-84a09bf6587a.decisions.jsonl",
+        "decisionIndex": 31,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791531540709",
+        "observationRevision": 29,
+        "recordingSnapshot": 43,
+        "url": "https://www.tablecheck.com/en/100spoons-toyosu"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "PARTY_SIZE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0073",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-09T07-39-00-770Z-24f9af63-d088-4ff6-9934-84a09bf6587a.decisions.jsonl",
+        "decisionIndex": 32,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791531540709",
+        "observationRevision": 30,
+        "recordingSnapshot": 44,
+        "url": "https://www.tablecheck.com/en/100spoons-toyosu"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0074",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-09T07-39-00-770Z-24f9af63-d088-4ff6-9934-84a09bf6587a.decisions.jsonl",
+        "decisionIndex": 33,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791531540709",
+        "observationRevision": 31,
+        "recordingSnapshot": 45,
+        "url": "https://www.tablecheck.com/en/100spoons-toyosu"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0075",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-09T07-39-00-770Z-24f9af63-d088-4ff6-9934-84a09bf6587a.decisions.jsonl",
+        "decisionIndex": 34,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791531540709",
+        "observationRevision": 32,
+        "recordingSnapshot": 46,
+        "url": "https://www.tablecheck.com/en/100spoons-toyosu"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "Time",
+        "targetKind": "BUTTON",
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0076",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-09T07-39-00-770Z-24f9af63-d088-4ff6-9934-84a09bf6587a.decisions.jsonl",
+        "decisionIndex": 41,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791531540709",
+        "observationRevision": 4,
+        "recordingSnapshot": 64,
+        "url": "https://www.tablecheck.com/en/1864-ginza"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "",
+        "targetKind": "BUTTON",
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0077",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-09T07-39-00-770Z-24f9af63-d088-4ff6-9934-84a09bf6587a.decisions.jsonl",
+        "decisionIndex": 43,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791531540709",
+        "observationRevision": 6,
+        "recordingSnapshot": 66,
+        "url": "https://www.tablecheck.com/en/1864-ginza"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0078",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-09T07-39-00-770Z-24f9af63-d088-4ff6-9934-84a09bf6587a.decisions.jsonl",
+        "decisionIndex": 44,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791531540709",
+        "observationRevision": 7,
+        "recordingSnapshot": 67,
+        "url": "https://www.tablecheck.com/en/1864-ginza"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0079",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-09T07-39-00-770Z-24f9af63-d088-4ff6-9934-84a09bf6587a.decisions.jsonl",
+        "decisionIndex": 45,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791531540709",
+        "observationRevision": 8,
+        "recordingSnapshot": 68,
+        "url": "https://www.tablecheck.com/en/1864-ginza"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0080",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-09T07-39-00-770Z-24f9af63-d088-4ff6-9934-84a09bf6587a.decisions.jsonl",
+        "decisionIndex": 46,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791531540709",
+        "observationRevision": 9,
+        "recordingSnapshot": 69,
+        "url": "https://www.tablecheck.com/en/1864-ginza"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0081",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-09T07-39-00-770Z-24f9af63-d088-4ff6-9934-84a09bf6587a.decisions.jsonl",
+        "decisionIndex": 47,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791531540709",
+        "observationRevision": 10,
+        "recordingSnapshot": 70,
+        "url": "https://www.tablecheck.com/en/1864-ginza"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0082",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-09T07-39-00-770Z-24f9af63-d088-4ff6-9934-84a09bf6587a.decisions.jsonl",
+        "decisionIndex": 48,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791531540709",
+        "observationRevision": 11,
+        "recordingSnapshot": 71,
+        "url": "https://www.tablecheck.com/en/1864-ginza"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "NONE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0083",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-09T07-39-00-770Z-24f9af63-d088-4ff6-9934-84a09bf6587a.decisions.jsonl",
+        "decisionIndex": 49,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791531540709",
+        "observationRevision": 12,
+        "recordingSnapshot": 72,
+        "url": "https://www.tablecheck.com/en/1864-ginza"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "OBSERVATION_GAP",
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": null,
+        "targetKind": null,
+        "field": "PARTY_SIZE"
+      },
+      "acceptableActions": [
+        {
+          "type": "SCROLL_REGION",
+          "direction": "DOWN",
+          "targetKind": "REGION",
+          "targetLabelPattern": "10 guests"
+        },
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "Party-size listbox is open; '10 guests' is in the listbox but clipped by its scroll area and not offered as a target. Scrolling the listbox down, or choosing '10 guests' once exposed (C5a), is correct; re-clicking the combobox closes it.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0084",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "kf-h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-09T07-39-00-770Z-24f9af63-d088-4ff6-9934-84a09bf6587a.decisions.jsonl",
+        "decisionIndex": 50,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791531540709",
+        "observationRevision": 13,
+        "recordingSnapshot": 73,
+        "url": "https://www.tablecheck.com/en/1864-ginza"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "POSITIVE_CONTROL",
+      "recordedAction": {
+        "type": "CHOOSE_OPTION",
+        "targetLabel": "10 guests",
+        "targetKind": "OPTION",
+        "field": "PARTY_SIZE"
+      },
+      "acceptableActions": [
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "PARTY_SIZE",
+          "targetLabelPattern": "^10 guests$"
+        }
+      ],
+      "labelBasis": "'10 guests' exposed; choosing it is correct.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0085",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "BROWSER",
+      "origin": {
+        "run": "h003",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-08-09-708Z-ed920e16-99b6-4948-96c8-cb83051a8576.decisions.jsonl",
+        "decisionIndex": 22,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791486489637",
+        "observationRevision": 18,
+        "recordingSnapshot": 30,
+        "url": "https://www.tablecheck.com/en/0711-ginzabistro"
+      },
+      "stage": "AVAILABILITY",
+      "subCause": "POSITIVE_CONTROL",
+      "recordedAction": {
+        "type": "CHOOSE_OPTION",
+        "targetLabel": "17:30",
+        "targetKind": "OPTION",
+        "field": "TIME"
+      },
+      "acceptableActions": [
+        {
+          "type": "CHOOSE_OPTION",
+          "field": "TIME",
+          "targetLabelPattern": "^17:30$"
+        }
+      ],
+      "labelBasis": "Correct in-window time option.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "FROZEN"
+    },
+    {
+      "seedId": "p1-seed-0086",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "AGENT",
+      "origin": {
+        "run": "h005-attempt1",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-16-49-267Z-5a3be85a-7612-4ec3-87b2-8e8beb9ba336.decisions.jsonl",
+        "decisionIndex": 41,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791487009190"
+      },
+      "stage": "AGENT",
+      "subCause": "STRICT_GATE_UNKNOWN",
+      "recordedAction": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:85822d178d108aa0d1d907e5",
+          "praxis:restaurant:388841b862d137d82e9bd0a7",
+          "praxis:restaurant:d169be2e3b0db364a006667c"
+        ]
+      },
+      "acceptableActions": [
+        {
+          "type": "END_READ"
+        },
+        {
+          "type": "ASK_USER"
+        }
+      ],
+      "labelBasis": "Agent-level seed. The immediate request has expired for every candidate (IMMEDIATE_REQUEST_EXPIRED); further CHECK_AVAILABILITY cannot succeed. After C6a the agent should end the read or offer the nearest bookable time.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "SUPERSEDED_BY_CONTRACT",
+      "requires": [
+        "C6a"
+      ],
+      "supersededReason": "Label assumed the retired one-minute immediate window; not an oracle under C6a."
+    },
+    {
+      "seedId": "p1-seed-0087",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "AGENT",
+      "origin": {
+        "run": "h005-attempt1",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-16-49-267Z-5a3be85a-7612-4ec3-87b2-8e8beb9ba336.decisions.jsonl",
+        "decisionIndex": 42,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791487009190"
+      },
+      "stage": "AGENT",
+      "subCause": "STRICT_GATE_UNKNOWN",
+      "recordedAction": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:47f2d02a0a779468fa0f4037",
+          "praxis:restaurant:fcc9d69c3db2d5ec8ebbd96f",
+          "praxis:restaurant:007ba8cae42625c538331dfb"
+        ]
+      },
+      "acceptableActions": [
+        {
+          "type": "END_READ"
+        },
+        {
+          "type": "ASK_USER"
+        }
+      ],
+      "labelBasis": "Agent-level seed. The immediate request has expired for every candidate (IMMEDIATE_REQUEST_EXPIRED); further CHECK_AVAILABILITY cannot succeed. After C6a the agent should end the read or offer the nearest bookable time.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "SUPERSEDED_BY_CONTRACT",
+      "requires": [
+        "C6a"
+      ],
+      "supersededReason": "Label assumed the retired one-minute immediate window; not an oracle under C6a."
+    },
+    {
+      "seedId": "p1-seed-0088",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "AGENT",
+      "origin": {
+        "run": "h005-attempt1",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-16-49-267Z-5a3be85a-7612-4ec3-87b2-8e8beb9ba336.decisions.jsonl",
+        "decisionIndex": 43,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791487009190"
+      },
+      "stage": "AGENT",
+      "subCause": "STRICT_GATE_UNKNOWN",
+      "recordedAction": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:a1ffb335357a32096affd6bb",
+          "praxis:restaurant:5968156336f9ad778b5c0bd9",
+          "praxis:restaurant:33e888688dffcf3bf7cf13bd"
+        ]
+      },
+      "acceptableActions": [
+        {
+          "type": "END_READ"
+        },
+        {
+          "type": "ASK_USER"
+        }
+      ],
+      "labelBasis": "Agent-level seed. The immediate request has expired for every candidate (IMMEDIATE_REQUEST_EXPIRED); further CHECK_AVAILABILITY cannot succeed. After C6a the agent should end the read or offer the nearest bookable time.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "SUPERSEDED_BY_CONTRACT",
+      "requires": [
+        "C6a"
+      ],
+      "supersededReason": "Label assumed the retired one-minute immediate window; not an oracle under C6a."
+    },
+    {
+      "seedId": "p1-seed-0089",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "AGENT",
+      "origin": {
+        "run": "h005-attempt1",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-16-49-267Z-5a3be85a-7612-4ec3-87b2-8e8beb9ba336.decisions.jsonl",
+        "decisionIndex": 44,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791487009190"
+      },
+      "stage": "AGENT",
+      "subCause": "STRICT_GATE_UNKNOWN",
+      "recordedAction": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:42d3d1d61fdeb25425869529",
+          "praxis:restaurant:6e357eb5908d4857a27f63d5",
+          "praxis:restaurant:2d4bcba87b98334e7ef0abfb"
+        ]
+      },
+      "acceptableActions": [
+        {
+          "type": "END_READ"
+        },
+        {
+          "type": "ASK_USER"
+        }
+      ],
+      "labelBasis": "Agent-level seed. The immediate request has expired for every candidate (IMMEDIATE_REQUEST_EXPIRED); further CHECK_AVAILABILITY cannot succeed. After C6a the agent should end the read or offer the nearest bookable time.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "SUPERSEDED_BY_CONTRACT",
+      "requires": [
+        "C6a"
+      ],
+      "supersededReason": "Label assumed the retired one-minute immediate window; not an oracle under C6a."
+    },
+    {
+      "seedId": "p1-seed-0090",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "AGENT",
+      "origin": {
+        "run": "h005-attempt1",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-16-49-267Z-5a3be85a-7612-4ec3-87b2-8e8beb9ba336.decisions.jsonl",
+        "decisionIndex": 45,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791487009190"
+      },
+      "stage": "AGENT",
+      "subCause": "STRICT_GATE_UNKNOWN",
+      "recordedAction": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:98d91d430426c22c5f366166",
+          "praxis:restaurant:dfb1d64521038ac5e638243f",
+          "praxis:restaurant:4aa8a96546ebe1d7dd15defa"
+        ]
+      },
+      "acceptableActions": [
+        {
+          "type": "END_READ"
+        },
+        {
+          "type": "ASK_USER"
+        }
+      ],
+      "labelBasis": "Agent-level seed. The immediate request has expired for every candidate (IMMEDIATE_REQUEST_EXPIRED); further CHECK_AVAILABILITY cannot succeed. After C6a the agent should end the read or offer the nearest bookable time.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "SUPERSEDED_BY_CONTRACT",
+      "requires": [
+        "C6a"
+      ],
+      "supersededReason": "Label assumed the retired one-minute immediate window; not an oracle under C6a."
+    },
+    {
+      "seedId": "p1-seed-0091",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "AGENT",
+      "origin": {
+        "run": "h005-attempt1",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-16-49-267Z-5a3be85a-7612-4ec3-87b2-8e8beb9ba336.decisions.jsonl",
+        "decisionIndex": 46,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791487009190"
+      },
+      "stage": "AGENT",
+      "subCause": "STRICT_GATE_UNKNOWN",
+      "recordedAction": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:3e44f33fd1e8dedf56da5c98",
+          "praxis:restaurant:284519086f37a7c8ebe2e247",
+          "praxis:restaurant:0b0cea8532ca1860020245a3"
+        ]
+      },
+      "acceptableActions": [
+        {
+          "type": "END_READ"
+        },
+        {
+          "type": "ASK_USER"
+        }
+      ],
+      "labelBasis": "Agent-level seed. The immediate request has expired for every candidate (IMMEDIATE_REQUEST_EXPIRED); further CHECK_AVAILABILITY cannot succeed. After C6a the agent should end the read or offer the nearest bookable time.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "SUPERSEDED_BY_CONTRACT",
+      "requires": [
+        "C6a"
+      ],
+      "supersededReason": "Label assumed the retired one-minute immediate window; not an oracle under C6a."
+    },
+    {
+      "seedId": "p1-seed-0092",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "AGENT",
+      "origin": {
+        "run": "h005-attempt1",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-16-49-267Z-5a3be85a-7612-4ec3-87b2-8e8beb9ba336.decisions.jsonl",
+        "decisionIndex": 47,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791487009190"
+      },
+      "stage": "AGENT",
+      "subCause": "STRICT_GATE_UNKNOWN",
+      "recordedAction": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:ebae1dc0e402741c0bfffd0f",
+          "praxis:restaurant:56352aade4b6c6bd987e5bd4",
+          "praxis:restaurant:768c21dcfe69d71e09efe4d8"
+        ]
+      },
+      "acceptableActions": [
+        {
+          "type": "END_READ"
+        },
+        {
+          "type": "ASK_USER"
+        }
+      ],
+      "labelBasis": "Agent-level seed. The immediate request has expired for every candidate (IMMEDIATE_REQUEST_EXPIRED); further CHECK_AVAILABILITY cannot succeed. After C6a the agent should end the read or offer the nearest bookable time.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "SUPERSEDED_BY_CONTRACT",
+      "requires": [
+        "C6a"
+      ],
+      "supersededReason": "Label assumed the retired one-minute immediate window; not an oracle under C6a."
+    },
+    {
+      "seedId": "p1-seed-0093",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "AGENT",
+      "origin": {
+        "run": "h005-attempt1",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-16-49-267Z-5a3be85a-7612-4ec3-87b2-8e8beb9ba336.decisions.jsonl",
+        "decisionIndex": 48,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791487009190"
+      },
+      "stage": "AGENT",
+      "subCause": "STRICT_GATE_UNKNOWN",
+      "recordedAction": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:3d30029361dfe167cda66641",
+          "praxis:restaurant:60a7c2f24fec84de13cb7072",
+          "praxis:restaurant:37ea1448e034f7777dc3a71d"
+        ]
+      },
+      "acceptableActions": [
+        {
+          "type": "END_READ"
+        },
+        {
+          "type": "ASK_USER"
+        }
+      ],
+      "labelBasis": "Agent-level seed. The immediate request has expired for every candidate (IMMEDIATE_REQUEST_EXPIRED); further CHECK_AVAILABILITY cannot succeed. After C6a the agent should end the read or offer the nearest bookable time.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "SUPERSEDED_BY_CONTRACT",
+      "requires": [
+        "C6a"
+      ],
+      "supersededReason": "Label assumed the retired one-minute immediate window; not an oracle under C6a."
+    },
+    {
+      "seedId": "p1-seed-0094",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "AGENT",
+      "origin": {
+        "run": "h005-attempt1",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-16-49-267Z-5a3be85a-7612-4ec3-87b2-8e8beb9ba336.decisions.jsonl",
+        "decisionIndex": 49,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791487009190"
+      },
+      "stage": "AGENT",
+      "subCause": "STRICT_GATE_UNKNOWN",
+      "recordedAction": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:786a9aabfea9e19998399dc2",
+          "praxis:restaurant:2fb5d6a0ad80ab9ddec0ec28",
+          "praxis:restaurant:0222931cbf3ec6ff6fa30e3d"
+        ]
+      },
+      "acceptableActions": [
+        {
+          "type": "END_READ"
+        },
+        {
+          "type": "ASK_USER"
+        }
+      ],
+      "labelBasis": "Agent-level seed. The immediate request has expired for every candidate (IMMEDIATE_REQUEST_EXPIRED); further CHECK_AVAILABILITY cannot succeed. After C6a the agent should end the read or offer the nearest bookable time.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "SUPERSEDED_BY_CONTRACT",
+      "requires": [
+        "C6a"
+      ],
+      "supersededReason": "Label assumed the retired one-minute immediate window; not an oracle under C6a."
+    },
+    {
+      "seedId": "p1-seed-0095",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "AGENT",
+      "origin": {
+        "run": "h005-attempt1",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-08T19-16-49-267Z-5a3be85a-7612-4ec3-87b2-8e8beb9ba336.decisions.jsonl",
+        "decisionIndex": 50,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791487009190"
+      },
+      "stage": "AGENT",
+      "subCause": "STRICT_GATE_UNKNOWN",
+      "recordedAction": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:bb39d0ad829c98f1c72e0168",
+          "praxis:restaurant:0d21e37c22116c6c619686e5",
+          "praxis:restaurant:83eac385777f48677d465fd4"
+        ]
+      },
+      "acceptableActions": [
+        {
+          "type": "END_READ"
+        },
+        {
+          "type": "ASK_USER"
+        }
+      ],
+      "labelBasis": "Agent-level seed. The immediate request has expired for every candidate (IMMEDIATE_REQUEST_EXPIRED); further CHECK_AVAILABILITY cannot succeed. After C6a the agent should end the read or offer the nearest bookable time.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "SUPERSEDED_BY_CONTRACT",
+      "requires": [
+        "C6a"
+      ],
+      "supersededReason": "Label assumed the retired one-minute immediate window; not an oracle under C6a."
+    },
+    {
+      "seedId": "p1-seed-0096",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "AGENT",
+      "origin": {
+        "run": "h005-attempt2",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-09T07-47-10-969Z-422870ed-0b11-400b-8f94-ae68346f9d75.decisions.jsonl",
+        "decisionIndex": 40,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791532030901"
+      },
+      "stage": "AGENT",
+      "subCause": "STRICT_GATE_UNKNOWN",
+      "recordedAction": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:6e357eb5908d4857a27f63d5",
+          "praxis:restaurant:d6bcac405b94123c641d5dcb",
+          "praxis:restaurant:8125d53c64b38019bcce0e7f"
+        ]
+      },
+      "acceptableActions": [
+        {
+          "type": "END_READ"
+        },
+        {
+          "type": "ASK_USER"
+        }
+      ],
+      "labelBasis": "Agent-level seed. The immediate request has expired for every candidate (IMMEDIATE_REQUEST_EXPIRED); further CHECK_AVAILABILITY cannot succeed. After C6a the agent should end the read or offer the nearest bookable time.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "SUPERSEDED_BY_CONTRACT",
+      "requires": [
+        "C6a"
+      ],
+      "supersededReason": "Label assumed the retired one-minute immediate window; not an oracle under C6a."
+    },
+    {
+      "seedId": "p1-seed-0097",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "AGENT",
+      "origin": {
+        "run": "h005-attempt2",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-09T07-47-10-969Z-422870ed-0b11-400b-8f94-ae68346f9d75.decisions.jsonl",
+        "decisionIndex": 41,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791532030901"
+      },
+      "stage": "AGENT",
+      "subCause": "STRICT_GATE_UNKNOWN",
+      "recordedAction": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:5008a3c0f94963b172f60d2d",
+          "praxis:restaurant:4aa8a96546ebe1d7dd15defa",
+          "praxis:restaurant:83f655873bfeb28ea0779e56"
+        ]
+      },
+      "acceptableActions": [
+        {
+          "type": "END_READ"
+        },
+        {
+          "type": "ASK_USER"
+        }
+      ],
+      "labelBasis": "Agent-level seed. The immediate request has expired for every candidate (IMMEDIATE_REQUEST_EXPIRED); further CHECK_AVAILABILITY cannot succeed. After C6a the agent should end the read or offer the nearest bookable time.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "SUPERSEDED_BY_CONTRACT",
+      "requires": [
+        "C6a"
+      ],
+      "supersededReason": "Label assumed the retired one-minute immediate window; not an oracle under C6a."
+    },
+    {
+      "seedId": "p1-seed-0098",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "AGENT",
+      "origin": {
+        "run": "h005-attempt2",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-09T07-47-10-969Z-422870ed-0b11-400b-8f94-ae68346f9d75.decisions.jsonl",
+        "decisionIndex": 42,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791532030901"
+      },
+      "stage": "AGENT",
+      "subCause": "STRICT_GATE_UNKNOWN",
+      "recordedAction": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:0b0cea8532ca1860020245a3",
+          "praxis:restaurant:ec566a91d451c8507d3c4349",
+          "praxis:restaurant:ebae1dc0e402741c0bfffd0f"
+        ]
+      },
+      "acceptableActions": [
+        {
+          "type": "END_READ"
+        },
+        {
+          "type": "ASK_USER"
+        }
+      ],
+      "labelBasis": "Agent-level seed. The immediate request has expired for every candidate (IMMEDIATE_REQUEST_EXPIRED); further CHECK_AVAILABILITY cannot succeed. After C6a the agent should end the read or offer the nearest bookable time.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "SUPERSEDED_BY_CONTRACT",
+      "requires": [
+        "C6a"
+      ],
+      "supersededReason": "Label assumed the retired one-minute immediate window; not an oracle under C6a."
+    },
+    {
+      "seedId": "p1-seed-0099",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "AGENT",
+      "origin": {
+        "run": "h005-attempt2",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-09T07-47-10-969Z-422870ed-0b11-400b-8f94-ae68346f9d75.decisions.jsonl",
+        "decisionIndex": 43,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791532030901"
+      },
+      "stage": "AGENT",
+      "subCause": "STRICT_GATE_UNKNOWN",
+      "recordedAction": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:75ec0c794e3903b96a00dfdb",
+          "praxis:restaurant:d5ab143feea2c41f974db425",
+          "praxis:restaurant:fcac212bc36288a0a48e54ea"
+        ]
+      },
+      "acceptableActions": [
+        {
+          "type": "END_READ"
+        },
+        {
+          "type": "ASK_USER"
+        }
+      ],
+      "labelBasis": "Agent-level seed. The immediate request has expired for every candidate (IMMEDIATE_REQUEST_EXPIRED); further CHECK_AVAILABILITY cannot succeed. After C6a the agent should end the read or offer the nearest bookable time.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "SUPERSEDED_BY_CONTRACT",
+      "requires": [
+        "C6a"
+      ],
+      "supersededReason": "Label assumed the retired one-minute immediate window; not an oracle under C6a."
+    },
+    {
+      "seedId": "p1-seed-0100",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "AGENT",
+      "origin": {
+        "run": "h005-attempt2",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-09T07-47-10-969Z-422870ed-0b11-400b-8f94-ae68346f9d75.decisions.jsonl",
+        "decisionIndex": 44,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791532030901"
+      },
+      "stage": "AGENT",
+      "subCause": "STRICT_GATE_UNKNOWN",
+      "recordedAction": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:1afcc144ecd9e822f39f3ba5",
+          "praxis:restaurant:b7ba97eb56bea216860a1b2d",
+          "praxis:restaurant:47f73411a317ad33ad4c472f"
+        ]
+      },
+      "acceptableActions": [
+        {
+          "type": "END_READ"
+        },
+        {
+          "type": "ASK_USER"
+        }
+      ],
+      "labelBasis": "Agent-level seed. The immediate request has expired for every candidate (IMMEDIATE_REQUEST_EXPIRED); further CHECK_AVAILABILITY cannot succeed. After C6a the agent should end the read or offer the nearest bookable time.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "SUPERSEDED_BY_CONTRACT",
+      "requires": [
+        "C6a"
+      ],
+      "supersededReason": "Label assumed the retired one-minute immediate window; not an oracle under C6a."
+    },
+    {
+      "seedId": "p1-seed-0101",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "AGENT",
+      "origin": {
+        "run": "h005-attempt2",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-09T07-47-10-969Z-422870ed-0b11-400b-8f94-ae68346f9d75.decisions.jsonl",
+        "decisionIndex": 45,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791532030901"
+      },
+      "stage": "AGENT",
+      "subCause": "STRICT_GATE_UNKNOWN",
+      "recordedAction": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:dd3e3b63e22a90e9b69d45e0",
+          "praxis:restaurant:5f392ea172f651bd3eff51ad",
+          "praxis:restaurant:27f7576f57cca8d5253eb30c"
+        ]
+      },
+      "acceptableActions": [
+        {
+          "type": "END_READ"
+        },
+        {
+          "type": "ASK_USER"
+        }
+      ],
+      "labelBasis": "Agent-level seed. The immediate request has expired for every candidate (IMMEDIATE_REQUEST_EXPIRED); further CHECK_AVAILABILITY cannot succeed. After C6a the agent should end the read or offer the nearest bookable time.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "SUPERSEDED_BY_CONTRACT",
+      "requires": [
+        "C6a"
+      ],
+      "supersededReason": "Label assumed the retired one-minute immediate window; not an oracle under C6a."
+    },
+    {
+      "seedId": "p1-seed-0102",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "AGENT",
+      "origin": {
+        "run": "h005-attempt2",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-09T07-47-10-969Z-422870ed-0b11-400b-8f94-ae68346f9d75.decisions.jsonl",
+        "decisionIndex": 46,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791532030901"
+      },
+      "stage": "AGENT",
+      "subCause": "STRICT_GATE_UNKNOWN",
+      "recordedAction": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:5f66bda00e5c91b4d6c65e5e",
+          "praxis:restaurant:bf0e3d28f5084d3c89d9ad1b",
+          "praxis:restaurant:eaa059c8df5b9580a8173e67"
+        ]
+      },
+      "acceptableActions": [
+        {
+          "type": "END_READ"
+        },
+        {
+          "type": "ASK_USER"
+        }
+      ],
+      "labelBasis": "Agent-level seed. The immediate request has expired for every candidate (IMMEDIATE_REQUEST_EXPIRED); further CHECK_AVAILABILITY cannot succeed. After C6a the agent should end the read or offer the nearest bookable time.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "SUPERSEDED_BY_CONTRACT",
+      "requires": [
+        "C6a"
+      ],
+      "supersededReason": "Label assumed the retired one-minute immediate window; not an oracle under C6a."
+    },
+    {
+      "seedId": "p1-seed-0103",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "AGENT",
+      "origin": {
+        "run": "h005-attempt2",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-09T07-47-10-969Z-422870ed-0b11-400b-8f94-ae68346f9d75.decisions.jsonl",
+        "decisionIndex": 47,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791532030901"
+      },
+      "stage": "AGENT",
+      "subCause": "STRICT_GATE_UNKNOWN",
+      "recordedAction": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:ce922b3b3b94e3e14c527767",
+          "praxis:restaurant:0d21e37c22116c6c619686e5",
+          "praxis:restaurant:64245815e6519d24ccb730bc"
+        ]
+      },
+      "acceptableActions": [
+        {
+          "type": "END_READ"
+        },
+        {
+          "type": "ASK_USER"
+        }
+      ],
+      "labelBasis": "Agent-level seed. The immediate request has expired for every candidate (IMMEDIATE_REQUEST_EXPIRED); further CHECK_AVAILABILITY cannot succeed. After C6a the agent should end the read or offer the nearest bookable time.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "SUPERSEDED_BY_CONTRACT",
+      "requires": [
+        "C6a"
+      ],
+      "supersededReason": "Label assumed the retired one-minute immediate window; not an oracle under C6a."
+    },
+    {
+      "seedId": "p1-seed-0104",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "AGENT",
+      "origin": {
+        "run": "h005-attempt2",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-09T07-47-10-969Z-422870ed-0b11-400b-8f94-ae68346f9d75.decisions.jsonl",
+        "decisionIndex": 48,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791532030901"
+      },
+      "stage": "AGENT",
+      "subCause": "STRICT_GATE_UNKNOWN",
+      "recordedAction": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:d169be2e3b0db364a006667c",
+          "praxis:restaurant:5d80ac95c7a71e3854033b6c",
+          "praxis:restaurant:a481124c00390a9d08aa5e72"
+        ]
+      },
+      "acceptableActions": [
+        {
+          "type": "END_READ"
+        },
+        {
+          "type": "ASK_USER"
+        }
+      ],
+      "labelBasis": "Agent-level seed. The immediate request has expired for every candidate (IMMEDIATE_REQUEST_EXPIRED); further CHECK_AVAILABILITY cannot succeed. After C6a the agent should end the read or offer the nearest bookable time.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "SUPERSEDED_BY_CONTRACT",
+      "requires": [
+        "C6a"
+      ],
+      "supersededReason": "Label assumed the retired one-minute immediate window; not an oracle under C6a."
+    },
+    {
+      "seedId": "p1-seed-0105",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "AGENT",
+      "origin": {
+        "run": "h005-attempt2",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-09T07-47-10-969Z-422870ed-0b11-400b-8f94-ae68346f9d75.decisions.jsonl",
+        "decisionIndex": 49,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791532030901"
+      },
+      "stage": "AGENT",
+      "subCause": "STRICT_GATE_UNKNOWN",
+      "recordedAction": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:388841b862d137d82e9bd0a7",
+          "praxis:restaurant:37ea1448e034f7777dc3a71d",
+          "praxis:restaurant:0ca74fe22823fea06cdbeb61"
+        ]
+      },
+      "acceptableActions": [
+        {
+          "type": "END_READ"
+        },
+        {
+          "type": "ASK_USER"
+        }
+      ],
+      "labelBasis": "Agent-level seed. The immediate request has expired for every candidate (IMMEDIATE_REQUEST_EXPIRED); further CHECK_AVAILABILITY cannot succeed. After C6a the agent should end the read or offer the nearest bookable time.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "SUPERSEDED_BY_CONTRACT",
+      "requires": [
+        "C6a"
+      ],
+      "supersededReason": "Label assumed the retired one-minute immediate window; not an oracle under C6a."
+    },
+    {
+      "seedId": "p1-seed-0106",
+      "frozenAt": "2026-10-09T18:30:00+09:00",
+      "level": "AGENT",
+      "origin": {
+        "run": "h005-attempt2",
+        "runArtifact": ".eval-artifacts/restaurant-hybrid-live-read/2026-10-09T07-47-10-969Z-422870ed-0b11-400b-8f94-ae68346f9d75.decisions.jsonl",
+        "decisionIndex": 50,
+        "recordingDir": ".eval-artifacts/recordings/hybrid-1791532030901"
+      },
+      "stage": "AGENT",
+      "subCause": "STRICT_GATE_UNKNOWN",
+      "recordedAction": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:e321376c756575e176b08571",
+          "praxis:restaurant:0ebfb0719ca31b1bc04bc4e0",
+          "praxis:restaurant:bb39d0ad829c98f1c72e0168"
+        ]
+      },
+      "acceptableActions": [
+        {
+          "type": "END_READ"
+        },
+        {
+          "type": "ASK_USER"
+        }
+      ],
+      "labelBasis": "Agent-level seed. The immediate request has expired for every candidate (IMMEDIATE_REQUEST_EXPIRED); further CHECK_AVAILABILITY cannot succeed. After C6a the agent should end the read or offer the nearest bookable time.",
+      "labeledBy": "INDEPENDENT_REVIEWER (Claude)",
+      "labelStatus": "SUPERSEDED_BY_CONTRACT",
+      "requires": [
+        "C6a"
+      ],
+      "supersededReason": "Label assumed the retired one-minute immediate window; not an oracle under C6a."
+    },
+    {
+      "seedId": "p1-seed-0107",
+      "level": "BROWSER",
+      "stage": "DISCOVERY",
+      "subCause": "NO_ACTION_MEMORY",
+      "labelStatus": "IMPLEMENTER_PROPOSED",
+      "labeledBy": "implementer-proposed, pending independent label",
+      "labelBasis": "New repeated All/search loop described by independent early-run review; acceptable action set awaits independent label.",
+      "origin": {
+        "run": "kf-h001-p1e",
+        "runArtifact": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-09T13-10-13-804Z-10e4f743-60ba-40e2-b55e-0f5235bf8943.decisions.jsonl",
+        "decisionIndex": 10,
+        "recordingDir": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1791551413736",
+        "observationRevision": 1,
+        "url": "https://tabelog.com/en/tokyo/A1303/A130301/rstLst/?sw=omakase",
+        "recordingSnapshot": 12
+      },
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "All",
+        "targetKind": "LINK"
+      },
+      "acceptableActions": []
+    },
+    {
+      "seedId": "p1-seed-0108",
+      "level": "BROWSER",
+      "stage": "DISCOVERY",
+      "subCause": "NO_ACTION_MEMORY",
+      "labelStatus": "IMPLEMENTER_PROPOSED",
+      "labeledBy": "implementer-proposed, pending independent label",
+      "labelBasis": "New repeated All/search loop described by independent early-run review; acceptable action set awaits independent label.",
+      "origin": {
+        "run": "kf-h001-p1e",
+        "runArtifact": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-09T13-10-13-804Z-10e4f743-60ba-40e2-b55e-0f5235bf8943.decisions.jsonl",
+        "decisionIndex": 11,
+        "recordingDir": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1791551413736",
+        "observationRevision": 2,
+        "url": "https://tabelog.com/en/tokyo/A1303/A130301/rstLst/?sw=omakase",
+        "recordingSnapshot": 13
+      },
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "All",
+        "targetKind": "LINK"
+      },
+      "acceptableActions": []
+    },
+    {
+      "seedId": "p1-seed-0109",
+      "level": "BROWSER",
+      "stage": "DISCOVERY",
+      "subCause": "NO_ACTION_MEMORY",
+      "labelStatus": "IMPLEMENTER_PROPOSED",
+      "labeledBy": "implementer-proposed, pending independent label",
+      "labelBasis": "New repeated All/search loop described by independent early-run review; acceptable action set awaits independent label.",
+      "origin": {
+        "run": "kf-h001-p1e",
+        "runArtifact": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-09T13-10-13-804Z-10e4f743-60ba-40e2-b55e-0f5235bf8943.decisions.jsonl",
+        "decisionIndex": 12,
+        "recordingDir": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1791551413736",
+        "observationRevision": 5,
+        "url": "https://tabelog.com/en/tokyo/A1303/A130301/rstLst/?sw=omakase",
+        "recordingSnapshot": 15
+      },
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "Shibuya",
+        "targetKind": "LINK"
+      },
+      "acceptableActions": []
+    },
+    {
+      "seedId": "p1-seed-0110",
+      "level": "BROWSER",
+      "stage": "DISCOVERY",
+      "subCause": "NO_ACTION_MEMORY",
+      "labelStatus": "IMPLEMENTER_PROPOSED",
+      "labeledBy": "implementer-proposed, pending independent label",
+      "labelBasis": "New repeated All/search loop described by independent early-run review; acceptable action set awaits independent label.",
+      "origin": {
+        "run": "kf-h001-p1e",
+        "runArtifact": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-09T13-10-13-804Z-10e4f743-60ba-40e2-b55e-0f5235bf8943.decisions.jsonl",
+        "decisionIndex": 13,
+        "recordingDir": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1791551413736",
+        "observationRevision": 6,
+        "url": "https://tabelog.com/en/tokyo/A1303/A130301/rstLst/?sw=omakase",
+        "recordingSnapshot": 16
+      },
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "All",
+        "targetKind": "LINK"
+      },
+      "acceptableActions": []
+    },
+    {
+      "seedId": "p1-seed-0111",
+      "level": "BROWSER",
+      "stage": "DISCOVERY",
+      "subCause": "NO_ACTION_MEMORY",
+      "labelStatus": "IMPLEMENTER_PROPOSED",
+      "labeledBy": "implementer-proposed, pending independent label",
+      "labelBasis": "New repeated All/search loop described by independent early-run review; acceptable action set awaits independent label.",
+      "origin": {
+        "run": "kf-h001-p1e",
+        "runArtifact": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-09T13-10-13-804Z-10e4f743-60ba-40e2-b55e-0f5235bf8943.decisions.jsonl",
+        "decisionIndex": 24,
+        "recordingDir": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1791551413736",
+        "observationRevision": 7,
+        "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Sushi%20Teppen(Shibuya)",
+        "recordingSnapshot": 46
+      },
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "All",
+        "targetKind": "LINK"
+      },
+      "acceptableActions": []
+    },
+    {
+      "seedId": "p1-seed-0112",
+      "level": "BROWSER",
+      "stage": "DISCOVERY",
+      "subCause": "NO_ACTION_MEMORY",
+      "labelStatus": "IMPLEMENTER_PROPOSED",
+      "labeledBy": "implementer-proposed, pending independent label",
+      "labelBasis": "New repeated All/search loop described by independent early-run review; acceptable action set awaits independent label.",
+      "origin": {
+        "run": "kf-h001-p1e",
+        "runArtifact": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-09T13-10-13-804Z-10e4f743-60ba-40e2-b55e-0f5235bf8943.decisions.jsonl",
+        "decisionIndex": 25,
+        "recordingDir": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1791551413736",
+        "observationRevision": 8,
+        "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Sushi%20Teppen(Shibuya)",
+        "recordingSnapshot": 47
+      },
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "All",
+        "targetKind": "LINK"
+      },
+      "acceptableActions": []
+    },
+    {
+      "seedId": "p1-seed-0113",
+      "level": "BROWSER",
+      "stage": "DISCOVERY",
+      "subCause": "NO_ACTION_MEMORY",
+      "labelStatus": "IMPLEMENTER_PROPOSED",
+      "labeledBy": "implementer-proposed, pending independent label",
+      "labelBasis": "New repeated All/search loop described by independent early-run review; acceptable action set awaits independent label.",
+      "origin": {
+        "run": "kf-h001-p1e",
+        "runArtifact": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-09T13-10-13-804Z-10e4f743-60ba-40e2-b55e-0f5235bf8943.decisions.jsonl",
+        "decisionIndex": 26,
+        "recordingDir": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1791551413736",
+        "observationRevision": 11,
+        "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Sushi%20Teppen(Shibuya)",
+        "recordingSnapshot": 49
+      },
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "More filters",
+        "targetKind": "LINK"
+      },
+      "acceptableActions": []
+    },
+    {
+      "seedId": "p1-seed-0114",
+      "level": "BROWSER",
+      "stage": "DISCOVERY",
+      "subCause": "NO_ACTION_MEMORY",
+      "labelStatus": "IMPLEMENTER_PROPOSED",
+      "labeledBy": "implementer-proposed, pending independent label",
+      "labelBasis": "New repeated All/search loop described by independent early-run review; acceptable action set awaits independent label.",
+      "origin": {
+        "run": "kf-h001-p1e",
+        "runArtifact": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-09T13-10-13-804Z-10e4f743-60ba-40e2-b55e-0f5235bf8943.decisions.jsonl",
+        "decisionIndex": 27,
+        "recordingDir": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1791551413736",
+        "observationRevision": 12,
+        "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Sushi%20Teppen(Shibuya)",
+        "recordingSnapshot": 50
+      },
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "All",
+        "targetKind": "LINK"
+      },
+      "acceptableActions": []
+    },
+    {
+      "seedId": "p1-seed-0115",
+      "level": "BROWSER",
+      "stage": "DISCOVERY",
+      "subCause": "NO_ACTION_MEMORY",
+      "labelStatus": "IMPLEMENTER_PROPOSED",
+      "labeledBy": "implementer-proposed, pending independent label",
+      "labelBasis": "New repeated All/search loop described by independent early-run review; acceptable action set awaits independent label.",
+      "origin": {
+        "run": "kf-h001-p1e",
+        "runArtifact": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-09T13-10-13-804Z-10e4f743-60ba-40e2-b55e-0f5235bf8943.decisions.jsonl",
+        "decisionIndex": 28,
+        "recordingDir": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1791551413736",
+        "observationRevision": 13,
+        "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Sushi%20Teppen(Shibuya)",
+        "recordingSnapshot": 51
+      },
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "All",
+        "targetKind": "LINK"
+      },
+      "acceptableActions": []
+    },
+    {
+      "seedId": "p1-seed-0116",
+      "level": "BROWSER",
+      "stage": "DISCOVERY",
+      "subCause": "REPETITIVE_STEPS",
+      "labelStatus": "IMPLEMENTER_PROPOSED",
+      "labeledBy": "implementer-proposed, pending independent label",
+      "labelBasis": "New repeated All/search loop described by independent early-run review; acceptable action set awaits independent label.",
+      "origin": {
+        "run": "kf-h001-p1e",
+        "runArtifact": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-09T13-10-13-804Z-10e4f743-60ba-40e2-b55e-0f5235bf8943.decisions.jsonl",
+        "decisionIndex": 21,
+        "recordingDir": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1791551413736",
+        "observationRevision": 1,
+        "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Sushi+Teppen%28Shibuya%29&geo_latitude=35.662966399999995&geo_longitude=139.69562399999998&geo_distance=5km&auto_geolocate=false",
+        "recordingSnapshot": 36
+      },
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "Search",
+        "targetKind": "BUTTON"
+      },
+      "acceptableActions": []
+    },
+    {
+      "seedId": "p1-seed-0117",
+      "level": "BROWSER",
+      "stage": "DISCOVERY",
+      "subCause": "REPETITIVE_STEPS",
+      "labelStatus": "IMPLEMENTER_PROPOSED",
+      "labeledBy": "implementer-proposed, pending independent label",
+      "labelBasis": "New repeated All/search loop described by independent early-run review; acceptable action set awaits independent label.",
+      "origin": {
+        "run": "kf-h001-p1e",
+        "runArtifact": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-09T13-10-13-804Z-10e4f743-60ba-40e2-b55e-0f5235bf8943.decisions.jsonl",
+        "decisionIndex": 22,
+        "recordingDir": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1791551413736",
+        "observationRevision": 2,
+        "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Sushi+Teppen%28Shibuya%29&geo_latitude=35.662966399999995&geo_longitude=139.69562399999998&geo_distance=5km&auto_geolocate=false",
+        "recordingSnapshot": 37
+      },
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "Search",
+        "targetKind": "BUTTON"
+      },
+      "acceptableActions": []
+    },
+    {
+      "seedId": "p1-seed-0118",
+      "level": "BROWSER",
+      "stage": "DISCOVERY",
+      "subCause": "REPETITIVE_STEPS",
+      "labelStatus": "IMPLEMENTER_PROPOSED",
+      "labeledBy": "implementer-proposed, pending independent label",
+      "labelBasis": "New repeated All/search loop described by independent early-run review; acceptable action set awaits independent label.",
+      "origin": {
+        "run": "kf-h001-p1e",
+        "runArtifact": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-09T13-10-13-804Z-10e4f743-60ba-40e2-b55e-0f5235bf8943.decisions.jsonl",
+        "decisionIndex": 29,
+        "recordingDir": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1791551413736",
+        "observationRevision": 14,
+        "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=%E9%AE%A8%E3%81%A8%E3%81%BF%E3%81%AA%E3%81%8B+Sushi+Tominaka&geo_latitude=35.6641623&geo_longitude=139.6936402&geo_distance=5km&auto_geolocate=false",
+        "recordingSnapshot": 54
+      },
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "Search",
+        "targetKind": "BUTTON"
+      },
+      "acceptableActions": []
+    },
+    {
+      "seedId": "p1-seed-0119",
+      "level": "BROWSER",
+      "stage": "DISCOVERY",
+      "subCause": "REPETITIVE_STEPS",
+      "labelStatus": "IMPLEMENTER_PROPOSED",
+      "labeledBy": "implementer-proposed, pending independent label",
+      "labelBasis": "New repeated All/search loop described by independent early-run review; acceptable action set awaits independent label.",
+      "origin": {
+        "run": "kf-h001-p1e",
+        "runArtifact": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-09T13-10-13-804Z-10e4f743-60ba-40e2-b55e-0f5235bf8943.decisions.jsonl",
+        "decisionIndex": 30,
+        "recordingDir": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1791551413736",
+        "observationRevision": 15,
+        "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_longitude=139.6936402&geo_latitude=35.6641623&search_text=%E9%AE%A8%E3%81%A8%E3%81%BF%E3%81%AA%E3%81%8B+Sushi+Tominaka&geo_distance=5km&auto_geolocate=false",
+        "recordingSnapshot": 55
+      },
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "鮨とみなか Sushi Tominaka",
+        "targetKind": "BUTTON"
+      },
+      "acceptableActions": []
+    },
+    {
+      "seedId": "p1-seed-0120",
+      "level": "BROWSER",
+      "stage": "AVAILABILITY",
+      "subCause": "REPETITIVE_STEPS",
+      "labelStatus": "IMPLEMENTER_PROPOSED",
+      "labeledBy": "implementer-proposed, pending independent label",
+      "labelBasis": "New repeated All/search loop described by independent early-run review; acceptable action set awaits independent label.",
+      "origin": {
+        "run": "kf-h001-p1e",
+        "runArtifact": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-09T13-10-13-804Z-10e4f743-60ba-40e2-b55e-0f5235bf8943.decisions.jsonl",
+        "decisionIndex": 31,
+        "recordingDir": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1791551413736",
+        "observationRevision": 17,
+        "url": "https://tabelog.com/en/tokyo/A1318/A131810/13167971/",
+        "recordingSnapshot": 69
+      },
+      "recordedAction": {
+        "type": "REQUEST_HUMAN_HELP"
+      },
+      "acceptableActions": []
+    },
+    {
+      "seedId": "p1-seed-0121",
+      "level": "BROWSER",
+      "stage": "DISCOVERY",
+      "subCause": "REPETITIVE_STEPS",
+      "labelStatus": "IMPLEMENTER_PROPOSED",
+      "labeledBy": "implementer-proposed, pending independent label",
+      "labelBasis": "New repeated All/search loop described by independent early-run review; acceptable action set awaits independent label.",
+      "origin": {
+        "run": "kf-h001-p1e",
+        "runArtifact": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-09T13-10-13-804Z-10e4f743-60ba-40e2-b55e-0f5235bf8943.decisions.jsonl",
+        "decisionIndex": 32,
+        "recordingDir": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1791551413736",
+        "observationRevision": 18,
+        "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=%E3%81%8B%E3%81%BF%E3%82%84&geo_latitude=35.6559391&geo_longitude=139.7054657&geo_distance=5km&auto_geolocate=false",
+        "recordingSnapshot": 71
+      },
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "Search",
+        "targetKind": "BUTTON"
+      },
+      "acceptableActions": []
+    },
+    {
+      "seedId": "p1-seed-0122",
+      "level": "BROWSER",
+      "stage": "DISCOVERY",
+      "subCause": "REPETITIVE_STEPS",
+      "labelStatus": "IMPLEMENTER_PROPOSED",
+      "labeledBy": "implementer-proposed, pending independent label",
+      "labelBasis": "New repeated All/search loop described by independent early-run review; acceptable action set awaits independent label.",
+      "origin": {
+        "run": "kf-h001-p1e",
+        "runArtifact": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-09T13-10-13-804Z-10e4f743-60ba-40e2-b55e-0f5235bf8943.decisions.jsonl",
+        "decisionIndex": 33,
+        "recordingDir": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1791551413736",
+        "observationRevision": 19,
+        "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_longitude=139.7054657&geo_latitude=35.6559391&search_text=%E3%81%8B%E3%81%BF%E3%82%84&geo_distance=5km&auto_geolocate=false",
+        "recordingSnapshot": 72
+      },
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "Search",
+        "targetKind": "BUTTON"
+      },
+      "acceptableActions": []
+    },
+    {
+      "seedId": "p1-seed-0123",
+      "level": "BROWSER",
+      "stage": "DISCOVERY",
+      "subCause": "REPETITIVE_STEPS",
+      "labelStatus": "IMPLEMENTER_PROPOSED",
+      "labeledBy": "implementer-proposed, pending independent label",
+      "labelBasis": "New repeated All/search loop described by independent early-run review; acceptable action set awaits independent label.",
+      "origin": {
+        "run": "kf-h001-p1e",
+        "runArtifact": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-09T13-10-13-804Z-10e4f743-60ba-40e2-b55e-0f5235bf8943.decisions.jsonl",
+        "decisionIndex": 41,
+        "recordingDir": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1791551413736",
+        "observationRevision": 1,
+        "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Sushi+Suga&geo_latitude=35.656977000000005&geo_longitude=139.7039981&geo_distance=5km&auto_geolocate=false",
+        "recordingSnapshot": 84
+      },
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "Search",
+        "targetKind": "BUTTON"
+      },
+      "acceptableActions": []
+    },
+    {
+      "seedId": "p1-seed-0124",
+      "level": "BROWSER",
+      "stage": "DISCOVERY",
+      "subCause": "REPETITIVE_STEPS",
+      "labelStatus": "IMPLEMENTER_PROPOSED",
+      "labeledBy": "implementer-proposed, pending independent label",
+      "labelBasis": "New repeated All/search loop described by independent early-run review; acceptable action set awaits independent label.",
+      "origin": {
+        "run": "kf-h001-p1e",
+        "runArtifact": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-09T13-10-13-804Z-10e4f743-60ba-40e2-b55e-0f5235bf8943.decisions.jsonl",
+        "decisionIndex": 42,
+        "recordingDir": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1791551413736",
+        "observationRevision": 2,
+        "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Sushi+Suga&geo_latitude=35.656977000000005&geo_longitude=139.7039981&geo_distance=5km&auto_geolocate=false",
+        "recordingSnapshot": 85
+      },
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "Sushi Suga",
+        "targetKind": "BUTTON"
+      },
+      "acceptableActions": []
+    },
+    {
+      "seedId": "p1-seed-0125",
+      "level": "BROWSER",
+      "stage": "DISCOVERY",
+      "subCause": "REPETITIVE_STEPS",
+      "labelStatus": "IMPLEMENTER_PROPOSED",
+      "labeledBy": "implementer-proposed, pending independent label",
+      "labelBasis": "New repeated All/search loop described by independent early-run review; acceptable action set awaits independent label.",
+      "origin": {
+        "run": "kf-h001-p1e",
+        "runArtifact": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-09T13-10-13-804Z-10e4f743-60ba-40e2-b55e-0f5235bf8943.decisions.jsonl",
+        "decisionIndex": 43,
+        "recordingDir": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1791551413736",
+        "observationRevision": 3,
+        "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Sushi+Suga&geo_latitude=35.656977000000005&geo_longitude=139.7039981&geo_distance=5km&auto_geolocate=false",
+        "recordingSnapshot": 86
+      },
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "Search",
+        "targetKind": "BUTTON"
+      },
+      "acceptableActions": []
+    },
+    {
+      "seedId": "p1-seed-0126",
+      "level": "BROWSER",
+      "stage": "DISCOVERY",
+      "subCause": "REPETITIVE_STEPS",
+      "labelStatus": "IMPLEMENTER_PROPOSED",
+      "labeledBy": "implementer-proposed, pending independent label",
+      "labelBasis": "New repeated All/search loop described by independent early-run review; acceptable action set awaits independent label.",
+      "origin": {
+        "run": "kf-h001-p1e",
+        "runArtifact": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-09T13-10-13-804Z-10e4f743-60ba-40e2-b55e-0f5235bf8943.decisions.jsonl",
+        "decisionIndex": 47,
+        "recordingDir": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1791551413736",
+        "observationRevision": 9,
+        "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=OKANOUE&geo_latitude=35.6568021&geo_longitude=139.69703579999998&geo_distance=5km&auto_geolocate=false",
+        "recordingSnapshot": 109
+      },
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "Search",
+        "targetKind": "BUTTON"
+      },
+      "acceptableActions": []
+    },
+    {
+      "seedId": "p1-seed-0127",
+      "level": "BROWSER",
+      "stage": "DISCOVERY",
+      "subCause": "REPETITIVE_STEPS",
+      "labelStatus": "IMPLEMENTER_PROPOSED",
+      "labeledBy": "implementer-proposed, pending independent label",
+      "labelBasis": "New repeated All/search loop described by independent early-run review; acceptable action set awaits independent label.",
+      "origin": {
+        "run": "kf-h001-p1e",
+        "runArtifact": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-09T13-10-13-804Z-10e4f743-60ba-40e2-b55e-0f5235bf8943.decisions.jsonl",
+        "decisionIndex": 48,
+        "recordingDir": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1791551413736",
+        "observationRevision": 10,
+        "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_longitude=139.69703579999998&geo_latitude=35.6568021&search_text=OKANOUE&geo_distance=5km&auto_geolocate=false",
+        "recordingSnapshot": 110
+      },
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "OKANOUE",
+        "targetKind": "BUTTON"
+      },
+      "acceptableActions": []
+    },
+    {
+      "seedId": "p1-seed-0128",
+      "level": "BROWSER",
+      "stage": "DISCOVERY",
+      "subCause": "REPETITIVE_STEPS",
+      "labelStatus": "IMPLEMENTER_PROPOSED",
+      "labeledBy": "implementer-proposed, pending independent label",
+      "labelBasis": "New repeated All/search loop described by independent early-run review; acceptable action set awaits independent label.",
+      "origin": {
+        "run": "kf-h001-p1e",
+        "runArtifact": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-09T13-10-13-804Z-10e4f743-60ba-40e2-b55e-0f5235bf8943.decisions.jsonl",
+        "decisionIndex": 49,
+        "recordingDir": "/Users/wangzhour/.codex/worktrees/p1-e-early-live/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1791551413736",
+        "observationRevision": 11,
+        "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_longitude=139.69703579999998&geo_latitude=35.6568021&search_text=OKANOUE&geo_distance=5km&auto_geolocate=false",
+        "recordingSnapshot": 111
+      },
+      "recordedAction": {
+        "type": "CLICK",
+        "targetLabel": "Search",
+        "targetKind": "BUTTON"
+      },
+      "acceptableActions": []
+    }
+  ],
+  "supersedes": {
+    "file": "seeds.v1.json",
+    "sha256": "f621e638a9ab18f77a7c8497f6baeda635690e42454c8dc9dfa1818f391b5707"
+  },
+  "changes": [
+    "All 21 STRICT_GATE_UNKNOWN agent seeds (h005 attempts 1 and 2) are marked SUPERSEDED_BY_CONTRACT. Their END_READ/ASK_USER labels assumed the one-minute EXACT_ONLY expiry. Under C6a (thirty-minute window, ADR-0039 Proposed) those historical moments are inside the window, so continued CHECK_AVAILABILITY is legitimate. Expiry behaviour is verified by an explicit deadline-plus-one control and by Live h005, not by these seeds.",
+    "No browser seed label changed."
+  ],
+  "parent": {
+    "path": ".eval-artifacts/phase1-replay/seeds.v2.json",
+    "sha256": "ad89734c36f68abbd20da381b463349ba5a370a03a83befe538d14fdf4c76c14"
+  }
+}
