@@ -374,6 +374,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
           methodReason: "Tabelog discovery has no extractable restaurant result yet.",
           completion: (page) => ({
             complete: parseTabelogSearchOutlets(page).length > 0,
+            resultKey: JSON.stringify([page.url, parseTabelogSearchOutlets(page)]),
             reason: "Continue until an observed public restaurant result is available; do not use navigation, login, or booking links.",
           }),
         });
@@ -564,7 +565,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
           session, signal, allowedOrigins: ["https://tabelog.com"], controlHints: tabelogQueryControlHints,
           goal: { outlet: { name: candidate.restaurant.outletName, address: candidate.restaurant.address }, date: request.date, partySize: request.partySize, timeWindow: request.timeWindow, hardCriteria: request.hardCriteria },
           objective: "Apply the exact requested date and guest count to the public calendar. Date and Guests labels describe source-observed controls. Use CLICK_AUTHORITATIVE for those fields. Do not open Reserve or any booking form. Selected time options alone are not verified availability.",
-          completion: current => ({ complete: hasTabelogSelectedQuery(current, request.date, request.partySize) && parseTabelogAvailabilitySlots(current, request).hasExplicitSlotUi, reason: "Both the requested calendar date and guest count must be selected; model completion alone does not confirm them." }),
+          completion: current => ({ complete: hasTabelogSelectedQuery(current, request.date, request.partySize) && parseTabelogAvailabilitySlots(current, request).hasExplicitSlotUi, resultKey: JSON.stringify([current.url, request.date, request.partySize, request.timeWindow, parseTabelogAvailabilitySlots(current, request)]), reason: "Both the requested calendar date and guest count must be selected; model completion alone does not confirm them." }),
         });
         const querySnapshot = query.snapshot;
         if (!hasTabelogSelectedQuery(querySnapshot, request.date, request.partySize)) return this.ground(candidate, request, {

@@ -2207,3 +2207,43 @@ test("C4 blocks repeated toggle state but allows the same Next control on change
     }finally{await executor.close();}
   }
 });
+
+
+test("C3b rotating suggestions accept identical bound results but changing results and skeleton remain pending", async () => {
+  for (const mode of ["suggestions", "append", "skeleton"] as const) {
+    const diagnostics: BrowserExecutionDiagnostic[] = [];
+    const runtime=localFixture(`<title>Result fixture</title><section id="result">Venue A</section><aside id="suggestions">Suggestion 0</aside>${mode==='skeleton'?'<div class="skeleton">Loading</div>':''}<script>let n=0;setInterval(()=>{suggestions.textContent='Suggestion '+(++n);${mode==='append'?"result.textContent+=' Venue '+n;":''}},120)</script>`);
+    const executor=new BrowserTaskExecutor(runtime,{maxElapsedMsPerCandidate:12000,onDiagnostic:d=>diagnostics.push(d),modelDecision:{async decide(){return {type:"REQUEST_HUMAN_HELP",reason:"Incomplete current result"};}}});
+    const signal=new AbortController().signal;const session=await executor.acquire(signal,"FIXTURE","DISCOVERY");
+    try {
+      await executor.navigate({session,signal,source:"FIXTURE",stage:"DISCOVERY",allowedOrigins:["https://www.tablecheck.com"],url});
+      const read=await executor.runSkill({taskId:"bound-result",session,signal,source:"FIXTURE",stage:"DISCOVERY",allowedOrigins:["https://www.tablecheck.com"],goal:{outlet:{name:"Fixture"},hardCriteria:[]},objective:"Read result set",completion:s=>({complete:s.text.includes("Venue A"),reason:"Missing venues",resultKey:s.html.match(/<section id="result">([^<]*)/)?.[1] ?? ""})});
+      assert.equal(read.status,mode==='suggestions'?"COMPLETED":"REQUESTED_HUMAN_HELP",mode);
+      assert.equal(read.snapshot.settlement,mode==='suggestions'?"SETTLED":"PENDING",mode);
+      assert.ok(diagnostics.filter(d=>d.event==='ASYNC_WAIT').every(d=>d.url===url),"navigation wait uses actual URL");
+    } finally {await executor.close();}
+  }
+});
+
+
+test("C3b Chromium ignores an outstanding image once data has completed", async () => {
+  const sockets=new Set<import("node:net").Socket>();
+  const server=createServer((request,response)=>{
+    if(request.url==='/image'){return;}
+    response.setHeader('content-type','text/html');response.end('<title>Data ready</title><p>CURRENT_RESULT</p><img src="/image">');
+  });
+  server.on('connection',socket=>{sockets.add(socket);socket.on('close',()=>sockets.delete(socket));});
+  await new Promise<void>(resolve=>server.listen(0,'127.0.0.1',resolve));
+  const address=server.address();assert.ok(address&&typeof address!=='string');
+  const origin=`http://127.0.0.1:${address.port}`;
+  const executor=new BrowserTaskExecutor(new LocalPlaywrightChromium());
+  const signal=new AbortController().signal;const session=await executor.acquire(signal,'FIXTURE','DISCOVERY',{documentOrigins:[origin],genericPublicRead:true,staticResources:[],dynamicReads:[]});
+  try{
+    const started=Date.now();
+    await executor.navigate({session,signal,source:'FIXTURE',stage:'DISCOVERY',allowedOrigins:[origin],url:origin});
+    const snapshot=await executor.snapshot({session,signal,source:'FIXTURE',stage:'DISCOVERY'});
+    assert.equal(snapshot.settlement,'SETTLED');assert.ok(Date.now()-started<1500);
+    assert.equal(snapshot.settlementDiagnostics?.pendingByType.image,1);
+    assert.equal(snapshot.settlementDiagnostics?.blockingDataRequests,0);
+  }finally{await executor.close();for(const socket of sockets)socket.destroy();await new Promise<void>(resolve=>server.close(()=>resolve()));}
+});

@@ -65,9 +65,19 @@ function matchesEndpoint(rule: BrowserReadNetworkRequestRule, url: URL, resource
  * of a redirect chain.
  */
 export class PlaywrightReadNetworkGuard {
-  private readonly pending = new Set<Request>();
+  private readonly pending = new Map<Request, number>();
   private activityRevision = 0;
-  settlementActivity(): { pending: number; revision: number } { return { pending: this.pending.size, revision: this.activityRevision }; }
+  settlementActivity(): { pending: number; revision: number; pendingByType: Record<string, number>; oldestPendingMs: number } {
+    let pending = 0, oldestPendingMs = 0;
+    const pendingByType: Record<string, number> = {};
+    for (const [request, started] of this.pending) {
+      const age = Date.now() - started, type = request.resourceType();
+      pendingByType[type] = (pendingByType[type] ?? 0) + 1;
+      oldestPendingMs = Math.max(oldestPendingMs, age);
+      if (["document", "xhr", "fetch"].includes(type) && age < 3_000) pending++;
+    }
+    return { pending, revision: this.activityRevision, pendingByType, oldestPendingMs };
+  }
   private readonly documents = new Set<string>();
   private readonly genericOrigins = new Set<string>();
   private readonly diagnostics: NetworkDiagnostic[] = [];
@@ -77,8 +87,8 @@ export class PlaywrightReadNetworkGuard {
   constructor(private readonly policy: BrowserReadNetworkPolicy, requestTimeoutMs = 5_000, private readonly recordResponse?: (response: { url: string; method: string; status: number; contentType: string; body: Uint8Array; redirectLocation?: string }) => Promise<void> | void) { this.requestTimeoutMs = requestTimeoutMs; }
 
   async install(context: BrowserContext, options: { replay?: boolean } = {}): Promise<void> {
-    context.on?.("request", request => { this.pending.add(request); this.activityRevision++; });
-    const finished = (request: Request) => { if (this.pending.delete(request)) this.activityRevision++; };
+    context.on?.("request", request => { this.pending.set(request, Date.now()); if (["document", "xhr", "fetch"].includes(request.resourceType())) this.activityRevision++; });
+    const finished = (request: Request) => { if (this.pending.delete(request) && ["document", "xhr", "fetch"].includes(request.resourceType())) this.activityRevision++; };
     context.on?.("requestfinished", finished);
     context.on?.("requestfailed", finished);
     await context.routeWebSocket("**/*", socket => socket.close());

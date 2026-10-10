@@ -169,3 +169,9 @@ Final follow-up regression covers complete disabled half-hour window evidence, w
 ### 2026-10-10 同状态动作重放拦截
 
 每个读取以当前 URL、可见文字和可交互状态形成指纹，目标使用稳定控件标识，不使用模型 targetRef 或 session id。已经从该状态执行过的同类型、同目标动作再次提出时不执行，记录 `REPEATED_FROM_SAME_STATE` 到诊断、最近六步 history 与 progress；连续两次这种拒绝结束为 `NO_SAFE_ACTION`。一次其他拒绝会中断连续计数；页面或控件状态变化后的分页仍可执行。状态集合在读取边界清空。该机制不改变来源网络边界、动作资格或结果资格。
+
+### 2026-10-10 C3b 数据与绑定结果稳定
+
+网络 readiness 只计未超过3秒的 document/xhr/fetch；其他类型及长连接仍按类型和最久挂起时间诊断。导航先作700ms readiness采样；已完成的来源结果在至少500ms间隔的两张快照上，由同一个来源完成谓词及 resultKey 核验。来源可给出当前结果的 resultBusy（例如当前查询/库存组件）；未给出的调用方仍由整页可见 busy 阻断。相关结果忙碌、绑定变化、部分结果或 skeleton 不得完成。短导航采样尚未产出完整结果时，决策前仍给原有4秒有界等待；动作及显式等待保留4秒上限和共享deadline。readiness不是身份、HARD或库存证据。
+
+超时诊断保存实际页面URL、全部未完成资源类型计数、最久挂起毫秒、阻断的数据请求数、可见busy标记及文字变化。C3b的12公开URL只读加载探测仅证明本次加载/解析；无点击、填写、模型或下一步操作，原始失败和最终数字见 `.eval-artifacts/p1-c3b-20261010/C3b/probe-summary.json`，不替代整单Live。

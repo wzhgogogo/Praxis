@@ -14,7 +14,7 @@ import type {
 import { BrowserRuntimeError } from "./browser-runtime-errors.js";
 import { PlaywrightReadNetworkGuard } from "./playwright-read-network-guard.js";
 import { PlaywrightResponseObserver } from "./playwright-response-observer.js";
-import { PlaywrightControlRegistry, waitForPageSettled, interactiveState, activateObservedControl, observedLinkCovered } from "./playwright-browser-controls.js";
+import { PlaywrightControlRegistry, waitForPageSettled, pageBusySelectors, interactiveState, activateObservedControl, observedLinkCovered } from "./playwright-browser-controls.js";
 
 const INTERACTIVE_ACTION_TIMEOUT_MS = 5_000;
 
@@ -113,12 +113,15 @@ class CloudflareBrowserSession implements BrowserSession {
   async captureResponses(rules: readonly BrowserResponseRule[]): Promise<void> { this.responses.configure(this.page, rules); }
 
   private lastSettlement = true;
+  private lastSettlementDiagnostic?: import("./browser-runtime.js").BrowserSettlementDiagnostics;
+  settlementDiagnostics() { return this.lastSettlementDiagnostic; }
 
   async snapshot(): Promise<BrowserSnapshot> {
     return this.run(async () => {
       const state = await interactiveState(this.page).catch(() => undefined);
       return {
         settlement: this.lastSettlement ? "SETTLED" : "PENDING",
+        ...(this.lastSettlementDiagnostic ? { settlementDiagnostics: { ...this.lastSettlementDiagnostic, url: this.page.url(), busySelectors: await pageBusySelectors(this.page) } } : {}),
         url: this.page.url(),
         html: await this.page.content(),
         text: await this.page.locator("body").innerText(),
@@ -199,7 +202,7 @@ class CloudflareBrowserSession implements BrowserSession {
     await this.run(() => this.page.locator(target).waitFor(timeoutMs === undefined ? {} : { timeout: timeoutMs }));
   }
   async waitForSettled(previous: Pick<BrowserSnapshot, "url" | "title" | "text" | "interactiveState">, timeoutMs = 4_000): Promise<boolean> {
-    this.lastSettlement = await this.run(() => waitForPageSettled(this.page, previous, timeoutMs, () => this.networkGuard?.settlementActivity() ?? { pending: 0, revision: 0 }));
+    this.lastSettlement = await this.run(() => waitForPageSettled(this.page, previous, timeoutMs, () => this.networkGuard?.settlementActivity() ?? { pending: 0, revision: 0 }, value => { this.lastSettlementDiagnostic = value; }));
     return this.lastSettlement;
   }
   async screenshot(): Promise<Uint8Array> { return this.run(() => this.page.screenshot()); }

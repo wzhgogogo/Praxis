@@ -41,6 +41,7 @@ export interface BrowserExecutionDiagnostic {
   detail?: string;
   /** Wall time of this bounded readiness wait; not cumulative executor time. */
   waitMs?: number;
+  settlement?: import("./browser-runtime.js").BrowserSettlementDiagnostics;
   observation?: {
     title: string;
     visibleTextExcerpt: string;
@@ -91,7 +92,7 @@ export interface BrowserSkillReadInput {
   /** A source-owned, already-authorized shortcut; its effect is always post-condition checked. */
   shortcut?: { name: string; run(snapshot: BrowserSnapshot): Promise<void> };
   controlHints?(snapshot: Readonly<BrowserSnapshot>): readonly BrowserControlHint[];
-  completion(snapshot: BrowserSnapshot, controls: BrowserPageControl[]): { complete: boolean; reason: string };
+  completion(snapshot: BrowserSnapshot, controls: BrowserPageControl[]): { complete: boolean; reason: string; resultKey?: string; resultBusy?: boolean };
 }
 
 export interface BrowserGenericReadResult {
@@ -412,17 +413,41 @@ export class BrowserTaskExecutor {
   }
 
   async runSkill(input: BrowserSkillReadInput): Promise<BrowserGenericReadResult> {
-    const assess: BrowserSkillReadInput["completion"] = (current, controls) => current.settlement === "PENDING"
-      ? { complete: false, reason: "Page is still loading after its bounded settlement wait; old results are not usable." }
-      : input.completion(current, controls);
+    const assess = async (current: BrowserSnapshot, controls: BrowserPageControl[]) => {
+      if (current.settlement !== "PENDING") return input.completion(current, controls);
+      const pending = { complete: false, reason: "Page is still loading after its bounded settlement wait; old results are not usable." };
+      // Only the adapter's existing predicate can establish a bound result.
+      // Readiness itself never establishes identity, request binding or inventory.
+      const first = input.completion({ ...current, settlement: "SETTLED" }, controls);
+      if (!first.complete || !first.resultKey || first.resultBusy === true || (first.resultBusy === undefined && current.settlementDiagnostics?.busySelectors.length)) return pending;
+      await this.operation(input, "VERIFY_RESULT_STABILITY", () => new Promise<void>(resolve => setTimeout(resolve, 500)));
+      const next = await this.snapshot(input);
+      const observed = await this.observeControls(input);
+      const second = input.completion({ ...next, settlement: "SETTLED" }, observed);
+      if (!second.complete || second.resultKey !== first.resultKey || second.resultBusy === true || (second.resultBusy === undefined && next.settlementDiagnostics?.busySelectors.length)) return pending;
+      this.pageUnsettled = false;
+      Object.assign(current, next, { settlement: "SETTLED" });
+      controls.splice(0, controls.length, ...observed);
+      this.record({ source: input.source, stage: input.stage, event: "POST_ACTION_VERIFIED", url: next.url, detail: "BOUND_RESULT_STABLE" });
+      return second;
+    };
     let snapshot = await this.snapshot(input);
     // A request-shaped HTML link can be stale while the live control carrying
     // the same URL is disabled. Read both representations before accepting a
     // completion, including on the initial snapshot and after a source-owned
     // shortcut. HTML alone is never a shortcut around current DOM evidence.
     let verifiedObservation: Observation | undefined = await this.observe(input, snapshot);
-    let completion = assess(snapshot, verifiedObservation.controls);
+    let completion = await assess(snapshot, verifiedObservation.controls);
     if (completion.complete) return { status: "COMPLETED", snapshot, controls: verifiedObservation.controls };
+    if (snapshot.settlement === "PENDING") {
+      // A short navigation sample is not a reason to ask for help before the
+      // current data has had its existing bounded readiness window.
+      await this.waitForSettled(input, snapshot);
+      snapshot = await this.snapshot(input);
+      verifiedObservation = await this.observe(input, snapshot);
+      completion = await assess(snapshot, verifiedObservation.controls);
+      if (completion.complete) return { status: "COMPLETED", snapshot, controls: verifiedObservation.controls };
+    }
     let progress = input.methodReason ?? completion.reason;
     const history: BrowserReadHistoryStep[] = [];
     const remember = (step: BrowserReadHistoryStep) => {
@@ -480,7 +505,7 @@ export class BrowserTaskExecutor {
           await this.bounded(input, "SHORTCUT", () => input.shortcut!.run(snapshot));
           snapshot = await this.snapshot(input);
           verifiedObservation = await this.observe(input, snapshot);
-          completion = assess(snapshot, verifiedObservation.controls);
+          completion = await assess(snapshot, verifiedObservation.controls);
           if (completion.complete) return { status: "COMPLETED", snapshot, controls: verifiedObservation.controls };
           progress = completion.reason;
           this.record({ source: input.source, stage: input.stage, event: "METHOD_INCOMPLETE", url: snapshot.url, detail: `${input.shortcut.name}: ${progress}` });
@@ -499,7 +524,7 @@ export class BrowserTaskExecutor {
       verifiedObservation = undefined;
       if (pendingOption && this.optionSelectionObserved(pendingOption, observation.controls)) pendingOption = undefined;
       if (pendingRadio && this.radioSelectionObserved(pendingRadio, observation.controls)) pendingRadio = undefined;
-      completion = assess(snapshot, observation.controls);
+      completion = await assess(snapshot, observation.controls);
       if (completion.complete && !pendingOption && !pendingRadio) return { status: "COMPLETED", snapshot, controls: observation.controls };
       if (!this.options.modelDecision) return { status: "NO_SAFE_ACTION", snapshot, controls: observation.controls };
       if (!postAction) {
@@ -592,7 +617,7 @@ export class BrowserTaskExecutor {
       });
       if (action.type === "COMPLETE") {
         consecutiveStateRepeats = 0;
-        completion = assess(snapshot, observation.controls);
+        completion = await assess(snapshot, observation.controls);
         if (pendingOption || pendingRadio) return { status: "NO_SAFE_ACTION", snapshot, controls: observation.controls };
         if (completion.complete) return { status: "COMPLETED", snapshot, controls: observation.controls };
         // COMPLETE is a request to finish, never evidence that the source has
@@ -617,7 +642,7 @@ export class BrowserTaskExecutor {
         await this.waitForSettled(input, snapshot);
         snapshot = await this.snapshot(input);
         verifiedObservation = await this.observe(input, snapshot);
-        completion = assess(snapshot, verifiedObservation.controls);
+        completion = await assess(snapshot, verifiedObservation.controls);
         if (completion.complete) return { status: "COMPLETED", snapshot, controls: verifiedObservation.controls };
         postAction = true;
         continue;
@@ -718,7 +743,7 @@ export class BrowserTaskExecutor {
         detail: optionConfirmed ? effectVerified ? "OBSERVED_CHANGE_AFTER_MODEL_ACTION" : "ASYNC_RESULT_NOT_READY_AFTER_MODEL_ACTION" : "OPTION_VALUE_NOT_CONFIRMED",
         observation: this.diagnosticObservation(postActionObservation),
       });
-      completion = assess(snapshot, postActionObservation.controls);
+      completion = await assess(snapshot, postActionObservation.controls);
       if (completion.complete && optionConfirmed) return { status: "COMPLETED", snapshot, controls: postActionObservation.controls };
       if (publicQuerySubmit && !publicQueryWaitChanged) {
         pendingControlKeys.add(target!.stableKey);
@@ -1026,7 +1051,9 @@ export class BrowserTaskExecutor {
   }
 
   private async waitForSettled(input: Pick<BrowserSkillReadInput, "source" | "stage" | "signal"> & { session: BrowserSession }, previous: BrowserSnapshot, countOperation = true): Promise<boolean> {
-    const timeoutMs = this.remaining(4_000);
+    // Navigation first samples readiness; a completed result can then use the
+    // two-snapshot check. Explicit/action waits retain the four-second ceiling.
+    const timeoutMs = this.remaining(countOperation ? 4_000 : 700);
     const startedAt = Date.now();
     const changed = input.session.waitForSettled
       ? await (countOperation ? this.operation(input, "WAIT_FOR_SETTLED", () => input.session.waitForSettled!(previous, timeoutMs))
@@ -1037,7 +1064,8 @@ export class BrowserTaskExecutor {
       source: input.source,
       stage: input.stage,
       event: "ASYNC_WAIT",
-      url: previous.url,
+      url: input.session.settlementDiagnostics?.()?.url ?? previous.url,
+      ...(input.session.settlementDiagnostics?.() ? { settlement: input.session.settlementDiagnostics!()! } : {}),
       detail: changed ? "PAGE_SETTLED" : "PAGE_STILL_LOADING_WITHIN_BOUND",
       waitMs: Date.now() - startedAt,
     });

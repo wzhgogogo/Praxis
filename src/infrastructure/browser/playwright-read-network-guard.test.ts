@@ -471,3 +471,23 @@ test("TableCheck reserve static assets admit only reviewed CDN paths and read re
     await http(denied.route); assert.deepEqual(denied.calls, ["abort"]);
   }
 });
+
+
+test("C3b settlement counts only short data requests and diagnoses all outstanding types", async () => {
+  const listeners: Record<string, (request: any) => void> = {};
+  const guard = new PlaywrightReadNetworkGuard(policy);
+  await guard.install({ on: (event: string, fn: (request: any) => void) => { listeners[event] = fn; }, route: async () => {}, routeWebSocket: async () => {} } as any);
+  const requests = ["document", "xhr", "fetch", "image", "stylesheet", "font", "media", "ping"].map(type => ({ resourceType: () => type }));
+  const original = Date.now; let now = original();
+  Date.now = () => now;
+  try {
+    requests.forEach(request => listeners.request!(request));
+    assert.equal(guard.settlementActivity().pending, 3);
+    requests.slice(0, 3).forEach(request => listeners.requestfinished!(request));
+    assert.equal(guard.settlementActivity().pending, 0, "unfinished image/beacon cannot block data readiness");
+    listeners.request!(requests[2]); now += 3_001;
+    assert.equal(guard.settlementActivity().pending, 0, "long connection is diagnosed without blocking");
+    assert.equal(guard.settlementActivity().pendingByType.fetch, 1);
+    assert.equal(guard.settlementActivity().oldestPendingMs, 3_001);
+  } finally { Date.now = original; }
+});

@@ -3249,3 +3249,8 @@ IMMEDIATE_SOURCES_CLOSED限制为至少三家已查门店全部明确不营业�
 ## DEV-2026-10-10-P1PRE-Live
 
 冻结14c1112的kf-h001/kf-h002/kf-h005三例已完成；@26 qualified分别YES/UNKNOWN/NO，h005结束范围评价NOT_SUPPORTED；只记录，待独立复核。
+
+
+## DEV-2026-10-10-P1C3B-C3b
+
+共享稳定判定只计短 document/xhr/fetch；导航短采样后按同一完成谓词在至少500ms间隔核验绑定结果。来源结果 busy 与整页图片/其他组件区分；加载中的库存不接纳。诊断保留真实URL、全部未完成类型、最久年龄、busy和文字变化。无站点分支，原 C3 正反例保留。

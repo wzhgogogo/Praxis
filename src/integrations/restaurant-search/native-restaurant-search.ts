@@ -89,6 +89,16 @@ function discoveryQueryNeedsCurrentQuery(page: BrowserSnapshot, expression: stri
   return value !== expression || visibleDiscoveryQueryBusy(page);
 }
 
+/** Shared source parser/current-query predicate for runtime and read-only diagnostics. */
+export function sourceListingCompletion(pack: DiscoverySourcePack, current: BrowserSnapshot, controls: readonly BrowserPageControl[], expression: string) {
+  const listing = pack.parseListing(current);
+  const empty = pack.browser!.isExplicitEmptyListing(current);
+  return { complete: !discoveryQueryNeedsCurrentQuery(current, expression, controls) && (listing.outlets.length > 0 || empty),
+    resultBusy: visibleDiscoveryQueryBusy(current),
+    reason: "Reveal current public results for the bound retrieval expression.",
+    resultKey: JSON.stringify([current.url, listing.outlets.map(outlet => outlet.sourceUrl).sort(), empty]) };
+}
+
 function pendingEntry(
   sourceEntityId: string,
   sourceUrl: string,
@@ -481,7 +491,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
             goal: { outlet: { name: keyword, address: request.intent.area.query }, retrievalExpression: activeExpression, hardCriteria: request.intent.criteria.filter((item) => item.polarity === "POSITIVE" && item.strength === "HARD").map((item) => item.text) },
             objective: "Apply the current source search and reveal its public restaurant results for the authoritative area and retrieval terms. Do not submit a reservation.",
             methodReason: "The current source listing has not yet produced a parsed public restaurant result or an explicit empty result.",
-            completion: (current, controls) => ({ complete: listingComplete(current, controls), reason: "Reveal a current public restaurant result list or wait for an explicit empty listing state." }),
+            completion: (current, controls) => ({ complete: listingComplete(current, controls), resultBusy: visibleDiscoveryQueryBusy(current), resultKey: JSON.stringify([current.url, pack.parseListing(current).outlets.map(outlet => outlet.sourceUrl).sort(), pack.browser!.isExplicitEmptyListing(current)]), reason: "Reveal a current public restaurant result list or wait for an explicit empty listing state." }),
           });
           page = discovery.snapshot;
           if (discovery.status !== "COMPLETED" || !listingComplete(page, discovery.controls)) {
@@ -651,7 +661,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
             goal: { outlet: { name: expression, address: request.intent.area.query }, retrievalExpression: expression, hardCriteria: request.intent.criteria.filter((item) => item.polarity === "POSITIVE" && item.strength === "HARD").map((item) => item.text) },
             objective: "Apply the current public source search and reveal venue result cards for the authoritative area and retrieval terms. Do not submit a reservation.",
             methodReason: "The current source listing has not yet produced a parsed public venue result or an explicit empty result.",
-            completion: (current, controls) => ({ complete: listingComplete(current, controls), reason: "Reveal a current public venue result list or wait for an explicit empty listing state." }),
+            completion: (current, controls) => sourceListingCompletion(pack, current, controls, expression),
           });
           page = discovery.snapshot;
           if (discovery.status !== "COMPLETED" || !listingComplete(page, discovery.controls)) {

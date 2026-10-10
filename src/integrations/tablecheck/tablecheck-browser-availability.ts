@@ -518,6 +518,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
           methodReason: "TableCheck discovery has no extractable public outlet link yet.",
           completion: (page) => ({
             complete: parseTableCheckDiscoveryOutletUrls(page, candidate.restaurant.outletName).length > 0 || hasTableCheckDiscoveryNoResult(page),
+            resultKey: JSON.stringify([page.url, parseTableCheckDiscoveryOutletUrls(page, candidate.restaurant.outletName).sort(), hasTableCheckDiscoveryNoResult(page)]),
             reason: "Continue until an observed public outlet result is available, or the page explicitly reports no results.",
           }),
         });
@@ -808,6 +809,8 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
           // during final grounding, otherwise a correct DOM-only slot is
           // rejected before the Domain can inspect it.
           return {
+            resultBusy: assessed.loading,
+            resultKey: JSON.stringify([current.url, request.date, request.partySize, request.timeWindow, assessed.serviceScope, assessed.result, assessed.html.emptyMealtime]),
             complete: hasTableCheckBotChallenge(current) || assessed.complete || (assessed.selected && !assessed.loading && !assessed.serviceScope && assessed.html.emptyMealtime !== undefined),
             reason: !assessed.requestSelected
               ? "The latest page must explicitly confirm the complete authoritative date and party size before any result can be used."

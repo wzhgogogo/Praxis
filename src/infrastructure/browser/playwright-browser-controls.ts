@@ -450,12 +450,13 @@ export async function waitForPageSettled(
   page: Page,
   _previous: Pick<BrowserSnapshot, "url" | "title" | "text" | "interactiveState">,
   timeoutMs: number,
-  activity: () => { pending: number; revision: number },
+  activity: () => { pending: number; revision: number; pendingByType?: Record<string, number>; oldestPendingMs?: number },
+  diagnostic?: (value: import("./browser-runtime.js").BrowserSettlementDiagnostics) => void,
 ): Promise<boolean> {
   const deadline = Date.now() + timeoutMs;
   while (Date.now() < deadline) {
     const before = activity();
-    const ready = await page.evaluate((remaining) => new Promise<boolean>(resolve => {
+    const ready = await page.evaluate((remaining) => new Promise<{ settled: boolean; busySelectors: string[]; visibleTextChanging: boolean }>(resolve => {
       let lastMutation = performance.now();
       const observer = new MutationObserver(() => { lastMutation = performance.now(); });
       observer.observe(document.documentElement, { subtree: true, childList: true, attributes: true, characterData: true });
@@ -472,24 +473,34 @@ export async function waitForPageSettled(
       let sample = projection.capture(), visibleSince = performance.now();
       const started = performance.now();
       const timer = setInterval(() => {
-        const busy = [...document.querySelectorAll('[aria-busy="true"],[role="progressbar"],[class]')].some(element => {
+        const busyElements = [...document.querySelectorAll('[aria-busy="true"],[role="progressbar"],[class]')].filter(element => {
           if (!element.matches('[aria-busy="true"],[role="progressbar"]') && !/(?:^|[\s_-])(?:spinner|loader|skeleton)(?:$|[\s_-])/i.test(element.className.toString())) return false;
           const style = getComputedStyle(element);
           return element.getClientRects().length > 0 && style.display !== "none" && style.visibility !== "hidden";
         });
         const current = projection.capture();
         if (current !== sample) { sample = current; visibleSince = performance.now(); }
-        const settled = !busy && (performance.now() - lastMutation >= 300 || performance.now() - visibleSince >= 300);
+        const settled = !busyElements.length && (performance.now() - lastMutation >= 300 || performance.now() - visibleSince >= 300);
         if (settled || performance.now() - started >= remaining) {
-          clearInterval(timer); observer.disconnect(); resolve(settled);
+          clearInterval(timer); observer.disconnect(); resolve({ settled, busySelectors: busyElements.slice(0, 12).map(element => element.matches('[aria-busy="true"]') ? '[aria-busy="true"]' : element.matches('[role="progressbar"]') ? '[role="progressbar"]' : '.' + element.className.toString().split(/\s+/).filter(value => /spinner|loader|skeleton/i.test(value)).join('.')), visibleTextChanging: performance.now() - visibleSince < 300 });
         }
       }, 50);
     }), Math.max(1, deadline - Date.now()));
     const after = activity();
-    if (ready && before.pending === 0 && after.pending === 0 && before.revision === after.revision) return true;
-    if (!ready) return false;
+    diagnostic?.({ url: page.url(), pendingByType: after.pendingByType ?? {}, oldestPendingMs: after.oldestPendingMs ?? 0, blockingDataRequests: after.pending, busySelectors: ready.busySelectors, visibleTextChanging: ready.visibleTextChanging });
+    if (ready.settled && before.pending === 0 && after.pending === 0 && before.revision === after.revision) return true;
+    if (!ready.settled) return false;
   }
   return false;
+}
+
+/** Current visible busy markers; a prior wait's sample cannot certify a later result. */
+export async function pageBusySelectors(page: Page): Promise<string[]> {
+  return page.evaluate(() => [...document.querySelectorAll('[aria-busy="true"],[role="progressbar"],[class]')].filter(element => {
+    if (!element.matches('[aria-busy="true"],[role="progressbar"]') && !/(?:^|[\s_-])(?:spinner|loader|skeleton)(?:$|[\s_-])/i.test(element.className.toString())) return false;
+    const style = getComputedStyle(element);
+    return element.getClientRects().length > 0 && style.display !== "none" && style.visibility !== "hidden";
+  }).slice(0, 12).map(element => element.matches('[aria-busy="true"]') ? '[aria-busy="true"]' : element.matches('[role="progressbar"]') ? '[role="progressbar"]' : '.' + element.className.toString().split(/\s+/).filter(value => /spinner|loader|skeleton/i.test(value)).join('.')));
 }
 
 /** A small browser-owned projection for waiting, never model-supplied state. */

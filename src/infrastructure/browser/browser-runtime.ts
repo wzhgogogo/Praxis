@@ -49,6 +49,15 @@ export interface BrowserReadNetworkObservation {
   queryKeys: string[];
 }
 
+export interface BrowserSettlementDiagnostics {
+  url: string;
+  pendingByType: Record<string, number>;
+  oldestPendingMs: number;
+  blockingDataRequests: number;
+  busySelectors: string[];
+  visibleTextChanging: boolean;
+}
+
 export interface BrowserSnapshot {
   /** Runtime-owned loading feedback; PENDING is never inventory completion evidence. */
   settlement?: "SETTLED" | "PENDING";
@@ -61,6 +70,7 @@ export interface BrowserSnapshot {
    * separate from page text: a query may change value, selection or disabled
    * state without changing the visible prose.
    */
+  settlementDiagnostics?: BrowserSettlementDiagnostics;
   interactiveState?: string;
   /** Opaque, session-local page identity. It changes only when an observed link opens a new page. */
   pageId?: string;
@@ -173,6 +183,7 @@ export interface BrowserSession {
   waitFor(target: string, timeoutMs?: number): Promise<void>;
   /** Wait for network completion, quiet DOM or stable visible state, and no visible busy indicators; false on timeout. */
   waitForSettled?(previous: Pick<BrowserSnapshot, "url" | "title" | "text" | "interactiveState">, timeoutMs?: number): Promise<boolean>;
+  settlementDiagnostics?(): BrowserSettlementDiagnostics | undefined;
   screenshot(): Promise<Uint8Array>;
   /** Code-owned privacy-safe layout capture: masks content without changing control state. */
   screenshotLayoutOnly?(): Promise<Uint8Array>;

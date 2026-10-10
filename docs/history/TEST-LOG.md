@@ -3933,3 +3933,8 @@ C6a/red.log复现单店休息提前结束；green.log原十一模式+单店/三�
 ## TEST-2026-10-10-P1PRE-Live
 
 宿主机干净detached/LOCAL_CHROMIUM/headless/no-proxy/无人工介入；500s/50模型/40Google；38+30+47=115模型，1+1+2=4Google，256.293/221.975/369.869s。h002首次preflight TableCheck503环境失败，0正式调用，仅重跑1次恢复。三份result自动evaluator@26；决策数38/30/47与started一致，全部在见证有效期内完成。h001六项SATISFIED，h002措辞等价性NOT_EVALUATED，h005COMPLETION_OUTCOME NOT_SATISFIED；无终态错误展示检测项。C3 PENDING25/17/45，等待109042/77103/187789ms；重复拒绝0/2/1；思考0；C0窗口0，C0c仅h005一次，调用保留量一次完成2家（UNKNOWN），时间保留0；三份录制样式表总0。Live无修复，旧early失败作历史对照，无额外红灯运行。typecheck/arch-check/test（805/805）/build均PASS；证据与完整路径见report.md。
+
+
+## TEST-2026-10-10-P1C3B-C3b
+
+本地 Chromium 和网络生命周期 Fixture 红绿见 .eval-artifacts/p1-c3b-20261010/C3b/；12公开URL只读探测无模型无点击，结果与门禁明细见本批报告。已暴露开发诊断，不是整单Live验收。
