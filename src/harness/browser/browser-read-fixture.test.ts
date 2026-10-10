@@ -2185,3 +2185,25 @@ test("C3 visible-state fallback settles attribute-only carousel and rejects chan
     } finally { await executor.close(); }
   }
 });
+
+test("C4 blocks repeated toggle state but allows the same Next control on changed pages", async () => {
+  for (const mode of ["toggle", "pagination"] as const) {
+    const runtime=localFixture(`<title>Navigation Fixture</title><button id="next" aria-expanded="false">${mode==='toggle'?'Filters':'Next'}</button><output id="result">${mode==='toggle'?'Closed':'Page 0'}</output><script>let clicks=0;next.onclick=()=>{clicks++;${mode==='toggle'?"next.setAttribute('aria-expanded',String(clicks%2===1));result.textContent=clicks%2?'Open':'Closed';":"result.textContent='Page '+clicks;"}}</script>`);
+    let calls=0;const history: import("../../infrastructure/browser/browser-action-decision.js").BrowserReadHistoryStep[][]=[];
+    const diagnostics:BrowserExecutionDiagnostic[]=[];
+    const executor=new BrowserTaskExecutor(runtime,{maxModelCallsPerCandidate:6,maxOperationsPerCandidate:100,maxElapsedMsPerCandidate:15000,onDiagnostic:d=>diagnostics.push(d),modelDecision:{async decide(value){calls++;history.push(value.history);return {type:"CLICK",targetRef:value.observation.targets.find(x=>x.label===(mode==='toggle'?'Filters':'Next'))!.ref,reason:"Advance current navigation"};}}});
+    const signal=new AbortController().signal;const session=await executor.acquire(signal,"FIXTURE","DISCOVERY");
+    try{
+      await executor.navigate({session,signal,source:"FIXTURE",stage:"DISCOVERY",allowedOrigins:["https://www.tablecheck.com"],url});
+      const read=await executor.runSkill({taskId:`repeat:${mode}`,session,signal,source:"FIXTURE",stage:"DISCOVERY",allowedOrigins:["https://www.tablecheck.com"],goal:{outlet:{name:"Fixture"},hardCriteria:[]},objective:"Advance public navigation",completion:s=>({complete:mode==='pagination'&&s.text.includes('Page 3'),reason:"Keep advancing"})});
+      assert.equal(read.status,mode==='toggle'?"NO_SAFE_ACTION":"COMPLETED");
+      const repeats=diagnostics.filter(d=>d.detail==='REPEATED_FROM_SAME_STATE');
+      assert.equal(repeats.length,mode==='toggle'?2:0,mode);
+      assert.equal(calls,mode==='toggle'?4:3);
+      if(mode==='toggle'){
+        assert.match(read.snapshot.text,/Filters\s*Closed/);
+        assert.equal(history[3]!.at(-1)?.reason,'REPEATED_FROM_SAME_STATE');
+      }
+    }finally{await executor.close();}
+  }
+});

@@ -3239,3 +3239,8 @@ IMMEDIATE_SOURCES_CLOSED限制为至少三家已查门店全部明确不营业�
 ## DEV-2026-10-10-P1PRE-progress-wording
 
 执行器无变化反馈明确选择当前观察目标，只有确实加载时等待；不改变动作资格。
+
+
+## DEV-2026-10-10-P1PRE-C4
+
+通用同状态同动作同目标拦截写入 history/progress，连续两次返回 NO_SAFE_ACTION；冻结回放未达门槛，生产思考保持关闭，Prompt 不变。

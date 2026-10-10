@@ -429,3 +429,11 @@ semantic: { target: { goal: AVAILABILITY }, location: { value: Nihonbashi, relat
 ```
 
 冻结时按基线 Playbook 的变体规则补全 `dataset`、`parent`、`date` 和 `acceptance`，并经用户审核。
+
+### 2026-10-10 C4 启用判定证据（exposed development diagnostic）
+
+冻结 `seeds.v4.json` 的 35 个 browser 种子，使用已有 history 注入回放；原始 messages、目标和标签不改，不使用缺 CSS 的重建。浏览器 Prompt@15 的 history 指令不变（捕获版本在产物中保留为原版本 + `history@2`）。快速模式新历史种子 7/14、NO_ACTION_MEMORY 1/2、MODEL_DECISION 3/10、正向对照 8/9；兼容思考模式分别 7/14、2/2、7/10、7/9。0120 两模式均未通过，思考请求未返回所需结构化工具调用，不能记为正确请求帮助。
+
+初始思考轮 35 次全部 HTTP 400；Provider 官方 Chat Completions 文档明确思考模式不支持 named tool choice。仅评测传输以单个原严格工具的 `auto` choice 补一轮，Schema、消息、fail-closed 解码不变；其 7 个非工具输出仍计入失败分母，未放宽资格。105 次真实调用（35 快速 + 35 拒绝 + 35 兼容思考），阶段累计 320/1500。新历史组增量 0，正向对照减少 1，不满足启用条件。生产仍保持思考关闭、原有调用额度；只合入通用 `REPEATED_FROM_SAME_STATE` 拦截。耗时、token、失败与红绿证据见 `.eval-artifacts/p1-prelive-20261010/C4/comparison.json` 和最终报告；该结论不是 Clean Baseline。
+
+Provider 兼容性依据：<https://api-docs.deepseek.com/api/create-chat-completion/>。初始失败轮没有返回 token/latency，相关统计不可得；兼容轮用既有 Invocation Observer 记录每次耗时，未返回 usage 的 7 次不能按零 token 计成本。

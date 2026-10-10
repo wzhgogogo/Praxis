@@ -565,7 +565,7 @@ test("BrowserTaskExecutor stops a repeated two-page cycle without spending the f
   const diagnostics: string[] = [];
   const result = await executor.runSkill({ ...input(acquired), completion: () => ({ complete: false, reason: "Continue" }) });
   assert.equal(result.status, "NO_SAFE_ACTION");
-  assert.ok(diagnostics.includes("NO_PROGRESS_PAGE_CYCLE"));
+  assert.equal(diagnostics.filter(detail => detail === "REPEATED_FROM_SAME_STATE").length, 2);
   await executor.close();
   assert.equal(closes, 1);
 });

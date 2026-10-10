@@ -164,3 +164,8 @@ Final follow-up regression covers complete disabled half-hour window evidence, w
 
 
 2026-10-10 C3稳定判定补充：共享等待在无未完成请求、无可见busy标记时，允许DOM静默300ms，或可见文字及可交互状态相隔至少300ms采样相同，作为两条稳定路径；上限仍4秒/原deadline。轮播只改属性不阻断已有结果，文字分批追加或可见skeleton仍PENDING。Hybrid每次成功/失败/取消结果摘要导出`resourceUsage.pageStillLoadingWithinBound`和`postActionWaitTotalMs`；后者累加ASYNC_WAIT的实际waitMs，包含导航、动作后及显式WAIT，不使用累计executor elapsedMs。两个数只表示等待行为，不是库存或来源完成证据。
+
+
+### 2026-10-10 同状态动作重放拦截
+
+每个读取以当前 URL、可见文字和可交互状态形成指纹，目标使用稳定控件标识，不使用模型 targetRef 或 session id。已经从该状态执行过的同类型、同目标动作再次提出时不执行，记录 `REPEATED_FROM_SAME_STATE` 到诊断、最近六步 history 与 progress；连续两次这种拒绝结束为 `NO_SAFE_ACTION`。一次其他拒绝会中断连续计数；页面或控件状态变化后的分页仍可执行。状态集合在读取边界清空。该机制不改变来源网络边界、动作资格或结果资格。

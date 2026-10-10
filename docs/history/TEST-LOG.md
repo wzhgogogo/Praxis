@@ -3923,3 +3923,8 @@ C6a/red.log复现单店休息提前结束；green.log原十一模式+单店/三�
 ## TEST-2026-10-10-P1PRE-progress-wording
 
 修复前红灯 red.log；最终 green-final.log 1/1；typecheck-final、arch-check-final、test-final（805/805）、build-final 均通过。无真实模型调用、无 Live。
+
+
+## TEST-2026-10-10-P1PRE-C4
+
+有效红灯 red.log；Chromium 正反例 green-fixture-final.log 1/1（2模式），执行器 green-executor-final.log 45/45；typecheck-final、arch-check-final、test-final（805/805）、build-final 均通过。v4 35种子快速/思考兼容轮历史7/14→7/14、正控8/9→7/9；105次真实调用，含初始35次HTTP400，阶段320/1500。详见 comparison.json；无 Live。

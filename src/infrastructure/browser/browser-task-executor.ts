@@ -437,6 +437,8 @@ export class BrowserTaskExecutor {
     let lastRejectedProposal: string | undefined;
     let repeatedRejectedProposals = 0;
     const recoveredObstructions = new Set<string>();
+    const executedStateActions = new Set<string>();
+    let consecutiveStateRepeats = 0;
     const recordRejectedProposal = (key: string) => {
       repeatedRejectedProposals = key === lastRejectedProposal ? repeatedRejectedProposals + 1 : 1;
       lastRejectedProposal = key;
@@ -568,6 +570,7 @@ export class BrowserTaskExecutor {
         this.record({ source: input.source, stage: input.stage, event: "REJECTED", url: snapshot.url, detail: rejectionDetail });
         if (error instanceof BrowserRuntimeError || (error && typeof error === "object" && "code" in error && error.code === "MODEL_CALL_BUDGET_EXHAUSTED")) throw error;
         if (error instanceof BrowserReadDecisionError && error.code === "INVALID_MODEL_OUTPUT") {
+          consecutiveStateRepeats = 0;
           remember({ action: "MODEL_OUTPUT", outcome: "REJECTED", reason: rejectionDetail, urlChanged: false });
           if (recordRejectedProposal(`${observationKey(snapshot, observation.controls)}|${rejectionDetail}`)) {
             this.record({ source: input.source, stage: input.stage, event: "METHOD_INCOMPLETE", url: snapshot.url, detail: "NO_PROGRESS_REJECTED_ACTION" });
@@ -588,6 +591,7 @@ export class BrowserTaskExecutor {
         detail: `MODEL_${action.type}`,
       });
       if (action.type === "COMPLETE") {
+        consecutiveStateRepeats = 0;
         completion = assess(snapshot, observation.controls);
         if (pendingOption || pendingRadio) return { status: "NO_SAFE_ACTION", snapshot, controls: observation.controls };
         if (completion.complete) return { status: "COMPLETED", snapshot, controls: observation.controls };
@@ -624,6 +628,17 @@ export class BrowserTaskExecutor {
         this.record({ source: input.source, stage: input.stage, event: "REJECTED", url: snapshot.url, detail: "STALE_OR_UNKNOWN_TARGET_REF" });
         return { status: "NO_SAFE_ACTION", snapshot, controls: observation.controls };
       }
+      const stateActionKey = `${observationKey(snapshot, observation.controls)}|${action.type}|${target?.stableKey ?? "PAGE"}`;
+      if (executedStateActions.has(stateActionKey)) {
+        consecutiveStateRepeats++;
+        remember({ action: action.type, ...(target ? { targetLabel: safeText(target.label, 160), targetKind: target.kind } : {}),
+          ...("field" in action ? { field: action.field } : {}), outcome: "REJECTED", reason: "REPEATED_FROM_SAME_STATE", urlChanged: false });
+        progress = "REPEATED_FROM_SAME_STATE: this action and target were already executed from the current visible state. Choose another current observed target that advances the goal. Wait only if the result is actually still loading.";
+        this.record({ source: input.source, stage: input.stage, event: "REJECTED", url: snapshot.url, detail: "REPEATED_FROM_SAME_STATE" });
+        if (consecutiveStateRepeats >= 2) return { status: "NO_SAFE_ACTION", snapshot, controls: observation.controls };
+        continue;
+      }
+      consecutiveStateRepeats = 0;
       const confirmationOperations = 2 + (input.session.observeControls ? 1 : 0);
       if (this.operationCount + confirmationOperations > (this.options.maxOperationsPerCandidate ?? 24)) {
         this.recordBudgetExhausted(input, "OPERATION_BUDGET_EXHAUSTED");
@@ -634,6 +649,7 @@ export class BrowserTaskExecutor {
           throw new Error("A previous option is still unconfirmed; WAIT for its selected value before choosing another option");
         }
         await this.applyGenericAction(input, observation, target, action);
+        executedStateActions.add(stateActionKey);
       } catch (error) {
         const obstruction = target !== undefined && pointerObstruction(error);
         remember({ action: action.type, ...(target ? { targetLabel: safeText(target.label, 160), targetKind: target.kind } : {}),
