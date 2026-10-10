@@ -7,6 +7,8 @@
 
 ## 当前门槛
 
+- **2026-10-10 P1PRE-Live：** 冻结14c1112的kf-h001/kf-h002/kf-h005三例已完成；@26 qualified分别YES/UNKNOWN/NO，h005结束范围评价NOT_SUPPORTED；只记录，待独立复核。 本项宿主机真实只读验证已完成；待独立复核，不推送，不追加运行。证据目录 `.eval-artifacts/p1-prelive-20261010/Live/`。
+
 - **2026-10-10 P1PRE-C4：** 通用同状态同动作同目标拦截写入 history/progress，连续两次返回 NO_SAFE_ACTION；冻结回放未达门槛，生产思考保持关闭，Prompt 不变。 本项离线验证，后续只按授权运行 Live；不推送。证据目录 `.eval-artifacts/p1-prelive-20261010/C4/`。
 
 - **2026-10-10 P1PRE-progress-wording：** 执行器无变化反馈明确选择当前观察目标，只有确实加载时等待；不改变动作资格。 本项离线验证，后续只按授权运行 Live；不推送。证据目录 `.eval-artifacts/p1-prelive-20261010/progress-wording/`。
