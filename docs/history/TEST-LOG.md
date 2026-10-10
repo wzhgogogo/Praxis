@@ -3978,3 +3978,8 @@ Red: red-contract.log (three compile omissions), red-changing-results.log (stale
 ## TEST-2026-10-10-P1D-replay-matching
 
 四门禁通过（832 tests）；两规则各正反例与未知字段/全标签预验证通过，旧实现错误放行的红灯保留。v6 原动作 132 条离线计分，1–128 与 v4/v5 无变化；0129/0130 失败，0131/0132 通过。保存的原样/注入 C8 输出 12/12 通过，新增真实调用 0。
+
+
+## TEST-2026-10-10-P1D-P1-D
+
+四门禁通过（837 tests）；有效红灯为 e1e0cfe 硬编码地区路由反例与初轮 Asakusa 3/10。地区、LOCATION、未知坐标/一次替换/预算正反例及持久化恢复绿色。Discovery-only 共 8 次、10 模型；Roppongi 9/10、Nihonbashi 9/10、Ikebukuro 8/10、Asakusa 6/10（未读 2 仍在十家分母），4/5；Ebisu Google 解析美国同名店，失败。Shibuya 6/10。Live 不等于资格或库存证明，待独立复核。

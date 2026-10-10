@@ -1,7 +1,7 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.48
+- Document revision: 1.49
 - Last updated: 2026-10-10
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
@@ -239,3 +239,8 @@ Google-listed网站及HIGH身份的Native/官方页面复用结构化/可见营�
 ### C3b explicit bound-result completion (2026-10-10)
 
 Completed browser reads now require an explicit resultKey and resultBusy. Source packs assess their result lists; Tabelog availability assesses the current query region, excluding unrelated calendars, images and recommendations. No page-wide busy fallback remains. Changing result keys retain the newest PENDING observation. Captured Sen hidden time templates remain UNKNOWN / EXTRACTION_FAILED. Type and behavioral fixtures passed; 20 navigation-only public URL probes were repeated after the pack change (40 navigations, 0 model calls), final median wait 1,228.5ms. All three displayed name-search lists completed; three zero-result Tabelog searches remain incomplete pending the separately authorized retrieval experiment. The prior 12 URLs did not regress; the previously pending 3km TableCheck search displayed 16 venues and completed this time. Public reserve-entry GET pages were only observed, with no next-step action. Evidence: `.eval-artifacts/p1-d-batch-20261010/C3b-completion/`. This probe does not establish inventory or delivery.
+
+
+### 2026-10-10 P1-D approved directory selection
+
+ADR-0040 Accepted（用户批准 2026-10-10）。Removed all hardcoded directory regions/anchor selection. Browser schema@11/prompt@16 supports exact authoritative LOCATION in a guarded observed public input; the Agent follows current observed region entrances, including a parent menu before the named requested area. Existing candidate identity and exact radius gates remain. First five detail coordinates/outcomes and entry references persist in progress and final diagnostics; four proved outside among exactly five permit one replacement, with no budget/deadline reset. Offline source composition and location/input counterexamples pass. Eight bounded discovery-only probes were executed (initial six and Asakusa/Shibuya confirmation), no availability read or next step. Final new-location scoring is 4/5 (Roppongi 9/10, Nihonbashi 9/10, Ikebukuro 8/10, Asakusa 6/10; fixed denominator ten); Ebisu resolved to a US homonym and failed. Shibuya 6/10. These are exposed development findings, pending independent review, not inventory or qualification claims. Evidence `.eval-artifacts/p1-d-batch-20261010/P1-D/`.

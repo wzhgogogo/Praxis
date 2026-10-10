@@ -1,0 +1,64 @@
+{
+  "mode": "LIVE_READ_ONLY_DISCOVERY",
+  "sourcePack": "tabelog",
+  "places": [
+    "Asakusa",
+    "Shibuya"
+  ],
+  "radiusMeters": 1000,
+  "maxModelCalls": 6,
+  "maxElapsedMs": 90000,
+  "detailDenominator": 10,
+  "parentCommit": "e1e0cfece641a72cb2b9614bfcb784b774a986f6",
+  "implementationDiffSha256": "626e6cce1892ac272ac61540295c23849aa0e71e6bad8101244b0a2a0d6cc083",
+  "preflight": {
+    "artifactPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/live-preflight/2026-10-10T14-51-33-184Z-90e7b61b-0c3d-4021-b8fe-a806317557db.result.json",
+    "attempts": [
+      {
+        "target": "DEEPSEEK",
+        "request": {
+          "method": "GET",
+          "url": "https://api.deepseek.com/models",
+          "range": "NONE",
+          "authorization": "PRESENT"
+        },
+        "elapsedMs": 588,
+        "outcome": "REACHABLE",
+        "status": 200,
+        "tls": "ESTABLISHED"
+      },
+      {
+        "target": "GOOGLE",
+        "request": {
+          "method": "GET",
+          "url": "https://places.googleapis.com/",
+          "range": "NONE",
+          "authorization": "ABSENT"
+        },
+        "elapsedMs": 384,
+        "outcome": "REACHABLE",
+        "status": 404,
+        "tls": "ESTABLISHED"
+      },
+      {
+        "target": "TABELOG",
+        "request": {
+          "method": "GET",
+          "url": "https://tabelog.com/",
+          "range": "BYTES_0_0",
+          "authorization": "ABSENT"
+        },
+        "elapsedMs": 756,
+        "outcome": "REACHABLE",
+        "status": 200,
+        "tls": "ESTABLISHED"
+      }
+    ],
+    "elapsedMs": 1733,
+    "configuration": {
+      "proxyMode": "DISABLED_BY_CLI",
+      "googleProxyConfigured": false,
+      "browserProxyConfigured": false
+    }
+  }
+}

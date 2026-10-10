@@ -1,0 +1,980 @@
+{
+  "evidenceStatus": "exposed development; pending independent review",
+  "mode": "LIVE_READ_ONLY_DISCOVERY",
+  "probes": 8,
+  "realModelCalls": 10,
+  "initial": [
+    {
+      "place": "Ebisu",
+      "status": "NO_COVERAGE",
+      "passes": false,
+      "elapsedMs": 35438,
+      "modelCalls": 1,
+      "firstTen": {
+        "denominator": 10,
+        "within": 0,
+        "inspected": 5,
+        "unread": 5
+      },
+      "region": {
+        "first": {
+          "url": "https://tabelog.com/en/tokyo/A1303/",
+          "observedOn": "https://tabelog.com/en/tokyo/",
+          "targetRef": "observation:2:target:37"
+        },
+        "firstFive": [
+          {
+            "sourceEntityId": "en/tokyo/A1303/A130301/13275802",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+            "outcome": "OUTSIDE_RADIUS",
+            "coordinates": {
+              "latitude": 35.65966043790453,
+              "longitude": 139.70420908304837
+            },
+            "distanceMeters": 21839529.38711895
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1303/A130302/13293501",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13293501/",
+            "outcome": "OUTSIDE_RADIUS",
+            "coordinates": {
+              "latitude": 35.64736620871907,
+              "longitude": 139.708478454083
+            },
+            "distanceMeters": 21839891.860834207
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1303/A130301/13261619",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+            "outcome": "OUTSIDE_RADIUS",
+            "coordinates": {
+              "latitude": 35.65779487090903,
+              "longitude": 139.69905014779476
+            },
+            "distanceMeters": 21839008.668070115
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1303/A130302/13295650",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13295650/",
+            "outcome": "OUTSIDE_RADIUS",
+            "coordinates": {
+              "latitude": 35.646600958722004,
+              "longitude": 139.71615508406987
+            },
+            "distanceMeters": 21840649.183406353
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1303/A130302/13211927",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13211927/",
+            "outcome": "OUTSIDE_RADIUS",
+            "coordinates": {
+              "latitude": 35.64636472872077,
+              "longitude": 139.7118147640705
+            },
+            "distanceMeters": 21840217.691585682
+          }
+        ]
+      }
+    },
+    {
+      "place": "Roppongi",
+      "status": "LIST_OBSERVED",
+      "passes": true,
+      "elapsedMs": 60351,
+      "modelCalls": 1,
+      "firstTen": {
+        "denominator": 10,
+        "within": 9,
+        "inspected": 10,
+        "unread": 0
+      },
+      "region": {
+        "first": {
+          "url": "https://tabelog.com/en/tokyo/A1307/",
+          "observedOn": "https://tabelog.com/en/tokyo/",
+          "targetRef": "observation:2:target:34"
+        },
+        "firstFive": [
+          {
+            "sourceEntityId": "en/tokyo/A1307/A130701/13286138",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1307/A130701/13286138/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.66069119871591,
+              "longitude": 139.72509928420592
+            },
+            "distanceMeters": 864.3092709061435
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1307/A130702/13267332",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1307/A130702/13267332/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.65794303871994,
+              "longitude": 139.73228748417316
+            },
+            "distanceMeters": 481.40536301920497
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1307/A130702/13267404",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1307/A130702/13267404/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.655538258722245,
+              "longitude": 139.73474480414714
+            },
+            "distanceMeters": 703.8080364021841
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1307/A130701/13291424",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1307/A130701/13291424/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.6611653287206,
+              "longitude": 139.7407919641997
+            },
+            "distanceMeters": 570.0788160140224
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1307/A130701/13315626",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1307/A130701/13315626/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.662024143743324,
+              "longitude": 139.73083058949123
+            },
+            "distanceMeters": 336.6241345965612
+          }
+        ]
+      }
+    },
+    {
+      "place": "Nihonbashi",
+      "status": "LIST_OBSERVED",
+      "passes": true,
+      "elapsedMs": 50515,
+      "modelCalls": 1,
+      "firstTen": {
+        "denominator": 10,
+        "within": 9,
+        "inspected": 10,
+        "unread": 0
+      },
+      "region": {
+        "first": {
+          "url": "https://tabelog.com/en/tokyo/A1302/",
+          "observedOn": "https://tabelog.com/en/tokyo/",
+          "targetRef": "observation:2:target:41"
+        },
+        "firstFive": [
+          {
+            "sourceEntityId": "en/tokyo/A1302/A130201/13096429",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130201/13096429/",
+            "outcome": "OUTSIDE_RADIUS",
+            "coordinates": {
+              "latitude": 35.678792918716404,
+              "longitude": 139.76277829436236
+            },
+            "distanceMeters": 1062.4716982935936
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1302/A130202/13166422",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130202/13166422/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.68705687871494,
+              "longitude": 139.7746564344375
+            },
+            "distanceMeters": 655.391178259691
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1302/A130201/13279890",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130201/13279890/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.67941584871797,
+              "longitude": 139.76893960436433
+            },
+            "distanceMeters": 510.89975072389177
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1302/A130202/13033926",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130202/13033926/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.67432973791628,
+              "longitude": 139.77039398315017
+            },
+            "distanceMeters": 835.2886110748943
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1302/A130202/13276775",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130202/13276775/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.67661123791501,
+              "longitude": 139.77091778317285
+            },
+            "distanceMeters": 587.1082270161869
+          }
+        ]
+      }
+    },
+    {
+      "place": "Ikebukuro",
+      "status": "LIST_OBSERVED",
+      "passes": true,
+      "elapsedMs": 49573,
+      "modelCalls": 1,
+      "firstTen": {
+        "denominator": 10,
+        "within": 8,
+        "inspected": 10,
+        "unread": 0
+      },
+      "region": {
+        "first": {
+          "url": "https://tabelog.com/en/tokyo/A1305/",
+          "observedOn": "https://tabelog.com/en/tokyo/",
+          "targetRef": "observation:2:target:24"
+        },
+        "firstFive": [
+          {
+            "sourceEntityId": "en/tokyo/A1305/A130501/13311755",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130501/13311755/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.72911817000596,
+              "longitude": 139.7122745253349
+            },
+            "distanceMeters": 756.982175190321
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1305/A130503/13222288",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13222288/",
+            "outcome": "OUTSIDE_RADIUS",
+            "coordinates": {
+              "latitude": 35.712485864076974,
+              "longitude": 139.70740371288997
+            },
+            "distanceMeters": 2487.6812879962336
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1305/A130501/13240206",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130501/13240206/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.73002986866699,
+              "longitude": 139.70977766491706
+            },
+            "distanceMeters": 565.5851771729899
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1305/A130501/13295297",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130501/13295297/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.7303373608299,
+              "longitude": 139.71331173449408
+            },
+            "distanceMeters": 710.3116848856347
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1305/A130501/13307385",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130501/13307385/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.73208606866669,
+              "longitude": 139.71292609493563
+            },
+            "distanceMeters": 560.120562708176
+          }
+        ]
+      }
+    },
+    {
+      "place": "Asakusa",
+      "status": "LIST_OBSERVED",
+      "passes": false,
+      "elapsedMs": 49481,
+      "modelCalls": 1,
+      "firstTen": {
+        "denominator": 10,
+        "within": 3,
+        "inspected": 10,
+        "unread": 0
+      },
+      "region": {
+        "first": {
+          "url": "https://tabelog.com/en/tokyo/A1311/",
+          "observedOn": "https://tabelog.com/en/tokyo/",
+          "targetRef": "observation:2:target:43"
+        },
+        "firstFive": [
+          {
+            "sourceEntityId": "en/tokyo/A1311/A131101/13267852",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13267852/",
+            "outcome": "OUTSIDE_RADIUS",
+            "coordinates": {
+              "latitude": 35.70972361869997,
+              "longitude": 139.77284424466774
+            },
+            "distanceMeters": 2304.281456764084
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1311/A131101/13308066",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13308066/",
+            "outcome": "OUTSIDE_RADIUS",
+            "coordinates": {
+              "latitude": 35.708610746868345,
+              "longitude": 139.7741193514274
+            },
+            "distanceMeters": 2258.9385189904424
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1311/A131101/13237693",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13237693/",
+            "outcome": "OUTSIDE_RADIUS",
+            "coordinates": {
+              "latitude": 35.708471240643306,
+              "longitude": 139.77355198354468
+            },
+            "distanceMeters": 2311.2575501664355
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1311/A131102/13316569",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/13316569/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.71242305870602,
+              "longitude": 139.7972330346779
+            },
+            "distanceMeters": 696.7725377857581
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1311/A131102/13259649",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/13259649/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.71305498870606,
+              "longitude": 139.7986199446833
+            },
+            "distanceMeters": 663.4596439220027
+          }
+        ]
+      }
+    },
+    {
+      "place": "Shibuya",
+      "status": "LIST_OBSERVED",
+      "passes": true,
+      "elapsedMs": 49428,
+      "modelCalls": 1,
+      "firstTen": {
+        "denominator": 10,
+        "within": 6,
+        "inspected": 10,
+        "unread": 0
+      },
+      "region": {
+        "first": {
+          "url": "https://tabelog.com/en/tokyo/A1303/",
+          "observedOn": "https://tabelog.com/en/tokyo/",
+          "targetRef": "observation:2:target:37"
+        },
+        "firstFive": [
+          {
+            "sourceEntityId": "en/tokyo/A1303/A130301/13275802",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.65966043790453,
+              "longitude": 139.70420908304837
+            },
+            "distanceMeters": 259.89098966055064
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1303/A130302/13293501",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13293501/",
+            "outcome": "OUTSIDE_RADIUS",
+            "coordinates": {
+              "latitude": 35.64736620871907,
+              "longitude": 139.708478454083
+            },
+            "distanceMeters": 1680.0488644636018
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1303/A130301/13261619",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.65779487090903,
+              "longitude": 139.69905014779476
+            },
+            "distanceMeters": 632.6559958397069
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1303/A130302/13295650",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13295650/",
+            "outcome": "OUTSIDE_RADIUS",
+            "coordinates": {
+              "latitude": 35.646600958722004,
+              "longitude": 139.71615508406987
+            },
+            "distanceMeters": 2043.7904620108823
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1303/A130302/13211927",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13211927/",
+            "outcome": "OUTSIDE_RADIUS",
+            "coordinates": {
+              "latitude": 35.64636472872077,
+              "longitude": 139.7118147640705
+            },
+            "distanceMeters": 1882.5995590255302
+          }
+        ]
+      }
+    }
+  ],
+  "confirmation": [
+    {
+      "place": "Asakusa",
+      "status": "LIST_OBSERVED",
+      "passes": true,
+      "elapsedMs": 69589,
+      "modelCalls": 3,
+      "firstTen": {
+        "denominator": 10,
+        "within": 6,
+        "inspected": 8,
+        "unread": 2
+      },
+      "region": {
+        "first": {
+          "url": "https://tabelog.com/en/tokyo/A1311/A131102/R210/rstLst/",
+          "observedOn": "https://tabelog.com/en/tokyo/A1311/A131102/",
+          "targetRef": "observation:4:target:15",
+          "label": "Asakusa Sta."
+        },
+        "firstFive": [
+          {
+            "sourceEntityId": "en/tokyo/A1311/A131102/13316569",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/13316569/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.71242305870602,
+              "longitude": 139.7972330346779
+            },
+            "distanceMeters": 696.7725377857581
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1311/A131102/13259649",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/13259649/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.71305498870606,
+              "longitude": 139.7986199446833
+            },
+            "distanceMeters": 663.4596439220027
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1311/A131102/13300191",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/13300191/",
+            "outcome": "UNKNOWN"
+          }
+        ]
+      }
+    },
+    {
+      "place": "Shibuya",
+      "status": "LIST_OBSERVED",
+      "passes": true,
+      "elapsedMs": 58938,
+      "modelCalls": 1,
+      "firstTen": {
+        "denominator": 10,
+        "within": 6,
+        "inspected": 10,
+        "unread": 0
+      },
+      "region": {
+        "first": {
+          "url": "https://tabelog.com/en/tokyo/A1303/",
+          "observedOn": "https://tabelog.com/en/tokyo/",
+          "targetRef": "observation:2:target:37",
+          "label": "Shibuya & Ebisu & Daikanyama"
+        },
+        "firstFive": [
+          {
+            "sourceEntityId": "en/tokyo/A1303/A130301/13275802",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.65966043790453,
+              "longitude": 139.70420908304837
+            },
+            "distanceMeters": 259.89098966055064
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1303/A130302/13293501",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13293501/",
+            "outcome": "OUTSIDE_RADIUS",
+            "coordinates": {
+              "latitude": 35.64736620871907,
+              "longitude": 139.708478454083
+            },
+            "distanceMeters": 1680.0488644636018
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1303/A130301/13261619",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.65779487090903,
+              "longitude": 139.69905014779476
+            },
+            "distanceMeters": 632.6559958397069
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1303/A130302/13295650",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13295650/",
+            "outcome": "OUTSIDE_RADIUS",
+            "coordinates": {
+              "latitude": 35.646600958722004,
+              "longitude": 139.71615508406987
+            },
+            "distanceMeters": 2043.7904620108823
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1303/A130302/13211927",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13211927/",
+            "outcome": "OUTSIDE_RADIUS",
+            "coordinates": {
+              "latitude": 35.64636472872077,
+              "longitude": 139.7118147640705
+            },
+            "distanceMeters": 1882.5995590255302
+          }
+        ]
+      }
+    }
+  ],
+  "finalNewLocations": [
+    {
+      "place": "Ebisu",
+      "status": "NO_COVERAGE",
+      "passes": false,
+      "elapsedMs": 35438,
+      "modelCalls": 1,
+      "firstTen": {
+        "denominator": 10,
+        "within": 0,
+        "inspected": 5,
+        "unread": 5
+      },
+      "region": {
+        "first": {
+          "url": "https://tabelog.com/en/tokyo/A1303/",
+          "observedOn": "https://tabelog.com/en/tokyo/",
+          "targetRef": "observation:2:target:37"
+        },
+        "firstFive": [
+          {
+            "sourceEntityId": "en/tokyo/A1303/A130301/13275802",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+            "outcome": "OUTSIDE_RADIUS",
+            "coordinates": {
+              "latitude": 35.65966043790453,
+              "longitude": 139.70420908304837
+            },
+            "distanceMeters": 21839529.38711895
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1303/A130302/13293501",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13293501/",
+            "outcome": "OUTSIDE_RADIUS",
+            "coordinates": {
+              "latitude": 35.64736620871907,
+              "longitude": 139.708478454083
+            },
+            "distanceMeters": 21839891.860834207
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1303/A130301/13261619",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+            "outcome": "OUTSIDE_RADIUS",
+            "coordinates": {
+              "latitude": 35.65779487090903,
+              "longitude": 139.69905014779476
+            },
+            "distanceMeters": 21839008.668070115
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1303/A130302/13295650",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13295650/",
+            "outcome": "OUTSIDE_RADIUS",
+            "coordinates": {
+              "latitude": 35.646600958722004,
+              "longitude": 139.71615508406987
+            },
+            "distanceMeters": 21840649.183406353
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1303/A130302/13211927",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13211927/",
+            "outcome": "OUTSIDE_RADIUS",
+            "coordinates": {
+              "latitude": 35.64636472872077,
+              "longitude": 139.7118147640705
+            },
+            "distanceMeters": 21840217.691585682
+          }
+        ]
+      }
+    },
+    {
+      "place": "Roppongi",
+      "status": "LIST_OBSERVED",
+      "passes": true,
+      "elapsedMs": 60351,
+      "modelCalls": 1,
+      "firstTen": {
+        "denominator": 10,
+        "within": 9,
+        "inspected": 10,
+        "unread": 0
+      },
+      "region": {
+        "first": {
+          "url": "https://tabelog.com/en/tokyo/A1307/",
+          "observedOn": "https://tabelog.com/en/tokyo/",
+          "targetRef": "observation:2:target:34"
+        },
+        "firstFive": [
+          {
+            "sourceEntityId": "en/tokyo/A1307/A130701/13286138",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1307/A130701/13286138/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.66069119871591,
+              "longitude": 139.72509928420592
+            },
+            "distanceMeters": 864.3092709061435
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1307/A130702/13267332",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1307/A130702/13267332/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.65794303871994,
+              "longitude": 139.73228748417316
+            },
+            "distanceMeters": 481.40536301920497
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1307/A130702/13267404",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1307/A130702/13267404/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.655538258722245,
+              "longitude": 139.73474480414714
+            },
+            "distanceMeters": 703.8080364021841
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1307/A130701/13291424",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1307/A130701/13291424/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.6611653287206,
+              "longitude": 139.7407919641997
+            },
+            "distanceMeters": 570.0788160140224
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1307/A130701/13315626",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1307/A130701/13315626/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.662024143743324,
+              "longitude": 139.73083058949123
+            },
+            "distanceMeters": 336.6241345965612
+          }
+        ]
+      }
+    },
+    {
+      "place": "Nihonbashi",
+      "status": "LIST_OBSERVED",
+      "passes": true,
+      "elapsedMs": 50515,
+      "modelCalls": 1,
+      "firstTen": {
+        "denominator": 10,
+        "within": 9,
+        "inspected": 10,
+        "unread": 0
+      },
+      "region": {
+        "first": {
+          "url": "https://tabelog.com/en/tokyo/A1302/",
+          "observedOn": "https://tabelog.com/en/tokyo/",
+          "targetRef": "observation:2:target:41"
+        },
+        "firstFive": [
+          {
+            "sourceEntityId": "en/tokyo/A1302/A130201/13096429",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130201/13096429/",
+            "outcome": "OUTSIDE_RADIUS",
+            "coordinates": {
+              "latitude": 35.678792918716404,
+              "longitude": 139.76277829436236
+            },
+            "distanceMeters": 1062.4716982935936
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1302/A130202/13166422",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130202/13166422/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.68705687871494,
+              "longitude": 139.7746564344375
+            },
+            "distanceMeters": 655.391178259691
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1302/A130201/13279890",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130201/13279890/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.67941584871797,
+              "longitude": 139.76893960436433
+            },
+            "distanceMeters": 510.89975072389177
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1302/A130202/13033926",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130202/13033926/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.67432973791628,
+              "longitude": 139.77039398315017
+            },
+            "distanceMeters": 835.2886110748943
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1302/A130202/13276775",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130202/13276775/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.67661123791501,
+              "longitude": 139.77091778317285
+            },
+            "distanceMeters": 587.1082270161869
+          }
+        ]
+      }
+    },
+    {
+      "place": "Ikebukuro",
+      "status": "LIST_OBSERVED",
+      "passes": true,
+      "elapsedMs": 49573,
+      "modelCalls": 1,
+      "firstTen": {
+        "denominator": 10,
+        "within": 8,
+        "inspected": 10,
+        "unread": 0
+      },
+      "region": {
+        "first": {
+          "url": "https://tabelog.com/en/tokyo/A1305/",
+          "observedOn": "https://tabelog.com/en/tokyo/",
+          "targetRef": "observation:2:target:24"
+        },
+        "firstFive": [
+          {
+            "sourceEntityId": "en/tokyo/A1305/A130501/13311755",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130501/13311755/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.72911817000596,
+              "longitude": 139.7122745253349
+            },
+            "distanceMeters": 756.982175190321
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1305/A130503/13222288",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13222288/",
+            "outcome": "OUTSIDE_RADIUS",
+            "coordinates": {
+              "latitude": 35.712485864076974,
+              "longitude": 139.70740371288997
+            },
+            "distanceMeters": 2487.6812879962336
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1305/A130501/13240206",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130501/13240206/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.73002986866699,
+              "longitude": 139.70977766491706
+            },
+            "distanceMeters": 565.5851771729899
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1305/A130501/13295297",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130501/13295297/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.7303373608299,
+              "longitude": 139.71331173449408
+            },
+            "distanceMeters": 710.3116848856347
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1305/A130501/13307385",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130501/13307385/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.73208606866669,
+              "longitude": 139.71292609493563
+            },
+            "distanceMeters": 560.120562708176
+          }
+        ]
+      }
+    },
+    {
+      "place": "Asakusa",
+      "status": "LIST_OBSERVED",
+      "passes": true,
+      "elapsedMs": 69589,
+      "modelCalls": 3,
+      "firstTen": {
+        "denominator": 10,
+        "within": 6,
+        "inspected": 8,
+        "unread": 2
+      },
+      "region": {
+        "first": {
+          "url": "https://tabelog.com/en/tokyo/A1311/A131102/R210/rstLst/",
+          "observedOn": "https://tabelog.com/en/tokyo/A1311/A131102/",
+          "targetRef": "observation:4:target:15",
+          "label": "Asakusa Sta."
+        },
+        "firstFive": [
+          {
+            "sourceEntityId": "en/tokyo/A1311/A131102/13316569",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/13316569/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.71242305870602,
+              "longitude": 139.7972330346779
+            },
+            "distanceMeters": 696.7725377857581
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1311/A131102/13259649",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/13259649/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.71305498870606,
+              "longitude": 139.7986199446833
+            },
+            "distanceMeters": 663.4596439220027
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1311/A131102/13300191",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/13300191/",
+            "outcome": "UNKNOWN"
+          }
+        ]
+      }
+    }
+  ],
+  "originalLocation": {
+    "place": "Shibuya",
+    "status": "LIST_OBSERVED",
+    "passes": true,
+    "elapsedMs": 58938,
+    "modelCalls": 1,
+    "firstTen": {
+      "denominator": 10,
+      "within": 6,
+      "inspected": 10,
+      "unread": 0
+    },
+    "region": {
+      "first": {
+        "url": "https://tabelog.com/en/tokyo/A1303/",
+        "observedOn": "https://tabelog.com/en/tokyo/",
+        "targetRef": "observation:2:target:37",
+        "label": "Shibuya & Ebisu & Daikanyama"
+      },
+      "firstFive": [
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13275802",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+          "outcome": "WITHIN_RADIUS",
+          "coordinates": {
+            "latitude": 35.65966043790453,
+            "longitude": 139.70420908304837
+          },
+          "distanceMeters": 259.89098966055064
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130302/13293501",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13293501/",
+          "outcome": "OUTSIDE_RADIUS",
+          "coordinates": {
+            "latitude": 35.64736620871907,
+            "longitude": 139.708478454083
+          },
+          "distanceMeters": 1680.0488644636018
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13261619",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+          "outcome": "WITHIN_RADIUS",
+          "coordinates": {
+            "latitude": 35.65779487090903,
+            "longitude": 139.69905014779476
+          },
+          "distanceMeters": 632.6559958397069
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130302/13295650",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13295650/",
+          "outcome": "OUTSIDE_RADIUS",
+          "coordinates": {
+            "latitude": 35.646600958722004,
+            "longitude": 139.71615508406987
+          },
+          "distanceMeters": 2043.7904620108823
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130302/13211927",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13211927/",
+          "outcome": "OUTSIDE_RADIUS",
+          "coordinates": {
+            "latitude": 35.64636472872077,
+            "longitude": 139.7118147640705
+          },
+          "distanceMeters": 1882.5995590255302
+        }
+      ]
+    }
+  },
+  "qualification": "Fixed first-ten denominator, missing/unread never within; discovery is not HARD/availability/presentation proof.",
+  "observedLimitation": "Ebisu same-request Google resolution returned Jupiter, Florida, US; no Tokyo success is claimed.",
+  "red": "red-hardcoded-route.log tests e1e0cfe source pack and fails on unobserved hardcoded Shibuya route; initial Asakusa public probe 3/10 fails threshold.",
+  "green": "final four gates; green-parent-entry-final.log; Asakusa 6/10 and Shibuya 6/10 confirmations",
+  "safety": "No unexpected admitted non-GET or booking/payment/personal-information step observed. Only production source navigation/discovery operations.",
+  "passedNewLocations": 4
+}

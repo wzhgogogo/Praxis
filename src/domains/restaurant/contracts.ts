@@ -274,6 +274,7 @@ export interface RestaurantDiscoveryPlan {
         radiusMeters: number;
         label: string;
         areaMatchBasis: "TASK_LOCATION_RADIUS" | "EVALUATION_LOCATION_RADIUS" | "NAMED_PLACE_RADIUS";
+      addressComponents?: Array<{ longText: string; shortText?: string; types: string[] }>;
       };
     };
   }>;
@@ -300,6 +301,7 @@ export interface RestaurantSearchContinuation {
     radiusMeters: number;
     label: string;
     areaMatchBasis: "TASK_LOCATION_RADIUS" | "EVALUATION_LOCATION_RADIUS" | "NAMED_PLACE_RADIUS";
+      addressComponents?: Array<{ longText: string; shortText?: string; types: string[] }>;
   };
   /**
    * The source request identity paired with an opaque page token.  A later
@@ -324,6 +326,11 @@ export interface RestaurantSearchContinuation {
     candidateIds: string[];
   };
   sourceProgress?: {
+    directoryRegion?: {
+      first: { url: string; observedOn: string; targetRef: string; label?: string };
+      firstFive: Array<{ sourceEntityId: string; sourceUrl: string; coordinates?: { latitude: number; longitude: number }; distanceMeters?: number; outcome: "WITHIN_RADIUS" | "OUTSIDE_RADIUS" | "UNKNOWN" }>;
+      replacement?: { url: string; observedOn: string; targetRef: string; label?: string };
+    };
     sourceId: string;
     inspectedSourceIds: string[];
     detailAttempts: number;
@@ -485,6 +492,7 @@ export interface RestaurantReadExecutionMetadata {
   }>;
   /** Observed native batch funnel; `exhausted` on the durable cursor includes the next source. */
   nativeDiscoveryFunnel?: {
+    directoryRegion?: NonNullable<RestaurantSearchContinuation["sourceProgress"]>["directoryRegion"];
     /** Browser-pack source label; model judgments never represent a source funnel. */
     source: Exclude<RestaurantReadEvidenceProvider, "MODEL_JUDGMENT">;
     rawSourceLinks: number;
@@ -656,7 +664,7 @@ export interface VerifiedReservation {
 }
 
 export interface RestaurantTaskState {
-  schemaVersion: "13";
+  schemaVersion: "14";
   phase: RestaurantPhase;
   intentDraft?: RestaurantIntentDraft;
   intent?: RestaurantSearchIntent;

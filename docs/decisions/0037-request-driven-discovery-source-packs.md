@@ -87,3 +87,8 @@ composition presents supported controlled results; source skill, timezone,
 location reuse and provider bindings are covered. [Acceptance and limits](../../.eval-artifacts/h001-h005-playbook-20261007/root.phase2.acceptance.json).
 No real-source matrix or stock is certified. Current audit provider labels and
 source diagnostics remain; third-source zero-core-change acceptance is Phase6.
+
+
+## 2026-10-10 ADR-0040 partial supersession
+
+用户批准 2026-10-10 [ADR-0040](0040-agent-selected-directory-region-entrances.md)。Decision 4 中由 Pack 数据映射地区入口的部分被替代：删除 tabelogRegions/锚点表，改为 Agent 选择当前观察到的地区入口，LOCATION 由 Executor 填同次解析名称。原 Decision 4 文本保留；Pack 查询 grammar、来源权限和精确坐标资格及其他 Decisions 不变。

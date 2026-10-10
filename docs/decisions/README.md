@@ -1,7 +1,7 @@
 # Architecture Decision Records
 
 - Status: Accepted
-- Document revision: 1.16
+- Document revision: 1.17
 - Last updated: 2026-10-10
 - Source of truth for: 已接受架构决策及其替代关系
 - Related ADRs: 本目录
@@ -55,7 +55,7 @@ Accepted G1 supplement: [ADR-0036 supplement](0036-tablecheck-reserve-read-suppl
 | [0038](0038-model-call-default-delivery-window.md) | Accepted; C0 offline and recorded-context real-model verified | 剩余共享模型调用≤4且已有合格默认首批时复用交付窗口 |
 
 | [0039](0039-immediate-thirty-minute-window.md) | Accepted | 零偏移现在的30分钟窗口、Gold@7默认与页面营业事实的有界提前结束 |
-| [0040](0040-agent-selected-directory-region-entrances.md) | Proposed; draft / not integrated | Agent选择已观察目录地区入口，权威LOCATION、坐标半径兜底与一次换入口；等待用户批准后才实施 |
+| [0040](0040-agent-selected-directory-region-entrances.md) | Accepted; 用户批准 2026-10-10 | Agent选择已观察目录地区入口，权威LOCATION、坐标半径兜底与一次换入口；实现/发现探测待独立复核 |
 
 ## 规则
 

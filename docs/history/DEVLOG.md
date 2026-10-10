@@ -3294,3 +3294,8 @@ Require every completed browser predicate to declare its bound result key and bu
 ## DEV-2026-10-10-P1D-replay-matching
 
 Replay Runner 支持 seeds.v6 的排除集合和精确候选集合匹配；未知字段在任何模型调用前硬失败。用保存的 C8 输出和原 Live 动作离线计分，不新增模型调用。
+
+
+## DEV-2026-10-10-P1D-P1-D
+
+用户批准 ADR-0040 已实施：删除所有目录地区表/锚点选择，由 Agent 选择观察引用；LOCATION 精确填同次解析名称并传已有地址组成部分。首五详情四个越界才可换一次，预算和截止时间不重置。Browser schema@11/prompt@16，State@14/TaskDefinition@13。

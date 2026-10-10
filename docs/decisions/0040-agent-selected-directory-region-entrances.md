@@ -1,9 +1,10 @@
 # ADR-0040: Agent-selected directory region entrances
 
-- Status: Proposed
-- Document revision: 1.0
+- Status: Accepted
+- Approval: 用户批准 2026-10-10
+- Document revision: 1.1
 - Last updated: 2026-10-10
-- Evidence status: draft / not integrated; exposed development plan, no probe executed
+- Evidence status: exposed development implementation; offline + bounded discovery probes, pending independent review
 - Proposed supersession: only ADR-0037 Decision 4's source-specific region mappings as Pack data
 - Related documents: [Phase 1 Playbook §8](../AGENT-WEB-OPERATION-PHASE-1-PLAYBOOK.md#8-p1-d-地区入口改由-agent-选择), [ADR-0037](0037-request-driven-discovery-source-packs.md), [ADR-0036](0036-generic-public-read-network-policy.md)
 
@@ -58,3 +59,10 @@ Shibuya、东银座、Shinjuku用既有Fixture验证不退化，并按Playbook�
 - [Restaurant Domain](../domains/RESTAURANT-BOOKING.md)：当前候选与交付资格。
 - [Capability Matrix](../integrations/CAPABILITY-MATRIX.md)：当前证据状态；批准实施后才同步新能力。
 - [本轮报告](../../.eval-artifacts/p1-c-batch-20261010/report.md)：文档检查与门禁，不是探测证据。
+
+
+## 2026-10-10 Approved implementation supplement
+
+用户批准 2026-10-10。以上提议段保留为决策背景；已删除地区表和锚点选择。Agent 在生产 Browser Executor 中从当前可操作链接逐级选择地区，LOCATION 仅填同次解析名称，已有 Google 地址组成部分传入上下文。首五详情的坐标、距离、未知/越界/半径内判定及首次/替换入口观察引用保留在来源进度和诊断；来源结束后诊断仍保留，换入口不重置预算。
+
+Browser action schema@11 / prompt@16；Restaurant State@14 / TaskDefinition@13。未发布的本地 State@13 与新版本不兼容，遵循既有显式开发数据 reset 协议，本批不重置数据，不新增兼容路径。Source-stage-probe@6 复用现有 Runner，支持批准的 6 次模型 / 90 秒上限，并读取同一来源最多两个既有详情批次，十个固定分母不变。探测事实见 `.eval-artifacts/p1-d-batch-20261010/P1-D/`；离线和 Live 证据分开，不把目录到达判为餐厅资格或可订。

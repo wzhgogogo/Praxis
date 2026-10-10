@@ -115,7 +115,9 @@ function frozenLocationContext(value: Record<string, unknown>) {
     || !["NAMED_PLACE_RADIUS", "TASK_LOCATION_RADIUS", "EVALUATION_LOCATION_RADIUS"].includes(String(candidate.areaMatchBasis))) {
     throw new Error("Frozen source-stage locationContext is invalid");
   }
+  if (candidate.addressComponents !== undefined && (!Array.isArray(candidate.addressComponents) || !candidate.addressComponents.every(item=>item && typeof item.longText === "string" && Array.isArray(item.types) && item.types.every((type: unknown)=>typeof type === "string")))) throw new Error("Frozen location address components are invalid");
   return {
+    ...(candidate.addressComponents ? { addressComponents: structuredClone(candidate.addressComponents) as Array<{longText:string;shortText?:string;types:string[]}> } : {}),
     latitude: candidate.latitude as number,
     longitude: candidate.longitude as number,
     radiusMeters: candidate.radiusMeters as number,

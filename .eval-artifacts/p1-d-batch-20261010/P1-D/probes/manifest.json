@@ -1,0 +1,68 @@
+{
+  "mode": "LIVE_READ_ONLY_DISCOVERY",
+  "sourcePack": "tabelog",
+  "places": [
+    "Ebisu",
+    "Roppongi",
+    "Nihonbashi",
+    "Ikebukuro",
+    "Asakusa",
+    "Shibuya"
+  ],
+  "radiusMeters": 1000,
+  "maxModelCalls": 6,
+  "maxElapsedMs": 90000,
+  "detailDenominator": 10,
+  "parentCommit": "e1e0cfece641a72cb2b9614bfcb784b774a986f6",
+  "implementationDiffSha256": "373eb2560dd9aff35b6d5204684ade88d92fb5aefd9486550fd2f34f4632dd46",
+  "preflight": {
+    "artifactPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/live-preflight/2026-10-10T14-43-44-961Z-7949808c-e456-451c-b296-cbf2614ced03.result.json",
+    "attempts": [
+      {
+        "target": "DEEPSEEK",
+        "request": {
+          "method": "GET",
+          "url": "https://api.deepseek.com/models",
+          "range": "NONE",
+          "authorization": "PRESENT"
+        },
+        "elapsedMs": 629,
+        "outcome": "REACHABLE",
+        "status": 200,
+        "tls": "ESTABLISHED"
+      },
+      {
+        "target": "GOOGLE",
+        "request": {
+          "method": "GET",
+          "url": "https://places.googleapis.com/",
+          "range": "NONE",
+          "authorization": "ABSENT"
+        },
+        "elapsedMs": 329,
+        "outcome": "REACHABLE",
+        "status": 404,
+        "tls": "ESTABLISHED"
+      },
+      {
+        "target": "TABELOG",
+        "request": {
+          "method": "GET",
+          "url": "https://tabelog.com/",
+          "range": "BYTES_0_0",
+          "authorization": "ABSENT"
+        },
+        "elapsedMs": 698,
+        "outcome": "REACHABLE",
+        "status": 200,
+        "tls": "ESTABLISHED"
+      }
+    ],
+    "elapsedMs": 1662,
+    "configuration": {
+      "proxyMode": "DISABLED_BY_CLI",
+      "googleProxyConfigured": false,
+      "browserProxyConfigured": false
+    }
+  }
+}

@@ -12,9 +12,10 @@ import {
   type RestaurantCandidateFactRead,
   type RestaurantCandidateFactRequest,
   type RestaurantSearchIntent,
+  type RestaurantSearchContinuation,
   type RestaurantSearchRead,
 } from "../../../domains/restaurant/contracts.js";
-import { NativeRestaurantSearch } from "../../../integrations/restaurant-search/native-restaurant-search.js";
+import { NativeRestaurantSearch, directoryEntryReplacementAllowed } from "../../../integrations/restaurant-search/native-restaurant-search.js";
 import { GooglePlacesRestaurantSearch } from "../../../integrations/google/google-places-restaurant-search.js";
 import {
   browserReadActionTargetReplayFingerprint,
@@ -34,7 +35,7 @@ import { planDiscoverySources } from "../../../domains/restaurant/discovery-plan
  * separately. A plan is not an execution result and cannot satisfy any
  * source-matrix threshold by itself.
  */
-export const SOURCE_STAGE_PROBE_VERSION = "source-stage-probe@5";
+export const SOURCE_STAGE_PROBE_VERSION = "source-stage-probe@6";
 
 export type SourceStageProbeStage = "DISCOVERY" | "IDENTITY" | "AVAILABILITY" | "WEBSITE_FACTS" | "REPLAY";
 export type SourceStageProbeMode = "PLAN_ONLY" | "LIVE_READ_ONLY" | "REPLAY";
@@ -113,11 +114,11 @@ function assertBudget(budget: SourceStageProbeBudget): void {
       throw new Error(`Source-stage ${field} must be a ${permitsZero ? "non-negative" : "positive"} safe integer`);
     }
   }
-  if (budget.sampleMaxElapsedMs > 60_000) throw new Error("Source-stage sample elapsed budget cannot exceed 60000ms");
-  // The renewed Phase 3 diagnostic tranche exposes a four-call sample ceiling.
+  if (budget.sampleMaxElapsedMs > 90_000) throw new Error("Source-stage sample elapsed budget cannot exceed 90000ms");
+  // Approved P1-D discovery probes expose six calls / ninety seconds per sample.
   // Earlier two-call manifests remain immutable evidence; new manifests must
   // state their own allowance rather than silently inheriting it.
-  if (budget.sampleMaxModelCalls > 4) throw new Error("Source-stage sample model budget cannot exceed 4 calls");
+  if (budget.sampleMaxModelCalls > 6) throw new Error("Source-stage sample model budget cannot exceed 6 calls");
   if (budget.matrixMaxModelCalls > 50) throw new Error("Source-stage matrix model budget cannot exceed 50 calls");
   if (budget.matrixMaxElapsedMs > 1_800_000) throw new Error("Source-stage matrix elapsed budget cannot exceed 30 minutes");
   if (budget.matrixRepairRoundsMax > 3) throw new Error("Source-stage repair rounds cannot exceed 3");
@@ -305,7 +306,7 @@ export interface SourceStageNativeDiscoveryExecutionInput {
   pack: DiscoverySourcePack;
   intent: RestaurantSearchIntent;
   /** A separately frozen Google named-location result; it prevents every Pack from resolving the same place again. */
-  locationContext?: { latitude: number; longitude: number; radiusMeters: number; label: string; areaMatchBasis: "NAMED_PLACE_RADIUS" | "TASK_LOCATION_RADIUS" | "EVALUATION_LOCATION_RADIUS" };
+  locationContext?: NonNullable<RestaurantSearchContinuation["locationContext"]>;
   runtime: BrowserRuntime;
   locality: GooglePlacesRestaurantSearch;
   readRunId: string;
@@ -436,6 +437,7 @@ export type SourceStageNativeDiscoveryExecutionResult = {
   packId: string;
   elapsedMs: number;
   read: RestaurantSearchRead;
+  reads: RestaurantSearchRead[];
   modelCallsStarted: number;
   failureCode?: string;
 };
@@ -443,8 +445,8 @@ export type SourceStageNativeDiscoveryExecutionResult = {
 export async function runSourceStageNativeDiscoveryProbe(
   input: SourceStageNativeDiscoveryExecutionInput,
 ): Promise<SourceStageNativeDiscoveryExecutionResult> {
-  if (!Number.isSafeInteger(input.timeoutMs) || input.timeoutMs < 1 || input.timeoutMs > 60_000) {
-    throw new Error("Source-stage native discovery timeout must be 1..60000ms");
+  if (!Number.isSafeInteger(input.timeoutMs) || input.timeoutMs < 1 || input.timeoutMs > 90_000) {
+    throw new Error("Source-stage native discovery timeout must be 1..90000ms");
   }
   const startedAt = Date.now();
   const budget = input.browserBudget ?? { totalModelCalls: 0, maxModelCalls: 2 };
@@ -461,7 +463,7 @@ export async function runSourceStageNativeDiscoveryProbe(
     [input.pack],
   );
   try {
-    const read = await native.search({
+    let read = await native.search({
       intent: input.intent,
       readRunId: input.readRunId,
       ...(input.locationContext ? {
@@ -472,6 +474,12 @@ export async function runSourceStageNativeDiscoveryProbe(
         },
       } : {}),
     }, input.signal);
+    const reads = [read];
+    // Continue the existing source's retained detail chunk, never start a different source.
+    if (read.continuation && (read.continuation.sourceProgress?.pendingSourceIds.length || directoryEntryReplacementAllowed(read.continuation?.sourceProgress?.directoryRegion)) && !input.signal.aborted) {
+      const next = await native.search({intent:input.intent,readRunId:input.readRunId,continuation:read.continuation},input.signal);
+      reads.push(next); read = {...next,candidates:[...read.candidates,...next.candidates],evidence:[...read.evidence,...next.evidence]};
+    }
     const metadata = read.metadata as { failureCode?: string; nativeDiscoveryFunnel?: { parsedOutlets?: number; sourceExhausted?: boolean; sourceEnded?: boolean } };
     const funnel = metadata.nativeDiscoveryFunnel;
     const parsedOutlets = funnel?.parsedOutlets ?? read.candidates.length;
@@ -501,6 +509,7 @@ export async function runSourceStageNativeDiscoveryProbe(
       packId: input.pack.meta.id,
       elapsedMs: Date.now() - startedAt,
       read,
+      reads,
       modelCallsStarted: budget.totalModelCalls,
       ...(failureCode ? { failureCode } : status === "SOURCE_FAILED" ? { failureCode: "DISCOVERY_LIST_NOT_CURRENT_OR_PARSEABLE" } : {}),
     };
@@ -542,6 +551,7 @@ export async function runSourceStagePackDiscoveryProbe(input: {
       packId: input.pack.meta.id,
       elapsedMs: Date.now() - startedAt,
       read,
+      reads:[read],
       modelCallsStarted: input.modelCallsStarted,
       ...(failureCode ? { failureCode } : status === "SOURCE_FAILED" ? { failureCode: "DISCOVERY_LIST_NOT_CURRENT_OR_PARSEABLE" } : {}),
     };

@@ -15,6 +15,12 @@ type Location = NonNullable<NonNullable<RestaurantSearchRequest["continuation"]>
 type SourceFlow = "DIRECTORY" | "VENUE_SEARCH";
 type NativeSourceProgress = NonNullable<RestaurantSearchRequest["continuation"]>["sourceProgress"] extends infer Progress
   ? NonNullable<Progress> : never;
+type DirectoryRegion = NonNullable<NativeSourceProgress["directoryRegion"]>;
+/** Exactly five investigated details; unknown coordinates never count as outside. */
+export function directoryEntryReplacementAllowed(region: DirectoryRegion | undefined): boolean {
+  return !!region && !region.replacement && region.firstFive.length === 5 && region.firstFive.filter(item => item.outcome === "OUTSIDE_RADIUS").length >= 4;
+}
+
 type PendingSourceEntry = NonNullable<NativeSourceProgress["pendingSourceEntries"]>[number];
 /** One read chunk.  It is not a statement that the source has been exhausted. */
 const NATIVE_DETAIL_BATCH_CAP = 5;
@@ -51,10 +57,6 @@ function candidateFailureCode(error: unknown, source: string): string {
 
 function normalized(value: string): string {
   return value.normalize("NFKC").toLocaleLowerCase("en-US").replace(/[^\p{L}\p{N}]+/gu, "");
-}
-
-function areaLabel(value: string): string {
-  return value.replace(/\b(?:near|nearby)\b|附近|周辺|周边/giu, " ").replace(/^[\s,，]+|[\s,，]+$/gu, "").trim();
 }
 
 /**
@@ -245,8 +247,27 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
     const sourcePagesBefore = priorProgress?.sourceId === pack.meta.id ? priorProgress.pagesRead : 0;
     const sourceElapsedBefore = priorProgress?.sourceId === pack.meta.id ? priorProgress.elapsedMs ?? 0 : 0;
     const sourceElapsedRemaining = Math.max(0, NATIVE_SOURCE_ELAPSED_CAP_MS - sourceElapsedBefore);
-    const retainedEntries = retainedPendingEntries(pack, priorProgress);
-    let nextListing = priorProgress?.sourceId === pack.meta.id ? priorProgress.nextListing : undefined;
+    let directoryRegion = priorProgress?.sourceId === pack.meta.id && priorProgress.directoryRegion ? structuredClone(priorProgress.directoryRegion) : undefined;
+    const replaceRegion = directoryEntryReplacementAllowed(directoryRegion);
+    let selectedRegion: DirectoryRegion["first"] | undefined;
+    let selectingRegion = false;
+    let filledRegion: { observedOn: string; targetRef: string } | undefined;
+    const regionDecision: BrowserReadActionDecisionPort | undefined = this.discoveryDecision ? {
+      decide: async input => {
+        const action = await this.discoveryDecision!.decide(input);
+        if (selectingRegion && action.type === "OPEN_LINK") {
+          const target = input.observation.targets.find(target => target.ref === action.targetRef);
+          if (target?.href && target.availableActions?.includes("OPEN_LINK") && pack.browser?.directory?.isRegionEntrance(target.href)) {
+            selectedRegion = { url: target.href, observedOn: input.observation.url, targetRef: target.ref, label: target.label };
+          }
+        }
+        if (selectingRegion && action.type === "FILL_AUTHORITATIVE" && action.field === "LOCATION" && input.goal.location?.name && input.observation.targets.some(t=>t.ref===action.targetRef && t.availableActions?.includes("FILL_AUTHORITATIVE:LOCATION"))) filledRegion = {observedOn:input.observation.url,targetRef:action.targetRef};
+        return action;
+      },
+      takeLastWireRecord: () => this.discoveryDecision!.takeLastWireRecord?.(),
+    } : undefined;
+    const retainedEntries = replaceRegion ? [] : retainedPendingEntries(pack, priorProgress);
+    let nextListing = !replaceRegion && priorProgress?.sourceId === pack.meta.id ? priorProgress.nextListing : undefined;
     const visitedListingUrls = priorProgress?.sourceId === pack.meta.id ? [...(priorProgress.visitedListingUrls ?? [])] : [];
     const listingObservations: Array<{ sourceUrl: string; parsedOutlets: number; resultCount?: number; nextPageUrl?: string }> = [];
     let queryAdjustment: string | undefined;
@@ -257,7 +278,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
       ...(this.discoveryLimits?.maxOperationsPerCandidate !== undefined
         ? { maxOperationsPerCandidate: this.discoveryLimits.maxOperationsPerCandidate }
         : {}),
-      ...(this.discoveryDecision ? { modelDecision: this.discoveryDecision } : {}),
+      ...(regionDecision ? { modelDecision: regionDecision } : {}),
       ...(this.browserBudget ? { budget: this.browserBudget } : {}),
       onDiagnostic: (diagnostic) => {
         // `operation` emits this only after its budget/deadline admission and
@@ -301,8 +322,11 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
     };
     // The cap governs further work; diagnostics must retain the actual elapsed
     // value so a source deadline cannot look like an unfinished healthy batch.
+    const discoveryGoalLocation = { latitude: location.latitude, longitude: location.longitude, radiusMeters: location.radiusMeters,
+      ...(location.areaMatchBasis === "NAMED_PLACE_RADIUS" ? { name: location.label } : {}),
+      ...(location.addressComponents ? { addressComponents: location.addressComponents } : {}) };
     const sourceElapsedMs = () => sourceElapsedBefore + (Date.now() - batchStartedAt);
-    const funnel = (failed = false) => ({ source: pack.browser!.provider, rawSourceLinks: raw, parsedOutlets: parsed, inspectedOutlets: inspected,
+    const funnel = (failed = false) => ({ ...(directoryRegion ? { directoryRegion } : {}), source: pack.browser!.provider, rawSourceLinks: raw, parsedOutlets: parsed, inspectedOutlets: inspected,
       batchCap: NATIVE_DETAIL_BATCH_CAP, sourceDetailCap: NATIVE_DETAIL_SOURCE_CAP,
       sourceDetailAttempts: sourceDetailAttemptsBefore + inspected, deferredByBatchCap, rejected, accepted: admitted.size,
       sourcePageCap: NATIVE_LISTING_PAGE_CAP[source], sourceElapsedCapMs: NATIVE_SOURCE_ELAPSED_CAP_MS,
@@ -314,7 +338,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
       if (sourceTimeLimitReached) {
         sourceEnded = true;
         return { candidates: [], evidence: [], candidateFailures,
-          progress: { sourceId: pack.meta.id, inspectedSourceIds: [...new Set(inspectedSourceIds)], detailAttempts: sourceDetailAttemptsBefore,
+          progress: { ...(directoryRegion ? { directoryRegion } : {}), sourceId: pack.meta.id, inspectedSourceIds: [...new Set(inspectedSourceIds)], detailAttempts: sourceDetailAttemptsBefore,
             pagesRead: sourcePagesBefore, elapsedMs: sourceElapsedBefore, visitedListingUrls,
             ...(nextListing ? { nextListing } : {}),
             pendingSourceEntries: [...new Map(pendingSourceEntries.map((entry) => [entry.sourceEntityId, entry])).values()],
@@ -324,7 +348,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
       if (sourcePagesBefore >= NATIVE_LISTING_PAGE_CAP[source] && retainedEntries.length === 0) {
         sourceEnded = true;
         return { candidates: [], evidence: [], candidateFailures,
-          progress: { sourceId: pack.meta.id, inspectedSourceIds: [...new Set(inspectedSourceIds)], detailAttempts: sourceDetailAttemptsBefore,
+          progress: { ...(directoryRegion ? { directoryRegion } : {}), sourceId: pack.meta.id, inspectedSourceIds: [...new Set(inspectedSourceIds)], detailAttempts: sourceDetailAttemptsBefore,
             pagesRead: sourcePagesBefore, elapsedMs: sourceElapsedBefore, visitedListingUrls, pendingSourceEntries: [], pendingSourceIds: [] },
           funnel: funnel() };
       }
@@ -356,7 +380,8 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
         const keyword = query.keyword ?? "";
         const continuingListing = nextListing;
         const sourceQuery = pack.buildQuery(query);
-        const url = new URL(continuingListing?.sourceUrl ?? sourceQuery.url);
+        const reusedRegion = !replaceRegion ? directoryRegion?.replacement ?? directoryRegion?.first : undefined;
+        const url = new URL(continuingListing?.sourceUrl ?? reusedRegion?.url ?? sourceQuery.url);
         if (continuingListing && (!pack.browser!.acceptsDetailUrl(url.href) || directory.listingRoot(url.href) !== directory.listingRoot(continuingListing.observedOn))) {
           throw Object.assign(new Error("Invalid observed listing continuation"), { code: "NATIVE_LISTING_CONTINUATION_INVALID" });
         }
@@ -379,9 +404,9 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
           } catch { return undefined; }
         };
         let currentAreaListingUrl = listingUrl;
-        let currentAreaEntranceKey = listingEntranceKey(listingUrl);
+        let currentAreaEntranceKey = listingEntranceKey(listingUrl) ?? (reusedRegion ? homepageEntranceKey(listingUrl, reusedRegion.url) : undefined);
         let currentAreaEntranceObserved = currentAreaEntranceKey !== undefined
-          && (continuingListing !== undefined || sourceQuery.areaEntrance === "SOURCE_OBSERVED");
+          && (continuingListing !== undefined || reusedRegion !== undefined || sourceQuery.areaEntrance === "SOURCE_OBSERVED");
         const activeExpression = continuingListing ? directory.retrievalExpression(listingUrl) ?? "" : keyword;
         await navigate(listingUrl, 35_000);
         page = await snapshot();
@@ -391,7 +416,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
         // regional homepage. The homepage is not a result list, but its
         // source-observed listing control may restore work inside the exact
         // region. A national/root redirect remains ungrounded.
-        let currentHomepageListing = false;
+        let currentHomepageListing = !!reusedRegion && !directory.listingRoot(page.url) && directory.isObservedRegionHomepageListing?.(page, reusedRegion.url) === true;
         if (currentAreaEntranceObserved && directory.listingRoot(page.url) !== initialListingRoot
           && directory.isSameObservedRegionHomepage?.(listingUrl, page.url)) {
           if (directory.isObservedRegionHomepageListing?.(page, listingUrl)) {
@@ -415,42 +440,42 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
         if (currentAreaEntranceObserved && !currentHomepageListing && listingEntranceKey(page.url) !== currentAreaEntranceKey) currentAreaEntranceObserved = false;
         raw = rawSourceLinks(page, pack);
         if (pack.browser!.hasChallenge(page)) throw Object.assign(new Error("Discovery source challenge"), { code: "DISCOVERY_SOURCE_BOT_CHALLENGE" });
-        // A resolved location label can be a provider display name or an
-        // evaluation-anchor annotation. Only the authoritative named area
-        // query is a valid source-directory label. Coordinate-only nearby
-        // reads need their own Pack-grounded regional entrance instead of
-        // treating presentation text as a source query.
-        const label = query.location.areaMatchBasis === "NAMED_PLACE_RADIUS"
-          ? areaLabel(request.intent.area.query) : undefined;
-        for (let level = 0; !continuingListing && level < NATIVE_LISTING_PAGE_CHUNK_CAP.DIRECTORY - 1; level += 1) {
-          if (!label) break;
-          const region = directory.observedRegion(page, label);
-          if (!region) break;
-          // Area navigation is source-owned, but an observed region link may
-          // omit the active text query. Preserve the authoritative retrieval
-          // term rather than silently changing the result set mid-search.
-          const regionUrl = new URL(region);
-          regionUrl.hash = "";
-          const regionWithExpression = directory.retrievalExpression(regionUrl.toString()) || !keyword ? regionUrl.toString()
-            : directory.withRetrievalExpression(regionUrl.toString(), keyword);
-          const currentUrl = new URL(page.url);
-          currentUrl.hash = "";
-          if (regionWithExpression === currentUrl.href) break;
-          await navigate(regionWithExpression, 25_000);
-          page = await snapshot();
-          listingPagesRead += 1;
-          recordListing(page);
-          // The location-bearing link was observed on the preceding source
-          // page.  It establishes this directory entrance only if navigation
-          // remains inside that exact source listing root; a redirect to a
-          // national/root list is not a current-area result.
-          currentAreaListingUrl = regionWithExpression;
-          currentAreaEntranceKey = listingEntranceKey(regionWithExpression);
-          currentAreaEntranceObserved = currentAreaEntranceKey !== undefined
-            && listingEntranceKey(page.url) === currentAreaEntranceKey;
-          raw = rawSourceLinks(page, pack);
-          if (pack.browser!.hasChallenge(page)) throw Object.assign(new Error("Discovery source challenge"), { code: "DISCOVERY_SOURCE_BOT_CHALLENGE" });
-          if (normalized(page.url).includes(normalized(label)) && pack.parseListing(page).outlets.length) break;
+        if (!currentAreaEntranceObserved) {
+          selectingRegion = true;
+          let regionPageUrl = page.url;
+          try {
+            const chosen = await executor.runSkill({
+              taskId: `browser-read:native-discovery:${source}`, source, ...(sourceSkillPath ? { sourceSkillPath } : {}), stage: "DISCOVERY", session: session!, signal, allowedOrigins,
+              goal: { outlet: { name: keyword, address: request.intent.area.query }, location: discoveryGoalLocation, hardCriteria: request.intent.criteria.filter(item => item.polarity === "POSITIVE" && item.strength === "HARD").map(item => item.text) },
+              objective: replaceRegion ? "The first five inspected outlets proved at least four outside the unchanged radius. Choose a different observed region/station entrance once. Do not reset budgets or change the location." : "Select the most specific observed public region/station entrance for the authoritative location. Follow observed links through region menus as needed, or fill the observed public location search using LOCATION. Reveal its public restaurant list; do not open restaurant details yet.",
+              completion: (current, controls) => {
+                if (!selectedRegion && filledRegion && directory.isRegionEntrance(current.url) && controls.some(control=>control.visible && control.kind === "INPUT" && control.value === discoveryGoalLocation.name)) selectedRegion = {url:current.url,...filledRegion};
+                if (current.url !== regionPageUrl) { regionPageUrl = current.url; listingPagesRead += 1; recordListing(current); }
+                if (sourcePagesBefore + listingPagesRead > NATIVE_LISTING_PAGE_CAP.DIRECTORY) throw Object.assign(new Error("Native listing page ceiling reached"), { code: "NATIVE_LISTING_PAGE_LIMIT" });
+                const same = selectedRegion && (directory.listingRoot(selectedRegion.url) !== undefined && directory.listingRoot(current.url) === directory.listingRoot(selectedRegion.url)
+                  || directory.isSameObservedRegionHomepage?.(selectedRegion.url, current.url));
+                const requestedAreaName = request.intent.area.query.replace(/\b(?:near|nearby)\b|附近|周辺|周边/giu, " ").trim();
+                const namedEntrance = !discoveryGoalLocation.name || !!filledRegion || normalized(selectedRegion?.label ?? "").includes(normalized(requestedAreaName));
+                const complete = !!same && namedEntrance && (pack.parseListing(current).outlets.length > 0 || directory.isExplicitEmpty(current));
+                return { complete, resultBusy: pack.browser!.resultBusy(current), resultKey: JSON.stringify([current.url, pack.parseListing(current).outlets.map(outlet => outlet.sourceUrl).sort()]), reason: "Follow an observed region entrance naming the requested area, continuing through a broader parent menu if necessary; observe its public results." };
+              },
+            });
+            page = chosen.snapshot;
+            if (chosen.status !== "COMPLETED" || !selectedRegion || replaceRegion && (new URL(directoryRegion!.first.url).pathname === new URL(selectedRegion.url).pathname || directory.isSameObservedRegionHomepage?.(directoryRegion!.first.url, selectedRegion.url))) {
+              throw Object.assign(new Error("Observed directory entrance was not established"), { code: "DISCOVERY_SOURCE_LOCATION_UNGROUNDED" });
+            }
+            if (replaceRegion && directoryRegion) directoryRegion.replacement = selectedRegion;
+            else directoryRegion = { first: selectedRegion, firstFive: [] };
+            currentAreaListingUrl = selectedRegion.url;
+            currentAreaEntranceKey = listingEntranceKey(page.url) ?? homepageEntranceKey(page.url, selectedRegion.url);
+            currentHomepageListing = !directory.listingRoot(page.url);
+            currentAreaEntranceObserved = currentAreaEntranceKey !== undefined;
+            // Apply only the Pack's existing request grammar after observing the region.
+            if (keyword && !currentHomepageListing && directory.retrievalExpression(page.url) !== keyword) {
+              await navigate(directory.withRetrievalExpression(page.url, keyword), 25_000); page = await snapshot();
+            }
+            recordListing(page); raw = rawSourceLinks(page, pack);
+          } finally { selectingRegion = false; }
         }
         if (!currentAreaEntranceObserved) {
           throw Object.assign(new Error("Current public directory area entrance was not observed"), { code: "DISCOVERY_SOURCE_LOCATION_UNGROUNDED" });
@@ -481,7 +506,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
             // A source-owned isolated read boundary may safely expose an
             // observed, non-sensitive query button. The executor still keeps
             // Router-bound fields and current opaque references authoritative.
-            goal: { outlet: { name: keyword, address: request.intent.area.query }, retrievalExpression: activeExpression, hardCriteria: request.intent.criteria.filter((item) => item.polarity === "POSITIVE" && item.strength === "HARD").map((item) => item.text) },
+            goal: { location: discoveryGoalLocation, outlet: { name: keyword, address: request.intent.area.query }, retrievalExpression: activeExpression, hardCriteria: request.intent.criteria.filter((item) => item.polarity === "POSITIVE" && item.strength === "HARD").map((item) => item.text) },
             objective: "Apply the current source search and reveal its public restaurant results for the authoritative area and retrieval terms. Do not submit a reservation.",
             methodReason: "The current source listing has not yet produced a parsed public restaurant result or an explicit empty result.",
             completion: (current, controls) => ({ complete: listingComplete(current, controls), resultBusy: pack.browser!.resultBusy(current), resultKey: JSON.stringify([current.url, pack.parseListing(current).outlets.map(outlet => outlet.sourceUrl).sort(), pack.browser!.isExplicitEmptyListing(current)]), reason: "Reveal a current public restaurant result list or wait for an explicit empty listing state." }),
@@ -516,7 +541,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
           pendingSourceEntries = observedOutlets.map((outlet) => pendingEntry(outlet.sourceEntityId, outlet.sourceUrl, this.now(), { outletName: outlet.outletName, ...(outlet.sourceCategories ? { sourceCategories: outlet.sourceCategories } : {}) }));
           const adjusted = await executor.runSkill({
             taskId: `browser-read:native-discovery:${source}`, source, ...(sourceSkillPath ? { sourceSkillPath } : {}), stage: "DISCOVERY", session: session!, signal, allowedOrigins,
-            goal: { outlet: { name: keyword, address: request.intent.area.query }, hardCriteria: request.intent.criteria.filter((item) => item.polarity === "POSITIVE" && item.strength === "HARD").map((item) => item.text) },
+            goal: { location: discoveryGoalLocation, outlet: { name: keyword, address: request.intent.area.query }, hardCriteria: request.intent.criteria.filter((item) => item.polarity === "POSITIVE" && item.strength === "HARD").map((item) => item.text) },
             objective: "The keyword list is sparse. Use an observed related category for broader restaurant discovery in the same area. Open Search by category if needed, choose the most relevant category, and remove the keyword using the site's own filter-removal link. This changes retrieval only: every candidate still needs separate HARD fact verification. Do not change area, dates or party size, or open restaurant details yet.",
             methodReason: "A short keyword result list does not establish source coverage. Follow one relevant source category and remove the old keyword filter.",
             completion: (current) => {
@@ -590,6 +615,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
             pendingSourceEntries = pendingSourceEntries.filter((entry) => entry.sourceEntityId !== outlet.sourceEntityId);
           };
           let detailObserved = false;
+          let regionObservation: DirectoryRegion["firstFive"][number] = { sourceEntityId: outlet.sourceEntityId, sourceUrl: outlet.sourceUrl, outcome: "UNKNOWN" };
           try {
             await navigate(outlet.sourceUrl, 30_000);
             consumeStartedDetail();
@@ -602,6 +628,8 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
               rejected.push({ sourceUrl: outlet.sourceUrl, reasonCode: !point ? "PAGE_COORDINATES_MISSING" : "PAGE_IDENTITY_MISSING" });
               continue;
             }
+            const distance = googleDiscoveryGeoDiagnostics({ location: point }, { evaluationLocation: location }).distanceMeters;
+            regionObservation = { ...regionObservation, coordinates: point, ...(distance !== undefined ? { distanceMeters: distance } : {}), outcome: distance === undefined ? "UNKNOWN" : distance > location.radiusMeters ? "OUTSIDE_RADIUS" : "WITHIN_RADIUS" };
             const grounded = groundedNativeCandidate({ source: pack, sourceId: extracted.sourceEntityId,
               sourceUrl: extracted.sourceUrl, name: extracted.outletName, address: extracted.address!,
               coordinates: point, location, request, observedAt: this.now(), ...(outlet.sourceCategories ? { sourceCategories: outlet.sourceCategories } : {}) });
@@ -619,6 +647,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
               session = undefined;
             }
           } finally {
+            if (detailNavigationStarted && directoryRegion && !directoryRegion.replacement && directoryRegion.firstFive.length < 5 && !directoryRegion.firstFive.some(item => item.sourceEntityId === outlet.sourceEntityId)) directoryRegion.firstFive.push(regionObservation);
             attemptingDetailSourceId = undefined;
           }
         }
@@ -651,7 +680,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
             session: session!,
             signal,
             allowedOrigins,
-            goal: { outlet: { name: expression, address: request.intent.area.query }, retrievalExpression: expression, hardCriteria: request.intent.criteria.filter((item) => item.polarity === "POSITIVE" && item.strength === "HARD").map((item) => item.text) },
+            goal: { location: discoveryGoalLocation, outlet: { name: expression, address: request.intent.area.query }, retrievalExpression: expression, hardCriteria: request.intent.criteria.filter((item) => item.polarity === "POSITIVE" && item.strength === "HARD").map((item) => item.text) },
             objective: "Apply the current public source search and reveal venue result cards for the authoritative area and retrieval terms. Do not submit a reservation.",
             methodReason: "The current source listing has not yet produced a parsed public venue result or an explicit empty result.",
             completion: (current, controls) => sourceListingCompletion(pack, current, controls, expression),
@@ -753,13 +782,14 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
       sourceTimeLimitReached = sourceElapsedMs() >= NATIVE_SOURCE_ELAPSED_CAP_MS;
       // A batch selection is not consumption.  Recompute after the loop so a
       // navigation/session interruption retains all entries it never began.
-      sourceEnded = (!categoryContinuationAvailable
+      if (directoryEntryReplacementAllowed(directoryRegion)) { pendingSourceEntries = []; nextListing = undefined; }
+      sourceEnded = (!directoryEntryReplacementAllowed(directoryRegion) && !categoryContinuationAvailable
           && pendingSourceEntries.length === 0
           && (!nextListing || sourcePagesBefore + listingPagesRead >= NATIVE_LISTING_PAGE_CAP[source]))
         || sourceDetailAttemptsBefore + inspected >= NATIVE_DETAIL_SOURCE_CAP
         || sourceTimeLimitReached;
       return { candidates: [...admitted.values()].map((item) => item.candidate), evidence: [...admitted.values()].map((item) => item.evidence), candidateFailures,
-        progress: { sourceId: pack.meta.id, inspectedSourceIds: [...new Set(inspectedSourceIds)], detailAttempts: sourceDetailAttemptsBefore + inspected,
+        progress: { ...(directoryRegion ? { directoryRegion } : {}), sourceId: pack.meta.id, inspectedSourceIds: [...new Set(inspectedSourceIds)], detailAttempts: sourceDetailAttemptsBefore + inspected,
           pagesRead: (priorProgress?.sourceId === pack.meta.id ? priorProgress.pagesRead : 0) + listingPagesRead,
           elapsedMs: sourceElapsedMs(),
           ...(nextListing ? { nextListing } : {}), visitedListingUrls,
@@ -777,6 +807,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
       if (error && typeof error === "object") Object.assign(error, {
         nativeFunnel: funnel(true),
         nativeProgress: {
+          ...(directoryRegion ? { directoryRegion } : {}),
           sourceId: pack.meta.id,
           inspectedSourceIds: [...new Set(inspectedSourceIds)],
           detailAttempts: sourceDetailAttemptsBefore + inspected,

@@ -15,7 +15,7 @@ import { fixtureCandidates, fixtureIntent } from "../../harness/restaurant-fixtu
 import type { RestaurantOutcome } from "./contracts.js";
 
 const incompleteState: RestaurantTaskState = {
-  schemaVersion: "13",
+  schemaVersion: "14",
   phase: "UNDERSTANDING",
   candidates: [],
   availability: {},

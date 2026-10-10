@@ -16,6 +16,7 @@ export interface DiscoveryPlanningLocation {
   radiusMeters: number;
   label: string;
   areaMatchBasis: "TASK_LOCATION_RADIUS" | "EVALUATION_LOCATION_RADIUS" | "NAMED_PLACE_RADIUS";
+      addressComponents?: Array<{ longText: string; shortText?: string; types: string[] }>;
 }
 
 export interface DiscoveryQuery {

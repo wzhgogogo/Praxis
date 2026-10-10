@@ -170,6 +170,9 @@ export function sourcePages(
     if (parsed.hostname === "tabelog.com" && parsed.pathname.includes("/rstLst/")) {
       const listingRoot = parsed.pathname.slice(0, parsed.pathname.indexOf("/rstLst/") + "/rstLst/".length);
       const categoryUrl = (suffix: string) => `${parsed.origin}${listingRoot}${suffix.replace(/^\//, "")}`;
+      if (listingRoot === "/en/tokyo/rstLst/" && scenario !== "TABELOG_NEUTRAL_REGION_RECOVERS") {
+        return page(url, '<a href="/en/tokyo/A1303/A130301/rstLst/?sw=omakase">Shibuya</a>', "Tokyo directory. Choose an observed region.", "Tabelog search");
+      }
       tabelogListingVisits += 1;
       if (scenario === "TABELOG_RETRIEVAL_CATEGORY_DELIVERS") {
         const category = parsed.pathname.includes("/sushi/");
@@ -217,7 +220,7 @@ export function sourcePages(
         if (second && !tabelogSecondPageRevealed) return page(url,
           '<button type="button">Show public venues</button>', "Reveal the current public venue results", "Tabelog search");
         const ids = !category || keyword ? [100] : third ? [106] : second ? [104, 105] : [100, 101, 102, 103, 104];
-        const route = !category ? `<a href="${categoryUrl("sushi/?sw=omakase")}">Sushi</a>`
+        const route = !category ? `<a href="${categoryUrl(scenario === "TABELOG_RESULT_PAGES_CONTINUE" ? "sushi/" : "sushi/?sw=omakase")}">Sushi</a>`
           : keyword ? `<a href="${categoryUrl("sushi/")}">omakase ×</a>`
           : third ? '<input type="search" name="keyword" aria-label="Search restaurants" value="">'
           : second ? `<a rel="next" href="${categoryUrl("sushi/3/")}">Next 20</a>`
@@ -451,6 +454,9 @@ export function dynamicTabelogSourcePages(options: { result?: "AVAILABLE" | "UNA
         const context = await createContext(contextOptions);
         await context.route("**/*", async (route) => {
           const request = new URL(route.request().url());
+          if (request.origin === "https://tabelog.com" && request.pathname === "/en/tokyo/rstLst/") {
+            await route.fulfill({contentType:"text/html",body:'<a href="https://tabelog.com/en/tokyo/A1303/A130301/rstLst/?sw=omakase">Shibuya</a>'}); return;
+          }
           if (request.origin === "https://tabelog.com" && request.pathname === "/en/tokyo/A1303/A130301/rstLst/") {
             // The native search owns the URL shape; the fixture only accepts the
             // frozen HARD criterion and deliberately tolerates parameter order.

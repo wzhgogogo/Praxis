@@ -45,6 +45,8 @@ const input = {
 test("source-stage manifest freezes the Phase3 budgets, full denominator and evaluator boundary", () => {
   const manifest = createSourceStageProbeManifest(input);
   assert.equal(manifest.status, "PLANNED");
+  assert.equal(createSourceStageProbeManifest({...input,budget:{...budget,sampleMaxElapsedMs:90000,sampleMaxModelCalls:6}}).budget.sampleMaxModelCalls,6);
+  assert.throws(()=>createSourceStageProbeManifest({...input,budget:{...budget,sampleMaxElapsedMs:90001}}));
   assert.equal(manifest.evaluator.applicability, "NOT_APPLICABLE");
   assert.equal(manifest.attemptAccounting.replayFallbackNetworkDisabled, true);
   assert.equal(sourceStageManifestFingerprint(manifest), sourceStageManifestFingerprint(manifest));
@@ -53,7 +55,7 @@ test("source-stage manifest freezes the Phase3 budgets, full denominator and eva
   assert.equal(createSourceStageProbeManifest({ ...input, budget: { ...budget, sampleMaxModelCalls: 0, matrixMaxModelCalls: 0 } }).budget.sampleMaxModelCalls, 0,
     "an identity-only source read can prohibit model dispatch without inventing a positive allowance");
   assert.throws(() => createSourceStageProbeManifest({ ...input, budget: { ...budget, sampleMaxModelCalls: -1 } }));
-  assert.throws(() => createSourceStageProbeManifest({ ...input, budget: { ...budget, sampleMaxModelCalls: 5 } }));
+  assert.throws(() => createSourceStageProbeManifest({ ...input, budget: { ...budget, sampleMaxModelCalls: 7 } }));
   assert.throws(() => createSourceStageProbeManifest({ ...input, runtime: undefined! }));
 });
 
@@ -210,6 +212,7 @@ test("live source-stage discovery delegates to the production NativeRestaurantSe
   }), () => reference.toISOString(), 10, { maxRequests: 2 });
   const result = await runSourceStageNativeDiscoveryProbe({
     pack: tabelogDiscoveryPack,
+    modelDecision: { decide: async input => ({type:"OPEN_LINK",targetRef:input.observation.targets.find(t=>t.label==="Shibuya")!.ref,reason:"Use observed region"}) },
     runtime,
     locality,
     readRunId: "source-stage-native-control",
@@ -239,6 +242,7 @@ test("source-stage discovery keeps a parsed list without any frozen-radius candi
   }), () => reference.toISOString(), 10, { maxRequests: 2 });
   const result = await runSourceStageNativeDiscoveryProbe({
     pack: tabelogDiscoveryPack,
+    modelDecision: { decide: async input => ({type:"OPEN_LINK",targetRef:input.observation.targets.find(t=>t.label==="Shibuya")!.ref,reason:"Use observed region"}) },
     runtime: sourcePages("OUTSIDE_RADIUS", []),
     locality,
     readRunId: "source-stage-outside-radius",

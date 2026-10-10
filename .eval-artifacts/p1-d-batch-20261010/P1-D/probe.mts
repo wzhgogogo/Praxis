@@ -1,0 +1,34 @@
+import {mkdir,writeFile} from 'node:fs/promises';
+import {resolve} from 'node:path';
+import {createHash} from 'node:crypto';
+import {execFileSync} from 'node:child_process';
+import {runSourceStageNativeDiscoveryProbe} from '../../../src/eval/restaurant/agent-loop/source-stage-probe.ts';
+import {GooglePlacesRestaurantSearch} from '../../../src/integrations/google/google-places-restaurant-search.ts';
+import {GooglePlacesClient} from '../../../src/integrations/google/google-places-client.ts';
+import {tabelogDiscoveryPack,discoveryPackNetworkPolicy} from '../../../src/integrations/restaurant-search/source-packs.ts';
+import {LocalPlaywrightChromium} from '../../../src/infrastructure/browser/local-playwright-chromium.ts';
+import {DeepSeekModelGateway} from '../../../src/infrastructure/deepseek/deepseek-model-gateway.ts';
+import {ModelBrowserReadActionDecision} from '../../../src/infrastructure/browser/browser-action-decision.ts';
+import {createHybridDecisionCapture} from '../../../src/eval/restaurant/agent-loop/runners/run-hybrid-live-read.ts';
+import {BrowserReadRecording} from '../../../src/eval/restaurant/agent-loop/runners/browser-read-recording.ts';
+import {traceBrowserRuntime} from '../../../src/eval/restaurant/agent-loop/runners/browser-case-slice-evidence.ts';
+import {runLivePreflight,resolveEffectiveLiveNetworkConfiguration,environmentWithEffectiveLiveNetwork} from '../../../src/eval/restaurant/agent-loop/live-preflight.ts';
+const dir=resolve('.eval-artifacts/p1-d-batch-20261010/P1-D/probes');await mkdir(dir,{recursive:true});
+const network=resolveEffectiveLiveNetworkConfiguration(process.env,['--no-proxy']);const env=environmentWithEffectiveLiveNetwork(process.env,network);delete env.PRAXIS_LOCAL_CHROMIUM_PROXY_SERVER;env.PRAXIS_LOCAL_CHROMIUM_INTERACTIVE='0';
+const preflight=await runLivePreflight({runner:'SOURCE_STAGE_PROBE',targets:['DEEPSEEK','GOOGLE','TABELOG'],network,timeoutMs:10000},env);
+const manifest={mode:'LIVE_READ_ONLY_DISCOVERY',sourcePack:'tabelog',places:['Ebisu','Roppongi','Nihonbashi','Ikebukuro','Asakusa','Shibuya'],radiusMeters:1000,maxModelCalls:6,maxElapsedMs:90000,detailDenominator:10,parentCommit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),implementationDiffSha256:createHash('sha256').update(execFileSync('git',['diff','--','src'],{encoding:'utf8'})).digest('hex'),preflight};await writeFile(resolve(dir,'manifest.json'),JSON.stringify(manifest,null,2),{flag:'wx'});
+const results=[];const policy=discoveryPackNetworkPolicy([tabelogDiscoveryPack]);
+for(const place of manifest.places){
+ const start=Date.now();const signal=AbortSignal.timeout(90000);const id=place.toLowerCase();const resultPath=resolve(dir,`${id}.result.json`);const budget={totalModelCalls:0,maxModelCalls:6};const diagnostics=[];const snapshots=[];let stop;
+ const recording=new BrowserReadRecording({directory:resolve(dir,'recordings'),runId:id,reviewedStaticResources:policy.staticResources,reviewedReads:policy.dynamicReads});const capture=createHybridDecisionCapture(resultPath,recording);const base=LocalPlaywrightChromium.fromEnvironment(env);
+ const runtime=traceBrowserRuntime({readNetworkBoundaryCapability:base.readNetworkBoundaryCapability,openSession:async input=>{
+  const session=await base.openSession({...input,recordResponse:response=>recording.recordResponse(response)});const snapshot=session.snapshot.bind(session);session.snapshot=async()=>{const current=await snapshot();snapshots.push(current);if(/\/(?:booking|reserve|payment|checkout|confirm)(?:[/?]|$)/i.test(new URL(current.url).pathname)) {stop='STOP_CONDITION:next-step';throw Error(stop);}const unexpected=current.networkRequests?.filter(x=>x.outcome==='ADMITTED'&&!['GET','HEAD'].includes(x.method));if(unexpected?.length){stop='STOP_CONDITION:unexpected-non-GET';throw Error(stop);}return current;};return session;
+ }},'TABELOG',(kind,detail)=>recording.record(kind,detail),capture.snapshotSink);
+ const provider=DeepSeekModelGateway.fromEnvironment(env);let calls=0;const model={complete:request=>{calls++;return capture.complete({...request,timeoutMs:Math.min(request.timeoutMs,Math.max(1,90000-(Date.now()-start)))},()=>provider.complete({...request,timeoutMs:Math.min(request.timeoutMs,Math.max(1,90000-(Date.now()-start)))}));}};
+ const locality=new GooglePlacesRestaurantSearch(GooglePlacesClient.fromEnvironment(env),()=>new Date().toISOString(),10,{maxRequests:1});const intent={timezone:'Asia/Tokyo',target:{goal:'RECOMMENDATION',query:'restaurants'},area:{query:`near ${place}`,radiusMeters:1000},criteria:[]};let row;
+ try{const resolved=await locality.resolveNamedNearbyLocation({intent,readRunId:id},signal);if(!resolved.location)throw Error('LOCATION_UNRESOLVED');await writeFile(resolve(dir,`${id}.location.json`),JSON.stringify(resolved,null,2),{flag:'wx'});
+  const result=await runSourceStageNativeDiscoveryProbe({pack:tabelogDiscoveryPack,runtime,locality,intent,locationContext:resolved.location,readRunId:id,modelDecision:new ModelBrowserReadActionDecision(model),browserBudget:budget,timeoutMs:90000,signal,now:()=>new Date().toISOString(),onDiagnostic:d=>{diagnostics.push(d);recording.record('EXECUTOR_DIAGNOSTIC',d);}});
+  const inspected=result.reads.flatMap(r=>r.metadata.nativeDiscoveryFunnel?.listingObservations??[]);row={place,...result,elapsedIncludingResolutionMs:Date.now()-start,calls,googleRequests:locality.googleRequestUsage(id),firstTen:{denominator:10,within:result.read.candidates.length,inspected:result.read.metadata.nativeDiscoveryFunnel?.sourceDetailAttempts??0,unread:Math.max(0,10-(result.read.metadata.nativeDiscoveryFunnel?.sourceDetailAttempts??0))},observedLists:inspected,region:result.reads[0]?.metadata.nativeDiscoveryFunnel?.directoryRegion,passes:result.read.candidates.length>=5&&result.status==='LIST_OBSERVED'};
+ }catch(error){row={place,status:'FAILED',failureCode:error.code??String(error),elapsedIncludingResolutionMs:Date.now()-start,calls,budget,googleRequests:locality.googleRequestUsage(id),passes:false,firstTen:{denominator:10,within:0,unread:10},stop};}
+ row.decisionCapture=await capture.finish();row.recording=await recording.finish();await writeFile(resultPath,JSON.stringify(row,null,2),{flag:'wx'});await writeFile(resolve(dir,`${id}.diagnostics.json`),JSON.stringify(diagnostics,null,2),{flag:'wx'});await writeFile(resolve(dir,`${id}.snapshots.json`),JSON.stringify(snapshots,null,2),{flag:'wx'});results.push(row);await writeFile(resolve(dir,'summary.json'),JSON.stringify(results.map(r=>({place:r.place,status:r.status,failureCode:r.failureCode,passes:r.passes,elapsedMs:r.elapsedIncludingResolutionMs,modelCalls:r.calls,firstTen:r.firstTen,region:r.region})),null,2));console.log(JSON.stringify({place,status:row.status,elapsedMs:row.elapsedIncludingResolutionMs,modelCalls:calls,firstTen:row.firstTen,passes:row.passes}));if(stop)throw Error(stop);
+}

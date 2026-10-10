@@ -5,7 +5,7 @@ import { ModelGatewayError } from "../../core/model/errors.js";
 
 export const BROWSER_ACTION_DECISION_SCHEMA = {
   name: "browser_read_action",
-  version: "10",
+  version: "11",
 } as const;
 
 export const BROWSER_ACTION_DECISION_STRICT_WIRE_JSON_SCHEMA: Record<string, unknown> = {
@@ -18,7 +18,7 @@ export const BROWSER_ACTION_DECISION_STRICT_WIRE_JSON_SCHEMA: Record<string, unk
       enum: ["OPEN_LINK", "CLICK", "CLICK_AUTHORITATIVE", "FILL_AUTHORITATIVE", "CHOOSE_OPTION", "SET_CHECKED", "ADJUST_RANGE", "SCROLL_REGION", "PRESS_ESCAPE", "WAIT", "COMPLETE", "REQUEST_HUMAN_HELP"],
     },
     targetRef: { type: "string" },
-    authoritativeField: { type: "string", enum: ["NONE", "DATE", "PARTY_SIZE", "TIME", "RETRIEVAL"] },
+    authoritativeField: { type: "string", enum: ["NONE", "DATE", "PARTY_SIZE", "TIME", "RETRIEVAL", "LOCATION"] },
     requestedState: { type: "string", enum: ["NONE", "CHECKED", "UNCHECKED", "INCREASE", "DECREASE", "UP", "DOWN"] },
     reason: { type: "string" },
   },
@@ -28,7 +28,7 @@ export type BrowserReadAction =
   | { type: "OPEN_LINK"; targetRef: string; reason: string }
   | { type: "CLICK"; targetRef: string; reason: string }
   | { type: "CLICK_AUTHORITATIVE"; targetRef: string; field: "DATE" | "PARTY_SIZE"; reason: string }
-  | { type: "FILL_AUTHORITATIVE"; targetRef: string; field: "DATE" | "PARTY_SIZE" | "RETRIEVAL"; reason: string }
+  | { type: "FILL_AUTHORITATIVE"; targetRef: string; field: "DATE" | "PARTY_SIZE" | "RETRIEVAL" | "LOCATION"; reason: string }
   | { type: "CHOOSE_OPTION"; targetRef: string; field: "DATE" | "PARTY_SIZE" | "TIME" | "RETRIEVAL"; reason: string }
   | { type: "SET_CHECKED"; targetRef: string; checked: boolean; reason: string }
   | { type: "ADJUST_RANGE"; targetRef: string; direction: "INCREASE" | "DECREASE"; reason: string }
@@ -88,6 +88,8 @@ export interface BrowserReadGoal {
   outlet: { name: string; address?: string };
   /** Bounded source-query wording; it never alters the Restaurant intent. */
   retrievalExpression?: string;
+  /** Same request resolution; no inferred station or substituted place. */
+  location?: { name?: string; latitude: number; longitude: number; radiusMeters: number; addressComponents?: Array<{ longText: string; shortText?: string; types: string[] }> };
   /** Fact-only reads intentionally omit unsupplied reservation parameters. */
   date?: string;
   partySize?: number;
@@ -170,7 +172,7 @@ function nonBlank(value: unknown): value is string {
 
 const WIRE_FIELDS = ["action", "targetRef", "authoritativeField", "requestedState", "reason"] as const;
 const KNOWN_ACTIONS = new Set(["OPEN_LINK", "CLICK", "CLICK_AUTHORITATIVE", "FILL_AUTHORITATIVE", "CHOOSE_OPTION", "SET_CHECKED", "ADJUST_RANGE", "SCROLL_REGION", "PRESS_ESCAPE", "WAIT", "COMPLETE", "REQUEST_HUMAN_HELP"]);
-const KNOWN_FIELDS = new Set(["NONE", "DATE", "PARTY_SIZE", "TIME", "RETRIEVAL"]);
+const KNOWN_FIELDS = new Set(["NONE", "DATE", "PARTY_SIZE", "TIME", "RETRIEVAL", "LOCATION"]);
 const KNOWN_STATES = new Set(["NONE", "CHECKED", "UNCHECKED", "INCREASE", "DECREASE", "UP", "DOWN"]);
 
 function diagnosticPath(key: string): string {
@@ -274,10 +276,10 @@ export function decodeBrowserReadActionWire(value: unknown, observedTargetRefs: 
       }
       return { type: value.action, targetRef: value.targetRef, field: value.authoritativeField as "DATE" | "PARTY_SIZE" | "TIME" | "RETRIEVAL", reason };
     case "FILL_AUTHORITATIVE":
-      if (!nonBlank(value.targetRef) || !["DATE", "PARTY_SIZE", "RETRIEVAL"].includes(value.authoritativeField)) {
+      if (!nonBlank(value.targetRef) || !["DATE", "PARTY_SIZE", "RETRIEVAL", "LOCATION"].includes(value.authoritativeField)) {
         return rejectWire(value, observedTargetRefs, !nonBlank(value.targetRef) ? "$.targetRef" : "$.authoritativeField", !nonBlank(value.targetRef) ? value.targetRef : value.authoritativeField, !nonBlank(value.targetRef) ? "REQUIRED_NONBLANK" : "INVALID_STATE");
       }
-      return { type: value.action, targetRef: value.targetRef, field: value.authoritativeField as "DATE" | "PARTY_SIZE" | "RETRIEVAL", reason };
+      return { type: value.action, targetRef: value.targetRef, field: value.authoritativeField as "DATE" | "PARTY_SIZE" | "RETRIEVAL" | "LOCATION", reason };
     case "SET_CHECKED":
       if (!nonBlank(value.targetRef) || (value.requestedState !== "CHECKED" && value.requestedState !== "UNCHECKED")) {
         return rejectWire(value, observedTargetRefs, !nonBlank(value.targetRef) ? "$.targetRef" : "$.requestedState", !nonBlank(value.targetRef) ? value.targetRef : value.requestedState, !nonBlank(value.targetRef) ? "REQUIRED_NONBLANK" : "INVALID_STATE");
@@ -309,6 +311,8 @@ Choose one action only from the observed target references and their availableAc
 
 To open a custom BUTTON whose role is combobox, use CLICK with authoritativeField NONE. Re-observe, then use CHOOSE_OPTION on an observed OPTION with the correct ownerRef. A native SELECT already exposes its OPTION targets; choose the option directly. Match the visible label to the authoritative date, party size, or time window; an opaque option value is never a reason to guess. For targeted actions, authoritativeField and requestedState must match the action contract. Page actions ignore targetRef and inert field/state placeholders.
 
+During DISCOVERY, choose the most specific observed public region/station entrance for goal.location. Its coordinates remain the exact center; addressComponents are source observations, not permission to infer a nearest station. FILL_AUTHORITATIVE with LOCATION fills exactly goal.location.name in an observed public area/station input. Never invent a location name, URL, code, synonym, or replacement value.
+
 During DISCOVERY, an expanded public search combobox may expose CHOOSE_OPTION:RETRIEVAL for the exact goal.retrievalExpression, optionally displayed in quotation marks. Choose that option to apply the existing query and close its suggestions before using background controls. Do not choose Nearby or a different suggested query. Its current search value and closed suggestion state must be re-observed; selecting it is not proof of search results.
 
 A LINK can represent a same-page UI control when its observed href differs from the current document only by a fragment (including #). If its availableActions includes CLICK, use CLICK to expand or change that UI and re-observe. Ordinary public links continue to use OPEN_LINK. Use the visible control label and its page context to match the objective; an unrelated unlabeled button is not a substitute for a named category or filter control.
@@ -338,7 +342,7 @@ export class ModelBrowserReadActionDecision implements BrowserReadActionDecision
       response = await this.model.complete({
         taskId: input.taskId,
         purpose: "browser_read_decide",
-        promptVersion: "15",
+        promptVersion: "16",
         messages: [
           { role: "system", content: buildBrowserReadDecisionSystemPrompt() },
           {

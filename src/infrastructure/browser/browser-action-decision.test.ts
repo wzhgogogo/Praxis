@@ -205,3 +205,10 @@ test("browser prompt describes installed public-query controls and page-level re
   assert.match(prompt, /installed isolated read boundary may expose ordinary public-query controls/i);
   assert.match(prompt, /including a submit-shaped query control/i);
 });
+
+test('LOCATION wire cannot carry a replacement value or use a non-fill action', async()=>{
+ const wire={action:'FILL_AUTHORITATIVE',targetRef:input.observation.targets[0]!.ref,authoritativeField:'LOCATION',requestedState:'NONE',reason:'Use exact resolved name'};
+ assert.deepEqual(await new ModelBrowserReadActionDecision(gateway(wire)).decide(input),{type:'FILL_AUTHORITATIVE',targetRef:wire.targetRef,field:'LOCATION',reason:wire.reason});
+ await assert.rejects(()=>new ModelBrowserReadActionDecision(gateway({...wire,value:'Nearby substituted place'})).decide(input),error=>error instanceof BrowserReadDecisionError && error.wireRejection?.reason==='UNSUPPORTED_FIELD');
+ await assert.rejects(()=>new ModelBrowserReadActionDecision(gateway({...wire,action:'CLICK_AUTHORITATIVE'})).decide(input),error=>error instanceof BrowserReadDecisionError && error.wireRejection?.reason==='INVALID_STATE');
+});

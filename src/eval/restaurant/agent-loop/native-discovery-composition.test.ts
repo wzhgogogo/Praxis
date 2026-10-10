@@ -82,6 +82,11 @@ class H001NativeModel implements ModelGateway {
         skills?: { source?: string };
       };
       this.browserDecisionInputs.push({ objective: input.objective, progress: input.progress, observation: { targets: input.observation.targets, ...(input.observation.pageActions ? { pageActions: input.observation.pageActions } : {}) }, ...(input.skills?.source ? { skillSource: input.skills.source } : {}) });
+      if (input.objective.includes("observed public region/station")) {
+        const region = input.observation.targets.find(target => target.availableActions?.includes("OPEN_LINK") && (target.label === this.areaQuery || target.label === `Restaurants in ${this.areaQuery}`));
+        if (region) return reply(JSON.stringify({action:"OPEN_LINK",targetRef:region.ref,authoritativeField:"NONE",requestedState:"NONE",reason:"Choose the observed region for the unchanged location."}),request.purpose);
+      }
+
       if (["TABELOG_RETRIEVAL_CATEGORY_DELIVERS", "TABELOG_RESULT_PAGES_CONTINUE", "TABELOG_CATEGORY_REDIRECTS_ROOT"].includes(this.scenario) && input.objective.includes("related category")) {
         const link = input.observation.targets.find((target) => /^(?:Sushi|omakase ×)$/.test(target.label) && target.availableActions?.includes("OPEN_LINK"));
         if (link) return reply(JSON.stringify({ action: "OPEN_LINK", targetRef: link.ref, authoritativeField: "NONE", requestedState: "NONE", reason: "Use a related source category for discovery; retain the HARD fact requirement." }), request.purpose);
@@ -434,7 +439,7 @@ test("the production Router advances the default three-pack cursor and reaches G
     date, timeWindow: { earliest: "19:00", latest: "19:00" }, partySize: 2,
     area: { query: "Shibuya", coordinates: { ...center, observedAt: reference.toISOString(), source: "MANUAL_PLACE" as const } }, criteria: [],
   };
-  let state: RestaurantTaskState = { schemaVersion: "13", phase: "UNDERSTANDING", intentDraft, candidates: [], availability: {}, availabilityChecks: {}, readEvidence: [], searchRevision: 0 };
+  let state: RestaurantTaskState = { schemaVersion: "14", phase: "UNDERSTANDING", intentDraft, candidates: [], availability: {}, availabilityChecks: {}, readEvidence: [], searchRevision: 0 };
   const first = await router.execute({ type: "SEARCH_RESTAURANTS" }, state, reference.toISOString(), "phase2-router-pack");
   assert.equal(first.event?.type, "SEARCH_COMPLETED");
   if (first.event?.type !== "SEARCH_COMPLETED") throw new Error("expected first discovery result");
@@ -482,7 +487,7 @@ test("H001 two bounded empty source batches cannot claim inventory or results", 
   assert.equal(result.state.presentedResults, undefined);
   assert.equal(result.state.searchContinuation?.exhausted, true);
   assert.match(result.state.noVerifiedResult?.remainingGaps.join(" ") ?? "", /bounded discovery plan/);
-  assert.equal(result.navigations.filter((url) => url.includes("/rstLst/")).length, 1);
+  assert.equal(result.navigations.filter((url) => url.includes("/rstLst/")).length, 2);
   assert.equal(result.navigations.filter((url) => url.includes("/japan/search")).length, 1);
   assert.deepEqual(result.googleCalls.map((item) => item.query), ["Shibuya"]);
 });
@@ -492,7 +497,7 @@ test("H001 both source lists reject page-owned coordinates outside the existing 
   assert.equal(result.state.candidates.length, 0);
   assert.equal(result.state.presentedResults, undefined);
   assert.equal(result.state.searchContinuation?.exhausted, true);
-  assert.equal(result.navigations.filter((url) => url.includes("/rstLst/")).length, 1);
+  assert.equal(result.navigations.filter((url) => url.includes("/rstLst/")).length, 2);
   assert.equal(result.navigations.filter((url) => url.includes("/japan/search")).length, 1);
   const funnels = result.trajectories.flatMap((step) => step.executionMetadata?.nativeDiscoveryFunnel ? [step.executionMetadata.nativeDiscoveryFunnel] : []);
   assert.deepEqual(funnels.map((item) => ({ source: item.source, parsed: item.parsedOutlets, accepted: item.accepted,
@@ -608,7 +613,7 @@ test("native discovery rejects a category result that leaves the observed region
 
 test("native discovery retains category pagination including links revealed by a query action and deduplicates outlets", async () => {
   const result = await runScenario("TABELOG_RESULT_PAGES_CONTINUE");
-  assert.deepEqual(result.state.presentedResults?.candidateIds, ["tabelog:tokyo/A1304/A130401/106"]);
+  assert.deepEqual(result.state.presentedResults?.candidateIds, ["tabelog:tokyo/A1304/A130401/106"], JSON.stringify({navigations:result.navigations,search:result.state.searchContinuation,metadata:result.trajectories.filter(x=>x.agentAction?.type==="SEARCH_RESTAURANTS").map(x=>x.executionMetadata)}));
   assert.equal(result.navigations.includes("https://tabelog.com/en/tokyo/A1303/A130301/rstLst/sushi/2/"), true);
   assert.equal(result.navigations.includes("https://tabelog.com/en/tokyo/A1303/A130301/rstLst/sushi/3/"), true);
   assert.equal(result.navigations.some((url) => url.includes("tablecheck.com")), false);
@@ -650,7 +655,7 @@ test("native discovery reaches a neutral locality only through its observed sour
 
 test("native discovery restores an observed regional listing after same-region homepage canonicalization", async () => {
   const result = await runScenario("TABELOG_REGION_HOMEPAGE_RECOVERS");
-  assert.equal(result.navigations[0], "https://tabelog.com/en/tokyo/A1303/A130301/rstLst/?sw=omakase");
+  assert.equal(result.navigations[0], "https://tabelog.com/en/tokyo/rstLst/?sw=omakase");
   assert.equal(result.navigations[1], "https://tabelog.com/en/tokyo/A1303/A130301/rstLst/?sw=omakase",
     "the Pack-owned homepage link restores the same observed listing rather than treating a homepage as a result list");
   assert.deepEqual(result.state.candidates.map((candidate) => candidate.restaurant.id), ["tabelog:tokyo/A1304/A130401/100"]);
@@ -690,7 +695,7 @@ test("H001 presents one investigated TableCheck current-batch result without rea
 
 test("H001 consumes a retained Tabelog detail entrance without reopening a volatile listing", async () => {
   const result = await runScenario("TABELOG_PENDING_RESTORED");
-  assert.equal(result.navigations.filter((url) => url.includes("/rstLst/")).length, 1,
+  assert.equal(result.navigations.filter((url) => url.includes("/rstLst/")).length, 2,
     "the persisted source-owned entrance must not depend on a refreshed listing");
   assert.equal(result.navigations.some((url) => url.endsWith("/105/")), true,
     "the sixth observed entrance must survive the changed second listing");
@@ -703,7 +708,7 @@ test("H001 retains unstarted Tabelog entries when a failed detail cannot reopen 
   assert.equal(result.state.phase, "PRESENT_RESULTS");
   assert.equal(result.navigations.filter((url) => url.endsWith("/100/")).length, 1, "the failed detail navigation is attempted once");
   assert.equal(result.navigations.some((url) => url.endsWith("/101/")), true, "the first unstarted entry is retained and later consumed");
-  assert.equal(result.navigations.filter((url) => url.includes("/rstLst/")).length, 1, "the retained queue does not reopen a volatile listing");
+  assert.equal(result.navigations.filter((url) => url.includes("/rstLst/")).length, 2, "the retained queue does not reopen a volatile listing");
 });
 
 test("native detail chunk continues through later observed Tabelog results before changing source", async () => {
@@ -737,7 +742,7 @@ test("WP-A offline composition captures every model call including a timeout and
   await mkdir(resolve(".eval-artifacts"), { recursive: true });
   const directory = await mkdtemp(resolve(".eval-artifacts", "wp-a-decisions-"));
   const resultPath = resolve(directory, "offline.result.json");
-  const recording = new BrowserReadRecording({ directory, runId: "browser" });
+  const recording = new BrowserReadRecording({ directory, runId: "browser", reviewedReads: restaurantDiscoveryPacks.flatMap(pack=>pack.reviewedReads), reviewedStaticResources:restaurantDiscoveryPacks.flatMap(pack=>pack.staticResources) });
   const capture = createHybridDecisionCapture(resultPath, recording);
   try {
     const result = await runScenario("TABLECHECK_RECOVERS", { decisionCapture: capture, failSecondBrowserCall: true });

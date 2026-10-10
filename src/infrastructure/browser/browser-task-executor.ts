@@ -897,6 +897,7 @@ export class BrowserTaskExecutor {
       if (input.goal.date && this.boundInputField(target, "DATE")) availableActions.push("FILL_AUTHORITATIVE:DATE");
       if (input.goal.partySize !== undefined && this.boundInputField(target, "PARTY_SIZE")) availableActions.push("FILL_AUTHORITATIVE:PARTY_SIZE");
       if (input.goal.retrievalExpression && this.boundInputField(target, "RETRIEVAL") && this.guardedReadControl(input, target)) availableActions.push("FILL_AUTHORITATIVE:RETRIEVAL");
+      if (input.stage === "DISCOVERY" && input.goal.location?.name && this.boundInputField(target, "LOCATION") && this.guardedReadControl(input, target)) availableActions.push("FILL_AUTHORITATIVE:LOCATION");
       if (!availableActions.length) rejectionReason = "NO_BOUND_INPUT_FIELD";
     } else if (target.kind === "CHECKBOX" || target.kind === "RADIO" || target.kind === "RANGE") {
       const action = target.kind === "RANGE" ? "ADJUST_RANGE" : "SET_CHECKED";
@@ -915,7 +916,7 @@ export class BrowserTaskExecutor {
     return target.calendarDate ?? target.value?.match(/^\d{4}-\d{2}-\d{2}$/)?.[0] ?? target.label.match(/^(?:Date|Calendar date) (\d{4}-\d{2}-\d{2})$/)?.[1];
   }
 
-  private boundInputField(target: ObservedTarget, field: "DATE" | "PARTY_SIZE" | "RETRIEVAL"): boolean {
+  private boundInputField(target: ObservedTarget, field: "DATE" | "PARTY_SIZE" | "RETRIEVAL" | "LOCATION"): boolean {
     if (target.kind !== "INPUT" || !["INPUT", "TEXTAREA"].includes(target.nativeTag ?? "")) return false;
     if (field === "DATE") return target.type === "date" || /\bdate\b/i.test(target.label);
     if (field === "PARTY_SIZE") return /(?:party|guest|people|persons|名|人数)/i.test(target.label);
@@ -927,6 +928,7 @@ export class BrowserTaskExecutor {
     if (type && !["text", "search"].includes(type)) return false;
     const name = target.inputName ?? "";
     if (/(?:email|e-mail|phone|tel|password|card|address)/i.test(name)) return false;
+    if (field === "LOCATION") return /(?:location|area|station|地域|エリア|駅|場所)/i.test(`${name} ${target.label}`);
     return /(?:search|keyword|query|restaurant|venue|店名|検索)/i.test(name)
       || /(?:search|keyword|restaurant|venue|店名|検索)/i.test(target.label);
   }
@@ -1072,10 +1074,10 @@ export class BrowserTaskExecutor {
       return;
     }
     const authoritative = action.field === "DATE" ? input.goal.date
-      : action.field === "PARTY_SIZE" ? input.goal.partySize : input.goal.retrievalExpression;
+      : action.field === "PARTY_SIZE" ? input.goal.partySize : action.field === "LOCATION" && input.stage === "DISCOVERY" ? input.goal.location?.name : action.field === "RETRIEVAL" ? input.goal.retrievalExpression : undefined;
     if (authoritative === undefined) throw this.rejected(input.source, input.stage, `The current read has no authoritative ${action.field.toLowerCase()} value`);
     const value = String(authoritative);
-    if (!this.boundInputField(target, action.field) || action.field === "RETRIEVAL" && !this.guardedReadControl(input, target)) {
+    if (!this.boundInputField(target, action.field) || (action.field === "RETRIEVAL" || action.field === "LOCATION") && !this.guardedReadControl(input, target)) {
       throw new Error(`${action.type} target has the wrong control kind`);
     }
     await this.operation(input, "FILL_AUTHORITATIVE", () => input.session.fill(target.controlId, value, this.actionOptions()));
@@ -1146,7 +1148,7 @@ export class BrowserTaskExecutor {
   private guardedReadControl(input: BrowserSkillReadInput, target: ObservedTarget): boolean {
     if (input.session.metadata.readNetworkBoundary !== "INSTALLED") return false;
     if (!["BUTTON", "CHECKBOX", "RADIO", "RANGE", "REGION", "OPTION", "INPUT"].includes(target.kind)) return false;
-    if (target.kind === "INPUT" && !this.boundInputField(target, "RETRIEVAL")) return false;
+    if (target.kind === "INPUT" && !this.boundInputField(target, "RETRIEVAL") && !this.boundInputField(target, "LOCATION")) return false;
     return !/\b(?:login|sign\s*in|register|reserve|book|checkout|pay|purchase|cancel|delete|confirm)\b/i.test(target.label);
   }
 
