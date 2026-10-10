@@ -3918,3 +3918,8 @@ C3/red.log复现轮播属性变化导致人工帮助；green-final.log新增三�
 ## TEST-2026-10-10-P1PRE-C6a
 
 C6a/red.log复现单店休息提前结束；green.log原十一模式+单店/三店混合反例14/14，green-prompt.log 4/4。typecheck、arch:check、npm test-final 804/804、build PASS。初始Prompt常量断言失败保留test.log，已同步常量。零真实模型/Live。
+
+
+## TEST-2026-10-10-P1PRE-progress-wording
+
+修复前红灯 red.log；最终 green-final.log 1/1；typecheck-final、arch-check-final、test-final（805/805）、build-final 均通过。无真实模型调用、无 Live。

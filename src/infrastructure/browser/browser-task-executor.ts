@@ -726,7 +726,7 @@ export class BrowserTaskExecutor {
         unchangedPageKey = observationKey(snapshot);
         if (target) pendingControlKeys.add(target.stableKey);
         progress = target
-          ? `The previous ${action.type} was accepted, but its result is still not observable. Do not repeat that action on this unchanged page; use another observed safe control or WAIT for a bounded page-state change.`
+          ? `The previous ${action.type} did not produce a visible change. Choose a current observed target that advances the goal. Wait only if the result is actually still loading.`
           : "The bounded page-level wait ended without a visible result change. Choose another observed safe action or request human help.";
         this.record({ source: input.source, stage: input.stage, event: "METHOD_INCOMPLETE", url: snapshot.url, detail: "ASYNC_RESULT_NOT_READY" });
       } else {

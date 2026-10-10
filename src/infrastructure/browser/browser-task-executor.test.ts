@@ -1061,3 +1061,19 @@ test("BrowserTaskExecutor passes only the recent six executed or rejected steps 
   assert.equal((rejected[1] as any).history[0].reason,"COMPLETE_PREDICATE_UNSATISFIED");
   await other.close();
 });
+
+test("BrowserTaskExecutor no-change feedback directs a current target and waits only on actual loading", async () => {
+  const session=new FixtureSession([{url:"https://www.tablecheck.com/en/japan",title:"Results",text:"Categories All Sushi",html:'<button>All</button><a href="/en/sushi">Sushi</a>'}]);
+  let calls=0;
+  const executor=new BrowserTaskExecutor({openSession:async()=>session},{modelDecision:{async decide(value){
+    if(++calls===1)return {type:"CLICK",targetRef:value.observation.targets.find(x=>x.label==="All")!.ref,reason:"Reveal categories"};
+    assert.match(value.progress,/did not produce a visible change/i);
+    assert.match(value.progress,/current observed target/i);
+    assert.match(value.progress,/only.*(?:actually|still).*loading/i);
+    assert.doesNotMatch(value.progress,/result is still not observable|or WAIT/);
+    assert.ok(value.observation.targets.some(x=>x.label==="Sushi"));
+    return {type:"REQUEST_HUMAN_HELP",reason:"Fixture stops after feedback capture"};
+  }}});
+  try{assert.equal((await executor.runSkill({...input(session),completion:()=>({complete:false,reason:"Select a category"})})).status,"REQUESTED_HUMAN_HELP");}
+  finally{await executor.close();}
+});

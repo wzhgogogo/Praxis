@@ -7,6 +7,8 @@
 
 ## 当前门槛
 
+- **2026-10-10 P1PRE-progress-wording：** 执行器无变化反馈明确选择当前观察目标，只有确实加载时等待；不改变动作资格。 本项离线验证，后续只按授权运行 Live；不推送。证据目录 `.eval-artifacts/p1-prelive-20261010/progress-wording/`。
+
 - **2026-10-10 P1PRE-C6a：** IMMEDIATE_SOURCES_CLOSED限制为至少三家已查门店全部明确不营业且无已查营业/未知；一家休息仍可继续查店。按用户要求恢复ADR-0039原句，范围调整仅追加补充。Agent Prompt@23。 本项离线验证，后续只按授权运行 Live；不推送。证据目录 `.eval-artifacts/p1-prelive-20261010/C6a/`。
 
 - **2026-10-10 P1PRE-reserve-results：** Router对事实与查位采用同一门店完成检查点：保留量/交付时间触发时保留完整返回店的证据和结果，未完成店UNKNOWN/RESERVE_REACHED；已返回执行事件不再被continue丢弃，元数据记录触发原因及已完成店。 本项离线验证，后续只按授权运行 Live；不推送。证据目录 `.eval-artifacts/p1-prelive-20261010/reserve-results/`。
