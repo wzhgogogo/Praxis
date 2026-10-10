@@ -171,7 +171,7 @@ export interface BrowserSession {
   /** One bounded, browser-owned recovery for an observed transient overlay. */
   dismissTransientObstruction?(target: string, options?: BrowserActionOptions): Promise<{ occluder: string }>;
   waitFor(target: string, timeoutMs?: number): Promise<void>;
-  /** Wait for network completion, quiet DOM and no visible busy indicators; false on timeout. */
+  /** Wait for network completion, quiet DOM or stable visible state, and no visible busy indicators; false on timeout. */
   waitForSettled?(previous: Pick<BrowserSnapshot, "url" | "title" | "text" | "interactiveState">, timeoutMs?: number): Promise<boolean>;
   screenshot(): Promise<Uint8Array>;
   /** Code-owned privacy-safe layout capture: masks content without changing control state. */

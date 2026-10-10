@@ -2,10 +2,12 @@
 
 - Status: Accepted
 - Document revision: 4.164
-- Last updated: 2026-10-09
+- Last updated: 2026-10-10
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-10 P1PRE-C3：** 共享页面等待补可见文字/交互状态稳定300ms路径，保留DOM静默路径与4秒上限；导出PENDING次数和等待总毫秒，轮播不再阻断已渲染结果。 本项离线验证，后续只按授权运行 Live；不推送。证据目录 `.eval-artifacts/p1-prelive-20261010/C3/`。
 
 - **2026-10-10 P1-D：** 新增ADR-0040 Proposed窄草稿：待批准后删除地区表、Agent选择观察入口、权威LOCATION、详情坐标半径与一次换入口；五新地点仅列发现探测计划，代码未实施。 本轮不推送、不跑 Live；证据目录 `.eval-artifacts/p1-c-batch-20261010/P1-D/`。
 

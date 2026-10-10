@@ -10,7 +10,7 @@ import { chromium } from "playwright-core";
 import { LocalPlaywrightChromium } from "../../infrastructure/browser/local-playwright-chromium.js";
 import { CloudflareBrowserRun } from "../../infrastructure/browser/cloudflare-browser-run.js";
 import { PlaywrightControlRegistry } from "../../infrastructure/browser/playwright-browser-controls.js";
-import { BrowserTaskExecutor } from "../../infrastructure/browser/browser-task-executor.js";
+import { BrowserTaskExecutor, type BrowserExecutionDiagnostic } from "../../infrastructure/browser/browser-task-executor.js";
 import { BrowserRuntimeError } from "../../infrastructure/browser/browser-runtime-errors.js";
 import type { BrowserRuntime, BrowserSession } from "../../infrastructure/browser/browser-runtime.js";
 import type { BrowserReadActionDecisionPort } from "../../infrastructure/browser/browser-action-decision.js";
@@ -2161,5 +2161,27 @@ test("C3 settles delayed date results before asking the model and never complete
       assert.equal(calls,2);
       if(timeout)assert.equal(pendingHint,true);
     } finally {await executor.close();await rm(directory,{recursive:true,force:true});}
+  }
+});
+
+test("C3 visible-state fallback settles attribute-only carousel and rejects changing text or skeleton", async () => {
+  for (const mode of ["carousel", "text", "skeleton"] as const) {
+    const runtime = localFixture(`<title>Stable-result Fixture</title><p id="result">CURRENT_RESULT</p><button>Guests 2</button><aside id="carousel">Carousel</aside>${mode === "skeleton" ? '<div class="skeleton">Loading</div>' : ''}<script>
+      let n=0;setInterval(()=>{${mode === "text" ? "result.textContent+=' batch '+(++n);" : "carousel.setAttribute('data-frame',String(++n));"}},150);
+    </script>`);
+    const diagnostics: BrowserExecutionDiagnostic[] = [];
+    const executor = new BrowserTaskExecutor(runtime, { maxElapsedMsPerCandidate: 10_000, onDiagnostic: d => diagnostics.push(d), modelDecision: { async decide() { return { type: "REQUEST_HUMAN_HELP", reason: "Pending Fixture must not complete" }; } } });
+    const signal = new AbortController().signal;
+    const session = await executor.acquire(signal, "FIXTURE", "AVAILABILITY");
+    try {
+      await executor.navigate({ session, signal, source: "FIXTURE", stage: "AVAILABILITY", allowedOrigins: ["https://www.tablecheck.com"], url });
+      const read = await executor.runSkill({ taskId: `settle:${mode}`, source: "FIXTURE", stage: "AVAILABILITY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], goal: {outlet:{name:"Fixture"},partySize:2,hardCriteria:[]}, objective:"Read current result", completion:snapshot=>({complete:snapshot.text.includes("CURRENT_RESULT"),reason:"Current result missing"}) });
+      assert.equal(read.status, mode === "carousel" ? "COMPLETED" : "REQUESTED_HUMAN_HELP", mode);
+      assert.equal(read.snapshot.settlement, mode === "carousel" ? "SETTLED" : "PENDING", mode);
+      const waits = diagnostics.filter(d => d.event === "ASYNC_WAIT");
+      assert.ok(waits.length > 0);
+      assert.ok(waits.every(d => (d.waitMs ?? 0) >= 300));
+      assert.equal(waits.some(d => d.detail === "PAGE_STILL_LOADING_WITHIN_BOUND"), mode !== "carousel");
+    } finally { await executor.close(); }
   }
 });

@@ -3219,3 +3219,8 @@ C0c preserves four shared model calls for honest END_READ when no candidate is e
 ## DEV-2026-10-10-P1-D
 
 新增ADR-0040 Proposed窄草稿：待批准后删除地区表、Agent选择观察入口、权威LOCATION、详情坐标半径与一次换入口；五新地点仅列发现探测计划，代码未实施。
+
+
+## DEV-2026-10-10-P1PRE-C3
+
+共享页面等待补可见文字/交互状态稳定300ms路径，保留DOM静默路径与4秒上限；导出PENDING次数和等待总毫秒，轮播不再阻断已渲染结果。

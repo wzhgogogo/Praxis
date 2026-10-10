@@ -3903,3 +3903,8 @@ C6a：有效机制红灯 red-mechanism.log（关闭触发禁用时正例失败�
 ## TEST-2026-10-10-P1-D
 
 P1-D仅文档：Proposed状态、局部ADR链接和零src diff检查通过。按用户要求额外运行四门禁：typecheck、arch:check、npm test（796/796）、build全部PASS。没有适用行为红/绿测试；文档检查日志 document-check.log。发现探测0、真实模型0、Live0。证据目录 .eval-artifacts/p1-c-batch-20261010/P1-D/。
+
+
+## TEST-2026-10-10-P1PRE-C3
+
+C3/red.log复现轮播属性变化导致人工帮助；green-final.log新增三模式及原九Chromium场景10/10，green-summary.log摘要计数1/1。typecheck、arch:check、npm test 797/797、build PASS。tsx page.evaluate命名helper失败保留green.log，最终已修复；零真实模型/外部来源请求。

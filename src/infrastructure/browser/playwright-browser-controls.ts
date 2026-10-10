@@ -445,7 +445,7 @@ export class PlaywrightControlRegistry {
   }
 }
 
-/** DOM quiet and completed requests are readiness signals, never inventory evidence. */
+/** Quiet DOM or stable visible content plus completed requests indicate readiness, never inventory. */
 export async function waitForPageSettled(
   page: Page,
   _previous: Pick<BrowserSnapshot, "url" | "title" | "text" | "interactiveState">,
@@ -459,6 +459,17 @@ export async function waitForPageSettled(
       let lastMutation = performance.now();
       const observer = new MutationObserver(() => { lastMutation = performance.now(); });
       observer.observe(document.documentElement, { subtree: true, childList: true, attributes: true, characterData: true });
+      const projection = { capture() { return JSON.stringify({ text: document.body?.innerText ?? "", controls:
+        [...document.querySelectorAll('a[href],input,select,textarea,button,[role=combobox],[role=option],[role=checkbox],[role=radio],[role=slider]')].filter(element => {
+          const style = getComputedStyle(element);
+          return element.getClientRects().length > 0 && style.display !== "none" && style.visibility !== "hidden";
+        }).map(element => {
+          const field = element as HTMLInputElement;
+          return [element.tagName, element.id, element.getAttribute("role"), element.getAttribute("name"), element.getAttribute("href"),
+            "value" in field ? field.value : element.getAttribute("data-value"), "checked" in field ? field.checked : element.getAttribute("aria-checked"),
+            element.getAttribute("aria-selected"), (field.disabled || element.getAttribute("aria-disabled") === "true"), element.getAttribute("aria-expanded"), element.getAttribute("aria-valuenow")];
+        }) }); } };
+      let sample = projection.capture(), visibleSince = performance.now();
       const started = performance.now();
       const timer = setInterval(() => {
         const busy = [...document.querySelectorAll('[aria-busy="true"],[role="progressbar"],[class]')].some(element => {
@@ -466,7 +477,9 @@ export async function waitForPageSettled(
           const style = getComputedStyle(element);
           return element.getClientRects().length > 0 && style.display !== "none" && style.visibility !== "hidden";
         });
-        const settled = !busy && performance.now() - lastMutation >= 300;
+        const current = projection.capture();
+        if (current !== sample) { sample = current; visibleSince = performance.now(); }
+        const settled = !busy && (performance.now() - lastMutation >= 300 || performance.now() - visibleSince >= 300);
         if (settled || performance.now() - started >= remaining) {
           clearInterval(timer); observer.disconnect(); resolve(settled);
         }

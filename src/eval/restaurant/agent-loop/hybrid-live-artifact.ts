@@ -61,6 +61,8 @@ export function captureHybridLiveProgress(input: {
       ...(input.modelCallsStarted !== undefined ? { modelCallsStarted: input.modelCallsStarted } : {}),
       browserRuntimeCalls: browser.filter(item => item.event === "OPERATION_STARTED").length,
       browserOperationsByCandidate,
+      pageStillLoadingWithinBound: browser.filter(item => item.event === "ASYNC_WAIT" && item.detail === "PAGE_STILL_LOADING_WITHIN_BOUND").length,
+      postActionWaitTotalMs: browser.filter(item => item.event === "ASYNC_WAIT").reduce((total, item) => total + (item.waitMs ?? 0), 0),
       browserModelActions: browser.filter(item => item.event === "MODEL_ACTION").length,
       ...(googleRequests ? { googleRequests } : {}),
       elapsedMs: (input.nowMs ?? Date.now()) - input.startedAtMs,

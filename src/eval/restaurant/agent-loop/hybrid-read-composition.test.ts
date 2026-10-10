@@ -1869,3 +1869,12 @@ test("C6a observed public hours end the immediate window only when every checked
     }else assert.ok(inventoryReads>0,'unknown, malformed, partially overlapping or non-immediate hours cannot suppress inventory reads');
   });
 });
+
+
+test("Hybrid progress exports pending-page count and total bounded post-action wait", () => {
+  const diagnostic = (detail: string, waitMs: number): BrowserExecutionDiagnostic => ({ source: "FIXTURE", stage: "AVAILABILITY", event: "ASYNC_WAIT", elapsedMs: 9000, waitMs, detail,
+    lifecycle: {outcome:"FINISHED",candidateElapsedMs:9000,providerElapsedMs:9000,candidateModelCalls:0,providerModelCalls:0,candidateRuntimeOperations:0,providerRuntimeOperations:0,runModelCalls:0} });
+  const progress = captureHybridLiveProgress({composition:undefined,taskId:"fixture:wait-summary",startedAtMs:0,nowMs:1,modelInvocations:[],diagnostics:{tablecheckIdentity:[],tabelogIdentity:[],tabelogUserInterventions:[],browserExecution:[diagnostic("PAGE_SETTLED",300),diagnostic("PAGE_STILL_LOADING_WITHIN_BOUND",4000),diagnostic("PAGE_STILL_LOADING_WITHIN_BOUND",1000)]}});
+  assert.equal(progress.resourceUsage.pageStillLoadingWithinBound,2);
+  assert.equal(progress.resourceUsage.postActionWaitTotalMs,5300);
+});

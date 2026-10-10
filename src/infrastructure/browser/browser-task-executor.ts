@@ -39,6 +39,8 @@ export interface BrowserExecutionDiagnostic {
   };
   url?: string;
   detail?: string;
+  /** Wall time of this bounded readiness wait; not cumulative executor time. */
+  waitMs?: number;
   observation?: {
     title: string;
     visibleTextExcerpt: string;
@@ -1009,6 +1011,7 @@ export class BrowserTaskExecutor {
 
   private async waitForSettled(input: Pick<BrowserSkillReadInput, "source" | "stage" | "signal"> & { session: BrowserSession }, previous: BrowserSnapshot, countOperation = true): Promise<boolean> {
     const timeoutMs = this.remaining(4_000);
+    const startedAt = Date.now();
     const changed = input.session.waitForSettled
       ? await (countOperation ? this.operation(input, "WAIT_FOR_SETTLED", () => input.session.waitForSettled!(previous, timeoutMs))
         : this.bounded(input, "SETTLE_DIRECT_ACTION", () => input.session.waitForSettled!(previous, timeoutMs)))
@@ -1020,6 +1023,7 @@ export class BrowserTaskExecutor {
       event: "ASYNC_WAIT",
       url: previous.url,
       detail: changed ? "PAGE_SETTLED" : "PAGE_STILL_LOADING_WITHIN_BOUND",
+      waitMs: Date.now() - startedAt,
     });
     return changed;
   }
