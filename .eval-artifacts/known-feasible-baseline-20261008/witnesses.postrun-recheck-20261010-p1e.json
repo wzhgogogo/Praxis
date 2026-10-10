@@ -1,0 +1,20 @@
+{
+  "status": "POST_RUN_RECHECK",
+  "checkedAt": "2026-10-10T16:33:00+09:00",
+  "checkedBy": "INDEPENDENT_REVIEWER (Claude), public endpoint read",
+  "method": "Public Tabelog find_vacancy JSON only (rst_id, svd, svps, svt). No Praxis code, no model call, no booking form opened, no time slot clicked.",
+  "runs": {
+    "kf-h001-20261022": "2026-10-10T07-11-24-457Z-5b4aa8a0 (presented Shibuya Sushi Matsumoto 10/22 19:00 x2)",
+    "kf-h002-20261024": "2026-10-10T07-17-39-815Z-4c15055e (presented Ginza Sushi Sendou and Rare Ten-don Ginza Mitsuyoshi, 10/24 18:30 x2)",
+    "kf-h005-20261021": "2026-10-10T07-22-08-924Z-e20670f6 (no presentation; ended about 07:28 UTC / 16:28 JST)"
+  },
+  "results": [
+    { "variantId": "kf-h005-20261021", "role": "WITNESS", "outlet": "Ginza Sushi Tempura Iwai", "rstId": "13305528", "request": "2026-10-21 18:00 x4", "stillAvailable": true, "note": "members=4; selection includes 18:00" },
+    { "variantId": "kf-h005-20261021", "role": "WITNESS", "outlet": "Ginza no Miko Zushi", "rstId": "13280412", "request": "2026-10-21 18:00 x4", "stillAvailable": true, "note": "members=4; 18:00 is the only selectable time" },
+    { "variantId": "kf-h005-20261021", "role": "WITNESS", "outlet": "Kushiyaki Bistro Fukumimi Ginza korido ten", "rstId": "13255508", "request": "2026-10-21 18:00 x4", "stillAvailable": true, "note": "members=4; selection includes 18:00" },
+    { "variantId": "kf-h001-20261022", "role": "PRESENTED_AND_WITNESS", "outlet": "Shibuya Sushi Matsumoto", "rstId": "13261619", "request": "2026-10-22 19:00 x2", "stillAvailable": true, "note": "members=2; selection includes 19:00" },
+    { "variantId": "kf-h002-20261024", "role": "PRESENTED", "outlet": "Ginza Sushi Sendou", "rstId": "13295658", "request": "2026-10-24 18:30 x2", "stillAvailable": true, "note": "members=2; selection includes 18:30" },
+    { "variantId": "kf-h002-20261024", "role": "PRESENTED", "outlet": "Rare Ten-don Ginza Mitsuyoshi Ginza honten", "rstId": "13285959", "request": "2026-10-24 18:30 x2", "stillAvailable": true, "note": "members=2; selection includes 18:30 (gap 19:30-20:15 shows the list is real availability)" }
+  ],
+  "conclusion": "kf-h005: all three supported witnesses still had 18:00 x4 about five minutes after the run ended, so the non-delivery is a capability miss, not a sold-out source. kf-h001 and kf-h002: every presented slot still exists on the public endpoint."
+}
