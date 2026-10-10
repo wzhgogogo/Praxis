@@ -570,7 +570,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
         const querySnapshot = query.snapshot;
         if (!hasTabelogSelectedQuery(querySnapshot, request.date, request.partySize)) return this.ground(candidate, request, {
           candidate, observedAt: this.now(), ...activeSource(), sourceUrl: querySnapshot.url,
-          entityMatch: activeIdentity, pageState: "EXTRACTION_FAILED", failureCode: "REQUEST_SELECTION_UNCONFIRMED", listedCourseDetails: parseTabelogListedCourses(querySnapshot), excerpt: pageExcerpt(querySnapshot),
+          entityMatch: activeIdentity, pageState: "EXTRACTION_FAILED", failureCode: query.reasonCode ?? "REQUEST_SELECTION_UNCONFIRMED", listedCourseDetails: parseTabelogListedCourses(querySnapshot), excerpt: pageExcerpt(querySnapshot),
         }, browser);
       }
       page = await this.executor.snapshot({ source: "TABELOG", stage: "AVAILABILITY", signal, session });

@@ -1077,3 +1077,10 @@ test("BrowserTaskExecutor no-change feedback directs a current target and waits 
   try{assert.equal((await executor.runSkill({...input(session),completion:()=>({complete:false,reason:"Select a category"})})).status,"REQUESTED_HUMAN_HELP");}
   finally{await executor.close();}
 });
+
+test("C2a rejects ordinary wrong-date clicks at execution even when the model ignores hints", async () => {
+  const session=new FixtureSession([{url:"https://www.tablecheck.com/en/outlet",title:"Calendar",text:"Pick date",html:'<button data-date="2026-09-10">Date 2026-09-10</button><button data-date="2026-09-11">Date 2026-09-11</button>'}],false,true);
+  const executor=new BrowserTaskExecutor({openSession:async()=>session},{modelDecision:{async decide(value){const other=value.observation.targets.find(t=>t.value==='2026-09-11')!;assert.equal(other.rejectionReason,'NON_REQUEST_DATE');return {type:'CLICK',targetRef:other.ref,reason:'Try another day'};}}});
+  try{const read=await executor.runSkill({...input(session),stage:'AVAILABILITY',completion:()=>({complete:false,reason:'Date not selected'})});assert.equal(read.status,'NO_SAFE_ACTION');assert.equal(session.clicks,0);}
+  finally{await executor.close();}
+});

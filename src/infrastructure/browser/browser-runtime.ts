@@ -135,6 +135,8 @@ export interface BrowserPageControl {
   /** An active modal may leave background controls visible but not safely operable. */
   blockedByActiveLayer?: boolean;
   observationOnly?: boolean;
+  /** Calendar date derived from the visible day cell and its observed month/year. */
+  calendarDate?: string;
   /** Select options remain distinct from the control's current value. */
   options?: Array<{ value: string; label: string; selected: boolean; disabled: boolean }>;
   /** A custom role=option is actionable only when bound to an observed combobox. */

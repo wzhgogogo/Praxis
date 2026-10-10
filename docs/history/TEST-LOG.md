@@ -3943,3 +3943,8 @@ C6a/red.log复现单店休息提前结束；green.log原十一模式+单店/三�
 ## TEST-2026-10-10-P1C3B-E2
 
 E2有效红灯及77项 evaluator 回归绿灯；三份P1-E原样产物SHA相同副本重评，kf-h005 COMPLETION_OUTCOME改为NOT_EVALUATED，kf-h001/002全部finding和execution不变；零新增模型/来源调用。四门禁日志与re-evaluation.json见E2目录。
+
+
+## TEST-2026-10-10-P1C3B-C2a
+
+Sushi Yuu与Shibuya Sushi Labo原录制十月日历片段Chromium红绿，缺CSS布局/遮挡不作结论；两个录制例各1次脚本决策结束、可选日对照通过。默认单测覆盖无视提示的错误日期CLICK零实际点击。零真实模型/来源调用；四门禁日志见C2a目录。

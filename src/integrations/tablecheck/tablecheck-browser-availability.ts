@@ -874,7 +874,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
       if (availabilityRead.status !== "COMPLETED" || !assessed.complete) return this.ground(candidate, request, {
         candidate, observedAt, sourceEntityId: activeSelected.extraction.outlet.sourceEntityId, sourceUrl: activeSelected.extraction.outlet.sourceUrl,
         entityMatch: activeSelected.inspection.resolution, pageState: "EXTRACTION_FAILED",
-        failureCode: assessed.selected ? "AVAILABILITY_RESULT_UNOBSERVED" : "REQUEST_SELECTION_UNCONFIRMED",
+        failureCode: availabilityRead.reasonCode ?? (assessed.selected ? "AVAILABILITY_RESULT_UNOBSERVED" : "REQUEST_SELECTION_UNCONFIRMED"),
       }, browser);
       const capturedResponse = parseTableCheckCapturedAvailability(page.responses, activeSelected.reservation, request);
       // Never turn an unclassified passive payload into slot or completion

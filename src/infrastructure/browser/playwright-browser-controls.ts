@@ -136,6 +136,15 @@ export class PlaywrightControlRegistry {
       const labelContainer = node.closest('fieldset,[role="radiogroup"]');
       const legend = labelContainer?.querySelector("legend")?.textContent ?? "";
       const groupLabel = radioGroup?.getAttribute("aria-label") || (radioGroup?.getAttribute("aria-labelledby") ?? "").split(/\s+/).map(id => document.getElementById(id)?.textContent ?? "").join(" ") || legend;
+      const dayCell = node.closest('td,[role="gridcell"]');
+      const monthCaption = dayCell?.closest('table,[role="grid"]')?.querySelector('caption')?.textContent ?? '';
+      const monthYear = monthCaption.match(/(Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\s+(\d{4})/i);
+      const numericMonthYear = monthCaption.match(/(\d{4})\s*[年/-]\s*(\d{1,2})/);
+      const yearNumber = Number(monthYear?.[2] ?? numericMonthYear?.[1]);
+      const dayNumber = Number(dayCell?.textContent?.trim().match(/^(\d{1,2})(?:\D|$)/)?.[1]);
+      const monthNumber = monthYear ? ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'].indexOf(monthYear[1]!.slice(0,3).toLowerCase())+1 : Number(numericMonthYear?.[2]);
+      const calendarDate = yearNumber && monthNumber > 0 && monthNumber <= 12 && dayNumber > 0 && dayNumber <= new Date(Date.UTC(yearNumber,monthNumber,0)).getUTCDate()
+        ? `${yearNumber}-${String(monthNumber).padStart(2,'0')}-${String(dayNumber).padStart(2,'0')}` : undefined;
       const projection = {
         tag: node.tagName, classes: [...node.classList], role: node.getAttribute("role"), type: node.getAttribute("type"),
         label: node.getAttribute("aria-label"), title: node.getAttribute("title"),
@@ -147,7 +156,7 @@ export class PlaywrightControlRegistry {
         disabled: (node as HTMLElement).matches(":disabled") || node.getAttribute("aria-disabled") === "true" || node.getAttribute("data-state") === "disabled",
         selected: node.getAttribute("aria-selected") === "true" || node.getAttribute("aria-pressed") === "true" || (hintClass ? node.classList.contains(hintClass) : false),
         expanded: node.getAttribute("aria-expanded"), controls: node.getAttribute("aria-controls"),
-        dataDate: node.getAttribute("data-date"), dataValue: node.getAttribute("data-value"),
+        calendarDate, dataDate: node.getAttribute("data-date"), dataValue: node.getAttribute("data-value"),
         dateParts: [node.getAttribute("data-year"), node.getAttribute("data-month"), node.getAttribute("data-day")],
         checked: node instanceof HTMLInputElement && (node.type === "checkbox" || node.type === "radio") ? node.checked : (node.getAttribute("role") === "checkbox" || node.getAttribute("role") === "radio") ? node.getAttribute("aria-checked") : undefined,
         min: node.getAttribute("aria-valuemin") ?? node.getAttribute("min"), max: node.getAttribute("aria-valuemax") ?? node.getAttribute("max"),
@@ -179,7 +188,7 @@ export class PlaywrightControlRegistry {
     tag: string; classes?: string[]; role?: string | null; type?: string | null; label?: string | null; title?: string | null; text?: string;
     associatedLabel?: string; value?: string; href?: string | null; name?: string | null; placeholder?: string | null;
     disabled?: boolean; selected?: boolean; expanded?: string | null; checked?: boolean | string;
-    dataDate?: string | null; dataValue?: string | null; dateParts?: Array<string | null>; min?: string | null; max?: string | null;
+    calendarDate?: string; dataDate?: string | null; dataValue?: string | null; dateParts?: Array<string | null>; min?: string | null; max?: string | null;
     rangeValue?: string | null; valueText?: string | null; selectedOptions?: Array<[string, string, boolean, boolean]>; listboxId?: string; controls?: string | null;
     formOwner?: string; formMethodOverride?: string | null; formMethod?: string; formClass?: string; dialogLabel?: string; sliderCount?: number;
     radioGroupLabel?: string; radioGroupKey?: string; scrollable?: boolean; scrollTop?: number; blockedByActiveLayer?: boolean;
@@ -188,7 +197,7 @@ export class PlaywrightControlRegistry {
       tag: string; classes?: string[]; role?: string | null; type?: string | null; label?: string | null; title?: string | null; text?: string;
       associatedLabel?: string; value?: string; href?: string | null; name?: string | null; placeholder?: string | null;
       disabled?: boolean; selected?: boolean; expanded?: string | null; checked?: boolean | string;
-      dataDate?: string | null; dataValue?: string | null; dateParts?: Array<string | null>; min?: string | null; max?: string | null;
+      calendarDate?: string; dataDate?: string | null; dataValue?: string | null; dateParts?: Array<string | null>; min?: string | null; max?: string | null;
       rangeValue?: string | null; valueText?: string | null; selectedOptions?: Array<[string, string, boolean, boolean]>; listboxId?: string; controls?: string | null;
       formOwner?: string; formMethodOverride?: string | null; formMethod?: string; formClass?: string; dialogLabel?: string; sliderCount?: number;
       radioGroupLabel?: string; radioGroupKey?: string; scrollable?: boolean; scrollTop?: number; blockedByActiveLayer?: boolean;
@@ -287,6 +296,10 @@ export class PlaywrightControlRegistry {
           label = `${hint.labelPrefix} ${value}`;
           selected = projection.selected === true;
         }
+        if (group.kind === "BUTTON" && projection.calendarDate) {
+          value = projection.calendarDate;
+          label = `Date ${value}`;
+        }
         const checked = group.kind === "CHECKBOX" || group.kind === "RADIO"
           ? projection.checked === true || projection.checked === "true"
           : undefined;
@@ -322,6 +335,7 @@ export class PlaywrightControlRegistry {
           id,
           structure,
           ...(group.hint?.observationOnly ? { observationOnly: true } : {}),
+          ...(projection.calendarDate ? { calendarDate: projection.calendarDate } : {}),
           stableKey: [group.selector, role, group.kind === "RADIO" ? structure.radioGroupKey ?? "" : "", role === "combobox" ? "" : label, group.kind === "BUTTON" && role !== "combobox" || group.kind === "RADIO" ? value : "", nodeIdentity ?? index].join("|"),
           kind: group.kind,
           role,
@@ -355,6 +369,26 @@ export class PlaywrightControlRegistry {
           throw error;
         }
       }
+    }
+    const days = await page.evaluate(() => [...document.querySelectorAll('table,[role="grid"]')].flatMap((calendar, calendarIndex) => {
+      const caption = calendar.querySelector('caption')?.textContent ?? calendar.getAttribute('aria-label') ?? '';
+      const english = caption.match(/(Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\s+(\d{4})/i);
+      const numeric = caption.match(/(\d{4})\s*[年/-]\s*(\d{1,2})/);
+      const year = Number(english?.[2] ?? numeric?.[1]);
+      const month = english ? ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'].indexOf(english[1]!.slice(0,3).toLowerCase())+1 : Number(numeric?.[2]);
+      if (!year || month < 1 || month > 12) return [];
+      return [...calendar.querySelectorAll('td,[role="gridcell"]')].flatMap((cell, index) => {
+        const style=getComputedStyle(cell);
+        if (!cell.getClientRects().length || style.display==='none' || style.visibility==='hidden') return [];
+        const number=Number(cell.textContent?.trim().match(/^(\d{1,2})(?:\D|$)/)?.[1]);
+        if (!number || number>new Date(Date.UTC(year,month,0)).getUTCDate()) return [];
+        const date=`${year}-${String(month).padStart(2,'0')}-${String(number).padStart(2,'0')}`;
+        return [{date,key:`calendar:${calendarIndex}:day:${index}`}];
+      });
+    }));
+    for (const day of days) {
+      if (controls.some(control => control.value===day.date || control.label===`Date ${day.date}`)) continue;
+      controls.push({id:`dom:${this.revision}:calendar:${controls.length+1}`,stableKey:day.key,kind:'BUTTON',role:'gridcell',label:`Calendar date ${day.date}`,value:day.date,calendarDate:day.date,disabled:true,visible:true,observationOnly:true,structure:{tag:'TD',name:'',classes:[],dialogLabel:'',formClass:'',sliderCount:0}});
     }
     const expanded = controls.filter(item => item.role === "combobox" && item.expanded === true);
     for (const control of controls.filter(item => item.role === "option")) {

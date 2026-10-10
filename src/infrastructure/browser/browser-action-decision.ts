@@ -80,6 +80,7 @@ export interface BrowserReadActionTarget {
   /** Executor-derived actions currently available for this observed target. */
   availableActions?: string[];
   rejectionReason?: string;
+  calendarDate?: string;
 }
 
 /** Router-bound objective. The browser model may navigate toward it but cannot alter it. */

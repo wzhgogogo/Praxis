@@ -2247,3 +2247,40 @@ test("C3b Chromium ignores an outstanding image once data has completed", async 
     assert.equal(snapshot.settlementDiagnostics?.blockingDataRequests,0);
   }finally{await executor.close();for(const socket of sockets)socket.destroy();await new Promise<void>(resolve=>server.close(()=>resolve()));}
 });
+
+
+test("C2a recorded unavailable calendar dates are observed and cannot drift to other days", async () => {
+  const {tabelogQueryControlHints}=await import("../../integrations/tabelog/tabelog-query-controls.js");
+  for(const [name,date,sourceUrl] of [["yuu","2026-10-24","https://tabelog.com/en/tokyo/A1301/A130101/13291436/"],["labo","2026-10-22","https://tabelog.com/en/tokyo/A1303/A130301/13284556/"]]){
+    const html=await readFile(new URL(`./fixtures/calendar-${name}-20261010.html`,import.meta.url),'utf8');
+    let calls=0;
+    const executor=new BrowserTaskExecutor(localFixture({[sourceUrl!]:html}),{modelDecision:{async decide(value){calls++;
+      const requested=value.observation.targets.find(t=>t.value===date);
+      assert.ok(requested,"the recorded unavailable day must be an observed target");
+      assert.equal(requested.rejectionReason,"DATE_NOT_SELECTABLE");assert.deepEqual(requested.availableActions,[]);
+      const other=value.observation.targets.find(t=>/^Date 2026-10-/.test(t.label)&&t.value!==date&&!t.disabled);
+      assert.ok(other);assert.ok(!other.availableActions?.includes("CLICK"),"another date cannot be a generic click");
+      return {type:"CLICK",targetRef:other.ref,reason:"Counterexample tries another day"};
+    }}});
+    const signal=new AbortController().signal;const session=await executor.acquire(signal,'FIXTURE','AVAILABILITY');
+    try{
+      await executor.navigate({session,signal,source:'FIXTURE',stage:'AVAILABILITY',allowedOrigins:['https://tabelog.com'],url:sourceUrl!});
+      const read=await executor.runSkill({taskId:'calendar',session,signal,source:'FIXTURE',stage:'AVAILABILITY',allowedOrigins:['https://tabelog.com'],goal:{outlet:{name:'Recorded outlet'},date:date!,partySize:2,hardCriteria:[]},objective:'Read exact requested date',controlHints:tabelogQueryControlHints,completion:()=>({complete:false,reason:'Requested date cannot be selected'})});
+      assert.equal(read.status,'NO_SAFE_ACTION');assert.equal(read.reasonCode,'DATE_NOT_SELECTABLE');assert.ok(calls>=1&&calls<=2);
+    }finally{await executor.close();}
+  }
+});
+
+test("C2a selectable requested date retains authoritative click and blocks an ordinary other-date click", async () => {
+  const html='<table><caption>October 2026</caption><tr><td><button onclick="this.textContent=\'Selected\'">24</button></td><td><button>25</button></td></tr></table>';
+  const executor=new BrowserTaskExecutor(localFixture(html),{modelDecision:{async decide(value){
+    const requested=value.observation.targets.find(t=>t.value==='2026-10-24')!;
+    assert.ok(requested.availableActions?.includes('CLICK_AUTHORITATIVE:DATE'));
+    const other=value.observation.targets.find(t=>t.value==='2026-10-25')!;assert.deepEqual(other.availableActions,[]);
+    return {type:'CLICK_AUTHORITATIVE',field:'DATE',targetRef:requested.ref,reason:'Select current requested date'};
+  }}});
+  const signal=new AbortController().signal;const session=await executor.acquire(signal,'FIXTURE','AVAILABILITY');
+  try{await executor.navigate({session,signal,source:'FIXTURE',stage:'AVAILABILITY',allowedOrigins:['https://www.tablecheck.com'],url});
+    const read=await executor.runSkill({taskId:'selectable',session,signal,source:'FIXTURE',stage:'AVAILABILITY',allowedOrigins:['https://www.tablecheck.com'],goal:{outlet:{name:'Fixture'},date:'2026-10-24',hardCriteria:[]},objective:'Select date',completion:s=>({complete:s.text.includes('Selected'),reason:'Date not selected'})});assert.equal(read.status,'COMPLETED');
+  }finally{await executor.close();}
+});

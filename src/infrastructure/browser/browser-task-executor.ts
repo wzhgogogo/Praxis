@@ -96,6 +96,7 @@ export interface BrowserSkillReadInput {
 }
 
 export interface BrowserGenericReadResult {
+  reasonCode?: string;
   status: "COMPLETED" | "MODEL_HANDOFF" | "REQUESTED_HUMAN_HELP" | "NO_SAFE_ACTION" | "BUDGET_EXCEEDED" | "MODEL_FAILURE";
   snapshot: BrowserSnapshot;
   /** Live DOM controls from the same observation as the terminal browser decision. */
@@ -195,7 +196,7 @@ function pointerObstruction(error: unknown): boolean {
 function toObservedTargets(controls: BrowserPageControl[], revision: number): Map<string, ObservedTarget> {
   const targets = new Map<string, ObservedTarget>();
   const controlRefs = new Map<string, string>();
-  const eligible = controls.filter(control => control.visible && !control.blockedByActiveLayer && !control.observationOnly
+  const eligible = controls.filter(control => control.visible && !control.blockedByActiveLayer && (!control.observationOnly || control.calendarDate !== undefined)
     && (control.kind !== "LINK" || control.href !== undefined));
   for (const control of eligible) {
     const ref = `observation:${revision}:target:${targets.size + 1}`;
@@ -204,6 +205,7 @@ function toObservedTargets(controls: BrowserPageControl[], revision: number): Ma
       ref, controlId: control.id, stableKey: control.stableKey, ...(control.structure ? { nativeTag: control.structure.tag, ...(control.structure.name ? { inputName: control.structure.name } : {}) } : {}), kind: control.kind, role: control.role, label: control.label,
       ...(control.kind === "RADIO" && control.structure?.radioGroupKey ? { radioGroupKey: control.structure.radioGroupKey } : {}),
       ...(control.value ? { value: control.value } : {}), ...(control.href ? { href: control.href } : {}), ...(control.formMethod ? { formMethod: control.formMethod } : {}), ...(control.type ? { type: control.type } : {}), ...(control.selected ? { selected: true } : {}),
+      ...(control.calendarDate ? { calendarDate: control.calendarDate } : {}),
       ...(control.disabled ? { disabled: true } : {}), ...(control.optionOwnerId ? { optionOwnerId: control.optionOwnerId } : {}),
       ...(control.outsideViewport ? { outsideViewport: true } : {}), ...(control.checked !== undefined ? { checked: control.checked } : {}), ...(control.min ? { min: control.min } : {}), ...(control.max ? { max: control.max } : {}), ...(control.valueText ? { valueText: control.valueText } : {}), ...(control.scrollable !== undefined ? { scrollable: control.scrollable } : {}), ...(control.scrollTop !== undefined ? { scrollTop: control.scrollTop } : {}), ...(control.blockedByActiveLayer ? { blockedByActiveLayer: true } : {}), ...(control.options ? { options: control.options } : {}),
     });
@@ -615,6 +617,14 @@ export class BrowserTaskExecutor {
         // reconstruct the executor path without retaining source/user content.
         detail: `MODEL_${action.type}`,
       });
+      const unavailable = input.stage === "AVAILABILITY" && input.goal.date && [...observation.targets.values()].some(target =>
+        this.targetDate(target) === input.goal.date && target.disabled && !target.selected)
+        && (input.goal.partySize === undefined || observation.controls.some(control =>
+          matchesAuthoritativeControl(control, "PARTY_SIZE", input.goal) && (control.selected || control.kind === "SELECT" || control.kind === "INPUT")));
+      if (unavailable) {
+        this.record({source:input.source,stage:input.stage,event:"METHOD_INCOMPLETE",url:snapshot.url,detail:"DATE_NOT_SELECTABLE"});
+        return {status:"NO_SAFE_ACTION",reasonCode:"DATE_NOT_SELECTABLE",snapshot,controls:observation.controls};
+      }
       if (action.type === "COMPLETE") {
         consecutiveStateRepeats = 0;
         completion = await assess(snapshot, observation.controls);
@@ -835,6 +845,11 @@ export class BrowserTaskExecutor {
   private actionHints(input: BrowserSkillReadInput, observation: Observation, target: ObservedTarget, pendingSelection: boolean): Pick<BrowserReadActionTarget, "availableActions" | "rejectionReason"> {
     const availableActions: string[] = [];
     let rejectionReason: string | undefined;
+    const date = this.targetDate(target);
+    if (input.stage === "AVAILABILITY" && input.goal.date && date) {
+      if (date !== input.goal.date) return { availableActions, rejectionReason: "NON_REQUEST_DATE" };
+      if (target.disabled && !target.selected) return { availableActions, rejectionReason: "DATE_NOT_SELECTABLE" };
+    }
     if (target.disabled) return { availableActions, rejectionReason: "DISABLED" };
     if (target.kind === "OPTION") {
       const owner = target.ownerRef ? observation.targets.get(target.ownerRef) : undefined;
@@ -881,6 +896,11 @@ export class BrowserTaskExecutor {
       else rejectionReason = "NOT_SCROLLABLE";
     }
     return { availableActions, ...(rejectionReason ? { rejectionReason } : {}) };
+  }
+
+  private targetDate(target: Pick<BrowserReadActionTarget, "kind" | "value" | "label" | "calendarDate">): string | undefined {
+    if (target.kind !== "BUTTON" && target.kind !== "OPTION") return undefined;
+    return target.calendarDate ?? target.value?.match(/^\d{4}-\d{2}-\d{2}$/)?.[0] ?? target.label.match(/^(?:Date|Calendar date) (\d{4}-\d{2}-\d{2})$/)?.[1];
   }
 
   private boundInputField(target: ObservedTarget, field: "DATE" | "PARTY_SIZE" | "RETRIEVAL"): boolean {
@@ -951,6 +971,7 @@ export class BrowserTaskExecutor {
     }
     if (!target) throw new Error("Action requires a current observed target");
     if (target.disabled) throw new Error("Observed target is disabled");
+    if (input.stage === "AVAILABILITY" && input.goal.date && this.targetDate(target) && this.targetDate(target) !== input.goal.date) throw new Error("NON_REQUEST_DATE");
     if (action.type === "OPEN_LINK") {
       if (target.kind !== "LINK" || !target.href) throw new Error("OPEN_LINK target is not an observed link");
       if (this.sameDocumentFragment(target, observation.snapshot.url)) throw new Error("Same-document fragment controls use CLICK, then re-observe the page");
