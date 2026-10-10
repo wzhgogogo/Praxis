@@ -3948,3 +3948,8 @@ E2有效红灯及77项 evaluator 回归绿灯；三份P1-E原样产物SHA相同�
 ## TEST-2026-10-10-P1C3B-C2a
 
 Sushi Yuu与Shibuya Sushi Labo原录制十月日历片段Chromium红绿，缺CSS布局/遮挡不作结论；两个录制例各1次脚本决策结束、可选日对照通过。默认单测覆盖无视提示的错误日期CLICK零实际点击。零真实模型/来源调用；四门禁日志见C2a目录。
+
+
+## TEST-2026-10-10-P1C3B-C8
+
+红灯：C8/red.log；绿灯：green.log、composition-green.log、replay-fixture-green.log。两轮原样与注入回放共 12 次真实调用，目标两轮选择一致，没有增量提升，停止调参；两条已成功交付的 Agent 对照结果相同，冻结 Agent 正向种子为 0。四门禁均通过（见 C8/gates.json）。

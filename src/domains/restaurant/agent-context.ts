@@ -1,5 +1,6 @@
 import type {
   RestaurantSearchIntent,
+  RestaurantReadEvidence,
   RestaurantIntentDraft,
   RestaurantPhase,
   RestaurantTaskState,
@@ -10,11 +11,11 @@ import { defaultBatchDeliveryWindowActive } from "./action-validator.js";
 
 export const RESTAURANT_AGENT_CONTEXT_SCHEMA = {
   name: "restaurant_agent_context",
-  version: "9",
+  version: "10",
 } as const;
 
 export interface RestaurantAgentContext {
-  schemaVersion: "9";
+  schemaVersion: "10";
   now: string;
   phase: RestaurantPhase;
   intentDraft?: RestaurantIntentDraft;
@@ -24,6 +25,7 @@ export interface RestaurantAgentContext {
     id: string;
     outletName: string;
     address: string;
+    sourceCategories: Array<{ source: string; values: string[] }>;
     matchReasons: string[];
     warnings: string[];
     executionConfidence: "HIGH" | "MEDIUM" | "LOW";
@@ -94,6 +96,20 @@ export interface RestaurantAgentContext {
   failure?: { code: string };
 }
 
+/** Advisory discovery observations; they never participate in qualification. */
+export function observedCandidateSourceCategories(evidence: readonly RestaurantReadEvidence[], candidateId: string, now: string) {
+  const sources = new Map<string, Set<string>>();
+  for (const item of evidence) {
+    if (item.kind !== "DISCOVERY" || item.candidateId !== candidateId || Date.parse(item.observedAt) > Date.parse(now)) continue;
+    const values = [item.claims.primaryType, ...(Array.isArray(item.claims.types) ? item.claims.types : []), ...(Array.isArray(item.claims.sourceCategories) ? item.claims.sourceCategories : [])]
+      .filter((value): value is string => typeof value === "string" && value.trim().length > 0 && value.length <= 240);
+    if (!values.length) continue;
+    const observed = sources.get(item.provider) ?? new Set<string>();
+    values.forEach(value => observed.add(value)); sources.set(item.provider, observed);
+  }
+  return [...sources].map(([source, values]) => ({ source, values: [...values].slice(0, 20) }));
+}
+
 /** Domain-owned, minimal projection for one untrusted Restaurant Agent decision. */
 export function projectRestaurantAgentContext(
   state: Readonly<RestaurantTaskState>,
@@ -151,7 +167,7 @@ export function projectRestaurantAgentContext(
     };
   };
   return {
-    schemaVersion: "9",
+    schemaVersion: "10",
     now,
     phase: state.phase,
     ...(state.intentDraft ? { intentDraft: structuredClone(state.intentDraft) } : {}),
@@ -163,6 +179,7 @@ export function projectRestaurantAgentContext(
       id: candidate.restaurant.id,
       outletName: candidate.restaurant.outletName,
       address: candidate.restaurant.address,
+      sourceCategories: observedCandidateSourceCategories(state.readEvidence, candidate.restaurant.id, now),
       matchReasons: [...candidate.matchReasons],
       warnings: [...candidate.warnings],
       executionConfidence: candidate.executionConfidence,

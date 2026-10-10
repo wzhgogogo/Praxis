@@ -17,7 +17,8 @@ import {
 import type { RestaurantAgentCapability } from "./restaurant-capabilities.js";
 
 export const RESTAURANT_AGENT_DECISION_PURPOSE = "restaurant_agent_decide" as const;
-export const RESTAURANT_AGENT_DECISION_PROMPT_VERSION = "23" as const;
+export const RESTAURANT_AGENT_DECISION_PROMPT_VERSION = "24" as const;
+export const RESTAURANT_AGENT_SOURCE_CATEGORY_INSTRUCTION = "Candidate sourceCategories are source-attributed observations, not verified HARD facts or eligibility. Among currently legal candidates, prioritize those whose observed categories agree with the HARD request; leave obvious category conflicts with HARD exclusions until last. Category observations never authorize excluding or accepting a candidate, changing constraints, or claiming a result.";
 /**
  * Strict-function responses include a provider envelope as well as the action
  * arguments.  Ten discovery candidates can otherwise make a valid second
@@ -131,6 +132,8 @@ When searchAvailability.reason is MODEL_CALL_RESERVE and no qualified candidate 
 Use END_READ only if context.readCompletion.allowed is true. It records a bounded normal completion with no grounded result; it does not claim every restaurant is unavailable and it cannot replace a presentation, missing-user question, cancellation, or internal failure.
 
 The strict response transport always requires every wire field. For fields that do not apply to your selected action, return an empty string or an empty array exactly as the schema permits; never put a meaningful value in a field for another action.
+
+${RESTAURANT_AGENT_SOURCE_CATEGORY_INSTRUCTION}
 
 Choose exactly one action from the supplied Restaurant capability catalog. A failed read is information; you may choose another valid path. Never assume booking success. Never include provider names, adapter instructions, authorization objects, terms hashes, risks, evidence, state patches, events, tool calls, or chain-of-thought.
 

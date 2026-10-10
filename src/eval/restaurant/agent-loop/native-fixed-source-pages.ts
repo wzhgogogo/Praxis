@@ -243,7 +243,7 @@ export function sourcePages(
       const count = scenario === "TABELOG_PENDING_RESTORED" && tabelogListingVisits > 1 ? 0 : tabelogCount;
       const links = Array.from({ length: count }, (_, index) => {
         const id = 100 + index;
-        return `<a class="list-rst__rst-name-target" href="/tokyo/A1304/A130401/${id}/" data-address="Shibuya ${id}, Tokyo">Native Tabelog ${id}</a>`;
+        return `<article><a class="list-rst__rst-name-target" href="/tokyo/A1304/A130401/${id}/" data-address="Shibuya ${id}, Tokyo">Native Tabelog ${id}</a><span class="category">Sushi</span></article>`;
       }).join("");
       return page(url, links, count ? "Restaurants" : "No restaurants found", "Tabelog search");
     }
@@ -291,7 +291,7 @@ export function sourcePages(
         const currentValue = tableCheckDiscoveryExpectedQuery;
         const liveValue = tableCheckDiscoveryInputValue;
         if (tableCheckDiscoveryRevealed) return page(url,
-          `<input type="search" name="search_text" aria-label="Search venues" value="${currentValue}" data-live-value="${liveValue}"><a href="/en/native-omakase-1">Native TableCheck 1</a>`,
+          `<input type="search" name="search_text" aria-label="Search venues" value="${currentValue}" data-live-value="${liveValue}"><article><a href="/en/native-omakase-1">Native TableCheck 1</a><span class="cuisine">Japanese</span></article>`,
           "1 venue found", "TableCheck search");
         return page(url,
           `<input type="search" name="search_text" aria-label="Search venues" value="${currentValue}" data-live-value="${liveValue}"><a href="/en/stale-result">Stale venue</a>${liveValue === currentValue ? '<div aria-busy="true">Loading current search</div>' : ''}${options.guardedQuerySubmit ? '<form><button type="submit">Show public venues</button></form>' : '<button type="button">Show public venues</button>'}`,
@@ -303,7 +303,7 @@ export function sourcePages(
       if (scenario === "TABLECHECK_STALE_REJECTS") return page(url,
         '<input type="search" name="search_text" aria-label="Search venues" value="omakase" data-live-value="old-query"><div aria-busy="true">Loading current search</div><a href="/en/native-omakase-1">Old venue</a><p>No venues found</p>',
         "Loading current search\nNo venues found", "TableCheck search");
-      const links = Array.from({ length: tablecheckCount }, (_, index) => `<a href="/en/native-omakase-${index + 1}">Native TableCheck ${index + 1}</a>`).join("");
+      const links = Array.from({ length: tablecheckCount }, (_, index) => `<article><a href="/en/native-omakase-${index + 1}">Native TableCheck ${index + 1}</a><span class="cuisine">Japanese</span></article>`).join("");
       return page(url, links, tablecheckCount ? `${tablecheckCount} venues found` : "No venues found", "TableCheck search");
     }
     if (scenario === "TABLECHECK_SCOPED_MENU_DELIVERS" && parsed.pathname === "/en/native-omakase-1") {

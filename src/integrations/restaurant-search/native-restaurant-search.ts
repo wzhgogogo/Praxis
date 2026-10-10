@@ -103,7 +103,7 @@ function pendingEntry(
   sourceEntityId: string,
   sourceUrl: string,
   observedAt: string,
-  fields: { outletName?: string; address?: string; phone?: string } = {},
+  fields: { outletName?: string; address?: string; phone?: string; sourceCategories?: string[] } = {},
 ): PendingSourceEntry {
   return { sourceEntityId, sourceUrl, observedAt, ...fields };
 }
@@ -157,6 +157,7 @@ function pageCoordinates(page: BrowserSnapshot, outletName: string): { latitude:
 function groundedNativeCandidate(input: {
   source: DiscoverySourcePack;
   sourceId: string;
+  sourceCategories?: string[];
   sourceUrl: string;
   name: string;
   address: string;
@@ -174,6 +175,7 @@ function groundedNativeCandidate(input: {
     sourceEntityId: input.sourceId, sourceUrl: input.sourceUrl, observedAt: input.observedAt,
     requestFingerprint: JSON.stringify({ intent: restaurantSearchIntentFingerprint(input.request.intent), location: input.location }),
     claims: {
+      ...(input.sourceCategories?.length ? { sourceCategories: input.sourceCategories } : {}),
       outletName: input.name, address: input.address, areaQuery: input.request.intent.area.query,
       areaMatch: true, areaMatchBasis: input.location.areaMatchBasis,
       evaluationLocationLabel: input.location.label, distanceMeters: Math.round(geo.distanceMeters),
@@ -342,12 +344,13 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
       session = await executor.acquire(signal, source, "DISCOVERY", this.networkPolicy);
       if (source === "DIRECTORY") {
         const directory = pack.browser!.directory!;
-        const retainedOutlets = retainedEntries.map((entry) => ({
+        const retainedOutlets: ReturnType<DiscoverySourcePack["parseListing"]>["outlets"] = retainedEntries.map((entry) => ({
           sourceEntityId: entry.sourceEntityId,
           sourceUrl: entry.sourceUrl,
           outletName: entry.outletName ?? entry.sourceEntityId,
           ...(entry.address ? { address: entry.address } : {}),
           ...(entry.phone ? { phone: entry.phone } : {}),
+          ...(entry.sourceCategories ? { sourceCategories: entry.sourceCategories } : {}),
         }));
         let page: BrowserSnapshot | undefined;
         let observedOutlets: ReturnType<DiscoverySourcePack["parseListing"]>["outlets"] = [];
@@ -520,7 +523,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
           const initialPage = page;
           const initialRoot = directory.listingRoot(page.url)!;
           let lastUrl = page.url;
-          pendingSourceEntries = observedOutlets.map((outlet) => pendingEntry(outlet.sourceEntityId, outlet.sourceUrl, this.now(), { outletName: outlet.outletName }));
+          pendingSourceEntries = observedOutlets.map((outlet) => pendingEntry(outlet.sourceEntityId, outlet.sourceUrl, this.now(), { outletName: outlet.outletName, ...(outlet.sourceCategories ? { sourceCategories: outlet.sourceCategories } : {}) }));
           const adjusted = await executor.runSkill({
             taskId: `browser-read:native-discovery:${source}`, source, ...(sourceSkillPath ? { sourceSkillPath } : {}), stage: "DISCOVERY", session: session!, signal, allowedOrigins,
             goal: { outlet: { name: keyword, address: request.intent.area.query }, hardCriteria: request.intent.criteria.filter((item) => item.polarity === "POSITIVE" && item.strength === "HARD").map((item) => item.text) },
@@ -562,7 +565,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
         // silently discard the unstarted entries selected for this batch.
         pendingSourceEntries = unseenOutlets.map((outlet) => pendingEntry(
           outlet.sourceEntityId, outlet.sourceUrl, this.now(),
-          { outletName: outlet.outletName, ...(outlet.address ? { address: outlet.address } : {}), ...(outlet.phone ? { phone: outlet.phone } : {}) },
+          { outletName: outlet.outletName, ...(outlet.address ? { address: outlet.address } : {}), ...(outlet.phone ? { phone: outlet.phone } : {}), ...(outlet.sourceCategories ? {sourceCategories:outlet.sourceCategories} : {}) },
         ));
         batchLimitReached = pendingOutlets.length > 0 && remainingDetailBudget > chunk.length;
         // This is only a provisional listing observation.  The source may end
@@ -611,7 +614,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
             }
             const grounded = groundedNativeCandidate({ source: pack, sourceId: extracted.sourceEntityId,
               sourceUrl: extracted.sourceUrl, name: extracted.outletName, address: extracted.address!,
-              coordinates: point, location, request, observedAt: this.now() });
+              coordinates: point, location, request, observedAt: this.now(), ...(outlet.sourceCategories ? { sourceCategories: outlet.sourceCategories } : {}) });
             if (grounded) {
               if (admitted.has(grounded.candidate.restaurant.id)) rejected.push({ sourceUrl: outlet.sourceUrl, reasonCode: "DUPLICATE_OUTLET" });
               else admitted.set(grounded.candidate.restaurant.id, grounded);
@@ -688,7 +691,9 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
         const pendingLinks = unseenLinks.slice(chunk.length);
         // Persist all unattempted entries, including this chosen chunk, until
         // each detail navigation has actually started.
-        pendingSourceEntries = unseenLinks.map((link) => pendingEntry(sourceId(link), link, this.now()));
+        const listingOutlets = page ? pack.parseListing(page).outlets : [];
+        pendingSourceEntries = unseenLinks.map((link) => pendingEntry(sourceId(link), link, this.now(),
+          { sourceCategories: listingOutlets.find(outlet => outlet.sourceUrl === link)?.sourceCategories ?? retainedEntries.find(entry=>entry.sourceUrl===link)?.sourceCategories ?? [] }));
         batchLimitReached = pendingLinks.length > 0 && remainingDetailBudget > chunk.length;
         // Keep chosen links in the continuation until their detail navigation
         // has actually started; see the parallel directory flow above.
@@ -707,6 +712,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
             }
           }
           const entryId = sourceId(link);
+          const sourceCategories = pendingSourceEntries.find(entry => entry.sourceEntityId === entryId)?.sourceCategories;
           attemptingDetailSourceId = entryId;
           detailNavigationStarted = false;
           let consumed = false;
@@ -735,7 +741,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
             }
             const grounded = groundedNativeCandidate({ source: pack, sourceId: extracted.sourceEntityId,
               sourceUrl: extracted.sourceUrl, name: extracted.outletName, address: extracted.address!,
-              coordinates: point, location, request, observedAt: this.now() });
+              coordinates: point, location, request, observedAt: this.now(), ...(sourceCategories ? {sourceCategories} : {}) });
             if (grounded) {
               if (admitted.has(grounded.candidate.restaurant.id)) rejected.push({ sourceUrl: link, reasonCode: "DUPLICATE_OUTLET" });
               else admitted.set(grounded.candidate.restaurant.id, grounded);

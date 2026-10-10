@@ -66,7 +66,7 @@ test("Restaurant Agent context retains bounded observations and action scope whi
   const context = projectRestaurantAgentContext(state);
 
   assert.deepEqual(context.missingBlockingFields, []);
-  assert.equal(context.schemaVersion, "9");
+  assert.equal(context.schemaVersion, "10");
   assert.deepEqual(context.searchAvailability, { available: true });
   assert.deepEqual(context.failure, { code: "SEARCH_FAILED" });
   assert.deepEqual(context.availabilityChecks, {
@@ -76,6 +76,7 @@ test("Restaurant Agent context retains bounded observations and action scope whi
     id: fixtureCandidates[0]!.restaurant.id,
     outletName: fixtureCandidates[0]!.restaurant.outletName,
     address: fixtureCandidates[0]!.restaurant.address,
+    sourceCategories: [],
     matchReasons: fixtureCandidates[0]!.matchReasons,
     warnings: fixtureCandidates[0]!.warnings,
     executionConfidence: fixtureCandidates[0]!.executionConfidence,
@@ -200,4 +201,17 @@ test("Restaurant Agent context exposes only current candidate-bound commercial n
   ]);
   assert.equal(JSON.stringify(context).includes("No-show: 100% fee."), false, "superseded website facts must not reach the Agent");
   assert.equal(JSON.stringify(context).includes("official-a"), false, "source entity ids are evidence internals, not model context");
+});
+
+test("C8 source categories remain advisory and source-attributed without changing legal candidates", () => {
+  const candidateId=fixtureCandidates[0]!.restaurant.id;
+  const state:RestaurantTaskState={schemaVersion:'13',phase:'SEARCHING',intentDraft:{...fixtureIntent,schemaVersion:'3'},intent:fixtureIntent,candidates:[fixtureCandidates[0]!],availability:{},availabilityChecks:{},readEvidence:[],searchRevision:1};
+  const before=projectRestaurantAgentContext(state);
+  state.readEvidence=[{evidenceId:'discovery-types',kind:'DISCOVERY',provider:'GOOGLE_PLACES',candidateId,sourceEntityId:'place-a',observedAt:'2026-10-10T00:00:00Z',requestFingerprint:'request',claims:{types:['italian_restaurant','restaurant']}},
+    {evidenceId:'listing-categories',kind:'DISCOVERY',provider:'TABELOG',candidateId,sourceEntityId:'outlet-a',observedAt:'2026-10-10T00:00:00Z',requestFingerprint:'request',claims:{sourceCategories:['Italian cuisine']}}];
+  const after=projectRestaurantAgentContext(state,'2026-10-10T01:00:00Z');
+  assert.deepEqual(after.candidates[0]!.sourceCategories,[{source:'GOOGLE_PLACES',values:['italian_restaurant','restaurant']},{source:'TABELOG',values:['Italian cuisine']}]);
+  assert.deepEqual(after.legalActions.checkAvailability,before.legalActions.checkAvailability);
+  assert.deepEqual(after.presentation,before.presentation);
+  assert.deepEqual(after.candidates[0]!.observedFacts.verifiedHardCriteria,[]);
 });

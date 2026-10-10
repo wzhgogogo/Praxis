@@ -55,3 +55,23 @@ test("C1 injection preserves captured goals and targets and limits history to si
   assert.deepEqual(injectedBrowserHistory(rows,reset),[]);
   assert.equal(row.messages[1]!.content,JSON.stringify(before));
 });
+
+test("C8 raw Agent replay injects only categories observed before the decision and preserves legal actions", async () => {
+  const { categoryInjectedRequest } = await import("./runners/run-decision-replay.js");
+  const context = { schemaVersion: "9", now: "2026-10-10T10:00:00Z", candidates: [{id:"a",outletName:"A"}], legalActions:{checkAvailability:["a"]}, constraints:{hard:["local cuisine"]} };
+  const row = { sequence: 15, purpose: "restaurant_agent_decide", promptVersion: "23", startedAt: context.now,
+    messages:[{role:"system" as const,content:"original rules"},{role:"user" as const,content:JSON.stringify({context,capabilities:["READ"]})}],
+    outputSchema:{name:"restaurant_agent_action",version:"1"}, responseFormat:"JSON_SCHEMA" as const, timeoutMs:1000,maxOutputTokens:320,temperature:0,thinking:"disabled" as const,outputText:null };
+  const seed: ReplaySeed = { seedId:"categories",level:"AGENT",subCause:"CATEGORY_SELECTION",labelStatus:"PROPOSED",origin:{run:"fixture",runArtifact:"capture",decisionIndex:15,recordingDir:"none"},recordedAction:{type:"CHECK_AVAILABILITY"},acceptableActions:[] };
+  const evidence = [{evidenceId:"fixture",requestFingerprint:"fixture",kind:"DISCOVERY",candidateId:"a",provider:"GOOGLE_PLACES",observedAt:"2026-10-10T09:59:00Z",claims:{types:["japanese_restaurant"]}},
+    {evidenceId:"fixture",requestFingerprint:"fixture",kind:"DISCOVERY",candidateId:"a",provider:"TABLECHECK",observedAt:"2026-10-10T10:01:00Z",claims:{sourceCategories:["future fact"]}}] as import("../../../domains/restaurant/contracts.js").RestaurantReadEvidence[];
+  const request = categoryInjectedRequest(seed,row,evidence);
+  const injected = JSON.parse(request.messages[1]!.content);
+  assert.deepEqual(injected.context.candidates[0].sourceCategories,[{source:"GOOGLE_PLACES",values:["japanese_restaurant"]}]);
+  const {sourceCategories: _categories,...candidate} = injected.context.candidates[0];
+  assert.deepEqual(candidate,context.candidates[0]);
+  assert.deepEqual(injected.context.legalActions,context.legalActions);
+  assert.deepEqual(injected.context.constraints,context.constraints);
+  assert.deepEqual(injected.capabilities,["READ"]);
+  assert.ok(request.messages[0]!.content.startsWith("original rules"));
+});

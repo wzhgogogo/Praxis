@@ -35,6 +35,7 @@ export interface SourcePackListingOutlet {
   outletName: string;
   address?: string;
   phone?: string;
+  sourceCategories?: string[];
 }
 export interface SourcePackListing { outlets: SourcePackListingOutlet[]; nextPage?: string; }
 export interface SourcePackQuery {
@@ -223,10 +224,40 @@ function tabelogRegion(query: DiscoveryQuery): string | undefined {
     && distanceMeters(query.location, region.anchor) <= region.anchor.maximumDistanceMeters)?.url;
 }
 
+/** Retain only category-labelled text inside one observed outlet card, never neighbouring cards. */
+function listingCategories(snapshot: BrowserSnapshot, sourceUrl: string, knownUrls: readonly string[]): string[] {
+  const result = new Set<string>();
+  const stack: Array<{ tag: string; start: number; attributes: string }> = [];
+  for (const token of snapshot.html.matchAll(/<!--[\s\S]*?-->|<script\b[^>]*>[\s\S]*?<\/script\s*>|<\/?([a-z][\w-]*)\b([^>]*)>/gi)) {
+    const text = token[0], tag = token[1]?.toLowerCase();
+    if (!tag) continue;
+    if (!text.startsWith('</')) {
+      if (!['area','base','br','col','embed','hr','img','input','link','meta','param','source','track','wbr'].includes(tag) && !text.endsWith('/>')) stack.push({tag,start:token.index,attributes:token[2]??''});
+      continue;
+    }
+    const index = stack.map(node => node.tag).lastIndexOf(tag);
+    if (index < 0) continue;
+    const node = stack[index]!; stack.length = index;
+    if (!['li','article','section'].includes(tag) && !/(?:card|list-rst)/i.test(node.attributes)) continue;
+    const card = snapshot.html.slice(node.start, token.index+text.length);
+    const observed = new Set([...card.matchAll(/<a\b[^>]*href=["']([^"']+)["']/gi)].flatMap(match => {
+      try { const url = new URL(match[1]!.replaceAll('&amp;', '&'), snapshot.url); url.search = ''; url.hash = ''; return knownUrls.includes(url.toString()) ? [url.toString()] : []; } catch {return [];}
+    }));
+    if (observed.size !== 1 || !observed.has(sourceUrl)) continue;
+    for (const category of card.matchAll(/<([a-z][\w-]*)\b([^>]*(?:class|data-category|data-cuisine)=["'][^"']*(?:cuisine|genre|category)[^"']*["'][^>]*)>([\s\S]{0,2000}?)<\/\1>/gi)) {
+      if (/hidden|aria-hidden=["']true|display\s*:\s*none/i.test(category[2]??'')) continue;
+      const value=(category[3]??'').replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim();
+      if (value && value.length <= 240) result.add(value);
+    }
+  }
+  return [...result].slice(0, 12);
+}
+
 function tabelogListing(snapshot: BrowserSnapshot): SourcePackListing {
   const root = new URL(snapshot.url);
   const prefix = root.pathname.includes("/rstLst/") ? root.pathname.slice(0, root.pathname.indexOf("/rstLst/") + "/rstLst/".length) : undefined;
-  const outlets = parseTabelogSearchOutlets(snapshot);
+  const parsed = parseTabelogSearchOutlets(snapshot);
+  const outlets = parsed.map(outlet => ({...outlet, sourceCategories:listingCategories(snapshot,outlet.sourceUrl,parsed.map(item=>item.sourceUrl))}));
   const next = [...snapshot.html.matchAll(/<a\b([^>]*\b(?:href|rel)=["'][^"']+["'][^>]*)>([\s\S]*?)<\/a>/gi)].flatMap((match) => {
     const text = (match[2] ?? "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
     const href = (match[1] ?? "").match(/\bhref=["']([^"']+)["']/i)?.[1];
@@ -247,7 +278,7 @@ function tableCheckListing(snapshot: BrowserSnapshot): SourcePackListing {
       return sourceEntityId ? [{ sourceEntityId, sourceUrl, outletName: sourceEntityId }] : [];
     } catch { return []; }
   });
-  return { outlets };
+  return { outlets: outlets.map(outlet=>({...outlet,sourceCategories:listingCategories(snapshot,outlet.sourceUrl,outlets.map(item=>item.sourceUrl))})) };
 }
 
 function websiteOrigin(candidate: RestaurantOutlet): string | undefined {

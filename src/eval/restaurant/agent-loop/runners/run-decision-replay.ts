@@ -12,6 +12,9 @@ import { ModelBrowserReadActionDecision, decodeBrowserReadActionWire, BROWSER_AC
 import { normalizeRestaurantAgentActionStrictWire, RESTAURANT_AGENT_ACTION_STRICT_WIRE_JSON_SCHEMA } from "../../../../domains/restaurant/agent-action.js";
 import { restaurantDiscoveryPacks } from "../../../../integrations/restaurant-search/source-packs.js";
 import { tabelogQueryControlHints } from "../../../../integrations/tabelog/tabelog-query-controls.js";
+import { observedCandidateSourceCategories } from "../../../../domains/restaurant/agent-context.js";
+import { RESTAURANT_AGENT_SOURCE_CATEGORY_INSTRUCTION } from "../../../../domains/restaurant/agent-decision.js";
+import type { RestaurantReadEvidence } from "../../../../domains/restaurant/contracts.js";
 
 interface ActionLabel { type: string; field?: string; direction?: string; targetLabel?: string | null; targetKind?: string | null; targetLabelPattern?: string; }
 export interface ReplaySeed {
@@ -20,10 +23,25 @@ export interface ReplaySeed {
   recordedAction: ActionLabel; acceptableActions: ActionLabel[]; requires?: string[];
 }
 interface CapturedDecision {
+  startedAt?: string;
   sequence: number; purpose: string; promptVersion: string; messages: ModelRequest["messages"];
   outputSchema: ModelRequest["outputSchema"]; responseFormat: ModelRequest["responseFormat"];
   timeoutMs: number; maxOutputTokens: number | null; temperature: number | null; thinking: ModelRequest["thinking"] | null;
   browser?: { recordingSnapshot?: number; observationRevision?: number; url?: string }; outputText: string | null;
+}
+/** Original messages plus source facts already observed at this decision, without DOM reconstruction. */
+export function categoryInjectedRequest(seed: ReplaySeed, row: CapturedDecision, evidence: RestaurantReadEvidence[]): ModelRequest {
+  if (seed.level !== "AGENT") throw new Error("CATEGORY_INJECTION_REQUIRES_AGENT_SEED");
+  return { ...originalRequest(seed, row), promptVersion: `${row.promptVersion}+source-categories@1`,
+    messages: row.messages.map(message => {
+      if (message.role === "system") return { ...message, content: message.content + "\n\n" + RESTAURANT_AGENT_SOURCE_CATEGORY_INSTRUCTION };
+      if (message.role !== "user") return message;
+      const input = JSON.parse(message.content);
+      return { ...message, content: JSON.stringify({ ...input, context: { ...input.context, schemaVersion: "10",
+        candidates: input.context.candidates.map((candidate: { id: string }) => ({ ...candidate,
+          sourceCategories: observedCandidateSourceCategories(evidence, candidate.id, row.startedAt ?? input.context.now),
+        })) } }) };
+    }) };
 }
 export function acceptableReplayAction(action: ActionLabel, acceptable: ActionLabel): boolean {
   return action.type === acceptable.type && (!acceptable.field || action.field === acceptable.field)
@@ -153,7 +171,7 @@ export async function rebuildBrowserInput(html: string, input: BrowserReadDecisi
     return { input: rebuilt, limitations: [...new Set(limitations)] };
   } finally { await registry.dispose(); await context.close(); await browser.close(); }
 }
-export async function runDecisionReplay(options: { mode: "original" | "rebuild" | "history"; seedsPath: string; sourceRoot: string; outputDir: string; budgetPath: string; item: string; round: number; select?: string[]; gateway: ModelGateway }) {
+export async function runDecisionReplay(options: { mode: "original" | "rebuild" | "history" | "categories"; seedsPath: string; sourceRoot: string; outputDir: string; budgetPath: string; item: string; round: number; select?: string[]; gateway: ModelGateway }) {
   await mkdir(options.outputDir, { recursive: true });
   const seedBytes = await readFile(options.seedsPath);
   const all = (JSON.parse(seedBytes.toString()) as { seeds: ReplaySeed[] }).seeds;
@@ -204,8 +222,14 @@ export async function runDecisionReplay(options: { mode: "original" | "rebuild" 
         finally { result.request = request; result.response = response; await writeFile(options.budgetPath, JSON.stringify(budget, null, 2)); }
       } };
       let action: ActionLabel;
-      if (options.mode === "original" || options.mode === "history") {
-        response = await counted.complete(options.mode === "history" ? historyInjectedRequest(seed,row,rows) : originalRequest(seed, row));
+      if (options.mode === "original" || options.mode === "history" || options.mode === "categories") {
+        let replayRequest = originalRequest(seed, row);
+        if (options.mode === "history") replayRequest = historyInjectedRequest(seed,row,rows);
+        if (options.mode === "categories") {
+          const artifact = JSON.parse(await readFile(path.replace(/\.decisions\.jsonl$/, ".result.json"), "utf8"));
+          replayRequest = categoryInjectedRequest(seed, row, artifact.finalSnapshot.domainState.readEvidence);
+        }
+        response = await counted.complete(replayRequest);
         if (response.finishReason !== "TOOL_CALLS") throw new Error(`INVALID_FINISH_REASON:${response.finishReason}`);
         if (seed.level === "BROWSER") action = browserLabel(response.outputText, input!);
         else { const canonical = normalizeRestaurantAgentActionStrictWire(JSON.parse(response.outputText)); if (!canonical.valid) throw new Error("INVALID_AGENT_WIRE"); action = canonical.value as ActionLabel; }
@@ -230,7 +254,7 @@ export async function runDecisionReplay(options: { mode: "original" | "rebuild" 
 }
 async function main() {
   const args = process.argv.slice(2); const get = (key: string, fallback?: string) => { const index = args.indexOf(key); return index < 0 ? fallback : args[index + 1]; };
-  const mode = get("--mode"); if (mode !== "original" && mode !== "rebuild" && mode !== "history") throw new Error("--mode original|rebuild|history required");
+  const mode = get("--mode"); if (mode !== "original" && mode !== "rebuild" && mode !== "history" && mode !== "categories") throw new Error("--mode original|rebuild|history|categories required");
   const required = (key: string) => { const value = get(key); if (!value) throw new Error(`${key} required`); return value; };
   const summary = await runDecisionReplay({ mode, seedsPath: required("--seeds"), sourceRoot: required("--source-root"), outputDir: required("--out-dir"), budgetPath: required("--budget-file"), item: required("--item"), round: Number(get("--round", "1")), ...(get("--select") ? { select: get("--select")!.split(",") } : {}), gateway: DeepSeekModelGateway.fromEnvironment() });
   console.log(JSON.stringify({ ...summary, results: undefined }, null, 2));

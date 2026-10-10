@@ -257,6 +257,7 @@ test("H001 native first batch presents three source-bound Tabelog results withou
   assert.equal(new Set(result.navigations.slice(0, 4).map((_url, index) => result.navigationSessionIds[index])).size, 1,
     "a healthy Tabelog list and its three details share one browser session");
   assert.deepEqual(result.googleCalls.map((item) => item.query), ["Shibuya"]);
+  assert.ok(result.state.readEvidence.some(item => item.kind === "DISCOVERY" && item.provider === "TABELOG" && Array.isArray(item.claims.sourceCategories) && item.claims.sourceCategories.includes("Sushi")));
   assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(result.evaluation.findings));
 });
 
@@ -327,6 +328,7 @@ test("H001 second native batch introduces its own TableCheck results after Tabel
 
 test("H001 native discovery uses the shared browser model loop to reveal an observed TableCheck result list", async () => {
   const result = await runScenario("TABLECHECK_DISCOVERY_RECOVERS");
+  assert.ok(result.state.readEvidence.some(item => item.kind === "DISCOVERY" && item.provider === "TABLECHECK" && Array.isArray(item.claims.sourceCategories) && item.claims.sourceCategories.includes("Japanese")));
   assert.deepEqual(result.state.presentedResults?.candidateIds, ["tablecheck:native-omakase-1"], JSON.stringify({ phase: result.state.phase, availability: result.state.availabilityChecks, browserInputs: result.model.browserDecisionInputs, purposes: result.model.purposes, navigations: result.navigations }));
   assert.equal(result.model.purposes.includes("browser_read_decide"), true);
   assert.equal(result.model.retrievalFillUsed, true);

@@ -121,3 +121,14 @@ test("Tabelog region selection requires an exact source-owned region label and r
   assert.equal(directory.isObservedRegionHomepageListing?.({ url: homepage, title: "Shibuya", text: "", html: '<a class="list-rst__rst-name-target" href="/tokyo/A1303/A130301/100/">Local outlet</a>' }, "https://tabelog.com/en/tokyo/A1303/A130301/rstLst/"), true);
   assert.equal(directory.isObservedRegionHomepageListing?.({ url: homepage, title: "Shibuya", text: "", html: '<a href="/en/rstLst/">National directory</a>' }, "https://tabelog.com/en/tokyo/A1303/A130301/rstLst/"), false);
 });
+
+test("C8 list categories stay source-attributed to one outlet, without borrowing neighbouring or hidden text", () => {
+  const directory = tabelogDiscoveryPack.parseListing({ url: "https://tabelog.com/en/tokyo/rstLst/", title: "List", text: "List", html: `
+    <li class="list-rst"><a class="list-rst__rst-name-target" href="/tokyo/A1304/A130401/100/?ref=list">A</a><span class="list-rst__genre">Sushi</span></li>
+    <li class="list-rst"><a class="list-rst__rst-name-target" href="/tokyo/A1304/A130401/101/">B</a><span class="list-rst__genre">Italian</span><span class="category" hidden>Fast food</span></li>` });
+  assert.deepEqual(directory.outlets.map(outlet => outlet.sourceCategories), [["Sushi"], ["Italian"]]);
+  const venues = tableCheckDiscoveryPack.parseListing({ url: "https://www.tablecheck.com/en/japan/search", title: "Search", text: "2 venues found", html: `
+    <article><a href="/en/outlet-one">One</a><span class="VisibleCuisineText">Japanese, Seafood</span></article>
+    <article><a href="/en/outlet-two">Two</a><span class="VisibleCuisineText">French</span></article>` });
+  assert.deepEqual(venues.outlets.map(outlet => outlet.sourceCategories), [["Japanese, Seafood"], ["French"]]);
+});

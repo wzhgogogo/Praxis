@@ -345,6 +345,7 @@ export interface RestaurantSearchContinuation {
       outletName?: string;
       address?: string;
       phone?: string;
+      sourceCategories?: string[];
     }>;
     pendingSourceIds: string[];
   };
