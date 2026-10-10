@@ -2,7 +2,7 @@ import type { RestaurantAvailabilityRequest } from "../../domains/restaurant/con
 import type { BrowserReadNetworkPolicy, BrowserRuntime, BrowserSession, BrowserSessionMetadata, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
 import type { RestaurantAvailabilityProvider } from "../restaurant-availability/contracts.js";
 import { BrowserRuntimeError } from "../../infrastructure/browser/browser-runtime-errors.js";
-import { BrowserTaskExecutor } from "../../infrastructure/browser/browser-task-executor.js";
+import { BrowserTaskExecutor, type BrowserCompletionAssessment } from "../../infrastructure/browser/browser-task-executor.js";
 import { inspectNativeOutletContinuity, sameNativeOutletUrl } from "../restaurant-availability/native-outlet-continuity.js";
 import { tabelogDiscoveryPack } from "../restaurant-search/source-packs.js";
 import { inspectTabelogEntity, normalizeTabelogPhone, normalizeTabelogIdentity } from "./tabelog-entity-resolver.js";
@@ -13,6 +13,8 @@ import {
   isTabelogUrl,
   pageExcerpt,
   parseTabelogSearchOutlets,
+  tabelogSearchResultBusy,
+  tabelogAvailabilityResultBusy,
   parseTabelogAvailabilitySlots,
   parseTabelogListedCourses,
   parseTabelogOutletIdentityWithEvidence,
@@ -27,6 +29,21 @@ import type {
 } from "./tabelog-contracts.js";
 
 import { hasTabelogSelectedQuery, tabelogQueryControlHints, tabelogQueryControlsRestricted, tabelogRequestedDateState, TABELOG_VACANCY_RESPONSES } from "./tabelog-query-controls.js";
+
+export function tabelogNameSearchCompletion(page: BrowserSnapshot): BrowserCompletionAssessment {
+  const outlets = parseTabelogSearchOutlets(page);
+  return { complete: outlets.length > 0, resultBusy: tabelogSearchResultBusy(page),
+    resultKey: JSON.stringify([page.url, outlets]),
+    reason: "Continue until an observed public restaurant result is available; do not use navigation, login, or booking links." };
+}
+
+export function tabelogAvailabilityCompletion(page: BrowserSnapshot, request: Pick<RestaurantAvailabilityRequest, "date" | "partySize" | "timeWindow">): BrowserCompletionAssessment {
+  const slots = parseTabelogAvailabilitySlots(page, request);
+  return { complete: hasTabelogSelectedQuery(page, request.date, request.partySize) && slots.hasExplicitSlotUi,
+    resultBusy: tabelogAvailabilityResultBusy(page),
+    resultKey: JSON.stringify([page.url, request.date, request.partySize, request.timeWindow, slots]),
+    reason: "Both the requested calendar date and guest count must be selected; model completion alone does not confirm them." };
+}
 
 
 /** A Google-listed Tabelog URL may be read, but still needs page identity proof. */
@@ -372,11 +389,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
           goal: { outlet: { name: candidate.restaurant.outletName, address: candidate.restaurant.address }, date: request.date, partySize: request.partySize, timeWindow: request.timeWindow, hardCriteria: request.hardCriteria },
           objective: "Reveal public Tabelog restaurant search results without booking or logging in.",
           methodReason: "Tabelog discovery has no extractable restaurant result yet.",
-          completion: (page) => ({
-            complete: parseTabelogSearchOutlets(page).length > 0,
-            resultKey: JSON.stringify([page.url, parseTabelogSearchOutlets(page)]),
-            reason: "Continue until an observed public restaurant result is available; do not use navigation, login, or booking links.",
-          }),
+          completion: tabelogNameSearchCompletion,
         });
         search = generic.snapshot;
         outlets = mergeOutlets(listedOutlet, parseTabelogSearchOutlets(search), this.maxCandidateMatches);
@@ -565,7 +578,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
           session, signal, allowedOrigins: ["https://tabelog.com"], controlHints: tabelogQueryControlHints,
           goal: { outlet: { name: candidate.restaurant.outletName, address: candidate.restaurant.address }, date: request.date, partySize: request.partySize, timeWindow: request.timeWindow, hardCriteria: request.hardCriteria },
           objective: "Apply the exact requested date and guest count to the public calendar. Date and Guests labels describe source-observed controls. Use CLICK_AUTHORITATIVE for those fields. Do not open Reserve or any booking form. Selected time options alone are not verified availability.",
-          completion: current => ({ complete: hasTabelogSelectedQuery(current, request.date, request.partySize) && parseTabelogAvailabilitySlots(current, request).hasExplicitSlotUi, resultKey: JSON.stringify([current.url, request.date, request.partySize, request.timeWindow, parseTabelogAvailabilitySlots(current, request)]), reason: "Both the requested calendar date and guest count must be selected; model completion alone does not confirm them." }),
+          completion: current => tabelogAvailabilityCompletion(current, request),
         });
         const querySnapshot = query.snapshot;
         if (!hasTabelogSelectedQuery(querySnapshot, request.date, request.partySize)) return this.ground(candidate, request, {

@@ -6,8 +6,8 @@ import type { BrowserReadNetworkPolicy, BrowserReadNetworkRequestRule, BrowserSn
 import { tabelogPublicReadNetworkPolicy } from "../tabelog/tabelog-public-query.js";
 import { tableCheckPublicReadNetworkPolicy } from "../tablecheck/tablecheck-public-query.js";
 import { tableCheckRequestedReservationUrl, type TableCheckReservationTarget } from "../tablecheck/tablecheck-page-parser.js";
-import { hasBotChallenge, parseTabelogOutletIdentityWithEvidence, parseTabelogSearchOutlets } from "../tabelog/tabelog-page-parser.js";
-import { hasTableCheckBotChallenge, hasTableCheckDiscoveryNoResult, inspectTableCheckPageUnavailable, parseTableCheckDiscoveryOutletUrls, parseTableCheckOutletIdentityWithEvidence } from "../tablecheck/tablecheck-page-parser.js";
+import { hasBotChallenge, parseTabelogOutletIdentityWithEvidence, parseTabelogSearchOutlets, tabelogSearchResultBusy } from "../tabelog/tabelog-page-parser.js";
+import { hasTableCheckBotChallenge, hasTableCheckDiscoveryNoResult, tableCheckSearchResultBusy, inspectTableCheckPageUnavailable, parseTableCheckDiscoveryOutletUrls, parseTableCheckOutletIdentityWithEvidence } from "../tablecheck/tablecheck-page-parser.js";
 import { TableCheckBrowserAvailability, TableCheckEntryLedger } from "../tablecheck/tablecheck-browser-availability.js";
 import type { TableCheckIdentityDiagnostic, TableCheckUserInterventionHandler } from "../tablecheck/tablecheck-contracts.js";
 import { TabelogBrowserAvailability } from "../tabelog/tabelog-browser-availability.js";
@@ -61,6 +61,7 @@ export interface BrowserDiscoveryPackCapability {
   hasChallenge(snapshot: BrowserSnapshot): boolean;
   isPageUnavailable(snapshot: BrowserSnapshot): boolean;
   isExplicitEmptyListing(snapshot: BrowserSnapshot): boolean;
+  resultBusy(snapshot: BrowserSnapshot): boolean;
   parseDetailIdentity(snapshot: BrowserSnapshot, fallback: SourcePackListingOutlet): SourcePackListingOutlet | undefined;
   directory?: {
     listingRoot(url: string): string | undefined;
@@ -325,6 +326,7 @@ export const tabelogDiscoveryPack: DiscoverySourcePack = {
     sourceEntityIdForUrl: (value) => { try { return new URL(value).pathname.replace(/^\/+|\/+$/g, "") || undefined; } catch { return undefined; } },
     hasChallenge: hasBotChallenge,
     isPageUnavailable: () => false,
+    resultBusy: tabelogSearchResultBusy,
     isExplicitEmptyListing: (snapshot) => /\b(?:no|0)\s+(?:restaurants?|results?)\s+(?:found|match(?:es)?)/i.test(snapshot.text),
     parseDetailIdentity(snapshot, fallback) {
       const extracted = parseTabelogOutletIdentityWithEvidence(snapshot, fallback);
@@ -407,6 +409,7 @@ export const tableCheckDiscoveryPack: DiscoverySourcePack = {
     sourceEntityIdForUrl: (value) => { try { return new URL(value).pathname.replace(/^\/(?:en|ja)\//, "").replace(/\/reserve(?:\/landing)?\/?$/, "").replace(/^\/+|\/+$/g, "") || undefined; } catch { return undefined; } },
     hasChallenge: hasTableCheckBotChallenge,
     isPageUnavailable: (snapshot) => inspectTableCheckPageUnavailable(snapshot).pageUnavailable,
+    resultBusy: tableCheckSearchResultBusy,
     isExplicitEmptyListing: hasTableCheckDiscoveryNoResult,
     parseDetailIdentity(snapshot, fallback) {
       const extracted = parseTableCheckOutletIdentityWithEvidence(snapshot, fallback.sourceUrl);

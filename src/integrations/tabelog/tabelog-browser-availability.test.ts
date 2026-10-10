@@ -1,15 +1,30 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
+import { readFile } from "node:fs/promises";
 
 import { fixtureCandidates, fixtureIntent } from "../../harness/restaurant-fixtures.js";
 import type { BrowserRuntime, BrowserSession, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
 import { BrowserRuntimeError } from "../../infrastructure/browser/browser-runtime-errors.js";
 import { inspectTabelogEntity, resolveTabelogEntity } from "./tabelog-entity-resolver.js";
-import { TabelogBrowserAvailability } from "./tabelog-browser-availability.js";
+import { TabelogBrowserAvailability, tabelogAvailabilityCompletion } from "./tabelog-browser-availability.js";
 import { parseTabelogAvailabilitySlots, parseTabelogOutletIdentityWithEvidence, parseTabelogSearchOutlets } from "./tabelog-page-parser.js";
 import { tabelogQueryControlsRestricted, tabelogRequestedDateState } from "./tabelog-query-controls.js";
 
 const candidate = fixtureCandidates[0]!;
+
+test("captured kf-h001 Sen after selecting the date still has no slot result and remains EXTRACTION_FAILED", async () => {
+  const html = await readFile(new URL("../../harness/browser/fixtures/tabelog-sen-no-slots-20261010.html", import.meta.url), "utf8");
+  const observed = JSON.parse(await readFile(new URL("../../harness/browser/fixtures/tabelog-sen-no-slots-20261010.snapshot.json", import.meta.url), "utf8"));
+  const page: BrowserSnapshot = { url: observed.url, title: observed.title, text: observed.visibleText, html };
+  const request = { date: "2026-10-22", partySize: 2, timeWindow: { earliest: "19:00", latest: "19:00" } };
+  assert.equal(tabelogAvailabilityCompletion(page, request).complete, false);
+  assert.equal(parseTabelogAvailabilitySlots(page, request).hasExplicitSlotUi, false);
+  const sen = { ...candidate, restaurant: { ...candidate.restaurant, outletName: "Shibuya Sushi Sen", address: "1500002 Tokyo Shibuya Shibuya Tokyo ", sourceIds: { tabelog: "en/tokyo/A1303/A130301/13275802", tabelogNativeDetailUri: page.url } } };
+  const session = new FixtureBrowserSession([page]);
+  const result = await new TabelogBrowserAvailability({ openSession: async () => session }).check({ ...request, candidateIds: [sen.restaurant.id], candidates: [sen], hardCriteria: [] }, new AbortController().signal);
+  assert.equal(result.availabilityChecks[sen.restaurant.id]?.status, "UNKNOWN");
+  assert.equal(result.metadata.failureCode, "EXTRACTION_FAILED");
+});
 
 test("Tabelog entity resolver is outlet-safe and rejects ambiguous branch matches", () => {
   const exact = resolveTabelogEntity(candidate, [{ sourceEntityId: "x", sourceUrl: "https://tabelog.com/tokyo/A1304/x/", outletName: "Restaurant 1", address: "1-1 Shinjuku, Tokyo" }]);

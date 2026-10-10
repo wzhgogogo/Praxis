@@ -3279,3 +3279,8 @@ Recorder 保存所有 Guard 放行且通过现有安全检查的实际 styleshee
 ## DEV-2026-10-10-P1D-review-artifacts
 
 原样保存 Playbook@0.9、独立复核及 seeds.v6；追加提交此前未跟踪的四份历史 witness 与 seeds.v1–v3，原文和 SHA 不变。用户批准 ADR-0040、检索词提前、退出条件5及一次 kf-h005 复测，按切片继续。
+
+
+## DEV-2026-10-10-P1D-C3b-completion
+
+Require every completed browser predicate to declare its bound result key and busy state; source-owned list/query regions replace page-wide busy fallback. Keep newest PENDING observation when keys differ; hidden Sen time templates cannot count as slots. Source packs and facts/Fixture callers updated. No Guard or qualification relaxation.

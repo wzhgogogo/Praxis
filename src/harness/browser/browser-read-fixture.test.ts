@@ -19,6 +19,8 @@ import { inspectProbePage, runBrowserReadProbe } from "../../eval/restaurant/age
 import { BrowserReadRecording } from "../../eval/restaurant/agent-loop/runners/browser-read-recording.js";
 import { traceBrowserRuntime } from "../../eval/restaurant/agent-loop/runners/browser-case-slice-evidence.js";
 
+import { resultRegionBusy } from "../../integrations/restaurant-search/result-region-busy.js";
+
 const url = "https://www.tablecheck.com/en/fixture";
 const identity = '<h1>Fixture restaurant</h1><p class="address">1-1 Tokyo Fixture Street</p><a href="tel:03-1111-2222">Phone</a>';
 
@@ -68,7 +70,7 @@ test("guarded HAR replay drives the production executor offline and keeps missin
   const session = await executor.acquire(signal, "TABLECHECK", "DISCOVERY");
   try {
     await executor.navigate({ session, signal, source: "TABLECHECK", stage: "DISCOVERY", allowedOrigins: ["https://replay.example"], url: replayUrl });
-    const result = await executor.runSkill({ taskId: "fixture:har-replay", session, signal, source: "TABLECHECK", stage: "DISCOVERY", allowedOrigins: ["https://replay.example"], goal: { outlet: { name: "Fixture" }, retrievalExpression: "omakase", hardCriteria: [] }, objective: "Read an offline public search result.", completion: snapshot => ({ complete: /Result ready Sushi/.test(snapshot.text), reason: "The replayed public result is not visible." }) });
+    const result = await executor.runSkill({ taskId: "fixture:har-replay", session, signal, source: "TABLECHECK", stage: "DISCOVERY", allowedOrigins: ["https://replay.example"], goal: { outlet: { name: "Fixture" }, retrievalExpression: "omakase", hardCriteria: [] }, objective: "Read an offline public search result.", completion: snapshot => ({ complete: /Result ready Sushi/.test(snapshot.text), reason: "The replayed public result is not visible.", resultKey: JSON.stringify([snapshot.url, snapshot.text, snapshot.interactiveState]), resultBusy: false }) });
     assert.equal(result.status, "COMPLETED", JSON.stringify(result));
     assert.equal(step, 6);
     await session.prepareNavigation?.("https://replay.example/missing", { timeoutMs: 500 });
@@ -238,7 +240,7 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
         allowedOrigins: ["https://www.tablecheck.com"],
         goal: { outlet: { name: "Fixture Restaurant" }, date: "2026-09-18", partySize: 10, timeWindow: { earliest: "17:30", latest: "22:00" }, hardCriteria: [] },
         objective: "Apply the authoritative date and party size to a public availability query.",
-        completion: (snapshot) => ({ complete: /2026-09-18 \/ 10/.test(snapshot.text), reason: "The complete requested parameters are not visible." }),
+        completion: (snapshot) => ({ complete: /2026-09-18 \/ 10/.test(snapshot.text), reason: "The complete requested parameters are not visible.", resultKey: JSON.stringify([snapshot.url, snapshot.text, snapshot.interactiveState]), resultBusy: false }),
       });
       assert.equal(result.status, "COMPLETED", JSON.stringify(result));
       assert.match(result.snapshot.text, /2026-09-18 \/ 10/);
@@ -323,7 +325,7 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
         taskId: `fixture:obstruction:${runtimeKind}`, source: "TABLECHECK", stage: "AVAILABILITY", session, signal,
         allowedOrigins: ["https://www.tablecheck.com"],
         goal: { outlet: { name: "Fixture" }, hardCriteria: [] }, objective: "Run the public availability query.",
-        completion: snapshot => ({ complete: /Current availability 19:00/.test(snapshot.text), reason: "The current public result is not visible." }),
+        completion: snapshot => ({ complete: /Current availability 19:00/.test(snapshot.text), reason: "The current public result is not visible.", resultKey: JSON.stringify([snapshot.url, snapshot.text, snapshot.interactiveState]), resultBusy: false }),
       });
       assert.equal(result.status, "COMPLETED", JSON.stringify(result));
       assert.equal(decisions, 2, "the recovery must re-observe and obtain a fresh proposal");
@@ -683,7 +685,7 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
         allowedOrigins: ["https://www.tablecheck.com"],
         goal: { outlet: { name: "Fixture Restaurant" }, date: "2026-09-18", partySize: 2, timeWindow: { earliest: "18:30", latest: "19:30" }, hardCriteria: [] },
         objective: "Choose a requested public query time.",
-        completion: (snapshot, controls) => ({ complete: /7:00 PM/.test(snapshot.text) && controls.some(control => control.kind === "SELECT" && control.value === "1763593200000"), reason: "The requested time is not selected." }),
+        completion: (snapshot, controls) => ({ complete: /7:00 PM/.test(snapshot.text) && controls.some(control => control.kind === "SELECT" && control.value === "1763593200000"), reason: "The requested time is not selected.", resultKey: JSON.stringify([snapshot.url, snapshot.text, snapshot.interactiveState]), resultBusy: false }),
       });
       assert.equal(result.status, "COMPLETED");
       assert.deepEqual(attempted, ["9:00 PM", "7:00 PM"]);
@@ -720,7 +722,7 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
       await executor.navigate({ source: "TABLECHECK", stage: "AVAILABILITY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
       const result = await executor.runSkill({ taskId: "fixture:button-combobox", source: "TABLECHECK", stage: "AVAILABILITY", session, signal,
         allowedOrigins: ["https://www.tablecheck.com"], goal: { outlet: { name: "Fixture" }, timeWindow: { earliest: "19:00", latest: "19:30" }, hardCriteria: [] },
-        objective: "Choose the observed arrival time.", completion: snapshot => ({ complete: /Selection settled/.test(snapshot.text), reason: "The choice has not settled." }) });
+        objective: "Choose the observed arrival time.", completion: snapshot => ({ complete: /Selection settled/.test(snapshot.text), reason: "The choice has not settled.", resultKey: JSON.stringify([snapshot.url, snapshot.text, snapshot.interactiveState]), resultBusy: false }) });
       assert.equal(result.status, "COMPLETED");
       assert.equal(calls, 2);
       assert.equal(result.controls.find(control => control.role === "combobox")?.label, "7:15 PM");
@@ -756,7 +758,7 @@ for (const initialTime of ["17:30", "19:00"] as const) {
       assert.equal(initialControls.find(control => control.role === "combobox" && control.label === "Time")?.value, initialTime);
       const result = await executor.runSkill({ taskId: `fixture:proxy-time:${initialTime}`, source: "WEBSITE", stage: "FACTS", session, signal,
         allowedOrigins: ["https://www.tablecheck.com"], goal: { outlet: { name: "Fixture" }, timeWindow: { earliest: "19:00", latest: "19:00" }, hardCriteria: [] },
-        objective: "Confirm the currently selected time.", completion: snapshot => ({ complete: /data-selected-time="19:00"/.test(snapshot.html), reason: "The actual page state has not selected 19:00." }) });
+        objective: "Confirm the currently selected time.", completion: snapshot => ({ complete: /data-selected-time="19:00"/.test(snapshot.html), reason: "The actual page state has not selected 19:00.", resultKey: JSON.stringify([snapshot.url, snapshot.text, snapshot.interactiveState]), resultBusy: false }) });
       assert.equal(result.status, "COMPLETED", JSON.stringify({ seenValues, controls: result.controls.filter(control => control.role === "combobox") }));
       if (initialTime === "17:30") {
         assert.equal(result.controls.find(control => control.role === "combobox" && control.label === "Time")?.value, "19:00", JSON.stringify(result.controls.filter(control => control.role === "combobox")));
@@ -801,7 +803,7 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
       await executor.navigate({ source: "WEBSITE", stage: "FACTS", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
       const result = await executor.runSkill({ taskId: "fixture:shifted-option", source: "WEBSITE", stage: "FACTS", session, signal,
         allowedOrigins: ["https://www.tablecheck.com"], goal: { outlet: { name: "Fixture" }, timeWindow: { earliest: "19:00", latest: "19:00" }, hardCriteria: [] },
-        objective: "Choose the observed 19:00 time.", completion: snapshot => ({ complete: /Selection settled/.test(snapshot.text), reason: "No selected time." }) });
+        objective: "Choose the observed 19:00 time.", completion: snapshot => ({ complete: /Selection settled/.test(snapshot.text), reason: "No selected time.", resultKey: JSON.stringify([snapshot.url, snapshot.text, snapshot.interactiveState]), resultBusy: false }) });
       assert.equal(result.controls.find(control => control.role === "combobox")?.label, "19:00");
       assert.equal(result.status, "COMPLETED");
       assert.equal(calls, 2);
@@ -837,7 +839,7 @@ for (const mutation of ["role-change", "replacement", "legal-replacement"] as co
       await executor.navigate({ source: "WEBSITE", stage: "FACTS", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
       const result = await executor.runSkill({ taskId: `fixture:stale-option:${mutation}`, source: "WEBSITE", stage: "FACTS", session, signal,
         allowedOrigins: ["https://www.tablecheck.com"], goal: { outlet: { name: "Fixture" }, timeWindow: { earliest: "19:00", latest: "19:00" }, hardCriteria: [] },
-        objective: "Choose the observed 19:00 time.", completion: snapshot => ({ complete: snapshot.html.includes('data-executed="yes"'), reason: "No selected time." }) });
+        objective: "Choose the observed 19:00 time.", completion: snapshot => ({ complete: snapshot.html.includes('data-executed="yes"'), reason: "No selected time.", resultKey: JSON.stringify([snapshot.url, snapshot.text, snapshot.interactiveState]), resultBusy: false }) });
       assert.equal(result.status, canRecover ? "COMPLETED" : "REQUESTED_HUMAN_HELP");
       assert.equal(calls, 3);
       assert.ok(rejections.some(detail => detail.includes("Observed target changed or detached")), "the old observed node is rejected before a fresh decision");
@@ -899,7 +901,7 @@ for (const variant of ["disabled", "unchanged", "complete"] as const) {
       await executor.navigate({ source: "TABLECHECK", stage: "AVAILABILITY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
       const result = await executor.runSkill({ taskId: `fixture:${variant}`, source: "TABLECHECK", stage: "AVAILABILITY", session, signal,
         allowedOrigins: ["https://www.tablecheck.com"], goal: { outlet: { name: "Fixture" }, timeWindow: { earliest: "19:00", latest: "19:30" }, hardCriteria: [] },
-        objective: "Select a public query time.", completion: snapshot => ({ complete: /Inventory ready/.test(snapshot.text), reason: "No result yet." }) });
+        objective: "Select a public query time.", completion: snapshot => ({ complete: /Inventory ready/.test(snapshot.text), reason: "No result yet.", resultKey: JSON.stringify([snapshot.url, snapshot.text, snapshot.interactiveState]), resultBusy: false }) });
       assert.equal(result.status, variant === "complete" || variant === "disabled" ? "NO_SAFE_ACTION" : "REQUESTED_HUMAN_HELP");
       assert.ok(diagnostics.some(detail => variant === "disabled" ? detail === "STALE_OR_UNKNOWN_TARGET_REF" : detail === "OPTION_VALUE_NOT_CONFIRMED"));
       assert.notEqual(result.controls.find(control => control.kind === "SELECT")?.value, "opaque");
@@ -929,7 +931,7 @@ test("an asynchronously applied option can complete after a later selected-value
     const result = await executor.runSkill({ taskId: "fixture:async-option", source: "TABLECHECK", stage: "AVAILABILITY", session, signal,
       allowedOrigins: ["https://www.tablecheck.com"], goal: { outlet: { name: "Fixture" }, timeWindow: { earliest: "19:00", latest: "19:30" }, hardCriteria: [] },
       objective: "Observe the requested time after it settles.",
-      completion: snapshot => ({ complete: /Inventory ready/.test(snapshot.text), reason: "No inventory result yet." }) });
+      completion: snapshot => ({ complete: /Inventory ready/.test(snapshot.text), reason: "No inventory result yet.", resultKey: JSON.stringify([snapshot.url, snapshot.text, snapshot.interactiveState]), resultBusy: false }) });
     assert.ok((await session.snapshot()).html.includes('data-settled="yes"'), "completion requires actual selected-value settlement");
     assert.equal(result.status, "COMPLETED");
     assert.equal(calls, 2);
@@ -956,7 +958,7 @@ test("an unconfirmed time choice cannot be replaced by a successful party choice
     await executor.navigate({ source: "TABLECHECK", stage: "AVAILABILITY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
     const result = await executor.runSkill({ taskId: "fixture:cross-option", source: "TABLECHECK", stage: "AVAILABILITY", session, signal,
       allowedOrigins: ["https://www.tablecheck.com"], goal: { outlet: { name: "Fixture" }, partySize: 4, timeWindow: { earliest: "19:00", latest: "19:30" }, hardCriteria: [] },
-      objective: "Confirm both requested values.", completion: snapshot => ({ complete: /Inventory ready/.test(snapshot.text), reason: "No result yet." }) });
+      objective: "Confirm both requested values.", completion: snapshot => ({ complete: /Inventory ready/.test(snapshot.text), reason: "No result yet.", resultKey: JSON.stringify([snapshot.url, snapshot.text, snapshot.interactiveState]), resultBusy: false }) });
     assert.equal(result.status, "NO_SAFE_ACTION");
     assert.ok(diagnostics.some(detail => detail.includes("previous option is still unconfirmed")));
     assert.equal(result.controls.find(control => control.label === "Party size")?.value, "2");
@@ -1040,6 +1042,7 @@ test("Chromium control observation discards only a handle confirmed disconnected
         };
       },
       url: () => page.url(),
+      evaluate: page.evaluate.bind(page),
     } as Parameters<PlaywrightControlRegistry["observe"]>[0];
     const controls = await registry.observe(observedPage);
     assert.equal(removed, true);
@@ -1068,6 +1071,7 @@ test("Chromium control observation preserves an attached control-read failure", 
         };
       },
       url: () => page.url(),
+      evaluate: page.evaluate.bind(page),
     } as Parameters<PlaywrightControlRegistry["observe"]>[0];
     await assert.rejects(registry.observe(observedPage), /CONTROL_READ_FAILURE/);
   } finally { await browser.close(); }
@@ -1197,7 +1201,7 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
       await executor.navigate({ source: "TABLECHECK", stage: "DISCOVERY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
       const result = await executor.runSkill({ taskId: "bound-search-suggestion", source: "TABLECHECK", stage: "DISCOVERY", session, signal,
         allowedOrigins: ["https://www.tablecheck.com"], goal: { outlet: { name: "Public search" }, retrievalExpression: query, hardCriteria: [] }, objective: "Find public result links for the bound query",
-        completion: snapshot => ({ complete: snapshot.text.includes(`Public result for ${query}`), reason: "No result link observed" }) });
+        completion: snapshot => ({ complete: snapshot.text.includes(`Public result for ${query}`), reason: "No result link observed", resultKey: JSON.stringify([snapshot.url, snapshot.text, snapshot.interactiveState]), resultBusy: false }) });
       assert.equal(result.status, "COMPLETED");
       assert.equal(decisions, 3);
       assert.equal(result.controls.find(control => control.role === "combobox")?.value, query);
@@ -1224,7 +1228,7 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
       await executor.navigate({ source: "TABLECHECK", stage: "DISCOVERY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
       const result = await executor.runSkill({ taskId: "covered-link", source: "TABLECHECK", stage: "DISCOVERY", session, signal,
         allowedOrigins: ["https://www.tablecheck.com"], goal: { outlet: { name: "Ginza iwa" }, hardCriteria: [] }, objective: "Open a public result",
-        completion: snapshot => ({ complete: snapshot.url === detail && snapshot.text.includes("Ginza iwa detail"), reason: "Detail not observed" }) });
+        completion: snapshot => ({ complete: snapshot.url === detail && snapshot.text.includes("Ginza iwa detail"), reason: "Detail not observed", resultKey: JSON.stringify([snapshot.url, snapshot.text, snapshot.interactiveState]), resultBusy: false }) });
       assert.equal(result.status, "COMPLETED");
       assert.equal(result.snapshot.url, detail);
     } finally { await executor.close(); }
@@ -1281,7 +1285,7 @@ test("Tabelog category discovery expands observed links and removes the keyword 
     const result = await executor.runSkill({ taskId: "observed-category-discovery", source: "TABELOG", stage: "DISCOVERY", session, signal,
       allowedOrigins: ["https://tabelog.com"], goal: { outlet: { name: "omakase", address: "Shibuya" }, hardCriteria: ["omakase"] },
       objective: "Use an observed related category and remove the keyword while keeping the same area.",
-      completion: snapshot => ({ complete: snapshot.url === categoryUrl && snapshot.text.includes("Expanded category results"), reason: "The current category list still needs to be observed without the keyword." }) });
+      completion: snapshot => ({ complete: snapshot.url === categoryUrl && snapshot.text.includes("Expanded category results"), reason: "The current category list still needs to be observed without the keyword.", resultKey: JSON.stringify([snapshot.url, snapshot.text, snapshot.interactiveState]), resultBusy: false }) });
     assert.deepEqual(categoryControlActions, ["CLICK"], "the fragment UI control exposes its actual click action");
     assert.equal(result.status, "COMPLETED");
     assert.deepEqual(visited, [keywordUrl, keywordUrl, categoryWithKeyword]);
@@ -1456,7 +1460,7 @@ test("generic controlled browser path completes a local read-only page task with
       allowedOrigins: ["https://www.tablecheck.com"],
       goal: { outlet: { name: "Fixture Restaurant" }, date: "2026-09-07", partySize: 2, timeWindow: { earliest: "19:00", latest: "19:00" }, hardCriteria: [] },
       objective: "Show local public search results.",
-      completion: (snapshot) => ({ complete: /Sushi Inase/.test(snapshot.text), reason: "The local public result is not yet visible." }),
+      completion: (snapshot) => ({ complete: /Sushi Inase/.test(snapshot.text), reason: "The local public result is not yet visible.", resultKey: JSON.stringify([snapshot.url, snapshot.text, snapshot.interactiveState]), resultBusy: false }),
     });
     assert.equal(result.status, "COMPLETED");
     assert.equal(result.snapshot.title, "Results");
@@ -1494,7 +1498,7 @@ test("an observed public target-blank link switches the same session to a new pa
       taskId: "fixture:public-popup-terms", source: "TABLECHECK", stage: "FACTS", session, signal,
       allowedOrigins: ["https://www.tablecheck.com"], goal: { outlet: { name: "Fixture Restaurant" }, hardCriteria: [] },
       objective: "Read an observed public terms page without login or booking.",
-      completion: (snapshot) => ({ complete: /Cancellation: free until noon/.test(snapshot.text), reason: "The public terms page is not yet visible." }),
+      completion: (snapshot) => ({ complete: /Cancellation: free until noon/.test(snapshot.text), reason: "The public terms page is not yet visible.", resultKey: JSON.stringify([snapshot.url, snapshot.text, snapshot.interactiveState]), resultBusy: false }),
     });
     assert.equal(result.status, "COMPLETED");
     assert.equal(result.snapshot.url, termsUrl);
@@ -1530,7 +1534,7 @@ test("real DOM observation exposes an unlabelled-id role button and calendar nav
       allowedOrigins: ["https://www.tablecheck.com"],
       goal: { outlet: { name: "Fixture Restaurant" }, date: "2026-09-07", partySize: 2, timeWindow: { earliest: "19:00", latest: "19:00" }, hardCriteria: [] },
       objective: "Select the verified date and wait for the public slot result.",
-      completion: (snapshot) => ({ complete: snapshot.title === "Availability Results", reason: "The public result is not ready." }),
+      completion: (snapshot) => ({ complete: snapshot.title === "Availability Results", reason: "The public result is not ready.", resultKey: JSON.stringify([snapshot.url, snapshot.text, snapshot.interactiveState]), resultBusy: false }),
     });
     assert.equal(result.status, "COMPLETED");
     assert.equal(step, 2);
@@ -1568,7 +1572,7 @@ test("an active language dialog blocks background calendar actions until the dia
       taskId: "fixture:modal-calendar", source: "TABLECHECK", stage: "AVAILABILITY", session, signal, allowedOrigins: ["https://www.tablecheck.com"],
       goal: { outlet: { name: "Fixture Restaurant" }, date: "2026-09-07", partySize: 2, timeWindow: { earliest: "19:00", latest: "19:00" }, hardCriteria: [] },
       objective: "Close only the active public language dialog, then select the authoritative date.",
-      completion: (snapshot) => ({ complete: snapshot.title === "Selected date", reason: "The exact date is not visibly selected." }),
+      completion: (snapshot) => ({ complete: snapshot.title === "Selected date", reason: "The exact date is not visibly selected.", resultKey: JSON.stringify([snapshot.url, snapshot.text, snapshot.interactiveState]), resultBusy: false }),
     });
     assert.equal(result.status, "COMPLETED");
     assert.equal(step, 2);
@@ -2115,7 +2119,7 @@ for (const field of ["PARTY_SIZE", "TIME"] as const) test(`C5a one choice reveal
     await executor.navigate({ session, signal, source: "FIXTURE", stage: "AVAILABILITY", allowedOrigins: ["https://www.tablecheck.com"], url });
     const result = await executor.runSkill({ taskId: "fixture:clipped-choice", source: "FIXTURE", stage: "AVAILABILITY", session, signal,
       allowedOrigins: ["https://www.tablecheck.com"], goal: { outlet: { name: "Fixture" }, partySize: 10, timeWindow: { earliest: "19:00", latest: "19:00" }, hardCriteria: [] },
-      objective: "Select one observed query option", completion: snapshot => ({ complete: snapshot.html.includes(`data-choice="${expected}"`), reason: "Choice not observed" }) });
+      objective: "Select one observed query option", completion: snapshot => ({ complete: snapshot.html.includes(`data-choice="${expected}"`), reason: "Choice not observed", resultKey: JSON.stringify([snapshot.url, snapshot.text, snapshot.interactiveState]), resultBusy: false }) });
     assert.equal(result.status, "COMPLETED"); assert.equal(calls, 1);
     assert.match(result.snapshot.html, new RegExp(`data-choice="${expected}"`));
   } finally { await executor.close(); }
@@ -2158,7 +2162,7 @@ test("C3 settles delayed date results before asking the model and never complete
     const signal=new AbortController().signal;const session=await executor.acquire(signal,"FIXTURE","AVAILABILITY");
     try {
       await executor.navigate({session,signal,source:"FIXTURE",stage:"AVAILABILITY",allowedOrigins:[origin],url:target});
-      const result=await executor.runSkill({taskId:"settle",session,signal,source:"FIXTURE",stage:"AVAILABILITY",allowedOrigins:[origin],goal:{outlet:{name:"Fixture"},date:"2026-10-23",partySize:10,hardCriteria:[]},objective:"Select date and guests",completion:snapshot=>({complete: /CURRENT_AVAILABLE|OLD_AVAILABLE/.test(snapshot.text),reason:"Select party after date loads"})});
+      const result=await executor.runSkill({taskId:"settle",session,signal,source:"FIXTURE",stage:"AVAILABILITY",allowedOrigins:[origin],goal:{outlet:{name:"Fixture"},date:"2026-10-23",partySize:10,hardCriteria:[]},objective:"Select date and guests",completion:snapshot=>({complete: /CURRENT_AVAILABLE|OLD_AVAILABLE/.test(snapshot.text),reason:"Select party after date loads", resultKey: JSON.stringify([snapshot.url, snapshot.text, snapshot.interactiveState]), resultBusy: resultRegionBusy(snapshot.html, /\bresult\b/, /carousel|suggestions/) })});
       assert.equal(result.status,timeout?"REQUESTED_HUMAN_HELP":"COMPLETED");
       assert.equal(calls,2);
       if(timeout)assert.equal(pendingHint,true);
@@ -2168,7 +2172,7 @@ test("C3 settles delayed date results before asking the model and never complete
 
 test("C3 visible-state fallback settles attribute-only carousel and rejects changing text or skeleton", async () => {
   for (const mode of ["carousel", "text", "skeleton"] as const) {
-    const runtime = localFixture(`<title>Stable-result Fixture</title><p id="result">CURRENT_RESULT</p><button>Guests 2</button><aside id="carousel">Carousel</aside>${mode === "skeleton" ? '<div class="skeleton">Loading</div>' : ''}<script>
+    const runtime = localFixture(`<title>Stable-result Fixture</title><div id="result">CURRENT_RESULT${mode === "skeleton" ? '<div class="skeleton">Loading</div>' : ''}</div><button>Guests 2</button><aside id="carousel">Carousel</aside><script>
       let n=0;setInterval(()=>{${mode === "text" ? "result.textContent+=' batch '+(++n);" : "carousel.setAttribute('data-frame',String(++n));"}},150);
     </script>`);
     const diagnostics: BrowserExecutionDiagnostic[] = [];
@@ -2177,7 +2181,7 @@ test("C3 visible-state fallback settles attribute-only carousel and rejects chan
     const session = await executor.acquire(signal, "FIXTURE", "AVAILABILITY");
     try {
       await executor.navigate({ session, signal, source: "FIXTURE", stage: "AVAILABILITY", allowedOrigins: ["https://www.tablecheck.com"], url });
-      const read = await executor.runSkill({ taskId: `settle:${mode}`, source: "FIXTURE", stage: "AVAILABILITY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], goal: {outlet:{name:"Fixture"},partySize:2,hardCriteria:[]}, objective:"Read current result", completion:snapshot=>({complete:snapshot.text.includes("CURRENT_RESULT"),reason:"Current result missing"}) });
+      const read = await executor.runSkill({ taskId: `settle:${mode}`, source: "FIXTURE", stage: "AVAILABILITY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], goal: {outlet:{name:"Fixture"},partySize:2,hardCriteria:[]}, objective:"Read current result", completion:snapshot=>({complete:snapshot.text.includes("CURRENT_RESULT"),reason:"Current result missing", resultKey: JSON.stringify([snapshot.url, snapshot.text, snapshot.interactiveState]), resultBusy: resultRegionBusy(snapshot.html, /\bresult\b/, /carousel|suggestions/) }) });
       assert.equal(read.status, mode === "carousel" ? "COMPLETED" : "REQUESTED_HUMAN_HELP", mode);
       assert.equal(read.snapshot.settlement, mode === "carousel" ? "SETTLED" : "PENDING", mode);
       const waits = diagnostics.filter(d => d.event === "ASYNC_WAIT");
@@ -2197,7 +2201,7 @@ test("C4 blocks repeated toggle state but allows the same Next control on change
     const signal=new AbortController().signal;const session=await executor.acquire(signal,"FIXTURE","DISCOVERY");
     try{
       await executor.navigate({session,signal,source:"FIXTURE",stage:"DISCOVERY",allowedOrigins:["https://www.tablecheck.com"],url});
-      const read=await executor.runSkill({taskId:`repeat:${mode}`,session,signal,source:"FIXTURE",stage:"DISCOVERY",allowedOrigins:["https://www.tablecheck.com"],goal:{outlet:{name:"Fixture"},hardCriteria:[]},objective:"Advance public navigation",completion:s=>({complete:mode==='pagination'&&s.text.includes('Page 3'),reason:"Keep advancing"})});
+      const read=await executor.runSkill({taskId:`repeat:${mode}`,session,signal,source:"FIXTURE",stage:"DISCOVERY",allowedOrigins:["https://www.tablecheck.com"],goal:{outlet:{name:"Fixture"},hardCriteria:[]},objective:"Advance public navigation",completion:s=>({complete:mode==='pagination'&&s.text.includes('Page 3'),reason:"Keep advancing", resultKey: JSON.stringify([s.url, s.text, s.interactiveState]), resultBusy: false })});
       assert.equal(read.status,mode==='toggle'?"NO_SAFE_ACTION":"COMPLETED");
       const repeats=diagnostics.filter(d=>d.detail==='REPEATED_FROM_SAME_STATE');
       assert.equal(repeats.length,mode==='toggle'?2:0,mode);
@@ -2212,16 +2216,16 @@ test("C4 blocks repeated toggle state but allows the same Next control on change
 
 
 test("C3b rotating suggestions accept identical bound results but changing results and skeleton remain pending", async () => {
-  for (const mode of ["suggestions", "append", "skeleton"] as const) {
+  for (const mode of ["suggestions", "append", "skeleton", "unrelated-skeleton"] as const) {
     const diagnostics: BrowserExecutionDiagnostic[] = [];
-    const runtime=localFixture(`<title>Result fixture</title><section id="result">Venue A</section><aside id="suggestions">Suggestion 0</aside>${mode==='skeleton'?'<div class="skeleton">Loading</div>':''}<script>let n=0;setInterval(()=>{suggestions.textContent='Suggestion '+(++n);${mode==='append'?"result.textContent+=' Venue '+n;":''}},120)</script>`);
+    const runtime=localFixture(`<title>Result fixture</title><section id="result">Venue A${mode==='skeleton'?'<div class="skeleton">Loading</div>':''}</section><aside id="suggestions">Suggestion 0</aside>${mode==='unrelated-skeleton'?'<div class="image skeleton">Loading</div>':''}<script>let n=0;setInterval(()=>{suggestions.textContent='Suggestion '+(++n);${mode==='append'?"result.textContent+=' Venue '+n;":''}},120)</script>`);
     const executor=new BrowserTaskExecutor(runtime,{maxElapsedMsPerCandidate:12000,onDiagnostic:d=>diagnostics.push(d),modelDecision:{async decide(){return {type:"REQUEST_HUMAN_HELP",reason:"Incomplete current result"};}}});
     const signal=new AbortController().signal;const session=await executor.acquire(signal,"FIXTURE","DISCOVERY");
     try {
       await executor.navigate({session,signal,source:"FIXTURE",stage:"DISCOVERY",allowedOrigins:["https://www.tablecheck.com"],url});
-      const read=await executor.runSkill({taskId:"bound-result",session,signal,source:"FIXTURE",stage:"DISCOVERY",allowedOrigins:["https://www.tablecheck.com"],goal:{outlet:{name:"Fixture"},hardCriteria:[]},objective:"Read result set",completion:s=>({complete:s.text.includes("Venue A"),reason:"Missing venues",resultKey:s.html.match(/<section id="result">([^<]*)/)?.[1] ?? ""})});
-      assert.equal(read.status,mode==='suggestions'?"COMPLETED":"REQUESTED_HUMAN_HELP",mode);
-      assert.equal(read.snapshot.settlement,mode==='suggestions'?"SETTLED":"PENDING",mode);
+      const read=await executor.runSkill({taskId:"bound-result",session,signal,source:"FIXTURE",stage:"DISCOVERY",allowedOrigins:["https://www.tablecheck.com"],goal:{outlet:{name:"Fixture"},hardCriteria:[]},objective:"Read result set",completion:s=>({complete:s.text.includes("Venue A"),reason:"Missing venues",resultKey:s.html.match(/<section id="result">([^<]*)/)?.[1] ?? "", resultBusy: resultRegionBusy(s.html, /\bresult\b/, /carousel|suggestions/) })});
+      assert.equal(read.status,(mode==='suggestions'||mode==='unrelated-skeleton')?"COMPLETED":"REQUESTED_HUMAN_HELP",mode);
+      assert.equal(read.snapshot.settlement,(mode==='suggestions'||mode==='unrelated-skeleton')?"SETTLED":"PENDING",mode);
       assert.ok(diagnostics.filter(d=>d.event==='ASYNC_WAIT').every(d=>d.url===url),"navigation wait uses actual URL");
     } finally {await executor.close();}
   }
@@ -2283,6 +2287,6 @@ test("C2a selectable requested date retains authoritative click and blocks an or
   }}});
   const signal=new AbortController().signal;const session=await executor.acquire(signal,'FIXTURE','AVAILABILITY');
   try{await executor.navigate({session,signal,source:'FIXTURE',stage:'AVAILABILITY',allowedOrigins:['https://www.tablecheck.com'],url});
-    const read=await executor.runSkill({taskId:'selectable',session,signal,source:'FIXTURE',stage:'AVAILABILITY',allowedOrigins:['https://www.tablecheck.com'],goal:{outlet:{name:'Fixture'},date:'2026-10-24',hardCriteria:[]},objective:'Select date',completion:s=>({complete:s.text.includes('Selected'),reason:'Date not selected'})});assert.equal(read.status,'COMPLETED');
+    const read=await executor.runSkill({taskId:'selectable',session,signal,source:'FIXTURE',stage:'AVAILABILITY',allowedOrigins:['https://www.tablecheck.com'],goal:{outlet:{name:'Fixture'},date:'2026-10-24',hardCriteria:[]},objective:'Select date',completion:s=>({complete:s.text.includes('Selected'),reason:'Date not selected', resultKey: JSON.stringify([s.url, s.text, s.interactiveState]), resultBusy: false })});assert.equal(read.status,'COMPLETED');
   }finally{await executor.close();}
 });

@@ -311,10 +311,17 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
             allowedOrigins: [new URL(sourceUrl).origin, ...observedOfficialOrigins],
             goal: { outlet: { name: candidate.restaurant.outletName, address: candidate.restaurant.address }, hardCriteria: request.intent.criteria.filter((criterion) => criterion.strength === "HARD").map((criterion) => criterion.text) },
             objective: "The cited source material has not resolved every HARD criterion. Follow one observed public menu, course, or official information link relevant to the missing criterion. A linked official page must prove this exact outlet by its own visible name/address or structured data. Do not sign in, submit, revisit a page, or treat navigation itself as evidence.",
-            completion: (page) => ({ complete: (new URL(page.url).origin === new URL(sourceUrl).origin
-              ? isObservedReservationPage(page) ? retainTableCheckReservationPage(page, tableCheckServiceControls) : retainNativePage(page)
-              : retainOfficialPage(page)) && documents.length > documentsBefore,
-              reason: "A new, identity-confirmed page with source-authored text is required before another cited HARD-fact judgment." }),
+            completion: (page) => {
+              if (new URL(page.url).origin === new URL(sourceUrl).origin) {
+                if (isObservedReservationPage(page)) retainTableCheckReservationPage(page, tableCheckServiceControls);
+                else retainNativePage(page);
+              } else retainOfficialPage(page);
+              // Retention is idempotent: the second stability snapshot must assess
+              // the same bound documents, rather than whether they were just added.
+              const bound = documents.slice(documentsBefore).filter(document => identities.some(identity => identity.evidenceId === document.identityEvidenceId && identity.sourceUrl === page.url));
+              return { complete: bound.length > 0, resultBusy: false, resultKey: JSON.stringify(bound),
+                reason: "A new, identity-confirmed page with source-authored text is required before another cited HARD-fact judgment." };
+            },
           });
           // A completed generic read already retained its final page. Calling the
           // idempotent retain function here covers runtimes that return the final

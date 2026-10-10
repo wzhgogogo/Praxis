@@ -1,7 +1,7 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.47
+- Document revision: 1.48
 - Last updated: 2026-10-10
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
@@ -234,3 +234,8 @@ C3（2026-10-10）：本地 Chromium 与 Cloudflare BrowserSession 共用动作�
 ## 2026-10-10 immediate closed-source completion（C6a，离线）
 
 Google-listed网站及HIGH身份的Native/官方页面复用结构化/可见营业事实抽取，只把页面实际观察到的当日关闭或无重叠营业区间绑定到原请求日期/窗口。Google API营业信息不属于这一提前结束依据；缺失、模糊、部分重叠和前日跨夜信息保留UNKNOWN或继续调查。所有已查公共页面的当前身份引用必须有对应的关闭窗口事实；任一可订/开放冲突阻止快速结束。零偏移“现在”请求可由既有Agent END_READ说明已查范围并给出重新授权“最近可订时间”的选项，不推断库存、任意地点能力或实际最近时间。十一种生产Hybrid组合正反例和两种Native组合对照14/14；完整测试796/796，零真实模型/外部来源请求。当前Live兼容性待独立复核安排，见[ADR-0039补充](../decisions/0039-immediate-thirty-minute-window.md)。
+
+
+### C3b explicit bound-result completion (2026-10-10)
+
+Completed browser reads now require an explicit resultKey and resultBusy. Source packs assess their result lists; Tabelog availability assesses the current query region, excluding unrelated calendars, images and recommendations. No page-wide busy fallback remains. Changing result keys retain the newest PENDING observation. Captured Sen hidden time templates remain UNKNOWN / EXTRACTION_FAILED. Type and behavioral fixtures passed; 20 navigation-only public URL probes were repeated after the pack change (40 navigations, 0 model calls), final median wait 1,228.5ms. All three displayed name-search lists completed; three zero-result Tabelog searches remain incomplete pending the separately authorized retrieval experiment. The prior 12 URLs did not regress; the previously pending 3km TableCheck search displayed 16 venues and completed this time. Public reserve-entry GET pages were only observed, with no next-step action. Evidence: `.eval-artifacts/p1-d-batch-20261010/C3b-completion/`. This probe does not establish inventory or delivery.

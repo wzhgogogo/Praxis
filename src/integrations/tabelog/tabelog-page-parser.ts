@@ -1,4 +1,13 @@
 import { tabelogCapturedSlots } from "./tabelog-query-controls.js";
+import { resultRegionBusy } from "../restaurant-search/result-region-busy.js";
+
+export function tabelogSearchResultBusy(snapshot: BrowserSnapshot): boolean {
+  return resultRegionBusy(snapshot.html, /(?:list-rst(?:\s|$|__)|search-results|result-list|rstlist|result-count)/i, /(?:calendar|booking|image|photo|recommend|suggest)/i);
+}
+
+export function tabelogAvailabilityResultBusy(snapshot: BrowserSnapshot): boolean {
+  return resultRegionBusy(snapshot.html, /(?:p-booking-calendar|vacancy|time-slots|availability-results)/i, /(?:calendar__calendar|calendar__month|image|photo|recommend|suggest)/i);
+}
 import type { BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
 import type {
   TabelogIdentityEvidenceSource,
@@ -198,6 +207,9 @@ export function parseTabelogAvailabilitySlots(snapshot: BrowserSnapshot, request
   const element = /<(button|a|li|div)[^>]*?(?:data-(?:time|start-time)|class=["'][^"']*(?:slot|time|reserve|vacancy)[^"']*)[^>]*>([\s\S]{0,500}?)<\/\1>/gi;
   for (const match of snapshot.html.matchAll(element)) {
     const whole = match[0] ?? "";
+    // Hidden time templates are not a result for the selected date/party.
+    // Captured Sen pages retain these buttons while no times are displayed.
+    if (/\bis-hidden\b|aria-hidden=["']true["']|\bhidden(?:\s|=|>)|display\s*:\s*none|visibility\s*:\s*hidden/i.test(whole)) continue;
     const content = `${whole} ${stripTags(match[2] ?? "")}`;
     const time = whole.match(/data-(?:time|start-time)=["']([^"']+)["']/i)?.[1] ?? timeIn(content);
     if (!time || !/^([01]\d|2[0-3]):[0-5]\d$/.test(time)) continue;

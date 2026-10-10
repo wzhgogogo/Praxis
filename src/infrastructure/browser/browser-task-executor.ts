@@ -75,6 +75,10 @@ export interface BrowserExecutionBudget {
   maxModelCalls?: number;
 }
 
+export type BrowserCompletionAssessment =
+  | { complete: true; reason: string; resultKey: string; resultBusy: boolean }
+  | { complete: false; reason: string; resultKey?: string; resultBusy?: boolean };
+
 export interface BrowserSkillReadInput {
   taskId: string;
   source: string;
@@ -92,7 +96,7 @@ export interface BrowserSkillReadInput {
   /** A source-owned, already-authorized shortcut; its effect is always post-condition checked. */
   shortcut?: { name: string; run(snapshot: BrowserSnapshot): Promise<void> };
   controlHints?(snapshot: Readonly<BrowserSnapshot>): readonly BrowserControlHint[];
-  completion(snapshot: BrowserSnapshot, controls: BrowserPageControl[]): { complete: boolean; reason: string; resultKey?: string; resultBusy?: boolean };
+  completion(snapshot: BrowserSnapshot, controls: BrowserPageControl[]): BrowserCompletionAssessment;
 }
 
 export interface BrowserGenericReadResult {
@@ -416,20 +420,28 @@ export class BrowserTaskExecutor {
 
   async runSkill(input: BrowserSkillReadInput): Promise<BrowserGenericReadResult> {
     const assess = async (current: BrowserSnapshot, controls: BrowserPageControl[]) => {
-      if (current.settlement !== "PENDING") return input.completion(current, controls);
-      const pending = { complete: false, reason: "Page is still loading after its bounded settlement wait; old results are not usable." };
+      const pending: BrowserCompletionAssessment = { complete: false, reason: "Page is still loading after its bounded settlement wait; old results are not usable." };
       // Only the adapter's existing predicate can establish a bound result.
       // Readiness itself never establishes identity, request binding or inventory.
       const first = input.completion({ ...current, settlement: "SETTLED" }, controls);
-      if (!first.complete || !first.resultKey || first.resultBusy === true || (first.resultBusy === undefined && current.settlementDiagnostics?.busySelectors.length)) return pending;
+      if (first.resultBusy) {
+        this.record({ source: input.source, stage: input.stage, event: "REJECTED", url: current.url, detail: "COMPLETION_RESULT_BUSY" });
+        return pending;
+      }
+      if (current.settlement !== "PENDING") return first;
+      if (!first.complete || !first.resultKey) return pending;
       await this.operation(input, "VERIFY_RESULT_STABILITY", () => new Promise<void>(resolve => setTimeout(resolve, 500)));
       const next = await this.snapshot(input);
       const observed = await this.observeControls(input);
       const second = input.completion({ ...next, settlement: "SETTLED" }, observed);
-      if (!second.complete || second.resultKey !== first.resultKey || second.resultBusy === true || (second.resultBusy === undefined && next.settlementDiagnostics?.busySelectors.length)) return pending;
+      // Retain the newest observation even when verification fails. Reusing the
+      // first snapshot could falsely match a later rotation back to old results.
+      Object.assign(current, next, { settlement: "PENDING" });
+      controls.splice(0, controls.length, ...observed);
+      if (second.resultBusy) this.record({ source: input.source, stage: input.stage, event: "REJECTED", url: next.url, detail: "COMPLETION_RESULT_BUSY" });
+      if (!second.complete || second.resultKey !== first.resultKey || second.resultBusy) return pending;
       this.pageUnsettled = false;
       Object.assign(current, next, { settlement: "SETTLED" });
-      controls.splice(0, controls.length, ...observed);
       this.record({ source: input.source, stage: input.stage, event: "POST_ACTION_VERIFIED", url: next.url, detail: "BOUND_RESULT_STABLE" });
       return second;
     };

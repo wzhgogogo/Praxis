@@ -2,7 +2,7 @@ import { parseTableCheckCapturedAvailability, tableCheckAvailabilityResponseRule
 import type { RestaurantAvailabilityRequest, RestaurantServiceScope } from "../../domains/restaurant/contracts.js";
 import type { BrowserPageControl, BrowserReadNetworkPolicy, BrowserRuntime, BrowserSession, BrowserSessionMetadata, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
 import { BrowserRuntimeError } from "../../infrastructure/browser/browser-runtime-errors.js";
-import { BrowserTaskExecutor } from "../../infrastructure/browser/browser-task-executor.js";
+import { BrowserTaskExecutor, type BrowserCompletionAssessment } from "../../infrastructure/browser/browser-task-executor.js";
 import { inspectNativeOutletContinuity } from "../restaurant-availability/native-outlet-continuity.js";
 import { tableCheckDiscoveryPack } from "../restaurant-search/source-packs.js";
 import type { RestaurantAvailabilityProvider } from "../restaurant-availability/contracts.js";
@@ -21,12 +21,21 @@ import {
   parseTableCheckControlAvailability,
   sameReservationOutlet,
   parseTableCheckDiscoveryOutletUrls,
+  tableCheckSearchResultBusy,
   parseTableCheckOutletIdentityWithEvidence,
   parseTableCheckVerifiedHardCriteria,
   resolveTableCheckReservationTarget,
   tableCheckDiscoveryUrl,
   tableCheckPageExcerpt,
 } from "./tablecheck-page-parser.js";
+
+export function tableCheckNameSearchCompletion(page: BrowserSnapshot, outletName: string): BrowserCompletionAssessment {
+  const urls = parseTableCheckDiscoveryOutletUrls(page, outletName);
+  const empty = hasTableCheckDiscoveryNoResult(page);
+  return { complete: urls.length > 0 || empty, resultBusy: tableCheckSearchResultBusy(page),
+    resultKey: JSON.stringify([page.url, urls.sort(), empty]),
+    reason: "Continue until an observed public outlet result is available, or the page explicitly reports no results." };
+}
 
 function diagnosticUrl(value: string): string {
   try {
@@ -516,11 +525,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
           goal: { outlet: { name: candidate.restaurant.outletName, address: candidate.restaurant.address }, date: request.date, partySize: request.partySize, timeWindow: request.timeWindow, hardCriteria: request.hardCriteria },
           objective: "Reveal public TableCheck restaurant search results without submitting a reservation.",
           methodReason: "TableCheck discovery has no extractable public outlet link yet.",
-          completion: (page) => ({
-            complete: parseTableCheckDiscoveryOutletUrls(page, candidate.restaurant.outletName).length > 0 || hasTableCheckDiscoveryNoResult(page),
-            resultKey: JSON.stringify([page.url, parseTableCheckDiscoveryOutletUrls(page, candidate.restaurant.outletName).sort(), hasTableCheckDiscoveryNoResult(page)]),
-            reason: "Continue until an observed public outlet result is available, or the page explicitly reports no results.",
-          }),
+          completion: page => tableCheckNameSearchCompletion(page, candidate.restaurant.outletName),
         });
         handoff = { reason: "TABLECHECK_DISCOVERY_HAS_NO_EXTRACTABLE_OUTLET_LINK", outcome: generic.status };
         discovery = generic.snapshot;

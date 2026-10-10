@@ -3963,3 +3963,8 @@ Sushi Yuu与Shibuya Sushi Labo原录制十月日历片段Chromium红绿，缺CSS
 ## TEST-2026-10-10-P1D-review-artifacts
 
 仅文档与原始复核证据原样入库，行为红灯不适用；baseline 默认测试811/811及四门禁通过，原文哈希见 review-artifacts/original-sha256.json。三个已有未跟踪演示文稿未动。
+
+
+## TEST-2026-10-10-P1D-C3b-completion
+
+Red: red-contract.log (three compile omissions), red-changing-results.log (stale snapshot completion), red-sen-hidden-times.log (hidden time template). Final source fixtures 15/15; captured Sen UNKNOWN / EXTRACTION_FAILED. Final 20 public navigation-only probes (40 total, 0 models), median 1228.5ms; displayed name searches 3/3 complete, 3 zero-result Tabelog searches remain incomplete; prior12 no regression. Final four gates PASS (npm test 828/828); complete local Chromium/Cloudflare Fixture suite 84/84. Initial browser suite 80/84 exposed three C3 predicates still omitting a scoped busy assessment and an inherited wrapper missing page.evaluate; corrected without changing those negative expectations, with final green logs retained. Four gates and local browser Fixture results are saved in .eval-artifacts/p1-d-batch-20261010/C3b-completion/.

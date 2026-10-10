@@ -395,7 +395,7 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
             // the first bounded investigation unit.  Its cited result, not a
             // keyword matcher, decides whether the same session follows an
             // observed menu or official link.
-            return { complete: pages.size > 0, reason: pages.size
+            return { complete: pages.size > 0, resultBusy: false, resultKey: JSON.stringify([...pages].map(([url, value]) => [url, value.text])), reason: pages.size
               ? "Candidate-bound source text is retained. Use COMPLETE when relevant statements have been read so fact interpretation can evaluate them; navigate only if relevant content is still missing."
               : "The current page has no confirmed candidate identity. Read an observed outlet-specific public link if available; otherwise hand off the limitation." };
           },
@@ -424,7 +424,7 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
               completion: (page) => {
                 remember(page);
                 const changed = materialize().evidence.some(item => item.kind === "ENTITY_MATCH" && !documentIdsBefore.has(item.artifactRef?.reference));
-                return { complete: changed, reason: "A new candidate-bound public source page is required before another cited HARD-fact judgment." };
+                return { complete: changed, resultBusy: false, resultKey: JSON.stringify([...pages].map(([url, value]) => [url, value.text])), reason: "A new candidate-bound public source page is required before another cited HARD-fact judgment." };
               },
             });
             remember(continued.snapshot);

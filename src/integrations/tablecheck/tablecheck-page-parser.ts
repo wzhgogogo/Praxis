@@ -1,4 +1,9 @@
 import type { BrowserPageControl, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
+import { resultRegionBusy } from "../restaurant-search/result-region-busy.js";
+
+export function tableCheckSearchResultBusy(snapshot: BrowserSnapshot): boolean {
+  return resultRegionBusy(snapshot.html, /(?:search-results|result-list|result-count|VenueList|SearchResult|ExploreList|TitleSkeleton)/i, /(?:Pic|Image|Photo|AvailabilitySkeleton|recommend|suggest)/i);
+}
 import type { RestaurantCandidate, RestaurantServiceScope } from "../../domains/restaurant/contracts.js";
 import type {
   TableCheckIdentityEvidenceSource,

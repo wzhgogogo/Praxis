@@ -75,7 +75,7 @@ function input(session: BrowserSession, signal = new AbortController().signal) {
     allowedOrigins: ["https://www.tablecheck.com"],
     goal: { outlet: { name: "Sushi Inase" }, date: "2026-09-10", partySize: 2, timeWindow: { earliest: "19:00", latest: "19:00" }, hardCriteria: ["omakase"] },
     objective: "Reveal public search results.",
-    completion: (snapshot: BrowserSnapshot) => ({ complete: /Sushi Inase/.test(snapshot.text), reason: "A public result is not yet visible." }),
+    completion: (snapshot: BrowserSnapshot) => ({ complete: /Sushi Inase/.test(snapshot.text), reason: "A public result is not yet visible.", resultKey: JSON.stringify([snapshot.url, snapshot.text, snapshot.interactiveState]), resultBusy: false }),
   };
 }
 
@@ -787,7 +787,7 @@ test("BrowserTaskExecutor permits only an exact non-submit calendar button for a
     })),
   });
   const acquired = await executor.acquire(new AbortController().signal, "TABLECHECK", "AVAILABILITY");
-  const result = await executor.runSkill({ ...input(acquired), stage: "AVAILABILITY", completion: (snapshot) => ({ complete: /applied/.test(snapshot.text), reason: "Date has not been visibly applied." }) });
+  const result = await executor.runSkill({ ...input(acquired), stage: "AVAILABILITY", completion: (snapshot) => ({ complete: /applied/.test(snapshot.text), reason: "Date has not been visibly applied.", resultKey: JSON.stringify([snapshot.url, snapshot.text, snapshot.interactiveState]), resultBusy: false }) });
   assert.equal(result.status, "COMPLETED");
   assert.equal(session.clicks, 1);
   await executor.close();
@@ -830,7 +830,7 @@ test("BrowserTaskExecutor reuses post-action controls to confirm two selections 
     ),
   });
   const acquired = await executor.acquire(new AbortController().signal, "TABLECHECK", "AVAILABILITY");
-  const result = await executor.runSkill({ ...input(acquired), stage: "AVAILABILITY", completion: snapshot => ({ complete: /confirmed/.test(snapshot.text), reason: "Request is not visibly selected." }) });
+  const result = await executor.runSkill({ ...input(acquired), stage: "AVAILABILITY", completion: snapshot => ({ complete: /confirmed/.test(snapshot.text), reason: "Request is not visibly selected.", resultKey: JSON.stringify([snapshot.url, snapshot.text, snapshot.interactiveState]), resultBusy: false }) });
   assert.equal(result.status, "COMPLETED");
   assert.equal(session.clicks, 2);
   assert.equal(events.filter(event => event.event === "OPERATION_STARTED").length, 10);
@@ -851,7 +851,7 @@ test("BrowserTaskExecutor permits a non-submit calendar control nested in a POST
     })),
   });
   const acquired = await executor.acquire(new AbortController().signal, "TABLECHECK", "AVAILABILITY");
-  const result = await executor.runSkill({ ...input(acquired), stage: "AVAILABILITY", completion: (snapshot) => ({ complete: /applied/.test(snapshot.text), reason: "Date is not applied." }) });
+  const result = await executor.runSkill({ ...input(acquired), stage: "AVAILABILITY", completion: (snapshot) => ({ complete: /applied/.test(snapshot.text), reason: "Date is not applied.", resultKey: JSON.stringify([snapshot.url, snapshot.text, snapshot.interactiveState]), resultBusy: false }) });
   assert.equal(result.status, "COMPLETED");
   assert.equal(session.clicks, 1);
   await executor.close();
@@ -872,7 +872,7 @@ test("BrowserTaskExecutor addresses a distinct observed calendar value before a 
     }),
   });
   const acquired = await executor.acquire(new AbortController().signal, "TABLECHECK", "AVAILABILITY");
-  const result = await executor.runSkill({ ...input(acquired), stage: "AVAILABILITY", completion: (snapshot) => ({ complete: /applied/.test(snapshot.text), reason: "Date has not been visibly applied." }) });
+  const result = await executor.runSkill({ ...input(acquired), stage: "AVAILABILITY", completion: (snapshot) => ({ complete: /applied/.test(snapshot.text), reason: "Date has not been visibly applied.", resultKey: JSON.stringify([snapshot.url, snapshot.text, snapshot.interactiveState]), resultBusy: false }) });
   assert.equal(result.status, "COMPLETED");
   assert.equal(session.clicks, 1);
   await executor.close();
@@ -1003,7 +1003,7 @@ test("an early COMPLETE receives the missing predicate and can take a later safe
   ) });
   const acquired = await executor.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY");
   try {
-    const result = await executor.runSkill({ ...input(acquired), completion: snapshot => ({ complete: snapshot.text === "Inventory ready", reason: "A request-bound result is not yet visible." }) });
+    const result = await executor.runSkill({ ...input(acquired), completion: snapshot => ({ complete: snapshot.text === "Inventory ready", reason: "A request-bound result is not yet visible.", resultKey: JSON.stringify([snapshot.url, snapshot.text, snapshot.interactiveState]), resultBusy: false }) });
     assert.equal(result.status, "COMPLETED");
     assert.equal(session.clicks, 1);
     assert.match(secondProgress, /Completion was not accepted: A request-bound result is not yet visible/);
@@ -1023,8 +1023,7 @@ test("a rejected COMPLETE refreshes an asynchronous result before requesting ano
   try {
     const result = await executor.runSkill({ ...input(acquired), completion: snapshot => ({
       complete: snapshot.text === "Inventory ready",
-      reason: "A request-bound result is not yet visible.",
-    }) });
+      reason: "A request-bound result is not yet visible.", resultKey: JSON.stringify([snapshot.url, snapshot.text, snapshot.interactiveState]), resultBusy: false }) });
     assert.equal(result.status, "COMPLETED");
     assert.equal(result.snapshot.text, "Inventory ready");
     assert.equal(decisionsRequested, 1);

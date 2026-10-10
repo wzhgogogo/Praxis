@@ -1,0 +1,19 @@
+✖ Chromium control observation discards only a handle confirmed disconnected between reads (266.421708ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 961.9045
+
+✖ failing tests:
+
+test at src/harness/browser/browser-read-fixture.test.ts:68:3112
+✖ Chromium control observation discards only a handle confirmed disconnected between reads (266.421708ms)
+  TypeError [Error]: page.evaluate is not a function
+      at PlaywrightControlRegistry.observe (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/infrastructure/browser/playwright-browser-controls.ts:373:29)
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/browser-read-fixture.test.ts:1044:22)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3)

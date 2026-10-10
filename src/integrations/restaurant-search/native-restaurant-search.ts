@@ -66,35 +66,25 @@ function publicDiscoverySearchInput(page: BrowserSnapshot): string | undefined {
   return page.html.match(/<input\b[^>]*(?:name|aria-label|placeholder)=["'][^"']*(?:search|keyword|venue|restaurant)[^"']*["'][^>]*>/i)?.[0];
 }
 
-/** A source-visible busy marker, excluding script/style and hidden shells, keeps old cards from becoming a current result. */
-function visibleDiscoveryQueryBusy(page: BrowserSnapshot): boolean {
-  const rendered = page.html.replace(/<script\b[^>]*>[\s\S]*?<\/script\s*>|<style\b[^>]*>[\s\S]*?<\/style\s*>|<!--[\s\S]*?-->/gi, "");
-  return [...rendered.matchAll(/<([a-z][\w-]*)([^>]*)>/gi)].some((match) => {
-    const attributes = match[2] ?? "";
-    const hidden = /\bhidden\b|aria-hidden=["']true["']|\bis-hidden\b|display\s*:\s*none|visibility\s*:\s*hidden/i.test(attributes);
-    return !hidden && /aria-busy=["']true["']|data-(?:query|search|result)-(?:state|status)=["']loading["']/i.test(attributes);
-  });
-}
-
-function discoveryQueryNeedsCurrentQuery(page: BrowserSnapshot, expression: string, controls: readonly BrowserPageControl[] = []): boolean {
+function discoveryQueryNeedsCurrentQuery(page: BrowserSnapshot, expression: string, controls: readonly BrowserPageControl[] = [], resultBusy = false): boolean {
   const liveSearch = controls.find((control) => control.kind === "INPUT" && control.visible
     && /(?:search|keyword|venue|restaurant|店名|検索)/i.test(`${control.label} ${control.structure?.name ?? ""}`));
   // DOM properties are authoritative over serialized markup: after a fill,
   // Chromium can retain the old value attribute while the observed input value
   // already represents the current public query.
-  if (liveSearch) return liveSearch.value?.trim() !== expression || visibleDiscoveryQueryBusy(page);
+  if (liveSearch) return liveSearch.value?.trim() !== expression || resultBusy;
   const input = publicDiscoverySearchInput(page);
   if (!input) return false;
   const value = input.match(/\bvalue=["']([^"']*)["']/i)?.[1]?.trim();
-  return value !== expression || visibleDiscoveryQueryBusy(page);
+  return value !== expression || resultBusy;
 }
 
 /** Shared source parser/current-query predicate for runtime and read-only diagnostics. */
 export function sourceListingCompletion(pack: DiscoverySourcePack, current: BrowserSnapshot, controls: readonly BrowserPageControl[], expression: string) {
   const listing = pack.parseListing(current);
   const empty = pack.browser!.isExplicitEmptyListing(current);
-  return { complete: !discoveryQueryNeedsCurrentQuery(current, expression, controls) && (listing.outlets.length > 0 || empty),
-    resultBusy: visibleDiscoveryQueryBusy(current),
+  return { complete: !discoveryQueryNeedsCurrentQuery(current, expression, controls, pack.browser!.resultBusy(current)) && (listing.outlets.length > 0 || empty),
+    resultBusy: pack.browser!.resultBusy(current),
     reason: "Reveal current public results for the bound retrieval expression.",
     resultKey: JSON.stringify([current.url, listing.outlets.map(outlet => outlet.sourceUrl).sort(), empty]) };
 }
@@ -472,7 +462,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
           // equal merely because both pages produced `undefined`.
           if (!currentAreaEntranceKey || currentKey !== currentAreaEntranceKey) currentAreaEntranceObserved = false;
           return currentAreaEntranceObserved
-            && !discoveryQueryNeedsCurrentQuery(current, activeExpression, controls)
+            && !discoveryQueryNeedsCurrentQuery(current, activeExpression, controls, pack.browser!.resultBusy(current))
             && (pack.parseListing(current).outlets.length > 0 || directory.isExplicitEmpty(current));
         };
         observedOutlets = pack.parseListing(page).outlets;
@@ -494,7 +484,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
             goal: { outlet: { name: keyword, address: request.intent.area.query }, retrievalExpression: activeExpression, hardCriteria: request.intent.criteria.filter((item) => item.polarity === "POSITIVE" && item.strength === "HARD").map((item) => item.text) },
             objective: "Apply the current source search and reveal its public restaurant results for the authoritative area and retrieval terms. Do not submit a reservation.",
             methodReason: "The current source listing has not yet produced a parsed public restaurant result or an explicit empty result.",
-            completion: (current, controls) => ({ complete: listingComplete(current, controls), resultBusy: visibleDiscoveryQueryBusy(current), resultKey: JSON.stringify([current.url, pack.parseListing(current).outlets.map(outlet => outlet.sourceUrl).sort(), pack.browser!.isExplicitEmptyListing(current)]), reason: "Reveal a current public restaurant result list or wait for an explicit empty listing state." }),
+            completion: (current, controls) => ({ complete: listingComplete(current, controls), resultBusy: pack.browser!.resultBusy(current), resultKey: JSON.stringify([current.url, pack.parseListing(current).outlets.map(outlet => outlet.sourceUrl).sort(), pack.browser!.isExplicitEmptyListing(current)]), reason: "Reveal a current public restaurant result list or wait for an explicit empty listing state." }),
           });
           page = discovery.snapshot;
           if (discovery.status !== "COMPLETED" || !listingComplete(page, discovery.controls)) {
@@ -535,11 +525,11 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
               const suffix = currentUrl.pathname.slice(initialRoot.length);
               if (directory.listingRoot(current.url) !== initialRoot) currentAreaEntranceObserved = false;
               const complete = currentAreaEntranceObserved && directory.listingRoot(current.url) === initialRoot && /^\D[^/]*\/$/.test(suffix)
-                && directory.retrievalExpression(current.url) === undefined && !visibleDiscoveryQueryBusy(current) && pack.parseListing(current).outlets.length > 0;
+                && directory.retrievalExpression(current.url) === undefined && !pack.browser!.resultBusy(current) && pack.parseListing(current).outlets.length > 0;
               if (!complete && sourcePagesBefore + listingPagesRead >= NATIVE_LISTING_PAGE_CAP.DIRECTORY) {
                 throw Object.assign(new Error("Native listing page ceiling reached"), { code: "NATIVE_LISTING_PAGE_LIMIT" });
               }
-              return { complete, reason: "Observe a current related-category result list in the same area with the old keyword removed." };
+              return { complete, resultBusy: pack.browser!.resultBusy(current), resultKey: JSON.stringify([current.url, pack.parseListing(current).outlets.map(outlet => outlet.sourceUrl).sort()]), reason: "Observe a current related-category result list in the same area with the old keyword removed." };
             },
           });
           queryAdjustment = adjusted.status;
@@ -650,7 +640,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
         // parser's current page state decides whether the shared skill needs
         // to wait or use an observed public search control.
         const expression = keyword;
-        const listingComplete = (current: BrowserSnapshot, controls: readonly BrowserPageControl[] = []) => !discoveryQueryNeedsCurrentQuery(current, expression, controls)
+        const listingComplete = (current: BrowserSnapshot, controls: readonly BrowserPageControl[] = []) => !discoveryQueryNeedsCurrentQuery(current, expression, controls, pack.browser!.resultBusy(current))
           && (pack.parseListing(current).outlets.length > 0 || pack.browser!.isExplicitEmptyListing(current));
         if ((publicDiscoverySearchInput(page) || !listingComplete(page)) && !pack.browser!.isPageUnavailable(page)) {
           const discovery = await executor.runSkill({
