@@ -3968,3 +3968,8 @@ Sushi Yuu与Shibuya Sushi Labo原录制十月日历片段Chromium红绿，缺CSS
 ## TEST-2026-10-10-P1D-C3b-completion
 
 Red: red-contract.log (three compile omissions), red-changing-results.log (stale snapshot completion), red-sen-hidden-times.log (hidden time template). Final source fixtures 15/15; captured Sen UNKNOWN / EXTRACTION_FAILED. Final 20 public navigation-only probes (40 total, 0 models), median 1228.5ms; displayed name searches 3/3 complete, 3 zero-result Tabelog searches remain incomplete; prior12 no regression. Final four gates PASS (npm test 828/828); complete local Chromium/Cloudflare Fixture suite 84/84. Initial browser suite 80/84 exposed three C3 predicates still omitting a scoped busy assessment and an inherited wrapper missing page.evaluate; corrected without changing those negative expectations, with final green logs retained. Four gates and local browser Fixture results are saved in .eval-artifacts/p1-d-batch-20261010/C3b-completion/.
+
+
+## TEST-2026-10-10-P1D-kf-h005-retest
+
+冻结工作树四门禁通过（828 tests）；保留首次 503 红灯和恢复 206、正式运行绿灯。诊断 PENDING 42；页面等待 87873ms，绑定结果验证 2007ms，总计 89880ms（29.43%）。按域名及逐条 busy 拒绝、选店顺序与当时 sourceCategories 见 summary.json。Mock/Replay 不替代本次 Live 事实。

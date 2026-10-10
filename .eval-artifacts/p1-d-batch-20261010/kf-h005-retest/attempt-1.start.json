@@ -1,0 +1,25 @@
+{
+  "startedAt": "2026-10-10T14:14:57.749Z",
+  "head": "920bad95f71a8d4fa4e3cdf6c28c95aeec28c132",
+  "worktree": "/Users/wangzhour/.codex/worktrees/p1-d-kf-h005-retest/Praxis-Zhixing",
+  "workingTree": "CLEAN",
+  "command": [
+    "npm",
+    "run",
+    "eval:restaurant:agent-loop:hybrid-live-read",
+    "--",
+    "--case-source",
+    ".eval-artifacts/known-feasible-baseline-20261008/variants.yaml",
+    "--case",
+    "kf-h005-20261021",
+    "--record-browser",
+    "--record-decisions",
+    "--no-proxy",
+    "--timeout-ms",
+    "500000",
+    "--max-model-calls",
+    "50",
+    "--max-google-requests",
+    "40"
+  ]
+}

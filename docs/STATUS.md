@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.166
+- Document revision: 4.167
 - Last updated: 2026-10-10
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-10 P1D-kf-h005-retest：** 冻结 920bad9 在干净宿主机工作树完成一次 kf-h005 复测；首次 preflight 503，恢复后使用一次环境重跑。305451ms、47 模型、Google 0；evaluator@27 合格交付 YES，展示 Sushi Ito Akasaka。见证原始 GET 响应结束后 2 秒内保存，不作归因。 本批按已批准切片推进，结果待独立复核；不推送。证据目录 `.eval-artifacts/p1-d-batch-20261010/kf-h005-retest/`。
 
 - **2026-10-10 P1D-C3b-completion：** Require every completed browser predicate to declare its bound result key and busy state; source-owned list/query regions replace page-wide busy fallback. Keep newest PENDING observation when keys differ; hidden Sen time templates cannot count as slots. Source packs and facts/Fixture callers updated. No Guard or qualification relaxation. 本批按已批准切片推进，结果待独立复核；不推送。证据目录 `.eval-artifacts/p1-d-batch-20261010/C3b-completion/`。
 

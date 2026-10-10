@@ -3284,3 +3284,8 @@ Recorder 保存所有 Guard 放行且通过现有安全检查的实际 styleshee
 ## DEV-2026-10-10-P1D-C3b-completion
 
 Require every completed browser predicate to declare its bound result key and busy state; source-owned list/query regions replace page-wide busy fallback. Keep newest PENDING observation when keys differ; hidden Sen time templates cannot count as slots. Source packs and facts/Fixture callers updated. No Guard or qualification relaxation.
+
+
+## DEV-2026-10-10-P1D-kf-h005-retest
+
+冻结 920bad9 在干净宿主机工作树完成一次 kf-h005 复测；首次 preflight 503，恢复后使用一次环境重跑。305451ms、47 模型、Google 0；evaluator@27 合格交付 YES，展示 Sushi Ito Akasaka。见证原始 GET 响应结束后 2 秒内保存，不作归因。

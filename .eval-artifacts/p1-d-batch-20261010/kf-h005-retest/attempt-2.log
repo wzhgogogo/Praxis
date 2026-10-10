@@ -1,0 +1,48 @@
+
+> praxis-zhixing@0.1.0 eval:restaurant:agent-loop:hybrid-live-read
+> node --env-file-if-exists=.env --import tsx src/eval/restaurant/agent-loop/runners/run-hybrid-live-read.ts --case-source .eval-artifacts/known-feasible-baseline-20261008/variants.yaml --case kf-h005-20261021 --record-browser --record-decisions --no-proxy --timeout-ms 500000 --max-model-calls 50 --max-google-requests 40
+
+.env not found. Continuing without it.
+{"mode":"HYBRID_LIVE_READ","caseId":"kf-h005-20261021","browserEngine":"LOCAL_CHROMIUM","preflight":{"artifactPath":"/Users/wangzhour/.codex/worktrees/p1-d-kf-h005-retest/Praxis-Zhixing/.eval-artifacts/live-preflight/2026-10-10T14-17-03-624Z-66dfcdab-720e-49e3-ba27-c304597b9a42.result.json","elapsedMs":4916,"targetCount":4},"candidateLimit":10,"profileMode":"TEMPORARY","limits":{"maxGoogleRequests":40,"maxStructuredReadMs":30000,"maxAvailabilitySourceBrowserSessions":3,"maxAvailabilitySourceCandidateMatches":3,"maxAvailabilityReads":20,"maxBrowserRuntimeFallbacks":1,"maxBrowserModelCallsPerCandidate":20,"maxBrowserModelCallsTotal":120,"maxBrowserOperationsPerCandidate":80,"maxCandidateBrowserMs":60000,"maxProviderBrowserMs":45000,"maxAutomaticBrowserMs":500000,"maxAgentSteps":30,"maxRejectedActions":5},"safety":"READ_ONLY_CODE_PATH"}
+{
+  "mode": "HYBRID_LIVE_READ",
+  "caseId": "kf-h005-20261021",
+  "loop": {
+    "status": "TERMINAL",
+    "steps": 12
+  },
+  "resourceUsage": {
+    "discoveryCandidates": 9,
+    "candidatesChecked": 7,
+    "agentDecisions": 12,
+    "browserModelCalls": 29,
+    "modelCallsStarted": 47,
+    "browserRuntimeCalls": 220,
+    "browserOperationsByCandidate": {
+      "native-discovery:DIRECTORY": 22,
+      "native-discovery:VENUE_SEARCH": 34,
+      "tablecheck:omotenashi": 23,
+      "tablecheck:the-peninsula-tokyo-the-lobby": 19,
+      "tablecheck:editionhotels-tokyo-lobbybar": 29,
+      "tablecheck:sta-azabudai": 30,
+      "tablecheck:mochiku-tempura": 29,
+      "tablecheck:sushi-ito-akasaka": 13,
+      "tablecheck:suiten-ippeki": 21
+    },
+    "pageStillLoadingWithinBound": 42,
+    "postActionWaitTotalMs": 87873,
+    "browserModelActions": 23,
+    "googleRequests": {
+      "limit": 40,
+      "total": 0,
+      "namedPlaceResolution": 0,
+      "discovery": 0,
+      "placeDetails": 0
+    },
+    "elapsedMs": 305451
+  },
+  "artifactPath": "/Users/wangzhour/.codex/worktrees/p1-d-kf-h005-retest/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-10T14-17-08-629Z-f91b4338-346a-414e-b566-4153016a1259.result.json",
+  "evaluationPath": "/Users/wangzhour/.codex/worktrees/p1-d-kf-h005-retest/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-10T14-17-08-629Z-f91b4338-346a-414e-b566-4153016a1259.result.evaluation.27-1791642134463.json",
+  "latencyMs": 305451,
+  "scorerStatus": "FULL_RUBRIC_NOT_INTEGRATED"
+}

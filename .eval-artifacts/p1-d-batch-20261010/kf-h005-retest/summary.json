@@ -1,0 +1,446 @@
+{
+  "frozenCommit": "920bad95f71a8d4fa4e3cdf6c28c95aeec28c132",
+  "formalRuns": 1,
+  "environmentRetryUsed": 1,
+  "preflightFailure": "TABLECHECK HTTP 503 before first decision",
+  "paths": {
+    "result": "/Users/wangzhour/.codex/worktrees/p1-d-kf-h005-retest/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-10T14-17-08-629Z-f91b4338-346a-414e-b566-4153016a1259.result.json",
+    "decisions": "/Users/wangzhour/.codex/worktrees/p1-d-kf-h005-retest/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-10T14-17-08-629Z-f91b4338-346a-414e-b566-4153016a1259.decisions.jsonl",
+    "recording": "/Users/wangzhour/.codex/worktrees/p1-d-kf-h005-retest/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1791641828562/recording.json",
+    "evaluation": "/Users/wangzhour/.codex/worktrees/p1-d-kf-h005-retest/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-10T14-17-08-629Z-f91b4338-346a-414e-b566-4153016a1259.result.evaluation.27-1791642134463.json"
+  },
+  "startedAt": "2026-10-10T14:17:08.629Z",
+  "finishedAt": "2026-10-10T14:22:14.281Z",
+  "latencyMs": 305451,
+  "status": "SUCCEEDED",
+  "failureCode": null,
+  "modelCalls": 47,
+  "googleRequests": {
+    "limit": 40,
+    "total": 0,
+    "namedPlaceResolution": 0,
+    "discovery": 0,
+    "placeDetails": 0
+  },
+  "resourceUsage": {
+    "discoveryCandidates": 9,
+    "candidatesChecked": 7,
+    "agentDecisions": 12,
+    "browserModelCalls": 29,
+    "modelCallsStarted": 47,
+    "browserRuntimeCalls": 220,
+    "browserOperationsByCandidate": {
+      "native-discovery:DIRECTORY": 22,
+      "native-discovery:VENUE_SEARCH": 34,
+      "tablecheck:omotenashi": 23,
+      "tablecheck:the-peninsula-tokyo-the-lobby": 19,
+      "tablecheck:editionhotels-tokyo-lobbybar": 29,
+      "tablecheck:sta-azabudai": 30,
+      "tablecheck:mochiku-tempura": 29,
+      "tablecheck:sushi-ito-akasaka": 13,
+      "tablecheck:suiten-ippeki": 21
+    },
+    "pageStillLoadingWithinBound": 42,
+    "postActionWaitTotalMs": 87873,
+    "browserModelActions": 23,
+    "googleRequests": {
+      "limit": 40,
+      "total": 0,
+      "namedPlaceResolution": 0,
+      "discovery": 0,
+      "placeDetails": 0
+    },
+    "elapsedMs": 305451
+  },
+  "evaluation": {
+    "version": "restaurant-hybrid-read-diagnostic-evaluator@27",
+    "execution": {
+      "status": "SUCCEEDED",
+      "stage": "AGENT_LOOP",
+      "taskProducedQualifiedResult": "YES",
+      "systemBehavior": "SUPPORTED_BY_EVIDENCE",
+      "externalConditions": "OBSERVED",
+      "evidenceSufficiency": "SUFFICIENT_FOR_PRESENTED_RESULT",
+      "completion": "PRESENTATION_RECORDED"
+    },
+    "findings": [
+      {
+        "dimension": "AUTHORITATIVE_CONDITIONS",
+        "status": "SATISFIED"
+      },
+      {
+        "dimension": "REQUIRED_EVIDENCE",
+        "status": "SATISFIED"
+      },
+      {
+        "dimension": "INVESTIGATION_BEHAVIOR",
+        "status": "SATISFIED"
+      },
+      {
+        "dimension": "FINAL_CLAIM",
+        "status": "SATISFIED"
+      },
+      {
+        "dimension": "COMPLETION_OUTCOME",
+        "status": "SATISFIED"
+      },
+      {
+        "dimension": "RESOURCES",
+        "status": "SATISFIED"
+      }
+    ]
+  },
+  "presentedResults": {
+    "candidateIds": [
+      "tablecheck:sushi-ito-akasaka"
+    ],
+    "evidenceIds": [
+      "evidence:restaurant:tablecheck-entity-match:1419a380c460a9b4e038e1e1",
+      "evidence:restaurant:native-discovery:bf558f4bd34e43d8bab41f47",
+      "evidence:restaurant:tablecheck-availability:9f5a3f6c2aecf9d011719bc4",
+      "tablecheck:sushi-ito-akasaka:document:c3ef715e43fbcfaf",
+      "fact-judgment:tablecheck:sushi-ito-akasaka:2026-10-10T14:22:01.921Z:tablecheck:sushi-ito-akasaka:document:c3ef715e43fbcfaf"
+    ],
+    "presentedAt": "2026-10-10T14:22:14.007Z"
+  },
+  "diagnosticsByDomain": {
+    "unattributed": {
+      "pending": 0,
+      "pageSettled": 0,
+      "boundResultStable": 0,
+      "pageWaitMs": 0,
+      "resultVerificationMs": 0,
+      "waitTotalMs": 0,
+      "fractionOfRun": 0.0
+    },
+    "tabelog.com": {
+      "pending": 0,
+      "pageSettled": 4,
+      "boundResultStable": 0,
+      "pageWaitMs": 2056,
+      "resultVerificationMs": 0,
+      "waitTotalMs": 2056,
+      "fractionOfRun": 0.006731030508985074
+    },
+    "www.tablecheck.com": {
+      "pending": 42,
+      "pageSettled": 10,
+      "boundResultStable": 4,
+      "pageWaitMs": 85817,
+      "resultVerificationMs": 2007,
+      "waitTotalMs": 87824,
+      "fractionOfRun": 0.28752238493244414
+    }
+  },
+  "busyCompletionRejections": [
+    {
+      "sequence": 541,
+      "source": "TABLECHECK",
+      "stage": "AVAILABILITY",
+      "event": "REJECTED",
+      "url": "https://www.tablecheck.com/en/editionhotels-tokyo-lobbybar",
+      "detail": "COMPLETION_RESULT_BUSY",
+      "candidateId": "tablecheck:editionhotels-tokyo-lobbybar",
+      "elapsedMs": 7008,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 7008,
+        "providerElapsedMs": 7008,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 7,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 14
+      }
+    },
+    {
+      "sequence": 753,
+      "source": "TABLECHECK",
+      "stage": "AVAILABILITY",
+      "event": "REJECTED",
+      "url": "https://www.tablecheck.com/en/sta-azabudai",
+      "detail": "COMPLETION_RESULT_BUSY",
+      "candidateId": "tablecheck:sta-azabudai",
+      "elapsedMs": 7152,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 7152,
+        "providerElapsedMs": 7152,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 7,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 17
+      }
+    }
+  ],
+  "agentSelectedCandidates": [
+    {
+      "sequence": 10,
+      "type": "CHECK_AVAILABILITY",
+      "candidates": [
+        {
+          "id": "tablecheck:omotenashi",
+          "name": null,
+          "sourceCategories": [
+            {
+              "source": "TABLECHECK",
+              "values": [
+                "Seafood, Izakaya (Japanese Tavern), Japanese"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "tablecheck:the-peninsula-tokyo-the-lobby",
+          "name": null,
+          "sourceCategories": [
+            {
+              "source": "TABLECHECK",
+              "values": [
+                "Yoshoku (Japanese-style Western), Japanese Cafe, Lounge"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "tablecheck:editionhotels-tokyo-lobbybar",
+          "name": null,
+          "sourceCategories": [
+            {
+              "source": "TABLECHECK",
+              "values": [
+                "Bar, Lounge"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sequence": 19,
+      "type": "INVESTIGATE_CANDIDATE_FACTS",
+      "candidates": [
+        {
+          "id": "tablecheck:editionhotels-tokyo-lobbybar",
+          "name": null,
+          "sourceCategories": [
+            {
+              "source": "TABLECHECK",
+              "values": [
+                "Bar, Lounge"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "tablecheck:omotenashi",
+          "name": null,
+          "sourceCategories": [
+            {
+              "source": "TABLECHECK",
+              "values": [
+                "Seafood, Izakaya (Japanese Tavern), Japanese"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "tablecheck:the-peninsula-tokyo-the-lobby",
+          "name": null,
+          "sourceCategories": [
+            {
+              "source": "TABLECHECK",
+              "values": [
+                "Yoshoku (Japanese-style Western), Japanese Cafe, Lounge"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sequence": 26,
+      "type": "CHECK_AVAILABILITY",
+      "candidates": [
+        {
+          "id": "tablecheck:sta-azabudai",
+          "name": null,
+          "sourceCategories": [
+            {
+              "source": "TABLECHECK",
+              "values": [
+                "Dining Bar &amp; Gastro Pub, Café &amp; Coffeehouse"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sequence": 27,
+      "type": "INVESTIGATE_CANDIDATE_FACTS",
+      "candidates": [
+        {
+          "id": "tablecheck:sta-azabudai",
+          "name": null,
+          "sourceCategories": [
+            {
+              "source": "TABLECHECK",
+              "values": [
+                "Dining Bar &amp; Gastro Pub, Café &amp; Coffeehouse"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sequence": 32,
+      "type": "INVESTIGATE_CANDIDATE_FACTS",
+      "candidates": [
+        {
+          "id": "tablecheck:editionhotels-tokyo-lobbybar",
+          "name": null,
+          "sourceCategories": [
+            {
+              "source": "TABLECHECK",
+              "values": [
+                "Bar, Lounge"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "tablecheck:sta-azabudai",
+          "name": null,
+          "sourceCategories": [
+            {
+              "source": "TABLECHECK",
+              "values": [
+                "Dining Bar &amp; Gastro Pub, Café &amp; Coffeehouse"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sequence": 33,
+      "type": "CHECK_AVAILABILITY",
+      "candidates": [
+        {
+          "id": "tablecheck:omotenashi",
+          "name": null,
+          "sourceCategories": [
+            {
+              "source": "TABLECHECK",
+              "values": [
+                "Seafood, Izakaya (Japanese Tavern), Japanese"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "tablecheck:the-peninsula-tokyo-the-lobby",
+          "name": null,
+          "sourceCategories": [
+            {
+              "source": "TABLECHECK",
+              "values": [
+                "Yoshoku (Japanese-style Western), Japanese Cafe, Lounge"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sequence": 35,
+      "type": "CHECK_AVAILABILITY",
+      "candidates": [
+        {
+          "id": "tablecheck:mochiku-tempura",
+          "name": null,
+          "sourceCategories": [
+            {
+              "source": "TABLECHECK",
+              "values": [
+                "Tempura, Japanese"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "tablecheck:sushi-ito-akasaka",
+          "name": null,
+          "sourceCategories": [
+            {
+              "source": "TABLECHECK",
+              "values": [
+                "Sushi, Japanese"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "tablecheck:suiten-ippeki",
+          "name": null,
+          "sourceCategories": [
+            {
+              "source": "TABLECHECK",
+              "values": [
+                "Sushi, Japanese, Sake &amp; Shochu Bar"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sequence": 45,
+      "type": "INVESTIGATE_CANDIDATE_FACTS",
+      "candidates": [
+        {
+          "id": "tablecheck:sushi-ito-akasaka",
+          "name": null,
+          "sourceCategories": [
+            {
+              "source": "TABLECHECK",
+              "values": [
+                "Sushi, Japanese"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "tablecheck:mochiku-tempura",
+          "name": null,
+          "sourceCategories": [
+            {
+              "source": "TABLECHECK",
+              "values": [
+                "Tempura, Japanese"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "tablecheck:suiten-ippeki",
+          "name": null,
+          "sourceCategories": [
+            {
+              "source": "TABLECHECK",
+              "values": [
+                "Sushi, Japanese, Sake &amp; Shochu Bar"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "waitAccounting": "ASYNC_WAIT actual waitMs plus paired VERIFY_RESULT_STABILITY operation elapsed; does not count NAVIGATE or snapshots. pageSettled and boundResultStable are distinct diagnostics, not unique pages.",
+  "safety": "No subsequent booking/payment/personal-information step executed. No independent semantic attribution performed.",
+  "witnessResponses": "Three GET raw bodies and timestamps saved immediately after process exit; interpretation deferred."
+}
