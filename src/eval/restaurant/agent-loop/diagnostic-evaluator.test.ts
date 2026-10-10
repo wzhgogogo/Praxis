@@ -1007,3 +1007,25 @@ test("explicit alternative permission and equivalent area labels are independent
     assert.equal(evaluateRestaurantHybridLiveArtifact(changed,source).execution.taskProducedQualifiedResult,'NO');
   }
 });
+
+
+test("E2 checks actual reads separately from discovered unresolved and unread scope", () => {
+  const artifact:any=unknownAvailabilityNoResultArtifact();const domain=artifact.finalSnapshot.domainState;
+  domain.candidates.push({restaurant:{id:"candidate-b",outletName:"B"}});
+  domain.noVerifiedResult.remainingGaps=["A: availability UNKNOWN (SOURCE_LIMIT); facts NOT_CHECKED","B: availability NOT_CHECKED; facts NOT_CHECKED"];
+  domain.noVerifiedResult.unresolvedCandidateIds=["candidate-a","candidate-b"];
+  artifact.trajectories[0].occurredAt=artifact.finishedAt;
+  artifact.trajectories.unshift({agentAction:{type:"SEARCH_RESTAURANTS"},stepOutcome:"EXECUTED",occurredAt:artifact.finishedAt,decisionContext:{intentDraft:domain.intentDraft},observation:{type:"DISCOVERY",candidateIds:["candidate-a","candidate-b"]},executionMetadata:{provider:"GOOGLE_PLACES"}});
+  artifact.trajectories.push({agentAction:{type:"END_READ"},stepOutcome:"TERMINAL",occurredAt:artifact.finishedAt,decisionContext:{intentDraft:domain.intentDraft},observation:{type:"READ_ENDED",candidateIds:["candidate-a"],unresolvedCandidateIds:["candidate-a","candidate-b"],remainingGaps:domain.noVerifiedResult.remainingGaps}});
+  assert.notEqual(finding(evaluateRestaurantHybridLiveArtifact(artifact,source),"COMPLETION_OUTCOME").status,"NOT_SATISFIED");
+  const factsOnly=structuredClone(artifact);
+  factsOnly.trajectories[1].agentAction.type="INVESTIGATE_CANDIDATE_FACTS";
+  factsOnly.trajectories[1].observation.type="CANDIDATE_FACTS_UNKNOWN";
+  assert.notEqual(finding(evaluateRestaurantHybridLiveArtifact(factsOnly,source),"COMPLETION_OUTCOME").status,"NOT_SATISFIED","production fact reading observation is an investigated record");
+  const fabricated=structuredClone(artifact);
+  fabricated.finalSnapshot.domainState.noVerifiedResult.investigatedCandidateIds.push("candidate-b");
+  fabricated.trajectories.at(-1).observation.candidateIds.push("candidate-b");
+  assert.equal(finding(evaluateRestaurantHybridLiveArtifact(fabricated,source),"COMPLETION_OUTCOME").status,"NOT_SATISFIED","a declared read without executed reading remains false");
+  const missingGap=structuredClone(artifact);missingGap.finalSnapshot.domainState.noVerifiedResult.remainingGaps.pop();missingGap.trajectories.at(-1).observation.remainingGaps=missingGap.finalSnapshot.domainState.noVerifiedResult.remainingGaps;
+  assert.equal(finding(evaluateRestaurantHybridLiveArtifact(missingGap,source),"COMPLETION_OUTCOME").status,"NOT_SATISFIED","unread discovered candidate must be disclosed");
+});

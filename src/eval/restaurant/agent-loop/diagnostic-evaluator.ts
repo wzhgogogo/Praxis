@@ -4,7 +4,7 @@ import { basename, dirname, resolve } from "node:path";
 import { openingHoursForRequest } from "../../../domains/restaurant/read-grounding.js";
 
 
-export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@26";
+export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@27";
 export const RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION = "restaurant-hybrid-read-diagnostic-rubric@21";
 
 type JsonRecord = Record<string, unknown>;
@@ -909,8 +909,8 @@ function assessNoResult(root: JsonRecord, domain: JsonRecord, request: RequestSh
     asString(asRecord(step.executionMetadata)?.provider) && !asRecord(step.executionMetadata)?.failureCode);
   if (!discoveries.length) return unknown("No executed source discovery with an applicable request and observed candidate scope is recorded.");
   const discoveredIds = new Set(discoveries.flatMap(step => strings(asRecord(step.observation)?.candidateIds)));
-  if (scopeIds.some(id => !ids.includes(id) || !discoveredIds.has(id)) || unresolvedIds.some(id => !scopeIds.includes(id)) ||
-      ids.some(id => !scopeIds.includes(id)) || [...discoveredIds].some(id => !ids.includes(id))) {
+  if (scopeIds.some(id => !ids.includes(id) || !discoveredIds.has(id)) || unresolvedIds.some(id => !ids.includes(id) || !discoveredIds.has(id)) ||
+      ids.some(id => !discoveredIds.has(id)) || [...discoveredIds].some(id => !ids.includes(id))) {
     return { status: "NOT_SATISFIED", observations: ["Declared no-result scope contradicts executed discovery or candidate records."], refs: [ref("trajectories"), ref("finalSnapshot.domainState.noVerifiedResult")] };
   }
   const end = currentSteps.find(step => asRecord(step.agentAction)?.type === "END_READ" && asRecord(step.observation)?.type === "READ_ENDED");
@@ -919,6 +919,26 @@ function assessNoResult(root: JsonRecord, domain: JsonRecord, request: RequestSh
   const sameIds = (left: unknown, right: string[]) => validIds(left) && [...left].sort().join("\n") === [...right].sort().join("\n");
   if (!sameIds(endObservation.candidateIds, scopeIds) || !sameIds(endObservation.unresolvedCandidateIds, unresolvedIds)) {
     return { status: "NOT_SATISFIED", observations: ["Final no-result scope differs from its executed ending observation."], refs: [ref("trajectories"), ref("finalSnapshot.domainState.noVerifiedResult")] };
+  }
+  const readIds = new Set(currentSteps.filter(step => {
+    const action = asRecord(step.agentAction)?.type, observation = asRecord(step.observation)?.type;
+    return (action === "CHECK_AVAILABILITY" && (observation === "AVAILABILITY" || observation === "AVAILABILITY_UNKNOWN"))
+      || (action === "INVESTIGATE_CANDIDATE_FACTS" && (observation === "CANDIDATE_FACTS" || observation === "CANDIDATE_FACTS_UNKNOWN"));
+  }).flatMap(step => strings(asRecord(step.observation)?.candidateIds).filter(id => strings(asRecord(step.agentAction)?.candidateIds).includes(id))));
+  const checks = asRecord(domain.availabilityChecks) ?? {};
+  const gaps = record.remainingGaps as string[];
+  const gapFor = (id: string) => {
+    const name = asString(asRecord(candidates.find(candidate => asRecord(candidate.restaurant)?.id === id)?.restaurant)?.outletName);
+    return gaps.find(gap => gap.startsWith(`${id}:`) || (name && gap.startsWith(`${name}:`)));
+  };
+  if (scopeIds.some(id => !readIds.has(id))
+    || ids.some(id => scopeIds.includes(id) ? !gapFor(id) : !/NOT_CHECKED|not (?:yet )?(?:checked|read|investigated)|unread/i.test(gapFor(id) ?? ""))
+    || scopeIds.some(id => (asRecord(checks[id])?.status === "UNKNOWN" || !checks[id]) && !unresolvedIds.includes(id))) {
+    return { status: "NOT_SATISFIED", observations: ["Declared investigated/unread scope lacks an executed reading, a per-candidate reason, or its unresolved membership."], refs: [ref("trajectories"), ref("finalSnapshot.domainState.noVerifiedResult")] };
+  }
+  if (endObservation.remainingGaps !== undefined && (!Array.isArray(endObservation.remainingGaps)
+    || [...endObservation.remainingGaps].sort().join("\n") !== [...gaps].sort().join("\n"))) {
+    return { status: "NOT_SATISFIED", observations: ["Final no-result reasons differ from the executed ending observation."], refs: [ref("trajectories"), ref("finalSnapshot.domainState.noVerifiedResult")] };
   }
   if (!ids.length && !discoveredIds.size && !scopeIds.length && !unresolvedIds.length) {
     return { status: "SATISFIED", observations: ["Current executed source searches returned no candidates; the bounded empty scope agrees with the recorded ending. This does not prove search exhaustiveness."], refs: [ref("trajectories"), ref("finalSnapshot.domainState.noVerifiedResult")] };

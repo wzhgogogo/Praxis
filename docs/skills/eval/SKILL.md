@@ -88,3 +88,7 @@ npm run eval:restaurant:agent-loop:artifact -- <artifact.result.json>
 ## C1 action-history replay (2026-10-10)
 
 Production browser action prompt@15 / schema@10 supplies the recent six executor decisions with effect/rejection feedback. Existing decision replay adds mode `history`: retain captured messages, goal and targets, inject only preceding captured steps and the shared history instruction. Request versions distinguish captured prompt plus history@1/@2 from full production prompt; no CSS rebuild or source requests. Frozen seeds.v2 browser labels remain unchanged; seeds.v3 adds implementer-proposed pending independent labels, excluded from pass rates. Two C1 rounds use 96/250 real model calls, positive controls 7/7 each; final NO_ACTION_MEMORY 1/2 and MODEL_DECISION 2/10 versus original 0/2 and 1/10. Recorded repetition and pending labels are descriptive, not scored passes.
+
+## E2 C0c范围核验（2026-10-10）
+
+当前 Hybrid diagnostic evaluator@27、rubric@21。investigatedCandidateIds为实际执行读取观察的门店子集；全部已发现门店分别列已查原因或NOT_CHECKED缺口，已查UNKNOWN须在unresolved中，END_READ观察与最终记录一致。伪造已查而无读取轨迹仍NOT_SATISFIED。范围一致不证明搜索穷尽或已有交付：旧kf-h005的COMPLETION_OUTCOME从NOT_SATISFIED改为NOT_EVALUATED，能力缺口归因不变；kf-h001/002原自动结论不变。旧@26产物不覆盖。

@@ -3938,3 +3938,8 @@ C6a/red.log复现单店休息提前结束；green.log原十一模式+单店/三�
 ## TEST-2026-10-10-P1C3B-C3b
 
 本地 Chromium 和网络生命周期 Fixture 红绿见 .eval-artifacts/p1-c3b-20261010/C3b/；12公开URL只读探测无模型无点击，结果与门禁明细见本批报告。已暴露开发诊断，不是整单Live验收。
+
+
+## TEST-2026-10-10-P1C3B-E2
+
+E2有效红灯及77项 evaluator 回归绿灯；三份P1-E原样产物SHA相同副本重评，kf-h005 COMPLETION_OUTCOME改为NOT_EVALUATED，kf-h001/002全部finding和execution不变；零新增模型/来源调用。四门禁日志与re-evaluation.json见E2目录。
