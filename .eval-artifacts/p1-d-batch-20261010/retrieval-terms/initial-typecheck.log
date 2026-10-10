@@ -1,0 +1,21 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/domains/restaurant/action-validator.ts(193,219): error TS2345: Argument of type '"RETRIEVAL_TERM_NOT_OBSERVED"' is not assignable to parameter of type 'RestaurantActionRejectionCode'.
+src/infrastructure/browser/browser-task-executor.ts(1119,34): error TS2339: Property 'field' does not exist on type '{ type: "FILL_AUTHORITATIVE"; targetRef: string; field: "DATE" | "LOCATION" | "PARTY_SIZE" | "RETRIEVAL"; reason: string; } | { type: "REFINE_RETRIEVAL"; term: string; reason: string; } | { ...; }'.
+  Property 'field' does not exist on type '{ type: "REFINE_RETRIEVAL"; term: string; reason: string; }'.
+src/infrastructure/browser/browser-task-executor.ts(1120,16): error TS2339: Property 'field' does not exist on type '{ type: "FILL_AUTHORITATIVE"; targetRef: string; field: "DATE" | "LOCATION" | "PARTY_SIZE" | "RETRIEVAL"; reason: string; } | { type: "REFINE_RETRIEVAL"; term: string; reason: string; } | { ...; }'.
+  Property 'field' does not exist on type '{ type: "REFINE_RETRIEVAL"; term: string; reason: string; }'.
+src/infrastructure/browser/browser-task-executor.ts(1120,71): error TS2339: Property 'field' does not exist on type '{ type: "FILL_AUTHORITATIVE"; targetRef: string; field: "DATE" | "LOCATION" | "PARTY_SIZE" | "RETRIEVAL"; reason: string; } | { type: "REFINE_RETRIEVAL"; term: string; reason: string; } | { ...; }'.
+  Property 'field' does not exist on type '{ type: "REFINE_RETRIEVAL"; term: string; reason: string; }'.
+src/infrastructure/browser/browser-task-executor.ts(1120,160): error TS2339: Property 'field' does not exist on type '{ type: "FILL_AUTHORITATIVE"; targetRef: string; field: "DATE" | "LOCATION" | "PARTY_SIZE" | "RETRIEVAL"; reason: string; } | { type: "REFINE_RETRIEVAL"; term: string; reason: string; } | { ...; }'.
+  Property 'field' does not exist on type '{ type: "REFINE_RETRIEVAL"; term: string; reason: string; }'.
+src/infrastructure/browser/browser-task-executor.ts(1121,133): error TS2339: Property 'field' does not exist on type '{ type: "FILL_AUTHORITATIVE"; targetRef: string; field: "DATE" | "LOCATION" | "PARTY_SIZE" | "RETRIEVAL"; reason: string; } | { type: "REFINE_RETRIEVAL"; term: string; reason: string; } | { ...; }'.
+  Property 'field' does not exist on type '{ type: "REFINE_RETRIEVAL"; term: string; reason: string; }'.
+src/infrastructure/browser/browser-task-executor.ts(1123,46): error TS2339: Property 'field' does not exist on type '{ type: "FILL_AUTHORITATIVE"; targetRef: string; field: "DATE" | "LOCATION" | "PARTY_SIZE" | "RETRIEVAL"; reason: string; } | { type: "REFINE_RETRIEVAL"; term: string; reason: string; } | { ...; }'.
+  Property 'field' does not exist on type '{ type: "REFINE_RETRIEVAL"; term: string; reason: string; }'.
+src/infrastructure/browser/browser-task-executor.ts(1123,64): error TS2339: Property 'field' does not exist on type '{ type: "FILL_AUTHORITATIVE"; targetRef: string; field: "DATE" | "LOCATION" | "PARTY_SIZE" | "RETRIEVAL"; reason: string; } | { type: "REFINE_RETRIEVAL"; term: string; reason: string; } | { ...; }'.
+  Property 'field' does not exist on type '{ type: "REFINE_RETRIEVAL"; term: string; reason: string; }'.
+src/infrastructure/browser/browser-task-executor.ts(1123,96): error TS2339: Property 'field' does not exist on type '{ type: "FILL_AUTHORITATIVE"; targetRef: string; field: "DATE" | "LOCATION" | "PARTY_SIZE" | "RETRIEVAL"; reason: string; } | { type: "REFINE_RETRIEVAL"; term: string; reason: string; } | { ...; }'.
+  Property 'field' does not exist on type '{ type: "REFINE_RETRIEVAL"; term: string; reason: string; }'.

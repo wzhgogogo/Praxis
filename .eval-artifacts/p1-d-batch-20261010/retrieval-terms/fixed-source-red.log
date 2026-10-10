@@ -1,0 +1,36 @@
+✖ a result that completes before the deadline retains its normal terminal outcome (121.77275ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 607.698208
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/fixed-source-case-execution.test.ts:1:4387
+✖ a result that completes before the deadline retains its normal terminal outcome (121.77275ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+  +   failureCode: 'FIXED_SOURCE_CASE_NOT_COMPLETED',
+  +   loopStatus: 'MODEL_FAILURE',
+  +   phase: 'FAILED',
+  +   status: 'FAILED'
+  -   loopStatus: 'TERMINAL',
+  -   phase: 'PRESENT_RESULTS',
+  -   status: 'SUCCEEDED'
+    }
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/exp-retrieval-terms/Praxis-Zhixing/src/eval/restaurant/agent-loop/fixed-source-case-execution.test.ts:125:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { status: 'FAILED', loopStatus: 'MODEL_FAILURE', phase: 'FAILED', failureCode: 'FIXED_SOURCE_CASE_NOT_COMPLETED' },
+    expected: { status: 'SUCCEEDED', loopStatus: 'TERMINAL', phase: 'PRESENT_RESULTS' },
+    operator: 'deepStrictEqual'
+  }

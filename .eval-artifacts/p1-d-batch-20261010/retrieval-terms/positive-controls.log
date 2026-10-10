@@ -1,0 +1,107 @@
+✖ Restaurant Agent sends a DeepSeek-strict compatible wire schema and restores the canonical action (35.425625ms)
+✖ Restaurant Agent retries one synthetic non-placeholder format error within the same budgeted gateway (1.156791ms)
+✖ Restaurant Agent stops after a repeated synthetic format error and exposes only rejected field paths (0.812333ms)
+✔ Restaurant Agent supplies candidate commercial comparisons only as source-backed notes (3.131875ms)
+✔ H001 native first batch presents three source-bound Tabelog results without TableCheck (99.557542ms)
+✔ H001 native cited-menu follow-up carries source-bound HARD evidence to a current Tabelog result (24.791083ms)
+✔ H001 TableCheck reserve-menu scope reaches a synthetic-only current result without borrowing a sibling menu (56.493083ms)
+✔ H001 TableCheck reserve-menu scope can check availability before facts and exposes the service-radio prerequisite (39.943625ms)
+✔ H001 second native batch introduces its own TableCheck results after Tabelog cannot deliver (36.76775ms)
+✔ H001 native discovery uses the shared browser model loop to reveal an observed TableCheck result list (19.947625ms)
+✔ H001 native discovery uses an observed ordinary query submit only in its installed read boundary (16.460667ms)
+✔ H001 confirms a ready TableCheck query through live controls without mistaking hidden or script loading text for a pending search (14.762041ms)
+✔ H001 never admits stale busy discovery cards or an old explicit empty state after the browser declines a current-query action (17.074625ms)
+✔ native source session acquisition consumes the remaining source window and retains an unstarted detail entrance (2.364542ms)
+✔ Tabelog keeps the structured HARD retrieval keyword when an Agent hint repeats the whole reservation request (0.75825ms)
+✔ the production Router advances the default three-pack cursor and reaches Google Nearby Search after bounded source batches (3.321167ms)
+✔ fixed TableCheck discovery stores the actual filled value and cannot reveal the current result after a wrong fill (0.33425ms)
+✔ H001 two bounded empty source batches cannot claim inventory or results (7.060209ms)
+✔ H001 both source lists reject page-owned coordinates outside the existing area radius (8.183125ms)
+✔ H001 one Tabelog detail failure retains earlier candidates and continues to the next detail (15.72025ms)
+✔ H001 rejects an early END_READ after an empty Tabelog batch and continues to TableCheck (7.253917ms)
+✔ H001 native Tabelog batch continues past unavailable and unknown outlets, then presents its qualified outlet (20.108917ms)
+✔ H001 native TableCheck batch continues after one nonqualifying outlet and presents the next (29.126542ms)
+✔ H001 open-ended native target three delivers one qualified outlet when the first batch is complete (14.966625ms)
+✔ H001 two investigated native batches with no qualified outlet stop without an inventory claim (25.618541ms)
+✔ H001 TableCheck search with a raw link but no parsed outlet retains the observed funnel and fails incomplete (9.228542ms)
+✔ H001 enters the observed named Shibuya directory with the authoritative keyword (16.065459ms)
+✔ native discovery adjusts a sparse keyword through an observed category without relaxing HARD facts (27.196ms)
+✔ native discovery rejects a category result that leaves the observed regional listing root (21.925625ms)
+✔ native discovery retains category pagination including links revealed by a query action and deduplicates outlets (53.75825ms)
+✔ H001's named Shibuya entry avoids an unrelated root-list candidate before investigation (11.350458ms)
+✔ native discovery refuses a broad listing when an observed regional entrance redirects away (7.375042ms)
+✔ native discovery reaches a neutral locality only through its observed source-region entrance (13.443833ms)
+✔ native discovery restores an observed regional listing after same-region homepage canonicalization (13.81825ms)
+✔ native discovery does not treat an unscoped national homepage as the observed regional homepage (10.991084ms)
+✔ H001 presents one investigated Tabelog current-batch result without exhausting the source or starting TableCheck (26.271667ms)
+✔ H001 presents one investigated TableCheck current-batch result without reading a second TableCheck chunk (30.209792ms)
+✔ H001 consumes a retained Tabelog detail entrance without reopening a volatile listing (43.078833ms)
+✔ H001 retains unstarted Tabelog entries when a failed detail cannot reopen its session (31.440083ms)
+✔ native detail chunk continues through later observed Tabelog results before changing source (41.419584ms)
+✔ H001 rejects early end and short presentation after TableCheck discovery until its batch is investigated (36.035958ms)
+✔ WP-A offline composition captures every model call including a timeout and links browser observations to DOM snapshots (60.842042ms)
+{"decisionCaptureError":{"operation":"CREATE","errorCode":"ENOENT"}}
+✔ WP-A capture keeps model results and errors when storage fails, and finalizes an outstanding deadline call once (2.28175ms)
+ℹ tests 43
+ℹ suites 0
+ℹ pass 40
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2102.252542
+
+✖ failing tests:
+
+test at src/domains/restaurant/agent-decision.test.ts:1:1077
+✖ Restaurant Agent sends a DeepSeek-strict compatible wire schema and restores the canonical action (35.425625ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+      name: 'restaurant_agent_action',
+  +   version: '5'
+  -   version: '4'
+    }
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/exp-retrieval-terms/Praxis-Zhixing/src/domains/restaurant/agent-decision.test.ts:55:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { name: 'restaurant_agent_action', version: '5' },
+    expected: { name: 'restaurant_agent_action', version: '4' },
+    operator: 'deepStrictEqual'
+  }
+
+test at src/domains/restaurant/agent-decision.test.ts:1:2919
+✖ Restaurant Agent retries one synthetic non-placeholder format error within the same budgeted gateway (1.156791ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 2
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/exp-retrieval-terms/Praxis-Zhixing/src/domains/restaurant/agent-decision.test.ts:67:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 2,
+    operator: 'strictEqual'
+  }
+
+test at src/domains/restaurant/agent-decision.test.ts:1:3936
+✖ Restaurant Agent stops after a repeated synthetic format error and exposes only rejected field paths (0.812333ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 2
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/exp-retrieval-terms/Praxis-Zhixing/src/domains/restaurant/agent-decision.test.ts:81:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 2,
+    operator: 'strictEqual'
+  }

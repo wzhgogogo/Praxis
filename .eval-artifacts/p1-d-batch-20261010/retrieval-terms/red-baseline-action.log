@@ -1,0 +1,25 @@
+/Users/wangzhour/.codex/worktrees/exp-retrieval-terms/Praxis-Zhixing/src/infrastructure/browser/.retrieval-baseline.ts:230
+  throw new BrowserActionWireError(wireRejection(value, observedTargetRefs, fieldPath, rejectedValue, reason));
+        ^
+
+
+BrowserActionWireError: Invalid browser action wire
+    at rejectWire (/Users/wangzhour/.codex/worktrees/exp-retrieval-terms/Praxis-Zhixing/src/infrastructure/browser/.retrieval-baseline.ts:230:9)
+    at decodeBrowserReadActionWire (/Users/wangzhour/.codex/worktrees/exp-retrieval-terms/Praxis-Zhixing/src/infrastructure/browser/.retrieval-baseline.ts:299:14)
+    at file:///Users/wangzhour/.codex/worktrees/exp-retrieval-terms/Praxis-Zhixing/[eval1]:1:150
+    at ModuleJob.run (node:internal/modules/esm/module_job:370:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:270:26)
+    at async ModuleLoader.executeModuleJob (node:internal/modules/esm/loader:267:20)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:99:5) {
+  diagnostic: {
+    action: 'UNKNOWN',
+    targetRef: '',
+    authoritativeField: 'RETRIEVAL',
+    requestedState: 'UNKNOWN',
+    fieldPath: '$.action',
+    valueType: 'string',
+    reason: 'UNSUPPORTED_ACTION'
+  }
+}
+
+Node.js v24.4.1

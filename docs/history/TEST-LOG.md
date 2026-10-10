@@ -3983,3 +3983,8 @@ Red: red-contract.log (three compile omissions), red-changing-results.log (stale
 ## TEST-2026-10-10-P1D-P1-D
 
 四门禁通过（837 tests）；有效红灯为 e1e0cfe 硬编码地区路由反例与初轮 Asakusa 3/10。地区、LOCATION、未知坐标/一次替换/预算正反例及持久化恢复绿色。Discovery-only 共 8 次、10 模型；Roppongi 9/10、Nihonbashi 9/10、Ikebukuro 8/10、Asakusa 6/10（未读 2 仍在十家分母），4/5；Ebisu Google 解析美国同名店，失败。Shibuya 6/10。Live 不等于资格或库存证明，待独立复核。
+
+
+## TEST-2026-10-10-P1D-final-report
+
+本批模型增量57，累计389/1500，其中P1-D发现10次单列。主分支四门禁837、实验844均通过；11原观察Fixture、8针对性测试（含Guard/Chromium两子例）使用0真实调用。复核者原件与278项受保护文件SHA256均未变，三份演示文稿未动；无推送、外写或新增完整Live。各项目红绿日志、探测、复测、评分事实在报告逐项链接。
