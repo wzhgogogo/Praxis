@@ -1,0 +1,19 @@
+{
+  "status": "PRE_RUN_RECHECK",
+  "checkedAt": "2026-10-10T06:53:00+09:00",
+  "validUntil": "2026-10-11T06:53:00+09:00",
+  "checkedBy": "INDEPENDENT_REVIEWER (Claude), public endpoint read",
+  "method": "Public Tabelog find_vacancy JSON only (rst_id, svd, svps, svt), the same endpoint as prequalification. No Praxis code, no model call, no booking form opened, no time slot clicked. TableCheck witnesses were not rechecked.",
+  "results": [
+    { "variantId": "kf-h001-20261022", "outlet": "Shibuya Sushi Matsumoto", "rstId": "13261619", "request": "2026-10-22 19:00 x2", "stillAvailable": true, "note": "members=2; selection includes 19:00 (17:00-21:00 every 15 min)" },
+    { "variantId": "kf-h001-20261022", "outlet": "Shibuya Sushi Sen", "rstId": "13275802", "request": "2026-10-22 19:00 x2", "stillAvailable": true, "note": "members=2; selection includes 19:00 (17:00-21:30 every 15 min)" },
+    { "variantId": "kf-h002-20261024", "outlet": "Ginza Sushi Tempura Iwai", "rstId": "13305528", "request": "2026-10-24 18:30 x2", "stillAvailable": true, "note": "members=2; selection includes 18:30" },
+    { "variantId": "kf-h002-20261024", "outlet": "Ginza Wagyu Teppanyaki USHIGAMI", "rstId": "13296659", "request": "2026-10-24 18:30 x2", "stillAvailable": true, "note": "members=2; selection includes 18:30 (17:00-21:30 every 30 min)" },
+    { "variantId": "kf-h002-20261024", "outlet": "Ginza Sushi Den", "rstId": "13291473", "request": "2026-10-24 18:30 x2", "stillAvailable": true, "note": "members=2; selection includes 18:30 (17:00-21:00 every 30 min)" },
+    { "variantId": "kf-h005-20261021", "outlet": "Ginza Sushi Tempura Iwai", "rstId": "13305528", "request": "2026-10-21 18:00 x4", "stillAvailable": true, "note": "members=4; selection includes 18:00" },
+    { "variantId": "kf-h005-20261021", "outlet": "Ginza no Miko Zushi", "rstId": "13280412", "request": "2026-10-21 18:00 x4", "stillAvailable": true, "note": "members=4; 18:00 is the only selectable time" },
+    { "variantId": "kf-h005-20261021", "outlet": "Kushiyaki Bistro Fukumimi Ginza korido ten", "rstId": "13255508", "request": "2026-10-21 18:00 x4", "stillAvailable": true, "note": "members=4; selection includes 18:00 (16:30-21:30 every 15 min)" }
+  ],
+  "notRechecked": "TableCheck witnesses (KF-H002: 0711 GiNZA BiSTRO, ahill ginza; KF-H001 backup Sushi Teppen) were not rechecked. The Tabelog witnesses alone keep each variant KNOWN_FEASIBLE_SUPPORTED.",
+  "conclusion": "kf-h001, kf-h002 and kf-h005 remain KNOWN_FEASIBLE_SUPPORTED; run before 2026-10-11 06:53 JST. Any run that does not deliver must be followed by a post-run recheck within 2 hours."
+}
