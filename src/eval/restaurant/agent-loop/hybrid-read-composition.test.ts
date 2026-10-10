@@ -1878,3 +1878,64 @@ test("Hybrid progress exports pending-page count and total bounded post-action w
   assert.equal(progress.resourceUsage.pageStillLoadingWithinBound,2);
   assert.equal(progress.resourceUsage.postActionWaitTotalMs,5300);
 });
+
+test("reserve checkpoints retain completed outlets and mark only unfinished ones UNKNOWN", async t => {
+  for (const mode of ["availability-call","availability-time","empty-call","facts-call"] as const) await t.test(mode,async()=>{
+    const taskId=`fixture:checkpoint:${mode}`, started=now.valueOf(); let instant=started, inspected=0;
+    const readClock={now:()=>new Date(instant)};
+    const search=googleSearch([],{maxRequests:100},["one","two","three",...(mode==="availability-time"?["four"]:[])]);
+    const delegate:ModelGateway={async complete(input){
+      if(input.purpose==="restaurant_semantic_interpret")return response(JSON.stringify({schemaVersion:"3",facts:[
+        {field:"TARGET",operation:"ASSERT",value:{kind:"TARGET",goal:mode==="facts-call"?"RECOMMENDATION":"AVAILABILITY",query:"nearby restaurants",selectionScope:"OPEN_ENDED"}},
+        {field:"DATE",operation:"ASSERT",value:{kind:"DATE",value:"2026-09-17",raw:"tomorrow"}},
+        {field:"TIME_WINDOW",operation:"ASSERT",value:{kind:"TIME_WINDOW",earliest:"19:00",latest:"19:00",raw:"7pm"}},
+        {field:"PARTY_SIZE",operation:"ASSERT",value:{kind:"PARTY_SIZE",value:2}},
+        {field:"AREA",operation:"ASSERT",value:{kind:"AREA",query:"nearby"}},
+        ...(mode==="facts-call"?[{field:"CRITERION",operation:"ASSERT",value:{kind:"CRITERION",text:"cafe",strength:"HARD",polarity:"POSITIVE"}}]:[])
+      ]}),"semantic");
+      if(input.purpose==="checkpoint-read")return response("{}","read");
+      const {context:c}=JSON.parse(input.messages.find(x=>x.role==="user")!.content);
+      const eligible=(c.presentation??[]).filter((x:{eligible:boolean})=>x.eligible).map((x:{candidateId:string})=>x.candidateId);
+      const ids=(mode==="facts-call"?c.factInvestigableCandidateIds:c.checkableCandidateIds)??[];
+      const type=c.readCompletion?.reason?.startsWith("MODEL_CALL_RESERVE")?"END_READ":!c.candidates?.length?"SEARCH_RESTAURANTS":ids.length?(mode==="facts-call"?"INVESTIGATE_CANDIDATE_FACTS":"CHECK_AVAILABILITY"):eligible.length?"PRESENT_RESULTS":"END_READ";
+      return response(JSON.stringify(strictAction(type,type==="PRESENT_RESULTS"?eligible:ids.slice(0,mode==="availability-time"&&inspected===0?1:3))),"agent");
+    }};
+    const budget=new RunBoundedModelGateway(delegate,mode==="empty-call"?8:mode==="availability-time"?50:12,500_000);
+    const reserved=new DeliveryReservedModelGateway(budget);
+    const sourceCalls=async(signal:AbortSignal)=>{
+      inspected++;
+      if(mode==="availability-time"){
+        if(inspected===1)instant=started+254_000;
+        if(inspected===3)await new Promise<never>((_,reject)=>{
+          const abort=()=>{instant=started+255_000;reject(signal.reason)};
+          if(signal.aborted)abort();else signal.addEventListener("abort",abort,{once:true});
+        });
+      }else if(inspected===(mode==="empty-call"?1:2))for(let n=0;n<15;n++)await reserved.complete({taskId,purpose:"checkpoint-read",promptVersion:"fixture",messages:[],responseFormat:"JSON_OBJECT",outputSchema:{name:"fixture",version:"1"},timeoutMs:1000,fallback:"FAIL_CLOSED"});
+    };
+    const availability={executionRoute:"GENERIC_BROWSER" as const,async check(request:import("../../../domains/restaurant/contracts.js").RestaurantAvailabilityRequest,signal:AbortSignal){
+      const outputs:Array<ReturnType<typeof groundTableCheckAvailability>>=[];
+      for(const candidate of request.candidates){
+        await sourceCalls(signal);
+        outputs.push(groundTableCheckAvailability(candidate,request,{candidateId:candidate.restaurant.id,sourceEntityId:`tc:${candidate.restaurant.id}`,sourceUrl:"https://www.tablecheck.com/en/fixture",observedAt:readClock.now().toISOString(),requestedDate:request.date,requestedPartySize:request.partySize,entityMatch:{confidence:"HIGH",matchedBy:["EXACT_PHONE"]},pageState:"AVAILABLE",visibleSlots:["19:00"]},readClock.now().toISOString()));
+      }
+      return {offers:outputs.flatMap(x=>x.offers),evidence:outputs.flatMap(x=>x.evidence),availabilityChecks:Object.fromEntries(request.candidateIds.map((id,i)=>[id,outputs[i]!.check])),metadata:{provider:"TABLECHECK" as const,route:"GENERIC_BROWSER" as const,latencyMs:0}};
+    }};
+    const {groundRestaurantWebsiteFacts}=await import("../../../domains/restaurant/read-grounding.js");
+    const facts={executionRoute:"GENERIC_BROWSER" as const,async inspectFacts(request:import("../../../domains/restaurant/contracts.js").RestaurantCandidateFactRequest,signal:AbortSignal){
+      const outputs:Array<ReturnType<typeof groundRestaurantWebsiteFacts>>=[];
+      for(const candidate of request.candidates){await sourceCalls(signal);outputs.push(groundRestaurantWebsiteFacts(candidate,request.intent,{candidateId:candidate.restaurant.id,sourceUrl:"https://fixture.example/"+candidate.restaurant.id,observedAt:readClock.now().toISOString(),entityMatch:{confidence:"HIGH",matchedBy:["EXACT_PHONE"]},restaurantTypeFacts:["cafe"],regularOpeningHours:["Thursday: 00:00–23:59"]}));}
+      return {evidence:outputs.flatMap(x=>x.evidence),factChecks:Object.fromEntries(request.candidateIds.map((id,i)=>[id,{status:outputs[i]!.status,checkedAt:readClock.now().toISOString(),evidenceIds:outputs[i]!.evidence.map(x=>x.evidenceId)}])),metadata:{provider:"RESTAURANT_WEBSITE" as const,route:"GENERIC_BROWSER" as const,latencyMs:0}};
+    }};
+    const composition=createHybridReadComposition({taskId,runId:taskId,clock:readClock,model:reserved,search,availability,...(mode==="facts-call"?{facts}:{}),router:{modelReadReserve:reserved},loop:{maxSteps:10,timeoutMs:mode==="availability-time"?300_000:500_000,remainingModelCalls:id=>budget.remainingCalls(id)}});
+    await budget.run(taskId,async()=>{await composition.interpretAndDispatch({taskId,message:"Find nearby restaurants tomorrow at 7pm for two.",referenceTime:now.toISOString(),timezone:"Asia/Tokyo"},HIGASHI_GINZA_EVALUATION_LOCATION);await composition.coordinator.run(taskId,undefined,new Date(started+(mode==="availability-time"?300_000:500_000)));});
+    const state=composition.runtime.snapshot(taskId).domainState;
+    assert.equal(state.failure,undefined);
+    assert.equal(state.phase,mode==="empty-call"?"NO_VERIFIED_RESULT":"PRESENT_RESULTS",JSON.stringify({mode,inspected,state}));
+    const checks=mode==="facts-call"?state.factChecks!:state.availabilityChecks;
+    assert.equal(Object.values(checks).filter(x=>x.status==="UNKNOWN"&&x.reasonCode==="RESERVE_REACHED").length,mode==="empty-call"?3:2);
+    const accepted=state.presentedResults?.candidateIds??[];
+    assert.equal(accepted.length,mode==="empty-call"?0:mode==="availability-time"?2:1);
+    assert.ok(composition.runtime.eventLog.some(x=>x.event.type===(mode==="empty-call"?"READ_END_WINDOW_OPENED":"DEFAULT_BATCH_DELIVERY_WINDOW_OPENED")));
+    assert.ok((budget.usage(taskId)?.calls??Infinity)<(mode==="availability-time"?50:mode==="empty-call"?8:12));
+  });
+});

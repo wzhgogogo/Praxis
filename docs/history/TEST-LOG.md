@@ -3908,3 +3908,8 @@ P1-D仅文档：Proposed状态、局部ADR链接和零src diff检查通过。按
 ## TEST-2026-10-10-P1PRE-C3
 
 C3/red.log复现轮播属性变化导致人工帮助；green-final.log新增三模式及原九Chromium场景10/10，green-summary.log摘要计数1/1。typecheck、arch:check、npm test 797/797、build PASS。tsx page.evaluate命名helper失败保留green.log，最终已修复；零真实模型/外部来源请求。
+
+
+## TEST-2026-10-10-P1PRE-reserve-results
+
+有效红灯red-mechanism.log复现首店结果丢失及整批未知。green-final.log 16/16，含三店调用保留、交付时间保留、零完成反例、事实路径及来源替代不复活对照。四门禁PASS：typecheck-final、arch-check、test-confirmed 802/802、build。初始合并丢失空失败来源绑定由完整门禁检出并修正；原日志保留。零真实模型/Live。

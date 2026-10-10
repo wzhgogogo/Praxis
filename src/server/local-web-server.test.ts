@@ -740,7 +740,7 @@ test("selection-session fills an open-ended result target with candidate fact re
       const cookie = await login(running.baseUrl, "token-a");
       const created = await createCase(running.baseUrl, cookie, "selection-fact-replenishment", "Recommend restaurants in Shinjuku.");
       assert.equal(created.case.phase, "PRESENT_RESULTS");
-      assert.deepEqual(calls, { model: 4, search: 1, facts: 1, availability: 0 });
+      assert.deepEqual(calls, { model: 4, search: 1, facts: 3, availability: 0 }, "three outlet checkpoints retain one Agent fact action and event");
       assert.deepEqual(created.restaurant.presentedCandidateIds, ["a", "b", "c"]);
       assert.deepEqual(created.restaurant.resultBatchTarget, { candidateCount: 3, met: true });
       assert.equal(created.activities.some((activity) => activity.type === "CANDIDATE_FACTS_CHECKED"), true);

@@ -426,6 +426,8 @@ export interface RestaurantReadExecutionMetadata {
   route: RestaurantExecutionRoute;
   latencyMs: number;
   failureCode?: string;
+  /** Router-checkpointed results completed before a bounded reserve stop. */
+  reserveReached?: { reason: "MODEL_CALL" | "DELIVERY_TIME"; completedCandidateIds: string[] };
   /** Failure boundary determined by the executor, never inferred from matching codes. */
   failureScope?: "CANDIDATE" | "PROVIDER" | "BATCH" | "TASK";
   freshnessPolicyVersion?: string;

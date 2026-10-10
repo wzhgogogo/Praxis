@@ -3224,3 +3224,8 @@ C0c preserves four shared model calls for honest END_READ when no candidate is e
 ## DEV-2026-10-10-P1PRE-C3
 
 共享页面等待补可见文字/交互状态稳定300ms路径，保留DOM静默路径与4秒上限；导出PENDING次数和等待总毫秒，轮播不再阻断已渲染结果。
+
+
+## DEV-2026-10-10-P1PRE-reserve-results
+
+Router对事实与查位采用同一门店完成检查点：保留量/交付时间触发时保留完整返回店的证据和结果，未完成店UNKNOWN/RESERVE_REACHED；已返回执行事件不再被continue丢弃，元数据记录触发原因及已完成店。

@@ -329,7 +329,7 @@ export class RestaurantAgentLoopCoordinator {
       if (readController && signal) signal.addEventListener("abort", onParentAbort, { once: true });
       const reserveTimer = readController ? setTimeout(() => {
         reserveReached = true;
-        readController.abort(new Error("Default result delivery reserve reached"));
+        readController.abort(Object.assign(new Error("Default result delivery reserve reached"), {code:"DELIVERY_RESERVE_REACHED"}));
       }, reserveMs) : undefined;
       const recordDeliveryReserve = async () => {
         const detail = "DELIVERY_RESERVE_REACHED: source read stopped before the reserved result-delivery window";
@@ -380,10 +380,8 @@ export class RestaurantAgentLoopCoordinator {
         if (signal) signal.removeEventListener("abort", onParentAbort);
       }
 
-      if (reserveReached && !signal?.aborted) {
-        await recordDeliveryReserve();
-        continue;
-      }
+      if (reserveReached && !signal?.aborted) await recordDeliveryReserve();
+      // A returned Router event contains checkpointed completed outlets even if the reserve fired.
       if (signal?.aborted) return this.abort(snapshot, taskId, step + 1, base, signal);
 
       const after = execution.event

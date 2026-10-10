@@ -1,6 +1,7 @@
 import type { RestaurantAgentAction } from "../domains/restaurant/agent-action.js";
 import type {
   RestaurantAvailabilityCheck,
+  RestaurantCandidate,
   RestaurantCandidateFactRead,
   RestaurantCandidateFactRequest,
   RestaurantAvailabilityRead,
@@ -69,6 +70,59 @@ export interface RestaurantActionExecution {
 function stableFailureCode(error: unknown, fallback: string): string {
   if (error && typeof error === "object" && "code" in error && typeof error.code === "string") return error.code;
   return fallback;
+}
+
+/** Two real consumers (facts and availability) checkpoint complete candidate reads in the Router. */
+async function candidateCheckpoints<Request extends { candidateIds: string[]; candidates: RestaurantCandidate[] }, Read>(
+  request: Request, signal: AbortSignal, inspect: (single: Request) => Promise<Read>, completed: Array<{candidateId: string; read: Read}>,
+): Promise<void> {
+  for (const candidate of request.candidates) {
+    if (signal.aborted) throw signal.reason;
+    const read = await inspect({ ...request, candidateIds: [candidate.restaurant.id], candidates: [candidate] });
+    if (signal.aborted) throw signal.reason;
+    completed.push({ candidateId: candidate.restaurant.id, read });
+  }
+}
+
+function reserveCause(error: unknown, signal?: AbortSignal): "MODEL_CALL" | "DELIVERY_TIME" | undefined {
+  if (signal?.aborted && stableFailureCode(signal.reason, "") === "DELIVERY_RESERVE_REACHED") return "DELIVERY_TIME";
+  if (stableFailureCode(error, "") === "BUDGET_RESERVED_FOR_DELIVERY") return "MODEL_CALL";
+  return undefined;
+}
+
+function checkpointMetadata(reads: Array<{metadata: RestaurantReadExecutionMetadata}>, fallback: RestaurantReadExecutionMetadata): RestaurantReadExecutionMetadata {
+  const metadata = { ...fallback, ...reads.at(-1)?.metadata, latencyMs: reads.reduce((n,r)=>n+r.metadata.latencyMs,0) };
+  const usage = reads.flatMap(read=>read.metadata.modelUsage ? [read.metadata.modelUsage] : []);
+  if (usage.length) metadata.modelUsage = {calls:usage.reduce((n,u)=>n+u.calls,0),inputTokens:usage.reduce((n,u)=>n+(u.inputTokens??0),0),outputTokens:usage.reduce((n,u)=>n+(u.outputTokens??0),0),totalTokens:usage.reduce((n,u)=>n+(u.totalTokens??0),0)};
+  const attempts = reads.flatMap(r=>r.metadata.providerAttempts??[]);
+  const continuity = reads.flatMap(r=>r.metadata.nativeContinuity??[]);
+  if(attempts.length) metadata.providerAttempts = attempts;
+  if(continuity.length) metadata.nativeContinuity = continuity;
+  return metadata;
+}
+
+function mergedFacts(completed: Array<{candidateId:string;read:RestaurantCandidateFactRead}>, request: RestaurantCandidateFactRequest, fallback: RestaurantReadExecutionMetadata, now: string, reserve?: "MODEL_CALL"|"DELIVERY_TIME"): RestaurantCandidateFactRead {
+  const reads=completed.map(x=>x.read), metadata=checkpointMetadata(reads,fallback);
+  const factChecks: RestaurantCandidateFactRead["factChecks"]=Object.fromEntries(reads.flatMap(read=>Object.entries(read.factChecks).map(([id,check])=>[id,{
+    ...check, ...(!check.evidenceIds.length && !check.sourceProvider && !check.sourceAttempts ? {sourceProvider:read.metadata.provider} : {}),
+  }])));
+  if(reserve){
+    for(const id of request.candidateIds) if(!completed.some(x=>x.candidateId===id)) factChecks[id]={status:"UNKNOWN",checkedAt:now,evidenceIds:[],reasonCode:"RESERVE_REACHED"};
+    metadata.failureCode=reserve==="MODEL_CALL"?"BUDGET_RESERVED_FOR_DELIVERY":"DELIVERY_RESERVE_REACHED";
+    metadata.reserveReached={reason:reserve,completedCandidateIds:completed.map(x=>x.candidateId)};
+  }
+  return {evidence:reads.flatMap(x=>x.evidence),factChecks,metadata,...(reads.some(x=>x.sourceDocuments)?{sourceDocuments:reads.flatMap(x=>x.sourceDocuments??[])}:{})};
+}
+
+function mergedAvailability(completed: Array<{candidateId:string;read:RestaurantAvailabilityRead}>, request: RestaurantAvailabilityRequest, fallback: RestaurantReadExecutionMetadata, now: string, reserve?: "MODEL_CALL"|"DELIVERY_TIME"): RestaurantAvailabilityRead {
+  const reads=completed.map(x=>x.read),metadata=checkpointMetadata(reads,fallback);
+  const availabilityChecks: RestaurantAvailabilityRead["availabilityChecks"]=Object.fromEntries(reads.flatMap(read=>Object.entries(read.availabilityChecks).map(([id,check])=>[id,{...check,sourceProvider:check.sourceProvider??read.metadata.provider}])));
+  if(reserve){
+    for(const id of request.candidateIds) if(!completed.some(x=>x.candidateId===id)) availabilityChecks[id]={status:"UNKNOWN",checkedAt:now,evidenceIds:[],reasonCode:"RESERVE_REACHED"};
+    metadata.failureCode=reserve==="MODEL_CALL"?"BUDGET_RESERVED_FOR_DELIVERY":"DELIVERY_RESERVE_REACHED";
+    metadata.reserveReached={reason:reserve,completedCandidateIds:completed.map(x=>x.candidateId)};
+  }
+  return {offers:reads.flatMap(x=>x.offers),evidence:reads.flatMap(x=>x.evidence),availabilityChecks,metadata,...(reads.some(x=>x.candidateFactUpdates)?{candidateFactUpdates:reads.flatMap(x=>x.candidateFactUpdates??[])}:{})};
 }
 
 function authoritativeSearchRequest(
@@ -249,11 +303,16 @@ export class RestaurantExecutionRouter {
             ? { recheck: { reason: "USER_REQUESTED_REFRESH" as const } }
             : {}),
         };
+        const completed: Array<{candidateId:string;read:RestaurantCandidateFactRead}> = [];
+        const fallback = {provider:"GOOGLE_PLACES" as const,route:this.facts.executionRoute,latencyMs:0};
         try {
           const read = await this.withProviderReadDeadline(
             "Restaurant candidate facts",
             this.facts.executionRoute === "GENERIC_BROWSER" ? this.browserReadTimeoutMs : this.structuredReadTimeoutMs,
-            (signal) => withModelReserve(() => this.facts!.inspectFacts(request, signal)),
+            async signal => {
+              await candidateCheckpoints(request, signal, single => withModelReserve(() => this.facts!.inspectFacts(single, signal)), completed);
+              return mergedFacts(completed,request,fallback,now);
+            },
             this.facts.executionRoute === "GENERIC_BROWSER",
             parentSignal,
           );
@@ -271,6 +330,11 @@ export class RestaurantExecutionRouter {
             executionMetadata: { ...read.metadata, ...(request.recheck ? { recheckReason: request.recheck.reason } : {}) },
           };
         } catch (error) {
+          const reserve = reserveCause(error,parentSignal);
+          if(reserve){
+            const read=mergedFacts(completed,request,{...fallback,...googleUsageMetadata(this.facts,readRunId)},now,reserve);
+            return {route:this.facts.executionRoute,event:{type:"CANDIDATE_FACTS_CHECKED",request,...read},observation:{type:"CANDIDATE_FACTS_UNKNOWN",detail:read.metadata.failureCode!,candidateIds:request.candidateIds,evidenceIds:read.evidence.map(x=>x.evidenceId)},executionMetadata:read.metadata};
+          }
           if (parentSignal?.aborted || (error && typeof error === "object" && "code" in error && (error.code === "BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED" || error.code === "BROWSER_RUNTIME_UNAVAILABLE" || error.code === "MODEL_CALL_BUDGET_EXHAUSTED"))) throw error;
           const reason = error instanceof Error ? error.message : "Unknown candidate fact investigation failure";
           const code = stableFailureCode(error, "FACT_INVESTIGATION_FAILED");
@@ -315,13 +379,18 @@ export class RestaurantExecutionRouter {
             executionMetadata: metadata,
           };
         }
+        const completed: Array<{candidateId:string;read:RestaurantAvailabilityRead}> = [];
+        const fallback = {provider:"AVAILABILITY_SOURCE_RESOLVER" as const,route:this.availability.executionRoute,latencyMs:0,freshnessPolicyVersion:RESTAURANT_AVAILABILITY_DISPLAY_FRESHNESS.version};
         try {
           const read = await this.withProviderReadDeadline(
             "Restaurant availability",
             this.availability.executionRoute === "GENERIC_BROWSER"
               ? this.browserReadTimeoutMs
               : this.structuredReadTimeoutMs,
-            (signal) => withModelReserve(() => this.availability.check(request, signal)),
+            async signal => {
+              await candidateCheckpoints(request, signal, single => withModelReserve(() => this.availability.check(single, signal)), completed);
+              return mergedAvailability(completed,request,fallback,now);
+            },
             this.availability.executionRoute === "GENERIC_BROWSER",
             parentSignal,
           );
@@ -338,6 +407,11 @@ export class RestaurantExecutionRouter {
             executionMetadata: metadata,
           };
         } catch (error) {
+          const reserve=reserveCause(error,parentSignal);
+          if(reserve){
+            const read=mergedAvailability(completed,request,fallback,now,reserve);
+            return {route:this.availability.executionRoute,event:{type:"AVAILABILITY_CHECKED",request,...read},observation:{type:"AVAILABILITY_UNKNOWN",detail:read.metadata.failureCode!,candidateIds:request.candidateIds,evidenceIds:read.evidence.map(x=>x.evidenceId)},executionMetadata:read.metadata};
+          }
           // The coordinator's outer cancellation/deadline and the shared
           // browser-model ceiling are task facts. They must stop this run,
           // rather than being converted into a local no-result outcome.

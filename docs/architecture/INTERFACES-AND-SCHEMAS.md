@@ -326,3 +326,6 @@ INTERNAL_ERROR
 [Browser Read Diagnostics](../harness/BROWSER-READ-DIAGNOSTICS.md)维护独立入口、证据字段与测试映射。LOCAL_CHROMIUM单独interactive使用临时profile；interactive与manual-intervention同时开启才使用ADR-0016专用持久eval profile。真实Chromium本地Fixture不等于真实来源验证；单页观察不写Task State、不产出Offer。
 
 C0c 当前 State@13 / TaskDefinition@12 追加系统 `READ_END_WINDOW_OPENED`。旧 State@12 为 frozen regression，本地开发数据按既有显式 reset 协议，不保留兼容路径。本轮没有重置数据库。
+
+
+2026-10-10 reserve checkpoint diagnostics：`RestaurantReadExecutionMetadata.reserveReached`记录MODEL_CALL/DELIVERY_TIME和触发前完整返回的candidateIds。Router在同一批次deadline内按门店顺序保留事实/查位结果，未完成门店为UNKNOWN/RESERVE_REACHED；成功返回事件即使保留计时器触发也派发。身份/请求/资格和State@13保持；该附加诊断不是模型可写状态。
