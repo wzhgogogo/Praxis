@@ -4088,3 +4088,8 @@ DOC_REVIEW：复核报告与Playbook提交前后字节SHA一致；冻结脚本/�
 ## TEST-2026-10-12-P1F-input-path-block
 
 NETWORK_PREFLIGHT成功（TableCheck206）与ORCHESTRATION_INPUT_FAILURE分列；无餐厅评价，不记ENV或能力失败。预备空跑漏检真实Runner的artifact-root限制，如实保留失败依据。账本恢复实际preflight时间，下一次至少15分钟后；累计仍602模型、24整单Live、环境预留2。
+
+
+## TEST-2026-10-12-P1F-input-path-resolution
+
+使用冻结Runner的真实caseSourceFromArgs函数做无网络路径校验PASS；两个外层入口无网络空跑PASS，rev2两端SHA一致，WT CLEAN。共享SHA ff567ad81e3ca59fc6ab4449a997a12c167751f305edd601c4158b56cf9d9c61；生产与eval源无改动，复用已有四门禁849/849，实际Live另行逐例记录。

@@ -265,3 +265,8 @@ A 使用批准 rev2；B 使用冻结 Runner 默认 Gold@7（h001–h004 原文�
 外层时窗唯一改动提交 `bde135a`。h003第1次preflight东京05:18:41–05:18:44成功，TableCheck206；随后冻结Runner拒绝主工作树绝对case-source（要求在其自身.eval-artifacts内），未启动正式运行，无result/decisions/recording、无餐厅评价。外层准备空跑未覆盖此真实入口约束，是实施者编排错误，非ENV_FAILURE，不消耗环境重跑预留。恢复找到原始preflight，完整记录 `prep-20261012/input-path-failure.json` 和 `continuation-20261012-part2/p1f-kf-h003-20261023/attempt-1/`。
 
 当前新增模型0、Google业务0、整单Live0，累计602/1500、24/33，Google完整累计仍UNKNOWN（已确认7），环境预留2。h003已尝试preflight1次，下一次最早东京05:33:44.854；外层A输入路径修正及重新冻结SHA已向用户请求，未获回复前不修改或绕过冻结脚本。其他A例和B未开始。
+
+
+## 外层输入路径已获批准并修正
+
+用户明确批准修正输入路径并重新冻结；execute仅把A sourcePath根从主树改为冻结工作树，其他行为不变。rev2原样复制到冻结工作树忽略目录，两端SHA `1879c3189f90134f2ddb4cc78b12fcc31a0cd68e7b806a2baec43270e6f9f753`；冻结Runner真实caseSourceFromArgs函数离线校验PASS，A/B空跑PASS。共享execute最终SHA `ff567ad81e3ca59fc6ab4449a997a12c167751f305edd601c4158b56cf9d9c61`；入口continue-a.mjs、run-b.mjs及其他依赖SHA不变。详情 `prep-20261012/input-path-resolution.json`，新旧脚本/manifest保留。此前路径阻塞是历史记录，现已解除；h003第2次preflight/运行已发起，距上次超过15分钟。生产仍73bfca5/CLEAN，不改产品、Prompt、Schema、配置、原文或见证。

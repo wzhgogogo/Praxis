@@ -62,3 +62,8 @@ A 使用批准 rev2；B 使用冻结 Runner 默认 Gold@7（h001–h004 原文�
 ## 用户批准提前运行（2026-10-12）
 
 取消原东京08:30/11:00心跳。用户明确允许仅更新外层时窗校验并重新冻结SHA；execute.mjs只替换open/close时窗表达式，其余字节不变，两个入口脚本SHA保持原值。共享execute新SHA `0cd3aacc1267c8e101b5040b809146af48bb1cdb05de95f5ce97b14f0929f949`，旧manifest和旧脚本保留在prep-20261012/。两个入口再次无网络空跑PASS，h005提前调用仍被OUTSIDE_AUTHORIZED_START_WINDOW拒绝，0新网络/模型。原版h005仅东京11:30–14:00，已设置东京11:30单独心跳p1-f-h005-11-30。生产仍73bfca5/CLEAN。现在执行第二段h003→h005→Kichijoji，完成后接B h001→h004；结果按段追加，不修改旧报告。
+
+
+## 外层输入路径已获批准并修正
+
+用户明确批准修正输入路径并重新冻结；execute仅把A sourcePath根从主树改为冻结工作树，其他行为不变。rev2原样复制到冻结工作树忽略目录，两端SHA `1879c3189f90134f2ddb4cc78b12fcc31a0cd68e7b806a2baec43270e6f9f753`；冻结Runner真实caseSourceFromArgs函数离线校验PASS，A/B空跑PASS。共享execute最终SHA `ff567ad81e3ca59fc6ab4449a997a12c167751f305edd601c4158b56cf9d9c61`；入口continue-a.mjs、run-b.mjs及其他依赖SHA不变。详情 `prep-20261012/input-path-resolution.json`，新旧脚本/manifest保留。此前路径阻塞是历史记录，现已解除；h003第2次preflight/运行已发起，距上次超过15分钟。生产仍73bfca5/CLEAN，不改产品、Prompt、Schema、配置、原文或见证。
