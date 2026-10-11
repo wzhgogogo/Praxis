@@ -4068,3 +4068,8 @@ Red: red-contract.log (three compile omissions), red-changing-results.log (stale
 ## TEST-2026-10-12-P1F-rev2-loader
 
 有效红灯：rev1与null/unknown缺少预期拒绝；最终对应11/11绿。独立oracle完整覆盖八例原文、日期措辞、数字、窗口、地点、目标与criteria三字段，包括around 10,000 yen per person、Saturday, October 24。四门禁全部通过，宿主机npm test849/849；初次沙箱26项环境失败（localhost与Chromium EPERM）另记，不冒充产品反例。证据 .eval-artifacts/p1-f-20261011/prep-20261012/loading/。模型/Google0。
+
+
+## TEST-2026-10-12-P1F-run-preparation
+
+OFFLINE_REEVALUATION五例与OFFLINE_ORCHESTRATION两个空跑均完成，0模型/Google/网络；旧结果SHA未变、旧评价不覆盖。Tabelog展示绑定和selection正反例通过，B无需见证。复用刚完成四门禁849/849（仅评测载入改动），外层证据不修改产品代码；原始路径、对照和SHA见prep-20261012/report.md。

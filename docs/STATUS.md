@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.186
+- Document revision: 4.187
 - Last updated: 2026-10-12
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-12 P1F-run-preparation：** 五例rev2离线重评完成，自动结论不变；续跑与B外层脚本已冻结并通过无网络空跑，交付后四参数GET校验已准备。模型仍602/1500、Live24/33，环境预留2。指定复核文档未找到，真实运行尚未开始；生产仍73bfca5/CLEAN。准备证据 `prep-20261012/report.md`，A追加、新B报告已建。
 
 - **2026-10-12 P1F-rev2-loader：** 原样复核输入0791304；评测加载器拒绝null/未知键与rev1截断值，rev2八例独立字面量oracle通过，四门禁绿849/849。生产仍冻结73bfca5，不移入产品代码；外层准备与五例离线重评推进中，真实运行尚未开始。指定复核文档当前工作区未找到，已请求可读路径。
 

@@ -1,0 +1,736 @@
+{
+  "schemaVersion": "1",
+  "evaluatorVersion": "restaurant-hybrid-read-diagnostic-evaluator@27",
+  "rubricVersion": "restaurant-hybrid-read-diagnostic-rubric@21",
+  "rubricStatus": "DRAFT_DIAGNOSTIC_ONLY",
+  "sourceArtifact": {
+    "path": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/prep-20261012/reevaluation/p1f-novel-kagurazaka-kaiseki-20261022.rev2-evaluation-input.json",
+    "sha256": "5e8f8a3d6c65fd6f611745883386ad34a09822c5872b7f4a4c18c2d6f77d555f",
+    "runId": "90f04039-e029-4acc-a8f0-2fd9b7590fba",
+    "caseId": "p1f-novel-kagurazaka-kaiseki-20261022"
+  },
+  "execution": {
+    "status": "SUCCEEDED",
+    "stage": "AGENT_LOOP",
+    "taskProducedQualifiedResult": "NO",
+    "systemBehavior": "NOT_EVALUATED",
+    "externalConditions": "OBSERVED",
+    "evidenceSufficiency": "NOT_EVALUATED",
+    "completion": "NO_VERIFIED_RESULT"
+  },
+  "candidateSummaries": [
+    {
+      "candidateId": "tablecheck:hotel-edmont-hirakawa-yamahiko-umihiko",
+      "outletName": "Japanese Restaurant HIRAKAWA / Teppanyaki YAMAHIKO / Sushi UMIHIKO",
+      "providers": [
+        "TABLECHECK"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABLECHECK",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "AVAILABILITY_RESULT_UNOBSERVED",
+          "evidenceRef": "trajectories[2].executionMetadata.providerAttempts[1]"
+        }
+      ],
+      "result": "EVIDENCE_INCOMPLETE",
+      "reasonCode": "AVAILABILITY_RESULT_UNOBSERVED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:c577a5b36670c54c2e0bbe2f]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-entity-match:178bdef63b2ccb0e3bfcdabb]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:82198f74cec3ac5480c4cc1f]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=tablecheck:hotel-edmont-hirakawa-yamahiko-umihiko:document:71c848e02eca5e4c]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tablecheck:hotel-edmont-hirakawa-yamahiko-umihiko:2026-10-11T15:42:31.593Z:tablecheck:hotel-edmont-hirakawa-yamahiko-umihiko:document:71c848e02eca5e4c]"
+      ]
+    },
+    {
+      "candidateId": "tablecheck:konya",
+      "outletName": "Chiso Konya",
+      "providers": [
+        "TABLECHECK"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABLECHECK",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "AVAILABILITY_RESULT_UNOBSERVED",
+          "evidenceRef": "trajectories[2].executionMetadata.providerAttempts[0]"
+        }
+      ],
+      "result": "EVIDENCE_INCOMPLETE",
+      "reasonCode": "AVAILABILITY_RESULT_UNOBSERVED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:012a9591b07baa3d7a0e63f3]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-entity-match:848b54f4b2fe6109366f6882]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:fdff6f74503202d774f91e0e]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=tablecheck:konya:document:70fb9bb87da063ec]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tablecheck:konya:2026-10-11T15:42:24.093Z:tablecheck:konya:document:70fb9bb87da063ec]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:1db081478051e3a02544377a",
+      "outletName": "Tanimoto Kagurazaka",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "EVIDENCE_INCOMPLETE",
+      "reasonCode": "RESERVE_REACHED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:8a9223b1590eef3ae32f10c5]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:8a9223b1590eef3ae32f10c5]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:388da82237a91af2c82a2979]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:6cc81449aa7bf11c1e1ef9d0",
+      "outletName": "Kagurazaka Marutomi",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "EVIDENCE_INCOMPLETE",
+      "reasonCode": "RESERVE_REACHED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:cb4ae77b6f1ae02a49df2dde]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:cb4ae77b6f1ae02a49df2dde]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:5224415a85321875873be5dd]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:eeb6396dbd632839d53c45c8",
+      "outletName": "Kaiseki Japanese cuisine Utou",
+      "providers": [
+        "TABLECHECK",
+        "TABELOG"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABLECHECK",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "TABLECHECK_ENTITY_MATCH_UNCERTAIN",
+          "evidenceRef": "trajectories[7].executionMetadata.providerAttempts[0]"
+        },
+        {
+          "provider": "TABELOG",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "BROWSER_TIMEOUT",
+          "evidenceRef": "trajectories[7].executionMetadata.providerAttempts[1]"
+        }
+      ],
+      "result": "BUDGET_OR_TIMEOUT",
+      "reasonCode": "BROWSER_TIMEOUT",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:5a11331a59747921e13b4a94]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:5a11331a59747921e13b4a94]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:ce8f33415f408996a873f3f9]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:f10f0d8bee11fbdc94d0bc0f",
+      "outletName": "Washoku Kagurazaka KUROSU",
+      "providers": [
+        "TABLECHECK",
+        "TABELOG"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABLECHECK",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "TABLECHECK_ENTITY_MATCH_UNCERTAIN",
+          "evidenceRef": "trajectories[7].executionMetadata.providerAttempts[2]"
+        },
+        {
+          "provider": "TABELOG",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "BROWSER_TIMEOUT",
+          "evidenceRef": "trajectories[7].executionMetadata.providerAttempts[3]"
+        }
+      ],
+      "result": "BUDGET_OR_TIMEOUT",
+      "reasonCode": "BROWSER_TIMEOUT",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:cf154332f408d1fd67ce81e4]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:cf154332f408d1fd67ce81e4]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:53c8e2439576c7bbb5c37374]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:54df5897171d1671649b54d4",
+      "outletName": "Fushikino",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "EVIDENCE_INCOMPLETE",
+      "reasonCode": "RESERVE_REACHED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:3da2f873dda751500493d1fa]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:3da2f873dda751500493d1fa]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:81d1f22a71a80ace5e5714b9]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:4bfb0fb99c969e697bb9f046",
+      "outletName": "Yumeji",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:3117d4abc51112727a55e882]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:3117d4abc51112727a55e882]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:1699716bf86c7fcff00e2041]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:fc695d21e3a6cf8c3fe37245",
+      "outletName": "Tonami",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:90d754c460b8bf5ca4cef62c]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:90d754c460b8bf5ca4cef62c]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:2067ff166317fc12f412b8be]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:4b8fa44777292514afe3822d",
+      "outletName": "Sen Kagurazaka",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:d47b196365cd97be98b054df]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:d47b196365cd97be98b054df]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:06a61abf365808ee01565584]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:afa6c9876a2fa4eeb5068aaa",
+      "outletName": "Ichirin",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:2abaee29bec661e8428f0cb1]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:2abaee29bec661e8428f0cb1]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:eaafef93f6221d27a7b6ae68]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:ea7f13811ba2762a8809896a",
+      "outletName": "Kagurazaka Jin",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:2bb1248e40257c26f1f0f0ee]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:2bb1248e40257c26f1f0f0ee]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:818eb2a4e2dbcb5ad38a9888]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:1ff19a760dc5f0cedd03338b",
+      "outletName": "神楽坂 料亭牧",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:b296074c4cfa782c60fa6e32]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:b296074c4cfa782c60fa6e32]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:01d5dfc9dd0f281af5f47098]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:5cbf32a9a81327191670b2d9",
+      "outletName": "Kaga",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:6c7420574c5c555f59d5a5ee]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:6c7420574c5c555f59d5a5ee]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:e2609ab01d693c600bf71d97]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:da21ccfe2c593bbc494eff89",
+      "outletName": "Kohaku",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:13c4aec71c9434ba6db0ee0a]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:13c4aec71c9434ba6db0ee0a]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:4e62aad36e5c259ac8cc47ae]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:e4098185c3942818fd2976b5",
+      "outletName": "Kaga Namafu Kappo Kagurazaka MAEDA",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:bd46586f5d889663adabcd0f]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:bd46586f5d889663adabcd0f]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:c1eeccdb7008a476b6c1760b]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:20e6c0abc60eaf2f530a0cea",
+      "outletName": "Kisouan Sasaki",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:49349113e9616eec4d64c48b]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:49349113e9616eec4d64c48b]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:942a558e0ea2b567ec05de08]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:f7be11a2d29a00afc46d46e4",
+      "outletName": "Sugata",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:7ba3158a59eeb5aab38a7b67]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:7ba3158a59eeb5aab38a7b67]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:1f3c971bfb90f21481dc85d9]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:ad8f17edf4d994fb38dd43ef",
+      "outletName": "Chisô Kon'ya",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:c4926aa804b3e17320b4b24c]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:c4926aa804b3e17320b4b24c]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:e5403169858b200f91295971]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:aacf6301e28ce7435fe35a8d",
+      "outletName": "Washokubiyori Osaketo Kagrazaka",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:04eb65f3afc2b4efc807546c]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:04eb65f3afc2b4efc807546c]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:7ef8fbae58ff8ce63705f71f]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:195cacc5840eb8004aa72c76",
+      "outletName": "Kagurazaka Yukimoto",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:959309e6f0b6e81290fff985]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:959309e6f0b6e81290fff985]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:e8486a120854e5f7e91bbfa5]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:b9d5d2c249167c39ca293cf9",
+      "outletName": "Washoku Kouseki Kagurazaka",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:3a6ff22723546bc324df256d]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:3a6ff22723546bc324df256d]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:0613d04de2f5ebf0d5d85618]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:dc12f40e4adf529d0dc7cef3",
+      "outletName": "Sushi Tempura Yokota Kagurazaka",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:15aee15c02bc58a03bab2da9]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:15aee15c02bc58a03bab2da9]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:e3e1864fff1d32e2af72b247]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:0a6a8d63d6b42988d770c742",
+      "outletName": "Yukawa",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:ca8c46020e50485167410f1a]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:ca8c46020e50485167410f1a]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:98b8226965a491c52129f55e]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:06867d6cb1fb6f12a1e21f6a",
+      "outletName": "Shun Bunke",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:b8c3b30b25f53919800a4e30]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:b8c3b30b25f53919800a4e30]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:278aa14e92bd61e7548cfb7f]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:07cd0218d5b699afb55a000c",
+      "outletName": "Kagurazaka Ishikawa",
+      "providers": [
+        "TABLECHECK",
+        "TABELOG"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABLECHECK",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "TABLECHECK_ENTITY_MATCH_UNCERTAIN",
+          "evidenceRef": "trajectories[7].executionMetadata.providerAttempts[4]"
+        },
+        {
+          "provider": "TABELOG",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "REQUEST_SELECTION_UNCONFIRMED",
+          "evidenceRef": "trajectories[7].executionMetadata.providerAttempts[5]"
+        }
+      ],
+      "result": "REQUEST_NOT_CONFIRMED",
+      "reasonCode": "REQUEST_SELECTION_UNCONFIRMED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:64131b6b51f1e5911035cae9]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:64131b6b51f1e5911035cae9]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:cb9b40c051d8892c37422a57]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:bf3c4ec102564a43bfdee30e]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:d133d4883e732c003f576cb7",
+      "outletName": "Iwakura",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:576351433837b50602710027]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:576351433837b50602710027]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:b62cd2d2cc3811bfd00e71a3]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:e5547653fb94283970069c18",
+      "outletName": "Waraku",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:aa909056ef927a2c9128a6a8]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:aa909056ef927a2c9128a6a8]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:aa6403349a1bb9085d56a8fe]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:dd50ce5355cb20b7667c519f",
+      "outletName": "Sakanohana Kagurazaka",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:114968c01e535ccb5c19367d]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:114968c01e535ccb5c19367d]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:b73f2af60b6af5913dc71573]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:ef4803adce7969d0beda10fd",
+      "outletName": "Sushi Ōya",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:e91403b6f19331d9700c16a4]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:e91403b6f19331d9700c16a4]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:6e07eac59e85c365190db22f]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:b9704ed0f034bb8579b0011a",
+      "outletName": "和食 おの寺 神楽坂",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:88acd846957516e4e76828c1]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:88acd846957516e4e76828c1]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:980130e695f483e6f4539aff]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:359e4485b73417043bd3a76a",
+      "outletName": "日本料理 ほそ川 神楽坂",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:e83cfa9bd75bb0a35f905dd8]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:e83cfa9bd75bb0a35f905dd8]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:090c83645683d8bb8f9a967b]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:47b0d8ea73a39e2d09d7074c",
+      "outletName": "鮨 輝らく",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:f3e4bb90038f6e06aa219b38]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:f3e4bb90038f6e06aa219b38]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:dd7a725b683ea07a2ff34071]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:87c21f343a861551cc74a5ad",
+      "outletName": "Byakuya",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:4d0cde7fa6798884be46038c]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:4d0cde7fa6798884be46038c]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:293ac48924cac7ef392e4c9f]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:b9fff419ba64781a45c88def",
+      "outletName": "SHIGEtei（シゲ テイ）和食 神楽坂",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:de361a678374081a2c7d0053]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:de361a678374081a2c7d0053]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:0796f474de769d9d4fc408d8]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:459dfe281a5cfef4cccacaf1",
+      "outletName": "Ebihara",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:c77f7f5419fcac8cc1241f07]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:c77f7f5419fcac8cc1241f07]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:e70b8bd7cc865f5d9f22e3f4]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:53acda19b0d83a3ec068407c",
+      "outletName": "Kaiseki Ichimonji",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:6605722a6a8bd13f6dd62e47]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:6605722a6a8bd13f6dd62e47]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:b80b0a9a716eb4034fab3554]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:32ac5ab341f1cd24c615679f",
+      "outletName": "Madoy Kagurazaka Annex",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:bac3a94451d0e07f38613a15]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:bac3a94451d0e07f38613a15]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:6d81ef949505aaa79356382a]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:28b82b90db6e6104bc534f75",
+      "outletName": "葉歩花庭",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:2486df90e85f4decaebf9994]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:2486df90e85f4decaebf9994]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:4a912ef7dd1362e61a4342b3]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:458888085452a19dd495d82a",
+      "outletName": "縁楽",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:e260cee4c04dbf48c0d7649b]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:e260cee4c04dbf48c0d7649b]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:bf56ec03d3f490916b0532ff]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:78322026d87b9722cf25eadf",
+      "outletName": "Menosou",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:b7fa962fc9aa29fd466feead]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:b7fa962fc9aa29fd466feead]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:36ff4003575139be84a0ef38]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:4a3da70a476944ea2aacbfbc",
+      "outletName": "Kagurazaka Shimakin",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:01458563b6c717222ff33fb8]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:01458563b6c717222ff33fb8]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:e7e0d6fc0b3227f03dc3bf34]"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "dimension": "AUTHORITATIVE_CONDITIONS",
+      "status": "NOT_EVALUATED",
+      "stage": "SEMANTIC_TO_FINAL_STATE",
+      "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+      "observations": [
+        "Unresolved criterion wording: criteria.text expected=[kaiseki] actual=[kaiseki restaurant]."
+      ],
+      "directCause": "Criterion text differs without a deterministic equivalence rule; independent semantic review is required.",
+      "rootCauseHypothesis": "The model may have paraphrased, omitted, or added a criterion; the evaluator does not guess which.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "materializedCase.semantic",
+        "finalSnapshot.domainState.intentDraft"
+      ],
+      "downstreamImpact": "Do not claim automatic semantic fidelity for the text difference; grounding remains independently evaluated against the actual request."
+    },
+    {
+      "dimension": "REQUIRED_EVIDENCE",
+      "status": "NOT_EVALUATED",
+      "stage": "GROUNDING",
+      "requirement": "Each presented candidate must independently cite same-candidate HIGH identity, area, applicable HARD facts, and only when the user requested availability, fresh request-bound slot evidence.",
+      "observations": [],
+      "directCause": "Artifact records or accepted evidence contract are insufficient for an independent conclusion.",
+      "rootCauseHypothesis": "Execution artifact or accepted evidence contract lacks required detail.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [],
+      "downstreamImpact": "Do not claim an evidence-grounded result from this artifact."
+    },
+    {
+      "dimension": "INVESTIGATION_BEHAVIOR",
+      "status": "SATISFIED",
+      "stage": "AGENT_LOOP",
+      "requirement": "Cited presentation evidence must originate in actually executed same-candidate observations for the applicable request; duplicate fact/availability reads remain checked without requiring either action type.",
+      "observations": [
+        "executedObservations=9",
+        "applicableObservations=9",
+        "executedInvestigationVisits=10",
+        "authorizedRechecks=none",
+        "duplicates=none"
+      ],
+      "directCause": "Executed observations are attributable without a duplicate fact/availability read.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "trajectories[0].observation",
+        "trajectories[1].observation",
+        "trajectories[2].observation",
+        "trajectories[3].observation",
+        "trajectories[5].observation",
+        "trajectories[6].observation",
+        "trajectories[7].observation",
+        "trajectories[8].observation",
+        "trajectories[9].observation"
+      ],
+      "downstreamImpact": "Observation lineage and duplicate-read accounting remain attributable."
+    },
+    {
+      "dimension": "FINAL_CLAIM",
+      "status": "NOT_EVALUATED",
+      "stage": "PRESENT_RESULTS",
+      "requirement": "A terminal presentation must agree with the independently checked, candidate-specific request and evidence records.",
+      "observations": [
+        "phase=NO_VERIFIED_RESULT",
+        "loop=TERMINAL",
+        "presentedCandidates=0"
+      ],
+      "directCause": "No terminal presentation was executed.",
+      "rootCauseHypothesis": "Verifier, serialization, or upstream execution record requires review.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "loop",
+        "finalSnapshot.domainState.presentedResults",
+        "finalSnapshot.domainState.availability",
+        "finalSnapshot.domainState.readEvidence"
+      ],
+      "downstreamImpact": "No qualified completion can be claimed."
+    },
+    {
+      "dimension": "COMPLETION_OUTCOME",
+      "status": "NOT_EVALUATED",
+      "stage": "TERMINATION",
+      "requirement": "A scoped no-result outcome, user-input pause, controlled cancellation, budget/deadline stop, and internal execution failure must remain distinguishable from one another and from independently verified presentation.",
+      "observations": [
+        "completion=NO_VERIFIED_RESULT",
+        "phase=NO_VERIFIED_RESULT",
+        "loop=TERMINAL",
+        "noVerifiedResult=recorded",
+        "failureCode=missing",
+        "Candidate scope is recorded, but remainingGaps prose cannot independently prove that no candidate qualifies or that investigation was sufficient."
+      ],
+      "directCause": "Candidate scope is recorded, but remainingGaps prose cannot independently prove that no candidate qualifies or that investigation was sufficient.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "status",
+        "execution.failureCode",
+        "loop.status",
+        "finalSnapshot.domainState.phase",
+        "finalSnapshot.domainState.noVerifiedResult",
+        "finalSnapshot.domainState.failure",
+        "finalSnapshot.domainState.noVerifiedResult",
+        "trajectories"
+      ],
+      "downstreamImpact": "Do not represent the scoped stop as a source-confirmed global negative result."
+    },
+    {
+      "dimension": "RESOURCES",
+      "status": "SATISFIED",
+      "stage": "RUN_ACCOUNTING",
+      "requirement": "Artifact must provide valid applicable resource values; an object alone does not prove complete accounting or budget compliance.",
+      "observations": [],
+      "directCause": "Required resource fields are present and within readable applicable limits.",
+      "rootCauseHypothesis": "Runner limit/accounting requires review.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "resourceUsage",
+        "runCeilings",
+        "modelInvocations"
+      ],
+      "downstreamImpact": "Recorded budget use can be reviewed."
+    }
+  ],
+  "unassessedDimensions": [
+    "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+    "Cost is not inferred without explicit configured price inputs.",
+    "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose.",
+    "Criterion text differs without deterministic equivalence; no LLM judge was used and independent semantic review is required."
+  ]
+}
