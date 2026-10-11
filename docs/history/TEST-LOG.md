@@ -4028,3 +4028,8 @@ Red: red-contract.log (three compile omissions), red-changing-results.log (stale
 ## TEST-2026-10-11-P1FF-navigation
 
 有效红灯 native-red.log（超时被改写地区失败）、chromium-red.log（6.5秒文档被5秒打断）→ native-green.log、chromium-green.log；后者覆盖预算超时、失败码、关闭一次及旧会话隔离。executor-green.log覆盖GET提交导航时限与普通动作不扩时；四门禁 navigation/gates.json。不外访。
+
+
+## TEST-2026-10-11-P1FF-discovery
+
+红灯复用原东银座导航失败与 navigation/chromium-red.log；本次不制造红灯、不重跑。原录制与 result 保留，analysis.json 纠正末批 inspectedOutlets 与总数差别；无非读放行和后续页面。四门禁日志见 followup/discovery/，提交前全部通过。

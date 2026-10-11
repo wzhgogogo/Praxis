@@ -1,0 +1,111 @@
+{
+  "source": ".eval-artifacts/p1-f-prep-20261011/coordinate-address/discovery/kf-h002-20261024.decisions.jsonl",
+  "sourceSha256": "840396b2afdd08ffb8fd775085a584de7b802a812a02dd8f5fb0220efda50003",
+  "priorPublicDiscoveryMessages": [
+    {
+      "purpose": "browser_read_decide",
+      "goal": {
+        "outlet": {
+          "name": "",
+          "address": "nearby"
+        },
+        "location": {
+          "latitude": 35.669700299999995,
+          "longitude": 139.7671399,
+          "radiusMeters": 1000,
+          "addressComponents": [
+            {
+              "longText": "東銀座駅",
+              "shortText": "東銀座駅",
+              "types": [
+                "establishment",
+                "point_of_interest",
+                "subway_station",
+                "transit_station"
+              ]
+            },
+            {
+              "longText": "１０先",
+              "shortText": "１０先",
+              "types": [
+                "premise"
+              ]
+            },
+            {
+              "longText": "１０",
+              "shortText": "１０",
+              "types": [
+                "political",
+                "sublocality",
+                "sublocality_level_4"
+              ]
+            },
+            {
+              "longText": "４丁目",
+              "shortText": "４丁目",
+              "types": [
+                "political",
+                "sublocality",
+                "sublocality_level_3"
+              ]
+            },
+            {
+              "longText": "銀座",
+              "shortText": "銀座",
+              "types": [
+                "political",
+                "sublocality",
+                "sublocality_level_2"
+              ]
+            },
+            {
+              "longText": "中央区",
+              "shortText": "中央区",
+              "types": [
+                "locality",
+                "political"
+              ]
+            },
+            {
+              "longText": "東京都",
+              "shortText": "東京都",
+              "types": [
+                "administrative_area_level_1",
+                "political"
+              ]
+            },
+            {
+              "longText": "日本",
+              "shortText": "JP",
+              "types": [
+                "country",
+                "political"
+              ]
+            },
+            {
+              "longText": "104-0061",
+              "shortText": "104-0061",
+              "types": [
+                "postal_code"
+              ]
+            }
+          ],
+          "addressObservation": {
+            "source": "GOOGLE_GEOCODING",
+            "observedAt": "2026-10-11T06:47:22.805Z",
+            "status": "OBSERVED"
+          }
+        },
+        "hardCriteria": []
+      },
+      "hasTaskDate": false,
+      "hasTaskPartySize": false,
+      "hasTaskTimeWindow": false
+    }
+  ],
+  "currentScript": "Same nearby discovery input as prior h002; model goal has no task date/party/timeWindow and empty hardCriteria; public evaluation center/address/page only",
+  "authorizedProbe": "user followup item2, same input, up to6 models,90sec, P1-D11",
+  "destination": "repository configured DeepSeek API (same as user named in this turn)",
+  "automaticRejection": "Claimed possible task date/party transmission; prior serialized goal proves these absent",
+  "attemptedModelCalls": 0
+}
