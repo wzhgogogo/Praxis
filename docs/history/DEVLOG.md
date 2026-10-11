@@ -3409,3 +3409,8 @@ P1-F A 冻结 73bfca5 后启动 5 次，只完成 3 份正式结果；h003 被�
 ## DEV-2026-10-12-P1F-input-path-resolution
 
 用户批准后，仅修正外层A输入路径至冻结工作树忽略目录并重记共享SHA；rev2原样复制SHA一致，其他脚本行为、生产73bfca5不变。此前路径失败保留，间隔超过15分钟后h003第2次已启动。
+
+
+## DEV-2026-10-12-P1F-A-part2
+
+第二段h003/h005/Kichijoji各一次正式运行，冻结73bfca5/CLEAN。h003展示3家TableCheck/evaluator UNKNOWN，h005零交付NO_VERIFIED_RESULT，Kichijoji AGENT_LOOP_NO_PROGRESS/FAILED。只记录、不归因修复。原外层null交付计数漏触发见证，按授权单独补存5份四参数GET原始响应，全部结束后1分钟内。A报告已追加，随后B h001开始。

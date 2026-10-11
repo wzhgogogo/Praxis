@@ -1,0 +1,139 @@
+{
+  "schemaVersion": "1",
+  "evaluatorVersion": "restaurant-hybrid-read-diagnostic-evaluator@27",
+  "rubricVersion": "restaurant-hybrid-read-diagnostic-rubric@21",
+  "rubricStatus": "DRAFT_DIAGNOSTIC_ONLY",
+  "sourceArtifact": {
+    "path": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-11T20-50-26-490Z-97d214c5-7dcc-4473-aab4-c78e96a23379.result.json",
+    "sha256": "2f6be0324f659a50694589a77a04bbe686dd81115fa3bf9b6cb093a1f1375cd1",
+    "runId": "97d214c5-7dcc-4473-aab4-c78e96a23379",
+    "caseId": "p1f-novel-kichijoji-tempura-20261020"
+  },
+  "execution": {
+    "status": "FAILED",
+    "stage": "AGENT_LOOP",
+    "taskProducedQualifiedResult": "UNKNOWN",
+    "systemBehavior": "NOT_EVALUATED",
+    "externalConditions": "NOT_EVALUATED",
+    "evidenceSufficiency": "NOT_EVALUATED",
+    "completion": "NOT_EVALUATED"
+  },
+  "candidateSummaries": [],
+  "findings": [
+    {
+      "dimension": "AUTHORITATIVE_CONDITIONS",
+      "status": "NOT_EVALUATED",
+      "stage": "SEMANTIC_TO_FINAL_STATE",
+      "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+      "observations": [
+        "Unresolved criterion wording: criteria.text expected=[tempura] actual=[tempura restaurant]."
+      ],
+      "directCause": "Criterion text differs without a deterministic equivalence rule; independent semantic review is required.",
+      "rootCauseHypothesis": "The model may have paraphrased, omitted, or added a criterion; the evaluator does not guess which.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "materializedCase.semantic",
+        "finalSnapshot.domainState.intentDraft"
+      ],
+      "downstreamImpact": "Do not claim automatic semantic fidelity for the text difference; grounding remains independently evaluated against the actual request."
+    },
+    {
+      "dimension": "REQUIRED_EVIDENCE",
+      "status": "NOT_EVALUATED",
+      "stage": "GROUNDING",
+      "requirement": "Each presented candidate must independently cite same-candidate HIGH identity, area, applicable HARD facts, and only when the user requested availability, fresh request-bound slot evidence.",
+      "observations": [],
+      "directCause": "Artifact records or accepted evidence contract are insufficient for an independent conclusion.",
+      "rootCauseHypothesis": "Execution artifact or accepted evidence contract lacks required detail.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [],
+      "downstreamImpact": "Do not claim an evidence-grounded result from this artifact."
+    },
+    {
+      "dimension": "INVESTIGATION_BEHAVIOR",
+      "status": "SATISFIED",
+      "stage": "AGENT_LOOP",
+      "requirement": "Cited presentation evidence must originate in actually executed same-candidate observations for the applicable request; duplicate fact/availability reads remain checked without requiring either action type.",
+      "observations": [
+        "executedObservations=0",
+        "applicableObservations=0",
+        "executedInvestigationVisits=0",
+        "authorizedRechecks=none",
+        "duplicates=none"
+      ],
+      "directCause": "Executed observations are attributable without a duplicate fact/availability read.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [],
+      "downstreamImpact": "Observation lineage and duplicate-read accounting remain attributable."
+    },
+    {
+      "dimension": "FINAL_CLAIM",
+      "status": "NOT_EVALUATED",
+      "stage": "PRESENT_RESULTS",
+      "requirement": "A terminal presentation must agree with the independently checked, candidate-specific request and evidence records.",
+      "observations": [
+        "phase=FAILED",
+        "loop=NO_PROGRESS",
+        "presentedCandidates=0"
+      ],
+      "directCause": "No terminal presentation was executed.",
+      "rootCauseHypothesis": "Verifier, serialization, or upstream execution record requires review.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "loop",
+        "finalSnapshot.domainState.presentedResults",
+        "finalSnapshot.domainState.availability",
+        "finalSnapshot.domainState.readEvidence"
+      ],
+      "downstreamImpact": "No qualified completion can be claimed."
+    },
+    {
+      "dimension": "COMPLETION_OUTCOME",
+      "status": "NOT_EVALUATED",
+      "stage": "TERMINATION",
+      "requirement": "A scoped no-result outcome, user-input pause, controlled cancellation, budget/deadline stop, and internal execution failure must remain distinguishable from one another and from independently verified presentation.",
+      "observations": [
+        "completion=NOT_EVALUATED",
+        "phase=FAILED",
+        "loop=NO_PROGRESS",
+        "noVerifiedResult=missing",
+        "failureCode=LIVE_CASE_NOT_COMPLETED"
+      ],
+      "directCause": "Artifact lacks enough terminal information to classify the outcome.",
+      "rootCauseHypothesis": "Historical artifact or terminal serialization requires review.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "status",
+        "execution.failureCode",
+        "loop.status",
+        "finalSnapshot.domainState.phase",
+        "finalSnapshot.domainState.noVerifiedResult",
+        "finalSnapshot.domainState.failure"
+      ],
+      "downstreamImpact": "No reliable outcome classification can be claimed."
+    },
+    {
+      "dimension": "RESOURCES",
+      "status": "SATISFIED",
+      "stage": "RUN_ACCOUNTING",
+      "requirement": "Artifact must provide valid applicable resource values; an object alone does not prove complete accounting or budget compliance.",
+      "observations": [],
+      "directCause": "Required resource fields are present and within readable applicable limits.",
+      "rootCauseHypothesis": "Runner limit/accounting requires review.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "resourceUsage",
+        "runCeilings",
+        "modelInvocations"
+      ],
+      "downstreamImpact": "Recorded budget use can be reviewed."
+    }
+  ],
+  "unassessedDimensions": [
+    "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+    "Cost is not inferred without explicit configured price inputs.",
+    "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose.",
+    "Criterion text differs without deterministic equivalence; no LLM judge was used and independent semantic review is required."
+  ]
+}

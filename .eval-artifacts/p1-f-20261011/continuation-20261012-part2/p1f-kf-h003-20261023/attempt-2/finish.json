@@ -1,0 +1,263 @@
+{
+  "mode": "A",
+  "id": "p1f-kf-h003-20261023",
+  "attempt": 2,
+  "startedAt": "2026-10-11T20:36:31.983Z",
+  "head": "73bfca588ad5007a4a9326c8c13a958718898f1c",
+  "worktree": "CLEAN",
+  "sourcePath": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/variants.rev2.yaml",
+  "sourceSha256": "1879c3189f90134f2ddb4cc78b12fcc31a0cd68e7b806a2baec43270e6f9f753",
+  "command": [
+    "node",
+    "--env-file-if-exists=/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.env",
+    "--import",
+    "tsx",
+    "--import",
+    "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/prep-20261012/scripts/observe.mjs",
+    "src/eval/restaurant/agent-loop/runners/run-hybrid-live-read.ts",
+    "--case-source",
+    "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/variants.rev2.yaml",
+    "--case",
+    "p1f-kf-h003-20261023",
+    "--record-browser",
+    "--record-decisions",
+    "--no-proxy",
+    "--timeout-ms",
+    "500000",
+    "--max-model-calls",
+    "50",
+    "--max-google-requests",
+    "40"
+  ],
+  "freezeManifest": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/prep-20261012/scripts/freeze.json",
+  "endedAt": "2026-10-11T20:43:48.232Z",
+  "wallMs": 436249,
+  "exit": {
+    "code": 0,
+    "signal": null
+  },
+  "stop": null,
+  "newFiles": [
+    "2026-10-11T20-36-36-561Z-9207fb44-2bc6-4125-88df-1bf1cc3fc0be.decisions.jsonl",
+    "2026-10-11T20-36-36-561Z-9207fb44-2bc6-4125-88df-1bf1cc3fc0be.result.evaluation.27-1791751428175.json",
+    "2026-10-11T20-36-36-561Z-9207fb44-2bc6-4125-88df-1bf1cc3fc0be.result.json",
+    "2026-10-11T20-36-36-561Z-9207fb44-2bc6-4125-88df-1bf1cc3fc0be.started.json"
+  ],
+  "results": [
+    "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-11T20-36-36-561Z-9207fb44-2bc6-4125-88df-1bf1cc3fc0be.result.json"
+  ],
+  "preflight": {
+    "mode": "LIVE_NETWORK_PREFLIGHT",
+    "preflightVersion": "live-network-preflight@1",
+    "runner": "HYBRID_LIVE_READ",
+    "plannedTargets": [
+      "DEEPSEEK",
+      "GOOGLE",
+      "TABELOG",
+      "TABLECHECK"
+    ],
+    "timeoutMs": 10000,
+    "generationModelCalls": 0,
+    "restaurantDiscoveryRequests": 0,
+    "evaluator": {
+      "applicability": "NOT_APPLICABLE",
+      "reason": "NETWORK_ONLY_DIAGNOSTIC_HAS_NO_RESTAURANT_CLAIM"
+    },
+    "network": {
+      "proxyMode": "DISABLED_BY_CLI"
+    },
+    "status": "SUCCEEDED",
+    "stage": "NETWORK_READINESS",
+    "artifactPath": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/live-preflight/2026-10-11T20-36-32-804Z-dd3130f6-27bf-4f64-a0ad-5e5a756a253f.result.json",
+    "attempts": [
+      {
+        "target": "DEEPSEEK",
+        "request": {
+          "method": "GET",
+          "url": "https://api.deepseek.com/models",
+          "range": "NONE",
+          "authorization": "PRESENT"
+        },
+        "elapsedMs": 418,
+        "outcome": "REACHABLE",
+        "status": 200,
+        "tls": "ESTABLISHED"
+      },
+      {
+        "target": "GOOGLE",
+        "request": {
+          "method": "GET",
+          "url": "https://places.googleapis.com/",
+          "range": "NONE",
+          "authorization": "ABSENT"
+        },
+        "elapsedMs": 188,
+        "outcome": "REACHABLE",
+        "status": 404,
+        "tls": "ESTABLISHED"
+      },
+      {
+        "target": "TABELOG",
+        "request": {
+          "method": "GET",
+          "url": "https://tabelog.com/",
+          "range": "BYTES_0_0",
+          "authorization": "ABSENT"
+        },
+        "elapsedMs": 441,
+        "outcome": "REACHABLE",
+        "status": 200,
+        "tls": "ESTABLISHED"
+      },
+      {
+        "target": "TABLECHECK",
+        "request": {
+          "method": "GET",
+          "url": "https://www.tablecheck.com/en/",
+          "range": "BYTES_0_0",
+          "authorization": "ABSENT"
+        },
+        "elapsedMs": 2604,
+        "outcome": "REACHABLE",
+        "status": 206,
+        "tls": "ESTABLISHED"
+      }
+    ],
+    "elapsedMs": 3655,
+    "configuration": {
+      "proxyMode": "DISABLED_BY_CLI",
+      "googleProxyConfigured": false,
+      "browserProxyConfigured": false
+    },
+    "schemaVersion": "1",
+    "runId": "dd3130f6-27bf-4f64-a0ad-5e5a756a253f",
+    "startedAt": "2026-10-11T20:36:32.804Z",
+    "finishedAt": "2026-10-11T20:36:36.460Z"
+  },
+  "formalRunStarted": true,
+  "deliveryCount": 3,
+  "resourceUsage": {
+    "discoveryCandidates": 10,
+    "candidatesChecked": 10,
+    "agentDecisions": 11,
+    "browserModelCalls": 35,
+    "modelCallsStarted": 47,
+    "browserRuntimeCalls": 282,
+    "browserOperationsByCandidate": {
+      "native-discovery:VENUE_SEARCH": 30,
+      "tablecheck:1864-ginza": 28,
+      "tablecheck:ahill-ginza": 28,
+      "tablecheck:0711-ginzabistro": 28,
+      "tablecheck:168tenshin-ginzainz": 24,
+      "tablecheck:ageru-karin": 25,
+      "tablecheck:ain-soph-ginza": 30,
+      "tablecheck:alaska-asahi": 25,
+      "tablecheck:aloft-tokyo-ginza": 25,
+      "tablecheck:amajoh": 25,
+      "tablecheck:amarantos": 14
+    },
+    "pageStillLoadingWithinBound": 53,
+    "postActionWaitTotalMs": 134829,
+    "browserModelActions": 34,
+    "googleRequests": {
+      "limit": 40,
+      "total": 1,
+      "namedPlaceResolution": 0,
+      "discovery": 0,
+      "placeDetails": 0,
+      "reverseAddressObservation": 1
+    },
+    "elapsedMs": 431150
+  },
+  "postDelivery": {
+    "rows": [
+      {
+        "candidateId": "tablecheck:alaska-asahi",
+        "status": "TABLECHECK_RAW_TRACE_REVIEW",
+        "restaurant": {
+          "id": "tablecheck:alaska-asahi",
+          "outletName": "Restaurant Alaska Tsukijiten",
+          "address": "104-0045 Tokyo Chuo-ku 5-3-2 Tsukiji The Asahi Shimbun Company Tokyo Head Office 2F",
+          "coordinates": {
+            "lat": 35.6622326,
+            "lng": 139.7684028
+          },
+          "sourceIds": {
+            "tablecheck": "alaska-asahi",
+            "tablecheckNativeGuideUri": "https://www.tablecheck.com/en/alaska-asahi",
+            "discoverySourceId": "tablecheck",
+            "discoveryDetailUri": "https://www.tablecheck.com/en/alaska-asahi"
+          },
+          "provenance": {
+            "outletName": "evidence:restaurant:native-discovery:37c4084b9aba2b148ffd6b6f",
+            "address": "evidence:restaurant:native-discovery:37c4084b9aba2b148ffd6b6f",
+            "sourceIds": "evidence:restaurant:native-discovery:37c4084b9aba2b148ffd6b6f"
+          }
+        }
+      },
+      {
+        "candidateId": "tablecheck:aloft-tokyo-ginza",
+        "status": "TABLECHECK_RAW_TRACE_REVIEW",
+        "restaurant": {
+          "id": "tablecheck:aloft-tokyo-ginza",
+          "outletName": "Aloft by Marriott Tokyo Ginza",
+          "address": "104-0061 Tokyo Chuo-ku 6-14-3 Ginza",
+          "coordinates": {
+            "lat": 35.6688816,
+            "lng": 139.7656834
+          },
+          "sourceIds": {
+            "tablecheck": "aloft-tokyo-ginza",
+            "tablecheckNativeGuideUri": "https://www.tablecheck.com/en/aloft-tokyo-ginza",
+            "discoverySourceId": "tablecheck",
+            "discoveryDetailUri": "https://www.tablecheck.com/en/aloft-tokyo-ginza"
+          },
+          "provenance": {
+            "outletName": "evidence:restaurant:native-discovery:4de9080d9cbd18807d52851b",
+            "address": "evidence:restaurant:native-discovery:4de9080d9cbd18807d52851b",
+            "sourceIds": "evidence:restaurant:native-discovery:4de9080d9cbd18807d52851b"
+          }
+        }
+      },
+      {
+        "candidateId": "tablecheck:amajoh",
+        "status": "TABLECHECK_RAW_TRACE_REVIEW",
+        "restaurant": {
+          "id": "tablecheck:amajoh",
+          "outletName": "Grilling and Hot Pot Festival! Amajoh",
+          "address": "105-0004 Tokyo Minato 2-8-5 Shimbashi Grand Hammer B1F",
+          "coordinates": {
+            "lat": 35.6672844,
+            "lng": 139.7570083
+          },
+          "sourceIds": {
+            "tablecheck": "amajoh",
+            "tablecheckNativeGuideUri": "https://www.tablecheck.com/en/amajoh",
+            "discoverySourceId": "tablecheck",
+            "discoveryDetailUri": "https://www.tablecheck.com/en/amajoh"
+          },
+          "provenance": {
+            "outletName": "evidence:restaurant:native-discovery:dc90aa3ee94616d4d752bd69",
+            "address": "evidence:restaurant:native-discovery:dc90aa3ee94616d4d752bd69",
+            "sourceIds": "evidence:restaurant:native-discovery:dc90aa3ee94616d4d752bd69"
+          }
+        }
+      }
+    ],
+    "stop": null
+  },
+  "witnessRaw": [],
+  "evaluation": {
+    "path": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-11T20-36-36-561Z-9207fb44-2bc6-4125-88df-1bf1cc3fc0be.result.evaluation.27-1791751428444.json",
+    "execution": {
+      "status": "SUCCEEDED",
+      "stage": "AGENT_LOOP",
+      "taskProducedQualifiedResult": "UNKNOWN",
+      "systemBehavior": "NOT_EVALUATED",
+      "externalConditions": "OBSERVED",
+      "evidenceSufficiency": "SUFFICIENT_FOR_PRESENTED_RESULT",
+      "completion": "PRESENTATION_RECORDED"
+    }
+  },
+  "classification": "FACTS_ONLY; independent classification pending"
+}

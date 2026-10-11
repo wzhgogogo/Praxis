@@ -4093,3 +4093,8 @@ NETWORK_PREFLIGHT成功（TableCheck206）与ORCHESTRATION_INPUT_FAILURE分列�
 ## TEST-2026-10-12-P1F-input-path-resolution
 
 使用冻结Runner的真实caseSourceFromArgs函数做无网络路径校验PASS；两个外层入口无网络空跑PASS，rev2两端SHA一致，WT CLEAN。共享SHA ff567ad81e3ca59fc6ab4449a997a12c167751f305edd601c4158b56cf9d9c61；生产与eval源无改动，复用已有四门禁849/849，实际Live另行逐例记录。
+
+
+## TEST-2026-10-12-P1F-A-part2
+
+LIVE_READ_ONLY三例，preflight206；h003 431.150s/47模型/1Google/等待31.27%，h005 327.960s/47/1/18.52%且有浏览器超时，Kichijoji 2.941s/2/1/0%、无浏览器读取。各执行现有evaluator@27；决策数47/47/2等于模型调用。段末累计698/1500、27/33、Google已确认10但历史完整数UNKNOWN、环境预留2。原始结果/旧评价不覆盖，来源响应未判读；冻结SHA再核一致。

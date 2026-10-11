@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.191
+- Document revision: 4.192
 - Last updated: 2026-10-12
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-12 P1F-A-part2：** 第二段完成3例：h003展示3家/自动UNKNOWN，h005零交付NO_VERIFIED_RESULT，Kichijoji AGENT_LOOP_NO_PROGRESS失败；待独立签收。新增96模型/3Google/3Live，段末698/1500、27/33、环境预留2；零交付见证5份原始GET均一分钟内保存。冻结73bfca5/CLEAN，A报告已追加；B h001正在运行，原版h005仍东京11:30–14:00。
 
 - **2026-10-12 P1F-input-path-resolution：** 用户批准外层输入路径修正，新SHA已冻结，真实冻结CLI路径校验及两个空跑PASS；路径阻塞解除，h003第2次已发起。A第二段后连续执行B h001–h004，原版h005仍东京11:30–14:00。生产73bfca5/CLEAN及其余规则不变，真实结果待记录。
 

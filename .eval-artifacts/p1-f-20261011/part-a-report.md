@@ -270,3 +270,74 @@ A 使用批准 rev2；B 使用冻结 Runner 默认 Gold@7（h001–h004 原文�
 ## 外层输入路径已获批准并修正
 
 用户明确批准修正输入路径并重新冻结；execute仅把A sourcePath根从主树改为冻结工作树，其他行为不变。rev2原样复制到冻结工作树忽略目录，两端SHA `1879c3189f90134f2ddb4cc78b12fcc31a0cd68e7b806a2baec43270e6f9f753`；冻结Runner真实caseSourceFromArgs函数离线校验PASS，A/B空跑PASS。共享execute最终SHA `ff567ad81e3ca59fc6ab4449a997a12c167751f305edd601c4158b56cf9d9c61`；入口continue-a.mjs、run-b.mjs及其他依赖SHA不变。详情 `prep-20261012/input-path-resolution.json`，新旧脚本/manifest保留。此前路径阻塞是历史记录，现已解除；h003第2次preflight/运行已发起，距上次超过15分钟。生产仍73bfca5/CLEAN，不改产品、Prompt、Schema、配置、原文或见证。
+
+
+## 2026-10-12 第二段续跑最终记录（事实记录，待独立复核）
+
+生产冻结 `73bfca5`／干净宿主机工作树；原文与semantic使用批准rev2（B用正式Gold@7），500秒／50模型／40Google，record-browser、record-decisions、no-proxy，原生发现。复核原文949b86f、加载526fab6、外层准备947b8e3、批准时窗bde135a、批准输入路径8180082；已记录四门禁849/849及空跑。最终共享execute SHA `ff567ad81e3ca59fc6ab4449a997a12c167751f305edd601c4158b56cf9d9c61`，入口及其余依赖见prep-20261012/scripts/freeze.json。已知Guard多跳重定向缺口保留，不声称完整只读边界已验证。
+
+### Preflight尝试
+
+| 用例 | 尝试 | 东京时间 | 状态 | TableCheck HTTP | 路径 |
+| --- | --- | --- | --- | --- | --- |
+| p1f-kf-h003-20261023 | 1 | 2026-10-12T05:18:41.133000+09:00 | SUCCEEDED | 206 | /Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-kf-h003-20261023/attempt-1 |
+| p1f-kf-h003-20261023 | 2 | 2026-10-12T05:36:32.804000+09:00 | SUCCEEDED | 206 | /Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-kf-h003-20261023/attempt-2 |
+| p1f-kf-h005-20261022 | 1 | 2026-10-12T05:44:00.975000+09:00 | SUCCEEDED | 206 | /Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-kf-h005-20261022/attempt-1 |
+| p1f-novel-kichijoji-tempura-20261020 | 2 | 2026-10-12T05:50:23.389000+09:00 | SUCCEEDED | 206 | /Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-novel-kichijoji-tempura-20261020/attempt-2 |
+
+### 运行逐行表
+
+| 用例 | 执行／阶段 | 交付家数 | evaluator@27 | 秒 | 模型 | Google | 等待ms／占比 | 浏览器超时 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| p1f-kf-h003-20261023 | SUCCEEDED / PRESENT_RESULTS | 3 | UNKNOWN / PRESENTATION_RECORDED / NOT_EVALUATED | 431.15 | 47 | 1 | 134829 / 31.27% | False |
+| p1f-kf-h005-20261022 | SUCCEEDED / NO_VERIFIED_RESULT | 0 | NO / NO_VERIFIED_RESULT / NOT_EVALUATED | 327.96 | 47 | 1 | 60753 / 18.52% | True |
+| p1f-novel-kichijoji-tempura-20261020 | FAILED / FAILED | 0 | UNKNOWN / NOT_EVALUATED / NOT_EVALUATED | 2.941 | 2 | 1 | 0 / 0% | False |
+
+### p1f-kf-h003-20261023
+
+- Restaurant Alaska Tsukijiten；来源 TABLECHECK；距圆心 841 m。
+- Aloft by Marriott Tokyo Ginza；来源 TABLECHECK；距圆心 150 m。
+- Grilling and Hot Pot Festival! Amajoh；来源 TABLECHECK；距圆心 943 m。
+- 地点解析／圆心：{"latitude": 35.6697, "longitude": 139.767, "radiusMeters": 1000, "label": "nearby", "areaMatchBasis": "TASK_LOCATION_RADIUS", "addressComponents": [{"longText": "東銀座駅", "shortText": "東銀座駅", "types": ["establishment", "point_of_interest", "subway_station", "transit_station"]}, {"longText": "１０先", "shortText": "１０先", "types": ["premise"]}, {"longText": "１０", "shortText": "１０", "types": ["political", "sublocality", "sublocality_level_4"]}, {"longText": "４丁目", "shortText": "４丁目", "types": ["political", "sublocality", "sublocality_level_3"]}, {"longText": "銀座", "shortText": "銀座", "types": ["political", "sublocality", "sublocality_level_2"]}, {"longText": "中央区", "shortText": "中央区", "types": ["locality", "political"]}, {"longText": "東京都", "shortText": "東京都", "types": ["administrative_area_level_1", "political"]}, {"longText": "日本", "shortText": "JP", "types": ["country", "political"]}, {"longText": "104-0061", "shortText": "104-0061", "types": ["postal_code"]}], "addressObservation": {"source": "GOOGLE_GEOCODING", "observedAt": "2026-10-11T20:36:40.469Z", "status": "OBSERVED"}}。原始Googleplace types未被冻结Runner保留时不补造，addressComponents.types原样在summary。
+- result：/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-11T20-36-36-561Z-9207fb44-2bc6-4125-88df-1bf1cc3fc0be.result.json
+- decisions：/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-11T20-36-36-561Z-9207fb44-2bc6-4125-88df-1bf1cc3fc0be.decisions.jsonl；47条，等于模型调用：True。
+- recording：/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1791750996485
+- evaluator：/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-11T20-36-36-561Z-9207fb44-2bc6-4125-88df-1bf1cc3fc0be.result.evaluation.27-1791751428444.json
+- 本例summary：/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-kf-h003-20261023/attempt-2/summary.json
+- 后置核验：tablecheck:alaska-asahi / TABLECHECK_RAW_TRACE_REVIEW；TableCheck交付沿用原始trace。
+- 后置核验：tablecheck:aloft-tokyo-ginza / TABLECHECK_RAW_TRACE_REVIEW；TableCheck交付沿用原始trace。
+- 后置核验：tablecheck:amajoh / TABLECHECK_RAW_TRACE_REVIEW；TableCheck交付沿用原始trace。
+- stop：null。
+
+### p1f-kf-h005-20261022
+
+- 未交付。
+- 地点解析／圆心：{"latitude": 35.6697, "longitude": 139.767, "radiusMeters": 1000, "label": "nearby", "areaMatchBasis": "TASK_LOCATION_RADIUS", "addressComponents": [{"longText": "東銀座駅", "shortText": "東銀座駅", "types": ["establishment", "point_of_interest", "subway_station", "transit_station"]}, {"longText": "１０先", "shortText": "１０先", "types": ["premise"]}, {"longText": "１０", "shortText": "１０", "types": ["political", "sublocality", "sublocality_level_4"]}, {"longText": "４丁目", "shortText": "４丁目", "types": ["political", "sublocality", "sublocality_level_3"]}, {"longText": "銀座", "shortText": "銀座", "types": ["political", "sublocality", "sublocality_level_2"]}, {"longText": "中央区", "shortText": "中央区", "types": ["locality", "political"]}, {"longText": "東京都", "shortText": "東京都", "types": ["administrative_area_level_1", "political"]}, {"longText": "日本", "shortText": "JP", "types": ["country", "political"]}, {"longText": "104-0061", "shortText": "104-0061", "types": ["postal_code"]}], "addressObservation": {"source": "GOOGLE_GEOCODING", "observedAt": "2026-10-11T20:44:07.361Z", "status": "OBSERVED"}}。原始Googleplace types未被冻结Runner保留时不补造，addressComponents.types原样在summary。
+- result：/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-11T20-44-03-970Z-e330ebb5-9bb7-423b-8ee8-86bc6c1720f4.result.json
+- decisions：/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-11T20-44-03-970Z-e330ebb5-9bb7-423b-8ee8-86bc6c1720f4.decisions.jsonl；47条，等于模型调用：True。
+- recording：/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1791751443901
+- evaluator：/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-11T20-44-03-970Z-e330ebb5-9bb7-423b-8ee8-86bc6c1720f4.result.evaluation.27-1791751772438.json
+- 本例summary：/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-kf-h005-20261022/attempt-1/summary.json
+- 零交付见证四参数GET：2026-10-11T20:50:10.247Z，HTTP200；/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-kf-h005-20261022/attempt-1/witness-raw/13305528.body.txt；原始响应未判读。
+- 零交付见证四参数GET：2026-10-11T20:50:10.739Z，HTTP200；/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-kf-h005-20261022/attempt-1/witness-raw/13255508.body.txt；原始响应未判读。
+- stop：null。
+
+### p1f-novel-kichijoji-tempura-20261020
+
+- 未交付。
+- 地点解析／圆心：null。原始Googleplace types未被冻结Runner保留时不补造，addressComponents.types原样在summary。
+- result：/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-11T20-50-26-490Z-97d214c5-7dcc-4473-aab4-c78e96a23379.result.json
+- decisions：/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-11T20-50-26-490Z-97d214c5-7dcc-4473-aab4-c78e96a23379.decisions.jsonl；2条，等于模型调用：True。
+- recording：/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1791751826425
+- evaluator：/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-11T20-50-26-490Z-97d214c5-7dcc-4473-aab4-c78e96a23379.result.evaluation.27-1791751829408.json
+- 本例summary：/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-novel-kichijoji-tempura-20261020/attempt-2/summary.json
+- 零交付见证四参数GET：2026-10-11T20:51:22.528Z，HTTP200；/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-novel-kichijoji-tempura-20261020/attempt-2/witness-raw/13282321.body.txt；原始响应未判读。
+- 零交付见证四参数GET：2026-10-11T20:51:23.041Z，HTTP200；/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-novel-kichijoji-tempura-20261020/attempt-2/witness-raw/13303321.body.txt；原始响应未判读。
+- 零交付见证四参数GET：2026-10-11T20:51:23.385Z，HTTP200；/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-novel-kichijoji-tempura-20261020/attempt-2/witness-raw/13192886.body.txt；原始响应未判读。
+- stop：null。
+
+本次累计账本：模型698/1500（本轮基线602，新增96）；Google已确认10（基线7，新增3），历史两次中断缺计数，完整累计UNKNOWN；整单Live27/33（基线24，新增3）；环境预留2（基线2）。preflight未正式启动不计Live或环境重跑；启动后只有证据明确的环境失败可重跑一次。UNKNOWN/NO不自行改签收分类，留给独立复核按Playbook§10逐条判定。
+
+完整逐例和逐尝试证据：/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/continuation-20261012-part2/2026-10-12 第二段续跑最终记录.summary.json。后续未运行例不冒充完成。
+
+第二段执行附注：h005与Kichijoji的冻结外层deliveryCount为null（未生成presentedResults），未自动触发零交付见证GET；实施者按同一已批准四参数GET范围分别在39秒／54秒内独立补抓，记录witness-manual.json，冻结脚本不修。Kichijoji记录的domain failure为AGENT_LOOP_NO_PROGRESS，message为命名地点无法由现有来源解析到坐标；2个模型调用均成功、preflight206，无网关中断或浏览器崩溃证据，因此未使用环境重跑。这里只报告记录，不归因。
