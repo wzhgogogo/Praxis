@@ -4073,3 +4073,8 @@ Red: red-contract.log (three compile omissions), red-changing-results.log (stale
 ## TEST-2026-10-12-P1F-run-preparation
 
 OFFLINE_REEVALUATION五例与OFFLINE_ORCHESTRATION两个空跑均完成，0模型/Google/网络；旧结果SHA未变、旧评价不覆盖。Tabelog展示绑定和selection正反例通过，B无需见证。复用刚完成四门禁849/849（仅评测载入改动），外层证据不修改产品代码；原始路径、对照和SHA见prep-20261012/report.md。
+
+
+## TEST-2026-10-12-P1F-review-read
+
+DOC_REVIEW：复核报告与Playbook提交前后字节SHA一致；冻结脚本/载入器/变体/见证全部SHA再校验一致，宿主机冻结工作树CLEAN。当前仅阅读与证据记录，复用上一切片四门禁849/849，无新代码或Live；记录prep-20261012/review-read.json。
