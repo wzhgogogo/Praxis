@@ -3359,3 +3359,8 @@ Context@11与Prompt@25投影已接纳来源距离及圆心类型，展示带米�
 ## DEV-2026-10-11-P1FF-timezone
 
 营业时间 grounding 的当日及前日 weekday 读取请求时区；Google 发现/详情、官网事实和 diagnostic evaluator 传递已有 intent 时区，不新增字面量、不改变产品时区合同或资格。完成本批报告后停止待独立复核。
+
+
+## DEV-2026-10-11-P1F-A-loading
+
+原样提交独立复核文件 2f10a27；新增评测侧 parentless novel dataset 载入支持，仅 src/eval 改动。8 个批准变体解析及 semantic/content 一致，5 个父数据集哈希验证，3 个独立 NOVEL_LOCATION_DIAGNOSTIC cohort。

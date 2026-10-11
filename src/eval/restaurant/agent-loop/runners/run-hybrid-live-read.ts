@@ -21,7 +21,7 @@ import { composeNativeRestaurantRead } from "../../../../integrations/restaurant
 import { LiveBrowserAvailability } from "../../../../integrations/restaurant-availability/live-browser-availability.js";
 import type { TableCheckIdentityDiagnostic } from "../../../../integrations/tablecheck/tablecheck-contracts.js";
 import type { TabelogIdentityDiagnostic, TabelogUserInterventionRequired } from "../../../../integrations/tabelog/tabelog-contracts.js";
-import { loadFrozenLiveCases, materializeLiveCase, validDevelopmentVariantParent, RESTAURANT_READ_DEVELOPMENT_CASE_PATH, RESTAURANT_READ_DEVELOPMENT_DATASET_VERSION } from "../live-case-materializer.js";
+import { loadFrozenLiveCases, materializeLiveCase, customLiveCaseCohort, RESTAURANT_READ_DEVELOPMENT_CASE_PATH, RESTAURANT_READ_DEVELOPMENT_DATASET_VERSION } from "../live-case-materializer.js";
 import { HIGASHI_GINZA_EVALUATION_LOCATION } from "../live-evaluation-location.js";
 import { requiresEvaluationLocation } from "../evaluation-location-selection.js";
 import { createHybridReadComposition } from "../hybrid-read-composition.js";
@@ -233,11 +233,7 @@ if (!frozen) throw new Error(`Unknown frozen E2E case: ${selectedId}`);
 const customVariant = customCaseSourcePath !== undefined;
 const variantParent = frozen.parent;
 if (!customVariant && frozen.dataset !== RESTAURANT_READ_DEVELOPMENT_DATASET_VERSION) throw new Error("Development case dataset version does not match the Runner");
-if (customVariant) {
-  if (frozen.dataset !== "restaurant-read-development-variant@1" || !await validDevelopmentVariantParent(variantParent)) {
-    throw new Error("Custom case source must declare restaurant-read-development-variant@1 with a retained development dataset parent and its exact SHA-256");
-  }
-}
+const cohort = customVariant ? await customLiveCaseCohort(frozen) : "DEVELOPMENT_DIAGNOSTIC";
 if ((process.env.PRAXIS_EVAL_USER_LAT && !process.env.PRAXIS_EVAL_USER_LNG) || (!process.env.PRAXIS_EVAL_USER_LAT && process.env.PRAXIS_EVAL_USER_LNG)) {
   throw new Error("PRAXIS_EVAL_USER_LAT and PRAXIS_EVAL_USER_LNG must be set together");
 }
@@ -261,8 +257,8 @@ const runtimeContext = {
     version: String(frozen.dataset),
     sourcePath: customVariant ? relative(process.cwd(), sourcePath) : RESTAURANT_READ_DEVELOPMENT_CASE_PATH,
     sha256: fileSha256(sourcePath),
-    ...(customVariant ? { parent: structuredClone(variantParent) } : {}),
-    cohort: "DEVELOPMENT_DIAGNOSTIC",
+    ...(customVariant && variantParent !== undefined ? { parent: structuredClone(variantParent) } : {}),
+    cohort,
     contaminationStatus: "PROMPT_AND_RESULT_EXPOSED",
     baselineEligible: false,
   },

@@ -27,6 +27,13 @@ export interface FrozenLiveCase {
   [key: string]: unknown;
 }
 
+/** Custom eval sources retain development parents or explicitly form the parentless novel cohort. */
+export async function customLiveCaseCohort(source: FrozenLiveCase): Promise<"DEVELOPMENT_DIAGNOSTIC" | "NOVEL_LOCATION_DIAGNOSTIC"> {
+  if (source.dataset === "restaurant-read-novel-variant@1" && source.parent === undefined) return "NOVEL_LOCATION_DIAGNOSTIC";
+  if (source.dataset === "restaurant-read-development-variant@1" && await validDevelopmentVariantParent(source.parent)) return "DEVELOPMENT_DIAGNOSTIC";
+  throw new Error("Custom case source requires a retained development-variant parent with exact SHA-256, or restaurant-read-novel-variant@1 without a parent");
+}
+
 export interface MaterializedLiveCase extends FrozenLiveCase {
   materialization: {
     sourceReferenceTime: string;

@@ -4043,3 +4043,8 @@ Red: red-contract.log (three compile omissions), red-changing-results.log (stale
 ## TEST-2026-10-11-P1FF-timezone
 
 有效 red.log 抓到两次 weekday 都忽略 UTC 输入；修复后 green-target.log 通过 Google/grounding/evaluator 既有正反例，合成 evaluator Fixture 补齐已有时区字段。四门禁全部通过才提交。模型累计 416/1500，本批 Google 1；P1-D 11/11 用完。旧 278 文件和复核原文 2 文件 SHA-256 一致；报告保留回放失败和原 DOM 缺口。
+
+
+## TEST-2026-10-11-P1F-A-loading
+
+旧 Runner 判据 5 接纳、3 拒绝的有效 red.log 保留；共享载入函数反例及真实 8 变体解析均绿灯，0 模型/Google。四门禁全过才提交。产品代码、Prompt、Schema、配置及 ADR-0041 实验分支不动；raw input hashes 保存，Playbook 实读页头 1.3 与指令 1.4 差异如实记录。

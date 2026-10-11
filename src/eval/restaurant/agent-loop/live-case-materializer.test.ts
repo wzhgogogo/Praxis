@@ -4,7 +4,7 @@ import { readFile } from "node:fs/promises";
 import { test } from "node:test";
 
 import { evaluateRestaurantHybridLiveArtifact } from "./diagnostic-evaluator.js";
-import { loadFrozenLiveCases, materializeLiveCase, validDevelopmentVariantParent, RESTAURANT_READ_DEVELOPMENT_CASE_PATH, RESTAURANT_READ_DEVELOPMENT_DATASET_VERSION } from "./live-case-materializer.js";
+import { loadFrozenLiveCases, materializeLiveCase, customLiveCaseCohort, validDevelopmentVariantParent, RESTAURANT_READ_DEVELOPMENT_CASE_PATH, RESTAURANT_READ_DEVELOPMENT_DATASET_VERSION } from "./live-case-materializer.js";
 
 test("live materialization resolves tonight and updates every dependent date without mutating source", () => {
   const source = {
@@ -113,4 +113,18 @@ test("approved Gold7 is the default and right-now window materializes both bound
     const previous = historical.find(entry => entry.id === item.id)!;
     assert.deepEqual({ ...item, dataset: previous.dataset }, previous, "H001-H004 keep their independent expectations");
   }
+});
+
+
+test("custom live case loading keeps novel inputs parentless and in their own cohort", async () => {
+  const source = { id: "novel-eval-example", reference_time: "2026-10-11T18:00:00+09:00", dataset: "restaurant-read-novel-variant@1", content: "Frozen novel request", semantic: { date: { value: "2026-10-20" } } };
+  const before = structuredClone(source);
+  assert.equal(await customLiveCaseCohort(source), "NOVEL_LOCATION_DIAGNOSTIC");
+  assert.deepEqual(source, before);
+  const parent = { dataset: "restaurant-read-development@6", sha256: "00b69476e6d07eec5dcd9a657555c4e3766629fce5f8e630512710252886ffb6" };
+  assert.equal(await customLiveCaseCohort({ ...source, dataset: "restaurant-read-development-variant@1", parent }), "DEVELOPMENT_DIAGNOSTIC");
+  await assert.rejects(customLiveCaseCohort({ ...source, parent }), /Custom case source/);
+  await assert.rejects(customLiveCaseCohort({ ...source, dataset: "unrecognized-dataset" }), /Custom case source/);
+  await assert.rejects(customLiveCaseCohort({ ...source, dataset: "restaurant-read-development-variant@1" }), /Custom case source/);
+  await assert.rejects(customLiveCaseCohort({ ...source, dataset: "restaurant-read-development-variant@1", parent: { ...parent, sha256: "0".repeat(64) } }), /Custom case source/);
 });
