@@ -3998,3 +3998,8 @@ Red: red-contract.log (three compile omissions), red-changing-results.log (stale
 ## TEST-2026-10-11-P1F-radius
 
 有效红灯：旧3000默认违背1000断言；新增999/1001边界与显式半径、任务/评测/bias组合，四门禁见 gates.json。
+
+
+## TEST-2026-10-11-P1F-distance
+
+红灯证明旧上下文缺距离；组合测试证明距离注入不改变合法动作和展示资格。原样四种子仅注入距离，真实回放结果见 replay-summary.json。

@@ -1,0 +1,35 @@
+✖ candidate distance is a bounded source observation without changing legal presentation (4.314958ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 301.335625
+
+✖ failing tests:
+
+test at src/domains/restaurant/agent-context.test.ts:1:11561
+✖ candidate distance is a bounded source observation without changing legal presentation (4.314958ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + undefined
+  - {
+  -   centerBasis: 'TASK_LOCATION_RADIUS',
+  -   meters: 999,
+  -   source: 'PUBLIC_SOURCE'
+  - }
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/domains/restaurant/agent-context.test.ts:226:10)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: { meters: 999, centerBasis: 'TASK_LOCATION_RADIUS', source: 'PUBLIC_SOURCE' },
+    operator: 'deepStrictEqual'
+  }

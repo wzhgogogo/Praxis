@@ -66,7 +66,7 @@ test("Restaurant Agent context retains bounded observations and action scope whi
   const context = projectRestaurantAgentContext(state);
 
   assert.deepEqual(context.missingBlockingFields, []);
-  assert.equal(context.schemaVersion, "10");
+  assert.equal(context.schemaVersion, "11");
   assert.deepEqual(context.searchAvailability, { available: true });
   assert.deepEqual(context.failure, { code: "SEARCH_FAILED" });
   assert.deepEqual(context.availabilityChecks, {
@@ -214,4 +214,16 @@ test("C8 source categories remain advisory and source-attributed without changin
   assert.deepEqual(after.legalActions.checkAvailability,before.legalActions.checkAvailability);
   assert.deepEqual(after.presentation,before.presentation);
   assert.deepEqual(after.candidates[0]!.observedFacts.verifiedHardCriteria,[]);
+});
+
+
+test("candidate distance is a bounded source observation without changing legal presentation", () => {
+  const candidate = fixtureCandidates[0]!;
+  const state: RestaurantTaskState = { schemaVersion: "14", phase: "SEARCHING", intent: fixtureIntent, candidates: [candidate], availability: {}, availabilityChecks: {}, readEvidence: [], searchRevision: 1 };
+  const before = projectRestaurantAgentContext(state, "2026-10-11T00:00:00Z");
+  state.readEvidence.push({ evidenceId: "distance", kind: "DISCOVERY", provider: "GOOGLE_PLACES", candidateId: candidate.restaurant.id, observedAt: "2026-10-10T00:00:00Z", requestFingerprint: "current", claims: { areaMatch: true, areaMatchBasis: "TASK_LOCATION_RADIUS", distanceMeters: 999.4 } });
+  const after = projectRestaurantAgentContext(state, "2026-10-11T00:00:00Z");
+  assert.deepEqual((after.candidates[0] as unknown as { distanceObservation?: unknown }).distanceObservation, { meters: 999, centerBasis: "TASK_LOCATION_RADIUS", source: "GOOGLE_PLACES" });
+  assert.deepEqual(after.legalActions, before.legalActions);
+  assert.deepEqual(after.presentation, before.presentation);
 });

@@ -1,3 +1,4 @@
+import type { CandidateDistanceObservation } from "../domains/restaurant/agent-context.js";
 import type { TaskLifecycleState } from "../core/task-runtime/contracts.js";
 import type {
   AvailabilityOffer,
@@ -45,7 +46,7 @@ export type AgentArtifact =
       domain: "restaurant";
       type: "CANDIDATES";
       sourceVersion: number;
-      data: { candidates: RestaurantCandidate[]; availability: Record<string, AvailabilityOffer[]> };
+      data: { candidates: Array<RestaurantCandidate & { distanceObservation?: CandidateDistanceObservation }>; availability: Record<string, AvailabilityOffer[]> };
     }
   | {
       artifactId: string;
@@ -95,7 +96,7 @@ export interface RestaurantCaseView {
     /** Current task-local request projection; coordinates are only returned to its authenticated owner. */
     intentDraft?: import("../domains/restaurant/contracts.js").RestaurantIntentDraft;
     missingRequiredFields: string[];
-    candidates: RestaurantCandidate[];
+    candidates: Array<RestaurantCandidate & { distanceObservation?: CandidateDistanceObservation }>;
     availability: Record<string, AvailabilityOffer[]>;
     availabilityChecks: Record<string, RestaurantAvailabilityCheck>;
     /** Safe, structured read evidence only; raw DOM and browser credentials are excluded. */

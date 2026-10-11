@@ -98,7 +98,7 @@ export const LOCAL_WORKSPACE_PAGE = `<!doctype html>
           const checkEvidenceIds = check?.evidenceIds || [];
           const source = view.restaurant.readEvidence.find(item => item.candidateId === id && item.sourceUrl && checkEvidenceIds.includes(item.evidenceId)) || facts.find(item => item.sourceUrl);
           const statusDetail = expired ? 'Availability expired — refresh to check again' : offers[0] ? offers[0].dateTime + ' · ' + offers[0].source : check ? (check.reasonCode || check.status) : factOnly ? 'Source facts checked for this recommendation' : 'Availability not checked';
-          card.append(node('h3', candidate.restaurant.outletName), node('div', candidate.restaurant.address + ' · ' + statusDetail, 'muted'));
+          card.append(node('h3', candidate.restaurant.outletName), node('div', candidate.restaurant.address + (candidate.distanceObservation ? ' · ' + candidate.distanceObservation.meters + ' m from ' + (candidate.distanceObservation.centerBasis === 'NAMED_PLACE_RADIUS' ? 'requested place' : candidate.distanceObservation.centerBasis === 'TASK_LOCATION_RADIUS' ? 'your location' : 'evaluation location') : '') + ' · ' + statusDetail, 'muted'));
           card.append(node('div', presentedIds.includes(id) && (factOnly || !expired) ? 'Evidence-grounded result' : 'Investigated candidate — not a verified result for the current request', 'muted'));
           if (check && check.checkedAt) card.append(node('div', 'Availability checked: ' + new Date(check.checkedAt).toLocaleString(), 'muted'));
           let hasPrice = false, hasCancellation = false;

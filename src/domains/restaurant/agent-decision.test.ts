@@ -8,7 +8,7 @@ import type { ModelGateway, ModelResponse } from "../../core/model/contracts.js"
 import { DeepSeekModelGateway } from "../../infrastructure/deepseek/deepseek-model-gateway.js";
 
 const context: RestaurantAgentContext = {
-  schemaVersion: "10",
+  schemaVersion: "11",
   now: "2026-01-01T00:00:00.000Z",
   phase: "UNDERSTANDING",
   intentDraft: {
@@ -50,7 +50,7 @@ test("Restaurant Agent sends a DeepSeek-strict compatible wire schema and restor
   if (result.status !== "PROPOSED") return;
   assert.deepEqual(result.action, { type: "SEARCH_RESTAURANTS", retrievalHint: "omakase near Shibuya" });
   assert.equal(result.decisionSummary, "Search first.");
-  assert.equal(result.modelAttempt.promptVersion, "24");
+  assert.equal(result.modelAttempt.promptVersion, "25");
   assert.equal(result.modelAttempt.providerRequestId, "request-123");
   assert.deepEqual(result.modelAttempt.outputSchema, { name: "restaurant_agent_action", version: "4" });
 });

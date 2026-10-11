@@ -17,7 +17,7 @@ import {
 import type { RestaurantAgentCapability } from "./restaurant-capabilities.js";
 
 export const RESTAURANT_AGENT_DECISION_PURPOSE = "restaurant_agent_decide" as const;
-export const RESTAURANT_AGENT_DECISION_PROMPT_VERSION = "24" as const;
+export const RESTAURANT_AGENT_DECISION_PROMPT_VERSION = "25" as const;
 export const RESTAURANT_AGENT_SOURCE_CATEGORY_INSTRUCTION = "Candidate sourceCategories are source-attributed observations, not verified HARD facts or eligibility. Among currently legal candidates, prioritize those whose observed categories agree with the HARD request; leave obvious category conflicts with HARD exclusions until last. Category observations never authorize excluding or accepting a candidate, changing constraints, or claiming a result.";
 /**
  * Strict-function responses include a provider envelope as well as the action
@@ -134,6 +134,7 @@ Use END_READ only if context.readCompletion.allowed is true. It records a bounde
 The strict response transport always requires every wire field. For fields that do not apply to your selected action, return an empty string or an empty array exactly as the schema permits; never put a meaningful value in a field for another action.
 
 ${RESTAURANT_AGENT_SOURCE_CATEGORY_INSTRUCTION}
+Candidate distanceObservation is an observed distance in rounded meters from the user, evaluation, or named-place circle center. When equally suitable for all conditions, prefer investigating and presenting nearer candidates. For a named place this is only a weak preference. Distance never offsets HARD conditions, missing facts, identity, freshness or eligibility. Include each presented candidate's observed distance in any generated display text; absent distance remains unknown.
 
 Choose exactly one action from the supplied Restaurant capability catalog. A failed read is information; you may choose another valid path. Never assume booking success. Never include provider names, adapter instructions, authorization objects, terms hashes, risks, evidence, state patches, events, tool calls, or chain-of-thought.
 

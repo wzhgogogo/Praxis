@@ -1,3 +1,4 @@
+import { observedCandidateDistance } from "../domains/restaurant/agent-context.js";
 import { createHash, randomBytes, randomUUID } from "node:crypto";
 
 import type {
@@ -958,7 +959,7 @@ export class PersistentRestaurantAgentApplication {
         domain: "restaurant",
         type: "CANDIDATES",
         sourceVersion: snapshot.version,
-        data: { candidates: structuredClone(state.candidates), availability: structuredClone(state.availability) },
+        data: { candidates: state.candidates.map(candidate => ({ ...structuredClone(candidate), ...observedCandidateDistance(state.readEvidence, candidate.restaurant.id, snapshot.updatedAt) })), availability: structuredClone(state.availability) },
       });
     }
     if (state.phase === "AWAITING_AUTHORIZATION" && state.proposal) {
@@ -996,7 +997,7 @@ export class PersistentRestaurantAgentApplication {
       restaurant: {
         ...(state.intentDraft ? { intentDraft: structuredClone(state.intentDraft) } : {}),
         missingRequiredFields: missingBlockingFields(state.intentDraft ?? {}),
-        candidates: structuredClone(state.candidates),
+        candidates: state.candidates.map(candidate => ({ ...structuredClone(candidate), ...observedCandidateDistance(state.readEvidence, candidate.restaurant.id, snapshot.updatedAt) })),
         availability: structuredClone(state.availability),
         availabilityChecks: structuredClone(state.availabilityChecks),
         readEvidence: structuredClone(state.readEvidence),
