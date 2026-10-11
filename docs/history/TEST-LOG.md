@@ -4083,3 +4083,8 @@ DOC_REVIEW：复核报告与Playbook提交前后字节SHA一致；冻结脚本/�
 ## TEST-2026-10-12-P1F-early-window
 
 旧时窗拒绝提前启动的有效red保留；修改后A/B无网络空跑PASS，h005提前仍拒绝。冻结manifest记录新SHA，旧脚本/manifest作为历史证据保留。模型/Google/Live新增0，实际只读随后单列；上一eval四门禁849/849与生产冻结门禁复用，未改生产/src代码。
+
+
+## TEST-2026-10-12-P1F-input-path-block
+
+NETWORK_PREFLIGHT成功（TableCheck206）与ORCHESTRATION_INPUT_FAILURE分列；无餐厅评价，不记ENV或能力失败。预备空跑漏检真实Runner的artifact-root限制，如实保留失败依据。账本恢复实际preflight时间，下一次至少15分钟后；累计仍602模型、24整单Live、环境预留2。

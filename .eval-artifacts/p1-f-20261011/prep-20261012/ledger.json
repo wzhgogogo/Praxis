@@ -6,9 +6,17 @@
   "environmentReserveRemaining": 2,
   "cases": {
     "A:p1f-kf-h003-20261023": {
-      "preflightAttempts": 0,
+      "preflightAttempts": 1,
       "formalRuns": 0,
-      "completed": false
+      "completed": false,
+      "lastPreflightEnd": "2026-10-11T20:18:44.854Z",
+      "inputRejectedBeforeFormalRun": {
+        "code": "CASE_SOURCE_OUTSIDE_WORKTREE_ARTIFACT_ROOT",
+        "attempt": 1,
+        "evidence": ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-kf-h003-20261023/attempt-1/finish.json",
+        "recoveredPreflight": ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-kf-h003-20261023/attempt-1/preflight.recovered.json",
+        "status": "ORCHESTRATION_FAILURE; not ENV_FAILURE; no formal run"
+      }
     },
     "A:p1f-kf-h005-20261022": {
       "preflightAttempts": 0,

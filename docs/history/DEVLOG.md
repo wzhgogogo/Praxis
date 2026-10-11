@@ -3399,3 +3399,8 @@ P1-F A 冻结 73bfca5 后启动 5 次，只完成 3 份正式结果；h003 被�
 ## DEV-2026-10-12-P1F-early-window
 
 用户要求提前运行并明确批准只改外层时窗、重新冻结SHA；execute仅open/close表达式改变，生产73bfca5及其余脚本行为不变。取消两个原心跳，原版h005独立安排东京11:30–14:00，A第二段后接B h001–h004。
+
+
+## DEV-2026-10-12-P1F-input-path-block
+
+提前启动h003在preflight成功后因外层case-source指向主树而被冻结Runner拒绝，未正式启动。实施者准备错误，0模型/Google业务/Live，环境预留不扣；已保存原始preflight及日志，输入路径唯一修正需新的SHA批准，等待用户回复。生产/输入/脚本未再变动。

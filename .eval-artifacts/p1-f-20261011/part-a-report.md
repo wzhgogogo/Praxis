@@ -258,3 +258,10 @@ A 使用批准 rev2；B 使用冻结 Runner 默认 Gold@7（h001–h004 原文�
 ## 用户批准提前运行（2026-10-12）
 
 取消原东京08:30/11:00心跳。用户明确允许仅更新外层时窗校验并重新冻结SHA；execute.mjs只替换open/close时窗表达式，其余字节不变，两个入口脚本SHA保持原值。共享execute新SHA `0cd3aacc1267c8e101b5040b809146af48bb1cdb05de95f5ce97b14f0929f949`，旧manifest和旧脚本保留在prep-20261012/。两个入口再次无网络空跑PASS，h005提前调用仍被OUTSIDE_AUTHORIZED_START_WINDOW拒绝，0新网络/模型。原版h005仅东京11:30–14:00，已设置东京11:30单独心跳p1-f-h005-11-30。生产仍73bfca5/CLEAN。现在执行第二段h003→h005→Kichijoji，完成后接B h001→h004；结果按段追加，不修改旧报告。
+
+
+## 第二段提前启动：外层输入校验失败（未进入正式运行）
+
+外层时窗唯一改动提交 `bde135a`。h003第1次preflight东京05:18:41–05:18:44成功，TableCheck206；随后冻结Runner拒绝主工作树绝对case-source（要求在其自身.eval-artifacts内），未启动正式运行，无result/decisions/recording、无餐厅评价。外层准备空跑未覆盖此真实入口约束，是实施者编排错误，非ENV_FAILURE，不消耗环境重跑预留。恢复找到原始preflight，完整记录 `prep-20261012/input-path-failure.json` 和 `continuation-20261012-part2/p1f-kf-h003-20261023/attempt-1/`。
+
+当前新增模型0、Google业务0、整单Live0，累计602/1500、24/33，Google完整累计仍UNKNOWN（已确认7），环境预留2。h003已尝试preflight1次，下一次最早东京05:33:44.854；外层A输入路径修正及重新冻结SHA已向用户请求，未获回复前不修改或绕过冻结脚本。其他A例和B未开始。

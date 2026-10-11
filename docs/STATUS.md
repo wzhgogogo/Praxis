@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.189
+- Document revision: 4.190
 - Last updated: 2026-10-12
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-12 P1F-input-path-block：** 提前h003 preflight成功206，外层绝对case-source被冻结Runner拒绝，正式运行未开始。实施者编排错误、非ENV；模型仍602/1500、Live24/33、环境预留2。输入路径修正/新SHA等待用户回复，生产73bfca5/CLEAN与冻结脚本不绕过。
 
 - **2026-10-12 P1F-early-window：** 用户要求A第二段和B h001–h004提前开始，并批准外层时窗唯一改动；新SHA冻结，两个原定时已取消。h005仅东京11:30–14:00，单独心跳已设。生产仍73bfca5/CLEAN，核验与停止规则不变，运行结果待记录。
 
