@@ -1,3 +1,4 @@
+import { DEFAULT_NEARBY_RADIUS_METERS } from "../../core/location/nearby.js";
 import { createHash } from "node:crypto";
 
 import type { RestaurantSearchPort } from "../../application/restaurant-execution-router.js";
@@ -212,7 +213,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
     const area = request.intent.area;
     if (area.coordinates) return { location: {
       latitude: area.coordinates.latitude, longitude: area.coordinates.longitude,
-      radiusMeters: area.radiusMeters ?? 3_000, label: area.query, areaMatchBasis: "TASK_LOCATION_RADIUS",
+      radiusMeters: area.radiusMeters ?? DEFAULT_NEARBY_RADIUS_METERS, label: area.query, areaMatchBasis: "TASK_LOCATION_RADIUS",
     } };
     if (request.continuation?.locationContext) return { location: request.continuation.locationContext };
     const named = await this.locality.resolveNamedNearbyLocation(request, signal);

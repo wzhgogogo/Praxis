@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.171
+- Document revision: 4.172
 - Last updated: 2026-10-11
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-11 P1F-radius：** 默认附近半径共享为1000m，显式半径保持；ADR0037追加收紧依据。资格精确圆不变，历史交付另表重算。 本批按已批准切片推进，结果待独立复核；不推送。证据目录 `.eval-artifacts/p1-f-prep-20261011/radius/`。
 
 - **2026-10-11 P1F-review-artifacts：** 原样保存独立复核与 Playbook@1.1；本轮六项按批准范围实施，保留上轮报告提交及未跟踪演示稿。 本批按已批准切片推进，结果待独立复核；不推送。证据目录 `.eval-artifacts/p1-f-prep-20261011/review-artifacts/`。
 

@@ -1,3 +1,4 @@
+import { DEFAULT_NEARBY_RADIUS_METERS } from "../../../../core/location/nearby.js";
 import { createHash } from "node:crypto";
 import { readFile, writeFile } from "node:fs/promises";
 import { relative, resolve } from "node:path";
@@ -548,7 +549,7 @@ try {
           const location = locationContext ?? (intent.area.coordinates ? {
             latitude: intent.area.coordinates.latitude,
             longitude: intent.area.coordinates.longitude,
-            radiusMeters: intent.area.radiusMeters ?? 3_000,
+            radiusMeters: intent.area.radiusMeters ?? DEFAULT_NEARBY_RADIUS_METERS,
             label: intent.area.query,
             areaMatchBasis: "TASK_LOCATION_RADIUS" as const,
           } : undefined);

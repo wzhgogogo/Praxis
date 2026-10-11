@@ -1,3 +1,4 @@
+import { DEFAULT_NEARBY_RADIUS_METERS } from "../../core/location/nearby.js";
 import { ProxyAgent } from "undici";
 
 import {
@@ -78,7 +79,7 @@ export class GooglePlacesClient {
             locationBias: {
               circle: {
                 center: { latitude: request.locationBias.latitude, longitude: request.locationBias.longitude },
-                radius: request.locationBias.radiusMeters ?? 3_000,
+                radius: request.locationBias.radiusMeters ?? DEFAULT_NEARBY_RADIUS_METERS,
               },
             },
           } : {}),

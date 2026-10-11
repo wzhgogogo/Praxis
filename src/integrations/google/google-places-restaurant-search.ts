@@ -1,3 +1,4 @@
+import { DEFAULT_NEARBY_RADIUS_METERS } from "../../core/location/nearby.js";
 import { createHash } from "node:crypto";
 
 import type { RestaurantCandidateFactPort, RestaurantSearchPort } from "../../application/restaurant-execution-router.js";
@@ -77,7 +78,7 @@ export function buildGooglePlacesTextQuery(request: RestaurantSearchRequest): st
     .join(" ");
 }
 
-export const NAMED_PLACE_NEARBY_RADIUS_METERS = 1_000;
+export const NAMED_PLACE_NEARBY_RADIUS_METERS = DEFAULT_NEARBY_RADIUS_METERS;
 type GoogleRequestKind = "namedPlaceResolution" | "discovery" | "placeDetails";
 type GoogleRequestUsage = {
   limit: number;
@@ -359,9 +360,9 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
     const locationContext = plannedLocation
       ? { ...plannedLocation }
       : taskLocation
-      ? { latitude: taskLocation.latitude, longitude: taskLocation.longitude, radiusMeters: request.intent.area.radiusMeters ?? 3_000, label: request.intent.area.query, areaMatchBasis: "TASK_LOCATION_RADIUS" as const }
+      ? { latitude: taskLocation.latitude, longitude: taskLocation.longitude, radiusMeters: request.intent.area.radiusMeters ?? DEFAULT_NEARBY_RADIUS_METERS, label: request.intent.area.query, areaMatchBasis: "TASK_LOCATION_RADIUS" as const }
       : request.continuation?.locationContext ?? namedLocation.location ?? (request.intent.area.query.trim().toLowerCase() === "nearby" && this.options.evaluationLocation
-        ? { latitude: this.options.evaluationLocation.latitude, longitude: this.options.evaluationLocation.longitude, radiusMeters: this.options.evaluationLocation.radiusMeters ?? 3_000, label: this.options.evaluationLocation.label ?? "explicit evaluation location", areaMatchBasis: "EVALUATION_LOCATION_RADIUS" as const }
+        ? { latitude: this.options.evaluationLocation.latitude, longitude: this.options.evaluationLocation.longitude, radiusMeters: this.options.evaluationLocation.radiusMeters ?? DEFAULT_NEARBY_RADIUS_METERS, label: this.options.evaluationLocation.label ?? "explicit evaluation location", areaMatchBasis: "EVALUATION_LOCATION_RADIUS" as const }
         : undefined);
     if (usesNearbySearch && !locationContext) {
       throw new GooglePlacesError("GOOGLE_LOCATION_UNRESOLVED", "Google Nearby Search requires the planner's resolved circle");

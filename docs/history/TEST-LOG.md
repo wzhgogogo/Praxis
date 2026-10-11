@@ -3993,3 +3993,8 @@ Red: red-contract.log (three compile omissions), red-changing-results.log (stale
 ## TEST-2026-10-11-P1F-review-artifacts
 
 原件 SHA256 存档，四门禁日志见本项 gates.json；无真实访问。
+
+
+## TEST-2026-10-11-P1F-radius
+
+有效红灯：旧3000默认违背1000断言；新增999/1001边界与显式半径、任务/评测/bias组合，四门禁见 gates.json。

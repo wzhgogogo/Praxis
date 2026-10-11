@@ -1,0 +1,33 @@
+✔ Google query is discovery-owned and does not serialize criteria into retrieval text (0.89675ms)
+✔ a positive-HARD pack query keeps only its keyword and resolved location in Text Search (0.123625ms)
+✔ a source-plan location prevents a second named-place lookup before Google discovery (4.295208ms)
+✔ a pack query without a positive HARD keyword uses Nearby Search's exact circle instead of location-only text (2.121083ms)
+✔ initial discovery reads at most two 20-result pages, dedupes stable outlets, and retains the next cursor (3.187875ms)
+✔ a second-page provider failure preserves accepted first-page candidates and records a bounded retry cursor (0.823291ms)
+✔ named-location resolution returns a bounded typed public observation with its coordinate (1.693958ms)
+✔ a named nearby place is resolved to observed coordinates and grounds candidate distance (1.839625ms)
+✔ named-place resolution rejects an unmatched suffix instead of treating address text or rank as landmark identity (1.418084ms)
+✔ named-place resolution accepts a provider-typed station suffix but rejects an administrative-area-to-station substitution (1.126167ms)
+✔ named-place resolution accepts a source-typed civic locality representation without treating stations as aliases (0.876375ms)
+✔ named-place suffix matching fails closed without a corresponding provider type and independent geographic context (0.293375ms)
+✔ only source-level duplicate exact named locations ask for disambiguation (0.223458ms)
+✔ an unrelated first search result never becomes a named nearby landmark (0.269ms)
+✔ unresolved named-place diagnostics retain only bounded public identity observations (0.331375ms)
+✔ Google Places text search uses the explicit small field mask and stable candidate IDs (0.494ms)
+✔ Google Places reports eval-radius decisions separately from its accepted discovery pool (0.443958ms)
+✔ Google Places request budget is mechanical and isolated by persistent read run (0.286708ms)
+✔ candidate fact investigation re-reads only the known Google place and shares discovery budget (20.607583ms)
+✔ candidate fact investigation uses Place Details by stable ID, never another text search (0.585667ms)
+✔ a fact read records exhausted shared discovery capacity without a second provider call (0.267584ms)
+✔ Google Places classifies provider failure without exposing a response body (0.172458ms)
+✔ failed sent Google requests consume the same per-run local budget and remain separately accounted (0.215667ms)
+✔ the explicit one-hundred-request debug ceiling permits work beyond the retired cap and stops only at its own run boundary (8.805041ms)
+✔ nearby defaults to 1000 meters, preserves explicit radius and admits only the exact circle (0.926792ms)
+ℹ tests 25
+ℹ suites 0
+ℹ pass 25
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 454.95175

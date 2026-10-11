@@ -401,7 +401,7 @@ test("Google Places reports eval-radius decisions separately from its accepted d
     requestMode: "LOCATION_RESTRICTION_RECTANGLE",
     exactRadiusGate: "ENFORCED",
     center: { latitude: 35.6762, longitude: 139.6503 },
-    radiusMeters: 3_000,
+    radiusMeters: 1_000,
     areaMatchBasis: "EVALUATION_LOCATION_RADIUS",
   });
   const evalDiagnostics = result.metadata.googleGeoDiagnostics?.candidates ?? [];
@@ -546,4 +546,29 @@ test("the explicit one-hundred-request debug ceiling permits work beyond the ret
   assert.equal(sent, 100, "the local boundary rejects before another network request");
   await search.search({ intent: fixtureIntent, readRunId: "next-debug-run" }, new AbortController().signal);
   assert.equal(sent, 101, "a distinct run has an isolated request budget");
+});
+
+
+test("nearby defaults to 1000 meters, preserves explicit radius and admits only the exact circle", async () => {
+  const center = { latitude: 1, longitude: 2 };
+  const requests: unknown[] = [];
+  const client = new GooglePlacesClient({ apiKey: "fixture", fetchImplementation: async (_url, init) => {
+    requests.push(JSON.parse(String(init?.body)));
+    return new Response(JSON.stringify({ places: [999, 1001].map(meters => ({
+      id: `distance-${meters}`, displayName: { text: `Restaurant ${meters}` }, formattedAddress: "observed address",
+      location: { latitude: center.latitude + meters / 111320, longitude: center.longitude }, types: ["restaurant"],
+    })) }), { status: 200 });
+  } });
+  const search = new GooglePlacesRestaurantSearch(client, undefined, 10, { evaluationLocation: center });
+  const intent = { ...fixtureIntent, criteria: [], area: { query: "nearby" } };
+  const evaluation = await search.search({ intent }, new AbortController().signal);
+  assert.equal(evaluation.metadata.googleGeoDiagnostics?.radiusMeters, 1000);
+  assert.deepEqual(evaluation.candidates.map(c => c.restaurant.sourceIds.googlePlaces), ["distance-999"]);
+  const task = await search.search({ intent: { ...intent, area: { query: "nearby", coordinates: { ...center, observedAt: "2026-10-11T00:00:00Z", source: "DEVICE" } } } }, new AbortController().signal);
+  assert.equal(task.metadata.googleGeoDiagnostics?.radiusMeters, 1000);
+  const explicit = await search.search({ intent: { ...intent, area: { query: "nearby", radiusMeters: 2000, coordinates: { ...center, observedAt: "2026-10-11T00:00:00Z", source: "DEVICE" } } } }, new AbortController().signal);
+  assert.equal(explicit.metadata.googleGeoDiagnostics?.radiusMeters, 2000);
+  assert.equal(explicit.candidates.length, 2);
+  await client.textSearch({ textQuery: "observed query", pageSize: 10, locationBias: center }, new AbortController().signal);
+  assert.equal((requests.at(-1) as { locationBias: { circle: { radius: number } } }).locationBias.circle.radius, 1000);
 });

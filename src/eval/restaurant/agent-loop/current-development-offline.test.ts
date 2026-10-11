@@ -347,7 +347,16 @@ test("current H001-H005 raw requests complete through the real offline Hybrid co
     assert.ok(rawContent.length > 0, "the frozen user message is immutable test input");
     const observedAt = new Date(plan.referenceTime).toISOString();
     const model = new FixedCurrentCaseModel(plan, rawContent);
-    const sources = createCurrentDevelopmentFixedSources(currentDevelopmentSourceScenario(plan.id), { now: () => observedAt }, model);
+    const scenario = structuredClone(currentDevelopmentSourceScenario(plan.id));
+    // These are synthetic positive chain controls, not immutable Live coordinates.
+    // Keep them inside the new default circle; exact boundary rejection is tested separately.
+    if (plan.area === "nearby") scenario.observations.forEach((observation, index) => {
+      observation.google.coordinates = { latitude: HIGASHI_GINZA_EVALUATION_LOCATION.latitude + index * 0.0001, longitude: HIGASHI_GINZA_EVALUATION_LOCATION.longitude };
+      observation.google.displayName = `Nearby source control ${index + 1}`;
+      observation.google.address = `Observed nearby control address ${index + 1}`;
+      if (observation.tableCheck) { observation.tableCheck.displayName = observation.google.displayName; observation.tableCheck.address = observation.google.address; }
+    });
+    const sources = createCurrentDevelopmentFixedSources(scenario, { now: () => observedAt }, model);
     const taskId = `offline-current:${plan.id}`;
     const composition = createHybridReadComposition({
       taskId, runId: `run:${taskId}`, clock: { now: () => new Date(observedAt) }, model,

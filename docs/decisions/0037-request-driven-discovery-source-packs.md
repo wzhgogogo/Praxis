@@ -92,3 +92,8 @@ source diagnostics remain; third-source zero-core-change acceptance is Phase6.
 ## 2026-10-10 ADR-0040 partial supersession
 
 用户批准 2026-10-10 [ADR-0040](0040-agent-selected-directory-region-entrances.md)。Decision 4 中由 Pack 数据映射地区入口的部分被替代：删除 tabelogRegions/锚点表，改为 Agent 选择当前观察到的地区入口，LOCATION 由 Executor 填同次解析名称。原 Decision 4 文本保留；Pack 查询 grammar、来源权限和精确坐标资格及其他 Decisions 不变。
+
+
+## 2026-10-11 nearby radius tightening
+
+用户批准 Playbook §2 第15条：默认附近圆为1,000m，H003–H005评测点默认从3,000m收紧为1,000m。请求或评测显式指定半径仍权威。共享常量只包含默认米数，不含任何评测坐标；历史Gold、基线Playbook和评价保留原文。新评价使用运行时绑定范围，旧交付只另表重算，不覆盖旧结论。

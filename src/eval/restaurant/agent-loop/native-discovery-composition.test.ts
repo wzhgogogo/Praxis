@@ -454,7 +454,7 @@ test("the production Router advances the default three-pack cursor and reaches G
   assert.equal(third.event?.type, "SEARCH_COMPLETED");
   if (third.event?.type !== "SEARCH_COMPLETED") throw new Error("expected Google discovery result");
   assert.equal(third.event.candidates.length, 1, "Nearby pack should return its grounded candidate");
-  assert.deepEqual(nearbyRequests, [{ includedTypes: ["restaurant"], maxResultCount: 20, locationRestriction: { circle: { center, radius: 3_000 } } }]);
+  assert.deepEqual(nearbyRequests, [{ includedTypes: ["restaurant"], maxResultCount: 20, locationRestriction: { circle: { center, radius: 1_000 } } }]);
   assert.equal(third.event.continuation?.exhausted, true);
   assert.equal(navigations.some((url) => url.includes("tablecheck.com")), true);
 });
