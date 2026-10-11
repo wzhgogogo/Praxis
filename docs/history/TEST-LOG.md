@@ -4098,3 +4098,8 @@ NETWORK_PREFLIGHT成功（TableCheck206）与ORCHESTRATION_INPUT_FAILURE分列�
 ## TEST-2026-10-12-P1F-A-part2
 
 LIVE_READ_ONLY三例，preflight206；h003 431.150s/47模型/1Google/等待31.27%，h005 327.960s/47/1/18.52%且有浏览器超时，Kichijoji 2.941s/2/1/0%、无浏览器读取。各执行现有evaluator@27；决策数47/47/2等于模型调用。段末累计698/1500、27/33、Google已确认10但历史完整数UNKNOWN、环境预留2。原始结果/旧评价不覆盖，来源响应未判读；冻结SHA再核一致。
+
+
+## TEST-2026-10-12-P1F-B-h001-h004
+
+LIVE_READ_ONLY四例均preflight206并执行evaluator@27；依次365.091/185.704/60.324/0.747秒、28/21/4/1模型、3/1/1/0Google，等待13.68/11.46/20.70/0%。决策数与模型数一致，冻结文件SHA全部一致，宿主机WT CLEAN。新增54模型/5Google/4Live；累计752/1500、31/33、Google已确认15但历史完整累计UNKNOWN、环境预留2。402不列环境重跑，h005未开始。仅运行/报告切片复用已有四门禁849/849，实际失败与自动评价完整保留；证据prep-20261012/b-h001-h004-verification.json和part-b-report.md。

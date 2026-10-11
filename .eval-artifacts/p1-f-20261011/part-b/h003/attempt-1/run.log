@@ -1,0 +1,36 @@
+{"mode":"HYBRID_LIVE_READ","caseId":"h003","browserEngine":"LOCAL_CHROMIUM","preflight":{"artifactPath":"/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/live-preflight/2026-10-11T21-01-25-308Z-5f61ceea-6e02-473c-bdc5-d07ce5095340.result.json","elapsedMs":3456,"targetCount":4},"candidateLimit":10,"profileMode":"TEMPORARY","limits":{"maxGoogleRequests":40,"maxStructuredReadMs":30000,"maxAvailabilitySourceBrowserSessions":3,"maxAvailabilitySourceCandidateMatches":3,"maxAvailabilityReads":20,"maxBrowserRuntimeFallbacks":1,"maxBrowserModelCallsPerCandidate":20,"maxBrowserModelCallsTotal":120,"maxBrowserOperationsPerCandidate":80,"maxCandidateBrowserMs":60000,"maxProviderBrowserMs":45000,"maxAutomaticBrowserMs":500000,"maxAgentSteps":30,"maxRejectedActions":5},"safety":"READ_ONLY_CODE_PATH"}
+{
+  "mode": "HYBRID_LIVE_READ",
+  "caseId": "h003",
+  "loop": {
+    "status": "MODEL_FAILURE",
+    "steps": 2
+  },
+  "resourceUsage": {
+    "discoveryCandidates": 2,
+    "candidatesChecked": 0,
+    "agentDecisions": 1,
+    "browserModelCalls": 1,
+    "modelCallsStarted": 4,
+    "browserRuntimeCalls": 24,
+    "browserOperationsByCandidate": {
+      "native-discovery:VENUE_SEARCH": 24
+    },
+    "pageStillLoadingWithinBound": 8,
+    "postActionWaitTotalMs": 12486,
+    "browserModelActions": 1,
+    "googleRequests": {
+      "limit": 40,
+      "total": 1,
+      "namedPlaceResolution": 0,
+      "discovery": 0,
+      "placeDetails": 0,
+      "reverseAddressObservation": 1
+    },
+    "elapsedMs": 60324
+  },
+  "artifactPath": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-11T21-01-28-861Z-d803c7d7-1f1f-4eaf-b04b-147ebe968cd6.result.json",
+  "evaluationPath": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-11T21-01-28-861Z-d803c7d7-1f1f-4eaf-b04b-147ebe968cd6.result.evaluation.27-1791752549180.json",
+  "latencyMs": 60324,
+  "scorerStatus": "FULL_RUBRIC_NOT_INTEGRATED"
+}

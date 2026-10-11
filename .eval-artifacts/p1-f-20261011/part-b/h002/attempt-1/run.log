@@ -1,0 +1,41 @@
+{"mode":"HYBRID_LIVE_READ","caseId":"h002","browserEngine":"LOCAL_CHROMIUM","preflight":{"artifactPath":"/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/live-preflight/2026-10-11T20-58-04-860Z-bfe91382-cbc3-44a2-8f76-2f4b2e1ebd1a.result.json","elapsedMs":2704,"targetCount":4},"candidateLimit":10,"profileMode":"TEMPORARY","limits":{"maxGoogleRequests":40,"maxStructuredReadMs":30000,"maxAvailabilitySourceBrowserSessions":3,"maxAvailabilitySourceCandidateMatches":3,"maxAvailabilityReads":20,"maxBrowserRuntimeFallbacks":1,"maxBrowserModelCallsPerCandidate":20,"maxBrowserModelCallsTotal":120,"maxBrowserOperationsPerCandidate":80,"maxCandidateBrowserMs":60000,"maxProviderBrowserMs":45000,"maxAutomaticBrowserMs":500000,"maxAgentSteps":30,"maxRejectedActions":5},"safety":"READ_ONLY_CODE_PATH"}
+{
+  "mode": "HYBRID_LIVE_READ",
+  "caseId": "h002",
+  "loop": {
+    "status": "TERMINAL",
+    "steps": 6
+  },
+  "resourceUsage": {
+    "discoveryCandidates": 5,
+    "candidatesChecked": 5,
+    "agentDecisions": 6,
+    "browserModelCalls": 8,
+    "modelCallsStarted": 21,
+    "browserRuntimeCalls": 94,
+    "browserOperationsByCandidate": {
+      "native-discovery:DIRECTORY": 29,
+      "tabelog:en/tokyo/A1301/A130101/13283245": 11,
+      "tabelog:en/tokyo/A1301/A130101/13295658": 16,
+      "tabelog:en/tokyo/A1301/A130101/13291436": 11,
+      "tabelog:en/tokyo/A1301/A130103/13292459": 16,
+      "tabelog:en/tokyo/A1301/A130101/13277198": 11
+    },
+    "pageStillLoadingWithinBound": 15,
+    "postActionWaitTotalMs": 21276,
+    "browserModelActions": 5,
+    "googleRequests": {
+      "limit": 40,
+      "total": 1,
+      "namedPlaceResolution": 1,
+      "discovery": 0,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "elapsedMs": 185704
+  },
+  "artifactPath": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-11T20-58-07-664Z-adafcfae-1cf2-4f1a-82d7-bda866227f9a.result.json",
+  "evaluationPath": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-11T20-58-07-664Z-adafcfae-1cf2-4f1a-82d7-bda866227f9a.result.evaluation.27-1791752473683.json",
+  "latencyMs": 185704,
+  "scorerStatus": "FULL_RUBRIC_NOT_INTEGRATED"
+}

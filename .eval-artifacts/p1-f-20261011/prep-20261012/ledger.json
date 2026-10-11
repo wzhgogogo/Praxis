@@ -1,8 +1,8 @@
 {
-  "models": 698,
-  "googleConfirmed": 10,
+  "models": 752,
+  "googleConfirmed": 15,
   "googleHistoricalTotalComplete": false,
-  "live": 27,
+  "live": 31,
   "environmentReserveRemaining": 2,
   "cases": {
     "A:p1f-kf-h003-20261023": {
@@ -33,23 +33,27 @@
     },
     "B:h001": {
       "preflightAttempts": 1,
-      "formalRuns": 0,
-      "completed": false
+      "formalRuns": 1,
+      "completed": true,
+      "lastPreflightEnd": "2026-10-11T20:51:38.947Z"
     },
     "B:h002": {
-      "preflightAttempts": 0,
-      "formalRuns": 0,
-      "completed": false
+      "preflightAttempts": 1,
+      "formalRuns": 1,
+      "completed": true,
+      "lastPreflightEnd": "2026-10-11T20:58:07.566Z"
     },
     "B:h003": {
-      "preflightAttempts": 0,
-      "formalRuns": 0,
-      "completed": false
+      "preflightAttempts": 1,
+      "formalRuns": 1,
+      "completed": true,
+      "lastPreflightEnd": "2026-10-11T21:01:28.765Z"
     },
     "B:h004": {
-      "preflightAttempts": 0,
-      "formalRuns": 0,
-      "completed": false
+      "preflightAttempts": 1,
+      "formalRuns": 1,
+      "completed": true,
+      "lastPreflightEnd": "2026-10-11T21:03:44.041Z"
     },
     "B:h005": {
       "preflightAttempts": 0,
@@ -57,5 +61,18 @@
       "completed": false
     }
   },
-  "stop": null
+  "stop": null,
+  "externalBlocker": {
+    "code": "PROVIDER_BALANCE_INSUFFICIENT",
+    "provider": "DEEPSEEK",
+    "httpStatus": 402,
+    "message": "Insufficient Balance",
+    "requiresUserRestoration": true,
+    "evidence": [
+      ".eval-artifacts/p1-f-20261011/part-b/h003/attempt-1/summary.json",
+      ".eval-artifacts/p1-f-20261011/part-b/h004/attempt-1/summary.json"
+    ],
+    "remainingCase": "B:h005",
+    "notEnvironmentRetryUnderApprovedRules": true
+  }
 }

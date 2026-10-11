@@ -1,0 +1,271 @@
+{
+  "mode": "B",
+  "id": "h002",
+  "attempt": 1,
+  "startedAt": "2026-10-11T20:58:04.092Z",
+  "head": "73bfca588ad5007a4a9326c8c13a958718898f1c",
+  "worktree": "CLEAN",
+  "sourcePath": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/src/eval/restaurant/agent-loop/cases/e2e-cases.gold7.yaml",
+  "sourceSha256": "b346150074493e5a82e3d0dfb5ea5d18b3dbef17bb06d5101dfb15dfeb3ea40e",
+  "command": [
+    "node",
+    "--env-file-if-exists=/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.env",
+    "--import",
+    "tsx",
+    "--import",
+    "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/prep-20261012/scripts/observe.mjs",
+    "src/eval/restaurant/agent-loop/runners/run-hybrid-live-read.ts",
+    "--case",
+    "h002",
+    "--record-browser",
+    "--record-decisions",
+    "--no-proxy",
+    "--timeout-ms",
+    "500000",
+    "--max-model-calls",
+    "50",
+    "--max-google-requests",
+    "40"
+  ],
+  "freezeManifest": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/prep-20261012/scripts/freeze.json",
+  "endedAt": "2026-10-11T21:01:13.740Z",
+  "wallMs": 189648,
+  "exit": {
+    "code": 0,
+    "signal": null
+  },
+  "stop": null,
+  "newFiles": [
+    "2026-10-11T20-58-07-664Z-adafcfae-1cf2-4f1a-82d7-bda866227f9a.decisions.jsonl",
+    "2026-10-11T20-58-07-664Z-adafcfae-1cf2-4f1a-82d7-bda866227f9a.result.evaluation.27-1791752473683.json",
+    "2026-10-11T20-58-07-664Z-adafcfae-1cf2-4f1a-82d7-bda866227f9a.result.json",
+    "2026-10-11T20-58-07-664Z-adafcfae-1cf2-4f1a-82d7-bda866227f9a.started.json"
+  ],
+  "results": [
+    "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-11T20-58-07-664Z-adafcfae-1cf2-4f1a-82d7-bda866227f9a.result.json"
+  ],
+  "preflight": {
+    "mode": "LIVE_NETWORK_PREFLIGHT",
+    "preflightVersion": "live-network-preflight@1",
+    "runner": "HYBRID_LIVE_READ",
+    "plannedTargets": [
+      "DEEPSEEK",
+      "GOOGLE",
+      "TABELOG",
+      "TABLECHECK"
+    ],
+    "timeoutMs": 10000,
+    "generationModelCalls": 0,
+    "restaurantDiscoveryRequests": 0,
+    "evaluator": {
+      "applicability": "NOT_APPLICABLE",
+      "reason": "NETWORK_ONLY_DIAGNOSTIC_HAS_NO_RESTAURANT_CLAIM"
+    },
+    "network": {
+      "proxyMode": "DISABLED_BY_CLI"
+    },
+    "status": "SUCCEEDED",
+    "stage": "NETWORK_READINESS",
+    "artifactPath": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/live-preflight/2026-10-11T20-58-04-860Z-bfe91382-cbc3-44a2-8f76-2f4b2e1ebd1a.result.json",
+    "attempts": [
+      {
+        "target": "DEEPSEEK",
+        "request": {
+          "method": "GET",
+          "url": "https://api.deepseek.com/models",
+          "range": "NONE",
+          "authorization": "PRESENT"
+        },
+        "elapsedMs": 314,
+        "outcome": "REACHABLE",
+        "status": 200,
+        "tls": "ESTABLISHED"
+      },
+      {
+        "target": "GOOGLE",
+        "request": {
+          "method": "GET",
+          "url": "https://places.googleapis.com/",
+          "range": "NONE",
+          "authorization": "ABSENT"
+        },
+        "elapsedMs": 196,
+        "outcome": "REACHABLE",
+        "status": 404,
+        "tls": "ESTABLISHED"
+      },
+      {
+        "target": "TABELOG",
+        "request": {
+          "method": "GET",
+          "url": "https://tabelog.com/",
+          "range": "BYTES_0_0",
+          "authorization": "ABSENT"
+        },
+        "elapsedMs": 340,
+        "outcome": "REACHABLE",
+        "status": 200,
+        "tls": "ESTABLISHED"
+      },
+      {
+        "target": "TABLECHECK",
+        "request": {
+          "method": "GET",
+          "url": "https://www.tablecheck.com/en/",
+          "range": "BYTES_0_0",
+          "authorization": "ABSENT"
+        },
+        "elapsedMs": 1850,
+        "outcome": "REACHABLE",
+        "status": 206,
+        "tls": "ESTABLISHED"
+      }
+    ],
+    "elapsedMs": 2704,
+    "configuration": {
+      "proxyMode": "DISABLED_BY_CLI",
+      "googleProxyConfigured": false,
+      "browserProxyConfigured": false
+    },
+    "schemaVersion": "1",
+    "runId": "bfe91382-cbc3-44a2-8f76-2f4b2e1ebd1a",
+    "startedAt": "2026-10-11T20:58:04.860Z",
+    "finishedAt": "2026-10-11T20:58:07.566Z"
+  },
+  "formalRunStarted": true,
+  "deliveryCount": 1,
+  "resourceUsage": {
+    "discoveryCandidates": 5,
+    "candidatesChecked": 5,
+    "agentDecisions": 6,
+    "browserModelCalls": 8,
+    "modelCallsStarted": 21,
+    "browserRuntimeCalls": 94,
+    "browserOperationsByCandidate": {
+      "native-discovery:DIRECTORY": 29,
+      "tabelog:en/tokyo/A1301/A130101/13283245": 11,
+      "tabelog:en/tokyo/A1301/A130101/13295658": 16,
+      "tabelog:en/tokyo/A1301/A130101/13291436": 11,
+      "tabelog:en/tokyo/A1301/A130103/13292459": 16,
+      "tabelog:en/tokyo/A1301/A130101/13277198": 11
+    },
+    "pageStillLoadingWithinBound": 15,
+    "postActionWaitTotalMs": 21276,
+    "browserModelActions": 5,
+    "googleRequests": {
+      "limit": 40,
+      "total": 1,
+      "namedPlaceResolution": 1,
+      "discovery": 0,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "elapsedMs": 185704
+  },
+  "postDelivery": {
+    "rows": [
+      {
+        "candidateId": "tabelog:en/tokyo/A1301/A130101/13295658",
+        "status": "TABELOG_READ_PENDING",
+        "restaurant": {
+          "id": "tabelog:en/tokyo/A1301/A130101/13295658",
+          "outletName": "Ginza Sushi Sendou",
+          "address": "1040061 Tokyo Ginza Chuo Tokyo ",
+          "coordinates": {
+            "lat": 35.66857859380928,
+            "lng": 139.76305499491173
+          },
+          "sourceIds": {
+            "tabelog": "en/tokyo/A1301/A130101/13295658",
+            "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1301/A130101/13295658/",
+            "discoverySourceId": "tabelog",
+            "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1301/A130101/13295658/"
+          },
+          "provenance": {
+            "outletName": "evidence:restaurant:native-discovery:9a7d87ab11634025fcb49fca",
+            "address": "evidence:restaurant:native-discovery:9a7d87ab11634025fcb49fca",
+            "sourceIds": "evidence:restaurant:native-discovery:9a7d87ab11634025fcb49fca"
+          }
+        },
+        "parameters": {
+          "rst_id": "13295658",
+          "svd": "20261017",
+          "svps": "2",
+          "svt": "1830"
+        },
+        "displayedTimes": [
+          "18:30"
+        ],
+        "offerIds": [
+          "offer:tabelog:tabelog:en/tokyo/A1301/A130101/13295658:2026-10-17:18:30:2"
+        ],
+        "raw": {
+          "method": "GET",
+          "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13295658&svd=20261017&svps=2&svt=1830",
+          "parameters": {
+            "rst_id": "13295658",
+            "svd": "20261017",
+            "svps": "2",
+            "svt": "1830"
+          },
+          "requestedAt": "2026-10-11T21:01:13.809Z",
+          "status": 200,
+          "contentType": "application/json; charset=utf-8",
+          "sha256": "524a157b71b51a31e5796e383e4957246b2d7fb6ed58fb0add56f222cb65b5db",
+          "bodyPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/part-b/h002/attempt-1/post-delivery-raw/13295658.body.txt",
+          "finishedAt": "2026-10-11T21:01:14.335Z",
+          "metadataPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/part-b/h002/attempt-1/post-delivery-raw/13295658.metadata.json"
+        },
+        "comparison": {
+          "status": "DISPLAYED_TIMES_PRESENT",
+          "selectionTimes": [
+            "11:30",
+            "11:45",
+            "12:00",
+            "12:15",
+            "12:30",
+            "12:45",
+            "13:00",
+            "16:00",
+            "16:15",
+            "16:30",
+            "16:45",
+            "17:00",
+            "17:15",
+            "17:30",
+            "17:45",
+            "18:00",
+            "18:15",
+            "18:30",
+            "18:45",
+            "19:00",
+            "19:15",
+            "19:30",
+            "19:45",
+            "20:00",
+            "20:15",
+            "20:30",
+            "20:45",
+            "21:00"
+          ],
+          "missingTimes": []
+        }
+      }
+    ],
+    "stop": null
+  },
+  "witnessRaw": [],
+  "evaluation": {
+    "path": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-11T20-58-07-664Z-adafcfae-1cf2-4f1a-82d7-bda866227f9a.result.evaluation.27-1791752474437.json",
+    "execution": {
+      "status": "SUCCEEDED",
+      "stage": "AGENT_LOOP",
+      "taskProducedQualifiedResult": "UNKNOWN",
+      "systemBehavior": "NOT_EVALUATED",
+      "externalConditions": "OBSERVED",
+      "evidenceSufficiency": "SUFFICIENT_FOR_PRESENTED_RESULT",
+      "completion": "PRESENTATION_RECORDED"
+    }
+  },
+  "classification": "FACTS_ONLY; independent classification pending"
+}

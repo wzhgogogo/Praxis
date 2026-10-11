@@ -1,0 +1,307 @@
+{
+  "mode": "B",
+  "id": "h004",
+  "attempt": 1,
+  "startedAt": "2026-10-11T21:03:40.327Z",
+  "head": "73bfca588ad5007a4a9326c8c13a958718898f1c",
+  "worktree": "CLEAN",
+  "sourcePath": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/src/eval/restaurant/agent-loop/cases/e2e-cases.gold7.yaml",
+  "sourceSha256": "b346150074493e5a82e3d0dfb5ea5d18b3dbef17bb06d5101dfb15dfeb3ea40e",
+  "command": [
+    "node",
+    "--env-file-if-exists=/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.env",
+    "--import",
+    "tsx",
+    "--import",
+    "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/prep-20261012/scripts/observe.mjs",
+    "src/eval/restaurant/agent-loop/runners/run-hybrid-live-read.ts",
+    "--case",
+    "h004",
+    "--record-browser",
+    "--record-decisions",
+    "--no-proxy",
+    "--timeout-ms",
+    "500000",
+    "--max-model-calls",
+    "50",
+    "--max-google-requests",
+    "40"
+  ],
+  "freezeManifest": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/prep-20261012/scripts/freeze.json",
+  "endedAt": "2026-10-11T21:03:44.838Z",
+  "wallMs": 4511,
+  "exit": {
+    "code": 1,
+    "signal": null
+  },
+  "stop": null,
+  "newFiles": [
+    "2026-10-11T21-03-44-141Z-e0a19b72-6adf-4a8d-bd09-c3f7826b67c9.decisions.jsonl",
+    "2026-10-11T21-03-44-141Z-e0a19b72-6adf-4a8d-bd09-c3f7826b67c9.result.evaluation.27-1791752624816.json",
+    "2026-10-11T21-03-44-141Z-e0a19b72-6adf-4a8d-bd09-c3f7826b67c9.result.json",
+    "2026-10-11T21-03-44-141Z-e0a19b72-6adf-4a8d-bd09-c3f7826b67c9.started.json"
+  ],
+  "results": [
+    "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-11T21-03-44-141Z-e0a19b72-6adf-4a8d-bd09-c3f7826b67c9.result.json"
+  ],
+  "preflight": {
+    "mode": "HYBRID_LIVE_READ",
+    "caseId": "h004",
+    "scorerStatus": "FULL_RUBRIC_NOT_INTEGRATED",
+    "diagnosticEvaluator": {
+      "version": "restaurant-hybrid-read-diagnostic-evaluator@27",
+      "rubricVersion": "restaurant-hybrid-read-diagnostic-rubric@21"
+    },
+    "runtimeContext": {
+      "commitSha": "73bfca588ad5007a4a9326c8c13a958718898f1c",
+      "worktree": "CLEAN",
+      "dataset": {
+        "version": "restaurant-read-development@7",
+        "sourcePath": "src/eval/restaurant/agent-loop/cases/e2e-cases.gold7.yaml",
+        "sha256": "b346150074493e5a82e3d0dfb5ea5d18b3dbef17bb06d5101dfb15dfeb3ea40e",
+        "cohort": "DEVELOPMENT_DIAGNOSTIC",
+        "contaminationStatus": "PROMPT_AND_RESULT_EXPOSED",
+        "baselineEligible": false
+      },
+      "browserEngine": "LOCAL_CHROMIUM",
+      "preflight": {
+        "artifactPath": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/live-preflight/2026-10-11T21-03-41-134Z-98e48229-9455-434a-908c-c82acb585031.result.json",
+        "elapsedMs": 2905,
+        "targetCount": 4
+      },
+      "nodeVersion": "v24.4.1",
+      "skillHashes": {
+        "browserRead": "9323b53e7521d37d4251d06fe64a3238aeb0ba1cb382163c068e2990291cc8c9",
+        "tablecheck": "70cd360a57230539b7365298bfd0c6902bd75bb6ba711d992bb67bea15ae072b",
+        "tabelog": "3f4707ba4431f1245eaefb1692be5a4550e17a98129ff4ec645c347cd52c52d2"
+      }
+    },
+    "safety": {
+      "policy": "READ_ONLY_CODE_PATH",
+      "externalSideEffectCount": "NOT_MEASURED"
+    },
+    "runCeilings": {
+      "maxModelCalls": 50,
+      "maxGoogleRequests": 40,
+      "maxStructuredReadMs": 30000,
+      "maxAvailabilitySourceBrowserSessions": 3,
+      "maxAvailabilitySourceCandidateMatches": 3,
+      "maxAvailabilityReads": 20,
+      "maxBrowserRuntimeFallbacks": 1,
+      "maxBrowserModelCallsPerCandidate": 20,
+      "maxBrowserModelCallsTotal": 120,
+      "maxBrowserOperationsPerCandidate": 80,
+      "maxCandidateBrowserMs": 60000,
+      "maxProviderBrowserMs": 45000,
+      "maxAutomaticBrowserMs": 500000,
+      "maxAgentSteps": 30,
+      "maxRejectedActions": 5
+    },
+    "status": "FAILED",
+    "stage": "SEMANTIC",
+    "failureCode": "MODEL_FAILURE",
+    "materializedCase": {
+      "id": "h004",
+      "dataset": "restaurant-read-development@7",
+      "reference_time": "2026-10-12T12:00:00+08:00",
+      "semantic": {
+        "target": {
+          "goal": "RECOMMENDATION"
+        },
+        "location": {
+          "value": "nearby",
+          "relation": "NEAR_USER"
+        },
+        "date": {
+          "expression": "this afternoon",
+          "value": "2026-10-12"
+        },
+        "time": {
+          "expression": "this afternoon",
+          "type": "TIME_WINDOW",
+          "start": "12:00",
+          "end": "17:00"
+        },
+        "criteria": [
+          {
+            "value": "cafe",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          {
+            "value": "good for meeting a friend",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED"
+          }
+        ]
+      },
+      "acceptance": {
+        "required_claims": [
+          "Correct cafe near the supplied location; opening hours support the relevant part of the materialized 12:00–17:00 afternoon window."
+        ],
+        "optional_investigation": [
+          "Availability is an optional extra only with sufficient parameters; missing reservation support is not a reason to block cafe recommendations."
+        ],
+        "review": [
+          "Meeting-a-friend suitability is UNSPECIFIED. Do not require a party size merely to recommend cafes.",
+          "Do not move an already elapsed afternoon to tomorrow to obtain a result; report the actual time applicability."
+        ]
+      },
+      "materialization": {
+        "sourceReferenceTime": "2026-08-19T12:00:00+08:00",
+        "resolvedReferenceTime": "2026-10-11T21:03:44.063Z",
+        "resolvedTokyoDate": "2026-10-12"
+      }
+    },
+    "semanticStatus": "MODEL_FAILURE",
+    "modelInvocations": [
+      {
+        "invocationId": "516c61d6-3fb8-4383-9c8c-39aeece5e603",
+        "taskId": "hybrid-live:h004:1791752624063",
+        "purpose": "restaurant_semantic_interpret",
+        "promptVersion": "v21",
+        "fallback": "STRUCTURED_FORM",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-v4-flash",
+        "responseFormat": "JSON_SCHEMA",
+        "outputSchema": {
+          "name": "restaurant-semantic-proposal",
+          "version": "3"
+        },
+        "outcome": "FAILED",
+        "latencyMs": 664,
+        "errorCode": "PROVIDER_REJECTED",
+        "providerStatus": 402,
+        "providerError": {
+          "code": "invalid_request_error",
+          "type": "unknown_error",
+          "message": "Insufficient Balance (request_id: 9e20dc31-18e5-4880-a3e0-c313a9280a99)"
+        }
+      }
+    ],
+    "events": [],
+    "trajectories": [],
+    "diagnostics": {
+      "tablecheckIdentity": [],
+      "tabelogIdentity": [],
+      "tabelogUserInterventions": [],
+      "browserExecution": [],
+      "browserTrace": []
+    },
+    "finalSnapshot": {
+      "id": "hybrid-live:h004:1791752624063",
+      "runId": "run:hybrid-live:h004:1791752624063",
+      "taskType": "restaurant.booking",
+      "definitionVersion": "13",
+      "lifecycleState": "CREATED",
+      "domainState": {
+        "schemaVersion": "14",
+        "phase": "UNDERSTANDING",
+        "candidates": [],
+        "availability": {},
+        "availabilityChecks": {},
+        "readEvidence": [],
+        "searchRevision": 0
+      },
+      "outcome": null,
+      "version": 0,
+      "createdAt": "2026-10-11T21:03:44.143Z",
+      "updatedAt": "2026-10-11T21:03:44.143Z"
+    },
+    "resourceUsage": {
+      "discoveryCandidates": 0,
+      "candidatesChecked": 0,
+      "agentDecisions": 0,
+      "browserModelCalls": 0,
+      "modelCallsStarted": 1,
+      "browserRuntimeCalls": 0,
+      "browserOperationsByCandidate": {},
+      "pageStillLoadingWithinBound": 0,
+      "postActionWaitTotalMs": 0,
+      "browserModelActions": 0,
+      "googleRequests": {
+        "limit": 40,
+        "total": 0,
+        "namedPlaceResolution": 0,
+        "discovery": 0,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      },
+      "elapsedMs": 747
+    },
+    "searchState": {
+      "candidatesDiscovered": 0,
+      "candidatesInvestigated": 0,
+      "candidatesAvailabilityChecked": 0,
+      "remainingCandidateIds": [],
+      "remainingAvailabilityCandidateIds": [],
+      "continuationExhausted": null,
+      "nextPageTokenPresent": false
+    },
+    "termination": {
+      "scope": "TASK",
+      "code": "MODEL_FAILURE",
+      "reason": "Run stopped before execution"
+    },
+    "partial": true,
+    "downstream": "GOOGLE_BROWSER_AGENT_NOT_REACHED",
+    "latencyMs": 747,
+    "decisionCapture": {
+      "path": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-11T21-03-44-141Z-e0a19b72-6adf-4a8d-bd09-c3f7826b67c9.decisions.jsonl",
+      "sha256": "2efe1797ca80ccf6852dc390c8cc447c7e5cb54af7434ca40ebc13039f4f2388",
+      "callsStarted": 1,
+      "rowsWritten": 1,
+      "errors": []
+    },
+    "browserRecording": {
+      "path": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1791752624063",
+      "screenshot": "NOT_CAPTURED_NO_SANITIZER",
+      "replay": {
+        "status": "NOT_REPLAYABLE",
+        "reason": "NO_CAPTURED_PUBLIC_DOCUMENT"
+      }
+    },
+    "schemaVersion": "1",
+    "runId": "e0a19b72-6adf-4a8d-bd09-c3f7826b67c9",
+    "startedAt": "2026-10-11T21:03:44.141Z",
+    "finishedAt": "2026-10-11T21:03:44.812Z"
+  },
+  "formalRunStarted": true,
+  "deliveryCount": null,
+  "resourceUsage": {
+    "discoveryCandidates": 0,
+    "candidatesChecked": 0,
+    "agentDecisions": 0,
+    "browserModelCalls": 0,
+    "modelCallsStarted": 1,
+    "browserRuntimeCalls": 0,
+    "browserOperationsByCandidate": {},
+    "pageStillLoadingWithinBound": 0,
+    "postActionWaitTotalMs": 0,
+    "browserModelActions": 0,
+    "googleRequests": {
+      "limit": 40,
+      "total": 0,
+      "namedPlaceResolution": 0,
+      "discovery": 0,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "elapsedMs": 747
+  },
+  "postDelivery": null,
+  "witnessRaw": [],
+  "evaluation": {
+    "path": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-11T21-03-44-141Z-e0a19b72-6adf-4a8d-bd09-c3f7826b67c9.result.evaluation.27-1791752624852.json",
+    "execution": {
+      "status": "FAILED",
+      "stage": "SEMANTIC",
+      "taskProducedQualifiedResult": "UNKNOWN",
+      "systemBehavior": "NOT_EVALUATED",
+      "externalConditions": "NOT_EVALUATED",
+      "evidenceSufficiency": "NOT_EVALUATED",
+      "completion": "NOT_EVALUATED"
+    }
+  },
+  "classification": "FACTS_ONLY; independent classification pending"
+}

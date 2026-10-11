@@ -1,0 +1,68 @@
+{
+  "rows": [
+    {
+      "caseId": "h003",
+      "result": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-11T21-01-28-861Z-d803c7d7-1f1f-4eaf-b04b-147ebe968cd6.result.json",
+      "failedInvocations": [
+        {
+          "invocationId": "cfc3aa29-7478-47b8-b012-6160e7f2e53a",
+          "taskId": "hybrid-live:h003:1791752488786",
+          "purpose": "restaurant_agent_decide",
+          "promptVersion": "25",
+          "fallback": "FAIL_CLOSED",
+          "provider": "DEEPSEEK",
+          "model": "deepseek-v4-flash",
+          "responseFormat": "JSON_SCHEMA",
+          "outputSchema": {
+            "name": "restaurant_agent_action",
+            "version": "4"
+          },
+          "outcome": "FAILED",
+          "latencyMs": 783,
+          "errorCode": "PROVIDER_REJECTED",
+          "providerStatus": 402,
+          "providerError": {
+            "code": "invalid_request_error",
+            "type": "unknown_error",
+            "message": "Insufficient Balance (request_id: 5dc1948e-b560-4840-96d2-8800f4c200c9)"
+          }
+        }
+      ],
+      "environmentRetryUsed": 0
+    },
+    {
+      "caseId": "h004",
+      "result": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-11T21-03-44-141Z-e0a19b72-6adf-4a8d-bd09-c3f7826b67c9.result.json",
+      "failedInvocations": [
+        {
+          "invocationId": "516c61d6-3fb8-4383-9c8c-39aeece5e603",
+          "taskId": "hybrid-live:h004:1791752624063",
+          "purpose": "restaurant_semantic_interpret",
+          "promptVersion": "v21",
+          "fallback": "STRUCTURED_FORM",
+          "provider": "DEEPSEEK",
+          "model": "deepseek-v4-flash",
+          "responseFormat": "JSON_SCHEMA",
+          "outputSchema": {
+            "name": "restaurant-semantic-proposal",
+            "version": "3"
+          },
+          "outcome": "FAILED",
+          "latencyMs": 664,
+          "errorCode": "PROVIDER_REJECTED",
+          "providerStatus": 402,
+          "providerError": {
+            "code": "invalid_request_error",
+            "type": "unknown_error",
+            "message": "Insufficient Balance (request_id: 9e20dc31-18e5-4880-a3e0-c313a9280a99)"
+          }
+        }
+      ],
+      "environmentRetryUsed": 0
+    }
+  ],
+  "ledgerModels": 752,
+  "ledgerLive": 31,
+  "ledgerGoogleConfirmed": 15,
+  "h005Status": "NOT_STARTED; requires restored provider balance and Tokyo11:30–14:00 window"
+}

@@ -8,7 +8,7 @@ rows=[];attempts=[]
 for d in sorted(base.glob('*/attempt-*')):
  if not (d/'finish.json').exists():continue
  f=json.loads((d/'finish.json').read_text());p=f.get('preflight')
- if not p and (d/'preflight.recovered.json').exists():p=json.loads((d/'preflight.recovered.json').read_text())
+ if (not p or not isinstance(p.get('attempts'),list)) and (d/'preflight.recovered.json').exists():p=json.loads((d/'preflight.recovered.json').read_text())
  attempts.append({'id':f['id'],'dir':str(d),'attempt':f['attempt'],'preflight':p,'finish':f})
  if (d/'summary.json').exists():rows.append(json.loads((d/'summary.json').read_text()))
 ledger=json.loads((prep/'ledger.json').read_text());freeze=json.loads((prep/'scripts/freeze.json').read_text())
