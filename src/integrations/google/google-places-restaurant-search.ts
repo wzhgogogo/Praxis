@@ -79,6 +79,15 @@ export function buildGooglePlacesTextQuery(request: RestaurantSearchRequest): st
 }
 
 export const NAMED_PLACE_NEARBY_RADIUS_METERS = DEFAULT_NEARBY_RADIUS_METERS;
+/** A soft search bias is not authority. 100 km distinguishes another regional
+ * place from a local nearby request without encoding any city/country boundary. */
+export const MAX_NAMED_LOCATION_CONTEXT_DISTANCE_METERS = 100_000;
+
+function geographicLocation(place: GooglePlacesRawPlace): boolean {
+  const types = Array.isArray(place.types) ? place.types : [];
+  return types.some(type => typeof type === "string" && (type.startsWith("sublocality") || type.startsWith("administrative_area")
+    || ["neighborhood", "locality", "country", "subway_station", "transit_station", "train_station", "bus_station", "airport", "park"].includes(type)));
+}
 type GoogleRequestKind = "namedPlaceResolution" | "discovery" | "placeDetails";
 type GoogleRequestUsage = {
   limit: number;
@@ -285,12 +294,18 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
     // enough ranked observations to distinguish a genuine ambiguity from a
     // harmless display-name variant. It shares the same run budget as every
     // other Google read.
-    const places = await this.client.textSearch({ textQuery: query, pageSize: Math.max(10, this.maxResults) }, signal);
-    const exactMatches = places.filter((item) => {
+    const pointContext = request.intent.area.coordinates ?? this.options.evaluationLocation;
+    const context = pointContext ? { latitude: pointContext.latitude, longitude: pointContext.longitude, radiusMeters: request.intent.area.radiusMeters ?? this.options.evaluationLocation?.radiusMeters ?? DEFAULT_NEARBY_RADIUS_METERS } : undefined;
+    const places = await this.client.textSearch({ textQuery: query, pageSize: Math.max(10, this.maxResults), ...(context ? { locationBias: context } : {}) }, signal);
+    const nameMatches = places.filter((item) => {
       const label = string(item.displayName?.text); const point = coordinates(item);
       return point !== undefined && label !== undefined && sameNamedLocation(item, query);
     });
+    const exactMatches = nameMatches.filter(geographicLocation);
     const sourceObservations = places.map(namedLocationObservation).join("; ") || "no returned places";
+    if (nameMatches.length && !exactMatches.length) {
+      throw namedLocationResolutionError("GOOGLE_LOCATION_AMBIGUOUS", `Only merchant matches were observed for an area request. Observations: ${sourceObservations}`, places);
+    }
     if (exactMatches.length > 1) {
       throw namedLocationResolutionError("GOOGLE_LOCATION_AMBIGUOUS", `Google Places returned multiple coordinate-bearing matches for the named location ${JSON.stringify(query)}. Observations: ${sourceObservations}`, places);
     }
@@ -303,6 +318,10 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
     const resolved = place && coordinates(place);
     if (!placeId || !label || !resolved) {
       throw namedLocationResolutionError("GOOGLE_LOCATION_UNRESOLVED", `Google Places could not resolve coordinates for the named location ${JSON.stringify(query)}. Observations: ${sourceObservations}`, places);
+    }
+    const distance = context ? googleDiscoveryGeoDiagnostics({ location: resolved }, { evaluationLocation: { ...context, label: "bound location context" } }).distanceMeters : undefined;
+    if (distance !== undefined && distance > MAX_NAMED_LOCATION_CONTEXT_DISTANCE_METERS) {
+      throw namedLocationResolutionError("GOOGLE_LOCATION_AMBIGUOUS", `Named location is ${Math.round(distance)} meters from the bound context, exceeding ${MAX_NAMED_LOCATION_CONTEXT_DISTANCE_METERS}. Observations: ${sourceObservations}`, places);
     }
     const observedAt = this.now();
     const radiusMeters = request.intent.area.radiusMeters ?? NAMED_PLACE_NEARBY_RADIUS_METERS;

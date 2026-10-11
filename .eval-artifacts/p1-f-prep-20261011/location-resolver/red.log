@@ -1,0 +1,24 @@
+✖ named area resolution binds bias, prefers geography and refuses distant or merchant authority (8.631958ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 384.787542
+
+✖ failing tests:
+
+test at src/integrations/google/google-places-restaurant-search.test.ts:1:32020
+✖ named area resolution binds bias, prefers geography and refuses distant or merchant authority (8.631958ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/integrations/google/google-places-restaurant-search.test.ts:588:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: { code: 'GOOGLE_LOCATION_AMBIGUOUS' },
+    operator: 'rejects'
+  }

@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import assert from "node:assert/strict";
 import { test } from "node:test";
 
@@ -571,4 +572,32 @@ test("nearby defaults to 1000 meters, preserves explicit radius and admits only 
   assert.equal(explicit.candidates.length, 2);
   await client.textSearch({ textQuery: "observed query", pageSize: 10, locationBias: center }, new AbortController().signal);
   assert.equal((requests.at(-1) as { locationBias: { circle: { radius: number } } }).locationBias.circle.radius, 1000);
+});
+
+
+test("named area resolution binds bias, prefers geography and refuses distant or merchant authority", async () => {
+  const center = { latitude: 1, longitude: 2 };
+  const recorded = JSON.parse(readFileSync(new URL("./fixtures/far-named-merchant.json", import.meta.url), "utf8"));
+  const resolve = async (places: unknown[], query = "near Example area", context: typeof center | null = center) => {
+    let body: Record<string, unknown> | undefined;
+    const client = new GooglePlacesClient({ apiKey: "fixture", fetchImplementation: async (_url, init) => { body = JSON.parse(String(init?.body)); return new Response(JSON.stringify({ places }), { status: 200 }); } });
+    const search = new GooglePlacesRestaurantSearch(client, undefined, 10, context ? { evaluationLocation: context } : {});
+    const result = await search.resolveNamedNearbyLocation({ intent: { ...fixtureIntent, area: { query } } }, new AbortController().signal);
+    return { result, body };
+  };
+  await assert.rejects(resolve(recorded.places, "near Recorded area"), { code: "GOOGLE_LOCATION_AMBIGUOUS" });
+  const merchant = { id: "merchant", displayName: { text: "Example area" }, location: center, types: ["restaurant"] };
+  const geographic = { id: "geographic", displayName: { text: "Example area" }, location: center, types: ["neighborhood"] };
+  const mixed = await resolve([merchant, geographic]);
+  assert.equal(mixed.result.publicLocationObservation?.placeId, "geographic");
+  assert.deepEqual((mixed.body?.locationBias as { circle: unknown }).circle, { center, radius: 1000 });
+  await assert.rejects(resolve([merchant]), { code: "GOOGLE_LOCATION_AMBIGUOUS" });
+  await assert.rejects(resolve([{ ...geographic, location: { latitude: 3, longitude: 4 } }]), error => {
+    assert.equal((error as { code: string }).code, "GOOGLE_LOCATION_AMBIGUOUS");
+    assert.equal((error as { publicLocationObservations: unknown[] }).publicLocationObservations.length, 1);
+    return true;
+  });
+  const withoutContext = await resolve([geographic], "near Example area", null);
+  assert.equal(withoutContext.body?.locationBias, undefined);
+  assert.equal(withoutContext.result.location?.latitude, center.latitude);
 });
