@@ -62,17 +62,10 @@
     }
   },
   "stop": null,
-  "externalBlocker": {
-    "code": "PROVIDER_BALANCE_INSUFFICIENT",
-    "provider": "DEEPSEEK",
-    "httpStatus": 402,
-    "message": "Insufficient Balance",
-    "requiresUserRestoration": true,
-    "evidence": [
-      ".eval-artifacts/p1-f-20261011/part-b/h003/attempt-1/summary.json",
-      ".eval-artifacts/p1-f-20261011/part-b/h004/attempt-1/summary.json"
-    ],
-    "remainingCase": "B:h005",
-    "notEnvironmentRetryUnderApprovedRules": true
+  "providerRestoration": {
+    "status": "USER_REPORTED_BALANCE_RESTORED",
+    "humanMessage": "冲完了。继续跑",
+    "evidence": "prep-20261012/provider-balance-restored.json",
+    "recordedAt": "2026-10-11T22:05:01.636198+00:00"
   }
 }

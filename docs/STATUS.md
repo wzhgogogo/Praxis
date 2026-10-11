@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.193
+- Document revision: 4.194
 - Last updated: 2026-10-12
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-12 P1F-balance-restored：** 用户确认已充值，余额前置解除，证据provider-balance-restored.json；原版h005仍未运行，维持东京11:30–14:00，现有11:30心跳已更新无需再确认。当前752/1500模型、31/33Live、环境预留2；无新增API调用，生产73bfca5/CLEAN及冻结SHA不变。
 
 - **2026-10-12 P1F-B-h001-h004：** A第二段及B h001–h004已结束；B h002展示1家/自动UNKNOWN且交付后selection含展示时段，h001失败，h003/h004 DeepSeek402余额不足，无环境重跑。累计752/1500模型、31/33Live、Google已确认15（历史完整累计UNKNOWN）、环境预留2。生产73bfca5/CLEAN、冻结SHA不变。原版h005尚未启动，须东京11:30–14:00且余额恢复后运行；停止待该前置，结果待独立复核，不推送。
 
