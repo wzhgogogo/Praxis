@@ -3334,3 +3334,8 @@ Context@11与Prompt@25投影已接纳来源距离及圆心类型，展示带米�
 ## DEV-2026-10-11-P1F-audit
 
 退出条件 6 只读审计：共享生产层保留 Asia/Tokyo 与 Cloudflare Runtime 端点，严格字面清单非零；餐厅域名/站点样式/评测坐标常量未见。Phase 1 站点等待已删除。全部已授权非模型工作与报告完成，距离/检索真实回放仍受具体 DeepSeek 外发授权阻断；两次发现探测未达标，不追加。
+
+
+## DEV-2026-10-11-P1FF-review-artifacts
+
+原样保存复核者 Playbook 1.2（含 §2 第17条）及 P1-F准备批独立复核，范围冻结按用户 followup 第0–4项；DeepSeek 原已准备载荷明确授权，P1-D仅补第11次发现。

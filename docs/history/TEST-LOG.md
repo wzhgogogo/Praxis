@@ -4018,3 +4018,8 @@ Red: red-contract.log (three compile omissions), red-changing-results.log (stale
 ## TEST-2026-10-11-P1F-audit
 
 四门禁复跑记录 audit/gates.json；审计是读取清单，不伪造功能红灯。来源专用代码增删按 41205e8..63ac2a0逐文件保存。278 个受保护原文件哈希未变；隔离实验 a51a59c 四门禁和本地 Chromium 通过，不合回主分支。累计本批 2 次模型、17 次 Google；真实回放未执行。
+
+
+## TEST-2026-10-11-P1FF-review-artifacts
+
+复核原文 sha256.json；文档项功能红灯不适用，未伪造；四门禁记录 review-artifacts/gates.json。起点 c0766ca，演示文稿不动，不推送。
