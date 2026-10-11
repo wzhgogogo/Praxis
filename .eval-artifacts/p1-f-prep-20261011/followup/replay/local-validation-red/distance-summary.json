@@ -1,0 +1,146 @@
+{
+  "status": "EXPOSED_DEVELOPMENT_REPLAY_NOT_CLEAN_BASELINE",
+  "calls": 8,
+  "googleRequests": 0,
+  "seedHash": "01f2e43b8bc77e2c77884f36ade7c09b08e5ecb7f8e913e43699d0f9cfdfb54c",
+  "results": [
+    {
+      "seedId": "p1-seed-0129",
+      "mode": "ORIGINAL",
+      "error": "ModelGatewayError: Invalid model request: outputSchema.jsonSchema must be an object for JSON_SCHEMA responses",
+      "accepted": false,
+      "capturedAction": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:fcc9d69c3db2d5ec8ebbd96f",
+          "praxis:restaurant:007ba8cae42625c538331dfb",
+          "praxis:restaurant:33e888688dffcf3bf7cf13bd"
+        ],
+        "decisionSummary": "AVAILABILITY goal with no fresh slots yet; check the first three checkable candidates for the authoritative 2026-10-21 18:00 party of 4."
+      },
+      "distanceCount": 0,
+      "startedAt": "2026-10-11T07:27:56.848Z",
+      "elapsedMs": 1
+    },
+    {
+      "seedId": "p1-seed-0129",
+      "mode": "INJECTED_DISTANCE_ONLY",
+      "error": "ModelGatewayError: Invalid model request: outputSchema.jsonSchema must be an object for JSON_SCHEMA responses",
+      "accepted": false,
+      "capturedAction": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:fcc9d69c3db2d5ec8ebbd96f",
+          "praxis:restaurant:007ba8cae42625c538331dfb",
+          "praxis:restaurant:33e888688dffcf3bf7cf13bd"
+        ],
+        "decisionSummary": "AVAILABILITY goal with no fresh slots yet; check the first three checkable candidates for the authoritative 2026-10-21 18:00 party of 4."
+      },
+      "distanceCount": 33,
+      "startedAt": "2026-10-11T07:27:56.850Z",
+      "elapsedMs": 0
+    },
+    {
+      "seedId": "p1-seed-0130",
+      "mode": "ORIGINAL",
+      "error": "ModelGatewayError: Invalid model request: outputSchema.jsonSchema must be an object for JSON_SCHEMA responses",
+      "accepted": false,
+      "capturedAction": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:6e357eb5908d4857a27f63d5",
+          "praxis:restaurant:47f2d02a0a779468fa0f4037",
+          "praxis:restaurant:2d4bcba87b98334e7ef0abfb"
+        ],
+        "decisionSummary": "First three candidates returned UNKNOWN availability (source failures). Proceeding with a bounded availability read on the next three unchecked candidates to pursue the AVAILABILITY goal and the 3-result batch target."
+      },
+      "distanceCount": 0,
+      "startedAt": "2026-10-11T07:27:56.851Z",
+      "elapsedMs": 0
+    },
+    {
+      "seedId": "p1-seed-0130",
+      "mode": "INJECTED_DISTANCE_ONLY",
+      "error": "ModelGatewayError: Invalid model request: outputSchema.jsonSchema must be an object for JSON_SCHEMA responses",
+      "accepted": false,
+      "capturedAction": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:6e357eb5908d4857a27f63d5",
+          "praxis:restaurant:47f2d02a0a779468fa0f4037",
+          "praxis:restaurant:2d4bcba87b98334e7ef0abfb"
+        ],
+        "decisionSummary": "First three candidates returned UNKNOWN availability (source failures). Proceeding with a bounded availability read on the next three unchecked candidates to pursue the AVAILABILITY goal and the 3-result batch target."
+      },
+      "distanceCount": 33,
+      "startedAt": "2026-10-11T07:27:56.852Z",
+      "elapsedMs": 0
+    },
+    {
+      "seedId": "p1-seed-0131",
+      "mode": "ORIGINAL",
+      "error": "ModelGatewayError: Invalid model request: outputSchema.jsonSchema must be an object for JSON_SCHEMA responses",
+      "accepted": false,
+      "capturedAction": {
+        "type": "PRESENT_RESULTS",
+        "candidateIds": [
+          "tabelog:en/tokyo/A1303/A130301/13261619"
+        ],
+        "decisionSummary": "Only Shibuya Sushi Matsumoto has a fresh matching slot (2026-10-22 19:00, party 2, reservation supported); other candidates lack fresh evidenced availability and no legal read actions remain, so present the eligible candidate."
+      },
+      "distanceCount": 0,
+      "startedAt": "2026-10-11T07:27:56.853Z",
+      "elapsedMs": 0
+    },
+    {
+      "seedId": "p1-seed-0131",
+      "mode": "INJECTED_DISTANCE_ONLY",
+      "error": "ModelGatewayError: Invalid model request: outputSchema.jsonSchema must be an object for JSON_SCHEMA responses",
+      "accepted": false,
+      "capturedAction": {
+        "type": "PRESENT_RESULTS",
+        "candidateIds": [
+          "tabelog:en/tokyo/A1303/A130301/13261619"
+        ],
+        "decisionSummary": "Only Shibuya Sushi Matsumoto has a fresh matching slot (2026-10-22 19:00, party 2, reservation supported); other candidates lack fresh evidenced availability and no legal read actions remain, so present the eligible candidate."
+      },
+      "distanceCount": 5,
+      "startedAt": "2026-10-11T07:27:56.854Z",
+      "elapsedMs": 0
+    },
+    {
+      "seedId": "p1-seed-0132",
+      "mode": "ORIGINAL",
+      "error": "ModelGatewayError: Invalid model request: outputSchema.jsonSchema must be an object for JSON_SCHEMA responses",
+      "accepted": false,
+      "capturedAction": {
+        "type": "PRESENT_RESULTS",
+        "candidateIds": [
+          "tabelog:en/tokyo/A1301/A130101/13295658",
+          "tabelog:en/tokyo/A1301/A130101/13285959"
+        ],
+        "decisionSummary": "Two candidates have fresh matching 2026-10-24 18:30 slots for 2 guests and no violated HARD criteria; present them now. Remaining three candidates lack fresh evidenced availability and no legal read remains for them."
+      },
+      "distanceCount": 0,
+      "startedAt": "2026-10-11T07:27:56.854Z",
+      "elapsedMs": 0
+    },
+    {
+      "seedId": "p1-seed-0132",
+      "mode": "INJECTED_DISTANCE_ONLY",
+      "error": "ModelGatewayError: Invalid model request: outputSchema.jsonSchema must be an object for JSON_SCHEMA responses",
+      "accepted": false,
+      "capturedAction": {
+        "type": "PRESENT_RESULTS",
+        "candidateIds": [
+          "tabelog:en/tokyo/A1301/A130101/13295658",
+          "tabelog:en/tokyo/A1301/A130101/13285959"
+        ],
+        "decisionSummary": "Two candidates have fresh matching 2026-10-24 18:30 slots for 2 guests and no violated HARD criteria; present them now. Remaining three candidates lack fresh evidenced availability and no legal read remains for them."
+      },
+      "distanceCount": 5,
+      "startedAt": "2026-10-11T07:27:56.855Z",
+      "elapsedMs": 0
+    }
+  ]
+}

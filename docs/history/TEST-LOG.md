@@ -4033,3 +4033,8 @@ Red: red-contract.log (three compile omissions), red-changing-results.log (stale
 ## TEST-2026-10-11-P1FF-discovery
 
 红灯复用原东银座导航失败与 navigation/chromium-red.log；本次不制造红灯、不重跑。原录制与 result 保留，analysis.json 纠正末批 inspectedOutlets 与总数差别；无非读放行和后续页面。四门禁日志见 followup/discovery/，提交前全部通过。
+
+
+## TEST-2026-10-11-P1FF-replay
+
+距离按 seeds.v6：0129/0130 两模式均不通过，0131/0132 均通过。检索词原动作与新动作逐条保留：4 REPORT_NO_RESULTS、11 CLICK、1 REFINE_RETRIEVAL 缺搜索词被解码拒绝；不做实施者评分。缺原 DOM，执行器接受性未验证。有效质量红灯保存；8 次本地传输 Schema 校验拒绝不是模型调用。两分支四门禁日志分别保留，提交前全部通过。
