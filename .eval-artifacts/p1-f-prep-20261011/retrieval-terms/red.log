@@ -1,0 +1,29 @@
+✖ REPORT_NO_RESULTS rejects a letter, navigation text and the query itself (9.244292ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 332.536375
+
+✖ failing tests:
+
+test at src/infrastructure/browser/browser-task-executor.test.ts:1:70820
+✖ REPORT_NO_RESULTS rejects a letter, navigation text and the query itself (9.244292ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'EXPLICIT_NO_RESULTS'
+  - 'NO_RESULT_QUOTE_REJECTED'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/exp-retrieval-terms/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.test.ts:1147:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'EXPLICIT_NO_RESULTS',
+    expected: 'NO_RESULT_QUOTE_REJECTED',
+    operator: 'strictEqual'
+  }

@@ -1,0 +1,86 @@
+[
+  {
+    "caseId": "kf-h002-20261024",
+    "status": "SOURCE_FAILED",
+    "failureCode": "DISCOVERY_SOURCE_LOCATION_UNGROUNDED",
+    "elapsedMs": 21173,
+    "modelCalls": 1,
+    "googleRequests": {
+      "limit": 40,
+      "total": 1,
+      "namedPlaceResolution": 0,
+      "discovery": 0,
+      "placeDetails": 0,
+      "reverseAddressObservation": 1
+    },
+    "passes": false,
+    "firstTen": {
+      "denominator": 10,
+      "within": 0
+    },
+    "region": [
+      null
+    ]
+  },
+  {
+    "caseId": "kf-h001-20261022",
+    "status": "LIST_OBSERVED",
+    "elapsedMs": 24974,
+    "modelCalls": 1,
+    "googleRequests": {
+      "limit": 40,
+      "total": 1,
+      "namedPlaceResolution": 0,
+      "discovery": 0,
+      "placeDetails": 0,
+      "reverseAddressObservation": 1
+    },
+    "passes": false,
+    "firstTen": {
+      "denominator": 10,
+      "within": 1
+    },
+    "region": [
+      {
+        "first": {
+          "url": "https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase",
+          "observedOn": "https://tabelog.com/en/tokyo/rstLst/?sw=omakase",
+          "targetRef": "observation:2:target:22",
+          "label": "Shibuya & Ebisu & Daikanyama"
+        },
+        "firstFive": [
+          {
+            "sourceEntityId": "en/tokyo/A1303/A130301/13203305",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13203305/",
+            "outcome": "OUTSIDE_RADIUS",
+            "coordinates": {
+              "latitude": 35.65769537870779,
+              "longitude": 139.69365747419772
+            },
+            "distanceMeters": 1033.043329262187
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1303/A130301/13308491",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.66294870391731,
+              "longitude": 139.69560491885105
+            },
+            "distanceMeters": 748.7035824387306
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1303/A130302/13244783",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13244783/",
+            "outcome": "OUTSIDE_RADIUS",
+            "coordinates": {
+              "latitude": 35.64791152872159,
+              "longitude": 139.71750155408216
+            },
+            "distanceMeters": 1996.5565491047148
+          }
+        ]
+      }
+    ]
+  }
+]

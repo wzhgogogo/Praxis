@@ -1,0 +1,885 @@
+{
+  "status": "LIST_OBSERVED",
+  "discoveryCoverage": "REGION_FILTERED_LIST_ONLY",
+  "packId": "tabelog",
+  "elapsedMs": 24974,
+  "read": {
+    "candidates": [
+      {
+        "restaurant": {
+          "id": "tabelog:en/tokyo/A1303/A130301/13308491",
+          "outletName": "Sushi Teppen",
+          "address": "1500042 Tokyo Udagawacho Shibuya Tokyo ",
+          "coordinates": {
+            "lat": 35.66294870391731,
+            "lng": 139.69560491885105
+          },
+          "sourceIds": {
+            "tabelog": "en/tokyo/A1303/A130301/13308491",
+            "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/",
+            "discoverySourceId": "tabelog",
+            "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/"
+          },
+          "provenance": {
+            "outletName": "evidence:restaurant:native-discovery:24e91274c3d734c9d7b57d66",
+            "address": "evidence:restaurant:native-discovery:24e91274c3d734c9d7b57d66",
+            "sourceIds": "evidence:restaurant:native-discovery:24e91274c3d734c9d7b57d66"
+          }
+        },
+        "matchReasons": [
+          "Source coordinates within 1000 m of explicit evaluation location"
+        ],
+        "warnings": [],
+        "executionConfidence": "MEDIUM"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceId": "evidence:restaurant:native-discovery:24e91274c3d734c9d7b57d66",
+        "kind": "DISCOVERY",
+        "provider": "TABELOG",
+        "candidateId": "tabelog:en/tokyo/A1303/A130301/13308491",
+        "sourceEntityId": "en/tokyo/A1303/A130301/13308491",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/",
+        "observedAt": "2026-10-11T06:48:05.203Z",
+        "requestFingerprint": "{\"intent\":\"{\\\"timezone\\\":\\\"Asia/Tokyo\\\",\\\"target\\\":{\\\"goal\\\":\\\"RECOMMENDATION\\\",\\\"query\\\":\\\"restaurants nearby\\\"},\\\"area\\\":{\\\"query\\\":\\\"nearby\\\",\\\"radiusMeters\\\":1000},\\\"criteria\\\":[{\\\"text\\\":\\\"omakase\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"HARD\\\"}]}\",\"location\":{\"latitude\":35.6619707,\"longitude\":139.70379499999999,\"radiusMeters\":1000,\"label\":\"explicit evaluation location\",\"areaMatchBasis\":\"EVALUATION_LOCATION_RADIUS\",\"addressComponents\":[{\"longText\":\"24\",\"shortText\":\"24\",\"types\":[\"premise\"]},{\"longText\":\"１８\",\"shortText\":\"１８\",\"types\":[\"political\",\"sublocality\",\"sublocality_level_4\"]},{\"longText\":\"１丁目\",\"shortText\":\"１丁目\",\"types\":[\"political\",\"sublocality\",\"sublocality_level_3\"]},{\"longText\":\"渋谷\",\"shortText\":\"渋谷\",\"types\":[\"political\",\"sublocality\",\"sublocality_level_2\"]},{\"longText\":\"渋谷区\",\"shortText\":\"渋谷区\",\"types\":[\"locality\",\"political\"]},{\"longText\":\"東京都\",\"shortText\":\"東京都\",\"types\":[\"administrative_area_level_1\",\"political\"]},{\"longText\":\"日本\",\"shortText\":\"JP\",\"types\":[\"country\",\"political\"]},{\"longText\":\"150-0003\",\"shortText\":\"150-0003\",\"types\":[\"postal_code\"]}],\"addressObservation\":{\"source\":\"GOOGLE_GEOCODING\",\"observedAt\":\"2026-10-11T06:47:43.839Z\",\"status\":\"OBSERVED\"}}}",
+        "claims": {
+          "sourceCategories": [
+            "Shinsen Sta. 654m / Sushi"
+          ],
+          "outletName": "Sushi Teppen",
+          "address": "1500042 Tokyo Udagawacho Shibuya Tokyo ",
+          "areaQuery": "nearby",
+          "areaMatch": true,
+          "areaMatchBasis": "EVALUATION_LOCATION_RADIUS",
+          "evaluationLocationLabel": "explicit evaluation location",
+          "distanceMeters": 749
+        }
+      }
+    ],
+    "continuation": {
+      "intentFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"RECOMMENDATION\",\"query\":\"restaurants nearby\"},\"area\":{\"query\":\"nearby\",\"radiusMeters\":1000},\"criteria\":[{\"text\":\"omakase\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}]}",
+      "discoveryPlan": {
+        "entries": [
+          {
+            "sourceId": "tabelog",
+            "query": {
+              "category": "omakase",
+              "keyword": "omakase",
+              "location": {
+                "latitude": 35.6619707,
+                "longitude": 139.70379499999999,
+                "radiusMeters": 1000,
+                "label": "explicit evaluation location",
+                "areaMatchBasis": "EVALUATION_LOCATION_RADIUS",
+                "addressComponents": [
+                  {
+                    "longText": "24",
+                    "shortText": "24",
+                    "types": [
+                      "premise"
+                    ]
+                  },
+                  {
+                    "longText": "１８",
+                    "shortText": "１８",
+                    "types": [
+                      "political",
+                      "sublocality",
+                      "sublocality_level_4"
+                    ]
+                  },
+                  {
+                    "longText": "１丁目",
+                    "shortText": "１丁目",
+                    "types": [
+                      "political",
+                      "sublocality",
+                      "sublocality_level_3"
+                    ]
+                  },
+                  {
+                    "longText": "渋谷",
+                    "shortText": "渋谷",
+                    "types": [
+                      "political",
+                      "sublocality",
+                      "sublocality_level_2"
+                    ]
+                  },
+                  {
+                    "longText": "渋谷区",
+                    "shortText": "渋谷区",
+                    "types": [
+                      "locality",
+                      "political"
+                    ]
+                  },
+                  {
+                    "longText": "東京都",
+                    "shortText": "東京都",
+                    "types": [
+                      "administrative_area_level_1",
+                      "political"
+                    ]
+                  },
+                  {
+                    "longText": "日本",
+                    "shortText": "JP",
+                    "types": [
+                      "country",
+                      "political"
+                    ]
+                  },
+                  {
+                    "longText": "150-0003",
+                    "shortText": "150-0003",
+                    "types": [
+                      "postal_code"
+                    ]
+                  }
+                ],
+                "addressObservation": {
+                  "source": "GOOGLE_GEOCODING",
+                  "observedAt": "2026-10-11T06:47:43.839Z",
+                  "status": "OBSERVED"
+                }
+              }
+            }
+          }
+        ],
+        "cursor": 0
+      },
+      "currentDiscoveryBatch": {
+        "sourceId": "tabelog",
+        "candidateIds": [
+          "tabelog:en/tokyo/A1303/A130301/13308491"
+        ]
+      },
+      "usedPageTokens": [],
+      "pagesRead": 2,
+      "exhausted": false,
+      "sourceProgress": {
+        "directoryRegion": {
+          "first": {
+            "url": "https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase",
+            "observedOn": "https://tabelog.com/en/tokyo/rstLst/?sw=omakase",
+            "targetRef": "observation:2:target:22",
+            "label": "Shibuya & Ebisu & Daikanyama"
+          },
+          "firstFive": [
+            {
+              "sourceEntityId": "en/tokyo/A1303/A130301/13203305",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13203305/",
+              "outcome": "OUTSIDE_RADIUS",
+              "coordinates": {
+                "latitude": 35.65769537870779,
+                "longitude": 139.69365747419772
+              },
+              "distanceMeters": 1033.043329262187
+            },
+            {
+              "sourceEntityId": "en/tokyo/A1303/A130301/13308491",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/",
+              "outcome": "WITHIN_RADIUS",
+              "coordinates": {
+                "latitude": 35.66294870391731,
+                "longitude": 139.69560491885105
+              },
+              "distanceMeters": 748.7035824387306
+            },
+            {
+              "sourceEntityId": "en/tokyo/A1303/A130302/13244783",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13244783/",
+              "outcome": "OUTSIDE_RADIUS",
+              "coordinates": {
+                "latitude": 35.64791152872159,
+                "longitude": 139.71750155408216
+              },
+              "distanceMeters": 1996.5565491047148
+            }
+          ]
+        },
+        "sourceId": "tabelog",
+        "inspectedSourceIds": [
+          "en/tokyo/A1303/A130301/13203305",
+          "en/tokyo/A1303/A130301/13308491",
+          "en/tokyo/A1303/A130302/13244783"
+        ],
+        "detailAttempts": 3,
+        "pagesRead": 2,
+        "elapsedMs": 24629,
+        "visitedListingUrls": [
+          "https://tabelog.com/en/tokyo/rstLst/?sw=omakase",
+          "https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase"
+        ],
+        "pendingSourceEntries": [],
+        "pendingSourceIds": []
+      },
+      "locationContext": {
+        "latitude": 35.6619707,
+        "longitude": 139.70379499999999,
+        "radiusMeters": 1000,
+        "label": "explicit evaluation location",
+        "areaMatchBasis": "EVALUATION_LOCATION_RADIUS",
+        "addressComponents": [
+          {
+            "longText": "24",
+            "shortText": "24",
+            "types": [
+              "premise"
+            ]
+          },
+          {
+            "longText": "１８",
+            "shortText": "１８",
+            "types": [
+              "political",
+              "sublocality",
+              "sublocality_level_4"
+            ]
+          },
+          {
+            "longText": "１丁目",
+            "shortText": "１丁目",
+            "types": [
+              "political",
+              "sublocality",
+              "sublocality_level_3"
+            ]
+          },
+          {
+            "longText": "渋谷",
+            "shortText": "渋谷",
+            "types": [
+              "political",
+              "sublocality",
+              "sublocality_level_2"
+            ]
+          },
+          {
+            "longText": "渋谷区",
+            "shortText": "渋谷区",
+            "types": [
+              "locality",
+              "political"
+            ]
+          },
+          {
+            "longText": "東京都",
+            "shortText": "東京都",
+            "types": [
+              "administrative_area_level_1",
+              "political"
+            ]
+          },
+          {
+            "longText": "日本",
+            "shortText": "JP",
+            "types": [
+              "country",
+              "political"
+            ]
+          },
+          {
+            "longText": "150-0003",
+            "shortText": "150-0003",
+            "types": [
+              "postal_code"
+            ]
+          }
+        ],
+        "addressObservation": {
+          "source": "GOOGLE_GEOCODING",
+          "observedAt": "2026-10-11T06:47:43.839Z",
+          "status": "OBSERVED"
+        }
+      }
+    },
+    "metadata": {
+      "provider": "TABELOG",
+      "route": "GENERIC_BROWSER",
+      "latencyMs": 24973,
+      "nativeDiscoveryFunnel": {
+        "directoryRegion": {
+          "first": {
+            "url": "https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase",
+            "observedOn": "https://tabelog.com/en/tokyo/rstLst/?sw=omakase",
+            "targetRef": "observation:2:target:22",
+            "label": "Shibuya & Ebisu & Daikanyama"
+          },
+          "firstFive": [
+            {
+              "sourceEntityId": "en/tokyo/A1303/A130301/13203305",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13203305/",
+              "outcome": "OUTSIDE_RADIUS",
+              "coordinates": {
+                "latitude": 35.65769537870779,
+                "longitude": 139.69365747419772
+              },
+              "distanceMeters": 1033.043329262187
+            },
+            {
+              "sourceEntityId": "en/tokyo/A1303/A130301/13308491",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/",
+              "outcome": "WITHIN_RADIUS",
+              "coordinates": {
+                "latitude": 35.66294870391731,
+                "longitude": 139.69560491885105
+              },
+              "distanceMeters": 748.7035824387306
+            },
+            {
+              "sourceEntityId": "en/tokyo/A1303/A130302/13244783",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13244783/",
+              "outcome": "OUTSIDE_RADIUS",
+              "coordinates": {
+                "latitude": 35.64791152872159,
+                "longitude": 139.71750155408216
+              },
+              "distanceMeters": 1996.5565491047148
+            }
+          ]
+        },
+        "source": "TABELOG",
+        "rawSourceLinks": 3,
+        "parsedOutlets": 3,
+        "inspectedOutlets": 3,
+        "batchCap": 5,
+        "sourceDetailCap": 10,
+        "sourceDetailAttempts": 3,
+        "deferredByBatchCap": [],
+        "rejected": [
+          {
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13203305/",
+            "reasonCode": "OUTSIDE_EXACT_RADIUS"
+          },
+          {
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13244783/",
+            "reasonCode": "OUTSIDE_EXACT_RADIUS"
+          }
+        ],
+        "accepted": 1,
+        "sourcePageCap": 6,
+        "sourceElapsedCapMs": 90000,
+        "sourceElapsedMs": 24629,
+        "sourceTimeLimitReached": false,
+        "pagesRead": 2,
+        "batchLimitReached": false,
+        "sourceExhausted": "UNKNOWN",
+        "batchEnded": true,
+        "sourceEnded": false,
+        "progressionReason": "FIRST_SOURCE_BATCH",
+        "listingObservations": [
+          {
+            "sourceUrl": "https://tabelog.com/en/tokyo/rstLst/?sw=omakase",
+            "parsedOutlets": 20,
+            "resultCount": 36,
+            "nextPageUrl": "https://tabelog.com/en/tokyo/rstLst/2/?sw=omakase"
+          },
+          {
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase",
+            "parsedOutlets": 3,
+            "resultCount": 3
+          },
+          {
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase",
+            "parsedOutlets": 3,
+            "resultCount": 3
+          }
+        ]
+      },
+      "googleRequests": {
+        "limit": 40,
+        "total": 1,
+        "namedPlaceResolution": 0,
+        "discovery": 0,
+        "placeDetails": 0,
+        "reverseAddressObservation": 1
+      }
+    }
+  },
+  "reads": [
+    {
+      "candidates": [
+        {
+          "restaurant": {
+            "id": "tabelog:en/tokyo/A1303/A130301/13308491",
+            "outletName": "Sushi Teppen",
+            "address": "1500042 Tokyo Udagawacho Shibuya Tokyo ",
+            "coordinates": {
+              "lat": 35.66294870391731,
+              "lng": 139.69560491885105
+            },
+            "sourceIds": {
+              "tabelog": "en/tokyo/A1303/A130301/13308491",
+              "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/",
+              "discoverySourceId": "tabelog",
+              "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/"
+            },
+            "provenance": {
+              "outletName": "evidence:restaurant:native-discovery:24e91274c3d734c9d7b57d66",
+              "address": "evidence:restaurant:native-discovery:24e91274c3d734c9d7b57d66",
+              "sourceIds": "evidence:restaurant:native-discovery:24e91274c3d734c9d7b57d66"
+            }
+          },
+          "matchReasons": [
+            "Source coordinates within 1000 m of explicit evaluation location"
+          ],
+          "warnings": [],
+          "executionConfidence": "MEDIUM"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceId": "evidence:restaurant:native-discovery:24e91274c3d734c9d7b57d66",
+          "kind": "DISCOVERY",
+          "provider": "TABELOG",
+          "candidateId": "tabelog:en/tokyo/A1303/A130301/13308491",
+          "sourceEntityId": "en/tokyo/A1303/A130301/13308491",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/",
+          "observedAt": "2026-10-11T06:48:05.203Z",
+          "requestFingerprint": "{\"intent\":\"{\\\"timezone\\\":\\\"Asia/Tokyo\\\",\\\"target\\\":{\\\"goal\\\":\\\"RECOMMENDATION\\\",\\\"query\\\":\\\"restaurants nearby\\\"},\\\"area\\\":{\\\"query\\\":\\\"nearby\\\",\\\"radiusMeters\\\":1000},\\\"criteria\\\":[{\\\"text\\\":\\\"omakase\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"HARD\\\"}]}\",\"location\":{\"latitude\":35.6619707,\"longitude\":139.70379499999999,\"radiusMeters\":1000,\"label\":\"explicit evaluation location\",\"areaMatchBasis\":\"EVALUATION_LOCATION_RADIUS\",\"addressComponents\":[{\"longText\":\"24\",\"shortText\":\"24\",\"types\":[\"premise\"]},{\"longText\":\"１８\",\"shortText\":\"１８\",\"types\":[\"political\",\"sublocality\",\"sublocality_level_4\"]},{\"longText\":\"１丁目\",\"shortText\":\"１丁目\",\"types\":[\"political\",\"sublocality\",\"sublocality_level_3\"]},{\"longText\":\"渋谷\",\"shortText\":\"渋谷\",\"types\":[\"political\",\"sublocality\",\"sublocality_level_2\"]},{\"longText\":\"渋谷区\",\"shortText\":\"渋谷区\",\"types\":[\"locality\",\"political\"]},{\"longText\":\"東京都\",\"shortText\":\"東京都\",\"types\":[\"administrative_area_level_1\",\"political\"]},{\"longText\":\"日本\",\"shortText\":\"JP\",\"types\":[\"country\",\"political\"]},{\"longText\":\"150-0003\",\"shortText\":\"150-0003\",\"types\":[\"postal_code\"]}],\"addressObservation\":{\"source\":\"GOOGLE_GEOCODING\",\"observedAt\":\"2026-10-11T06:47:43.839Z\",\"status\":\"OBSERVED\"}}}",
+          "claims": {
+            "sourceCategories": [
+              "Shinsen Sta. 654m / Sushi"
+            ],
+            "outletName": "Sushi Teppen",
+            "address": "1500042 Tokyo Udagawacho Shibuya Tokyo ",
+            "areaQuery": "nearby",
+            "areaMatch": true,
+            "areaMatchBasis": "EVALUATION_LOCATION_RADIUS",
+            "evaluationLocationLabel": "explicit evaluation location",
+            "distanceMeters": 749
+          }
+        }
+      ],
+      "continuation": {
+        "intentFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"RECOMMENDATION\",\"query\":\"restaurants nearby\"},\"area\":{\"query\":\"nearby\",\"radiusMeters\":1000},\"criteria\":[{\"text\":\"omakase\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}]}",
+        "discoveryPlan": {
+          "entries": [
+            {
+              "sourceId": "tabelog",
+              "query": {
+                "category": "omakase",
+                "keyword": "omakase",
+                "location": {
+                  "latitude": 35.6619707,
+                  "longitude": 139.70379499999999,
+                  "radiusMeters": 1000,
+                  "label": "explicit evaluation location",
+                  "areaMatchBasis": "EVALUATION_LOCATION_RADIUS",
+                  "addressComponents": [
+                    {
+                      "longText": "24",
+                      "shortText": "24",
+                      "types": [
+                        "premise"
+                      ]
+                    },
+                    {
+                      "longText": "１８",
+                      "shortText": "１８",
+                      "types": [
+                        "political",
+                        "sublocality",
+                        "sublocality_level_4"
+                      ]
+                    },
+                    {
+                      "longText": "１丁目",
+                      "shortText": "１丁目",
+                      "types": [
+                        "political",
+                        "sublocality",
+                        "sublocality_level_3"
+                      ]
+                    },
+                    {
+                      "longText": "渋谷",
+                      "shortText": "渋谷",
+                      "types": [
+                        "political",
+                        "sublocality",
+                        "sublocality_level_2"
+                      ]
+                    },
+                    {
+                      "longText": "渋谷区",
+                      "shortText": "渋谷区",
+                      "types": [
+                        "locality",
+                        "political"
+                      ]
+                    },
+                    {
+                      "longText": "東京都",
+                      "shortText": "東京都",
+                      "types": [
+                        "administrative_area_level_1",
+                        "political"
+                      ]
+                    },
+                    {
+                      "longText": "日本",
+                      "shortText": "JP",
+                      "types": [
+                        "country",
+                        "political"
+                      ]
+                    },
+                    {
+                      "longText": "150-0003",
+                      "shortText": "150-0003",
+                      "types": [
+                        "postal_code"
+                      ]
+                    }
+                  ],
+                  "addressObservation": {
+                    "source": "GOOGLE_GEOCODING",
+                    "observedAt": "2026-10-11T06:47:43.839Z",
+                    "status": "OBSERVED"
+                  }
+                }
+              }
+            }
+          ],
+          "cursor": 0
+        },
+        "currentDiscoveryBatch": {
+          "sourceId": "tabelog",
+          "candidateIds": [
+            "tabelog:en/tokyo/A1303/A130301/13308491"
+          ]
+        },
+        "usedPageTokens": [],
+        "pagesRead": 2,
+        "exhausted": false,
+        "sourceProgress": {
+          "directoryRegion": {
+            "first": {
+              "url": "https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase",
+              "observedOn": "https://tabelog.com/en/tokyo/rstLst/?sw=omakase",
+              "targetRef": "observation:2:target:22",
+              "label": "Shibuya & Ebisu & Daikanyama"
+            },
+            "firstFive": [
+              {
+                "sourceEntityId": "en/tokyo/A1303/A130301/13203305",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13203305/",
+                "outcome": "OUTSIDE_RADIUS",
+                "coordinates": {
+                  "latitude": 35.65769537870779,
+                  "longitude": 139.69365747419772
+                },
+                "distanceMeters": 1033.043329262187
+              },
+              {
+                "sourceEntityId": "en/tokyo/A1303/A130301/13308491",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/",
+                "outcome": "WITHIN_RADIUS",
+                "coordinates": {
+                  "latitude": 35.66294870391731,
+                  "longitude": 139.69560491885105
+                },
+                "distanceMeters": 748.7035824387306
+              },
+              {
+                "sourceEntityId": "en/tokyo/A1303/A130302/13244783",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13244783/",
+                "outcome": "OUTSIDE_RADIUS",
+                "coordinates": {
+                  "latitude": 35.64791152872159,
+                  "longitude": 139.71750155408216
+                },
+                "distanceMeters": 1996.5565491047148
+              }
+            ]
+          },
+          "sourceId": "tabelog",
+          "inspectedSourceIds": [
+            "en/tokyo/A1303/A130301/13203305",
+            "en/tokyo/A1303/A130301/13308491",
+            "en/tokyo/A1303/A130302/13244783"
+          ],
+          "detailAttempts": 3,
+          "pagesRead": 2,
+          "elapsedMs": 24629,
+          "visitedListingUrls": [
+            "https://tabelog.com/en/tokyo/rstLst/?sw=omakase",
+            "https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase"
+          ],
+          "pendingSourceEntries": [],
+          "pendingSourceIds": []
+        },
+        "locationContext": {
+          "latitude": 35.6619707,
+          "longitude": 139.70379499999999,
+          "radiusMeters": 1000,
+          "label": "explicit evaluation location",
+          "areaMatchBasis": "EVALUATION_LOCATION_RADIUS",
+          "addressComponents": [
+            {
+              "longText": "24",
+              "shortText": "24",
+              "types": [
+                "premise"
+              ]
+            },
+            {
+              "longText": "１８",
+              "shortText": "１８",
+              "types": [
+                "political",
+                "sublocality",
+                "sublocality_level_4"
+              ]
+            },
+            {
+              "longText": "１丁目",
+              "shortText": "１丁目",
+              "types": [
+                "political",
+                "sublocality",
+                "sublocality_level_3"
+              ]
+            },
+            {
+              "longText": "渋谷",
+              "shortText": "渋谷",
+              "types": [
+                "political",
+                "sublocality",
+                "sublocality_level_2"
+              ]
+            },
+            {
+              "longText": "渋谷区",
+              "shortText": "渋谷区",
+              "types": [
+                "locality",
+                "political"
+              ]
+            },
+            {
+              "longText": "東京都",
+              "shortText": "東京都",
+              "types": [
+                "administrative_area_level_1",
+                "political"
+              ]
+            },
+            {
+              "longText": "日本",
+              "shortText": "JP",
+              "types": [
+                "country",
+                "political"
+              ]
+            },
+            {
+              "longText": "150-0003",
+              "shortText": "150-0003",
+              "types": [
+                "postal_code"
+              ]
+            }
+          ],
+          "addressObservation": {
+            "source": "GOOGLE_GEOCODING",
+            "observedAt": "2026-10-11T06:47:43.839Z",
+            "status": "OBSERVED"
+          }
+        }
+      },
+      "metadata": {
+        "provider": "TABELOG",
+        "route": "GENERIC_BROWSER",
+        "latencyMs": 24973,
+        "nativeDiscoveryFunnel": {
+          "directoryRegion": {
+            "first": {
+              "url": "https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase",
+              "observedOn": "https://tabelog.com/en/tokyo/rstLst/?sw=omakase",
+              "targetRef": "observation:2:target:22",
+              "label": "Shibuya & Ebisu & Daikanyama"
+            },
+            "firstFive": [
+              {
+                "sourceEntityId": "en/tokyo/A1303/A130301/13203305",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13203305/",
+                "outcome": "OUTSIDE_RADIUS",
+                "coordinates": {
+                  "latitude": 35.65769537870779,
+                  "longitude": 139.69365747419772
+                },
+                "distanceMeters": 1033.043329262187
+              },
+              {
+                "sourceEntityId": "en/tokyo/A1303/A130301/13308491",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/",
+                "outcome": "WITHIN_RADIUS",
+                "coordinates": {
+                  "latitude": 35.66294870391731,
+                  "longitude": 139.69560491885105
+                },
+                "distanceMeters": 748.7035824387306
+              },
+              {
+                "sourceEntityId": "en/tokyo/A1303/A130302/13244783",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13244783/",
+                "outcome": "OUTSIDE_RADIUS",
+                "coordinates": {
+                  "latitude": 35.64791152872159,
+                  "longitude": 139.71750155408216
+                },
+                "distanceMeters": 1996.5565491047148
+              }
+            ]
+          },
+          "source": "TABELOG",
+          "rawSourceLinks": 3,
+          "parsedOutlets": 3,
+          "inspectedOutlets": 3,
+          "batchCap": 5,
+          "sourceDetailCap": 10,
+          "sourceDetailAttempts": 3,
+          "deferredByBatchCap": [],
+          "rejected": [
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13203305/",
+              "reasonCode": "OUTSIDE_EXACT_RADIUS"
+            },
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13244783/",
+              "reasonCode": "OUTSIDE_EXACT_RADIUS"
+            }
+          ],
+          "accepted": 1,
+          "sourcePageCap": 6,
+          "sourceElapsedCapMs": 90000,
+          "sourceElapsedMs": 24629,
+          "sourceTimeLimitReached": false,
+          "pagesRead": 2,
+          "batchLimitReached": false,
+          "sourceExhausted": "UNKNOWN",
+          "batchEnded": true,
+          "sourceEnded": false,
+          "progressionReason": "FIRST_SOURCE_BATCH",
+          "listingObservations": [
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/rstLst/?sw=omakase",
+              "parsedOutlets": 20,
+              "resultCount": 36,
+              "nextPageUrl": "https://tabelog.com/en/tokyo/rstLst/2/?sw=omakase"
+            },
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase",
+              "parsedOutlets": 3,
+              "resultCount": 3
+            },
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase",
+              "parsedOutlets": 3,
+              "resultCount": 3
+            }
+          ]
+        },
+        "googleRequests": {
+          "limit": 40,
+          "total": 1,
+          "namedPlaceResolution": 0,
+          "discovery": 0,
+          "placeDetails": 0,
+          "reverseAddressObservation": 1
+        }
+      }
+    }
+  ],
+  "modelCallsStarted": 1,
+  "caseId": "kf-h001-20261022",
+  "modelCalls": 1,
+  "googleRequests": {
+    "limit": 40,
+    "total": 1,
+    "namedPlaceResolution": 0,
+    "discovery": 0,
+    "placeDetails": 0,
+    "reverseAddressObservation": 1
+  },
+  "center": {
+    "latitude": 35.6619707,
+    "longitude": 139.70379499999999,
+    "radiusMeters": 1000,
+    "label": "explicit evaluation location",
+    "areaMatchBasis": "EVALUATION_LOCATION_RADIUS"
+  },
+  "centerProvenance": {
+    "path": "/Users/wangzhour/.codex/worktrees/p1-prelive-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-10T07-11-24-457Z-5b4aa8a0-ab5e-4e27-ba66-2dbcc7c2a730.result.json",
+    "sha256": "2d95b0caa9ec1738f1db2266f35aff491e278c8904f049e4d35029508b12a40a"
+  },
+  "firstTen": {
+    "denominator": 10,
+    "within": 1
+  },
+  "region": [
+    {
+      "first": {
+        "url": "https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase",
+        "observedOn": "https://tabelog.com/en/tokyo/rstLst/?sw=omakase",
+        "targetRef": "observation:2:target:22",
+        "label": "Shibuya & Ebisu & Daikanyama"
+      },
+      "firstFive": [
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13203305",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13203305/",
+          "outcome": "OUTSIDE_RADIUS",
+          "coordinates": {
+            "latitude": 35.65769537870779,
+            "longitude": 139.69365747419772
+          },
+          "distanceMeters": 1033.043329262187
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13308491",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/",
+          "outcome": "WITHIN_RADIUS",
+          "coordinates": {
+            "latitude": 35.66294870391731,
+            "longitude": 139.69560491885105
+          },
+          "distanceMeters": 748.7035824387306
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130302/13244783",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13244783/",
+          "outcome": "OUTSIDE_RADIUS",
+          "coordinates": {
+            "latitude": 35.64791152872159,
+            "longitude": 139.71750155408216
+          },
+          "distanceMeters": 1996.5565491047148
+        }
+      ]
+    }
+  ],
+  "passes": false,
+  "decisionCapture": {
+    "path": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-prep-20261011/coordinate-address/discovery/kf-h001-20261022.decisions.jsonl",
+    "sha256": "60acc6b92145a6ebc6698cbf967161c22fa0e4d5b90db67b24b9666902b22933",
+    "callsStarted": 1,
+    "rowsWritten": 1,
+    "errors": []
+  },
+  "recording": {
+    "path": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-prep-20261011/coordinate-address/discovery/recordings/kf-h001-20261022",
+    "screenshot": "LAYOUT_ONLY_CONTENT_MASKED",
+    "replay": {
+      "status": "REPLAYABLE",
+      "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+      "harPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-prep-20261011/coordinate-address/discovery/recordings/kf-h001-20261022/replay.har"
+    }
+  }
+}

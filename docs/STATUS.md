@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.175
+- Document revision: 4.176
 - Last updated: 2026-10-11
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-11 P1F-audit：** 退出条件 6 只读审计：共享生产层保留 Asia/Tokyo 与 Cloudflare Runtime 端点，严格字面清单非零；餐厅域名/站点样式/评测坐标常量未见。Phase 1 站点等待已删除。全部已授权非模型工作与报告完成，距离/检索真实回放仍受具体 DeepSeek 外发授权阻断；两次发现探测未达标，不追加。 本批按已批准切片推进，结果待独立复核；不推送。证据目录 `.eval-artifacts/p1-f-prep-20261011/audit/`。
 
 - **2026-10-11 P1F-coordinate-address：** 坐标附近请求每运行至多一次Google公共反向地址观察；失败也缓存，源/时间/原因进入浏览器，精确圆心/入口名称规则不变，计入40次上限。 本批按已批准切片推进，结果待独立复核；不推送。证据目录 `.eval-artifacts/p1-f-prep-20261011/coordinate-address/`。
 

@@ -1,0 +1,49 @@
+src/application/persistent-restaurant-agent.ts:789:      timezone: "Asia/Tokyo",
+src/domains/restaurant/contracts.ts:61:  timezone: "Asia/Tokyo";
+src/domains/restaurant/contracts.ts:73:  timezone: "Asia/Tokyo";
+src/domains/restaurant/contracts.ts:85:  budgetPerPerson?: { max: number; currency: "JPY" };
+src/domains/restaurant/contracts.ts:90:  timezone: "Asia/Tokyo";
+src/domains/restaurant/contracts.ts:100:  budgetPerPerson?: { max: number; currency: "JPY" };
+src/domains/restaurant/contracts.ts:135:  timezone: "Asia/Tokyo";
+src/domains/restaurant/contracts.ts:143:  price?: { amount: number; currency: "JPY"; basis: "PER_PERSON" | "TOTAL" };
+src/domains/restaurant/contracts.ts:747:  budgetPerPerson?: { max: number; currency: "JPY" } | null;
+src/domains/restaurant/agent-context.ts:162:        return `${value} JPY (${tax === "INCLUDED" ? "tax included" : tax === "EXCLUDED" ? "tax excluded" : "tax unspecified"})`;
+src/domains/restaurant/agent-context.ts:165:        typeof value === "number" && Number.isSafeInteger(value) && value >= 0 ? `${value} JPY` : undefined),
+src/domains/restaurant/semantic-proposal.ts:39:  // trusted Tokyo reference time.
+src/domains/restaurant/semantic-proposal.ts:49:  | { kind: "BUDGET_PER_PERSON"; max: number; currency: "JPY" }
+src/domains/restaurant/semantic-proposal.ts:154:        currency: { type: "string", enum: ["JPY"] },
+src/domains/restaurant/semantic-proposal.ts:251:        value.currency === "JPY"
+src/domains/restaurant/semantic-compiler.ts:208:      patch.budgetPerPerson = { max: value.max, currency: "JPY" };
+src/domains/restaurant/semantic-compiler.ts:224:  temporalContext?: { referenceTime: string; timezone: "Asia/Tokyo" },
+src/domains/restaurant/semantic-compiler.ts:244:      timezone: temporalContext?.timezone ?? "Asia/Tokyo",
+src/domains/restaurant/intent-draft.ts:73:  if (input.timezone !== "Asia/Tokyo") {
+src/domains/restaurant/intent-draft.ts:74:    errors.push("timezone must be Asia/Tokyo");
+src/domains/restaurant/intent-draft.ts:116:    if (!isRecord(input.temporalResolution) || !hasOnlyKeys(input.temporalResolution, ["policyVersion", "referenceTime", "timezone", "date", "timeWindow", "immediateAvailability"]) || input.temporalResolution.policyVersion !== "restaurant-temporal-materialization@6" || input.temporalResolution.timezone !== "Asia/Tokyo" || typeof input.temporalResolution.referenceTime !== "string" || Number.isNaN(Date.parse(input.temporalResolution.referenceTime)) || !validImmediate) {
+src/domains/restaurant/intent-draft.ts:117:      errors.push("temporalResolution must be a valid code-derived Tokyo materialization record");
+src/domains/restaurant/intent-draft.ts:160:      input.budgetPerPerson.currency !== "JPY"
+src/domains/restaurant/intent-draft.ts:162:      errors.push("budgetPerPerson must contain a positive JPY max");
+src/domains/restaurant/read-grounding.ts:225:  const day = new Intl.DateTimeFormat("en-US", { weekday: "long", timeZone: "Asia/Tokyo" })
+src/domains/restaurant/read-grounding.ts:230:  const previousDay = new Intl.DateTimeFormat("en-US", { weekday: "long", timeZone: "Asia/Tokyo" }).format(new Date(new Date(`${date}T12:00:00+09:00`).valueOf() - 86_400_000));
+src/domains/restaurant/read-grounding.ts:622:      timezone: "Asia/Tokyo",
+src/domains/restaurant/semantic-interpreter.ts:29:  timezone: "Asia/Tokyo";
+src/domains/restaurant/semantic-interpreter.ts:93:  if (input.timezone !== "Asia/Tokyo") errors.push("timezone must be Asia/Tokyo");
+src/domains/restaurant/semantic-interpreter.ts:158:  timezone: "Asia/Tokyo";
+src/domains/restaurant/semantic-interpreter.ts:175:Use YYYY-MM-DD dates, 24-hour HH:mm times, and JPY budgets.
+src/domains/restaurant/semantic-interpreter.ts:305:Identify temporal semantics; code, not you, materializes relative dates and times against the trusted reference time in Asia/Tokyo.
+src/domains/restaurant/semantic-interpreter.ts:393:{"kind":"BUDGET_PER_PERSON","max":5000,"currency":"JPY"}
+src/infrastructure/browser/playwright-browser-controls.ts:511:          if (!element.matches('[aria-busy="true"],[role="progressbar"]') && !/(?:^|[\s_-])(?:spinner|loader|skeleton)(?:$|[\s_-])/i.test(element.className.toString())) return false;
+src/infrastructure/browser/playwright-browser-controls.ts:519:          clearInterval(timer); observer.disconnect(); resolve({ settled, busySelectors: busyElements.slice(0, 12).map(element => element.matches('[aria-busy="true"]') ? '[aria-busy="true"]' : element.matches('[role="progressbar"]') ? '[role="progressbar"]' : '.' + element.className.toString().split(/\s+/).filter(value => /spinner|loader|skeleton/i.test(value)).join('.')), visibleTextChanging: performance.now() - visibleSince < 300 });
+src/infrastructure/browser/playwright-browser-controls.ts:534:    if (!element.matches('[aria-busy="true"],[role="progressbar"]') && !/(?:^|[\s_-])(?:spinner|loader|skeleton)(?:$|[\s_-])/i.test(element.className.toString())) return false;
+src/infrastructure/browser/playwright-browser-controls.ts:537:  }).slice(0, 12).map(element => element.matches('[aria-busy="true"]') ? '[aria-busy="true"]' : element.matches('[role="progressbar"]') ? '[role="progressbar"]' : '.' + element.className.toString().split(/\s+/).filter(value => /spinner|loader|skeleton/i.test(value)).join('.')));
+src/domains/restaurant/intent-state.ts:86:    timezone: "Asia/Tokyo",
+src/domains/restaurant/temporal-materialization.ts:6:  timezone: "Asia/Tokyo" as const,
+src/domains/restaurant/temporal-materialization.ts:14:type TimeContext = { referenceTime: string; timezone: "Asia/Tokyo" };
+src/domains/restaurant/temporal-materialization.ts:25:  if (!year || !month || !day || !hour || !minute) throw new Error("Temporal materialization could not read Tokyo local time");
+src/domains/restaurant/temporal-materialization.ts:30:function addTokyoDays(date: string, days: number): string {
+src/domains/restaurant/temporal-materialization.ts:36:function inTokyo(instant: Date): { date: string; time: string } {
+src/domains/restaurant/temporal-materialization.ts:43:  if (!year || !month || !day || !hour || !minute) throw new Error("Temporal materialization could not read Tokyo local time");
+src/domains/restaurant/temporal-materialization.ts:55:    const date = addTokyoDays(reference.date, days);
+src/domains/restaurant/temporal-materialization.ts:59:  const date = addTokyoDays(reference.date, (target - reference.weekday + 7) % 7);
+src/domains/restaurant/temporal-materialization.ts:88:  const resolved = inTokyo(new Date(reference.valueOf() + value.relativeOffsetMinutes * 60_000));
+src/domains/restaurant/temporal-materialization.ts:89:  const latest = value.relativeOffsetMinutes === 0 ? inTokyo(new Date(reference.valueOf() + RESTAURANT_TEMPORAL_MATERIALIZATION_POLICY.immediate.validityMinutes * 60_000)).time : resolved.time;
+src/domains/restaurant/temporal-materialization.ts:98:  timezone: "Asia/Tokyo";

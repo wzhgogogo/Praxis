@@ -4013,3 +4013,8 @@ Red: red-contract.log (three compile omissions), red-changing-results.log (stale
 ## TEST-2026-10-11-P1F-coordinate-address
 
 有效红灯：坐标请求未产生地址观察；离线Native→Executor输入正反例及公共GET/计数/续行覆盖。第1–4项提交后仅两个授权发现探测，各6模型/90秒，不追加。
+
+
+## TEST-2026-10-11-P1F-audit
+
+四门禁复跑记录 audit/gates.json；审计是读取清单，不伪造功能红灯。来源专用代码增删按 41205e8..63ac2a0逐文件保存。278 个受保护原文件哈希未变；隔离实验 a51a59c 四门禁和本地 Chromium 通过，不合回主分支。累计本批 2 次模型、17 次 Google；真实回放未执行。

@@ -1,0 +1,24 @@
+{
+  "status": "IMPLEMENTATION_VERIFIED_REAL_REPLAY_BLOCKED",
+  "branch": "codex/exp-retrieval-terms",
+  "mainIncluded": "63ac2a0",
+  "integrationMethod": "merge --no-commit --no-ff; one validated merge commit includes this experiment slice",
+  "adr": "ADR-0041 Proposed",
+  "gates": {
+    "typecheck": 0,
+    "arch-check": 0,
+    "test": 0,
+    "build": 0
+  },
+  "localChromium": "REFINE/EMPTY positive; LETTER/NAVIGATION/QUERY negative with production Runtime/Guard, local HAR only",
+  "savedSourceRegion": "Old C3b snapshot confirms source result text and excludes navigation; not a replacement for original decision DOM",
+  "originalMessagesPrepared": 16,
+  "realModelCalls": 0,
+  "googleRequests": 0,
+  "replayStatus": "PENDING_EXPLICIT_DEEPSEEK_DESTINATION_APPROVAL",
+  "newActionDistribution": null,
+  "executorAcceptanceOfModelActions": null,
+  "missingOriginalDomDecisions": 16,
+  "mainIntegration": false,
+  "evidenceStatus": "exposed development; not clean baseline"
+}

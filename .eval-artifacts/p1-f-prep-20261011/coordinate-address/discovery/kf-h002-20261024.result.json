@@ -1,0 +1,572 @@
+{
+  "status": "SOURCE_FAILED",
+  "discoveryCoverage": "NO_COVERAGE",
+  "packId": "tabelog",
+  "elapsedMs": 21173,
+  "read": {
+    "candidates": [],
+    "evidence": [],
+    "continuation": {
+      "intentFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"RECOMMENDATION\",\"query\":\"restaurants nearby\"},\"area\":{\"query\":\"nearby\",\"radiusMeters\":1000},\"criteria\":[{\"text\":\"good for a first date\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"},{\"text\":\"around 10,000 yen per person\",\"polarity\":\"POSITIVE\",\"strength\":\"SOFT\"},{\"text\":\"Sichuan/Hunan cuisine\",\"polarity\":\"NEGATIVE\",\"strength\":\"HARD\"},{\"text\":\"hot pot restaurant\",\"polarity\":\"NEGATIVE\",\"strength\":\"HARD\"}]}",
+      "discoveryPlan": {
+        "entries": [
+          {
+            "sourceId": "tabelog",
+            "query": {
+              "category": "restaurant",
+              "location": {
+                "latitude": 35.669700299999995,
+                "longitude": 139.7671399,
+                "radiusMeters": 1000,
+                "label": "explicit evaluation location",
+                "areaMatchBasis": "EVALUATION_LOCATION_RADIUS",
+                "addressComponents": [
+                  {
+                    "longText": "東銀座駅",
+                    "shortText": "東銀座駅",
+                    "types": [
+                      "establishment",
+                      "point_of_interest",
+                      "subway_station",
+                      "transit_station"
+                    ]
+                  },
+                  {
+                    "longText": "１０先",
+                    "shortText": "１０先",
+                    "types": [
+                      "premise"
+                    ]
+                  },
+                  {
+                    "longText": "１０",
+                    "shortText": "１０",
+                    "types": [
+                      "political",
+                      "sublocality",
+                      "sublocality_level_4"
+                    ]
+                  },
+                  {
+                    "longText": "４丁目",
+                    "shortText": "４丁目",
+                    "types": [
+                      "political",
+                      "sublocality",
+                      "sublocality_level_3"
+                    ]
+                  },
+                  {
+                    "longText": "銀座",
+                    "shortText": "銀座",
+                    "types": [
+                      "political",
+                      "sublocality",
+                      "sublocality_level_2"
+                    ]
+                  },
+                  {
+                    "longText": "中央区",
+                    "shortText": "中央区",
+                    "types": [
+                      "locality",
+                      "political"
+                    ]
+                  },
+                  {
+                    "longText": "東京都",
+                    "shortText": "東京都",
+                    "types": [
+                      "administrative_area_level_1",
+                      "political"
+                    ]
+                  },
+                  {
+                    "longText": "日本",
+                    "shortText": "JP",
+                    "types": [
+                      "country",
+                      "political"
+                    ]
+                  },
+                  {
+                    "longText": "104-0061",
+                    "shortText": "104-0061",
+                    "types": [
+                      "postal_code"
+                    ]
+                  }
+                ],
+                "addressObservation": {
+                  "source": "GOOGLE_GEOCODING",
+                  "observedAt": "2026-10-11T06:47:22.805Z",
+                  "status": "OBSERVED"
+                }
+              }
+            }
+          }
+        ],
+        "cursor": 1
+      },
+      "currentDiscoveryBatch": {
+        "sourceId": "tabelog",
+        "candidateIds": []
+      },
+      "usedPageTokens": [],
+      "pagesRead": 1,
+      "exhausted": true,
+      "sourceProgress": {
+        "sourceId": "tabelog",
+        "inspectedSourceIds": [],
+        "detailAttempts": 0,
+        "pagesRead": 1,
+        "elapsedMs": 20637,
+        "visitedListingUrls": [
+          "https://tabelog.com/en/tokyo/"
+        ],
+        "pendingSourceEntries": [],
+        "pendingSourceIds": []
+      },
+      "lastFailureCode": "DISCOVERY_SOURCE_LOCATION_UNGROUNDED",
+      "locationContext": {
+        "latitude": 35.669700299999995,
+        "longitude": 139.7671399,
+        "radiusMeters": 1000,
+        "label": "explicit evaluation location",
+        "areaMatchBasis": "EVALUATION_LOCATION_RADIUS",
+        "addressComponents": [
+          {
+            "longText": "東銀座駅",
+            "shortText": "東銀座駅",
+            "types": [
+              "establishment",
+              "point_of_interest",
+              "subway_station",
+              "transit_station"
+            ]
+          },
+          {
+            "longText": "１０先",
+            "shortText": "１０先",
+            "types": [
+              "premise"
+            ]
+          },
+          {
+            "longText": "１０",
+            "shortText": "１０",
+            "types": [
+              "political",
+              "sublocality",
+              "sublocality_level_4"
+            ]
+          },
+          {
+            "longText": "４丁目",
+            "shortText": "４丁目",
+            "types": [
+              "political",
+              "sublocality",
+              "sublocality_level_3"
+            ]
+          },
+          {
+            "longText": "銀座",
+            "shortText": "銀座",
+            "types": [
+              "political",
+              "sublocality",
+              "sublocality_level_2"
+            ]
+          },
+          {
+            "longText": "中央区",
+            "shortText": "中央区",
+            "types": [
+              "locality",
+              "political"
+            ]
+          },
+          {
+            "longText": "東京都",
+            "shortText": "東京都",
+            "types": [
+              "administrative_area_level_1",
+              "political"
+            ]
+          },
+          {
+            "longText": "日本",
+            "shortText": "JP",
+            "types": [
+              "country",
+              "political"
+            ]
+          },
+          {
+            "longText": "104-0061",
+            "shortText": "104-0061",
+            "types": [
+              "postal_code"
+            ]
+          }
+        ],
+        "addressObservation": {
+          "source": "GOOGLE_GEOCODING",
+          "observedAt": "2026-10-11T06:47:22.805Z",
+          "status": "OBSERVED"
+        }
+      }
+    },
+    "metadata": {
+      "provider": "TABELOG",
+      "route": "GENERIC_BROWSER",
+      "latencyMs": 21172,
+      "nativeDiscoveryFunnel": {
+        "source": "TABELOG",
+        "rawSourceLinks": 20,
+        "parsedOutlets": 0,
+        "inspectedOutlets": 0,
+        "batchCap": 5,
+        "sourceDetailCap": 10,
+        "sourceDetailAttempts": 0,
+        "deferredByBatchCap": [],
+        "rejected": [],
+        "accepted": 0,
+        "sourcePageCap": 6,
+        "sourceElapsedCapMs": 90000,
+        "sourceElapsedMs": 20637,
+        "sourceTimeLimitReached": false,
+        "pagesRead": 1,
+        "batchLimitReached": false,
+        "sourceExhausted": "UNKNOWN",
+        "batchEnded": true,
+        "sourceEnded": true,
+        "progressionReason": "SOURCE_FAILURE",
+        "listingObservations": [
+          {
+            "sourceUrl": "https://tabelog.com/en/tokyo/",
+            "parsedOutlets": 20,
+            "resultCount": 139389
+          }
+        ]
+      },
+      "failureCode": "DISCOVERY_SOURCE_LOCATION_UNGROUNDED",
+      "googleRequests": {
+        "limit": 40,
+        "total": 1,
+        "namedPlaceResolution": 0,
+        "discovery": 0,
+        "placeDetails": 0,
+        "reverseAddressObservation": 1
+      }
+    }
+  },
+  "reads": [
+    {
+      "candidates": [],
+      "evidence": [],
+      "continuation": {
+        "intentFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"RECOMMENDATION\",\"query\":\"restaurants nearby\"},\"area\":{\"query\":\"nearby\",\"radiusMeters\":1000},\"criteria\":[{\"text\":\"good for a first date\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"},{\"text\":\"around 10,000 yen per person\",\"polarity\":\"POSITIVE\",\"strength\":\"SOFT\"},{\"text\":\"Sichuan/Hunan cuisine\",\"polarity\":\"NEGATIVE\",\"strength\":\"HARD\"},{\"text\":\"hot pot restaurant\",\"polarity\":\"NEGATIVE\",\"strength\":\"HARD\"}]}",
+        "discoveryPlan": {
+          "entries": [
+            {
+              "sourceId": "tabelog",
+              "query": {
+                "category": "restaurant",
+                "location": {
+                  "latitude": 35.669700299999995,
+                  "longitude": 139.7671399,
+                  "radiusMeters": 1000,
+                  "label": "explicit evaluation location",
+                  "areaMatchBasis": "EVALUATION_LOCATION_RADIUS",
+                  "addressComponents": [
+                    {
+                      "longText": "東銀座駅",
+                      "shortText": "東銀座駅",
+                      "types": [
+                        "establishment",
+                        "point_of_interest",
+                        "subway_station",
+                        "transit_station"
+                      ]
+                    },
+                    {
+                      "longText": "１０先",
+                      "shortText": "１０先",
+                      "types": [
+                        "premise"
+                      ]
+                    },
+                    {
+                      "longText": "１０",
+                      "shortText": "１０",
+                      "types": [
+                        "political",
+                        "sublocality",
+                        "sublocality_level_4"
+                      ]
+                    },
+                    {
+                      "longText": "４丁目",
+                      "shortText": "４丁目",
+                      "types": [
+                        "political",
+                        "sublocality",
+                        "sublocality_level_3"
+                      ]
+                    },
+                    {
+                      "longText": "銀座",
+                      "shortText": "銀座",
+                      "types": [
+                        "political",
+                        "sublocality",
+                        "sublocality_level_2"
+                      ]
+                    },
+                    {
+                      "longText": "中央区",
+                      "shortText": "中央区",
+                      "types": [
+                        "locality",
+                        "political"
+                      ]
+                    },
+                    {
+                      "longText": "東京都",
+                      "shortText": "東京都",
+                      "types": [
+                        "administrative_area_level_1",
+                        "political"
+                      ]
+                    },
+                    {
+                      "longText": "日本",
+                      "shortText": "JP",
+                      "types": [
+                        "country",
+                        "political"
+                      ]
+                    },
+                    {
+                      "longText": "104-0061",
+                      "shortText": "104-0061",
+                      "types": [
+                        "postal_code"
+                      ]
+                    }
+                  ],
+                  "addressObservation": {
+                    "source": "GOOGLE_GEOCODING",
+                    "observedAt": "2026-10-11T06:47:22.805Z",
+                    "status": "OBSERVED"
+                  }
+                }
+              }
+            }
+          ],
+          "cursor": 1
+        },
+        "currentDiscoveryBatch": {
+          "sourceId": "tabelog",
+          "candidateIds": []
+        },
+        "usedPageTokens": [],
+        "pagesRead": 1,
+        "exhausted": true,
+        "sourceProgress": {
+          "sourceId": "tabelog",
+          "inspectedSourceIds": [],
+          "detailAttempts": 0,
+          "pagesRead": 1,
+          "elapsedMs": 20637,
+          "visitedListingUrls": [
+            "https://tabelog.com/en/tokyo/"
+          ],
+          "pendingSourceEntries": [],
+          "pendingSourceIds": []
+        },
+        "lastFailureCode": "DISCOVERY_SOURCE_LOCATION_UNGROUNDED",
+        "locationContext": {
+          "latitude": 35.669700299999995,
+          "longitude": 139.7671399,
+          "radiusMeters": 1000,
+          "label": "explicit evaluation location",
+          "areaMatchBasis": "EVALUATION_LOCATION_RADIUS",
+          "addressComponents": [
+            {
+              "longText": "東銀座駅",
+              "shortText": "東銀座駅",
+              "types": [
+                "establishment",
+                "point_of_interest",
+                "subway_station",
+                "transit_station"
+              ]
+            },
+            {
+              "longText": "１０先",
+              "shortText": "１０先",
+              "types": [
+                "premise"
+              ]
+            },
+            {
+              "longText": "１０",
+              "shortText": "１０",
+              "types": [
+                "political",
+                "sublocality",
+                "sublocality_level_4"
+              ]
+            },
+            {
+              "longText": "４丁目",
+              "shortText": "４丁目",
+              "types": [
+                "political",
+                "sublocality",
+                "sublocality_level_3"
+              ]
+            },
+            {
+              "longText": "銀座",
+              "shortText": "銀座",
+              "types": [
+                "political",
+                "sublocality",
+                "sublocality_level_2"
+              ]
+            },
+            {
+              "longText": "中央区",
+              "shortText": "中央区",
+              "types": [
+                "locality",
+                "political"
+              ]
+            },
+            {
+              "longText": "東京都",
+              "shortText": "東京都",
+              "types": [
+                "administrative_area_level_1",
+                "political"
+              ]
+            },
+            {
+              "longText": "日本",
+              "shortText": "JP",
+              "types": [
+                "country",
+                "political"
+              ]
+            },
+            {
+              "longText": "104-0061",
+              "shortText": "104-0061",
+              "types": [
+                "postal_code"
+              ]
+            }
+          ],
+          "addressObservation": {
+            "source": "GOOGLE_GEOCODING",
+            "observedAt": "2026-10-11T06:47:22.805Z",
+            "status": "OBSERVED"
+          }
+        }
+      },
+      "metadata": {
+        "provider": "TABELOG",
+        "route": "GENERIC_BROWSER",
+        "latencyMs": 21172,
+        "nativeDiscoveryFunnel": {
+          "source": "TABELOG",
+          "rawSourceLinks": 20,
+          "parsedOutlets": 0,
+          "inspectedOutlets": 0,
+          "batchCap": 5,
+          "sourceDetailCap": 10,
+          "sourceDetailAttempts": 0,
+          "deferredByBatchCap": [],
+          "rejected": [],
+          "accepted": 0,
+          "sourcePageCap": 6,
+          "sourceElapsedCapMs": 90000,
+          "sourceElapsedMs": 20637,
+          "sourceTimeLimitReached": false,
+          "pagesRead": 1,
+          "batchLimitReached": false,
+          "sourceExhausted": "UNKNOWN",
+          "batchEnded": true,
+          "sourceEnded": true,
+          "progressionReason": "SOURCE_FAILURE",
+          "listingObservations": [
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/",
+              "parsedOutlets": 20,
+              "resultCount": 139389
+            }
+          ]
+        },
+        "failureCode": "DISCOVERY_SOURCE_LOCATION_UNGROUNDED",
+        "googleRequests": {
+          "limit": 40,
+          "total": 1,
+          "namedPlaceResolution": 0,
+          "discovery": 0,
+          "placeDetails": 0,
+          "reverseAddressObservation": 1
+        }
+      }
+    }
+  ],
+  "modelCallsStarted": 1,
+  "failureCode": "DISCOVERY_SOURCE_LOCATION_UNGROUNDED",
+  "caseId": "kf-h002-20261024",
+  "modelCalls": 1,
+  "googleRequests": {
+    "limit": 40,
+    "total": 1,
+    "namedPlaceResolution": 0,
+    "discovery": 0,
+    "placeDetails": 0,
+    "reverseAddressObservation": 1
+  },
+  "center": {
+    "latitude": 35.669700299999995,
+    "longitude": 139.7671399,
+    "radiusMeters": 1000,
+    "label": "explicit evaluation location",
+    "areaMatchBasis": "EVALUATION_LOCATION_RADIUS"
+  },
+  "centerProvenance": {
+    "path": "/Users/wangzhour/.codex/worktrees/p1-prelive-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-10T07-17-39-815Z-4c15055e-7a04-4f1f-bc5e-b4e74c3bd086.result.json",
+    "sha256": "092c0debfab6b93fb5afe1963d479ffeb20c5d52fc9fe635b9adcbd638b05d23"
+  },
+  "firstTen": {
+    "denominator": 10,
+    "within": 0
+  },
+  "region": [
+    null
+  ],
+  "passes": false,
+  "decisionCapture": {
+    "path": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-prep-20261011/coordinate-address/discovery/kf-h002-20261024.decisions.jsonl",
+    "sha256": "840396b2afdd08ffb8fd775085a584de7b802a812a02dd8f5fb0220efda50003",
+    "callsStarted": 1,
+    "rowsWritten": 1,
+    "errors": []
+  },
+  "recording": {
+    "path": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-prep-20261011/coordinate-address/discovery/recordings/kf-h002-20261024",
+    "screenshot": "LAYOUT_ONLY_CONTENT_MASKED",
+    "replay": {
+      "status": "NOT_REPLAYABLE",
+      "reason": "UNSAFE_DOCUMENT"
+    }
+  }
+}
