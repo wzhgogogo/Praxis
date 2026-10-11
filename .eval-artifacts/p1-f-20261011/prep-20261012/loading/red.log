@@ -1,0 +1,47 @@
+✔ live materialization resolves tonight and updates every dependent date without mutating source (19.5855ms)
+✔ live materialization handles this Friday and this afternoon in Asia/Tokyo (0.82825ms)
+✔ live materialization independently resolves a right-now clock in Tokyo instead of retaining frozen case time (0.844708ms)
+✔ current development inputs preserve the archived user messages and have one parameter oracle (26.106542ms)
+✔ real case loader through materialization and evaluator agrees with independent current request expectations (7.907ms)
+✔ relative expectation updates never rewrite literal dates or times in the actual user message (0.291667ms)
+✔ approved Gold7 is the default and right-now window materializes both bounds without changing Gold6 (7.239709ms)
+✔ custom live case loading keeps novel inputs parentless and in their own cohort (1.153458ms)
+✔ approved P1-F rev2 loads all eight independent literal request expectations (4.159917ms)
+✖ case loader rejects the original comma-truncated P1-F revision (7.031791ms)
+✖ case loader rejects null values and unknown keys instead of silently accepting them (5.0935ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 9
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 454.164875
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/live-case-materializer.test.ts:1:12593
+✖ case loader rejects the original comma-truncated P1-F revision (7.031791ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/live-case-materializer.test.ts:174:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /Frozen E2E case source is invalid/,
+    operator: 'rejects'
+  }
+
+test at src/eval/restaurant/agent-loop/live-case-materializer.test.ts:1:12800
+✖ case loader rejects null values and unknown keys instead of silently accepting them (5.0935ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection: null
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/live-case-materializer.test.ts:187:7)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /Frozen E2E case source is invalid/,
+    operator: 'rejects'
+  }

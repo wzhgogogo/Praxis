@@ -137,7 +137,40 @@ export async function loadFrozenLiveCases(filePath: string): Promise<FrozenLiveC
   const documents = parseAllDocuments(source);
   const errors = documents.flatMap((document) => document.errors.map((error) => error.message));
   if (errors.length) throw new Error(`Frozen E2E case source is invalid: ${errors.join("; ")}`);
-  return documents.map((document) => document.toJSON()).filter((value): value is FrozenLiveCase =>
-    typeof value === "object" && value !== null && typeof (value as { id?: unknown }).id === "string",
-  );
+  return documents.map((document) => {
+    const value: unknown = document.toJSON();
+    validateCaseDocument(value);
+    return value as FrozenLiveCase;
+  });
+}
+
+/** Current executable cases only; archived annotation formats are read as evidence. */
+function validateCaseDocument(value: unknown): void {
+  const invalid = (path: string, reason: string): never => { throw new Error(`Frozen E2E case source is invalid: ${path}: ${reason}`); };
+  const nonNull = (item: unknown, path: string): void => {
+    if (item === null) invalid(path, "null value");
+    if (Array.isArray(item)) item.forEach((child, index) => nonNull(child, `${path}[${index}]`));
+    else if (item && typeof item === "object") for (const [key, child] of Object.entries(item)) nonNull(child, `${path}.${key}`);
+  };
+  const keys = (item: unknown, path: string, allowed: readonly string[]): Record<string, unknown> => {
+    if (!item || typeof item !== "object" || Array.isArray(item)) invalid(path, "expected mapping");
+    const record = item as Record<string, unknown>;
+    for (const key of Object.keys(record)) if (!allowed.includes(key)) invalid(`${path}.${key}`, "unknown key");
+    return record;
+  };
+  nonNull(value, "case");
+  const source = keys(value, "case", ["id", "dataset", "reference_time", "content", "semantic", "acceptance", "parent"]);
+  for (const field of ["id", "dataset", "reference_time", "content"]) {
+    if (typeof source[field] !== "string" || !source[field]) invalid(`case.${field}`, "expected nonempty string");
+  }
+  if (source.parent !== undefined) keys(source.parent, "case.parent", ["dataset", "sha256"]);
+  const semantic = keys(source.semantic, "case.semantic", ["target", "location", "date", "time", "party_size", "criteria"]);
+  for (const [field, allowed] of Object.entries({
+    target: ["goal"], location: ["value", "relation"], date: ["expression", "value"], time: ["expression", "value", "type", "start", "end"],
+  })) if (semantic[field] !== undefined) keys(semantic[field], `case.semantic.${field}`, allowed);
+  if (semantic.criteria !== undefined) {
+    if (!Array.isArray(semantic.criteria)) invalid("case.semantic.criteria", "expected sequence");
+    (semantic.criteria as unknown[]).forEach((criterion, index) => keys(criterion, `case.semantic.criteria[${index}]`, ["value", "polarity", "strength"]));
+  }
+  if (source.acceptance !== undefined) keys(source.acceptance, "case.acceptance", ["required_claims", "optional_investigation", "review"]);
 }

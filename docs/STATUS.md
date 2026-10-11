@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.185
-- Last updated: 2026-10-11
+- Document revision: 4.186
+- Last updated: 2026-10-12
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-12 P1F-rev2-loader：** 原样复核输入0791304；评测加载器拒绝null/未知键与rev1截断值，rev2八例独立字面量oracle通过，四门禁绿849/849。生产仍冻结73bfca5，不移入产品代码；外层准备与五例离线重评推进中，真实运行尚未开始。指定复核文档当前工作区未找到，已请求可读路径。
 
 - **2026-10-11 P1F-A-continuation-part1：** 第一段完成Kagurazaka与Nakameguro两次正式只读运行，自动评价分别NO_VERIFIED_RESULT、合格交付YES（Daikanyama Yakiniku Kintan，919m）。Kichijoji首次preflight503未启动、留到第二段，段末按指令停止。冻结73bfca5/CLEAN未改，新增81模型/4Google/2整单Live，累计602/1500、24/33；环境预留仍2。报告 `.eval-artifacts/p1-f-20261011/part-a-report.md` 的续跑节；第二段与B未开始，不推送。
 

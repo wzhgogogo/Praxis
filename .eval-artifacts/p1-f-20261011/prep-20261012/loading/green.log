@@ -1,0 +1,19 @@
+✔ live materialization resolves tonight and updates every dependent date without mutating source (19.240834ms)
+✔ live materialization handles this Friday and this afternoon in Asia/Tokyo (0.586625ms)
+✔ live materialization independently resolves a right-now clock in Tokyo instead of retaining frozen case time (0.729083ms)
+✔ current development inputs preserve the archived user messages and have one parameter oracle (26.759375ms)
+✔ real case loader through materialization and evaluator agrees with independent current request expectations (7.833542ms)
+✔ relative expectation updates never rewrite literal dates or times in the actual user message (0.278791ms)
+✔ approved Gold7 is the default and right-now window materializes both bounds without changing Gold6 (7.037583ms)
+✔ custom live case loading keeps novel inputs parentless and in their own cohort (1.09175ms)
+✔ approved P1-F rev2 loads all eight independent literal request expectations (4.607083ms)
+✔ case loader rejects the original comma-truncated P1-F revision (5.282042ms)
+✔ case loader rejects null values and unknown keys instead of silently accepting them (7.447333ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 429.790166

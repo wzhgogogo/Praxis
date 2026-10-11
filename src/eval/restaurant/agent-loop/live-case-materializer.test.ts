@@ -1,6 +1,9 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
-import { readFile } from "node:fs/promises";
+import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { parseAllDocuments } from "yaml";
 import { test } from "node:test";
 
 import { evaluateRestaurantHybridLiveArtifact } from "./diagnostic-evaluator.js";
@@ -44,7 +47,8 @@ test("live materialization independently resolves a right-now clock in Tokyo ins
 test("current development inputs preserve the archived user messages and have one parameter oracle", async () => {
   const archivePath = "docs/superseded/eval/restaurant-read-pre-alignment-2026-09-15/e2e-cases.yaml";
   const current = await loadFrozenLiveCases(RESTAURANT_READ_DEVELOPMENT_CASE_PATH);
-  const historical = await loadFrozenLiveCases(archivePath);
+  // The archived annotation shape is evidence, not a current executable case contract.
+  const historical = parseAllDocuments(await readFile(archivePath, "utf8")).map(document => document.toJSON());
   assert.equal(createHash("sha256").update(await readFile(archivePath)).digest("hex"), "2e32c2c3642a9d480f81c6ba06641925be98981b16d6f8235e461b4d9adac98b");
   assert.deepEqual(current.map(item => item.id), ["h001", "h002", "h003", "h004", "h005"]);
   assert.deepEqual(current.map(({ id, content }) => ({ id, content })), historical.map(({ id, content }) => ({ id, content })));
@@ -127,4 +131,78 @@ test("custom live case loading keeps novel inputs parentless and in their own co
   await assert.rejects(customLiveCaseCohort({ ...source, dataset: "unrecognized-dataset" }), /Custom case source/);
   await assert.rejects(customLiveCaseCohort({ ...source, dataset: "restaurant-read-development-variant@1" }), /Custom case source/);
   await assert.rejects(customLiveCaseCohort({ ...source, dataset: "restaurant-read-development-variant@1", parent: { ...parent, sha256: "0".repeat(64) } }), /Custom case source/);
+});
+
+
+test("approved P1-F rev2 loads all eight independent literal request expectations", async () => {
+  const cases = await loadFrozenLiveCases(".eval-artifacts/p1-f-20261011/variants.rev2.yaml");
+  // Literal oracle transcribed from the approved file, independent of YAML parsing.
+  const expected = [
+    ["p1f-kf-h001-20261020", "Tuesday, October 20", "2026-10-20", "19:00", 2, "Shibuya", ["omakase"],
+      "Looking for an omakase spot near Shibuya for 2 people on Tuesday, October 20 at 7 PM."],
+    ["p1f-kf-h002-20261024", "Saturday, October 24", "2026-10-24", "18:30", 2, "Higashi-Ginza", ["good for a first date", "around 10,000 yen per person", "Sichuan/Hunan cuisine", "hot pot restaurant"],
+      "Recommend a first-date restaurant near Higashi-Ginza for Saturday, October 24 at 6:30 PM. Around 10,000 yen per person. No hot-pot restaurants and no Sichuan/Hunan-style cuisine where spicy food is the main focus."],
+    ["p1f-kf-h003-20261023", "Friday, October 23", "2026-10-23", ["17:30", "22:00"], 10, "nearby", ["team dinner", "around 3,000 yen per person", "good for drinks", "private room"],
+      "Need a place for a team dinner nearby on Friday, October 23 after work. 10 people, around 3,000 yen per person, good for drinks, ideally with a private room."],
+    ["p1f-kf-h004-20261019", "Monday, October 19", "2026-10-19", ["12:00", "17:00"], undefined, "nearby", ["cafe", "good for meeting a friend"],
+      "Good cafes nearby to meet up with a friend on the afternoon of Monday, October 19."],
+    ["p1f-kf-h005-20261022", "Thursday, October 22", "2026-10-22", "18:00", 4, "nearby", ["local food", "fast food"],
+      "Any spots nearby with open tables on Thursday, October 22 at 6 PM for 4 people? Local food only, no fast food."],
+    ["p1f-novel-kagurazaka-kaiseki-20261022", "Thursday, October 22", "2026-10-22", "19:30", 3, "Kagurazaka", ["kaiseki"],
+      "Looking for a kaiseki restaurant near Kagurazaka for 3 people on Thursday, October 22 at 7:30 PM."],
+    ["p1f-novel-nakameguro-yakiniku-20261023", "Friday, October 23", "2026-10-23", "19:00", 4, "Nakameguro", ["yakiniku"],
+      "Find a yakiniku place near Nakameguro for 4 people on Friday, October 23 at 7 PM."],
+    ["p1f-novel-kichijoji-tempura-20261020", "Tuesday, October 20", "2026-10-20", "18:00", 2, "Kichijoji", ["tempura"],
+      "Any tempura restaurants near Kichijoji with a table for 2 on Tuesday, October 20 at 6 PM?"],
+  ] as const;
+  assert.equal(cases.length, 8);
+  for (const [id, expression, date, time, party, location, criteria, content] of expected) {
+    const item = cases.find(item => item.id === id)!;
+    const semantic = item.semantic as Record<string, any>;
+    assert.equal(item.content, content + "\n", id);
+    assert.equal(semantic.date.expression, expression, id);
+    assert.equal(semantic.date.value, date, id);
+    assert.deepEqual(typeof time === "string" ? semantic.time.value : [semantic.time.start, semantic.time.end], time, id);
+    assert.equal(semantic.party_size, party, id);
+    assert.equal(semantic.location.value, location, id);
+    assert.deepEqual(semantic.criteria.map((criterion: { value: string }) => criterion.value), criteria, id);
+    assert.equal(semantic.target.goal, id === "p1f-kf-h004-20261019" ? "RECOMMENDATION" : "AVAILABILITY", id);
+    const criterionModes: Record<string, ReadonlyArray<readonly [string, string]>> = {
+      "p1f-kf-h001-20261020": [["POSITIVE", "HARD"]],
+      "p1f-kf-h002-20261024": [["POSITIVE", "UNSPECIFIED"], ["POSITIVE", "SOFT"], ["NEGATIVE", "HARD"], ["NEGATIVE", "HARD"]],
+      "p1f-kf-h003-20261023": [["POSITIVE", "UNSPECIFIED"], ["POSITIVE", "SOFT"], ["POSITIVE", "UNSPECIFIED"], ["POSITIVE", "SOFT"]],
+      "p1f-kf-h004-20261019": [["POSITIVE", "HARD"], ["POSITIVE", "UNSPECIFIED"]],
+      "p1f-kf-h005-20261022": [["POSITIVE", "HARD"], ["NEGATIVE", "HARD"]],
+      "p1f-novel-kagurazaka-kaiseki-20261022": [["POSITIVE", "HARD"]],
+      "p1f-novel-nakameguro-yakiniku-20261023": [["POSITIVE", "HARD"]],
+      "p1f-novel-kichijoji-tempura-20261020": [["POSITIVE", "HARD"]],
+    };
+    assert.deepEqual(semantic, {
+      target: { goal: id === "p1f-kf-h004-20261019" ? "RECOMMENDATION" : "AVAILABILITY" },
+      location: { value: location, relation: location === "nearby" ? "NEAR_USER" : "NEAR" },
+      date: { expression, value: date },
+      time: typeof time === "string" ? { value: time } : { expression: id === "p1f-kf-h003-20261023" ? "after work" : "afternoon", type: "TIME_WINDOW", start: time[0], end: time[1] },
+      ...(party !== undefined ? { party_size: party } : {}),
+      criteria: criteria.map((value, index) => ({ value, polarity: criterionModes[id]![index]![0], strength: criterionModes[id]![index]![1] })),
+    }, id);
+  }
+});
+
+test("case loader rejects the original comma-truncated P1-F revision", async () => {
+  await assert.rejects(loadFrozenLiveCases(".eval-artifacts/p1-f-20261011/variants.yaml"), /Frozen E2E case source is invalid/);
+});
+
+test("case loader rejects null values and unknown keys instead of silently accepting them", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "restaurant-case-validation-"));
+  const source = await readFile(RESTAURANT_READ_DEVELOPMENT_CASE_PATH, "utf8");
+  try {
+    for (const [name, invalid] of [
+      ["null", source.replace("goal: AVAILABILITY", "goal: null")],
+      ["unknown", source.replace("goal: AVAILABILITY", "goal: AVAILABILITY\n    unrecognized_goal: AVAILABILITY")],
+    ]) {
+      const path = join(directory, `${name}.yaml`);
+      await writeFile(path, invalid!);
+      await assert.rejects(loadFrozenLiveCases(path), /Frozen E2E case source is invalid/, name);
+    }
+  } finally { await rm(directory, { recursive: true, force: true }); }
 });

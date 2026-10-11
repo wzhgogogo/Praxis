@@ -3379,3 +3379,8 @@ P1-F A 冻结 73bfca5 后启动 5 次，只完成 3 份正式结果；h003 被�
 ## DEV-2026-10-11-P1F-A-continuation-part1
 
 按用户批准仅执行第一段，冻结73bfca5、同一干净宿主机工作树与配置，Kagurazaka→Nakameguro各正式一次；Kichijoji首次preflight TableCheck503未启动，按规则本段停止、并入第二段。无产品/Prompt/Schema/配置变更。新增81模型、4Google、2整单Live，累计602/1500、24/33；本段环境预留0消耗，剩2。不归因、不推送，原part-a-report末尾追加续跑记录，第二段与B未启动。
+
+
+## DEV-2026-10-12-P1F-rev2-loader
+
+仅评测侧加载器：当前可执行用例拒绝任何null和未知键，旧flow变体被拒绝，不再静默丢掉无效文档。批准rev2八例原文与完整semantic独立字面量oracle一致，Gold6/7未改；已退役annotation档案以原始YAML读取作历史内容对照，不作为可执行契约。生产签收仍冻结73bfca5，主树评测修复由外层预校验调用，不移入冻结运行；不改产品/Prompt/Schema/配置。

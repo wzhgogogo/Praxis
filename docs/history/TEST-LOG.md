@@ -4063,3 +4063,8 @@ Red: red-contract.log (three compile omissions), red-changing-results.log (stale
 ## TEST-2026-10-11-P1F-A-continuation-part1
 
 模式Live Read-only与Network Preflight分列。三例preflight各1次：206、206、503；最后一例不计整单Live或环境重跑。两份正式result各用冻结evaluator@27复评：Kagurazaka NO/NO_VERIFIED_RESULT；Nakameguro YES/SUPPORTED_BY_EVIDENCE，交付TableCheck Daikanyama Yakiniku Kintan距圆心919m。零交付见证三份四参数GET均200、结束后1.315秒内发出，原始响应未判读。decision条数47/34与模型调用相等，浏览器观察/录制快照链接无缺失；冻结CLEAN、保护哈希相同、旧报告原文作为精确前缀保留。复用冻结四门禁846/846，无代码改动不重复；证据 continuation-20261011-part1/summary.json、verification.json。
+
+
+## TEST-2026-10-12-P1F-rev2-loader
+
+有效红灯：rev1与null/unknown缺少预期拒绝；最终对应11/11绿。独立oracle完整覆盖八例原文、日期措辞、数字、窗口、地点、目标与criteria三字段，包括around 10,000 yen per person、Saturday, October 24。四门禁全部通过，宿主机npm test849/849；初次沙箱26项环境失败（localhost与Chromium EPERM）另记，不冒充产品反例。证据 .eval-artifacts/p1-f-20261011/prep-20261012/loading/。模型/Google0。
