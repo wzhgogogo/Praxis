@@ -112,3 +112,13 @@ test("Google Places sends its API request through its own configured proxy", { t
     await new Promise<void>((resolve) => proxy.close(() => resolve()));
   }
 });
+
+test("reverse address observation is one minimal public GET with credentials only in headers", async () => {
+  const client = new GooglePlacesClient({ apiKey: "fixture", fetchImplementation: async (url, init) => {
+    assert.equal(String(url), "https://geocode.googleapis.com/v4/geocode/location?location.latitude=1&location.longitude=2");
+    assert.equal(init?.method, "GET");
+    assert.equal((init?.headers as Record<string, string>)["X-Goog-FieldMask"], "results.addressComponents");
+    return new Response(JSON.stringify({ results: [{ addressComponents: [{ longText: "Observed district", types: ["sublocality"] }], location: { latitude: 4, longitude: 5 } }] }), { status: 200 });
+  } });
+  assert.deepEqual(await client.reverseAddress({ latitude: 1, longitude: 2 }, new AbortController().signal), { addressComponents: [{ longText: "Observed district", types: ["sublocality"] }] });
+});

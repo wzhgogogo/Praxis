@@ -144,7 +144,7 @@ class MeteredGoogleFixtureRestaurantSearch implements RestaurantSearchPort, Rest
       metadata: {
         ...read.metadata,
         provider: "GOOGLE_PLACES" as const,
-        googleRequests: { limit: 50, total: 4, namedPlaceResolution: 1, discovery: 2, placeDetails: 1 },
+        googleRequests: { limit: 50, total: 4, namedPlaceResolution: 1, discovery: 2, placeDetails: 1, reverseAddressObservation: 0 },
       },
     };
   }
@@ -1097,7 +1097,7 @@ test("W11 ordinary Web artifact retains shared Google request limits and categor
         total: 4,
         namedPlaceResolution: 1,
         discovery: 2,
-        placeDetails: 1,
+        placeDetails: 1, reverseAddressObservation: 0,
       });
       assert.ok((artifact.resourceUsage?.modelCallsStarted ?? 0) > 0, "the artifact records the model calls made under its live per-run scope");
       assert.ok((artifact.resourceUsage?.elapsedMs ?? 0) >= 0, "resource elapsed time is taken from the same completed per-run scope");

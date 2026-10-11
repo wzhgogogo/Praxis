@@ -206,7 +206,7 @@ test("a named nearby place is resolved to observed coordinates and grounds candi
     total: 2,
     namedPlaceResolution: 1,
     discovery: 1,
-    placeDetails: 0,
+    placeDetails: 0, reverseAddressObservation: 0,
   });
 });
 
@@ -458,7 +458,7 @@ test("candidate fact investigation re-reads only the known Google place and shar
     total: 2,
     namedPlaceResolution: 0,
     discovery: 1,
-    placeDetails: 1,
+    placeDetails: 1, reverseAddressObservation: 0,
   });
   await assert.rejects(search.search({ intent }, new AbortController().signal), { code: "GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED" });
 });
@@ -519,7 +519,7 @@ test("failed sent Google requests consume the same per-run local budget and rema
     total: 1,
     namedPlaceResolution: 0,
     discovery: 1,
-    placeDetails: 0,
+    placeDetails: 0, reverseAddressObservation: 0,
   });
   await assert.rejects(search.search({ intent: fixtureIntent, readRunId: "failed-run" }, new AbortController().signal), { code: "GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED" });
 });
@@ -541,7 +541,7 @@ test("the explicit one-hundred-request debug ceiling permits work beyond the ret
   }
   assert.equal(sent, 100);
   assert.deepEqual(search.googleRequestUsage("debug-run"), {
-    limit: 100, total: 100, namedPlaceResolution: 0, discovery: 100, placeDetails: 0,
+    limit: 100, total: 100, namedPlaceResolution: 0, discovery: 100, placeDetails: 0, reverseAddressObservation: 0,
   });
   await assert.rejects(search.search({ intent: fixtureIntent, readRunId: "debug-run" }, new AbortController().signal), { code: "GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED" });
   assert.equal(sent, 100, "the local boundary rejects before another network request");

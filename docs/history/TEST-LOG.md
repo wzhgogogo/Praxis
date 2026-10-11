@@ -4008,3 +4008,8 @@ Red: red-contract.log (three compile omissions), red-changing-results.log (stale
 ## TEST-2026-10-11-P1F-location-resolver
 
 匿名历史坐标/类型回归、商户与地理混合、无上下文及远距离反例。Google-only旧新五地点解析各一次，海外同名商户另作TextSearch观察；原HTTP响应缺失明确记录。
+
+
+## TEST-2026-10-11-P1F-coordinate-address
+
+有效红灯：坐标请求未产生地址观察；离线Native→Executor输入正反例及公共GET/计数/续行覆盖。第1–4项提交后仅两个授权发现探测，各6模型/90秒，不追加。

@@ -836,3 +836,23 @@ test("WP-A capture keeps model results and errors when storage fails, and finali
     assert.equal(await readFile(deadline.path, "utf8"), before, "late provider settlement cannot append a duplicate row");
   } finally { await rm(directory, { recursive: true, force: true }); }
 });
+
+// Verifies the actual Native → Executor → browser decision boundary; no source page reconstruction.
+test("coordinate-only discovery passes source-attributed address observations, including failure, to browser input", async () => {
+  for (const failure of [false, true]) {
+    const modelInputs: unknown[] = [];
+    const locality = new GooglePlacesRestaurantSearch(new GooglePlacesClient({ apiKey: "fixture", fetchImplementation: async () => new Response(JSON.stringify({ results: [{ addressComponents: [{ longText: "Observed district", types: ["sublocality"] }] }] }), { status: failure ? 403 : 200 }) }), () => reference.toISOString(), 10, { maxRequests: 1 });
+    let url = "https://tabelog.com/en/";
+    const session = { metadata: { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM" as const, engine: "CHROMIUM" as const, startedAt: reference.toISOString() },
+      navigate: async (next: string) => { url = next; }, snapshot: async () => ({ url, title: "Public directory", text: "Choose an observed region", html: "<main>Choose an observed region</main>" }),
+      click: async () => {}, fill: async () => {}, select: async () => [], waitFor: async () => {}, screenshot: async () => new Uint8Array(), close: async () => {},
+    };
+    const search = new NativeRestaurantSearch({ openSession: async () => session }, locality, () => reference.toISOString(), undefined, { decide: async input => { modelInputs.push(input.goal.location); return { type: "REQUEST_HUMAN_HELP", reason: "Fixture input observed; stop without navigation" }; } }, undefined, undefined, undefined, undefined, [tabelogDiscoveryPack]);
+    await search.search({ intent: { timezone: "Asia/Tokyo", area: { query: "nearby", coordinates: { latitude: 1, longitude: 2, observedAt: reference.toISOString(), source: "DEVICE" } }, criteria: [], target: { goal: "RECOMMENDATION", query: "restaurants nearby" } }, readRunId: `coordinate-input-${failure}` }, new AbortController().signal);
+    assert.equal(modelInputs.length, 1);
+    assert.deepEqual(modelInputs[0], { latitude: 1, longitude: 2, radiusMeters: 1000,
+      ...(!failure ? { addressComponents: [{ longText: "Observed district", types: ["sublocality"] }] } : {}),
+      addressObservation: { source: "GOOGLE_GEOCODING", observedAt: reference.toISOString(), status: failure ? "UNAVAILABLE" : "OBSERVED", ...(failure ? { reasonCode: "GOOGLE_SERVICE_QUOTA_OR_PERMISSION" } : {}) } });
+    assert.equal(locality.googleRequestUsage(`coordinate-input-${failure}`).total, 1);
+  }
+});

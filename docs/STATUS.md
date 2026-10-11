@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.174
+- Document revision: 4.175
 - Last updated: 2026-10-11
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-11 P1F-coordinate-address：** 坐标附近请求每运行至多一次Google公共反向地址观察；失败也缓存，源/时间/原因进入浏览器，精确圆心/入口名称规则不变，计入40次上限。 本批按已批准切片推进，结果待独立复核；不推送。证据目录 `.eval-artifacts/p1-f-prep-20261011/coordinate-address/`。
 
 - **2026-10-11 P1F-location-resolver：** 命名地区解析带已知位置bias、精确匹配优先地理类型；仅商户或超过100km均歧义并保留来源候选，不替换中心。无城市/国家/地名白名单。 本批按已批准切片推进，结果待独立复核；不推送。证据目录 `.eval-artifacts/p1-f-prep-20261011/location-resolver/`。
 

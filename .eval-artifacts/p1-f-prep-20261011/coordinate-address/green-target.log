@@ -1,0 +1,22 @@
+✔ native source-plan resolution is reused by the subsequent Google pack request (23.835667ms)
+✖ coordinate-only address observations reach the discovery goal once and failures keep the exact center (1.358917ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 1
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 417.389125
+
+✖ failing tests:
+
+test at src/integrations/restaurant-search/native-restaurant-search.test.ts:1:1868
+✖ coordinate-only address observations reach the discovery goal once and failures keep the exact center (1.358917ms)
+  Error: Discovery source plan is exhausted
+      at NativeRestaurantSearch.search (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/integrations/restaurant-search/native-restaurant-search.ts:843:37)
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/integrations/restaurant-search/native-restaurant-search.test.ts:52:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'DISCOVERY_PLAN_EXHAUSTED'
+  }

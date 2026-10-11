@@ -189,7 +189,7 @@ try {
     modelInvocations: invocations, sourceEnvironment: { network: "OFFLINE_FIXED_TRANSPORT", browser: dynamicSource ? "LOCAL_CHROMIUM_DYNAMIC_FIXED_PAGE" : "OFFLINE_FIXED_PAGES", scenario },
     sourceTrace: { navigations, googleQueries, browserDiagnostics, browserTrace }, runCeilings: { maxAutomaticBrowserMs: timeoutMs, maxAgentSteps: maxSteps, maxBrowserModelCallsTotal: maxModelCalls, maxModelCalls, ...nativeReadLimits },
     resourceUsage: { elapsedMs: Date.now() - startedAt, modelCallsStarted: modelCalls, browserModelCalls: invocations.filter((item) => item.purpose === "browser_read_decide").length,
-      agentDecisions: invocations.filter((item) => item.purpose === "restaurant_agent_decide").length, googleRequests: { total: googleQueries.length, namedPlaceResolution: googleQueries.length, discovery: 0, placeDetails: 0 } },
+      agentDecisions: invocations.filter((item) => item.purpose === "restaurant_agent_decide").length, googleRequests: { total: googleQueries.length, namedPlaceResolution: googleQueries.length, discovery: 0, placeDetails: 0, reverseAddressObservation: 0 } },
     safety: { policy: "READ_ONLY_CODE_PATH", externalSideEffectCount: 0 },
     execution: { status, loopStatus: loop?.status, phase: snapshot.domainState.phase, ...(loop?.status === "TIMEOUT" || deadline.aborted ? { failureCode: RUN_DEADLINE_EXCEEDED } : {}) },
   } as const;

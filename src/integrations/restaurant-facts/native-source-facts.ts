@@ -371,7 +371,7 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
 export class SourceAwareFactRead implements RestaurantCandidateFactPort {
   readonly executionRoute = "GENERIC_BROWSER" as const;
   constructor(private readonly native: RestaurantCandidateFactPort, private readonly google: RestaurantCandidateFactPort) {}
-  googleRequestUsage(readRunId: string | undefined) { return this.google.googleRequestUsage?.(readRunId) ?? { limit: 0, total: 0, namedPlaceResolution: 0, discovery: 0, placeDetails: 0 }; }
+  googleRequestUsage(readRunId: string | undefined) { return this.google.googleRequestUsage?.(readRunId) ?? { limit: 0, total: 0, namedPlaceResolution: 0, discovery: 0, placeDetails: 0, reverseAddressObservation: 0 }; }
   async inspectFacts(request: RestaurantCandidateFactRequest, signal: AbortSignal): Promise<RestaurantCandidateFactRead> {
     const nativeCandidates = request.candidates.filter((item) => item.restaurant.sourceIds.tabelogNativeDetailUri || item.restaurant.sourceIds.tablecheckNativeGuideUri);
     const googleCandidates = request.candidates.filter((item) => !nativeCandidates.includes(item));

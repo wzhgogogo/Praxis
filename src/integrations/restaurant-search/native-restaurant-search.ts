@@ -211,17 +211,26 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
 
   private async location(request: RestaurantSearchRequest, signal: AbortSignal): Promise<{ location: Location; localityEvidence?: RestaurantReadEvidence }> {
     const area = request.intent.area;
-    if (area.coordinates) return { location: {
+    if (area.coordinates) return { location: await this.withAddressObservation({
       latitude: area.coordinates.latitude, longitude: area.coordinates.longitude,
       radiusMeters: area.radiusMeters ?? DEFAULT_NEARBY_RADIUS_METERS, label: area.query, areaMatchBasis: "TASK_LOCATION_RADIUS",
-    } };
-    if (request.continuation?.locationContext) return { location: request.continuation.locationContext };
+    }, request, signal) };
+    if (request.continuation?.locationContext) return { location: request.continuation.locationContext.areaMatchBasis === "NAMED_PLACE_RADIUS"
+      ? request.continuation.locationContext : await this.withAddressObservation(request.continuation.locationContext, request, signal) };
     const named = await this.locality.resolveNamedNearbyLocation(request, signal);
     if (named.location) return { location: named.location, ...(named.evidence ? { localityEvidence: named.evidence } : {}) };
-    if (area.query.trim().toLocaleLowerCase("en-US") === "nearby" && this.evaluationLocation) return { location: {
+    if (area.query.trim().toLocaleLowerCase("en-US") === "nearby" && this.evaluationLocation) return { location: await this.withAddressObservation({
       ...this.evaluationLocation, label: this.evaluationLocation.label, areaMatchBasis: "EVALUATION_LOCATION_RADIUS",
-    } };
+    }, request, signal) };
     throw Object.assign(new Error("Native search requires an observed coordinate context for exact geography"), { code: "NATIVE_LOCATION_UNRESOLVED" });
+  }
+
+  private async withAddressObservation(location: Location, request: RestaurantSearchRequest, signal: AbortSignal): Promise<Location> {
+    const prior = request.continuation?.locationContext;
+    if (prior?.addressObservation && prior.latitude === location.latitude && prior.longitude === location.longitude) {
+      return { ...location, ...(prior.addressComponents ? { addressComponents: prior.addressComponents } : {}), addressObservation: prior.addressObservation };
+    }
+    return { ...location, ...await this.locality.observeCoordinateAddress(location, request.readRunId, signal) };
   }
 
   private async batch(
@@ -325,7 +334,8 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
     // value so a source deadline cannot look like an unfinished healthy batch.
     const discoveryGoalLocation = { latitude: location.latitude, longitude: location.longitude, radiusMeters: location.radiusMeters,
       ...(location.areaMatchBasis === "NAMED_PLACE_RADIUS" ? { name: location.label } : {}),
-      ...(location.addressComponents ? { addressComponents: location.addressComponents } : {}) };
+      ...(location.addressComponents ? { addressComponents: location.addressComponents } : {}),
+      ...(location.addressObservation ? { addressObservation: location.addressObservation } : {}) };
     const sourceElapsedMs = () => sourceElapsedBefore + (Date.now() - batchStartedAt);
     const funnel = (failed = false) => ({ ...(directoryRegion ? { directoryRegion } : {}), source: pack.browser!.provider, rawSourceLinks: raw, parsedOutlets: parsed, inspectedOutlets: inspected,
       batchCap: NATIVE_DETAIL_BATCH_CAP, sourceDetailCap: NATIVE_DETAIL_SOURCE_CAP,

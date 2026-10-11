@@ -123,6 +123,20 @@ export class GooglePlacesClient {
     );
   }
 
+  /** Public reverse geocoding: coordinates stay the authoritative center;
+   * only the source address components are returned, never a replacement point. */
+  async reverseAddress(location: { latitude: number; longitude: number }, signal: AbortSignal): Promise<GooglePlacesRawPlace> {
+    return this.requestJson(
+      `https://geocode.googleapis.com/v4/geocode/location?location.latitude=${location.latitude}&location.longitude=${location.longitude}`,
+      { method: "GET" }, "results.addressComponents", signal,
+      payload => {
+        const results = (payload as { results?: GooglePlacesRawPlace[] }).results;
+        if (!Array.isArray(results)) throw new GooglePlacesError("GOOGLE_MALFORMED_RESPONSE", "Google reverse geocoding returned invalid results");
+        return { addressComponents: results[0]?.addressComponents ?? [] };
+      },
+    );
+  }
+
   /** Reads one Google Place by its stable place ID; it never re-discovers by name. */
   async placeDetails(placeId: string, signal: AbortSignal): Promise<GooglePlacesRawPlace> {
     const id = placeId.replace(/^places\//, "").trim();

@@ -1126,7 +1126,7 @@ test("Hybrid production composition binds an explicit evaluation location before
   assert.equal(bodies[0]?.locationBias, undefined);
   const readRunId = `${snapshot.runId}:investigation:${snapshot.domainState.investigationRevision}`;
   assert.deepEqual(google.googleRequestUsage(readRunId), {
-    limit: 100, total: 4, namedPlaceResolution: 0, discovery: 1, placeDetails: 3,
+    limit: 100, total: 4, namedPlaceResolution: 0, discovery: 1, placeDetails: 3, reverseAddressObservation: 0,
   });
   const evaluation = evaluateRestaurantHybridLiveArtifact({
     status: "SUCCEEDED", stage: "AGENT_LOOP", caseId: "integration-nearby-cafes", runId: snapshot.runId,
@@ -1831,7 +1831,7 @@ test("Hybrid capture counts a sent Google request cancelled before any discovery
     total: 1,
     namedPlaceResolution: 0,
     discovery: 1,
-    placeDetails: 0,
+    placeDetails: 0, reverseAddressObservation: 0,
   });
   assert.equal(result.partial.resourceUsage.discoveryCandidates, 0);
   assert.equal(result.partial.trajectories.some(step => step.executionMetadata?.googleRequests), false, "the request had not completed into a Router trajectory");

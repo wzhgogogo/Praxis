@@ -88,13 +88,14 @@ function geographicLocation(place: GooglePlacesRawPlace): boolean {
   return types.some(type => typeof type === "string" && (type.startsWith("sublocality") || type.startsWith("administrative_area")
     || ["neighborhood", "locality", "country", "subway_station", "transit_station", "train_station", "bus_station", "airport", "park"].includes(type)));
 }
-type GoogleRequestKind = "namedPlaceResolution" | "discovery" | "placeDetails";
+type GoogleRequestKind = "namedPlaceResolution" | "discovery" | "placeDetails" | "reverseAddressObservation";
 type GoogleRequestUsage = {
   limit: number;
   total: number;
   namedPlaceResolution: number;
   discovery: number;
   placeDetails: number;
+  reverseAddressObservation: number;
 };
 
 function namedNearbyQuery(value: string): string | undefined {
@@ -251,6 +252,7 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
       namedPlaceResolution: 0,
       discovery: 0,
       placeDetails: 0,
+      reverseAddressObservation: 0,
     };
   }
 
@@ -262,7 +264,7 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
 
   private hasBudget(runId: string | undefined): boolean {
     const counts = this.requestCounts(runId);
-    return counts.namedPlaceResolution + counts.discovery + counts.placeDetails < (this.options.maxRequests ?? Number.POSITIVE_INFINITY);
+    return counts.namedPlaceResolution + counts.discovery + counts.placeDetails + counts.reverseAddressObservation < (this.options.maxRequests ?? Number.POSITIVE_INFINITY);
   }
 
   /** Read-only accounting for the Router trajectory and exported run artifact. */
@@ -270,9 +272,32 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
     const counts = this.requestCounts(readRunId);
     return {
       limit: this.options.maxRequests ?? Number.POSITIVE_INFINITY,
-      total: counts.namedPlaceResolution + counts.discovery + counts.placeDetails,
+      total: counts.namedPlaceResolution + counts.discovery + counts.placeDetails + counts.reverseAddressObservation,
       ...counts,
     };
+  }
+
+  private readonly addressObservations = new Map<string, { point: string; read: Promise<{ addressComponents?: Array<{ longText: string; shortText?: string; types: string[] }>; addressObservation: import("../../domains/restaurant/contracts.js").LocationAddressObservation }> }>();
+
+  async observeCoordinateAddress(location: { latitude: number; longitude: number }, readRunId: string | undefined, signal: AbortSignal) {
+    const key = readRunId ?? "unscoped", point = JSON.stringify([location.latitude, location.longitude]);
+    const prior = this.addressObservations.get(key);
+    const unavailable = (reasonCode: string) => ({ addressObservation: { source: "GOOGLE_GEOCODING", observedAt: this.now(), status: "UNAVAILABLE" as const, reasonCode } });
+    if (prior) return prior.point === point ? prior.read : unavailable("ADDRESS_OBSERVATION_CONTEXT_CHANGED");
+    const read = (async () => {
+      try {
+        if (!this.hasBudget(readRunId)) return unavailable("GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED");
+        this.consumeRequest(readRunId, "reverseAddressObservation");
+        const raw = await this.client.reverseAddress(location, signal);
+        const components = addressComponents(raw);
+        return components ? { addressComponents: components, addressObservation: { source: "GOOGLE_GEOCODING", observedAt: this.now(), status: "OBSERVED" as const } } : unavailable("GOOGLE_ADDRESS_UNOBSERVED");
+      } catch (error) {
+        if (signal.aborted) throw error;
+        return unavailable(error instanceof GooglePlacesError ? error.code : "GOOGLE_NETWORK_FAILED");
+      }
+    })();
+    this.addressObservations.set(key, { point, read });
+    return read;
   }
 
   /**

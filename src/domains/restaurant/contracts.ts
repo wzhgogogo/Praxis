@@ -262,6 +262,13 @@ export interface RestaurantSearchRequest {
 }
 
 /** Durable, integration-opaque source sequence selected from the authoritative request. */
+export interface LocationAddressObservation {
+  source: string;
+  observedAt: string;
+  status: "OBSERVED" | "UNAVAILABLE";
+  reasonCode?: string;
+}
+
 export interface RestaurantDiscoveryPlan {
   entries: Array<{
     sourceId: string;
@@ -275,6 +282,7 @@ export interface RestaurantDiscoveryPlan {
         label: string;
         areaMatchBasis: "TASK_LOCATION_RADIUS" | "EVALUATION_LOCATION_RADIUS" | "NAMED_PLACE_RADIUS";
       addressComponents?: Array<{ longText: string; shortText?: string; types: string[] }>;
+      addressObservation?: LocationAddressObservation;
       };
     };
   }>;
@@ -302,6 +310,7 @@ export interface RestaurantSearchContinuation {
     label: string;
     areaMatchBasis: "TASK_LOCATION_RADIUS" | "EVALUATION_LOCATION_RADIUS" | "NAMED_PLACE_RADIUS";
       addressComponents?: Array<{ longText: string; shortText?: string; types: string[] }>;
+      addressObservation?: LocationAddressObservation;
   };
   /**
    * The source request identity paired with an opaque page token.  A later
@@ -454,6 +463,7 @@ export interface RestaurantReadExecutionMetadata {
     namedPlaceResolution: number;
     discovery: number;
     placeDetails: number;
+    reverseAddressObservation: number;
   };
   /** Read-only Google discovery geography diagnostics; rejected observations never become candidates or evidence. */
   googleGeoDiagnostics?: {

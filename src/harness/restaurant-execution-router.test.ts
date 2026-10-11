@@ -101,7 +101,7 @@ test("Execution Router retains source-owned Google request accounting when a sen
   const router = new RestaurantExecutionRouter(
     {
       executionRoute: "STRUCTURED_ADAPTER",
-      googleRequestUsage: () => ({ limit: 100, total: 4, namedPlaceResolution: 1, discovery: 2, placeDetails: 1 }),
+      googleRequestUsage: () => ({ limit: 100, total: 4, namedPlaceResolution: 1, discovery: 2, placeDetails: 1, reverseAddressObservation: 0 }),
       async search() { throw Object.assign(new Error("network failed"), { code: "GOOGLE_NETWORK_FAILED" }); },
     },
     { executionRoute: "STRUCTURED_ADAPTER", async check() { return { offers: [], availabilityChecks: {}, evidence: [], metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 } }; } },
@@ -115,7 +115,7 @@ test("Execution Router retains source-owned Google request accounting when a sen
     total: 4,
     namedPlaceResolution: 1,
     discovery: 2,
-    placeDetails: 1,
+    placeDetails: 1, reverseAddressObservation: 0,
   });
 });
 

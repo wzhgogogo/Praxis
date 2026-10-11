@@ -89,7 +89,7 @@ export interface BrowserReadGoal {
   /** Bounded source-query wording; it never alters the Restaurant intent. */
   retrievalExpression?: string;
   /** Same request resolution; no inferred station or substituted place. */
-  location?: { name?: string; latitude: number; longitude: number; radiusMeters: number; addressComponents?: Array<{ longText: string; shortText?: string; types: string[] }> };
+  location?: { name?: string; latitude: number; longitude: number; radiusMeters: number; addressComponents?: Array<{ longText: string; shortText?: string; types: string[] }>; addressObservation?: { source: string; observedAt: string; status: "OBSERVED" | "UNAVAILABLE"; reasonCode?: string } };
   /** Fact-only reads intentionally omit unsupplied reservation parameters. */
   date?: string;
   partySize?: number;

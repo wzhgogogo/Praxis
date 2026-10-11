@@ -1,4 +1,4 @@
-import type { RestaurantDiscoveryPlan, RestaurantSearchIntent } from "./contracts.js";
+import type { RestaurantDiscoveryPlan, RestaurantSearchIntent, LocationAddressObservation } from "./contracts.js";
 
 /** Source capability metadata is integration-owned data. The planner consumes no source names or URLs. */
 export interface DiscoveryPackMetadata {
@@ -17,6 +17,7 @@ export interface DiscoveryPlanningLocation {
   label: string;
   areaMatchBasis: "TASK_LOCATION_RADIUS" | "EVALUATION_LOCATION_RADIUS" | "NAMED_PLACE_RADIUS";
       addressComponents?: Array<{ longText: string; shortText?: string; types: string[] }>;
+  addressObservation?: LocationAddressObservation;
 }
 
 export interface DiscoveryQuery {
