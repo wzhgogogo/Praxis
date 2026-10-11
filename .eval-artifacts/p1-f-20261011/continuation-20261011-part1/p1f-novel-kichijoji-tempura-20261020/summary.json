@@ -1,0 +1,130 @@
+{
+  "caseId": "p1f-novel-kichijoji-tempura-20261020",
+  "finishPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/continuation-20261011-part1/p1f-novel-kichijoji-tempura-20261020/attempt-1.finish.json",
+  "head": "73bfca588ad5007a4a9326c8c13a958718898f1c",
+  "stop": null,
+  "witnessRaw": [],
+  "status": "PREFLIGHT_FAILURE_DEFERRED",
+  "stage": "NETWORK_READINESS",
+  "failureCode": "PREFLIGHT_PUBLIC_ENDPOINT_REJECTED",
+  "phase": "NOT_STARTED",
+  "startedAt": "2026-10-11T15:51:13.378Z",
+  "finishedAt": "2026-10-11T15:51:16.475Z",
+  "resultPath": null,
+  "evaluationPath": null,
+  "evaluatorVersion": null,
+  "evaluation": {
+    "taskProducedQualifiedResult": "NOT_APPLICABLE",
+    "completion": "NOT_STARTED",
+    "systemBehavior": "NOT_EVALUATED"
+  },
+  "deliveryCount": null,
+  "deliveries": [],
+  "locationContext": null,
+  "locationResolutionTypes": "NOT_STARTED",
+  "elapsedMs": 3096,
+  "models": 0,
+  "google": 0,
+  "waitMs": 0,
+  "waitPercent": null,
+  "browserTimeout": false,
+  "decisionCapture": null,
+  "decisionCount": 0,
+  "decisionCountMatchesModelCalls": true,
+  "recording": null,
+  "preflightPath": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/live-preflight/2026-10-11T15-51-13-378Z-12a5049d-2b10-440d-a2f9-bd6a43d5f59d.result.json",
+  "preflight": {
+    "mode": "LIVE_NETWORK_PREFLIGHT",
+    "preflightVersion": "live-network-preflight@1",
+    "runner": "HYBRID_LIVE_READ",
+    "plannedTargets": [
+      "DEEPSEEK",
+      "GOOGLE",
+      "TABELOG",
+      "TABLECHECK"
+    ],
+    "timeoutMs": 10000,
+    "generationModelCalls": 0,
+    "restaurantDiscoveryRequests": 0,
+    "evaluator": {
+      "applicability": "NOT_APPLICABLE",
+      "reason": "NETWORK_ONLY_DIAGNOSTIC_HAS_NO_RESTAURANT_CLAIM"
+    },
+    "network": {
+      "proxyMode": "DISABLED_BY_CLI"
+    },
+    "status": "FAILED",
+    "stage": "NETWORK_READINESS",
+    "failureCode": "PREFLIGHT_PUBLIC_ENDPOINT_REJECTED",
+    "attempts": [
+      {
+        "target": "DEEPSEEK",
+        "request": {
+          "method": "GET",
+          "url": "https://api.deepseek.com/models",
+          "range": "NONE",
+          "authorization": "PRESENT"
+        },
+        "elapsedMs": 323,
+        "outcome": "REACHABLE",
+        "status": 200,
+        "tls": "ESTABLISHED"
+      },
+      {
+        "target": "GOOGLE",
+        "request": {
+          "method": "GET",
+          "url": "https://places.googleapis.com/",
+          "range": "NONE",
+          "authorization": "ABSENT"
+        },
+        "elapsedMs": 154,
+        "outcome": "REACHABLE",
+        "status": 404,
+        "tls": "ESTABLISHED"
+      },
+      {
+        "target": "TABELOG",
+        "request": {
+          "method": "GET",
+          "url": "https://tabelog.com/",
+          "range": "BYTES_0_0",
+          "authorization": "ABSENT"
+        },
+        "elapsedMs": 390,
+        "outcome": "REACHABLE",
+        "status": 200,
+        "tls": "ESTABLISHED"
+      },
+      {
+        "target": "TABLECHECK",
+        "request": {
+          "method": "GET",
+          "url": "https://www.tablecheck.com/en/",
+          "range": "BYTES_0_0",
+          "authorization": "ABSENT"
+        },
+        "elapsedMs": 2225,
+        "outcome": "FAILED",
+        "status": 503,
+        "tls": "ESTABLISHED",
+        "failureCode": "PREFLIGHT_PUBLIC_ENDPOINT_REJECTED"
+      }
+    ],
+    "elapsedMs": 3096,
+    "configuration": {
+      "proxyMode": "DISABLED_BY_CLI",
+      "googleProxyConfigured": false,
+      "browserProxyConfigured": false
+    },
+    "schemaVersion": "1",
+    "runId": "12a5049d-2b10-440d-a2f9-bd6a43d5f59d",
+    "startedAt": "2026-10-11T15:51:13.378Z",
+    "finishedAt": "2026-10-11T15:51:16.475Z"
+  },
+  "formalRunStarted": false,
+  "preflightAttemptsUsed": 1,
+  "preflightAttemptsRemaining": 2,
+  "nextPreflightNotBefore": "2026-10-11T16:06:16.475Z",
+  "deferredTo": "Second segment 2026-10-12 08:30 Asia/Tokyo; user stops after first segment"
+}

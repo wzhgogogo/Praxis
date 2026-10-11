@@ -4058,3 +4058,8 @@ Red: red-contract.log (three compile omissions), red-changing-results.log (stale
 ## TEST-2026-10-11-P1F-h005-retry-env
 
 模式：OFFLINE_ORCHESTRATION + NETWORK_PREFLIGHT；外层监测6项正反例通过（旧误停消除，预约后继/额外字段/不合法方法拒绝），0模型/业务调用。既有冻结四门禁复用，无产品改动；网络503→恢复206→重试503，未进入正式Live，无result/decisions/recording或餐厅evaluator@27结果。原始preflight JSON与SHA保留，冻结工作树CLEAN，原A产物未改，仅在报告末尾追加记录。
+
+
+## TEST-2026-10-11-P1F-A-continuation-part1
+
+模式Live Read-only与Network Preflight分列。三例preflight各1次：206、206、503；最后一例不计整单Live或环境重跑。两份正式result各用冻结evaluator@27复评：Kagurazaka NO/NO_VERIFIED_RESULT；Nakameguro YES/SUPPORTED_BY_EVIDENCE，交付TableCheck Daikanyama Yakiniku Kintan距圆心919m。零交付见证三份四参数GET均200、结束后1.315秒内发出，原始响应未判读。decision条数47/34与模型调用相等，浏览器观察/录制快照链接无缺失；冻结CLEAN、保护哈希相同、旧报告原文作为精确前缀保留。复用冻结四门禁846/846，无代码改动不重复；证据 continuation-20261011-part1/summary.json、verification.json。

@@ -3374,3 +3374,8 @@ P1-F A 冻结 73bfca5 后启动 5 次，只完成 3 份正式结果；h003 被�
 ## DEV-2026-10-11-P1F-h005-retry-env
 
 用户再次执行授权后，最小范围尝试h005，原冻结73bfca5/CLEAN不变。外层监测复用既有ADR-0036日历read POST与G1公共文档许可，不改变生产权限；两次CLI preflight TableCheck均503，间隔恢复检查206，按唯一环境重试规则停止。新增模型/Google业务/整单Live为0，累计521/1500、22/33；环境预留使用1、剩2。未推送，报告 .eval-artifacts/p1-f-20261011/rerun-20261011/report.md。
+
+
+## DEV-2026-10-11-P1F-A-continuation-part1
+
+按用户批准仅执行第一段，冻结73bfca5、同一干净宿主机工作树与配置，Kagurazaka→Nakameguro各正式一次；Kichijoji首次preflight TableCheck503未启动，按规则本段停止、并入第二段。无产品/Prompt/Schema/配置变更。新增81模型、4Google、2整单Live，累计602/1500、24/33；本段环境预留0消耗，剩2。不归因、不推送，原part-a-report末尾追加续跑记录，第二段与B未启动。
