@@ -1,0 +1,378 @@
+{
+ "status": "CERTIFIED_FOR_P1F_PART_A",
+ "certifiedAt": "2026-10-11T16:53:00+09:00/2026-10-11T17:20:00+09:00",
+ "certifiedBy": "INDEPENDENT_REVIEWER (Claude) and its delegated read-only research agents",
+ "method": "Public Tabelog find_vacancy JSON GET only (rst_id, svd, svps, svt); public Tabelog detail pages for category/course text; coordinates from prior JSON-LD (P1-A witnesses), Tabelog peripheral_map clat/lng (Kagurazaka) or GSI address geocoding (Nakameguro, Kichijoji). No Praxis code, no model call, no booking form opened, no slot clicked.",
+ "validUntil": "2026-10-12T17:20:00+09:00",
+ "variantsFile": ".eval-artifacts/p1-f-20261011/variants.yaml",
+ "centers": {
+  "Shibuya": {
+   "latitude": 35.6619707,
+   "longitude": 139.703795,
+   "basis": "Google named-place resolution recorded in earlier runs; re-confirm from run artifact"
+  },
+  "Higashi-Ginza (named)": {
+   "latitude": 35.6697003,
+   "longitude": 139.7671399,
+   "basis": "earlier run binding; re-confirm from run artifact"
+  },
+  "nearby evaluation point": {
+   "latitude": 35.6697,
+   "longitude": 139.767,
+   "radiusMeters": 1000
+  },
+  "Kagurazaka": {
+   "latitude": 35.7016,
+   "longitude": 139.74,
+   "basis": "reviewer estimate; witnesses kept within 600 m to absorb Google resolution difference"
+  },
+  "Nakameguro": {
+   "latitude": 35.6441,
+   "longitude": 139.6988,
+   "basis": "reviewer estimate; witnesses within 600 m"
+  },
+  "Kichijoji": {
+   "latitude": 35.7031,
+   "longitude": 139.5798,
+   "basis": "reviewer estimate; witnesses within 600 m"
+  }
+ },
+ "variants": [
+  {
+   "variantId": "p1f-kf-h001-20261020",
+   "request": "2026-10-20 19:00 x2 omakase near Shibuya",
+   "classification": "KNOWN_FEASIBLE_SUPPORTED",
+   "witnesses": [
+    {
+     "outletName": "Shibuya Sushi Matsumoto",
+     "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+     "bookingSource": "TABELOG",
+     "distanceMeters": 633,
+     "hardEvidence": [
+      {
+       "criterion": "omakase",
+       "quote": "We offer only the \"Omakase Course.\""
+      }
+     ],
+     "slot": "find_vacancy rst_id=13261619 svd=20261020 svps=2: 19:00 present (11:30–13:00, 17:00–21:00)"
+    },
+    {
+     "outletName": "Shibuya Sushi Sen",
+     "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+     "bookingSource": "TABELOG",
+     "distanceMeters": 260,
+     "hardEvidence": [
+      {
+       "criterion": "omakase",
+       "url": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/party/",
+       "quote": "Omakase Course"
+      }
+     ],
+     "slot": "find_vacancy rst_id=13275802 svd=20261020 svps=2: 19:00 present"
+    }
+   ],
+   "notes": "Sushi Teppen 13308491: selection empty on 2026-10-20 x2 (not a witness)."
+  },
+  {
+   "variantId": "p1f-kf-h002-20261024",
+   "request": "2026-10-24 18:30 x2 near Higashi-Ginza; no hot pot, no Sichuan/Hunan",
+   "classification": "KNOWN_FEASIBLE_SUPPORTED",
+   "witnesses": [
+    {
+     "outletName": "Ginza Sushi Tempura Iwai",
+     "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13305528/",
+     "bookingSource": "TABELOG",
+     "distanceMeters": 395,
+     "hardEvidence": [
+      {
+       "criterion": "exclusions",
+       "quote": "Sushi, Tempura, Japanese Cuisine"
+      }
+     ],
+     "slot": "find_vacancy rst_id=13305528 svd=20261024 svps=2: 18:30 present"
+    },
+    {
+     "outletName": "Ginza Wagyu Teppanyaki USHIGAMI",
+     "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13296659/",
+     "bookingSource": "TABELOG",
+     "distanceMeters": 394,
+     "hardEvidence": [
+      {
+       "criterion": "exclusions",
+       "quote": "Teppanyaki, Steak, Seafood"
+      }
+     ],
+     "slot": "find_vacancy rst_id=13296659 svd=20261024 svps=2: 18:30 present"
+    },
+    {
+     "outletName": "Ginza Sushi Den",
+     "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13291473/",
+     "bookingSource": "TABELOG",
+     "distanceMeters": 248,
+     "hardEvidence": [
+      {
+       "criterion": "exclusions",
+       "quote": "Sushi, Seafood, Japanese Cuisine"
+      }
+     ],
+     "slot": "find_vacancy rst_id=13291473 svd=20261024 svps=2: 18:30 present"
+    }
+   ]
+  },
+  {
+   "variantId": "p1f-kf-h003-20261023",
+   "request": "2026-10-23 17:30–22:00 x10 nearby (1 km)",
+   "classification": "KNOWN_FEASIBLE_SUPPORTED",
+   "witnesses": [
+    {
+     "outletName": "Private rooms Izakaya Ginraku Yurakucho",
+     "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130102/13266155/",
+     "bookingSource": "TABELOG",
+     "distanceMeters": 612,
+     "hardEvidence": [],
+     "slot": "find_vacancy rst_id=13266155 svd=20261023 svps=10: members=10, 17:30–22:00 every 15 min present"
+    },
+    {
+     "outletName": "Meibutsuya Yurakucho",
+     "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130102/13281962/",
+     "bookingSource": "TABELOG",
+     "distanceMeters": 705,
+     "hardEvidence": [],
+     "slot": "find_vacancy rst_id=13281962 svd=20261023 svps=10: 17:30–22:00 present"
+    },
+    {
+     "outletName": "Uotami Tsukiji ekimae",
+     "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131301/13318227/",
+     "bookingSource": "TABELOG",
+     "distanceMeters": 497,
+     "hardEvidence": [],
+     "slot": "find_vacancy rst_id=13318227 svd=20261023 svps=10: 17:30–22:00 present"
+    }
+   ],
+   "notes": "TableCheck witnesses from P1-A (168 Tenshin, Aloft) not rechecked."
+  },
+  {
+   "variantId": "p1f-kf-h004-20261019",
+   "request": "cafes nearby, Monday 2026-10-19 12:00–17:00",
+   "classification": "KNOWN_FEASIBLE_SUPPORTED",
+   "witnesses": [
+    {
+     "outletName": "Bunmeidou Cafe Higashi-ginza",
+     "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13002369/",
+     "bookingSource": "TABELOG",
+     "distanceMeters": 124,
+     "hardEvidence": [
+      {
+       "criterion": "cafe",
+       "quote": "Cafe"
+      }
+     ],
+     "slot": null,
+     "openingHours": "Mon–Sun 11:00–19:00 (prequalified 2026-10-08)"
+    },
+    {
+     "outletName": "Tiffany Blue Box Cafe",
+     "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13310761/",
+     "bookingSource": "TABELOG",
+     "distanceMeters": 304,
+     "hardEvidence": [
+      {
+       "criterion": "cafe",
+       "quote": "Cafe"
+      }
+     ],
+     "slot": null,
+     "openingHours": "Mon–Sun, holidays 10:30–20:30"
+    },
+    {
+     "outletName": "LE CAFE V",
+     "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13257245/",
+     "bookingSource": "TABELOG",
+     "distanceMeters": 456,
+     "hardEvidence": [
+      {
+       "criterion": "cafe",
+       "quote": "Cafe"
+      }
+     ],
+     "slot": null,
+     "openingHours": "Mon–Sun 11:00–20:00"
+    }
+   ],
+   "notes": "RECOMMENDATION variant: opening hours only; carried from 2026-10-08 prequalification (all open Mondays)."
+  },
+  {
+   "variantId": "p1f-kf-h005-20261022",
+   "request": "2026-10-22 18:00 x4 nearby, local food, no fast food",
+   "classification": "KNOWN_FEASIBLE_SUPPORTED",
+   "witnesses": [
+    {
+     "outletName": "Ginza Sushi Tempura Iwai",
+     "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13305528/",
+     "bookingSource": "TABELOG",
+     "distanceMeters": 384,
+     "hardEvidence": [
+      {
+       "criterion": "local food",
+       "quote": "Sushi, Tempura, Japanese Cuisine"
+      }
+     ],
+     "slot": "find_vacancy rst_id=13305528 svd=20261022 svps=4: 18:00 present"
+    },
+    {
+     "outletName": "Kushiyaki Bistro Fukumimi Ginza korido",
+     "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13255508/",
+     "bookingSource": "TABELOG",
+     "distanceMeters": 639,
+     "hardEvidence": [
+      {
+       "criterion": "local food",
+       "quote": "Kushiyaki (Japanese grilled skewers)"
+      }
+     ],
+     "slot": "find_vacancy rst_id=13255508 svd=20261022 svps=4: 18:00 present"
+    }
+   ],
+   "notes": "Ginza no Miko Zushi 13280412: selection empty on 2026-10-22 x4 (not a witness). Exactly 2 witnesses = minimum."
+  },
+  {
+   "variantId": "p1f-novel-kagurazaka-kaiseki-20261022",
+   "request": "2026-10-22 19:30 x3 kaiseki near Kagurazaka",
+   "classification": "KNOWN_FEASIBLE_SUPPORTED",
+   "witnesses": [
+    {
+     "outletName": "Kaiseki Komuro",
+     "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13218101/",
+     "bookingSource": "TABELOG",
+     "distanceMeters": 293,
+     "hardEvidence": [
+      {
+       "criterion": "kaiseki",
+       "quote": "presents kaiseki cuisine that highlights the natural flavors of the ingredients"
+      }
+     ],
+     "slot": "find_vacancy rst_id=13218101 svd=20261022 svps=3: 19:30 present (reviewer re-checked)"
+    },
+    {
+     "outletName": "Kagurazaka Kappou Kaga",
+     "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13048623/",
+     "bookingSource": "TABELOG",
+     "distanceMeters": 125,
+     "hardEvidence": [
+      {
+       "criterion": "kaiseki",
+       "quote": "Private rooms to Kaiseki Settai no Enkai Dokoro"
+      }
+     ],
+     "slot": "find_vacancy rst_id=13048623 svd=20261022 svps=3: 19:30 present"
+    },
+    {
+     "outletName": "Chisou Konya",
+     "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13011403/",
+     "bookingSource": "TABELOG",
+     "distanceMeters": 105,
+     "hardEvidence": [
+      {
+       "criterion": "kaiseki",
+       "quote": "Special Kaiseki Chisou Premium Course"
+      }
+     ],
+     "slot": "find_vacancy rst_id=13011403 svd=20261022 svps=3: 19:30 present"
+    }
+   ],
+   "notes": "Tabelog English category text for these is 'Japanese Cuisine'; kaiseki evidence is page/course text, not category."
+  },
+  {
+   "variantId": "p1f-novel-nakameguro-yakiniku-20261023",
+   "request": "2026-10-23 19:00 x4 yakiniku near Nakameguro",
+   "classification": "KNOWN_FEASIBLE_SUPPORTED",
+   "witnesses": [
+    {
+     "outletName": "Nakameguro Yakiniku Togyu Mon",
+     "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13290371/",
+     "bookingSource": "TABELOG",
+     "distanceMeters": 111,
+     "hardEvidence": [
+      {
+       "criterion": "yakiniku",
+       "quote": "Yakiniku (Japanese BBQ), Tripe, Izakaya"
+      }
+     ],
+     "slot": "find_vacancy rst_id=13290371 svd=20261023 svps=4: 19:00 present"
+    },
+    {
+     "outletName": "Nakameguro Sumibiyaki Horumon Manten Koukashita",
+     "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13241250/",
+     "bookingSource": "TABELOG",
+     "distanceMeters": 207,
+     "hardEvidence": [
+      {
+       "criterion": "yakiniku",
+       "quote": "Yakiniku (Japanese BBQ), Tripe, Izakaya"
+      }
+     ],
+     "slot": "find_vacancy rst_id=13241250 svd=20261023 svps=4: 19:00 present (reviewer re-checked)"
+    },
+    {
+     "outletName": "Nakameguro Nakasei",
+     "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13305906/",
+     "bookingSource": "TABELOG",
+     "distanceMeters": 338,
+     "hardEvidence": [
+      {
+       "criterion": "yakiniku",
+       "quote": "Steak, Hamburger steak, Yakiniku (Japanese BBQ)"
+      }
+     ],
+     "slot": "find_vacancy rst_id=13305906 svd=20261023 svps=4: 19:00 present"
+    }
+   ]
+  },
+  {
+   "variantId": "p1f-novel-kichijoji-tempura-20261020",
+   "request": "2026-10-20 18:00 x2 tempura near Kichijoji",
+   "classification": "KNOWN_FEASIBLE_SUPPORTED",
+   "witnesses": [
+    {
+     "outletName": "Kichijoji Sushi Tempura Iwai",
+     "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13282321/",
+     "bookingSource": "TABELOG",
+     "distanceMeters": 149,
+     "hardEvidence": [
+      {
+       "criterion": "tempura",
+       "quote": "Sushi, Tempura, Japanese Cuisine"
+      }
+     ],
+     "slot": "find_vacancy rst_id=13282321 svd=20261020 svps=2: 18:00 present"
+    },
+    {
+     "outletName": "Tempura Murayama",
+     "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13303321/",
+     "bookingSource": "TABELOG",
+     "distanceMeters": 397,
+     "hardEvidence": [
+      {
+       "criterion": "tempura",
+       "quote": "Tempura"
+      }
+     ],
+     "slot": "find_vacancy rst_id=13303321 svd=20261020 svps=2: 18:00 present (reviewer re-checked)"
+    },
+    {
+     "outletName": "Suzuna",
+     "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13192886/",
+     "bookingSource": "TABELOG",
+     "distanceMeters": 543,
+     "hardEvidence": [
+      {
+       "criterion": "tempura",
+       "quote": "Japanese Cuisine, Seafood, Tempura"
+      }
+     ],
+     "slot": "find_vacancy rst_id=13192886 svd=20261020 svps=2: 18:00 present"
+    }
+   ]
+  }
+ ]
+}
