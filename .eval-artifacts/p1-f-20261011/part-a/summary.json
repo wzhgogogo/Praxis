@@ -1,0 +1,1155 @@
+{
+  "frozenCommit": "73bfca588ad5007a4a9326c8c13a958718898f1c",
+  "rows": [
+    {
+      "caseId": "p1f-kf-h001-20261020",
+      "attempt": 1,
+      "orchestration": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/part-a/p1f-kf-h001-20261020/attempt-1.finish.json",
+      "stop": null,
+      "resultPaths": [
+        "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-11T08-14-12-197Z-5bd68be2-d5fc-4a84-b460-e3fe2dcb40c2.result.json"
+      ],
+      "witnessRaw": [
+        {
+          "rst_id": "13261619",
+          "method": "GET",
+          "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13261619&svd=20261020&svps=2&svt=1900",
+          "parameters": {
+            "rst_id": "13261619",
+            "svd": "20261020",
+            "svps": "2",
+            "svt": "1900"
+          },
+          "parameterBasis": "Approved witness request; start of stated window for h003",
+          "requestedAt": "2026-10-11T08:16:20.702Z",
+          "status": 200,
+          "contentType": "application/json; charset=utf-8",
+          "bodyPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/part-a/p1f-kf-h001-20261020/witness-raw/attempt-1-13261619.body.txt",
+          "sha256": "0aade29efbe805dd741f78be1441a6c3bdff61443bf13ee70864b249ad301bfa",
+          "finishedAt": "2026-10-11T08:16:21.215Z"
+        },
+        {
+          "rst_id": "13275802",
+          "method": "GET",
+          "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13275802&svd=20261020&svps=2&svt=1900",
+          "parameters": {
+            "rst_id": "13275802",
+            "svd": "20261020",
+            "svps": "2",
+            "svt": "1900"
+          },
+          "parameterBasis": "Approved witness request; start of stated window for h003",
+          "requestedAt": "2026-10-11T08:16:21.216Z",
+          "status": 200,
+          "contentType": "application/json; charset=utf-8",
+          "bodyPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/part-a/p1f-kf-h001-20261020/witness-raw/attempt-1-13275802.body.txt",
+          "sha256": "182a4d5b9f42187f86b07c5b28e15fcdd9af802b397aa1091997d77977ec99ea",
+          "finishedAt": "2026-10-11T08:16:21.577Z"
+        }
+      ],
+      "status": "SUCCEEDED",
+      "phase": "PRESENT_RESULTS",
+      "failureCode": null,
+      "termination": null,
+      "cohort": "DEVELOPMENT_DIAGNOSTIC",
+      "commitSha": "73bfca588ad5007a4a9326c8c13a958718898f1c",
+      "worktree": "CLEAN",
+      "deliveryCount": 3,
+      "deliveries": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1303/A130301/13275802",
+          "name": "Shibuya Sushi Sen",
+          "providers": [
+            "TABELOG"
+          ],
+          "sourceIds": {
+            "tabelog": "en/tokyo/A1303/A130301/13275802",
+            "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+            "discoverySourceId": "tabelog",
+            "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/"
+          },
+          "coordinates": {
+            "lat": 35.65966043790453,
+            "lng": 139.70420908304837
+          },
+          "distanceMeters": 260,
+          "distanceBasis": "Observed discovery evidence claims.distanceMeters"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1303/A130301/13261619",
+          "name": "Shibuya Sushi Matsumoto",
+          "providers": [
+            "TABELOG"
+          ],
+          "sourceIds": {
+            "tabelog": "en/tokyo/A1303/A130301/13261619",
+            "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+            "discoverySourceId": "tabelog",
+            "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/"
+          },
+          "coordinates": {
+            "lat": 35.65779487090903,
+            "lng": 139.69905014779476
+          },
+          "distanceMeters": 633,
+          "distanceBasis": "Observed discovery evidence claims.distanceMeters"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1303/A130301/13225919",
+          "name": "Sushi Tokyo Ten、 Shibuya ten",
+          "providers": [
+            "TABELOG"
+          ],
+          "sourceIds": {
+            "tabelog": "en/tokyo/A1303/A130301/13225919",
+            "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1303/A130301/13225919/",
+            "discoverySourceId": "tabelog",
+            "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1303/A130301/13225919/"
+          },
+          "coordinates": {
+            "lat": 35.65706133790588,
+            "lng": 139.7032661830228
+          },
+          "distanceMeters": 549,
+          "distanceBasis": "Observed discovery evidence claims.distanceMeters"
+        }
+      ],
+      "locationContext": {
+        "latitude": 35.6619707,
+        "longitude": 139.70379499999999,
+        "radiusMeters": 1000,
+        "label": "Shibuya",
+        "areaMatchBasis": "NAMED_PLACE_RADIUS",
+        "addressComponents": [
+          {
+            "longText": "Shibuya",
+            "shortText": "Shibuya",
+            "types": [
+              "locality",
+              "political"
+            ]
+          },
+          {
+            "longText": "Tokyo",
+            "shortText": "Tokyo",
+            "types": [
+              "administrative_area_level_1",
+              "political"
+            ]
+          },
+          {
+            "longText": "Japan",
+            "shortText": "JP",
+            "types": [
+              "country",
+              "political"
+            ]
+          }
+        ]
+      },
+      "locationResolutionEvidence": [
+        {
+          "evidenceId": "bdb9d4dbf8b887693f0f26543bdd4f8f74a4af432dab2f5fce9fbc330980c96b",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "ChIJ0Qgx67KMGGARd2ZbObLZHPE",
+          "observedAt": "2026-10-11T08:14:15.456Z",
+          "requestFingerprint": "f14fccfd01bce6c1459f6a7bfd7c5523a0b14421a9ba7e279cd8b7ba2f8d7e0c",
+          "claims": {
+            "locationResolutionQuery": "Shibuya",
+            "resolvedPlaceName": "Shibuya",
+            "resolvedPlaceId": "ChIJ0Qgx67KMGGARd2ZbObLZHPE",
+            "latitude": 35.6619707,
+            "longitude": 139.70379499999999,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        }
+      ],
+      "googlePlaceTypes": "NOT_RETAINED_BY_FROZEN_RUNNER",
+      "elapsedMs": 128058,
+      "models": 19,
+      "google": 1,
+      "googleBreakdown": {
+        "limit": 40,
+        "total": 1,
+        "namedPlaceResolution": 1,
+        "discovery": 0,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      },
+      "waitMs": 20818,
+      "waitPercent": 16.26,
+      "browserTimeout": false,
+      "timeoutReferences": [],
+      "evaluationPath": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-11T08-14-12-197Z-5bd68be2-d5fc-4a84-b460-e3fe2dcb40c2.result.evaluation.27-1791706617507.json",
+      "evaluation": {
+        "status": "SUCCEEDED",
+        "stage": "AGENT_LOOP",
+        "taskProducedQualifiedResult": "YES",
+        "systemBehavior": "SUPPORTED_BY_EVIDENCE",
+        "externalConditions": "OBSERVED",
+        "evidenceSufficiency": "SUFFICIENT_FOR_PRESENTED_RESULT",
+        "completion": "PRESENTATION_RECORDED"
+      },
+      "evaluatorFindings": [
+        {
+          "dimension": "AUTHORITATIVE_CONDITIONS",
+          "status": "SATISFIED",
+          "stage": "SEMANTIC_TO_FINAL_STATE",
+          "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+          "observations": [
+            "All independently readable applicable request fields match."
+          ],
+          "directCause": "No conflict observed.",
+          "rootCauseHypothesis": "Not applicable.",
+          "certainty": "CONFIRMED",
+          "evidenceRefs": [
+            "materializedCase.semantic",
+            "finalSnapshot.domainState.intentDraft"
+          ],
+          "downstreamImpact": "Grounding can be evaluated against one request."
+        },
+        {
+          "dimension": "REQUIRED_EVIDENCE",
+          "status": "SATISFIED",
+          "stage": "GROUNDING",
+          "requirement": "Each presented candidate must independently cite same-candidate HIGH identity, area, applicable HARD facts, and only when the user requested availability, fresh request-bound slot evidence.",
+          "observations": [
+            "candidate=tabelog:en/tokyo/A1303/A130301/13275802",
+            "citedEvidence=4",
+            "offers=1",
+            "candidate=tabelog:en/tokyo/A1303/A130301/13261619",
+            "citedEvidence=4",
+            "offers=1",
+            "candidate=tabelog:en/tokyo/A1303/A130301/13225919",
+            "citedEvidence=4",
+            "offers=1"
+          ],
+          "directCause": "Every presented candidate has independently linked evidence.",
+          "rootCauseHypothesis": "Execution artifact or accepted evidence contract lacks required detail.",
+          "certainty": "CONFIRMED",
+          "evidenceRefs": [
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:6f868e12a9e48e18cd7292f2]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:4cec43c128772e161450bdee]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-hard-criteria:1a97b4e60e95653894dc17aa]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-availability:a8fa98fd0c8a44d20b87d4a0]",
+            "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1303/A130301/13275802][id=offer:tabelog:tabelog:en/tokyo/A1303/A130301/13275802:2026-10-20:19:00:2]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:518571b74e917bf9d14176c0]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:775d5d0bcae8b6ce845de308]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-hard-criteria:3491aab20725839c2f73866b]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-availability:e44e6150131021ac9d121806]",
+            "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1303/A130301/13261619][id=offer:tabelog:tabelog:en/tokyo/A1303/A130301/13261619:2026-10-20:19:00:2]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:812e686b886a6251fcb4f455]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:b73cac25c165333368cd50f9]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-hard-criteria:8487cf1e94ad3a3ac47feffc]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-availability:d4221523fc75f3fb332bf2eb]",
+            "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1303/A130301/13225919][id=offer:tabelog:tabelog:en/tokyo/A1303/A130301/13225919:2026-10-20:19:00:2]"
+          ],
+          "downstreamImpact": "The presentation is independently supported."
+        },
+        {
+          "dimension": "INVESTIGATION_BEHAVIOR",
+          "status": "SATISFIED",
+          "stage": "AGENT_LOOP",
+          "requirement": "Cited presentation evidence must originate in actually executed same-candidate observations for the applicable request; duplicate fact/availability reads remain checked without requiring either action type.",
+          "observations": [
+            "executedObservations=6",
+            "applicableObservations=6",
+            "executedInvestigationVisits=5",
+            "authorizedRechecks=none",
+            "duplicates=none"
+          ],
+          "directCause": "Executed observations are attributable without a duplicate fact/availability read.",
+          "rootCauseHypothesis": "Not applicable.",
+          "certainty": "CONFIRMED",
+          "evidenceRefs": [
+            "trajectories[0].observation",
+            "trajectories[1].observation",
+            "trajectories[2].observation",
+            "trajectories[3].observation",
+            "trajectories[4].observation",
+            "trajectories[5].observation"
+          ],
+          "downstreamImpact": "Observation lineage and duplicate-read accounting remain attributable."
+        },
+        {
+          "dimension": "FINAL_CLAIM",
+          "status": "SATISFIED",
+          "stage": "PRESENT_RESULTS",
+          "requirement": "A terminal presentation must agree with the independently checked, candidate-specific request and evidence records.",
+          "observations": [
+            "phase=PRESENT_RESULTS",
+            "loop=TERMINAL",
+            "presentedCandidates=3"
+          ],
+          "directCause": "Terminal presentation and independently evaluated evidence agree.",
+          "rootCauseHypothesis": "Not applicable.",
+          "certainty": "CONFIRMED",
+          "evidenceRefs": [
+            "loop",
+            "finalSnapshot.domainState.presentedResults",
+            "finalSnapshot.domainState.availability",
+            "finalSnapshot.domainState.readEvidence"
+          ],
+          "downstreamImpact": "Execution produced a qualified read-only result."
+        },
+        {
+          "dimension": "COMPLETION_OUTCOME",
+          "status": "SATISFIED",
+          "stage": "TERMINATION",
+          "requirement": "A scoped no-result outcome, user-input pause, controlled cancellation, budget/deadline stop, and internal execution failure must remain distinguishable from one another and from independently verified presentation.",
+          "observations": [
+            "completion=PRESENTATION_RECORDED",
+            "phase=PRESENT_RESULTS",
+            "loop=TERMINAL",
+            "noVerifiedResult=missing",
+            "failureCode=missing"
+          ],
+          "directCause": "A presentation was recorded and is checked independently above.",
+          "rootCauseHypothesis": "Not applicable.",
+          "certainty": "CONFIRMED",
+          "evidenceRefs": [
+            "status",
+            "execution.failureCode",
+            "loop.status",
+            "finalSnapshot.domainState.phase",
+            "finalSnapshot.domainState.noVerifiedResult",
+            "finalSnapshot.domainState.failure"
+          ],
+          "downstreamImpact": "Presentation support remains independently auditable."
+        },
+        {
+          "dimension": "RESOURCES",
+          "status": "SATISFIED",
+          "stage": "RUN_ACCOUNTING",
+          "requirement": "Artifact must provide valid applicable resource values; an object alone does not prove complete accounting or budget compliance.",
+          "observations": [],
+          "directCause": "Required resource fields are present and within readable applicable limits.",
+          "rootCauseHypothesis": "Runner limit/accounting requires review.",
+          "certainty": "CONFIRMED",
+          "evidenceRefs": [
+            "resourceUsage",
+            "runCeilings",
+            "modelInvocations"
+          ],
+          "downstreamImpact": "Recorded budget use can be reviewed."
+        }
+      ],
+      "decisionsPath": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-11T08-14-12-197Z-5bd68be2-d5fc-4a84-b460-e3fe2dcb40c2.decisions.jsonl",
+      "decisionCount": 19,
+      "decisionCountMatchesModelCalls": true,
+      "recording": {
+        "path": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1791706452130",
+        "screenshot": "LAYOUT_ONLY_CONTENT_MASKED",
+        "replay": {
+          "status": "NOT_REPLAYABLE",
+          "reason": "UNSAFE_DOCUMENT"
+        }
+      },
+      "resourceUsage": {
+        "discoveryCandidates": 4,
+        "candidatesChecked": 4,
+        "agentDecisions": 6,
+        "browserModelCalls": 10,
+        "modelCallsStarted": 19,
+        "browserRuntimeCalls": 104,
+        "browserOperationsByCandidate": {
+          "native-discovery:DIRECTORY": 50,
+          "tabelog:en/tokyo/A1303/A130301/13308491": 11,
+          "tabelog:en/tokyo/A1303/A130301/13275802": 13,
+          "tabelog:en/tokyo/A1303/A130301/13261619": 13,
+          "tabelog:en/tokyo/A1303/A130301/13225919": 17
+        },
+        "pageStillLoadingWithinBound": 15,
+        "postActionWaitTotalMs": 20818,
+        "browserModelActions": 9,
+        "googleRequests": {
+          "limit": 40,
+          "total": 1,
+          "namedPlaceResolution": 1,
+          "discovery": 0,
+          "placeDetails": 0,
+          "reverseAddressObservation": 0
+        },
+        "elapsedMs": 128058
+      }
+    },
+    {
+      "caseId": "p1f-kf-h002-20261024",
+      "attempt": 1,
+      "orchestration": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/part-a/p1f-kf-h002-20261024/attempt-1.finish.json",
+      "stop": null,
+      "resultPaths": [
+        "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-11T08-16-48-821Z-eb814076-2a10-4ec7-864e-3ce3e09cb125.result.json"
+      ],
+      "witnessRaw": [],
+      "status": "SUCCEEDED",
+      "phase": "PRESENT_RESULTS",
+      "failureCode": null,
+      "termination": null,
+      "cohort": "DEVELOPMENT_DIAGNOSTIC",
+      "commitSha": "73bfca588ad5007a4a9326c8c13a958718898f1c",
+      "worktree": "CLEAN",
+      "deliveryCount": 1,
+      "deliveries": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1301/A130101/13295658",
+          "name": "Ginza Sushi Sendou",
+          "providers": [
+            "MODEL_JUDGMENT",
+            "TABELOG"
+          ],
+          "sourceIds": {
+            "tabelog": "en/tokyo/A1301/A130101/13295658",
+            "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1301/A130101/13295658/",
+            "discoverySourceId": "tabelog",
+            "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1301/A130101/13295658/"
+          },
+          "coordinates": {
+            "lat": 35.66857859380928,
+            "lng": 139.76305499491173
+          },
+          "distanceMeters": 390,
+          "distanceBasis": "Observed discovery evidence claims.distanceMeters"
+        }
+      ],
+      "locationContext": {
+        "latitude": 35.669700299999995,
+        "longitude": 139.7671399,
+        "radiusMeters": 1000,
+        "label": "Higashi-ginza Sta.",
+        "areaMatchBasis": "NAMED_PLACE_RADIUS",
+        "addressComponents": [
+          {
+            "longText": "１０先",
+            "shortText": "１０先",
+            "types": [
+              "premise"
+            ]
+          },
+          {
+            "longText": "10",
+            "shortText": "10",
+            "types": [
+              "sublocality_level_4",
+              "sublocality",
+              "political"
+            ]
+          },
+          {
+            "longText": "4-chōme",
+            "shortText": "4-chōme",
+            "types": [
+              "sublocality_level_3",
+              "sublocality",
+              "political"
+            ]
+          },
+          {
+            "longText": "Ginza",
+            "shortText": "Ginza",
+            "types": [
+              "sublocality_level_2",
+              "sublocality",
+              "political"
+            ]
+          },
+          {
+            "longText": "Chuo City",
+            "shortText": "Chuo City",
+            "types": [
+              "locality",
+              "political"
+            ]
+          },
+          {
+            "longText": "Tokyo",
+            "shortText": "Tokyo",
+            "types": [
+              "administrative_area_level_1",
+              "political"
+            ]
+          },
+          {
+            "longText": "Japan",
+            "shortText": "JP",
+            "types": [
+              "country",
+              "political"
+            ]
+          },
+          {
+            "longText": "104-0061",
+            "shortText": "104-0061",
+            "types": [
+              "postal_code"
+            ]
+          }
+        ]
+      },
+      "locationResolutionEvidence": [
+        {
+          "evidenceId": "062028d34c381d5eb6d3132181511ffd5cbe4d9a95bbd71fb80417acc63b4500",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "ChIJK2bxJueLGGARwHHeH52hGiM",
+          "observedAt": "2026-10-11T08:16:53.602Z",
+          "requestFingerprint": "18ee0499e89125634ad876808835c6b8646ed02ef79d47d70bde58cdb6a5effa",
+          "claims": {
+            "locationResolutionQuery": "Higashi-Ginza",
+            "resolvedPlaceName": "Higashi-ginza Sta.",
+            "resolvedPlaceId": "ChIJK2bxJueLGGARwHHeH52hGiM",
+            "latitude": 35.669700299999995,
+            "longitude": 139.7671399,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        }
+      ],
+      "googlePlaceTypes": "NOT_RETAINED_BY_FROZEN_RUNNER",
+      "elapsedMs": 148971,
+      "models": 23,
+      "google": 1,
+      "googleBreakdown": {
+        "limit": 40,
+        "total": 1,
+        "namedPlaceResolution": 1,
+        "discovery": 0,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      },
+      "waitMs": 25047,
+      "waitPercent": 16.81,
+      "browserTimeout": false,
+      "timeoutReferences": [],
+      "evaluationPath": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-11T08-16-48-821Z-eb814076-2a10-4ec7-864e-3ce3e09cb125.result.evaluation.27-1791706774279.json",
+      "evaluation": {
+        "status": "SUCCEEDED",
+        "stage": "AGENT_LOOP",
+        "taskProducedQualifiedResult": "UNKNOWN",
+        "systemBehavior": "NOT_EVALUATED",
+        "externalConditions": "OBSERVED",
+        "evidenceSufficiency": "SUFFICIENT_FOR_PRESENTED_RESULT",
+        "completion": "PRESENTATION_RECORDED"
+      },
+      "evaluatorFindings": [
+        {
+          "dimension": "AUTHORITATIVE_CONDITIONS",
+          "status": "NOT_EVALUATED",
+          "stage": "SEMANTIC_TO_FINAL_STATE",
+          "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+          "observations": [
+            "Unresolved criterion wording: criteria.text expected=[around 10, good for a first date, hot pot restaurant, sichuan/hunan cuisine] actual=[around 10,000 yen per person, hot-pot restaurants, sichuan/hunan-style cuisine where spicy food is the main focus, suitable for a first date]."
+          ],
+          "directCause": "Criterion text differs without a deterministic equivalence rule; independent semantic review is required.",
+          "rootCauseHypothesis": "The model may have paraphrased, omitted, or added a criterion; the evaluator does not guess which.",
+          "certainty": "UNKNOWN",
+          "evidenceRefs": [
+            "materializedCase.semantic",
+            "finalSnapshot.domainState.intentDraft"
+          ],
+          "downstreamImpact": "Do not claim automatic semantic fidelity for the text difference; grounding remains independently evaluated against the actual request."
+        },
+        {
+          "dimension": "REQUIRED_EVIDENCE",
+          "status": "SATISFIED",
+          "stage": "GROUNDING",
+          "requirement": "Each presented candidate must independently cite same-candidate HIGH identity, area, applicable HARD facts, and only when the user requested availability, fresh request-bound slot evidence.",
+          "observations": [
+            "candidate=tabelog:en/tokyo/A1301/A130101/13295658",
+            "citedEvidence=5",
+            "offers=1"
+          ],
+          "directCause": "Every presented candidate has independently linked evidence.",
+          "rootCauseHypothesis": "Execution artifact or accepted evidence contract lacks required detail.",
+          "certainty": "CONFIRMED",
+          "evidenceRefs": [
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:64bbe606a4c4f149676c3487]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:da2b7d37f5c2ebdf50ee8dd7]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-availability:db8ff429985bd8bba2ec852f]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=tabelog:en/tokyo/A1301/A130101/13295658:document:596155364437f3e7]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tabelog:en/tokyo/A1301/A130101/13295658:2026-10-11T08:18:50.872Z:tabelog:en/tokyo/A1301/A130101/13295658:document:596155364437f3e7]",
+            "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1301/A130101/13295658][id=offer:tabelog:tabelog:en/tokyo/A1301/A130101/13295658:2026-10-24:18:30:2]"
+          ],
+          "downstreamImpact": "The presentation is independently supported."
+        },
+        {
+          "dimension": "INVESTIGATION_BEHAVIOR",
+          "status": "SATISFIED",
+          "stage": "AGENT_LOOP",
+          "requirement": "Cited presentation evidence must originate in actually executed same-candidate observations for the applicable request; duplicate fact/availability reads remain checked without requiring either action type.",
+          "observations": [
+            "executedObservations=6",
+            "applicableObservations=6",
+            "executedInvestigationVisits=10",
+            "authorizedRechecks=none",
+            "duplicates=none"
+          ],
+          "directCause": "Executed observations are attributable without a duplicate fact/availability read.",
+          "rootCauseHypothesis": "Not applicable.",
+          "certainty": "CONFIRMED",
+          "evidenceRefs": [
+            "trajectories[0].observation",
+            "trajectories[1].observation",
+            "trajectories[2].observation",
+            "trajectories[3].observation",
+            "trajectories[4].observation",
+            "trajectories[5].observation"
+          ],
+          "downstreamImpact": "Observation lineage and duplicate-read accounting remain attributable."
+        },
+        {
+          "dimension": "FINAL_CLAIM",
+          "status": "NOT_EVALUATED",
+          "stage": "PRESENT_RESULTS",
+          "requirement": "A terminal presentation must agree with the independently checked, candidate-specific request and evidence records.",
+          "observations": [
+            "phase=PRESENT_RESULTS",
+            "loop=TERMINAL",
+            "presentedCandidates=1"
+          ],
+          "directCause": "Terminal presentation has conflicting or insufficient independent support.",
+          "rootCauseHypothesis": "Verifier, serialization, or upstream execution record requires review.",
+          "certainty": "UNKNOWN",
+          "evidenceRefs": [
+            "loop",
+            "finalSnapshot.domainState.presentedResults",
+            "finalSnapshot.domainState.availability",
+            "finalSnapshot.domainState.readEvidence"
+          ],
+          "downstreamImpact": "No qualified completion can be claimed."
+        },
+        {
+          "dimension": "COMPLETION_OUTCOME",
+          "status": "NOT_EVALUATED",
+          "stage": "TERMINATION",
+          "requirement": "A scoped no-result outcome, user-input pause, controlled cancellation, budget/deadline stop, and internal execution failure must remain distinguishable from one another and from independently verified presentation.",
+          "observations": [
+            "completion=PRESENTATION_RECORDED",
+            "phase=PRESENT_RESULTS",
+            "loop=TERMINAL",
+            "noVerifiedResult=missing",
+            "failureCode=missing"
+          ],
+          "directCause": "A presentation was recorded and is checked independently above.",
+          "rootCauseHypothesis": "Not applicable.",
+          "certainty": "UNKNOWN",
+          "evidenceRefs": [
+            "status",
+            "execution.failureCode",
+            "loop.status",
+            "finalSnapshot.domainState.phase",
+            "finalSnapshot.domainState.noVerifiedResult",
+            "finalSnapshot.domainState.failure"
+          ],
+          "downstreamImpact": "Presentation support remains independently auditable."
+        },
+        {
+          "dimension": "RESOURCES",
+          "status": "SATISFIED",
+          "stage": "RUN_ACCOUNTING",
+          "requirement": "Artifact must provide valid applicable resource values; an object alone does not prove complete accounting or budget compliance.",
+          "observations": [],
+          "directCause": "Required resource fields are present and within readable applicable limits.",
+          "rootCauseHypothesis": "Runner limit/accounting requires review.",
+          "certainty": "CONFIRMED",
+          "evidenceRefs": [
+            "resourceUsage",
+            "runCeilings",
+            "modelInvocations"
+          ],
+          "downstreamImpact": "Recorded budget use can be reviewed."
+        }
+      ],
+      "decisionsPath": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-11T08-16-48-821Z-eb814076-2a10-4ec7-864e-3ce3e09cb125.decisions.jsonl",
+      "decisionCount": 23,
+      "decisionCountMatchesModelCalls": true,
+      "recording": {
+        "path": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1791706608749",
+        "screenshot": "LAYOUT_ONLY_CONTENT_MASKED",
+        "replay": {
+          "status": "NOT_REPLAYABLE",
+          "reason": "UNSAFE_DOCUMENT"
+        }
+      },
+      "resourceUsage": {
+        "discoveryCandidates": 5,
+        "candidatesChecked": 5,
+        "agentDecisions": 6,
+        "browserModelCalls": 10,
+        "modelCallsStarted": 23,
+        "browserRuntimeCalls": 105,
+        "browserOperationsByCandidate": {
+          "native-discovery:DIRECTORY": 29,
+          "tabelog:en/tokyo/A1301/A130101/13283245": 17,
+          "tabelog:en/tokyo/A1301/A130101/13295658": 16,
+          "tabelog:en/tokyo/A1301/A130101/13291436": 16,
+          "tabelog:en/tokyo/A1301/A130103/13292459": 16,
+          "tabelog:en/tokyo/A1301/A130101/13277198": 11
+        },
+        "pageStillLoadingWithinBound": 16,
+        "postActionWaitTotalMs": 25047,
+        "browserModelActions": 9,
+        "googleRequests": {
+          "limit": 40,
+          "total": 1,
+          "namedPlaceResolution": 1,
+          "discovery": 0,
+          "placeDetails": 0,
+          "reverseAddressObservation": 0
+        },
+        "elapsedMs": 148971
+      }
+    },
+    {
+      "caseId": "p1f-kf-h003-20261023",
+      "attempt": 1,
+      "orchestration": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/part-a/p1f-kf-h003-20261023/attempt-1.finish.json",
+      "stop": {
+        "code": "ADMITTED_NON_READ_METHOD",
+        "request": {
+          "outcome": "ADMITTED",
+          "origin": "https://production.tablecheck.com/",
+          "pathname": "/v2/hub/availability_calendar_v2",
+          "method": "POST",
+          "resourceType": "fetch",
+          "queryKeys": []
+        },
+        "at": "2026-10-11T08:20:06.616Z",
+        "traceSequence": 58
+      },
+      "resultPaths": [],
+      "witnessRaw": [],
+      "status": "INTERRUPTED_BY_ORCHESTRATION_FALSE_ALARM",
+      "wallMs": 33587,
+      "models": 2,
+      "google": null,
+      "partial": {
+        "status": "INTERRUPTED_BY_ORCHESTRATION_FALSE_ALARM",
+        "startedPath": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-11T08-19-41-152Z-b67a33b0-ad5a-4863-bee4-21504989084e.started.json",
+        "decisionsPath": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-11T08-19-41-152Z-b67a33b0-ad5a-4863-bee4-21504989084e.decisions.jsonl",
+        "modelCallsCaptured": 2,
+        "browserDecisionStarts": 0,
+        "googleRequests": "NOT_RETAINED_BECAUSE_RESULT_WAS_NOT_FINALIZED",
+        "wallMsIncludingPreflight": 33587,
+        "observedWaitMs": 5443,
+        "stopShapeWasReviewedRead": true,
+        "authority": "ADR-0036; tablecheck-public-query.ts exact reviewed public calendar read POST; no evidence of a write operation",
+        "recording": "NOT_FINALIZED; append-only sanitized trace retained",
+        "witnessRawDirectory": ".eval-artifacts/p1-f-20261011/part-a/p1f-kf-h003-20261023/witness-raw",
+        "rawCaptureWithinTenMinutes": true,
+        "retryClassification": "NOT_ENV_FAILURE; additional attempt requires explicit user exception"
+      },
+      "evaluationPath": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-11T08-19-41-152Z-b67a33b0-ad5a-4863-bee4-21504989084e.started.evaluation.27-1791706947925.json",
+      "evaluation": {
+        "status": "STARTED",
+        "stage": null,
+        "taskProducedQualifiedResult": "UNKNOWN",
+        "systemBehavior": "NOT_EVALUATED",
+        "externalConditions": "NOT_EVALUATED",
+        "evidenceSufficiency": "NOT_EVALUATED",
+        "completion": "NOT_EVALUATED"
+      },
+      "evaluatorInputKind": "STARTED_ONLY_NOT_FORMAL_RESULT"
+    },
+    {
+      "caseId": "p1f-kf-h004-20261019",
+      "attempt": 1,
+      "orchestration": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/part-a/p1f-kf-h004-20261019/attempt-1.finish.json",
+      "stop": null,
+      "resultPaths": [
+        "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-11T08-22-34-575Z-97767eac-8aa0-463b-aec0-1a69c25cdc7a.result.json"
+      ],
+      "witnessRaw": [],
+      "status": "SUCCEEDED",
+      "phase": "PRESENT_RESULTS",
+      "failureCode": null,
+      "termination": null,
+      "cohort": "DEVELOPMENT_DIAGNOSTIC",
+      "commitSha": "73bfca588ad5007a4a9326c8c13a958718898f1c",
+      "worktree": "CLEAN",
+      "deliveryCount": 1,
+      "deliveries": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1301/A130101/13002704",
+          "name": "Noa Cafe Ginza",
+          "providers": [
+            "MODEL_JUDGMENT",
+            "TABELOG"
+          ],
+          "sourceIds": {
+            "tabelog": "en/tokyo/A1301/A130101/13002704",
+            "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1301/A130101/13002704/",
+            "discoverySourceId": "tabelog",
+            "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1301/A130101/13002704/"
+          },
+          "coordinates": {
+            "lat": 35.670700148722354,
+            "lng": 139.76532778427884
+          },
+          "distanceMeters": 188,
+          "distanceBasis": "Observed discovery evidence claims.distanceMeters"
+        }
+      ],
+      "locationContext": {
+        "latitude": 35.6697,
+        "longitude": 139.767,
+        "radiusMeters": 1000,
+        "label": "nearby",
+        "areaMatchBasis": "TASK_LOCATION_RADIUS",
+        "addressComponents": [
+          {
+            "longText": "１２",
+            "shortText": "１２",
+            "types": [
+              "political",
+              "sublocality",
+              "sublocality_level_4"
+            ]
+          },
+          {
+            "longText": "５丁目",
+            "shortText": "５丁目",
+            "types": [
+              "political",
+              "sublocality",
+              "sublocality_level_3"
+            ]
+          },
+          {
+            "longText": "銀座",
+            "shortText": "銀座",
+            "types": [
+              "political",
+              "sublocality",
+              "sublocality_level_2"
+            ]
+          },
+          {
+            "longText": "中央区",
+            "shortText": "中央区",
+            "types": [
+              "locality",
+              "political"
+            ]
+          },
+          {
+            "longText": "東京都",
+            "shortText": "東京都",
+            "types": [
+              "administrative_area_level_1",
+              "political"
+            ]
+          },
+          {
+            "longText": "日本",
+            "shortText": "JP",
+            "types": [
+              "country",
+              "political"
+            ]
+          },
+          {
+            "longText": "104-0061",
+            "shortText": "104-0061",
+            "types": [
+              "postal_code"
+            ]
+          }
+        ],
+        "addressObservation": {
+          "source": "GOOGLE_GEOCODING",
+          "observedAt": "2026-10-11T08:22:38.303Z",
+          "status": "OBSERVED"
+        }
+      },
+      "locationResolutionEvidence": [],
+      "googlePlaceTypes": "NOT_RETAINED_BY_FROZEN_RUNNER",
+      "elapsedMs": 304229,
+      "models": 47,
+      "google": 1,
+      "googleBreakdown": {
+        "limit": 40,
+        "total": 1,
+        "namedPlaceResolution": 0,
+        "discovery": 0,
+        "placeDetails": 0,
+        "reverseAddressObservation": 1
+      },
+      "waitMs": 32614,
+      "waitPercent": 10.72,
+      "browserTimeout": false,
+      "timeoutReferences": [],
+      "evaluationPath": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-11T08-22-34-575Z-97767eac-8aa0-463b-aec0-1a69c25cdc7a.result.evaluation.27-1791707276483.json",
+      "evaluation": {
+        "status": "SUCCEEDED",
+        "stage": "AGENT_LOOP",
+        "taskProducedQualifiedResult": "NO",
+        "systemBehavior": "NOT_SUPPORTED",
+        "externalConditions": "OBSERVED",
+        "evidenceSufficiency": "SUFFICIENT_FOR_PRESENTED_RESULT",
+        "completion": "PRESENTATION_RECORDED"
+      },
+      "evaluatorFindings": [
+        {
+          "dimension": "AUTHORITATIVE_CONDITIONS",
+          "status": "NOT_SATISFIED",
+          "stage": "SEMANTIC_TO_FINAL_STATE",
+          "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+          "observations": [
+            "Conflicting fields: target.goal."
+          ],
+          "directCause": "The recorded authoritative request conflicts with the materialized request.",
+          "rootCauseHypothesis": "Requires semantic/compiler/runtime trace review.",
+          "certainty": "UNKNOWN",
+          "evidenceRefs": [
+            "materializedCase.semantic",
+            "finalSnapshot.domainState.intentDraft"
+          ],
+          "downstreamImpact": "Final acceptance is blocked by a semantic conflict, while grounding remains independently evaluated against the actual request."
+        },
+        {
+          "dimension": "REQUIRED_EVIDENCE",
+          "status": "SATISFIED",
+          "stage": "GROUNDING",
+          "requirement": "Each presented candidate must independently cite same-candidate HIGH identity, area, applicable HARD facts, and only when the user requested availability, fresh request-bound slot evidence.",
+          "observations": [
+            "candidate=tabelog:en/tokyo/A1301/A130101/13002704",
+            "citedEvidence=5",
+            "offers=13"
+          ],
+          "directCause": "Every presented candidate has independently linked evidence.",
+          "rootCauseHypothesis": "Execution artifact or accepted evidence contract lacks required detail.",
+          "certainty": "CONFIRMED",
+          "evidenceRefs": [
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:4be286a1e34ce05ebdd82f0d]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:de27282b7cf9b9a4ed1671ea]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-availability:20f7ac77886f7148e48998c1]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=tabelog:en/tokyo/A1301/A130101/13002704:document:c77b44b228da970d]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tabelog:en/tokyo/A1301/A130101/13002704:2026-10-11T08:27:26.977Z:tabelog:en/tokyo/A1301/A130101/13002704:document:c77b44b228da970d]",
+            "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1301/A130101/13002704][id=offer:tabelog:tabelog:en/tokyo/A1301/A130101/13002704:2026-10-19:14:00:2]",
+            "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1301/A130101/13002704][id=offer:tabelog:tabelog:en/tokyo/A1301/A130101/13002704:2026-10-19:14:15:2]",
+            "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1301/A130101/13002704][id=offer:tabelog:tabelog:en/tokyo/A1301/A130101/13002704:2026-10-19:14:30:2]",
+            "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1301/A130101/13002704][id=offer:tabelog:tabelog:en/tokyo/A1301/A130101/13002704:2026-10-19:14:45:2]",
+            "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1301/A130101/13002704][id=offer:tabelog:tabelog:en/tokyo/A1301/A130101/13002704:2026-10-19:15:00:2]",
+            "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1301/A130101/13002704][id=offer:tabelog:tabelog:en/tokyo/A1301/A130101/13002704:2026-10-19:15:15:2]",
+            "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1301/A130101/13002704][id=offer:tabelog:tabelog:en/tokyo/A1301/A130101/13002704:2026-10-19:15:30:2]",
+            "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1301/A130101/13002704][id=offer:tabelog:tabelog:en/tokyo/A1301/A130101/13002704:2026-10-19:15:45:2]",
+            "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1301/A130101/13002704][id=offer:tabelog:tabelog:en/tokyo/A1301/A130101/13002704:2026-10-19:16:00:2]",
+            "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1301/A130101/13002704][id=offer:tabelog:tabelog:en/tokyo/A1301/A130101/13002704:2026-10-19:16:15:2]",
+            "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1301/A130101/13002704][id=offer:tabelog:tabelog:en/tokyo/A1301/A130101/13002704:2026-10-19:16:30:2]",
+            "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1301/A130101/13002704][id=offer:tabelog:tabelog:en/tokyo/A1301/A130101/13002704:2026-10-19:16:45:2]",
+            "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1301/A130101/13002704][id=offer:tabelog:tabelog:en/tokyo/A1301/A130101/13002704:2026-10-19:17:00:2]"
+          ],
+          "downstreamImpact": "The presentation is independently supported."
+        },
+        {
+          "dimension": "INVESTIGATION_BEHAVIOR",
+          "status": "SATISFIED",
+          "stage": "AGENT_LOOP",
+          "requirement": "Cited presentation evidence must originate in actually executed same-candidate observations for the applicable request; duplicate fact/availability reads remain checked without requiring either action type.",
+          "observations": [
+            "executedObservations=9",
+            "applicableObservations=9",
+            "executedInvestigationVisits=16",
+            "authorizedRechecks=none",
+            "duplicates=none"
+          ],
+          "directCause": "Executed observations are attributable without a duplicate fact/availability read.",
+          "rootCauseHypothesis": "Not applicable.",
+          "certainty": "CONFIRMED",
+          "evidenceRefs": [
+            "trajectories[0].observation",
+            "trajectories[1].observation",
+            "trajectories[2].observation",
+            "trajectories[3].observation",
+            "trajectories[4].observation",
+            "trajectories[8].observation",
+            "trajectories[9].observation",
+            "trajectories[10].observation",
+            "trajectories[11].observation"
+          ],
+          "downstreamImpact": "Observation lineage and duplicate-read accounting remain attributable."
+        },
+        {
+          "dimension": "FINAL_CLAIM",
+          "status": "NOT_SATISFIED",
+          "stage": "PRESENT_RESULTS",
+          "requirement": "A terminal presentation must agree with the independently checked, candidate-specific request and evidence records.",
+          "observations": [
+            "phase=PRESENT_RESULTS",
+            "loop=TERMINAL",
+            "presentedCandidates=1"
+          ],
+          "directCause": "Terminal presentation has conflicting or insufficient independent support.",
+          "rootCauseHypothesis": "Verifier, serialization, or upstream execution record requires review.",
+          "certainty": "CONFIRMED",
+          "evidenceRefs": [
+            "loop",
+            "finalSnapshot.domainState.presentedResults",
+            "finalSnapshot.domainState.availability",
+            "finalSnapshot.domainState.readEvidence"
+          ],
+          "downstreamImpact": "No qualified completion can be claimed."
+        },
+        {
+          "dimension": "COMPLETION_OUTCOME",
+          "status": "NOT_SATISFIED",
+          "stage": "TERMINATION",
+          "requirement": "A scoped no-result outcome, user-input pause, controlled cancellation, budget/deadline stop, and internal execution failure must remain distinguishable from one another and from independently verified presentation.",
+          "observations": [
+            "completion=PRESENTATION_RECORDED",
+            "phase=PRESENT_RESULTS",
+            "loop=TERMINAL",
+            "noVerifiedResult=missing",
+            "failureCode=missing"
+          ],
+          "directCause": "A presentation was recorded and is checked independently above.",
+          "rootCauseHypothesis": "Not applicable.",
+          "certainty": "CONFIRMED",
+          "evidenceRefs": [
+            "status",
+            "execution.failureCode",
+            "loop.status",
+            "finalSnapshot.domainState.phase",
+            "finalSnapshot.domainState.noVerifiedResult",
+            "finalSnapshot.domainState.failure"
+          ],
+          "downstreamImpact": "Presentation support remains independently auditable."
+        },
+        {
+          "dimension": "RESOURCES",
+          "status": "SATISFIED",
+          "stage": "RUN_ACCOUNTING",
+          "requirement": "Artifact must provide valid applicable resource values; an object alone does not prove complete accounting or budget compliance.",
+          "observations": [],
+          "directCause": "Required resource fields are present and within readable applicable limits.",
+          "rootCauseHypothesis": "Runner limit/accounting requires review.",
+          "certainty": "CONFIRMED",
+          "evidenceRefs": [
+            "resourceUsage",
+            "runCeilings",
+            "modelInvocations"
+          ],
+          "downstreamImpact": "Recorded budget use can be reviewed."
+        }
+      ],
+      "decisionsPath": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-11T08-22-34-575Z-97767eac-8aa0-463b-aec0-1a69c25cdc7a.decisions.jsonl",
+      "decisionCount": 47,
+      "decisionCountMatchesModelCalls": true,
+      "recording": {
+        "path": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1791706954502",
+        "screenshot": "LAYOUT_ONLY_CONTENT_MASKED",
+        "replay": {
+          "status": "NOT_REPLAYABLE",
+          "reason": "UNSAFE_DOCUMENT"
+        }
+      },
+      "resourceUsage": {
+        "discoveryCandidates": 10,
+        "candidatesChecked": 8,
+        "agentDecisions": 12,
+        "browserModelCalls": 26,
+        "modelCallsStarted": 47,
+        "browserRuntimeCalls": 196,
+        "browserOperationsByCandidate": {
+          "native-discovery:DIRECTORY": 28,
+          "tabelog:en/tokyo/A1301/A130101/13310761": 33,
+          "tabelog:en/tokyo/A1301/A130102/13043019": 29,
+          "tabelog:en/tokyo/A1301/A130103/13002564": 11,
+          "tabelog:en/tokyo/A1301/A130103/13002648": 24,
+          "tabelog:en/tokyo/A1301/A130102/13262740": 11,
+          "tabelog:en/tokyo/A1301/A130101/13002369": 26,
+          "tabelog:en/tokyo/A1301/A130101/13002704": 16,
+          "tabelog:en/tokyo/A1301/A130101/13186583": 12,
+          "tabelog:en/tokyo/A1301/A130101/13257245": 3,
+          "tabelog:en/tokyo/A1301/A130101/13227099": 3
+        },
+        "pageStillLoadingWithinBound": 26,
+        "postActionWaitTotalMs": 32614,
+        "browserModelActions": 19,
+        "googleRequests": {
+          "limit": 40,
+          "total": 1,
+          "namedPlaceResolution": 0,
+          "discovery": 0,
+          "placeDetails": 0,
+          "reverseAddressObservation": 1
+        },
+        "elapsedMs": 304229
+      }
+    },
+    {
+      "caseId": "p1f-kf-h005-20261022",
+      "attempt": 1,
+      "orchestration": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/part-a/p1f-kf-h005-20261022/attempt-1.finish.json",
+      "stop": {
+        "code": "SENSITIVE_PAGE_OBSERVED",
+        "url": "https://www.tablecheck.com/en/shops/the-peninsula-tokyo-the-lobby/reserve",
+        "at": "2026-10-11T08:29:34.276Z",
+        "traceSequence": 488
+      },
+      "resultPaths": [],
+      "witnessRaw": [],
+      "status": "INTERRUPTED_AT_RESERVE_ENTRY_URL",
+      "wallMs": 98706,
+      "models": 14,
+      "google": null,
+      "partial": {
+        "status": "INTERRUPTED_AT_RESERVE_ENTRY_URL",
+        "startedPath": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-11T08-28-04-269Z-73ee8f6e-55c6-4c1d-989e-300a40cacdd0.started.json",
+        "decisionsPath": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-11T08-28-04-269Z-73ee8f6e-55c6-4c1d-989e-300a40cacdd0.decisions.jsonl",
+        "modelCallsCaptured": 14,
+        "browserDecisionStarts": 9,
+        "browserDecisionRows": 9,
+        "noOutstandingBrowserModelDecisionObserved": true,
+        "googleRequests": "NOT_RETAINED_BECAUSE_RESULT_WAS_NOT_FINALIZED",
+        "wallMsIncludingPreflight": 98706,
+        "observedWaitMs": 30994,
+        "observedWaitShareOfWallPercent": 31.4,
+        "stop": {
+          "code": "SENSITIVE_PAGE_OBSERVED",
+          "url": "https://www.tablecheck.com/en/shops/the-peninsula-tokyo-the-lobby/reserve",
+          "at": "2026-10-11T08:29:34.276Z",
+          "traceSequence": 488
+        },
+        "stopInterpretation": "Conservative URL-level interpretation of this batch user stop on entering reservation pages; G1 public reserve entry is itself permitted by the frozen Guard. This is not evidence of booking submission, payment, personal information entry, or unexpected Guard admission.",
+        "recording": "NOT_FINALIZED; append-only sanitized trace retained",
+        "witnessRawDirectory": ".eval-artifacts/p1-f-20261011/part-a/p1f-kf-h005-20261022/witness-raw",
+        "rawCaptureWithinTenMinutes": true,
+        "retryClassification": "STOP; NOT_ENV_FAILURE; remaining three novel cases not started"
+      },
+      "evaluationPath": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-11T08-28-04-269Z-73ee8f6e-55c6-4c1d-989e-300a40cacdd0.started.evaluation.27-1791707463345.json",
+      "evaluation": {
+        "status": "STARTED",
+        "stage": null,
+        "taskProducedQualifiedResult": "UNKNOWN",
+        "systemBehavior": "NOT_EVALUATED",
+        "externalConditions": "NOT_EVALUATED",
+        "evidenceSufficiency": "NOT_EVALUATED",
+        "completion": "NOT_EVALUATED"
+      },
+      "evaluatorInputKind": "STARTED_ONLY_NOT_FORMAL_RESULT"
+    },
+    {
+      "caseId": "p1f-novel-kagurazaka-kaiseki-20261022",
+      "status": "NOT_RUN"
+    },
+    {
+      "caseId": "p1f-novel-nakameguro-yakiniku-20261023",
+      "status": "NOT_RUN"
+    },
+    {
+      "caseId": "p1f-novel-kichijoji-tempura-20261020",
+      "status": "NOT_RUN"
+    }
+  ],
+  "batchModelCalls": 105,
+  "batchGoogleRequests": 3,
+  "modelCallsCumulative": 521,
+  "wholeLiveCumulative": 22,
+  "environmentRetriesUsed": 0,
+  "googleTotalIsComplete": false,
+  "independentAttribution": "PENDING"
+}

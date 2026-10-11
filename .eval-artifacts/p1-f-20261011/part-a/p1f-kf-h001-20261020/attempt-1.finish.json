@@ -1,0 +1,90 @@
+{
+  "caseId": "p1f-kf-h001-20261020",
+  "attempt": 1,
+  "head": "73bfca588ad5007a4a9326c8c13a958718898f1c",
+  "worktree": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing",
+  "startedAt": "2026-10-11T08:14:06.537Z",
+  "endedAt": "2026-10-11T08:16:20.653Z",
+  "wallMs": 134116,
+  "exitCode": {
+    "code": 0,
+    "signal": null
+  },
+  "stop": null,
+  "results": [
+    "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-11T08-14-12-197Z-5bd68be2-d5fc-4a84-b460-e3fe2dcb40c2.result.json"
+  ],
+  "newFiles": [
+    "2026-10-11T08-14-12-197Z-5bd68be2-d5fc-4a84-b460-e3fe2dcb40c2.decisions.jsonl",
+    "2026-10-11T08-14-12-197Z-5bd68be2-d5fc-4a84-b460-e3fe2dcb40c2.result.evaluation.27-1791706580606.json",
+    "2026-10-11T08-14-12-197Z-5bd68be2-d5fc-4a84-b460-e3fe2dcb40c2.result.json",
+    "2026-10-11T08-14-12-197Z-5bd68be2-d5fc-4a84-b460-e3fe2dcb40c2.started.json"
+  ],
+  "deliveryCount": 0,
+  "resourceUsage": {
+    "discoveryCandidates": 4,
+    "candidatesChecked": 4,
+    "agentDecisions": 6,
+    "browserModelCalls": 10,
+    "modelCallsStarted": 19,
+    "browserRuntimeCalls": 104,
+    "browserOperationsByCandidate": {
+      "native-discovery:DIRECTORY": 50,
+      "tabelog:en/tokyo/A1303/A130301/13308491": 11,
+      "tabelog:en/tokyo/A1303/A130301/13275802": 13,
+      "tabelog:en/tokyo/A1303/A130301/13261619": 13,
+      "tabelog:en/tokyo/A1303/A130301/13225919": 17
+    },
+    "pageStillLoadingWithinBound": 15,
+    "postActionWaitTotalMs": 20818,
+    "browserModelActions": 9,
+    "googleRequests": {
+      "limit": 40,
+      "total": 1,
+      "namedPlaceResolution": 1,
+      "discovery": 0,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "elapsedMs": 128058
+  },
+  "witness": [
+    {
+      "rst_id": "13261619",
+      "method": "GET",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13261619&svd=20261020&svps=2&svt=1900",
+      "parameters": {
+        "rst_id": "13261619",
+        "svd": "20261020",
+        "svps": "2",
+        "svt": "1900"
+      },
+      "parameterBasis": "Approved witness request; start of stated window for h003",
+      "requestedAt": "2026-10-11T08:16:20.702Z",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8",
+      "bodyPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/part-a/p1f-kf-h001-20261020/witness-raw/attempt-1-13261619.body.txt",
+      "sha256": "0aade29efbe805dd741f78be1441a6c3bdff61443bf13ee70864b249ad301bfa",
+      "finishedAt": "2026-10-11T08:16:21.215Z"
+    },
+    {
+      "rst_id": "13275802",
+      "method": "GET",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13275802&svd=20261020&svps=2&svt=1900",
+      "parameters": {
+        "rst_id": "13275802",
+        "svd": "20261020",
+        "svps": "2",
+        "svt": "1900"
+      },
+      "parameterBasis": "Approved witness request; start of stated window for h003",
+      "requestedAt": "2026-10-11T08:16:21.216Z",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8",
+      "bodyPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/part-a/p1f-kf-h001-20261020/witness-raw/attempt-1-13275802.body.txt",
+      "sha256": "182a4d5b9f42187f86b07c5b28e15fcdd9af802b397aa1091997d77977ec99ea",
+      "finishedAt": "2026-10-11T08:16:21.577Z"
+    }
+  ],
+  "interpretation": "NONE; independent review pending"
+}

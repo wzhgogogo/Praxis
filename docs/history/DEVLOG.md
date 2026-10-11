@@ -3364,3 +3364,8 @@ Context@11与Prompt@25投影已接纳来源距离及圆心类型，展示带米�
 ## DEV-2026-10-11-P1F-A-loading
 
 原样提交独立复核文件 2f10a27；新增评测侧 parentless novel dataset 载入支持，仅 src/eval 改动。8 个批准变体解析及 semantic/content 一致，5 个父数据集哈希验证，3 个独立 NOVEL_LOCATION_DIAGNOSTIC cohort。
+
+
+## DEV-2026-10-11-P1F-A-signoff-stopped
+
+P1-F A 冻结 73bfca5 后启动 5 次，只完成 3 份正式结果；h003 被外层观察误停已审核 read POST，h005 在 G1 公共 reserve 入口按本轮保守 URL 停止边界中断，三个新地点未启动。模型累计521/1500，整单Live22/33；0环境重跑，不推送，等待独立复核。

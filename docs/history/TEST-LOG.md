@@ -4048,3 +4048,8 @@ Red: red-contract.log (three compile omissions), red-changing-results.log (stale
 ## TEST-2026-10-11-P1F-A-loading
 
 旧 Runner 判据 5 接纳、3 拒绝的有效 red.log 保留；共享载入函数反例及真实 8 变体解析均绿灯，0 模型/Google。四门禁全过才提交。产品代码、Prompt、Schema、配置及 ADR-0041 实验分支不动；raw input hashes 保存，Playbook 实读页头 1.3 与指令 1.4 差异如实记录。
+
+
+## TEST-2026-10-11-P1F-A-signoff-stopped
+
+冻结前eval载入8/8、四门禁绿、npm test846/846；本批3份正式result各经既有evaluator@27复评，decisions条数等于模型调用、browser观察/DOM序号链接均存在。2次中断仅STARTED-only评价NOT_EVALUATED，Google计数与完整recording缺失不补造；见证原始GET在10分钟内保存。记录h001额外见证GET和h003观察误停两项执行偏差，无产品修复。报告：.eval-artifacts/p1-f-20261011/part-a-report.md。
