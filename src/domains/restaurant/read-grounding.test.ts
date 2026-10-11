@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 
 import { fixtureCandidates, fixtureIntent } from "../../harness/restaurant-fixtures.js";
-import { groundGoogleDiscovery, groundTabelogAvailability } from "./read-grounding.js";
+import { groundGoogleDiscovery, groundTabelogAvailability, openingHoursForRequest } from "./read-grounding.js";
 
 const candidate = fixtureCandidates[0]!;
 const request = {
@@ -15,7 +15,7 @@ test("Google discovery accepts structurally valid restaurant places without clai
   const result = groundGoogleDiscovery({
     placeId: "google-1", displayName: "Example Omakase", formattedAddress: "Shibuya, Tokyo",
     location: { latitude: 35.66, longitude: 139.7 }, types: ["restaurant", "food"],
-  }, { requestFingerprint: "request", observedAt: now, areaQuery: "Shibuya" });
+  }, { timezone: fixtureIntent.timezone, requestFingerprint: "request", observedAt: now, areaQuery: "Shibuya" });
   assert.equal(result.accepted, true);
   if (!result.accepted) return;
   assert.equal(result.candidate.restaurant.id.startsWith("praxis:restaurant:"), true);
@@ -31,7 +31,7 @@ test("Google discovery grounds near Shibuya through an explicit address componen
       { longText: "Shibuya", types: ["sublocality_level_1", "sublocality", "political"] },
     ],
     types: ["restaurant", "food"],
-  }, { requestFingerprint: "request", observedAt: now, areaQuery: "near Shibuya" });
+  }, { timezone: fixtureIntent.timezone, requestFingerprint: "request", observedAt: now, areaQuery: "near Shibuya" });
   assert.equal(result.accepted, true);
   if (!result.accepted) return;
   assert.deepEqual(result.evidence.claims, {
@@ -53,7 +53,7 @@ test("Google discovery does not turn a formatted-address keyword into area evide
     placeId: "google-keyword", displayName: "Example Omakase", formattedAddress: "5 Shibuya Avenue, Tokyo, Japan",
     addressComponents: [{ longText: "Tokyo", types: ["administrative_area_level_1", "political"] }],
     types: ["restaurant", "food"],
-  }, { requestFingerprint: "request", observedAt: now, areaQuery: "near Shibuya" });
+  }, { timezone: fixtureIntent.timezone, requestFingerprint: "request", observedAt: now, areaQuery: "near Shibuya" });
   assert.equal(result.accepted, true);
   if (!result.accepted) return;
   assert.equal(result.evidence.claims.areaMatch, false);
@@ -64,7 +64,7 @@ test("an explicit evaluation location can establish NEAR_USER by bounded distanc
   const result = groundGoogleDiscovery({
     placeId: "nearby-cafe", displayName: "Nearby Cafe", formattedAddress: "Tokyo", location: { latitude: 35.6698, longitude: 139.7671 }, types: ["cafe"],
   }, {
-    requestFingerprint: "request", observedAt: "2026-09-10T00:00:00.000Z", areaQuery: "nearby",
+    timezone: fixtureIntent.timezone, requestFingerprint: "request", observedAt: "2026-09-10T00:00:00.000Z", areaQuery: "nearby",
     evaluationLocation: { latitude: 35.6697, longitude: 139.7670, radiusMeters: 3_000, label: "Higashi-Ginza public evaluation point" },
   });
   assert.equal(result.accepted, true);
@@ -78,7 +78,7 @@ test("a task-bound device coordinate is distinguished from an eval-only location
   const result = groundGoogleDiscovery({
     placeId: "device-nearby", displayName: "Device Nearby", formattedAddress: "Tokyo", location: { latitude: 35.6698, longitude: 139.7671 }, types: ["cafe"],
   }, {
-    requestFingerprint: "request", observedAt: now, areaQuery: "nearby",
+    timezone: fixtureIntent.timezone, requestFingerprint: "request", observedAt: now, areaQuery: "nearby",
     evaluationLocation: { latitude: 35.6697, longitude: 139.7670, radiusMeters: 3_000, label: "nearby", areaMatchBasis: "TASK_LOCATION_RADIUS" },
   });
   assert.equal(result.accepted, true);
@@ -86,7 +86,7 @@ test("a task-bound device coordinate is distinguished from an eval-only location
 });
 
 test("coordinate-backed nearby discovery fails closed for out-of-radius and coordinate-less candidates", () => {
-  const context = { requestFingerprint: "request", observedAt: now, areaQuery: "nearby", evaluationLocation: { latitude: 35.6697, longitude: 139.767, radiusMeters: 3_000, label: "evaluation" } };
+  const context = { timezone: fixtureIntent.timezone, requestFingerprint: "request", observedAt: now, areaQuery: "nearby", evaluationLocation: { latitude: 35.6697, longitude: 139.767, radiusMeters: 3_000, label: "evaluation" } };
   const outside = groundGoogleDiscovery({
     placeId: "outside", displayName: "Outside", formattedAddress: "Tokyo", location: { latitude: 35.9, longitude: 139.7 }, types: ["restaurant"],
   }, context);
@@ -103,7 +103,7 @@ test("Google cafe facts require a matching source opening-hours interval for a f
     location: { latitude: 35.6698, longitude: 139.7671 }, types: ["cafe", "food"],
     regularOpeningHours: ["Monday: 10:00 AM – 6:00 PM", "Tuesday: Closed"],
   }, {
-    requestFingerprint: "request", observedAt: now, areaQuery: "nearby", requiredTypeCriteria: ["cafe"],
+    timezone: fixtureIntent.timezone, requestFingerprint: "request", observedAt: now, areaQuery: "nearby", requiredTypeCriteria: ["cafe"],
     requestedDate: "2026-08-03", requestedTimeWindow: { earliest: "12:00", latest: "17:00" },
     evaluationLocation: { latitude: 35.6697, longitude: 139.7670, radiusMeters: 3_000, label: "Higashi-Ginza public evaluation point" },
   });
@@ -120,7 +120,7 @@ test("opening-hours grounding preserves minutes, rejects the closing boundary, a
     placeId: "hours", displayName: "Hours Cafe", formattedAddress: "Tokyo", types: ["cafe"],
     regularOpeningHours: ["Friday: 09:30 AM - 12:00 PM, 1:00 PM - 9:00 PM"],
   };
-  const input = (requestedTimeWindow: { earliest: string; latest: string }) => ({ requestFingerprint: "hours", observedAt: now, areaQuery: "Tokyo", requestedDate: "2026-08-07", requestedTimeWindow });
+  const input = (requestedTimeWindow: { earliest: string; latest: string }) => ({ timezone: fixtureIntent.timezone, requestFingerprint: "hours", observedAt: now, areaQuery: "Tokyo", requestedDate: "2026-08-07", requestedTimeWindow });
   const minutesPreserved = groundGoogleDiscovery(base, input({ earliest: "09:15", latest: "09:29" }));
   const closingBoundary = groundGoogleDiscovery(base, input({ earliest: "21:00", latest: "21:00" }));
   const splitGap = groundGoogleDiscovery(base, input({ earliest: "11:30", latest: "13:30" }));
@@ -137,7 +137,7 @@ test("Google primary-type facts report explicit exclusion conflicts but never in
   const accepted = groundGoogleDiscovery({
     placeId: "place-japanese", displayName: "Japanese Dining", formattedAddress: "Higashi-Ginza, Tokyo",
     addressComponents: [{ longText: "Higashi-Ginza", types: ["sublocality_level_1"] }], types: ["restaurant"], primaryType: "japanese_restaurant",
-  }, { requestFingerprint: "request", observedAt: now, areaQuery: "near Higashi-Ginza", negativeCriteria: ["hot pot restaurant", "Sichuan/Hunan cuisine"] });
+  }, { timezone: fixtureIntent.timezone, requestFingerprint: "request", observedAt: now, areaQuery: "near Higashi-Ginza", negativeCriteria: ["hot pot restaurant", "Sichuan/Hunan cuisine"] });
   assert.equal(accepted.accepted, true);
   if (!accepted.accepted) return;
   const facts = accepted.additionalEvidence.find((item) => item.kind === "RESTAURANT_FACT");
@@ -145,28 +145,28 @@ test("Google primary-type facts report explicit exclusion conflicts but never in
   const conflict = groundGoogleDiscovery({
     placeId: "place-sichuan", displayName: "Sichuan Dining", formattedAddress: "Higashi-Ginza, Tokyo",
     addressComponents: [{ longText: "Higashi-Ginza", types: ["sublocality_level_1"] }], types: ["restaurant"], primaryType: "sichuan_restaurant",
-  }, { requestFingerprint: "request", observedAt: now, areaQuery: "near Higashi-Ginza", negativeCriteria: ["Sichuan/Hunan cuisine"] });
+  }, { timezone: fixtureIntent.timezone, requestFingerprint: "request", observedAt: now, areaQuery: "near Higashi-Ginza", negativeCriteria: ["Sichuan/Hunan cuisine"] });
   assert.equal(conflict.accepted, true);
   if (!conflict.accepted) return;
   assert.deepEqual(conflict.additionalEvidence.find((item) => item.kind === "RESTAURANT_FACT")?.claims.violatedNegativeCriteria, ["Sichuan/Hunan cuisine"]);
   const unknown = groundGoogleDiscovery({
     placeId: "place-generic", displayName: "Restaurant", formattedAddress: "Higashi-Ginza, Tokyo",
     addressComponents: [{ longText: "Higashi-Ginza", types: ["sublocality_level_1"] }], types: ["restaurant"], primaryType: "restaurant",
-  }, { requestFingerprint: "request", observedAt: now, areaQuery: "near Higashi-Ginza", negativeCriteria: ["hot pot restaurant"] });
+  }, { timezone: fixtureIntent.timezone, requestFingerprint: "request", observedAt: now, areaQuery: "near Higashi-Ginza", negativeCriteria: ["hot pot restaurant"] });
   assert.equal(unknown.accepted, true);
   if (!unknown.accepted) return;
   assert.equal(unknown.additionalEvidence.find((item) => item.kind === "RESTAURANT_FACT")?.claims.verifiedNegativeCriteria, undefined);
   const broad = groundGoogleDiscovery({
     placeId: "place-chinese", displayName: "Chinese Dining", formattedAddress: "Higashi-Ginza, Tokyo",
     addressComponents: [{ longText: "Higashi-Ginza", types: ["sublocality_level_1"] }], types: ["restaurant"], primaryType: "chinese_restaurant",
-  }, { requestFingerprint: "request", observedAt: now, areaQuery: "near Higashi-Ginza", negativeCriteria: ["Sichuan/Hunan cuisine"] });
+  }, { timezone: fixtureIntent.timezone, requestFingerprint: "request", observedAt: now, areaQuery: "near Higashi-Ginza", negativeCriteria: ["Sichuan/Hunan cuisine"] });
   assert.equal(broad.accepted, true);
   if (broad.accepted) assert.equal(broad.additionalEvidence.find((item) => item.kind === "RESTAURANT_FACT")?.claims.verifiedNegativeCriteria, undefined);
   const nonPrimary = groundGoogleDiscovery({
     placeId: "place-hotpot", displayName: "Observed Restaurant", formattedAddress: "Higashi-Ginza, Tokyo",
     addressComponents: [{ longText: "Higashi-Ginza", types: ["sublocality_level_1"] }],
     types: ["restaurant", "hot_pot_restaurant"], primaryType: "japanese_restaurant",
-  }, { requestFingerprint: "request", observedAt: now, areaQuery: "near Higashi-Ginza", negativeCriteria: ["hot pot restaurant"] });
+  }, { timezone: fixtureIntent.timezone, requestFingerprint: "request", observedAt: now, areaQuery: "near Higashi-Ginza", negativeCriteria: ["hot pot restaurant"] });
   assert.equal(nonPrimary.accepted, true);
   if (nonPrimary.accepted) {
     const claims = nonPrimary.additionalEvidence.find((item) => item.kind === "RESTAURANT_FACT")?.claims;
@@ -177,7 +177,7 @@ test("Google primary-type facts report explicit exclusion conflicts but never in
     placeId: "place-hotpot-plural", displayName: "Observed Restaurant", formattedAddress: "Higashi-Ginza, Tokyo",
     addressComponents: [{ longText: "Higashi-Ginza", types: ["sublocality_level_1"] }],
     types: ["hot_pot_restaurant", "japanese_restaurant", "restaurant"], primaryType: "japanese_restaurant",
-  }, { requestFingerprint: "request", observedAt: now, areaQuery: "near Higashi-Ginza", negativeCriteria: ["hot-pot restaurants"] });
+  }, { timezone: fixtureIntent.timezone, requestFingerprint: "request", observedAt: now, areaQuery: "near Higashi-Ginza", negativeCriteria: ["hot-pot restaurants"] });
   assert.equal(liveWording.accepted, true);
   if (liveWording.accepted) assert.deepEqual(liveWording.additionalEvidence.find((item) => item.kind === "RESTAURANT_FACT")?.claims.violatedNegativeCriteria, ["hot-pot restaurants"]);
 });
@@ -284,4 +284,21 @@ test("an unknown slot does not discard independently matched identity and observ
   assert.ok(unknown.evidence.some(e => e.kind === "ENTITY_MATCH" && e.entityMatch?.confidence === "HIGH"), "Slot failure erased independently established identity");
   assert.ok(unknown.evidence.some(e => e.kind === "RESTAURANT_FACT" && Array.isArray(e.claims.verifiedHardCriteria) && e.claims.verifiedHardCriteria.includes("yakiniku")), "Slot failure erased an independently observed fact");
   assert.ok(!unknown.evidence.some(e => e.kind === "AVAILABILITY"), "Unknown slot cannot become positive availability evidence");
+});
+
+
+test("opening-hours weekdays use the supplied timezone for the current and previous day", (t) => {
+  const formatter = Intl.DateTimeFormat;
+  const timezones: Array<string | undefined> = [];
+  t.mock.method(Intl, "DateTimeFormat", function (locales?: Intl.LocalesArgument, options?: Intl.DateTimeFormatOptions) {
+    timezones.push(options?.timeZone);
+    return new formatter(locales, options);
+  });
+  // The public helper receives a timezone; this does not widen the product's intent contract.
+  const result = openingHoursForRequest(
+    ["Sunday: 10:00 PM - 2:00 AM", "Monday: Closed"], "2026-08-03",
+    { earliest: "01:00", latest: "01:30" }, "UTC",
+  );
+  assert.deepEqual(timezones, ["UTC", "UTC"]);
+  assert.deepEqual(result, { matches: false, noWindow: false });
 });

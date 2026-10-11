@@ -4038,3 +4038,8 @@ Red: red-contract.log (three compile omissions), red-changing-results.log (stale
 ## TEST-2026-10-11-P1FF-replay
 
 距离按 seeds.v6：0129/0130 两模式均不通过，0131/0132 均通过。检索词原动作与新动作逐条保留：4 REPORT_NO_RESULTS、11 CLICK、1 REFINE_RETRIEVAL 缺搜索词被解码拒绝；不做实施者评分。缺原 DOM，执行器接受性未验证。有效质量红灯保存；8 次本地传输 Schema 校验拒绝不是模型调用。两分支四门禁日志分别保留，提交前全部通过。
+
+
+## TEST-2026-10-11-P1FF-timezone
+
+有效 red.log 抓到两次 weekday 都忽略 UTC 输入；修复后 green-target.log 通过 Google/grounding/evaluator 既有正反例，合成 evaluator Fixture 补齐已有时区字段。四门禁全部通过才提交。模型累计 416/1500，本批 Google 1；P1-D 11/11 用完。旧 278 文件和复核原文 2 文件 SHA-256 一致；报告保留回放失败和原 DOM 缺口。

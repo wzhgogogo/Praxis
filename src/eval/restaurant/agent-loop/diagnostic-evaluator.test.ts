@@ -4,6 +4,8 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
 
+import { fixtureIntent } from "../../../harness/restaurant-fixtures.js";
+
 import { startDiagnosticRun } from "../../shared/diagnostic-run.js";
 import { compileRestaurantSemanticProposal } from "../../../domains/restaurant/semantic-compiler.js";
 import type { RestaurantIntentDraft } from "../../../domains/restaurant/contracts.js";
@@ -18,7 +20,7 @@ const finding = (result: ReturnType<typeof evaluateRestaurantHybridLiveArtifact>
 /** Synthetic availability contract, not current H001 Gold. Attempts use the actual runner shape. */
 function completeArtifact() {
   const candidateId = "candidate-a";
-  const intentDraft = { target: { goal: "AVAILABILITY", query: "find a table" }, date: "2026-09-08", partySize: 2, timeWindow: { earliest: "19:00", latest: "19:00" }, area: { query: "near Shibuya" }, criteria: [{ text: "omakase", polarity: "POSITIVE", strength: "HARD" }] };
+  const intentDraft = { timezone: fixtureIntent.timezone, target: { goal: "AVAILABILITY", query: "find a table" }, date: "2026-09-08", partySize: 2, timeWindow: { earliest: "19:00", latest: "19:00" }, area: { query: "near Shibuya" }, criteria: [{ text: "omakase", polarity: "POSITIVE", strength: "HARD" }] };
   return {
     status: "SUCCEEDED", stage: "AGENT_LOOP", caseId: "availability-fixture", runId: "run:availability-fixture", finishedAt: "2026-09-08T07:45:37.000Z",
     limits: { maxSteps: 30, maxBrowserModelCallsTotal: 120 },
@@ -744,7 +746,7 @@ test("H004 fact-only presentation requires applicable opening hours, not an avai
     criteria: [{ value: "cafe", polarity: "POSITIVE", strength: "HARD" }, { value: "good for meeting a friend", polarity: "POSITIVE", strength: "SOFT" }],
   };
   const domain = artifact.finalSnapshot.domainState;
-  domain.intentDraft = { target: { goal: "RECOMMENDATION", query: "recommend a cafe" }, date: "2026-09-08", timeWindow: { earliest: "12:00", latest: "17:00" }, area: { query: "near Higashi-Ginza" }, criteria: [{ text: "cafe", polarity: "POSITIVE", strength: "HARD" }, { text: "good for meeting a friend", polarity: "POSITIVE", strength: "SOFT" }] };
+  domain.intentDraft = { timezone: fixtureIntent.timezone, target: { goal: "RECOMMENDATION", query: "recommend a cafe" }, date: "2026-09-08", timeWindow: { earliest: "12:00", latest: "17:00" }, area: { query: "near Higashi-Ginza" }, criteria: [{ text: "cafe", polarity: "POSITIVE", strength: "HARD" }, { text: "good for meeting a friend", polarity: "POSITIVE", strength: "SOFT" }] };
   domain.availabilityChecks = {};
   domain.availability = {};
   domain.presentedResults = { candidateIds: ["candidate-a"], evidenceIds: ["discovery-a", "identity-a", "hard-a"], presentedAt: "2026-09-08T07:45:37.000Z" };

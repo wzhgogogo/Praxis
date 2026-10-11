@@ -1,0 +1,35 @@
+✖ opening-hours weekdays use the supplied timezone for the current and previous day (28.119666ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 358.017916
+
+✖ failing tests:
+
+test at src/domains/restaurant/read-grounding.test.ts:1:17405
+✖ opening-hours weekdays use the supplied timezone for the current and previous day (28.119666ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+  +   'Asia/Tokyo',
+  +   'Asia/Tokyo'
+  -   'UTC',
+  -   'UTC'
+    ]
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/domains/restaurant/read-grounding.test.ts:302:10)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'Asia/Tokyo', 'Asia/Tokyo' ],
+    expected: [ 'UTC', 'UTC' ],
+    operator: 'deepStrictEqual'
+  }

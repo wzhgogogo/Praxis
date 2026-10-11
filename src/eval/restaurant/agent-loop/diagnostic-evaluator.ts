@@ -756,7 +756,9 @@ function assessPresentedCandidate(candidateId: string, root: JsonRecord, domain:
       if (claims.openingHoursMatch !== true) return false;
       const sourceHours = strings(claims.regularOpeningHours);
       if (!sourceHours.length) { missing.push("raw opening-hours source fact"); return false; }
-      const independentlyApplicable = openingHoursForRequest(sourceHours, request.date, request.timeWindow);
+      const timezone = asString(asRecord(domain.intentDraft)?.timezone);
+      if (!timezone) { missing.push("request timezone"); return false; }
+      const independentlyApplicable = openingHoursForRequest(sourceHours, request.date, request.timeWindow, timezone);
       if (independentlyApplicable?.matches !== true) { conflicts.push("opening-hours conclusion conflicts with cited source hours"); return false; }
       return true;
     }) : [];

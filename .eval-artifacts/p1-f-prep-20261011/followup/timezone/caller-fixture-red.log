@@ -1,0 +1,202 @@
+✔ Google discovery accepts structurally valid restaurant places without claiming retrieval criteria as facts (2.413542ms)
+✔ Google discovery grounds near Shibuya through an explicit address component, not text query relevance (0.754ms)
+✔ Google discovery does not turn a formatted-address keyword into area evidence when the component is absent (0.186458ms)
+✔ an explicit evaluation location can establish NEAR_USER by bounded distance without changing text-area rules (0.1855ms)
+✔ a task-bound device coordinate is distinguished from an eval-only location radius (0.146625ms)
+✔ coordinate-backed nearby discovery fails closed for out-of-radius and coordinate-less candidates (0.114458ms)
+✔ Google cafe facts require a matching source opening-hours interval for a fact-only afternoon recommendation (20.505458ms)
+✔ opening-hours grounding preserves minutes, rejects the closing boundary, and does not fuse split hours (1.09725ms)
+✔ Google primary-type facts report explicit exclusion conflicts but never infer a negative-condition pass (1.438833ms)
+✔ availability grounding accepts only high-confidence matching outlet, schedule and visible slot (1.197167ms)
+✔ ambiguous, stale, wrong request, browser failure and unsupported observations never become unavailable (0.282084ms)
+✔ browser startup failures are preserved rather than misclassified as uncertain entity matches (0.079292ms)
+✔ a completed slot extraction with no qualifying slot becomes UNAVAILABLE (0.153875ms)
+✔ a no-slot result scoped to one observed service category remains UNKNOWN for the outlet (0.140167ms)
+✔ walk-in reception is admitted only from explicit page evidence and never turns a no-slot result into availability (0.14675ms)
+✔ an unknown slot does not discard independently matched identity and observed restaurant facts (0.315417ms)
+✔ opening-hours weekdays use the supplied timezone for the current and previous day (0.700084ms)
+✔ diagnostic evaluator independently accepts current-runner-shaped grounded evidence (6.910417ms)
+▶ E1 binds a slot to its availability snapshot before evidence, excluding later facts
+  ✔ later-facts (0.858583ms)
+  ✔ slot-only-in-facts (0.507834ms)
+  ✔ future-availability (1.139958ms)
+✔ E1 binds a slot to its availability snapshot before evidence, excluding later facts (2.85525ms)
+▶ raw TableCheck trace requires a current request-bound settled result
+  ✔ enabled public reservation link supports the presented result (0.430875ms)
+  ✔ a synthetic scoped offer requires matching source scope, checked raw radio, scope-bound slot, and HARD support (2.994ms)
+  ✔ disabled child vetoes a same-time enabled-looking result (0.2065ms)
+  ✔ a selected different party is a request conflict (0.182917ms)
+  ✔ a later matching snapshot invalidates an earlier available slot (0.290041ms)
+  ✔ stale control snapshot remains not evaluated (0.244833ms)
+  ✔ loading region remains not evaluated (0.187875ms)
+  ✔ missing trace remains not evaluated (0.133416ms)
+  ✔ neighbor outlet link cannot support availability (0.149208ms)
+  ✔ hidden descendant link cannot support availability (0.221291ms)
+  ✔ hidden availability region cannot support availability (0.123541ms)
+  ✔ a hidden sibling does not erase a visible same-source slot (0.147041ms)
+  ✔ snapshotRecord hides a nested same-tag subtree but retains a visible sibling (4.740666ms)
+  ✔ snapshotRecord preserves a false data-disabled flag but rejects an actual disabled slot (0.685334ms)
+  ✔ a mutation after the last source snapshot leaves the current result unknown (0.18725ms)
+  ✔ each presented offer time needs its own raw enabled slot (0.170041ms)
+  ✔ one raw slot cannot support only part of a multi-offer presentation (0.175042ms)
+  ✔ every presented offer passes when every raw slot is enabled (0.175083ms)
+  ✔ a disabled different time does not erase the enabled presented offer (0.269875ms)
+✔ raw TableCheck trace requires a current request-bound settled result (12.976042ms)
+✔ a raw matching settled TableCheck empty result is distinct from an unsupported negative (1.033083ms)
+✔ diagnostic evaluator retires an availability-read source fact only when the later same-source read replaces it (0.784292ms)
+✔ diagnostic evaluator independently verifies cited category UNKNOWN eligibility without treating it as verified-negative (2.119458ms)
+▶ diagnostic evaluator distinguishes paired artifact controls from bounded contract mutations
+  ✔ control: qualified presentation (0.276917ms)
+  ✔ control: bounded empty discovery (0.307ms)
+  ✔ M01 explicit party-size field is dropped (0.223917ms)
+  ✔ M03 a second presented candidate borrows A's evidence references (0.229375ms)
+  ✔ M04 candidate-scoped availability evidence loses its candidate ID (0.134375ms)
+  ✔ M05 an UNKNOWN availability result is relabelled UNAVAILABLE without negative evidence (0.140833ms)
+  ✔ M05b a no-slot record for a different party cannot support this request (0.221ms)
+  ✔ M06 expired availability evidence is retained for presentation (0.165875ms)
+  ✔ M07 completion tag remains after actual execution records are deleted (0.144584ms)
+  ✔ M08 normal end is recorded despite a still-present qualified result (0.1765ms)
+✔ diagnostic evaluator distinguishes paired artifact controls from bounded contract mutations (2.659958ms)
+▶ executed observation lineage rejects a different candidate or request date
+  ✔ candidate changed (0.188875ms)
+  ✔ request date changed (0.145542ms)
+✔ executed observation lineage rejects a different candidate or request date (0.48525ms)
+✖ search-only source evidence can support a fact recommendation (3.874208ms)
+✔ a no-result label cannot conceal an independently supported candidate (0.377ms)
+▶ empty or incomplete investigation records cannot certify no-result completion
+  ✔ empty (0.203833ms)
+  ✔ missing-scope (0.15175ms)
+  ✔ proposal-only (0.137125ms)
+  ✔ old-request (0.146ms)
+✔ empty or incomplete investigation records cannot certify no-result completion (1.002541ms)
+✔ a recorded current empty search supports only its bounded empty-result scope (0.871708ms)
+✔ UNKNOWN without independently checkable remaining gaps is not a certified no-result (0.325625ms)
+✔ diagnostic evaluator rejects wrong request values, LOW identity, and evidence expired at presentation (0.257292ms)
+✔ candidate evidence cannot be borrowed from another presented candidate (0.774ms)
+✔ missing trajectory and empty resource object remain not evaluated (0.232708ms)
+✔ current runner resource ceilings are required and reject over-budget work (0.850084ms)
+✔ current Runner model-call ceiling counts started attempts and known overages outrank missing limits (0.686708ms)
+✔ a changed request version can legitimately recheck a candidate (0.191541ms)
+✔ the same authoritative request with two executed reads is a duplicate (0.1865ms)
+✔ a recorded user refresh is a legal recheck of the same authoritative request (0.151875ms)
+✔ an arbitrary recheck label does not exempt a duplicate availability read (0.128583ms)
+✔ fact investigation is subject to the same duplicate check as availability (0.206083ms)
+✔ a derived restaurant fact needs its cited candidate-bound source evidence (0.253125ms)
+✔ complete availability time windows are evaluated without H001 exact-time assumptions (0.151ms)
+✖ H004 fact-only presentation requires applicable opening hours, not an availability offer (0.604792ms)
+✔ UNSPECIFIED is nonblocking while a HARD strength mismatch remains material (0.364042ms)
+✔ criterion comparison preserves text-plus-polarity identities as a multiset (0.335167ms)
+✔ grounding follows the actual authoritative criterion while textual Gold differences remain independently unresolved (0.262167ms)
+✔ a later HARD criterion cannot reuse an old UNSPECIFIED observation (1.452334ms)
+✔ generic negative HARD criteria require a cited source judgment and preserve a conflict (0.353ms)
+✖ fact-only evaluation rejects a derived opening claim contradicted by raw hours (0.276542ms)
+✔ an offer inside a time window must be one of the cited availability slots (0.180958ms)
+✔ evidence observed after presentation is a conflict while a missing observation is not evaluated (0.220416ms)
+✔ a missing final authoritative intentDraft is not evidence of a condition conflict (0.133375ms)
+✔ evaluation failure creates a separate immutable failure sidecar (15.453792ms)
+✔ a saved exception artifact remains intact when post-finish evaluation fails (2.399333ms)
+✔ explicit alternative permission and equivalent area labels are independently checked (1.4235ms)
+✔ E2 checks actual reads separately from discovered unresolved and unread scope (1.12125ms)
+✔ Google query is discovery-owned and does not serialize criteria into retrieval text (0.883792ms)
+✔ a positive-HARD pack query keeps only its keyword and resolved location in Text Search (0.123083ms)
+✔ a source-plan location prevents a second named-place lookup before Google discovery (4.615791ms)
+✔ a pack query without a positive HARD keyword uses Nearby Search's exact circle instead of location-only text (1.783542ms)
+✔ initial discovery reads at most two 20-result pages, dedupes stable outlets, and retains the next cursor (2.537042ms)
+✔ a second-page provider failure preserves accepted first-page candidates and records a bounded retry cursor (0.737042ms)
+✔ named-location resolution returns a bounded typed public observation with its coordinate (1.734166ms)
+✔ a named nearby place is resolved to observed coordinates and grounds candidate distance (1.305958ms)
+✔ named-place resolution rejects an unmatched suffix instead of treating address text or rank as landmark identity (1.275042ms)
+✔ named-place resolution accepts a provider-typed station suffix but rejects an administrative-area-to-station substitution (1.282375ms)
+✔ named-place resolution accepts a source-typed civic locality representation without treating stations as aliases (1.108458ms)
+✔ named-place suffix matching fails closed without a corresponding provider type and independent geographic context (0.322959ms)
+✔ only source-level duplicate exact named locations ask for disambiguation (0.25625ms)
+✔ an unrelated first search result never becomes a named nearby landmark (0.245792ms)
+✔ unresolved named-place diagnostics retain only bounded public identity observations (0.337125ms)
+✔ Google Places text search uses the explicit small field mask and stable candidate IDs (0.5305ms)
+✔ Google Places reports eval-radius decisions separately from its accepted discovery pool (0.468875ms)
+✔ Google Places request budget is mechanical and isolated by persistent read run (0.295042ms)
+✔ candidate fact investigation re-reads only the known Google place and shares discovery budget (19.021917ms)
+✔ candidate fact investigation uses Place Details by stable ID, never another text search (0.476708ms)
+✔ a fact read records exhausted shared discovery capacity without a second provider call (0.252542ms)
+✔ Google Places classifies provider failure without exposing a response body (0.18175ms)
+✔ failed sent Google requests consume the same per-run local budget and remain separately accounted (0.213709ms)
+✔ the explicit one-hundred-request debug ceiling permits work beyond the retired cap and stops only at its own run boundary (7.169709ms)
+✔ nearby defaults to 1000 meters, preserves explicit radius and admits only the exact circle (0.784625ms)
+✔ named area resolution binds bias, prefers geography and refuses distant or merchant authority (1.010083ms)
+ℹ tests 120
+ℹ suites 0
+ℹ pass 117
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 582.897083
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts:1:36752
+✖ search-only source evidence can support a fact recommendation (3.874208ms)
+  AssertionError [ERR_ASSERTION]: {"schemaVersion":"1","evaluatorVersion":"restaurant-hybrid-read-diagnostic-evaluator@27","rubricVersion":"restaurant-hybrid-read-diagnostic-rubric@21","rubricStatus":"DRAFT_DIAGNOSTIC_ONLY","sourceArtifact":{"path":"/tmp/availability-fixture.result.json","sha256":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","runId":"run:availability-fixture","caseId":"availability-fixture"},"execution":{"status":"SUCCEEDED","stage":"AGENT_LOOP","taskProducedQualifiedResult":"UNKNOWN","systemBehavior":"NOT_EVALUATED","externalConditions":"OBSERVED","evidenceSufficiency":"NOT_EVALUATED","completion":"PRESENTATION_RECORDED"},"candidateSummaries":[{"candidateId":"candidate-a","outletName":"A","providers":["TABLECHECK"],"providerAttempts":[{"provider":"TABLECHECK","outcome":"AVAILABLE","evidenceRef":"trajectories[0].executionMetadata.providerAttempts[0]"}],"result":"OFFER_GROUNDED","evidenceRefs":["finalSnapshot.domainState.readEvidence[evidenceId=discovery-a]","finalSnapshot.domainState.readEvidence[evidenceId=identity-a]","finalSnapshot.domainState.readEvidence[evidenceId=hard-a]","finalSnapshot.domainState.readEvidence[evidenceId=availability-a]"]}],"findings":[{"dimension":"AUTHORITATIVE_CONDITIONS","status":"SATISFIED","stage":"SEMANTIC_TO_FINAL_STATE","requirement":"The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.","observations":["All independently readable applicable request fields match."],"directCause":"No conflict observed.","rootCauseHypothesis":"Not applicable.","certainty":"CONFIRMED","evidenceRefs":["materializedCase.semantic","finalSnapshot.domainState.intentDraft"],"downstreamImpact":"Grounding can be evaluated against one request."},{"dimension":"REQUIRED_EVIDENCE","status":"NOT_EVALUATED","stage":"GROUNDING","requirement":"Each presented candidate must independently cite same-candidate HIGH identity, area, applicable HARD facts, and only when the user requested availability, fresh request-bound slot evidence.","observations":["candidate=candidate-a","citedEvidence=3","offers=1","missing=request timezone","missing=applicable opening-hours fact"],"directCause":"Artifact records or accepted evidence contract are insufficient for an independent conclusion.","rootCauseHypothesis":"Execution artifact or accepted evidence contract lacks required detail.","certainty":"UNKNOWN","evidenceRefs":["finalSnapshot.domainState.readEvidence[evidenceId=discovery-a]","finalSnapshot.domainState.readEvidence[evidenceId=identity-a]","finalSnapshot.domainState.readEvidence[evidenceId=hard-a]","finalSnapshot.domainState.availability[candidate-a][id=offer-a]"],"downstreamImpact":"Do not claim an evidence-grounded result from this artifact."},{"dimension":"INVESTIGATION_BEHAVIOR","status":"SATISFIED","stage":"AGENT_LOOP","requirement":"Cited presentation evidence must originate in actually executed same-candidate observations for the applicable request; duplicate fact/availability reads remain checked without requiring either action type.","observations":["executedObservations=1","applicableObservations=1","executedInvestigationVisits=1","authorizedRechecks=none","duplicates=none"],"directCause":"Executed observations are attributable without a duplicate fact/availability read.","rootCauseHypothesis":"Not applicable.","certainty":"CONFIRMED","evidenceRefs":["trajectories[0].observation"],"downstreamImpact":"Observation lineage and duplicate-read accounting remain attributable."},{"dimension":"FINAL_CLAIM","status":"NOT_EVALUATED","stage":"PRESENT_RESULTS","requirement":"A terminal presentation must agree with the independently checked, candidate-specific request and evidence records.","observations":["phase=PRESENT_RESULTS","loop=TERMINAL","presentedCandidates=1"],"directCause":"Terminal presentation has conflicting or insufficient independent support.","rootCauseHypothesis":"Verifier, serialization, or upstream execution record requires review.","certainty":"UNKNOWN","evidenceRefs":["loop","finalSnapshot.domainState.presentedResults","finalSnapshot.domainState.availability","finalSnapshot.domainState.readEvidence"],"downstreamImpact":"No qualified completion can be claimed."},{"dimension":"COMPLETION_OUTCOME","status":"NOT_EVALUATED","stage":"TERMINATION","requirement":"A scoped no-result outcome, user-input pause, controlled cancellation, budget/deadline stop, and internal execution failure must remain distinguishable from one another and from independently verified presentation.","observations":["completion=PRESENTATION_RECORDED","phase=PRESENT_RESULTS","loop=TERMINAL","noVerifiedResult=missing","failureCode=missing"],"directCause":"A presentation was recorded and is checked independently above.","rootCauseHypothesis":"Not applicable.","certainty":"UNKNOWN","evidenceRefs":["status","execution.failureCode","loop.status","finalSnapshot.domainState.phase","finalSnapshot.domainState.noVerifiedResult","finalSnapshot.domainState.failure"],"downstreamImpact":"Presentation support remains independently auditable."},{"dimension":"RESOURCES","status":"SATISFIED","stage":"RUN_ACCOUNTING","requirement":"Artifact must provide valid applicable resource values; an object alone does not prove complete accounting or budget compliance.","observations":[],"directCause":"Required resource fields are present and within readable applicable limits.","rootCauseHypothesis":"Runner limit/accounting requires review.","certainty":"CONFIRMED","evidenceRefs":["resourceUsage","limits","modelInvocations"],"downstreamImpact":"Recorded budget use can be reviewed."}],"unassessedDimensions":["No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.","Cost is not inferred without explicit configured price inputs.","Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."]}
+  + actual - expected
+  
+  + 'NOT_EVALUATED'
+  - 'SATISFIED'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts:501:10)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'NOT_EVALUATED',
+    expected: 'SATISFIED',
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts:1:53477
+✖ H004 fact-only presentation requires applicable opening hours, not an availability offer (0.604792ms)
+  AssertionError [ERR_ASSERTION]: ["candidate=candidate-a","citedEvidence=3","offers=0","missing=request timezone","missing=applicable opening-hours fact"]
+  + actual - expected
+  
+  + 'NOT_EVALUATED'
+  - 'SATISFIED'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts:762:10)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'NOT_EVALUATED',
+    expected: 'SATISFIED',
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts:1:64540
+✖ fact-only evaluation rejects a derived opening claim contradicted by raw hours (0.276542ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'NOT_EVALUATED'
+  - 'NOT_SATISFIED'
+         ^
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts:936:10)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'NOT_EVALUATED',
+    expected: 'NOT_SATISFIED',
+    operator: 'strictEqual'
+  }

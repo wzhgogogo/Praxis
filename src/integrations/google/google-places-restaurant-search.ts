@@ -473,6 +473,7 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
     const observedAt = this.now();
     const requestFingerprint = createHash("sha256").update(JSON.stringify({ textQuery, nearbyCategory, area: request.intent.area })).digest("hex");
     const groundingInput: GoogleDiscoveryGroundingInput = {
+      timezone: request.intent.timezone,
       requestFingerprint,
       observedAt,
       areaQuery: request.intent.area.query,
@@ -567,6 +568,7 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
       }
       const requestFingerprint = createHash("sha256").update(JSON.stringify({ factRead: placeId, intent: request.intent })).digest("hex");
       const grounded = groundGoogleDiscovery(rawObservation(matching), {
+        timezone: request.intent.timezone,
         requestFingerprint,
         observedAt: checkedAt,
         areaQuery: request.intent.area.query,

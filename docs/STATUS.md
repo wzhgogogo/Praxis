@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.180
+- Document revision: 4.181
 - Last updated: 2026-10-11
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-11 P1FF-timezone：** 营业时间 grounding 的当日及前日 weekday 读取请求时区；Google 发现/详情、官网事实和 diagnostic evaluator 传递已有 intent 时区，不新增字面量、不改变产品时区合同或资格。完成本批报告后停止待独立复核。 本批按已批准切片推进，结果待独立复核；不推送。证据目录 `.eval-artifacts/p1-f-prep-20261011/followup/timezone/`。
 
 - **2026-10-11 P1FF-replay：** 完成授权固定回放：距离原样与注入各 4 条，共 8 模型；检索词在实验分支 a51a59c 各请求一次，共 16 模型。没有生成额外消息或网站访问，Google 0；实验代码不合入主分支。 本批按已批准切片推进，结果待独立复核；不推送。证据目录 `.eval-artifacts/p1-f-prep-20261011/followup/replay/`。
 
