@@ -2,7 +2,7 @@
 
 - Status: Accepted
 - Document revision: 4.160
-- Last updated: 2026-10-10
+- Last updated: 2026-10-11
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
@@ -3988,3 +3988,8 @@ Red: red-contract.log (three compile omissions), red-changing-results.log (stale
 ## TEST-2026-10-10-P1D-final-report
 
 本批模型增量57，累计389/1500，其中P1-D发现10次单列。主分支四门禁837、实验844均通过；11原观察Fixture、8针对性测试（含Guard/Chromium两子例）使用0真实调用。复核者原件与278项受保护文件SHA256均未变，三份演示文稿未动；无推送、外写或新增完整Live。各项目红绿日志、探测、复测、评分事实在报告逐项链接。
+
+
+## TEST-2026-10-11-P1F-review-artifacts
+
+原件 SHA256 存档，四门禁日志见本项 gates.json；无真实访问。

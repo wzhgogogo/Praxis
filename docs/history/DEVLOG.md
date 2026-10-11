@@ -2,7 +2,7 @@
 
 - Status: Accepted
 - Document revision: 4.154
-- Last updated: 2026-10-10
+- Last updated: 2026-10-11
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
@@ -3304,3 +3304,8 @@ Replay Runner 支持 seeds.v6 的排除集合和精确候选集合匹配；未�
 ## DEV-2026-10-10-P1D-final-report
 
 P1-D 批次0–4本地提交完成；kf-h005冻结920bad9复测SUCCEEDED/evaluator@27六项SATISFIED，305451ms/47模型/0Google；P1-D八次发现探测10模型、新地点4/5，Ebisu失败保留。检索词实验76213a4只在隔离分支，ADR-0041 Proposed，不合入。完整事实与原始路径见 p1-d-batch-20261010/report.md，停止等待独立复核。
+
+
+## DEV-2026-10-11-P1F-review-artifacts
+
+原样保存独立复核与 Playbook@1.1；本轮六项按批准范围实施，保留上轮报告提交及未跟踪演示稿。
