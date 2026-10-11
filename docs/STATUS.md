@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.177
+- Document revision: 4.178
 - Last updated: 2026-10-11
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-11 P1FF-navigation：** 整页 OPEN_LINK 与 NAVIGATE 共用剩余预算约束的默认20秒 navigationOptions；Guard公开GET表单提交同样用导航时限，普通控件保留5秒。Playwright导航TimeoutError归为BROWSER_TIMEOUT，模型导航失败不再被NO_SAFE_ACTION吞掉；地区已有观察但结果不完整为EXTRACTION_FAILED。无站点分支，关闭边界保持。 本批按已批准切片推进，结果待独立复核；不推送。证据目录 `.eval-artifacts/p1-f-prep-20261011/followup/navigation/`。
 
 - **2026-10-11 P1FF-review-artifacts：** 原样保存复核者 Playbook 1.2（含 §2 第17条）及 P1-F准备批独立复核，范围冻结按用户 followup 第0–4项；DeepSeek 原已准备载荷明确授权，P1-D仅补第11次发现。 本批按已批准切片推进，结果待独立复核；不推送。证据目录 `.eval-artifacts/p1-f-prep-20261011/followup/review-artifacts/`。
 

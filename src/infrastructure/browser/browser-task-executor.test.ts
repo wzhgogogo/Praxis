@@ -10,6 +10,7 @@ class FixtureSession implements BrowserSession {
   readonly metadata: BrowserSession["metadata"];
   closed = 0;
   clicks = 0;
+  clickTimeouts: number[] = [];
   waits = 0;
   selected: string[] = [];
   dismisses = 0;
@@ -42,7 +43,7 @@ class FixtureSession implements BrowserSession {
     }
     return controls;
   }
-  async click(): Promise<void> { this.clicks += 1; this.index = Math.min(this.index + 1, this.pages.length - 1); }
+  async click(_target?: string, options: import("./browser-runtime.js").BrowserActionOptions = {}): Promise<void> { this.clickTimeouts.push(options.timeoutMs ?? 0); this.clicks += 1; this.index = Math.min(this.index + 1, this.pages.length - 1); }
   async fill(): Promise<void> {}
   async select(_target: string, value: string): Promise<string[]> { this.selected.push(value); return [value]; }
   async waitFor(): Promise<void> {}
@@ -221,6 +222,7 @@ test("BrowserTaskExecutor exposes an ordinary observed query submit only in an i
     const result = await executor.runSkill({ ...input(acquired, signal) });
     assert.equal(result.status, "COMPLETED");
     assert.equal(guarded.clicks, 1);
+    assert.ok(guarded.clickTimeouts[0]! <= 5000, "a non-navigation control keeps the action deadline");
   } finally { await executor.close(); }
 
   const unguarded = new FixtureSession(pages);
@@ -260,6 +262,7 @@ test("BrowserTaskExecutor waits once for a guarded GET submit when cosmetic form
     const result = await executor.runSkill({ ...input(acquired, signal) });
     assert.equal(result.status, "COMPLETED");
     assert.equal(session.clicks, 1, "a cosmetic post-submit change must not cause a second Search click");
+    assert.ok(session.clickTimeouts[0]! > 5000 && session.clickTimeouts[0]! <= 20000, "a guarded GET submit can navigate and uses the bounded navigation deadline");
     assert.equal(session.waits, 1, "the single public submit gets one bounded result wait");
   } finally { await executor.close(); }
 });

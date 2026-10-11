@@ -3339,3 +3339,8 @@ Context@11与Prompt@25投影已接纳来源距离及圆心类型，展示带米�
 ## DEV-2026-10-11-P1FF-review-artifacts
 
 原样保存复核者 Playbook 1.2（含 §2 第17条）及 P1-F准备批独立复核，范围冻结按用户 followup 第0–4项；DeepSeek 原已准备载荷明确授权，P1-D仅补第11次发现。
+
+
+## DEV-2026-10-11-P1FF-navigation
+
+整页 OPEN_LINK 与 NAVIGATE 共用剩余预算约束的默认20秒 navigationOptions；Guard公开GET表单提交同样用导航时限，普通控件保留5秒。Playwright导航TimeoutError归为BROWSER_TIMEOUT，模型导航失败不再被NO_SAFE_ACTION吞掉；地区已有观察但结果不完整为EXTRACTION_FAILED。无站点分支，关闭边界保持。

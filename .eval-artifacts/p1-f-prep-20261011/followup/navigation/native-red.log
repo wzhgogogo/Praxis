@@ -1,0 +1,29 @@
+✖ directory navigation timeout retains its runtime code rather than claiming no observed region (13.191167ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 405.45975
+
+✖ failing tests:
+
+test at src/integrations/restaurant-search/directory-region-selection.test.ts:1:7465
+✖ directory navigation timeout retains its runtime code rather than claiming no observed region (13.191167ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'DISCOVERY_SOURCE_LOCATION_UNGROUNDED'
+  - 'BROWSER_TIMEOUT'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/integrations/restaurant-search/directory-region-selection.test.ts:63:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'DISCOVERY_SOURCE_LOCATION_UNGROUNDED',
+    expected: 'BROWSER_TIMEOUT',
+    operator: 'strictEqual'
+  }

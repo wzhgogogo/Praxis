@@ -1,0 +1,41 @@
+✖ model full-page OPEN_LINK allows slow DOMContentLoaded and times out only within the remaining navigation budget (714.142959ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1498.963083
+
+✖ failing tests:
+
+test at src/harness/browser/browser-read-fixture.test.ts:167:13337
+✖ model full-page OPEN_LINK allows slow DOMContentLoaded and times out only within the remaining navigation budget (714.142959ms)
+  Error [BrowserRuntimeError]: Local Playwright Chromium operation failed
+      at LocalPlaywrightChromiumSession.run (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/infrastructure/browser/local-playwright-chromium.ts:195:13)
+      at async LocalPlaywrightChromiumSession.navigate (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/infrastructure/browser/local-playwright-chromium.ts:65:5)
+      at async <anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:383:7)
+      at async BrowserTaskExecutor.bounded (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1222:14)
+      ... 2 lines matching cause stack trace ...
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/browser-read-fixture.test.ts:2319:4)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    code: 'BROWSER_RUNTIME_FAILED',
+    cause: page.goto: net::ERR_FAILED at https://directory.example/start
+    Call log:
+    [2m  - navigating to "https://directory.example/start", waiting until "domcontentloaded"[22m
+    
+        at <anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/infrastructure/browser/local-playwright-chromium.ts:67:24)
+        at LocalPlaywrightChromiumSession.run (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/infrastructure/browser/local-playwright-chromium.ts:192:20)
+        at LocalPlaywrightChromiumSession.navigate (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/infrastructure/browser/local-playwright-chromium.ts:65:16)
+        at <anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:383:27)
+        at async BrowserTaskExecutor.bounded (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1222:14)
+        at async BrowserTaskExecutor.operation (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1177:21)
+        at async BrowserTaskExecutor.navigate (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:380:5)
+        at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/browser-read-fixture.test.ts:2319:4) {
+      name: 'Error',
+      log: [ '  - navigating to "https://directory.example/start", waiting until "domcontentloaded"' ]
+    },
+    scope: undefined
+  }

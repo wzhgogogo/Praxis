@@ -378,9 +378,9 @@ export class BrowserTaskExecutor {
     if (input.observed && !url) throw this.rejected(input.source, input.stage, "Observed navigation target is outside the source allowlist");
     if (!url) throw this.rejected(input.source, input.stage, "Site method navigation target is outside the source allowlist");
     await this.operation(input, "NAVIGATE", async () => {
-      const timeoutMs = this.remaining(input.timeoutMs ?? 20_000);
-      await input.session.prepareNavigation?.(url, { timeoutMs });
-      await input.session.navigate(url, { waitUntil: "domcontentloaded", timeoutMs });
+      const options = this.navigationOptions(input.timeoutMs);
+      await input.session.prepareNavigation?.(url, options);
+      await input.session.navigate(url, { ...options, waitUntil: "domcontentloaded" });
     });
     await this.settleAfterDirectAction(input);
   }
@@ -724,7 +724,10 @@ export class BrowserTaskExecutor {
           postAction = true;
           continue;
         }
-        if (error instanceof BrowserRuntimeError) return { status: "NO_SAFE_ACTION", snapshot, controls: observation.controls };
+        if (error instanceof BrowserRuntimeError) {
+          if (action.type === "OPEN_LINK" || action.type === "CLICK" && !!target && this.guardedPublicQuerySubmit(input, target)) throw error;
+          return { status: "NO_SAFE_ACTION", snapshot, controls: observation.controls };
+        }
         if (recordRejectedProposal(`${observationKey(snapshot, observation.controls)}|${action.type}|${target?.stableKey ?? "PAGE"}|${safeErrorDetail(error, 240)}`)) {
           this.record({ source: input.source, stage: input.stage, event: "METHOD_INCOMPLETE", url: snapshot.url, detail: "NO_PROGRESS_REJECTED_ACTION" });
           return { status: "NO_SAFE_ACTION", snapshot, controls: observation.controls };
@@ -995,9 +998,10 @@ export class BrowserTaskExecutor {
       }
       if (input.session.openLink) {
         await this.operation(input, "OPEN_LINK", async () => {
-          if (input.session.prepareObservedNavigation) await input.session.prepareObservedNavigation(target.href!, this.actionOptions());
-          else await input.session.prepareNavigation?.(target.href!, this.actionOptions());
-          await input.session.openLink!(target.controlId, target.href!, this.actionOptions());
+          const options = this.navigationOptions();
+          if (input.session.prepareObservedNavigation) await input.session.prepareObservedNavigation(target.href!, options);
+          else await input.session.prepareNavigation?.(target.href!, options);
+          await input.session.openLink!(target.controlId, target.href!, options);
         });
       } else {
         // A runtime without popup support may only retain the existing same-page
@@ -1012,7 +1016,8 @@ export class BrowserTaskExecutor {
         && !this.guardedReadControl(input, target)) {
         throw new Error("CLICK target has submit, navigation, or other write-capable structure");
       }
-      await this.operation(input, "CLICK", () => input.session.click(target.controlId, this.actionOptions()));
+      const navigation = this.guardedPublicQuerySubmit(input, target);
+      await this.operation(input, navigation ? "SUBMIT_PUBLIC_QUERY" : "CLICK", () => input.session.click(target.controlId, navigation ? this.navigationOptions() : this.actionOptions()));
       return;
     }
     if (action.type === "CLICK_AUTHORITATIVE") {
@@ -1107,6 +1112,10 @@ export class BrowserTaskExecutor {
     return changed;
   }
 
+  private navigationOptions(timeoutMs = 20_000): { timeoutMs: number } {
+    return { timeoutMs: Math.max(1, this.remaining(timeoutMs)) };
+  }
+
   /** Interactive Playwright APIs otherwise inherit their 30 second default. */
   private actionOptions(): { timeoutMs: number } {
     return { timeoutMs: Math.max(1, this.remaining(5_000)) };
@@ -1179,11 +1188,14 @@ export class BrowserTaskExecutor {
       this.record({ source: input.source, stage: input.stage, event: "OPERATION_FINISHED", detail: label });
       return value;
     } catch (error) {
+      const navigation = label === "NAVIGATE" || label === "OPEN_LINK" || label === "SUBMIT_PUBLIC_QUERY";
+      const timedNavigation = navigation && error instanceof BrowserRuntimeError && error.code === "BROWSER_RUNTIME_FAILED"
+        && error.cause instanceof Error && error.cause.name === "TimeoutError";
       const failure = input.signal.aborted
         ? new BrowserRuntimeError("BROWSER_ABORTED", "Browser operation was aborted", error)
-        : error;
+        : timedNavigation ? new BrowserRuntimeError("BROWSER_TIMEOUT", "Browser navigation exceeded its bounded navigation timeout", error) : error;
       this.recordLifecycleFailure(input.source, input.stage, "OPERATION_FAILED", failure);
-      if ((label === "NAVIGATE" || label === "OPEN_LINK") && failure instanceof BrowserRuntimeError && failure.code === "BROWSER_RUNTIME_FAILED") {
+      if (navigation && failure instanceof BrowserRuntimeError && (failure.code === "BROWSER_RUNTIME_FAILED" || failure.code === "BROWSER_TIMEOUT")) {
         void this.close("RUNTIME_FAILURE");
       }
       throw failure;

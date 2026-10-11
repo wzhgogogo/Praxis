@@ -473,7 +473,9 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
             });
             page = chosen.snapshot;
             if (chosen.status !== "COMPLETED" || !selectedRegion || replaceRegion && (new URL(directoryRegion!.first.url).pathname === new URL(selectedRegion.url).pathname || directory.isSameObservedRegionHomepage?.(directoryRegion!.first.url, selectedRegion.url))) {
-              throw Object.assign(new Error("Observed directory entrance was not established"), { code: "DISCOVERY_SOURCE_LOCATION_UNGROUNDED" });
+              const observedRegion = selectedRegion && (directory.listingRoot(page.url) !== undefined && directory.listingRoot(page.url) === directory.listingRoot(selectedRegion.url)
+                || directory.isSameObservedRegionHomepage?.(selectedRegion.url, page.url));
+              throw Object.assign(new Error("Observed directory entrance did not produce a completed region result"), { code: observedRegion ? "EXTRACTION_FAILED" : "DISCOVERY_SOURCE_LOCATION_UNGROUNDED" });
             }
             if (replaceRegion && directoryRegion) directoryRegion.replacement = selectedRegion;
             else directoryRegion = { first: selectedRegion, firstFive: [] };

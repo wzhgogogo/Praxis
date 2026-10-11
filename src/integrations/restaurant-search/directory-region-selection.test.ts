@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { BrowserRuntimeError } from '../../infrastructure/browser/browser-runtime-errors.js';
 import type { BrowserReadActionDecisionPort } from '../../infrastructure/browser/browser-action-decision.js';
 import type { BrowserRuntime, BrowserSession, BrowserSnapshot } from '../../infrastructure/browser/browser-runtime.js';
 import { GooglePlacesClient } from '../google/google-places-client.js';
@@ -13,12 +14,12 @@ const first = 'https://tabelog.com/en/tokyo/A1303/A130301/rstLst/';
 const second = 'https://tabelog.com/en/tokyo/A1304/A130401/rstLst/';
 const now = '2026-10-10T00:00:00.000Z';
 const intent: RestaurantSearchIntent = { timezone:'Asia/Tokyo', target:{goal:'RECOMMENDATION',query:'restaurants'}, area:{query:'nearby',radiusMeters:1000,coordinates:{latitude:35.66,longitude:139.70,observedAt:now,source:'EVALUATION'}},criteria:[] };
-function fixture(outside = true, missing = false, named = false) {
+function fixture(outside = true, missing = false, named = false, navigationFailure?: BrowserRuntimeError) {
   const navigations:string[]=[];let selections=0;
   const runtime:BrowserRuntime={openSession:async()=>{
     let page:BrowserSnapshot={url:root,title:'',text:'',html:''};
     const session:BrowserSession={metadata:{runtimeProvider:'LOCAL_PLAYWRIGHT_CHROMIUM',engine:'CHROMIUM',startedAt:now},
-      navigate:async(url)=>{navigations.push(url);let html='';
+      navigate:async(url)=>{navigations.push(url);if(url===first&&navigationFailure)throw navigationFailure;let html='';
         if(url===root) html=`<a href="${first}">${named?"Ueno":"First region"}</a><a href="${second}">${named?"Asakusa":"Second region"}</a>`;
         else if(url===first || url===second) html=Array.from({length:5},(_,n)=>{const id=(url===first?100:200)+n;return `<a class="list-rst__rst-name-target" href="/tokyo/A1304/A130401/${id}/">Outlet ${id}</a>`;}).join('') + (named && url===first?`<a href="${second}">Asakusa</a>`:'');
         else {const id=new URL(url).pathname.match(/\/(\d+)\/$/)![1]!;const name=`Outlet ${id}`,address='Tokyo';const point=outside&&Number(id)<200?{latitude:35.9,longitude:139.9}:{latitude:35.66,longitude:139.70};html=`<script type="application/ld+json">${JSON.stringify({'@type':'Restaurant',name,address,...(missing?{}:{geo:point})})}</script><h1>${name}</h1><p class="rstinfo-table__address">${address}</p>`;}
@@ -53,4 +54,11 @@ test('a named request continues through an unrelated parent menu before admittin
  const continuation:RestaurantSearchContinuation={intentFingerprint:JSON.stringify(namedIntent),usedPageTokens:[],pagesRead:0,exhausted:false,locationContext:{latitude:35.66,longitude:139.70,radiusMeters:1000,label:'Asakusa',areaMatchBasis:'NAMED_PLACE_RADIUS'}};
  const result=await f.native.search({intent:namedIntent,continuation},new AbortController().signal);
  assert.equal(result.candidates.length,5);assert.equal(result.metadata.nativeDiscoveryFunnel!.directoryRegion!.first.url,second);assert.equal(result.metadata.nativeDiscoveryFunnel!.directoryRegion!.replacement,undefined);assert.equal(f.navigations.some(url=>/\/10\d\/$/.test(url)),false,'parent details must not be inspected before the observed child entrance');
+});
+
+
+test('directory navigation timeout retains its runtime code rather than claiming no observed region',async()=>{
+ const f=fixture(false,false,false,new BrowserRuntimeError('BROWSER_TIMEOUT','Fixture navigation deadline'));
+ const result=await f.native.search({intent},new AbortController().signal);
+ assert.equal(result.metadata.failureCode,'BROWSER_TIMEOUT');assert.equal(result.candidates.length,0);
 });

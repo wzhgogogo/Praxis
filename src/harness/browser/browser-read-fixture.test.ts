@@ -1374,7 +1374,7 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
     const failedSession = await executor.acquire(signal, "TABLECHECK", "IDENTITY");
     await assert.rejects(
       executor.navigate({ source: "TABLECHECK", stage: "IDENTITY", session: failedSession, signal, allowedOrigins: ["https://www.tablecheck.com"], url: failedUrl, timeoutMs: 30 }),
-      { code: "BROWSER_RUNTIME_FAILED" },
+      { code: "BROWSER_TIMEOUT" },
     );
     executor.beginCandidate("next");
     const freshSession = await executor.acquire(signal, "TABLECHECK", "IDENTITY");
@@ -2301,4 +2301,27 @@ test('P1-D Chromium observes LOCATION binding and fills exactly the resolved nam
   const signal=new AbortController().signal;const session=await executor.acquire(signal,'DIRECTORY','DISCOVERY',policy);
   try{await executor.navigate({session,signal,source:'DIRECTORY',stage:'DISCOVERY',allowedOrigins:policy.documentOrigins,url:pageUrl});const result=await executor.runSkill({taskId:'location-fixture',session,signal,source:'DIRECTORY',stage:'DISCOVERY',allowedOrigins:policy.documentOrigins,goal:{outlet:{name:'Restaurants'},location:{latitude:35.66,longitude:139.7,radiusMeters:1000,...(name?{name}:{})},hardCriteria:[]},objective:'Select the public area',completion:snapshot=>({complete:snapshot.text.includes('Location selected: Ebisu Station'),resultBusy:false,resultKey:snapshot.text,reason:'Observe the exact selected location'})});assert.equal(result.status,name?'COMPLETED':'REQUESTED_HUMAN_HELP');assert.equal(calls,1);assert.equal(result.controls.find(c=>c.label==='Location address')?.value,'');}finally{await executor.close();}
  }}finally{await rm(directory,{recursive:true,force:true});}
+});
+
+
+test('model full-page OPEN_LINK allows slow DOMContentLoaded and times out only within the remaining navigation budget',async()=>{
+ for(const mode of ['slow','budget'] as const){
+  const delays=new Set<ReturnType<typeof setTimeout>>();
+  const server=createServer((request,response)=>{
+   if(request.url==='/start'){response.end('<title>Fixture</title><a href="/next">Public result</a>');return;}
+   const timer=setTimeout(()=>{delays.delete(timer);response.end('<title>Destination</title><h1>Loaded destination</h1>');},mode==='slow'?6500:5000);delays.add(timer);response.on('close',()=>{clearTimeout(timer);delays.delete(timer);});
+  });
+  await new Promise<void>(resolve=>server.listen(0,'127.0.0.1',resolve));const address=server.address() as {port:number};const origin=`http://127.0.0.1:${address.port}`;
+  const diagnostics:BrowserExecutionDiagnostic[]=[];let calls=0;
+  const executor=new BrowserTaskExecutor(new LocalPlaywrightChromium(),{maxElapsedMsPerCandidate:mode==='slow'?15000:2000,onDiagnostic:d=>diagnostics.push(d),modelDecision:{async decide(input){calls++;return {type:'OPEN_LINK',targetRef:input.observation.targets.find(t=>t.label==='Public result')!.ref,reason:'Read observed public page'};}}});
+  const signal=new AbortController().signal;const session=await executor.acquire(signal,'FIXTURE','DISCOVERY');
+  try{
+   await executor.navigate({source:'FIXTURE',stage:'DISCOVERY',session,signal,allowedOrigins:[origin],url:origin+'/start'});const started=Date.now();
+   const reading=executor.runSkill({taskId:'slow-navigation',source:'FIXTURE',stage:'DISCOVERY',session,signal,allowedOrigins:[origin],goal:{outlet:{name:'Fixture'},hardCriteria:[]},objective:'Read public result',completion:page=>({complete:page.text.includes('Loaded destination'),resultKey:page.url,resultBusy:false,reason:'Observe destination document'})});
+   if(mode==='slow'){const read=await reading;assert.equal(read.status,'COMPLETED');assert.ok(Date.now()-started>=6000);assert.equal(read.snapshot.url,origin+'/next');}
+   else{await assert.rejects(reading,{code:'BROWSER_TIMEOUT'});assert.ok(Date.now()-started<5000);assert.ok(diagnostics.some(d=>d.event==='OPERATION_FAILED'&&d.lifecycle.failureCode==='BROWSER_TIMEOUT'));}
+   assert.equal(calls,1);
+  }finally{await executor.close();for(const timer of delays)clearTimeout(timer);server.closeAllConnections();await new Promise<void>(resolve=>server.close(()=>resolve()));}
+  assert.equal(diagnostics.filter(d=>d.event==='CLOSED').length,1,'the owned session closes once, including timeout');
+ }
 });

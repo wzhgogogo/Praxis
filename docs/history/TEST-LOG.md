@@ -4023,3 +4023,8 @@ Red: red-contract.log (three compile omissions), red-changing-results.log (stale
 ## TEST-2026-10-11-P1FF-review-artifacts
 
 复核原文 sha256.json；文档项功能红灯不适用，未伪造；四门禁记录 review-artifacts/gates.json。起点 c0766ca，演示文稿不动，不推送。
+
+
+## TEST-2026-10-11-P1FF-navigation
+
+有效红灯 native-red.log（超时被改写地区失败）、chromium-red.log（6.5秒文档被5秒打断）→ native-green.log、chromium-green.log；后者覆盖预算超时、失败码、关闭一次及旧会话隔离。executor-green.log覆盖GET提交导航时限与普通动作不扩时；四门禁 navigation/gates.json。不外访。
