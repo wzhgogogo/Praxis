@@ -3,14 +3,23 @@
   "a": {
     "automationId": "p1-f-08-30",
     "localStart": "2026-10-12T07:30:00+08:00",
-    "tokyoStart": "2026-10-12T08:30:00+09:00"
+    "tokyoStart": "2026-10-12T08:30:00+09:00",
+    "status": "PAUSED_BY_USER"
   },
   "b": {
     "automationId": "p1-f-b-11-00",
     "localStart": "2026-10-12T10:00:00+08:00",
-    "tokyoStart": "2026-10-12T11:00:00+09:00"
+    "tokyoStart": "2026-10-12T11:00:00+09:00",
+    "status": "PAUSED_BY_USER"
   },
   "reviewSourceRead": true,
   "realRunsDuringPreparation": 0,
-  "reviewReadEvidence": "review-read.json"
+  "reviewReadEvidence": "review-read.json",
+  "executionOrder": "A now, then B h001–h004 now, h005 Tokyo11:30–14:00",
+  "h005": {
+    "automationId": "p1-f-h005-11-30",
+    "status": "ACTIVE",
+    "localStart": "2026-10-12T10:30:00+08:00",
+    "tokyoStart": "2026-10-12T11:30:00+09:00"
+  }
 }

@@ -1,0 +1,10 @@
+/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/prep-20261012/scripts/execute.mjs:10
+ const now=Date.now();const open=Date.parse(mode==='A'?'2026-10-11T23:30:00Z':'2026-10-12T02:00:00Z');const close=Date.parse(mode==='A'?'2026-10-12T01:45:00Z':'2026-10-12T03:30:00Z');if(now<open||now>=close||(mode==='B'&&now+60000>=close))throw Error('OUTSIDE_AUTHORIZED_START_WINDOW');if(mode==='A'&&now+600000>close)throw Error('INSUFFICIENT_TIME_TO_COMPLETE_A');
+                                                                                                                                                                                                                                                     ^
+
+
+Error: OUTSIDE_AUTHORIZED_START_WINDOW
+    at execute (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/prep-20261012/scripts/execute.mjs:10:246)
+    at async file:///Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/prep-20261012/scripts/continue-a.mjs:2:1
+
+Node.js v24.4.1

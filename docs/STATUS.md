@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.188
+- Document revision: 4.189
 - Last updated: 2026-10-12
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-12 P1F-early-window：** 用户要求A第二段和B h001–h004提前开始，并批准外层时窗唯一改动；新SHA冻结，两个原定时已取消。h005仅东京11:30–14:00，单独心跳已设。生产仍73bfca5/CLEAN，核验与停止规则不变，运行结果待记录。
 
 - **2026-10-12 P1F-review-read：** 独立复核仓库副本与Playbook1.6已通读，949b86f原样独立提交；此前文档缺失前置已解除。冻结脚本及输入SHA一致、生产73bfca5/CLEAN；东京08:30第二段、11:00 B按既定心跳执行。尚未新增preflight或Live。签收归类由独立复核，Guard多跳重定向明确保留已知边界缺口。
 

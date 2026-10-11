@@ -4078,3 +4078,8 @@ OFFLINE_REEVALUATION五例与OFFLINE_ORCHESTRATION两个空跑均完成，0模�
 ## TEST-2026-10-12-P1F-review-read
 
 DOC_REVIEW：复核报告与Playbook提交前后字节SHA一致；冻结脚本/载入器/变体/见证全部SHA再校验一致，宿主机冻结工作树CLEAN。当前仅阅读与证据记录，复用上一切片四门禁849/849，无新代码或Live；记录prep-20261012/review-read.json。
+
+
+## TEST-2026-10-12-P1F-early-window
+
+旧时窗拒绝提前启动的有效red保留；修改后A/B无网络空跑PASS，h005提前仍拒绝。冻结manifest记录新SHA，旧脚本/manifest作为历史证据保留。模型/Google/Live新增0，实际只读随后单列；上一eval四门禁849/849与生产冻结门禁复用，未改生产/src代码。
