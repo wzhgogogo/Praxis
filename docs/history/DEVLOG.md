@@ -3369,3 +3369,8 @@ Context@11与Prompt@25投影已接纳来源距离及圆心类型，展示带米�
 ## DEV-2026-10-11-P1F-A-signoff-stopped
 
 P1-F A 冻结 73bfca5 后启动 5 次，只完成 3 份正式结果；h003 被外层观察误停已审核 read POST，h005 在 G1 公共 reserve 入口按本轮保守 URL 停止边界中断，三个新地点未启动。模型累计521/1500，整单Live22/33；0环境重跑，不推送，等待独立复核。
+
+
+## DEV-2026-10-11-P1F-h005-retry-env
+
+用户再次执行授权后，最小范围尝试h005，原冻结73bfca5/CLEAN不变。外层监测复用既有ADR-0036日历read POST与G1公共文档许可，不改变生产权限；两次CLI preflight TableCheck均503，间隔恢复检查206，按唯一环境重试规则停止。新增模型/Google业务/整单Live为0，累计521/1500、22/33；环境预留使用1、剩2。未推送，报告 .eval-artifacts/p1-f-20261011/rerun-20261011/report.md。

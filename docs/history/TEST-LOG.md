@@ -4053,3 +4053,8 @@ Red: red-contract.log (three compile omissions), red-changing-results.log (stale
 ## TEST-2026-10-11-P1F-A-signoff-stopped
 
 冻结前eval载入8/8、四门禁绿、npm test846/846；本批3份正式result各经既有evaluator@27复评，decisions条数等于模型调用、browser观察/DOM序号链接均存在。2次中断仅STARTED-only评价NOT_EVALUATED，Google计数与完整recording缺失不补造；见证原始GET在10分钟内保存。记录h001额外见证GET和h003观察误停两项执行偏差，无产品修复。报告：.eval-artifacts/p1-f-20261011/part-a-report.md。
+
+
+## TEST-2026-10-11-P1F-h005-retry-env
+
+模式：OFFLINE_ORCHESTRATION + NETWORK_PREFLIGHT；外层监测6项正反例通过（旧误停消除，预约后继/额外字段/不合法方法拒绝），0模型/业务调用。既有冻结四门禁复用，无产品改动；网络503→恢复206→重试503，未进入正式Live，无result/decisions/recording或餐厅evaluator@27结果。原始preflight JSON与SHA保留，冻结工作树CLEAN，原A产物未改，仅在报告末尾追加记录。

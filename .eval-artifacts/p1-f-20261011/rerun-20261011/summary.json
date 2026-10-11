@@ -1,0 +1,93 @@
+{
+  "scope": "Only p1f-kf-h005-20261022 repeated under latest user instruction; other cases not started",
+  "frozenCommit": "73bfca588ad5007a4a9326c8c13a958718898f1c",
+  "worktree": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing",
+  "status": "STOPPED_AFTER_ENVIRONMENT_RETRY_FAILED",
+  "environmentFailure": "TABLECHECK preflight HTTP 503 on both formal CLI attempts; independent recovery check HTTP 206 between them",
+  "modelCalls": 0,
+  "googleBusinessRequests": 0,
+  "wholeLiveRunsStarted": 0,
+  "modelCumulative": 521,
+  "wholeLiveCumulative": 22,
+  "environmentRetryUsed": 1,
+  "environmentReserveRemaining": 2,
+  "evaluator": "NOT_APPLICABLE; no formal restaurant artifact or claim; existing network-only preflight evaluator declarations retained",
+  "witnessGets": 0,
+  "productionChanges": false,
+  "observerChanges": "Artifact-only comparison to frozen reviewed read rules; calendar read POST and exact G1 public query document remain allowed; no permission expansion",
+  "preflights": [
+    {
+      "originalPath": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/live-preflight/2026-10-11T15-16-03-093Z-ed57f838-da1f-4fb3-b36e-075328eefdab.result.json",
+      "copiedPath": "attempt-1-preflight.json",
+      "sha256": "764ff78cdbfa8780433cc7b5ce08eea4ae5402f5cd6cc104e630a36ecb3a9b8a",
+      "status": "FAILED",
+      "elapsedMs": 3515,
+      "targets": [
+        {
+          "target": "DEEPSEEK",
+          "status": 200,
+          "outcome": "REACHABLE"
+        },
+        {
+          "target": "GOOGLE",
+          "status": 404,
+          "outcome": "REACHABLE"
+        },
+        {
+          "target": "TABELOG",
+          "status": 200,
+          "outcome": "REACHABLE"
+        },
+        {
+          "target": "TABLECHECK",
+          "status": 503,
+          "outcome": "FAILED"
+        }
+      ]
+    },
+    {
+      "originalPath": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/live-preflight/2026-10-11T15-17-33-269Z-d3a42d82-71c2-4174-928e-917f1b3bacaf.result.json",
+      "copiedPath": "recovery-preflight.json",
+      "sha256": "1240472b040632d06fc016f0484f79790332d850a8c8b1169ec94e9994d6f6e6",
+      "status": "SUCCEEDED",
+      "elapsedMs": 2152,
+      "targets": [
+        {
+          "target": "TABLECHECK",
+          "status": 206,
+          "outcome": "REACHABLE"
+        }
+      ]
+    },
+    {
+      "originalPath": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/live-preflight/2026-10-11T15-18-21-448Z-ed586c92-7abb-41bf-80bf-49da54ca4a7f.result.json",
+      "copiedPath": "attempt-2-preflight.json",
+      "sha256": "dfd94b86117e6df82276d7e718679dbaf3d599d9b94e0e2f482210da09e22015",
+      "status": "FAILED",
+      "elapsedMs": 3185,
+      "targets": [
+        {
+          "target": "DEEPSEEK",
+          "status": 200,
+          "outcome": "REACHABLE"
+        },
+        {
+          "target": "GOOGLE",
+          "status": 404,
+          "outcome": "REACHABLE"
+        },
+        {
+          "target": "TABELOG",
+          "status": 200,
+          "outcome": "REACHABLE"
+        },
+        {
+          "target": "TABLECHECK",
+          "status": 503,
+          "outcome": "FAILED"
+        }
+      ]
+    }
+  ],
+  "finalWorktree": "CLEAN"
+}

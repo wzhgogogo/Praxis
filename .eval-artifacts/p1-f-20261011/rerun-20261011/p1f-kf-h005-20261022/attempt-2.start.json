@@ -1,0 +1,32 @@
+{
+  "caseId": "p1f-kf-h005-20261022",
+  "attempt": 2,
+  "head": "73bfca588ad5007a4a9326c8c13a958718898f1c",
+  "worktree": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing",
+  "workingTree": "CLEAN",
+  "startedAt": "2026-10-11T15:18:20.649Z",
+  "command": [
+    "node",
+    "--env-file-if-exists=/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.env",
+    "--import",
+    "tsx",
+    "--import",
+    "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/rerun-20261011/observe.mjs",
+    "src/eval/restaurant/agent-loop/runners/run-hybrid-live-read.ts",
+    "--case-source",
+    ".eval-artifacts/p1-f-20261011/variants.yaml",
+    "--case",
+    "p1f-kf-h005-20261022",
+    "--record-browser",
+    "--record-decisions",
+    "--no-proxy",
+    "--timeout-ms",
+    "500000",
+    "--max-model-calls",
+    "50",
+    "--max-google-requests",
+    "40"
+  ],
+  "observer": "Append-only mirror of existing sanitized Recorder entries; zero new browser/model/network requests",
+  "stopRules": "User P1-F Part A instruction; Unreviewed sensitive-page navigation and admitted non-read methods stop immediately; frozen ADR-0036 reviewed calendar read POST and exact G1 public query document remain allowed. No next/submit/confirm/login/payment/PII actions."
+}

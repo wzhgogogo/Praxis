@@ -125,3 +125,7 @@
 - 完整 3 例均显式执行现有 evaluator@27，评价源 SHA-256 与 result 一致；Runner 自动评价另行保留。中断 2 例仅有 STARTED-only 诊断，不报自动合格。
 - 冻结工作树持续 CLEAN；用户的三个未跟踪演示文稿未动；没有合并检索词实验，没有推送。
 - 原文/semantic/见证保护哈希核对见 part-a/protected-final-check.json。报告到此停止，等待独立复核和后续运行指令。
+
+## 用户授权 h005 重试补充（2026-10-11）
+
+两次 CLI 都在 TableCheck preflight HTTP503 阶段失败，中间恢复检查HTTP206；唯一环境重试已使用，未进入正式Live。新增模型/Google业务/整单Live均为0；累计仍521/1500、22/33，环境重跑预留剩2。详细事实与原始网络证据见 [重试记录](rerun-20261011/report.md)。原始A记录保持不变；没有补跑其他用例或B。

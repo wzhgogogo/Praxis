@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.183
+- Document revision: 4.184
 - Last updated: 2026-10-11
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-11 P1F-h005-retry-env：** h005再次执行在TableCheck preflight503失败，确认恢复206后唯一环境重试仍503；未进入正式Live，累计仍521/1500、22/33，环境重试预留剩2。外层观察改为复用已审核只读许可，生产冻结73bfca5未改。报告：`.eval-artifacts/p1-f-20261011/rerun-20261011/report.md`；到此停止，不推送。
 
 - **2026-10-11 P1F-A-signoff-stopped：** P1-F A 冻结 73bfca5 后启动 5 次，只完成 3 份正式结果；h003 被外层观察误停已审核 read POST，h005 在 G1 公共 reserve 入口按本轮保守 URL 停止边界中断，三个新地点未启动。模型累计521/1500，整单Live22/33；0环境重跑，不推送，等待独立复核。 报告：`.eval-artifacts/p1-f-20261011/part-a-report.md`；Google仅完整3例的3次计数可确认，中断2例缺计数。本轮未签收8例，未安排B。
 
