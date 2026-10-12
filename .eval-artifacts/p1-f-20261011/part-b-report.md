@@ -166,3 +166,33 @@ h004外层日志匹配误把正式result当preflight，末尾打印又抛TypeErr
 原始证据part-b/h005/attempt-1/（start、finish、preflight、run.log、summary）；没有result、decisions或有效浏览器录制，餐厅evaluator不适用。DeepSeek models端点HTTP200只表明网络可达，不声明余额模型调用已验证。冻结SHA一致、生产73bfca5/CLEAN。累计仍752/1500模型、31/33Live、Google业务已确认15、环境预留2。
 
 按批准规则第2次至少间隔15分钟，现有一次性心跳改为东京11:46（北京时间10:46），不连续重试；剩2次preflight机会，原版h005启动窗口仍11:30–14:00。不改生产或冻结脚本，不推送。
+
+
+## 原版 h005 最终运行（东京2026-10-12 11:46；事实记录，待独立复核）
+
+生产冻结`73bfca5`，宿主机干净工作树，正式Gold@7；500秒、50模型、40Google，原生发现，record-browser/record-decisions/no-proxy。外层execute最终SHA `ff567ad81e3ca59fc6ab4449a997a12c167751f305edd601c4158b56cf9d9c61`，所有冻结文件SHA再核一致，未改产品、Prompt、Schema、配置或输入。
+
+| preflight | 开始（东京） | 结束（东京） | 状态 | TableCheck HTTP | 正式启动 |
+| --- | --- | --- | --- | --- | --- |
+| 1 | 2026-10-12T11:30:33.617000+09:00 | 2026-10-12T11:30:37.198000+09:00 | FAILED | 503 | False |
+| 2 | 2026-10-12T11:46:33.016000+09:00 | 2026-10-12T11:46:37.124000+09:00 | SUCCEEDED | 206 | True |
+
+两次preflight间隔超过15分钟。第1次不计Live或环境重跑；第2次启动唯一正式运行，0环境重跑。
+
+| 用例 | 执行／完成 | 交付 | evaluator@27 | 秒 | 模型 | Google | 等待ms／占比 | 浏览器超时 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| h005 | SUCCEEDED / NO_VERIFIED_RESULT | 0 | NO / NO_VERIFIED_RESULT | 276.285 | 47 | 1 | 82834 / 29.98% | False |
+
+附近圆心35.6697,139.7670、默认半径1000m，TASK_LOCATION_RADIUS；使用Google反向地址观察（1次），没有指名地点解析。完整addressComponents.types与观察时间保存在summary.json，不补造未保留的place types。没有交付，无店名／来源／距离交付项，也不发交付核验或见证GET（B零交付无见证要求）。
+
+- result：[原始结果](/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-12T02-46-37-196Z-2d694222-cf4b-46e9-bd41-6cbd95d22842.result.json)
+- decisions：[决策记录](/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-12T02-46-37-196Z-2d694222-cf4b-46e9-bd41-6cbd95d22842.decisions.jsonl)；47条等于47次模型调用。
+- recording：/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1791773197144；原始replay状态NOT_REPLAYABLE / UNSAFE_DOCUMENT，截图LAYOUT_ONLY_CONTENT_MASKED，不声明可静态重放。
+- evaluator：[evaluator@27](/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-12T02-46-37-196Z-2d694222-cf4b-46e9-bd41-6cbd95d22842.result.evaluation.27-1791773473745.json)；现有自动评价完成，旧评价不覆盖。
+- 汇总／核验：/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/part-b/h005/attempt-2/summary.json、verification.json；原始start/finish/preflight/trace/run.log保留。
+
+运行结束UTC2026-10-12T02:51:13.558Z（东京11:51:13）。外层监测stop=null，不据此声明已知Guard多跳重定向边界已验证；该缺口继续按批准列示。不修复、不归因、不重跑。现有h005心跳完成后暂停，停止等待独立复核。
+
+累计：模型799/1500、Google业务已确认16（历史两次中断缺计数，完整累计UNKNOWN）、整单Live32/33、环境预留2。B五例新增101模型／6Google／5正式Live；本批A第二段+B共新增197模型／9Google／8Live（基线602模型、24Live、Google已确认7）。
+
+验证：仅运行及证据切片，复用已有四门禁全绿849/849；冻结SHA、生产CLEAN、47决策与47模型调用、15分钟间隔核验PASS，无新增实现或测试平台。

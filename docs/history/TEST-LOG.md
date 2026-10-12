@@ -4113,3 +4113,8 @@ LIVE_READ_ONLY四例均preflight206并执行evaluator@27；依次365.091/185.704
 ## TEST-2026-10-12-P1F-h005-preflight-1
 
 NETWORK_PREFLIGHT失败与LIVE_READ_ONLY分列：TableCheck503，其余公共端点可达；正式Live、模型、Google业务新增均0，餐厅evaluator不适用。冻结SHA一致，生产73bfca5/CLEAN。累计752/1500模型、31/33Live、环境预留2；只记录运行证据，复用已有四门禁849/849。
+
+
+## TEST-2026-10-12-P1F-h005-final
+
+LIVE_READ_ONLY h005：276.285秒、47模型、1Google、等待82834ms/29.98%、无浏览器超时，evaluator@27 NO/NO_VERIFIED_RESULT；47决策等于47调用。零交付无核验GET、B无见证GET。累计799/1500模型、32/33Live、Google已确认16（历史完整UNKNOWN）、环境预留2。录制NOT_REPLAYABLE/UNSAFE_DOCUMENT如实报告。仅运行/报告切片复用四门禁849/849，冻结SHA/生产CLEAN/间隔验证PASS，证据part-b/h005/attempt-2/verification.json。

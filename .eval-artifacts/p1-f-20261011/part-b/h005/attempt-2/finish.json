@@ -1,0 +1,182 @@
+{
+  "mode": "B",
+  "id": "h005",
+  "attempt": 2,
+  "startedAt": "2026-10-12T02:46:32.653Z",
+  "head": "73bfca588ad5007a4a9326c8c13a958718898f1c",
+  "worktree": "CLEAN",
+  "sourcePath": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/src/eval/restaurant/agent-loop/cases/e2e-cases.gold7.yaml",
+  "sourceSha256": "b346150074493e5a82e3d0dfb5ea5d18b3dbef17bb06d5101dfb15dfeb3ea40e",
+  "command": [
+    "node",
+    "--env-file-if-exists=/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.env",
+    "--import",
+    "tsx",
+    "--import",
+    "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/prep-20261012/scripts/observe.mjs",
+    "src/eval/restaurant/agent-loop/runners/run-hybrid-live-read.ts",
+    "--case",
+    "h005",
+    "--record-browser",
+    "--record-decisions",
+    "--no-proxy",
+    "--timeout-ms",
+    "500000",
+    "--max-model-calls",
+    "50",
+    "--max-google-requests",
+    "40"
+  ],
+  "freezeManifest": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/prep-20261012/scripts/freeze.json",
+  "endedAt": "2026-10-12T02:51:13.668Z",
+  "wallMs": 281015,
+  "exit": {
+    "code": 0,
+    "signal": null
+  },
+  "stop": null,
+  "newFiles": [
+    "2026-10-12T02-46-37-196Z-2d694222-cf4b-46e9-bd41-6cbd95d22842.decisions.jsonl",
+    "2026-10-12T02-46-37-196Z-2d694222-cf4b-46e9-bd41-6cbd95d22842.result.evaluation.27-1791773473636.json",
+    "2026-10-12T02-46-37-196Z-2d694222-cf4b-46e9-bd41-6cbd95d22842.result.json",
+    "2026-10-12T02-46-37-196Z-2d694222-cf4b-46e9-bd41-6cbd95d22842.started.json"
+  ],
+  "results": [
+    "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-12T02-46-37-196Z-2d694222-cf4b-46e9-bd41-6cbd95d22842.result.json"
+  ],
+  "preflight": {
+    "mode": "LIVE_NETWORK_PREFLIGHT",
+    "preflightVersion": "live-network-preflight@1",
+    "runner": "HYBRID_LIVE_READ",
+    "plannedTargets": [
+      "DEEPSEEK",
+      "GOOGLE",
+      "TABELOG",
+      "TABLECHECK"
+    ],
+    "timeoutMs": 10000,
+    "generationModelCalls": 0,
+    "restaurantDiscoveryRequests": 0,
+    "evaluator": {
+      "applicability": "NOT_APPLICABLE",
+      "reason": "NETWORK_ONLY_DIAGNOSTIC_HAS_NO_RESTAURANT_CLAIM"
+    },
+    "network": {
+      "proxyMode": "DISABLED_BY_CLI"
+    },
+    "status": "SUCCEEDED",
+    "stage": "NETWORK_READINESS",
+    "artifactPath": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/live-preflight/2026-10-12T02-46-33-016Z-b30dd9dd-232d-4095-9eda-dff4db8ca600.result.json",
+    "attempts": [
+      {
+        "target": "DEEPSEEK",
+        "request": {
+          "method": "GET",
+          "url": "https://api.deepseek.com/models",
+          "range": "NONE",
+          "authorization": "PRESENT"
+        },
+        "elapsedMs": 446,
+        "outcome": "REACHABLE",
+        "status": 200,
+        "tls": "ESTABLISHED"
+      },
+      {
+        "target": "GOOGLE",
+        "request": {
+          "method": "GET",
+          "url": "https://places.googleapis.com/",
+          "range": "NONE",
+          "authorization": "ABSENT"
+        },
+        "elapsedMs": 251,
+        "outcome": "REACHABLE",
+        "status": 404,
+        "tls": "ESTABLISHED"
+      },
+      {
+        "target": "TABELOG",
+        "request": {
+          "method": "GET",
+          "url": "https://tabelog.com/",
+          "range": "BYTES_0_0",
+          "authorization": "ABSENT"
+        },
+        "elapsedMs": 1274,
+        "outcome": "REACHABLE",
+        "status": 200,
+        "tls": "ESTABLISHED"
+      },
+      {
+        "target": "TABLECHECK",
+        "request": {
+          "method": "GET",
+          "url": "https://www.tablecheck.com/en/",
+          "range": "BYTES_0_0",
+          "authorization": "ABSENT"
+        },
+        "elapsedMs": 2130,
+        "outcome": "REACHABLE",
+        "status": 206,
+        "tls": "ESTABLISHED"
+      }
+    ],
+    "elapsedMs": 4107,
+    "configuration": {
+      "proxyMode": "DISABLED_BY_CLI",
+      "googleProxyConfigured": false,
+      "browserProxyConfigured": false
+    },
+    "schemaVersion": "1",
+    "runId": "b30dd9dd-232d-4095-9eda-dff4db8ca600",
+    "startedAt": "2026-10-12T02:46:33.016Z",
+    "finishedAt": "2026-10-12T02:46:37.124Z"
+  },
+  "formalRunStarted": true,
+  "deliveryCount": null,
+  "resourceUsage": {
+    "discoveryCandidates": 6,
+    "candidatesChecked": 6,
+    "agentDecisions": 12,
+    "browserModelCalls": 29,
+    "modelCallsStarted": 47,
+    "browserRuntimeCalls": 217,
+    "browserOperationsByCandidate": {
+      "native-discovery:DIRECTORY": 21,
+      "native-discovery:VENUE_SEARCH": 30,
+      "tablecheck:jinghua-ginza": 52,
+      "tablecheck:mochiku-tempura": 32,
+      "tablecheck:the-peninsula-tokyo-the-lobby": 28,
+      "tablecheck:omotenashi": 20,
+      "tablecheck:momotenashiya": 25,
+      "tablecheck:suiten-ippeki": 9
+    },
+    "pageStillLoadingWithinBound": 35,
+    "postActionWaitTotalMs": 82834,
+    "browserModelActions": 27,
+    "googleRequests": {
+      "limit": 40,
+      "total": 1,
+      "namedPlaceResolution": 0,
+      "discovery": 0,
+      "placeDetails": 0,
+      "reverseAddressObservation": 1
+    },
+    "elapsedMs": 276285
+  },
+  "postDelivery": null,
+  "witnessRaw": [],
+  "evaluation": {
+    "path": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-12T02-46-37-196Z-2d694222-cf4b-46e9-bd41-6cbd95d22842.result.evaluation.27-1791773473745.json",
+    "execution": {
+      "status": "SUCCEEDED",
+      "stage": "AGENT_LOOP",
+      "taskProducedQualifiedResult": "NO",
+      "systemBehavior": "NOT_EVALUATED",
+      "externalConditions": "OBSERVED",
+      "evidenceSufficiency": "NOT_EVALUATED",
+      "completion": "NO_VERIFIED_RESULT"
+    }
+  },
+  "classification": "FACTS_ONLY; independent classification pending"
+}
