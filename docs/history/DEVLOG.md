@@ -3434,3 +3434,8 @@ P1-F A 冻结 73bfca5 后启动 5 次，只完成 3 份正式结果；h003 被�
 ## DEV-2026-10-12-P1F-h005-final
 
 原版h005在批准东京窗口内第2次preflight206通过，唯一正式运行完成SUCCEEDED/NO_VERIFIED_RESULT、零交付，自动NO留待独立复核。第1次503不计Live，两次间隔超过15分钟；不重跑、不归因修复。生产73bfca5/CLEAN与冻结SHA不变，完成心跳暂停，B报告追加后停止，不推送。
+
+
+## DEV-2026-10-12-P1G-A-location
+
+名称采用 NFKD、去变音符号及原有大小写／分隔符规范化，地理类型追加 colloquial_area；保留 locationBias、100 km 歧义阈值和商户拒绝。生产无新增地名。真实 Kichijōji 反例先红后绿；历史四地点使用已保存坐标与地址组件投影，顶层类型为重建，非原始 Google 响应 Replay。

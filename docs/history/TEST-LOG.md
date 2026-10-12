@@ -4118,3 +4118,8 @@ NETWORK_PREFLIGHT失败与LIVE_READ_ONLY分列：TableCheck503，其余公共端
 ## TEST-2026-10-12-P1F-h005-final
 
 LIVE_READ_ONLY h005：276.285秒、47模型、1Google、等待82834ms/29.98%、无浏览器超时，evaluator@27 NO/NO_VERIFIED_RESULT；47决策等于47调用。零交付无核验GET、B无见证GET。累计799/1500模型、32/33Live、Google已确认16（历史完整UNKNOWN）、环境预留2。录制NOT_REPLAYABLE/UNSAFE_DOCUMENT如实报告。仅运行/报告切片复用四门禁849/849，冻结SHA/生产CLEAN/间隔验证PASS，证据part-b/h005/attempt-2/verification.json。
+
+
+## TEST-2026-10-12-P1G-A-location
+
+L0 离线 Adapter 固定传输：真实 Kichijōji 反例修复前 GOOGLE_LOCATION_UNRESOLVED，修复后坐标一致；Jiyūgaoka/Kōenji 正例、商户／同名歧义／远地反例及四地点坐标投影回归通过。相关27/27；四门禁 PASS，全套850/850。日志 `.eval-artifacts/p1-g-20261012/A-location/{red,green,typecheck,arch-check,npm-test,build}.log`。无真实模型、Google、Live 新增，未证明当前外部响应。

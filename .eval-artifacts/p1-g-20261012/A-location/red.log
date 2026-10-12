@@ -1,0 +1,23 @@
+✖ P1-G named location normalization resolves the recorded colloquial area without weakening authority (2.802167ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 648.582959
+
+✖ failing tests:
+
+test at src/integrations/google/google-places-restaurant-search.test.ts:1:33960
+✖ P1-G named location normalization resolves the recorded colloquial area without weakening authority (2.802167ms)
+  Error [GooglePlacesError]: Google Places could not resolve coordinates for the named location "Kichijoji". Observations: name="Kichijōji" address="Kichijōji, Musashino, Tokyo, Japan" types="colloquial_area,political" placeId="recorded-kichijoji" coordinate="35.704096,139.580205"
+      at namedLocationResolutionError (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/integrations/google/google-places-restaurant-search.ts:220:24)
+      at GooglePlacesRestaurantSearch.resolveNamedNearbyLocation (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/integrations/google/google-places-restaurant-search.ts:345:13)
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/integrations/google/google-places-restaurant-search.test.ts:618:20)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    code: 'GOOGLE_LOCATION_UNRESOLVED',
+    publicLocationObservations: [ { placeId: 'recorded-kichijoji', displayName: 'Kichijōji', types: [Array], addressComponents: [], coordinates: [Object] } ]
+  }

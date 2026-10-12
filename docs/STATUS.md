@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.196
+- Document revision: 4.197
 - Last updated: 2026-10-12
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-12 P1-G 修复A：** 地点名称去变音符号并接纳 colloquial_area，真实 Kichijōji 固定观察已先红后绿，原地理权限和100km规则保持；四门禁通过850/850。证据仅L0固定传输／保存投影，修复B及10/13 Live待执行；P1-F仍暂不签收。
 
 - **2026-10-12 P1F-h005-final：** 原版h005东京11:46第2次preflight206后正式完成，零交付、evaluator@27 NO/NO_VERIFIED_RESULT；276.285秒、47模型、1Google、等待29.98%、无浏览器超时。B五例正式结果均已保存，累计799/1500模型、32/33Live、Google已确认16（历史完整UNKNOWN）、环境预留2。生产73bfca5/CLEAN及冻结SHA不变，报告part-b-report.md；完成心跳暂停，停止等待独立复核，不归因修复、不推送。
 

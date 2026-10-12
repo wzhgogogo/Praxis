@@ -86,7 +86,7 @@ export const MAX_NAMED_LOCATION_CONTEXT_DISTANCE_METERS = 100_000;
 function geographicLocation(place: GooglePlacesRawPlace): boolean {
   const types = Array.isArray(place.types) ? place.types : [];
   return types.some(type => typeof type === "string" && (type.startsWith("sublocality") || type.startsWith("administrative_area")
-    || ["neighborhood", "locality", "country", "subway_station", "transit_station", "train_station", "bus_station", "airport", "park"].includes(type)));
+    || ["colloquial_area", "neighborhood", "locality", "country", "subway_station", "transit_station", "train_station", "bus_station", "airport", "park"].includes(type)));
 }
 type GoogleRequestKind = "namedPlaceResolution" | "discovery" | "placeDetails" | "reverseAddressObservation";
 type GoogleRequestUsage = {
@@ -162,7 +162,7 @@ function sameNamedLocation(place: GooglePlacesRawPlace, query: string): boolean 
 }
 
 function normalizedLocationName(value: string): string {
-  return value.normalize("NFKC").toLocaleLowerCase("en-US").replace(/[^\p{L}\p{N}]+/gu, "");
+  return value.normalize("NFKD").replace(/\p{M}+/gu, "").toLocaleLowerCase("en-US").replace(/[^\p{L}\p{N}]+/gu, "");
 }
 
 function namedLocationObservation(place: GooglePlacesRawPlace): string {

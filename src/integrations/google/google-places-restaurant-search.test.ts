@@ -601,3 +601,33 @@ test("named area resolution binds bias, prefers geography and refuses distant or
   assert.equal(withoutContext.body?.locationBias, undefined);
   assert.equal(withoutContext.result.location?.latitude, center.latitude);
 });
+
+// P1-G: real failed observation and saved location projections, offline transport only.
+test("P1-G named location normalization resolves the recorded colloquial area without weakening authority", async () => {
+  const fixture = JSON.parse(readFileSync(new URL("./fixtures/p1g-location-observations.json", import.meta.url), "utf8"));
+  const center = { latitude: 35.6697, longitude: 139.7670 };
+  const resolve = async (query: string, places: unknown[]) => {
+    const client = new GooglePlacesClient({ apiKey: "fixture", fetchImplementation: async (_url, init) => {
+      const body = JSON.parse(String(init?.body));
+      assert.deepEqual(body.locationBias.circle, { center, radius: 1000 });
+      return new Response(JSON.stringify({ places }), { status: 200 });
+    } });
+    return new GooglePlacesRestaurantSearch(client, undefined, 10, { evaluationLocation: center })
+      .resolveNamedNearbyLocation({ intent: { ...fixtureIntent, area: { query: `near ${query}` } } }, new AbortController().signal);
+  };
+  const recorded = await resolve("Kichijoji", [fixture.kichijoji]);
+  assert.equal(recorded.location?.latitude, 35.704096);
+  assert.equal(recorded.location?.longitude, 139.580205);
+  for (const [query, name, type] of [["Jiyugaoka", "Jiyūgaoka", "neighborhood"], ["KO EN-JI", "Kōenji", "sublocality"]]) {
+    const positive = await resolve(query!, [{ id: query, displayName: { text: name }, types: [type], location: center }]);
+    assert.equal(positive.location?.label, name);
+  }
+  await assert.rejects(resolve("Ebisu", [{ id: "merchant", displayName: { text: "Ebisu" }, types: ["restaurant"], location: { latitude: 26.9355755, longitude: -80.1379124 } }]), { code: "GOOGLE_LOCATION_AMBIGUOUS" });
+  await assert.rejects(resolve("Kichijoji", [fixture.kichijoji, { ...fixture.kichijoji, id: "second", location: center }]), { code: "GOOGLE_LOCATION_AMBIGUOUS" });
+  await assert.rejects(resolve("Kichijoji", [{ ...fixture.kichijoji, location: { latitude: 26.9, longitude: -80.1 } }]), { code: "GOOGLE_LOCATION_AMBIGUOUS" });
+  for (const previous of fixture.regressions) {
+    const result = await resolve(previous.query, [{ id: previous.query, displayName: { text: previous.name }, types: [previous.type], addressComponents: previous.addressComponents, location: { latitude: previous.latitude, longitude: previous.longitude } }]);
+    assert.equal(result.location?.latitude, previous.latitude, previous.query);
+    assert.equal(result.location?.longitude, previous.longitude, previous.query);
+  }
+});
