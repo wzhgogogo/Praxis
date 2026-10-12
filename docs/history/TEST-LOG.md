@@ -4108,3 +4108,8 @@ LIVE_READ_ONLY四例均preflight206并执行evaluator@27；依次365.091/185.704
 ## TEST-2026-10-12-P1F-balance-restored
 
 冻结SHA全部一致，生产73bfca5/CLEAN；账本h005正式运行0、无安全stop。纯编排证据，复用已有四门禁849/849，新增模型/Google/Live均0。累计仍752/1500模型、31/33Live，环境预留2。
+
+
+## TEST-2026-10-12-P1F-h005-preflight-1
+
+NETWORK_PREFLIGHT失败与LIVE_READ_ONLY分列：TableCheck503，其余公共端点可达；正式Live、模型、Google业务新增均0，餐厅evaluator不适用。冻结SHA一致，生产73bfca5/CLEAN。累计752/1500模型、31/33Live、环境预留2；只记录运行证据，复用已有四门禁849/849。

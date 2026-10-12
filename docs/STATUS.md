@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.194
+- Document revision: 4.195
 - Last updated: 2026-10-12
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-12 P1F-h005-preflight-1：** 原版h005东京11:30第1次preflight遇TableCheck503，正式运行未启动，0新增模型/Live/环境重跑。至少15分钟后继续，现有心跳改至东京11:46；最多剩2次preflight，启动窗口11:30–14:00不变。累计752/1500、31/33、环境预留2，生产73bfca5/CLEAN及冻结SHA一致。
 
 - **2026-10-12 P1F-balance-restored：** 用户确认已充值，余额前置解除，证据provider-balance-restored.json；原版h005仍未运行，维持东京11:30–14:00，现有11:30心跳已更新无需再确认。当前752/1500模型、31/33Live、环境预留2；无新增API调用，生产73bfca5/CLEAN及冻结SHA不变。
 

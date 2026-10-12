@@ -155,3 +155,14 @@ h004外层日志匹配误把正式result当preflight，末尾打印又抛TypeErr
 ## 用户确认余额恢复（东京2026-10-12 07:04）
 
 用户回复“冲完了。继续跑”，按人类确认解除余额前置；不额外调用API探测。账本原402证据保留在provider-balance-restored.json的previousBlocker，累计仍752/1500模型、31/33Live、环境预留2。冻结SHA一致，生产73bfca5/CLEAN。原版h005仍未启动，唯一剩余运行维持东京11:30–14:00，现有11:30心跳已更新为无需再确认余额；不重跑h003/h004。
+
+
+## 原版 h005 第1次preflight（东京11:30）
+
+| 尝试 | 开始（东京） | 结束（东京） | 状态 | TableCheck | 正式运行 | 新增模型 / Live / 环境重跑 |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | 2026-10-12 11:30:33.617 | 11:30:37.198 | PREFLIGHT_PUBLIC_ENDPOINT_REJECTED | HTTP503 | 未启动 | 0 / 0 / 0 |
+
+原始证据part-b/h005/attempt-1/（start、finish、preflight、run.log、summary）；没有result、decisions或有效浏览器录制，餐厅evaluator不适用。DeepSeek models端点HTTP200只表明网络可达，不声明余额模型调用已验证。冻结SHA一致、生产73bfca5/CLEAN。累计仍752/1500模型、31/33Live、Google业务已确认15、环境预留2。
+
+按批准规则第2次至少间隔15分钟，现有一次性心跳改为东京11:46（北京时间10:46），不连续重试；剩2次preflight机会，原版h005启动窗口仍11:30–14:00。不改生产或冻结脚本，不推送。
