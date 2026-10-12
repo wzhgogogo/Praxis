@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.198
+- Document revision: 4.199
 - Last updated: 2026-10-12
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-12 P1-G preparation:** A/B frozen at9b34287 in CLEAN new host worktree, outer script SHA aa3379b5 and offline dry checks pass. Witness recertification and four Live runs scheduled Tokyo10/13 09:00-12:00 (thread heartbeat p1-g-10-13-live), currently NOT_RUN. Model799/1500, Live32 + approved4, environment reserve2. P1-F remains pending independent signoff; no push.
 
 - **2026-10-12 P1-G B:** Non-system decision-loop stops now use qualified delivery or honest NO_VERIFIED_RESULT; system errors remain failures. Production Guard fixed-transport controls 3/3 and four gates 853/853 pass (L0/L1 only; optional L3 omitted). Next: freeze production, certify witnesses and execute the four authorized 10/13 Live runs. Independent signoff remains pending.
 

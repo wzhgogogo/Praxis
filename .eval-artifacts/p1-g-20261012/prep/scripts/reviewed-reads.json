@@ -1,0 +1,34 @@
+[
+  {
+    "origin": "https://www.tablecheck.com",
+    "pathnamePattern": "^/en/shops/(?!login/|signin/|sign-in/|account/|checkout/|payment/|purchase/|cancel/|delete/|confirm/)[a-z0-9]+(?:-[a-z0-9]+)*/reserve$",
+    "resourceTypes": [
+      "document"
+    ],
+    "methods": [
+      "GET"
+    ],
+    "queryKeyRules": {
+      "required": [
+        "start_date",
+        "pax"
+      ]
+    }
+  },
+  {
+    "origin": "https://production.tablecheck.com",
+    "pathname": "/v2/hub/availability_calendar_v2",
+    "resourceTypes": [
+      "fetch"
+    ],
+    "methods": [
+      "POST"
+    ],
+    "bodyFields": {
+      "locale": "string",
+      "start_at": "string",
+      "shop_id": "string",
+      "num_people": "string"
+    }
+  }
+]

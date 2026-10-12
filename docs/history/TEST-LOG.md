@@ -4128,3 +4128,8 @@ L0 离线 Adapter 固定传输：真实 Kichijōji 反例修复前 GOOGLE_LOCATI
 ## TEST-2026-10-12-P1G-B-honest-end
 
 L1: same createHybridReadComposition as Live, installed production PlaywrightReadNetworkGuard and source network policies; only model transport and public source pages replaced. Three pre-fix FAILED controls become NO_VERIFIED_RESULT, existing short-batch delivery (1), and unresolved-location honest stop. 3/3, related 157/157; typecheck/arch:check/npm test/build PASS, 853/853. Existing network, model, timeout, HARD, identity, freshness and authorization controls retained. evaluator@27 completion: presentation SATISFIED; no-result controls NOT_EVALUATED (prose is not independent exhaustion proof; failed location has no successful discovery). Evidence .eval-artifacts/p1-g-20261012/B-honest-end/: red.log/red-artifacts, combination-green.log/final-artifacts and four gate logs. L3 replay NOT_RUN; real model/Google/Live calls added: 0.
+
+
+## TEST-2026-10-12-P1G-frozen-preparation
+
+Outer offline dry runs PASS for rev2 Kichijoji and original Gold@7, network forbidden; displayed-slot binding positive/negative checks PASS. Balance GET fixed-transport true/false/wrong-type/503 controls PASS (4 mock calls, 0 real calls). 12 frozen file SHAs checked, both production worktrees CLEAN. Production four gates reuse final B logs 853/853; no additional production change. Witness certification and Live NOT_RUN, future Tokyo10/13 09:00-12:00; cumulative real799/1500 models, 32 Live, Google confirmed16/full history UNKNOWN, environment reserve2. Report .eval-artifacts/p1-g-20261012/report.md.

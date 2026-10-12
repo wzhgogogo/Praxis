@@ -3444,3 +3444,8 @@ P1-F A 冻结 73bfca5 后启动 5 次，只完成 3 份正式结果；h003 被�
 ## DEV-2026-10-12-P1G-B-honest-end
 
 Non-system REJECTION_LIMIT, NO_PROGRESS and STEP_LIMIT reuse the existing Validator, Router and events: eligible candidates use the delivery window; otherwise NO_VERIFIED_RESULT lists the reason code, checked candidates/sources and unread gaps. Provider/network errors, exceptions and timeout behavior stay unchanged. No Prompt/Schema change. B h001 decision 28 already exposed 5 availabilityChecks and 33 checkableCandidateIds; optional prompt experiment omitted, no model-repetition improvement claim.
+
+
+## DEV-2026-10-12-P1G-frozen-preparation
+
+Frozen production 9b342871c514f963be5386e889c1542b1e6ce020 in new CLEAN p1-g-live worktree; P1-F 73bfca5 untouched. P1-G outer scripts add approved DeepSeek balance GET, four authorized cases, new budget/window/witness paths; existing post-delivery verifier/observer/reviewed read rules copied unchanged. Zero deliveries normalized to 0 for witness GET; preflight distinguished from formal result for accounting. No production/Prompt/Schema/config/Gold/variant changes. Heartbeat p1-g-10-13-live scheduled for 2026-10-13 Tokyo09:00, recertify witnesses before four runs. No real requests during preparation.
