@@ -9,7 +9,7 @@ Evidence status: exposed development evidence; L0/L1 offline verification comple
 | 0 复核原稿 | PASS，`e2dc143`，independent review artifacts | Playbook1.7和签收复核副本原样提交 |
 | A 地点解析 | L0 PASS，`b627511` | `A-location/red.log`、`green.log`及四门禁日志 |
 | B 非系统停止诚实结束 | L1 PASS，`9b34287` | `B-honest-end/red.log`、`red-artifacts/`；`combination-green.log`、`final-artifacts/`及四门禁日志 |
-| 冻结和外层 | PASS，脚本/报告准备提交见Git历史 | `prep/scripts/freeze.json`、`dry-run.json`、`dry-run-b.json`、`balance-offline.json` |
+| 冻结和外层 | PASS，`d4f74e7` | `prep/scripts/freeze.json`、`dry-run.json`、`dry-run-b.json`、`balance-offline.json` |
 | 吉祥寺重新认证 | NOT_RUN，安排10/13运行前 | 将保存 `witness-certification-raw/`、`witnesses.p1g.json`；未创建虚假证书 |
 | 四次Live | NOT_RUN，安排东京10/13 09:00–12:00 | 本线程心跳 `p1-g-10-13-live`；执行前须重查账本和真实时间 |
 
@@ -17,7 +17,7 @@ Evidence status: exposed development evidence; L0/L1 offline verification comple
 
 A：旧实现对真实 `Kichijōji` 返回 `GOOGLE_LOCATION_UNRESOLVED`，新实现解析到35.704096/139.580205。两个带变音符号正例、商户/多处同名/远地反例通过，locationBias及100km规则保持。Shibuya、Higashi-Ginza、Nakameguro、Kagurazaka坐标与保存结果完全一致；该四项是保存位置与地址组件投影的离线回归，顶层地理类型重建，不称原始Google响应Replay。相关27/27，typecheck、arch:check、npm test、build全部PASS，850/850。
 
-B：三个组合使用Live同一 `createHybridReadComposition`，安装生产 `PlaywrightReadNetworkGuard` 和来源网络策略；只替换模型传输与公开页面。未注入合格State或Evidence。
+B：三个组合使用Live同一 `createHybridReadComposition`，安装生产 `PlaywrightReadNetworkGuard` 和来源网络策略；只替换模型传输与公开页面。未注入合格State或Evidence。发现计划剩余入口可以包含部分已读的来源，不能把该入口列表解释为整个来源从未访问。
 
 | 固定传输组合 | 修复前 | 修复后 | evaluator@27完成判定 |
 |---|---|---|---|
