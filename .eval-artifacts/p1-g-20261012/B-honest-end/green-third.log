@@ -1,0 +1,31 @@
+✖ P1-G repeated already-checked availability ends honestly: NATIVE_TRUE_NO_RESULT (62.4395ms)
+✔ P1-G repeated already-checked availability ends honestly: TABELOG_CURRENT_BATCH_DELIVERS (22.71475ms)
+✔ P1-G unresolved location NO_PROGRESS gives an honest user outcome (4.368916ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 2
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 486.4045
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:63565
+✖ P1-G repeated already-checked availability ends honestly: NATIVE_TRUE_NO_RESULT (62.4395ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'NOT_EVALUATED'
+  - 'SATISFIED'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:888:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'NOT_EVALUATED',
+    expected: 'SATISFIED',
+    operator: 'strictEqual'
+  }

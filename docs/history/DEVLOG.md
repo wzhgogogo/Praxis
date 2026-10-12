@@ -3439,3 +3439,8 @@ P1-F A 冻结 73bfca5 后启动 5 次，只完成 3 份正式结果；h003 被�
 ## DEV-2026-10-12-P1G-A-location
 
 名称采用 NFKD、去变音符号及原有大小写／分隔符规范化，地理类型追加 colloquial_area；保留 locationBias、100 km 歧义阈值和商户拒绝。生产无新增地名。真实 Kichijōji 反例先红后绿；历史四地点使用已保存坐标与地址组件投影，顶层类型为重建，非原始 Google 响应 Replay。
+
+
+## DEV-2026-10-12-P1G-B-honest-end
+
+Non-system REJECTION_LIMIT, NO_PROGRESS and STEP_LIMIT reuse the existing Validator, Router and events: eligible candidates use the delivery window; otherwise NO_VERIFIED_RESULT lists the reason code, checked candidates/sources and unread gaps. Provider/network errors, exceptions and timeout behavior stay unchanged. No Prompt/Schema change. B h001 decision 28 already exposed 5 availabilityChecks and 33 checkableCandidateIds; optional prompt experiment omitted, no model-repetition improvement claim.

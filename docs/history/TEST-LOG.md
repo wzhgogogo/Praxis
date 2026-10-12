@@ -4123,3 +4123,8 @@ LIVE_READ_ONLY h005：276.285秒、47模型、1Google、等待82834ms/29.98%、�
 ## TEST-2026-10-12-P1G-A-location
 
 L0 离线 Adapter 固定传输：真实 Kichijōji 反例修复前 GOOGLE_LOCATION_UNRESOLVED，修复后坐标一致；Jiyūgaoka/Kōenji 正例、商户／同名歧义／远地反例及四地点坐标投影回归通过。相关27/27；四门禁 PASS，全套850/850。日志 `.eval-artifacts/p1-g-20261012/A-location/{red,green,typecheck,arch-check,npm-test,build}.log`。无真实模型、Google、Live 新增，未证明当前外部响应。
+
+
+## TEST-2026-10-12-P1G-B-honest-end
+
+L1: same createHybridReadComposition as Live, installed production PlaywrightReadNetworkGuard and source network policies; only model transport and public source pages replaced. Three pre-fix FAILED controls become NO_VERIFIED_RESULT, existing short-batch delivery (1), and unresolved-location honest stop. 3/3, related 157/157; typecheck/arch:check/npm test/build PASS, 853/853. Existing network, model, timeout, HARD, identity, freshness and authorization controls retained. evaluator@27 completion: presentation SATISFIED; no-result controls NOT_EVALUATED (prose is not independent exhaustion proof; failed location has no successful discovery). Evidence .eval-artifacts/p1-g-20261012/B-honest-end/: red.log/red-artifacts, combination-green.log/final-artifacts and four gate logs. L3 replay NOT_RUN; real model/Google/Live calls added: 0.

@@ -1,0 +1,344 @@
+[
+  {
+    "mode": "L1_OFFLINE_FIXED_TRANSPORT",
+    "path": ".eval-artifacts/p1-g-20261012/B-honest-end/red-artifacts/P1G-rejection-TABELOG_CURRENT_BATCH_DELIVERS.execution.json",
+    "beforeAfter": "red-artifacts",
+    "phase": "FAILED",
+    "loop": {
+      "status": "REJECTION_LIMIT",
+      "steps": 6
+    },
+    "deliveryCount": 0,
+    "diagnostic": {
+      "status": "SUCCEEDED",
+      "stage": "AGENT_LOOP",
+      "taskProducedQualifiedResult": "UNKNOWN",
+      "systemBehavior": "NOT_EVALUATED",
+      "externalConditions": "OBSERVED",
+      "evidenceSufficiency": "NOT_EVALUATED",
+      "completion": "NOT_EVALUATED"
+    },
+    "completionFinding": {
+      "dimension": "COMPLETION_OUTCOME",
+      "status": "NOT_EVALUATED",
+      "stage": "TERMINATION",
+      "requirement": "A scoped no-result outcome, user-input pause, controlled cancellation, budget/deadline stop, and internal execution failure must remain distinguishable from one another and from independently verified presentation.",
+      "observations": [
+        "completion=NOT_EVALUATED",
+        "phase=FAILED",
+        "loop=REJECTION_LIMIT",
+        "noVerifiedResult=missing",
+        "failureCode=missing"
+      ],
+      "directCause": "Artifact lacks enough terminal information to classify the outcome.",
+      "rootCauseHypothesis": "Historical artifact or terminal serialization requires review.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "status",
+        "execution.failureCode",
+        "loop.status",
+        "finalSnapshot.domainState.phase",
+        "finalSnapshot.domainState.noVerifiedResult",
+        "finalSnapshot.domainState.failure"
+      ],
+      "downstreamImpact": "No reliable outcome classification can be claimed."
+    },
+    "modelCallsStarted": 13,
+    "realProviderCalls": 0,
+    "googleRequests": {
+      "limit": 100,
+      "total": 1,
+      "namedPlaceResolution": 1,
+      "discovery": 0,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "guardAdmissions": 15
+  },
+  {
+    "mode": "L1_OFFLINE_FIXED_TRANSPORT",
+    "path": ".eval-artifacts/p1-g-20261012/B-honest-end/red-artifacts/P1G-rejection-NATIVE_TRUE_NO_RESULT.execution.json",
+    "beforeAfter": "red-artifacts",
+    "phase": "FAILED",
+    "loop": {
+      "status": "REJECTION_LIMIT",
+      "steps": 5
+    },
+    "deliveryCount": 0,
+    "diagnostic": {
+      "status": "SUCCEEDED",
+      "stage": "AGENT_LOOP",
+      "taskProducedQualifiedResult": "UNKNOWN",
+      "systemBehavior": "NOT_EVALUATED",
+      "externalConditions": "OBSERVED",
+      "evidenceSufficiency": "NOT_EVALUATED",
+      "completion": "NOT_EVALUATED"
+    },
+    "completionFinding": {
+      "dimension": "COMPLETION_OUTCOME",
+      "status": "NOT_EVALUATED",
+      "stage": "TERMINATION",
+      "requirement": "A scoped no-result outcome, user-input pause, controlled cancellation, budget/deadline stop, and internal execution failure must remain distinguishable from one another and from independently verified presentation.",
+      "observations": [
+        "completion=NOT_EVALUATED",
+        "phase=FAILED",
+        "loop=REJECTION_LIMIT",
+        "noVerifiedResult=missing",
+        "failureCode=missing"
+      ],
+      "directCause": "Artifact lacks enough terminal information to classify the outcome.",
+      "rootCauseHypothesis": "Historical artifact or terminal serialization requires review.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "status",
+        "execution.failureCode",
+        "loop.status",
+        "finalSnapshot.domainState.phase",
+        "finalSnapshot.domainState.noVerifiedResult",
+        "finalSnapshot.domainState.failure"
+      ],
+      "downstreamImpact": "No reliable outcome classification can be claimed."
+    },
+    "modelCallsStarted": 9,
+    "realProviderCalls": 0,
+    "googleRequests": {
+      "limit": 100,
+      "total": 1,
+      "namedPlaceResolution": 1,
+      "discovery": 0,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "guardAdmissions": 8
+  },
+  {
+    "mode": "L1_OFFLINE_FIXED_TRANSPORT",
+    "path": ".eval-artifacts/p1-g-20261012/B-honest-end/red-artifacts/P1G-unresolved-NATIVE_TRUE_NO_RESULT.execution.json",
+    "beforeAfter": "red-artifacts",
+    "phase": "FAILED",
+    "loop": {
+      "status": "NO_PROGRESS",
+      "steps": 1
+    },
+    "deliveryCount": 0,
+    "diagnostic": {
+      "status": "SUCCEEDED",
+      "stage": "AGENT_LOOP",
+      "taskProducedQualifiedResult": "UNKNOWN",
+      "systemBehavior": "NOT_EVALUATED",
+      "externalConditions": "NOT_EVALUATED",
+      "evidenceSufficiency": "NOT_EVALUATED",
+      "completion": "NOT_EVALUATED"
+    },
+    "completionFinding": {
+      "dimension": "COMPLETION_OUTCOME",
+      "status": "NOT_EVALUATED",
+      "stage": "TERMINATION",
+      "requirement": "A scoped no-result outcome, user-input pause, controlled cancellation, budget/deadline stop, and internal execution failure must remain distinguishable from one another and from independently verified presentation.",
+      "observations": [
+        "completion=NOT_EVALUATED",
+        "phase=FAILED",
+        "loop=NO_PROGRESS",
+        "noVerifiedResult=missing",
+        "failureCode=missing"
+      ],
+      "directCause": "Artifact lacks enough terminal information to classify the outcome.",
+      "rootCauseHypothesis": "Historical artifact or terminal serialization requires review.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "status",
+        "execution.failureCode",
+        "loop.status",
+        "finalSnapshot.domainState.phase",
+        "finalSnapshot.domainState.noVerifiedResult",
+        "finalSnapshot.domainState.failure"
+      ],
+      "downstreamImpact": "No reliable outcome classification can be claimed."
+    },
+    "modelCallsStarted": 2,
+    "realProviderCalls": 0,
+    "googleRequests": {
+      "limit": 100,
+      "total": 1,
+      "namedPlaceResolution": 1,
+      "discovery": 0,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "guardAdmissions": 0
+  },
+  {
+    "mode": "L1_OFFLINE_FIXED_TRANSPORT",
+    "path": ".eval-artifacts/p1-g-20261012/B-honest-end/final-artifacts/P1G-rejection-TABELOG_CURRENT_BATCH_DELIVERS.execution.json",
+    "beforeAfter": "final-artifacts",
+    "phase": "PRESENT_RESULTS",
+    "loop": {
+      "status": "TERMINAL",
+      "steps": 6
+    },
+    "deliveryCount": 1,
+    "diagnostic": {
+      "status": "SUCCEEDED",
+      "stage": "AGENT_LOOP",
+      "taskProducedQualifiedResult": "YES",
+      "systemBehavior": "SUPPORTED_BY_EVIDENCE",
+      "externalConditions": "OBSERVED",
+      "evidenceSufficiency": "SUFFICIENT_FOR_PRESENTED_RESULT",
+      "completion": "PRESENTATION_RECORDED"
+    },
+    "completionFinding": {
+      "dimension": "COMPLETION_OUTCOME",
+      "status": "SATISFIED",
+      "stage": "TERMINATION",
+      "requirement": "A scoped no-result outcome, user-input pause, controlled cancellation, budget/deadline stop, and internal execution failure must remain distinguishable from one another and from independently verified presentation.",
+      "observations": [
+        "completion=PRESENTATION_RECORDED",
+        "phase=PRESENT_RESULTS",
+        "loop=TERMINAL",
+        "noVerifiedResult=missing",
+        "failureCode=missing"
+      ],
+      "directCause": "A presentation was recorded and is checked independently above.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "status",
+        "execution.failureCode",
+        "loop.status",
+        "finalSnapshot.domainState.phase",
+        "finalSnapshot.domainState.noVerifiedResult",
+        "finalSnapshot.domainState.failure"
+      ],
+      "downstreamImpact": "Presentation support remains independently auditable."
+    },
+    "modelCallsStarted": 13,
+    "realProviderCalls": 0,
+    "googleRequests": {
+      "limit": 100,
+      "total": 1,
+      "namedPlaceResolution": 1,
+      "discovery": 0,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "guardAdmissions": 15
+  },
+  {
+    "mode": "L1_OFFLINE_FIXED_TRANSPORT",
+    "path": ".eval-artifacts/p1-g-20261012/B-honest-end/final-artifacts/P1G-rejection-NATIVE_TRUE_NO_RESULT.execution.json",
+    "beforeAfter": "final-artifacts",
+    "phase": "NO_VERIFIED_RESULT",
+    "loop": {
+      "status": "TERMINAL",
+      "steps": 5
+    },
+    "deliveryCount": 0,
+    "diagnostic": {
+      "status": "SUCCEEDED",
+      "stage": "AGENT_LOOP",
+      "taskProducedQualifiedResult": "NO",
+      "systemBehavior": "NOT_EVALUATED",
+      "externalConditions": "OBSERVED",
+      "evidenceSufficiency": "NOT_EVALUATED",
+      "completion": "NO_VERIFIED_RESULT"
+    },
+    "completionFinding": {
+      "dimension": "COMPLETION_OUTCOME",
+      "status": "NOT_EVALUATED",
+      "stage": "TERMINATION",
+      "requirement": "A scoped no-result outcome, user-input pause, controlled cancellation, budget/deadline stop, and internal execution failure must remain distinguishable from one another and from independently verified presentation.",
+      "observations": [
+        "completion=NO_VERIFIED_RESULT",
+        "phase=NO_VERIFIED_RESULT",
+        "loop=TERMINAL",
+        "noVerifiedResult=recorded",
+        "failureCode=missing",
+        "Candidate scope is recorded, but remainingGaps prose cannot independently prove that no candidate qualifies or that investigation was sufficient."
+      ],
+      "directCause": "Candidate scope is recorded, but remainingGaps prose cannot independently prove that no candidate qualifies or that investigation was sufficient.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "status",
+        "execution.failureCode",
+        "loop.status",
+        "finalSnapshot.domainState.phase",
+        "finalSnapshot.domainState.noVerifiedResult",
+        "finalSnapshot.domainState.failure",
+        "finalSnapshot.domainState.noVerifiedResult",
+        "trajectories"
+      ],
+      "downstreamImpact": "Do not represent the scoped stop as a source-confirmed global negative result."
+    },
+    "modelCallsStarted": 9,
+    "realProviderCalls": 0,
+    "googleRequests": {
+      "limit": 100,
+      "total": 1,
+      "namedPlaceResolution": 1,
+      "discovery": 0,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "guardAdmissions": 8
+  },
+  {
+    "mode": "L1_OFFLINE_FIXED_TRANSPORT",
+    "path": ".eval-artifacts/p1-g-20261012/B-honest-end/final-artifacts/P1G-unresolved-NATIVE_TRUE_NO_RESULT.execution.json",
+    "beforeAfter": "final-artifacts",
+    "phase": "NO_VERIFIED_RESULT",
+    "loop": {
+      "status": "TERMINAL",
+      "steps": 1
+    },
+    "deliveryCount": 0,
+    "diagnostic": {
+      "status": "SUCCEEDED",
+      "stage": "AGENT_LOOP",
+      "taskProducedQualifiedResult": "NO",
+      "systemBehavior": "NOT_EVALUATED",
+      "externalConditions": "NOT_EVALUATED",
+      "evidenceSufficiency": "NOT_EVALUATED",
+      "completion": "NO_VERIFIED_RESULT"
+    },
+    "completionFinding": {
+      "dimension": "COMPLETION_OUTCOME",
+      "status": "NOT_EVALUATED",
+      "stage": "TERMINATION",
+      "requirement": "A scoped no-result outcome, user-input pause, controlled cancellation, budget/deadline stop, and internal execution failure must remain distinguishable from one another and from independently verified presentation.",
+      "observations": [
+        "completion=NO_VERIFIED_RESULT",
+        "phase=NO_VERIFIED_RESULT",
+        "loop=TERMINAL",
+        "noVerifiedResult=recorded",
+        "failureCode=missing",
+        "No executed source discovery with an applicable request and observed candidate scope is recorded."
+      ],
+      "directCause": "No executed source discovery with an applicable request and observed candidate scope is recorded.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "status",
+        "execution.failureCode",
+        "loop.status",
+        "finalSnapshot.domainState.phase",
+        "finalSnapshot.domainState.noVerifiedResult",
+        "finalSnapshot.domainState.failure",
+        "finalSnapshot.domainState.noVerifiedResult",
+        "trajectories"
+      ],
+      "downstreamImpact": "Do not represent the scoped stop as a source-confirmed global negative result."
+    },
+    "modelCallsStarted": 2,
+    "realProviderCalls": 0,
+    "googleRequests": {
+      "limit": 100,
+      "total": 1,
+      "namedPlaceResolution": 1,
+      "discovery": 0,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "guardAdmissions": 0
+  }
+]

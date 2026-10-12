@@ -309,7 +309,7 @@ function transition(
         commands: [],
       };
     case "READ_END_WINDOW_OPENED": {
-      requirePhase(state, ["SEARCHING"], event.type);
+      requirePhase(state, ["UNDERSTANDING", "SEARCHING", "SELECTION_REQUIRED"], event.type);
       const remainingMs = Date.parse(event.deadlineAt) - Date.parse(context.now);
       if (!Number.isFinite(remainingMs) || remainingMs < 0 || remainingMs > 45_000
         || assessRestaurantRead(state, context.now).presentation.some(item => item.eligible)) throw new Error("Read-end reserve requires no qualified result and a bounded deadline");
@@ -701,7 +701,7 @@ function transition(
       };
     }
     case "READ_ENDED_NO_VERIFIED_RESULT": {
-      requirePhase(state, ["SEARCHING", "SELECTION_REQUIRED"], event.type);
+      requirePhase(state, ["UNDERSTANDING", "SEARCHING", "SELECTION_REQUIRED"], event.type);
       const validation = validateRestaurantAction(state, { type: "END_READ" }, context.now);
       if (validation.status !== "ALLOWED") throw new Error(`Read cannot end normally: ${validation.status === "REJECTED" ? validation.reason : "authorization is not applicable"}`);
       const known = new Set(state.candidates.map((candidate) => candidate.restaurant.id));

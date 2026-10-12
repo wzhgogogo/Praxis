@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.197
+- Document revision: 4.198
 - Last updated: 2026-10-12
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-12 P1-G B:** Non-system decision-loop stops now use qualified delivery or honest NO_VERIFIED_RESULT; system errors remain failures. Production Guard fixed-transport controls 3/3 and four gates 853/853 pass (L0/L1 only; optional L3 omitted). Next: freeze production, certify witnesses and execute the four authorized 10/13 Live runs. Independent signoff remains pending.
 
 - **2026-10-12 P1-G 修复A：** 地点名称去变音符号并接纳 colloquial_area，真实 Kichijōji 固定观察已先红后绿，原地理权限和100km规则保持；四门禁通过850/850。证据仅L0固定传输／保存投影，修复B及10/13 Live待执行；P1-F仍暂不签收。
 

@@ -164,7 +164,7 @@ class H001NativeModel implements ModelGateway {
   }
 }
 
-async function runScenario(scenario: SourceScenario, options: { availabilityFirst?: boolean; bareReserveLink?: boolean; guardedDiscoverySubmit?: boolean; packs?: readonly DiscoverySourcePack[]; areaQuery?: string; decisionCapture?: ReturnType<typeof createHybridDecisionCapture>; failSecondBrowserCall?: boolean } = {}) {
+async function runScenario(scenario: SourceScenario, options: { availabilityFirst?: boolean; bareReserveLink?: boolean; guardedDiscoverySubmit?: boolean; packs?: readonly DiscoverySourcePack[]; areaQuery?: string; decisionCapture?: ReturnType<typeof createHybridDecisionCapture>; failSecondBrowserCall?: boolean; repeatCheckedAvailability?: boolean; unresolvedLocation?: boolean } = {}) {
   const startedAt = Date.now();
   const frozen = (await loadFrozenLiveCases(RESTAURANT_READ_DEVELOPMENT_CASE_PATH)).find((item) => item.id === "h001")!;
   const navigations: string[] = [];
@@ -177,13 +177,22 @@ async function runScenario(scenario: SourceScenario, options: { availabilityFirs
     const query = JSON.parse(String(init?.body)) as { textQuery: string };
     googleCalls.push({ query: query.textQuery });
     const requested = options.areaQuery ?? "Shibuya";
-    return new Response(JSON.stringify({ places: [{ id: `${requested.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-landmark`, displayName: { text: requested },
+    return new Response(JSON.stringify({ places: options.unresolvedLocation ? [] : [{ id: `${requested.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-landmark`, displayName: { text: requested },
       formattedAddress: `${requested}, Tokyo`, location: center, types: ["locality", "political"],
       addressComponents: [{ longText: requested, types: ["locality", "political"] }] }] }), { status: 200 });
   } }), () => reference.toISOString(), 10, { maxRequests: 100 });
   const model = new H001NativeModel(scenario, options.availabilityFirst, options.areaQuery, options.failSecondBrowserCall);
+  const transport: ModelGateway = { complete: async request => {
+    if (options.repeatCheckedAvailability && request.purpose === "restaurant_agent_decide") {
+      const input = JSON.parse(request.messages.find(message => message.role === "user")!.content);
+      const checked = Object.keys(input.context.availabilityChecks ?? {});
+      if (checked.length) { model.purposes.push(request.purpose); model.requests.push(structuredClone(request));
+        return reply(JSON.stringify(action("CHECK_AVAILABILITY", [checked[0]!])), request.purpose); }
+    }
+    return model.complete(request);
+  } };
   const gateway: ModelGateway = options.decisionCapture
-    ? { complete: request => options.decisionCapture!.complete(request, () => model.complete(request)) } : model;
+    ? { complete: request => options.decisionCapture!.complete(request, () => transport.complete(request)) } : transport;
   const rawBrowser = sourcePages(scenario, navigations, sessionsOpened, navigationSessionIds, closedSessionIds, {
     // This controlled source owns the same installed read boundary needed for
     // its public service-category query. Unguarded fixtures retain the narrow
@@ -236,7 +245,7 @@ async function runScenario(scenario: SourceScenario, options: { availabilityFirs
   // independent replay; compact hashing while writing pretty JSON made the
   // recorded digest unverifiable from the saved artifact.
   const raw = JSON.stringify(artifact, null, 2);
-  const executionPath = `${scenario}${options.availabilityFirst ? "-availability-first" : ""}${options.bareReserveLink ? "-bare-reserve-link" : ""}.execution.json`;
+  const executionPath = `${options.repeatCheckedAvailability ? "P1G-rejection-" : options.unresolvedLocation ? "P1G-unresolved-" : ""}${scenario}${options.availabilityFirst ? "-availability-first" : ""}${options.bareReserveLink ? "-bare-reserve-link" : ""}.execution.json`;
   if (process.env.PRAXIS_WRITE_NATIVE_STAGE2_ARTIFACTS === "1") {
     const directory = resolve(".eval-artifacts", process.env.PRAXIS_NATIVE_STAGE2_ARTIFACT_DIR ?? "h001-native-stage2-20260929-review2-final");
     await mkdir(directory, { recursive: true });
@@ -855,4 +864,37 @@ test("coordinate-only discovery passes source-attributed address observations, i
       addressObservation: { source: "GOOGLE_GEOCODING", observedAt: reference.toISOString(), status: failure ? "UNAVAILABLE" : "OBSERVED", ...(failure ? { reasonCode: "GOOGLE_SERVICE_QUOTA_OR_PERMISSION" } : {}) } });
     assert.equal(locality.googleRequestUsage(`coordinate-input-${failure}`).total, 1);
   }
+});
+
+// Same Runner composition, semantic/compiler/reducer/grounding/router and installed
+// production Guard. Only model transport and source pages are fixed; no State injection.
+for (const [scenario, expectedPhase, deliveries] of [
+  ["NATIVE_TRUE_NO_RESULT", "NO_VERIFIED_RESULT", 0],
+  ["TABELOG_CURRENT_BATCH_DELIVERS", "PRESENT_RESULTS", 1],
+] as const) test(`P1-G repeated already-checked availability ends honestly: ${scenario}`, async () => {
+  const result = await runScenario(scenario, { guardedDiscoverySubmit: true, repeatCheckedAvailability: true });
+  assert.ok(result.networkRequests.some(request => request.outcome === "ADMITTED"));
+  assert.ok(result.trajectories.some(step => step.actionValidation?.status === "REJECTED" && step.actionValidation.code === "AVAILABILITY_ALREADY_CHECKED"));
+  assert.equal(result.state.phase, expectedPhase, JSON.stringify(result.state.failure));
+  assert.equal(result.state.presentedResults?.candidateIds.length ?? 0, deliveries);
+  assert.equal(result.state.failure?.code?.startsWith("AGENT_LOOP_"), undefined);
+  if (deliveries) {
+    assert.ok(result.artifact.events.some(entry => entry.event.type === "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED"));
+    assert.ok(result.state.presentedResults!.evidenceIds.length);
+  } else {
+    assert.ok(result.state.noVerifiedResult?.remainingGaps.some(gap => gap.includes("REJECTION_LIMIT") && gap.includes("AVAILABILITY_ALREADY_CHECKED")));
+    assert.ok(result.state.noVerifiedResult?.investigatedCandidateIds.length);
+    assert.ok(!result.state.noVerifiedResult?.remainingGaps.some(gap => gap.startsWith("MODEL_CALL_RESERVE")));
+    assert.equal(result.evaluation.findings.find(dimension => dimension.dimension === "COMPLETION_OUTCOME")?.status, "NOT_EVALUATED", "remaining gaps are prose, not independent source-exhaustion proof");
+  }
+  assert.ok(result.networkRequests.every(request => request.method === "GET" || request.method === "HEAD"));
+});
+test("P1-G unresolved location NO_PROGRESS gives an honest user outcome", async () => {
+  const result = await runScenario("NATIVE_TRUE_NO_RESULT", { guardedDiscoverySubmit: true, unresolvedLocation: true });
+  assert.equal(result.state.phase, "NO_VERIFIED_RESULT");
+  assert.equal(result.state.presentedResults, undefined);
+  assert.ok(result.state.noVerifiedResult?.remainingGaps.some(gap => gap.includes("GOOGLE_LOCATION_UNRESOLVED") && gap.includes("NO_PROGRESS")));
+  assert.deepEqual(result.state.noVerifiedResult?.investigatedCandidateIds, []);
+  assert.equal(result.navigations.length, 0);
+  assert.equal(result.evaluation.findings.find(dimension => dimension.dimension === "COMPLETION_OUTCOME")?.status, "NOT_EVALUATED", "failed location resolution has no successful discovery observation");
 });

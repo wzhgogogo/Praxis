@@ -316,7 +316,8 @@ test("a second-turn HARD upgrade resets the real Runtime and cannot reuse an old
     };
     const evaluation = evaluateRestaurantHybridLiveArtifact(artifact, { path: `${control}.result.json`, sha256: "fixture" });
     if (control === "missing-current-hard-evidence") {
-      assert.equal(secondLoop.status, "STEP_LIMIT");
+      assert.equal(secondLoop.status, "TERMINAL");
+      assert.equal(final.phase, "NO_VERIFIED_RESULT");
       assert.notEqual(final.phase, "PRESENT_RESULTS");
       assert.equal(final.presentedResults, undefined);
       const rejectedPresentation = composition.trajectories.steps.find((step) => step.stepOutcome === "REJECTED" && step.agentAction?.type === "PRESENT_RESULTS");

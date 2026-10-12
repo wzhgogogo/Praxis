@@ -1,0 +1,254 @@
+{
+  "schemaVersion": "1",
+  "evaluatorVersion": "restaurant-hybrid-read-diagnostic-evaluator@27",
+  "rubricVersion": "restaurant-hybrid-read-diagnostic-rubric@21",
+  "rubricStatus": "DRAFT_DIAGNOSTIC_ONLY",
+  "sourceArtifact": {
+    "path": "P1G-rejection-TABELOG_CURRENT_BATCH_DELIVERS.execution.json",
+    "sha256": "50e270f08bcbed43fde66f331c52909ac48efa684edbf0ffe864306733874505",
+    "runId": "run:native-h001:TABELOG_CURRENT_BATCH_DELIVERS",
+    "caseId": "h001"
+  },
+  "execution": {
+    "status": "SUCCEEDED",
+    "stage": "AGENT_LOOP",
+    "taskProducedQualifiedResult": "YES",
+    "systemBehavior": "SUPPORTED_BY_EVIDENCE",
+    "externalConditions": "OBSERVED",
+    "evidenceSufficiency": "SUFFICIENT_FOR_PRESENTED_RESULT",
+    "completion": "PRESENTATION_RECORDED"
+  },
+  "candidateSummaries": [
+    {
+      "candidateId": "tabelog:tokyo/A1304/A130401/100",
+      "outletName": "Native Tabelog 100",
+      "providers": [
+        "TABELOG"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABELOG",
+          "outcome": "AVAILABLE",
+          "evidenceRef": "trajectories[3].executionMetadata.providerAttempts[0]"
+        }
+      ],
+      "result": "OFFER_GROUNDED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:d9e519c1837c340798b582e8]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:233f64b073782f04ceadf5f8]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=tabelog:tokyo/A1304/A130401/100:document:541a5a016d298591]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tabelog:tokyo/A1304/A130401/100:2026-08-19T07:20:00.000Z:tabelog:tokyo/A1304/A130401/100:document:541a5a016d298591]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:abaa9c2c43668dd0af7b5ae8]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-availability:1e8e6300b2ffdeea8de9473e]"
+      ]
+    },
+    {
+      "candidateId": "tabelog:tokyo/A1304/A130401/101",
+      "outletName": "Native Tabelog 101",
+      "providers": [
+        "TABELOG"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABELOG",
+          "outcome": "UNAVAILABLE",
+          "evidenceRef": "trajectories[3].executionMetadata.providerAttempts[1]"
+        }
+      ],
+      "result": "UNAVAILABLE",
+      "reasonCode": "NO_MATCHING_SLOT",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:79a8ea2bfba6b57c3102fe23]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:6acfd3d26c14681666a3c3b6]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=tabelog:tokyo/A1304/A130401/101:document:91b782f189356b88]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tabelog:tokyo/A1304/A130401/101:2026-08-19T07:20:00.000Z:tabelog:tokyo/A1304/A130401/101:document:91b782f189356b88]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:478358b573c0608be88d990b]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-availability:e4b5890fcc191f41890389f1]"
+      ]
+    },
+    {
+      "candidateId": "tabelog:tokyo/A1304/A130401/102",
+      "outletName": "Native Tabelog 102",
+      "providers": [
+        "TABELOG"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABELOG",
+          "outcome": "UNAVAILABLE",
+          "evidenceRef": "trajectories[3].executionMetadata.providerAttempts[2]"
+        }
+      ],
+      "result": "UNAVAILABLE",
+      "reasonCode": "NO_MATCHING_SLOT",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:3da92b93da6a551cbae7537c]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:c7aae74e0591c8b1ea7db7ff]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=tabelog:tokyo/A1304/A130401/102:document:753bc2e427fdadee]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tabelog:tokyo/A1304/A130401/102:2026-08-19T07:20:00.000Z:tabelog:tokyo/A1304/A130401/102:document:753bc2e427fdadee]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:ff33cf7fa5a20f373dffedec]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-availability:17c1327a2e02764579d7d81a]"
+      ]
+    },
+    {
+      "candidateId": "tabelog:tokyo/A1304/A130401/103",
+      "outletName": "Native Tabelog 103",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:95036fb05964aa3dc879c5de]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:5d9ee92266c515ad405de19e]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=tabelog:tokyo/A1304/A130401/103:document:4d71c2888df45d0e]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tabelog:tokyo/A1304/A130401/103:2026-08-19T07:20:00.000Z:tabelog:tokyo/A1304/A130401/103:document:4d71c2888df45d0e]"
+      ]
+    },
+    {
+      "candidateId": "tabelog:tokyo/A1304/A130401/104",
+      "outletName": "Native Tabelog 104",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:f964dcdcd6d29f159cd9aa2e]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:9a4f9d9ee6274da6e777b66a]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=tabelog:tokyo/A1304/A130401/104:document:0e80c220554de77e]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tabelog:tokyo/A1304/A130401/104:2026-08-19T07:20:00.000Z:tabelog:tokyo/A1304/A130401/104:document:0e80c220554de77e]"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "dimension": "AUTHORITATIVE_CONDITIONS",
+      "status": "SATISFIED",
+      "stage": "SEMANTIC_TO_FINAL_STATE",
+      "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+      "observations": [
+        "All independently readable applicable request fields match."
+      ],
+      "directCause": "No conflict observed.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "materializedCase.semantic",
+        "finalSnapshot.domainState.intentDraft"
+      ],
+      "downstreamImpact": "Grounding can be evaluated against one request."
+    },
+    {
+      "dimension": "REQUIRED_EVIDENCE",
+      "status": "SATISFIED",
+      "stage": "GROUNDING",
+      "requirement": "Each presented candidate must independently cite same-candidate HIGH identity, area, applicable HARD facts, and only when the user requested availability, fresh request-bound slot evidence.",
+      "observations": [
+        "candidate=tabelog:tokyo/A1304/A130401/100",
+        "citedEvidence=6",
+        "offers=1"
+      ],
+      "directCause": "Every presented candidate has independently linked evidence.",
+      "rootCauseHypothesis": "Execution artifact or accepted evidence contract lacks required detail.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:d9e519c1837c340798b582e8]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:233f64b073782f04ceadf5f8]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=tabelog:tokyo/A1304/A130401/100:document:541a5a016d298591]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tabelog:tokyo/A1304/A130401/100:2026-08-19T07:20:00.000Z:tabelog:tokyo/A1304/A130401/100:document:541a5a016d298591]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:abaa9c2c43668dd0af7b5ae8]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-availability:1e8e6300b2ffdeea8de9473e]",
+        "finalSnapshot.domainState.availability[tabelog:tokyo/A1304/A130401/100][id=offer:tabelog:tabelog:tokyo/A1304/A130401/100:2026-08-19:19:00:2]"
+      ],
+      "downstreamImpact": "The presentation is independently supported."
+    },
+    {
+      "dimension": "INVESTIGATION_BEHAVIOR",
+      "status": "SATISFIED",
+      "stage": "AGENT_LOOP",
+      "requirement": "Cited presentation evidence must originate in actually executed same-candidate observations for the applicable request; duplicate fact/availability reads remain checked without requiring either action type.",
+      "observations": [
+        "executedObservations=5",
+        "applicableObservations=5",
+        "executedInvestigationVisits=8",
+        "authorizedRechecks=none",
+        "duplicates=none"
+      ],
+      "directCause": "Executed observations are attributable without a duplicate fact/availability read.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "trajectories[0].observation",
+        "trajectories[1].observation",
+        "trajectories[2].observation",
+        "trajectories[3].observation",
+        "trajectories[6].observation"
+      ],
+      "downstreamImpact": "Observation lineage and duplicate-read accounting remain attributable."
+    },
+    {
+      "dimension": "FINAL_CLAIM",
+      "status": "SATISFIED",
+      "stage": "PRESENT_RESULTS",
+      "requirement": "A terminal presentation must agree with the independently checked, candidate-specific request and evidence records.",
+      "observations": [
+        "phase=PRESENT_RESULTS",
+        "loop=TERMINAL",
+        "presentedCandidates=1"
+      ],
+      "directCause": "Terminal presentation and independently evaluated evidence agree.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "loop",
+        "finalSnapshot.domainState.presentedResults",
+        "finalSnapshot.domainState.availability",
+        "finalSnapshot.domainState.readEvidence"
+      ],
+      "downstreamImpact": "Execution produced a qualified read-only result."
+    },
+    {
+      "dimension": "COMPLETION_OUTCOME",
+      "status": "SATISFIED",
+      "stage": "TERMINATION",
+      "requirement": "A scoped no-result outcome, user-input pause, controlled cancellation, budget/deadline stop, and internal execution failure must remain distinguishable from one another and from independently verified presentation.",
+      "observations": [
+        "completion=PRESENTATION_RECORDED",
+        "phase=PRESENT_RESULTS",
+        "loop=TERMINAL",
+        "noVerifiedResult=missing",
+        "failureCode=missing"
+      ],
+      "directCause": "A presentation was recorded and is checked independently above.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "status",
+        "execution.failureCode",
+        "loop.status",
+        "finalSnapshot.domainState.phase",
+        "finalSnapshot.domainState.noVerifiedResult",
+        "finalSnapshot.domainState.failure"
+      ],
+      "downstreamImpact": "Presentation support remains independently auditable."
+    },
+    {
+      "dimension": "RESOURCES",
+      "status": "SATISFIED",
+      "stage": "RUN_ACCOUNTING",
+      "requirement": "Artifact must provide valid applicable resource values; an object alone does not prove complete accounting or budget compliance.",
+      "observations": [],
+      "directCause": "Required resource fields are present and within readable applicable limits.",
+      "rootCauseHypothesis": "Runner limit/accounting requires review.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "resourceUsage",
+        "runCeilings",
+        "modelInvocations"
+      ],
+      "downstreamImpact": "Recorded budget use can be reviewed."
+    }
+  ],
+  "unassessedDimensions": [
+    "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+    "Cost is not inferred without explicit configured price inputs.",
+    "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+  ]
+}

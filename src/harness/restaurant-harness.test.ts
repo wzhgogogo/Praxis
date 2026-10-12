@@ -417,10 +417,10 @@ describe("restaurant booking mock harness", () => {
     });
     const snapshot = await harness.start(fixtureIntent);
 
-    assert.equal(harness.lastAgentLoopResult?.status, "NO_PROGRESS");
-    assert.equal(snapshot.domainState.phase, "FAILED");
-    assert.equal(snapshot.domainState.failure?.code, "AGENT_LOOP_NO_PROGRESS");
-    assert.equal(harness.trajectories.steps.at(-1)?.stepOutcome, "NO_PROGRESS");
+    assert.equal(harness.lastAgentLoopResult?.status, "TERMINAL");
+    assert.equal(snapshot.domainState.phase, "NO_VERIFIED_RESULT");
+    assert.ok(snapshot.domainState.noVerifiedResult?.remainingGaps.some(gap => gap.includes("AGENT_LOOP_NO_PROGRESS")));
+    assert.equal(harness.trajectories.steps.at(-1)?.stepOutcome, "TERMINAL");
     assert.equal(harness.runtime.eventLog.filter((entry) => entry.event.type === "SEARCH_FAILED").length, 1);
   });
 
@@ -471,22 +471,22 @@ describe("restaurant booking mock harness", () => {
       agentActions: [{ type: "SEARCH_RESTAURANTS" }],
     });
     const stepSnapshot = await stepHarness.start(fixtureIntent);
-    assert.equal(stepHarness.lastAgentLoopResult?.status, "STEP_LIMIT");
-    assert.equal(stepSnapshot.domainState.phase, "FAILED");
+    assert.equal(stepHarness.lastAgentLoopResult?.status, "TERMINAL");
+    assert.equal(stepSnapshot.domainState.phase, "NO_VERIFIED_RESULT");
     assert.equal(stepSnapshot.domainState.pendingUserQuestion, undefined);
-    assert.equal(stepSnapshot.domainState.failure?.code, "AGENT_LOOP_STEP_LIMIT");
-    assert.equal(stepHarness.trajectories.steps.at(-1)?.stepOutcome, "STEP_LIMIT");
+    assert.ok(stepSnapshot.domainState.noVerifiedResult?.remainingGaps.some(gap => gap.includes("AGENT_LOOP_STEP_LIMIT")));
+    assert.equal(stepHarness.trajectories.steps.at(-1)?.stepOutcome, "TERMINAL");
 
     const rejectionHarness = createHarness({
       agentLoopOptions: { maxRejectedActions: 1 },
       agentActions: [{ type: "BOOK_RESERVATION", candidateId: fixtureCandidates[0]!.restaurant.id, offerId: fixtureOffers[0]!.id }],
     });
     const rejectionSnapshot = await rejectionHarness.start(fixtureIntent);
-    assert.equal(rejectionHarness.lastAgentLoopResult?.status, "REJECTION_LIMIT");
-    assert.equal(rejectionSnapshot.domainState.phase, "FAILED");
+    assert.equal(rejectionHarness.lastAgentLoopResult?.status, "TERMINAL");
+    assert.equal(rejectionSnapshot.domainState.phase, "NO_VERIFIED_RESULT");
     assert.equal(rejectionSnapshot.domainState.pendingUserQuestion, undefined);
-    assert.equal(rejectionSnapshot.domainState.failure?.code, "AGENT_LOOP_REJECTION_LIMIT");
-    assert.equal(rejectionHarness.trajectories.steps.at(-1)?.stepOutcome, "REJECTION_LIMIT");
+    assert.ok(rejectionSnapshot.domainState.noVerifiedResult?.remainingGaps.some(gap => gap.includes("AGENT_LOOP_REJECTION_LIMIT")));
+    assert.equal(rejectionHarness.trajectories.steps.at(-1)?.stepOutcome, "TERMINAL");
     assert.equal(rejectionHarness.trajectories.steps.at(-1)?.causalRefs.eventIds.length, 1);
   });
 
@@ -506,9 +506,10 @@ describe("restaurant booking mock harness", () => {
       ],
     });
     const snapshot = await harness.start(fixtureIntent);
-    assert.equal(harness.lastAgentLoopResult?.status, "REJECTION_LIMIT");
-    assert.equal(snapshot.domainState.failure?.code, "AGENT_LOOP_REJECTION_LIMIT");
-    assert.match(snapshot.domainState.failure?.message ?? "", /AVAILABILITY_ALREADY_CHECKED/);
+    assert.equal(harness.lastAgentLoopResult?.status, "TERMINAL");
+    assert.equal(snapshot.domainState.phase, "NO_VERIFIED_RESULT");
+    assert.equal(snapshot.domainState.presentedResults, undefined);
+    assert.match(harness.trajectories.steps.at(-1)?.observation?.detail ?? "", /AVAILABILITY_ALREADY_CHECKED/);
     assert.equal(harness.trajectories.steps.filter((step) => step.stepOutcome === "REJECTED").length, 2);
   });
 
