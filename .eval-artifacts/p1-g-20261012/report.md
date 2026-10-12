@@ -43,3 +43,8 @@ B：三个组合使用Live同一 `createHybridReadComposition`，安装生产 `P
 用量截至准备结束：真实模型新增0，累计799/1500；Google新增0，已确认累计16、历史完整UNKNOWN；正式Live新增0，起点32，批准本批4次后为36，另最多2次启动后环境重跑。preflight尝试0、环境预留2。固定传输组合中的脚本模型/Google次数单列在组合产物中，不计真实用量。
 
 启动前和每次结束后按 `prep/README.md` 与用户原指令核对。不提前访问真实页面，不充值、不换Provider、不加回放，不推送。四次完成或触发停止条件后更新本报告和日志，仅本地提交，然后停下等待独立复核与签收。
+
+
+## Immediate-start authorization (2026-10-12)
+
+User: "批准你现在直接重跑，不等定时任务". Scheduled heartbeat p1-g-10-13-live PAUSED before execution. Only outer certification/start time validation changed to actual UTC2026-10-12T06:47:45Z-09:47:45Z (Tokyo15:47:45-18:47:45), retaining the original three-hour bound. Production9b34287, source inputs, budgets, post-delivery verification and stop rules unchanged. New execute SHA01fa1610ef8382ecd9e3d812f1672c38fed72a7943caa6b4896a17bcfd8d492d; certification SHA9031af83138a6269035e775d6f1ffc7af4d93db37c619604e66a43c08fb7bfe3. Offline dry-run early logs PASS, real network0. Authorization/old-new hashes in prep/early-start-authorization.json.

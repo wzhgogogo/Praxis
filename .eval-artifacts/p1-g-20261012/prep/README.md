@@ -40,3 +40,5 @@ Guard非预期放行、任何表单提交、预约/确认/支付点击或个人�
 离线检查：两类case空跑、展示绑定与selection正反例、额度true/false/类型错误/503反例通过，真实网络0。四门禁复用冻结生产B提交的本批最终绿灯853/853，外层没有新增生产代码路径。真实认证/Live仍未运行。
 
 本线程续跑心跳：`p1-g-10-13-live`，北京时间10/13 08:00。完成或停止后暂停心跳，更新报告、DEVLOG、TEST-LOG、STATUS和月索引，仅本地提交，等待独立复核。
+
+Latest user override: execute immediately on 10/12. Heartbeat PAUSED; approved outer window UTC2026-10-12T06:47:45Z-09:47:45Z, new hashes in freeze.json. All previous run/verification/budget/stop rules continue.

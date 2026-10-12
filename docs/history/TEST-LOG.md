@@ -4133,3 +4133,8 @@ L1: same createHybridReadComposition as Live, installed production PlaywrightRea
 ## TEST-2026-10-12-P1G-frozen-preparation
 
 Outer offline dry runs PASS for rev2 Kichijoji and original Gold@7, network forbidden; displayed-slot binding positive/negative checks PASS. Balance GET fixed-transport true/false/wrong-type/503 controls PASS (4 mock calls, 0 real calls). 12 frozen file SHAs checked, both production worktrees CLEAN. Production four gates reuse final B logs 853/853; no additional production change. Witness certification and Live NOT_RUN, future Tokyo10/13 09:00-12:00; cumulative real799/1500 models, 32 Live, Google confirmed16/full history UNKNOWN, environment reserve2. Report .eval-artifacts/p1-g-20261012/report.md.
+
+
+## TEST-2026-10-12-P1G-immediate-start
+
+Outer syntax, new freeze SHA and A/B offline dry-run early controls PASS, no network. Reuse final production four gates853/853; no production/Prompt/Schema/config change. Actual certification and Live outcomes recorded separately in P1-G report.

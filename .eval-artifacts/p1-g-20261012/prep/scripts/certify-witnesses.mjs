@@ -6,7 +6,7 @@ import { captureVacancy, selectionComparison } from './post-delivery.mjs';
 const root = '/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing';
 const batch = resolve(root, '.eval-artifacts/p1-g-20261012');
 const now = Date.now();
-if (now < Date.parse('2026-10-13T00:00:00Z') || now >= Date.parse('2026-10-13T03:00:00Z')) throw Error('OUTSIDE_P1G_WITNESS_CERTIFICATION_WINDOW');
+if (now < Date.parse('2026-10-12T06:47:45Z') || now >= Date.parse('2026-10-12T09:47:45Z')) throw Error('OUTSIDE_P1G_WITNESS_CERTIFICATION_WINDOW');
 const manifest = JSON.parse(await readFile(resolve(batch, 'prep/scripts/freeze.json'), 'utf8'));
 for (const [path, sha] of Object.entries(manifest.files)) {
   if (createHash('sha256').update(await readFile(path)).digest('hex') !== sha) throw Error('FROZEN_SCRIPT_OR_INPUT_CHANGED');

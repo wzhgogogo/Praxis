@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.199
+- Document revision: 4.200
 - Last updated: 2026-10-12
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-12 P1-G immediate start:** Latest human approval supersedes tomorrow schedule; heartbeat PAUSED. Only outer time checks changed, execute SHA01fa1610; production9b34287/CLEAN unchanged. Fresh witness certification precedes four approved runs, report updated with facts only.
 
 - **2026-10-12 P1-G preparation:** A/B frozen at9b34287 in CLEAN new host worktree, outer script SHA aa3379b5 and offline dry checks pass. Witness recertification and four Live runs scheduled Tokyo10/13 09:00-12:00 (thread heartbeat p1-g-10-13-live), currently NOT_RUN. Model799/1500, Live32 + approved4, environment reserve2. P1-F remains pending independent signoff; no push.
 

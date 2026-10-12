@@ -3449,3 +3449,8 @@ Non-system REJECTION_LIMIT, NO_PROGRESS and STEP_LIMIT reuse the existing Valida
 ## DEV-2026-10-12-P1G-frozen-preparation
 
 Frozen production 9b342871c514f963be5386e889c1542b1e6ce020 in new CLEAN p1-g-live worktree; P1-F 73bfca5 untouched. P1-G outer scripts add approved DeepSeek balance GET, four authorized cases, new budget/window/witness paths; existing post-delivery verifier/observer/reviewed read rules copied unchanged. Zero deliveries normalized to 0 for witness GET; preflight distinguished from formal result for accounting. No production/Prompt/Schema/config/Gold/variant changes. Heartbeat p1-g-10-13-live scheduled for 2026-10-13 Tokyo09:00, recertify witnesses before four runs. No real requests during preparation.
+
+
+## DEV-2026-10-12-P1G-immediate-start
+
+User explicitly approved immediate P1-G execution; scheduled heartbeat PAUSED. Only outer start/certification time checks amended and SHA refrozen. Production9b34287 and clean host worktree retained; budgets, post-delivery and safety rules unchanged. Start with fresh witness certification, then Kichijoji/h001/h003/h004.
