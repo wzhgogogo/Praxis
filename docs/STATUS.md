@@ -1,17 +1,19 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.200
+- Document revision: 4.201
 - Last updated: 2026-10-12
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
 
+- **2026-10-12 P1-G 四次 Live 完成：** 冻结9b34287/CLEAN；吉祥寺地点解析成功但零交付NO，h001仍FAILED/REJECTION_LIMIT（诚实结束目标未兑现），h003展示Aloft by Marriott Tokyo Ginza/150m/TableCheck/自动UNKNOWN，h004零交付NO。新增171模型/6Google/4Live，累计970/1500模型、36正式Live、Google已确认22（历史完整UNKNOWN），环境重跑0/预留2。7次preflight中3次503未启动、间隔≥15分钟；吉祥寺运行后见证GET已存，唯一TableCheck交付留原trace。报告 `.eval-artifacts/p1-g-20261012/report.md`。四门禁853/853只证明L0/L1；不能关闭h001实际链路缺口，四份录制NOT_REPLAYABLE/UNSAFE_DOCUMENT，多跳重定向仍已知边界。停止等待独立复核，不推送。
+
 - **2026-10-12 P1-G immediate start:** Latest human approval supersedes tomorrow schedule; heartbeat PAUSED. Only outer time checks changed, execute SHA01fa1610; production9b34287/CLEAN unchanged. Fresh witness certification precedes four approved runs, report updated with facts only.
 
-- **2026-10-12 P1-G preparation:** A/B frozen at9b34287 in CLEAN new host worktree, outer script SHA aa3379b5 and offline dry checks pass. Witness recertification and four Live runs scheduled Tokyo10/13 09:00-12:00 (thread heartbeat p1-g-10-13-live), currently NOT_RUN. Model799/1500, Live32 + approved4, environment reserve2. P1-F remains pending independent signoff; no push.
+- **2026-10-12 P1-G preparation:** A/B frozen at9b34287 in CLEAN new host worktree, outer script SHA aa3379b5 and offline dry checks pass. Preparation-time schedule was superseded by immediate-start approval; four runs are now complete (see latest entry). Model799/1500, Live32 + approved4, environment reserve2. P1-F remains pending independent signoff; no push.
 
-- **2026-10-12 P1-G B:** Non-system decision-loop stops now use qualified delivery or honest NO_VERIFIED_RESULT; system errors remain failures. Production Guard fixed-transport controls 3/3 and four gates 853/853 pass (L0/L1 only; optional L3 omitted). Next: freeze production, certify witnesses and execute the four authorized 10/13 Live runs. Independent signoff remains pending.
+- **2026-10-12 P1-G B:** Non-system decision-loop stops now use qualified delivery or honest NO_VERIFIED_RESULT; system errors remain failures. Production Guard fixed-transport controls 3/3 and four gates 853/853 pass (L0/L1 only; optional L3 omitted). Live verification is now complete; h001 still fails REJECTION_LIMIT. Independent signoff remains pending.
 
 - **2026-10-12 P1-G 修复A：** 地点名称去变音符号并接纳 colloquial_area，真实 Kichijōji 固定观察已先红后绿，原地理权限和100km规则保持；四门禁通过850/850。证据仅L0固定传输／保存投影，修复B及10/13 Live待执行；P1-F仍暂不签收。
 

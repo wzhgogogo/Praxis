@@ -4138,3 +4138,8 @@ Outer offline dry runs PASS for rev2 Kichijoji and original Gold@7, network forb
 ## TEST-2026-10-12-P1G-immediate-start
 
 Outer syntax, new freeze SHA and A/B offline dry-run early controls PASS, no network. Reuse final production four gates853/853; no production/Prompt/Schema/config change. Actual certification and Live outcomes recorded separately in P1-G report.
+
+
+## TEST-2026-10-12-P1G-live-final
+
+LIVE_READ_ONLY四行事实：吉祥寺320.806s/47模型/1Google/等待10.63%/浏览器超时有/0交付/NO；h001297.997s/30/3/18.49%/超时有/0交付/FAILED-UNKNOWN；h003319.326s/47/1/37.65%/超时有/1交付-150m/UNKNOWN；h004266.993s/47/1/12.09%/超时无/0交付/NO。evaluator@27，47/30/47/47决策与调用一致，原result/evaluator/decisions/recording路径及SHA见live/summary.json和各verification.json。录制均NOT_REPLAYABLE/UNSAFE_DOCUMENT，不能称Replay通过。7次preflight：4通过、3TableCheck503，余额7次可用，失败不计Live/环境预留；间隔≥15分钟。累计970/1500模型、36正式Live、Google已确认22/历史UNKNOWN，环境预留2。Guard多跳重定向已知缺口保持；无账本安全stop。只运行/文档变更，复用B四门禁853/853与L0/L1红绿日志；本轮L3额外回放0。h001 Live反例仍失败，局部组合不能替代实际链路故障关闭。纯文档矩阵核验差异、引用和事实一致性，等待独立复核。

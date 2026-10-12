@@ -1,0 +1,88 @@
+{
+  "mode": "LIVE_NETWORK_PREFLIGHT",
+  "preflightVersion": "live-network-preflight@1",
+  "runner": "HYBRID_LIVE_READ",
+  "plannedTargets": [
+    "DEEPSEEK",
+    "GOOGLE",
+    "TABELOG",
+    "TABLECHECK"
+  ],
+  "timeoutMs": 10000,
+  "generationModelCalls": 0,
+  "restaurantDiscoveryRequests": 0,
+  "evaluator": {
+    "applicability": "NOT_APPLICABLE",
+    "reason": "NETWORK_ONLY_DIAGNOSTIC_HAS_NO_RESTAURANT_CLAIM"
+  },
+  "network": {
+    "proxyMode": "DISABLED_BY_CLI"
+  },
+  "status": "SUCCEEDED",
+  "stage": "NETWORK_READINESS",
+  "artifactPath": "/Users/wangzhour/.codex/worktrees/p1-g-live/Praxis-Zhixing/.eval-artifacts/live-preflight/2026-10-12T07-38-38-563Z-d07d2625-e44c-4cbe-ba40-e09129815dcd.result.json",
+  "attempts": [
+    {
+      "target": "DEEPSEEK",
+      "request": {
+        "method": "GET",
+        "url": "https://api.deepseek.com/models",
+        "range": "NONE",
+        "authorization": "PRESENT"
+      },
+      "elapsedMs": 299,
+      "outcome": "REACHABLE",
+      "status": 200,
+      "tls": "ESTABLISHED"
+    },
+    {
+      "target": "GOOGLE",
+      "request": {
+        "method": "GET",
+        "url": "https://places.googleapis.com/",
+        "range": "NONE",
+        "authorization": "ABSENT"
+      },
+      "elapsedMs": 192,
+      "outcome": "REACHABLE",
+      "status": 404,
+      "tls": "ESTABLISHED"
+    },
+    {
+      "target": "TABELOG",
+      "request": {
+        "method": "GET",
+        "url": "https://tabelog.com/",
+        "range": "BYTES_0_0",
+        "authorization": "ABSENT"
+      },
+      "elapsedMs": 398,
+      "outcome": "REACHABLE",
+      "status": 200,
+      "tls": "ESTABLISHED"
+    },
+    {
+      "target": "TABLECHECK",
+      "request": {
+        "method": "GET",
+        "url": "https://www.tablecheck.com/en/",
+        "range": "BYTES_0_0",
+        "authorization": "ABSENT"
+      },
+      "elapsedMs": 1839,
+      "outcome": "REACHABLE",
+      "status": 206,
+      "tls": "ESTABLISHED"
+    }
+  ],
+  "elapsedMs": 2732,
+  "configuration": {
+    "proxyMode": "DISABLED_BY_CLI",
+    "googleProxyConfigured": false,
+    "browserProxyConfigured": false
+  },
+  "schemaVersion": "1",
+  "runId": "d07d2625-e44c-4cbe-ba40-e09129815dcd",
+  "startedAt": "2026-10-12T07:38:38.563Z",
+  "finishedAt": "2026-10-12T07:38:41.296Z"
+}

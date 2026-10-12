@@ -1,0 +1,31 @@
+{
+  "mode": "B",
+  "id": "h003",
+  "attempt": 2,
+  "startedAt": "2026-10-12T07:38:37.687Z",
+  "head": "9b342871c514f963be5386e889c1542b1e6ce020",
+  "worktree": "CLEAN",
+  "sourcePath": "/Users/wangzhour/.codex/worktrees/p1-g-live/Praxis-Zhixing/src/eval/restaurant/agent-loop/cases/e2e-cases.gold7.yaml",
+  "sourceSha256": "b346150074493e5a82e3d0dfb5ea5d18b3dbef17bb06d5101dfb15dfeb3ea40e",
+  "command": [
+    "node",
+    "--env-file-if-exists=/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.env",
+    "--import",
+    "tsx",
+    "--import",
+    "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-g-20261012/prep/scripts/observe.mjs",
+    "src/eval/restaurant/agent-loop/runners/run-hybrid-live-read.ts",
+    "--case",
+    "h003",
+    "--record-browser",
+    "--record-decisions",
+    "--no-proxy",
+    "--timeout-ms",
+    "500000",
+    "--max-model-calls",
+    "50",
+    "--max-google-requests",
+    "40"
+  ],
+  "freezeManifest": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-g-20261012/prep/scripts/freeze.json"
+}

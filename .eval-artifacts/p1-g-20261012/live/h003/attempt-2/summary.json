@@ -1,0 +1,509 @@
+{
+  "caseId": "h003",
+  "finishPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-g-20261012/live/h003/attempt-2/finish.json",
+  "head": "9b342871c514f963be5386e889c1542b1e6ce020",
+  "stop": null,
+  "witnessRaw": [],
+  "postDelivery": {
+    "rows": [
+      {
+        "candidateId": "tablecheck:aloft-tokyo-ginza",
+        "status": "TABLECHECK_RAW_TRACE_REVIEW",
+        "restaurant": {
+          "id": "tablecheck:aloft-tokyo-ginza",
+          "outletName": "Aloft by Marriott Tokyo Ginza",
+          "address": "104-0061 Tokyo Chuo-ku 6-14-3 Ginza",
+          "coordinates": {
+            "lat": 35.6688816,
+            "lng": 139.7656834
+          },
+          "sourceIds": {
+            "tablecheck": "aloft-tokyo-ginza",
+            "tablecheckNativeGuideUri": "https://www.tablecheck.com/en/aloft-tokyo-ginza",
+            "discoverySourceId": "tablecheck",
+            "discoveryDetailUri": "https://www.tablecheck.com/en/aloft-tokyo-ginza"
+          },
+          "provenance": {
+            "outletName": "evidence:restaurant:native-discovery:e6c49cea0c363238f994b3dc",
+            "address": "evidence:restaurant:native-discovery:e6c49cea0c363238f994b3dc",
+            "sourceIds": "evidence:restaurant:native-discovery:e6c49cea0c363238f994b3dc"
+          }
+        }
+      }
+    ],
+    "stop": null
+  },
+  "preflight": {
+    "mode": "LIVE_NETWORK_PREFLIGHT",
+    "preflightVersion": "live-network-preflight@1",
+    "runner": "HYBRID_LIVE_READ",
+    "plannedTargets": [
+      "DEEPSEEK",
+      "GOOGLE",
+      "TABELOG",
+      "TABLECHECK"
+    ],
+    "timeoutMs": 10000,
+    "generationModelCalls": 0,
+    "restaurantDiscoveryRequests": 0,
+    "evaluator": {
+      "applicability": "NOT_APPLICABLE",
+      "reason": "NETWORK_ONLY_DIAGNOSTIC_HAS_NO_RESTAURANT_CLAIM"
+    },
+    "network": {
+      "proxyMode": "DISABLED_BY_CLI"
+    },
+    "status": "SUCCEEDED",
+    "stage": "NETWORK_READINESS",
+    "artifactPath": "/Users/wangzhour/.codex/worktrees/p1-g-live/Praxis-Zhixing/.eval-artifacts/live-preflight/2026-10-12T07-38-38-563Z-d07d2625-e44c-4cbe-ba40-e09129815dcd.result.json",
+    "attempts": [
+      {
+        "target": "DEEPSEEK",
+        "request": {
+          "method": "GET",
+          "url": "https://api.deepseek.com/models",
+          "range": "NONE",
+          "authorization": "PRESENT"
+        },
+        "elapsedMs": 299,
+        "outcome": "REACHABLE",
+        "status": 200,
+        "tls": "ESTABLISHED"
+      },
+      {
+        "target": "GOOGLE",
+        "request": {
+          "method": "GET",
+          "url": "https://places.googleapis.com/",
+          "range": "NONE",
+          "authorization": "ABSENT"
+        },
+        "elapsedMs": 192,
+        "outcome": "REACHABLE",
+        "status": 404,
+        "tls": "ESTABLISHED"
+      },
+      {
+        "target": "TABELOG",
+        "request": {
+          "method": "GET",
+          "url": "https://tabelog.com/",
+          "range": "BYTES_0_0",
+          "authorization": "ABSENT"
+        },
+        "elapsedMs": 398,
+        "outcome": "REACHABLE",
+        "status": 200,
+        "tls": "ESTABLISHED"
+      },
+      {
+        "target": "TABLECHECK",
+        "request": {
+          "method": "GET",
+          "url": "https://www.tablecheck.com/en/",
+          "range": "BYTES_0_0",
+          "authorization": "ABSENT"
+        },
+        "elapsedMs": 1839,
+        "outcome": "REACHABLE",
+        "status": 206,
+        "tls": "ESTABLISHED"
+      }
+    ],
+    "elapsedMs": 2732,
+    "configuration": {
+      "proxyMode": "DISABLED_BY_CLI",
+      "googleProxyConfigured": false,
+      "browserProxyConfigured": false
+    },
+    "schemaVersion": "1",
+    "runId": "d07d2625-e44c-4cbe-ba40-e09129815dcd",
+    "startedAt": "2026-10-12T07:38:38.563Z",
+    "finishedAt": "2026-10-12T07:38:41.296Z"
+  },
+  "preflightOnly": false,
+  "status": "SUCCEEDED",
+  "stage": "AGENT_LOOP",
+  "failureCode": null,
+  "phase": "PRESENT_RESULTS",
+  "termination": null,
+  "startedAt": "2026-10-12T07:38:41.365Z",
+  "finishedAt": "2026-10-12T07:44:00.806Z",
+  "resultPath": "/Users/wangzhour/.codex/worktrees/p1-g-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-12T07-38-41-365Z-93be1159-74d2-40d6-b370-2c45bebda194.result.json",
+  "evaluationPath": "/Users/wangzhour/.codex/worktrees/p1-g-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-12T07-38-41-365Z-93be1159-74d2-40d6-b370-2c45bebda194.result.evaluation.27-1791791041023.json",
+  "evaluatorVersion": "restaurant-hybrid-read-diagnostic-evaluator@27",
+  "evaluation": {
+    "status": "SUCCEEDED",
+    "stage": "AGENT_LOOP",
+    "taskProducedQualifiedResult": "UNKNOWN",
+    "systemBehavior": "NOT_EVALUATED",
+    "externalConditions": "OBSERVED",
+    "evidenceSufficiency": "SUFFICIENT_FOR_PRESENTED_RESULT",
+    "completion": "PRESENTATION_RECORDED"
+  },
+  "findings": [
+    {
+      "dimension": "AUTHORITATIVE_CONDITIONS",
+      "status": "NOT_EVALUATED",
+      "stage": "SEMANTIC_TO_FINAL_STATE",
+      "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+      "observations": [
+        "Unresolved criterion wording: criteria.text expected=[team dinner] actual=[suitable for a team dinner]."
+      ],
+      "directCause": "Criterion text differs without a deterministic equivalence rule; independent semantic review is required.",
+      "rootCauseHypothesis": "The model may have paraphrased, omitted, or added a criterion; the evaluator does not guess which.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "materializedCase.semantic",
+        "finalSnapshot.domainState.intentDraft"
+      ],
+      "downstreamImpact": "Do not claim automatic semantic fidelity for the text difference; grounding remains independently evaluated against the actual request."
+    },
+    {
+      "dimension": "REQUIRED_EVIDENCE",
+      "status": "SATISFIED",
+      "stage": "GROUNDING",
+      "requirement": "Each presented candidate must independently cite same-candidate HIGH identity, area, applicable HARD facts, and only when the user requested availability, fresh request-bound slot evidence.",
+      "observations": [
+        "candidate=tablecheck:aloft-tokyo-ginza",
+        "citedEvidence=3",
+        "offers=8"
+      ],
+      "directCause": "Every presented candidate has independently linked evidence.",
+      "rootCauseHypothesis": "Execution artifact or accepted evidence contract lacks required detail.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:e6c49cea0c363238f994b3dc]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-entity-match:93f2c3a5d7d0419b2a79ccca]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-availability:680645eb3bf27da729665a61]",
+        "finalSnapshot.domainState.availability[tablecheck:aloft-tokyo-ginza][id=offer:tablecheck:tablecheck:aloft-tokyo-ginza:2026-10-16:17:30:10]",
+        "finalSnapshot.domainState.availability[tablecheck:aloft-tokyo-ginza][id=offer:tablecheck:tablecheck:aloft-tokyo-ginza:2026-10-16:18:00:10]",
+        "finalSnapshot.domainState.availability[tablecheck:aloft-tokyo-ginza][id=offer:tablecheck:tablecheck:aloft-tokyo-ginza:2026-10-16:18:30:10]",
+        "finalSnapshot.domainState.availability[tablecheck:aloft-tokyo-ginza][id=offer:tablecheck:tablecheck:aloft-tokyo-ginza:2026-10-16:19:00:10]",
+        "finalSnapshot.domainState.availability[tablecheck:aloft-tokyo-ginza][id=offer:tablecheck:tablecheck:aloft-tokyo-ginza:2026-10-16:19:30:10]",
+        "finalSnapshot.domainState.availability[tablecheck:aloft-tokyo-ginza][id=offer:tablecheck:tablecheck:aloft-tokyo-ginza:2026-10-16:20:00:10]",
+        "finalSnapshot.domainState.availability[tablecheck:aloft-tokyo-ginza][id=offer:tablecheck:tablecheck:aloft-tokyo-ginza:2026-10-16:20:30:10]",
+        "finalSnapshot.domainState.availability[tablecheck:aloft-tokyo-ginza][id=offer:tablecheck:tablecheck:aloft-tokyo-ginza:2026-10-16:21:00:10]",
+        "browserTrace[sequence=1440]"
+      ],
+      "downstreamImpact": "The presentation is independently supported."
+    },
+    {
+      "dimension": "INVESTIGATION_BEHAVIOR",
+      "status": "SATISFIED",
+      "stage": "AGENT_LOOP",
+      "requirement": "Cited presentation evidence must originate in actually executed same-candidate observations for the applicable request; duplicate fact/availability reads remain checked without requiring either action type.",
+      "observations": [
+        "raw TableCheck snapshot sequence 1440 reports AVAILABLE for the requested date, party size, and time.",
+        "executedObservations=8",
+        "applicableObservations=8",
+        "executedInvestigationVisits=13",
+        "authorizedRechecks=none",
+        "duplicates=none"
+      ],
+      "directCause": "Executed observations are attributable without a duplicate fact/availability read.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "trajectories[0].observation",
+        "trajectories[1].observation",
+        "trajectories[2].observation",
+        "trajectories[3].observation",
+        "trajectories[4].observation",
+        "trajectories[6].observation",
+        "trajectories[7].observation",
+        "trajectories[9].observation",
+        "browserTrace[sequence=1440]"
+      ],
+      "downstreamImpact": "Observation lineage and duplicate-read accounting remain attributable."
+    },
+    {
+      "dimension": "FINAL_CLAIM",
+      "status": "NOT_EVALUATED",
+      "stage": "PRESENT_RESULTS",
+      "requirement": "A terminal presentation must agree with the independently checked, candidate-specific request and evidence records.",
+      "observations": [
+        "phase=PRESENT_RESULTS",
+        "loop=TERMINAL",
+        "presentedCandidates=1"
+      ],
+      "directCause": "Terminal presentation has conflicting or insufficient independent support.",
+      "rootCauseHypothesis": "Verifier, serialization, or upstream execution record requires review.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "loop",
+        "finalSnapshot.domainState.presentedResults",
+        "finalSnapshot.domainState.availability",
+        "finalSnapshot.domainState.readEvidence"
+      ],
+      "downstreamImpact": "No qualified completion can be claimed."
+    },
+    {
+      "dimension": "COMPLETION_OUTCOME",
+      "status": "NOT_EVALUATED",
+      "stage": "TERMINATION",
+      "requirement": "A scoped no-result outcome, user-input pause, controlled cancellation, budget/deadline stop, and internal execution failure must remain distinguishable from one another and from independently verified presentation.",
+      "observations": [
+        "completion=PRESENTATION_RECORDED",
+        "phase=PRESENT_RESULTS",
+        "loop=TERMINAL",
+        "noVerifiedResult=missing",
+        "failureCode=missing"
+      ],
+      "directCause": "A presentation was recorded and is checked independently above.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "status",
+        "execution.failureCode",
+        "loop.status",
+        "finalSnapshot.domainState.phase",
+        "finalSnapshot.domainState.noVerifiedResult",
+        "finalSnapshot.domainState.failure"
+      ],
+      "downstreamImpact": "Presentation support remains independently auditable."
+    },
+    {
+      "dimension": "RESOURCES",
+      "status": "SATISFIED",
+      "stage": "RUN_ACCOUNTING",
+      "requirement": "Artifact must provide valid applicable resource values; an object alone does not prove complete accounting or budget compliance.",
+      "observations": [],
+      "directCause": "Required resource fields are present and within readable applicable limits.",
+      "rootCauseHypothesis": "Runner limit/accounting requires review.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "resourceUsage",
+        "runCeilings",
+        "modelInvocations"
+      ],
+      "downstreamImpact": "Recorded budget use can be reviewed."
+    }
+  ],
+  "deliveryCount": 1,
+  "deliveries": [
+    {
+      "candidateId": "tablecheck:aloft-tokyo-ginza",
+      "name": "Aloft by Marriott Tokyo Ginza",
+      "sourceIds": {
+        "tablecheck": "aloft-tokyo-ginza",
+        "tablecheckNativeGuideUri": "https://www.tablecheck.com/en/aloft-tokyo-ginza",
+        "discoverySourceId": "tablecheck",
+        "discoveryDetailUri": "https://www.tablecheck.com/en/aloft-tokyo-ginza"
+      },
+      "providers": [
+        "TABLECHECK"
+      ],
+      "distanceMeters": 150,
+      "coordinates": {
+        "lat": 35.6688816,
+        "lng": 139.7656834
+      }
+    }
+  ],
+  "locationContext": {
+    "latitude": 35.6697,
+    "longitude": 139.767,
+    "radiusMeters": 1000,
+    "label": "nearby",
+    "areaMatchBasis": "TASK_LOCATION_RADIUS",
+    "addressComponents": [
+      {
+        "longText": "東銀座駅",
+        "shortText": "東銀座駅",
+        "types": [
+          "establishment",
+          "point_of_interest",
+          "subway_station",
+          "transit_station"
+        ]
+      },
+      {
+        "longText": "１０先",
+        "shortText": "１０先",
+        "types": [
+          "premise"
+        ]
+      },
+      {
+        "longText": "１０",
+        "shortText": "１０",
+        "types": [
+          "political",
+          "sublocality",
+          "sublocality_level_4"
+        ]
+      },
+      {
+        "longText": "４丁目",
+        "shortText": "４丁目",
+        "types": [
+          "political",
+          "sublocality",
+          "sublocality_level_3"
+        ]
+      },
+      {
+        "longText": "銀座",
+        "shortText": "銀座",
+        "types": [
+          "political",
+          "sublocality",
+          "sublocality_level_2"
+        ]
+      },
+      {
+        "longText": "中央区",
+        "shortText": "中央区",
+        "types": [
+          "locality",
+          "political"
+        ]
+      },
+      {
+        "longText": "東京都",
+        "shortText": "東京都",
+        "types": [
+          "administrative_area_level_1",
+          "political"
+        ]
+      },
+      {
+        "longText": "日本",
+        "shortText": "JP",
+        "types": [
+          "country",
+          "political"
+        ]
+      },
+      {
+        "longText": "104-0061",
+        "shortText": "104-0061",
+        "types": [
+          "postal_code"
+        ]
+      }
+    ],
+    "addressObservation": {
+      "source": "GOOGLE_GEOCODING",
+      "observedAt": "2026-10-12T07:38:45.486Z",
+      "status": "OBSERVED"
+    }
+  },
+  "locationResolutionTypes": "NOT_RETAINED_BY_FROZEN_RUNNER; addressComponents.types retained in locationContext",
+  "elapsedMs": 319326,
+  "models": 47,
+  "google": 1,
+  "googleBreakdown": {
+    "limit": 40,
+    "total": 1,
+    "namedPlaceResolution": 0,
+    "discovery": 0,
+    "placeDetails": 0,
+    "reverseAddressObservation": 1
+  },
+  "waitMs": 120239,
+  "waitPercent": 37.65,
+  "browserTimeout": true,
+  "timeoutReferences": [
+    {
+      "sequence": 1408,
+      "kind": "EXECUTOR_DIAGNOSTIC",
+      "detail": {
+        "source": "TABLECHECK",
+        "stage": "AVAILABILITY",
+        "event": "MODEL_DECISION_FAILED",
+        "detail": "Browser MODEL_DECISION exceeded the provider deadline",
+        "lifecycle": {
+          "outcome": "FAILED",
+          "candidateElapsedMs": 45012,
+          "providerElapsedMs": 45012,
+          "candidateModelCalls": 7,
+          "providerModelCalls": 7,
+          "candidateRuntimeOperations": 34,
+          "providerRuntimeOperations": 34,
+          "runModelCalls": 33,
+          "scope": "PROVIDER",
+          "reason": "DEADLINE_EXCEEDED",
+          "failureCode": "BROWSER_TIMEOUT"
+        },
+        "candidateId": "tablecheck:alaska-asahi",
+        "elapsedMs": 45012
+      }
+    }
+  ],
+  "decisionCapture": {
+    "path": "/Users/wangzhour/.codex/worktrees/p1-g-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-12T07-38-41-365Z-93be1159-74d2-40d6-b370-2c45bebda194.decisions.jsonl",
+    "sha256": "fe5f2f9f6b73b0c42050875c9d4dc3e22a547887a1aeaa9f05935853adb2d78d",
+    "callsStarted": 47,
+    "rowsWritten": 47,
+    "errors": []
+  },
+  "decisionCount": 47,
+  "decisionCountMatchesModelCalls": true,
+  "recording": {
+    "path": "/Users/wangzhour/.codex/worktrees/p1-g-live/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1791790721315",
+    "screenshot": "LAYOUT_ONLY_CONTENT_MASKED",
+    "replay": {
+      "status": "NOT_REPLAYABLE",
+      "reason": "UNSAFE_DOCUMENT"
+    }
+  },
+  "preflightPath": "/Users/wangzhour/.codex/worktrees/p1-g-live/Praxis-Zhixing/.eval-artifacts/live-preflight/2026-10-12T07-38-38-563Z-d07d2625-e44c-4cbe-ba40-e09129815dcd.result.json",
+  "resourceUsage": {
+    "discoveryCandidates": 10,
+    "candidatesChecked": 8,
+    "agentDecisions": 10,
+    "browserModelCalls": 36,
+    "modelCallsStarted": 47,
+    "browserRuntimeCalls": 263,
+    "browserOperationsByCandidate": {
+      "native-discovery:VENUE_SEARCH": 30,
+      "tablecheck:1864-ginza": 28,
+      "tablecheck:ahill-ginza": 28,
+      "tablecheck:0711-ginzabistro": 28,
+      "tablecheck:168tenshin-ginzainz": 24,
+      "tablecheck:ageru-karin": 33,
+      "tablecheck:ain-soph-ginza": 33,
+      "tablecheck:alaska-asahi": 34,
+      "tablecheck:aloft-tokyo-ginza": 25
+    },
+    "pageStillLoadingWithinBound": 49,
+    "postActionWaitTotalMs": 120239,
+    "browserModelActions": 34,
+    "googleRequests": {
+      "limit": 40,
+      "total": 1,
+      "namedPlaceResolution": 0,
+      "discovery": 0,
+      "placeDetails": 0,
+      "reverseAddressObservation": 1
+    },
+    "elapsedMs": 319326
+  },
+  "cohort": "DEVELOPMENT_DIAGNOSTIC",
+  "runtimeContext": {
+    "commitSha": "9b342871c514f963be5386e889c1542b1e6ce020",
+    "worktree": "CLEAN",
+    "dataset": {
+      "version": "restaurant-read-development@7",
+      "sourcePath": "src/eval/restaurant/agent-loop/cases/e2e-cases.gold7.yaml",
+      "sha256": "b346150074493e5a82e3d0dfb5ea5d18b3dbef17bb06d5101dfb15dfeb3ea40e",
+      "cohort": "DEVELOPMENT_DIAGNOSTIC",
+      "contaminationStatus": "PROMPT_AND_RESULT_EXPOSED",
+      "baselineEligible": false
+    },
+    "browserEngine": "LOCAL_CHROMIUM",
+    "preflight": {
+      "artifactPath": "/Users/wangzhour/.codex/worktrees/p1-g-live/Praxis-Zhixing/.eval-artifacts/live-preflight/2026-10-12T07-38-38-563Z-d07d2625-e44c-4cbe-ba40-e09129815dcd.result.json",
+      "elapsedMs": 2732,
+      "targetCount": 4
+    },
+    "nodeVersion": "v24.4.1",
+    "skillHashes": {
+      "browserRead": "9323b53e7521d37d4251d06fe64a3238aeb0ba1cb382163c068e2990291cc8c9",
+      "tablecheck": "70cd360a57230539b7365298bfd0c6902bd75bb6ba711d992bb67bea15ae072b",
+      "tabelog": "3f4707ba4431f1245eaefb1692be5a4550e17a98129ff4ec645c347cd52c52d2"
+    }
+  }
+}

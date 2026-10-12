@@ -1,0 +1,394 @@
+{
+  "caseId": "h001",
+  "finishPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-g-20261012/live/h001/attempt-1/finish.json",
+  "head": "9b342871c514f963be5386e889c1542b1e6ce020",
+  "stop": null,
+  "witnessRaw": [],
+  "postDelivery": null,
+  "preflight": {
+    "mode": "LIVE_NETWORK_PREFLIGHT",
+    "preflightVersion": "live-network-preflight@1",
+    "runner": "HYBRID_LIVE_READ",
+    "plannedTargets": [
+      "DEEPSEEK",
+      "GOOGLE",
+      "TABELOG",
+      "TABLECHECK"
+    ],
+    "timeoutMs": 10000,
+    "generationModelCalls": 0,
+    "restaurantDiscoveryRequests": 0,
+    "evaluator": {
+      "applicability": "NOT_APPLICABLE",
+      "reason": "NETWORK_ONLY_DIAGNOSTIC_HAS_NO_RESTAURANT_CLAIM"
+    },
+    "network": {
+      "proxyMode": "DISABLED_BY_CLI"
+    },
+    "status": "SUCCEEDED",
+    "stage": "NETWORK_READINESS",
+    "artifactPath": "/Users/wangzhour/.codex/worktrees/p1-g-live/Praxis-Zhixing/.eval-artifacts/live-preflight/2026-10-12T07-11-49-676Z-19c68cd0-cf11-4b8d-97b7-58c5250caa53.result.json",
+    "attempts": [
+      {
+        "target": "DEEPSEEK",
+        "request": {
+          "method": "GET",
+          "url": "https://api.deepseek.com/models",
+          "range": "NONE",
+          "authorization": "PRESENT"
+        },
+        "elapsedMs": 333,
+        "outcome": "REACHABLE",
+        "status": 200,
+        "tls": "ESTABLISHED"
+      },
+      {
+        "target": "GOOGLE",
+        "request": {
+          "method": "GET",
+          "url": "https://places.googleapis.com/",
+          "range": "NONE",
+          "authorization": "ABSENT"
+        },
+        "elapsedMs": 188,
+        "outcome": "REACHABLE",
+        "status": 404,
+        "tls": "ESTABLISHED"
+      },
+      {
+        "target": "TABELOG",
+        "request": {
+          "method": "GET",
+          "url": "https://tabelog.com/",
+          "range": "BYTES_0_0",
+          "authorization": "ABSENT"
+        },
+        "elapsedMs": 441,
+        "outcome": "REACHABLE",
+        "status": 200,
+        "tls": "ESTABLISHED"
+      },
+      {
+        "target": "TABLECHECK",
+        "request": {
+          "method": "GET",
+          "url": "https://www.tablecheck.com/en/",
+          "range": "BYTES_0_0",
+          "authorization": "ABSENT"
+        },
+        "elapsedMs": 2602,
+        "outcome": "REACHABLE",
+        "status": 206,
+        "tls": "ESTABLISHED"
+      }
+    ],
+    "elapsedMs": 3569,
+    "configuration": {
+      "proxyMode": "DISABLED_BY_CLI",
+      "googleProxyConfigured": false,
+      "browserProxyConfigured": false
+    },
+    "schemaVersion": "1",
+    "runId": "19c68cd0-cf11-4b8d-97b7-58c5250caa53",
+    "startedAt": "2026-10-12T07:11:49.676Z",
+    "finishedAt": "2026-10-12T07:11:53.246Z"
+  },
+  "preflightOnly": false,
+  "status": "FAILED",
+  "stage": "AGENT_LOOP",
+  "failureCode": "LIVE_CASE_NOT_COMPLETED",
+  "phase": "FAILED",
+  "termination": null,
+  "startedAt": "2026-10-12T07:11:53.308Z",
+  "finishedAt": "2026-10-12T07:16:51.397Z",
+  "resultPath": "/Users/wangzhour/.codex/worktrees/p1-g-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-12T07-11-53-308Z-c8e5fbf5-e7be-4f5a-a439-fc2dd79512ff.result.json",
+  "evaluationPath": "/Users/wangzhour/.codex/worktrees/p1-g-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-12T07-11-53-308Z-c8e5fbf5-e7be-4f5a-a439-fc2dd79512ff.result.evaluation.27-1791789411577.json",
+  "evaluatorVersion": "restaurant-hybrid-read-diagnostic-evaluator@27",
+  "evaluation": {
+    "status": "FAILED",
+    "stage": "AGENT_LOOP",
+    "taskProducedQualifiedResult": "UNKNOWN",
+    "systemBehavior": "NOT_EVALUATED",
+    "externalConditions": "OBSERVED",
+    "evidenceSufficiency": "NOT_EVALUATED",
+    "completion": "NOT_EVALUATED"
+  },
+  "findings": [
+    {
+      "dimension": "AUTHORITATIVE_CONDITIONS",
+      "status": "SATISFIED",
+      "stage": "SEMANTIC_TO_FINAL_STATE",
+      "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+      "observations": [
+        "All independently readable applicable request fields match."
+      ],
+      "directCause": "No conflict observed.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "materializedCase.semantic",
+        "finalSnapshot.domainState.intentDraft"
+      ],
+      "downstreamImpact": "Grounding can be evaluated against one request."
+    },
+    {
+      "dimension": "REQUIRED_EVIDENCE",
+      "status": "NOT_EVALUATED",
+      "stage": "GROUNDING",
+      "requirement": "Each presented candidate must independently cite same-candidate HIGH identity, area, applicable HARD facts, and only when the user requested availability, fresh request-bound slot evidence.",
+      "observations": [],
+      "directCause": "Artifact records or accepted evidence contract are insufficient for an independent conclusion.",
+      "rootCauseHypothesis": "Execution artifact or accepted evidence contract lacks required detail.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [],
+      "downstreamImpact": "Do not claim an evidence-grounded result from this artifact."
+    },
+    {
+      "dimension": "INVESTIGATION_BEHAVIOR",
+      "status": "SATISFIED",
+      "stage": "AGENT_LOOP",
+      "requirement": "Cited presentation evidence must originate in actually executed same-candidate observations for the applicable request; duplicate fact/availability reads remain checked without requiring either action type.",
+      "observations": [
+        "executedObservations=10",
+        "applicableObservations=10",
+        "executedInvestigationVisits=7",
+        "authorizedRechecks=none",
+        "duplicates=none"
+      ],
+      "directCause": "Executed observations are attributable without a duplicate fact/availability read.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "trajectories[0].observation",
+        "trajectories[1].observation",
+        "trajectories[2].observation",
+        "trajectories[3].observation",
+        "trajectories[4].observation",
+        "trajectories[5].observation",
+        "trajectories[6].observation",
+        "trajectories[7].observation",
+        "trajectories[8].observation",
+        "trajectories[9].observation"
+      ],
+      "downstreamImpact": "Observation lineage and duplicate-read accounting remain attributable."
+    },
+    {
+      "dimension": "FINAL_CLAIM",
+      "status": "NOT_EVALUATED",
+      "stage": "PRESENT_RESULTS",
+      "requirement": "A terminal presentation must agree with the independently checked, candidate-specific request and evidence records.",
+      "observations": [
+        "phase=FAILED",
+        "loop=REJECTION_LIMIT",
+        "presentedCandidates=0"
+      ],
+      "directCause": "No terminal presentation was executed.",
+      "rootCauseHypothesis": "Verifier, serialization, or upstream execution record requires review.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "loop",
+        "finalSnapshot.domainState.presentedResults",
+        "finalSnapshot.domainState.availability",
+        "finalSnapshot.domainState.readEvidence"
+      ],
+      "downstreamImpact": "No qualified completion can be claimed."
+    },
+    {
+      "dimension": "COMPLETION_OUTCOME",
+      "status": "NOT_EVALUATED",
+      "stage": "TERMINATION",
+      "requirement": "A scoped no-result outcome, user-input pause, controlled cancellation, budget/deadline stop, and internal execution failure must remain distinguishable from one another and from independently verified presentation.",
+      "observations": [
+        "completion=NOT_EVALUATED",
+        "phase=FAILED",
+        "loop=REJECTION_LIMIT",
+        "noVerifiedResult=missing",
+        "failureCode=LIVE_CASE_NOT_COMPLETED"
+      ],
+      "directCause": "Artifact lacks enough terminal information to classify the outcome.",
+      "rootCauseHypothesis": "Historical artifact or terminal serialization requires review.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "status",
+        "execution.failureCode",
+        "loop.status",
+        "finalSnapshot.domainState.phase",
+        "finalSnapshot.domainState.noVerifiedResult",
+        "finalSnapshot.domainState.failure"
+      ],
+      "downstreamImpact": "No reliable outcome classification can be claimed."
+    },
+    {
+      "dimension": "RESOURCES",
+      "status": "SATISFIED",
+      "stage": "RUN_ACCOUNTING",
+      "requirement": "Artifact must provide valid applicable resource values; an object alone does not prove complete accounting or budget compliance.",
+      "observations": [],
+      "directCause": "Required resource fields are present and within readable applicable limits.",
+      "rootCauseHypothesis": "Runner limit/accounting requires review.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "resourceUsage",
+        "runCeilings",
+        "modelInvocations"
+      ],
+      "downstreamImpact": "Recorded budget use can be reviewed."
+    }
+  ],
+  "deliveryCount": 0,
+  "deliveries": [],
+  "locationContext": {
+    "latitude": 35.6619707,
+    "longitude": 139.70379499999999,
+    "radiusMeters": 1000,
+    "label": "Shibuya",
+    "areaMatchBasis": "NAMED_PLACE_RADIUS",
+    "addressComponents": [
+      {
+        "longText": "Shibuya",
+        "shortText": "Shibuya",
+        "types": [
+          "locality",
+          "political"
+        ]
+      },
+      {
+        "longText": "Tokyo",
+        "shortText": "Tokyo",
+        "types": [
+          "administrative_area_level_1",
+          "political"
+        ]
+      },
+      {
+        "longText": "Japan",
+        "shortText": "JP",
+        "types": [
+          "country",
+          "political"
+        ]
+      }
+    ]
+  },
+  "locationResolutionTypes": "NOT_RETAINED_BY_FROZEN_RUNNER; addressComponents.types retained in locationContext",
+  "elapsedMs": 297997,
+  "models": 30,
+  "google": 3,
+  "googleBreakdown": {
+    "limit": 40,
+    "total": 3,
+    "namedPlaceResolution": 1,
+    "discovery": 2,
+    "placeDetails": 0,
+    "reverseAddressObservation": 0
+  },
+  "waitMs": 55089,
+  "waitPercent": 18.49,
+  "browserTimeout": true,
+  "timeoutReferences": [
+    {
+      "sequence": 297,
+      "kind": "SESSION_ERROR",
+      "detail": {
+        "method": "click",
+        "error": {
+          "name": "BrowserRuntimeError",
+          "message": "Local Playwright Chromium operation failed",
+          "code": "BROWSER_RUNTIME_FAILED",
+          "cause": {
+            "name": "TimeoutError",
+            "message": "elementHandle.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <th>…</th> from <div id=\"rstlst-search-box\" class=\"js-rstlst-search-box\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <th>…</th> from <div id=\"rstlst-search-box\" class=\"js-rstlst-search-box\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  2 × retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <p class=\"c-modal__title list-research-modal__title\">↵      Change filters（More filters）↵    </p> from <div id=\"rstlst-search-box\" class=\"js-rstlst-search-box\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  2 × retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <th>…</th> from <div id=\"rstlst-search-box\" class=\"js-rstlst-search-box\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <th>…</th> from <div id=\"rstlst-search-box\" class=\"js-rstlst-search-box\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <p class=\"c-modal__title list-research-modal__title\">↵      Change filters（More filters）↵    </p> from <div id=\"rstlst-search-box\" class=\"js-rstlst-search-box\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <p class=\"c-modal__title list-research-modal__title\">↵      Change filters（More filters）↵    </p> from <div id=\"rstlst-search-box\" class=\"js-rstlst-search-box\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 500ms\u001b[22m\n"
+          }
+        }
+      }
+    },
+    {
+      "sequence": 318,
+      "kind": "SESSION_ERROR",
+      "detail": {
+        "method": "click",
+        "error": {
+          "name": "BrowserRuntimeError",
+          "message": "Local Playwright Chromium operation failed",
+          "code": "BROWSER_RUNTIME_FAILED",
+          "cause": {
+            "name": "TimeoutError",
+            "message": "elementHandle.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <p class=\"c-modal__title list-research-modal__title\">↵      Change filters（More filters）↵    </p> from <div id=\"rstlst-search-box\" class=\"js-rstlst-search-box\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <th>…</th> from <div id=\"rstlst-search-box\" class=\"js-rstlst-search-box\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <th>…</th> from <div id=\"rstlst-search-box\" class=\"js-rstlst-search-box\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  2 × retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <p class=\"c-modal__title list-research-modal__title\">↵      Change filters（More filters）↵    </p> from <div id=\"rstlst-search-box\" class=\"js-rstlst-search-box\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  2 × retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <th>…</th> from <div id=\"rstlst-search-box\" class=\"js-rstlst-search-box\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <th>…</th> from <div id=\"rstlst-search-box\" class=\"js-rstlst-search-box\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <p class=\"c-modal__title list-research-modal__title\">↵      Change filters（More filters）↵    </p> from <div id=\"rstlst-search-box\" class=\"js-rstlst-search-box\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <p class=\"c-modal__title list-research-modal__title\">↵      Change filters（More filters）↵    </p> from <div id=\"rstlst-search-box\" class=\"js-rstlst-search-box\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 500ms\u001b[22m\n"
+          }
+        }
+      }
+    }
+  ],
+  "decisionCapture": {
+    "path": "/Users/wangzhour/.codex/worktrees/p1-g-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-12T07-11-53-308Z-c8e5fbf5-e7be-4f5a-a439-fc2dd79512ff.decisions.jsonl",
+    "sha256": "ee4058213bd2144dd8d076049d68a276a798c5f2944a6c1efa03b8aec95ecd54",
+    "callsStarted": 30,
+    "rowsWritten": 30,
+    "errors": []
+  },
+  "decisionCount": 30,
+  "decisionCountMatchesModelCalls": true,
+  "recording": {
+    "path": "/Users/wangzhour/.codex/worktrees/p1-g-live/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1791789113264",
+    "screenshot": "LAYOUT_ONLY_CONTENT_MASKED",
+    "replay": {
+      "status": "NOT_REPLAYABLE",
+      "reason": "UNSAFE_DOCUMENT"
+    }
+  },
+  "preflightPath": "/Users/wangzhour/.codex/worktrees/p1-g-live/Praxis-Zhixing/.eval-artifacts/live-preflight/2026-10-12T07-11-49-676Z-19c68cd0-cf11-4b8d-97b7-58c5250caa53.result.json",
+  "resourceUsage": {
+    "discoveryCandidates": 38,
+    "candidatesChecked": 5,
+    "agentDecisions": 15,
+    "browserModelCalls": 12,
+    "modelCallsStarted": 30,
+    "browserRuntimeCalls": 187,
+    "browserOperationsByCandidate": {
+      "native-discovery:DIRECTORY": 42,
+      "tabelog:en/tokyo/A1303/A130301/13308491": 11,
+      "native-discovery:VENUE_SEARCH": 30,
+      "tablecheck:sushi-itsumi-michiyuki": 27,
+      "praxis:restaurant:6343d9d19c9b69881948e082": 28,
+      "praxis:restaurant:690eacddc99105af5a3a0f53": 23,
+      "praxis:restaurant:d7560a4b60970a42216f0c2a": 26
+    },
+    "pageStillLoadingWithinBound": 43,
+    "postActionWaitTotalMs": 55089,
+    "browserModelActions": 9,
+    "googleRequests": {
+      "limit": 40,
+      "total": 3,
+      "namedPlaceResolution": 1,
+      "discovery": 2,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "elapsedMs": 297997
+  },
+  "cohort": "DEVELOPMENT_DIAGNOSTIC",
+  "runtimeContext": {
+    "commitSha": "9b342871c514f963be5386e889c1542b1e6ce020",
+    "worktree": "CLEAN",
+    "dataset": {
+      "version": "restaurant-read-development@7",
+      "sourcePath": "src/eval/restaurant/agent-loop/cases/e2e-cases.gold7.yaml",
+      "sha256": "b346150074493e5a82e3d0dfb5ea5d18b3dbef17bb06d5101dfb15dfeb3ea40e",
+      "cohort": "DEVELOPMENT_DIAGNOSTIC",
+      "contaminationStatus": "PROMPT_AND_RESULT_EXPOSED",
+      "baselineEligible": false
+    },
+    "browserEngine": "LOCAL_CHROMIUM",
+    "preflight": {
+      "artifactPath": "/Users/wangzhour/.codex/worktrees/p1-g-live/Praxis-Zhixing/.eval-artifacts/live-preflight/2026-10-12T07-11-49-676Z-19c68cd0-cf11-4b8d-97b7-58c5250caa53.result.json",
+      "elapsedMs": 3569,
+      "targetCount": 4
+    },
+    "nodeVersion": "v24.4.1",
+    "skillHashes": {
+      "browserRead": "9323b53e7521d37d4251d06fe64a3238aeb0ba1cb382163c068e2990291cc8c9",
+      "tablecheck": "70cd360a57230539b7365298bfd0c6902bd75bb6ba711d992bb67bea15ae072b",
+      "tabelog": "3f4707ba4431f1245eaefb1692be5a4550e17a98129ff4ec645c347cd52c52d2"
+    }
+  }
+}

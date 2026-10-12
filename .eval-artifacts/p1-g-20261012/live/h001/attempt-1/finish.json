@@ -1,0 +1,191 @@
+{
+  "mode": "B",
+  "id": "h001",
+  "attempt": 1,
+  "startedAt": "2026-10-12T07:11:48.874Z",
+  "head": "9b342871c514f963be5386e889c1542b1e6ce020",
+  "worktree": "CLEAN",
+  "sourcePath": "/Users/wangzhour/.codex/worktrees/p1-g-live/Praxis-Zhixing/src/eval/restaurant/agent-loop/cases/e2e-cases.gold7.yaml",
+  "sourceSha256": "b346150074493e5a82e3d0dfb5ea5d18b3dbef17bb06d5101dfb15dfeb3ea40e",
+  "command": [
+    "node",
+    "--env-file-if-exists=/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.env",
+    "--import",
+    "tsx",
+    "--import",
+    "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-g-20261012/prep/scripts/observe.mjs",
+    "src/eval/restaurant/agent-loop/runners/run-hybrid-live-read.ts",
+    "--case",
+    "h001",
+    "--record-browser",
+    "--record-decisions",
+    "--no-proxy",
+    "--timeout-ms",
+    "500000",
+    "--max-model-calls",
+    "50",
+    "--max-google-requests",
+    "40"
+  ],
+  "freezeManifest": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-g-20261012/prep/scripts/freeze.json",
+  "endedAt": "2026-10-12T07:16:51.508Z",
+  "wallMs": 302634,
+  "exit": {
+    "code": 1,
+    "signal": null
+  },
+  "stop": null,
+  "newFiles": [
+    "2026-10-12T07-11-53-308Z-c8e5fbf5-e7be-4f5a-a439-fc2dd79512ff.decisions.jsonl",
+    "2026-10-12T07-11-53-308Z-c8e5fbf5-e7be-4f5a-a439-fc2dd79512ff.result.evaluation.27-1791789411477.json",
+    "2026-10-12T07-11-53-308Z-c8e5fbf5-e7be-4f5a-a439-fc2dd79512ff.result.json",
+    "2026-10-12T07-11-53-308Z-c8e5fbf5-e7be-4f5a-a439-fc2dd79512ff.started.json"
+  ],
+  "results": [
+    "/Users/wangzhour/.codex/worktrees/p1-g-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-12T07-11-53-308Z-c8e5fbf5-e7be-4f5a-a439-fc2dd79512ff.result.json"
+  ],
+  "preflight": {
+    "mode": "LIVE_NETWORK_PREFLIGHT",
+    "preflightVersion": "live-network-preflight@1",
+    "runner": "HYBRID_LIVE_READ",
+    "plannedTargets": [
+      "DEEPSEEK",
+      "GOOGLE",
+      "TABELOG",
+      "TABLECHECK"
+    ],
+    "timeoutMs": 10000,
+    "generationModelCalls": 0,
+    "restaurantDiscoveryRequests": 0,
+    "evaluator": {
+      "applicability": "NOT_APPLICABLE",
+      "reason": "NETWORK_ONLY_DIAGNOSTIC_HAS_NO_RESTAURANT_CLAIM"
+    },
+    "network": {
+      "proxyMode": "DISABLED_BY_CLI"
+    },
+    "status": "SUCCEEDED",
+    "stage": "NETWORK_READINESS",
+    "artifactPath": "/Users/wangzhour/.codex/worktrees/p1-g-live/Praxis-Zhixing/.eval-artifacts/live-preflight/2026-10-12T07-11-49-676Z-19c68cd0-cf11-4b8d-97b7-58c5250caa53.result.json",
+    "attempts": [
+      {
+        "target": "DEEPSEEK",
+        "request": {
+          "method": "GET",
+          "url": "https://api.deepseek.com/models",
+          "range": "NONE",
+          "authorization": "PRESENT"
+        },
+        "elapsedMs": 333,
+        "outcome": "REACHABLE",
+        "status": 200,
+        "tls": "ESTABLISHED"
+      },
+      {
+        "target": "GOOGLE",
+        "request": {
+          "method": "GET",
+          "url": "https://places.googleapis.com/",
+          "range": "NONE",
+          "authorization": "ABSENT"
+        },
+        "elapsedMs": 188,
+        "outcome": "REACHABLE",
+        "status": 404,
+        "tls": "ESTABLISHED"
+      },
+      {
+        "target": "TABELOG",
+        "request": {
+          "method": "GET",
+          "url": "https://tabelog.com/",
+          "range": "BYTES_0_0",
+          "authorization": "ABSENT"
+        },
+        "elapsedMs": 441,
+        "outcome": "REACHABLE",
+        "status": 200,
+        "tls": "ESTABLISHED"
+      },
+      {
+        "target": "TABLECHECK",
+        "request": {
+          "method": "GET",
+          "url": "https://www.tablecheck.com/en/",
+          "range": "BYTES_0_0",
+          "authorization": "ABSENT"
+        },
+        "elapsedMs": 2602,
+        "outcome": "REACHABLE",
+        "status": 206,
+        "tls": "ESTABLISHED"
+      }
+    ],
+    "elapsedMs": 3569,
+    "configuration": {
+      "proxyMode": "DISABLED_BY_CLI",
+      "googleProxyConfigured": false,
+      "browserProxyConfigured": false
+    },
+    "schemaVersion": "1",
+    "runId": "19c68cd0-cf11-4b8d-97b7-58c5250caa53",
+    "startedAt": "2026-10-12T07:11:49.676Z",
+    "finishedAt": "2026-10-12T07:11:53.246Z"
+  },
+  "formalRunStarted": true,
+  "balance": {
+    "requestedAt": "2026-10-12T07:11:48.875Z",
+    "method": "GET",
+    "url": "https://api.deepseek.com/user/balance",
+    "available": true,
+    "status": 200,
+    "bodyPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-g-20261012/live/h001/attempt-1/balance.body.json",
+    "sha256": "0de5108ba80a1ed68a2efc8024971d3ae89b4b53a3638eee7aa0b7a689dff0dc",
+    "finishedAt": "2026-10-12T07:11:49.251Z"
+  },
+  "deliveryCount": 0,
+  "resourceUsage": {
+    "discoveryCandidates": 38,
+    "candidatesChecked": 5,
+    "agentDecisions": 15,
+    "browserModelCalls": 12,
+    "modelCallsStarted": 30,
+    "browserRuntimeCalls": 187,
+    "browserOperationsByCandidate": {
+      "native-discovery:DIRECTORY": 42,
+      "tabelog:en/tokyo/A1303/A130301/13308491": 11,
+      "native-discovery:VENUE_SEARCH": 30,
+      "tablecheck:sushi-itsumi-michiyuki": 27,
+      "praxis:restaurant:6343d9d19c9b69881948e082": 28,
+      "praxis:restaurant:690eacddc99105af5a3a0f53": 23,
+      "praxis:restaurant:d7560a4b60970a42216f0c2a": 26
+    },
+    "pageStillLoadingWithinBound": 43,
+    "postActionWaitTotalMs": 55089,
+    "browserModelActions": 9,
+    "googleRequests": {
+      "limit": 40,
+      "total": 3,
+      "namedPlaceResolution": 1,
+      "discovery": 2,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "elapsedMs": 297997
+  },
+  "postDelivery": null,
+  "witnessRaw": [],
+  "evaluation": {
+    "path": "/Users/wangzhour/.codex/worktrees/p1-g-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-12T07-11-53-308Z-c8e5fbf5-e7be-4f5a-a439-fc2dd79512ff.result.evaluation.27-1791789411577.json",
+    "execution": {
+      "status": "FAILED",
+      "stage": "AGENT_LOOP",
+      "taskProducedQualifiedResult": "UNKNOWN",
+      "systemBehavior": "NOT_EVALUATED",
+      "externalConditions": "OBSERVED",
+      "evidenceSufficiency": "NOT_EVALUATED",
+      "completion": "NOT_EVALUATED"
+    }
+  },
+  "classification": "FACTS_ONLY; independent classification pending"
+}

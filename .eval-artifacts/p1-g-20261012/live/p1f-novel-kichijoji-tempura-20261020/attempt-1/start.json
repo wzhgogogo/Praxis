@@ -1,0 +1,33 @@
+{
+  "mode": "A",
+  "id": "p1f-novel-kichijoji-tempura-20261020",
+  "attempt": 1,
+  "startedAt": "2026-10-12T06:50:00.278Z",
+  "head": "9b342871c514f963be5386e889c1542b1e6ce020",
+  "worktree": "CLEAN",
+  "sourcePath": "/Users/wangzhour/.codex/worktrees/p1-g-live/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/variants.rev2.yaml",
+  "sourceSha256": "1879c3189f90134f2ddb4cc78b12fcc31a0cd68e7b806a2baec43270e6f9f753",
+  "command": [
+    "node",
+    "--env-file-if-exists=/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.env",
+    "--import",
+    "tsx",
+    "--import",
+    "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-g-20261012/prep/scripts/observe.mjs",
+    "src/eval/restaurant/agent-loop/runners/run-hybrid-live-read.ts",
+    "--case-source",
+    "/Users/wangzhour/.codex/worktrees/p1-g-live/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/variants.rev2.yaml",
+    "--case",
+    "p1f-novel-kichijoji-tempura-20261020",
+    "--record-browser",
+    "--record-decisions",
+    "--no-proxy",
+    "--timeout-ms",
+    "500000",
+    "--max-model-calls",
+    "50",
+    "--max-google-requests",
+    "40"
+  ],
+  "freezeManifest": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-g-20261012/prep/scripts/freeze.json"
+}

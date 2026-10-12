@@ -3454,3 +3454,8 @@ Frozen production 9b342871c514f963be5386e889c1542b1e6ce020 in new CLEAN p1-g-liv
 ## DEV-2026-10-12-P1G-immediate-start
 
 User explicitly approved immediate P1-G execution; scheduled heartbeat PAUSED. Only outer start/certification time checks amended and SHA refrozen. Production9b34287 and clean host worktree retained; budgets, post-delivery and safety rules unchanged. Start with fresh witness certification, then Kichijoji/h001/h003/h004.
+
+
+## DEV-2026-10-12-P1G-live-final
+
+四次授权正式Live已完成，生产9b34287和P1-F73bfca5工作树保持干净。吉祥寺解析Kichijōji成功但NO_VERIFIED_RESULT/自动NO；h001仍FAILED/REJECTION_LIMIT，未兑现修复B目标，只记录不现场修复；h003交付Aloft by Marriott Tokyo Ginza/TableCheck/150m/自动UNKNOWN；h004NO_VERIFIED_RESULT/自动NO。用户即时运行和十分钟后重试指令仅改变外层时窗与调度，运行配置/输入不改。7次preflight、3次503均未正式启动，原15分钟间隔保持；环境重跑0。见证认证和吉祥寺运行后六份四参数原始GET保留，唯一交付TableCheck沿用原trace。不归因或签收，心跳暂停；最终报告 .eval-artifacts/p1-g-20261012/report.md，本地提交不推送。

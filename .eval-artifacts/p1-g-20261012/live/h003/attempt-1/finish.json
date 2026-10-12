@@ -1,0 +1,146 @@
+{
+  "mode": "B",
+  "id": "h003",
+  "attempt": 1,
+  "startedAt": "2026-10-12T07:17:45.883Z",
+  "head": "9b342871c514f963be5386e889c1542b1e6ce020",
+  "worktree": "CLEAN",
+  "sourcePath": "/Users/wangzhour/.codex/worktrees/p1-g-live/Praxis-Zhixing/src/eval/restaurant/agent-loop/cases/e2e-cases.gold7.yaml",
+  "sourceSha256": "b346150074493e5a82e3d0dfb5ea5d18b3dbef17bb06d5101dfb15dfeb3ea40e",
+  "command": [
+    "node",
+    "--env-file-if-exists=/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.env",
+    "--import",
+    "tsx",
+    "--import",
+    "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-g-20261012/prep/scripts/observe.mjs",
+    "src/eval/restaurant/agent-loop/runners/run-hybrid-live-read.ts",
+    "--case",
+    "h003",
+    "--record-browser",
+    "--record-decisions",
+    "--no-proxy",
+    "--timeout-ms",
+    "500000",
+    "--max-model-calls",
+    "50",
+    "--max-google-requests",
+    "40"
+  ],
+  "freezeManifest": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-g-20261012/prep/scripts/freeze.json",
+  "endedAt": "2026-10-12T07:17:50.208Z",
+  "wallMs": 4325,
+  "exit": {
+    "code": 1,
+    "signal": null
+  },
+  "stop": null,
+  "newFiles": [],
+  "results": [],
+  "preflight": {
+    "mode": "LIVE_NETWORK_PREFLIGHT",
+    "preflightVersion": "live-network-preflight@1",
+    "runner": "HYBRID_LIVE_READ",
+    "plannedTargets": [
+      "DEEPSEEK",
+      "GOOGLE",
+      "TABELOG",
+      "TABLECHECK"
+    ],
+    "timeoutMs": 10000,
+    "generationModelCalls": 0,
+    "restaurantDiscoveryRequests": 0,
+    "evaluator": {
+      "applicability": "NOT_APPLICABLE",
+      "reason": "NETWORK_ONLY_DIAGNOSTIC_HAS_NO_RESTAURANT_CLAIM"
+    },
+    "network": {
+      "proxyMode": "DISABLED_BY_CLI"
+    },
+    "status": "FAILED",
+    "stage": "NETWORK_READINESS",
+    "failureCode": "PREFLIGHT_PUBLIC_ENDPOINT_REJECTED",
+    "attempts": [
+      {
+        "target": "DEEPSEEK",
+        "request": {
+          "method": "GET",
+          "url": "https://api.deepseek.com/models",
+          "range": "NONE",
+          "authorization": "PRESENT"
+        },
+        "elapsedMs": 295,
+        "outcome": "REACHABLE",
+        "status": 200,
+        "tls": "ESTABLISHED"
+      },
+      {
+        "target": "GOOGLE",
+        "request": {
+          "method": "GET",
+          "url": "https://places.googleapis.com/",
+          "range": "NONE",
+          "authorization": "ABSENT"
+        },
+        "elapsedMs": 79,
+        "outcome": "REACHABLE",
+        "status": 404,
+        "tls": "ESTABLISHED"
+      },
+      {
+        "target": "TABELOG",
+        "request": {
+          "method": "GET",
+          "url": "https://tabelog.com/",
+          "range": "BYTES_0_0",
+          "authorization": "ABSENT"
+        },
+        "elapsedMs": 413,
+        "outcome": "REACHABLE",
+        "status": 200,
+        "tls": "ESTABLISHED"
+      },
+      {
+        "target": "TABLECHECK",
+        "request": {
+          "method": "GET",
+          "url": "https://www.tablecheck.com/en/",
+          "range": "BYTES_0_0",
+          "authorization": "ABSENT"
+        },
+        "elapsedMs": 2611,
+        "outcome": "FAILED",
+        "status": 503,
+        "tls": "ESTABLISHED",
+        "failureCode": "PREFLIGHT_PUBLIC_ENDPOINT_REJECTED"
+      }
+    ],
+    "elapsedMs": 3402,
+    "configuration": {
+      "proxyMode": "DISABLED_BY_CLI",
+      "googleProxyConfigured": false,
+      "browserProxyConfigured": false
+    },
+    "schemaVersion": "1",
+    "runId": "d9ca295b-fa77-43aa-8366-a78339e269c7",
+    "startedAt": "2026-10-12T07:17:46.768Z",
+    "finishedAt": "2026-10-12T07:17:50.171Z"
+  },
+  "formalRunStarted": false,
+  "balance": {
+    "requestedAt": "2026-10-12T07:17:45.884Z",
+    "method": "GET",
+    "url": "https://api.deepseek.com/user/balance",
+    "available": true,
+    "status": 200,
+    "bodyPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-g-20261012/live/h003/attempt-1/balance.body.json",
+    "sha256": "66045d19205b39296bbbdcacf1ec2697b4deac8d19fbbdf769fd1a1d72c41e32",
+    "finishedAt": "2026-10-12T07:17:46.375Z"
+  },
+  "deliveryCount": null,
+  "resourceUsage": null,
+  "postDelivery": null,
+  "witnessRaw": [],
+  "evaluation": null,
+  "classification": "FACTS_ONLY; independent classification pending"
+}

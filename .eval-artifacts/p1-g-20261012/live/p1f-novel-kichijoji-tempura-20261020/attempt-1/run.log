@@ -1,0 +1,14 @@
+/Users/wangzhour/.codex/worktrees/p1-g-live/Praxis-Zhixing/src/eval/restaurant/agent-loop/live-preflight.ts:324
+    throw new LivePreflightError(code, journal.resultPath);
+          ^
+
+
+LivePreflightError: PREFLIGHT_PUBLIC_ENDPOINT_REJECTED
+    at runLivePreflight (/Users/wangzhour/.codex/worktrees/p1-g-live/Praxis-Zhixing/src/eval/restaurant/agent-loop/live-preflight.ts:324:11)
+    at async runHybridLiveRead (/Users/wangzhour/.codex/worktrees/p1-g-live/Praxis-Zhixing/src/eval/restaurant/agent-loop/runners/run-hybrid-live-read.ts:219:19)
+    at async <anonymous> (/Users/wangzhour/.codex/worktrees/p1-g-live/Praxis-Zhixing/src/eval/restaurant/agent-loop/runners/run-hybrid-live-read.ts:527:85) {
+  code: 'PREFLIGHT_PUBLIC_ENDPOINT_REJECTED',
+  artifactPath: '/Users/wangzhour/.codex/worktrees/p1-g-live/Praxis-Zhixing/.eval-artifacts/live-preflight/2026-10-12T06-50-01-214Z-b0a24d10-168d-4ce4-8d96-68fa7f370ff1.result.json'
+}
+
+Node.js v24.4.1
