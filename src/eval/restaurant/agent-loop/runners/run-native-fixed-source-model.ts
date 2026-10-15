@@ -170,7 +170,7 @@ try {
       types: ["train_station"], addressComponents: [{ longText: "Tokyo", types: ["locality"] }] }] }), { status: 200 });
   } }), () => clock.now().toISOString(), 10, { maxRequests: 100 });
   const onBrowserDiagnostic = (diagnostic: BrowserExecutionDiagnostic) => browserDiagnostics.push(structuredClone(diagnostic));
-  const native = composeNativeRestaurantRead(google, browser, model, undefined, onBrowserDiagnostic, undefined, () => clock.now().toISOString());
+  const native = composeNativeRestaurantRead(google, browser, model, undefined, onBrowserDiagnostic, undefined, () => clock.now().toISOString(), { maxModelCallsPerCandidate: nativeReadLimits.maxBrowserModelCallsPerCandidate, maxModelCallsTotal: maxModelCalls, maxOperationsPerCandidate: nativeReadLimits.maxBrowserOperations });
   const availability = new LiveBrowserAvailability(browser, model, {
     now: () => clock.now().toISOString(), maxModelCallsPerCandidate: nativeReadLimits.maxBrowserModelCallsPerCandidate, maxModelCallsTotal: maxModelCalls,
     maxOperationsPerCandidate: nativeReadLimits.maxBrowserOperations, maxElapsedMsPerCandidate: nativeReadLimits.maxCandidateBrowserMs, maxElapsedMsPerProvider: nativeReadLimits.maxProviderBrowserMs, maxAutomaticElapsedMs: nativeReadLimits.maxCandidateBrowserMs,

@@ -1079,7 +1079,7 @@ test("TableCheck does not let an unrelated run entry suppress the current candid
     { url: "https://www.tablecheck.com/en/restaurant1/reserve/landing", title: "Restaurant 1 reservation", text: "Restaurant 1 2 guest 2026-08-05 19:00", html: '<div data-selected-date="2026-08-05" data-pax="2"></div><section data-availability-state="complete"><button class="time-slot is-available" data-time="19:00">19:00</button></section>' },
   ]);
   let modelCalls = 0;
-  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
     modelDecision: { async decide(input) {
       modelCalls += 1;
       const target = input.observation.targets.find((item) => item.label === "Show results");
@@ -1114,7 +1114,7 @@ test("TableCheck continues in one session when the standard method is incomplete
     },
   ]);
   let modelCalls = 0;
-  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
     modelDecision: {
       async decide(input) {
         modelCalls += 1;
@@ -1149,7 +1149,7 @@ test("TableCheck continues in the same session from confirmed conditions to an e
       html: '<div data-testid="Venue Availability" data-selected-date="2026-08-05" data-pax="2"></div><h1>Restaurant 1</h1><p class="address">1-1 Shinjuku, Tokyo</p><a href="tel:03-1111-2222">03-1111-2222</a><section data-availability-state="complete"><button class="time-slot is-available" data-time="19:00">19:00</button></section>',
     },
   ]);
-  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
     modelDecision: {
       async decide(input) {
         const target = input.observation.targets.find((item) => item.label === "Find more availability");
@@ -1324,7 +1324,7 @@ test("TableCheck hands an extractable-search gap to the model in the same sessio
       return { type: "COMPLETE", reason: "A deterministic parser can inspect the observed result link" };
     },
   };
-  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { modelDecision, onDiagnostic: (item) => diagnostics.push(item) });
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision, onDiagnostic: (item) => diagnostics.push(item) });
   const result = await new TableCheckBrowserAvailability(executor, () => "2026-08-05T09:00:00.000Z").check(request, new AbortController().signal);
   assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE");
   assert.equal(session.clicks, 1);
@@ -1343,7 +1343,7 @@ test("TableCheck classifies exhausted recoverable discovery separately from an u
     url: "https://www.tablecheck.com/en/japan/search?search_text=Restaurant+1", title: "Map Search - Japan", text: "Search restaurants", html: "<main>Search restaurants</main>",
   }]);
   const identityDiagnostics: unknown[] = [];
-  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
     modelDecision: { async decide() { return { type: "REQUEST_HUMAN_HELP", reason: "No observed public result target" }; } },
   });
   const result = await new TableCheckBrowserAvailability(executor, () => "2026-08-05T09:00:00.000Z", {
@@ -1398,7 +1398,7 @@ test("TableCheck accepts a correct realtime control slot inside its ready widget
       {url:"https://www.tablecheck.com/en/restaurant1",title:"Restaurant 1",text:"Restaurant 1",html:`<h1>Restaurant 1</h1><a href="tel:03-1111-2222">Phone</a><div data-testid="Venue Availability"><a href="/en/shops/restaurant1/reserve?start_date=${date}&pax=${request.partySize}&start_time=19:00">19:00</a></div><div class="menu">omakase</div>`},
     ]);
     session.observeControls = async () => [{id:"slot",stableKey:"slot",kind:"LINK",role:"link",label:"19:00",href:`https://www.tablecheck.com/en/shops/restaurant1/reserve?start_date=${date}&pax=${request.partySize}&start_time=19:00`,visible:true,disabled:false}];
-    const executor = new BrowserTaskExecutor({openSession:async()=>session},{modelDecision:{async decide(){return {type:"COMPLETE",reason:"Hand back observed controls for verification"}}}});
+    const executor = new BrowserTaskExecutor({openSession:async()=>session},{maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, modelDecision:{async decide(){return {type:"COMPLETE",reason:"Hand back observed controls for verification"}}}});
     try {
       const result = await new TableCheckBrowserAvailability(executor).check(request,new AbortController().signal);
       assert.equal(result.offers.length, date === request.date ? 1 : 0);
@@ -1448,7 +1448,7 @@ test("TableCheck actual empty widget stops mealtime loops without claiming a wid
       discoveryPage({ href: "/en/restaurant1", text: "Restaurant 1" }),
       { url: "https://www.tablecheck.com/en/restaurant1", title: "Restaurant 1", text: "Restaurant 1", html: `<h1>Restaurant 1</h1><a href="tel:03-1111-2222">Phone</a>${widget}` },
     ]);
-    const executor = new BrowserTaskExecutor({openSession:async()=>session},{modelDecision:{async decide(){return {type:"COMPLETE",reason:"Return observed page for verification"}}}});
+    const executor = new BrowserTaskExecutor({openSession:async()=>session},{maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, modelDecision:{async decide(){return {type:"COMPLETE",reason:"Return observed page for verification"}}}});
     try {
       const result = await new TableCheckBrowserAvailability(executor).check(query, new AbortController().signal);
       const check = result.availabilityChecks[candidate.restaurant.id]!;

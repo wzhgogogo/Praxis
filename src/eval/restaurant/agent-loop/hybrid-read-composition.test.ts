@@ -379,7 +379,7 @@ async function runIndependentSequence(sequence: IndependentSequence) {
     model,
     search: google,
     availability: noAvailabilityPort(),
-    facts: composeLiveRestaurantFactRead(google, {} as BrowserRuntime, model),
+    facts: composeLiveRestaurantFactRead({ maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, google, {} as BrowserRuntime, model),
     loop: { maxSteps: 12, timeoutMs: 5_000 },
   });
   const semantic = await composition.interpretAndDispatch({ taskId, message: "Find cafes nearby tomorrow afternoon for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
@@ -548,7 +548,7 @@ test("a user refresh after the clock advances replaces the current fact observat
   const google = googleSearchFromIndependentSamples(INDEPENDENT_FACT_SAMPLES.slice(0, 1), detailIds, () => current.toISOString());
   const composition = createHybridReadComposition({
     taskId, runId: "run:refresh-after-clock", clock: movingClock, model, search: google,
-    availability: noAvailabilityPort(), facts: composeLiveRestaurantFactRead(google, {} as BrowserRuntime, model),
+    availability: noAvailabilityPort(), facts: composeLiveRestaurantFactRead({ maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, google, {} as BrowserRuntime, model),
     loop: { maxSteps: 8, timeoutMs: 5_000 },
   });
   await composition.interpretAndDispatch({ taskId, message: "Find cafes nearby tomorrow afternoon for two.", referenceTime: current.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
@@ -598,7 +598,7 @@ test("cancelling during a real in-flight fact read cannot become a normal no-res
   const taskId = "integration:cancel-in-flight-facts";
   const composition = createHybridReadComposition({
     taskId, runId: "run:cancel-in-flight-facts", clock, model: new ScriptedExternalModel(1), search: google,
-    availability: noAvailabilityPort(), facts: composeLiveRestaurantFactRead(google, {} as BrowserRuntime, new ScriptedExternalModel(1)),
+    availability: noAvailabilityPort(), facts: composeLiveRestaurantFactRead({ maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, google, {} as BrowserRuntime, new ScriptedExternalModel(1)),
     loop: { maxSteps: 8, timeoutMs: 5_000 },
   });
   await composition.interpretAndDispatch({ taskId, message: "Find cafes nearby tomorrow afternoon for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
@@ -650,7 +650,7 @@ test("a request update after cancelling an in-flight read starts a new authorita
   const taskId = "integration:request-update-after-cancel";
   const composition = createHybridReadComposition({
     taskId, runId: "run:request-update-after-cancel", clock, model, search: google,
-    availability: noAvailabilityPort(), facts: composeLiveRestaurantFactRead(google, {} as BrowserRuntime, model),
+    availability: noAvailabilityPort(), facts: composeLiveRestaurantFactRead({ maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, google, {} as BrowserRuntime, model),
     loop: { maxSteps: 8, timeoutMs: 5_000 },
   });
   await composition.interpretAndDispatch({ taskId, message: "Find cafes nearby tomorrow afternoon for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
@@ -1093,7 +1093,7 @@ test("Hybrid production composition binds an explicit evaluation location before
     model,
     search: google,
     availability: noAvailabilityPort(),
-    facts: composeLiveRestaurantFactRead(google, {} as BrowserRuntime, model),
+    facts: composeLiveRestaurantFactRead({ maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, google, {} as BrowserRuntime, model),
     router: { structuredReadTimeoutMs: 1_000, browserReadTimeoutMs: 1_000 },
     loop: { maxSteps: 8, timeoutMs: 5_000 },
   });
@@ -1154,7 +1154,7 @@ test("a Google network failure before candidate discovery stops the Agent after 
   const taskId = "integration:google-network-failed";
   const composition = createHybridReadComposition({
     taskId, runId: "run:integration:google-network-failed", clock, model, search: google,
-    availability: noAvailabilityPort(), facts: composeLiveRestaurantFactRead(google, {} as BrowserRuntime, model),
+    availability: noAvailabilityPort(), facts: composeLiveRestaurantFactRead({ maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, google, {} as BrowserRuntime, model),
     loop: { maxSteps: 8, timeoutMs: 5_000 },
   });
   await composition.interpretAndDispatch({
@@ -1178,7 +1178,7 @@ test("Hybrid production composition asks for location without an evaluation cont
   const google = googleSearch(bodies);
   const composition = createHybridReadComposition({
     taskId: "integration:no-location", runId: "run:integration:no-location", clock, model, search: google,
-    availability: noAvailabilityPort(), facts: composeLiveRestaurantFactRead(google, {} as BrowserRuntime, model),
+    availability: noAvailabilityPort(), facts: composeLiveRestaurantFactRead({ maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, google, {} as BrowserRuntime, model),
     loop: { maxSteps: 3, timeoutMs: 5_000 },
   });
   await composition.interpretAndDispatch({ taskId: "integration:no-location", message: "Find cafes nearby tomorrow afternoon for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" });
@@ -1198,7 +1198,7 @@ test("an adapter-only evaluation coordinate reproduces the old wiring failure an
   const google = googleSearch(bodies, { maxRequests: 100, evaluationLocation: HIGASHI_GINZA_EVALUATION_LOCATION });
   const composition = createHybridReadComposition({
     taskId: "integration:adapter-only-location", runId: "run:integration:adapter-only-location", clock, model, search: google,
-    availability: noAvailabilityPort(), facts: composeLiveRestaurantFactRead(google, {} as BrowserRuntime, model),
+    availability: noAvailabilityPort(), facts: composeLiveRestaurantFactRead({ maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, google, {} as BrowserRuntime, model),
     loop: { maxSteps: 3, timeoutMs: 5_000 },
   });
   await composition.interpretAndDispatch({ taskId: "integration:adapter-only-location", message: "Find cafes nearby tomorrow afternoon for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" });
@@ -1233,7 +1233,7 @@ test("real source observations distinguish a supported candidate from an explici
   const taskId = "integration:source-statuses";
   const composition = createHybridReadComposition({
     taskId, runId: "run:source-statuses", clock, model, search: google,
-    availability: noAvailabilityPort(), facts: composeLiveRestaurantFactRead(google, {} as BrowserRuntime, model), loop: { maxSteps: 5, timeoutMs: 5_000 },
+    availability: noAvailabilityPort(), facts: composeLiveRestaurantFactRead({ maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, google, {} as BrowserRuntime, model), loop: { maxSteps: 5, timeoutMs: 5_000 },
   });
   await composition.interpretAndDispatch({ taskId, message: "Find cafes nearby tomorrow afternoon for two, but not hot-pot restaurants.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
   const loop = await composition.coordinator.run(taskId);
@@ -1258,7 +1258,7 @@ test("a real Hybrid category UNKNOWN reaches presentation without verified-negat
   const place = { id: "category-restaurant", displayName: { text: "Category Restaurant" }, formattedAddress: "Ginza 1, Tokyo", location: { latitude: 35.6697, longitude: 139.7670 }, types: ["restaurant"] };
   const client = new GooglePlacesClient({ apiKey: "test-key", fetchImplementation: async (_url, init) => init?.method === "POST" ? new Response(JSON.stringify({ places: [place] }), { status: 200 }) : new Response(JSON.stringify({ ...place, primaryType: "restaurant", regularOpeningHours: { weekdayDescriptions: ["Wednesday: 10:00 AM – 6:00 PM", "Thursday: 10:00 AM – 6:00 PM"] } }), { status: 200 }) });
   const google = new GooglePlacesRestaurantSearch(client, () => now.toISOString(), 10, { maxRequests: 100 }); const taskId = "integration:category-unknown";
-  const composition = createHybridReadComposition({ taskId, runId: taskId, clock, model, search: google, availability: noAvailabilityPort(), facts: composeLiveRestaurantFactRead(google, {} as BrowserRuntime, model), loop: { maxSteps: 5, timeoutMs: 5_000 } });
+  const composition = createHybridReadComposition({ taskId, runId: taskId, clock, model, search: google, availability: noAvailabilityPort(), facts: composeLiveRestaurantFactRead({ maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, google, {} as BrowserRuntime, model), loop: { maxSteps: 5, timeoutMs: 5_000 } });
   await composition.interpretAndDispatch({ taskId, message: "Find a restaurant nearby tomorrow afternoon, no fast food.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
   assert.equal((await composition.coordinator.run(taskId)).status, "TERMINAL"); const state = composition.runtime.snapshot(taskId).domainState;
   assert.equal(state.phase, "PRESENT_RESULTS"); assert.ok(state.readEvidence.some((item) => item.provider === "MODEL_JUDGMENT" && Array.isArray(item.claims.categoryUnknownNegativeCriteria))); assert.equal(state.readEvidence.some((item) => Array.isArray(item.claims.verifiedNegativeCriteria)), false);
@@ -1299,7 +1299,7 @@ test("a second user message adds an exclusion through real source facts and remo
     const google = new GooglePlacesRestaurantSearch(client, () => now.toISOString(), 10, { maxRequests: 100 });
     const composition = createHybridReadComposition({
       taskId, runId: taskId, clock, model, search: google, availability: noAvailabilityPort(),
-      facts: composeLiveRestaurantFactRead(google, {} as BrowserRuntime, model), loop: { maxSteps: 5, timeoutMs: 5_000 },
+      facts: composeLiveRestaurantFactRead({ maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, google, {} as BrowserRuntime, model), loop: { maxSteps: 5, timeoutMs: 5_000 },
     });
     await composition.interpretAndDispatch({ taskId, message: "Find a restaurant nearby tomorrow afternoon, no fast food.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
     assert.equal((await composition.coordinator.run(taskId)).status, "TERMINAL");
@@ -1339,7 +1339,7 @@ test("independent candidate reads preserve coverage and results across batch par
       const taskId = "integration:batch-invariance";
       const composition = createHybridReadComposition({
         taskId, runId: "run:batch-invariance", clock, model, search: google,
-        availability: noAvailabilityPort(), facts: composeLiveRestaurantFactRead(google, {} as BrowserRuntime, model),
+        availability: noAvailabilityPort(), facts: composeLiveRestaurantFactRead({ maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, google, {} as BrowserRuntime, model),
         loop: { maxSteps: 10, timeoutMs: 5_000 },
       });
       const semantic = await composition.interpretAndDispatch({ taskId, message: "Find cafes nearby tomorrow afternoon for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
@@ -1387,7 +1387,7 @@ test("Google fact exhaustion must leave a separately executable browser investig
   const taskId = "integration:independent-source";
   const composition = createHybridReadComposition({
     taskId, runId: "run:independent-source", clock, model, search: google,
-    availability: new LiveBrowserAvailability(browser, model), facts: composeLiveRestaurantFactRead(google, browser, model),
+    availability: new LiveBrowserAvailability(browser, model, { maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }), facts: composeLiveRestaurantFactRead({ maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, google, browser, model),
     loop: { maxSteps: 7, timeoutMs: 5_000 },
   });
   await composition.interpretAndDispatch({ taskId, message: "Find cafes nearby tomorrow afternoon for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
@@ -1466,8 +1466,8 @@ test("source text handoff reaches request-bound availability and presentation th
   ) };
   const taskId = "integration:source-handoff";
   const composition = createHybridReadComposition({ taskId, runId: taskId, clock, model, search: google,
-    facts: composeLiveRestaurantFactRead(google, tracedBrowser, model, undefined, () => now.toISOString()),
-    availability: new LiveBrowserAvailability(tracedBrowser, model, { now: () => now.toISOString(), onBrowserDiagnostic: diagnostic => { browserTrace.push({ sequence: ++browserTraceSequence, at: now.toISOString(), kind: "EXECUTOR_DIAGNOSTIC", detail: diagnostic }); } }), loop: { maxSteps: 6, timeoutMs: 5_000 },
+    facts: composeLiveRestaurantFactRead({ maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, google, tracedBrowser, model, undefined, () => now.toISOString()),
+    availability: new LiveBrowserAvailability(tracedBrowser, model, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  now: () => now.toISOString(), onBrowserDiagnostic: diagnostic => { browserTrace.push({ sequence: ++browserTraceSequence, at: now.toISOString(), kind: "EXECUTOR_DIAGNOSTIC", detail: diagnostic }); } }), loop: { maxSteps: 6, timeoutMs: 5_000 },
   });
   await composition.interpretAndDispatch({ taskId, message: "Find a restaurant with a chef's tasting menu nearby tomorrow at 1 pm for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
   const loop = await composition.coordinator.run(taskId);
@@ -1521,7 +1521,7 @@ test("a website observation for another candidate cannot revive an unknown Googl
   const browserDiagnostics: BrowserExecutionDiagnostic[] = [];
   const composition = createHybridReadComposition({ taskId, runId: "run:mixed-source-scope", clock, model, search: google,
     availability: noAvailabilityPort(),
-    facts: composeLiveRestaurantFactRead(google, browser, model, undefined, undefined, diagnostic => browserDiagnostics.push(diagnostic)),
+    facts: composeLiveRestaurantFactRead({ maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, google, browser, model, undefined, undefined, diagnostic => browserDiagnostics.push(diagnostic)),
     loop: { maxSteps: 5, timeoutMs: 5_000 },
   });
   await composition.interpretAndDispatch({ taskId, message: "Find cafes nearby tomorrow afternoon for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
@@ -1571,7 +1571,7 @@ test("a failed compound refresh invalidates prior facts and independent evaluati
     };
   } };
   const taskId = "review:refresh-website";
-  const composition = createHybridReadComposition({ taskId, runId: taskId, clock: { now: () => time }, model, search: google, availability: noAvailabilityPort(), facts: composeLiveRestaurantFactRead(google, browser, model, undefined, () => time.toISOString()), loop: { maxSteps: 5, timeoutMs: 5000 } });
+  const composition = createHybridReadComposition({ taskId, runId: taskId, clock: { now: () => time }, model, search: google, availability: noAvailabilityPort(), facts: composeLiveRestaurantFactRead({ maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, google, browser, model, undefined, () => time.toISOString()), loop: { maxSteps: 5, timeoutMs: 5000 } });
   await composition.interpretAndDispatch({ taskId, message: "Find cafes nearby tomorrow afternoon for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
   await composition.coordinator.run(taskId);
   const initial = composition.runtime.snapshot(taskId);
@@ -1607,7 +1607,7 @@ test("a closed-hours refresh removes historical support from the Agent context",
   let time = now;
   const google = new GooglePlacesRestaurantSearch(client, () => time.toISOString(), 10, { maxRequests: 100 });
   const taskId = "review:closed-context";
-  const composition = createHybridReadComposition({ taskId, runId: taskId, clock: { now: () => time }, model, search: google, availability: noAvailabilityPort(), facts: composeLiveRestaurantFactRead(google, {} as BrowserRuntime, model), loop: { maxSteps: 5, timeoutMs: 5000 } });
+  const composition = createHybridReadComposition({ taskId, runId: taskId, clock: { now: () => time }, model, search: google, availability: noAvailabilityPort(), facts: composeLiveRestaurantFactRead({ maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, google, {} as BrowserRuntime, model), loop: { maxSteps: 5, timeoutMs: 5000 } });
   await composition.interpretAndDispatch({ taskId, message: "Find cafes nearby tomorrow afternoon for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
   await composition.coordinator.run(taskId);
   const initial = composition.runtime.snapshot(taskId);
@@ -1722,7 +1722,7 @@ async function runScopedFailureComposition(mode: "local" | "option" | "model-bud
       async screenshot() { return new Uint8Array(); }, async close() {},
     };
   } };
-  const availability = new LiveBrowserAvailability(browser, model, { now: () => now.toISOString(), onBrowserDiagnostic: item => diagnostics.push(item) });
+  const availability = new LiveBrowserAvailability(browser, model, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  now: () => now.toISOString(), onBrowserDiagnostic: item => diagnostics.push(item) });
   const composition = createHybridReadComposition({ taskId, runId: taskId, clock, model, search: google, availability, loop: { maxSteps: 8, timeoutMs: 5_000 } });
   await composition.interpretAndDispatch({ taskId, message: "Find nearby restaurants tomorrow at 1 pm for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
   const work = composition.coordinator.run(taskId, controller.signal);
@@ -1861,7 +1861,7 @@ test("C6a observed public hours end the immediate window only when every checked
     const google=new GooglePlacesRestaurantSearch(client,()=>now.toISOString(),10,{maxRequests:100});
     const browser:BrowserRuntime={openSession:async()=>{let current='';return {metadata:{runtimeProvider:'LOCAL_PLAYWRIGHT_CHROMIUM',engine:'CHROMIUM',startedAt:now.toISOString()},async navigate(value){current=value;},async snapshot(){const p=places.find(p=>p.websiteUri===current)!;const hours=mode==='wrong-day'?'Tuesday: Closed':mode==='overnight'?'Tuesday: 18:00 - 13:00\nWednesday: Closed':mode==='closed'||mode==='explicit-time'?'Wednesday: Closed':mode==='outside'?'Wednesday: 18:00 - 23:00':p.id==='b'&&mode==='unknown'?undefined:p.id==='b'&&mode==='malformed'?'Wednesday: See website':p.id==='b'&&mode==='ambiguous-closed'?'Wednesday: Not closed':p.id==='b'&&mode==='partial'?'Wednesday: 12:15 - 18:00':(p.id==='b'&&mode==='open'||p.id==='c'&&mode==='three-two-closed-one-open')?'Wednesday: 10:00 - 18:00':'Wednesday: Closed';const data={'@type':'CafeOrCoffeeShop',name:p.displayName.text,address:p.formattedAddress,...(hours?{openingHours:hours.split('\n')}:{})};return {url:current,title:p.displayName.text,text:`${p.displayName.text}\n${p.formattedAddress}\n${hours??'Hours unknown'}`,html:`<script type="application/ld+json">${JSON.stringify(data)}</script><h1>${p.displayName.text}</h1><p>${p.formattedAddress}</p>`};},async click(){},async fill(){},async select(){return[];},async waitFor(){},async waitForSettled(){return true;},async screenshot(){return new Uint8Array();},async close(){}};}};
     const availability={executionRoute:'GENERIC_BROWSER' as const,async check(){inventoryReads++;throw new Error('fixture stops after observing whether inventory work remains legal');}};
-    const composition=createHybridReadComposition({taskId,runId:taskId,clock,model:provider,search:google,availability,facts:composeLiveRestaurantFactRead(google,browser,provider,undefined,()=>now.toISOString()),loop:{maxSteps:4,timeoutMs:5000}});
+    const composition=createHybridReadComposition({taskId,runId:taskId,clock,model:provider,search:google,availability,facts:composeLiveRestaurantFactRead({ maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, google,browser,provider,undefined,()=>now.toISOString()),loop:{maxSteps:4,timeoutMs:5000}});
     await composition.interpretAndDispatch({taskId,message:'Find restaurants nearby right now for two',referenceTime:now.toISOString(),timezone:'Asia/Tokyo'},HIGASHI_GINZA_EVALUATION_LOCATION);
     await composition.coordinator.run(taskId);
     const state=composition.runtime.snapshot(taskId).domainState;

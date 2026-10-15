@@ -629,7 +629,7 @@ try {
             throw Object.assign(new Error("Frozen Replay stage does not match the availability-backed production port"), { code: "REPLAY_ACTION_NO_COVERAGE" });
           }
           if (!pack.availability) throw Object.assign(new Error("Frozen source Pack has no browser availability provider"), { code: "SOURCE_STAGE_PACK_UNSUPPORTED" });
-          const availability = new LiveBrowserAvailability(browser, model, {
+          const availability = new LiveBrowserAvailability(browser, model, {maxModelCallsPerCandidate: 6, maxOperationsPerCandidate: 24,
             ...common,
             packs: [pack],
             maxModelCallsTotal: sampleModelLimit,
@@ -656,7 +656,7 @@ try {
           // normal full composition first reuses Google facts, which is right
           // for a hybrid task but would make this stage report a completed
           // Google record without opening its listed website.
-          const facts = new GoogleListedWebsiteFactRead(
+          const facts = new GoogleListedWebsiteFactRead({ maxModelCallsPerCandidate: 4, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 },
             browser,
             new ModelRestaurantFactJudgment(model, common.now),
             common.now,

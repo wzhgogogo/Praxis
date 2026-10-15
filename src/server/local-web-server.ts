@@ -403,7 +403,7 @@ async function start(): Promise<void> {
       );
   const browserRuntime = fixtureMode ? undefined : browserRuntimeFromEnvironment();
   const browserBudget: BrowserExecutionBudget | undefined = fixtureMode ? undefined : { totalModelCalls: 0 };
-  const nativeRead = fixtureMode ? undefined : composeNativeRestaurantRead(googleSearch!, browserRuntime!, model, browserBudget);
+  const nativeRead = fixtureMode ? undefined : composeNativeRestaurantRead(googleSearch!, browserRuntime!, model, browserBudget, undefined, undefined, undefined, { maxModelCallsPerCandidate: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxBrowserModelCallsPerCandidate, maxModelCallsTotal: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxBrowserModelCallsTotal, maxOperationsPerCandidate: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxBrowserOperationsPerCandidate });
   const restaurantSearch = fixtureSearch ?? nativeRead!.search;
   const restaurantAvailability = fixtureMode
     ? new FixtureRestaurantSearch()

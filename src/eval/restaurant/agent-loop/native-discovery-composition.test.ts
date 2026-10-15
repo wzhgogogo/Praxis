@@ -98,7 +98,7 @@ class H001NativeModel implements ModelGateway {
         ? input.observation.targets.find((target) => target.label === "Sushi" && target.availableActions?.includes("SET_CHECKED"))
         : undefined;
       const reveal = input.observation.targets.find((target) => target.label === "Show public venues");
-      const availabilityReveal = input.observation.targets.find((target) => target.label === "Show availability");
+      const availabilityReveal = input.observation.targets.find((target) => /^Show availability(?: \d+)?$/.test(target.label));
       const loadingRegion = /Loading\s+(?:current\s+)?availability/i.test(input.observation.visibleText ?? "")
         && input.observation.pageActions?.includes("WAIT");
       return reply(JSON.stringify(retrieval
@@ -164,7 +164,7 @@ class H001NativeModel implements ModelGateway {
   }
 }
 
-async function runScenario(scenario: SourceScenario, options: { availabilityFirst?: boolean; bareReserveLink?: boolean; guardedDiscoverySubmit?: boolean; packs?: readonly DiscoverySourcePack[]; areaQuery?: string; decisionCapture?: ReturnType<typeof createHybridDecisionCapture>; failSecondBrowserCall?: boolean; repeatCheckedAvailability?: boolean; unresolvedLocation?: boolean; advancingClock?: boolean } = {}) {
+async function runScenario(scenario: SourceScenario, options: { postAvailabilityDiscovery?: boolean; availabilityFirst?: boolean; bareReserveLink?: boolean; guardedDiscoverySubmit?: boolean; packs?: readonly DiscoverySourcePack[]; areaQuery?: string; decisionCapture?: ReturnType<typeof createHybridDecisionCapture>; failSecondBrowserCall?: boolean; repeatCheckedAvailability?: boolean; unresolvedLocation?: boolean; advancingClock?: boolean } = {}) {
   const startedAt = Date.now();
   const frozen = (await loadFrozenLiveCases(RESTAURANT_READ_DEVELOPMENT_CASE_PATH)).find((item) => item.id === "h001")!;
   const navigations: string[] = [];
@@ -197,7 +197,8 @@ async function runScenario(scenario: SourceScenario, options: { availabilityFirs
     // This controlled source owns the same installed read boundary needed for
     // its public service-category query. Unguarded fixtures retain the narrow
     // action contract and cannot exercise Phase 1's wider query controls.
-    guardedReadBoundary: options.guardedDiscoverySubmit === true || scenario === "TABLECHECK_SCOPED_MENU_DELIVERS" || scenario === "TABLECHECK_DISCOVERY_RECOVERS",
+    availabilityRevealSteps: options.postAvailabilityDiscovery ? 13 : 1,
+    guardedReadBoundary: options.postAvailabilityDiscovery === true || options.guardedDiscoverySubmit === true || scenario === "TABLECHECK_SCOPED_MENU_DELIVERS" || scenario === "TABLECHECK_DISCOVERY_RECOVERS",
     guardedQuerySubmit: options.guardedDiscoverySubmit === true,
     networkRequests,
     ...(options.bareReserveLink ? { bareReserveLink: true } : {}),
@@ -211,12 +212,27 @@ async function runScenario(scenario: SourceScenario, options: { availabilityFirs
       return sequence;
     }, options.decisionCapture?.snapshotSink,
   ) };
-  const native = composeNativeRestaurantRead(google, browser, gateway, undefined, diagnostic => { browserTrace.push({ sequence: ++browserTraceSequence, at: reference.toISOString(), kind: "EXECUTOR_DIAGNOSTIC", detail: diagnostic }); }, undefined, () => reference.toISOString(), undefined, options.packs ?? [tabelogDiscoveryPack, tableCheckDiscoveryPack]);
+  const browserBudget = { totalModelCalls: 0, maxModelCalls: 120 };
+  const native = composeNativeRestaurantRead(google, browser, gateway, browserBudget, diagnostic => { browserTrace.push({ sequence: ++browserTraceSequence, at: reference.toISOString(), kind: "EXECUTOR_DIAGNOSTIC", detail: diagnostic }); }, undefined, () => reference.toISOString(), { maxModelCallsPerCandidate: 20, maxModelCallsTotal: 120, maxOperationsPerCandidate: 80 }, options.packs ?? [tabelogDiscoveryPack, tableCheckDiscoveryPack]);
   const availability = new LiveBrowserAvailability(browser, gateway, {
     onBrowserDiagnostic: diagnostic => { browserTrace.push({ sequence: ++browserTraceSequence, at: reference.toISOString(), kind: "EXECUTOR_DIAGNOSTIC", detail: diagnostic }); },
-    now: () => reference.toISOString(), maxModelCallsPerCandidate: 20, maxModelCallsTotal: 50,
-    maxOperationsPerCandidate: 30, maxElapsedMsPerCandidate: 60_000, maxElapsedMsPerProvider: 45_000, maxAutomaticElapsedMs: 60_000,
+    browserBudget, now: () => reference.toISOString(), maxModelCallsPerCandidate: 20, maxModelCallsTotal: 120,
+    maxOperationsPerCandidate: 80, maxElapsedMsPerCandidate: 60_000, maxElapsedMsPerProvider: 45_000, maxAutomaticElapsedMs: 60_000,
   });
+  let postAvailabilityDiscovery: unknown;
+  let callsBeforeDiscovery = 0;
+  const originalCheck = availability.check.bind(availability);
+  availability.check = async (request, signal) => {
+    const result = await originalCheck(request, signal);
+    if (options.postAvailabilityDiscovery && browserBudget.totalModelCalls > 12 && !postAvailabilityDiscovery) {
+      callsBeforeDiscovery = browserBudget.totalModelCalls;
+      // Exercise the same composition and shared budget after actual source
+      // actions; never seed or mutate the budget counter in this regression.
+      try { postAvailabilityDiscovery = await native.search.search({ intent: composition.runtime.snapshot(taskId).domainState.intent! }, signal); }
+      catch (error) { postAvailabilityDiscovery = { error: error instanceof Error ? error.message : String(error), code: (error as {code?: string}).code }; }
+    }
+    return result;
+  };
   const taskId = `native-h001:${scenario}`;
   let clockTicks = 0;
   const composition = createHybridReadComposition({ taskId, runId: `run:${taskId}`, clock: { now: () => options.advancingClock ? new Date(reference.valueOf() + clockTicks++) : reference },
@@ -257,7 +273,7 @@ async function runScenario(scenario: SourceScenario, options: { availabilityFirs
     const directory = resolve(".eval-artifacts", process.env.PRAXIS_NATIVE_STAGE2_ARTIFACT_DIR ?? "h001-native-stage2-20260929-review2-final");
     await writeFile(resolve(directory, executionPath.replace(".execution.json", ".evaluation.json")), JSON.stringify(evaluation, null, 2), { flag: "wx" });
   }
-  return { networkRequests, semantic, loop, state: snapshot.domainState, navigations, sessionsOpened, navigationSessionIds, closedSessionIds, googleCalls, model, evaluation, trajectories: composition.trajectories.steps, elapsedMs: Date.now() - startedAt, artifact };
+  return { postAvailabilityDiscovery, callsBeforeDiscovery, networkRequests, semantic, loop, state: snapshot.domainState, navigations, sessionsOpened, navigationSessionIds, closedSessionIds, googleCalls, model, evaluation, trajectories: composition.trajectories.steps, elapsedMs: Date.now() - startedAt, artifact };
 }
 
 test("H001 native first batch presents three source-bound Tabelog results without TableCheck", async () => {
@@ -389,7 +405,7 @@ test("native source session acquisition consumes the remaining source window and
   const locality = new GooglePlacesRestaurantSearch(new GooglePlacesClient({ apiKey: "fixture-only", fetchImplementation: async () => {
     throw new Error("coordinates avoid Google resolution");
   } }), () => reference.toISOString(), 10, { maxRequests: 100 });
-  const native = new NativeRestaurantSearch(browser, locality, () => reference.toISOString());
+  const native = new NativeRestaurantSearch(browser, locality, () => reference.toISOString(), undefined, undefined, undefined, undefined, { maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
   const intent = {
     timezone: "Asia/Tokyo" as const, target: { goal: "AVAILABILITY" as const, query: "omakase" }, date,
     timeWindow: { earliest: "19:00", latest: "19:00" }, area: { query: "Shibuya", coordinates: { ...center, observedAt: reference.toISOString(), source: "MANUAL_PLACE" as const } },
@@ -411,7 +427,7 @@ test("Tabelog keeps the structured HARD retrieval keyword when an Agent hint rep
   const locality = new GooglePlacesRestaurantSearch(new GooglePlacesClient({ apiKey: "fixture-only", fetchImplementation: async () => {
     throw new Error("coordinates avoid Google resolution");
   } }), () => reference.toISOString(), 10, { maxRequests: 100 });
-  const native = new NativeRestaurantSearch(browser, locality, () => reference.toISOString());
+  const native = new NativeRestaurantSearch(browser, locality, () => reference.toISOString(), undefined, undefined, undefined, undefined, { maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
   const intent = {
     timezone: "Asia/Tokyo" as const, target: { goal: "AVAILABILITY" as const, query: "omakase" }, date,
     timeWindow: { earliest: "19:00", latest: "19:00" }, area: { query: "near Shibuya", coordinates: { ...center, observedAt: reference.toISOString(), source: "MANUAL_PLACE" as const } },
@@ -439,7 +455,7 @@ test("the production Router advances the default three-pack cursor and reaches G
       }] }), { status: 200, headers: { "content-type": "application/json" } });
     },
   }), () => reference.toISOString(), 10, { maxRequests: 100 });
-  const native = new NativeRestaurantSearch(browser, google, () => reference.toISOString());
+  const native = new NativeRestaurantSearch(browser, google, () => reference.toISOString(), undefined, undefined, undefined, undefined, { maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
   const router = new RestaurantExecutionRouter(native, {
     executionRoute: "STRUCTURED_ADAPTER",
     async check() { return { offers: [], availabilityChecks: {}, evidence: [], metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 } }; },
@@ -857,7 +873,7 @@ test("coordinate-only discovery passes source-attributed address observations, i
       navigate: async (next: string) => { url = next; }, snapshot: async () => ({ url, title: "Public directory", text: "Choose an observed region", html: "<main>Choose an observed region</main>" }),
       click: async () => {}, fill: async () => {}, select: async () => [], waitFor: async () => {}, screenshot: async () => new Uint8Array(), close: async () => {},
     };
-    const search = new NativeRestaurantSearch({ openSession: async () => session }, locality, () => reference.toISOString(), undefined, { decide: async input => { modelInputs.push(input.goal.location); return { type: "REQUEST_HUMAN_HELP", reason: "Fixture input observed; stop without navigation" }; } }, undefined, undefined, undefined, undefined, [tabelogDiscoveryPack]);
+    const search = new NativeRestaurantSearch({ openSession: async () => session }, locality, () => reference.toISOString(), undefined, { decide: async input => { modelInputs.push(input.goal.location); return { type: "REQUEST_HUMAN_HELP", reason: "Fixture input observed; stop without navigation" }; } }, undefined, undefined, { maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, undefined, [tabelogDiscoveryPack]);
     await search.search({ intent: { timezone: "Asia/Tokyo", area: { query: "nearby", coordinates: { latitude: 1, longitude: 2, observedAt: reference.toISOString(), source: "DEVICE" } }, criteria: [], target: { goal: "RECOMMENDATION", query: "restaurants nearby" } }, readRunId: `coordinate-input-${failure}` }, new AbortController().signal);
     assert.equal(modelInputs.length, 1);
     assert.deepEqual(modelInputs[0], { latitude: 1, longitude: 2, radiusMeters: 1000,
@@ -898,4 +914,14 @@ test("P1-G unresolved location NO_PROGRESS gives an honest user outcome", async 
   assert.deepEqual(result.state.noVerifiedResult?.investigatedCandidateIds, []);
   assert.equal(result.navigations.length, 0);
   assert.equal(result.evaluation.findings.find(dimension => dimension.dimension === "COMPLETION_OUTCOME")?.status, "NOT_EVALUATED", "failed location resolution has no successful discovery observation");
+});
+
+
+test("P2-0 discovery shares explicit limits after more than twelve actual availability model calls", async () => {
+  const result = await runScenario("TABLECHECK_RECOVERS", { postAvailabilityDiscovery: true });
+  assert.ok(result.callsBeforeDiscovery > 12, JSON.stringify({ calls: result.callsBeforeDiscovery, checks: result.state.availabilityChecks }));
+  assert.ok(result.postAvailabilityDiscovery, "follow-up source search must run");
+  assert.ok(!JSON.stringify(result.postAvailabilityDiscovery).includes("BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED"), JSON.stringify(result.postAvailabilityDiscovery));
+  assert.ok(result.networkRequests.some(request => request.outcome === "ADMITTED"), "production Guard admitted fixed source requests");
+  assert.ok(result.model.purposes.length <= 50, "whole-model ceiling remains 50");
 });

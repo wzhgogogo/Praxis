@@ -4175,3 +4175,8 @@ P1-G2 real preterminal states reconstructed at versions12/11, hashes equal recor
 ## TEST-2026-10-15-P20-guard
 
 快进921aa76后，按第一阶段签收后的四项加固指令首先修P0重定向。普通route首跳＋预先安装CDP Fetch逐跳核对，原准入集合不变；原生URL／相对链接／Cookie保留，14/14真实Chromium覆盖多跳、XHR/fetch/静态资源、循环、popup/iframe/worker和CDN权限不晋升。原版真实接收端越界红灯已保存，修正CORS/LNA遮蔽后隔离原Guard复验；旧假route手动二次调用证明删除。四门禁绿862/862，完整浏览器97/99的两项旧动态发现失败在b55e91c也复现，报告明确保留，不篡改断言或越范围修复。真实远程引擎／当前外部来源未验证。ADR-0036只追加、Capability Matrix同步，证据 .eval-artifacts/p2-0-hardening-20261015/guard/，报告根report.md。0真实模型／Google业务／Live；其余三项继续，不推送。用户并行INDEX／Booking草稿／演示文件保留。
+
+
+## TEST-2026-10-15-P20-limits
+
+BrowserTaskExecutor模型／操作三限额必填且构造校验；Live Runner／Web／固定来源／探测／回放及Adapter调用方显式接线，原生找店20/120/80、事实4/120/24、查位20/120/80（独立探测按其入口显式配置）；每条执行器诊断记录实际生效上限，整单50模型不变。生产组合＋同一Guard/网络策略、真实脚本查位调用累计>12后再次找店，旧码BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED有效红灯，修复绿；不是手填预算，固定传输不证明实时网站。四门禁通过864/864，证据limits/red.log、green.log及四门禁日志；0付费模型/Google业务/Live。后两项与Live继续，不推送。

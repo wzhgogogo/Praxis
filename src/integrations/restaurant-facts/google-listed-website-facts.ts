@@ -1,3 +1,4 @@
+import type { BrowserReadLimits } from "../../infrastructure/browser/browser-task-executor.js";
 import { createHash } from "node:crypto";
 
 import type { RestaurantCandidateFactPort } from "../../application/restaurant-execution-router.js";
@@ -303,6 +304,7 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
   readonly executionRoute = "GENERIC_BROWSER" as const;
 
   constructor(
+    private readonly limits: BrowserReadLimits,
     private readonly runtime: BrowserRuntime,
     /** Shared cited judgment for this same browser session; it decides whether another observed page is needed. */
     private readonly judgment: RestaurantFactJudgmentPort,
@@ -328,7 +330,8 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
         continue;
       }
       const executor = new BrowserTaskExecutor(this.runtime, {
-        ...(this.modelDecision ? { modelDecision: this.modelDecision, maxModelCallsPerCandidate: 4, maxModelCallsTotal: this.browserBudget ? (this.browserBudget.maxModelCalls ?? 12) : 4 } : {}),
+        ...this.limits,
+        ...(this.modelDecision ? { modelDecision: this.modelDecision } : {}),
         ...(this.browserBudget ? { budget: this.browserBudget } : {}),
         ...(this.onBrowserDiagnostic ? { onDiagnostic: this.onBrowserDiagnostic } : {}),
         // A website is one provider path inside the existing 45-second
@@ -338,7 +341,7 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
         maxAutomaticElapsedMs: 45_000,
         // Public terms and courses may live on separate observed pages. The
         // shared run budget still applies; this does not permit form submission.
-        maxOperationsPerCandidate: 24,
+
       });
       const pages = new Map<string, { observation: UntrustedRestaurantWebsiteObservation; text: string }>();
       const remember = (snapshot: BrowserSnapshot): void => {

@@ -1,3 +1,4 @@
+import type { BrowserReadLimits } from "../../infrastructure/browser/browser-task-executor.js";
 import { DEFAULT_NEARBY_RADIUS_METERS } from "../../core/location/nearby.js";
 import { createHash } from "node:crypto";
 
@@ -197,11 +198,11 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
     private readonly runtime: BrowserRuntime,
     private readonly locality: GooglePlacesRestaurantSearch,
     private readonly now: () => string = () => new Date().toISOString(),
-    private readonly evaluationLocation?: { latitude: number; longitude: number; radiusMeters: number; label: string },
-    private readonly discoveryDecision?: BrowserReadActionDecisionPort,
-    private readonly browserBudget?: BrowserExecutionBudget,
-    private readonly onBrowserDiagnostic?: (diagnostic: BrowserExecutionDiagnostic) => void,
-    private readonly discoveryLimits?: { maxOperationsPerCandidate?: number },
+    private readonly evaluationLocation: { latitude: number; longitude: number; radiusMeters: number; label: string } | undefined,
+    private readonly discoveryDecision: BrowserReadActionDecisionPort | undefined,
+    private readonly browserBudget: BrowserExecutionBudget | undefined,
+    private readonly onBrowserDiagnostic: ((diagnostic: BrowserExecutionDiagnostic) => void) | undefined,
+    private readonly discoveryLimits: BrowserReadLimits,
     /** Actual compositions provide the source-owned isolated read policy. */
     private readonly networkPolicy?: BrowserReadNetworkPolicy,
     private readonly packs: readonly DiscoverySourcePack[] = restaurantDiscoveryPacks,
@@ -285,9 +286,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
     let detailNavigationStarted = false;
     const executor = new BrowserTaskExecutor(this.runtime, {
       maxElapsedMsPerCandidate: Math.max(1, sourceElapsedRemaining),
-      ...(this.discoveryLimits?.maxOperationsPerCandidate !== undefined
-        ? { maxOperationsPerCandidate: this.discoveryLimits.maxOperationsPerCandidate }
-        : {}),
+      ...this.discoveryLimits,
       ...(regionDecision ? { modelDecision: regionDecision } : {}),
       ...(this.browserBudget ? { budget: this.browserBudget } : {}),
       onDiagnostic: (diagnostic) => {

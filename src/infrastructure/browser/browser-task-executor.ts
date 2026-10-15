@@ -23,6 +23,7 @@ export interface BrowserExecutionDiagnostic {
     | "BUDGET_EXHAUSTED"
     | "OBSERVED" | "SKILL_STARTED" | "METHOD_INCOMPLETE" | "MODEL_WIRE" | "MODEL_ACTION" | "MODEL_STOP" | "ASYNC_WAIT" | "POST_ACTION_VERIFIED" | "REJECTED" | "CLOSED";
   elapsedMs: number;
+  effectiveLimits?: BrowserReadLimits;
   /** Executor lifecycle accounting. `FINISHED` means the scope returned to its adapter, not an availability assertion. */
   lifecycle: {
     outcome: "STARTED" | "FINISHED" | "FAILED" | "ABANDONED";
@@ -53,11 +54,14 @@ export type BrowserExecutionReason = "ADAPTER_RETURNED" | "SOURCE_SCOPE_REPLACED
   | "DEADLINE_EXCEEDED" | "MODEL_BUDGET_EXHAUSTED" | "OPERATION_BUDGET_EXHAUSTED"
   | "RUNTIME_UNAVAILABLE" | "RUNTIME_FAILURE" | "OPERATION_FAILED";
 
-export interface BrowserTaskExecutorOptions {
+export interface BrowserReadLimits {
+  maxModelCallsPerCandidate: number;
+  maxModelCallsTotal: number;
+  maxOperationsPerCandidate: number;
+}
+
+export interface BrowserTaskExecutorOptions extends BrowserReadLimits {
   modelDecision?: BrowserReadActionDecisionPort;
-  maxModelCallsPerCandidate?: number;
-  maxModelCallsTotal?: number;
-  maxOperationsPerCandidate?: number;
   /** Bounds all browser work for an outlet across source fallback. */
   maxElapsedMsPerCandidate?: number;
   /** Bounds one provider path without resetting the candidate-wide budget. */
@@ -267,7 +271,10 @@ export class BrowserTaskExecutor {
   private pageUnsettled = false;
   private readonly startedAt = Date.now();
 
-  constructor(private readonly runtime: BrowserRuntime, private readonly options: BrowserTaskExecutorOptions = {}) {
+  constructor(private readonly runtime: BrowserRuntime, private readonly options: BrowserTaskExecutorOptions) {
+    for (const key of ["maxModelCallsPerCandidate", "maxModelCallsTotal", "maxOperationsPerCandidate"] as const) {
+      if (!Number.isSafeInteger(options[key]) || options[key] <= 0) throw new TypeError(`Explicit positive browser limit required: ${key}`);
+    }
     this.budget = options.budget ?? { totalModelCalls: 0 };
   }
 
@@ -493,7 +500,7 @@ export class BrowserTaskExecutor {
     const pendingControlKeys = new Set<string>();
     for (;;) {
       const runModelCeiling = Math.min(
-        this.options.maxModelCallsTotal ?? 12,
+        this.options.maxModelCallsTotal,
         this.budget.maxModelCalls ?? Number.POSITIVE_INFINITY,
       );
       if (this.budget.totalModelCalls >= runModelCeiling) {
@@ -501,11 +508,11 @@ export class BrowserTaskExecutor {
         this.recordLifecycleFailure(input.source, input.stage, "BUDGET_EXHAUSTED", error);
         throw error;
       }
-      if (this.modelCalls >= (this.options.maxModelCallsPerCandidate ?? 6)) {
+      if (this.modelCalls >= (this.options.maxModelCallsPerCandidate)) {
         this.recordBudgetExhausted(input, "MODEL_BUDGET_EXHAUSTED");
         return { status: "BUDGET_EXCEEDED", snapshot, controls: [] };
       }
-      if (this.operationCount >= (this.options.maxOperationsPerCandidate ?? 24)) {
+      if (this.operationCount >= (this.options.maxOperationsPerCandidate)) {
         this.recordBudgetExhausted(input, "OPERATION_BUDGET_EXHAUSTED");
         return { status: "BUDGET_EXCEEDED", snapshot, controls: [] };
       }
@@ -657,7 +664,7 @@ export class BrowserTaskExecutor {
         // asynchronous result rendering.  Refresh the entire observation once
         // before asking the model again: controls alone cannot expose a result
         // region that hydrated without changing a control value.
-        if (this.operationCount + 3 > (this.options.maxOperationsPerCandidate ?? 24)) {
+        if (this.operationCount + 3 > (this.options.maxOperationsPerCandidate)) {
           this.recordBudgetExhausted(input, "OPERATION_BUDGET_EXHAUSTED");
           return { status: "BUDGET_EXCEEDED", snapshot, controls: observation.controls };
         }
@@ -687,7 +694,7 @@ export class BrowserTaskExecutor {
       }
       consecutiveStateRepeats = 0;
       const confirmationOperations = 2 + (input.session.observeControls ? 1 : 0);
-      if (this.operationCount + confirmationOperations > (this.options.maxOperationsPerCandidate ?? 24)) {
+      if (this.operationCount + confirmationOperations > (this.options.maxOperationsPerCandidate)) {
         this.recordBudgetExhausted(input, "OPERATION_BUDGET_EXHAUSTED");
         return { status: "BUDGET_EXCEEDED", snapshot, controls: observation.controls };
       }
@@ -1175,7 +1182,7 @@ export class BrowserTaskExecutor {
     operation: () => Promise<Value>,
   ): Promise<Value> {
     this.assertActive(input.signal);
-    if (this.operationCount >= (this.options.maxOperationsPerCandidate ?? 24)) {
+    if (this.operationCount >= (this.options.maxOperationsPerCandidate)) {
       this.recordBudgetExhausted(input, "OPERATION_BUDGET_EXHAUSTED");
       throw new BrowserRuntimeError("BROWSER_OPERATION_BUDGET_EXCEEDED", "Browser operation budget exceeded", undefined, "CANDIDATE");
     }
@@ -1390,6 +1397,7 @@ export class BrowserTaskExecutor {
         : "FINISHED";
       this.options.onDiagnostic?.({
         ...input,
+        effectiveLimits: { maxModelCallsPerCandidate: this.options.maxModelCallsPerCandidate, maxModelCallsTotal: Math.min(this.options.maxModelCallsTotal, this.budget.maxModelCalls ?? Infinity), maxOperationsPerCandidate: this.options.maxOperationsPerCandidate },
         ...(this.candidateId ? { candidateId: this.candidateId } : {}),
         elapsedMs: now - this.startedAt,
         lifecycle: {

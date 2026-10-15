@@ -17,7 +17,7 @@ test("native source-plan resolution is reused by the subsequent Google pack requ
     return new Response(JSON.stringify({ places: [] }), { status: 200 });
   } });
   const google = new GooglePlacesRestaurantSearch(client, () => "2026-10-07T16:00:00.000Z", 10, { maxRequests: 10 });
-  const native = new NativeRestaurantSearch({ openSession: async () => { throw new Error("Google-only pack must not open browser"); } }, google, () => "2026-10-07T16:00:00.000Z", undefined, undefined, undefined, undefined, undefined, undefined, [googlePlacesDiscoveryPack]);
+  const native = new NativeRestaurantSearch({ openSession: async () => { throw new Error("Google-only pack must not open browser"); } }, google, () => "2026-10-07T16:00:00.000Z", undefined, undefined, undefined, undefined, { maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, undefined, [googlePlacesDiscoveryPack]);
   await native.search({
     readRunId: "source-plan-google",
     intent: {
@@ -38,7 +38,7 @@ test("coordinate-only address observations reach the discovery goal once and fai
       return new Response(JSON.stringify({ places: [] }), { status: 200 });
     } });
     const google = new GooglePlacesRestaurantSearch(client, () => "2026-10-11T00:00:00Z", 10, { maxRequests: 2 });
-    const native = new NativeRestaurantSearch({ openSession: async () => { throw new Error("No browser for Google-only control"); } }, google, undefined, undefined, undefined, undefined, undefined, undefined, undefined, [googlePlacesDiscoveryPack]);
+    const native = new NativeRestaurantSearch({ openSession: async () => { throw new Error("No browser for Google-only control"); } }, google, undefined, undefined, undefined, undefined, undefined, { maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, undefined, [googlePlacesDiscoveryPack]);
     const intent = { timezone: "Asia/Tokyo" as const, target: { goal: "RECOMMENDATION" as const, query: "restaurants nearby" }, area: { query: "nearby", coordinates: { latitude: 1, longitude: 2, source: "DEVICE" as const, observedAt: "2026-10-11T00:00:00Z" } }, criteria: [] };
     const result = await native.search({ intent, readRunId: `address-${fails}` }, new AbortController().signal);
     const location = result.continuation?.locationContext!;

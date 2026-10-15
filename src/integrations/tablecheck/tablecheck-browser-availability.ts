@@ -248,7 +248,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
       this.executor = browser;
     } else {
       this.ownsExecutor = true;
-      this.executor = new BrowserTaskExecutor(browser);
+      this.executor = new BrowserTaskExecutor(browser, { maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
     }
   }
 

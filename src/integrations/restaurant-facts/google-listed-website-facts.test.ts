@@ -22,12 +22,12 @@ const fixtureJudgment = {
 function reader(
   browser: BrowserRuntime,
   now?: () => string,
-  decision?: ConstructorParameters<typeof GoogleListedWebsiteFactRead>[3],
-  budget?: ConstructorParameters<typeof GoogleListedWebsiteFactRead>[4],
-  diagnostic?: ConstructorParameters<typeof GoogleListedWebsiteFactRead>[5],
-  judgment: ConstructorParameters<typeof GoogleListedWebsiteFactRead>[1] = fixtureJudgment,
+  decision?: ConstructorParameters<typeof GoogleListedWebsiteFactRead>[4],
+  budget?: ConstructorParameters<typeof GoogleListedWebsiteFactRead>[5],
+  diagnostic?: ConstructorParameters<typeof GoogleListedWebsiteFactRead>[6],
+  judgment: ConstructorParameters<typeof GoogleListedWebsiteFactRead>[2] = fixtureJudgment,
 ): GoogleListedWebsiteFactRead {
-  return new GoogleListedWebsiteFactRead(browser, judgment, now, decision, budget, diagnostic);
+  return new GoogleListedWebsiteFactRead({ maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, browser, judgment, now, decision, budget, diagnostic);
 }
 
 const request: RestaurantCandidateFactRequest = {

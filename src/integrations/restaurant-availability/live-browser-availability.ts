@@ -1,3 +1,4 @@
+import type { BrowserReadLimits } from "../../infrastructure/browser/browser-task-executor.js";
 import type { ModelGateway } from "../../core/model/contracts.js";
 import type { RestaurantAvailabilityRead, RestaurantAvailabilityRequest } from "../../domains/restaurant/contracts.js";
 import { ModelBrowserReadActionDecision, type BrowserReadActionDecisionPort } from "../../infrastructure/browser/browser-action-decision.js";
@@ -12,15 +13,12 @@ import { restaurantPublicReadNetworkPolicy } from "./public-browser-read-network
 import { restaurantDiscoveryPacks } from "../restaurant-search/source-packs.js";
 import type { DiscoverySourcePack } from "../restaurant-search/source-packs.js";
 
-export interface LiveBrowserAvailabilityOptions {
+export interface LiveBrowserAvailabilityOptions extends BrowserReadLimits {
   now?: () => string;
   /** Shared with fact reads for one Router-owned investigation, never process-global. */
   browserBudget?: BrowserExecutionBudget;
   maxAvailabilitySourceBrowserSessions?: number;
   maxAvailabilitySourceCandidateMatches?: number;
-  maxModelCallsPerCandidate?: number;
-  maxModelCallsTotal?: number;
-  maxOperationsPerCandidate?: number;
   maxElapsedMsPerCandidate?: number;
   maxElapsedMsPerProvider?: number;
   maxAutomaticElapsedMs?: number;
@@ -53,7 +51,7 @@ export class LiveBrowserAvailability {
   constructor(
     private readonly runtime: BrowserRuntime,
     private readonly model: ModelGateway,
-    private readonly options: LiveBrowserAvailabilityOptions = {},
+    private readonly options: LiveBrowserAvailabilityOptions,
   ) {
     this.browserBudget = options.browserBudget ?? { totalModelCalls: 0 };
     this.networkPolicy = options.networkPolicy
@@ -75,10 +73,10 @@ export class LiveBrowserAvailability {
 
   async check(request: RestaurantAvailabilityRequest, signal: AbortSignal): Promise<RestaurantAvailabilityRead> {
     const executor = new BrowserTaskExecutor(this.runtime, {
+      maxModelCallsPerCandidate: this.options.maxModelCallsPerCandidate,
+      maxModelCallsTotal: this.options.maxModelCallsTotal,
+      maxOperationsPerCandidate: this.options.maxOperationsPerCandidate,
       modelDecision: this.options.modelDecision ?? new ModelBrowserReadActionDecision(this.model),
-      ...(this.options.maxModelCallsPerCandidate !== undefined ? { maxModelCallsPerCandidate: this.options.maxModelCallsPerCandidate } : {}),
-      ...(this.options.maxModelCallsTotal !== undefined ? { maxModelCallsTotal: this.options.maxModelCallsTotal } : {}),
-      ...(this.options.maxOperationsPerCandidate !== undefined ? { maxOperationsPerCandidate: this.options.maxOperationsPerCandidate } : {}),
       ...(this.options.maxElapsedMsPerCandidate !== undefined ? { maxElapsedMsPerCandidate: this.options.maxElapsedMsPerCandidate } : {}),
       ...(this.options.maxElapsedMsPerProvider !== undefined ? { maxElapsedMsPerProvider: this.options.maxElapsedMsPerProvider } : {}),
       ...(this.options.maxAutomaticElapsedMs !== undefined ? { maxAutomaticElapsedMs: this.options.maxAutomaticElapsedMs } : {}),

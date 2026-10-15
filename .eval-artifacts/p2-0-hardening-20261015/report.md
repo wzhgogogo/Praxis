@@ -33,3 +33,10 @@ Evidence status: exposed development evidence，不是Clean Baseline。基线921
 ## 冻结及Live
 
 待四项完成后冻结；未启动任何P2-0 Live。不推送。
+
+## 2 显式模型额度接线
+
+- Guard提交：`976baaa`。本项模型/操作三限额在Executor类型中必填，构造缺失、非正整数立即拒绝，移除隐藏12/6/24。所有调用入口显式提供；Live/Web原生找店20/120/80，事实4/120/24，查位20/120/80；独立探测/固定源保留各入口明确配置。每条执行器诊断的 `effectiveLimits` 给出阶段实际生效值（共享总额取最小值）。整单模型50不变。
+- `limits/red.log`：同Live的`createHybridReadComposition`、Native读组合、查位组合和生产Guard/来源网络策略，固定网页上实际13步查位后再调用原生找店，未手填计数。旧码第一次请求前报BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED。为隔离本项接线，查位端口返回前触发后续找店探针；这不证明Agent会自主选择该顺序。
+- `limits/green.log` 同用例通过；构造缺限额有类型反例和运行时反例。四门禁 `limits/{typecheck,arch-check,npm-test,build}-green.log`，864/864。最初沙箱默认测试被Chromium/HTTP权限拒绝，宿主机重跑完成，原日志保留；不计产品红灯。
+- 证明范围：L1固定来源/脚本模型，真实调用与共享计数；CDP逐跳边界沿用第1项真实Chromium证明。0真实模型、Google业务、Live。本项提交号见最终索引。

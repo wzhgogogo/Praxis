@@ -29,7 +29,7 @@ function fixture(outside = true, missing = false, named = false, navigationFailu
   }};
   const decision:BrowserReadActionDecisionPort={decide:async(input)=>{selections++;const target=input.observation.targets.find(t=>t.href===(selections===1?first:second))!;return {type:'OPEN_LINK',targetRef:target.ref,reason:'Choose observed region'};}};
   const google=new GooglePlacesRestaurantSearch(new GooglePlacesClient({apiKey:'fixture-only',fetchImplementation:async()=>{throw new Error('No extra location request');}}));
-  const native=new NativeRestaurantSearch(runtime,google,()=>now,undefined,decision,undefined,undefined,undefined,undefined,[tabelogDiscoveryPack]);
+  const native=new NativeRestaurantSearch(runtime, google, ()=>now, undefined, decision, undefined, undefined, { maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, undefined, [tabelogDiscoveryPack]);
   return {native,navigations,get selections(){return selections;}};
 }
 test('directory Agent uses observed references; a proved wrong first entry is replaced once without resetting progress',async()=>{

@@ -173,7 +173,7 @@ export async function rebuildBrowserInput(html: string, input: BrowserReadDecisi
       pressEscape: async () => { throw new Error("STATIC_REPLAY_NO_EXECUTION"); }, close: async () => {},
     };
     let rebuilt: BrowserReadDecisionInput | undefined;
-    const executor = new BrowserTaskExecutor({ openSession: async () => session }, { modelDecision: { async decide(value) {
+    const executor = new BrowserTaskExecutor({ openSession: async () => session }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: { async decide(value) {
       // The prior records supply the existing post-action progress. DOM targets
       // and action eligibility come exclusively from the current Executor.
       rebuilt = { ...value, progress: history.at(-1)?.progressAfter ?? input.progress };

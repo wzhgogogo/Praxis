@@ -145,12 +145,13 @@ export function sourcePages(
   sessionsOpened?: number[],
   navigationSessionIds?: number[],
   closedSessionIds?: number[],
-  options: { guardedReadBoundary?: boolean; guardedQuerySubmit?: boolean; networkRequests?: BrowserReadNetworkObservation[]; bareReserveLink?: boolean } = {},
+  options: { availabilityRevealSteps?: number; guardedReadBoundary?: boolean; guardedQuerySubmit?: boolean; networkRequests?: BrowserReadNetworkObservation[]; bareReserveLink?: boolean } = {},
 ) {
   let tableCheckDiscoveryRevealed = false;
   let tableCheckDiscoveryInputValue = "stale query";
   let tableCheckDiscoveryExpectedQuery = "";
   const tableCheckAvailabilityRevealed = new Set<string>();
+  const availabilityClicks = new Map<string, number>();
   let tableCheckScopedCategory = "";
   let tableCheckScopedResultReady = false;
   let tabelogListingVisits = 0;
@@ -340,7 +341,7 @@ export function sourcePages(
       const availabilityWidget = !available
         ? `<div data-testid="Venue Availability" data-selected-date="${date}" data-pax="2"></div><section data-availability-state="empty" data-date="${date}" data-pax="2"></section>`
         : !tableCheckAvailabilityRevealed.has(tablecheckId)
-        ? '<div data-testid="Venue Availability"><button type="button" data-praxis-read-only="true">Show availability</button></div>'
+        ? `<div data-testid="Venue Availability"><button type="button" data-praxis-read-only="true">Show availability${options.availabilityRevealSteps ? ` ${availabilityClicks.get(tablecheckId) ?? 0}` : ""}</button></div>`
         : `<div data-testid="Venue Availability" data-selected-date="${date}" data-pax="2"><form><input name="reservation[start_date]" value="${date}"><select name="reservation[num_people_adult]"><option value="2" selected>2</option></select><a href="https://www.tablecheck.com/en/shops/native-omakase-${tablecheckId}/reserve?start_date=${date}&amp;num_people=2&amp;start_time=19:00">19:00</a></form></div>`;
       return page(url, [
         `<script type="application/ld+json">${JSON.stringify({ "@type": "Restaurant", name, address, geo: sourcePoint })}</script>`,
@@ -394,7 +395,8 @@ export function sourcePages(
           return;
         }
         const id = new URL(url).pathname.match(/^\/en\/native-omakase-(\d+)$/)?.[1];
-        if (id) tableCheckAvailabilityRevealed.add(id);
+        if (id) { availabilityClicks.set(id, (availabilityClicks.get(id) ?? 0) + 1);
+          if (availabilityClicks.get(id)! >= (id === "1" ? options.availabilityRevealSteps ?? 1 : 1)) tableCheckAvailabilityRevealed.add(id); }
       },
       scenario === "TABLECHECK_DISCOVERY_RECOVERS" ? (value) => { tableCheckDiscoveryInputValue = value; } : undefined,
       scenario === "TABLECHECK_SCOPED_MENU_DELIVERS" ? (url, value, checked) => {

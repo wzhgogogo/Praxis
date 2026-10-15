@@ -1,3 +1,4 @@
+import type { BrowserReadLimits } from "../../infrastructure/browser/browser-task-executor.js";
 import type { ModelGateway } from "../../core/model/contracts.js";
 import { ModelBrowserReadActionDecision } from "../../infrastructure/browser/browser-action-decision.js";
 import type { BrowserExecutionBudget, BrowserExecutionDiagnostic } from "../../infrastructure/browser/browser-task-executor.js";
@@ -13,6 +14,7 @@ import { restaurantPublicReadNetworkPolicy } from "../restaurant-availability/pu
  * receive exactly this chain; fixtures explicitly use their fixture port.
  */
 export function composeLiveRestaurantFactRead(
+  limits: BrowserReadLimits,
   google: RestaurantCandidateFactPort,
   runtime: BrowserRuntime,
   model: ModelGateway,
@@ -24,7 +26,7 @@ export function composeLiveRestaurantFactRead(
   const networkPolicy = runtime.readNetworkBoundaryCapability === "ISOLATED_CONTEXT" ? restaurantPublicReadNetworkPolicy : undefined;
   return new GoogleThenWebsiteFactRead(
     google,
-    new GoogleListedWebsiteFactRead(runtime, judgment, now, new ModelBrowserReadActionDecision(model), browserBudget, onBrowserDiagnostic, networkPolicy),
+    new GoogleListedWebsiteFactRead({ maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, runtime, judgment, now, new ModelBrowserReadActionDecision(model), browserBudget, onBrowserDiagnostic, networkPolicy),
     judgment,
   );
 }

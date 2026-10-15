@@ -450,18 +450,7 @@ export async function runSourceStageNativeDiscoveryProbe(
   }
   const startedAt = Date.now();
   const budget = input.browserBudget ?? { totalModelCalls: 0, maxModelCalls: 2 };
-  const native = new NativeRestaurantSearch(
-    input.runtime,
-    input.locality,
-    input.now,
-    undefined,
-    input.modelDecision,
-    budget,
-    input.onDiagnostic,
-    { maxOperationsPerCandidate: 24 },
-    input.runtime.readNetworkBoundaryCapability === "ISOLATED_CONTEXT" ? discoveryPackNetworkPolicy([input.pack]) : undefined,
-    [input.pack],
-  );
+  const native = new NativeRestaurantSearch(input.runtime, input.locality, input.now, undefined, input.modelDecision, budget, input.onDiagnostic, { maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, input.runtime.readNetworkBoundaryCapability === "ISOLATED_CONTEXT" ? discoveryPackNetworkPolicy([input.pack]) : undefined, [input.pack]);
   try {
     let read = await native.search({
       intent: input.intent,

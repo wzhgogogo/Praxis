@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.207
+- Document revision: 4.208
 - Last updated: 2026-10-15
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-15 P2-0 显式浏览器额度：** BrowserTaskExecutor模型／操作三限额必填且构造校验；Live Runner／Web／固定来源／探测／回放及Adapter调用方显式接线，原生找店20/120/80、事实4/120/24、查位20/120/80（独立探测按其入口显式配置）；每条执行器诊断记录实际生效上限，整单50模型不变。生产组合＋同一Guard/网络策略、真实脚本查位调用累计>12后再次找店，旧码BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED有效红灯，修复绿；不是手填预算，固定传输不证明实时网站。四门禁通过864/864，证据limits/red.log、green.log及四门禁日志；0付费模型/Google业务/Live。后两项与Live继续，不推送。
 
 - **2026-10-15 第一阶段已独立签收／P2-0 Guard：** 921aa76的Playbook1.8和phase-1-signoff为签收依据，新地点泛化转第二阶段。P2-0首项CDP逐跳Guard在真实Chromium14/14及四门禁862/862通过；原准入不扩大，URL／相对资源／Cookie和录制逐跳保留。完整浏览器两个既有dynamic Tabelog场景在原冻结树同样失败，单列而不称全套通过。其余三项及两次Live未执行；模型仍1014/1500，历史37Live，新预算2正式＋最多1环境重跑。证据p2-0-hardening-20261015/report.md，本地提交，不推送。
 

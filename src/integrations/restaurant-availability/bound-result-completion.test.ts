@@ -24,7 +24,7 @@ async function read(item: typeof cases[number], pages: BrowserSnapshot[]) {
     navigate: async () => {}, snapshot: async () => structuredClone(pages[index++ % pages.length]!), observeControls: async () => [],
     click: async () => { throw Error("Fixture prohibits actions"); }, fill: async () => { throw Error("Fixture prohibits actions"); }, select: async () => [], waitFor: async () => {}, screenshot: async () => new Uint8Array(), close: async () => {},
   };
-  const executor = new BrowserTaskExecutor({ openSession: async () => session });
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
   try { return await executor.runSkill({ taskId: item.name, session, signal: new AbortController().signal, source: item.source, stage: item.name.includes("availability") ? "AVAILABILITY" : "DISCOVERY", allowedOrigins: [new URL(item.url).origin], goal: { outlet: { name: "Sen" }, ...request, hardCriteria: [] }, objective: "Read a bound result", completion: item.completion }); }
   finally { await executor.close(); }
 }

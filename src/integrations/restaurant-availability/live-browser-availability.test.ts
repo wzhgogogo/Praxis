@@ -43,7 +43,7 @@ test("Live browser composition keeps TableCheck then Tabelog in one session and 
   let opens = 0;
   const runtime: BrowserRuntime = { openSession: async () => { opens += 1; return session; } };
   const diagnostics: BrowserExecutionDiagnostic[] = [];
-  const result = await new LiveBrowserAvailability(runtime, neverCalledModel, {
+  const result = await new LiveBrowserAvailability(runtime, neverCalledModel, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
     onBrowserDiagnostic: (diagnostic) => diagnostics.push(diagnostic),
   }).check(request, new AbortController().signal);
   assert.equal(opens, 1);
@@ -84,7 +84,7 @@ test("Live composition reuses a source-observed Hajime entrance across candidate
   ]);
   let opens = 0;
   const runtime: BrowserRuntime = { openSession: async () => [first, second][opens++]! };
-  const availability = new LiveBrowserAvailability(runtime, neverCalledModel);
+  const availability = new LiveBrowserAvailability(runtime, neverCalledModel, { maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
   const toRequest = (item: typeof teppen): RestaurantAvailabilityRequest => ({ candidateIds: [item.restaurant.id], candidates: [item], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: fixtureIntent.partySize, hardCriteria: [] });
   availability.beginReadRun();
   await availability.check(toRequest(teppen), new AbortController().signal);
@@ -118,7 +118,7 @@ test("Live composition clears observed TableCheck entrances when a read run ends
   ]);
   let opens = 0;
   const runtime: BrowserRuntime = { openSession: async () => [first, second][opens++]! };
-  const availability = new LiveBrowserAvailability(runtime, neverCalledModel);
+  const availability = new LiveBrowserAvailability(runtime, neverCalledModel, { maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
   const toRequest = (item: typeof teppen): RestaurantAvailabilityRequest => ({ candidateIds: [item.restaurant.id], candidates: [item], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: fixtureIntent.partySize, hardCriteria: [] });
   availability.beginReadRun();
   await availability.check(toRequest(teppen), new AbortController().signal);

@@ -1,3 +1,4 @@
+import type { BrowserReadLimits } from "../../infrastructure/browser/browser-task-executor.js";
 import { createHash } from "node:crypto";
 
 import { groundRestaurantWebsiteFacts } from "../../domains/restaurant/read-grounding.js";
@@ -74,6 +75,7 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
   readonly executionRoute = "GENERIC_BROWSER" as const;
 
   constructor(
+    private readonly limits: BrowserReadLimits,
     private readonly runtime: BrowserRuntime,
     private readonly judgment: RestaurantFactJudgmentPort,
     private readonly now: () => string = () => new Date().toISOString(),
@@ -103,10 +105,11 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
         continue;
       }
       const executor = new BrowserTaskExecutor(this.runtime, {
-        ...(this.modelDecision ? { modelDecision: this.modelDecision, maxModelCallsPerCandidate: 4, maxModelCallsTotal: this.browserBudget?.maxModelCalls ?? 4 } : {}),
+        ...this.limits,
+        ...(this.modelDecision ? { modelDecision: this.modelDecision } : {}),
         ...(this.browserBudget ? { budget: this.browserBudget } : {}),
         ...(this.onBrowserDiagnostic ? { onDiagnostic: this.onBrowserDiagnostic } : {}),
-        maxElapsedMsPerCandidate: 45_000, maxElapsedMsPerProvider: 30_000, maxAutomaticElapsedMs: 45_000, maxOperationsPerCandidate: 24,
+        maxElapsedMsPerCandidate: 45_000, maxElapsedMsPerProvider: 30_000, maxAutomaticElapsedMs: 45_000,
       });
       try {
         executor.beginCandidate(candidate.restaurant.id);

@@ -401,9 +401,7 @@ try {
     browserExecutionDiagnostics.push(structuredClone(diagnostic));
     recordBrowserTrace("EXECUTOR_DIAGNOSTIC", diagnostic);
   };
-  const nativeRead = composeNativeRestaurantRead(google, browser, model, browserBudget,
-    recordBrowserDiagnostic, evaluationLocation, undefined,
-    { maxOperationsPerCandidate: liveReadLimits.maxBrowserOperationsPerCandidate });
+  const nativeRead = composeNativeRestaurantRead(google, browser, model, browserBudget, recordBrowserDiagnostic, evaluationLocation, undefined, { maxModelCallsPerCandidate: liveReadLimits.maxBrowserModelCallsPerCandidate, maxModelCallsTotal: liveReadLimits.maxBrowserModelCallsTotal, maxOperationsPerCandidate: liveReadLimits.maxBrowserOperationsPerCandidate });
   const search = nativeRead.search;
   const availability = new LiveBrowserAvailability(browser, model, {
     browserBudget,
