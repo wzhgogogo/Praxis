@@ -1,8 +1,8 @@
 # Agent 网站操作第一阶段 Playbook
 
-- Status: Draft
-- Document revision: 1.7
-- Last updated: 2026-10-12
+- Status: Signed off（2026-10-15，第一阶段完成，新地点泛化目标转入第二阶段）
+- Document revision: 1.8
+- Last updated: 2026-10-15
 - Evidence status: draft / not integrated；开发集已暴露，非 Clean Baseline
 - Source of truth for: 第一阶段（通用网站操作能力）的目标、工作包、退出条件、预算与护栏；不替代 Accepted ADR、Gold@6 或当前能力记录
 - Related ADRs: [ADR-0017](decisions/0017-controlled-browser-read-executor.md)、[ADR-0025](decisions/0025-model-directed-read-investigation.md)、[ADR-0032](decisions/0032-source-native-restaurant-discovery.md)、[ADR-0036](decisions/0036-generic-public-read-network-policy.md)、[ADR-0037](decisions/0037-request-driven-discovery-source-packs.md)
@@ -489,6 +489,23 @@ P1-C 的默认顺序是 C1 → C2 → C3 → C4 → C5，C6、C7 为条件项。
    - P1-F 用冻结版本 `73bfca5`，P1-G 用修复后的新冻结版本。两次结果合并签收，报告中写明各用哪个版本。
 5. **之后的顺序：** Guard 多跳重定向修复（必须在任何预约相关工作之前），然后进入路线图。
 
+**2026-10-15 P1-G 与 P1-G2 结果，第一阶段签收（详见项目文档 `reviews/P1-G-REVIEW-20261012`、`reviews/PHASE-1-SIGNOFF-20261015`）：**
+
+- **P1-G（生产 `9b34287`）：**
+  - 吉祥寺：地点解析修复生效，但见证店未进入候选，主卡点在第二阶段（原 C7）；
+  - h003 合格交付（Aloft by Marriott Ginza，150 m）；
+  - h004 在下午窗口结束后运行，如实以无结果结束；
+  - h001 仍 FAILED：诚实结束的兜底依赖 `END_READ` 校验，在 Live 状态下不成立。
+- **P1-G2（生产 `b55e91c`）：** 用两次真实状态离线复现后修复，系统终止改为直接给出无结果。h001 补跑以 HONEST_NO_RESULT 结束。
+- **签收：** 条件 1、3、4、5、6 满足；条件 2 适用"能力目标转入第二阶段"。**第一阶段完成。**
+- **新发现，第二阶段第一优先：** 浏览器模型预算耗尽后，"搜索立即失败 ↔ 结束被拒"死循环 24 步；"已执行但失败"的动作被当作进展，清零了拒绝计数。
+- **用量：** 模型 1,014/1,500，整单 Live 37/38。
+- **下一步顺序：**
+  1. Guard 多跳重定向修复（任何预约相关工作之前）；
+  2. 预算耗尽后的死循环修复；
+  3. 补做 `b55e91c` 代码复核；
+  4. 进入路线图（预约"自己订"、第二阶段找店与前端）。
+
 ## 13 角色
 
 | 角色 | 职责 |
@@ -595,3 +612,12 @@ Provider 兼容性依据：<https://api-docs.deepseek.com/api/create-chat-comple
 1. **静态重建回放：** 原退出条件 5 的一部分；Recorder 已能保存样式表。
 2. **条件措辞等价由评估器判断：** 现为人工确认（§2 第 7 条）。
 3. **P1-F 签收中发现的问题：** 按第 17 条只记录、归类，签收后并入本清单。
+4. **evaluator 识别系统终止：** 系统终止产生的 `READ_ENDED` 目前被判为 COMPLETION_OUTCOME NOT_EVALUATED（P1-G2 h001）。
+5. **评测集扩充：** 模板 + 自动见证，分开发集、留出集、每日哨兵，检查点关键用例每例至少跑 3 次（2026-10-12 讨论，待细化）。
+
+**第五组：签收时新发现的问题（2026-10-15）**
+
+1. **预算耗尽后的死循环（第一优先）：** 已无可执行的读取路径时，应由系统诚实结束；"已执行但失败"不计为进展。
+2. **推荐类请求被转为查位：** RECOMMENDATION 被改成 AVAILABILITY，并推断人数（KF-H004、h004）。
+3. **事实读取中来回打开同一链接，以及对已确认无位的候选做事实读取（吉祥寺）。**
+4. **TableCheck preflight 间歇性 503/403**（宿主机线路或出口）。
