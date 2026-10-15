@@ -1,6 +1,6 @@
 # T1：统一组装、浏览器门禁与 Web 入口修复
 
-状态：已写好，**等 P2-0 复核通过后再开始**。复核者 2026-10-15 写于 P2-0 执行期间；开始前先 `git pull --ff-only`，并按第 0 步核对 P2-0 改动后的代码。
+状态：**P2-0 已于 2026-10-15 复核通过（`.eval-artifacts/p2-0-hardening-20261015/independent-review.md`），本批可以开始。** 开始前先 `git pull --ff-only`，并按第 0 步核对 P2-0 改动后的代码。P2-0 复核的三项遗留已并入下面第 1、2、6 项。
 
 依据：`.eval-artifacts/review-eval-test-20261015/independent-review.md` 第二节（测试体系）。本批全部离线，**不跑 Live，不调用付费模型**。不改 Gold、变体、见证，不放宽交付资格，只读边界不变，本地提交，不推送。
 
@@ -33,6 +33,11 @@ P2-0 第 2 项已要求"所有组装入口显式传入限额、删除隐藏默�
 - 任务宿主（Runner 用内存 Runtime，Web 用 Postgres 的 `PersistentRestaurantAgentApplication`）可以保持不同，但两者接收的读取组件和限额必须来自同一次组装调用。在报告中写明两种宿主仍然不同的地方。
 - 测试需要改限额时，必须显式覆盖配置，并在用例名中写明覆盖了什么，例如 `maxAgentSteps=6`。不允许再出现"测试不传、落到默认值"的情况。
 - 运行记录中的 `runCeilings` 直接来自这次组装实际使用的配置，不再单独抄写。
+- **P2-0 遗留：** 下列数字默认值仍在生产代码中，本项一并处理：改为由配置显式传入，或在报告中逐项说明为什么保留常量。
+  - `restaurant-agent-loop.ts` 第 160–162 行：`maxSteps ?? 12`、`maxRejectedActions ?? 3`、`timeoutMs ?? 30_000`；
+  - `restaurant-execution-router.ts` 第 217–218 行：`?? 8_000`、`?? 20_000`；
+  - `browser-task-executor.ts` 第 1255、1277–1278 行：`maxAutomaticElapsedMs ?? 300_000`；
+  - `native-read-composition.ts` 中写死的事实读取限额 4/24，移入共享配置。
 
 **先红后绿：**
 
@@ -46,6 +51,7 @@ P2-0 第 2 项已要求"所有组装入口显式传入限额、删除隐藏默�
 - **要求：** 改动涉及浏览器执行器、Guard、Source Pack、浏览器 Adapter 或本批的组装函数时，`test:browser:fixture` 是必跑门禁，结果在报告中单独写明。
 - Test Skill 矩阵的"Provider/Browser Adapter"行（第 26 行）已经要求"操作 DOM 时加真实浏览器本地 Fixture"，但实际执行中一直被"四门禁"替代。仓库文档里没有"四门禁"的定义，所以要在 Test Skill 中写明：哪些路径的改动触发 `test:browser:fixture`，以及它与 typecheck、arch:check、npm test、build 并列汇报。不改成每次都跑，不另建第二份门禁清单。
 - 本批改了组装，所以本批必须跑 `test:browser:fixture`。
+- **P2-0 遗留：** `test:browser:fixture` 中 2 个 native dynamic Tabelog 用例（"AVAILABLE reaches formal H001 presentation"、"UNAVAILABLE reaches formal H001 TableCheck continuation"）至少从 `b55e91c` 起一直失败，原因是固定页面上的找店返回 0 个候选。先判断是 Fixture 过时还是真实回归：Fixture 过时就更新 Fixture；真实回归就修复代码；用例已失去意义就按退役标准删除并写明理由。完成后 `test:browser:fixture` 必须全绿，不再保留"既有失败"。
 
 ## 3 Web 入口的并发问题（真实用户试用之前必须修好）
 
@@ -76,9 +82,15 @@ P2-0 第 2 项已要求"所有组装入口显式传入限额、删除隐藏默�
 
 报告中逐条列出删除或合并的测试、原因，以及哪条新测试覆盖了它的行为。不以测试数量增减作为目标。
 
+## 6 Guard：识别失败时按策略拒绝（P2-0 复核遗留）
+
+- `playwright-read-network-guard.ts` 的 CDP 拦截中，一个暂停的请求如果既没有 `redirectedRequestId`，也不在 `expectedRedirectTargets` 里，会被当作首个请求直接 `continueRequest`，依赖普通 route 再检查。但 Playwright 对重定向产生的请求不调用 route，所以一旦某一跳没被识别（例如 URL 规范化不一致），这一跳就没有任何检查。
+- **要求：** CDP 层对**所有**暂停的请求都按现有策略核对 origin、方法、资源类型（首个请求被重复检查也无妨）；核对不通过就拒绝。不新增放行规则。
+- **先红后绿**（真实 Chromium）：构造一个 CDP 层识别不出、但由 Chromium 原生跟随的跳转（例如 Location 与实际请求 URL 的规范化形式不同），跳到未放行来源。修复前接收端收到请求（红），修复后被拦下（绿）。如果实际构造不出这种情形，在报告中说明尝试过的写法，仍然加上策略核对。
+
 ## 门禁与汇报
 
-- 每项单独提交。每项门禁：typecheck、arch:check、npm test、build；第 1、2 项另加 `test:browser:fixture`。
+- 每项单独提交。每项门禁：typecheck、arch:check、npm test、build；第 1、2、6 项另加 `test:browser:fixture`。
 - DEVLOG、TEST-LOG、STATUS 同步。
 - 汇报写入 `.eval-artifacts/t1-assembly-20261015/report.md`，内容包括：
   - 第 0 步的现状表；
