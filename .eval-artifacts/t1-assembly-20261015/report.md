@@ -24,7 +24,7 @@
 | 1 | 组装漂移、累计>12后误拒绝、记录不等于实际限额 | `01-assembly/red-retired-cap.log` 预算断言红；`green-restored.log` 2/2 | 生产入口已统一；旧Hybrid迁移／退役随第5项核对 |
 | 2 | 过时 Fixture 隐藏完整浏览器链路红项 | `02-browser/red.log` 两项目标资格断言失败；`green-targeted.log` 2/2 | 完成：默认879/879、Chromium100/100，typecheck/arch/build通过 |
 | 3 | 当前进程语义调用被查询误判成上个进程中断 | `03-web-owner/red-confirmed.log` FAILED≠UNDERSTANDING；`green.log` 并发＋重启2/2 | 完成；四条代码门禁见同目录 |
-| 4 | 外部信号永不达到时测试挂起 | 待补 | 未开始 |
+| 4 | 外部信号永不达到时测试挂起 | `04-bounded-waits/red.log` 超时标签断言红；`green.log` Web28/28 | 完成；四门禁见同目录 |
 | 5 | 旧手工组装重复覆盖／不再验证当前链路 | 待补 | 未开始 |
 | 6 | CDP 无法识别跳转时未核对策略便放行 | 待补 | 未开始 |
 
@@ -51,6 +51,12 @@ P2-0遗留loop三默认、Router两默认、Executor 300000ms默认及native fac
 真实HTTP→PGlite持久化宿主，读取组件来自生产factory（显式Google Pack）；固定模型卡在语义传输时GET列表，释放后实际Google Adapter读一次独立空样本并正常NO_VERIFIED_RESULT。首个红灯FAILED≠UNDERSTANDING；另在隔离副本取消准备归属检查、用修正严格传输标签后的相同样本再次确认红灯（red-confirmed.log）。初轮后续样本用错STOP标签／误以为Google-only先做地名解析及误取原因字段，是样本错误，green-debug.log保留，不算产品红证据。并发正常完成和W07重启反例green.log 2/2。
 
 命令：`node --import tsx --test --test-name-pattern='T1 Web shared assembly|W07' src/server/local-web-server.test.ts`；四条代码门禁typecheck／arch:check／npm test／build日志在`03-web-owner/`。仅HTTP本地循环与PGlite、无真实模型或外网。
+
+## 4 有界测试等待
+
+`local-web-server.test.ts`统一使用已有withinTestTimeout（1秒，控制用例显式20ms）。改动清单：W06/W08/W12/W07四处restaurant.started、W09 checking、W11 finished、重复消息allSettled、HTTP listening/close、SearchThenBlock.searchGate、可控semanticGate；首个及后续SSE消息共用有界nextCaseEvent，整条消息只有一个期限，部分字节不能反复延长期限。清理时server.closeAllConnections关闭测试自有SSE残留socket，不等待Node keep-alive。
+
+先红：无数据ReadableStream旧等待直到外层200ms期限，目标断言要求内层“next SSE event”超时标签，实际outer test control，明确失败；修复后20ms内层超时与已resolve信号正常控制均通过。`node --import tsx --test src/server/local-web-server.test.ts` 28/28；typecheck／arch:check／npm test／build保存于`04-bounded-waits/`。不以测试runner超时或异常启动算拦截成功；有意等待abort的来源替身仍由finally stopActiveReads释放。
 
 ## 两种宿主与外部边界
 

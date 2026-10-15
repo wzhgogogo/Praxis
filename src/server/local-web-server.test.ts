@@ -117,14 +117,17 @@ async function startServer(database: SqlDatabase, clock: FakeClock, options: Sta
     ...(options.artifactDirectory ? { artifactDirectory: options.artifactDirectory } : {}),
   });
   server.listen(0, "127.0.0.1");
-  await once(server, "listening");
+  await withinTestTimeout(once(server, "listening"), "local HTTP server to listen");
   const address = server.address() as AddressInfo;
   return {
     baseUrl: `http://127.0.0.1:${address.port}`,
     application,
     async close() {
       server.close();
-      await once(server, "close");
+      // A cancelled SSE client may leave a keep-alive socket until Node's
+      // idle timeout. Test cleanup owns all local connections at this point.
+      server.closeAllConnections();
+      await withinTestTimeout(once(server, "close"), "local HTTP server to close");
     },
   };
 }
@@ -206,7 +209,7 @@ class SearchThenBlockRestaurantSearch extends FixtureRestaurantSearch {
   allowSearch(): void { this.releaseSearch?.(); }
 
   override async search(request: RestaurantSearchRequest, signal: AbortSignal) {
-    await this.searchGate;
+    await withinTestTimeout(this.searchGate, "test to release the source search");
     return super.search(request, signal);
   }
 
@@ -274,13 +277,13 @@ async function createCase(baseUrl: string, cookie: string, requestId = "request-
   return result.payload.view as RestaurantCaseView;
 }
 
-async function withinTestTimeout<T>(promise: Promise<T>, label: string): Promise<T> {
+async function withinTestTimeout<T>(promise: Promise<T>, label: string, timeoutMs = 1_000): Promise<T> {
   let timer: ReturnType<typeof setTimeout> | undefined;
   try {
     return await Promise.race([
       promise,
       new Promise<T>((_resolve, reject) => {
-        timer = setTimeout(() => reject(new Error(`Timed out waiting for ${label}`)), 1_000);
+        timer = setTimeout(() => reject(new Error(`Timed out waiting for ${label}`)), timeoutMs);
       }),
     ]);
   } finally {
@@ -342,40 +345,46 @@ async function readFirstCaseEvent(
   assert.equal(response.status, 200);
   assert.ok(response.body);
   const reader = response.body.getReader();
-  const decoder = new TextDecoder();
-  let content = "";
   try {
-    while (!content.includes("\n\n")) {
-      const part = await reader.read();
-      if (part.done) break;
-      content += decoder.decode(part.value, { stream: true });
-    }
+    return await nextCaseEvent(reader, new TextDecoder());
   } finally {
     await reader.cancel();
     controller.abort();
   }
-  const data = content
-    .split("\n")
-    .find((line) => line.startsWith("data: "))
-    ?.slice(6);
-  assert.ok(data);
-  return JSON.parse(data) as RestaurantCaseView;
 }
 
-async function nextCaseEvent(reader: ReadableStreamDefaultReader<Uint8Array>, decoder: TextDecoder): Promise<RestaurantCaseView> {
-  let content = "";
-  while (!content.includes("\n\n")) {
-    const part = await reader.read();
-    if (part.done) throw new Error("SSE stream ended before the next case event");
-    content += decoder.decode(part.value, { stream: true });
-  }
-  const data = content
-    .split("\n")
-    .find((line) => line.startsWith("data: "))
-    ?.slice(6);
-  assert.ok(data);
-  return JSON.parse(data) as RestaurantCaseView;
+async function nextCaseEvent(reader: ReadableStreamDefaultReader<Uint8Array>, decoder: TextDecoder, timeoutMs = 1_000): Promise<RestaurantCaseView> {
+  return withinTestTimeout((async () => {
+    let content = "";
+    while (!content.includes("\n\n")) {
+      const part = await reader.read();
+      if (part.done) throw new Error("SSE stream ended before the next case event");
+      content += decoder.decode(part.value, { stream: true });
+    }
+    const data = content
+      .split("\n")
+      .find((line) => line.startsWith("data: "))
+      ?.slice(6);
+    assert.ok(data);
+    return JSON.parse(data) as RestaurantCaseView;
+  })(), "next SSE event", timeoutMs);
 }
+
+test("T1 Web waits fail with the target signal label when no SSE event arrives (timeoutMs=20)", async () => {
+  const stream = new ReadableStream<Uint8Array>();
+  const reader = stream.getReader();
+  try {
+    const error = await withinTestTimeout(
+      nextCaseEvent(reader, new TextDecoder(), 20).then(() => undefined, error => error),
+      "outer test control", 200,
+    ).catch(error => error);
+    assert.ok(error instanceof Error);
+    assert.match(error.message, /Timed out waiting for next SSE event/, "the SSE wait itself must fail, not the outer test deadline");
+    assert.equal(await withinTestTimeout(Promise.resolve("ready"), "resolved signal", 20), "ready");
+  } finally {
+    await reader.cancel();
+  }
+});
 
 function strictFixtureAction(type: "SEARCH_RESTAURANTS" | "INVESTIGATE_CANDIDATE_FACTS" | "PRESENT_RESULTS", candidateIds: string[] = []): ModelResponse {
   return {
@@ -643,7 +652,7 @@ test("H002 persistent duplicate message delivery invokes the supplement once; co
       );
       inFlight.get = originalGet as typeof inFlight.get;
       release?.();
-      const settled = await Promise.allSettled([first, duplicate]);
+      const settled = await withinTestTimeout(Promise.allSettled([first, duplicate]), "duplicate user messages to settle");
       assert.equal(path, "JOINED_GUARD", "a second resolver call proves duplicate delivery escaped the in-flight guard");
       assert.ok(settled.every((result) => result.status === "fulfilled"), "both duplicate deliveries must resolve from the one durable event");
       const firstView = settled[0].status === "fulfilled" ? settled[0].value : undefined;
@@ -960,7 +969,7 @@ test("W06 Live read creates a recoverable active Case and cancellation reaches t
       assert.equal(created.mode, "LIVE_READ");
       assert.equal(created.case.status, "ACTIVE");
       assert.equal(created.case.phase, "UNDERSTANDING");
-      await restaurant.started;
+      await withinTestTimeout(restaurant.started, "W06 source search to start");
       const stopped = await api(
         running.baseUrl,
         cookie,
@@ -999,7 +1008,7 @@ test("W08 ordinary Web cancellation writes an immutable execution artifact and i
     try {
       const cookie = await login(running.baseUrl, "token-a");
       const created = await createCase(running.baseUrl, cookie, "web-artifact-cancel", COMPLETE_REQUEST + " 18:30 to 19:30 is acceptable.");
-      await restaurant.started;
+      await withinTestTimeout(restaurant.started, "W08 source search to start");
       const stopped = await api(
         running.baseUrl,
         cookie,
@@ -1088,7 +1097,7 @@ test("W11 ordinary Web artifact retains shared Google request limits and categor
         const unsubscribe = running.application.subscribeReadFinished(() => { unsubscribe(); resolve(); });
       });
       const created = await createCase(running.baseUrl, cookie, "web-google-accounting");
-      await finished;
+      await withinTestTimeout(finished, "W11 read-finished notification");
       // `readFinished` subscribers deliberately run concurrently so artifact
       // persistence cannot delay UI completion. Export from the completed
       // application state here to test the production accounting contract.
@@ -1168,7 +1177,7 @@ test("W12 Live Persistent run keeps the semantic-started deadline through a bloc
         const unsubscribe = running.application.subscribeReadFinished(() => { unsubscribe(); resolve(); });
       });
       const created = await createCase(running.baseUrl, cookie, "web-whole-read-deadline");
-      await restaurant.started;
+      await withinTestTimeout(restaurant.started, "W12 source search to start");
       await withinTestTimeout(finished, "the semantic-started whole-read deadline");
       assert.equal(restaurant.aborted, true, "the original run signal interrupts a source read after semantic time has elapsed");
       const artifact = await running.application.exportReadArtifact(created.case.caseId);
@@ -1202,7 +1211,7 @@ test("W09 HTTP/SSE publishes background progress and accepts an edit based on th
         const initial = await nextCaseEvent(reader, decoder);
         assert.equal(initial.case.taskVersion, created.case.taskVersion);
         restaurant.allowSearch();
-        await restaurant.checking;
+        await withinTestTimeout(restaurant.checking, "W09 availability check to start");
         const progressed = await nextCaseEvent(reader, decoder);
         assert.ok(progressed.case.taskVersion > created.case.taskVersion);
         assert.equal(progressed.case.phase, "SEARCHING");
@@ -1240,7 +1249,7 @@ test("T1 Web shared assembly keeps ownership during semantic parsing and complet
       modelCalls++;
       if (request.purpose === "restaurant_semantic_interpret") {
         announceSemantic();
-        await semanticGate;
+        await withinTestTimeout(semanticGate, "test to release the semantic transport");
         return { invocationId: "delayed-semantic", provider: "FIXTURE", model: "controlled-delay", latencyMs: 0, finishReason: "TOOL_CALLS", outputText: JSON.stringify({ schemaVersion: "3", facts: [
           { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "RECOMMENDATION", query: "restaurants" } },
           { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-08-09", raw: "tomorrow" } },
@@ -1306,7 +1315,7 @@ test("W07 a Live Case left without an in-process owner is ended explicitly after
     try {
       const cookie = await login(first.baseUrl, "token-a");
       const created = await createCase(first.baseUrl, cookie, "live-interrupted");
-      await restaurant.started;
+      await withinTestTimeout(restaurant.started, "W07 pre-restart source search to start");
       second = await startServer(database, clock, { mode: "LIVE_READ" });
       const restored = await api(second.baseUrl, cookie, `/api/cases/${encodeURIComponent(created.case.caseId)}`);
       assert.equal(restored.response.status, 200);

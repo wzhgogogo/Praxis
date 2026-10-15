@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.216
+- Document revision: 4.217
 - Last updated: 2026-10-15
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-15 T1-4 有界等待：** 四处started及checking／finished／SSE／HTTP启停／重复消息等测试信号均有界且带目标标签；无数据流旧路径目标超时标签断言红，修复后Web28/28。四门禁见`t1-assembly-20261015/04-bounded-waits/`；T1其余继续，无Live、不推送。
 
 - **2026-10-15 T1-3 Web并发：** 生产统一组装＋真实HTTP/PGlite受控延迟语义期间列表误判先红后绿；发布会话前建立进程内准备归属，语义结束由activeReads接手，finally释放。新进程仍不继承，W07重启中断反例通过。四条代码门禁见`t1-assembly-20261015/03-web-owner/`；全批继续、无Live、不推送。
 

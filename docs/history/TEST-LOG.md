@@ -4241,3 +4241,7 @@ Docs only：合并远端b36ec7f及其文档前序提交与本地P2-0六个提交
 ## TEST-2026-10-15-T1-3-WEB-OWNER
 
 统一production assembly＋本地HTTP＋真实Postgres契约/PGlite：语义模型传输阻塞时列表必须UNDERSTANDING，修复前FAILED（red及隔离同样本red-confirmed）；释放后实际Google空发现正常结束。并发控制＋W07重启孤儿2/2；样本严格传输和空发现接线错误单列保留，不冒充检错。四条代码门禁见`t1-assembly-20261015/03-web-owner/`，无外网／真实模型。
+
+## TEST-2026-10-15-T1-4-BOUNDED-WAITS
+
+无数据流使旧SSE await挂起至外层期限；目标标签断言失败，修后内层20ms超时和正常信号均通过。完整Web28/28，四条代码门禁日志在`t1-assembly-20261015/04-bounded-waits/`；具体裸等待清单见report。仅离线，不把外层超时当目标断言成功。

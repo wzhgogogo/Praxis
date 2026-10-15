@@ -3541,3 +3541,7 @@ ADR-0040 后两条动态 Chromium 组合仍使用只会操作日期/人数的旧
 ## DEV-2026-10-15-T1-3-WEB-OWNER
 
 在持久化会话发布前登记进程内准备阶段归属，并覆盖语义applyMessage至activeReads接手，引用计数与finally保护嵌套／重复调用。只解决当前进程被误判；无持久队列、重启后仍显式中断。统一读取组装经实际HTTP/PGlite验证；保留W07反例。T1 report／03-web-owner保存目标红绿和四条离线门禁，无Live、不推送。
+
+## DEV-2026-10-15-T1-4-BOUNDED-WAITS
+
+复用withinTestTimeout为Web测试外部同步信号加目标标签与期限，包括四处started、checking、finished、SSE整条消息、HTTP启停和重复投递settle。无数据流先红后绿，已resolve信号及正常Web链路对照通过；测试关闭连接清理残留SSE keep-alive。详见T1 report／04-bounded-waits；无业务策略或Live变化。

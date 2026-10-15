@@ -1,0 +1,24 @@
+✖ T1 Web waits fail with the target signal label when no SSE event arrives (timeoutMs=20) (208.276209ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 726.283458
+
+✖ failing tests:
+
+test at src/server/local-web-server.test.ts:1:12644
+✖ T1 Web waits fail with the target signal label when no SSE event arrives (timeoutMs=20) (208.276209ms)
+  AssertionError [ERR_ASSERTION]: the SSE wait itself must fail, not the outer test deadline
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/server/local-web-server.test.ts:389:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'Timed out waiting for outer test control',
+    expected: /Timed out waiting for next SSE event/,
+    operator: 'match'
+  }
