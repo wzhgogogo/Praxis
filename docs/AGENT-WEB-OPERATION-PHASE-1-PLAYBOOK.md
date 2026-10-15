@@ -1,7 +1,7 @@
 # Agent 网站操作第一阶段 Playbook
 
 - Status: Signed off（2026-10-15，第一阶段完成，新地点泛化目标转入第二阶段）
-- Document revision: 1.8
+- Document revision: 1.9
 - Last updated: 2026-10-15
 - Evidence status: draft / not integrated；开发集已暴露，非 Clean Baseline
 - Source of truth for: 第一阶段（通用网站操作能力）的目标、工作包、退出条件、预算与护栏；不替代 Accepted ADR、Gold@6 或当前能力记录
@@ -612,12 +612,33 @@ Provider 兼容性依据：<https://api-docs.deepseek.com/api/create-chat-comple
 1. **静态重建回放：** 原退出条件 5 的一部分；Recorder 已能保存样式表。
 2. **条件措辞等价由评估器判断：** 现为人工确认（§2 第 7 条）。
 3. **P1-F 签收中发现的问题：** 按第 17 条只记录、归类，签收后并入本清单。
-4. **evaluator 识别系统终止：** 系统终止产生的 `READ_ENDED` 目前被判为 COMPLETION_OUTCOME NOT_EVALUATED（P1-G2 h001）。
+4. ~~**evaluator 识别系统终止**~~：已由 P2-0 完成（evaluator@28，`35b6bf0`）。
 5. **评测集扩充：** 模板 + 自动见证，分开发集、留出集、每日哨兵，检查点关键用例每例至少跑 3 次（2026-10-12 讨论，待细化）。
 
 **第五组：签收时新发现的问题（2026-10-15）**
 
-1. **预算耗尽后的死循环（第一优先）：** 已无可执行的读取路径时，应由系统诚实结束；"已执行但失败"不计为进展。
+1. ~~**预算耗尽后的死循环**~~：已由 P2-0 完成（`f759c34`，同批修复找店额度接线 `60e78b9` 与 Guard 逐跳重定向 `976baaa`）。
 2. **推荐类请求被转为查位：** RECOMMENDATION 被改成 AVAILABILITY，并推断人数（KF-H004、h004）。
 3. **事实读取中来回打开同一链接，以及对已确认无位的候选做事实读取（吉祥寺）。**
 4. **TableCheck preflight 间歇性 503/403**（宿主机线路或出口）。
+5. **一次请求耗时与调用过多（P2-0 h001 明日日期回归，2026-10-15）：** 额度接线修好后，h001 的卡点变为效率：Tabelog 对 omakase 只找到 1 家；TableCheck 找店超时；3 家 Google 候选经来源解析查位全部超时；8 分钟、47/50 次模型调用后如实无结果。与第一组第 1 项、第二组第 3–4 项合并处理。
+
+**第六组：评测器与测试体系（2026-10-15 复核，第二阶段最先做）**
+
+依据：`reviews/EVAL-AND-TEST-SYSTEM-REVIEW-20261015`（仓库 `.eval-artifacts/review-eval-test-20261015/independent-review.md`）。用户 9 月的打分规格（`docs/superseded/eval/restaurant-read-pre-alignment-2026-09-15/rubric.yaml`，七个维度，从未接入代码）作为维度清单并入本组，按 Eval Skill 2.0 的四层结构实现，不另建第二套评分。
+
+1. **T1 统一组装与门禁**（指令已写好，`.eval-artifacts/t1-assembly-20261015/codex-instruction.md`）：Runner、Web、组合测试共用一个生产组装函数；剩余隐藏默认值；涉及浏览器的改动必跑真实浏览器测试，并修复一直失败的 2 个用例；Web 并发判失败；无界等待；Guard 识别失败时按策略拒绝。
+2. **E1 评测器第一切片。** 首要目标是**自动评价漏判合格**：
+   - **现象：** 第一阶段和 P2-0 共 8 次有交付的运行，自动评价只有 2 次给出合格（KF-H001、中目黑）；5 次为 UNKNOWN（KF-H002、KF-H003 重跑、B h002、P1-G h003、P2-0 h002），1 次为 NO（KF-H004）。独立复核后全部或几乎全部合格（KF-H004 待用户在标签页决定）。
+   - **原因：** UNKNOWN 全部来自条件措辞的字面比对（`compareCriteria`）。例如 "first-date restaurant" 对 "good for a first date"、"team dinner" 对 "suitable for a team dinner"，评测器无法判断两者等价，于是 AUTHORITATIVE_CONDITIONS 为 NOT_EVALUATED，最终结论随之为 UNKNOWN。KF-H004 的 NO 来自 Agent 把推荐改成了查位，这一条是口径问题，由用户的标签决定。
+   - **修法：** 条件措辞等价表（审核过的版本化文件，查不到的仍为 UNKNOWN 并列出待审项；本条取代第四组第 2 项）。是否改用模型评判，待用户决定。
+   - **验收：** 这 8 次运行的自动结论与人工结论一致，且不出现人工判为不合格而自动判为合格的情况。
+   其余内容：
+   - 独立核验：Tabelog 不再从请求复制日期和人数，改用交付后 GET；营业时间核对不再调用生产函数；
+   - 七类结果与 S0–S4；见证 Gold 接入；
+   - 无进展检测（例如同一检索词连续 3 次）；资源维度按实际生效限额核对；
+   - **验收：** 用第一阶段 20 次运行的人工标签（页面 "Phase 1 Run Labels"，`.eval-artifacts/calibration-phase1-20261015/`）离线重评，报告一致率和全部分歧。
+3. **E2 打分规格的其余维度：** 耗时（从运行记录计算，服务商耗时单列；先采集分布，暂不设固定门槛）、工具参数与必要外部状态、推荐偏好与排序、决策质量。后两项需要人工或经校准的模型评判。安全维度随预约（2a/2b）一起做。
+4. **录制按页判定（L2）与决策回放进入每批必跑（L3）。**
+
+**第二阶段起步顺序（2026-10-15 复核建议）：** P2-0（已完成）→ T1 → E1 → 能力改进，从第一组第 1–2 项和第五组第 5 项开始。先做 T1 和 E1，是为了让之后每次能力改动都能用可信的离线测试和评测器比较前后结果；E2 与 L2/L3 可以与能力改进穿插进行。正式的第二阶段 Playbook（目标、退出条件、预算）在 E1 期间起草。
