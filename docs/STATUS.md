@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.219
+- Document revision: 4.220
 - Last updated: 2026-10-15
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-15 T1离线交付待复核：** 六项各自本地提交，生产源码冻结77c4580；各项红绿与门禁／退役清单／宿主差异已汇总至`.eval-artifacts/t1-assembly-20261015/report.md`。最后默认881/881、真实Chromium112/112，typecheck／arch／build全绿。八种原生规范化逃逸未复现，按指令允许分支保留；CDP独立origin／方法／类型拒绝三对照有实际receiver红绿证据。仅测试机制与明确接线修复，不证明真实模型或网站；P2-0已独立签收，T1等待复核，无Live／付费模型／见证GET／Gold修改，无推送。用户原有设计文件保留未提交。
 
 - **2026-10-15 T1-6 CDP逐请求核对：** 所有Request暂停先按既有origin／方法／类型策略检查，不依赖跳转识别。八种规范化未复现逃逸，明确保留；真实CDP隔离route后三类禁用receiver从各1次红到0次绿，正常控制到达。Network类型与Playwright对齐，正常worker／跨源拒绝同时通过，不新增Other放行。定向26/26、四条代码门禁881/881、完整Chromium112/112全绿；证据`t1-assembly-20261015/06-cdp/`，不运行Live、不推送。
 

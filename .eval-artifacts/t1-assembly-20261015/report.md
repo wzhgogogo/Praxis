@@ -3,6 +3,7 @@
 - Evidence status: exposed offline development regression; not a Clean Baseline.
 - 起点：`git pull --ff-only` 从 `1a2eabd` 快进至 `1cd7bc5`；已通读 T1 指令与 P2-0 独立复核（含 h001 见证后改判）。
 - 范围：六项本地独立提交；无 Live、付费模型、见证 GET、Gold／变体／见证修改。
+- 交付：六项实现及要求的离线证据已齐，源码冻结于`77c4580`，等待独立复核；不自行替代复核签收。最后仅汇总文档，未改变门禁后的源码。
 - 并行检查：预约任务停在设计草案，当前共享源码无未提交改动。已有 INDEX、预约草案和演示稿保留在原处，不纳入 T1。
 - 顺序：先关闭第 2 项已知浏览器 Fixture 红项，使第 1 项及后续必跑浏览器门禁可以全绿；其余按项推进。
 
@@ -99,10 +100,14 @@ Request阶段任何continueRequest前，独立于redirectedRequestId／expectedR
 | 3 Web并发 | 7b048bd | `03-web-owner/` | PASS | PASS | 881/881 | PASS | 不触发；浏览器机制未变 |
 | 4 有界等待 | 7626b89 | `04-bounded-waits/` | PASS | PASS | 882/882 | PASS | 不触发；仅Web测试同步 |
 | 5 退役／迁移 | 4baf329 | `05-retirement/` | PASS | PASS | 881/881 | PASS | 100/100 |
-| 6 CDP | 提交后补号 | `06-cdp/` | PASS | PASS | 881/881 | PASS | 112/112 |
+| 6 CDP | 77c4580 | `06-cdp/` | PASS | PASS | 881/881 | PASS | 112/112 |
 
 各项实际四条命令为`npm run typecheck`、`npm run arch:check`、`npm test`、`npm run build`，对应目录同名log；第1/2/6项及因fact Adapter接线变化的第5项额外运行`npm run test:browser:fixture`。不以默认测试替代Chromium。无skip/todo隐藏。原始日志保留测试框架空白字节，源码／文档另做diff格式检查。各项红灯均核对目标行为断言，样本错误单列。
 
 ## 两种宿主与外部边界
 
 内存 Hybrid 与 Postgres Web 的任务持久化／HTTP-SSE生命周期仍不同。T1 统一读取组件和额度；不会把 Runner Live 视为 Web/Postgres Live 证据。本批只用固定外部模型传输、HTTP和页面、真实本地 Chromium；用户试用前是否补 Web Live 由用户后续决定。
+
+Web组合实际使用生产Persistent Application／Postgres Runtime与Store的SQL路径，数据库测试后端为本地PGlite；没有验证独立Postgres服务部署或Web Live。真实模型理解与选路、自由文本质量、当前Google／Cloudflare／餐厅站点行为、真实库存及跨站兼容性均未由本轮离线证明。原生URL规范化逃逸八次未复现的边界保留；L2逐页录制资格、L3每批决策回放和E1评测器改造未启动。
+
+临时破坏工作树`/private/tmp/praxis-t1-red-QdUozy`已清理，仅删除本轮临时副本及其node_modules符号链接；源文件由本地提交保留，红绿及尝试日志在上述目录保留。未清理其他历史工作树。用户原有INDEX／预约草案／三个演示文件未改动或纳入提交，两个共享源码文件没有发现另一条线的并发改动。没有推送。
