@@ -46,6 +46,13 @@
 
 - 所有组装入口（Live Runner、`local-web-server.ts`、其他 Runner）都把找店、查位、事实读取各自的限额显式传入。
 - 删除 `BrowserTaskExecutor` 中限额的隐藏默认值（`?? 12`、`?? 6`、`?? 24` 等），改为必填，缺失时在类型检查或构造时报错。同时修改所有调用方，包括 `tabelog-browser-availability.ts` 第 162 行、`tablecheck-browser-availability.ts` 第 251 行无参构造的执行器。
+- 同一检查扩大到生产代码中其他带数字默认值的限额（复核者用 grep 找到 26 处），至少包括：
+  - `restaurant-agent-loop.ts` 第 158–160 行：`maxSteps ?? 12`、`maxRejectedActions ?? 3`、`timeoutMs ?? 30_000`；
+  - `native-source-facts.ts` 第 106 行、`google-listed-website-facts.ts` 第 331 行：`maxModelCallsTotal` 的 `?? 4` / `?? 12`；
+  - `browser-task-executor.ts` 中 `maxAutomaticElapsedMs ?? 300_000`；
+  - `restaurant-execution-router.ts` 第 213–214 行的超时。
+
+  逐项判断：要么改为由组装入口显式传入，要么在报告中说明为什么保留常量。Live Runner 与 `local-web-server.ts` 必须得到相同的生效限额，否则 Web 产品和评测跑的不是同一套配置。
 - 运行记录写出各阶段实际生效的限额。
 - **先红后绿：** 组合测试走与 Live 相同的组装入口，安装同样的 Guard 和网络策略。构造"查位等已累计超过 12 次浏览器调用后再找店"的情形，现在失败（红），修复后能继续找店（绿）。整单 50 次的总上限保持不变。
 
