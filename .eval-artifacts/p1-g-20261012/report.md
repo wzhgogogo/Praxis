@@ -174,7 +174,7 @@ Final remaining h004 second preflight scheduled for UTC07:59:45 (Tokyo16:59:45 /
 
 ## P1-G2（2026-10-15）
 
-Evidence status: exposed development evidence, real-state offline reproduction + L1; Live NOT_RUN as of this preparation record. Scope: only user-facing termination of the bounded read loop; no Prompt, Schema, Evaluator, qualification, source Guard, Gold, variants or old recording changes. User reports the P1-G independent review accepts Kichijoji/h003/h004 and leaves h001 INTERNAL_FAILURE; original reviews/P1-G-REVIEW-20261012 was not found locally or via accessible Page search, a path/link was requested. This is not a substitute for reading that original before Live.
+Evidence status: exposed development evidence, real-state offline reproduction + L1; Live NOT_RUN as of this preparation record. Scope: only user-facing termination of the bounded read loop; no Prompt, Schema, Evaluator, qualification, source Guard, Gold, variants or old recording changes. User reports the P1-G independent review accepts Kichijoji/h003/h004 and leaves h001 INTERNAL_FAILURE; original reviews/P1-G-REVIEW-20261012 was not found locally or via accessible Page search, a path/link was requested. No claim is made that the original was read; the user-provided conclusions and explicit P1-G2 instruction define this batch.
 
 ### 真实状态先红后绿
 
@@ -200,6 +200,10 @@ P1-G2/L1-artifacts retains the three actual production composition executions wi
 
 Final typecheck, arch:check, npm test and build PASS;862/862 default tests. Logs P1-G2/{typecheck,arch-check,npm-test,build}.log. Initial sandbox npm-test-sandbox.log hit localhost listen EPERM, then ran offline on host; npm-test-initial.log retained the two discovered regressions before final correction. The frozen legacy FAILED-budget acceptance expectation/Evaluator was not changed; its controlled test now honestly observes NO_VERIFIED_RESULT and rejection by the legacy expectation. Supporting summary P1-G2/offline-proof.json, related-green.log, L1-green.log.
 
-Production fix commit and frozen worktree: pending local commit below. Live h001: NOT_RUN. Outer blocker: old execute.mjs hardcodes expired10/12 times/completed ledger/output paths, so changing only HEAD cannot execute the newly authorized batch; minimal batch metadata update was asked separately, no window bypass. No real model/Google/Live added; cumulative970/1500 models,36Live,Google confirmed22/full history UNKNOWN. Only1 formal h001 and at most1 startup-environment retry are authorized, total ceiling38; prior completed cases must not rerun. No push. Existing public-repository raw artifacts/HAR cleanup is outside this batch as requested.
+Production fix commit `b55e91c9157c1b5fcae20cf25efb56155147863b`; frozen CLEAN host worktree `/Users/wangzhour/.codex/worktrees/p1-g2-live/Praxis-Zhixing` with existing local dependencies, source/Gold SHA checked against main. Evidence `P1-G2/production-freeze.json`. Live h001: NOT_RUN. Outer blocker: old execute.mjs hardcodes expired10/12 times/completed ledger/output paths, so changing only HEAD cannot execute the newly authorized batch; minimal batch metadata update was asked separately, no window bypass. No real model/Google/Live added; cumulative970/1500 models,36Live,Google confirmed22/full history UNKNOWN. Only1 formal h001 and at most1 startup-environment retry are authorized, total ceiling38; prior completed cases must not rerun. No push. Existing public-repository raw artifacts/HAR cleanup is outside this batch as requested.
 
 P1-G2提交前核对：源码／文档／JSON的git diff --check通过；原始工具日志包含Node断言输出尾空格和npm结尾空行，原样保存，不为清空whitespace提示改写红绿证据。未跟踪的三份演示文件未触碰。
+
+P1-G2离线修复已提交并冻结。复核原文在本机Desktop范围、可访问Pages及GitHub默认分支检索均未找到匹配；运行前待原文路径／链接，以及外层过期时窗、已完成账本／输出目录和新用量计数的最小同步答复。未修改或执行旧脚本，未调用余额GET／preflight／Live。依赖沿用既有本机目录内链接，不安装、不联网。
+
+说明：未找到复核原文不改变用户本条已明确的批准／范围和转述结论；不声称已读原文。原文路径已询问，离线修复并不以此为审批前置。当前Live的实际约束是“外层只改冻结提交号”与已过期硬编码时窗／已完成账本的冲突，元数据同步答复尚未到达，不能自行绕过。冻结树真实状态回归9/9通过，日志P1-G2/frozen-state-green.log，0真实调用。

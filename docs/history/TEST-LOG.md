@@ -4148,3 +4148,5 @@ LIVE_READ_ONLY四行事实：吉祥寺320.806s/47模型/1Google/等待10.63%/浏
 ## TEST-2026-10-15-P1G2-honest-end
 
 P1-G2 real preterminal states reconstructed at versions12/11, hashes equal recorded trajectories, sanitized shape/code fixture preserves phase/failure/eligibility/checkable/validation projection. Effective red2/2 FAILED at desired NO_VERIFIED_RESULT assertions; final green in default suite862/862. Advancing-clock L1 production Guard composition3/3, qualified presentation evaluator@27 completion SATISFIED; no-result controls NOT_EVALUATED. REJECTION_LIMIT/NO_PROGRESS/STEP_LIMIT with non-empty local failure, real provider refusal/uncaught Router exception and safety negatives covered. Four gates PASS; logs .eval-artifacts/p1-g-20261012/P1-G2/. Sandboxed EPERM and initial full-suite regressions retained; W07 remains FAILED and legacy FAILED-budget acceptance remains unchanged/rejects new honest completion. Extra real model/Google/Live0; no claim of current external inventory or signoff.
+
+冻结补记：修复提交b55e91c，独立CLEAN工作树p1-g2-live，源码及Gold SHA与主树一致；复用已有本机依赖、不安装。生产冻结记录P1-G2/production-freeze.json。复核原文／外层过期批次信息待用户答复，尚无preflight、余额GET或Live；本地提交不推送。

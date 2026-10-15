@@ -3464,3 +3464,5 @@ User explicitly approved immediate P1-G execution; scheduled heartbeat PAUSED. O
 ## DEV-2026-10-15-P1G2-honest-end
 
 P1-G2 uses actual P1-F/G h001 event prefixes and verifies trajectory hashes before scrubbing state fixtures. The blocker is END_READ validation with a captured time earlier than persisted reserve openedAt, not state.failure (both null). Reuse AGENT_LOOP_TERMINATED for direct domain-owned NO_VERIFIED_RESULT with actual checked/unread gaps; eligible presentation keeps existing Validator/Router/Reducer and resamples time. Minimal read-phase transition in task-definition, no new event/Schema/Prompt/Evaluator/qualification change. Explicit system failures and unowned execution remain FAILED; local failures and model/step budgets give a user result. Shared summary has two real consumers. Scope/proof in .eval-artifacts/p1-g-20261012/report.md#p1-g2（2026-10-15）. Live and outer metadata pending; no push.
+
+冻结补记：修复提交b55e91c，独立CLEAN工作树p1-g2-live，源码及Gold SHA与主树一致；复用已有本机依赖、不安装。生产冻结记录P1-G2/production-freeze.json。复核原文／外层过期批次信息待用户答复，尚无preflight、余额GET或Live；本地提交不推送。

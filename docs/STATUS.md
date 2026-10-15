@@ -7,7 +7,7 @@
 
 ## 当前门槛
 
-- **2026-10-15 P1-G2离线修复：** 两次h001真实前状态按轨迹哈希准确重建；推进时钟下旧代码2/2 FAILED，命中END_READ动作校验（旧now早于结束窗口openedAt，状态failure均空）。现由系统终止事件直接写带原因与已查／未查范围的NO_VERIFIED_RESULT；合格交付保持原规则。真实状态回归＋生产Guard L1三组合通过，四门禁862/862；Prompt/Schema/Evaluator/资格不改，服务商拒绝／未捕获异常／中断与安全失败反例保持FAILED。报告P1-G2节。Live尚未跑，复核原文路径和外层过期批次信息待明确；累计仍970/1500模型、36Live，不推送。
+- **2026-10-15 P1-G2离线修复：** 两次h001真实前状态按轨迹哈希准确重建；推进时钟下旧代码2/2 FAILED，命中END_READ动作校验（旧now早于结束窗口openedAt，状态failure均空）。现由系统终止事件直接写带原因与已查／未查范围的NO_VERIFIED_RESULT；合格交付保持原规则。真实状态回归＋生产Guard L1三组合通过，四门禁862/862；Prompt/Schema/Evaluator/资格不改，服务商拒绝／未捕获异常／中断与安全失败反例保持FAILED。修复提交b55e91c，生产冻结在新的CLEAN p1-g2-live工作树，报告P1-G2节。Live尚未跑，复核原文路径和外层过期批次信息待明确；累计仍970/1500模型、36Live，不推送。
 
 - **2026-10-12 P1-G 四次 Live 完成：** 冻结9b34287/CLEAN；吉祥寺地点解析成功但零交付NO，h001仍FAILED/REJECTION_LIMIT（诚实结束目标未兑现），h003展示Aloft by Marriott Tokyo Ginza/150m/TableCheck/自动UNKNOWN，h004零交付NO。新增171模型/6Google/4Live，累计970/1500模型、36正式Live、Google已确认22（历史完整UNKNOWN），环境重跑0/预留2。7次preflight中3次503未启动、间隔≥15分钟；吉祥寺运行后见证GET已存，唯一TableCheck交付留原trace。报告 `.eval-artifacts/p1-g-20261012/report.md`。四门禁853/853只证明L0/L1；不能关闭h001实际链路缺口，四份录制NOT_REPLAYABLE/UNSAFE_DOCUMENT，多跳重定向仍已知边界。停止等待独立复核，不推送。
 
