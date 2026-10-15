@@ -242,3 +242,12 @@ P1-G2离线修复已提交并冻结。复核原文在本机Desktop范围、可�
 三次preflight用尽，本例归为ENV_FAILURE；不做第4次。h001正式Live仍未启动，交付家数／距离、地点解析、等待占比、浏览器超时均NOT_APPLICABLE；没有模型调用、业务Google请求或浏览器会话，亦无正式result/decisions/recording、evaluator@27评价、交付后GET／B见证GET。仅网络预检的evaluator适用性为NOT_APPLICABLE，不把预检文件冒充正式结果。证据：`P1-G2/live/h001/attempt-3/{start,finish,preflight,balance.metadata,balance.body,summary}.json`、run.log、trace.jsonl；外层日志`P1-G2/h001-outer-attempt-3.log`。每个文件SHA及冻结核对见`P1-G2/final-preflight-verification.json`。
 
 本批累计0正式Live、0模型、0Google业务、0启动后环境重跑；整单仍970/1500模型、36正式Live、Google已确认22／完整历史UNKNOWN、P1-G2环境预留1未扣。三次网络预检和余额GET确实发生，不称零网络。生产修复仅完成真实状态离线复现＋L1，四门禁862/862保持；本次未证明修复在Live生效。无产品、Prompt、Schema、Evaluator、配置、Gold或变体更改，P1-F/P1-G旧树未动，Guard多跳重定向已知边界保持。按纯文档矩阵核对diff、链接、账本和证据，复用既有生产门禁；心跳p1-g-10-13-live已PAUSED。本地提交，不推送，停止等待独立复核。
+
+
+### 用户要求的403原因诊断（不重跑Live）
+
+UTC2026-10-15T06:23:06–06:24:08，有界公开诊断：两次GET均访问https://www.tablecheck.com/en/，一次与预检相同带Range: bytes=0-0，一次不带Range；均403、正文146字节且SHA相同，页面只写403 Forbidden/nginx，没有Cloudflare挑战／重试提示或具体拒绝规则。另一次DNS＋TLS握手无HTTP：解析到公开地址，tablecheck.com证书校验通过，TLSv1.2。当前诊断进程未配置代理环境变量，macOS显式HTTP/HTTPS/SOCKS代理均关闭；这不证明OS层TUN没有接管。
+
+可排除本次DNS/TLS连通失败及Range作为唯一触发原因；拒绝发生于远端HTTP响应阶段、在Chromium及Agent Guard运行之前。仍不能确定是出口IP、地区策略、Node客户端分类或其他服务端规则，不能直接归因为限流或反机器人。预检只存状态并取消正文，之前的503与现在403不具备同一根因的证据。--no-proxy仅清除PRAXIS应用代理设置，无法关闭或验证TUN。没有测试Chromium能否访问，也没有伪装User-Agent、绕过挑战或调整现有预检判定。
+
+证据目录P1-G2/tablecheck-403-diagnostic/：preflight-shape.json、without-range.json、各body.txt、transport.json、summary.json。两次公开GET＋一次无HTTP的TLS握手；新增模型／Google业务／Live均0，三次preflight耗尽状态保持、心跳仍暂停。没有产品／Runner改动；仅诊断与文档，按纯文档矩阵核对引用／事实／diff，生产四门禁862/862复用，不把诊断当作Live修复证明。

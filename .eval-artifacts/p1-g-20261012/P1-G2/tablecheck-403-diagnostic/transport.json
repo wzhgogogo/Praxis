@@ -1,0 +1,47 @@
+{
+  "startedAt": "2026-10-15T06:24:07.387Z",
+  "diagnostic": "DNS and TLS handshake only; no HTTP, model or Live",
+  "node": "v24.4.1",
+  "proxyEnvironmentPresent": {
+    "HTTP_PROXY": false,
+    "HTTPS_PROXY": false,
+    "ALL_PROXY": false,
+    "http_proxy": false,
+    "https_proxy": false,
+    "all_proxy": false,
+    "NODE_USE_ENV_PROXY": false,
+    "NODE_EXTRA_CA_CERTS": false
+  },
+  "dns": [
+    {
+      "address": "3.113.115.93",
+      "family": 4
+    },
+    {
+      "address": "54.178.32.17",
+      "family": 4
+    },
+    {
+      "address": "35.75.103.4",
+      "family": 4
+    }
+  ],
+  "systemProxy": "<dictionary> {\n  ExceptionsList : <array> {\n    0 : localhost\n    1 : 127.0.0.0/8\n    2 : ::1\n  }\n  HTTPEnable : 0\n  HTTPSEnable : 0\n  ProxyAutoConfigEnable : 0\n  SOCKSEnable : 0\n}\n",
+  "tls": {
+    "authorized": true,
+    "protocol": "TLSv1.2",
+    "remoteAddress": "3.113.115.93",
+    "subject": {
+      "CN": "tablecheck.com"
+    },
+    "issuer": {
+      "C": "US",
+      "O": "Amazon",
+      "CN": "Amazon RSA 2048 M01"
+    },
+    "validFrom": "Jun  8 00:00:00 2026 GMT",
+    "validTo": "Dec 22 23:59:59 2026 GMT",
+    "fingerprint256": "5F:55:25:2C:86:06:65:45:E7:43:36:C8:EF:7C:D3:E3:82:3A:41:B5:76:C7:DB:01:F7:53:70:7A:C0:CD:A0:81"
+  },
+  "finishedAt": "2026-10-15T06:24:08.653Z"
+}

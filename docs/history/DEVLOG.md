@@ -3476,3 +3476,8 @@ P1-G2 uses actual P1-F/G h001 event prefixes and verifies trajectory hashes befo
 ## DEV-2026-10-15-P1G2-preflight-final
 
 用户要求十分钟后重试，第3次preflight于UTC06:18:57.192–06:19:04.931执行，距第2次18分15秒；balance可用、DeepSeek200/Google404可达/Tabelog200，TableCheck仍403。外层9,793ms、预检7,738ms，三次用尽记ENV_FAILURE，正式h001未启动，无evaluator/result/决策/录制／交付后GET。新增模型/Google业务/Live/启动后环境重跑均0，累计970/1500模型、36Live、Google确认22／历史UNKNOWN、预留1未扣；实际有网络预检与余额GET。冻结b55e91c/CLEAN、execute2fe4ab99、9SHA保持；复用四门禁862/862，纯文档／证据核验见P1-G2/final-preflight-verification.json。真实状态离线＋L1已绿，Live修复仍未验证，不能关闭h001签收缺口。心跳PAUSED，不第4次重试；本地提交，不推送。报告 .eval-artifacts/p1-g-20261012/report.md 的P1-G2节。
+
+
+## DEV-2026-10-15-P1G2-403-diagnostic
+
+用户要求查明403，限定两次公开GET（原Range／无Range）和一次无HTTP的DNS＋TLS握手：两GET均相同146字节nginx403，TableCheck证书校验成功。排除Range作为唯一原因及本次DNS/TLS连接失败；拒绝位于远端HTTP层，具体IP／地区／客户端策略未确定，不称反机器人或限流已证实。应用no-proxy不证明TUN未接管；未测试Chromium，未改请求身份／预检规则／生产。证据P1-G2/tablecheck-403-diagnostic/，报告P1-G2节追加；0模型／Google业务／正式Live，账本970/1500、36Live保持。纯文档及证据核对通过，复用四门禁862/862，三次preflight耗尽／心跳暂停保持。不推送。

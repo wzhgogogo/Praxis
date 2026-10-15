@@ -1,0 +1,33 @@
+{
+  "status": "DIAGNOSIS_PARTIAL",
+  "observed": [
+    "Both original Range GET and no-Range GET return403 with identical146-byte nginx body",
+    "DNS resolves public addresses; TLS certificate for tablecheck.com verified",
+    "No application proxy environment or macOS explicit proxy enabled in diagnostic process"
+  ],
+  "ruledOut": [
+    "Range header as sole cause in this paired probe",
+    "DNS/TLS connectivity failure in these probes",
+    "Local Agent Guard causing this HTTP status: preflight runs before browser"
+  ],
+  "notEstablished": [
+    "Specific server rejection rule: IP reputation, geography, client classification or other rule",
+    "Whether OS-level TUN routed this request",
+    "Whether Chromium can load the same page"
+  ],
+  "requests": {
+    "publicGET": 2,
+    "TLSOnlyHandshake": 1,
+    "model": 0,
+    "googleBusiness": 0,
+    "formalLive": 0
+  },
+  "productionChanged": false,
+  "artifactSha256": {
+    "preflight-shape.body.txt": "32f2fa940d4b4fe19aca1e53a24e5aac29c57b7c5ee78588325b87f1b649c864",
+    "preflight-shape.json": "17fca899024e1624634d1c7c79757f439635070732afa4bd41a35b4990f16590",
+    "transport.json": "031c43c509c3befbd77e362cdd8a0d47523dafb89ec6c082fe67b0df416469b3",
+    "without-range.json": "b81fc6176032863ee1c6da11e8eaececa26e3267f8d25374b885e2bd233ba5ed",
+    "without-range.body.txt": "32f2fa940d4b4fe19aca1e53a24e5aac29c57b7c5ee78588325b87f1b649c864"
+  }
+}

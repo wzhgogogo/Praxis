@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.204
+- Document revision: 4.205
 - Last updated: 2026-10-15
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-15 TableCheck403诊断：** 原Range及无Range公开GET均返回相同nginx403；DNS/TLS及证书校验成功。远端HTTP拒绝已观察，具体出口IP／地区／客户端策略未确定，未测试Chromium；不修改预检规则、不继续Live。诊断证据P1-G2/tablecheck-403-diagnostic/，0新增模型／Google业务／Live。
 
 - **2026-10-15 P1-G2离线修复：** 两次h001真实前状态按轨迹哈希准确重建；推进时钟下旧代码2/2 FAILED，命中END_READ动作校验（旧now早于结束窗口openedAt，状态failure均空）。现由系统终止事件直接写带原因与已查／未查范围的NO_VERIFIED_RESULT；合格交付保持原规则。真实状态回归＋生产Guard L1三组合通过，四门禁862/862；Prompt/Schema/Evaluator/资格不改，服务商拒绝／未捕获异常／中断与安全失败反例保持FAILED。修复提交b55e91c，生产冻结在新的CLEAN p1-g2-live工作树，报告P1-G2节。外层元数据已依用户直接运行指令同步；三次preflight分别Google超时、TableCheck403、TableCheck403，均未启动Live；第三次按十分钟后重试执行，次数用尽记ENV_FAILURE，心跳已暂停，不再重试；累计仍970/1500模型、36Live，0新增环境重跑。生产b55e91c/CLEAN、最新外层SHA2fe4ab99，不推送，实际链路仍未验证。
 
