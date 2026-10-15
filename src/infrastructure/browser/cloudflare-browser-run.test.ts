@@ -14,6 +14,7 @@ function fakeBrowser(onClose: () => void, options: { guardedContextError?: Error
     url: () => "https://example.test",
   };
   const context = {
+    newCDPSession: async () => ({ on: () => {}, send: async () => ({}) }),
     pages: () => [page], newPage: async () => page,
     route: async () => { if (options.routeError) throw options.routeError; },
     routeWebSocket: async () => {}, close: async () => { options.onContextClose?.(); },

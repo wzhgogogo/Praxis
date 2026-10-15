@@ -1,4 +1,4 @@
-import type { BrowserContext, Request, Route } from "playwright-core";
+import type { BrowserContext, CDPSession, Page, Request, Route } from "playwright-core";
 
 import type { BrowserReadNetworkObservation, BrowserReadNetworkPolicy, BrowserReadNetworkRequestRule } from "./browser-runtime.js";
 
@@ -20,7 +20,7 @@ function matchesPath(rule: BrowserReadNetworkRequestRule, url: URL): boolean {
   return Boolean(rule.pathnamePrefix && url.pathname.startsWith(rule.pathnamePrefix));
 }
 
-async function allows(rule: BrowserReadNetworkRequestRule, request: Request, url: URL, method: string, resourceType: string): Promise<boolean> {
+async function allows(rule: BrowserReadNetworkRequestRule, request: Pick<Request, "headerValue" | "postData">, url: URL, method: string, resourceType: string): Promise<boolean> {
   if (url.origin !== rule.origin || !matchesPath(rule, url)) return false;
   if (!rule.resourceTypes.includes(resourceType as never)) return false;
   if (!(rule.methods ?? ["GET", "HEAD"]).includes(method as "GET" | "HEAD" | "POST")) return false;
@@ -60,9 +60,9 @@ function matchesEndpoint(rule: BrowserReadNetworkRequestRule, url: URL, resource
 }
 
 /**
- * A deliberately small context boundary. Route.fetch with maxRedirects zero is
- * required because Playwright invokes ordinary routes only for the first URL
- * of a redirect chain.
+ * Ordinary routes guard the initial request. A second CDP Fetch interceptor
+ * pauses native redirect requests before dispatch; Chromium retains URL,
+ * relative-resource, method and cookie semantics instead of flattening a chain.
  */
 export class PlaywrightReadNetworkGuard {
   private readonly pending = new Map<Request, number>();
@@ -83,16 +83,173 @@ export class PlaywrightReadNetworkGuard {
   private readonly diagnostics: NetworkDiagnostic[] = [];
   private readonly requests: BrowserReadNetworkObservation[] = [];
   private requestTimeoutMs: number;
+  private readonly redirectSessions = new WeakMap<Page, Promise<void>>();
+  private readonly redirectReady = new WeakSet<Page>();
+  private readonly expectedRedirectTargets = new Map<string, { hops: number; started: number }>();
+  private readonly popupBootstraps = new Set<string>();
+  private readonly redirectTimers = new Set<ReturnType<typeof setTimeout>>();
 
   constructor(private readonly policy: BrowserReadNetworkPolicy, requestTimeoutMs = 5_000, private readonly recordResponse?: (response: { url: string; method: string; resourceType: string; status: number; contentType: string; body: Uint8Array; redirectLocation?: string }) => Promise<void> | void) { this.requestTimeoutMs = requestTimeoutMs; }
 
   async install(context: BrowserContext, options: { replay?: boolean } = {}): Promise<void> {
+    context.on?.("close", () => { for (const timer of this.redirectTimers) clearTimeout(timer); this.redirectTimers.clear(); });
+    context.on?.("page", page => {
+      const bootstrap = this.popupBootstraps.delete(requestKey(page.url()));
+      const url = page.url();
+      void this.preparePage(context, page, options.replay === true)
+        .then(async () => { if (bootstrap) await page.goto(url, { timeout: this.requestTimeoutMs }).catch(() => {}); })
+        .catch(() => context.close().catch(() => {}));
+    });
     context.on?.("request", request => { this.pending.set(request, Date.now()); if (["document", "xhr", "fetch"].includes(request.resourceType())) this.activityRevision++; });
     const finished = (request: Request) => { if (this.pending.delete(request) && ["document", "xhr", "fetch"].includes(request.resourceType())) this.activityRevision++; };
     context.on?.("requestfinished", finished);
     context.on?.("requestfailed", finished);
     await context.routeWebSocket("**/*", socket => socket.close());
-    await context.route("**/*", route => this.handle(route, options.replay === true));
+    await context.route("**/*", async route => {
+      const request = route.request();
+      let page: Page;
+      try { page = request.frame().page(); } catch {
+        // Chromium may pause a popup before Playwright exposes its Frame/Page.
+        // Commit an empty local bootstrap, never a source response, so its page
+        // can be protected before the original GET is issued exactly once.
+        if (request.isNavigationRequest() && request.method() === "GET") {
+          this.popupBootstraps.add(requestKey(request.url()));
+          await route.fulfill({ status: 200, contentType: "text/html", body: '<body aria-busy="true"></body>' });
+        } else await route.abort("blockedbyclient");
+        return;
+      }
+      const ready = this.redirectReady.has(page);
+      await this.installRedirectProtection(context, page, options.replay === true);
+      if (!ready) {
+        // A popup's first loader can exist before a page CDP session. Abort it
+        // before dispatch, then start a fresh guarded loader. Explicit runtime
+        // pages are prepared before navigation and never take this branch.
+        await route.abort("blockedbyclient");
+        if (request.isNavigationRequest() && request.method() === "GET") {
+          void request.frame().goto(request.url(), { timeout: this.requestTimeoutMs }).catch(() => {});
+        }
+        return;
+      }
+      await this.handle(route, options.replay === true);
+    });
+    for (const page of context.pages()) await this.preparePage(context, page, options.replay === true);
+  }
+
+  async preparePage(context: BrowserContext, page: Page, replay = false): Promise<void> {
+    return this.installRedirectProtection(context, page, replay);
+  }
+
+  private async installRedirectProtection(context: BrowserContext, page: Page, replay: boolean): Promise<void> {
+    const existing = this.redirectSessions.get(page);
+    if (existing) return existing;
+    const installing = this.attachRedirectProtection(context, page, replay).then(() => { this.redirectReady.add(page); });
+    this.redirectSessions.set(page, installing);
+    return installing;
+  }
+
+  private async attachRedirectProtection(context: BrowserContext, page: Page, replay: boolean): Promise<void> {
+    const session = await context.newCDPSession(page);
+    // Child targets (OOPIFs and dedicated workers) have their own CDP sessions.
+    // Keep them paused until the same interception is installed. This private
+    // wire adapter only transports CDP; it never makes an admission decision.
+    type Send = CDPSession["send"];
+    type On = (method: string, handler: (params: any) => void) => void;
+    let sequence = 0;
+    const configure = async (send: Send, on: On): Promise<void> => {
+      const pending = new Map<number, { resolve: (value: any) => void; reject: (error: Error) => void }>();
+      const childEvents = new Map<string, Map<string, (params: any) => void>>();
+      on("Target.receivedMessageFromTarget", event => {
+        const value = JSON.parse(event.message);
+        if (value.id !== undefined) {
+          const promise = pending.get(value.id); pending.delete(value.id);
+          if (value.error) promise?.reject(new Error(value.error.message)); else promise?.resolve(value.result);
+        } else childEvents.get(event.sessionId)?.get(value.method)?.(value.params);
+      });
+      on("Target.attachedToTarget", event => {
+        const handlers = new Map<string, (params: any) => void>(); childEvents.set(event.sessionId, handlers);
+        const childSend: Send = (method, params) => new Promise((resolve, reject) => {
+          const id = ++sequence; pending.set(id, { resolve, reject });
+          void send("Target.sendMessageToTarget", { sessionId: event.sessionId, message: JSON.stringify({ id, method, params: params ?? {} }) }).catch(reject);
+        });
+        // Dedicated-worker URL loaders use the owner frame's Fetch domain;
+        // worker CDP targets themselves do not expose Fetch.enable.
+        const setup = event.targetInfo.type === "worker"
+          ? Promise.resolve() : configure(childSend, (method, handler) => { handlers.set(method, handler); });
+        void setup
+          .then(() => childSend("Runtime.runIfWaitingForDebugger"))
+          .catch(() => context.close().catch(() => {}));
+      });
+      const chains = new Map<string, { hops: number; started: number }>();
+      const redirected = new Map<string, { url: URL; method: string; type: string; timer: ReturnType<typeof setTimeout> }>();
+      on("Fetch.requestPaused", event => {
+        const process = async () => {
+          const url = new URL(event.request.url), method = event.request.method;
+          const type = String(event.resourceType).toLowerCase();
+          const request = { headerValue: async (name: string) => Object.entries(event.request.headers as Record<string, string>).find(([key]) => key.toLowerCase() === name.toLowerCase())?.[1] ?? null, postData: () => event.request.postData ?? null };
+          if (event.responseStatusCode !== undefined) {
+            const entry = redirected.get(event.requestId);
+            if (!entry) { await send("Fetch.continueResponse", { requestId: event.requestId }); return; }
+            try {
+              const headers: Record<string, string> = Object.fromEntries((event.responseHeaders ?? []).map((h: { name: string; value: string }) => [h.name.toLowerCase(), h.value]));
+              const status = event.responseStatusCode as number;
+              const location = headers.location ? new URL(headers.location, url) : undefined;
+              const nextMethod = status === 303 && method !== "HEAD" || [301, 302].includes(status) && method === "POST" ? "GET" : method;
+              const targetAdmitted = location && await this.admitsRedirectRequest(location, request, nextMethod, type);
+              const body = !this.recordResponse || status >= 300 && status < 400 || method === "HEAD" || status === 204
+                ? new Uint8Array() : await send("Fetch.getResponseBody", { requestId: event.requestId }).then(value => Buffer.from(value.body, value.base64Encoded ? "base64" : "utf8"));
+              await this.recordResponse?.({ url: url.toString(), method, resourceType: type, status, contentType: headers["content-type"] ?? "", body,
+                ...(location && targetAdmitted ? { redirectLocation: location.toString() } : {}) });
+              if (location && [301, 302, 303, 307, 308].includes(status)) {
+                if (!targetAdmitted) {
+                  this.blocked("BLOCKED_REDIRECT", location, nextMethod, type);
+                  await send("Fetch.failRequest", { requestId: event.requestId, errorReason: "BlockedByClient" }); return;
+                }
+                const chain = chains.get(event.requestId)!;
+                this.expectedRedirectTargets.set(requestKey(location.toString()), { hops: chain.hops + 1, started: chain.started });
+              }
+              await send("Fetch.continueResponse", { requestId: event.requestId });
+            } finally { clearTimeout(entry.timer); this.redirectTimers.delete(entry.timer); redirected.delete(event.requestId); }
+            return;
+          }
+          const expected = this.expectedRedirectTargets.get(requestKey(url.toString()));
+          this.expectedRedirectTargets.delete(requestKey(url.toString()));
+          const isRedirect = Boolean(event.redirectedRequestId) || Boolean(expected);
+          const previous = event.redirectedRequestId ? chains.get(event.redirectedRequestId) : undefined;
+          chains.set(event.requestId, expected ?? { hops: previous ? previous.hops + 1 : isRedirect ? 1 : 0, started: previous?.started ?? Date.now() });
+          // Initial requests continue to the ordinary context route boundary.
+          if (!isRedirect) { await send("Fetch.continueRequest", { requestId: event.requestId }); return; }
+          const chain = chains.get(event.requestId)!;
+          // HAR never gets a live-network fallback for a redirect it did not
+          // fulfill itself. Every request that reaches this branch is native.
+          if (replay || chain.hops >= 10 || Date.now() - chain.started >= this.requestTimeoutMs || !await this.admitsRedirectRequest(url, request, method, type)) {
+            this.blocked("BLOCKED_REDIRECT", url, method, type);
+            await send("Fetch.failRequest", { requestId: event.requestId, errorReason: "BlockedByClient" }); return;
+          }
+          this.requests.push({ outcome: "ADMITTED", origin: url.origin, pathname: url.pathname, method, resourceType: type, queryKeys: [...new Set(url.searchParams.keys())].sort() });
+          const timer = setTimeout(() => {
+            this.redirectTimers.delete(timer);
+            this.blocked("READ_TIMEOUT", url, method, type);
+            void send("Fetch.failRequest", { requestId: event.requestId, errorReason: "TimedOut" }).catch(() => {});
+          }, Math.max(1, this.requestTimeoutMs - (Date.now() - chain.started)));
+          timer.unref(); this.redirectTimers.add(timer); redirected.set(event.requestId, { url, method, type, timer });
+          await send("Fetch.continueRequest", { requestId: event.requestId, interceptResponse: true });
+        };
+        void process().catch(async () => { this.blocked("READ_REQUEST_FAILED", new URL(event.request.url), event.request.method, String(event.resourceType).toLowerCase()); await send("Fetch.failRequest", { requestId: event.requestId, errorReason: "Failed" }).catch(() => {}); });
+      });
+      await send("Fetch.enable", { patterns: [{ urlPattern: "*", requestStage: "Request" }] });
+      await send("Target.setAutoAttach", { autoAttach: true, waitForDebuggerOnStart: true, flatten: false });
+    };
+    await configure(session.send.bind(session), (method, handler) => { session.on(method as any, handler); });
+  }
+
+  private async admitsRedirectRequest(url: URL, request: Pick<Request, "headerValue" | "postData">, method: string, type: string): Promise<boolean> {
+    if (url.username || url.password || !/^https?:$/.test(url.protocol)) return false;
+    const sourceRule = (await Promise.all([...this.policy.staticResources, ...this.policy.dynamicReads].map(rule => allows(rule, request, url, method, type)))).some(Boolean);
+    if (type === "document" && ["GET", "HEAD"].includes(method) && (!this.sensitiveGenericRead(url) || sourceRule)
+      && (this.policy.documentOrigins.includes(url.origin) || this.policy.genericPublicRead && this.genericOrigins.has(url.origin))) return true;
+    if (sourceRule) return true;
+    return this.policy.genericPublicRead === true && this.genericOrigins.has(url.origin) && ["GET", "HEAD"].includes(method)
+      && ["document", "script", "stylesheet", "font", "image", "media", "xhr", "fetch"].includes(type) && !this.sensitiveGenericRead(url);
   }
 
   prepareNavigation(value: string, timeoutMs?: number): void {
@@ -117,21 +274,6 @@ export class PlaywrightReadNetworkGuard {
   private assertSafePreparedDocument(url: URL): void {
     if (!/^https?:$/i.test(url.protocol) || url.username || url.password) throw new Error("Browser read document credentials or protocol are not admitted");
     if (this.sensitiveGenericRead(url) && !this.matchesReviewedDocument(url)) throw new Error("Browser read sensitive document is not admitted");
-  }
-
-  /**
-   * Route.fetch never follows redirects: every hop is admitted as a new
-   * document request.  A target may proceed only when it meets the same
-   * prepared-document constraints as an explicit navigation.
-   */
-  private admittedRedirectTarget(from: URL, location: string | undefined): URL | undefined {
-    if (!location) return undefined;
-    let target: URL;
-    try { target = new URL(location, from); } catch { return undefined; }
-    try { this.assertSafePreparedDocument(target); } catch { return undefined; }
-    if (!this.policy.documentOrigins.includes(target.origin)
-      && !(this.policy.genericPublicRead && this.genericOrigins.has(target.origin))) return undefined;
-    return target;
   }
 
   /** A source rule may explicitly admit an otherwise sensitive-looking public query document. */
@@ -194,8 +336,10 @@ export class PlaywrightReadNetworkGuard {
       this.requests.push({ outcome: "ADMITTED", origin: url.origin, pathname: url.pathname, method, resourceType: type, queryKeys: [...new Set(url.searchParams.keys())].sort() });
       const response = await route.fetch({ maxRedirects: 0, timeout: this.requestTimeoutMs });
       if (response.status() >= 300 && response.status() < 400) {
-        const target = this.admittedRedirectTarget(url, response.headers()["location"]);
-        if (!target) { this.blocked("BLOCKED_REDIRECT", url, method, type); await route.abort("blockedbyclient"); return; }
+        let target: URL | undefined;
+        try { if (response.headers()["location"]) target = new URL(response.headers()["location"]!, url); } catch { /* rejected below */ }
+        const nextMethod = response.status() === 303 && method !== "HEAD" || [301, 302].includes(response.status()) && method === "POST" ? "GET" : method;
+        if (!target || !await this.admitsRedirectRequest(target, request, nextMethod, type)) { this.blocked("BLOCKED_REDIRECT", target ?? url, nextMethod, type); await route.abort("blockedbyclient"); return; }
         // Persist only the already-admitted, credential-free redirect target.
         // Replay then begins at the original prepared document instead of
         // silently replacing it with the final canonical page.
@@ -203,8 +347,9 @@ export class PlaywrightReadNetworkGuard {
           const contentType = response.headers()["content-type"] ?? "";
           await this.recordResponse({ url: url.toString(), method, resourceType: type, status: response.status(), contentType, body: await response.body(), redirectLocation: target.toString() });
         }
-        this.documents.add(requestKey(target.toString()));
-        if (this.policy.genericPublicRead) this.genericOrigins.add(target.origin);
+        if (type === "document") this.documents.add(requestKey(target.toString()));
+        this.expectedRedirectTargets.set(requestKey(target.toString()), { hops: 1, started: Date.now() });
+        if (type === "document" && this.policy.genericPublicRead) this.genericOrigins.add(target.origin);
         await route.fulfill({ response });
         return;
       }

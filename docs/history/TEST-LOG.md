@@ -4170,3 +4170,8 @@ P1-G2 real preterminal states reconstructed at versions12/11, hashes equal recor
 ## TEST-2026-10-15-P1G2-live-final
 
 用户确认网络恢复并要求h001 Live，保留三次失败记录，为h001额外一次preflight设置专用门控，重新冻结execute ec4aa86b；9原SHA／生产b55e91c-CLEAN核对、门控正反核对及离线空跑PASS。第4次预检TableCheck206后唯一正式Live完成：SUCCEEDED/NO_VERIFIED_RESULT，终止REJECTION_LIMIT，最后轨迹READ_ENDED，缺口保留终止及局部浏览器预算原因。零交付；Sushi Teppen查位UNKNOWN/DATE_NOT_SELECTABLE，未声称全体无位。362.347秒、44模型/1Google、等待87.458秒/24.14%、未观察浏览器超时；44决策=44调用。evaluator@27 qualified NO、COMPLETION_OUTCOME NOT_EVALUATED（要求current-request END_READ观察），不改评价器或自判签收；录制NOT_REPLAYABLE/UNSAFE_DOCUMENT。原result/eval/decisions/recording路径和SHA见报告P1-G2节、live/h001/attempt-4/verification.json。无交付后GET／B见证GET，无启动后环境重跑；累计1014/1500模型、37Live、Google确认23/历史UNKNOWN、P1-G2预留1。只改授权外层门控与证据文档，复用四门禁862/862；真实状态离线＋L1和本次Live证明分列，停止待独立复核，不推送。前三次ENV_FAILURE作为历史保留、心跳PAUSED。
+
+
+## TEST-2026-10-15-P20-guard
+
+快进921aa76后，按第一阶段签收后的四项加固指令首先修P0重定向。普通route首跳＋预先安装CDP Fetch逐跳核对，原准入集合不变；原生URL／相对链接／Cookie保留，14/14真实Chromium覆盖多跳、XHR/fetch/静态资源、循环、popup/iframe/worker和CDN权限不晋升。原版真实接收端越界红灯已保存，修正CORS/LNA遮蔽后隔离原Guard复验；旧假route手动二次调用证明删除。四门禁绿862/862，完整浏览器97/99的两项旧动态发现失败在b55e91c也复现，报告明确保留，不篡改断言或越范围修复。真实远程引擎／当前外部来源未验证。ADR-0036只追加、Capability Matrix同步，证据 .eval-artifacts/p2-0-hardening-20261015/guard/，报告根report.md。0真实模型／Google业务／Live；其余三项继续，不推送。用户并行INDEX／Booking草稿／演示文件保留。

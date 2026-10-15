@@ -1,0 +1,7 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/infrastructure/browser/playwright-read-network-guard.ts(170,42): error TS2322: Type '{}' is not assignable to type 'CommandParameters[T]'.
+  Type '{}' is not assignable to type 'never'.
+    The intersection 'getAXNodeAndAncestorsParameters & getChildAXNodesParameters & getFullAXTreeParameters & ... 504 more ... & invokeToolParameters' was reduced to 'never' because property 'state' has conflicting types in some constituents.

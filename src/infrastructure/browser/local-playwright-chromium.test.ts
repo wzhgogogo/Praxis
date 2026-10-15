@@ -111,6 +111,7 @@ test("Local Playwright Chromium installs HAR replay before the Guard and refuses
   };
   const context = {
     newPage: async () => page,
+    pages: () => [], newCDPSession: async () => ({ on: () => {}, send: async () => ({}) }),
     routeFromHAR: async (_path: string, options: { notFound: string }) => { calls.push(`har:${options.notFound}`); },
     routeWebSocket: async () => { calls.push("websocket"); },
     route: async () => { calls.push("guard-route"); },

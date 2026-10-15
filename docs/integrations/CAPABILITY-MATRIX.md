@@ -1,8 +1,8 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.49
-- Last updated: 2026-10-10
+- Document revision: 1.50
+- Last updated: 2026-10-15
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
 - Related documents: [Restaurant Domain](../domains/RESTAURANT-BOOKING.md), [Data & Security](../architecture/DATA-CONTEXT-SECURITY.md)
@@ -252,3 +252,8 @@ Google named-area TextSearch uses the current supplied coordinate context as sof
 ## 2026-10-11 coordinate-only reverse address observation
 
 Coordinate-only Native discovery observes Google Geocoding v4 addressComponents once per run (including failures), from a public GET with key in the existing server header. It shares the40 Google request ceiling, exports reverseAddressObservation counts and source/time/status to browser goal.location, and persists the observation with the existing location context. It never replaces exact coordinates, creates a named center or supplies directory region codes. Unavailable addresses preserve the explicit cause and permit coordinate-only discovery. Local composition/GET fixtures cover success,403,once-only continuation and unchanged coordinates; two bounded public discovery probes are reported separately. Official contract: [reverse geocoding v4](https://developers.google.com/maps/documentation/geocoding/reverse-geocoding).
+
+
+### 2026-10-15 P2-0 Guard逐跳边界
+
+Local Playwright Chromium与Cloudflare BrowserSession共用CDP逐跳重定向保护，保留最终URL、相对链接／CSS与Cookie；未放行跳、敏感跳和循环在请求派发前停止，逐跳进入录制。真实本地Chromium14/14覆盖页面、fetch/XHR、脚本、样式、图片及popup／iframe／worker；来源权限集合不扩张。完整浏览器套件两个旧dynamic Tabelog场景在未改冻结基线也失败，不能报告全套通过。默认四门禁862/862；本轮真实远程Cloudflare兼容性未验证，无法安装边界的引擎仍失败关闭。证据[报告](../../.eval-artifacts/p2-0-hardening-20261015/report.md)与ADR-0036追加说明。当前来源库存和整单交付留待P2-0两次Live，不把本地Fixture作为来源能力证明。

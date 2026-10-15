@@ -89,6 +89,7 @@ class CloudflareBrowserSession implements BrowserSession {
       const networkGuard = networkPolicy ? new PlaywrightReadNetworkGuard(networkPolicy, 5_000, recordResponse) : undefined;
       if (networkGuard) await networkGuard.install(context);
       const page = networkPolicy ? await context.newPage() : context.pages()[0] ?? await context.newPage();
+      if (networkGuard) await networkGuard.preparePage(context, page);
       return new CloudflareBrowserSession(browser, engine, page, networkGuard);
     } catch (error) {
       await closeQuietly(context);

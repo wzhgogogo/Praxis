@@ -1,0 +1,8 @@
+{"url":"http://127.0.0.1:60389/one"}
+{"url":"http://127.0.0.1:60389/two","redirect":"interception-job-1.0"}
+{"url":"http://127.0.0.1:60390/forbidden","redirect":"interception-job-1.1"}
+page.goto: net::ERR_BLOCKED_BY_CLIENT at http://127.0.0.1:60389/one
+Call log:
+[2m  - navigating to "http://127.0.0.1:60389/one", waiting until "load"[22m
+
+{"hits":["/one","/two"]}

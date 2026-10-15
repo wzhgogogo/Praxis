@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 
+import type { BrowserContext } from "playwright-core";
+
 import type { BrowserReadNetworkPolicy } from "./browser-runtime.js";
 import { PlaywrightReadNetworkGuard } from "./playwright-read-network-guard.js";
 import { tableCheckPublicReadNetworkPolicy } from "../../integrations/tablecheck/tablecheck-public-query.js";
@@ -17,10 +19,17 @@ const policy: BrowserReadNetworkPolicy = {
   ],
 };
 
+const fakePage = {};
+function fakeContext(value: Record<string, unknown>): BrowserContext {
+  // These unit ports only test the ordinary route's policy matching. Actual
+  // redirects and CDP transport are exercised by the Chromium receiver suite.
+  return { pages: () => [fakePage], newCDPSession: async () => ({ on: () => {}, send: async () => ({}) }), ...value } as unknown as BrowserContext;
+}
+
 function fakeRoute(input: { url: string; method?: string; type?: string; status?: number; contentType?: string; body?: string; fetchError?: Error; fetchDelayMs?: number; responseBody?: Uint8Array; responseHeaders?: Record<string, string> }) {
   const calls: string[] = [];
   const route = {
-    request: () => ({ url: () => input.url, method: () => input.method ?? "GET", resourceType: () => input.type ?? "document", headerValue: async () => input.contentType ?? null, postData: () => input.body ?? null }),
+    request: () => ({ frame: () => ({ page: () => fakePage }), url: () => input.url, method: () => input.method ?? "GET", resourceType: () => input.type ?? "document", headerValue: async () => input.contentType ?? null, postData: () => input.body ?? null }),
     fetch: async (options: { maxRedirects: number; timeout: number }) => {
       calls.push(`fetch:${options.maxRedirects}:${options.timeout}`);
       if (input.fetchDelayMs !== undefined) {
@@ -41,7 +50,7 @@ function fakeRoute(input: { url: string; method?: string; type?: string; status?
 test("read network guard preserves the Executor source-read deadline beyond the action cap", async () => {
   let http: (route: any) => Promise<void> = async () => assert.fail("route handler missing");
   const guard = new PlaywrightReadNetworkGuard(policy);
-  await guard.install({ route: async (_pattern: string, handler: typeof http) => { http = handler; }, routeWebSocket: async () => {} } as any);
+  await guard.install(fakeContext({ route: async (_pattern: string, handler: typeof http) => { http = handler; }, routeWebSocket: async () => {} }));
   guard.prepareNavigation("https://public.example/guide", 8_000);
   const document = fakeRoute({ url: "https://public.example/guide", type: "document" });
   await http(document.route);
@@ -53,7 +62,7 @@ test("read network guard preserves the Executor source-read deadline beyond the 
 
   let shortHttp: (route: any) => Promise<void> = async () => assert.fail("route handler missing");
   const shortDeadline = new PlaywrightReadNetworkGuard(policy);
-  await shortDeadline.install({ route: async (_pattern: string, handler: typeof shortHttp) => { shortHttp = handler; }, routeWebSocket: async () => {} } as any);
+  await shortDeadline.install(fakeContext({ route: async (_pattern: string, handler: typeof shortHttp) => { shortHttp = handler; }, routeWebSocket: async () => {} }));
   shortDeadline.prepareNavigation("https://public.example/guide", 100);
   const shortDocument = fakeRoute({ url: "https://public.example/guide", type: "document" });
   await shortHttp(shortDocument.route);
@@ -67,7 +76,7 @@ test("read network guard admits only prepared public documents and exact source 
   let http: (route: any) => Promise<void> = async () => assert.fail("route handler missing");
   let webSocket: (socket: { close(): void }) => void = () => assert.fail("websocket handler missing");
   const guard = new PlaywrightReadNetworkGuard(policy);
-  await guard.install({ route: async (_pattern: string, handler: typeof http) => { http = handler; }, routeWebSocket: async (_pattern: string, handler: typeof webSocket) => { webSocket = handler; } } as any);
+  await guard.install(fakeContext({ route: async (_pattern: string, handler: typeof http) => { http = handler; }, routeWebSocket: async (_pattern: string, handler: typeof webSocket) => { webSocket = handler; } }));
 
   guard.prepareNavigation("https://public.example/guide", 700);
   const document = fakeRoute({ url: "https://public.example/guide", type: "document" });
@@ -151,23 +160,20 @@ test("read network guard admits only prepared public documents and exact source 
   assert.equal(socketClosed, true);
 });
 
-test("read network guard re-admits a safe same-origin redirect hop and rejects unprepared or sensitive targets", async () => {
+test("ordinary route records the initial redirect and rejects its unadmitted immediate target; Chromium owns hop coverage", async () => {
   let http: (route: any) => Promise<void> = async () => assert.fail("route handler missing");
   const recorded: Array<{ url: string; status: number; redirectLocation?: string }> = [];
   const guard = new PlaywrightReadNetworkGuard({ ...policy, genericPublicRead: true }, 5_000, response => {
     recorded.push({ url: response.url, status: response.status,
       ...(response.redirectLocation ? { redirectLocation: response.redirectLocation } : {}) });
   });
-  await guard.install({ route: async (_pattern: string, handler: typeof http) => { http = handler; }, routeWebSocket: async () => {} } as any);
+  await guard.install(fakeContext({ route: async (_pattern: string, handler: typeof http) => { http = handler; }, routeWebSocket: async () => {} }));
 
   guard.prepareNavigation("https://public.example/guide", 700);
   const sameOrigin = fakeRoute({ url: "https://public.example/guide", type: "document", status: 301, responseHeaders: { location: "/public-index" } });
   await http(sameOrigin.route);
   assert.deepEqual(sameOrigin.calls, ["fetch:0:700", "fulfill"]);
   assert.deepEqual(recorded, [{ url: "https://public.example/guide", status: 301, redirectLocation: "https://public.example/public-index" }]);
-  const redirectedDocument = fakeRoute({ url: "https://public.example/public-index", type: "document" });
-  await http(redirectedDocument.route);
-  assert.deepEqual(redirectedDocument.calls, ["fetch:0:700", "fulfill"], "the re-admitted hop is still one-shot");
 
   guard.prepareNavigation("https://public.example/guide", 700);
   const crossOrigin = fakeRoute({ url: "https://public.example/guide", type: "document", status: 302, responseHeaders: { location: "https://other.example/public-index" } });
@@ -183,7 +189,7 @@ test("read network guard re-admits a safe same-origin redirect hop and rejects u
 test("ADR-0036 permits prepared same-origin public GET reads but keeps sensitive and cross-origin reads outside the boundary", async () => {
   let http: (route: any) => Promise<void> = async () => assert.fail("route handler missing");
   const guard = new PlaywrightReadNetworkGuard({ ...policy, genericPublicRead: true });
-  await guard.install({ route: async (_pattern: string, handler: typeof http) => { http = handler; }, routeWebSocket: async () => {} } as any);
+  await guard.install(fakeContext({ route: async (_pattern: string, handler: typeof http) => { http = handler; }, routeWebSocket: async () => {} }));
   guard.prepareNavigation("https://public.example/guide", 700);
   const document = fakeRoute({ url: "https://public.example/guide", type: "document" });
   await http(document.route);
@@ -208,7 +214,7 @@ test("ADR-0036 permits prepared same-origin public GET reads but keeps sensitive
 test("replay applies the same admission before falling through to a HAR and never route-fetches", async () => {
   let http: (route: any) => Promise<void> = async () => assert.fail("route handler missing");
   const guard = new PlaywrightReadNetworkGuard({ ...policy, genericPublicRead: true });
-  await guard.install({ route: async (_pattern: string, handler: typeof http) => { http = handler; }, routeWebSocket: async () => {} } as any, { replay: true });
+  await guard.install(fakeContext({ route: async (_pattern: string, handler: typeof http) => { http = handler; }, routeWebSocket: async () => {} }), { replay: true });
   guard.prepareNavigation("https://public.example/guide", 700);
   const document = fakeRoute({ url: "https://public.example/guide", type: "document" });
   const read = fakeRoute({ url: "https://public.example/public-menu", type: "fetch" });
@@ -224,7 +230,7 @@ test("replay applies the same admission before falling through to a HAR and neve
 test("TableCheck calendar admission requires the captured four-string public schema", async () => {
   let http: (route: any) => Promise<void> = async () => assert.fail("route handler missing");
   const guard = new PlaywrightReadNetworkGuard(tableCheckPublicReadNetworkPolicy);
-  await guard.install({ route: async (_pattern: string, handler: typeof http) => { http = handler; }, routeWebSocket: async () => {} } as any);
+  await guard.install(fakeContext({ route: async (_pattern: string, handler: typeof http) => { http = handler; }, routeWebSocket: async () => {} }));
   const accepted = fakeRoute({
     url: "https://production.tablecheck.com/v2/hub/availability_calendar_v2", method: "POST", type: "fetch", contentType: "application/json",
     body: '{"locale":"en","start_at":"1791367200","shop_id":"public-shop","num_people":"2"}',
@@ -243,7 +249,7 @@ test("TableCheck calendar admission requires the captured four-string public sch
 test("Tabelog calendar reads admit only the captured public GET grammars", async () => {
   let http: (route: any) => Promise<void> = async () => assert.fail("route handler missing");
   const guard = new PlaywrightReadNetworkGuard(tabelogPublicReadNetworkPolicy);
-  await guard.install({ route: async (_pattern: string, handler: typeof http) => { http = handler; }, routeWebSocket: async () => {} } as any);
+  await guard.install(fakeContext({ route: async (_pattern: string, handler: typeof http) => { http = handler; }, routeWebSocket: async () => {} }));
   const accepted = fakeRoute({
     url: "https://tabelog.com/en/booking/calendar/initial_vacancy?exclude_unavailable_time=true&rst_id=public-outlet",
     type: "fetch",
@@ -292,7 +298,7 @@ test("Tabelog calendar reads admit only the captured public GET grammars", async
 test("TableCheck search prerequisites admit only the observed geolocation and autocomplete grammars", async () => {
   let http: (route: any) => Promise<void> = async () => assert.fail("route handler missing");
   const guard = new PlaywrightReadNetworkGuard(tableCheckPublicReadNetworkPolicy);
-  await guard.install({ route: async (_pattern: string, handler: typeof http) => { http = handler; }, routeWebSocket: async () => {} } as any);
+  await guard.install(fakeContext({ route: async (_pattern: string, handler: typeof http) => { http = handler; }, routeWebSocket: async () => {} }));
   const geolocation = fakeRoute({ url: "https://production.tablecheck.com/v2/geolocation", type: "fetch" });
   await http(geolocation.route);
   assert.deepEqual(geolocation.calls, ["fetch:0:5000", "fulfill"]);
@@ -323,7 +329,7 @@ test("TableCheck search prerequisites admit only the observed geolocation and au
 test("TableCheck public list continuation admits its observed GET grammar only", async () => {
   let http: (route: any) => Promise<void> = async () => assert.fail("route handler missing");
   const guard = new PlaywrightReadNetworkGuard(tableCheckPublicReadNetworkPolicy);
-  await guard.install({ route: async (_pattern: string, handler: typeof http) => { http = handler; }, routeWebSocket: async () => {} } as any);
+  await guard.install(fakeContext({ route: async (_pattern: string, handler: typeof http) => { http = handler; }, routeWebSocket: async () => {} }));
   const publicLists = fakeRoute({
     url: "https://production.tablecheck.com/v2/hub/public_shop_lists?limit=8&sort_by=score&shop_ids%5B%5D=one&shop_ids%5B%5D=two&shop_ids%5B%5D=three",
     type: "fetch",
@@ -372,7 +378,7 @@ test("generic public GET admits a calendar query namespace but not a booking act
     documentOrigins: ["https://tabelog.example"], staticResources: [], dynamicReads: [], genericPublicRead: true,
   };
   const guard = new PlaywrightReadNetworkGuard(genericTabelog);
-  await guard.install({ route: async (_pattern: string, handler: typeof http) => { http = handler; }, routeWebSocket: async () => {} } as any);
+  await guard.install(fakeContext({ route: async (_pattern: string, handler: typeof http) => { http = handler; }, routeWebSocket: async () => {} }));
   guard.prepareNavigation("https://tabelog.example/en/fixture");
   const document = fakeRoute({ url: "https://tabelog.example/en/fixture", type: "document" });
   const calendar = fakeRoute({ url: "https://tabelog.example/en/booking/calendar/initial_vacancy?exclude_unavailable_time=true&rst_id=public-outlet", type: "fetch" });
@@ -402,7 +408,7 @@ test("guard supplies an admitted response to the in-memory recorder before fulfi
   let http: (route: any) => Promise<void> = async () => assert.fail("route handler missing");
   const captured: Array<{ url: string; method: string; contentType: string; body: Uint8Array }> = [];
   const guard = new PlaywrightReadNetworkGuard(policy, 5_000, response => { captured.push(response); });
-  await guard.install({ route: async (_pattern: string, handler: typeof http) => { http = handler; }, routeWebSocket: async () => {} } as any);
+  await guard.install(fakeContext({ route: async (_pattern: string, handler: typeof http) => { http = handler; }, routeWebSocket: async () => {} }));
   const response = fakeRoute({ url: "https://public.example/query?date=2026-10-08&party=2", type: "fetch", responseHeaders: { "content-type": "application/json" }, responseBody: new TextEncoder().encode('{"available":true}') });
   await http(response.route);
   assert.deepEqual(response.calls, ["fetch:0:5000", "fulfill"]);
@@ -415,7 +421,7 @@ test("TableCheck admits only the generated reserve GET document and keeps write 
   const generated = tableCheckRequestedReservationUrl({ kind: "LINKED_PAGE", url: "https://www.tablecheck.com/en/shops/fixture-shop/reserve" }, "2026-10-22", 10);
   const guard = new PlaywrightReadNetworkGuard(tableCheckPublicReadNetworkPolicy);
   let http: (route: any) => Promise<void> = async () => assert.fail("route handler missing");
-  await guard.install({ route: async (_pattern: string, handler: typeof http) => { http = handler; }, routeWebSocket: async () => {} } as any);
+  await guard.install(fakeContext({ route: async (_pattern: string, handler: typeof http) => { http = handler; }, routeWebSocket: async () => {} }));
   guard.prepareNavigation(generated);
   const document = fakeRoute({ url: generated, type: "document" });
   await http(document.route);
@@ -453,7 +459,7 @@ test("TableCheck admits only the generated reserve GET document and keeps write 
 test("TableCheck reserve static assets admit only reviewed CDN paths and read resource types", async () => {
   let http: (route: any) => Promise<void> = async () => assert.fail("route handler missing");
   const guard = new PlaywrightReadNetworkGuard(tableCheckPublicReadNetworkPolicy);
-  await guard.install({ route: async (_pattern: string, handler: typeof http) => { http = handler; }, routeWebSocket: async () => {} } as any);
+  await guard.install(fakeContext({ route: async (_pattern: string, handler: typeof http) => { http = handler; }, routeWebSocket: async () => {} }));
   for (let cdn = 0; cdn <= 3; cdn++) {
     for (const type of ["script", "stylesheet", "font", "image"]) {
       const url = `https://cdn${cdn}.tablecheck.com/assets/table_check/public-file`;
@@ -476,7 +482,7 @@ test("TableCheck reserve static assets admit only reviewed CDN paths and read re
 test("C3b settlement counts only short data requests and diagnoses all outstanding types", async () => {
   const listeners: Record<string, (request: any) => void> = {};
   const guard = new PlaywrightReadNetworkGuard(policy);
-  await guard.install({ on: (event: string, fn: (request: any) => void) => { listeners[event] = fn; }, route: async () => {}, routeWebSocket: async () => {} } as any);
+  await guard.install(fakeContext({ on: (event: string, fn: (request: any) => void) => { listeners[event] = fn; }, route: async () => {}, routeWebSocket: async () => {} }));
   const requests = ["document", "xhr", "fetch", "image", "stylesheet", "font", "media", "ping"].map(type => ({ resourceType: () => type }));
   const original = Date.now; let now = original();
   Date.now = () => now;

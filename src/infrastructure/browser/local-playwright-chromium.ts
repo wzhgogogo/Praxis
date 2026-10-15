@@ -249,6 +249,7 @@ export class LocalPlaywrightChromium implements BrowserRuntime {
       if (input.replayHarPath) await context.routeFromHAR(input.replayHarPath, { notFound: "abort" });
       if (networkGuard) await networkGuard.install(context, { replay: input.replayHarPath !== undefined });
       page = await context.newPage();
+      if (networkGuard) await networkGuard.preparePage(context, page, input.replayHarPath !== undefined);
       const session = new LocalPlaywrightChromiumSession(browser, context, page, contextOwnsBrowser, networkGuard);
       if (input.signal.aborted) {
         await session.close();

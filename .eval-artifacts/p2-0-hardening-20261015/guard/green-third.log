@@ -1,0 +1,55 @@
+✔ real Chromium rejects a second cross-origin redirect before receiver arrival (150.247959ms)
+✔ real Chromium rejects a second sensitive redirect before receiver arrival (119.857833ms)
+✔ real Chromium preserves allowed redirect URL, relative links, cookies and recording of every hop (128.142875ms)
+✖ real Chromium checks every fetch redirect before cross-origin dispatch (134.003708ms)
+✖ real Chromium checks every xhr redirect before cross-origin dispatch (132.8435ms)
+✔ real Chromium checks every script redirect before cross-origin dispatch (133.38575ms)
+✔ real Chromium checks every stylesheet redirect before cross-origin dispatch (133.663666ms)
+✔ real Chromium checks every image redirect before cross-origin dispatch (132.972625ms)
+✔ real Chromium redirect loops fail at the Guard hop bound (133.865208ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 7
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1541.793125
+
+✖ failing tests:
+
+test at src/harness/browser/read-network-redirect.test.ts:1:3943
+✖ real Chromium checks every fetch redirect before cross-origin dispatch (134.003708ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.deepEqual(arrivals.filter(x => x !== "A/favicon.ico"), ["A/safe", "A/safe-hop", "A/result/final"])
+  
+      at <anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts:93:12)
+      at async fixture (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts:49:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/harness/browser/read-network-redirect.test.ts:1:3943
+✖ real Chromium checks every xhr redirect before cross-origin dispatch (132.8435ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.deepEqual(arrivals.filter(x => x !== "A/favicon.ico"), ["A/safe", "A/safe-hop", "A/result/final"])
+  
+      at <anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts:93:12)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async fixture (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts:49:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }

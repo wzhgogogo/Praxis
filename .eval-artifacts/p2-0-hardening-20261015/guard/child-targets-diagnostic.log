@@ -1,0 +1,34 @@
+✖ real Chromium protects popup navigation before its first redirect (331.816ms)
+CDP_CHILD_PROBE Error: 'Fetch.enable' wasn't found
+    at CDPSession2.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/infrastructure/browser/playwright-read-network-guard.ts:163:44)
+    at CDPSession2._callHandler (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/node_modules/playwright-core/lib/coreBundle.js:10746:33)
+    at CDPSession2.emit (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/node_modules/playwright-core/lib/coreBundle.js:10736:16)
+    at Proxy.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/node_modules/playwright-core/lib/coreBundle.js:57198:16)
+    at Proxy._callHandler (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/node_modules/playwright-core/lib/coreBundle.js:10746:33)
+    at Proxy.emit (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/node_modules/playwright-core/lib/coreBundle.js:10736:16)
+    at Connection.dispatch (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/node_modules/playwright-core/lib/coreBundle.js:63525:25)
+    at Immediate.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/node_modules/playwright-core/lib/coreBundle.js:63586:85)
+    at process.processImmediate (node:internal/timers:505:21)
+✖ real Chromium protects dedicated-worker fetch redirects (117.63625ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 798.303333
+
+✖ failing tests:
+
+test at src/harness/browser/read-network-redirect.test.ts:1:6015
+✖ real Chromium protects popup navigation before its first redirect (331.816ms)
+  [Error: Protocol error (Target.disposeBrowserContext): Failed to find context with id 617159B56D55B2E53C8B7BBD7C317D6A] { log: [] }
+
+test at src/harness/browser/read-network-redirect.test.ts:1:6937
+✖ real Chromium protects dedicated-worker fetch redirects (117.63625ms)
+  page.evaluate: Target page, context or browser has been closed
+      at <anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts:129:14)
+      at async fixture (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts:56:5) {
+    log: []
+  }

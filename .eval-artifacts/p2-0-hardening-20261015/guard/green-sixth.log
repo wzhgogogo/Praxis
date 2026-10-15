@@ -1,0 +1,31 @@
+FIXTURE_FAILURE http://127.0.0.1:62003/cross-hop { errorText: 'net::ERR_BLOCKED_BY_CLIENT' }
+✔ real Chromium rejects a second cross-origin redirect before receiver arrival (410.36975ms)
+FIXTURE_FAILURE http://127.0.0.1:62007/public-hop { errorText: 'net::ERR_BLOCKED_BY_CLIENT' }
+✔ real Chromium rejects a second sensitive redirect before receiver arrival (124.254625ms)
+✔ real Chromium preserves allowed redirect URL, relative links, cookies and recording of every hop (150.296708ms)
+FIXTURE_FAILURE http://127.0.0.1:62017/asset-hop { errorText: 'net::ERR_BLOCKED_BY_CLIENT.Inspector' }
+FIXTURE_CONSOLE Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector
+✔ real Chromium checks every fetch redirect before cross-origin dispatch (140.129792ms)
+FIXTURE_FAILURE http://127.0.0.1:62021/asset-hop { errorText: 'net::ERR_BLOCKED_BY_CLIENT.Inspector' }
+FIXTURE_CONSOLE Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector
+✔ real Chromium checks every xhr redirect before cross-origin dispatch (139.268875ms)
+FIXTURE_FAILURE http://127.0.0.1:62027/asset-hop { errorText: 'net::ERR_BLOCKED_BY_CLIENT.Inspector' }
+FIXTURE_CONSOLE Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector
+✔ real Chromium checks every script redirect before cross-origin dispatch (127.949375ms)
+FIXTURE_FAILURE http://127.0.0.1:62031/asset-hop { errorText: 'net::ERR_BLOCKED_BY_CLIENT.Inspector' }
+FIXTURE_CONSOLE Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector
+✔ real Chromium checks every stylesheet redirect before cross-origin dispatch (133.085708ms)
+FIXTURE_FAILURE http://127.0.0.1:62035/asset-hop { errorText: 'net::ERR_BLOCKED_BY_CLIENT.Inspector' }
+FIXTURE_CONSOLE Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector
+✔ real Chromium checks every image redirect before cross-origin dispatch (119.622041ms)
+FIXTURE_FAILURE http://127.0.0.1:62039/loop/two { errorText: 'net::ERR_BLOCKED_BY_CLIENT' }
+FIXTURE_FAILURE http://127.0.0.1:62039/loop/one { errorText: 'net::ERR_ABORTED' }
+✔ real Chromium redirect loops fail at the Guard hop bound (128.197917ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2066.337708

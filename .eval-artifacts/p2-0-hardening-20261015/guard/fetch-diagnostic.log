@@ -1,0 +1,42 @@
+✖ real Chromium checks every fetch redirect before cross-origin dispatch (402.334959ms)
+✖ real Chromium checks every xhr redirect before cross-origin dispatch (124.090958ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 872.864959
+
+✖ failing tests:
+
+test at src/harness/browser/read-network-redirect.test.ts:1:4044
+✖ real Chromium checks every fetch redirect before cross-origin dispatch (402.334959ms)
+  AssertionError [ERR_ASSERTION]: {"arrivals":["A/page","A/asset","A/asset-hop"],"requests":[{"outcome":"ADMITTED","origin":"http://127.0.0.1:61015","pathname":"/page","method":"GET","resourceType":"document","queryKeys":[]},{"outcome":"ADMITTED","origin":"http://127.0.0.1:61015","pathname":"/asset","method":"GET","resourceType":"fetch","queryKeys":[]},{"outcome":"ADMITTED","origin":"http://127.0.0.1:61015","pathname":"/asset-hop","method":"GET","resourceType":"xhr","queryKeys":[]}],"diagnostics":[]}
+      at <anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts:93:12)
+      at async fixture (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts:49:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/harness/browser/read-network-redirect.test.ts:1:4044
+✖ real Chromium checks every xhr redirect before cross-origin dispatch (124.090958ms)
+  AssertionError [ERR_ASSERTION]: {"arrivals":["A/page","A/asset","A/asset-hop"],"requests":[{"outcome":"ADMITTED","origin":"http://127.0.0.1:61020","pathname":"/page","method":"GET","resourceType":"document","queryKeys":[]},{"outcome":"ADMITTED","origin":"http://127.0.0.1:61020","pathname":"/asset","method":"GET","resourceType":"xhr","queryKeys":[]},{"outcome":"ADMITTED","origin":"http://127.0.0.1:61020","pathname":"/asset-hop","method":"GET","resourceType":"xhr","queryKeys":[]}],"diagnostics":[]}
+      at <anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts:93:12)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async fixture (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts:49:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }

@@ -1,0 +1,178 @@
+✖ real Chromium rejects a second cross-origin redirect before receiver arrival (422.813583ms)
+✖ real Chromium rejects a second sensitive redirect before receiver arrival (136.075834ms)
+✖ real Chromium preserves allowed redirect URL, relative links, cookies and recording of every hop (149.628625ms)
+✖ real Chromium checks every fetch redirect before cross-origin dispatch (140.899916ms)
+✖ real Chromium checks every xhr redirect before cross-origin dispatch (142.509958ms)
+✖ real Chromium checks every script redirect before cross-origin dispatch (133.178583ms)
+✖ real Chromium checks every stylesheet redirect before cross-origin dispatch (132.480042ms)
+✖ real Chromium checks every image redirect before cross-origin dispatch (133.063666ms)
+✖ real Chromium redirect loops fail at the Guard hop bound (149.23875ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 0
+ℹ fail 9
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2127.834959
+
+✖ failing tests:
+
+test at src/harness/browser/read-network-redirect.test.ts:1:2791
+✖ real Chromium rejects a second cross-origin redirect before receiver arrival (422.813583ms)
+  AssertionError [ERR_ASSERTION]: forbidden receiver received B/forbidden
+  
+  true !== false
+  
+      at <anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts:62:12)
+      at async fixture (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts:48:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/read-network-redirect.test.ts:1:2791
+✖ real Chromium rejects a second sensitive redirect before receiver arrival (136.075834ms)
+  AssertionError [ERR_ASSERTION]: forbidden receiver received A/account/delete
+  
+  true !== false
+  
+      at <anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts:62:12)
+      at async fixture (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts:48:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/read-network-redirect.test.ts:1:3194
+✖ real Chromium preserves allowed redirect URL, relative links, cookies and recording of every hop (149.628625ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+      '/safe',
+  -   '/safe-hop',
+  -   '/result/final'
+    ]
+  
+      at <anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts:74:10)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async fixture (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts:48:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ '/safe' ],
+    expected: [ '/safe', '/safe-hop', '/result/final' ],
+    operator: 'deepStrictEqual'
+  }
+
+test at src/harness/browser/read-network-redirect.test.ts:1:3905
+✖ real Chromium checks every fetch redirect before cross-origin dispatch (140.899916ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.deepEqual(arrivals.filter(x => x !== "A/favicon.ico"), ["A/safe", "A/safe-hop", "A/result/final"])
+  
+      at <anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts:92:12)
+      at async fixture (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts:48:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/harness/browser/read-network-redirect.test.ts:1:3905
+✖ real Chromium checks every xhr redirect before cross-origin dispatch (142.509958ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.deepEqual(arrivals.filter(x => x !== "A/favicon.ico"), ["A/safe", "A/safe-hop", "A/result/final"])
+  
+      at <anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts:92:12)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async fixture (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts:48:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/harness/browser/read-network-redirect.test.ts:1:3905
+✖ real Chromium checks every script redirect before cross-origin dispatch (133.178583ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.deepEqual(arrivals.filter(x => x !== "A/favicon.ico"), ["A/safe", "A/safe-hop", "A/result/final"])
+  
+      at <anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts:92:12)
+      at async fixture (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts:48:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/harness/browser/read-network-redirect.test.ts:1:3905
+✖ real Chromium checks every stylesheet redirect before cross-origin dispatch (132.480042ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.deepEqual(arrivals.filter(x => x !== "A/favicon.ico"), ["A/safe", "A/safe-hop", "A/result/final"])
+  
+      at <anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts:92:12)
+      at async fixture (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts:48:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/harness/browser/read-network-redirect.test.ts:1:3905
+✖ real Chromium checks every image redirect before cross-origin dispatch (133.063666ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.deepEqual(arrivals.filter(x => x !== "A/favicon.ico"), ["A/safe", "A/safe-hop", "A/result/final"])
+  
+      at <anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts:92:12)
+      at async fixture (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts:48:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/harness/browser/read-network-redirect.test.ts:1:4817
+✖ real Chromium redirect loops fail at the Guard hop bound (149.23875ms)
+  AssertionError [ERR_ASSERTION]: Guard must bound redirects before Chromium's own limit
+      at <anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts:99:10)
+      at async fixture (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts:48:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }

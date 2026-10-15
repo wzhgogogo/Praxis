@@ -1,0 +1,67 @@
+FIXTURE_FAILURE http://127.0.0.1:61406/cross-hop { errorText: 'net::ERR_BLOCKED_BY_CLIENT' }
+FIXTURE_FAILURE http://127.0.0.1:61407/forbidden { errorText: 'net::ERR_ABORTED' }
+✔ real Chromium rejects a second cross-origin redirect before receiver arrival (399.6255ms)
+FIXTURE_FAILURE http://127.0.0.1:61410/public-hop { errorText: 'net::ERR_BLOCKED_BY_CLIENT' }
+FIXTURE_FAILURE http://127.0.0.1:61410/account/delete?action=confirm { errorText: 'net::ERR_ABORTED' }
+✔ real Chromium rejects a second sensitive redirect before receiver arrival (118.068709ms)
+✔ real Chromium preserves allowed redirect URL, relative links, cookies and recording of every hop (155.392041ms)
+✖ real Chromium checks every fetch redirect before cross-origin dispatch (124.237584ms)
+✖ real Chromium checks every xhr redirect before cross-origin dispatch (133.650667ms)
+FIXTURE_FAILURE http://127.0.0.1:61432/asset-hop { errorText: 'net::ERR_BLOCKED_BY_CLIENT.Inspector' }
+FIXTURE_CONSOLE Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector
+✔ real Chromium checks every script redirect before cross-origin dispatch (133.521417ms)
+FIXTURE_FAILURE http://127.0.0.1:61436/asset-hop { errorText: 'net::ERR_BLOCKED_BY_CLIENT.Inspector' }
+FIXTURE_CONSOLE Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector
+✔ real Chromium checks every stylesheet redirect before cross-origin dispatch (132.983041ms)
+FIXTURE_FAILURE http://127.0.0.1:61440/asset-hop { errorText: 'net::ERR_BLOCKED_BY_CLIENT.Inspector' }
+FIXTURE_CONSOLE Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector
+✔ real Chromium checks every image redirect before cross-origin dispatch (133.182917ms)
+FIXTURE_FAILURE http://127.0.0.1:61444/loop/two { errorText: 'net::ERR_BLOCKED_BY_CLIENT' }
+FIXTURE_FAILURE http://127.0.0.1:61444/loop/one { errorText: 'net::ERR_ABORTED' }
+✔ real Chromium redirect loops fail at the Guard hop bound (133.938666ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 7
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1873.464542
+
+✖ failing tests:
+
+test at src/harness/browser/read-network-redirect.test.ts:1:4362
+✖ real Chromium checks every fetch redirect before cross-origin dispatch (124.237584ms)
+  AssertionError [ERR_ASSERTION]: cross-origin receiver must receive zero requests
+  
+  true !== false
+  
+      at <anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts:99:12)
+      at async fixture (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts:56:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/read-network-redirect.test.ts:1:4362
+✖ real Chromium checks every xhr redirect before cross-origin dispatch (133.650667ms)
+  AssertionError [ERR_ASSERTION]: cross-origin receiver must receive zero requests
+  
+  true !== false
+  
+      at <anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts:99:12)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async fixture (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts:56:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual'
+  }

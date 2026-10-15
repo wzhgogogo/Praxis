@@ -365,12 +365,16 @@ export function sourcePages(
       let handle: (route: Route) => Promise<void> = async () => { throw new Error("Guard route not installed"); };
       // Replace transport only: admission uses the identical production Guard.
       // Replay mode falls through to the fixed page lookup, never route.fetch.
+      // CDP is a fixed transport port here; only real Chromium fixtures prove
+      // redirect interception, not this source-model composition.
+      const fixturePage = {};
       await networkGuard.install({ route: async (_pattern: string, handler: typeof handle) => { handle = handler; },
+        pages: () => [fixturePage], newCDPSession: async () => ({ on: () => {}, send: async () => ({}) }),
         routeWebSocket: async () => {} } as unknown as BrowserContext, { replay: true });
       const guard = networkGuard;
       admitDocument = async url => {
         let admitted = false;
-        await handle({ request: () => ({ url: () => url, method: () => "GET", resourceType: () => "document" }),
+        await handle({ request: () => ({ frame: () => ({ page: () => fixturePage }), url: () => url, method: () => "GET", resourceType: () => "document" }),
           abort: async () => {}, fallback: async () => { admitted = true; },
           fetch: async () => { throw new Error("Offline native Fixture cannot access network"); },
         } as unknown as Route);

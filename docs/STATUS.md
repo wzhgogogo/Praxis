@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.206
+- Document revision: 4.207
 - Last updated: 2026-10-15
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-15 第一阶段已独立签收／P2-0 Guard：** 921aa76的Playbook1.8和phase-1-signoff为签收依据，新地点泛化转第二阶段。P2-0首项CDP逐跳Guard在真实Chromium14/14及四门禁862/862通过；原准入不扩大，URL／相对资源／Cookie和录制逐跳保留。完整浏览器两个既有dynamic Tabelog场景在原冻结树同样失败，单列而不称全套通过。其余三项及两次Live未执行；模型仍1014/1500，历史37Live，新预算2正式＋最多1环境重跑。证据p2-0-hardening-20261015/report.md，本地提交，不推送。
 
 - **2026-10-15 P1-G2 h001正式Live完成：** 网络恢复后用户追加授权一次preflight，TableCheck206后运行SUCCEEDED/NO_VERIFIED_RESULT；REJECTION_LIMIT经系统终止路径得到READ_ENDED，零交付。362.347秒、44模型/1Google、44决策一致、等待24.14%、未观察浏览器超时。evaluator@27 qualified NO、COMPLETION_OUTCOME NOT_EVALUATED（未记录其要求的END_READ观察），不自行签收；录制NOT_REPLAYABLE。冻结b55e91c/CLEAN，外层ec4aa86b；累计1014/1500模型、37Live、Google确认23/历史UNKNOWN、P1-G2环境预留1。报告P1-G2节，唯一运行完成、心跳暂停，停止待独立复核，不推送。
 

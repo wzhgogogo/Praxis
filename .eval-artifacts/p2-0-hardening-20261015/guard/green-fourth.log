@@ -1,0 +1,49 @@
+✔ real Chromium rejects a second cross-origin redirect before receiver arrival (154.087583ms)
+✔ real Chromium rejects a second sensitive redirect before receiver arrival (115.567208ms)
+✔ real Chromium preserves allowed redirect URL, relative links, cookies and recording of every hop (144.595ms)
+✖ real Chromium checks every fetch redirect before cross-origin dispatch (120.656708ms)
+✖ real Chromium checks every xhr redirect before cross-origin dispatch (118.670459ms)
+✔ real Chromium checks every script redirect before cross-origin dispatch (114.724875ms)
+✔ real Chromium checks every stylesheet redirect before cross-origin dispatch (116.661291ms)
+✔ real Chromium checks every image redirect before cross-origin dispatch (121.546416ms)
+✔ real Chromium redirect loops fail at the Guard hop bound (130.073166ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 7
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1474.772542
+
+✖ failing tests:
+
+test at src/harness/browser/read-network-redirect.test.ts:1:4093
+✖ real Chromium checks every fetch redirect before cross-origin dispatch (120.656708ms)
+  AssertionError [ERR_ASSERTION]: {"arrivals":["A/page","A/asset","A/asset-hop"],"requests":[{"outcome":"ADMITTED","origin":"http://127.0.0.1:61161","pathname":"/page","method":"GET","resourceType":"document","queryKeys":[]},{"outcome":"ADMITTED","origin":"http://127.0.0.1:61161","pathname":"/asset","method":"GET","resourceType":"fetch","queryKeys":[]},{"outcome":"ADMITTED","origin":"http://127.0.0.1:61161","pathname":"/asset-hop","method":"GET","resourceType":"xhr","queryKeys":[]}],"diagnostics":[]}
+      at <anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts:95:12)
+      at async fixture (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts:51:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/harness/browser/read-network-redirect.test.ts:1:4093
+✖ real Chromium checks every xhr redirect before cross-origin dispatch (118.670459ms)
+  AssertionError [ERR_ASSERTION]: {"arrivals":["A/page","A/asset","A/asset-hop"],"requests":[{"outcome":"ADMITTED","origin":"http://127.0.0.1:61166","pathname":"/page","method":"GET","resourceType":"document","queryKeys":[]},{"outcome":"ADMITTED","origin":"http://127.0.0.1:61166","pathname":"/asset","method":"GET","resourceType":"xhr","queryKeys":[]},{"outcome":"ADMITTED","origin":"http://127.0.0.1:61166","pathname":"/asset-hop","method":"GET","resourceType":"xhr","queryKeys":[]}],"diagnostics":[]}
+      at <anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts:95:12)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async fixture (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts:51:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }

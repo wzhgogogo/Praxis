@@ -1,0 +1,234 @@
+✖ real Chromium rejects a second cross-origin redirect before receiver arrival (144.680834ms)
+✖ real Chromium rejects a second sensitive redirect before receiver arrival (128.613ms)
+✖ real Chromium preserves allowed redirect URL, relative links, cookies and recording of every hop (131.318916ms)
+✖ real Chromium checks every fetch redirect before cross-origin dispatch (118.054ms)
+✖ real Chromium checks every xhr redirect before cross-origin dispatch (129.599667ms)
+✖ real Chromium checks every script redirect before cross-origin dispatch (139.383542ms)
+✖ real Chromium checks every stylesheet redirect before cross-origin dispatch (132.560917ms)
+✖ real Chromium checks every image redirect before cross-origin dispatch (133.412625ms)
+✖ real Chromium redirect loops fail at the Guard hop bound (127.683875ms)
+✖ real Chromium protects popup navigation before its first redirect (49962.205167ms)
+✖ real Chromium protects iframe redirect chains (124.814959ms)
+✔ real Chromium preserves normal allowed popup redirect navigation (133.718042ms)
+✖ real Chromium protects dedicated-worker fetch redirects (129.94875ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 1
+ℹ fail 12
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 51893.295125
+
+✖ failing tests:
+
+test at .eval-artifacts/p2-0-hardening-20261015/guard/pre-fix-redirect.test.ts:1:3172
+✖ real Chromium rejects a second cross-origin redirect before receiver arrival (144.680834ms)
+  AssertionError [ERR_ASSERTION]: forbidden receiver received B/forbidden
+  
+  true !== false
+  
+      at <anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/guard/pre-fix-redirect.test.ts:69:12)
+      at async fixture (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/guard/pre-fix-redirect.test.ts:55:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual'
+  }
+
+test at .eval-artifacts/p2-0-hardening-20261015/guard/pre-fix-redirect.test.ts:1:3172
+✖ real Chromium rejects a second sensitive redirect before receiver arrival (128.613ms)
+  AssertionError [ERR_ASSERTION]: forbidden receiver received A/account/delete
+  
+  true !== false
+  
+      at <anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/guard/pre-fix-redirect.test.ts:69:12)
+      at async fixture (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/guard/pre-fix-redirect.test.ts:55:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual'
+  }
+
+test at .eval-artifacts/p2-0-hardening-20261015/guard/pre-fix-redirect.test.ts:1:3676
+✖ real Chromium preserves allowed redirect URL, relative links, cookies and recording of every hop (131.318916ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+      '/safe',
+  -   '/safe-hop',
+  -   '/result/final'
+    ]
+  
+      at <anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/guard/pre-fix-redirect.test.ts:81:10)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async fixture (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/guard/pre-fix-redirect.test.ts:55:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ '/safe' ],
+    expected: [ '/safe', '/safe-hop', '/result/final' ],
+    operator: 'deepStrictEqual'
+  }
+
+test at .eval-artifacts/p2-0-hardening-20261015/guard/pre-fix-redirect.test.ts:1:4387
+✖ real Chromium checks every fetch redirect before cross-origin dispatch (118.054ms)
+  AssertionError [ERR_ASSERTION]: cross-origin receiver must receive zero requests
+  
+  true !== false
+  
+      at <anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/guard/pre-fix-redirect.test.ts:98:12)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async fixture (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/guard/pre-fix-redirect.test.ts:55:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual'
+  }
+
+test at .eval-artifacts/p2-0-hardening-20261015/guard/pre-fix-redirect.test.ts:1:4387
+✖ real Chromium checks every xhr redirect before cross-origin dispatch (129.599667ms)
+  AssertionError [ERR_ASSERTION]: cross-origin receiver must receive zero requests
+  
+  true !== false
+  
+      at <anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/guard/pre-fix-redirect.test.ts:98:12)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async fixture (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/guard/pre-fix-redirect.test.ts:55:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual'
+  }
+
+test at .eval-artifacts/p2-0-hardening-20261015/guard/pre-fix-redirect.test.ts:1:4387
+✖ real Chromium checks every script redirect before cross-origin dispatch (139.383542ms)
+  AssertionError [ERR_ASSERTION]: cross-origin receiver must receive zero requests
+  
+  true !== false
+  
+      at <anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/guard/pre-fix-redirect.test.ts:98:12)
+      at async fixture (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/guard/pre-fix-redirect.test.ts:55:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual'
+  }
+
+test at .eval-artifacts/p2-0-hardening-20261015/guard/pre-fix-redirect.test.ts:1:4387
+✖ real Chromium checks every stylesheet redirect before cross-origin dispatch (132.560917ms)
+  AssertionError [ERR_ASSERTION]: cross-origin receiver must receive zero requests
+  
+  true !== false
+  
+      at <anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/guard/pre-fix-redirect.test.ts:98:12)
+      at async fixture (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/guard/pre-fix-redirect.test.ts:55:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual'
+  }
+
+test at .eval-artifacts/p2-0-hardening-20261015/guard/pre-fix-redirect.test.ts:1:4387
+✖ real Chromium checks every image redirect before cross-origin dispatch (133.412625ms)
+  AssertionError [ERR_ASSERTION]: cross-origin receiver must receive zero requests
+  
+  true !== false
+  
+      at <anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/guard/pre-fix-redirect.test.ts:98:12)
+      at async fixture (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/guard/pre-fix-redirect.test.ts:55:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual'
+  }
+
+test at .eval-artifacts/p2-0-hardening-20261015/guard/pre-fix-redirect.test.ts:1:5400
+✖ real Chromium redirect loops fail at the Guard hop bound (127.683875ms)
+  AssertionError [ERR_ASSERTION]: Guard must bound redirects before Chromium's own limit
+      at <anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/guard/pre-fix-redirect.test.ts:106:10)
+      at async fixture (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/guard/pre-fix-redirect.test.ts:55:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at .eval-artifacts/p2-0-hardening-20261015/guard/pre-fix-redirect.test.ts:1:5934
+✖ real Chromium protects popup navigation before its first redirect (49962.205167ms)
+  AssertionError [ERR_ASSERTION]: false == true
+      at <anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/guard/pre-fix-redirect.test.ts:116:10)
+      at async fixture (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/guard/pre-fix-redirect.test.ts:55:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at .eval-artifacts/p2-0-hardening-20261015/guard/pre-fix-redirect.test.ts:1:6532
+✖ real Chromium protects iframe redirect chains (124.814959ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.equal(arrivals.includes("B/forbidden"), false, "cross-origin receiver must receive zero requests")
+  
+      at <anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/guard/pre-fix-redirect.test.ts:122:10)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async fixture (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/guard/pre-fix-redirect.test.ts:55:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at .eval-artifacts/p2-0-hardening-20261015/guard/pre-fix-redirect.test.ts:1:7408
+✖ real Chromium protects dedicated-worker fetch redirects (129.94875ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    guard.prepareNavigation(origin + "/page")
+  
+      at <anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/guard/pre-fix-redirect.test.ts:138:10)
+      at async fixture (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/guard/pre-fix-redirect.test.ts:55:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
