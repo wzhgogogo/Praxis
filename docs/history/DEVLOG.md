@@ -3535,4 +3535,9 @@ ADR-0040 后两条动态 Chromium 组合仍使用只会操作日期/人数的旧
 
 ## DEV-2026-10-15-T1-1-ASSEMBLY
 
+
 新增生产读取组装根并迁移Runner／Web／主要固定来源和Chromium组合；实际runCeilings、整单共享browserBudget、Router和loop只由一次组装返回。移除剩余隐藏数字默认，显式配置事实链并修复其忽略传入限额的接线。临时工作树恢复旧12次阈值得到目标红灯，恢复后通过。旧Hybrid手工组合在T1-5继续迁移／退役，未把本项视为全批完成。详见T1 report与01-assembly日志；仅离线，本地不推送。
+
+## DEV-2026-10-15-T1-3-WEB-OWNER
+
+在持久化会话发布前登记进程内准备阶段归属，并覆盖语义applyMessage至activeReads接手，引用计数与finally保护嵌套／重复调用。只解决当前进程被误判；无持久队列、重启后仍显式中断。统一读取组装经实际HTTP/PGlite验证；保留W07反例。T1 report／03-web-owner保存目标红绿和四条离线门禁，无Live、不推送。

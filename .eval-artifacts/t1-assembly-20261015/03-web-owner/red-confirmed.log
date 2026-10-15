@@ -1,0 +1,32 @@
+✖ T1 Web shared assembly keeps ownership during semantic parsing and completes after a concurrent list (packs=Google) (887.521459ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1395.041209
+
+✖ failing tests:
+
+test at src/server/local-web-server.test.ts:1:51347
+✖ T1 Web shared assembly keeps ownership during semantic parsing and completes after a concurrent list (packs=Google) (887.521459ms)
+  AssertionError [ERR_ASSERTION]: a current-process semantic call must not become EXECUTION_FAILURE
+  + actual - expected
+  
+  + 'FAILED'
+  - 'UNDERSTANDING'
+  
+      at <anonymous> (/private/tmp/praxis-t1-red-QdUozy/src/server/local-web-server.test.ts:1278:14)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async withDatabase (/private/tmp/praxis-t1-red-QdUozy/src/server/local-web-server.test.ts:229:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-t1-red-QdUozy/src/server/local-web-server.test.ts:1231:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'FAILED',
+    expected: 'UNDERSTANDING',
+    operator: 'strictEqual'
+  }

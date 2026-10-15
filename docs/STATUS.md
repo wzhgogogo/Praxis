@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.215
+- Document revision: 4.216
 - Last updated: 2026-10-15
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-15 T1-3 Web并发：** 生产统一组装＋真实HTTP/PGlite受控延迟语义期间列表误判先红后绿；发布会话前建立进程内准备归属，语义结束由activeReads接手，finally释放。新进程仍不继承，W07重启中断反例通过。四条代码门禁见`t1-assembly-20261015/03-web-owner/`；全批继续、无Live、不推送。
 
 - **2026-10-15 T1-1 统一读取组装：** 生产factory被Runner／Web及主要固定来源／Chromium组合共用，返回实际runCeilings和共享browserBudget；移除loop、Router、Executor及事实链隐藏限额。临时工作树恢复旧12次阈值后目标断言失败，恢复后通过；Runner／Web选项对照通过。四条代码门禁及Chromium全绿（880/880、100/100），证据`t1-assembly-20261015/01-assembly/`。旧Hybrid手工组合在第5项继续迁移／退役；未完成T1、不运行Live、不推送。
 

@@ -311,6 +311,8 @@ export class PersistentRestaurantAgentApplication {
   private readonly liveReadLimits: Readonly<Record<string, number>> | undefined;
   private readonly modelRunBudget: PersistentRestaurantAgentOptions["modelRunBudget"];
   private readonly activeReads = new Map<string, ActiveRead>();
+  /** Current-process semantic work owns a task before the asynchronous loop exists. */
+  private readonly preparingReads = new Map<string, number>();
   /** Narrow in-process guard for a duplicated HTTP delivery of one user message. */
   private readonly applyingUserMessages = new Map<string, Promise<unknown>>();
   private readonly updateListeners = new Set<RestaurantCaseUpdateListener>();
@@ -376,24 +378,28 @@ export class PersistentRestaurantAgentApplication {
       }
     }
 
-    let record: ConversationRecord;
-    try {
-      record = await this.store.createConversation({
-        id: conversationId,
-        userId,
-        rootTaskId: taskId,
-        createRequestId: requestId,
-        title: titleFor(message),
-        now,
-      });
-    } catch (error) {
-      const raced = await this.store.findConversationByCreateRequest(userId, requestId);
-      if (!raced) throw error;
-      return this.project(raced);
-    }
+    // Register before publishing the conversation to list/get requests. Nested
+    // and duplicate deliveries release only their own ownership reference.
+    return this.withPreparingRead(taskId, async () => {
+      let record: ConversationRecord;
+      try {
+        record = await this.store.createConversation({
+          id: conversationId,
+          userId,
+          rootTaskId: taskId,
+          createRequestId: requestId,
+          title: titleFor(message),
+          now,
+        });
+      } catch (error) {
+        const raced = await this.store.findConversationByCreateRequest(userId, requestId);
+        if (!raced) throw error;
+        return this.project(raced);
+      }
 
-    await this.applyMessage(record, message, requestId, 0);
-    return this.project(record);
+      await this.applyMessage(record, message, requestId, 0);
+      return this.project(record);
+    });
   }
 
   /** Server adapters subscribe once; execution remains independent of HTTP/SSE. */
@@ -737,7 +743,7 @@ export class PersistentRestaurantAgentApplication {
       events,
       trajectories,
       finalSnapshot: snapshot,
-      loop: { maxSteps: 12, maxRejectedActions: 3, timeoutMs: 30_000,  status: loopStatus },
+      loop: { status: loopStatus },
       resourceUsage: { elapsedMs: modelUsage?.elapsedMs ?? lifecycleElapsedMs, agentDecisions, ...(googleRequests ? { googleRequests } : {}), ...(modelUsage ? { modelCallsStarted: modelUsage.calls } : {}) },
       resourceAccounting: { browserModelCalls: "UNKNOWN", cost: "UNKNOWN" },
       ...(this.liveReadLimits ? { limits: structuredClone(this.liveReadLimits) } : {}),
@@ -751,9 +757,22 @@ export class PersistentRestaurantAgentApplication {
     requestId: string,
     expectedVersion: number,
   ): Promise<void> {
-    const work = (signal?: AbortSignal) => this.applyMessageOnce(record, message, requestId, expectedVersion, signal);
-    if (this.modelRunBudget) await this.modelRunBudget.run(record.rootTaskId, (signal) => work(signal));
-    else await work();
+    await this.withPreparingRead(record.rootTaskId, async () => {
+      const work = (signal?: AbortSignal) => this.applyMessageOnce(record, message, requestId, expectedVersion, signal);
+      if (this.modelRunBudget) await this.modelRunBudget.run(record.rootTaskId, (signal) => work(signal));
+      else await work();
+    });
+  }
+
+  private async withPreparingRead<T>(taskId: string, work: () => Promise<T>): Promise<T> {
+    this.preparingReads.set(taskId, (this.preparingReads.get(taskId) ?? 0) + 1);
+    try {
+      return await work();
+    } finally {
+      const remaining = this.preparingReads.get(taskId)! - 1;
+      if (remaining === 0) this.preparingReads.delete(taskId);
+      else this.preparingReads.set(taskId, remaining);
+    }
   }
 
   /**
@@ -1021,7 +1040,7 @@ export class PersistentRestaurantAgentApplication {
 
   /** There is no durable queue: a process restart ends an orphaned in-flight read explicitly. */
   private async finishInterruptedLiveRead(record: ConversationRecord): Promise<void> {
-    if (this.workspaceMode !== "LIVE_READ" || this.activeReads.has(record.rootTaskId)) return;
+    if (this.workspaceMode !== "LIVE_READ" || this.preparingReads.has(record.rootTaskId) || this.activeReads.has(record.rootTaskId)) return;
     const snapshot = await this.runtime.snapshot(record.rootTaskId);
     if (!["UNDERSTANDING", "SEARCHING", "SELECTION_REQUIRED"].includes(snapshot.domainState.phase)) return;
     const id = this.createId("event:restaurant-agent-interrupted");

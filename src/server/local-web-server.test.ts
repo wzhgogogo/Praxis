@@ -28,6 +28,9 @@ import { RunBoundedModelGateway } from "../application/run-bounded-model-gateway
 import type { ModelGateway, ModelRequest, ModelResponse } from "../core/model/contracts.js";
 import { ModelGatewayError } from "../core/model/errors.js";
 import { FixtureRestaurantSearch } from "../infrastructure/fixture/fixture-restaurant-search.js";
+import { createLiveReadAssembly } from "../integrations/restaurant-search/live-read-assembly.js";
+import { googlePlacesDiscoveryPack } from "../integrations/restaurant-search/source-packs.js";
+import { GooglePlacesClient } from "../integrations/google/google-places-client.js";
 import type { RestaurantAvailabilityRequest, RestaurantCandidate, RestaurantCandidateFactRequest, RestaurantReadEvidence, RestaurantSearchRequest, RestaurantTaskState } from "../domains/restaurant/contracts.js";
 import { applyPostgresMigrations } from "../infrastructure/postgres/migrations.js";
 import type {
@@ -77,6 +80,7 @@ interface TestServer {
 }
 
 interface StartServerOptions {
+  readAssembly?: ReturnType<typeof createLiveReadAssembly>;
   mode?: "FIXTURE" | "LIVE_READ";
   restaurant?: RestaurantSearchPort & RestaurantAvailabilityPort & RestaurantCandidateFactPort;
   model?: ModelGateway;
@@ -97,11 +101,11 @@ async function startServer(database: SqlDatabase, clock: FakeClock, options: Sta
     semanticInterpreter: options.semanticInterpreter ?? new RestaurantSemanticInterpreter(model),
     ...(options.partySizeSupplementResolver ? { partySizeSupplementResolver: options.partySizeSupplementResolver } : {}),
     agentDecision: options.agentDecision ?? new RestaurantAgentDecision(model),
-    restaurantSearch: restaurant,
-    restaurantAvailability: restaurant,
-    restaurantFacts: restaurant,
-    executionRouterOptions: { structuredReadTimeoutMs: readLimits.maxStructuredReadMs, browserReadTimeoutMs: readLimits.maxAutomaticBrowserMs },
-    agentLoopOptions: { maxSteps: readLimits.maxAgentSteps, maxRejectedActions: readLimits.maxRejectedActions, timeoutMs: readLimits.maxAutomaticBrowserMs },
+    restaurantSearch: options.readAssembly?.search ?? restaurant,
+    restaurantAvailability: options.readAssembly?.availability ?? restaurant,
+    restaurantFacts: options.readAssembly?.facts ?? restaurant,
+    executionRouterOptions: options.readAssembly?.router ?? { structuredReadTimeoutMs: readLimits.maxStructuredReadMs, browserReadTimeoutMs: readLimits.maxAutomaticBrowserMs },
+    agentLoopOptions: options.readAssembly?.loop ?? { maxSteps: readLimits.maxAgentSteps, maxRejectedActions: readLimits.maxRejectedActions, timeoutMs: readLimits.maxAutomaticBrowserMs },
     ...(options.liveReadLimits ? { liveReadLimits: options.liveReadLimits } : {}),
     ...(options.mode ? { workspaceMode: options.mode } : {}),
     ...(options.modelRunBudget ? { modelRunBudget: options.modelRunBudget } : {}),
@@ -1217,6 +1221,77 @@ test("W09 HTTP/SSE publishes background progress and accepts an edit based on th
         controller.abort();
       }
     } finally {
+      await running.application.stopActiveReads();
+      await running.close();
+    }
+  });
+});
+
+test("T1 Web shared assembly keeps ownership during semantic parsing and completes after a concurrent list (packs=Google)", async () => {
+  await withDatabase(async ({ database, clock }) => {
+    let announceSemantic!: () => void;
+    let releaseSemantic!: () => void;
+    let announceFinished!: () => void;
+    const semanticStarted = new Promise<void>(resolve => { announceSemantic = resolve; });
+    const semanticGate = new Promise<void>(resolve => { releaseSemantic = resolve; });
+    const finished = new Promise<void>(resolve => { announceFinished = resolve; });
+    let modelCalls = 0;
+    const model: ModelGateway = { async complete(request) {
+      modelCalls++;
+      if (request.purpose === "restaurant_semantic_interpret") {
+        announceSemantic();
+        await semanticGate;
+        return { invocationId: "delayed-semantic", provider: "FIXTURE", model: "controlled-delay", latencyMs: 0, finishReason: "TOOL_CALLS", outputText: JSON.stringify({ schemaVersion: "3", facts: [
+          { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "RECOMMENDATION", query: "restaurants" } },
+          { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-08-09", raw: "tomorrow" } },
+          { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:30", raw: "7pm" } },
+          { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } },
+          { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "Shinjuku" } },
+        ] }) };
+      }
+      assert.equal(request.purpose, "restaurant_agent_decide");
+      return { invocationId: `search-${modelCalls}`, provider: "FIXTURE", model: "controlled-delay", latencyMs: 0, finishReason: "TOOL_CALLS", outputText: JSON.stringify({
+        type: "SEARCH_RESTAURANTS", question: "", relatedFields: [], retrievalHint: "", candidateIds: [], candidateId: "", offerId: "", decisionSummary: "read independently empty source",
+      }) };
+    } };
+    let googleCalls = 0;
+    const google = new GooglePlacesClient({ apiKey: "fixture", fetchImplementation: async () => {
+      googleCalls++;
+      return new Response(JSON.stringify({ places: [] }), { status: 200 });
+    } });
+    const readAssembly = createLiveReadAssembly({ ...readLimits, packs: [googlePlacesDiscoveryPack] }, {
+      model, google, clock, browser: { async openSession() { throw new Error("Empty Google discovery must not open a browser"); } },
+    });
+    const running = await startServer(database, clock, { mode: "LIVE_READ", model, readAssembly, liveReadLimits: readAssembly.runCeilings });
+    running.application.subscribeReadFinished(() => { announceFinished(); });
+    let creation: ReturnType<typeof createCase> | undefined;
+    try {
+      const cookie = await login(running.baseUrl, "token-a");
+      creation = createCase(running.baseUrl, cookie, "semantic-concurrent-list", "Tomorrow at 7pm in Shinjuku for two, recommend restaurants.");
+      // Catch a rejected creation even when the ownership assertion fails first.
+      void creation.catch(() => {});
+      await withinTestTimeout(semanticStarted, "semantic model transport to start");
+      const listed = await api(running.baseUrl, cookie, "/api/cases");
+      assert.equal(listed.response.status, 200);
+      const summaries = listed.payload.cases as Array<{ phase: string }>;
+      assert.equal(summaries.length, 1);
+      assert.equal(summaries[0]!.phase, "UNDERSTANDING", "a current-process semantic call must not become EXECUTION_FAILURE");
+      assert.equal(googleCalls, 0, "list cannot start discovery or finish a pending semantic call");
+      releaseSemantic();
+      const created = await withinTestTimeout(creation, "case creation after semantic release");
+      await withinTestTimeout(finished, "assembled Web read to finish");
+      const result = await api(running.baseUrl, cookie, `/api/cases/${encodeURIComponent(created.case.caseId)}`);
+      const view = result.payload.view as RestaurantCaseView;
+      assert.equal(view.case.phase, "NO_VERIFIED_RESULT", JSON.stringify(view));
+      assert.equal(googleCalls, 1, "real assembled Google discovery ran once after semantic release");
+      const artifact = await running.application.exportReadArtifact(created.case.caseId);
+      const snapshot = artifact.finalSnapshot as { domainState: RestaurantTaskState };
+      assert.equal(snapshot.domainState.failure, undefined);
+      assert.ok(snapshot.domainState.noVerifiedResult);
+      assert.notEqual(snapshot.domainState.noVerifiedResult.termination.type, "EXECUTION_FAILURE");
+    } finally {
+      releaseSemantic();
+      if (creation) await creation.catch(() => {});
       await running.application.stopActiveReads();
       await running.close();
     }

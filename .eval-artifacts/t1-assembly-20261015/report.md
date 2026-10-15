@@ -23,7 +23,7 @@
 | --- | --- | --- | --- |
 | 1 | 组装漂移、累计>12后误拒绝、记录不等于实际限额 | `01-assembly/red-retired-cap.log` 预算断言红；`green-restored.log` 2/2 | 生产入口已统一；旧Hybrid迁移／退役随第5项核对 |
 | 2 | 过时 Fixture 隐藏完整浏览器链路红项 | `02-browser/red.log` 两项目标资格断言失败；`green-targeted.log` 2/2 | 完成：默认879/879、Chromium100/100，typecheck/arch/build通过 |
-| 3 | 当前进程语义调用被查询误判成上个进程中断 | 待补 | 未开始 |
+| 3 | 当前进程语义调用被查询误判成上个进程中断 | `03-web-owner/red-confirmed.log` FAILED≠UNDERSTANDING；`green.log` 并发＋重启2/2 | 完成；四条代码门禁见同目录 |
 | 4 | 外部信号永不达到时测试挂起 | 待补 | 未开始 |
 | 5 | 旧手工组装重复覆盖／不再验证当前链路 | 待补 | 未开始 |
 | 6 | CDP 无法识别跳转时未核对策略便放行 | 待补 | 未开始 |
@@ -43,6 +43,14 @@ P2-0遗留loop三默认、Router两默认、Executor 300000ms默认及native fac
 检错：在`/private/tmp/praxis-t1-red-QdUozy`临时detached工作树应用当前源码，**仅把传给native发现的全局模型上限恢复为旧12**（旧签名不能直接checkout）；实际查位Fixture产生>12次调用后再找店，目标业务断言以BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED失败。恢复配置后同测试及Runner/Web返回值逐项对照通过。没有在主工作树回退、手填计数或提交破坏。
 
 命令：`node --import tsx --test --test-name-pattern='T1 production assembly shares|T1 Runner and Web' src/eval/restaurant/agent-loop/native-discovery-composition.test.ts`。`01-assembly/`保存隔离红／绿、受控执行17/17和门禁日志：typecheck、arch:check、npm test（880/880）、build及Chromium（100/100）全绿。对照比较实际factory返回的限额、Router／loop和独立整单预算；两宿主源码均从同一次返回接线，不是比较两份常量。
+
+## 3 Web 当前进程归属
+
+在会话发布前登记进程内准备阶段，引用计数覆盖createCase／applyMessage的嵌套和重复投递，直到activeReads接手；finally释放，未新增长期状态或自动恢复。当前进程的语义解析不再被列表误判；新Application实例没有此归属，因此原W07重启孤儿仍终止为中断。
+
+真实HTTP→PGlite持久化宿主，读取组件来自生产factory（显式Google Pack）；固定模型卡在语义传输时GET列表，释放后实际Google Adapter读一次独立空样本并正常NO_VERIFIED_RESULT。首个红灯FAILED≠UNDERSTANDING；另在隔离副本取消准备归属检查、用修正严格传输标签后的相同样本再次确认红灯（red-confirmed.log）。初轮后续样本用错STOP标签／误以为Google-only先做地名解析及误取原因字段，是样本错误，green-debug.log保留，不算产品红证据。并发正常完成和W07重启反例green.log 2/2。
+
+命令：`node --import tsx --test --test-name-pattern='T1 Web shared assembly|W07' src/server/local-web-server.test.ts`；四条代码门禁typecheck／arch:check／npm test／build日志在`03-web-owner/`。仅HTTP本地循环与PGlite、无真实模型或外网。
 
 ## 两种宿主与外部边界
 

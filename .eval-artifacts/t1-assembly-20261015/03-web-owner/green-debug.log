@@ -1,0 +1,32 @@
+✖ T1 Web shared assembly keeps ownership during semantic parsing and completes after a concurrent list (packs=Google) (781.923042ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1269.734208
+
+✖ failing tests:
+
+test at src/server/local-web-server.test.ts:1:51347
+✖ T1 Web shared assembly keeps ownership during semantic parsing and completes after a concurrent list (packs=Google) (781.923042ms)
+  AssertionError [ERR_ASSERTION]: {"mode":"LIVE_READ","case":{"caseId":"restaurant:92a037b6d9abd61bead40f14","conversationId":"conversation:92a037b6d9abd61bead40f14","rootTaskId":"restaurant:92a037b6d9abd61bead40f14","title":"Tomorrow at 7pm in Shinjuku for two, recommend restaurants.","status":"COMPLETED","phase":"FAILED","taskVersion":1,"pendingUserAction":"REVIEW_ATTENTION","updatedAt":"2026-08-08T09:00:00.000Z"},"conversation":{"id":"conversation:92a037b6d9abd61bead40f14","messages":[{"id":"message:0:ccf2faf96c6f6a5da54da3f9","role":"USER","content":"Tomorrow at 7pm in Shinjuku for two, recommend restaurants.","createdAt":"2026-08-08T09:00:00.000Z"},{"id":"message:1:ccf2faf96c6f6a5da54da3f9","role":"ASSISTANT","content":"The read-only investigation stopped: Restaurant Semantic Interpreter did not produce a proposal: INVALID_MODEL_OUTPUT No verified availability result was presented.","createdAt":"2026-08-08T09:00:00.000Z"}]},"restaurant":{"missingRequiredFields":["date","timeWindow","partySize","area"],"candidates":[],"availability":{},"availabilityChecks":{},"readEvidence":[],"currentFactEvidence":[]},"artifacts":[{"artifactId":"artifact:outcome:restaurant:92a037b6d9abd61bead40f14:1","caseId":"restaurant:92a037b6d9abd61bead40f14","domain":"restaurant","type":"OUTCOME","sourceVersion":1,"data":{"outcome":{"reason":"Restaurant Semantic Interpreter did not produce a proposal: INVALID_MODEL_OUTPUT","status":"FAILED"}}}],"activities":[{"activityId":"activity:event:user:94617da04b447c1ea94d88c6113797f7","caseId":"restaurant:92a037b6d9abd61bead40f14","sourceRef":{"kind":"EVENT","id":"event:user:94617da04b447c1ea94d88c6113797f7"},"type":"SEMANTIC_INTERPRETATION_FAILED","display":{"title":"Request interpretation failed","detail":"Restaurant Semantic Interpreter did not produce a proposal: INVALID_MODEL_OUTPUT"},"occurredAt":"2026-08-08T09:00:00.000Z"}],"note":"Live read-only mode. Results require current source evidence; no authorization, booking, payment, cancellation, or personal-data submission is available."}
+  + actual - expected
+  
+  + 'FAILED'
+  - 'NO_VERIFIED_RESULT'
+  
+      at <anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/server/local-web-server.test.ts:1289:14)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async withDatabase (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/server/local-web-server.test.ts:229:5)
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/server/local-web-server.test.ts:1231:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'FAILED',
+    expected: 'NO_VERIFIED_RESULT',
+    operator: 'strictEqual'
+  }
