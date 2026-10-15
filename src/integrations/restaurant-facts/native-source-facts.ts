@@ -381,11 +381,15 @@ export class SourceAwareFactRead implements RestaurantCandidateFactPort {
     const reads: RestaurantCandidateFactRead[] = [];
     if (nativeCandidates.length) reads.push(await this.native.inspectFacts({ ...request, candidates: nativeCandidates, candidateIds: nativeCandidates.map((item) => item.restaurant.id) }, signal));
     if (googleCandidates.length) reads.push(await this.google.inspectFacts({ ...request, candidates: googleCandidates, candidateIds: googleCandidates.map((item) => item.restaurant.id) }, signal));
+    const googleMetadata = reads.find(read => read.metadata.googleRequests)?.metadata;
+    const failureCode = reads.find(read => read.metadata.failureCode)?.metadata.failureCode;
     return { evidence: reads.flatMap((read) => read.evidence),
       factChecks: Object.assign({}, ...reads.map((read) => read.factChecks)),
       sourceDocuments: reads.flatMap((read) => read.sourceDocuments ?? []),
       metadata: { provider: reads.length === 1 ? reads[0]!.metadata.provider : "RESTAURANT_WEBSITE", route: this.executionRoute,
         latencyMs: Date.now() - startedAt,
+        ...(googleMetadata?.googleRequests ? { googleRequests: googleMetadata.googleRequests } : {}),
+        ...(failureCode ? { failureCode } : {}),
         ...(reads.some((read) => read.metadata.nativeContinuity?.length) ? { nativeContinuity: reads.flatMap((read) => read.metadata.nativeContinuity ?? []) } : {}),
         ...(reads.some((read) => read.metadata.modelUsage?.calls) ? { modelUsage: { calls: reads.reduce((sum, read) => sum + (read.metadata.modelUsage?.calls ?? 0), 0) } } : {}) },
     };

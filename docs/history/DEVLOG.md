@@ -3545,3 +3545,7 @@ ADR-0040 后两条动态 Chromium 组合仍使用只会操作日期/人数的旧
 ## DEV-2026-10-15-T1-4-BOUNDED-WAITS
 
 复用withinTestTimeout为Web测试外部同步信号加目标标签与期限，包括四处started、checking、finished、SSE整条消息、HTTP启停和重复投递settle。无数据流先红后绿，已resolve信号及正常Web链路对照通过；测试关闭连接清理残留SSE keep-alive。详见T1 report／04-bounded-waits；无业务策略或Live变化。
+
+## DEV-2026-10-15-T1-5-RETIREMENT
+
+删除Hybrid手工读取组装，完整来源测试由production factory产生所有读取组件／共享额度；两处真实使用者共用外部样本helper。删除一条旧adapter-only接线细节测试，七组有价值的部分端口契约迁至既有Router harness，明确不证明完整Adapter链路。迁移抓到SourceAware丢额度状态元数据，先红后绿补透传；策略／资格不变。清单与门禁见T1 report／05-retirement，仅离线。

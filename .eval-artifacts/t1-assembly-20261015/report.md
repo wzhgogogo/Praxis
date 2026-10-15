@@ -21,11 +21,11 @@
 
 | 项 | 主要失败机制 | 红／绿证据 | 状态 |
 | --- | --- | --- | --- |
-| 1 | 组装漂移、累计>12后误拒绝、记录不等于实际限额 | `01-assembly/red-retired-cap.log` 预算断言红；`green-restored.log` 2/2 | 生产入口已统一；旧Hybrid迁移／退役随第5项核对 |
+| 1 | 组装漂移、累计>12后误拒绝、记录不等于实际限额 | `01-assembly/red-retired-cap.log` 预算断言红；`green-restored.log` 2/2 | 完成；旧Hybrid迁移与第5项一起验收 |
 | 2 | 过时 Fixture 隐藏完整浏览器链路红项 | `02-browser/red.log` 两项目标资格断言失败；`green-targeted.log` 2/2 | 完成：默认879/879、Chromium100/100，typecheck/arch/build通过 |
 | 3 | 当前进程语义调用被查询误判成上个进程中断 | `03-web-owner/red-confirmed.log` FAILED≠UNDERSTANDING；`green.log` 并发＋重启2/2 | 完成；四条代码门禁见同目录 |
 | 4 | 外部信号永不达到时测试挂起 | `04-bounded-waits/red.log` 超时标签断言红；`green.log` Web28/28 | 完成；四门禁见同目录 |
-| 5 | 旧手工组装重复覆盖／不再验证当前链路 | 待补 | 未开始 |
+| 5 | 旧手工组装重复覆盖／不再验证当前链路 | `05-retirement/red-metadata.log` 额度状态断言红；`green-targeted.log` 全组合＋Router绿 | 完成；四门禁与额外Chromium见同目录 |
 | 6 | CDP 无法识别跳转时未核对策略便放行 | 待补 | 未开始 |
 
 ## 2 浏览器必跑门禁与动态 Fixture
@@ -57,6 +57,26 @@ P2-0遗留loop三默认、Router两默认、Executor 300000ms默认及native fac
 `local-web-server.test.ts`统一使用已有withinTestTimeout（1秒，控制用例显式20ms）。改动清单：W06/W08/W12/W07四处restaurant.started、W09 checking、W11 finished、重复消息allSettled、HTTP listening/close、SearchThenBlock.searchGate、可控semanticGate；首个及后续SSE消息共用有界nextCaseEvent，整条消息只有一个期限，部分字节不能反复延长期限。清理时server.closeAllConnections关闭测试自有SSE残留socket，不等待Node keep-alive。
 
 先红：无数据ReadableStream旧等待直到外层200ms期限，目标断言要求内层“next SSE event”超时标签，实际outer test control，明确失败；修复后20ms内层超时与已resolve信号正常控制均通过。`node --import tsx --test src/server/local-web-server.test.ts` 28/28；typecheck／arch:check／npm test／build保存于`04-bounded-waits/`。不以测试runner超时或异常启动算拦截成功；有意等待abort的来源替身仍由finally stopActiveReads释放。
+
+## 5 迁移与测试退役清单
+
+`hybrid-read-composition.test.ts`不再new Google search／facts／availability或直接手拼Hybrid读取组件。Google-only受控组合使用生产factory；两个真实使用者（此文件和Router harness）才提取共享外部样本／模型替身到`src/harness/restaurant-read-test-fixtures.ts`，不新增Runner／平台。完整组合入口类型不接受unit端口覆盖；部分端口仅由明确命名的Router helper接收，不作为Adapter链路证据。显式限额覆盖已进入对应完整测试名，产物runCeilings改取组装返回值；取消中的Google计量控制也从旧无限上限更新为实际100。
+
+| 原测试／重复组装 | 处置与原因 | 当前行为覆盖 |
+| --- | --- | --- |
+| `an adapter-only evaluation coordinate reproduces the old wiring failure...` | 删除；仅为已退役私有Google配置重建接线，不再保留该选项 | 同文件无位置不调用来源＋显式位置进入State的成对真实组装测试；Web设备位置测试继续 |
+| Google search＋composeLiveRestaurantFactRead＋LiveBrowserAvailability手工组装 | 全部删除，合并到共享production factory调用；不复制旧6/12/24预算 | 同名保留的独立样本、分批、顺序、刷新、取消、来源失败、真实读取→Evaluator及产物捕获测试 |
+| permitted alternate time | 移入既有`restaurant-execution-router.test.ts`，不删行为断言 | `Router partial-port contract: an explicitly permitted alternate time...`；只证明请求绑定／状态 |
+| fresh inventory before facts | 同上，原先用部分端口，不应称完整生产来源组合 | `Router partial-port contract: fresh request-bound inventory...` |
+| time delivery reserve | 同上 | `Router partial-port contract: default delivery...` |
+| model-call delivery reserve | 同上 | `Router partial-port contract: model-call delivery reserve...` |
+| C0b provider-read reserve | 同上 | `Router partial-port contract: C0b reserves...` |
+| C6a source-hours completion | 同上；保留实际Google/website观察，库存端口只做可达性哨兵 | `Router partial-port contract: C6a observed public hours...` |
+| completed-outlet reserve checkpoints | 同上；保留partial接受/UNKNOWN断言 | `Router partial-port contract: reserve checkpoints...` |
+
+新增检错不是数量增长：迁入真实生产外层后，原Google quota控制发现SourceAwareFactRead丢失googleRequests／failureCode，State未记录EXHAUSTED（red-metadata.log）。只透传已有元数据，不改策略；同一100正常／1耗尽控制修复后通过，仍实际到达独立浏览器。原有限变异四项的正常／错误目标断言继续运行通过，不接受任意运行异常。`01-assembly`旧12阈值隔离红绿也作为退役后的预算接线覆盖，不另造一份实现形状断言。
+
+命令：`node --import tsx --test src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts src/harness/restaurant-execution-router.test.ts`（85/85）。四条门禁与因fact Adapter接线变化追加的完整Chromium门禁日志在`05-retirement/`；默认881/881。删除一条旧实现控制，七组行为迁层保留，未用测试数增减验收。
 
 ## 两种宿主与外部边界
 

@@ -1,0 +1,34 @@
+▶ Google fact exhaustion must leave a separately executable browser investigation reachable
+  ✔ Google limit=100 (27.922292ms)
+  ✖ Google limit=1 (5.904333ms)
+✖ Google fact exhaustion must leave a separately executable browser investigation reachable (34.16375ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 1
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 311.297292
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:4:27675
+✖ Google limit=1 (5.904333ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'EXHAUSTED'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:944:33)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:912:39)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'EXHAUSTED',
+    operator: 'strictEqual'
+  }

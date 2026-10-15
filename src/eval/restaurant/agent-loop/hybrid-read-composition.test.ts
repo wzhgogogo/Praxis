@@ -1,3 +1,5 @@
+import { createGoogleReadComposition, response, strictAction, ScriptedExternalModel, googleFixture, now, clock } from "../../../harness/restaurant-read-test-fixtures.js";
+
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
 import { cp, mkdtemp, readFile, rm, symlink, writeFile } from "node:fs/promises";
@@ -7,77 +9,18 @@ import test from "node:test";
 import { fileURLToPath } from "node:url";
 
 import type { ModelGateway, ModelRequest, ModelResponse } from "../../../core/model/contracts.js";
-import { LiveBrowserAvailability } from "../../../integrations/restaurant-availability/live-browser-availability.js";
 import type { BrowserRuntime } from "../../../infrastructure/browser/browser-runtime.js";
 import { GooglePlacesClient } from "../../../integrations/google/google-places-client.js";
-import { GooglePlacesRestaurantSearch } from "../../../integrations/google/google-places-restaurant-search.js";
-import { composeLiveRestaurantFactRead } from "../../../integrations/restaurant-facts/live-restaurant-facts.js";
 import { evaluateRestaurantHybridLiveArtifact } from "./diagnostic-evaluator.js";
-import { createHybridReadComposition } from "./hybrid-read-composition.js";
 import { projectRestaurantAgentContext } from "../../../domains/restaurant/agent-context.js";
-import { groundTableCheckAvailability } from "../../../domains/restaurant/read-grounding.js";
 import { HIGASHI_GINZA_EVALUATION_LOCATION } from "./live-evaluation-location.js";
 import { captureHybridLiveProgress } from "./hybrid-live-artifact.js";
 import { settleAtRunDeadline } from "./live-run-deadline.js";
-import { DeliveryReservedModelGateway } from "../../../application/delivery-reserved-model-gateway.js";
-import { RunBoundedModelGateway } from "../../../application/run-bounded-model-gateway.js";
 import { BrowserRuntimeError } from "../../../infrastructure/browser/browser-runtime-errors.js";
 import type { BrowserExecutionDiagnostic } from "../../../infrastructure/browser/browser-task-executor.js";
 import { startDiagnosticRun } from "../../shared/diagnostic-run.js";
 import { traceBrowserSession } from "./runners/browser-case-slice-evidence.js";
 
-const now = new Date("2026-09-16T03:00:00.000Z"); // Wednesday noon in Tokyo.
-const clock = { now: () => new Date(now) };
-
-function response(outputText: string, invocationId: string): ModelResponse {
-  return { invocationId, provider: "FIXTURE", model: "external-boundary-stub", outputText, finishReason: "TOOL_CALLS", latencyMs: 0 };
-}
-
-function strictAction(type: string, candidateIds: string[] = []): Record<string, unknown> {
-  return { type, question: "", relatedFields: [], retrievalHint: "", candidateIds, candidateId: "", offerId: "", decisionSummary: "synthetic boundary action" };
-}
-
-/** Replaces only model transport: semantic proposal and actions are explicit test input. */
-class ScriptedExternalModel implements ModelGateway {
-  readonly requests: ModelRequest[] = [];
-
-  constructor(private readonly batchSize = 3, private readonly reverse = false, private readonly useAvailability = false) {}
-
-  async complete(request: ModelRequest): Promise<ModelResponse> {
-    this.requests.push(request);
-    if (request.purpose === "restaurant_semantic_interpret") {
-      return response(JSON.stringify({
-        schemaVersion: "3",
-        facts: [
-          { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "RECOMMENDATION", query: "afternoon cafes" } },
-          { field: "DATE", operation: "ASSERT", value: { kind: "DATE", relativeDay: "TOMORROW", raw: "tomorrow" } },
-          { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", daypart: "AFTERNOON", raw: "tomorrow afternoon" } },
-          { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } },
-          { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "nearby" } },
-          { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "cafe", polarity: "POSITIVE", strength: "HARD" } },
-        ],
-      }), "semantic");
-    }
-    if (request.purpose === "restaurant_agent_decide") {
-      const payload = JSON.parse(request.messages.find((message) => message.role === "user")!.content) as {
-        context: { candidates?: Array<{ id: string }>; factInvestigableCandidateIds?: string[]; presentation?: Array<{ candidateId: string; eligible: boolean }>; missingBlockingFields?: string[]; checkableCandidateIds?: string[] };
-      };
-      const context = payload.context;
-      if ((context.missingBlockingFields?.length ?? 0) > 0) return response(JSON.stringify({ ...strictAction("ASK_USER"), question: "Please share your location.", relatedFields: ["area"] }), "agent-missing");
-      if (!context.candidates?.length) return response(JSON.stringify(strictAction("SEARCH_RESTAURANTS")), "agent-search");
-      if (context.factInvestigableCandidateIds?.length) {
-        const ids = [...context.factInvestigableCandidateIds];
-        if (this.reverse) ids.reverse();
-        return response(JSON.stringify(strictAction("INVESTIGATE_CANDIDATE_FACTS", ids.slice(0, this.batchSize))), "agent-facts");
-      }
-      if (this.useAvailability && context.checkableCandidateIds?.length) return response(JSON.stringify(strictAction("CHECK_AVAILABILITY", context.checkableCandidateIds.slice(0, 3))), "agent-availability");
-      if (this.useAvailability) return response(JSON.stringify(strictAction("END_READ")), "agent-end");
-      const eligible = context.presentation?.filter((candidate) => candidate.eligible).map((candidate) => candidate.candidateId) ?? [];
-      return response(JSON.stringify(strictAction("PRESENT_RESULTS", eligible)), "agent-present");
-    }
-    throw new Error(`Unexpected model purpose ${request.purpose}`);
-  }
-}
 
 /** Two explicit user-request proposals; the second is not synthesized from the first. */
 class UpdatedRequestModel extends ScriptedExternalModel {
@@ -98,28 +41,6 @@ class UpdatedRequestModel extends ScriptedExternalModel {
         { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "cafe", polarity: "POSITIVE", strength: "HARD" } },
       ],
     }), `semantic-request-${this.semanticTurn}`);
-  }
-}
-
-class PermittedAlternativeTimeModel extends ScriptedExternalModel {
-  override async complete(request: ModelRequest): Promise<ModelResponse> {
-    if (request.purpose === "restaurant_agent_decide") {
-      const { context } = JSON.parse(request.messages.find((message) => message.role === "user")!.content) as { context: { presentation?: Array<{ candidateId: string; eligible: boolean }> } };
-      const presentable = context.presentation?.filter((item) => item.eligible).map((item) => item.candidateId) ?? [];
-      if (presentable.length) return response(JSON.stringify(strictAction("PRESENT_RESULTS", presentable)), "agent-present-permitted-alternative");
-      return super.complete(request);
-    }
-    if (request.purpose !== "restaurant_semantic_interpret") return super.complete(request);
-    return response(JSON.stringify({
-      schemaVersion: "3",
-      facts: [
-        { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "find a table" } },
-        { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-09-17", raw: "tomorrow" } },
-        { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:00", raw: "7 PM", alternativeEarliest: "18:30", alternativeLatest: "19:30", alternativeRaw: "30 minutes either side is fine" } },
-        { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } },
-        { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "nearby" } },
-      ],
-    }), "semantic-permitted-alternative");
   }
 }
 
@@ -214,48 +135,6 @@ class AddedExclusionModel extends CategoryUnknownHybridModel {
   }
 }
 
-function noAvailabilityPort() {
-  return {
-    executionRoute: "GENERIC_BROWSER" as const,
-    async check() { throw new Error("Recommendation integration must not check availability"); },
-  };
-}
-
-function googleSearch(
-  recordedBodies: Record<string, unknown>[],
-  options: ConstructorParameters<typeof GooglePlacesRestaurantSearch>[3] = { maxRequests: 100 },
-  names = ["one", "two", "three"],
-  detailIds: string[] = [],
-) {
-  const places = names.map((id, index) => ({
-    id: `cafe-${id}`,
-    displayName: { text: `Cafe ${id}` },
-    formattedAddress: `Ginza ${index + 1}, Chuo City, Tokyo`,
-    location: { latitude: 35.6697 + index * 0.0001, longitude: 139.7670 },
-    types: ["restaurant"],
-  }));
-  const client = new GooglePlacesClient({
-    apiKey: "test-key",
-    fetchImplementation: async (url, init) => {
-      if (init?.method === "POST") {
-        recordedBodies.push(JSON.parse(String(init.body)) as Record<string, unknown>);
-        return new Response(JSON.stringify({ places }), { status: 200 });
-      }
-      const id = String(url).split("/").at(-1)!;
-      detailIds.push(id);
-      return new Response(JSON.stringify({
-        id,
-        displayName: { text: `Cafe ${id.replace("cafe-", "")}` },
-        formattedAddress: "Ginza, Chuo City, Tokyo",
-        location: { latitude: 35.6698, longitude: 139.7670 },
-        types: ["cafe", "restaurant"],
-        primaryType: "cafe",
-        regularOpeningHours: { weekdayDescriptions: ["Wednesday: 10:00 AM – 6:00 PM", "Thursday: 10:00 AM – 6:00 PM"] },
-      }), { status: 200 });
-    },
-  });
-  return new GooglePlacesRestaurantSearch(client, () => now.toISOString(), 10, options);
-}
 
 /**
  * These are source facts, not expectations derived from the request.  Each
@@ -274,7 +153,7 @@ const INDEPENDENT_FACT_SAMPLES = [
 
 type IndependentFactSample = typeof INDEPENDENT_FACT_SAMPLES[number];
 
-function googleSearchFromIndependentSamples(
+function googleSamplesClient(
   samples: readonly IndependentFactSample[],
   detailIds: string[],
   currentTime: () => string = () => now.toISOString(),
@@ -306,7 +185,7 @@ function googleSearchFromIndependentSamples(
       }), { status: 200 });
     },
   });
-  return new GooglePlacesRestaurantSearch(client, currentTime, 10, { maxRequests: 100 });
+  return client;
 }
 
 /**
@@ -371,16 +250,14 @@ async function runIndependentSequence(sequence: IndependentSequence) {
   const detailIds: string[] = [];
   const model = new IndependentSequenceModel(sequence.batchSize, sequence.reverse);
   const taskId = `integration:independent:${sequence.candidateCount}:${sequence.batchSize}:${sequence.reverse}`;
-  const google = googleSearchFromIndependentSamples(samples, detailIds);
-  const composition = createHybridReadComposition({ router: { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 20_000 },
+  const google = googleSamplesClient(samples, detailIds);
+  const composition = createGoogleReadComposition({
     taskId,
     runId: `run:${taskId}`,
     clock,
     model,
-    search: google,
-    availability: noAvailabilityPort(),
-    facts: composeLiveRestaurantFactRead({ maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, google, {} as BrowserRuntime, model),
-    loop: { maxRejectedActions: 3,  maxSteps: 12, timeoutMs: 5_000 },
+    google: google,
+    config: { maxAgentSteps: 12, maxRejectedActions: 3, maxAutomaticBrowserMs: 5_000, maxStructuredReadMs: 8_000 }
   });
   const semantic = await composition.interpretAndDispatch({ taskId, message: "Find cafes nearby tomorrow afternoon for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
   const loop = await composition.coordinator.run(taskId);
@@ -521,7 +398,7 @@ test("isolated implementation mutations are detected by passing Hybrid controls"
   });
 });
 
-test("independent source boundary controls cover zero, one, and exactly one fact-read batch", async (t) => {
+test("independent source boundary controls cover zero, one, and exactly one fact-read batch (packs=Google; maxAgentSteps=12, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async (t) => {
   // Start/end: real Hybrid composition → independently specified Google rows → Runtime/Router/Grounding → end/presentation.
   // Replacements: model transport and Google HTTP only. The test-owned plan never reads `eligible` or `canEndRead`.
   // These are controls for the randomized/exceed-batch regressions below, not an assertion that every source result is positive.
@@ -535,7 +412,7 @@ test("independent source boundary controls cover zero, one, and exactly one fact
   });
 });
 
-test("a user refresh after the clock advances replaces the current fact observation without losing request fidelity", async () => {
+test("a user refresh after the clock advances replaces the current fact observation without losing request fidelity (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async () => {
   // Start/end: real composition → present a source-backed candidate → real user refresh event → re-read/present.
   // The clock and Google HTTP are controlled external boundaries; Interpreter, Compiler, Runtime, Context,
   // Validator, Router, and Grounding remain production code. This proves neither website compatibility nor
@@ -545,11 +422,14 @@ test("a user refresh after the clock advances replaces the current fact observat
   const taskId = "integration:refresh-after-clock";
   const model = new IndependentSequenceModel(1, false);
   const detailIds: string[] = [];
-  const google = googleSearchFromIndependentSamples(INDEPENDENT_FACT_SAMPLES.slice(0, 1), detailIds, () => current.toISOString());
-  const composition = createHybridReadComposition({ router: { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 20_000 },
-    taskId, runId: "run:refresh-after-clock", clock: movingClock, model, search: google,
-    availability: noAvailabilityPort(), facts: composeLiveRestaurantFactRead({ maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, google, {} as BrowserRuntime, model),
-    loop: { maxRejectedActions: 3,  maxSteps: 8, timeoutMs: 5_000 },
+  const google = googleSamplesClient(INDEPENDENT_FACT_SAMPLES.slice(0, 1), detailIds, () => current.toISOString());
+  const composition = createGoogleReadComposition({
+    taskId,
+    runId: "run:refresh-after-clock",
+    clock: movingClock,
+    model,
+    google: google,
+    config: { maxAgentSteps: 8, maxRejectedActions: 3, maxAutomaticBrowserMs: 5_000, maxStructuredReadMs: 8_000 }
   });
   await composition.interpretAndDispatch({ taskId, message: "Find cafes nearby tomorrow afternoon for two.", referenceTime: current.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
   assert.equal((await composition.coordinator.run(taskId)).status, "TERMINAL");
@@ -574,7 +454,7 @@ test("a user refresh after the clock advances replaces the current fact observat
   assert.equal(detailIds.length, 2, "one initial and one refresh source read are expected");
 });
 
-test("cancelling during a real in-flight fact read cannot become a normal no-result", async () => {
+test("cancelling during a real in-flight fact read cannot become a normal no-result (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async () => {
   // Start/end: semantic input → actual Router-owned Google Details wait → parent cancellation → Runtime termination.
   // Only the HTTP boundary blocks. This does not prove browser cancellation, which has a separate local Chromium fixture.
   let beginDetail: (() => void) | undefined;
@@ -594,12 +474,15 @@ test("cancelling during a real in-flight fact read cannot become a normal no-res
       });
     },
   });
-  const google = new GooglePlacesRestaurantSearch(client, () => now.toISOString(), 10, { maxRequests: 100 });
+  const google = client;
   const taskId = "integration:cancel-in-flight-facts";
-  const composition = createHybridReadComposition({ router: { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 20_000 },
-    taskId, runId: "run:cancel-in-flight-facts", clock, model: new ScriptedExternalModel(1), search: google,
-    availability: noAvailabilityPort(), facts: composeLiveRestaurantFactRead({ maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, google, {} as BrowserRuntime, new ScriptedExternalModel(1)),
-    loop: { maxRejectedActions: 3,  maxSteps: 8, timeoutMs: 5_000 },
+  const composition = createGoogleReadComposition({
+    taskId,
+    runId: "run:cancel-in-flight-facts",
+    clock,
+    model: new ScriptedExternalModel(1),
+    google: google,
+    config: { maxAgentSteps: 8, maxRejectedActions: 3, maxAutomaticBrowserMs: 5_000, maxStructuredReadMs: 8_000 }
   });
   await composition.interpretAndDispatch({ taskId, message: "Find cafes nearby tomorrow afternoon for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
   const controller = new AbortController();
@@ -615,7 +498,7 @@ test("cancelling during a real in-flight fact read cannot become a normal no-res
   assert.equal(state.presentedResults, undefined);
 });
 
-test("a request update after cancelling an in-flight read starts a new authoritative investigation", async () => {
+test("a request update after cancelling an in-flight read starts a new authoritative investigation (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async () => {
   // The first source request blocks until its user-owned cancellation reaches the HTTP boundary.
   // The second semantic proposal is an independently specified date/party update. Old discovery,
   // fact evidence and request values must not cross the Runtime reset into the new investigation.
@@ -646,12 +529,15 @@ test("a request update after cancelling an in-flight read starts a new authorita
     },
   });
   const model = new UpdatedRequestModel(1);
-  const google = new GooglePlacesRestaurantSearch(client, () => now.toISOString(), 10, { maxRequests: 100 });
+  const google = client;
   const taskId = "integration:request-update-after-cancel";
-  const composition = createHybridReadComposition({ router: { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 20_000 },
-    taskId, runId: "run:request-update-after-cancel", clock, model, search: google,
-    availability: noAvailabilityPort(), facts: composeLiveRestaurantFactRead({ maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, google, {} as BrowserRuntime, model),
-    loop: { maxRejectedActions: 3,  maxSteps: 8, timeoutMs: 5_000 },
+  const composition = createGoogleReadComposition({
+    taskId,
+    runId: "run:request-update-after-cancel",
+    clock,
+    model,
+    google: google,
+    config: { maxAgentSteps: 8, maxRejectedActions: 3, maxAutomaticBrowserMs: 5_000, maxStructuredReadMs: 8_000 }
   });
   await composition.interpretAndDispatch({ taskId, message: "Find cafes nearby tomorrow afternoon for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
   const controller = new AbortController();
@@ -683,355 +569,7 @@ test("a request update after cancelling an in-flight read starts a new authorita
   assert.equal(detailCalls, 2);
 });
 
-test("an explicitly permitted alternate time is queried as a bounded range and presented as an alternate, without changing the original request", async () => {
-  // Start/end: user semantic proposal → actual Hybrid Router request binding →
-  // source grounding → Reducer/assessment presentation. Only model and source
-  // transport are fixed; no State, Offer, or evidence is injected directly.
-  const model = new PermittedAlternativeTimeModel(1, false, true);
-  const google = googleSearch([], { maxRequests: 100 }, ["alternative"]);
-  const requested: Array<{ timeWindow: { earliest: string; latest: string }; requestedTimeWindow?: { earliest: string; latest: string }; partySize: number; date: string }> = [];
-  const availability = {
-    executionRoute: "GENERIC_BROWSER" as const,
-    async check(request: import("../../../domains/restaurant/contracts.js").RestaurantAvailabilityRequest) {
-      requested.push({ date: request.date, partySize: request.partySize, timeWindow: structuredClone(request.timeWindow), ...(request.requestedTimeWindow ? { requestedTimeWindow: structuredClone(request.requestedTimeWindow) } : {}) });
-      const candidate = request.candidates[0]!;
-      const grounded = groundTableCheckAvailability(candidate, request, {
-        candidateId: candidate.restaurant.id,
-        sourceEntityId: "tablecheck:alternative", sourceUrl: "https://www.tablecheck.com/en/fixture-alternative",
-        observedAt: now.toISOString(), requestedDate: request.date, requestedPartySize: request.partySize,
-        entityMatch: { confidence: "HIGH", matchedBy: ["EXACT_PHONE"] }, pageState: "AVAILABLE", visibleSlots: ["18:30"],
-      }, now.toISOString());
-      return {
-        offers: grounded.offers, evidence: grounded.evidence,
-        availabilityChecks: { [candidate.restaurant.id]: grounded.check },
-        metadata: { provider: "TABLECHECK" as const, route: "GENERIC_BROWSER" as const, latencyMs: 0 },
-      };
-    },
-  };
-  const facts = {
-    executionRoute: "STRUCTURED_ADAPTER" as const,
-    async inspectFacts(request: import("../../../domains/restaurant/contracts.js").RestaurantCandidateFactRequest) {
-      return {
-        evidence: [], factChecks: Object.fromEntries(request.candidateIds.map((candidateId) => [candidateId, { status: "COMPLETED" as const, checkedAt: now.toISOString(), evidenceIds: [] }])),
-        metadata: { provider: "GOOGLE_PLACES" as const, route: "STRUCTURED_ADAPTER" as const, latencyMs: 0 },
-      };
-    },
-  };
-  const taskId = "integration:permitted-alternative-time";
-  const composition = createHybridReadComposition({ router: { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 20_000 },  taskId, runId: taskId, clock, model, search: google, availability, facts, loop: { maxRejectedActions: 3,  maxSteps: 6, timeoutMs: 5_000 } });
-  await composition.interpretAndDispatch({ taskId, message: "Tomorrow at 7 PM for two; if unavailable, 30 minutes either side is fine.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
-  assert.equal((await composition.coordinator.run(taskId)).status, "TERMINAL");
-  const state = composition.runtime.snapshot(taskId).domainState;
-  assert.deepEqual(state.intentDraft?.timeWindow, { earliest: "19:00", latest: "19:00" });
-  assert.deepEqual(state.intentDraft?.permittedAlternativeTimeWindow, { earliest: "18:30", latest: "19:30" });
-  assert.deepEqual(requested, [{ date: "2026-09-17", partySize: 2, timeWindow: { earliest: "18:30", latest: "19:30" }, requestedTimeWindow: { earliest: "19:00", latest: "19:00" } }]);
-  const offer = state.availability[state.presentedResults!.candidateIds[0]!]![0]!;
-  assert.equal(offer.dateTime.slice(11, 16), "18:30");
-  assert.equal(offer.alternativeToRequestedTime, true);
-  assert.equal(state.phase, "PRESENT_RESULTS", JSON.stringify(state.availabilityChecks));
-});
-
-test("fresh request-bound inventory can receive missing facts before another inventory read and reach three results", async () => {
-  // Start/end: semantic input -> Google discovery -> one grounded slot -> Google Details facts
-  // -> remaining grounded slots/facts -> Runtime PRESENT_RESULTS. The scripted model proves a legal
-  // path, not that Prompt@18 will choose it. Only model/source transports are fixed.
-  const actions: string[] = [];
-  const model: ModelGateway = { async complete(request) {
-    if (request.purpose === "restaurant_semantic_interpret") return response(JSON.stringify({ schemaVersion: "3", facts: [
-      { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "cafes", selectionScope: "OPEN_ENDED" } },
-      { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-09-17", raw: "tomorrow" } },
-      { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "13:00", latest: "13:00", raw: "1 pm" } },
-      { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } },
-      { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "nearby" } },
-      { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "cafe", polarity: "POSITIVE", strength: "HARD" } },
-    ] }), "semantic-fresh-stock-facts");
-    assert.equal(request.purpose, "restaurant_agent_decide");
-    const { context } = JSON.parse(request.messages.find(item => item.role === "user")!.content) as { context: {
-      candidates: Array<{ id: string }>; factInvestigableCandidateIds?: string[]; checkableCandidateIds?: string[];
-      availability: Record<string, Array<{ dateTime: string; partySize: number; displayExpiresAt?: string }>>;
-      presentation: Array<{ candidateId: string; eligible: boolean }>;
-    } };
-    let type: string; let ids: string[] = [];
-    if (!context.candidates.length) type = "SEARCH_RESTAURANTS";
-    else {
-      const readyForFacts = context.factInvestigableCandidateIds?.find(id => context.availability[id]?.some(offer =>
-        offer.dateTime.startsWith("2026-09-17T13:00") && offer.partySize === 2 && Date.parse(offer.displayExpiresAt ?? "") > now.valueOf()));
-      if (readyForFacts) { type = "INVESTIGATE_CANDIDATE_FACTS"; ids = [readyForFacts]; }
-      else if (context.checkableCandidateIds?.length) { type = "CHECK_AVAILABILITY"; ids = actions.length === 1 ? context.checkableCandidateIds.slice(0, 1) : context.checkableCandidateIds.slice(0, 3); }
-      else if (context.factInvestigableCandidateIds?.length) { type = "INVESTIGATE_CANDIDATE_FACTS"; ids = context.factInvestigableCandidateIds.slice(0, 3); }
-      else { type = "PRESENT_RESULTS"; ids = context.presentation.filter(item => item.eligible).map(item => item.candidateId); }
-    }
-    actions.push(`${type}:${ids.length}`);
-    return response(JSON.stringify(strictAction(type, ids)), `fresh-stock-action-${actions.length}`);
-  } };
-  const google = googleSearch([], { maxRequests: 100 }, ["one", "two", "three"]);
-  const availability = { executionRoute: "STRUCTURED_ADAPTER" as const,
-    async check(request: import("../../../domains/restaurant/contracts.js").RestaurantAvailabilityRequest) {
-      const grounded = request.candidates.map(candidate => groundTableCheckAvailability(candidate, request, {
-        candidateId: candidate.restaurant.id, sourceEntityId: `tablecheck:${candidate.restaurant.id}`,
-        sourceUrl: `https://www.tablecheck.com/en/${candidate.restaurant.id}`, observedAt: now.toISOString(),
-        requestedDate: request.date, requestedPartySize: request.partySize,
-        entityMatch: { confidence: "HIGH", matchedBy: ["EXACT_PHONE"] }, pageState: "AVAILABLE", visibleSlots: ["13:00"],
-      }, now.toISOString()));
-      return { offers: grounded.flatMap(item => item.offers), evidence: grounded.flatMap(item => item.evidence),
-        availabilityChecks: Object.fromEntries(grounded.map((item, index) => [request.candidates[index]!.restaurant.id, item.check])),
-        metadata: { provider: "TABLECHECK" as const, route: "STRUCTURED_ADAPTER" as const, latencyMs: 0 } };
-    },
-  };
-  const taskId = "integration:fresh-stock-facts";
-  const composition = createHybridReadComposition({ router: { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 20_000 },  taskId, runId: taskId, clock, model, search: google, availability, facts: google,
-    loop: { maxRejectedActions: 3,  maxSteps: 12, timeoutMs: 10_000 } });
-  await composition.interpretAndDispatch({ taskId, message: "Find cafes nearby tomorrow at 1 pm for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
-  assert.equal((await composition.coordinator.run(taskId)).status, "TERMINAL", JSON.stringify(actions));
-  const state = composition.runtime.snapshot(taskId).domainState;
-  assert.equal(state.phase, "PRESENT_RESULTS", JSON.stringify({ actions, presentation: projectRestaurantAgentContext(state, now.toISOString()).presentation }));
-  assert.deepEqual(state.selectionSession?.resultBatchTarget, { candidateCount: 3, met: true });
-  assert.equal(state.presentedResults?.candidateIds.length, 3);
-  assert.deepEqual(actions.slice(0, 3), ["SEARCH_RESTAURANTS:0", "CHECK_AVAILABILITY:1", "INVESTIGATE_CANDIDATE_FACTS:1"]);
-  assert.equal(actions.at(-1), "PRESENT_RESULTS:3");
-});
-
-test("default delivery keeps a produced source-backed result when the next availability batch would consume the reserve", async () => {
-  for (const mode of ["slow-read", "slow-decision"] as const) {
-  const started = now.valueOf();
-  let currentTime = started;
-  const movingClock = { now: () => new Date(currentTime) };
-  const source = googleSearch([], { maxRequests: 100 }, ["one", "two", "three"]);
-  const actions: string[] = [];
-  const model: ModelGateway = { async complete(input) {
-    if (input.purpose === "restaurant_semantic_interpret") return response(JSON.stringify({ schemaVersion: "3", facts: [
-      { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "find a table", selectionScope: "OPEN_ENDED" } },
-      { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-09-17", raw: "tomorrow" } },
-      { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:00", raw: "7 pm" } },
-      { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } },
-      { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "nearby" } },
-    ] }), "semantic-delivery-reserve");
-    assert.equal(input.purpose, "restaurant_agent_decide");
-    const { context } = JSON.parse(input.messages.find((item) => item.role === "user")!.content) as {
-      context: { candidates?: Array<{ id: string }>; presentation?: Array<{ candidateId: string; eligible: boolean }>; checkableCandidateIds?: string[] };
-    };
-    const eligible = context.presentation?.filter((item) => item.eligible).map((item) => item.candidateId) ?? [];
-    const type = !context.candidates?.length ? "SEARCH_RESTAURANTS" : eligible.length && !context.checkableCandidateIds?.length
-      ? "PRESENT_RESULTS" : "CHECK_AVAILABILITY";
-    const ids = type === "PRESENT_RESULTS" ? eligible : type === "CHECK_AVAILABILITY"
-      ? context.checkableCandidateIds!.slice(0, eligible.length ? 2 : 1) : [];
-    if (mode === "slow-decision" && eligible.length && type === "CHECK_AVAILABILITY") currentTime = started + 256_000;
-    actions.push(`${type}:${ids.length}`);
-    return response(JSON.stringify(strictAction(type, ids)), `decision-${actions.length}`);
-  } };
-  let calls = 0;
-  const availability = { executionRoute: "GENERIC_BROWSER" as const,
-    async check(request: import("../../../domains/restaurant/contracts.js").RestaurantAvailabilityRequest, actionSignal: AbortSignal) {
-      calls += 1;
-      if (calls === 2) {
-        await new Promise<void>((resolve) => {
-          const fallback = setTimeout(resolve, 1_500);
-          actionSignal.addEventListener("abort", () => { clearTimeout(fallback); resolve(); }, { once: true });
-        });
-        if (actionSignal.aborted) {
-          currentTime = started + 255_000;
-          throw actionSignal.reason;
-        }
-        currentTime = started + 300_000;
-        return { offers: [], evidence: [], availabilityChecks: Object.fromEntries(request.candidateIds.map((id) => [id, { status: "UNKNOWN" as const, checkedAt: movingClock.now().toISOString(), evidenceIds: [], reasonCode: "BROWSER_TIMEOUT" as const }])),
-          metadata: { provider: "TABLECHECK" as const, route: "GENERIC_BROWSER" as const, latencyMs: 46_000 } };
-      }
-      currentTime = started + 254_000;
-      const candidate = request.candidates[0]!;
-      const grounded = groundTableCheckAvailability(candidate, request, {
-        candidateId: candidate.restaurant.id, sourceEntityId: "tablecheck:one", sourceUrl: "https://www.tablecheck.com/en/one",
-        observedAt: movingClock.now().toISOString(), requestedDate: request.date, requestedPartySize: request.partySize,
-        entityMatch: { confidence: "HIGH", matchedBy: ["EXACT_PHONE"] }, pageState: "AVAILABLE", visibleSlots: ["19:00"],
-      }, movingClock.now().toISOString());
-      return { offers: grounded.offers, evidence: grounded.evidence, availabilityChecks: { [candidate.restaurant.id]: grounded.check },
-        metadata: { provider: "TABLECHECK" as const, route: "GENERIC_BROWSER" as const, latencyMs: 254_000 } };
-    },
-  };
-  const taskId = `integration:default-delivery-${mode}`;
-  const composition = createHybridReadComposition({ router: { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 20_000 },  taskId, runId: taskId, clock: movingClock, model, search: source, availability,
-    loop: { maxRejectedActions: 3,  maxSteps: 8, timeoutMs: 300_000 } });
-  await composition.interpretAndDispatch({ taskId, message: "Find a table nearby tomorrow at 7 pm for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
-  const result = await composition.coordinator.run(taskId, undefined, new Date(started + 300_000));
-  const final = composition.runtime.snapshot(taskId).domainState;
-  assert.equal(result.status, "TERMINAL", JSON.stringify({ actions, calls, phase: final.phase }));
-  assert.equal(final.phase, "PRESENT_RESULTS");
-  assert.deepEqual(final.selectionSession?.resultBatchTarget, { candidateCount: 3, met: false });
-  assert.equal(calls, mode === "slow-read" ? 2 : 1, "the read must not consume the delivery reserve");
-  assert.equal(currentTime, started + (mode === "slow-read" ? 255_000 : 256_000));
-  assert.equal(composition.trajectories.steps.some((item) => item.observation?.detail.startsWith("DELIVERY_RESERVE_REACHED")), mode === "slow-read");
-  }
-});
-
-test("model-call delivery reserve presents a source-backed short batch without relaxing qualification", async (t) => {
-  // Start at the real Interpreter; replace only model transport and source reads.
-  // The same counted transport is used for semantic and Agent calls. No State or
-  // presentation eligibility is injected. The independent source slot is 19:00/2.
-  for (const mode of ["ready", "crossing", "wrong-party", "expired", "explicit-count"] as const) {
-    await t.test(mode, async () => {
-      const taskId = `integration:call-delivery-${mode}`;
-      const maxCalls = mode === "crossing" ? 8 : 7;
-      const source = googleSearch([], { maxRequests: 100 }, ["one", "two", "three"]);
-      const contexts: Array<{ remaining: number; checks: number }> = [];
-      const provider: ModelGateway = { async complete(input) {
-        if (input.purpose === "restaurant_semantic_interpret") return response(JSON.stringify({ schemaVersion: "3", facts: [
-          { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "find a table", selectionScope: "OPEN_ENDED", ...(mode === "explicit-count" ? { requestedResultCount: 3 } : {}) } },
-          { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-09-17", raw: "tomorrow" } },
-          { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:00", raw: "7 pm" } },
-          { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } },
-          { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "nearby" } },
-        ] }), "semantic-call-reserve");
-        const { context } = JSON.parse(input.messages.find(item => item.role === "user")!.content);
-        const eligible = context.presentation?.filter((item: { eligible: boolean }) => item.eligible).map((item: { candidateId: string }) => item.candidateId) ?? [];
-        contexts.push({ remaining: budget.remainingCalls(taskId)!, checks: context.checkableCandidateIds?.length ?? 0 });
-        const type = context.readCompletion?.reason?.startsWith("MODEL_CALL_RESERVE") ? "END_READ" : !context.candidates?.length ? "SEARCH_RESTAURANTS"
-          : context.checkableCandidateIds?.length ? "CHECK_AVAILABILITY" : "PRESENT_RESULTS";
-        return response(JSON.stringify(strictAction(type, type === "CHECK_AVAILABILITY" ? context.checkableCandidateIds.slice(0, 1) : eligible)), `call-reserve-${contexts.length}`);
-      } };
-      const budget = new RunBoundedModelGateway(provider, maxCalls, 500_000);
-      let reads = 0;
-      const availability = { executionRoute: "GENERIC_BROWSER" as const,
-        async check(request: import("../../../domains/restaurant/contracts.js").RestaurantAvailabilityRequest) {
-          reads += 1;
-          const observedAt = mode === "expired" ? new Date(now.valueOf() - 20 * 60_000).toISOString() : now.toISOString();
-          const candidate = request.candidates[0]!;
-          const grounded = groundTableCheckAvailability(candidate, request, {
-            candidateId: candidate.restaurant.id, sourceEntityId: `tablecheck:${candidate.restaurant.id}`,
-            sourceUrl: "https://www.tablecheck.com/en/one", observedAt,
-            requestedDate: "2026-09-17", requestedPartySize: mode === "wrong-party" ? 4 : 2,
-            entityMatch: { confidence: "HIGH", matchedBy: ["EXACT_PHONE"] }, pageState: reads === 1 ? "AVAILABLE" : "EXTRACTION_FAILED", visibleSlots: reads === 1 ? ["19:00"] : [],
-          }, now.toISOString());
-          return { offers: grounded.offers, evidence: grounded.evidence, availabilityChecks: { [candidate.restaurant.id]: grounded.check },
-            metadata: { provider: "TABLECHECK" as const, route: "GENERIC_BROWSER" as const, latencyMs: 0 } };
-        },
-      };
-      const composition = createHybridReadComposition({ router: { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 20_000 },  taskId, runId: taskId, clock, model: budget, search: source, availability,
-        loop: { maxRejectedActions: 3,  maxSteps: 10, timeoutMs: 500_000, remainingModelCalls: id => budget.remainingCalls(id) } });
-      await budget.run(taskId, async () => {
-        await composition.interpretAndDispatch({ taskId, message: "Find a table nearby tomorrow at 7 pm for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
-        await composition.coordinator.run(taskId);
-      });
-      const state = composition.runtime.snapshot(taskId).domainState;
-      const windows = composition.runtime.eventLog.filter(item => item.event.type === "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED");
-      if (mode === "crossing") {
-        assert.equal(state.phase, "PRESENT_RESULTS", JSON.stringify({ contexts, state }));
-        assert.equal(windows.length, 1);
-        assert.equal(reads, 1, "budget reserve blocks another source read while an eligible result exists");
-        assert.deepEqual(state.selectionSession?.resultBatchTarget, { candidateCount: 3, met: false });
-        assert.equal(state.presentedResults?.candidateIds.length, 1);
-        const offers = state.availability[state.presentedResults!.candidateIds[0]!]!;
-        assert.equal(offers[0]?.dateTime, "2026-09-17T19:00:00+09:00");
-        assert.equal(offers[0]?.partySize, 2);
-        assert.equal(windows[0]!.event.type === "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED" && windows[0]!.event.deadlineAt, new Date(now.valueOf() + 45_000).toISOString());
-        assert.ok((budget.usage(taskId)?.calls ?? Infinity) <= maxCalls);
-        if (mode === "crossing") {
-          assert.ok(contexts.some(item => item.remaining === 4 && item.checks > 0), "five calls before a decision does not open the window early");
-          assert.ok(composition.trajectories.steps.some(item => item.actionValidation?.status === "REJECTED" && item.actionValidation.code === "PRESENTATION_READY"), "crossing the threshold during a decision blocks its now-stale read proposal");
-        }
-      } else {
-        assert.notEqual(state.phase, "PRESENT_RESULTS");
-        if (mode === "ready") {
-          assert.equal(state.phase, "NO_VERIFIED_RESULT");
-          assert.equal(reads, 0, "a reserve reached before qualification honestly ends with unread gaps");
-          assert.deepEqual(state.noVerifiedResult?.investigatedCandidateIds, []);
-        }
-        assert.equal(windows.length, 0, "unqualified/stale inventory and explicit counts never get a default short-batch exception");
-      }
-    });
-  }
-});
-
-test("C0b reserves the last four calls inside a provider read and then presents", async (t) => {
-  // Start at the real Interpreter; replace only model transport and source reads.
-  // The same counted transport is used for semantic and Agent calls. No State or
-  // presentation eligibility is injected. The independent source slot is 19:00/2.
-  for (const mode of ["ready", "no-qualified", "expired"] as const) {
-    await t.test(mode, async () => {
-      const taskId = `integration:call-delivery-${mode}`;
-      const maxCalls = 9;
-      let currentNow = now;
-      const readClock = { now: () => currentNow };
-      const source = googleSearch([], { maxRequests: 100 }, ["one", "two", "three"]);
-      const contexts: Array<{ remaining: number; checks: number }> = [];
-      const provider: ModelGateway = { async complete(input) {
-        if (input.purpose === "restaurant_semantic_interpret") return response(JSON.stringify({ schemaVersion: "3", facts: [
-          { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "find a table", selectionScope: "OPEN_ENDED",  } },
-          { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-09-17", raw: "tomorrow" } },
-          { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:00", raw: "7 pm" } },
-          { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } },
-          { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "nearby" } },
-        ] }), "semantic-call-reserve");
-        if (input.purpose === "browser_read_action") return response("{}", "browser-reserve");
-        const { context } = JSON.parse(input.messages.find(item => item.role === "user")!.content);
-        const eligible = context.presentation?.filter((item: { eligible: boolean }) => item.eligible).map((item: { candidateId: string }) => item.candidateId) ?? [];
-        contexts.push({ remaining: budget.remainingCalls(taskId)!, checks: context.checkableCandidateIds?.length ?? 0 });
-        if (mode === "expired" && reads === 1 && currentNow.valueOf() === now.valueOf()) currentNow = new Date(now.valueOf() + 2 * 60_000);
-        const type = context.readCompletion?.reason?.startsWith("MODEL_CALL_RESERVE") ? "END_READ" : !context.candidates?.length ? "SEARCH_RESTAURANTS"
-          : context.checkableCandidateIds?.length ? "CHECK_AVAILABILITY" : "PRESENT_RESULTS";
-        return response(JSON.stringify(strictAction(type, type === "CHECK_AVAILABILITY" ? context.checkableCandidateIds.slice(0, 1) : eligible)), `call-reserve-${contexts.length}`);
-      } };
-      const budget = new RunBoundedModelGateway(provider, maxCalls, 500_000);
-      const reserved = new DeliveryReservedModelGateway(budget);
-      let reads = 0;
-      const availability = { executionRoute: "GENERIC_BROWSER" as const,
-        async check(request: import("../../../domains/restaurant/contracts.js").RestaurantAvailabilityRequest) {
-          reads += 1;
-          if (reads > 1) {
-            for (let i = 0; i < 10; i++) {
-              await reserved.complete({ taskId, purpose: "browser_read_action", promptVersion: "fixture", fallback: "FAIL_CLOSED",
-                messages: [{ role: "user", content: "public source fixture" }], responseFormat: "JSON_OBJECT",
-                outputSchema: { name: "fixture", version: "1", jsonSchema: {} }, timeoutMs: 1000 });
-              // Expired source evidence is independent of the real run deadline.
-            }
-          }
-          const observedAt = mode === "expired" ? new Date(now.valueOf() - 9 * 60_000).toISOString() : now.toISOString();
-          const candidate = request.candidates[0]!;
-          const grounded = groundTableCheckAvailability(candidate, request, {
-            candidateId: candidate.restaurant.id, sourceEntityId: `tablecheck:${candidate.restaurant.id}`,
-            sourceUrl: "https://www.tablecheck.com/en/one", observedAt,
-            requestedDate: "2026-09-17", requestedPartySize: 2,
-            entityMatch: { confidence: "HIGH", matchedBy: ["EXACT_PHONE"] }, pageState: reads === 1 && mode !== "no-qualified" ? "AVAILABLE" : "EXTRACTION_FAILED", visibleSlots: reads === 1 && mode !== "no-qualified" ? ["19:00"] : [],
-          }, now.toISOString());
-          return { offers: grounded.offers, evidence: grounded.evidence, availabilityChecks: { [candidate.restaurant.id]: grounded.check },
-            metadata: { provider: "TABLECHECK" as const, route: "GENERIC_BROWSER" as const, latencyMs: 0 } };
-        },
-      };
-      const composition = createHybridReadComposition({ taskId, runId: taskId, clock: readClock, model: reserved, search: source, availability,
-        router: { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 20_000,  modelReadReserve: reserved },
-        loop: { maxRejectedActions: 3,  maxSteps: 10, timeoutMs: 500_000, remainingModelCalls: id => budget.remainingCalls(id) } });
-      await budget.run(taskId, async () => {
-        await composition.interpretAndDispatch({ taskId, message: "Find a table nearby tomorrow at 7 pm for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
-        await composition.coordinator.run(taskId);
-      });
-      const state = composition.runtime.snapshot(taskId).domainState;
-      const windows = composition.runtime.eventLog.filter(item => item.event.type === "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED");
-      if (mode === "ready") {
-        assert.equal(state.phase, "PRESENT_RESULTS", JSON.stringify({ contexts, state }));
-        assert.equal(windows.length, 1);
-        assert.equal(reads, 2);
-        const stopped = composition.trajectories.steps.find(item => item.executionMetadata?.failureCode === "BUDGET_RESERVED_FOR_DELIVERY");
-        assert.equal(stopped?.observation?.type, "AVAILABILITY_UNKNOWN");
-        assert.equal(budget.usage(taskId)?.calls, 6, "one browser call followed by delivery preserves the four-call reserve");
-        assert.deepEqual(state.selectionSession?.resultBatchTarget, { candidateCount: 3, met: false });
-        assert.equal(state.presentedResults?.candidateIds.length, 1);
-        const offers = state.availability[state.presentedResults!.candidateIds[0]!]!;
-        assert.equal(offers[0]?.dateTime, "2026-09-17T19:00:00+09:00");
-        assert.equal(offers[0]?.partySize, 2);
-        assert.equal(windows[0]!.event.type === "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED" && windows[0]!.event.deadlineAt, new Date(now.valueOf() + 45_000).toISOString());
-        assert.ok((budget.usage(taskId)?.calls ?? Infinity) <= maxCalls);
-
-      } else {
-        assert.equal(state.phase, "NO_VERIFIED_RESULT", JSON.stringify({ contexts, state }));
-        assert.ok((budget.usage(taskId)?.calls ?? Infinity) < maxCalls, "honest completion precedes exhaustion");
-        assert.ok(state.noVerifiedResult?.remainingGaps.some(gap => gap.includes("MODEL_CALL_RESERVE")));
-        assert.ok(state.noVerifiedResult?.remainingGaps.some(gap => /EXTRACTION_FAILED|STALE|EXPIRED|expired/.test(gap)));
-        assert.equal(state.failure?.code, undefined);
-        assert.equal(windows.length, 0, "no qualified candidate means no presentation window");
-      }
-    });
-  }
-});
-
-test("fixed-seed bounded exploration records and shrinks an independent Hybrid contract failure", async () => {
+test("fixed-seed bounded exploration records and shrinks an independent Hybrid contract failure (packs=Google; maxAgentSteps=12, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async () => {
   // This is deliberately finite: it exercises batch boundaries and legal independent read order,
   // rather than pretending all action permutations are equivalent. Failure output is the durable
   // reproduction record: fixed seed, generated sequence, actual action trace, and minimized case.
@@ -1079,23 +617,20 @@ test("fixed-seed bounded exploration records and shrinks an independent Hybrid c
   }, null, 2));
 });
 
-test("Hybrid production composition binds an explicit evaluation location before Agent investigation and independently evaluates its actual result", async () => {
+test("Hybrid production composition binds an explicit evaluation location before Agent investigation and independently evaluates its actual result (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=1000)", async () => {
   // Start/end: semantic user input → PRESENT_RESULTS + evaluator. External replacements: Model transport, Google HTTP, unused browser runtime.
   // Catches: adapter-only evaluation coordinates, lost semantic fields, old three-request cap, or evidence that cannot support the displayed result.
   // Does not prove: a real model's judgment, real Google data, or browser website compatibility.
   const bodies: Record<string, unknown>[] = [];
   const model = new ScriptedExternalModel();
-  const google = googleSearch(bodies);
-  const composition = createHybridReadComposition({
+  const google = googleFixture(bodies);
+  const composition = createGoogleReadComposition({
     taskId: "integration:nearby-cafes",
     runId: "run:integration:nearby-cafes",
     clock,
     model,
-    search: google,
-    availability: noAvailabilityPort(),
-    facts: composeLiveRestaurantFactRead({ maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, google, {} as BrowserRuntime, model),
-    router: { structuredReadTimeoutMs: 1_000, browserReadTimeoutMs: 1_000 },
-    loop: { maxRejectedActions: 3,  maxSteps: 8, timeoutMs: 5_000 },
+    google: google,
+    config: { maxAgentSteps: 8, maxRejectedActions: 3, maxAutomaticBrowserMs: 5_000, maxStructuredReadMs: 1_000 }
   });
 
   const semantic = await composition.interpretAndDispatch({
@@ -1125,7 +660,7 @@ test("Hybrid production composition binds an explicit evaluation location before
   assert.ok(bodies[0]?.locationRestriction, "coordinate-backed discovery uses a strict provider rectangle");
   assert.equal(bodies[0]?.locationBias, undefined);
   const readRunId = `${snapshot.runId}:investigation:${snapshot.domainState.investigationRevision}`;
-  assert.deepEqual(google.googleRequestUsage(readRunId), {
+  assert.deepEqual(composition.google.googleRequestUsage(readRunId), {
     limit: 100, total: 4, namedPlaceResolution: 0, discovery: 1, placeDetails: 3, reverseAddressObservation: 0,
   });
   const evaluation = evaluateRestaurantHybridLiveArtifact({
@@ -1134,28 +669,31 @@ test("Hybrid production composition binds an explicit evaluation location before
     finalSnapshot: snapshot,
     trajectories: composition.trajectories.steps,
     loop: { maxSteps: 12, maxRejectedActions: 3, timeoutMs: 30_000,  status: "TERMINAL" },
-    runCeilings: { maxAutomaticBrowserMs: 5_000, maxAgentSteps: 8, maxBrowserModelCallsTotal: 120, maxModelCalls: 10 },
-    resourceUsage: { elapsedMs: 0, agentDecisions: 3, browserModelCalls: 0, modelCallsStarted: 4, googleRequests: google.googleRequestUsage(readRunId) },
+    runCeilings: composition.runCeilings,
+    resourceUsage: { elapsedMs: 0, agentDecisions: 3, browserModelCalls: 0, modelCallsStarted: 4, googleRequests: composition.google.googleRequestUsage(readRunId) },
   }, { path: "integration.result.json", sha256: "a".repeat(64) });
   assert.equal(evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(evaluation));
   assert.ok(evaluation.findings.every((finding) => finding.status === "SATISFIED"), JSON.stringify(evaluation.findings));
 });
 
-test("a Google network failure before candidate discovery stops the Agent after one failed search", async () => {
+test("a Google network failure before candidate discovery stops the Agent after one failed search (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async () => {
   let googleRequests = 0;
   const model = new ScriptedExternalModel();
-  const google = new GooglePlacesRestaurantSearch(new GooglePlacesClient({
+  const google = new GooglePlacesClient({
     apiKey: "test-key",
     fetchImplementation: async () => {
       googleRequests += 1;
       throw new Error("offline provider");
     },
-  }), () => now.toISOString(), 10, { maxRequests: 100 });
+  });
   const taskId = "integration:google-network-failed";
-  const composition = createHybridReadComposition({ router: { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 20_000 },
-    taskId, runId: "run:integration:google-network-failed", clock, model, search: google,
-    availability: noAvailabilityPort(), facts: composeLiveRestaurantFactRead({ maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, google, {} as BrowserRuntime, model),
-    loop: { maxRejectedActions: 3,  maxSteps: 8, timeoutMs: 5_000 },
+  const composition = createGoogleReadComposition({
+    taskId,
+    runId: "run:integration:google-network-failed",
+    clock,
+    model,
+    google: google,
+    config: { maxAgentSteps: 8, maxRejectedActions: 3, maxAutomaticBrowserMs: 5_000, maxStructuredReadMs: 8_000 }
   });
   await composition.interpretAndDispatch({
     taskId, message: "Find cafes nearby tomorrow afternoon for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo",
@@ -1170,16 +708,19 @@ test("a Google network failure before candidate discovery stops the Agent after 
   assert.equal(snapshot.domainState.candidates.length, 0);
 });
 
-test("Hybrid production composition asks for location without an evaluation context and never calls a source", async () => {
+test("Hybrid production composition asks for location without an evaluation context and never calls a source (packs=Google; maxAgentSteps=3, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async () => {
   // Start/end: semantic user input → NEEDS_INPUT. External replacements: same model/API boundaries as above.
   // Catches: accidental default evaluation position. Does not prove device permission UX, which is covered by the persistent Web HTTP tests.
   const bodies: Record<string, unknown>[] = [];
   const model = new ScriptedExternalModel();
-  const google = googleSearch(bodies);
-  const composition = createHybridReadComposition({ router: { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 20_000 },
-    taskId: "integration:no-location", runId: "run:integration:no-location", clock, model, search: google,
-    availability: noAvailabilityPort(), facts: composeLiveRestaurantFactRead({ maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, google, {} as BrowserRuntime, model),
-    loop: { maxRejectedActions: 3,  maxSteps: 3, timeoutMs: 5_000 },
+  const google = googleFixture(bodies);
+  const composition = createGoogleReadComposition({
+    taskId: "integration:no-location",
+    runId: "run:integration:no-location",
+    clock,
+    model,
+    google: google,
+    config: { maxAgentSteps: 3, maxRejectedActions: 3, maxAutomaticBrowserMs: 5_000, maxStructuredReadMs: 8_000 }
   });
   await composition.interpretAndDispatch({ taskId: "integration:no-location", message: "Find cafes nearby tomorrow afternoon for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" });
   const loop = await composition.coordinator.run("integration:no-location");
@@ -1190,25 +731,7 @@ test("Hybrid production composition asks for location without an evaluation cont
   assert.equal(bodies.length, 0);
 });
 
-test("an adapter-only evaluation coordinate reproduces the old wiring failure and cannot bypass the authoritative Agent context", async () => {
-  // Start/end: semantic user input → NEEDS_INPUT with the retired adapter-only configuration present.
-  // Catches: reintroducing a private Google coordinate as a substitute for State. Does not prove live geolocation.
-  const bodies: Record<string, unknown>[] = [];
-  const model = new ScriptedExternalModel();
-  const google = googleSearch(bodies, { maxRequests: 100, evaluationLocation: HIGASHI_GINZA_EVALUATION_LOCATION });
-  const composition = createHybridReadComposition({ router: { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 20_000 },
-    taskId: "integration:adapter-only-location", runId: "run:integration:adapter-only-location", clock, model, search: google,
-    availability: noAvailabilityPort(), facts: composeLiveRestaurantFactRead({ maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, google, {} as BrowserRuntime, model),
-    loop: { maxRejectedActions: 3,  maxSteps: 3, timeoutMs: 5_000 },
-  });
-  await composition.interpretAndDispatch({ taskId: "integration:adapter-only-location", message: "Find cafes nearby tomorrow afternoon for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" });
-  const loop = await composition.coordinator.run("integration:adapter-only-location");
-  assert.equal(loop.status, "WAITING_USER");
-  assert.equal(composition.runtime.snapshot("integration:adapter-only-location").domainState.intentDraft?.area?.coordinates, undefined);
-  assert.equal(bodies.length, 0, "the private adapter setting cannot receive a request before Agent validation");
-});
-
-test("real source observations distinguish a supported candidate from an explicit type conflict", async () => {
+test("real source observations distinguish a supported candidate from an explicit type conflict (packs=Google; maxAgentSteps=5, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async () => {
   // Start/end: two discovery candidates → real Details grounding → only the independently supported cafe is presentable.
   // The facts below are source samples, not expectations reverse-engineered from intent or production eligibility.
   // Catches: losing an explicit conflict, treating a broad discovery type as a fact, or applying one candidate's proof to another.
@@ -1229,11 +752,15 @@ test("real source observations distinguish a supported candidate from an explici
       regularOpeningHours: { weekdayDescriptions: ["Wednesday: 10:00 AM – 6:00 PM", "Thursday: 10:00 AM – 6:00 PM"] },
     }), { status: 200 });
   } });
-  const google = new GooglePlacesRestaurantSearch(client, () => now.toISOString(), 10, { maxRequests: 100 });
+  const google = client;
   const taskId = "integration:source-statuses";
-  const composition = createHybridReadComposition({ router: { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 20_000 },
-    taskId, runId: "run:source-statuses", clock, model, search: google,
-    availability: noAvailabilityPort(), facts: composeLiveRestaurantFactRead({ maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, google, {} as BrowserRuntime, model), loop: { maxRejectedActions: 3,  maxSteps: 5, timeoutMs: 5_000 },
+  const composition = createGoogleReadComposition({
+    taskId,
+    runId: "run:source-statuses",
+    clock,
+    model,
+    google: google,
+    config: { maxAgentSteps: 5, maxRejectedActions: 3, maxAutomaticBrowserMs: 5_000, maxStructuredReadMs: 8_000 }
   });
   await composition.interpretAndDispatch({ taskId, message: "Find cafes nearby tomorrow afternoon for two, but not hot-pot restaurants.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
   const loop = await composition.coordinator.run(taskId);
@@ -1253,12 +780,19 @@ test("real source observations distinguish a supported candidate from an explici
   assert.deepEqual(state.presentedResults?.candidateIds, [cafeId]);
 });
 
-test("a real Hybrid category UNKNOWN reaches presentation without verified-negative promotion", async () => {
+test("a real Hybrid category UNKNOWN reaches presentation without verified-negative promotion (packs=Google; maxAgentSteps=5, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async () => {
   const model = new CategoryUnknownHybridModel(1);
   const place = { id: "category-restaurant", displayName: { text: "Category Restaurant" }, formattedAddress: "Ginza 1, Tokyo", location: { latitude: 35.6697, longitude: 139.7670 }, types: ["restaurant"] };
   const client = new GooglePlacesClient({ apiKey: "test-key", fetchImplementation: async (_url, init) => init?.method === "POST" ? new Response(JSON.stringify({ places: [place] }), { status: 200 }) : new Response(JSON.stringify({ ...place, primaryType: "restaurant", regularOpeningHours: { weekdayDescriptions: ["Wednesday: 10:00 AM – 6:00 PM", "Thursday: 10:00 AM – 6:00 PM"] } }), { status: 200 }) });
-  const google = new GooglePlacesRestaurantSearch(client, () => now.toISOString(), 10, { maxRequests: 100 }); const taskId = "integration:category-unknown";
-  const composition = createHybridReadComposition({ router: { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 20_000 },  taskId, runId: taskId, clock, model, search: google, availability: noAvailabilityPort(), facts: composeLiveRestaurantFactRead({ maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, google, {} as BrowserRuntime, model), loop: { maxRejectedActions: 3,  maxSteps: 5, timeoutMs: 5_000 } });
+  const google = client; const taskId = "integration:category-unknown";
+  const composition = createGoogleReadComposition({
+    taskId,
+    runId: taskId,
+    clock,
+    model,
+    google: google,
+    config: { maxAgentSteps: 5, maxRejectedActions: 3, maxAutomaticBrowserMs: 5_000, maxStructuredReadMs: 8_000 }
+  });
   await composition.interpretAndDispatch({ taskId, message: "Find a restaurant nearby tomorrow afternoon, no fast food.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
   assert.equal((await composition.coordinator.run(taskId)).status, "TERMINAL"); const state = composition.runtime.snapshot(taskId).domainState;
   assert.equal(state.phase, "PRESENT_RESULTS"); assert.ok(state.readEvidence.some((item) => item.provider === "MODEL_JUDGMENT" && Array.isArray(item.claims.categoryUnknownNegativeCriteria))); assert.equal(state.readEvidence.some((item) => Array.isArray(item.claims.verifiedNegativeCriteria)), false);
@@ -1279,7 +813,7 @@ test("a real Hybrid category UNKNOWN reaches presentation without verified-negat
   assert.notEqual(missingRawTypeEvaluation.findings.find((item) => item.dimension === "REQUIRED_EVIDENCE")?.status, "SATISFIED", JSON.stringify(missingRawTypeEvaluation));
 });
 
-test("a second user message adds an exclusion through real source facts and removes the conflicting candidate", async (t) => {
+test("a second user message adds an exclusion through real source facts and removes the conflicting candidate (packs=Google; maxAgentSteps=5, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async (t) => {
   for (const control of [
     { message: "No ramen.", criterion: "ramen", placeId: "ramen-restaurant", outletName: "Ramen Restaurant", primaryType: "ramen_restaurant" },
     { message: "No conveyor-belt sushi.", criterion: "conveyor-belt sushi", placeId: "conveyor-belt-sushi-restaurant", outletName: "Conveyor-belt Sushi Restaurant", primaryType: "conveyor_belt_sushi_restaurant" },
@@ -1296,11 +830,15 @@ test("a second user message adds an exclusion through real source facts and remo
         ? new Response(JSON.stringify({ places: [place] }), { status: 200 })
         : new Response(JSON.stringify({ ...place, types: [control.primaryType, "restaurant"], primaryType: control.primaryType, regularOpeningHours: { weekdayDescriptions: ["Wednesday: 10:00 AM – 6:00 PM", "Thursday: 10:00 AM – 6:00 PM"] } }), { status: 200 }),
     });
-    const google = new GooglePlacesRestaurantSearch(client, () => now.toISOString(), 10, { maxRequests: 100 });
-    const composition = createHybridReadComposition({ router: { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 20_000 },
-      taskId, runId: taskId, clock, model, search: google, availability: noAvailabilityPort(),
-      facts: composeLiveRestaurantFactRead({ maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, google, {} as BrowserRuntime, model), loop: { maxRejectedActions: 3,  maxSteps: 5, timeoutMs: 5_000 },
-    });
+    const google = client;
+    const composition = createGoogleReadComposition({
+    taskId,
+    runId: taskId,
+    clock,
+    model,
+    google: google,
+    config: { maxAgentSteps: 5, maxRejectedActions: 3, maxAutomaticBrowserMs: 5_000, maxStructuredReadMs: 8_000 }
+  });
     await composition.interpretAndDispatch({ taskId, message: "Find a restaurant nearby tomorrow afternoon, no fast food.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
     assert.equal((await composition.coordinator.run(taskId)).status, "TERMINAL");
     const firstState = composition.runtime.snapshot(taskId).domainState;
@@ -1326,7 +864,7 @@ test("a second user message adds an exclusion through real source facts and remo
   });
 });
 
-test("independent candidate reads preserve coverage and results across batch partitions and order", async (t) => {
+test("independent candidate reads preserve coverage and results across batch partitions and order (packs=Google; maxAgentSteps=10, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async (t) => {
   // Start/end: real Hybrid initialization + semantic message → source-produced facts → terminal result + independent evaluator.
   // Only external model transport and Google HTTP are replaced. No intermediate State or evidence injection.
   // Oracle: four source-confirmed open cafes remain checked and presentable regardless of legal read partition/order.
@@ -1335,13 +873,16 @@ test("independent candidate reads preserve coverage and results across batch par
     await t.test(`batch=${batchSize}, reverse=${reverse}`, async () => {
       const model = new ScriptedExternalModel(batchSize, reverse);
       const details: string[] = [];
-      const google = googleSearch([], { maxRequests: 100 }, ["one", "two", "three", "four"], details);
+      const google = googleFixture([], { maxRequests: 100 }, ["one", "two", "three", "four"], details);
       const taskId = "integration:batch-invariance";
-      const composition = createHybridReadComposition({ router: { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 20_000 },
-        taskId, runId: "run:batch-invariance", clock, model, search: google,
-        availability: noAvailabilityPort(), facts: composeLiveRestaurantFactRead({ maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, google, {} as BrowserRuntime, model),
-        loop: { maxRejectedActions: 3,  maxSteps: 10, timeoutMs: 5_000 },
-      });
+      const composition = createGoogleReadComposition({
+    taskId,
+    runId: "run:batch-invariance",
+    clock,
+    model,
+    google: google,
+    config: { maxAgentSteps: 10, maxRejectedActions: 3, maxAutomaticBrowserMs: 5_000, maxStructuredReadMs: 8_000 }
+  });
       const semantic = await composition.interpretAndDispatch({ taskId, message: "Find cafes nearby tomorrow afternoon for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
       assert.equal(semantic.status, "PROPOSED");
       const loop = await composition.coordinator.run(taskId);
@@ -1364,7 +905,7 @@ test("independent candidate reads preserve coverage and results across batch par
   }
 });
 
-test("Google fact exhaustion must leave a separately executable browser investigation reachable", async (t) => {
+test("Google fact exhaustion must leave a separately executable browser investigation reachable (packs=Google; maxAgentSteps=7, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async (t) => {
   for (const maxRequests of [100, 1]) await t.test(`Google limit=${maxRequests}`, async () => {
   // Start/end: real Hybrid initialization → actual Google budget exhaustion → real availability composition → browser boundary.
   // External replacements: model transport, Google HTTP, browser snapshots. No source port, Grounding or State is mocked.
@@ -1383,12 +924,16 @@ test("Google fact exhaustion must leave a separately executable browser investig
     };
   } };
   const model = new ScriptedExternalModel(3, false, true);
-  const google = googleSearch([], { maxRequests }); // 100 is the boundary control; 1 injects exhaustion, never changes Live budget
+  const google = googleFixture([], { maxRequests }); // 100 is the boundary control; 1 injects exhaustion, never changes Live budget
   const taskId = "integration:independent-source";
-  const composition = createHybridReadComposition({ router: { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 20_000 },
-    taskId, runId: "run:independent-source", clock, model, search: google,
-    availability: new LiveBrowserAvailability(browser, model, { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }), facts: composeLiveRestaurantFactRead({ maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, google, browser, model),
-    loop: { maxRejectedActions: 3,  maxSteps: 7, timeoutMs: 5_000 },
+  const composition = createGoogleReadComposition({
+    taskId,
+    runId: "run:independent-source",
+    clock,
+    model,
+    google: google,
+    browser: browser,
+    config: { maxAgentSteps: 7, maxRejectedActions: 3, maxAutomaticBrowserMs: 5_000, maxStructuredReadMs: 8_000 }
   });
   await composition.interpretAndDispatch({ taskId, message: "Find cafes nearby tomorrow afternoon for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
   const loop = await composition.coordinator.run(taskId);
@@ -1401,7 +946,7 @@ test("Google fact exhaustion must leave a separately executable browser investig
 });
 
 
-test("source text handoff reaches request-bound availability and presentation through the production composition", async () => {
+test("source text handoff reaches request-bound availability and presentation through the production composition (packs=Google; maxAgentSteps=6, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async () => {
   // Semantic input → real Google/website fact composition → real browser availability → presentation/evaluator.
   // Only model transport, Google HTTP and browser I/O are replaced. No facts, eligibility or State are injected.
   // Oracle: the Japanese source sentence supports a tasting menu; the separate availability page supplies 13:00 for two.
@@ -1440,7 +985,7 @@ test("source text handoff reaches request-bound availability and presentation th
   } };
   const place = { id: "source-prose", displayName: { text: "Source Kitchen" }, formattedAddress: "1 Ginza, Tokyo", nationalPhoneNumber: "03-1111-1003", types: ["restaurant"],
     websiteUri: "https://source.example/menu", location: { latitude: 35.6697, longitude: 139.767 } };
-  const google = new GooglePlacesRestaurantSearch(new GooglePlacesClient({ apiKey: "fixture", fetchImplementation: async (_url, init) => new Response(JSON.stringify(init?.method === "POST" ? { places: [place] } : place), { status: 200 }) }), () => now.toISOString());
+  const google = new GooglePlacesClient({ apiKey: "fixture", fetchImplementation: async (_url, init) => new Response(JSON.stringify(init?.method === "POST" ? { places: [place] } : place), { status: 200 }) });
   const browser: BrowserRuntime = { async openSession() {
     let url = "";
     return {
@@ -1465,9 +1010,15 @@ test("source text handoff reaches request-bound availability and presentation th
     },
   ) };
   const taskId = "integration:source-handoff";
-  const composition = createHybridReadComposition({ router: { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 20_000 },  taskId, runId: taskId, clock, model, search: google,
-    facts: composeLiveRestaurantFactRead({ maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, google, tracedBrowser, model, undefined, () => now.toISOString()),
-    availability: new LiveBrowserAvailability(tracedBrowser, model, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  now: () => now.toISOString(), onBrowserDiagnostic: diagnostic => { browserTrace.push({ sequence: ++browserTraceSequence, at: now.toISOString(), kind: "EXECUTOR_DIAGNOSTIC", detail: diagnostic }); } }), loop: { maxRejectedActions: 3,  maxSteps: 6, timeoutMs: 5_000 },
+  const composition = createGoogleReadComposition({
+    taskId,
+    runId: taskId,
+    clock,
+    model,
+    google: google,
+    browser: tracedBrowser,
+    onBrowserDiagnostic: diagnostic => { browserTrace.push({ sequence: ++browserTraceSequence, at: now.toISOString(), kind: "EXECUTOR_DIAGNOSTIC", detail: diagnostic }); },
+    config: { maxAgentSteps: 6, maxRejectedActions: 3, maxAutomaticBrowserMs: 5_000, maxStructuredReadMs: 8_000 }
   });
   await composition.interpretAndDispatch({ taskId, message: "Find a restaurant with a chef's tasting menu nearby tomorrow at 1 pm for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
   const loop = await composition.coordinator.run(taskId);
@@ -1489,14 +1040,14 @@ test("source text handoff reaches request-bound availability and presentation th
     materializedCase: { semantic: { target: { goal: "AVAILABILITY" }, date: { value: "2026-09-17" }, party_size: 2, time: { start: "13:00", end: "13:00" }, location: { value: "nearby", relation: "NEAR_USER" }, criteria: [{ value: "chef's tasting menu", polarity: "POSITIVE", strength: "HARD" }] } },
     finalSnapshot: snapshot, trajectories: composition.trajectories.steps, loop,
     diagnostics: { browserTrace }, sourceTrace: { browserTrace },
-    runCeilings: { maxAutomaticBrowserMs: 5_000, maxAgentSteps: 6, maxBrowserModelCallsTotal: 12, maxModelCalls: 10 },
-    resourceUsage: { elapsedMs: 0, agentDecisions: actions.length, browserModelCalls: requests.filter(r => r.purpose === "browser_read_decide").length, modelCallsStarted: requests.length, googleRequests: google.googleRequestUsage(`${taskId}:investigation:${state.investigationRevision}`) },
+    runCeilings: composition.runCeilings,
+    resourceUsage: { elapsedMs: 0, agentDecisions: actions.length, browserModelCalls: requests.filter(r => r.purpose === "browser_read_decide").length, modelCallsStarted: requests.length, googleRequests: composition.google.googleRequestUsage(`${taskId}:investigation:${state.investigationRevision}`) },
   }, { path: "source-handoff.result.json", sha256: "a".repeat(64) });
   assert.equal(evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(evaluation));
   assert.ok(evaluation.findings.every(f => f.status === "SATISFIED"), JSON.stringify(evaluation.findings));
 });
 
-test("a website observation for another candidate cannot revive an unknown Google fact", async () => {
+test("a website observation for another candidate cannot revive an unknown Google fact (packs=Google; maxAgentSteps=5, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async () => {
   // Start/end: actual Hybrid semantic input → Google discovery/Details + website HTML → Reducer → presentation.
   // Only model transport, Google HTTP and browser snapshots are synthetic. Grounding and source composition are real.
   // Independent oracle: A was a cafe at discovery, but its current fact read failed; B's website cannot renew A's facts.
@@ -1509,7 +1060,7 @@ test("a website observation for another candidate cannot revive an unknown Googl
     const id = String(url).split("/").at(-1);
     return id === a.id ? new Response(JSON.stringify({ id: a.id }), { status: 200 }) : new Response(JSON.stringify(b), { status: 200 });
   } });
-  const google = new GooglePlacesRestaurantSearch(client, () => now.toISOString(), 10, { maxRequests: 100 });
+  const google = client;
   const html = `<script type="application/ld+json">${JSON.stringify({ "@type": "CafeOrCoffeeShop", name: "Cafe B", address: b.formattedAddress, servesCuisine: "cafe", openingHoursSpecification: { dayOfWeek: "Thursday", opens: "10:00", closes: "18:00" } })}</script>`;
   const browser: BrowserRuntime = { openSession: async () => ({
     metadata: { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM", engine: "CHROMIUM", startedAt: now.toISOString() },
@@ -1519,10 +1070,15 @@ test("a website observation for another candidate cannot revive an unknown Googl
   }) };
   const taskId = "integration:mixed-source-scope";
   const browserDiagnostics: BrowserExecutionDiagnostic[] = [];
-  const composition = createHybridReadComposition({ router: { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 20_000 },  taskId, runId: "run:mixed-source-scope", clock, model, search: google,
-    availability: noAvailabilityPort(),
-    facts: composeLiveRestaurantFactRead({ maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, google, browser, model, undefined, undefined, diagnostic => browserDiagnostics.push(diagnostic)),
-    loop: { maxRejectedActions: 3,  maxSteps: 5, timeoutMs: 5_000 },
+  const composition = createGoogleReadComposition({
+    taskId,
+    runId: "run:mixed-source-scope",
+    clock,
+    model,
+    google: google,
+    browser: browser,
+    onBrowserDiagnostic: diagnostic => browserDiagnostics.push(diagnostic),
+    config: { maxAgentSteps: 5, maxRejectedActions: 3, maxAutomaticBrowserMs: 5_000, maxStructuredReadMs: 8_000 }
   });
   await composition.interpretAndDispatch({ taskId, message: "Find cafes nearby tomorrow afternoon for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
   await composition.coordinator.run(taskId);
@@ -1551,7 +1107,7 @@ class RefreshReadModel extends ScriptedExternalModel {
 
 // Real Hybrid → Google/website boundary samples → refresh → State/Context and independent Eval.
 // These regressions preserve sources and Runtime; they do not test real-model planning or live websites.
-test("a failed compound refresh invalidates prior facts and independent evaluation rejects their reuse", async (t) => {
+test("a failed compound refresh invalidates prior facts and independent evaluation rejects their reuse (packs=Google; maxAgentSteps=5, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async (t) => {
   for (const failure of ["WEBSITE", "GOOGLE"] as const) await t.test(failure, async () => {
   let time = now;
   let refreshed = false;
@@ -1559,7 +1115,7 @@ test("a failed compound refresh invalidates prior facts and independent evaluati
   const model = new RefreshReadModel(1);
   const place = { id: "refresh-website", displayName: { text: "Cafe Refresh" }, formattedAddress: "1 Ginza, Tokyo", location: { latitude: 35.6698, longitude: 139.7670 }, types: ["restaurant"], websiteUri: "https://cafe.example/about" };
   const client = new GooglePlacesClient({ apiKey: "test-key", fetchImplementation: async (_url, init) => refreshed && failure === "GOOGLE" ? new Response("offline failure", { status: 503 }) : new Response(JSON.stringify(init?.method === "POST" ? { places: [place] } : place), { status: 200 }) });
-  const google = new GooglePlacesRestaurantSearch(client, () => time.toISOString(), 10, { maxRequests: 100 });
+  const google = client;
   const html = `<script type="application/ld+json">${JSON.stringify({ "@type": "CafeOrCoffeeShop", name: "Cafe Refresh", address: place.formattedAddress, servesCuisine: "cafe", openingHoursSpecification: { dayOfWeek: "Thursday", opens: "10:00", closes: "18:00" } })}</script>`;
   const browser: BrowserRuntime = { openSession: async () => {
     websiteAttempts++;
@@ -1571,7 +1127,15 @@ test("a failed compound refresh invalidates prior facts and independent evaluati
     };
   } };
   const taskId = "review:refresh-website";
-  const composition = createHybridReadComposition({ router: { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 20_000 },  taskId, runId: taskId, clock: { now: () => time }, model, search: google, availability: noAvailabilityPort(), facts: composeLiveRestaurantFactRead({ maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, google, browser, model, undefined, () => time.toISOString()), loop: { maxRejectedActions: 3,  maxSteps: 5, timeoutMs: 5000 } });
+  const composition = createGoogleReadComposition({
+    taskId,
+    runId: taskId,
+    clock: { now: () => time },
+    model,
+    google: google,
+    browser: browser,
+    config: { maxAgentSteps: 5, maxRejectedActions: 3, maxAutomaticBrowserMs: 5000, maxStructuredReadMs: 8_000 }
+  });
   await composition.interpretAndDispatch({ taskId, message: "Find cafes nearby tomorrow afternoon for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
   await composition.coordinator.run(taskId);
   const initial = composition.runtime.snapshot(taskId);
@@ -1587,7 +1151,7 @@ test("a failed compound refresh invalidates prior facts and independent evaluati
     status: "SUCCEEDED", stage: "AGENT_LOOP", caseId: "review-refresh", runId: taskId,
     materializedCase: { semantic: { target: { goal: "RECOMMENDATION" }, date: { value: "2026-09-17" }, party_size: 2, time: { start: "12:00", end: "17:00" }, location: { value: "nearby", relation: "NEAR_USER" }, criteria: [{ value: "cafe", polarity: "POSITIVE", strength: "HARD" }] } },
     finalSnapshot: { ...composition.runtime.snapshot(taskId), domainState: { ...state, phase: "PRESENT_RESULTS", presentedResults: { ...initial.domainState.presentedResults!, presentedAt: time.toISOString() } } }, trajectories: composition.trajectories.steps, loop: { maxSteps: 12, maxRejectedActions: 3, timeoutMs: 30_000,  status: "TERMINAL" },
-    resourceUsage: { elapsedMs: 0, agentDecisions: composition.trajectories.steps.length, browserModelCalls: 0, googleRequests: google.googleRequestUsage(`${taskId}:investigation:${state.investigationRevision}`) },
+    resourceUsage: { elapsedMs: 0, agentDecisions: composition.trajectories.steps.length, browserModelCalls: 0, googleRequests: composition.google.googleRequestUsage(`${taskId}:investigation:${state.investigationRevision}`) },
   };
   const evaluation = evaluateRestaurantHybridLiveArtifact(artifact, { path: "refresh.result.json", sha256: (await import("node:crypto")).createHash("sha256").update(JSON.stringify(artifact, null, 2)).digest("hex") });
   assert.equal(websiteAttempts, failure === "WEBSITE" ? 2 : 1, "source boundary reached the intended failure");
@@ -1599,15 +1163,22 @@ test("a failed compound refresh invalidates prior facts and independent evaluati
   });
 });
 
-test("a closed-hours refresh removes historical support from the Agent context", async () => {
+test("a closed-hours refresh removes historical support from the Agent context (packs=Google; maxAgentSteps=5, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async () => {
   let closed = false;
   const model = new RefreshReadModel(1);
   const place = { id: "closed-cafe", displayName: { text: "Closed Cafe" }, formattedAddress: "1 Ginza, Tokyo", location: { latitude: 35.6698, longitude: 139.7670 }, types: ["cafe", "restaurant"] };
   const client = new GooglePlacesClient({ apiKey: "test-key", fetchImplementation: async (_url, init) => new Response(JSON.stringify(init?.method === "POST" ? { places: [place] } : { ...place, regularOpeningHours: { weekdayDescriptions: [closed ? "Thursday: Closed" : "Thursday: 10:00 AM – 6:00 PM"] } }), { status: 200 }) });
   let time = now;
-  const google = new GooglePlacesRestaurantSearch(client, () => time.toISOString(), 10, { maxRequests: 100 });
+  const google = client;
   const taskId = "review:closed-context";
-  const composition = createHybridReadComposition({ router: { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 20_000 },  taskId, runId: taskId, clock: { now: () => time }, model, search: google, availability: noAvailabilityPort(), facts: composeLiveRestaurantFactRead({ maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, google, {} as BrowserRuntime, model), loop: { maxRejectedActions: 3,  maxSteps: 5, timeoutMs: 5000 } });
+  const composition = createGoogleReadComposition({
+    taskId,
+    runId: taskId,
+    clock: { now: () => time },
+    model,
+    google: google,
+    config: { maxAgentSteps: 5, maxRejectedActions: 3, maxAutomaticBrowserMs: 5000, maxStructuredReadMs: 8_000 }
+  });
   await composition.interpretAndDispatch({ taskId, message: "Find cafes nearby tomorrow afternoon for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
   await composition.coordinator.run(taskId);
   const initial = composition.runtime.snapshot(taskId);
@@ -1678,7 +1249,7 @@ async function runScopedFailureComposition(mode: "local" | "option" | "model-bud
     websiteUri: `https://tabelog.com/tokyo/A1304/A130401/${1000 + index}/`,
     ...(name === "missing" ? {} : { location: name === "outside" ? { latitude: 34.05, longitude: -118.24 } : { latitude: 35.6697, longitude: 139.767 } }),
   }));
-  const google = new GooglePlacesRestaurantSearch(new GooglePlacesClient({
+  const google = new GooglePlacesClient({
     apiKey: "fixture",
     fetchImplementation: async (_url, init) => {
       if (mode === "google-cancel") {
@@ -1691,7 +1262,7 @@ async function runScopedFailureComposition(mode: "local" | "option" | "model-bud
       }
       return new Response(JSON.stringify({ places }), { status: 200 });
     },
-  }), () => now.toISOString());
+  });
   const browser: BrowserRuntime = { async openSession({ signal }) {
     if (mode === "runtime-outage") throw new BrowserRuntimeError("BROWSER_RUNTIME_UNAVAILABLE", "Fixture browser launch unavailable");
     let url = "", name = "a";
@@ -1722,15 +1293,23 @@ async function runScopedFailureComposition(mode: "local" | "option" | "model-bud
       async screenshot() { return new Uint8Array(); }, async close() {},
     };
   } };
-  const availability = new LiveBrowserAvailability(browser, model, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  now: () => now.toISOString(), onBrowserDiagnostic: item => diagnostics.push(item) });
-  const composition = createHybridReadComposition({ router: { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 20_000 },  taskId, runId: taskId, clock, model, search: google, availability, loop: { maxRejectedActions: 3,  maxSteps: 8, timeoutMs: 5_000 } });
+  const composition = createGoogleReadComposition({
+    taskId,
+    runId: taskId,
+    clock,
+    model,
+    google: google,
+    browser: browser,
+    onBrowserDiagnostic: item => diagnostics.push(item),
+    config: { maxAgentSteps: 8, maxRejectedActions: 3, maxAutomaticBrowserMs: 5_000, maxStructuredReadMs: 8_000 }
+  });
   await composition.interpretAndDispatch({ taskId, message: "Find nearby restaurants tomorrow at 1 pm for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
   const work = composition.coordinator.run(taskId, controller.signal);
   const capture = () => {
     const snapshot = composition.runtime.snapshot(taskId);
     return captureHybridLiveProgress({
       composition, taskId, startedAtMs: 0, nowMs: 50, modelInvocations: [], modelCallsStarted: startedModelCalls,
-      googleRequestUsage: google.googleRequestUsage(`${snapshot.runId}:investigation:${snapshot.domainState.investigationRevision ?? 0}`),
+      googleRequestUsage: composition.google.googleRequestUsage(`${snapshot.runId}:investigation:${snapshot.domainState.investigationRevision ?? 0}`),
       diagnostics: { tablecheckIdentity: [], tabelogIdentity: [], tabelogUserInterventions: [], browserExecution: diagnostics },
     });
   };
@@ -1752,7 +1331,7 @@ async function runScopedFailureComposition(mode: "local" | "option" | "model-bud
   return { composition, partial, loop, agentPools, seenBrowserNames, googleRequestAborted, startedModelCalls, observedOptionActions };
 }
 
-test("Hybrid production composition uses the observed-option browser wire before accepting source evidence", async () => {
+test("Hybrid production composition uses the observed-option browser wire before accepting source evidence (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async () => {
   const result = await runScopedFailureComposition("option");
   const state = result.partial.finalSnapshot!.domainState;
   assert.ok((result.observedOptionActions ?? 0) > 0, JSON.stringify({ checks: state.availabilityChecks, browser: result.partial.diagnostics?.browserExecution?.filter(item => ["MODEL_DECISION_STARTED", "METHOD_INCOMPLETE", "REJECTED"].includes(item.event)).map(item => ({ source: item.source, stage: item.stage, detail: item.detail })) }));
@@ -1766,7 +1345,7 @@ test("Hybrid production composition uses the observed-option browser wire before
     && Array.isArray(evidence.claims.visibleSlots) && evidence.claims.visibleSlots.includes("13:00")));
 });
 
-test("Hybrid source failures in A/B/C leave D reachable and outside candidates out of every Agent pool", async () => {
+test("Hybrid source failures in A/B/C leave D reachable and outside candidates out of every Agent pool (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async () => {
   // Real Interpreter/Compiler/Runtime/Google grounding/LiveBrowserAvailability/Resolver/Router/Agent.
   // Browser snapshots and transport errors are independent source input; no state/evidence injection.
   const result = await runScopedFailureComposition("local");
@@ -1786,7 +1365,7 @@ test("Hybrid source failures in A/B/C leave D reachable and outside candidates o
   assert.equal(evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(evaluation));
 });
 
-test("Hybrid shared model budget ends honestly while browser launch outage remains a system failure", async t => {
+test("Hybrid shared model budget ends honestly while browser launch outage remains a system failure (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async t => {
   for (const mode of ["model-budget", "agent-budget", "runtime-outage"] as const) await t.test(mode, async () => {
     const result = await runScopedFailureComposition(mode);
     assert.equal(result.loop?.status, mode === "runtime-outage" ? "EXECUTION_FAILURE" : "TERMINAL");
@@ -1800,7 +1379,7 @@ test("Hybrid shared model budget ends honestly while browser launch outage remai
   });
 });
 
-test("Hybrid deadline captures immutable partial browser, Google and search evidence through the CLI artifact builder", async () => {
+test("Hybrid deadline captures immutable partial browser, Google and search evidence through the CLI artifact builder (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async () => {
   const result = await runScopedFailureComposition("cancel");
   assert.equal(result.partial.resourceUsage.discoveryCandidates, 4);
   assert.ok(result.partial.resourceUsage.googleRequests!.total > 0);
@@ -1826,11 +1405,11 @@ test("Hybrid deadline captures immutable partial browser, Google and search evid
   }
 });
 
-test("Hybrid capture counts a sent Google request cancelled before any discovery trajectory", async () => {
+test("Hybrid capture counts a sent Google request cancelled before any discovery trajectory (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async () => {
   const result = await runScopedFailureComposition("google-cancel");
   assert.equal(result.googleRequestAborted, true, "the real Google client relay must abort the in-flight HTTP request");
   assert.deepEqual(result.partial.resourceUsage.googleRequests, {
-    limit: Number.POSITIVE_INFINITY,
+    limit: result.composition.runCeilings.maxGoogleRequests,
     total: 1,
     namedPlaceResolution: 0,
     discovery: 1,
@@ -1841,38 +1420,6 @@ test("Hybrid capture counts a sent Google request cancelled before any discovery
   assert.equal(result.partial.trajectories.some(step => step.executionMetadata?.googleGeoDiagnostics), false, "a response-free request cannot fabricate geo rejection diagnostics");
 });
 
-test("C6a observed public hours end the immediate window only when every checked page has no opening period", async t => {
-  for(const mode of ["closed","outside","open","partial","unknown","malformed","ambiguous-closed","wrong-day","overnight","api-only","explicit-time","one-closed","three-two-closed-one-open"] as const) await t.test(mode, async()=>{
-    const taskId=`hours:${mode}`;let inventoryReads=0;
-    const provider:ModelGateway={async complete(input){
-      if(input.purpose==='restaurant_semantic_interpret')return response(JSON.stringify({schemaVersion:'3',facts:[
-        {field:'TARGET',operation:'ASSERT',value:{kind:'TARGET',goal:'AVAILABILITY',query:'restaurants',selectionScope:'OPEN_ENDED'}},
-        {field:'TIME_WINDOW',operation:'ASSERT',value:mode==='explicit-time'?{kind:'TIME_WINDOW',earliest:'12:00',latest:'12:30',raw:'noon'}:{kind:'TIME_WINDOW',relativeOffsetMinutes:0,raw:'right now'}},
-        {field:'DATE',operation:'ASSERT',value:{kind:'DATE',relativeDay:'TODAY',raw:'today'}},
-        {field:'PARTY_SIZE',operation:'ASSERT',value:{kind:'PARTY_SIZE',value:2}},
-        {field:'AREA',operation:'ASSERT',value:{kind:'AREA',query:'nearby'}}, {field:'CRITERION',operation:'ASSERT',value:{kind:'CRITERION',text:'cafe',polarity:'POSITIVE',strength:'HARD'}}]}),'hours-semantic');
-      if(input.purpose==='browser_read_decide')return response(JSON.stringify({action:'REQUEST_HUMAN_HELP',targetRef:'',authoritativeField:'NONE',requestedState:'NONE',reason:'No further public control'}),'hours-browser');
-      const {context}=JSON.parse(input.messages.find(x=>x.role==='user')!.content);
-      const type=context.searchAvailability.reason==='IMMEDIATE_SOURCES_CLOSED'?'END_READ':!context.candidates.length?'SEARCH_RESTAURANTS':context.factInvestigableCandidateIds?.length?'INVESTIGATE_CANDIDATE_FACTS':'CHECK_AVAILABILITY';
-      return response(JSON.stringify(strictAction(type,type==='INVESTIGATE_CANDIDATE_FACTS'?context.factInvestigableCandidateIds:type==='CHECK_AVAILABILITY'?context.checkableCandidateIds:[])),'hours-agent');
-    }};
-    const places=(mode==='one-closed'?['a']:['a','b','c']).map((id,index)=>({id,displayName:{text:`Cafe ${id}`},formattedAddress:`${index+1} Ginza, Tokyo`,location:{latitude:35.6697,longitude:139.767},types:mode==='api-only'?['cafe']:['restaurant'],...(mode==='api-only'?{regularOpeningHours:{weekdayDescriptions:['Wednesday: Closed']}}:{}),websiteUri:`https://${id}.example/about`}));
-    const client=new GooglePlacesClient({apiKey:'fixture',fetchImplementation:async(url,init)=>new Response(JSON.stringify(init?.method==='POST'?{places}:places.find(p=>String(url).endsWith('/'+p.id))),{status:200})});
-    const google=new GooglePlacesRestaurantSearch(client,()=>now.toISOString(),10,{maxRequests:100});
-    const browser:BrowserRuntime={openSession:async()=>{let current='';return {metadata:{runtimeProvider:'LOCAL_PLAYWRIGHT_CHROMIUM',engine:'CHROMIUM',startedAt:now.toISOString()},async navigate(value){current=value;},async snapshot(){const p=places.find(p=>p.websiteUri===current)!;const hours=mode==='wrong-day'?'Tuesday: Closed':mode==='overnight'?'Tuesday: 18:00 - 13:00\nWednesday: Closed':mode==='closed'||mode==='explicit-time'?'Wednesday: Closed':mode==='outside'?'Wednesday: 18:00 - 23:00':p.id==='b'&&mode==='unknown'?undefined:p.id==='b'&&mode==='malformed'?'Wednesday: See website':p.id==='b'&&mode==='ambiguous-closed'?'Wednesday: Not closed':p.id==='b'&&mode==='partial'?'Wednesday: 12:15 - 18:00':(p.id==='b'&&mode==='open'||p.id==='c'&&mode==='three-two-closed-one-open')?'Wednesday: 10:00 - 18:00':'Wednesday: Closed';const data={'@type':'CafeOrCoffeeShop',name:p.displayName.text,address:p.formattedAddress,...(hours?{openingHours:hours.split('\n')}:{})};return {url:current,title:p.displayName.text,text:`${p.displayName.text}\n${p.formattedAddress}\n${hours??'Hours unknown'}`,html:`<script type="application/ld+json">${JSON.stringify(data)}</script><h1>${p.displayName.text}</h1><p>${p.formattedAddress}</p>`};},async click(){},async fill(){},async select(){return[];},async waitFor(){},async waitForSettled(){return true;},async screenshot(){return new Uint8Array();},async close(){}};}};
-    const availability={executionRoute:'GENERIC_BROWSER' as const,async check(){inventoryReads++;throw new Error('fixture stops after observing whether inventory work remains legal');}};
-    const composition=createHybridReadComposition({ router: { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 20_000 }, taskId,runId:taskId,clock,model:provider,search:google,availability,facts:composeLiveRestaurantFactRead({ maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, google,browser,provider,undefined,()=>now.toISOString()),loop:{ maxRejectedActions: 3, maxSteps:4,timeoutMs:5000}});
-    await composition.interpretAndDispatch({taskId,message:'Find restaurants nearby right now for two',referenceTime:now.toISOString(),timezone:'Asia/Tokyo'},HIGASHI_GINZA_EVALUATION_LOCATION);
-    await composition.coordinator.run(taskId);
-    const state=composition.runtime.snapshot(taskId).domainState;
-    if(mode==='closed'||mode==='outside'){
-      assert.equal(state.phase,'NO_VERIFIED_RESULT',JSON.stringify(state));assert.equal(inventoryReads,0);
-      assert.match(state.noVerifiedResult?.remainingGaps.join(' ')??'',/nearest bookable time/);
-      assert.ok(Object.values(state.availabilityChecks).every(check=>check.status!=='UNAVAILABLE'));
-    }else assert.ok(inventoryReads>0,'one closed outlet, an open/unknown source or non-immediate hours cannot suppress further reads');
-  });
-});
-
 
 test("Hybrid progress exports pending-page count and total bounded post-action wait", () => {
   const diagnostic = (detail: string, waitMs: number): BrowserExecutionDiagnostic => ({ source: "FIXTURE", stage: "AVAILABILITY", event: "ASYNC_WAIT", elapsedMs: 9000, waitMs, detail,
@@ -1880,65 +1427,4 @@ test("Hybrid progress exports pending-page count and total bounded post-action w
   const progress = captureHybridLiveProgress({composition:undefined,taskId:"fixture:wait-summary",startedAtMs:0,nowMs:1,modelInvocations:[],diagnostics:{tablecheckIdentity:[],tabelogIdentity:[],tabelogUserInterventions:[],browserExecution:[diagnostic("PAGE_SETTLED",300),diagnostic("PAGE_STILL_LOADING_WITHIN_BOUND",4000),diagnostic("PAGE_STILL_LOADING_WITHIN_BOUND",1000)]}});
   assert.equal(progress.resourceUsage.pageStillLoadingWithinBound,2);
   assert.equal(progress.resourceUsage.postActionWaitTotalMs,5300);
-});
-
-test("reserve checkpoints retain completed outlets and mark only unfinished ones UNKNOWN", async t => {
-  for (const mode of ["availability-call","availability-time","empty-call","facts-call"] as const) await t.test(mode,async()=>{
-    const taskId=`fixture:checkpoint:${mode}`, started=now.valueOf(); let instant=started, inspected=0;
-    const readClock={now:()=>new Date(instant)};
-    const search=googleSearch([],{maxRequests:100},["one","two","three",...(mode==="availability-time"?["four"]:[])]);
-    const delegate:ModelGateway={async complete(input){
-      if(input.purpose==="restaurant_semantic_interpret")return response(JSON.stringify({schemaVersion:"3",facts:[
-        {field:"TARGET",operation:"ASSERT",value:{kind:"TARGET",goal:mode==="facts-call"?"RECOMMENDATION":"AVAILABILITY",query:"nearby restaurants",selectionScope:"OPEN_ENDED"}},
-        {field:"DATE",operation:"ASSERT",value:{kind:"DATE",value:"2026-09-17",raw:"tomorrow"}},
-        {field:"TIME_WINDOW",operation:"ASSERT",value:{kind:"TIME_WINDOW",earliest:"19:00",latest:"19:00",raw:"7pm"}},
-        {field:"PARTY_SIZE",operation:"ASSERT",value:{kind:"PARTY_SIZE",value:2}},
-        {field:"AREA",operation:"ASSERT",value:{kind:"AREA",query:"nearby"}},
-        ...(mode==="facts-call"?[{field:"CRITERION",operation:"ASSERT",value:{kind:"CRITERION",text:"cafe",strength:"HARD",polarity:"POSITIVE"}}]:[])
-      ]}),"semantic");
-      if(input.purpose==="checkpoint-read")return response("{}","read");
-      const {context:c}=JSON.parse(input.messages.find(x=>x.role==="user")!.content);
-      const eligible=(c.presentation??[]).filter((x:{eligible:boolean})=>x.eligible).map((x:{candidateId:string})=>x.candidateId);
-      const ids=(mode==="facts-call"?c.factInvestigableCandidateIds:c.checkableCandidateIds)??[];
-      const type=c.readCompletion?.reason?.startsWith("MODEL_CALL_RESERVE")?"END_READ":!c.candidates?.length?"SEARCH_RESTAURANTS":ids.length?(mode==="facts-call"?"INVESTIGATE_CANDIDATE_FACTS":"CHECK_AVAILABILITY"):eligible.length?"PRESENT_RESULTS":"END_READ";
-      return response(JSON.stringify(strictAction(type,type==="PRESENT_RESULTS"?eligible:ids.slice(0,mode==="availability-time"&&inspected===0?1:3))),"agent");
-    }};
-    const budget=new RunBoundedModelGateway(delegate,mode==="empty-call"?8:mode==="availability-time"?50:12,500_000);
-    const reserved=new DeliveryReservedModelGateway(budget);
-    const sourceCalls=async(signal:AbortSignal)=>{
-      inspected++;
-      if(mode==="availability-time"){
-        if(inspected===1)instant=started+254_000;
-        if(inspected===3)await new Promise<never>((_,reject)=>{
-          const abort=()=>{instant=started+255_000;reject(signal.reason)};
-          if(signal.aborted)abort();else signal.addEventListener("abort",abort,{once:true});
-        });
-      }else if(inspected===(mode==="empty-call"?1:2))for(let n=0;n<15;n++)await reserved.complete({taskId,purpose:"checkpoint-read",promptVersion:"fixture",messages:[],responseFormat:"JSON_OBJECT",outputSchema:{name:"fixture",version:"1"},timeoutMs:1000,fallback:"FAIL_CLOSED"});
-    };
-    const availability={executionRoute:"GENERIC_BROWSER" as const,async check(request:import("../../../domains/restaurant/contracts.js").RestaurantAvailabilityRequest,signal:AbortSignal){
-      const outputs:Array<ReturnType<typeof groundTableCheckAvailability>>=[];
-      for(const candidate of request.candidates){
-        await sourceCalls(signal);
-        outputs.push(groundTableCheckAvailability(candidate,request,{candidateId:candidate.restaurant.id,sourceEntityId:`tc:${candidate.restaurant.id}`,sourceUrl:"https://www.tablecheck.com/en/fixture",observedAt:readClock.now().toISOString(),requestedDate:request.date,requestedPartySize:request.partySize,entityMatch:{confidence:"HIGH",matchedBy:["EXACT_PHONE"]},pageState:"AVAILABLE",visibleSlots:["19:00"]},readClock.now().toISOString()));
-      }
-      return {offers:outputs.flatMap(x=>x.offers),evidence:outputs.flatMap(x=>x.evidence),availabilityChecks:Object.fromEntries(request.candidateIds.map((id,i)=>[id,outputs[i]!.check])),metadata:{provider:"TABLECHECK" as const,route:"GENERIC_BROWSER" as const,latencyMs:0}};
-    }};
-    const {groundRestaurantWebsiteFacts}=await import("../../../domains/restaurant/read-grounding.js");
-    const facts={executionRoute:"GENERIC_BROWSER" as const,async inspectFacts(request:import("../../../domains/restaurant/contracts.js").RestaurantCandidateFactRequest,signal:AbortSignal){
-      const outputs:Array<ReturnType<typeof groundRestaurantWebsiteFacts>>=[];
-      for(const candidate of request.candidates){await sourceCalls(signal);outputs.push(groundRestaurantWebsiteFacts(candidate,request.intent,{candidateId:candidate.restaurant.id,sourceUrl:"https://fixture.example/"+candidate.restaurant.id,observedAt:readClock.now().toISOString(),entityMatch:{confidence:"HIGH",matchedBy:["EXACT_PHONE"]},restaurantTypeFacts:["cafe"],regularOpeningHours:["Thursday: 00:00–23:59"]}));}
-      return {evidence:outputs.flatMap(x=>x.evidence),factChecks:Object.fromEntries(request.candidateIds.map((id,i)=>[id,{status:outputs[i]!.status,checkedAt:readClock.now().toISOString(),evidenceIds:outputs[i]!.evidence.map(x=>x.evidenceId)}])),metadata:{provider:"RESTAURANT_WEBSITE" as const,route:"GENERIC_BROWSER" as const,latencyMs:0}};
-    }};
-    const composition=createHybridReadComposition({taskId,runId:taskId,clock:readClock,model:reserved,search,availability,...(mode==="facts-call"?{facts}:{}),router:{ structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 20_000, modelReadReserve:reserved},loop:{ maxRejectedActions: 3, maxSteps:10,timeoutMs:mode==="availability-time"?300_000:500_000,remainingModelCalls:id=>budget.remainingCalls(id)}});
-    await budget.run(taskId,async()=>{await composition.interpretAndDispatch({taskId,message:"Find nearby restaurants tomorrow at 7pm for two.",referenceTime:now.toISOString(),timezone:"Asia/Tokyo"},HIGASHI_GINZA_EVALUATION_LOCATION);await composition.coordinator.run(taskId,undefined,new Date(started+(mode==="availability-time"?300_000:500_000)));});
-    const state=composition.runtime.snapshot(taskId).domainState;
-    assert.equal(state.failure,undefined);
-    assert.equal(state.phase,mode==="empty-call"?"NO_VERIFIED_RESULT":"PRESENT_RESULTS",JSON.stringify({mode,inspected,state}));
-    const checks=mode==="facts-call"?state.factChecks!:state.availabilityChecks;
-    assert.equal(Object.values(checks).filter(x=>x.status==="UNKNOWN"&&x.reasonCode==="RESERVE_REACHED").length,mode==="empty-call"?3:2);
-    const accepted=state.presentedResults?.candidateIds??[];
-    assert.equal(accepted.length,mode==="empty-call"?0:mode==="availability-time"?2:1);
-    assert.ok(composition.runtime.eventLog.some(x=>x.event.type===(mode==="empty-call"?"READ_END_WINDOW_OPENED":"DEFAULT_BATCH_DELIVERY_WINDOW_OPENED")));
-    assert.ok((budget.usage(taskId)?.calls??Infinity)<(mode==="availability-time"?50:mode==="empty-call"?8:12));
-  });
 });

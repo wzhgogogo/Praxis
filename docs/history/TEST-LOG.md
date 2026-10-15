@@ -4245,3 +4245,7 @@ Docs only：合并远端b36ec7f及其文档前序提交与本地P2-0六个提交
 ## TEST-2026-10-15-T1-4-BOUNDED-WAITS
 
 无数据流使旧SSE await挂起至外层期限；目标标签断言失败，修后内层20ms超时和正常信号均通过。完整Web28/28，四条代码门禁日志在`t1-assembly-20261015/04-bounded-waits/`；具体裸等待清单见report。仅离线，不把外层超时当目标断言成功。
+
+## TEST-2026-10-15-T1-5-RETIREMENT
+
+Hybrid完整生产factory＋Router部分端口分层85/85；正常100／耗尽1的Google配对进入真实SourceAware后，额度状态undefined红，透传已有metadata后EXHAUSTED绿。原隔离有限变异四项仍要求对应目标断言、正常控制通过。退役一条旧实现控制，七组迁层不删行为，实际runCeilings取factory；四条代码门禁默认881/881，附加Chromium日志均在`t1-assembly-20261015/05-retirement/`。不代表模型理解／当前网站通过，无Live。

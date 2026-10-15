@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.217
+- Document revision: 4.218
 - Last updated: 2026-10-15
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-15 T1-5 旧组装退役：** Hybrid完整来源组合全部改由生产factory，删除旧私有adapter位置控制，七组部分端口行为移至既有Router Harness并保留断言。真实外层暴露SourceAware丢Google额度元数据，目标先红后绿仅修透传；定向85/85、默认881/881，五门禁证据`t1-assembly-20261015/05-retirement/`。T1 Guard项继续，未运行Live、不推送。
 
 - **2026-10-15 T1-4 有界等待：** 四处started及checking／finished／SSE／HTTP启停／重复消息等测试信号均有界且带目标标签；无数据流旧路径目标超时标签断言红，修复后Web28/28。四门禁见`t1-assembly-20261015/04-bounded-waits/`；T1其余继续，无Live、不推送。
 
