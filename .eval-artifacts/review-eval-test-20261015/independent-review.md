@@ -132,7 +132,7 @@ P2-0 第 2 项已经要求"Runner 与 Web 拿到相同的生效限额"，这一�
 ### 5. Web 入口的并发问题（结构上可以确认）
 
 - `persistent-restaurant-agent.ts` 第 1023–1045 行的 `finishInterruptedLiveRead`，会在每次 `project()` 时把"没有登记在 `activeReads` 中、且处于 UNDERSTANDING / SEARCHING / SELECTION_REQUIRED 阶段"的任务判为 `EXECUTION_FAILURE`。
-- 新建任务时，`createConversation` 之后先执行 `applyMessage`（第 394 行），其中包括一次语义解析的模型调用；读取在第 833 行才登记到 `activeReads`。
+- 新建任务时，`createConversation` 之后先执行 `applyMessage`（第 395 行），其中包括一次语义解析的模型调用；读取在第 833 行才登记到 `activeReads`。
 - 在这几秒的窗口里，任何一个列表或查询请求都会把新任务判为中断。
 
 这是 10/9 复现过的问题，代码结构未变。Live 评测走 Runner、不经过 Web，所以评测永远看不到它。**必须在任何真实用户试用之前修好**，并在统一组装后的 Web 组合测试里覆盖。
