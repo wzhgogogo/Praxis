@@ -48,3 +48,27 @@ Evidence status: exposed development evidence，不是Clean Baseline。基线921
 - `readBudgetStatus` 从实际共享查位预算提供，循环在模型提议前预判；先前记录的预算失败也阻断新读取。执行失败不再重置无进展计数；TIMEOUT任务和循环结果都成为面向用户的完成。服务商拒绝、异常、授权失败、取消未改成普通业务成功。资格规则不变。
 - 四门禁 `termination/{typecheck,arch-check,npm-test,build}-green.log`：870/870。Web整单时限与Harness旧TIMEOUT断言改为新明确合同，最初旧断言红灯保留于npm-test-initial.log。
 - 证明范围：真实状态离线复现＋L1/持久化Web离线；不是当前网站Live。0真实模型/Google业务/Live。本项提交号见最终索引。
+
+## 4 typed失败码与结构化结束／evaluator@28
+
+- 第3项提交 `f759c34`。失败码注册表与分类表显式穷尽，State/Event/Router及读取metadata/continuation使用typed集合；Model/Policy新增码会使分类表编译失败，Browser/Google码由类型合同覆盖。未知外部码规范为AGENT_EXECUTION_FAILED，未知持久化码fail closed，不使用“列表以外业务”的默认。
+- `failure-types/red.log`：结构化结束缺失、@27不能审计系统READ_ENDED，两项有效红灯。`unclassified-code-rejected.log`：在新类型联合临时加入未分类码时typecheck失败，源文件已逐字恢复。`green.log` 终止与evaluator相关100+项；最终四门禁 `*-green.log` 879/879。
+- State@15 / TaskDefinition@14；`noVerifiedResult.termination={type,reasonCode,isSystemReason,initiator}`。SYSTEM是结束发起方，预算/时限等仍isSystemReason=false。Accepted接口文档只追加当前Schema说明；不重置数据库，不改写历史State@14产物，也不建旧执行兼容路径。原脱敏历史Fixture仍带其来源Schema；新终止派生回放在副本上绑定15。
+- evaluator@28 / rubric@22核对系统事件、终态版本、结构化观察和已查/未查范围。反例含系统原因、伪装服务商拒绝、观察不一致、缺事件、虚构已查。不会把有范围的无结果认作来源穷尽／全部无位；资格规则未变。
+
+| 离线评价对象 | 评价版本 | 合格交付 | COMPLETION_OUTCOME |
+| --- | --- | --- | --- |
+| P1-G2原始产物、原评价原样保留 | @27 | NO | NOT_EVALUATED |
+| 同一原始字节、单独新评价 | @28 | NO | NOT_EVALUATED |
+| 原第6步真实状态经新终止路径的派生离线回放 | @28 | NO | SATISFIED |
+
+原产物SHA `70182d7548231fc6723823429dfcbabfe6b8d0af91f117d2b587b1cc4feec6fb`；原产物没有结构化字段，不给它补字段后宣称旧Live通过。新旧对照 `failure-types/reevaluation-summary.json`、`original.evaluator28.json`；派生回放 `derived-step6.execution.json` / `derived-step6.evaluator28.json`，明确OFFLINE_STATE_REPLAY，历史前缀是继承证据而非重新执行。派生回放资源字段只计本次离线终止0外部调用，不表示原Live消耗0。`reevaluate.mjs`保留原事件前缀/hash核验及禁止外部调用的边界。
+
+### 本地实现提交索引／Live准备
+
+1. Guard：`976baaa`。
+2. 显式额度：`60e78b9`。
+3. 不可执行路径／TIMEOUT：`f759c34`。
+4. typed原因／evaluator28：本项提交后冻结记录。
+
+截至四项离线工作，新增模型0、Google业务0、Live0；累计仍1014/1500模型、37历史Live，P2-0预算2正式＋最多1启动后环境重跑。东京10/15已过17:30，h001不得当日启动；留至下个有效窗口。h002在四项提交冻结、外层SHA核对和离线空跑后执行。用户并行INDEX/Booking草稿/三份演示文件不纳入提交。

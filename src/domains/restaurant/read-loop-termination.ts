@@ -1,19 +1,11 @@
 import type { RestaurantAgentLoopTermination, RestaurantTaskState } from "./contracts.js";
 import { assessRestaurantRead } from "./read-assessment.js";
 
-// Explicit system failures. Candidate/page/search failures are investigation
-// facts, not reasons to leave a bounded read without a user-facing result.
-const systemFailureCodes = new Set([
-  "CONFIGURATION", "INVALID_REQUEST", "TIMEOUT", "NETWORK", "PROVIDER_RATE_LIMITED", "PROVIDER_REJECTED", "MALFORMED_RESPONSE",
-  "INSUFFICIENT_BALANCE", "AGENT_DECISION_FAILED", "AGENT_EXECUTION_FAILED", "SEMANTIC_INTERPRETATION_FAILED",
-  "BROWSER_RUNTIME_UNAVAILABLE", "SIDE_EFFECT_UNCERTAIN", "OUTCOME_UNKNOWN", "ACTIVE_ATTEMPT_EXISTS",
-  "AUTHORIZATION_MISSING", "AUTHORIZATION_PROPOSAL_MISMATCH", "AUTHORIZATION_SCOPE_UNSUPPORTED",
-  "AUTHORIZATION_INVALID", "AUTHORIZATION_NOT_YET_VALID", "AUTHORIZATION_EXPIRED", "AUTHORIZATION_REVOKED",
-]);
+import { RESTAURANT_FAILURE_CLASSIFICATION, type RestaurantFailureCode } from "./failure-codes.js";
 
-export function restaurantReadStopIsSystem(termination: RestaurantAgentLoopTermination, failureCode?: string): boolean {
-  return termination === "CANCELLED" || termination === "EXECUTION_FAILURE"
-    || systemFailureCodes.has(failureCode ?? "");
+export function restaurantReadStopIsSystem(termination: RestaurantAgentLoopTermination, failureCode?: RestaurantFailureCode): boolean {
+  const terminations = { TIMEOUT: false, STEP_LIMIT: false, REJECTION_LIMIT: false, EXECUTION_FAILURE: true, NO_PROGRESS: false, CANCELLED: true } satisfies Record<RestaurantAgentLoopTermination, boolean>;
+  return terminations[termination] || failureCode !== undefined && RESTAURANT_FAILURE_CLASSIFICATION[failureCode] !== "BUSINESS";
 }
 
 /** Projection of actual read records; neither exhaustiveness nor a global no-seat claim. */

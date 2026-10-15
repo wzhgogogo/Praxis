@@ -1,3 +1,4 @@
+import { restaurantFailureCode, type RestaurantFailureCode } from "../../domains/restaurant/failure-codes.js";
 import type {
   RestaurantAvailabilityCheck,
   RestaurantAvailabilityRead,
@@ -41,9 +42,9 @@ function singleCandidateRequest(
   return { ...request, candidateIds: [candidateId], candidates: [structuredClone(candidate)] };
 }
 
-function stableFailureCode(error: unknown): string {
+function stableFailureCode(error: unknown): RestaurantFailureCode {
   return error && typeof error === "object" && "code" in error && typeof error.code === "string"
-    ? error.code
+    ? restaurantFailureCode(error.code, "PROVIDER_READ_FAILED")
     : "PROVIDER_READ_FAILED";
 }
 
@@ -115,7 +116,7 @@ export class AvailabilitySourceResolver {
               candidateId,
               provider: provider.provider,
               outcome: "PROVIDER_FAILURE",
-              failureCode: check?.reasonCode ?? read.metadata.failureCode ?? "PROVIDER_OBSERVATION_MISSING",
+              failureCode: restaurantFailureCode(check?.reasonCode ?? read.metadata.failureCode, "PROVIDER_OBSERVATION_MISSING"),
             });
           } catch (error) {
             if (signal.aborted) throw error;

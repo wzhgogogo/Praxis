@@ -1,0 +1,4953 @@
+{
+  "schemaVersion": "1",
+  "mode": "OFFLINE_STATE_REPLAY",
+  "evidenceStatus": "derived from original step-six state; not Live; exposed development evidence",
+  "status": "SUCCEEDED",
+  "stage": "AGENT_LOOP",
+  "caseId": "h001",
+  "materializedCase": {
+    "id": "h001",
+    "dataset": "restaurant-read-development@7",
+    "reference_time": "2026-10-15T16:20:00+08:00",
+    "semantic": {
+      "target": {
+        "goal": "AVAILABILITY"
+      },
+      "location": {
+        "value": "Shibuya",
+        "relation": "NEAR"
+      },
+      "date": {
+        "expression": "tonight",
+        "value": "2026-10-15"
+      },
+      "time": {
+        "value": "19:00"
+      },
+      "party_size": 2,
+      "criteria": [
+        {
+          "value": "omakase",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ]
+    },
+    "acceptance": {
+      "required_claims": [
+        "Correct outlet near Shibuya; source-supported omakase; and a matching current slot for the materialized date at 19:00 for 2.",
+        "Preserve the explicit party size of 2; opening hours alone do not establish seating."
+      ],
+      "optional_investigation": [],
+      "review": [
+        "No preferred provider or mandatory order of investigation."
+      ]
+    },
+    "materialization": {
+      "sourceReferenceTime": "2026-08-19T16:20:00+08:00",
+      "resolvedReferenceTime": "2026-10-15T08:00:36.315Z",
+      "resolvedTokyoDate": "2026-10-15"
+    }
+  },
+  "finalSnapshot": {
+    "id": "hybrid-live:h001:1792051236315",
+    "runId": "run:hybrid-live:h001:1792051236315",
+    "taskType": "restaurant.booking",
+    "definitionVersion": "13",
+    "lifecycleState": "SUCCEEDED",
+    "domainState": {
+      "schemaVersion": "15",
+      "phase": "NO_VERIFIED_RESULT",
+      "searchRevision": 3,
+      "investigationRevision": 1,
+      "intentDraft": {
+        "schemaVersion": "3",
+        "timezone": "Asia/Tokyo",
+        "criteria": [
+          {
+            "text": "omakase",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "target": {
+          "goal": "AVAILABILITY",
+          "query": "omakase spot near Shibuya for 2 people tonight at 7 PM",
+          "selectionScope": "OPEN_ENDED"
+        },
+        "date": "2026-10-15",
+        "timeWindow": {
+          "earliest": "19:00",
+          "latest": "19:00"
+        },
+        "temporalResolution": {
+          "policyVersion": "restaurant-temporal-materialization@6",
+          "referenceTime": "2026-10-15T08:00:36.315Z",
+          "timezone": "Asia/Tokyo",
+          "date": {
+            "expression": "tonight",
+            "resolvedDate": "2026-10-15",
+            "basis": "TODAY"
+          },
+          "timeWindow": {
+            "expression": "7 PM",
+            "resolvedTimeWindow": {
+              "earliest": "19:00",
+              "latest": "19:00"
+            },
+            "basis": "EXPLICIT_CLOCK"
+          }
+        },
+        "partySize": 2,
+        "partySizeSource": "EXPLICIT",
+        "area": {
+          "query": "near Shibuya"
+        }
+      },
+      "candidates": [
+        {
+          "restaurant": {
+            "id": "tabelog:en/tokyo/A1303/A130301/13308491",
+            "outletName": "Sushi Teppen",
+            "address": "1500042 Tokyo Udagawacho Shibuya Tokyo ",
+            "coordinates": {
+              "lat": 35.66294870391731,
+              "lng": 139.69560491885105
+            },
+            "sourceIds": {
+              "tabelog": "en/tokyo/A1303/A130301/13308491",
+              "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/",
+              "discoverySourceId": "tabelog",
+              "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/"
+            },
+            "provenance": {
+              "outletName": "evidence:restaurant:native-discovery:f5f7ebfadd955c1993dc0769",
+              "address": "evidence:restaurant:native-discovery:f5f7ebfadd955c1993dc0769",
+              "sourceIds": "evidence:restaurant:native-discovery:f5f7ebfadd955c1993dc0769"
+            }
+          },
+          "matchReasons": [
+            "Source coordinates within 1000 m of Shibuya"
+          ],
+          "warnings": [],
+          "executionConfidence": "MEDIUM"
+        }
+      ],
+      "availability": {
+        "tabelog:en/tokyo/A1303/A130301/13308491": []
+      },
+      "availabilityChecks": {
+        "tabelog:en/tokyo/A1303/A130301/13308491": {
+          "status": "UNKNOWN",
+          "checkedAt": "2026-10-15T08:01:25.596Z",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:0417942e292f230e2797297e",
+            "evidence:restaurant:tabelog-hard-criteria:dea73e3117c2d9a9504e6ea8"
+          ],
+          "reasonCode": "DATE_NOT_SELECTABLE",
+          "sourceAttempts": [
+            {
+              "source": "TABELOG",
+              "outcome": "FAILED",
+              "reasonCode": "DATE_NOT_SELECTABLE"
+            }
+          ],
+          "sourceProvider": "TABELOG",
+          "requestFingerprint": "{\"date\":\"2026-10-15\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":2}"
+        }
+      },
+      "factChecks": {
+        "tabelog:en/tokyo/A1303/A130301/13308491": {
+          "status": "COMPLETED",
+          "checkedAt": "2026-10-15T08:01:27.816Z",
+          "evidenceIds": [
+            "evidence:restaurant:native-fact-identity:66de3327697795ddd1bc27c4",
+            "tabelog:en/tokyo/A1303/A130301/13308491:document:8d49a67f9e9c9327",
+            "fact-judgment:tabelog:en/tokyo/A1303/A130301/13308491:2026-10-15T08:01:33.465Z:tabelog:en/tokyo/A1303/A130301/13308491:document:8d49a67f9e9c9327"
+          ],
+          "sourceProvider": "TABELOG",
+          "supersededEvidenceIds": [
+            "evidence:restaurant:tabelog-hard-criteria:dea73e3117c2d9a9504e6ea8"
+          ]
+        }
+      },
+      "readEvidence": [
+        {
+          "evidenceId": "de616b83659fa20aa09e0e2f65da88d65b1f84ea637145d62706e6d8614c93fa",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "ChIJ0Qgx67KMGGARd2ZbObLZHPE",
+          "observedAt": "2026-10-15T08:00:42.760Z",
+          "requestFingerprint": "f14fccfd01bce6c1459f6a7bfd7c5523a0b14421a9ba7e279cd8b7ba2f8d7e0c",
+          "claims": {
+            "locationResolutionQuery": "Shibuya",
+            "resolvedPlaceName": "Shibuya",
+            "resolvedPlaceId": "ChIJ0Qgx67KMGGARd2ZbObLZHPE",
+            "latitude": 35.6619707,
+            "longitude": 139.70379499999999,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        },
+        {
+          "evidenceId": "evidence:restaurant:native-discovery:f5f7ebfadd955c1993dc0769",
+          "kind": "DISCOVERY",
+          "provider": "TABELOG",
+          "candidateId": "tabelog:en/tokyo/A1303/A130301/13308491",
+          "sourceEntityId": "en/tokyo/A1303/A130301/13308491",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/",
+          "observedAt": "2026-10-15T08:01:09.050Z",
+          "requestFingerprint": "{\"intent\":\"{\\\"timezone\\\":\\\"Asia/Tokyo\\\",\\\"target\\\":{\\\"goal\\\":\\\"AVAILABILITY\\\",\\\"query\\\":\\\"omakase spot near Shibuya for 2 people tonight at 7 PM\\\",\\\"selectionScope\\\":\\\"OPEN_ENDED\\\"},\\\"date\\\":\\\"2026-10-15\\\",\\\"timeWindow\\\":{\\\"earliest\\\":\\\"19:00\\\",\\\"latest\\\":\\\"19:00\\\"},\\\"partySize\\\":2,\\\"area\\\":{\\\"query\\\":\\\"near Shibuya\\\"},\\\"criteria\\\":[{\\\"text\\\":\\\"omakase\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"HARD\\\"}]}\",\"location\":{\"latitude\":35.6619707,\"longitude\":139.70379499999999,\"radiusMeters\":1000,\"label\":\"Shibuya\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Shibuya\",\"shortText\":\"Shibuya\",\"types\":[\"locality\",\"political\"]},{\"longText\":\"Tokyo\",\"shortText\":\"Tokyo\",\"types\":[\"administrative_area_level_1\",\"political\"]},{\"longText\":\"Japan\",\"shortText\":\"JP\",\"types\":[\"country\",\"political\"]}]}}",
+          "claims": {
+            "sourceCategories": [
+              "Shinsen Sta. 654m / Sushi"
+            ],
+            "outletName": "Sushi Teppen",
+            "address": "1500042 Tokyo Udagawacho Shibuya Tokyo ",
+            "areaQuery": "near Shibuya",
+            "areaMatch": true,
+            "areaMatchBasis": "NAMED_PLACE_RADIUS",
+            "evaluationLocationLabel": "Shibuya",
+            "distanceMeters": 749
+          }
+        },
+        {
+          "evidenceId": "evidence:restaurant:tabelog-entity-match:0417942e292f230e2797297e",
+          "kind": "ENTITY_MATCH",
+          "provider": "TABELOG",
+          "candidateId": "tabelog:en/tokyo/A1303/A130301/13308491",
+          "sourceEntityId": "en/tokyo/A1303/A130301/13308491",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/",
+          "observedAt": "2026-10-15T08:01:25.596Z",
+          "requestFingerprint": "cd8205e63dfc33a823e6a95ed9ebd7f4972a1257da1354d76009bd649f55d643",
+          "claims": {
+            "outletName": "Sushi Teppen"
+          },
+          "entityMatch": {
+            "confidence": "HIGH",
+            "matchedBy": [
+              "NATIVE_SOURCE_ID_AND_DETAIL"
+            ]
+          }
+        },
+        {
+          "evidenceId": "evidence:restaurant:tabelog-hard-criteria:dea73e3117c2d9a9504e6ea8",
+          "kind": "RESTAURANT_FACT",
+          "provider": "TABELOG",
+          "candidateId": "tabelog:en/tokyo/A1303/A130301/13308491",
+          "sourceEntityId": "en/tokyo/A1303/A130301/13308491",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/",
+          "observedAt": "2026-10-15T08:01:25.596Z",
+          "requestFingerprint": "2e8cf4d2466291dd4be4166b3297559817f06391cf5bfcd0bb04c1598a3e9fad",
+          "claims": {
+            "verifiedHardCriteria": [],
+            "listedCourseDetails": [
+              "Seasonal Delicacies and Omakase Nigiri Course ◆ Enjoy the Changing Seasons and Artisan Skills — JPY 16,500 （Price including tax）per person",
+              "Seasonal Delicacies and Omakase Nigiri Course with Non-Alcoholic Pairing ◆ Enjoy the Changing Seasons, Artisan Skills, and Drinks that Complement the Dishes — JPY 20,000 （Price including tax）per person",
+              "Seasonal Delicacies and Omakase Nigiri Course with Pairing ◆ Enjoy the Changing Seasons, Artisan Skills, and Fine Sake that Complements the Dishes — JPY 23,000 （Price including tax）per person"
+            ]
+          },
+          "entityMatch": {
+            "confidence": "HIGH",
+            "matchedBy": [
+              "NATIVE_SOURCE_ID_AND_DETAIL"
+            ]
+          }
+        },
+        {
+          "evidenceId": "evidence:restaurant:native-fact-identity:66de3327697795ddd1bc27c4",
+          "kind": "ENTITY_MATCH",
+          "provider": "TABELOG",
+          "candidateId": "tabelog:en/tokyo/A1303/A130301/13308491",
+          "sourceEntityId": "en/tokyo/A1303/A130301/13308491",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/",
+          "observedAt": "2026-10-15T08:01:27.816Z",
+          "requestFingerprint": "{\"candidateId\":\"tabelog:en/tokyo/A1303/A130301/13308491\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1303/A130301/13308491/\"}",
+          "claims": {
+            "observationKind": "PUBLIC_PAGE",
+            "outletName": "Sushi Teppen",
+            "address": "1500042 Tokyo Udagawacho Shibuya Tokyo "
+          },
+          "entityMatch": {
+            "confidence": "HIGH",
+            "matchedBy": [
+              "NATIVE_SOURCE_ID_AND_DETAIL"
+            ]
+          }
+        },
+        {
+          "evidenceId": "tabelog:en/tokyo/A1303/A130301/13308491:document:8d49a67f9e9c9327",
+          "kind": "RESTAURANT_FACT",
+          "provider": "TABELOG",
+          "candidateId": "tabelog:en/tokyo/A1303/A130301/13308491",
+          "sourceEntityId": "en/tokyo/A1303/A130301/13308491",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/",
+          "observedAt": "2026-10-15T08:01:27.816Z",
+          "requestFingerprint": "{\"documentId\":\"tabelog:en/tokyo/A1303/A130301/13308491:document:8d49a67f9e9c9327\",\"statementIds\":[\"tabelog:en/tokyo/A1303/A130301/13308491:statement:40\",\"tabelog:en/tokyo/A1303/A130301/13308491:statement:47\"]}",
+          "claims": {
+            "restaurantTypeFacts": [
+              "Craftsmanship Shines in Our \"Omakase Course\" ◆ We Also Suggest Sake That Pairs Well with the Dishes",
+              "Seasonal Delicacies and Omakase Nigiri Course ◆ Enjoy the Changing Seasons and Artisan Skills"
+            ],
+            "sourceStatementIds": [
+              "tabelog:en/tokyo/A1303/A130301/13308491:statement:40",
+              "tabelog:en/tokyo/A1303/A130301/13308491:statement:47"
+            ]
+          },
+          "entityMatch": {
+            "confidence": "HIGH",
+            "matchedBy": [
+              "NATIVE_SOURCE_ID_AND_DETAIL"
+            ]
+          },
+          "artifactRef": {
+            "kind": "DOM_EXCERPT",
+            "reference": "tabelog:en/tokyo/A1303/A130301/13308491:document:8d49a67f9e9c9327"
+          }
+        },
+        {
+          "evidenceId": "fact-judgment:tabelog:en/tokyo/A1303/A130301/13308491:2026-10-15T08:01:33.465Z:tabelog:en/tokyo/A1303/A130301/13308491:document:8d49a67f9e9c9327",
+          "kind": "RESTAURANT_FACT",
+          "provider": "MODEL_JUDGMENT",
+          "candidateId": "tabelog:en/tokyo/A1303/A130301/13308491",
+          "observedAt": "2026-10-15T08:01:33.465Z",
+          "requestFingerprint": "{\"candidateId\":\"tabelog:en/tokyo/A1303/A130301/13308491\",\"criteria\":[\"omakase\"],\"cited\":[\"tabelog:en/tokyo/A1303/A130301/13308491:document:8d49a67f9e9c9327\"]}",
+          "claims": {
+            "verifiedHardCriteria": [
+              "omakase"
+            ],
+            "supportingEvidenceIds": [
+              "tabelog:en/tokyo/A1303/A130301/13308491:document:8d49a67f9e9c9327"
+            ]
+          }
+        }
+      ],
+      "intent": {
+        "timezone": "Asia/Tokyo",
+        "target": {
+          "goal": "AVAILABILITY",
+          "query": "omakase spot near Shibuya for 2 people tonight at 7 PM",
+          "selectionScope": "OPEN_ENDED"
+        },
+        "date": "2026-10-15",
+        "timeWindow": {
+          "earliest": "19:00",
+          "latest": "19:00"
+        },
+        "partySize": 2,
+        "area": {
+          "query": "near Shibuya"
+        },
+        "criteria": [
+          {
+            "text": "omakase",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ]
+      },
+      "searchContinuation": {
+        "intentFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"omakase spot near Shibuya for 2 people tonight at 7 PM\",\"selectionScope\":\"OPEN_ENDED\"},\"date\":\"2026-10-15\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":2,\"area\":{\"query\":\"near Shibuya\"},\"criteria\":[{\"text\":\"omakase\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}]}",
+        "discoveryPlan": {
+          "entries": [
+            {
+              "sourceId": "tabelog",
+              "query": {
+                "category": "omakase",
+                "keyword": "omakase",
+                "location": {
+                  "latitude": 35.6619707,
+                  "longitude": 139.70379499999999,
+                  "radiusMeters": 1000,
+                  "label": "Shibuya",
+                  "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                  "addressComponents": [
+                    {
+                      "longText": "Shibuya",
+                      "shortText": "Shibuya",
+                      "types": [
+                        "locality",
+                        "political"
+                      ]
+                    },
+                    {
+                      "longText": "Tokyo",
+                      "shortText": "Tokyo",
+                      "types": [
+                        "administrative_area_level_1",
+                        "political"
+                      ]
+                    },
+                    {
+                      "longText": "Japan",
+                      "shortText": "JP",
+                      "types": [
+                        "country",
+                        "political"
+                      ]
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "sourceId": "tablecheck",
+              "query": {
+                "category": "omakase",
+                "keyword": "omakase",
+                "location": {
+                  "latitude": 35.6619707,
+                  "longitude": 139.70379499999999,
+                  "radiusMeters": 1000,
+                  "label": "Shibuya",
+                  "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                  "addressComponents": [
+                    {
+                      "longText": "Shibuya",
+                      "shortText": "Shibuya",
+                      "types": [
+                        "locality",
+                        "political"
+                      ]
+                    },
+                    {
+                      "longText": "Tokyo",
+                      "shortText": "Tokyo",
+                      "types": [
+                        "administrative_area_level_1",
+                        "political"
+                      ]
+                    },
+                    {
+                      "longText": "Japan",
+                      "shortText": "JP",
+                      "types": [
+                        "country",
+                        "political"
+                      ]
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "sourceId": "google-places",
+              "query": {
+                "category": "omakase",
+                "keyword": "omakase",
+                "location": {
+                  "latitude": 35.6619707,
+                  "longitude": 139.70379499999999,
+                  "radiusMeters": 1000,
+                  "label": "Shibuya",
+                  "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                  "addressComponents": [
+                    {
+                      "longText": "Shibuya",
+                      "shortText": "Shibuya",
+                      "types": [
+                        "locality",
+                        "political"
+                      ]
+                    },
+                    {
+                      "longText": "Tokyo",
+                      "shortText": "Tokyo",
+                      "types": [
+                        "administrative_area_level_1",
+                        "political"
+                      ]
+                    },
+                    {
+                      "longText": "Japan",
+                      "shortText": "JP",
+                      "types": [
+                        "country",
+                        "political"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          "cursor": 1
+        },
+        "currentDiscoveryBatch": {
+          "sourceId": "tabelog",
+          "candidateIds": []
+        },
+        "usedPageTokens": [],
+        "pagesRead": 6,
+        "exhausted": false,
+        "locationContext": {
+          "latitude": 35.6619707,
+          "longitude": 139.70379499999999,
+          "radiusMeters": 1000,
+          "label": "Shibuya",
+          "areaMatchBasis": "NAMED_PLACE_RADIUS",
+          "addressComponents": [
+            {
+              "longText": "Shibuya",
+              "shortText": "Shibuya",
+              "types": [
+                "locality",
+                "political"
+              ]
+            },
+            {
+              "longText": "Tokyo",
+              "shortText": "Tokyo",
+              "types": [
+                "administrative_area_level_1",
+                "political"
+              ]
+            },
+            {
+              "longText": "Japan",
+              "shortText": "JP",
+              "types": [
+                "country",
+                "political"
+              ]
+            }
+          ]
+        }
+      },
+      "pendingResultBatchTarget": 3,
+      "noVerifiedResult": {
+        "investigatedCandidateIds": [
+          "tabelog:en/tokyo/A1303/A130301/13308491"
+        ],
+        "unresolvedCandidateIds": [
+          "tabelog:en/tokyo/A1303/A130301/13308491"
+        ],
+        "remainingGaps": [
+          "Sushi Teppen: availability UNKNOWN (DATE_NOT_SELECTABLE); facts COMPLETED",
+          "Candidate tabelog:en/tokyo/A1303/A130301/13308491 lacks fresh evidenced availability for the authoritative request",
+          "AGENT_LOOP_NO_PROGRESS: BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED: no executable model-backed read path remains; BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED: Shared browser-model budget exhausted for this read run",
+          "Sources with recorded reads or attempts: GOOGLE_PLACES, TABELOG, MODEL_JUDGMENT; unread discovery entries: tablecheck, google-places. Unread outlets and missing evidence remain unknown; this does not establish that all restaurants have no seats."
+        ],
+        "termination": {
+          "type": "NO_PROGRESS",
+          "reasonCode": "BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED",
+          "isSystemReason": false,
+          "initiator": "SYSTEM"
+        },
+        "endedAt": "2026-10-15T08:03:06.919Z"
+      }
+    },
+    "outcome": {
+      "status": "NO_VERIFIED_RESULT",
+      "investigatedCandidateIds": [
+        "tabelog:en/tokyo/A1303/A130301/13308491"
+      ],
+      "unresolvedCandidateIds": [
+        "tabelog:en/tokyo/A1303/A130301/13308491"
+      ],
+      "remainingGaps": [
+        "Sushi Teppen: availability UNKNOWN (DATE_NOT_SELECTABLE); facts COMPLETED",
+        "Candidate tabelog:en/tokyo/A1303/A130301/13308491 lacks fresh evidenced availability for the authoritative request",
+        "AGENT_LOOP_NO_PROGRESS: BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED: no executable model-backed read path remains; BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED: Shared browser-model budget exhausted for this read run",
+        "Sources with recorded reads or attempts: GOOGLE_PLACES, TABELOG, MODEL_JUDGMENT; unread discovery entries: tablecheck, google-places. Unread outlets and missing evidence remain unknown; this does not establish that all restaurants have no seats."
+      ]
+    },
+    "version": 8,
+    "createdAt": "2026-10-15T08:00:36.361Z",
+    "updatedAt": "2026-10-15T08:06:38.660Z"
+  },
+  "events": [
+    {
+      "id": "event:hybrid-live:h001:1792051236315:semantic:1",
+      "taskId": "hybrid-live:h001:1792051236315",
+      "event": {
+        "type": "SEMANTIC_PROPOSAL_COMPILED",
+        "patch": {
+          "schemaVersion": "3",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "omakase spot near Shibuya for 2 people tonight at 7 PM",
+            "selectionScope": "OPEN_ENDED"
+          },
+          "partySize": 2,
+          "partySizeSource": "EXPLICIT",
+          "area": {
+            "query": "near Shibuya"
+          },
+          "addCriteria": [
+            {
+              "text": "omakase",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            }
+          ],
+          "date": "2026-10-15",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:00"
+          },
+          "temporalResolution": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-10-15T08:00:36.315Z",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "tonight",
+              "resolvedDate": "2026-10-15",
+              "basis": "TODAY"
+            },
+            "timeWindow": {
+              "expression": "7 PM",
+              "resolvedTimeWindow": {
+                "earliest": "19:00",
+                "latest": "19:00"
+              },
+              "basis": "EXPLICIT_CLOCK"
+            }
+          }
+        }
+      },
+      "occurredAt": "2026-10-15T08:00:38.763Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:h001:1792051236315",
+        "correlationId": "event:hybrid-live:h001:1792051236315:semantic:1",
+        "actor": "MODEL"
+      }
+    },
+    {
+      "id": "event:restaurant-agent:1",
+      "taskId": "hybrid-live:h001:1792051236315",
+      "event": {
+        "type": "SEARCH_COMPLETED",
+        "request": {
+          "intent": {
+            "timezone": "Asia/Tokyo",
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "omakase spot near Shibuya for 2 people tonight at 7 PM",
+              "selectionScope": "OPEN_ENDED"
+            },
+            "date": "2026-10-15",
+            "timeWindow": {
+              "earliest": "19:00",
+              "latest": "19:00"
+            },
+            "partySize": 2,
+            "area": {
+              "query": "near Shibuya"
+            },
+            "criteria": [
+              {
+                "text": "omakase",
+                "polarity": "POSITIVE",
+                "strength": "HARD"
+              }
+            ]
+          },
+          "retrievalHint": "omakase restaurants near Shibuya, Tokyo",
+          "readRunId": "run:hybrid-live:h001:1792051236315:investigation:1"
+        },
+        "candidates": [
+          {
+            "restaurant": {
+              "id": "tabelog:en/tokyo/A1303/A130301/13308491",
+              "outletName": "Sushi Teppen",
+              "address": "1500042 Tokyo Udagawacho Shibuya Tokyo ",
+              "coordinates": {
+                "lat": 35.66294870391731,
+                "lng": 139.69560491885105
+              },
+              "sourceIds": {
+                "tabelog": "en/tokyo/A1303/A130301/13308491",
+                "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/",
+                "discoverySourceId": "tabelog",
+                "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/"
+              },
+              "provenance": {
+                "outletName": "evidence:restaurant:native-discovery:f5f7ebfadd955c1993dc0769",
+                "address": "evidence:restaurant:native-discovery:f5f7ebfadd955c1993dc0769",
+                "sourceIds": "evidence:restaurant:native-discovery:f5f7ebfadd955c1993dc0769"
+              }
+            },
+            "matchReasons": [
+              "Source coordinates within 1000 m of Shibuya"
+            ],
+            "warnings": [],
+            "executionConfidence": "MEDIUM"
+          }
+        ],
+        "evidence": [
+          {
+            "evidenceId": "de616b83659fa20aa09e0e2f65da88d65b1f84ea637145d62706e6d8614c93fa",
+            "kind": "DISCOVERY",
+            "provider": "GOOGLE_PLACES",
+            "sourceEntityId": "ChIJ0Qgx67KMGGARd2ZbObLZHPE",
+            "observedAt": "2026-10-15T08:00:42.760Z",
+            "requestFingerprint": "f14fccfd01bce6c1459f6a7bfd7c5523a0b14421a9ba7e279cd8b7ba2f8d7e0c",
+            "claims": {
+              "locationResolutionQuery": "Shibuya",
+              "resolvedPlaceName": "Shibuya",
+              "resolvedPlaceId": "ChIJ0Qgx67KMGGARd2ZbObLZHPE",
+              "latitude": 35.6619707,
+              "longitude": 139.70379499999999,
+              "radiusMeters": 1000,
+              "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+            }
+          },
+          {
+            "evidenceId": "evidence:restaurant:native-discovery:f5f7ebfadd955c1993dc0769",
+            "kind": "DISCOVERY",
+            "provider": "TABELOG",
+            "candidateId": "tabelog:en/tokyo/A1303/A130301/13308491",
+            "sourceEntityId": "en/tokyo/A1303/A130301/13308491",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/",
+            "observedAt": "2026-10-15T08:01:09.050Z",
+            "requestFingerprint": "{\"intent\":\"{\\\"timezone\\\":\\\"Asia/Tokyo\\\",\\\"target\\\":{\\\"goal\\\":\\\"AVAILABILITY\\\",\\\"query\\\":\\\"omakase spot near Shibuya for 2 people tonight at 7 PM\\\",\\\"selectionScope\\\":\\\"OPEN_ENDED\\\"},\\\"date\\\":\\\"2026-10-15\\\",\\\"timeWindow\\\":{\\\"earliest\\\":\\\"19:00\\\",\\\"latest\\\":\\\"19:00\\\"},\\\"partySize\\\":2,\\\"area\\\":{\\\"query\\\":\\\"near Shibuya\\\"},\\\"criteria\\\":[{\\\"text\\\":\\\"omakase\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"HARD\\\"}]}\",\"location\":{\"latitude\":35.6619707,\"longitude\":139.70379499999999,\"radiusMeters\":1000,\"label\":\"Shibuya\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Shibuya\",\"shortText\":\"Shibuya\",\"types\":[\"locality\",\"political\"]},{\"longText\":\"Tokyo\",\"shortText\":\"Tokyo\",\"types\":[\"administrative_area_level_1\",\"political\"]},{\"longText\":\"Japan\",\"shortText\":\"JP\",\"types\":[\"country\",\"political\"]}]}}",
+            "claims": {
+              "sourceCategories": [
+                "Shinsen Sta. 654m / Sushi"
+              ],
+              "outletName": "Sushi Teppen",
+              "address": "1500042 Tokyo Udagawacho Shibuya Tokyo ",
+              "areaQuery": "near Shibuya",
+              "areaMatch": true,
+              "areaMatchBasis": "NAMED_PLACE_RADIUS",
+              "evaluationLocationLabel": "Shibuya",
+              "distanceMeters": 749
+            }
+          }
+        ],
+        "continuation": {
+          "intentFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"omakase spot near Shibuya for 2 people tonight at 7 PM\",\"selectionScope\":\"OPEN_ENDED\"},\"date\":\"2026-10-15\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":2,\"area\":{\"query\":\"near Shibuya\"},\"criteria\":[{\"text\":\"omakase\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}]}",
+          "discoveryPlan": {
+            "entries": [
+              {
+                "sourceId": "tabelog",
+                "query": {
+                  "category": "omakase",
+                  "keyword": "omakase",
+                  "location": {
+                    "latitude": 35.6619707,
+                    "longitude": 139.70379499999999,
+                    "radiusMeters": 1000,
+                    "label": "Shibuya",
+                    "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                    "addressComponents": [
+                      {
+                        "longText": "Shibuya",
+                        "shortText": "Shibuya",
+                        "types": [
+                          "locality",
+                          "political"
+                        ]
+                      },
+                      {
+                        "longText": "Tokyo",
+                        "shortText": "Tokyo",
+                        "types": [
+                          "administrative_area_level_1",
+                          "political"
+                        ]
+                      },
+                      {
+                        "longText": "Japan",
+                        "shortText": "JP",
+                        "types": [
+                          "country",
+                          "political"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "sourceId": "tablecheck",
+                "query": {
+                  "category": "omakase",
+                  "keyword": "omakase",
+                  "location": {
+                    "latitude": 35.6619707,
+                    "longitude": 139.70379499999999,
+                    "radiusMeters": 1000,
+                    "label": "Shibuya",
+                    "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                    "addressComponents": [
+                      {
+                        "longText": "Shibuya",
+                        "shortText": "Shibuya",
+                        "types": [
+                          "locality",
+                          "political"
+                        ]
+                      },
+                      {
+                        "longText": "Tokyo",
+                        "shortText": "Tokyo",
+                        "types": [
+                          "administrative_area_level_1",
+                          "political"
+                        ]
+                      },
+                      {
+                        "longText": "Japan",
+                        "shortText": "JP",
+                        "types": [
+                          "country",
+                          "political"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "sourceId": "google-places",
+                "query": {
+                  "category": "omakase",
+                  "keyword": "omakase",
+                  "location": {
+                    "latitude": 35.6619707,
+                    "longitude": 139.70379499999999,
+                    "radiusMeters": 1000,
+                    "label": "Shibuya",
+                    "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                    "addressComponents": [
+                      {
+                        "longText": "Shibuya",
+                        "shortText": "Shibuya",
+                        "types": [
+                          "locality",
+                          "political"
+                        ]
+                      },
+                      {
+                        "longText": "Tokyo",
+                        "shortText": "Tokyo",
+                        "types": [
+                          "administrative_area_level_1",
+                          "political"
+                        ]
+                      },
+                      {
+                        "longText": "Japan",
+                        "shortText": "JP",
+                        "types": [
+                          "country",
+                          "political"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            ],
+            "cursor": 0
+          },
+          "currentDiscoveryBatch": {
+            "sourceId": "tabelog",
+            "candidateIds": [
+              "tabelog:en/tokyo/A1303/A130301/13308491"
+            ]
+          },
+          "usedPageTokens": [],
+          "pagesRead": 2,
+          "exhausted": false,
+          "sourceProgress": {
+            "directoryRegion": {
+              "first": {
+                "url": "https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase",
+                "observedOn": "https://tabelog.com/en/tokyo/rstLst/?sw=omakase",
+                "targetRef": "observation:2:target:22",
+                "label": "Shibuya & Ebisu & Daikanyama"
+              },
+              "firstFive": [
+                {
+                  "sourceEntityId": "en/tokyo/A1303/A130301/13203305",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13203305/",
+                  "outcome": "OUTSIDE_RADIUS",
+                  "coordinates": {
+                    "latitude": 35.65769355870779,
+                    "longitude": 139.6936568141977
+                  },
+                  "distanceMeters": 1033.189661412876
+                },
+                {
+                  "sourceEntityId": "en/tokyo/A1303/A130301/13308491",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/",
+                  "outcome": "WITHIN_RADIUS",
+                  "coordinates": {
+                    "latitude": 35.66294870391731,
+                    "longitude": 139.69560491885105
+                  },
+                  "distanceMeters": 748.7035824387306
+                },
+                {
+                  "sourceEntityId": "en/tokyo/A1303/A130302/13244783",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13244783/",
+                  "outcome": "OUTSIDE_RADIUS",
+                  "coordinates": {
+                    "latitude": 35.6479128787216,
+                    "longitude": 139.7175008440822
+                  },
+                  "distanceMeters": 1996.3988741607188
+                }
+              ]
+            },
+            "sourceId": "tabelog",
+            "inspectedSourceIds": [
+              "en/tokyo/A1303/A130301/13203305",
+              "en/tokyo/A1303/A130301/13308491",
+              "en/tokyo/A1303/A130302/13244783"
+            ],
+            "detailAttempts": 3,
+            "pagesRead": 2,
+            "elapsedMs": 31189,
+            "visitedListingUrls": [
+              "https://tabelog.com/en/tokyo/rstLst/?sw=omakase",
+              "https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase"
+            ],
+            "pendingSourceEntries": [],
+            "pendingSourceIds": []
+          },
+          "locationContext": {
+            "latitude": 35.6619707,
+            "longitude": 139.70379499999999,
+            "radiusMeters": 1000,
+            "label": "Shibuya",
+            "areaMatchBasis": "NAMED_PLACE_RADIUS",
+            "addressComponents": [
+              {
+                "longText": "Shibuya",
+                "shortText": "Shibuya",
+                "types": [
+                  "locality",
+                  "political"
+                ]
+              },
+              {
+                "longText": "Tokyo",
+                "shortText": "Tokyo",
+                "types": [
+                  "administrative_area_level_1",
+                  "political"
+                ]
+              },
+              {
+                "longText": "Japan",
+                "shortText": "JP",
+                "types": [
+                  "country",
+                  "political"
+                ]
+              }
+            ]
+          }
+        },
+        "metadata": {
+          "provider": "TABELOG",
+          "route": "GENERIC_BROWSER",
+          "latencyMs": 32566,
+          "nativeDiscoveryFunnel": {
+            "directoryRegion": {
+              "first": {
+                "url": "https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase",
+                "observedOn": "https://tabelog.com/en/tokyo/rstLst/?sw=omakase",
+                "targetRef": "observation:2:target:22",
+                "label": "Shibuya & Ebisu & Daikanyama"
+              },
+              "firstFive": [
+                {
+                  "sourceEntityId": "en/tokyo/A1303/A130301/13203305",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13203305/",
+                  "outcome": "OUTSIDE_RADIUS",
+                  "coordinates": {
+                    "latitude": 35.65769355870779,
+                    "longitude": 139.6936568141977
+                  },
+                  "distanceMeters": 1033.189661412876
+                },
+                {
+                  "sourceEntityId": "en/tokyo/A1303/A130301/13308491",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/",
+                  "outcome": "WITHIN_RADIUS",
+                  "coordinates": {
+                    "latitude": 35.66294870391731,
+                    "longitude": 139.69560491885105
+                  },
+                  "distanceMeters": 748.7035824387306
+                },
+                {
+                  "sourceEntityId": "en/tokyo/A1303/A130302/13244783",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13244783/",
+                  "outcome": "OUTSIDE_RADIUS",
+                  "coordinates": {
+                    "latitude": 35.6479128787216,
+                    "longitude": 139.7175008440822
+                  },
+                  "distanceMeters": 1996.3988741607188
+                }
+              ]
+            },
+            "source": "TABELOG",
+            "rawSourceLinks": 3,
+            "parsedOutlets": 3,
+            "inspectedOutlets": 3,
+            "batchCap": 5,
+            "sourceDetailCap": 10,
+            "sourceDetailAttempts": 3,
+            "deferredByBatchCap": [],
+            "rejected": [
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13203305/",
+                "reasonCode": "OUTSIDE_EXACT_RADIUS"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13244783/",
+                "reasonCode": "OUTSIDE_EXACT_RADIUS"
+              }
+            ],
+            "accepted": 1,
+            "sourcePageCap": 6,
+            "sourceElapsedCapMs": 90000,
+            "sourceElapsedMs": 31189,
+            "sourceTimeLimitReached": false,
+            "pagesRead": 2,
+            "batchLimitReached": false,
+            "sourceExhausted": "UNKNOWN",
+            "batchEnded": true,
+            "sourceEnded": false,
+            "progressionReason": "FIRST_SOURCE_BATCH",
+            "listingObservations": [
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/rstLst/?sw=omakase",
+                "parsedOutlets": 20,
+                "resultCount": 36,
+                "nextPageUrl": "https://tabelog.com/en/tokyo/rstLst/2/?sw=omakase"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase",
+                "parsedOutlets": 3,
+                "resultCount": 3
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase",
+                "parsedOutlets": 3,
+                "resultCount": 3
+              }
+            ]
+          },
+          "googleRequests": {
+            "limit": 40,
+            "total": 1,
+            "namedPlaceResolution": 1,
+            "discovery": 0,
+            "placeDetails": 0,
+            "reverseAddressObservation": 0
+          }
+        }
+      },
+      "occurredAt": "2026-10-15T08:01:13.984Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:h001:1792051236315",
+        "correlationId": "event:restaurant-agent:1",
+        "actor": "ADAPTER"
+      }
+    },
+    {
+      "id": "event:restaurant-agent:2",
+      "taskId": "hybrid-live:h001:1792051236315",
+      "event": {
+        "type": "AVAILABILITY_CHECKED",
+        "request": {
+          "candidateIds": [
+            "tabelog:en/tokyo/A1303/A130301/13308491"
+          ],
+          "candidates": [
+            {
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491",
+                "outletName": "Sushi Teppen",
+                "address": "1500042 Tokyo Udagawacho Shibuya Tokyo ",
+                "coordinates": {
+                  "lat": 35.66294870391731,
+                  "lng": 139.69560491885105
+                },
+                "sourceIds": {
+                  "tabelog": "en/tokyo/A1303/A130301/13308491",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/"
+                },
+                "provenance": {
+                  "outletName": "evidence:restaurant:native-discovery:f5f7ebfadd955c1993dc0769",
+                  "address": "evidence:restaurant:native-discovery:f5f7ebfadd955c1993dc0769",
+                  "sourceIds": "evidence:restaurant:native-discovery:f5f7ebfadd955c1993dc0769"
+                }
+              },
+              "matchReasons": [
+                "Source coordinates within 1000 m of Shibuya"
+              ],
+              "warnings": [],
+              "executionConfidence": "MEDIUM"
+            }
+          ],
+          "date": "2026-10-15",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:00"
+          },
+          "partySize": 2,
+          "hardCriteria": [
+            "omakase"
+          ]
+        },
+        "offers": [],
+        "evidence": [
+          {
+            "evidenceId": "evidence:restaurant:tabelog-entity-match:0417942e292f230e2797297e",
+            "kind": "ENTITY_MATCH",
+            "provider": "TABELOG",
+            "candidateId": "tabelog:en/tokyo/A1303/A130301/13308491",
+            "sourceEntityId": "en/tokyo/A1303/A130301/13308491",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/",
+            "observedAt": "2026-10-15T08:01:25.596Z",
+            "requestFingerprint": "cd8205e63dfc33a823e6a95ed9ebd7f4972a1257da1354d76009bd649f55d643",
+            "claims": {
+              "outletName": "Sushi Teppen"
+            },
+            "entityMatch": {
+              "confidence": "HIGH",
+              "matchedBy": [
+                "NATIVE_SOURCE_ID_AND_DETAIL"
+              ]
+            }
+          },
+          {
+            "evidenceId": "evidence:restaurant:tabelog-hard-criteria:dea73e3117c2d9a9504e6ea8",
+            "kind": "RESTAURANT_FACT",
+            "provider": "TABELOG",
+            "candidateId": "tabelog:en/tokyo/A1303/A130301/13308491",
+            "sourceEntityId": "en/tokyo/A1303/A130301/13308491",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/",
+            "observedAt": "2026-10-15T08:01:25.596Z",
+            "requestFingerprint": "2e8cf4d2466291dd4be4166b3297559817f06391cf5bfcd0bb04c1598a3e9fad",
+            "claims": {
+              "verifiedHardCriteria": [],
+              "listedCourseDetails": [
+                "Seasonal Delicacies and Omakase Nigiri Course ◆ Enjoy the Changing Seasons and Artisan Skills — JPY 16,500 （Price including tax）per person",
+                "Seasonal Delicacies and Omakase Nigiri Course with Non-Alcoholic Pairing ◆ Enjoy the Changing Seasons, Artisan Skills, and Drinks that Complement the Dishes — JPY 20,000 （Price including tax）per person",
+                "Seasonal Delicacies and Omakase Nigiri Course with Pairing ◆ Enjoy the Changing Seasons, Artisan Skills, and Fine Sake that Complements the Dishes — JPY 23,000 （Price including tax）per person"
+              ]
+            },
+            "entityMatch": {
+              "confidence": "HIGH",
+              "matchedBy": [
+                "NATIVE_SOURCE_ID_AND_DETAIL"
+              ]
+            }
+          }
+        ],
+        "availabilityChecks": {
+          "tabelog:en/tokyo/A1303/A130301/13308491": {
+            "status": "UNKNOWN",
+            "checkedAt": "2026-10-15T08:01:25.596Z",
+            "evidenceIds": [
+              "evidence:restaurant:tabelog-entity-match:0417942e292f230e2797297e",
+              "evidence:restaurant:tabelog-hard-criteria:dea73e3117c2d9a9504e6ea8"
+            ],
+            "reasonCode": "DATE_NOT_SELECTABLE",
+            "sourceAttempts": [
+              {
+                "source": "TABELOG",
+                "outcome": "FAILED",
+                "reasonCode": "DATE_NOT_SELECTABLE"
+              }
+            ],
+            "sourceProvider": "TABELOG"
+          }
+        },
+        "metadata": {
+          "provider": "TABELOG",
+          "route": "GENERIC_BROWSER",
+          "latencyMs": 8679,
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+          "failureCode": "AVAILABILITY_SOURCES_EXHAUSTED",
+          "providerAttempts": [
+            {
+              "candidateId": "tabelog:en/tokyo/A1303/A130301/13308491",
+              "provider": "TABELOG",
+              "outcome": "PROVIDER_FAILURE",
+              "failureCode": "DATE_NOT_SELECTABLE"
+            }
+          ],
+          "browser": {
+            "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+            "engine": "CHROMIUM",
+            "sessionId": "local:77dc047c-b181-4435-b35c-1d719fc0fa54",
+            "startedAt": "2026-10-15T08:01:17.048Z",
+            "readNetworkBoundary": "INSTALLED"
+          }
+        },
+        "candidateFactUpdates": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1303/A130301/13308491",
+            "matchReasons": [],
+            "evidenceIds": [
+              "evidence:restaurant:tabelog-hard-criteria:dea73e3117c2d9a9504e6ea8"
+            ]
+          }
+        ]
+      },
+      "occurredAt": "2026-10-15T08:01:25.641Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:h001:1792051236315",
+        "correlationId": "event:restaurant-agent:2",
+        "actor": "ADAPTER"
+      }
+    },
+    {
+      "id": "event:restaurant-agent:3",
+      "taskId": "hybrid-live:h001:1792051236315",
+      "event": {
+        "type": "CANDIDATE_FACTS_CHECKED",
+        "request": {
+          "candidateIds": [
+            "tabelog:en/tokyo/A1303/A130301/13308491"
+          ],
+          "candidates": [
+            {
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491",
+                "outletName": "Sushi Teppen",
+                "address": "1500042 Tokyo Udagawacho Shibuya Tokyo ",
+                "coordinates": {
+                  "lat": 35.66294870391731,
+                  "lng": 139.69560491885105
+                },
+                "sourceIds": {
+                  "tabelog": "en/tokyo/A1303/A130301/13308491",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/"
+                },
+                "provenance": {
+                  "outletName": "evidence:restaurant:native-discovery:f5f7ebfadd955c1993dc0769",
+                  "address": "evidence:restaurant:native-discovery:f5f7ebfadd955c1993dc0769",
+                  "sourceIds": "evidence:restaurant:native-discovery:f5f7ebfadd955c1993dc0769"
+                }
+              },
+              "matchReasons": [
+                "Source coordinates within 1000 m of Shibuya"
+              ],
+              "warnings": [],
+              "executionConfidence": "MEDIUM"
+            }
+          ],
+          "intent": {
+            "timezone": "Asia/Tokyo",
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "omakase spot near Shibuya for 2 people tonight at 7 PM",
+              "selectionScope": "OPEN_ENDED"
+            },
+            "date": "2026-10-15",
+            "timeWindow": {
+              "earliest": "19:00",
+              "latest": "19:00"
+            },
+            "partySize": 2,
+            "area": {
+              "query": "near Shibuya"
+            },
+            "criteria": [
+              {
+                "text": "omakase",
+                "polarity": "POSITIVE",
+                "strength": "HARD"
+              }
+            ]
+          },
+          "readRunId": "run:hybrid-live:h001:1792051236315:investigation:1"
+        },
+        "evidence": [
+          {
+            "evidenceId": "evidence:restaurant:native-fact-identity:66de3327697795ddd1bc27c4",
+            "kind": "ENTITY_MATCH",
+            "provider": "TABELOG",
+            "candidateId": "tabelog:en/tokyo/A1303/A130301/13308491",
+            "sourceEntityId": "en/tokyo/A1303/A130301/13308491",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/",
+            "observedAt": "2026-10-15T08:01:27.816Z",
+            "requestFingerprint": "{\"candidateId\":\"tabelog:en/tokyo/A1303/A130301/13308491\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1303/A130301/13308491/\"}",
+            "claims": {
+              "observationKind": "PUBLIC_PAGE",
+              "outletName": "Sushi Teppen",
+              "address": "1500042 Tokyo Udagawacho Shibuya Tokyo "
+            },
+            "entityMatch": {
+              "confidence": "HIGH",
+              "matchedBy": [
+                "NATIVE_SOURCE_ID_AND_DETAIL"
+              ]
+            }
+          },
+          {
+            "evidenceId": "tabelog:en/tokyo/A1303/A130301/13308491:document:8d49a67f9e9c9327",
+            "kind": "RESTAURANT_FACT",
+            "provider": "TABELOG",
+            "candidateId": "tabelog:en/tokyo/A1303/A130301/13308491",
+            "sourceEntityId": "en/tokyo/A1303/A130301/13308491",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/",
+            "observedAt": "2026-10-15T08:01:27.816Z",
+            "requestFingerprint": "{\"documentId\":\"tabelog:en/tokyo/A1303/A130301/13308491:document:8d49a67f9e9c9327\",\"statementIds\":[\"tabelog:en/tokyo/A1303/A130301/13308491:statement:40\",\"tabelog:en/tokyo/A1303/A130301/13308491:statement:47\"]}",
+            "claims": {
+              "restaurantTypeFacts": [
+                "Craftsmanship Shines in Our \"Omakase Course\" ◆ We Also Suggest Sake That Pairs Well with the Dishes",
+                "Seasonal Delicacies and Omakase Nigiri Course ◆ Enjoy the Changing Seasons and Artisan Skills"
+              ],
+              "sourceStatementIds": [
+                "tabelog:en/tokyo/A1303/A130301/13308491:statement:40",
+                "tabelog:en/tokyo/A1303/A130301/13308491:statement:47"
+              ]
+            },
+            "entityMatch": {
+              "confidence": "HIGH",
+              "matchedBy": [
+                "NATIVE_SOURCE_ID_AND_DETAIL"
+              ]
+            },
+            "artifactRef": {
+              "kind": "DOM_EXCERPT",
+              "reference": "tabelog:en/tokyo/A1303/A130301/13308491:document:8d49a67f9e9c9327"
+            }
+          },
+          {
+            "evidenceId": "fact-judgment:tabelog:en/tokyo/A1303/A130301/13308491:2026-10-15T08:01:33.465Z:tabelog:en/tokyo/A1303/A130301/13308491:document:8d49a67f9e9c9327",
+            "kind": "RESTAURANT_FACT",
+            "provider": "MODEL_JUDGMENT",
+            "candidateId": "tabelog:en/tokyo/A1303/A130301/13308491",
+            "observedAt": "2026-10-15T08:01:33.465Z",
+            "requestFingerprint": "{\"candidateId\":\"tabelog:en/tokyo/A1303/A130301/13308491\",\"criteria\":[\"omakase\"],\"cited\":[\"tabelog:en/tokyo/A1303/A130301/13308491:document:8d49a67f9e9c9327\"]}",
+            "claims": {
+              "verifiedHardCriteria": [
+                "omakase"
+              ],
+              "supportingEvidenceIds": [
+                "tabelog:en/tokyo/A1303/A130301/13308491:document:8d49a67f9e9c9327"
+              ]
+            }
+          }
+        ],
+        "factChecks": {
+          "tabelog:en/tokyo/A1303/A130301/13308491": {
+            "status": "COMPLETED",
+            "checkedAt": "2026-10-15T08:01:27.816Z",
+            "evidenceIds": [
+              "evidence:restaurant:native-fact-identity:66de3327697795ddd1bc27c4",
+              "tabelog:en/tokyo/A1303/A130301/13308491:document:8d49a67f9e9c9327",
+              "fact-judgment:tabelog:en/tokyo/A1303/A130301/13308491:2026-10-15T08:01:33.465Z:tabelog:en/tokyo/A1303/A130301/13308491:document:8d49a67f9e9c9327"
+            ],
+            "sourceProvider": "TABELOG"
+          }
+        },
+        "metadata": {
+          "provider": "TABELOG",
+          "route": "GENERIC_BROWSER",
+          "latencyMs": 5694,
+          "nativeContinuity": [
+            {
+              "candidateId": "tabelog:en/tokyo/A1303/A130301/13308491",
+              "provider": "TABELOG",
+              "expectedSourceEntityId": "en/tokyo/A1303/A130301/13308491",
+              "observedSourceEntityId": "tokyo/A1303/A130301/13308491",
+              "confirmed": true,
+              "reason": "SAME_SOURCE_OUTLET"
+            }
+          ],
+          "modelUsage": {
+            "calls": 1,
+            "inputTokens": 0,
+            "outputTokens": 0,
+            "totalTokens": 0
+          }
+        },
+        "sourceDocuments": [
+          {
+            "id": "tabelog:en/tokyo/A1303/A130301/13308491:document:8d49a67f9e9c9327",
+            "candidateId": "tabelog:en/tokyo/A1303/A130301/13308491",
+            "identityEvidenceId": "evidence:restaurant:native-fact-identity:66de3327697795ddd1bc27c4",
+            "statements": [
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:0",
+                "text": "About TabelogFAQJapanese Culture and Etiquette Guide"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:1",
+                "text": "Sushi Teppen - Shinsen(Sushi)"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:2",
+                "text": "English"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:3",
+                "text": "简体中文"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:4",
+                "text": "繁體中文"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:5",
+                "text": "한국어"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:6",
+                "text": "ไทย"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:7",
+                "text": "日本語"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:8",
+                "text": "Tabelog"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:9",
+                "text": "Tabelog  Tokyo  Tokyo Sushi  Shibuya, Ebisu, Daikanyama Sushi  Shibuya Sushi  Shinsen Sta. Sushi  Sushi Teppen"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:10",
+                "text": "Official information"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:11",
+                "text": "An entertainment experience for all five senses at Sushi Teppen."
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:12",
+                "text": "Sushi Teppen (鮨てっぺん)"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:13",
+                "text": "3.31"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:14",
+                "text": "48 reviews"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:15",
+                "text": "Nearest station："
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:16",
+                "text": "Shinsen Sta."
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:17",
+                "text": "[Tokyo]"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:18",
+                "text": "Categories："
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:19",
+                "text": "Sushi"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:20",
+                "text": "Budget："
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:21",
+                "text": "JPY 15,000 - JPY 19,999"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:22",
+                "text": "-"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:23",
+                "text": "Closed："
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:24",
+                "text": "Wednesday"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:25",
+                "text": "Restaurant information(detail)"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:26",
+                "text": "Overview"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:27",
+                "text": "Seating"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:28",
+                "text": "Menu"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:29",
+                "text": "Photos"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:30",
+                "text": "998"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:31",
+                "text": "Reviews"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:32",
+                "text": "48"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:33",
+                "text": "Map"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:34",
+                "text": "Enjoy a high-performance sushi experience showcasing the craftsmanship of our chefs at our lively counter seats. Surprises available!"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:35",
+                "text": "Experience an exciting culinary adventure with authentic sushi crafted through captivating performances. Enjoy the luxurious flavors created by vinegared rice made with Onomichi vinegar and carefully ...Read more"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:36",
+                "text": "Specialities"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:37",
+                "text": "Food"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:38",
+                "text": "Enjoy sushi made with Onomichi vinegar rice and seasonal seafood carefully selected by our skilled chefs."
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:39",
+                "text": "Food"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:40",
+                "text": "Craftsmanship Shines in Our \"Omakase Course\" ◆ We Also Suggest Sake That Pairs Well with the Dishes"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:41",
+                "text": "Space"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:42",
+                "text": "Counter seats with smartphone holders ♦ Enjoy the vibrant skills of our artisans"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:43",
+                "text": "Service"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:44",
+                "text": "Surprise performances available. A unique space perfect for birthdays and anniversaries."
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:45",
+                "text": "Set menu"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:46",
+                "text": "Most popular"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:47",
+                "text": "Seasonal Delicacies and Omakase Nigiri Course ◆ Enjoy the Changing Seasons and Artisan Skills"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:48",
+                "text": "Reserve"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1303/A130301/13308491:statement:49",
+                "text": "Set menu details"
+              }
+            ]
+          }
+        ]
+      },
+      "occurredAt": "2026-10-15T08:01:33.509Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:h001:1792051236315",
+        "correlationId": "event:restaurant-agent:3",
+        "actor": "ADAPTER"
+      }
+    },
+    {
+      "id": "event:restaurant-agent:4",
+      "taskId": "hybrid-live:h001:1792051236315",
+      "event": {
+        "type": "SEARCH_COMPLETED",
+        "request": {
+          "intent": {
+            "timezone": "Asia/Tokyo",
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "omakase spot near Shibuya for 2 people tonight at 7 PM",
+              "selectionScope": "OPEN_ENDED"
+            },
+            "date": "2026-10-15",
+            "timeWindow": {
+              "earliest": "19:00",
+              "latest": "19:00"
+            },
+            "partySize": 2,
+            "area": {
+              "query": "near Shibuya"
+            },
+            "criteria": [
+              {
+                "text": "omakase",
+                "polarity": "POSITIVE",
+                "strength": "HARD"
+              }
+            ]
+          },
+          "continuation": {
+            "intentFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"omakase spot near Shibuya for 2 people tonight at 7 PM\",\"selectionScope\":\"OPEN_ENDED\"},\"date\":\"2026-10-15\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":2,\"area\":{\"query\":\"near Shibuya\"},\"criteria\":[{\"text\":\"omakase\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}]}",
+            "discoveryPlan": {
+              "entries": [
+                {
+                  "sourceId": "tabelog",
+                  "query": {
+                    "category": "omakase",
+                    "keyword": "omakase",
+                    "location": {
+                      "latitude": 35.6619707,
+                      "longitude": 139.70379499999999,
+                      "radiusMeters": 1000,
+                      "label": "Shibuya",
+                      "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                      "addressComponents": [
+                        {
+                          "longText": "Shibuya",
+                          "shortText": "Shibuya",
+                          "types": [
+                            "locality",
+                            "political"
+                          ]
+                        },
+                        {
+                          "longText": "Tokyo",
+                          "shortText": "Tokyo",
+                          "types": [
+                            "administrative_area_level_1",
+                            "political"
+                          ]
+                        },
+                        {
+                          "longText": "Japan",
+                          "shortText": "JP",
+                          "types": [
+                            "country",
+                            "political"
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "sourceId": "tablecheck",
+                  "query": {
+                    "category": "omakase",
+                    "keyword": "omakase",
+                    "location": {
+                      "latitude": 35.6619707,
+                      "longitude": 139.70379499999999,
+                      "radiusMeters": 1000,
+                      "label": "Shibuya",
+                      "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                      "addressComponents": [
+                        {
+                          "longText": "Shibuya",
+                          "shortText": "Shibuya",
+                          "types": [
+                            "locality",
+                            "political"
+                          ]
+                        },
+                        {
+                          "longText": "Tokyo",
+                          "shortText": "Tokyo",
+                          "types": [
+                            "administrative_area_level_1",
+                            "political"
+                          ]
+                        },
+                        {
+                          "longText": "Japan",
+                          "shortText": "JP",
+                          "types": [
+                            "country",
+                            "political"
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "sourceId": "google-places",
+                  "query": {
+                    "category": "omakase",
+                    "keyword": "omakase",
+                    "location": {
+                      "latitude": 35.6619707,
+                      "longitude": 139.70379499999999,
+                      "radiusMeters": 1000,
+                      "label": "Shibuya",
+                      "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                      "addressComponents": [
+                        {
+                          "longText": "Shibuya",
+                          "shortText": "Shibuya",
+                          "types": [
+                            "locality",
+                            "political"
+                          ]
+                        },
+                        {
+                          "longText": "Tokyo",
+                          "shortText": "Tokyo",
+                          "types": [
+                            "administrative_area_level_1",
+                            "political"
+                          ]
+                        },
+                        {
+                          "longText": "Japan",
+                          "shortText": "JP",
+                          "types": [
+                            "country",
+                            "political"
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                }
+              ],
+              "cursor": 0
+            },
+            "currentDiscoveryBatch": {
+              "sourceId": "tabelog",
+              "candidateIds": [
+                "tabelog:en/tokyo/A1303/A130301/13308491"
+              ]
+            },
+            "usedPageTokens": [],
+            "pagesRead": 2,
+            "exhausted": false,
+            "sourceProgress": {
+              "directoryRegion": {
+                "first": {
+                  "url": "https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase",
+                  "observedOn": "https://tabelog.com/en/tokyo/rstLst/?sw=omakase",
+                  "targetRef": "observation:2:target:22",
+                  "label": "Shibuya & Ebisu & Daikanyama"
+                },
+                "firstFive": [
+                  {
+                    "sourceEntityId": "en/tokyo/A1303/A130301/13203305",
+                    "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13203305/",
+                    "outcome": "OUTSIDE_RADIUS",
+                    "coordinates": {
+                      "latitude": 35.65769355870779,
+                      "longitude": 139.6936568141977
+                    },
+                    "distanceMeters": 1033.189661412876
+                  },
+                  {
+                    "sourceEntityId": "en/tokyo/A1303/A130301/13308491",
+                    "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/",
+                    "outcome": "WITHIN_RADIUS",
+                    "coordinates": {
+                      "latitude": 35.66294870391731,
+                      "longitude": 139.69560491885105
+                    },
+                    "distanceMeters": 748.7035824387306
+                  },
+                  {
+                    "sourceEntityId": "en/tokyo/A1303/A130302/13244783",
+                    "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13244783/",
+                    "outcome": "OUTSIDE_RADIUS",
+                    "coordinates": {
+                      "latitude": 35.6479128787216,
+                      "longitude": 139.7175008440822
+                    },
+                    "distanceMeters": 1996.3988741607188
+                  }
+                ]
+              },
+              "sourceId": "tabelog",
+              "inspectedSourceIds": [
+                "en/tokyo/A1303/A130301/13203305",
+                "en/tokyo/A1303/A130301/13308491",
+                "en/tokyo/A1303/A130302/13244783"
+              ],
+              "detailAttempts": 3,
+              "pagesRead": 2,
+              "elapsedMs": 31189,
+              "visitedListingUrls": [
+                "https://tabelog.com/en/tokyo/rstLst/?sw=omakase",
+                "https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase"
+              ],
+              "pendingSourceEntries": [],
+              "pendingSourceIds": []
+            },
+            "locationContext": {
+              "latitude": 35.6619707,
+              "longitude": 139.70379499999999,
+              "radiusMeters": 1000,
+              "label": "Shibuya",
+              "areaMatchBasis": "NAMED_PLACE_RADIUS",
+              "addressComponents": [
+                {
+                  "longText": "Shibuya",
+                  "shortText": "Shibuya",
+                  "types": [
+                    "locality",
+                    "political"
+                  ]
+                },
+                {
+                  "longText": "Tokyo",
+                  "shortText": "Tokyo",
+                  "types": [
+                    "administrative_area_level_1",
+                    "political"
+                  ]
+                },
+                {
+                  "longText": "Japan",
+                  "shortText": "JP",
+                  "types": [
+                    "country",
+                    "political"
+                  ]
+                }
+              ]
+            }
+          },
+          "retrievalHint": "omakase sushi near Shibuya, Tokyo",
+          "readRunId": "run:hybrid-live:h001:1792051236315:investigation:1"
+        },
+        "candidates": [],
+        "evidence": [],
+        "continuation": {
+          "intentFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"omakase spot near Shibuya for 2 people tonight at 7 PM\",\"selectionScope\":\"OPEN_ENDED\"},\"date\":\"2026-10-15\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":2,\"area\":{\"query\":\"near Shibuya\"},\"criteria\":[{\"text\":\"omakase\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}]}",
+          "discoveryPlan": {
+            "entries": [
+              {
+                "sourceId": "tabelog",
+                "query": {
+                  "category": "omakase",
+                  "keyword": "omakase",
+                  "location": {
+                    "latitude": 35.6619707,
+                    "longitude": 139.70379499999999,
+                    "radiusMeters": 1000,
+                    "label": "Shibuya",
+                    "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                    "addressComponents": [
+                      {
+                        "longText": "Shibuya",
+                        "shortText": "Shibuya",
+                        "types": [
+                          "locality",
+                          "political"
+                        ]
+                      },
+                      {
+                        "longText": "Tokyo",
+                        "shortText": "Tokyo",
+                        "types": [
+                          "administrative_area_level_1",
+                          "political"
+                        ]
+                      },
+                      {
+                        "longText": "Japan",
+                        "shortText": "JP",
+                        "types": [
+                          "country",
+                          "political"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "sourceId": "tablecheck",
+                "query": {
+                  "category": "omakase",
+                  "keyword": "omakase",
+                  "location": {
+                    "latitude": 35.6619707,
+                    "longitude": 139.70379499999999,
+                    "radiusMeters": 1000,
+                    "label": "Shibuya",
+                    "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                    "addressComponents": [
+                      {
+                        "longText": "Shibuya",
+                        "shortText": "Shibuya",
+                        "types": [
+                          "locality",
+                          "political"
+                        ]
+                      },
+                      {
+                        "longText": "Tokyo",
+                        "shortText": "Tokyo",
+                        "types": [
+                          "administrative_area_level_1",
+                          "political"
+                        ]
+                      },
+                      {
+                        "longText": "Japan",
+                        "shortText": "JP",
+                        "types": [
+                          "country",
+                          "political"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "sourceId": "google-places",
+                "query": {
+                  "category": "omakase",
+                  "keyword": "omakase",
+                  "location": {
+                    "latitude": 35.6619707,
+                    "longitude": 139.70379499999999,
+                    "radiusMeters": 1000,
+                    "label": "Shibuya",
+                    "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                    "addressComponents": [
+                      {
+                        "longText": "Shibuya",
+                        "shortText": "Shibuya",
+                        "types": [
+                          "locality",
+                          "political"
+                        ]
+                      },
+                      {
+                        "longText": "Tokyo",
+                        "shortText": "Tokyo",
+                        "types": [
+                          "administrative_area_level_1",
+                          "political"
+                        ]
+                      },
+                      {
+                        "longText": "Japan",
+                        "shortText": "JP",
+                        "types": [
+                          "country",
+                          "political"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            ],
+            "cursor": 0
+          },
+          "currentDiscoveryBatch": {
+            "sourceId": "tabelog",
+            "candidateIds": []
+          },
+          "usedPageTokens": [],
+          "pagesRead": 6,
+          "exhausted": false,
+          "sourceProgress": {
+            "directoryRegion": {
+              "first": {
+                "url": "https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase",
+                "observedOn": "https://tabelog.com/en/tokyo/rstLst/?sw=omakase",
+                "targetRef": "observation:2:target:22",
+                "label": "Shibuya & Ebisu & Daikanyama"
+              },
+              "firstFive": [
+                {
+                  "sourceEntityId": "en/tokyo/A1303/A130301/13203305",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13203305/",
+                  "outcome": "OUTSIDE_RADIUS",
+                  "coordinates": {
+                    "latitude": 35.65769355870779,
+                    "longitude": 139.6936568141977
+                  },
+                  "distanceMeters": 1033.189661412876
+                },
+                {
+                  "sourceEntityId": "en/tokyo/A1303/A130301/13308491",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/",
+                  "outcome": "WITHIN_RADIUS",
+                  "coordinates": {
+                    "latitude": 35.66294870391731,
+                    "longitude": 139.69560491885105
+                  },
+                  "distanceMeters": 748.7035824387306
+                },
+                {
+                  "sourceEntityId": "en/tokyo/A1303/A130302/13244783",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13244783/",
+                  "outcome": "OUTSIDE_RADIUS",
+                  "coordinates": {
+                    "latitude": 35.6479128787216,
+                    "longitude": 139.7175008440822
+                  },
+                  "distanceMeters": 1996.3988741607188
+                }
+              ]
+            },
+            "sourceId": "tabelog",
+            "inspectedSourceIds": [
+              "en/tokyo/A1303/A130301/13203305",
+              "en/tokyo/A1303/A130301/13308491",
+              "en/tokyo/A1303/A130302/13244783"
+            ],
+            "detailAttempts": 3,
+            "pagesRead": 6,
+            "elapsedMs": 69017,
+            "visitedListingUrls": [
+              "https://tabelog.com/en/tokyo/rstLst/?sw=omakase",
+              "https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase",
+              "https://tabelog.com/en/tokyo/A1303/rstLst/sushi/?sw=omakase",
+              "https://tabelog.com/en/tokyo/A1303/rstLst/washoku/?sw=omakase",
+              "https://tabelog.com/en/tokyo/A1303/rstLst/washoku/"
+            ],
+            "pendingSourceEntries": [
+              {
+                "sourceEntityId": "en/tokyo/A1303/A130301/13203305",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13203305/",
+                "observedAt": "2026-10-15T08:01:39.000Z",
+                "outletName": "Shinsen Kappou Sanoya",
+                "sourceCategories": [
+                  "Shinsen Sta. 46m / Japanese Cuisine, Seafood"
+                ]
+              },
+              {
+                "sourceEntityId": "en/tokyo/A1303/A130301/13308491",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/",
+                "observedAt": "2026-10-15T08:01:39.000Z",
+                "outletName": "Sushi Teppen",
+                "sourceCategories": [
+                  "Shinsen Sta. 654m / Sushi"
+                ]
+              },
+              {
+                "sourceEntityId": "en/tokyo/A1303/A130302/13244783",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13244783/",
+                "observedAt": "2026-10-15T08:01:39.000Z",
+                "outletName": "Sushi Matsushita",
+                "sourceCategories": [
+                  "Hiro o Sta. 611m / Sushi"
+                ]
+              }
+            ],
+            "pendingSourceIds": [
+              "en/tokyo/A1303/A130301/13203305",
+              "en/tokyo/A1303/A130301/13308491",
+              "en/tokyo/A1303/A130302/13244783"
+            ]
+          },
+          "lastFailureCode": "NATIVE_LISTING_PAGE_LIMIT",
+          "locationContext": {
+            "latitude": 35.6619707,
+            "longitude": 139.70379499999999,
+            "radiusMeters": 1000,
+            "label": "Shibuya",
+            "areaMatchBasis": "NAMED_PLACE_RADIUS",
+            "addressComponents": [
+              {
+                "longText": "Shibuya",
+                "shortText": "Shibuya",
+                "types": [
+                  "locality",
+                  "political"
+                ]
+              },
+              {
+                "longText": "Tokyo",
+                "shortText": "Tokyo",
+                "types": [
+                  "administrative_area_level_1",
+                  "political"
+                ]
+              },
+              {
+                "longText": "Japan",
+                "shortText": "JP",
+                "types": [
+                  "country",
+                  "political"
+                ]
+              }
+            ]
+          }
+        },
+        "metadata": {
+          "provider": "TABELOG",
+          "route": "GENERIC_BROWSER",
+          "latencyMs": 37867,
+          "nativeDiscoveryFunnel": {
+            "directoryRegion": {
+              "first": {
+                "url": "https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase",
+                "observedOn": "https://tabelog.com/en/tokyo/rstLst/?sw=omakase",
+                "targetRef": "observation:2:target:22",
+                "label": "Shibuya & Ebisu & Daikanyama"
+              },
+              "firstFive": [
+                {
+                  "sourceEntityId": "en/tokyo/A1303/A130301/13203305",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13203305/",
+                  "outcome": "OUTSIDE_RADIUS",
+                  "coordinates": {
+                    "latitude": 35.65769355870779,
+                    "longitude": 139.6936568141977
+                  },
+                  "distanceMeters": 1033.189661412876
+                },
+                {
+                  "sourceEntityId": "en/tokyo/A1303/A130301/13308491",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/",
+                  "outcome": "WITHIN_RADIUS",
+                  "coordinates": {
+                    "latitude": 35.66294870391731,
+                    "longitude": 139.69560491885105
+                  },
+                  "distanceMeters": 748.7035824387306
+                },
+                {
+                  "sourceEntityId": "en/tokyo/A1303/A130302/13244783",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13244783/",
+                  "outcome": "OUTSIDE_RADIUS",
+                  "coordinates": {
+                    "latitude": 35.6479128787216,
+                    "longitude": 139.7175008440822
+                  },
+                  "distanceMeters": 1996.3988741607188
+                }
+              ]
+            },
+            "source": "TABELOG",
+            "rawSourceLinks": 3,
+            "parsedOutlets": 0,
+            "inspectedOutlets": 0,
+            "batchCap": 5,
+            "sourceDetailCap": 10,
+            "sourceDetailAttempts": 3,
+            "deferredByBatchCap": [],
+            "rejected": [],
+            "accepted": 0,
+            "sourcePageCap": 6,
+            "sourceElapsedCapMs": 90000,
+            "sourceElapsedMs": 69017,
+            "sourceTimeLimitReached": false,
+            "pagesRead": 4,
+            "batchLimitReached": false,
+            "sourceExhausted": "UNKNOWN",
+            "batchEnded": true,
+            "sourceEnded": false,
+            "progressionReason": "SOURCE_FAILURE",
+            "listingObservations": [
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase",
+                "parsedOutlets": 3,
+                "resultCount": 3
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/rstLst/sushi/?sw=omakase",
+                "parsedOutlets": 0,
+                "resultCount": 2
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/rstLst/washoku/?sw=omakase",
+                "parsedOutlets": 3,
+                "resultCount": 3
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/rstLst/washoku/",
+                "parsedOutlets": 0,
+                "resultCount": 1396
+              }
+            ]
+          },
+          "failureCode": "NATIVE_LISTING_PAGE_LIMIT",
+          "googleRequests": {
+            "limit": 40,
+            "total": 1,
+            "namedPlaceResolution": 1,
+            "discovery": 0,
+            "placeDetails": 0,
+            "reverseAddressObservation": 0
+          }
+        }
+      },
+      "occurredAt": "2026-10-15T08:02:13.453Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:h001:1792051236315",
+        "correlationId": "event:restaurant-agent:4",
+        "actor": "ADAPTER"
+      }
+    },
+    {
+      "id": "event:restaurant-agent:5",
+      "taskId": "hybrid-live:h001:1792051236315",
+      "event": {
+        "type": "SEARCH_COMPLETED",
+        "request": {
+          "intent": {
+            "timezone": "Asia/Tokyo",
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "omakase spot near Shibuya for 2 people tonight at 7 PM",
+              "selectionScope": "OPEN_ENDED"
+            },
+            "date": "2026-10-15",
+            "timeWindow": {
+              "earliest": "19:00",
+              "latest": "19:00"
+            },
+            "partySize": 2,
+            "area": {
+              "query": "near Shibuya"
+            },
+            "criteria": [
+              {
+                "text": "omakase",
+                "polarity": "POSITIVE",
+                "strength": "HARD"
+              }
+            ]
+          },
+          "continuation": {
+            "intentFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"omakase spot near Shibuya for 2 people tonight at 7 PM\",\"selectionScope\":\"OPEN_ENDED\"},\"date\":\"2026-10-15\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":2,\"area\":{\"query\":\"near Shibuya\"},\"criteria\":[{\"text\":\"omakase\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}]}",
+            "discoveryPlan": {
+              "entries": [
+                {
+                  "sourceId": "tabelog",
+                  "query": {
+                    "category": "omakase",
+                    "keyword": "omakase",
+                    "location": {
+                      "latitude": 35.6619707,
+                      "longitude": 139.70379499999999,
+                      "radiusMeters": 1000,
+                      "label": "Shibuya",
+                      "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                      "addressComponents": [
+                        {
+                          "longText": "Shibuya",
+                          "shortText": "Shibuya",
+                          "types": [
+                            "locality",
+                            "political"
+                          ]
+                        },
+                        {
+                          "longText": "Tokyo",
+                          "shortText": "Tokyo",
+                          "types": [
+                            "administrative_area_level_1",
+                            "political"
+                          ]
+                        },
+                        {
+                          "longText": "Japan",
+                          "shortText": "JP",
+                          "types": [
+                            "country",
+                            "political"
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "sourceId": "tablecheck",
+                  "query": {
+                    "category": "omakase",
+                    "keyword": "omakase",
+                    "location": {
+                      "latitude": 35.6619707,
+                      "longitude": 139.70379499999999,
+                      "radiusMeters": 1000,
+                      "label": "Shibuya",
+                      "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                      "addressComponents": [
+                        {
+                          "longText": "Shibuya",
+                          "shortText": "Shibuya",
+                          "types": [
+                            "locality",
+                            "political"
+                          ]
+                        },
+                        {
+                          "longText": "Tokyo",
+                          "shortText": "Tokyo",
+                          "types": [
+                            "administrative_area_level_1",
+                            "political"
+                          ]
+                        },
+                        {
+                          "longText": "Japan",
+                          "shortText": "JP",
+                          "types": [
+                            "country",
+                            "political"
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "sourceId": "google-places",
+                  "query": {
+                    "category": "omakase",
+                    "keyword": "omakase",
+                    "location": {
+                      "latitude": 35.6619707,
+                      "longitude": 139.70379499999999,
+                      "radiusMeters": 1000,
+                      "label": "Shibuya",
+                      "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                      "addressComponents": [
+                        {
+                          "longText": "Shibuya",
+                          "shortText": "Shibuya",
+                          "types": [
+                            "locality",
+                            "political"
+                          ]
+                        },
+                        {
+                          "longText": "Tokyo",
+                          "shortText": "Tokyo",
+                          "types": [
+                            "administrative_area_level_1",
+                            "political"
+                          ]
+                        },
+                        {
+                          "longText": "Japan",
+                          "shortText": "JP",
+                          "types": [
+                            "country",
+                            "political"
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                }
+              ],
+              "cursor": 0
+            },
+            "currentDiscoveryBatch": {
+              "sourceId": "tabelog",
+              "candidateIds": []
+            },
+            "usedPageTokens": [],
+            "pagesRead": 6,
+            "exhausted": false,
+            "sourceProgress": {
+              "directoryRegion": {
+                "first": {
+                  "url": "https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase",
+                  "observedOn": "https://tabelog.com/en/tokyo/rstLst/?sw=omakase",
+                  "targetRef": "observation:2:target:22",
+                  "label": "Shibuya & Ebisu & Daikanyama"
+                },
+                "firstFive": [
+                  {
+                    "sourceEntityId": "en/tokyo/A1303/A130301/13203305",
+                    "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13203305/",
+                    "outcome": "OUTSIDE_RADIUS",
+                    "coordinates": {
+                      "latitude": 35.65769355870779,
+                      "longitude": 139.6936568141977
+                    },
+                    "distanceMeters": 1033.189661412876
+                  },
+                  {
+                    "sourceEntityId": "en/tokyo/A1303/A130301/13308491",
+                    "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/",
+                    "outcome": "WITHIN_RADIUS",
+                    "coordinates": {
+                      "latitude": 35.66294870391731,
+                      "longitude": 139.69560491885105
+                    },
+                    "distanceMeters": 748.7035824387306
+                  },
+                  {
+                    "sourceEntityId": "en/tokyo/A1303/A130302/13244783",
+                    "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13244783/",
+                    "outcome": "OUTSIDE_RADIUS",
+                    "coordinates": {
+                      "latitude": 35.6479128787216,
+                      "longitude": 139.7175008440822
+                    },
+                    "distanceMeters": 1996.3988741607188
+                  }
+                ]
+              },
+              "sourceId": "tabelog",
+              "inspectedSourceIds": [
+                "en/tokyo/A1303/A130301/13203305",
+                "en/tokyo/A1303/A130301/13308491",
+                "en/tokyo/A1303/A130302/13244783"
+              ],
+              "detailAttempts": 3,
+              "pagesRead": 6,
+              "elapsedMs": 69017,
+              "visitedListingUrls": [
+                "https://tabelog.com/en/tokyo/rstLst/?sw=omakase",
+                "https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase",
+                "https://tabelog.com/en/tokyo/A1303/rstLst/sushi/?sw=omakase",
+                "https://tabelog.com/en/tokyo/A1303/rstLst/washoku/?sw=omakase",
+                "https://tabelog.com/en/tokyo/A1303/rstLst/washoku/"
+              ],
+              "pendingSourceEntries": [
+                {
+                  "sourceEntityId": "en/tokyo/A1303/A130301/13203305",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13203305/",
+                  "observedAt": "2026-10-15T08:01:39.000Z",
+                  "outletName": "Shinsen Kappou Sanoya",
+                  "sourceCategories": [
+                    "Shinsen Sta. 46m / Japanese Cuisine, Seafood"
+                  ]
+                },
+                {
+                  "sourceEntityId": "en/tokyo/A1303/A130301/13308491",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/",
+                  "observedAt": "2026-10-15T08:01:39.000Z",
+                  "outletName": "Sushi Teppen",
+                  "sourceCategories": [
+                    "Shinsen Sta. 654m / Sushi"
+                  ]
+                },
+                {
+                  "sourceEntityId": "en/tokyo/A1303/A130302/13244783",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13244783/",
+                  "observedAt": "2026-10-15T08:01:39.000Z",
+                  "outletName": "Sushi Matsushita",
+                  "sourceCategories": [
+                    "Hiro o Sta. 611m / Sushi"
+                  ]
+                }
+              ],
+              "pendingSourceIds": [
+                "en/tokyo/A1303/A130301/13203305",
+                "en/tokyo/A1303/A130301/13308491",
+                "en/tokyo/A1303/A130302/13244783"
+              ]
+            },
+            "lastFailureCode": "NATIVE_LISTING_PAGE_LIMIT",
+            "locationContext": {
+              "latitude": 35.6619707,
+              "longitude": 139.70379499999999,
+              "radiusMeters": 1000,
+              "label": "Shibuya",
+              "areaMatchBasis": "NAMED_PLACE_RADIUS",
+              "addressComponents": [
+                {
+                  "longText": "Shibuya",
+                  "shortText": "Shibuya",
+                  "types": [
+                    "locality",
+                    "political"
+                  ]
+                },
+                {
+                  "longText": "Tokyo",
+                  "shortText": "Tokyo",
+                  "types": [
+                    "administrative_area_level_1",
+                    "political"
+                  ]
+                },
+                {
+                  "longText": "Japan",
+                  "shortText": "JP",
+                  "types": [
+                    "country",
+                    "political"
+                  ]
+                }
+              ]
+            }
+          },
+          "retrievalHint": "omakase sushi restaurants near Shibuya, Tokyo",
+          "readRunId": "run:hybrid-live:h001:1792051236315:investigation:1"
+        },
+        "candidates": [],
+        "evidence": [],
+        "continuation": {
+          "intentFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"omakase spot near Shibuya for 2 people tonight at 7 PM\",\"selectionScope\":\"OPEN_ENDED\"},\"date\":\"2026-10-15\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":2,\"area\":{\"query\":\"near Shibuya\"},\"criteria\":[{\"text\":\"omakase\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}]}",
+          "discoveryPlan": {
+            "entries": [
+              {
+                "sourceId": "tabelog",
+                "query": {
+                  "category": "omakase",
+                  "keyword": "omakase",
+                  "location": {
+                    "latitude": 35.6619707,
+                    "longitude": 139.70379499999999,
+                    "radiusMeters": 1000,
+                    "label": "Shibuya",
+                    "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                    "addressComponents": [
+                      {
+                        "longText": "Shibuya",
+                        "shortText": "Shibuya",
+                        "types": [
+                          "locality",
+                          "political"
+                        ]
+                      },
+                      {
+                        "longText": "Tokyo",
+                        "shortText": "Tokyo",
+                        "types": [
+                          "administrative_area_level_1",
+                          "political"
+                        ]
+                      },
+                      {
+                        "longText": "Japan",
+                        "shortText": "JP",
+                        "types": [
+                          "country",
+                          "political"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "sourceId": "tablecheck",
+                "query": {
+                  "category": "omakase",
+                  "keyword": "omakase",
+                  "location": {
+                    "latitude": 35.6619707,
+                    "longitude": 139.70379499999999,
+                    "radiusMeters": 1000,
+                    "label": "Shibuya",
+                    "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                    "addressComponents": [
+                      {
+                        "longText": "Shibuya",
+                        "shortText": "Shibuya",
+                        "types": [
+                          "locality",
+                          "political"
+                        ]
+                      },
+                      {
+                        "longText": "Tokyo",
+                        "shortText": "Tokyo",
+                        "types": [
+                          "administrative_area_level_1",
+                          "political"
+                        ]
+                      },
+                      {
+                        "longText": "Japan",
+                        "shortText": "JP",
+                        "types": [
+                          "country",
+                          "political"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "sourceId": "google-places",
+                "query": {
+                  "category": "omakase",
+                  "keyword": "omakase",
+                  "location": {
+                    "latitude": 35.6619707,
+                    "longitude": 139.70379499999999,
+                    "radiusMeters": 1000,
+                    "label": "Shibuya",
+                    "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                    "addressComponents": [
+                      {
+                        "longText": "Shibuya",
+                        "shortText": "Shibuya",
+                        "types": [
+                          "locality",
+                          "political"
+                        ]
+                      },
+                      {
+                        "longText": "Tokyo",
+                        "shortText": "Tokyo",
+                        "types": [
+                          "administrative_area_level_1",
+                          "political"
+                        ]
+                      },
+                      {
+                        "longText": "Japan",
+                        "shortText": "JP",
+                        "types": [
+                          "country",
+                          "political"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            ],
+            "cursor": 1
+          },
+          "currentDiscoveryBatch": {
+            "sourceId": "tabelog",
+            "candidateIds": []
+          },
+          "usedPageTokens": [],
+          "pagesRead": 6,
+          "exhausted": false,
+          "locationContext": {
+            "latitude": 35.6619707,
+            "longitude": 139.70379499999999,
+            "radiusMeters": 1000,
+            "label": "Shibuya",
+            "areaMatchBasis": "NAMED_PLACE_RADIUS",
+            "addressComponents": [
+              {
+                "longText": "Shibuya",
+                "shortText": "Shibuya",
+                "types": [
+                  "locality",
+                  "political"
+                ]
+              },
+              {
+                "longText": "Tokyo",
+                "shortText": "Tokyo",
+                "types": [
+                  "administrative_area_level_1",
+                  "political"
+                ]
+              },
+              {
+                "longText": "Japan",
+                "shortText": "JP",
+                "types": [
+                  "country",
+                  "political"
+                ]
+              }
+            ]
+          }
+        },
+        "metadata": {
+          "provider": "TABELOG",
+          "route": "GENERIC_BROWSER",
+          "latencyMs": 134,
+          "nativeDiscoveryFunnel": {
+            "directoryRegion": {
+              "first": {
+                "url": "https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase",
+                "observedOn": "https://tabelog.com/en/tokyo/rstLst/?sw=omakase",
+                "targetRef": "observation:2:target:22",
+                "label": "Shibuya & Ebisu & Daikanyama"
+              },
+              "firstFive": [
+                {
+                  "sourceEntityId": "en/tokyo/A1303/A130301/13203305",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13203305/",
+                  "outcome": "OUTSIDE_RADIUS",
+                  "coordinates": {
+                    "latitude": 35.65769355870779,
+                    "longitude": 139.6936568141977
+                  },
+                  "distanceMeters": 1033.189661412876
+                },
+                {
+                  "sourceEntityId": "en/tokyo/A1303/A130301/13308491",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/",
+                  "outcome": "WITHIN_RADIUS",
+                  "coordinates": {
+                    "latitude": 35.66294870391731,
+                    "longitude": 139.69560491885105
+                  },
+                  "distanceMeters": 748.7035824387306
+                },
+                {
+                  "sourceEntityId": "en/tokyo/A1303/A130302/13244783",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13244783/",
+                  "outcome": "OUTSIDE_RADIUS",
+                  "coordinates": {
+                    "latitude": 35.6479128787216,
+                    "longitude": 139.7175008440822
+                  },
+                  "distanceMeters": 1996.3988741607188
+                }
+              ]
+            },
+            "source": "TABELOG",
+            "rawSourceLinks": 0,
+            "parsedOutlets": 3,
+            "inspectedOutlets": 0,
+            "batchCap": 5,
+            "sourceDetailCap": 10,
+            "sourceDetailAttempts": 3,
+            "deferredByBatchCap": [],
+            "rejected": [],
+            "accepted": 0,
+            "sourcePageCap": 6,
+            "sourceElapsedCapMs": 90000,
+            "sourceElapsedMs": 69136,
+            "sourceTimeLimitReached": false,
+            "pagesRead": 0,
+            "batchLimitReached": false,
+            "sourceExhausted": "UNKNOWN",
+            "batchEnded": true,
+            "sourceEnded": true,
+            "progressionReason": "FIRST_SOURCE_BATCH",
+            "listingObservations": []
+          },
+          "googleRequests": {
+            "limit": 40,
+            "total": 1,
+            "namedPlaceResolution": 1,
+            "discovery": 0,
+            "placeDetails": 0,
+            "reverseAddressObservation": 0
+          }
+        }
+      },
+      "occurredAt": "2026-10-15T08:02:18.279Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:h001:1792051236315",
+        "correlationId": "event:restaurant-agent:5",
+        "actor": "ADAPTER"
+      }
+    },
+    {
+      "id": "event:restaurant-agent:6",
+      "taskId": "hybrid-live:h001:1792051236315",
+      "event": {
+        "type": "SEARCH_FAILED",
+        "reason": "Shared browser-model budget exhausted for this read run",
+        "code": "BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED"
+      },
+      "occurredAt": "2026-10-15T08:03:03.804Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:h001:1792051236315",
+        "correlationId": "event:restaurant-agent:6",
+        "actor": "ADAPTER"
+      }
+    },
+    {
+      "id": "event:restaurant-agent:a3abf2a2-e4a6-4645-93fc-3464f6af2966",
+      "taskId": "hybrid-live:h001:1792051236315",
+      "event": {
+        "type": "AGENT_LOOP_TERMINATED",
+        "termination": "NO_PROGRESS",
+        "reasonCode": "BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED",
+        "reason": "BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED: no executable model-backed read path remains"
+      },
+      "occurredAt": "2026-10-15T08:03:06.919Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:h001:1792051236315",
+        "correlationId": "event:restaurant-agent:a3abf2a2-e4a6-4645-93fc-3464f6af2966",
+        "actor": "SYSTEM"
+      }
+    }
+  ],
+  "trajectories": [
+    {
+      "id": "trajectory:hybrid-live:h001:1792051236315:1",
+      "taskId": "hybrid-live:h001:1792051236315",
+      "stepNumber": 1,
+      "occurredAt": "2026-10-15T08:00:41.415Z",
+      "stateVersionBefore": 1,
+      "stateHashBefore": "628f177b7936eda158116aa6339273e5cef4220698d10444fb3c040d55226a41",
+      "causalRefs": {
+        "eventIds": [
+          "event:restaurant-agent:1"
+        ],
+        "commandIds": [],
+        "attemptIds": [],
+        "evidenceIds": []
+      },
+      "capabilities": [
+        {
+          "name": "ASK_USER",
+          "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+          "inputSchema": "question, optional relatedFields",
+          "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+          "importantConstraints": [
+            "Do not claim a booking or availability result."
+          ]
+        },
+        {
+          "name": "SEARCH_RESTAURANTS",
+          "purpose": "Discover matching restaurant outlets.",
+          "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+          "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+          "importantConstraints": [
+            "Cannot modify, repeat, or loosen authoritative user constraints."
+          ]
+        },
+        {
+          "name": "INVESTIGATE_CANDIDATE_FACTS",
+          "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+          "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+          "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+          "importantConstraints": [
+            "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+          ]
+        },
+        {
+          "name": "CHECK_AVAILABILITY",
+          "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+          "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+          "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+          "importantConstraints": [
+            "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+          ]
+        },
+        {
+          "name": "END_READ",
+          "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+          "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+          "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+          "importantConstraints": [
+            "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+          ]
+        },
+        {
+          "name": "PRESENT_RESULTS",
+          "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+          "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+          "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+          "importantConstraints": [
+            "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+          ]
+        },
+        {
+          "name": "SELECT_CANDIDATE",
+          "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+          "inputSchema": "candidateId, optional offerId",
+          "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+          "importantConstraints": [
+            "A selected offer must belong to the selected candidate."
+          ]
+        },
+        {
+          "name": "BOOK_RESERVATION",
+          "purpose": "Request a booking proposal for one selected fresh offer.",
+          "inputSchema": "candidateId, offerId",
+          "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+          "importantConstraints": [
+            "Cannot authorize, commit, or claim success."
+          ]
+        }
+      ],
+      "contextSchemaVersion": "11",
+      "decisionContext": {
+        "schemaVersion": "11",
+        "now": "2026-10-15T08:00:38.766Z",
+        "phase": "UNDERSTANDING",
+        "intentDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "criteria": [
+            {
+              "text": "omakase",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            }
+          ],
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "omakase spot near Shibuya for 2 people tonight at 7 PM",
+            "selectionScope": "OPEN_ENDED"
+          },
+          "date": "2026-10-15",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:00"
+          },
+          "temporalResolution": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-10-15T08:00:36.315Z",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "tonight",
+              "resolvedDate": "2026-10-15",
+              "basis": "TODAY"
+            },
+            "timeWindow": {
+              "expression": "7 PM",
+              "resolvedTimeWindow": {
+                "earliest": "19:00",
+                "latest": "19:00"
+              },
+              "basis": "EXPLICIT_CLOCK"
+            }
+          },
+          "partySize": 2,
+          "partySizeSource": "EXPLICIT",
+          "area": {
+            "query": "near Shibuya"
+          }
+        },
+        "missingBlockingFields": [],
+        "candidates": [],
+        "availability": {},
+        "availabilityChecks": {},
+        "presentation": [],
+        "searchAvailability": {
+          "available": true
+        },
+        "readCompletion": {
+          "allowed": false,
+          "investigationRecorded": false,
+          "unresolvedCandidateIds": [],
+          "reason": "No actual source investigation is recorded"
+        },
+        "legalActions": {
+          "search": true,
+          "investigateCandidateFacts": [],
+          "checkAvailability": [],
+          "presentResults": [],
+          "endRead": false
+        }
+      },
+      "agentAction": {
+        "type": "SEARCH_RESTAURANTS",
+        "retrievalHint": "omakase restaurants near Shibuya, Tokyo"
+      },
+      "decisionSummary": "No candidates known yet; search is available and required to discover omakase outlets near Shibuya before any availability read.",
+      "modelAttempt": {
+        "invocationId": "0f1c0bd9-6896-4c58-93c3-98fcec52578a",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "purpose": "restaurant_agent_decide",
+        "promptVersion": "25",
+        "outputSchema": {
+          "name": "restaurant_agent_action",
+          "version": "4"
+        },
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2645,
+        "usage": {
+          "inputTokens": 3428,
+          "outputTokens": 189,
+          "totalTokens": 3617
+        },
+        "providerRequestId": "40e18a54-dfa9-4fff-9f5f-4d84e2a7c890"
+      },
+      "actionValidation": {
+        "status": "ALLOWED"
+      },
+      "executionRoute": "GENERIC_BROWSER",
+      "executionMetadata": {
+        "provider": "TABELOG",
+        "route": "GENERIC_BROWSER",
+        "latencyMs": 32566,
+        "nativeDiscoveryFunnel": {
+          "directoryRegion": {
+            "first": {
+              "url": "https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase",
+              "observedOn": "https://tabelog.com/en/tokyo/rstLst/?sw=omakase",
+              "targetRef": "observation:2:target:22",
+              "label": "Shibuya & Ebisu & Daikanyama"
+            },
+            "firstFive": [
+              {
+                "sourceEntityId": "en/tokyo/A1303/A130301/13203305",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13203305/",
+                "outcome": "OUTSIDE_RADIUS",
+                "coordinates": {
+                  "latitude": 35.65769355870779,
+                  "longitude": 139.6936568141977
+                },
+                "distanceMeters": 1033.189661412876
+              },
+              {
+                "sourceEntityId": "en/tokyo/A1303/A130301/13308491",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/",
+                "outcome": "WITHIN_RADIUS",
+                "coordinates": {
+                  "latitude": 35.66294870391731,
+                  "longitude": 139.69560491885105
+                },
+                "distanceMeters": 748.7035824387306
+              },
+              {
+                "sourceEntityId": "en/tokyo/A1303/A130302/13244783",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13244783/",
+                "outcome": "OUTSIDE_RADIUS",
+                "coordinates": {
+                  "latitude": 35.6479128787216,
+                  "longitude": 139.7175008440822
+                },
+                "distanceMeters": 1996.3988741607188
+              }
+            ]
+          },
+          "source": "TABELOG",
+          "rawSourceLinks": 3,
+          "parsedOutlets": 3,
+          "inspectedOutlets": 3,
+          "batchCap": 5,
+          "sourceDetailCap": 10,
+          "sourceDetailAttempts": 3,
+          "deferredByBatchCap": [],
+          "rejected": [
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13203305/",
+              "reasonCode": "OUTSIDE_EXACT_RADIUS"
+            },
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13244783/",
+              "reasonCode": "OUTSIDE_EXACT_RADIUS"
+            }
+          ],
+          "accepted": 1,
+          "sourcePageCap": 6,
+          "sourceElapsedCapMs": 90000,
+          "sourceElapsedMs": 31189,
+          "sourceTimeLimitReached": false,
+          "pagesRead": 2,
+          "batchLimitReached": false,
+          "sourceExhausted": "UNKNOWN",
+          "batchEnded": true,
+          "sourceEnded": false,
+          "progressionReason": "FIRST_SOURCE_BATCH",
+          "listingObservations": [
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/rstLst/?sw=omakase",
+              "parsedOutlets": 20,
+              "resultCount": 36,
+              "nextPageUrl": "https://tabelog.com/en/tokyo/rstLst/2/?sw=omakase"
+            },
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase",
+              "parsedOutlets": 3,
+              "resultCount": 3
+            },
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase",
+              "parsedOutlets": 3,
+              "resultCount": 3
+            }
+          ]
+        },
+        "googleRequests": {
+          "limit": 40,
+          "total": 1,
+          "namedPlaceResolution": 1,
+          "discovery": 0,
+          "placeDetails": 0,
+          "reverseAddressObservation": 0
+        }
+      },
+      "observation": {
+        "type": "DISCOVERY",
+        "detail": "1 candidates discovered; 1 newly accepted",
+        "candidateIds": [
+          "tabelog:en/tokyo/A1303/A130301/13308491"
+        ],
+        "newCandidateIds": [
+          "tabelog:en/tokyo/A1303/A130301/13308491"
+        ],
+        "evidenceIds": [
+          "de616b83659fa20aa09e0e2f65da88d65b1f84ea637145d62706e6d8614c93fa",
+          "evidence:restaurant:native-discovery:f5f7ebfadd955c1993dc0769"
+        ]
+      },
+      "stateVersionAfter": 2,
+      "stateHashAfter": "ad521385805d84810e6cd2fcbb9afa8d26571f3815978b8230e801f5f0ec69da",
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "id": "trajectory:hybrid-live:h001:1792051236315:2",
+      "taskId": "hybrid-live:h001:1792051236315",
+      "stepNumber": 2,
+      "occurredAt": "2026-10-15T08:01:16.919Z",
+      "stateVersionBefore": 2,
+      "stateHashBefore": "ad521385805d84810e6cd2fcbb9afa8d26571f3815978b8230e801f5f0ec69da",
+      "causalRefs": {
+        "eventIds": [
+          "event:restaurant-agent:2"
+        ],
+        "commandIds": [],
+        "attemptIds": [],
+        "evidenceIds": []
+      },
+      "capabilities": [
+        {
+          "name": "ASK_USER",
+          "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+          "inputSchema": "question, optional relatedFields",
+          "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+          "importantConstraints": [
+            "Do not claim a booking or availability result."
+          ]
+        },
+        {
+          "name": "SEARCH_RESTAURANTS",
+          "purpose": "Discover matching restaurant outlets.",
+          "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+          "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+          "importantConstraints": [
+            "Cannot modify, repeat, or loosen authoritative user constraints."
+          ]
+        },
+        {
+          "name": "INVESTIGATE_CANDIDATE_FACTS",
+          "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+          "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+          "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+          "importantConstraints": [
+            "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+          ]
+        },
+        {
+          "name": "CHECK_AVAILABILITY",
+          "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+          "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+          "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+          "importantConstraints": [
+            "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+          ]
+        },
+        {
+          "name": "END_READ",
+          "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+          "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+          "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+          "importantConstraints": [
+            "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+          ]
+        },
+        {
+          "name": "PRESENT_RESULTS",
+          "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+          "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+          "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+          "importantConstraints": [
+            "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+          ]
+        },
+        {
+          "name": "SELECT_CANDIDATE",
+          "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+          "inputSchema": "candidateId, optional offerId",
+          "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+          "importantConstraints": [
+            "A selected offer must belong to the selected candidate."
+          ]
+        },
+        {
+          "name": "BOOK_RESERVATION",
+          "purpose": "Request a booking proposal for one selected fresh offer.",
+          "inputSchema": "candidateId, offerId",
+          "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+          "importantConstraints": [
+            "Cannot authorize, commit, or claim success."
+          ]
+        }
+      ],
+      "contextSchemaVersion": "11",
+      "decisionContext": {
+        "schemaVersion": "11",
+        "now": "2026-10-15T08:01:13.985Z",
+        "phase": "SEARCHING",
+        "intentDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "criteria": [
+            {
+              "text": "omakase",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            }
+          ],
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "omakase spot near Shibuya for 2 people tonight at 7 PM",
+            "selectionScope": "OPEN_ENDED"
+          },
+          "date": "2026-10-15",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:00"
+          },
+          "temporalResolution": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-10-15T08:00:36.315Z",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "tonight",
+              "resolvedDate": "2026-10-15",
+              "basis": "TODAY"
+            },
+            "timeWindow": {
+              "expression": "7 PM",
+              "resolvedTimeWindow": {
+                "earliest": "19:00",
+                "latest": "19:00"
+              },
+              "basis": "EXPLICIT_CLOCK"
+            }
+          },
+          "partySize": 2,
+          "partySizeSource": "EXPLICIT",
+          "area": {
+            "query": "near Shibuya"
+          }
+        },
+        "intent": {
+          "timezone": "Asia/Tokyo",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "omakase spot near Shibuya for 2 people tonight at 7 PM",
+            "selectionScope": "OPEN_ENDED"
+          },
+          "date": "2026-10-15",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:00"
+          },
+          "partySize": 2,
+          "area": {
+            "query": "near Shibuya"
+          },
+          "criteria": [
+            {
+              "text": "omakase",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            }
+          ]
+        },
+        "missingBlockingFields": [],
+        "candidates": [
+          {
+            "id": "tabelog:en/tokyo/A1303/A130301/13308491",
+            "outletName": "Sushi Teppen",
+            "address": "1500042 Tokyo Udagawacho Shibuya Tokyo ",
+            "distanceObservation": {
+              "meters": 749,
+              "centerBasis": "NAMED_PLACE_RADIUS",
+              "source": "TABELOG"
+            },
+            "sourceCategories": [
+              {
+                "source": "TABELOG",
+                "values": [
+                  "Shinsen Sta. 654m / Sushi"
+                ]
+              }
+            ],
+            "matchReasons": [
+              "Source coordinates within 1000 m of Shibuya"
+            ],
+            "warnings": [],
+            "executionConfidence": "MEDIUM",
+            "observedFacts": {
+              "verifiedHardCriteria": [],
+              "verifiedNegativeCriteria": [],
+              "violatedNegativeCriteria": [],
+              "openingHoursMatch": false,
+              "commercialNotes": []
+            },
+            "sourceAttempts": []
+          }
+        ],
+        "availability": {},
+        "availabilityChecks": {},
+        "presentation": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1303/A130301/13308491",
+            "eligible": false,
+            "missingReason": "Candidate tabelog:en/tokyo/A1303/A130301/13308491 lacks fresh evidenced availability for the authoritative request"
+          }
+        ],
+        "searchAvailability": {
+          "available": false,
+          "reason": "NATIVE_FIRST_BATCH_PENDING"
+        },
+        "checkableCandidateIds": [
+          "tabelog:en/tokyo/A1303/A130301/13308491"
+        ],
+        "factInvestigableCandidateIds": [
+          "tabelog:en/tokyo/A1303/A130301/13308491"
+        ],
+        "readCompletion": {
+          "allowed": false,
+          "investigationRecorded": true,
+          "unresolvedCandidateIds": [
+            "tabelog:en/tokyo/A1303/A130301/13308491"
+          ],
+          "reason": "A bounded discovery-plan source remains unread"
+        },
+        "legalActions": {
+          "search": false,
+          "investigateCandidateFacts": [
+            "tabelog:en/tokyo/A1303/A130301/13308491"
+          ],
+          "checkAvailability": [
+            "tabelog:en/tokyo/A1303/A130301/13308491"
+          ],
+          "presentResults": [],
+          "endRead": false
+        },
+        "resultBatchTarget": {
+          "candidateCount": 3,
+          "excludeCandidateIds": []
+        }
+      },
+      "agentAction": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "tabelog:en/tokyo/A1303/A130301/13308491"
+        ]
+      },
+      "decisionSummary": "AVAILABILITY goal with one checkable candidate; no fresh slot evidence yet. Check request-bound availability for Sushi Teppen, which can also return source facts.",
+      "modelAttempt": {
+        "invocationId": "0798f512-f6cc-4d79-a028-54710a153c49",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "purpose": "restaurant_agent_decide",
+        "promptVersion": "25",
+        "outputSchema": {
+          "name": "restaurant_agent_action",
+          "version": "4"
+        },
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2931,
+        "usage": {
+          "inputTokens": 4047,
+          "outputTokens": 203,
+          "totalTokens": 4250
+        },
+        "providerRequestId": "82437ed9-a31f-4a54-bd0d-33135eff77fa"
+      },
+      "actionValidation": {
+        "status": "ALLOWED"
+      },
+      "executionRoute": "GENERIC_BROWSER",
+      "executionMetadata": {
+        "provider": "TABELOG",
+        "route": "GENERIC_BROWSER",
+        "latencyMs": 8679,
+        "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+        "failureCode": "AVAILABILITY_SOURCES_EXHAUSTED",
+        "providerAttempts": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1303/A130301/13308491",
+            "provider": "TABELOG",
+            "outcome": "PROVIDER_FAILURE",
+            "failureCode": "DATE_NOT_SELECTABLE"
+          }
+        ],
+        "browser": {
+          "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+          "engine": "CHROMIUM",
+          "sessionId": "local:77dc047c-b181-4435-b35c-1d719fc0fa54",
+          "startedAt": "2026-10-15T08:01:17.048Z",
+          "readNetworkBoundary": "INSTALLED"
+        }
+      },
+      "observation": {
+        "type": "AVAILABILITY",
+        "detail": "0 offers observed",
+        "candidateIds": [
+          "tabelog:en/tokyo/A1303/A130301/13308491"
+        ],
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:0417942e292f230e2797297e",
+          "evidence:restaurant:tabelog-hard-criteria:dea73e3117c2d9a9504e6ea8"
+        ]
+      },
+      "stateVersionAfter": 3,
+      "stateHashAfter": "8cfb711863ee3a2b96c22e7b1c7e12817eb170ff20dbdc07fd423849c4ca3408",
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "id": "trajectory:hybrid-live:h001:1792051236315:3",
+      "taskId": "hybrid-live:h001:1792051236315",
+      "stepNumber": 3,
+      "occurredAt": "2026-10-15T08:01:27.813Z",
+      "stateVersionBefore": 3,
+      "stateHashBefore": "8cfb711863ee3a2b96c22e7b1c7e12817eb170ff20dbdc07fd423849c4ca3408",
+      "causalRefs": {
+        "eventIds": [
+          "event:restaurant-agent:3"
+        ],
+        "commandIds": [],
+        "attemptIds": [],
+        "evidenceIds": []
+      },
+      "capabilities": [
+        {
+          "name": "ASK_USER",
+          "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+          "inputSchema": "question, optional relatedFields",
+          "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+          "importantConstraints": [
+            "Do not claim a booking or availability result."
+          ]
+        },
+        {
+          "name": "SEARCH_RESTAURANTS",
+          "purpose": "Discover matching restaurant outlets.",
+          "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+          "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+          "importantConstraints": [
+            "Cannot modify, repeat, or loosen authoritative user constraints."
+          ]
+        },
+        {
+          "name": "INVESTIGATE_CANDIDATE_FACTS",
+          "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+          "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+          "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+          "importantConstraints": [
+            "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+          ]
+        },
+        {
+          "name": "CHECK_AVAILABILITY",
+          "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+          "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+          "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+          "importantConstraints": [
+            "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+          ]
+        },
+        {
+          "name": "END_READ",
+          "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+          "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+          "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+          "importantConstraints": [
+            "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+          ]
+        },
+        {
+          "name": "PRESENT_RESULTS",
+          "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+          "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+          "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+          "importantConstraints": [
+            "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+          ]
+        },
+        {
+          "name": "SELECT_CANDIDATE",
+          "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+          "inputSchema": "candidateId, optional offerId",
+          "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+          "importantConstraints": [
+            "A selected offer must belong to the selected candidate."
+          ]
+        },
+        {
+          "name": "BOOK_RESERVATION",
+          "purpose": "Request a booking proposal for one selected fresh offer.",
+          "inputSchema": "candidateId, offerId",
+          "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+          "importantConstraints": [
+            "Cannot authorize, commit, or claim success."
+          ]
+        }
+      ],
+      "contextSchemaVersion": "11",
+      "decisionContext": {
+        "schemaVersion": "11",
+        "now": "2026-10-15T08:01:25.641Z",
+        "phase": "SEARCHING",
+        "intentDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "criteria": [
+            {
+              "text": "omakase",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            }
+          ],
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "omakase spot near Shibuya for 2 people tonight at 7 PM",
+            "selectionScope": "OPEN_ENDED"
+          },
+          "date": "2026-10-15",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:00"
+          },
+          "temporalResolution": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-10-15T08:00:36.315Z",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "tonight",
+              "resolvedDate": "2026-10-15",
+              "basis": "TODAY"
+            },
+            "timeWindow": {
+              "expression": "7 PM",
+              "resolvedTimeWindow": {
+                "earliest": "19:00",
+                "latest": "19:00"
+              },
+              "basis": "EXPLICIT_CLOCK"
+            }
+          },
+          "partySize": 2,
+          "partySizeSource": "EXPLICIT",
+          "area": {
+            "query": "near Shibuya"
+          }
+        },
+        "intent": {
+          "timezone": "Asia/Tokyo",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "omakase spot near Shibuya for 2 people tonight at 7 PM",
+            "selectionScope": "OPEN_ENDED"
+          },
+          "date": "2026-10-15",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:00"
+          },
+          "partySize": 2,
+          "area": {
+            "query": "near Shibuya"
+          },
+          "criteria": [
+            {
+              "text": "omakase",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            }
+          ]
+        },
+        "missingBlockingFields": [],
+        "candidates": [
+          {
+            "id": "tabelog:en/tokyo/A1303/A130301/13308491",
+            "outletName": "Sushi Teppen",
+            "address": "1500042 Tokyo Udagawacho Shibuya Tokyo ",
+            "distanceObservation": {
+              "meters": 749,
+              "centerBasis": "NAMED_PLACE_RADIUS",
+              "source": "TABELOG"
+            },
+            "sourceCategories": [
+              {
+                "source": "TABELOG",
+                "values": [
+                  "Shinsen Sta. 654m / Sushi"
+                ]
+              }
+            ],
+            "matchReasons": [
+              "Source coordinates within 1000 m of Shibuya"
+            ],
+            "warnings": [],
+            "executionConfidence": "MEDIUM",
+            "observedFacts": {
+              "verifiedHardCriteria": [],
+              "verifiedNegativeCriteria": [],
+              "violatedNegativeCriteria": [],
+              "openingHoursMatch": false,
+              "commercialNotes": [
+                {
+                  "field": "COURSE_DETAILS",
+                  "value": "Seasonal Delicacies and Omakase Nigiri Course ◆ Enjoy the Changing Seasons and Artisan Skills — JPY 16,500 （Price including tax）per person",
+                  "source": "TABELOG"
+                },
+                {
+                  "field": "COURSE_DETAILS",
+                  "value": "Seasonal Delicacies and Omakase Nigiri Course with Non-Alcoholic Pairing ◆ Enjoy the Changing Seasons, Artisan Skills, and Drinks that Complement the Dishes — JPY 20,000 （Price including tax）per person",
+                  "source": "TABELOG"
+                },
+                {
+                  "field": "COURSE_DETAILS",
+                  "value": "Seasonal Delicacies and Omakase Nigiri Course with Pairing ◆ Enjoy the Changing Seasons, Artisan Skills, and Fine Sake that Complements the Dishes — JPY 23,000 （Price including tax）per person",
+                  "source": "TABELOG"
+                }
+              ]
+            },
+            "sourceAttempts": [
+              {
+                "source": "TABELOG",
+                "outcome": "FAILED",
+                "reasonCode": "DATE_NOT_SELECTABLE"
+              }
+            ]
+          }
+        ],
+        "availability": {
+          "tabelog:en/tokyo/A1303/A130301/13308491": []
+        },
+        "availabilityChecks": {
+          "tabelog:en/tokyo/A1303/A130301/13308491": {
+            "status": "UNKNOWN",
+            "receptionMode": "UNKNOWN",
+            "reasonCode": "DATE_NOT_SELECTABLE"
+          }
+        },
+        "presentation": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1303/A130301/13308491",
+            "eligible": false,
+            "missingReason": "Candidate tabelog:en/tokyo/A1303/A130301/13308491 lacks fresh evidenced availability for the authoritative request"
+          }
+        ],
+        "searchAvailability": {
+          "available": false,
+          "reason": "NATIVE_FIRST_BATCH_PENDING"
+        },
+        "factInvestigableCandidateIds": [
+          "tabelog:en/tokyo/A1303/A130301/13308491"
+        ],
+        "readCompletion": {
+          "allowed": false,
+          "investigationRecorded": true,
+          "unresolvedCandidateIds": [
+            "tabelog:en/tokyo/A1303/A130301/13308491"
+          ],
+          "reason": "A bounded discovery-plan source remains unread"
+        },
+        "legalActions": {
+          "search": false,
+          "investigateCandidateFacts": [
+            "tabelog:en/tokyo/A1303/A130301/13308491"
+          ],
+          "checkAvailability": [],
+          "presentResults": [],
+          "endRead": false
+        },
+        "resultBatchTarget": {
+          "candidateCount": 3,
+          "excludeCandidateIds": []
+        }
+      },
+      "agentAction": {
+        "type": "INVESTIGATE_CANDIDATE_FACTS",
+        "candidateIds": [
+          "tabelog:en/tokyo/A1303/A130301/13308491"
+        ]
+      },
+      "decisionSummary": "Only one candidate known; availability read returned UNKNOWN (DATE_NOT_SELECTABLE) and no checkable IDs remain. A bounded discovery-plan fact source is still unread, so investigate the sole fact-investigable candidate to try to ground the HARD omakase criterion and any reception/availability facts before deciding on presentation or END_READ.",
+      "modelAttempt": {
+        "invocationId": "4e28de08-e3e2-430b-9347-d1c2830c8f88",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "purpose": "restaurant_agent_decide",
+        "promptVersion": "25",
+        "outputSchema": {
+          "name": "restaurant_agent_action",
+          "version": "4"
+        },
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2170,
+        "usage": {
+          "inputTokens": 4370,
+          "outputTokens": 248,
+          "totalTokens": 4618
+        },
+        "providerRequestId": "f9e247b1-d278-4b56-96bb-8f57c0c38243"
+      },
+      "actionValidation": {
+        "status": "ALLOWED"
+      },
+      "executionRoute": "GENERIC_BROWSER",
+      "executionMetadata": {
+        "provider": "TABELOG",
+        "route": "GENERIC_BROWSER",
+        "latencyMs": 5694,
+        "nativeContinuity": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1303/A130301/13308491",
+            "provider": "TABELOG",
+            "expectedSourceEntityId": "en/tokyo/A1303/A130301/13308491",
+            "observedSourceEntityId": "tokyo/A1303/A130301/13308491",
+            "confirmed": true,
+            "reason": "SAME_SOURCE_OUTLET"
+          }
+        ],
+        "modelUsage": {
+          "calls": 1,
+          "inputTokens": 0,
+          "outputTokens": 0,
+          "totalTokens": 0
+        }
+      },
+      "observation": {
+        "type": "CANDIDATE_FACTS",
+        "detail": "1 candidate fact read(s) completed",
+        "candidateIds": [
+          "tabelog:en/tokyo/A1303/A130301/13308491"
+        ],
+        "evidenceIds": [
+          "evidence:restaurant:native-fact-identity:66de3327697795ddd1bc27c4",
+          "tabelog:en/tokyo/A1303/A130301/13308491:document:8d49a67f9e9c9327",
+          "fact-judgment:tabelog:en/tokyo/A1303/A130301/13308491:2026-10-15T08:01:33.465Z:tabelog:en/tokyo/A1303/A130301/13308491:document:8d49a67f9e9c9327"
+        ],
+        "factSourceAttempts": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1303/A130301/13308491",
+            "source": "TABELOG",
+            "outcome": "COMPLETED"
+          }
+        ]
+      },
+      "stateVersionAfter": 4,
+      "stateHashAfter": "ed6881a881182084a87682b6b10e9209ffb75bd32bae21514d3a1e678fa35eab",
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "id": "trajectory:hybrid-live:h001:1792051236315:4",
+      "taskId": "hybrid-live:h001:1792051236315",
+      "stepNumber": 4,
+      "occurredAt": "2026-10-15T08:01:35.584Z",
+      "stateVersionBefore": 4,
+      "stateHashBefore": "ed6881a881182084a87682b6b10e9209ffb75bd32bae21514d3a1e678fa35eab",
+      "causalRefs": {
+        "eventIds": [
+          "event:restaurant-agent:4"
+        ],
+        "commandIds": [],
+        "attemptIds": [],
+        "evidenceIds": []
+      },
+      "capabilities": [
+        {
+          "name": "ASK_USER",
+          "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+          "inputSchema": "question, optional relatedFields",
+          "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+          "importantConstraints": [
+            "Do not claim a booking or availability result."
+          ]
+        },
+        {
+          "name": "SEARCH_RESTAURANTS",
+          "purpose": "Discover matching restaurant outlets.",
+          "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+          "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+          "importantConstraints": [
+            "Cannot modify, repeat, or loosen authoritative user constraints."
+          ]
+        },
+        {
+          "name": "INVESTIGATE_CANDIDATE_FACTS",
+          "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+          "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+          "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+          "importantConstraints": [
+            "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+          ]
+        },
+        {
+          "name": "CHECK_AVAILABILITY",
+          "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+          "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+          "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+          "importantConstraints": [
+            "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+          ]
+        },
+        {
+          "name": "END_READ",
+          "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+          "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+          "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+          "importantConstraints": [
+            "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+          ]
+        },
+        {
+          "name": "PRESENT_RESULTS",
+          "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+          "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+          "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+          "importantConstraints": [
+            "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+          ]
+        },
+        {
+          "name": "SELECT_CANDIDATE",
+          "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+          "inputSchema": "candidateId, optional offerId",
+          "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+          "importantConstraints": [
+            "A selected offer must belong to the selected candidate."
+          ]
+        },
+        {
+          "name": "BOOK_RESERVATION",
+          "purpose": "Request a booking proposal for one selected fresh offer.",
+          "inputSchema": "candidateId, offerId",
+          "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+          "importantConstraints": [
+            "Cannot authorize, commit, or claim success."
+          ]
+        }
+      ],
+      "contextSchemaVersion": "11",
+      "decisionContext": {
+        "schemaVersion": "11",
+        "now": "2026-10-15T08:01:33.510Z",
+        "phase": "SEARCHING",
+        "intentDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "criteria": [
+            {
+              "text": "omakase",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            }
+          ],
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "omakase spot near Shibuya for 2 people tonight at 7 PM",
+            "selectionScope": "OPEN_ENDED"
+          },
+          "date": "2026-10-15",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:00"
+          },
+          "temporalResolution": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-10-15T08:00:36.315Z",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "tonight",
+              "resolvedDate": "2026-10-15",
+              "basis": "TODAY"
+            },
+            "timeWindow": {
+              "expression": "7 PM",
+              "resolvedTimeWindow": {
+                "earliest": "19:00",
+                "latest": "19:00"
+              },
+              "basis": "EXPLICIT_CLOCK"
+            }
+          },
+          "partySize": 2,
+          "partySizeSource": "EXPLICIT",
+          "area": {
+            "query": "near Shibuya"
+          }
+        },
+        "intent": {
+          "timezone": "Asia/Tokyo",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "omakase spot near Shibuya for 2 people tonight at 7 PM",
+            "selectionScope": "OPEN_ENDED"
+          },
+          "date": "2026-10-15",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:00"
+          },
+          "partySize": 2,
+          "area": {
+            "query": "near Shibuya"
+          },
+          "criteria": [
+            {
+              "text": "omakase",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            }
+          ]
+        },
+        "missingBlockingFields": [],
+        "candidates": [
+          {
+            "id": "tabelog:en/tokyo/A1303/A130301/13308491",
+            "outletName": "Sushi Teppen",
+            "address": "1500042 Tokyo Udagawacho Shibuya Tokyo ",
+            "distanceObservation": {
+              "meters": 749,
+              "centerBasis": "NAMED_PLACE_RADIUS",
+              "source": "TABELOG"
+            },
+            "sourceCategories": [
+              {
+                "source": "TABELOG",
+                "values": [
+                  "Shinsen Sta. 654m / Sushi"
+                ]
+              }
+            ],
+            "matchReasons": [
+              "Source coordinates within 1000 m of Shibuya"
+            ],
+            "warnings": [],
+            "executionConfidence": "MEDIUM",
+            "observedFacts": {
+              "verifiedHardCriteria": [
+                "omakase"
+              ],
+              "verifiedNegativeCriteria": [],
+              "violatedNegativeCriteria": [],
+              "openingHoursMatch": false,
+              "commercialNotes": []
+            },
+            "sourceAttempts": [
+              {
+                "source": "TABELOG",
+                "outcome": "COMPLETED"
+              },
+              {
+                "source": "TABELOG",
+                "outcome": "FAILED",
+                "reasonCode": "DATE_NOT_SELECTABLE"
+              }
+            ]
+          }
+        ],
+        "availability": {
+          "tabelog:en/tokyo/A1303/A130301/13308491": []
+        },
+        "availabilityChecks": {
+          "tabelog:en/tokyo/A1303/A130301/13308491": {
+            "status": "UNKNOWN",
+            "receptionMode": "UNKNOWN",
+            "reasonCode": "DATE_NOT_SELECTABLE"
+          }
+        },
+        "presentation": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1303/A130301/13308491",
+            "eligible": false,
+            "missingReason": "Candidate tabelog:en/tokyo/A1303/A130301/13308491 lacks fresh evidenced availability for the authoritative request"
+          }
+        ],
+        "searchAvailability": {
+          "available": true
+        },
+        "readCompletion": {
+          "allowed": false,
+          "investigationRecorded": true,
+          "unresolvedCandidateIds": [
+            "tabelog:en/tokyo/A1303/A130301/13308491"
+          ],
+          "reason": "A bounded discovery-plan source remains unread"
+        },
+        "legalActions": {
+          "search": true,
+          "investigateCandidateFacts": [],
+          "checkAvailability": [],
+          "presentResults": [],
+          "endRead": false
+        },
+        "resultBatchTarget": {
+          "candidateCount": 3,
+          "excludeCandidateIds": []
+        }
+      },
+      "agentAction": {
+        "type": "SEARCH_RESTAURANTS",
+        "retrievalHint": "omakase sushi near Shibuya, Tokyo"
+      },
+      "decisionSummary": "Only one candidate discovered; its availability is UNKNOWN (date not selectable) and no legal fact/availability reads remain. Batch target of 3 unmet, so broaden discovery for omakase near Shibuya.",
+      "modelAttempt": {
+        "invocationId": "dd038417-890e-4e48-854c-f293cd7ffb09",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "purpose": "restaurant_agent_decide",
+        "promptVersion": "25",
+        "outputSchema": {
+          "name": "restaurant_agent_action",
+          "version": "4"
+        },
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2073,
+        "usage": {
+          "inputTokens": 4364,
+          "outputTokens": 208,
+          "totalTokens": 4572
+        },
+        "providerRequestId": "bd158303-e9cd-4154-84d9-3267b220fc35"
+      },
+      "actionValidation": {
+        "status": "ALLOWED"
+      },
+      "executionRoute": "GENERIC_BROWSER",
+      "executionMetadata": {
+        "provider": "TABELOG",
+        "route": "GENERIC_BROWSER",
+        "latencyMs": 37867,
+        "nativeDiscoveryFunnel": {
+          "directoryRegion": {
+            "first": {
+              "url": "https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase",
+              "observedOn": "https://tabelog.com/en/tokyo/rstLst/?sw=omakase",
+              "targetRef": "observation:2:target:22",
+              "label": "Shibuya & Ebisu & Daikanyama"
+            },
+            "firstFive": [
+              {
+                "sourceEntityId": "en/tokyo/A1303/A130301/13203305",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13203305/",
+                "outcome": "OUTSIDE_RADIUS",
+                "coordinates": {
+                  "latitude": 35.65769355870779,
+                  "longitude": 139.6936568141977
+                },
+                "distanceMeters": 1033.189661412876
+              },
+              {
+                "sourceEntityId": "en/tokyo/A1303/A130301/13308491",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/",
+                "outcome": "WITHIN_RADIUS",
+                "coordinates": {
+                  "latitude": 35.66294870391731,
+                  "longitude": 139.69560491885105
+                },
+                "distanceMeters": 748.7035824387306
+              },
+              {
+                "sourceEntityId": "en/tokyo/A1303/A130302/13244783",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13244783/",
+                "outcome": "OUTSIDE_RADIUS",
+                "coordinates": {
+                  "latitude": 35.6479128787216,
+                  "longitude": 139.7175008440822
+                },
+                "distanceMeters": 1996.3988741607188
+              }
+            ]
+          },
+          "source": "TABELOG",
+          "rawSourceLinks": 3,
+          "parsedOutlets": 0,
+          "inspectedOutlets": 0,
+          "batchCap": 5,
+          "sourceDetailCap": 10,
+          "sourceDetailAttempts": 3,
+          "deferredByBatchCap": [],
+          "rejected": [],
+          "accepted": 0,
+          "sourcePageCap": 6,
+          "sourceElapsedCapMs": 90000,
+          "sourceElapsedMs": 69017,
+          "sourceTimeLimitReached": false,
+          "pagesRead": 4,
+          "batchLimitReached": false,
+          "sourceExhausted": "UNKNOWN",
+          "batchEnded": true,
+          "sourceEnded": false,
+          "progressionReason": "SOURCE_FAILURE",
+          "listingObservations": [
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase",
+              "parsedOutlets": 3,
+              "resultCount": 3
+            },
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1303/rstLst/sushi/?sw=omakase",
+              "parsedOutlets": 0,
+              "resultCount": 2
+            },
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1303/rstLst/washoku/?sw=omakase",
+              "parsedOutlets": 3,
+              "resultCount": 3
+            },
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1303/rstLst/washoku/",
+              "parsedOutlets": 0,
+              "resultCount": 1396
+            }
+          ]
+        },
+        "failureCode": "NATIVE_LISTING_PAGE_LIMIT",
+        "googleRequests": {
+          "limit": 40,
+          "total": 1,
+          "namedPlaceResolution": 1,
+          "discovery": 0,
+          "placeDetails": 0,
+          "reverseAddressObservation": 0
+        }
+      },
+      "observation": {
+        "type": "DISCOVERY",
+        "detail": "0 candidates discovered; 0 newly accepted",
+        "candidateIds": [],
+        "newCandidateIds": [],
+        "evidenceIds": []
+      },
+      "stateVersionAfter": 5,
+      "stateHashAfter": "32eca8b56b2e8b49ff9f6429e6b1539d1990f87e26be4356c8de28a478463623",
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "id": "trajectory:hybrid-live:h001:1792051236315:5",
+      "taskId": "hybrid-live:h001:1792051236315",
+      "stepNumber": 5,
+      "occurredAt": "2026-10-15T08:02:18.144Z",
+      "stateVersionBefore": 5,
+      "stateHashBefore": "32eca8b56b2e8b49ff9f6429e6b1539d1990f87e26be4356c8de28a478463623",
+      "causalRefs": {
+        "eventIds": [
+          "event:restaurant-agent:5"
+        ],
+        "commandIds": [],
+        "attemptIds": [],
+        "evidenceIds": []
+      },
+      "capabilities": [
+        {
+          "name": "ASK_USER",
+          "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+          "inputSchema": "question, optional relatedFields",
+          "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+          "importantConstraints": [
+            "Do not claim a booking or availability result."
+          ]
+        },
+        {
+          "name": "SEARCH_RESTAURANTS",
+          "purpose": "Discover matching restaurant outlets.",
+          "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+          "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+          "importantConstraints": [
+            "Cannot modify, repeat, or loosen authoritative user constraints."
+          ]
+        },
+        {
+          "name": "INVESTIGATE_CANDIDATE_FACTS",
+          "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+          "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+          "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+          "importantConstraints": [
+            "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+          ]
+        },
+        {
+          "name": "CHECK_AVAILABILITY",
+          "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+          "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+          "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+          "importantConstraints": [
+            "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+          ]
+        },
+        {
+          "name": "END_READ",
+          "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+          "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+          "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+          "importantConstraints": [
+            "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+          ]
+        },
+        {
+          "name": "PRESENT_RESULTS",
+          "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+          "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+          "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+          "importantConstraints": [
+            "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+          ]
+        },
+        {
+          "name": "SELECT_CANDIDATE",
+          "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+          "inputSchema": "candidateId, optional offerId",
+          "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+          "importantConstraints": [
+            "A selected offer must belong to the selected candidate."
+          ]
+        },
+        {
+          "name": "BOOK_RESERVATION",
+          "purpose": "Request a booking proposal for one selected fresh offer.",
+          "inputSchema": "candidateId, offerId",
+          "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+          "importantConstraints": [
+            "Cannot authorize, commit, or claim success."
+          ]
+        }
+      ],
+      "contextSchemaVersion": "11",
+      "decisionContext": {
+        "schemaVersion": "11",
+        "now": "2026-10-15T08:02:13.454Z",
+        "phase": "SEARCHING",
+        "intentDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "criteria": [
+            {
+              "text": "omakase",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            }
+          ],
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "omakase spot near Shibuya for 2 people tonight at 7 PM",
+            "selectionScope": "OPEN_ENDED"
+          },
+          "date": "2026-10-15",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:00"
+          },
+          "temporalResolution": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-10-15T08:00:36.315Z",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "tonight",
+              "resolvedDate": "2026-10-15",
+              "basis": "TODAY"
+            },
+            "timeWindow": {
+              "expression": "7 PM",
+              "resolvedTimeWindow": {
+                "earliest": "19:00",
+                "latest": "19:00"
+              },
+              "basis": "EXPLICIT_CLOCK"
+            }
+          },
+          "partySize": 2,
+          "partySizeSource": "EXPLICIT",
+          "area": {
+            "query": "near Shibuya"
+          }
+        },
+        "intent": {
+          "timezone": "Asia/Tokyo",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "omakase spot near Shibuya for 2 people tonight at 7 PM",
+            "selectionScope": "OPEN_ENDED"
+          },
+          "date": "2026-10-15",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:00"
+          },
+          "partySize": 2,
+          "area": {
+            "query": "near Shibuya"
+          },
+          "criteria": [
+            {
+              "text": "omakase",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            }
+          ]
+        },
+        "missingBlockingFields": [],
+        "candidates": [
+          {
+            "id": "tabelog:en/tokyo/A1303/A130301/13308491",
+            "outletName": "Sushi Teppen",
+            "address": "1500042 Tokyo Udagawacho Shibuya Tokyo ",
+            "distanceObservation": {
+              "meters": 749,
+              "centerBasis": "NAMED_PLACE_RADIUS",
+              "source": "TABELOG"
+            },
+            "sourceCategories": [
+              {
+                "source": "TABELOG",
+                "values": [
+                  "Shinsen Sta. 654m / Sushi"
+                ]
+              }
+            ],
+            "matchReasons": [
+              "Source coordinates within 1000 m of Shibuya"
+            ],
+            "warnings": [],
+            "executionConfidence": "MEDIUM",
+            "observedFacts": {
+              "verifiedHardCriteria": [
+                "omakase"
+              ],
+              "verifiedNegativeCriteria": [],
+              "violatedNegativeCriteria": [],
+              "openingHoursMatch": false,
+              "commercialNotes": []
+            },
+            "sourceAttempts": [
+              {
+                "source": "TABELOG",
+                "outcome": "COMPLETED"
+              },
+              {
+                "source": "TABELOG",
+                "outcome": "FAILED",
+                "reasonCode": "DATE_NOT_SELECTABLE"
+              }
+            ]
+          }
+        ],
+        "availability": {
+          "tabelog:en/tokyo/A1303/A130301/13308491": []
+        },
+        "availabilityChecks": {
+          "tabelog:en/tokyo/A1303/A130301/13308491": {
+            "status": "UNKNOWN",
+            "receptionMode": "UNKNOWN",
+            "reasonCode": "DATE_NOT_SELECTABLE"
+          }
+        },
+        "presentation": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1303/A130301/13308491",
+            "eligible": false,
+            "missingReason": "Candidate tabelog:en/tokyo/A1303/A130301/13308491 lacks fresh evidenced availability for the authoritative request"
+          }
+        ],
+        "searchAvailability": {
+          "available": true
+        },
+        "readCompletion": {
+          "allowed": false,
+          "investigationRecorded": true,
+          "unresolvedCandidateIds": [
+            "tabelog:en/tokyo/A1303/A130301/13308491"
+          ],
+          "reason": "A bounded discovery-plan source remains unread"
+        },
+        "legalActions": {
+          "search": true,
+          "investigateCandidateFacts": [],
+          "checkAvailability": [],
+          "presentResults": [],
+          "endRead": false
+        },
+        "resultBatchTarget": {
+          "candidateCount": 3,
+          "excludeCandidateIds": []
+        }
+      },
+      "agentAction": {
+        "type": "SEARCH_RESTAURANTS",
+        "retrievalHint": "omakase sushi restaurants near Shibuya, Tokyo"
+      },
+      "decisionSummary": "Only one candidate discovered so far; its availability is UNKNOWN (date not selectable) and no legal fact/availability reads remain for it. Search is available and the batch target of 3 is unmet, so broaden discovery for omakase spots near Shibuya.",
+      "modelAttempt": {
+        "invocationId": "39d02002-283a-4d80-b5e0-2ec696155d6e",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "purpose": "restaurant_agent_decide",
+        "promptVersion": "25",
+        "outputSchema": {
+          "name": "restaurant_agent_action",
+          "version": "4"
+        },
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 4687,
+        "usage": {
+          "inputTokens": 4399,
+          "outputTokens": 220,
+          "totalTokens": 4619
+        },
+        "providerRequestId": "55ce1f26-1012-41f6-a024-a72b40f30f47"
+      },
+      "actionValidation": {
+        "status": "ALLOWED"
+      },
+      "executionRoute": "GENERIC_BROWSER",
+      "executionMetadata": {
+        "provider": "TABELOG",
+        "route": "GENERIC_BROWSER",
+        "latencyMs": 134,
+        "nativeDiscoveryFunnel": {
+          "directoryRegion": {
+            "first": {
+              "url": "https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase",
+              "observedOn": "https://tabelog.com/en/tokyo/rstLst/?sw=omakase",
+              "targetRef": "observation:2:target:22",
+              "label": "Shibuya & Ebisu & Daikanyama"
+            },
+            "firstFive": [
+              {
+                "sourceEntityId": "en/tokyo/A1303/A130301/13203305",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13203305/",
+                "outcome": "OUTSIDE_RADIUS",
+                "coordinates": {
+                  "latitude": 35.65769355870779,
+                  "longitude": 139.6936568141977
+                },
+                "distanceMeters": 1033.189661412876
+              },
+              {
+                "sourceEntityId": "en/tokyo/A1303/A130301/13308491",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/",
+                "outcome": "WITHIN_RADIUS",
+                "coordinates": {
+                  "latitude": 35.66294870391731,
+                  "longitude": 139.69560491885105
+                },
+                "distanceMeters": 748.7035824387306
+              },
+              {
+                "sourceEntityId": "en/tokyo/A1303/A130302/13244783",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13244783/",
+                "outcome": "OUTSIDE_RADIUS",
+                "coordinates": {
+                  "latitude": 35.6479128787216,
+                  "longitude": 139.7175008440822
+                },
+                "distanceMeters": 1996.3988741607188
+              }
+            ]
+          },
+          "source": "TABELOG",
+          "rawSourceLinks": 0,
+          "parsedOutlets": 3,
+          "inspectedOutlets": 0,
+          "batchCap": 5,
+          "sourceDetailCap": 10,
+          "sourceDetailAttempts": 3,
+          "deferredByBatchCap": [],
+          "rejected": [],
+          "accepted": 0,
+          "sourcePageCap": 6,
+          "sourceElapsedCapMs": 90000,
+          "sourceElapsedMs": 69136,
+          "sourceTimeLimitReached": false,
+          "pagesRead": 0,
+          "batchLimitReached": false,
+          "sourceExhausted": "UNKNOWN",
+          "batchEnded": true,
+          "sourceEnded": true,
+          "progressionReason": "FIRST_SOURCE_BATCH",
+          "listingObservations": []
+        },
+        "googleRequests": {
+          "limit": 40,
+          "total": 1,
+          "namedPlaceResolution": 1,
+          "discovery": 0,
+          "placeDetails": 0,
+          "reverseAddressObservation": 0
+        }
+      },
+      "observation": {
+        "type": "DISCOVERY",
+        "detail": "0 candidates discovered; 0 newly accepted",
+        "candidateIds": [],
+        "newCandidateIds": [],
+        "evidenceIds": []
+      },
+      "stateVersionAfter": 6,
+      "stateHashAfter": "b41d49d42a2d8ebc82fffd3ace1c8190e15074f882a35878b54b68f7e911f2af",
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "id": "trajectory:hybrid-live:h001:1792051236315:6",
+      "taskId": "hybrid-live:h001:1792051236315",
+      "stepNumber": 6,
+      "occurredAt": "2026-10-15T08:02:22.140Z",
+      "stateVersionBefore": 6,
+      "stateHashBefore": "b41d49d42a2d8ebc82fffd3ace1c8190e15074f882a35878b54b68f7e911f2af",
+      "causalRefs": {
+        "eventIds": [
+          "event:restaurant-agent:6"
+        ],
+        "commandIds": [],
+        "attemptIds": [],
+        "evidenceIds": []
+      },
+      "capabilities": [
+        {
+          "name": "ASK_USER",
+          "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+          "inputSchema": "question, optional relatedFields",
+          "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+          "importantConstraints": [
+            "Do not claim a booking or availability result."
+          ]
+        },
+        {
+          "name": "SEARCH_RESTAURANTS",
+          "purpose": "Discover matching restaurant outlets.",
+          "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+          "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+          "importantConstraints": [
+            "Cannot modify, repeat, or loosen authoritative user constraints."
+          ]
+        },
+        {
+          "name": "INVESTIGATE_CANDIDATE_FACTS",
+          "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+          "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+          "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+          "importantConstraints": [
+            "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+          ]
+        },
+        {
+          "name": "CHECK_AVAILABILITY",
+          "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+          "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+          "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+          "importantConstraints": [
+            "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+          ]
+        },
+        {
+          "name": "END_READ",
+          "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+          "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+          "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+          "importantConstraints": [
+            "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+          ]
+        },
+        {
+          "name": "PRESENT_RESULTS",
+          "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+          "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+          "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+          "importantConstraints": [
+            "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+          ]
+        },
+        {
+          "name": "SELECT_CANDIDATE",
+          "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+          "inputSchema": "candidateId, optional offerId",
+          "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+          "importantConstraints": [
+            "A selected offer must belong to the selected candidate."
+          ]
+        },
+        {
+          "name": "BOOK_RESERVATION",
+          "purpose": "Request a booking proposal for one selected fresh offer.",
+          "inputSchema": "candidateId, offerId",
+          "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+          "importantConstraints": [
+            "Cannot authorize, commit, or claim success."
+          ]
+        }
+      ],
+      "contextSchemaVersion": "11",
+      "decisionContext": {
+        "schemaVersion": "11",
+        "now": "2026-10-15T08:02:18.280Z",
+        "phase": "SEARCHING",
+        "intentDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "criteria": [
+            {
+              "text": "omakase",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            }
+          ],
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "omakase spot near Shibuya for 2 people tonight at 7 PM",
+            "selectionScope": "OPEN_ENDED"
+          },
+          "date": "2026-10-15",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:00"
+          },
+          "temporalResolution": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-10-15T08:00:36.315Z",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "tonight",
+              "resolvedDate": "2026-10-15",
+              "basis": "TODAY"
+            },
+            "timeWindow": {
+              "expression": "7 PM",
+              "resolvedTimeWindow": {
+                "earliest": "19:00",
+                "latest": "19:00"
+              },
+              "basis": "EXPLICIT_CLOCK"
+            }
+          },
+          "partySize": 2,
+          "partySizeSource": "EXPLICIT",
+          "area": {
+            "query": "near Shibuya"
+          }
+        },
+        "intent": {
+          "timezone": "Asia/Tokyo",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "omakase spot near Shibuya for 2 people tonight at 7 PM",
+            "selectionScope": "OPEN_ENDED"
+          },
+          "date": "2026-10-15",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:00"
+          },
+          "partySize": 2,
+          "area": {
+            "query": "near Shibuya"
+          },
+          "criteria": [
+            {
+              "text": "omakase",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            }
+          ]
+        },
+        "missingBlockingFields": [],
+        "candidates": [
+          {
+            "id": "tabelog:en/tokyo/A1303/A130301/13308491",
+            "outletName": "Sushi Teppen",
+            "address": "1500042 Tokyo Udagawacho Shibuya Tokyo ",
+            "distanceObservation": {
+              "meters": 749,
+              "centerBasis": "NAMED_PLACE_RADIUS",
+              "source": "TABELOG"
+            },
+            "sourceCategories": [
+              {
+                "source": "TABELOG",
+                "values": [
+                  "Shinsen Sta. 654m / Sushi"
+                ]
+              }
+            ],
+            "matchReasons": [
+              "Source coordinates within 1000 m of Shibuya"
+            ],
+            "warnings": [],
+            "executionConfidence": "MEDIUM",
+            "observedFacts": {
+              "verifiedHardCriteria": [
+                "omakase"
+              ],
+              "verifiedNegativeCriteria": [],
+              "violatedNegativeCriteria": [],
+              "openingHoursMatch": false,
+              "commercialNotes": []
+            },
+            "sourceAttempts": [
+              {
+                "source": "TABELOG",
+                "outcome": "COMPLETED"
+              },
+              {
+                "source": "TABELOG",
+                "outcome": "FAILED",
+                "reasonCode": "DATE_NOT_SELECTABLE"
+              }
+            ]
+          }
+        ],
+        "availability": {
+          "tabelog:en/tokyo/A1303/A130301/13308491": []
+        },
+        "availabilityChecks": {
+          "tabelog:en/tokyo/A1303/A130301/13308491": {
+            "status": "UNKNOWN",
+            "receptionMode": "UNKNOWN",
+            "reasonCode": "DATE_NOT_SELECTABLE"
+          }
+        },
+        "presentation": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1303/A130301/13308491",
+            "eligible": false,
+            "missingReason": "Candidate tabelog:en/tokyo/A1303/A130301/13308491 lacks fresh evidenced availability for the authoritative request"
+          }
+        ],
+        "searchAvailability": {
+          "available": true
+        },
+        "readCompletion": {
+          "allowed": false,
+          "investigationRecorded": true,
+          "unresolvedCandidateIds": [
+            "tabelog:en/tokyo/A1303/A130301/13308491"
+          ],
+          "reason": "A bounded discovery-plan source remains unread"
+        },
+        "legalActions": {
+          "search": true,
+          "investigateCandidateFacts": [],
+          "checkAvailability": [],
+          "presentResults": [],
+          "endRead": false
+        },
+        "resultBatchTarget": {
+          "candidateCount": 3,
+          "excludeCandidateIds": []
+        }
+      },
+      "agentAction": {
+        "type": "SEARCH_RESTAURANTS",
+        "retrievalHint": "omakase sushi near Shibuya, Tokyo, for 2 people tonight 19:00"
+      },
+      "decisionSummary": "Only one candidate discovered so far; its availability is UNKNOWN (date not selectable) and no legal fact/availability read remains for it. Search is available and the batch target of 3 is unmet, so broaden discovery for omakase spots near Shibuya.",
+      "modelAttempt": {
+        "invocationId": "c843ddd3-7fac-417f-8ee4-64ff8b09ec5d",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "purpose": "restaurant_agent_decide",
+        "promptVersion": "25",
+        "outputSchema": {
+          "name": "restaurant_agent_action",
+          "version": "4"
+        },
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 3858,
+        "usage": {
+          "inputTokens": 4434,
+          "outputTokens": 229,
+          "totalTokens": 4663
+        },
+        "providerRequestId": "0f7c5b98-48b3-4b8a-ab9b-4fec4a8e1caf"
+      },
+      "actionValidation": {
+        "status": "ALLOWED"
+      },
+      "executionRoute": "GENERIC_BROWSER",
+      "executionMetadata": {
+        "provider": "AVAILABILITY_SOURCE_RESOLVER",
+        "route": "GENERIC_BROWSER",
+        "latencyMs": 0,
+        "failureCode": "BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED",
+        "googleRequests": {
+          "limit": 40,
+          "total": 1,
+          "namedPlaceResolution": 1,
+          "discovery": 0,
+          "placeDetails": 0,
+          "reverseAddressObservation": 0
+        }
+      },
+      "observation": {
+        "type": "DISCOVERY_FAILED",
+        "detail": "Shared browser-model budget exhausted for this read run"
+      },
+      "stateVersionAfter": 7,
+      "stateHashAfter": "efbedb4d8095be9d1ea3370b3c9c5e16ebe31bb400242aedd2ede392a019daca",
+      "stepOutcome": "EXECUTION_FAILURE"
+    },
+    {
+      "id": "trajectory:hybrid-live:h001:1792051236315:7",
+      "taskId": "hybrid-live:h001:1792051236315",
+      "stepNumber": 7,
+      "occurredAt": "2026-10-15T08:03:06.919Z",
+      "stateVersionBefore": 7,
+      "stateHashBefore": "0fc8c67e2e09ba3e375d5be58c07b19ff00368a7b34910152d715b5b645c71e2",
+      "causalRefs": {
+        "eventIds": [
+          "event:restaurant-agent:a3abf2a2-e4a6-4645-93fc-3464f6af2966"
+        ],
+        "commandIds": [],
+        "attemptIds": [],
+        "evidenceIds": []
+      },
+      "capabilities": [
+        {
+          "name": "ASK_USER",
+          "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+          "inputSchema": "question, optional relatedFields",
+          "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+          "importantConstraints": [
+            "Do not claim a booking or availability result."
+          ]
+        },
+        {
+          "name": "SEARCH_RESTAURANTS",
+          "purpose": "Discover matching restaurant outlets.",
+          "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+          "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+          "importantConstraints": [
+            "Cannot modify, repeat, or loosen authoritative user constraints."
+          ]
+        },
+        {
+          "name": "INVESTIGATE_CANDIDATE_FACTS",
+          "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+          "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+          "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+          "importantConstraints": [
+            "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+          ]
+        },
+        {
+          "name": "CHECK_AVAILABILITY",
+          "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+          "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+          "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+          "importantConstraints": [
+            "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+          ]
+        },
+        {
+          "name": "END_READ",
+          "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+          "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+          "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+          "importantConstraints": [
+            "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+          ]
+        },
+        {
+          "name": "PRESENT_RESULTS",
+          "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+          "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+          "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+          "importantConstraints": [
+            "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+          ]
+        },
+        {
+          "name": "SELECT_CANDIDATE",
+          "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+          "inputSchema": "candidateId, optional offerId",
+          "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+          "importantConstraints": [
+            "A selected offer must belong to the selected candidate."
+          ]
+        },
+        {
+          "name": "BOOK_RESERVATION",
+          "purpose": "Request a booking proposal for one selected fresh offer.",
+          "inputSchema": "candidateId, offerId",
+          "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+          "importantConstraints": [
+            "Cannot authorize, commit, or claim success."
+          ]
+        }
+      ],
+      "observation": {
+        "type": "READ_ENDED",
+        "detail": "AGENT_LOOP_NO_PROGRESS: BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED: no executable model-backed read path remains",
+        "candidateIds": [
+          "tabelog:en/tokyo/A1303/A130301/13308491"
+        ],
+        "unresolvedCandidateIds": [
+          "tabelog:en/tokyo/A1303/A130301/13308491"
+        ],
+        "termination": {
+          "type": "NO_PROGRESS",
+          "reasonCode": "BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED",
+          "isSystemReason": false,
+          "initiator": "SYSTEM"
+        }
+      },
+      "stateVersionAfter": 8,
+      "stateHashAfter": "3770d31bc13b0653487aee79b6a8135ffaed329f419397c24d6238c6ee937335",
+      "stepOutcome": "TERMINAL"
+    }
+  ],
+  "loop": {
+    "status": "TERMINAL",
+    "steps": 0
+  },
+  "finishedAt": "2026-10-15T08:03:06.919Z",
+  "runCeilings": {
+    "maxModelCalls": 50,
+    "maxGoogleRequests": 40,
+    "maxStructuredReadMs": 30000,
+    "maxAvailabilitySourceBrowserSessions": 3,
+    "maxAvailabilitySourceCandidateMatches": 3,
+    "maxAvailabilityReads": 20,
+    "maxBrowserRuntimeFallbacks": 1,
+    "maxBrowserModelCallsPerCandidate": 20,
+    "maxBrowserModelCallsTotal": 120,
+    "maxBrowserOperationsPerCandidate": 80,
+    "maxCandidateBrowserMs": 60000,
+    "maxProviderBrowserMs": 45000,
+    "maxAutomaticBrowserMs": 500000,
+    "maxAgentSteps": 30,
+    "maxRejectedActions": 5
+  },
+  "resourceUsageBasis": "only this offline terminal replay; historical prefix is inherited, not reexecuted",
+  "resourceUsage": {
+    "elapsedMs": 0,
+    "agentDecisions": 0,
+    "browserModelCalls": 0,
+    "modelCallsStarted": 0,
+    "googleRequests": {
+      "total": 0
+    }
+  },
+  "sourceArtifact": {
+    "path": "/Users/wangzhour/.codex/worktrees/p1-g2-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-15T08-00-36-360Z-d808d9f3-cedd-4c2e-aa43-bc70362ef61d.result.json",
+    "sha256": "70182d7548231fc6723823429dfcbabfe6b8d0af91f117d2b587b1cc4feec6fb"
+  }
+}

@@ -1,0 +1,54 @@
+✖ P2-0 system-ended no-result records structured business termination (4.32775ms)
+✖ P2-0 evaluator audits structured system READ_ENDED as a bounded outcome (3.820458ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 219.152792
+
+✖ failing tests:
+
+test at src/application/restaurant-agent-loop.test.ts:1:8679
+✖ P2-0 system-ended no-result records structured business termination (4.32775ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + undefined
+  - {
+  -   isSystemReason: false,
+  -   reasonCode: 'BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED',
+  -   type: 'NO_PROGRESS'
+  - }
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/application/restaurant-agent-loop.test.ts:145:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: { type: 'NO_PROGRESS', reasonCode: 'BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED', isSystemReason: false },
+    operator: 'deepStrictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts:1:73976
+✖ P2-0 evaluator audits structured system READ_ENDED as a bounded outcome (3.820458ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'NOT_EVALUATED'
+  - 'SATISFIED'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts:1046:10)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'NOT_EVALUATED',
+    expected: 'SATISFIED',
+    operator: 'strictEqual'
+  }

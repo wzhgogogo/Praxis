@@ -1,3 +1,4 @@
+import { restaurantFailureCode, type RestaurantFailureCode } from "../../domains/restaurant/failure-codes.js";
 import { parseTableCheckCapturedAvailability, tableCheckAvailabilityResponseRule } from "./tablecheck-availability-response.js";
 import type { RestaurantAvailabilityRequest, RestaurantServiceScope } from "../../domains/restaurant/contracts.js";
 import type { BrowserPageControl, BrowserReadNetworkPolicy, BrowserRuntime, BrowserSession, BrowserSessionMetadata, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
@@ -360,7 +361,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         provider: this.provider,
         route: this.executionRoute,
         latencyMs: Date.now() - startedAt,
-        ...(commonFailureCode ? { failureCode: commonFailureCode } : {}),
+        ...(commonFailureCode ? { failureCode: restaurantFailureCode(commonFailureCode, "AVAILABILITY_FAILED") } : {}),
         ...(lastMetadata ? { browser: lastMetadata } : {}),
       },
     };

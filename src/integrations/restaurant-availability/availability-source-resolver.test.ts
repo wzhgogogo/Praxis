@@ -1,3 +1,4 @@
+import { restaurantFailureCode, type RestaurantFailureCode } from "../../domains/restaurant/failure-codes.js";
 import assert from "node:assert/strict";
 import { test } from "node:test";
 
@@ -31,7 +32,7 @@ function provider(
         }] : [],
         availabilityChecks: { [input.candidateIds[0]!]: { status: result.status, checkedAt, evidenceIds: [], ...(result.reasonCode ? { reasonCode: result.reasonCode } : {}) } },
         evidence: [],
-        metadata: { provider: name, route: "GENERIC_BROWSER", latencyMs: 1, ...(result.reasonCode ? { failureCode: result.reasonCode } : {}) },
+        metadata: { provider: name, route: "GENERIC_BROWSER", latencyMs: 1, ...(result.reasonCode ? { failureCode: restaurantFailureCode(result.reasonCode, "AVAILABILITY_FAILED") } : {}) },
       };
       return read;
     },

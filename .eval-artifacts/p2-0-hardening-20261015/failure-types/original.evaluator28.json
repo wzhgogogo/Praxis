@@ -1,0 +1,173 @@
+{
+  "schemaVersion": "1",
+  "evaluatorVersion": "restaurant-hybrid-read-diagnostic-evaluator@28",
+  "rubricVersion": "restaurant-hybrid-read-diagnostic-rubric@22",
+  "rubricStatus": "DRAFT_DIAGNOSTIC_ONLY",
+  "sourceArtifact": {
+    "path": "/Users/wangzhour/.codex/worktrees/p1-g2-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-15T08-00-36-360Z-d808d9f3-cedd-4c2e-aa43-bc70362ef61d.result.json",
+    "sha256": "70182d7548231fc6723823429dfcbabfe6b8d0af91f117d2b587b1cc4feec6fb",
+    "runId": "d808d9f3-cedd-4c2e-aa43-bc70362ef61d",
+    "caseId": "h001"
+  },
+  "execution": {
+    "status": "SUCCEEDED",
+    "stage": "AGENT_LOOP",
+    "taskProducedQualifiedResult": "NO",
+    "systemBehavior": "NOT_EVALUATED",
+    "externalConditions": "OBSERVED",
+    "evidenceSufficiency": "NOT_EVALUATED",
+    "completion": "NO_VERIFIED_RESULT"
+  },
+  "candidateSummaries": [
+    {
+      "candidateId": "tabelog:en/tokyo/A1303/A130301/13308491",
+      "outletName": "Sushi Teppen",
+      "providers": [
+        "TABELOG"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABELOG",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "DATE_NOT_SELECTABLE",
+          "evidenceRef": "trajectories[1].executionMetadata.providerAttempts[0]"
+        }
+      ],
+      "result": "EVIDENCE_INCOMPLETE",
+      "reasonCode": "DATE_NOT_SELECTABLE",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:f5f7ebfadd955c1993dc0769]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:0417942e292f230e2797297e]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-hard-criteria:dea73e3117c2d9a9504e6ea8]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:66de3327697795ddd1bc27c4]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=tabelog:en/tokyo/A1303/A130301/13308491:document:8d49a67f9e9c9327]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tabelog:en/tokyo/A1303/A130301/13308491:2026-10-15T08:01:33.465Z:tabelog:en/tokyo/A1303/A130301/13308491:document:8d49a67f9e9c9327]"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "dimension": "AUTHORITATIVE_CONDITIONS",
+      "status": "SATISFIED",
+      "stage": "SEMANTIC_TO_FINAL_STATE",
+      "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+      "observations": [
+        "All independently readable applicable request fields match."
+      ],
+      "directCause": "No conflict observed.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "materializedCase.semantic",
+        "finalSnapshot.domainState.intentDraft"
+      ],
+      "downstreamImpact": "Grounding can be evaluated against one request."
+    },
+    {
+      "dimension": "REQUIRED_EVIDENCE",
+      "status": "NOT_EVALUATED",
+      "stage": "GROUNDING",
+      "requirement": "Each presented candidate must independently cite same-candidate HIGH identity, area, applicable HARD facts, and only when the user requested availability, fresh request-bound slot evidence.",
+      "observations": [],
+      "directCause": "Artifact records or accepted evidence contract are insufficient for an independent conclusion.",
+      "rootCauseHypothesis": "Execution artifact or accepted evidence contract lacks required detail.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [],
+      "downstreamImpact": "Do not claim an evidence-grounded result from this artifact."
+    },
+    {
+      "dimension": "INVESTIGATION_BEHAVIOR",
+      "status": "SATISFIED",
+      "stage": "AGENT_LOOP",
+      "requirement": "Cited presentation evidence must originate in actually executed same-candidate observations for the applicable request; duplicate fact/availability reads remain checked without requiring either action type.",
+      "observations": [
+        "executedObservations=5",
+        "applicableObservations=5",
+        "executedInvestigationVisits=2",
+        "authorizedRechecks=none",
+        "duplicates=none"
+      ],
+      "directCause": "Executed observations are attributable without a duplicate fact/availability read.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "trajectories[0].observation",
+        "trajectories[1].observation",
+        "trajectories[2].observation",
+        "trajectories[3].observation",
+        "trajectories[4].observation"
+      ],
+      "downstreamImpact": "Observation lineage and duplicate-read accounting remain attributable."
+    },
+    {
+      "dimension": "FINAL_CLAIM",
+      "status": "NOT_EVALUATED",
+      "stage": "PRESENT_RESULTS",
+      "requirement": "A terminal presentation must agree with the independently checked, candidate-specific request and evidence records.",
+      "observations": [
+        "phase=NO_VERIFIED_RESULT",
+        "loop=TERMINAL",
+        "presentedCandidates=0"
+      ],
+      "directCause": "No terminal presentation was executed.",
+      "rootCauseHypothesis": "Verifier, serialization, or upstream execution record requires review.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "loop",
+        "finalSnapshot.domainState.presentedResults",
+        "finalSnapshot.domainState.availability",
+        "finalSnapshot.domainState.readEvidence"
+      ],
+      "downstreamImpact": "No qualified completion can be claimed."
+    },
+    {
+      "dimension": "COMPLETION_OUTCOME",
+      "status": "NOT_EVALUATED",
+      "stage": "TERMINATION",
+      "requirement": "A scoped no-result outcome, user-input pause, controlled cancellation, budget/deadline stop, and internal execution failure must remain distinguishable from one another and from independently verified presentation.",
+      "observations": [
+        "completion=NO_VERIFIED_RESULT",
+        "phase=NO_VERIFIED_RESULT",
+        "loop=TERMINAL",
+        "noVerifiedResult=recorded",
+        "failureCode=missing",
+        "No executed current-request END_READ observation is recorded."
+      ],
+      "directCause": "No executed current-request END_READ observation is recorded.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "status",
+        "execution.failureCode",
+        "loop.status",
+        "finalSnapshot.domainState.phase",
+        "finalSnapshot.domainState.noVerifiedResult",
+        "finalSnapshot.domainState.failure",
+        "finalSnapshot.domainState.noVerifiedResult",
+        "trajectories"
+      ],
+      "downstreamImpact": "Do not represent the scoped stop as a source-confirmed global negative result."
+    },
+    {
+      "dimension": "RESOURCES",
+      "status": "SATISFIED",
+      "stage": "RUN_ACCOUNTING",
+      "requirement": "Artifact must provide valid applicable resource values; an object alone does not prove complete accounting or budget compliance.",
+      "observations": [],
+      "directCause": "Required resource fields are present and within readable applicable limits.",
+      "rootCauseHypothesis": "Runner limit/accounting requires review.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "resourceUsage",
+        "runCeilings",
+        "modelInvocations"
+      ],
+      "downstreamImpact": "Recorded budget use can be reviewed."
+    }
+  ],
+  "unassessedDimensions": [
+    "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+    "Cost is not inferred without explicit configured price inputs.",
+    "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+  ]
+}

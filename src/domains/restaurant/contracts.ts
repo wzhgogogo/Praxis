@@ -1,3 +1,4 @@
+import type { RestaurantFailureCode } from "./failure-codes.js";
 import type { ExecutionResult } from "../../core/execution/contracts.js";
 import type { ActionProposal, Authorization, PolicyDenialCode } from "../../core/policy/contracts.js";
 import type { DomainCommand, DomainEvent } from "../../core/task-runtime/contracts.js";
@@ -301,7 +302,7 @@ export interface RestaurantSearchContinuation {
   pagesRead: number;
   exhausted: boolean;
   /** A partial initial read keeps its accepted first page and records this failure. */
-  lastFailureCode?: string;
+  lastFailureCode?: RestaurantFailureCode;
   /** Source-observed coordinate context must survive an opaque provider page cursor. */
   locationContext?: {
     latitude: number;
@@ -442,7 +443,7 @@ export interface RestaurantReadExecutionMetadata {
   provider: "GOOGLE_PLACES" | "RESTAURANT_WEBSITE" | "TABLECHECK" | "TABELOG" | "AVAILABILITY_SOURCE_RESOLVER" | "FIXTURE";
   route: RestaurantExecutionRoute;
   latencyMs: number;
-  failureCode?: string;
+  failureCode?: RestaurantFailureCode;
   /** Router-checkpointed results completed before a bounded reserve stop. */
   reserveReached?: { reason: "MODEL_CALL" | "DELIVERY_TIME"; completedCandidateIds: string[] };
   /** Failure boundary determined by the executor, never inferred from matching codes. */
@@ -487,7 +488,7 @@ export interface RestaurantReadExecutionMetadata {
     candidateId: string;
     provider: "TABLECHECK" | "TABELOG";
     outcome: "AVAILABLE" | "UNAVAILABLE" | "PROVIDER_FAILURE";
-    failureCode?: string;
+    failureCode?: RestaurantFailureCode;
   }>;
   /** Candidate-scoped native discovery failures; other observed outlets in the batch remain usable. */
   candidateFailures?: Array<{ sourceUrl: string; reasonCode: string }>;
@@ -542,6 +543,7 @@ export interface RestaurantReadExecutionMetadata {
 
 /** Provider/result-derived progress only; never a model self-assessment. */
 export interface RestaurantReadObservation {
+  termination?: RestaurantReadTermination;
   type: "USER_QUESTION" | "DISCOVERY" | "DISCOVERY_FAILED" | "CANDIDATE_FACTS" | "CANDIDATE_FACTS_UNKNOWN" | "AVAILABILITY" | "AVAILABILITY_UNKNOWN" | "RESULTS_PRESENTED" | "READ_ENDED" | "CANDIDATE_SELECTED" | "BOOKING_PROPOSAL" | "FACTS_UNAVAILABLE";
   detail: string;
   candidateIds?: string[];
@@ -674,7 +676,7 @@ export interface VerifiedReservation {
 }
 
 export interface RestaurantTaskState {
-  schemaVersion: "14";
+  schemaVersion: "15";
   phase: RestaurantPhase;
   intentDraft?: RestaurantIntentDraft;
   intent?: RestaurantSearchIntent;
@@ -712,7 +714,7 @@ export interface RestaurantTaskState {
   selectedOfferId?: string;
   presentedResults?: { candidateIds: string[]; evidenceIds: string[]; presentedAt: string };
   /** Scoped normal read completion, never a claim that every restaurant is unavailable. */
-  noVerifiedResult?: { endedAt: string; investigatedCandidateIds: string[]; unresolvedCandidateIds: string[]; remainingGaps: string[] };
+  noVerifiedResult?: { termination: RestaurantReadTermination; endedAt: string; investigatedCandidateIds: string[]; unresolvedCandidateIds: string[]; remainingGaps: string[] };
   /** An explicit user refresh only rechecks previously displayed candidates. */
   refreshRequestedCandidateIds?: string[];
   /** An explicit recommendation refresh only re-reads facts for displayed candidates. */
@@ -724,7 +726,7 @@ export interface RestaurantTaskState {
   lastExecutionResult?: ExecutionResult;
   evidence?: BookingProofBundle;
   reservation?: VerifiedReservation;
-  failure?: { code: string; message: string };
+  failure?: { code: RestaurantFailureCode; message: string };
 }
 
 export type RestaurantOutcome =
@@ -756,6 +758,14 @@ export interface RestaurantSemanticConflict {
   message: string;
 }
 
+/** Ending authority is distinct from system failure classification. */
+export interface RestaurantReadTermination {
+  type: RestaurantAgentLoopTermination | "END_READ";
+  reasonCode: RestaurantFailureCode | "AGENT_END_READ";
+  isSystemReason: boolean;
+  initiator: "SYSTEM" | "AGENT";
+}
+
 export type RestaurantAgentLoopTermination = "TIMEOUT" | "STEP_LIMIT" | "REJECTION_LIMIT" | "EXECUTION_FAILURE" | "NO_PROGRESS" | "CANCELLED";
 
 /** Historical semantic-evaluation annotation. It is not an Agent action or a runtime Decision. */
@@ -782,9 +792,9 @@ export type RestaurantEvent =
       reason: string;
     })
   | (DomainEvent & { type: "AGENT_ASKED_USER"; question: string; relatedFields?: string[] })
-  | (DomainEvent & { type: "AGENT_DECISION_FAILED"; code: string; reason: string })
-  | (DomainEvent & { type: "AGENT_EXECUTION_FAILED"; code: string; reason: string })
-  | (DomainEvent & { type: "AGENT_LOOP_TERMINATED"; termination: RestaurantAgentLoopTermination; reason: string })
+  | (DomainEvent & { type: "AGENT_DECISION_FAILED"; code: RestaurantFailureCode; reason: string })
+  | (DomainEvent & { type: "AGENT_EXECUTION_FAILED"; code: RestaurantFailureCode; reason: string })
+  | (DomainEvent & { type: "AGENT_LOOP_TERMINATED"; termination: RestaurantAgentLoopTermination; reason: string; reasonCode?: RestaurantFailureCode })
   | (DomainEvent & { type: "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED"; deadlineAt: string })
   | (DomainEvent & {
       type: "SEARCH_COMPLETED";
@@ -808,7 +818,7 @@ export type RestaurantEvent =
   | (DomainEvent & { type: "READ_ENDED_NO_VERIFIED_RESULT"; investigatedCandidateIds: string[]; unresolvedCandidateIds: string[]; remainingGaps: string[] })
   | (DomainEvent & { type: "AVAILABILITY_REFRESH_REQUESTED"; candidateIds: string[] })
   | (DomainEvent & { type: "CANDIDATE_FACTS_REFRESH_REQUESTED"; candidateIds: string[] })
-  | (DomainEvent & { type: "SEARCH_FAILED"; reason: string; code?: string })
+  | (DomainEvent & { type: "SEARCH_FAILED"; reason: string; code?: RestaurantFailureCode })
   | (DomainEvent & { type: "AVAILABILITY_FAILED"; reason: string })
   | (DomainEvent & {
       type: "AVAILABILITY_CHECKED";

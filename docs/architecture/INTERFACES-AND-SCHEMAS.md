@@ -1,8 +1,8 @@
 # Interfaces and Schemas
 
 - Status: Accepted
-- Document revision: 3.4
-- Last updated: 2026-10-10
+- Document revision: 3.5
+- Last updated: 2026-10-15
 - Source of truth for: 公共接口、DTO、内部Tool、实现状态和版本规则
 - Related ADRs: [ADR Index](../decisions/README.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md)
 - Related documents: [Task Runtime](TASK-RUNTIME.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md)
@@ -329,3 +329,10 @@ C0c 当前 State@13 / TaskDefinition@12 追加系统 `READ_END_WINDOW_OPENED`。
 
 
 2026-10-10 reserve checkpoint diagnostics：`RestaurantReadExecutionMetadata.reserveReached`记录MODEL_CALL/DELIVERY_TIME和触发前完整返回的candidateIds。Router在同一批次deadline内按门店顺序保留事实/查位结果，未完成门店为UNKNOWN/RESERVE_REACHED；成功返回事件即使保留计时器触发也派发。身份/请求/资格和State@13保持；该附加诊断不是模型可写状态。
+
+
+### P2-0 typed bounded termination（2026-10-15）
+
+当前 Restaurant State@15 / TaskDefinition@14。`noVerifiedResult.termination` 必填：type、reasonCode、isSystemReason、initiator；SYSTEM表示结束发起方，并不表示系统错误。系统预算／时限／无进展结束写入匹配的领域事件与READ_ENDED观察；Agent END_READ保留原验证和范围要求。失败码、读取metadata与Router错误使用显式集合；分类表穷尽Model/Policy及Domain码，Browser/Google合同由编译检查覆盖。未识别外部错误转换AGENT_EXECUTION_FAILED，不默认为业务。
+
+Evaluator@28 / rubric@22对结构化系统结束核对事件、终态版本、观察和已查／未查范围，确认有范围的无结果，不证明来源穷尽。原State@14与旧评价保留为frozen regression；不改写历史录制或自动补字段。不保留旧执行兼容分支，不自动迁移／重置数据库；当前无生产Pilot，开发库按既有显式reset协议处理。真实状态Fixture保存原Schema与hash来源，当前终止回放在副本上绑定新Schema；原产物不改动。

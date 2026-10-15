@@ -1,3 +1,4 @@
+import { restaurantFailureCode, type RestaurantFailureCode } from "../domains/restaurant/failure-codes.js";
 import type { RestaurantAgentAction } from "../domains/restaurant/agent-action.js";
 import type {
   RestaurantAvailabilityCheck,
@@ -66,11 +67,11 @@ export interface RestaurantActionExecution {
   event?: RestaurantEvent;
   observation?: RestaurantReadObservation;
   executionMetadata?: RestaurantReadExecutionMetadata;
-  failure?: { source: "PROVIDER"; code: string; reason: string; scope: "CANDIDATE" | "PROVIDER" | "BATCH" | "TASK"; terminal?: boolean };
+  failure?: { source: "PROVIDER"; code: RestaurantFailureCode; reason: string; scope: "CANDIDATE" | "PROVIDER" | "BATCH" | "TASK"; terminal?: boolean };
 }
 
-function stableFailureCode(error: unknown, fallback: string): string {
-  if (error && typeof error === "object" && "code" in error && typeof error.code === "string") return error.code;
+function stableFailureCode(error: unknown, fallback: RestaurantFailureCode): RestaurantFailureCode {
+  if (error && typeof error === "object" && "code" in error) return restaurantFailureCode(error.code, fallback);
   return fallback;
 }
 
@@ -87,8 +88,8 @@ async function candidateCheckpoints<Request extends { candidateIds: string[]; ca
 }
 
 function reserveCause(error: unknown, signal?: AbortSignal): "MODEL_CALL" | "DELIVERY_TIME" | undefined {
-  if (signal?.aborted && stableFailureCode(signal.reason, "") === "DELIVERY_RESERVE_REACHED") return "DELIVERY_TIME";
-  if (stableFailureCode(error, "") === "BUDGET_RESERVED_FOR_DELIVERY") return "MODEL_CALL";
+  if (signal?.aborted && stableFailureCode(signal.reason, "AGENT_EXECUTION_FAILED") === "DELIVERY_RESERVE_REACHED") return "DELIVERY_TIME";
+  if (stableFailureCode(error, "AGENT_EXECUTION_FAILED") === "BUDGET_RESERVED_FOR_DELIVERY") return "MODEL_CALL";
   return undefined;
 }
 

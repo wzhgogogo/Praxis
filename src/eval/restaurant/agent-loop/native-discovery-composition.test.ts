@@ -465,7 +465,7 @@ test("the production Router advances the default three-pack cursor and reaches G
     date, timeWindow: { earliest: "19:00", latest: "19:00" }, partySize: 2,
     area: { query: "Shibuya", coordinates: { ...center, observedAt: reference.toISOString(), source: "MANUAL_PLACE" as const } }, criteria: [],
   };
-  let state: RestaurantTaskState = { schemaVersion: "14", phase: "UNDERSTANDING", intentDraft, candidates: [], availability: {}, availabilityChecks: {}, readEvidence: [], searchRevision: 0 };
+  let state: RestaurantTaskState = { schemaVersion: "15", phase: "UNDERSTANDING", intentDraft, candidates: [], availability: {}, availabilityChecks: {}, readEvidence: [], searchRevision: 0 };
   const first = await router.execute({ type: "SEARCH_RESTAURANTS" }, state, reference.toISOString(), "phase2-router-pack");
   assert.equal(first.event?.type, "SEARCH_COMPLETED");
   if (first.event?.type !== "SEARCH_COMPLETED") throw new Error("expected first discovery result");
@@ -902,7 +902,7 @@ for (const [scenario, expectedPhase, deliveries] of [
     assert.ok(result.state.noVerifiedResult?.remainingGaps.some(gap => gap.includes("REJECTION_LIMIT") && gap.includes("AVAILABILITY_ALREADY_CHECKED")));
     assert.ok(result.state.noVerifiedResult?.investigatedCandidateIds.length);
     assert.ok(!result.state.noVerifiedResult?.remainingGaps.some(gap => gap.startsWith("MODEL_CALL_RESERVE")));
-    assert.equal(result.evaluation.findings.find(dimension => dimension.dimension === "COMPLETION_OUTCOME")?.status, "NOT_EVALUATED", "remaining gaps are prose, not independent source-exhaustion proof");
+    assert.equal(result.evaluation.findings.find(dimension => dimension.dimension === "COMPLETION_OUTCOME")?.status, "SATISFIED", "structured bounded completion is auditable; source exhaustiveness remains unassessed");
   }
   assert.ok(result.networkRequests.every(request => request.method === "GET" || request.method === "HEAD"));
 });
@@ -913,7 +913,7 @@ test("P1-G unresolved location NO_PROGRESS gives an honest user outcome", async 
   assert.ok(result.state.noVerifiedResult?.remainingGaps.some(gap => gap.includes("GOOGLE_LOCATION_UNRESOLVED") && gap.includes("NO_PROGRESS")));
   assert.deepEqual(result.state.noVerifiedResult?.investigatedCandidateIds, []);
   assert.equal(result.navigations.length, 0);
-  assert.equal(result.evaluation.findings.find(dimension => dimension.dimension === "COMPLETION_OUTCOME")?.status, "NOT_EVALUATED", "failed location resolution has no successful discovery observation");
+  assert.equal(result.evaluation.findings.find(dimension => dimension.dimension === "COMPLETION_OUTCOME")?.status, "SATISFIED", "structured unresolved-location completion makes no source-exhaustiveness claim");
 });
 
 

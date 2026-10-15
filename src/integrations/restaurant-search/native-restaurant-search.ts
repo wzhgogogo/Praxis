@@ -1,3 +1,4 @@
+import { restaurantFailureCode, type RestaurantFailureCode } from "../../domains/restaurant/failure-codes.js";
 import type { BrowserReadLimits } from "../../infrastructure/browser/browser-task-executor.js";
 import { DEFAULT_NEARBY_RADIUS_METERS } from "../../core/location/nearby.js";
 import { createHash } from "node:crypto";
@@ -861,7 +862,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
         sourcePageCap: NATIVE_LISTING_PAGE_CAP[source], sourceElapsedCapMs: NATIVE_SOURCE_ELAPSED_CAP_MS, sourceElapsedMs: 0, sourceTimeLimitReached: false,
         pagesRead: 0, batchLimitReached: false, sourceExhausted: "UNKNOWN", batchEnded: true, sourceEnded: true,
         progressionReason: source === "DIRECTORY" ? "FIRST_SOURCE_BATCH" : "FIRST_SOURCE_BATCH_ENDED", listingObservations: [] } };
-    let failureCode: string | undefined;
+    let failureCode: RestaurantFailureCode | undefined;
     try {
       batch = await this.batch(pack!, source, request, location, entry.query, signal, request.continuation?.sourceProgress);
     } catch (error) {
@@ -885,7 +886,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
         batch = { ...batch, progress: error.nativeProgress as typeof batch.progress };
       }
       failureCode = error && typeof error === "object" && "code" in error && typeof error.code === "string"
-        ? error.code : `${source}_NATIVE_DISCOVERY_FAILED`;
+        ? restaurantFailureCode(error.code, "SEARCH_FAILED") : restaurantFailureCode(`${source}_NATIVE_DISCOVERY_FAILED`, "SEARCH_FAILED");
     }
     const sourceEnded = batch.funnel.sourceEnded;
     const nextPlan = sourceEnded ? advanceDiscoveryPlan(discoveryPlan) : discoveryPlan;

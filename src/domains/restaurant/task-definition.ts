@@ -364,7 +364,7 @@ function transition(
           const unreadSources = state.searchContinuation?.discoveryPlan?.entries.slice(state.searchContinuation.discoveryPlan.cursor).map(entry => entry.sourceId) ?? [];
           const { failure: _failure, readEndWindow: _readEndWindow, defaultBatchDeliveryWindow: _deliveryWindow, ...completed } = remaining;
           return { state: { ...completed, phase: "NO_VERIFIED_RESULT", noVerifiedResult: {
-            ...summary, endedAt: context.now, remainingGaps: [
+            ...summary, termination: { type: event.termination, reasonCode: event.reasonCode ?? state.failure?.code ?? `AGENT_LOOP_${event.termination}`, isSystemReason: false, initiator: "SYSTEM" }, endedAt: context.now, remainingGaps: [
               ...summary.remainingGaps.filter(gap => !gap.startsWith("MODEL_CALL_RESERVE:")),
               `AGENT_LOOP_${event.termination}: ${event.reason}${state.failure ? `; ${state.failure.code}: ${state.failure.message}` : ""}`,
               `Sources with recorded reads or attempts: ${providers.join(", ") || "none"}; unread discovery entries: ${unreadSources.join(", ") || "none recorded"}. Unread outlets and missing evidence remain unknown; this does not establish that all restaurants have no seats.`,
@@ -729,6 +729,7 @@ function transition(
           ...state,
           phase: "NO_VERIFIED_RESULT",
           noVerifiedResult: {
+            termination: { type: "END_READ", reasonCode: "AGENT_END_READ", isSystemReason: false, initiator: "AGENT" },
             endedAt: context.now,
             investigatedCandidateIds: [...event.investigatedCandidateIds],
             unresolvedCandidateIds: [...event.unresolvedCandidateIds],
@@ -821,10 +822,10 @@ function transition(
 
 export const restaurantBookingTaskDefinition: TaskDefinition<RestaurantTaskState, RestaurantEvent, RestaurantCommand, RestaurantOutcome> = {
   type: "restaurant.booking",
-  version: "13",
+  version: "14",
   create() {
     return {
-      schemaVersion: "14",
+      schemaVersion: "15",
       phase: "UNDERSTANDING",
       candidates: [],
       availability: {},

@@ -1031,3 +1031,28 @@ test("E2 checks actual reads separately from discovered unresolved and unread sc
   const missingGap=structuredClone(artifact);missingGap.finalSnapshot.domainState.noVerifiedResult.remainingGaps.pop();missingGap.trajectories.at(-1).observation.remainingGaps=missingGap.finalSnapshot.domainState.noVerifiedResult.remainingGaps;
   assert.equal(finding(evaluateRestaurantHybridLiveArtifact(missingGap,source),"COMPLETION_OUTCOME").status,"NOT_SATISFIED","unread discovered candidate must be disclosed");
 });
+
+function systemBoundedArtifact(): any {
+  const artifact=noResultArtifact(), domain=artifact.finalSnapshot.domainState;
+  domain.candidates=[];domain.availability={};domain.availabilityChecks={};domain.factChecks={};domain.readEvidence=[];
+  const termination={type:"TIMEOUT",reasonCode:"AGENT_LOOP_TIMEOUT",isSystemReason:false,initiator:"SYSTEM"};
+  domain.noVerifiedResult={endedAt:artifact.finishedAt,investigatedCandidateIds:[],unresolvedCandidateIds:[],remainingGaps:["No source completed before bounded timeout"],termination};
+  artifact.trajectories=[{stepOutcome:"TERMINAL",occurredAt:artifact.finishedAt,stateVersionAfter:artifact.finalSnapshot.version,observation:{type:"READ_ENDED",candidateIds:[],unresolvedCandidateIds:[],termination}}];
+  artifact.events=[{trace:{actor:"SYSTEM"},occurredAt:artifact.finishedAt,event:{type:"AGENT_LOOP_TERMINATED",termination:"TIMEOUT",reasonCode:"AGENT_LOOP_TIMEOUT",reason:"Bounded deadline"}}];
+  return artifact;
+}
+test("P2-0 evaluator audits structured system READ_ENDED as a bounded outcome",()=>{
+  const result=evaluateRestaurantHybridLiveArtifact(systemBoundedArtifact(),source);
+  assert.equal(finding(result,"COMPLETION_OUTCOME").status,"SATISFIED");
+  assert.equal(result.execution.taskProducedQualifiedResult,"NO");
+});
+
+for (const mode of ["system-cause", "forged-provider-cause", "different-observation", "missing-event", "invented-investigation"] as const) test(`P2-0 structured ending rejects ${mode}`,()=>{
+  const a=systemBoundedArtifact();
+  if(mode==="system-cause")a.finalSnapshot.domainState.noVerifiedResult.termination.isSystemReason=true;
+  if(mode==="forged-provider-cause")a.finalSnapshot.domainState.noVerifiedResult.termination.reasonCode="PROVIDER_REJECTED";
+  if(mode==="different-observation")a.trajectories[0].observation.termination={...a.trajectories[0].observation.termination,type:"STEP_LIMIT"};
+  if(mode==="missing-event")a.events=[];
+  if(mode==="invented-investigation")a.finalSnapshot.domainState.noVerifiedResult.investigatedCandidateIds=["invented"];
+  assert.equal(finding(evaluateRestaurantHybridLiveArtifact(a,source),"COMPLETION_OUTCOME").status,"NOT_SATISFIED");
+});

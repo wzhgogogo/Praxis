@@ -1,3 +1,4 @@
+import { restaurantFailureCode, type RestaurantFailureCode } from "../../domains/restaurant/failure-codes.js";
 import { DEFAULT_NEARBY_RADIUS_METERS } from "../../core/location/nearby.js";
 import { createHash } from "node:crypto";
 
@@ -444,7 +445,7 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
     const first = await readPage(firstPageToken);
     const pages = [first.places];
     let nextPageToken = first.nextPageToken;
-    let lastFailureCode: string | undefined;
+    let lastFailureCode: RestaurantFailureCode | undefined;
     // An initial read intentionally obtains at most two 20-result pages. A
     // later explicit replenishment consumes one durable cursor page at a time.
     if (!usesNearbySearch && !request.continuation && nextPageToken) {
@@ -593,7 +594,7 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
         route: this.executionRoute,
         latencyMs: Date.now() - startedAt,
         googleRequests: this.googleRequestUsage(request.readRunId),
-        ...(exhausted ? { failureCode: "GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED" } : {}),
+        ...(exhausted ? { failureCode: "GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED" as const } : {}),
       },
     };
   }

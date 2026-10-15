@@ -1,3 +1,4 @@
+import { restaurantFailureCode, type RestaurantFailureCode } from "../../domains/restaurant/failure-codes.js";
 import type { RestaurantAvailabilityRequest } from "../../domains/restaurant/contracts.js";
 import type { BrowserReadNetworkPolicy, BrowserRuntime, BrowserSession, BrowserSessionMetadata, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
 import type { RestaurantAvailabilityProvider } from "../restaurant-availability/contracts.js";
@@ -266,7 +267,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
         provider: "TABELOG" as const,
         route: this.executionRoute,
         latencyMs: Date.now() - startedAt,
-        ...(commonFailureCode ? { failureCode: commonFailureCode } : {}),
+        ...(commonFailureCode ? { failureCode: restaurantFailureCode(commonFailureCode, "AVAILABILITY_FAILED") } : {}),
         ...(lastMetadata ? { browser: lastMetadata } : {}),
       },
     };

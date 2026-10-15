@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.209
+- Document revision: 4.210
 - Last updated: 2026-10-15
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-15 P2-0 失败码穷尽分类与结构化结束：** State@15/TaskDefinition@14，noVerifiedResult.termination记录type/reasonCode/isSystemReason/initiator，区分系统发起与系统错误。State/Event/Router/读取metadata失败码显式typed集合，Model/Policy穷尽分类及Browser/Google类型覆盖；缺分类编译红灯与未知持久化码fail-closed。Evaluator@28/rubric@22核对系统事件、终态版本、READ_ENDED及已查/未查范围，只证明有范围的无结果。原P1-G2产物不改写，@27与@28原始重评完成均NOT_EVALUATED（原缺结构化字段）；第6步真实状态新终止离线回放SATISFIED、qualified仍NO，0新增外部调用。四门禁879/879，证据failure-types/；不更改资格/Prompt/Gold/变体/见证，不推送。
 
 - **2026-10-15 P2-0 不可执行读取与超时诚实结束：** 真实P1-G2 h001第6步后状态按事件前缀精确重建并核对轨迹hash，再脱敏为结构/码Fixture；旧码12次新搜索提议、TIMEOUT为FAILED红灯，修复后0次新增提议即NO_VERIFIED_RESULT。实际共享浏览器额度/整单额度耗尽在系统预判及动作校验拒绝；连续3次执行失败不再清零无进展计数。整单TIMEOUT按业务终止并返回TERMINAL，Web/Harness断言同步；服务商拒绝、异常、授权及副作用不确定仍FAILED，取消原样。15项终止回归及生产Guard L1旧组合保持绿，四门禁870/870。证据termination/，0真实模型/Google业务/Live；结构化原因与evaluator28继续，不推送。
 

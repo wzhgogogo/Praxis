@@ -138,3 +138,28 @@ test("P2-0 failed executions do not reset consecutive no-progress accounting", a
   assert.equal(result.current.domainState.phase,"NO_VERIFIED_RESULT");
   assert.ok(result.current.domainState.noVerifiedResult?.remainingGaps.some(g=>g.includes("NO_PROGRESS")));
 });
+
+test("P2-0 system-ended no-result records structured business termination", async () => {
+  const result=await stop(exhaustedFixture,"NO_PROGRESS","EXHAUSTED_BROWSER");
+  const reason=(result.current.domainState.noVerifiedResult as unknown as {termination?: {type:string;reasonCode:string;isSystemReason:boolean}})?.termination;
+  assert.deepEqual(reason && {type:reason.type,reasonCode:reason.reasonCode,isSystemReason:reason.isSystemReason},
+    {type:"NO_PROGRESS",reasonCode:"BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED",isSystemReason:false});
+});
+
+test("P2-0 failure classification is exhaustive across typed model/browser/Google contracts", async () => {
+  const {RESTAURANT_FAILURE_CLASSIFICATION: classes,restaurantFailureCode}=await import("../domains/restaurant/failure-codes.js");
+  const checked: Record<import("../core/model/errors.js").ModelGatewayErrorCode
+    | import("../infrastructure/browser/browser-runtime-errors.js").BrowserRuntimeFailureCode
+    | import("../integrations/google/google-places-contracts.js").GooglePlacesError["code"],"SYSTEM"|"BUSINESS">=classes;
+  assert.equal(checked.BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED,"BUSINESS");
+  assert.equal(checked.PROVIDER_REJECTED,"SYSTEM");
+  // @ts-expect-error Adding a code without classifying it must not compile.
+  const missing: Record<import("../domains/restaurant/failure-codes.js").RestaurantFailureCode|"NEW_UNCLASSIFIED_FAILURE","SYSTEM"|"BUSINESS">=classes;
+  void missing;
+  assert.equal(restaurantFailureCode("arbitrary provider code","SEARCH_FAILED"),"AGENT_EXECUTION_FAILED");
+});
+
+test("P2-0 an unrecognized persisted failure cannot default to business", async()=>{
+  const {restaurantReadStopIsSystem}=await import("../domains/restaurant/read-loop-termination.js");
+  assert.equal(restaurantReadStopIsSystem("NO_PROGRESS","unclassified persisted code" as import("../domains/restaurant/failure-codes.js").RestaurantFailureCode),true);
+});

@@ -1,0 +1,22 @@
+{"decisionCalls":0,"phase":"NO_VERIFIED_RESULT","events":["AGENT_LOOP_TERMINATED"]}
+✔ P2-0 actual h001 step-six exhausted state stops before another model proposal (3.725083ms)
+✔ P2-0 bounded timeout returns a truthful user result (3.248208ms)
+✔ P2-0 SEARCH_RESTAURANTS rejects a known exhausted budget before source work (0.626ms)
+✔ P2-0 INVESTIGATE_CANDIDATE_FACTS rejects a known exhausted budget before source work (0.655791ms)
+✔ P2-0 CHECK_AVAILABILITY rejects a known exhausted budget before source work (0.346292ms)
+✔ P2-0 failed executions do not reset consecutive no-progress accounting (2.543375ms)
+✔ P2-0 system-ended no-result records structured business termination (0.620542ms)
+✔ P2-0 evaluator audits structured system READ_ENDED as a bounded outcome (1.7915ms)
+✔ P2-0 structured ending rejects system-cause (0.18625ms)
+✔ P2-0 structured ending rejects forged-provider-cause (0.125042ms)
+✔ P2-0 structured ending rejects different-observation (0.408083ms)
+✔ P2-0 structured ending rejects missing-event (0.149458ms)
+✔ P2-0 structured ending rejects invented-investigation (0.1205ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 219.362125

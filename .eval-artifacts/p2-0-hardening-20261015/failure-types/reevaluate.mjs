@@ -1,0 +1,43 @@
+// Offline: original bytes stay immutable. The derived terminal artifact is
+// explicitly a state replay, not a new Live observation or a relabel of old data.
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+import {readFile,writeFile} from 'node:fs/promises';
+import {restaurantBookingTaskDefinition as oldDefinition} from '/Users/wangzhour/.codex/worktrees/p1-g2-live/Praxis-Zhixing/src/domains/restaurant/task-definition.ts';
+import {restaurantBookingTaskDefinition as definition} from '../../../src/domains/restaurant/task-definition.ts';
+import {RestaurantAgentLoopCoordinator} from '../../../src/application/restaurant-agent-loop.ts';
+import {RestaurantExecutionRouter} from '../../../src/application/restaurant-execution-router.ts';
+import {InMemoryRestaurantAgentTrajectoryStore} from '../../../src/infrastructure/postgres/restaurant-agent-trajectory-store.ts';
+import {evaluateRestaurantHybridLiveArtifact as evaluate} from '../../../src/eval/restaurant/agent-loop/diagnostic-evaluator.ts';
+const directory=new URL('./',import.meta.url);
+const source='/Users/wangzhour/.codex/worktrees/p1-g2-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-15T08-00-36-360Z-d808d9f3-cedd-4c2e-aa43-bc70362ef61d.result.json';
+const bytes=await readFile(source), original=JSON.parse(bytes), digest=createHash('sha256').update(bytes).digest('hex');
+const freshEvaluation=evaluate(original,{path:source,sha256:digest});
+await writeFile(new URL('original.evaluator28.json',directory),JSON.stringify(freshEvaluation,null,2));
+const target=original.trajectories.find(t=>t.stepNumber===7);
+let state=oldDefinition.create({}, {taskId:'replay',runId:'replay',now:target.occurredAt,createId:p=>p});
+for(const entry of original.events.slice(0,target.stateVersionBefore)) state=oldDefinition.transition(state,entry.event,{taskId:entry.taskId,runId:entry.trace.runId,now:entry.occurredAt,createId:p=>p}).state;
+assert.equal(createHash('sha256').update(JSON.stringify(state)).digest('hex'),target.stateHashBefore);
+state={...state,schemaVersion:'15'};
+let snapshot={...original.finalSnapshot,domainState:state,version:target.stateVersionBefore,lifecycleState:definition.getLifecycleState(state),outcome:definition.evaluateOutcome(state)};
+const events=original.events.slice(0,target.stateVersionBefore);
+const trajectories=new InMemoryRestaurantAgentTrajectoryStore();for(const t of original.trajectories.filter(t=>t.stepNumber<=6))await trajectories.append(t);
+const clock={now:()=>new Date(target.occurredAt)};
+const noExternal=async()=>{throw Error('Offline replay forbids model, browser and network calls')};
+const router=new RestaurantExecutionRouter({executionRoute:'GENERIC_BROWSER',search:noExternal},{executionRoute:'GENERIC_BROWSER',check:noExternal});
+const coordinator=new RestaurantAgentLoopCoordinator({snapshot:async()=>snapshot,dispatch:async(envelope,version)=>{
+ assert.equal(version,snapshot.version); const result=definition.transition(snapshot.domainState,envelope.event,{taskId:snapshot.id,runId:snapshot.runId,now:envelope.occurredAt,createId:p=>p});
+ events.push(envelope);snapshot={...snapshot,version:version+1,domainState:result.state,lifecycleState:definition.getLifecycleState(result.state),outcome:definition.evaluateOutcome(result.state)};
+ return {snapshot,commands:[],duplicateEvent:false};
+}},{decide:noExternal},router,trajectories,clock);
+const loop=await coordinator.run(snapshot.id);
+assert.equal(snapshot.domainState.phase,'NO_VERIFIED_RESULT');
+const derived={schemaVersion:'1',mode:'OFFLINE_STATE_REPLAY',evidenceStatus:'derived from original step-six state; not Live; exposed development evidence',status:'SUCCEEDED',stage:'AGENT_LOOP',caseId:'h001',materializedCase:original.materializedCase,finalSnapshot:snapshot,events,trajectories:trajectories.steps,loop,finishedAt:target.occurredAt,runCeilings:original.runCeilings,resourceUsageBasis:'only this offline terminal replay; historical prefix is inherited, not reexecuted',resourceUsage:{elapsedMs:0,agentDecisions:0,browserModelCalls:0,modelCallsStarted:0,googleRequests:{total:0}},sourceArtifact:{path:source,sha256:digest}};
+const raw=JSON.stringify(derived,null,2);const path=new URL('derived-step6.execution.json',directory);
+await writeFile(path,raw); const derivedEvaluation=evaluate(derived,{path:path.pathname,sha256:createHash('sha256').update(raw).digest('hex')});
+await writeFile(new URL('derived-step6.evaluator28.json',directory),JSON.stringify(derivedEvaluation,null,2));
+const old=JSON.parse(await readFile('.eval-artifacts/p1-g-20261012/P1-G2/live/h001/attempt-4/evaluation-copy.json'));
+const row=e=>({version:e.evaluatorVersion,qualified:e.execution.taskProducedQualifiedResult,completion:e.execution.completion,completionFinding:e.findings.find(f=>f.dimension==='COMPLETION_OUTCOME').status});
+const summary={originalSha256:digest,originalUnmodified:row(old),originalReevaluation:row(freshEvaluation),derivedStateReplay:row(derivedEvaluation),newModelCalls:0,newGoogleRequests:0,newLive:0};
+await writeFile(new URL('reevaluation-summary.json',directory),JSON.stringify(summary,null,2));console.log(JSON.stringify(summary,null,2));
+assert.equal(summary.derivedStateReplay.completionFinding,'SATISFIED');

@@ -1,3 +1,4 @@
+import { restaurantFailureCode } from "../domains/restaurant/failure-codes.js";
 import { restaurantReadBudgetExhausted } from "../domains/restaurant/action-validator.js";
 import { createHash, randomUUID } from "node:crypto";
 
@@ -370,7 +371,7 @@ export class RestaurantAgentLoopCoordinator {
         if (signal?.aborted) return this.abort(snapshot, taskId, step + 1, base, signal);
         const reason = error instanceof Error ? error.message : "Restaurant action execution failed";
         const code = error && typeof error === "object" && "code" in error && typeof error.code === "string"
-          ? error.code : "AGENT_EXECUTION_FAILED";
+          ? restaurantFailureCode(error.code, "AGENT_EXECUTION_FAILED") : "AGENT_EXECUTION_FAILED";
         if (code === "MODEL_CALL_BUDGET_EXHAUSTED" || code === "BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED") {
           const completed = await this.terminate(snapshot, base, "STEP_LIMIT", `${code}: ${reason}`, { agentAction: decision.action, modelAttempt: decision.modelAttempt, actionValidation: verdict });
           return { status: completed ? "TERMINAL" : "STEP_LIMIT", steps: step + 1 };
@@ -564,14 +565,14 @@ export class RestaurantAgentLoopCoordinator {
         presentationGap = `; presentation was not permitted: ${validation.status === "REJECTED" ? validation.code : validation.status}`;
       }
     }
-    const after = await this.dispatch(current, { type: "AGENT_LOOP_TERMINATED", termination, reason: reason + presentationGap }, "SYSTEM");
+    const after = await this.dispatch(current, { type: "AGENT_LOOP_TERMINATED", termination, reasonCode: this.remainingModelCalls?.(snapshot.id) === 0 ? "MODEL_CALL_BUDGET_EXHAUSTED" : this.router.readBudgetStatus().browserModelBudgetExhausted ? "BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED" : state.failure?.code ?? `AGENT_LOOP_${termination}`, reason: reason + presentationGap }, "SYSTEM");
     const completed = after.snapshot.domainState.phase === "NO_VERIFIED_RESULT";
     const summary = after.snapshot.domainState.noVerifiedResult;
     await this.trajectories.append({
       ...base, ...extra,
       ...(completed && summary ? { observation: { type: "READ_ENDED" as const,
         detail: `AGENT_LOOP_${termination}: ${reason}`, candidateIds: summary.investigatedCandidateIds,
-        unresolvedCandidateIds: summary.unresolvedCandidateIds } } : {}),
+        unresolvedCandidateIds: summary.unresolvedCandidateIds, termination: summary.termination } } : {}),
       causalRefs: mergeCausalRefs(base.causalRefs, after.causalRefs),
       stateVersionAfter: after.snapshot.version, stateHashAfter: stateHash(after.snapshot.domainState),
       stepOutcome: completed ? "TERMINAL" : termination,

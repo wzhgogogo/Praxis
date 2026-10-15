@@ -1,11 +1,12 @@
+import { isRestaurantFailureCode, RESTAURANT_FAILURE_CLASSIFICATION } from "../../../domains/restaurant/failure-codes.js";
 import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { basename, dirname, resolve } from "node:path";
 import { openingHoursForRequest } from "../../../domains/restaurant/read-grounding.js";
 
 
-export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@27";
-export const RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION = "restaurant-hybrid-read-diagnostic-rubric@21";
+export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@28";
+export const RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION = "restaurant-hybrid-read-diagnostic-rubric@22";
 
 type JsonRecord = Record<string, unknown>;
 export type DiagnosticEvaluationStatus = "SATISFIED" | "NOT_SATISFIED" | "NOT_EVALUATED";
@@ -906,6 +907,50 @@ function assessNoResult(root: JsonRecord, domain: JsonRecord, request: RequestSh
     const observedRequest = requestFromFinalIntent(intent);
     return !observedRequest.missing.length && !observationRequestMismatches(request, observedRequest).length;
   });
+  const structured = asRecord(record.termination);
+  if (structured?.initiator === "SYSTEM") {
+    const invalid = (detail: string) => ({ status: "NOT_SATISFIED" as const, observations: [detail], refs: [ref("trajectories"), ref("events"), ref("finalSnapshot.domainState.noVerifiedResult")] });
+    if (!["TIMEOUT", "STEP_LIMIT", "REJECTION_LIMIT", "NO_PROGRESS"].includes(asString(structured.type) ?? "")
+      || structured.isSystemReason !== false || !isRestaurantFailureCode(structured.reasonCode)
+      || RESTAURANT_FAILURE_CLASSIFICATION[structured.reasonCode] !== "BUSINESS") return invalid("Structured no-result reason is not a bounded business termination.");
+    // A system stop has no Agent END_READ action. Tie its observation to the
+    // persisted system event and final version instead of inventing that action.
+    const end = steps.find(step => step.stepOutcome === "TERMINAL"
+      && asRecord(step.observation)?.type === "READ_ENDED" && !step.agentAction
+      && observedOnOrBeforePresentation(step.occurredAt, record.endedAt) === "VALID"
+      && step.stateVersionAfter === asRecord(root.finalSnapshot)?.version);
+    const equal = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b);
+    const sameIds = (a: unknown, b: string[]) => validIds(a) && [...a].sort().join("\n") === [...b].sort().join("\n");
+    const endObservation = asRecord(end?.observation);
+    const event = asArray(root.events).map(asRecord).find(entry => {
+      const data = asRecord(entry?.event);
+      return data?.type === "AGENT_LOOP_TERMINATED" && data.termination === structured.type
+        && data.reasonCode === structured.reasonCode && entry?.occurredAt === record.endedAt
+        && asRecord(entry?.trace)?.actor === "SYSTEM";
+    });
+    if (!endObservation || !event || !equal(endObservation.termination, structured)
+      || !sameIds(endObservation.candidateIds, scopeIds) || !sameIds(endObservation.unresolvedCandidateIds, unresolvedIds))
+      return invalid("Structured ending differs from its actual system event, final version, or READ_ENDED observation.");
+    const discovered = new Set(currentSteps.filter(step => asRecord(step.agentAction)?.type === "SEARCH_RESTAURANTS"
+      && asRecord(step.observation)?.type === "DISCOVERY" && asString(asRecord(step.executionMetadata)?.provider)
+      && !asRecord(step.executionMetadata)?.failureCode).flatMap(step => strings(asRecord(step.observation)?.candidateIds)));
+    const readIds = new Set(currentSteps.filter(step => {
+      const action = asRecord(step.agentAction)?.type, observation = asRecord(step.observation)?.type;
+      return action === "CHECK_AVAILABILITY" && ["AVAILABILITY", "AVAILABILITY_UNKNOWN"].includes(asString(observation) ?? "")
+        || action === "INVESTIGATE_CANDIDATE_FACTS" && ["CANDIDATE_FACTS", "CANDIDATE_FACTS_UNKNOWN"].includes(asString(observation) ?? "");
+    }).flatMap(step => strings(asRecord(step.observation)?.candidateIds).filter(id => strings(asRecord(step.agentAction)?.candidateIds).includes(id))));
+    const gapFor = (id: string) => {
+      const name = asString(asRecord(candidates.find(candidate => asRecord(candidate.restaurant)?.id === id)?.restaurant)?.outletName);
+      return (record.remainingGaps as string[]).find(gap => gap.startsWith(`${id}:`) || name && gap.startsWith(`${name}:`));
+    };
+    if (ids.some(id => !discovered.has(id)) || [...discovered].some(id => !ids.includes(id))
+      || scopeIds.some(id => !ids.includes(id) || !readIds.has(id) || !gapFor(id))
+      || unresolvedIds.some(id => !ids.includes(id))
+      || scopeIds.some(id => (!availabilityChecks[id] || asRecord(availabilityChecks[id])?.status === "UNKNOWN") && !unresolvedIds.includes(id))
+      || ids.some(id => !scopeIds.includes(id) && !/NOT_CHECKED|not (?:yet )?(?:checked|read|investigated)|unread/i.test(gapFor(id) ?? "")))
+      return invalid("Structured bounded ending omits a discovered candidate, executed investigation, unresolved member, or unread gap.");
+    return { status: "SATISFIED", observations: [`System ${structured.type}/${structured.reasonCode} ended a bounded read with matching scope and explicit gaps. This does not establish source exhaustion or that every restaurant has no availability.`], refs: [ref("trajectories"), ref("events"), ref("finalSnapshot.domainState.noVerifiedResult")] };
+  }
   const discoveries = currentSteps.filter(step => asRecord(step.agentAction)?.type === "SEARCH_RESTAURANTS" &&
     asRecord(step.observation)?.type === "DISCOVERY" && validIds(asRecord(step.observation)?.candidateIds) &&
     asString(asRecord(step.executionMetadata)?.provider) && !asRecord(step.executionMetadata)?.failureCode);
