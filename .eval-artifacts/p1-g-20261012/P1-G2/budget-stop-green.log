@@ -1,0 +1,22 @@
+{"fixture":"P1-F-B-h001","phaseBefore":"SEARCHING","failureBefore":null,"events":["AGENT_LOOP_TERMINATED"],"phaseAfter":"NO_VERIFIED_RESULT"}
+{"fixture":"P1-G-h001","phaseBefore":"SEARCHING","failureBefore":null,"events":["AGENT_LOOP_TERMINATED"],"phaseAfter":"NO_VERIFIED_RESULT"}
+✔ P1-G2 actual P1-F-B-h001 stop returns a user-facing outcome (6.733625ms)
+✔ P1-G2 actual P1-G-h001 stop returns a user-facing outcome (3.160958ms)
+✔ P1-G2 REJECTION_LIMIT retains BROWSER_RUNTIME_FAILED as a scoped reason (3.6765ms)
+✔ P1-G2 NO_PROGRESS retains GOOGLE_LOCATION_UNRESOLVED as a scoped reason (3.10575ms)
+✔ P1-G2 STEP_LIMIT retains AVAILABILITY_FAILED as a scoped reason (3.679917ms)
+✔ P1-G2 actual PROVIDER_REJECTED stays FAILED (3.846042ms)
+✔ P1-G2 actual UNCAUGHT_EXCEPTION stays FAILED (5.550084ms)
+✔ P1-G2 AUTHORIZATION_INVALID cannot become a business completion (1.42975ms)
+✔ P1-G2 SIDE_EFFECT_UNCERTAIN cannot become a business completion (1.459083ms)
+✔ a frozen business clock cannot freeze the real outer deadline or admit a late model result (31.81025ms)
+✔ a result that completes before the deadline retains its normal terminal outcome (35.005959ms)
+✔ controlled cancellation stays distinct from an honest model-budget completion (8.5015ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 337.733334

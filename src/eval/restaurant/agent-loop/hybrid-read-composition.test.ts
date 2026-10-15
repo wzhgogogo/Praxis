@@ -1162,9 +1162,9 @@ test("a Google network failure before candidate discovery stops the Agent after 
   }, HIGASHI_GINZA_EVALUATION_LOCATION);
   const loop = await composition.coordinator.run(taskId);
   const snapshot = composition.runtime.snapshot(taskId);
-  assert.equal(loop.status, "NO_PROGRESS");
-  assert.equal(snapshot.domainState.phase, "FAILED");
-  assert.equal(snapshot.domainState.failure?.code, "GOOGLE_NETWORK_FAILED");
+  assert.equal(loop.status, "TERMINAL");
+  assert.equal(snapshot.domainState.phase, "NO_VERIFIED_RESULT");
+  assert.ok(snapshot.domainState.noVerifiedResult?.remainingGaps.some(gap => gap.includes("GOOGLE_NETWORK_FAILED")));
   assert.equal(googleRequests, 1);
   assert.equal(model.requests.filter((request) => request.purpose === "restaurant_agent_decide").length, 1);
   assert.equal(snapshot.domainState.candidates.length, 0);
@@ -1786,13 +1786,16 @@ test("Hybrid source failures in A/B/C leave D reachable and outside candidates o
   assert.equal(evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(evaluation));
 });
 
-test("Hybrid shared model budget and browser launch outage remain task failures", async t => {
+test("Hybrid shared model budget ends honestly while browser launch outage remains a system failure", async t => {
   for (const mode of ["model-budget", "agent-budget", "runtime-outage"] as const) await t.test(mode, async () => {
     const result = await runScopedFailureComposition(mode);
-    assert.equal(result.loop?.status, mode === "agent-budget" ? "MODEL_FAILURE" : "EXECUTION_FAILURE");
-    assert.equal(result.partial.finalSnapshot?.domainState.phase, "FAILED");
-    assert.equal(result.partial.termination?.scope, "TASK");
-    assert.equal(result.partial.termination?.code, mode === "runtime-outage" ? "BROWSER_RUNTIME_UNAVAILABLE" : "MODEL_CALL_BUDGET_EXHAUSTED");
+    assert.equal(result.loop?.status, mode === "runtime-outage" ? "EXECUTION_FAILURE" : "TERMINAL");
+    assert.equal(result.partial.finalSnapshot?.domainState.phase, mode === "runtime-outage" ? "FAILED" : "NO_VERIFIED_RESULT");
+    if (mode !== "runtime-outage") assert.ok(result.partial.finalSnapshot?.domainState.noVerifiedResult?.remainingGaps.some(gap => gap.includes("MODEL_CALL_BUDGET_EXHAUSTED")));
+    if (mode === "runtime-outage") {
+      assert.equal(result.partial.termination?.scope, "TASK");
+      assert.equal(result.partial.termination?.code, "BROWSER_RUNTIME_UNAVAILABLE");
+    } else assert.equal(result.partial.termination, undefined, "business completion must not retain a failed-task termination");
     assert.equal(result.seenBrowserNames.includes("d"), false);
   });
 });

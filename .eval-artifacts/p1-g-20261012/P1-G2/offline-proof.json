@@ -1,0 +1,140 @@
+{
+  "baselineHead": "504b903",
+  "sourceImplementation": "9b34287",
+  "realStateSources": [
+    {
+      "name": "P1-F-B-h001",
+      "now": "2026-10-11T20:57:44.050Z",
+      "termination": "REJECTION_LIMIT",
+      "reason": "Repeated rejected availability action: AVAILABILITY_ALREADY_CHECKED",
+      "source": {
+        "path": "/Users/wangzhour/.codex/worktrees/p1f-part-a-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-11T20-51-39-041Z-2e7d16f6-1c88-438f-ab51-f988c058492c.result.json",
+        "sha256": "ced9186e2e8714104c02b75ae0275557a727c2315cb648f470efc26fbecceae8",
+        "stateVersionBefore": 12,
+        "trajectoryStateHash": "f33ed8ecc556a7a1cac5a2fbe059c2dd6b953bc587a8df21a69811bd7cdd2d8b",
+        "reconstruction": "Exact event-prefix replay; hash verified",
+        "openedAtBasis": "Advancing-clock reproduction on exact state; old run predates reserve fix"
+      },
+      "diagnosis": {
+        "phase": "SEARCHING",
+        "failureCode": null,
+        "phaseAllowed": true,
+        "oldFailureAllowed": true,
+        "eligibleCount": 0,
+        "checkableCount": 33,
+        "endReadValidation": {
+          "status": "REJECTED",
+          "code": "PRESENTATION_EVIDENCE_MISSING",
+          "reason": "A bounded discovery-plan source remains unread"
+        },
+        "routerEvent": "READ_ENDED_NO_VERIFIED_RESULT"
+      }
+    },
+    {
+      "name": "P1-G-h001",
+      "now": "2026-10-12T07:16:51.248Z",
+      "termination": "REJECTION_LIMIT",
+      "reason": "Repeated rejected availability action: AVAILABILITY_ALREADY_CHECKED",
+      "source": {
+        "path": "/Users/wangzhour/.codex/worktrees/p1-g-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-12T07-11-53-308Z-c8e5fbf5-e7be-4f5a-a439-fc2dd79512ff.result.json",
+        "sha256": "a35b100c46edecab8069a60786886e431375f0bed6327b5f2268399daad2c45e",
+        "stateVersionBefore": 11,
+        "trajectoryStateHash": "d936bbb864ead5d731abb08b5531570c9d3dc5e3fa549de1995665a767c6ff52",
+        "reconstruction": "Exact event-prefix replay; hash verified",
+        "openedAtBasis": "Recorded READ_END_WINDOW_OPENED timestamp"
+      },
+      "diagnosis": {
+        "phase": "SEARCHING",
+        "failureCode": null,
+        "phaseAllowed": true,
+        "oldFailureAllowed": true,
+        "eligibleCount": 0,
+        "checkableCount": 33,
+        "endReadValidation": {
+          "status": "REJECTED",
+          "code": "PRESENTATION_EVIDENCE_MISSING",
+          "reason": "A bounded discovery-plan source remains unread"
+        },
+        "routerEvent": "READ_ENDED_NO_VERIFIED_RESULT"
+      }
+    }
+  ],
+  "fixtureSha256": "1274af7ea089d69b8e549b9251955c7996bfc8ae0f0f2920524b3d3ca805ecb6",
+  "realStatesRed": "red.log",
+  "L1": [
+    {
+      "artifact": ".eval-artifacts/p1-g-20261012/P1-G2/L1-artifacts/P1G-rejection-TABELOG_CURRENT_BATCH_DELIVERS.execution.json",
+      "phase": "PRESENT_RESULTS",
+      "loop": {
+        "status": "TERMINAL",
+        "steps": 6
+      },
+      "deliveries": 1,
+      "evaluator": {
+        "status": "SUCCEEDED",
+        "stage": "AGENT_LOOP",
+        "taskProducedQualifiedResult": "YES",
+        "systemBehavior": "SUPPORTED_BY_EVIDENCE",
+        "externalConditions": "OBSERVED",
+        "evidenceSufficiency": "SUFFICIENT_FOR_PRESENTED_RESULT",
+        "completion": "PRESENTATION_RECORDED"
+      },
+      "completionFinding": "SATISFIED"
+    },
+    {
+      "artifact": ".eval-artifacts/p1-g-20261012/P1-G2/L1-artifacts/P1G-rejection-NATIVE_TRUE_NO_RESULT.execution.json",
+      "phase": "NO_VERIFIED_RESULT",
+      "loop": {
+        "status": "TERMINAL",
+        "steps": 5
+      },
+      "deliveries": 0,
+      "evaluator": {
+        "status": "SUCCEEDED",
+        "stage": "AGENT_LOOP",
+        "taskProducedQualifiedResult": "NO",
+        "systemBehavior": "NOT_EVALUATED",
+        "externalConditions": "OBSERVED",
+        "evidenceSufficiency": "NOT_EVALUATED",
+        "completion": "NO_VERIFIED_RESULT"
+      },
+      "completionFinding": "NOT_EVALUATED"
+    },
+    {
+      "artifact": ".eval-artifacts/p1-g-20261012/P1-G2/L1-artifacts/P1G-unresolved-NATIVE_TRUE_NO_RESULT.execution.json",
+      "phase": "NO_VERIFIED_RESULT",
+      "loop": {
+        "status": "TERMINAL",
+        "steps": 1
+      },
+      "deliveries": 0,
+      "evaluator": {
+        "status": "SUCCEEDED",
+        "stage": "AGENT_LOOP",
+        "taskProducedQualifiedResult": "NO",
+        "systemBehavior": "NOT_EVALUATED",
+        "externalConditions": "NOT_EVALUATED",
+        "evidenceSufficiency": "NOT_EVALUATED",
+        "completion": "NO_VERIFIED_RESULT"
+      },
+      "completionFinding": "NOT_EVALUATED"
+    }
+  ],
+  "gates": {
+    "typecheck": "PASS",
+    "arch:check": "PASS",
+    "npm test": "862/862 PASS",
+    "build": "PASS"
+  },
+  "realModelCalls": 0,
+  "realGoogleRequests": 0,
+  "liveRuns": 0,
+  "proofScope": [
+    "Exact real preterminal state replay verified against trajectory hash, then sanitized structure/code test",
+    "L1 production composition, Guard and network policy; only external transport/pages fixed, advancing clock"
+  ],
+  "notProved": [
+    "Current source accessibility or inventory",
+    "Independent Phase1 signoff"
+  ]
+}

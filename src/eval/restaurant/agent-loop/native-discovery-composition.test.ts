@@ -164,7 +164,7 @@ class H001NativeModel implements ModelGateway {
   }
 }
 
-async function runScenario(scenario: SourceScenario, options: { availabilityFirst?: boolean; bareReserveLink?: boolean; guardedDiscoverySubmit?: boolean; packs?: readonly DiscoverySourcePack[]; areaQuery?: string; decisionCapture?: ReturnType<typeof createHybridDecisionCapture>; failSecondBrowserCall?: boolean; repeatCheckedAvailability?: boolean; unresolvedLocation?: boolean } = {}) {
+async function runScenario(scenario: SourceScenario, options: { availabilityFirst?: boolean; bareReserveLink?: boolean; guardedDiscoverySubmit?: boolean; packs?: readonly DiscoverySourcePack[]; areaQuery?: string; decisionCapture?: ReturnType<typeof createHybridDecisionCapture>; failSecondBrowserCall?: boolean; repeatCheckedAvailability?: boolean; unresolvedLocation?: boolean; advancingClock?: boolean } = {}) {
   const startedAt = Date.now();
   const frozen = (await loadFrozenLiveCases(RESTAURANT_READ_DEVELOPMENT_CASE_PATH)).find((item) => item.id === "h001")!;
   const navigations: string[] = [];
@@ -218,7 +218,8 @@ async function runScenario(scenario: SourceScenario, options: { availabilityFirs
     maxOperationsPerCandidate: 30, maxElapsedMsPerCandidate: 60_000, maxElapsedMsPerProvider: 45_000, maxAutomaticElapsedMs: 60_000,
   });
   const taskId = `native-h001:${scenario}`;
-  const composition = createHybridReadComposition({ taskId, runId: `run:${taskId}`, clock: { now: () => reference },
+  let clockTicks = 0;
+  const composition = createHybridReadComposition({ taskId, runId: `run:${taskId}`, clock: { now: () => options.advancingClock ? new Date(reference.valueOf() + clockTicks++) : reference },
     model: gateway, search: native.search, facts: native.facts, availability,
     router: { structuredReadTimeoutMs: 30_000, browserReadTimeoutMs: 60_000 },
     loop: { maxSteps: 20, timeoutMs: 60_000 },
@@ -872,7 +873,7 @@ for (const [scenario, expectedPhase, deliveries] of [
   ["NATIVE_TRUE_NO_RESULT", "NO_VERIFIED_RESULT", 0],
   ["TABELOG_CURRENT_BATCH_DELIVERS", "PRESENT_RESULTS", 1],
 ] as const) test(`P1-G repeated already-checked availability ends honestly: ${scenario}`, async () => {
-  const result = await runScenario(scenario, { guardedDiscoverySubmit: true, repeatCheckedAvailability: true });
+  const result = await runScenario(scenario, { guardedDiscoverySubmit: true, repeatCheckedAvailability: true, advancingClock: true });
   assert.ok(result.networkRequests.some(request => request.outcome === "ADMITTED"));
   assert.ok(result.trajectories.some(step => step.actionValidation?.status === "REJECTED" && step.actionValidation.code === "AVAILABILITY_ALREADY_CHECKED"));
   assert.equal(result.state.phase, expectedPhase, JSON.stringify(result.state.failure));
@@ -890,7 +891,7 @@ for (const [scenario, expectedPhase, deliveries] of [
   assert.ok(result.networkRequests.every(request => request.method === "GET" || request.method === "HEAD"));
 });
 test("P1-G unresolved location NO_PROGRESS gives an honest user outcome", async () => {
-  const result = await runScenario("NATIVE_TRUE_NO_RESULT", { guardedDiscoverySubmit: true, unresolvedLocation: true });
+  const result = await runScenario("NATIVE_TRUE_NO_RESULT", { guardedDiscoverySubmit: true, unresolvedLocation: true, advancingClock: true });
   assert.equal(result.state.phase, "NO_VERIFIED_RESULT");
   assert.equal(result.state.presentedResults, undefined);
   assert.ok(result.state.noVerifiedResult?.remainingGaps.some(gap => gap.includes("GOOGLE_LOCATION_UNRESOLVED") && gap.includes("NO_PROGRESS")));

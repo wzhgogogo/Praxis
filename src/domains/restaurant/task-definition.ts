@@ -24,6 +24,7 @@ import { applyRestaurantIntentPatch } from "./intent-state.js";
 import { restaurantIntentPatchHasChanges } from "./semantic-compiler.js";
 import { assessRestaurantRead } from "./read-assessment.js";
 import { defaultBatchDeliveryCandidateIds, validateRestaurantAction } from "./action-validator.js";
+import { restaurantReadStopIsSystem, restaurantUnverifiedReadSummary } from "./read-loop-termination.js";
 
 function requirePhase(state: Readonly<RestaurantTaskState>, allowed: RestaurantPhase[], eventType: string) {
   if (!allowed.includes(state.phase)) {
@@ -355,6 +356,21 @@ function transition(
       requirePhase(state, ["UNDERSTANDING", "NEEDS_INPUT", "SEARCHING", "SELECTION_REQUIRED"], event.type);
       {
         const { pendingUserQuestion: _pendingUserQuestion, ...remaining } = state;
+        if (!restaurantReadStopIsSystem(event.termination, state.failure?.code)) {
+          const summary = restaurantUnverifiedReadSummary(state, context.now);
+          const checks = [...Object.values(state.availabilityChecks), ...Object.values(state.factChecks ?? {})];
+          const providers = [...new Set([...state.readEvidence.map(evidence => evidence.provider),
+            ...checks.flatMap(check => [...(check.sourceProvider ? [check.sourceProvider] : []), ...(check.sourceAttempts ?? []).map(attempt => attempt.source)])])];
+          const unreadSources = state.searchContinuation?.discoveryPlan?.entries.slice(state.searchContinuation.discoveryPlan.cursor).map(entry => entry.sourceId) ?? [];
+          const { failure: _failure, readEndWindow: _readEndWindow, defaultBatchDeliveryWindow: _deliveryWindow, ...completed } = remaining;
+          return { state: { ...completed, phase: "NO_VERIFIED_RESULT", noVerifiedResult: {
+            ...summary, endedAt: context.now, remainingGaps: [
+              ...summary.remainingGaps.filter(gap => !gap.startsWith("MODEL_CALL_RESERVE:")),
+              `AGENT_LOOP_${event.termination}: ${event.reason}${state.failure ? `; ${state.failure.code}: ${state.failure.message}` : ""}`,
+              `Sources with recorded reads or attempts: ${providers.join(", ") || "none"}; unread discovery entries: ${unreadSources.join(", ") || "none recorded"}. Unread outlets and missing evidence remain unknown; this does not establish that all restaurants have no seats.`,
+            ],
+          } }, commands: [] };
+        }
         return {
           state: {
             ...remaining,

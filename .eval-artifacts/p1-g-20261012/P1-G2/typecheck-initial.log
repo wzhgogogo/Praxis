@@ -1,0 +1,5 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/application/restaurant-agent-loop.test.ts(45,5): error TS2741: Property 'executionRoute' is missing in type '{ search(): Promise<never>; }' but required in type 'RestaurantSearchPort'.

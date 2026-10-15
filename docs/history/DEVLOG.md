@@ -3459,3 +3459,8 @@ User explicitly approved immediate P1-G execution; scheduled heartbeat PAUSED. O
 ## DEV-2026-10-12-P1G-live-final
 
 四次授权正式Live已完成，生产9b34287和P1-F73bfca5工作树保持干净。吉祥寺解析Kichijōji成功但NO_VERIFIED_RESULT/自动NO；h001仍FAILED/REJECTION_LIMIT，未兑现修复B目标，只记录不现场修复；h003交付Aloft by Marriott Tokyo Ginza/TableCheck/150m/自动UNKNOWN；h004NO_VERIFIED_RESULT/自动NO。用户即时运行和十分钟后重试指令仅改变外层时窗与调度，运行配置/输入不改。7次preflight、3次503均未正式启动，原15分钟间隔保持；环境重跑0。见证认证和吉祥寺运行后六份四参数原始GET保留，唯一交付TableCheck沿用原trace。不归因或签收，心跳暂停；最终报告 .eval-artifacts/p1-g-20261012/report.md，本地提交不推送。
+
+
+## DEV-2026-10-15-P1G2-honest-end
+
+P1-G2 uses actual P1-F/G h001 event prefixes and verifies trajectory hashes before scrubbing state fixtures. The blocker is END_READ validation with a captured time earlier than persisted reserve openedAt, not state.failure (both null). Reuse AGENT_LOOP_TERMINATED for direct domain-owned NO_VERIFIED_RESULT with actual checked/unread gaps; eligible presentation keeps existing Validator/Router/Reducer and resamples time. Minimal read-phase transition in task-definition, no new event/Schema/Prompt/Evaluator/qualification change. Explicit system failures and unowned execution remain FAILED; local failures and model/step budgets give a user result. Shared summary has two real consumers. Scope/proof in .eval-artifacts/p1-g-20261012/report.md#p1-g2（2026-10-15）. Live and outer metadata pending; no push.

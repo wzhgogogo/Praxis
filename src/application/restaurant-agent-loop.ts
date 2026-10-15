@@ -14,6 +14,7 @@ import {
 } from "../domains/restaurant/agent-context.js";
 import { defaultBatchDeliveryCandidateIds, validateRestaurantAction } from "../domains/restaurant/action-validator.js";
 import { assessRestaurantRead } from "../domains/restaurant/read-assessment.js";
+import { restaurantReadStopIsSystem } from "../domains/restaurant/read-loop-termination.js";
 import type {
   RestaurantAgentLoopTermination,
   RestaurantCommand,
@@ -268,6 +269,10 @@ export class RestaurantAgentLoopCoordinator {
       base = this.base(taskId, stepNumber, snapshot, context);
 
       if (decision.status !== "PROPOSED") {
+        if (decision.status === "MODEL_FAILURE" && decision.errorCode === "MODEL_CALL_BUDGET_EXHAUSTED") {
+          const completed = await this.terminate(snapshot, base, "STEP_LIMIT", "MODEL_CALL_BUDGET_EXHAUSTED: the bounded investigation used its shared model-call budget");
+          return { status: completed ? "TERMINAL" : "STEP_LIMIT", steps: step + 1 };
+        }
         const reason = decision.status === "MODEL_FAILURE"
           ? `Model decision failed: ${decision.errorCode}`
           : `Model action was invalid: ${decision.errors.join("; ")}`;
@@ -362,6 +367,10 @@ export class RestaurantAgentLoopCoordinator {
         const reason = error instanceof Error ? error.message : "Restaurant action execution failed";
         const code = error && typeof error === "object" && "code" in error && typeof error.code === "string"
           ? error.code : "AGENT_EXECUTION_FAILED";
+        if (code === "MODEL_CALL_BUDGET_EXHAUSTED" || code === "BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED") {
+          const completed = await this.terminate(snapshot, base, "STEP_LIMIT", `${code}: ${reason}`, { agentAction: decision.action, modelAttempt: decision.modelAttempt, actionValidation: verdict });
+          return { status: completed ? "TERMINAL" : "STEP_LIMIT", steps: step + 1 };
+        }
         const after = await this.dispatch(snapshot, { type: "AGENT_EXECUTION_FAILED", code, reason }, "SYSTEM");
         await this.trajectories.append({
           ...base,
@@ -511,56 +520,50 @@ export class RestaurantAgentLoopCoordinator {
     reason: string,
     extra: Pick<RestaurantAgentTrajectoryStep, "agentAction" | "decisionSummary" | "modelAttempt" | "actionValidation"> | Record<string, never> = {},
   ): Promise<boolean> {
-    // A bounded decision loop can stop without a system failure. Deliver only
-    // through the existing qualification/window rules; otherwise retain the
-    // checked/unread distinction through the normal read-end Router.
-    const now = this.clock.now().toISOString();
+    // Presentation retains the ordinary Validator, Router and Reducer rules.
+    // A system-owned no-result stop is a different event, not an Agent END_READ.
     const state = snapshot.domainState;
-    const businessStop = ["REJECTION_LIMIT", "NO_PROGRESS", "STEP_LIMIT"].includes(termination);
-    const businessFailure = !state.failure || ["GOOGLE_LOCATION_UNRESOLVED", "GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED"].includes(state.failure.code);
-    if (businessStop && businessFailure && ["UNDERSTANDING", "SEARCHING", "SELECTION_REQUIRED"].includes(state.phase)) {
+    let current = snapshot;
+    let presentationGap = "";
+    if (!restaurantReadStopIsSystem(termination, state.failure?.code)) {
+      const now = this.clock.now().toISOString();
       const eligible = assessRestaurantRead(state, now).presentation.filter(item => item.eligible).map(item => item.candidateId);
       const shortBatch = defaultBatchDeliveryCandidateIds(state, now);
-      const deadlineAt = new Date(this.clock.now().valueOf() + 45_000).toISOString();
-      let current = snapshot;
-      if (shortBatch.length && (!state.defaultBatchDeliveryWindow || Date.parse(state.defaultBatchDeliveryWindow.deadlineAt) < Date.parse(now))) current = (await this.dispatch(current, { type: "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED", deadlineAt }, "SYSTEM")).snapshot;
-      else if (!eligible.length) current = (await this.dispatch(current, { type: "READ_END_WINDOW_OPENED", deadlineAt }, "SYSTEM")).snapshot;
-      const action = eligible.length
-        ? { type: "PRESENT_RESULTS" as const, candidateIds: shortBatch.length ? shortBatch : eligible }
-        : { type: "END_READ" as const };
-      const validation = validateRestaurantAction(current.domainState, action, now);
-      if (validation.status === "ALLOWED") {
-        const execution = await this.router.execute(action, current.domainState, now, snapshot.runId + ":investigation:" + String(state.investigationRevision ?? 0));
-        const stopReason = `AGENT_LOOP_${termination}: ${reason}${state.failure ? `; ${state.failure.code}: ${state.failure.message}` : ""}`;
-        if (execution.event?.type === "READ_ENDED_NO_VERIFIED_RESULT") {
-          const providers = [...new Set(state.readEvidence.map(evidence => evidence.provider))];
-          const unreadSources = state.searchContinuation?.discoveryPlan?.entries.slice(state.searchContinuation.discoveryPlan.cursor).map(entry => entry.sourceId) ?? [];
-          execution.event.remainingGaps = [...execution.event.remainingGaps.filter(gap => !gap.startsWith("MODEL_CALL_RESERVE:")), stopReason,
-            `Sources with recorded observations: ${providers.join(", ") || "none"}; unread discovery entries: ${unreadSources.join(", ") || "none recorded"}. Unread outlets and missing evidence remain unknown; this does not establish that all restaurants have no seats.`];
+      if (eligible.length) {
+        if (shortBatch.length && (!state.defaultBatchDeliveryWindow || Date.parse(state.defaultBatchDeliveryWindow.deadlineAt) < Date.parse(now))) {
+          current = (await this.dispatch(current, { type: "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED", deadlineAt: new Date(this.clock.now().valueOf() + 45_000).toISOString() }, "SYSTEM")).snapshot;
         }
-        if (execution.event && execution.observation) {
+        // Validate against time sampled AFTER the persisted window was opened.
+        const presentationTime = this.clock.now().toISOString();
+        const action = { type: "PRESENT_RESULTS" as const, candidateIds: shortBatch.length ? shortBatch : eligible };
+        const validation = validateRestaurantAction(current.domainState, action, presentationTime);
+        if (validation.status === "ALLOWED") {
+          const execution = await this.router.execute(action, current.domainState, presentationTime);
+          if (execution.event?.type !== "RESULTS_PRESENTED" || !execution.observation) throw new Error("Validated presentation did not produce its required event");
           const after = await this.dispatch(current, execution.event, "SYSTEM");
-          const context = projectRestaurantAgentContext(current.domainState, now);
+          const context = projectRestaurantAgentContext(current.domainState, presentationTime);
           await this.trajectories.append({ ...base, ...extra, decisionContext: context,
             contextSchemaVersion: context.schemaVersion, agentAction: action, actionValidation: validation,
-            observation: { ...execution.observation, detail: `${execution.observation.detail}; ${stopReason}` },
-            causalRefs: mergeCausalRefs(base.causalRefs, after.causalRefs), stateVersionAfter: after.snapshot.version,
-            stateHashAfter: stateHash(after.snapshot.domainState), stepOutcome: "TERMINAL" });
+            observation: execution.observation, causalRefs: mergeCausalRefs(base.causalRefs, after.causalRefs),
+            stateVersionAfter: after.snapshot.version, stateHashAfter: stateHash(after.snapshot.domainState), stepOutcome: "TERMINAL" });
           return true;
         }
+        presentationGap = `; presentation was not permitted: ${validation.status === "REJECTED" ? validation.code : validation.status}`;
       }
-      snapshot = current;
     }
-    const after = await this.dispatch(snapshot, { type: "AGENT_LOOP_TERMINATED", termination, reason }, "SYSTEM");
+    const after = await this.dispatch(current, { type: "AGENT_LOOP_TERMINATED", termination, reason: reason + presentationGap }, "SYSTEM");
+    const completed = after.snapshot.domainState.phase === "NO_VERIFIED_RESULT";
+    const summary = after.snapshot.domainState.noVerifiedResult;
     await this.trajectories.append({
-      ...base,
-      ...extra,
+      ...base, ...extra,
+      ...(completed && summary ? { observation: { type: "READ_ENDED" as const,
+        detail: `AGENT_LOOP_${termination}: ${reason}`, candidateIds: summary.investigatedCandidateIds,
+        unresolvedCandidateIds: summary.unresolvedCandidateIds } } : {}),
       causalRefs: mergeCausalRefs(base.causalRefs, after.causalRefs),
-      stateVersionAfter: after.snapshot.version,
-      stateHashAfter: stateHash(after.snapshot.domainState),
-      stepOutcome: termination,
+      stateVersionAfter: after.snapshot.version, stateHashAfter: stateHash(after.snapshot.domainState),
+      stepOutcome: completed ? "TERMINAL" : termination,
     });
-    return false;
+    return completed;
   }
 
   private async dispatch(

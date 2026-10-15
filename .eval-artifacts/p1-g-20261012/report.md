@@ -170,3 +170,36 @@ Final remaining h004 second preflight scheduled for UTC07:59:45 (Tokyo16:59:45 /
 ## 交付核对
 
 63项离线产物／文档核对PASS，证据prep/final-verification.json：冻结12SHA、复核原稿SHA、预算、决策／调用计数、原始产物存在、六份见证GET原始SHA、运行后10分钟、preflight至少15分钟及新增日志／索引一致性。git diff --check PASS；P1-G和P1-F生产工作树CLEAN，暂无运行进程。仅运行和文档切片，复用B提交四门禁853/853；核对新增模型／网络均0。心跳已暂停，停止等待独立复核，不推送。
+
+
+## P1-G2（2026-10-15）
+
+Evidence status: exposed development evidence, real-state offline reproduction + L1; Live NOT_RUN as of this preparation record. Scope: only user-facing termination of the bounded read loop; no Prompt, Schema, Evaluator, qualification, source Guard, Gold, variants or old recording changes. User reports the P1-G independent review accepts Kichijoji/h003/h004 and leaves h001 INTERNAL_FAILURE; original reviews/P1-G-REVIEW-20261012 was not found locally or via accessible Page search, a path/link was requested. This is not a substitute for reading that original before Live.
+
+### 真实状态先红后绿
+
+Raw inputs remain in their original P1-F/P1-G frozen worktrees. Event-prefix reconstruction reaches exactly stateVersionBefore12 (P1-F) and11 (P1-G); both reconstructed SHA-256 values equal the original last trajectory stateHashBefore. Full raw page bodies were not copied into the fixture. New src/application/fixtures/p1-g2-h001-terminal-states.json stores scrubbed structure/codes with aliased strings/IDs and zeroed coordinates; source paths, hashes and extraction basis are recorded. State phase, failure code, eligible count, checkable count and END_READ rejection code are checked equal before/after scrubbing.
+
+Both preterminal states have SEARCHING, failure=null, zero eligible results and33 checkable candidates. Thus the phase and failure checks were not the actual blocker. END_READ is rejected with PRESENTATION_EVIDENCE_MISSING / a bounded discovery-plan source remains unread. The coordinator samples now before dispatching READ_END_WINDOW_OPENED; runtime openedAt is later, so the captured now cannot see that window as active. The G recording has the actual window timestamp; the F state is tested with a monotonically advancing clock because that older run predates fixB. Direct Router probing can produce READ_ENDED_NO_VERIFIED_RESULT, but the old coordinator never reaches it after rejection. This qualifies the user's initial hypotheses with actual evidence, without attributing a page-local failure that was absent from these two states.
+
+- Effective pre-fix red: P1-G2/red.log,2/2 desired-outcome assertions fail with actual FAILED; no model/network.
+- Exact reconstruction and four-condition diagnostic: P1-G2/state-reconstruction.log.
+- Both real-state terminal tests green; P1-G2/budget-stop-green.log and final npm-test.log. The same tests retain the expected NO_VERIFIED_RESULT assertion.
+
+### 最小修复与证明范围
+
+The system-owned AGENT_LOOP_TERMINATED event now derives NO_VERIFIED_RESULT directly in task-definition for a business stop; it does not propose or validate Agent END_READ. It clears the historical failure flag only on business completion and retains its code/message in remaining gaps, with actual checked candidates/providers, NOT_CHECKED candidates and unread discovery entries. It never claims all outlets have no seats. No new event/Schema or side-effect phase transition was added. The read-only phase transitions to NO_VERIFIED_RESULT are the minimal domain change.
+
+Qualified presentation still uses the existing assessment, default short-batch window, Action Validator, Router and RESULTS_PRESENTED reducer checks. Its clock is sampled again after the window event is persisted. No evidence or eligibility requirement changed. Existing Agent-chosen END_READ validation remains intact. The two actual consumers (ordinary END_READ Router and terminal reducer) share the existing record-summary projection instead of duplicating it.
+
+System failures are explicit: provider refusal/configuration/rate/network/timeout/malformed errors, uncaught execution/decision failures, unavailable browser runtime, authorization failures and uncertain side effects. Explicit execution-loss, cancellation and timeout termination categories retain their prior failure/cancellation handling; candidate BROWSER_RUNTIME_FAILED/BROWSER_TIMEOUT, AVAILABILITY_FAILED, unresolved location, individual search failure and shared model/step budget exhaustion are business gaps. Actual provider-rejected and thrown-Router-exception negative controls remain FAILED; authorization/uncertain-side-effect negatives cannot become business success. Restart/orphaned execution remains FAILED (W07 regression). No provider change/retry or new model call was introduced.
+
+P1-G2/L1-artifacts retains the three actual production composition executions with installed Guard/network policies and an advancing clock (only external model transport/pages fixed): repeated rejection without eligible result → NO_VERIFIED_RESULT; repeated rejection with eligible result → existing window presents1; unresolved location/NO_PROGRESS → NO_VERIFIED_RESULT. evaluator@27: presentation completion SATISFIED; both no-result completions NOT_EVALUATED, not proof of source exhaustion. REJECTION_LIMIT/NO_PROGRESS/STEP_LIMIT and non-empty local failure are covered. Proof scope is real-state terminal-boundary regression + L1, not a claim that current external pages work.
+
+### 门禁与未完成项
+
+Final typecheck, arch:check, npm test and build PASS;862/862 default tests. Logs P1-G2/{typecheck,arch-check,npm-test,build}.log. Initial sandbox npm-test-sandbox.log hit localhost listen EPERM, then ran offline on host; npm-test-initial.log retained the two discovered regressions before final correction. The frozen legacy FAILED-budget acceptance expectation/Evaluator was not changed; its controlled test now honestly observes NO_VERIFIED_RESULT and rejection by the legacy expectation. Supporting summary P1-G2/offline-proof.json, related-green.log, L1-green.log.
+
+Production fix commit and frozen worktree: pending local commit below. Live h001: NOT_RUN. Outer blocker: old execute.mjs hardcodes expired10/12 times/completed ledger/output paths, so changing only HEAD cannot execute the newly authorized batch; minimal batch metadata update was asked separately, no window bypass. No real model/Google/Live added; cumulative970/1500 models,36Live,Google confirmed22/full history UNKNOWN. Only1 formal h001 and at most1 startup-environment retry are authorized, total ceiling38; prior completed cases must not rerun. No push. Existing public-repository raw artifacts/HAR cleanup is outside this batch as requested.
+
+P1-G2提交前核对：源码／文档／JSON的git diff --check通过；原始工具日志包含Node断言输出尾空格和npm结尾空行，原样保存，不为清空whitespace提示改写红绿证据。未跟踪的三份演示文件未触碰。

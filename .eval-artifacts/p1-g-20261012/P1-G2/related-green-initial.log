@@ -1,0 +1,192 @@
+{"fixture":"P1-F-B-h001","phaseBefore":"SEARCHING","failureBefore":null,"events":["AGENT_LOOP_TERMINATED"],"phaseAfter":"NO_VERIFIED_RESULT"}
+{"fixture":"P1-G-h001","phaseBefore":"SEARCHING","failureBefore":null,"events":["AGENT_LOOP_TERMINATED"],"phaseAfter":"NO_VERIFIED_RESULT"}
+✔ P1-G2 actual P1-F-B-h001 stop returns a user-facing outcome (10.55675ms)
+✔ P1-G2 actual P1-G-h001 stop returns a user-facing outcome (3.42925ms)
+✔ P1-G2 REJECTION_LIMIT retains BROWSER_RUNTIME_FAILED as a scoped reason (4.729709ms)
+✔ P1-G2 NO_PROGRESS retains GOOGLE_LOCATION_UNRESOLVED as a scoped reason (3.244167ms)
+✔ P1-G2 STEP_LIMIT retains AVAILABILITY_FAILED as a scoped reason (3.875875ms)
+✔ P1-G2 actual PROVIDER_REJECTED stays FAILED (4.858042ms)
+✔ P1-G2 actual UNCAUGHT_EXCEPTION stays FAILED (8.756542ms)
+✔ P1-G2 AUTHORIZATION_INVALID cannot become a business completion (1.61625ms)
+✔ P1-G2 SIDE_EFFECT_UNCERTAIN cannot become a business completion (1.529292ms)
+▶ isolated implementation mutations are detected by passing Hybrid controls
+  ✔ source mutation: a failed batch is incorrectly promoted to task failure (830.295041ms)
+  ✔ M01 compiler drops an explicit party-size field (794.8835ms)
+  ✔ M02 reducer discards fact checks from a prior batch (797.185875ms)
+  ✔ source mutation: discovery truncates accepted source candidates (753.889875ms)
+✔ isolated implementation mutations are detected by passing Hybrid controls (3176.891333ms)
+▶ independent source boundary controls cover zero, one, and exactly one fact-read batch
+  ✔ {"candidateCount":0,"batchSize":3,"reverse":false} (15.153ms)
+  ✔ {"candidateCount":1,"batchSize":3,"reverse":false} (4.712792ms)
+  ✔ {"candidateCount":3,"batchSize":3,"reverse":false} (3.596542ms)
+✔ independent source boundary controls cover zero, one, and exactly one fact-read batch (23.675042ms)
+✔ a user refresh after the clock advances replaces the current fact observation without losing request fidelity (4.019833ms)
+✔ cancelling during a real in-flight fact read cannot become a normal no-result (1.233ms)
+✔ a request update after cancelling an in-flight read starts a new authoritative investigation (2.485667ms)
+✔ an explicitly permitted alternate time is queried as a bounded range and presented as an alternate, without changing the original request (2.555208ms)
+✔ fresh request-bound inventory can receive missing facts before another inventory read and reach three results (7.608292ms)
+✔ default delivery keeps a produced source-backed result when the next availability batch would consume the reserve (1019.280417ms)
+▶ model-call delivery reserve presents a source-backed short batch without relaxing qualification
+  ✔ ready (7.337833ms)
+  ✔ crossing (6.318542ms)
+  ✔ wrong-party (3.316667ms)
+  ✔ expired (3.073667ms)
+  ✔ explicit-count (2.752166ms)
+✔ model-call delivery reserve presents a source-backed short batch without relaxing qualification (23.527542ms)
+▶ C0b reserves the last four calls inside a provider read and then presents
+  ✔ ready (5.086959ms)
+  ✔ no-qualified (4.340458ms)
+  ✔ expired (5.049834ms)
+✔ C0b reserves the last four calls inside a provider read and then presents (14.767292ms)
+✔ fixed-seed bounded exploration records and shrinks an independent Hybrid contract failure (33.307083ms)
+✔ Hybrid production composition binds an explicit evaluation location before Agent investigation and independently evaluates its actual result (4.238ms)
+✔ a Google network failure before candidate discovery stops the Agent after one failed search (0.615125ms)
+✔ Hybrid production composition asks for location without an evaluation context and never calls a source (0.335959ms)
+✔ an adapter-only evaluation coordinate reproduces the old wiring failure and cannot bypass the authoritative Agent context (0.268166ms)
+✔ real source observations distinguish a supported candidate from an explicit type conflict (3.05975ms)
+✔ a real Hybrid category UNKNOWN reaches presentation without verified-negative promotion (2.292625ms)
+▶ a second user message adds an exclusion through real source facts and removes the conflicting candidate
+  ✔ Ramen Restaurant (3.088833ms)
+  ✔ Conveyor-belt Sushi Restaurant (2.979209ms)
+✔ a second user message adds an exclusion through real source facts and removes the conflicting candidate (6.211666ms)
+▶ independent candidate reads preserve coverage and results across batch partitions and order
+  ✔ batch=3, reverse=false (3.730916ms)
+  ✔ batch=1, reverse=false (4.617875ms)
+  ✔ batch=3, reverse=true (3.499292ms)
+✔ independent candidate reads preserve coverage and results across batch partitions and order (11.99875ms)
+▶ Google fact exhaustion must leave a separately executable browser investigation reachable
+  ✔ Google limit=100 (6.587041ms)
+  ✔ Google limit=1 (3.01275ms)
+✔ Google fact exhaustion must leave a separately executable browser investigation reachable (9.740625ms)
+✔ source text handoff reaches request-bound availability and presentation through the production composition (14.034458ms)
+✔ a website observation for another candidate cannot revive an unknown Google fact (3.766917ms)
+▶ a failed compound refresh invalidates prior facts and independent evaluation rejects their reuse
+  ✔ WEBSITE (5.5955ms)
+  ✔ GOOGLE (3.891958ms)
+✔ a failed compound refresh invalidates prior facts and independent evaluation rejects their reuse (9.643959ms)
+✔ a closed-hours refresh removes historical support from the Agent context (2.314041ms)
+✔ Hybrid production composition uses the observed-option browser wire before accepting source evidence (8.410417ms)
+✔ Hybrid source failures in A/B/C leave D reachable and outside candidates out of every Agent pool (5.344208ms)
+▶ Hybrid shared model budget ends honestly while browser launch outage remains a system failure
+  ✖ model-budget (5.892375ms)
+  ✖ agent-budget (1.350958ms)
+  ✔ runtime-outage (1.795875ms)
+✖ Hybrid shared model budget ends honestly while browser launch outage remains a system failure (9.172792ms)
+✔ Hybrid deadline captures immutable partial browser, Google and search evidence through the CLI artifact builder (4.582041ms)
+✔ Hybrid capture counts a sent Google request cancelled before any discovery trajectory (0.64575ms)
+▶ C6a observed public hours end the immediate window only when every checked page has no opening period
+  ✔ closed (5.553625ms)
+  ✔ outside (4.204458ms)
+  ✔ open (6.295292ms)
+  ✔ partial (4.731417ms)
+  ✔ unknown (4.463417ms)
+  ✔ malformed (5.131208ms)
+  ✔ ambiguous-closed (5.372875ms)
+  ✔ wrong-day (4.165792ms)
+  ✔ overnight (4.566542ms)
+  ✔ api-only (2.980167ms)
+  ✔ explicit-time (4.303291ms)
+  ✔ one-closed (2.305709ms)
+  ✔ three-two-closed-one-open (5.410833ms)
+✔ C6a observed public hours end the immediate window only when every checked page has no opening period (59.915667ms)
+✔ Hybrid progress exports pending-page count and total bounded post-action wait (0.132583ms)
+▶ reserve checkpoints retain completed outlets and mark only unfinished ones UNKNOWN
+  ✔ availability-call (3.678917ms)
+  ✔ availability-time (1011.380041ms)
+  ✔ empty-call (6.417708ms)
+  ✔ facts-call (5.660208ms)
+✔ reserve checkpoints retain completed outlets and mark only unfinished ones UNKNOWN (1027.613709ms)
+✔ H001 native first batch presents three source-bound Tabelog results without TableCheck (69.135041ms)
+✔ H001 native cited-menu follow-up carries source-bound HARD evidence to a current Tabelog result (14.046708ms)
+✔ H001 TableCheck reserve-menu scope reaches a synthetic-only current result without borrowing a sibling menu (40.516542ms)
+✔ H001 TableCheck reserve-menu scope can check availability before facts and exposes the service-radio prerequisite (22.429959ms)
+✔ H001 second native batch introduces its own TableCheck results after Tabelog cannot deliver (20.954875ms)
+✔ H001 native discovery uses the shared browser model loop to reveal an observed TableCheck result list (11.371709ms)
+✔ H001 native discovery uses an observed ordinary query submit only in its installed read boundary (9.921208ms)
+✔ H001 confirms a ready TableCheck query through live controls without mistaking hidden or script loading text for a pending search (7.884292ms)
+✔ H001 never admits stale busy discovery cards or an old explicit empty state after the browser declines a current-query action (10.900958ms)
+✔ native source session acquisition consumes the remaining source window and retains an unstarted detail entrance (1.999917ms)
+✔ Tabelog keeps the structured HARD retrieval keyword when an Agent hint repeats the whole reservation request (0.469791ms)
+✔ the production Router advances the default three-pack cursor and reaches Google Nearby Search after bounded source batches (6.544ms)
+✔ fixed TableCheck discovery stores the actual filled value and cannot reveal the current result after a wrong fill (0.439875ms)
+✔ H001 two bounded empty source batches cannot claim inventory or results (5.221917ms)
+✔ H001 both source lists reject page-owned coordinates outside the existing area radius (4.193958ms)
+✔ H001 one Tabelog detail failure retains earlier candidates and continues to the next detail (8.36725ms)
+✔ H001 rejects an early END_READ after an empty Tabelog batch and continues to TableCheck (4.468833ms)
+✔ H001 native Tabelog batch continues past unavailable and unknown outlets, then presents its qualified outlet (10.346ms)
+✔ H001 native TableCheck batch continues after one nonqualifying outlet and presents the next (15.523625ms)
+✔ H001 open-ended native target three delivers one qualified outlet when the first batch is complete (7.758417ms)
+✔ H001 two investigated native batches with no qualified outlet stop without an inventory claim (14.890125ms)
+✔ H001 TableCheck search with a raw link but no parsed outlet retains the observed funnel and fails incomplete (4.021333ms)
+✔ H001 enters the observed named Shibuya directory with the authoritative keyword (6.938333ms)
+✔ native discovery adjusts a sparse keyword through an observed category without relaxing HARD facts (11.75075ms)
+✔ native discovery rejects a category result that leaves the observed regional listing root (9.421125ms)
+✔ native discovery retains category pagination including links revealed by a query action and deduplicates outlets (32.25175ms)
+✔ H001's named Shibuya entry avoids an unrelated root-list candidate before investigation (9.041333ms)
+✔ native discovery refuses a broad listing when an observed regional entrance redirects away (4.018875ms)
+✔ native discovery reaches a neutral locality only through its observed source-region entrance (6.717708ms)
+✔ native discovery restores an observed regional listing after same-region homepage canonicalization (7.314042ms)
+✔ native discovery does not treat an unscoped national homepage as the observed regional homepage (4.2815ms)
+✔ H001 presents one investigated Tabelog current-batch result without exhausting the source or starting TableCheck (16.135958ms)
+✔ H001 presents one investigated TableCheck current-batch result without reading a second TableCheck chunk (17.2945ms)
+✔ H001 consumes a retained Tabelog detail entrance without reopening a volatile listing (27.004334ms)
+✔ H001 retains unstarted Tabelog entries when a failed detail cannot reopen its session (16.293333ms)
+✔ native detail chunk continues through later observed Tabelog results before changing source (24.656ms)
+✔ H001 rejects early end and short presentation after TableCheck discovery until its batch is investigated (27.917458ms)
+✔ WP-A offline composition captures every model call including a timeout and links browser observations to DOM snapshots (41.888333ms)
+{"decisionCaptureError":{"operation":"CREATE","errorCode":"ENOENT"}}
+✔ WP-A capture keeps model results and errors when storage fails, and finalizes an outstanding deadline call once (1.30875ms)
+✔ coordinate-only discovery passes source-attributed address observations, including failure, to browser input (1.087583ms)
+✔ P1-G repeated already-checked availability ends honestly: NATIVE_TRUE_NO_RESULT (9.230875ms)
+✔ P1-G repeated already-checked availability ends honestly: TABELOG_CURRENT_BATCH_DELIVERS (17.152875ms)
+✔ P1-G unresolved location NO_PROGRESS gives an honest user outcome (5.907834ms)
+ℹ tests 128
+ℹ suites 0
+ℹ pass 125
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5880.027792
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:4:84342
+✖ model-budget (5.892375ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'TASK'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:1795:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:1790:83)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'TASK',
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:4:84342
+✖ agent-budget (1.350958ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'TASK'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:1795:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:1790:83)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'TASK',
+    operator: 'strictEqual'
+  }

@@ -1,0 +1,50 @@
+{"fixture":"P1-F-B-h001","phaseBefore":"SEARCHING","failureBefore":null,"events":["READ_END_WINDOW_OPENED","AGENT_LOOP_TERMINATED"],"oldActionValidationAtCapturedTime":{"status":"REJECTED","code":"TASK_TERMINAL","reason":"Task is terminal in FAILED"},"phaseAfter":"FAILED"}
+{"fixture":"P1-G-h001","phaseBefore":"SEARCHING","failureBefore":null,"events":["READ_END_WINDOW_OPENED","AGENT_LOOP_TERMINATED"],"oldActionValidationAtCapturedTime":{"status":"REJECTED","code":"TASK_TERMINAL","reason":"Task is terminal in FAILED"},"phaseAfter":"FAILED"}
+✖ P1-G2 actual P1-F-B-h001 stop returns a user-facing outcome (7.551083ms)
+✖ P1-G2 actual P1-G-h001 stop returns a user-facing outcome (3.445417ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 192.93825
+
+✖ failing tests:
+
+test at src/application/restaurant-agent-loop.test.ts:1:2756
+✖ P1-G2 actual P1-F-B-h001 stop returns a user-facing outcome (7.551083ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'FAILED'
+  - 'NO_VERIFIED_RESULT'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/application/restaurant-agent-loop.test.ts:64:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'FAILED',
+    expected: 'NO_VERIFIED_RESULT',
+    operator: 'strictEqual'
+  }
+
+test at src/application/restaurant-agent-loop.test.ts:1:2756
+✖ P1-G2 actual P1-G-h001 stop returns a user-facing outcome (3.445417ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'FAILED'
+  - 'NO_VERIFIED_RESULT'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/application/restaurant-agent-loop.test.ts:64:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'FAILED',
+    expected: 'NO_VERIFIED_RESULT',
+    operator: 'strictEqual'
+  }

@@ -125,7 +125,7 @@ test("a result that completes before the deadline retains its normal terminal ou
   assert.deepEqual(result.execution, { status: "SUCCEEDED", loopStatus: "TERMINAL", phase: "PRESENT_RESULTS" });
 });
 
-test("actual controlled cancellation and model budget artifacts pass only their own stop acceptance", async () => {
+test("controlled cancellation stays distinct from an honest model-budget completion", async () => {
   const { registration, materializedCase } = await loadRegisteredFixedSourceCase("h001");
 
   let agentDecisionStarted: (() => void) | undefined;
@@ -167,14 +167,15 @@ test("actual controlled cancellation and model budget artifacts pass only their 
       throw new Error("The controlled transport budget should reject before a second model call.");
     } },
   });
-  assert.deepEqual(budget.execution, { status: "FAILED", loopStatus: "MODEL_FAILURE", phase: "FAILED", failureCode: "MODEL_CALL_BUDGET_EXHAUSTED" });
+  assert.deepEqual(budget.execution, { status: "SUCCEEDED", loopStatus: "TERMINAL", phase: "NO_VERIFIED_RESULT" });
+  assert.ok(budget.finalSnapshot?.domainState.noVerifiedResult?.remainingGaps.some(gap => gap.includes("MODEL_CALL_BUDGET_EXHAUSTED")));
   assert.equal(budget.modelCalls, 1, "the model-call ceiling must stop the second invocation");
   assert.equal(budget.sourceCalls.search, 0, "budget exhaustion before an action must not start a source read");
   const budgetEvaluation = await evaluateActualStopArtifact(budget, { maxModelCalls: 1, timeoutMs: 1_000 });
-  assert.equal(budgetEvaluation.execution.completion, "BUDGET_OR_DEADLINE_STOP");
+  assert.equal(budgetEvaluation.execution.completion, "NO_VERIFIED_RESULT");
   assert.equal(budgetEvaluation.execution.taskProducedQualifiedResult, "NO");
   const budgetAcceptance = assessFixedSourceAcceptance({ expectation: budgetStopExpectation, execution: budget.execution, evaluation: budgetEvaluation, coverageGaps: budget.sourceCalls.coverageGaps });
-  assert.deepEqual(budgetAcceptance, { acceptance: "PASS", userGoalCompletion: "NOT_COMPLETE", reasons: [], exitCode: 0 });
+  assert.equal(budgetAcceptance.acceptance, "FAIL", "the frozen legacy FAILED-budget expectation is deliberately unchanged");
 
   // These are the same evaluator-produced artifacts; swapping the declared
   // behavior proves that an internal/budget failure cannot masquerade as a

@@ -1,0 +1,641 @@
+{
+  "schemaVersion": "1",
+  "mode": "SYNTHETIC_CONTROL",
+  "status": "SUCCEEDED",
+  "stage": "AGENT_LOOP",
+  "caseId": "h001",
+  "runId": "run:native-h001:NATIVE_TRUE_NO_RESULT",
+  "diagnostics": {
+    "networkRequests": []
+  },
+  "materializedCase": {
+    "id": "h001",
+    "dataset": "restaurant-read-development@7",
+    "reference_time": "2026-08-19T16:20:00+08:00",
+    "content": "Looking for an omakase spot near Shibuya for 2 people tonight at 7 PM.\n",
+    "semantic": {
+      "target": {
+        "goal": "AVAILABILITY"
+      },
+      "location": {
+        "value": "Shibuya",
+        "relation": "NEAR"
+      },
+      "date": {
+        "expression": "tonight",
+        "value": "2026-08-19"
+      },
+      "time": {
+        "value": "19:00"
+      },
+      "party_size": 2,
+      "criteria": [
+        {
+          "value": "omakase",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ]
+    },
+    "acceptance": {
+      "required_claims": [
+        "Correct outlet near Shibuya; source-supported omakase; and a matching current slot for the materialized date at 19:00 for 2.",
+        "Preserve the explicit party size of 2; opening hours alone do not establish seating."
+      ],
+      "optional_investigation": [],
+      "review": [
+        "No preferred provider or mandatory order of investigation."
+      ]
+    }
+  },
+  "semantic": {
+    "status": "PROPOSED",
+    "proposal": {
+      "schemaVersion": "3",
+      "facts": [
+        {
+          "field": "TARGET",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "TARGET",
+            "goal": "AVAILABILITY",
+            "query": "omakase spot",
+            "selectionScope": "OPEN_ENDED"
+          }
+        },
+        {
+          "field": "AREA",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "AREA",
+            "query": "near Shibuya"
+          }
+        },
+        {
+          "field": "DATE",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "DATE",
+            "value": "2026-08-19",
+            "raw": "tonight"
+          }
+        },
+        {
+          "field": "TIME_WINDOW",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "TIME_WINDOW",
+            "earliest": "19:00",
+            "latest": "19:00",
+            "raw": "7 PM"
+          }
+        },
+        {
+          "field": "PARTY_SIZE",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "PARTY_SIZE",
+            "value": 2
+          }
+        },
+        {
+          "field": "CRITERION",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "CRITERION",
+            "text": "omakase",
+            "strength": "HARD",
+            "polarity": "POSITIVE"
+          }
+        }
+      ]
+    },
+    "attempts": [
+      {
+        "invocationId": "restaurant_semantic_interpret",
+        "provider": "FIXTURE",
+        "model": "scripted-boundary",
+        "purpose": "restaurant_semantic_interpret",
+        "promptVersion": "v21",
+        "outputSchema": {
+          "name": "restaurant-semantic-proposal",
+          "version": "3"
+        },
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 0
+      }
+    ]
+  },
+  "finalSnapshot": {
+    "id": "native-h001:NATIVE_TRUE_NO_RESULT",
+    "runId": "run:native-h001:NATIVE_TRUE_NO_RESULT",
+    "taskType": "restaurant.booking",
+    "definitionVersion": "13",
+    "lifecycleState": "SUCCEEDED",
+    "domainState": {
+      "schemaVersion": "14",
+      "phase": "NO_VERIFIED_RESULT",
+      "searchRevision": 0,
+      "investigationRevision": 1,
+      "intentDraft": {
+        "schemaVersion": "3",
+        "timezone": "Asia/Tokyo",
+        "criteria": [
+          {
+            "text": "omakase",
+            "strength": "HARD",
+            "polarity": "POSITIVE"
+          }
+        ],
+        "target": {
+          "goal": "AVAILABILITY",
+          "query": "omakase spot",
+          "selectionScope": "OPEN_ENDED"
+        },
+        "date": "2026-08-19",
+        "timeWindow": {
+          "earliest": "19:00",
+          "latest": "19:00"
+        },
+        "temporalResolution": {
+          "policyVersion": "restaurant-temporal-materialization@6",
+          "referenceTime": "2026-08-19T16:20:00+08:00",
+          "timezone": "Asia/Tokyo",
+          "date": {
+            "expression": "tonight",
+            "resolvedDate": "2026-08-19",
+            "basis": "EXPLICIT_DATE"
+          },
+          "timeWindow": {
+            "expression": "7 PM",
+            "resolvedTimeWindow": {
+              "earliest": "19:00",
+              "latest": "19:00"
+            },
+            "basis": "EXPLICIT_CLOCK"
+          }
+        },
+        "partySize": 2,
+        "area": {
+          "query": "near Shibuya"
+        }
+      },
+      "candidates": [],
+      "availability": {},
+      "availabilityChecks": {},
+      "factChecks": {},
+      "readEvidence": [],
+      "noVerifiedResult": {
+        "investigatedCandidateIds": [],
+        "unresolvedCandidateIds": [],
+        "remainingGaps": [
+          "AGENT_LOOP_NO_PROGRESS: The named location could not be resolved to coordinates by the available source; no result may claim nearby compliance; GOOGLE_LOCATION_UNRESOLVED: Google Places could not resolve coordinates for the named location \"Shibuya\". Observations: no returned places",
+          "Sources with recorded reads or attempts: none; unread discovery entries: none recorded. Unread outlets and missing evidence remain unknown; this does not establish that all restaurants have no seats."
+        ],
+        "endedAt": "2026-08-19T07:20:00.019Z"
+      }
+    },
+    "outcome": {
+      "status": "NO_VERIFIED_RESULT",
+      "investigatedCandidateIds": [],
+      "unresolvedCandidateIds": [],
+      "remainingGaps": [
+        "AGENT_LOOP_NO_PROGRESS: The named location could not be resolved to coordinates by the available source; no result may claim nearby compliance; GOOGLE_LOCATION_UNRESOLVED: Google Places could not resolve coordinates for the named location \"Shibuya\". Observations: no returned places",
+        "Sources with recorded reads or attempts: none; unread discovery entries: none recorded. Unread outlets and missing evidence remain unknown; this does not establish that all restaurants have no seats."
+      ]
+    },
+    "version": 3,
+    "createdAt": "2026-08-19T07:20:00.000Z",
+    "updatedAt": "2026-08-19T07:20:00.019Z"
+  },
+  "trajectories": [
+    {
+      "id": "trajectory:native-h001:NATIVE_TRUE_NO_RESULT:1",
+      "taskId": "native-h001:NATIVE_TRUE_NO_RESULT",
+      "stepNumber": 1,
+      "occurredAt": "2026-08-19T07:20:00.010Z",
+      "stateVersionBefore": 1,
+      "stateHashBefore": "11f0a923038b18cc45ed82735e8a0a8046d0be07545f1044f1406a806f10ddca",
+      "causalRefs": {
+        "eventIds": [
+          "event:restaurant-agent:1"
+        ],
+        "commandIds": [],
+        "attemptIds": [],
+        "evidenceIds": []
+      },
+      "capabilities": [
+        {
+          "name": "ASK_USER",
+          "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+          "inputSchema": "question, optional relatedFields",
+          "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+          "importantConstraints": [
+            "Do not claim a booking or availability result."
+          ]
+        },
+        {
+          "name": "SEARCH_RESTAURANTS",
+          "purpose": "Discover matching restaurant outlets.",
+          "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+          "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+          "importantConstraints": [
+            "Cannot modify, repeat, or loosen authoritative user constraints."
+          ]
+        },
+        {
+          "name": "INVESTIGATE_CANDIDATE_FACTS",
+          "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+          "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+          "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+          "importantConstraints": [
+            "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+          ]
+        },
+        {
+          "name": "CHECK_AVAILABILITY",
+          "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+          "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+          "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+          "importantConstraints": [
+            "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+          ]
+        },
+        {
+          "name": "END_READ",
+          "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+          "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+          "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+          "importantConstraints": [
+            "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+          ]
+        },
+        {
+          "name": "PRESENT_RESULTS",
+          "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+          "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+          "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+          "importantConstraints": [
+            "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+          ]
+        },
+        {
+          "name": "SELECT_CANDIDATE",
+          "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+          "inputSchema": "candidateId, optional offerId",
+          "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+          "importantConstraints": [
+            "A selected offer must belong to the selected candidate."
+          ]
+        },
+        {
+          "name": "BOOK_RESERVATION",
+          "purpose": "Request a booking proposal for one selected fresh offer.",
+          "inputSchema": "candidateId, offerId",
+          "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+          "importantConstraints": [
+            "Cannot authorize, commit, or claim success."
+          ]
+        }
+      ],
+      "contextSchemaVersion": "11",
+      "decisionContext": {
+        "schemaVersion": "11",
+        "now": "2026-08-19T07:20:00.006Z",
+        "phase": "UNDERSTANDING",
+        "intentDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "criteria": [
+            {
+              "text": "omakase",
+              "strength": "HARD",
+              "polarity": "POSITIVE"
+            }
+          ],
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "omakase spot",
+            "selectionScope": "OPEN_ENDED"
+          },
+          "date": "2026-08-19",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:00"
+          },
+          "temporalResolution": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-08-19T16:20:00+08:00",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "tonight",
+              "resolvedDate": "2026-08-19",
+              "basis": "EXPLICIT_DATE"
+            },
+            "timeWindow": {
+              "expression": "7 PM",
+              "resolvedTimeWindow": {
+                "earliest": "19:00",
+                "latest": "19:00"
+              },
+              "basis": "EXPLICIT_CLOCK"
+            }
+          },
+          "partySize": 2,
+          "area": {
+            "query": "near Shibuya"
+          }
+        },
+        "missingBlockingFields": [],
+        "candidates": [],
+        "availability": {},
+        "availabilityChecks": {},
+        "presentation": [],
+        "searchAvailability": {
+          "available": true
+        },
+        "readCompletion": {
+          "allowed": false,
+          "investigationRecorded": false,
+          "unresolvedCandidateIds": [],
+          "reason": "No actual source investigation is recorded"
+        },
+        "legalActions": {
+          "search": true,
+          "investigateCandidateFacts": [],
+          "checkAvailability": [],
+          "presentResults": [],
+          "endRead": false
+        }
+      },
+      "agentAction": {
+        "type": "SEARCH_RESTAURANTS"
+      },
+      "decisionSummary": "Use current evidence",
+      "modelAttempt": {
+        "invocationId": "restaurant_agent_decide",
+        "provider": "FIXTURE",
+        "model": "scripted-boundary",
+        "purpose": "restaurant_agent_decide",
+        "promptVersion": "25",
+        "outputSchema": {
+          "name": "restaurant_agent_action",
+          "version": "4"
+        },
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 0
+      },
+      "actionValidation": {
+        "status": "ALLOWED"
+      },
+      "executionRoute": "GENERIC_BROWSER",
+      "executionMetadata": {
+        "provider": "AVAILABILITY_SOURCE_RESOLVER",
+        "route": "GENERIC_BROWSER",
+        "latencyMs": 0,
+        "failureCode": "GOOGLE_LOCATION_UNRESOLVED",
+        "googleRequests": {
+          "limit": 100,
+          "total": 1,
+          "namedPlaceResolution": 1,
+          "discovery": 0,
+          "placeDetails": 0,
+          "reverseAddressObservation": 0
+        }
+      },
+      "observation": {
+        "type": "DISCOVERY_FAILED",
+        "detail": "Google Places could not resolve coordinates for the named location \"Shibuya\". Observations: no returned places"
+      },
+      "stateVersionAfter": 2,
+      "stateHashAfter": "b6e7f5e3fbb42f0dfde4ef32dfa116a7e792e39003fc092c5bb8e07d81bf0cb8",
+      "stepOutcome": "EXECUTION_FAILURE"
+    },
+    {
+      "id": "trajectory:native-h001:NATIVE_TRUE_NO_RESULT:2",
+      "taskId": "native-h001:NATIVE_TRUE_NO_RESULT",
+      "stepNumber": 2,
+      "occurredAt": "2026-08-19T07:20:00.017Z",
+      "stateVersionBefore": 2,
+      "stateHashBefore": "b6e7f5e3fbb42f0dfde4ef32dfa116a7e792e39003fc092c5bb8e07d81bf0cb8",
+      "causalRefs": {
+        "eventIds": [
+          "event:restaurant-agent:2"
+        ],
+        "commandIds": [],
+        "attemptIds": [],
+        "evidenceIds": []
+      },
+      "capabilities": [
+        {
+          "name": "ASK_USER",
+          "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+          "inputSchema": "question, optional relatedFields",
+          "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+          "importantConstraints": [
+            "Do not claim a booking or availability result."
+          ]
+        },
+        {
+          "name": "SEARCH_RESTAURANTS",
+          "purpose": "Discover matching restaurant outlets.",
+          "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+          "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+          "importantConstraints": [
+            "Cannot modify, repeat, or loosen authoritative user constraints."
+          ]
+        },
+        {
+          "name": "INVESTIGATE_CANDIDATE_FACTS",
+          "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+          "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+          "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+          "importantConstraints": [
+            "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+          ]
+        },
+        {
+          "name": "CHECK_AVAILABILITY",
+          "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+          "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+          "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+          "importantConstraints": [
+            "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+          ]
+        },
+        {
+          "name": "END_READ",
+          "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+          "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+          "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+          "importantConstraints": [
+            "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+          ]
+        },
+        {
+          "name": "PRESENT_RESULTS",
+          "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+          "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+          "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+          "importantConstraints": [
+            "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+          ]
+        },
+        {
+          "name": "SELECT_CANDIDATE",
+          "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+          "inputSchema": "candidateId, optional offerId",
+          "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+          "importantConstraints": [
+            "A selected offer must belong to the selected candidate."
+          ]
+        },
+        {
+          "name": "BOOK_RESERVATION",
+          "purpose": "Request a booking proposal for one selected fresh offer.",
+          "inputSchema": "candidateId, offerId",
+          "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+          "importantConstraints": [
+            "Cannot authorize, commit, or claim success."
+          ]
+        }
+      ],
+      "observation": {
+        "type": "READ_ENDED",
+        "detail": "AGENT_LOOP_NO_PROGRESS: The named location could not be resolved to coordinates by the available source; no result may claim nearby compliance",
+        "candidateIds": [],
+        "unresolvedCandidateIds": []
+      },
+      "stateVersionAfter": 3,
+      "stateHashAfter": "e732860af5d979f8a81130aca7c3db503996b65e20135012c96f4cc582d9d72c",
+      "stepOutcome": "TERMINAL"
+    }
+  ],
+  "events": [
+    {
+      "id": "event:native-h001:NATIVE_TRUE_NO_RESULT:semantic:1",
+      "taskId": "native-h001:NATIVE_TRUE_NO_RESULT",
+      "event": {
+        "type": "SEMANTIC_PROPOSAL_COMPILED",
+        "patch": {
+          "schemaVersion": "3",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "omakase spot",
+            "selectionScope": "OPEN_ENDED"
+          },
+          "area": {
+            "query": "near Shibuya"
+          },
+          "partySize": 2,
+          "partySizeSource": null,
+          "addCriteria": [
+            {
+              "text": "omakase",
+              "strength": "HARD",
+              "polarity": "POSITIVE"
+            }
+          ],
+          "date": "2026-08-19",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:00"
+          },
+          "temporalResolution": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-08-19T16:20:00+08:00",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "tonight",
+              "resolvedDate": "2026-08-19",
+              "basis": "EXPLICIT_DATE"
+            },
+            "timeWindow": {
+              "expression": "7 PM",
+              "resolvedTimeWindow": {
+                "earliest": "19:00",
+                "latest": "19:00"
+              },
+              "basis": "EXPLICIT_CLOCK"
+            }
+          }
+        }
+      },
+      "occurredAt": "2026-08-19T07:20:00.001Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:native-h001:NATIVE_TRUE_NO_RESULT",
+        "correlationId": "event:native-h001:NATIVE_TRUE_NO_RESULT:semantic:1",
+        "actor": "MODEL"
+      }
+    },
+    {
+      "id": "event:restaurant-agent:1",
+      "taskId": "native-h001:NATIVE_TRUE_NO_RESULT",
+      "event": {
+        "type": "SEARCH_FAILED",
+        "reason": "Google Places could not resolve coordinates for the named location \"Shibuya\". Observations: no returned places",
+        "code": "GOOGLE_LOCATION_UNRESOLVED"
+      },
+      "occurredAt": "2026-08-19T07:20:00.014Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:native-h001:NATIVE_TRUE_NO_RESULT",
+        "correlationId": "event:restaurant-agent:1",
+        "actor": "ADAPTER"
+      }
+    },
+    {
+      "id": "event:restaurant-agent:2",
+      "taskId": "native-h001:NATIVE_TRUE_NO_RESULT",
+      "event": {
+        "type": "AGENT_LOOP_TERMINATED",
+        "termination": "NO_PROGRESS",
+        "reason": "The named location could not be resolved to coordinates by the available source; no result may claim nearby compliance"
+      },
+      "occurredAt": "2026-08-19T07:20:00.019Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:native-h001:NATIVE_TRUE_NO_RESULT",
+        "correlationId": "event:restaurant-agent:2",
+        "actor": "SYSTEM"
+      }
+    }
+  ],
+  "loop": {
+    "status": "TERMINAL",
+    "steps": 1
+  },
+  "sourceEnvironment": {
+    "network": "OFFLINE_FIXED_TRANSPORT",
+    "browser": "OFFLINE_FIXED_PAGES"
+  },
+  "sourceTrace": {
+    "navigations": [],
+    "googleQueries": [
+      "Shibuya"
+    ],
+    "browserTrace": []
+  },
+  "runCeilings": {
+    "maxAutomaticBrowserMs": 60000,
+    "maxProviderBrowserMs": 45000,
+    "maxAgentSteps": 20,
+    "maxBrowserModelCallsTotal": 50,
+    "maxModelCalls": 50
+  },
+  "resourceUsage": {
+    "elapsedMs": 3,
+    "agentDecisions": 1,
+    "browserModelCalls": 0,
+    "modelCallsStarted": 2,
+    "googleRequests": {
+      "limit": 100,
+      "total": 1,
+      "namedPlaceResolution": 1,
+      "discovery": 0,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    }
+  }
+}
