@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.210
+- Document revision: 4.211
 - Last updated: 2026-10-15
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-15 P2-0 h002只读回归完成／h001待排程批准：** 四项实现提交976baaa/60e78b9/f759c34/35b6bf0；生产35b6bf0在新宿主机树CLEAN，外层9SHA与双用例离线空跑通过。唯一h002正式SUCCEEDED/PRESENT_RESULTS，展示Ginza Sushi Sendou/TABELOG/390m；evaluator28 qualified UNKNOWN（条件措辞待独立确认）、证据SATISFIED，207.540秒/25模型/1Google，等待12.41%，无浏览器超时。立即四参数GET为200且18:30在selection，未触发停止；25决策=25模型，产物SHA核验，录制NOT_REPLAYABLE/UNSAFE_DOCUMENT。累计1039/1500、38Live、Google确认24/历史UNKNOWN，本批1/2、环境预留1。h001时窗已过未启动；每日及单次排程均遭自动审批拒绝，明确自动化未创建，需人类排程授权，不绕过。报告p2-0-hardening-20261015/report.md，纯文档核验复用四门禁879/879；不推送，P2-0未全部完成。
 
 - **2026-10-15 P2-0 失败码穷尽分类与结构化结束：** State@15/TaskDefinition@14，noVerifiedResult.termination记录type/reasonCode/isSystemReason/initiator，区分系统发起与系统错误。State/Event/Router/读取metadata失败码显式typed集合，Model/Policy穷尽分类及Browser/Google类型覆盖；缺分类编译红灯与未知持久化码fail-closed。Evaluator@28/rubric@22核对系统事件、终态版本、READ_ENDED及已查/未查范围，只证明有范围的无结果。原P1-G2产物不改写，@27与@28原始重评完成均NOT_EVALUATED（原缺结构化字段）；第6步真实状态新终止离线回放SATISFIED、qualified仍NO，0新增外部调用。四门禁879/879，证据failure-types/；不更改资格/Prompt/Gold/变体/见证，不推送。
 
