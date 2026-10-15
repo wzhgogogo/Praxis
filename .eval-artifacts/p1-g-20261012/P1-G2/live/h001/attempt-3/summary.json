@@ -1,0 +1,104 @@
+{
+  "caseId": "h001",
+  "finishPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-g-20261012/P1-G2/live/h001/attempt-3/finish.json",
+  "head": "b55e91c9157c1b5fcae20cf25efb56155147863b",
+  "stop": null,
+  "witnessRaw": [],
+  "postDelivery": null,
+  "preflight": {
+    "mode": "LIVE_NETWORK_PREFLIGHT",
+    "preflightVersion": "live-network-preflight@1",
+    "runner": "HYBRID_LIVE_READ",
+    "plannedTargets": [
+      "DEEPSEEK",
+      "GOOGLE",
+      "TABELOG",
+      "TABLECHECK"
+    ],
+    "timeoutMs": 10000,
+    "generationModelCalls": 0,
+    "restaurantDiscoveryRequests": 0,
+    "evaluator": {
+      "applicability": "NOT_APPLICABLE",
+      "reason": "NETWORK_ONLY_DIAGNOSTIC_HAS_NO_RESTAURANT_CLAIM"
+    },
+    "network": {
+      "proxyMode": "DISABLED_BY_CLI"
+    },
+    "status": "FAILED",
+    "stage": "NETWORK_READINESS",
+    "failureCode": "PREFLIGHT_PUBLIC_ENDPOINT_REJECTED",
+    "attempts": [
+      {
+        "target": "DEEPSEEK",
+        "request": {
+          "method": "GET",
+          "url": "https://api.deepseek.com/models",
+          "range": "NONE",
+          "authorization": "PRESENT"
+        },
+        "elapsedMs": 1525,
+        "outcome": "REACHABLE",
+        "status": 200,
+        "tls": "ESTABLISHED"
+      },
+      {
+        "target": "GOOGLE",
+        "request": {
+          "method": "GET",
+          "url": "https://places.googleapis.com/",
+          "range": "NONE",
+          "authorization": "ABSENT"
+        },
+        "elapsedMs": 2107,
+        "outcome": "REACHABLE",
+        "status": 404,
+        "tls": "ESTABLISHED"
+      },
+      {
+        "target": "TABELOG",
+        "request": {
+          "method": "GET",
+          "url": "https://tabelog.com/",
+          "range": "BYTES_0_0",
+          "authorization": "ABSENT"
+        },
+        "elapsedMs": 1977,
+        "outcome": "REACHABLE",
+        "status": 200,
+        "tls": "ESTABLISHED"
+      },
+      {
+        "target": "TABLECHECK",
+        "request": {
+          "method": "GET",
+          "url": "https://www.tablecheck.com/en/",
+          "range": "BYTES_0_0",
+          "authorization": "ABSENT"
+        },
+        "elapsedMs": 2123,
+        "outcome": "FAILED",
+        "status": 403,
+        "tls": "ESTABLISHED",
+        "failureCode": "PREFLIGHT_PUBLIC_ENDPOINT_REJECTED"
+      }
+    ],
+    "elapsedMs": 7738,
+    "configuration": {
+      "proxyMode": "DISABLED_BY_CLI",
+      "googleProxyConfigured": false,
+      "browserProxyConfigured": false
+    },
+    "schemaVersion": "1",
+    "runId": "f362d303-8cf7-4ce4-9f80-0484b59f3405",
+    "startedAt": "2026-10-15T06:18:57.192Z",
+    "finishedAt": "2026-10-15T06:19:04.931Z"
+  },
+  "preflightOnly": true,
+  "status": "NOT_STARTED",
+  "elapsedMs": 9793,
+  "models": 0,
+  "google": 0,
+  "deliveryCount": null,
+  "classification": "NO_RESTAURANT_EVALUATION; no formal result"
+}

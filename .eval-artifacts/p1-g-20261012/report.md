@@ -227,3 +227,18 @@ P1-G2离线修复已提交并冻结。复核原文在本机Desktop范围、可�
 第2次外层总耗时8,764ms，preflight6,342ms；余额GET可用。正式h001尚未启动，没有result/decisions/recording或evaluator评价；evaluator为NOT_APPLICABLE（仅网络预检）。没有交付，故无交付后GET或见证GET。原始证据 `P1-G2/live/h001/attempt-2/{start,finish,preflight,balance.metadata,balance.body,summary}.json`、run.log、trace.jsonl；外层stdout为P1-G2/h001-outer-attempt-2.log。
 
 累计仍970/1500模型、36正式Live、Google已确认22／历史完整UNKNOWN；本批启动后环境重跑0/1。共2次preflight均未正式启动，不计Live或环境预留。用户要求的这一次即时重试已完成，未安排自动第3次；若继续，仍余1次preflight，最早UTC06:15:42.058／东京15:15:42.058（现有时窗和500秒剩余约束仍适用）。只报告环境事实，不能以离线绿灯宣布Live故障关闭。生产未改，本次仅外层授权元数据和运行证据／文档；复用四门禁862/862，离线检查与真实网络预检分列。本地提交，不推送。
+
+用户随后要求“等十分钟再试吧”；已复用本线程心跳安排UTC2026-10-15T06:18:00／北京时间14:18／东京15:18继续第3次preflight。该时刻也满足距第2次结束至少15分钟，无需再次改外层SHA或增加间隔例外。调度阶段0新增网络／模型／Live；执行前仍须检查最新消息、账本、冻结SHA和无重复进程。
+
+
+### 十分钟后第3次 preflight：ENV_FAILURE，停止
+
+按用户要求于北京时间14:18触发，实际外层UTC2026-10-15T06:18:55.173Z启动（东京15:18:55），06:19:04.966Z结束。启动前核对9文件SHA、b55e91c/CLEAN和无已有h001进程；execute仍2fe4ab99，未使用第2次的间隔例外。距第2次preflight结束18分15秒，满足原15分钟规则。
+
+| 尝试 | preflight UTC | 状态 | 外层耗时 / preflight耗时 | 模型 / Google业务 / Live / 环境重跑新增 |
+|---|---|---|---|---|
+| h001 #3 | 06:18:57.192–06:19:04.931 | balance可用；DeepSeek200、Google404可达、Tabelog200、TableCheck403；PREFLIGHT_PUBLIC_ENDPOINT_REJECTED | 9,793ms / 7,738ms | 0 / 0 / 0 / 0 |
+
+三次preflight用尽，本例归为ENV_FAILURE；不做第4次。h001正式Live仍未启动，交付家数／距离、地点解析、等待占比、浏览器超时均NOT_APPLICABLE；没有模型调用、业务Google请求或浏览器会话，亦无正式result/decisions/recording、evaluator@27评价、交付后GET／B见证GET。仅网络预检的evaluator适用性为NOT_APPLICABLE，不把预检文件冒充正式结果。证据：`P1-G2/live/h001/attempt-3/{start,finish,preflight,balance.metadata,balance.body,summary}.json`、run.log、trace.jsonl；外层日志`P1-G2/h001-outer-attempt-3.log`。每个文件SHA及冻结核对见`P1-G2/final-preflight-verification.json`。
+
+本批累计0正式Live、0模型、0Google业务、0启动后环境重跑；整单仍970/1500模型、36正式Live、Google已确认22／完整历史UNKNOWN、P1-G2环境预留1未扣。三次网络预检和余额GET确实发生，不称零网络。生产修复仅完成真实状态离线复现＋L1，四门禁862/862保持；本次未证明修复在Live生效。无产品、Prompt、Schema、Evaluator、配置、Gold或变体更改，P1-F/P1-G旧树未动，Guard多跳重定向已知边界保持。按纯文档矩阵核对diff、链接、账本和证据，复用既有生产门禁；心跳p1-g-10-13-live已PAUSED。本地提交，不推送，停止等待独立复核。

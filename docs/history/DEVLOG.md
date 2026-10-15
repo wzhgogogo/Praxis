@@ -3471,3 +3471,8 @@ P1-G2 uses actual P1-F/G h001 event prefixes and verifies trajectory hashes befo
 ## DEV-2026-10-15-P1G2-preflight-retry
 
 用户“跑一次h001”后同步外层批次元数据并离线空跑；Google预检超时未启动。用户切换TUN和全局后要求即时重试，仅h001第2次获一次间隔例外，重新冻结execute SHA2fe4ab99（9文件SHA核对）。第2次UTC06:00:35.715–06:00:42.058：DeepSeek200、Google404可达、Tabelog200、TableCheck403，PREFLIGHT_PUBLIC_ENDPOINT_REJECTED；余额可用。两次均未启动正式Live，新增模型／Google业务／Live／环境重跑均0；累计970/1500、36Live、Google确认22／历史UNKNOWN。本次即时重试完成，未安排第三次；若继续须遵守剩余15分钟间隔与时窗。生产b55e91c/CLEAN、no-proxy及安全规则不变，evaluator不适用，无result／决策／录制。证据与报告见 .eval-artifacts/p1-g-20261012/P1-G2/ 及 report.md。只改外层和文档，复用修复四门禁862/862，离线空跑和冻结核验PASS；不推送、不宣称实际链路已关闭。
+
+
+## DEV-2026-10-15-P1G2-preflight-final
+
+用户要求十分钟后重试，第3次preflight于UTC06:18:57.192–06:19:04.931执行，距第2次18分15秒；balance可用、DeepSeek200/Google404可达/Tabelog200，TableCheck仍403。外层9,793ms、预检7,738ms，三次用尽记ENV_FAILURE，正式h001未启动，无evaluator/result/决策/录制／交付后GET。新增模型/Google业务/Live/启动后环境重跑均0，累计970/1500模型、36Live、Google确认22／历史UNKNOWN、预留1未扣；实际有网络预检与余额GET。冻结b55e91c/CLEAN、execute2fe4ab99、9SHA保持；复用四门禁862/862，纯文档／证据核验见P1-G2/final-preflight-verification.json。真实状态离线＋L1已绿，Live修复仍未验证，不能关闭h001签收缺口。心跳PAUSED，不第4次重试；本地提交，不推送。报告 .eval-artifacts/p1-g-20261012/report.md 的P1-G2节。
