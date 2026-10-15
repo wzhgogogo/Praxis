@@ -251,3 +251,34 @@ UTC2026-10-15T06:23:06–06:24:08，有界公开诊断：两次GET均访问https
 可排除本次DNS/TLS连通失败及Range作为唯一触发原因；拒绝发生于远端HTTP响应阶段、在Chromium及Agent Guard运行之前。仍不能确定是出口IP、地区策略、Node客户端分类或其他服务端规则，不能直接归因为限流或反机器人。预检只存状态并取消正文，之前的503与现在403不具备同一根因的证据。--no-proxy仅清除PRAXIS应用代理设置，无法关闭或验证TUN。没有测试Chromium能否访问，也没有伪装User-Agent、绕过挑战或调整现有预检判定。
 
 证据目录P1-G2/tablecheck-403-diagnostic/：preflight-shape.json、without-range.json、各body.txt、transport.json、summary.json。两次公开GET＋一次无HTTP的TLS握手；新增模型／Google业务／Live均0，三次preflight耗尽状态保持、心跳仍暂停。没有产品／Runner改动；仅诊断与文档，按纯文档矩阵核对引用／事实／diff，生产四门禁862/862复用，不把诊断当作Live修复证明。
+
+
+### 用户确认恢复后，额外一次preflight及唯一h001正式运行
+
+用户“好了。你跑下001 live吧”明确要求网络恢复后执行。保留原三次失败及ENV_FAILURE证据，不清零账本；仅为h001第4次preflight增加--after-user-recovery一次门控，其他例子／第5次均不能借此继续。时间、预算、生产冻结、Guard、no-proxy、evaluator@27和交付后核验不变。新execute SHA `ec4aa86b66b066ef1a2f32e3f36017136f162f3a36ea4bfe3cafaccc54c5280c`；原9SHA及b55e91c/CLEAN检查通过，新增门控5正反核对、离线空跑PASS。证据recovery-live-authorization.json、recovery-attempt-gate-check.json、dry-run-after-recovery.json。一次进程列表UTF-8解码失败发生于任何请求前，容错读取后继续；不计preflight或Live。
+
+UTC2026-10-15T08:00:30.295Z（东京17:00）第4次preflight通过，6,000ms：DeepSeek200、Google公共入口404可达、Tabelog200、TableCheck206。随后唯一h001正式运行启动，500秒／50模型／40Google，Gold@7、record-browser／record-decisions／no-proxy。日志P1-G2/h001-outer-attempt-4.log；运行完成后补最终结果及计数，此启动记录本身不作为修复通过证据。
+
+
+### P1-G2 h001唯一正式Live结果（2026-10-15）
+
+| 用例 | 正式起止UTC／东京 | 执行结果／结束原因 | 交付 | evaluator@27 | 耗时 | 模型／Google | 等待 | 浏览器超时 |
+|---|---|---|---|---|---|---|---|---|
+| h001 Gold@7，attempt4 | 08:00:36.360–08:06:38.759／17:00:36–17:06:38 | SUCCEEDED / NO_VERIFIED_RESULT；AGENT_LOOP_TERMINATED / REJECTION_LIMIT | 0，名称／来源／距离不适用 | taskProducedQualifiedResult=NO；COMPLETION_OUTCOME=NOT_EVALUATED | 362,347ms（约362.35秒） | 44／1 | 87,458ms／24.14% | 未观察到 |
+
+请求绑定2026-10-15今晚19:00、2人。Shibuya地点解析圆心35.6619707,139.70379499999999，半径1000m；保留的地址组件类型locality/political、administrative_area_level_1/political、country/political；顶层Google地点types未由冻结Runner保留，不能伪称完整类型证据。调查Sushi Teppen：facts COMPLETED，查位UNKNOWN／DATE_NOT_SELECTABLE，缺少本次请求的新鲜库存证据。noVerifiedResult中已查与未解决集合各1；剩余缺口明确记录AGENT_LOOP_REJECTION_LIMIT及局部BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED，保留已读取／尝试来源及未读发现入口，不声称所有餐厅无位。
+
+最后领域事件是AGENT_LOOP_TERMINATED(termination=REJECTION_LIMIT)，最终轨迹READ_ENDED，phase=NO_VERIFIED_RESULT、failure为空。此次确实观察到循环拒绝终止后以面向用户的领域结果结束，未再次FAILED；这只证明本次终止行为，不证明有合格交付或第一阶段已获签收。evaluator@27执行评价SUCCEEDED／qualified=NO，AUTHORITATIVE_CONDITIONS与INVESTIGATION_BEHAVIOR为SATISFIED；COMPLETION_OUTCOME仍NOT_EVALUATED，原文理由“No executed current-request END_READ observation is recorded.”。系统终止产生READ_ENDED与现有Evaluator的END_READ判断范围之间的适用性留给独立复核，本批不改Evaluator。不能把这项未评价写成通过。
+
+44条decisions=44次模型调用，捕获errors为空；录制为NOT_REPLAYABLE／UNSAFE_DOCUMENT，不称Replay通过。Guard外层stop为空，没有交付，交付后Tabelog GET不适用；B原版零交付不抓见证。Guard多跳重定向已知边界保持，stop为空不构成全部只读边界已验证。
+
+原始产物：
+
+- result: `/Users/wangzhour/.codex/worktrees/p1-g2-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-15T08-00-36-360Z-d808d9f3-cedd-4c2e-aa43-bc70362ef61d.result.json`
+- evaluator@27: `/Users/wangzhour/.codex/worktrees/p1-g2-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-15T08-00-36-360Z-d808d9f3-cedd-4c2e-aa43-bc70362ef61d.result.evaluation.27-1792051598875.json`
+- decisions: `/Users/wangzhour/.codex/worktrees/p1-g2-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-15T08-00-36-360Z-d808d9f3-cedd-4c2e-aa43-bc70362ef61d.decisions.jsonl`
+- recording: `/Users/wangzhour/.codex/worktrees/p1-g2-live/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792051236315`
+
+外层原始目录`P1-G2/live/h001/attempt-4/`保留start/finish、balance响应及时间戳、preflight、run.log、trace.jsonl、evaluation-copy、summary与verification；外层stdout为`P1-G2/h001-outer-attempt-4.log`。verification.json核对result/evaluator/decisions及录制88个文件SHA、9冻结文件SHA和CLEAN生产树。生产冻结b55e91c、外层execute ec4aa86b66b066ef1a2f32e3f36017136f162f3a36ea4bfe3cafaccc54c5280c；纯外层一次授权门控变更完成离线空跑，不改产品／Prompt／Schema／Gold／变体／见证／旧录制，四门禁复用修复提交862/862。相关终止修复证明范围为两真实状态离线复现＋L1＋本次Live观察，签收由独立复核。
+
+本次新增44模型、1Google业务、1正式Live、0启动后环境重跑；累计1014/1500模型、37正式Live（正常上限37、含授权环境重跑总上限38）、Google已确认23／历史完整UNKNOWN，P1-G2环境预留1未扣。前三次preflight的ENV_FAILURE保留于历史分类，最新一例为FORMAL_SUCCEEDED_NO_VERIFIED_RESULT，未清零任何尝试。唯一正式h001完成，不再续跑；心跳保持PAUSED。同步DEVLOG／TEST-LOG／STATUS／月度索引和摘要，本地提交，不推送，停止等待独立复核。

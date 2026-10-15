@@ -1,20 +1,29 @@
 {
-  "models": 970,
-  "googleConfirmed": 22,
+  "models": 1014,
+  "googleConfirmed": 23,
   "googleHistoricalTotal": "UNKNOWN",
-  "live": 36,
-  "formalRuns": 0,
+  "live": 37,
+  "formalRuns": 1,
   "environmentReserveRemaining": 1,
   "cases": {
     "B:h001": {
-      "preflightAttempts": 3,
-      "formalRuns": 0,
-      "completed": false,
+      "preflightAttempts": 4,
+      "formalRuns": 1,
+      "completed": true,
       "environmentRetries": 0,
-      "lastPreflightEnd": "2026-10-15T06:19:04.931Z",
+      "lastPreflightEnd": "2026-10-15T08:00:36.296Z",
       "preflightExhausted": true,
-      "classification": "ENV_FAILURE",
-      "classificationEvidence": "live/h001/attempt-3/preflight.json"
+      "classification": "FORMAL_SUCCEEDED_NO_VERIFIED_RESULT",
+      "classificationEvidence": "live/h001/attempt-4/finish.json",
+      "previousClassifications": [
+        {
+          "classification": "ENV_FAILURE",
+          "evidence": "live/h001/attempt-3/preflight.json",
+          "scope": "First three preflights; preserved historical ENV_FAILURE"
+        }
+      ],
+      "renewalAuthorization": "recovery-live-authorization.json",
+      "preflightAllowance": 4
     }
   },
   "stop": null

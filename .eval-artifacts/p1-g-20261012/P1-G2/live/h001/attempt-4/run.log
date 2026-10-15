@@ -1,0 +1,38 @@
+{"mode":"HYBRID_LIVE_READ","caseId":"h001","browserEngine":"LOCAL_CHROMIUM","preflight":{"artifactPath":"/Users/wangzhour/.codex/worktrees/p1-g2-live/Praxis-Zhixing/.eval-artifacts/live-preflight/2026-10-15T08-00-30-295Z-acb77dc4-d4d4-4194-828e-494f2bae31ca.result.json","elapsedMs":6000,"targetCount":4},"candidateLimit":10,"profileMode":"TEMPORARY","limits":{"maxGoogleRequests":40,"maxStructuredReadMs":30000,"maxAvailabilitySourceBrowserSessions":3,"maxAvailabilitySourceCandidateMatches":3,"maxAvailabilityReads":20,"maxBrowserRuntimeFallbacks":1,"maxBrowserModelCallsPerCandidate":20,"maxBrowserModelCallsTotal":120,"maxBrowserOperationsPerCandidate":80,"maxCandidateBrowserMs":60000,"maxProviderBrowserMs":45000,"maxAutomaticBrowserMs":500000,"maxAgentSteps":30,"maxRejectedActions":5},"safety":"READ_ONLY_CODE_PATH"}
+{
+  "mode": "HYBRID_LIVE_READ",
+  "caseId": "h001",
+  "loop": {
+    "status": "TERMINAL",
+    "steps": 30
+  },
+  "resourceUsage": {
+    "discoveryCandidates": 1,
+    "candidatesChecked": 1,
+    "agentDecisions": 30,
+    "browserModelCalls": 12,
+    "modelCallsStarted": 44,
+    "browserRuntimeCalls": 166,
+    "browserOperationsByCandidate": {
+      "native-discovery:DIRECTORY": 48,
+      "tabelog:en/tokyo/A1303/A130301/13308491": 11,
+      "native-discovery:VENUE_SEARCH": 107
+    },
+    "pageStillLoadingWithinBound": 37,
+    "postActionWaitTotalMs": 87458,
+    "browserModelActions": 11,
+    "googleRequests": {
+      "limit": 40,
+      "total": 1,
+      "namedPlaceResolution": 1,
+      "discovery": 0,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "elapsedMs": 362347
+  },
+  "artifactPath": "/Users/wangzhour/.codex/worktrees/p1-g2-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-15T08-00-36-360Z-d808d9f3-cedd-4c2e-aa43-bc70362ef61d.result.json",
+  "evaluationPath": "/Users/wangzhour/.codex/worktrees/p1-g2-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-15T08-00-36-360Z-d808d9f3-cedd-4c2e-aa43-bc70362ef61d.result.evaluation.27-1792051598806.json",
+  "latencyMs": 362347,
+  "scorerStatus": "FULL_RUBRIC_NOT_INTEGRATED"
+}

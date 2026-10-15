@@ -1,15 +1,17 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.205
+- Document revision: 4.206
 - Last updated: 2026-10-15
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
 
+- **2026-10-15 P1-G2 h001正式Live完成：** 网络恢复后用户追加授权一次preflight，TableCheck206后运行SUCCEEDED/NO_VERIFIED_RESULT；REJECTION_LIMIT经系统终止路径得到READ_ENDED，零交付。362.347秒、44模型/1Google、44决策一致、等待24.14%、未观察浏览器超时。evaluator@27 qualified NO、COMPLETION_OUTCOME NOT_EVALUATED（未记录其要求的END_READ观察），不自行签收；录制NOT_REPLAYABLE。冻结b55e91c/CLEAN，外层ec4aa86b；累计1014/1500模型、37Live、Google确认23/历史UNKNOWN、P1-G2环境预留1。报告P1-G2节，唯一运行完成、心跳暂停，停止待独立复核，不推送。
+
 - **2026-10-15 TableCheck403诊断：** 原Range及无Range公开GET均返回相同nginx403；DNS/TLS及证书校验成功。远端HTTP拒绝已观察，具体出口IP／地区／客户端策略未确定，未测试Chromium；不修改预检规则、不继续Live。诊断证据P1-G2/tablecheck-403-diagnostic/，0新增模型／Google业务／Live。
 
-- **2026-10-15 P1-G2离线修复：** 两次h001真实前状态按轨迹哈希准确重建；推进时钟下旧代码2/2 FAILED，命中END_READ动作校验（旧now早于结束窗口openedAt，状态failure均空）。现由系统终止事件直接写带原因与已查／未查范围的NO_VERIFIED_RESULT；合格交付保持原规则。真实状态回归＋生产Guard L1三组合通过，四门禁862/862；Prompt/Schema/Evaluator/资格不改，服务商拒绝／未捕获异常／中断与安全失败反例保持FAILED。修复提交b55e91c，生产冻结在新的CLEAN p1-g2-live工作树，报告P1-G2节。外层元数据已依用户直接运行指令同步；三次preflight分别Google超时、TableCheck403、TableCheck403，均未启动Live；第三次按十分钟后重试执行，次数用尽记ENV_FAILURE，心跳已暂停，不再重试；累计仍970/1500模型、36Live，0新增环境重跑。生产b55e91c/CLEAN、最新外层SHA2fe4ab99，不推送，实际链路仍未验证。
+- **2026-10-15 P1-G2离线修复：** 两次h001真实前状态按轨迹哈希准确重建；推进时钟下旧代码2/2 FAILED，命中END_READ动作校验（旧now早于结束窗口openedAt，状态failure均空）。现由系统终止事件直接写带原因与已查／未查范围的NO_VERIFIED_RESULT；合格交付保持原规则。真实状态回归＋生产Guard L1三组合通过，四门禁862/862；Prompt/Schema/Evaluator/资格不改，服务商拒绝／未捕获异常／中断与安全失败反例保持FAILED。修复提交b55e91c，生产冻结在新的CLEAN p1-g2-live工作树，报告P1-G2节。外层元数据已依用户直接运行指令同步；前三次预检失败保留历史，网络恢复后的最新授权及Live终止观察见最上方记录；生产b55e91c/CLEAN、最新外层ec4aa86b，0环境重跑，不推送，待独立复核。
 
 - **2026-10-12 P1-G 四次 Live 完成：** 冻结9b34287/CLEAN；吉祥寺地点解析成功但零交付NO，h001仍FAILED/REJECTION_LIMIT（诚实结束目标未兑现），h003展示Aloft by Marriott Tokyo Ginza/150m/TableCheck/自动UNKNOWN，h004零交付NO。新增171模型/6Google/4Live，累计970/1500模型、36正式Live、Google已确认22（历史完整UNKNOWN），环境重跑0/预留2。7次preflight中3次503未启动、间隔≥15分钟；吉祥寺运行后见证GET已存，唯一TableCheck交付留原trace。报告 `.eval-artifacts/p1-g-20261012/report.md`。四门禁853/853只证明L0/L1；不能关闭h001实际链路缺口，四份录制NOT_REPLAYABLE/UNSAFE_DOCUMENT，多跳重定向仍已知边界。停止等待独立复核，不推送。
 
