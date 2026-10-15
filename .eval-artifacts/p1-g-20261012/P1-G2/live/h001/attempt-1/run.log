@@ -1,0 +1,14 @@
+/Users/wangzhour/.codex/worktrees/p1-g2-live/Praxis-Zhixing/src/eval/restaurant/agent-loop/live-preflight.ts:324
+    throw new LivePreflightError(code, journal.resultPath);
+          ^
+
+
+LivePreflightError: PREFLIGHT_TIMEOUT
+    at runLivePreflight (/Users/wangzhour/.codex/worktrees/p1-g2-live/Praxis-Zhixing/src/eval/restaurant/agent-loop/live-preflight.ts:324:11)
+    at async runHybridLiveRead (/Users/wangzhour/.codex/worktrees/p1-g2-live/Praxis-Zhixing/src/eval/restaurant/agent-loop/runners/run-hybrid-live-read.ts:219:19)
+    at async <anonymous> (/Users/wangzhour/.codex/worktrees/p1-g2-live/Praxis-Zhixing/src/eval/restaurant/agent-loop/runners/run-hybrid-live-read.ts:527:85) {
+  code: 'PREFLIGHT_TIMEOUT',
+  artifactPath: '/Users/wangzhour/.codex/worktrees/p1-g2-live/Praxis-Zhixing/.eval-artifacts/live-preflight/2026-10-15T05-51-26-497Z-2b1bb566-4d54-4f8d-8227-2996756dba56.result.json'
+}
+
+Node.js v24.4.1

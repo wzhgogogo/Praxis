@@ -1,0 +1,146 @@
+{
+  "mode": "B",
+  "id": "h001",
+  "attempt": 2,
+  "startedAt": "2026-10-15T06:00:33.310Z",
+  "head": "b55e91c9157c1b5fcae20cf25efb56155147863b",
+  "worktree": "CLEAN",
+  "sourcePath": "/Users/wangzhour/.codex/worktrees/p1-g2-live/Praxis-Zhixing/src/eval/restaurant/agent-loop/cases/e2e-cases.gold7.yaml",
+  "sourceSha256": "b346150074493e5a82e3d0dfb5ea5d18b3dbef17bb06d5101dfb15dfeb3ea40e",
+  "command": [
+    "node",
+    "--env-file-if-exists=/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.env",
+    "--import",
+    "tsx",
+    "--import",
+    "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-g-20261012/P1-G2/scripts/observe.mjs",
+    "src/eval/restaurant/agent-loop/runners/run-hybrid-live-read.ts",
+    "--case",
+    "h001",
+    "--record-browser",
+    "--record-decisions",
+    "--no-proxy",
+    "--timeout-ms",
+    "500000",
+    "--max-model-calls",
+    "50",
+    "--max-google-requests",
+    "40"
+  ],
+  "freezeManifest": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-g-20261012/P1-G2/scripts/freeze.json",
+  "endedAt": "2026-10-15T06:00:42.074Z",
+  "wallMs": 8764,
+  "exit": {
+    "code": 1,
+    "signal": null
+  },
+  "stop": null,
+  "newFiles": [],
+  "results": [],
+  "preflight": {
+    "mode": "LIVE_NETWORK_PREFLIGHT",
+    "preflightVersion": "live-network-preflight@1",
+    "runner": "HYBRID_LIVE_READ",
+    "plannedTargets": [
+      "DEEPSEEK",
+      "GOOGLE",
+      "TABELOG",
+      "TABLECHECK"
+    ],
+    "timeoutMs": 10000,
+    "generationModelCalls": 0,
+    "restaurantDiscoveryRequests": 0,
+    "evaluator": {
+      "applicability": "NOT_APPLICABLE",
+      "reason": "NETWORK_ONLY_DIAGNOSTIC_HAS_NO_RESTAURANT_CLAIM"
+    },
+    "network": {
+      "proxyMode": "DISABLED_BY_CLI"
+    },
+    "status": "FAILED",
+    "stage": "NETWORK_READINESS",
+    "failureCode": "PREFLIGHT_PUBLIC_ENDPOINT_REJECTED",
+    "attempts": [
+      {
+        "target": "DEEPSEEK",
+        "request": {
+          "method": "GET",
+          "url": "https://api.deepseek.com/models",
+          "range": "NONE",
+          "authorization": "PRESENT"
+        },
+        "elapsedMs": 1468,
+        "outcome": "REACHABLE",
+        "status": 200,
+        "tls": "ESTABLISHED"
+      },
+      {
+        "target": "GOOGLE",
+        "request": {
+          "method": "GET",
+          "url": "https://places.googleapis.com/",
+          "range": "NONE",
+          "authorization": "ABSENT"
+        },
+        "elapsedMs": 1623,
+        "outcome": "REACHABLE",
+        "status": 404,
+        "tls": "ESTABLISHED"
+      },
+      {
+        "target": "TABELOG",
+        "request": {
+          "method": "GET",
+          "url": "https://tabelog.com/",
+          "range": "BYTES_0_0",
+          "authorization": "ABSENT"
+        },
+        "elapsedMs": 1412,
+        "outcome": "REACHABLE",
+        "status": 200,
+        "tls": "ESTABLISHED"
+      },
+      {
+        "target": "TABLECHECK",
+        "request": {
+          "method": "GET",
+          "url": "https://www.tablecheck.com/en/",
+          "range": "BYTES_0_0",
+          "authorization": "ABSENT"
+        },
+        "elapsedMs": 1835,
+        "outcome": "FAILED",
+        "status": 403,
+        "tls": "ESTABLISHED",
+        "failureCode": "PREFLIGHT_PUBLIC_ENDPOINT_REJECTED"
+      }
+    ],
+    "elapsedMs": 6342,
+    "configuration": {
+      "proxyMode": "DISABLED_BY_CLI",
+      "googleProxyConfigured": false,
+      "browserProxyConfigured": false
+    },
+    "schemaVersion": "1",
+    "runId": "7a481659-5df1-401c-afaa-2cb052625d17",
+    "startedAt": "2026-10-15T06:00:35.715Z",
+    "finishedAt": "2026-10-15T06:00:42.058Z"
+  },
+  "formalRunStarted": false,
+  "balance": {
+    "requestedAt": "2026-10-15T06:00:33.312Z",
+    "method": "GET",
+    "url": "https://api.deepseek.com/user/balance",
+    "available": true,
+    "status": 200,
+    "bodyPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p1-g-20261012/P1-G2/live/h001/attempt-2/balance.body.json",
+    "sha256": "fc1687caed091563c49768857661d225478ba7de1bcbd5ef4c5417fb1df60732",
+    "finishedAt": "2026-10-15T06:00:35.320Z"
+  },
+  "deliveryCount": null,
+  "resourceUsage": null,
+  "postDelivery": null,
+  "witnessRaw": [],
+  "evaluation": null,
+  "classification": "FACTS_ONLY; independent classification pending"
+}

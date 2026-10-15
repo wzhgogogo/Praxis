@@ -207,3 +207,23 @@ P1-G2提交前核对：源码／文档／JSON的git diff --check通过；原始�
 P1-G2离线修复已提交并冻结。复核原文在本机Desktop范围、可访问Pages及GitHub默认分支检索均未找到匹配；运行前待原文路径／链接，以及外层过期时窗、已完成账本／输出目录和新用量计数的最小同步答复。未修改或执行旧脚本，未调用余额GET／preflight／Live。依赖沿用既有本机目录内链接，不安装、不联网。
 
 说明：未找到复核原文不改变用户本条已明确的批准／范围和转述结论；不声称已读原文。原文路径已询问，离线修复并不以此为审批前置。当前Live的实际约束是“外层只改冻结提交号”与已过期硬编码时窗／已完成账本的冲突，元数据同步答复尚未到达，不能自行绕过。冻结树真实状态回归9/9通过，日志P1-G2/frozen-state-green.log，0真实调用。
+
+### P1-G2 h001补跑执行记录（用户直接指令后）
+
+用户最新“跑一次h001”后，仅同步本次外层时窗、账本／输出路径、冻结号和用量基数，具体diff为P1-G2/outer-metadata.diff；balance/post-delivery/observe/reviewed-reads四份代码逐字不变。生产仍b55e91c/CLEAN，新execute SHA1b8851c17eb5488d11fd800c32ae8cce67dae94d0ca919e3f98e2a0355cb849a，9个冻结文件SHA一致。离线空跑P1-G2/dry-run.json PASS，0模型／网络；只允许h001 Gold@7。新账本起点970/1500模型、36Live，正式至37、启动后环境重跑最多1次、总上限38。
+
+第1次preflight UTC2026-10-15T05:51:25.698Z启动，05:51:36.741Z结束：balance可用，DeepSeek200可达，Google公共入口10秒TLS／网络就绪超时（PREFLIGHT_TIMEOUT），尚未检查到Tabelog／TableCheck。正式运行未启动，0新增模型／Google业务／Live／环境重跑，evaluator不适用。证据P1-G2/live/h001/attempt-1/{finish,preflight,balance.metadata,summary}.json及run.log。最早第2次UTC06:06:36.741Z／东京15:06:36.741，保持15分钟间隔，不额外探测或改配置。
+
+
+### 网络切换后的即时重试（第2次 preflight）
+
+用户“你直接重跑一次，我切了tun和全局”明确要求即时重试。只为h001第2次preflight增加一次间隔例外，真实时间与账本保留；其余尝试仍至少15分钟。生产b55e91c/CLEAN、no-proxy、预算、Guard和交付后核验保持。重新冻结execute SHA `2fe4ab99c69bc11a7c181aec3973aab91be5e3b60c8ca77c0a764e8f70369a35`；9文件SHA和离线空跑通过，证据network-change-authorization.json、scripts/freeze.json、dry-run-after-network-change.json。此前1b8851c为第1次准备版本，已被本SHA替代。
+
+| 尝试 | preflight UTC / 东京 | 结果 | 新增模型 / Google业务 / Live / 环境重跑 |
+|---|---|---|---|
+| h001 #1 | 05:51:25.698–05:51:36.741 / 14:51 | Google公共入口TLS超时，未到TableCheck | 0 / 0 / 0 / 0 |
+| h001 #2 | 06:00:35.715–06:00:42.058 / 15:00 | DeepSeek200、Google404（可达）、Tabelog200；TableCheck403，PREFLIGHT_PUBLIC_ENDPOINT_REJECTED | 0 / 0 / 0 / 0 |
+
+第2次外层总耗时8,764ms，preflight6,342ms；余额GET可用。正式h001尚未启动，没有result/decisions/recording或evaluator评价；evaluator为NOT_APPLICABLE（仅网络预检）。没有交付，故无交付后GET或见证GET。原始证据 `P1-G2/live/h001/attempt-2/{start,finish,preflight,balance.metadata,balance.body,summary}.json`、run.log、trace.jsonl；外层stdout为P1-G2/h001-outer-attempt-2.log。
+
+累计仍970/1500模型、36正式Live、Google已确认22／历史完整UNKNOWN；本批启动后环境重跑0/1。共2次preflight均未正式启动，不计Live或环境预留。用户要求的这一次即时重试已完成，未安排自动第3次；若继续，仍余1次preflight，最早UTC06:15:42.058／东京15:15:42.058（现有时窗和500秒剩余约束仍适用）。只报告环境事实，不能以离线绿灯宣布Live故障关闭。生产未改，本次仅外层授权元数据和运行证据／文档；复用四门禁862/862，离线检查与真实网络预检分列。本地提交，不推送。

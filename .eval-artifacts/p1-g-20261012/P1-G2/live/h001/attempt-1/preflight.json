@@ -1,0 +1,62 @@
+{
+  "mode": "LIVE_NETWORK_PREFLIGHT",
+  "preflightVersion": "live-network-preflight@1",
+  "runner": "HYBRID_LIVE_READ",
+  "plannedTargets": [
+    "DEEPSEEK",
+    "GOOGLE",
+    "TABELOG",
+    "TABLECHECK"
+  ],
+  "timeoutMs": 10000,
+  "generationModelCalls": 0,
+  "restaurantDiscoveryRequests": 0,
+  "evaluator": {
+    "applicability": "NOT_APPLICABLE",
+    "reason": "NETWORK_ONLY_DIAGNOSTIC_HAS_NO_RESTAURANT_CLAIM"
+  },
+  "network": {
+    "proxyMode": "DISABLED_BY_CLI"
+  },
+  "status": "FAILED",
+  "stage": "NETWORK_READINESS",
+  "failureCode": "PREFLIGHT_TIMEOUT",
+  "attempts": [
+    {
+      "target": "DEEPSEEK",
+      "request": {
+        "method": "GET",
+        "url": "https://api.deepseek.com/models",
+        "range": "NONE",
+        "authorization": "PRESENT"
+      },
+      "elapsedMs": 241,
+      "outcome": "REACHABLE",
+      "status": 200,
+      "tls": "ESTABLISHED"
+    },
+    {
+      "target": "GOOGLE",
+      "request": {
+        "method": "GET",
+        "url": "https://places.googleapis.com/",
+        "range": "NONE",
+        "authorization": "ABSENT"
+      },
+      "elapsedMs": 10002,
+      "outcome": "FAILED",
+      "tls": "NOT_ESTABLISHED",
+      "failureCode": "PREFLIGHT_TIMEOUT"
+    }
+  ],
+  "elapsedMs": 10244,
+  "configuration": {
+    "proxyMode": "DISABLED_BY_CLI",
+    "googleProxyConfigured": false,
+    "browserProxyConfigured": false
+  },
+  "schemaVersion": "1",
+  "runId": "2b1bb566-4d54-4f8d-8227-2996756dba56",
+  "startedAt": "2026-10-15T05:51:26.497Z",
+  "finishedAt": "2026-10-15T05:51:36.741Z"
+}

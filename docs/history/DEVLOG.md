@@ -3466,3 +3466,8 @@ User explicitly approved immediate P1-G execution; scheduled heartbeat PAUSED. O
 P1-G2 uses actual P1-F/G h001 event prefixes and verifies trajectory hashes before scrubbing state fixtures. The blocker is END_READ validation with a captured time earlier than persisted reserve openedAt, not state.failure (both null). Reuse AGENT_LOOP_TERMINATED for direct domain-owned NO_VERIFIED_RESULT with actual checked/unread gaps; eligible presentation keeps existing Validator/Router/Reducer and resamples time. Minimal read-phase transition in task-definition, no new event/Schema/Prompt/Evaluator/qualification change. Explicit system failures and unowned execution remain FAILED; local failures and model/step budgets give a user result. Shared summary has two real consumers. Scope/proof in .eval-artifacts/p1-g-20261012/report.md#p1-g2（2026-10-15）. Live and outer metadata pending; no push.
 
 冻结补记：修复提交b55e91c，独立CLEAN工作树p1-g2-live，源码及Gold SHA与主树一致；复用已有本机依赖、不安装。生产冻结记录P1-G2/production-freeze.json。复核原文／外层过期批次信息待用户答复，尚无preflight、余额GET或Live；本地提交不推送。
+
+
+## DEV-2026-10-15-P1G2-preflight-retry
+
+用户“跑一次h001”后同步外层批次元数据并离线空跑；Google预检超时未启动。用户切换TUN和全局后要求即时重试，仅h001第2次获一次间隔例外，重新冻结execute SHA2fe4ab99（9文件SHA核对）。第2次UTC06:00:35.715–06:00:42.058：DeepSeek200、Google404可达、Tabelog200、TableCheck403，PREFLIGHT_PUBLIC_ENDPOINT_REJECTED；余额可用。两次均未启动正式Live，新增模型／Google业务／Live／环境重跑均0；累计970/1500、36Live、Google确认22／历史UNKNOWN。本次即时重试完成，未安排第三次；若继续须遵守剩余15分钟间隔与时窗。生产b55e91c/CLEAN、no-proxy及安全规则不变，evaluator不适用，无result／决策／录制。证据与报告见 .eval-artifacts/p1-g-20261012/P1-G2/ 及 report.md。只改外层和文档，复用修复四门禁862/862，离线空跑和冻结核验PASS；不推送、不宣称实际链路已关闭。
