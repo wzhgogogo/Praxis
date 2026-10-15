@@ -1,7 +1,7 @@
 # Browser Read Diagnostics
 
 - Status: Accepted
-- Document revision: 0.17
+- Document revision: 0.18
 - Last updated: 2026-10-15
 - Source of truth for: 单页浏览器只读诊断操作与证据范围
 - Related ADRs: [ADR-0015](../decisions/0015-supported-source-search-evidence.md)、[ADR-0016](../decisions/0016-local-eval-browser-profile-lifecycle.md)
@@ -23,7 +23,9 @@ TableCheck/Tabelog和Google-listed官网路径共用Guard。Generic档允许非�
 `.eval-artifacts/p1-f-20261011/review-p1f-eval-test-p0-20261012.md`；按用户决定，
 P1-F沿用冻结版本，结束后首先修复，且必须在任何预约相关工作之前完成。Guard单测中
 模拟"跳转后重新进入handler"的假对象不反映真实行为，修复时一并替换为真实浏览器测试。
-**当前实现（2026-10-15 P2-0）：** 976baaa已安装CDP Fetch，在重定向的每次请求发出前重新准入并逐跳录制，原放行规则不变；上述首跳限制仅描述历史冻结版本。真实Chromium本地Fixture14/14通过；完整浏览器套件两项既有失败保留，外部站点的通用正确性仍不由本地Fixture保证。当前两次Live与独立复核状态见[STATUS](../STATUS.md)和[本批报告](../../.eval-artifacts/p2-0-hardening-20261015/report.md)。
+**P2-0起点（2026-10-15）：** 976baaa安装CDP Fetch，在识别到的重定向请求发出前重新准入并逐跳录制，原放行规则不变；上述首跳限制仅描述历史冻结版本。P2-0真实Chromium本地Fixture14/14通过，当时完整套件仍有两项dynamic Fixture失败。P2-0已独立复核通过，h001追加见证后的改判以[独立复核](../../.eval-artifacts/p2-0-hardening-20261015/independent-review.md)为准。
+
+**T1当前实现（全离线）：** CDP所有Request阶段暂停均检查既有origin／方法／资源类型策略，不再把缺redirectedRequestId／目标标记当成跳过检查的理由。Fetch把worker入口报Other时，按相同networkId读取Network.requestWillBeSent权威类型（与Playwright route一致）；缺证据仍拒绝，不新增Other或来源放行规则。正常worker必须实际读取脚本，其跨源fetch仍阻断。八种Location规范化写法未复现原生跳转漏识别，保留为未复现，不冒充漏洞复现；另隔离普通route、用真实CDP和本地接收端证实未知初始请求的origin／POST／资源类型三反例先红后绿。两条dynamic Fixture在T1-2修复并全绿；全部命令、范围和最后门禁见[T1报告](../../.eval-artifacts/t1-assembly-20261015/report.md)。本地Fixture不证明当前外站兼容性、真实模型或Web Live。
 未知GET副作用是已接受的限制。
 
 ### 分阶段来源探针

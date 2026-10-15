@@ -26,7 +26,7 @@
 | 3 | 当前进程语义调用被查询误判成上个进程中断 | `03-web-owner/red-confirmed.log` FAILED≠UNDERSTANDING；`green.log` 并发＋重启2/2 | 完成；四条代码门禁见同目录 |
 | 4 | 外部信号永不达到时测试挂起 | `04-bounded-waits/red.log` 超时标签断言红；`green.log` Web28/28 | 完成；四门禁见同目录 |
 | 5 | 旧手工组装重复覆盖／不再验证当前链路 | `05-retirement/red-metadata.log` 额度状态断言红；`green-targeted.log` 全组合＋Router绿 | 完成；四门禁与额外Chromium见同目录 |
-| 6 | CDP 无法识别跳转时未核对策略便放行 | 待补 | 未开始 |
+| 6 | CDP 无法识别跳转时未核对策略便放行 | `06-cdp/red-confirmed.log` 三类真实receiver断言红；`green-targeted.log` 26/26 | 完成；原生规范化未复现按允许分支交付，Chromium112/112 |
 
 ## 2 浏览器必跑门禁与动态 Fixture
 
@@ -77,6 +77,31 @@ P2-0遗留loop三默认、Router两默认、Executor 300000ms默认及native fac
 新增检错不是数量增长：迁入真实生产外层后，原Google quota控制发现SourceAwareFactRead丢失googleRequests／failureCode，State未记录EXHAUSTED（red-metadata.log）。只透传已有元数据，不改策略；同一100正常／1耗尽控制修复后通过，仍实际到达独立浏览器。原有限变异四项的正常／错误目标断言继续运行通过，不接受任意运行异常。`01-assembly`旧12阈值隔离红绿也作为退役后的预算接线覆盖，不另造一份实现形状断言。
 
 命令：`node --import tsx --test src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts src/harness/restaurant-execution-router.test.ts`（85/85）。四条门禁与因fact Adapter接线变化追加的完整Chromium门禁日志在`05-retirement/`；默认881/881。删除一条旧实现控制，七组行为迁层保留，未用测试数增减验收。
+
+## 6 CDP所有暂停请求按策略准入
+
+Request阶段任何continueRequest前，独立于redirectedRequestId／expectedRedirectTargets，检查原有origin、method、resource type、URL及字段规则；失败立即Fetch.failRequest。跳转标记只用于链计数；原10跳／时间／Replay限制不变。不新增来源、Other类别、公共POST或敏感GET例外。
+
+原生规范化尝试：在隔离旧Guard上用真实Chromium A→A/normalize-hop→禁用B，尝试fragment、字面dot-segment、编码dot-segment、percent-escaped字母、escaped query、反斜杠、UTF-8路径编码、protocol-relative。八种写法第一跳均实际到达A/normalize-hop，B零到达，均被已有后续检查拒绝；**未复现“缺失redirect标记的原生跳转逃逸”**。按指令允许的未复现分支交付，不制造CDP事件冒充复现。red-confirmed.log／green-targeted.log逐项记录。
+
+额外有限检错：只在测试context移除普通route，不手工调用handler或注入CDP事件。先让允许的A/page真实到达，再分别发出未准入origin的document、同源普通POST、对仅允许stylesheet路径的document。旧CDP把无跳转标记的请求直接continue，三个禁用接收端各实际收到1次（目标断言红）；修后各0且有BLOCKED诊断。正常A/page必须到达，不是全拦。原CSS正确类型、公开跳转URL／相对路径／cookie／逐跳录制、iframe／popup／worker继续通过。
+
+新增检查初次误拒worker入口：Fetch.resourceType=Other，而Playwright使用同一请求的Network.requestWillBeSent类型Script。改为按networkId使用相同权威类型；缺证据仍拒绝Other，未按后缀／来源／任意header猜类型。worker-diagnostic.log保存误拒，worker-network-type.log保存正常worker与跨源fetch拒绝对照；正常控制须实际读取worker脚本，等待增加错误及2秒有界出口。首次Unicode未编码HTTP头是Node样本错误，red-cdp-and-attempts.log保留且排除检错；修正后red-confirmed.log只剩三个目标断言失败。
+
+命令：`node --import tsx --test --test-name-pattern='T1 native redirect|T1 CDP' src/harness/browser/read-network-redirect.test.ts`（隔离旧Guard红）；完整文件绿26/26。`06-cdp/`保存typecheck、arch:check、npm test（881/881）、build和最终独立browser.log（112/112，221792ms），全部全绿。仅本地两个HTTP receiver／真实Chromium，无外部见证GET、Google、付费模型或Live。
+
+## 门禁与提交索引
+
+| 项 | 本地提交 | 红／绿日志目录 | typecheck | arch:check | npm test | build | test:browser:fixture |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 共享组装 | dcc1ad3（Hybrid续由第5项完成） | `01-assembly/` | PASS | PASS | 880/880 | PASS | 100/100 |
+| 2 浏览器门禁／Fixture | c256cc2 | `02-browser/` | PASS | PASS | 879/879 | PASS | 100/100 |
+| 3 Web并发 | 7b048bd | `03-web-owner/` | PASS | PASS | 881/881 | PASS | 不触发；浏览器机制未变 |
+| 4 有界等待 | 7626b89 | `04-bounded-waits/` | PASS | PASS | 882/882 | PASS | 不触发；仅Web测试同步 |
+| 5 退役／迁移 | 4baf329 | `05-retirement/` | PASS | PASS | 881/881 | PASS | 100/100 |
+| 6 CDP | 提交后补号 | `06-cdp/` | PASS | PASS | 881/881 | PASS | 112/112 |
+
+各项实际四条命令为`npm run typecheck`、`npm run arch:check`、`npm test`、`npm run build`，对应目录同名log；第1/2/6项及因fact Adapter接线变化的第5项额外运行`npm run test:browser:fixture`。不以默认测试替代Chromium。无skip/todo隐藏。原始日志保留测试框架空白字节，源码／文档另做diff格式检查。各项红灯均核对目标行为断言，样本错误单列。
 
 ## 两种宿主与外部边界
 

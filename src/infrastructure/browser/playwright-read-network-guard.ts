@@ -156,6 +156,12 @@ export class PlaywrightReadNetworkGuard {
     type On = (method: string, handler: (params: any) => void) => void;
     let sequence = 0;
     const configure = async (send: Send, on: On): Promise<void> => {
+      // Fetch can label a worker script "Other". Use the same Network type
+      // that Playwright's ordinary request boundary uses, keyed by networkId.
+      const networkTypes = new Map<string, string>();
+      on("Network.requestWillBeSent", event => { if (event.type) networkTypes.set(event.requestId, event.type); });
+      on("Network.loadingFinished", event => { networkTypes.delete(event.requestId); });
+      on("Network.loadingFailed", event => { networkTypes.delete(event.requestId); });
       const pending = new Map<number, { resolve: (value: any) => void; reject: (error: Error) => void }>();
       const childEvents = new Map<string, Map<string, (params: any) => void>>();
       on("Target.receivedMessageFromTarget", event => {
@@ -184,7 +190,7 @@ export class PlaywrightReadNetworkGuard {
       on("Fetch.requestPaused", event => {
         const process = async () => {
           const url = new URL(event.request.url), method = event.request.method;
-          const type = String(event.resourceType).toLowerCase();
+          const type = String(networkTypes.get(event.networkId) ?? event.resourceType).toLowerCase();
           const request = { headerValue: async (name: string) => Object.entries(event.request.headers as Record<string, string>).find(([key]) => key.toLowerCase() === name.toLowerCase())?.[1] ?? null, postData: () => event.request.postData ?? null };
           if (event.responseStatusCode !== undefined) {
             const entry = redirected.get(event.requestId);
@@ -214,14 +220,21 @@ export class PlaywrightReadNetworkGuard {
           const expected = this.expectedRedirectTargets.get(requestKey(url.toString()));
           this.expectedRedirectTargets.delete(requestKey(url.toString()));
           const isRedirect = Boolean(event.redirectedRequestId) || Boolean(expected);
+          // Redirect metadata is only for chain accounting, never authority.
+          // Chromium-native redirects may bypass Playwright's ordinary route;
+          // a missing marker or normalized target must not bypass this policy.
+          if (!await this.admitsRedirectRequest(url, request, method, type)) {
+            this.blocked(isRedirect ? "BLOCKED_REDIRECT" : ["GET", "HEAD"].includes(method) ? "BLOCKED_ENDPOINT" : "BLOCKED_METHOD", url, method, type);
+            await send("Fetch.failRequest", { requestId: event.requestId, errorReason: "BlockedByClient" }); return;
+          }
           const previous = event.redirectedRequestId ? chains.get(event.redirectedRequestId) : undefined;
           chains.set(event.requestId, expected ?? { hops: previous ? previous.hops + 1 : isRedirect ? 1 : 0, started: previous?.started ?? Date.now() });
-          // Initial requests continue to the ordinary context route boundary.
+          // An admitted unrecognized/initial request also traverses the normal route.
           if (!isRedirect) { await send("Fetch.continueRequest", { requestId: event.requestId }); return; }
           const chain = chains.get(event.requestId)!;
           // HAR never gets a live-network fallback for a redirect it did not
           // fulfill itself. Every request that reaches this branch is native.
-          if (replay || chain.hops >= 10 || Date.now() - chain.started >= this.requestTimeoutMs || !await this.admitsRedirectRequest(url, request, method, type)) {
+          if (replay || chain.hops >= 10 || Date.now() - chain.started >= this.requestTimeoutMs) {
             this.blocked("BLOCKED_REDIRECT", url, method, type);
             await send("Fetch.failRequest", { requestId: event.requestId, errorReason: "BlockedByClient" }); return;
           }
@@ -236,6 +249,7 @@ export class PlaywrightReadNetworkGuard {
         };
         void process().catch(async () => { this.blocked("READ_REQUEST_FAILED", new URL(event.request.url), event.request.method, String(event.resourceType).toLowerCase()); await send("Fetch.failRequest", { requestId: event.requestId, errorReason: "Failed" }).catch(() => {}); });
       });
+      await send("Network.enable");
       await send("Fetch.enable", { patterns: [{ urlPattern: "*", requestStage: "Request" }] });
       await send("Target.setAutoAttach", { autoAttach: true, waitForDebuggerOnStart: true, flatten: false });
     };

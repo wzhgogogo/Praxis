@@ -3549,3 +3549,8 @@ ADR-0040 后两条动态 Chromium 组合仍使用只会操作日期/人数的旧
 ## DEV-2026-10-15-T1-5-RETIREMENT
 
 删除Hybrid手工读取组装，完整来源测试由production factory产生所有读取组件／共享额度；两处真实使用者共用外部样本helper。删除一条旧adapter-only接线细节测试，七组有价值的部分端口契约迁至既有Router harness，明确不证明完整Adapter链路。迁移抓到SourceAware丢额度状态元数据，先红后绿补透传；策略／资格不变。清单与门禁见T1 report／05-retirement，仅离线。
+
+
+## DEV-2026-10-15-T1-6-CDP
+
+CDP每个Request暂停均执行既有策略，未知redirect标记不再直接放行；按networkId使用Network权威类型，维持Playwright脚本语义，不新增Other放行。八种规范化未复现原生跳转漏检，按指令允许分支交付；真实CDP隔离route后三类禁用receiver先红后绿，正常worker实际执行而跨源fetch仍被拦。T1 report／06-cdp保存范围与五门禁；全离线、不推送。

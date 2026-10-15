@@ -4249,3 +4249,8 @@ Docs only：合并远端b36ec7f及其文档前序提交与本地P2-0六个提交
 ## TEST-2026-10-15-T1-5-RETIREMENT
 
 Hybrid完整生产factory＋Router部分端口分层85/85；正常100／耗尽1的Google配对进入真实SourceAware后，额度状态undefined红，透传已有metadata后EXHAUSTED绿。原隔离有限变异四项仍要求对应目标断言、正常控制通过。退役一条旧实现控制，七组迁层不删行为，实际runCeilings取factory；四条代码门禁默认881/881，附加Chromium日志均在`t1-assembly-20261015/05-retirement/`。不代表模型理解／当前网站通过，无Live。
+
+
+## TEST-2026-10-15-T1-6-CDP
+
+真实Chromium八种Location规范化第一跳均到达A/hop、禁用B零到达，旧版未复现原生跳转逃逸。CDP-only三个禁用请求旧版各实际到达1次（目标断言红），修后0且允许控制实际到达。Guard26/26含worker脚本实际执行／跨源拒绝、CSS类型、popup/iframe、录制和cookie控制。四条代码门禁881/881，最后完整Chromium及样本错误区分见`t1-assembly-20261015/06-cdp/`，无外网／真实模型／Live。

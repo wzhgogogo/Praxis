@@ -1,0 +1,101 @@
+▶ T1 native redirect URL-normalization attempts keep forbidden receivers untouched
+  ✔ fragment (180.214ms)
+  ✔ dot (147.565459ms)
+  ✔ encodedDot (133.210958ms)
+  ✔ escaped (133.925458ms)
+  ✔ queryEscape (151.153167ms)
+  ✔ slash (147.620084ms)
+  ✖ unicode (101.515417ms)
+  ✔ protocolRelative (131.741125ms)
+✖ T1 native redirect URL-normalization attempts keep forbidden receivers untouched (1127.786333ms)
+ℹ {"form":"fragment","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"dot","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"encodedDot","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"escaped","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"queryEscape","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"slash","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"protocolRelative","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+✖ T1 CDP independently rejects an unrecognized paused origin request (132.740375ms)
+✖ T1 CDP independently rejects an unrecognized paused method request (134.244458ms)
+✖ T1 CDP independently rejects an unrecognized paused resource-type request (150.376416ms)
+✖ src/harness/browser/read-network-redirect.test.ts (59044.652125ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 7
+ℹ fail 5
+ℹ cancelled 1
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 59047.313042
+
+✖ failing tests:
+
+test at src/harness/browser/read-network-redirect.test.ts:1:9974
+✖ unicode (101.515417ms)
+  TypeError [ERR_INVALID_CHAR]: Invalid character in header content ["location"]
+      at ServerResponse.setHeader (node:_http_outgoing:645:3)
+      at ServerResponse.writeHead (node:_http_server:401:21)
+      at redirect (/private/tmp/praxis-t1-red-QdUozy/src/harness/browser/read-network-redirect.test.ts:25:50)
+      at Server.<anonymous> (/private/tmp/praxis-t1-red-QdUozy/src/harness/browser/read-network-redirect.test.ts:36:14)
+      at Server.emit (node:events:507:28)
+      at parserOnIncoming (node:_http_server:1153:12)
+      at HTTPParser.parserOnHeadersComplete (node:_http_common:117:17) {
+    code: 'ERR_INVALID_CHAR'
+  }
+
+test at src/harness/browser/read-network-redirect.test.ts:1:10640
+✖ T1 CDP independently rejects an unrecognized paused origin request (132.740375ms)
+  AssertionError [ERR_ASSERTION]: CDP must reject the unrecognized origin request before receiver arrival
+  
+  1 !== 0
+  
+      at <anonymous> (/private/tmp/praxis-t1-red-QdUozy/src/harness/browser/read-network-redirect.test.ts:189:10)
+      at async fixture (/private/tmp/praxis-t1-red-QdUozy/src/harness/browser/read-network-redirect.test.ts:72:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/read-network-redirect.test.ts:1:10640
+✖ T1 CDP independently rejects an unrecognized paused method request (134.244458ms)
+  AssertionError [ERR_ASSERTION]: CDP must reject the unrecognized method request before receiver arrival
+  
+  1 !== 0
+  
+      at <anonymous> (/private/tmp/praxis-t1-red-QdUozy/src/harness/browser/read-network-redirect.test.ts:189:10)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async fixture (/private/tmp/praxis-t1-red-QdUozy/src/harness/browser/read-network-redirect.test.ts:72:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/read-network-redirect.test.ts:1:10640
+✖ T1 CDP independently rejects an unrecognized paused resource-type request (150.376416ms)
+  AssertionError [ERR_ASSERTION]: CDP must reject the unrecognized resource-type request before receiver arrival
+  
+  1 !== 0
+  
+      at <anonymous> (/private/tmp/praxis-t1-red-QdUozy/src/harness/browser/read-network-redirect.test.ts:189:10)
+      at async fixture (/private/tmp/praxis-t1-red-QdUozy/src/harness/browser/read-network-redirect.test.ts:72:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/read-network-redirect.test.ts:1:1
+✖ src/harness/browser/read-network-redirect.test.ts (59044.652125ms)
+  'Promise resolution is still pending but the event loop has already resolved'

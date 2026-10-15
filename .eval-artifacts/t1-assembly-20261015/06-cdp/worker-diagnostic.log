@@ -1,0 +1,30 @@
+✖ real Chromium protects dedicated-worker fetch redirects (143.084875ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 492.972792
+
+✖ failing tests:
+
+test at src/harness/browser/read-network-redirect.test.ts:1:8448
+✖ real Chromium protects dedicated-worker fetch redirects (143.084875ms)
+  AssertionError [ERR_ASSERTION]: {"requests":[{"outcome":"ADMITTED","origin":"http://127.0.0.1:54391","pathname":"/page","method":"GET","resourceType":"document","queryKeys":[]},{"outcome":"BLOCKED","origin":"http://127.0.0.1:54391","pathname":"/worker.js","method":"GET","resourceType":"other","queryKeys":[]}],"diagnostics":[{"code":"BLOCKED_ENDPOINT","origin":"http://127.0.0.1:54391","pathname":"/worker.js","method":"GET","resourceType":"other","queryKeys":[]}],"arrivals":["A/page"]}
+  + actual - expected
+  
+  + 'worker-error'
+  - 'blocked'
+  
+      at <anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts:160:10)
+      at async fixture (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts:72:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'worker-error',
+    expected: 'blocked',
+    operator: 'strictEqual'
+  }

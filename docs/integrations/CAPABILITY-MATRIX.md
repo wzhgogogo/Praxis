@@ -1,7 +1,7 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.52
+- Document revision: 1.53
 - Last updated: 2026-10-15
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
@@ -12,6 +12,8 @@
 T1离线组装证据（2026-10-15）：Runner、Web和固定来源主组合共用生产读取factory及一个browserBudget；native组合实际查位累计>12调用后仍能找店，恢复旧阈值目标断言失败；真实Chromium动态Tabelog两种库存路径100/100门禁通过。仅证明固定传输下限额／接线，不新增来源能力或Live兼容性结论。见`.eval-artifacts/t1-assembly-20261015/report.md`。
 
 T1 Hybrid迁移补充：完整Google-only来源组合也经生产SourceAware外层，Google100正常／1耗尽控制揭示并修复googleRequests／failureCode丢失；候选事实／资格不改。部分端口规则测试迁入Router harness，不把手填identity的低层控制报告为Adapter身份证明。仍仅离线能力接线证据。
+
+T1 Guard补充：CDP每个暂停请求执行原策略检查；同networkId的Network类型与Playwright一致，不新增Other或来源放行。真实Chromium正常worker／CSS与三种禁用receiver红绿通过；八种原生规范化逃逸未复现，不报告为已重现攻击。证据见T1 report／06-cdp，非外站或Cloudflare服务Live。
 
 | Provider | Discovery | Availability | Execute | Cancel | Verify | Takeover | Status / 限制 |
 |---|---|---|---|---|---|---|---|

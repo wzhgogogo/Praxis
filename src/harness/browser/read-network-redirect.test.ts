@@ -8,7 +8,7 @@ import { PlaywrightReadNetworkGuard } from "../../infrastructure/browser/playwri
 // external network, personal browser profile or manually re-entered route handler.
 async function fixture(run: (input: {
   origin: string; other: string; arrivals: string[]; cookies: string[];
-  guard: PlaywrightReadNetworkGuard; page: import("playwright-core").Page;
+  guard: PlaywrightReadNetworkGuard; page: import("playwright-core").Page; context: import("playwright-core").BrowserContext;
   recorded: Array<{ url: string; status: number; redirectLocation?: string }>;
 }) => Promise<void>, reviewedCss = false): Promise<void> {
   const arrivals: string[] = [], cookies: string[] = [];
@@ -25,6 +25,16 @@ async function fixture(run: (input: {
     const redirect = (location: string) => { res.writeHead(302, { location }); res.end(); };
     if (url.pathname === "/cross") return redirect("/cross-hop");
     if (url.pathname === "/cross-hop") return redirect(`${other}/forbidden`);
+    if (url.pathname === "/normalize") return redirect(`/normalize-hop?form=${url.searchParams.get("form")}`);
+    if (url.pathname === "/normalize-hop") {
+      const form = url.searchParams.get("form");
+      const paths: Record<string, string> = {
+        fragment: "/forbidden#section", dot: "/one/../forbidden", encodedDot: "/one/%2e%2e/forbidden",
+        escaped: "/%66orbidden", queryEscape: "/forbidden?q=%2f", slash: "/one\\..\\forbidden",
+        unicode: "/forbidden/%E6%B8%AC%E8%A9%A6", protocolRelative: "/forbidden",
+      };
+      return redirect((form === "protocolRelative" ? other.replace(/^http:/, "") : other) + paths[form!]);
+    }
     if (url.pathname === "/sensitive") return redirect("/public-hop");
     if (url.pathname === "/public-hop") return redirect("/account/delete?action=confirm");
     if (url.pathname === "/safe") { res.setHeader("set-cookie", "read_probe=public; Path=/; SameSite=Lax"); return redirect("/safe-hop"); }
@@ -59,10 +69,10 @@ async function fixture(run: (input: {
     await guard.install(context);
     const page = await context.newPage();
     await guard.preparePage(context, page);
-    await run({ origin, other, arrivals, cookies, guard, page, recorded });
+    await run({ origin, other, arrivals, cookies, guard, page, context, recorded });
   } finally {
     await browser.close();
-    await Promise.all([a, b].map(server => new Promise<void>(resolve => server.close(() => resolve()))));
+    await Promise.all([a, b].map(server => new Promise<void>(resolve => { server.close(() => resolve()); server.closeAllConnections(); })));
   }
 }
 
@@ -141,7 +151,15 @@ test("real Chromium preserves normal allowed popup redirect navigation", async (
 
 test("real Chromium protects dedicated-worker fetch redirects", async () => fixture(async ({ origin, guard, page, arrivals }) => {
   guard.prepareNavigation(origin + "/page"); await page.goto(origin + "/page");
-  await page.evaluate(() => new Promise(resolve => { const worker = new Worker("/worker.js"); worker.onmessage = event => { worker.terminate(); resolve(event.data); }; }));
+  const outcome = await page.evaluate(() => new Promise(resolve => {
+    const worker = new Worker("/worker.js");
+    const timer = setTimeout(() => { worker.terminate(); resolve("worker-timeout"); }, 2_000);
+    worker.onmessage = event => { clearTimeout(timer); worker.terminate(); resolve(event.data); };
+    worker.onerror = () => { clearTimeout(timer); worker.terminate(); resolve("worker-error"); };
+  }));
+  assert.equal(outcome, "blocked", JSON.stringify({ requests: guard.snapshotRequests(), diagnostics: guard.snapshotDiagnostics(), arrivals }));
+  assert.ok(arrivals.includes("A/worker.js"), "the allowed worker script must actually execute before its fetch is guarded");
+  assert.ok(guard.snapshotRequests().some(row => row.pathname === "/worker.js" && row.resourceType === "script" && row.outcome === "ADMITTED"));
   assert.ok(guard.snapshotRequests().some(r => r.outcome === "REDIRECT_BLOCKED"));
   assert.equal(arrivals.includes("B/forbidden"), false);
 }));
@@ -154,3 +172,28 @@ test("reviewed stylesheet redirects preserve their URL without promoting the CDN
   assert.equal(arrivals.includes("B/private.css"), false);
   assert.ok(guard.snapshotRequests().some(row => row.origin === other && row.pathname === "/private.css" && row.outcome === "BLOCKED"), "relative CSS import is resolved against the final CDN URL and remains rule-bound");
 }, true));
+
+test("T1 native redirect URL-normalization attempts keep forbidden receivers untouched", async t => {
+  for (const form of ["fragment", "dot", "encodedDot", "escaped", "queryEscape", "slash", "unicode", "protocolRelative"]) await t.test(form, async () => fixture(async ({ origin, guard, page, arrivals }) => {
+    guard.prepareNavigation(`${origin}/normalize?form=${form}`);
+    await page.goto(`${origin}/normalize?form=${form}`, { timeout: 3_000 }).catch(() => {});
+    assert.ok(arrivals.includes("A/normalize-hop"), "Chromium must actually follow the first allowed redirect");
+    assert.equal(arrivals.filter(row => row.startsWith("B/")).length, 0, "normalization must never reach a forbidden receiver");
+    assert.ok(guard.snapshotRequests().some(row => row.outcome === "REDIRECT_BLOCKED"));
+    t.diagnostic(JSON.stringify({ form, arrivals, forbiddenArrivals: 0, reproduction: "NOT_REPRODUCED" }));
+  }));
+});
+
+for (const mode of ["origin", "method", "resource-type"] as const) test(`T1 CDP independently rejects an unrecognized paused ${mode} request`, async () => fixture(async ({ origin, other, context, guard, page, arrivals }) => {
+  // Isolate the real CDP boundary. No fake route handler or injected CDP events:
+  // remove the ordinary route so it cannot supply this layer's safety verdict.
+  await context.unroute("**/*");
+  guard.prepareNavigation(origin + "/page");
+  await page.goto(origin + "/page", { timeout: 3_000 });
+  assert.ok(arrivals.includes("A/page"), "a public allowed control must reach its real receiver");
+  if (mode === "method") await page.evaluate(async () => { await fetch("/public-post", { method: "POST", body: "control" }).catch(() => {}); });
+  else await page.goto(other + (mode === "resource-type" ? "/public/final.css" : "/forbidden"), { timeout: 3_000 }).catch(() => {});
+  const forbidden = arrivals.filter(row => mode === "method" ? row === "A/public-post" : row.startsWith("B/"));
+  assert.equal(forbidden.length, 0, `CDP must reject the unrecognized ${mode} request before receiver arrival`);
+  assert.ok(guard.snapshotRequests().some(row => row.outcome === "BLOCKED"));
+}, mode === "resource-type"));

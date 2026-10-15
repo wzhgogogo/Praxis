@@ -1,0 +1,43 @@
+✔ real Chromium rejects a second cross-origin redirect before receiver arrival (138.5615ms)
+✔ real Chromium rejects a second sensitive redirect before receiver arrival (114.65125ms)
+✔ real Chromium preserves allowed redirect URL, relative links, cookies and recording of every hop (130.253625ms)
+✔ real Chromium checks every fetch redirect before cross-origin dispatch (120.626292ms)
+✔ real Chromium checks every xhr redirect before cross-origin dispatch (115.338584ms)
+✔ real Chromium checks every script redirect before cross-origin dispatch (118.196708ms)
+✔ real Chromium checks every stylesheet redirect before cross-origin dispatch (150.448709ms)
+✔ real Chromium checks every image redirect before cross-origin dispatch (132.457791ms)
+✔ real Chromium redirect loops fail at the Guard hop bound (133.700333ms)
+✔ real Chromium protects popup navigation before its first redirect (129.480625ms)
+✔ real Chromium protects iframe redirect chains (119.850042ms)
+✔ real Chromium preserves normal allowed popup redirect navigation (147.099083ms)
+✔ real Chromium protects dedicated-worker fetch redirects (116.734917ms)
+✔ reviewed stylesheet redirects preserve their URL without promoting the CDN to generic public reads (136.787375ms)
+▶ T1 native redirect URL-normalization attempts keep forbidden receivers untouched
+  ✔ fragment (132.784125ms)
+  ✔ dot (115.983458ms)
+  ✔ encodedDot (116.790959ms)
+  ✔ escaped (118.905333ms)
+  ✔ queryEscape (113.2245ms)
+  ✔ slash (117.940125ms)
+  ✔ unicode (116.533875ms)
+  ✔ protocolRelative (115.451917ms)
+✔ T1 native redirect URL-normalization attempts keep forbidden receivers untouched (948.302959ms)
+ℹ {"form":"fragment","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"dot","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"encodedDot","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"escaped","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"queryEscape","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"slash","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"unicode","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"protocolRelative","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+✔ T1 CDP independently rejects an unrecognized paused origin request (117.581167ms)
+✔ T1 CDP independently rejects an unrecognized paused method request (118.047458ms)
+✔ T1 CDP independently rejects an unrecognized paused resource-type request (118.736167ms)
+ℹ tests 26
+ℹ suites 0
+ℹ pass 26
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3460.6355
