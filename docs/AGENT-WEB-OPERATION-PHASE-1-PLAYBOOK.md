@@ -628,9 +628,14 @@ Provider 兼容性依据：<https://api-docs.deepseek.com/api/create-chat-comple
 依据：`reviews/EVAL-AND-TEST-SYSTEM-REVIEW-20261015`（仓库 `.eval-artifacts/review-eval-test-20261015/independent-review.md`）。用户 9 月的打分规格（`docs/superseded/eval/restaurant-read-pre-alignment-2026-09-15/rubric.yaml`，七个维度，从未接入代码）作为维度清单并入本组，按 Eval Skill 2.0 的四层结构实现，不另建第二套评分。
 
 1. **T1 统一组装与门禁**（指令已写好，`.eval-artifacts/t1-assembly-20261015/codex-instruction.md`）：Runner、Web、组合测试共用一个生产组装函数；剩余隐藏默认值；涉及浏览器的改动必跑真实浏览器测试，并修复一直失败的 2 个用例；Web 并发判失败；无界等待；Guard 识别失败时按策略拒绝。
-2. **E1 评测器第一切片：**
+2. **E1 评测器第一切片。** 首要目标是**自动评价漏判合格**：
+   - **现象：** 第一阶段和 P2-0 共 8 次有交付的运行，自动评价只有 2 次给出合格（KF-H001、中目黑）；5 次为 UNKNOWN（KF-H002、KF-H003 重跑、B h002、P1-G h003、P2-0 h002），1 次为 NO（KF-H004）。独立复核后全部或几乎全部合格（KF-H004 待用户在标签页决定）。
+   - **原因：** UNKNOWN 全部来自条件措辞的字面比对（`compareCriteria`）。例如 "first-date restaurant" 对 "good for a first date"、"team dinner" 对 "suitable for a team dinner"，评测器无法判断两者等价，于是 AUTHORITATIVE_CONDITIONS 为 NOT_EVALUATED，最终结论随之为 UNKNOWN。KF-H004 的 NO 来自 Agent 把推荐改成了查位，这一条是口径问题，由用户的标签决定。
+   - **修法：** 条件措辞等价表（审核过的版本化文件，查不到的仍为 UNKNOWN 并列出待审项；本条取代第四组第 2 项）。是否改用模型评判，待用户决定。
+   - **验收：** 这 8 次运行的自动结论与人工结论一致，且不出现人工判为不合格而自动判为合格的情况。
+   其余内容：
    - 独立核验：Tabelog 不再从请求复制日期和人数，改用交付后 GET；营业时间核对不再调用生产函数；
-   - 七类结果与 S0–S4；见证 Gold 接入；条件措辞等价表（本组取代第四组第 2 项）；
+   - 七类结果与 S0–S4；见证 Gold 接入；
    - 无进展检测（例如同一检索词连续 3 次）；资源维度按实际生效限额核对；
    - **验收：** 用第一阶段 20 次运行的人工标签（页面 "Phase 1 Run Labels"，`.eval-artifacts/calibration-phase1-20261015/`）离线重评，报告一致率和全部分歧。
 3. **E2 打分规格的其余维度：** 耗时（从运行记录计算，服务商耗时单列；先采集分布，暂不设固定门槛）、工具参数与必要外部状态、推荐偏好与排序、决策质量。后两项需要人工或经校准的模型评判。安全维度随预约（2a/2b）一起做。
