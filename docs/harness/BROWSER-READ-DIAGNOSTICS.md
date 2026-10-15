@@ -1,8 +1,8 @@
 # Browser Read Diagnostics
 
 - Status: Accepted
-- Document revision: 0.15
-- Last updated: 2026-10-10
+- Document revision: 0.16
+- Last updated: 2026-10-12
 - Source of truth for: 单页浏览器只读诊断操作与证据范围
 - Related ADRs: [ADR-0015](../decisions/0015-supported-source-search-evidence.md)、[ADR-0016](../decisions/0016-local-eval-browser-profile-lifecycle.md)
 
@@ -15,7 +15,14 @@ origin/path、method、resource type 与公共字段名，不保存 query 值、
 token 或原始异常；既有脱敏 DOM/控件证据仍可保留允许的日期、人数和时段绑定。
 TableCheck/Tabelog和Google-listed官网路径共用Guard。Generic档允许非敏感同源
 公开GET/HEAD，Reviewed档补精确公开查询grammar；已安装边界才开放共享控件操作，
-敏感操作、凭据／PII、普通POST及未准入跳转仍阻断；公开跳转逐跳重验目的地。
+敏感操作、凭据／PII、普通POST及未准入跳转仍阻断。
+**已知边界缺口（2026-10-12 真实Chromium复现）：** 公开跳转只重验第一跳。Guard用
+`route.fetch({maxRedirects: 0})`取回3xx后原样交给浏览器，之后的重定向由浏览器自行
+跟随，Playwright不为这些请求调用route handler，因此从第二跳起既不经Guard校验，也不
+进入录制。两跳即可到达未准入来源或敏感路径。依据见
+`.eval-artifacts/p1-f-20261011/review-p1f-eval-test-p0-20261012.md`；按用户决定，
+P1-F沿用冻结版本，结束后首先修复，且必须在任何预约相关工作之前完成。Guard单测中
+模拟"跳转后重新进入handler"的假对象不反映真实行为，修复时一并替换为真实浏览器测试。
 未知GET副作用是已接受的限制。
 
 ### 分阶段来源探针

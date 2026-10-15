@@ -1,8 +1,8 @@
 # Harness Design
 
 - Status: Accepted
-- Document revision: 4.0
-- Last updated: 2026-09-24
+- Document revision: 4.1
+- Last updated: 2026-10-12
 - Source of truth for: Agent Workspace、Task、Search和Browser的模拟、回放、断言与故障注入
 - Related ADRs: [ADR-0001](../decisions/0001-general-task-runtime.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md)
 - Related documents: [Golden Scenarios](GOLDEN-SCENARIOS.md), [Superseded Progressive Decision Eval](../superseded/harness/RESTAURANT-PROGRESSIVE-DECISION-EVAL.md), [Test Skill](../skills/test/SKILL.md)
@@ -43,7 +43,7 @@ Scenario
 - Fault Injector：限流、网络故障、提交前后崩溃。
 - Side Effect Ledger：记录可能改变外部世界的动作。
 - Outcome Oracle：根据场景真值判断最终状态。
-- Eval Preflight与Stage Scorer：验证版本、Fixture和配置，并记录首错阶段、Blocked下游和稳定错误码。
+- Eval Preflight与Stage Scorer：验证版本、Fixture和配置，并记录首错阶段、Blocked下游和稳定错误码。当前只在语义评测中实现；Hybrid只读链路的逐环节判定见[Eval Skill §1.2](../skills/eval/SKILL.md)，尚未实现。
 - Run Artifact：保存Fixture、Event、Command、Policy、Authorization、Evidence、Side Effect、最终Snapshot与Oracle Assertion。
 
 ## 四种模式

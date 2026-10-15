@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.206
+- Document revision: 4.207
 - Last updated: 2026-10-15
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-15 第一阶段签收：** 独立复核按Playbook §10签收——条件1、3、4、5、6满足，条件2（新地点）适用"能力目标转入第二阶段"；Playbook 1.8。下一项为P2-0加固批：Guard多跳重定向、找店阶段浏览器模型上限漏传（实际落到默认12/6）、无可执行路径与超时时诚实结束、失败码分类与结构化结束原因（`.eval-artifacts/p2-0-hardening-20261015/codex-instruction.md`）。同日合入10/12已批准的文档包：Eval Skill 2.0四层结构自第二阶段起适用，Test Skill 1.3，INDEX 1.7。
 
 - **2026-10-15 P1-G2 h001正式Live完成：** 网络恢复后用户追加授权一次preflight，TableCheck206后运行SUCCEEDED/NO_VERIFIED_RESULT；REJECTION_LIMIT经系统终止路径得到READ_ENDED，零交付。362.347秒、44模型/1Google、44决策一致、等待24.14%、未观察浏览器超时。evaluator@27 qualified NO、COMPLETION_OUTCOME NOT_EVALUATED（未记录其要求的END_READ观察），不自行签收；录制NOT_REPLAYABLE。冻结b55e91c/CLEAN，外层ec4aa86b；累计1014/1500模型、37Live、Google确认23/历史UNKNOWN、P1-G2环境预留1。报告P1-G2节，唯一运行完成、心跳暂停，停止待独立复核，不推送。
 

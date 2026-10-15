@@ -3486,3 +3486,7 @@ P1-G2 uses actual P1-F/G h001 event prefixes and verifies trajectory hashes befo
 ## DEV-2026-10-15-P1G2-live-final
 
 用户确认网络恢复并要求h001 Live，保留三次失败记录，为h001额外一次preflight设置专用门控，重新冻结execute ec4aa86b；9原SHA／生产b55e91c-CLEAN核对、门控正反核对及离线空跑PASS。第4次预检TableCheck206后唯一正式Live完成：SUCCEEDED/NO_VERIFIED_RESULT，终止REJECTION_LIMIT，最后轨迹READ_ENDED，缺口保留终止及局部浏览器预算原因。零交付；Sushi Teppen查位UNKNOWN/DATE_NOT_SELECTABLE，未声称全体无位。362.347秒、44模型/1Google、等待87.458秒/24.14%、未观察浏览器超时；44决策=44调用。evaluator@27 qualified NO、COMPLETION_OUTCOME NOT_EVALUATED（要求current-request END_READ观察），不改评价器或自判签收；录制NOT_REPLAYABLE/UNSAFE_DOCUMENT。原result/eval/decisions/recording路径和SHA见报告P1-G2节、live/h001/attempt-4/verification.json。无交付后GET／B见证GET，无启动后环境重跑；累计1014/1500模型、37Live、Google确认23/历史UNKNOWN、P1-G2预留1。只改授权外层门控与证据文档，复用四门禁862/862；真实状态离线＋L1和本次Live证明分列，停止待独立复核，不推送。前三次ENV_FAILURE作为历史保留、心跳PAUSED。
+
+## DEV-2026-10-15-docs-eval-skill-2-and-phase1-signoff
+
+独立复核者提交。第一阶段于2026-10-15签收（Playbook 1.8，`.eval-artifacts/p1-g-20261012/phase-1-signoff-20261015.md`）：条件1、3、4、5、6满足，条件2适用"能力目标转入第二阶段"；新发现找店阶段浏览器模型上限漏传（落到默认12/6）与预算耗尽后的死循环，连同`b55e91c`复核的三项后续并入P2-0加固批（`.eval-artifacts/p2-0-hardening-20261015/codex-instruction.md`）。另合入2026-10-12已批准的文档整理包：Eval Skill 2.0四层结构自第二阶段起适用，Test Skill 1.3补"外部运行时语义须真实验证、评测输入独立校验、等待有界"，INDEX 1.7标注当前阶段计划与已取代的旧计划，Browser Read Diagnostics 0.16把多跳重定向改记为已知边界缺口。无代码改动。

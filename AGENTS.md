@@ -24,6 +24,7 @@
 - 新增或修改外部平台 Adapter，必须补充 Capability Matrix 和 Harness 场景。
 - 新增通用业务抽象前必须证明至少有两个真实使用者；合成测试 Domain 不算。授权、幂等、Outcome和PII等难以后补的通用控制边界，可按Accepted ADR建立当前闭环所需的最小实现。
 - Mock、Replay、Live Read-only 和 Controlled Live-write 的结果必须分开汇报。
+- 评测输入（Gold、变体、见证、回放种子）和Live外层编排脚本属于被评测配置：运行前提交并记录SHA，运行中不改；评价按`docs/skills/eval/SKILL.md`的四层结构报告，错误声明（S0）必须有独立于生产代码的证据。
 
 ## 实现原则
 
