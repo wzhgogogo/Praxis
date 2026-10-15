@@ -1,0 +1,467 @@
+<title>Phase 1 Run Labels</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: one narrow review column; each run is a ledger entry with facts on top and the human verdict underneath. */
+:root {
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --ink: #1b2330;
+  --muted: #5d6878;
+  --rule: #dde1e8;
+  --accent: #2f5d8a;
+  --accent-soft: #e5edf6;
+  --good: #2e7d4f;
+  --good-soft: #e3f2e9;
+  --warn: #9a6a00;
+  --warn-soft: #fbf0d6;
+  --bad: #b23a3a;
+  --bad-soft: #f8e3e3;
+  --neutral-soft: #eceff3;
+  --font-display: "IBM Plex Sans Condensed", "Arial Narrow", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #11151b; --surface: #181e26; --ink: #e4e8ee; --muted: #98a3b3; --rule: #2a323d;
+    --accent: #8db7e0; --accent-soft: #1d2b3a;
+    --good: #7fcf9d; --good-soft: #17291f; --warn: #e5bd5c; --warn-soft: #2d2512;
+    --bad: #ee8f8f; --bad-soft: #321a1b; --neutral-soft: #222a34;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #11151b; --surface: #181e26; --ink: #e4e8ee; --muted: #98a3b3; --rule: #2a323d;
+  --accent: #8db7e0; --accent-soft: #1d2b3a;
+  --good: #7fcf9d; --good-soft: #17291f; --warn: #e5bd5c; --warn-soft: #2d2512;
+  --bad: #ee8f8f; --bad-soft: #321a1b; --neutral-soft: #222a34;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink);
+  font: 15px/1.55 var(--font-body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 48px;
+}
+.wrap { max-width: 860px; margin: 0 auto; display: grid; gap: 20px; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 600; text-wrap: balance; margin: 0; letter-spacing: .01em; }
+h1 { font-size: 1.9rem; line-height: 1.15; }
+h2 { font-size: 1.15rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+p { margin: 0; }
+header.intro { padding-top: 28px; display: grid; gap: 10px; max-width: 68ch; }
+.intro p { color: var(--muted); }
+.bar {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+  background: var(--bg); border-bottom: 1px solid var(--rule);
+  padding-block: 10px; display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center;
+}
+.progress { display: flex; align-items: center; gap: 10px; flex: 1 1 220px; min-width: 0; }
+.meter { flex: 1; height: 6px; background: var(--neutral-soft); border-radius: 3px; overflow: hidden; }
+.meter i { display: block; height: 100%; width: 0; background: var(--accent); transition: width .3s; }
+.count { font: 500 .85rem var(--font-mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.filters { display: flex; gap: 6px; flex-wrap: wrap; }
+.filters button, .btn {
+  font: 500 .82rem var(--font-body); border: 1px solid var(--rule); background: var(--surface); color: var(--ink);
+  padding: 5px 11px; border-radius: 999px; cursor: pointer;
+}
+.filters button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+button:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.status-line { font-size: .82rem; color: var(--muted); width: 100%; }
+.status-line.err { color: var(--bad); }
+
+details.guide { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 12px 16px; }
+details.guide summary { cursor: pointer; font-weight: 600; }
+.guide dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 14px; margin: 12px 0 0; font-size: .9rem; }
+.guide dt { font: 500 .78rem var(--font-mono); padding-top: 2px; }
+.guide dd { margin: 0; color: var(--muted); }
+
+.group { display: grid; gap: 12px; }
+.group-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; border-bottom: 1px solid var(--rule); padding-bottom: 6px; }
+.group-head span { font: .8rem var(--font-mono); color: var(--muted); }
+
+article.run { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 16px; display: grid; gap: 12px; }
+article.run.done { border-left: 3px solid var(--good); }
+.run-head { display: flex; gap: 8px 14px; flex-wrap: wrap; align-items: baseline; }
+.run-id { font: 600 1rem var(--font-display); }
+.meta { font: .78rem var(--font-mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+blockquote { margin: 0; padding: 8px 12px; background: var(--neutral-soft); border-radius: 6px; font-size: .92rem; }
+.facts { display: grid; grid-template-columns: 9.5em 1fr; gap: 6px 12px; font-size: .9rem; }
+.facts dt { color: var(--muted); font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; padding-top: 2px; }
+.facts dd { margin: 0; min-width: 0; }
+.chip { display: inline-block; font: 500 .74rem var(--font-mono); padding: 2px 7px; border-radius: 4px; background: var(--neutral-soft); white-space: nowrap; }
+.chip.q { background: var(--good-soft); color: var(--good); }
+.chip.h { background: var(--accent-soft); color: var(--accent); }
+.chip.m { background: var(--warn-soft); color: var(--warn); }
+.chip.f { background: var(--bad-soft); color: var(--bad); }
+.question { background: var(--warn-soft); color: var(--ink); border-radius: 6px; padding: 8px 12px; font-size: .9rem; }
+.question b { color: var(--warn); }
+
+.verdict { border-top: 1px dashed var(--rule); padding-top: 12px; display: grid; gap: 10px; }
+.fields { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.field { display: grid; gap: 4px; min-width: 0; }
+.field label { font-size: .75rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+select, textarea { font: .88rem var(--font-body); color: var(--ink); background: var(--bg); border: 1px solid var(--rule); border-radius: 6px; padding: 6px 8px; width: 100%; }
+textarea { min-height: 2.4em; resize: vertical; }
+.actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+.saved { font-size: .8rem; color: var(--good); }
+.diff { font-size: .8rem; color: var(--warn); }
+
+.skipped { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: .84rem; }
+th, td { text-align: left; padding: 7px 12px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+th { font-weight: 600; color: var(--muted); font-size: .75rem; text-transform: uppercase; letter-spacing: .05em; }
+td.mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+
+@media (max-width: 560px) {
+  .facts { grid-template-columns: 1fr; gap: 2px; }
+  .facts dd { margin-bottom: 6px; }
+  .fields { grid-template-columns: 1fr; }
+  .guide dl { grid-template-columns: 1fr; }
+  h1 { font-size: 1.5rem; }
+}
+@media (prefers-reduced-motion: reduce) { .meter i { transition: none; } }
+</style>
+
+<div class="wrap">
+  <header class="intro">
+    <h1>Phase 1 Run Labels</h1>
+    <p>All 20 Phase 1 Live runs that actually started (10/11–10/15). Claude has filled in the facts from the run records and a proposed label. For each run, accept the proposal or change it. These labels become the answer key that the rebuilt evaluator (E1) has to agree with.</p>
+    <p>Five runs are flagged <b>Your call</b>: the rules give no clear answer there, so your choice sets the rule. The other 15 should be quick.</p>
+  </header>
+
+  <div class="bar" role="region" aria-label="Progress">
+    <div class="progress">
+      <div class="meter" aria-hidden="true"><i id="meterFill"></i></div>
+      <span class="count" id="countText">0 / 20 labelled</span>
+    </div>
+    <div class="filters" role="group" aria-label="Show">
+      <button type="button" data-filter="all" aria-pressed="true">All</button>
+      <button type="button" data-filter="open" aria-pressed="false">Not labelled</button>
+      <button type="button" data-filter="call" aria-pressed="false">Your call</button>
+    </div>
+    <p class="status-line" id="statusLine">Connecting to saved labels…</p>
+  </div>
+
+  <details class="guide">
+    <summary>What the labels mean (Eval Skill 2.0)</summary>
+    <dl>
+      <dt>QUALIFIED_DELIVERY</dt><dd>Showed restaurants that meet the request, with evidence.</dd>
+      <dt>DELIVERED_UNQUALIFIED</dt><dd>Showed restaurants, nothing false, but it missed what the user actually wanted.</dd>
+      <dt>HONEST_NO_RESULT</dt><dd>Found nothing and said so honestly. Can't tell if something existed.</dd>
+      <dt>CAPABILITY_MISS</dt><dd>Found nothing, but an independent check shows a matching restaurant had seats.</dd>
+      <dt>INTERNAL_FAILURE</dt><dd>Our system broke; the user got no proper answer.</dd>
+      <dt>ENV_FAILURE</dt><dd>Outside cause: provider down, out of credit, network.</dd>
+      <dt>ORCHESTRATION_INTERRUPTED</dt><dd>The test script stopped the run; it is not counted as a capability result.</dd>
+      <dt>False claim (S0)</dt><dd>Anything shown that wasn't true (shop, date, party, time, hard requirement), or the agent going somewhere it must not. Zero tolerance.</dd>
+      <dt>S1–S4</dt><dd>S1 delivered but missed the real need · S2 feasible but not delivered · S3 slow or poor experience · S4 invisible to the user.</dd>
+    </dl>
+  </details>
+
+  <main id="groups" class="wrap" style="gap:28px"></main>
+
+  <section class="group" aria-labelledby="skipHead">
+    <div class="group-head"><h2 id="skipHead">Not labelled: never started</h2><span>11 attempts</span></div>
+    <p style="color:var(--muted);font-size:.9rem">These failed the network pre-check before the agent ran (TableCheck 503/403, Google probe 404, timeout) or exited on start-up. No agent behaviour to judge, so they're left out of the answer key.</p>
+    <div class="skipped">
+      <table>
+        <thead><tr><th>Tokyo time</th><th>Batch</th><th>Case</th><th>Reason</th></tr></thead>
+        <tbody id="skipBody"></tbody>
+      </table>
+    </div>
+  </section>
+</div>
+
+<script>
+const OUTCOMES = ["QUALIFIED_DELIVERY","DELIVERED_UNQUALIFIED","HONEST_NO_RESULT","CAPABILITY_MISS","INTERNAL_FAILURE","ENV_FAILURE","ORCHESTRATION_INTERRUPTED","NOT_A_VALID_SAMPLE"];
+const S0 = ["NO","YES","CANT_TELL"];
+const S0_TEXT = { NO: "No false claim", YES: "Yes, false claim", CANT_TELL: "Can't tell" };
+const SEV = ["NONE","S1","S2","S3","S4"];
+const CHIP = { QUALIFIED_DELIVERY: "q", HONEST_NO_RESULT: "h", DELIVERED_UNQUALIFIED: "m", CAPABILITY_MISS: "m", INTERNAL_FAILURE: "f", ENV_FAILURE: "", ORCHESTRATION_INTERRUPTED: "", NOT_A_VALID_SAMPLE: "" };
+
+const GROUPS = [
+  ["p1f-a", "P1-F Part A · known-feasible + new places", "commit 73bfca5"],
+  ["p1f-b", "P1-F Part B · original Gold cases, live dates", "commit 73bfca5"],
+  ["p1g", "P1-G · close-out reruns", "commit 9b34287"],
+  ["p1g2", "P1-G2 · h001 after honest-end fix", "commit b55e91c"],
+];
+
+const RUNS = [
+  { id: "p1fA-kf-h001-a1", group: "p1f-a", time: "10/11 17:14", caseId: "KF-H001", req: "Looking for an omakase spot near Shibuya for 2 people on Tuesday, October 20 at 7 PM.",
+    happened: "Showed 3 Tabelog sushi shops: Shibuya Sushi Sen, Shibuya Sushi Matsumoto, Sushi Tokyo Ten. 19 model calls, 128 s.",
+    auto: "PRESENTATION_RECORDED · qualified = YES",
+    evidence: "Sen and Matsumoto: Tabelog GET ~2 s after the run lists 19:00 ×2. Sushi Tokyo Ten: recorded page shows 10/20, 2 people, 7:00 PM in the slot list (indirect).",
+    p: { outcome: "QUALIFIED_DELIVERY", s0: "NO", sev: "NONE" } },
+  { id: "p1fA-kf-h002-a1", group: "p1f-a", time: "10/11 17:16", caseId: "KF-H002", req: "Recommend a first-date restaurant near Higashi-Ginza for Saturday, October 24 at 6:30 PM. Around 10,000 yen per person. No hot-pot restaurants and no Sichuan/Hunan-style cuisine where spicy food is the main focus.",
+    happened: "Showed 1 shop: Ginza Sushi Sendou, 390 m. 23 model calls, 149 s.",
+    auto: "PRESENTATION_RECORDED · qualified = UNKNOWN (criteria worded differently, e.g. \"suitable for a first date\")",
+    evidence: "Recorded page shows 10/24, 2 people, 6:30 PM in the slot list (indirect). No GET re-check.",
+    p: { outcome: "QUALIFIED_DELIVERY", s0: "NO", sev: "NONE" } },
+  { id: "p1fA-kf-h003-a1", group: "p1f-a", time: "10/11 17:19", caseId: "KF-H003", req: "Need a place for a team dinner nearby on Friday, October 23 after work. 10 people, around 3,000 yen per person, good for drinks, ideally with a private room.",
+    happened: "Test script killed the run after 34 s: its monitor flagged TableCheck's calendar POST as a write. It was the reviewed read-only calendar request (false alarm).",
+    auto: "Not evaluated (no result)", evidence: "Trace shows the POST was the approved public calendar read.",
+    p: { outcome: "ORCHESTRATION_INTERRUPTED", s0: "NO", sev: "NONE" } },
+  { id: "p1fA-kf-h004-a1", group: "p1f-a", time: "10/11 17:22", caseId: "KF-H004", req: "Good cafes nearby to meet up with a friend on the afternoon of Monday, October 19.",
+    happened: "Showed 1 cafe: Noa Cafe Ginza, 188 m, with afternoon seat times. The agent turned the recommendation into a seat check and assumed 2 people. 47 model calls, 304 s.",
+    auto: "PRESENTATION_RECORDED · qualified = NO (goal changed to availability)",
+    evidence: "Recorded page shows 10/19, 2 people, 2:00–7:00 PM; covers all 13 slots shown.",
+    question: "The Phase 1 sign-off counted this as qualified. Eval Skill 2.0 uses exactly this case (a recommendation request handled as a booking check) as its example of DELIVERED_UNQUALIFIED / S1. Which should it be?",
+    p: { outcome: "DELIVERED_UNQUALIFIED", s0: "NO", sev: "S1" } },
+  { id: "p1fA-kf-h005-a1", group: "p1f-a", time: "10/11 17:27", caseId: "KF-H005", req: "Any spots nearby with open tables on Thursday, October 22 at 6 PM for 4 people? Local food only, no fast food.",
+    happened: "Test script stopped the run when the browser opened TableCheck's public reservation entry page (The Peninsula Tokyo, The Lobby /reserve). No form filled, no slot clicked.",
+    auto: "Not evaluated (no result)", evidence: "The network guard allows this public entry page; the batch had a stricter stop rule on reservation URLs.",
+    question: "Is opening a site's public reservation entry page (no form, no click) a boundary violation (S0)? Claude proposes no; it's how TableCheck shows availability.",
+    p: { outcome: "ORCHESTRATION_INTERRUPTED", s0: "NO", sev: "NONE" } },
+  { id: "p1fA-kagurazaka-a1", group: "p1f-a", time: "10/12 00:40", caseId: "Kagurazaka kaiseki (new place)", req: "Looking for a kaiseki restaurant near Kagurazaka for 3 people on Thursday, October 22 at 7:30 PM.",
+    happened: "No result. Tabelog search for \"kaiseki restaurant\" returned 0 twice; Google then found 40 candidates, but the remaining model budget was held back for the final answer. 47 model calls, 379 s.",
+    auto: "NO_VERIFIED_RESULT · qualified = NO",
+    evidence: "All 3 witness restaurants had 19:30 ×3 in GETs after the run.",
+    p: { outcome: "CAPABILITY_MISS", s0: "NO", sev: "S2" } },
+  { id: "p1fA-nakameguro-a1", group: "p1f-a", time: "10/12 00:46", caseId: "Nakameguro yakiniku (new place)", req: "Find a yakiniku place near Nakameguro for 4 people on Friday, October 23 at 7 PM.",
+    happened: "Showed 1 shop: Daikanyama Yakiniku Kintan (TableCheck). 34 model calls, 247 s.",
+    auto: "PRESENTATION_RECORDED · qualified = YES",
+    evidence: "TableCheck raw response in the trace matches date, party and time (checked by the evaluator; no separate re-check after the run).",
+    p: { outcome: "QUALIFIED_DELIVERY", s0: "NO", sev: "NONE" } },
+  { id: "p1fA-kf-h003-a2", group: "p1f-a", time: "10/12 05:36", caseId: "KF-H003 (rerun)", req: "Need a place for a team dinner nearby on Friday, October 23 after work. 10 people, around 3,000 yen per person, good for drinks, ideally with a private room.",
+    happened: "Showed 3 TableCheck shops: Restaurant Alaska (841 m), Aloft by Marriott Tokyo Ginza (150 m), Amajoh (943 m). 47 model calls, 431 s.",
+    auto: "PRESENTATION_RECORDED · qualified = UNKNOWN (criteria worded differently)",
+    evidence: "TableCheck raw responses: slots within 17:30–22:00 for 10 people. Aloft is a hotel-level listing.",
+    p: { outcome: "QUALIFIED_DELIVERY", s0: "NO", sev: "NONE" } },
+  { id: "p1fA-kf-h005-a1r", group: "p1f-a", time: "10/12 05:44", caseId: "KF-H005 (rerun)", req: "Any spots nearby with open tables on Thursday, October 22 at 6 PM for 4 people? Local food only, no fast food.",
+    happened: "No result. Tabelog searched \"local food\" across all Tokyo (no area); TableCheck found 6 shops, none qualified. 47 model calls, 328 s.",
+    auto: "NO_VERIFIED_RESULT · qualified = NO",
+    evidence: "Witness restaurants Iwai and Fukumimi had 18:00 ×4 in GETs 38 s after the run.",
+    p: { outcome: "CAPABILITY_MISS", s0: "NO", sev: "S2" } },
+  { id: "p1fA-kichijoji-a2", group: "p1f-a", time: "10/12 05:50", caseId: "Kichijoji tempura (new place)", req: "Any tempura restaurants near Kichijoji with a table for 2 on Tuesday, October 20 at 6 PM?",
+    happened: "Failed in 3 s. Location lookup rejected Google's \"Kichijōji\" (long ō and type colloquial_area weren't accepted). No browsing happened.",
+    auto: "Not evaluated (FAILED)",
+    evidence: "All 3 witness restaurants had 18:00 ×2 after the run.",
+    p: { outcome: "INTERNAL_FAILURE", s0: "NO", sev: "S2" } },
+
+  { id: "p1fB-h001-a1", group: "p1f-b", time: "10/12 05:51", caseId: "h001", req: "Looking for an omakase spot near Shibuya for 2 people tonight at 7 PM.",
+    happened: "FAILED after 365 s: the agent kept re-proposing a seat check that had already been rejected; stopped at the rejection limit. The user got no answer.",
+    auto: "Not evaluated (FAILED)", evidence: "No witness for live dates, so feasibility is unknown.",
+    p: { outcome: "INTERNAL_FAILURE", s0: "NO", sev: "NONE" } },
+  { id: "p1fB-h002-a1", group: "p1f-b", time: "10/12 05:58", caseId: "h002", req: "Recommend a first-date restaurant near Higashi-Ginza for this Saturday at 6:30 PM. Around 10,000 yen per person. No hot-pot restaurants and no Sichuan/Hunan-style cuisine where spicy food is the main focus.",
+    happened: "Showed 1 shop: Ginza Sushi Sendou for 10/17 18:30 ×2. 21 model calls, 186 s.",
+    auto: "PRESENTATION_RECORDED · qualified = UNKNOWN (criteria wording)",
+    evidence: "Tabelog GET after the run lists 18:30 ×2.",
+    p: { outcome: "QUALIFIED_DELIVERY", s0: "NO", sev: "NONE" } },
+  { id: "p1fB-h003-a1", group: "p1f-b", time: "10/12 06:01", caseId: "h003", req: "Need a place for a team dinner nearby this Friday after work. 10 people, around 3,000 yen per person, good for drinks, ideally with a private room.",
+    happened: "Stopped after 60 s: DeepSeek returned HTTP 402 (account out of credit).", auto: "Not evaluated", evidence: "Provider error in the trace.",
+    p: { outcome: "ENV_FAILURE", s0: "NO", sev: "NONE" } },
+  { id: "p1fB-h004-a1", group: "p1f-b", time: "10/12 06:03", caseId: "h004", req: "Good cafes nearby to meet up with a friend this afternoon.",
+    happened: "Stopped in 0.7 s: first model call returned HTTP 402 (out of credit).", auto: "Not evaluated", evidence: "Provider error in the trace.",
+    p: { outcome: "ENV_FAILURE", s0: "NO", sev: "NONE" } },
+  { id: "p1fB-h005-a2", group: "p1f-b", time: "10/12 11:46", caseId: "h005", req: "Any spots nearby with open tables right now for 4 people? Local food only, no fast food.",
+    happened: "No result after 47 model calls (276 s); said honestly that nothing was verified.",
+    auto: "NO_VERIFIED_RESULT · qualified = NO", evidence: "No witness for \"right now\", so it's unknown whether anything nearby had seats.",
+    p: { outcome: "HONEST_NO_RESULT", s0: "NO", sev: "NONE" } },
+
+  { id: "p1g-kichijoji-a2", group: "p1g", time: "10/12 16:05", caseId: "Kichijoji tempura (new place)", req: "Any tempura restaurants near Kichijoji with a table for 2 on Tuesday, October 20 at 6 PM?",
+    happened: "No result. Location now resolved and Tabelog entered the Kichijoji area, but the search didn't surface the witness shops. 47 model calls, 321 s.",
+    auto: "NO_VERIFIED_RESULT · qualified = NO",
+    evidence: "All 3 witness restaurants had 18:00 ×2 after the run.",
+    p: { outcome: "CAPABILITY_MISS", s0: "NO", sev: "S2" } },
+  { id: "p1g-h001-a1", group: "p1g", time: "10/12 16:11", caseId: "h001", req: "Looking for an omakase spot near Shibuya for 2 people tonight at 7 PM.",
+    happened: "FAILED again at the rejection limit (298 s). The agent's attempts to end were rejected; the user got no answer.",
+    auto: "Not evaluated (FAILED)", evidence: "No witness; feasibility unknown.",
+    p: { outcome: "INTERNAL_FAILURE", s0: "NO", sev: "NONE" } },
+  { id: "p1g-h003-a2", group: "p1g", time: "10/12 16:38", caseId: "h003", req: "Need a place for a team dinner nearby this Friday after work. 10 people, around 3,000 yen per person, good for drinks, ideally with a private room.",
+    happened: "Showed 1 shop: Aloft by Marriott Tokyo Ginza (TableCheck), 150 m, for Friday 10/16. 47 model calls, 319 s.",
+    auto: "PRESENTATION_RECORDED · qualified = UNKNOWN",
+    evidence: "TableCheck raw response matches date, 10 people, time. The listing is the hotel as a whole, not one restaurant.",
+    question: "Is a hotel-level TableCheck listing an acceptable answer to a \"team dinner, ~3,000 yen, drinks, private room\" request, or did it miss the real need?",
+    p: { outcome: "QUALIFIED_DELIVERY", s0: "NO", sev: "NONE" } },
+  { id: "p1g-h004-a2", group: "p1g", time: "10/12 17:02", caseId: "h004", req: "Good cafes nearby to meet up with a friend this afternoon.",
+    happened: "No result. Pre-check failures delayed the start until after the afternoon window had ended; the agent said so and did not quietly switch to tomorrow. 47 model calls, 267 s.",
+    auto: "NO_VERIFIED_RESULT · qualified = NO", evidence: "Request was already expired when the run started.",
+    question: "The request had expired by the time it ran. Count it as an honest no-result, or as not a valid sample?",
+    p: { outcome: "HONEST_NO_RESULT", s0: "NO", sev: "NONE" } },
+
+  { id: "p1g2-h001-a4", group: "p1g2", time: "10/15 17:00", caseId: "h001", req: "Looking for an omakase spot near Shibuya for 2 people tonight at 7 PM.",
+    happened: "No result after 24 agent steps (362 s). Every search failed instantly because of our discovery budget bug (12-call cap); the system then ended the read honestly.",
+    auto: "NO_VERIFIED_RESULT · qualified = NO", evidence: "No witness; feasibility unknown. Root cause confirmed in code (P2-0 item 2).",
+    question: "The user got an honest \"nothing found\", but only because of our own bug. Claude proposes: outcome HONEST_NO_RESULT (what the user saw) and record the bug in attribution. Or count it as INTERNAL_FAILURE?",
+    p: { outcome: "HONEST_NO_RESULT", s0: "NO", sev: "NONE" } },
+];
+
+const SKIPPED = [
+  ["10/12 00:16", "P1-F rerun", "KF-H005 a1", "Exited on start-up (pre-check rejected)"],
+  ["10/12 00:18", "P1-F rerun", "KF-H005 a2", "Exited on start-up (pre-check rejected)"],
+  ["10/12 00:51", "P1-F Part A", "Kichijoji a1", "Pre-check: TableCheck rejected"],
+  ["10/12 05:18", "P1-F Part A", "KF-H003 a1", "Exited on start-up"],
+  ["10/12 11:30", "P1-F Part B", "h005 a1", "Pre-check: TableCheck 503"],
+  ["10/12 15:50", "P1-G", "Kichijoji a1", "Pre-check: TableCheck 503"],
+  ["10/12 16:17", "P1-G", "h003 a1", "Pre-check: TableCheck 503"],
+  ["10/12 16:44", "P1-G", "h004 a1", "Pre-check: TableCheck 503"],
+  ["10/15 14:51", "P1-G2", "h001 a1", "Pre-check timeout"],
+  ["10/15 15:00", "P1-G2", "h001 a2", "Pre-check: TableCheck 403"],
+  ["10/15 15:18", "P1-G2", "h001 a3", "Pre-check: TableCheck 403"],
+];
+
+const labels = {};          // id -> saved label
+let db = null;
+let canWrite = false;
+let filter = "all";
+const pending = new Set();
+
+const $ = (s, r = document) => r.querySelector(s);
+const el = (tag, attrs = {}, ...kids) => {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === "class") n.className = v; else if (k === "text") n.textContent = v; else n.setAttribute(k, v);
+  }
+  for (const k of kids) if (k != null) n.append(k);
+  return n;
+};
+const chip = (outcome) => el("span", { class: "chip " + (CHIP[outcome] || ""), text: outcome });
+
+function setStatus(text, err = false) {
+  const s = $("#statusLine"); s.textContent = text; s.classList.toggle("err", err);
+}
+
+function renderSkipped() {
+  const body = $("#skipBody");
+  for (const [t, b, c, r] of SKIPPED) body.append(el("tr", {}, el("td", { class: "mono", text: t }), el("td", { text: b }), el("td", { text: c }), el("td", { text: r })));
+}
+
+function options(select, values, textMap) {
+  for (const v of values) select.append(el("option", { value: v, text: textMap ? textMap[v] : v }));
+}
+
+function renderRuns() {
+  const root = $("#groups");
+  root.textContent = "";
+  for (const [gid, title, commit] of GROUPS) {
+    const runs = RUNS.filter(r => r.group === gid);
+    const sec = el("section", { class: "group", "aria-label": title });
+    sec.append(el("div", { class: "group-head" }, el("h2", { text: title }), el("span", { text: commit + " · " + runs.length + " runs" })));
+    for (const r of runs) sec.append(renderRun(r));
+    root.append(sec);
+  }
+  applyFilter();
+}
+
+function renderRun(r) {
+  const art = el("article", { class: "run", id: "run-" + r.id, "data-call": r.question ? "1" : "0" });
+  art.append(el("div", { class: "run-head" },
+    el("span", { class: "run-id", text: r.caseId }),
+    el("span", { class: "meta", text: r.time + " Tokyo · " + r.id }),
+    r.question ? el("span", { class: "chip m", text: "Your call" }) : null));
+  art.append(el("blockquote", { text: "“" + r.req + "”" }));
+  const facts = el("dl", { class: "facts" });
+  const row = (k, v) => facts.append(el("dt", { text: k }), el("dd", {}, v));
+  row("What happened", r.happened);
+  row("Evaluator @27", r.auto);
+  row("Independent check", r.evidence);
+  const prop = el("span", {}, chip(r.p.outcome), " ", el("span", { class: "chip", text: S0_TEXT[r.p.s0] }), " ", el("span", { class: "chip", text: r.p.sev === "NONE" ? "no severity" : r.p.sev }));
+  row("Claude proposes", prop);
+  art.append(facts);
+  if (r.question) art.append(el("p", { class: "question" }, el("b", { text: "Your call: " }), r.question));
+
+  const v = el("div", { class: "verdict" });
+  const fields = el("div", { class: "fields" });
+  const mk = (label, key, values, textMap) => {
+    const id = r.id + "-" + key;
+    const s = el("select", { id });
+    options(s, values, textMap);
+    fields.append(el("div", { class: "field" }, el("label", { for: id, text: label }), s));
+    return s;
+  };
+  const sOut = mk("Outcome", "outcome", OUTCOMES);
+  const sS0 = mk("False claim?", "s0", S0, S0_TEXT);
+  const sSev = mk("Severity", "sev", SEV);
+  const noteId = r.id + "-note";
+  const note = el("textarea", { id: noteId, rows: "1", placeholder: "Optional: why, or what Claude got wrong" });
+  v.append(fields, el("div", { class: "field" }, el("label", { for: noteId, text: "Note" }), note));
+  const accept = el("button", { type: "button", class: "btn primary", text: "Accept proposal" });
+  const save = el("button", { type: "button", class: "btn", text: "Save my label" });
+  const state = el("span", { class: "saved" });
+  v.append(el("div", { class: "actions" }, accept, save, state));
+  art.append(v);
+
+  const fill = () => {
+    const saved = labels[r.id];
+    const src = saved || r.p;
+    sOut.value = src.outcome; sS0.value = src.s0; sSev.value = src.sev;
+    note.value = saved?.note || "";
+    art.classList.toggle("done", !!saved);
+    state.className = saved ? (saved.agreesWithProposal ? "saved" : "diff") : "saved";
+    state.textContent = saved ? (saved.agreesWithProposal ? "Saved · matches proposal" : "Saved · differs from proposal") : "";
+    const off = !db || !canWrite || pending.has(r.id);
+    for (const c of [sOut, sS0, sSev, note, accept, save]) c.disabled = off;
+  };
+  art._fill = fill;
+  fill();
+
+  const write = async (label) => {
+    if (!db) return;
+    pending.add(r.id); fill(); state.textContent = "Saving…";
+    try {
+      await db.collection("labels").doc(r.id).set(label);
+      labels[r.id] = label;
+    } catch (e) {
+      if (e && e.code === "invalid_argument") { canWrite = false; setStatus("You can view these labels but not change them.", true); }
+      else setStatus("Couldn't save " + r.caseId + ". Check your connection and try again.", true);
+    } finally {
+      pending.delete(r.id); fill(); updateProgress(); applyFilter();
+    }
+  };
+  accept.addEventListener("click", () => write({ outcome: r.p.outcome, s0: r.p.s0, sev: r.p.sev, note: note.value.trim(), agreesWithProposal: true, proposal: r.p, labelledAt: new Date().toISOString() }));
+  save.addEventListener("click", () => {
+    const l = { outcome: sOut.value, s0: sS0.value, sev: sSev.value, note: note.value.trim(), proposal: r.p, labelledAt: new Date().toISOString() };
+    l.agreesWithProposal = l.outcome === r.p.outcome && l.s0 === r.p.s0 && l.sev === r.p.sev;
+    write(l);
+  });
+  return art;
+}
+
+function updateProgress() {
+  const n = RUNS.filter(r => labels[r.id]).length;
+  $("#countText").textContent = n + " / " + RUNS.length + " labelled";
+  $("#meterFill").style.width = (100 * n / RUNS.length) + "%";
+}
+
+function applyFilter() {
+  for (const r of RUNS) {
+    const a = document.getElementById("run-" + r.id);
+    if (!a) continue;
+    a.hidden = (filter === "open" && !!labels[r.id]) || (filter === "call" && !r.question);
+  }
+  for (const sec of document.querySelectorAll("#groups > section")) {
+    sec.hidden = ![...sec.querySelectorAll("article.run")].some(a => !a.hidden);
+  }
+}
+
+document.querySelectorAll(".filters button").forEach(b => b.addEventListener("click", () => {
+  filter = b.dataset.filter;
+  document.querySelectorAll(".filters button").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+  applyFilter();
+}));
+
+renderSkipped();
+renderRuns();
+updateProgress();
+
+(async () => {
+  try {
+    db = window.claude && typeof window.claude.use === "function" ? await window.claude.use("db") : null;
+  } catch { db = null; }
+  if (!db) { setStatus("Saving isn't available in this view. Open the page on claude.ai, signed in, to record labels.", true); return; }
+  canWrite = true;
+  db.collection("labels").onSnapshot(snap => {
+    for (const k of Object.keys(labels)) delete labels[k];
+    for (const d of snap.docs) if (d.exists) labels[d.id] = d.data();
+    for (const r of RUNS) document.getElementById("run-" + r.id)?._fill();
+    updateProgress(); applyFilter();
+    setStatus(canWrite ? "Labels save automatically to this page; Claude reads them from here." : "Read-only view.");
+  }, () => setStatus("Lost the connection to saved labels. Reload the page.", true));
+})();
+</script>

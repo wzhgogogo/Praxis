@@ -1,94 +1,194 @@
 ---
 name: praxis-eval
-description: 为Praxis模型和端到端质量定义独立oracle、证据、评分口径、比较方法和预先固定的验收门槛。
+description: 为Praxis定义评测要支持的决定、四层评测结构（端到端结果、逐环节判定、严重程度、归因）、独立oracle、必报指标、样本与比较规则，以及评测输入与编排的冻结。
 ---
 
 # Praxis Eval
 
-- Document revision: 1.3
-- Last updated: 2026-09-26
+- Document revision: 2.0
+- Last updated: 2026-10-12
 
-Eval负责质量维度、证据/评分规格、比较方法和验收门槛；不替代[Test](../test/SKILL.md)的功能覆盖与故障关闭。产品语义和安全边界以Accepted ADR、Domain/Architecture为准；H001–H005当前执行输入、自动/人工边界和命令以[当前只读验收契约](../../../src/eval/restaurant/agent-loop/cases/README.md)为准。
+Eval负责：评测要回答的问题、每层的判定口径与独立oracle、必报指标、比较方法和预先固定的门槛。功能覆盖与故障关闭属于[Test](../test/SKILL.md)。产品语义和安全边界以Accepted ADR、Domain/Architecture为准；H001–H005当前输入、Gold与人工审查边界以[当前只读验收契约](../../../src/eval/restaurant/agent-loop/cases/README.md)为准；阶段性的签收条件以当期Playbook为准。
 
-评价投入遵循[Test的最小充分验证](../test/SKILL.md#验证投入与停止)。先复用现有oracle、评分器和artifact，只评价会影响当前取舍的维度；缺口能靠已有产物补评或局部核验解决，就不重跑模型或整单。普通确定性修改不自动触发模型Eval，也不为未知未来风险新增指标、评分器或全量矩阵。
+评价投入遵循[Test的最小充分验证](../test/SKILL.md#验证投入与停止)：先复用现有oracle、评分器和artifact，缺口能靠已有产物补评就不重跑模型或整单。本Skill只放规则；某次运行、某个版本的结论写入STATUS、TEST-LOG或对应报告，不追加到本文件。
 
-## 评价对象与证据状态
+## 0 Eval为什么存在
 
-每次评价先声明对象、代码/配置快照、数据集/Gold版本、Evaluator版本、输入/位置/参考时间、预算和执行模式；沿用现有切片/运行记录，局部检查不为形式另建报告或Schema。执行artifact、evaluation和acceptance是三个不可互相覆盖的记录：执行说明发生了什么，evaluation说明已核验的维度，acceptance按预先固定门槛作出结论。
+Praxis对用户的承诺是：**用户说一句话，在合理时间内得到至少一家真实、满足条件、当前可订的店；找不到时如实说明；任何时候都不说假话、不越过只读边界。**
 
-材料只可标为`current executable`、`frozen regression`、`superseded retrospective`或`draft / not integrated`。模型、端到端与基线比较报告还记录`cohort`、`contaminationStatus`、`baselineEligible`、dataset hash、git commit、prompt/schema/scorer版本、调用数、延迟、Token和成本状态；局部确定性核验引用已有版本与记录，不为不适用字段补一套元数据。开发集、Fixture、Mock、Replay、Live Read-only、Controlled Live-write与Clean Holdout不能互相替代或混报。
+Eval为以下四个决定提供依据。每次评测活动（新指标、新Runner、一批Live）开工前写明它服务哪一个决定；服务不了任何一个的，不做。
 
-历史阶段叙述、旧版本运行状态和已退出的规程见[迁移映射](../../superseded/skills/TEST-EVAL-SKILL-PRE-RESTRUCTURE-2026-09-24.md)及历史日志；它们不改变当前合同或能力判断。
+| 决定 | 要回答的问题 | 主要依据 |
+| --- | --- | --- |
+| 签收／上线 | 真实请求下，合格交付率、诚实处理率、错误声明数、等待时间是多少 | 端到端结果（§1.1），代表性且未被调参的用例，多次运行 |
+| 比较改动 | 同一批任务，改动前后是变好还是变坏，差异是否大于噪声 | 回放与固定来源上的成对比较；Live只做确认 |
+| 先修什么 | 所有失败中，哪个环节、哪种严重程度造成的损失最大 | 跨运行的归因汇总（§1.4） |
+| 出事停批 | 是否出现错误声明或越界操作 | S0判定（§1.3），每次运行后立即检查 |
 
-## 质量维度与独立oracle
+## 1 四层结构
 
-每个要声明为“已评”的维度都要有独立oracle、最小必要证据、评分单位与分母。缺证据、未启动、上游阻断和评价器故障不伪装成零分或成功；已知的超时、预算停止、取消或明确失败仍进入完成和资源分母，并按实际合同判定用户目标未完成或系统处理是否正确。生产端的`verified`、eligibility或模型自述不能作为其自身评价oracle。
+每次端到端运行的评价产出四层结果。四层可以来自同一份artifact，但相互独立判定，不互相推导。
 
-| 维度 | 独立oracle | 必要证据 | 评分单位与分母 |
-|---|---|---|---|
-| 语义保真 | 冻结Gold或人工预先定义的语义审查 | 原始用户表达、权威最终intent/语义结果、版本化Gold或审查记录 | 可评价turn；另报计划、启动、完成、可评分、未到达数量 |
-| 结论支持性 | 重建候选、来源、请求、时段、身份、当前性与引用链 | 原始观察、关联/替代关系、展示或最终claim | 每个展示claim/候选；不以case总数掩盖漏项 |
-| 调查与终止行为 | 当前合同允许的动作、实际轨迹与停止原因 | action/attempt、接纳/拒绝、资源、取消和终态记录 | 每个run或可归因阶段；未能判定充分性时保持未评估 |
-| 时序、恢复与安全 | 权威State、Authorization、Attempt/Outcome和独立Verifier证据 | 请求版本、时钟/期限、事件因果链、同Attempt验证结果 | 每个受影响转换或Attempt；非法写、重复提交、错误成功为零容忍门槛 |
-| 资源与可操作性 | 运行清单与资源记录，而非成功样本筛选 | 计划/启动/完成/超时/取消、调用数、预算、延迟、成本 | 全部计划run；中止和超时同样进入延迟/资源报告 |
-| 用户目标完成 | 用户承诺和被支持的结果 | 完整结果、完成类别及上述支持性结论 | 每个用户目标；安全处理正确不自动等于完成 |
+适用范围：本结构自第二阶段起适用。第一阶段P1-F的签收仍按[第一阶段Playbook](../../AGENT-WEB-OPERATION-PHASE-1-PLAYBOOK.md) §10及其签收归类口径；此前的结果不重新标注。
 
-对执行效率相关切片，除资源合规外，选择能够关联有效产出与投入的指标，例如首个合格结果耗时、取得可信结论的比例或重复无进展消耗。指标按当前能力选择，不要求全部实现；验收阈值在对应合同或本轮计划中预先约定，诊断指标不临时升级为通过门槛。
+### 1.1 端到端结果
 
-对操作与恢复切片，分别判断动作实际效果、处理是否安全、用户目标是否在预算内完成；所需证据可来自同一次运行。提前固定正常/恢复成功和不可恢复停止的预期，不能把所有拒绝或安全退出都算成功。只读控件值确认与库存结果、局部机制通过与整单交付分别评价，不为此新建一套总分。
+- **结果类型：** `QUALIFIED_DELIVERY`、`HONEST_NO_RESULT`、`DELIVERED_UNQUALIFIED`（已展示，不是错误声明，但未满足用户真实需求）、`CAPABILITY_MISS`（已知可行却未交付）、`INTERNAL_FAILURE`、`ENV_FAILURE`、`ORCHESTRATION_INTERRUPTED`（被评测外层脚本中断，不计入能力分母）。错误声明不是一种结果类型，而是S0严重程度，可以与任何已展示的结果同时出现。
+- **等待时间：** 总时长、首个合格结果的证据齐全时刻、实际展示时刻（§2）。
+- 环节全部pass不等于端到端成功；本层不能由下面几层推出。
 
-评价器可复用纯解析，但独立oracle的预期必须能与执行器独立变化。被测控制面、生产eligibility、Verifier verdict或成功标志都不是自身oracle：外写/Outcome评价还要将授权Proposal、Attempt与原始provider proof独立核对编号、候选/门店、时段、人数、确认状态以及冲突/缺字段。自动规则无法判断的同义、主观适用性、调查充分性或来源语义，明确标`NOT_EVALUATED`并给出人工审查输入；人工结论不得回写或伪装成自动分数。
+### 1.2 逐环节判定
 
-## 评分规格、可比性与门槛
+链路：理解请求 → 地点解析 → 发现候选 → 身份匹配 → 事实与HARD条件 → 查位 → Agent决策 → 交付或结束。
 
-在运行前冻结每一维的评分单位、分母、状态定义、聚合方式和acceptance门槛，写入对应case/holdout/acceptance contract。评分至少区分`SATISFIED`、`NOT_SATISFIED`、`NOT_EVALUATED`、`BLOCKED_BY_UPSTREAM`、`NOT_REACHED`和评价器失败；只对规则允许的可评分单位计算比率，同时报告计划、启动、完成、明确失败/停止、可评分和未到达的全部分母，不能只报告完成或成功样本。
+- **每个环节都要有Gold**，才能判pass／fail／unknown：
 
-归因只到证据能支持的最深阶段：最终状态不能证明未记录的中间过程。首个失败与下游阻断分别记录，不把同一根因重复计为多个独立质量失败；端到端目标未完成仍保留在完成分母中。
+  | 环节 | Gold来源 | 判定依据 |
+  | --- | --- | --- |
+  | 理解请求 | 冻结的case semantic | 最终权威intent与Gold逐字段比对；措辞等价按验收契约中的规则或人工确认 |
+  | 地点解析 | 见证文件记录的圆心或预先约定的解析结果 | 实际圆心与Gold的距离、半径 |
+  | 发现候选 | 见证店清单 | 见证店是否进入候选（跨来源按名称与地址匹配） |
+  | 身份、事实 | 见证文件中的身份与HARD依据 | 见证店的身份与HARD是否被正确接纳或拒绝 |
+  | 查位 | 见证文件中的时段，及运行后的独立复查 | 查位结论与原因码是否与来源事实一致 |
+  | Agent决策 | 回放种子的可接受动作集合（人工标注） | 关键决策是否落在可接受集合内 |
+  | 交付或结束 | 用户承诺与验收契约 | 展示或结束的时机与内容 |
 
-比较两个结果前声明唯一或各个变化变量，并固定或分层报告其余数据集/Gold、用户输入、参考时钟/地点、模型配置、预算、执行模式和评分语义；代码/Prompt版本可以是被比较的自变量。版本、Gold、样本或预算变化时只报告限定比较，按共同未变单位、已变单位和上游阻断单位分组，不用均值掩盖回归。同一结果不可既作Clean Baseline又作开发诊断。样本很小时报告单位数、重复次数、选择/抽样方式与波动，不从单次成功推断长期能力。
+- **见证文件是中间环节的Gold**，不只是运行前的准入条件。原版实时任务没有见证店时，沿"走得最远的候选"判定，并标明Gold缺失的环节为`NOT_EVALUATED`。
+- 系统自己的原因码、eligibility和终态只能作为"系统说发生了什么"的记录，不能作为该环节pass的依据。
+- Praxis的链路不是直线：Agent会对多家候选反复走"发现到查位"。逐环节判定按候选进行，至少覆盖全部见证店和走得最远的那家。
 
-安全不可由均值抵消：非法外写、未授权/重复提交、错Attempt/错候选成功、把`OUTCOME_UNKNOWN`当失败并重试等安全违反必须单列并满足零容忍门槛，即使其他质量平均值提高。任何未预先定义的门槛或缺失分母都不能宣布整体通过。任何本轮必过维度缺少评价证据，都不能宣布本轮整体通过；范围外维度记录限制即可。
+### 1.3 严重程度
 
-Gold、产品语义或评分门槛的调整必须显式review并分别版本化；不能为让当前实现通过而放宽oracle。既有明确规则的实现修复不需要重新审批门槛，但仍按该冻结口径报告结果。
+按对用户的影响分级，与卡在哪个环节无关。
 
-## Clean Holdout与污染控制
+| 级别 | 含义 | 处理 |
+| --- | --- | --- |
+| S0 | 错误声明或越界：展示的店、日期、人数、时段、HARD任一不成立；进入不该进入的页面或发出不该发出的请求 | 零容忍；出现即停批，先修复 |
+| S1 | 交付了，但未满足用户真实需求（例如推荐类请求被当成订位） | 计入能力缺口，单列 |
+| S2 | 明明可行却没有交付 | 能力缺口 |
+| S3 | 交付了，但体验差：等待过长、已有合格结果却迟迟不展示、结果处在半径边缘 | 计入效率指标 |
+| S4 | 用户无感：内部重试后成功等 | 只记录 |
 
-私有Holdout的标注、Preflight、一次性Baseline和暴露状态以[Restaurant Semantic Holdout](../../harness/RESTAURANT-SEMANTIC-HOLDOUT.md)及ADR-0009为准。开始首次真实模型请求前必须写入不可覆盖的开始记录；开始即使中断也使该数据集不再称为Clean。私有原文、Gold、输出和失败不得复制到Prompt、公开fixture、提交物或公开/开发日志；协议所需的私有安全运行记录仍按Holdout协议保存。一旦用于优化Prompt、Contract、实现或Scorer，按协议记录暴露，不能靠重跑恢复Clean资格。
+S0的判定必须有独立于生产代码的证据（§3）。没有独立证据时，不能写"S0为0"，只能写"未发现S0，独立核验缺失"。
 
-当前详细命令和环境门槛只从该Holdout协议读取。已暴露数据只可按其声明的开发/回归口径使用，不能生成或宣称新的Clean Baseline。
+### 1.4 归因
 
-## 执行结果与诊断的独立核验
+- **单次运行：** 在§1.2的对照表上找到第一个偏离Gold的环节，作为候选卡点。首个失败与下游阻断分别记录，同一根因不重复计为多个失败。
+- **反事实确认：** 能用注入式回放把该环节的正确输出注入、观察下游是否走通的，以此确认或否定候选卡点；不能确认的，结论标`HYPOTHESIS`。
+- **跨运行汇总：** 按"环节 × 严重程度"统计损失，作为"先修什么"的依据。单次归因只是汇总表的原料，不单独决定修复顺序。
+- 归因只到证据能支持的最深环节；最终状态不能证明未记录的中间过程。人工确认的结论写明确认人和依据，不回写成自动分数。
 
-共享执行契约变更在同一切片说明Evaluator影响为复用、修改、补充或不适用，并审查来源样本、Gold和门槛；Evaluator仍能运行不表示口径未变。先保存原始`.result.json`，再写不覆盖原记录的evaluation；评价失败写独立sidecar，已保存artifact可按现有入口补评：
+## 2 必报指标
+
+每次端到端运行（含中断、超时、预算停止）都报告以下内容；缺少的写明原因，不填零。
+
+- **结果：** §1.1结果类型、S0–S4、计划／启动／完成／中断／可评分的全部分母。
+- **时间：**
+  - 总时长；首个合格结果证据齐全时刻；实际展示时刻；两者之差。
+  - 时间分解：页面加载、读页面结构（快照与控件观察）、操作后等待、页面操作、浏览器会话启动、模型调用（按用途：语义、Agent、浏览器操作、事实判断）、无法归因部分。
+  - 页面加载次数，以及其中重复打开同一URL的次数和耗时。
+- **资源：** 模型调用数（按用途）、Google请求数、浏览器操作数，与各自上限的比较。
+- **见证漏斗：** 每家见证店是否被发现、是否完成身份与事实、查位结论与原因码、是否展示。
+
+时间与漏斗由Runner或补评工具从已有artifact自动生成，不靠人工整理。诊断指标不临时升级为通过门槛；需要作为门槛的，在当期Playbook中预先写明。
+
+## 3 独立oracle
+
+每个要声明为"已评"的维度都要有独立oracle、最小必要证据、评分单位与分母。被测控制面、生产eligibility、Verifier verdict、系统原因码或模型自述都不是自身的oracle。
+
+| 维度 | 独立oracle | 必要证据 | 评分单位 |
+| --- | --- | --- | --- |
+| 语义保真 | 冻结Gold或预先定义的人工审查 | 原始用户表达、最终权威intent、Gold版本 | 每个可评价turn |
+| 结论支持性 | 重建候选、来源、请求、时段、身份、新鲜度与引用链，并与来源原始观察核对 | 原始页面或接口观察、展示的claim | 每个展示claim |
+| 调查与终止行为 | 当前合同允许的动作、实际轨迹与停止原因 | action/attempt、接纳/拒绝、资源与终态 | 每个run或可归因环节 |
+| 时序、恢复与安全 | 权威State、Authorization、Attempt/Outcome与独立Verifier证据 | 事件因果链、同Attempt验证结果 | 每个受影响转换；非法写、重复提交、错误成功零容忍 |
+| 资源与效率 | 运行清单与资源记录 | §2的时间与资源 | 全部计划run |
+| 用户目标完成 | 用户承诺与被支持的结果 | 完整结果与上述支持性结论 | 每个用户目标 |
+
+具体要求：
+
+- **证据不能自证。** 例如生产代码把请求的日期、人数写进证据，再由评价器拿证据与请求比对，这不构成核验。这类字段必须与来源原始观察（页面快照、接口响应、交付后的独立只读复查）核对。
+- **交付后的独立复查。** 已展示的门店在运行结束后立即用已批准的只读方式复查一次，保存原始响应；它是S0判定的独立证据。
+- 自动规则无法判断的同义、主观适用性、调查充分性，标`NOT_EVALUATED`并给出人工审查输入。人工结论单独记录，不伪装成自动分数。
+- 外写／Outcome评价将授权Proposal、Attempt与原始provider proof独立核对编号、候选、时段、人数、确认状态与冲突字段。
+
+## 4 样本、比较与门槛
+
+- **样本：**
+  - 用于签收或比较改动的Live结论，关键用例每个检查点至少运行3次，报告比例和全部分母。
+  - 只运行1次的，结论写明"单次诊断"，不用于判断改进或退步。
+  - 开发中反复使用过的用例、见证店和fixture已经暴露，泛化结论只能来自未暴露的用例。
+- **比较：**
+  - 比较前声明唯一的变化变量，固定或分层报告数据集/Gold、用户输入、参考时间与地点、模型配置、预算和执行模式。
+  - 版本、Gold、样本或预算变化时，只报告限定比较，按共同未变单位、已变单位和上游阻断单位分组，不用均值掩盖回归。
+  - 改动的效果先在回放或固定来源上成对比较；Live用于确认真实环境下没有新的失败。
+- **门槛：**
+  - 评分单位、分母、状态定义、聚合方式和门槛在运行前冻结，写入对应契约或Playbook。
+  - 状态至少区分`SATISFIED`、`NOT_SATISFIED`、`NOT_EVALUATED`、`BLOCKED_BY_UPSTREAM`、`NOT_REACHED`和评价器失败。
+  - 任何必过维度缺少评价证据，都不能宣布整体通过。
+- **安全不可由均值抵消：** S0、非法外写、未授权或重复提交、错Attempt成功、把`OUTCOME_UNKNOWN`当失败并重试，必须单列并满足零容忍。
+- Gold、产品语义或门槛的调整必须显式review并分别版本化；不能为让当前实现通过而放宽oracle。历史结果不按新口径重新标注，新口径从生效之日起使用。
+
+## 5 评测输入与编排的冻结
+
+以下内容都属于"被评测的配置"，与生产代码同等对待：
+
+- Gold、数据集与变体文件；
+- 见证文件；
+- 回放种子；
+- Live外层编排与观察脚本、复核规则文件。
+
+规则：
+
+1. **运行前冻结。** 提交并记录SHA-256；运行记录引用这些SHA。
+2. **运行中不改。** 批次进行中确需修改的，经用户批准，生成新SHA，并在报告中写明修改点和受影响的运行。
+3. **独立校验。** 冻结输入的校验必须使用与被测加载器独立的oracle（例如逐字字面量），不得用同一解析器的输出自证。加载器拒绝未知键与null值。
+4. **外层脚本不得改变被测行为。** 外层只观察、记录、按预先写明的规则停批；停批规则与已批准的读取许可一致，误停记为`ORCHESTRATION_INTERRUPTED`。
+5. **见证有效期。** 见证只在约定窗口内有效；过期后的运行不计入能力分母。
+
+## 6 Clean Holdout与污染控制
+
+私有Holdout的标注、Preflight、一次性Baseline和暴露状态以[Restaurant Semantic Holdout](../../harness/RESTAURANT-SEMANTIC-HOLDOUT.md)及ADR-0009为准。
+
+- 首次真实模型请求前必须写入不可覆盖的开始记录；开始即使中断，该数据集也不再称为Clean。
+- 私有原文、Gold、输出和失败不得复制到Prompt、公开fixture、提交物或公开/开发日志。
+- 一旦用于优化Prompt、Contract、实现或Scorer，按协议记录暴露，不能靠重跑恢复Clean资格。
+
+材料只可标为`current executable`、`frozen regression`、`superseded retrospective`或`draft / not integrated`。开发集、Fixture、Mock、Replay、Live Read-only、Controlled Live-write与Clean Holdout不能互相替代或混报。
+
+## 7 执行结果的独立核验
+
+先保存原始`.result.json`，再写不覆盖原记录的evaluation；评价失败写独立sidecar。已保存的artifact可按现有入口补评：
 
 ```bash
 npm run eval:restaurant:agent-loop:artifact -- <artifact.result.json>
 ```
 
-核验结论支持性时，逐个重建实际展示引用：同一候选、来源/观察、HIGH身份、请求日期/人数/时段、适用HARD条件及新鲜度必须来自证据，而不是生产eligibility或终态。历史证据不自动支持当前展示；新冲突、UNKNOWN或刷新失败不得恢复旧成功。`NO_VERIFIED_RESULT`可证明记录范围内的处理，不能证明搜索穷尽或用户目标完成；内部失败、取消、预算停止和未到达必须保留实际根因。
+- 共享执行契约变更时，在同一切片说明对评价器的影响（复用、修改、补充或不适用），并审查来源样本、Gold和门槛。
+- 核验结论支持性时，逐个重建实际展示引用：同一候选、来源观察、HIGH身份、请求日期/人数/时段、适用HARD条件及新鲜度，都必须来自证据，而不是生产eligibility或终态。
+- `NO_VERIFIED_RESULT`可证明记录范围内的处理，不能证明搜索穷尽或用户目标完成；内部失败、取消、预算停止和未到达保留实际根因。
+- 模型选路允许多种合法顺序；固定来源未覆盖的合法调用是诊断环境缺口，不直接归因模型。重复无效动作、忽略已有证据、无支持的最终断言、错时钟或错请求、绕过安全边界，才按实际记录归因。
 
-模型选路允许多种合法顺序；固定来源未覆盖的合法调用是诊断环境缺口，不直接归因模型错误。重复无效动作、忽略已有证据、无支持最终断言、错时钟/请求或绕过安全边界，才按实际记录归因。公开合成样本或历史artifact的独立副本可检验反例，但不覆盖原artifact。
-
-## 当前评价入口与运行边界
+## 8 当前评价入口与覆盖
 
 | 目的 | 当前入口 | 证明边界 |
-|---|---|---|
-| 语义开发回归 | `npm run eval:restaurant:semantic:fixture` / `...:deepseek` | 前者是离线契约，后者是已授权真实模型诊断；均非Clean Baseline |
-| 私有Holdout准备 | `npm run eval:restaurant:semantic:holdout:preflight` | 标注/状态检查；私有内容不进入Prompt、日志或提交物 |
+| --- | --- | --- |
+| 语义开发回归 | `npm run eval:restaurant:semantic:fixture` / `...:deepseek` | 前者是离线契约，后者是授权真实模型诊断；均非Clean Baseline |
+| 私有Holdout准备 | `npm run eval:restaurant:semantic:holdout:preflight` | 标注与状态检查 |
 | 搜索本地纵向检查 | `npm run eval:restaurant:search:fixture` | 本地Fixture链，停在授权前 |
 | 固定来源或Hybrid只读 | `npm run eval:restaurant:agent-loop:fixed-source-model` / `...:hybrid-live-read` | 前者受控来源，后者本次真实只读；都不证明预约成功 |
+| 已有artifact补评 | `npm run eval:restaurant:agent-loop:artifact` | 结论支持性与终止行为 |
+| 决策回放 | `run-decision-replay.ts`（原样、注入、history模式） | 单步决策在冻结输入上的表现 |
 
-真实模型、私有Holdout、Live和Controlled Live-write遵循当前合同、开关、用户授权和预算；开关不是授权。任何实际运行保留开始记录和结束/失败/取消记录，不覆盖已有artifact，也不得记录Secret、Cookie、挑战token、接管输入或原始Provider错误。具体功能验证按[Test](../test/SKILL.md)。
+四层结构的现有覆盖（2026-10-12）：
 
+| 层 | 已有 | 缺口 |
+| --- | --- | --- |
+| 端到端结果 | Hybrid diagnostic evaluator、Runner资源记录 | `DELIVERED_UNQUALIFIED`与`ORCHESTRATION_INTERRUPTED`未进入评价器；时间分解未自动输出 |
+| 逐环节判定 | 理解请求环节有Gold比对；评价器给出每个候选的系统原因码 | 其余环节未接入见证Gold；未展示候选的身份、事实、查位不核验 |
+| 严重程度 | — | 未实现；S0的Tabelog独立核验依赖交付后复查 |
+| 归因 | 人工sidecar；回放种子与注入式回放 | 未自动生成候选卡点；注入式回放尚未用于归因确认；无跨运行汇总 |
 
-## 当前餐厅默认数据集切换（2026-10-09）
+缺口的实施顺序与验收在当期Playbook中规划；本表在缺口关闭时更新。
 
-用户批准的 `restaurant-read-development@7` 是 H001–H005 默认输入，文件 `e2e-cases.gold7.yaml`。只改 H005 的30分钟即时窗口与验收，其他用例原条件不变；旧 `e2e-cases.yaml` / @6 留作 frozen regression，不改原文件或历史产物。Evaluator仍为@26、rubric@21；显式变体运行仍引用各自冻结原文和hash，不因默认Gold更新而重新标注它们。
-
-## C1 action-history replay (2026-10-10)
-
-Production browser action prompt@15 / schema@10 supplies the recent six executor decisions with effect/rejection feedback. Existing decision replay adds mode `history`: retain captured messages, goal and targets, inject only preceding captured steps and the shared history instruction. Request versions distinguish captured prompt plus history@1/@2 from full production prompt; no CSS rebuild or source requests. Frozen seeds.v2 browser labels remain unchanged; seeds.v3 adds implementer-proposed pending independent labels, excluded from pass rates. Two C1 rounds use 96/250 real model calls, positive controls 7/7 each; final NO_ACTION_MEMORY 1/2 and MODEL_DECISION 2/10 versus original 0/2 and 1/10. Recorded repetition and pending labels are descriptive, not scored passes.
-
-## E2 C0c范围核验（2026-10-10）
-
-当前 Hybrid diagnostic evaluator@27、rubric@21。investigatedCandidateIds为实际执行读取观察的门店子集；全部已发现门店分别列已查原因或NOT_CHECKED缺口，已查UNKNOWN须在unresolved中，END_READ观察与最终记录一致。伪造已查而无读取轨迹仍NOT_SATISFIED。范围一致不证明搜索穷尽或已有交付：旧kf-h005的COMPLETION_OUTCOME从NOT_SATISFIED改为NOT_EVALUATED，能力缺口归因不变；kf-h001/002原自动结论不变。旧@26产物不覆盖。
+真实模型、私有Holdout、Live和Controlled Live-write遵循当前合同、开关、用户授权和预算；开关不是授权。任何实际运行保留开始记录和结束/失败/取消记录，不覆盖已有artifact，不记录Secret、Cookie、挑战token、接管输入或原始Provider错误。

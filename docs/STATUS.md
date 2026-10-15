@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.212
+- Document revision: 4.213
 - Last updated: 2026-10-15
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-15 文档与复核同步：** 合并远端b36ec7f及前序提交，保留P2-0原提交与冻结SHA。Eval Skill 2.0、Test Skill 1.3和第一阶段签收文档包已纳入；T1说明与校准标签表为待执行／draft材料，本次仅同步，不运行。P2-0两次Live结果和未评估边界保持下述记录，仍待独立复核。
 
 - **2026-10-15 P2-0 h001明日日期回归完成／P2-0待独立复核：** 用户最新授权立即运行h001、date换明天；仅新建development-variant将tonight改tomorrow并同步semantic日期2026-10-16，其他条件与Gold逐项相等，原Gold/变体/见证不动。生产35b6bf0/CLEAN不变，外层重冻12SHA与离线空跑PASS。首次preflight后唯一Live SUCCEEDED/NO_VERIFIED_RESULT，Agent第11步END_READ，零展示；47模型/3Google、473.822秒、等待25.57%，有局部浏览器超时，未触发安全停止。evaluator28 qualified NO/完成维度NOT_EVALUATED，保留独立审计限制不改判；47决策=47调用、产物SHA通过，录制NOT_REPLAYABLE。浏览器共享调用达到36且>12仍有找店决策。累计1086/1500模型、39Live、Google确认27/历史UNKNOWN，本批2/2、0环境重跑/预留1。复用四门禁879/879与Guard14/14，完整浏览器2项既有失败保留。报告p2-0-hardening-20261015/report.md，不推送、不再运行，停止待独立复核；不建立自动化。
 

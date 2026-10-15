@@ -1,8 +1,8 @@
 # Praxis 开发文档索引
 
 - Status: Accepted
-- Document revision: 1.6
-- Last updated: 2026-10-09
+- Document revision: 1.7
+- Last updated: 2026-10-12
 - Source of truth for: 开发文档导航、阅读路径、文档职责和冲突处理
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Project Positioning](PROJECT-POSITIONING.md)
@@ -34,7 +34,7 @@ Accepted ADR
 | 产品/交互 | Project Positioning、MVP PRD、User Flows；Web/Case再读Agent Gateway and Workspace |
 | 架构/State/执行 | Overview、相关Accepted ADR、Task Runtime或Policy/Execution/Verification、相关Domain |
 | Provider/Browser | Restaurant Domain、Capability Matrix、Agent Orchestration、Data/Security、相关ADR |
-| 测试/评测 | Test Skill；模型质量读Eval；具体Harness协议按需读取，不自动读取标注或私有数据 |
+| 测试/评测 | Test Skill；任何评测的设计、运行或结论读Eval Skill；具体Harness协议按需读取，不自动读取标注或私有数据 |
 | 文档/配置/入口整理 | 对应权威文档、package scripts、配置读取实现 |
 
 非trivial实施按[Planning](skills/planning/SKILL.md)选择诊断/局部/架构计划，验证按[Test](skills/test/SKILL.md)，交付按[Post-change](skills/post-change-verify/SKILL.md)。纯链接和说明修正不需要完整产品/语义问卷。
@@ -98,21 +98,24 @@ Accepted ADR
 - [Eval](skills/eval/SKILL.md)
 - [Post-change Verify](skills/post-change-verify/SKILL.md)
 
+## 当前阶段计划
+
+- [Agent 网站操作第一阶段 Playbook](AGENT-WEB-OPERATION-PHASE-1-PLAYBOOK.md)：第一阶段的目标、工作包、退出条件、预算与签收口径；当前进度见 STATUS。
+- [H001–H005 已知可行基线 Playbook](H001-H005-KNOWN-FEASIBLE-BASELINE-PLAYBOOK.md)：P1-A 细则（已完成）；已暴露开发诊断，非 Clean Baseline。其结论分类只用于 P1-A 至 P1-F，此后按 Eval Skill 的四层结构评价。
+- 独立复核文件随各批次原样提交在 `.eval-artifacts/<批次>/` 下，由对应报告和 STATUS 条目链接。
+
 ## 仓库治理
 
-- [Agent 网站操作第一阶段 Playbook](AGENT-WEB-OPERATION-PHASE-1-PLAYBOOK.md)：第一阶段总纲；P1-A 决策捕获与基线后推进 P1-C／C0 调用预算交付，验收状态见 STATUS；其他工作包未实施。
-- [H001–H005 已知可行基线 Playbook](H001-H005-KNOWN-FEASIBLE-BASELINE-PLAYBOOK.md)：P1-A 细则；已暴露开发诊断，非 Clean Baseline；变体与见证不随 WP-A 修改。
-
 - [浏览器只读可靠性独立复核（2026-10-07）](history/BROWSER-READ-RELIABILITY-REVIEW-2026-10-07.md)：通用执行、来源网络规则、受控交付及三次Live的证据；代码局部通过，完整交付仍FAIL。
-- [H001 可信结果交付 Playbook](H001-QUALIFIED-DELIVERY-PLAYBOOK.md)：draft / not integrated；500 秒开发预算下的查询前置选项、必要事实追查、证据范围和完整交付验收计划，不代表能力已实现或新 Live 已获授权。
+- [H001 可信结果交付 Playbook](H001-QUALIFIED-DELIVERY-PLAYBOOK.md)：已被第一阶段 Playbook 取代的历史计划；其中的命令和门槛不再使用。
 - [H001 可信交付独立复核（2026-10-07）](history/H001-QUALIFIED-DELIVERY-REVIEW-2026-10-07.md)：固定来源模型通过，完整Live交付FAIL；后续仅发现Live证明TableCheck查询建议选择，Tabelog类别扩查仍FAIL，锚点修复仅获离线验证。
-- [Browser Agent 通用操作与会话可靠性 Playbook](BROWSER-AGENT-GENERIC-OPERATIONS-PLAYBOOK.md)：2026-09-26授权实施切片；冻结上游semantic，修复共享会话隔离与控件选择契约，不代表已验收能力。
+- [Browser Agent 通用操作与会话可靠性 Playbook](BROWSER-AGENT-GENERIC-OPERATIONS-PLAYBOOK.md)：2026-09-26 的历史实施切片，已被第一阶段 Playbook 取代；不代表已验收能力。
 - [Browser Agent 餐厅实施与 Review 计划](BROWSER-AGENT-RESTAURANT-IMPLEMENTATION-PLAN.md)：当前 P0–P4 只读切片及 P5 边界；早期交接状态和额度属于历史记录，后续授权与最终结果单列。
 - [Browser Agent 最终复核（2026-09-16）](history/BROWSER-AGENT-FINAL-REVIEW-2026-09-16.md)：本轮实现、真实两店比较/修订、新商户失败、独立结果复核、测试和未覆盖范围。
 - [Browser Agent P0–P4 交付记录（2026-09-16）](history/BROWSER-AGENT-RESTAURANT-P0-P4-DELIVERY-2026-09-16.md)：本轮改动、B1–B14 实际证据、命令和未完成项；不是独立 Review 或 Live 验收。
 
 - [Restaurant Read Execution Design](RESTAURANT-READ-EXECUTION-DESIGN.md)：已执行的只读调查工具语义、证据接纳、正常无结果收尾与验证设计，关联ADR-0025；真实模型/来源验收仍单独记录。
-- [Browser Execution and Live Search Plan](BROWSER-EXECUTION-AND-LIVE-SEARCH-PLAN.md)：draft / not integrated；浏览器共用受控执行、原始 H001 和本地真实搜索体验的交接计划，不代表当前能力。
+- [Browser Execution and Live Search Plan](BROWSER-EXECUTION-AND-LIVE-SEARCH-PLAN.md)：历史交接计划（draft / not integrated），已被第一阶段 Playbook 取代，不代表当前能力。
 - [Repository Naming and Version Conventions](REPOSITORY-CONVENTIONS.md)：Git branch/tag、版本轴、源码、Eval、文档和命令命名的唯一Source of Truth。
 - [Repository Improvement Plan](REPOSITORY-IMPROVEMENT-PLAN.md)：2026-09-05仓库Review的整改执行进度与延后项，不替代当前权威设计，不包含人工标注数据和已有测试artifact的修改。
 
@@ -136,6 +139,8 @@ Related documents:
 - 架构边界变化：更新 Architecture、ADR 与 Arch Guard，并同步 `STATUS.md`。
 - 平台能力变化：更新 Capability Matrix 与 `STATUS.md`。
 - Prompt、模型或评测口径变化：更新 Eval Skill、`STATUS.md`与 Test Log。
+- 评测输入（Gold、变体、见证、回放种子）或 Live 外层编排变化：按 Eval Skill §5 冻结并记录 SHA，在对应报告和 Test Log 中写明。
+- Skill 只写规则；某次运行或某个版本的结论写入 STATUS、DEVLOG、TEST-LOG 或批次报告，不追加到 Skill。
 - 验证流程变化：更新 Test/Post-change Skill 与 Test Log。
 - branch、版本、文件、目录或命令命名变化：只更新 Repository Conventions，并在AGENTS保留必要强制摘要；不得写入Arch Guard。
 - 非 trivial 实现：更新 Dev Log；若改变当前能力或门槛，同步 `STATUS.md`。

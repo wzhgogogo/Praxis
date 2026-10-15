@@ -4200,3 +4200,27 @@ State@15/TaskDefinition@14，noVerifiedResult.termination记录type/reasonCode/i
 ## TEST-2026-10-15-P20-live-h001-tomorrow
 
 用户最新授权立即运行h001、date换明天；仅新建development-variant将tonight改tomorrow并同步semantic日期2026-10-16，其他条件与Gold逐项相等，原Gold/变体/见证不动。生产35b6bf0/CLEAN不变，外层重冻12SHA与离线空跑PASS。首次preflight后唯一Live SUCCEEDED/NO_VERIFIED_RESULT，Agent第11步END_READ，零展示；47模型/3Google、473.822秒、等待25.57%，有局部浏览器超时，未触发安全停止。evaluator28 qualified NO/完成维度NOT_EVALUATED，保留独立审计限制不改判；47决策=47调用、产物SHA通过，录制NOT_REPLAYABLE。浏览器共享调用达到36且>12仍有找店决策。累计1086/1500模型、39Live、Google确认27/历史UNKNOWN，本批2/2、0环境重跑/预留1。复用四门禁879/879与Guard14/14，完整浏览器2项既有失败保留。报告p2-0-hardening-20261015/report.md，不推送、不再运行，停止待独立复核；不建立自动化。
+
+## DOCS-2026-10-12-EVAL-SKILL-HISTORY-MOVE
+
+以下三段原位于 Eval Skill 1.3 末尾，属于运行与版本记录，按 Eval Skill 2.0 "Skill 只写规则" 逐字迁出，内容未改。
+
+### 当前餐厅默认数据集切换（2026-10-09）
+
+用户批准的 `restaurant-read-development@7` 是 H001–H005 默认输入，文件 `e2e-cases.gold7.yaml`。只改 H005 的30分钟即时窗口与验收，其他用例原条件不变；旧 `e2e-cases.yaml` / @6 留作 frozen regression，不改原文件或历史产物。Evaluator仍为@26、rubric@21；显式变体运行仍引用各自冻结原文和hash，不因默认Gold更新而重新标注它们。
+
+### C1 action-history replay (2026-10-10)
+
+Production browser action prompt@15 / schema@10 supplies the recent six executor decisions with effect/rejection feedback. Existing decision replay adds mode `history`: retain captured messages, goal and targets, inject only preceding captured steps and the shared history instruction. Request versions distinguish captured prompt plus history@1/@2 from full production prompt; no CSS rebuild or source requests. Frozen seeds.v2 browser labels remain unchanged; seeds.v3 adds implementer-proposed pending independent labels, excluded from pass rates. Two C1 rounds use 96/250 real model calls, positive controls 7/7 each; final NO_ACTION_MEMORY 1/2 and MODEL_DECISION 2/10 versus original 0/2 and 1/10. Recorded repetition and pending labels are descriptive, not scored passes.
+
+### E2 C0c范围核验（2026-10-10）
+
+当前 Hybrid diagnostic evaluator@27、rubric@21。investigatedCandidateIds为实际执行读取观察的门店子集；全部已发现门店分别列已查原因或NOT_CHECKED缺口，已查UNKNOWN须在unresolved中，END_READ观察与最终记录一致。伪造已查而无读取轨迹仍NOT_SATISFIED。范围一致不证明搜索穷尽或已有交付：旧kf-h005的COMPLETION_OUTCOME从NOT_SATISFIED改为NOT_EVALUATED，能力缺口归因不变；kf-h001/002原自动结论不变。旧@26产物不覆盖。
+
+## TEST-2026-10-15-docs-eval-skill-2-and-phase1-signoff
+
+纯文档（模式：Docs only）。合入2026-10-12用户已批准的文档整理包：AGENTS、Eval Skill 2.0、Test Skill 1.3、INDEX 1.7、Harness Design 4.1、Browser Read Diagnostics 0.16。六个目标文件合入前`git hash-object`与包内基线一致，替换后SHA-256前16位与包内清单一致（b23dfcd1f6caa05d、0414ba5970356de0、9cc28c901fa5e1a5、fa70603e86fd7d21、9825906fdc5d12ac、b9af4c5a598c41ff）；Eval Skill 1.3末尾三段运行记录按包内说明逐字迁入本日志`DOCS-2026-10-12-EVAL-SKILL-HISTORY-MOVE`。同时登记此前已提交的第一阶段签收复核材料（921aa76、cd876a7）。按Test Skill纯文档矩阵核对链接、引用与diff：包内Test Skill指向Eval Skill旧标题的锚点（`#执行结果与诊断的独立核验`）已改为2.0的`#7-执行结果的独立核验`，因此Test Skill最终SHA与包内清单不同，其余五个文件一致；STATUS中一处指向未提交产物的旧链接为既有问题，未改；未运行代码门禁、付费模型或Live。
+
+## TEST-2026-10-15-docs-merge-before-push
+
+Docs only：合并远端b36ec7f及其文档前序提交与本地P2-0六个提交，保留双方原提交和冻结SHA；冲突仅涉及STATUS、历史日志和月度索引，历史记录两侧原文均保留。复核材料、校准标签草稿和T1说明原样纳入，不执行新工作包；P2-0仍待独立复核。用户未提交的INDEX／Booking草稿和三个演示文件不纳入本次提交。按纯文档矩阵检查冲突标记、diff、链接、日志及索引计数和权威一致性；合并未改动src、tests、package或运行配置，复用P2-0既有四门禁879/879，不新增模型、Google或Live调用。

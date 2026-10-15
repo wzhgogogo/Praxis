@@ -3516,3 +3516,11 @@ State@15/TaskDefinition@14，noVerifiedResult.termination记录type/reasonCode/i
 ## DEV-2026-10-15-P20-live-h001-tomorrow
 
 用户最新授权立即运行h001、date换明天；仅新建development-variant将tonight改tomorrow并同步semantic日期2026-10-16，其他条件与Gold逐项相等，原Gold/变体/见证不动。生产35b6bf0/CLEAN不变，外层重冻12SHA与离线空跑PASS。首次preflight后唯一Live SUCCEEDED/NO_VERIFIED_RESULT，Agent第11步END_READ，零展示；47模型/3Google、473.822秒、等待25.57%，有局部浏览器超时，未触发安全停止。evaluator28 qualified NO/完成维度NOT_EVALUATED，保留独立审计限制不改判；47决策=47调用、产物SHA通过，录制NOT_REPLAYABLE。浏览器共享调用达到36且>12仍有找店决策。累计1086/1500模型、39Live、Google确认27/历史UNKNOWN，本批2/2、0环境重跑/预留1。复用四门禁879/879与Guard14/14，完整浏览器2项既有失败保留。报告p2-0-hardening-20261015/report.md，不推送、不再运行，停止待独立复核；不建立自动化。
+
+## DEV-2026-10-15-docs-eval-skill-2-and-phase1-signoff
+
+独立复核者提交。第一阶段于2026-10-15签收（Playbook 1.8，`.eval-artifacts/p1-g-20261012/phase-1-signoff-20261015.md`）：条件1、3、4、5、6满足，条件2适用"能力目标转入第二阶段"；新发现找店阶段浏览器模型上限漏传（落到默认12/6）与预算耗尽后的死循环，连同`b55e91c`复核的三项后续并入P2-0加固批（`.eval-artifacts/p2-0-hardening-20261015/codex-instruction.md`）。另合入2026-10-12已批准的文档整理包：Eval Skill 2.0四层结构自第二阶段起适用，Test Skill 1.3补"外部运行时语义须真实验证、评测输入独立校验、等待有界"，INDEX 1.7标注当前阶段计划与已取代的旧计划，Browser Read Diagnostics 0.16把多跳重定向改记为已知边界缺口。无代码改动。
+
+## DEV-2026-10-15-docs-merge-before-push
+
+合并远端b36ec7f及其文档前序提交与本地P2-0六个提交，保留双方原提交和冻结SHA；冲突仅涉及STATUS、历史日志和月度索引，历史记录两侧原文均保留。复核材料、校准标签草稿和T1说明原样纳入，不执行新工作包；P2-0仍待独立复核。用户未提交的INDEX／Booking草稿和三个演示文件不纳入本次提交。
