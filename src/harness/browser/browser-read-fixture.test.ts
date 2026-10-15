@@ -508,7 +508,9 @@ test(`native dynamic Tabelog ${outcome} reaches formal H001 ${outcome === "AVAIL
       return reply(JSON.stringify({ sourceSelections: selected ? [selected] : [], judgments: selected ? [{ criterion: "omakase", outcome: "SUPPORTED", scope: "RESTAURANT_CATEGORY_TYPE", evidenceIds: [selected.documentId] }] : [] }), request.purpose);
     }
     if (request.purpose === "browser_read_decide") {
-      const input = JSON.parse(request.messages.find(item => item.role === "user")!.content) as { observation: { targets: Array<{ ref: string; label: string; selected?: boolean }> } };
+      const input = JSON.parse(request.messages.find(item => item.role === "user")!.content) as { observation: { targets: Array<{ ref: string; label: string; selected?: boolean; availableActions?: string[] }> } };
+      const region = input.observation.targets.find(target => target.label === "Shibuya" && target.availableActions?.includes("OPEN_LINK"));
+      if (region) return reply(JSON.stringify({ action: "OPEN_LINK", targetRef: region.ref, authoritativeField: "NONE", requestedState: "NONE", reason: "Select the observed region before reading its list." }), request.purpose);
       const dateTarget = input.observation.targets.find(target => target.label === "Date 2026-08-19" && !target.selected);
       const partyTarget = input.observation.targets.find(target => target.label === "Guests 2" && !target.selected);
       const target = dateTarget ?? partyTarget;
@@ -567,7 +569,7 @@ test(`native dynamic Tabelog ${outcome} reaches formal H001 ${outcome === "AVAIL
   assert.deepEqual(browserActions, ["DATE", "PARTY_SIZE"], "request values must come from real observed DOM actions");
   const navigations = trace.filter(item => item.kind === "SESSION_CALL" && (item.detail as { method?: string }).method === "navigate")
     .map(item => (item.detail as { args: string[] }).args[0]!);
-  assert.match(navigations[0]!, /^https:\/\/tabelog\.com\/en\/tokyo\/A1303\/A130301\/rstLst\//);
+  assert.match(navigations[0]!, /^https:\/\/tabelog\.com\/en\/tokyo\/rstLst\//);
   const tableCheckSearches = navigations.filter(value => new URL(value).hostname === "www.tablecheck.com");
   if (outcome === "AVAILABLE") {
     assert.equal(state.phase, "PRESENT_RESULTS", JSON.stringify(state));

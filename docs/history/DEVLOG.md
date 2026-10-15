@@ -3528,3 +3528,7 @@ State@15/TaskDefinition@14，noVerifiedResult.termination记录type/reasonCode/i
 ## DEV-2026-10-15-P20-h001-witness-after
 
 按用户本轮授权，对h001的2026-10-16 19:00／2人向指定四店各发一次四参数Tabelog公开GET，4/4 HTTP200；原始字节、UTC时间、参数和SHA保存在`.eval-artifacts/p2-0-hardening-20261015/prep/live/h001/witness-after/`。复用既有captureVacancy，不改产品、Prompt、Schema、配置、Gold、变体、见证或冻结树；无模型／Google／正式整单Live增量，无重试或表单操作。不将较晚库存回写成此前Live事实，不重评或自行签收；本地提交，不推送。
+
+## 2026-10-15 T1-2 浏览器门禁与动态 Tabelog Fixture
+
+ADR-0040 后两条动态 Chromium 组合仍使用只会操作日期/人数的旧模型替身，且区域列表缺地区标题。先红后绿补齐观察地区入口选择与当前列表标题；资格和源请求绑定断言保持。Test Skill 1.4 明确 Browser 执行器/Guard/Source Pack/Adapter/读取组装触发真实本地 Chromium 门禁，与其余四条并列。离线证据见 `.eval-artifacts/t1-assembly-20261015/02-browser/`；未运行 Live、付费模型或见证 GET。

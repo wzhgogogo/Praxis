@@ -4228,3 +4228,7 @@ Docs only：合并远端b36ec7f及其文档前序提交与本地P2-0六个提交
 ## TEST-2026-10-15-P20-h001-witness-after
 
 按用户本轮授权，对h001的2026-10-16 19:00／2人向指定四店各发一次四参数Tabelog公开GET，4/4 HTTP200；原始字节、UTC时间、参数和SHA保存在`.eval-artifacts/p2-0-hardening-20261015/prep/live/h001/witness-after/`。复用既有captureVacancy，不改产品、Prompt、Schema、配置、Gold、变体、见证或冻结树；无模型／Google／正式整单Live增量，无重试或表单操作。不将较晚库存回写成此前Live事实，不重评或自行签收；本地提交，不推送。离线核验：四个指定rst_id与精确日期／人数／时段、GET唯一四参数、4/4 JSON合法、元数据与原始响应SHA一致、时间顺序、diff及月度索引PASS。仅Live Read-only来源观察＋纯文档核验，无代码改动，不重跑代码门禁。
+
+## TEST-2026-10-15-T1-2-BROWSER
+
+真实 Chromium 两条旧用例修复前目标 availability 断言失败（red.log），修复后正常 AVAILABLE 展示与 UNAVAILABLE 续查均通过（green-targeted.log，2/2）。四条代码门禁全绿，npm test 879/879；完整 Chromium 门禁结果见同目录 browser.log。只替换页面与模型传输，未放宽身份/资格、未删除用例。无付费模型/Live/见证 GET。

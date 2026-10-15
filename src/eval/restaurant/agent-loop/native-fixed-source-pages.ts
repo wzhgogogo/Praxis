@@ -472,7 +472,7 @@ export function dynamicTabelogSourcePages(options: { result?: "AVAILABLE" | "UNA
             // a raw link but deliberately yields no parsed outlet, which
             // exercises neither the same-source availability path nor the
             // fixed-order continuation it is meant to cover.
-            await route.fulfill({ contentType: "text/html; charset=utf-8", body: `<a class="list-rst__rst-name-target restaurant-name" href="${detailUrl}" data-address="Shibuya 100, Tokyo">Native Dynamic Tabelog 100</a>` });
+            await route.fulfill({ contentType: "text/html; charset=utf-8", body: `<h1>Restaurants in Shibuya</h1><a class="list-rst__rst-name-target restaurant-name" href="${detailUrl}" data-address="Shibuya 100, Tokyo">Native Dynamic Tabelog 100</a>` });
             return;
           }
           if (request.origin === "https://www.tablecheck.com" && request.pathname === "/en/japan/search") {

@@ -7,6 +7,8 @@
 
 ## 当前门槛
 
+- **2026-10-15 T1-2 离线浏览器门禁：** 两条旧 dynamic Tabelog H001 Chromium 场景先红后绿；Fixture 地区入口选择对齐 ADR-0040，身份／HARD／库存／展示资格保持。Test Skill 1.4 明确浏览器执行器、Guard、Source Pack、Adapter及读取组装触发 `test:browser:fixture`，与四条代码门禁并列。T1 其余项继续，未运行付费模型、Live或见证 GET；本地提交不推送。证据 `.eval-artifacts/t1-assembly-20261015/02-browser/`。
+
 - **2026-10-15 h001追加见证GET：** 用户授权对10/16 19:00、2人的四家指定店各发一次公开四参数GET，4/4 HTTP200，原始响应与时间戳／SHA已存`p2-0-hardening-20261015/prep/live/h001/witness-after/`。仅作为较晚来源观察，不改变此前Live／evaluator结论；0新增模型／Google／正式Live，P2-0仍待独立复核。
 
 - **2026-10-15 文档与复核同步：** 合并远端b36ec7f及前序提交，保留P2-0原提交与冻结SHA。Eval Skill 2.0、Test Skill 1.3和第一阶段签收文档包已纳入；T1说明与校准标签表为待执行／draft材料，本次仅同步，不运行。P2-0两次Live结果和未评估边界保持下述记录，仍待独立复核。

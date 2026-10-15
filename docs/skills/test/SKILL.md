@@ -5,8 +5,8 @@ description: 为Praxis改动从合同和失效机制推导必要的功能与安�
 
 # Praxis Test
 
-- Document revision: 1.3
-- Last updated: 2026-10-12
+- Document revision: 1.4
+- Last updated: 2026-10-15
 
 Test负责跨阶段行为覆盖、验证方法、检错有效性和故障关闭。质量维度、评分单位和验收门槛属于[Eval](../eval/SKILL.md)；当前产品合同、已运行证据和未覆盖项分别以链接的权威文档、[STATUS](../../STATUS.md)和[TEST-LOG](../../history/TEST-LOG.md)为准。
 
@@ -23,7 +23,7 @@ Test负责跨阶段行为覆盖、验证方法、检错有效性和故障关闭�
 | 纯文档/配置说明 | 链接、命令/变量引用、权威一致性、diff；不运行付费或Live测试 |
 | 局部实现/重构 | typecheck、arch:check、相关行为测试、build；共享路径受影响时运行npm test |
 | Runtime、Policy、授权、State/Schema、Verifier、P0路径 | typecheck、arch:check、npm test、build及对应状态/副作用不变量 |
-| Provider/Browser Adapter | Contract；操作DOM时加真实浏览器本地Fixture；有合法样本时Replay；改变平台能力声明时单独Live Read-only |
+| Browser执行器、Guard、Source Pack、浏览器Adapter或读取组装 | Contract及`npm run test:browser:fixture`（真实本地Chromium）；有合法样本时Replay；改变平台能力声明时单独Live Read-only |
 | Search/排序 | Unit与Search Harness；真实响应兼容性变化时Replay或明确缺口 |
 | Web交互 | 客户端检查、相关HTTP/API与关键浏览器交互；响应式标记不能替代视觉/设备验证 |
 | 语义Prompt/Contract/Scorer | 对应Unit、固定开发Regression及Eval协议要求；不自动运行或读取私有Holdout |
@@ -31,7 +31,7 @@ Test负责跨阶段行为覆盖、验证方法、检错有效性和故障关闭�
 | PostgreSQL持久化 | PGlite集成；另经测试数据库写入授权运行真实PostgreSQL smoke |
 | 冻结Goal/Scheduler探针 | 仅影响该路径时运行`npm run test:probes`；不属于当前Restaurant默认产品门禁 |
 
-四条离线代码门禁是`npm run typecheck`、`npm run arch:check`、`npm test`、`npm run build`。通过后只在新改动、失败或未解决风险需要时重复，不按测试数量扩张范围。
+离线代码门禁是`npm run typecheck`、`npm run arch:check`、`npm test`、`npm run build`；上表浏览器相关路径还必须运行`npm run test:browser:fixture`，与前四条并列汇报且要求全绿。`npm test`不包含`src/harness/browser/`，不能替代该门禁；其他改动不默认触发。通过后只在新改动、失败或未解决风险需要时重复，不按测试数量扩张范围。
 
 ## 覆盖推导与检错有效性
 
