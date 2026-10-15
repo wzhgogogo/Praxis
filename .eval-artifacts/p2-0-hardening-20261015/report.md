@@ -1,8 +1,8 @@
-# P2-0 加固批报告（四项实现完成；Live 1/2）
+# P2-0 加固批报告（四项实现与2次Live执行完成；待独立复核）
 
 Evidence status: exposed development evidence，不是Clean Baseline。基线921aa76已通过git pull --ff-only取得；通读codex-instruction、P1-G复核、phase-1-signoff及Playbook1.8。第一阶段已独立签收，P2-0只处理四项获批通用缺陷；不改Gold／变体／见证，不扩大交付资格或只读准入。用户已有未提交INDEX、Booking草稿和演示文件保留，不纳入本批。
 
-切片顺序：Guard逐跳安全 → 显式模型限额接线 → 无可执行路径／TIMEOUT诚实结束 → typed失败分类／结构化原因／evaluator@28。每项独立红绿、四门禁、本地提交；最后冻结新生产提交，只执行两次授权原版Live。起点1014/1500模型、37累计Live，新预算正式2次／启动后环境重跑最多1次；当前新增25模型／1Google业务／1正式Live（h002）；累计1039/1500模型、38Live。h001今日时窗已过；自动排程未获自动审批放行，尚待明确排程授权。
+切片顺序：Guard逐跳安全 → 显式模型限额接线 → 无可执行路径／TIMEOUT诚实结束 → typed失败分类／结构化原因／evaluator@28。每项独立红绿、四门禁、本地提交；最后冻结新生产提交；执行h002原版与用户最新授权的h001明日日期回归。起点1014/1500模型、37累计Live，新预算正式2次／启动后环境重跑最多1次；当前新增72模型／4Google业务／2正式Live；累计1086/1500模型、39Live。h001已按用户最新授权立即执行，目标日期改为东京10/16；未建立自动任务，结果见末节。
 
 ## 1 Guard逐跳重定向
 
@@ -32,7 +32,7 @@ Evidence status: exposed development evidence，不是Clean Baseline。基线921
 
 ## 冻结及Live
 
-已冻结35b6bf0；h002完成、h001未启动，详见末节。不推送。
+已冻结35b6bf0；h002与h001明日日期回归均已执行，详见末节，停止待独立复核。不推送。
 
 ## 2 显式模型额度接线
 
@@ -74,14 +74,14 @@ Evidence status: exposed development evidence，不是Clean Baseline。基线921
 截至四项离线工作，新增模型0、Google业务0、Live0；累计仍1014/1500模型、37历史Live，P2-0预算2正式＋最多1启动后环境重跑。东京10/15已过17:30，h001不得当日启动；留至下个有效窗口。此处为离线完成时检查点；h002后续正式结果与最新累计见末节。用户并行INDEX/Booking草稿/三份演示文件不纳入提交。
 
 
-## 冻结与Live回归（已完成1/2）
+## 冻结与Live回归（两次已完成；h001为日期调整回归）
 
 生产冻结 `35b6bf0e6ef69f2b30542d66c75d1badff2a144a`，宿主机干净树 `/Users/wangzhour/.codex/worktrees/p2-0-live/Praxis-Zhixing`。旧P1-F/P1-G/P1-G2/实验树未动。外层基于P1-G2：只适配本批用例/预算/路径/时窗和evaluator28，G1允许项、停止规则、余额预检和交付后GET核验保持；差异 `prep/outer-adaptation.diff`。冻结9个文件的SHA见 `prep/scripts/freeze.json`，execute SHA-256 `3231ef9cc3cf208c3fb3e05208bea587b3a73398dba97266acc7d51c556e1c29`。h001/h002均已离线空跑，`prep/dry-h001.json`、`prep/dry-h002.json`，0网络；最初依赖整目录symlink被git当作未跟踪，改为ignored目录内包symlink后确认CLEAN，未改冻结提交。运行前后9SHA均匹配。
 
 | 用例 | 预检／正式状态 | 展示 | evaluator@28 | 耗时 | 模型／Google | 等待 | 浏览器超时 | 交付后核验 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | h002 | 首次preflight通过，SUCCEEDED / PRESENT_RESULTS | Ginza Sushi Sendou，TABELOG，390 m（1家） | Qualified UNKNOWN；Required evidence SATISFIED；Completion PRESENTATION_RECORDED / NOT_EVALUATED | 207.540秒 | 25 / 1 | 25.750秒 / 12.41% | 未观察到 | 200，展示18:30在selection中 |
-| h001 | 未启动 | — | 未评价 | — | 0 / 0 | — | — | — |
+| h001（用户批准改明日） | 首次preflight通过，SUCCEEDED / NO_VERIFIED_RESULT | 0家 | Qualified NO；Completion NO_VERIFIED_RESULT / NOT_EVALUATED | 473.822秒 | 47 / 3 | 121.165秒 / 25.57% | 有，诊断见summary | 无交付，不适用 |
 
 h002首检UTC2026-10-15T10:36:40.170–10:36:45.253，TableCheck206，余额可用；正式10:36:45.322–10:40:12.937（以原result的finishedAt为准）。指名地点由Google解析为Higashi-ginza Sta.，35.669700299999995,139.7671399，半径1000m；顶层Google类型未由当前Runner持久化，不推断，addressComponents.types见summary。展示门店坐标35.66857859380928,139.76305499491173。UNKNOWN的自动依据见原评价逐维记录（条件措辞需独立确认），不自判等价或签收。发现/事实/查位真实浏览正常返回展示；并不把本次表现推广为所有来源可靠。找店实际限额由执行器诊断记录20/120/80；此次浏览器模型12次，不声称本次Live独立证明了>12后再找店。
 
@@ -96,9 +96,40 @@ h002首检UTC2026-10-15T10:36:40.170–10:36:45.253，TableCheck206，余额可�
 
 本批本地摘要／核验：`prep/live/h002/attempt-1/summary.json`、`verification.json`、`finish.json`、`trace.jsonl`、`evaluation-copy.json`。25决策=25模型调用且SHA匹配；result/eval/decisions和录制目录全部存在、文件SHA已记录。录制明确 **NOT_REPLAYABLE / UNSAFE_DOCUMENT**，不声称静态回放可用。没有模型回放或额外余额/网络探测。
 
-### 余项、用量与排程阻塞
+### h002结束时的检查点（后被下方即时运行授权更新）
 
 - 实际新增：模型25、Google业务1、正式Live1、环境重跑0。累计 **1039/1500模型、38历史正式Live、Google已确认24／历史完整UNKNOWN**；本批1/2正式，环境预留1未使用。余额与preflight GET为授权网络预检，不记模型调用。
-- h001因四项修复完成时东京已过17:30而未启动，未消耗preflight/模型/Google/Live。下一个可用窗口10/16东京09:00–17:30（按原外层要求保留500秒完成时间）。
+- 当时h001因四项修复完成时东京已过17:30而未启动，未消耗preflight/模型/Google/Live。下一个可用窗口10/16东京09:00–17:30（按原外层要求保留500秒完成时间）。
 - 自动审批先拒绝每日续跑、再拒绝COUNT=1单次续跑；第二次理由是未来自动启动外部h001 Live需要人类明确排程授权。**自动化未创建**，证据`prep/scheduling-block.json`。不会绕过或伪造时间，待用户批准排程或在有效时窗直接指示续跑。h002已完成，绝不重跑。
-- P2-0尚未全部完成，不能汇报两次Live通过。离线修复与h002只读回归证据已就绪，本地提交；不推送。h001完成后再交独立复核。
+- 此处为h002结束时状态，彼时h001尚未执行。下方最新授权与h001运行记录更新该检查点；不得把执行完成称为两次合格交付或自行签收。
+
+
+## h001立即运行：用户授权改为明日（2026-10-15）
+
+最新人类指令“可以直接重跑001，date换成明天”覆盖原h001启动时窗。本次未安排自动任务，也没有模拟时钟；在真实东京10/15晚间立即运行，目标 **2026-10-16 19:00，2人，Shibuya附近，omakase HARD**。此结果是日期调整回归，不能标成未变的Gold@7原版结果。
+
+只用既有development-variant机制创建独立文件 `prep/h001-tomorrow-20261016.yaml`（id仍h001），原content只有tonight→tomorrow、semantic.date同步；dataset/parent/reference元数据显式记录。其他semantic、HARD、acceptance逐项断言与父Gold一致，原Gold与既有变体/见证不改。输入SHA `52c29ed3d2edf740c984f05b7ca32891c5d53b308196e0f9abc79e170a50e39f`；运行目标日期与final intent均为10/16。授权及检查 `prep/h001-date-authorization.json`、`h001-input-check.json`，离线空跑 `dry-h001-tomorrow.json`（0网络/模型）。
+
+生产仍 `35b6bf0e6ef69f2b30542d66c75d1badff2a144a` / CLEAN。外层只适配h001输入路径及这次即时日期授权的时窗，其他预算、停止和交付后核验逻辑不变；差异 `prep/h001-date-outer.diff`。h002所用冻结原样备份为 `prep/freeze.h002-used.json`；当前 `scripts/freeze.json` 12SHA均核对通过，execute SHA `cd99bc44b35a69adc18ba6f3825f8e0c89f8ee288e8bbe970f879b366d47757f`。
+
+首检UTC11:41:41.938–11:41:49.638通过，TableCheck206，余额可用；正式UTC11:41:49.707–11:49:43.593。SUCCEEDED / NO_VERIFIED_RESULT，Agent第11步END_READ正常结束，零展示，未以FAILED终止。结构化原因 `{type:END_READ,reasonCode:AGENT_END_READ,isSystemReason:false,initiator:AGENT}`；remainingGaps记录MODEL_CALL_RESERVE及已查/未查范围，不把未知或未查门店说成全体无位。
+
+47模型、3Google（本次新增），473.822秒；等待121.165秒/25.57%，观察到候选/来源范围浏览器超时，细节在summary的timeoutReferences。实际共享浏览器模型调用最大36，DISCOVERY在>12后仍有实际模型决策/动作；这补充第2项Live额度接线观察，不等于来源可靠性或合格交付已验证。未触发外层停止条件，能力结果不重跑；零交付，不执行交付后GET，也不抓原版见证。
+
+Evaluator@28：Qualified NO；AUTHORITATIVE_CONDITIONS、INVESTIGATION_BEHAVIOR、RESOURCES为SATISFIED；COMPLETION_OUTCOME为NOT_EVALUATED（正常Agent END_READ的范围/文字缺口不足以独立证明调查充分），保留原评价不改判。它不是本次系统强制READ_ENDED路径的Live证明；该路径的证明仍是第3、4项真实状态离线回放/L1。地点解析Shibuya，35.6619707,139.70379499999999，半径1000m；顶层Google类型未保留，addressComponents.types见summary。
+
+### h001原始产物
+
+- result: `/Users/wangzhour/.codex/worktrees/p2-0-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-15T11-41-49-707Z-27149611-9570-4967-9909-0e8148dfac1c.result.json`
+- evaluator@28: `/Users/wangzhour/.codex/worktrees/p2-0-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-15T11-41-49-707Z-27149611-9570-4967-9909-0e8148dfac1c.result.evaluation.28-1792064983772.json`
+- decisions: `/Users/wangzhour/.codex/worktrees/p2-0-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-15T11-41-49-707Z-27149611-9570-4967-9909-0e8148dfac1c.decisions.jsonl`
+- recording: `/Users/wangzhour/.codex/worktrees/p2-0-live/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792064509652`
+
+本批本地事实与核验 `prep/live/h001/attempt-1/{finish,summary,verification,evaluation-copy}.json`，主摘要 `prep/h001-final-facts.json`。47条决策=47次模型调用，SHA匹配，原result/eval/decisions与录制文件均存在并保存SHA。录制NOT_REPLAYABLE/UNSAFE_DOCUMENT，不宣称可静态回放。
+
+### 最终用量与停止点
+
+- 本批正式2/2（h002原版、h001用户授权改明日日期），新增72模型、4Google业务、2Live，环境重跑0，预留1未使用。
+- 累计 **1086/1500模型、39正式Live、Google已确认27／历史总量UNKNOWN**。余额与端点预检不计模型/正式Live，已另留原响应。
+- 四项代码提交976baaa、60e78b9、f759c34、35b6bf0；冻结生产35b6bf0、四门禁879/879、Guard真实Chromium14/14复用。既有完整浏览器套件2项失败限制保留。
+- 本轮仅修改授权评测输入、外层与证据文档，没有生产/Prompt/Schema/配置/资格/Gold修改。纯文档与离线输入/SHA验证完成，不为本次Live记录重复跑四门禁。无自动化创建、无未来续跑；本地提交不推送，停止等待独立复核，不自行签收。

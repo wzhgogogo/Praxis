@@ -1,6 +1,6 @@
 {
-  "stage": "H002_COMPLETE_H001_PENDING_SCHEDULING_AUTHORIZATION",
-  "asOf": "2026-10-15T10:43:50.693162+00:00",
+  "stage": "P20_TWO_FORMAL_RUNS_COMPLETE_PENDING_INDEPENDENT_REVIEW",
+  "asOf": "2026-10-15T11:50:51.839213+00:00",
   "productionHead": "35b6bf0e6ef69f2b30542d66c75d1badff2a144a",
   "worktree": "/Users/wangzhour/.codex/worktrees/p2-0-live/Praxis-Zhixing",
   "h002": {
@@ -17,28 +17,35 @@
     "postDelivery": "DISPLAYED_TIMES_PRESENT"
   },
   "h001": {
-    "formalRuns": 0,
-    "completed": false,
-    "automationCreated": false,
-    "pending": "explicit scheduling approval required after automatic-review denial",
-    "nextValidWindow": "2026-10-16 Tokyo09:00\u201317:30, require500 seconds remaining"
+    "formalRuns": 1,
+    "completed": true,
+    "running": false,
+    "targetDate": "2026-10-16",
+    "resultPath": "/Users/wangzhour/.codex/worktrees/p2-0-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-15T11-41-49-707Z-27149611-9570-4967-9909-0e8148dfac1c.result.json",
+    "summaryPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/prep/live/h001/attempt-1/summary.json",
+    "phase": "NO_VERIFIED_RESULT",
+    "qualified": "NO",
+    "models": 47,
+    "google": 3,
+    "automationCreated": false
   },
   "ledger": {
-    "models": 1039,
+    "models": 1086,
     "modelLimit": 1500,
-    "live": 38,
-    "formalRuns": 1,
+    "live": 39,
+    "formalRuns": 2,
     "formalLimit": 2,
     "absoluteLiveLimit": 40,
-    "googleConfirmed": 24,
+    "googleConfirmed": 27,
     "googleHistoricalComplete": "UNKNOWN",
     "environmentReserveRemaining": 1,
     "cases": {
       "B:h001": {
-        "preflightAttempts": 0,
-        "formalRuns": 0,
-        "completed": false,
-        "environmentRetries": 0
+        "preflightAttempts": 1,
+        "formalRuns": 1,
+        "completed": true,
+        "environmentRetries": 0,
+        "lastPreflightEnd": "2026-10-15T11:41:49.638Z"
       },
       "B:h002": {
         "preflightAttempts": 1,

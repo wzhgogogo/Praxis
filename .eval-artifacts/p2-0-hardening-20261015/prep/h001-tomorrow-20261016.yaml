@@ -1,0 +1,33 @@
+# User-authorized date-only regression; exposed development diagnostic, not unchanged Gold@7.
+---
+id: h001
+dataset: restaurant-read-development-variant@1
+reference_time: 2026-10-15T11:41:13.208Z
+content: |
+  Looking for an omakase spot near Shibuya for 2 people tomorrow at 7 PM.
+semantic:
+  target:
+    goal: AVAILABILITY
+  location:
+    value: Shibuya
+    relation: NEAR
+  date:
+    expression: tomorrow
+    value: 2026-10-16
+  time:
+    value: 19:00
+  party_size: 2
+  criteria:
+    - value: omakase
+      polarity: POSITIVE
+      strength: HARD
+acceptance:
+  required_claims:
+    - Correct outlet near Shibuya; source-supported omakase; and a matching current slot for the materialized date at 19:00 for 2.
+    - Preserve the explicit party size of 2; opening hours alone do not establish seating.
+  optional_investigation: []
+  review:
+    - No preferred provider or mandatory order of investigation.
+parent:
+  dataset: restaurant-read-development@7
+  sha256: b346150074493e5a82e3d0dfb5ea5d18b3dbef17bb06d5101dfb15dfeb3ea40e

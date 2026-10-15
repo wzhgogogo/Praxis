@@ -1,0 +1,77 @@
+{
+  "caseId": "h001",
+  "status": "SUCCEEDED",
+  "phase": "NO_VERIFIED_RESULT",
+  "deliveryCount": 0,
+  "deliveries": [],
+  "evaluation": {
+    "status": "SUCCEEDED",
+    "stage": "AGENT_LOOP",
+    "taskProducedQualifiedResult": "NO",
+    "systemBehavior": "NOT_EVALUATED",
+    "externalConditions": "OBSERVED",
+    "evidenceSufficiency": "NOT_EVALUATED",
+    "completion": "NO_VERIFIED_RESULT"
+  },
+  "elapsedMs": 473822,
+  "models": 47,
+  "google": 3,
+  "waitMs": 121165,
+  "waitPercent": 25.57,
+  "browserTimeout": true,
+  "resultPath": "/Users/wangzhour/.codex/worktrees/p2-0-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-15T11-41-49-707Z-27149611-9570-4967-9909-0e8148dfac1c.result.json",
+  "evaluationPath": "/Users/wangzhour/.codex/worktrees/p2-0-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-15T11-41-49-707Z-27149611-9570-4967-9909-0e8148dfac1c.result.evaluation.28-1792064983772.json",
+  "decisionCapture": {
+    "path": "/Users/wangzhour/.codex/worktrees/p2-0-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-15T11-41-49-707Z-27149611-9570-4967-9909-0e8148dfac1c.decisions.jsonl",
+    "sha256": "79e07078e56012fdaffa90d2c46d6a8a2ea1f9593a230373adb71540eaf0295b",
+    "callsStarted": 47,
+    "rowsWritten": 47,
+    "errors": []
+  },
+  "recording": {
+    "path": "/Users/wangzhour/.codex/worktrees/p2-0-live/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792064509652",
+    "screenshot": "LAYOUT_ONLY_CONTENT_MASKED",
+    "replay": {
+      "status": "NOT_REPLAYABLE",
+      "reason": "UNSAFE_DOCUMENT"
+    }
+  },
+  "finishedAt": "2026-10-15T11:49:43.593Z",
+  "structuredTermination": {
+    "type": "END_READ",
+    "reasonCode": "AGENT_END_READ",
+    "isSystemReason": false,
+    "initiator": "AGENT"
+  },
+  "ledger": {
+    "models": 1086,
+    "modelLimit": 1500,
+    "live": 39,
+    "formalRuns": 2,
+    "formalLimit": 2,
+    "absoluteLiveLimit": 40,
+    "googleConfirmed": 27,
+    "googleHistoricalComplete": "UNKNOWN",
+    "environmentReserveRemaining": 1,
+    "cases": {
+      "B:h001": {
+        "preflightAttempts": 1,
+        "formalRuns": 1,
+        "completed": true,
+        "environmentRetries": 0,
+        "lastPreflightEnd": "2026-10-15T11:41:49.638Z"
+      },
+      "B:h002": {
+        "preflightAttempts": 1,
+        "formalRuns": 1,
+        "completed": true,
+        "environmentRetries": 0,
+        "lastPreflightEnd": "2026-10-15T10:36:45.253Z"
+      }
+    },
+    "stop": null
+  },
+  "stop": null,
+  "maxSharedBrowserModelCalls": 36,
+  "discoveryBeyond12Observations": 45
+}

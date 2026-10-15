@@ -1,0 +1,535 @@
+{
+  "caseId": "h001",
+  "finishPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/prep/live/h001/attempt-1/finish.json",
+  "head": "35b6bf0e6ef69f2b30542d66c75d1badff2a144a",
+  "stop": null,
+  "witnessRaw": [],
+  "postDelivery": null,
+  "preflight": {
+    "mode": "LIVE_NETWORK_PREFLIGHT",
+    "preflightVersion": "live-network-preflight@1",
+    "runner": "HYBRID_LIVE_READ",
+    "plannedTargets": [
+      "DEEPSEEK",
+      "GOOGLE",
+      "TABELOG",
+      "TABLECHECK"
+    ],
+    "timeoutMs": 10000,
+    "generationModelCalls": 0,
+    "restaurantDiscoveryRequests": 0,
+    "evaluator": {
+      "applicability": "NOT_APPLICABLE",
+      "reason": "NETWORK_ONLY_DIAGNOSTIC_HAS_NO_RESTAURANT_CLAIM"
+    },
+    "network": {
+      "proxyMode": "DISABLED_BY_CLI"
+    },
+    "status": "SUCCEEDED",
+    "stage": "NETWORK_READINESS",
+    "artifactPath": "/Users/wangzhour/.codex/worktrees/p2-0-live/Praxis-Zhixing/.eval-artifacts/live-preflight/2026-10-15T11-41-41-938Z-926e17dc-af31-44f9-9ce4-f4727b937203.result.json",
+    "attempts": [
+      {
+        "target": "DEEPSEEK",
+        "request": {
+          "method": "GET",
+          "url": "https://api.deepseek.com/models",
+          "range": "NONE",
+          "authorization": "PRESENT"
+        },
+        "elapsedMs": 1813,
+        "outcome": "REACHABLE",
+        "status": 200,
+        "tls": "ESTABLISHED"
+      },
+      {
+        "target": "GOOGLE",
+        "request": {
+          "method": "GET",
+          "url": "https://places.googleapis.com/",
+          "range": "NONE",
+          "authorization": "ABSENT"
+        },
+        "elapsedMs": 1914,
+        "outcome": "REACHABLE",
+        "status": 404,
+        "tls": "ESTABLISHED"
+      },
+      {
+        "target": "TABELOG",
+        "request": {
+          "method": "GET",
+          "url": "https://tabelog.com/",
+          "range": "BYTES_0_0",
+          "authorization": "ABSENT"
+        },
+        "elapsedMs": 2521,
+        "outcome": "REACHABLE",
+        "status": 200,
+        "tls": "ESTABLISHED"
+      },
+      {
+        "target": "TABLECHECK",
+        "request": {
+          "method": "GET",
+          "url": "https://www.tablecheck.com/en/",
+          "range": "BYTES_0_0",
+          "authorization": "ABSENT"
+        },
+        "elapsedMs": 1448,
+        "outcome": "REACHABLE",
+        "status": 206,
+        "tls": "ESTABLISHED"
+      }
+    ],
+    "elapsedMs": 7700,
+    "configuration": {
+      "proxyMode": "DISABLED_BY_CLI",
+      "googleProxyConfigured": false,
+      "browserProxyConfigured": false
+    },
+    "schemaVersion": "1",
+    "runId": "926e17dc-af31-44f9-9ce4-f4727b937203",
+    "startedAt": "2026-10-15T11:41:41.938Z",
+    "finishedAt": "2026-10-15T11:41:49.638Z"
+  },
+  "preflightOnly": false,
+  "status": "SUCCEEDED",
+  "stage": "AGENT_LOOP",
+  "failureCode": null,
+  "phase": "NO_VERIFIED_RESULT",
+  "termination": null,
+  "startedAt": "2026-10-15T11:41:49.707Z",
+  "finishedAt": "2026-10-15T11:49:43.593Z",
+  "resultPath": "/Users/wangzhour/.codex/worktrees/p2-0-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-15T11-41-49-707Z-27149611-9570-4967-9909-0e8148dfac1c.result.json",
+  "evaluationPath": "/Users/wangzhour/.codex/worktrees/p2-0-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-15T11-41-49-707Z-27149611-9570-4967-9909-0e8148dfac1c.result.evaluation.28-1792064983772.json",
+  "evaluatorVersion": "restaurant-hybrid-read-diagnostic-evaluator@28",
+  "evaluation": {
+    "status": "SUCCEEDED",
+    "stage": "AGENT_LOOP",
+    "taskProducedQualifiedResult": "NO",
+    "systemBehavior": "NOT_EVALUATED",
+    "externalConditions": "OBSERVED",
+    "evidenceSufficiency": "NOT_EVALUATED",
+    "completion": "NO_VERIFIED_RESULT"
+  },
+  "findings": [
+    {
+      "dimension": "AUTHORITATIVE_CONDITIONS",
+      "status": "SATISFIED",
+      "stage": "SEMANTIC_TO_FINAL_STATE",
+      "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+      "observations": [
+        "All independently readable applicable request fields match."
+      ],
+      "directCause": "No conflict observed.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "materializedCase.semantic",
+        "finalSnapshot.domainState.intentDraft"
+      ],
+      "downstreamImpact": "Grounding can be evaluated against one request."
+    },
+    {
+      "dimension": "REQUIRED_EVIDENCE",
+      "status": "NOT_EVALUATED",
+      "stage": "GROUNDING",
+      "requirement": "Each presented candidate must independently cite same-candidate HIGH identity, area, applicable HARD facts, and only when the user requested availability, fresh request-bound slot evidence.",
+      "observations": [],
+      "directCause": "Artifact records or accepted evidence contract are insufficient for an independent conclusion.",
+      "rootCauseHypothesis": "Execution artifact or accepted evidence contract lacks required detail.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [],
+      "downstreamImpact": "Do not claim an evidence-grounded result from this artifact."
+    },
+    {
+      "dimension": "INVESTIGATION_BEHAVIOR",
+      "status": "SATISFIED",
+      "stage": "AGENT_LOOP",
+      "requirement": "Cited presentation evidence must originate in actually executed same-candidate observations for the applicable request; duplicate fact/availability reads remain checked without requiring either action type.",
+      "observations": [
+        "executedObservations=10",
+        "applicableObservations=10",
+        "executedInvestigationVisits=8",
+        "authorizedRechecks=none",
+        "duplicates=none"
+      ],
+      "directCause": "Executed observations are attributable without a duplicate fact/availability read.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "trajectories[0].observation",
+        "trajectories[1].observation",
+        "trajectories[2].observation",
+        "trajectories[3].observation",
+        "trajectories[4].observation",
+        "trajectories[5].observation",
+        "trajectories[6].observation",
+        "trajectories[7].observation",
+        "trajectories[9].observation",
+        "trajectories[10].observation"
+      ],
+      "downstreamImpact": "Observation lineage and duplicate-read accounting remain attributable."
+    },
+    {
+      "dimension": "FINAL_CLAIM",
+      "status": "NOT_EVALUATED",
+      "stage": "PRESENT_RESULTS",
+      "requirement": "A terminal presentation must agree with the independently checked, candidate-specific request and evidence records.",
+      "observations": [
+        "phase=NO_VERIFIED_RESULT",
+        "loop=TERMINAL",
+        "presentedCandidates=0"
+      ],
+      "directCause": "No terminal presentation was executed.",
+      "rootCauseHypothesis": "Verifier, serialization, or upstream execution record requires review.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "loop",
+        "finalSnapshot.domainState.presentedResults",
+        "finalSnapshot.domainState.availability",
+        "finalSnapshot.domainState.readEvidence"
+      ],
+      "downstreamImpact": "No qualified completion can be claimed."
+    },
+    {
+      "dimension": "COMPLETION_OUTCOME",
+      "status": "NOT_EVALUATED",
+      "stage": "TERMINATION",
+      "requirement": "A scoped no-result outcome, user-input pause, controlled cancellation, budget/deadline stop, and internal execution failure must remain distinguishable from one another and from independently verified presentation.",
+      "observations": [
+        "completion=NO_VERIFIED_RESULT",
+        "phase=NO_VERIFIED_RESULT",
+        "loop=TERMINAL",
+        "noVerifiedResult=recorded",
+        "failureCode=missing",
+        "Candidate scope is recorded, but remainingGaps prose cannot independently prove that no candidate qualifies or that investigation was sufficient."
+      ],
+      "directCause": "Candidate scope is recorded, but remainingGaps prose cannot independently prove that no candidate qualifies or that investigation was sufficient.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "status",
+        "execution.failureCode",
+        "loop.status",
+        "finalSnapshot.domainState.phase",
+        "finalSnapshot.domainState.noVerifiedResult",
+        "finalSnapshot.domainState.failure",
+        "finalSnapshot.domainState.noVerifiedResult",
+        "trajectories"
+      ],
+      "downstreamImpact": "Do not represent the scoped stop as a source-confirmed global negative result."
+    },
+    {
+      "dimension": "RESOURCES",
+      "status": "SATISFIED",
+      "stage": "RUN_ACCOUNTING",
+      "requirement": "Artifact must provide valid applicable resource values; an object alone does not prove complete accounting or budget compliance.",
+      "observations": [],
+      "directCause": "Required resource fields are present and within readable applicable limits.",
+      "rootCauseHypothesis": "Runner limit/accounting requires review.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "resourceUsage",
+        "runCeilings",
+        "modelInvocations"
+      ],
+      "downstreamImpact": "Recorded budget use can be reviewed."
+    }
+  ],
+  "deliveryCount": 0,
+  "deliveries": [],
+  "locationContext": {
+    "latitude": 35.6619707,
+    "longitude": 139.70379499999999,
+    "radiusMeters": 1000,
+    "label": "Shibuya",
+    "areaMatchBasis": "NAMED_PLACE_RADIUS",
+    "addressComponents": [
+      {
+        "longText": "Shibuya",
+        "shortText": "Shibuya",
+        "types": [
+          "locality",
+          "political"
+        ]
+      },
+      {
+        "longText": "Tokyo",
+        "shortText": "Tokyo",
+        "types": [
+          "administrative_area_level_1",
+          "political"
+        ]
+      },
+      {
+        "longText": "Japan",
+        "shortText": "JP",
+        "types": [
+          "country",
+          "political"
+        ]
+      }
+    ]
+  },
+  "locationResolutionTypes": "NOT_RETAINED_BY_FROZEN_RUNNER; addressComponents.types retained in locationContext",
+  "elapsedMs": 473822,
+  "models": 47,
+  "google": 3,
+  "googleBreakdown": {
+    "limit": 40,
+    "total": 3,
+    "namedPlaceResolution": 1,
+    "discovery": 2,
+    "placeDetails": 0,
+    "reverseAddressObservation": 0
+  },
+  "waitMs": 121165,
+  "waitPercent": 25.57,
+  "browserTimeout": true,
+  "timeoutReferences": [
+    {
+      "sequence": 617,
+      "kind": "EXECUTOR_DIAGNOSTIC",
+      "detail": {
+        "source": "VENUE_SEARCH",
+        "stage": "DISCOVERY",
+        "event": "OPERATION_FAILED",
+        "detail": "Browser WAIT_FOR_SETTLED exceeded the candidate deadline",
+        "lifecycle": {
+          "outcome": "FAILED",
+          "candidateElapsedMs": 90013,
+          "providerElapsedMs": 90012,
+          "candidateModelCalls": 10,
+          "providerModelCalls": 10,
+          "candidateRuntimeOperations": 43,
+          "providerRuntimeOperations": 43,
+          "runModelCalls": 18,
+          "scope": "CANDIDATE",
+          "reason": "DEADLINE_EXCEEDED",
+          "failureCode": "BROWSER_TIMEOUT"
+        },
+        "effectiveLimits": {
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:VENUE_SEARCH",
+        "elapsedMs": 90013
+      }
+    },
+    {
+      "sequence": 795,
+      "kind": "EXECUTOR_DIAGNOSTIC",
+      "detail": {
+        "source": "TABLECHECK",
+        "stage": "DISCOVERY",
+        "event": "MODEL_DECISION_FAILED",
+        "detail": "Browser MODEL_DECISION exceeded the provider deadline",
+        "lifecycle": {
+          "outcome": "FAILED",
+          "candidateElapsedMs": 58443,
+          "providerElapsedMs": 45010,
+          "candidateModelCalls": 5,
+          "providerModelCalls": 5,
+          "candidateRuntimeOperations": 29,
+          "providerRuntimeOperations": 23,
+          "runModelCalls": 23,
+          "scope": "PROVIDER",
+          "reason": "DEADLINE_EXCEEDED",
+          "failureCode": "BROWSER_TIMEOUT"
+        },
+        "effectiveLimits": {
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:6343d9d19c9b69881948e082",
+        "elapsedMs": 58444
+      }
+    },
+    {
+      "sequence": 892,
+      "kind": "EXECUTOR_DIAGNOSTIC",
+      "detail": {
+        "source": "TABLECHECK",
+        "stage": "DISCOVERY",
+        "event": "OPERATION_FAILED",
+        "detail": "Browser WAIT_FOR_SETTLED exceeded the provider deadline",
+        "lifecycle": {
+          "outcome": "FAILED",
+          "candidateElapsedMs": 45008,
+          "providerElapsedMs": 45008,
+          "candidateModelCalls": 3,
+          "providerModelCalls": 3,
+          "candidateRuntimeOperations": 16,
+          "providerRuntimeOperations": 16,
+          "runModelCalls": 26,
+          "scope": "PROVIDER",
+          "reason": "DEADLINE_EXCEEDED",
+          "failureCode": "BROWSER_TIMEOUT"
+        },
+        "effectiveLimits": {
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:690eacddc99105af5a3a0f53",
+        "elapsedMs": 45008
+      }
+    },
+    {
+      "sequence": 1044,
+      "kind": "EXECUTOR_DIAGNOSTIC",
+      "detail": {
+        "source": "TABLECHECK",
+        "stage": "DISCOVERY",
+        "event": "OPERATION_FAILED",
+        "detail": "Browser WAIT_FOR_SETTLED exceeded the provider deadline",
+        "lifecycle": {
+          "outcome": "FAILED",
+          "candidateElapsedMs": 45011,
+          "providerElapsedMs": 45010,
+          "candidateModelCalls": 4,
+          "providerModelCalls": 4,
+          "candidateRuntimeOperations": 21,
+          "providerRuntimeOperations": 21,
+          "runModelCalls": 30,
+          "scope": "PROVIDER",
+          "reason": "DEADLINE_EXCEEDED",
+          "failureCode": "BROWSER_TIMEOUT"
+        },
+        "effectiveLimits": {
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:d7560a4b60970a42216f0c2a",
+        "elapsedMs": 45011
+      }
+    },
+    {
+      "sequence": 1070,
+      "kind": "EXECUTOR_DIAGNOSTIC",
+      "detail": {
+        "source": "TABELOG",
+        "stage": "IDENTITY",
+        "event": "OPERATION_FAILED",
+        "detail": "Browser NAVIGATE exceeded the candidate deadline",
+        "lifecycle": {
+          "outcome": "FAILED",
+          "candidateElapsedMs": 60005,
+          "providerElapsedMs": 14993,
+          "candidateModelCalls": 4,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 24,
+          "providerRuntimeOperations": 3,
+          "runModelCalls": 30,
+          "scope": "CANDIDATE",
+          "reason": "DEADLINE_EXCEEDED",
+          "failureCode": "BROWSER_TIMEOUT"
+        },
+        "effectiveLimits": {
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:d7560a4b60970a42216f0c2a",
+        "elapsedMs": 60005
+      }
+    },
+    {
+      "sequence": 1071,
+      "kind": "SESSION_ERROR",
+      "detail": {
+        "method": "navigate",
+        "error": {
+          "name": "BrowserRuntimeError",
+          "message": "Local Playwright Chromium operation failed",
+          "code": "BROWSER_RUNTIME_FAILED",
+          "cause": {
+            "name": "TimeoutError",
+            "message": "page.goto: Timeout 3687ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"https://tabelog.com/en/tokyo/A1303/A130301/13286592/\", waiting until \"domcontentloaded\"\u001b[22m\n"
+          }
+        }
+      }
+    }
+  ],
+  "decisionCapture": {
+    "path": "/Users/wangzhour/.codex/worktrees/p2-0-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-15T11-41-49-707Z-27149611-9570-4967-9909-0e8148dfac1c.decisions.jsonl",
+    "sha256": "79e07078e56012fdaffa90d2c46d6a8a2ea1f9593a230373adb71540eaf0295b",
+    "callsStarted": 47,
+    "rowsWritten": 47,
+    "errors": []
+  },
+  "decisionCount": 47,
+  "decisionCountMatchesModelCalls": true,
+  "recording": {
+    "path": "/Users/wangzhour/.codex/worktrees/p2-0-live/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792064509652",
+    "screenshot": "LAYOUT_ONLY_CONTENT_MASKED",
+    "replay": {
+      "status": "NOT_REPLAYABLE",
+      "reason": "UNSAFE_DOCUMENT"
+    }
+  },
+  "preflightPath": "/Users/wangzhour/.codex/worktrees/p2-0-live/Praxis-Zhixing/.eval-artifacts/live-preflight/2026-10-15T11-41-41-938Z-926e17dc-af31-44f9-9ce4-f4727b937203.result.json",
+  "resourceUsage": {
+    "discoveryCandidates": 38,
+    "candidatesChecked": 7,
+    "agentDecisions": 11,
+    "browserModelCalls": 34,
+    "modelCallsStarted": 47,
+    "browserRuntimeCalls": 202,
+    "browserOperationsByCandidate": {
+      "native-discovery:DIRECTORY": 48,
+      "tabelog:en/tokyo/A1303/A130301/13308491": 11,
+      "native-discovery:VENUE_SEARCH": 43,
+      "praxis:restaurant:6343d9d19c9b69881948e082": 29,
+      "praxis:restaurant:690eacddc99105af5a3a0f53": 19,
+      "praxis:restaurant:d7560a4b60970a42216f0c2a": 24,
+      "praxis:restaurant:cda3d78c48f1e2d955db6a0e": 28
+    },
+    "pageStillLoadingWithinBound": 40,
+    "postActionWaitTotalMs": 121165,
+    "browserModelActions": 32,
+    "googleRequests": {
+      "limit": 40,
+      "total": 3,
+      "namedPlaceResolution": 1,
+      "discovery": 2,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "elapsedMs": 473822
+  },
+  "cohort": "DEVELOPMENT_DIAGNOSTIC",
+  "runtimeContext": {
+    "commitSha": "35b6bf0e6ef69f2b30542d66c75d1badff2a144a",
+    "worktree": "CLEAN",
+    "dataset": {
+      "version": "restaurant-read-development-variant@1",
+      "sourcePath": ".eval-artifacts/h001-tomorrow-20261016.yaml",
+      "sha256": "52c29ed3d2edf740c984f05b7ca32891c5d53b308196e0f9abc79e170a50e39f",
+      "parent": {
+        "dataset": "restaurant-read-development@7",
+        "sha256": "b346150074493e5a82e3d0dfb5ea5d18b3dbef17bb06d5101dfb15dfeb3ea40e"
+      },
+      "cohort": "DEVELOPMENT_DIAGNOSTIC",
+      "contaminationStatus": "PROMPT_AND_RESULT_EXPOSED",
+      "baselineEligible": false
+    },
+    "browserEngine": "LOCAL_CHROMIUM",
+    "preflight": {
+      "artifactPath": "/Users/wangzhour/.codex/worktrees/p2-0-live/Praxis-Zhixing/.eval-artifacts/live-preflight/2026-10-15T11-41-41-938Z-926e17dc-af31-44f9-9ce4-f4727b937203.result.json",
+      "elapsedMs": 7700,
+      "targetCount": 4
+    },
+    "nodeVersion": "v24.4.1",
+    "skillHashes": {
+      "browserRead": "9323b53e7521d37d4251d06fe64a3238aeb0ba1cb382163c068e2990291cc8c9",
+      "tablecheck": "70cd360a57230539b7365298bfd0c6902bd75bb6ba711d992bb67bea15ae072b",
+      "tabelog": "3f4707ba4431f1245eaefb1692be5a4550e17a98129ff4ec645c347cd52c52d2"
+    }
+  }
+}
