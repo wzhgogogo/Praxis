@@ -1,13 +1,15 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.50
+- Document revision: 1.51
 - Last updated: 2026-10-15
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
 - Related documents: [Restaurant Domain](../domains/RESTAURANT-BOOKING.md), [Data & Security](../architecture/DATA-CONTEXT-SECURITY.md)
 
 状态：`verified`表示官方文档确认；`assumed`表示设计假设待实测；`requires partnership`表示存在能力但访问条件未取得；`unsupported`表示当前不纳入。
+
+T1离线组装证据（2026-10-15）：Runner、Web和固定来源主组合共用生产读取factory及一个browserBudget；native组合实际查位累计>12调用后仍能找店，恢复旧阈值目标断言失败；真实Chromium动态Tabelog两种库存路径100/100门禁通过。仅证明固定传输下限额／接线，不新增来源能力或Live兼容性结论。见`.eval-artifacts/t1-assembly-20261015/report.md`。
 
 | Provider | Discovery | Availability | Execute | Cancel | Verify | Takeover | Status / 限制 |
 |---|---|---|---|---|---|---|---|

@@ -51,7 +51,7 @@ test("native fact reads never pass a same-URL challenge or explicit error page t
         navigate: async () => undefined, snapshot: async () => page, click: async () => undefined, fill: async () => undefined,
         select: async () => [], waitFor: async () => undefined, screenshot: async () => new Uint8Array(), close: async () => undefined,
       }) };
-      const read = await new NativeSourceFactRead({ maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, runtime, judge, () => "2026-08-05T09:00:00.000Z")
+      const read = await new NativeSourceFactRead({ maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, runtime, judge, () => "2026-08-05T09:00:00.000Z")
         .inspectFacts({ candidateIds: [candidate.restaurant.id], candidates: [candidate], intent: fixtureIntent }, new AbortController().signal);
       assert.equal(read.evidence.length, 0);
       assert.equal(read.factChecks[candidate.restaurant.id]?.status, "UNKNOWN");
@@ -89,7 +89,7 @@ test("native fact read retains each observed source page with its own identity",
     assert.ok(link, "only the observed menu link is available to the decision");
     return { type: "OPEN_LINK" as const, targetRef: link.ref, reason: "Read the observed menu" };
   } };
-  const read = await new NativeSourceFactRead({ maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, runtime, judgment, () => "2026-10-06T00:00:00.000Z", decision)
+  const read = await new NativeSourceFactRead({ maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, runtime, judgment, () => "2026-10-06T00:00:00.000Z", decision)
     .inspectFacts({ candidateIds: [candidate.restaurant.id], candidates: [candidate], intent: { ...fixtureIntent, criteria: [{ text: "omakase", polarity: "POSITIVE", strength: "HARD" }] } }, new AbortController().signal);
   assert.equal(read.factChecks[candidate.restaurant.id]?.status, "COMPLETED", JSON.stringify(read));
   assert.equal(judged, 2, "the second judgment follows a newly retained source page, not a type keyword");
@@ -114,7 +114,7 @@ test("native fact continuation keeps the prior judgment when no new cited page i
   let judgments = 0;
   const judgment = { async judge() { judgments += 1; return { evidence: [] }; } };
   const decision = { async decide() { return { type: "OPEN_LINK" as const, targetRef: "repeat", reason: "Read the observed menu" }; } };
-  const read = await new NativeSourceFactRead({ maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, runtime, judgment, () => "2026-10-06T00:00:00.000Z", decision)
+  const read = await new NativeSourceFactRead({ maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, runtime, judgment, () => "2026-10-06T00:00:00.000Z", decision)
     .inspectFacts({ candidateIds: [candidate.restaurant.id], candidates: [candidate], intent: { ...fixtureIntent, criteria: [{ text: "omakase", polarity: "POSITIVE", strength: "HARD" }] } }, new AbortController().signal);
   assert.equal(judgments, 1, "a repeated page is not material for a second cited judgment");
   assert.equal(read.factChecks[candidate.restaurant.id]?.status, "UNKNOWN");
@@ -163,7 +163,7 @@ test("native TableCheck facts read an observed reserve menu as a scoped document
     documents = input.sourceDocuments ?? [];
     return { evidence: [] };
   } };
-  await new NativeSourceFactRead({ maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, runtime, judgment, () => "2026-10-07T00:00:00.000Z")
+  await new NativeSourceFactRead({ maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, runtime, judgment, () => "2026-10-07T00:00:00.000Z")
     .inspectFacts({ candidateIds: [candidate.restaurant.id], candidates: [candidate], intent: { ...fixtureIntent, criteria: [{ text: "omakase", polarity: "POSITIVE", strength: "HARD" }] } }, new AbortController().signal);
   assert.equal(documents.length, 4);
   assert.equal(documents.filter((document) => document.serviceScope === undefined).length, 2, "the guide and reserve remainder remain unscoped but the reserve menu does not duplicate as whole-page text");
@@ -198,7 +198,7 @@ test("an observed TableCheck reserve entrance cannot turn stale outlet metadata 
     waitFor: async () => undefined, screenshot: async () => new Uint8Array(), close: async () => undefined,
   }) };
   const judgment = { async judge(input: { sourceDocuments?: typeof documents }) { judgments += 1; documents = input.sourceDocuments ?? []; return { evidence: [] }; } };
-  const read = await new NativeSourceFactRead({ maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, runtime, judgment, () => "2026-10-07T00:00:00.000Z")
+  const read = await new NativeSourceFactRead({ maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, runtime, judgment, () => "2026-10-07T00:00:00.000Z")
     .inspectFacts({ candidateIds: [candidate.restaurant.id], candidates: [candidate], intent: { ...fixtureIntent, criteria: [{ text: "omakase", polarity: "POSITIVE", strength: "HARD" }] } }, new AbortController().signal);
   assert.equal(judgments, 1, "the initial guide can be judged once, but the challenged reserve page cannot enter the cited document set");
   assert.equal(documents.some((document) => document.statements.some((statement) => /verify you are human/i.test(statement.text))), false);
@@ -223,7 +223,7 @@ test("an observed TableCheck reserve entrance rejects a foreign canonical even w
     waitFor: async () => undefined, screenshot: async () => new Uint8Array(), close: async () => undefined,
   }) };
   const judgment = { async judge(input: { sourceDocuments?: typeof documents }) { documents = input.sourceDocuments ?? []; return { evidence: [] }; } };
-  await new NativeSourceFactRead({ maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, runtime, judgment, () => "2026-10-07T00:00:00.000Z")
+  await new NativeSourceFactRead({ maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, runtime, judgment, () => "2026-10-07T00:00:00.000Z")
     .inspectFacts({ candidateIds: [candidate.restaurant.id], candidates: [candidate], intent: { ...fixtureIntent, criteria: [{ text: "omakase", polarity: "POSITIVE", strength: "HARD" }] } }, new AbortController().signal);
   assert.equal(documents.some((document) => document.statements.some((statement) => /omakase/i.test(statement.text))), false);
 });

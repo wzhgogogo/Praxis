@@ -1,4 +1,4 @@
-import type { BrowserReadLimits } from "../../infrastructure/browser/browser-task-executor.js";
+import type { BrowserTaskExecutorOptions } from "../../infrastructure/browser/browser-task-executor.js";
 import type { ModelGateway } from "../../core/model/contracts.js";
 import type { BrowserExecutionBudget, BrowserExecutionDiagnostic } from "../../infrastructure/browser/browser-task-executor.js";
 import type { BrowserRuntime } from "../../infrastructure/browser/browser-runtime.js";
@@ -19,7 +19,8 @@ export function composeNativeRestaurantRead(
   onBrowserDiagnostic: ((diagnostic: BrowserExecutionDiagnostic) => void) | undefined,
   evaluationLocation: { latitude: number; longitude: number; radiusMeters: number; label: string } | undefined,
   now: (() => string) | undefined,
-  nativeDiscoveryLimits: BrowserReadLimits,
+  nativeDiscoveryLimits: BrowserTaskExecutorOptions,
+  factLimits: BrowserTaskExecutorOptions,
   packs?: readonly DiscoverySourcePack[],
 ) {
   const selectedPacks = packs ?? restaurantDiscoveryPacks;
@@ -27,8 +28,8 @@ export function composeNativeRestaurantRead(
   return {
     search: new NativeRestaurantSearch(runtime, google, now, evaluationLocation, new ModelBrowserReadActionDecision(model), browserBudget, onBrowserDiagnostic, nativeDiscoveryLimits, networkPolicy, selectedPacks),
     facts: new SourceAwareFactRead(
-      new NativeSourceFactRead({ ...nativeDiscoveryLimits, maxModelCallsPerCandidate: 4, maxOperationsPerCandidate: 24 }, runtime, new ModelRestaurantFactJudgment(model, now), now, new ModelBrowserReadActionDecision(model), browserBudget, onBrowserDiagnostic, networkPolicy),
-      composeLiveRestaurantFactRead({ ...nativeDiscoveryLimits, maxModelCallsPerCandidate: 4, maxOperationsPerCandidate: 24 }, google, runtime, model, browserBudget, undefined, onBrowserDiagnostic),
+      new NativeSourceFactRead(factLimits, runtime, new ModelRestaurantFactJudgment(model, now), now, new ModelBrowserReadActionDecision(model), browserBudget, onBrowserDiagnostic, networkPolicy),
+      composeLiveRestaurantFactRead(factLimits, google, runtime, model, browserBudget, now, onBrowserDiagnostic),
     ),
   };
 }

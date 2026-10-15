@@ -10,7 +10,8 @@ import { RestaurantExecutionRouter } from "../../../application/restaurant-execu
 import { GooglePlacesClient } from "../../../integrations/google/google-places-client.js";
 import { GooglePlacesRestaurantSearch } from "../../../integrations/google/google-places-restaurant-search.js";
 import { LiveBrowserAvailability } from "../../../integrations/restaurant-availability/live-browser-availability.js";
-import { composeNativeRestaurantRead } from "../../../integrations/restaurant-search/native-read-composition.js";
+import { createLiveReadAssembly } from "../../../integrations/restaurant-search/live-read-assembly.js";
+import { LIVE_READ_DEBUG_INVESTIGATION_BUDGET } from "../../../application/live-read-investigation-budget.js";
 import { NativeRestaurantSearch } from "../../../integrations/restaurant-search/native-restaurant-search.js";
 import { restaurantDiscoveryPacks, tableCheckDiscoveryPack, tabelogDiscoveryPack, type DiscoverySourcePack } from "../../../integrations/restaurant-search/source-packs.js";
 import { restaurantSearchIntentFingerprint, type RestaurantTaskState } from "../../../domains/restaurant/contracts.js";
@@ -173,14 +174,14 @@ async function runScenario(scenario: SourceScenario, options: { postAvailability
   const navigationSessionIds: number[] = [];
   const closedSessionIds: number[] = [];
   const googleCalls: Array<{ query: string }> = [];
-  const google = new GooglePlacesRestaurantSearch(new GooglePlacesClient({ apiKey: "fixture-only", fetchImplementation: async (_url, init) => {
+  const googleClient = new GooglePlacesClient({ apiKey: "fixture-only", fetchImplementation: async (_url, init) => {
     const query = JSON.parse(String(init?.body)) as { textQuery: string };
     googleCalls.push({ query: query.textQuery });
     const requested = options.areaQuery ?? "Shibuya";
     return new Response(JSON.stringify({ places: options.unresolvedLocation ? [] : [{ id: `${requested.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-landmark`, displayName: { text: requested },
       formattedAddress: `${requested}, Tokyo`, location: center, types: ["locality", "political"],
       addressComponents: [{ longText: requested, types: ["locality", "political"] }] }] }), { status: 200 });
-  } }), () => reference.toISOString(), 10, { maxRequests: 100 });
+  } });
   const model = new H001NativeModel(scenario, options.availabilityFirst, options.areaQuery, options.failSecondBrowserCall);
   const transport: ModelGateway = { complete: async request => {
     if (options.repeatCheckedAvailability && request.purpose === "restaurant_agent_decide") {
@@ -212,13 +213,11 @@ async function runScenario(scenario: SourceScenario, options: { postAvailability
       return sequence;
     }, options.decisionCapture?.snapshotSink,
   ) };
-  const browserBudget = { totalModelCalls: 0, maxModelCalls: 120 };
-  const native = composeNativeRestaurantRead(google, browser, gateway, browserBudget, diagnostic => { browserTrace.push({ sequence: ++browserTraceSequence, at: reference.toISOString(), kind: "EXECUTOR_DIAGNOSTIC", detail: diagnostic }); }, undefined, () => reference.toISOString(), { maxModelCallsPerCandidate: 20, maxModelCallsTotal: 120, maxOperationsPerCandidate: 80 }, options.packs ?? [tabelogDiscoveryPack, tableCheckDiscoveryPack]);
-  const availability = new LiveBrowserAvailability(browser, gateway, {
+  const native = createLiveReadAssembly({ ...LIVE_READ_DEBUG_INVESTIGATION_BUDGET, packs: options.packs ?? [tabelogDiscoveryPack, tableCheckDiscoveryPack] }, {
+    google: googleClient, browser, model: gateway, clock: { now: () => reference },
     onBrowserDiagnostic: diagnostic => { browserTrace.push({ sequence: ++browserTraceSequence, at: reference.toISOString(), kind: "EXECUTOR_DIAGNOSTIC", detail: diagnostic }); },
-    browserBudget, now: () => reference.toISOString(), maxModelCallsPerCandidate: 20, maxModelCallsTotal: 120,
-    maxOperationsPerCandidate: 80, maxElapsedMsPerCandidate: 60_000, maxElapsedMsPerProvider: 45_000, maxAutomaticElapsedMs: 60_000,
   });
+  const { availability, browserBudget, google } = native;
   let postAvailabilityDiscovery: unknown;
   let callsBeforeDiscovery = 0;
   const originalCheck = availability.check.bind(availability);
@@ -236,9 +235,7 @@ async function runScenario(scenario: SourceScenario, options: { postAvailability
   const taskId = `native-h001:${scenario}`;
   let clockTicks = 0;
   const composition = createHybridReadComposition({ taskId, runId: `run:${taskId}`, clock: { now: () => options.advancingClock ? new Date(reference.valueOf() + clockTicks++) : reference },
-    model: gateway, search: native.search, facts: native.facts, availability,
-    router: { structuredReadTimeoutMs: 30_000, browserReadTimeoutMs: 60_000 },
-    loop: { maxSteps: 20, timeoutMs: 60_000 },
+    model: gateway, ...native,
   });
   const semantic = await composition.interpretAndDispatch({ taskId, message: String(frozen.content),
     referenceTime: frozen.reference_time, timezone: "Asia/Tokyo" });
@@ -253,7 +250,7 @@ async function runScenario(scenario: SourceScenario, options: { postAvailability
     materializedCase: frozen, semantic, finalSnapshot: snapshot, trajectories: composition.trajectories.steps,
     events: composition.runtime.eventLog, loop, sourceEnvironment: { network: "OFFLINE_FIXED_TRANSPORT", browser: "OFFLINE_FIXED_PAGES" },
     sourceTrace: { navigations, googleQueries: googleCalls.map((item) => item.query), browserTrace },
-    runCeilings: { maxAutomaticBrowserMs: 60_000, maxProviderBrowserMs: 45_000, maxAgentSteps: 20, maxBrowserModelCallsTotal: 50, maxModelCalls: 50 },
+    runCeilings: native.runCeilings,
     resourceUsage: { elapsedMs: Date.now() - startedAt, agentDecisions: model.purposes.filter((item) => item === "restaurant_agent_decide").length,
       browserModelCalls: model.purposes.filter((item) => item === "browser_read_decide").length,
       modelCallsStarted: model.purposes.length, googleRequests: google.googleRequestUsage(readRunId) },
@@ -405,7 +402,7 @@ test("native source session acquisition consumes the remaining source window and
   const locality = new GooglePlacesRestaurantSearch(new GooglePlacesClient({ apiKey: "fixture-only", fetchImplementation: async () => {
     throw new Error("coordinates avoid Google resolution");
   } }), () => reference.toISOString(), 10, { maxRequests: 100 });
-  const native = new NativeRestaurantSearch(browser, locality, () => reference.toISOString(), undefined, undefined, undefined, undefined, { maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
+  const native = new NativeRestaurantSearch(browser, locality, () => reference.toISOString(), undefined, undefined, undefined, undefined, { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
   const intent = {
     timezone: "Asia/Tokyo" as const, target: { goal: "AVAILABILITY" as const, query: "omakase" }, date,
     timeWindow: { earliest: "19:00", latest: "19:00" }, area: { query: "Shibuya", coordinates: { ...center, observedAt: reference.toISOString(), source: "MANUAL_PLACE" as const } },
@@ -427,7 +424,7 @@ test("Tabelog keeps the structured HARD retrieval keyword when an Agent hint rep
   const locality = new GooglePlacesRestaurantSearch(new GooglePlacesClient({ apiKey: "fixture-only", fetchImplementation: async () => {
     throw new Error("coordinates avoid Google resolution");
   } }), () => reference.toISOString(), 10, { maxRequests: 100 });
-  const native = new NativeRestaurantSearch(browser, locality, () => reference.toISOString(), undefined, undefined, undefined, undefined, { maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
+  const native = new NativeRestaurantSearch(browser, locality, () => reference.toISOString(), undefined, undefined, undefined, undefined, { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
   const intent = {
     timezone: "Asia/Tokyo" as const, target: { goal: "AVAILABILITY" as const, query: "omakase" }, date,
     timeWindow: { earliest: "19:00", latest: "19:00" }, area: { query: "near Shibuya", coordinates: { ...center, observedAt: reference.toISOString(), source: "MANUAL_PLACE" as const } },
@@ -455,11 +452,11 @@ test("the production Router advances the default three-pack cursor and reaches G
       }] }), { status: 200, headers: { "content-type": "application/json" } });
     },
   }), () => reference.toISOString(), 10, { maxRequests: 100 });
-  const native = new NativeRestaurantSearch(browser, google, () => reference.toISOString(), undefined, undefined, undefined, undefined, { maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
+  const native = new NativeRestaurantSearch(browser, google, () => reference.toISOString(), undefined, undefined, undefined, undefined, { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
   const router = new RestaurantExecutionRouter(native, {
     executionRoute: "STRUCTURED_ADAPTER",
     async check() { return { offers: [], availabilityChecks: {}, evidence: [], metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 } }; },
-  });
+  }, { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 20_000 });
   const intentDraft: NonNullable<RestaurantTaskState["intentDraft"]> = {
     schemaVersion: "3" as const, timezone: "Asia/Tokyo", target: { goal: "AVAILABILITY" as const, query: "nearby dinner" },
     date, timeWindow: { earliest: "19:00", latest: "19:00" }, partySize: 2,
@@ -873,7 +870,7 @@ test("coordinate-only discovery passes source-attributed address observations, i
       navigate: async (next: string) => { url = next; }, snapshot: async () => ({ url, title: "Public directory", text: "Choose an observed region", html: "<main>Choose an observed region</main>" }),
       click: async () => {}, fill: async () => {}, select: async () => [], waitFor: async () => {}, screenshot: async () => new Uint8Array(), close: async () => {},
     };
-    const search = new NativeRestaurantSearch({ openSession: async () => session }, locality, () => reference.toISOString(), undefined, { decide: async input => { modelInputs.push(input.goal.location); return { type: "REQUEST_HUMAN_HELP", reason: "Fixture input observed; stop without navigation" }; } }, undefined, undefined, { maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, undefined, [tabelogDiscoveryPack]);
+    const search = new NativeRestaurantSearch({ openSession: async () => session }, locality, () => reference.toISOString(), undefined, { decide: async input => { modelInputs.push(input.goal.location); return { type: "REQUEST_HUMAN_HELP", reason: "Fixture input observed; stop without navigation" }; } }, undefined, undefined, { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, undefined, [tabelogDiscoveryPack]);
     await search.search({ intent: { timezone: "Asia/Tokyo", area: { query: "nearby", coordinates: { latitude: 1, longitude: 2, observedAt: reference.toISOString(), source: "DEVICE" } }, criteria: [], target: { goal: "RECOMMENDATION", query: "restaurants nearby" } }, readRunId: `coordinate-input-${failure}` }, new AbortController().signal);
     assert.equal(modelInputs.length, 1);
     assert.deepEqual(modelInputs[0], { latitude: 1, longitude: 2, radiusMeters: 1000,
@@ -917,11 +914,32 @@ test("P1-G unresolved location NO_PROGRESS gives an honest user outcome", async 
 });
 
 
-test("P2-0 discovery shares explicit limits after more than twelve actual availability model calls", async () => {
+test("T1 production assembly shares Live limits after more than twelve actual availability model calls (discoveryPacks=tabelog,tablecheck)", async () => {
   const result = await runScenario("TABLECHECK_RECOVERS", { postAvailabilityDiscovery: true });
   assert.ok(result.callsBeforeDiscovery > 12, JSON.stringify({ calls: result.callsBeforeDiscovery, checks: result.state.availabilityChecks }));
   assert.ok(result.postAvailabilityDiscovery, "follow-up source search must run");
   assert.ok(!JSON.stringify(result.postAvailabilityDiscovery).includes("BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED"), JSON.stringify(result.postAvailabilityDiscovery));
   assert.ok(result.networkRequests.some(request => request.outcome === "ADMITTED"), "production Guard admitted fixed source requests");
   assert.ok(result.model.purposes.length <= 50, "whole-model ceiling remains 50");
+});
+
+test("T1 Runner and Web assemblies expose equal effective limits and independent run budgets", () => {
+  const transports = () => ({
+    google: new GooglePlacesClient({ apiKey: "offline", fetchImplementation: async () => { throw new Error("No source read expected"); } }),
+    browser: sourcePages("TABELOG_CURRENT_BATCH_DELIVERS", []),
+    model: new H001NativeModel("TABELOG_CURRENT_BATCH_DELIVERS"),
+    clock: { now: () => reference },
+  });
+  // Both hosts consume this production factory; compare actual returned
+  // components/options, not independently copied configuration constants.
+  const runner = createLiveReadAssembly(LIVE_READ_DEBUG_INVESTIGATION_BUDGET, transports());
+  const web = createLiveReadAssembly(LIVE_READ_DEBUG_INVESTIGATION_BUDGET, transports());
+  assert.deepEqual(runner.runCeilings, web.runCeilings);
+  assert.deepEqual(runner.router, web.router);
+  assert.deepEqual(runner.loop, web.loop);
+  assert.equal(runner.browserBudget.maxModelCalls, web.browserBudget.maxModelCalls);
+  assert.notEqual(runner.browserBudget, web.browserBudget, "distinct assemblies must not share a process-global counter");
+  assert.equal(runner.loop.maxRejectedActions, 5, "neither host may fall back to the retired test default of three");
+  assert.equal(runner.router.structuredReadTimeoutMs, 30_000);
+  assert.equal(runner.router.browserReadTimeoutMs, runner.runCeilings.maxAutomaticBrowserMs);
 });

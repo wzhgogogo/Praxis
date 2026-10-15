@@ -43,8 +43,8 @@ export interface HybridReadCompositionOptions {
   search: RestaurantSearchPort;
   availability: RestaurantAvailabilityPort;
   facts?: RestaurantCandidateFactPort;
-  router?: RestaurantExecutionRouterOptions;
-  loop?: RestaurantAgentLoopOptions;
+  router: RestaurantExecutionRouterOptions;
+  loop: RestaurantAgentLoopOptions;
   partySizeSupplementResolver?: RestaurantPartySizeSupplementResolverPort;
 }
 

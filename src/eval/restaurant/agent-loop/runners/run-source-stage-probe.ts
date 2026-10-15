@@ -656,7 +656,7 @@ try {
           // normal full composition first reuses Google facts, which is right
           // for a hybrid task but would make this stage report a completed
           // Google record without opening its listed website.
-          const facts = new GoogleListedWebsiteFactRead({ maxModelCallsPerCandidate: 4, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 },
+          const facts = new GoogleListedWebsiteFactRead({ maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 4, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 },
             browser,
             new ModelRestaurantFactJudgment(model, common.now),
             common.now,

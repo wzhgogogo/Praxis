@@ -58,6 +58,9 @@ export interface BrowserReadLimits {
   maxModelCallsPerCandidate: number;
   maxModelCallsTotal: number;
   maxOperationsPerCandidate: number;
+  maxAutomaticElapsedMs: number;
+  maxElapsedMsPerCandidate?: number;
+  maxElapsedMsPerProvider?: number;
 }
 
 export interface BrowserTaskExecutorOptions extends BrowserReadLimits {
@@ -66,7 +69,6 @@ export interface BrowserTaskExecutorOptions extends BrowserReadLimits {
   maxElapsedMsPerCandidate?: number;
   /** Bounds one provider path without resetting the candidate-wide budget. */
   maxElapsedMsPerProvider?: number;
-  maxAutomaticElapsedMs?: number;
   onDiagnostic?: (diagnostic: BrowserExecutionDiagnostic) => void;
   /** Shared only by one Live availability composition, never process-global. */
   budget?: BrowserExecutionBudget;
@@ -272,7 +274,7 @@ export class BrowserTaskExecutor {
   private readonly startedAt = Date.now();
 
   constructor(private readonly runtime: BrowserRuntime, private readonly options: BrowserTaskExecutorOptions) {
-    for (const key of ["maxModelCallsPerCandidate", "maxModelCallsTotal", "maxOperationsPerCandidate"] as const) {
+    for (const key of ["maxModelCallsPerCandidate", "maxModelCallsTotal", "maxOperationsPerCandidate", "maxAutomaticElapsedMs"] as const) {
       if (!Number.isSafeInteger(options[key]) || options[key] <= 0) throw new TypeError(`Explicit positive browser limit required: ${key}`);
     }
     this.budget = options.budget ?? { totalModelCalls: 0 };
@@ -1252,7 +1254,7 @@ export class BrowserTaskExecutor {
   }
 
   private remaining(limit: number): number {
-    const total = this.options.maxAutomaticElapsedMs ?? 300_000;
+    const total = this.options.maxAutomaticElapsedMs;
     const candidate = this.options.maxElapsedMsPerCandidate ?? total;
     const provider = this.options.maxElapsedMsPerProvider ?? candidate;
     return Math.min(limit, total - (Date.now() - this.startedAt), candidate - (Date.now() - this.candidateStartedAt), provider - (Date.now() - this.providerStartedAt));
@@ -1274,8 +1276,8 @@ export class BrowserTaskExecutor {
 
   private deadlineScope(): "run" | "candidate" | "provider" | "available" {
     const now = Date.now();
-    const runRemaining = (this.options.maxAutomaticElapsedMs ?? 300_000) - (now - this.startedAt);
-    const candidateLimit = this.options.maxElapsedMsPerCandidate ?? (this.options.maxAutomaticElapsedMs ?? 300_000);
+    const runRemaining = this.options.maxAutomaticElapsedMs - (now - this.startedAt);
+    const candidateLimit = this.options.maxElapsedMsPerCandidate ?? this.options.maxAutomaticElapsedMs;
     const candidateRemaining = candidateLimit - (now - this.candidateStartedAt);
     const providerLimit = this.options.maxElapsedMsPerProvider ?? candidateLimit;
     const providerRemaining = providerLimit - (now - this.providerStartedAt);
@@ -1397,7 +1399,7 @@ export class BrowserTaskExecutor {
         : "FINISHED";
       this.options.onDiagnostic?.({
         ...input,
-        effectiveLimits: { maxModelCallsPerCandidate: this.options.maxModelCallsPerCandidate, maxModelCallsTotal: Math.min(this.options.maxModelCallsTotal, this.budget.maxModelCalls ?? Infinity), maxOperationsPerCandidate: this.options.maxOperationsPerCandidate },
+        effectiveLimits: { maxAutomaticElapsedMs: this.options.maxAutomaticElapsedMs, maxModelCallsPerCandidate: this.options.maxModelCallsPerCandidate, maxModelCallsTotal: Math.min(this.options.maxModelCallsTotal, this.budget.maxModelCalls ?? Infinity), maxOperationsPerCandidate: this.options.maxOperationsPerCandidate },
         ...(this.candidateId ? { candidateId: this.candidateId } : {}),
         elapsedMs: now - this.startedAt,
         lifecycle: {

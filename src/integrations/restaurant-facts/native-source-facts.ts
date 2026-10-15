@@ -109,7 +109,6 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
         ...(this.modelDecision ? { modelDecision: this.modelDecision } : {}),
         ...(this.browserBudget ? { budget: this.browserBudget } : {}),
         ...(this.onBrowserDiagnostic ? { onDiagnostic: this.onBrowserDiagnostic } : {}),
-        maxElapsedMsPerCandidate: 45_000, maxElapsedMsPerProvider: 30_000, maxAutomaticElapsedMs: 45_000,
       });
       try {
         executor.beginCandidate(candidate.restaurant.id);

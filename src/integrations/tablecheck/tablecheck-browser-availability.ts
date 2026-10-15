@@ -249,7 +249,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
       this.executor = browser;
     } else {
       this.ownsExecutor = true;
-      this.executor = new BrowserTaskExecutor(browser, { maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
+      this.executor = new BrowserTaskExecutor(browser, { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
     }
   }
 

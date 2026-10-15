@@ -1,5 +1,6 @@
 import { DeliveryReservedModelGateway } from "../../../application/delivery-reserved-model-gateway.js";
 import type { ModelGateway } from "../../../core/model/contracts.js";
+import { LIVE_READ_DEBUG_INVESTIGATION_BUDGET } from "../../../application/live-read-investigation-budget.js";
 import type { RuntimeClock } from "../../../core/task-runtime/contracts.js";
 import { createCurrentDevelopmentFixedSources } from "./current-development-fixed-sources.js";
 import type { FixedSourceCaseRegistration } from "./fixed-source-case-registry.js";
@@ -51,6 +52,12 @@ export async function executeFixedSourceCase(input: {
   /** Shared whole-run ceiling, also reported to the normal delivery-window policy. */
   maxModelCalls?: number;
 }): Promise<FixedSourceCaseExecution> {
+  const limits = {
+    ...LIVE_READ_DEBUG_INVESTIGATION_BUDGET,
+    ...(input.maxSteps !== undefined ? { maxAgentSteps: input.maxSteps } : {}),
+    ...(input.deadlineMs !== undefined ? { maxAutomaticBrowserMs: input.deadlineMs } : {}),
+    ...(input.maxModelCalls !== undefined ? { maxModelCalls: input.maxModelCalls } : {}),
+  };
   const started = Date.now();
   const scenario = currentDevelopmentSourceScenario(input.registration.sourceScenarioId);
   const businessStart = Date.parse(input.materializedCase.reference_time);
@@ -59,7 +66,7 @@ export async function executeFixedSourceCase(input: {
   // Default time begins at the registered reference point and advances with
   // real elapsed execution; deterministic snapshots must opt in via `clock`.
   const businessClock = input.clock ?? { now: () => new Date(businessStart + Date.now() - started) };
-  const deadline = createRunDeadlineSignal(Math.max(1, input.deadlineMs ?? 5_000), input.signal);
+  const deadline = createRunDeadlineSignal(limits.maxAutomaticBrowserMs, input.signal);
   let modelCalls = 0;
   let lastModelFailureCode: string | undefined;
   const guardedModel: ModelGateway = {
@@ -70,12 +77,12 @@ export async function executeFixedSourceCase(input: {
           ? RUN_DEADLINE_EXCEEDED : "CANCELLED";
         throw Object.assign(new Error("Run stopped before model invocation"), { code });
       }
-      if (input.maxModelCalls !== undefined && modelCalls >= input.maxModelCalls) {
+      if (modelCalls >= limits.maxModelCalls) {
         lastModelFailureCode = "MODEL_CALL_BUDGET_EXHAUSTED";
         throw Object.assign(new Error("Fixed-source model-call budget reached"), { code: lastModelFailureCode });
       }
       modelCalls += 1;
-      const remainingMs = Math.max(1, (input.deadlineMs ?? 5_000) - (Date.now() - started));
+      const remainingMs = Math.max(1, limits.maxAutomaticBrowserMs - (Date.now() - started));
       try {
         return await settleAtRunDeadline(input.model.complete({ ...request, timeoutMs: Math.min(request.timeoutMs, remainingMs) }), deadline.signal);
       } catch (error) {
@@ -85,22 +92,19 @@ export async function executeFixedSourceCase(input: {
     },
   };
   const model = new DeliveryReservedModelGateway(guardedModel);
-  const sources = createCurrentDevelopmentFixedSources(scenario, businessClock, model);
+  const sources = createCurrentDevelopmentFixedSources(scenario, businessClock, model, limits);
   const composition = createHybridReadComposition({
     taskId: input.taskId,
     runId: `run:${input.taskId}`,
     clock: businessClock,
     model,
-    search: sources.search,
-    facts: sources.facts,
-    availability: sources.availability,
+    ...sources,
     // The production Router owns the browser read timeout.  Keep it inside
     // the registered run deadline so an offline 60-second candidate control
     // exercises the same provider window rather than the Web's 20-second UI
     // default.
-    router: { modelReadReserve: model, browserReadTimeoutMs: Math.min(input.deadlineMs ?? 5_000, 60_000) },
     partySizeSupplementResolver: new RestaurantPartySizeSupplementResolver(model),
-    loop: { maxSteps: input.maxSteps ?? 6, timeoutMs: input.deadlineMs ?? 5_000,
+    loop: { ...sources.loop,
       ...(input.maxModelCalls !== undefined ? { remainingModelCalls: () => Math.max(0, input.maxModelCalls! - modelCalls) } : {}) },
   });
   let semantic: unknown;

@@ -1,0 +1,24 @@
+✖ T1 production assembly shares Live limits after more than twelve actual availability model calls (discoveryPacks=tabelog,tablecheck) (84.36325ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 516.041625
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:66620
+✖ T1 production assembly shares Live limits after more than twelve actual availability model calls (discoveryPacks=tabelog,tablecheck) (84.36325ms)
+  AssertionError [ERR_ASSERTION]: {"error":"Shared browser-model budget exhausted for this read run","code":"BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED"}
+      at TestContext.<anonymous> (/private/tmp/praxis-t1-red-QdUozy/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:921:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }

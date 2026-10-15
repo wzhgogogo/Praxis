@@ -3532,3 +3532,7 @@ State@15/TaskDefinition@14，noVerifiedResult.termination记录type/reasonCode/i
 ## 2026-10-15 T1-2 浏览器门禁与动态 Tabelog Fixture
 
 ADR-0040 后两条动态 Chromium 组合仍使用只会操作日期/人数的旧模型替身，且区域列表缺地区标题。先红后绿补齐观察地区入口选择与当前列表标题；资格和源请求绑定断言保持。Test Skill 1.4 明确 Browser 执行器/Guard/Source Pack/Adapter/读取组装触发真实本地 Chromium 门禁，与其余四条并列。离线证据见 `.eval-artifacts/t1-assembly-20261015/02-browser/`；未运行 Live、付费模型或见证 GET。
+
+## DEV-2026-10-15-T1-1-ASSEMBLY
+
+新增生产读取组装根并迁移Runner／Web／主要固定来源和Chromium组合；实际runCeilings、整单共享browserBudget、Router和loop只由一次组装返回。移除剩余隐藏数字默认，显式配置事实链并修复其忽略传入限额的接线。临时工作树恢复旧12次阈值得到目标红灯，恢复后通过。旧Hybrid手工组合在T1-5继续迁移／退役，未把本项视为全批完成。详见T1 report与01-assembly日志；仅离线，本地不推送。

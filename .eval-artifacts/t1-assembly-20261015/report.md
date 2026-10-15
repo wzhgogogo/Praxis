@@ -21,7 +21,7 @@
 
 | 项 | 主要失败机制 | 红／绿证据 | 状态 |
 | --- | --- | --- | --- |
-| 1 | 组装漂移、累计>12后误拒绝、记录不等于实际限额 | 待补 | 进行中 |
+| 1 | 组装漂移、累计>12后误拒绝、记录不等于实际限额 | `01-assembly/red-retired-cap.log` 预算断言红；`green-restored.log` 2/2 | 生产入口已统一；旧Hybrid迁移／退役随第5项核对 |
 | 2 | 过时 Fixture 隐藏完整浏览器链路红项 | `02-browser/red.log` 两项目标资格断言失败；`green-targeted.log` 2/2 | 完成：默认879/879、Chromium100/100，typecheck/arch/build通过 |
 | 3 | 当前进程语义调用被查询误判成上个进程中断 | 待补 | 未开始 |
 | 4 | 外部信号永不达到时测试挂起 | 待补 | 未开始 |
@@ -33,6 +33,16 @@
 修复前两个真实 Chromium 场景均返回零候选，目标 availability 断言失败。原因是 ADR-0040 后必须由模型选择已观察地区入口；旧替身只选日期／人数，列表也缺地区标题。补充观察入口选择和来源地区标题，原身份、HARD、请求绑定、事实替代、库存和展示断言保留。未删除用例或放宽资格。
 
 Test Skill 1.4 将执行器、Guard、Source Pack、浏览器 Adapter 和读取组装列为 `test:browser:fixture` 的触发范围，并要求与四条代码门禁并列、全绿。
+
+## 1 生产读取组装与显式限额
+
+`src/integrations/restaurant-search/live-read-assembly.ts`为唯一生产组装根。Live Runner、Web、native固定来源Runner、native组合、动态Chromium H001和current-development固定来源均使用它；同一调用创建找店／事实／查位、一个browserBudget、Router和loop选项。运行结果runCeilings直接取返回值。Google-only控制显式选已有Google Pack，不是第二套组装。旧Hybrid组合迁移在第5项完成核对。
+
+P2-0遗留loop三默认、Router两默认、Executor 300000ms默认及native facts 4/24全部移除；直接低层调用者显式给限额。事实链原先忽略配置并重写6/12/24也已接通。独立Mock Harness和底层单元测试保留显式12步／3拒绝／30秒等控制值，不是Live默认。共享基线增加总模型50、找店10候选及事实4/24/45000/30000，仍只维护一份预算。
+
+检错：在`/private/tmp/praxis-t1-red-QdUozy`临时detached工作树应用当前源码，**仅把传给native发现的全局模型上限恢复为旧12**（旧签名不能直接checkout）；实际查位Fixture产生>12次调用后再找店，目标业务断言以BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED失败。恢复配置后同测试及Runner/Web返回值逐项对照通过。没有在主工作树回退、手填计数或提交破坏。
+
+命令：`node --import tsx --test --test-name-pattern='T1 production assembly shares|T1 Runner and Web' src/eval/restaurant/agent-loop/native-discovery-composition.test.ts`。`01-assembly/`保存隔离红／绿、受控执行17/17和门禁日志：typecheck、arch:check、npm test（880/880）、build及Chromium（100/100）全绿。对照比较实际factory返回的限额、Router／loop和独立整单预算；两宿主源码均从同一次返回接线，不是比较两份常量。
 
 ## 两种宿主与外部边界
 

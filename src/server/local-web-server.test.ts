@@ -9,6 +9,7 @@ import test from "node:test";
 import { PGlite, type Results, type Transaction } from "@electric-sql/pglite";
 
 import type { RestaurantCaseView } from "../application/agent-workspace.js";
+import { LIVE_READ_DEBUG_INVESTIGATION_BUDGET as readLimits } from "../application/live-read-investigation-budget.js";
 import {
   PersistentRestaurantAgentApplication,
   PilotSessionService,
@@ -99,6 +100,8 @@ async function startServer(database: SqlDatabase, clock: FakeClock, options: Sta
     restaurantSearch: restaurant,
     restaurantAvailability: restaurant,
     restaurantFacts: restaurant,
+    executionRouterOptions: { structuredReadTimeoutMs: readLimits.maxStructuredReadMs, browserReadTimeoutMs: readLimits.maxAutomaticBrowserMs },
+    agentLoopOptions: { maxSteps: readLimits.maxAgentSteps, maxRejectedActions: readLimits.maxRejectedActions, timeoutMs: readLimits.maxAutomaticBrowserMs },
     ...(options.liveReadLimits ? { liveReadLimits: options.liveReadLimits } : {}),
     ...(options.mode ? { workspaceMode: options.mode } : {}),
     ...(options.modelRunBudget ? { modelRunBudget: options.modelRunBudget } : {}),

@@ -489,7 +489,7 @@ test("PRESENT_RESULTS fails closed until area, HARD criterion, identity, and ava
   let providerCalls = 0;
   const router = new RestaurantExecutionRouter(
     { executionRoute: "STRUCTURED_ADAPTER", async search() { providerCalls++; throw new Error("delivery must not call search"); } },
-    { executionRoute: "STRUCTURED_ADAPTER", async check() { providerCalls++; throw new Error("delivery must not call availability"); } },
+    { executionRoute: "STRUCTURED_ADAPTER", async check() { providerCalls++; throw new Error("delivery must not call availability"); } }, { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 20_000 },
   );
   const executed = await router.execute({ type: "PRESENT_RESULTS", candidateIds: ["a"] }, delivery, now);
   assert.equal(executed.event?.type, "RESULTS_PRESENTED");
@@ -514,7 +514,7 @@ test("PRESENT_RESULTS fails closed until area, HARD criterion, identity, and ava
       return { snapshot: current, commands: [], duplicateEvent: false };
     },
   }, new ScriptedRestaurantAgentDecisionPort([{ type: "PRESENT_RESULTS", candidateIds: ["a"] }]), router,
-    new InMemoryRestaurantAgentTrajectoryStore(), { now: () => new Date(now) }, { timeoutMs: 300_000, maxSteps: 2 }, (prefix) => prefix);
+    new InMemoryRestaurantAgentTrajectoryStore(), { now: () => new Date(now) }, { maxRejectedActions: 3,  timeoutMs: 300_000, maxSteps: 2 }, (prefix) => prefix);
   const coordinated = await coordinator.run("task", undefined, new Date(deadlineAt));
   assert.equal(coordinated.status, "TERMINAL", "the budget event, Agent action, Router and Reducer must complete inside the reserve");
   assert.equal(current.domainState.phase, "PRESENT_RESULTS");
@@ -786,7 +786,7 @@ test("C6a expired immediate window ends without investigating another candidate"
     assert.equal(validateRestaurantAction(expired, action, later).status, "REJECTED");
   let sourceCalls = 0;
   const router = new RestaurantExecutionRouter({ executionRoute: "STRUCTURED_ADAPTER", async search() { sourceCalls++; throw new Error("Expired request must not discover"); } },
-    { executionRoute: "STRUCTURED_ADAPTER", async check() { sourceCalls++; throw new Error("Expired request must not query inventory"); } });
+    { executionRoute: "STRUCTURED_ADAPTER", async check() { sourceCalls++; throw new Error("Expired request must not query inventory"); } }, { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 20_000 });
   const execution = await router.execute({ type: "END_READ" }, expired, later);
   assert.equal(execution.event?.type, "READ_ENDED_NO_VERIFIED_RESULT");
   if (execution.event?.type !== "READ_ENDED_NO_VERIFIED_RESULT") throw new Error("Missing ending");

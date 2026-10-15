@@ -57,9 +57,9 @@ function googleUsageMetadata(
 
 export interface RestaurantExecutionRouterOptions {
   modelReadReserve?: { runRead<T>(remaining: () => number | undefined, qualified: () => boolean, work: () => Promise<T>): Promise<T> };
-  structuredReadTimeoutMs?: number;
+  structuredReadTimeoutMs: number;
   /** `null` is eval-only: an explicit human browser pause owns its own wait. */
-  browserReadTimeoutMs?: number | null;
+  browserReadTimeoutMs: number | null;
 }
 
 export interface RestaurantActionExecution {
@@ -211,11 +211,11 @@ export class RestaurantExecutionRouter {
   constructor(
     private readonly search: RestaurantSearchPort,
     private readonly availability: RestaurantAvailabilityPort,
-    private readonly options: RestaurantExecutionRouterOptions = {},
+    private readonly options: RestaurantExecutionRouterOptions,
     private readonly facts?: RestaurantCandidateFactPort,
   ) {
-    this.structuredReadTimeoutMs = options.structuredReadTimeoutMs ?? 8_000;
-    this.browserReadTimeoutMs = options.browserReadTimeoutMs === null ? null : options.browserReadTimeoutMs ?? 20_000;
+    this.structuredReadTimeoutMs = options.structuredReadTimeoutMs;
+    this.browserReadTimeoutMs = options.browserReadTimeoutMs;
   }
 
   /** Keeps source-level cumulative budgets aligned with one outer Agent run. */

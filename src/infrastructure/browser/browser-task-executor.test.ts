@@ -89,7 +89,7 @@ test("BrowserTaskExecutor shares one browser session across source work and clos
   const session = new FixtureSession([{ url: "https://www.tablecheck.com/en/japan", title: "search", text: "", html: "" }]);
   let opens = 0;
   const runtime: BrowserRuntime = { openSession: async () => { opens += 1; return session; } };
-  const executor = new BrowserTaskExecutor(runtime, { maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
+  const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
   assert.equal(await executor.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY"), session);
   assert.equal(await executor.acquire(new AbortController().signal, "TABELOG", "DISCOVERY"), session);
   assert.equal(opens, 1);
@@ -100,7 +100,7 @@ test("BrowserTaskExecutor shares one browser session across source work and clos
 test("BrowserTaskExecutor refuses a policy read when a runtime only exposes an unguarded session", async () => {
   const session = new FixtureSession([{ url: "https://www.tablecheck.com/en/japan", title: "search", text: "", html: "" }]);
   const policy: BrowserReadNetworkPolicy = { documentOrigins: ["https://www.tablecheck.com"], staticResources: [], dynamicReads: [] };
-  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
   await assert.rejects(
     () => executor.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY", policy),
     (error: unknown) => error instanceof BrowserRuntimeError && error.code === "BROWSER_RUNTIME_FAILED",
@@ -111,7 +111,7 @@ test("BrowserTaskExecutor refuses a policy read when a runtime only exposes an u
 test("BrowserTaskExecutor records candidate and provider lifecycle costs through a normal close", async () => {
   const diagnostics: import("./browser-task-executor.js").BrowserExecutionDiagnostic[] = [];
   const session = new FixtureSession([{ url: "https://www.tablecheck.com/en/japan", title: "search", text: "", html: "" }]);
-  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  onDiagnostic: (diagnostic) => diagnostics.push(diagnostic) });
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  onDiagnostic: (diagnostic) => diagnostics.push(diagnostic) });
   executor.beginProvider("candidate-1", "TABLECHECK");
   const acquired = await executor.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY");
   await executor.snapshot({ source: "TABLECHECK", stage: "DISCOVERY", signal: new AbortController().signal, session: acquired });
@@ -130,7 +130,7 @@ test("BrowserTaskExecutor completes after a canonical page-level WAIT without an
     { url: "https://www.tablecheck.com/en/query", title: "query", text: "Loading current availability", html: "<div>Loading current availability</div>" },
     { url: "https://www.tablecheck.com/en/query", title: "query", text: "Sushi Inase 19:00", html: "<div>Sushi Inase 19:00</div>" },
   ], true, true);
-  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
     modelDecision: { async decide(value) {
       assert.deepEqual(value.observation.pageActions, ["WAIT", "PRESS_ESCAPE"]);
       assert.equal(value.observation.targets.some(target => target.availableActions?.includes("WAIT")), false);
@@ -155,7 +155,7 @@ test("BrowserTaskExecutor spends one bounded operation on page-level Escape then
     { url: "https://www.tablecheck.com/en/query", title: "modal", text: "Search dialog open", html: "<dialog>Search dialog open</dialog>" },
     { url: "https://www.tablecheck.com/en/query", title: "results", text: "Sushi Inase 19:00", html: "<main>Sushi Inase 19:00</main>" },
   ], false, true);
-  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
     modelDecision: { async decide(input) {
       assert.deepEqual(input.observation.pageActions, ["WAIT", "PRESS_ESCAPE"]);
       return { type: "PRESS_ESCAPE", reason: "Close the observed public layer before reading the result." };
@@ -181,7 +181,7 @@ test("BrowserTaskExecutor applies one obstruction recovery and re-observes inste
     throw new BrowserRuntimeError("BROWSER_RUNTIME_FAILED", "Click failed", new Error("header strong intercepts pointer events"));
   };
   const diagnostics: import("./browser-task-executor.js").BrowserExecutionDiagnostic[] = [];
-  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
     modelDecision: { async decide(value) {
       const target = value.observation.targets.find(item => item.label === "Find availability");
       assert.ok(target);
@@ -209,7 +209,7 @@ test("BrowserTaskExecutor exposes an ordinary observed query submit only in an i
     { url: "https://www.tablecheck.com/en/query", title: "query", text: "Sushi Inase 19:00", html: "<main>Sushi Inase 19:00</main>" },
   ];
   const guarded = new FixtureSession(pages, false, true);
-  const executor = new BrowserTaskExecutor({ openSession: async () => guarded }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
+  const executor = new BrowserTaskExecutor({ openSession: async () => guarded }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
     modelDecision: { async decide(value) {
       const target = value.observation.targets.find(item => item.label === "Find availability");
       assert.deepEqual(target?.availableActions, ["CLICK"]);
@@ -226,7 +226,7 @@ test("BrowserTaskExecutor exposes an ordinary observed query submit only in an i
   } finally { await executor.close(); }
 
   const unguarded = new FixtureSession(pages);
-  const unguardedExecutor = new BrowserTaskExecutor({ openSession: async () => unguarded }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
+  const unguardedExecutor = new BrowserTaskExecutor({ openSession: async () => unguarded }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
     modelDecision: { async decide(value) {
       const target = value.observation.targets.find(item => item.label === "Find availability");
       assert.deepEqual(target?.availableActions, []);
@@ -248,7 +248,7 @@ test("BrowserTaskExecutor waits once for a guarded GET submit when cosmetic form
     { url: "https://www.tablecheck.com/en/query", title: "query", text: "Sushi Inase 19:00", html: "<main>Sushi Inase 19:00</main>" },
   ];
   const session = new FixtureSession(pages, true, true);
-  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
     modelDecision: { async decide(value) {
       const target = value.observation.targets.find(item => item.label === "Search");
       assert.ok(target);
@@ -271,7 +271,7 @@ test("BrowserTaskExecutor keeps an observed sensitive submit unavailable even in
   const session = new FixtureSession([
     { url: "https://www.tablecheck.com/en/query", title: "query", text: "Reserve", html: '<button type="submit">Reserve table</button>' },
   ], false, true);
-  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
     modelDecision: { async decide(value) {
       const target = value.observation.targets.find(item => item.label === "Reserve table");
       assert.deepEqual(target?.availableActions, []);
@@ -296,7 +296,7 @@ test("BrowserTaskExecutor exposes generic public query controls only after the G
     { id: "region", stableKey: "region", kind: "REGION", role: "region", label: "Filters", scrollable: true, disabled: false, visible: true },
     { id: "search", stableKey: "search", kind: "INPUT", role: "textbox", label: "Search", value: "", disabled: false, visible: true, structure: { tag: "INPUT", name: "search_text", classes: [], dialogLabel: "", formClass: "", sliderCount: 0 } },
   ];
-  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: { async decide(input) {
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: { async decide(input) {
     const action = (label: string) => input.observation.targets.find(target => target.label === label)?.availableActions ?? [];
     assert.deepEqual(action("Sushi"), ["SET_CHECKED"]);
     assert.deepEqual(action("Counter"), ["SET_CHECKED"]);
@@ -318,7 +318,7 @@ test("BrowserTaskExecutor executes a guarded authoritative date button only for 
     { url: "https://www.tablecheck.com/en/query", title: "query", text: "Choose date", html: '<button type="submit" data-date="2026-09-10">10</button>' },
     { url: "https://www.tablecheck.com/en/query", title: "query", text: "Sushi Inase 19:00", html: "<main>Sushi Inase 19:00</main>" },
   ], false, true);
-  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
     modelDecision: { async decide(value) {
       const target = value.observation.targets.find(item => item.label === "10");
       assert.ok(target?.availableActions?.includes("CLICK_AUTHORITATIVE:DATE"));
@@ -337,7 +337,7 @@ test("BrowserTaskExecutor executes a guarded authoritative date button only for 
 test("BrowserTaskExecutor identifies an operation ceiling before a denied next observation", async () => {
   const diagnostics: import("./browser-task-executor.js").BrowserExecutionDiagnostic[] = [];
   const session = new FixtureSession([{ url: "https://www.tablecheck.com/en/sushi", title: "query", text: "", html: "" }]);
-  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12,
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12,
     maxOperationsPerCandidate: 1, onDiagnostic: item => diagnostics.push(item),
   });
   const signal = new AbortController().signal;
@@ -351,7 +351,7 @@ test("BrowserTaskExecutor identifies an operation ceiling before a denied next o
 
   const actionSession = new FixtureSession([{ url: "https://www.tablecheck.com/en/sushi", title: "query", text: "Choose date", html: '<button type="button" data-date="2026-9-10">Thursday 10</button>' }]);
   const actionDiagnostics: import("./browser-task-executor.js").BrowserExecutionDiagnostic[] = [];
-  const actionExecutor = new BrowserTaskExecutor({ openSession: async () => actionSession }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12,
+  const actionExecutor = new BrowserTaskExecutor({ openSession: async () => actionSession }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12,
     maxOperationsPerCandidate: 3,
     onDiagnostic: item => actionDiagnostics.push(item),
     modelDecision: decisions(async value => ({ type: "CLICK_AUTHORITATIVE", targetRef: value.observation.targets[0]!.ref, field: "DATE", reason: "Select date." })),
@@ -368,7 +368,7 @@ test("BrowserTaskExecutor records the real acquisition root cause instead of inf
   const diagnostics: import("./browser-task-executor.js").BrowserExecutionDiagnostic[] = [];
   const executor = new BrowserTaskExecutor({
     openSession: async () => { throw new BrowserRuntimeError("BROWSER_RUNTIME_UNAVAILABLE", "Chromium binary is unavailable"); },
-  }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  onDiagnostic: (diagnostic) => diagnostics.push(diagnostic) });
+  }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  onDiagnostic: (diagnostic) => diagnostics.push(diagnostic) });
   executor.beginProvider("candidate-1", "TABLECHECK");
   await assert.rejects(executor.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY"), { code: "BROWSER_RUNTIME_UNAVAILABLE" });
   const failure = diagnostics.find(item => item.event === "SESSION_OPEN_FAILED");
@@ -382,7 +382,7 @@ test("BrowserTaskExecutor records the real acquisition root cause instead of inf
 
 test("BrowserTaskExecutor emits a typed provider deadline before opening a session", async () => {
   const diagnostics: import("./browser-task-executor.js").BrowserExecutionDiagnostic[] = [];
-  const executor = new BrowserTaskExecutor({ openSession: async () => new FixtureSession([]) }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
+  const executor = new BrowserTaskExecutor({ openSession: async () => new FixtureSession([]) }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
     maxElapsedMsPerProvider: 0,
     onDiagnostic: (diagnostic) => diagnostics.push(diagnostic),
   });
@@ -399,7 +399,7 @@ test("BrowserTaskExecutor aborts session acquisition immediately and closes a la
   let resolveLate: ((session: BrowserSession) => void) | undefined;
   const executor = new BrowserTaskExecutor({
     openSession: async () => new Promise<BrowserSession>((resolve) => { resolveLate = resolve; }),
-  }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  onDiagnostic: (diagnostic) => diagnostics.push(diagnostic) });
+  }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  onDiagnostic: (diagnostic) => diagnostics.push(diagnostic) });
   executor.beginProvider("candidate-1", "TABLECHECK");
   const controller = new AbortController();
   const acquisition = executor.acquire(controller.signal, "TABLECHECK", "DISCOVERY");
@@ -416,7 +416,7 @@ test("BrowserTaskExecutor records a failed runtime operation with its local caus
   const diagnostics: import("./browser-task-executor.js").BrowserExecutionDiagnostic[] = [];
   const session = new FixtureSession([{ url: "https://www.tablecheck.com/en/japan", title: "search", text: "", html: "" }]);
   session.snapshot = async () => { throw new BrowserRuntimeError("BROWSER_RUNTIME_FAILED", "socket reset"); };
-  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  onDiagnostic: (diagnostic) => diagnostics.push(diagnostic) });
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  onDiagnostic: (diagnostic) => diagnostics.push(diagnostic) });
   executor.beginProvider("candidate-1", "TABLECHECK");
   const acquired = await executor.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY");
   await assert.rejects(executor.snapshot({ source: "TABLECHECK", stage: "DISCOVERY", signal: new AbortController().signal, session: acquired }), { code: "BROWSER_RUNTIME_FAILED" });
@@ -432,7 +432,7 @@ test("a runtime navigation failure retires its session before the next candidate
   const next = new FixtureSession([{ url: "https://www.tablecheck.com/new", title: "new", text: "new", html: "" }]);
   let opens = 0;
   const budget = { totalModelCalls: 3 };
-  const executor = new BrowserTaskExecutor({ openSession: async () => ++opens === 1 ? failed : next }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  budget });
+  const executor = new BrowserTaskExecutor({ openSession: async () => ++opens === 1 ? failed : next }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  budget });
   const signal = new AbortController().signal;
   executor.beginProvider("first", "TABLECHECK");
   const old = await executor.acquire(signal, "TABLECHECK", "DISCOVERY");
@@ -453,7 +453,7 @@ test("a stuck old close cannot delay cancellation or overwrite the next candidat
   const next = new FixtureSession([{ url: "https://www.tablecheck.com/new", title: "new", text: "new", html: "" }]);
   const diagnostics: import("./browser-task-executor.js").BrowserExecutionDiagnostic[] = [];
   let opens = 0;
-  const executor = new BrowserTaskExecutor({ openSession: async () => ++opens === 1 ? failed : next }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
+  const executor = new BrowserTaskExecutor({ openSession: async () => ++opens === 1 ? failed : next }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
     maxElapsedMsPerCandidate: 40, onDiagnostic: diagnostic => diagnostics.push(diagnostic),
   });
   const oldSignal = new AbortController();
@@ -477,7 +477,7 @@ test("a stuck runtime cleanup does not hold a canceled read or reset its candida
   failed.navigate = async () => { throw new BrowserRuntimeError("BROWSER_RUNTIME_FAILED", "navigation failed"); };
   let finishClose: (() => void) | undefined;
   failed.close = async () => new Promise<void>(resolve => { finishClose = resolve; });
-  const executor = new BrowserTaskExecutor({ openSession: async () => failed }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  maxElapsedMsPerCandidate: 15 });
+  const executor = new BrowserTaskExecutor({ openSession: async () => failed }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  maxElapsedMsPerCandidate: 15 });
   const controller = new AbortController();
   executor.beginProvider("old", "TABLECHECK");
   const session = await executor.acquire(controller.signal, "TABLECHECK", "IDENTITY");
@@ -495,7 +495,7 @@ test("BrowserTaskExecutor aborts an in-flight operation, closes once asynchronou
   session.snapshot = async () => new Promise<BrowserSnapshot>((resolve) => { resolveSnapshot = resolve; });
   const next = new FixtureSession([{ url: "https://www.tablecheck.com/en/next", title: "next", text: "", html: "" }]);
   let opens = 0;
-  const executor = new BrowserTaskExecutor({ openSession: async () => (++opens === 1 ? session : next) }, { maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
+  const executor = new BrowserTaskExecutor({ openSession: async () => (++opens === 1 ? session : next) }, { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
   executor.beginProvider("candidate-1", "TABLECHECK");
   const acquired = await executor.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY");
   const controller = new AbortController();
@@ -519,7 +519,7 @@ test("BrowserTaskExecutor bounds a late session acquisition without leaking its 
     opens += 1;
     if (opens === 1) return new Promise<BrowserSession>((resolve) => { resolveLate = resolve; });
     return next;
-  } }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  maxElapsedMsPerCandidate: 10 });
+  } }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  maxElapsedMsPerCandidate: 10 });
   executor.beginCandidate("first");
   await assert.rejects(executor.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY"), { code: "BROWSER_TIMEOUT" });
   resolveLate!(late);
@@ -536,7 +536,7 @@ test("BrowserTaskExecutor times out a hanging snapshot, closes that session, and
   stuck.snapshot = async () => new Promise<BrowserSnapshot>(() => {});
   const next = new FixtureSession([{ url: "https://www.tablecheck.com/en/next", title: "next", text: "", html: "" }]);
   let opens = 0;
-  const executor = new BrowserTaskExecutor({ openSession: async () => (++opens === 1 ? stuck : next) }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  maxElapsedMsPerCandidate: 10 });
+  const executor = new BrowserTaskExecutor({ openSession: async () => (++opens === 1 ? stuck : next) }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  maxElapsedMsPerCandidate: 10 });
   executor.beginCandidate("stuck");
   const first = await executor.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY");
   await assert.rejects(executor.snapshot({ source: "TABLECHECK", stage: "DISCOVERY", signal: new AbortController().signal, session: first }), { code: "BROWSER_TIMEOUT" });
@@ -561,7 +561,7 @@ test("BrowserTaskExecutor stops a repeated two-page cycle without spending the f
     async click() { page = page === 0 ? 1 : 0; }, async fill() {}, async select() { return []; }, async waitFor() {},
     async waitForSettled() { return true; }, async screenshot() { return new Uint8Array(); }, async close() { closes += 1; },
   };
-  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12,  maxOperationsPerCandidate: 24, onDiagnostic: (diagnostic) => diagnostics.push(diagnostic.detail ?? ""), modelDecision: {
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12,  maxOperationsPerCandidate: 24, onDiagnostic: (diagnostic) => diagnostics.push(diagnostic.detail ?? ""), modelDecision: {
     async decide(value) { return { type: "CLICK", targetRef: value.observation.targets[0]!.ref, reason: "Inspect next public page" }; },
   } });
   const acquired = await executor.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY");
@@ -583,13 +583,13 @@ test("BrowserTaskExecutor keeps a model-call ceiling across sequential candidate
     },
   };
   const firstSession = new FixtureSession([{ url: "https://www.tablecheck.com/en/japan/search", title: "search", text: "", html: "" }]);
-  const first = new BrowserTaskExecutor({ openSession: async () => firstSession }, {maxModelCallsPerCandidate: 6, maxOperationsPerCandidate: 24,  modelDecision, maxModelCallsTotal: 1, budget });
+  const first = new BrowserTaskExecutor({ openSession: async () => firstSession }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxOperationsPerCandidate: 24,  modelDecision, maxModelCallsTotal: 1, budget });
   const acquiredFirst = await first.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY");
   assert.equal((await first.runSkill({ ...input(acquiredFirst), completion: () => ({ complete: false, reason: "continue" }) })).status, "REQUESTED_HUMAN_HELP");
   await first.close();
 
   const secondSession = new FixtureSession([{ url: "https://www.tablecheck.com/en/japan/search", title: "search", text: "", html: "" }]);
-  const second = new BrowserTaskExecutor({ openSession: async () => secondSession }, {maxModelCallsPerCandidate: 6, maxOperationsPerCandidate: 24,  modelDecision, maxModelCallsTotal: 1, budget });
+  const second = new BrowserTaskExecutor({ openSession: async () => secondSession }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxOperationsPerCandidate: 24,  modelDecision, maxModelCallsTotal: 1, budget });
   const acquiredSecond = await second.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY");
   await assert.rejects(
     second.runSkill({ ...input(acquiredSecond), completion: () => ({ complete: false, reason: "continue" }) }),
@@ -610,7 +610,7 @@ test("BrowserTaskExecutor enforces the shared budget ceiling when no caller-spec
   };
   const first = new BrowserTaskExecutor(
     { openSession: async () => new FixtureSession([{ url: "https://www.tablecheck.com/en/japan/search", title: "search", text: "", html: "" }]) },
-    {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision, budget },
+    { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision, budget },
   );
   const firstSession = await first.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY");
   assert.equal((await first.runSkill({ ...input(firstSession), completion: () => ({ complete: false, reason: "continue" }) })).status, "REQUESTED_HUMAN_HELP");
@@ -618,7 +618,7 @@ test("BrowserTaskExecutor enforces the shared budget ceiling when no caller-spec
 
   const second = new BrowserTaskExecutor(
     { openSession: async () => new FixtureSession([{ url: "https://www.tablecheck.com/en/japan/search", title: "search", text: "", html: "" }]) },
-    {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision, budget },
+    { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision, budget },
   );
   const secondSession = await second.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY");
   await assert.rejects(
@@ -641,7 +641,7 @@ test("BrowserTaskExecutor accepts only observed, read-only targets and invalidat
     },
   ]);
   let firstRef = "";
-  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
     modelDecision: decisions(
       async (value) => {
         assert.equal(value.observation.targets.length, 1);
@@ -667,7 +667,7 @@ test("BrowserTaskExecutor allows an observed GET availability-search control but
     },
     { url: "https://www.tablecheck.com/en/japan/search", title: "results", text: "Sushi Inase", html: "" },
   ]);
-  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
     modelDecision: decisions(async (value) => ({ type: "CLICK", targetRef: value.observation.targets[0]!.ref, reason: "Run the public availability search." })),
   });
   const acquired = await executor.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY");
@@ -691,7 +691,7 @@ test("fragment UI click permission cannot be used for another document, origin, 
     const observe = session.observeControls.bind(session);
     session.observeControls = async () => (await observe()).map(control => ({ ...control,
       structure: { tag: "A", name: "", classes: [], dialogLabel: "", formClass: "", sliderCount: 0 } }));
-    const executor = new BrowserTaskExecutor({ openSession: async () => session }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: decisions(
+    const executor = new BrowserTaskExecutor({ openSession: async () => session }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: decisions(
       async value => {
         const target = value.observation.targets[0]!;
         assert.equal(target.availableActions?.includes("CLICK"), false, scenario.name);
@@ -715,7 +715,7 @@ test("BrowserTaskExecutor binds model-controlled fields to the Router authority 
       html: '<select id="date"><option value="2026-09-10">2026-09-10</option></select><button id="submit" formmethod="post">Reserve now</button>',
     },
   ]);
-  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
     modelDecision: decisions(
       async (value) => {
         const select = value.observation.targets.find(target => target.kind === "SELECT");
@@ -750,7 +750,7 @@ test("BrowserTaskExecutor binds a public retrieval field by observed native name
   const fills: string[] = [];
   const browserSession: BrowserSession = session;
   browserSession.fill = async target => { fills.push(target); };
-  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: decisions(
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: decisions(
     async decision => {
       const search = decision.observation.targets.find(target => target.label === "Sushi tonight for 2 in Ginza")!;
       const email = decision.observation.targets.find(target => target.label === "Restaurant contact")!;
@@ -781,7 +781,7 @@ test("BrowserTaskExecutor permits only an exact non-submit calendar button for a
       html: "",
     },
   ]);
-  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
     modelDecision: decisions(async (value) => ({
       type: "CLICK_AUTHORITATIVE",
       targetRef: value.observation.targets.find((target) => target.value === "2026-9-10" && target.formMethod !== "POST")!.ref,
@@ -801,7 +801,7 @@ test("BrowserTaskExecutor shows a disabled date as read-only and rejects a propo
     url: "https://www.tablecheck.com/en/sushi", title: "availability", text: "Choose date",
     html: '<button type="button" data-date="2026-9-10" disabled>Thursday 10</button>',
   }]);
-  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
     modelDecision: decisions(async (value) => {
       const date = value.observation.targets.find(target => target.value === "2026-9-10")!;
       assert.equal(date.disabled, true);
@@ -824,7 +824,7 @@ test("BrowserTaskExecutor reuses post-action controls to confirm two selections 
     { url: "https://www.tablecheck.com/en/sushi", title: "availability", text: "Date and guests confirmed", html: '<p>Selected request</p>' },
   ]);
   const events: import("./browser-task-executor.js").BrowserExecutionDiagnostic[] = [];
-  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12,
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12,
     maxOperationsPerCandidate: 10,
     onDiagnostic: event => events.push(event),
     modelDecision: decisions(
@@ -848,7 +848,7 @@ test("BrowserTaskExecutor permits a non-submit calendar control nested in a POST
     },
     { url: "https://www.tablecheck.com/en/sushi", title: "availability", text: "Requested date applied", html: "" },
   ]);
-  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
     modelDecision: decisions(async (value) => ({
       type: "CLICK_AUTHORITATIVE", targetRef: value.observation.targets[0]!.ref, field: "DATE", reason: "Select the exact visible date.",
     })),
@@ -868,7 +868,7 @@ test("BrowserTaskExecutor addresses a distinct observed calendar value before a 
     },
     { url: "https://www.tablecheck.com/en/sushi", title: "availability", text: "Requested date applied", html: "" },
   ]);
-  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
     modelDecision: decisions(async (value) => {
       const target = value.observation.targets.find((item) => item.value === "2026-9-10")!;
       return { type: "CLICK_AUTHORITATIVE", targetRef: target.ref, field: "DATE", reason: "Choose the exact date." };
@@ -888,7 +888,7 @@ test("BrowserTaskExecutor rejects an ambiguous calendar day and a submit-looking
       html: '<button id="bare">10</button><button id="post" formmethod="post">Sep 10th</button>',
     },
   ]);
-  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
     modelDecision: decisions(async (value) => ({
       type: "CLICK_AUTHORITATIVE",
       targetRef: value.observation.targets.find((target) => target.label === "10")!.ref,
@@ -909,7 +909,7 @@ test("BrowserTaskExecutor keeps an invalid model action in the same bounded sess
     { url: "https://www.tablecheck.com/en/japan/search", title: "results", text: "Sushi Inase", html: '<a href="/en/sushiinase">Sushi Inase</a>' },
   ]);
   const events: string[] = [];
-  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
     modelDecision: decisions(
       async () => { throw new BrowserReadDecisionError("INVALID_MODEL_OUTPUT", "CLICK requires a targetRef and no authoritative field or requested state"); },
       async (value) => {
@@ -934,7 +934,7 @@ test("BrowserTaskExecutor abandons two identical rejected proposals on an unchan
   }]);
   let calls = 0;
   const diagnostics: string[] = [];
-  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
     modelDecision: { async decide() {
       calls += 1;
       throw new BrowserReadDecisionError("INVALID_MODEL_OUTPUT", "Selected party option is not an observed target");
@@ -956,7 +956,7 @@ test("BrowserTaskExecutor removes an observed target after its action makes no p
     { url: "https://www.tablecheck.com/en/sushi", title: "availability", text: "Select date and party", html: '<button id="date" data-date="2026-9-10">Monday 10</button><button id="party" data-value="2">2 guests</button>' },
   ]);
   let calls = 0;
-  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
     modelDecision: decisions(
       async (value) => {
         calls += 1;
@@ -980,7 +980,7 @@ test("BrowserTaskExecutor removes an observed target after its action makes no p
 
 test("model COMPLETE is returned to the same browser loop until the completion predicate passes or makes no progress", async () => {
   const session = new FixtureSession([{ url: "https://www.tablecheck.com/en/japan/search", title: "Options only", text: "19:00 19:15 19:30", html: "<p>Options only</p>" }]);
-  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: decisions(
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: decisions(
     async () => ({ type: "COMPLETE", reason: "Options are visible" }),
     async () => ({ type: "COMPLETE", reason: "Options are visible" }),
   ) });
@@ -997,7 +997,7 @@ test("an early COMPLETE receives the missing predicate and can take a later safe
     { url: "https://www.tablecheck.com/en/search", title: "Result", text: "Inventory ready", html: '<p>Inventory ready</p>' },
   ]);
   let secondProgress = "";
-  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: decisions(
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: decisions(
     async () => ({ type: "COMPLETE", reason: "I am done" }),
     async value => {
       secondProgress = value.progress;
@@ -1019,7 +1019,7 @@ test("a rejected COMPLETE refreshes an asynchronous result before requesting ano
     { url: "https://www.tablecheck.com/en/search", title: "Search", text: "Inventory ready", html: "<p>Inventory ready</p>" },
   ], true);
   let decisionsRequested = 0;
-  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: decisions(
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: decisions(
     async () => { decisionsRequested += 1; return { type: "COMPLETE", reason: "The page may have settled" }; },
   ) });
   const acquired = await executor.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY");
@@ -1035,7 +1035,7 @@ test("a rejected COMPLETE refreshes an asynchronous result before requesting ano
 
 test("BrowserTaskExecutor never advertises or executes page Escape without an installed read boundary", async () => {
   const session = new FixtureSession([{ url: "https://www.tablecheck.com/en/query", title: "modal", text: "Search dialog", html: "<dialog>Search dialog</dialog>" }]);
-  const executor = new BrowserTaskExecutor({ openSession: async () => session }, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: { async decide(input) {
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: { async decide(input) {
     assert.deepEqual(input.observation.pageActions, ["WAIT"]);
     return { type: "PRESS_ESCAPE", reason: "Try a page action." };
   } } });
@@ -1048,7 +1048,7 @@ test("BrowserTaskExecutor passes only the recent six executed or rejected steps 
   const captured: BrowserReadDecisionInput[] = [];
   const pages = Array.from({length: 9}, (_, i) => ({ url: `https://www.tablecheck.com/en/japan?step=${i}`, title: "search", text: i === 8 ? "Sushi Inase" : `step ${i}`, html: "" }));
   const session = new FixtureSession(pages, true);
-  const executor = new BrowserTaskExecutor({openSession:async()=>session}, {maxModelCallsTotal: 12, maxModelCallsPerCandidate:10,maxOperationsPerCandidate:100,modelDecision:{async decide(value){captured.push(structuredClone(value));return {type:"WAIT",reason:"Await next source state"};}}});
+  const executor = new BrowserTaskExecutor({openSession:async()=>session}, { maxAutomaticElapsedMs: 300_000, maxModelCallsTotal: 12, maxModelCallsPerCandidate:10,maxOperationsPerCandidate:100,modelDecision:{async decide(value){captured.push(structuredClone(value));return {type:"WAIT",reason:"Await next source state"};}}});
   assert.equal((await executor.runSkill(input(session))).status,"COMPLETED");
   assert.deepEqual((captured[0] as any).history, []);
   const history = (captured.at(-1) as any).history;
@@ -1057,7 +1057,7 @@ test("BrowserTaskExecutor passes only the recent six executed or rejected steps 
   await executor.close();
   const rejected: BrowserReadDecisionInput[]=[];
   const stuck=new FixtureSession([pages[0]!, pages[1]!],true);
-  const other=new BrowserTaskExecutor({openSession:async()=>stuck},{maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, modelDecision:{async decide(value){rejected.push(value);return rejected.length===1?{type:"COMPLETE",reason:"Unverified finish"}:{type:"REQUEST_HUMAN_HELP",reason:"No safe completion"};}}});
+  const other=new BrowserTaskExecutor({openSession:async()=>stuck},{ maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, modelDecision:{async decide(value){rejected.push(value);return rejected.length===1?{type:"COMPLETE",reason:"Unverified finish"}:{type:"REQUEST_HUMAN_HELP",reason:"No safe completion"};}}});
   assert.equal((await other.runSkill(input(stuck))).status,"REQUESTED_HUMAN_HELP");
   assert.equal((rejected[1] as any).history[0].outcome,"REJECTED");
   assert.equal((rejected[1] as any).history[0].reason,"COMPLETE_PREDICATE_UNSATISFIED");
@@ -1067,7 +1067,7 @@ test("BrowserTaskExecutor passes only the recent six executed or rejected steps 
 test("BrowserTaskExecutor no-change feedback directs a current target and waits only on actual loading", async () => {
   const session=new FixtureSession([{url:"https://www.tablecheck.com/en/japan",title:"Results",text:"Categories All Sushi",html:'<button>All</button><a href="/en/sushi">Sushi</a>'}]);
   let calls=0;
-  const executor=new BrowserTaskExecutor({openSession:async()=>session},{maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, modelDecision:{async decide(value){
+  const executor=new BrowserTaskExecutor({openSession:async()=>session},{ maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, modelDecision:{async decide(value){
     if(++calls===1)return {type:"CLICK",targetRef:value.observation.targets.find(x=>x.label==="All")!.ref,reason:"Reveal categories"};
     assert.match(value.progress,/did not produce a visible change/i);
     assert.match(value.progress,/current observed target/i);
@@ -1082,7 +1082,7 @@ test("BrowserTaskExecutor no-change feedback directs a current target and waits 
 
 test("C2a rejects ordinary wrong-date clicks at execution even when the model ignores hints", async () => {
   const session=new FixtureSession([{url:"https://www.tablecheck.com/en/outlet",title:"Calendar",text:"Pick date",html:'<button data-date="2026-09-10">Date 2026-09-10</button><button data-date="2026-09-11">Date 2026-09-11</button>'}],false,true);
-  const executor=new BrowserTaskExecutor({openSession:async()=>session},{maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, modelDecision:{async decide(value){const other=value.observation.targets.find(t=>t.value==='2026-09-11')!;assert.equal(other.rejectionReason,'NON_REQUEST_DATE');return {type:'CLICK',targetRef:other.ref,reason:'Try another day'};}}});
+  const executor=new BrowserTaskExecutor({openSession:async()=>session},{ maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, modelDecision:{async decide(value){const other=value.observation.targets.find(t=>t.value==='2026-09-11')!;assert.equal(other.rejectionReason,'NON_REQUEST_DATE');return {type:'CLICK',targetRef:other.ref,reason:'Try another day'};}}});
   try{const read=await executor.runSkill({...input(session),stage:'AVAILABILITY',completion:()=>({complete:false,reason:'Date not selected'})});assert.equal(read.status,'NO_SAFE_ACTION');assert.equal(session.clicks,0);}
   finally{await executor.close();}
 });
@@ -1091,17 +1091,17 @@ test('LOCATION fills only the same-request authoritative name in an observed pub
   const session=new FixtureSession([{url:'https://tabelog.com/en/tokyo/rstLst/',title:'Regions',text:'Choose area',html:''}],false,true);
   const controls:BrowserPageControl[]=[{id:'area',stableKey:'location',kind:'INPUT',role:'textbox',label:'Station or area',type:'search',visible:true,disabled:false,structure:{tag:'INPUT',name:'location',classes:[],dialogLabel:'',formClass:'',sliderCount:0}},{id:'address',stableKey:'personal-address',kind:'INPUT',role:'textbox',label:'Location address',type:'text',visible:true,disabled:false,structure:{tag:'INPUT',name:'customer_address',classes:[],dialogLabel:'',formClass:'',sliderCount:0}}];
   session.observeControls=async()=>controls;const fills:Array<[string,string]>=[];const publicSession:BrowserSession=session;publicSession.fill=async(id,value)=>{fills.push([id,value]);};
-  const executor=new BrowserTaskExecutor({openSession:async()=>session},{maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, modelDecision:decisions(async d=>{const area=d.observation.targets.find(t=>t.label==='Station or area')!;assert.ok(area.availableActions?.includes('FILL_AUTHORITATIVE:LOCATION'));assert.equal(d.observation.targets.find(t=>t.label==='Location address')!.availableActions?.includes('FILL_AUTHORITATIVE:LOCATION'),false);return {type:'FILL_AUTHORITATIVE',targetRef:area.ref,field:'LOCATION',reason:'Use the unchanged name'};},async()=>({type:'REQUEST_HUMAN_HELP',reason:'Stop after one fill'}))});
+  const executor=new BrowserTaskExecutor({openSession:async()=>session},{ maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, modelDecision:decisions(async d=>{const area=d.observation.targets.find(t=>t.label==='Station or area')!;assert.ok(area.availableActions?.includes('FILL_AUTHORITATIVE:LOCATION'));assert.equal(d.observation.targets.find(t=>t.label==='Location address')!.availableActions?.includes('FILL_AUTHORITATIVE:LOCATION'),false);return {type:'FILL_AUTHORITATIVE',targetRef:area.ref,field:'LOCATION',reason:'Use the unchanged name'};},async()=>({type:'REQUEST_HUMAN_HELP',reason:'Stop after one fill'}))});
   const signal=new AbortController().signal;const acquired=await executor.acquire(signal,'TABELOG','DISCOVERY');await executor.runSkill({...input(acquired,signal),goal:{outlet:{name:'Restaurants'},location:{name:'Ebisu Station',latitude:35.66,longitude:139.7,radiusMeters:1000},hardCriteria:[]},completion:()=>({complete:false,reason:'Only input binding'})});assert.deepEqual(fills,[['area','Ebisu Station']]);await executor.close();
 });
 test('LOCATION is unavailable for coordinate-only requests without an authoritative name', async()=>{
  const session=new FixtureSession([{url:'https://tabelog.com/en/tokyo/rstLst/',title:'Regions',text:'Area',html:''}],false,true);session.observeControls=async()=>[{id:'area',stableKey:'area',kind:'INPUT',role:'textbox',label:'Area',type:'text',visible:true,disabled:false,structure:{tag:'INPUT',name:'location',classes:[],dialogLabel:'',formClass:'',sliderCount:0}}];
- const executor=new BrowserTaskExecutor({openSession:async()=>session},{maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, modelDecision:decisions(async d=>{assert.ok(d.observation.targets.every(t=>!t.availableActions?.includes('FILL_AUTHORITATIVE:LOCATION')));return {type:'REQUEST_HUMAN_HELP',reason:'No name may be inferred'};})});const acquired=await executor.acquire(new AbortController().signal,'TABELOG','DISCOVERY');await executor.runSkill({...input(acquired),goal:{outlet:{name:'Restaurants'},location:{latitude:35.66,longitude:139.7,radiusMeters:1000},hardCriteria:[]},completion:()=>({complete:false,reason:'No guessed location'})});await executor.close();
+ const executor=new BrowserTaskExecutor({openSession:async()=>session},{ maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, modelDecision:decisions(async d=>{assert.ok(d.observation.targets.every(t=>!t.availableActions?.includes('FILL_AUTHORITATIVE:LOCATION')));return {type:'REQUEST_HUMAN_HELP',reason:'No name may be inferred'};})});const acquired=await executor.acquire(new AbortController().signal,'TABELOG','DISCOVERY');await executor.runSkill({...input(acquired),goal:{outlet:{name:'Restaurants'},location:{latitude:35.66,longitude:139.7,radiusMeters:1000},hardCriteria:[]},completion:()=>({complete:false,reason:'No guessed location'})});await executor.close();
 });
 
 
 test("executor requires explicit positive model and operation limits", () => {
   // @ts-expect-error Missing per-candidate and operation bounds cannot compile.
   assert.throws(() => new BrowserTaskExecutor({ openSession: async () => new FixtureSession([]) }, { maxModelCallsTotal: 120 }), TypeError);
-  assert.throws(() => new BrowserTaskExecutor({ openSession: async () => new FixtureSession([]) }, { maxModelCallsTotal: 120, maxModelCallsPerCandidate: 0, maxOperationsPerCandidate: 80 }), TypeError);
+  assert.throws(() => new BrowserTaskExecutor({ openSession: async () => new FixtureSession([]) }, { maxAutomaticElapsedMs: 300_000,  maxModelCallsTotal: 120, maxModelCallsPerCandidate: 0, maxOperationsPerCandidate: 80 }), TypeError);
 });

@@ -41,9 +41,9 @@ export interface RestaurantAgentLoopRuntime {
 }
 
 export interface RestaurantAgentLoopOptions {
-  maxSteps?: number;
-  maxRejectedActions?: number;
-  timeoutMs?: number;
+  maxSteps: number;
+  maxRejectedActions: number;
+  timeoutMs: number;
   /** Trusted caller's active whole-run budget; shared by all model purposes. */
   remainingModelCalls?: (taskId: string) => number | undefined;
   /** Observes persisted transitions for a user-visible owner; it cannot change Agent state. */
@@ -154,12 +154,12 @@ export class RestaurantAgentLoopCoordinator {
     private readonly router: RestaurantExecutionRouter,
     private readonly trajectories: RestaurantAgentTrajectoryStore,
     private readonly clock: RuntimeClock,
-    options: RestaurantAgentLoopOptions = {},
+    options: RestaurantAgentLoopOptions,
     createId: IdFactory = (prefix) => `${prefix}:${randomUUID()}`,
   ) {
-    this.maxSteps = options.maxSteps ?? 12;
-    this.maxRejectedActions = options.maxRejectedActions ?? 3;
-    this.timeoutMs = options.timeoutMs ?? 30_000;
+    this.maxSteps = options.maxSteps;
+    this.maxRejectedActions = options.maxRejectedActions;
+    this.timeoutMs = options.timeoutMs;
     this.createId = createId;
     this.onStateUpdated = options.onStateUpdated;
     this.remainingModelCalls = options.remainingModelCalls;

@@ -1,9 +1,9 @@
 import type { ModelGateway } from "../../../core/model/contracts.js";
+import { LIVE_READ_DEBUG_INVESTIGATION_BUDGET, type LiveReadInvestigationBudget } from "../../../application/live-read-investigation-budget.js";
+import { createLiveReadAssembly } from "../../../integrations/restaurant-search/live-read-assembly.js";
+import { googlePlacesDiscoveryPack } from "../../../integrations/restaurant-search/source-packs.js";
 import type { BrowserRuntime, BrowserSnapshot } from "../../../infrastructure/browser/browser-runtime.js";
 import { GooglePlacesClient } from "../../../integrations/google/google-places-client.js";
-import { GooglePlacesRestaurantSearch } from "../../../integrations/google/google-places-restaurant-search.js";
-import { LiveBrowserAvailability } from "../../../integrations/restaurant-availability/live-browser-availability.js";
-import { composeLiveRestaurantFactRead } from "../../../integrations/restaurant-facts/live-restaurant-facts.js";
 import type { CurrentDevelopmentSourceScenario, FixedSourceObservation } from "./current-development-source-scenarios.js";
 import { safeRecord, traceBrowserSession } from "./runners/browser-case-slice-evidence.js";
 
@@ -106,6 +106,7 @@ export function createCurrentDevelopmentFixedSources(
   scenario: CurrentDevelopmentSourceScenario,
   clock: FixedSourceClock,
   model: ModelGateway,
+  limits: LiveReadInvestigationBudget = LIVE_READ_DEBUG_INVESTIGATION_BUDGET,
 ) {
   const observations = [...scenario.observations];
   const byId = new Map(observations.map((item) => [item.google.placeId, item]));
@@ -151,7 +152,6 @@ export function createCurrentDevelopmentFixedSources(
     if (source.google.detailStatus === "NOT_FOUND") return new Response(JSON.stringify({ error: "configured not found" }), { status: 404 });
     return new Response(JSON.stringify(googlePlace(source)), { status: 200 });
   } });
-  const search = new GooglePlacesRestaurantSearch(client, () => asIso(clock), 10, { maxRequests: 10 });
   let browserTraceSequence = 0;
   const recordBrowserTrace = (kind: string, detail: unknown) => {
     const sequence = ++browserTraceSequence;
@@ -240,14 +240,12 @@ export function createCurrentDevelopmentFixedSources(
     };
   } };
   const browser: BrowserRuntime = { openSession: async (input) => traceBrowserSession(await rawBrowser.openSession(input), "TABLECHECK", recordBrowserTrace) };
+  const assembly = createLiveReadAssembly({ ...limits, packs: [googlePlacesDiscoveryPack] }, {
+    google: client, browser, model, clock: { now: () => new Date(asIso(clock)) },
+    onBrowserDiagnostic: diagnostic => recordBrowserTrace("EXECUTOR_DIAGNOSTIC", diagnostic),
+  });
   return {
-    search,
-    facts: composeLiveRestaurantFactRead({ maxModelCallsPerCandidate: 4, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, search, browser, model, undefined, () => asIso(clock), diagnostic => recordBrowserTrace("EXECUTOR_DIAGNOSTIC", diagnostic)),
-    availability: new LiveBrowserAvailability(browser, model, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12,
-      now: () => asIso(clock), maxElapsedMsPerCandidate: 60_000, maxElapsedMsPerProvider: 45_000, maxAutomaticElapsedMs: 60_000,
-      maxOperationsPerCandidate: 30,
-      onBrowserDiagnostic: diagnostic => recordBrowserTrace("EXECUTOR_DIAGNOSTIC", diagnostic),
-    }),
+    ...assembly,
     browser,
     calls,
   };

@@ -458,7 +458,7 @@ describe("restaurant booking mock harness", () => {
   });
 
   test("Timeout, step limit, and rejection limit terminate with durable state and trajectory", async () => {
-    const timeoutHarness = createHarness({ agentLoopOptions: { timeoutMs: 0 } });
+    const timeoutHarness = createHarness({ agentLoopOptions: { maxSteps: 12, maxRejectedActions: 3,  timeoutMs: 0 } });
     const timeoutSnapshot = await timeoutHarness.start(fixtureIntent);
     assert.equal(timeoutHarness.lastAgentLoopResult?.status, "TERMINAL");
     assert.equal(timeoutSnapshot.domainState.phase, "NO_VERIFIED_RESULT");
@@ -468,7 +468,7 @@ describe("restaurant booking mock harness", () => {
     assert.equal(timeoutHarness.trajectories.steps.at(-1)?.stepOutcome, "TERMINAL");
 
     const stepHarness = createHarness({
-      agentLoopOptions: { maxSteps: 1 },
+      agentLoopOptions: { maxRejectedActions: 3, timeoutMs: 30_000,  maxSteps: 1 },
       agentActions: [{ type: "SEARCH_RESTAURANTS" }],
     });
     const stepSnapshot = await stepHarness.start(fixtureIntent);
@@ -479,7 +479,7 @@ describe("restaurant booking mock harness", () => {
     assert.equal(stepHarness.trajectories.steps.at(-1)?.stepOutcome, "TERMINAL");
 
     const rejectionHarness = createHarness({
-      agentLoopOptions: { maxRejectedActions: 1 },
+      agentLoopOptions: { maxSteps: 12, timeoutMs: 30_000,  maxRejectedActions: 1 },
       agentActions: [{ type: "BOOK_RESERVATION", candidateId: fixtureCandidates[0]!.restaurant.id, offerId: fixtureOffers[0]!.id }],
     });
     const rejectionSnapshot = await rejectionHarness.start(fixtureIntent);
@@ -495,7 +495,7 @@ describe("restaurant booking mock harness", () => {
     const [first, second, third] = fixtureCandidates;
     assert.ok(first && second && third);
     const harness = createHarness({
-      agentLoopOptions: { maxRejectedActions: 2 },
+      agentLoopOptions: { maxSteps: 12, timeoutMs: 30_000,  maxRejectedActions: 2 },
       agentActions: [
         { type: "SEARCH_RESTAURANTS" },
         { type: "CHECK_AVAILABILITY", candidateIds: [first.restaurant.id] },
@@ -516,7 +516,7 @@ describe("restaurant booking mock harness", () => {
 
   test("an exhausted discovery cursor rejects a reworded retry and the model can end the bounded read", async () => {
     const harness = createHarness({
-      agentLoopOptions: { maxSteps: 12 },
+      agentLoopOptions: { maxRejectedActions: 3, timeoutMs: 30_000,  maxSteps: 12 },
       agentActions: [
         { type: "SEARCH_RESTAURANTS", retrievalHint: "first wording" },
         { type: "SEARCH_RESTAURANTS", retrievalHint: "different wording" },

@@ -66,7 +66,7 @@ test("fixed-source coverage gaps preserve provider, request and candidate contex
   const missing = structuredClone(discovery.candidates[0]!);
   missing.restaurant.sourceIds.googlePlaces = "not-configured";
   await assert.rejects(
-    () => sources.search.inspectFacts({ intent, candidateIds: [missing.restaurant.id], candidates: [missing], readRunId: "coverage-google-details" }, new AbortController().signal),
+    () => sources.google.inspectFacts({ intent, candidateIds: [missing.restaurant.id], candidates: [missing], readRunId: "coverage-google-details" }, new AbortController().signal),
     // GooglePlacesClient deliberately wraps a fixture transport failure, so
     // the side-channel record (not its public provider error code) is the
     // runner-visible proof that this was an environment gap.
@@ -89,7 +89,7 @@ test("configured provider 404 is observed behavior, not a fixture gap", async ()
   scenario.observations[0]!.google.detailStatus = "NOT_FOUND";
   const { sources, candidate } = await discoveredCandidate(scenario, "configured-404");
   await assert.rejects(
-    () => sources.search.inspectFacts({ intent, candidateIds: [candidate.restaurant.id], candidates: [candidate], readRunId: "configured-404-detail" }, new AbortController().signal),
+    () => sources.google.inspectFacts({ intent, candidateIds: [candidate.restaurant.id], candidates: [candidate], readRunId: "configured-404-detail" }, new AbortController().signal),
     (error: unknown) => error instanceof Error && (error as Error & { code?: string }).code === "GOOGLE_SERVICE_REJECTED",
   );
   assert.deepEqual(sources.calls.coverageGaps, []);
@@ -135,7 +135,7 @@ test("source observation time advances with the controlled business clock while 
   const sources = createCurrentDevelopmentFixedSources(currentDevelopmentSourceScenario("new-vegetarian-lunch"), { now: () => current }, model);
   const discovery = await sources.search.search({ intent, readRunId: "clock-search" }, new AbortController().signal);
   current = "2026-08-19T08:05:00.000Z";
-  await sources.search.inspectFacts({ intent, candidateIds: discovery.candidates.map((candidate) => candidate.restaurant.id), candidates: discovery.candidates, readRunId: "clock-facts" }, new AbortController().signal);
+  await sources.google.inspectFacts({ intent, candidateIds: discovery.candidates.map((candidate) => candidate.restaurant.id), candidates: discovery.candidates, readRunId: "clock-facts" }, new AbortController().signal);
   current = "2026-08-19T08:10:00.000Z";
   const availability = await sources.availability.check({
     candidateIds: discovery.candidates.map((candidate) => candidate.restaurant.id), candidates: discovery.candidates,

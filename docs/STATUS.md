@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.214
+- Document revision: 4.215
 - Last updated: 2026-10-15
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-15 T1-1 统一读取组装：** 生产factory被Runner／Web及主要固定来源／Chromium组合共用，返回实际runCeilings和共享browserBudget；移除loop、Router、Executor及事实链隐藏限额。临时工作树恢复旧12次阈值后目标断言失败，恢复后通过；Runner／Web选项对照通过。四条代码门禁及Chromium全绿（880/880、100/100），证据`t1-assembly-20261015/01-assembly/`。旧Hybrid手工组合在第5项继续迁移／退役；未完成T1、不运行Live、不推送。
 
 - **2026-10-15 T1-2 离线浏览器门禁：** 两条旧 dynamic Tabelog H001 Chromium 场景先红后绿；Fixture 地区入口选择对齐 ADR-0040，身份／HARD／库存／展示资格保持。Test Skill 1.4 明确浏览器执行器、Guard、Source Pack、Adapter及读取组装触发 `test:browser:fixture`，与四条代码门禁并列。T1 其余项继续，未运行付费模型、Live或见证 GET；本地提交不推送。证据 `.eval-artifacts/t1-assembly-20261015/02-browser/`。
 

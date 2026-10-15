@@ -12,13 +12,11 @@ import type { ModelGateway, ModelInvocationRecord, ModelRequest, ModelResponse }
 import { RestaurantSemanticInterpreter } from "../../../../domains/restaurant/semantic-interpreter.js";
 import { browserRuntimeFromEnvironment } from "../../../../infrastructure/browser/browser-runtime-factory.js";
 import type { BrowserRuntime, BrowserSnapshot } from "../../../../infrastructure/browser/browser-runtime.js";
-import type { BrowserExecutionBudget } from "../../../../infrastructure/browser/browser-task-executor.js";
 import type { BrowserExecutionDiagnostic } from "../../../../infrastructure/browser/browser-task-executor.js";
 import { DeepSeekModelGateway } from "../../../../infrastructure/deepseek/deepseek-model-gateway.js";
 import { GooglePlacesClient } from "../../../../integrations/google/google-places-client.js";
 import { GooglePlacesRestaurantSearch } from "../../../../integrations/google/google-places-restaurant-search.js";
-import { composeNativeRestaurantRead } from "../../../../integrations/restaurant-search/native-read-composition.js";
-import { LiveBrowserAvailability } from "../../../../integrations/restaurant-availability/live-browser-availability.js";
+import { createLiveReadAssembly } from "../../../../integrations/restaurant-search/live-read-assembly.js";
 import type { TableCheckIdentityDiagnostic } from "../../../../integrations/tablecheck/tablecheck-contracts.js";
 import type { TabelogIdentityDiagnostic, TabelogUserInterventionRequired } from "../../../../integrations/tabelog/tabelog-contracts.js";
 import { loadFrozenLiveCases, materializeLiveCase, customLiveCaseCohort, RESTAURANT_READ_DEVELOPMENT_CASE_PATH, RESTAURANT_READ_DEVELOPMENT_DATASET_VERSION } from "../live-case-materializer.js";
@@ -283,6 +281,8 @@ function runCeiling(flag: string, fallback: number): number {
 const maxModelCalls = runCeiling("--max-model-calls", 50);
 const liveReadLimits = {
   ...LIVE_READ_DEBUG_INVESTIGATION_BUDGET,
+  maxModelCalls,
+  maxDiscoveryCandidates: candidateLimit,
   maxGoogleRequests: runCeiling("--max-google-requests", LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxGoogleRequests),
   maxAutomaticBrowserMs: runCeiling("--timeout-ms", LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxAutomaticBrowserMs),
   maxBrowserOperationsPerCandidate: runCeiling("--max-browser-operations", LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxBrowserOperationsPerCandidate),
@@ -300,7 +300,7 @@ const journal = await startDiagnosticRun(resolve(".eval-artifacts", "restaurant-
   diagnosticEvaluator: { version: RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, rubricVersion: RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION },
   runtimeContext,
   safety: { policy: "READ_ONLY_CODE_PATH", externalSideEffectCount: "NOT_MEASURED" },
-  runCeilings: { maxModelCalls, ...liveReadLimits },
+  requestedRunCeilings: liveReadLimits,
 });
 const decisionCapture = process.argv.includes("--record-decisions")
   ? createHybridDecisionCapture(journal.resultPath, browserRecording) : undefined;
@@ -333,7 +333,6 @@ const recordBrowserTrace = (kind: string, detail: unknown) => {
   browserRecording?.record(kind, detail);
   return sequence;
 };
-const browserBudget: BrowserExecutionBudget = { totalModelCalls: 0 };
 
 function captureProgress() {
   let googleRequestUsage: ReturnType<GooglePlacesRestaurantSearch["googleRequestUsage"]> | undefined;
@@ -381,17 +380,11 @@ try {
         source: "PRAXIS_EVAL_USER_LAT/PRAXIS_EVAL_USER_LNG",
       }
     : requiresEvaluationLocation(frozen) ? HIGASHI_GINZA_EVALUATION_LOCATION : undefined;
-  const google = new GooglePlacesRestaurantSearch(
-    new GooglePlacesClient({
-      apiKey: effectiveEnvironment.GOOGLE_MAPS_API_KEY ?? "",
-      proxyServer: effectiveEnvironment.PRAXIS_GOOGLE_API_PROXY_SERVER,
-      timeoutMs: liveReadLimits.maxStructuredReadMs,
-    }),
-    undefined,
-    candidateLimit,
-    { maxRequests: liveReadLimits.maxGoogleRequests },
-  );
-  googleSearch = google;
+  const googleClient = new GooglePlacesClient({
+    apiKey: effectiveEnvironment.GOOGLE_MAPS_API_KEY ?? "",
+    proxyServer: effectiveEnvironment.PRAXIS_GOOGLE_API_PROXY_SERVER,
+    timeoutMs: liveReadLimits.maxStructuredReadMs,
+  });
   const rawBrowser = browserRuntimeFromEnvironment(effectiveEnvironment);
   // Keep the same runtime and executor path while retaining a redacted raw
   // observation sequence. The source label is descriptive only; snapshots
@@ -401,52 +394,21 @@ try {
     browserExecutionDiagnostics.push(structuredClone(diagnostic));
     recordBrowserTrace("EXECUTOR_DIAGNOSTIC", diagnostic);
   };
-  const nativeRead = composeNativeRestaurantRead(google, browser, model, browserBudget, recordBrowserDiagnostic, evaluationLocation, undefined, { maxModelCallsPerCandidate: liveReadLimits.maxBrowserModelCallsPerCandidate, maxModelCallsTotal: liveReadLimits.maxBrowserModelCallsTotal, maxOperationsPerCandidate: liveReadLimits.maxBrowserOperationsPerCandidate });
-  const search = nativeRead.search;
-  const availability = new LiveBrowserAvailability(browser, model, {
-    browserBudget,
-    maxAvailabilitySourceBrowserSessions: liveReadLimits.maxAvailabilitySourceBrowserSessions,
-    maxAvailabilitySourceCandidateMatches: liveReadLimits.maxAvailabilitySourceCandidateMatches,
-    maxModelCallsPerCandidate: liveReadLimits.maxBrowserModelCallsPerCandidate,
-    maxModelCallsTotal: liveReadLimits.maxBrowserModelCallsTotal,
-    maxOperationsPerCandidate: liveReadLimits.maxBrowserOperationsPerCandidate,
-    maxElapsedMsPerCandidate: liveReadLimits.maxCandidateBrowserMs,
-    maxElapsedMsPerProvider: liveReadLimits.maxProviderBrowserMs,
-    maxAutomaticElapsedMs: liveReadLimits.maxAutomaticBrowserMs,
+  const readAssembly = createLiveReadAssembly({ ...liveReadLimits, ...(evaluationLocation ? { evaluationLocation } : {}) }, {
+    google: googleClient, browser, model, clock,
     onBrowserDiagnostic: recordBrowserDiagnostic,
-    onTableCheckIdentityDiagnostic: (diagnostic) => tableCheckIdentityDiagnostics.push(diagnostic),
-    onTabelogIdentityDiagnostic: (diagnostic) => tabelogIdentityDiagnostics.push(diagnostic),
-    ...(manualTabelogIntervention
-      ? {
-          onTabelogUserInterventionRequired: async (intervention: TabelogUserInterventionRequired) => {
-            tabelogUserInterventions.push(structuredClone(intervention));
-            await waitForManualTabelogIntervention(intervention);
-          },
-        }
-      : {}),
+    onTableCheckIdentityDiagnostic: diagnostic => tableCheckIdentityDiagnostics.push(diagnostic),
+    onTabelogIdentityDiagnostic: diagnostic => tabelogIdentityDiagnostics.push(diagnostic),
+    ...(manualTabelogIntervention ? { onTabelogUserInterventionRequired: async (intervention: TabelogUserInterventionRequired) => {
+      tabelogUserInterventions.push(structuredClone(intervention));
+      await waitForManualTabelogIntervention(intervention);
+    } } : {}),
+    remainingModelCalls: () => Math.max(0, maxModelCalls - modelCallsStarted),
   });
+  googleSearch = readAssembly.google;
   composition = createHybridReadComposition({
-    taskId,
-    runId,
-    clock,
-    model,
-    search,
-    availability,
+    taskId, runId, clock, model, ...readAssembly,
     partySizeSupplementResolver: new RestaurantPartySizeSupplementResolver(model),
-    facts: nativeRead.facts,
-    router: {
-      modelReadReserve: model,
-      structuredReadTimeoutMs: liveReadLimits.maxStructuredReadMs,
-      // An explicit human pause is outside the automatic browser-read deadline.
-      // The H001 outer-loop deadline is the whole diagnostic cap, not a product SLA.
-      browserReadTimeoutMs: manualTabelogIntervention ? null : liveReadLimits.maxAutomaticBrowserMs,
-    },
-    loop: {
-      maxSteps: liveReadLimits.maxAgentSteps,
-      maxRejectedActions: liveReadLimits.maxRejectedActions,
-      timeoutMs: liveReadLimits.maxAutomaticBrowserMs,
-      remainingModelCalls: () => Math.max(0, maxModelCalls - modelCallsStarted),
-    },
   });
   stage = "SEMANTIC";
   semantic = await settleAtRunDeadline(composition.interpretAndDispatch({
@@ -465,7 +427,7 @@ try {
     preflight: { artifactPath: preflight.artifactPath, elapsedMs: preflight.elapsedMs, targetCount: preflight.attempts.length },
     candidateLimit,
     profileMode: manualTabelogIntervention ? "PERSISTENT_EVAL" : "TEMPORARY",
-    limits: liveReadLimits,
+    limits: readAssembly.runCeilings,
     safety: "READ_ONLY_CODE_PATH",
   }));
   const loop = await settleAtRunDeadline(coordinator.run(taskId, deadline, new Date(startedAt.valueOf() + liveReadLimits.maxAutomaticBrowserMs)), deadline);
@@ -477,7 +439,8 @@ try {
     mode: "HYBRID_LIVE_READ",
     scorerStatus: "FULL_RUBRIC_NOT_INTEGRATED",
     diagnosticEvaluator: { version: RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, rubricVersion: RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION },
-    limits: liveReadLimits,
+    limits: readAssembly.runCeilings,
+    runCeilings: readAssembly.runCeilings,
     requestMetadata: { sha256: createHash("sha256").update(String(rawRequest)).digest("hex"), characterCount: String(rawRequest).length },
     materializedCase,
     runtimeContext,

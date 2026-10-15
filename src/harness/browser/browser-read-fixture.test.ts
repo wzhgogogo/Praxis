@@ -55,7 +55,7 @@ test("guarded HAR replay drives the production executor offline and keeps missin
   const policy = { documentOrigins: ["https://replay.example"], genericPublicRead: true, staticResources: [], dynamicReads: [] } as const;
   const runtime: BrowserRuntime = { readNetworkBoundaryCapability: "ISOLATED_CONTEXT", openSession: input => raw.openSession({ ...input, networkPolicy: policy, replayHarPath: harPath }) };
   let step = 0;
-  const executor = new BrowserTaskExecutor(runtime, {maxModelCallsTotal: 12,  maxOperationsPerCandidate: 40, maxModelCallsPerCandidate: 8, modelDecision: { async decide(input) {
+  const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 300_000, maxModelCallsTotal: 12,  maxOperationsPerCandidate: 40, maxModelCallsPerCandidate: 8, modelDecision: { async decide(input) {
     const find = (label: string) => input.observation.targets.find(target => target.label === label)!;
     switch (++step) {
       case 1: return { type: "FILL_AUTHORITATIVE", targetRef: find("Search venues").ref, field: "RETRIEVAL", reason: "Use the observed public search input." };
@@ -106,7 +106,7 @@ test("recorded public documents replay through the production TableCheck availab
       sourceIds: { tablecheck: "fixture", tablecheckNativeGuideUri: guide }, provenance: { fixture: "sanitized-har" },
     }, matchReasons: [], warnings: [], executionConfidence: "HIGH" as const,
   };
-  const executor = new BrowserTaskExecutor(runtime, { maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
+  const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
   try {
     const result = await new TableCheckBrowserAvailability(executor, () => "2026-10-07T00:00:00.000Z", { networkPolicy: policy }).check({
       candidates: [candidate], candidateIds: [candidate.restaurant.id], date: "2026-10-08", partySize: 2,
@@ -165,7 +165,7 @@ test("guarded dynamic TableCheck recording replays through the same production A
   const sourceRuntime: BrowserRuntime = { readNetworkBoundaryCapability: "ISOLATED_CONTEXT", openSession: input => sourceRaw.openSession({ ...input, networkPolicy: policy, recordResponse: response => recording.recordResponse(response) }) };
   const candidate = { restaurant: { id: "tablecheck:fixture", outletName: "Fixture restaurant", address: "1-1 Tokyo Fixture Street", sourceIds: { tablecheck: "fixture", tablecheckNativeGuideUri: guide }, provenance: { fixture: "guarded-dynamic-record" } }, matchReasons: [], warnings: [], executionConfidence: "HIGH" as const };
   const request = { candidates: [candidate], candidateIds: [candidate.restaurant.id], date: "2026-10-08", partySize: 2, timeWindow: { earliest: "19:00", latest: "19:00" }, hardCriteria: [] };
-  const sourceExecutor = new BrowserTaskExecutor(traceBrowserRuntime(sourceRuntime, "TABLECHECK", () => 0, recording.snapshotSink()), { maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
+  const sourceExecutor = new BrowserTaskExecutor(traceBrowserRuntime(sourceRuntime, "TABLECHECK", () => 0, recording.snapshotSink()), { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
   try {
     const source = await new TableCheckBrowserAvailability(sourceExecutor, () => "2026-10-07T00:00:00.000Z", { networkPolicy: policy }).check(request, new AbortController().signal);
     assert.equal(source.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE", JSON.stringify(source)); assert.ok(arrivals >= 1, "the guarded source task must consume its public dynamic response");
@@ -183,7 +183,7 @@ test("guarded dynamic TableCheck recording replays through the same production A
     const beforeReplay = arrivals;
     const replayRaw = new LocalPlaywrightChromium(); const replayRuntime: BrowserRuntime = { readNetworkBoundaryCapability: "ISOLATED_CONTEXT", openSession: input => replayRaw.openSession({ ...input, networkPolicy: policy, replayHarPath: capturedHarPath }) };
     const replayTrace: unknown[] = [];
-    const replayExecutor = new BrowserTaskExecutor(traceBrowserRuntime(replayRuntime, "TABLECHECK", (_kind, detail) => { replayTrace.push(detail); return replayTrace.length; }), { maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
+    const replayExecutor = new BrowserTaskExecutor(traceBrowserRuntime(replayRuntime, "TABLECHECK", (_kind, detail) => { replayTrace.push(detail); return replayTrace.length; }), { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
     try { const replay = await new TableCheckBrowserAvailability(replayExecutor, () => "2026-10-07T00:00:00.000Z", { networkPolicy: policy }).check(request, new AbortController().signal); assert.equal(replay.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE", JSON.stringify(replay)); assert.equal(arrivals, beforeReplay, "replay consumes only recorded HAR responses"); assert.equal(replayTrace.some(detail => JSON.stringify(detail).includes('"pathname":"/slots"') && JSON.stringify(detail).includes('"outcome":"ADMITTED"')), true, "Replay must consume the recorded dynamic response"); }
     finally { await replayExecutor.close(); }
   } finally { await sourceExecutor.close(); await new Promise<void>(resolve => receiver.close(() => resolve())); await rm(directory, { recursive: true, force: true }); }
@@ -213,7 +213,7 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
         document.querySelector('output').textContent=document.querySelector('input').value+' / '+document.querySelector('select').value;
       };</script>`, runtimeKind);
     let step = 0;
-    const executor = new BrowserTaskExecutor(runtime, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: {
+    const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: {
       async decide(input) {
         const party = ++step === 1;
         const target = input.observation.targets.find((item) => item.label === (party ? "Party size" : "Visit date"));
@@ -308,7 +308,7 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
       <script>addEventListener('keydown',event=>{if(event.key==='Escape')document.querySelector('#blocker')?.remove()})</script>`, runtimeKind);
     const diagnostics: import("../../infrastructure/browser/browser-task-executor.js").BrowserExecutionDiagnostic[] = [];
     let decisions = 0;
-    const executor = new BrowserTaskExecutor(runtime, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
+    const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
       onDiagnostic: event => diagnostics.push(event),
       modelDecision: { async decide(input) {
         decisions += 1;
@@ -363,7 +363,7 @@ for (const order of ["party-first", "date-first"] as const) test(`TableCheck rea
     function maybeResult(){if(!dateSelected||!guestSelected)return;document.querySelector('#selected').textContent='2026-10-02 / 10 guests';const slot=document.createElement('a');slot.href='/en/shops/fixture/reserve?start_date=2026-10-02&pax=10&start_time=19:00';slot.textContent='19:00';document.querySelector('#slots').append(slot)}</script>`);
   const actions: string[] = [];
   const events: import("../../infrastructure/browser/browser-task-executor.js").BrowserExecutionDiagnostic[] = [];
-  const executor = new BrowserTaskExecutor(runtime, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12,
+  const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12,
     maxOperationsPerCandidate: 24,
     onDiagnostic: event => events.push(event),
     modelDecision: { async decide(input) {
@@ -437,7 +437,7 @@ test("native Tabelog detail uses real local Chromium controls before accepting i
     tabelogNativeDetailUri: "https://tabelog.com/en/tokyo/A1304/A130401/100/",
   };
   const actions: string[] = [];
-  const executor = new BrowserTaskExecutor(dynamicTabelogSourcePages(), {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: { async decide(input) {
+  const executor = new BrowserTaskExecutor(dynamicTabelogSourcePages(), { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: { async decide(input) {
     const dateTarget = input.observation.targets.find((target) => target.label === "Date 2026-08-19");
     const guestsTarget = input.observation.targets.find((target) => target.label === "Guests 2");
     if (dateTarget && !dateTarget.selected) {
@@ -478,7 +478,8 @@ test(`native dynamic Tabelog ${outcome} reaches formal H001 ${outcome === "AVAIL
   const { traceBrowserSession } = await import("../../eval/restaurant/agent-loop/runners/browser-case-slice-evidence.js");
   const { GooglePlacesClient } = await import("../../integrations/google/google-places-client.js");
   const { GooglePlacesRestaurantSearch } = await import("../../integrations/google/google-places-restaurant-search.js");
-  const { composeNativeRestaurantRead } = await import("../../integrations/restaurant-search/native-read-composition.js");
+  const { createLiveReadAssembly } = await import("../../integrations/restaurant-search/live-read-assembly.js");
+  const { LIVE_READ_DEBUG_INVESTIGATION_BUDGET } = await import("../../application/live-read-investigation-budget.js");
   const { LiveBrowserAvailability } = await import("../../integrations/restaurant-availability/live-browser-availability.js");
   const { createHybridReadComposition } = await import("../../eval/restaurant/agent-loop/hybrid-read-composition.js");
   const { evaluateRestaurantHybridLiveArtifact } = await import("../../eval/restaurant/agent-loop/diagnostic-evaluator.js");
@@ -541,11 +542,10 @@ test(`native dynamic Tabelog ${outcome} reaches formal H001 ${outcome === "AVAIL
     }
     assert.fail(`Unexpected fixture model purpose ${request.purpose}`);
   } };
-  const google = new GooglePlacesRestaurantSearch(new GooglePlacesClient({ apiKey: "fixture-only", fetchImplementation: async () => new Response(JSON.stringify({ places: [{ id: "shibuya", displayName: { text: "Shibuya" }, formattedAddress: "Shibuya, Tokyo", location: center, types: ["train_station"], addressComponents: [{ longText: "Tokyo", types: ["locality"] }] }] }), { status: 200 }) }), () => reference.toISOString(), 10, { maxRequests: 5 });
-  const native = composeNativeRestaurantRead(google, runtime, model, undefined, undefined, undefined, () => reference.toISOString(), { maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
-  const availability = new LiveBrowserAvailability(runtime, model, {maxModelCallsPerCandidate: 6, maxOperationsPerCandidate: 24, now: () => reference.toISOString(), maxModelCallsTotal: 50 });
+  const google = new GooglePlacesClient({ apiKey: "fixture-only", fetchImplementation: async () => new Response(JSON.stringify({ places: [{ id: "shibuya", displayName: { text: "Shibuya" }, formattedAddress: "Shibuya, Tokyo", location: center, types: ["train_station"], addressComponents: [{ longText: "Tokyo", types: ["locality"] }] }] }), { status: 200 }) });
+  const native = createLiveReadAssembly(LIVE_READ_DEBUG_INVESTIGATION_BUDGET, { google, browser: runtime, model, clock: { now: () => reference } });
   const taskId = `native-dynamic-tabelog-formal:${outcome}`;
-  const composition = createHybridReadComposition({ taskId, runId: `run:${taskId}`, clock: { now: () => reference }, model, search: native.search, facts: native.facts, availability, loop: { maxSteps: 30, timeoutMs: 300_000 } });
+  const composition = createHybridReadComposition({ taskId, runId: `run:${taskId}`, clock: { now: () => reference }, model, ...native });
   const frozen = (await loadFrozenLiveCases(RESTAURANT_READ_DEVELOPMENT_CASE_PATH)).find(item => item.id === "h001")!;
   const semantic = await composition.interpretAndDispatch({ taskId, message: String(frozen.content), referenceTime: frozen.reference_time, timezone: "Asia/Tokyo" });
   assert.equal(semantic.status, "PROPOSED");
@@ -591,7 +591,7 @@ test(`native dynamic Tabelog ${outcome} reaches formal H001 ${outcome === "AVAIL
       schemaVersion: "1", mode: "SYNTHETIC_CONTROL", status: "SUCCEEDED", stage: "AGENT_LOOP", caseId: "h001", runId: `run:${taskId}`,
       materializedCase: frozen, semantic, finalSnapshot: composition.runtime.snapshot(taskId), trajectories: composition.trajectories.steps,
       events: composition.runtime.eventLog, loop, sourceEnvironment: { network: "OFFLINE_FIXED_TRANSPORT", browser: "LOCAL_CHROMIUM_DYNAMIC_FIXED_PAGE" },
-      runCeilings: { maxAutomaticBrowserMs: 300_000, maxAgentSteps: 30, maxBrowserModelCallsTotal: 50, maxModelCalls: 50 },
+      runCeilings: native.runCeilings,
       resourceUsage: { elapsedMs: 1, modelCallsStarted: modelCalls, browserModelCalls: browserActions.length, agentDecisions: 0, googleRequests: { total: 1, namedPlaceResolution: 1, discovery: 0, placeDetails: 0, reverseAddressObservation: 0 } },
     };
     const encoded = JSON.stringify(artifact);
@@ -644,7 +644,7 @@ test(`native dynamic Tabelog ${outcome} reaches formal H001 ${outcome === "AVAIL
 
 test("button name metadata does not replace visible time or Reserve safety label", async () => {
   const runtime = localFixture(`<button name="action" value="slot-20" type="button">20:00</button><button name="action" value="reserve" type="button">Reserve</button>`);
-  const executor = new BrowserTaskExecutor(runtime, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: { async decide(input) {
+  const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: { async decide(input) {
     const time = input.observation.targets.find(target => target.label === "20:00");
     const reserve = input.observation.targets.find(target => target.label === "Reserve");
     assert.ok(time?.availableActions?.includes("CLICK"));
@@ -670,7 +670,7 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
       </select><output id="selected">No time selected</output>
       <script>document.querySelector('select').onchange=event=>{document.body.dataset.selections=(document.body.dataset.selections||'')+event.target.value+';';document.querySelector('output').textContent=event.target.selectedOptions[0].textContent;if(event.target.value==='1763593200000'){const other=document.createElement('select');other.setAttribute('aria-label','Unrelated');document.body.prepend(other)}};</script>`, runtimeKind);
     const attempted: string[] = [];
-    const executor = new BrowserTaskExecutor(runtime, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: { async decide(input) {
+    const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: { async decide(input) {
       const owner = input.observation.targets.find(target => target.kind === "SELECT" && target.label === "Arrival time");
       assert.ok(owner);
       const desired = input.observation.targets.find(target => target.kind === "OPTION" && target.ownerRef === owner.ref && target.label === (attempted.length ? "7:00 PM" : "9:00 PM"));
@@ -717,7 +717,7 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
       return { invocationId: `fixture:button-combobox:${calls}`, provider: "FIXTURE", model: "fixture", finishReason: "TOOL_CALLS" as const, latencyMs: 0,
         outputText: JSON.stringify({ action: calls === 1 ? "CLICK" : "CHOOSE_OPTION", targetRef: target.ref, authoritativeField: calls === 1 ? "NONE" : "TIME", requestedState: "NONE", reason: "Choose the observed query control" }) };
     } });
-    const executor = new BrowserTaskExecutor(runtime, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: decision });
+    const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: decision });
     const signal = new AbortController().signal;
     const session = await executor.acquire(signal, "TABLECHECK", "AVAILABILITY");
     try {
@@ -751,7 +751,7 @@ for (const initialTime of ["17:30", "19:00"] as const) {
       return { invocationId: `fixture:proxy-time:${calls}`, provider: "FIXTURE", model: "fixture", finishReason: "TOOL_CALLS" as const, latencyMs: 0,
         outputText: JSON.stringify({ action, targetRef: action === "CLICK" ? time?.ref : action === "CHOOSE_OPTION" ? option?.ref : "", authoritativeField: action === "CHOOSE_OPTION" ? "TIME" : "NONE", requestedState: "NONE", reason: "Use the current bound time value" }) };
     } });
-    const executor = new BrowserTaskExecutor(runtime, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: decision });
+    const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: decision });
     const signal = new AbortController().signal;
     const session = await executor.acquire(signal, "WEBSITE", "FACTS");
     try {
@@ -798,7 +798,7 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
       return { invocationId: `fixture:shifted-option:${calls}`, provider: "FIXTURE", model: "fixture", finishReason: "TOOL_CALLS" as const, latencyMs: 0,
         outputText: JSON.stringify({ action: calls === 1 ? "CLICK" : "CHOOSE_OPTION", targetRef: target.ref, authoritativeField: calls === 1 ? "NONE" : "TIME", requestedState: "NONE", reason: "Choose the observed 19:00 option" }) };
     } });
-    const executor = new BrowserTaskExecutor(runtime, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: decision });
+    const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: decision });
     const signal = new AbortController().signal;
     session = await executor.acquire(signal, "WEBSITE", "FACTS");
     try {
@@ -833,7 +833,7 @@ for (const mutation of ["role-change", "replacement", "legal-replacement"] as co
       return { invocationId: `fixture:stale-option:${calls}`, provider: "FIXTURE", model: "fixture", finishReason: "TOOL_CALLS" as const, latencyMs: 0,
         outputText: JSON.stringify({ action: calls === 1 ? "CLICK" : chooseOption ? "CHOOSE_OPTION" : "REQUEST_HUMAN_HELP", targetRef: calls === 1 || chooseOption ? target?.ref : "", authoritativeField: chooseOption ? "TIME" : "NONE", requestedState: "NONE", reason: "Use only the currently observed option" }) };
     } });
-    const executor = new BrowserTaskExecutor(runtime, {maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: decision, maxModelCallsPerCandidate: 3,
+    const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 300_000, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: decision, maxModelCallsPerCandidate: 3,
       onDiagnostic: item => { if (item.event === "REJECTED") rejections.push(item.detail ?? ""); } });
     const signal = new AbortController().signal;
     session = await executor.acquire(signal, "WEBSITE", "FACTS");
@@ -859,7 +859,7 @@ test("a visible option from another listbox cannot be claimed by the expanded co
     <div id="unrelated" role="listbox"><div role="option" onclick="document.body.dataset.foreign='clicked'">7:00 PM</div></div>`);
   const diagnostics: string[] = [];
   let calls = 0;
-  const executor = new BrowserTaskExecutor(runtime, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  onDiagnostic: item => { if (item.event === "REJECTED") diagnostics.push(item.detail ?? ""); }, modelDecision: {
+  const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  onDiagnostic: item => { if (item.event === "REJECTED") diagnostics.push(item.detail ?? ""); }, modelDecision: {
     async decide(input) {
       if (++calls > 1) return { type: "REQUEST_HUMAN_HELP", reason: "No bound option remains." };
       const foreign = input.observation.targets.find(target => target.kind === "OPTION" && target.label === "7:00 PM");
@@ -886,7 +886,7 @@ for (const variant of ["disabled", "unchanged", "complete"] as const) {
       <script>document.querySelector('select').onchange=event=>{ ${variant !== "disabled" ? "event.target.value='';document.querySelector('output').textContent='Inventory ready';" : ""} };</script>`);
     const diagnostics: string[] = [];
     let calls = 0;
-    const executor = new BrowserTaskExecutor(runtime, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  onDiagnostic: item => { if (item.event === "REJECTED" || item.detail === "OPTION_VALUE_NOT_CONFIRMED") diagnostics.push(item.detail ?? ""); }, modelDecision: {
+    const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  onDiagnostic: item => { if (item.event === "REJECTED" || item.detail === "OPTION_VALUE_NOT_CONFIRMED") diagnostics.push(item.detail ?? ""); }, modelDecision: {
       async decide(input) {
         if (++calls > 1) return variant === "complete"
           ? { type: "COMPLETE", reason: "The independent result changed." }
@@ -917,7 +917,7 @@ test("an asynchronously applied option can complete after a later selected-value
     <script>document.querySelector('select').onchange=event=>{event.target.value='';document.querySelector('output').textContent='Inventory ready';};</script>`);
   let calls = 0;
   let session!: Awaited<ReturnType<typeof runtime.openSession>>;
-  const executor = new BrowserTaskExecutor(runtime, {maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  maxModelCallsPerCandidate: 2, modelDecision: { async decide(input) {
+  const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 300_000, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  maxModelCallsPerCandidate: 2, modelDecision: { async decide(input) {
     if (++calls > 1) {
       assert.equal(input.observation.targets.find(target => target.kind === "SELECT")?.options?.find(option => option.selected)?.value, "", "inventory readiness does not confirm the selected time");
       // Release only after the pending state was observed; no wall-clock race.
@@ -947,7 +947,7 @@ test("an unconfirmed time choice cannot be replaced by a successful party choice
     <script>document.querySelectorAll('select')[0].onchange=event=>{event.target.value='';document.querySelector('output').textContent='Inventory ready';};</script>`);
   let calls = 0;
   const diagnostics: string[] = [];
-  const executor = new BrowserTaskExecutor(runtime, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  onDiagnostic: item => { if (item.event === "REJECTED") diagnostics.push(item.detail ?? ""); }, modelDecision: { async decide(input) {
+  const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  onDiagnostic: item => { if (item.event === "REJECTED") diagnostics.push(item.detail ?? ""); }, modelDecision: { async decide(input) {
     calls += 1;
     if (calls === 3) return { type: "COMPLETE", reason: "The result text changed." };
     const option = input.observation.targets.find(target => target.kind === "OPTION" && target.label === (calls === 1 ? "7:00 PM" : "4 guests"));
@@ -1128,7 +1128,7 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
     const saved = readFileSync(new URL("./fixtures/tablecheck-search-control-20260929.html", import.meta.url), "utf8");
     const runtime = localFixture(saved, runtimeKind);
     let projected = false;
-    const executor = new BrowserTaskExecutor(runtime, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: { async decide(input) {
+    const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: { async decide(input) {
       const wrapper = input.observation.targets.find(target => target.role === "combobox" && target.kind === "BUTTON");
       const field = input.observation.targets.find(target => target.label === "Sushi tonight for 2 in Ginza" && target.kind === "INPUT");
       assert.ok(wrapper?.availableActions?.includes("CLICK"));
@@ -1181,7 +1181,7 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
         document.querySelector('output').innerHTML='<a href="/en/public-result">Public result for '+field.value+'</a>'};
       </script>`, runtimeKind);
     let decisions = 0;
-    const executor = new BrowserTaskExecutor(runtime, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: { async decide(input) {
+    const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: { async decide(input) {
       decisions++;
       const option = input.observation.targets.find(target => target.kind === "OPTION" && target.label === `"${query}"`);
       if (!option) {
@@ -1219,7 +1219,7 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
       [url]: savedCard.replace("</style>", `</style><div style="height:${offset}px"></div>`),
       [detail]: "<title>Ginza iwa</title><h1>Ginza iwa detail</h1>",
     }, runtimeKind);
-    const executor = new BrowserTaskExecutor(runtime, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: { async decide(input) {
+    const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: { async decide(input) {
       const link = input.observation.targets.find(target => target.label === "Ginza iwa");
       assert.ok(link?.availableActions?.includes("OPEN_LINK"));
       return { type: "OPEN_LINK", targetRef: link!.ref, reason: "Open observed public result." };
@@ -1256,7 +1256,7 @@ test("Tabelog category discovery expands observed links and removes the keyword 
   });
   const visited: string[] = [];
   let categoryControlActions: string[] | undefined;
-  const executor = new BrowserTaskExecutor(runtime, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: { async decide(input) {
+  const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: { async decide(input) {
     visited.push(input.observation.url);
     assert.deepEqual(input.goal.hardCriteria, ["omakase"], "retrieval navigation does not rewrite the HARD criterion");
     let label: string;
@@ -1350,7 +1350,7 @@ test("Tabelog Adapter consumes loading-to-restricted calendar without model acti
   const executor = new BrowserTaskExecutor(localFixture({
     [searchUrl]: `<a class="list-rst__rst-name-target" href="${sourceUrl}" data-address="1-1 Shinjuku, Tokyo">Restaurant 1</a>`,
     [sourceUrl]: loading, [calendarUrl]: saved.replace(/<a\b[^>]*>[\s\S]*?<\/a\s*>/gi, ""),
-  }), {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: { async decide() { assert.fail("restricted current query must not start the model loop"); } } });
+  }), { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: { async decide() { assert.fail("restricted current query must not start the model loop"); } } });
   try {
     const result = await new TabelogBrowserAvailability(executor).check({
       candidates: [candidate], candidateIds: [candidate.restaurant.id], date: "2026-09-30", partySize: 2,
@@ -1370,7 +1370,7 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
     const release = new Promise<void>(resolve => { releaseOld = resolve; });
     const finished = new Promise<void>(resolve => { oldFinished = resolve; });
     const runtime = localFixture({ [url]: "<title>Fresh page</title><h1>New candidate</h1>" }, runtimeKind, { url: failedUrl, release, finished: oldFinished });
-    const executor = new BrowserTaskExecutor(runtime, { maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
+    const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
     const signal = new AbortController().signal;
     executor.beginCandidate("failed");
     const failedSession = await executor.acquire(signal, "TABLECHECK", "IDENTITY");
@@ -1449,7 +1449,7 @@ test("generic controlled browser path completes a local read-only page task with
       return { type: "COMPLETE", reason: "results are visible for deterministic parsing" };
     },
   };
-  const executor = new BrowserTaskExecutor(runtime, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: decision });
+  const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: decision });
   const session = await executor.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY");
   try {
     await executor.navigate({ source: "TABLECHECK", stage: "DISCOVERY", session, signal: new AbortController().signal, allowedOrigins: ["https://www.tablecheck.com"], url });
@@ -1479,7 +1479,7 @@ test("an observed public target-blank link switches the same session to a new pa
     [termsUrl]: "<title>Public terms</title><main>Cancellation: free until noon. No-show fee: not stated.</main>",
   });
   let decisions = 0;
-  const executor = new BrowserTaskExecutor(runtime, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: {
+  const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: {
     async decide(input) {
       decisions += 1;
       if (decisions === 1) {
@@ -1515,7 +1515,7 @@ test("real DOM observation exposes an unlabelled-id role button and calendar nav
       document.querySelector('[role=button]').onclick=()=>{document.body.innerHTML='<button data-date="2026-09-07" aria-label="September 7, 2026">7</button><main>September</main>'; document.querySelector('button').onclick=()=>{document.title='Availability Results'; document.body.innerHTML='<div data-selected-date="2026-09-07" data-pax="2"></div><section data-availability-state="complete"><button class="time-slot is-available" data-time="19:00">19:00</button></section>';};};
     </script>`);
   let step = 0;
-  const executor = new BrowserTaskExecutor(runtime, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: {
+  const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: {
     async decide(input) {
       step += 1;
       if (step === 1) {
@@ -1552,7 +1552,7 @@ test("an active language dialog blocks background calendar actions until the dia
       document.querySelector('[data-date]').onclick=()=>{document.title='Selected date'; document.body.dataset.selected='2026-09-07';};
     </script>`);
   let step = 0;
-  const executor = new BrowserTaskExecutor(runtime, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: {
+  const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: {
     async decide(input) {
       step += 1;
       if (step === 1) {
@@ -1599,7 +1599,7 @@ test("shared executor keeps unguarded public filters unavailable", async () => {
       document.getElementById('reset').onclick=()=>{document.getElementById('sushi').checked=false;for(const [id,value] of [['minimum',5000],['maximum',20000]]){const element=document.getElementById(id);element.setAttribute('aria-valuenow',String(value));element.setAttribute('aria-valuetext','JPY '+value.toLocaleString('en-US'));}result.textContent=(result.dataset.applied||'')+';reopened='+Boolean(filters.dataset.reopened)+';reset=sushi:'+document.getElementById('sushi').checked+',minimum:'+document.getElementById('minimum').getAttribute('aria-valuenow')+',maximum:'+document.getElementById('maximum').getAttribute('aria-valuenow');};
     </script>` });
   let step = 0;
-  const executor = new BrowserTaskExecutor(runtime, {maxModelCallsTotal: 12,
+  const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 300_000, maxModelCallsTotal: 12,
     // This scenario deliberately exercises eight read-only control transitions.
     // Keep the production default unchanged; the fixture needs room to observe
     // each post-condition rather than shortcutting the interaction.
@@ -1670,7 +1670,7 @@ test("a model cannot consent by setting an unclassified checkbox", async () => {
       : { action: "REQUEST_HUMAN_HELP", targetRef: "", requestedState: "NONE" };
     return { invocationId: "fixture-consent", provider: "FIXTURE", model: "fixture", outputText: JSON.stringify({ ...action, authoritativeField: "NONE", reason: "Page asks to agree" }), finishReason: "TOOL_CALLS", latencyMs: 1 };
   } });
-  const executor = new BrowserTaskExecutor(runtime, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: decision });
+  const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: decision });
   const signal = new AbortController().signal;
   const session = await executor.acquire(signal, "TABLECHECK", "AVAILABILITY");
   try {
@@ -1782,7 +1782,7 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
     let calls = 0;
     const searchUrl = "https://tabelog.com/en/tokyo/rstLst/?sw=Restaurant%201";
     const searchHtml = `<a class="list-rst__rst-name-target" href="${sourceUrl}" data-address="1-1 Shinjuku, Tokyo">Restaurant 1</a>`;
-    const executor = new BrowserTaskExecutor(localFixture({[sourceUrl]:html,[searchUrl]:searchHtml}, runtimeKind), {maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: { async decide(input) {
+    const executor = new BrowserTaskExecutor(localFixture({[sourceUrl]:html,[searchUrl]:searchHtml}, runtimeKind), { maxAutomaticElapsedMs: 300_000, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: { async decide(input) {
       const disabledDate = input.observation.targets.find(target=>target.label === "Disabled date");
       assert.equal(disabledDate?.disabled, true);
       assert.deepEqual(disabledDate?.availableActions, []);
@@ -1833,7 +1833,7 @@ test("TableCheck waits for its guide result and grounds exact-query empty availa
     [searchUrl]: `<a href="${sourceUrl}">Restaurant 1</a>`,
     [sourceUrl]: html,
     [requestedUrl]: html,
-  }), {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: { async decide() { assert.fail("ready explicit empty result should need no model"); } } });
+  }), { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: { async decide() { assert.fail("ready explicit empty result should need no model"); } } });
   try {
     const result = await new TableCheckBrowserAvailability(executor).check({candidates:[candidate],candidateIds:[candidate.restaurant.id],date:"2026-09-16",partySize:2,timeWindow:{earliest:"19:00",latest:"19:00"},hardCriteria:[]},new AbortController().signal);
     assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status,"UNAVAILABLE",JSON.stringify(result));
@@ -1945,7 +1945,7 @@ test("TableCheck handles multiple current search links and reads only the identi
     [correctUrl]: correctHtml,
     [correctSearchUrl]: correctHtml,
     [requestedUrl]: correctHtml,
-  }), {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: { async decide() { assert.fail("known feasible guide requires no browser model action"); } } });
+  }), { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: { async decide() { assert.fail("known feasible guide requires no browser model action"); } } });
   try {
     const result = await new TableCheckBrowserAvailability(executor).check({ candidates: [candidate], candidateIds: [candidate.restaurant.id],
       date: "2026-09-16", partySize: 2, timeWindow: { earliest: "19:00", latest: "19:00" }, hardCriteria: [] }, new AbortController().signal);
@@ -1968,7 +1968,7 @@ test("TableCheck form waits past old inventory until a current same-outlet slot 
   let modelDecisionCalls = 0;
   const executor = new BrowserTaskExecutor(localFixture({
     [tableCheckDiscoveryUrl(candidate)]: `<a href="${guide}">Restaurant 1</a>`, [guide]: guideHtml, [reserve]: formHtml,
-  }), {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: { async decide(input) {
+  }), { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: { async decide(input) {
     modelDecisionCalls += 1;
     assert.equal(input.observation.url, reserve, "wait only for the selected reservation form");
     assert.equal(modelDecisionCalls, 1, "one bounded wait suffices for the controlled update");
@@ -2007,7 +2007,7 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
     <script>function openList(input,id){document.getElementById(id).hidden=false;input.setAttribute('aria-expanded','true');input.setAttribute('aria-controls',id)}
     function finishChoice(){document.querySelectorAll('[role=listbox]').forEach(e=>e.hidden=true);document.querySelectorAll('[role=combobox]').forEach(e=>{e.setAttribute('aria-expanded','false');e.removeAttribute('aria-controls')});const time=document.querySelector('[data-testid="Venue Time Select"]').id.slice(5);document.querySelector('#result').innerHTML='<a href="/en/shops/restaurant1/reserve?start_date=2026-09-19&pax=4&start_time='+time+'">'+time+'</a>'}</script>`;
   let calls=0;const diagnostics:string[]=[];
-  const executor = new BrowserTaskExecutor(localFixture({[tableCheckDiscoveryUrl(candidate)]:`<a href="${sourceUrl}">Restaurant 1</a>`,[sourceUrl]:html},runtimeKind),{maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate:80,onDiagnostic:d=>{if(d.event==="REJECTED"||d.event==="MODEL_ACTION"||d.event==="METHOD_INCOMPLETE"||d.event==="POST_ACTION_VERIFIED")diagnostics.push(`${d.event}: ${d.detail??""}`)},modelDecision:{async decide(input){
+  const executor = new BrowserTaskExecutor(localFixture({[tableCheckDiscoveryUrl(candidate)]:`<a href="${sourceUrl}">Restaurant 1</a>`,[sourceUrl]:html},runtimeKind),{ maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate:80,onDiagnostic:d=>{if(d.event==="REJECTED"||d.event==="MODEL_ACTION"||d.event==="METHOD_INCOMPLETE"||d.event==="POST_ACTION_VERIFIED")diagnostics.push(`${d.event}: ${d.detail??""}`)},modelDecision:{async decide(input){
     calls++;
     assert.ok(!input.observation.targets.some(t=>t.label==='Sep 19th'),"selected disabled calendar day must prevent repeated date trigger clicks");
     if(calls===2 || calls>=4) assert.ok(!input.observation.targets.some(t=>t.role==='combobox'&&t.label===(calls===2?'Any party size':'Time')), 'an already open list must not invite another open action');
@@ -2053,7 +2053,7 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
     const payload=(members:number,time:string)=>JSON.stringify({base_date:{year:2026,month:9,day:20},members,selection:{0:{time,url:`/en/booking/form_course/new?rcd=13292459&member=${members}&visit_date=20260920&visit_time=${time.replace(':','')}`}}});
     const pages={ [sourceUrl]:html,"https://tabelog.com/en/tokyo/rstLst/?sw=Restaurant%201":`<a class="list-rst__rst-name-target" href="${sourceUrl}" data-address="1-1 Shinjuku, Tokyo">Restaurant 1</a>`,[endpoint+"?member=2"]:payload(2,"19:00"),[endpoint+"?member=4"]:payload(4,"18:45"),"https://tabelog.com/unrelated.json":JSON.stringify({private:"must not capture"}) };
     let calls=0;
-    const executor=new BrowserTaskExecutor(localFixture(pages,runtimeKind),{maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, modelDecision:{async decide(input){const field=++calls===1?"DATE" as const:"PARTY_SIZE" as const;if(calls===2)assert.ok(!input.observation.targets.some(t=>t.label==="Date 2026-09-20"), "selected date is evidence, not a repeat action");const target=input.observation.targets.find(t=>t.label===(field==="DATE"?"Date 2026-09-20":"Guests 4"));assert.ok(target);return {type:"CLICK_AUTHORITATIVE",field,targetRef:target.ref,reason:"Exact query"}}},maxModelCallsPerCandidate:2});
+    const executor=new BrowserTaskExecutor(localFixture(pages,runtimeKind),{ maxAutomaticElapsedMs: 300_000, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, modelDecision:{async decide(input){const field=++calls===1?"DATE" as const:"PARTY_SIZE" as const;if(calls===2)assert.ok(!input.observation.targets.some(t=>t.label==="Date 2026-09-20"), "selected date is evidence, not a repeat action");const target=input.observation.targets.find(t=>t.label===(field==="DATE"?"Date 2026-09-20":"Guests 4"));assert.ok(target);return {type:"CLICK_AUTHORITATIVE",field,targetRef:target.ref,reason:"Exact query"}}},maxModelCallsPerCandidate:2});
     const signal=new AbortController().signal;
     try{
       const result=await new TabelogBrowserAvailability(executor).check({candidates:[candidate],candidateIds:[candidate.restaurant.id],date:"2026-09-20",partySize:4,timeWindow:{earliest:"18:30",latest:"19:30"},hardCriteria:[]},signal);
@@ -2107,7 +2107,7 @@ for (const field of ["PARTY_SIZE", "TIME"] as const) test(`C5a one choice reveal
     <button role="combobox" aria-label="${field}" aria-expanded="true" aria-controls="choices">${field}</button>
     <div id="choices" role="listbox">${choices.map(choice => `<div role="option" onclick="document.querySelector('button').setAttribute('aria-label','${choice}');document.querySelector('button').setAttribute('aria-expanded','false');document.querySelector('#choices').hidden=true;document.body.dataset.choice='${choice}'">${choice}</div>`).join("")}</div>`);
   let calls = 0;
-  const executor = new BrowserTaskExecutor(runtime, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: { async decide(input) {
+  const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: { async decide(input) {
     calls++;
     const choice = input.observation.targets.find(target => target.kind === "OPTION" && target.label === expected);
     assert.ok(choice, "clipped requested option must be offered");
@@ -2133,7 +2133,7 @@ test("C5a excludes disabled, occluded and noncurrent list options", async () => 
     <div id="current" role="listbox"><div role="option" aria-disabled="true">10 guests</div><div role="option">11 guests</div><div class="cover">Obscuring layer</div><div role="option">9 guests</div></div>
     <div id="other" role="listbox"><div role="option">12 guests</div></div>`);
   let calls = 0; let observed: unknown;
-  const executor = new BrowserTaskExecutor(runtime, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: { async decide(input) {
+  const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: { async decide(input) {
     calls++; observed = input.observation.targets;
     for (const label of ["10 guests", "11 guests", "12 guests"]) assert.equal(input.observation.targets.some(target => target.kind === "OPTION" && target.label === label), false, label);
     assert.equal(input.observation.targets.some(target => target.label === "9 guests"), true, "an unrelated enabled choice remains observed");
@@ -2160,7 +2160,7 @@ test("C3 settles delayed date results before asking the model and never complete
     const har=join(directory,"source.har");await writeFile(har,replayHar(target,html));
     const raw=new LocalPlaywrightChromium();const runtime:BrowserRuntime={readNetworkBoundaryCapability:"ISOLATED_CONTEXT",openSession:input=>raw.openSession({...input,networkPolicy:{documentOrigins:[origin],genericPublicRead:true,staticResources:[],dynamicReads:[]},replayHarPath:har})};
     let calls=0, pendingHint=false;
-    const executor=new BrowserTaskExecutor(runtime,{maxModelCallsTotal: 12, maxModelCallsPerCandidate:4,maxOperationsPerCandidate:40,maxElapsedMsPerCandidate:8000,modelDecision:{async decide(value){calls++;if(calls===1)return {type:"CLICK_AUTHORITATIVE",field:"DATE",targetRef:value.observation.targets.find(x=>x.label==='Date 2026-10-23')!.ref,reason:"Select requested date"};pendingHint=value.progress.includes('still loading');const guests=value.observation.targets.find(x=>x.label==='Guests 10');return guests?{type:"CLICK_AUTHORITATIVE",field:"PARTY_SIZE",targetRef:guests.ref,reason:"Select requested party"}:{type:"REQUEST_HUMAN_HELP",reason:"Loading has not settled"};}}});
+    const executor=new BrowserTaskExecutor(runtime,{ maxAutomaticElapsedMs: 300_000, maxModelCallsTotal: 12, maxModelCallsPerCandidate:4,maxOperationsPerCandidate:40,maxElapsedMsPerCandidate:8000,modelDecision:{async decide(value){calls++;if(calls===1)return {type:"CLICK_AUTHORITATIVE",field:"DATE",targetRef:value.observation.targets.find(x=>x.label==='Date 2026-10-23')!.ref,reason:"Select requested date"};pendingHint=value.progress.includes('still loading');const guests=value.observation.targets.find(x=>x.label==='Guests 10');return guests?{type:"CLICK_AUTHORITATIVE",field:"PARTY_SIZE",targetRef:guests.ref,reason:"Select requested party"}:{type:"REQUEST_HUMAN_HELP",reason:"Loading has not settled"};}}});
     const signal=new AbortController().signal;const session=await executor.acquire(signal,"FIXTURE","AVAILABILITY");
     try {
       await executor.navigate({session,signal,source:"FIXTURE",stage:"AVAILABILITY",allowedOrigins:[origin],url:target});
@@ -2178,7 +2178,7 @@ test("C3 visible-state fallback settles attribute-only carousel and rejects chan
       let n=0;setInterval(()=>{${mode === "text" ? "result.textContent+=' batch '+(++n);" : "carousel.setAttribute('data-frame',String(++n));"}},150);
     </script>`);
     const diagnostics: BrowserExecutionDiagnostic[] = [];
-    const executor = new BrowserTaskExecutor(runtime, {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  maxElapsedMsPerCandidate: 10_000, onDiagnostic: d => diagnostics.push(d), modelDecision: { async decide() { return { type: "REQUEST_HUMAN_HELP", reason: "Pending Fixture must not complete" }; } } });
+    const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  maxElapsedMsPerCandidate: 10_000, onDiagnostic: d => diagnostics.push(d), modelDecision: { async decide() { return { type: "REQUEST_HUMAN_HELP", reason: "Pending Fixture must not complete" }; } } });
     const signal = new AbortController().signal;
     const session = await executor.acquire(signal, "FIXTURE", "AVAILABILITY");
     try {
@@ -2199,7 +2199,7 @@ test("C4 blocks repeated toggle state but allows the same Next control on change
     const runtime=localFixture(`<title>Navigation Fixture</title><button id="next" aria-expanded="false">${mode==='toggle'?'Filters':'Next'}</button><output id="result">${mode==='toggle'?'Closed':'Page 0'}</output><script>let clicks=0;next.onclick=()=>{clicks++;${mode==='toggle'?"next.setAttribute('aria-expanded',String(clicks%2===1));result.textContent=clicks%2?'Open':'Closed';":"result.textContent='Page '+clicks;"}}</script>`);
     let calls=0;const history: import("../../infrastructure/browser/browser-action-decision.js").BrowserReadHistoryStep[][]=[];
     const diagnostics:BrowserExecutionDiagnostic[]=[];
-    const executor=new BrowserTaskExecutor(runtime,{maxModelCallsTotal: 12, maxModelCallsPerCandidate:6,maxOperationsPerCandidate:100,maxElapsedMsPerCandidate:15000,onDiagnostic:d=>diagnostics.push(d),modelDecision:{async decide(value){calls++;history.push(value.history);return {type:"CLICK",targetRef:value.observation.targets.find(x=>x.label===(mode==='toggle'?'Filters':'Next'))!.ref,reason:"Advance current navigation"};}}});
+    const executor=new BrowserTaskExecutor(runtime,{ maxAutomaticElapsedMs: 300_000, maxModelCallsTotal: 12, maxModelCallsPerCandidate:6,maxOperationsPerCandidate:100,maxElapsedMsPerCandidate:15000,onDiagnostic:d=>diagnostics.push(d),modelDecision:{async decide(value){calls++;history.push(value.history);return {type:"CLICK",targetRef:value.observation.targets.find(x=>x.label===(mode==='toggle'?'Filters':'Next'))!.ref,reason:"Advance current navigation"};}}});
     const signal=new AbortController().signal;const session=await executor.acquire(signal,"FIXTURE","DISCOVERY");
     try{
       await executor.navigate({session,signal,source:"FIXTURE",stage:"DISCOVERY",allowedOrigins:["https://www.tablecheck.com"],url});
@@ -2221,7 +2221,7 @@ test("C3b rotating suggestions accept identical bound results but changing resul
   for (const mode of ["suggestions", "append", "skeleton", "unrelated-skeleton"] as const) {
     const diagnostics: BrowserExecutionDiagnostic[] = [];
     const runtime=localFixture(`<title>Result fixture</title><section id="result">Venue A${mode==='skeleton'?'<div class="skeleton">Loading</div>':''}</section><aside id="suggestions">Suggestion 0</aside>${mode==='unrelated-skeleton'?'<div class="image skeleton">Loading</div>':''}<script>let n=0;setInterval(()=>{suggestions.textContent='Suggestion '+(++n);${mode==='append'?"result.textContent+=' Venue '+n;":''}},120)</script>`);
-    const executor=new BrowserTaskExecutor(runtime,{maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, maxElapsedMsPerCandidate:12000,onDiagnostic:d=>diagnostics.push(d),modelDecision:{async decide(){return {type:"REQUEST_HUMAN_HELP",reason:"Incomplete current result"};}}});
+    const executor=new BrowserTaskExecutor(runtime,{ maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, maxElapsedMsPerCandidate:12000,onDiagnostic:d=>diagnostics.push(d),modelDecision:{async decide(){return {type:"REQUEST_HUMAN_HELP",reason:"Incomplete current result"};}}});
     const signal=new AbortController().signal;const session=await executor.acquire(signal,"FIXTURE","DISCOVERY");
     try {
       await executor.navigate({session,signal,source:"FIXTURE",stage:"DISCOVERY",allowedOrigins:["https://www.tablecheck.com"],url});
@@ -2244,7 +2244,7 @@ test("C3b Chromium ignores an outstanding image once data has completed", async 
   await new Promise<void>(resolve=>server.listen(0,'127.0.0.1',resolve));
   const address=server.address();assert.ok(address&&typeof address!=='string');
   const origin=`http://127.0.0.1:${address.port}`;
-  const executor=new BrowserTaskExecutor(new LocalPlaywrightChromium(), { maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
+  const executor=new BrowserTaskExecutor(new LocalPlaywrightChromium(), { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
   const signal=new AbortController().signal;const session=await executor.acquire(signal,'FIXTURE','DISCOVERY',{documentOrigins:[origin],genericPublicRead:true,staticResources:[],dynamicReads:[]});
   try{
     const started=Date.now();
@@ -2262,7 +2262,7 @@ test("C2a recorded unavailable calendar dates are observed and cannot drift to o
   for(const [name,date,sourceUrl] of [["yuu","2026-10-24","https://tabelog.com/en/tokyo/A1301/A130101/13291436/"],["labo","2026-10-22","https://tabelog.com/en/tokyo/A1303/A130301/13284556/"]]){
     const html=await readFile(new URL(`./fixtures/calendar-${name}-20261010.html`,import.meta.url),'utf8');
     let calls=0;
-    const executor=new BrowserTaskExecutor(localFixture({[sourceUrl!]:html}),{maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, modelDecision:{async decide(value){calls++;
+    const executor=new BrowserTaskExecutor(localFixture({[sourceUrl!]:html}),{ maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, modelDecision:{async decide(value){calls++;
       const requested=value.observation.targets.find(t=>t.value===date);
       assert.ok(requested,"the recorded unavailable day must be an observed target");
       assert.equal(requested.rejectionReason,"DATE_NOT_SELECTABLE");assert.deepEqual(requested.availableActions,[]);
@@ -2281,7 +2281,7 @@ test("C2a recorded unavailable calendar dates are observed and cannot drift to o
 
 test("C2a selectable requested date retains authoritative click and blocks an ordinary other-date click", async () => {
   const html='<table><caption>October 2026</caption><tr><td><button onclick="this.textContent=\'Selected\'">24</button></td><td><button>25</button></td></tr></table>';
-  const executor=new BrowserTaskExecutor(localFixture(html),{maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, modelDecision:{async decide(value){
+  const executor=new BrowserTaskExecutor(localFixture(html),{ maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, modelDecision:{async decide(value){
     const requested=value.observation.targets.find(t=>t.value==='2026-10-24')!;
     assert.ok(requested.availableActions?.includes('CLICK_AUTHORITATIVE:DATE'));
     const other=value.observation.targets.find(t=>t.value==='2026-10-25')!;assert.deepEqual(other.availableActions,[]);
@@ -2299,7 +2299,7 @@ test('P1-D Chromium observes LOCATION binding and fills exactly the resolved nam
  try{for(const name of ['Ebisu Station',undefined]){
   const raw=new LocalPlaywrightChromium();const policy={documentOrigins:['https://directory.example'],genericPublicRead:true,staticResources:[],dynamicReads:[]} as const;
   const runtime:BrowserRuntime={readNetworkBoundaryCapability:'ISOLATED_CONTEXT',openSession:input=>raw.openSession({...input,networkPolicy:policy,replayHarPath:harPath})};let calls=0;
-  const executor=new BrowserTaskExecutor(runtime,{maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, modelDecision:{decide:async input=>{calls++;const area=input.observation.targets.find(t=>t.label==='Area or station')!,address=input.observation.targets.find(t=>t.label==='Location address')!;assert.ok(!address.availableActions?.includes('FILL_AUTHORITATIVE:LOCATION'));assert.equal(area.availableActions?.includes('FILL_AUTHORITATIVE:LOCATION')??false,name!==undefined);return name?{type:'FILL_AUTHORITATIVE',field:'LOCATION',targetRef:area.ref,reason:'Apply exact name'}:{type:'REQUEST_HUMAN_HELP',reason:'No authoritative name'};}}});
+  const executor=new BrowserTaskExecutor(runtime,{ maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, modelDecision:{decide:async input=>{calls++;const area=input.observation.targets.find(t=>t.label==='Area or station')!,address=input.observation.targets.find(t=>t.label==='Location address')!;assert.ok(!address.availableActions?.includes('FILL_AUTHORITATIVE:LOCATION'));assert.equal(area.availableActions?.includes('FILL_AUTHORITATIVE:LOCATION')??false,name!==undefined);return name?{type:'FILL_AUTHORITATIVE',field:'LOCATION',targetRef:area.ref,reason:'Apply exact name'}:{type:'REQUEST_HUMAN_HELP',reason:'No authoritative name'};}}});
   const signal=new AbortController().signal;const session=await executor.acquire(signal,'DIRECTORY','DISCOVERY',policy);
   try{await executor.navigate({session,signal,source:'DIRECTORY',stage:'DISCOVERY',allowedOrigins:policy.documentOrigins,url:pageUrl});const result=await executor.runSkill({taskId:'location-fixture',session,signal,source:'DIRECTORY',stage:'DISCOVERY',allowedOrigins:policy.documentOrigins,goal:{outlet:{name:'Restaurants'},location:{latitude:35.66,longitude:139.7,radiusMeters:1000,...(name?{name}:{})},hardCriteria:[]},objective:'Select the public area',completion:snapshot=>({complete:snapshot.text.includes('Location selected: Ebisu Station'),resultBusy:false,resultKey:snapshot.text,reason:'Observe the exact selected location'})});assert.equal(result.status,name?'COMPLETED':'REQUESTED_HUMAN_HELP');assert.equal(calls,1);assert.equal(result.controls.find(c=>c.label==='Location address')?.value,'');}finally{await executor.close();}
  }}finally{await rm(directory,{recursive:true,force:true});}
@@ -2315,7 +2315,7 @@ test('model full-page OPEN_LINK allows slow DOMContentLoaded and times out only 
   });
   await new Promise<void>(resolve=>server.listen(0,'127.0.0.1',resolve));const address=server.address() as {port:number};const origin=`http://127.0.0.1:${address.port}`;
   const diagnostics:BrowserExecutionDiagnostic[]=[];let calls=0;
-  const executor=new BrowserTaskExecutor(new LocalPlaywrightChromium(),{maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, maxElapsedMsPerCandidate:mode==='slow'?15000:2000,onDiagnostic:d=>diagnostics.push(d),modelDecision:{async decide(input){calls++;return {type:'OPEN_LINK',targetRef:input.observation.targets.find(t=>t.label==='Public result')!.ref,reason:'Read observed public page'};}}});
+  const executor=new BrowserTaskExecutor(new LocalPlaywrightChromium(),{ maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, maxElapsedMsPerCandidate:mode==='slow'?15000:2000,onDiagnostic:d=>diagnostics.push(d),modelDecision:{async decide(input){calls++;return {type:'OPEN_LINK',targetRef:input.observation.targets.find(t=>t.label==='Public result')!.ref,reason:'Read observed public page'};}}});
   const signal=new AbortController().signal;const session=await executor.acquire(signal,'FIXTURE','DISCOVERY');
   try{
    await executor.navigate({source:'FIXTURE',stage:'DISCOVERY',session,signal,allowedOrigins:[origin],url:origin+'/start'});const started=Date.now();

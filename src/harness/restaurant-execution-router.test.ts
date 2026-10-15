@@ -31,7 +31,7 @@ test("Execution Router binds only the matching durable search cursor; the Agent 
         };
       },
     },
-    { executionRoute: "STRUCTURED_ADAPTER", async check() { return { offers: [], availabilityChecks: {}, evidence: [], metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 } }; } },
+    { executionRoute: "STRUCTURED_ADAPTER", async check() { return { offers: [], availabilityChecks: {}, evidence: [], metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 } }; } }, { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 20_000 },
   );
   const searchIntent = completeRestaurantSearchIntent(state.intentDraft)!;
   const matching = {
@@ -62,7 +62,7 @@ test("Execution Router aborts and bounds a Provider search read that exceeds its
       },
     },
     { executionRoute: "STRUCTURED_ADAPTER", async check() { return { offers: [], availabilityChecks: {}, evidence: [], metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 } }; } },
-    { structuredReadTimeoutMs: 1 },
+    { browserReadTimeoutMs: 20_000,  structuredReadTimeoutMs: 1 },
   );
 
   const execution = await router.execute({ type: "SEARCH_RESTAURANTS" }, state);
@@ -87,7 +87,7 @@ test("Execution Router returns at its deadline even when a Provider ignores abor
       },
     },
     { executionRoute: "STRUCTURED_ADAPTER", async check() { return { offers: [], availabilityChecks: {}, evidence: [], metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 } }; } },
-    { structuredReadTimeoutMs: 1 },
+    { browserReadTimeoutMs: 20_000,  structuredReadTimeoutMs: 1 },
   );
 
   const execution = await router.execute({ type: "SEARCH_RESTAURANTS" }, state);
@@ -104,7 +104,7 @@ test("Execution Router retains source-owned Google request accounting when a sen
       googleRequestUsage: () => ({ limit: 100, total: 4, namedPlaceResolution: 1, discovery: 2, placeDetails: 1, reverseAddressObservation: 0 }),
       async search() { throw Object.assign(new Error("network failed"), { code: "GOOGLE_NETWORK_FAILED" }); },
     },
-    { executionRoute: "STRUCTURED_ADAPTER", async check() { return { offers: [], availabilityChecks: {}, evidence: [], metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 } }; } },
+    { executionRoute: "STRUCTURED_ADAPTER", async check() { return { offers: [], availabilityChecks: {}, evidence: [], metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 } }; } }, { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 20_000 },
   );
 
   const execution = await router.execute({ type: "SEARCH_RESTAURANTS" }, state, undefined, "google-run");
@@ -136,7 +136,7 @@ test("Execution Router passes only bound availability arguments and its deadline
           metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 },
         };
       },
-    },
+    }, { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 20_000 },
   );
   const searchedState: RestaurantTaskState = {
     ...state,
@@ -165,7 +165,7 @@ test("Execution Router preserves a current exact immediate request for source-si
   let calls = 0;
   const router = new RestaurantExecutionRouter(
     { executionRoute: "STRUCTURED_ADAPTER", async search() { return { candidates: [], evidence: [], metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 } }; } },
-    { executionRoute: "STRUCTURED_ADAPTER", async check(request) { calls += 1; return { offers: [], availabilityChecks: Object.fromEntries(request.candidateIds.map((candidateId) => [candidateId, { status: "UNKNOWN" as const, checkedAt: "2026-08-05T09:00:30.000Z", evidenceIds: [], reasonCode: "SOURCE_PENDING" }])), evidence: [], metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 } }; } },
+    { executionRoute: "STRUCTURED_ADAPTER", async check(request) { calls += 1; return { offers: [], availabilityChecks: Object.fromEntries(request.candidateIds.map((candidateId) => [candidateId, { status: "UNKNOWN" as const, checkedAt: "2026-08-05T09:00:30.000Z", evidenceIds: [], reasonCode: "SOURCE_PENDING" }])), evidence: [], metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 } }; } }, { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 20_000 },
   );
   const immediateState: RestaurantTaskState = {
     ...state,
@@ -201,7 +201,7 @@ test("Execution Router forwards only a current exact immediate slot to the provi
           evidence: [], metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 },
         };
       },
-    },
+    }, { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 20_000 },
   );
   const immediateState: RestaurantTaskState = {
     ...state,
@@ -238,7 +238,7 @@ test("Execution Router binds a fact-only read to known candidates and the author
   const router = new RestaurantExecutionRouter(
     { executionRoute: "STRUCTURED_ADAPTER", async search() { return { candidates: fixtureCandidates, evidence: [], metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 } }; } },
     { executionRoute: "STRUCTURED_ADAPTER", async check() { return { offers: [], availabilityChecks: {}, evidence: [], metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 } }; } },
-    {},
+    { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 20_000, },
     {
       executionRoute: "STRUCTURED_ADAPTER",
       async inspectFacts(request) {
@@ -283,7 +283,7 @@ test("Execution Router keeps a shared browser startup failure candidate-scoped a
           metadata: { provider: "TABELOG", route: "GENERIC_BROWSER", latencyMs: 1, failureCode: "BROWSER_RUNTIME_FAILED" },
         };
       },
-    },
+    }, { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 20_000 },
   );
   const execution = await router.execute(
     { type: "CHECK_AVAILABILITY", candidateIds: [fixtureCandidates[0]!.restaurant.id] },
@@ -314,7 +314,7 @@ test("Execution Router preserves all-provider browser failure evidence without e
           },
         };
       },
-    },
+    }, { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 20_000 },
   );
   const execution = await router.execute(
     { type: "CHECK_AVAILABILITY", candidateIds: [fixtureCandidates[0]!.restaurant.id] },

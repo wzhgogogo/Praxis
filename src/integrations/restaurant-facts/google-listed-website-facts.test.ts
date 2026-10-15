@@ -27,7 +27,7 @@ function reader(
   diagnostic?: ConstructorParameters<typeof GoogleListedWebsiteFactRead>[6],
   judgment: ConstructorParameters<typeof GoogleListedWebsiteFactRead>[2] = fixtureJudgment,
 ): GoogleListedWebsiteFactRead {
-  return new GoogleListedWebsiteFactRead({ maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, browser, judgment, now, decision, budget, diagnostic);
+  return new GoogleListedWebsiteFactRead({ maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, browser, judgment, now, decision, budget, diagnostic);
 }
 
 const request: RestaurantCandidateFactRequest = {

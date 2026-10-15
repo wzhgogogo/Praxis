@@ -88,10 +88,10 @@ export class FixtureRestaurantSearchApplication {
         dispatch: async (envelope, expectedVersion) => this.runtime.dispatch(envelope, expectedVersion),
       },
       new RestaurantAgentDecision(new FixtureModelGateway()),
-      new RestaurantExecutionRouter(this.search, this.search, {}, this.search),
+      new RestaurantExecutionRouter(this.search, this.search, { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 20_000, }, this.search),
       this.trajectory,
       { now: () => new Date("2026-08-05T09:00:00.000Z") },
-      {},
+      { maxSteps: 12, maxRejectedActions: 3, timeoutMs: 30_000, },
       (prefix) => `${prefix}:${++this.sequence}`,
     );
   }

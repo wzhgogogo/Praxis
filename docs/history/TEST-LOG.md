@@ -4232,3 +4232,7 @@ Docs only：合并远端b36ec7f及其文档前序提交与本地P2-0六个提交
 ## TEST-2026-10-15-T1-2-BROWSER
 
 真实 Chromium 两条旧用例修复前目标 availability 断言失败（red.log），修复后正常 AVAILABLE 展示与 UNAVAILABLE 续查均通过（green-targeted.log，2/2）。四条代码门禁全绿，npm test 879/879；完整 Chromium 门禁结果见同目录 browser.log。只替换页面与模型传输，未放宽身份/资格、未删除用例。无付费模型/Live/见证 GET。
+
+## TEST-2026-10-15-T1-1-ASSEMBLY
+
+实际查位Fixture累计>12次共享浏览器模型调用后再找店；隔离工作树退回旧12次发现阈值，目标业务断言BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED红，恢复配置绿。Runner/Web比较组装返回的全部生效限额、Router／loop和独立预算。`01-assembly/`保存red-retired-cap.log、green-restored.log、controlled-execution.log（17/17）及五门禁：typecheck／arch／build通过、默认880/880、真实Chromium100/100。无外网／付费模型／Live；旧Hybrid迁移在第5项继续。

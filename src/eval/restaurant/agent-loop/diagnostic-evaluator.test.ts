@@ -25,7 +25,7 @@ function completeArtifact() {
     status: "SUCCEEDED", stage: "AGENT_LOOP", caseId: "availability-fixture", runId: "run:availability-fixture", finishedAt: "2026-09-08T07:45:37.000Z",
     limits: { maxSteps: 30, maxBrowserModelCallsTotal: 120 },
     materializedCase: { semantic: { target: { goal: "AVAILABILITY" }, date: { value: "2026-09-08" }, party_size: 2, time: { value: "19:00" }, location: { value: "Shibuya", relation: "NEAR" }, criteria: [{ value: "omakase", polarity: "POSITIVE", strength: "HARD" }] } },
-    loop: { status: "TERMINAL" }, resourceUsage: { elapsedMs: 100, agentDecisions: 3, browserModelCalls: 2 },
+    loop: { maxSteps: 12, maxRejectedActions: 3, timeoutMs: 30_000,  status: "TERMINAL" }, resourceUsage: { elapsedMs: 100, agentDecisions: 3, browserModelCalls: 2 },
     trajectories: [{ stateHashBefore: "request-v1", stepOutcome: "EXECUTED", agentAction: { type: "CHECK_AVAILABILITY", candidateIds: [candidateId] }, decisionContext: { intentDraft }, observation: { type: "AVAILABILITY", candidateIds: [candidateId], evidenceIds: ["discovery-a", "identity-a", "hard-a", "availability-a"] }, executionMetadata: { providerAttempts: [{ candidateId, provider: "TABLECHECK", outcome: "AVAILABLE" }] } }],
     diagnostics: { browserTrace: [
       { sequence: 1, at: "2026-09-08T07:44:58.000Z", kind: "EXECUTOR_DIAGNOSTIC", detail: { stage: "AVAILABILITY", candidateId, event: "OPERATION_STARTED", detail: "SNAPSHOT" } },

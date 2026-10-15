@@ -32,7 +32,7 @@ async function stop(fixture: SavedState, termination: RestaurantAgentLoopTermina
   const trajectories = new InMemoryRestaurantAgentTrajectoryStore();
   const router = new RestaurantExecutionRouter(
     { executionRoute: "STRUCTURED_ADAPTER", async search() { throw new Error("No network allowed"); } },
-    { executionRoute: "STRUCTURED_ADAPTER", async check() { throw new Error("No network allowed"); } },
+    { executionRoute: "STRUCTURED_ADAPTER", async check() { throw new Error("No network allowed"); } }, { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 20_000 },
   );
   let decisionCalls = 0;
   const decision = new ScriptedRestaurantAgentDecisionPort((runFailure === "EXHAUSTED_BROWSER" || runFailure === "FAILED_SEARCH") ? Array.from({length:12},()=>({type:"SEARCH_RESTAURANTS" as const})) : runFailure === "UNCAUGHT_EXCEPTION"
@@ -57,7 +57,7 @@ async function stop(fixture: SavedState, termination: RestaurantAgentLoopTermina
         lifecycleState: definition.getLifecycleState(result.state), outcome: definition.evaluateOutcome(result.state), updatedAt: envelope.occurredAt };
       return { snapshot: current, commands: [], duplicateEvent: false };
     },
-  }, decision, router, trajectories, clock);
+  }, decision, router, trajectories, clock, { maxSteps: 12, maxRejectedActions: 3, timeoutMs: 30_000 });
   // Deliberately exercise the same internal stop boundary as the recorded
   // trajectory, with a monotonically advancing clock rather than frozen time.
   if (runFailure) await coordinator.run(current.id);

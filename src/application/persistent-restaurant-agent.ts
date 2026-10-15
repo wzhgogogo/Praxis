@@ -274,9 +274,9 @@ export interface PersistentRestaurantAgentOptions {
   restaurantAvailability: RestaurantAvailabilityPort;
   restaurantFacts?: RestaurantCandidateFactPort;
   workspaceMode?: AgentWorkspaceMode;
-  executionRouterOptions?: RestaurantExecutionRouterOptions;
+  executionRouterOptions: RestaurantExecutionRouterOptions;
   /** Local Live composition may need a longer read-only loop than Fixture workflows. */
-  agentLoopOptions?: RestaurantAgentLoopOptions;
+  agentLoopOptions: RestaurantAgentLoopOptions;
   /** Explicit, caller-owned Live debugging limits included in exported Web artifacts only. */
   liveReadLimits?: Readonly<Record<string, number>>;
   /** Starts the whole read budget before semantic interpretation and preserves it through the asynchronous Agent loop. */
@@ -737,7 +737,7 @@ export class PersistentRestaurantAgentApplication {
       events,
       trajectories,
       finalSnapshot: snapshot,
-      loop: { status: loopStatus },
+      loop: { maxSteps: 12, maxRejectedActions: 3, timeoutMs: 30_000,  status: loopStatus },
       resourceUsage: { elapsedMs: modelUsage?.elapsedMs ?? lifecycleElapsedMs, agentDecisions, ...(googleRequests ? { googleRequests } : {}), ...(modelUsage ? { modelCallsStarted: modelUsage.calls } : {}) },
       resourceAccounting: { browserModelCalls: "UNKNOWN", cost: "UNKNOWN" },
       ...(this.liveReadLimits ? { limits: structuredClone(this.liveReadLimits) } : {}),

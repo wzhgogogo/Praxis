@@ -20,12 +20,8 @@ import { FixtureModelGateway } from "../infrastructure/fixture/fixture-model-gat
 import { FixtureRestaurantSearch } from "../infrastructure/fixture/fixture-restaurant-search.js";
 import { DeepSeekModelGateway } from "../infrastructure/deepseek/deepseek-model-gateway.js";
 import { browserRuntimeFromEnvironment } from "../infrastructure/browser/browser-runtime-factory.js";
-import { type BrowserExecutionBudget } from "../infrastructure/browser/browser-task-executor.js";
 import { GooglePlacesClient } from "../integrations/google/google-places-client.js";
-import { GooglePlacesRestaurantSearch } from "../integrations/google/google-places-restaurant-search.js";
-import { composeNativeRestaurantRead } from "../integrations/restaurant-search/native-read-composition.js";
-import { LiveBrowserAvailability } from "../integrations/restaurant-availability/live-browser-availability.js";
-import { restaurantPublicReadNetworkPolicy } from "../integrations/restaurant-availability/public-browser-read-network-policy.js";
+import { createLiveReadAssembly } from "../integrations/restaurant-search/live-read-assembly.js";
 import { applyPostgresMigrations } from "../infrastructure/postgres/migrations.js";
 import { NodePostgresDatabase } from "../infrastructure/postgres/node-postgres-database.js";
 import { LOCAL_WORKSPACE_PAGE } from "../web/local-workspace-page.js";
@@ -388,37 +384,21 @@ async function start(): Promise<void> {
   const providerModel = fixtureMode ? new FixtureModelGateway() : DeepSeekModelGateway.fromEnvironment();
   // The wrapper scope begins in PersistentRestaurantAgentApplication before
   // semantic interpretation and propagates through its async read lifecycle.
-  const countedModel = fixtureMode ? providerModel : new RunBoundedModelGateway(providerModel, 50, LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxAutomaticBrowserMs);
+  const countedModel = fixtureMode ? providerModel : new RunBoundedModelGateway(providerModel, LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxModelCalls, LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxAutomaticBrowserMs);
   const modelRunBudget = fixtureMode ? undefined : countedModel as RunBoundedModelGateway;
   const model = new DeliveryReservedModelGateway(countedModel);
-  const googleSearch = fixtureMode ? undefined : new GooglePlacesRestaurantSearch(
-        new GooglePlacesClient({
-          apiKey: process.env.GOOGLE_MAPS_API_KEY ?? "",
-          proxyServer: process.env.PRAXIS_GOOGLE_API_PROXY_SERVER,
-          timeoutMs: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxStructuredReadMs,
-        }),
-        undefined,
-        10,
-        { maxRequests: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxGoogleRequests },
-      );
-  const browserRuntime = fixtureMode ? undefined : browserRuntimeFromEnvironment();
-  const browserBudget: BrowserExecutionBudget | undefined = fixtureMode ? undefined : { totalModelCalls: 0 };
-  const nativeRead = fixtureMode ? undefined : composeNativeRestaurantRead(googleSearch!, browserRuntime!, model, browserBudget, undefined, undefined, undefined, { maxModelCallsPerCandidate: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxBrowserModelCallsPerCandidate, maxModelCallsTotal: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxBrowserModelCallsTotal, maxOperationsPerCandidate: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxBrowserOperationsPerCandidate });
-  const restaurantSearch = fixtureSearch ?? nativeRead!.search;
-  const restaurantAvailability = fixtureMode
-    ? new FixtureRestaurantSearch()
-    : new LiveBrowserAvailability(browserRuntime!, model, {
-        ...(browserBudget ? { browserBudget } : {}),
-        maxAvailabilitySourceBrowserSessions: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxAvailabilitySourceBrowserSessions,
-        maxAvailabilitySourceCandidateMatches: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxAvailabilitySourceCandidateMatches,
-        maxModelCallsPerCandidate: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxBrowserModelCallsPerCandidate,
-        maxModelCallsTotal: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxBrowserModelCallsTotal,
-        maxOperationsPerCandidate: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxBrowserOperationsPerCandidate,
-        maxElapsedMsPerCandidate: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxCandidateBrowserMs,
-        maxElapsedMsPerProvider: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxProviderBrowserMs,
-        maxAutomaticElapsedMs: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxAutomaticBrowserMs,
-        networkPolicy: restaurantPublicReadNetworkPolicy,
-      });
+  const readAssembly = fixtureMode ? undefined : createLiveReadAssembly(LIVE_READ_DEBUG_INVESTIGATION_BUDGET, {
+    model, clock: { now: () => new Date() },
+    google: new GooglePlacesClient({
+      apiKey: process.env.GOOGLE_MAPS_API_KEY ?? "",
+      proxyServer: process.env.PRAXIS_GOOGLE_API_PROXY_SERVER,
+      timeoutMs: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxStructuredReadMs,
+    }),
+    browser: browserRuntimeFromEnvironment(),
+    ...(modelRunBudget?.remainingCalls ? { remainingModelCalls: (taskId: string) => modelRunBudget.remainingCalls(taskId) } : {}),
+  });
+  const restaurantSearch = fixtureSearch ?? readAssembly!.search;
+  const restaurantAvailability = fixtureSearch ?? readAssembly!.availability;
   const application = new PersistentRestaurantAgentApplication({
     database,
     semanticInterpreter: new RestaurantSemanticInterpreter(model),
@@ -426,21 +406,13 @@ async function start(): Promise<void> {
     agentDecision: new RestaurantAgentDecision(model),
     restaurantSearch,
     restaurantAvailability,
-    restaurantFacts: fixtureSearch ?? nativeRead!.facts,
+    restaurantFacts: fixtureSearch ?? readAssembly!.facts,
+    executionRouterOptions: readAssembly?.router ?? { structuredReadTimeoutMs: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxStructuredReadMs, browserReadTimeoutMs: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxAutomaticBrowserMs },
+    agentLoopOptions: readAssembly?.loop ?? { maxSteps: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxAgentSteps, maxRejectedActions: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxRejectedActions, timeoutMs: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxAutomaticBrowserMs },
     workspaceMode: providerMode,
     ...(fixtureMode ? {} : {
-      liveReadLimits: LIVE_READ_DEBUG_INVESTIGATION_BUDGET,
+      liveReadLimits: readAssembly!.runCeilings,
       ...(modelRunBudget ? { modelRunBudget } : {}),
-      executionRouterOptions: {
-        modelReadReserve: model,
-        structuredReadTimeoutMs: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxStructuredReadMs,
-        browserReadTimeoutMs: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxAutomaticBrowserMs,
-      },
-      agentLoopOptions: {
-        maxSteps: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxAgentSteps,
-        maxRejectedActions: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxRejectedActions,
-        timeoutMs: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxAutomaticBrowserMs,
-      },
     }),
   });
   const sessions = new PilotSessionService(application.store, pilotEntriesFromEnvironment(), {

@@ -21,7 +21,6 @@ export interface LiveBrowserAvailabilityOptions extends BrowserReadLimits {
   maxAvailabilitySourceCandidateMatches?: number;
   maxElapsedMsPerCandidate?: number;
   maxElapsedMsPerProvider?: number;
-  maxAutomaticElapsedMs?: number;
   onBrowserDiagnostic?: (diagnostic: BrowserExecutionDiagnostic) => void;
   onTableCheckIdentityDiagnostic?: (diagnostic: TableCheckIdentityDiagnostic) => void;
   onTabelogIdentityDiagnostic?: (diagnostic: TabelogIdentityDiagnostic) => void;
@@ -76,7 +75,7 @@ export class LiveBrowserAvailability {
   }
 
   async check(request: RestaurantAvailabilityRequest, signal: AbortSignal): Promise<RestaurantAvailabilityRead> {
-    const executor = new BrowserTaskExecutor(this.runtime, {
+    const executor = new BrowserTaskExecutor(this.runtime, { maxAutomaticElapsedMs: this.options.maxAutomaticElapsedMs,
       maxModelCallsPerCandidate: this.options.maxModelCallsPerCandidate,
       maxModelCallsTotal: this.options.maxModelCallsTotal,
       maxOperationsPerCandidate: this.options.maxOperationsPerCandidate,

@@ -9,7 +9,8 @@ import { DeepSeekModelGateway } from "../../../../infrastructure/deepseek/deepse
 import { GooglePlacesClient } from "../../../../integrations/google/google-places-client.js";
 import { GooglePlacesRestaurantSearch } from "../../../../integrations/google/google-places-restaurant-search.js";
 import { LiveBrowserAvailability } from "../../../../integrations/restaurant-availability/live-browser-availability.js";
-import { composeNativeRestaurantRead } from "../../../../integrations/restaurant-search/native-read-composition.js";
+import { createLiveReadAssembly } from "../../../../integrations/restaurant-search/live-read-assembly.js";
+import { LIVE_READ_DEBUG_INVESTIGATION_BUDGET } from "../../../../application/live-read-investigation-budget.js";
 import { diagnosticFailureCode, startDiagnosticRun } from "../../../shared/diagnostic-run.js";
 import { evaluateArtifactAfterFinish } from "../diagnostic-evaluator.js";
 import { assessFixedSourceAcceptance, fixedNativeSourceUsage } from "../fixed-source-acceptance.js";
@@ -107,12 +108,7 @@ const timeoutMs = boundedOption("--timeout-ms", 500_000);
 // Fixed-source native scenarios exercise the same bounded per-candidate read
 // limits as the qualified delivery slice.  They remain visible in both the
 // immutable execution artifact and the journal start record.
-const nativeReadLimits = {
-  maxCandidateBrowserMs: 60_000,
-  maxProviderBrowserMs: 45_000,
-  maxBrowserOperations: 30,
-  maxBrowserModelCallsPerCandidate: 20,
-} as const;
+const nativeReadLimits = { ...LIVE_READ_DEBUG_INVESTIGATION_BUDGET, maxModelCalls, maxAgentSteps: maxSteps, maxAutomaticBrowserMs: timeoutMs };
 const preflight = await runLivePreflight({
   runner: "NATIVE_FIXED_SOURCE_MODEL",
   targets: ["DEEPSEEK"],
@@ -144,7 +140,7 @@ const journal = await startDiagnosticRun(resolve(".eval-artifacts", "h001-native
   mode: "FIXED_SOURCE_REAL_MODEL", caseId: "h001", sourceScenario: scenario,
   dataset: { path: RESTAURANT_READ_DEVELOPMENT_CASE_PATH, sha256: createHash("sha256").update(readFileSync(sourcePath)).digest("hex"), contaminationStatus: "PROMPT_AND_RESULT_EXPOSED", baselineEligible: false },
   sourceEnvironment: { network: "OFFLINE_FIXED_TRANSPORT", browser: dynamicSource ? "LOCAL_CHROMIUM_DYNAMIC_FIXED_PAGE" : "OFFLINE_FIXED_PAGES" },
-  runCeilings: { maxModelCalls, maxSteps, timeoutMs, ...nativeReadLimits },
+  requestedRunCeilings: nativeReadLimits,
   safety: { policy: "READ_ONLY_CODE_PATH", externalSideEffectCount: 0 },
   preflight: { artifactPath: preflight.artifactPath, elapsedMs: preflight.elapsedMs },
 });
@@ -163,21 +159,16 @@ try {
   // Source usage is evidence of both a navigation attempt and a page that was
   // actually observed. A fixture URL alone cannot satisfy a source scenario.
   const browser: BrowserRuntime = traceBrowserRuntime(rawBrowser, "TABELOG", recordBrowserTrace);
-  const google = new GooglePlacesRestaurantSearch(new GooglePlacesClient({ apiKey: "fixed-transport-only", fetchImplementation: async (_url, init) => {
+  const googleClient = new GooglePlacesClient({ apiKey: "fixed-transport-only", fetchImplementation: async (_url, init) => {
     const query = JSON.parse(String(init?.body)) as { textQuery: string };
     googleQueries.push(query.textQuery);
     return new Response(JSON.stringify({ places: [{ id: "shibuya-landmark", displayName: { text: "Shibuya" }, formattedAddress: "Shibuya, Tokyo", location: center,
       types: ["train_station"], addressComponents: [{ longText: "Tokyo", types: ["locality"] }] }] }), { status: 200 });
-  } }), () => clock.now().toISOString(), 10, { maxRequests: 100 });
+  } });
   const onBrowserDiagnostic = (diagnostic: BrowserExecutionDiagnostic) => browserDiagnostics.push(structuredClone(diagnostic));
-  const native = composeNativeRestaurantRead(google, browser, model, undefined, onBrowserDiagnostic, undefined, () => clock.now().toISOString(), { maxModelCallsPerCandidate: nativeReadLimits.maxBrowserModelCallsPerCandidate, maxModelCallsTotal: maxModelCalls, maxOperationsPerCandidate: nativeReadLimits.maxBrowserOperations });
-  const availability = new LiveBrowserAvailability(browser, model, {
-    now: () => clock.now().toISOString(), maxModelCallsPerCandidate: nativeReadLimits.maxBrowserModelCallsPerCandidate, maxModelCallsTotal: maxModelCalls,
-    maxOperationsPerCandidate: nativeReadLimits.maxBrowserOperations, maxElapsedMsPerCandidate: nativeReadLimits.maxCandidateBrowserMs, maxElapsedMsPerProvider: nativeReadLimits.maxProviderBrowserMs, maxAutomaticElapsedMs: nativeReadLimits.maxCandidateBrowserMs,
-    onBrowserDiagnostic,
-  });
-  const composition = createHybridReadComposition({ taskId, runId: `run:${taskId}`, clock, model, search: native.search, facts: native.facts, availability,
-    router: { structuredReadTimeoutMs: 30_000, browserReadTimeoutMs: Math.min(timeoutMs, nativeReadLimits.maxCandidateBrowserMs) }, loop: { maxSteps, timeoutMs } });
+  const native = createLiveReadAssembly(nativeReadLimits, { google: googleClient, browser, model, clock, onBrowserDiagnostic, remainingModelCalls: () => Math.max(0, maxModelCalls - modelCalls) });
+  const google = native.google;
+  const composition = createHybridReadComposition({ taskId, runId: `run:${taskId}`, clock, model, ...native });
   const semantic = await composition.interpretAndDispatch({ taskId, message: String(frozen.content), referenceTime: frozen.reference_time, timezone: "Asia/Tokyo" });
   const loop = semantic.status === "PROPOSED" ? await composition.coordinator.run(taskId, deadline) : undefined;
   const snapshot = composition.runtime.snapshot(taskId);
@@ -187,7 +178,7 @@ try {
   const result = { schemaVersion: "1", mode: "FIXED_SOURCE_REAL_MODEL", status, stage: "AGENT_LOOP", caseId: "h001", runId: snapshot.runId,
     materializedCase: frozen, semantic, finalSnapshot: snapshot, trajectories: composition.trajectories.steps, events: composition.runtime.eventLog, loop,
     modelInvocations: invocations, sourceEnvironment: { network: "OFFLINE_FIXED_TRANSPORT", browser: dynamicSource ? "LOCAL_CHROMIUM_DYNAMIC_FIXED_PAGE" : "OFFLINE_FIXED_PAGES", scenario },
-    sourceTrace: { navigations, googleQueries, browserDiagnostics, browserTrace }, runCeilings: { maxAutomaticBrowserMs: timeoutMs, maxAgentSteps: maxSteps, maxBrowserModelCallsTotal: maxModelCalls, maxModelCalls, ...nativeReadLimits },
+    sourceTrace: { navigations, googleQueries, browserDiagnostics, browserTrace }, runCeilings: native.runCeilings,
     resourceUsage: { elapsedMs: Date.now() - startedAt, modelCallsStarted: modelCalls, browserModelCalls: invocations.filter((item) => item.purpose === "browser_read_decide").length,
       agentDecisions: invocations.filter((item) => item.purpose === "restaurant_agent_decide").length, googleRequests: { total: googleQueries.length, namedPlaceResolution: googleQueries.length, discovery: 0, placeDetails: 0, reverseAddressObservation: 0 } },
     safety: { policy: "READ_ONLY_CODE_PATH", externalSideEffectCount: 0 },

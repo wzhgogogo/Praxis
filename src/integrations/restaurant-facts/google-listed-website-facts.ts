@@ -334,11 +334,6 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
         ...(this.modelDecision ? { modelDecision: this.modelDecision } : {}),
         ...(this.browserBudget ? { budget: this.browserBudget } : {}),
         ...(this.onBrowserDiagnostic ? { onDiagnostic: this.onBrowserDiagnostic } : {}),
-        // A website is one provider path inside the existing 45-second
-        // candidate investigation, never a reason to extend the run ceiling.
-        maxElapsedMsPerCandidate: 45_000,
-        maxElapsedMsPerProvider: 30_000,
-        maxAutomaticElapsedMs: 45_000,
         // Public terms and courses may live on separate observed pages. The
         // shared run budget still applies; this does not permit form submission.
 
