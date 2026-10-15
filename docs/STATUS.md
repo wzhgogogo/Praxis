@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.213
+- Document revision: 4.214
 - Last updated: 2026-10-15
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-15 h001追加见证GET：** 用户授权对10/16 19:00、2人的四家指定店各发一次公开四参数GET，4/4 HTTP200，原始响应与时间戳／SHA已存`p2-0-hardening-20261015/prep/live/h001/witness-after/`。仅作为较晚来源观察，不改变此前Live／evaluator结论；0新增模型／Google／正式Live，P2-0仍待独立复核。
 
 - **2026-10-15 文档与复核同步：** 合并远端b36ec7f及前序提交，保留P2-0原提交与冻结SHA。Eval Skill 2.0、Test Skill 1.3和第一阶段签收文档包已纳入；T1说明与校准标签表为待执行／draft材料，本次仅同步，不运行。P2-0两次Live结果和未评估边界保持下述记录，仍待独立复核。
 

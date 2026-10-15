@@ -133,3 +133,7 @@ Evaluator@28：Qualified NO；AUTHORITATIVE_CONDITIONS、INVESTIGATION_BEHAVIOR�
 - 累计 **1086/1500模型、39正式Live、Google已确认27／历史总量UNKNOWN**。余额与端点预检不计模型/正式Live，已另留原响应。
 - 四项代码提交976baaa、60e78b9、f759c34、35b6bf0；冻结生产35b6bf0、四门禁879/879、Guard真实Chromium14/14复用。既有完整浏览器套件2项失败限制保留。
 - 本轮仅修改授权评测输入、外层与证据文档，没有生产/Prompt/Schema/配置/资格/Gold修改。纯文档与离线输入/SHA验证完成，不为本次Live记录重复跑四门禁。无自动化创建、无未来续跑；本地提交不推送，停止等待独立复核，不自行签收。
+
+## h001追加见证GET（用户本轮授权，2026-10-15）
+
+针对2026-10-16 19:00（Asia/Tokyo）、2人，Shibuya Sushi Sen/13275802、Shibuya Sushi Matsumoto/13261619、Sushi Tokyo Ten/13225919、Sushi Teppen/13308491各一次四参数公开GET。UTC2026-10-15T13:05:57.668Z—2026-10-15T13:06:01.862Z，4/4 HTTP200。原始响应、参数、时间戳和SHA见 [witness-after](prep/live/h001/witness-after/README.md)，离线JSON／SHA／四参数校验PASS。仅较晚来源观察，不证明此前Live时库存、不覆盖原评价、不归因。新增4公开GET、0模型／Google／正式Live，累计用量不变；本地提交，不推送。

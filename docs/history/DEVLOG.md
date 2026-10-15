@@ -3524,3 +3524,7 @@ State@15/TaskDefinition@14，noVerifiedResult.termination记录type/reasonCode/i
 ## DEV-2026-10-15-docs-merge-before-push
 
 合并远端b36ec7f及其文档前序提交与本地P2-0六个提交，保留双方原提交和冻结SHA；冲突仅涉及STATUS、历史日志和月度索引，历史记录两侧原文均保留。复核材料、校准标签草稿和T1说明原样纳入，不执行新工作包；P2-0仍待独立复核。用户未提交的INDEX／Booking草稿和三个演示文件不纳入本次提交。
+
+## DEV-2026-10-15-P20-h001-witness-after
+
+按用户本轮授权，对h001的2026-10-16 19:00／2人向指定四店各发一次四参数Tabelog公开GET，4/4 HTTP200；原始字节、UTC时间、参数和SHA保存在`.eval-artifacts/p2-0-hardening-20261015/prep/live/h001/witness-after/`。复用既有captureVacancy，不改产品、Prompt、Schema、配置、Gold、变体、见证或冻结树；无模型／Google／正式整单Live增量，无重试或表单操作。不将较晚库存回写成此前Live事实，不重评或自行签收；本地提交，不推送。

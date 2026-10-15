@@ -4224,3 +4224,7 @@ Production browser action prompt@15 / schema@10 supplies the recent six executor
 ## TEST-2026-10-15-docs-merge-before-push
 
 Docs only：合并远端b36ec7f及其文档前序提交与本地P2-0六个提交，保留双方原提交和冻结SHA；冲突仅涉及STATUS、历史日志和月度索引，历史记录两侧原文均保留。复核材料、校准标签草稿和T1说明原样纳入，不执行新工作包；P2-0仍待独立复核。用户未提交的INDEX／Booking草稿和三个演示文件不纳入本次提交。按纯文档矩阵检查冲突标记、diff、链接、日志及索引计数和权威一致性；合并未改动src、tests、package或运行配置，复用P2-0既有四门禁879/879，不新增模型、Google或Live调用。
+
+## TEST-2026-10-15-P20-h001-witness-after
+
+按用户本轮授权，对h001的2026-10-16 19:00／2人向指定四店各发一次四参数Tabelog公开GET，4/4 HTTP200；原始字节、UTC时间、参数和SHA保存在`.eval-artifacts/p2-0-hardening-20261015/prep/live/h001/witness-after/`。复用既有captureVacancy，不改产品、Prompt、Schema、配置、Gold、变体、见证或冻结树；无模型／Google／正式整单Live增量，无重试或表单操作。不将较晚库存回写成此前Live事实，不重评或自行签收；本地提交，不推送。离线核验：四个指定rst_id与精确日期／人数／时段、GET唯一四参数、4/4 JSON合法、元数据与原始响应SHA一致、时间顺序、diff及月度索引PASS。仅Live Read-only来源观察＋纯文档核验，无代码改动，不重跑代码门禁。
