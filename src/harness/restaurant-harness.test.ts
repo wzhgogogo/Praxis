@@ -460,11 +460,12 @@ describe("restaurant booking mock harness", () => {
   test("Timeout, step limit, and rejection limit terminate with durable state and trajectory", async () => {
     const timeoutHarness = createHarness({ agentLoopOptions: { timeoutMs: 0 } });
     const timeoutSnapshot = await timeoutHarness.start(fixtureIntent);
-    assert.equal(timeoutHarness.lastAgentLoopResult?.status, "TIMEOUT");
-    assert.equal(timeoutSnapshot.domainState.phase, "FAILED");
+    assert.equal(timeoutHarness.lastAgentLoopResult?.status, "TERMINAL");
+    assert.equal(timeoutSnapshot.domainState.phase, "NO_VERIFIED_RESULT");
     assert.equal(timeoutSnapshot.domainState.pendingUserQuestion, undefined);
-    assert.equal(timeoutSnapshot.domainState.failure?.code, "AGENT_LOOP_TIMEOUT");
-    assert.equal(timeoutHarness.trajectories.steps.at(-1)?.stepOutcome, "TIMEOUT");
+    assert.equal(timeoutSnapshot.domainState.failure, undefined);
+    assert.ok(timeoutSnapshot.domainState.noVerifiedResult?.remainingGaps.some(gap => gap.includes("AGENT_LOOP_TIMEOUT")));
+    assert.equal(timeoutHarness.trajectories.steps.at(-1)?.stepOutcome, "TERMINAL");
 
     const stepHarness = createHarness({
       agentLoopOptions: { maxSteps: 1 },

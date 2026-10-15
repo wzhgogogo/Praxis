@@ -1,0 +1,26 @@
+{"fixture":"P1-F-B-h001","phaseBefore":"SEARCHING","failureBefore":null,"events":["AGENT_LOOP_TERMINATED"],"phaseAfter":"NO_VERIFIED_RESULT"}
+{"fixture":"P1-G-h001","phaseBefore":"SEARCHING","failureBefore":null,"events":["AGENT_LOOP_TERMINATED"],"phaseAfter":"NO_VERIFIED_RESULT"}
+✔ P1-G2 actual P1-F-B-h001 stop returns a user-facing outcome (5.894959ms)
+✔ P1-G2 actual P1-G-h001 stop returns a user-facing outcome (2.790084ms)
+✔ P1-G2 REJECTION_LIMIT retains BROWSER_RUNTIME_FAILED as a scoped reason (3.117375ms)
+✔ P1-G2 NO_PROGRESS retains GOOGLE_LOCATION_UNRESOLVED as a scoped reason (2.707208ms)
+✔ P1-G2 STEP_LIMIT retains AVAILABILITY_FAILED as a scoped reason (3.018292ms)
+✔ P1-G2 actual PROVIDER_REJECTED stays FAILED (3.572042ms)
+✔ P1-G2 actual UNCAUGHT_EXCEPTION stays FAILED (5.183041ms)
+✔ P1-G2 AUTHORIZATION_INVALID cannot become a business completion (1.467ms)
+✔ P1-G2 SIDE_EFFECT_UNCERTAIN cannot become a business completion (1.409667ms)
+{"decisionCalls":0,"phase":"NO_VERIFIED_RESULT","events":["AGENT_LOOP_TERMINATED"]}
+✔ P2-0 actual h001 step-six exhausted state stops before another model proposal (0.566459ms)
+✔ P2-0 bounded timeout returns a truthful user result (2.565125ms)
+✔ P2-0 SEARCH_RESTAURANTS rejects a known exhausted budget before source work (0.377667ms)
+✔ P2-0 INVESTIGATE_CANDIDATE_FACTS rejects a known exhausted budget before source work (0.332583ms)
+✔ P2-0 CHECK_AVAILABILITY rejects a known exhausted budget before source work (0.326416ms)
+✔ P2-0 failed executions do not reset consecutive no-progress accounting (1.971875ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 199.939042

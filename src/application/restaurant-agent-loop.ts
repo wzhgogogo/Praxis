@@ -1,3 +1,4 @@
+import { restaurantReadBudgetExhausted } from "../domains/restaurant/action-validator.js";
 import { createHash, randomUUID } from "node:crypto";
 
 import type {
@@ -213,13 +214,16 @@ export class RestaurantAgentLoopCoordinator {
       if (terminal(snapshot.domainState)) return { status: "TERMINAL", steps: step };
       if (waitingForUser(snapshot.domainState)) return { status: "WAITING_USER", steps: step };
       snapshot = await openDeliveryWindow(snapshot);
-      if (noExecutableDiscoveryPath(snapshot.domainState, this.clock.now().toISOString())) {
+      const readBudget = { ...this.router.readBudgetStatus(), remainingModelCalls: this.remainingModelCalls?.(taskId) };
+      if (restaurantReadBudgetExhausted(snapshot.domainState, readBudget) || noExecutableDiscoveryPath(snapshot.domainState, this.clock.now().toISOString())) {
         stepNumber += 1;
         const completed = await this.terminate(
           snapshot,
           this.base(taskId, stepNumber, snapshot),
           "NO_PROGRESS",
-          snapshot.domainState.failure?.code === "GOOGLE_LOCATION_UNRESOLVED"
+          restaurantReadBudgetExhausted(snapshot.domainState, readBudget)
+            ? `${snapshot.domainState.failure?.code ?? (readBudget.browserModelBudgetExhausted ? "BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED" : "MODEL_CALL_BUDGET_EXHAUSTED")}: no executable model-backed read path remains`
+            : snapshot.domainState.failure?.code === "GOOGLE_LOCATION_UNRESOLVED"
             ? "The named location could not be resolved to coordinates by the available source; no result may claim nearby compliance"
             : snapshot.domainState.failure?.code === "GOOGLE_NETWORK_FAILED"
             ? "Google discovery failed at the network boundary before any candidate was observed; repeating the unchanged search cannot establish nearby results"
@@ -229,8 +233,8 @@ export class RestaurantAgentLoopCoordinator {
       }
       if (this.timedOut(deadlineAt)) {
         stepNumber += 1;
-        await this.terminate(snapshot, this.base(taskId, stepNumber, snapshot), "TIMEOUT", `Agent loop exceeded ${this.timeoutMs}ms`);
-        return { status: "TIMEOUT", steps: step };
+        const completed = await this.terminate(snapshot, this.base(taskId, stepNumber, snapshot), "TIMEOUT", `Agent loop exceeded ${this.timeoutMs}ms`);
+        return { status: completed ? "TERMINAL" : "TIMEOUT", steps: step };
       }
 
       const context = projectRestaurantAgentContext(snapshot.domainState, this.clock.now().toISOString());
@@ -248,7 +252,7 @@ export class RestaurantAgentLoopCoordinator {
       if (signal?.aborted) return this.abort(snapshot, taskId, step + 1, base, signal);
 
       if (this.timedOut(deadlineAt)) {
-        await this.terminate(
+        const completed = await this.terminate(
           snapshot,
           base,
           "TIMEOUT",
@@ -263,7 +267,7 @@ export class RestaurantAgentLoopCoordinator {
               ? { modelAttempt: decision.modelAttempt }
               : {},
         );
-        return { status: "TIMEOUT", steps: step + 1 };
+        return { status: completed ? "TERMINAL" : "TIMEOUT", steps: step + 1 };
       }
       snapshot = await openDeliveryWindow(snapshot);
       base = this.base(taskId, stepNumber, snapshot, context);
@@ -289,7 +293,7 @@ export class RestaurantAgentLoopCoordinator {
         return { status: "MODEL_FAILURE", steps: step + 1 };
       }
 
-      const verdict = validateRestaurantAction(snapshot.domainState, decision.action, this.clock.now().toISOString());
+      const verdict = validateRestaurantAction(snapshot.domainState, decision.action, this.clock.now().toISOString(), { ...this.router.readBudgetStatus(), remainingModelCalls: this.remainingModelCalls?.(taskId) });
       if (verdict.status === "REJECTED") {
         rejectedActions += 1;
         lastRejection = { code: verdict.code, reason: verdict.reason };
@@ -437,9 +441,18 @@ export class RestaurantAgentLoopCoordinator {
         );
         return { status: "EXECUTION_FAILURE", steps: step + 1 };
       }
-      lastRejection = undefined;
-      lastRejectedAction = undefined;
-      rejectedActions = 0;
+      if (execution.failure) {
+        rejectedActions += 1;
+        if (rejectedActions >= this.maxRejectedActions) {
+          stepNumber += 1;
+          const completed = await this.terminate(after.snapshot, this.base(taskId, stepNumber, after.snapshot), "NO_PROGRESS", `No new successful observation in ${rejectedActions} steps; last failure: ${execution.failure.code}`);
+          return { status: completed ? "TERMINAL" : "NO_PROGRESS", steps: step + 1 };
+        }
+      } else {
+        lastRejection = undefined;
+        lastRejectedAction = undefined;
+        rejectedActions = 0;
+      }
     }
 
     const snapshot = await this.runtime.snapshot(taskId);
@@ -480,8 +493,8 @@ export class RestaurantAgentLoopCoordinator {
     signal: AbortSignal,
   ): Promise<RestaurantAgentLoopResult> {
     if (isRunDeadline(signal)) {
-      await this.terminate(snapshot, base, "TIMEOUT", cancellationReason(signal));
-      return { status: "TIMEOUT", steps };
+      const completed = await this.terminate(snapshot, base, "TIMEOUT", cancellationReason(signal));
+      return { status: completed ? "TERMINAL" : "TIMEOUT", steps };
     }
     await this.terminate(snapshot, base, "CANCELLED", cancellationReason(signal));
     return { status: "CANCELLED", steps };

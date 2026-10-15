@@ -40,3 +40,11 @@ Evidence status: exposed development evidence，不是Clean Baseline。基线921
 - `limits/red.log`：同Live的`createHybridReadComposition`、Native读组合、查位组合和生产Guard/来源网络策略，固定网页上实际13步查位后再调用原生找店，未手填计数。旧码第一次请求前报BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED。为隔离本项接线，查位端口返回前触发后续找店探针；这不证明Agent会自主选择该顺序。
 - `limits/green.log` 同用例通过；构造缺限额有类型反例和运行时反例。四门禁 `limits/{typecheck,arch-check,npm-test,build}-green.log`，864/864。最初沙箱默认测试被Chromium/HTTP权限拒绝，宿主机重跑完成，原日志保留；不计产品红灯。
 - 证明范围：L1固定来源/脚本模型，真实调用与共享计数；CDP逐跳边界沿用第1项真实Chromium证明。0真实模型、Google业务、Live。本项提交号见最终索引。
+
+## 3 不可执行读取／无进展／TIMEOUT
+
+- 第2项提交 `60e78b9`。`termination/extract-state.mjs` 读取原冻结树P1-G2 h001，按事件前缀重建第6步之后/第7步之前的version7状态，与原轨迹stateHashBefore精确相等；`state-proof.json` 保留原产物SHA/路径，结构和码保留在 `src/application/fixtures/p2-0-h001-exhausted-state.json`，页面原文不保留。
+- `termination/red.log`：原码12次新Agent提议；TIMEOUT为FAILED。`green.log`：真实状态0次新提议直接NO_VERIFIED_RESULT；终止/系统反例15/15。额外3个动作分别验证已知浏览器／整单额度在校验拒绝；连续执行失败3步停止，旧Guard生产组合回归保持通过。
+- `readBudgetStatus` 从实际共享查位预算提供，循环在模型提议前预判；先前记录的预算失败也阻断新读取。执行失败不再重置无进展计数；TIMEOUT任务和循环结果都成为面向用户的完成。服务商拒绝、异常、授权失败、取消未改成普通业务成功。资格规则不变。
+- 四门禁 `termination/{typecheck,arch-check,npm-test,build}-green.log`：870/870。Web整单时限与Harness旧TIMEOUT断言改为新明确合同，最初旧断言红灯保留于npm-test-initial.log。
+- 证明范围：真实状态离线复现＋L1/持久化Web离线；不是当前网站Live。0真实模型/Google业务/Live。本项提交号见最终索引。

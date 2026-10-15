@@ -3496,3 +3496,8 @@ P1-G2 uses actual P1-F/G h001 event prefixes and verifies trajectory hashes befo
 ## DEV-2026-10-15-P20-limits
 
 BrowserTaskExecutor模型／操作三限额必填且构造校验；Live Runner／Web／固定来源／探测／回放及Adapter调用方显式接线，原生找店20/120/80、事实4/120/24、查位20/120/80（独立探测按其入口显式配置）；每条执行器诊断记录实际生效上限，整单50模型不变。生产组合＋同一Guard/网络策略、真实脚本查位调用累计>12后再次找店，旧码BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED有效红灯，修复绿；不是手填预算，固定传输不证明实时网站。四门禁通过864/864，证据limits/red.log、green.log及四门禁日志；0付费模型/Google业务/Live。后两项与Live继续，不推送。
+
+
+## DEV-2026-10-15-P20-termination
+
+真实P1-G2 h001第6步后状态按事件前缀精确重建并核对轨迹hash，再脱敏为结构/码Fixture；旧码12次新搜索提议、TIMEOUT为FAILED红灯，修复后0次新增提议即NO_VERIFIED_RESULT。实际共享浏览器额度/整单额度耗尽在系统预判及动作校验拒绝；连续3次执行失败不再清零无进展计数。整单TIMEOUT按业务终止并返回TERMINAL，Web/Harness断言同步；服务商拒绝、异常、授权及副作用不确定仍FAILED，取消原样。15项终止回归及生产Guard L1旧组合保持绿，四门禁870/870。证据termination/，0真实模型/Google业务/Live；结构化原因与evaluator28继续，不推送。

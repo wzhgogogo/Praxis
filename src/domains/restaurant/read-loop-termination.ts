@@ -12,7 +12,7 @@ const systemFailureCodes = new Set([
 ]);
 
 export function restaurantReadStopIsSystem(termination: RestaurantAgentLoopTermination, failureCode?: string): boolean {
-  return termination === "CANCELLED" || termination === "TIMEOUT" || termination === "EXECUTION_FAILURE"
+  return termination === "CANCELLED" || termination === "EXECUTION_FAILURE"
     || systemFailureCodes.has(failureCode ?? "");
 }
 

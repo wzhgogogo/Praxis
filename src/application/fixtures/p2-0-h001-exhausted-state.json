@@ -1,0 +1,478 @@
+{
+  "name": "P1-G2-h001-after-step-6",
+  "now": "2026-10-15T08:03:06.919Z",
+  "reason": "Shared browser model budget exhausted",
+  "source": {
+    "path": "/Users/wangzhour/.codex/worktrees/p1-g2-live/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-15T08-00-36-360Z-d808d9f3-cedd-4c2e-aa43-bc70362ef61d.result.json",
+    "sha256": "3a26c4fc439bc46b0d0d49aad5ffb04adc43d1d228d682c0d0e6a6e664489cde",
+    "rawSha256": "70182d7548231fc6723823429dfcbabfe6b8d0af91f117d2b587b1cc4feec6fb",
+    "stateVersionBefore": 7,
+    "trajectoryStateHash": "efbedb4d8095be9d1ea3370b3c9c5e16ebe31bb400242aedd2ede392a019daca",
+    "reconstruction": "Exact event-prefix replay; hash verified"
+  },
+  "state": {
+    "schemaVersion": "14",
+    "phase": "SEARCHING",
+    "searchRevision": 3,
+    "investigationRevision": 1,
+    "intentDraft": {
+      "schemaVersion": "3",
+      "timezone": "Asia/Tokyo",
+      "criteria": [
+        {
+          "text": "redacted-1",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "target": {
+        "goal": "AVAILABILITY",
+        "query": "redacted-2",
+        "selectionScope": "OPEN_ENDED"
+      },
+      "date": "2026-10-15",
+      "timeWindow": {
+        "earliest": "19:00",
+        "latest": "19:00"
+      },
+      "temporalResolution": {
+        "policyVersion": "redacted-3",
+        "referenceTime": "2026-10-15T08:00:36.315Z",
+        "timezone": "Asia/Tokyo",
+        "date": {
+          "expression": "redacted-4",
+          "resolvedDate": "2026-10-15",
+          "basis": "TODAY"
+        },
+        "timeWindow": {
+          "expression": "redacted-5",
+          "resolvedTimeWindow": {
+            "earliest": "19:00",
+            "latest": "19:00"
+          },
+          "basis": "EXPLICIT_CLOCK"
+        }
+      },
+      "partySize": 2,
+      "partySizeSource": "EXPLICIT",
+      "area": {
+        "query": "redacted-6"
+      }
+    },
+    "candidates": [
+      {
+        "restaurant": {
+          "id": "redacted-7",
+          "outletName": "redacted-8",
+          "address": "redacted-9",
+          "coordinates": {
+            "lat": 0,
+            "lng": 0
+          },
+          "sourceIds": {
+            "tabelog": "redacted-10",
+            "tabelogNativeDetailUri": "redacted-11",
+            "discoverySourceId": "tabelog",
+            "discoveryDetailUri": "redacted-11"
+          },
+          "provenance": {
+            "outletName": "redacted-12",
+            "address": "redacted-12",
+            "sourceIds": "redacted-12"
+          }
+        },
+        "matchReasons": [
+          "redacted-13"
+        ],
+        "warnings": [],
+        "executionConfidence": "MEDIUM"
+      }
+    ],
+    "availability": {
+      "redacted-7": []
+    },
+    "availabilityChecks": {
+      "redacted-7": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-10-15T08:01:25.596Z",
+        "evidenceIds": [
+          "redacted-14",
+          "redacted-15"
+        ],
+        "reasonCode": "DATE_NOT_SELECTABLE",
+        "sourceAttempts": [
+          {
+            "source": "TABELOG",
+            "outcome": "FAILED",
+            "reasonCode": "DATE_NOT_SELECTABLE"
+          }
+        ],
+        "sourceProvider": "TABELOG",
+        "requestFingerprint": "{\"date\":\"2026-10-15\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":2}"
+      }
+    },
+    "factChecks": {
+      "redacted-7": {
+        "status": "COMPLETED",
+        "checkedAt": "2026-10-15T08:01:27.816Z",
+        "evidenceIds": [
+          "redacted-17",
+          "redacted-18",
+          "redacted-19"
+        ],
+        "sourceProvider": "TABELOG",
+        "supersededEvidenceIds": [
+          "redacted-15"
+        ]
+      }
+    },
+    "readEvidence": [
+      {
+        "evidenceId": "redacted-20",
+        "kind": "DISCOVERY",
+        "provider": "GOOGLE_PLACES",
+        "sourceEntityId": "redacted-21",
+        "observedAt": "2026-10-15T08:00:42.760Z",
+        "requestFingerprint": "redacted-22",
+        "claims": {
+          "locationResolutionQuery": "redacted-23",
+          "resolvedPlaceName": "redacted-23",
+          "resolvedPlaceId": "redacted-21",
+          "latitude": 0,
+          "longitude": 0,
+          "radiusMeters": 1000,
+          "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+        }
+      },
+      {
+        "evidenceId": "redacted-12",
+        "kind": "DISCOVERY",
+        "provider": "TABELOG",
+        "candidateId": "redacted-7",
+        "sourceEntityId": "redacted-10",
+        "sourceUrl": "redacted-11",
+        "observedAt": "2026-10-15T08:01:09.050Z",
+        "requestFingerprint": "redacted-24",
+        "claims": {
+          "sourceCategories": [
+            "redacted-25"
+          ],
+          "outletName": "redacted-8",
+          "address": "redacted-9",
+          "areaQuery": "redacted-6",
+          "areaMatch": true,
+          "areaMatchBasis": "NAMED_PLACE_RADIUS",
+          "evaluationLocationLabel": "redacted-23",
+          "distanceMeters": 749
+        }
+      },
+      {
+        "evidenceId": "redacted-14",
+        "kind": "ENTITY_MATCH",
+        "provider": "TABELOG",
+        "candidateId": "redacted-7",
+        "sourceEntityId": "redacted-10",
+        "sourceUrl": "redacted-11",
+        "observedAt": "2026-10-15T08:01:25.596Z",
+        "requestFingerprint": "redacted-26",
+        "claims": {
+          "outletName": "redacted-8"
+        },
+        "entityMatch": {
+          "confidence": "HIGH",
+          "matchedBy": [
+            "NATIVE_SOURCE_ID_AND_DETAIL"
+          ]
+        }
+      },
+      {
+        "evidenceId": "redacted-15",
+        "kind": "RESTAURANT_FACT",
+        "provider": "TABELOG",
+        "candidateId": "redacted-7",
+        "sourceEntityId": "redacted-10",
+        "sourceUrl": "redacted-11",
+        "observedAt": "2026-10-15T08:01:25.596Z",
+        "requestFingerprint": "redacted-27",
+        "claims": {
+          "verifiedHardCriteria": [],
+          "listedCourseDetails": [
+            "redacted-28",
+            "redacted-29",
+            "redacted-30"
+          ]
+        },
+        "entityMatch": {
+          "confidence": "HIGH",
+          "matchedBy": [
+            "NATIVE_SOURCE_ID_AND_DETAIL"
+          ]
+        }
+      },
+      {
+        "evidenceId": "redacted-17",
+        "kind": "ENTITY_MATCH",
+        "provider": "TABELOG",
+        "candidateId": "redacted-7",
+        "sourceEntityId": "redacted-10",
+        "sourceUrl": "redacted-11",
+        "observedAt": "2026-10-15T08:01:27.816Z",
+        "requestFingerprint": "redacted-31",
+        "claims": {
+          "observationKind": "PUBLIC_PAGE",
+          "outletName": "redacted-8",
+          "address": "redacted-9"
+        },
+        "entityMatch": {
+          "confidence": "HIGH",
+          "matchedBy": [
+            "NATIVE_SOURCE_ID_AND_DETAIL"
+          ]
+        }
+      },
+      {
+        "evidenceId": "redacted-18",
+        "kind": "RESTAURANT_FACT",
+        "provider": "TABELOG",
+        "candidateId": "redacted-7",
+        "sourceEntityId": "redacted-10",
+        "sourceUrl": "redacted-11",
+        "observedAt": "2026-10-15T08:01:27.816Z",
+        "requestFingerprint": "redacted-32",
+        "claims": {
+          "restaurantTypeFacts": [
+            "redacted-33",
+            "redacted-34"
+          ],
+          "sourceStatementIds": [
+            "redacted-35",
+            "redacted-36"
+          ]
+        },
+        "entityMatch": {
+          "confidence": "HIGH",
+          "matchedBy": [
+            "NATIVE_SOURCE_ID_AND_DETAIL"
+          ]
+        },
+        "artifactRef": {
+          "kind": "DOM_EXCERPT",
+          "reference": "redacted-18"
+        }
+      },
+      {
+        "evidenceId": "redacted-19",
+        "kind": "RESTAURANT_FACT",
+        "provider": "MODEL_JUDGMENT",
+        "candidateId": "redacted-7",
+        "observedAt": "2026-10-15T08:01:33.465Z",
+        "requestFingerprint": "redacted-37",
+        "claims": {
+          "verifiedHardCriteria": [
+            "redacted-1"
+          ],
+          "supportingEvidenceIds": [
+            "redacted-18"
+          ]
+        }
+      }
+    ],
+    "intent": {
+      "timezone": "Asia/Tokyo",
+      "target": {
+        "goal": "AVAILABILITY",
+        "query": "redacted-2",
+        "selectionScope": "OPEN_ENDED"
+      },
+      "date": "2026-10-15",
+      "timeWindow": {
+        "earliest": "19:00",
+        "latest": "19:00"
+      },
+      "partySize": 2,
+      "area": {
+        "query": "redacted-6"
+      },
+      "criteria": [
+        {
+          "text": "redacted-1",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ]
+    },
+    "searchContinuation": {
+      "intentFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"redacted-2\",\"selectionScope\":\"OPEN_ENDED\"},\"date\":\"2026-10-15\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":2,\"area\":{\"query\":\"redacted-6\"},\"criteria\":[{\"text\":\"redacted-1\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}]}",
+      "discoveryPlan": {
+        "entries": [
+          {
+            "sourceId": "tabelog",
+            "query": {
+              "category": "redacted-1",
+              "keyword": "redacted-1",
+              "location": {
+                "latitude": 0,
+                "longitude": 0,
+                "radiusMeters": 1000,
+                "label": "redacted-23",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "addressComponents": [
+                  {
+                    "longText": "redacted-23",
+                    "shortText": "redacted-23",
+                    "types": [
+                      "redacted-39",
+                      "redacted-40"
+                    ]
+                  },
+                  {
+                    "longText": "redacted-41",
+                    "shortText": "redacted-41",
+                    "types": [
+                      "redacted-42",
+                      "redacted-40"
+                    ]
+                  },
+                  {
+                    "longText": "redacted-43",
+                    "shortText": "redacted-44",
+                    "types": [
+                      "redacted-45",
+                      "redacted-40"
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "sourceId": "tablecheck",
+            "query": {
+              "category": "redacted-1",
+              "keyword": "redacted-1",
+              "location": {
+                "latitude": 0,
+                "longitude": 0,
+                "radiusMeters": 1000,
+                "label": "redacted-23",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "addressComponents": [
+                  {
+                    "longText": "redacted-23",
+                    "shortText": "redacted-23",
+                    "types": [
+                      "redacted-39",
+                      "redacted-40"
+                    ]
+                  },
+                  {
+                    "longText": "redacted-41",
+                    "shortText": "redacted-41",
+                    "types": [
+                      "redacted-42",
+                      "redacted-40"
+                    ]
+                  },
+                  {
+                    "longText": "redacted-43",
+                    "shortText": "redacted-44",
+                    "types": [
+                      "redacted-45",
+                      "redacted-40"
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "sourceId": "google-places",
+            "query": {
+              "category": "redacted-1",
+              "keyword": "redacted-1",
+              "location": {
+                "latitude": 0,
+                "longitude": 0,
+                "radiusMeters": 1000,
+                "label": "redacted-23",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "addressComponents": [
+                  {
+                    "longText": "redacted-23",
+                    "shortText": "redacted-23",
+                    "types": [
+                      "redacted-39",
+                      "redacted-40"
+                    ]
+                  },
+                  {
+                    "longText": "redacted-41",
+                    "shortText": "redacted-41",
+                    "types": [
+                      "redacted-42",
+                      "redacted-40"
+                    ]
+                  },
+                  {
+                    "longText": "redacted-43",
+                    "shortText": "redacted-44",
+                    "types": [
+                      "redacted-45",
+                      "redacted-40"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "cursor": 1
+      },
+      "currentDiscoveryBatch": {
+        "sourceId": "tabelog",
+        "candidateIds": []
+      },
+      "usedPageTokens": [],
+      "pagesRead": 6,
+      "exhausted": false,
+      "locationContext": {
+        "latitude": 0,
+        "longitude": 0,
+        "radiusMeters": 1000,
+        "label": "redacted-23",
+        "areaMatchBasis": "NAMED_PLACE_RADIUS",
+        "addressComponents": [
+          {
+            "longText": "redacted-23",
+            "shortText": "redacted-23",
+            "types": [
+              "redacted-39",
+              "redacted-40"
+            ]
+          },
+          {
+            "longText": "redacted-41",
+            "shortText": "redacted-41",
+            "types": [
+              "redacted-42",
+              "redacted-40"
+            ]
+          },
+          {
+            "longText": "redacted-43",
+            "shortText": "redacted-44",
+            "types": [
+              "redacted-45",
+              "redacted-40"
+            ]
+          }
+        ]
+      }
+    },
+    "pendingResultBatchTarget": 3,
+    "failure": {
+      "code": "BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED",
+      "message": "redacted-46"
+    }
+  }
+}

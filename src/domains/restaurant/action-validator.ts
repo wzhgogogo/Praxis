@@ -26,7 +26,8 @@ export type RestaurantActionRejectionCode =
   | "AVAILABILITY_BATCH_LIMIT"
   | "PRESENTATION_EVIDENCE_MISSING"
   | "FACTS_ALREADY_CHECKED"
-  | "DISCOVERY_UNAVAILABLE";
+  | "DISCOVERY_UNAVAILABLE"
+  | "READ_BUDGET_EXHAUSTED";
 
 /** A browser/read batch is bounded separately from the discovery pool and UI. */
 export const MAX_AVAILABILITY_CHECK_BATCH = 3;
@@ -121,17 +122,27 @@ export function defaultBatchDeliveryWindowActive(state: Readonly<RestaurantTaskS
     && defaultBatchDeliveryCandidateIds(state, now).length > 0;
 }
 
+export interface RestaurantReadBudgetStatus { remainingModelCalls?: number | undefined; browserModelBudgetExhausted?: boolean }
+
+export function restaurantReadBudgetExhausted(state: Readonly<RestaurantTaskState>, budget: RestaurantReadBudgetStatus = {}): boolean {
+  return budget.remainingModelCalls !== undefined && budget.remainingModelCalls <= 0 || budget.browserModelBudgetExhausted === true
+    || state.failure?.code === "BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED" || state.failure?.code === "MODEL_CALL_BUDGET_EXHAUSTED";
+}
+
 /** Domain-owned invariant guard. It never chooses an action and never invokes a provider. */
 export function validateRestaurantAction(
   state: Readonly<RestaurantTaskState>,
   action: RestaurantAgentAction,
   now: string,
+  budget: RestaurantReadBudgetStatus = {},
 ): RestaurantActionValidation {
   if (state.phase === "OUTCOME_UNKNOWN") {
     return rejected("OUTCOME_UNKNOWN", "An unknown booking outcome must be verified before any new action");
   }
   if (isTerminal(state)) return rejected("TASK_TERMINAL", `Task is terminal in ${state.phase}`);
   if (action.type === "ASK_USER") return { status: "ALLOWED" };
+  if (["SEARCH_RESTAURANTS", "INVESTIGATE_CANDIDATE_FACTS", "CHECK_AVAILABILITY"].includes(action.type) && restaurantReadBudgetExhausted(state, budget))
+    return rejected("READ_BUDGET_EXHAUSTED", "The current read has no browser/global model budget remaining");
 
   if (action.type === "END_READ") {
     const assessment = assessRestaurantRead(state, now);

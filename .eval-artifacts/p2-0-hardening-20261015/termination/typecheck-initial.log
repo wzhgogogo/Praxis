@@ -1,0 +1,16 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/application/restaurant-agent-loop.ts(218,63): error TS2379: Argument of type '{ browserModelBudgetExhausted: boolean; remainingModelCalls: number | undefined; }' is not assignable to parameter of type 'RestaurantReadBudgetStatus' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'remainingModelCalls' are incompatible.
+    Type 'number | undefined' is not assignable to type 'number'.
+      Type 'undefined' is not assignable to type 'number'.
+src/application/restaurant-agent-loop.ts(224,63): error TS2379: Argument of type '{ browserModelBudgetExhausted: boolean; remainingModelCalls: number | undefined; }' is not assignable to parameter of type 'RestaurantReadBudgetStatus' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'remainingModelCalls' are incompatible.
+    Type 'number | undefined' is not assignable to type 'number'.
+      Type 'undefined' is not assignable to type 'number'.
+src/application/restaurant-agent-loop.ts(296,119): error TS2379: Argument of type '{ browserModelBudgetExhausted: boolean; remainingModelCalls: number | undefined; }' is not assignable to parameter of type 'RestaurantReadBudgetStatus' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'remainingModelCalls' are incompatible.
+    Type 'number | undefined' is not assignable to type 'number'.
+      Type 'undefined' is not assignable to type 'number'.

@@ -1165,8 +1165,11 @@ test("W12 Live Persistent run keeps the semantic-started deadline through a bloc
       await withinTestTimeout(finished, "the semantic-started whole-read deadline");
       assert.equal(restaurant.aborted, true, "the original run signal interrupts a source read after semantic time has elapsed");
       const artifact = await running.application.exportReadArtifact(created.case.caseId);
-      assert.equal((artifact.finalSnapshot as { domainState?: { failure?: { code?: string } } }).domainState?.failure?.code, "AGENT_LOOP_TIMEOUT");
-      assert.equal(evaluateRestaurantHybridLiveArtifact(artifact, { path: "w12-deadline.result.json", sha256: "fixture" }).execution.completion, "BUDGET_OR_DEADLINE_STOP");
+      const state = (artifact.finalSnapshot as { domainState: RestaurantTaskState }).domainState;
+      assert.equal(state.phase, "NO_VERIFIED_RESULT");
+      assert.equal(state.failure, undefined);
+      assert.ok(state.noVerifiedResult?.remainingGaps.some(gap => gap.includes("AGENT_LOOP_TIMEOUT")));
+      assert.equal(evaluateRestaurantHybridLiveArtifact(artifact, { path: "w12-deadline.result.json", sha256: "fixture" }).execution.completion, "NO_VERIFIED_RESULT");
     } finally {
       await running.close();
     }

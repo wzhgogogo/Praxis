@@ -7,6 +7,7 @@ import { RestaurantExecutionRouter } from "./restaurant-execution-router.js";
 import type { TaskSnapshot } from "../core/task-runtime/contracts.js";
 import type { RestaurantAgentLoopTermination, RestaurantOutcome, RestaurantTaskState } from "../domains/restaurant/contracts.js";
 import { ScriptedRestaurantAgentDecisionPort } from "../domains/restaurant/agent-decision.js";
+import { validateRestaurantAction } from "../domains/restaurant/action-validator.js";
 import { assessRestaurantRead } from "../domains/restaurant/read-assessment.js";
 import { restaurantBookingTaskDefinition as definition } from "../domains/restaurant/task-definition.js";
 import { InMemoryRestaurantAgentTrajectoryStore } from "../infrastructure/postgres/restaurant-agent-trajectory-store.js";
@@ -17,7 +18,7 @@ const fixtures = JSON.parse(await readFile(new URL("./fixtures/p1-g2-h001-termin
 // A real saved state is explicitly injected for terminal-path regression only.
 // This is not an end-to-end discovery claim; the separate native composition
 // tests retain the production Guard, network policy and evidence-producing path.
-async function stop(fixture: SavedState, termination: RestaurantAgentLoopTermination = "REJECTION_LIMIT", runFailure?: "PROVIDER_REJECTED" | "UNCAUGHT_EXCEPTION") {
+async function stop(fixture: SavedState, termination: RestaurantAgentLoopTermination = "REJECTION_LIMIT", runFailure?: "PROVIDER_REJECTED" | "UNCAUGHT_EXCEPTION" | "EXHAUSTED_BROWSER" | "FAILED_SEARCH") {
   let ticks = 0;
   const clock = { now: () => new Date(Date.parse(fixture.now) + ticks++) };
   let current: TaskSnapshot<RestaurantTaskState, RestaurantOutcome> = {
@@ -33,9 +34,16 @@ async function stop(fixture: SavedState, termination: RestaurantAgentLoopTermina
     { executionRoute: "STRUCTURED_ADAPTER", async search() { throw new Error("No network allowed"); } },
     { executionRoute: "STRUCTURED_ADAPTER", async check() { throw new Error("No network allowed"); } },
   );
-  const decision = new ScriptedRestaurantAgentDecisionPort(runFailure === "UNCAUGHT_EXCEPTION"
+  let decisionCalls = 0;
+  const decision = new ScriptedRestaurantAgentDecisionPort((runFailure === "EXHAUSTED_BROWSER" || runFailure === "FAILED_SEARCH") ? Array.from({length:12},()=>({type:"SEARCH_RESTAURANTS" as const})) : runFailure === "UNCAUGHT_EXCEPTION"
     ? [{ type: "CHECK_AVAILABILITY", candidateIds: assessRestaurantRead(fixture.state, fixture.now).checkableCandidateIds.slice(0, 1) }] : []);
   if (runFailure === "PROVIDER_REJECTED") decision.decide = async () => ({ status: "MODEL_FAILURE", errorCode: "PROVIDER_REJECTED", retryable: false });
+  if (runFailure === "EXHAUSTED_BROWSER" || runFailure === "FAILED_SEARCH") {
+    const code = runFailure === "FAILED_SEARCH" ? "SEARCH_FAILED" : "BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED";
+    const originalDecide = decision.decide.bind(decision);
+    decision.decide = async input => { decisionCalls++; return originalDecide(input); };
+    router.execute = async () => ({ event: {type:"SEARCH_FAILED",code,reason:"Scripted failed search"}, observation: {type:"DISCOVERY_FAILED",detail:"No model budget"}, failure: {source:"PROVIDER",scope:"PROVIDER",code,reason:"Scripted failed search",terminal:false} });
+  }
   if (runFailure === "UNCAUGHT_EXCEPTION") router.execute = async () => { throw new Error("Uncaught router exception"); };
   const coordinator = new RestaurantAgentLoopCoordinator({
     async snapshot() { return current; },
@@ -58,7 +66,7 @@ async function stop(fixture: SavedState, termination: RestaurantAgentLoopTermina
     stateVersionBefore: current.version, stateHashBefore: "saved-state",
     causalRefs: { eventIds: [], commandIds: [], attemptIds: [], evidenceIds: [] }, capabilities: [],
   }, termination, fixture.reason);
-  return { initial, current, events, trajectories };
+  return { initial, current, events, trajectories, decisionCalls };
 }
 
 for (const fixture of fixtures.states) test(`P1-G2 actual ${fixture.name} stop returns a user-facing outcome`, async () => {
@@ -101,4 +109,32 @@ for (const code of ["AUTHORIZATION_INVALID", "SIDE_EFFECT_UNCERTAIN"] as const) 
   const result = await stop(fixture);
   assert.equal(result.current.domainState.phase, "FAILED");
   assert.equal(result.current.domainState.noVerifiedResult, undefined);
+});
+
+const exhaustedFixture = JSON.parse(await readFile(new URL("./fixtures/p2-0-h001-exhausted-state.json", import.meta.url), "utf8")) as SavedState;
+test("P2-0 actual h001 step-six exhausted state stops before another model proposal", async () => {
+  const result = await stop(exhaustedFixture, "NO_PROGRESS", "EXHAUSTED_BROWSER");
+  console.log(JSON.stringify({decisionCalls:result.decisionCalls,phase:result.current.domainState.phase,events:result.events}));
+  assert.ok(result.decisionCalls <= 2, "known budget failure must not cause more agent proposals");
+  assert.equal(result.current.domainState.phase,"NO_VERIFIED_RESULT");
+});
+test("P2-0 bounded timeout returns a truthful user result", async () => {
+  const result = await stop(fixtures.states[0]!, "TIMEOUT");
+  assert.equal(result.current.domainState.phase,"NO_VERIFIED_RESULT");
+});
+
+for (const type of ["SEARCH_RESTAURANTS", "INVESTIGATE_CANDIDATE_FACTS", "CHECK_AVAILABILITY"] as const) test(`P2-0 ${type} rejects a known exhausted budget before source work`, () => {
+  const action = type === "SEARCH_RESTAURANTS" ? {type} : {type,candidateIds:exhaustedFixture.state.candidates.slice(0,1).map(c=>c.restaurant.id)};
+  assert.equal(validateRestaurantAction(exhaustedFixture.state,action,exhaustedFixture.now).status,"REJECTED");
+  const fresh=structuredClone(fixtures.states[0]!.state); delete fresh.failure;
+  assert.equal(validateRestaurantAction(fresh,action,exhaustedFixture.now,{remainingModelCalls:0}).status,"REJECTED");
+  assert.equal(validateRestaurantAction(fresh,action,exhaustedFixture.now,{browserModelBudgetExhausted:true}).status,"REJECTED");
+});
+
+test("P2-0 failed executions do not reset consecutive no-progress accounting", async () => {
+  const fixture=structuredClone(exhaustedFixture); fixture.state.failure={code:"SEARCH_FAILED",message:"Scoped read failure"};
+  const result=await stop(fixture,"NO_PROGRESS","FAILED_SEARCH");
+  assert.equal(result.decisionCalls,3);
+  assert.equal(result.current.domainState.phase,"NO_VERIFIED_RESULT");
+  assert.ok(result.current.domainState.noVerifiedResult?.remainingGaps.some(g=>g.includes("NO_PROGRESS")));
 });

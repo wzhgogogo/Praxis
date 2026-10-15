@@ -30,6 +30,7 @@ export interface RestaurantSearchPort {
 export interface RestaurantAvailabilityPort {
   readonly executionRoute: "STRUCTURED_ADAPTER" | "GENERIC_BROWSER";
   /** Optional per-Agent-loop budget lifecycle; adapters never receive Task State. */
+  browserModelBudgetExhausted?(): boolean;
   beginReadRun?(): void;
   endReadRun?(): void;
   check(request: RestaurantAvailabilityRequest, signal: AbortSignal): Promise<RestaurantAvailabilityRead>;
@@ -201,6 +202,8 @@ function immediateAvailabilityFailure(
  * to the Agent and deliberately has no direct Commit implementation.
  */
 export class RestaurantExecutionRouter {
+  readBudgetStatus() { return { browserModelBudgetExhausted: this.availability.browserModelBudgetExhausted?.() === true }; }
+
   private readonly structuredReadTimeoutMs: number;
   private readonly browserReadTimeoutMs: number | null;
 

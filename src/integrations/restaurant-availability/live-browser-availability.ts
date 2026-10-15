@@ -59,6 +59,10 @@ export class LiveBrowserAvailability {
     if (options.maxModelCallsTotal !== undefined) this.browserBudget.maxModelCalls = options.maxModelCallsTotal;
   }
 
+  browserModelBudgetExhausted(): boolean {
+    return this.browserBudget.totalModelCalls >= Math.min(this.options.maxModelCallsTotal, this.browserBudget.maxModelCalls ?? Infinity);
+  }
+
   /** Called by the Router once per Agent loop, not once per candidate batch. */
   beginReadRun(): void {
     this.browserBudget.totalModelCalls = 0;
