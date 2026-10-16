@@ -2,12 +2,15 @@ import { isRestaurantFailureCode, RESTAURANT_FAILURE_CLASSIFICATION } from "../.
 import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { basename, dirname, resolve } from "node:path";
-import { readDiagnosticRun } from "./diagnostic-evaluator-record.js";
+import { gunzipSync } from "node:zlib";
+import { readDiagnosticRun, readDiagnosticTrace, readOrchestrationRecord } from "./diagnostic-evaluator-record.js";
 import type { RunRecord, DomainRecord, MaterializedRecord, IntentRecord, CriterionRecord, EvidenceRecord, CheckRecord, TrajectoryRecord, TraceRecord, TraceDetailRecord, ControlRecord, ServiceScopeRecord } from "./diagnostic-evaluator-record.js";
 import { loadCriterionEquivalences, normalizeCriterion } from "./criterion-equivalences.js";
 import type { CriterionEquivalenceTable, PendingCriterionWording } from "./criterion-equivalences.js";
 import { assessRawTabelog, evaluateSourceOpeningHours } from "./diagnostic-evaluator-grounding.js";
 import type { PostDeliveryTabelogObservation } from "./diagnostic-evaluator-grounding.js";
+import { classifyRunOutcome } from "./diagnostic-evaluator-outcome.js";
+import type { RunOutcome, RunSeverity } from "./diagnostic-evaluator-outcome.js";
 
 
 export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@29";
@@ -66,6 +69,8 @@ export interface RestaurantHybridDiagnosticEvaluation {
   recordReadIssues: Array<{ path: string; reason: "MISSING" | "INVALID_TYPE" }>;
   criterionEquivalences: { path: string; sha256: string; tableVersion: string };
   pendingCriterionWordings: PendingCriterionWording[];
+  outcome: RunOutcome;
+  severity: RunSeverity;
 }
 
 function asArray<T>(value: T[] | undefined): T[] { return value ?? []; }
@@ -1019,7 +1024,13 @@ function assessNoResult(root: RunRecord, domain: DomainRecord, request: RequestS
 }
 
 /** Deterministically diagnoses an already-written artifact; it never calls a model or a provider. */
-export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceArtifact: { path: string; sha256: string }, options: { criterionEquivalences?: CriterionEquivalenceTable; postDeliveryTabelog?: PostDeliveryTabelogObservation[] } = {}): RestaurantHybridDiagnosticEvaluation {
+export interface DiagnosticEvaluationOptions {
+  criterionEquivalences?: CriterionEquivalenceTable;
+  postDeliveryTabelog?: PostDeliveryTabelogObservation[];
+  orchestration?: unknown;
+  trace?: unknown;
+}
+export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceArtifact: { path: string; sha256: string }, options: DiagnosticEvaluationOptions = {}): RestaurantHybridDiagnosticEvaluation {
   const equivalences = options.criterionEquivalences ?? loadCriterionEquivalences();
   const { record: root, issues: readIssues } = readDiagnosticRun(artifact); const domain = (root.finalSnapshot?.domainState) ?? {}; const materialized = (root.materializedCase) ?? {};
   // `intentDraft` is the Restaurant runtime's final authoritative intent field; do not
@@ -1098,16 +1109,22 @@ export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceAr
   // behavior can still be independently supported by conditions, execution
   // coverage, resource accounting, and an explicit bounded stop.
   const noResultSupported = noResultStatus === "SATISFIED";
-  return { recordReadIssues: readIssues, criterionEquivalences: { path: equivalences.path, sha256: equivalences.sha256, tableVersion: equivalences.tableVersion }, pendingCriterionWordings: criteriaComparison.pending, schemaVersion: "1", evaluatorVersion: RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, rubricVersion: RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION, rubricStatus: "DRAFT_DIAGNOSTIC_ONLY", sourceArtifact: { path: sourceArtifact.path, sha256: sourceArtifact.sha256, ...(asString(root.runId) ? { runId: asString(root.runId)! } : {}), ...(asString(root.caseId) ? { caseId: asString(root.caseId)! } : {}) }, execution: { status: asString(root.status) ?? null, stage: asString(root.stage) ?? null,
+  const externalTrace = options.trace === undefined ? undefined : readDiagnosticTrace(options.trace);
+  const orchestration = readOrchestrationRecord(options.orchestration);
+  const resultMissing = artifact === undefined;
+  const classification = classifyRunOutcome({ root, findings, ...(expected.goal ? { expectedGoal: expected.goal } : {}),
+    trace: externalTrace?.entries ?? [...(root.diagnostics?.browserTrace ?? []), ...(root.sourceTrace?.browserTrace ?? [])],
+    ...(orchestration ? { orchestration } : {}), resultMissing });
+  return { ...classification, recordReadIssues: [...readIssues, ...(externalTrace?.issues ?? [])], criterionEquivalences: { path: equivalences.path, sha256: equivalences.sha256, tableVersion: equivalences.tableVersion }, pendingCriterionWordings: criteriaComparison.pending, schemaVersion: "1", evaluatorVersion: RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, rubricVersion: RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION, rubricStatus: "DRAFT_DIAGNOSTIC_ONLY", sourceArtifact: { path: sourceArtifact.path, sha256: sourceArtifact.sha256, ...(asString(root.runId) ? { runId: asString(root.runId)! } : {}), ...(asString(root.caseId) ? { caseId: asString(root.caseId)! } : {}) }, execution: { status: asString(root.status) ?? null, stage: asString(root.stage) ?? null,
     // A source discovery failure is not an ordinary bounded empty result.
     // The runtime keeps that failure on the search continuation, so preserve
     // UNKNOWN rather than reclassifying the task as a verified no-result.
     taskProducedQualifiedResult: qualified ? "YES" : completion === "NO_VERIFIED_RESULT" ? terminalSearchFailure ? "UNKNOWN" : "NO" : completion === "CANCELLED" || completion === "BUDGET_OR_DEADLINE_STOP" || completion === "INTERNAL_EXECUTION_FAILURE" ? "NO" : anyNotSatisfied ? "NO" : "UNKNOWN",
-    systemBehavior: anyNotSatisfied ? "NOT_SUPPORTED" : noResultSupported ? "SUPPORTED_BY_EVIDENCE" : anyNotEvaluated ? "NOT_EVALUATED" : "SUPPORTED_BY_EVIDENCE", externalConditions: candidates.length > 0 ? "OBSERVED" : "NOT_EVALUATED", evidenceSufficiency: evidenceStatus === "SATISFIED" ? "SUFFICIENT_FOR_PRESENTED_RESULT" : evidenceStatus === "NOT_SATISFIED" ? "INSUFFICIENT" : "NOT_EVALUATED", completion }, candidateSummaries, findings, unassessedDimensions: ["No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.", "Cost is not inferred without explicit configured price inputs.", "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose.", ...(criteriaComparison.unresolved.length ? ["Criterion text differs without deterministic equivalence; no LLM judge was used and independent semantic review is required."] : []), ...expected.unsupportedHardCriteria.map((criterion) => `Negative/non-positive HARD criterion '${criterion}' has no accepted source-evidence contract in this evaluator.`)] };
+    systemBehavior: anyNotSatisfied ? "NOT_SUPPORTED" : noResultSupported ? "SUPPORTED_BY_EVIDENCE" : anyNotEvaluated ? "NOT_EVALUATED" : "SUPPORTED_BY_EVIDENCE", externalConditions: candidates.length > 0 ? "OBSERVED" : "NOT_EVALUATED", evidenceSufficiency: evidenceStatus === "SATISFIED" ? "SUFFICIENT_FOR_PRESENTED_RESULT" : evidenceStatus === "NOT_SATISFIED" ? "INSUFFICIENT" : "NOT_EVALUATED", completion }, candidateSummaries, findings, unassessedDimensions: [...(resultMissing ? ["result.json missing: result-dependent stage dimensions remain NOT_EVALUATED; only outer interruption and trace can be assessed."] : []), "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.", "Cost is not inferred without explicit configured price inputs.", "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose.", ...(criteriaComparison.unresolved.length ? ["Criterion text differs without deterministic equivalence; no LLM judge was used and independent semantic review is required."] : []), ...expected.unsupportedHardCriteria.map((criterion) => `Negative/non-positive HARD criterion '${criterion}' has no accepted source-evidence contract in this evaluator.`)] };
 }
 function evaluationOutputPath(artifactPath: string, suffix: string): string { return resolve(dirname(artifactPath), `${basename(artifactPath, ".json")}.evaluation.${suffix}-${Date.now()}.json`); }
 export async function evaluateArtifactFile(inputPath: string): Promise<{ evaluation: RestaurantHybridDiagnosticEvaluation; outputPath: string }> {
-  const artifactPath = resolve(inputPath); const source = await readFile(artifactPath, "utf8"); const evaluation = evaluateRestaurantHybridLiveArtifact(JSON.parse(source), { path: artifactPath, sha256: sha256(source) }); const outputPath = evaluationOutputPath(artifactPath, RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION.split("@")[1]!.replace(/[^a-z0-9]+/gi, "-")); await mkdir(dirname(outputPath), { recursive: true }); await writeFile(outputPath, JSON.stringify(evaluation, null, 2), { flag: "wx" }); return { evaluation, outputPath };
+  const artifactPath = resolve(inputPath); const bytes = await readFile(artifactPath); const source = (artifactPath.endsWith(".gz") ? gunzipSync(bytes) : bytes).toString("utf8"); const evaluation = evaluateRestaurantHybridLiveArtifact(JSON.parse(source), { path: artifactPath, sha256: sha256(source) }); const outputPath = evaluationOutputPath(artifactPath, RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION.split("@")[1]!.replace(/[^a-z0-9]+/gi, "-")); await mkdir(dirname(outputPath), { recursive: true }); await writeFile(outputPath, JSON.stringify(evaluation, null, 2), { flag: "wx" }); return { evaluation, outputPath };
 }
 /** A failed evaluation is an immutable sidecar and never changes an already saved execution artifact. */
 export async function evaluateArtifactAfterFinish(inputPath: string, evaluate: typeof evaluateArtifactFile = evaluateArtifactFile): Promise<{ outputPath?: string; evaluation?: RestaurantHybridDiagnosticEvaluation; evaluationFailure?: string; failurePath?: string }> {

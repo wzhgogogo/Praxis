@@ -1,0 +1,5 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/eval/restaurant/agent-loop/fixed-source-acceptance.test.ts(21,3): error TS2739: Type '{ schemaVersion: "1"; evaluatorVersion: "restaurant-hybrid-read-diagnostic-evaluator@29"; rubricVersion: "restaurant-hybrid-read-diagnostic-rubric@23"; rubricStatus: "DRAFT_DIAGNOSTIC_ONLY"; ... 7 more ...; unassessedDimensions: never[]; }' is missing the following properties from type 'RestaurantHybridDiagnosticEvaluation': outcome, severity

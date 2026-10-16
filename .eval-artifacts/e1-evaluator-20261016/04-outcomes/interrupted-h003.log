@@ -1,0 +1,69 @@
+
+> praxis-zhixing@0.1.0 eval:restaurant:agent-loop:artifact
+> node --import tsx src/eval/restaurant/agent-loop/runners/run-hybrid-artifact-evaluation.ts --manifest .eval-artifacts/calibration-phase1-20261015/inputs/manifest.json --run p1fA-kf-h003-a1 --out-dir .eval-artifacts/e1-evaluator-20261016/04-outcomes/evaluations
+
+{
+  "outputPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/e1-evaluator-20261016/04-outcomes/evaluations/p1fA-kf-h003-a1.evaluation.29.6ef0f7f1-0580-41af-bb2b-1990ed2a9d9e.json",
+  "execution": {
+    "status": null,
+    "stage": null,
+    "taskProducedQualifiedResult": "UNKNOWN",
+    "systemBehavior": "NOT_EVALUATED",
+    "externalConditions": "NOT_EVALUATED",
+    "evidenceSufficiency": "NOT_EVALUATED",
+    "completion": "NOT_EVALUATED"
+  },
+  "outcome": {
+    "type": "ORCHESTRATION_INTERRUPTED",
+    "reasons": [
+      "Outer SIGKILL interruption, not a source-confirmed no-result."
+    ],
+    "evidenceRefs": [
+      "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h003-a1/started.json.gz#sha256=4c347cde112dc9200448aaafd8399ea7881a33989e37d3037c186f7ada3f5f05",
+      "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h003-a1/decisions.jsonl.gz#sha256=195e6ccbcaeedc854ed96ec51a7057e1ff0e9048f4dd07de989493a1709e2593",
+      "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h003-a1/attempt-1.interruption.json.gz#sha256=e10776fa96e5e24a64d6ebd640f85f421682a6ca008811d0f31906db3bfedbfc",
+      "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h003-a1/attempt-1.finish.json.gz#sha256=27c67384fefcd3204ecf6ea0004f732c6ac1e00071aad7be7b9d92c814c21a31",
+      "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h003-a1/attempt-1.trace.jsonl.gz#sha256=2ccad1e443ac5da09ec0460e07689af8107d4fa6a224a2d18b2eaba98d3199bc"
+    ],
+    "capabilityDenominator": "EXCLUDED",
+    "userGoalComplete": "NO"
+  },
+  "severity": {
+    "S0": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "Trace is missing, interrupted or value-redacted; retained requests do not prove absence of form submission, non-read requests or admission outside Guard."
+      ],
+      "evidenceRefs": []
+    },
+    "S1": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "No independently established unmet user-need conclusion."
+      ],
+      "evidenceRefs": []
+    },
+    "S2": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "No valid independent feasible witness supplied."
+      ],
+      "evidenceRefs": []
+    },
+    "S3": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "Experience/latency thresholds belong to E2; not scored here."
+      ],
+      "evidenceRefs": []
+    },
+    "S4": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "User-invisible retry effects are not independently established."
+      ],
+      "evidenceRefs": []
+    }
+  },
+  "evaluatorVersion": "restaurant-hybrid-read-diagnostic-evaluator@29"
+}

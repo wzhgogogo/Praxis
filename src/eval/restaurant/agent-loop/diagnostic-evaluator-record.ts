@@ -95,24 +95,41 @@ const control = object({ structure: object({ name: text, radioGroupKey: text }),
   checked: boolean, selected: boolean, calendarDate: text, visible: boolean, disabled: boolean, value: text, options: array(object({ selected: boolean, value: text, label: text })) });
 const tabelogSelection = object({ time: text, link: object({ rcd: text, member: text, visit_date: text, visit_time: text }) });
 const tabelogBody = object({ base_date: object({ year: number, month: number, day: number }), members: number, selection: array(tabelogSelection) });
+const networkRequest = object({ outcome: text, origin: text, pathname: text, method: text, resourceType: text, queryKeys: texts });
 const traceDetail = object({ snapshotSequence: number, controls: array(control), stage: text, candidateId: text,
+  readNetworkBoundary: text, networkRequests: array(networkRequest),
   url: text, method: text, args: array(raw), responses: array(object({ url: text, status: number, observedAt: text, body: tabelogBody })),
   observedStateTags: array(object({ tag: text, class: text, "data-time": text, disabled: text, "aria-disabled": text })),
   queryRegions: array(object({ truncated: boolean, ancestorMarkupHidden: boolean, markup: text })) });
-const trace = object({ sequence: number, at: text, kind: text, detail: traceDetail });
+const traceHeader = object({ sequence: number, at: text, kind: text });
+type ParsedTrace = Value<typeof traceHeader> & { detail?: Value<typeof traceDetail>; networkRequests?: Value<typeof networkRequest>[] };
+const trace: Decoder<ParsedTrace> = (value, path, issues) => {
+  const header = traceHeader(value, path, issues);
+  if (!header) return undefined;
+  const detail = (value as Record<string, unknown>).detail;
+  if (header.kind === "NETWORK") {
+    const requests = array(networkRequest)(detail, `${path}.detail`, issues);
+    return { ...header, ...(requests ? { networkRequests: requests } : {}) };
+  }
+  const parsed = traceDetail(detail, `${path}.detail`, issues);
+  return { ...header, ...(parsed ? { detail: parsed } : {}) };
+};
 const domain = object({ intentDraft: intent, phase: text, availabilityChecks: dictionary(check), factChecks: dictionary(check),
   availability: dictionary(array(offer)), readEvidence: array(evidence), candidates: array(candidate),
   presentedResults: object({ candidateIds: texts, evidenceIds: texts, presentedAt: text }),
   noVerifiedResult: object({ endedAt: text, investigatedCandidateIds: texts, unresolvedCandidateIds: texts, remainingGaps: texts, termination }),
   failure: object({ code: text }), searchContinuation: object({ lastFailureCode: text }) });
-const run = object({ runId: text, caseId: text, status: text, stage: text, failureCode: optionalFailure, finishedAt: text,
+const run = object({ runId: text, caseId: text, status: text, stage: text, failureCode: optionalFailure, startedAt: text, finishedAt: text,
   materializedCase: object({ id: text, semantic }), finalSnapshot: object({ version: number, domainState: domain }),
   trajectories: array(trajectory), events: array(object({ occurredAt: text, event: object({ type: text, termination: text, reasonCode: text }), trace: object({ actor: text }) })),
-  diagnostics: object({ browserTrace: array(trace) }), sourceTrace: object({ browserTrace: array(trace) }),
+  diagnostics: object({ browserTrace: array(trace), networkRequests: array(networkRequest) }), sourceTrace: object({ browserTrace: array(trace) }),
   execution: object({ failureCode: text }), loop: object({ status: text }),
   resourceUsage: numericFields(["elapsedMs", "agentDecisions", "browserModelCalls", "modelCallsStarted"]),
   runCeilings: numericFields(["maxAutomaticBrowserMs", "maxAgentSteps", "maxBrowserModelCallsTotal", "maxModelCalls"]),
-  limits: numericFields(["maxSteps", "maxBrowserModelCallsTotal"]), modelInvocations: array(raw) });
+  limits: numericFields(["maxSteps", "maxBrowserModelCallsTotal"]), modelInvocations: array(object({ outcome: text, errorCode: text, providerStatus: number })) });
+const exit = object({ signal: text });
+const outer = object({ finish: object({ exit, exitCode: exit, formalRunStarted: boolean, preflight: object({ status: text }) }),
+  interruption: object({ status: text }), refs: texts });
 
 export type RunRecord = Value<typeof run>;
 export type DomainRecord = Value<typeof domain>;
@@ -126,6 +143,16 @@ export type TraceRecord = Value<typeof trace>;
 export type TraceDetailRecord = Value<typeof traceDetail>;
 export type ControlRecord = Value<typeof control>;
 export type ServiceScopeRecord = Value<typeof serviceScope>;
+export type NetworkRequestRecord = Value<typeof networkRequest>;
+export type OrchestrationRecord = Value<typeof outer>;
+
+export function readDiagnosticTrace(value: unknown): { entries: TraceRecord[]; issues: RunReadIssue[] } {
+  const issues: RunReadIssue[] = [];
+  return { entries: array(trace)(value, "external.trace", issues) ?? [], issues };
+}
+export function readOrchestrationRecord(value: unknown): OrchestrationRecord | undefined {
+  return outer(value, "external.orchestration", []);
+}
 
 export function readDiagnosticRun(value: unknown): { record: RunRecord; issues: RunReadIssue[] } {
   const issues: RunReadIssue[] = [];

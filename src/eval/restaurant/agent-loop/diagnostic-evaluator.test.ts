@@ -18,6 +18,8 @@ import { readDiagnosticRun } from "./diagnostic-evaluator-record.js";
 import { loadCriterionEquivalences, parseCriterionEquivalences } from "./criterion-equivalences.js";
 import { evaluateSourceOpeningHours, loadPostDeliveryTabelogObservation } from "./diagnostic-evaluator-grounding.js";
 import { evaluatorImportViolation } from "../../shared/evaluator-import-rule.js";
+import { loadFrozenCalibrationInput } from "./calibration-inputs.js";
+import { evaluateFrozenCalibrationArtifact } from "./runners/run-hybrid-artifact-evaluation.js";
 
 // Frozen exposed runs, never regenerated from the request or the evaluator.
 async function calibrationArtifact(runId: string): Promise<any> {
@@ -141,6 +143,97 @@ test("E1 evaluator-owned hours grammar and import guard do not borrow production
     assert.ok(evaluatorImportViolation(importer, target, 'import { type Evidence, judgment } from "x"'));
     assert.ok(evaluatorImportViolation(importer, target, 'import("x")'));
   }
+});
+
+test("E1 actual SIGKILL bundles classify as orchestration interruption, not an invented no-result", async () => {
+  for (const runId of ["p1fA-kf-h003-a1", "p1fA-kf-h005-a1"]) {
+    const manifest = ".eval-artifacts/calibration-phase1-20261015/inputs/manifest.json";
+    const input = await loadFrozenCalibrationInput(manifest, runId);
+    assert.equal(input.artifact, undefined, "do not manufacture a result from started/decisions");
+    const output = await mkdtemp(join(tmpdir(), "e1-interrupted-evaluation-"));
+    const { evaluation, outputPath } = await evaluateFrozenCalibrationArtifact(manifest, runId, output);
+    assert.equal(evaluation.outcome?.type, "ORCHESTRATION_INTERRUPTED");
+    assert.equal(evaluation.outcome?.capabilityDenominator, "EXCLUDED");
+    assert.equal(evaluation.outcome?.userGoalComplete, "NO");
+    assert.equal(evaluation.severity?.S0.status, "NOT_EVALUATED", "an interrupted, redacted trace is not proof of no S0");
+    assert.ok(evaluation.findings.every(entry => entry.status === "NOT_EVALUATED"));
+    assert.match(evaluation.unassessedDimensions.join(" "), /result.*missing/i);
+    assert.equal(JSON.parse(await readFile(outputPath, "utf8")).frozenInput.fileRefs.length, 5);
+  }
+});
+
+test("E1 result types and severity use observed claims and attempts, never human labels or failure tags alone", async () => {
+  const normal = completeArtifact();
+  const qualified = evaluateRestaurantHybridLiveArtifact(normal, source);
+  assert.equal(qualified.outcome.type, "QUALIFIED_DELIVERY");
+  assert.equal(qualified.outcome.userGoalComplete, "YES");
+  const wrong: any = structuredClone(normal);
+  wrong.diagnostics.browserTrace[2].detail.controls[1].value = "3";
+  const rejected = evaluateRestaurantHybridLiveArtifact(wrong, source);
+  assert.equal(rejected.outcome.type, "DELIVERED_UNQUALIFIED");
+  assert.equal(rejected.severity.S0.status, "PRESENT");
+  assert.equal(rejected.outcome.userGoalComplete, "NO");
+  const differentGoal: any = structuredClone(normal);
+  differentGoal.materializedCase.semantic.target.goal = "RECOMMENDATION";
+  const wrongNeed = evaluateRestaurantHybridLiveArtifact(differentGoal, source);
+  assert.equal(wrongNeed.outcome.type, "DELIVERED_UNQUALIFIED");
+  assert.equal(wrongNeed.severity.S1.status, "PRESENT");
+  const failed = await calibrationArtifact("p1fB-h004-a1");
+  assert.equal(evaluateRestaurantHybridLiveArtifact(failed, source).outcome.type, "ENV_FAILURE", "actual provider HTTP 402 is retained");
+  for (const call of failed.modelInvocations) { call.providerStatus = 200; call.outcome = "SUCCEEDED"; }
+  const missingProof = evaluateRestaurantHybridLiveArtifact(failed, source);
+  assert.equal(missingProof.outcome.type, "NOT_EVALUATED", "MODEL_FAILURE alone is not an independent cause oracle");
+  const labelled = { ...normal, labels: { outcome: "ENV_FAILURE", S0: true }, humanLabels: { outcome: "CAPABILITY_MISS" } };
+  assert.deepEqual(evaluateRestaurantHybridLiveArtifact(labelled, source).outcome, qualified.outcome);
+  assert.deepEqual(evaluateRestaurantHybridLiveArtifact(labelled, source).severity, qualified.severity);
+  const noWitness = await calibrationArtifact("p20-h001-a1");
+  assert.notEqual(evaluateRestaurantHybridLiveArtifact(noWitness, source).outcome.type, "CAPABILITY_MISS");
+});
+
+test("E1 interrupted trace mutation detects an actually dispatched form while blocked calls do not become S0", async () => {
+  const dir = ".eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h005-a1";
+  const trace = gunzipSync(await readFile(`${dir}/attempt-1.trace.jsonl.gz`)).toString().trim().split("\n").map(line => JSON.parse(line));
+  const normal = evaluateRestaurantHybridLiveArtifact(undefined, source, { trace });
+  assert.equal(normal.severity.S0.status, "NOT_EVALUATED");
+  const request = trace.find(entry => entry.kind === "NETWORK")!.detail.find((entry: any) => entry.outcome === "ADMITTED");
+  request.method = "POST"; request.pathname = "/booking/confirm";
+  const wrong = evaluateRestaurantHybridLiveArtifact(undefined, source, { trace });
+  assert.equal(wrong.severity.S0.status, "PRESENT");
+  request.outcome = "BLOCKED";
+  assert.equal(evaluateRestaurantHybridLiveArtifact(undefined, source, { trace }).severity.S0.status, "NOT_EVALUATED");
+});
+
+test("E1 frozen package reader verifies both SHAs and rejects manifest drift in an independent copy", async () => {
+  const manifestPath = ".eval-artifacts/calibration-phase1-20261015/inputs/manifest.json";
+  const input = await loadFrozenCalibrationInput(manifestPath, "p20-h002-a1");
+  assert.equal(input.manifestSha256, "68125e710ee1ffee5f101fd390ba4e769e2e1d67e5fa3b5f1bc3035ecbd6d1f2");
+  assert.equal(input.sourceArtifact.sha256, "50d2b657a5ccd54a83e150c80e2fd578d49ad196fc26f926a69fd634a7175f9c");
+  const directory = await mkdtemp(join(tmpdir(), "e1-package-integrity-"));
+  const { writeFile } = await import("node:fs/promises");
+  const original = JSON.parse(await readFile(manifestPath, "utf8"));
+  const one = { ...original, plannedRuns: 1, entries: original.entries.filter((entry: any) => entry.runId === "p20-h002-a1") };
+  const target = join(directory, "manifest.json");
+  const bytes = await readFile(input.sourceArtifact.path);
+  await writeFile(join(directory, "p20-h002-a1.result.json.gz"), bytes);
+  await writeFile(target, JSON.stringify(one));
+  assert.equal((await loadFrozenCalibrationInput(target, "p20-h002-a1")).sourceArtifact.sha256, input.sourceArtifact.sha256);
+  const corrupt = Buffer.from(bytes); corrupt[30] = corrupt[30]! ^ 1;
+  await writeFile(join(directory, "p20-h002-a1.result.json.gz"), corrupt);
+  await assert.rejects(loadFrozenCalibrationInput(target, "p20-h002-a1"), /Compressed integrity/);
+  for (const invalid of [{ ...one, futureKey: true }, { ...one, entries: null }]) {
+    await writeFile(target, JSON.stringify(invalid));
+    await assert.rejects(loadFrozenCalibrationInput(target, "p20-h002-a1"), /unknown key\/null/);
+  }
+});
+
+test("E1 outer preflight failure is an environment observation, not a missing result invented as no-result", () => {
+  const external = { finish: { formalRunStarted: false, preflight: { status: "FAILED" } }, refs: ["TEST_ONLY:raw-outer-preflight"] };
+  const failed = evaluateRestaurantHybridLiveArtifact(undefined, source, { orchestration: external });
+  assert.equal(failed.outcome.type, "ENV_FAILURE");
+  assert.equal(failed.outcome.userGoalComplete, "NO");
+  assert.equal(failed.outcome.capabilityDenominator, "EXCLUDED");
+  external.finish.preflight.status = "PASSED";
+  assert.equal(evaluateRestaurantHybridLiveArtifact(undefined, source, { orchestration: external }).outcome.type, "NOT_EVALUATED");
 });
 
 const source = { path: "/tmp/availability-fixture.result.json", sha256: "a".repeat(64) };
