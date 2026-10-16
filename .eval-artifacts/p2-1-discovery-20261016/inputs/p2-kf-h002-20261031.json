@@ -1,0 +1,252 @@
+{
+  "caseId": "p2-kf-h002-20261031",
+  "role": "CONTROL",
+  "intent": {
+    "timezone": "Asia/Tokyo",
+    "target": {
+      "goal": "AVAILABILITY",
+      "query": "first-date restaurant near Higashi-Ginza",
+      "selectionScope": "OPEN_ENDED"
+    },
+    "date": "2026-10-31",
+    "timeWindow": {
+      "earliest": "18:30",
+      "latest": "18:30"
+    },
+    "partySize": 2,
+    "area": {
+      "query": "near Higashi-Ginza"
+    },
+    "criteria": [
+      {
+        "text": "first-date restaurant",
+        "polarity": "POSITIVE",
+        "strength": "UNSPECIFIED"
+      },
+      {
+        "text": "around 10,000 yen per person",
+        "polarity": "POSITIVE",
+        "strength": "SOFT"
+      },
+      {
+        "text": "hot-pot restaurants",
+        "polarity": "NEGATIVE",
+        "strength": "HARD"
+      },
+      {
+        "text": "Sichuan/Hunan-style cuisine where spicy food is the main focus",
+        "polarity": "NEGATIVE",
+        "strength": "HARD"
+      }
+    ]
+  },
+  "locationContext": {
+    "latitude": 35.669700299999995,
+    "longitude": 139.7671399,
+    "radiusMeters": 1000,
+    "label": "Higashi-ginza Sta.",
+    "areaMatchBasis": "NAMED_PLACE_RADIUS",
+    "addressComponents": [
+      {
+        "longText": "１０先",
+        "shortText": "１０先",
+        "types": [
+          "premise"
+        ]
+      },
+      {
+        "longText": "10",
+        "shortText": "10",
+        "types": [
+          "sublocality_level_4",
+          "sublocality",
+          "political"
+        ]
+      },
+      {
+        "longText": "4-chōme",
+        "shortText": "4-chōme",
+        "types": [
+          "sublocality_level_3",
+          "sublocality",
+          "political"
+        ]
+      },
+      {
+        "longText": "Ginza",
+        "shortText": "Ginza",
+        "types": [
+          "sublocality_level_2",
+          "sublocality",
+          "political"
+        ]
+      },
+      {
+        "longText": "Chuo City",
+        "shortText": "Chuo City",
+        "types": [
+          "locality",
+          "political"
+        ]
+      },
+      {
+        "longText": "Tokyo",
+        "shortText": "Tokyo",
+        "types": [
+          "administrative_area_level_1",
+          "political"
+        ]
+      },
+      {
+        "longText": "Japan",
+        "shortText": "JP",
+        "types": [
+          "country",
+          "political"
+        ]
+      },
+      {
+        "longText": "104-0061",
+        "shortText": "104-0061",
+        "types": [
+          "postal_code"
+        ]
+      }
+    ]
+  },
+  "referenceTime": "2026-10-17T18:00:00+09:00",
+  "provenance": {
+    "runId": "p20-h002-a1",
+    "sourcePath": ".eval-artifacts/calibration-phase1-20261015/inputs/p20-h002-a1.result.json.gz",
+    "originalSha256": "50d2b657a5ccd54a83e150c80e2fd578d49ad196fc26f926a69fd634a7175f9c",
+    "gzipSha256": "ed8ee536c2965dd5e4cc46e00c7efc7deb95f2743fe7fce76ee672436d84fc21",
+    "semanticProposal": {
+      "schemaVersion": "3",
+      "facts": [
+        {
+          "field": "TARGET",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "TARGET",
+            "goal": "AVAILABILITY",
+            "query": "first-date restaurant near Higashi-Ginza",
+            "selectionScope": "OPEN_ENDED"
+          }
+        },
+        {
+          "field": "DATE",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "DATE",
+            "weekday": "SATURDAY",
+            "raw": "this Saturday"
+          }
+        },
+        {
+          "field": "TIME_WINDOW",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "TIME_WINDOW",
+            "earliest": "18:30",
+            "latest": "18:30",
+            "raw": "6:30 PM"
+          }
+        },
+        {
+          "field": "AREA",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "AREA",
+            "query": "near Higashi-Ginza"
+          }
+        },
+        {
+          "field": "CRITERION",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "CRITERION",
+            "text": "first-date restaurant",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED"
+          }
+        },
+        {
+          "field": "CRITERION",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "CRITERION",
+            "text": "around 10,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          }
+        },
+        {
+          "field": "CRITERION",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "CRITERION",
+            "text": "hot-pot restaurants",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          }
+        },
+        {
+          "field": "CRITERION",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "CRITERION",
+            "text": "Sichuan/Hunan-style cuisine where spicy food is the main focus",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          }
+        }
+      ]
+    },
+    "originalIntent": {
+      "timezone": "Asia/Tokyo",
+      "target": {
+        "goal": "AVAILABILITY",
+        "query": "first-date restaurant near Higashi-Ginza",
+        "selectionScope": "OPEN_ENDED"
+      },
+      "date": "2026-10-17",
+      "timeWindow": {
+        "earliest": "18:30",
+        "latest": "18:30"
+      },
+      "partySize": 2,
+      "area": {
+        "query": "near Higashi-Ginza"
+      },
+      "criteria": [
+        {
+          "text": "first-date restaurant",
+          "polarity": "POSITIVE",
+          "strength": "UNSPECIFIED"
+        },
+        {
+          "text": "around 10,000 yen per person",
+          "polarity": "POSITIVE",
+          "strength": "SOFT"
+        },
+        {
+          "text": "hot-pot restaurants",
+          "polarity": "NEGATIVE",
+          "strength": "HARD"
+        },
+        {
+          "text": "Sichuan/Hunan-style cuisine where spicy food is the main focus",
+          "polarity": "NEGATIVE",
+          "strength": "HARD"
+        }
+      ]
+    },
+    "allowedChange": {
+      "field": "date",
+      "before": "2026-10-17",
+      "after": "2026-10-31"
+    },
+    "statement": "All non-date actual intent fields retained verbatim, including raw criterion text and target query. Variant dates approved by user 2026-10-16 22:44; this phase executes discovery probes only.",
+    "variantsApprovedSha256": "94d1383d71e6b1e4f589a7ceaab99826ec7a2a0aaa8bf38de8dd52d84d4ad4e7"
+  }
+}

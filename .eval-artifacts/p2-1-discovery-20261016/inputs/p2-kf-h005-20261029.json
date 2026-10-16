@@ -1,0 +1,250 @@
+{
+  "caseId": "p2-kf-h005-20261029",
+  "role": "TARGET",
+  "intent": {
+    "timezone": "Asia/Tokyo",
+    "target": {
+      "goal": "AVAILABILITY",
+      "query": "Nearby spots with open tables for local food",
+      "selectionScope": "OPEN_ENDED"
+    },
+    "date": "2026-10-29",
+    "timeWindow": {
+      "earliest": "18:00",
+      "latest": "18:00"
+    },
+    "partySize": 4,
+    "area": {
+      "query": "nearby",
+      "radiusMeters": 1000,
+      "coordinates": {
+        "latitude": 35.6697,
+        "longitude": 139.767,
+        "observedAt": "2026-10-11T20:44:05.665Z",
+        "source": "EVALUATION"
+      }
+    },
+    "criteria": [
+      {
+        "text": "local food",
+        "polarity": "POSITIVE",
+        "strength": "HARD"
+      },
+      {
+        "text": "fast food",
+        "polarity": "NEGATIVE",
+        "strength": "HARD"
+      }
+    ]
+  },
+  "locationContext": {
+    "latitude": 35.6697,
+    "longitude": 139.767,
+    "radiusMeters": 1000,
+    "label": "nearby",
+    "areaMatchBasis": "TASK_LOCATION_RADIUS",
+    "addressComponents": [
+      {
+        "longText": "東銀座駅",
+        "shortText": "東銀座駅",
+        "types": [
+          "establishment",
+          "point_of_interest",
+          "subway_station",
+          "transit_station"
+        ]
+      },
+      {
+        "longText": "１０先",
+        "shortText": "１０先",
+        "types": [
+          "premise"
+        ]
+      },
+      {
+        "longText": "１０",
+        "shortText": "１０",
+        "types": [
+          "political",
+          "sublocality",
+          "sublocality_level_4"
+        ]
+      },
+      {
+        "longText": "４丁目",
+        "shortText": "４丁目",
+        "types": [
+          "political",
+          "sublocality",
+          "sublocality_level_3"
+        ]
+      },
+      {
+        "longText": "銀座",
+        "shortText": "銀座",
+        "types": [
+          "political",
+          "sublocality",
+          "sublocality_level_2"
+        ]
+      },
+      {
+        "longText": "中央区",
+        "shortText": "中央区",
+        "types": [
+          "locality",
+          "political"
+        ]
+      },
+      {
+        "longText": "東京都",
+        "shortText": "東京都",
+        "types": [
+          "administrative_area_level_1",
+          "political"
+        ]
+      },
+      {
+        "longText": "日本",
+        "shortText": "JP",
+        "types": [
+          "country",
+          "political"
+        ]
+      },
+      {
+        "longText": "104-0061",
+        "shortText": "104-0061",
+        "types": [
+          "postal_code"
+        ]
+      }
+    ],
+    "addressObservation": {
+      "source": "GOOGLE_GEOCODING",
+      "observedAt": "2026-10-11T20:44:07.361Z",
+      "status": "OBSERVED"
+    }
+  },
+  "referenceTime": "2026-10-17T18:00:00+09:00",
+  "provenance": {
+    "runId": "p1fA-kf-h005-a1r",
+    "sourcePath": ".eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h005-a1r.result.json.gz",
+    "originalSha256": "407328dae652de55e4e11dc61894f06bd43a37a07e7586167808316c34cfd77d",
+    "gzipSha256": "5a83096ce2283c0f302c9d30c1b6e600eea7131c81ef7597049eb2f483e8db8e",
+    "semanticProposal": {
+      "schemaVersion": "3",
+      "facts": [
+        {
+          "field": "TARGET",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "TARGET",
+            "goal": "AVAILABILITY",
+            "query": "Nearby spots with open tables for local food",
+            "selectionScope": "OPEN_ENDED"
+          }
+        },
+        {
+          "field": "DATE",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "DATE",
+            "value": "2026-10-22",
+            "raw": "Thursday, October 22"
+          }
+        },
+        {
+          "field": "TIME_WINDOW",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "TIME_WINDOW",
+            "earliest": "18:00",
+            "latest": "18:00",
+            "raw": "6 PM"
+          }
+        },
+        {
+          "field": "PARTY_SIZE",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "PARTY_SIZE",
+            "value": 4,
+            "source": "EXPLICIT"
+          }
+        },
+        {
+          "field": "AREA",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "AREA",
+            "query": "nearby"
+          }
+        },
+        {
+          "field": "CRITERION",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "CRITERION",
+            "text": "local food",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        },
+        {
+          "field": "CRITERION",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "CRITERION",
+            "text": "fast food",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          }
+        }
+      ]
+    },
+    "originalIntent": {
+      "timezone": "Asia/Tokyo",
+      "target": {
+        "goal": "AVAILABILITY",
+        "query": "Nearby spots with open tables for local food",
+        "selectionScope": "OPEN_ENDED"
+      },
+      "date": "2026-10-22",
+      "timeWindow": {
+        "earliest": "18:00",
+        "latest": "18:00"
+      },
+      "partySize": 4,
+      "area": {
+        "query": "nearby",
+        "radiusMeters": 1000,
+        "coordinates": {
+          "latitude": 35.6697,
+          "longitude": 139.767,
+          "observedAt": "2026-10-11T20:44:05.665Z",
+          "source": "EVALUATION"
+        }
+      },
+      "criteria": [
+        {
+          "text": "local food",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        },
+        {
+          "text": "fast food",
+          "polarity": "NEGATIVE",
+          "strength": "HARD"
+        }
+      ]
+    },
+    "allowedChange": {
+      "field": "date",
+      "before": "2026-10-22",
+      "after": "2026-10-29"
+    },
+    "statement": "All non-date actual intent fields retained verbatim, including raw criterion text and target query. Variant dates approved by user 2026-10-16 22:44; this phase executes discovery probes only.",
+    "variantsApprovedSha256": "94d1383d71e6b1e4f589a7ceaab99826ec7a2a0aaa8bf38de8dd52d84d4ad4e7"
+  }
+}

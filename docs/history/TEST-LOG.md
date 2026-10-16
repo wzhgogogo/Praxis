@@ -4355,3 +4355,7 @@ rules-red.log三项实际业务断言失败：KF-H004误不合格，P1-G H004未
 ## TEST-2026-10-16-P21-prerequisites
 
 E1已独立签收；P2-1第一段第0项完成。观察器迁入src/eval，全部调用方更新，浏览器测试不再依赖.eval-artifacts；3250ms本地响应下旧3秒请求失败红灯，新15秒测试时限在持续两CPU进程负载下连续5次通过。五门禁typecheck/arch/build通过、npm test926/926、真实Chromium113/113；迁移首轮遗漏调用方的失败日志保留。外层POST观察器、0交付补见证GET及reviewed-reads复制并冻结SHA，未新增规则；旧P2-0冻结清单保留作历史，本段不执行整单Live。0真实模型/Google/餐厅请求。证据p2-1-discovery-20261016/00-prerequisites与outer，继续发现探测工具；不推送。
+
+## TEST-2026-10-16-P21-probe-tool
+
+P2-1第1项发现探测工具完成：使用同一生产createLiveReadAssembly，每计划来源仅一次首批，不查位/交付；15模型/180秒上限含失败调用，来源未到达及指标下界显式保留。6份最近Live实际语义/位置按原SHA提取，仅按10fd06f批准variants.yaml换date，非date字段与独立criteria字面量核对。新增arch拒绝生产依赖本项探测/见证，实际import红灯有效；定向4/4、默认930/930、真实Chromium113/113及typecheck/arch/build全绿，6份CLI空跑0网络。输入/配置/认证脚本已冻结SHA；E1口径未改，Pack净变化0行。0真实模型/Google/餐厅请求，接下来认证并基线10次，做完ADR草案停下，不推送。

@@ -1,0 +1,176 @@
+{
+  "caseId": "p2-kagurazaka-kaiseki-20261029",
+  "role": "TARGET",
+  "intent": {
+    "timezone": "Asia/Tokyo",
+    "target": {
+      "goal": "AVAILABILITY",
+      "query": "kaiseki restaurant near Kagurazaka",
+      "selectionScope": "OPEN_ENDED"
+    },
+    "date": "2026-10-29",
+    "timeWindow": {
+      "earliest": "19:30",
+      "latest": "19:30"
+    },
+    "partySize": 3,
+    "area": {
+      "query": "near Kagurazaka"
+    },
+    "criteria": [
+      {
+        "text": "kaiseki restaurant",
+        "polarity": "POSITIVE",
+        "strength": "HARD"
+      }
+    ]
+  },
+  "locationContext": {
+    "latitude": 35.701459799999995,
+    "longitude": 139.7402946,
+    "radiusMeters": 1000,
+    "label": "Kagurazaka",
+    "areaMatchBasis": "NAMED_PLACE_RADIUS",
+    "addressComponents": [
+      {
+        "longText": "Kagurazaka",
+        "shortText": "Kagurazaka",
+        "types": [
+          "sublocality_level_2",
+          "sublocality",
+          "political"
+        ]
+      },
+      {
+        "longText": "Shinjuku City",
+        "shortText": "Shinjuku City",
+        "types": [
+          "locality",
+          "political"
+        ]
+      },
+      {
+        "longText": "Tokyo",
+        "shortText": "Tokyo",
+        "types": [
+          "administrative_area_level_1",
+          "political"
+        ]
+      },
+      {
+        "longText": "Japan",
+        "shortText": "JP",
+        "types": [
+          "country",
+          "political"
+        ]
+      },
+      {
+        "longText": "162-0825",
+        "shortText": "162-0825",
+        "types": [
+          "postal_code"
+        ]
+      }
+    ]
+  },
+  "referenceTime": "2026-10-17T18:00:00+09:00",
+  "provenance": {
+    "runId": "p1fA-kagurazaka-a1",
+    "sourcePath": ".eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kagurazaka-a1.result.json.gz",
+    "originalSha256": "1a5f6955e890450a2627e4c81866648bd5c5d51e265d53ae87956ad11969d596",
+    "gzipSha256": "1392900320f585502df76dac156b25b0514ba1c8316b512249930257ce8ed44a",
+    "semanticProposal": {
+      "schemaVersion": "3",
+      "facts": [
+        {
+          "field": "TARGET",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "TARGET",
+            "goal": "AVAILABILITY",
+            "query": "kaiseki restaurant near Kagurazaka",
+            "selectionScope": "OPEN_ENDED"
+          }
+        },
+        {
+          "field": "DATE",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "DATE",
+            "value": "2026-10-22",
+            "raw": "Thursday, October 22"
+          }
+        },
+        {
+          "field": "TIME_WINDOW",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "TIME_WINDOW",
+            "earliest": "19:30",
+            "latest": "19:30",
+            "raw": "7:30 PM"
+          }
+        },
+        {
+          "field": "PARTY_SIZE",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "PARTY_SIZE",
+            "value": 3,
+            "source": "EXPLICIT"
+          }
+        },
+        {
+          "field": "AREA",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "AREA",
+            "query": "near Kagurazaka"
+          }
+        },
+        {
+          "field": "CRITERION",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "CRITERION",
+            "text": "kaiseki restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        }
+      ]
+    },
+    "originalIntent": {
+      "timezone": "Asia/Tokyo",
+      "target": {
+        "goal": "AVAILABILITY",
+        "query": "kaiseki restaurant near Kagurazaka",
+        "selectionScope": "OPEN_ENDED"
+      },
+      "date": "2026-10-22",
+      "timeWindow": {
+        "earliest": "19:30",
+        "latest": "19:30"
+      },
+      "partySize": 3,
+      "area": {
+        "query": "near Kagurazaka"
+      },
+      "criteria": [
+        {
+          "text": "kaiseki restaurant",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ]
+    },
+    "allowedChange": {
+      "field": "date",
+      "before": "2026-10-22",
+      "after": "2026-10-29"
+    },
+    "statement": "All non-date actual intent fields retained verbatim, including raw criterion text and target query. Variant dates approved by user 2026-10-16 22:44; this phase executes discovery probes only.",
+    "variantsApprovedSha256": "94d1383d71e6b1e4f589a7ceaab99826ec7a2a0aaa8bf38de8dd52d84d4ad4e7"
+  }
+}

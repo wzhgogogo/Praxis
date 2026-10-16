@@ -1,0 +1,176 @@
+{
+  "caseId": "p2-nakameguro-yakiniku-20261030",
+  "role": "CONTROL",
+  "intent": {
+    "timezone": "Asia/Tokyo",
+    "target": {
+      "goal": "AVAILABILITY",
+      "query": "yakiniku place near Nakameguro",
+      "selectionScope": "OPEN_ENDED"
+    },
+    "date": "2026-10-30",
+    "timeWindow": {
+      "earliest": "19:00",
+      "latest": "19:00"
+    },
+    "partySize": 4,
+    "area": {
+      "query": "near Nakameguro"
+    },
+    "criteria": [
+      {
+        "text": "yakiniku",
+        "polarity": "POSITIVE",
+        "strength": "HARD"
+      }
+    ]
+  },
+  "locationContext": {
+    "latitude": 35.638716099999996,
+    "longitude": 139.7026251,
+    "radiusMeters": 1000,
+    "label": "Nakameguro",
+    "areaMatchBasis": "NAMED_PLACE_RADIUS",
+    "addressComponents": [
+      {
+        "longText": "Nakameguro",
+        "shortText": "Nakameguro",
+        "types": [
+          "sublocality_level_2",
+          "sublocality",
+          "political"
+        ]
+      },
+      {
+        "longText": "Meguro City",
+        "shortText": "Meguro City",
+        "types": [
+          "locality",
+          "political"
+        ]
+      },
+      {
+        "longText": "Tokyo",
+        "shortText": "Tokyo",
+        "types": [
+          "administrative_area_level_1",
+          "political"
+        ]
+      },
+      {
+        "longText": "Japan",
+        "shortText": "JP",
+        "types": [
+          "country",
+          "political"
+        ]
+      },
+      {
+        "longText": "153-0061",
+        "shortText": "153-0061",
+        "types": [
+          "postal_code"
+        ]
+      }
+    ]
+  },
+  "referenceTime": "2026-10-17T18:00:00+09:00",
+  "provenance": {
+    "runId": "p1fA-nakameguro-a1",
+    "sourcePath": ".eval-artifacts/calibration-phase1-20261015/inputs/p1fA-nakameguro-a1.result.json.gz",
+    "originalSha256": "777fc1b1aedb4f0fae321b11aae89c00015150dba1977599268ddb046a03dcf5",
+    "gzipSha256": "5b2e5bd26dad41779770d8837f6a4839a2d695e14950a93a263d1a97866db345",
+    "semanticProposal": {
+      "schemaVersion": "3",
+      "facts": [
+        {
+          "field": "TARGET",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "TARGET",
+            "goal": "AVAILABILITY",
+            "query": "yakiniku place near Nakameguro",
+            "selectionScope": "OPEN_ENDED"
+          }
+        },
+        {
+          "field": "DATE",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "DATE",
+            "value": "2026-10-23",
+            "raw": "Friday, October 23"
+          }
+        },
+        {
+          "field": "TIME_WINDOW",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "TIME_WINDOW",
+            "earliest": "19:00",
+            "latest": "19:00",
+            "raw": "7 PM"
+          }
+        },
+        {
+          "field": "PARTY_SIZE",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "PARTY_SIZE",
+            "value": 4,
+            "source": "EXPLICIT"
+          }
+        },
+        {
+          "field": "AREA",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "AREA",
+            "query": "near Nakameguro"
+          }
+        },
+        {
+          "field": "CRITERION",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "CRITERION",
+            "text": "yakiniku",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        }
+      ]
+    },
+    "originalIntent": {
+      "timezone": "Asia/Tokyo",
+      "target": {
+        "goal": "AVAILABILITY",
+        "query": "yakiniku place near Nakameguro",
+        "selectionScope": "OPEN_ENDED"
+      },
+      "date": "2026-10-23",
+      "timeWindow": {
+        "earliest": "19:00",
+        "latest": "19:00"
+      },
+      "partySize": 4,
+      "area": {
+        "query": "near Nakameguro"
+      },
+      "criteria": [
+        {
+          "text": "yakiniku",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ]
+    },
+    "allowedChange": {
+      "field": "date",
+      "before": "2026-10-23",
+      "after": "2026-10-30"
+    },
+    "statement": "All non-date actual intent fields retained verbatim, including raw criterion text and target query. Variant dates approved by user 2026-10-16 22:44; this phase executes discovery probes only.",
+    "variantsApprovedSha256": "94d1383d71e6b1e4f589a7ceaab99826ec7a2a0aaa8bf38de8dd52d84d4ad4e7"
+  }
+}

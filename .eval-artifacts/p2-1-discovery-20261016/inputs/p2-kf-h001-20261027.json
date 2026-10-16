@@ -1,0 +1,160 @@
+{
+  "caseId": "p2-kf-h001-20261027",
+  "role": "TARGET",
+  "intent": {
+    "timezone": "Asia/Tokyo",
+    "target": {
+      "goal": "AVAILABILITY",
+      "query": "omakase restaurant near Shibuya",
+      "selectionScope": "OPEN_ENDED"
+    },
+    "date": "2026-10-27",
+    "timeWindow": {
+      "earliest": "19:00",
+      "latest": "19:00"
+    },
+    "partySize": 2,
+    "area": {
+      "query": "near Shibuya"
+    },
+    "criteria": [
+      {
+        "text": "omakase",
+        "polarity": "POSITIVE",
+        "strength": "HARD"
+      }
+    ]
+  },
+  "locationContext": {
+    "latitude": 35.6619707,
+    "longitude": 139.70379499999999,
+    "radiusMeters": 1000,
+    "label": "Shibuya",
+    "areaMatchBasis": "NAMED_PLACE_RADIUS",
+    "addressComponents": [
+      {
+        "longText": "Shibuya",
+        "shortText": "Shibuya",
+        "types": [
+          "locality",
+          "political"
+        ]
+      },
+      {
+        "longText": "Tokyo",
+        "shortText": "Tokyo",
+        "types": [
+          "administrative_area_level_1",
+          "political"
+        ]
+      },
+      {
+        "longText": "Japan",
+        "shortText": "JP",
+        "types": [
+          "country",
+          "political"
+        ]
+      }
+    ]
+  },
+  "referenceTime": "2026-10-17T18:00:00+09:00",
+  "provenance": {
+    "runId": "p20-h001-a1",
+    "sourcePath": ".eval-artifacts/calibration-phase1-20261015/inputs/p20-h001-a1.result.json.gz",
+    "originalSha256": "b5a1f0c3b091c5b89628dec6864d2a17e759b92e66820616d56624b5410dfefc",
+    "gzipSha256": "ef6df9604c654df4b45a50387c292800ed67d2c1024d88b900e9081c5e0863b0",
+    "semanticProposal": {
+      "schemaVersion": "3",
+      "facts": [
+        {
+          "field": "TARGET",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "TARGET",
+            "goal": "AVAILABILITY",
+            "query": "omakase restaurant near Shibuya",
+            "selectionScope": "OPEN_ENDED"
+          }
+        },
+        {
+          "field": "DATE",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "DATE",
+            "relativeDay": "TOMORROW",
+            "raw": "tomorrow"
+          }
+        },
+        {
+          "field": "TIME_WINDOW",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "TIME_WINDOW",
+            "earliest": "19:00",
+            "latest": "19:00",
+            "raw": "7 PM"
+          }
+        },
+        {
+          "field": "PARTY_SIZE",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "PARTY_SIZE",
+            "value": 2,
+            "source": "EXPLICIT"
+          }
+        },
+        {
+          "field": "AREA",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "AREA",
+            "query": "near Shibuya"
+          }
+        },
+        {
+          "field": "CRITERION",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "CRITERION",
+            "text": "omakase",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        }
+      ]
+    },
+    "originalIntent": {
+      "timezone": "Asia/Tokyo",
+      "target": {
+        "goal": "AVAILABILITY",
+        "query": "omakase restaurant near Shibuya",
+        "selectionScope": "OPEN_ENDED"
+      },
+      "date": "2026-10-16",
+      "timeWindow": {
+        "earliest": "19:00",
+        "latest": "19:00"
+      },
+      "partySize": 2,
+      "area": {
+        "query": "near Shibuya"
+      },
+      "criteria": [
+        {
+          "text": "omakase",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ]
+    },
+    "allowedChange": {
+      "field": "date",
+      "before": "2026-10-16",
+      "after": "2026-10-27"
+    },
+    "statement": "All non-date actual intent fields retained verbatim, including raw criterion text and target query. Variant dates approved by user 2026-10-16 22:44; this phase executes discovery probes only.",
+    "variantsApprovedSha256": "94d1383d71e6b1e4f589a7ceaab99826ec7a2a0aaa8bf38de8dd52d84d4ad4e7"
+  }
+}

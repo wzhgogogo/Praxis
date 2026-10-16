@@ -73,8 +73,10 @@ for (const file of await typescriptFiles(sourceRoot)) {
   const imports = source.matchAll(/((?:import|export)\s+(?:(?:type\s+)?[\w*{},\s]+\s+from\s*)?|(?:import|require)\s*\(\s*)["']([^"']+)["']/g);
   for (const match of imports) {
     const imported = importedSourcePath(file, match[2]!);
+    const probeBoundary = evaluatorImportViolation(importer, imported ?? match[2]!, match[0]);
+    if (probeBoundary) { failures.push(`${importer} -> ${imported ?? match[2]!}: ${probeBoundary}`); continue; }
     if (!imported) continue;
-    const reason = evaluatorImportViolation(importer, imported, match[0]) ?? violation(importer, imported);
+    const reason = violation(importer, imported);
     if (reason) failures.push(`${importer} -> ${imported}: ${reason}`);
   }
 }

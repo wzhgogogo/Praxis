@@ -1,0 +1,685 @@
+{
+  "method": "Public detail GET plus exactly-four-parameter vacancy GET. No model, form, or slot clicks.",
+  "variants": [
+    {
+      "caseId": "p2-kf-h001-20261027",
+      "role": "TARGET",
+      "date": "2026-10-27",
+      "time": "19:00",
+      "partySize": 2,
+      "center": {
+        "latitude": 35.6619707,
+        "longitude": 139.70379499999999,
+        "radiusMeters": 1000,
+        "label": "Shibuya",
+        "areaMatchBasis": "NAMED_PLACE_RADIUS",
+        "addressComponents": [
+          {
+            "longText": "Shibuya",
+            "shortText": "Shibuya",
+            "types": [
+              "locality",
+              "political"
+            ]
+          },
+          {
+            "longText": "Tokyo",
+            "shortText": "Tokyo",
+            "types": [
+              "administrative_area_level_1",
+              "political"
+            ]
+          },
+          {
+            "longText": "Japan",
+            "shortText": "JP",
+            "types": [
+              "country",
+              "political"
+            ]
+          }
+        ]
+      },
+      "hardCriteria": [
+        {
+          "text": "omakase",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "priorRegistry": {
+        "path": ".eval-artifacts/p1-f-20261011/witnesses.p1f-20261011.json",
+        "sha256": "1900217333acc30cef9026abe9da1199bbd62188d48773cb9f97b6c7f5856377",
+        "variantId": "p1f-kf-h001-20261020"
+      },
+      "witnesses": [
+        {
+          "outletName": "Shibuya Sushi Matsumoto",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+          "bookingSource": "TABELOG",
+          "hardEvidence": [
+            {
+              "criterion": "omakase",
+              "quote": "We offer only the \"Omakase Course.\""
+            }
+          ],
+          "oldDistanceMeters": 633,
+          "oldSlot": "find_vacancy rst_id=13261619 svd=20261020 svps=2: 19:00 present (11:30–13:00, 17:00–21:00)"
+        },
+        {
+          "outletName": "Shibuya Sushi Sen",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+          "bookingSource": "TABELOG",
+          "hardEvidence": [
+            {
+              "criterion": "omakase",
+              "url": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/party/",
+              "quote": "Omakase Course"
+            }
+          ],
+          "oldDistanceMeters": 260,
+          "oldSlot": "find_vacancy rst_id=13275802 svd=20261020 svps=2: 19:00 present"
+        }
+      ]
+    },
+    {
+      "caseId": "p2-kagurazaka-kaiseki-20261029",
+      "role": "TARGET",
+      "date": "2026-10-29",
+      "time": "19:30",
+      "partySize": 3,
+      "center": {
+        "latitude": 35.701459799999995,
+        "longitude": 139.7402946,
+        "radiusMeters": 1000,
+        "label": "Kagurazaka",
+        "areaMatchBasis": "NAMED_PLACE_RADIUS",
+        "addressComponents": [
+          {
+            "longText": "Kagurazaka",
+            "shortText": "Kagurazaka",
+            "types": [
+              "sublocality_level_2",
+              "sublocality",
+              "political"
+            ]
+          },
+          {
+            "longText": "Shinjuku City",
+            "shortText": "Shinjuku City",
+            "types": [
+              "locality",
+              "political"
+            ]
+          },
+          {
+            "longText": "Tokyo",
+            "shortText": "Tokyo",
+            "types": [
+              "administrative_area_level_1",
+              "political"
+            ]
+          },
+          {
+            "longText": "Japan",
+            "shortText": "JP",
+            "types": [
+              "country",
+              "political"
+            ]
+          },
+          {
+            "longText": "162-0825",
+            "shortText": "162-0825",
+            "types": [
+              "postal_code"
+            ]
+          }
+        ]
+      },
+      "hardCriteria": [
+        {
+          "text": "kaiseki restaurant",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "priorRegistry": {
+        "path": ".eval-artifacts/p1-f-20261011/witnesses.p1f-20261011.json",
+        "sha256": "1900217333acc30cef9026abe9da1199bbd62188d48773cb9f97b6c7f5856377",
+        "variantId": "p1f-novel-kagurazaka-kaiseki-20261022"
+      },
+      "witnesses": [
+        {
+          "outletName": "Kaiseki Komuro",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13218101/",
+          "bookingSource": "TABELOG",
+          "hardEvidence": [
+            {
+              "criterion": "kaiseki",
+              "quote": "presents kaiseki cuisine that highlights the natural flavors of the ingredients"
+            }
+          ],
+          "oldDistanceMeters": 293,
+          "oldSlot": "find_vacancy rst_id=13218101 svd=20261022 svps=3: 19:30 present (reviewer re-checked)"
+        },
+        {
+          "outletName": "Kagurazaka Kappou Kaga",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13048623/",
+          "bookingSource": "TABELOG",
+          "hardEvidence": [
+            {
+              "criterion": "kaiseki",
+              "quote": "Private rooms to Kaiseki Settai no Enkai Dokoro"
+            }
+          ],
+          "oldDistanceMeters": 125,
+          "oldSlot": "find_vacancy rst_id=13048623 svd=20261022 svps=3: 19:30 present"
+        },
+        {
+          "outletName": "Chisou Konya",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13011403/",
+          "bookingSource": "TABELOG",
+          "hardEvidence": [
+            {
+              "criterion": "kaiseki",
+              "quote": "Special Kaiseki Chisou Premium Course"
+            }
+          ],
+          "oldDistanceMeters": 105,
+          "oldSlot": "find_vacancy rst_id=13011403 svd=20261022 svps=3: 19:30 present"
+        }
+      ]
+    },
+    {
+      "caseId": "p2-kf-h005-20261029",
+      "role": "TARGET",
+      "date": "2026-10-29",
+      "time": "18:00",
+      "partySize": 4,
+      "center": {
+        "latitude": 35.6697,
+        "longitude": 139.767,
+        "radiusMeters": 1000,
+        "label": "nearby",
+        "areaMatchBasis": "TASK_LOCATION_RADIUS",
+        "addressComponents": [
+          {
+            "longText": "東銀座駅",
+            "shortText": "東銀座駅",
+            "types": [
+              "establishment",
+              "point_of_interest",
+              "subway_station",
+              "transit_station"
+            ]
+          },
+          {
+            "longText": "１０先",
+            "shortText": "１０先",
+            "types": [
+              "premise"
+            ]
+          },
+          {
+            "longText": "１０",
+            "shortText": "１０",
+            "types": [
+              "political",
+              "sublocality",
+              "sublocality_level_4"
+            ]
+          },
+          {
+            "longText": "４丁目",
+            "shortText": "４丁目",
+            "types": [
+              "political",
+              "sublocality",
+              "sublocality_level_3"
+            ]
+          },
+          {
+            "longText": "銀座",
+            "shortText": "銀座",
+            "types": [
+              "political",
+              "sublocality",
+              "sublocality_level_2"
+            ]
+          },
+          {
+            "longText": "中央区",
+            "shortText": "中央区",
+            "types": [
+              "locality",
+              "political"
+            ]
+          },
+          {
+            "longText": "東京都",
+            "shortText": "東京都",
+            "types": [
+              "administrative_area_level_1",
+              "political"
+            ]
+          },
+          {
+            "longText": "日本",
+            "shortText": "JP",
+            "types": [
+              "country",
+              "political"
+            ]
+          },
+          {
+            "longText": "104-0061",
+            "shortText": "104-0061",
+            "types": [
+              "postal_code"
+            ]
+          }
+        ],
+        "addressObservation": {
+          "source": "GOOGLE_GEOCODING",
+          "observedAt": "2026-10-11T20:44:07.361Z",
+          "status": "OBSERVED"
+        }
+      },
+      "hardCriteria": [
+        {
+          "text": "local food",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        },
+        {
+          "text": "fast food",
+          "polarity": "NEGATIVE",
+          "strength": "HARD"
+        }
+      ],
+      "priorRegistry": {
+        "path": ".eval-artifacts/p1-f-20261011/witnesses.p1f-20261011.json",
+        "sha256": "1900217333acc30cef9026abe9da1199bbd62188d48773cb9f97b6c7f5856377",
+        "variantId": "p1f-kf-h005-20261022"
+      },
+      "witnesses": [
+        {
+          "outletName": "Ginza Sushi Tempura Iwai",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13305528/",
+          "bookingSource": "TABELOG",
+          "hardEvidence": [
+            {
+              "criterion": "local food",
+              "quote": "Sushi, Tempura, Japanese Cuisine"
+            }
+          ],
+          "oldDistanceMeters": 384,
+          "oldSlot": "find_vacancy rst_id=13305528 svd=20261022 svps=4: 18:00 present"
+        },
+        {
+          "outletName": "Kushiyaki Bistro Fukumimi Ginza korido",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13255508/",
+          "bookingSource": "TABELOG",
+          "hardEvidence": [
+            {
+              "criterion": "local food",
+              "quote": "Kushiyaki (Japanese grilled skewers)"
+            }
+          ],
+          "oldDistanceMeters": 639,
+          "oldSlot": "find_vacancy rst_id=13255508 svd=20261022 svps=4: 18:00 present"
+        }
+      ]
+    },
+    {
+      "caseId": "p2-kichijoji-tempura-20261027",
+      "role": "TARGET",
+      "date": "2026-10-27",
+      "time": "18:00",
+      "partySize": 2,
+      "center": {
+        "latitude": 35.704096,
+        "longitude": 139.58020539999998,
+        "radiusMeters": 1000,
+        "label": "Kichijōji",
+        "areaMatchBasis": "NAMED_PLACE_RADIUS",
+        "addressComponents": [
+          {
+            "longText": "Kichijōji",
+            "shortText": "Kichijōji",
+            "types": [
+              "colloquial_area",
+              "political"
+            ]
+          },
+          {
+            "longText": "Musashino",
+            "shortText": "Musashino",
+            "types": [
+              "locality",
+              "political"
+            ]
+          },
+          {
+            "longText": "Tokyo",
+            "shortText": "Tokyo",
+            "types": [
+              "administrative_area_level_1",
+              "political"
+            ]
+          },
+          {
+            "longText": "Japan",
+            "shortText": "JP",
+            "types": [
+              "country",
+              "political"
+            ]
+          }
+        ]
+      },
+      "hardCriteria": [
+        {
+          "text": "tempura restaurant",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "priorRegistry": {
+        "path": ".eval-artifacts/p1-f-20261011/witnesses.p1f-20261011.json",
+        "sha256": "1900217333acc30cef9026abe9da1199bbd62188d48773cb9f97b6c7f5856377",
+        "variantId": "p1f-novel-kichijoji-tempura-20261020"
+      },
+      "witnesses": [
+        {
+          "outletName": "Kichijoji Sushi Tempura Iwai",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13282321/",
+          "bookingSource": "TABELOG",
+          "hardEvidence": [
+            {
+              "criterion": "tempura",
+              "quote": "Sushi, Tempura, Japanese Cuisine"
+            }
+          ],
+          "oldDistanceMeters": 149,
+          "oldSlot": "find_vacancy rst_id=13282321 svd=20261020 svps=2: 18:00 present"
+        },
+        {
+          "outletName": "Tempura Murayama",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13303321/",
+          "bookingSource": "TABELOG",
+          "hardEvidence": [
+            {
+              "criterion": "tempura",
+              "quote": "Tempura"
+            }
+          ],
+          "oldDistanceMeters": 397,
+          "oldSlot": "find_vacancy rst_id=13303321 svd=20261020 svps=2: 18:00 present (reviewer re-checked)"
+        },
+        {
+          "outletName": "Suzuna",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13192886/",
+          "bookingSource": "TABELOG",
+          "hardEvidence": [
+            {
+              "criterion": "tempura",
+              "quote": "Japanese Cuisine, Seafood, Tempura"
+            }
+          ],
+          "oldDistanceMeters": 543,
+          "oldSlot": "find_vacancy rst_id=13192886 svd=20261020 svps=2: 18:00 present"
+        }
+      ]
+    },
+    {
+      "caseId": "p2-kf-h002-20261031",
+      "role": "CONTROL",
+      "date": "2026-10-31",
+      "time": "18:30",
+      "partySize": 2,
+      "center": {
+        "latitude": 35.669700299999995,
+        "longitude": 139.7671399,
+        "radiusMeters": 1000,
+        "label": "Higashi-ginza Sta.",
+        "areaMatchBasis": "NAMED_PLACE_RADIUS",
+        "addressComponents": [
+          {
+            "longText": "１０先",
+            "shortText": "１０先",
+            "types": [
+              "premise"
+            ]
+          },
+          {
+            "longText": "10",
+            "shortText": "10",
+            "types": [
+              "sublocality_level_4",
+              "sublocality",
+              "political"
+            ]
+          },
+          {
+            "longText": "4-chōme",
+            "shortText": "4-chōme",
+            "types": [
+              "sublocality_level_3",
+              "sublocality",
+              "political"
+            ]
+          },
+          {
+            "longText": "Ginza",
+            "shortText": "Ginza",
+            "types": [
+              "sublocality_level_2",
+              "sublocality",
+              "political"
+            ]
+          },
+          {
+            "longText": "Chuo City",
+            "shortText": "Chuo City",
+            "types": [
+              "locality",
+              "political"
+            ]
+          },
+          {
+            "longText": "Tokyo",
+            "shortText": "Tokyo",
+            "types": [
+              "administrative_area_level_1",
+              "political"
+            ]
+          },
+          {
+            "longText": "Japan",
+            "shortText": "JP",
+            "types": [
+              "country",
+              "political"
+            ]
+          },
+          {
+            "longText": "104-0061",
+            "shortText": "104-0061",
+            "types": [
+              "postal_code"
+            ]
+          }
+        ]
+      },
+      "hardCriteria": [
+        {
+          "text": "hot-pot restaurants",
+          "polarity": "NEGATIVE",
+          "strength": "HARD"
+        },
+        {
+          "text": "Sichuan/Hunan-style cuisine where spicy food is the main focus",
+          "polarity": "NEGATIVE",
+          "strength": "HARD"
+        }
+      ],
+      "priorRegistry": {
+        "path": ".eval-artifacts/p1-f-20261011/witnesses.p1f-20261011.json",
+        "sha256": "1900217333acc30cef9026abe9da1199bbd62188d48773cb9f97b6c7f5856377",
+        "variantId": "p1f-kf-h002-20261024"
+      },
+      "witnesses": [
+        {
+          "outletName": "Ginza Sushi Tempura Iwai",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13305528/",
+          "bookingSource": "TABELOG",
+          "hardEvidence": [
+            {
+              "criterion": "exclusions",
+              "quote": "Sushi, Tempura, Japanese Cuisine"
+            }
+          ],
+          "oldDistanceMeters": 395,
+          "oldSlot": "find_vacancy rst_id=13305528 svd=20261024 svps=2: 18:30 present"
+        },
+        {
+          "outletName": "Ginza Wagyu Teppanyaki USHIGAMI",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13296659/",
+          "bookingSource": "TABELOG",
+          "hardEvidence": [
+            {
+              "criterion": "exclusions",
+              "quote": "Teppanyaki, Steak, Seafood"
+            }
+          ],
+          "oldDistanceMeters": 394,
+          "oldSlot": "find_vacancy rst_id=13296659 svd=20261024 svps=2: 18:30 present"
+        },
+        {
+          "outletName": "Ginza Sushi Den",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13291473/",
+          "bookingSource": "TABELOG",
+          "hardEvidence": [
+            {
+              "criterion": "exclusions",
+              "quote": "Sushi, Seafood, Japanese Cuisine"
+            }
+          ],
+          "oldDistanceMeters": 248,
+          "oldSlot": "find_vacancy rst_id=13291473 svd=20261024 svps=2: 18:30 present"
+        }
+      ]
+    },
+    {
+      "caseId": "p2-nakameguro-yakiniku-20261030",
+      "role": "CONTROL",
+      "date": "2026-10-30",
+      "time": "19:00",
+      "partySize": 4,
+      "center": {
+        "latitude": 35.638716099999996,
+        "longitude": 139.7026251,
+        "radiusMeters": 1000,
+        "label": "Nakameguro",
+        "areaMatchBasis": "NAMED_PLACE_RADIUS",
+        "addressComponents": [
+          {
+            "longText": "Nakameguro",
+            "shortText": "Nakameguro",
+            "types": [
+              "sublocality_level_2",
+              "sublocality",
+              "political"
+            ]
+          },
+          {
+            "longText": "Meguro City",
+            "shortText": "Meguro City",
+            "types": [
+              "locality",
+              "political"
+            ]
+          },
+          {
+            "longText": "Tokyo",
+            "shortText": "Tokyo",
+            "types": [
+              "administrative_area_level_1",
+              "political"
+            ]
+          },
+          {
+            "longText": "Japan",
+            "shortText": "JP",
+            "types": [
+              "country",
+              "political"
+            ]
+          },
+          {
+            "longText": "153-0061",
+            "shortText": "153-0061",
+            "types": [
+              "postal_code"
+            ]
+          }
+        ]
+      },
+      "hardCriteria": [
+        {
+          "text": "yakiniku",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "priorRegistry": {
+        "path": ".eval-artifacts/p1-f-20261011/witnesses.p1f-20261011.json",
+        "sha256": "1900217333acc30cef9026abe9da1199bbd62188d48773cb9f97b6c7f5856377",
+        "variantId": "p1f-novel-nakameguro-yakiniku-20261023"
+      },
+      "witnesses": [
+        {
+          "outletName": "Nakameguro Yakiniku Togyu Mon",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13290371/",
+          "bookingSource": "TABELOG",
+          "hardEvidence": [
+            {
+              "criterion": "yakiniku",
+              "quote": "Yakiniku (Japanese BBQ), Tripe, Izakaya"
+            }
+          ],
+          "oldDistanceMeters": 111,
+          "oldSlot": "find_vacancy rst_id=13290371 svd=20261023 svps=4: 19:00 present"
+        },
+        {
+          "outletName": "Nakameguro Sumibiyaki Horumon Manten Koukashita",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13241250/",
+          "bookingSource": "TABELOG",
+          "hardEvidence": [
+            {
+              "criterion": "yakiniku",
+              "quote": "Yakiniku (Japanese BBQ), Tripe, Izakaya"
+            }
+          ],
+          "oldDistanceMeters": 207,
+          "oldSlot": "find_vacancy rst_id=13241250 svd=20261023 svps=4: 19:00 present (reviewer re-checked)"
+        },
+        {
+          "outletName": "Nakameguro Nakasei",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13305906/",
+          "bookingSource": "TABELOG",
+          "hardEvidence": [
+            {
+              "criterion": "yakiniku",
+              "quote": "Steak, Hamburger steak, Yakiniku (Japanese BBQ)"
+            }
+          ],
+          "oldDistanceMeters": 338,
+          "oldSlot": "find_vacancy rst_id=13305906 svd=20261023 svps=4: 19:00 present"
+        }
+      ]
+    }
+  ]
+}

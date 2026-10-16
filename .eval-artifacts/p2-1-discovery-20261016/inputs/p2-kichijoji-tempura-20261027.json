@@ -1,0 +1,168 @@
+{
+  "caseId": "p2-kichijoji-tempura-20261027",
+  "role": "TARGET",
+  "intent": {
+    "timezone": "Asia/Tokyo",
+    "target": {
+      "goal": "AVAILABILITY",
+      "query": "tempura restaurants near Kichijoji with a table for 2 on Tuesday, October 20 at 6 PM",
+      "selectionScope": "OPEN_ENDED"
+    },
+    "date": "2026-10-27",
+    "timeWindow": {
+      "earliest": "18:00",
+      "latest": "18:00"
+    },
+    "partySize": 2,
+    "area": {
+      "query": "near Kichijoji"
+    },
+    "criteria": [
+      {
+        "text": "tempura restaurant",
+        "polarity": "POSITIVE",
+        "strength": "HARD"
+      }
+    ]
+  },
+  "locationContext": {
+    "latitude": 35.704096,
+    "longitude": 139.58020539999998,
+    "radiusMeters": 1000,
+    "label": "Kichijōji",
+    "areaMatchBasis": "NAMED_PLACE_RADIUS",
+    "addressComponents": [
+      {
+        "longText": "Kichijōji",
+        "shortText": "Kichijōji",
+        "types": [
+          "colloquial_area",
+          "political"
+        ]
+      },
+      {
+        "longText": "Musashino",
+        "shortText": "Musashino",
+        "types": [
+          "locality",
+          "political"
+        ]
+      },
+      {
+        "longText": "Tokyo",
+        "shortText": "Tokyo",
+        "types": [
+          "administrative_area_level_1",
+          "political"
+        ]
+      },
+      {
+        "longText": "Japan",
+        "shortText": "JP",
+        "types": [
+          "country",
+          "political"
+        ]
+      }
+    ]
+  },
+  "referenceTime": "2026-10-17T18:00:00+09:00",
+  "provenance": {
+    "runId": "p1g-kichijoji-a2",
+    "sourcePath": ".eval-artifacts/calibration-phase1-20261015/inputs/p1g-kichijoji-a2.result.json.gz",
+    "originalSha256": "9530e37ceba86053099eb1d6d5fa543c7781aee0b9ea8aff2a0303999ea82027",
+    "gzipSha256": "21b4615f2fa5d20002c40d4cf75cd4fa2ee0271be6cb274aecf768903e547888",
+    "semanticProposal": {
+      "schemaVersion": "3",
+      "facts": [
+        {
+          "field": "TARGET",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "TARGET",
+            "goal": "AVAILABILITY",
+            "query": "tempura restaurants near Kichijoji with a table for 2 on Tuesday, October 20 at 6 PM",
+            "selectionScope": "OPEN_ENDED"
+          }
+        },
+        {
+          "field": "DATE",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "DATE",
+            "value": "2026-10-20",
+            "raw": "Tuesday, October 20"
+          }
+        },
+        {
+          "field": "TIME_WINDOW",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "TIME_WINDOW",
+            "earliest": "18:00",
+            "latest": "18:00",
+            "raw": "6 PM"
+          }
+        },
+        {
+          "field": "PARTY_SIZE",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "PARTY_SIZE",
+            "value": 2,
+            "source": "EXPLICIT"
+          }
+        },
+        {
+          "field": "AREA",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "AREA",
+            "query": "near Kichijoji"
+          }
+        },
+        {
+          "field": "CRITERION",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "CRITERION",
+            "text": "tempura restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        }
+      ]
+    },
+    "originalIntent": {
+      "timezone": "Asia/Tokyo",
+      "target": {
+        "goal": "AVAILABILITY",
+        "query": "tempura restaurants near Kichijoji with a table for 2 on Tuesday, October 20 at 6 PM",
+        "selectionScope": "OPEN_ENDED"
+      },
+      "date": "2026-10-20",
+      "timeWindow": {
+        "earliest": "18:00",
+        "latest": "18:00"
+      },
+      "partySize": 2,
+      "area": {
+        "query": "near Kichijoji"
+      },
+      "criteria": [
+        {
+          "text": "tempura restaurant",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ]
+    },
+    "allowedChange": {
+      "field": "date",
+      "before": "2026-10-20",
+      "after": "2026-10-27"
+    },
+    "statement": "All non-date actual intent fields retained verbatim, including raw criterion text and target query. Variant dates approved by user 2026-10-16 22:44; this phase executes discovery probes only.",
+    "variantsApprovedSha256": "94d1383d71e6b1e4f589a7ceaab99826ec7a2a0aaa8bf38de8dd52d84d4ad4e7"
+  }
+}

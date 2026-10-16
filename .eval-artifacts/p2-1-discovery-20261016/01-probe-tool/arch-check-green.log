@@ -1,0 +1,7 @@
+
+> praxis-zhixing@0.1.0 arch:check
+> node --import tsx scripts/arch-check.ts
+
+Architecture check failed:
+- server/local-web-server.test.ts -> eval/restaurant/agent-loop/diagnostic-evaluator.ts: production must not depend on eval witnesses, probe metrics or other evaluation modules
+- server/local-web-server.ts -> eval/restaurant/agent-loop/web-read-artifact.ts: production must not depend on eval witnesses, probe metrics or other evaluation modules

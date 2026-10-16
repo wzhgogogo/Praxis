@@ -1,3 +1,4 @@
+import { runDiscoveryProbe } from "./discovery-probe.js";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
@@ -947,4 +948,38 @@ test("T1 Runner and Web assemblies expose equal effective limits and independent
   assert.equal(runner.loop.maxRejectedActions, 5, "neither host may fall back to the retired test default of three");
   assert.equal(runner.router.structuredReadTimeoutMs, 30_000);
   assert.equal(runner.router.browserReadTimeoutMs, runner.runCeilings.maxAutomaticBrowserMs);
+});
+
+
+test("P21 discovery probe uses production assembly/Guard for one first batch and never availability",async()=>{
+ const navigations:string[]=[],networkRequests:BrowserReadNetworkObservation[]=[];
+ const model=new H001NativeModel("TABELOG_BATCH_CAP");
+ const result=await runDiscoveryProbe({caseId:"probe-first-batch",role:"TARGET",referenceTime:reference.toISOString(),
+   intent:{timezone:"Asia/Tokyo",target:{goal:"AVAILABILITY",query:"omakase",selectionScope:"OPEN_ENDED"},date,timeWindow:{earliest:"19:00",latest:"19:00"},partySize:2,area:{query:"near Shibuya"},criteria:[{text:"omakase",polarity:"POSITIVE",strength:"HARD"}]},
+   locationContext:{...center,label:"Shibuya",radiusMeters:1000,areaMatchBasis:"NAMED_PLACE_RADIUS"}},[],
+   {...LIVE_READ_DEBUG_INVESTIGATION_BUDGET,maxModelCalls:15,maxAutomaticBrowserMs:180000,packs:[tabelogDiscoveryPack]},
+   {model,google:new GooglePlacesClient({apiKey:"FIXTURE",fetchImplementation:async()=>{throw Error("No Google request expected for frozen named location")}}),
+    browser:sourcePages("TABELOG_BATCH_CAP",navigations,[],[],[],{guardedReadBoundary:true,networkRequests}),clock:{now:()=>reference}});
+ assert.deepEqual(result.attemptedSourceIds,["tabelog"]);
+ assert.equal(result.firstBatchDetails.length,5,"do not resume into the second detail batch");
+ assert.ok(result.inRadiusParsed>0);assert.ok(result.resources.modelCalls<=15);
+ assert.ok(networkRequests.some(r=>r.method==="GET"&&r.outcome==="ADMITTED"));
+ assert.ok(!model.purposes.includes("restaurant_semantic_interpret"));
+ assert.ok(!model.purposes.includes("restaurant_fact_judgment"));
+ assert.ok(!navigations.some(url=>/booking|reserve|calendar/.test(url)),"discovery must not navigate to availability or reservation pages");
+});
+
+test("P21 failed model calls count toward the shared probe ceiling; later source is not started",async()=>{
+ let calls=0;
+ const result=await runDiscoveryProbe({caseId:"probe-budget",role:"TARGET",referenceTime:reference.toISOString(),
+  intent:{timezone:"Asia/Tokyo",area:{query:"near Shibuya"},criteria:[{text:"omakase",polarity:"POSITIVE",strength:"HARD"}]},
+  locationContext:{...center,label:"Shibuya",radiusMeters:1000,areaMatchBasis:"NAMED_PLACE_RADIUS"}},[],
+  {...LIVE_READ_DEBUG_INVESTIGATION_BUDGET,maxModelCalls:1,maxAutomaticBrowserMs:180000},
+  {model:{async complete(){calls++;throw new ModelGatewayError("Fixture provider failure","PROVIDER_REJECTED",true);}},
+   google:new GooglePlacesClient({apiKey:"FIXTURE",fetchImplementation:async()=>{throw Error("Not reached")}}),
+   browser:sourcePages("TABELOG_DELIVERS",[],[],[],[],{guardedReadBoundary:true}),clock:{now:()=>reference}});
+ assert.equal(result.resources.modelCalls,1);assert.equal(calls,1);
+ assert.equal(result.terminationReason,"MODEL_CALL_BUDGET_EXHAUSTED");
+ assert.deepEqual(result.unattemptedSourceIds,["tablecheck","google-places"]);
+ assert.equal(result.witnessInListing,false);
 });

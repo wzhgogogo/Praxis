@@ -1,0 +1,27 @@
+✖ P21 production cannot import witness/probe evaluation modules through any import form (0.933417ms)
+✔ P21 listing witness, first-batch witness and radius are independent observations (0.275791ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 1
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 135.145667
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/discovery-probe.test.ts:1:461
+✖ P21 production cannot import witness/probe evaluation modules through any import form (0.933417ms)
+  AssertionError [ERR_ASSERTION]: The "string" argument must be of type string. Received type undefined (undefined)
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/discovery-probe.test.ts:14:9)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /production.*eval/i,
+    operator: 'match'
+  }
