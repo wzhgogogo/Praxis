@@ -151,3 +151,22 @@ ADR-0037只追加了有条件的Proposed部分替代说明，原文逐字保留�
 - 独立产物核对 `baseline-verification.json`：summary与decisions SHA、86条调用/决策相等、trace存在与SHA、recording文件存在；全部10次均DISCOVERY_PROBE_ONLY，输入及冻结文件SHA保持。`summarize-baseline.py`只离线生成表和核对，不访问网络或模型。
 - 第3项ADR-0042为Proposed；ADR-0037原始字节前缀完整保留，只追加有条件提案说明。文档矩阵检查链接、命令、权威一致性与diff。原有INDEX、产品设计草稿和三个演示文件未纳入提交。本地提交后停止，等待用户批准ADR；不推送、不执行第4–7项。
 - 收尾核对见 `first-segment-verification.json`；原始产物逐文件SHA见 `artifact-manifest.json`。全目录逐文件gzip压缩估算约10.7 MB，低于60 MB停止线；这是估算而非另造可回放压缩包。
+
+## 2026-10-17 corrected source metrics (offline)
+
+TableCheck: ENV_FAILURE in all ten probes (independent-review.md supplement). Google not reached in h001 #1 and Kichijoji #1 is the same environmental effect. Original JSON/trace/decisions remain unchanged. Google exact witness website IDs are credited separately; names are unconfirmed. The old aggregate 0/8 TARGET conclusion is superseded by this source-specific table, not a normal-network capability baseline.
+
+| Probe | Tabelog witness | TableCheck | Google exact website ID | Unconfirmed names |
+| --- | --- | --- | --- | --- |
+| p2-kf-h001-20261027 #1 | false | ENV_FAILURE | NOT_REACHED (ENV) | 0 |
+| p2-kf-h001-20261027 #2 | false | ENV_FAILURE | true | 35 |
+| p2-kagurazaka-kaiseki-20261029 #1 | false | ENV_FAILURE | false | 13 |
+| p2-kagurazaka-kaiseki-20261029 #2 | false | ENV_FAILURE | false | 13 |
+| p2-kf-h005-20261029 #1 | false | ENV_FAILURE | false | 8 |
+| p2-kf-h005-20261029 #2 | false | ENV_FAILURE | false | 8 |
+| p2-kichijoji-tempura-20261027 #1 | false | ENV_FAILURE | NOT_REACHED (ENV) | 0 |
+| p2-kichijoji-tempura-20261027 #2 | false | ENV_FAILURE | true | 9 |
+| p2-kf-h002-20261031 #1 | true | ENV_FAILURE | false | 17 |
+| p2-nakameguro-yakiniku-20261030 #1 | false | ENV_FAILURE | true | 13 |
+
+Evidence: followup/baseline-recomputed.json; models=0, business network requests=0.

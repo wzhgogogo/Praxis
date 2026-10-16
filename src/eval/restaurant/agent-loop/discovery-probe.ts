@@ -50,6 +50,30 @@ export function discoveryProbeMetrics(input: DiscoveryProbeInput, witnesses: rea
   const boundListings = listings.filter(listing => reads.some(row => row.sourceId === listing.sourceId &&
     (row.read?.metadata.nativeDiscoveryFunnel ?? row.failedFunnel)?.listingObservations?.some(observation => observation.sourceUrl === listing.url)));
   const matches = (sourceId: string, sourceEntityId: string) => witnesses.some(w => w.sourceId === sourceId && w.sourceEntityId === sourceEntityId);
+  const identityPath = (value: string) => value.replace(/^\/+|\/+$/g, "").replace(/^(?:en|ja)\//, "");
+  const witnessWebsiteMatches: Array<{ candidateId: string; witnessSourceId: string; witnessSourceEntityId: string; website: string }> = [];
+  const witnessNameOnlyMatches: Array<{ candidateId: string; candidateName: string; witnessName: string; witnessSourceId: string; witnessSourceEntityId: string }> = [];
+  const nameTokens = (value: string) => value.normalize("NFKD").replace(/\p{M}/gu, "").toLowerCase().match(/[\p{L}\p{N}]{3,}/gu) ?? [];
+  for (const row of reads.filter(row => row.sourceId === "google-places")) for (const {restaurant} of row.read?.candidates ?? []) {
+    for (const witness of witnesses) {
+      const website = restaurant.sourceIds.googleWebsiteUri;
+      let exact = false;
+      try {
+        const url = new URL(website ?? "");
+        const pack = packs.find(pack => pack.meta.id === witness.sourceId);
+        exact = url.protocol === "https:" && !url.port && !url.username && !url.password && !!pack?.documentOrigins.some(origin => new URL(origin).hostname.replace(/^www\./, "") === url.hostname.replace(/^www\./, ""))
+          && identityPath(url.pathname) === identityPath(witness.sourceEntityId);
+      } catch { /* A missing or malformed website never establishes identity. */ }
+      if (exact) witnessWebsiteMatches.push({candidateId:restaurant.id,witnessSourceId:witness.sourceId,witnessSourceEntityId:witness.sourceEntityId,website:website!});
+      else {
+        const a = new Set(nameTokens(restaurant.outletName)), b = new Set(nameTokens(witness.outletName));
+        const overlap = [...a].filter(token => b.has(token)).length;
+        if (overlap > 0 && overlap / Math.min(a.size,b.size) >= 0.5) witnessNameOnlyMatches.push({candidateId:restaurant.id,candidateName:restaurant.outletName,witnessName:witness.outletName,witnessSourceId:witness.sourceId,witnessSourceEntityId:witness.sourceEntityId});
+      }
+    }
+  }
+  const witnessInListingBySource = Object.fromEntries([...new Set([...packs.map(p=>p.meta.id),...reads.map(r=>r.sourceId)])].map(sourceId => [sourceId,
+    sourceId === "google-places" ? witnessWebsiteMatches.length > 0 : boundListings.some(listing => listing.sourceId === sourceId && listing.outlets.some(outlet => matches(sourceId,outlet.sourceEntityId)))]));
   const inRadius = new Map<string, { sourceId: string; candidateId: string; distanceMeters: number }>();
   for (const row of reads) for (const candidate of row.read?.candidates ?? []) {
     const coordinates = candidate.restaurant.coordinates;
@@ -74,13 +98,15 @@ export function discoveryProbeMetrics(input: DiscoveryProbeInput, witnesses: rea
     });
   });
   return {
-    witnessInListing: boundListings.some(listing => listing.outlets.some(outlet => matches(listing.sourceId, outlet.sourceEntityId))),
+    witnessInListing: Object.values(witnessInListingBySource).some(Boolean),
+    witnessInListingBySource, witnessWebsiteMatches, witnessNameOnlyMatches,
+    witnessNameOnlyMatchRule: "Unconfirmed token overlap >= half the shorter name after Unicode normalization; never credited as identity.",
     witnessInFirstBatch: details.some(detail => matches(detail.sourceId, detail.sourceEntityId)),
     witnessCount: witnesses.length,
-    witnessMatches: witnesses.map(w => ({ ...w, inListing: boundListings.some(l => l.sourceId === w.sourceId && l.outlets.some(o => o.sourceEntityId === w.sourceEntityId)),
+    witnessMatches: witnesses.map(w => ({ ...w, inListing: boundListings.some(l => l.sourceId === w.sourceId && l.outlets.some(o => o.sourceEntityId === w.sourceEntityId)) || witnessWebsiteMatches.some(m=>m.witnessSourceId===w.sourceId&&m.witnessSourceEntityId===w.sourceEntityId),
       inFirstBatch: details.some(d => d.sourceId === w.sourceId && d.sourceEntityId === w.sourceEntityId) })),
     inRadiusParsed: inRadius.size, inRadiusParsedIsLowerBound: reads.some(row=>!row.read), inRadiusCandidates: [...inRadius.values()], retrievalAttempts,
-    listingObservationScope: "Only source-funnel-bound listing URLs count; bootstrap/nationwide snapshots excluded. Google-native IDs do not establish cross-source identity.",
+    listingObservationScope: "Native: source-funnel-bound lists. Google: observed website URL must match witness source origin and exact entity path, ignoring only source language prefix. Name-only matches never count.",
     pages: reads.reduce((sum,row) => sum + ((row.read?.metadata.nativeDiscoveryFunnel ?? row.failedFunnel)?.pagesRead ?? (!packs.find(p=>p.meta.id===row.sourceId)?.browser ? row.read?.continuation?.pagesRead ?? 0 : 0)),0),
     sources: reads.map(row => ({ sourceId: row.sourceId, candidates: row.read?.candidates.length ?? 0, failureCode: row.failureCode ?? row.read?.metadata.failureCode ?? null,
       funnel: row.read?.metadata.nativeDiscoveryFunnel ?? row.failedFunnel ?? null })),

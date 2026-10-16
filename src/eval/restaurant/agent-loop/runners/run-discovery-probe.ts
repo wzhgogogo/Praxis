@@ -1,3 +1,5 @@
+import { planDiscoverySources } from "../../../../domains/restaurant/discovery-planner.js";
+import { runSourceDataPreflight,SourceDataPreflightError } from "../source-data-preflight.js";
 import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
@@ -40,7 +42,13 @@ await mkdir(directory,{recursive:false});
 const network=resolveEffectiveLiveNetworkConfiguration(process.env),env=environmentWithEffectiveLiveNetwork(process.env,network);
 const startedAt=new Date().toISOString();
 await writeFile(resolve(directory,'started.json'),JSON.stringify({mode:'DISCOVERY_PROBE',head,startedAt,inputPath:values.input,inputSha256:sha256,witnessesSha256:createHash('sha256').update(witnessBytes).digest('hex'),reviewedReadsSha256:reviewed.sha256,config},null,2),{flag:'wx'});
-await runDiscoveryProbePreflight({environment:env,network,artifactDirectory:directory});
+try {
+ await runDiscoveryProbePreflight({environment:env,network,artifactDirectory:directory});
+ await runSourceDataPreflight({sourceIds:planDiscoverySources(input.intent,input.locationContext,restaurantDiscoveryPacks.map(p=>p.meta),input.referenceTime).entries.map(e=>e.sourceId),environment:env,artifactDirectory:directory});
+} catch(error) {
+ await writeFile(resolve(directory,'preflight-failure.json'),JSON.stringify({classification:'ENV_FAILURE',sourceIds:error instanceof SourceDataPreflightError?error.sourceIds:[],failureCode:error instanceof SourceDataPreflightError?error.code:'NETWORK_PREFLIGHT_FAILED',modelCalls:0,formalProbeStarted:false},null,2),{flag:'wx'});
+ throw error;
+}
 const recording=new BrowserReadRecording({directory:resolve(directory,'recording'),runId:input.caseId,
  reviewedStaticResources:restaurantDiscoveryPacks.flatMap(p=>p.staticResources),reviewedReads:restaurantDiscoveryPacks.flatMap(p=>p.reviewedReads)});
 const capture=createHybridDecisionCapture(resolve(directory,'probe.result.json'),recording);

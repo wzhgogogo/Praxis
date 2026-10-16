@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.247
-- Last updated: 2026-10-16
+- Document revision: 4.248
+- Last updated: 2026-10-17
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-17 P2-1 readiness：** ADR-0042已批准Accepted，探测40/模型450；新来源非空预检先于模型和正式运行，空/超时记ENV_FAILURE。十次旧基线TableCheck按复核改环境问题，Google精确官网ID分来源重算，原始产物不改；四门禁933/933绿，真实模型/业务网络/探测/Live均0。下一提交前记录P2-1a基线点，不推送。
 
 - **2026-10-16 P2-1 baseline-adr：** 第一段10次发现探测完成，86模型（含2失败）/15Google/0整单Live，四TARGET见证来源ID均未进入列表；CONTROL结果与超时/未到达如实保留。冻结0a25cae与active清单未变，931/931及Chromium113/113证据复用；ADR-0042为Proposed，0037只追加。报告见.eval-artifacts/p2-1-discovery-20261016/report.md；停在第3项，不推送，不实施第4–7项。
 

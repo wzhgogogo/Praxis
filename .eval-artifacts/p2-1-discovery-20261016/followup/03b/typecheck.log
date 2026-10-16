@@ -1,0 +1,10 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/eval/restaurant/agent-loop/discovery-probe.test.ts(23,88): error TS2352: Conversion of type '{ evidence: RestaurantReadEvidence[]; metadata: RestaurantReadExecutionMetadata; continuation?: RestaurantSearchContinuation; candidates: { restaurant: { id: string; outletName: string; sourceIds: { googleWebsiteUri: string; }; }; }[]; }' to type 'RestaurantSearchRead' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Types of property 'candidates' are incompatible.
+    Type '{ restaurant: { id: string; outletName: string; sourceIds: { googleWebsiteUri: string; }; }; }[]' is not comparable to type 'RestaurantCandidate[]'.
+      Type '{ restaurant: { id: string; outletName: string; sourceIds: { googleWebsiteUri: string; }; }; }' is missing the following properties from type 'RestaurantCandidate': matchReasons, warnings, executionConfidence
+src/eval/restaurant/agent-loop/runners/run-hybrid-live-read.ts(234,60): error TS18048: 'frozen.semantic' is possibly 'undefined'.
+src/eval/restaurant/agent-loop/runners/run-hybrid-live-read.ts(234,76): error TS2339: Property 'target' does not exist on type '{ date?: { expression?: string; value?: string; }; time?: { expression?: string; value?: string; type?: string; start?: string; end?: string; }; }'.

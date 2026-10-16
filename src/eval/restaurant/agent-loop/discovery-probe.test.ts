@@ -8,6 +8,22 @@ const input: DiscoveryProbeInput={caseId:"fixture",role:"TARGET",referenceTime:"
  intent:{timezone:"Asia/Tokyo",area:{query:"fixture"},criteria:[]},
  locationContext:{latitude:35,longitude:139,radiusMeters:1000,label:"fixture",areaMatchBasis:"NAMED_PLACE_RADIUS"}};
 
+test("P21 Google website exact source identity counts by discovery source; names never establish identity",()=>{
+ const witness={sourceId:"tabelog",sourceEntityId:"en/tokyo/A1000/A100001/12345678",outletName:"Fixture Sushi"};
+ const candidates=[{restaurant:{id:"google:exact",outletName:"Different spelling",sourceIds:{googleWebsiteUri:"https://tabelog.com/tokyo/A1000/A100001/12345678/"}}},
+ {restaurant:{id:"google:name",outletName:"Fixture Sushi",sourceIds:{googleWebsiteUri:"https://other.example/12345678"}}},
+ {restaurant:{id:"google:wrong",outletName:"Fixture Sushi",sourceIds:{googleWebsiteUri:"https://tabelog.com/tokyo/A1000/A100001/87654321/"}}}];
+ const read={candidates,evidence:[],metadata:{}} as unknown as RestaurantSearchRead;
+ const metrics=discoveryProbeMetrics(input,[witness],[],[],[{sourceId:"google-places",read}]);
+ assert.equal(metrics.witnessInListing,true);
+ assert.equal(metrics.witnessInListingBySource['google-places'],true);
+ assert.equal(metrics.witnessInListingBySource.tabelog,false);
+ assert.equal(metrics.witnessNameOnlyMatches.length,2);
+ assert.equal(metrics.witnessWebsiteMatches.length,1);
+ const bad=discoveryProbeMetrics(input,[witness],[],[],[{sourceId:'google-places',read:{...read,candidates:candidates.slice(1)} as unknown as RestaurantSearchRead}]);
+ assert.equal(bad.witnessInListing,false);
+});
+
 test("P21 production cannot import witness/probe evaluation modules through any import form",()=>{
  for(const owner of ["application/read.ts","integrations/search/port.ts","infrastructure/browser/test.ts","domains/restaurant/intent.ts","server/read.ts","web/read.ts"])
  for(const statement of ['import { metric } from "x"','import type { Witness } from "x"','import("x")'])

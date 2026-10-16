@@ -1,8 +1,9 @@
 # ADR-0042: Agent-planned discovery and search availability hints
 
-- Status: Proposed; draft / not integrated，等待用户批准
-- Document revision: 0.1
-- Last updated: 2026-10-16
+- Status: Accepted
+- Approval: 用户批准 2026-10-17；P2-1a 待本批离线实现，P2-1b 待后续工作包
+- Document revision: 1.0
+- Last updated: 2026-10-17
 - Source of truth for: P2-1a 检索规划、P2-1b 搜索级空位线索的拟议职责和边界
 - Would supersede in part: [ADR-0037](0037-request-driven-discovery-source-packs.md) Decision 2–3 的检索表达式生成方式；批准前现有决定和实现继续有效
 - Related documents: [ADR-0040](0040-agent-selected-directory-region-entrances.md), [ADR-0036](0036-generic-public-read-network-policy.md), [Phase 2 Playbook](../AGENT-WEB-OPERATION-PHASE-2-PLAYBOOK.md), [P2-1 指令](../../.eval-artifacts/p2-1-discovery-20261016/codex-instruction.md), [第一段证据](../../.eval-artifacts/p2-1-discovery-20261016/report.md)
@@ -18,7 +19,7 @@
 基线输入取最近 Live 的实际语义与地点上下文，只按批准变体移日期，不用 Gold 替换实际条件。
 基线发现探测及其失败、未到达来源以链接报告为准；探测不是查位、交付或改进后验收。
 
-## Decision (proposed)
+## Decision
 
 ### 1. 来源顺序与检索表达式分工
 
@@ -100,7 +101,7 @@ HARD 资格、来源身份、精确坐标半径、新鲜度、权威日期人数
 新增的是当前请求的有界检索决策及其审计事实，不是可任意执行 URL 的通用规划框架。
 可能增加少量模型调用和列表页，必须在原时间与调用总额内换取更有效候选；A/B 检查点分别验证增量。
 来源当前页面不提供所需类别或筛选时如实保留限制，不能推导为不存在合格餐厅。
-本文件 Proposed 不表示上述能力已经实现或验证。
+本文件 Accepted 表示决策已获批准，不表示上述能力已完成网站验证；当前实现与证据以 STATUS 及批次报告为准。
 
 ## Alternatives considered
 
@@ -112,4 +113,4 @@ HARD 资格、来源身份、精确坐标半径、新鲜度、权威日期人数
 ## Related documents
 
 实现范围、冻结输入、逐次基线与停止规则以本页头部链接的指令和第一段报告为准。
-无用户批准不得将本文件改为 Accepted 或执行 P2-1a/P2-1b。
+用户已于 2026-10-17 批准本 ADR。本轮只实施 P2-1a 并离线验证，不执行真实网站探测、检查点 A、P2-1b 或 Live；网络恢复后的基线必须使用 P2-1a 之前的记录提交。

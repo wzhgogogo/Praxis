@@ -56,7 +56,7 @@ Accepted G1 supplement: [ADR-0036 supplement](0036-tablecheck-reserve-read-suppl
 
 | [0039](0039-immediate-thirty-minute-window.md) | Accepted | 零偏移现在的30分钟窗口、Gold@7默认与页面营业事实的有界提前结束 |
 | [0040](0040-agent-selected-directory-region-entrances.md) | Accepted; 用户批准 2026-10-10 | Agent选择已观察目录地区入口，权威LOCATION、坐标半径兜底与一次换入口；实现/发现探测待独立复核 |
-| [0042](0042-agent-planned-discovery-and-search-availability-hints.md) | Proposed; draft / not integrated | Agent有界检索规划与搜索级空位线索；待用户批准，未改变现有生产策略 |
+| [0042](0042-agent-planned-discovery-and-search-availability-hints.md) | Accepted; 用户批准 2026-10-17 | Agent有界检索规划与搜索级空位线索；P2-1a离线实施，来源实测与P2-1b待后续 |
 
 ## 规则
 

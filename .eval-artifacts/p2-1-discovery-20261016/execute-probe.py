@@ -36,6 +36,11 @@ if summary_path.exists():
  # The instruction explicitly requires stopping if the expected discovery bottleneck already changed.
  if p['role']=='TARGET' and s['witnessInListing'] and not ledger['stop']:
   ledger['stop']={'code':'BASELINE_DIFFERS_FROM_EXPECTED_MISS','index':index,'basis':'A certified target witness is already in a source-funnel-bound first-batch listing. Inspect raw attempt before any further runs.'}
+elif (directory/'preflight-failure.json').exists():
+ failure=json.loads((directory/'preflight-failure.json').read_text())
+ assert failure['classification']=='ENV_FAILURE' and failure['modelCalls']==0 and not failure['formalProbeStarted']
+ a.update({'status':'ENV_FAILURE','sourceIds':failure['sourceIds'],'models':0,'formalProbeStarted':False})
+ ledger['stop']={'code':'ENV_FAILURE','sourceIds':failure['sourceIds'],'index':index}
 else:
  # Never manufacture a probe summary or a zero model count for a started decision stream.
  decisions=directory/'probe.decisions.jsonl'

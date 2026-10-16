@@ -83,3 +83,22 @@
 - 超时取消点配置180000ms；耗时包括取消与回收开销，超过的毫秒数按实际保留，不声称墙钟严格小于180秒。
 - 录制按既有安全策略最小化，NOT_REPLAYABLE的具体原因保留；不能据此声称可静态重建。
 - 四层口径：端到端交付NOT_APPLICABLE（未运行）；逐环节只评发现见证与坐标观测，语义/查位/事实/HARD/交付未评；S0声明NOT_APPLICABLE（无展示），S0越界按独立规则审计逐次报告，未知GET副作用仍为既有证明限制；归因仅记录可观察的检索与超时卡点，不把系统原因码升级为已确认根因。
+
+## 2026-10-17 corrected source metrics (offline)
+
+TableCheck: ENV_FAILURE in all ten probes (independent-review.md supplement). Google not reached in h001 #1 and Kichijoji #1 is the same environmental effect. Original JSON/trace/decisions remain unchanged. Google exact witness website IDs are credited separately; names are unconfirmed. The old aggregate 0/8 TARGET conclusion is superseded by this source-specific table, not a normal-network capability baseline.
+
+| Probe | Tabelog witness | TableCheck | Google exact website ID | Unconfirmed names |
+| --- | --- | --- | --- | --- |
+| p2-kf-h001-20261027 #1 | false | ENV_FAILURE | NOT_REACHED (ENV) | 0 |
+| p2-kf-h001-20261027 #2 | false | ENV_FAILURE | true | 35 |
+| p2-kagurazaka-kaiseki-20261029 #1 | false | ENV_FAILURE | false | 13 |
+| p2-kagurazaka-kaiseki-20261029 #2 | false | ENV_FAILURE | false | 13 |
+| p2-kf-h005-20261029 #1 | false | ENV_FAILURE | false | 8 |
+| p2-kf-h005-20261029 #2 | false | ENV_FAILURE | false | 8 |
+| p2-kichijoji-tempura-20261027 #1 | false | ENV_FAILURE | NOT_REACHED (ENV) | 0 |
+| p2-kichijoji-tempura-20261027 #2 | false | ENV_FAILURE | true | 9 |
+| p2-kf-h002-20261031 #1 | true | ENV_FAILURE | false | 17 |
+| p2-nakameguro-yakiniku-20261030 #1 | false | ENV_FAILURE | true | 13 |
+
+Evidence: followup/baseline-recomputed.json; models=0, business network requests=0.
