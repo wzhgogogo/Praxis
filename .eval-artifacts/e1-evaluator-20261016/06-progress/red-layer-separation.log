@@ -1,0 +1,29 @@
+✖ E1 progress thresholds reject repeated failures but do not erase a genuinely supported delivery (9.846583ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 157.258
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts:1:24173
+✖ E1 progress thresholds reject repeated failures but do not erase a genuinely supported delivery (9.846583ms)
+  AssertionError [ERR_ASSERTION]: bad investigation is not proof that a true displayed result became false
+  
+  'NO' !== 'YES'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts:351:12)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'NO',
+    expected: 'YES',
+    operator: 'strictEqual'
+  }

@@ -1,0 +1,124 @@
+
+> praxis-zhixing@0.1.0 eval:restaurant:agent-loop:artifact
+> node --import tsx src/eval/restaurant/agent-loop/runners/run-hybrid-artifact-evaluation.ts --manifest .eval-artifacts/calibration-phase1-20261015/inputs/manifest.json --run p1g2-h001-a4 --out-dir .eval-artifacts/e1-evaluator-20261016/06-progress/evaluations
+
+{
+  "outputPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/e1-evaluator-20261016/06-progress/evaluations/p1g2-h001-a4.evaluation.29.168ef305-db66-4693-9b49-1d1886f2f833.json",
+  "execution": {
+    "status": "SUCCEEDED",
+    "stage": "AGENT_LOOP",
+    "taskProducedQualifiedResult": "NO",
+    "systemBehavior": "NOT_SUPPORTED",
+    "externalConditions": "OBSERVED",
+    "evidenceSufficiency": "NOT_EVALUATED",
+    "completion": "NO_VERIFIED_RESULT"
+  },
+  "outcome": {
+    "type": "NOT_EVALUATED",
+    "reasons": [
+      "No qualified delivery or independently sufficient no-result/cause oracle; no witness means no CAPABILITY_MISS."
+    ],
+    "evidenceRefs": [
+      "trajectories",
+      "finalSnapshot"
+    ],
+    "capabilityDenominator": "NOT_EVALUATED",
+    "userGoalComplete": "NOT_EVALUATED"
+  },
+  "severity": {
+    "S0": {
+      "status": "PRESENT",
+      "reasons": [
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list"
+      ],
+      "evidenceRefs": [
+        "networkRequests[43]",
+        "networkRequests[89]",
+        "networkRequests[135]",
+        "networkRequests[181]",
+        "networkRequests[210]",
+        "networkRequests[256]",
+        "networkRequests[285]",
+        "networkRequests[420]",
+        "networkRequests[449]",
+        "networkRequests[668]",
+        "networkRequests[697]",
+        "networkRequests[1373]",
+        "networkRequests[1402]",
+        "networkRequests[1431]",
+        "networkRequests[1460]",
+        "networkRequests[1489]",
+        "networkRequests[1518]",
+        "networkRequests[1547]",
+        "networkRequests[1576]",
+        "networkRequests[1605]",
+        "networkRequests[1634]",
+        "networkRequests[1663]",
+        "networkRequests[1692]",
+        "networkRequests[1721]",
+        "networkRequests[1750]",
+        "networkRequests[1779]",
+        "networkRequests[1808]",
+        "networkRequests[1837]",
+        "networkRequests[1884]"
+      ]
+    },
+    "S1": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "No independently established unmet user-need conclusion."
+      ],
+      "evidenceRefs": []
+    },
+    "S2": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "No valid independent feasible witness supplied."
+      ],
+      "evidenceRefs": []
+    },
+    "S3": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "Experience/latency thresholds belong to E2; not scored here."
+      ],
+      "evidenceRefs": []
+    },
+    "S4": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "User-invisible retry effects are not independently established."
+      ],
+      "evidenceRefs": []
+    }
+  },
+  "evaluatorVersion": "restaurant-hybrid-read-diagnostic-evaluator@29"
+}

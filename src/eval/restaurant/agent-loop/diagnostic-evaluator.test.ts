@@ -325,6 +325,52 @@ test("E1 after-GET scope comes from its raw response, never the four request par
   assert.equal(finding(evaluateRestaurantHybridLiveArtifact(artifact, source, { postDeliveryTabelog: [changed] }), "REQUIRED_EVIDENCE").status, "NOT_SATISFIED");
 });
 
+test("E1 real no-progress loops fail investigation and same-term steps 4-6 are reported", async () => {
+  const loop = evaluateRestaurantHybridLiveArtifact(await calibrationArtifact("p1g2-h001-a4"), source);
+  assert.equal(finding(loop, "INVESTIGATION_BEHAVIOR").status, "NOT_SATISFIED");
+  const repeated = evaluateRestaurantHybridLiveArtifact(await calibrationArtifact("p20-h001-a1"), source) as any;
+  assert.ok(repeated.investigationMetrics?.sameTermRuns.some((run: any) => run.steps.slice(0, 3).join(",") === "4,5,6"));
+  assert.equal(finding(evaluateRestaurantHybridLiveArtifact(completeArtifact(), source), "INVESTIGATION_BEHAVIOR").status, "SATISFIED");
+});
+
+test("E1 progress thresholds reject repeated failures but do not erase a genuinely supported delivery", () => {
+  const original: any = completeArtifact();
+  const evaluate = (count: number, mode: "rejected" | "failure") => {
+    const artifact = structuredClone(original);
+    artifact.trajectories = [...Array.from({ length: count }, (_, index) => ({ stepNumber: index + 1,
+      stepOutcome: mode === "rejected" ? "REJECTED" : "EXECUTION_FAILURE", agentAction: { type: "SEARCH_RESTAURANTS", retrievalHint: "independent query" },
+      decisionContext: original.trajectories[0].decisionContext,
+      executionMetadata: { provider: "TABELOG", failureCode: "BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED" },
+    })), ...artifact.trajectories];
+    return evaluateRestaurantHybridLiveArtifact(artifact, source);
+  };
+  for (const mode of ["rejected", "failure"] as const) {
+    assert.equal(finding(evaluate(3, mode), "INVESTIGATION_BEHAVIOR").status, "SATISFIED");
+    const exceeded = evaluate(4, mode);
+    assert.equal(finding(exceeded, "INVESTIGATION_BEHAVIOR").status, "NOT_SATISFIED");
+    assert.equal(exceeded.execution.taskProducedQualifiedResult, "YES", "bad investigation is not proof that a true displayed result became false");
+    assert.equal(exceeded.outcome.type, "QUALIFIED_DELIVERY");
+    assert.equal(exceeded.execution.systemBehavior, "NOT_SUPPORTED");
+  }
+});
+
+test("E1 exact URL reload counter distinguishes real query variation and unavailable redacted history", () => {
+  const artifact: any = completeArtifact();
+  const url = "https://example.test/public?date=20261016";
+  artifact.sourceTrace = { navigations: Array(6).fill(url) };
+  let result = evaluateRestaurantHybridLiveArtifact(artifact, source);
+  assert.equal(result.investigationMetrics.urls.status, "OBSERVED");
+  assert.equal(finding(result, "INVESTIGATION_BEHAVIOR").status, "SATISFIED");
+  artifact.sourceTrace.navigations.push(url);
+  result = evaluateRestaurantHybridLiveArtifact(artifact, source);
+  assert.equal(finding(result, "INVESTIGATION_BEHAVIOR").status, "NOT_SATISFIED");
+  assert.match(result.investigationMetrics.violations.join(" "), /exactUrlReloads=6>5/);
+  artifact.sourceTrace.navigations = Array.from({ length: 7 }, (_, index) => `https://example.test/public?date=202610${10 + index}`);
+  assert.equal(finding(evaluateRestaurantHybridLiveArtifact(artifact, source), "INVESTIGATION_BEHAVIOR").status, "SATISFIED");
+  delete artifact.sourceTrace;
+  assert.equal(evaluateRestaurantHybridLiveArtifact(artifact, source).investigationMetrics.urls.status, "NOT_EVALUATED");
+});
+
 const source = { path: "/tmp/availability-fixture.result.json", sha256: "a".repeat(64) };
 const finding = (result: ReturnType<typeof evaluateRestaurantHybridLiveArtifact>, dimension: string) => result.findings.find((item) => item.dimension === dimension)!;
 

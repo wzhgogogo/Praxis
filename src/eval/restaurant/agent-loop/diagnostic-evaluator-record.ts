@@ -83,13 +83,14 @@ const offer = object({ id: text, restaurantId: text, source: text, dateTime: tex
 const termination = object({ initiator: text, type: text, reasonCode: text, isSystemReason: boolean });
 const restaurant = object({ id: text, outletName: text, address: text, sourceIds: dictionary(text) });
 const candidate = object({ restaurant });
-const action = object({ type: text, candidateIds: texts });
+const action = object({ type: text, candidateIds: texts, retrievalHint: text });
 const observation = object({ type: text, candidateIds: texts, evidenceIds: texts, unresolvedCandidateIds: texts,
   remainingGaps: texts, termination, factSourceAttempts: array(object({ candidateId: text, source: text })) });
 const trajectory = object({ stepNumber: number, occurredAt: text, stateVersionAfter: number, stateHashBefore: text,
   stepOutcome: text, agentAction: action, action, decisionContext: object({ intent, intentDraft: intent }),
   actionValidation: object({ status: text }), observation,
   executionMetadata: object({ provider: text, failureCode: text, recheckReason: text,
+    nativeDiscoveryFunnel: object({ pagesRead: number, listingObservations: array(object({ sourceUrl: text, resultCount: number, parsedOutlets: number })) }),
     providerAttempts: array(object({ candidateId: text, provider: text, outcome: text, failureCode: text })) }) });
 const control = object({ structure: object({ name: text, radioGroupKey: text }), name: text, label: text, kind: text,
   checked: boolean, selected: boolean, calendarDate: text, visible: boolean, disabled: boolean, value: text, options: array(object({ selected: boolean, value: text, label: text })) });
@@ -122,7 +123,7 @@ const domain = object({ intentDraft: intent, phase: text, availabilityChecks: di
 const run = object({ runId: text, caseId: text, status: text, stage: text, failureCode: optionalFailure, startedAt: text, finishedAt: text,
   materializedCase: object({ id: text, semantic }), finalSnapshot: object({ version: number, domainState: domain }),
   trajectories: array(trajectory), events: array(object({ occurredAt: text, event: object({ type: text, termination: text, reasonCode: text }), trace: object({ actor: text }) })),
-  diagnostics: object({ browserTrace: array(trace), networkRequests: array(networkRequest) }), sourceTrace: object({ browserTrace: array(trace) }),
+  diagnostics: object({ browserTrace: array(trace), networkRequests: array(networkRequest) }), sourceTrace: object({ browserTrace: array(trace), navigations: texts }),
   execution: object({ failureCode: text }), loop: object({ status: text }),
   resourceUsage: numericFields(["elapsedMs", "agentDecisions", "browserModelCalls", "modelCallsStarted"]),
   runCeilings: numericFields(["maxAutomaticBrowserMs", "maxAgentSteps", "maxBrowserModelCallsTotal", "maxModelCalls"]),
