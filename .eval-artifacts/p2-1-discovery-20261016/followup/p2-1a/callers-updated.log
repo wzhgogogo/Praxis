@@ -1,0 +1,293 @@
+✔ H005 fixed controls preserve the original regional-cuisine evidence without adding local-food wording (0.48ms)
+✔ fixed source discovery is candidate-scoped and accepts equivalent retrieval wording (11.782709ms)
+✔ fixed source keeps inventory with its own candidate and request scope (36.641084ms)
+✔ fixed-source coverage gaps preserve provider, request and candidate context (1.104959ms)
+✔ configured provider 404 is observed behavior, not a fixture gap (1.463542ms)
+✔ waitFor requires the requested configured target rather than arbitrary page markup (0.839583ms)
+✔ independent source identities accept a normalized same outlet and reject a same-phone different branch (9.841ms)
+✔ source observation time advances with the controlled business clock while sample capture stays historical (2.031542ms)
+✔ a lead found while investigating A may help B only after B's own identity check (2.959292ms)
+▶ a second-turn HARD upgrade resets the real Runtime (maxAgentSteps=3/4, timeoutMs=5000) and cannot reuse an old nonblocking presentation
+  ✖ missing-current-hard-evidence (24.496125ms)
+  ✖ current-hard-evidence (1.109875ms)
+✖ a second-turn HARD upgrade resets the real Runtime (maxAgentSteps=3/4, timeoutMs=5000) and cannot reuse an old nonblocking presentation (26.909084ms)
+▶ current H001-H005 raw requests complete through the real offline Hybrid composition (maxAgentSteps=6, timeoutMs=5000) with a scripted code-contract model
+  ✖ h001 (5.079792ms)
+  ✖ h002 (2.559167ms)
+  ✖ h003 (3.797875ms)
+  ✖ h004 (2.145458ms)
+  ✖ h005 (2.230708ms)
+✖ current H001-H005 raw requests complete through the real offline Hybrid composition (maxAgentSteps=6, timeoutMs=5000) with a scripted code-contract model (30.349875ms)
+ℹ {"caseId":"h005","phase":"FAILED","qualified":"UNKNOWN","completionDiagnostic":"NOT_EVALUATED","sourceCalls":{"search":0,"facts":0,"availability":0,"namedPlace":0,"website":0,"coverageGaps":[],"observations":[],"browserNavigations":[],"browserTrace":[]}}
+✖ a new task and new source scenario reuse the fixed Hybrid composition (maxAgentSteps=6, timeoutMs=5000) without a case-specific Runner (0.74975ms)
+✖ registered control cases use the shared execution, evaluator, and acceptance path (1.15625ms)
+✖ an explicit result count travels from control input through authoritative State into fixed-source acceptance (0.879875ms)
+✔ fixed-source registration refuses unknown IDs and missing bindings (0.453292ms)
+✔ frozen H001-H005 registrations do not convert the product default batch target into a user requirement (0.111958ms)
+✔ a frozen business clock cannot freeze the real outer deadline or admit a late model result (32.497292ms)
+✔ a result that completes before the deadline retains its normal terminal outcome (38.719125ms)
+✔ controlled cancellation stays distinct from an honest model-budget completion (11.288917ms)
+✔ frozen H001-H005 authoritative semantics materialize into auditable source-pack plans (23.016083ms)
+✔ source-stage manifest freezes the Phase3 budgets, full denominator and evaluator boundary (0.770834ms)
+✔ source-stage Replay reports no real model request while retaining replay decision accounting (0.041084ms)
+✔ source-stage matrix cap limits the next sample before model dispatch (0.07975ms)
+✔ source-stage attempt accounting retains failed samples and cannot convert a partial matrix into a pass (0.444459ms)
+✔ direct source stages retain production-port reads without inventing a Hybrid evaluator verdict (0.291292ms)
+✔ source-stage facts and browser decisions share one bounded model counter (0.122416ms)
+✔ frozen Replay wires use the production decoder and require a fresh opaque target rebind (0.332ms)
+✔ live source-stage discovery delegates to the production NativeRestaurantSearch flow instead of a direct Pack snapshot (18.803709ms)
+✔ source-stage discovery keeps a parsed list without any frozen-radius candidate as NO_COVERAGE (1.281ms)
+✔ browserless Google Pack runs through its production search port with the frozen pack query (0.204292ms)
+✔ Execution Router binds only the matching durable search cursor; the Agent cannot supply or reuse one after an intent change (2.219709ms)
+✔ Execution Router aborts and bounds a Provider search read that exceeds its deadline (1.862166ms)
+✔ Execution Router returns at its deadline even when a Provider ignores abort (0.409416ms)
+✔ Execution Router retains source-owned Google request accounting when a sent read fails (0.205959ms)
+✔ Execution Router passes only bound availability arguments and its deadline signal to the adapter (0.906167ms)
+✔ Execution Router preserves a current exact immediate request for source-side slot verification (0.227792ms)
+✔ Execution Router forwards only a current exact immediate slot to the provider (0.22175ms)
+✔ Execution Router binds a fact-only read to known candidates and the authoritative recommendation intent (0.278584ms)
+✔ Execution Router keeps a shared browser startup failure candidate-scoped after all requested candidates fail (0.187167ms)
+✔ Execution Router preserves all-provider browser failure evidence without escalating it to task terminal (0.19775ms)
+✔ Router partial-port contract: an explicitly permitted alternate time is queried as a bounded range and presented as an alternate, without changing the original request (packs=Google; maxAgentSteps=6, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000) (23.466125ms)
+✔ Router partial-port contract: fresh request-bound inventory can receive missing facts before another inventory read and reach three results (packs=Google; maxAgentSteps=12, maxRejectedActions=3, maxAutomaticBrowserMs=10000, maxStructuredReadMs=8000) (13.815417ms)
+✔ Router partial-port contract: default delivery keeps a produced source-backed result when the next availability batch would consume the reserve (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=300000, maxStructuredReadMs=8000) (1020.71625ms)
+▶ Router partial-port contract: model-call delivery reserve presents a source-backed short batch without relaxing qualification (packs=Google; maxAgentSteps=10, maxRejectedActions=3, maxAutomaticBrowserMs=500000, maxStructuredReadMs=8000)
+  ✔ ready (5.055875ms)
+  ✔ crossing (5.208166ms)
+  ✔ wrong-party (3.024542ms)
+  ✔ expired (2.687083ms)
+  ✔ explicit-count (2.277541ms)
+✔ Router partial-port contract: model-call delivery reserve presents a source-backed short batch without relaxing qualification (packs=Google; maxAgentSteps=10, maxRejectedActions=3, maxAutomaticBrowserMs=500000, maxStructuredReadMs=8000) (18.830792ms)
+▶ Router partial-port contract: C0b reserves the last four calls inside a provider read and then presents (packs=Google; maxAgentSteps=10, maxRejectedActions=3, maxAutomaticBrowserMs=500000, maxStructuredReadMs=8000)
+  ✔ ready (4.777917ms)
+  ✔ no-qualified (4.029ms)
+  ✔ expired (3.665375ms)
+✔ Router partial-port contract: C0b reserves the last four calls inside a provider read and then presents (packs=Google; maxAgentSteps=10, maxRejectedActions=3, maxAutomaticBrowserMs=500000, maxStructuredReadMs=8000) (12.68275ms)
+▶ Router partial-port contract: C6a observed public hours end the immediate window only when every checked page has no opening period (packs=Google; maxAgentSteps=4, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)
+  ✔ closed (12.31625ms)
+  ✔ outside (5.171333ms)
+  ✔ open (5.703084ms)
+  ✔ partial (6.303708ms)
+  ✔ unknown (5.112458ms)
+  ✔ malformed (4.831833ms)
+  ✔ ambiguous-closed (4.558166ms)
+  ✔ wrong-day (4.004417ms)
+  ✔ overnight (5.22875ms)
+  ✔ api-only (3.122791ms)
+  ✔ explicit-time (4.316375ms)
+  ✔ one-closed (2.213459ms)
+  ✔ three-two-closed-one-open (4.512625ms)
+✔ Router partial-port contract: C6a observed public hours end the immediate window only when every checked page has no opening period (packs=Google; maxAgentSteps=4, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000) (67.923917ms)
+▶ Router partial-port contract: reserve checkpoints retain completed outlets and mark only unfinished ones UNKNOWN (packs=Google; maxAgentSteps=10, maxRejectedActions=3, maxAutomaticBrowserMs=mode==="availability-time"?300000:500000, maxStructuredReadMs=8000)
+  ✔ availability-call (5.450042ms)
+  ✔ availability-time (1011.876042ms)
+  ✔ empty-call (7.614709ms)
+  ✔ facts-call (7.117917ms)
+✔ Router partial-port contract: reserve checkpoints retain completed outlets and mark only unfinished ones UNKNOWN (packs=Google; maxAgentSteps=10, maxRejectedActions=3, maxAutomaticBrowserMs=mode==="availability-time"?300000:500000, maxStructuredReadMs=8000) (1032.59675ms)
+ℹ tests 79
+ℹ suites 0
+ℹ pass 67
+ℹ fail 12
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2584.997083
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/current-development-offline.test.ts:1:15246
+✖ missing-current-hard-evidence (24.496125ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'MODEL_FAILURE'
+  - 'TERMINAL'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-offline.test.ts:294:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-offline.test.ts:279:94)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'MODEL_FAILURE',
+    expected: 'TERMINAL',
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/current-development-offline.test.ts:1:15246
+✖ current-hard-evidence (1.109875ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'MODEL_FAILURE'
+  - 'TERMINAL'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-offline.test.ts:294:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-offline.test.ts:279:94)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'MODEL_FAILURE',
+    expected: 'TERMINAL',
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/current-development-offline.test.ts:1:19899
+✖ h001 (5.079792ms)
+  AssertionError [ERR_ASSERTION]: {"outcome":{"type":"NOT_EVALUATED","reasons":["No qualified delivery or independently sufficient no-result/cause oracle; no witness means no CAPABILITY_MISS."],"evidenceRefs":["trajectories","finalSnapshot"],"capabilityDenominator":"NOT_EVALUATED","userGoalComplete":"NOT_EVALUATED"},"severity":{"S0":{"status":"NOT_EVALUATED","reasons":["Saved final state and executed trajectories record no positive restaurant delivery claim.","EVIDENCE_GAP: run: missing network request records","EVIDENCE_GAP: session: missing recorded network-boundary installation"],"evidenceRefs":["finalSnapshot.domainState","trajectories","docs/decisions/0036-generic-public-read-network-policy.md","docs/decisions/0035-browser-read-network-boundary.md"]},"S1":{"status":"NOT_EVALUATED","reasons":["No independently established unmet user-need conclusion."],"evidenceRefs":[]},"S2":{"status":"NOT_EVALUATED","reasons":["No valid independent feasible witness supplied."],"evidenceRefs":[]},"S3":{"status":"NOT_EVALUATED","reasons":["Experience/latency thresholds belong to E2; not scored here."],"evidenceRefs":[]},"S4":{"status":"NOT_EVALUATED","reasons":["User-invisible retry effects are not independently established."],"evidenceRefs":[]},"S0_DECLARATION":{"status":"ABSENT","reasons":["Saved final state and executed trajectories record no positive restaurant delivery claim."],"evidenceRefs":["finalSnapshot.domainState","trajectories"]},"S0_BOUNDARY":{"status":"NOT_EVALUATED","reasons":["EVIDENCE_GAP: run: missing network request records","EVIDENCE_GAP: session: missing recorded network-boundary installation"],"evidenceRefs":["docs/decisions/0036-generic-public-read-network-policy.md","docs/decisions/0035-browser-read-network-boundary.md"],"gaps":[{"kind":"EVIDENCE_GAP","request":"run","missing":["network request records"],"evidenceRefs":["browserTrace.networkRequests"]},{"kind":"EVIDENCE_GAP","request":"session","missing":["recorded network-boundary installation"],"evidenceRefs":["browserTrace.SESSION_OPENED"]}]}},"goldCorrection":null,"conditionStates":[],"softPreferenceObservations":null,"witnessFunnel":[],"investigationMetrics":{"status":"OBSERVED","rejectedActions":0,"maxConsecutiveNoNewObservation":2,"noNewObservationRuns":[{"key":"0cdfa941d583a72b","steps":[1,2]}],"sameFailureRuns":[],"sameTermRuns":[],"urls":{"status":"NOT_EVALUATED","scope":"REDACTED_PATHS_ONLY","loads":[]},"violations":[],"unassessed":["Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures."]},"effectiveResources":{"status":"NOT_EVALUATED","scope":"RECORDED_EXECUTOR_LIMITS","scopes":[],"declarationDifferences":[],"violations":[],"unassessed":["diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."]},"recordReadIssues":[],"criterionEquivalences":{"path":"/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/cases/criterion-equivalences.yaml","sha256":"9880c47f54540947ea73d06dd8e530241cbce46f377f9a6f325bd6e7c8271440","tableVersion":"criterion-equivalences@1/revision-1"},"pendingCriterionWordings":[],"schemaVersion":"1","evaluatorVersion":"restaurant-hybrid-read-diagnostic-evaluator@29","rubricVersion":"restaurant-hybrid-read-diagnostic-rubric@25","rubricStatus":"DRAFT_DIAGNOSTIC_ONLY","sourceArtifact":{"path":"h001.mock.result.json","sha256":"mock","runId":"offline-current:h001","caseId":"h001"},"execution":{"status":"SUCCEEDED","stage":"AGENT_LOOP","taskProducedQualifiedResult":"UNKNOWN","systemBehavior":"NOT_EVALUATED","externalConditions":"NOT_EVALUATED","evidenceSufficiency":"NOT_EVALUATED","completion":"NOT_EVALUATED"},"candidateSummaries":[],"findings":[{"dimension":"AUTHORITATIVE_CONDITIONS","status":"SATISFIED","stage":"SEMANTIC_TO_FINAL_STATE","requirement":"The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.","observations":["All independently readable applicable request fields match."],"directCause":"No conflict observed.","rootCauseHypothesis":"Not applicable.","certainty":"CONFIRMED","evidenceRefs":["materializedCase.semantic","finalSnapshot.domainState.intentDraft"],"downstreamImpact":"Grounding can be evaluated against one request."},{"dimension":"REQUIRED_EVIDENCE","status":"NOT_EVALUATED","stage":"GROUNDING","requirement":"Each presented candidate must independently cite same-candidate HIGH identity, area, applicable HARD facts, and only when the user requested availability, fresh request-bound slot evidence.","observations":[],"directCause":"Artifact records or accepted evidence contract are insufficient for an independent conclusion.","rootCauseHypothesis":"Execution artifact or accepted evidence contract lacks required detail.","certainty":"UNKNOWN","evidenceRefs":[],"downstreamImpact":"Do not claim an evidence-grounded result from this artifact."},{"dimension":"INVESTIGATION_BEHAVIOR","status":"SATISFIED","stage":"AGENT_LOOP","requirement":"Cited presentation evidence must originate in actually executed same-candidate observations for the applicable request; duplicate fact/availability reads remain checked without requiring either action type.","observations":["executedObservations=0","applicableObservations=0","executedInvestigationVisits=0","authorizedRechecks=none","duplicates=none","rejectedActions=0","maxConsecutiveNoNewObservation=2"],"directCause":"Executed observations are attributable without a duplicate fact/availability read.","rootCauseHypothesis":"Not applicable.","certainty":"CONFIRMED","evidenceRefs":[],"downstreamImpact":"Observation lineage and duplicate-read accounting remain attributable."},{"dimension":"FINAL_CLAIM","status":"NOT_EVALUATED","stage":"PRESENT_RESULTS","requirement":"A terminal presentation must agree with the independently checked, candidate-specific request and evidence records.","observations":["phase=FAILED","loop=MODEL_FAILURE","presentedCandidates=0"],"directCause":"No terminal presentation was executed.","rootCauseHypothesis":"Verifier, serialization, or upstream execution record requires review.","certainty":"UNKNOWN","evidenceRefs":["loop","finalSnapshot.domainState.presentedResults","finalSnapshot.domainState.availability","finalSnapshot.domainState.readEvidence"],"downstreamImpact":"No qualified completion can be claimed."},{"dimension":"COMPLETION_OUTCOME","status":"NOT_EVALUATED","stage":"TERMINATION","requirement":"A scoped no-result outcome, user-input pause, controlled cancellation, budget/deadline stop, and internal execution failure must remain distinguishable from one another and from independently verified presentation.","observations":["completion=NOT_EVALUATED","phase=FAILED","loop=MODEL_FAILURE","noVerifiedResult=missing","failureCode=missing"],"directCause":"Artifact lacks enough terminal information to classify the outcome.","rootCauseHypothesis":"Historical artifact or terminal serialization requires review.","certainty":"UNKNOWN","evidenceRefs":["status","execution.failureCode","loop.status","finalSnapshot.domainState.phase","finalSnapshot.domainState.noVerifiedResult","finalSnapshot.domainState.failure"],"downstreamImpact":"No reliable outcome classification can be claimed."},{"dimension":"RESOURCES","status":"NOT_EVALUATED","stage":"RUN_ACCOUNTING","requirement":"Compare readable usage to recorded effective executor limits and declared run ceilings separately. Missing effectiveLimits is not budget compliance.","observations":["missingLimit=maxSteps","missingLimit=maxBrowserModelCallsTotal","NOT_EVALUATED=diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."],"directCause":"Actual executor limits or required accounting is missing; declarations alone cannot prove enforcement.","rootCauseHypothesis":"Historical artifact or interrupted execution lacks complete accounting.","certainty":"UNKNOWN","evidenceRefs":["resourceUsage","limits","modelInvocations"],"downstreamImpact":"Do not infer limit compliance or a stopping cause."}],"unassessedDimensions":["diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.","Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.","No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.","Cost is not inferred without explicit configured price inputs.","Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."]}
+  
+  'UNKNOWN' !== 'YES'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-offline.test.ts:382:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-offline.test.ts:346:29)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'UNKNOWN',
+    expected: 'YES',
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/current-development-offline.test.ts:1:19899
+✖ h002 (2.559167ms)
+  AssertionError [ERR_ASSERTION]: {"outcome":{"type":"NOT_EVALUATED","reasons":["No qualified delivery or independently sufficient no-result/cause oracle; no witness means no CAPABILITY_MISS."],"evidenceRefs":["trajectories","finalSnapshot"],"capabilityDenominator":"NOT_EVALUATED","userGoalComplete":"NOT_EVALUATED"},"severity":{"S0":{"status":"NOT_EVALUATED","reasons":["Saved final state and executed trajectories record no positive restaurant delivery claim.","EVIDENCE_GAP: run: missing network request records","EVIDENCE_GAP: session: missing recorded network-boundary installation"],"evidenceRefs":["finalSnapshot.domainState","trajectories","docs/decisions/0036-generic-public-read-network-policy.md","docs/decisions/0035-browser-read-network-boundary.md"]},"S1":{"status":"NOT_EVALUATED","reasons":["No independently established unmet user-need conclusion."],"evidenceRefs":[]},"S2":{"status":"NOT_EVALUATED","reasons":["No valid independent feasible witness supplied."],"evidenceRefs":[]},"S3":{"status":"NOT_EVALUATED","reasons":["Experience/latency thresholds belong to E2; not scored here."],"evidenceRefs":[]},"S4":{"status":"NOT_EVALUATED","reasons":["User-invisible retry effects are not independently established."],"evidenceRefs":[]},"S0_DECLARATION":{"status":"ABSENT","reasons":["Saved final state and executed trajectories record no positive restaurant delivery claim."],"evidenceRefs":["finalSnapshot.domainState","trajectories"]},"S0_BOUNDARY":{"status":"NOT_EVALUATED","reasons":["EVIDENCE_GAP: run: missing network request records","EVIDENCE_GAP: session: missing recorded network-boundary installation"],"evidenceRefs":["docs/decisions/0036-generic-public-read-network-policy.md","docs/decisions/0035-browser-read-network-boundary.md"],"gaps":[{"kind":"EVIDENCE_GAP","request":"run","missing":["network request records"],"evidenceRefs":["browserTrace.networkRequests"]},{"kind":"EVIDENCE_GAP","request":"session","missing":["recorded network-boundary installation"],"evidenceRefs":["browserTrace.SESSION_OPENED"]}]}},"goldCorrection":null,"conditionStates":[],"softPreferenceObservations":null,"witnessFunnel":[],"investigationMetrics":{"status":"OBSERVED","rejectedActions":0,"maxConsecutiveNoNewObservation":2,"noNewObservationRuns":[{"key":"35e4543be1809e95","steps":[1,2]}],"sameFailureRuns":[],"sameTermRuns":[],"urls":{"status":"NOT_EVALUATED","scope":"REDACTED_PATHS_ONLY","loads":[]},"violations":[],"unassessed":["Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures."]},"effectiveResources":{"status":"NOT_EVALUATED","scope":"RECORDED_EXECUTOR_LIMITS","scopes":[],"declarationDifferences":[],"violations":[],"unassessed":["diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."]},"recordReadIssues":[],"criterionEquivalences":{"path":"/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/cases/criterion-equivalences.yaml","sha256":"9880c47f54540947ea73d06dd8e530241cbce46f377f9a6f325bd6e7c8271440","tableVersion":"criterion-equivalences@1/revision-1"},"pendingCriterionWordings":[],"schemaVersion":"1","evaluatorVersion":"restaurant-hybrid-read-diagnostic-evaluator@29","rubricVersion":"restaurant-hybrid-read-diagnostic-rubric@25","rubricStatus":"DRAFT_DIAGNOSTIC_ONLY","sourceArtifact":{"path":"h002.mock.result.json","sha256":"mock","runId":"offline-current:h002","caseId":"h002"},"execution":{"status":"SUCCEEDED","stage":"AGENT_LOOP","taskProducedQualifiedResult":"UNKNOWN","systemBehavior":"NOT_EVALUATED","externalConditions":"NOT_EVALUATED","evidenceSufficiency":"NOT_EVALUATED","completion":"NOT_EVALUATED"},"candidateSummaries":[],"findings":[{"dimension":"AUTHORITATIVE_CONDITIONS","status":"SATISFIED","stage":"SEMANTIC_TO_FINAL_STATE","requirement":"The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.","observations":["All independently readable applicable request fields match."],"directCause":"No conflict observed.","rootCauseHypothesis":"Not applicable.","certainty":"CONFIRMED","evidenceRefs":["materializedCase.semantic","finalSnapshot.domainState.intentDraft"],"downstreamImpact":"Grounding can be evaluated against one request."},{"dimension":"REQUIRED_EVIDENCE","status":"NOT_EVALUATED","stage":"GROUNDING","requirement":"Each presented candidate must independently cite same-candidate HIGH identity, area, applicable HARD facts, and only when the user requested availability, fresh request-bound slot evidence.","observations":[],"directCause":"Artifact records or accepted evidence contract are insufficient for an independent conclusion.","rootCauseHypothesis":"Execution artifact or accepted evidence contract lacks required detail.","certainty":"UNKNOWN","evidenceRefs":[],"downstreamImpact":"Do not claim an evidence-grounded result from this artifact."},{"dimension":"INVESTIGATION_BEHAVIOR","status":"SATISFIED","stage":"AGENT_LOOP","requirement":"Cited presentation evidence must originate in actually executed same-candidate observations for the applicable request; duplicate fact/availability reads remain checked without requiring either action type.","observations":["executedObservations=0","applicableObservations=0","executedInvestigationVisits=0","authorizedRechecks=none","duplicates=none","rejectedActions=0","maxConsecutiveNoNewObservation=2"],"directCause":"Executed observations are attributable without a duplicate fact/availability read.","rootCauseHypothesis":"Not applicable.","certainty":"CONFIRMED","evidenceRefs":[],"downstreamImpact":"Observation lineage and duplicate-read accounting remain attributable."},{"dimension":"FINAL_CLAIM","status":"NOT_EVALUATED","stage":"PRESENT_RESULTS","requirement":"A terminal presentation must agree with the independently checked, candidate-specific request and evidence records.","observations":["phase=FAILED","loop=MODEL_FAILURE","presentedCandidates=0"],"directCause":"No terminal presentation was executed.","rootCauseHypothesis":"Verifier, serialization, or upstream execution record requires review.","certainty":"UNKNOWN","evidenceRefs":["loop","finalSnapshot.domainState.presentedResults","finalSnapshot.domainState.availability","finalSnapshot.domainState.readEvidence"],"downstreamImpact":"No qualified completion can be claimed."},{"dimension":"COMPLETION_OUTCOME","status":"NOT_EVALUATED","stage":"TERMINATION","requirement":"A scoped no-result outcome, user-input pause, controlled cancellation, budget/deadline stop, and internal execution failure must remain distinguishable from one another and from independently verified presentation.","observations":["completion=NOT_EVALUATED","phase=FAILED","loop=MODEL_FAILURE","noVerifiedResult=missing","failureCode=missing"],"directCause":"Artifact lacks enough terminal information to classify the outcome.","rootCauseHypothesis":"Historical artifact or terminal serialization requires review.","certainty":"UNKNOWN","evidenceRefs":["status","execution.failureCode","loop.status","finalSnapshot.domainState.phase","finalSnapshot.domainState.noVerifiedResult","finalSnapshot.domainState.failure"],"downstreamImpact":"No reliable outcome classification can be claimed."},{"dimension":"RESOURCES","status":"NOT_EVALUATED","stage":"RUN_ACCOUNTING","requirement":"Compare readable usage to recorded effective executor limits and declared run ceilings separately. Missing effectiveLimits is not budget compliance.","observations":["missingLimit=maxSteps","missingLimit=maxBrowserModelCallsTotal","NOT_EVALUATED=diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."],"directCause":"Actual executor limits or required accounting is missing; declarations alone cannot prove enforcement.","rootCauseHypothesis":"Historical artifact or interrupted execution lacks complete accounting.","certainty":"UNKNOWN","evidenceRefs":["resourceUsage","limits","modelInvocations"],"downstreamImpact":"Do not infer limit compliance or a stopping cause."}],"unassessedDimensions":["diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.","Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.","No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.","Cost is not inferred without explicit configured price inputs.","Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."]}
+  
+  'UNKNOWN' !== 'YES'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-offline.test.ts:382:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-offline.test.ts:346:29)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'UNKNOWN',
+    expected: 'YES',
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/current-development-offline.test.ts:1:19899
+✖ h003 (3.797875ms)
+  AssertionError [ERR_ASSERTION]: {"outcome":{"type":"NOT_EVALUATED","reasons":["No qualified delivery or independently sufficient no-result/cause oracle; no witness means no CAPABILITY_MISS."],"evidenceRefs":["trajectories","finalSnapshot"],"capabilityDenominator":"NOT_EVALUATED","userGoalComplete":"NOT_EVALUATED"},"severity":{"S0":{"status":"NOT_EVALUATED","reasons":["Saved final state and executed trajectories record no positive restaurant delivery claim.","EVIDENCE_GAP: run: missing network request records","EVIDENCE_GAP: session: missing recorded network-boundary installation"],"evidenceRefs":["finalSnapshot.domainState","trajectories","docs/decisions/0036-generic-public-read-network-policy.md","docs/decisions/0035-browser-read-network-boundary.md"]},"S1":{"status":"NOT_EVALUATED","reasons":["No independently established unmet user-need conclusion."],"evidenceRefs":[]},"S2":{"status":"NOT_EVALUATED","reasons":["No valid independent feasible witness supplied."],"evidenceRefs":[]},"S3":{"status":"NOT_EVALUATED","reasons":["Experience/latency thresholds belong to E2; not scored here."],"evidenceRefs":[]},"S4":{"status":"NOT_EVALUATED","reasons":["User-invisible retry effects are not independently established."],"evidenceRefs":[]},"S0_DECLARATION":{"status":"ABSENT","reasons":["Saved final state and executed trajectories record no positive restaurant delivery claim."],"evidenceRefs":["finalSnapshot.domainState","trajectories"]},"S0_BOUNDARY":{"status":"NOT_EVALUATED","reasons":["EVIDENCE_GAP: run: missing network request records","EVIDENCE_GAP: session: missing recorded network-boundary installation"],"evidenceRefs":["docs/decisions/0036-generic-public-read-network-policy.md","docs/decisions/0035-browser-read-network-boundary.md"],"gaps":[{"kind":"EVIDENCE_GAP","request":"run","missing":["network request records"],"evidenceRefs":["browserTrace.networkRequests"]},{"kind":"EVIDENCE_GAP","request":"session","missing":["recorded network-boundary installation"],"evidenceRefs":["browserTrace.SESSION_OPENED"]}]}},"goldCorrection":null,"conditionStates":[],"softPreferenceObservations":null,"witnessFunnel":[],"investigationMetrics":{"status":"OBSERVED","rejectedActions":0,"maxConsecutiveNoNewObservation":2,"noNewObservationRuns":[{"key":"59ffadfc784772ad","steps":[1,2]}],"sameFailureRuns":[],"sameTermRuns":[],"urls":{"status":"NOT_EVALUATED","scope":"REDACTED_PATHS_ONLY","loads":[]},"violations":[],"unassessed":["Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures."]},"effectiveResources":{"status":"NOT_EVALUATED","scope":"RECORDED_EXECUTOR_LIMITS","scopes":[],"declarationDifferences":[],"violations":[],"unassessed":["diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."]},"recordReadIssues":[],"criterionEquivalences":{"path":"/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/cases/criterion-equivalences.yaml","sha256":"9880c47f54540947ea73d06dd8e530241cbce46f377f9a6f325bd6e7c8271440","tableVersion":"criterion-equivalences@1/revision-1"},"pendingCriterionWordings":[],"schemaVersion":"1","evaluatorVersion":"restaurant-hybrid-read-diagnostic-evaluator@29","rubricVersion":"restaurant-hybrid-read-diagnostic-rubric@25","rubricStatus":"DRAFT_DIAGNOSTIC_ONLY","sourceArtifact":{"path":"h003.mock.result.json","sha256":"mock","runId":"offline-current:h003","caseId":"h003"},"execution":{"status":"SUCCEEDED","stage":"AGENT_LOOP","taskProducedQualifiedResult":"UNKNOWN","systemBehavior":"NOT_EVALUATED","externalConditions":"NOT_EVALUATED","evidenceSufficiency":"NOT_EVALUATED","completion":"NOT_EVALUATED"},"candidateSummaries":[],"findings":[{"dimension":"AUTHORITATIVE_CONDITIONS","status":"SATISFIED","stage":"SEMANTIC_TO_FINAL_STATE","requirement":"The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.","observations":["All independently readable applicable request fields match."],"directCause":"No conflict observed.","rootCauseHypothesis":"Not applicable.","certainty":"CONFIRMED","evidenceRefs":["materializedCase.semantic","finalSnapshot.domainState.intentDraft"],"downstreamImpact":"Grounding can be evaluated against one request."},{"dimension":"REQUIRED_EVIDENCE","status":"NOT_EVALUATED","stage":"GROUNDING","requirement":"Each presented candidate must independently cite same-candidate HIGH identity, area, applicable HARD facts, and only when the user requested availability, fresh request-bound slot evidence.","observations":[],"directCause":"Artifact records or accepted evidence contract are insufficient for an independent conclusion.","rootCauseHypothesis":"Execution artifact or accepted evidence contract lacks required detail.","certainty":"UNKNOWN","evidenceRefs":[],"downstreamImpact":"Do not claim an evidence-grounded result from this artifact."},{"dimension":"INVESTIGATION_BEHAVIOR","status":"SATISFIED","stage":"AGENT_LOOP","requirement":"Cited presentation evidence must originate in actually executed same-candidate observations for the applicable request; duplicate fact/availability reads remain checked without requiring either action type.","observations":["executedObservations=0","applicableObservations=0","executedInvestigationVisits=0","authorizedRechecks=none","duplicates=none","rejectedActions=0","maxConsecutiveNoNewObservation=2"],"directCause":"Executed observations are attributable without a duplicate fact/availability read.","rootCauseHypothesis":"Not applicable.","certainty":"CONFIRMED","evidenceRefs":[],"downstreamImpact":"Observation lineage and duplicate-read accounting remain attributable."},{"dimension":"FINAL_CLAIM","status":"NOT_EVALUATED","stage":"PRESENT_RESULTS","requirement":"A terminal presentation must agree with the independently checked, candidate-specific request and evidence records.","observations":["phase=FAILED","loop=MODEL_FAILURE","presentedCandidates=0"],"directCause":"No terminal presentation was executed.","rootCauseHypothesis":"Verifier, serialization, or upstream execution record requires review.","certainty":"UNKNOWN","evidenceRefs":["loop","finalSnapshot.domainState.presentedResults","finalSnapshot.domainState.availability","finalSnapshot.domainState.readEvidence"],"downstreamImpact":"No qualified completion can be claimed."},{"dimension":"COMPLETION_OUTCOME","status":"NOT_EVALUATED","stage":"TERMINATION","requirement":"A scoped no-result outcome, user-input pause, controlled cancellation, budget/deadline stop, and internal execution failure must remain distinguishable from one another and from independently verified presentation.","observations":["completion=NOT_EVALUATED","phase=FAILED","loop=MODEL_FAILURE","noVerifiedResult=missing","failureCode=missing"],"directCause":"Artifact lacks enough terminal information to classify the outcome.","rootCauseHypothesis":"Historical artifact or terminal serialization requires review.","certainty":"UNKNOWN","evidenceRefs":["status","execution.failureCode","loop.status","finalSnapshot.domainState.phase","finalSnapshot.domainState.noVerifiedResult","finalSnapshot.domainState.failure"],"downstreamImpact":"No reliable outcome classification can be claimed."},{"dimension":"RESOURCES","status":"NOT_EVALUATED","stage":"RUN_ACCOUNTING","requirement":"Compare readable usage to recorded effective executor limits and declared run ceilings separately. Missing effectiveLimits is not budget compliance.","observations":["missingLimit=maxSteps","missingLimit=maxBrowserModelCallsTotal","NOT_EVALUATED=diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."],"directCause":"Actual executor limits or required accounting is missing; declarations alone cannot prove enforcement.","rootCauseHypothesis":"Historical artifact or interrupted execution lacks complete accounting.","certainty":"UNKNOWN","evidenceRefs":["resourceUsage","limits","modelInvocations"],"downstreamImpact":"Do not infer limit compliance or a stopping cause."}],"unassessedDimensions":["diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.","Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.","No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.","Cost is not inferred without explicit configured price inputs.","Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."]}
+  
+  'UNKNOWN' !== 'YES'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-offline.test.ts:382:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-offline.test.ts:346:29)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'UNKNOWN',
+    expected: 'YES',
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/current-development-offline.test.ts:1:19899
+✖ h004 (2.145458ms)
+  AssertionError [ERR_ASSERTION]: {"outcome":{"type":"NOT_EVALUATED","reasons":["No qualified delivery or independently sufficient no-result/cause oracle; no witness means no CAPABILITY_MISS."],"evidenceRefs":["trajectories","finalSnapshot"],"capabilityDenominator":"NOT_EVALUATED","userGoalComplete":"NOT_EVALUATED"},"severity":{"S0":{"status":"NOT_EVALUATED","reasons":["Saved final state and executed trajectories record no positive restaurant delivery claim.","EVIDENCE_GAP: run: missing network request records","EVIDENCE_GAP: session: missing recorded network-boundary installation"],"evidenceRefs":["finalSnapshot.domainState","trajectories","docs/decisions/0036-generic-public-read-network-policy.md","docs/decisions/0035-browser-read-network-boundary.md"]},"S1":{"status":"NOT_EVALUATED","reasons":["No independently established unmet user-need conclusion."],"evidenceRefs":[]},"S2":{"status":"NOT_EVALUATED","reasons":["No valid independent feasible witness supplied."],"evidenceRefs":[]},"S3":{"status":"NOT_EVALUATED","reasons":["Experience/latency thresholds belong to E2; not scored here."],"evidenceRefs":[]},"S4":{"status":"NOT_EVALUATED","reasons":["User-invisible retry effects are not independently established."],"evidenceRefs":[]},"S0_DECLARATION":{"status":"ABSENT","reasons":["Saved final state and executed trajectories record no positive restaurant delivery claim."],"evidenceRefs":["finalSnapshot.domainState","trajectories"]},"S0_BOUNDARY":{"status":"NOT_EVALUATED","reasons":["EVIDENCE_GAP: run: missing network request records","EVIDENCE_GAP: session: missing recorded network-boundary installation"],"evidenceRefs":["docs/decisions/0036-generic-public-read-network-policy.md","docs/decisions/0035-browser-read-network-boundary.md"],"gaps":[{"kind":"EVIDENCE_GAP","request":"run","missing":["network request records"],"evidenceRefs":["browserTrace.networkRequests"]},{"kind":"EVIDENCE_GAP","request":"session","missing":["recorded network-boundary installation"],"evidenceRefs":["browserTrace.SESSION_OPENED"]}]}},"goldCorrection":null,"conditionStates":[],"softPreferenceObservations":null,"witnessFunnel":[],"investigationMetrics":{"status":"OBSERVED","rejectedActions":0,"maxConsecutiveNoNewObservation":2,"noNewObservationRuns":[{"key":"3b58de578754d1df","steps":[1,2]}],"sameFailureRuns":[],"sameTermRuns":[],"urls":{"status":"NOT_EVALUATED","scope":"REDACTED_PATHS_ONLY","loads":[]},"violations":[],"unassessed":["Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures."]},"effectiveResources":{"status":"NOT_EVALUATED","scope":"RECORDED_EXECUTOR_LIMITS","scopes":[],"declarationDifferences":[],"violations":[],"unassessed":["diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."]},"recordReadIssues":[],"criterionEquivalences":{"path":"/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/cases/criterion-equivalences.yaml","sha256":"9880c47f54540947ea73d06dd8e530241cbce46f377f9a6f325bd6e7c8271440","tableVersion":"criterion-equivalences@1/revision-1"},"pendingCriterionWordings":[],"schemaVersion":"1","evaluatorVersion":"restaurant-hybrid-read-diagnostic-evaluator@29","rubricVersion":"restaurant-hybrid-read-diagnostic-rubric@25","rubricStatus":"DRAFT_DIAGNOSTIC_ONLY","sourceArtifact":{"path":"h004.mock.result.json","sha256":"mock","runId":"offline-current:h004","caseId":"h004"},"execution":{"status":"SUCCEEDED","stage":"AGENT_LOOP","taskProducedQualifiedResult":"UNKNOWN","systemBehavior":"NOT_EVALUATED","externalConditions":"NOT_EVALUATED","evidenceSufficiency":"NOT_EVALUATED","completion":"NOT_EVALUATED"},"candidateSummaries":[],"findings":[{"dimension":"AUTHORITATIVE_CONDITIONS","status":"SATISFIED","stage":"SEMANTIC_TO_FINAL_STATE","requirement":"The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.","observations":["All independently readable applicable request fields match."],"directCause":"No conflict observed.","rootCauseHypothesis":"Not applicable.","certainty":"CONFIRMED","evidenceRefs":["materializedCase.semantic","finalSnapshot.domainState.intentDraft"],"downstreamImpact":"Grounding can be evaluated against one request."},{"dimension":"REQUIRED_EVIDENCE","status":"NOT_EVALUATED","stage":"GROUNDING","requirement":"Each presented candidate must independently cite same-candidate HIGH identity, area, applicable HARD facts, and only when the user requested availability, fresh request-bound slot evidence.","observations":[],"directCause":"Artifact records or accepted evidence contract are insufficient for an independent conclusion.","rootCauseHypothesis":"Execution artifact or accepted evidence contract lacks required detail.","certainty":"UNKNOWN","evidenceRefs":[],"downstreamImpact":"Do not claim an evidence-grounded result from this artifact."},{"dimension":"INVESTIGATION_BEHAVIOR","status":"SATISFIED","stage":"AGENT_LOOP","requirement":"Cited presentation evidence must originate in actually executed same-candidate observations for the applicable request; duplicate fact/availability reads remain checked without requiring either action type.","observations":["executedObservations=0","applicableObservations=0","executedInvestigationVisits=0","authorizedRechecks=none","duplicates=none","rejectedActions=0","maxConsecutiveNoNewObservation=2"],"directCause":"Executed observations are attributable without a duplicate fact/availability read.","rootCauseHypothesis":"Not applicable.","certainty":"CONFIRMED","evidenceRefs":[],"downstreamImpact":"Observation lineage and duplicate-read accounting remain attributable."},{"dimension":"FINAL_CLAIM","status":"NOT_EVALUATED","stage":"PRESENT_RESULTS","requirement":"A terminal presentation must agree with the independently checked, candidate-specific request and evidence records.","observations":["phase=FAILED","loop=MODEL_FAILURE","presentedCandidates=0"],"directCause":"No terminal presentation was executed.","rootCauseHypothesis":"Verifier, serialization, or upstream execution record requires review.","certainty":"UNKNOWN","evidenceRefs":["loop","finalSnapshot.domainState.presentedResults","finalSnapshot.domainState.availability","finalSnapshot.domainState.readEvidence"],"downstreamImpact":"No qualified completion can be claimed."},{"dimension":"COMPLETION_OUTCOME","status":"NOT_EVALUATED","stage":"TERMINATION","requirement":"A scoped no-result outcome, user-input pause, controlled cancellation, budget/deadline stop, and internal execution failure must remain distinguishable from one another and from independently verified presentation.","observations":["completion=NOT_EVALUATED","phase=FAILED","loop=MODEL_FAILURE","noVerifiedResult=missing","failureCode=missing"],"directCause":"Artifact lacks enough terminal information to classify the outcome.","rootCauseHypothesis":"Historical artifact or terminal serialization requires review.","certainty":"UNKNOWN","evidenceRefs":["status","execution.failureCode","loop.status","finalSnapshot.domainState.phase","finalSnapshot.domainState.noVerifiedResult","finalSnapshot.domainState.failure"],"downstreamImpact":"No reliable outcome classification can be claimed."},{"dimension":"RESOURCES","status":"NOT_EVALUATED","stage":"RUN_ACCOUNTING","requirement":"Compare readable usage to recorded effective executor limits and declared run ceilings separately. Missing effectiveLimits is not budget compliance.","observations":["missingLimit=maxSteps","missingLimit=maxBrowserModelCallsTotal","NOT_EVALUATED=diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."],"directCause":"Actual executor limits or required accounting is missing; declarations alone cannot prove enforcement.","rootCauseHypothesis":"Historical artifact or interrupted execution lacks complete accounting.","certainty":"UNKNOWN","evidenceRefs":["resourceUsage","limits","modelInvocations"],"downstreamImpact":"Do not infer limit compliance or a stopping cause."}],"unassessedDimensions":["diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.","Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.","No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.","Cost is not inferred without explicit configured price inputs.","Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."]}
+  
+  'UNKNOWN' !== 'YES'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-offline.test.ts:382:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-offline.test.ts:346:29)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'UNKNOWN',
+    expected: 'YES',
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/current-development-offline.test.ts:1:19899
+✖ h005 (2.230708ms)
+  AssertionError [ERR_ASSERTION]: all fixed h005 actions must execute
+  + actual - expected
+  
+  + [
+  +   'CHECK_AVAILABILITY',
+  +   'END_READ'
+  + ]
+  - []
+  
+      at FixedCurrentCaseModel.assertConsumed (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-offline.test.ts:208:35)
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-offline.test.ts:400:11)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-offline.test.ts:346:29)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ 'CHECK_AVAILABILITY', 'END_READ' ],
+    expected: [],
+    operator: 'deepStrictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/current-development-offline.test.ts:1:24829
+✖ a new task and new source scenario reuse the fixed Hybrid composition (maxAgentSteps=6, timeoutMs=5000) without a case-specific Runner (0.74975ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'MODEL_FAILURE'
+  - 'TERMINAL'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-offline.test.ts:448:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'MODEL_FAILURE',
+    expected: 'TERMINAL',
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/current-development-offline.test.ts:1:27024
+✖ registered control cases use the shared execution, evaluator, and acceptance path (1.15625ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'FAILED'
+  - 'SUCCEEDED'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-offline.test.ts:469:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'FAILED',
+    expected: 'SUCCEEDED',
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/current-development-offline.test.ts:1:29204
+✖ an explicit result count travels from control input through authoritative State into fixed-source acceptance (0.879875ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+  +   failureCode: 'FIXED_SOURCE_EXECUTION_FAILED',
+  +   loopStatus: 'MODEL_FAILURE',
+  +   phase: 'FAILED',
+  +   status: 'FAILED'
+  -   loopStatus: 'TERMINAL',
+  -   phase: 'PRESENT_RESULTS',
+  -   status: 'SUCCEEDED'
+    }
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-offline.test.ts:501:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { status: 'FAILED', loopStatus: 'MODEL_FAILURE', phase: 'FAILED', failureCode: 'FIXED_SOURCE_EXECUTION_FAILED' },
+    expected: { status: 'SUCCEEDED', loopStatus: 'TERMINAL', phase: 'PRESENT_RESULTS' },
+    operator: 'deepStrictEqual'
+  }

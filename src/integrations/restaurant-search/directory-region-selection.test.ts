@@ -1,3 +1,4 @@
+const fixtureRetrieval={decide:async()=>({accepted:true,keyword:"omakase",criterionRef:"criterion:0",reason:"Scripted retrieval control."})};
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { BrowserRuntimeError } from '../../infrastructure/browser/browser-runtime-errors.js';
@@ -29,7 +30,7 @@ function fixture(outside = true, missing = false, named = false, navigationFailu
   }};
   const decision:BrowserReadActionDecisionPort={decide:async(input)=>{selections++;const target=input.observation.targets.find(t=>t.href===(selections===1?first:second))!;return {type:'OPEN_LINK',targetRef:target.ref,reason:'Choose observed region'};}};
   const google=new GooglePlacesRestaurantSearch(new GooglePlacesClient({apiKey:'fixture-only',fetchImplementation:async()=>{throw new Error('No extra location request');}}));
-  const native=new NativeRestaurantSearch(runtime, google, ()=>now, undefined, decision, undefined, undefined, { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, undefined, [tabelogDiscoveryPack]);
+  const native=new NativeRestaurantSearch(runtime, google, fixtureRetrieval, ()=>now, undefined, decision, undefined, undefined, { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, undefined, [tabelogDiscoveryPack]);
   return {native,navigations,get selections(){return selections;}};
 }
 test('directory Agent uses observed references; a proved wrong first entry is replaced once without resetting progress',async()=>{
@@ -46,6 +47,10 @@ test('only four proved outside among exactly five allow one replacement; spent d
  assert.equal(directoryEntryReplacementAllowed(region),true);assert.equal(directoryEntryReplacementAllowed({...region,firstFive:region.firstFive.slice(0,4)}),false);assert.equal(directoryEntryReplacementAllowed({...region,firstFive:region.firstFive.map((x,n)=>n===3?{...x,outcome:'UNKNOWN' as const}:x)}),false);assert.equal(directoryEntryReplacementAllowed({...region,replacement:{url:second,observedOn:root,targetRef:'observation:2:target:2'}}),false);
  const f=fixture();const continuation:RestaurantSearchContinuation={intentFingerprint:JSON.stringify(intent),usedPageTokens:[],pagesRead:2,exhausted:false,sourceProgress:{sourceId:'tabelog',inspectedSourceIds:[],detailAttempts:5,pagesRead:2,elapsedMs:90000,pendingSourceIds:[],directoryRegion:region}};
  const result=await f.native.search({intent,continuation},new AbortController().signal);assert.equal(f.navigations.length,0);assert.equal(result.metadata.nativeDiscoveryFunnel!.sourceDetailAttempts,5);assert.ok(result.metadata.nativeDiscoveryFunnel!.sourceElapsedMs!>=90000);
+ const capped=fixture();
+ const pageLimited=await capped.native.search({intent,continuation:{...continuation,sourceProgress:{...continuation.sourceProgress!,elapsedMs:0,retrieval:{rewrites:0,regionPages:4,retrievalPages:1,history:[]}}}},new AbortController().signal);
+ assert.equal(capped.navigations.length,0,'a resumed request must not open a fifth region page');
+ assert.equal(pageLimited.metadata.failureCode,'READ_BUDGET_EXCEEDED');
 });
 
 

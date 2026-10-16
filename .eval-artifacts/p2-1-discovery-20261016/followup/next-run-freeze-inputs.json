@@ -1,0 +1,25 @@
+{
+  "status": "draft checkpoint A inventory; not approved to execute before review",
+  "baselineCommit": "acfaaffa73db97413f6538f161c4e837ec64316e",
+  "candidate": "next P2-1a commit after baseline",
+  "sourceReadinessConfiguration": "SOURCE_REACHABILITY_CHECKS in source-data-preflight.ts",
+  "files": {
+    "src/eval/restaurant/agent-loop/source-data-preflight.ts": "8d0c48f564a609e4b2f32e7f3b80a1c5d028fe0f8503b793d3f67f902db63931",
+    "src/eval/restaurant/agent-loop/runners/run-discovery-probe.ts": "7ebb86b69d590a0091499e1f3022c4a0f0505397d7e09f2a549094f35923d5ac",
+    "src/eval/restaurant/agent-loop/runners/run-hybrid-live-read.ts": "4ecc721383f91049c58740daa4f7dc5d5283b259618c5346830b8ffb07498634",
+    "src/eval/restaurant/agent-loop/discovery-probe.ts": "2dc568bd74f89eb71f7dcab0f55d9a70f33d5bd883ac41613f8bc2912e5b2f2d",
+    ".eval-artifacts/p2-1-discovery-20261016/execute-probe.py": "68aa61981697455eaab7ce349e52dbc3ba763fd16ffd6bc8e904fec929006585",
+    ".eval-artifacts/p2-1-discovery-20261016/outer/reviewed-reads.json": "a5dbbcd240c96b1099dd53c5296717008d6a84b9b9c43537c581b2918526c28f",
+    "src/integrations/restaurant-search/discovery-retrieval-planner.ts": "c5425802a08857c0197bf460f661815641e038300e66856a88d8ff95a1dd3c4a",
+    "src/integrations/restaurant-search/source-packs.ts": "817bdff9015db014003ee504b967960a48b16d36f2cd46bd334bda5ef160908a",
+    "src/integrations/restaurant-search/native-restaurant-search.ts": "18104d98492e8a754799cd1ff19f24948739f24068f84477d5fed26b9f223a91"
+  },
+  "executed": false,
+  "modelCalls": 0,
+  "businessNetworkRequests": 0,
+  "requires": [
+    "independent review of rebased P2-1a code and restored baseline",
+    "refresh expired witnesses",
+    "checkpoint-specific frozen outer/inputs"
+  ]
+}

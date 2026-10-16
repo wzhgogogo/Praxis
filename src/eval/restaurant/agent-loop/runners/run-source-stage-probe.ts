@@ -1,3 +1,4 @@
+import {ModelDiscoveryRetrievalPlanner} from "../../../../integrations/restaurant-search/discovery-retrieval-planner.js";
 import { DEFAULT_NEARBY_RADIUS_METERS } from "../../../../core/location/nearby.js";
 import { createHash } from "node:crypto";
 import { readFile, writeFile } from "node:fs/promises";
@@ -559,7 +560,7 @@ try {
           );
           const result = await runSourceStagePackDiscoveryProbe({ pack, search: google, intent, location,
             readRunId: `source-stage:${manifestFingerprint}:${sample.id}`, signal: AbortSignal.timeout(manifest.budget.sampleMaxElapsedMs),
-            modelCallsStarted: sampleBudget.totalModelCalls });
+            browserBudget:sampleBudget,retrievalPlanner:{decide:request=>new ModelDiscoveryRetrievalPlanner(sharedSourceStageModelGateway(DeepSeekModelGateway.fromEnvironment(effectiveEnvironment),sampleBudget)).decide(request)},timeoutMs:manifest.budget.sampleMaxElapsedMs });
           status = result.status === "LIST_OBSERVED" ? "SUCCEEDED" : result.status === "NO_COVERAGE" ? "NO_COVERAGE" : "FAILED";
           discoveryCoverage = result.discoveryCoverage;
           modelCallsStarted = result.modelCallsStarted;
@@ -590,7 +591,7 @@ try {
           if (manifest.stage === "REPLAY" && replay?.originalStage !== "DISCOVERY") {
             throw Object.assign(new Error("Frozen Replay stage does not match the discovery production port"), { code: "REPLAY_ACTION_NO_COVERAGE" });
           }
-          const result = await runSourceStageNativeDiscoveryProbe({
+          const result = await runSourceStageNativeDiscoveryProbe({ retrievalPlanner:new ModelDiscoveryRetrievalPlanner(model),
             pack,
             intent: discoveryIntent(sample.input),
             ...(locationContext ? { locationContext } : {}),

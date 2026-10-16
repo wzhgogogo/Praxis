@@ -1,0 +1,32 @@
+{
+  "purpose": "network-restored baseline must use this commit in a separate clean worktree",
+  "commit": "acfaaffa73db97413f6538f161c4e837ec64316e",
+  "contains": [
+    "source readiness checks",
+    "corrected metrics",
+    "native-only changed-bottleneck stop predicate",
+    "reviewed TableCheck search GET plus browser-generated GET-bound CORS handshake",
+    "independent outer/Recorder/S0 protocol facts",
+    "fresh16-registration13-certified witness freeze and unchanged-input ten-probe plan"
+  ],
+  "p21aImplemented": false,
+  "sourceChecksAndMetricsSha256": {
+    "src/eval/restaurant/agent-loop/source-data-preflight.ts": "8d0c48f564a609e4b2f32e7f3b80a1c5d028fe0f8503b793d3f67f902db63931",
+    "src/eval/restaurant/agent-loop/discovery-probe.ts": "4ebae12272edfec535dacae4487f866ead258d57a9a86d742750899e14d9bafb",
+    "src/eval/restaurant/agent-loop/runners/run-discovery-probe.ts": "7ebb86b69d590a0091499e1f3022c4a0f0505397d7e09f2a549094f35923d5ac",
+    "src/eval/restaurant/agent-loop/runners/run-hybrid-live-read.ts": "2cf45d63b3f2db97d3f4b54d475aa8412693e1e6749bbb657c4312ae9ef81b3e",
+    ".eval-artifacts/p2-1-discovery-20261016/execute-probe.py": "68aa61981697455eaab7ce349e52dbc3ba763fd16ffd6bc8e904fec929006585"
+  },
+  "runNow": true,
+  "requiresBeforeFutureRun": [
+    "all planned source nonempty readiness checks per probe",
+    "witness24h validity",
+    "network-restored-20261019/baseline-freeze.json SHA match"
+  ],
+  "probeCap": 40,
+  "probeModelCap": 450,
+  "existingModelCalls": 86,
+  "priorReadinessCommit": "35c5dc230843c49d13226cf668587fa083925353",
+  "previousCommit": "4315ab88fbab14424968ccbf0833f980c597de51",
+  "approvedFor": "BASELINE_DISCOVERY_ONLY; checkpoint A/full Live not allowed"
+}

@@ -1,3 +1,4 @@
+import {scriptedRetrieval} from "../harness/restaurant-read-test-fixtures.js";
 import assert from "node:assert/strict";
 import { once } from "node:events";
 import { mkdtemp, readdir, readFile } from "node:fs/promises";
@@ -458,6 +459,7 @@ function selectionSessionFixture(
 function selectionSessionModel(calls: { model: number }, supportsConditionRevision = false): ModelGateway {
   return {
     async complete(request) {
+    if(request.purpose==='restaurant_discovery_retrieval')return scriptedRetrieval(request)!;
       calls.model += 1;
       if (request.purpose === "restaurant_semantic_interpret") {
         const userMessage = request.messages.find((message) => message.role === "user")?.content ?? "";
@@ -997,6 +999,7 @@ test("W08 ordinary Web cancellation writes an immutable execution artifact and i
       restaurant,
       artifactDirectory,
       model: { async complete(request) {
+    if(request.purpose==='restaurant_discovery_retrieval')return scriptedRetrieval(request)!;
         const response = await fixture.complete(request);
         if (request.purpose !== "restaurant_semantic_interpret") return response;
         const proposal = JSON.parse(response.outputText);
@@ -1130,6 +1133,7 @@ test("W13 ordinary Web presents a qualified short batch using its shared model-c
     const calls = { model: 0, search: 0, facts: 0, availability: 0 };
     const semanticModel = selectionSessionModel(calls);
     const boundedModel = new RunBoundedModelGateway({ async complete(request) {
+    if(request.purpose==='restaurant_discovery_retrieval')return scriptedRetrieval(request)!;
       if (request.purpose === "restaurant_semantic_interpret") return semanticModel.complete(request);
       calls.model += 1;
       const { context } = JSON.parse(request.messages.find(message => message.role === "user")!.content);
@@ -1246,6 +1250,7 @@ test("T1 Web shared assembly keeps ownership during semantic parsing and complet
     const finished = new Promise<void>(resolve => { announceFinished = resolve; });
     let modelCalls = 0;
     const model: ModelGateway = { async complete(request) {
+    if(request.purpose==='restaurant_discovery_retrieval')return scriptedRetrieval(request)!;
       modelCalls++;
       if (request.purpose === "restaurant_semantic_interpret") {
         announceSemantic();

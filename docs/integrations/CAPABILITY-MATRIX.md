@@ -1,7 +1,7 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.57
+- Document revision: 1.58
 - Last updated: 2026-10-19
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
@@ -15,7 +15,9 @@ T1 Hybrid迁移补充：完整Google-only来源组合也经生产SourceAware外�
 
 T1 Guard补充：CDP每个暂停请求执行原策略检查；同networkId的Network类型与Playwright一致，不新增Other或来源放行。真实Chromium正常worker／CSS与三种禁用receiver红绿通过；八种原生规范化逃逸未复现，不报告为已重现攻击。证据见T1 report／06-cdp，非外站或Cloudflare服务Live。
 
-P2-1第一段增加 eval-only 首批发现探测入口，真实来源观察、超时和未到达情况见 [批次报告](../../.eval-artifacts/p2-1-discovery-20261016/report.md)。本段未修改来源 Adapter/Pack、检索策略或网络放行规则，来源能力声明不升级；Google返回带坐标候选与原生页面详情读取分别记录，不代表空位或交付。ADR-0042仍为Proposed，搜索级空位筛选未实施。
+P2-1第一段增加 eval-only 首批发现探测入口，真实来源观察、超时和未到达情况见 [批次报告](../../.eval-artifacts/p2-1-discovery-20261016/report.md)。后续独立复核确认十次 TableCheck 失败为 VPN 环境问题，不能作为正常网络下的能力基线。
+
+2026-10-17 P2-1a（离线）：[Accepted ADR-0042](../decisions/0042-agent-planned-discovery-and-search-availability-hints.md) 的检索规划已接入生产读取组合；目录先观察地区，稀疏或明确空结果可在详情前最多改写两次。地区页最多四、检索页最多三、实际列表文档合计最多七，来源90秒及全局500秒/50模型不提高；详情批次和资格不变。TableCheck/Google 共用一次无页面初始文本规划。真实本地 Chromium 动态 Fixture 证明可见类别/空状态与越地区拒绝，不能证明当前外站或真实模型选词质量。Pack 未新增网络放行或空位筛选参数；P2-1b 未实施。预检/指标修正和证据见[离线收尾报告](../../.eval-artifacts/p2-1-discovery-20261016/followup/report.md)。
 
 | Provider | Discovery | Availability | Execute | Cancel | Verify | Takeover | Status / 限制 |
 |---|---|---|---|---|---|---|---|
@@ -23,7 +25,7 @@ P2-1第一段增加 eval-only 首批发现探测入口，真实来源观察、�
 | Google Places API (New) | Live Text／Nearby Search Discovery（10月8日开发矩阵读取）；已知Place ID的Place Details事实重读（代码实现；尚待本切片Live实测） | 无库存；可返回常规营业时段及网站指针 | 否 | 否 | 否 | 否 | `verified`官方HTTP/FieldMask契约；Praxis只请求最小字段、结构化address components、电话、类型、`regularOpeningHours`及Place Details的`websiteUri`。命名“附近”地点先在同一run额度内解析坐标，再以记录的半径距离判断；只有多个同名坐标结果才请求消歧。事实重读只用已保存Place ID，不以名称再次搜索；命名地点解析、Discovery和Details在同一持久task run累计请求且按三类导出，失败的已发送请求也计数，不同task run隔离。调试用本地请求上限不等于Google账户配额：本地耗尽、429限流、403配额或权限拒绝及网络失败以不同稳定码保存。`websiteUri`只是Google列出的网站指针，不是Google Maps URL、更不是官方事实或页面内容。UNKNOWN不会变成无位；常规营业时段不能表示当前营业、特殊日期营业或有桌；内容保存和展示仍受Google政策限制 |
 | Cloudflare Browser Run | 浏览器基础设施（代码实现；一次live会话建立失败已记录） | 通过受限Browser Executor读取 | 否 | 否 | 否 | 否 | CDP远程浏览器；Kitesurf为首选Beta引擎，发生一次兼容/运行时失败才回退Chromium；不绕过bot challenge。会话未建立的稳定失败为`BROWSER_RUNTIME_FAILED`/`BROWSER_TIMEOUT`，不得伪报为目标网页或门店identity事实 |
 | Local Playwright Chromium | 仅开发/eval浏览器基础设施 | 通过同一受限Browser Executor读取 | 否 | 否 | 否 | 否 | 仅当`PRAXIS_BROWSER_ENGINE=LOCAL_CHROMIUM`显式选择；不访问Cloudflare、不读取其凭证、不改变Cloudflare AUTO。要求本机已安装Playwright Chromium binary；缺失时稳定`BROWSER_RUNTIME_UNAVAILABLE`，不回退远端Provider。两个eval-only interactive gate同时开启时，headed `launchPersistentContext`固定使用gitignored `.eval-artifacts/local-chromium-profile`，人手验证期间保留同一page/context/browser；正常结束只关闭session，不自动删除profile。共享`browser_read_action@7`可在同一会话回读观察到的 checkbox、range、region scroll、已观察选项和公开搜索输入的精确retrieval expression；等待同时观察可见文本及可见控件的 value/selected/disabled/checked，隐藏分析字段不构成进展；唤醒后仍须重新观察并由来源Adapter绑定结果。modal 背景目标不可执行；已观察`target=_blank`公开链接在同一context切换active page后必须重新观察。选项及导航故障隔离目前只经真实本地Chromium Fixture覆盖，不代表真实来源identity、slot或availability已验证 |
-| Tabelog Web | 来源页；原生发现按受控 Executor 操作，在每个五详情工作块后保留同源未处理入口至十详情／六列表页／90秒来源上限（初始地区定位最多三页；类别调整与翻页共用六页来源总额） | 只读开发期Availability Executor（代码实现；页面兼容性部分实测） | 否 | 否 | 否 | Eval-only terminal pause | 仅限Tabelog域名；结果页只接受可识别的restaurant-result链接，relative/canonical outlet URL在门店页补全身份，只有exact phone或name+address可HIGH匹配，已知电话号码冲突直接拒绝；日本显式`+81`号码与国内格式规范后才比较。只接受明确标记available的slot控件。实体非HIGH、CAPTCHA/`Just a moment...` challenge、页面异常、未确认的日期/人数、超时或外部跳转均不是`UNAVAILABLE`；challenge先于identity归类为`BOT_CHALLENGE`。模型的`COMPLETE`仅是请求：来源完成谓词未满足时，Executor在同一会话和原预算内反馈缺口；重复未变化的请求才无进展停止。2026-09-07 H001已读到真实详情，Sushisho Isseki Sancho以exact phone达HIGH，但其availability转至当前不支持的外部预约Provider，因此没有slot或Offer。仅在显式local interactive eval中，adapter发送脱敏`USER_INTERVENTION_REQUIRED`、终端等待用户手动完成站点验证并仅snapshot同一页面；没有CAPTCHA自动化、stealth、自动retry或cookie/token记录。历史eval identity artifact不保存整页HTML；当前受控浏览器诊断仅保存脱敏预约区域结构、完整脱敏控件和被动库存响应允许字段，不保存整页评论/个人资料。Browser会话建立失败不构成实体不确定。生产适用性须经兼容性、可靠性和法律约束单独验证 |
+| Tabelog Web | 来源页；原生发现按受控 Executor 操作，在每个五详情工作块后保留同源未处理入口至十详情／七列表文档／90秒来源上限（地区最多四页，检索最多三页；改写与翻页共享原额度） | 只读开发期Availability Executor（代码实现；页面兼容性部分实测） | 否 | 否 | 否 | Eval-only terminal pause | 仅限Tabelog域名；结果页只接受可识别的restaurant-result链接，relative/canonical outlet URL在门店页补全身份，只有exact phone或name+address可HIGH匹配，已知电话号码冲突直接拒绝；日本显式`+81`号码与国内格式规范后才比较。只接受明确标记available的slot控件。实体非HIGH、CAPTCHA/`Just a moment...` challenge、页面异常、未确认的日期/人数、超时或外部跳转均不是`UNAVAILABLE`；challenge先于identity归类为`BOT_CHALLENGE`。模型的`COMPLETE`仅是请求：来源完成谓词未满足时，Executor在同一会话和原预算内反馈缺口；重复未变化的请求才无进展停止。2026-09-07 H001已读到真实详情，Sushisho Isseki Sancho以exact phone达HIGH，但其availability转至当前不支持的外部预约Provider，因此没有slot或Offer。仅在显式local interactive eval中，adapter发送脱敏`USER_INTERVENTION_REQUIRED`、终端等待用户手动完成站点验证并仅snapshot同一页面；没有CAPTCHA自动化、stealth、自动retry或cookie/token记录。历史eval identity artifact不保存整页HTML；当前受控浏览器诊断仅保存脱敏预约区域结构、完整脱敏控件和被动库存响应允许字段，不保存整页评论/个人资料。Browser会话建立失败不构成实体不确定。生产适用性须经兼容性、可靠性和法律约束单独验证 |
 | Google Routes | — | 交通路线 | 否 | 否 | Route响应 | 否 | `verified`；支持Transit到达/出发时间 |
 | Hot Pepper Web Service | 餐厅、区域、预算等 | 未见公开库存API | 未见公开Consumer Booking API | 否 | 否 | 否 | `verified` Discovery；预约需网页或合作能力 |
 | Hot Pepper Web | 餐厅页 | 网页可查 | Browser | Browser/管理链接 | 成功页、邮件、订单状态 | 登录/验证/支付 | `assumed`，需逐流程Adapter验证；Request Booking不是即时成功 |

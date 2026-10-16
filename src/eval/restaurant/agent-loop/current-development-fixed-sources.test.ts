@@ -1,3 +1,4 @@
+import {scriptedRetrieval} from "../../../harness/restaurant-read-test-fixtures.js";
 import assert from "node:assert/strict";
 import test from "node:test";
 
@@ -5,7 +6,7 @@ import type { ModelGateway } from "../../../core/model/contracts.js";
 import { createCurrentDevelopmentFixedSources } from "./current-development-fixed-sources.js";
 import { currentDevelopmentSourceScenario, type CurrentDevelopmentSourceScenario } from "./current-development-source-scenarios.js";
 
-const model: ModelGateway = { async complete() { throw new Error("the deterministic source pages must not need a model browser action"); } };
+const model: ModelGateway = { async complete(request) { const result=scriptedRetrieval(request);if(result)return result;throw new Error("the deterministic source pages must not need a model browser action"); } };
 const intent = {
   timezone: "Asia/Tokyo" as const,
   target: { goal: "AVAILABILITY" as const, query: "vegetarian lunch" },
@@ -28,7 +29,7 @@ test("fixed source discovery is candidate-scoped and accepts equivalent retrieva
   const sources = createCurrentDevelopmentFixedSources(currentDevelopmentSourceScenario("multi-candidate-control"), { now: () => "2026-08-19T08:00:00.000Z" }, model);
   const equivalent = await sources.search.search({ intent: { ...intent, target: { ...intent.target, query: "vegetarian places around Shibuya" } }, readRunId: "source-equivalent" }, new AbortController().signal);
   assert.deepEqual(equivalent.candidates.map((candidate) => candidate.restaurant.sourceIds.googlePlaces), ["offline-multi-unavailable", "offline-multi-available"]);
-  const wrong = await sources.search.search({ intent: { ...intent, target: { ...intent.target, query: "sushi near Tsukiji" } }, readRunId: "source-wrong" }, new AbortController().signal);
+  const wrong = await sources.search.search({ intent: { ...intent, target: { ...intent.target, query: "sushi near Tsukiji" },criteria:[{text:"sushi",polarity:"POSITIVE",strength:"HARD"}] }, readRunId: "source-wrong" }, new AbortController().signal);
   assert.deepEqual(wrong.candidates, [], "an unrelated legal query must not inherit the scenario's successful outlets");
 });
 

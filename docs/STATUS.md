@@ -1,17 +1,19 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.252
+- Document revision: 4.253
 - Last updated: 2026-10-19
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
 
-- **2026-10-19 P2-1 restored-baseline-ready：** 共同网络修复a60d27b（基于cac4b4f）已在真实来源验证：有/无Guard均20个解析门店，四条搜索GET200、四次合法浏览器预检放行，独立冻结S0边界审计ABSENT。见证重新认证32次公开GET，16原登记保留、13家合格，六例各至少一家，原始SHA/日期/人数/时段链接绑定独立校验通过；不打开链接、不调用模型。六份原输入SHA不变且Runner离线计划0网络/模型；共同配置/脚本/当前见证冻结后，十次基线在同一干净、未含P2-1a的工作树执行。原preparation/旧基线清单是历史材料；当前以network-restored-20261019/baseline-freeze.json为准。准备阶段0新增模型/Google/正式探测/整单Live，下一步是新基线；P2-1a还需变基到共同准备点，检查点A/Live不运行。
+- **2026-10-19 P2-1 restored-baseline-ready：** 共同网络修复a60d27b（基于cac4b4f）已在真实来源验证：有/无Guard均20个解析门店，四条搜索GET200、四次合法浏览器预检放行，独立冻结S0边界审计ABSENT。见证重新认证32次公开GET，16原登记保留、13家合格，六例各至少一家，原始SHA/日期/人数/时段链接绑定独立校验通过；不打开链接、不调用模型。六份原输入SHA不变且Runner离线计划0网络/模型；共同配置/脚本/当前见证冻结后，十次基线在同一干净、未含P2-1a的工作树执行。原preparation/旧基线清单是历史材料；当前以network-restored-20261019/baseline-freeze.json为准。准备阶段0新增模型/Google/正式探测/整单Live，下一步是新基线；P2-1a已变基到共同准备点，检查点A/Live不运行。
 
 - **2026-10-19 P2-1 tablecheck-cors：** 用户于2026-10-19批准最窄CORS例外：Pack的/search/ GET规则附带页面Origin与已观察头名；Guard在Chromium Fetch暂停边界核对浏览器保留预检头（Origin、ACR*、Sec-Fetch-Mode=cors）、请求GET、无body及同一GET查询语法，不依赖可能缺失的Network标记。没有独立OPTIONS规则，不发起OPTIONS或注入API key。外层、Recorder、Live脱敏trace和独立S0按同一冻结审核接线；原始头值不落盘。ADR-0036补充仅追加。真实Chromium原合法GET阻断红灯已保存，修复后六种正反例通过，五门禁936/936与Chromium115/115全绿；Playwright既有route会本地应答预检，测试核对CDP握手与独立GET接收端，不声称上游OPTIONS返回。含握手但缺忠实HAR的录制仍为NOT_REPLAYABLE。无Prompt、Gold或交付资格变更；实际网站对照和新基线尚未运行。
 
 - **2026-10-19 P2-1 tablecheck-get-draft：** Authorized commits35c5dc2/4315ab8/3094193 pushed. Zero-model real TableCheck comparison proves catalog metadata GET and actual search GET at the new tablecheck.net origin; current Guard blocks catalog. Narrow GET declarations, API-document readiness count and frozen external GET audit added with effective red/green evidence. Actual search still requires browser CORS OPTIONS (requested GET, header name x-api-key); GET-only constraint preserved while clarification is pending. This is a partial transport fix, not a completed baseline. No witness recertification/probe/checkpoint/Live started; model budget remains86/450. Isolated fix worktree only; do not replace baseline point until transport is complete.
+
+- **2026-10-17 P2-1 agent-retrieval：** P2-1a implemented under Accepted ADR-0042: Agent-planned positive retrieval, visible same-region categories, at most two pre-detail rewrites, retained candidates and separate page budgets. Shared initial text proposal across TableCheck/Google; old post-batch expansion retired. State@16 has no compatibility path; no database touched. The final clean common baseline before P2-1a is acfaaffa73db97413f6538f161c4e837ec64316e, including the reviewed search GET/CORS transport and fresh witness/configuration freeze. Effective planner/refinement and resumed-page-budget red/green evidence in followup/p2-1a; final five gates typecheck/arch/build PASS, npm test937/937, real local Chromium114/114. Fixed transports and local browser only; 0 real model/Google/restaurant requests, probes or Live. Checkpoint A and P2-1b not run; no push, await independent review.
 
 - **2026-10-17 P2-1 baseline-stop：** Corrected the eval-only baseline stop predicate to use native source witness metrics; already-known exact Google website matches no longer trigger a false changed-bottleneck stop. Effective offline predicate red/green saved in followup/03b/baseline-stop-*.log. No production changes in this commit; 0 model, website, probe or Live calls. Prior readiness gates retained; current typecheck/arch/test/build also pass.
 

@@ -1,0 +1,1775 @@
+
+> praxis-zhixing@0.1.0 test
+> node --import tsx --test src/harness/*.test.ts src/core/*/*.test.ts src/domains/*/*.test.ts src/application/*.test.ts src/infrastructure/*/*.test.ts src/integrations/*/*.test.ts src/server/*.test.ts src/eval/restaurant/semantic/*.test.ts src/eval/restaurant/search-fixture/*.test.ts src/eval/restaurant/agent-loop/*.test.ts src/eval/shared/*.test.ts
+
+{"fixture":"P1-F-B-h001","phaseBefore":"SEARCHING","failureBefore":null,"events":["AGENT_LOOP_TERMINATED"],"phaseAfter":"NO_VERIFIED_RESULT"}
+{"fixture":"P1-G-h001","phaseBefore":"SEARCHING","failureBefore":null,"events":["AGENT_LOOP_TERMINATED"],"phaseAfter":"NO_VERIFIED_RESULT"}
+✔ P1-G2 actual P1-F-B-h001 stop returns a user-facing outcome (16.581542ms)
+✔ P1-G2 actual P1-G-h001 stop returns a user-facing outcome (9.135791ms)
+✔ P1-G2 REJECTION_LIMIT retains BROWSER_RUNTIME_FAILED as a scoped reason (41.242833ms)
+✔ P1-G2 NO_PROGRESS retains GOOGLE_LOCATION_UNRESOLVED as a scoped reason (17.066458ms)
+✔ P1-G2 STEP_LIMIT retains AVAILABILITY_FAILED as a scoped reason (3.430459ms)
+✔ P1-G2 actual PROVIDER_REJECTED stays FAILED (43.947666ms)
+✔ P1-G2 actual UNCAUGHT_EXCEPTION stays FAILED (15.521ms)
+✔ P1-G2 AUTHORIZATION_INVALID cannot become a business completion (4.558708ms)
+✔ P1-G2 SIDE_EFFECT_UNCERTAIN cannot become a business completion (3.974584ms)
+{"decisionCalls":0,"phase":"NO_VERIFIED_RESULT","events":["AGENT_LOOP_TERMINATED"]}
+✔ P2-0 actual h001 step-six exhausted state stops before another model proposal (1.528958ms)
+✔ P2-0 bounded timeout returns a truthful user result (7.247666ms)
+✔ P2-0 SEARCH_RESTAURANTS rejects a known exhausted budget before source work (1.221375ms)
+✔ P2-0 INVESTIGATE_CANDIDATE_FACTS rejects a known exhausted budget before source work (0.908791ms)
+✔ P2-0 CHECK_AVAILABILITY rejects a known exhausted budget before source work (0.724792ms)
+✔ P2-0 failed executions do not reset consecutive no-progress accounting (4.787417ms)
+✔ P2-0 system-ended no-result records structured business termination (0.712291ms)
+✔ P2-0 failure classification is exhaustive across typed model/browser/Google contracts (1.544666ms)
+✔ P2-0 an unrecognized persisted failure cannot default to business (0.448792ms)
+✔ T1-T6 handler composition patches only an eligible missing availability party (13.117417ms)
+✔ whole-read model budget starts before semantic work, counts failed calls, and isolates concurrent runs (0.905375ms)
+✔ retained live work observes the original deadline even without another model call (21.054375ms)
+✔ SideEffectLedger coalesces concurrent writes with one idempotency key (0.359ms)
+▶ PolicyEngine
+  ✔ allows a healthy one-time authorized action (0.583166ms)
+  ✔ rejects a missing authorization (0.082416ms)
+  ✔ rejects an expired authorization (0.0535ms)
+  ✔ rejects malformed authorization timestamps (0.05125ms)
+  ✔ OUTCOME_UNKNOWN takes precedence over a new authorization (0.038333ms)
+✔ PolicyEngine (1.534709ms)
+▶ InMemoryTaskRuntime
+  ✔ deduplicates an event before applying the transition again (1.892833ms)
+  ✔ rejects a new event carrying a stale task version (0.249ms)
+  ✔ records causal metadata and propagates it to emitted commands (0.3465ms)
+  ✔ rejects an event whose trace belongs to another run (0.083209ms)
+✔ InMemoryTaskRuntime (2.982125ms)
+✔ Reducer derives missing fields and accumulates a criterion correction deterministically (0.806959ms)
+✔ Action validator binds search to complete authoritative intent (0.607917ms)
+✔ A native second-source search waits for the first batch candidates to be processed (0.723375ms)
+✔ An empty first native batch cannot end the read while the second bounded source remains (0.128167ms)
+✔ A populated current native batch blocks both a new search and END until every candidate is investigated (0.152333ms)
+✔ Two native source records with unresolved same-outlet signals cannot fill two result positions (0.586833ms)
+✔ Availability keeps its delivery goal while candidate discovery waits only for discovery inputs (0.123667ms)
+✔ A fact-only cafe request can present opening-hours-grounded results and may optionally investigate availability when parameters are complete (0.376541ms)
+✔ an open-ended result target rejects an early partial batch but records a source-limited shortfall (1.123416ms)
+✔ a cited category UNKNOWN can be eligible without creating a verified-negative claim, while violations and safety UNKNOWN remain blocked (0.542042ms)
+✔ an unscheduled recommendation can present place facts without inventing opening hours (0.128708ms)
+✔ The requested goal, not party size, determines whether availability evidence is required (0.222625ms)
+✔ An availability goal missing party size asks for input rather than searching as a recommendation (0.077625ms)
+✔ A depleted Google discovery budget cannot be bypassed by a new retrieval hint (0.074458ms)
+✔ only a source-confirmed named-place ambiguity asks the user to disambiguate (0.054042ms)
+✔ candidate fact investigation is bound to known candidates and cannot repeat the same request (0.123542ms)
+✔ Action validator blocks unknown candidates, stale offers, and booking schedule mismatches (0.202791ms)
+✔ Action validator rejects availability reads that would repeat a candidate already checked for the current search (0.184042ms)
+✔ Action validator keeps investigation batches bounded without truncating the candidate pool (0.185333ms)
+✔ PRESENT_RESULTS fails closed until area, HARD criterion, identity, and availability are evidenced (7.952709ms)
+✔ an immediate availability result cannot be presented after its own validity window (0.549292ms)
+✔ Expired display evidence permits a bounded recheck without extending the prior observation (0.265334ms)
+✔ User refresh reopens only displayed candidates and preserves prior evidence (1.116542ms)
+✔ Recommendation refresh reopens displayed facts without routing through availability (0.881791ms)
+✔ a requested website-fact refresh replaces only stale same-source commercial terms (0.437833ms)
+✔ a fresh UNKNOWN fact observation cannot be masked by a historical qualifying fact (0.320167ms)
+✔ A completed refresh target does not block another target or permit partial presentation (0.302834ms)
+✔ a grounded current no-slot observation excludes a recommendation instead of reviving an older opening-hours fact (0.35175ms)
+✔ a provider fact from the current availability observation supplements rather than erases the current fact read (0.291125ms)
+✔ C6a expired immediate window ends without investigating another candidate (0.77325ms)
+✔ strict Agent wire output normalizes back into canonical restaurant_agent_action@4 (1.303458ms)
+✔ strict Agent wire output rejects meaningful fields outside its selected action (0.116167ms)
+✔ strict Agent wire permits END_READ only with placeholders and never accepts a model supplied outcome (0.207041ms)
+✔ Restaurant Agent context retains bounded observations and action scope while excluding execution authority and raw provider artifacts (2.658375ms)
+✔ Restaurant Agent context exposes a stable exhausted-discovery state without provider internals (0.094291ms)
+✔ current identity-bound negative HARD conflict removes an outlet from costly fact and availability reads (0.305ms)
+✔ missing negative HARD evidence stays UNKNOWN and leaves a legal read path (0.410083ms)
+✔ Restaurant Agent context exposes bounded candidate facts, provider attempts, reception and code-derived next actions (0.278125ms)
+✔ Restaurant Agent context exposes only current candidate-bound commercial notes with their evidence source (0.262209ms)
+✔ C8 source categories remain advisory and source-attributed without changing legal candidates (0.213584ms)
+✔ candidate distance is a bounded source observation without changing legal presentation (0.132417ms)
+✔ Restaurant Agent sends a DeepSeek-strict compatible wire schema and restores the canonical action (19.166791ms)
+✔ Restaurant Agent retries one synthetic non-placeholder format error within the same budgeted gateway (0.28225ms)
+✔ Restaurant Agent stops after a repeated synthetic format error and exposes only rejected field paths (0.129208ms)
+✔ Restaurant Agent supplies candidate commercial comparisons only as source-backed notes (0.689792ms)
+▶ verifyBookingCompletion
+  ✔ confirms strong evidence only when every completion field matches (0.638917ms)
+  ✔ keeps weak evidence inconclusive even when its claims match (0.072ms)
+  ✔ rejects evidence produced for a different execution attempt (0.058958ms)
+  ✔ reports mismatched restaurant, time and party size as conflicts (0.071417ms)
+✔ verifyBookingCompletion (1.224125ms)
+✔ planner passes positive criteria without mechanically choosing a retrieval keyword and retains supplied nearby coordinates (0.712375ms)
+✔ planner keeps negative-only criteria out of discovery text and routes recommendations away from reservation-only packs (2.405708ms)
+✔ planner uses declared group capability without a Case identifier or a source-name branch (0.073084ms)
+✔ planner evaluates same-day capability in the intent timezone (9.647709ms)
+✔ Agent retrieval validates format and observed category scope without deciding qualification (2.360959ms)
+✔ negative criteria do not accept eval-only exclusion payloads (5.812583ms)
+✔ party supplement uses a non-empty object-root strict DeepSeek wire schema and accepts no extra fields (11.941416ms)
+✔ party supplement preserves UNKNOWN and fails closed on extra output (0.118958ms)
+✔ party supplement is bounded to one availability request with a missing party and retains v2's generic arity rule (0.192ms)
+✔ party supplement freezes Prompt@v2 semantic-arity reasoning separately from the transport wire (0.153458ms)
+✔ Google discovery accepts structurally valid restaurant places without claiming retrieval criteria as facts (2.122667ms)
+✔ Google discovery grounds near Shibuya through an explicit address component, not text query relevance (0.438917ms)
+✔ Google discovery does not turn a formatted-address keyword into area evidence when the component is absent (0.0995ms)
+✔ an explicit evaluation location can establish NEAR_USER by bounded distance without changing text-area rules (0.098917ms)
+✔ a task-bound device coordinate is distinguished from an eval-only location radius (0.079208ms)
+✔ coordinate-backed nearby discovery fails closed for out-of-radius and coordinate-less candidates (0.058291ms)
+✔ Google cafe facts require a matching source opening-hours interval for a fact-only afternoon recommendation (16.096ms)
+✔ opening-hours grounding preserves minutes, rejects the closing boundary, and does not fuse split hours (4.897375ms)
+✔ Google primary-type facts report explicit exclusion conflicts but never infer a negative-condition pass (0.836083ms)
+✔ availability grounding accepts only high-confidence matching outlet, schedule and visible slot (1.254ms)
+✔ ambiguous, stale, wrong request, browser failure and unsupported observations never become unavailable (1.291875ms)
+✔ browser startup failures are preserved rather than misclassified as uncertain entity matches (0.232083ms)
+✔ a completed slot extraction with no qualifying slot becomes UNAVAILABLE (0.515625ms)
+✔ a no-slot result scoped to one observed service category remains UNKNOWN for the outlet (0.128792ms)
+✔ walk-in reception is admitted only from explicit page evidence and never turns a no-slot result into availability (0.091625ms)
+✔ an unknown slot does not discard independently matched identity and observed restaurant facts (0.169459ms)
+✔ opening-hours weekdays use the supplied timezone for the current and previous day (0.428459ms)
+✔ Restaurant Semantic Compiler translates independent corrections and criterion negations (1.793083ms)
+✔ Restaurant Semantic Compiler retains party provenance only as diagnostic state and clears it with the count (0.476334ms)
+✔ Restaurant Semantic Compiler preserves the user delivery goal independently of party size (0.15075ms)
+✔ Restaurant Semantic Compiler preserves explicit recommendation scope and count without inventing either (0.152417ms)
+✔ Restaurant Semantic Compiler rejects singleton clear-and-set combinations independent of fact order (0.14725ms)
+✔ criterion ASSERT adds, CORRECT replaces, and NEGATE removes deterministically (1.1435ms)
+✔ Restaurant Semantic Compiler reports contradictory criterion additions and negations (0.137458ms)
+✔ Restaurant Semantic Compiler materializes Tokyo relative time in code and records its basis (49.684667ms)
+✔ explicitly permitted time alternatives retain the original target and cannot widen party or date (0.341416ms)
+✔ Restaurant Semantic Compiler carries a relative offset across Tokyo midnight without model date arithmetic (0.785916ms)
+✔ C6a right now materializes a thirty-minute window without moving its start (0.382625ms)
+✔ C6a right now retains the Tokyo start and makes the earliest source slot eligible (0.316333ms)
+✔ an explicit calendar date wins over a relative clock date while retaining the relative clock (0.382542ms)
+✔ after work remains an original broad query rather than an invented 18:00-20:00 promise (0.2075ms)
+✔ this afternoon carries its Tokyo date so a timed recommendation cannot bypass opening-hours evidence (0.235958ms)
+✔ evening and night retain tomorrow through validation, compilation and state (1.177792ms)
+✔ criterion identity updates strength by text and polarity without merging opposite polarity (0.213542ms)
+✔ same-proposal criterion strength conflicts are rejected independent of fact order (0.162833ms)
+✔ ASSERT strength revisions flow Proposal to Compiler to Reducer without replacing unrelated criteria (0.362583ms)
+✔ Semantic Interpreter sends the proposal schema and separates user data from system context (1.198167ms)
+✔ Semantic Interpreter preserves an existing target scope in its bounded model context (0.127125ms)
+✔ Semantic Interpreter rejects a structurally valid-looking state patch (0.089167ms)
+✔ closed-party and open-group proposals stay distinct through the semantic boundary and compiler (0.467375ms)
+✔ party-size transport preserves an enumerated or explicit count and never supplies one for an open or generic request (0.346708ms)
+✔ Semantic Proposal Contract accepts stable slots and open criteria without a taxonomy (1.054584ms)
+✔ Semantic Proposal Contract accepts only an explicit or closed-party source for a party count (0.246208ms)
+✔ Semantic Proposal Contract carries an explicit open-ended result count for either delivery goal but rejects it for a named outlet (0.188042ms)
+✔ Semantic Proposal Contract rejects internal protocols and invalid operation/value combinations (0.114375ms)
+✔ Semantic Proposal Contract rejects collection CONFIRM because it has no deterministic effect (0.094208ms)
+✔ DeepSeek transport schema uses only supported string constraints while local validation rejects blanks (0.164917ms)
+✔ explicit date and clock values require the raw user expression promised by the strict transport contract (1.782042ms)
+✔ browser case slice journal retains the saved Teppen query region without page secrets (24.440541ms)
+✔ browser case slice journal distinguishes loading and absent booking regions (0.492542ms)
+✔ browser case slice trace retains the installed read boundary and safe Guard diagnostics (0.234208ms)
+✔ optional browser trace recording receives only sanitized snapshots and sanitizer-approved pixels (0.176ms)
+✔ browser case slice journal retains a TableCheck availability region without retaining the page profile (0.333875ms)
+✔ source probe refuses credentials, lookalike hosts and unsupported schemes before navigation (0.411958ms)
+✔ challenge precedes content and a cross-source redirect cannot yield identity or slots (0.169084ms)
+✔ deadline includes session creation and late browser sessions are closed without navigation (14.099458ms)
+✔ Tabelog read probe journals loading and settled saved Teppen query without an active inventory request (26.03925ms)
+✔ browser read probe can passively retain a sanitized public control projection without an action (0.346125ms)
+✔ browser recording writes only an in-memory sanitized public document HAR (9.083333ms)
+✔ browser recording retains a Pack-reviewed public query document within the measured bounded size (11.729ms)
+✔ browser recording preserves valid JSON-LD geo numbers while redacting its telephone (4.65ms)
+✔ browser recording keeps a Pack-reviewed public GET form action but rejects an unreviewed query action (9.2765ms)
+✔ browser recording refuses replay when a dynamic response was admitted without a safe captured body (8.509083ms)
+✔ browser recording refuses a snapshot-only replay when an admitted external script was not captured (5.877375ms)
+✔ browser recording keeps a captured safe external script in the replay HAR (5.659667ms)
+✔ browser recording refuses a reviewed script response containing a literal credential (5.328042ms)
+✔ browser recording persists each runtime-masked screenshot with its snapshot (8.161917ms)
+✔ browser recording adds a sanitized admitted public dynamic response to replay only in memory (3.470375ms)
+✔ browser recording rejects HTTP failures and preserves safe CSS visibility in replay documents (6.604083ms)
+✔ browser recording preserves safe form semantics and rejects unsafe form actions (4.20325ms)
+✔ browser recording preserves an admitted public document redirect for replay (3.278125ms)
+✔ recorder retains loaded Guard-admitted public stylesheets, including generic GET, byte-for-byte (45.461875ms)
+✔ category matrix scoring independently requires cited conflict or unknown-without-verified-negative (0.673125ms)
+✔ the exposed F1-F8 category-negative matrix is fixed at sixteen zero-retry provider attempts (0.647584ms)
+✔ F8 binds a source-stated McDonald's HIGH identity to a generic same-source type without pre-seeding fast food (0.124333ms)
+✔ H005 fixed controls preserve the original regional-cuisine evidence without adding local-food wording (0.489334ms)
+✖ fixed source discovery is candidate-scoped and accepts equivalent retrieval wording (0.680916ms)
+✖ fixed source keeps inventory with its own candidate and request scope (0.150416ms)
+✖ fixed-source coverage gaps preserve provider, request and candidate context (0.111958ms)
+✖ configured provider 404 is observed behavior, not a fixture gap (0.142875ms)
+✔ waitFor requires the requested configured target rather than arbitrary page markup (1.052792ms)
+✖ independent source identities accept a normalized same outlet and reject a same-phone different branch (0.125542ms)
+✖ source observation time advances with the controlled business clock while sample capture stays historical (0.105708ms)
+✖ a lead found while investigating A may help B only after B's own identity check (5.538416ms)
+▶ a second-turn HARD upgrade resets the real Runtime (maxAgentSteps=3/4, timeoutMs=5000) and cannot reuse an old nonblocking presentation
+  ✖ missing-current-hard-evidence (78.981208ms)
+  ✖ current-hard-evidence (1.25875ms)
+✖ a second-turn HARD upgrade resets the real Runtime (maxAgentSteps=3/4, timeoutMs=5000) and cannot reuse an old nonblocking presentation (81.797708ms)
+▶ current H001-H005 raw requests complete through the real offline Hybrid composition (maxAgentSteps=6, timeoutMs=5000) with a scripted code-contract model
+  ✖ h001 (1.587375ms)
+  ✖ h002 (1.016125ms)
+  ✖ h003 (1.0945ms)
+  ✖ h004 (0.889458ms)
+  ✖ h005 (0.959292ms)
+✖ current H001-H005 raw requests complete through the real offline Hybrid composition (maxAgentSteps=6, timeoutMs=5000) with a scripted code-contract model (50.371666ms)
+✖ a new task and new source scenario reuse the fixed Hybrid composition (maxAgentSteps=6, timeoutMs=5000) without a case-specific Runner (0.76675ms)
+✖ registered control cases use the shared execution, evaluator, and acceptance path (1.5855ms)
+✖ an explicit result count travels from control input through authoritative State into fixed-source acceptance (1.362208ms)
+✔ fixed-source registration refuses unknown IDs and missing bindings (0.190875ms)
+✔ frozen H001-H005 registrations do not convert the product default batch target into a user requirement (0.044958ms)
+✔ E1 replay seeds retain both real h001 decisions and leave conditional proposals unscored (234.216208ms)
+✔ replay excludeCandidateIds rejects intersections and accepts disjoint candidate sets (0.163875ms)
+✔ replay candidateIdsExact compares sets independently of order and rejects missing or extra candidates (0.057167ms)
+✔ replay rejects unknown match fields rather than ignoring their requirements (0.1675ms)
+✔ replay validates every matching alternative before any model call (6.852167ms)
+✔ P1-B original replay preserves complete captured messages and counts the failed call once (15.587709ms)
+✔ P1-B static saved DOM uses current Executor targets with scripts and external requests disabled (1063.2545ms)
+✔ C1 injection preserves captured goals and targets and limits history to six steps in the same read (2.542833ms)
+✔ C8 raw Agent replay injects only categories observed before the decision and preserves legal actions (1.38875ms)
+✔ E1 review approved rev2 Gold repairs every rev1 Part A result without changing its bytes (1346.904417ms)
+✔ E1 review Gold correction binds all affected originals and both source SHAs, not a case-name exception (1562.202833ms)
+✔ E1 supplement loads the actual reviewer schema without rewriting its decisions (2.099ms)
+✔ E1 R2 actual h003 deliveries report every preference and reject independently unmet budgets (188.913375ms)
+✔ E1 R2 budget Gold is candidate/request bound; unknown preferences do not become failures (332.298333ms)
+✔ E1 R2 source observation table is strict independent Gold, not a hidden outcome label (3.048375ms)
+✔ E1 R1 supported recommendation delivery remains qualified despite an availability-goal process drift (257.312583ms)
+✔ E1 R5 environment-delayed expiry is derived from raw preflight history and the request window (272.991417ms)
+✔ E1 R6 a corroborated system defect cannot become honest no-result or capability miss (115.03025ms)
+✔ E1 shared artifact entry carries verified preflight/post-GET records into actual classification (186.116167ms)
+✔ E1 existing historical witness records supply the registered roster and original observations (228.599959ms)
+✔ E1 independently certified negative witness conditions cannot leak to another request scope (114.681375ms)
+✔ E1 calibration closes corroborated terminal failure causes without using run identities (360.701833ms)
+✔ E1 honest scoped no-result remains distinct from investigation sufficiency and resource proof (133.115959ms)
+✔ E1 malformed frozen Gold remains unevaluated instead of being repaired from a label or menu (61.629084ms)
+✔ E1 typed reader does not silently turn missing criteria into an empty contract (82.429125ms)
+✔ E1 typed projection preserves absence and rejects invalid consumed fields without defaults (94.081625ms)
+✔ E1 reviewed wording equivalence is usable without relaxing polarity or strength (1.154125ms)
+✔ E1 strict versioned wording table rejects unknown keys, null, duplicates and records raw SHA (2.600375ms)
+✔ E1 Tabelog independently rejects a raw observation on a different date despite copied claims (86.761292ms)
+✔ E1 raw Tabelog priority is post-delivery GET, captured response, selected snapshot; absence stays unknown (169.819167ms)
+✔ E1 evaluator-owned hours grammar and import guard do not borrow production judgments (16.499458ms)
+✔ E1 actual SIGKILL bundles classify as orchestration interruption, not an invented no-result (144.492125ms)
+✔ E1 result types and severity use observed claims and attempts, never human labels or failure tags alone (78.496417ms)
+✔ E1 review S0 declaration and boundary are independent zero-tolerance assessments (165.276916ms)
+✔ E1 review independent public GET rules close both historical h001 rule gaps without trusting admission (186.456667ms)
+✔ E1 review generic public GET rejects sensitive and cross-origin requests, not unknown site names (0.356791ms)
+✔ E1 review reviewed POST requires independent complete body grammar and distinguishes evidence from rule gaps (1.196166ms)
+✔ E1 review outer POST dry run rejects wrong body fields and preserves exact byte hash (2.741541ms)
+✔ E1 interrupted trace mutation detects an actually dispatched form while blocked calls do not become S0 (34.440834ms)
+✔ E1 S0 distinguishes a public Tabelog status read from an actual reserve-page or write request (138.341042ms)
+✔ E1 frozen package reader verifies both SHAs and rejects manifest drift in an independent copy (84.386833ms)
+✔ E1 outer preflight failure is an environment observation, not a missing result invented as no-result (1.335958ms)
+✔ E1 actual after-run witness produces an outlet funnel without borrowing the system's candidate names as Gold (106.625833ms)
+✔ E1 a missing raw recheck cannot erase a pre-registered witness or invent its inventory (73.979834ms)
+✔ E1 review witness inputs resolve relative to the relocated manifest, including raw subdirectories (5.541625ms)
+✔ E1 witness cross-source identity needs independent name AND full address; floor conflict and missing reads stay visible (168.856792ms)
+✔ E1 after-GET scope comes from its raw response, never the four request parameters (47.789166ms)
+✔ E1 real no-progress loops fail investigation and same-term steps 4-6 are reported (81.068125ms)
+✔ E1 progress thresholds reject repeated failures but do not erase a genuinely supported delivery (4.427ms)
+✔ E1 exact URL reload counter distinguishes real query variation and unavailable redacted history (2.770166ms)
+✔ E1 resources honor actual executor limits, and missing effectiveLimits stays unevaluated (204.094125ms)
+✔ E1 outer post-run check captures each registered witness once for an actual zero-delivery run (123.031ms)
+✔ E1 outer witness scope skips deliveries and unregistered cases, and blocks request/source drift (175.267375ms)
+✔ diagnostic evaluator independently accepts current-runner-shaped grounded evidence (1.508584ms)
+▶ E1 binds a slot to its availability snapshot before evidence, excluding later facts
+  ✔ later-facts (0.850875ms)
+  ✔ slot-only-in-facts (0.838583ms)
+  ✔ future-availability (0.837584ms)
+✔ E1 binds a slot to its availability snapshot before evidence, excluding later facts (2.775542ms)
+▶ raw TableCheck trace requires a current request-bound settled result
+  ✔ enabled public reservation link supports the presented result (0.740708ms)
+  ✔ a synthetic scoped offer requires matching source scope, checked raw radio, scope-bound slot, and HARD support (9.795917ms)
+  ✔ disabled child vetoes a same-time enabled-looking result (0.62125ms)
+  ✔ a selected different party is a request conflict (0.571333ms)
+  ✔ a later matching snapshot invalidates an earlier available slot (0.634875ms)
+  ✔ stale control snapshot remains not evaluated (0.602083ms)
+  ✔ loading region remains not evaluated (0.577709ms)
+  ✔ missing trace remains not evaluated (0.599417ms)
+  ✔ neighbor outlet link cannot support availability (0.606709ms)
+  ✔ hidden descendant link cannot support availability (0.570708ms)
+  ✔ hidden availability region cannot support availability (0.552708ms)
+  ✔ a hidden sibling does not erase a visible same-source slot (0.577875ms)
+  ✔ snapshotRecord hides a nested same-tag subtree but retains a visible sibling (3.349208ms)
+  ✔ snapshotRecord preserves a false data-disabled flag but rejects an actual disabled slot (1.2835ms)
+  ✔ a mutation after the last source snapshot leaves the current result unknown (0.584666ms)
+  ✔ each presented offer time needs its own raw enabled slot (0.590833ms)
+  ✔ one raw slot cannot support only part of a multi-offer presentation (0.595958ms)
+  ✔ every presented offer passes when every raw slot is enabled (0.594833ms)
+  ✔ a disabled different time does not erase the enabled presented offer (0.595458ms)
+✔ raw TableCheck trace requires a current request-bound settled result (24.657ms)
+✔ a raw matching settled TableCheck empty result is distinct from an unsupported negative (0.794667ms)
+✔ diagnostic evaluator retires an availability-read source fact only when the later same-source read replaces it (2.399334ms)
+✔ diagnostic evaluator independently verifies cited category UNKNOWN eligibility without treating it as verified-negative (3.704875ms)
+▶ diagnostic evaluator distinguishes paired artifact controls from bounded contract mutations
+  ✔ control: qualified presentation (0.676542ms)
+  ✔ control: bounded empty discovery (0.643708ms)
+  ✔ M01 explicit party-size field is dropped (0.64025ms)
+  ✔ M03 a second presented candidate borrows A's evidence references (0.663ms)
+  ✔ M04 candidate-scoped availability evidence loses its candidate ID (0.575333ms)
+  ✔ M05 an UNKNOWN availability result is relabelled UNAVAILABLE without negative evidence (0.568375ms)
+  ✔ M05b a no-slot record for a different party cannot support this request (0.613666ms)
+  ✔ M06 expired availability evidence is retained for presentation (0.693958ms)
+  ✔ M07 completion tag remains after actual execution records are deleted (0.575709ms)
+  ✔ M08 normal end is recorded despite a still-present qualified result (0.625875ms)
+✔ diagnostic evaluator distinguishes paired artifact controls from bounded contract mutations (6.6245ms)
+▶ executed observation lineage rejects a different candidate or request date
+  ✔ candidate changed (0.633ms)
+  ✔ request date changed (0.580333ms)
+✔ executed observation lineage rejects a different candidate or request date (1.3015ms)
+✔ search-only source evidence can support a fact recommendation (0.801833ms)
+✔ a no-result label cannot conceal an independently supported candidate (1.904917ms)
+▶ empty or incomplete investigation records cannot certify no-result completion
+  ✔ empty (0.845167ms)
+  ✔ missing-scope (0.697041ms)
+  ✔ proposal-only (0.712625ms)
+  ✔ old-request (0.576333ms)
+✔ empty or incomplete investigation records cannot certify no-result completion (3.093916ms)
+✔ a recorded current empty search supports only its bounded empty-result scope (3.31875ms)
+✔ UNKNOWN without independently checkable remaining gaps is not a certified no-result (1.163792ms)
+✔ diagnostic evaluator rejects wrong request values, LOW identity, and evidence expired at presentation (0.847334ms)
+✔ candidate evidence cannot be borrowed from another presented candidate (0.769542ms)
+✔ missing trajectory and empty resource object remain not evaluated (0.648292ms)
+✔ current runner resource ceilings are required and reject over-budget work (3.495541ms)
+✔ current Runner model-call ceiling counts started attempts and known overages outrank missing limits (2.668ms)
+✔ a changed request version can legitimately recheck a candidate (0.577125ms)
+✔ the same authoritative request with two executed reads is a duplicate (0.584917ms)
+✔ a recorded user refresh is a legal recheck of the same authoritative request (0.571458ms)
+✔ an arbitrary recheck label does not exempt a duplicate availability read (0.562084ms)
+✔ fact investigation is subject to the same duplicate check as availability (1.080459ms)
+✔ a derived restaurant fact needs its cited candidate-bound source evidence (1.110375ms)
+✔ complete availability time windows are evaluated without H001 exact-time assumptions (0.573334ms)
+✔ H004 fact-only presentation requires applicable opening hours, not an availability offer (3.573292ms)
+✔ UNSPECIFIED is nonblocking while a HARD strength mismatch remains material (1.625583ms)
+✔ criterion comparison preserves text-plus-polarity identities as a multiset (1.159834ms)
+✔ grounding follows the actual authoritative criterion while textual Gold differences remain independently unresolved (0.785333ms)
+✔ a later HARD criterion cannot reuse an old UNSPECIFIED observation (1.801375ms)
+✔ generic negative HARD criteria require a cited source judgment and preserve a conflict (2.251ms)
+✔ fact-only evaluation rejects a derived opening claim contradicted by raw hours (0.64425ms)
+✔ an offer inside a time window must be one of the cited availability slots (0.587459ms)
+✔ evidence observed after presentation is a conflict while a missing observation is not evaluated (1.072917ms)
+✔ a missing final authoritative intentDraft is not evidence of a condition conflict (0.575041ms)
+✔ evaluation failure creates a separate immutable failure sidecar (6.620833ms)
+✔ a saved exception artifact remains intact when post-finish evaluation fails (1.823125ms)
+✔ explicit alternative permission and equivalent area labels are independently checked (4.144541ms)
+✔ E2 checks actual reads separately from discovered unresolved and unread scope (3.062708ms)
+✔ P2-0 evaluator audits structured system READ_ENDED as a bounded outcome (0.757375ms)
+✔ P2-0 structured ending rejects system-cause (0.56425ms)
+✔ P2-0 structured ending rejects forged-provider-cause (0.536583ms)
+✔ P2-0 structured ending rejects different-observation (0.516875ms)
+✔ P2-0 structured ending rejects missing-event (0.523292ms)
+✔ P2-0 structured ending rejects invented-investigation (0.506625ms)
+✔ P21 Google website exact source identity counts by discovery source; names never establish identity (1.368667ms)
+✔ P21 production cannot import witness/probe evaluation modules through any import form (0.699ms)
+✔ P21 listing witness, first-batch witness and radius are independent observations (0.258125ms)
+✔ P21 probe preflight forwards provider environment and keeps the journal in the probe directory (134.788667ms)
+✔ a frozen evaluation coordinate is selected only for NEAR_USER, never a named area (0.32125ms)
+✔ qualified result requires its own terminal record and independent support (0.645292ms)
+✔ a default open-ended target is reported but does not turn a qualified short batch into failure (0.364958ms)
+✔ an explicit requested result count remains a completion requirement (0.131792ms)
+✔ an authoritative requested result count cannot be silently treated as a default batch (0.091958ms)
+✔ a qualified result cannot pass with an empty presentation (0.061417ms)
+✔ verified no-result passes only with matching no-result evidence (0.060875ms)
+✔ input pause, cancellation, and budget stops are distinct accepted behaviors (0.073667ms)
+✔ coverage gaps and unassessed evaluator dimensions are nonzero outcomes (0.102958ms)
+✔ source-required acceptance treats failed navigation as an attempt and keeps normal empty on its applicable dimensions (0.129334ms)
+✔ native source usage reads attempted navigation and observed snapshot URLs independently (0.142ms)
+✔ a frozen business clock cannot freeze the real outer deadline or admit a late model result (34.650708ms)
+✖ a result that completes before the deadline retains its normal terminal outcome (56.064042ms)
+✔ controlled cancellation stays distinct from an honest model-budget completion (32.782208ms)
+▶ isolated implementation mutations are detected by passing Hybrid controls
+  ✔ source mutation: a failed batch is incorrectly promoted to task failure (2156.118791ms)
+  ✖ M01 compiler drops an explicit party-size field (757.23175ms)
+  ✖ M02 reducer discards fact checks from a prior batch (777.105ms)
+  ✖ source mutation: discovery truncates accepted source candidates (723.20525ms)
+✖ isolated implementation mutations are detected by passing Hybrid controls (4414.843083ms)
+▶ independent source boundary controls cover zero, one, and exactly one fact-read batch (packs=Google; maxAgentSteps=12, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)
+  ✔ {"candidateCount":0,"batchSize":3,"reverse":false} (16.593125ms)
+  ✖ {"candidateCount":1,"batchSize":3,"reverse":false} (1.560542ms)
+  ✖ {"candidateCount":3,"batchSize":3,"reverse":false} (1.192458ms)
+✖ independent source boundary controls cover zero, one, and exactly one fact-read batch (packs=Google; maxAgentSteps=12, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000) (19.637458ms)
+✖ a user refresh after the clock advances replaces the current fact observation without losing request fidelity (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000) (1.079416ms)
+✖ src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts (178838.217417ms)
+✔ live materialization resolves tonight and updates every dependent date without mutating source (11.434459ms)
+✔ live materialization handles this Friday and this afternoon in Asia/Tokyo (0.324542ms)
+✔ live materialization independently resolves a right-now clock in Tokyo instead of retaining frozen case time (0.408458ms)
+✔ current development inputs preserve the archived user messages and have one parameter oracle (25.452958ms)
+✔ real case loader through materialization and evaluator agrees with independent current request expectations (34.494541ms)
+✔ relative expectation updates never rewrite literal dates or times in the actual user message (0.262916ms)
+✔ approved Gold7 is the default and right-now window materializes both bounds without changing Gold6 (6.723125ms)
+✔ custom live case loading keeps novel inputs parentless and in their own cohort (3.552333ms)
+✔ approved P1-F rev2 loads all eight independent literal request expectations (5.3705ms)
+✔ case loader rejects the original comma-truncated P1-F revision (3.822458ms)
+✔ case loader rejects null values and unknown keys instead of silently accepting them (16.584125ms)
+✔ live preflight records only public endpoint shape and permits the actual hybrid dependencies (16.678ms)
+✔ configured proxy refusal finishes a preflight artifact before any endpoint request (6.225167ms)
+✔ no-proxy resolves a copied environment and never probes an inherited 10808 proxy (4.049167ms)
+✔ a fixed-source model run ignores browser and Google proxies it does not use (6.325958ms)
+✔ a failed preflight keeps downstream startup at zero (2.247708ms)
+✔ a nested transport cause is classified without recording its provider error (6.7955ms)
+✔ an aborted endpoint probe is a timeout even when fetch reports DOM AbortError (102.889583ms)
+✔ a missing DeepSeek key is a configuration error before any fetch (3.319542ms)
+✔ public source endpoints require a readable HTTP success response (6.981792ms)
+✔ Google's unauthenticated root response proves only TLS transport while DeepSeek access still requires HTTP success (11.358208ms)
+✔ preflight cancels an unread response body after observing headers (2.603875ms)
+✔ the actual hybrid runner stops at its preflight gate before it creates a Live task (964.12775ms)
+✔ outer live-run deadline settles a child promise that ignores abort (0.504959ms)
+✔ owned deadline is distinguishable from a caller cancellation (1.038042ms)
+✔ outer live-run deadline preserves a child result that arrives before abort (0.099541ms)
+✔ NOT_SUPPORTED rejects a raw SUPPORTED result even when production code declines its uncited assertion (0.432209ms)
+✔ UNKNOWN permits an empty citation list but rejects an invented nonempty citation (0.077667ms)
+✔ SUPPORTED requires one legal, cited target judgment and actual production acceptance (0.068959ms)
+✔ the scorer parameterizes the actual narrow criterion instead of retaining local food (0.052959ms)
+✔ no response or a filtered zero-call input cannot pass a matrix expectation (0.052ms)
+✔ the locality matrix is frozen to V2-L1 through V2-L10 plus N1/N2 and uses the actual fact-judgment boundary (3.192417ms)
+✔ the locality matrix does not let a fixture answer bypass cited evidence (0.1935ms)
+✔ H001 native first batch presents three source-bound Tabelog results without TableCheck (156.70575ms)
+✔ H001 native cited-menu follow-up carries source-bound HARD evidence to a current Tabelog result (138.785625ms)
+✔ H001 TableCheck reserve-menu scope reaches a synthetic-only current result without borrowing a sibling menu (189.345792ms)
+✔ H001 TableCheck reserve-menu scope can check availability before facts and exposes the service-radio prerequisite (110.476167ms)
+✔ H001 second native batch introduces its own TableCheck results after Tabelog cannot deliver (155.451917ms)
+✔ H001 native discovery uses the shared browser model loop to reveal an observed TableCheck result list (39.485458ms)
+✔ H001 native discovery uses an observed ordinary query submit only in its installed read boundary (24.948375ms)
+✔ H001 confirms a ready TableCheck query through live controls without mistaking hidden or script loading text for a pending search (19.72325ms)
+✔ H001 never admits stale busy discovery cards or an old explicit empty state after the browser declines a current-query action (26.3335ms)
+✔ native source session acquisition consumes the remaining source window and retains an unstarted detail entrance (3.442ms)
+✔ the production Router advances the default three-pack cursor and reaches Google Nearby Search after bounded source batches (9.56125ms)
+✔ fixed TableCheck discovery stores the actual filled value and cannot reveal the current result after a wrong fill (0.989584ms)
+✔ H001 two bounded empty source batches cannot claim inventory or results (18.112833ms)
+✔ H001 both source lists reject page-owned coordinates outside the existing area radius (22.123958ms)
+✔ H001 one Tabelog detail failure retains earlier candidates and continues to the next detail (28.941125ms)
+✔ H001 rejects an early END_READ after an empty Tabelog batch and continues to TableCheck (11.317667ms)
+✔ H001 native Tabelog batch continues past unavailable and unknown outlets, then presents its qualified outlet (29.055333ms)
+✔ H001 native TableCheck batch continues after one nonqualifying outlet and presents the next (56.922ms)
+✔ H001 open-ended native target three delivers one qualified outlet when the first batch is complete (31.355917ms)
+✔ H001 two investigated native batches with no qualified outlet stop without an inventory claim (40.517042ms)
+✔ H001 TableCheck search with a raw link but no parsed outlet retains the observed funnel and fails incomplete (15.634041ms)
+✔ H001 enters the observed named Shibuya directory with the authoritative keyword (23.504708ms)
+✔ native discovery adjusts a sparse keyword through an observed category without relaxing HARD facts (28.74725ms)
+✔ native discovery rejects a category result that leaves the observed regional listing root (12.437375ms)
+✔ native discovery retains category pagination including links revealed by a query action and deduplicates outlets (78.919875ms)
+✔ H001's named Shibuya entry avoids an unrelated root-list candidate before investigation (19.59975ms)
+✔ native discovery refuses a broad listing when an observed regional entrance redirects away (9.4625ms)
+✔ native discovery reaches a neutral locality only through its observed source-region entrance (23.20325ms)
+✔ native discovery restores an observed regional listing after same-region homepage canonicalization (72.076959ms)
+✔ native discovery does not treat an unscoped national homepage as the observed regional homepage (33.5265ms)
+✔ H001 presents one investigated Tabelog current-batch result without exhausting the source or starting TableCheck (53.107417ms)
+✔ H001 presents one investigated TableCheck current-batch result without reading a second TableCheck chunk (49.558042ms)
+✔ H001 consumes a retained Tabelog detail entrance without reopening a volatile listing (56.522084ms)
+✔ H001 retains unstarted Tabelog entries when a failed detail cannot reopen its session (28.651333ms)
+✔ native detail chunk continues through later observed Tabelog results before changing source (64.00225ms)
+✔ H001 rejects early end and short presentation after TableCheck discovery until its batch is investigated (99.028958ms)
+✔ WP-A offline composition captures every model call including a timeout and links browser observations to DOM snapshots (120.717542ms)
+{"decisionCaptureError":{"operation":"CREATE","errorCode":"ENOENT"}}
+✔ WP-A capture keeps model results and errors when storage fails, and finalizes an outstanding deadline call once (3.39675ms)
+✔ coordinate-only discovery passes source-attributed address observations, including failure, to browser input (1.885792ms)
+✔ P1-G repeated already-checked availability ends honestly: NATIVE_TRUE_NO_RESULT (40.547209ms)
+✔ P1-G repeated already-checked availability ends honestly: TABELOG_CURRENT_BATCH_DELIVERS (42.467417ms)
+✔ P1-G unresolved location NO_PROGRESS gives an honest user outcome (6.311459ms)
+✔ T1 production assembly shares Live limits after more than twelve actual availability model calls (discoveryPacks=tabelog,tablecheck) (65.081167ms)
+✔ T1 Runner and Web assemblies expose equal effective limits and independent run budgets (0.213ms)
+✔ P21 discovery probe uses production assembly/Guard for one first batch and never availability (7.552916ms)
+✔ P21 failed model calls count toward the shared probe ceiling; later source is not started (0.962458ms)
+✔ P21 two pre-detail rewrites exhaust only retrieval allowance, not the source or inventory (0.93ms)
+✔ native fixed-source finalization persists execution before independent evaluation and acceptance (7.595459ms)
+✔ a post-persistence acceptance-sidecar error leaves the execution record single-write (3.45175ms)
+✖ frozen H001-H005 authoritative semantics materialize into auditable source-pack plans (51.926125ms)
+✔ source data preflight: nonempty controls pass once; empty and timeout prevent run start (27.65525ms)
+✔ source-stage plan runner freezes a no-proxy plan without external or downstream execution (899.846541ms)
+✔ source-stage outer failure keeps a started preflight measurable instead of writing zero external work (897.773375ms)
+✔ source-stage execute rejects REPLAY outside the REPLAY stage before preflight or downstream work and retains zero-attempt journal (637.3265ms)
+✔ source-stage execute rejects PLAN_ONLY before preflight or downstream work and retains zero-attempt journal (730.001375ms)
+✔ source-stage execute rejects LIVE_READ_ONLY paired with REPLAY before preflight or downstream work (483.833334ms)
+✔ source-stage offline Replay uses a frozen HAR contract and aborts without a frozen action trace or network fallback (585.10225ms)
+✔ source-stage Replay rejects a changed frozen location context before any browser or model work (465.225208ms)
+✔ source-stage named-location label must match the frozen sample input before preflight (562.01ms)
+✔ source-stage named-location rejects an ambiguous frozen label before preflight (476.9705ms)
+✔ source-stage named-location rejects a sample with no frozen label before preflight (460.04575ms)
+✔ source-stage named-location rejects an invalid frozen radius before preflight (462.959083ms)
+✔ source-stage manifest freezes the Phase3 budgets, full denominator and evaluator boundary (1.066625ms)
+✔ source-stage Replay reports no real model request while retaining replay decision accounting (0.050166ms)
+✔ source-stage matrix cap limits the next sample before model dispatch (0.093208ms)
+✔ source-stage attempt accounting retains failed samples and cannot convert a partial matrix into a pass (0.529292ms)
+✔ direct source stages retain production-port reads without inventing a Hybrid evaluator verdict (0.329042ms)
+✔ source-stage facts and browser decisions share one bounded model counter (0.143542ms)
+✔ frozen Replay wires use the production decoder and require a fresh opaque target rebind (0.399542ms)
+✔ live source-stage discovery delegates to the production NativeRestaurantSearch flow instead of a direct Pack snapshot (36.584ms)
+✔ source-stage discovery keeps a parsed list without any frozen-radius candidate as NO_COVERAGE (2.309042ms)
+✔ browserless Google Pack runs through its production search port with the frozen pack query (0.30225ms)
+✔ local fixture Search Eval covers full intent, clarification, and selection (55.171167ms)
+✔ field diagnostics count criteria and singleton mismatches once per turn (0.889917ms)
+✔ a criterion text mismatch is not also misclassified as polarity or strength (0.097041ms)
+✔ baseline comparison keeps the prompt @4 subset separate and reports newly continued turns (0.239292ms)
+✔ common-unchanged comparison excludes a changed Gold turn instead of comparing it (0.243125ms)
+✔ semantic Holdout template contains no exposed sample and complete preflight rejects it (2.725625ms)
+✔ semantic Holdout preflight accepts a complete labelled dataset with the frozen manifest (1.732792ms)
+✔ semantic Holdout preflight rejects duplicates, manifest drift, and inconsistent Gold (0.228458ms)
+✔ semantic Holdout adapts the simplified private annotation shape without changing its meaning (0.200708ms)
+✔ semantic Holdout gives a standalone simplified case its own structural session id (0.092417ms)
+✔ semantic Holdout manifest audit identifies scorer, schema, and prompt configuration (0.426583ms)
+✔ semantic Holdout parser accepts a stream of structural annotation documents (0.575292ms)
+✔ semantic scorer fails on Draft mismatch and ignores deprecated Decision metadata (0.290125ms)
+✔ semantic regression runs Proposal, Compiler, and Runtime/Reducer in order (28.513708ms)
+✔ development attribution stops at Compiler before Reducer (0.26075ms)
+✔ invalid model JSON is attributed to Proposal Contract and blocks downstream turns (0.095834ms)
+✔ development attribution accepts a semantically equivalent Proposal with reordered facts (0.239083ms)
+✔ stage scorer assigns valid but wrong meaning to Semantic Interpreter (0.837625ms)
+✔ stage scorer assigns a wrong deterministic translation to Compiler (0.080333ms)
+✔ stage scorer assigns wrong accumulated state after correct compilation to Reducer (0.081542ms)
+✔ semantic scorer ignores the retired ADR-0007 next-step annotation (0.056334ms)
+✔ stage scorer treats unordered criteria and facts with case/whitespace-only text changes as equal (0.171791ms)
+✔ diagnostic start survives early failure and results cannot overwrite prior evidence (7.23375ms)
+✔ diagnostic attempt dispatch and settlement records are immutable (3.024ms)
+✔ diagnostics remove URL credentials, query and fragments and never return raw errors (0.172666ms)
+✔ real model Eval requires an explicit paid-network gate and validates optional price inputs (4.235583ms)
+✔ real model Eval metrics retain provider metadata, retries, usage and explicitly estimated cost (0.261083ms)
+✔ Execution Router binds only the matching durable search cursor; the Agent cannot supply or reuse one after an intent change (3.496208ms)
+✔ Execution Router aborts and bounds a Provider search read that exceeds its deadline (1.825208ms)
+✔ Execution Router returns at its deadline even when a Provider ignores abort (0.963209ms)
+✔ Execution Router retains source-owned Google request accounting when a sent read fails (0.205084ms)
+✔ Execution Router passes only bound availability arguments and its deadline signal to the adapter (5.988416ms)
+✔ Execution Router preserves a current exact immediate request for source-side slot verification (11.447541ms)
+✔ Execution Router forwards only a current exact immediate slot to the provider (14.3445ms)
+✔ Execution Router binds a fact-only read to known candidates and the authoritative recommendation intent (1.408542ms)
+✔ Execution Router keeps a shared browser startup failure candidate-scoped after all requested candidates fail (0.589375ms)
+✔ Execution Router preserves all-provider browser failure evidence without escalating it to task terminal (1.158417ms)
+✔ Router partial-port contract: an explicitly permitted alternate time is queried as a bounded range and presented as an alternate, without changing the original request (packs=Google; maxAgentSteps=6, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000) (79.116333ms)
+✖ Router partial-port contract: fresh request-bound inventory can receive missing facts before another inventory read and reach three results (packs=Google; maxAgentSteps=12, maxRejectedActions=3, maxAutomaticBrowserMs=10000, maxStructuredReadMs=8000) (27.787542ms)
+✔ Router partial-port contract: default delivery keeps a produced source-backed result when the next availability batch would consume the reserve (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=300000, maxStructuredReadMs=8000) (1031.139792ms)
+▶ Router partial-port contract: model-call delivery reserve presents a source-backed short batch without relaxing qualification (packs=Google; maxAgentSteps=10, maxRejectedActions=3, maxAutomaticBrowserMs=500000, maxStructuredReadMs=8000)
+  ✔ ready (6.210666ms)
+  ✔ crossing (4.1395ms)
+  ✔ wrong-party (6.125875ms)
+  ✔ expired (2.307583ms)
+  ✔ explicit-count (4.721958ms)
+✔ Router partial-port contract: model-call delivery reserve presents a source-backed short batch without relaxing qualification (packs=Google; maxAgentSteps=10, maxRejectedActions=3, maxAutomaticBrowserMs=500000, maxStructuredReadMs=8000) (24.110084ms)
+▶ Router partial-port contract: C0b reserves the last four calls inside a provider read and then presents (packs=Google; maxAgentSteps=10, maxRejectedActions=3, maxAutomaticBrowserMs=500000, maxStructuredReadMs=8000)
+  ✔ ready (8.562875ms)
+  ✔ no-qualified (11.3755ms)
+  ✔ expired (5.669583ms)
+✔ Router partial-port contract: C0b reserves the last four calls inside a provider read and then presents (packs=Google; maxAgentSteps=10, maxRejectedActions=3, maxAutomaticBrowserMs=500000, maxStructuredReadMs=8000) (25.991833ms)
+▶ Router partial-port contract: C6a observed public hours end the immediate window only when every checked page has no opening period (packs=Google; maxAgentSteps=4, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)
+  ✖ closed (1.889833ms)
+  ✖ outside (1.366125ms)
+  ✖ open (2.703125ms)
+  ✖ partial (5.916083ms)
+  ✖ unknown (4.791708ms)
+  ✖ malformed (1.363291ms)
+  ✖ ambiguous-closed (1.193083ms)
+  ✖ wrong-day (1.1285ms)
+  ✖ overnight (1.2515ms)
+  ✖ api-only (1.112958ms)
+  ✖ explicit-time (1.048167ms)
+  ✖ one-closed (1.110459ms)
+  ✖ three-two-closed-one-open (1.130208ms)
+✖ Router partial-port contract: C6a observed public hours end the immediate window only when every checked page has no opening period (packs=Google; maxAgentSteps=4, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000) (26.704375ms)
+▶ Router partial-port contract: reserve checkpoints retain completed outlets and mark only unfinished ones UNKNOWN (packs=Google; maxAgentSteps=10, maxRejectedActions=3, maxAutomaticBrowserMs=mode==="availability-time"?300000:500000, maxStructuredReadMs=8000)
+  ✔ availability-call (27.840334ms)
+  ✔ availability-time (1015.330708ms)
+  ✔ empty-call (7.273042ms)
+  ✖ facts-call (7.860875ms)
+✖ Router partial-port contract: reserve checkpoints retain completed outlets and mark only unfinished ones UNKNOWN (packs=Google; maxAgentSteps=10, maxRejectedActions=3, maxAutomaticBrowserMs=mode==="availability-time"?300000:500000, maxStructuredReadMs=8000) (1059.112625ms)
+▶ restaurant booking mock harness
+  ✔ H01 completes a verified booking through the authorized happy path (11.734959ms)
+  ✔ H02/H03/H04 retain the bounded discovered candidate pool and stop the proposed booking before authorization (1.915667ms)
+  ✔ continues from three unavailable candidates to a fourth discovered candidate without changing the request (3.754875ms)
+  ✔ H05 resumes the Agent after a definitive commit failure and requires a new authorization (3.768208ms)
+  ✔ Agent resumes after BOOKING_ABSENT with a new candidate proposal awaiting authorization (3.078833ms)
+  ✔ H06 weak evidence after submit becomes OUTCOME_UNKNOWN (1.59725ms)
+  ✔ H07 OUTCOME_UNKNOWN blocks selecting and committing another candidate (1.560375ms)
+  ✔ H08 replaying a commit command does not repeat the side effect (1.470458ms)
+  ✔ H09 mismatched booking details cannot produce BOOKED_VERIFIED (7.552292ms)
+  ✔ H10 evidence from another attempt cannot produce BOOKED_VERIFIED (7.929042ms)
+  ✔ H11 run artifact preserves the causal chain, proof and side-effect ledger (2.08625ms)
+  ✔ Agent can request a second search strategy after the first discovery (0.841083ms)
+  ✔ a same-request supplementary search preserves completed checks and deduplicates the candidate pool (5.695ms)
+  ✔ a changed authoritative condition invalidates prior candidate and availability evidence (0.932125ms)
+  ✔ Agent checks an unavailable candidate then independently checks and selects another (2.579834ms)
+  ✔ Agent cannot execute a duplicate availability read after the candidate already has a check (1.232125ms)
+  ✔ Harness binds party-size discovery metadata and availability arguments from authoritative task state (5.048584ms)
+  ✔ Provider failure is durable execution evidence, not a model failure (0.528042ms)
+  ✔ exhausted discovery without candidates terminates instead of retrying rewritten searches (0.590792ms)
+  ✔ GENERIC_BROWSER availability observations retain the external adapter trace actor (0.84475ms)
+  ✔ a candidate-scoped browser read failure can end without asking the user to resolve provider infrastructure (1.074542ms)
+  ✔ Timeout, step limit, and rejection limit terminate with durable state and trajectory (0.78475ms)
+  ✔ repeated rejected batches remain bounded by the explicit rejection limit without inferring exhausted source paths (1.314084ms)
+  ✔ an exhausted discovery cursor rejects a reworded retry and the model can end the bounded read (14.54125ms)
+✔ restaurant booking mock harness (83.322417ms)
+✔ strict browser wire COMPLETE accepts only a current observed placeholder and restores target-free canonical action (1.809875ms)
+✔ runner model-call budget exhaustion remains a task cause, not a browser network failure (0.564292ms)
+✔ strict browser wire canonicalizes inert page-action envelope fields (0.330917ms)
+✔ strict browser wire restores authoritative calendar and observed-option actions (0.253708ms)
+✔ strict browser wire restores bound retrieval input fill and observed query-option selection (0.233959ms)
+✔ strict browser wire restores only bounded observed checkbox, slider, and region actions (0.283ms)
+✔ strict browser wire accepts page-level WAIT with inert envelope fields and rejects unknown fields (0.78025ms)
+✔ strict browser wire canonicalizes inert metadata but records a typed rejection for an extra field (0.330333ms)
+✔ strict browser wire ignores only action-inert metadata (0.763ms)
+✔ browser record keeps a valid wire shape but redacts its free-text reason (0.2365ms)
+✔ browser prompt describes installed public-query controls and page-level recovery (1.28375ms)
+✔ LOCATION wire cannot carry a replacement value or use a non-fill action (0.744416ms)
+✔ src/infrastructure/browser/browser-completion-contract.test.ts (227.541ms)
+✔ policy draft records only admitted value-free GET shapes and never activates a POST (1.414709ms)
+✔ Browser Skills load source guidance only when the injected pack supplies it (1.190167ms)
+✔ LOCAL_CHROMIUM selects the local runtime without requiring or constructing Cloudflare configuration (0.34325ms)
+✔ AUTO, KITESURF, and CHROMIUM preserve Cloudflare runtime selection (0.088ms)
+✔ BrowserTaskExecutor shares one browser session across source work and closes it once at the enclosing read boundary (1.882ms)
+✔ BrowserTaskExecutor refuses a policy read when a runtime only exposes an unguarded session (0.895084ms)
+✔ BrowserTaskExecutor records candidate and provider lifecycle costs through a normal close (0.798375ms)
+✔ BrowserTaskExecutor completes after a canonical page-level WAIT without an observed target (3.742083ms)
+✔ BrowserTaskExecutor spends one bounded operation on page-level Escape then re-observes (0.666875ms)
+✔ BrowserTaskExecutor applies one obstruction recovery and re-observes instead of retrying an old click (31.000167ms)
+✔ BrowserTaskExecutor exposes an ordinary observed query submit only in an installed read boundary (0.872167ms)
+✔ BrowserTaskExecutor waits once for a guarded GET submit when cosmetic form state changes before results (0.380334ms)
+✔ BrowserTaskExecutor keeps an observed sensitive submit unavailable even in an installed read boundary (3.0115ms)
+✔ BrowserTaskExecutor exposes generic public query controls only after the Guard boundary is installed (3.054ms)
+✔ BrowserTaskExecutor executes a guarded authoritative date button only for the Router-bound date (0.493875ms)
+✔ BrowserTaskExecutor identifies an operation ceiling before a denied next observation (0.398958ms)
+✔ BrowserTaskExecutor records the real acquisition root cause instead of inferring a run failure (0.173333ms)
+✔ BrowserTaskExecutor emits a typed provider deadline before opening a session (0.10775ms)
+✔ BrowserTaskExecutor aborts session acquisition immediately and closes a late session (2.97525ms)
+✔ BrowserTaskExecutor records a failed runtime operation with its local cause (0.181209ms)
+✔ a runtime navigation failure retires its session before the next candidate without resetting the run (0.211083ms)
+✔ a stuck old close cannot delay cancellation or overwrite the next candidate (0.434167ms)
+✔ a stuck runtime cleanup does not hold a canceled read or reset its candidate deadline (20.865042ms)
+✔ BrowserTaskExecutor aborts an in-flight operation, closes once asynchronously, and never reuses that session (0.819667ms)
+✔ BrowserTaskExecutor bounds a late session acquisition without leaking its deadline into the next candidate (11.841791ms)
+✔ BrowserTaskExecutor times out a hanging snapshot, closes that session, and permits the next candidate (12.011875ms)
+✔ BrowserTaskExecutor stops a repeated two-page cycle without spending the full operation budget (2.4845ms)
+✔ BrowserTaskExecutor keeps a model-call ceiling across sequential candidate executors (0.606167ms)
+✔ BrowserTaskExecutor enforces the shared budget ceiling when no caller-specific option is supplied (0.619125ms)
+✔ BrowserTaskExecutor accepts only observed, read-only targets and invalidates old references after every observation (1.249709ms)
+✔ BrowserTaskExecutor allows an observed GET availability-search control but never treats it as a booking submit (0.743166ms)
+✔ fragment UI click permission cannot be used for another document, origin, or sensitive action (2.582083ms)
+✔ BrowserTaskExecutor binds model-controlled fields to the Router authority and blocks an unsafe submit-looking click (2.922416ms)
+✔ BrowserTaskExecutor binds a public retrieval field by observed native name without admitting PII entries (1.673875ms)
+✔ BrowserTaskExecutor permits only an exact non-submit calendar button for a model-controlled date (0.871959ms)
+✔ BrowserTaskExecutor shows a disabled date as read-only and rejects a proposed click (1.432458ms)
+✔ BrowserTaskExecutor reuses post-action controls to confirm two selections within the operation limit (1.333375ms)
+✔ BrowserTaskExecutor permits a non-submit calendar control nested in a POST form (0.669625ms)
+✔ BrowserTaskExecutor addresses a distinct observed calendar value before a shared test id (1.568625ms)
+✔ BrowserTaskExecutor rejects an ambiguous calendar day and a submit-looking authoritative button (1.485459ms)
+✔ BrowserTaskExecutor keeps an invalid model action in the same bounded session and accepts a later observed-target proposal (0.589208ms)
+✔ BrowserTaskExecutor abandons two identical rejected proposals on an unchanged page (0.3285ms)
+✔ BrowserTaskExecutor removes an observed target after its action makes no page progress and continues in the same session (0.329667ms)
+✔ model COMPLETE is returned to the same browser loop until the completion predicate passes or makes no progress (0.150084ms)
+✔ an early COMPLETE receives the missing predicate and can take a later safe action in the same session (0.208958ms)
+✔ a rejected COMPLETE refreshes an asynchronous result before requesting another model decision (0.167542ms)
+✔ BrowserTaskExecutor never advertises or executes page Escape without an installed read boundary (0.239709ms)
+✔ BrowserTaskExecutor passes only the recent six executed or rejected steps to the next decision (0.627458ms)
+✔ BrowserTaskExecutor no-change feedback directs a current target and waits only on actual loading (0.477334ms)
+✔ C2a rejects ordinary wrong-date clicks at execution even when the model ignores hints (0.793417ms)
+✔ LOCATION fills only the same-request authoritative name in an observed public location input (1.000375ms)
+✔ LOCATION is unavailable for coordinate-only requests without an authoritative name (0.388292ms)
+✔ executor requires explicit positive model and operation limits (0.213625ms)
+✔ Browser Run keeps Kitesurf on successful AUTO session creation (1.645542ms)
+✔ Browser Run rejects HAR replay before opening a remote browser (0.251583ms)
+✔ Browser Run preserves the Playwright receiver for its default CDP connector (0.125917ms)
+✔ Browser Run falls back once from Kitesurf to Chromium and does not loop (0.117375ms)
+✔ Browser Run returns a stable failure after both engines fail (1.056ms)
+✔ Browser Run closes a remote session after AbortSignal (2.996833ms)
+✔ Browser Run closes its remote browser when isolated guard setup fails (0.339083ms)
+✔ Local Playwright Chromium preserves the BrowserType method binding, exposes the BrowserSession contract, and closes page, context, and browser (14.313167ms)
+✔ environment gates keep ordinary profiles temporary and enable persistence only with both eval switches (0.677125ms)
+✔ Local Playwright Chromium maps launch failures into the fail-closed BrowserRuntime error (0.248041ms)
+✔ Local Playwright Chromium installs HAR replay before the Guard and refuses replay without that boundary (0.572917ms)
+✔ passive query capture invalidates old stock at request time and rejects late responses (11.579292ms)
+✔ layout-only screenshot is a PNG and leaves observed controls unchanged (311.02375ms)
+✔ read network guard preserves the Executor source-read deadline beyond the action cap (6107.679333ms)
+✔ read network guard admits only prepared public documents and exact source read rules (1.265917ms)
+✔ ordinary route records the initial redirect and rejects its unadmitted immediate target; Chromium owns hop coverage (0.377541ms)
+✔ ADR-0036 permits prepared same-origin public GET reads but keeps sensitive and cross-origin reads outside the boundary (0.375875ms)
+✔ replay applies the same admission before falling through to a HAR and never route-fetches (0.170084ms)
+✔ TableCheck calendar admission requires the captured four-string public schema (0.602417ms)
+✔ Tabelog calendar reads admit only the captured public GET grammars (0.288459ms)
+✔ TableCheck search prerequisites admit only the observed geolocation and autocomplete grammars (0.342125ms)
+✔ TableCheck public list continuation admits its observed GET grammar only (0.217459ms)
+✔ prepared documents cannot bypass credential, sensitive-path, or sensitive-query admission (0.300917ms)
+✔ generic public reads block explicit destructive query values but keep an exact reviewed public query document (0.107791ms)
+✔ generic public GET admits a calendar query namespace but not a booking action (0.2305ms)
+✔ guard supplies an admitted response to the in-memory recorder before fulfilling it (0.105583ms)
+✔ TableCheck admits only the generated reserve GET document and keeps write and sensitive shapes blocked (4.636625ms)
+✔ TableCheck reserve static assets admit only reviewed CDN paths and read resource types (4.407584ms)
+✔ C3b settlement counts only short data requests and diagnoses all outstanding types (0.492417ms)
+✔ DeepSeek gateway sends the complete schema through strict structured output and records redacted metadata (12.889875ms)
+✔ DeepSeek gateway sends the actual restaurant strict schema with every object property required (0.493417ms)
+✔ DeepSeek gateway fails closed when server configuration is incomplete (0.199458ms)
+✔ DeepSeek gateway classifies provider rejection without exposing response body (1.025334ms)
+✔ DeepSeek gateway turns an aborted bounded request into a timeout (1.557833ms)
+✔ DeepSeek gateway rejects a malformed provider completion before it reaches a Domain parser (0.234834ms)
+✔ DeepSeek gateway records only the safe structured-output shape when a tool call is absent (0.206333ms)
+✔ DeepSeek gateway preserves safe transport causes without retries or body misclassification (0.4225ms)
+▶ PostgresTaskRuntime with PGlite
+  ✔ upgrades immutable trajectory migration 0006 with causal refs and proposal joins (1332.242834ms)
+  ✔ keeps the short-lived causal-ref development form of already-applied migration 0006 (800.994084ms)
+  ✔ round-trips the supplied Agent decision context and schema version (547.557708ms)
+  ✔ atomically stores task state, event and outbox command (611.50225ms)
+  ✔ deduplicates a persisted event without emitting another command (549.85425ms)
+  ✔ rejects a stale expected version (557.300834ms)
+  ✔ rolls back state and event when outbox insertion fails (499.167125ms)
+  ✔ releases an expired read lease for another worker (489.363792ms)
+  ✔ never re-leases an expired external write without a result event (476.772125ms)
+  ✔ reconciles an expired external write when its result event was persisted (482.52125ms)
+  ✔ worker persists a deterministic result event before completing the command (475.74025ms)
+  ✔ worker delays a failed read command until its retry time (469.099583ms)
+  ✔ worker never retries a failed external-write handler blindly (475.718ms)
+  ✔ restores a Restaurant task through a new runtime instance (473.793709ms)
+  ✔ routes an uncertain Restaurant external write into verification without retrying commit (487.654333ms)
+✔ PostgresTaskRuntime with PGlite (8732.302375ms)
+✔ Google Text Search carries an opaque page token and keeps its response field separate from Place Details (3.363959ms)
+✔ Google Nearby Search sends only the pack-selected type and exact planner circle (0.339125ms)
+✔ Google Places hard deadline rejects even when fetch ignores AbortSignal (9.059791ms)
+✔ Google Places deadline also bounds a response body that never resolves (6.168666ms)
+✔ Google Places distinguishes service rate/permission responses from local request budgets (0.799666ms)
+✔ Google Places sends its API request through its own configured proxy (24.254666ms)
+✔ reverse address observation is one minimal public GET with credentials only in headers (0.833083ms)
+✖ Google query is discovery-owned and does not serialize criteria into retrieval text (3.343625ms)
+✔ a positive-HARD pack query keeps only its keyword and resolved location in Text Search (0.097625ms)
+✔ a source-plan location prevents a second named-place lookup before Google discovery (3.002ms)
+✔ a pack query without a positive HARD keyword uses Nearby Search's exact circle instead of location-only text (1.072833ms)
+✔ initial discovery reads at most two 20-result pages, dedupes stable outlets, and retains the next cursor (1.0135ms)
+✔ a second-page provider failure preserves accepted first-page candidates and records a bounded retry cursor (0.402041ms)
+✔ named-location resolution returns a bounded typed public observation with its coordinate (0.798208ms)
+✔ a named nearby place is resolved to observed coordinates and grounds candidate distance (0.589916ms)
+✔ named-place resolution rejects an unmatched suffix instead of treating address text or rank as landmark identity (0.478708ms)
+✔ named-place resolution accepts a provider-typed station suffix but rejects an administrative-area-to-station substitution (0.497958ms)
+✔ named-place resolution accepts a source-typed civic locality representation without treating stations as aliases (0.472292ms)
+✔ named-place suffix matching fails closed without a corresponding provider type and independent geographic context (0.169541ms)
+✔ only source-level duplicate exact named locations ask for disambiguation (0.141833ms)
+✔ an unrelated first search result never becomes a named nearby landmark (0.118625ms)
+✔ unresolved named-place diagnostics retain only bounded public identity observations (0.174166ms)
+✔ Google Places text search uses the explicit small field mask and stable candidate IDs (0.29875ms)
+✔ Google Places reports eval-radius decisions separately from its accepted discovery pool (0.321167ms)
+✔ Google Places request budget is mechanical and isolated by persistent read run (0.177875ms)
+✔ candidate fact investigation re-reads only the known Google place and shares discovery budget (15.268917ms)
+✔ candidate fact investigation uses Place Details by stable ID, never another text search (0.348542ms)
+✔ a fact read records exhausted shared discovery capacity without a second provider call (0.158458ms)
+✔ Google Places classifies provider failure without exposing a response body (0.10725ms)
+✔ failed sent Google requests consume the same per-run local budget and remain separately accounted (0.126083ms)
+✔ the explicit one-hundred-request debug ceiling permits work beyond the retired cap and stops only at its own run boundary (4.858542ms)
+✔ nearby defaults to 1000 meters, preserves explicit radius and admits only the exact circle (0.525459ms)
+✔ named area resolution binds bias, prefers geography and refuses distant or merchant authority (0.59575ms)
+✔ P1-G named location normalization resolves the recorded colloquial area without weakening authority (1.381584ms)
+✔ source resolver always prefers TableCheck and does not call Tabelog after a conclusive read (0.966083ms)
+✔ a legal Tabelog same-store entrance changes only source order and still stops after its grounded no-slot observation (0.140084ms)
+✔ a source-native outlet is checked only on its own platform even when the read is unknown (0.176458ms)
+✔ an unrelated or malformed URL cannot reorder the default TableCheck-first source path (0.212625ms)
+✔ source resolver falls back from a TableCheck provider failure to Tabelog (0.119792ms)
+✔ Tabelog bot challenge remains provider-scoped and all providers exhausted fail closed (0.113ms)
+✔ Tabelog name search: displayed bound result completes despite unrelated calendar/image loaders (504.282209ms)
+✔ Tabelog name search: a result-region skeleton keeps even old parsed results pending (1.142167ms)
+✔ Tabelog name search: changed bound results between snapshots stay pending (1507.567958ms)
+✔ TableCheck name search: displayed bound result completes despite unrelated calendar/image loaders (502.907667ms)
+✔ TableCheck name search: a result-region skeleton keeps even old parsed results pending (0.518666ms)
+✔ TableCheck name search: changed bound results between snapshots stay pending (1506.360667ms)
+✔ Tabelog availability: displayed bound result completes despite unrelated calendar/image loaders (504.107833ms)
+✔ Tabelog availability: a result-region skeleton keeps even old parsed results pending (0.336542ms)
+✔ Tabelog availability: changed bound results between snapshots stay pending (1507.396666ms)
+✔ TABELOG native listing: displayed bound result completes despite unrelated calendar/image loaders (502.841083ms)
+✔ TABELOG native listing: a result-region skeleton keeps even old parsed results pending (0.31ms)
+✔ TABELOG native listing: changed bound results between snapshots stay pending (1505.580958ms)
+✔ TABLECHECK native listing: displayed bound result completes despite unrelated calendar/image loaders (503.341333ms)
+✔ TABLECHECK native listing: a result-region skeleton keeps even old parsed results pending (0.233458ms)
+✔ TABLECHECK native listing: changed bound results between snapshots stay pending (1506.88175ms)
+✔ Live browser composition keeps TableCheck then Tabelog in one session and closes it after the chain (23.373792ms)
+✔ Live composition reuses a source-observed Hajime entrance across candidate batches, but re-identifies it (21.320125ms)
+✔ Live composition clears observed TableCheck entrances when a read run ends (2.273833ms)
+✔ Tabelog native outlet continuity accepts a language canonical for the same source ID (1.029917ms)
+✔ native fact reads never pass a same-URL challenge or explicit error page to judgment (2.989709ms)
+✔ native fact read retains each observed source page with its own identity (509.627708ms)
+✔ native fact continuation keeps the prior judgment when no new cited page is retained (2.2755ms)
+✔ an observed official page cannot inherit native outlet identity from a shared phone (0.153458ms)
+✔ native TableCheck facts read an observed reserve menu as a scoped document without widening its text to the guide (3.981209ms)
+✔ an observed TableCheck reserve entrance cannot turn stale outlet metadata on a challenge page into fact evidence (1.302792ms)
+✔ an observed TableCheck reserve entrance rejects a foreign canonical even with matching visible fields (1.124333ms)
+✔ same floor survives language, case, width and delimiter changes in either source order (3.508416ms)
+✔ omitted floors stay neutral without losing street numbers or accepting incomplete addresses (0.758459ms)
+✔ floor normalization never erases explicit floor, street or postal conflicts (0.895ms)
+✔ an identity-bound Google HARD exclusion stops website and model fact work (0.705291ms)
+✔ website facts require candidate-bound structured identity and do not promote visible prose (15.166458ms)
+✔ website prose without exact structured name and address remains unknown (1.646708ms)
+✔ candidate-bound visible opening hours are grounded when JSON-LD is absent (3.623708ms)
+✔ a differently punctuated but equivalent numbered address can identify the same outlet (3.298084ms)
+✔ a same-name page without the candidate address does not become an outlet fact (0.347958ms)
+✔ matching street numbers cannot bind same-name outlets in different cities (0.2095ms)
+✔ identity-only JSON-LD does not prevent the same page's visible facts from completing a gap (0.578209ms)
+✔ candidate-bound public commercial terms retain price, tax, room minimum, cancellation, and no-show as distinct evidence (0.823542ms)
+✔ the production website reader expands an observed public terms section before grounding its candidate-bound evidence (2.317125ms)
+✔ a cited website judgment drives one same-session observed menu follow-up for a missing HARD fact (0.885583ms)
+✔ a bare public yen amount does not become a price or room-minimum fact (0.39925ms)
+✔ two candidate website reads keep cross-page commercial evidence scoped to its matching restaurant (0.754916ms)
+✔ ambiguous amounts and multiple courses are not promoted to a single commercial price (0.826541ms)
+✔ missing requested cancellation facts remain unknown even when type and hours are known (0.332041ms)
+✔ commercial information requests continue from Google to a real website fact read without invented hard criteria (4.888833ms)
+✔ multilingual website facts retain cancellation and complete course cards across pages with separate citations (5.815333ms)
+✔ a telephone-link-bound page retains source statements without claiming the criterion (2.396875ms)
+✔ a cited model type judgment becomes auditable negative-condition evidence (2.3445ms)
+✔ a category conflict from a generic type needs a same-source HIGH grounded entity (1.538875ms)
+✔ a cited concrete type judgment can ground a positive HARD condition (0.29025ms)
+✔ a positive HARD criterion cannot be grounded by an uncited assertion or conflict label (0.173ms)
+✔ an uncited model assertion cannot become a negative-condition fact (0.175042ms)
+✔ a broad source type cannot be promoted by the model into exclusion evidence (0.179ms)
+✔ a cited restaurant-category UNKNOWN is auditable without becoming a verified-negative claim (0.194583ms)
+✔ a generic restaurant fact is sent only for the same negative category judgment and remains UNKNOWN (0.213625ms)
+✔ a venue name alone never becomes a fast-food fact, and non-category UNKNOWN stays fail-closed (0.193416ms)
+✔ a locality-cuisine UNKNOWN remains unverified while receiving authoritative locality context (0.561ms)
+✔ candidate address and venue name alone never invoke or verify a locality-food criterion (0.142125ms)
+✔ a cited native-cuisine support remains a model judgment rather than a deterministic cuisine mapping (0.153958ms)
+✔ negative category raw judgments reach conversion and the current presentation gate without changing the source facts (2.896708ms)
+✔ website judgments preserve selected source statements and reject invented or cross-candidate citations (0.5965ms)
+✔ a model fact judgment keeps one cited service scope and rejects mixed scope citations (0.3915ms)
+✔ directory Agent uses observed references; a proved wrong first entry is replaced once without resetting progress (33.840209ms)
+✔ unknown coordinates do not establish a wrong entry and cannot admit candidates (3.326666ms)
+✔ only four proved outside among exactly five allow one replacement; spent deadline stays spent (0.28775ms)
+✔ a named request continues through an unrelated parent menu before admitting child-list details (6.980542ms)
+✔ directory navigation timeout retains its runtime code rather than claiming no observed region (1.4355ms)
+✔ retrieval model uses a versioned strict proposal and shared budget including failures (0.73575ms)
+✔ an invalid model keyword falls back to general retrieval; no synthetic synonym repair (0.954083ms)
+✔ native source-plan resolution is reused by the subsequent Google pack request (22.08725ms)
+✔ coordinate-only address observations reach the discovery goal once and failures keep the exact center (2.771375ms)
+✔ real source packs own URLs, reviewed reads, skills, and opaque source IDs (0.810834ms)
+✔ TableCheck request URL construction is consumed through its source pack (0.171209ms)
+✔ directory retrieval URL grammar stays inside its pack (0.130875ms)
+✔ both browser source packs parse their own current listing entrances before the shared cursor schedules details (1.512417ms)
+✔ Tabelog region selection requires an exact source-owned region label and recognizes only local homepage cards (0.306333ms)
+✔ C8 list categories stay source-attributed to one outlet, without borrowing neighbouring or hidden text (0.300667ms)
+✔ captured kf-h001 Sen after selecting the date still has no slot result and remains EXTRACTION_FAILED (44.814666ms)
+✔ Tabelog entity resolver is outlet-safe and rejects ambiguous branch matches (1.04625ms)
+✔ Tabelog accepts complete reordered address components but rejects an incomplete source address (0.165709ms)
+✔ Tabelog does not turn identical but insufficient abbreviated addresses into outlet proof (0.061459ms)
+✔ Tabelog entity inspection retains phone conflict diagnostics without rejecting complete same-outlet proof (0.390625ms)
+✔ Tabelog blocks HIGH identity for a stated floor conflict or a shared phone at a distinct branch (1.818708ms)
+✔ Tabelog shares the Japanese basement and Latin B1F identity normalization (0.880958ms)
+✔ Tabelog relative search links are enriched with page identity before an exact phone creates a HIGH outlet match (0.916833ms)
+✔ Tabelog parser reports every observed outlet; the native batch owns the detail cap (0.264375ms)
+✔ Tabelog identity parser extracts JSON-LD identity field provenance (0.766416ms)
+✔ Tabelog slot parser ignores prose times and trusts only explicit available controls (0.570125ms)
+✔ Tabelog reads the visible requested calendar restriction without treating loading or hidden projected dates as terminal (1.274292ms)
+✔ Tabelog executor grounds a deterministic browser observation and never submits (2.2505ms)
+✔ Tabelog Tokyo discovery carries MARUNOUCHI BASE into outlet comparison without granting inventory (0.847417ms)
+✔ Tabelog reads a Google-listed merchant page through the identity gate before a wrong discovery branch (0.910125ms)
+✔ Tabelog native result keeps its observed outlet ID and skips name search without self-matching a phone (2.826167ms)
+✔ Tabelog keeps an immediate non-slot UNKNOWN rather than treating a nearby source slot as unavailable (0.877417ms)
+✔ Tabelog bot challenge and external booking redirect remain non-available results (1.138542ms)
+✔ Tabelog recovers one challenged canonical page through an observed alternate-language outlet (0.826042ms)
+✔ Tabelog rejects a challenged alternate that no longer proves the same outlet and keeps the earlier HIGH identity (0.345708ms)
+✔ Tabelog pauses a challenged local session for explicit human intervention, then resumes the same page/session without an automated retry (0.601875ms)
+✔ Tabelog fails closed when the challenge remains after an explicit resume signal (0.184958ms)
+✔ Tabelog browser session budget returns UNKNOWN rather than reusing or over-opening a session (0.062125ms)
+✔ Tabelog browser startup failure remains observable and is not reported as an entity mismatch (0.257125ms)
+✔ Tabelog entity failure sends a sanitized search, detail, and comparison diagnostic to the eval sink (0.266416ms)
+✔ Tabelog search challenge records its cause while removing transient challenge tokens (0.149334ms)
+✔ Tabelog external booking detection ignores unrelated links and requires a booking link (3.136ms)
+✔ Tabelog captured vacancy binds source merchant, date, party and time rather than visible options (4.21025ms)
+✔ Tabelog discovery uses a phone-bound website heading when the translated Google name has no results (2.841834ms)
+✔ Tabelog applies availability controls on the resolved outlet after inspecting other branches (1.088958ms)
+✔ TableCheck binds a request only to explicit complete date and party control state (1.43075ms)
+✔ TableCheck records only a same-shop, exact-date/party/time unclassified availability failure response (11.879ms)
+✔ TableCheck reservation form binds the selected date and adult count without inventing inventory (4.006333ms)
+✔ TableCheck recognizes its explicit public no-table widget state but not ordinary restaurant prose (0.471709ms)
+✔ TableCheck does not treat a partial or stale slot list as a completed query result (0.229125ms)
+✔ TableCheck binds a public slot result only when its reservation link carries the exact request (2.614833ms)
+✔ TableCheck binds the observed non-shops reservation landing path only to the same exact request (1.735708ms)
+✔ TableCheck excludes a disabled exact-request reservation link from current availability (0.204834ms)
+✔ TableCheck reads the same exact request binding from live DOM controls when hydration omits it from HTML (0.10025ms)
+✔ TableCheck category scope binds every presented slot to a visible enabled same-outlet control (0.291459ms)
+✔ TableCheck reads scoped menu text only from a real outer menu item (1.0275ms)
+✔ TableCheck keeps an exact captured failure diagnostic-only until page inventory evidence exists (6.173083ms)
+✔ TableCheck does not complete an enabled HTML slot when its current live control is disabled (1.965458ms)
+✔ TableCheck does not promote an exact reservation link hidden from the current DOM (0.745542ms)
+✔ TableCheck keeps a visible exact sibling when a nested hidden prior result has the same link (1.486708ms)
+✔ TableCheck does not revive a disabled request card through an enabled hydrated link (1.639541ms)
+✔ TableCheck keeps an enabled exact slot when a different slot in the requested window is disabled (0.921833ms)
+✔ TableCheck does not complete a current exact slot while its availability widget still has a skeleton (1.302541ms)
+✔ TableCheck does not treat an outside or ambiguous-widget reservation entrance as inventory (1.293084ms)
+✔ TableCheck discovers public guide pages by restaurant name and coordinates, never by slug guessing (0.111667ms)
+✔ TableCheck parser reports every observed guide; callers own bounded detail inspection (0.065083ms)
+✔ TableCheck resolves a real linked reservation page and only sets read parameters (0.060375ms)
+✔ TableCheck pre-fills only an exact observed guide request without turning it into inventory (0.034208ms)
+✔ TableCheck accepts a source-owned reservation page on a distinct shops route only for the selected guide (0.125084ms)
+✔ TableCheck retains an observed same-entity shops reservation entrance when guide JSON-LD omits acceptsReservations (0.041959ms)
+✔ TableCheck identity uses exact phone or name and full address, never name alone (0.879208ms)
+✔ TableCheck keeps phone disagreement diagnostic but accepts a complete same outlet and rejects a branch (0.063292ms)
+✔ TableCheck blocks HIGH identity for a stated floor conflict or a shared phone at a distinct branch (0.959458ms)
+✔ historical TWO ROOMS postal variation preserves same outlet while real branches and other controls stay distinct (0.629458ms)
+✔ TWO ROOMS frozen identity fields pass the production TableCheck extraction gate before availability (2.973041ms)
+✔ TableCheck treats historical Japanese and Latin floor forms as the same stated unit (0.383333ms)
+✔ TableCheck accepts cross-script complete addresses only with matching postal and unit sequence (0.095917ms)
+✔ TableCheck slot parser ignores prose and accepts only explicitly bookable time controls (0.149208ms)
+✔ TableCheck native guide uses its own ID and linked booking entrance without a name search (2.23475ms)
+✔ TableCheck recovers one challenged canonical availability page through its observed alternate-language outlet (0.642125ms)
+✔ TableCheck does not invent an alternate after a challenged high-identity outlet and retains that identity (0.268167ms)
+✔ TableCheck rejects a recovered alternate whose high identity cannot be re-established (0.302084ms)
+✔ TableCheck retains verified identity when later availability controls time out (0.446125ms)
+✔ TableCheck executor grounds a discovered same-outlet page and real linked reservation page without booking actions (1.796416ms)
+✔ TableCheck reads a Google-listed merchant page through the same identity gate before using discovery results (0.491042ms)
+✔ TableCheck validates each Google link field so Maps or an invalid lead cannot hide a public merchant website (1.566459ms)
+✔ TableCheck keeps an immediate non-slot UNKNOWN rather than treating nearby cards as no matching table (0.414542ms)
+✔ TableCheck reuses a verified outlet entry only after independently matching a second candidate (1.520167ms)
+✔ TableCheck does not let an unrelated run entry suppress the current candidate's required discovery (2.165209ms)
+✔ TableCheck continues in one session when the standard method is incomplete and accepts slots only after model actions visibly confirm date and party (1.309125ms)
+✔ TableCheck continues in the same session from confirmed conditions to an explicitly marked slot UI (0.88825ms)
+✔ TableCheck uses the one exact-phone outlet among multiple discovered same-name pages (0.4335ms)
+✔ TableCheck returns to the selected outlet after inspecting another branch before reading slots (0.430958ms)
+✔ TableCheck rejects hydrated links from a prior search query (0.10875ms)
+✔ TableCheck fails closed when discovered same-name branches have no HIGH identity evidence (0.23875ms)
+✔ TableCheck discovery distinguishes a public no-result page from parser failure (0.120875ms)
+✔ TableCheck error-page classification does not treat normal result copy or numbers as an unavailable document (0.048166ms)
+✔ TableCheck hands an extractable-search gap to the model in the same session and verifies the resulting observation (0.784625ms)
+✔ TableCheck classifies exhausted recoverable discovery separately from an unavailable provider page (0.216833ms)
+✔ TableCheck discovery 403 documents are provider-page failures, not outlet identity failures (0.127541ms)
+✔ TableCheck guide empty result is bound to one ready widget and exact selected request (0.539167ms)
+✔ TableCheck accepts a correct realtime control slot inside its ready widget and rejects its wrong-date counterpart (1.490333ms)
+✔ TableCheck disabled times cover only the ready widget's requested half-hour window (0.81125ms)
+✔ TableCheck recorded GiNZA no-table message is EMPTY only for its bound mealtime (16.256292ms)
+✔ TableCheck actual empty widget stops mealtime loops without claiming a wider window empty (11.507417ms)
+✔ T1 Web waits fail with the target signal label when no SSE event arrives (timeoutMs=20) (21.768542ms)
+✔ Stage 2B serves the fixture workspace and rejects unauthenticated case access (922.708917ms)
+✔ H002 persistent Runtime preserves explicit or inferred party size and safely asks when the supplement is unknown or fails (703.589709ms)
+✔ H002 persistent duplicate message delivery invokes the supplement once; completed retries and refresh do not invoke it (604.361167ms)
+✔ selection-session browse and shortlist use the persistent Web entry without new model or source work (539.91375ms)
+✔ selection-session fills an open-ended result target with candidate fact reads before presenting (505.951833ms)
+✔ selection-session replenishes an inadequate same-condition pool through its durable cursor (505.101417ms)
+✔ selection-session condition revision preserves shortlist memory but performs a fresh authoritative read (513.875083ms)
+✔ local workspace Live mode is explicit and never falls back to fixture on a misspelled provider mode (0.2775ms)
+✔ local workspace Live mode rejects missing server-only gates and accepts LOCAL_CHROMIUM without Cloudflare credentials (0.122917ms)
+✔ local workspace rejects copied non-PostgreSQL URLs before migrations (0.082834ms)
+✔ W01 restores a conversation, case and task after server restart (537.29875ms)
+✔ W02 resumes the same case from a second mobile-web session (511.526916ms)
+✔ W03 denies cross-user case and event-stream access (502.500458ms)
+✔ W04 SSE reconnect sends an idempotent Agent-loop snapshot (510.660208ms)
+✔ W06 Live read creates a recoverable active Case and cancellation reaches the in-flight provider (470.160542ms)
+✔ W08 ordinary Web cancellation writes an immutable execution artifact and independent evaluation (481.100333ms)
+✔ W10 ordinary Web persists a semantic-model failure as a failed case and artifact (462.726042ms)
+✔ W11 ordinary Web artifact retains shared Google request limits and category totals (472.829333ms)
+✔ W13 ordinary Web presents a qualified short batch using its shared model-call reserve (469.878542ms)
+✔ W12 Live Persistent run keeps the semantic-started deadline through a blocking provider read (514.994708ms)
+✔ W09 HTTP/SSE publishes background progress and accepts an edit based on the last user-visible version (479.385083ms)
+✖ T1 Web shared assembly keeps ownership during semantic parsing and completes after a concurrent list (packs=Google) (474.575666ms)
+✔ W07 a Live Case left without an in-process owner is ended explicitly after restart (464.788875ms)
+✔ W05 conversation claims cannot change authoritative task state or outcome (465.70575ms)
+✔ Web location is bound once to the authenticated nearby case and is rejected for a named area (486.076458ms)
+✔ Web nearby fallback accepts a manually supplied place through the normal message path (477.076208ms)
+✔ Stage 2B continues an incomplete request and enforces optimistic concurrency (471.985208ms)
+ℹ tests 904
+ℹ suites 5
+ℹ pass 855
+ℹ fail 48
+ℹ cancelled 1
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 179946.45125
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/current-development-fixed-sources.test.ts:1:1240
+✖ fixed source discovery is candidate-scoped and accepts equivalent retrieval wording (0.680916ms)
+  Error: the deterministic source pages must not need a model browser action
+      at Object.complete (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-fixed-sources.test.ts:8:56)
+      at ModelDiscoveryRetrievalPlanner.decide (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/integrations/restaurant-search/discovery-retrieval-planner.ts:19:35)
+      at Object.search (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/integrations/restaurant-search/live-read-assembly.ts:89:139)
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-fixed-sources.test.ts:29:43)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3)
+
+test at src/eval/restaurant/agent-loop/current-development-fixed-sources.test.ts:1:2146
+✖ fixed source keeps inventory with its own candidate and request scope (0.150416ms)
+  Error: the deterministic source pages must not need a model browser action
+      at Object.complete (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-fixed-sources.test.ts:8:56)
+      at ModelDiscoveryRetrievalPlanner.decide (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/integrations/restaurant-search/discovery-retrieval-planner.ts:19:35)
+      at Object.search (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/integrations/restaurant-search/live-read-assembly.ts:89:139)
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-fixed-sources.test.ts:37:42)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+
+test at src/eval/restaurant/agent-loop/current-development-fixed-sources.test.ts:1:4314
+✖ fixed-source coverage gaps preserve provider, request and candidate context (0.111958ms)
+  Error: the deterministic source pages must not need a model browser action
+      at Object.complete (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-fixed-sources.test.ts:8:56)
+      at ModelDiscoveryRetrievalPlanner.decide (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/integrations/restaurant-search/discovery-retrieval-planner.ts:19:35)
+      at Object.search (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/integrations/restaurant-search/live-read-assembly.ts:89:139)
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-fixed-sources.test.ts:65:42)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+
+test at src/eval/restaurant/agent-loop/current-development-fixed-sources.test.ts:1:5616
+✖ configured provider 404 is observed behavior, not a fixture gap (0.142875ms)
+  Error: the deterministic source pages must not need a model browser action
+      at Object.complete (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-fixed-sources.test.ts:8:56)
+      at ModelDiscoveryRetrievalPlanner.decide (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/integrations/restaurant-search/discovery-retrieval-planner.ts:19:35)
+      at Object.search (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/integrations/restaurant-search/live-read-assembly.ts:89:139)
+      at discoveredCandidate (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-fixed-sources.test.ts:57:42)
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-fixed-sources.test.ts:90:40)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+
+test at src/eval/restaurant/agent-loop/current-development-fixed-sources.test.ts:1:6883
+✖ independent source identities accept a normalized same outlet and reject a same-phone different branch (0.125542ms)
+  Error: the deterministic source pages must not need a model browser action
+      at Object.complete (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-fixed-sources.test.ts:8:56)
+      at ModelDiscoveryRetrievalPlanner.decide (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/integrations/restaurant-search/discovery-retrieval-planner.ts:19:35)
+      at Object.search (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/integrations/restaurant-search/live-read-assembly.ts:89:139)
+      at discoveredCandidate (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-fixed-sources.test.ts:57:42)
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-fixed-sources.test.ts:114:22)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+
+test at src/eval/restaurant/agent-loop/current-development-fixed-sources.test.ts:1:8563
+✖ source observation time advances with the controlled business clock while sample capture stays historical (0.105708ms)
+  Error: the deterministic source pages must not need a model browser action
+      at Object.complete (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-fixed-sources.test.ts:8:56)
+      at ModelDiscoveryRetrievalPlanner.decide (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/integrations/restaurant-search/discovery-retrieval-planner.ts:19:35)
+      at Object.search (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/integrations/restaurant-search/live-read-assembly.ts:89:139)
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-fixed-sources.test.ts:136:42)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+
+test at src/eval/restaurant/agent-loop/current-development-fixed-sources.test.ts:1:10338
+✖ a lead found while investigating A may help B only after B's own identity check (5.538416ms)
+  Error: the deterministic source pages must not need a model browser action
+      at Object.complete (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-fixed-sources.test.ts:8:56)
+      at ModelDiscoveryRetrievalPlanner.decide (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/integrations/restaurant-search/discovery-retrieval-planner.ts:19:35)
+      at Object.search (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/integrations/restaurant-search/live-read-assembly.ts:89:139)
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-fixed-sources.test.ts:162:42)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+
+test at src/eval/restaurant/agent-loop/current-development-offline.test.ts:1:15246
+✖ missing-current-hard-evidence (78.981208ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'MODEL_FAILURE'
+  - 'TERMINAL'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-offline.test.ts:293:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-offline.test.ts:278:94)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'MODEL_FAILURE',
+    expected: 'TERMINAL',
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/current-development-offline.test.ts:1:15246
+✖ current-hard-evidence (1.25875ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'MODEL_FAILURE'
+  - 'TERMINAL'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-offline.test.ts:293:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-offline.test.ts:278:94)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'MODEL_FAILURE',
+    expected: 'TERMINAL',
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/current-development-offline.test.ts:1:19899
+✖ h001 (1.587375ms)
+  TypeError [Error]: sources.search.googleRequestUsage is not a function
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-offline.test.ts:376:40)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-offline.test.ts:345:29)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+
+test at src/eval/restaurant/agent-loop/current-development-offline.test.ts:1:19899
+✖ h002 (1.016125ms)
+  TypeError [Error]: sources.search.googleRequestUsage is not a function
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-offline.test.ts:376:40)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-offline.test.ts:345:29)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+
+test at src/eval/restaurant/agent-loop/current-development-offline.test.ts:1:19899
+✖ h003 (1.0945ms)
+  TypeError [Error]: sources.search.googleRequestUsage is not a function
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-offline.test.ts:376:40)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-offline.test.ts:345:29)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+
+test at src/eval/restaurant/agent-loop/current-development-offline.test.ts:1:19899
+✖ h004 (0.889458ms)
+  TypeError [Error]: sources.search.googleRequestUsage is not a function
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-offline.test.ts:376:40)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-offline.test.ts:345:29)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+
+test at src/eval/restaurant/agent-loop/current-development-offline.test.ts:1:19899
+✖ h005 (0.959292ms)
+  TypeError [Error]: sources.search.googleRequestUsage is not a function
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-offline.test.ts:376:40)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-offline.test.ts:345:29)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+
+test at src/eval/restaurant/agent-loop/current-development-offline.test.ts:1:24829
+✖ a new task and new source scenario reuse the fixed Hybrid composition (maxAgentSteps=6, timeoutMs=5000) without a case-specific Runner (0.76675ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'MODEL_FAILURE'
+  - 'TERMINAL'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-offline.test.ts:447:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'MODEL_FAILURE',
+    expected: 'TERMINAL',
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/current-development-offline.test.ts:1:27024
+✖ registered control cases use the shared execution, evaluator, and acceptance path (1.5855ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'FAILED'
+  - 'SUCCEEDED'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-offline.test.ts:468:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'FAILED',
+    expected: 'SUCCEEDED',
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/current-development-offline.test.ts:1:29204
+✖ an explicit result count travels from control input through authoritative State into fixed-source acceptance (1.362208ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+  +   failureCode: 'FIXED_SOURCE_EXECUTION_FAILED',
+  +   loopStatus: 'MODEL_FAILURE',
+  +   phase: 'FAILED',
+  +   status: 'FAILED'
+  -   loopStatus: 'TERMINAL',
+  -   phase: 'PRESENT_RESULTS',
+  -   status: 'SUCCEEDED'
+    }
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/current-development-offline.test.ts:500:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { status: 'FAILED', loopStatus: 'MODEL_FAILURE', phase: 'FAILED', failureCode: 'FIXED_SOURCE_EXECUTION_FAILED' },
+    expected: { status: 'SUCCEEDED', loopStatus: 'TERMINAL', phase: 'PRESENT_RESULTS' },
+    operator: 'deepStrictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/fixed-source-case-execution.test.ts:1:4387
+✖ a result that completes before the deadline retains its normal terminal outcome (56.064042ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+  +   failureCode: 'FIXED_SOURCE_CASE_NOT_COMPLETED',
+  +   loopStatus: 'MODEL_FAILURE',
+  +   phase: 'FAILED',
+  +   status: 'FAILED'
+  -   loopStatus: 'TERMINAL',
+  -   phase: 'PRESENT_RESULTS',
+  -   status: 'SUCCEEDED'
+    }
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/fixed-source-case-execution.test.ts:125:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { status: 'FAILED', loopStatus: 'MODEL_FAILURE', phase: 'FAILED', failureCode: 'FIXED_SOURCE_CASE_NOT_COMPLETED' },
+    expected: { status: 'SUCCEEDED', loopStatus: 'TERMINAL', phase: 'PRESENT_RESULTS' },
+    operator: 'deepStrictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:1:18911
+✖ M01 compiler drops an explicit party-size field (757.23175ms)
+  AssertionError [ERR_ASSERTION]: control unexpectedly failed:
+  ✖ Hybrid production composition binds an explicit evaluation location before Agent investigation and independently evaluates its actual result (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=1000) (19.727667ms)
+  ℹ tests 1
+  ℹ suites 0
+  ℹ pass 0
+  ℹ fail 1
+  ℹ cancelled 0
+  ℹ skipped 0
+  ℹ todo 0
+  ℹ duration_ms 469.122625
+  
+  ✖ failing tests:
+  
+  test at src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:4:9791
+  ✖ Hybrid production composition binds an explicit evaluation location before Agent investigation and independently evaluates its actual result (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=1000) (19.727667ms)
+    AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'NO_VERIFIED_RESULT'
+    - 'PRESENT_RESULTS'
+    
+        at TestContext.<anonymous> (/private/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-contract-mutant-vTTEds/src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:644:10)
+        at async Test.run (node:internal/test_runner/test:1069:7)
+        at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+      generatedMessage: true,
+      code: 'ERR_ASSERTION',
+      actual: 'NO_VERIFIED_RESULT',
+      expected: 'PRESENT_RESULTS',
+      operator: 'strictEqual'
+    }
+  
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:392:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:390:33)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:1:18911
+✖ M02 reducer discards fact checks from a prior batch (777.105ms)
+  AssertionError [ERR_ASSERTION]: control unexpectedly failed:
+  ▶ independent candidate reads preserve coverage and results across batch partitions and order (packs=Google; maxAgentSteps=10, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)
+    ✖ batch=3, reverse=false (26.665459ms)
+    ✖ batch=1, reverse=false (3.490542ms)
+    ✖ batch=3, reverse=true (4.56775ms)
+  ✖ independent candidate reads preserve coverage and results across batch partitions and order (packs=Google; maxAgentSteps=10, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000) (35.355458ms)
+  ℹ tests 4
+  ℹ suites 0
+  ℹ pass 0
+  ℹ fail 4
+  ℹ cancelled 0
+  ℹ skipped 0
+  ℹ todo 0
+  ℹ duration_ms 470.677208
+  
+  ✖ failing tests:
+  
+  test at src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:4:26916
+  ✖ batch=3, reverse=false (26.665459ms)
+    AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'NO_VERIFIED_RESULT'
+    - 'PRESENT_RESULTS'
+    
+        at TestContext.<anonymous> (/private/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-contract-mutant-F5j3aI/src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:903:14)
+        at async Test.run (node:internal/test_runner/test:1069:7)
+        at async TestContext.<anonymous> (/private/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-contract-mutant-F5j3aI/src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:876:5)
+        at async Test.run (node:internal/test_runner/test:1069:7)
+        at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+      generatedMessage: true,
+      code: 'ERR_ASSERTION',
+      actual: 'NO_VERIFIED_RESULT',
+      expected: 'PRESENT_RESULTS',
+      operator: 'strictEqual'
+    }
+  
+  test at src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:4:26916
+  ✖ batch=1, reverse=false (3.490542ms)
+    AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'NO_VERIFIED_RESULT'
+    - 'PRESENT_RESULTS'
+    
+        at TestContext.<anonymous> (/private/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-contract-mutant-F5j3aI/src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:903:14)
+        at async Test.run (node:internal/test_runner/test:1069:7)
+        at async TestContext.<anonymous> (/private/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-contract-mutant-F5j3aI/src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:876:5)
+        at async Test.run (node:internal/test_runner/test:1069:7)
+        at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+      generatedMessage: true,
+      code: 'ERR_ASSERTION',
+      actual: 'NO_VERIFIED_RESULT',
+      expected: 'PRESENT_RESULTS',
+      operator: 'strictEqual'
+    }
+  
+  test at src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:4:26916
+  ✖ batch=3, reverse=true (4.56775ms)
+    AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'NO_VERIFIED_RESULT'
+    - 'PRESENT_RESULTS'
+    
+        at TestContext.<anonymous> (/private/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-contract-mutant-F5j3aI/src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:903:14)
+        at async Test.run (node:internal/test_runner/test:1069:7)
+        at async TestContext.<anonymous> (/private/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-contract-mutant-F5j3aI/src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:876:5)
+        at async Test.run (node:internal/test_runner/test:1069:7)
+        at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+      generatedMessage: true,
+      code: 'ERR_ASSERTION',
+      actual: 'NO_VERIFIED_RESULT',
+      expected: 'PRESENT_RESULTS',
+      operator: 'strictEqual'
+    }
+  
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:392:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:390:33)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:1:18911
+✖ source mutation: discovery truncates accepted source candidates (723.20525ms)
+  AssertionError [ERR_ASSERTION]: control unexpectedly failed:
+  ▶ independent source boundary controls cover zero, one, and exactly one fact-read batch (packs=Google; maxAgentSteps=12, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)
+    ✔ {"candidateCount":0,"batchSize":3,"reverse":false} (20.5195ms)
+    ✖ {"candidateCount":1,"batchSize":3,"reverse":false} (6.794208ms)
+    ✖ {"candidateCount":3,"batchSize":3,"reverse":false} (3.017375ms)
+  ✖ independent source boundary controls cover zero, one, and exactly one fact-read batch (packs=Google; maxAgentSteps=12, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000) (30.948167ms)
+  ℹ tests 4
+  ℹ suites 0
+  ℹ pass 1
+  ℹ fail 3
+  ℹ cancelled 0
+  ℹ skipped 0
+  ℹ todo 0
+  ℹ duration_ms 484.136
+  
+  ✖ failing tests:
+  
+  test at src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:4:402
+  ✖ {"candidateCount":1,"batchSize":3,"reverse":false} (6.794208ms)
+    AssertionError [ERR_ASSERTION]: {"sequence":{"candidateCount":1,"batchSize":3,"reverse":false},"actions":["SEARCH_RESTAURANTS","END_READ","END_READ"],"details":[],"loop":{"status":"TERMINAL","steps":3},"phase":"NO_VERIFIED_RESULT"}
+    + actual - expected
+    
+    + 'discovery conservation= expected=cafe-amber'
+    - undefined
+    
+        at TestContext.<anonymous> (/private/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-contract-mutant-GFAALg/src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:411:12)
+        at async Test.run (node:internal/test_runner/test:1069:7)
+        at async TestContext.<anonymous> (/private/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-contract-mutant-GFAALg/src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:409:15)
+        at async Test.run (node:internal/test_runner/test:1069:7)
+        at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+      generatedMessage: false,
+      code: 'ERR_ASSERTION',
+      actual: 'discovery conservation= expected=cafe-amber',
+      expected: undefined,
+      operator: 'strictEqual'
+    }
+  
+  test at src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:4:402
+  ✖ {"candidateCount":3,"batchSize":3,"reverse":false} (3.017375ms)
+    AssertionError [ERR_ASSERTION]: {"sequence":{"candidateCount":3,"batchSize":3,"reverse":false},"actions":["SEARCH_RESTAURANTS","END_READ","END_READ"],"details":[],"loop":{"status":"TERMINAL","steps":3},"phase":"NO_VERIFIED_RESULT"}
+    + actual - expected
+    
+    + 'discovery conservation= expected=cafe-amber,cafe-birch,cafe-copper'
+    - undefined
+    
+        at TestContext.<anonymous> (/private/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-contract-mutant-GFAALg/src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:411:12)
+        at async Test.run (node:internal/test_runner/test:1069:7)
+        at async TestContext.<anonymous> (/private/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-contract-mutant-GFAALg/src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:409:15)
+        at async Test.run (node:internal/test_runner/test:1069:7)
+        at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+      generatedMessage: false,
+      code: 'ERR_ASSERTION',
+      actual: 'discovery conservation= expected=cafe-amber,cafe-birch,cafe-copper',
+      expected: undefined,
+      operator: 'strictEqual'
+    }
+  
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:392:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:390:33)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:4:402
+✖ {"candidateCount":1,"batchSize":3,"reverse":false} (1.560542ms)
+  AssertionError [ERR_ASSERTION]: {"sequence":{"candidateCount":1,"batchSize":3,"reverse":false},"actions":["SEARCH_RESTAURANTS","END_READ","END_READ"],"details":[],"loop":{"status":"TERMINAL","steps":3},"phase":"NO_VERIFIED_RESULT"}
+  + actual - expected
+  
+  + 'discovery conservation= expected=cafe-amber'
+  - undefined
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:411:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:409:15)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'discovery conservation= expected=cafe-amber',
+    expected: undefined,
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:4:402
+✖ {"candidateCount":3,"batchSize":3,"reverse":false} (1.192458ms)
+  AssertionError [ERR_ASSERTION]: {"sequence":{"candidateCount":3,"batchSize":3,"reverse":false},"actions":["SEARCH_RESTAURANTS","END_READ","END_READ"],"details":[],"loop":{"status":"TERMINAL","steps":3},"phase":"NO_VERIFIED_RESULT"}
+  + actual - expected
+  
+  + 'discovery conservation= expected=cafe-amber,cafe-birch,cafe-copper'
+  - undefined
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:411:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:409:15)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'discovery conservation= expected=cafe-amber,cafe-birch,cafe-copper',
+    expected: undefined,
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:4:673
+✖ a user refresh after the clock advances replaces the current fact observation without losing request fidelity (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000) (1.079416ms)
+  TypeError [Error]: Cannot read properties of undefined (reading 'candidateIds')
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:437:61)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+
+test at src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:1:1
+✖ src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts (178838.217417ms)
+  'Promise resolution is still pending but the event loop has already resolved'
+
+test at src/eval/restaurant/agent-loop/phase2-discovery-plan.test.ts:1:2599
+✖ frozen H001-H005 authoritative semantics materialize into auditable source-pack plans (51.926125ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'omakase'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/phase2-discovery-plan.test.ts:86:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'omakase',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/restaurant-execution-router.test.ts:1:17170
+✖ Router partial-port contract: fresh request-bound inventory can receive missing facts before another inventory read and reach three results (packs=Google; maxAgentSteps=12, maxRejectedActions=3, maxAutomaticBrowserMs=10000, maxStructuredReadMs=8000) (27.787542ms)
+  AssertionError [ERR_ASSERTION]: ["SEARCH_RESTAURANTS:0","SEARCH_RESTAURANTS:0","SEARCH_RESTAURANTS:0"]
+  + actual - expected
+  
+  + 'NO_PROGRESS'
+  - 'TERMINAL'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/restaurant-execution-router.test.ts:452:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'NO_PROGRESS',
+    expected: 'TERMINAL',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/restaurant-execution-router.test.ts:1:36969
+✖ closed (1.889833ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /nearest bookable time/. Input:
+  
+  "AGENT_LOOP_NO_PROGRESS: No new successful observation in 3 steps; last failure: SEARCH_FAILED; SEARCH_FAILED: Cannot read properties of undefined (reading 'searchAvailability') Sources with recorded reads or attempts: none; unread discovery entries: none recorded. Unread outlets and missing evidence remain unknown; this does not establish that all restaurants have no seats."
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/restaurant-execution-router.test.ts:758:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/restaurant-execution-router.test.ts:724:202)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: "AGENT_LOOP_NO_PROGRESS: No new successful observation in 3 steps; last failure: SEARCH_FAILED; SEARCH_FAILED: Cannot read properties of undefined (reading 'searchAvailability') Sources with recorded reads or attempts: none; unread discovery entries: none recorded. Unread outlets and missing evidence remain unknown; this does not establish that all restaurants have no seats.",
+    expected: /nearest bookable time/,
+    operator: 'match'
+  }
+
+test at src/harness/restaurant-execution-router.test.ts:1:36969
+✖ outside (1.366125ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /nearest bookable time/. Input:
+  
+  "AGENT_LOOP_NO_PROGRESS: No new successful observation in 3 steps; last failure: SEARCH_FAILED; SEARCH_FAILED: Cannot read properties of undefined (reading 'searchAvailability') Sources with recorded reads or attempts: none; unread discovery entries: none recorded. Unread outlets and missing evidence remain unknown; this does not establish that all restaurants have no seats."
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/restaurant-execution-router.test.ts:758:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/restaurant-execution-router.test.ts:724:202)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: "AGENT_LOOP_NO_PROGRESS: No new successful observation in 3 steps; last failure: SEARCH_FAILED; SEARCH_FAILED: Cannot read properties of undefined (reading 'searchAvailability') Sources with recorded reads or attempts: none; unread discovery entries: none recorded. Unread outlets and missing evidence remain unknown; this does not establish that all restaurants have no seats.",
+    expected: /nearest bookable time/,
+    operator: 'match'
+  }
+
+test at src/harness/restaurant-execution-router.test.ts:1:36969
+✖ open (2.703125ms)
+  AssertionError [ERR_ASSERTION]: one closed outlet, an open/unknown source or non-immediate hours cannot suppress further reads
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/restaurant-execution-router.test.ts:760:18)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/restaurant-execution-router.test.ts:724:202)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/harness/restaurant-execution-router.test.ts:1:36969
+✖ partial (5.916083ms)
+  AssertionError [ERR_ASSERTION]: one closed outlet, an open/unknown source or non-immediate hours cannot suppress further reads
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/restaurant-execution-router.test.ts:760:18)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/restaurant-execution-router.test.ts:724:202)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/harness/restaurant-execution-router.test.ts:1:36969
+✖ unknown (4.791708ms)
+  AssertionError [ERR_ASSERTION]: one closed outlet, an open/unknown source or non-immediate hours cannot suppress further reads
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/restaurant-execution-router.test.ts:760:18)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/restaurant-execution-router.test.ts:724:202)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/harness/restaurant-execution-router.test.ts:1:36969
+✖ malformed (1.363291ms)
+  AssertionError [ERR_ASSERTION]: one closed outlet, an open/unknown source or non-immediate hours cannot suppress further reads
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/restaurant-execution-router.test.ts:760:18)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/restaurant-execution-router.test.ts:724:202)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/harness/restaurant-execution-router.test.ts:1:36969
+✖ ambiguous-closed (1.193083ms)
+  AssertionError [ERR_ASSERTION]: one closed outlet, an open/unknown source or non-immediate hours cannot suppress further reads
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/restaurant-execution-router.test.ts:760:18)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/restaurant-execution-router.test.ts:724:202)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/harness/restaurant-execution-router.test.ts:1:36969
+✖ wrong-day (1.1285ms)
+  AssertionError [ERR_ASSERTION]: one closed outlet, an open/unknown source or non-immediate hours cannot suppress further reads
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/restaurant-execution-router.test.ts:760:18)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/restaurant-execution-router.test.ts:724:202)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/harness/restaurant-execution-router.test.ts:1:36969
+✖ overnight (1.2515ms)
+  AssertionError [ERR_ASSERTION]: one closed outlet, an open/unknown source or non-immediate hours cannot suppress further reads
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/restaurant-execution-router.test.ts:760:18)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/restaurant-execution-router.test.ts:724:202)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/harness/restaurant-execution-router.test.ts:1:36969
+✖ api-only (1.112958ms)
+  AssertionError [ERR_ASSERTION]: one closed outlet, an open/unknown source or non-immediate hours cannot suppress further reads
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/restaurant-execution-router.test.ts:760:18)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/restaurant-execution-router.test.ts:724:202)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/harness/restaurant-execution-router.test.ts:1:36969
+✖ explicit-time (1.048167ms)
+  AssertionError [ERR_ASSERTION]: one closed outlet, an open/unknown source or non-immediate hours cannot suppress further reads
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/restaurant-execution-router.test.ts:760:18)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/restaurant-execution-router.test.ts:724:202)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/harness/restaurant-execution-router.test.ts:1:36969
+✖ one-closed (1.110459ms)
+  AssertionError [ERR_ASSERTION]: one closed outlet, an open/unknown source or non-immediate hours cannot suppress further reads
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/restaurant-execution-router.test.ts:760:18)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/restaurant-execution-router.test.ts:724:202)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/harness/restaurant-execution-router.test.ts:1:36969
+✖ three-two-closed-one-open (1.130208ms)
+  AssertionError [ERR_ASSERTION]: one closed outlet, an open/unknown source or non-immediate hours cannot suppress further reads
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/restaurant-execution-router.test.ts:760:18)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/restaurant-execution-router.test.ts:724:202)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/harness/restaurant-execution-router.test.ts:3:1877
+✖ facts-call (7.860875ms)
+  AssertionError [ERR_ASSERTION]: {"mode":"facts-call","inspected":0,"state":{"schemaVersion":"16","phase":"NO_VERIFIED_RESULT","searchRevision":0,"investigationRevision":1,"intentDraft":{"schemaVersion":"3","timezone":"Asia/Tokyo","criteria":[{"text":"cafe","strength":"HARD","polarity":"POSITIVE"}],"target":{"goal":"RECOMMENDATION","query":"nearby restaurants","selectionScope":"OPEN_ENDED"},"date":"2026-09-17","timeWindow":{"earliest":"19:00","latest":"19:00"},"temporalResolution":{"policyVersion":"restaurant-temporal-materialization@6","referenceTime":"2026-09-16T03:00:00.000Z","timezone":"Asia/Tokyo","date":{"expression":"tomorrow","resolvedDate":"2026-09-17","basis":"EXPLICIT_DATE"},"timeWindow":{"expression":"7pm","resolvedTimeWindow":{"earliest":"19:00","latest":"19:00"},"basis":"EXPLICIT_CLOCK"}},"partySize":2,"area":{"query":"nearby","radiusMeters":1000,"coordinates":{"latitude":35.6697,"longitude":139.767,"observedAt":"2026-09-16T03:00:00.000Z","source":"EVALUATION"}}},"candidates":[],"availability":{},"availabilityChecks":{},"factChecks":{},"readEvidence":[],"noVerifiedResult":{"investigatedCandidateIds":[],"unresolvedCandidateIds":[],"remainingGaps":["AGENT_LOOP_NO_PROGRESS: No new successful observation in 3 steps; last failure: SEARCH_FAILED; SEARCH_FAILED: Cannot read properties of undefined (reading 'presentation')","Sources with recorded reads or attempts: none; unread discovery entries: none recorded. Unread outlets and missing evidence remain unknown; this does not establish that all restaurants have no seats."],"termination":{"type":"NO_PROGRESS","reasonCode":"SEARCH_FAILED","isSystemReason":false,"initiator":"SYSTEM"},"endedAt":"2026-09-16T03:00:00.000Z"}}}
+  + actual - expected
+  
+  + 'NO_VERIFIED_RESULT'
+  - 'PRESENT_RESULTS'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/restaurant-execution-router.test.ts:825:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/restaurant-execution-router.test.ts:765:100)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'NO_VERIFIED_RESULT',
+    expected: 'PRESENT_RESULTS',
+    operator: 'strictEqual'
+  }
+
+test at src/integrations/google/google-places-restaurant-search.test.ts:1:522
+✖ Google query is discovery-owned and does not serialize criteria into retrieval text (3.343625ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Japanese wording/. Input:
+  
+  'restaurant Shinjuku'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/integrations/google/google-places-restaurant-search.test.ts:13:10)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'restaurant Shinjuku',
+    expected: /Japanese wording/,
+    operator: 'match'
+  }
+
+test at src/server/local-web-server.test.ts:1:52306
+✖ T1 Web shared assembly keeps ownership during semantic parsing and completes after a concurrent list (packs=Google) (474.575666ms)
+  AssertionError [ERR_ASSERTION]: real assembled Google discovery ran once after semantic release
+  
+  0 !== 1
+  
+      at <anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/server/local-web-server.test.ts:1295:14)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async withDatabase (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/server/local-web-server.test.ts:232:5)
+      at async TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/server/local-web-server.test.ts:1240:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual'
+  }

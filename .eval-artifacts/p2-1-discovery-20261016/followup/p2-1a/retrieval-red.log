@@ -1,0 +1,45 @@
+✖ planner passes positive criteria without mechanically choosing a retrieval keyword and retains supplied nearby coordinates (1.1865ms)
+✖ native discovery retains category pagination including links revealed by a query action and deduplicates outlets (83.378667ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 487.830792
+
+✖ failing tests:
+
+test at src/domains/restaurant/discovery-planner.test.ts:1:964
+✖ planner passes positive criteria without mechanically choosing a retrieval keyword and retains supplied nearby coordinates (1.1865ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'omakase'
+  - undefined
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/domains/restaurant/discovery-planner.test.ts:19:10)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'omakase',
+    expected: undefined,
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:46291
+✖ native discovery retains category pagination including links revealed by a query action and deduplicates outlets (83.378667ms)
+  AssertionError [ERR_ASSERTION]: sparse retrieval is refined before details while observed entries stay at the queue front
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:646:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }

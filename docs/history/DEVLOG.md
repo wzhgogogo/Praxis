@@ -3699,3 +3699,7 @@ CORS补齐：实际对照两种模式均20家；地图查询的合法预检被Ch
 共同网络修复a60d27b（基于cac4b4f）已在真实来源验证：有/无Guard均20个解析门店，四条搜索GET200、四次合法浏览器预检放行，独立冻结S0边界审计ABSENT。见证重新认证32次公开GET，16原登记保留、13家合格，六例各至少一家，原始SHA/日期/人数/时段链接绑定独立校验通过；不打开链接、不调用模型。六份原输入SHA不变且Runner离线计划0网络/模型；共同配置/脚本/当前见证冻结后，十次基线在同一干净、未含P2-1a的工作树执行。原preparation/旧基线清单是历史材料；当前以network-restored-20261019/baseline-freeze.json为准。准备阶段0新增模型/Google/正式探测/整单Live，下一步是新基线；P2-1a还需变基到共同准备点，检查点A/Live不运行。
 
 验证复用最终协议版五门禁936/936与真实Chromium115/115（源码不变），新认证校验/六份空跑/JSON与脚本语法检查通过，模式为0模型来源观察与离线准备；不是完整Live或资格交付验收。
+
+## DEV-2026-10-17-P21-agent-retrieval
+
+P2-1a implemented under Accepted ADR-0042: Agent-planned positive retrieval, visible same-region categories, at most two pre-detail rewrites, retained candidates and separate page budgets. Shared initial text proposal across TableCheck/Google; old post-batch expansion retired. State@16 has no compatibility path; no database touched. Baseline-before-P2-1a is 4315ab88fbab14424968ccbf0833f980c597de51. Effective planner/refinement and resumed-page-budget red/green evidence in followup/p2-1a; final five gates typecheck/arch/build PASS, npm test937/937, real local Chromium114/114. Fixed transports and local browser only; 0 real model/Google/restaurant requests, probes or Live. Checkpoint A and P2-1b not run; no push, await independent review.

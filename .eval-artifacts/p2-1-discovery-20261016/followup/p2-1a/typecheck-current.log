@@ -1,0 +1,6 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/eval/restaurant/agent-loop/current-development-offline.test.ts(376,40): error TS2339: Property 'googleRequestUsage' does not exist on type 'NativeRestaurantSearch | { executionRoute: "STRUCTURED_ADAPTER"; search(request: RestaurantSearchRequest, signal: AbortSignal): Promise<...>; }'.
+  Property 'googleRequestUsage' does not exist on type '{ executionRoute: "STRUCTURED_ADAPTER"; search(request: RestaurantSearchRequest, signal: AbortSignal): Promise<{ candidates: RestaurantCandidate[]; evidence: RestaurantReadEvidence[]; metadata: RestaurantReadExecutionMetadata; continuation?: RestaurantSearchContinuation; }>; }'.

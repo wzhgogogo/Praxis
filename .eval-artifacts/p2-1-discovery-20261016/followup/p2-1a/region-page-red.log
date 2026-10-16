@@ -1,0 +1,27 @@
+✖ only four proved outside among exactly five allow one replacement; spent deadline stays spent (4.926042ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 171.436458
+
+✖ failing tests:
+
+test at src/integrations/restaurant-search/directory-region-selection.test.ts:1:5529
+✖ only four proved outside among exactly five allow one replacement; spent deadline stays spent (4.926042ms)
+  AssertionError [ERR_ASSERTION]: a resumed request must not open a fifth region page
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/integrations/restaurant-search/directory-region-selection.test.ts:52:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual'
+  }

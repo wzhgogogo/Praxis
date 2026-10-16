@@ -1,3 +1,4 @@
+import {scriptedRetrieval} from "../../../harness/restaurant-read-test-fixtures.js";
 import assert from "node:assert/strict";
 import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
@@ -86,6 +87,7 @@ test("a frozen business clock cannot freeze the real outer deadline or admit a l
   let resolveLate: ((value: ModelResponse) => void) | undefined;
   let calls = 0;
   const model: ModelGateway = { complete(_request: ModelRequest) {
+    if(_request.purpose==='restaurant_discovery_retrieval')return Promise.resolve(scriptedRetrieval(_request)!);
     calls += 1;
     return new Promise<ModelResponse>((resolve) => { resolveLate = resolve; });
   } };
@@ -106,6 +108,7 @@ test("a result that completes before the deadline retains its normal terminal ou
   const { registration, materializedCase } = await loadRegisteredFixedSourceCase("h001");
   const actions = ["SEARCH_RESTAURANTS", "CHECK_AVAILABILITY", "PRESENT_RESULTS"];
   const model: ModelGateway = { async complete(request) {
+    if(request.purpose==='restaurant_discovery_retrieval')return scriptedRetrieval(request)!;
     if (request.purpose === "restaurant_semantic_interpret") {
       return response(JSON.stringify({ schemaVersion: "3", facts: [
         { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "omakase near Shibuya" } },
@@ -139,6 +142,7 @@ test("controlled cancellation stays distinct from an honest model-budget complet
     deadlineMs: 1_000,
     model: {
       complete(request: ModelRequest) {
+    if(request.purpose==='restaurant_discovery_retrieval')return Promise.resolve(scriptedRetrieval(request)!);
         if (request.purpose === "restaurant_semantic_interpret") return Promise.resolve(h001SemanticResponse());
         agentDecisionStarted?.();
         return new Promise<ModelResponse>(() => undefined);
@@ -163,6 +167,7 @@ test("controlled cancellation stays distinct from an honest model-budget complet
     maxModelCalls: 1,
     deadlineMs: 1_000,
     model: { complete(request: ModelRequest) {
+    if(request.purpose==='restaurant_discovery_retrieval')return Promise.resolve(scriptedRetrieval(request)!);
       if (request.purpose === "restaurant_semantic_interpret") return Promise.resolve(h001SemanticResponse());
       throw new Error("The controlled transport budget should reject before a second model call.");
     } },

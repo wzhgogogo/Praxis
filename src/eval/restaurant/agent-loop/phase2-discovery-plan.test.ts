@@ -83,7 +83,8 @@ test("frozen H001-H005 authoritative semantics materialize into auditable source
   });
   assert.deepEqual(rendered.map((item) => item.id), ["h001", "h002", "h003", "h004", "h005"]);
   assert.deepEqual(rendered[0]!.plan.map((item) => item.pack), ["tabelog", "tablecheck", "google-places"]);
-  assert.equal(rendered[0]!.plan[0]!.query.keyword, "omakase");
+  assert.equal(rendered[0]!.plan[0]!.query.keyword, undefined);
+  assert.deepEqual(rendered[0]!.plan[0]!.query.positiveCriteria,[{criterionRef:"criterion:0",text:"omakase",strength:"HARD"}]);
   assert.equal(rendered[1]!.plan[0]!.query.keyword, undefined, "both H002 negative HARD conditions stay out of retrieval");
   assert.equal(rendered[1]!.input.radiusMeters, NAMED_PLACE_NEARBY_RADIUS_METERS, "named H002 retains the existing resolver default when its frozen request supplies no radius");
   assert.equal(rendered[1]!.input.radiusContract, "NAMED_PLACE_NEARBY_RADIUS_METERS_DEFAULT");

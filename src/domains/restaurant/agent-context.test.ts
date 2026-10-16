@@ -7,7 +7,7 @@ import { projectRestaurantAgentContext } from "./agent-context.js";
 
 test("Restaurant Agent context retains bounded observations and action scope while excluding execution authority and raw provider artifacts", () => {
   const state: RestaurantTaskState = {
-    schemaVersion: "15",
+    schemaVersion: "16",
     phase: "SEARCHING",
     intentDraft: { ...fixtureIntent, schemaVersion: "3" },
     intent: fixtureIntent,
@@ -101,7 +101,7 @@ test("Restaurant Agent context retains bounded observations and action scope whi
 
 test("Restaurant Agent context exposes a stable exhausted-discovery state without provider internals", () => {
   const context = projectRestaurantAgentContext({
-    schemaVersion: "15", phase: "SEARCHING", candidates: [], availability: {}, availabilityChecks: {}, readEvidence: [], searchRevision: 1,
+    schemaVersion: "16", phase: "SEARCHING", candidates: [], availability: {}, availabilityChecks: {}, readEvidence: [], searchRevision: 1,
     failure: { code: "GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED", message: "provider-specific private detail" },
     sourceReadState: { googlePlacesSearchBudget: "EXHAUSTED" },
   });
@@ -114,7 +114,7 @@ test("current identity-bound negative HARD conflict removes an outlet from costl
   const candidateId = fixtureCandidates[0]!.restaurant.id;
   const criteria = [{ text: "hot pot restaurant", polarity: "NEGATIVE" as const, strength: "HARD" as const }];
   const context = projectRestaurantAgentContext({
-    schemaVersion: "15", phase: "SEARCHING", intentDraft: { ...fixtureIntent, schemaVersion: "3", criteria },
+    schemaVersion: "16", phase: "SEARCHING", intentDraft: { ...fixtureIntent, schemaVersion: "3", criteria },
     intent: { ...fixtureIntent, criteria }, candidates: [fixtureCandidates[0]!], availability: {}, availabilityChecks: {}, searchRevision: 1,
     readEvidence: [{ evidenceId: "identity", kind: "ENTITY_MATCH", provider: "GOOGLE_PLACES", candidateId, sourceEntityId: "place-1",
       observedAt: "2026-08-05T09:00:00.000Z", requestFingerprint: "request", claims: {}, entityMatch: { confidence: "HIGH", matchedBy: ["GOOGLE_PLACE_ID"] } },
@@ -130,7 +130,7 @@ test("missing negative HARD evidence stays UNKNOWN and leaves a legal read path"
   const candidateId = fixtureCandidates[0]!.restaurant.id;
   const criteria = [{ text: "hot pot restaurant", polarity: "NEGATIVE" as const, strength: "HARD" as const }];
   const context = projectRestaurantAgentContext({
-    schemaVersion: "15", phase: "SEARCHING", intentDraft: { ...fixtureIntent, schemaVersion: "3", criteria },
+    schemaVersion: "16", phase: "SEARCHING", intentDraft: { ...fixtureIntent, schemaVersion: "3", criteria },
     intent: { ...fixtureIntent, criteria }, candidates: [fixtureCandidates[0]!], availability: {}, availabilityChecks: {}, readEvidence: [], searchRevision: 1,
   });
   assert.equal(context.candidates[0]?.observedFacts.violatedNegativeCriteria.length, 0);
@@ -140,7 +140,7 @@ test("missing negative HARD evidence stays UNKNOWN and leaves a legal read path"
 test("Restaurant Agent context exposes bounded candidate facts, provider attempts, reception and code-derived next actions", () => {
   const candidateId = fixtureCandidates[0]!.restaurant.id;
   const context = projectRestaurantAgentContext({
-    schemaVersion: "15", phase: "SEARCHING", intentDraft: { ...fixtureIntent, schemaVersion: "3" }, intent: fixtureIntent,
+    schemaVersion: "16", phase: "SEARCHING", intentDraft: { ...fixtureIntent, schemaVersion: "3" }, intent: fixtureIntent,
     candidates: fixtureCandidates, availability: {}, searchRevision: 1,
     availabilityChecks: {
       [candidateId]: {
@@ -172,7 +172,7 @@ test("Restaurant Agent context exposes bounded candidate facts, provider attempt
 test("Restaurant Agent context exposes only current candidate-bound commercial notes with their evidence source", () => {
   const candidateId = fixtureCandidates[0]!.restaurant.id;
   const context = projectRestaurantAgentContext({
-    schemaVersion: "15", phase: "SEARCHING", intentDraft: { ...fixtureIntent, schemaVersion: "3" }, intent: fixtureIntent,
+    schemaVersion: "16", phase: "SEARCHING", intentDraft: { ...fixtureIntent, schemaVersion: "3" }, intent: fixtureIntent,
     candidates: fixtureCandidates, availability: {}, availabilityChecks: {}, searchRevision: 1,
     factChecks: {
       [candidateId]: {
@@ -205,7 +205,7 @@ test("Restaurant Agent context exposes only current candidate-bound commercial n
 
 test("C8 source categories remain advisory and source-attributed without changing legal candidates", () => {
   const candidateId=fixtureCandidates[0]!.restaurant.id;
-  const state:RestaurantTaskState={schemaVersion:'15',phase:'SEARCHING',intentDraft:{...fixtureIntent,schemaVersion:'3'},intent:fixtureIntent,candidates:[fixtureCandidates[0]!],availability:{},availabilityChecks:{},readEvidence:[],searchRevision:1};
+  const state:RestaurantTaskState={schemaVersion:'16',phase:'SEARCHING',intentDraft:{...fixtureIntent,schemaVersion:'3'},intent:fixtureIntent,candidates:[fixtureCandidates[0]!],availability:{},availabilityChecks:{},readEvidence:[],searchRevision:1};
   const before=projectRestaurantAgentContext(state);
   state.readEvidence=[{evidenceId:'discovery-types',kind:'DISCOVERY',provider:'GOOGLE_PLACES',candidateId,sourceEntityId:'place-a',observedAt:'2026-10-10T00:00:00Z',requestFingerprint:'request',claims:{types:['italian_restaurant','restaurant']}},
     {evidenceId:'listing-categories',kind:'DISCOVERY',provider:'TABELOG',candidateId,sourceEntityId:'outlet-a',observedAt:'2026-10-10T00:00:00Z',requestFingerprint:'request',claims:{sourceCategories:['Italian cuisine']}}];
@@ -219,7 +219,7 @@ test("C8 source categories remain advisory and source-attributed without changin
 
 test("candidate distance is a bounded source observation without changing legal presentation", () => {
   const candidate = fixtureCandidates[0]!;
-  const state: RestaurantTaskState = { schemaVersion: "15", phase: "SEARCHING", intent: fixtureIntent, candidates: [candidate], availability: {}, availabilityChecks: {}, readEvidence: [], searchRevision: 1 };
+  const state: RestaurantTaskState = { schemaVersion: "16", phase: "SEARCHING", intent: fixtureIntent, candidates: [candidate], availability: {}, availabilityChecks: {}, readEvidence: [], searchRevision: 1 };
   const before = projectRestaurantAgentContext(state, "2026-10-11T00:00:00Z");
   state.readEvidence.push({ evidenceId: "distance", kind: "DISCOVERY", provider: "GOOGLE_PLACES", candidateId: candidate.restaurant.id, observedAt: "2026-10-10T00:00:00Z", requestFingerprint: "current", claims: { areaMatch: true, areaMatchBasis: "TASK_LOCATION_RADIUS", distanceMeters: 999.4 } });
   const after = projectRestaurantAgentContext(state, "2026-10-11T00:00:00Z");

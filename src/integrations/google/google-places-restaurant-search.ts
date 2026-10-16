@@ -1,3 +1,4 @@
+import {generalDiscoveryCategory} from "../../domains/restaurant/discovery-planner.js";
 import { restaurantFailureCode, type RestaurantFailureCode } from "../../domains/restaurant/failure-codes.js";
 import { DEFAULT_NEARBY_RADIUS_METERS } from "../../core/location/nearby.js";
 import { createHash } from "node:crypto";
@@ -63,20 +64,15 @@ function rawObservation(place: GooglePlacesRawPlace): UntrustedGooglePlaceObserv
 /** Domain-safe query construction: only retrieval words vary; intent schedule remains untouched. */
 export function buildGooglePlacesTextQuery(request: RestaurantSearchRequest): string {
   if (request.discoveryQuery?.keyword) {
-    // The planner has already selected the sole positive HARD retrieval term.
+    // The Agent retrieval proposal has been validated against a positive criterion.
     // Do not reintroduce the full task sentence (date, party, exclusions) as
     // a Places text query.
     return `${request.discoveryQuery.keyword} ${request.discoveryQuery.location.label}`.trim();
   }
-  // Discovery is not condition verification.  The target and optional retrieval
-  // hint are owned by the Agent; the full authoritative criteria remain in the
-  // request for later grounding instead of being mechanically repeated here.
-  const target = request.intent.target?.query ? [request.intent.target.query] : [];
-  const hint = request.retrievalHint?.trim() ? [request.retrievalHint.trim()] : [];
-  const area = request.intent.area.query.trim().toLowerCase() === "nearby" ? [] : [request.intent.area.query];
-  return [...target, "restaurant", ...area, ...hint]
-    .filter(Boolean)
-    .join(" ");
+  if(request.discoveryQuery)return `${request.discoveryQuery.category} ${request.discoveryQuery.location.label}`.trim();
+  const area=request.intent.area.query.trim().toLowerCase()==='nearby'?'':request.intent.area.query;
+  if(request.discoveryRetrieval)return `${request.discoveryRetrieval.keyword??generalDiscoveryCategory(request.intent)} ${request.intent.area.query}`.trim();
+  return [request.intent.target?.query,'restaurant',area,request.retrievalHint?.trim()].filter(Boolean).join(' ');
 }
 
 export const NAMED_PLACE_NEARBY_RADIUS_METERS = DEFAULT_NEARBY_RADIUS_METERS;
@@ -377,7 +373,7 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
 
   async search(request: RestaurantSearchRequest, signal: AbortSignal): Promise<RestaurantSearchRead> {
     const startedAt = Date.now();
-    const nearbyCategory = request.discoveryQuery?.keyword ? undefined : request.discoveryQuery?.category;
+    const nearbyCategory = request.discoveryQuery?.keyword||request.discoveryRetrieval?.keyword ? undefined : request.discoveryQuery?.category;
     const usesNearbySearch = nearbyCategory !== undefined;
     // Google page tokens are bound to the original request.  The Agent may
     // change a retrieval hint only for a new search; a continuation must keep

@@ -1,3 +1,6 @@
+import {positiveDiscoveryCriteria} from "../../domains/restaurant/discovery-retrieval.js";
+import {ModelDiscoveryRetrievalPlanner} from "./discovery-retrieval-planner.js";
+import type {RestaurantSearchRequest} from "../../domains/restaurant/contracts.js";
 import type { LiveReadInvestigationBudget } from "../../application/live-read-investigation-budget.js";
 import type { RestaurantAgentLoopOptions } from "../../application/restaurant-agent-loop.js";
 import type { RestaurantExecutionRouterOptions } from "../../application/restaurant-execution-router.js";
@@ -79,6 +82,15 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
     maxSteps: config.maxAgentSteps, maxRejectedActions: config.maxRejectedActions, timeoutMs: config.maxAutomaticBrowserMs,
     ...(transports.remainingModelCalls ? { remainingModelCalls: transports.remainingModelCalls } : {}),
   };
-  const search = packs?.length === 1 && packs[0]?.meta.id === "google-places" ? google : native.search;
+  const retrievalPlanner=new ModelDiscoveryRetrievalPlanner(transports.model,browserBudget);
+  const search = packs?.length===1&&packs[0]&&!packs[0].browser?{
+    executionRoute:google.executionRoute,
+    googleRequestUsage:google.googleRequestUsage.bind(google),
+    async search(request:RestaurantSearchRequest,signal:AbortSignal){
+      const selection=request.continuation?.structuredRetrieval??(positiveDiscoveryCriteria(request.intent).length?await retrievalPlanner.decide({taskId:request.readRunId??'discovery',intent:request.intent,locationName:request.intent.area.query,rewrites:0,timeoutMs:config.maxStructuredReadMs}):{accepted:true,reason:'General retrieval: no positive criteria.'});
+      const read=await google.search({...request,discoveryRetrieval:selection},signal);
+      return {...read,...(read.continuation?{continuation:{...read.continuation,structuredRetrieval:selection}}:{})};
+    },
+  }:native.search;
   return { ...native, search, google, availability, router, loop, browserBudget, runCeilings };
 }

@@ -1,3 +1,4 @@
+import {positiveDiscoveryCriteria} from "./discovery-retrieval.js";
 import type { RestaurantDiscoveryPlan, RestaurantSearchIntent, LocationAddressObservation } from "./contracts.js";
 
 /** Source capability metadata is integration-owned data. The planner consumes no source names or URLs. */
@@ -22,22 +23,20 @@ export interface DiscoveryPlanningLocation {
 
 export interface DiscoveryQuery {
   category: string;
-  /** Only a positive HARD criterion may become a retrieval keyword. */
+  /** Executor-validated Agent retrieval, never a mechanical HARD projection. */
   keyword?: string;
+  positiveCriteria: import("./discovery-retrieval.js").PositiveDiscoveryCriterion[];
   location: DiscoveryPlanningLocation;
 }
 
 export type DiscoveryPlanEntry = RestaurantDiscoveryPlan["entries"][number];
 export type DiscoveryPlan = RestaurantDiscoveryPlan;
 
-function genericCategory(intent: RestaurantSearchIntent): string {
+export function generalDiscoveryCategory(intent: RestaurantSearchIntent): string {
   const target = intent.target?.query ?? "";
   return /\bcaf(?:e|es)\b/i.test(target) ? "cafe" : "restaurant";
 }
 
-function positiveHardKeyword(intent: RestaurantSearchIntent): string | undefined {
-  return intent.criteria.find((criterion) => criterion.polarity === "POSITIVE" && criterion.strength === "HARD")?.text.trim() || undefined;
-}
 
 function localDate(now: string, timezone: string): string {
   const parts = new Intl.DateTimeFormat("en-CA", {
@@ -60,8 +59,7 @@ export function planDiscoverySources(
   packs: readonly DiscoveryPackMetadata[],
   now = new Date().toISOString(),
 ): DiscoveryPlan {
-  const keyword = positiveHardKeyword(intent);
-  const category = keyword ?? genericCategory(intent);
+  const category = generalDiscoveryCategory(intent);
   const sameDay = Boolean(intent.date && intent.date === localDate(now, intent.timezone));
   const group = intent.partySize !== undefined && intent.partySize >= 6;
   const candidates = packs
@@ -70,7 +68,7 @@ export function planDiscoverySources(
     .map((pack) => ({ pack, score: pack.basePriority + (group && pack.supportsGroups ? 100 : 0) + (sameDay && pack.supportsSameDay ? 10 : 0) }))
     .sort((left, right) => right.score - left.score || left.pack.id.localeCompare(right.pack.id));
   return {
-    entries: candidates.map(({ pack }) => ({ sourceId: pack.id, query: { category, ...(keyword ? { keyword } : {}), location: { ...location } } })),
+    entries: candidates.map(({ pack }) => ({ sourceId: pack.id, query: { category, positiveCriteria:positiveDiscoveryCriteria(intent), location: { ...location } } })),
     cursor: 0,
   };
 }
@@ -80,5 +78,5 @@ export function currentDiscoveryPlanEntry(plan: DiscoveryPlan): DiscoveryPlanEnt
 }
 
 export function advanceDiscoveryPlan(plan: DiscoveryPlan): DiscoveryPlan {
-  return { entries: plan.entries.map((entry) => ({ sourceId: entry.sourceId, query: { ...entry.query, location: { ...entry.query.location } } })), cursor: Math.min(plan.entries.length, plan.cursor + 1) };
+  return { ...plan, entries: plan.entries.map((entry) => ({ sourceId: entry.sourceId, query: { ...entry.query, location: { ...entry.query.location } } })), cursor: Math.min(plan.entries.length, plan.cursor + 1) };
 }

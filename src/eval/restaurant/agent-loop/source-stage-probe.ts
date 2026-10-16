@@ -1,3 +1,4 @@
+import type {DiscoveryRetrievalPlanner} from "../../../integrations/restaurant-search/discovery-retrieval-planner.js";
 import { createHash } from "node:crypto";
 
 import type { ModelGateway, ModelRequest, ModelResponse } from "../../../core/model/contracts.js";
@@ -303,6 +304,7 @@ export function summarizeSourceStageAttempts(
 }
 
 export interface SourceStageNativeDiscoveryExecutionInput {
+  retrievalPlanner: DiscoveryRetrievalPlanner;
   pack: DiscoverySourcePack;
   intent: RestaurantSearchIntent;
   /** A separately frozen Google named-location result; it prevents every Pack from resolving the same place again. */
@@ -450,7 +452,7 @@ export async function runSourceStageNativeDiscoveryProbe(
   }
   const startedAt = Date.now();
   const budget = input.browserBudget ?? { totalModelCalls: 0, maxModelCalls: 2 };
-  const native = new NativeRestaurantSearch(input.runtime, input.locality, input.now, undefined, input.modelDecision, budget, input.onDiagnostic, { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, input.runtime.readNetworkBoundaryCapability === "ISOLATED_CONTEXT" ? discoveryPackNetworkPolicy([input.pack]) : undefined, [input.pack]);
+  const native = new NativeRestaurantSearch(input.runtime, input.locality, input.retrievalPlanner, input.now, undefined, input.modelDecision, budget, input.onDiagnostic, { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, input.runtime.readNetworkBoundaryCapability === "ISOLATED_CONTEXT" ? discoveryPackNetworkPolicy([input.pack]) : undefined, [input.pack]);
   try {
     let read = await native.search({
       intent: input.intent,
@@ -524,12 +526,18 @@ export async function runSourceStagePackDiscoveryProbe(input: {
   location: { latitude: number; longitude: number; radiusMeters: number; label: string; areaMatchBasis: "NAMED_PLACE_RADIUS" | "TASK_LOCATION_RADIUS" | "EVALUATION_LOCATION_RADIUS" };
   readRunId: string;
   signal: AbortSignal;
-  modelCallsStarted: number;
+  browserBudget: BrowserExecutionBudget;
+  retrievalPlanner: DiscoveryRetrievalPlanner;
+  timeoutMs:number;
 }): Promise<SourceStageNativeDiscoveryExecutionResult> {
   const startedAt = Date.now();
   const plan = planDiscoverySources(input.intent, input.location, [input.pack.meta]);
   const entry = plan.entries[0];
   if (!entry) throw Object.assign(new Error("Source Pack is not eligible for frozen discovery intent"), { code: "SOURCE_STAGE_PACK_UNSUPPORTED" });
+  if(entry.query.positiveCriteria.length){
+    const selection=await input.retrievalPlanner.decide({taskId:input.readRunId,intent:input.intent,locationName:input.location.label,rewrites:0,timeoutMs:input.timeoutMs});
+    if(selection.keyword)entry.query.keyword=selection.keyword;
+  }
   try {
     const read = await input.search.search({ intent: input.intent, discoveryQuery: entry.query, readRunId: input.readRunId }, input.signal);
     const failureCode = read.metadata.failureCode;
@@ -541,7 +549,7 @@ export async function runSourceStagePackDiscoveryProbe(input: {
       elapsedMs: Date.now() - startedAt,
       read,
       reads:[read],
-      modelCallsStarted: input.modelCallsStarted,
+      modelCallsStarted: input.browserBudget.totalModelCalls,
       ...(failureCode ? { failureCode } : status === "SOURCE_FAILED" ? { failureCode: "DISCOVERY_LIST_NOT_CURRENT_OR_PARSEABLE" } : {}),
     };
   } catch (error) {
@@ -549,7 +557,7 @@ export async function runSourceStagePackDiscoveryProbe(input: {
       ? error.code : "DISCOVERY_SOURCE_FAILED";
     throw Object.assign(error instanceof Error ? error : new Error("Pack discovery source probe failed"), {
       code: failureCode,
-      sourceStageModelCalls: input.modelCallsStarted,
+      sourceStageModelCalls: input.browserBudget.totalModelCalls,
     });
   }
 }

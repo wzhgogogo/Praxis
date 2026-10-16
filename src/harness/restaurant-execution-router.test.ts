@@ -1,3 +1,4 @@
+import {scriptedRetrieval} from "./restaurant-read-test-fixtures.js";
 import { createRouterFixtureComposition, response, strictAction, PermittedAlternativeTimeModel, googleFixture, now, clock } from "./restaurant-read-test-fixtures.js";
 import type { ModelGateway } from "../core/model/contracts.js";
 import type { BrowserRuntime } from "../infrastructure/browser/browser-runtime.js";
@@ -16,7 +17,7 @@ import { completeRestaurantSearchIntent } from "../domains/restaurant/intent-sta
 import { fixtureCandidates, fixtureIntent } from "./restaurant-fixtures.js";
 
 const state: RestaurantTaskState = {
-  schemaVersion: "15",
+  schemaVersion: "16",
   phase: "UNDERSTANDING",
   intentDraft: { ...fixtureIntent, schemaVersion: "3" },
   candidates: [],
@@ -396,6 +397,7 @@ test("Router partial-port contract: fresh request-bound inventory can receive mi
   // path, not that Prompt@18 will choose it. Only model/source transports are fixed.
   const actions: string[] = [];
   const model: ModelGateway = { async complete(request) {
+    if(request.purpose==='restaurant_discovery_retrieval')return scriptedRetrieval(request)!;
     if (request.purpose === "restaurant_semantic_interpret") return response(JSON.stringify({ schemaVersion: "3", facts: [
       { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "cafes", selectionScope: "OPEN_ENDED" } },
       { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-09-17", raw: "tomorrow" } },
@@ -466,6 +468,7 @@ test("Router partial-port contract: default delivery keeps a produced source-bac
   const source = googleFixture([], { maxRequests: 100 }, ["one", "two", "three"]);
   const actions: string[] = [];
   const model: ModelGateway = { async complete(input) {
+    if(input.purpose==='restaurant_discovery_retrieval')return scriptedRetrieval(input)!;
     if (input.purpose === "restaurant_semantic_interpret") return response(JSON.stringify({ schemaVersion: "3", facts: [
       { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "find a table", selectionScope: "OPEN_ENDED" } },
       { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-09-17", raw: "tomorrow" } },
@@ -547,6 +550,7 @@ test("Router partial-port contract: model-call delivery reserve presents a sourc
       const source = googleFixture([], { maxRequests: 100 }, ["one", "two", "three"]);
       const contexts: Array<{ remaining: number; checks: number }> = [];
       const provider: ModelGateway = { async complete(input) {
+    if(input.purpose==='restaurant_discovery_retrieval')return scriptedRetrieval(input)!;
         if (input.purpose === "restaurant_semantic_interpret") return response(JSON.stringify({ schemaVersion: "3", facts: [
           { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "find a table", selectionScope: "OPEN_ENDED", ...(mode === "explicit-count" ? { requestedResultCount: 3 } : {}) } },
           { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-09-17", raw: "tomorrow" } },
@@ -635,6 +639,7 @@ test("Router partial-port contract: C0b reserves the last four calls inside a pr
       const source = googleFixture([], { maxRequests: 100 }, ["one", "two", "three"]);
       const contexts: Array<{ remaining: number; checks: number }> = [];
       const provider: ModelGateway = { async complete(input) {
+    if(input.purpose==='restaurant_discovery_retrieval')return scriptedRetrieval(input)!;
         if (input.purpose === "restaurant_semantic_interpret") return response(JSON.stringify({ schemaVersion: "3", facts: [
           { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "find a table", selectionScope: "OPEN_ENDED",  } },
           { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-09-17", raw: "tomorrow" } },
@@ -724,6 +729,7 @@ test("Router partial-port contract: C6a observed public hours end the immediate 
   for(const mode of ["closed","outside","open","partial","unknown","malformed","ambiguous-closed","wrong-day","overnight","api-only","explicit-time","one-closed","three-two-closed-one-open"] as const) await t.test(mode, async()=>{
     const taskId=`hours:${mode}`;let inventoryReads=0;
     const provider:ModelGateway={async complete(input){
+    if(input.purpose==='restaurant_discovery_retrieval')return Promise.resolve(scriptedRetrieval(input)!);
       if(input.purpose==='restaurant_semantic_interpret')return response(JSON.stringify({schemaVersion:'3',facts:[
         {field:'TARGET',operation:'ASSERT',value:{kind:'TARGET',goal:'AVAILABILITY',query:'restaurants',selectionScope:'OPEN_ENDED'}},
         {field:'TIME_WINDOW',operation:'ASSERT',value:mode==='explicit-time'?{kind:'TIME_WINDOW',earliest:'12:00',latest:'12:30',raw:'noon'}:{kind:'TIME_WINDOW',relativeOffsetMinutes:0,raw:'right now'}},
@@ -767,6 +773,7 @@ test("Router partial-port contract: reserve checkpoints retain completed outlets
     const readClock={now:()=>new Date(instant)};
     const search=googleFixture([],{maxRequests:100},["one","two","three",...(mode==="availability-time"?["four"]:[])]);
     const delegate:ModelGateway={async complete(input){
+    if(input.purpose==='restaurant_discovery_retrieval')return Promise.resolve(scriptedRetrieval(input)!);
       if(input.purpose==="restaurant_semantic_interpret")return response(JSON.stringify({schemaVersion:"3",facts:[
         {field:"TARGET",operation:"ASSERT",value:{kind:"TARGET",goal:mode==="facts-call"?"RECOMMENDATION":"AVAILABILITY",query:"nearby restaurants",selectionScope:"OPEN_ENDED"}},
         {field:"DATE",operation:"ASSERT",value:{kind:"DATE",value:"2026-09-17",raw:"tomorrow"}},

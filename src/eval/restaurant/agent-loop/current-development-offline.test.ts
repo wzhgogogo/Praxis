@@ -1,3 +1,4 @@
+import {scriptedRetrieval} from "../../../harness/restaurant-read-test-fixtures.js";
 import assert from "node:assert/strict";
 import test from "node:test";
 
@@ -25,6 +26,7 @@ type Plan = {
   timeWindow: { earliest: string; latest: string };
   partySize?: number;
   candidateBatchSize?: number;
+  retrievalChoice?: "GENERAL";
   selectedCandidateCount?: number;
   facts: Array<Record<string, unknown>>;
   actions: PlannedAction[];
@@ -72,7 +74,7 @@ const PLANS: readonly Plan[] = [
     ],
   },
   {
-    id: "h003", referenceTime: "2026-08-19T16:38:00+08:00",
+    id: "h003", retrievalChoice:"GENERAL", referenceTime: "2026-08-19T16:38:00+08:00",
     goal: "AVAILABILITY", area: "nearby", date: "2026-08-21", timeWindow: { earliest: "17:30", latest: "22:00" }, partySize: 10,
     facts: [
       { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "team dinner nearby", selectionScope: "OPEN_ENDED" } },
@@ -101,7 +103,7 @@ const PLANS: readonly Plan[] = [
     actions: ["SEARCH_RESTAURANTS", "INVESTIGATE_CANDIDATE_FACTS", "PRESENT_RESULTS"], candidateBatchSize: 3,
   },
   {
-    id: "h005", referenceTime: "2026-08-19T16:00:00+08:00",
+    id: "h005", retrievalChoice:"GENERAL", referenceTime: "2026-08-19T16:00:00+08:00",
     goal: "AVAILABILITY", area: "nearby", date: "2026-08-19", timeWindow: { earliest: "17:00", latest: "17:30" }, partySize: 4,
     facts: [
       { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "open tables nearby", selectionScope: "OPEN_ENDED" } },
@@ -176,6 +178,7 @@ class FixedCurrentCaseModel implements ModelGateway {
 
   async complete(request: ModelRequest): Promise<ModelResponse> {
     this.requests.push(request);
+    if(request.purpose==='restaurant_discovery_retrieval')return this.plan.retrievalChoice==='GENERAL'?modelResponse(JSON.stringify({choice:'GENERAL',keyword:'',criterionRef:'',categoryUrl:'',reason:'Controlled general source retrieval, not a quality oracle'}),'fixture-retrieval'):scriptedRetrieval(request)!;
     if (request.purpose === "restaurant_semantic_interpret") {
       assert.ok(request.messages.some((message) => message.content.includes(this.rawContent)), "semantic model must receive the exact frozen user message");
       return modelResponse(JSON.stringify({ schemaVersion: "3", facts: this.plan.facts }), `semantic:${this.plan.id}`);
@@ -229,6 +232,7 @@ class TwoTurnStrengthUpgradeModel implements ModelGateway {
 
   async complete(request: ModelRequest): Promise<ModelResponse> {
     this.requests.push(request);
+    if(request.purpose==='restaurant_discovery_retrieval')return scriptedRetrieval(request)!;
     if (request.purpose === "restaurant_semantic_interpret") {
       this.semanticTurn += 1;
       const facts = this.semanticTurn === 1

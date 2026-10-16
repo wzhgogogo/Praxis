@@ -14,16 +14,16 @@ function intent(overrides: Partial<RestaurantSearchIntent> = {}): RestaurantSear
   return { timezone: "Asia/Tokyo", target: { goal: "AVAILABILITY", query: "dinner nearby" }, area: { query: "nearby", radiusMeters: 3_000 }, criteria: [], ...overrides };
 }
 
-test("planner uses only positive HARD text as a retrieval keyword and retains supplied nearby coordinates", () => {
+test("planner passes positive criteria without mechanically choosing a retrieval keyword and retains supplied nearby coordinates", () => {
   const plan = planDiscoverySources(intent({ criteria: [{ text: "omakase", polarity: "POSITIVE", strength: "HARD" }] }), location, packs, "2026-08-19T10:00:00.000Z");
-  assert.equal(plan.entries[0]!.query.keyword, "omakase");
-  assert.equal(plan.entries[0]!.query.category, "omakase");
+  assert.equal(plan.entries[0]!.query.keyword, undefined);
+  assert.equal(plan.entries[0]!.query.category, "restaurant");
   assert.deepEqual(plan.entries[0]!.query.location, location);
 });
 
 test("planner keeps negative-only criteria out of discovery text and routes recommendations away from reservation-only packs", () => {
   const negativeOnly = planDiscoverySources(intent({ criteria: [{ text: "hot pot", polarity: "NEGATIVE", strength: "HARD" }] }), location, packs);
-  assert.deepEqual(negativeOnly.entries.map((entry) => entry.query), packs.map(() => ({ category: "restaurant", location })));
+  assert.deepEqual(negativeOnly.entries.map((entry) => entry.query), packs.map(() => ({ category: "restaurant", positiveCriteria:[], location })));
   const recommendation = planDiscoverySources(intent({ target: { goal: "RECOMMENDATION", query: "cafes nearby" } }), location, packs);
   assert.deepEqual(recommendation.entries.map((entry) => entry.sourceId), ["source-directory-b", "source-places-c"]);
   assert.ok(recommendation.entries.every((entry) => entry.query.category === "cafe"));

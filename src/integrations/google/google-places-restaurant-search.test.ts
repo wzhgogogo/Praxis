@@ -15,7 +15,7 @@ test("Google query is discovery-owned and does not serialize criteria into retri
 });
 
 test("a positive-HARD pack query keeps only its keyword and resolved location in Text Search", () => {
-  const query = buildGooglePlacesTextQuery({ intent: fixtureIntent, discoveryQuery: {
+  const query = buildGooglePlacesTextQuery({ intent: fixtureIntent, discoveryQuery: { positiveCriteria:[],
     category: "omakase", keyword: "omakase",
     location: { latitude: 35.658, longitude: 139.7, radiusMeters: 1_000, label: "Shibuya", areaMatchBasis: "TASK_LOCATION_RADIUS" },
   } });
@@ -31,7 +31,7 @@ test("a source-plan location prevents a second named-place lookup before Google 
   } });
   await new GooglePlacesRestaurantSearch(client).search({
     intent: { ...fixtureIntent, area: { query: "near Shibuya" } },
-    discoveryQuery: {
+    discoveryQuery: { positiveCriteria:[],
       category: "omakase", keyword: "omakase",
       location: { latitude: 35.658, longitude: 139.7016, radiusMeters: 1_000, label: "Shibuya", areaMatchBasis: "NAMED_PLACE_RADIUS" },
     },
@@ -48,7 +48,7 @@ test("a pack query without a positive HARD keyword uses Nearby Search's exact ci
   } });
   const result = await new GooglePlacesRestaurantSearch(client).search({
     intent: { ...fixtureIntent, criteria: [], area: { query: "Higashi-Ginza", coordinates: { latitude: 35.6697, longitude: 139.767, observedAt: "2026-10-07T00:00:00.000Z", source: "MANUAL_PLACE" }, radiusMeters: 3_000 } },
-    discoveryQuery: { category: "restaurant", location: { latitude: 35.6697, longitude: 139.767, radiusMeters: 3_000, label: "Higashi-Ginza", areaMatchBasis: "TASK_LOCATION_RADIUS" } },
+    discoveryQuery: { positiveCriteria:[], category: "restaurant", location: { latitude: 35.6697, longitude: 139.767, radiusMeters: 3_000, label: "Higashi-Ginza", areaMatchBasis: "TASK_LOCATION_RADIUS" } },
   }, new AbortController().signal);
   assert.equal(requests[0]?.url, "https://places.googleapis.com/v1/places:searchNearby");
   assert.equal((requests[0]?.body.locationRestriction as { circle: { radius: number } }).circle.radius, 3_000);

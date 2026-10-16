@@ -1,0 +1,6 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/eval/restaurant/agent-loop/runners/run-source-stage-probe.ts(563,92): error TS2304: Cannot find name 'model'.
+src/eval/restaurant/agent-loop/source-stage-probe.ts(560,36): error TS2339: Property 'modelCallsStarted' does not exist on type '{ pack: DiscoverySourcePack; search: RestaurantSearchPort; intent: RestaurantSearchIntent; location: { latitude: number; longitude: number; radiusMeters: number; label: string; areaMatchBasis: "EVALUATION_LOCATION_RADIUS" | ... 1 more ... | "TASK_LOCATION_RADIUS"; }; ... 4 more ...; timeoutMs: number; }'.

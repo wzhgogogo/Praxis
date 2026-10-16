@@ -15,7 +15,7 @@ import { fixtureCandidates, fixtureIntent } from "../../harness/restaurant-fixtu
 import type { RestaurantOutcome } from "./contracts.js";
 
 const incompleteState: RestaurantTaskState = {
-  schemaVersion: "15",
+  schemaVersion: "16",
   phase: "UNDERSTANDING",
   candidates: [],
   availability: {},
@@ -28,7 +28,7 @@ const now = "2026-08-05T09:00:00.000Z";
 const discoveryPlan = (cursor: number) => ({
   entries: ["tabelog", "tablecheck", "google-places"].map((sourceId) => ({
     sourceId,
-    query: { category: "restaurant", location: { latitude: 35.658, longitude: 139.7, radiusMeters: 1_000, label: "Shibuya", areaMatchBasis: "TASK_LOCATION_RADIUS" as const } },
+    query: { positiveCriteria:[], category: "restaurant", location: { latitude: 35.658, longitude: 139.7, radiusMeters: 1_000, label: "Shibuya", areaMatchBasis: "TASK_LOCATION_RADIUS" as const } },
   })),
   cursor,
 });

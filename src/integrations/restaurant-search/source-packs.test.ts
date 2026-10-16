@@ -3,7 +3,7 @@ import test from "node:test";
 
 import { discoveryPackById, googlePlacesDiscoveryPack, tableCheckDiscoveryPack, tabelogDiscoveryPack } from "./source-packs.js";
 
-const query = { category: "restaurant", location: { latitude: 35.6697, longitude: 139.767, radiusMeters: 3_000, label: "Higashi-Ginza", areaMatchBasis: "EVALUATION_LOCATION_RADIUS" as const } };
+const query = { positiveCriteria:[], category: "restaurant", location: { latitude: 35.6697, longitude: 139.767, radiusMeters: 3_000, label: "Higashi-Ginza", areaMatchBasis: "EVALUATION_LOCATION_RADIUS" as const } };
 
 test("real source packs own URLs, reviewed reads, skills, and opaque source IDs", () => {
   assert.equal(discoveryPackById("tabelog"), tabelogDiscoveryPack);
@@ -12,11 +12,11 @@ test("real source packs own URLs, reviewed reads, skills, and opaque source IDs"
   assert.ok(tabelogDiscoveryPack.availability?.ground, "Tabelog grounding remains pack-owned");
   assert.ok(tableCheckDiscoveryPack.availability?.ground, "TableCheck grounding remains pack-owned");
   for (const label of ["Shibuya", "Shinjuku City", "Higashi-Ginza", "Ebisu"]) {
-    const neutral = tabelogDiscoveryPack.buildQuery({ ...query, location: { ...query.location, label, areaMatchBasis: "NAMED_PLACE_RADIUS" } });
+    const neutral = tabelogDiscoveryPack.buildQuery({...query, location: { ...query.location, label, areaMatchBasis: "NAMED_PLACE_RADIUS" } });
     assert.equal(neutral.url, "https://tabelog.com/en/tokyo/rstLst/");
     assert.equal(neutral.areaEntrance, "OBSERVE_SOURCE_REGION");
   }
-  const tableCheck = new URL(tableCheckDiscoveryPack.buildQuery({ ...query, keyword: "omakase" }).url);
+  const tableCheck = new URL(tableCheckDiscoveryPack.buildQuery({...query, keyword: "omakase" }).url);
   assert.equal(tableCheck.searchParams.get("search_text"), "omakase");
   assert.equal(tableCheck.searchParams.get("geo_distance"), "3km");
   const noHardTabelog = new URL(tabelogDiscoveryPack.buildQuery(query).url);
@@ -30,7 +30,7 @@ test("real source packs own URLs, reviewed reads, skills, and opaque source IDs"
   const googleNearby = googlePlacesDiscoveryPack.buildQuery(query);
   assert.equal(googleNearby.retrievalExpression, "restaurant");
   assert.equal(googleNearby.mode, "NEARBY");
-  assert.equal(googlePlacesDiscoveryPack.buildQuery({ ...query, keyword: "omakase" }).retrievalExpression, "omakase Higashi-Ginza");
+  assert.equal(googlePlacesDiscoveryPack.buildQuery({...query, keyword: "omakase" }).retrievalExpression, "omakase Higashi-Ginza");
 });
 
 test("TableCheck request URL construction is consumed through its source pack", () => {
@@ -50,9 +50,9 @@ test("directory retrieval URL grammar stays inside its pack", () => {
   assert.ok(directory);
   const initial = "https://tabelog.com/en/tokyo/rstLst/";
   const queried = directory.withRetrievalExpression(initial, "omakase");
-  assert.equal(directory.retrievalExpression(queried), "omakase");
-  assert.equal(directory.retrievalExpression(directory.withoutRetrievalExpression(queried)), undefined);
-  assert.equal(directory.isExplicitEmpty({ url: initial, title: "", text: "No restaurants found", html: "" }), true);
+  assert.equal(tabelogDiscoveryPack.browser!.retrievalExpression(queried), "omakase");
+  assert.equal(tabelogDiscoveryPack.browser!.retrievalExpression(directory.withoutRetrievalExpression(queried)), undefined);
+  assert.equal(tabelogDiscoveryPack.browser!.isExplicitEmptyListing({ url: initial, title: "", text: "No restaurants found", html: "" }), true);
 });
 
 test("both browser source packs parse their own current listing entrances before the shared cursor schedules details", () => {

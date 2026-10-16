@@ -1,3 +1,4 @@
+import {ModelDiscoveryRetrievalPlanner} from "./discovery-retrieval-planner.js";
 import type { BrowserTaskExecutorOptions } from "../../infrastructure/browser/browser-task-executor.js";
 import type { ModelGateway } from "../../core/model/contracts.js";
 import type { BrowserExecutionBudget, BrowserExecutionDiagnostic } from "../../infrastructure/browser/browser-task-executor.js";
@@ -26,7 +27,7 @@ export function composeNativeRestaurantRead(
   const selectedPacks = packs ?? restaurantDiscoveryPacks;
   const networkPolicy = runtime.readNetworkBoundaryCapability === "ISOLATED_CONTEXT" ? discoveryPackNetworkPolicy(selectedPacks) : undefined;
   return {
-    search: new NativeRestaurantSearch(runtime, google, now, evaluationLocation, new ModelBrowserReadActionDecision(model), browserBudget, onBrowserDiagnostic, nativeDiscoveryLimits, networkPolicy, selectedPacks),
+    search: new NativeRestaurantSearch(runtime, google, new ModelDiscoveryRetrievalPlanner(model,browserBudget), now, evaluationLocation, new ModelBrowserReadActionDecision(model), browserBudget, onBrowserDiagnostic, nativeDiscoveryLimits, networkPolicy, selectedPacks),
     facts: new SourceAwareFactRead(
       new NativeSourceFactRead(factLimits, runtime, new ModelRestaurantFactJudgment(model, now), now, new ModelBrowserReadActionDecision(model), browserBudget, onBrowserDiagnostic, networkPolicy),
       composeLiveRestaurantFactRead(factLimits, google, runtime, model, browserBudget, now, onBrowserDiagnostic),

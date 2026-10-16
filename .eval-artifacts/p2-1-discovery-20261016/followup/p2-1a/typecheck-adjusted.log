@@ -1,0 +1,9 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/domains/restaurant/agent-context.test.ts(208,36): error TS2322: Type '"15"' is not assignable to type '"16"'.
+src/integrations/restaurant-search/native-restaurant-search.ts(878,7): error TS2741: Property 'retrieval' is missing in type '{ sourceId: string; inspectedSourceIds: string[]; detailAttempts: number; pagesRead: number; elapsedMs: number; visitedListingUrls: string[]; pendingSourceEntries: { sourceEntityId: string; ... 5 more ...; sourceCategories?: string[]; }[]; pendingSourceIds: string[]; }' but required in type '{ retrieval: { selection?: import("../../domains/restaurant/discovery-retrieval.js").DiscoveryRetrievalSelection; rewrites: number; regionPages: number; retrievalPages: number; history: Array<{ selection: import("../../domains/restaurant/discovery-retrieval.js").DiscoveryRetrievalSelection; elapsedMs: number; parsed...'.
+src/integrations/restaurant-search/source-packs.test.ts(22,65): error TS2741: Property 'positiveCriteria' is missing in type '{ category: string; location: { latitude: number; longitude: number; radiusMeters: number; label: string; areaMatchBasis: "EVALUATION_LOCATION_RADIUS"; }; }' but required in type 'DiscoveryQuery'.
+src/integrations/restaurant-search/source-packs.test.ts(23,71): error TS2741: Property 'positiveCriteria' is missing in type '{ category: string; location: { latitude: number; longitude: number; radiusMeters: number; label: string; areaMatchBasis: "EVALUATION_LOCATION_RADIUS"; }; }' but required in type 'DiscoveryQuery'.
+src/integrations/restaurant-search/source-packs.test.ts(30,61): error TS2741: Property 'positiveCriteria' is missing in type '{ category: string; location: { latitude: number; longitude: number; radiusMeters: number; label: string; areaMatchBasis: "EVALUATION_LOCATION_RADIUS"; }; }' but required in type 'DiscoveryQuery'.

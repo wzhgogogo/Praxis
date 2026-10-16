@@ -88,7 +88,7 @@ export function discoveryProbeMetrics(input: DiscoveryProbeInput, witnesses: rea
     const query=frozenPlan.entries.find(entry=>entry.sourceId===row.sourceId)?.query;
     const fallback=pack&&query ? [{sourceUrl:pack.buildQuery(query).url,parsedOutlets:0}] : [];
     return (observations.length ? observations : fallback).map((observation, index) => {
-      const expression = pack?.browser?.directory?.retrievalExpression(observation.sourceUrl);
+      const expression = pack?.browser?.retrievalExpression(observation.sourceUrl);
       const planned = query;
       return { sourceId: row.sourceId, type: (expression ?? planned?.keyword) ? "KEYWORD" : "CATEGORY_OR_GENERAL_LIST", keyword: expression ?? planned?.keyword ?? null,
         categoryLabel: listings.find(l=>l.sourceId===row.sourceId&&l.url===observation.sourceUrl)?.categoryLabel ?? null, url: observation.sourceUrl, parsedCount: observations.length ? observation.parsedOutlets : null, displayedTotal: "resultCount" in observation ? observation.resultCount ?? null : null,
@@ -179,7 +179,8 @@ export async function runDiscoveryProbe(input: DiscoveryProbeInput, witnesses: r
     try {
       const read=await assembly.search.search({intent:input.intent,readRunId:input.caseId,
         continuation:{intentFingerprint:restaurantSearchIntentFingerprint(input.intent),usedPageTokens:[],pagesRead:0,exhausted:false,
-          locationContext:input.locationContext,discoveryPlan:{entries:plan.entries,cursor}}},signal);
+          locationContext:input.locationContext,discoveryPlan:{entries:plan.entries,cursor,...(plan.textRetrieval?{textRetrieval:plan.textRetrieval}:{})}}},signal);
+      if(read.continuation?.discoveryPlan?.textRetrieval)plan.textRetrieval=read.continuation.discoveryPlan.textRetrieval;
       reads.push({sourceId:entry.sourceId,read});record("SOURCE_FIRST_BATCH",{sourceId:entry.sourceId,read});
     } catch(error) {
       const partial=error&&typeof error==="object"&&"nativeFunnel" in error ? error.nativeFunnel as ProbeSourceRead["failedFunnel"] : undefined;

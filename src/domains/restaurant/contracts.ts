@@ -259,6 +259,7 @@ export interface RestaurantSearchRequest {
   /** Runtime-bound persistent task run identity for provider budget isolation. */
   readRunId?: string;
   /** Router-owned current pack query; adapters never derive it from free prose. */
+  discoveryRetrieval?: import("./discovery-retrieval.js").DiscoveryRetrievalSelection;
   discoveryQuery?: RestaurantDiscoveryPlan["entries"][number]["query"];
 }
 
@@ -271,11 +272,13 @@ export interface LocationAddressObservation {
 }
 
 export interface RestaurantDiscoveryPlan {
+  textRetrieval?: import("./discovery-retrieval.js").DiscoveryRetrievalSelection;
   entries: Array<{
     sourceId: string;
     query: {
       category: string;
       keyword?: string;
+      positiveCriteria: import("./discovery-retrieval.js").PositiveDiscoveryCriterion[];
       location: {
         latitude: number;
         longitude: number;
@@ -319,6 +322,7 @@ export interface RestaurantSearchContinuation {
    * request parameters of an already-issued provider cursor.
    */
   sourceRequestContext?: { textQuery: string };
+  structuredRetrieval?: import("./discovery-retrieval.js").DiscoveryRetrievalSelection;
   /**
    * Reducer-owned progress inside the current native source.  A discovery
    * chunk is deliberately smaller than the source ceiling; this cursor keeps
@@ -336,6 +340,7 @@ export interface RestaurantSearchContinuation {
     candidateIds: string[];
   };
   sourceProgress?: {
+    retrieval?: { selection?: import("./discovery-retrieval.js").DiscoveryRetrievalSelection; rewrites:number; regionPages:number; retrievalPages:number; history:Array<{selection:import("./discovery-retrieval.js").DiscoveryRetrievalSelection;elapsedMs:number;parsedCount:number}> };
     directoryRegion?: {
       first: { url: string; observedOn: string; targetRef: string; label?: string };
       firstFive: Array<{ sourceEntityId: string; sourceUrl: string; coordinates?: { latitude: number; longitude: number }; distanceMeters?: number; outcome: "WITHIN_RADIUS" | "OUTSIDE_RADIUS" | "UNKNOWN" }>;
@@ -522,6 +527,7 @@ export interface RestaurantReadExecutionMetadata {
     /** Source query and visible listing counts, distinct from detail admission. */
     listingObservations?: Array<{ sourceUrl: string; parsedOutlets: number; resultCount?: number; nextPageUrl?: string }>;
     queryAdjustment?: string;
+    retrieval?: NonNullable<RestaurantSearchContinuation["sourceProgress"]>["retrieval"];
     /** Observed detail entrances deliberately left for a later bounded batch; never rejections. */
     deferredByBatchCap: Array<{ sourceUrl: string; reasonCode: "DETAIL_BATCH_CAP" }>;
     rejected: Array<{ sourceUrl: string; reasonCode: string }>;
@@ -676,7 +682,7 @@ export interface VerifiedReservation {
 }
 
 export interface RestaurantTaskState {
-  schemaVersion: "15";
+  schemaVersion: "16";
   phase: RestaurantPhase;
   intentDraft?: RestaurantIntentDraft;
   intent?: RestaurantSearchIntent;

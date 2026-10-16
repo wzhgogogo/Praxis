@@ -1,0 +1,717 @@
+✔ planner passes positive criteria without mechanically choosing a retrieval keyword and retains supplied nearby coordinates (1.139542ms)
+✔ planner keeps negative-only criteria out of discovery text and routes recommendations away from reservation-only packs (1.031ms)
+✔ planner uses declared group capability without a Case identifier or a source-name branch (0.073875ms)
+✔ planner evaluates same-day capability in the intent timezone (9.167542ms)
+✖ H001 native first batch presents three source-bound Tabelog results without TableCheck (46.660708ms)
+✖ H001 native cited-menu follow-up carries source-bound HARD evidence to a current Tabelog result (15.016959ms)
+✖ H001 TableCheck reserve-menu scope reaches a synthetic-only current result without borrowing a sibling menu (8.508291ms)
+✖ H001 TableCheck reserve-menu scope can check availability before facts and exposes the service-radio prerequisite (7.09125ms)
+✖ H001 second native batch introduces its own TableCheck results after Tabelog cannot deliver (6.782042ms)
+✖ H001 native discovery uses the shared browser model loop to reveal an observed TableCheck result list (107.761208ms)
+✖ H001 native discovery uses an observed ordinary query submit only in its installed read boundary (6.314875ms)
+✖ H001 confirms a ready TableCheck query through live controls without mistaking hidden or script loading text for a pending search (5.829958ms)
+✔ H001 never admits stale busy discovery cards or an old explicit empty state after the browser declines a current-query action (12.437416ms)
+✔ native source session acquisition consumes the remaining source window and retains an unstarted detail entrance (1.813666ms)
+✖ Tabelog keeps the structured HARD retrieval keyword when an Agent hint repeats the whole reservation request (0.584083ms)
+✔ the production Router advances the default three-pack cursor and reaches Google Nearby Search after bounded source batches (2.555958ms)
+✔ fixed TableCheck discovery stores the actual filled value and cannot reveal the current result after a wrong fill (0.310541ms)
+✖ H001 two bounded empty source batches cannot claim inventory or results (6.099ms)
+✖ H001 both source lists reject page-owned coordinates outside the existing area radius (5.631292ms)
+✖ H001 one Tabelog detail failure retains earlier candidates and continues to the next detail (6.123625ms)
+✖ H001 rejects an early END_READ after an empty Tabelog batch and continues to TableCheck (5.521959ms)
+✖ H001 native Tabelog batch continues past unavailable and unknown outlets, then presents its qualified outlet (7.324791ms)
+✖ H001 native TableCheck batch continues after one nonqualifying outlet and presents the next (5.742916ms)
+✖ H001 open-ended native target three delivers one qualified outlet when the first batch is complete (5.407791ms)
+✖ H001 two investigated native batches with no qualified outlet stop without an inventory claim (5.336459ms)
+✖ H001 TableCheck search with a raw link but no parsed outlet retains the observed funnel and fails incomplete (7.520834ms)
+✖ H001 enters the observed named Shibuya directory with the authoritative keyword (5.352167ms)
+✖ native discovery adjusts a sparse keyword through an observed category without relaxing HARD facts (5.919584ms)
+✖ native discovery rejects a category result that leaves the observed regional listing root (5.909875ms)
+✖ native discovery retains category pagination including links revealed by a query action and deduplicates outlets (5.831208ms)
+✖ H001's named Shibuya entry avoids an unrelated root-list candidate before investigation (5.819625ms)
+✔ native discovery refuses a broad listing when an observed regional entrance redirects away (5.56425ms)
+✖ native discovery reaches a neutral locality only through its observed source-region entrance (5.888417ms)
+✖ native discovery restores an observed regional listing after same-region homepage canonicalization (8.844833ms)
+✔ native discovery does not treat an unscoped national homepage as the observed regional homepage (6.721625ms)
+✖ H001 presents one investigated Tabelog current-batch result without exhausting the source or starting TableCheck (7.003792ms)
+✖ H001 presents one investigated TableCheck current-batch result without reading a second TableCheck chunk (5.402875ms)
+✖ H001 consumes a retained Tabelog detail entrance without reopening a volatile listing (7.043ms)
+✖ H001 retains unstarted Tabelog entries when a failed detail cannot reopen its session (7.001334ms)
+✖ native detail chunk continues through later observed Tabelog results before changing source (7.112041ms)
+✖ H001 rejects early end and short presentation after TableCheck discovery until its batch is investigated (7.711709ms)
+✖ WP-A offline composition captures every model call including a timeout and links browser observations to DOM snapshots (11.295125ms)
+{"decisionCaptureError":{"operation":"CREATE","errorCode":"ENOENT"}}
+✔ WP-A capture keeps model results and errors when storage fails, and finalizes an outstanding deadline call once (1.278791ms)
+✔ coordinate-only discovery passes source-attributed address observations, including failure, to browser input (0.942625ms)
+✖ P1-G repeated already-checked availability ends honestly: NATIVE_TRUE_NO_RESULT (449.773666ms)
+✖ P1-G repeated already-checked availability ends honestly: TABELOG_CURRENT_BATCH_DELIVERS (7.607542ms)
+✔ P1-G unresolved location NO_PROGRESS gives an honest user outcome (2.758625ms)
+✖ T1 production assembly shares Live limits after more than twelve actual availability model calls (discoveryPacks=tabelog,tablecheck) (5.804ms)
+✔ T1 Runner and Web assemblies expose equal effective limits and independent run budgets (0.166916ms)
+✖ P21 discovery probe uses production assembly/Guard for one first batch and never availability (3.212125ms)
+✔ P21 failed model calls count toward the shared probe ceiling; later source is not started (0.5935ms)
+✔ directory Agent uses observed references; a proved wrong first entry is replaced once without resetting progress (13.561083ms)
+✔ unknown coordinates do not establish a wrong entry and cannot admit candidates (2.288416ms)
+✔ only four proved outside among exactly five allow one replacement; spent deadline stays spent (0.257459ms)
+✔ a named request continues through an unrelated parent menu before admitting child-list details (2.185042ms)
+✔ directory navigation timeout retains its runtime code rather than claiming no observed region (0.763125ms)
+✔ native source-plan resolution is reused by the subsequent Google pack request (12.641209ms)
+✔ coordinate-only address observations reach the discovery goal once and failures keep the exact center (1.118791ms)
+ℹ tests 58
+ℹ suites 0
+ℹ pass 22
+ℹ fail 36
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1320.454792
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:17588
+✖ H001 native first batch presents three source-bound Tabelog results without TableCheck (46.660708ms)
+  AssertionError [ERR_ASSERTION]: {"phase":"NO_VERIFIED_RESULT","candidates":[],"checks":{},"factChecks":{},"continuation":{"intentFingerprint":"{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"omakase spot\",\"selectionScope\":\"OPEN_ENDED\"},\"date\":\"2026-08-19\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":2,\"area\":{\"query\":\"near Shibuya\"},\"criteria\":[{\"text\":\"omakase\",\"strength\":\"HARD\",\"polarity\":\"POSITIVE\"}]}","discoveryPlan":{"entries":[{"sourceId":"tabelog","query":{"category":"restaurant","positiveCriteria":[{"criterionRef":"criterion:0","text":"omakase","strength":"HARD"}],"location":{"latitude":35.6619707,"longitude":139.703795,"radiusMeters":1000,"label":"Shibuya","areaMatchBasis":"NAMED_PLACE_RADIUS","addressComponents":[{"longText":"Shibuya","types":["locality","political"]}]}}},{"sourceId":"tablecheck","query":{"category":"restaurant","positiveCriteria":[{"criterionRef":"criterion:0","text":"omakase","strength":"HARD"}],"location":{"latitude":35.6619707,"longitude":139.703795,"radiusMeters":1000,"label":"Shibuya","areaMatchBasis":"NAMED_PLACE_RADIUS","addressComponents":[{"longText":"Shibuya","types":["locality","political"]}]}}},{"sourceId":"google-places","query":{"category":"restaurant","positiveCriteria":[{"criterionRef":"criterion:0","text":"omakase","strength":"HARD"}],"location":{"latitude":35.6619707,"longitude":139.703795,"radiusMeters":1000,"label":"Shibuya","areaMatchBasis":"NAMED_PLACE_RADIUS","addressComponents":[{"longText":"Shibuya","types":["locality","political"]}]}}}],"cursor":1},"currentDiscoveryBatch":{"sourceId":"tabelog","candidateIds":[]},"usedPageTokens":[],"pagesRead":2,"exhausted":false,"sourceProgress":{"retrieval":{"rewrites":0,"regionPages":2,"retrievalPages":0,"history":[]},"directoryRegion":{"first":{"url":"https://tabelog.com/en/tokyo/A1303/A130301/rstLst/?sw=omakase","observedOn":"https://tabelog.com/en/tokyo/rstLst/","targetRef":"observation:1:target:1","label":"Shibuya"},"firstFive":[]},"sourceId":"tabelog","inspectedSourceIds":[],"detailAttempts":0,"pagesRead":2,"elapsedMs":8,"visitedListingUrls":["https://tabelog.com/en/tokyo/rstLst/","https://tabelog.com/en/tokyo/A1303/A130301/rstLst/?sw=omakase"],"pendingSourceEntries":[],"pendingSourceIds":[]},"lastFailureCode":"DIRECTORY_NATIVE_DISCOVERY_FAILED","locationContext":{"latitude":35.6619707,"longitude":139.703795,"radiusMeters":1000,"label":"Shibuya","areaMatchBasis":"NAMED_PLACE_RADIUS","addressComponents":[{"longText":"Shibuya","types":["locality","political"]}]}},"navigations":["https://tabelog.com/en/tokyo/rstLst/","https://tabelog.com/en/tokyo/A1303/A130301/rstLst/?sw=omakase"],"purposes":["restaurant_semantic_interpret","restaurant_agent_decide","browser_read_decide","restaurant_discovery_retrieval","restaurant_agent_decide","restaurant_discovery_retrieval","restaurant_agent_decide","restaurant_discovery_retrieval","restaurant_agent_decide","restaurant_discovery_retrieval","restaurant_agent_decide","restaurant_discovery_retrieval","restaurant_agent_decide","restaurant_discovery_retrieval"]}
+  
+  undefined !== 3
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:281:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 3,
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:19196
+✖ H001 native cited-menu follow-up carries source-bound HARD evidence to a current Tabelog result (15.016959ms)
+  AssertionError [ERR_ASSERTION]: {"phase":"NO_VERIFIED_RESULT","facts":{},"availability":{},"purposes":["restaurant_semantic_interpret","restaurant_agent_decide","browser_read_decide","restaurant_discovery_retrieval","restaurant_agent_decide","restaurant_discovery_retrieval","restaurant_agent_decide","restaurant_discovery_retrieval","restaurant_agent_decide","restaurant_discovery_retrieval","restaurant_agent_decide","restaurant_discovery_retrieval","restaurant_agent_decide","restaurant_discovery_retrieval"],"navigations":["https://tabelog.com/en/tokyo/rstLst/","https://tabelog.com/en/tokyo/A1303/A130301/rstLst/?sw=omakase"]}
+  + actual - expected
+  
+  + undefined
+  - [
+  -   'tabelog:tokyo/A1304/A130401/100'
+  - ]
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:296:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: [ 'tabelog:tokyo/A1304/A130401/100' ],
+    operator: 'deepStrictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:20136
+✖ H001 TableCheck reserve-menu scope reaches a synthetic-only current result without borrowing a sibling menu (8.508291ms)
+  AssertionError [ERR_ASSERTION]: {"phase":"NO_VERIFIED_RESULT","facts":{},"availability":{},"purposes":["restaurant_semantic_interpret","restaurant_agent_decide","browser_read_decide","restaurant_discovery_retrieval","restaurant_agent_decide","restaurant_discovery_retrieval","restaurant_agent_decide","restaurant_discovery_retrieval","restaurant_agent_decide","restaurant_discovery_retrieval","restaurant_agent_decide","restaurant_discovery_retrieval","restaurant_agent_decide","restaurant_discovery_retrieval"],"browserInputs":[{"objective":"Select the most specific observed public region/station entrance for the authoritative location. Follow observed links through region menus as needed, or fill the observed public location search using LOCATION. Reveal its public restaurant list; do not open restaurant details yet.","progress":"Follow an observed region entrance naming the requested area, continuing through a broader parent menu if necessary; observe its public results.","observation":{"targets":[{"ref":"observation:1:target:1","kind":"LINK","role":"link","label":"Shibuya","href":"https://tabelog.com/en/tokyo/A1303/A130301/rstLst/?sw=omakase","availableActions":["OPEN_LINK"]}],"pageActions":["WAIT"]},"skillSource":"# Tabelog Public Read\n\nUse only the supplied public Tabelog search and restaurant pages. Open only observed public links relevant to the stated objective: restaurant results, listing categories, query-filter removal, and result pagination. Treat challenge pages, external reservation providers, login, and booking paths as stop conditions; do not bypass a challenge or follow an external provider.\n\nCheckbox/range changes require an explicit source-owned query contract; GET form structure alone is not permission. When a public Tabelog availability surface has observed date and party controls, set only the authoritative values and re-observe before reading explicitly available time controls. Do not treat rankings, reviews, restaurant names, or prose times as identity or availability evidence.\n\nNever submit a reservation, enter personal details, or navigate outside the allowed Tabelog origin.\n\nOn an observed public listing search input, Discovery may fill only the supplied retrieval expression. Re-observe the current page and use an observed public query control or current result; never use the field to change the area, HARD criteria, date, party size, or time.\n\nWhen Discovery explicitly asks to broaden a sparse keyword query, choose a relevant category from the site's observed Search by category links and use its keyword-removal link if necessary. The observed `All` link in Search by category opens the category panel; use its permitted CLICK action, then re-observe the category choices. Do not guess that an unlabeled button opens this panel. Category links may preserve the old keyword. Keep the same area. A category is only a discovery lead; it does not establish that any restaurant satisfies a HARD criterion. Follow only an observed next-results link for pagination.\n\nThe source may label nonstandard calendar controls as `Date YYYY-MM-DD` and guest controls as `Guests N`. These labels are derived from the observed element, not the task goal. Use CLICK_AUTHORITATIVE with DATE or PARTY_SIZE for the exact requested value. Selected query controls and visible time choices alone do not establish bookable inventory.\n\nWait for a visible selectable date and an enabled visible guest control on the current calendar. Hidden future-month dates and disabled guest controls do not make the query ready. If the source reports that the current guest query cannot be adjusted, stop with a source-control limit; do not infer no availability for the requested date.\n\nThe observed English calendar time buttons navigate into booking forms. They are evidence-only; do not click them to inspect availability. Source-owned verification reads only captured public vacancy-query responses with matching merchant/date/party/time."}],"navigations":["https://tabelog.com/en/tokyo/rstLst/","https://tabelog.com/en/tokyo/A1303/A130301/rstLst/?sw=omakase"]}
+  + actual - expected
+  
+  + undefined
+  - [
+  -   'tablecheck:native-omakase-1'
+  - ]
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:304:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: [ 'tablecheck:native-omakase-1' ],
+    operator: 'deepStrictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:22827
+✖ H001 TableCheck reserve-menu scope can check availability before facts and exposes the service-radio prerequisite (7.09125ms)
+  AssertionError [ERR_ASSERTION]: {"phase":"NO_VERIFIED_RESULT","facts":{},"availability":{},"purposes":["restaurant_semantic_interpret","restaurant_agent_decide","browser_read_decide","restaurant_discovery_retrieval","restaurant_agent_decide","restaurant_discovery_retrieval","restaurant_agent_decide","restaurant_discovery_retrieval","restaurant_agent_decide","restaurant_discovery_retrieval","restaurant_agent_decide","restaurant_discovery_retrieval","restaurant_agent_decide","restaurant_discovery_retrieval"]}
+  + actual - expected
+  
+  + undefined
+  - [
+  -   'tablecheck:native-omakase-1'
+  - ]
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:326:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: [ 'tablecheck:native-omakase-1' ],
+    operator: 'deepStrictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:25477
+✖ H001 second native batch introduces its own TableCheck results after Tabelog cannot deliver (6.782042ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  undefined !== 3
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:351:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 3,
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:26175
+✖ H001 native discovery uses the shared browser model loop to reveal an observed TableCheck result list (107.761208ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.equal(result.navigations.some((url) => url.startsWith("https://www.tablecheck.com/en/shops/native-omakase-1/reserve")), true, "the scoped menu comes from the guide-observed same-outlet reserve entrance")
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:361:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:27611
+✖ H001 native discovery uses an observed ordinary query submit only in its installed read boundary (6.314875ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + undefined
+  - [
+  -   'tablecheck:native-omakase-1'
+  - ]
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:374:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: [ 'tablecheck:native-omakase-1' ],
+    operator: 'deepStrictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:28113
+✖ H001 confirms a ready TableCheck query through live controls without mistaking hidden or script loading text for a pending search (5.829958ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + undefined
+  - [
+  -   'tablecheck:native-omakase-1'
+  - ]
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:381:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: [ 'tablecheck:native-omakase-1' ],
+    operator: 'deepStrictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:31321
+✖ Tabelog keeps the structured HARD retrieval keyword when an Agent hint repeats the whole reservation request (0.584083ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  null !== 'omakase'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:437:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: 'omakase',
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:37569
+✖ H001 two bounded empty source batches cannot claim inventory or results (6.099ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:513:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:38160
+✖ H001 both source lists reject page-owned coordinates outside the existing area radius (5.631292ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:524:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:39101
+✖ H001 one Tabelog detail failure retains earlier candidates and continues to the next detail (6.123625ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + []
+  - [
+  -   'tabelog:tokyo/A1304/A130401/100',
+  -   'tabelog:tokyo/A1304/A130401/102'
+  - ]
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:537:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [],
+    expected: [ 'tabelog:tokyo/A1304/A130401/100', 'tabelog:tokyo/A1304/A130401/102' ],
+    operator: 'deepStrictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:40142
+✖ H001 rejects an early END_READ after an empty Tabelog batch and continues to TableCheck (5.521959ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:553:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:40633
+✖ H001 native Tabelog batch continues past unavailable and unknown outlets, then presents its qualified outlet (7.324791ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + undefined
+  - [
+  -   'tabelog:tokyo/A1304/A130401/102'
+  - ]
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:560:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: [ 'tabelog:tokyo/A1304/A130401/102' ],
+    operator: 'deepStrictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:41733
+✖ H001 native TableCheck batch continues after one nonqualifying outlet and presents the next (5.742916ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + undefined
+  - [
+  -   'tablecheck:native-omakase-2'
+  - ]
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:573:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: [ 'tablecheck:native-omakase-2' ],
+    operator: 'deepStrictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:42393
+✖ H001 open-ended native target three delivers one qualified outlet when the first batch is complete (5.407791ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  3 !== undefined
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:583:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 3,
+    expected: undefined,
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:43171
+✖ H001 two investigated native batches with no qualified outlet stop without an inventory claim (5.336459ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:593:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:43682
+✖ H001 TableCheck search with a raw link but no parsed outlet retains the observed funnel and fails incomplete (7.520834ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'DISCOVERY_SOURCE_INCOMPLETE'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:601:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'DISCOVERY_SOURCE_INCOMPLETE',
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:44955
+✖ H001 enters the observed named Shibuya directory with the authoritative keyword (5.352167ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:620:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:45362
+✖ native discovery adjusts a sparse keyword through an observed category without relaxing HARD facts (5.919584ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + undefined
+  - [
+  -   'tabelog:tokyo/A1304/A130401/101'
+  - ]
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:625:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: [ 'tabelog:tokyo/A1304/A130401/101' ],
+    operator: 'deepStrictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:46015
+✖ native discovery rejects a category result that leaves the observed regional listing root (5.909875ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:634:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:46500
+✖ native discovery retains category pagination including links revealed by a query action and deduplicates outlets (5.831208ms)
+  AssertionError [ERR_ASSERTION]: {"navigations":["https://tabelog.com/en/tokyo/rstLst/","https://tabelog.com/en/tokyo/A1303/A130301/rstLst/?sw=omakase"],"search":{"intentFingerprint":"{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"omakase spot\",\"selectionScope\":\"OPEN_ENDED\"},\"date\":\"2026-08-19\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":2,\"area\":{\"query\":\"near Shibuya\"},\"criteria\":[{\"text\":\"omakase\",\"strength\":\"HARD\",\"polarity\":\"POSITIVE\"}]}","discoveryPlan":{"entries":[{"sourceId":"tabelog","query":{"category":"restaurant","positiveCriteria":[{"criterionRef":"criterion:0","text":"omakase","strength":"HARD"}],"location":{"latitude":35.6619707,"longitude":139.703795,"radiusMeters":1000,"label":"Shibuya","areaMatchBasis":"NAMED_PLACE_RADIUS","addressComponents":[{"longText":"Shibuya","types":["locality","political"]}]}}},{"sourceId":"tablecheck","query":{"category":"restaurant","positiveCriteria":[{"criterionRef":"criterion:0","text":"omakase","strength":"HARD"}],"location":{"latitude":35.6619707,"longitude":139.703795,"radiusMeters":1000,"label":"Shibuya","areaMatchBasis":"NAMED_PLACE_RADIUS","addressComponents":[{"longText":"Shibuya","types":["locality","political"]}]}}}],"cursor":1},"currentDiscoveryBatch":{"sourceId":"tabelog","candidateIds":[]},"usedPageTokens":[],"pagesRead":2,"exhausted":false,"sourceProgress":{"retrieval":{"rewrites":0,"regionPages":2,"retrievalPages":0,"history":[]},"directoryRegion":{"first":{"url":"https://tabelog.com/en/tokyo/A1303/A130301/rstLst/?sw=omakase","observedOn":"https://tabelog.com/en/tokyo/rstLst/","targetRef":"observation:1:target:1","label":"Shibuya"},"firstFive":[]},"sourceId":"tabelog","inspectedSourceIds":[],"detailAttempts":0,"pagesRead":2,"elapsedMs":0,"visitedListingUrls":["https://tabelog.com/en/tokyo/rstLst/","https://tabelog.com/en/tokyo/A1303/A130301/rstLst/?sw=omakase"],"pendingSourceEntries":[],"pendingSourceIds":[]},"lastFailureCode":"DIRECTORY_NATIVE_DISCOVERY_FAILED","locationContext":{"latitude":35.6619707,"longitude":139.703795,"radiusMeters":1000,"label":"Shibuya","areaMatchBasis":"NAMED_PLACE_RADIUS","addressComponents":[{"longText":"Shibuya","types":["locality","political"]}]}},"metadata":[{"provider":"TABELOG","route":"GENERIC_BROWSER","latencyMs":0,"nativeDiscoveryFunnel":{"directoryRegion":{"first":{"url":"https://tabelog.com/en/tokyo/A1303/A130301/rstLst/?sw=omakase","observedOn":"https://tabelog.com/en/tokyo/rstLst/","targetRef":"observation:1:target:1","label":"Shibuya"},"firstFive":[]},"source":"TABELOG","rawSourceLinks":1,"parsedOutlets":0,"inspectedOutlets":0,"batchCap":5,"sourceDetailCap":10,"sourceDetailAttempts":0,"deferredByBatchCap":[],"rejected":[],"accepted":0,"sourcePageCap":7,"sourceElapsedCapMs":90000,"sourceElapsedMs":0,"sourceTimeLimitReached":false,"pagesRead":2,"batchLimitReached":false,"sourceExhausted":"UNKNOWN","batchEnded":true,"sourceEnded":true,"progressionReason":"SOURCE_FAILURE","listingObservations":[{"sourceUrl":"https://tabelog.com/en/tokyo/rstLst/","parsedOutlets":0},{"sourceUrl":"https://tabelog.com/en/tokyo/A1303/A130301/rstLst/?sw=omakase","parsedOutlets":1,"resultCount":7},{"sourceUrl":"https://tabelog.com/en/tokyo/A1303/A130301/rstLst/?sw=omakase","parsedOutlets":1,"resultCount":7}],"retrieval":{"rewrites":0,"regionPages":2,"retrievalPages":0,"history":[]}},"failureCode":"DIRECTORY_NATIVE_DISCOVERY_FAILED","googleRequests":{"limit":100,"total":1,"namedPlaceResolution":1,"discovery":0,"placeDetails":0,"reverseAddressObservation":0}},{"provider":"AVAILABILITY_SOURCE_RESOLVER","route":"GENERIC_BROWSER","latencyMs":0,"failureCode":"SEARCH_FAILED","googleRequests":{"limit":100,"total":1,"namedPlaceResolution":1,"discovery":0,"placeDetails":0,"reverseAddressObservation":0}},{"provider":"AVAILABILITY_SOURCE_RESOLVER","route":"GENERIC_BROWSER","latencyMs":0,"failureCode":"SEARCH_FAILED","googleRequests":{"limit":100,"total":1,"namedPlaceResolution":1,"discovery":0,"placeDetails":0,"reverseAddressObservation":0}},{"provider":"AVAILABILITY_SOURCE_RESOLVER","route":"GENERIC_BROWSER","latencyMs":0,"failureCode":"SEARCH_FAILED","googleRequests":{"limit":100,"total":1,"namedPlaceResolution":1,"discovery":0,"placeDetails":0,"reverseAddressObservation":0}},{"provider":"AVAILABILITY_SOURCE_RESOLVER","route":"GENERIC_BROWSER","latencyMs":0,"failureCode":"SEARCH_FAILED","googleRequests":{"limit":100,"total":1,"namedPlaceResolution":1,"discovery":0,"placeDetails":0,"reverseAddressObservation":0}},{"provider":"AVAILABILITY_SOURCE_RESOLVER","route":"GENERIC_BROWSER","latencyMs":0,"failureCode":"SEARCH_FAILED","googleRequests":{"limit":100,"total":1,"namedPlaceResolution":1,"discovery":0,"placeDetails":0,"reverseAddressObservation":0}}]}
+  + actual - expected
+  
+  + undefined
+  - [
+  -   'tabelog:tokyo/A1304/A130401/106'
+  - ]
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:641:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: [ 'tabelog:tokyo/A1304/A130401/106' ],
+    operator: 'deepStrictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:47911
+✖ H001's named Shibuya entry avoids an unrelated root-list candidate before investigation (5.819625ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + undefined
+  - [
+  -   'tabelog:tokyo/A1304/A130401/100'
+  - ]
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:655:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: [ 'tabelog:tokyo/A1304/A130401/100' ],
+    operator: 'deepStrictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:49110
+✖ native discovery reaches a neutral locality only through its observed source-region entrance (5.888417ms)
+  AssertionError [ERR_ASSERTION]: {"phase":"NO_VERIFIED_RESULT","navigations":["https://tabelog.com/en/tokyo/rstLst/","https://tabelog.com/en/tokyo/A1302/A130201/rstLst/"],"candidates":[],"facts":{},"availability":{},"trajectories":[{"id":"trajectory:native-h001:TABELOG_NEUTRAL_REGION_RECOVERS:1","taskId":"native-h001:TABELOG_NEUTRAL_REGION_RECOVERS","stepNumber":1,"occurredAt":"2026-08-19T07:20:00.000Z","stateVersionBefore":1,"stateHashBefore":"bbe2f358236653dd47e79aafed889bef2fa9302f89bfc401927f24511606a90e","causalRefs":{"eventIds":["event:restaurant-agent:1"],"commandIds":[],"attemptIds":[],"evidenceIds":[]},"capabilities":[{"name":"ASK_USER","purpose":"Request a user clarification that is necessary or useful to proceed safely.","inputSchema":"question, optional relatedFields","resultMeaning":"The task waits for a new user message; no state constraint is changed.","importantConstraints":["Do not claim a booking or availability result."]},{"name":"SEARCH_RESTAURANTS","purpose":"Discover matching restaurant outlets.","inputSchema":"optional retrievalHint; the router binds authoritative intent","resultMeaning":"Returns RestaurantCandidate records only, without availability claims.","importantConstraints":["Cannot modify, repeat, or loosen authoritative user constraints."]},{"name":"INVESTIGATE_CANDIDATE_FACTS","purpose":"Read source-supported restaurant facts needed by the current request for known candidates.","inputSchema":"candidateIds; the router binds candidates and authoritative request conditions","resultMeaning":"Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.","importantConstraints":["Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."]},{"name":"CHECK_AVAILABILITY","purpose":"Read request-bound availability and any source-supported restaurant facts returned with it.","inputSchema":"candidateIds; the router binds authoritative date, time window, and party size","resultMeaning":"Returns fresh AvailabilityOffer records associated with candidate IDs.","importantConstraints":["Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."]},{"name":"END_READ","purpose":"End a bounded read-only investigation when its recorded scope has no grounded result to present.","inputSchema":"no business fields; optional short decision summary is trajectory-only","resultMeaning":"Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.","importantConstraints":["Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."]},{"name":"PRESENT_RESULTS","purpose":"Pause a read-only selection session with candidates whose required facts and availability are grounded.","inputSchema":"candidateIds; validator derives the required evidence from authoritative State","resultMeaning":"Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.","importantConstraints":["Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."]},{"name":"SELECT_CANDIDATE","purpose":"Choose a discovered candidate and optionally its known offer for a possible booking proposal.","inputSchema":"candidateId, optional offerId","resultMeaning":"Records the selection; it does not authorize or submit a booking.","importantConstraints":["A selected offer must belong to the selected candidate."]},{"name":"BOOK_RESERVATION","purpose":"Request a booking proposal for one selected fresh offer.","inputSchema":"candidateId, offerId","resultMeaning":"Creates a deterministic ActionProposal and waits for valid user authorization.","importantConstraints":["Cannot authorize, commit, or claim success."]}],"contextSchemaVersion":"11","decisionContext":{"schemaVersion":"11","now":"2026-08-19T07:20:00.000Z","phase":"UNDERSTANDING","intentDraft":{"schemaVersion":"3","timezone":"Asia/Tokyo","criteria":[{"text":"omakase","strength":"HARD","polarity":"POSITIVE"}],"target":{"goal":"AVAILABILITY","query":"omakase spot","selectionScope":"OPEN_ENDED"},"date":"2026-08-19","timeWindow":{"earliest":"19:00","latest":"19:00"},"temporalResolution":{"policyVersion":"restaurant-temporal-materialization@6","referenceTime":"2026-08-19T16:20:00+08:00","timezone":"Asia/Tokyo","date":{"expression":"tonight","resolvedDate":"2026-08-19","basis":"EXPLICIT_DATE"},"timeWindow":{"expression":"7 PM","resolvedTimeWindow":{"earliest":"19:00","latest":"19:00"},"basis":"EXPLICIT_CLOCK"}},"partySize":2,"area":{"query":"near Higashi-Ginza"}},"missingBlockingFields":[],"candidates":[],"availability":{},"availabilityChecks":{},"presentation":[],"searchAvailability":{"available":true},"readCompletion":{"allowed":false,"investigationRecorded":false,"unresolvedCandidateIds":[],"reason":"No actual source investigation is recorded"},"legalActions":{"search":true,"investigateCandidateFacts":[],"checkAvailability":[],"presentResults":[],"endRead":false}},"agentAction":{"type":"SEARCH_RESTAURANTS"},"decisionSummary":"Use current evidence","modelAttempt":{"invocationId":"restaurant_agent_decide","provider":"FIXTURE","model":"scripted-boundary","purpose":"restaurant_agent_decide","promptVersion":"25","outputSchema":{"name":"restaurant_agent_action","version":"4"},"finishReason":"TOOL_CALLS","latencyMs":0},"actionValidation":{"status":"ALLOWED"},"executionRoute":"GENERIC_BROWSER","executionMetadata":{"provider":"TABELOG","route":"GENERIC_BROWSER","latencyMs":0,"nativeDiscoveryFunnel":{"directoryRegion":{"first":{"url":"https://tabelog.com/en/tokyo/A1302/A130201/rstLst/","observedOn":"https://tabelog.com/en/tokyo/rstLst/","targetRef":"observation:1:target:1","label":"Higashi-Ginza"},"firstFive":[]},"source":"TABELOG","rawSourceLinks":1,"parsedOutlets":0,"inspectedOutlets":0,"batchCap":5,"sourceDetailCap":10,"sourceDetailAttempts":0,"deferredByBatchCap":[],"rejected":[],"accepted":0,"sourcePageCap":7,"sourceElapsedCapMs":90000,"sourceElapsedMs":0,"sourceTimeLimitReached":false,"pagesRead":2,"batchLimitReached":false,"sourceExhausted":"UNKNOWN","batchEnded":true,"sourceEnded":true,"progressionReason":"SOURCE_FAILURE","listingObservations":[{"sourceUrl":"https://tabelog.com/en/tokyo/rstLst/","parsedOutlets":0},{"sourceUrl":"https://tabelog.com/en/tokyo/A1302/A130201/rstLst/","parsedOutlets":1,"resultCount":1},{"sourceUrl":"https://tabelog.com/en/tokyo/A1302/A130201/rstLst/","parsedOutlets":1,"resultCount":1}],"retrieval":{"rewrites":0,"regionPages":2,"retrievalPages":0,"history":[]}},"failureCode":"DIRECTORY_NATIVE_DISCOVERY_FAILED","googleRequests":{"limit":100,"total":1,"namedPlaceResolution":1,"discovery":0,"placeDetails":0,"reverseAddressObservation":0}},"observation":{"type":"DISCOVERY","detail":"0 candidates discovered; 0 newly accepted","candidateIds":[],"newCandidateIds":[],"evidenceIds":["62ad28d6637e1cc04df0fdce8e2c9c73d728937875c6b309e1bc87909cd538b2"]},"stateVersionAfter":2,"stateHashAfter":"471b0ace0fa660f1ecaf9f8ff647758edb57ad84a542e6c8e3ef6e961ec1a26a","stepOutcome":"EXECUTED"},{"id":"trajectory:native-h001:TABELOG_NEUTRAL_REGION_RECOVERS:2","taskId":"native-h001:TABELOG_NEUTRAL_REGION_RECOVERS","stepNumber":2,"occurredAt":"2026-08-19T07:20:00.000Z","stateVersionBefore":2,"stateHashBefore":"471b0ace0fa660f1ecaf9f8ff647758edb57ad84a542e6c8e3ef6e961ec1a26a","causalRefs":{"eventIds":["event:restaurant-agent:2"],"commandIds":[],"attemptIds":[],"evidenceIds":[]},"capabilities":[{"name":"ASK_USER","purpose":"Request a user clarification that is necessary or useful to proceed safely.","inputSchema":"question, optional relatedFields","resultMeaning":"The task waits for a new user message; no state constraint is changed.","importantConstraints":["Do not claim a booking or availability result."]},{"name":"SEARCH_RESTAURANTS","purpose":"Discover matching restaurant outlets.","inputSchema":"optional retrievalHint; the router binds authoritative intent","resultMeaning":"Returns RestaurantCandidate records only, without availability claims.","importantConstraints":["Cannot modify, repeat, or loosen authoritative user constraints."]},{"name":"INVESTIGATE_CANDIDATE_FACTS","purpose":"Read source-supported restaurant facts needed by the current request for known candidates.","inputSchema":"candidateIds; the router binds candidates and authoritative request conditions","resultMeaning":"Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.","importantConstraints":["Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."]},{"name":"CHECK_AVAILABILITY","purpose":"Read request-bound availability and any source-supported restaurant facts returned with it.","inputSchema":"candidateIds; the router binds authoritative date, time window, and party size","resultMeaning":"Returns fresh AvailabilityOffer records associated with candidate IDs.","importantConstraints":["Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."]},{"name":"END_READ","purpose":"End a bounded read-only investigation when its recorded scope has no grounded result to present.","inputSchema":"no business fields; optional short decision summary is trajectory-only","resultMeaning":"Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.","importantConstraints":["Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."]},{"name":"PRESENT_RESULTS","purpose":"Pause a read-only selection session with candidates whose required facts and availability are grounded.","inputSchema":"candidateIds; validator derives the required evidence from authoritative State","resultMeaning":"Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.","importantConstraints":["Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."]},{"name":"SELECT_CANDIDATE","purpose":"Choose a discovered candidate and optionally its known offer for a possible booking proposal.","inputSchema":"candidateId, optional offerId","resultMeaning":"Records the selection; it does not authorize or submit a booking.","importantConstraints":["A selected offer must belong to the selected candidate."]},{"name":"BOOK_RESERVATION","purpose":"Request a booking proposal for one selected fresh offer.","inputSchema":"candidateId, offerId","resultMeaning":"Creates a deterministic ActionProposal and waits for valid user authorization.","importantConstraints":["Cannot authorize, commit, or claim success."]}],"contextSchemaVersion":"11","decisionContext":{"schemaVersion":"11","now":"2026-08-19T07:20:00.000Z","phase":"SEARCHING","intentDraft":{"schemaVersion":"3","timezone":"Asia/Tokyo","criteria":[{"text":"omakase","strength":"HARD","polarity":"POSITIVE"}],"target":{"goal":"AVAILABILITY","query":"omakase spot","selectionScope":"OPEN_ENDED"},"date":"2026-08-19","timeWindow":{"earliest":"19:00","latest":"19:00"},"temporalResolution":{"policyVersion":"restaurant-temporal-materialization@6","referenceTime":"2026-08-19T16:20:00+08:00","timezone":"Asia/Tokyo","date":{"expression":"tonight","resolvedDate":"2026-08-19","basis":"EXPLICIT_DATE"},"timeWindow":{"expression":"7 PM","resolvedTimeWindow":{"earliest":"19:00","latest":"19:00"},"basis":"EXPLICIT_CLOCK"}},"partySize":2,"area":{"query":"near Higashi-Ginza"}},"intent":{"timezone":"Asia/Tokyo","target":{"goal":"AVAILABILITY","query":"omakase spot","selectionScope":"OPEN_ENDED"},"date":"2026-08-19","timeWindow":{"earliest":"19:00","latest":"19:00"},"partySize":2,"area":{"query":"near Higashi-Ginza"},"criteria":[{"text":"omakase","strength":"HARD","polarity":"POSITIVE"}]},"missingBlockingFields":[],"candidates":[],"availability":{},"availabilityChecks":{},"presentation":[],"searchAvailability":{"available":true},"readCompletion":{"allowed":false,"investigationRecorded":true,"unresolvedCandidateIds":[],"reason":"A bounded discovery-plan source remains unread"},"legalActions":{"search":true,"investigateCandidateFacts":[],"checkAvailability":[],"presentResults":[],"endRead":false},"resultBatchTarget":{"candidateCount":3,"excludeCandidateIds":[]}},"agentAction":{"type":"SEARCH_RESTAURANTS"},"decisionSummary":"Use current evidence","modelAttempt":{"invocationId":"restaurant_agent_decide","provider":"FIXTURE","model":"scripted-boundary","purpose":"restaurant_agent_decide","promptVersion":"25","outputSchema":{"name":"restaurant_agent_action","version":"4"},"finishReason":"TOOL_CALLS","latencyMs":0},"actionValidation":{"status":"ALLOWED"},"executionRoute":"GENERIC_BROWSER","executionMetadata":{"provider":"AVAILABILITY_SOURCE_RESOLVER","route":"GENERIC_BROWSER","latencyMs":0,"failureCode":"SEARCH_FAILED","googleRequests":{"limit":100,"total":1,"namedPlaceResolution":1,"discovery":0,"placeDetails":0,"reverseAddressObservation":0}},"observation":{"type":"DISCOVERY_FAILED","detail":"Unexpected model purpose restaurant_discovery_retrieval"},"stateVersionAfter":3,"stateHashAfter":"dcd24c7ff966036b87675cbab6717fa3073644310b2d8ab7623421ac0d8fb15b","stepOutcome":"EXECUTION_FAILURE"},{"id":"trajectory:native-h001:TABELOG_NEUTRAL_REGION_RECOVERS:3","taskId":"native-h001:TABELOG_NEUTRAL_REGION_RECOVERS","stepNumber":3,"occurredAt":"2026-08-19T07:20:00.000Z","stateVersionBefore":3,"stateHashBefore":"dcd24c7ff966036b87675cbab6717fa3073644310b2d8ab7623421ac0d8fb15b","causalRefs":{"eventIds":["event:restaurant-agent:3"],"commandIds":[],"attemptIds":[],"evidenceIds":[]},"capabilities":[{"name":"ASK_USER","purpose":"Request a user clarification that is necessary or useful to proceed safely.","inputSchema":"question, optional relatedFields","resultMeaning":"The task waits for a new user message; no state constraint is changed.","importantConstraints":["Do not claim a booking or availability result."]},{"name":"SEARCH_RESTAURANTS","purpose":"Discover matching restaurant outlets.","inputSchema":"optional retrievalHint; the router binds authoritative intent","resultMeaning":"Returns RestaurantCandidate records only, without availability claims.","importantConstraints":["Cannot modify, repeat, or loosen authoritative user constraints."]},{"name":"INVESTIGATE_CANDIDATE_FACTS","purpose":"Read source-supported restaurant facts needed by the current request for known candidates.","inputSchema":"candidateIds; the router binds candidates and authoritative request conditions","resultMeaning":"Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.","importantConstraints":["Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."]},{"name":"CHECK_AVAILABILITY","purpose":"Read request-bound availability and any source-supported restaurant facts returned with it.","inputSchema":"candidateIds; the router binds authoritative date, time window, and party size","resultMeaning":"Returns fresh AvailabilityOffer records associated with candidate IDs.","importantConstraints":["Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."]},{"name":"END_READ","purpose":"End a bounded read-only investigation when its recorded scope has no grounded result to present.","inputSchema":"no business fields; optional short decision summary is trajectory-only","resultMeaning":"Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.","importantConstraints":["Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."]},{"name":"PRESENT_RESULTS","purpose":"Pause a read-only selection session with candidates whose required facts and availability are grounded.","inputSchema":"candidateIds; validator derives the required evidence from authoritative State","resultMeaning":"Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.","importantConstraints":["Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."]},{"name":"SELECT_CANDIDATE","purpose":"Choose a discovered candidate and optionally its known offer for a possible booking proposal.","inputSchema":"candidateId, optional offerId","resultMeaning":"Records the selection; it does not authorize or submit a booking.","importantConstraints":["A selected offer must belong to the selected candidate."]},{"name":"BOOK_RESERVATION","purpose":"Request a booking proposal for one selected fresh offer.","inputSchema":"candidateId, offerId","resultMeaning":"Creates a deterministic ActionProposal and waits for valid user authorization.","importantConstraints":["Cannot authorize, commit, or claim success."]}],"contextSchemaVersion":"11","decisionContext":{"schemaVersion":"11","now":"2026-08-19T07:20:00.000Z","phase":"SEARCHING","intentDraft":{"schemaVersion":"3","timezone":"Asia/Tokyo","criteria":[{"text":"omakase","strength":"HARD","polarity":"POSITIVE"}],"target":{"goal":"AVAILABILITY","query":"omakase spot","selectionScope":"OPEN_ENDED"},"date":"2026-08-19","timeWindow":{"earliest":"19:00","latest":"19:00"},"temporalResolution":{"policyVersion":"restaurant-temporal-materialization@6","referenceTime":"2026-08-19T16:20:00+08:00","timezone":"Asia/Tokyo","date":{"expression":"tonight","resolvedDate":"2026-08-19","basis":"EXPLICIT_DATE"},"timeWindow":{"expression":"7 PM","resolvedTimeWindow":{"earliest":"19:00","latest":"19:00"},"basis":"EXPLICIT_CLOCK"}},"partySize":2,"area":{"query":"near Higashi-Ginza"}},"intent":{"timezone":"Asia/Tokyo","target":{"goal":"AVAILABILITY","query":"omakase spot","selectionScope":"OPEN_ENDED"},"date":"2026-08-19","timeWindow":{"earliest":"19:00","latest":"19:00"},"partySize":2,"area":{"query":"near Higashi-Ginza"},"criteria":[{"text":"omakase","strength":"HARD","polarity":"POSITIVE"}]},"missingBlockingFields":[],"candidates":[],"availability":{},"availabilityChecks":{},"presentation":[],"searchAvailability":{"available":true},"readCompletion":{"allowed":false,"investigationRecorded":true,"unresolvedCandidateIds":[],"reason":"A bounded discovery-plan source remains unread"},"legalActions":{"search":true,"investigateCandidateFacts":[],"checkAvailability":[],"presentResults":[],"endRead":false},"resultBatchTarget":{"candidateCount":3,"excludeCandidateIds":[]},"failure":{"code":"SEARCH_FAILED"}},"agentAction":{"type":"SEARCH_RESTAURANTS"},"decisionSummary":"Use current evidence","modelAttempt":{"invocationId":"restaurant_agent_decide","provider":"FIXTURE","model":"scripted-boundary","purpose":"restaurant_agent_decide","promptVersion":"25","outputSchema":{"name":"restaurant_agent_action","version":"4"},"finishReason":"TOOL_CALLS","latencyMs":0},"actionValidation":{"status":"ALLOWED"},"executionRoute":"GENERIC_BROWSER","executionMetadata":{"provider":"AVAILABILITY_SOURCE_RESOLVER","route":"GENERIC_BROWSER","latencyMs":0,"failureCode":"SEARCH_FAILED","googleRequests":{"limit":100,"total":1,"namedPlaceResolution":1,"discovery":0,"placeDetails":0,"reverseAddressObservation":0}},"observation":{"type":"DISCOVERY_FAILED","detail":"Unexpected model purpose restaurant_discovery_retrieval"},"stateVersionAfter":4,"stateHashAfter":"dcd24c7ff966036b87675cbab6717fa3073644310b2d8ab7623421ac0d8fb15b","stepOutcome":"EXECUTION_FAILURE"},{"id":"trajectory:native-h001:TABELOG_NEUTRAL_REGION_RECOVERS:4","taskId":"native-h001:TABELOG_NEUTRAL_REGION_RECOVERS","stepNumber":4,"occurredAt":"2026-08-19T07:20:00.000Z","stateVersionBefore":4,"stateHashBefore":"dcd24c7ff966036b87675cbab6717fa3073644310b2d8ab7623421ac0d8fb15b","causalRefs":{"eventIds":["event:restaurant-agent:4"],"commandIds":[],"attemptIds":[],"evidenceIds":[]},"capabilities":[{"name":"ASK_USER","purpose":"Request a user clarification that is necessary or useful to proceed safely.","inputSchema":"question, optional relatedFields","resultMeaning":"The task waits for a new user message; no state constraint is changed.","importantConstraints":["Do not claim a booking or availability result."]},{"name":"SEARCH_RESTAURANTS","purpose":"Discover matching restaurant outlets.","inputSchema":"optional retrievalHint; the router binds authoritative intent","resultMeaning":"Returns RestaurantCandidate records only, without availability claims.","importantConstraints":["Cannot modify, repeat, or loosen authoritative user constraints."]},{"name":"INVESTIGATE_CANDIDATE_FACTS","purpose":"Read source-supported restaurant facts needed by the current request for known candidates.","inputSchema":"candidateIds; the router binds candidates and authoritative request conditions","resultMeaning":"Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.","importantConstraints":["Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."]},{"name":"CHECK_AVAILABILITY","purpose":"Read request-bound availability and any source-supported restaurant facts returned with it.","inputSchema":"candidateIds; the router binds authoritative date, time window, and party size","resultMeaning":"Returns fresh AvailabilityOffer records associated with candidate IDs.","importantConstraints":["Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."]},{"name":"END_READ","purpose":"End a bounded read-only investigation when its recorded scope has no grounded result to present.","inputSchema":"no business fields; optional short decision summary is trajectory-only","resultMeaning":"Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.","importantConstraints":["Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."]},{"name":"PRESENT_RESULTS","purpose":"Pause a read-only selection session with candidates whose required facts and availability are grounded.","inputSchema":"candidateIds; validator derives the required evidence from authoritative State","resultMeaning":"Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.","importantConstraints":["Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."]},{"name":"SELECT_CANDIDATE","purpose":"Choose a discovered candidate and optionally its known offer for a possible booking proposal.","inputSchema":"candidateId, optional offerId","resultMeaning":"Records the selection; it does not authorize or submit a booking.","importantConstraints":["A selected offer must belong to the selected candidate."]},{"name":"BOOK_RESERVATION","purpose":"Request a booking proposal for one selected fresh offer.","inputSchema":"candidateId, offerId","resultMeaning":"Creates a deterministic ActionProposal and waits for valid user authorization.","importantConstraints":["Cannot authorize, commit, or claim success."]}],"contextSchemaVersion":"11","decisionContext":{"schemaVersion":"11","now":"2026-08-19T07:20:00.000Z","phase":"SEARCHING","intentDraft":{"schemaVersion":"3","timezone":"Asia/Tokyo","criteria":[{"text":"omakase","strength":"HARD","polarity":"POSITIVE"}],"target":{"goal":"AVAILABILITY","query":"omakase spot","selectionScope":"OPEN_ENDED"},"date":"2026-08-19","timeWindow":{"earliest":"19:00","latest":"19:00"},"temporalResolution":{"policyVersion":"restaurant-temporal-materialization@6","referenceTime":"2026-08-19T16:20:00+08:00","timezone":"Asia/Tokyo","date":{"expression":"tonight","resolvedDate":"2026-08-19","basis":"EXPLICIT_DATE"},"timeWindow":{"expression":"7 PM","resolvedTimeWindow":{"earliest":"19:00","latest":"19:00"},"basis":"EXPLICIT_CLOCK"}},"partySize":2,"area":{"query":"near Higashi-Ginza"}},"intent":{"timezone":"Asia/Tokyo","target":{"goal":"AVAILABILITY","query":"omakase spot","selectionScope":"OPEN_ENDED"},"date":"2026-08-19","timeWindow":{"earliest":"19:00","latest":"19:00"},"partySize":2,"area":{"query":"near Higashi-Ginza"},"criteria":[{"text":"omakase","strength":"HARD","polarity":"POSITIVE"}]},"missingBlockingFields":[],"candidates":[],"availability":{},"availabilityChecks":{},"presentation":[],"searchAvailability":{"available":true},"readCompletion":{"allowed":false,"investigationRecorded":true,"unresolvedCandidateIds":[],"reason":"A bounded discovery-plan source remains unread"},"legalActions":{"search":true,"investigateCandidateFacts":[],"checkAvailability":[],"presentResults":[],"endRead":false},"resultBatchTarget":{"candidateCount":3,"excludeCandidateIds":[]},"failure":{"code":"SEARCH_FAILED"}},"agentAction":{"type":"SEARCH_RESTAURANTS"},"decisionSummary":"Use current evidence","modelAttempt":{"invocationId":"restaurant_agent_decide","provider":"FIXTURE","model":"scripted-boundary","purpose":"restaurant_agent_decide","promptVersion":"25","outputSchema":{"name":"restaurant_agent_action","version":"4"},"finishReason":"TOOL_CALLS","latencyMs":0},"actionValidation":{"status":"ALLOWED"},"executionRoute":"GENERIC_BROWSER","executionMetadata":{"provider":"AVAILABILITY_SOURCE_RESOLVER","route":"GENERIC_BROWSER","latencyMs":0,"failureCode":"SEARCH_FAILED","googleRequests":{"limit":100,"total":1,"namedPlaceResolution":1,"discovery":0,"placeDetails":0,"reverseAddressObservation":0}},"observation":{"type":"DISCOVERY_FAILED","detail":"Unexpected model purpose restaurant_discovery_retrieval"},"stateVersionAfter":5,"stateHashAfter":"dcd24c7ff966036b87675cbab6717fa3073644310b2d8ab7623421ac0d8fb15b","stepOutcome":"EXECUTION_FAILURE"},{"id":"trajectory:native-h001:TABELOG_NEUTRAL_REGION_RECOVERS:5","taskId":"native-h001:TABELOG_NEUTRAL_REGION_RECOVERS","stepNumber":5,"occurredAt":"2026-08-19T07:20:00.000Z","stateVersionBefore":5,"stateHashBefore":"dcd24c7ff966036b87675cbab6717fa3073644310b2d8ab7623421ac0d8fb15b","causalRefs":{"eventIds":["event:restaurant-agent:5"],"commandIds":[],"attemptIds":[],"evidenceIds":[]},"capabilities":[{"name":"ASK_USER","purpose":"Request a user clarification that is necessary or useful to proceed safely.","inputSchema":"question, optional relatedFields","resultMeaning":"The task waits for a new user message; no state constraint is changed.","importantConstraints":["Do not claim a booking or availability result."]},{"name":"SEARCH_RESTAURANTS","purpose":"Discover matching restaurant outlets.","inputSchema":"optional retrievalHint; the router binds authoritative intent","resultMeaning":"Returns RestaurantCandidate records only, without availability claims.","importantConstraints":["Cannot modify, repeat, or loosen authoritative user constraints."]},{"name":"INVESTIGATE_CANDIDATE_FACTS","purpose":"Read source-supported restaurant facts needed by the current request for known candidates.","inputSchema":"candidateIds; the router binds candidates and authoritative request conditions","resultMeaning":"Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.","importantConstraints":["Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."]},{"name":"CHECK_AVAILABILITY","purpose":"Read request-bound availability and any source-supported restaurant facts returned with it.","inputSchema":"candidateIds; the router binds authoritative date, time window, and party size","resultMeaning":"Returns fresh AvailabilityOffer records associated with candidate IDs.","importantConstraints":["Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."]},{"name":"END_READ","purpose":"End a bounded read-only investigation when its recorded scope has no grounded result to present.","inputSchema":"no business fields; optional short decision summary is trajectory-only","resultMeaning":"Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.","importantConstraints":["Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."]},{"name":"PRESENT_RESULTS","purpose":"Pause a read-only selection session with candidates whose required facts and availability are grounded.","inputSchema":"candidateIds; validator derives the required evidence from authoritative State","resultMeaning":"Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.","importantConstraints":["Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."]},{"name":"SELECT_CANDIDATE","purpose":"Choose a discovered candidate and optionally its known offer for a possible booking proposal.","inputSchema":"candidateId, optional offerId","resultMeaning":"Records the selection; it does not authorize or submit a booking.","importantConstraints":["A selected offer must belong to the selected candidate."]},{"name":"BOOK_RESERVATION","purpose":"Request a booking proposal for one selected fresh offer.","inputSchema":"candidateId, offerId","resultMeaning":"Creates a deterministic ActionProposal and waits for valid user authorization.","importantConstraints":["Cannot authorize, commit, or claim success."]}],"contextSchemaVersion":"11","decisionContext":{"schemaVersion":"11","now":"2026-08-19T07:20:00.000Z","phase":"SEARCHING","intentDraft":{"schemaVersion":"3","timezone":"Asia/Tokyo","criteria":[{"text":"omakase","strength":"HARD","polarity":"POSITIVE"}],"target":{"goal":"AVAILABILITY","query":"omakase spot","selectionScope":"OPEN_ENDED"},"date":"2026-08-19","timeWindow":{"earliest":"19:00","latest":"19:00"},"temporalResolution":{"policyVersion":"restaurant-temporal-materialization@6","referenceTime":"2026-08-19T16:20:00+08:00","timezone":"Asia/Tokyo","date":{"expression":"tonight","resolvedDate":"2026-08-19","basis":"EXPLICIT_DATE"},"timeWindow":{"expression":"7 PM","resolvedTimeWindow":{"earliest":"19:00","latest":"19:00"},"basis":"EXPLICIT_CLOCK"}},"partySize":2,"area":{"query":"near Higashi-Ginza"}},"intent":{"timezone":"Asia/Tokyo","target":{"goal":"AVAILABILITY","query":"omakase spot","selectionScope":"OPEN_ENDED"},"date":"2026-08-19","timeWindow":{"earliest":"19:00","latest":"19:00"},"partySize":2,"area":{"query":"near Higashi-Ginza"},"criteria":[{"text":"omakase","strength":"HARD","polarity":"POSITIVE"}]},"missingBlockingFields":[],"candidates":[],"availability":{},"availabilityChecks":{},"presentation":[],"searchAvailability":{"available":true},"readCompletion":{"allowed":false,"investigationRecorded":true,"unresolvedCandidateIds":[],"reason":"A bounded discovery-plan source remains unread"},"legalActions":{"search":true,"investigateCandidateFacts":[],"checkAvailability":[],"presentResults":[],"endRead":false},"resultBatchTarget":{"candidateCount":3,"excludeCandidateIds":[]},"failure":{"code":"SEARCH_FAILED"}},"agentAction":{"type":"SEARCH_RESTAURANTS"},"decisionSummary":"Use current evidence","modelAttempt":{"invocationId":"restaurant_agent_decide","provider":"FIXTURE","model":"scripted-boundary","purpose":"restaurant_agent_decide","promptVersion":"25","outputSchema":{"name":"restaurant_agent_action","version":"4"},"finishReason":"TOOL_CALLS","latencyMs":0},"actionValidation":{"status":"ALLOWED"},"executionRoute":"GENERIC_BROWSER","executionMetadata":{"provider":"AVAILABILITY_SOURCE_RESOLVER","route":"GENERIC_BROWSER","latencyMs":0,"failureCode":"SEARCH_FAILED","googleRequests":{"limit":100,"total":1,"namedPlaceResolution":1,"discovery":0,"placeDetails":0,"reverseAddressObservation":0}},"observation":{"type":"DISCOVERY_FAILED","detail":"Unexpected model purpose restaurant_discovery_retrieval"},"stateVersionAfter":6,"stateHashAfter":"dcd24c7ff966036b87675cbab6717fa3073644310b2d8ab7623421ac0d8fb15b","stepOutcome":"EXECUTION_FAILURE"},{"id":"trajectory:native-h001:TABELOG_NEUTRAL_REGION_RECOVERS:6","taskId":"native-h001:TABELOG_NEUTRAL_REGION_RECOVERS","stepNumber":6,"occurredAt":"2026-08-19T07:20:00.000Z","stateVersionBefore":6,"stateHashBefore":"dcd24c7ff966036b87675cbab6717fa3073644310b2d8ab7623421ac0d8fb15b","causalRefs":{"eventIds":["event:restaurant-agent:6"],"commandIds":[],"attemptIds":[],"evidenceIds":[]},"capabilities":[{"name":"ASK_USER","purpose":"Request a user clarification that is necessary or useful to proceed safely.","inputSchema":"question, optional relatedFields","resultMeaning":"The task waits for a new user message; no state constraint is changed.","importantConstraints":["Do not claim a booking or availability result."]},{"name":"SEARCH_RESTAURANTS","purpose":"Discover matching restaurant outlets.","inputSchema":"optional retrievalHint; the router binds authoritative intent","resultMeaning":"Returns RestaurantCandidate records only, without availability claims.","importantConstraints":["Cannot modify, repeat, or loosen authoritative user constraints."]},{"name":"INVESTIGATE_CANDIDATE_FACTS","purpose":"Read source-supported restaurant facts needed by the current request for known candidates.","inputSchema":"candidateIds; the router binds candidates and authoritative request conditions","resultMeaning":"Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.","importantConstraints":["Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."]},{"name":"CHECK_AVAILABILITY","purpose":"Read request-bound availability and any source-supported restaurant facts returned with it.","inputSchema":"candidateIds; the router binds authoritative date, time window, and party size","resultMeaning":"Returns fresh AvailabilityOffer records associated with candidate IDs.","importantConstraints":["Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."]},{"name":"END_READ","purpose":"End a bounded read-only investigation when its recorded scope has no grounded result to present.","inputSchema":"no business fields; optional short decision summary is trajectory-only","resultMeaning":"Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.","importantConstraints":["Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."]},{"name":"PRESENT_RESULTS","purpose":"Pause a read-only selection session with candidates whose required facts and availability are grounded.","inputSchema":"candidateIds; validator derives the required evidence from authoritative State","resultMeaning":"Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.","importantConstraints":["Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."]},{"name":"SELECT_CANDIDATE","purpose":"Choose a discovered candidate and optionally its known offer for a possible booking proposal.","inputSchema":"candidateId, optional offerId","resultMeaning":"Records the selection; it does not authorize or submit a booking.","importantConstraints":["A selected offer must belong to the selected candidate."]},{"name":"BOOK_RESERVATION","purpose":"Request a booking proposal for one selected fresh offer.","inputSchema":"candidateId, offerId","resultMeaning":"Creates a deterministic ActionProposal and waits for valid user authorization.","importantConstraints":["Cannot authorize, commit, or claim success."]}],"contextSchemaVersion":"11","decisionContext":{"schemaVersion":"11","now":"2026-08-19T07:20:00.000Z","phase":"SEARCHING","intentDraft":{"schemaVersion":"3","timezone":"Asia/Tokyo","criteria":[{"text":"omakase","strength":"HARD","polarity":"POSITIVE"}],"target":{"goal":"AVAILABILITY","query":"omakase spot","selectionScope":"OPEN_ENDED"},"date":"2026-08-19","timeWindow":{"earliest":"19:00","latest":"19:00"},"temporalResolution":{"policyVersion":"restaurant-temporal-materialization@6","referenceTime":"2026-08-19T16:20:00+08:00","timezone":"Asia/Tokyo","date":{"expression":"tonight","resolvedDate":"2026-08-19","basis":"EXPLICIT_DATE"},"timeWindow":{"expression":"7 PM","resolvedTimeWindow":{"earliest":"19:00","latest":"19:00"},"basis":"EXPLICIT_CLOCK"}},"partySize":2,"area":{"query":"near Higashi-Ginza"}},"intent":{"timezone":"Asia/Tokyo","target":{"goal":"AVAILABILITY","query":"omakase spot","selectionScope":"OPEN_ENDED"},"date":"2026-08-19","timeWindow":{"earliest":"19:00","latest":"19:00"},"partySize":2,"area":{"query":"near Higashi-Ginza"},"criteria":[{"text":"omakase","strength":"HARD","polarity":"POSITIVE"}]},"missingBlockingFields":[],"candidates":[],"availability":{},"availabilityChecks":{},"presentation":[],"searchAvailability":{"available":true},"readCompletion":{"allowed":false,"investigationRecorded":true,"unresolvedCandidateIds":[],"reason":"A bounded discovery-plan source remains unread"},"legalActions":{"search":true,"investigateCandidateFacts":[],"checkAvailability":[],"presentResults":[],"endRead":false},"resultBatchTarget":{"candidateCount":3,"excludeCandidateIds":[]},"failure":{"code":"SEARCH_FAILED"}},"agentAction":{"type":"SEARCH_RESTAURANTS"},"decisionSummary":"Use current evidence","modelAttempt":{"invocationId":"restaurant_agent_decide","provider":"FIXTURE","model":"scripted-boundary","purpose":"restaurant_agent_decide","promptVersion":"25","outputSchema":{"name":"restaurant_agent_action","version":"4"},"finishReason":"TOOL_CALLS","latencyMs":0},"actionValidation":{"status":"ALLOWED"},"executionRoute":"GENERIC_BROWSER","executionMetadata":{"provider":"AVAILABILITY_SOURCE_RESOLVER","route":"GENERIC_BROWSER","latencyMs":0,"failureCode":"SEARCH_FAILED","googleRequests":{"limit":100,"total":1,"namedPlaceResolution":1,"discovery":0,"placeDetails":0,"reverseAddressObservation":0}},"observation":{"type":"DISCOVERY_FAILED","detail":"Unexpected model purpose restaurant_discovery_retrieval"},"stateVersionAfter":7,"stateHashAfter":"dcd24c7ff966036b87675cbab6717fa3073644310b2d8ab7623421ac0d8fb15b","stepOutcome":"EXECUTION_FAILURE"},{"id":"trajectory:native-h001:TABELOG_NEUTRAL_REGION_RECOVERS:7","taskId":"native-h001:TABELOG_NEUTRAL_REGION_RECOVERS","stepNumber":7,"occurredAt":"2026-08-19T07:20:00.000Z","stateVersionBefore":7,"stateHashBefore":"dcd24c7ff966036b87675cbab6717fa3073644310b2d8ab7623421ac0d8fb15b","causalRefs":{"eventIds":["event:restaurant-agent:7"],"commandIds":[],"attemptIds":[],"evidenceIds":[]},"capabilities":[{"name":"ASK_USER","purpose":"Request a user clarification that is necessary or useful to proceed safely.","inputSchema":"question, optional relatedFields","resultMeaning":"The task waits for a new user message; no state constraint is changed.","importantConstraints":["Do not claim a booking or availability result."]},{"name":"SEARCH_RESTAURANTS","purpose":"Discover matching restaurant outlets.","inputSchema":"optional retrievalHint; the router binds authoritative intent","resultMeaning":"Returns RestaurantCandidate records only, without availability claims.","importantConstraints":["Cannot modify, repeat, or loosen authoritative user constraints."]},{"name":"INVESTIGATE_CANDIDATE_FACTS","purpose":"Read source-supported restaurant facts needed by the current request for known candidates.","inputSchema":"candidateIds; the router binds candidates and authoritative request conditions","resultMeaning":"Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.","importantConstraints":["Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."]},{"name":"CHECK_AVAILABILITY","purpose":"Read request-bound availability and any source-supported restaurant facts returned with it.","inputSchema":"candidateIds; the router binds authoritative date, time window, and party size","resultMeaning":"Returns fresh AvailabilityOffer records associated with candidate IDs.","importantConstraints":["Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."]},{"name":"END_READ","purpose":"End a bounded read-only investigation when its recorded scope has no grounded result to present.","inputSchema":"no business fields; optional short decision summary is trajectory-only","resultMeaning":"Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.","importantConstraints":["Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."]},{"name":"PRESENT_RESULTS","purpose":"Pause a read-only selection session with candidates whose required facts and availability are grounded.","inputSchema":"candidateIds; validator derives the required evidence from authoritative State","resultMeaning":"Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.","importantConstraints":["Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."]},{"name":"SELECT_CANDIDATE","purpose":"Choose a discovered candidate and optionally its known offer for a possible booking proposal.","inputSchema":"candidateId, optional offerId","resultMeaning":"Records the selection; it does not authorize or submit a booking.","importantConstraints":["A selected offer must belong to the selected candidate."]},{"name":"BOOK_RESERVATION","purpose":"Request a booking proposal for one selected fresh offer.","inputSchema":"candidateId, offerId","resultMeaning":"Creates a deterministic ActionProposal and waits for valid user authorization.","importantConstraints":["Cannot authorize, commit, or claim success."]}],"observation":{"type":"READ_ENDED","detail":"AGENT_LOOP_NO_PROGRESS: No new successful observation in 5 steps; last failure: SEARCH_FAILED","candidateIds":[],"unresolvedCandidateIds":[],"termination":{"type":"NO_PROGRESS","reasonCode":"SEARCH_FAILED","isSystemReason":false,"initiator":"SYSTEM"}},"stateVersionAfter":8,"stateHashAfter":"c440f9a6a02c8e1049ee381f2bbf1db38202975aa80b536ad11167a869259fda","stepOutcome":"TERMINAL"}]}
+  + actual - expected
+  
+  + []
+  - [
+  -   'tabelog:tokyo/A1304/A130401/100'
+  - ]
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:671:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [],
+    expected: [ 'tabelog:tokyo/A1304/A130401/100' ],
+    operator: 'deepStrictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:50129
+✖ native discovery restores an observed regional listing after same-region homepage canonicalization (8.844833ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'https://tabelog.com/en/tokyo/rstLst/'
+  - 'https://tabelog.com/en/tokyo/rstLst/?sw=omakase'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:683:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'https://tabelog.com/en/tokyo/rstLst/',
+    expected: 'https://tabelog.com/en/tokyo/rstLst/?sw=omakase',
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:51247
+✖ H001 presents one investigated Tabelog current-batch result without exhausting the source or starting TableCheck (7.003792ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + undefined
+  - [
+  -   'tabelog:tokyo/A1304/A130401/100'
+  - ]
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:698:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: [ 'tabelog:tokyo/A1304/A130401/100' ],
+    operator: 'deepStrictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:52254
+✖ H001 presents one investigated TableCheck current-batch result without reading a second TableCheck chunk (5.402875ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + undefined
+  - [
+  -   'tablecheck:native-omakase-1'
+  - ]
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:711:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: [ 'tablecheck:native-omakase-1' ],
+    operator: 'deepStrictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:53114
+✖ H001 consumes a retained Tabelog detail entrance without reopening a volatile listing (7.043ms)
+  AssertionError [ERR_ASSERTION]: the sixth observed entrance must survive the changed second listing
+  
+  false !== true
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:725:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:53761
+✖ H001 retains unstarted Tabelog entries when a failed detail cannot reopen its session (7.001334ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'NO_VERIFIED_RESULT'
+  - 'PRESENT_RESULTS'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:733:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'NO_VERIFIED_RESULT',
+    expected: 'PRESENT_RESULTS',
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:54366
+✖ native detail chunk continues through later observed Tabelog results before changing source (7.112041ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+      cap: 5,
+  +   exhausted: 'UNKNOWN',
+  +   inspected: 0,
+  +   limited: false,
+  +   parsed: 0,
+  -   exhausted: false,
+  -   inspected: 5,
+  -   limited: true,
+  -   parsed: 6,
+      raw: 6
+    }
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:742:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { raw: 6, parsed: 0, inspected: 0, cap: 5, limited: false, exhausted: 'UNKNOWN' },
+    expected: { raw: 6, parsed: 6, inspected: 5, cap: 5, limited: true, exhausted: false },
+    operator: 'deepStrictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:55365
+✖ H001 rejects early end and short presentation after TableCheck discovery until its batch is investigated (7.711709ms)
+  AssertionError [ERR_ASSERTION]: [{"action":"SEARCH_RESTAURANTS","validation":"ALLOWED","provider":"TABELOG"},{"action":"SEARCH_RESTAURANTS","validation":"ALLOWED","provider":"AVAILABILITY_SOURCE_RESOLVER"},{"action":"END_READ","validation":"REJECTED"},{"action":"SEARCH_RESTAURANTS","validation":"ALLOWED","provider":"AVAILABILITY_SOURCE_RESOLVER"},{"action":"SEARCH_RESTAURANTS","validation":"ALLOWED","provider":"AVAILABILITY_SOURCE_RESOLVER"},{"action":"SEARCH_RESTAURANTS","validation":"ALLOWED","provider":"AVAILABILITY_SOURCE_RESOLVER"},{}]
+  
+  false !== true
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:757:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:56400
+✖ WP-A offline composition captures every model call including a timeout and links browser observations to DOM snapshots (11.295125ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  6 !== 1
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:785:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 6,
+    expected: 1,
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:64641
+✖ P1-G repeated already-checked availability ends honestly: NATIVE_TRUE_NO_RESULT (449.773666ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    resolve(".eval-artifacts", "wp-a-decisions-")
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:893:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:64641
+✖ P1-G repeated already-checked availability ends honestly: TABELOG_CURRENT_BATCH_DELIVERS (7.607542ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    resolve(".eval-artifacts", "wp-a-decisions-")
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:893:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:67091
+✖ T1 production assembly shares Live limits after more than twelve actual availability model calls (discoveryPacks=tabelog,tablecheck) (5.804ms)
+  AssertionError [ERR_ASSERTION]: {"calls":0,"checks":{}}
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:926:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:69128
+✖ P21 discovery probe uses production assembly/Guard for one first batch and never availability (3.212125ms)
+  AssertionError [ERR_ASSERTION]: do not resume into the second detail batch
+  
+  0 !== 5
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:965:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 5,
+    operator: 'strictEqual'
+  }

@@ -1,3 +1,4 @@
+const fixtureRetrieval={decide:async()=>({accepted:true,keyword:"omakase",criterionRef:"criterion:0",reason:"Scripted retrieval control."})};
 import { runDiscoveryProbe } from "./discovery-probe.js";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
@@ -58,6 +59,12 @@ class H001NativeModel implements ModelGateway {
       throw new ModelGatewayError("Deliberate offline timeout", "TIMEOUT", true);
     }
     if (this.purposes.length > 50) throw new Error("H001 shared 50-call model ceiling exceeded");
+    if(request.purpose==='restaurant_discovery_retrieval'){
+      const input=JSON.parse(request.messages.find(m=>m.role==='user')!.content);
+      const category=input.observation?.categories?.find((c:{label:string})=>c.label==='Sushi');
+      const useCategory=category&&['TABELOG_RETRIEVAL_CATEGORY_DELIVERS','TABELOG_RESULT_PAGES_CONTINUE','TABELOG_CATEGORY_REDIRECTS_ROOT'].includes(this.scenario)&&(input.current||this.scenario==='TABELOG_RESULT_PAGES_CONTINUE');
+      return reply(JSON.stringify({choice:useCategory?'CATEGORY':input.current?'KEEP':'KEYWORD',keyword:useCategory||input.current?'':'omakase',criterionRef:useCategory||input.current?'':'criterion:0',categoryUrl:useCategory?category.url:'',reason:'Scripted retrieval for independent controlled source.'}),request.purpose);
+    }
     if (request.purpose === "restaurant_semantic_interpret") return reply(JSON.stringify({ schemaVersion: "3", facts: [
       { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "omakase spot", selectionScope: "OPEN_ENDED" } },
       { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: `near ${this.areaQuery}` } },
@@ -403,7 +410,7 @@ test("native source session acquisition consumes the remaining source window and
   const locality = new GooglePlacesRestaurantSearch(new GooglePlacesClient({ apiKey: "fixture-only", fetchImplementation: async () => {
     throw new Error("coordinates avoid Google resolution");
   } }), () => reference.toISOString(), 10, { maxRequests: 100 });
-  const native = new NativeRestaurantSearch(browser, locality, () => reference.toISOString(), undefined, undefined, undefined, undefined, { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
+  const native = new NativeRestaurantSearch(browser, locality, fixtureRetrieval, () => reference.toISOString(), undefined, undefined, undefined, undefined, { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
   const intent = {
     timezone: "Asia/Tokyo" as const, target: { goal: "AVAILABILITY" as const, query: "omakase" }, date,
     timeWindow: { earliest: "19:00", latest: "19:00" }, area: { query: "Shibuya", coordinates: { ...center, observedAt: reference.toISOString(), source: "MANUAL_PLACE" as const } },
@@ -419,22 +426,6 @@ test("native source session acquisition consumes the remaining source window and
   assert.deepEqual(result.continuation?.sourceProgress?.pendingSourceIds, ["tokyo/A1304/A130401/100"]);
 });
 
-test("Tabelog keeps the structured HARD retrieval keyword when an Agent hint repeats the whole reservation request", async () => {
-  const navigations: string[] = [];
-  const browser = sourcePages("TABELOG_DELIVERS", navigations);
-  const locality = new GooglePlacesRestaurantSearch(new GooglePlacesClient({ apiKey: "fixture-only", fetchImplementation: async () => {
-    throw new Error("coordinates avoid Google resolution");
-  } }), () => reference.toISOString(), 10, { maxRequests: 100 });
-  const native = new NativeRestaurantSearch(browser, locality, () => reference.toISOString(), undefined, undefined, undefined, undefined, { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
-  const intent = {
-    timezone: "Asia/Tokyo" as const, target: { goal: "AVAILABILITY" as const, query: "omakase" }, date,
-    timeWindow: { earliest: "19:00", latest: "19:00" }, area: { query: "near Shibuya", coordinates: { ...center, observedAt: reference.toISOString(), source: "MANUAL_PLACE" as const } },
-    criteria: [{ text: "omakase", polarity: "POSITIVE" as const, strength: "HARD" as const }],
-  };
-  await native.search({ intent, retrievalHint: "omakase near Shibuya, party of 2, 2026-10-04 19:00" }, new AbortController().signal);
-  const listing = new URL(navigations[0]!);
-  assert.equal(listing.searchParams.get("sw"), "omakase");
-});
 
 test("the production Router advances the default three-pack cursor and reaches Google Nearby Search after bounded source batches", async () => {
   const navigations: string[] = [];
@@ -453,7 +444,7 @@ test("the production Router advances the default three-pack cursor and reaches G
       }] }), { status: 200, headers: { "content-type": "application/json" } });
     },
   }), () => reference.toISOString(), 10, { maxRequests: 100 });
-  const native = new NativeRestaurantSearch(browser, google, () => reference.toISOString(), undefined, undefined, undefined, undefined, { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
+  const native = new NativeRestaurantSearch(browser, google, fixtureRetrieval, () => reference.toISOString(), undefined, undefined, undefined, undefined, { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
   const router = new RestaurantExecutionRouter(native, {
     executionRoute: "STRUCTURED_ADAPTER",
     async check() { return { offers: [], availabilityChecks: {}, evidence: [], metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 } }; },
@@ -463,7 +454,7 @@ test("the production Router advances the default three-pack cursor and reaches G
     date, timeWindow: { earliest: "19:00", latest: "19:00" }, partySize: 2,
     area: { query: "Shibuya", coordinates: { ...center, observedAt: reference.toISOString(), source: "MANUAL_PLACE" as const } }, criteria: [],
   };
-  let state: RestaurantTaskState = { schemaVersion: "15", phase: "UNDERSTANDING", intentDraft, candidates: [], availability: {}, availabilityChecks: {}, readEvidence: [], searchRevision: 0 };
+  let state: RestaurantTaskState = { schemaVersion: "16", phase: "UNDERSTANDING", intentDraft, candidates: [], availability: {}, availabilityChecks: {}, readEvidence: [], searchRevision: 0 };
   const first = await router.execute({ type: "SEARCH_RESTAURANTS" }, state, reference.toISOString(), "phase2-router-pack");
   assert.equal(first.event?.type, "SEARCH_COMPLETED");
   if (first.event?.type !== "SEARCH_COMPLETED") throw new Error("expected first discovery result");
@@ -613,7 +604,7 @@ test("H001 TableCheck search with a raw link but no parsed outlet retains the ob
 
 test("H001 enters the observed named Shibuya directory with the authoritative keyword", async () => {
   const result = await runScenario("TABELOG_REGION_PRESERVES_QUERY");
-  const region = result.navigations.find((url) => url.includes("/en/tokyo/A1303/A130301/rstLst/"));
+  const region = result.navigations.find((url) => url.includes("/en/tokyo/A1303/A130301/rstLst/")&&new URL(url).searchParams.get("sw")==="omakase");
   assert.ok(region);
   assert.equal(new URL(region!).searchParams.get("sw"), "omakase");
   assert.equal(result.navigations.some((url) => url.endsWith("/100/")), true);
@@ -643,9 +634,9 @@ test("native discovery retains category pagination including links revealed by a
   assert.equal(result.navigations.some((url) => url.includes("tablecheck.com")), false);
   const firstDetail = result.navigations.findIndex((url) => url.endsWith("/100/"));
   const category = result.navigations.findIndex((url) => url.includes("/rstLst/sushi/"));
-  assert.ok(firstDetail >= 0 && category > firstDetail, "the initial observed detail is investigated before optional category widening");
+  assert.ok(firstDetail >= 0 && category < firstDetail, "sparse retrieval is refined before details while observed entries stay at the queue front");
   const reads = result.trajectories.filter((step) => step.executionMetadata?.provider === "TABELOG" && step.agentAction?.type === "SEARCH_RESTAURANTS");
-  assert.deepEqual(reads.map((step) => step.executionMetadata?.nativeDiscoveryFunnel?.inspectedOutlets), [1, 4, 1, 1]);
+  assert.deepEqual(reads.map((step) => step.executionMetadata?.nativeDiscoveryFunnel?.inspectedOutlets), [5, 1, 1]);
   assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES");
 });
 
@@ -679,7 +670,7 @@ test("native discovery reaches a neutral locality only through its observed sour
 
 test("native discovery restores an observed regional listing after same-region homepage canonicalization", async () => {
   const result = await runScenario("TABELOG_REGION_HOMEPAGE_RECOVERS");
-  assert.equal(result.navigations[0], "https://tabelog.com/en/tokyo/rstLst/?sw=omakase");
+  assert.equal(result.navigations[0], "https://tabelog.com/en/tokyo/rstLst/");
   assert.equal(result.navigations[1], "https://tabelog.com/en/tokyo/A1303/A130301/rstLst/?sw=omakase",
     "the Pack-owned homepage link restores the same observed listing rather than treating a homepage as a result list");
   assert.deepEqual(result.state.candidates.map((candidate) => candidate.restaurant.id), ["tabelog:tokyo/A1304/A130401/100"]);
@@ -871,7 +862,7 @@ test("coordinate-only discovery passes source-attributed address observations, i
       navigate: async (next: string) => { url = next; }, snapshot: async () => ({ url, title: "Public directory", text: "Choose an observed region", html: "<main>Choose an observed region</main>" }),
       click: async () => {}, fill: async () => {}, select: async () => [], waitFor: async () => {}, screenshot: async () => new Uint8Array(), close: async () => {},
     };
-    const search = new NativeRestaurantSearch({ openSession: async () => session }, locality, () => reference.toISOString(), undefined, { decide: async input => { modelInputs.push(input.goal.location); return { type: "REQUEST_HUMAN_HELP", reason: "Fixture input observed; stop without navigation" }; } }, undefined, undefined, { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, undefined, [tabelogDiscoveryPack]);
+    const search = new NativeRestaurantSearch({ openSession: async () => session }, locality, fixtureRetrieval, () => reference.toISOString(), undefined, { decide: async input => { modelInputs.push(input.goal.location); return { type: "REQUEST_HUMAN_HELP", reason: "Fixture input observed; stop without navigation" }; } }, undefined, undefined, { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, undefined, [tabelogDiscoveryPack]);
     await search.search({ intent: { timezone: "Asia/Tokyo", area: { query: "nearby", coordinates: { latitude: 1, longitude: 2, observedAt: reference.toISOString(), source: "DEVICE" } }, criteria: [], target: { goal: "RECOMMENDATION", query: "restaurants nearby" } }, readRunId: `coordinate-input-${failure}` }, new AbortController().signal);
     assert.equal(modelInputs.length, 1);
     assert.deepEqual(modelInputs[0], { latitude: 1, longitude: 2, radiusMeters: 1000,
@@ -982,4 +973,27 @@ test("P21 failed model calls count toward the shared probe ceiling; later source
  assert.equal(result.terminationReason,"MODEL_CALL_BUDGET_EXHAUSTED");
  assert.deepEqual(result.unattemptedSourceIds,["tablecheck","google-places"]);
  assert.equal(result.witnessInListing,false);
+});
+
+test('P21 two pre-detail rewrites exhaust only retrieval allowance, not the source or inventory',async()=>{
+ const base=new H001NativeModel('BOTH_BOUNDED_EMPTY');let proposals=0;const navigations:string[]=[],networkRequests:BrowserReadNetworkObservation[]=[];
+ const model:ModelGateway={complete:async request=>{
+  if(request.purpose!=='restaurant_discovery_retrieval')return base.complete(request);
+  proposals++;return reply(JSON.stringify({choice:proposals===3?'GENERAL':'KEYWORD',keyword:proposals===3?'':proposals===1?'omakase':'sushi',criterionRef:proposals===3?'':'criterion:0',categoryUrl:'',reason:'Bounded empty retrieval challenge'}),request.purpose);
+ }};
+ const assembly=createLiveReadAssembly({...LIVE_READ_DEBUG_INVESTIGATION_BUDGET,packs:[tabelogDiscoveryPack]}, {model,browser:sourcePages('BOTH_BOUNDED_EMPTY',navigations,[],[],[],{guardedReadBoundary:true,networkRequests}),google:new GooglePlacesClient({apiKey:'FIXTURE',fetchImplementation:async()=>{throw Error('No external API');}}),clock:{now:()=>reference}});
+ const intent={timezone:'Asia/Tokyo' as const,area:{query:'Shibuya'},criteria:[{text:'omakase',polarity:'POSITIVE' as const,strength:'HARD' as const}]};
+ const read=await assembly.search.search({intent,readRunId:'rewrite-cap',continuation:{intentFingerprint:restaurantSearchIntentFingerprint(intent),usedPageTokens:[],pagesRead:0,exhausted:false,locationContext:{...center,label:'Shibuya',radiusMeters:1000,areaMatchBasis:'NAMED_PLACE_RADIUS'}}},new AbortController().signal);
+ assert.equal(proposals,3,'one initial choice and exactly two rewrites');assert.equal(read.candidates.length,0);
+ assert.equal(read.metadata.nativeDiscoveryFunnel?.retrieval?.rewrites,2);assert.equal(read.metadata.nativeDiscoveryFunnel?.retrieval?.retrievalPages,3);
+ assert.equal(read.metadata.nativeDiscoveryFunnel?.sourceExhausted,'UNKNOWN');assert.ok(read.metadata.nativeDiscoveryFunnel?.sourceEnded);
+ assert.ok(networkRequests.some(r=>r.outcome==='ADMITTED'));assert.ok(!base.purposes.includes('restaurant_fact_judgment'));
+});
+
+test('P21 native venue and Google entries reuse one initial text retrieval proposal in a probe request',async()=>{
+ const model=new H001NativeModel('BOTH_BOUNDED_EMPTY');
+ const result=await runDiscoveryProbe({caseId:'text-plan-once',role:'TARGET',referenceTime:reference.toISOString(),intent:{timezone:'Asia/Tokyo',area:{query:'Shibuya'},criteria:[{text:'omakase',polarity:'POSITIVE',strength:'HARD'}]},locationContext:{...center,label:'Shibuya',radiusMeters:1000,areaMatchBasis:'NAMED_PLACE_RADIUS'}},[],{...LIVE_READ_DEBUG_INVESTIGATION_BUDGET,maxModelCalls:15,maxAutomaticBrowserMs:180000},{model,browser:sourcePages('BOTH_BOUNDED_EMPTY',[],[],[],[],{guardedReadBoundary:true}),google:new GooglePlacesClient({apiKey:'FIXTURE',fetchImplementation:async()=>new Response(JSON.stringify({places:[]}),{status:200})}),clock:{now:()=>reference}});
+ assert.deepEqual(result.attemptedSourceIds,['tabelog','tablecheck','google-places']);
+ const initialTextPlans=model.requests.filter(r=>r.purpose==='restaurant_discovery_retrieval'&&JSON.parse(r.messages.find(m=>m.role==='user')!.content).observation===null);
+ assert.equal(initialTextPlans.length,1);assert.ok(result.resources.modelCalls<=15);
 });

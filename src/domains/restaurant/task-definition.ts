@@ -825,7 +825,7 @@ export const restaurantBookingTaskDefinition: TaskDefinition<RestaurantTaskState
   version: "14",
   create() {
     return {
-      schemaVersion: "15",
+      schemaVersion: "16",
       phase: "UNDERSTANDING",
       candidates: [],
       availability: {},

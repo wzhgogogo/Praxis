@@ -495,6 +495,10 @@ test(`native dynamic Tabelog ${outcome} reaches formal H001 ${outcome === "AVAIL
   let availabilityReadFirst = false;
   const model: import("../../core/model/contracts.js").ModelGateway = { async complete(request) {
     assert.ok(++modelCalls <= 50, "the formal local composition retains its total model-call ceiling");
+    if (request.purpose === "restaurant_discovery_retrieval") {
+      const input = JSON.parse(request.messages.find(item => item.role === "user")!.content);
+      return reply(JSON.stringify({ choice: input.current ? "KEEP" : "KEYWORD", keyword: input.current ? "" : "omakase", criterionRef: input.current ? "" : "criterion:0", categoryUrl: "", reason: "Controlled retrieval; preserve the current sparse source result." }), request.purpose);
+    }
     if (request.purpose === "restaurant_semantic_interpret") return reply(JSON.stringify({ schemaVersion: "3", facts: [
       { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "omakase spot", selectionScope: "OPEN_ENDED" } },
       { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "near Shibuya" } },
@@ -613,7 +617,7 @@ test(`native dynamic Tabelog ${outcome} reaches formal H001 ${outcome === "AVAIL
       parsed: funnel.parsedOutlets, inspected: funnel.inspectedOutlets, accepted: funnel.accepted,
       rejected: funnel.rejected.length, deferred: funnel.deferredByBatchCap.length, exhausted: funnel.sourceExhausted })), [
       { source: "TABELOG", raw: 1, parsed: 1, inspected: 1, accepted: 1, rejected: 0, deferred: 0, exhausted: "UNKNOWN" },
-      { source: "TABLECHECK", raw: 0, parsed: 0, inspected: 0, accepted: 0, rejected: 0, deferred: 0, exhausted: true },
+      { source: "TABLECHECK", raw: 0, parsed: 0, inspected: 0, accepted: 0, rejected: 0, deferred: 0, exhausted: "UNKNOWN" },
     ]);
     assert.ok(steps.findIndex(step => step.executionMetadata?.provider === "TABLECHECK")
       > steps.findIndex(step => step.agentAction?.type === "CHECK_AVAILABILITY"), "source continuation follows the first-source availability read");
@@ -2326,5 +2330,57 @@ test('model full-page OPEN_LINK allows slow DOMContentLoaded and times out only 
    assert.equal(calls,1);
   }finally{await executor.close();for(const timer of delays)clearTimeout(timer);server.closeAllConnections();await new Promise<void>(resolve=>server.close(()=>resolve()));}
   assert.equal(diagnostics.filter(d=>d.event==='CLOSED').length,1,'the owned session closes once, including timeout');
+ }
+});
+
+test('P21 production discovery refines a dynamic explicit empty list before details and rejects foreign or hidden categories',async()=>{
+ const {createLiveReadAssembly}=await import('../../integrations/restaurant-search/live-read-assembly.js');
+ const {LIVE_READ_DEBUG_INVESTIGATION_BUDGET}=await import('../../application/live-read-investigation-budget.js');
+ const {GooglePlacesClient}=await import('../../integrations/google/google-places-client.js');
+ const {tabelogDiscoveryPack}=await import('../../integrations/restaurant-search/source-packs.js');
+ const {restaurantSearchIntentFingerprint}=await import('../../domains/restaurant/contracts.js');
+ const empty=await readFile(new URL('../../integrations/tabelog/fixtures/empty-kaiseki.html',import.meta.url),'utf8');
+ const region='https://tabelog.com/en/tokyo/A1000/A100001/rstLst/';
+ const category=region+'cuisine/';const foreign='https://tabelog.com/en/tokyo/A2000/A200001/rstLst/cuisine/';
+ const root='https://tabelog.com/en/tokyo/rstLst/';const keyword=region+'?sw=kaiseki';
+ const outlet=(n:number)=>`https://tabelog.com/tokyo/A1000/A100001/${12345600+n}/`;
+ const links=(count:number)=>Array.from({length:count},(_,i)=>`<article><a class="list-rst__rst-name-target" href="${outlet(i+1)}">Fixture venue ${i+1}</a></article>`).join('');
+ const categories=`<a href="${category}">Observed cuisine</a><a href="${foreign}">Foreign category</a><a style="display:none" href="${region}hidden/">Hidden category</a>`;
+ for(const mode of ['refine','reject'] as const){
+  const directory=await mkdtemp(join(tmpdir(),'p21-retrieval-'));const harPath=join(directory,'discovery.har');const navigations:string[]=[];const requests:Array<{purpose:string;body:any}>=[];
+  const dynamic=(html:string)=>'<title>Fixture results</title><div class="skeleton" aria-busy="true">Loading results</div><script>setTimeout(()=>{document.body.innerHTML='+JSON.stringify(html)+'},120)</script>';
+  const pages:Record<string,string>={[root]:`<title>Directory</title><a href="${region}">Fixture District</a>`,[region]:'<title>Region</title>'+links(1)+categories,[keyword]:dynamic(empty+categories),[category]:dynamic(links(5)+categories)};
+  for(let n=1;n<=5;n++)pages[outlet(n)]=`<title>Fixture venue ${n}</title><script type="application/ld+json">${JSON.stringify({'@type':'Restaurant',name:`Fixture venue ${n}`,address:'Fixture District, Tokyo',geo:{latitude:35,longitude:139}})}</script><h1>Fixture venue ${n}</h1><p class="rstinfo-table__address">Fixture District, Tokyo</p>`;
+  await writeFile(harPath,replayHarPages(pages));
+  const raw=new LocalPlaywrightChromium();
+  const runtime:BrowserRuntime={readNetworkBoundaryCapability:'ISOLATED_CONTEXT',openSession:async input=>{
+    const session=await raw.openSession({...input,replayHarPath:harPath});
+    return new Proxy(session,{get(target,key){if(key==='navigate')return async(...args:Parameters<typeof session.navigate>)=>{navigations.push(args[0]);return target.navigate(...args);};const value=Reflect.get(target,key,target);return typeof value==='function'?value.bind(target):value;}});
+  }};
+  const model:import('../../core/model/contracts.js').ModelGateway={complete:async request=>{
+    const body=JSON.parse(request.messages.find(m=>m.role==='user')!.content);requests.push({purpose:request.purpose,body});let result:unknown;
+    if(request.purpose==='restaurant_discovery_retrieval'){
+      assert.ok(body.observation.categories.every((c:{url:string})=>c.url!==foreign&&!c.url.endsWith('/hidden/')),'only visible same-region categories reach the model');
+      result=mode==='reject'?{choice:body.current?'KEEP':'CATEGORY',keyword:'',criterionRef:'',categoryUrl:body.current?'':foreign,reason:'Challenge source scope'}
+        :body.current?{choice:'CATEGORY',keyword:'',criterionRef:'',categoryUrl:category,reason:'Explicit empty, use observed category'}:{choice:'KEYWORD',keyword:'kaiseki',criterionRef:'criterion:0',categoryUrl:'',reason:'Short positive retrieval'};
+    }else{
+      const target=body.observation.targets.find((t:{label:string})=>t.label==='Fixture District');
+      result=target?{action:'OPEN_LINK',targetRef:target.ref,authoritativeField:'NONE',requestedState:'NONE',reason:'Observed region'}:{action:'WAIT',targetRef:'',authoritativeField:'NONE',requestedState:'NONE',reason:'Wait for current result'};
+    }
+    return {invocationId:'fixture',provider:'FIXTURE',model:'script',outputText:JSON.stringify(result),finishReason:'TOOL_CALLS',latencyMs:0};
+  }};
+  const intent:import('../../domains/restaurant/contracts.js').RestaurantSearchIntent={timezone:'Asia/Tokyo',area:{query:'Fixture District'},criteria:[{text:'kaiseki restaurant',polarity:'POSITIVE',strength:'HARD'}]};
+  const assembly=createLiveReadAssembly({...LIVE_READ_DEBUG_INVESTIGATION_BUDGET,maxModelCalls:15,maxAutomaticBrowserMs:30000,packs:[tabelogDiscoveryPack]}, {model,browser:runtime,google:new GooglePlacesClient({apiKey:'fixture',fetchImplementation:async()=>{throw Error('No external Google');}}),clock:{now:()=>new Date('2026-10-17T00:00:00Z')}});
+  try{
+    const result=await assembly.search.search({readRunId:'chromium-retrieval',intent,continuation:{intentFingerprint:restaurantSearchIntentFingerprint(intent),usedPageTokens:[],pagesRead:0,exhausted:false,locationContext:{latitude:35,longitude:139,radiusMeters:1000,label:'Fixture District',areaMatchBasis:'NAMED_PLACE_RADIUS'}}},AbortSignal.timeout(30000));
+    assert.equal(result.candidates.length,mode==='refine'?5:1,JSON.stringify({metadata:result.metadata,navigations}));
+    assert.equal(navigations.includes(foreign),false);assert.equal(navigations.some(u=>u.includes('/reserve')||u.includes('/booking')),false);
+    if(mode==='refine'){
+      assert.ok(navigations.indexOf(category)<navigations.indexOf(outlet(1)),'refinement precedes detail reads');
+      assert.ok(requests.some(r=>r.body.observation?.explicitEmpty),'recorded real empty state is parsed after its loader disappears');
+      assert.equal(result.metadata.nativeDiscoveryFunnel?.retrieval?.rewrites,1);
+    }else assert.equal(result.metadata.nativeDiscoveryFunnel?.retrieval?.selection?.rejectionReason,'UNOBSERVED_OR_OUTSIDE_REGION_CATEGORY');
+    assert.deepEqual(intent.criteria,[{text:'kaiseki restaurant',polarity:'POSITIVE',strength:'HARD'}]);
+  }finally{await rm(directory,{recursive:true,force:true});}
  }
 });

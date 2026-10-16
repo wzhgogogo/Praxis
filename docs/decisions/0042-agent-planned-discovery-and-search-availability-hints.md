@@ -114,3 +114,9 @@ HARD 资格、来源身份、精确坐标半径、新鲜度、权威日期人数
 
 实现范围、冻结输入、逐次基线与停止规则以本页头部链接的指令和第一段报告为准。
 用户已于 2026-10-17 批准本 ADR。本轮只实施 P2-1a 并离线验证，不执行真实网站探测、检查点 A、P2-1b 或 Live；网络恢复后的基线必须使用 P2-1a 之前的记录提交。
+
+## 2026-10-17 P2-1a 实施记录（追加）
+
+检索规划部分已接入生产组合及实际 eval 调用方；新增独立 `restaurant_discovery_retrieval@1` / `restaurant-discovery-retrieval-prompt@1`，持久 State 升为 `restaurant-state@16`，旧首批后类别扩展退役。来源顺序、语义与浏览器动作 Prompt/Schema、资格及网络放行保持原合同。这里的 Accepted 状态和已实现仅指本次职责接线，不宣称当前外站或真实模型质量通过。
+
+本轮按最新用户指令只做离线验证，未执行原 Decision 6 的检查点 A 顺序。网络修复后，基线在记录的实现前 SHA 的干净 worktree 上重跑，检查点 A 在本次 P2-1a 提交上执行；共同使用已修正预检与指标。当前提交点、红绿和五门禁见[离线报告](../../.eval-artifacts/p2-1-discovery-20261016/followup/report.md)。P2-1b 未实施。

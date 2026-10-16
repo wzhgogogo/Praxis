@@ -1,7 +1,7 @@
 # Golden Scenarios
 
 - Status: Accepted
-- Document revision: 0.12
+- Document revision: 0.13
 - Last updated: 2026-10-19
 - Source of truth for: 首批Harness场景目录和核心断言
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md)
@@ -103,7 +103,11 @@ Stage 2B的`W01–W05`已作为Local HTTP/SSE + PGlite集成场景实现并通�
 
 `src/eval/restaurant/agent-loop/runners/run-discovery-probe.ts` 使用生产 `createLiveReadAssembly`，每来源只读首批列表和详情身份，不查位、不交付。`discovery-probe.test.ts` 与既有 `native-discovery-composition.test.ts` 覆盖冻结输入、共享15调用/180秒上限、失败调用计数、未到达来源、eval见证隔离及source-funnel绑定指标；预检接线另有离线传输反例。真实 Chromium 门禁单列，不将受控来源组合称为外站验证。
 
-真实公开来源的逐次基线与限制见 [P2-1第一段报告](../../.eval-artifacts/p2-1-discovery-20261016/report.md)。这是已暴露开发诊断，不代表Golden目录中的预约或交付场景通过；[ADR-0042](../decisions/0042-agent-planned-discovery-and-search-availability-hints.md) 为 Proposed，检索改写和搜索级筛选尚未实施。
+真实公开来源的逐次基线与限制见 [P2-1第一段报告](../../.eval-artifacts/p2-1-discovery-20261016/report.md)。这是已暴露开发诊断，不代表Golden目录中的预约或交付场景通过；十次 TableCheck 失败已按复核改记环境问题，旧产物保留。
+
+P2-1a 对应 [Accepted ADR-0042](../decisions/0042-agent-planned-discovery-and-search-availability-hints.md)：`discovery-planner.test.ts` 和 `discovery-retrieval.test.ts` 检查正向条件传递及非法检索拒绝；`native-discovery-composition.test.ts` 从生产 factory 驱动稀疏转类别、保留候选、空结果两次改写、分页/预算与初始文本规划复用。`browser-read-fixture.test.ts` 使用真实本地 Chromium，动态展示加载/明确空状态，验证类别在详情前生效、隐藏或越地区类别不可选。旧首批之后的类别扩展路径及对应假设已退役；原有资格、推荐和交付回归保持。来源预检成功/空/超时、Google 精确官网 ID 指标另在 eval 测试覆盖。
+
+本轮仅离线组合和本地浏览器，不运行检查点 A 或真实模型；搜索级空位筛选尚未实施。红绿、五门禁与未覆盖范围见[离线报告](../../.eval-artifacts/p2-1-discovery-20261016/followup/report.md)。
 
 ## TableCheck public JSON transport controls (2026-10-19)
 

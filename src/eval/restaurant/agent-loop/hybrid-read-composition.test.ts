@@ -1,4 +1,4 @@
-import { createGoogleReadComposition, response, strictAction, ScriptedExternalModel, googleFixture, now, clock } from "../../../harness/restaurant-read-test-fixtures.js";
+import { createGoogleReadComposition, response, strictAction, ScriptedExternalModel, scriptedRetrieval, googleFixture, now, clock } from "../../../harness/restaurant-read-test-fixtures.js";
 
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
@@ -202,6 +202,8 @@ class IndependentSequenceModel implements ModelGateway {
   constructor(private readonly batchSize: number, private readonly reverse: boolean) {}
 
   async complete(request: ModelRequest): Promise<ModelResponse> {
+    const retrieval = scriptedRetrieval(request);
+    if (retrieval) return retrieval;
     if (request.purpose === "restaurant_semantic_interpret") {
       return response(JSON.stringify({
         schemaVersion: "3",
@@ -958,6 +960,8 @@ test("source text handoff reaches request-bound availability and presentation th
   const actions: string[] = [];
   const model: ModelGateway = { async complete(request) {
     requests.push(request);
+    const retrieval = scriptedRetrieval(request);
+    if (retrieval) return retrieval;
     if (request.purpose === "restaurant_semantic_interpret") return response(JSON.stringify({ schemaVersion: "3", facts: [
       { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "restaurants" } },
       { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-09-17", raw: "tomorrow" } },

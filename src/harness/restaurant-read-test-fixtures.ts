@@ -68,6 +68,7 @@ export class ScriptedExternalModel implements ModelGateway {
 
   async complete(request: ModelRequest): Promise<ModelResponse> {
     this.requests.push(request);
+    if(request.purpose==='restaurant_discovery_retrieval')return scriptedRetrieval(request)!;
     if (request.purpose === "restaurant_semantic_interpret") {
       return response(JSON.stringify({
         schemaVersion: "3",
@@ -158,4 +159,14 @@ export function googleFixture(
     },
   });
   return { client, maxGoogleRequests: options.maxRequests };
+}
+
+/** Scripted external response, not a retrieval-quality oracle or production fallback. */
+export function scriptedRetrieval(request:ModelRequest):ModelResponse|undefined {
+ if(request.purpose!=='restaurant_discovery_retrieval')return undefined;
+ const body=JSON.parse(request.messages.find(m=>m.role==='user')!.content);
+ const eligible=body.positiveCriteria?.filter((c:{text:string})=>!/[0-9]/.test(c.text))??[];
+ const criterion=eligible.find((c:{strength:string})=>c.strength==='HARD')??eligible[0];
+ const keyword=criterion?.text.trim().split(/\s+/).slice(-3).join(' ')??'';
+ return response(JSON.stringify({choice:keyword?'KEYWORD':'GENERAL',keyword,criterionRef:keyword?criterion.criterionRef:'',categoryUrl:'',reason:'Scripted positive retrieval for controlled source contract'}),'fixture-retrieval');
 }

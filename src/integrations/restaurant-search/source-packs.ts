@@ -53,7 +53,6 @@ export interface SourcePackQuery {
 export interface BrowserDiscoveryPackCapability {
   flow: "DIRECTORY" | "VENUE_SEARCH";
   provider: Exclude<RestaurantReadEvidenceProvider, "MODEL_JUDGMENT">;
-  listingPageChunkCap: number;
   countRawLinks(snapshot: BrowserSnapshot): number;
   acceptsDetailUrl(url: string): boolean;
   candidateSourceIds(sourceEntityId: string, detailUrl: string): Record<string, string>;
@@ -62,6 +61,7 @@ export interface BrowserDiscoveryPackCapability {
   isPageUnavailable(snapshot: BrowserSnapshot): boolean;
   isExplicitEmptyListing(snapshot: BrowserSnapshot): boolean;
   resultBusy(snapshot: BrowserSnapshot): boolean;
+  retrievalExpression(url:string):string|undefined;
   parseDetailIdentity(snapshot: BrowserSnapshot, fallback: SourcePackListingOutlet): SourcePackListingOutlet | undefined;
   directory?: {
     listingRoot(url: string): string | undefined;
@@ -69,9 +69,7 @@ export interface BrowserDiscoveryPackCapability {
     links(page: BrowserSnapshot): Array<{ url: string; label: string; attributes: string; category: boolean }>;
     /** Pack-owned URL grammar for a bounded listing retrieval expression. */
     withRetrievalExpression(url: string, expression: string): string;
-    retrievalExpression(url: string): string | undefined;
     withoutRetrievalExpression(url: string): string;
-    isExplicitEmpty(page: BrowserSnapshot): boolean;
     /** A source may canonicalize an observed regional listing to its regional homepage. */
     isSameObservedRegionHomepage?(observedListingUrl: string, currentUrl: string): boolean;
     /** A Pack may explicitly treat that same observed homepage as a usable current listing. */
@@ -253,7 +251,8 @@ export const tabelogDiscoveryPack: DiscoverySourcePack = {
     ground: (candidate, request, observation, now) => groundTabelogAvailability(candidate, request, observation, now),
   },
   browser: {
-    flow: "DIRECTORY", provider: "TABELOG", listingPageChunkCap: 3,
+    retrievalExpression: value=>new URL(value).searchParams.get("sw")??undefined,
+    flow: "DIRECTORY", provider: "TABELOG",
     countRawLinks: rawTabelogLinks,
     acceptsDetailUrl: (value) => { try { return new URL(value).origin === "https://tabelog.com"; } catch { return false; } },
     candidateSourceIds: (sourceEntityId, detailUrl) => ({ tabelog: sourceEntityId, tabelogNativeDetailUri: detailUrl, discoverySourceId: "tabelog", discoveryDetailUri: detailUrl }),
@@ -273,9 +272,7 @@ export const tabelogDiscoveryPack: DiscoverySourcePack = {
       isRegionEntrance(value) { try { const url = new URL(value); return url.origin === "https://tabelog.com" && /^\/en\/[^/]+\/(?:A\d+|C\d+|R\d+)(?:\/(?:A\d+|C\d+|R\d+))*\/(?:rstLst\/)?$/.test(url.pathname); } catch { return false; } },
       links: directoryListingLinks,
       withRetrievalExpression(value, expression) { const url = new URL(value); url.searchParams.set("sw", expression); return url.toString(); },
-      retrievalExpression(value) { try { return new URL(value).searchParams.get("sw") ?? undefined; } catch { return undefined; } },
       withoutRetrievalExpression(value) { const url = new URL(value); url.searchParams.delete("sw"); return url.toString(); },
-      isExplicitEmpty: (page) => /\b(?:no|0)\s+(?:restaurants?|results?)\s+(?:found|match(?:es)?)/i.test(page.text),
       isSameObservedRegionHomepage(observedListingUrl, currentUrl) {
         const expected = regionalDirectoryHomepage(observedListingUrl);
         try { const current = new URL(currentUrl); return expected === `${current.origin}${current.pathname}`; } catch { return false; }
@@ -335,7 +332,8 @@ export const tableCheckDiscoveryPack: DiscoverySourcePack = {
     ground: (candidate, request, observation, now) => groundTableCheckAvailability(candidate, request, observation, now),
   },
   browser: {
-    flow: "VENUE_SEARCH", provider: "TABLECHECK", listingPageChunkCap: 1,
+    retrievalExpression: value=>new URL(value).searchParams.get("search_text")??undefined,
+    flow: "VENUE_SEARCH", provider: "TABLECHECK",
     countRawLinks: rawTableCheckLinks,
     acceptsDetailUrl: (value) => { try { return new URL(value).origin === "https://www.tablecheck.com"; } catch { return false; } },
     candidateSourceIds: (sourceEntityId, detailUrl) => ({ tablecheck: sourceEntityId, tablecheckNativeGuideUri: detailUrl, discoverySourceId: "tablecheck", discoveryDetailUri: detailUrl }),

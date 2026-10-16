@@ -210,7 +210,7 @@ test("live source-stage discovery delegates to the production NativeRestaurantSe
     apiKey: "fixture-only",
     fetchImplementation: async () => { throw new Error("coordinates avoid named-place resolution"); },
   }), () => reference.toISOString(), 10, { maxRequests: 2 });
-  const result = await runSourceStageNativeDiscoveryProbe({
+  const result = await runSourceStageNativeDiscoveryProbe({ retrievalPlanner:{decide:async()=>({accepted:true,reason:"Fixed source general control"})},
     pack: tabelogDiscoveryPack,
     modelDecision: { decide: async input => ({type:"OPEN_LINK",targetRef:input.observation.targets.find(t=>t.label==="Shibuya")!.ref,reason:"Use observed region"}) },
     runtime,
@@ -240,7 +240,7 @@ test("source-stage discovery keeps a parsed list without any frozen-radius candi
   const locality = new GooglePlacesRestaurantSearch(new GooglePlacesClient({
     apiKey: "fixture-only", fetchImplementation: async () => { throw new Error("coordinates avoid named-place resolution"); },
   }), () => reference.toISOString(), 10, { maxRequests: 2 });
-  const result = await runSourceStageNativeDiscoveryProbe({
+  const result = await runSourceStageNativeDiscoveryProbe({ retrievalPlanner:{decide:async()=>({accepted:true,reason:"Fixed source general control"})},
     pack: tabelogDiscoveryPack,
     modelDecision: { decide: async input => ({type:"OPEN_LINK",targetRef:input.observation.targets.find(t=>t.label==="Shibuya")!.ref,reason:"Use observed region"}) },
     runtime: sourcePages("OUTSIDE_RADIUS", []),
@@ -278,9 +278,9 @@ test("browserless Google Pack runs through its production search port with the f
     },
     intent: { timezone: "Asia/Tokyo", target: { goal: "AVAILABILITY", query: "dining" }, date, timeWindow: { earliest: "19:00", latest: "19:00" }, partySize: 2, area: { query: "nearby" }, criteria: [] },
     location: { latitude: center.latitude, longitude: center.longitude, radiusMeters: 3_000, label: "evaluation location", areaMatchBasis: "EVALUATION_LOCATION_RADIUS" },
-    readRunId: "google-pack-control", signal: new AbortController().signal, modelCallsStarted: 0,
+    readRunId: "google-pack-control", signal: new AbortController().signal, browserBudget:{totalModelCalls:0},retrievalPlanner:{decide:async()=>({accepted:true,reason:"General test source"})},timeoutMs:1000,
   });
   assert.equal(result.status, "NO_COVERAGE");
   assert.equal(result.packId, "google-places");
-  assert.deepEqual(requests, [{ discoveryQuery: { category: "restaurant", location: { latitude: center.latitude, longitude: center.longitude, radiusMeters: 3_000, label: "evaluation location", areaMatchBasis: "EVALUATION_LOCATION_RADIUS" } }, readRunId: "google-pack-control" }]);
+  assert.deepEqual(requests, [{ discoveryQuery: { positiveCriteria:[], category: "restaurant", location: { latitude: center.latitude, longitude: center.longitude, radiusMeters: 3_000, label: "evaluation location", areaMatchBasis: "EVALUATION_LOCATION_RADIUS" } }, readRunId: "google-pack-control" }]);
 });

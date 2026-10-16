@@ -156,7 +156,7 @@ export function createHybridDecisionCapture(resultPath: string, recording?: Brow
           thinking: request.thinking ?? null, outputSchema: { name: request.outputSchema.name, version: request.outputSchema.version },
           responseFormat: request.responseFormat, messages: structuredClone(request.messages),
         };
-        if (request.purpose === "browser_read_decide") {
+        if (request.purpose === "browser_read_decide" || request.purpose === "restaurant_discovery_retrieval" && JSON.parse(request.messages.find(message=>message.role==="user")!.content).observation) {
           const { observation } = JSON.parse(request.messages.find(message => message.role === "user")!.content);
           const matches = latestSnapshot?.url === observation.url && latestSnapshot?.title === observation.title
             && latestSnapshot?.visibleText === observation.visibleText;
