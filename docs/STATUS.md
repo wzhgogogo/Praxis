@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.220
-- Last updated: 2026-10-15
+- Document revision: 4.221
+- Last updated: 2026-10-16
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-16 E1-0输入冻结：** T1独立复核五门禁全绿；开工快进78fcc13。按用户补充保留22运行＝20原始result＋2原始中断包，各含trace，RESULT_NOT_GENERATED且排除能力分母。30gzip共12,630,285字节，manifest／原始及压缩SHA逐项通过，未生成伪result。E1后续各项继续，人工标签／等价结论待复核者导出；仅离线，无模型／Live／见证GET。证据`.eval-artifacts/e1-evaluator-20261016/report.md`；用户设计文件未动。
 
 - **2026-10-15 T1离线交付待复核：** 六项各自本地提交，生产源码冻结77c4580；各项红绿与门禁／退役清单／宿主差异已汇总至`.eval-artifacts/t1-assembly-20261015/report.md`。最后默认881/881、真实Chromium112/112，typecheck／arch／build全绿。八种原生规范化逃逸未复现，按指令允许分支保留；CDP独立origin／方法／类型拒绝三对照有实际receiver红绿证据。仅测试机制与明确接线修复，不证明真实模型或网站；P2-0已独立签收，T1等待复核，无Live／付费模型／见证GET／Gold修改，无推送。用户原有设计文件保留未提交。
 
