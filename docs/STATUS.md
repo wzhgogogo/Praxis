@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.232
+- Document revision: 4.233
 - Last updated: 2026-10-16
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-16 E1-4g 缺result中断的目标完成状态不猜NO：** 复核用户补充的NE边界：两份真实SIGKILL包缺result时，旧outcome仅因中断类型把userGoalComplete写NO，真实包断言先红；现在外层只决定ORCHESTRATION_INTERRUPTED，用户目标保持NOT_EVALUATED并注明缺result，两个包仍排除能力分母、六维NE、S0仅trace。反事实配对把真实支持交付记录与TEST_ONLY保存后中断组合，已支持的用户目标YES不被信号抹掉；删除实际结果则NE，不手填评分，不影响既有受控取消／预算artifact链。 定向2/2；typecheck／arch:check／npm test 905/905／build全绿，04-outcomes/interrupted-goal-followup保存真实包红绿和门禁；Eval Skill校验通过。此项仅离线结果分类，不涉及浏览器执行，复用最近112/112的本地fixture证据。此前@29开发中间sidecar的用户目标NO不作为当前结论，原文件保留，最终诊断另存。 证据.eval-artifacts/e1-evaluator-20261016/report.md；其余切片继续，仅离线，无模型／Live／见证GET，人工表待复核者导出。
 
 - **2026-10-16 E1-5f 登记见证不随复查行丢失而缩水：** 在原始h001见证的独立副本中仅删除Sen一行，保留其他三行及独立登记表，旧漏斗3行而应有4行的业务断言红；现按登记集合补出缺观察的店，库存／可行性／卡点NE、观察时间null，不借旧slot文本或候选池补值。其他门店原始库存不丢失；缺HARD Gold也只让可行性NE，不把已有席位或生产判断当HARD支持。历史源文件逐字不变。 定向106/106；typecheck／arch:check／npm test 905/905／build全绿，05-witness/roster-followup保存red／green／四门禁及skill校验。最近浏览器相关改动已在04-outcomes/source-path-followup/browser.log本地112/112通过；本补充仅改显式witness选项的离线漏斗，不涉及浏览器路径或原始观察采集，复用该项证据，不重复Live或Chromium。 证据.eval-artifacts/e1-evaluator-20261016/report.md；其余切片继续，仅离线，无模型／Live／见证GET，人工表待复核者导出。
 

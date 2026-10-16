@@ -158,12 +158,22 @@ test("E1 actual SIGKILL bundles classify as orchestration interruption, not an i
     const { evaluation, outputPath } = await evaluateFrozenCalibrationArtifact(manifest, runId, output);
     assert.equal(evaluation.outcome?.type, "ORCHESTRATION_INTERRUPTED");
     assert.equal(evaluation.outcome?.capabilityDenominator, "EXCLUDED");
-    assert.equal(evaluation.outcome?.userGoalComplete, "NO");
+    assert.equal(evaluation.outcome?.userGoalComplete, "NOT_EVALUATED", "outer interruption alone cannot decide a result-dependent user goal");
     assert.equal(evaluation.severity?.S0.status, "NOT_EVALUATED", "an interrupted, redacted trace is not proof of no S0");
     assert.ok(evaluation.findings.every(entry => entry.status === "NOT_EVALUATED"));
     assert.match(evaluation.unassessedDimensions.join(" "), /result.*missing/i);
     assert.equal(JSON.parse(await readFile(outputPath, "utf8")).frozenInput.fileRefs.length, 5);
   }
+  // Counterfactual only: the original supported result is real, the outer stop
+  // after persistence is TEST_ONLY (not a claim about that historical run).
+  const result = await calibrationArtifact("p1fA-kf-h001-a1");
+  const orchestration = { finish: { exit: { signal: "SIGKILL" } },
+    interruption: { status: "INTERRUPTED_TEST_ONLY_AFTER_SAVED_RESULT" }, refs: ["TEST_ONLY:outer-after-result"] };
+  const saved = evaluateRestaurantHybridLiveArtifact(result, source, { orchestration });
+  assert.equal(saved.outcome.type, "ORCHESTRATION_INTERRUPTED");
+  assert.equal(saved.outcome.userGoalComplete, "YES", "a supported saved delivery is not erased by an outer signal label");
+  delete result.finalSnapshot;
+  assert.equal(evaluateRestaurantHybridLiveArtifact(result, source, { orchestration }).outcome.userGoalComplete, "NOT_EVALUATED");
 });
 
 test("E1 result types and severity use observed claims and attempts, never human labels or failure tags alone", async () => {

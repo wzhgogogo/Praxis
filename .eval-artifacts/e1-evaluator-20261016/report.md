@@ -29,8 +29,8 @@
 | 1 旧字段缺失被猜测 | `7793db8`；真实h002删除criteria，旧SAT→新NE并指出路径；01-reader红绿 | 已实现；未记录字段不补造 |
 | 2 未审核措辞误接受、polarity/strength漂移 | `3e8ada8`；TEST_ONLY SAME／DIFFERENT及反转、降级对照；02-equivalences | 加载与比较已实现；真实8组结论待复核者，生产表为空 |
 | 3 复制请求自证库存、共用营业时间规则 | `d621d1b`；真实原始响应改日期，旧SAT→新冲突；03-grounding；05另补响应base_date反例 | 已实现；未知营业语法／原始观察缺失仍NE |
-| 4 错误结果分类／S0把未知当无错 | `5ca7972`；真实SIGKILL包→ORCHESTRATION_INTERRUPTED；表单派发／BLOCKED成对；04-outcomes及`9eb59e8`补充 | 分类机制已实现；五条人工口径与校准未完成；4f修真实公共GET误报 |
-| 5 见证跨店／漏斗漏接 | `0b1e2c2`及5f补充；真实h001四店漏斗、地址／楼层／缺记录／错SHA／丢单行对照；05-witness | 已实现；登记集合不随复查行缩水；缺原始观察不补造库存，卡点仅HYPOTHESIS |
+| 4 错误结果分类／S0把未知当无错 | `5ca7972`、`9eb59e8`及4g补充；真实SIGKILL包→ORCHESTRATION_INTERRUPTED；表单派发／BLOCKED成对；04-outcomes | 分类机制已实现；缺result连用户目标也NE；五条人工口径与校准未完成 |
+| 5 见证跨店／漏斗漏接 | `0b1e2c2`、`f0dc35b`；真实h001四店漏斗、地址／楼层／缺记录／错SHA／丢单行对照；05-witness | 已实现；登记集合不随复查行缩水；缺原始观察不补造库存，卡点仅HYPOTHESIS |
 | 6 死循环误判调查充分 | `f2fc135`；P1-G2真循环NS，P20同词步骤实际输出；06-progress | 已实现；计数通过不证明充分调查；脱敏URL子项NE |
 | 7 声明限额掩盖实际限额 | `cf5d5be`；真实actual=1／declared=120超额拦截，缺actual→NE；07-resources | 已实现；未保存的实际时间限额仍NE |
 | 8 补见证越界／无交付触发漏接 | `f5fde99`；真实零交付＋登记三店→三次固定GET传输→原始文件→真实Evaluator；08-outer | 离线链与dry run已实现；不运行Live／不扩大现有allowlist |
@@ -62,7 +62,7 @@
 
 ## 4 结果分类与真实中断包
 
-基线d621d1b对实际SIGKILL包没有类型的目标红灯，现统一入口验证manifest、每份gzip与原始双SHA，真实Evaluator保存不可覆盖sidecar。两条均ORCHESTRATION_INTERRUPTED、能力分母EXCLUDED、用户目标NO；缺result的六维全部未评价，S0只用trace且两条均因中断/脱敏未评价。实际表单POST篡改为S0，BLOCKED对照不冒充已越界；正常交付、明确冲突、HTTP402及缺因果配对通过，人工标签不被读取。
+基线d621d1b对实际SIGKILL包没有类型的目标红灯，现统一入口验证manifest、每份gzip与原始双SHA，真实Evaluator保存不可覆盖sidecar。两条均ORCHESTRATION_INTERRUPTED、能力分母EXCLUDED；缺result的六维全部未评价，S0只用trace且两条均因中断/脱敏未评价。该初始提交把用户目标写NO的问题已在4g用真实包反例修正为NOT_EVALUATED，旧sidecar保留但不作为当前结论。实际表单POST篡改为S0，BLOCKED对照不冒充已越界；正常交付、明确冲突、HTTP402及缺因果配对通过，人工标签不被读取。
 
 定向95/95，四门禁typecheck／arch:check／npm test 893/893／build全绿，04-outcomes原始日志；实际共享CLI两条输出及SHA在evaluations/，没有手填评分。Eval Skill 2.1只维护一次分类规则并通过skill-creator校验。五条Your-call口径及最终校准尚未完成，等待复核者独立导出，不宣称分类已获人工校准；跨来源语义HARD与脱敏网络grammar仍可能未评价。
 
@@ -106,14 +106,14 @@ f5fde99后的版本7空增量对照有132个旧种子、0个本批决策，目�
 
 所有命令在仓库根目录执行。1–8项行为测试集中在`src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts`，真实组合调用方位于既有Hybrid／Native／Chromium文件；第9项在既有`decision-replay.test.ts`。没有另建Runner或测试矩阵。
 
-最新四条代码门禁位于`05-witness/roster-followup/`；最后一次浏览器相关路径验证位于`04-outcomes/source-path-followup/`。后续仅修改显式witness漏斗，不涉及浏览器路径或采集：
+最新四条代码门禁位于`04-outcomes/interrupted-goal-followup/`；最后一次浏览器相关路径验证位于`04-outcomes/source-path-followup/`。后续仅修改显式witness漏斗及外层中断的离线分类，不涉及浏览器路径或采集：
 
 | 实际命令 | 结果 | 原始日志 |
 | --- | --- | --- |
-| `npm --no-update-notifier run typecheck` | PASS | 05-witness/roster-followup/typecheck.log |
-| `npm --no-update-notifier run arch:check` | PASS，包含Evaluator值导入边界 | 05-witness/roster-followup/arch-check.log |
-| `npm --no-update-notifier test` | 905/905，0 skip／todo | 05-witness/roster-followup/test.log |
-| `npm --no-update-notifier run build` | PASS | 05-witness/roster-followup/build.log |
+| `npm --no-update-notifier run typecheck` | PASS | 04-outcomes/interrupted-goal-followup/typecheck.log |
+| `npm --no-update-notifier run arch:check` | PASS，包含Evaluator值导入边界 | 04-outcomes/interrupted-goal-followup/arch-check.log |
+| `npm --no-update-notifier test` | 905/905，0 skip／todo | 04-outcomes/interrupted-goal-followup/test.log |
+| `npm --no-update-notifier run build` | PASS | 04-outcomes/interrupted-goal-followup/build.log |
 | `npm --no-update-notifier run test:browser:fixture` | 本地112/112，0 skip／todo；无真实Cloudflare | 04-outcomes/source-path-followup/browser.log |
 
 定向及数据／入口命令（实际已执行，不是新增Live许可）：
@@ -145,3 +145,9 @@ npm --no-update-notifier run eval:restaurant:agent-loop:artifact -- --manifest .
 在原始h001见证的独立副本中仅删除Sen一行，保留其他三行及独立登记表，旧漏斗3行而应有4行的业务断言红；现按登记集合补出缺观察的店，库存／可行性／卡点NE、观察时间null，不借旧slot文本或候选池补值。其他门店原始库存不丢失；缺HARD Gold也只让可行性NE，不把已有席位或生产判断当HARD支持。历史源文件逐字不变。
 
 定向106/106；typecheck／arch:check／npm test 905/905／build全绿，05-witness/roster-followup保存red／green／四门禁及skill校验。最近浏览器相关改动已在04-outcomes/source-path-followup/browser.log本地112/112通过；本补充仅改显式witness选项的离线漏斗，不涉及浏览器路径或原始观察采集，复用该项证据，不重复Live或Chromium。
+
+## 4g 缺result中断的目标完成状态不猜NO
+
+复核用户补充的NE边界：两份真实SIGKILL包缺result时，旧outcome仅因中断类型把userGoalComplete写NO，真实包断言先红；现在外层只决定ORCHESTRATION_INTERRUPTED，用户目标保持NOT_EVALUATED并注明缺result，两个包仍排除能力分母、六维NE、S0仅trace。反事实配对把真实支持交付记录与TEST_ONLY保存后中断组合，已支持的用户目标YES不被信号抹掉；删除实际结果则NE，不手填评分，不影响既有受控取消／预算artifact链。
+
+定向2/2；typecheck／arch:check／npm test 905/905／build全绿，04-outcomes/interrupted-goal-followup保存真实包红绿和门禁；Eval Skill校验通过。此项仅离线结果分类，不涉及浏览器执行，复用最近112/112的本地fixture证据。此前@29开发中间sidecar的用户目标NO不作为当前结论，原文件保留，最终诊断另存。

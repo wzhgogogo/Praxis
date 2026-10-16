@@ -70,7 +70,16 @@ export function classifyRunOutcome(input: { root: RunRecord; findings: Diagnosti
     capabilityDenominator: excluded ? "EXCLUDED" : type === "NOT_EVALUATED" ? "NOT_EVALUATED" : "INCLUDED",
     userGoalComplete: type === "QUALIFIED_DELIVERY" ? "YES" : type === "NOT_EVALUATED" ? "NOT_EVALUATED" : "NO" });
   if (input.invalidSample) return { outcome: make("NOT_A_VALID_SAMPLE", input.invalidSample.reason, input.invalidSample.refs, true), severity };
-  if (interrupted) return { outcome: make("ORCHESTRATION_INTERRUPTED", `Outer ${signal} interruption, not a source-confirmed no-result.`, input.orchestration?.refs ?? [], true), severity };
+  if (interrupted) {
+    const outcome = make("ORCHESTRATION_INTERRUPTED", `Outer ${signal} interruption, not a source-confirmed no-result.`, input.orchestration?.refs ?? [], true);
+    // The signal classifies orchestration, not the user's result. In particular,
+    // the two approved result-less bundles cannot establish either YES or NO.
+    outcome.userGoalComplete = input.resultMissing ? "NOT_EVALUATED"
+      : stage("FINAL_CLAIM")?.status === "SATISFIED" && severity.S0.status !== "PRESENT" ? "YES"
+      : stage("FINAL_CLAIM")?.status === "NOT_SATISFIED" || !presented.length && stage("COMPLETION_OUTCOME")?.status === "SATISFIED" ? "NO" : "NOT_EVALUATED";
+    if (input.resultMissing) outcome.reasons.push("result.json missing; user-goal completion is NOT_EVALUATED.");
+    return { outcome, severity };
+  }
   if (finish?.formalRunStarted === false && finish.preflight?.status === "FAILED")
     return { outcome: make("ENV_FAILURE", "Independent outer preflight failed before formal execution.", input.orchestration?.refs ?? [], true), severity };
   if (input.resultMissing) return { outcome: make("NOT_EVALUATED", "result.json missing without sufficient outer interruption records.", input.orchestration?.refs ?? []), severity };

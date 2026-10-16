@@ -3607,3 +3607,7 @@ T1六项实现分别提交c256cc2／dcc1ad3／7b048bd／7626b89／4baf329／77c4
 ## DEV-2026-10-16-E1-5f
 
 登记见证不随复查行丢失而缩水。在原始h001见证的独立副本中仅删除Sen一行，保留其他三行及独立登记表，旧漏斗3行而应有4行的业务断言红；现按登记集合补出缺观察的店，库存／可行性／卡点NE、观察时间null，不借旧slot文本或候选池补值。其他门店原始库存不丢失；缺HARD Gold也只让可行性NE，不把已有席位或生产判断当HARD支持。历史源文件逐字不变。 详见.eval-artifacts/e1-evaluator-20261016/report.md，仅离线，不修改生产资格或历史输入。
+
+## DEV-2026-10-16-E1-4g
+
+缺result中断的目标完成状态不猜NO。复核用户补充的NE边界：两份真实SIGKILL包缺result时，旧outcome仅因中断类型把userGoalComplete写NO，真实包断言先红；现在外层只决定ORCHESTRATION_INTERRUPTED，用户目标保持NOT_EVALUATED并注明缺result，两个包仍排除能力分母、六维NE、S0仅trace。反事实配对把真实支持交付记录与TEST_ONLY保存后中断组合，已支持的用户目标YES不被信号抹掉；删除实际结果则NE，不手填评分，不影响既有受控取消／预算artifact链。 详见.eval-artifacts/e1-evaluator-20261016/report.md，仅离线，不修改生产资格或历史输入。
