@@ -1,0 +1,590 @@
+{
+  "outcomes": {
+    "QUALIFIED_DELIVERY": 6,
+    "ORCHESTRATION_INTERRUPTED": 2,
+    "CAPABILITY_MISS": 4,
+    "DELIVERED_UNQUALIFIED": 2,
+    "INTERNAL_FAILURE": 4,
+    "ENV_FAILURE": 3,
+    "HONEST_NO_RESULT": 1
+  },
+  "userGoal": {
+    "YES": 6,
+    "NOT_EVALUATED": 2,
+    "NO": 14
+  },
+  "capabilityDenominator": {
+    "INCLUDED": 19,
+    "EXCLUDED": 3
+  },
+  "unassessedDimensions": {
+    "AUTHORITATIVE_CONDITIONS": [
+      "p1fA-kf-h003-a1",
+      "p1fA-kf-h005-a1",
+      "p1fB-h004-a1"
+    ],
+    "REQUIRED_EVIDENCE": [
+      "p1fA-kf-h003-a1",
+      "p1fA-kf-h005-a1",
+      "p1fA-kagurazaka-a1",
+      "p1fA-kf-h005-a1r",
+      "p1fA-kichijoji-a2",
+      "p1fB-h001-a1",
+      "p1fB-h003-a1",
+      "p1fB-h004-a1",
+      "p1fB-h005-a2",
+      "p1g-kichijoji-a2",
+      "p1g-h001-a1",
+      "p1g-h004-a2",
+      "p1g2-h001-a4",
+      "p20-h001-a1"
+    ],
+    "INVESTIGATION_BEHAVIOR": [
+      "p1fA-kf-h003-a1",
+      "p1fA-kf-h005-a1"
+    ],
+    "FINAL_CLAIM": [
+      "p1fA-kf-h003-a1",
+      "p1fA-kf-h005-a1",
+      "p1fA-kagurazaka-a1",
+      "p1fA-kf-h005-a1r",
+      "p1fA-kichijoji-a2",
+      "p1fB-h001-a1",
+      "p1fB-h003-a1",
+      "p1fB-h004-a1",
+      "p1fB-h005-a2",
+      "p1g-kichijoji-a2",
+      "p1g-h001-a1",
+      "p1g-h004-a2",
+      "p1g2-h001-a4",
+      "p20-h001-a1"
+    ],
+    "COMPLETION_OUTCOME": [
+      "p1fA-kf-h003-a1",
+      "p1fA-kf-h005-a1",
+      "p1fA-kagurazaka-a1",
+      "p1fB-h003-a1",
+      "p1fB-h004-a1",
+      "p1fB-h005-a2",
+      "p1g-kichijoji-a2",
+      "p20-h001-a1"
+    ],
+    "RESOURCES": [
+      "p1fA-kf-h001-a1",
+      "p1fA-kf-h002-a1",
+      "p1fA-kf-h003-a1",
+      "p1fA-kf-h004-a1",
+      "p1fA-kf-h005-a1",
+      "p1fA-kagurazaka-a1",
+      "p1fA-nakameguro-a1",
+      "p1fA-kf-h003-a2",
+      "p1fA-kf-h005-a1r",
+      "p1fA-kichijoji-a2",
+      "p1fB-h001-a1",
+      "p1fB-h002-a1",
+      "p1fB-h003-a1",
+      "p1fB-h004-a1",
+      "p1fB-h005-a2",
+      "p1g-kichijoji-a2",
+      "p1g-h001-a1",
+      "p1g-h003-a2",
+      "p1g-h004-a2",
+      "p1g2-h001-a4"
+    ]
+  },
+  "boundaryEvidenceGaps": [
+    {
+      "runId": "p1fA-kf-h003-a1",
+      "gaps": [
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "run",
+          "missing": [
+            "complete trace after orchestration interruption"
+          ],
+          "evidenceRefs": [
+            "browserTrace"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "POST https://production.tablecheck.com//v2/hub/availability_calendar_v2",
+          "missing": [
+            "raw POST body inspection (all field names/types)",
+            "request body SHA-256",
+            "content-type"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[271]"
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "p1fA-kf-h005-a1",
+      "gaps": [
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "run",
+          "missing": [
+            "complete trace after orchestration interruption"
+          ],
+          "evidenceRefs": [
+            "browserTrace"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "POST https://production.tablecheck.com//v2/hub/availability_calendar_v2",
+          "missing": [
+            "raw POST body inspection (all field names/types)",
+            "request body SHA-256",
+            "content-type"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[666]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/the-peninsula-tokyo-the-lobby/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[3912]"
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "p1fA-kagurazaka-a1",
+      "gaps": [
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "POST https://production.tablecheck.com//v2/hub/availability_calendar_v2",
+          "missing": [
+            "raw POST body inspection (all field names/types)",
+            "request body SHA-256",
+            "content-type"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[411]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/konya/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[1211]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/hotel-edmont-hirakawa-yamahiko-umihiko/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[1706]"
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "p1fA-nakameguro-a1",
+      "gaps": [
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "POST https://production.tablecheck.com//v2/hub/availability_calendar_v2",
+          "missing": [
+            "raw POST body inspection (all field names/types)",
+            "request body SHA-256",
+            "content-type"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[1384]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/yakiniku-champion-nat/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[2106]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/ebisu-ushimitsu/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[2570]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/ushimitsu-ebisuhonten/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[3567]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/yakiniku-champion-honten/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[3842]"
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "p1fA-kf-h003-a2",
+      "gaps": [
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "POST https://production.tablecheck.com//v2/hub/availability_calendar_v2",
+          "missing": [
+            "raw POST body inspection (all field names/types)",
+            "request body SHA-256",
+            "content-type"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[164]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/168tenshin-ginzainz/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[1882]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/ageru-karin/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[2365]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/ain-soph-ginza/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[3526]"
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "p1fA-kf-h005-a1r",
+      "gaps": [
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "POST https://production.tablecheck.com//v2/hub/availability_calendar_v2",
+          "missing": [
+            "raw POST body inspection (all field names/types)",
+            "request body SHA-256",
+            "content-type"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[306]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/the-peninsula-tokyo-the-lobby/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[1910]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/omotenashi/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[2664]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/momotenashiya/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[3672]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/suiten-ippeki/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[4128]"
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "p1fA-kichijoji-a2",
+      "gaps": [
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "run",
+          "missing": [
+            "network request records"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "session",
+          "missing": [
+            "recorded network-boundary installation"
+          ],
+          "evidenceRefs": [
+            "browserTrace.SESSION_OPENED"
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "p1fB-h001-a1",
+      "gaps": [
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "POST https://production.tablecheck.com//v2/hub/availability_calendar_v2",
+          "missing": [
+            "raw POST body inspection (all field names/types)",
+            "request body SHA-256",
+            "content-type"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[2026]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/sushi-itsumi-michiyuki/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[3325]"
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "p1fB-h003-a1",
+      "gaps": [
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "POST https://production.tablecheck.com//v2/hub/availability_calendar_v2",
+          "missing": [
+            "raw POST body inspection (all field names/types)",
+            "request body SHA-256",
+            "content-type"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[215]"
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "p1fB-h004-a1",
+      "gaps": [
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "run",
+          "missing": [
+            "network request records"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "session",
+          "missing": [
+            "recorded network-boundary installation"
+          ],
+          "evidenceRefs": [
+            "browserTrace.SESSION_OPENED"
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "p1fB-h005-a2",
+      "gaps": [
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "POST https://production.tablecheck.com//v2/hub/availability_calendar_v2",
+          "missing": [
+            "raw POST body inspection (all field names/types)",
+            "request body SHA-256",
+            "content-type"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[356]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/the-peninsula-tokyo-the-lobby/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[1824]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/omotenashi/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[2636]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/momotenashiya/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[3936]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/suiten-ippeki/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[4458]"
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "p1g-h001-a1",
+      "gaps": [
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "POST https://production.tablecheck.com//v2/hub/availability_calendar_v2",
+          "missing": [
+            "raw POST body inspection (all field names/types)",
+            "request body SHA-256",
+            "content-type"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[1680]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/sushi-itsumi-michiyuki/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[3071]"
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "p1g-h003-a2",
+      "gaps": [
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "POST https://production.tablecheck.com//v2/hub/availability_calendar_v2",
+          "missing": [
+            "raw POST body inspection (all field names/types)",
+            "request body SHA-256",
+            "content-type"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[164]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/168tenshin-ginzainz/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[1960]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/ageru-karin/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[2443]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/ain-soph-ginza/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[3767]"
+          ]
+        }
+      ]
+    }
+  ],
+  "severitiesNotEvaluated": {
+    "S1": 20,
+    "S2": 17,
+    "S3": 21,
+    "S4": 22
+  }
+}

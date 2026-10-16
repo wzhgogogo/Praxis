@@ -1,6 +1,6 @@
 # E1 评测器第一切片
 
-## 独立复核收尾（2026-10-16，实施中）
+## 独立复核收尾（2026-10-16，当前批次）
 
 复核提交44e6aab已快进同步；本轮按用户最新确认使用rev2修正所有Part A rev1 Gold、拆分S0、补独立公开GET规则、移除本机路径执行依赖、向外层接入POST body核对。原始result/trace、rev1/rev2及历史评价均不改写。只做离线重评和外层dry run；不调用模型、Live或见证GET。
 
@@ -12,9 +12,9 @@
 | 测试读取旧机器绝对路径 | 既有缺单家见证回归，迁移目录对照 | 在新临时目录仍保留4家预期和其余3家观察；路径清查 | 历史原始路径仅作provenance保留 |
 | 审核POST只查端点不查body | 现有外层observe/execute dry run | 真实观察接线；正确/多字段/错类型/缺body核对与hash | 不证明当前网站或真实模型 |
 
-以下旧报告保留为此前冻结阶段的审计记录；本轮最终命令、提交、校准及门禁将在本文末尾追加。
+当前结果见本文末尾“独立复核收尾交付”；以下旧报告是此前冻结阶段的审计记录，不是当前结论。
 
-- 日期：2026-10-16（Asia/Shanghai）。当前状态：复核输入已同步，R1–R9/真实等价表/逐条件状态及校准暴露的4个评测器遗漏已落地。最终22条类型21/22一致，但交付类型7/8、正常S0 7/20，验收BLOCKED、退出1，E1整批未完成。当前证据以本文末尾“最终交付”及corrected目录为准；下列原始切片/旧空表记录保留为历史审计。
+- 历史阶段（superseded retrospective，原4042d62）：22条类型21/22、交付7/8、合并S0 7/20，BLOCKED/退出1。该冻结结果及其独立复核均保留；本轮采用用户批准的新Gold修正和S0拆分口径，不覆盖或重新标注这些旧sidecar。
 - 证据：已暴露开发回归，不是 Clean Baseline，不证明新用例准确率。
 - 开工同步：git pull --ff-only，36ab029 → 78fcc13；保留复核者文件，T1独立复核已通过。
 - 用户原有 INDEX、预约设计草案和三个演示文件保留，不纳入提交。
@@ -367,3 +367,68 @@ node .eval-artifacts/e1-evaluator-20261016/compare-calibration.mjs .eval-artifac
 rebase审计映射（原日志仍保留其发生时的SHA）：3389131→b3cadec，7793db8→5f4e54c，3e8ada8→bf8c913，d621d1b→39f328c，5ca7972→9637321，0b1e2c2→7f166c0，f2fc135→54347af，cf5d5be→b8b0b13，f5fde99→f47b137，fd37fd5→6b7eeb7，9eb59e8→53309a1，f0dc35b→bbd751b，a94d91b→adaff72，64038dd→e227aea，b5363ce→eb5c8ca。唯一冲突完整采用复核者表，旧空表日志为历史证据，不冒充当前源码。
 
 停止等待独立Gold/网络口径证据及复核，不新增Live、付费模型、见证GET、下一批或后台任务。用户INDEX、预约设计草案及演示文件未纳入提交。E1整批仍未完成。
+
+## 独立复核收尾交付（当前可复核结果，2026-10-16）
+
+结论：按用户本轮批准的rev2修正及拆分S0口径，离线校准PASS／退出0。结果类型22/22、实际有交付的8次8/8、正常20次S0-声明20/20一致，误判合格0，评价器错误0。S0-越界9条在保留证据范围内ABSENT，另13条EVIDENCE_GAP／NOT_EVALUATED，RULE_GAP为0；未把13条写成无越界。E1签收仍交独立复核，不把校准一致当新用例准确率或产品通过。
+
+开始前`git pull --ff-only`从4042d62快进到44e6aab；通读本轮独立复核、ADR-0035/0036及补充。原始20 result＋2中断包、30 gzip的双SHA重新验证，manifest仍为`68125e710ee1ffee5f101fd390ba4e769e2e1d67e5fa3b5f1bc3035ecbd6d1f2`。原始Gold/变体/见证/标签/措辞表/Prompt和生产代码行为未改；仅采用独立更正记录覆盖评价视图。
+
+### 五项反例、修改与结果
+
+测试入口简称D为`src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts`，B为`src/harness/browser/read-network-redirect.test.ts`。红绿原始日志在`review-followup/`。
+
+| 项 | 具体修复前反例 | 实际修改／提交 | 正常对照与反例结果 | 签收条件／剩余问题 |
+| --- | --- | --- | --- | --- |
+| rev1→rev2统一Gold修正 | KF-H002仍因`around 10`坏字段NE；只修一案会漏掉其余rev1运行 | `34a195a`；`gold-corrections.json`＋calibration-inputs及共享artifact入口，在原始SHA绑定后只替换内存中的Gold投影 | D:38/60；gold-red→gold-green；完整5份rev1 result应用修正，2份started仅登记不补result；错artifact/rev1/rev2 SHA、漏绑定拒绝，原始字节不变 | 已完成当前修正链；不修复任意未知坏Gold |
+| S0声明／越界独立 | 支持交付被网络缺证拖成合并S0 NE；若直接放行NE则会漏声明错误／缺Gold | `355e937`；outcome拆分两子项；合并S0仅汇总；Eval Skill 2.7仅§7.1维护新规则；比对工具只在自动输出保存后读labels | D:506；s0-red→s0-network-green；改实际展示人数→声明PRESENT，删轨迹→声明NE。真实Evaluator删除必要Gold后的实际比较退出1（gate-challenges/missing-declaration-gold） | 20正常声明可评且与人工一致；2中断因缺result仍NE／EXCLUDED，用户目标仍NE；不能证明任意自由文本声明 |
+| 独立公开GET与各批审核Gold | 旧冻结并被复核者复现的两h001输出仍S0 NE（network-red-frozen-outputs，不伪称此轮重新执行旧实现） | `355e937`；evaluation-owned network规则，按ADR-0035/0036公共读取及窄来源grammar重算；`calibration-observations.rev2.json`以原始artifact SHA和各批reviewed-reads SHA绑定；arch禁止值导入生产Guard/政策 | D:519/537/559；两真实h001越界ABSENT。ADMITTED记录改confirm路径、跨源动态、凭据／敏感字段、错误POST仍PRESENT；去掉审核Gold产生RULE_GAP，真实比较退出1，声明仍20/20（gate-challenges/rule-gap） | 两条规则缺口已补；13条历史证据缺口逐条保留，未知GET真实副作用仍为ADR残余风险 |
+| 本机路径依赖 | 独立复核缺一店回归ENOENT；有效相对子目录被basename丢弃 | `94d9a3d`；D复制源文件改为manifest旁相对读取；witness loader保留相对子目录，历史绝对路径只取文件名；新见证refs尽量相对＋SHA | D:702/742；path-red→path-green；迁移临时目录仍4家、只缺目标店观察，其他3家保留。78个测试／98个eval源码及输入清查；当前包可执行路径0绝对值 | 当前回归已修；额外历史Replay绝对路径依赖另见下表，不改冻结种子 |
+| 外层POST body取证／核对 | 原端点检查原样提取后，多email仍MATCH（post-body-red），没有核对实际字节 | `4ecc3b0`；仅现有外层observe/execute及post-body-audit，取得Route.fetch实际body，按bodyFields核对；每请求独立ID、字段类型、检查结果、原始字节hash入记录；不记录值或凭据 | D:580＋B:9；post-body-green、post-body-dry-run。真实本地receiver确认两份body字节和hash一致；故意放宽的TEST_ONLY Guard规则不使外层错误body通过；未知／缺body非正常MATCH | 已完成脚本及本地取证链；无Live，不声称远端浏览器或未经过该可读dispatch路径也已验证 |
+
+Gold修正绑定的是以下三SHA，而非case-name判断：每条原产物SHA见[修正记录](gold-corrections.json)，rev1=`447aaf3992014be8bb29736c179cb511aff31d0a69fad022f1c659ac5760ff27`，rev2=`1879c3189f90134f2ddb4cc78b12fcc31a0cd68e7b806a2baec43270e6f9f753`。7条是本22包中全部使用rev1的运行：5 result＋2 started；3个后来已用rev2的Part A运行及其他批次不替换。两started的缺result状态不因Gold记录而改变。
+
+### 实际执行命令与冻结
+
+```bash
+node --import tsx --test --test-name-pattern='E1 review.*[Gg]old' src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts
+node --import tsx --test --test-name-pattern='E1 review witness inputs|E1 a missing raw recheck|E1 actual after-run witness' src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts
+node --import tsx --test --test-name-pattern='E1 review.*(S0|public GET|POST)' src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts
+node --import tsx .eval-artifacts/p2-0-hardening-20261015/prep/scripts/run-p20.mjs h001 --dry-run-post-body
+node --import tsx --test --test-name-pattern='E1 outer body observer' src/harness/browser/read-network-redirect.test.ts
+node --import tsx .eval-artifacts/e1-evaluator-20261016/run-calibration.mjs .eval-artifacts/e1-evaluator-20261016/calibration-20261016-rubric25-review
+node .eval-artifacts/e1-evaluator-20261016/compare-calibration.mjs .eval-artifacts/e1-evaluator-20261016/calibration-20261016-rubric25-review/summary.json .eval-artifacts/e1-evaluator-20261016/calibration-20261016-rubric25-review/comparison
+node --import tsx .eval-artifacts/e1-evaluator-20261016/review-followup/verify-calibration-gates.mjs
+```
+
+前五项均有正常与反例，不把启动／环境错误计为目标检错。最后三条分别退出0、0、0；最后一条验证两个错误配置确实各自经真实Evaluator→保存产物→真实comparison得到目标退出1，不是手填评分。正常22输出及所有原始输入不被挑战实验覆盖。[挑战证据](review-followup/gate-challenges/verification.json)。
+
+`7dd2645`运行前冻结37项源码／规则／输入／外层脚本SHA；[冻结文件](review-followup/config-freeze.json) SHA=`22bb818ad155e8747b36c61958762e4c3bd3d339b3e14eb6445ec5b9e43a8025`，运行前后及最终复验一致。Evaluator@29／rubric@25；[22份保存输出及SHA](calibration-20261016-rubric25-review/summary.json)、[逐次校准和逐条缺证](calibration-20261016-rubric25-review/comparison/comparison.md)、[机器对照](calibration-20261016-rubric25-review/comparison/comparison.json)。labels只在比较程序读取；未进入Evaluator或Gold修正。
+
+### 最终门禁与首轮失败保留
+
+| 实际命令 | 结果 | 证据 |
+| --- | --- | --- |
+| npm --no-update-notifier run typecheck | 通过／0 | review-followup/typecheck.log |
+| npm --no-update-notifier run arch:check | 通过／0，0禁用依赖 | review-followup/arch-check.log |
+| npm --no-update-notifier test | 926/926／0，0 skip/todo | review-followup/test.log |
+| npm --no-update-notifier run build | 通过／0 | review-followup/build.log |
+| npm --no-update-notifier run test:browser:fixture | 最终113/113／0，0 skip/todo | review-followup/browser-final.log |
+
+浏览器首轮112/113／退出1的完整日志保留`review-followup/browser.log`：既有慢页面OPEN_LINK返回MODEL_FAILURE。单项诊断约9.65秒通过（browser-navigation-diagnostic.log）；未改实现、用例、时间上限或断言，仅再做一次完整复验113/113。首轮原因仍未确定，不自称环境错误、不宣称已关闭稳定性问题；新增POST原生用例两轮均通过。最初无权限启动本地receiver的EPERM不算业务红灯。真实浏览器的CLOUDFLARE_SESSION测试名仍使用本地Fixture，并未调用Cloudflare服务。
+
+Skill校验`python3 /Users/wangzhour/.codex/skills/.system/skill-creator/scripts/quick_validate.py docs/skills/eval`通过；本轮没有另建验证矩阵。源码/文档/JSON diff检查通过；原始测试日志保留其输出空白，不为消除diff whitespace告警改写审计日志。源码冻结后仅保存输出、做有界验收挑战和文档同步，没有再改判定代码或重复四条已过门禁。
+
+### 路径清查与尚未证明
+
+[路径清查](review-followup/path-audit.json)：当前测试源码无硬编码本机路径，eval源码／YAML／JSON也无；包内30个`originalPath`是保留出处，加载器从manifest相对成员读取。另在5个src Fixture出处文件发现7处绝对路径，其消费者读取同仓Fixture内容而非旧路径。见证与本次22包实际读取全部走声明的本地相对文件／哈希。
+
+清查还发现v7中28颗seed有绝对出处／recording字段，其中部分继承seed的`runArtifact`确会被历史Replay Runner打开。它们不参与此次22条补评；本批新增两颗h001的runArtifact已打包且相对，仍待独立标注、不计通过率。本轮未改写冻结种子、未运行Replay或迁移历史录制。这个历史Replay可搬迁性缺口保留，不报告为已修。部分旧/新sidecar出处refs仍含本机绝对路径，仅元数据引用，不是当前包加载入口；也不把这些历史文件机械改写。
+
+逐run、逐request的13条越界缺证详见校准表末尾：11条含公开POST原始body字段／类型、hash、content-type缺失；若还有reserve入口，则另列start_date/pax原值；两中断缺终止后完整trace；另两条缺网络记录／安装记录。这里分类可重叠，13是运行数，不是13次请求。没有为这些历史运行补造body。无条件把EVIDENCE_GAP接受逻辑改成RULE_GAP也通过的风险，已由实际gate-challenges反例拦住。
+
+六维NE数量仍为条件3、证据14、调查2、最终claim14、完成8、资源20；[逐条范围汇总](review-followup/coverage-summary.json)和每份evaluation保留原原因。S1–S4缺独立判断的项不补0。目标完成由实际结果报告：YES 6、NO 14、缺result NE 2；能力分母INCLUDED 19／EXCLUDED 3，不从预期布尔值填写，不把正确停止／校准一致当用户目标完成。
+
+真实模型理解与选路、未审核的自由文本/HARD适用性、预算around的通用容差、未保存的用户UI、当前网站／Cloudflare兼容性、实时库存、完整耗时拆分、长期稳定性、反事实因果与Clean Holdout均未由本轮证明。所有业务验证离线，0真实模型／Google／Cloudflare／餐厅请求，0 Live／见证GET；只有Git同步和本地Chromium receiver。
+
+按用户授权可将本批提交推送至私有`wzhgogogo/Praxis`同名`codex/feat-live-restaurant-read-path`。Git实际回执单独报告；推送后停止等待独立复核，不追加Live或下一批修复。用户INDEX、两份预约设计草案和演示文件均保持未纳入。

@@ -1,0 +1,44 @@
+{
+  "codeCommit": "7dd264561c987f81d63bcec18f7378122c363892",
+  "mode": "OFFLINE_MOCK_AND_LOCAL_CHROMIUM",
+  "gates": [
+    {
+      "name": "typecheck",
+      "command": "npm --no-update-notifier run typecheck",
+      "exitCode": 0,
+      "log": "typecheck.log"
+    },
+    {
+      "name": "arch",
+      "command": "npm --no-update-notifier run arch:check",
+      "exitCode": 0,
+      "log": "arch-check.log"
+    },
+    {
+      "name": "test",
+      "command": "npm --no-update-notifier test",
+      "exitCode": 0,
+      "log": "test.log"
+    },
+    {
+      "name": "build",
+      "command": "npm --no-update-notifier run build",
+      "exitCode": 0,
+      "log": "build.log"
+    },
+    {
+      "name": "browser",
+      "command": "npm --no-update-notifier run test:browser:fixture",
+      "exitCode": 0,
+      "log": "browser-final.log"
+    }
+  ],
+  "initialBrowser": {
+    "exitCode": 1,
+    "log": "browser.log",
+    "failure": "existing slow full-page OPEN_LINK returned MODEL_FAILURE",
+    "cause": "NOT_ESTABLISHED",
+    "followup": "browser-navigation-diagnostic.log; unchanged full-suite rerun browser-final.log"
+  },
+  "scope": "No live model/source calls; initial browser failure remains visible, not a stability fix."
+}

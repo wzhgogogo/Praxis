@@ -4343,3 +4343,11 @@ rules-red.log三项实际业务断言失败：KF-H004误不合格，P1-G H004未
 ## TEST-2026-10-16-E1-CALIBRATION-BLOCKED
 
 真实共享入口8bdf88c的22重评输出逐份SHA已复核，校准比较脚本只读保存产物＋labels，calibration-final-comparison.log实际退出1，21/22类型，交付7/8，正常S0 7/20，2中断NE例外，误判合格0，4个已发现评测器错误关闭。Gold预算原始坏字段未修改、S0不足未改ABSENT，默认918/918不冒充签收。当前全表/逐维NE/输入SHA/红绿/命令在report.md最终节与calibration-20261016-rubric24-corrected目录。最后仅文档与结果保存，复用现有四门禁，不重复浏览器或模型；无Live/GET，未推送，停止等待。
+
+## TEST-2026-10-16-E1-REVIEW-CLOSURE
+
+当前证据在`.eval-artifacts/e1-evaluator-20261016/report.md`末尾、`review-followup/`及`calibration-20261016-rubric25-review/`，evaluator@29／rubric@25。Gold目标NOT_EVALUATED→QUALIFIED、搬迁目录路径失败→完整4家见证、声明因网络缺证无法独立输出→声明可评、端点检查误接额外POST字段→MISMATCH均有反例和正常对照；两h001旧冻结NE与新独立网络ABSENT对照单独标明旧结果复用，不伪称重新运行旧实现。实际取证是生产Guard＋真实本机Chromium＋独立localhost receiver，两POST字节/hash正确且错误body不会借用上次核对。脚本`run-p20.mjs h001 --dry-run-post-body`网络/模型/Live均0。
+
+冻结7dd2645后运行`run-calibration.mjs`保存22输出，再用`compare-calibration.mjs`读取labels，实际退出0：类型22/22、交付8/8、正常S0-声明20/20、两缺result声明NE、误判合格0；越界9 ABSENT＋13 EVIDENCE_GAP，0 RULE_GAP，不把缺证写无错。`verify-calibration-gates.mjs`缺审核规则／缺必要Gold分别真正重评并保存后比较，实际目标退出1；正常22输出不覆盖。原始22包30gzip双SHA复验通过，manifest不变；37项冻结SHA前后及最终一致。
+
+最终typecheck、arch:check、npm test 926/926、build通过。完整浏览器首次112/113的慢OPEN_LINK返回MODEL_FAILURE，原日志browser.log保留；单项browser-navigation-diagnostic.log通过，未改实现/时限/断言的唯一完整复验browser-final.log为113/113。原因尚未确定，不记环境错误或已修稳定性；未用skip/todo。Skill validator通过；其余必要维度仍NE（条件3／证据14／调查2／最终claim14／完成8／资源20），不是签收产品全部目标。78测试、98 eval源码输入及原始包／其他Fixture／v7种子路径清查保留JSON；历史Replay旧机路径依赖明确未改，不影响本22补评。全部业务离线，无新增真实模型、站点、Google、Cloudflare、Live、见证GET。

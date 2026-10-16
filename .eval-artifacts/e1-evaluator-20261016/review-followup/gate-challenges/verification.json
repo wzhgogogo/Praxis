@@ -1,0 +1,86 @@
+{
+  "status": "PASS",
+  "normalControl": "calibration-20261016-rubric25-review/comparison/comparison.json",
+  "results": [
+    {
+      "name": "rule-gap",
+      "runId": "p1g-h003-a2",
+      "actualExit": 1,
+      "gates": {
+        "normalS0Declaration": {
+          "required": 20,
+          "matched": 20,
+          "passed": true
+        },
+        "interruptedS0Declaration": {
+          "required": 2,
+          "allowedUnknown": 2,
+          "passed": true
+        },
+        "s0Boundary": {
+          "required": 22,
+          "evaluatedAbsent": 9,
+          "observedViolation": 0,
+          "allowedEvidenceGaps": 12,
+          "ruleGaps": [
+            "p1g-h003-a2"
+          ],
+          "passed": false
+        },
+        "deliveryTypes": {
+          "required": 8,
+          "matched": 8,
+          "passed": true
+        },
+        "noFalseQualified": {
+          "count": 0,
+          "passed": true
+        },
+        "noEvaluatorErrors": {
+          "remaining": 0
+        }
+      },
+      "proof": "ACTUAL_EVALUATOR_THEN_ACTUAL_COMPARISON; no hand-filled score"
+    },
+    {
+      "name": "missing-declaration-gold",
+      "runId": "p1fA-kf-h002-a1",
+      "actualExit": 1,
+      "gates": {
+        "normalS0Declaration": {
+          "required": 20,
+          "matched": 19,
+          "passed": false
+        },
+        "interruptedS0Declaration": {
+          "required": 2,
+          "allowedUnknown": 2,
+          "passed": true
+        },
+        "s0Boundary": {
+          "required": 22,
+          "evaluatedAbsent": 9,
+          "observedViolation": 0,
+          "allowedEvidenceGaps": 13,
+          "ruleGaps": [],
+          "passed": true
+        },
+        "deliveryTypes": {
+          "required": 8,
+          "matched": 7,
+          "passed": false
+        },
+        "noFalseQualified": {
+          "count": 0,
+          "passed": true
+        },
+        "noEvaluatorErrors": {
+          "remaining": 1
+        }
+      },
+      "proof": "ACTUAL_EVALUATOR_THEN_ACTUAL_COMPARISON; no hand-filled score"
+    }
+  ],
+  "models": 0,
+  "network": 0
+}

@@ -1,17 +1,17 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.241
+- Document revision: 4.242
 - Last updated: 2026-10-16
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
 
-- **E1远端推送未执行：** 本地交付64038dd后，自动审批因20份result＋2份中断trace包及评测产物的敏感载荷目的地确认不足，在创建Git进程前拒绝推送。只读核对origin为`https://github.com/wzhgogogo/Praxis`，分支`codex/feat-live-restaurant-read-path`；等待用户确认私有及该载荷的具体目的地授权，不换通道重试。源码a94d91b及现有门禁不变，尚未宣称远端更新。
+- **2026-10-16 E1独立复核收尾，校准通过／待独立签收：** 44e6aab复核输入已快进同步；用户批准rev2统一Gold修正与S0拆分后，冻结7dd2645（evaluator@29／rubric@25）重评22条：类型22/22、实际交付8/8、正常S0-声明20/20、误判合格0。越界9条已评价ABSENT，13条历史EVIDENCE_GAP逐请求列缺什么，RULE_GAP为0，不把未评当无越界。比较实际退出0；声明必要Gold或独立网络规则缺失的真实Evaluator→comparison挑战各退出1。完整[报告](../.eval-artifacts/e1-evaluator-20261016/report.md)末尾及rubric25逐次对照为当前证据；旧BLOCKED输出与复核原样保留。
 
-- **2026-10-16 E1离线阶段交付，正式校准未完成：** T1独立复核已通过。输入3389131保留22条＝20份result＋2份原始SIGKILL包（含trace），30gzip／12,630,285字节，最终原始字节与双SHA复验通过。第1–9项分别提交，源码冻结a94d91b（evaluator@29／rubric@23）；真实反例另关闭公共读取误报、见证登记集缩水、缺result误判用户目标NO。最新四门禁905/905全绿；最近浏览器相关路径本地112/112，后续无浏览器采集变更。具体提交、真实入口、正常／反例及未覆盖边界见[报告](../.eval-artifacts/e1-evaluator-20261016/report.md)，详细历史保留DEVLOG／TEST-LOG。
+- **E1边界与原始输入：** 20份result＋2份SIGKILL包（含trace）、30gzip／12,630,285字节及原始manifest SHA不变；rev1/rev2、见证、标签、Prompt和生产判断均未改写。更正记录绑定全部5份rev1 result与2份started的原始SHA及两版Gold SHA，缺result仍不造结果／用户目标。外层POST body取证只改脚本及dry run／本地Chromium验证，0真实模型／Google／Cloudflare／餐厅请求、0 Live／见证GET。用户已授权同一私有分支推送，Git回执单独报告；推送后停止，不进入下一批。
 
-- **E1最终校准BLOCKED／未验收：** 自动源码8bdf88c，evaluator@29/rubric@24，真实等价表与R1–R9已接共享入口，4个实际比较暴露的评测器遗漏修复后全量重评。结果类型21/22、实际交付7/8、正常S0 7/20，两中断NE例外2/2，误判合格0；比较退出1，不把未知当一致。剩KF-H002原始Gold预算损坏及13普通S0未评（11原始证明缺失、2独立许可规则缺口），请求独立更正/证据，原文件未改。四门禁918/918全绿仅辅助；当前[完整报告](../.eval-artifacts/e1-evaluator-20261016/report.md)末尾与corrected逐次表为准。全部离线，无生产行为/Gold/Prompt改动，无模型/Live/见证GET；用户设计文件保留，推送仍因敏感载荷目的地确认未执行。停止等待输入/复核，不自动下一批。
+- **E1门禁与仍未证明：** typecheck／arch／npm test 926/926／build全绿，完整本地Chromium最终113/113。首轮慢OPEN_LINK一项失败、定向通过及完整复验日志均保留，原因未定，不声称稳定性已关闭。当前78测试／98评测源码输入无硬编码本机路径；冻结历史Replay的部分旧工作树绝对路径依赖已列明，不参与本22条、不擅自迁移种子。实际目标YES 6／NO 14／缺result NE 2；必要维度未评仍保留。开发校准不代表新用例／真实模型理解、当前网站、通用自由语义、实时库存或Clean Holdout通过。
 
 - **2026-10-15 T1离线交付待复核：** 六项各自本地提交，生产源码冻结77c4580；各项红绿与门禁／退役清单／宿主差异已汇总至`.eval-artifacts/t1-assembly-20261015/report.md`。最后默认881/881、真实Chromium112/112，typecheck／arch／build全绿。八种原生规范化逃逸未复现，按指令允许分支保留；CDP独立origin／方法／类型拒绝三对照有实际receiver红绿证据。仅测试机制与明确接线修复，不证明真实模型或网站；P2-0已独立签收，T1等待复核，无Live／付费模型／见证GET／Gold修改，无推送。用户原有设计文件保留未提交。
 
