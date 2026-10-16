@@ -74,7 +74,7 @@ export interface RestaurantHybridDiagnosticEvaluation {
   candidateSummaries: CandidateDiagnosticSummary[];
   findings: DiagnosticFinding[];
   unassessedDimensions: string[];
-  recordReadIssues: Array<{ path: string; reason: "MISSING" | "INVALID_TYPE" }>;
+  recordReadIssues: Array<{ path: string; reason: "MISSING" | "INVALID_TYPE" | "UNEXPECTED_FIELD" }>;
   criterionEquivalences: { path: string; sha256: string; tableVersion: string };
   pendingCriterionWordings: PendingCriterionWording[];
   conditionStates: CandidateConditionStates[];
@@ -869,7 +869,7 @@ function assessPresentedCandidate(candidateId: string, root: RunRecord, domain: 
  * independently encoded by the artifact, so insufficient records stay unknown.
  */
 function assessNoResult(root: RunRecord, domain: DomainRecord, request: RequestShape): {
-  status: DiagnosticEvaluationStatus; observations: string[]; refs: string[];
+  status: DiagnosticEvaluationStatus; observations: string[]; refs: string[]; scopeMatched?: boolean;
 } {
   const record = (domain.noVerifiedResult);
   const endedAt = record?.endedAt ?? root.finishedAt;
@@ -1033,7 +1033,7 @@ function assessNoResult(root: RunRecord, domain: DomainRecord, request: RequestS
   if (!ids.length && !discoveredIds.size && !scopeIds.length && !unresolvedIds.length) {
     return { status: "SATISFIED", observations: ["Current executed source searches returned no candidates; the bounded empty scope agrees with the recorded ending. This does not prove search exhaustiveness."], refs: [ref("trajectories"), ref("finalSnapshot.domainState.noVerifiedResult")] };
   }
-  return unknown("Candidate scope is recorded, but remainingGaps prose cannot independently prove that no candidate qualifies or that investigation was sufficient.");
+  return { ...unknown("Actual discovery/read/end scope and explicit unknowns agree; investigation sufficiency and global no-availability are NOT_EVALUATED."), scopeMatched: true };
 }
 
 /** Deterministically diagnoses an already-written artifact; it never calls a model or a provider. */
@@ -1169,13 +1169,23 @@ export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceAr
   const classification = classifyRunOutcome({ root, findings, conditionStates, presentationConditionsStatus, ...(expected.goal ? { expectedGoal: expected.goal } : {}),
     trace: externalTrace?.entries ?? [...(root.diagnostics?.browserTrace ?? []), ...(root.sourceTrace?.browserTrace ?? [])],
     ...(orchestration ? { orchestration } : {}), ...(witnessWindowExpired ? { invalidSample: { reason: "Required witness certification expired before run start with no after-run recheck; Eval Skill §5.", refs: options.witnessOracle!.rows.flatMap(row => row.refs) } } : {}),
-    ...(feasibleWitnesses.length ? { knownFeasibleWitness: { refs: feasibleWitnesses.flatMap(row => row.evidenceRefs) } } : {}), resultMissing });
+    ...(feasibleWitnesses.length ? { knownFeasibleWitness: { refs: feasibleWitnesses.flatMap(row => row.evidenceRefs) } } : {}),
+    ...(conditionsStatus === "SATISFIED" && noResultAssessment && (noResultAssessment.status === "SATISFIED" || "scopeMatched" in noResultAssessment && noResultAssessment.scopeMatched)
+      ? { honestNoResultScope: { refs: noResultAssessment.refs } } : {}), resultMissing });
+  const corroboratedInternalFailure = classification.outcome.type === "INTERNAL_FAILURE";
+  if (corroboratedInternalFailure) {
+    const ending = findings.find(finding => finding.dimension === "COMPLETION_OUTCOME")!;
+    ending.status = "NOT_SATISFIED"; ending.certainty = "CONFIRMED";
+    ending.observations.push(...classification.outcome.reasons);
+    ending.evidenceRefs.push(...classification.outcome.evidenceRefs);
+    ending.directCause = "Independent terminal/source/action records corroborate an internal failure; it is not an ordinary no-result.";
+  }
   return { ...classification, conditionStates, softPreferenceObservations: softPreferences ? { path: softPreferences.path, sha256: softPreferences.sha256 } : null, witnessFunnel, investigationMetrics, effectiveResources, recordReadIssues: [...readIssues, ...(externalTrace?.issues ?? [])], criterionEquivalences: { path: equivalences.path, sha256: equivalences.sha256, tableVersion: equivalences.tableVersion }, pendingCriterionWordings: criteriaComparison.pending, schemaVersion: "1", evaluatorVersion: RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, rubricVersion: RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION, rubricStatus: "DRAFT_DIAGNOSTIC_ONLY", sourceArtifact: { path: sourceArtifact.path, sha256: sourceArtifact.sha256, ...(asString(root.runId) ? { runId: asString(root.runId)! } : {}), ...(asString(root.caseId) ? { caseId: asString(root.caseId)! } : {}) }, execution: { status: asString(root.status) ?? null, stage: asString(root.stage) ?? null,
     // A source discovery failure is not an ordinary bounded empty result.
     // The runtime keeps that failure on the search continuation, so preserve
     // UNKNOWN rather than reclassifying the task as a verified no-result.
-    taskProducedQualifiedResult: classification.outcome.type === "DELIVERED_UNQUALIFIED" ? "NO" : qualified ? "YES" : completion === "NO_VERIFIED_RESULT" ? terminalSearchFailure ? "UNKNOWN" : "NO" : completion === "CANCELLED" || completion === "BUDGET_OR_DEADLINE_STOP" || completion === "INTERNAL_EXECUTION_FAILURE" ? "NO" : anyNotSatisfied ? "NO" : "UNKNOWN",
-    systemBehavior: anyNotSatisfied ? "NOT_SUPPORTED" : noResultSupported ? "SUPPORTED_BY_EVIDENCE" : anyNotEvaluated ? "NOT_EVALUATED" : "SUPPORTED_BY_EVIDENCE", externalConditions: candidates.length > 0 ? "OBSERVED" : "NOT_EVALUATED", evidenceSufficiency: evidenceStatus === "SATISFIED" ? "SUFFICIENT_FOR_PRESENTED_RESULT" : evidenceStatus === "NOT_SATISFIED" ? "INSUFFICIENT" : "NOT_EVALUATED", completion }, candidateSummaries, findings, unassessedDimensions: [...effectiveResources.unassessed, ...investigationMetrics.unassessed, ...(resultMissing ? ["result.json missing: result-dependent stage dimensions remain NOT_EVALUATED; only outer interruption and trace can be assessed."] : []), "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.", "Cost is not inferred without explicit configured price inputs.", "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose.", ...(criteriaComparison.unresolved.length ? ["Criterion text differs without deterministic equivalence; no LLM judge was used and independent semantic review is required."] : []), ...expected.unsupportedHardCriteria.map((criterion) => `Negative/non-positive HARD criterion '${criterion}' has no accepted source-evidence contract in this evaluator.`)] };
+    taskProducedQualifiedResult: classification.outcome.type === "DELIVERED_UNQUALIFIED" || corroboratedInternalFailure ? "NO" : qualified ? "YES" : completion === "NO_VERIFIED_RESULT" ? terminalSearchFailure ? "UNKNOWN" : "NO" : completion === "CANCELLED" || completion === "BUDGET_OR_DEADLINE_STOP" || completion === "INTERNAL_EXECUTION_FAILURE" ? "NO" : anyNotSatisfied ? "NO" : "UNKNOWN",
+    systemBehavior: corroboratedInternalFailure || anyNotSatisfied ? "NOT_SUPPORTED" : noResultSupported ? "SUPPORTED_BY_EVIDENCE" : anyNotEvaluated ? "NOT_EVALUATED" : "SUPPORTED_BY_EVIDENCE", externalConditions: candidates.length > 0 ? "OBSERVED" : "NOT_EVALUATED", evidenceSufficiency: evidenceStatus === "SATISFIED" ? "SUFFICIENT_FOR_PRESENTED_RESULT" : evidenceStatus === "NOT_SATISFIED" ? "INSUFFICIENT" : "NOT_EVALUATED", completion: corroboratedInternalFailure ? "INTERNAL_EXECUTION_FAILURE" : completion }, candidateSummaries, findings, unassessedDimensions: [...effectiveResources.unassessed, ...investigationMetrics.unassessed, ...(resultMissing ? ["result.json missing: result-dependent stage dimensions remain NOT_EVALUATED; only outer interruption and trace can be assessed."] : []), "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.", "Cost is not inferred without explicit configured price inputs.", "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose.", ...(criteriaComparison.unresolved.length ? ["Criterion text differs without deterministic equivalence; no LLM judge was used and independent semantic review is required."] : []), ...expected.unsupportedHardCriteria.map((criterion) => `Negative/non-positive HARD criterion '${criterion}' has no accepted source-evidence contract in this evaluator.`)] };
 }
 function evaluationOutputPath(artifactPath: string, suffix: string): string { return resolve(dirname(artifactPath), `${basename(artifactPath, ".json")}.evaluation.${suffix}-${Date.now()}.json`); }
 export async function evaluateArtifactFile(inputPath: string): Promise<{ evaluation: RestaurantHybridDiagnosticEvaluation; outputPath: string }> {

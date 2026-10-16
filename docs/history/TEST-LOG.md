@@ -4335,3 +4335,7 @@ rules-red.log三项实际业务断言失败：KF-H004误不合格，P1-G H004未
 ## TEST-2026-10-16-E1-SUPPLEMENT-HISTORICAL-WITNESS
 
 旧加载器对真实神乐坂witness记录报Invalid witness source array（historical-witness-red.log），新加载器3店原始库存与独立HARD/半径进入真实Evaluator，CAPABILITY_MISS；删半径Gold不默认，删一店观察不缩水。h005独立认证对照通过，删除认证或改其日期仍AVAILABLE但feasible NE，不跨请求。116定向及typecheck/arch:check/npm test 915/915/build全绿；日志supplement/historical-witness-*。22包原始字节/双SHA重新核验通过input-recheck.log；Skill验证通过。仅历史来源引用与离线Evaluator，未动浏览器执行/Gold，无模型/Live/GET；正式校准尚未读取labels。
+
+## TEST-2026-10-16-E1-CALIBRATION-CORRECTIONS
+
+首次实际比较calibration-first-comparison.log退出1，4个分类遗漏并非靠测试数发现。calibration-causes-red.log为CAPABILITY_MISS≠INTERNAL及NE≠如实有界无结果的目标断言；修复后删除终止event不得仍判内部，删END_READ或UNKNOWN伪装无位不得仍判HONEST，改ID不改正常结果，必要环节NE仍保留。Gold异常字段目标断言calibration-gold-red.log先红，修复后明确UNEXPECTED_FIELD，不补原条件。119定向及四门禁918/918全绿，calibration-fixes-*.log。13条S0原始本地recording逐份只读核查，无HAR或body，retained-network-audit.json保留SHA与字段清单，不伪造无S0；正式最终校准仍待重评与独立输入。

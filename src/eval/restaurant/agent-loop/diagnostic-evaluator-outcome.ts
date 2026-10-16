@@ -59,7 +59,7 @@ export function auditReadOnlyTrace(traces: TraceRecord[], fallback: NetworkReque
 
 export function classifyRunOutcome(input: { root: RunRecord; findings: DiagnosticFinding[]; presentationConditionsStatus: DiagnosticFinding["status"]; expectedGoal?: string; trace: TraceRecord[];
   conditionStates: CandidateConditionStates[];
-  orchestration?: OrchestrationRecord; resultMissing: boolean; knownFeasibleWitness?: { refs: string[] }; invalidSample?: { reason: string; refs: string[] } }): { outcome: RunOutcome; severity: RunSeverity } {
+  orchestration?: OrchestrationRecord; resultMissing: boolean; knownFeasibleWitness?: { refs: string[] }; honestNoResultScope?: { refs: string[] }; invalidSample?: { reason: string; refs: string[] } }): { outcome: RunOutcome; severity: RunSeverity } {
   const root = input.root, domain = root.finalSnapshot?.domainState;
   const presented = domain?.presentedResults?.candidateIds ?? [];
   const stage = (dimension: DiagnosticFinding["dimension"]) => input.findings.find(finding => finding.dimension === dimension);
@@ -133,6 +133,15 @@ export function classifyRunOutcome(input: { root: RunRecord; findings: Diagnosti
   const failedAttempts = (root.modelInvocations ?? []).filter(attempt => attempt.outcome === "FAILED");
   if (failedAttempts.some(attempt => attempt.providerStatus === 402 || attempt.providerStatus === 401 || attempt.providerStatus === 429 || (attempt.providerStatus ?? 0) >= 500))
     return { outcome: make("ENV_FAILURE", "Actual provider attempt records an explicit service/account HTTP failure, not a normal empty restaurant result.", ["modelInvocations"]), severity };
+  if (input.knownFeasibleWitness) severity.S2 = { status: "PRESENT", reasons: ["No delivery despite independent request-matching feasible witness; cause is classified separately."], evidenceRefs: input.knownFeasibleWitness.refs };
+  const failureCode = domain?.failure?.code;
+  const terminalKind = failureCode === "AGENT_LOOP_REJECTION_LIMIT" ? "REJECTION_LIMIT" : failureCode === "AGENT_LOOP_NO_PROGRESS" ? "NO_PROGRESS" : undefined;
+  const matchingEnd = terminalKind && root.trajectories?.at(-1)?.stepOutcome === terminalKind && root.loop?.status === terminalKind
+    && root.events?.some(entry => entry.event?.type === "AGENT_LOOP_TERMINATED" && entry.event.termination === terminalKind && entry.trace?.actor === "SYSTEM");
+  const actualCause = terminalKind === "REJECTION_LIMIT" ? (root.trajectories ?? []).filter(step => step.stepOutcome === "REJECTED" && step.actionValidation?.status === "REJECTED" && step.agentAction).length > 1
+    : terminalKind === "NO_PROGRESS" && root.trajectories?.some(step => step.stepOutcome === "EXECUTION_FAILURE" && step.executionMetadata?.failureCode && step.observation?.type?.endsWith("_FAILED"));
+  if (root.status === "FAILED" && domain?.phase === "FAILED" && matchingEnd && actualCause)
+    return { outcome: make("INTERNAL_FAILURE", `Recorded ${failureCode} is corroborated by actual failed/rejected actions, matching terminal trajectory and system event; witness feasibility does not replace the failure cause.`, ["finalSnapshot.domainState.failure", "trajectories", "events.AGENT_LOOP_TERMINATED"]), severity };
   if (failedAttempts.length && root.status === "FAILED" && input.findings.some(finding => finding.dimension === "COMPLETION_OUTCOME" && finding.status === "NOT_SATISFIED"))
     return { outcome: make("INTERNAL_FAILURE", "Recorded failed execution attempt corroborates the independently unsatisfied completion stage.", ["modelInvocations", "execution", "trajectories"]), severity };
   const systemDefect = (code: string) => code === "BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED" // R6's known shared-scope wiring failure; production classification is not changed.
@@ -144,10 +153,9 @@ export function classifyRunOutcome(input: { root: RunRecord; findings: Diagnosti
   if (corroborated.length && (domain?.noVerifiedResult || domain?.failure))
     return { outcome: make("INTERNAL_FAILURE", `R6: terminal state records system defect ${[...new Set(corroborated)].join(", ")}, corroborated by executed failed source attempts; no-result wording cannot erase it.`, ["finalSnapshot.domainState.noVerifiedResult", "finalSnapshot.domainState.failure", "trajectories.executionMetadata"]), severity };
   if (input.knownFeasibleWitness) {
-    severity.S2 = { status: "PRESENT", reasons: ["No delivery despite independent request-matching feasible witness."], evidenceRefs: input.knownFeasibleWitness.refs };
     return { outcome: make("CAPABILITY_MISS", severity.S2.reasons[0]!, input.knownFeasibleWitness.refs), severity };
   }
-  if (domain?.phase === "NO_VERIFIED_RESULT" && stage("COMPLETION_OUTCOME")?.status === "SATISFIED")
-    return { outcome: make("HONEST_NO_RESULT", "Actual bounded no-result scope and executed observations agree; this does not prove global search exhaustion.", stage("COMPLETION_OUTCOME")!.evidenceRefs), severity };
+  if (domain?.phase === "NO_VERIFIED_RESULT" && (stage("COMPLETION_OUTCOME")?.status === "SATISFIED" || input.honestNoResultScope))
+    return { outcome: make("HONEST_NO_RESULT", "Actual bounded no-result scope, executed observations and disclosed unknowns agree; this does not prove investigation sufficiency, global search exhaustion or budget compliance.", input.honestNoResultScope?.refs ?? stage("COMPLETION_OUTCOME")!.evidenceRefs), severity };
   return { outcome: make("NOT_EVALUATED", "No qualified delivery or independently sufficient no-result/cause oracle; no witness means no CAPABILITY_MISS.", ["trajectories", "finalSnapshot"]), severity };
 }

@@ -3635,3 +3635,7 @@ R1/R5/R6真实运行先红后绿。区分合格交付与目标漂移、额外非
 ## DEV-2026-10-16-E1-SUPPLEMENT-HISTORICAL-WITNESS
 
 真实神乐坂外层记录witness字段被旧rows专用加载器拒绝，现读取实际保留的rows/witnessRaw/witness三种记录，明确rawDirectory，不动原文件。10条结果SHA绑定的见证引用覆盖可用登记Gold；有位仍需同请求raw、HARD及明确范围。正向Gold的criterion→quote映射不要求逐字复述；明确人工认证的负向条件只有完全匹配认证请求才可用，不从缺关键词推断。半径来自登记或冻结acceptance唯一明文数值，缺少不补1000。现有prepare helper改为只生成新目录自动输出、冻结输入哈希，仍不读labels；随后才最终比较。
+
+## DEV-2026-10-16-E1-CALIBRATION-CORRECTIONS
+
+355de64冻结22自动输出并校验SHA后首次读labels，真实比较退出1：类型17/22、交付7/8、正常S0 7/20。4个评测器遗漏按实际记录修复：内部NO_PROGRESS/REJECTION_LIMIT须失败/被拒动作、终止trajectory、SYSTEM event互证，独立S2不被原因抹除；如实有界无结果与调查充分性/资源合规分开，后者未评不删。所有规则不按ID分支。另明确检测Gold条件意外字段而不修复原始数据；KF-H002 around10损坏已请求独立更正。新增比较/证据清单helper只读保存输出和原记录，不调用Evaluator或把labels传入，原结果未覆盖。

@@ -250,3 +250,20 @@ R2/R5/R6与最终22条校准仍在进行；旧PENDING对照不冒充新口径结
 入口仍为共享补评Evaluator，116定向绿[historical-witness-full.log](supplement/historical-witness-full.log)，四门禁实际命令同上，最新`historical-witness-{typecheck,arch-check,test,build}.log`（915/915），Skill验证通过。22原始包／双SHA／实际字节再次复验[input-recheck.log](supplement/input-recheck.log)；无新模型、Live、浏览器执行或见证GET。
 
 现有`prepare-offline-diagnostics.mjs`只驱动共享入口，改为要求新目录、输入/代码冻结校验，输出全部保存后才允许另行读取labels比对；不会覆盖旧评价。提交后运行自动批，校准状态仍未宣称通过。
+
+### 第一次真实校准与评测器纠错
+
+源码`355de64`先生成[22自动输出](calibration-20261016-rubric24/summary.json)，逐份SHA校验后才首次读取`labels.yaml`；没有把标签传给Evaluator。比较脚本只读已保存输出，实际命令：
+
+```bash
+node --import tsx .eval-artifacts/e1-evaluator-20261016/prepare-offline-diagnostics.mjs .eval-artifacts/e1-evaluator-20261016/calibration-20261016-rubric24
+node .eval-artifacts/e1-evaluator-20261016/compare-calibration.mjs .eval-artifacts/e1-evaluator-20261016/calibration-20261016-rubric24/summary.json .eval-artifacts/e1-evaluator-20261016/calibration-20261016-rubric24/comparison
+```
+
+首轮[逐次对照](calibration-20261016-rubric24/comparison/comparison.md)、[机器结果](calibration-20261016-rubric24/comparison/comparison.json)、[退出码证据](supplement/calibration-first-comparison.log)：类型17/22，实际8交付7/8，正常S0 7/20，两中断NE例外2/2，误判合格0，评测器遗漏4，退出1／BLOCKED_NOT_ACCEPTED。
+
+已修的四个评测器遗漏：KF吉祥寺的实际Google失败＋NO_PROGRESS终止不能被见证覆盖为CAPABILITY_MISS；两h001的实际重复被拒＋REJECTION_LIMIT终止应保留内部原因；B-h005如实有界结束与未知库存、调查充分性/资源未评应分开。分类都从动作/事件/原始scope推导，不读ID或标签。S2与内部失败原因独立保留；COMPLETION_OUTCOME/RESOURCES的必要未评不为放行删除。
+
+真实目标红[calibration-causes-red.log](supplement/calibration-causes-red.log)，正常与删event/END_READ、伪造无位的反例绿[calibration-causes-green.log](supplement/calibration-causes-green.log)。另[Gold异常字段红](supplement/calibration-gold-red.log)→明确UNEXPECTED_FIELD，绝不拼接损坏字符串。119定向绿[calibration-fixes-full.log](supplement/calibration-fixes-full.log)；最新typecheck/arch:check/npm test 918/918/build全绿，calibration-fixes-{typecheck,arch-check,test,build}.log，Skill校验通过。最终重评须在本次修复提交冻结后另存，首轮目录标superseded，不覆盖。
+
+独立阻断已具体核查：KF-H002原始Gold第2条件为`value: "around 10"`并有`"000 yen per person": null`，不是可擅自补的同义；条件/原始SHA绑定的更正已向用户请求，保持NE。13条普通S0未知亦逐份打开其原始本地recording清单：全部无HAR、无网络请求body；记录只有method/origin/path/queryKeys等脱敏形态，不能反推完整参数/表单范围。读取命令`node .eval-artifacts/e1-evaluator-20261016/audit-retained-network.mjs <summary.json> <fresh-audit.json>`；证据[字段／原始SHA清单](supplement/retained-network-audit.json)与[日志](supplement/retained-network-audit.log)。部分纯GET的未知来源政策是规则缺口，动态body/参数或无请求记录是Gold/证据缺口；不能把它们放进两中断的NE例外。

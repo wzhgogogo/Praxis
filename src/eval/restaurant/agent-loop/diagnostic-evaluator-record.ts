@@ -2,7 +2,7 @@
  * Only consumed fields are projected. Absent fields stay absent; no lifecycle,
  * eligibility, time, observation, or limit is synthesized for old artifacts.
  */
-export interface RunReadIssue { path: string; reason: "INVALID_TYPE" | "MISSING"; }
+export interface RunReadIssue { path: string; reason: "INVALID_TYPE" | "MISSING" | "UNEXPECTED_FIELD"; }
 type Decoder<T> = (value: unknown, path: string, issues: RunReadIssue[]) => T | undefined;
 type Value<D> = D extends Decoder<infer T> ? T : never;
 const scalar = <T>(accept: (value: unknown) => value is T): Decoder<T> => (value, path, issues) => {
@@ -64,7 +64,14 @@ function numericFields(fields: string[]): Decoder<Record<string, number>> {
 }
 const window = object({ earliest: text, latest: text });
 const target = object({ goal: text });
-const criterion = object({ text, value: text, polarity: text, strength: text });
+const criterionFields = object({ text, value: text, polarity: text, strength: text });
+const criterion: typeof criterionFields = (value, path, issues) => {
+  const parsed = criterionFields(value, path, issues);
+  if (parsed) for (const key of Object.keys(value as Record<string, unknown>)) {
+    if (!["text", "value", "polarity", "strength"].includes(key)) issues.push({ path: `${path}.${key}`, reason: "UNEXPECTED_FIELD" });
+  }
+  return parsed;
+};
 const party: Decoder<number | { value?: number }> = (value, path, issues) => typeof value === "number" ? number(value, path, issues) : object({ value: number })(value, path, issues);
 const semantic = object({ target, date: object({ value: text }), time: object({ value: text, start: text, end: text }), party_size: party,
   location: object({ value: text, relation: text }), criteria: array(criterion), permittedAlternativeTimeWindow: window });

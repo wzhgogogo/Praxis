@@ -5,7 +5,7 @@ description: 为Praxis定义评测要支持的决定、四层评测结构（端�
 
 # Praxis Eval
 
-- Document revision: 2.4
+- Document revision: 2.5
 - Last updated: 2026-10-16
 
 Eval负责：评测要回答的问题、每层的判定口径与独立oracle、必报指标、比较方法和预先固定的门槛。功能覆盖与故障关闭属于[Test](../test/SKILL.md)。产品语义和安全边界以Accepted ADR、Domain/Architecture为准；H001–H005当前输入、Gold与人工审查边界以[当前只读验收契约](../../../src/eval/restaurant/agent-loop/cases/README.md)为准；阶段性的签收条件以当期Playbook为准。
@@ -179,7 +179,7 @@ npm run eval:restaurant:agent-loop:artifact -- --manifest <inputs/manifest.json>
 | --- | --- |
 | QUALIFIED_DELIVERY | 实际终态展示＋冻结请求保真＋同候选/请求的原始观察与引用链支持；生产eligible和终态不是oracle |
 | DELIVERED_UNQUALIFIED | 实际展示与Gold或独立原始来源核验存在明确冲突，包含明确不满足的SOFT条件（R2）；缺证不能充当冲突 |
-| HONEST_NO_RESULT | 实际有界结束、调查范围、观察、原因与必要环节核验相符；不证明全局穷尽或用户目标完成 |
+| HONEST_NO_RESULT | 实际有界结束、完整范围与执行观察、已披露未知相符；不等于调查充分性、资源合规或全局穷尽通过，不证明用户目标完成 |
 | CAPABILITY_MISS | 无交付，且有独立、同请求且适用的可行见证或运行后见证；无见证绝不从预算/原因码推导 |
 | INTERNAL_FAILURE | 已记录失败attempt与不满足的完成环节互相印证；或R6中的终态系统故障与实际失败执行互相印证，原因码单独不足 |
 | ENV_FAILURE | 原始服务attempt的明确账户/服务HTTP失败（401/402/429/5xx），或有独立外层环境记录；R5环境延误至时间窗后排除能力分母，不是普通无位 |
@@ -196,6 +196,12 @@ R1按用户实际得到的结果分类：推荐被执行成查位，但实际展
 R5从绑定原始result SHA的外层记录推导：同任务、同冻结配置的历史预检在请求窗结束前明确失败（包括失败的来源HTTP观察），之后正式运行已晚于请求窗，且无交付，判ENV_FAILURE/EXCLUDED。只有过窗、系统原因码或没有失败预检，均不足以认定环境延误。当前Gold时间窗按cases/README的Asia/Tokyo；须有明确`resolvedTokyoDate`物化记录，不把referenceTime的显示偏移误当作业务时区，不补默认时区或重写原时间窗。
 
 R6对无结果记录同时要求：终态failure、search failure或remainingGaps中留有系统故障码，以及真实ALLOWED执行/执行失败轨迹中有对应failureCode和observation，才判INTERNAL_FAILURE；单独终态、自由摘要或孤立历史失败不够。除已注册SYSTEM码外，审核口径明确的`BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED`作为已知共享额度接线缺陷按此核验，不改生产失败分类；不按运行ID特判，不把正常无位或未核验原因改为系统故障。
+
+历史FAILED任务的`AGENT_LOOP_NO_PROGRESS / AGENT_LOOP_REJECTION_LIMIT`也须有对应实际失败来源／重复被拒动作、匹配的末尾终止trajectory、loop记录及SYSTEM终止event，才可归内部失败；只有失败标签或缺实际event不够。独立见证的可行但未交付S2与此原因分类分别保留，不用CAPABILITY_MISS覆盖已有内部失败，也不因内部失败抹掉独立S2。
+
+如实的有界无结果仍须逐项核对当前请求、实际发现集合、每店实读/未读范围、结束动作、引用的否定库存及已有合格证据；漏店、缺执行、把UNKNOWN当无位或忽略已独立合格结果均不能认证。上述范围一致只证明“本次未核验出可交付结果”的如实报告，不能把调查充分性或缺少的实际限额转成SATISFIED；COMPLETION_OUTCOME/RESOURCES等必要未评维度继续保留。已有内部/环境/外层原因与可行见证仍优先按实际原因分类。
+
+冻结Gold的条件对象出现非契约字段时报告UNEXPECTED_FIELD及原始路径，相关语义未评价；不把损坏的数字/字符串拼接修复，不从菜单、标签或等价表补造原条件。更正须由独立Gold输入提供并绑定原始产物，不覆盖历史result。
 
 每家实际展示的店按冻结用户criteria逐项输出`MET / NOT_MET / NOT_CHECKED`、strength/polarity、原始依据或缺失原因和引用，不省略SOFT与UNSPECIFIED（R2）。独立来源明确反驳HARD仍不合格/S0；外部观察明确反驳SOFT为DELIVERED_UNQUALIFIED/S1，不把真实空位变成错误空位声明。NOT_CHECKED只披露未核对，不改变结果类型；UNSPECIFIED保留状态，不自行升级为HARD。来源的`verified*`或模型判断标签不能独立证明自由文本条件满足；只能采用可归属的原始明确陈述或外部Gold，否则未核对。
 

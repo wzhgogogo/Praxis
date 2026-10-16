@@ -222,6 +222,48 @@ test("E1 independently certified negative witness conditions cannot leak to anot
   }
 });
 
+test("E1 calibration closes corroborated terminal failure causes without using run identities", async () => {
+  for (const id of ["p1fA-kichijoji-a2", "p1fB-h001-a1", "p1g-h001-a1"]) {
+    const input = await loadFrozenCalibrationInput(".eval-artifacts/calibration-phase1-20261015/inputs/manifest.json", id);
+    const oracle = loadWitnessContext(".eval-artifacts/e1-evaluator-20261016/witness-inputs.json", id);
+    const options = { ...input.options, ...(oracle ? { witnessOracle: oracle } : {}) };
+    const result = evaluateRestaurantHybridLiveArtifact(input.artifact, input.sourceArtifact, options);
+    assert.equal(result.outcome.type, "INTERNAL_FAILURE", "actual failed source/rejected actions + matching terminal event cannot be overwritten by a witness");
+    if (oracle) assert.equal(result.severity.S2.status, "PRESENT", "independent feasible-but-undelivered severity survives the internal cause");
+    const renamed: any = structuredClone(input.artifact); renamed.runId = "TEST_ONLY_RENAMED"; renamed.caseId = "TEST_ONLY_RENAMED";
+    assert.equal(evaluateRestaurantHybridLiveArtifact(renamed, input.sourceArtifact, options).outcome.type, "INTERNAL_FAILURE");
+    const missing: any = structuredClone(input.artifact);
+    missing.events = missing.events.filter((entry: any) => entry.event.type !== "AGENT_LOOP_TERMINATED");
+    assert.notEqual(evaluateRestaurantHybridLiveArtifact(missing, input.sourceArtifact, options).outcome.type, "INTERNAL_FAILURE", "failure label without its actual stop event is insufficient");
+  }
+});
+
+test("E1 honest scoped no-result remains distinct from investigation sufficiency and resource proof", async () => {
+  const input = await loadFrozenCalibrationInput(".eval-artifacts/calibration-phase1-20261015/inputs/manifest.json", "p1fB-h005-a2");
+  const result = evaluateRestaurantHybridLiveArtifact(input.artifact, input.sourceArtifact, input.options);
+  assert.equal(result.outcome.type, "HONEST_NO_RESULT");
+  assert.equal(result.outcome.userGoalComplete, "NO");
+  assert.equal(finding(result, "COMPLETION_OUTCOME").status, "NOT_EVALUATED", "do not erase missing sufficiency proof");
+  assert.equal(finding(result, "RESOURCES").status, "NOT_EVALUATED", "missing actual limits stay unassessed");
+  const missing: any = structuredClone(input.artifact);
+  missing.trajectories = missing.trajectories.filter((step: any) => step.agentAction?.type !== "END_READ");
+  assert.notEqual(evaluateRestaurantHybridLiveArtifact(missing, input.sourceArtifact, input.options).outcome.type, "HONEST_NO_RESULT", "no actual scoped ending means no honest-outcome certification");
+  const falseNegative: any = structuredClone(input.artifact);
+  Object.values(falseNegative.finalSnapshot.domainState.availabilityChecks).forEach((check: any) => { check.status = "UNAVAILABLE"; });
+  assert.notEqual(evaluateRestaurantHybridLiveArtifact(falseNegative, input.sourceArtifact, input.options).outcome.type, "HONEST_NO_RESULT", "UNKNOWN cannot masquerade as verified no seats");
+});
+
+test("E1 malformed frozen Gold remains unevaluated instead of being repaired from a label or menu", async () => {
+  const input = await loadFrozenCalibrationInput(".eval-artifacts/calibration-phase1-20261015/inputs/manifest.json", "p1fA-kf-h002-a1");
+  const original: any = input.artifact;
+  assert.deepEqual(original.materializedCase.semantic.criteria[1], { value: "around 10", "000 yen per person": null, polarity: "POSITIVE", strength: "SOFT" });
+  const result = evaluateRestaurantHybridLiveArtifact(original, input.sourceArtifact, input.options);
+  assert.equal(result.outcome.type, "NOT_EVALUATED");
+  assert.equal(finding(result, "AUTHORITATIVE_CONDITIONS").status, "NOT_EVALUATED");
+  assert.ok(result.recordReadIssues.some(issue => issue.reason === "UNEXPECTED_FIELD" && issue.path === "materializedCase.semantic.criteria[1].000 yen per person"), "surface the malformed original shape, not an ordinary wording review");
+  assert.equal(result.conditionStates[0]!.criteria[1]!.status, "NOT_CHECKED");
+});
+
 test("E1 typed reader does not silently turn missing criteria into an empty contract", async () => {
   const original = await calibrationArtifact("p20-h002-a1");
   assert.notEqual(finding(evaluateRestaurantHybridLiveArtifact(original, source), "AUTHORITATIVE_CONDITIONS").observations.join(" ").includes("Missing"), true);
