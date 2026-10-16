@@ -3611,3 +3611,7 @@ T1六项实现分别提交c256cc2／dcc1ad3／7b048bd／7626b89／4baf329／77c4
 ## DEV-2026-10-16-E1-4g
 
 缺result中断的目标完成状态不猜NO。复核用户补充的NE边界：两份真实SIGKILL包缺result时，旧outcome仅因中断类型把userGoalComplete写NO，真实包断言先红；现在外层只决定ORCHESTRATION_INTERRUPTED，用户目标保持NOT_EVALUATED并注明缺result，两个包仍排除能力分母、六维NE、S0仅trace。反事实配对把真实支持交付记录与TEST_ONLY保存后中断组合，已支持的用户目标YES不被信号抹掉；删除实际结果则NE，不手填评分，不影响既有受控取消／预算artifact链。 详见.eval-artifacts/e1-evaluator-20261016/report.md，仅离线，不修改生产资格或历史输入。
+
+## DEV-2026-10-16-E1-HANDOFF
+
+E1输入3389131及1–9项独立提交已完成，补充9eb59e8／f0dc35b／a94d91b分别关闭公共读取误报、登记集随复查缺行缩水和缺result误判用户目标NO。源码冻结a94d91b；最终22份诊断与逐次PENDING对照在`.eval-artifacts/e1-evaluator-20261016/report.md`。人工labels、八组等价结论、五条口径及正式校准未完成，不声明E1整体签收；当前开发集不是Clean Baseline。只补交付记录、不继续源码／Live或后台任务，按用户授权推送后等待复核；原用户INDEX／预约草案／演示文件未纳入。

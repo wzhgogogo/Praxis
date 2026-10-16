@@ -4311,3 +4311,7 @@ Hybrid完整生产factory＋Router部分端口分层85/85；正常100／耗尽1�
 ## TEST-2026-10-16-E1-4g
 
 定向2/2；typecheck／arch:check／npm test 905/905／build全绿，04-outcomes/interrupted-goal-followup保存真实包红绿和门禁；Eval Skill校验通过。此项仅离线结果分类，不涉及浏览器执行，复用最近112/112的本地fixture证据。此前@29开发中间sidecar的用户目标NO不作为当前结论，原文件保留，最终诊断另存。 复核用户补充的NE边界：两份真实SIGKILL包缺result时，旧outcome仅因中断类型把userGoalComplete写NO，真实包断言先红；现在外层只决定ORCHESTRATION_INTERRUPTED，用户目标保持NOT_EVALUATED并注明缺result，两个包仍排除能力分母、六维NE、S0仅trace。反事实配对把真实支持交付记录与TEST_ONLY保存后中断组合，已支持的用户目标YES不被信号抹掉；删除实际结果则NE，不手填评分，不影响既有受控取消／预算artifact链。 原始日志见.eval-artifacts/e1-evaluator-20261016/report.md，不把测试总数当能力证明。
+
+## TEST-2026-10-16-E1-HANDOFF
+
+源码a94d91b的四门禁全绿，905/905；最近浏览器相关路径112/112，后续仅离线见证／外层中断分类，无浏览器采集变更，未重复相同门禁。最终包22输出逐份SHA复核；20 result＋2中断包／30 gzip／12,630,285字节，manifest SHA68125e710ee1ffee5f101fd390ba4e769e2e1d67e5fa3b5f1bc3035ecbd6d1f2。两中断：ORCHESTRATION_INTERRUPTED／EXCLUDED，六维、用户目标及S0均NE；缺result不推断NO或无S0。人工比对0，S0其余20条的一致与8交付类型一致未签收，等价表仍空，开发集不报告准确率。报告含逐次表、每项红绿／正常对照／门禁／未覆盖范围；无新增模型、网站、Google、Cloudflare、Live、见证GET或新种子回放，用户原文件保留。

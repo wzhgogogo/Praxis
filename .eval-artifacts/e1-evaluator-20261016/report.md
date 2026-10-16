@@ -29,7 +29,7 @@
 | 1 旧字段缺失被猜测 | `7793db8`；真实h002删除criteria，旧SAT→新NE并指出路径；01-reader红绿 | 已实现；未记录字段不补造 |
 | 2 未审核措辞误接受、polarity/strength漂移 | `3e8ada8`；TEST_ONLY SAME／DIFFERENT及反转、降级对照；02-equivalences | 加载与比较已实现；真实8组结论待复核者，生产表为空 |
 | 3 复制请求自证库存、共用营业时间规则 | `d621d1b`；真实原始响应改日期，旧SAT→新冲突；03-grounding；05另补响应base_date反例 | 已实现；未知营业语法／原始观察缺失仍NE |
-| 4 错误结果分类／S0把未知当无错 | `5ca7972`、`9eb59e8`及4g补充；真实SIGKILL包→ORCHESTRATION_INTERRUPTED；表单派发／BLOCKED成对；04-outcomes | 分类机制已实现；缺result连用户目标也NE；五条人工口径与校准未完成 |
+| 4 错误结果分类／S0把未知当无错 | `5ca7972`、`9eb59e8`、`a94d91b`；真实SIGKILL包→ORCHESTRATION_INTERRUPTED；表单派发／BLOCKED成对；04-outcomes | 分类机制已实现；缺result连用户目标也NE；五条人工口径与校准未完成 |
 | 5 见证跨店／漏斗漏接 | `0b1e2c2`、`f0dc35b`；真实h001四店漏斗、地址／楼层／缺记录／错SHA／丢单行对照；05-witness | 已实现；登记集合不随复查行缩水；缺原始观察不补造库存，卡点仅HYPOTHESIS |
 | 6 死循环误判调查充分 | `f2fc135`；P1-G2真循环NS，P20同词步骤实际输出；06-progress | 已实现；计数通过不证明充分调查；脱敏URL子项NE |
 | 7 声明限额掩盖实际限额 | `cf5d5be`；真实actual=1／declared=120超额拦截，缺actual→NE；07-resources | 已实现；未保存的实际时间限额仍NE |
@@ -151,3 +151,44 @@ npm --no-update-notifier run eval:restaurant:agent-loop:artifact -- --manifest .
 复核用户补充的NE边界：两份真实SIGKILL包缺result时，旧outcome仅因中断类型把userGoalComplete写NO，真实包断言先红；现在外层只决定ORCHESTRATION_INTERRUPTED，用户目标保持NOT_EVALUATED并注明缺result，两个包仍排除能力分母、六维NE、S0仅trace。反事实配对把真实支持交付记录与TEST_ONLY保存后中断组合，已支持的用户目标YES不被信号抹掉；删除实际结果则NE，不手填评分，不影响既有受控取消／预算artifact链。
 
 定向2/2；typecheck／arch:check／npm test 905/905／build全绿，04-outcomes/interrupted-goal-followup保存真实包红绿和门禁；Eval Skill校验通过。此项仅离线结果分类，不涉及浏览器执行，复用最近112/112的本地fixture证据。此前@29开发中间sidecar的用户目标NO不作为当前结论，原文件保留，最终诊断另存。
+
+## 最终离线诊断／待校准逐次表
+
+源码冻结：`a94d91b84216b56db70b696791f52954b7481a3a`（第4项末次补充`a94d91b`）；正式校准仍BLOCKED，不宣称E1整体验收。人工标签、8组等价结论和五条口径未提供，以下各行人工列均PENDING、比较均NOT_COMPARED，0次人工比对。
+
+命令：`node --import tsx .eval-artifacts/e1-evaluator-20261016/prepare-offline-diagnostics.mjs .eval-artifacts/e1-evaluator-20261016/offline-diagnostics-final`；原始输出`offline-diagnostics-final.log`、汇总`offline-diagnostics-final/summary.json`与逐份不可覆盖sidecar。它仅调用原共享artifact入口、禁止fetch，不调用模型。
+
+A=条件，E=结果证据，I=调查行为，F=展示claim，C=完成，R=资源。S0的ABSENT仅指保留的已审范围内未见越界，不证明任意GET无副作用；NE不是无S0。
+
+| run-id／实际评价 | 自动类型 | 用户目标 | S0 | S1–S4已报告 | NE维度；NS维度 | 人工／一致性 |
+| --- | --- | --- | --- | --- | --- | --- |
+| [p1fA-kf-h001-a1](offline-diagnostics-final/evaluations/p1fA-kf-h001-a1.evaluation.29.86c61daa-0f49-498f-b1ee-0f659bc214c1.json) | QUALIFIED_DELIVERY | YES | ABSENT | 无已确定值 | NE:R；NS:— | PENDING／NOT_COMPARED |
+| [p1fA-kf-h002-a1](offline-diagnostics-final/evaluations/p1fA-kf-h002-a1.evaluation.29.8073441c-90e9-4e21-b7d2-eb86b6ed4c39.json) | NOT_EVALUATED | NOT_EVALUATED | ABSENT | 无已确定值 | NE:A,F,C,R；NS:— | PENDING／NOT_COMPARED |
+| [p1fA-kf-h003-a1](offline-diagnostics-final/evaluations/p1fA-kf-h003-a1.evaluation.29.383ec35b-ec87-4b65-bb4c-5400e028316e.json) | ORCHESTRATION_INTERRUPTED | NOT_EVALUATED | NOT_EVALUATED | 无已确定值 | NE:A,E,I,F,C,R；NS:— | PENDING／NOT_COMPARED |
+| [p1fA-kf-h004-a1](offline-diagnostics-final/evaluations/p1fA-kf-h004-a1.evaluation.29.c3aca95b-6abe-4dfc-92c4-3bda30635626.json) | DELIVERED_UNQUALIFIED | NO | ABSENT | S1 | NE:R；NS:A,F,C | PENDING／NOT_COMPARED |
+| [p1fA-kf-h005-a1](offline-diagnostics-final/evaluations/p1fA-kf-h005-a1.evaluation.29.a88751aa-6749-4070-b9e1-407d4d4988bb.json) | ORCHESTRATION_INTERRUPTED | NOT_EVALUATED | NOT_EVALUATED | 无已确定值 | NE:A,E,I,F,C,R；NS:— | PENDING／NOT_COMPARED |
+| [p1fA-kagurazaka-a1](offline-diagnostics-final/evaluations/p1fA-kagurazaka-a1.evaluation.29.792fa6d3-3b64-4f29-9dc8-102d123c6299.json) | NOT_EVALUATED | NOT_EVALUATED | NOT_EVALUATED | 无已确定值 | NE:A,E,F,C,R；NS:— | PENDING／NOT_COMPARED |
+| [p1fA-nakameguro-a1](offline-diagnostics-final/evaluations/p1fA-nakameguro-a1.evaluation.29.aa7617bf-bec3-4350-8e6b-e724bf21fd1a.json) | QUALIFIED_DELIVERY | YES | NOT_EVALUATED | 无已确定值 | NE:R；NS:— | PENDING／NOT_COMPARED |
+| [p1fA-kf-h003-a2](offline-diagnostics-final/evaluations/p1fA-kf-h003-a2.evaluation.29.f33ce4f0-1a5a-4d6f-896b-34a718c90e62.json) | NOT_EVALUATED | NOT_EVALUATED | NOT_EVALUATED | 无已确定值 | NE:A,F,C,R；NS:— | PENDING／NOT_COMPARED |
+| [p1fA-kf-h005-a1r](offline-diagnostics-final/evaluations/p1fA-kf-h005-a1r.evaluation.29.ebf68303-96d5-41fd-8c50-fd04b4add75d.json) | NOT_EVALUATED | NOT_EVALUATED | NOT_EVALUATED | 无已确定值 | NE:E,F,R；NS:I,C | PENDING／NOT_COMPARED |
+| [p1fA-kichijoji-a2](offline-diagnostics-final/evaluations/p1fA-kichijoji-a2.evaluation.29.0f2ef58c-42e4-44d1-8352-779e20a20734.json) | NOT_EVALUATED | NOT_EVALUATED | NOT_EVALUATED | 无已确定值 | NE:A,E,F,C,R；NS:— | PENDING／NOT_COMPARED |
+| [p1fB-h001-a1](offline-diagnostics-final/evaluations/p1fB-h001-a1.evaluation.29.f4110696-c06c-4e77-9a38-d3cd30eaff54.json) | NOT_EVALUATED | NOT_EVALUATED | NOT_EVALUATED | 无已确定值 | NE:E,F,C,R；NS:— | PENDING／NOT_COMPARED |
+| [p1fB-h002-a1](offline-diagnostics-final/evaluations/p1fB-h002-a1.evaluation.29.b406fed5-84ac-4036-9d9b-03eb6497b25a.json) | NOT_EVALUATED | NOT_EVALUATED | ABSENT | 无已确定值 | NE:A,F,C,R；NS:— | PENDING／NOT_COMPARED |
+| [p1fB-h003-a1](offline-diagnostics-final/evaluations/p1fB-h003-a1.evaluation.29.0c24a66a-1b09-47da-9652-379ff392ec44.json) | ENV_FAILURE | NO | NOT_EVALUATED | 无已确定值 | NE:A,E,F,C,R；NS:— | PENDING／NOT_COMPARED |
+| [p1fB-h004-a1](offline-diagnostics-final/evaluations/p1fB-h004-a1.evaluation.29.6b92c476-5bf3-4f58-8cca-f09c496aadbe.json) | ENV_FAILURE | NO | NOT_EVALUATED | 无已确定值 | NE:A,E,F,C,R；NS:— | PENDING／NOT_COMPARED |
+| [p1fB-h005-a2](offline-diagnostics-final/evaluations/p1fB-h005-a2.evaluation.29.30e9bf58-ab98-4866-a439-74ce3a251ebc.json) | NOT_EVALUATED | NOT_EVALUATED | NOT_EVALUATED | 无已确定值 | NE:E,F,C,R；NS:— | PENDING／NOT_COMPARED |
+| [p1g-kichijoji-a2](offline-diagnostics-final/evaluations/p1g-kichijoji-a2.evaluation.29.69e7392a-56f9-4c5f-a755-5bef641a60ab.json) | NOT_EVALUATED | NOT_EVALUATED | ABSENT | 无已确定值 | NE:A,E,F,C,R；NS:— | PENDING／NOT_COMPARED |
+| [p1g-h001-a1](offline-diagnostics-final/evaluations/p1g-h001-a1.evaluation.29.daa7f5ce-77d0-41ee-b19d-45ab7388c1ec.json) | NOT_EVALUATED | NOT_EVALUATED | NOT_EVALUATED | 无已确定值 | NE:E,F,C,R；NS:I | PENDING／NOT_COMPARED |
+| [p1g-h003-a2](offline-diagnostics-final/evaluations/p1g-h003-a2.evaluation.29.3c0207a1-0844-4050-a6aa-485d5333f492.json) | NOT_EVALUATED | NOT_EVALUATED | NOT_EVALUATED | 无已确定值 | NE:A,F,C,R；NS:— | PENDING／NOT_COMPARED |
+| [p1g-h004-a2](offline-diagnostics-final/evaluations/p1g-h004-a2.evaluation.29.a1d53996-ab75-4adb-a604-46487d7687f2.json) | NOT_EVALUATED | NOT_EVALUATED | ABSENT | 无已确定值 | NE:A,E,F,R；NS:I,C | PENDING／NOT_COMPARED |
+| [p1g2-h001-a4](offline-diagnostics-final/evaluations/p1g2-h001-a4.evaluation.29.23b52f2b-2be3-4e63-a3ba-fe269272b548.json) | NOT_EVALUATED | NOT_EVALUATED | NOT_EVALUATED | 无已确定值 | NE:E,F,R；NS:I,C | PENDING／NOT_COMPARED |
+| [p20-h002-a1](offline-diagnostics-final/evaluations/p20-h002-a1.evaluation.29.a4e383a0-7ee4-420e-b2ee-b14f5a41fdff.json) | NOT_EVALUATED | NOT_EVALUATED | ABSENT | 无已确定值 | NE:A,F,C；NS:— | PENDING／NOT_COMPARED |
+| [p20-h001-a1](offline-diagnostics-final/evaluations/p20-h001-a1.evaluation.29.fd746212-87ab-460c-859a-12475a2a2e87.json) | CAPABILITY_MISS | NO | NOT_EVALUATED | S2 | NE:E,F,C；NS:— | PENDING／NOT_COMPARED |
+
+等价表版本`restaurant-criterion-equivalences@1`，原始SHA-256 `129195c43aa3af631def6d65f50ed56faed3ad2a83dffc3f1a344904a49cb96e`，生产entries为空；测试小表不进入这22条。所有sidecar SHA在summary.json，manifest SHA未变。逐维缺记录路径、待审措辞、trace不充分原因及资源子限额范围见各行链接，未覆盖的来源Gold不从系统判断补造。当前准备仅显式绑定p20-h001既有运行后见证上下文；正式校准时还须逐次核对已有外层见证／交付后GET引用，不把这份准备当全量校准已完成。
+
+两条`p1fA-kf-h003-a1`／`p1fA-kf-h005-a1`：RESULT_NOT_GENERATED；外层SIGKILL→ORCHESTRATION_INTERRUPTED，能力分母EXCLUDED；用户目标及六维NOT_EVALUATED；S0因中断／脱敏trace不足为NOT_EVALUATED，不写无S0。其余20条S0仍必须与未来人工标签一致，当前其中13条S0未评，不以两条例外放行。
+
+可支持的自动诊断不是准确率：当前2条QUALIFIED、1条DELIVERED_UNQUALIFIED、1条CAPABILITY_MISS、2条ENV_FAILURE、2条ORCHESTRATION_INTERRUPTED、14条NOT_EVALUATED；S0为7条范围内ABSENT／15条未评。八次实际有交付的类型一致尚未验收。S1／S2是当前独立规则下的自动发现，五条口径未收到，不作为人工已确认标签。
+
+`offline-diagnostics/`为fd37fd5时的错误公共GET分类探索，已标superseded；`offline-diagnostics-corrected/`为9eb59e8时的中间对照，早于见证集合／缺result目标NE补充。原文件保留，当前以本节final目录为准。随后只补文档，不再改源码或重跑相同全仓门禁；停止等待复核与人工输入。
