@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.234
+- Document revision: 4.235
 - Last updated: 2026-10-16
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **E1远端推送未执行：** 本地交付64038dd后，自动审批因20份result＋2份中断trace包及评测产物的敏感载荷目的地确认不足，在创建Git进程前拒绝推送。只读核对origin为`https://github.com/wzhgogogo/Praxis`，分支`codex/feat-live-restaurant-read-path`；等待用户确认私有及该载荷的具体目的地授权，不换通道重试。源码a94d91b及现有门禁不变，尚未宣称远端更新。
 
 - **2026-10-16 E1离线阶段交付，正式校准未完成：** T1独立复核已通过。输入3389131保留22条＝20份result＋2份原始SIGKILL包（含trace），30gzip／12,630,285字节，最终原始字节与双SHA复验通过。第1–9项分别提交，源码冻结a94d91b（evaluator@29／rubric@23）；真实反例另关闭公共读取误报、见证登记集缩水、缺result误判用户目标NO。最新四门禁905/905全绿；最近浏览器相关路径本地112/112，后续无浏览器采集变更。具体提交、真实入口、正常／反例及未覆盖边界见[报告](../.eval-artifacts/e1-evaluator-20261016/report.md)，详细历史保留DEVLOG／TEST-LOG。
 

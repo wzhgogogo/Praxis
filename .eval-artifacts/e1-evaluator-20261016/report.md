@@ -4,7 +4,7 @@
 - 证据：已暴露开发回归，不是 Clean Baseline，不证明新用例准确率。
 - 开工同步：git pull --ff-only，36ab029 → 78fcc13；保留复核者文件，T1独立复核已通过。
 - 用户原有 INDEX、预约设计草案和三个演示文件保留，不纳入提交。
-- 本批业务验证全离线：没有外部网络、Live、模型调用或见证GET；仅有授权Git同步／最终推送。Gold、变体、见证、Prompt和生产资格不改。
+- 本批业务验证全离线：没有外部网络、Live、模型调用或见证GET。已执行开工Git同步；最终Git推送被自动审批拦截，未执行。Gold、变体、见证、Prompt和生产资格不改。
 - 最新直接指令授权最终推送，优先于指令文件末尾旧“不推送”文字。
 
 ## 0 输入冻结
@@ -192,3 +192,11 @@ A=条件，E=结果证据，I=调查行为，F=展示claim，C=完成，R=资源
 可支持的自动诊断不是准确率：当前2条QUALIFIED、1条DELIVERED_UNQUALIFIED、1条CAPABILITY_MISS、2条ENV_FAILURE、2条ORCHESTRATION_INTERRUPTED、14条NOT_EVALUATED；S0为7条范围内ABSENT／15条未评。八次实际有交付的类型一致尚未验收。S1／S2是当前独立规则下的自动发现，五条口径未收到，不作为人工已确认标签。
 
 `offline-diagnostics/`为fd37fd5时的错误公共GET分类探索，已标superseded；`offline-diagnostics-corrected/`为9eb59e8时的中间对照，早于见证集合／缺result目标NE补充。原文件保留，当前以本节final目录为准。随后只补文档，不再改源码或重跑相同全仓门禁；停止等待复核与人工输入。
+
+## 实际推送状态：未执行，审批阻断
+
+- 推送前本地交付HEAD：`64038dd`；源码仍冻结`a94d91b`。
+- 请求执行`git push origin codex/feat-live-restaurant-read-path`时，自动审批在进程创建前拒绝，未发生推送。不能报告远端已更新。
+- 原因：本次包含20份原始result、2份中断包（含trace）和评测产物，审批要求可信用户明确确认敏感载荷的具体远端目的地。已有一般推送授权，但此项额外确认未取得。
+- 只读核对本地origin：`https://github.com/wzhgogogo/Praxis`，目标分支`codex/feat-live-restaurant-read-path`；未联网核验可见性。待用户明确确认该仓库为私有，并允许上述含请求／来源页面／trace的载荷推送到该仓库与分支。
+- 没有换通道、强推或间接重试；无模型／Live增量。此处只补交付状态，不修改评测输入、源码或旧评价。
