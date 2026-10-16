@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.229
+- Document revision: 4.230
 - Last updated: 2026-10-16
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-16 E1-9 保留h001两个真实Agent决策种子：** f5fde99后的版本7空增量对照有132个旧种子、0个本批决策，目标断言红；现seeds.v7追加0133/0134，原capture #4/#28对应Agent第2/8步，完整原始消息和输出两行95,021字节保留，原capture SHA、逐行SHA、打包SHA及result SHA齐全。旧132条标注逐项不变；38候选=原1家+Google新增37家，不把候选集合缩为37。条件式可接受动作仅提议支持来源路径与保持请求，未写死店名；PROPOSED／待独立标注，评分动作数组留空、两条不计任何通过率，本轮不执行回放。 定向9/9（新种子只读验证），四门禁typecheck／arch:check／npm test 903/903／build全绿，09-replay-seeds/{red,green,typecheck,arch-check,test,build}.log。原capture 47行仅提取两行，input-provenance.json记录完整与逐行哈希，机械提取器拒绝覆盖既存输入。首次本地Chromium受沙箱限制另存local-chromium-sandbox-error.log；必要权限下同一离线DOM控制通过，没有把环境启动错误当目标检错。第8步上下文缺来源链接仅作为后续接线候选问题记录，不改生产或代替独立标注。 证据.eval-artifacts/e1-evaluator-20261016/report.md；其余切片继续，仅离线，无模型／Live／见证GET，人工表待复核者导出。
 
 - **2026-10-16 E1-8 零交付补登记见证的外层链路：** cf5d5be中现有外层复查函数对真实吉祥寺零交付和既有三店登记表发出0次请求，目标业务断言红；现按未变的materialized请求与登记范围绑定，零交付各店一次四参数Tabelog GET、禁止跳转／扩张候选／重试，原始响应双文件及manifest可被真实Evaluator见证漏斗读取。非零交付、原版未登记和缺result不触发补见证，错请求／外域登记阻断。已接入现有execute结束路径，不复制Runner；现有h001/h002仍无登记，保持跳过；安全停止后不新增复查。 第8项仅修改外层脚本及其离线测试，红绿对照2/2，实际run-p20.mjs h001 --dry-run通过（网络／模型／Google均0）；四门禁typecheck／arch:check／npm test 902/902／build全绿。08-outer/{red,green,dry-run,typecheck,arch-check,test,build}.log及config-freeze.json记录脚本与登记SHA。未改历史freeze／ledger／见证；旧授权窗口与HEAD不延长，下次Live必须重新授权并冻结@29代码和新编排配置。 证据.eval-artifacts/e1-evaluator-20261016/report.md；其余切片继续，仅离线，无模型／Live／见证GET，人工表待复核者导出。
 

@@ -1,0 +1,27 @@
+✖ E1 replay seeds retain both real h001 decisions and leave conditional proposals unscored (4.425667ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 329.19175
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/decision-replay.test.ts:1:383
+✖ E1 replay seeds retain both real h001 decisions and leave conditional proposals unscored (4.425667ms)
+  AssertionError [ERR_ASSERTION]: both the post-single-Tabelog decision and the 37-Google-candidate selection must be retained
+  
+  0 !== 2
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/decision-replay.test.ts:16:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 2,
+    operator: 'strictEqual'
+  }

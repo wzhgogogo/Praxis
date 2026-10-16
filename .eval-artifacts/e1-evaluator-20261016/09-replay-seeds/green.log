@@ -1,0 +1,17 @@
+✔ E1 replay seeds retain both real h001 decisions and leave conditional proposals unscored (44.524708ms)
+✔ replay excludeCandidateIds rejects intersections and accepts disjoint candidate sets (0.235667ms)
+✔ replay candidateIdsExact compares sets independently of order and rejects missing or extra candidates (0.061584ms)
+✔ replay rejects unknown match fields rather than ignoring their requirements (0.165125ms)
+✔ replay validates every matching alternative before any model call (1.444333ms)
+✔ P1-B original replay preserves complete captured messages and counts the failed call once (2.961292ms)
+✔ P1-B static saved DOM uses current Executor targets with scripts and external requests disabled (498.65675ms)
+✔ C1 injection preserves captured goals and targets and limits history to six steps in the same read (0.968959ms)
+✔ C8 raw Agent replay injects only categories observed before the decision and preserves legal actions (0.659875ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 888.9765

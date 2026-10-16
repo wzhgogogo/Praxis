@@ -3,7 +3,44 @@ import { test } from "node:test";
 import { mkdtemp, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
+import { createHash } from "node:crypto";
+import { gunzipSync } from "node:zlib";
 import { runDecisionReplay, acceptableReplayAction, reproducesRecordedAction, rebuildBrowserInput, type ReplaySeed } from "./runners/run-decision-replay.js";
+
+test("E1 replay seeds retain both real h001 decisions and leave conditional proposals unscored", async () => {
+  // Read/validate only. Never dispatch either new seed to runDecisionReplay.
+  const root = new URL("../../../../", import.meta.url);
+  const old = JSON.parse(await readFile(new URL(".eval-artifacts/phase1-replay/seeds.v6.json", root), "utf8"));
+  const current = JSON.parse(await readFile(new URL(".eval-artifacts/phase1-replay/seeds.v7.json", root), "utf8"));
+  const added = current.seeds.filter((seed: any) => seed.origin.run === "p20-h001-a1");
+  assert.equal(added.length, 2, "both the post-single-Tabelog decision and the 37-Google-candidate selection must be retained");
+  assert.deepEqual(current.seeds.slice(0, old.seeds.length), old.seeds, "no historic annotations change");
+  const artifact = JSON.parse(gunzipSync(await readFile(new URL(".eval-artifacts/calibration-phase1-20261015/inputs/p20-h001-a1.result.json.gz", root))).toString());
+  assert.deepEqual(added.map((seed: any) => seed.origin.stepNumber), [2, 8]);
+  assert.deepEqual(added.map((seed: any) => seed.origin.decisionIndex), [4, 28]);
+  for (const [index, seed] of added.entries()) {
+    assert.equal(seed.labelStatus, "PROPOSED"); assert.match(seed.labelBasis, /待独立标注/);
+    assert.deepEqual(seed.acceptableActions, [], "conditional proposal metadata must not silently become a scored type-only match");
+    assert.equal(seed.scoring.includedInPassRate, false);
+    assert.ok(seed.proposedAcceptableActions.some((action: any) => action.type === "CHECK_AVAILABILITY" && /supported.*source/i.test(action.when)));
+    assert.ok(seed.proposedAcceptableActions.every((action: any) => !/Matsumoto|13261619/.test(action.when)), "no named-shop requirement");
+    const bytes = await readFile(new URL(seed.origin.runArtifact, root));
+    assert.equal(createHash("sha256").update(bytes).digest("hex"), seed.origin.packagedCaptureSha256);
+    const line = bytes.toString().trim().split("\n").find(line => JSON.parse(line).sequence === seed.origin.decisionIndex)!;
+    assert.equal(createHash("sha256").update(line).digest("hex"), seed.origin.originalRowSha256);
+    const row = JSON.parse(line), context = JSON.parse(row.messages.find((message: any) => message.role === "user").content).context;
+    const trajectory = artifact.trajectories.find((step: any) => step.stepNumber === seed.origin.stepNumber);
+    assert.deepEqual(context, trajectory.decisionContext, "complete original decision input, not reconstructed from the final candidate list");
+    assert.deepEqual(context.candidates.length, [1, 38][index]);
+    assert.equal(row.purpose, "restaurant_agent_decide");
+    assert.equal(seed.origin.originalCaptureSha256, artifact.decisionCapture.sha256);
+    const output = JSON.parse(row.outputText);
+    assert.equal(output.type, trajectory.agentAction.type);
+    assert.deepEqual(output.candidateIds, trajectory.agentAction.candidateIds);
+    const preceding = artifact.trajectories.find((step: any) => step.stepNumber === seed.origin.stepNumber - 1);
+    assert.equal(preceding.observation.newCandidateIds.length, [1, 37][index]);
+  }
+});
 
 test("replay excludeCandidateIds rejects intersections and accepts disjoint candidate sets", () => {
   const expected = { type: "CHECK_AVAILABILITY", excludeCandidateIds: ["excluded"] };
