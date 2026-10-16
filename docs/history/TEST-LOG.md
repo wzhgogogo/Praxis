@@ -4351,3 +4351,7 @@ rules-red.log三项实际业务断言失败：KF-H004误不合格，P1-G H004未
 冻结7dd2645后运行`run-calibration.mjs`保存22输出，再用`compare-calibration.mjs`读取labels，实际退出0：类型22/22、交付8/8、正常S0-声明20/20、两缺result声明NE、误判合格0；越界9 ABSENT＋13 EVIDENCE_GAP，0 RULE_GAP，不把缺证写无错。`verify-calibration-gates.mjs`缺审核规则／缺必要Gold分别真正重评并保存后比较，实际目标退出1；正常22输出不覆盖。原始22包30gzip双SHA复验通过，manifest不变；37项冻结SHA前后及最终一致。
 
 最终typecheck、arch:check、npm test 926/926、build通过。完整浏览器首次112/113的慢OPEN_LINK返回MODEL_FAILURE，原日志browser.log保留；单项browser-navigation-diagnostic.log通过，未改实现/时限/断言的唯一完整复验browser-final.log为113/113。原因尚未确定，不记环境错误或已修稳定性；未用skip/todo。Skill validator通过；其余必要维度仍NE（条件3／证据14／调查2／最终claim14／完成8／资源20），不是签收产品全部目标。78测试、98 eval源码输入及原始包／其他Fixture／v7种子路径清查保留JSON；历史Replay旧机路径依赖明确未改，不影响本22补评。全部业务离线，无新增真实模型、站点、Google、Cloudflare、Live、见证GET。
+
+## TEST-2026-10-16-P21-prerequisites
+
+E1已独立签收；P2-1第一段第0项完成。观察器迁入src/eval，全部调用方更新，浏览器测试不再依赖.eval-artifacts；3250ms本地响应下旧3秒请求失败红灯，新15秒测试时限在持续两CPU进程负载下连续5次通过。五门禁typecheck/arch/build通过、npm test926/926、真实Chromium113/113；迁移首轮遗漏调用方的失败日志保留。外层POST观察器、0交付补见证GET及reviewed-reads复制并冻结SHA，未新增规则；旧P2-0冻结清单保留作历史，本段不执行整单Live。0真实模型/Google/餐厅请求。证据p2-1-discovery-20261016/00-prerequisites与outer，继续发现探测工具；不推送。

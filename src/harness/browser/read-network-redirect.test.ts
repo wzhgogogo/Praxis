@@ -1,13 +1,12 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
-import { readFile } from "node:fs/promises";
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import { test } from "node:test";
 import { chromium } from "playwright-core";
 import { PlaywrightReadNetworkGuard } from "../../infrastructure/browser/playwright-read-network-guard.js";
 
 test("E1 outer body observer captures real Chromium POST bytes independently of Guard admission", async () => {
-  const module = new URL("../../../.eval-artifacts/p2-0-hardening-20261015/prep/scripts/post-body-audit.mjs", import.meta.url).href;
+  const module = new URL("../../eval/restaurant/agent-loop/post-body-audit.mjs", import.meta.url).href;
   const { installReviewedPostObserver, postBodyStop, recordedPostMatches } = await import(module);
   const received: Buffer[] = [];
   const server = createServer(async (request, response) => {
@@ -15,15 +14,17 @@ test("E1 outer body observer captures real Chromium POST bytes independently of 
       const chunks: Buffer[] = [];
       for await (const chunk of request) chunks.push(Buffer.from(chunk));
       received.push(Buffer.concat(chunks));
+      // Reproduce receiver latency beyond the former 3s transport deadline.
+      if (received.length === 1) await new Promise(resolve => setTimeout(resolve, 3_250));
       response.setHeader("content-type", "application/json"); response.end('{"observed":true}');
     } else { response.setHeader("content-type", "text/html"); response.end("<h1>Offline POST observation</h1>"); }
   });
   await new Promise<void>(resolve => server.listen(0, "127.0.0.1", resolve));
   const address = server.address(); assert.ok(address && typeof address !== "string");
   const origin = `http://127.0.0.1:${address.port}`;
-  const sourceRules = JSON.parse(await readFile(new URL("../../../.eval-artifacts/p2-0-hardening-20261015/prep/scripts/reviewed-reads.json", import.meta.url), "utf8"));
-  // Test-only endpoint origin; retain the actual externally reviewed body grammar.
-  const postRule = { ...sourceRules.find((rule: any) => rule.methods.includes("POST")), origin };
+  // Independent public-query grammar: the fixture must not depend on eval artifacts.
+  const postRule = { origin, pathname: "/v2/hub/availability_calendar_v2", resourceTypes: ["fetch"], methods: ["POST"],
+    bodyFields: { locale: "string", start_at: "string", shop_id: "string", num_people: "string" } } as const;
   const reviewedBytes = Buffer.from(JSON.stringify([postRule]));
   const rows: any[] = [];
   const restore = installReviewedPostObserver(PlaywrightReadNetworkGuard, reviewedBytes, (entry: any) => rows.push(entry));
@@ -35,10 +36,10 @@ test("E1 outer body observer captures real Chromium POST bytes independently of 
     // A deliberately broader TEST_ONLY source rule challenges the OUTER
     // checker: production Guard code is unchanged and is not the audit oracle.
     const guard = new PlaywrightReadNetworkGuard({ documentOrigins: [origin], genericPublicRead: true, staticResources: [], dynamicReads: [postRule,
-      { ...postRule, bodyFields: { ...postRule.bodyFields, email: "string" } }] }, 3_000);
+      { ...postRule, bodyFields: { ...postRule.bodyFields, email: "string" } }] }, 15_000);
     await guard.install(context);
     const page = await context.newPage(); await guard.preparePage(context, page); guard.prepareNavigation(origin + "/");
-    await page.goto(origin + "/", { timeout: 3_000 });
+    await page.goto(origin + "/", { timeout: 15_000 });
     const normal = '{ "locale":"en", "start_at":"2026-10-16", "shop_id":"TEST_ONLY", "num_people":"2" }';
     const wrong = '{"locale":"en","start_at":"2026-10-16","shop_id":"TEST_ONLY","num_people":"2","email":"NEVER_SAVE_THIS_VALUE"}';
     for (const body of [normal, wrong]) await page.evaluate(async ({ path, body }) => {

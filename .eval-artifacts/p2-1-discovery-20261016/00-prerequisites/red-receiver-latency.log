@@ -1,0 +1,21 @@
+✖ E1 outer body observer captures real Chromium POST bytes independently of Guard admission (3354.136125ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4104.150917
+
+✖ failing tests:
+
+test at src/harness/browser/read-network-redirect.test.ts:1:433
+✖ E1 outer body observer captures real Chromium POST bytes independently of Guard admission (3354.136125ms)
+  page.evaluate: TypeError: Failed to fetch
+      at eval (eval at evaluate (:311:30), <anonymous>:1:34)
+      at UtilityScript.evaluate (<anonymous>:313:16)
+      at UtilityScript.<anonymous> (<anonymous>:1:44)
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts:46:52) {
+    log: []
+  }

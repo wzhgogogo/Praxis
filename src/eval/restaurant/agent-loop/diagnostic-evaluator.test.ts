@@ -578,7 +578,7 @@ test("E1 review reviewed POST requires independent complete body grammar and dis
 });
 
 test("E1 review outer POST dry run rejects wrong body fields and preserves exact byte hash", async () => {
-  const outer = new URL("../../../../.eval-artifacts/p2-0-hardening-20261015/prep/scripts/post-body-audit.mjs", import.meta.url).href;
+  const outer = new URL("./post-body-audit.mjs", import.meta.url).href;
   const { inspectReviewedPost, postBodyStop } = await import(outer);
   const reviewed = await readFile(".eval-artifacts/p2-0-hardening-20261015/prep/scripts/reviewed-reads.json", "utf8");
   const body = { locale: "en", start_at: "2026-10-16", shop_id: "TEST_ONLY", num_people: "2" };

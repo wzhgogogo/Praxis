@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.242
+- Document revision: 4.243
 - Last updated: 2026-10-16
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-16 P2-1 prerequisites：** E1已独立签收；P2-1第一段第0项完成。观察器迁入src/eval，全部调用方更新，浏览器测试不再依赖.eval-artifacts；3250ms本地响应下旧3秒请求失败红灯，新15秒测试时限在持续两CPU进程负载下连续5次通过。五门禁typecheck/arch/build通过、npm test926/926、真实Chromium113/113；迁移首轮遗漏调用方的失败日志保留。外层POST观察器、0交付补见证GET及reviewed-reads复制并冻结SHA，未新增规则；旧P2-0冻结清单保留作历史，本段不执行整单Live。0真实模型/Google/餐厅请求。证据p2-1-discovery-20261016/00-prerequisites与outer，继续发现探测工具；不推送。
 
 - **2026-10-16 E1独立复核收尾，校准通过／待独立签收：** 44e6aab复核输入已快进同步；用户批准rev2统一Gold修正与S0拆分后，冻结7dd2645（evaluator@29／rubric@25）重评22条：类型22/22、实际交付8/8、正常S0-声明20/20、误判合格0。越界9条已评价ABSENT，13条历史EVIDENCE_GAP逐请求列缺什么，RULE_GAP为0，不把未评当无越界。比较实际退出0；声明必要Gold或独立网络规则缺失的真实Evaluator→comparison挑战各退出1。完整[报告](../.eval-artifacts/e1-evaluator-20261016/report.md)末尾及rubric25逐次对照为当前证据；旧BLOCKED输出与复核原样保留。
 

@@ -1,0 +1,11 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/harness/browser/read-network-redirect.test.ts(38,140): error TS2322: Type '{ origin: string; pathname: string; resourceTypes: string[]; methods: string[]; bodyFields: { locale: string; start_at: string; shop_id: string; num_people: string; }; }' is not assignable to type 'BrowserReadNetworkRequestRule'.
+  Types of property 'resourceTypes' are incompatible.
+    Type 'string[]' is not assignable to type 'readonly ("document" | "fetch" | "font" | "image" | "media" | "script" | "stylesheet" | "xhr")[]'.
+      Type 'string' is not assignable to type '"document" | "fetch" | "font" | "image" | "media" | "script" | "stylesheet" | "xhr"'.
+src/harness/browser/read-network-redirect.test.ts(39,22): error TS2322: Type '{ locale: string; start_at: string; shop_id: string; num_people: string; email: "string"; }' is not assignable to type 'Readonly<Record<string, "number" | "string">>'.
+  Property 'locale' is incompatible with index signature.
+    Type 'string' is not assignable to type '"number" | "string"'.

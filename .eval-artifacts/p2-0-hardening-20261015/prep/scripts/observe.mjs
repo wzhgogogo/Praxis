@@ -3,7 +3,7 @@
 import { appendFileSync, readFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import { resolve } from 'node:path';
-import { installReviewedPostObserver } from './post-body-audit.mjs';
+import { installReviewedPostObserver } from '../../../../src/eval/restaurant/agent-loop/post-body-audit.mjs';
 const reviewedBytes = readFileSync(new URL('./reviewed-reads.json', import.meta.url));
 const { PlaywrightReadNetworkGuard } = await import(pathToFileURL(resolve('src/infrastructure/browser/playwright-read-network-guard.ts')).href);
 installReviewedPostObserver(PlaywrightReadNetworkGuard, reviewedBytes, entry => appendFileSync(process.env.P1F_TRACE_PATH, JSON.stringify(entry)+'\n'));
