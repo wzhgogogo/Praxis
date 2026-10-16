@@ -138,3 +138,25 @@ KF-H005 和神乐坂仍然是真正的找店问题。P2-1 仍然有价值：Tabe
    - 修探测指标（问题 2），并离线重算已有 10 次；
    - 用相同冻结输入重跑 10 次基线，作为检查点 A 的真正起点。见证若过期，先重新认证。
 3. 之后按原指令继续：P2-1a → 检查点 A → P2-1b → 检查点 B → Live。
+
+---
+
+## 补充（2026-10-17 00:25 北京）：TableCheck 问题来自本机网络，不是代码回归
+
+用户手动做了三项核对：
+
+1. 在本机 Chrome（经 VPN）中打开探测使用的 TableCheck 搜索 URL：页面能打开，但显示 "No venues found within your search area"。geo_distance 为 1 km 和 3 km 时都一样。
+2. 在网站上直接搜索 Ginza，网站自己生成的 URL 为 `geo_latitude=35.67123&geo_longitude=139.765&search_text=Ginza`，格式与 Pack 的 `buildQuery` 相同，同样显示 "No exact matches"。
+3. 在手机上、不经 VPN 打开同一搜索：有结果。
+
+**结论：**
+
+- 问题 1 的主要原因是本机 VPN 出口下，TableCheck 的结果接口不可用。这是环境问题，不是 Guard 回归，Pack 的 URL 语法也没有过时。
+- 10 次基线中 TableCheck 的失败应改记为环境问题。h001 #1 和吉祥寺 #1 中，Google 因此没有执行到，也属于同一环境影响。
+- P2-0 h001 中 TableCheck 找店超时，很可能也是同一原因。该次运行原有的 CAPABILITY_MISS 标签保留，因为第一卡点在 Google 候选查位；但 TableCheck 那一步不算"能力缺失"的证据。
+
+**处理：**
+
+- 用户调整网络（日本出口，或让 TableCheck 直连）后，Codex 用无 Guard 和当前 Guard 各确认一次，0 模型。只有当前 Guard 下仍然卡住时，才按 Guard 回归处理。
+- 外层预检新增来源可达性检查：每个计划来源对已知区域返回非空结果，否则不启动运行，记为 ENV_FAILURE。这样环境问题不会再被记成能力问题。
+- 基线在网络修复后重跑，仍需用户批准追加的 10 次探测。
