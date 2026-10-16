@@ -25,7 +25,7 @@ function evaluation(overrides: Partial<RestaurantHybridDiagnosticEvaluation["exe
     sourceArtifact: { path: "fixture", sha256: "fixture" }, criterionEquivalences: { path: "TEST_ONLY", sha256: "TEST_ONLY", tableVersion: "restaurant-criterion-equivalences@1" }, pendingCriterionWordings: [],
     // This pre-existing acceptance unit stub is not an outcome/severity score.
     outcome: { type: "NOT_EVALUATED", reasons: ["UNIT_ONLY_NOT_SCORED"], evidenceRefs: [], capabilityDenominator: "NOT_EVALUATED", userGoalComplete: "NOT_EVALUATED" },
-    severity: { S0: notScored, S1: notScored, S2: notScored, S3: notScored, S4: notScored },
+    severity: { S0: notScored, S0_DECLARATION: notScored, S0_BOUNDARY: { ...notScored, gaps: [] }, S1: notScored, S2: notScored, S3: notScored, S4: notScored },
     execution: { status: "SUCCEEDED", stage: "AGENT_LOOP", taskProducedQualifiedResult: "YES", systemBehavior: "SUPPORTED_BY_EVIDENCE", externalConditions: "OBSERVED", evidenceSufficiency: "SUFFICIENT_FOR_PRESENTED_RESULT", completion: "PRESENTATION_RECORDED", ...overrides },
     candidateSummaries: [], witnessFunnel: [], investigationMetrics: { status: "NOT_EVALUATED", rejectedActions: 0, maxConsecutiveNoNewObservation: 0, noNewObservationRuns: [], sameFailureRuns: [], sameTermRuns: [], urls: { status: "NOT_EVALUATED", scope: "REDACTED_PATHS_ONLY", loads: [] }, violations: [], unassessed: ["UNIT_ONLY_NOT_SCORED"] },
     effectiveResources: { status: "NOT_EVALUATED", scope: "RECORDED_EXECUTOR_LIMITS", scopes: [], declarationDifferences: [], violations: [], unassessed: ["UNIT_ONLY_NOT_SCORED"] },

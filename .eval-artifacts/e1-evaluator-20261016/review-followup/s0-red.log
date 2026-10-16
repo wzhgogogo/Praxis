@@ -1,0 +1,31 @@
+Exit 1
+✖ E1 review S0 declaration and boundary are independent zero-tolerance assessments (63.394667ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 229.91275
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts:1:37262
+✖ E1 review S0 declaration and boundary are independent zero-tolerance assessments (63.394667ms)
+  AssertionError [ERR_ASSERTION]: an independently supported delivery remains evaluable without the historical POST body
+  + actual - expected
+  
+  + undefined
+  - 'ABSENT'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts:508:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'ABSENT',
+    operator: 'strictEqual'
+  }
+

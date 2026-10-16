@@ -5,6 +5,7 @@ import { gunzipSync } from "node:zlib";
 import { isDeepStrictEqual } from "node:util";
 import { parseAllDocuments } from "yaml";
 import { loadFrozenLiveCases } from "./live-case-materializer.js";
+import { parseReviewedReads } from "./diagnostic-evaluator-network.js";
 import type { DiagnosticEvaluationOptions } from "./diagnostic-evaluator.js";
 import { loadPostDeliveryTabelogObservation } from "./diagnostic-evaluator-grounding.js";
 
@@ -126,7 +127,7 @@ export async function loadCalibrationObservations(contextPath: string, runId: st
   const path = resolve(contextPath), bytes = await readFile(path);
   const root = object(JSON.parse(bytes.toString()), ["schemaVersion", "entries"], ["schemaVersion", "entries"], "observations");
   if (root.schemaVersion !== "1" || !Array.isArray(root.entries)) throw Error("Unsupported calibration observation context");
-  const rows = root.entries.map(row => object(row, ["runId", "artifactSha256", "finish", "priorAttempts", "postDeliveryTabelog"], ["runId", "artifactSha256"], "observation entry"));
+  const rows = root.entries.map(row => object(row, ["runId", "artifactSha256", "finish", "priorAttempts", "postDeliveryTabelog", "reviewedReads"], ["runId", "artifactSha256"], "observation entry"));
   const ids = rows.map(row => string(row.runId));
   if (new Set(ids).size !== ids.length) throw Error("Duplicate calibration observation run ID");
   const refs = [`${path}#sha256=${sha(bytes)}`];
@@ -142,6 +143,10 @@ export async function loadCalibrationObservations(contextPath: string, runId: st
     return { raw, path: file };
   };
   const options: DiagnosticEvaluationOptions = {};
+  if (row.reviewedReads !== undefined) {
+    const reviewed = await read(row.reviewedReads);
+    options.reviewedReads = parseReviewedReads(reviewed.raw, relative(process.cwd(), reviewed.path));
+  }
   if (row.finish !== undefined || row.priorAttempts !== undefined) {
     if (!row.finish || row.priorAttempts !== undefined && !Array.isArray(row.priorAttempts)) throw Error("Raw finish and valid priorAttempts required");
     const finish = JSON.parse((await read(row.finish)).raw.toString());

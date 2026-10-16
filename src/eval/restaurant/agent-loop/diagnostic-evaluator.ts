@@ -11,6 +11,7 @@ import { assessRawTabelog, evaluateSourceOpeningHours } from "./diagnostic-evalu
 import type { PostDeliveryTabelogObservation } from "./diagnostic-evaluator-grounding.js";
 import { classifyRunOutcome } from "./diagnostic-evaluator-outcome.js";
 import type { RunOutcome, RunSeverity } from "./diagnostic-evaluator-outcome.js";
+import type { ReviewedReads } from "./diagnostic-evaluator-network.js";
 import { buildWitnessFunnel } from "./diagnostic-evaluator-witness.js";
 import type { WitnessOracle, WitnessFunnel } from "./diagnostic-evaluator-witness.js";
 import { measureInvestigationProgress } from "./diagnostic-evaluator-progress.js";
@@ -1047,6 +1048,7 @@ export interface DiagnosticEvaluationOptions {
   softPreferenceObservations?: SoftPreferenceObservations;
   frozenRun?: { runId: string; artifactSha256: string };
   goldCorrection?: { artifactSha256: string; rev1Sha256: string; rev2Sha256: string; refs: string[]; materializedCase: unknown };
+  reviewedReads?: ReviewedReads;
 }
 export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceArtifact: { path: string; sha256: string }, options: DiagnosticEvaluationOptions = {}): RestaurantHybridDiagnosticEvaluation {
   const equivalences = options.criterionEquivalences ?? loadCriterionEquivalences();
@@ -1177,6 +1179,7 @@ export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceAr
     && Date.parse(root.startedAt) > Date.parse(options.witnessOracle.validUntil)
     && !options.witnessOracle.rows.some(row => row.observation && Date.parse(row.observation.observedAt) >= Date.parse(root.startedAt!));
   const classification = classifyRunOutcome({ root, findings, conditionStates, presentationConditionsStatus, ...(expected.goal ? { expectedGoal: expected.goal } : {}),
+    ...(options.reviewedReads ? { reviewedReads: options.reviewedReads } : {}),
     trace: externalTrace?.entries ?? [...(root.diagnostics?.browserTrace ?? []), ...(root.sourceTrace?.browserTrace ?? [])],
     ...(orchestration ? { orchestration } : {}), ...(witnessWindowExpired ? { invalidSample: { reason: "Required witness certification expired before run start with no after-run recheck; Eval Skill §5.", refs: options.witnessOracle!.rows.flatMap(row => row.refs) } } : {}),
     ...(feasibleWitnesses.length ? { knownFeasibleWitness: { refs: feasibleWitnesses.flatMap(row => row.evidenceRefs) } } : {}),

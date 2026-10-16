@@ -103,7 +103,8 @@ const control = object({ structure: object({ name: text, radioGroupKey: text }),
   checked: boolean, selected: boolean, calendarDate: text, visible: boolean, disabled: boolean, value: text, options: array(object({ selected: boolean, value: text, label: text })) });
 const tabelogSelection = object({ time: text, link: object({ rcd: text, member: text, visit_date: text, visit_time: text }) });
 const tabelogBody = object({ base_date: object({ year: number, month: number, day: number }), members: number, selection: array(tabelogSelection) });
-const networkRequest = object({ outcome: text, origin: text, pathname: text, method: text, resourceType: text, queryKeys: texts });
+const bodyObservation = object({ bodySha256: text, contentType: text, fieldTypes: dictionary(text) });
+const networkRequest = object({ outcome: text, origin: text, pathname: text, method: text, resourceType: text, queryKeys: texts, bodyObservation });
 const effectiveLimits = numericFields(["maxModelCallsPerCandidate", "maxModelCallsTotal", "maxOperationsPerCandidate", "maxAutomaticElapsedMs"]);
 const lifecycle = numericFields(["candidateModelCalls", "runModelCalls", "candidateRuntimeOperations", "candidateElapsedMs"]);
 const executorFields = { source: text, stage: text, event: text, candidateId: text, elapsedMs: number, effectiveLimits, lifecycle };
