@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { mkdtemp, readFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -20,6 +21,8 @@ import { evaluateSourceOpeningHours, loadPostDeliveryTabelogObservation } from "
 import { evaluatorImportViolation } from "../../shared/evaluator-import-rule.js";
 import { loadFrozenCalibrationInput } from "./calibration-inputs.js";
 import { evaluateFrozenCalibrationArtifact } from "./runners/run-hybrid-artifact-evaluation.js";
+import { loadWitnessOracle, loadWitnessContext } from "./diagnostic-evaluator-witness.js";
+import type { WitnessOracle } from "./diagnostic-evaluator-witness.js";
 
 // Frozen exposed runs, never regenerated from the request or the evaluator.
 async function calibrationArtifact(runId: string): Promise<any> {
@@ -234,6 +237,92 @@ test("E1 outer preflight failure is an environment observation, not a missing re
   assert.equal(failed.outcome.capabilityDenominator, "EXCLUDED");
   external.finish.preflight.status = "PASSED";
   assert.equal(evaluateRestaurantHybridLiveArtifact(undefined, source, { orchestration: external }).outcome.type, "NOT_EVALUATED");
+});
+
+test("E1 actual after-run witness produces an outlet funnel without borrowing the system's candidate names as Gold", async () => {
+  const artifact = await calibrationArtifact("p20-h001-a1");
+  const manifestPath = ".eval-artifacts/p2-0-hardening-20261015/prep/live/h001/witness-after/manifest.json";
+  const sha256 = "b5a1f0c3b091c5b89628dec6864d2a17e759b92e66820616d56624b5410dfefc";
+  const witnessOracle = loadWitnessOracle({ manifestPath, registryPath: ".eval-artifacts/known-feasible-baseline-20261008/witnesses.prequalified-20261008.json", variantId: "kf-h001-20261022", artifactSha256: sha256 });
+  const evaluation = evaluateRestaurantHybridLiveArtifact(artifact, { path: "p20-h001-a1", sha256 }, { witnessOracle });
+  assert.equal(evaluation.witnessFunnel?.length, 4);
+  assert.deepEqual(evaluation.witnessFunnel.map((row: any) => row.outletName).sort(), ["Shibuya Sushi Matsumoto", "Shibuya Sushi Sen", "Sushi Teppen", "Sushi Tokyo Ten"].sort());
+  assert.ok(evaluation.witnessFunnel.every((row: any) => row.blocker?.certainty === "HYPOTHESIS"));
+  const sen = evaluation.witnessFunnel.find(row => row.sourceId === "13275802")!;
+  assert.equal(sen.discovery.status, "NOT_FOUND"); assert.equal(sen.availability.witness, "AVAILABLE");
+  const matsumoto = evaluation.witnessFunnel.find(row => row.sourceId === "13261619")!;
+  assert.equal(matsumoto.discovery.status, "NOT_EVALUATED", "the independent roster has no address; same name alone cannot prove cross-source identity");
+  assert.equal(matsumoto.discovery.possibleCandidateIds.length, 1);
+  assert.equal(matsumoto.availability.witness, "AVAILABLE");
+  assert.equal(evaluation.outcome.type, "CAPABILITY_MISS"); assert.equal(evaluation.severity.S2.status, "PRESENT");
+  assert.equal(evaluation.witnessFunnel.find(row => row.sourceId === "13308491")?.availability.witness, "NO_MATCHING_SLOT");
+  const wrongRequest = structuredClone(witnessOracle);
+  wrongRequest.rows.forEach(row => { row.observation.date = "2026-10-17"; });
+  const rejected = evaluateRestaurantHybridLiveArtifact(artifact, { path: "p20-h001-a1", sha256 }, { witnessOracle: wrongRequest });
+  assert.notEqual(rejected.outcome.type, "CAPABILITY_MISS", "a different date cannot certify feasibility");
+  assert.ok(rejected.witnessFunnel.every(row => row.availability.witness === "NOT_EVALUATED"));
+  const wrongRun = evaluateRestaurantHybridLiveArtifact(artifact, source, { witnessOracle });
+  assert.ok(wrongRun.witnessFunnel.every(row => row.discovery.status === "NOT_EVALUATED"));
+  assert.notEqual(wrongRun.outcome.type, "CAPABILITY_MISS");
+  assert.ok(loadWitnessContext(".eval-artifacts/e1-evaluator-20261016/witness-inputs.json", "p20-h001-a1"));
+  assert.equal(loadWitnessContext(".eval-artifacts/e1-evaluator-20261016/witness-inputs.json", "p20-h002-a1"), undefined);
+  const expired = structuredClone(witnessOracle);
+  // Independent explicit certification window, not request-expiry policy or a label.
+  expired.validUntil = "2026-10-12T17:20:00+09:00";
+  expired.rows.forEach(row => { row.observation.observedAt = "2026-10-11T08:00:00Z"; });
+  const invalid = evaluateRestaurantHybridLiveArtifact(artifact, { path: "p20-h001-a1", sha256 }, { witnessOracle: expired });
+  assert.equal(invalid.outcome.type, "NOT_A_VALID_SAMPLE");
+  assert.equal(invalid.outcome.capabilityDenominator, "EXCLUDED");
+});
+
+test("E1 witness cross-source identity needs independent name AND full address; floor conflict and missing reads stay visible", async () => {
+  // Real record structure, independent miniature witness labels because the
+  // historical roster does not contain cross-source address Gold. This does
+  // not certify any real shop's identity or model understanding.
+  const original = await calibrationArtifact("p20-h002-a1");
+  const oldId = original.finalSnapshot.domainState.presentedResults.candidateIds[0];
+  const artifact = JSON.parse(JSON.stringify(original).replaceAll(oldId, "google:TEST_ONLY"));
+  const candidate = artifact.finalSnapshot.domainState.candidates.find((entry: any) => entry.restaurant.id === "google:TEST_ONLY");
+  candidate.restaurant.outletName = "Sora Sushi"; candidate.restaurant.address = "1-2 Main Town, 2F";
+  const prefix = ".eval-artifacts/p2-0-hardening-20261015/prep/live/h002/attempt-1/post-delivery-raw/13295658";
+  const observation = loadPostDeliveryTabelogObservation(`${prefix}.metadata.json`, `${prefix}.body.txt`);
+  const oracle: WitnessOracle = { applicableArtifactSha256: source.sha256, radiusMeters: 1000, sourceRef: "TEST_ONLY", rows: [{
+    outletName: "Sushi Sora", address: "1 2 Main Town 2F", sourceId: "13295658", distanceMeters: 100,
+    hardEvidence: [], observation, refs: ["TEST_ONLY:independent-miniature-address"] } ] };
+  const evaluate = () => evaluateRestaurantHybridLiveArtifact(artifact, source, { witnessOracle: oracle }).witnessFunnel[0]!;
+  assert.equal(evaluate().discovery.status, "FOUND");
+  assert.equal(evaluate().presented, "YES");
+  const presentation = artifact.trajectories.find((step: any) => step.agentAction?.type === "PRESENT_RESULTS");
+  artifact.trajectories = artifact.trajectories.filter((step: any) => step !== presentation);
+  assert.equal(evaluate().presented, "NOT_EVALUATED", "completion label cannot replace an executed presentation");
+  artifact.trajectories.push(presentation);
+  candidate.restaurant.address = "1-2 Main Town, 3F";
+  assert.equal(evaluate().discovery.status, "NOT_FOUND");
+  candidate.restaurant.address = "1-2 Main Town, 2F";
+  delete oracle.rows[0]!.address;
+  assert.equal(evaluate().discovery.status, "NOT_EVALUATED");
+  oracle.rows[0]!.address = "1 2 Main Town 2F";
+  artifact.trajectories = artifact.trajectories.filter((step: any) => step.observation?.type !== "DISCOVERY");
+  assert.equal(evaluate().discovery.status, "NOT_EVALUATED", "final candidate labels cannot replace actual discovery records");
+});
+
+test("E1 after-GET scope comes from its raw response, never the four request parameters", async () => {
+  const base = ".eval-artifacts/p2-0-hardening-20261015/prep/live/h002/attempt-1/post-delivery-raw/13295658";
+  const original = loadPostDeliveryTabelogObservation(`${base}.metadata.json`, `${base}.body.txt`);
+  assert.equal(original.date, "2026-10-17"); assert.equal(original.party, 2);
+  const directory = await mkdtemp(join(tmpdir(), "e1-post-raw-scope-"));
+  const { writeFile } = await import("node:fs/promises");
+  const body = JSON.parse(await readFile(`${base}.body.txt`, "utf8"));
+  body.base_date.day = 18; body.members = 3;
+  const raw = JSON.stringify(body);
+  const metadata = JSON.parse(await readFile(`${base}.metadata.json`, "utf8"));
+  metadata.sha256 = createHash("sha256").update(raw).digest("hex"); // preserve integrity, only scope is wrong
+  await writeFile(join(directory, "body.json"), raw);
+  await writeFile(join(directory, "metadata.json"), JSON.stringify(metadata));
+  const changed = loadPostDeliveryTabelogObservation(join(directory, "metadata.json"), join(directory, "body.json"));
+  assert.equal(changed.date, "2026-10-18"); assert.equal(changed.party, 3);
+  const artifact = await calibrationArtifact("p20-h002-a1");
+  assert.equal(finding(evaluateRestaurantHybridLiveArtifact(artifact, source, { postDeliveryTabelog: [changed] }), "REQUIRED_EVIDENCE").status, "NOT_SATISFIED");
 });
 
 const source = { path: "/tmp/availability-fixture.result.json", sha256: "a".repeat(64) };

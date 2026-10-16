@@ -11,6 +11,8 @@ import { assessRawTabelog, evaluateSourceOpeningHours } from "./diagnostic-evalu
 import type { PostDeliveryTabelogObservation } from "./diagnostic-evaluator-grounding.js";
 import { classifyRunOutcome } from "./diagnostic-evaluator-outcome.js";
 import type { RunOutcome, RunSeverity } from "./diagnostic-evaluator-outcome.js";
+import { buildWitnessFunnel } from "./diagnostic-evaluator-witness.js";
+import type { WitnessOracle, WitnessFunnel } from "./diagnostic-evaluator-witness.js";
 
 
 export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@29";
@@ -71,6 +73,7 @@ export interface RestaurantHybridDiagnosticEvaluation {
   pendingCriterionWordings: PendingCriterionWording[];
   outcome: RunOutcome;
   severity: RunSeverity;
+  witnessFunnel: WitnessFunnel[];
 }
 
 function asArray<T>(value: T[] | undefined): T[] { return value ?? []; }
@@ -1029,6 +1032,7 @@ export interface DiagnosticEvaluationOptions {
   postDeliveryTabelog?: PostDeliveryTabelogObservation[];
   orchestration?: unknown;
   trace?: unknown;
+  witnessOracle?: WitnessOracle;
 }
 export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceArtifact: { path: string; sha256: string }, options: DiagnosticEvaluationOptions = {}): RestaurantHybridDiagnosticEvaluation {
   const equivalences = options.criterionEquivalences ?? loadCriterionEquivalences();
@@ -1112,10 +1116,17 @@ export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceAr
   const externalTrace = options.trace === undefined ? undefined : readDiagnosticTrace(options.trace);
   const orchestration = readOrchestrationRecord(options.orchestration);
   const resultMissing = artifact === undefined;
+  const witnessFunnel = options.witnessOracle ? buildWitnessFunnel(root, sourceArtifact.sha256, options.witnessOracle, observations) : [];
+  const feasibleWitnesses = witnessFunnel.filter(row => row.feasible === "SUPPORTED");
+  const witnessWindowExpired = options.witnessOracle?.applicableArtifactSha256 === sourceArtifact.sha256
+    && options.witnessOracle.validUntil && root.startedAt
+    && Date.parse(root.startedAt) > Date.parse(options.witnessOracle.validUntil)
+    && !options.witnessOracle.rows.some(row => Date.parse(row.observation.observedAt) >= Date.parse(root.startedAt!));
   const classification = classifyRunOutcome({ root, findings, ...(expected.goal ? { expectedGoal: expected.goal } : {}),
     trace: externalTrace?.entries ?? [...(root.diagnostics?.browserTrace ?? []), ...(root.sourceTrace?.browserTrace ?? [])],
-    ...(orchestration ? { orchestration } : {}), resultMissing });
-  return { ...classification, recordReadIssues: [...readIssues, ...(externalTrace?.issues ?? [])], criterionEquivalences: { path: equivalences.path, sha256: equivalences.sha256, tableVersion: equivalences.tableVersion }, pendingCriterionWordings: criteriaComparison.pending, schemaVersion: "1", evaluatorVersion: RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, rubricVersion: RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION, rubricStatus: "DRAFT_DIAGNOSTIC_ONLY", sourceArtifact: { path: sourceArtifact.path, sha256: sourceArtifact.sha256, ...(asString(root.runId) ? { runId: asString(root.runId)! } : {}), ...(asString(root.caseId) ? { caseId: asString(root.caseId)! } : {}) }, execution: { status: asString(root.status) ?? null, stage: asString(root.stage) ?? null,
+    ...(orchestration ? { orchestration } : {}), ...(witnessWindowExpired ? { invalidSample: { reason: "Required witness certification expired before run start with no after-run recheck; Eval Skill §5.", refs: options.witnessOracle!.rows.flatMap(row => row.refs) } } : {}),
+    ...(feasibleWitnesses.length ? { knownFeasibleWitness: { refs: feasibleWitnesses.flatMap(row => row.evidenceRefs) } } : {}), resultMissing });
+  return { ...classification, witnessFunnel, recordReadIssues: [...readIssues, ...(externalTrace?.issues ?? [])], criterionEquivalences: { path: equivalences.path, sha256: equivalences.sha256, tableVersion: equivalences.tableVersion }, pendingCriterionWordings: criteriaComparison.pending, schemaVersion: "1", evaluatorVersion: RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, rubricVersion: RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION, rubricStatus: "DRAFT_DIAGNOSTIC_ONLY", sourceArtifact: { path: sourceArtifact.path, sha256: sourceArtifact.sha256, ...(asString(root.runId) ? { runId: asString(root.runId)! } : {}), ...(asString(root.caseId) ? { caseId: asString(root.caseId)! } : {}) }, execution: { status: asString(root.status) ?? null, stage: asString(root.stage) ?? null,
     // A source discovery failure is not an ordinary bounded empty result.
     // The runtime keeps that failure on the search continuation, so preserve
     // UNKNOWN rather than reclassifying the task as a verified no-result.

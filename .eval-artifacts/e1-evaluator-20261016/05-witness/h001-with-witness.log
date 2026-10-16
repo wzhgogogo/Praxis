@@ -1,0 +1,147 @@
+
+> praxis-zhixing@0.1.0 eval:restaurant:agent-loop:artifact
+> node --import tsx src/eval/restaurant/agent-loop/runners/run-hybrid-artifact-evaluation.ts --manifest .eval-artifacts/calibration-phase1-20261015/inputs/manifest.json --run p20-h001-a1 --witness-context .eval-artifacts/e1-evaluator-20261016/witness-inputs.json --out-dir .eval-artifacts/e1-evaluator-20261016/05-witness/evaluations
+
+{
+  "outputPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/e1-evaluator-20261016/05-witness/evaluations/p20-h001-a1.evaluation.29.0fc621db-0d44-46f0-beb0-8fb0c8179ae4.json",
+  "execution": {
+    "status": "SUCCEEDED",
+    "stage": "AGENT_LOOP",
+    "taskProducedQualifiedResult": "NO",
+    "systemBehavior": "NOT_EVALUATED",
+    "externalConditions": "OBSERVED",
+    "evidenceSufficiency": "NOT_EVALUATED",
+    "completion": "NO_VERIFIED_RESULT"
+  },
+  "outcome": {
+    "type": "CAPABILITY_MISS",
+    "reasons": [
+      "No delivery despite independent request-matching feasible witness."
+    ],
+    "evidenceRefs": [
+      "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/prep/live/h001/witness-after/manifest.json#sha256=93b96b8ffabad77dd654b21f2692442cbc87b7d7303aaa3c6587bd1f780f1ec5",
+      "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/known-feasible-baseline-20261008/witnesses.prequalified-20261008.json#sha256=f2d5054546326adf5a4d5a577cc1c6108c7fa780e1ea463fd1dd4d49dde3f445",
+      "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/prep/live/h001/witness-after/13275802.body.txt#sha256=d9ec6ae400805d4c8ea43dd1be6b2662aa7c98880a754ae470bc23e11909677e",
+      "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/prep/live/h001/witness-after/13275802.metadata.json#sha256=5267612b09d4f47c68b2467e537cdc919d70cd5b6b8fca876228c12b6e6bfdb7",
+      "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=906491a91f7929bb80fdb587a73c36f1b63e925c20aaa1ef66d0460648215228",
+      "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/prep/live/h001/witness-after/manifest.json#sha256=93b96b8ffabad77dd654b21f2692442cbc87b7d7303aaa3c6587bd1f780f1ec5",
+      "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/known-feasible-baseline-20261008/witnesses.prequalified-20261008.json#sha256=f2d5054546326adf5a4d5a577cc1c6108c7fa780e1ea463fd1dd4d49dde3f445",
+      "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/prep/live/h001/witness-after/13261619.body.txt#sha256=0dc8d79d66b1c94179933665769e32ac4b281535758ea96e97d2e5612aca8bc9",
+      "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/prep/live/h001/witness-after/13261619.metadata.json#sha256=6222f9b203c5155555fd280cbb1735655369973e87971a8b60c8df2be4451a09",
+      "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=906491a91f7929bb80fdb587a73c36f1b63e925c20aaa1ef66d0460648215228"
+    ],
+    "capabilityDenominator": "INCLUDED",
+    "userGoalComplete": "NO"
+  },
+  "severity": {
+    "S0": {
+      "status": "PRESENT",
+      "reasons": [
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list"
+      ],
+      "evidenceRefs": [
+        "networkRequests[43]",
+        "networkRequests[89]",
+        "networkRequests[135]",
+        "networkRequests[181]",
+        "networkRequests[210]",
+        "networkRequests[256]",
+        "networkRequests[285]",
+        "networkRequests[420]",
+        "networkRequests[449]",
+        "networkRequests[668]",
+        "networkRequests[697]",
+        "networkRequests[1373]",
+        "networkRequests[1402]",
+        "networkRequests[1431]",
+        "networkRequests[1460]",
+        "networkRequests[1489]",
+        "networkRequests[1518]",
+        "networkRequests[1547]",
+        "networkRequests[1576]",
+        "networkRequests[1605]",
+        "networkRequests[1634]",
+        "networkRequests[1663]",
+        "networkRequests[1692]",
+        "networkRequests[1721]",
+        "networkRequests[1750]",
+        "networkRequests[1780]",
+        "networkRequests[1809]",
+        "networkRequests[1838]",
+        "networkRequests[1886]",
+        "networkRequests[3115]",
+        "networkRequests[3396]"
+      ]
+    },
+    "S1": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "No independently established unmet user-need conclusion."
+      ],
+      "evidenceRefs": []
+    },
+    "S2": {
+      "status": "PRESENT",
+      "reasons": [
+        "No delivery despite independent request-matching feasible witness."
+      ],
+      "evidenceRefs": [
+        "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/prep/live/h001/witness-after/manifest.json#sha256=93b96b8ffabad77dd654b21f2692442cbc87b7d7303aaa3c6587bd1f780f1ec5",
+        "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/known-feasible-baseline-20261008/witnesses.prequalified-20261008.json#sha256=f2d5054546326adf5a4d5a577cc1c6108c7fa780e1ea463fd1dd4d49dde3f445",
+        "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/prep/live/h001/witness-after/13275802.body.txt#sha256=d9ec6ae400805d4c8ea43dd1be6b2662aa7c98880a754ae470bc23e11909677e",
+        "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/prep/live/h001/witness-after/13275802.metadata.json#sha256=5267612b09d4f47c68b2467e537cdc919d70cd5b6b8fca876228c12b6e6bfdb7",
+        "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=906491a91f7929bb80fdb587a73c36f1b63e925c20aaa1ef66d0460648215228",
+        "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/prep/live/h001/witness-after/manifest.json#sha256=93b96b8ffabad77dd654b21f2692442cbc87b7d7303aaa3c6587bd1f780f1ec5",
+        "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/known-feasible-baseline-20261008/witnesses.prequalified-20261008.json#sha256=f2d5054546326adf5a4d5a577cc1c6108c7fa780e1ea463fd1dd4d49dde3f445",
+        "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/prep/live/h001/witness-after/13261619.body.txt#sha256=0dc8d79d66b1c94179933665769e32ac4b281535758ea96e97d2e5612aca8bc9",
+        "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/prep/live/h001/witness-after/13261619.metadata.json#sha256=6222f9b203c5155555fd280cbb1735655369973e87971a8b60c8df2be4451a09",
+        "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=906491a91f7929bb80fdb587a73c36f1b63e925c20aaa1ef66d0460648215228"
+      ]
+    },
+    "S3": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "Experience/latency thresholds belong to E2; not scored here."
+      ],
+      "evidenceRefs": []
+    },
+    "S4": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "User-invisible retry effects are not independently established."
+      ],
+      "evidenceRefs": []
+    }
+  },
+  "evaluatorVersion": "restaurant-hybrid-read-diagnostic-evaluator@29"
+}

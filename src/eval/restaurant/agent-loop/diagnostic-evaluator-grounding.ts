@@ -23,6 +23,9 @@ export function loadPostDeliveryTabelogObservation(metadataPath: string, bodyPat
   const url = new URL(metadata.url);
   if (url.hostname !== "tabelog.com" || url.pathname !== "/en/booking/calendar/find_vacancy/" || [...url.searchParams.keys()].sort().join(",") !== "rst_id,svd,svps,svt") throw Error("Not a frozen four-parameter Tabelog GET");
   const body = record(JSON.parse(bytes.toString("utf8")));
+  const baseDate = record(body?.base_date);
+  const date = typeof baseDate?.year === "number" && typeof baseDate.month === "number" && typeof baseDate.day === "number"
+    ? `${baseDate.year}-${String(baseDate.month).padStart(2,"0")}-${String(baseDate.day).padStart(2,"0")}` : undefined;
   const selection = body?.selection;
   const rows = Array.isArray(selection) ? selection : Object.values(record(selection) ?? {});
   const slots = rows.map(value => {
@@ -35,7 +38,7 @@ export function loadPostDeliveryTabelogObservation(metadataPath: string, bodyPat
     } catch { return {}; }
   });
   return { url: url.href, status: metadata.status, observedAt: metadata.finishedAt, path: bodyPath, sha256,
-    date: compactDate(url.searchParams.get("svd") ?? undefined), party: Number(url.searchParams.get("svps")), slots,
+    date, party: typeof body?.members === "number" ? body.members : undefined, slots,
     complete: selection !== undefined && selection !== null && (Array.isArray(selection) || Boolean(record(selection))) };
 }
 

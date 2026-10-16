@@ -81,7 +81,7 @@ const check = object({ status: text, reasonCode: text, evidenceIds: texts });
 const offer = object({ id: text, restaurantId: text, source: text, dateTime: text, partySize: number, checkedAt: text,
   displayExpiresAt: text, expiresAt: text, alternativeToRequestedTime: boolean, serviceScope });
 const termination = object({ initiator: text, type: text, reasonCode: text, isSystemReason: boolean });
-const restaurant = object({ id: text, outletName: text });
+const restaurant = object({ id: text, outletName: text, address: text, sourceIds: dictionary(text) });
 const candidate = object({ restaurant });
 const action = object({ type: text, candidateIds: texts });
 const observation = object({ type: text, candidateIds: texts, evidenceIds: texts, unresolvedCandidateIds: texts,

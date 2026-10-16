@@ -65,3 +65,9 @@
 基线d621d1b对实际SIGKILL包没有类型的目标红灯，现统一入口验证manifest、每份gzip与原始双SHA，真实Evaluator保存不可覆盖sidecar。两条均ORCHESTRATION_INTERRUPTED、能力分母EXCLUDED、用户目标NO；缺result的六维全部未评价，S0只用trace且两条均因中断/脱敏未评价。实际表单POST篡改为S0，BLOCKED对照不冒充已越界；正常交付、明确冲突、HTTP402及缺因果配对通过，人工标签不被读取。
 
 定向95/95，四门禁typecheck／arch:check／npm test 893/893／build全绿，04-outcomes原始日志；实际共享CLI两条输出及SHA在evaluations/，没有手填评分。Eval Skill 2.1只维护一次分类规则并通过skill-creator校验。五条Your-call口径及最终校准尚未完成，等待复核者独立导出，不宣称分类已获人工校准；跨来源语义HARD与脱敏网络grammar仍可能未评价。
+
+## 5 见证逐候选漏斗
+
+5ca7972对真实运行后四店见证没有漏斗的目标红灯已转绿；共享CLI读取原库存及既有登记HARD/范围Gold，按artifact原始SHA绑定，h001自动CAPABILITY_MISS/S2，不读取独立复核结论或人工标签。四店逐项输出发现、实际身份/事实原始链、系统查位原因与独立库存、实际展示及HYPOTHESIS卡点。无位不误标交付卡点，缺独立地址不伪造跨源匹配。
+
+定向98/98、四门禁typecheck／arch:check／npm test 896/896／build全绿，05-witness原始日志与最终h001-with-witness-final.log指向sidecar；地址/楼层、缺读取/展示、错请求/错SHA、认证窗口过期成对控制通过。复查发现第3项后GET日期仍读URL，red-source-date.log证实，已改为响应base_date/members并绿；源文件及Gold未改。历史Matsumoto缺独立地址只能可能匹配，Sen/原生Teppen可定位；自由文本语义与较晚库存的历史推断边界保留。
