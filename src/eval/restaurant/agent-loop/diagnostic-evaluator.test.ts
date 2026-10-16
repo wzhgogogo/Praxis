@@ -1,10 +1,11 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
-import { mkdtemp, readFile } from "node:fs/promises";
+import { mkdtemp, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
 import { gunzipSync } from "node:zlib";
+import { fileURLToPath } from "node:url";
 
 import { fixtureIntent } from "../../../harness/restaurant-fixtures.js";
 
@@ -394,6 +395,75 @@ test("E1 resources honor actual executor limits, and missing effectiveLimits sta
     assert.equal(finding(result, "RESOURCES").status, "NOT_SATISFIED", `${counter} must use the actual FACTS limit`);
     assert.ok(result.effectiveResources.violations.some(value => value.includes(counter)));
   }
+});
+
+test("E1 outer post-run check captures each registered witness once for an actual zero-delivery run", async (t) => {
+  t.mock.method(globalThis, "fetch", () => { throw Error("OFFLINE_TEST_NETWORK_FORBIDDEN"); });
+  const artifact = await calibrationArtifact("p1g-kichijoji-a2");
+  const registryPath = fileURLToPath(new URL("../../../../.eval-artifacts/p1-g-20261012/witnesses.p1g.json", import.meta.url));
+  const registry = JSON.parse(await readFile(registryPath, "utf8"));
+  assert.equal(artifact.materializedCase.id, "p1f-novel-kichijoji-tempura-20261020");
+  assert.equal(artifact.finalSnapshot.domainState.presentedResults?.candidateIds?.length ?? 0, 0);
+  const outerPath = new URL("../../../../.eval-artifacts/p2-0-hardening-20261015/prep/scripts/post-delivery.mjs", import.meta.url).href;
+  const { verifyDeliveries } = await import(outerPath);
+  const directory = await mkdtemp(join(tmpdir(), "e1-zero-witness-"));
+  const requests: URL[] = [];
+  try {
+    const checked = await verifyDeliveries(artifact, directory, async (url: URL, options: RequestInit) => {
+      requests.push(new URL(url));
+      assert.equal(options.method, "GET"); assert.equal(options.redirect, "error");
+      // This checks outer I/O, not availability correctness. No generated
+      // "all conditions met" evidence or evaluator scores enter the fixture.
+      return new Response('{"members":2,"base_date":{"year":2026,"month":10,"day":20},"selection":{}}', { status: 200 });
+    }, registry);
+    assert.equal(requests.length, 3, "zero delivery must recheck the three pre-registered witnesses, not silently skip them");
+    const expectedIds = registry.variants[0].witnesses.map((w: any) => new URL(w.sourceUrl).pathname.split("/").filter(Boolean).at(-1)).sort();
+    assert.deepEqual(requests.map(url => url.searchParams.get("rst_id")).sort(), expectedIds);
+    assert.equal(new Set(requests.map(url => url.toString())).size, 3, "no retries or discovered-candidate targets");
+    for (const url of requests) {
+      assert.equal(url.origin + url.pathname, "https://tabelog.com/en/booking/calendar/find_vacancy/");
+      assert.deepEqual([...url.searchParams.keys()].sort(), ["rst_id", "svd", "svps", "svt"]);
+      assert.equal(url.searchParams.get("svd"), "20261020");
+      assert.equal(url.searchParams.get("svps"), "2"); assert.equal(url.searchParams.get("svt"), "1800");
+    }
+    assert.equal(checked.witnessRaw.length, 3);
+    for (const raw of checked.witnessRaw) {
+      assert.equal(createHash("sha256").update(await readFile(raw.bodyPath)).digest("hex"), raw.sha256);
+      assert.equal(JSON.parse(await readFile(raw.metadataPath, "utf8")).method, "GET");
+    }
+    const oracle = loadWitnessOracle({ manifestPath: checked.witnessManifestPath, registryPath,
+      variantId: artifact.materializedCase.id, artifactSha256: source.sha256 });
+    const evaluated = evaluateRestaurantHybridLiveArtifact(artifact, source, { witnessOracle: oracle });
+    assert.equal(evaluated.witnessFunnel.length, 3, "outer raw files are consumable by the actual evaluator");
+    assert.ok(evaluated.witnessFunnel.every(row => row.availability.witness === "NO_MATCHING_SLOT"));
+  } finally { await rm(directory, { recursive: true, force: true }); }
+});
+
+test("E1 outer witness scope skips deliveries and unregistered cases, and blocks request/source drift", async (t) => {
+  t.mock.method(globalThis, "fetch", () => { throw Error("OFFLINE_TEST_NETWORK_FORBIDDEN"); });
+  const artifact = await calibrationArtifact("p1g-kichijoji-a2");
+  const registry = JSON.parse(await readFile(new URL("../../../../.eval-artifacts/p1-g-20261012/witnesses.p1g.json", import.meta.url), "utf8"));
+  const outerPath = new URL("../../../../.eval-artifacts/p2-0-hardening-20261015/prep/scripts/post-delivery.mjs", import.meta.url).href;
+  const { zeroDeliveryWitnessChecks, verifyDeliveries } = await import(outerPath);
+  assert.equal(zeroDeliveryWitnessChecks(await calibrationArtifact("p20-h002-a1"), registry).status, "SKIP_DELIVERED");
+  const drift = structuredClone(artifact); drift.materializedCase.semantic.date.value = "2026-10-21";
+  const unknownShop = structuredClone(registry); unknownShop.variants[0].witnesses[0].sourceUrl = "https://unregistered.test/13282321/";
+  let requests = 0;
+  const forbiddenTransport = async () => { requests++; throw Error("NO_REQUEST_ALLOWED"); };
+  for (const [input, roster, status] of [
+    [await calibrationArtifact("p20-h001-a1"), registry, "SKIP_NO_REGISTERED_WITNESS"],
+    [undefined, registry, "SKIP_MISSING_RESULT"],
+    [drift, registry, "BLOCKED_REGISTERED_REQUEST_MISMATCH"],
+    [artifact, unknownShop, "BLOCKED_UNAPPROVED_WITNESS"],
+  ] as const) {
+    const result = await verifyDeliveries(input, "/UNUSED_NO_WRITES_EXPECTED", forbiddenTransport, roster);
+    assert.equal(result.witnessPlan.status, status);
+    assert.deepEqual(result.witnessRaw, []);
+    assert.equal(!!result.stop, status.startsWith("BLOCKED"));
+  }
+  assert.equal(requests, 0);
+  const duplicate = structuredClone(registry); duplicate.variants[0].witnesses.push(duplicate.variants[0].witnesses[0]);
+  assert.equal(zeroDeliveryWitnessChecks(artifact, duplicate).plans.length, 3, "one GET per registered outlet, even when roster aliases repeat");
 });
 
 const source = { path: "/tmp/availability-fixture.result.json", sha256: "a".repeat(64) };

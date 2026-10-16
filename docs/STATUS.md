@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.228
+- Document revision: 4.229
 - Last updated: 2026-10-16
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-16 E1-8 零交付补登记见证的外层链路：** cf5d5be中现有外层复查函数对真实吉祥寺零交付和既有三店登记表发出0次请求，目标业务断言红；现按未变的materialized请求与登记范围绑定，零交付各店一次四参数Tabelog GET、禁止跳转／扩张候选／重试，原始响应双文件及manifest可被真实Evaluator见证漏斗读取。非零交付、原版未登记和缺result不触发补见证，错请求／外域登记阻断。已接入现有execute结束路径，不复制Runner；现有h001/h002仍无登记，保持跳过；安全停止后不新增复查。 第8项仅修改外层脚本及其离线测试，红绿对照2/2，实际run-p20.mjs h001 --dry-run通过（网络／模型／Google均0）；四门禁typecheck／arch:check／npm test 902/902／build全绿。08-outer/{red,green,dry-run,typecheck,arch-check,test,build}.log及config-freeze.json记录脚本与登记SHA。未改历史freeze／ledger／见证；旧授权窗口与HEAD不延长，下次Live必须重新授权并冻结@29代码和新编排配置。 证据.eval-artifacts/e1-evaluator-20261016/report.md；其余切片继续，仅离线，无模型／Live／见证GET，人工表待复核者导出。
 
 - **2026-10-16 E1-7 按执行器实际限额核验资源：** f2fc135对真实h002把actual全局模型限额改为1仍按声明120判SATISFIED，目标反例红；现在逐来源／阶段／候选比较effectiveLimits与实际计数，单列声明差异，单候选模型／操作超额均拦截，删除actual限额保持未评价。原始h002实际用量正常通过并报告FACTS 4/24与声明20/80差异，旧时间限额未记录单列未评价，不冒充deadline证明。Google-only及定位前停止的旧合成artifact缺actual限额，仍检查真实结果／原因／零浏览器调用，资源及依赖它的完成维度如实未评价，未手填限额或修改产品。 定向145/145及定位停止对照1/1；四门禁typecheck／arch:check／npm test 900/900／build全绿，07-resources/{red,green,termination-control,typecheck,arch-check,test,build}.log及actual-h002.log指向真实共享CLI sidecar。首次默认套件旧资源自证预期失败保存在test-before-resource-oracle-update.log。Eval Skill只增实际限额规则，skill校验通过；不证明未保留的时间子限额。 证据.eval-artifacts/e1-evaluator-20261016/report.md；其余切片继续，仅离线，无模型／Live／见证GET，人工表待复核者导出。
 
