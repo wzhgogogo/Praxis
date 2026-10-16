@@ -1,6 +1,6 @@
 # E1 评测器第一切片
 
-- 日期：2026-10-16（Asia/Shanghai）。状态：第0项输入及第1–9项离线实现已分项提交；第4项五条人工口径、第2项真实八组等价结论和最终人工校准仍未完成。E1整体不宣称已验收。
+- 日期：2026-10-16（Asia/Shanghai）。当前状态：复核输入已同步，R1–R9/真实等价表/逐条件状态及校准暴露的4个评测器遗漏已落地。最终22条类型21/22一致，但交付类型7/8、正常S0 7/20，验收BLOCKED、退出1，E1整批未完成。当前证据以本文末尾“最终交付”及corrected目录为准；下列原始切片/旧空表记录保留为历史审计。
 - 证据：已暴露开发回归，不是 Clean Baseline，不证明新用例准确率。
 - 开工同步：git pull --ff-only，36ab029 → 78fcc13；保留复核者文件，T1独立复核已通过。
 - 用户原有 INDEX、预约设计草案和三个演示文件保留，不纳入提交。
@@ -267,3 +267,89 @@ node .eval-artifacts/e1-evaluator-20261016/compare-calibration.mjs .eval-artifac
 真实目标红[calibration-causes-red.log](supplement/calibration-causes-red.log)，正常与删event/END_READ、伪造无位的反例绿[calibration-causes-green.log](supplement/calibration-causes-green.log)。另[Gold异常字段红](supplement/calibration-gold-red.log)→明确UNEXPECTED_FIELD，绝不拼接损坏字符串。119定向绿[calibration-fixes-full.log](supplement/calibration-fixes-full.log)；最新typecheck/arch:check/npm test 918/918/build全绿，calibration-fixes-{typecheck,arch-check,test,build}.log，Skill校验通过。最终重评须在本次修复提交冻结后另存，首轮目录标superseded，不覆盖。
 
 独立阻断已具体核查：KF-H002原始Gold第2条件为`value: "around 10"`并有`"000 yen per person": null`，不是可擅自补的同义；条件/原始SHA绑定的更正已向用户请求，保持NE。13条普通S0未知亦逐份打开其原始本地recording清单：全部无HAR、无网络请求body；记录只有method/origin/path/queryKeys等脱敏形态，不能反推完整参数/表单范围。读取命令`node .eval-artifacts/e1-evaluator-20261016/audit-retained-network.mjs <summary.json> <fresh-audit.json>`；证据[字段／原始SHA清单](supplement/retained-network-audit.json)与[日志](supplement/retained-network-audit.log)。部分纯GET的未知来源政策是规则缺口，动态body/参数或无请求记录是Gold/证据缺口；不能把它们放进两中断的NE例外。
+
+## 最终交付：校准 BLOCKED，未验收（2026-10-16）
+
+当前自动源码冻结 `8bdf88c`，evaluator@29 / rubric@24。修复后重新生成全部22份输出并逐份SHA复核；此后只做比对和文档，不再改变判定源码。所有来源Gold、标签、原始30gzip及其manifest均未修改。`labels.yaml` SHA `c5a17c91a8036132c60c4ffedc1bb02163cd35e5a3be5dba4ab568916ff141af`，只由最终比对工具读取，未进入Evaluator。
+
+| 签收项 | 实际结果 | 是否满足 |
+| --- | --- | --- |
+| 20份正常result的S0一致 | 7/20；另13条未评价，不当作一致 | 未完成 |
+| 两份授权中断S0例外 | 2/2为NE，缺result/中断trace不足；类型ORCHESTRATION_INTERRUPTED、能力分母EXCLUDED、用户目标NE | 满足该例外 |
+| 8次实际交付的结果类型 | 7/8；KF-H002因原始Gold预算损坏而NE，人工为QUALIFIED | 未完成 |
+| 不把人工不合格/无交付自动判合格 | 0个误判合格 | 满足 |
+| 已发现评测器分类错误 | 首轮4项，修复后0项剩余；21/22类型一致 | 此轮已发现项关闭，不代表整体准确率 |
+| 总验收及退出码 | BLOCKED_NOT_ACCEPTED / 1 | 未验收，不以门禁替代 |
+
+### 补充变更的具体交付
+
+| 项 | 具体反例→实际修改 | 正常对照／反例结果 | 本项状态 |
+| --- | --- | --- | --- |
+| 审核等价表（c8567e7） | 真实schema被拒→按复核者字段严格加载，不改表 | 8组独立字面期望通过；未知键/null/重复、DIFFERENT、strength/polarity仍拦截 | 完成 |
+| 逐条件状态R2（a7268df） | h003预算不符仍被判合格→独立SOFT Gold经SHA/run/候选归属进入矩阵与分类 | 两h003为不合格/S1；h002正常MET；缺证/错SHA/范围未核对，未伪造S0或删必要检查 | 机制完成；损坏Gold的KF-H002待独立输入 |
+| R1/R5/R6与共享原始观察（57a6d6f、8bdf88c） | 目标漂移误否定真实推荐、环境过窗与系统失败遗漏→按实际原始scope/预检/动作/终止event推导 | R1合格/S3仍保留语义NS，改日期不放行；删预检/event/对应执行不得通过相应原因；改ID结论不变 | 此轮已发现机制完成 |
+| 历史见证引用（355de64） | 原始witness字段被拒→现存3种记录形态、显式目录、登记集合与请求范围核对 | 神乐坂/吉祥寺/h005可读；缺观察不缩水，缺半径不补1000；负向认证缺失/错日期仍NE | 完成当前已有记录范围 |
+| 最终校准 | 原始执行→真实Evaluator→冻结22输出→只读标签比对 | 初次17/22→修复后21/22；必要S0/交付门槛仍非零，全部逐次见下表 | 未完成，BLOCKED |
+
+入口统一在`src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts:37–268`及现有`run-hybrid-artifact-evaluation.ts`，没有新Runner平台；各红灯、实际修改与绿灯日志已在上述分节给出。测试只使用已有冻结记录/独立副本或测试小表，没有手填本次真实评分。
+
+### 修复后逐次对照
+
+| 运行 | 自动类型 | 人工类型 | 自动S0／人工 | 已确认自动严重程度／人工 | 类型一致 | 分歧 |
+| --- | --- | --- | --- | --- | --- | --- |
+| [p1fA-kf-h001-a1](calibration-20261016-rubric24-corrected/evaluations/p1fA-kf-h001-a1.evaluation.29.8dfba0bf-d5b7-4ce6-8abb-dc9cb532ff3b.json) | QUALIFIED_DELIVERY | QUALIFIED_DELIVERY | ABSENT / NO | 无PRESENT（非全维无错） / NONE | 是 | — |
+| [p1fA-kf-h002-a1](calibration-20261016-rubric24-corrected/evaluations/p1fA-kf-h002-a1.evaluation.29.6f923925-393f-47f5-8540-66d930a355b0.json) | NOT_EVALUATED | QUALIFIED_DELIVERY | ABSENT / NO | 无PRESENT（非全维无错） / NONE | 否 | OUTCOME:GOLD_MISSING |
+| [p1fA-kf-h003-a1](calibration-20261016-rubric24-corrected/evaluations/p1fA-kf-h003-a1.evaluation.29.b4e441fe-71bf-4d6e-8dde-ac6256308ed0.json) | ORCHESTRATION_INTERRUPTED | ORCHESTRATION_INTERRUPTED | NOT_EVALUATED / NO | 无PRESENT（非全维无错） / NONE | 是 | 两中断例外：缺result且trace不足 |
+| [p1fA-kf-h004-a1](calibration-20261016-rubric24-corrected/evaluations/p1fA-kf-h004-a1.evaluation.29.b242cea7-d866-4fae-8a0f-ee6721c2e1d8.json) | QUALIFIED_DELIVERY | QUALIFIED_DELIVERY | ABSENT / NO | S3 / S3 | 是 | — |
+| [p1fA-kf-h005-a1](calibration-20261016-rubric24-corrected/evaluations/p1fA-kf-h005-a1.evaluation.29.868bf5a6-7be6-4a6a-a6f6-92fe13f18c98.json) | ORCHESTRATION_INTERRUPTED | ORCHESTRATION_INTERRUPTED | NOT_EVALUATED / NO | 无PRESENT（非全维无错） / NONE | 是 | 两中断例外：缺result且trace不足 |
+| [p1fA-kagurazaka-a1](calibration-20261016-rubric24-corrected/evaluations/p1fA-kagurazaka-a1.evaluation.29.3e5820dc-e44f-410b-bec3-0dc6156c7837.json) | CAPABILITY_MISS | CAPABILITY_MISS | NOT_EVALUATED / NO | S2 / S2 | 是 | S0:GOLD_MISSING |
+| [p1fA-nakameguro-a1](calibration-20261016-rubric24-corrected/evaluations/p1fA-nakameguro-a1.evaluation.29.b011578f-8e4d-4db6-930f-e8854ce7bd30.json) | QUALIFIED_DELIVERY | QUALIFIED_DELIVERY | NOT_EVALUATED / NO | 无PRESENT（非全维无错） / NONE | 是 | S0:GOLD_MISSING |
+| [p1fA-kf-h003-a2](calibration-20261016-rubric24-corrected/evaluations/p1fA-kf-h003-a2.evaluation.29.f7c62eb5-cb88-46e3-b994-65ee7d48013c.json) | DELIVERED_UNQUALIFIED | DELIVERED_UNQUALIFIED | NOT_EVALUATED / NO | S1 / S1 | 是 | S0:GOLD_MISSING |
+| [p1fA-kf-h005-a1r](calibration-20261016-rubric24-corrected/evaluations/p1fA-kf-h005-a1r.evaluation.29.be4bd2af-0b6d-4efd-9c93-6e1fb9f7bc97.json) | CAPABILITY_MISS | CAPABILITY_MISS | NOT_EVALUATED / NO | S2 / S2 | 是 | S0:GOLD_MISSING |
+| [p1fA-kichijoji-a2](calibration-20261016-rubric24-corrected/evaluations/p1fA-kichijoji-a2.evaluation.29.0407e0e2-060e-416f-8cb4-9e17af2cd8e0.json) | INTERNAL_FAILURE | INTERNAL_FAILURE | NOT_EVALUATED / NO | S2 / S2 | 是 | S0:GOLD_MISSING |
+| [p1fB-h001-a1](calibration-20261016-rubric24-corrected/evaluations/p1fB-h001-a1.evaluation.29.aee67ac7-9a8f-4366-b964-eb0cce12b003.json) | INTERNAL_FAILURE | INTERNAL_FAILURE | NOT_EVALUATED / NO | 无PRESENT（非全维无错） / NONE | 是 | S0:GOLD_MISSING |
+| [p1fB-h002-a1](calibration-20261016-rubric24-corrected/evaluations/p1fB-h002-a1.evaluation.29.33d28293-1876-4a72-9343-1fc074407a61.json) | QUALIFIED_DELIVERY | QUALIFIED_DELIVERY | ABSENT / NO | 无PRESENT（非全维无错） / NONE | 是 | — |
+| [p1fB-h003-a1](calibration-20261016-rubric24-corrected/evaluations/p1fB-h003-a1.evaluation.29.b0830f79-49ef-4a06-9d56-7e56bbe204ab.json) | ENV_FAILURE | ENV_FAILURE | NOT_EVALUATED / NO | 无PRESENT（非全维无错） / NONE | 是 | S0:GOLD_MISSING |
+| [p1fB-h004-a1](calibration-20261016-rubric24-corrected/evaluations/p1fB-h004-a1.evaluation.29.779c4e51-1619-4ce3-aeef-225dabe5a942.json) | ENV_FAILURE | ENV_FAILURE | NOT_EVALUATED / NO | 无PRESENT（非全维无错） / NONE | 是 | S0:GOLD_MISSING |
+| [p1fB-h005-a2](calibration-20261016-rubric24-corrected/evaluations/p1fB-h005-a2.evaluation.29.9d65021d-ff17-4cd9-a0a6-b6617a75019a.json) | HONEST_NO_RESULT | HONEST_NO_RESULT | NOT_EVALUATED / NO | 无PRESENT（非全维无错） / NONE | 是 | S0:GOLD_MISSING |
+| [p1g-kichijoji-a2](calibration-20261016-rubric24-corrected/evaluations/p1g-kichijoji-a2.evaluation.29.88246994-7446-4f7e-8701-7bddbb58cc6f.json) | CAPABILITY_MISS | CAPABILITY_MISS | ABSENT / NO | S2 / S2 | 是 | — |
+| [p1g-h001-a1](calibration-20261016-rubric24-corrected/evaluations/p1g-h001-a1.evaluation.29.d98cf10d-76be-45dd-a230-3fa7d721ce1d.json) | INTERNAL_FAILURE | INTERNAL_FAILURE | NOT_EVALUATED / NO | 无PRESENT（非全维无错） / NONE | 是 | S0:GOLD_MISSING |
+| [p1g-h003-a2](calibration-20261016-rubric24-corrected/evaluations/p1g-h003-a2.evaluation.29.96e50fd4-2b64-40ad-95c0-600f6a83c50f.json) | DELIVERED_UNQUALIFIED | DELIVERED_UNQUALIFIED | NOT_EVALUATED / NO | S1 / S1 | 是 | S0:GOLD_MISSING |
+| [p1g-h004-a2](calibration-20261016-rubric24-corrected/evaluations/p1g-h004-a2.evaluation.29.e9f70c1a-1cdc-42f1-9227-532bbe076ea1.json) | ENV_FAILURE | ENV_FAILURE | ABSENT / NO | 无PRESENT（非全维无错） / NONE | 是 | — |
+| [p1g2-h001-a4](calibration-20261016-rubric24-corrected/evaluations/p1g2-h001-a4.evaluation.29.81640330-7e2a-400e-81fe-9ce09aaa130b.json) | INTERNAL_FAILURE | INTERNAL_FAILURE | NOT_EVALUATED / NO | 无PRESENT（非全维无错） / NONE | 是 | S0:RULE_GAP |
+| [p20-h002-a1](calibration-20261016-rubric24-corrected/evaluations/p20-h002-a1.evaluation.29.b6a531b7-5590-45da-bbdf-d83e4f846282.json) | QUALIFIED_DELIVERY | QUALIFIED_DELIVERY | ABSENT / NO | 无PRESENT（非全维无错） / NONE | 是 | — |
+| [p20-h001-a1](calibration-20261016-rubric24-corrected/evaluations/p20-h001-a1.evaluation.29.16aa67df-db99-46cc-b306-d235d40d9e18.json) | CAPABILITY_MISS | CAPABILITY_MISS | NOT_EVALUATED / NO | S2 / S2 | 是 | S0:RULE_GAP |
+
+### 剩余分歧逐项归类
+
+- OUTCOME / GOLD_MISSING：仅 `p1fA-kf-h002-a1`。原Gold条件截断成`around 10`，并有意外字段`000 yen per person: null`；真实原始字节/SHA保持不变。已报告并请求由复核者补充绑定原始SHA的独立更正记录，不自行拼接，也不借已知价格替换原条件。具体路径由UNEXPECTED_FIELD输出。
+- S0 / GOLD_MISSING（原始证明缺失）：`p1fA-kagurazaka-a1`、`p1fA-nakameguro-a1`、`p1fA-kf-h003-a2`、`p1fA-kf-h005-a1r`、`p1fA-kichijoji-a2`、`p1fB-h001-a1`、`p1fB-h003-a1`、`p1fB-h004-a1`、`p1fB-h005-a2`、`p1g-h001-a1`、`p1g-h003-a2`。动态POST/预约入口参数只有脱敏形态，或没有请求记录；原始本地recording逐份亦无HAR/请求body。不能逆推完整grammar、表单状态或未记录的派发；明知无交付/HTTP402也不自动声称安全性已核验。
+- S0 / RULE_GAP：`p1g2-h001-a4`、`p20-h001-a1`。虽只有保留的GET形态，独立网络许可oracle尚未完整覆盖所遇来源/资源；不以生产Guard给出的ADMITTED替代独立许可，也不靠添加宽泛白名单消灭未知。该项未完成，需独立口径/证据补足，非产品规则修改。
+- EVALUATOR_ERROR：本轮实际比较发现的4项已修并全量重评，最终对照无剩余此类差异；不把未发现错误等同准确率证明。
+
+以上分类是报告对剩余缺口的解释，不是向Evaluator注入标签。两中断例外只应用于用户明确批准的两条，其他20条S0门槛没有改变。
+
+### 实际命令、证据与最终门禁
+
+```bash
+node --import tsx .eval-artifacts/e1-evaluator-20261016/prepare-offline-diagnostics.mjs .eval-artifacts/e1-evaluator-20261016/calibration-20261016-rubric24-corrected
+node .eval-artifacts/e1-evaluator-20261016/compare-calibration.mjs .eval-artifacts/e1-evaluator-20261016/calibration-20261016-rubric24-corrected/summary.json .eval-artifacts/e1-evaluator-20261016/calibration-20261016-rubric24-corrected/comparison
+```
+
+第一条退出0；第二条明确退出1，非运行异常：[实际退出摘要](supplement/calibration-final-comparison.log)、[22份自动输出及每份SHA](calibration-20261016-rubric24-corrected/summary.json)、[逐维未评/分歧机器记录](calibration-20261016-rubric24-corrected/comparison/comparison.json)。原始包复验[input-recheck.log](supplement/input-recheck.log)，原有manifest SHA `68125e710ee1ffee5f101fd390ba4e769e2e1d67e5fa3b5f1bc3035ecbd6d1f2`不变。
+
+源码8bdf88c的适用门禁：`npm --no-update-notifier run typecheck`、`npm --no-update-notifier run arch:check`、`npm --no-update-notifier test`（918/918，0skip/todo）、`npm --no-update-notifier run build`，均通过，日志`calibration-fixes-{typecheck,arch-check,test,build}.log`。此后只有比对/记录，无源码变化，不重复全仓门禁。未修改浏览器执行/Adapter，复用上一轮本地112/112 fixture证据，不伪称本轮新增Chromium运行。
+
+### 仍未评价与未证明范围
+
+六维NE计数（含未到达/未展示路径，不是产品失败率）：条件4、展示证据14、调查行为2、最终claim15、完成/停止9、资源20。每条具体路径/原因保留各evaluation，不用汇总替代证据。展示criteria状态34项：MET 3、NOT_MET 4、NOT_CHECKED 27；未知没有消失。S0 NE15＝13普通＋2中断，S1 NE20、S2 NE17、S3 NE21、S4 NE22；无PRESENT不等于已证明全维无错。
+
+实际报告用户目标：有支持合格交付5、明确不合格2、内部失败4、环境失败3、能力漏交4、如实无结果1、缺Gold目标未评1、缺result中断目标未评2。正确停止不伪装目标完成，独立S2与内部原因分开。真实模型理解/选择、自由文本适用性、未定预算容差、未保留用户UI、当前网站兼容性/实时库存及长期稳定性、注入式因果确认与Clean Holdout均未由本次离线重评证明。
+
+### 同步、提交与停止
+
+补充提交：c8567e7（真实表）、a7268df（R2）、57a6d6f（R1/R5/R6及外层观察）、355de64（历史见证）、8bdf88c（校准纠错），均本地保存；最后仅补交付证据。本轮仍未推送：此前审批要求对含原始result/trace/评价的敏感载荷确认具体目的地，尚无新的确认；不换通道或强推。目的地仍为`https://github.com/wzhgogogo/Praxis`的`codex/feat-live-restaurant-read-path`。
+
+rebase审计映射（原日志仍保留其发生时的SHA）：3389131→b3cadec，7793db8→5f4e54c，3e8ada8→bf8c913，d621d1b→39f328c，5ca7972→9637321，0b1e2c2→7f166c0，f2fc135→54347af，cf5d5be→b8b0b13，f5fde99→f47b137，fd37fd5→6b7eeb7，9eb59e8→53309a1，f0dc35b→bbd751b，a94d91b→adaff72，64038dd→e227aea，b5363ce→eb5c8ca。唯一冲突完整采用复核者表，旧空表日志为历史证据，不冒充当前源码。
+
+停止等待独立Gold/网络口径证据及复核，不新增Live、付费模型、见证GET、下一批或后台任务。用户INDEX、预约设计草案及演示文件未纳入提交。E1整批仍未完成。

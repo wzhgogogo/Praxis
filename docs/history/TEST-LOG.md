@@ -4339,3 +4339,7 @@ rules-red.log三项实际业务断言失败：KF-H004误不合格，P1-G H004未
 ## TEST-2026-10-16-E1-CALIBRATION-CORRECTIONS
 
 首次实际比较calibration-first-comparison.log退出1，4个分类遗漏并非靠测试数发现。calibration-causes-red.log为CAPABILITY_MISS≠INTERNAL及NE≠如实有界无结果的目标断言；修复后删除终止event不得仍判内部，删END_READ或UNKNOWN伪装无位不得仍判HONEST，改ID不改正常结果，必要环节NE仍保留。Gold异常字段目标断言calibration-gold-red.log先红，修复后明确UNEXPECTED_FIELD，不补原条件。119定向及四门禁918/918全绿，calibration-fixes-*.log。13条S0原始本地recording逐份只读核查，无HAR或body，retained-network-audit.json保留SHA与字段清单，不伪造无S0；正式最终校准仍待重评与独立输入。
+
+## TEST-2026-10-16-E1-CALIBRATION-BLOCKED
+
+真实共享入口8bdf88c的22重评输出逐份SHA已复核，校准比较脚本只读保存产物＋labels，calibration-final-comparison.log实际退出1，21/22类型，交付7/8，正常S0 7/20，2中断NE例外，误判合格0，4个已发现评测器错误关闭。Gold预算原始坏字段未修改、S0不足未改ABSENT，默认918/918不冒充签收。当前全表/逐维NE/输入SHA/红绿/命令在report.md最终节与calibration-20261016-rubric24-corrected目录。最后仅文档与结果保存，复用现有四门禁，不重复浏览器或模型；无Live/GET，未推送，停止等待。

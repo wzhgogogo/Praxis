@@ -5,7 +5,7 @@ description: 为Praxis定义评测要支持的决定、四层评测结构（端�
 
 # Praxis Eval
 
-- Document revision: 2.5
+- Document revision: 2.6
 - Last updated: 2026-10-16
 
 Eval负责：评测要回答的问题、每层的判定口径与独立oracle、必报指标、比较方法和预先固定的门槛。功能覆盖与故障关闭属于[Test](../test/SKILL.md)。产品语义和安全边界以Accepted ADR、Domain/Architecture为准；H001–H005当前输入、Gold与人工审查边界以[当前只读验收契约](../../../src/eval/restaurant/agent-loop/cases/README.md)为准；阶段性的签收条件以当期Playbook为准。
@@ -230,11 +230,11 @@ R6对无结果记录同时要求：终态failure、search failure或remainingGap
 | 已有artifact补评 | `npm run eval:restaurant:agent-loop:artifact` | 结论支持性与终止行为 |
 | 决策回放 | `run-decision-replay.ts`（原样、注入、history模式） | 单步决策在冻结输入上的表现 |
 
-四层结构的现有覆盖（2026-10-16，@29开发切片，复核输入已收到，校准进行中）：
+四层结构的现有覆盖（@29 / rubric@24离线诊断边界；具体校准状态见STATUS及当批报告）：
 
 | 层 | 已有 | 缺口 |
 | --- | --- | --- |
-| 端到端结果 | @29类型化读取、独立来源核验、结果分类及原始中断包入口；逐店逐criteria状态及独立SOFT观察Gold | 其余新口径与最终校准进行中；缺Gold/证据仍未评价；时间分解未自动输出 |
+| 端到端结果 | @29类型化读取、独立来源核验、结果分类、R1–R9及原始中断包入口；逐店逐criteria状态及独立SOFT观察Gold | 损坏Gold/原始证据不足仍未评价；时间分解未自动输出 |
 | 逐环节判定 | 理解请求Gold比对；见证逐候选发现/身份/事实/查位/展示漏斗 | 历史见证缺地址时跨来源身份未评；OBSERVED链路不是自由文本质量评分 |
 | 严重程度 | 原始claim/Gold及trace独立核验S0、明确需求漂移S1；各级显式状态 | 脱敏/不完整trace、自由文本HARD语义及S3/S4影响仍可能未评价；不把未知记为0 |
 | 归因 | 见证漏斗自动输出HYPOTHESIS；人工sidecar与回放 | 注入式回放尚未用于因果确认；无跨运行汇总 |
