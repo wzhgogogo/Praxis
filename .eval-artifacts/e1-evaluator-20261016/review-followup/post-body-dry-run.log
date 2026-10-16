@@ -1,0 +1,63 @@
+Command: node --import tsx .eval-artifacts/p2-0-hardening-20261015/prep/scripts/run-p20.mjs h001 --dry-run-post-body
+Exit 0
+{
+  "status": "PASS",
+  "normal": {
+    "origin": "https://production.tablecheck.com",
+    "pathname": "/v2/hub/availability_calendar_v2",
+    "method": "POST",
+    "resourceType": "fetch",
+    "queryKeys": [],
+    "reviewedReadsSha256": "ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+    "ruleIndex": 1,
+    "bodyObservation": {
+      "bodySha256": "0fdbcdc60b6901dc796cbb27c9d2498c4d507a3ce4b03731336db8580df69db9",
+      "contentType": "application/json",
+      "fieldTypes": {
+        "locale": "string",
+        "start_at": "string",
+        "shop_id": "string",
+        "num_people": "string"
+      }
+    },
+    "status": "MATCH",
+    "reason": "EXACT_BODY_FIELDS_AND_TYPES"
+  },
+  "invalid": {
+    "origin": "https://production.tablecheck.com",
+    "pathname": "/v2/hub/availability_calendar_v2",
+    "method": "POST",
+    "resourceType": "fetch",
+    "queryKeys": [],
+    "reviewedReadsSha256": "ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+    "ruleIndex": 1,
+    "bodyObservation": {
+      "bodySha256": "8dd1d042b253718badad266b73ff5a743804ce43613ff794315a9e9d8835b47a",
+      "contentType": "application/json",
+      "fieldTypes": {
+        "locale": "string",
+        "start_at": "string",
+        "shop_id": "string",
+        "num_people": "string",
+        "email": "string"
+      }
+    },
+    "status": "MISMATCH",
+    "reason": "BODY_OR_QUERY_GRAMMAR_MISMATCH"
+  },
+  "missing": {
+    "origin": "https://production.tablecheck.com",
+    "pathname": "/v2/hub/availability_calendar_v2",
+    "method": "POST",
+    "resourceType": "fetch",
+    "queryKeys": [],
+    "reviewedReadsSha256": "ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+    "ruleIndex": 1,
+    "status": "EVIDENCE_GAP",
+    "reason": "REQUEST_BODY_NOT_AVAILABLE"
+  },
+  "network": 0,
+  "models": 0,
+  "live": 0
+}
+

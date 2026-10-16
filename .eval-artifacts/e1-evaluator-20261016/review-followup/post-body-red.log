@@ -1,0 +1,31 @@
+Endpoint-only legacy check extracted unchanged, before body inspection and observer wiring. Exit 1
+✖ E1 review outer POST dry run rejects wrong body fields and preserves exact byte hash (5.341917ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 177.690459
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts:1:43474
+✖ E1 review outer POST dry run rejects wrong body fields and preserves exact byte hash (5.341917ms)
+  AssertionError [ERR_ASSERTION]: endpoint membership cannot certify an unauthorized POST body
+  + actual - expected
+  
+  + 'MATCH'
+  - 'MISMATCH'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts:586:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'MATCH',
+    expected: 'MISMATCH',
+    operator: 'strictEqual'
+  }
+

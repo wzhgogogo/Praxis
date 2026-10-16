@@ -1,8 +1,67 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
+import { readFile } from "node:fs/promises";
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import { test } from "node:test";
 import { chromium } from "playwright-core";
 import { PlaywrightReadNetworkGuard } from "../../infrastructure/browser/playwright-read-network-guard.js";
+
+test("E1 outer body observer captures real Chromium POST bytes independently of Guard admission", async () => {
+  const module = new URL("../../../.eval-artifacts/p2-0-hardening-20261015/prep/scripts/post-body-audit.mjs", import.meta.url).href;
+  const { installReviewedPostObserver, postBodyStop, recordedPostMatches } = await import(module);
+  const received: Buffer[] = [];
+  const server = createServer(async (request, response) => {
+    if (request.method === "POST") {
+      const chunks: Buffer[] = [];
+      for await (const chunk of request) chunks.push(Buffer.from(chunk));
+      received.push(Buffer.concat(chunks));
+      response.setHeader("content-type", "application/json"); response.end('{"observed":true}');
+    } else { response.setHeader("content-type", "text/html"); response.end("<h1>Offline POST observation</h1>"); }
+  });
+  await new Promise<void>(resolve => server.listen(0, "127.0.0.1", resolve));
+  const address = server.address(); assert.ok(address && typeof address !== "string");
+  const origin = `http://127.0.0.1:${address.port}`;
+  const sourceRules = JSON.parse(await readFile(new URL("../../../.eval-artifacts/p2-0-hardening-20261015/prep/scripts/reviewed-reads.json", import.meta.url), "utf8"));
+  // Test-only endpoint origin; retain the actual externally reviewed body grammar.
+  const postRule = { ...sourceRules.find((rule: any) => rule.methods.includes("POST")), origin };
+  const reviewedBytes = Buffer.from(JSON.stringify([postRule]));
+  const rows: any[] = [];
+  const restore = installReviewedPostObserver(PlaywrightReadNetworkGuard, reviewedBytes, (entry: any) => rows.push(entry));
+  let browser: import("playwright-core").Browser | undefined;
+  try {
+    browser = await chromium.launch({ headless: true });
+    const context = await browser.newContext({ serviceWorkers: "block" });
+    await context.grantPermissions(["local-network-access"], { origin });
+    // A deliberately broader TEST_ONLY source rule challenges the OUTER
+    // checker: production Guard code is unchanged and is not the audit oracle.
+    const guard = new PlaywrightReadNetworkGuard({ documentOrigins: [origin], genericPublicRead: true, staticResources: [], dynamicReads: [postRule,
+      { ...postRule, bodyFields: { ...postRule.bodyFields, email: "string" } }] }, 3_000);
+    await guard.install(context);
+    const page = await context.newPage(); await guard.preparePage(context, page); guard.prepareNavigation(origin + "/");
+    await page.goto(origin + "/", { timeout: 3_000 });
+    const normal = '{ "locale":"en", "start_at":"2026-10-16", "shop_id":"TEST_ONLY", "num_people":"2" }';
+    const wrong = '{"locale":"en","start_at":"2026-10-16","shop_id":"TEST_ONLY","num_people":"2","email":"NEVER_SAVE_THIS_VALUE"}';
+    for (const body of [normal, wrong]) await page.evaluate(async ({ path, body }) => {
+      await fetch(path, { method: "POST", headers: { "content-type": "application/json" }, body });
+    }, { path: postRule.pathname, body });
+    assert.equal(received.length, 2, "independent local receiver must observe both actual request bodies");
+    assert.deepEqual(received.map(bytes => bytes.toString()), [normal, wrong]);
+    assert.deepEqual(rows.map(row => row.detail.status), ["MATCH", "MISMATCH"]);
+    for (const [index, row] of rows.entries()) assert.equal(row.detail.bodyObservation.bodySha256, createHash("sha256").update(received[index]!).digest("hex"));
+    assert.notEqual(rows[0].detail.outerRequestId, rows[1].detail.outerRequestId, "later POST cannot borrow earlier body inspection");
+    assert.equal(postBodyStop(rows[0], reviewedBytes), null);
+    assert.equal(postBodyStop(rows[1], reviewedBytes).code, "REVIEWED_POST_BODY_MISMATCH");
+    const requests = (guard.snapshotRequests() as any[]).filter(row => row.outcome === "ADMITTED" && row.method === "POST");
+    assert.equal(requests.length, 2);
+    assert.equal(recordedPostMatches(requests[0], reviewedBytes), true);
+    assert.equal(recordedPostMatches(requests[1], reviewedBytes), false);
+    assert.ok(!JSON.stringify(rows).includes("NEVER_SAVE_THIS_VALUE"));
+    assert.ok(!JSON.stringify(requests).includes("NEVER_SAVE_THIS_VALUE"));
+  } finally {
+    restore(); await browser?.close();
+    await new Promise<void>(resolve => { server.close(() => resolve()); server.closeAllConnections(); });
+  }
+});
 
 // Real transport oracle: a forbidden receiver must see zero requests. No model,
 // external network, personal browser profile or manually re-entered route handler.

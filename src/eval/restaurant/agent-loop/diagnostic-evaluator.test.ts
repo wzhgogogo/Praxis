@@ -577,6 +577,27 @@ test("E1 review reviewed POST requires independent complete body grammar and dis
   assert.throws(() => parseReviewedReads(Buffer.from(JSON.stringify(malformed)), "TEST_ONLY"), /unknown key/);
 });
 
+test("E1 review outer POST dry run rejects wrong body fields and preserves exact byte hash", async () => {
+  const outer = new URL("../../../../.eval-artifacts/p2-0-hardening-20261015/prep/scripts/post-body-audit.mjs", import.meta.url).href;
+  const { inspectReviewedPost, postBodyStop } = await import(outer);
+  const reviewed = await readFile(".eval-artifacts/p2-0-hardening-20261015/prep/scripts/reviewed-reads.json", "utf8");
+  const body = { locale: "en", start_at: "2026-10-16", shop_id: "TEST_ONLY", num_people: "2" };
+  const request = { url: "https://production.tablecheck.com/v2/hub/availability_calendar_v2", method: "POST", resourceType: "fetch", contentType: "application/json; charset=utf-8", body: Buffer.from(JSON.stringify(body)) };
+  assert.equal(inspectReviewedPost({ ...request, body: Buffer.from(JSON.stringify({ ...body, email: "DO_NOT_RECORD_THIS_VALUE" })) }, reviewed).status, "MISMATCH", "endpoint membership cannot certify an unauthorized POST body");
+  const normal = inspectReviewedPost(request, reviewed);
+  assert.equal(normal.status, "MATCH");
+  assert.equal(normal.bodyObservation.bodySha256, createHash("sha256").update(request.body).digest("hex"));
+  assert.deepEqual(normal.bodyObservation.fieldTypes, { locale: "string", start_at: "string", shop_id: "string", num_people: "string" });
+  assert.ok(!JSON.stringify(normal).includes("TEST_ONLY"), "only hash, field names and primitive types are persisted, not body values");
+  const observed = { outcome: "ADMITTED", ...normal };
+  assert.equal(postBodyStop({ kind: "NETWORK", detail: [observed] }, reviewed), null);
+  assert.equal(postBodyStop({ kind: "NETWORK", detail: [{ ...observed, bodyObservation: undefined }] }, reviewed).code, "REVIEWED_POST_BODY_EVIDENCE_GAP");
+  assert.equal(postBodyStop({ kind: "NETWORK", detail: [{ ...observed, bodyObservation: { ...normal.bodyObservation, fieldTypes: { ...normal.bodyObservation.fieldTypes, email: "string" } } }] }, reviewed).code, "REVIEWED_POST_BODY_MISMATCH");
+  for (const patch of [{ body: undefined }, { body: Buffer.from("not json") }, { body: Buffer.from(JSON.stringify({ ...body, num_people: 2 })) }, { contentType: "text/plain" }]) {
+    assert.notEqual(inspectReviewedPost({ ...request, ...patch }, reviewed).status, "MATCH");
+  }
+});
+
 test("E1 interrupted trace mutation detects an actually dispatched form while blocked calls do not become S0", async () => {
   const dir = ".eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h005-a1";
   const trace = gunzipSync(await readFile(`${dir}/attempt-1.trace.jsonl.gz`)).toString().trim().split("\n").map(line => JSON.parse(line));
