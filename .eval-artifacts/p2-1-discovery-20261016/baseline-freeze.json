@@ -1,9 +1,9 @@
 {
-  "status": "FROZEN_BEFORE_FIRST_MODEL_REQUEST",
+  "status": "REFROZEN_BEFORE_FIRST_MODEL_REQUEST",
   "toolCommit": "260522e",
   "files": {
-    "src/eval/restaurant/agent-loop/discovery-probe.ts": "0ff3a835752875a96f38ca437de5775f5d4d233cbdf32065519acf4d2f9bbfa5",
-    "src/eval/restaurant/agent-loop/runners/run-discovery-probe.ts": "9051aa9a331354448bf9817829bfe65c5b6f931090d32cfa6bad3e243d167678",
+    "src/eval/restaurant/agent-loop/discovery-probe.ts": "5113eda827b6c83cb27419e14a126f90fe8860efe9e152865ff5c77acc32b39a",
+    "src/eval/restaurant/agent-loop/runners/run-discovery-probe.ts": "41bc7bb5fb9de03fd54e2348216bbd68fd2b52ab49d11882edf3f49846adf32f",
     "src/eval/restaurant/agent-loop/post-body-audit.mjs": "f4b28a65d83fd0f08b6477d0e213cf5a7a9d3df64b8cf5e20a66197b3bc71c11",
     "scripts/arch-check.ts": "545fc913038cbeee80c660abf4843276f216fbd986cb8c5617555068da478ba7",
     "src/eval/shared/evaluator-import-rule.ts": "a29c59ce6445e4b162d7c9f646cf62eec1b1b88fb54a387c87f43880b3db4cd5",
@@ -28,5 +28,8 @@
   },
   "plannedProbes": 10,
   "modelCallCap": 150,
-  "formalLiveAllowed": false
+  "formalLiveAllowed": false,
+  "revision": "discovery-probe-baseline@2",
+  "priorFreezeSha256": "c1f31c2d40de4924707485ff3ba02beea90fcaa81a7d93153ddaa33c9be2d944",
+  "change": "Eval-only preflight environment/directory forwarding; all production retrieval code, semantic inputs, dates, budgets and witness set unchanged. Runner source-cleanliness check retained."
 }

@@ -8,10 +8,10 @@ import { DeepSeekModelGateway } from "../../../../infrastructure/deepseek/deepse
 import { browserRuntimeFromEnvironment } from "../../../../infrastructure/browser/browser-runtime-factory.js";
 import { GooglePlacesClient } from "../../../../integrations/google/google-places-client.js";
 import { restaurantDiscoveryPacks } from "../../../../integrations/restaurant-search/source-packs.js";
-import { runDiscoveryProbe, type DiscoveryProbeInput, type DiscoveryProbeWitness } from "../discovery-probe.js";
+import { runDiscoveryProbe, runDiscoveryProbePreflight, type DiscoveryProbeInput, type DiscoveryProbeWitness } from "../discovery-probe.js";
 import { parseReviewedReads, auditReadOnlyTrace } from "../diagnostic-evaluator-network.js";
 import type { TraceRecord } from "../diagnostic-evaluator-record.js";
-import { environmentWithEffectiveLiveNetwork, resolveEffectiveLiveNetworkConfiguration, runLivePreflight } from "../live-preflight.js";
+import { environmentWithEffectiveLiveNetwork, resolveEffectiveLiveNetworkConfiguration } from "../live-preflight.js";
 import { BrowserReadRecording } from "./browser-read-recording.js";
 import { safeRecord, traceBrowserRuntime } from "./browser-case-slice-evidence.js";
 import { createHybridDecisionCapture } from "./run-hybrid-live-read.js";
@@ -40,7 +40,7 @@ await mkdir(directory,{recursive:false});
 const network=resolveEffectiveLiveNetworkConfiguration(process.env),env=environmentWithEffectiveLiveNetwork(process.env,network);
 const startedAt=new Date().toISOString();
 await writeFile(resolve(directory,'started.json'),JSON.stringify({mode:'DISCOVERY_PROBE',head,startedAt,inputPath:values.input,inputSha256:sha256,witnessesSha256:createHash('sha256').update(witnessBytes).digest('hex'),reviewedReadsSha256:reviewed.sha256,config},null,2),{flag:'wx'});
-await runLivePreflight({runner:'SOURCE_STAGE_PROBE',targets:['DEEPSEEK','GOOGLE','TABELOG','TABLECHECK'],network},{artifactDirectory:directory});
+await runDiscoveryProbePreflight({environment:env,network,artifactDirectory:directory});
 const recording=new BrowserReadRecording({directory:resolve(directory,'recording'),runId:input.caseId,
  reviewedStaticResources:restaurantDiscoveryPacks.flatMap(p=>p.staticResources),reviewedReads:restaurantDiscoveryPacks.flatMap(p=>p.reviewedReads)});
 const capture=createHybridDecisionCapture(resolve(directory,'probe.result.json'),recording);

@@ -172,3 +172,15 @@ export async function runDiscoveryProbe(input: DiscoveryProbeInput, witnesses: r
     evidenceLimit:"Discovery probe only; source failure/empty result is not source exhaustion, availability or delivery. Witnesses are eval-only and never passed to production assembly/model.",
   };
 }
+
+
+/** The CLI's real preflight initialization, with only HTTP transport replaceable offline. */
+export async function runDiscoveryProbePreflight(input: {
+  environment: NodeJS.ProcessEnv;
+  network: import("./live-preflight.js").EffectiveLiveNetworkConfiguration;
+  artifactDirectory: string;
+}, dependencies: import("./live-preflight.js").LivePreflightDependencies = {}) {
+  const {runLivePreflight}=await import("./live-preflight.js");
+  return runLivePreflight({runner:"SOURCE_STAGE_PROBE",targets:["DEEPSEEK","GOOGLE","TABELOG","TABLECHECK"],network:input.network},
+    input.environment, {...dependencies,artifactDirectory:input.artifactDirectory});
+}

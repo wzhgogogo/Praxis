@@ -41,3 +41,11 @@
 ## 用量与边界
 
 本段整单Live上限0；基线探测上限10次（TARGET各2、CONTROL各1），单次15模型／180秒，基线模型上限150；全批30探测／450模型上限不扩大。源页面与四参数GET见证认证不调用模型。不打开预订表单、不点时段、不支付或填个人信息；S0立即停止，产物压缩超过60MB停止报告。
+
+### 启动前接线修正（0模型，基线尚未运行）
+
+第一次预检在0ms即PREFLIGHT_DEEPSEEK_CONFIGURATION：Runner把artifactDirectory对象放进runLivePreflight的环境位置，既有密钥没有被传入；未发出HTTP或模型请求，未启动浏览器或来源读取。原日志、started和预检JSON保留在`baseline/p2-kf-h001-20261027/attempt-1/`。
+
+源码冻结检查正确拒绝未提交CLI测试；该失败不算接线反例。曾尝试移除该重复检查，但自动审批以削弱防篡改边界拒绝，未执行；最终Runner和外层检查全部保留。改为测试CLI实际使用的有类型预检初始化函数，使用离线HTTP传输，红灯为DEEPSEEK配置失败（仅1个FAILED），绿灯为前三个REACHABLE、第四个受控停止，并核对fake鉴权和产物目录；不是生产网络探测。有效证据`red-preflight-environment.log` → `preflight-targeted-preflight-corrected.log`。
+
+修正仅eval预检接线，未改变发现模型输入/策略/预算/圈域/资格。最终typecheck/arch/build和npm test931/931通过；浏览器/Guard/Source Pack/组装代码未变，复用113/113日志。原冻结清单逐字存`baseline-freeze.preflight-initial.json`，首次真实模型请求前重新冻结为`baseline-freeze.json`（@2），更改点明确登记。第1次预检配置中断保留为未启动，补跑不增加计划10次或150模型上限；替换输出另存，不覆盖旧目录。

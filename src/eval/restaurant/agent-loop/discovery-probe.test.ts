@@ -33,3 +33,21 @@ test("P21 listing witness, first-batch witness and radius are independent observ
  const otherSource=discoveryProbeMetrics(input,[{...witness,sourceId:"different"}],[listing],[],[{sourceId:"source",read}],[]);
  assert.equal(otherSource.witnessInListing,false,"same opaque ID on another source is not witness identity");
 });
+
+
+test("P21 probe preflight forwards provider environment and keeps the journal in the probe directory",async()=>{
+ const {mkdtemp,readdir,readFile,rm}=await import('node:fs/promises');
+ const {resolve}=await import('node:path');const {tmpdir}=await import('node:os');
+ const {runDiscoveryProbePreflight}=await import('./discovery-probe.js');
+ const temp=await mkdtemp(resolve(tmpdir(),'p21-preflight-'));let requests=0;
+ try{
+  await assert.rejects(runDiscoveryProbePreflight({environment:{DEEPSEEK_API_KEY:'fixture-offline-key'},network:{proxyMode:'DISABLED_BY_CLI'},artifactDirectory:temp},{fetchImplementation:async(_url,init)=>{
+   requests++;assert.equal(requests>1||new Headers(init?.headers).get('authorization')==='Bearer fixture-offline-key',true,'provider environment reaches the real preflight transport');
+   if(requests===4)throw Error('OFFLINE_STOP_BEFORE_BROWSER');return new Response('{}',{status:200});
+  }}));
+  const file=(await readdir(temp)).find(f=>f.endsWith('.result.json'));assert.ok(file,'journal must be inside the requested probe directory');
+  const saved=JSON.parse(await readFile(resolve(temp,file),'utf8'));
+  assert.deepEqual(saved.attempts.map((a:{target:string;outcome:string})=>[a.target,a.outcome]),[['DEEPSEEK','REACHABLE'],['GOOGLE','REACHABLE'],['TABELOG','REACHABLE'],['TABLECHECK','FAILED']]);
+  assert.equal(requests,4);assert.equal(saved.generationModelCalls,0);
+ }finally{await rm(temp,{recursive:true,force:true});}
+});
