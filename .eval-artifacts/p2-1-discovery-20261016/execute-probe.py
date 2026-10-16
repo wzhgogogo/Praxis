@@ -2,6 +2,10 @@
 from pathlib import Path
 from datetime import datetime,timezone
 import json,hashlib,subprocess,os,sys,gzip
+
+def unexpected_native_witness(summary):
+ return any(found for source,found in summary['witnessInListingBySource'].items() if source!='google-places')
+
 b=Path('.eval-artifacts/p2-1-discovery-20261016')
 now=lambda:datetime.now(timezone.utc).isoformat()
 sha=lambda data:hashlib.sha256(data).hexdigest()
@@ -34,7 +38,7 @@ if summary_path.exists():
  a.update({'status':'PROBE_RECORDED','summary':str(summary_path),'summarySha256':sha(summary_path.read_bytes()),'models':models,'google':s['resources']['google']['total'],'witnessInListing':s['witnessInListing'],'witnessInFirstBatch':s['witnessInFirstBatch'],'inRadiusParsed':s['inRadiusParsed']})
  if s['stop']:ledger['stop']=s['stop']
  # The instruction explicitly requires stopping if the expected discovery bottleneck already changed.
- if p['role']=='TARGET' and s['witnessInListing'] and not ledger['stop']:
+ if p['role']=='TARGET' and unexpected_native_witness(s) and not ledger['stop']:
   ledger['stop']={'code':'BASELINE_DIFFERS_FROM_EXPECTED_MISS','index':index,'basis':'A certified target witness is already in a source-funnel-bound first-batch listing. Inspect raw attempt before any further runs.'}
 elif (directory/'preflight-failure.json').exists():
  failure=json.loads((directory/'preflight-failure.json').read_text())

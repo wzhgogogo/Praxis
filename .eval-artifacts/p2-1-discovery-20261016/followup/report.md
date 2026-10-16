@@ -19,6 +19,12 @@
 
 待实施。网络恢复后的基线须使用本节实现前记录的提交；检查点 A 使用 P2-1a 提交，二者共享修正后的预检和指标。
 
+### 基线外层停止谓词修正
+
+指标重算后，已知的 Google 精确官网匹配会令旧聚合停止条件误停。外层改用原生来源分项判断卡点变化；Google 精确匹配仍记录，不再当作原生来源已改善。有效红灯直接执行 35c5dc2 的实际谓词，绿灯执行当前谓词；同时验证原生见证出现仍停止。没有运行外层 CLI 或任何探测。
+
+此评测侧修正单独提交，随后记录的基线点将取代早先暂记的 35c5dc2。历史 baseline-freeze 保持原样，网络恢复后必须重新冻结，不可直接运行旧清单。
+
 ## 2026-10-17 corrected source metrics (offline)
 
 TableCheck: ENV_FAILURE in all ten probes (independent-review.md supplement). Google not reached in h001 #1 and Kichijoji #1 is the same environmental effect. Original JSON/trace/decisions remain unchanged. Google exact witness website IDs are credited separately; names are unconfirmed. The old aggregate 0/8 TARGET conclusion is superseded by this source-specific table, not a normal-network capability baseline.

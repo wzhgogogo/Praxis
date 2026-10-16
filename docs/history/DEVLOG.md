@@ -3673,3 +3673,7 @@ P2-1第2项运行前见证认证完成：6例均有当前可行见证，16原登
 ## DEV-2026-10-17-P21-readiness
 
 ADR-0042已批准Accepted，探测40/模型450；新来源非空预检先于模型和正式运行，空/超时记ENV_FAILURE。十次旧基线TableCheck按复核改环境问题，Google精确官网ID分来源重算，原始产物不改；四门禁933/933绿，真实模型/业务网络/探测/Live均0。下一提交前记录P2-1a基线点，不推送。
+
+## DEV-2026-10-17-P21-baseline-stop
+
+Corrected the eval-only baseline stop predicate to use native source witness metrics; already-known exact Google website matches no longer trigger a false changed-bottleneck stop. Effective offline predicate red/green saved in followup/03b/baseline-stop-*.log. No production changes in this commit; 0 model, website, probe or Live calls. Prior readiness gates retained; current typecheck/arch/test/build also pass.
