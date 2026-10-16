@@ -3627,3 +3627,7 @@ E1输入3389131及1–9项独立提交已完成，补充9eb59e8／f0dc35b／a94d
 ## DEV-2026-10-16-E1-SUPPLEMENT-R2
 
 两次h003在真实等价表接入后仍被旧规则判QUALIFIED的反例先红。共享冻结输入加载器绑定原始SHA与run；Evaluator按每展示候选保留全部HARD/SOFT/UNSPECIFIED criteria状态和依据，接独立soft-preference-observations Gold；明确不符预算转DELIVERED_UNQUALIFIED/S1，真实空位claim仍独立成立。无Gold、错SHA/候选、缺来源自由语义为NOT_CHECKED，不推断数值容差，不读labels。rubric递增24，Eval Skill集中更新。默认门禁揭露普通artifact误加载校准Gold导致隔离控制ENOENT，已限定仅显式冻结上下文加载，不把环境错误当变异捕获；无生产行为变化。
+
+## DEV-2026-10-16-E1-SUPPLEMENT-RULES
+
+R1/R5/R6真实运行先红后绿。区分合格交付与目标漂移、额外非阻塞偏好的过程缺陷，保留语义环节NS但不伪造用户未得到推荐；所有原条件、HARD与原始支持仍必要。R5用同任务/配置外层失败预检与Gold明确resolvedTokyoDate时间窗推导，不能用referenceTime的+08显示偏移。R6用终态记录系统码＋真实EXECUTION_FAILURE等相应attempt互证，包含审核明确的共享浏览器额度缺陷；不读run ID或标签。扩展既有冻结补评入口接显式SHA引用的外层/post-GET记录，不新建Runner；校准上下文只含路径与SHA，无评分。后续接历史见证及最终校准，未改生产行为。

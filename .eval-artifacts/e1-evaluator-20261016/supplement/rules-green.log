@@ -1,0 +1,67 @@
+✖ E1 R1 supported recommendation delivery remains qualified despite an availability-goal process drift (110.333791ms)
+✖ E1 R5 environment-delayed expiry is derived from raw preflight history and the request window (94.993416ms)
+✖ E1 R6 a corroborated system defect cannot become honest no-result or capability miss (32.159209ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 0
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 403.262333
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts:1:7174
+✖ E1 R1 supported recommendation delivery remains qualified despite an availability-goal process drift (110.333791ms)
+  AssertionError [ERR_ASSERTION]: actual supported cafe delivery fulfills the frozen recommendation request (R1)
+  + actual - expected
+  
+  + 'DELIVERED_UNQUALIFIED'
+  - 'QUALIFIED_DELIVERY'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts:115:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'DELIVERED_UNQUALIFIED',
+    expected: 'QUALIFIED_DELIVERY',
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts:1:8019
+✖ E1 R5 environment-delayed expiry is derived from raw preflight history and the request window (94.993416ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'NOT_EVALUATED'
+  - 'ENV_FAILURE'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts:129:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'NOT_EVALUATED',
+    expected: 'ENV_FAILURE',
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts:1:9671
+✖ E1 R6 a corroborated system defect cannot become honest no-result or capability miss (32.159209ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'NOT_EVALUATED'
+  - 'INTERNAL_FAILURE'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts:144:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'NOT_EVALUATED',
+    expected: 'INTERNAL_FAILURE',
+    operator: 'strictEqual'
+  }

@@ -4327,3 +4327,7 @@ Hybrid完整生产factory＋Router部分端口分层85/85；正常100／耗尽1�
 ## TEST-2026-10-16-E1-SUPPLEMENT-R2
 
 目标红灯r2-red.log：实际h003 QUALIFIED≠独立预算NOT_MET的预期；新矩阵缺失同时暴露。绿色110定向覆盖两个h003的全部展示候选、h002正常预算MET、错SHA/候选/请求及无Gold保持NOT_CHECKED、严格Gold拒绝坏字段；原始Gold SHA39226c3b079b265789d354158f09fa52e3ae7fa821eedc10e2f3606eea84c7ce。第一遍默认门禁4项因普通评测误读校准文件ENOENT，明确不是检错成功；修复输入边界后typecheck/arch:check/npm test 909/909/build全绿，r2-*-final.log。Skill校验通过；无浏览器代码变化，不重跑已有112本地fixture证据。labels未读。
+
+## TEST-2026-10-16-E1-SUPPLEMENT-RULES
+
+rules-red.log三项实际业务断言失败：KF-H004误不合格，P1-G H004未识别环境过窗，P1-G2 H001系统失败被NE。对应正常/反例绿，改ID不改结果；删除预检、窗口内启动、缺相应失败attempt或仅孤立历史失败不能通过R5/R6；R1改日期仍不合格。真实共享CLI函数测试校验外层3refs、post-GET优先、错artifact/SHA拒绝，fetch替身禁止网络，非手填评分。114定向及四门禁typecheck/arch:check/npm test 913/913/build全绿，rules-{red,green-final,full-final,typecheck,arch-check,test,build}.log；Skill验证通过。历史失败日志保留，labels未读，校准未完成。

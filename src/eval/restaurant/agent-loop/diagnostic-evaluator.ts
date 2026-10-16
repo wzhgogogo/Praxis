@@ -256,7 +256,7 @@ function unmatchedStrengths(
  * text lets us reject polarity/HARD-strength conflicts; different text is kept
  * visible for independent semantic review instead of becoming an auto-pass.
  */
-function compareCriteria(expected: RequestShape, actual: RequestShape, table: CriterionEquivalenceTable): CriteriaComparison {
+function compareCriteria(expected: RequestShape, actual: RequestShape, table: CriterionEquivalenceTable, ignoreAdditionalNonblocking = false): CriteriaComparison {
   const conflicts: string[] = [];
   const unresolved: string[] = [];
   const expectedParts = expected.criteria.map(criterionParts);
@@ -298,7 +298,7 @@ function compareCriteria(expected: RequestShape, actual: RequestShape, table: Cr
     }
   } else {
     conflicts.push(...expectedOnly.map((criterion) => `criteria missing=${criterion.text}`));
-    conflicts.push(...actualOnly.map((criterion) => `criteria extra=${criterion.text}`));
+    conflicts.push(...actualOnly.filter(criterion => !ignoreAdditionalNonblocking || criterion.strength === "HARD").map((criterion) => `criteria extra=${criterion.text}`));
   }
   for (const [identity, expectedGroup] of expectedByIdentity) {
     const actualGroup = actualByIdentity.get(identity);
@@ -1102,13 +1102,19 @@ export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceAr
   const effectiveResources = assessEffectiveResources(root);
   const resourcesStatus: DiagnosticEvaluationStatus = invalidResourceFields.length || invalidLimitFields.length || overLimit.length || effectiveResources.status === "NOT_SATISFIED" ? "NOT_SATISFIED" : !resourceUsage || missingResourceFields.length || !limits || missingLimitFields.length || effectiveResources.status === "NOT_EVALUATED" ? "NOT_EVALUATED" : "SATISFIED";
   const conditionsStatus: DiagnosticEvaluationStatus = missingConditionRecords.length ? "NOT_EVALUATED" : conditionMismatchesList.length || criteriaComparison.conflicts.length ? "NOT_SATISFIED" : criteriaComparison.unresolved.length ? "NOT_EVALUATED" : "SATISFIED";
+  // R1: recommending a genuinely supported outlet is still a delivery when the
+  // Agent unnecessarily took the stricter availability path. Preserve the goal
+  // drift in AUTHORITATIVE_CONDITIONS; do not waive any date/party/area/criterion.
+  const resultConditionMismatches = conditionMismatchesList.filter(field => !(field === "target.goal" && expected.goal === "RECOMMENDATION" && actual?.goal === "AVAILABILITY"));
+  const resultCriteriaComparison = actual ? compareCriteria(expected, actual, equivalences, expected.goal === "RECOMMENDATION" && actual.goal === "AVAILABILITY") : criteriaComparison;
+  const presentationConditionsStatus: DiagnosticEvaluationStatus = missingConditionRecords.length ? "NOT_EVALUATED" : resultConditionMismatches.length || resultCriteriaComparison.conflicts.length ? "NOT_SATISFIED" : resultCriteriaComparison.unresolved.length ? "NOT_EVALUATED" : "SATISFIED";
   const rawTableCheckAssessments = candidateAssessments.flatMap(item => item.rawTableCheck ? [item.rawTableCheck] : []);
   const investigationMetrics = measureInvestigationProgress(root);
   const investigationStatus: DiagnosticEvaluationStatus = !observations ? "NOT_EVALUATED" : investigationMetrics.violations.length || duplicateVisits.length || rawTableCheckAssessments.some(item => item.status === "NOT_SATISFIED") ? "NOT_SATISFIED" : rawTableCheckAssessments.some(item => item.status === "NOT_EVALUATED") ? "NOT_EVALUATED" : "SATISFIED";
   // Progress/efficiency failures do not make a supported displayed claim false.
   // Same-request observation lineage and raw source conflicts are already
   // independently required by REQUIRED_EVIDENCE, not waived here.
-  const claimStatus: DiagnosticEvaluationStatus = finalPhase !== "PRESENT_RESULTS" ? "NOT_EVALUATED" : loopStatus !== "TERMINAL" ? "NOT_SATISFIED" : conditionsStatus === "NOT_SATISFIED" || evidenceStatus === "NOT_SATISFIED" ? "NOT_SATISFIED" : conditionsStatus === "NOT_EVALUATED" || evidenceStatus === "NOT_EVALUATED" ? "NOT_EVALUATED" : "SATISFIED";
+  const claimStatus: DiagnosticEvaluationStatus = finalPhase !== "PRESENT_RESULTS" ? "NOT_EVALUATED" : loopStatus !== "TERMINAL" ? "NOT_SATISFIED" : presentationConditionsStatus === "NOT_SATISFIED" || evidenceStatus === "NOT_SATISFIED" ? "NOT_SATISFIED" : presentationConditionsStatus === "NOT_EVALUATED" || evidenceStatus === "NOT_EVALUATED" ? "NOT_EVALUATED" : "SATISFIED";
   const completion = completionKind({ phase: finalPhase, loopStatus, failure: (domain.failure), executionStatus: asString(root.status), executionFailureCode });
   const noResultRecord = (domain.noVerifiedResult);
   const terminalSearchFailure = asString((domain.searchContinuation)?.lastFailureCode);
@@ -1160,7 +1166,7 @@ export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceAr
     && options.witnessOracle.validUntil && root.startedAt
     && Date.parse(root.startedAt) > Date.parse(options.witnessOracle.validUntil)
     && !options.witnessOracle.rows.some(row => row.observation && Date.parse(row.observation.observedAt) >= Date.parse(root.startedAt!));
-  const classification = classifyRunOutcome({ root, findings, conditionStates, ...(expected.goal ? { expectedGoal: expected.goal } : {}),
+  const classification = classifyRunOutcome({ root, findings, conditionStates, presentationConditionsStatus, ...(expected.goal ? { expectedGoal: expected.goal } : {}),
     trace: externalTrace?.entries ?? [...(root.diagnostics?.browserTrace ?? []), ...(root.sourceTrace?.browserTrace ?? [])],
     ...(orchestration ? { orchestration } : {}), ...(witnessWindowExpired ? { invalidSample: { reason: "Required witness certification expired before run start with no after-run recheck; Eval Skill §5.", refs: options.witnessOracle!.rows.flatMap(row => row.refs) } } : {}),
     ...(feasibleWitnesses.length ? { knownFeasibleWitness: { refs: feasibleWitnesses.flatMap(row => row.evidenceRefs) } } : {}), resultMissing });

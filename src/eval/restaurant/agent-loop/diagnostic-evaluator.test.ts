@@ -20,7 +20,7 @@ import { readDiagnosticRun } from "./diagnostic-evaluator-record.js";
 import { loadCriterionEquivalences, parseCriterionEquivalences } from "./criterion-equivalences.js";
 import { evaluateSourceOpeningHours, loadPostDeliveryTabelogObservation } from "./diagnostic-evaluator-grounding.js";
 import { evaluatorImportViolation } from "../../shared/evaluator-import-rule.js";
-import { loadFrozenCalibrationInput } from "./calibration-inputs.js";
+import { loadFrozenCalibrationInput, loadCalibrationObservations } from "./calibration-inputs.js";
 import { evaluateFrozenCalibrationArtifact } from "./runners/run-hybrid-artifact-evaluation.js";
 import { loadWitnessOracle, loadWitnessContext } from "./diagnostic-evaluator-witness.js";
 import type { WitnessOracle } from "./diagnostic-evaluator-witness.js";
@@ -106,6 +106,81 @@ test("E1 R2 source observation table is strict independent Gold, not a hidden ou
     { ...fixture, observations: [{ ...fixture.observations[0], status: null }] },
     { ...fixture, observations: [fixture.observations[0], fixture.observations[0]] },
   ]) assert.throws(() => parseSoftPreferenceObservations(JSON.stringify(wrong), "TEST_ONLY"));
+});
+
+test("E1 R1 supported recommendation delivery remains qualified despite an availability-goal process drift", async () => {
+  const artifact = await calibrationArtifact("p1fA-kf-h004-a1");
+  const result = evaluateRestaurantHybridLiveArtifact(artifact, source);
+  assert.equal(finding(result, "AUTHORITATIVE_CONDITIONS").status, "NOT_SATISFIED", "do not erase the process defect");
+  assert.equal(result.outcome.type, "QUALIFIED_DELIVERY", "actual supported cafe delivery fulfills the frozen recommendation request (R1)");
+  assert.equal(result.severity.S3.status, "PRESENT");
+  assert.notEqual(result.severity.S1.status, "PRESENT");
+  const wrong = structuredClone(artifact);
+  wrong.finalSnapshot.domainState.intentDraft.date = "2026-10-24";
+  assert.notEqual(evaluateRestaurantHybridLiveArtifact(wrong, source).outcome.type, "QUALIFIED_DELIVERY", "R1 cannot waive date or other conditions");
+});
+
+test("E1 R5 environment-delayed expiry is derived from raw preflight history and the request window", async () => {
+  const artifact = await calibrationArtifact("p1g-h004-a2");
+  const prior = JSON.parse(await readFile(".eval-artifacts/p1-g-20261012/live/h004/attempt-1/finish.json", "utf8"));
+  const finish = JSON.parse(await readFile(".eval-artifacts/p1-g-20261012/live/h004/attempt-2/finish.json", "utf8"));
+  const orchestration = { finish, priorAttempts: [prior], refs: ["TEST:raw-prior-finish", "TEST:raw-current-finish"] };
+  const result = evaluateRestaurantHybridLiveArtifact(artifact, source, { orchestration });
+  assert.equal(result.outcome.type, "ENV_FAILURE");
+  assert.equal(result.outcome.capabilityDenominator, "EXCLUDED");
+  assert.match(result.outcome.reasons.join(" "), /window|expiry|expired/i);
+  const renamed = structuredClone(artifact); renamed.runId = "TEST_ONLY_RENAMED"; renamed.caseId = "TEST_ONLY_RENAMED";
+  assert.equal(evaluateRestaurantHybridLiveArtifact(renamed, source, { orchestration }).outcome.type, "ENV_FAILURE", "no run-ID special case");
+  assert.notEqual(evaluateRestaurantHybridLiveArtifact(artifact, source).outcome.type, "ENV_FAILURE", "expiry alone is not environment causation");
+  const noFailure = structuredClone(orchestration); noFailure.priorAttempts[0].preflight.status = "SUCCEEDED";
+  assert.notEqual(evaluateRestaurantHybridLiveArtifact(artifact, source, { orchestration: noFailure }).outcome.type, "ENV_FAILURE");
+  const inWindow = structuredClone(artifact); inWindow.startedAt = "2026-10-12T07:50:00.000Z";
+  assert.notEqual(evaluateRestaurantHybridLiveArtifact(inWindow, source, { orchestration }).outcome.type, "ENV_FAILURE", "a recoverable preflight incident within the requested window is not R5");
+});
+
+test("E1 R6 a corroborated system defect cannot become honest no-result or capability miss", async () => {
+  const artifact = await calibrationArtifact("p1g2-h001-a4");
+  const result = evaluateRestaurantHybridLiveArtifact(artifact, source);
+  assert.equal(result.outcome.type, "INTERNAL_FAILURE");
+  assert.equal(result.outcome.userGoalComplete, "NO");
+  assert.match(result.outcome.reasons.join(" "), /BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED/);
+  const renamed = structuredClone(artifact); renamed.runId = "TEST_ONLY_RENAMED"; renamed.caseId = "TEST_ONLY_RENAMED";
+  assert.equal(evaluateRestaurantHybridLiveArtifact(renamed, source).outcome.type, "INTERNAL_FAILURE", "classification is record-derived");
+  const missingAttempts = structuredClone(artifact);
+  for (const trajectory of missingAttempts.trajectories) {
+    delete trajectory.executionMetadata?.failureCode;
+    for (const attempt of trajectory.executionMetadata?.providerAttempts ?? []) delete attempt.failureCode;
+  }
+  assert.notEqual(evaluateRestaurantHybridLiveArtifact(missingAttempts, source).outcome.type, "INTERNAL_FAILURE", "state prose alone is not corroboration");
+  const ordinaryEmpty = structuredClone(artifact);
+  ordinaryEmpty.finalSnapshot.domainState.noVerifiedResult.remainingGaps = ["No matching slot was independently observed."];
+  assert.notEqual(evaluateRestaurantHybridLiveArtifact(ordinaryEmpty, source).outcome.type, "INTERNAL_FAILURE", "unrelated historical failed reads alone do not classify the terminal cause");
+});
+
+test("E1 shared artifact entry carries verified preflight/post-GET records into actual classification", async () => {
+  const manifest = ".eval-artifacts/calibration-phase1-20261015/inputs/manifest.json";
+  const context = ".eval-artifacts/e1-evaluator-20261016/calibration-observations.json";
+  const directory = await mkdtemp(join(tmpdir(), "praxis-e1-raw-context-"));
+  const previousFetch = globalThis.fetch;
+  globalThis.fetch = async () => { throw Error("E1_OFFLINE_NETWORK_FORBIDDEN"); };
+  try {
+    const delayed = await evaluateFrozenCalibrationArtifact(manifest, "p1g-h004-a2", directory, undefined, context);
+    assert.equal(delayed.evaluation.outcome.type, "ENV_FAILURE");
+    assert.equal(delayed.evaluation.outcome.capabilityDenominator, "EXCLUDED");
+    const saved = JSON.parse(await readFile(delayed.outputPath, "utf8"));
+    assert.equal(saved.frozenInput.observationRefs.length, 3);
+    assert.match(saved.frozenInput.observationContextSha256, /^[a-f0-9]{64}$/);
+    const normal = await evaluateFrozenCalibrationArtifact(manifest, "p20-h002-a1", directory, undefined, context);
+    assert.equal(normal.evaluation.outcome.type, "QUALIFIED_DELIVERY");
+    assert.ok(finding(normal.evaluation, "REQUIRED_EVIDENCE").evidenceRefs.some(ref => ref.includes("post-delivery-raw")), "real raw GET wins by declared priority");
+    const input = await loadFrozenCalibrationInput(manifest, "p1g-h004-a2");
+    await assert.rejects(loadCalibrationObservations(context, "p1g-h004-a2", "0".repeat(64)), /different original result/);
+    const raw = JSON.parse(await readFile(context, "utf8"));
+    raw.entries = raw.entries.filter((row: any) => row.runId === "p1g-h004-a2");
+    raw.entries[0].finish = { path: fileURLToPath(new URL("../../../../.eval-artifacts/p1-g-20261012/live/h004/attempt-2/finish.json", import.meta.url)), sha256: "0".repeat(64) };
+    const wrong = join(directory, "wrong-context.json"); await writeFile(wrong, JSON.stringify(raw));
+    await assert.rejects(loadCalibrationObservations(wrong, "p1g-h004-a2", input.sourceArtifact.sha256), /SHA mismatch/);
+  } finally { globalThis.fetch = previousFetch; await rm(directory, { recursive: true, force: true }); }
 });
 
 test("E1 typed reader does not silently turn missing criteria into an empty contract", async () => {
@@ -268,8 +343,9 @@ test("E1 result types and severity use observed claims and attempts, never human
   const differentGoal: any = structuredClone(normal);
   differentGoal.materializedCase.semantic.target.goal = "RECOMMENDATION";
   const wrongNeed = evaluateRestaurantHybridLiveArtifact(differentGoal, source);
-  assert.equal(wrongNeed.outcome.type, "DELIVERED_UNQUALIFIED");
-  assert.equal(wrongNeed.severity.S1.status, "PRESENT");
+  assert.equal(wrongNeed.outcome.type, "QUALIFIED_DELIVERY", "R1 judges the actual supported outlet, not the process goal label");
+  assert.equal(wrongNeed.severity.S3.status, "PRESENT");
+  assert.equal(finding(wrongNeed, "AUTHORITATIVE_CONDITIONS").status, "NOT_SATISFIED", "the process error is not deleted");
   const failed = await calibrationArtifact("p1fB-h004-a1");
   assert.equal(evaluateRestaurantHybridLiveArtifact(failed, source).outcome.type, "ENV_FAILURE", "actual provider HTTP 402 is retained");
   for (const call of failed.modelInvocations) { call.providerStatus = 200; call.outcome = "SUCCEEDED"; }

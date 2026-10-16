@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import { dirname, resolve, relative, isAbsolute } from "node:path";
 import { gunzipSync } from "node:zlib";
 import type { DiagnosticEvaluationOptions } from "./diagnostic-evaluator.js";
+import { loadPostDeliveryTabelogObservation } from "./diagnostic-evaluator-grounding.js";
 
 const sha = (bytes: Uint8Array) => createHash("sha256").update(bytes).digest("hex");
 function object(value: unknown, allowed: string[], required: string[], path: string): Record<string, unknown> {
@@ -67,4 +68,49 @@ export async function loadFrozenCalibrationInput(manifestPath: string, runId: st
   return { ...common, artifact: undefined, sourceArtifact: { path: dirname(finish.path), sha256: createHash("sha256").update(JSON.stringify([...files.values()].map(file => file.sha256))).digest("hex") },
     options: { orchestration: { finish: JSON.parse(finish.raw.toString()), interruption: JSON.parse(interruption.raw.toString()), refs: common.fileRefs },
       trace: trace.raw.toString().split("\n").filter(Boolean).map(line => JSON.parse(line)) } };
+}
+
+/** Explicit local raw-observation context. These references contain no scores
+ * or human labels, and cannot attach to another original result's SHA. */
+export async function loadCalibrationObservations(contextPath: string, runId: string, artifactSha256: string): Promise<{ options: DiagnosticEvaluationOptions; refs: string[]; contextSha256: string }> {
+  const path = resolve(contextPath), bytes = await readFile(path);
+  const root = object(JSON.parse(bytes.toString()), ["schemaVersion", "entries"], ["schemaVersion", "entries"], "observations");
+  if (root.schemaVersion !== "1" || !Array.isArray(root.entries)) throw Error("Unsupported calibration observation context");
+  const rows = root.entries.map(row => object(row, ["runId", "artifactSha256", "finish", "priorAttempts", "postDeliveryTabelog"], ["runId", "artifactSha256"], "observation entry"));
+  const ids = rows.map(row => string(row.runId));
+  if (new Set(ids).size !== ids.length) throw Error("Duplicate calibration observation run ID");
+  const refs = [`${path}#sha256=${sha(bytes)}`];
+  const row = rows.find(row => row.runId === runId);
+  if (!row) return { options: {}, refs, contextSha256: sha(bytes) };
+  if (digest(row.artifactSha256) !== artifactSha256) throw Error("Calibration observation is bound to a different original result");
+  const read = async (value: unknown) => {
+    const reference = object(value, ["path", "sha256"], ["path", "sha256"], "observation reference");
+    const file = resolve(dirname(path), string(reference.path));
+    const raw = await readFile(file);
+    if (sha(raw) !== digest(reference.sha256)) throw Error(`Calibration observation SHA mismatch: ${file}`);
+    refs.push(`${file}#sha256=${sha(raw)}`);
+    return { raw, path: file };
+  };
+  const options: DiagnosticEvaluationOptions = {};
+  if (row.finish !== undefined || row.priorAttempts !== undefined) {
+    if (!row.finish || row.priorAttempts !== undefined && !Array.isArray(row.priorAttempts)) throw Error("Raw finish and valid priorAttempts required");
+    const finish = JSON.parse((await read(row.finish)).raw.toString());
+    const priorAttempts = [];
+    for (const prior of row.priorAttempts as unknown[] ?? []) {
+      const record = JSON.parse((await read(prior)).raw.toString());
+      if (!finish.id || record.id !== finish.id || record.sourceSha256 !== finish.sourceSha256) throw Error("Prior preflight belongs to a different outer task/configuration");
+      priorAttempts.push(record);
+    }
+    options.orchestration = { finish, priorAttempts, refs };
+  }
+  if (row.postDeliveryTabelog !== undefined) {
+    if (!Array.isArray(row.postDeliveryTabelog)) throw Error("Expected post-delivery raw references");
+    options.postDeliveryTabelog = [];
+    for (const pair of row.postDeliveryTabelog) {
+      const item = object(pair, ["metadata", "body"], ["metadata", "body"], "post-delivery pair");
+      const metadata = await read(item.metadata), body = await read(item.body);
+      options.postDeliveryTabelog.push(loadPostDeliveryTabelogObservation(metadata.path, body.path));
+    }
+  }
+  return { options, refs, contextSha256: sha(bytes) };
 }

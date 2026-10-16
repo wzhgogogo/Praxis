@@ -226,3 +226,17 @@ R2/R5/R6与最终22条校准仍在进行；旧PENDING对照不冒充新口径结
 四门禁实际命令与上节相同，最新日志`r2-{typecheck,arch-check,test,build}-final.log`，默认909/909全绿；Skill Creator校验[r2-skill-validation.log](supplement/r2-skill-validation.log)通过。首遍门禁[r2-test.log](supplement/r2-test.log)的4项失败是隔离副本缺校准文件的ENOENT，保留并明确不计检错，已修正输入边界。没有改浏览器执行路径，复用既有112/112本地fixture，不运行Live。
 
 此项机制完成；数值预算容差、自由文本适用性、未保留UI仍未被离线证明。R1/R5/R6及22条最终校准未完成，尚未读取labels。
+
+### R1/R5/R6 实际记录推导与共享入口
+
+| 口径 | 修复前实际反例 | 修改与正常／反例 | 状态 |
+| --- | --- | --- | --- |
+| R1 | KF-H004原始交付因goal漂移及多出的UNSPECIFIED“good”被判不合格 | 独立保留AUTHORITATIVE_CONDITIONS不满足；实际原条件和HARD、同请求raw链支持的推荐为QUALIFIED/S3。改日期仍不能合格，未审核同义不放行 | 该机制完成 |
+| R5 | P1-G H004此前TableCheck503预检失败，后续17:02东京才启动，超过17:00窗，旧类型NE | 原始同任务/配置finish及prior预检，经SHA引用接入真实Evaluator→ENV/EXCLUDED；删失败预检、没有记录、窗内启动不误归环境 | 该机制及共享入口完成 |
+| R6 | P1-G2 H001终态留共享预算码、真实DISCOVERY_FAILED/EXECUTION_FAILURE重复却旧类型NE | 系统码与实际失败轨迹互证→INTERNAL_FAILURE；只剩终态文字或无关历史失败不够。改ID不改结果 | 该机制完成 |
+
+业务断言红：[rules-red.log](supplement/rules-red.log)；定向绿[rules-green-final.log](supplement/rules-green-final.log)；114定向全绿[rules-full-final.log](supplement/rules-full-final.log)。早期rules-green.log仍三红（暴露实际+08参考瞬间不等于东京窗、EXECUTION_FAILURE枚举及额外偏好），保留而不当作通过。
+
+实际入口继续为`evaluateFrozenCalibrationArtifact`／`npm run eval:restaurant:agent-loop:artifact -- --manifest ... --run ... --out-dir ... --source-context .eval-artifacts/e1-evaluator-20261016/calibration-observations.json`，并可组合原`--witness-context`。来源上下文只有原始文件路径/SHA与结果SHA绑定，无人工结果标签。实际测试让预检/Post-GET进真实Evaluator，校验3条外层引用、原始GET优先，错SHA拒绝；global fetch被禁止。不是只调用分类函数或手填评分。
+
+四门禁：`npm --no-update-notifier run typecheck`、`npm --no-update-notifier run arch:check`、`npm --no-update-notifier test`（913/913）、`npm --no-update-notifier run build`，日志supplement/rules-*.log；Eval Skill集中写入规则，Skill Creator验证通过。无浏览器执行代码变更，无Live／模型／外部GET，生产分类与策略不变。S0仍受原始trace脱敏/缺失约束，下一步只接现存见证引用并最终校准，labels本节仍未读取。
