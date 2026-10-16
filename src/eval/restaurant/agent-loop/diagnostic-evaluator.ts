@@ -5,6 +5,8 @@ import { basename, dirname, resolve } from "node:path";
 import { openingHoursForRequest } from "../../../domains/restaurant/read-grounding.js";
 import { readDiagnosticRun } from "./diagnostic-evaluator-record.js";
 import type { RunRecord, DomainRecord, MaterializedRecord, IntentRecord, CriterionRecord, EvidenceRecord, CheckRecord, TrajectoryRecord, TraceRecord, TraceDetailRecord, ControlRecord, ServiceScopeRecord } from "./diagnostic-evaluator-record.js";
+import { loadCriterionEquivalences, normalizeCriterion } from "./criterion-equivalences.js";
+import type { CriterionEquivalenceTable, PendingCriterionWording } from "./criterion-equivalences.js";
 
 
 export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@29";
@@ -61,6 +63,8 @@ export interface RestaurantHybridDiagnosticEvaluation {
   findings: DiagnosticFinding[];
   unassessedDimensions: string[];
   recordReadIssues: Array<{ path: string; reason: "MISSING" | "INVALID_TYPE" }>;
+  criterionEquivalences: { path: string; sha256: string; tableVersion: string };
+  pendingCriterionWordings: PendingCriterionWording[];
 }
 
 function asArray<T>(value: T[] | undefined): T[] { return value ?? []; }
@@ -194,7 +198,7 @@ function observationRequestMismatches(authoritative: RequestShape, observed: Req
   if (hardCriteria(authoritative).join("\n") !== hardCriteria(observed).join("\n")) mismatches.push("criteria");
   return [...new Set(mismatches)];
 }
-type CriteriaComparison = { conflicts: string[]; unresolved: string[] };
+type CriteriaComparison = { conflicts: string[]; unresolved: string[]; pending: PendingCriterionWording[] };
 function criterionParts(value: string): { text: string; polarity: string; strength: string } {
   const [text = "", polarity = "", strength = ""] = value.split("|");
   return { text, polarity, strength };
@@ -233,11 +237,21 @@ function unmatchedStrengths(
  * text lets us reject polarity/HARD-strength conflicts; different text is kept
  * visible for independent semantic review instead of becoming an auto-pass.
  */
-function compareCriteria(expected: RequestShape, actual: RequestShape): CriteriaComparison {
+function compareCriteria(expected: RequestShape, actual: RequestShape, table: CriterionEquivalenceTable): CriteriaComparison {
   const conflicts: string[] = [];
   const unresolved: string[] = [];
   const expectedParts = expected.criteria.map(criterionParts);
-  const actualParts = actual.criteria.map(criterionParts);
+  const rawActualParts = actual.criteria.map(criterionParts);
+  const actualParts = rawActualParts.map(criterion => {
+    if (expectedParts.some(part => part.text === criterion.text)) return criterion;
+    const reviewed = expectedParts.flatMap(part => table.entries.filter(entry => normalizeCriterion(entry.goldText) === part.text
+      && normalizeCriterion(entry.systemText) === criterion.text && entry.polarity === part.polarity).map(entry => ({ part, entry })));
+    for (const { entry } of reviewed) if (entry.conclusion === "DIFFERENT") conflicts.push(`criteria reviewed DIFFERENT=${entry.goldText} / ${entry.systemText}`);
+    const same = reviewed.filter(item => item.entry.conclusion === "SAME");
+    // Never invent transitivity or choose among ambiguous many-to-one labels.
+    return same.length === 1 ? { ...criterion, text: same[0]!.part.text } : criterion;
+  });
+  const pending: PendingCriterionWording[] = [];
   const expectedByIdentity = groupCriteriaByIdentity(expectedParts);
   const actualByIdentity = groupCriteriaByIdentity(actualParts);
   const expectedOnly = expectedParts.filter((criterion) => !actualByIdentity.has(criterionIdentity(criterion)));
@@ -256,7 +270,13 @@ function compareCriteria(expected: RequestShape, actual: RequestShape): Criteria
   }
   if (expectedOnly.length && actualOnly.length) {
     const differentText = expectedOnly.some((criterion) => !actualTexts.has(criterion.text)) && actualOnly.some((criterion) => !expectedTexts.has(criterion.text));
-    if (differentText) unresolved.push(`criteria.text expected=[${expectedOnly.map((criterion) => criterion.text).join(", ")}] actual=[${actualOnly.map((criterion) => criterion.text).join(", ")}]`);
+    if (differentText) {
+      unresolved.push(`criteria.text expected=[${expectedOnly.map((criterion) => criterion.text).join(", ")}] actual=[${actualOnly.map((criterion) => criterion.text).join(", ")}]`);
+      for (const gold of expectedOnly) for (const system of actualOnly) {
+        if (!table.entries.some(entry => normalizeCriterion(entry.goldText) === gold.text && normalizeCriterion(entry.systemText) === system.text && entry.polarity === gold.polarity))
+          pending.push({ goldText: gold.text, systemText: system.text, goldPolarity: gold.polarity, systemPolarity: system.polarity });
+      }
+    }
   } else {
     conflicts.push(...expectedOnly.map((criterion) => `criteria missing=${criterion.text}`));
     conflicts.push(...actualOnly.map((criterion) => `criteria extra=${criterion.text}`));
@@ -278,7 +298,7 @@ function compareCriteria(expected: RequestShape, actual: RequestShape): Criteria
       }
     }
   }
-  return { conflicts: [...new Set(conflicts)], unresolved: [...new Set(unresolved)] };
+  return { conflicts: [...new Set(conflicts)], unresolved: [...new Set(unresolved)], pending };
 }
 function requestForGrounding(expected: RequestShape, actual: RequestShape | undefined): RequestShape {
   if (!actual) return expected;
@@ -988,14 +1008,15 @@ function assessNoResult(root: RunRecord, domain: DomainRecord, request: RequestS
 }
 
 /** Deterministically diagnoses an already-written artifact; it never calls a model or a provider. */
-export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceArtifact: { path: string; sha256: string }): RestaurantHybridDiagnosticEvaluation {
+export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceArtifact: { path: string; sha256: string }, options: { criterionEquivalences?: CriterionEquivalenceTable } = {}): RestaurantHybridDiagnosticEvaluation {
+  const equivalences = options.criterionEquivalences ?? loadCriterionEquivalences();
   const { record: root, issues: readIssues } = readDiagnosticRun(artifact); const domain = (root.finalSnapshot?.domainState) ?? {}; const materialized = (root.materializedCase) ?? {};
   // `intentDraft` is the Restaurant runtime's final authoritative intent field; do not
   // substitute a trajectory snapshot when the final state failed to record it.
   const finalAuthoritativeIntent = (domain.intentDraft);
   const expected = requestFromMaterialized(materialized); const actual = finalAuthoritativeIntent ? requestFromFinalIntent(finalAuthoritativeIntent) : undefined;
   const conditionMismatchesList = actual ? coreConditionMismatches(expected, actual).filter((item) => !expected.missing.includes(item) && !actual.missing.includes(item)) : [];
-  const criteriaComparison = actual ? compareCriteria(expected, actual) : { conflicts: [], unresolved: [] };
+  const criteriaComparison = actual ? compareCriteria(expected, actual, equivalences) : { conflicts: [], unresolved: [], pending: [] };
   // Gold judges semantic fidelity. The executed read and its evidence instead
   // belong to the final authoritative intent actually bound by the Runtime.
   // This prevents historical label abbreviations from fabricating a source
@@ -1066,7 +1087,7 @@ export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceAr
   // behavior can still be independently supported by conditions, execution
   // coverage, resource accounting, and an explicit bounded stop.
   const noResultSupported = noResultStatus === "SATISFIED";
-  return { recordReadIssues: readIssues, schemaVersion: "1", evaluatorVersion: RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, rubricVersion: RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION, rubricStatus: "DRAFT_DIAGNOSTIC_ONLY", sourceArtifact: { path: sourceArtifact.path, sha256: sourceArtifact.sha256, ...(asString(root.runId) ? { runId: asString(root.runId)! } : {}), ...(asString(root.caseId) ? { caseId: asString(root.caseId)! } : {}) }, execution: { status: asString(root.status) ?? null, stage: asString(root.stage) ?? null,
+  return { recordReadIssues: readIssues, criterionEquivalences: { path: equivalences.path, sha256: equivalences.sha256, tableVersion: equivalences.tableVersion }, pendingCriterionWordings: criteriaComparison.pending, schemaVersion: "1", evaluatorVersion: RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, rubricVersion: RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION, rubricStatus: "DRAFT_DIAGNOSTIC_ONLY", sourceArtifact: { path: sourceArtifact.path, sha256: sourceArtifact.sha256, ...(asString(root.runId) ? { runId: asString(root.runId)! } : {}), ...(asString(root.caseId) ? { caseId: asString(root.caseId)! } : {}) }, execution: { status: asString(root.status) ?? null, stage: asString(root.stage) ?? null,
     // A source discovery failure is not an ordinary bounded empty result.
     // The runtime keeps that failure on the search continuation, so preserve
     // UNKNOWN rather than reclassifying the task as a verified no-result.

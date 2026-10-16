@@ -20,7 +20,7 @@ const userRequestedThree: FixedSourceExpectation = {
 function evaluation(overrides: Partial<RestaurantHybridDiagnosticEvaluation["execution"]> = {}, failedDimension?: string): RestaurantHybridDiagnosticEvaluation {
   return {
     schemaVersion: "1", evaluatorVersion: "restaurant-hybrid-read-diagnostic-evaluator@29", rubricVersion: "restaurant-hybrid-read-diagnostic-rubric@23", rubricStatus: "DRAFT_DIAGNOSTIC_ONLY", recordReadIssues: [],
-    sourceArtifact: { path: "fixture", sha256: "fixture" },
+    sourceArtifact: { path: "fixture", sha256: "fixture" }, criterionEquivalences: { path: "TEST_ONLY", sha256: "TEST_ONLY", tableVersion: "restaurant-criterion-equivalences@1" }, pendingCriterionWordings: [],
     execution: { status: "SUCCEEDED", stage: "AGENT_LOOP", taskProducedQualifiedResult: "YES", systemBehavior: "SUPPORTED_BY_EVIDENCE", externalConditions: "OBSERVED", evidenceSufficiency: "SUFFICIENT_FOR_PRESENTED_RESULT", completion: "PRESENTATION_RECORDED", ...overrides },
     candidateSummaries: [],
     findings: allDimensions.map((dimension) => ({ dimension, status: dimension === failedDimension ? "NOT_SATISFIED" : "SATISFIED", stage: "TEST", requirement: "fixture", observations: [], directCause: "fixture", rootCauseHypothesis: "fixture", certainty: "CONFIRMED", evidenceRefs: [], downstreamImpact: "fixture" })),

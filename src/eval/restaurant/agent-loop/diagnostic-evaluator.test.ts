@@ -15,6 +15,7 @@ import { validateRestaurantSemanticProposal } from "../../../domains/restaurant/
 import { evaluateArtifactAfterFinish, evaluateRestaurantHybridLiveArtifact } from "./diagnostic-evaluator.js";
 import { snapshotRecord } from "./runners/browser-case-slice-evidence.js";
 import { readDiagnosticRun } from "./diagnostic-evaluator-record.js";
+import { loadCriterionEquivalences, parseCriterionEquivalences } from "./criterion-equivalences.js";
 
 // Frozen exposed runs, never regenerated from the request or the evaluator.
 async function calibrationArtifact(runId: string): Promise<any> {
@@ -51,6 +52,40 @@ test("E1 typed projection preserves absence and rejects invalid consumed fields 
   assert.equal(finding(result, "AUTHORITATIVE_CONDITIONS").status, "NOT_EVALUATED");
   assert.equal(finding(result, "INVESTIGATION_BEHAVIOR").status, "NOT_EVALUATED");
   assert.equal(finding(result, "RESOURCES").status, "NOT_EVALUATED");
+});
+
+test("E1 reviewed wording equivalence is usable without relaxing polarity or strength", () => {
+  const artifact: any = completeArtifact();
+  artifact.materializedCase.semantic.criteria[0].value = "chef-led tasting";
+  const table = parseCriterionEquivalences(JSON.stringify({ schemaVersion: "1", tableVersion: "restaurant-criterion-equivalences@1", entries: [
+    { goldText: "chef-led tasting", systemText: "omakase", polarity: "POSITIVE", conclusion: "SAME", decidedBy: "TEST_ONLY", decidedAt: "2026-10-16T00:00:00Z", sourceRuns: ["synthetic-control"] },
+  ] }), "TEST_ONLY");
+  const evaluate = (value: unknown) => evaluateRestaurantHybridLiveArtifact(value, source, { criterionEquivalences: table });
+  assert.equal(finding(evaluate(artifact), "AUTHORITATIVE_CONDITIONS").status, "SATISFIED");
+  artifact.finalSnapshot.domainState.intentDraft.criteria[0].polarity = "NEGATIVE";
+  assert.equal(finding(evaluate(artifact), "AUTHORITATIVE_CONDITIONS").status, "NOT_SATISFIED");
+  artifact.finalSnapshot.domainState.intentDraft.criteria[0].polarity = "POSITIVE";
+  artifact.finalSnapshot.domainState.intentDraft.criteria[0].strength = "SOFT";
+  assert.equal(finding(evaluate(artifact), "AUTHORITATIVE_CONDITIONS").status, "NOT_SATISFIED");
+});
+
+test("E1 strict versioned wording table rejects unknown keys, null, duplicates and records raw SHA", () => {
+  const empty = 'schemaVersion: "1"\ntableVersion: restaurant-criterion-equivalences@1\nentries: []\n';
+  assert.equal(parseCriterionEquivalences(empty, "TEST_ONLY").sha256, "ba6f94ffe43b19bf0fefabbc2db34b4934defeb909e1d85c0edd88df42ea2f1b");
+  for (const invalid of [empty + 'extra: true\n', empty.replace('[]', 'null'), empty.replace('"1"', 'null'), empty.replace('entries: []', 'entries: []\nentries: []')])
+    assert.throws(() => parseCriterionEquivalences(invalid, "TEST_ONLY"));
+  const entry = { goldText: "test source", systemText: "test paraphrase", polarity: "POSITIVE", conclusion: "DIFFERENT", decidedBy: "TEST_ONLY", decidedAt: "2026-10-16T00:00:00Z", sourceRuns: ["synthetic"] };
+  const tableText = (entries: unknown[]) => JSON.stringify({ schemaVersion: "1", tableVersion: "restaurant-criterion-equivalences@1", entries });
+  for (const invalid of [{ ...entry, extra: true }, { ...entry, conclusion: null }, { ...entry, sourceRuns: [null] }]) assert.throws(() => parseCriterionEquivalences(tableText([invalid]), "TEST_ONLY"));
+  assert.throws(() => parseCriterionEquivalences(tableText([entry, entry]), "TEST_ONLY"), /duplicate/);
+  const artifact: any = completeArtifact(); artifact.materializedCase.semantic.criteria[0].value = "test source"; artifact.finalSnapshot.domainState.intentDraft.criteria[0].text = "test paraphrase";
+  const unknown = evaluateRestaurantHybridLiveArtifact(artifact, source);
+  assert.equal(finding(unknown, "AUTHORITATIVE_CONDITIONS").status, "NOT_EVALUATED");
+  assert.deepEqual(unknown.pendingCriterionWordings, [{ goldText: "test source", systemText: "test paraphrase", goldPolarity: "POSITIVE", systemPolarity: "POSITIVE" }]);
+  const different = evaluateRestaurantHybridLiveArtifact(artifact, source, { criterionEquivalences: parseCriterionEquivalences(tableText([entry]), "TEST_ONLY") });
+  assert.equal(finding(different, "AUTHORITATIVE_CONDITIONS").status, "NOT_SATISFIED");
+  assert.deepEqual(different.pendingCriterionWordings, []);
+  assert.match(loadCriterionEquivalences().sha256, /^[a-f0-9]{64}$/);
 });
 
 const source = { path: "/tmp/availability-fixture.result.json", sha256: "a".repeat(64) };
