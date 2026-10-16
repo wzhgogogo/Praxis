@@ -3,6 +3,7 @@ import { mkdtemp, readFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
+import { gunzipSync } from "node:zlib";
 
 import { fixtureIntent } from "../../../harness/restaurant-fixtures.js";
 
@@ -13,6 +14,44 @@ import { applyRestaurantIntentPatch } from "../../../domains/restaurant/intent-s
 import { validateRestaurantSemanticProposal } from "../../../domains/restaurant/semantic-proposal.js";
 import { evaluateArtifactAfterFinish, evaluateRestaurantHybridLiveArtifact } from "./diagnostic-evaluator.js";
 import { snapshotRecord } from "./runners/browser-case-slice-evidence.js";
+import { readDiagnosticRun } from "./diagnostic-evaluator-record.js";
+
+// Frozen exposed runs, never regenerated from the request or the evaluator.
+async function calibrationArtifact(runId: string): Promise<any> {
+  return JSON.parse(gunzipSync(await readFile(new URL(`../../../../.eval-artifacts/calibration-phase1-20261015/inputs/${runId}.result.json.gz`, import.meta.url))).toString("utf8"));
+}
+
+test("E1 typed reader does not silently turn missing criteria into an empty contract", async () => {
+  const original = await calibrationArtifact("p20-h002-a1");
+  assert.notEqual(finding(evaluateRestaurantHybridLiveArtifact(original, source), "AUTHORITATIVE_CONDITIONS").observations.join(" ").includes("Missing"), true);
+  const legacy = structuredClone(original);
+  delete legacy.materializedCase.semantic.criteria;
+  delete legacy.finalSnapshot.domainState.intentDraft.criteria;
+  const result = evaluateRestaurantHybridLiveArtifact(legacy, source);
+  assert.equal(finding(result, "AUTHORITATIVE_CONDITIONS").status, "NOT_EVALUATED");
+  assert.match(finding(result, "AUTHORITATIVE_CONDITIONS").observations.join(" "), /materializedCase.semantic.criteria/);
+  assert.match(finding(result, "AUTHORITATIVE_CONDITIONS").observations.join(" "), /finalSnapshot.domainState.intentDraft.criteria/);
+});
+
+test("E1 typed projection preserves absence and rejects invalid consumed fields without defaults", async () => {
+  const artifact = await calibrationArtifact("p20-h002-a1");
+  const normal = readDiagnosticRun(artifact);
+  assert.deepEqual(normal.issues, []);
+  assert.equal(normal.record.finalSnapshot?.domainState?.candidates?.length, 5);
+  const changed = structuredClone(artifact);
+  changed.finalSnapshot.domainState.intentDraft.criteria[0].strength = null;
+  changed.resourceUsage.elapsedMs = "100";
+  delete changed.trajectories;
+  const legacy = readDiagnosticRun(changed);
+  assert.equal(legacy.record.resourceUsage?.elapsedMs, undefined);
+  assert.equal(legacy.record.trajectories, undefined);
+  assert.ok(legacy.issues.some(issue => issue.path === "trajectories" && issue.reason === "MISSING"));
+  assert.ok(legacy.issues.some(issue => issue.path.endsWith("criteria[0].strength") && issue.reason === "INVALID_TYPE"));
+  const result = evaluateRestaurantHybridLiveArtifact(changed, source);
+  assert.equal(finding(result, "AUTHORITATIVE_CONDITIONS").status, "NOT_EVALUATED");
+  assert.equal(finding(result, "INVESTIGATION_BEHAVIOR").status, "NOT_EVALUATED");
+  assert.equal(finding(result, "RESOURCES").status, "NOT_EVALUATED");
+});
 
 const source = { path: "/tmp/availability-fixture.result.json", sha256: "a".repeat(64) };
 const finding = (result: ReturnType<typeof evaluateRestaurantHybridLiveArtifact>, dimension: string) => result.findings.find((item) => item.dimension === dimension)!;

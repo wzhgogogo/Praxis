@@ -41,3 +41,9 @@
 第0项仅输入完整性校验，无代码变化，不用全仓门禁替代数据校验。第1–9项尚未执行，不宣称代码完成或门禁通过。
 
 校准待复核者提交 labels.yaml 与 criterion-equivalences.yaml，不自行填写。评测器不得读取人工标签。四层结果、未评价原因和逐次对照将在后续逐项补齐。
+
+## 1 类型化读取
+
+真实h002删除两端criteria时旧评测仍SATISFIED（01-reader/red.log），类型投影后NOT_EVALUATED并带完整路径；正常产物、非法类型和缺轨迹控制通过。所有判定已移除asRecord动态取字段，仅边界读取已消费字段；evaluator@29/rubric@23，不补造旧记录。输入冻结提交3389131。
+
+定向85/85；typecheck、arch:check、npm test 883/883、build全绿，命令及日志01-reader/{red,green,typecheck,arch-check,test,build}.log。首次正常产物null失败码格式误报已在读取层区分；重叠日志已以单次干净门禁重跑替代。未覆盖的历史字段继续未评价。

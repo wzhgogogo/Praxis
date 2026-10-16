@@ -4263,3 +4263,7 @@ Hybrid完整生产factory＋Router部分端口分层85/85；正常100／耗尽1�
 ## TEST-2026-10-16-E1-0-INPUTS
 
 独立22个run-id全集、30文件gunzip、原始／压缩SHA与长度及原文件字节比较通过；12,630,285字节低于60MB。manifest SHA68125e710ee1ffee5f101fd390ba4e769e2e1d67e5fa3b5f1bc3035ecbd6d1f2。命令和green.log在E1的00-inputs；纯数据冻结不重复源码门禁，不称第1–9项已通过。原始中断trace完整，评测与校准尚未运行，无模型／网络。
+
+## TEST-2026-10-16-E1-1
+
+定向85/85；typecheck、arch:check、npm test 883/883、build全绿，命令及日志01-reader/{red,green,typecheck,arch-check,test,build}.log。首次正常产物null失败码格式误报已在读取层区分；重叠日志已以单次干净门禁重跑替代。未覆盖的历史字段继续未评价。 真实h002删除两端criteria时旧评测仍SATISFIED（01-reader/red.log），类型投影后NOT_EVALUATED并带完整路径；正常产物、非法类型和缺轨迹控制通过。所有判定已移除asRecord动态取字段，仅边界读取已消费字段；evaluator@29/rubric@23，不补造旧记录。输入冻结提交3389131。 原始日志见.eval-artifacts/e1-evaluator-20261016/report.md，不把测试总数当能力证明。

@@ -3,12 +3,13 @@ import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { basename, dirname, resolve } from "node:path";
 import { openingHoursForRequest } from "../../../domains/restaurant/read-grounding.js";
+import { readDiagnosticRun } from "./diagnostic-evaluator-record.js";
+import type { RunRecord, DomainRecord, MaterializedRecord, IntentRecord, CriterionRecord, EvidenceRecord, CheckRecord, TrajectoryRecord, TraceRecord, TraceDetailRecord, ControlRecord, ServiceScopeRecord } from "./diagnostic-evaluator-record.js";
 
 
-export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@28";
-export const RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION = "restaurant-hybrid-read-diagnostic-rubric@22";
+export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@29";
+export const RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION = "restaurant-hybrid-read-diagnostic-rubric@23";
 
-type JsonRecord = Record<string, unknown>;
 export type DiagnosticEvaluationStatus = "SATISFIED" | "NOT_SATISFIED" | "NOT_EVALUATED";
 
 export interface DiagnosticFinding {
@@ -59,21 +60,14 @@ export interface RestaurantHybridDiagnosticEvaluation {
   candidateSummaries: CandidateDiagnosticSummary[];
   findings: DiagnosticFinding[];
   unassessedDimensions: string[];
+  recordReadIssues: Array<{ path: string; reason: "MISSING" | "INVALID_TYPE" }>;
 }
 
-function asRecord(value: unknown): JsonRecord | undefined {
-  return typeof value === "object" && value !== null && !Array.isArray(value) ? value as JsonRecord : undefined;
-}
-function asArray(value: unknown): unknown[] { return Array.isArray(value) ? value : []; }
+function asArray<T>(value: T[] | undefined): T[] { return value ?? []; }
 function asString(value: unknown): string | undefined { return typeof value === "string" ? value : undefined; }
-function strings(value: unknown): string[] { return asArray(value).filter((item): item is string => typeof item === "string"); }
+function strings(value: string[] | undefined): string[] { return value ?? []; }
 function asNumber(value: unknown): number | undefined { return typeof value === "number" && Number.isFinite(value) ? value : undefined; }
 function sha256(value: string): string { return createHash("sha256").update(value).digest("hex"); }
-function getPath(value: unknown, path: string[]): unknown {
-  let cursor: unknown = value;
-  for (const part of path) cursor = asRecord(cursor)?.[part];
-  return cursor;
-}
 function normalized(value: string | undefined): string { return (value ?? "").trim().toLocaleLowerCase("en-US").replace(/\s+/g, " "); }
 function ref(path: string): string { return path; }
 function parseTime(value: unknown): string | undefined {
@@ -101,8 +95,8 @@ function observedOnOrBeforePresentation(observedAt: unknown, presentedAt: unknow
   if (Number.isNaN(observedMs) || Number.isNaN(presentationMs)) return "INVALID";
   return observedMs <= presentationMs ? "VALID" : "FUTURE_OBSERVATION";
 }
-function criterionSet(value: unknown): string[] {
-  return asArray(value).map(asRecord).flatMap((criterion) => {
+function criterionSet(value: CriterionRecord[] | undefined): string[] {
+  return asArray(value).flatMap((criterion) => {
     if (!criterion) return [];
     const text = normalized(asString(criterion.text) ?? asString(criterion.value));
     const polarity = asString(criterion.polarity);
@@ -123,23 +117,23 @@ interface RequestShape {
   unsupportedHardCriteria: string[];
   missing: string[];
 }
-function partySize(value: unknown): number | undefined { return asNumber(value) ?? asNumber(asRecord(value)?.value); }
-function alternativeWindow(value: unknown): RequestShape["permittedAlternativeTimeWindow"] {
-  const record = asRecord(value); const earliest = parseTime(record?.earliest); const latest = parseTime(record?.latest);
+function partySize(value: number | { value?: number } | undefined): number | undefined { return asNumber(value) ?? asNumber(typeof value === "object" ? value?.value : undefined); }
+function alternativeWindow(value: { earliest?: string; latest?: string } | undefined): RequestShape["permittedAlternativeTimeWindow"] {
+  const record = (value); const earliest = parseTime(record?.earliest); const latest = parseTime(record?.latest);
   return earliest && latest && earliest <= latest ? { earliest, latest } : undefined;
 }
 function normalizedArea(value: string | undefined): string { return normalized(value?.replace(/^near\s+/i, "")); }
-function goal(value: unknown): "RECOMMENDATION" | "AVAILABILITY" | undefined {
-  const valueGoal = asString(asRecord(value)?.goal);
+function goal(value: { goal?: string } | undefined): "RECOMMENDATION" | "AVAILABILITY" | undefined {
+  const valueGoal = asString((value)?.goal);
   return valueGoal === "RECOMMENDATION" || valueGoal === "AVAILABILITY" ? valueGoal : undefined;
 }
-function requestFromMaterialized(value: JsonRecord): RequestShape {
-  const semantic = asRecord(value.semantic) ?? {}; const time = asRecord(semantic.time) ?? {}; const location = asRecord(semantic.location);
+function requestFromMaterialized(value: MaterializedRecord): RequestShape {
+  const semantic = (value.semantic) ?? {}; const time = (semantic.time) ?? {}; const location = (semantic.location);
   const timeValue = parseTime(time.value); const start = parseTime(time.start); const end = parseTime(time.end);
   const criteria = criterionSet(semantic.criteria);
   const caseId = asString(value.id);
   const expectedGoal = goal(semantic.target);
-  const date = parseDate(asRecord(semantic.date)?.value); const party = partySize(semantic.party_size); const locationValue = asString(location?.value); const relation = asString(location?.relation);
+  const date = parseDate((semantic.date)?.value); const party = partySize(semantic.party_size); const locationValue = asString(location?.value); const relation = asString(location?.relation);
   const result: RequestShape = { ...(caseId ? { caseId } : {}), ...(expectedGoal ? { goal: expectedGoal } : {}), ...(date ? { date } : {}), ...(party !== undefined ? { partySize: party } : {}), ...(timeValue ? { timeWindow: { earliest: timeValue, latest: timeValue } } : start && end ? { timeWindow: { earliest: start, latest: end } } : {}), ...(locationValue ? { location: { value: locationValue, ...(relation ? { relation } : {}) } } : {}), criteria, unsupportedHardCriteria: [], missing: [] };
   if (!result.goal) result.missing.push("target.goal");
   const permitted = alternativeWindow(semantic.permittedAlternativeTimeWindow);
@@ -148,11 +142,11 @@ function requestFromMaterialized(value: JsonRecord): RequestShape {
   if (result.goal === "AVAILABILITY" && !result.date) result.missing.push("date");
   if (result.goal === "AVAILABILITY" && !result.timeWindow) result.missing.push("timeWindow");
   if (!result.location) result.missing.push("location");
-  if (result.criteria.length !== asArray(semantic.criteria).length) result.missing.push("criteria");
+  if (!semantic.criteria || result.criteria.length !== semantic.criteria.length) result.missing.push("materializedCase.semantic.criteria");
   return result;
 }
-function requestFromFinalIntent(value: JsonRecord): RequestShape {
-  const window = asRecord(value.timeWindow); const earliest = parseTime(window?.earliest); const latest = parseTime(window?.latest); const area = asRecord(value.area);
+function requestFromFinalIntent(value: IntentRecord): RequestShape {
+  const window = (value.timeWindow); const earliest = parseTime(window?.earliest); const latest = parseTime(window?.latest); const area = (value.area);
   const date = parseDate(value.date); const party = partySize(value.partySize); const areaQuery = asString(area?.query);
   const actualGoal = goal(value.target);
   const result: RequestShape = { ...(actualGoal ? { goal: actualGoal } : {}), ...(date ? { date } : {}), ...(party !== undefined ? { partySize: party } : {}), ...(earliest && latest ? { timeWindow: { earliest, latest } } : {}), ...(areaQuery ? { location: { value: areaQuery.replace(/^near\s+/i, ""), relation: "NEAR" } } : {}), criteria: criterionSet(value.criteria), unsupportedHardCriteria: [], missing: [] };
@@ -163,7 +157,7 @@ function requestFromFinalIntent(value: JsonRecord): RequestShape {
   if (result.goal === "AVAILABILITY" && !result.date) result.missing.push("date");
   if (result.goal === "AVAILABILITY" && !result.timeWindow) result.missing.push("timeWindow");
   if (!result.location) result.missing.push("location");
-  if (result.criteria.length !== asArray(value.criteria).length) result.missing.push("criteria");
+  if (!value.criteria || result.criteria.length !== value.criteria.length) result.missing.push("finalSnapshot.domainState.intentDraft.criteria");
   return result;
 }
 /** Exact deterministic fields shared by semantic fidelity and read applicability. */
@@ -296,7 +290,7 @@ function requestForGrounding(expected: RequestShape, actual: RequestShape | unde
   }
   return actual;
 }
-function candidateResult(check: JsonRecord | undefined, offerCount: number): string {
+function candidateResult(check: CheckRecord | undefined, offerCount: number): string {
   if (offerCount > 0) return "OFFER_GROUNDED";
   const status = asString(check?.status); const reason = asString(check?.reasonCode);
   if (status === "UNAVAILABLE" && !reason) return "EXPLICIT_NO_MATCHING_SLOT";
@@ -306,7 +300,7 @@ function candidateResult(check: JsonRecord | undefined, offerCount: number): str
   if (status === "UNKNOWN") return "EVIDENCE_INCOMPLETE";
   return status ?? "NOT_CHECKED";
 }
-function completionKind(input: { phase: string | undefined; loopStatus: string | undefined; failure: JsonRecord | undefined; executionStatus: string | undefined; executionFailureCode: string | undefined }): RestaurantHybridDiagnosticEvaluation["execution"]["completion"] {
+function completionKind(input: { phase: string | undefined; loopStatus: string | undefined; failure: { code?: string } | undefined; executionStatus: string | undefined; executionFailureCode: string | undefined }): RestaurantHybridDiagnosticEvaluation["execution"]["completion"] {
   // The runner records an interruption outside the domain snapshot when the
   // coordinator never returns. Read that immutable execution record first;
   // do not relabel it as a no-result merely because no offer was produced.
@@ -323,35 +317,35 @@ function completionKind(input: { phase: string | undefined; loopStatus: string |
   if (input.phase === "NEEDS_INPUT") return "NEEDS_USER_INPUT";
   return "NOT_EVALUATED";
 }
-function providerAttemptsFromTrajectories(trajectories: unknown[], candidateId: string): ProviderAttemptDiagnostic[] {
+function providerAttemptsFromTrajectories(trajectories: TrajectoryRecord[], candidateId: string): ProviderAttemptDiagnostic[] {
   return trajectories.flatMap((step, stepIndex) => {
-    const metadata = asRecord(asRecord(step)?.executionMetadata);
+    const metadata = ((step)?.executionMetadata);
     return asArray(metadata?.providerAttempts).flatMap((item, attemptIndex) => {
-      const attempt = asRecord(item); if (attempt?.candidateId !== candidateId) return [];
+      const attempt = (item); if (attempt?.candidateId !== candidateId) return [];
       const provider = asString(attempt.provider) ?? "UNKNOWN_PROVIDER";
       const outcome = asString(attempt.outcome); const failureCode = asString(attempt.failureCode);
       return [{ provider, ...(outcome ? { outcome } : {}), ...(failureCode ? { failureCode } : {}), evidenceRef: ref(`trajectories[${stepIndex}].executionMetadata.providerAttempts[${attemptIndex}]`) }];
     });
   });
 }
-function executedInvestigationVisits(trajectories: unknown[]): { candidateId: string; requestVersion: string; actionType: "CHECK_AVAILABILITY" | "INVESTIGATE_CANDIDATE_FACTS"; recheckReason?: string; ref: string }[] | undefined {
+function executedInvestigationVisits(trajectories: TrajectoryRecord[]): { candidateId: string; requestVersion: string; actionType: "CHECK_AVAILABILITY" | "INVESTIGATE_CANDIDATE_FACTS"; recheckReason?: string; ref: string }[] | undefined {
   if (!Array.isArray(trajectories)) return undefined;
   const visits: { candidateId: string; requestVersion: string; actionType: "CHECK_AVAILABILITY" | "INVESTIGATE_CANDIDATE_FACTS"; recheckReason?: string; ref: string }[] = [];
   trajectories.forEach((step, index) => {
-    const record = asRecord(step);
+    const record = (step);
     // A proposal, rejected action, or a completion label is not an external
     // observation.  Retain only Router records that actually executed a
     // bounded read; otherwise call counts and model narration could certify
     // investigation that never happened.
     if (record?.stepOutcome !== "EXECUTED") return;
-    const action = asRecord(record.agentAction) ?? asRecord(record.action);
+    const action = (record.agentAction) ?? (record.action);
     const actionType = asString(action?.type);
     if (actionType !== "CHECK_AVAILABILITY" && actionType !== "INVESTIGATE_CANDIDATE_FACTS") return;
-    const metadata = asRecord(asRecord(step)?.executionMetadata); if (!metadata) return;
-    const context = asRecord(asRecord(step)?.decisionContext)?.intent ?? asRecord(asRecord(step)?.decisionContext)?.intentDraft;
+    const metadata = ((step)?.executionMetadata); if (!metadata) return;
+    const context = ((step)?.decisionContext)?.intent ?? ((step)?.decisionContext)?.intentDraft;
     // State hashes advance after unrelated candidate/presentation changes; only an
     // authoritative request change makes the same candidate a distinct read.
-    const version = context ? JSON.stringify(context) : asString(asRecord(step)?.stateHashBefore) ?? "REQUEST_VERSION_UNRECORDED";
+    const version = context ? JSON.stringify(context) : asString((step)?.stateHashBefore) ?? "REQUEST_VERSION_UNRECORDED";
     const recordedReason = asString(metadata.recheckReason);
     const recheckReason = recordedReason === "USER_REQUESTED_REFRESH" || recordedReason === "DISPLAY_EVIDENCE_EXPIRED"
       ? recordedReason
@@ -376,22 +370,22 @@ interface ExecutedObservation {
  * emitted by an actually executed observation for the same candidate and the
  * final applicable request.
  */
-function executedObservations(trajectories: unknown[], request: RequestShape): ExecutedObservation[] | undefined {
+function executedObservations(trajectories: TrajectoryRecord[], request: RequestShape): ExecutedObservation[] | undefined {
   if (!Array.isArray(trajectories)) return undefined;
   return trajectories.flatMap((step, index) => {
-    const record = asRecord(step);
-    const observation = asRecord(record?.observation);
+    const record = (step);
+    const observation = (record?.observation);
     const failedFactRead = record?.stepOutcome === "EXECUTION_FAILURE"
-      && asRecord(record.agentAction)?.type === "INVESTIGATE_CANDIDATE_FACTS"
+      && (record.agentAction)?.type === "INVESTIGATE_CANDIDATE_FACTS"
       && observation?.type === "CANDIDATE_FACTS_UNKNOWN"
-      && asRecord(record.actionValidation)?.status === "ALLOWED"
-      && asString(asRecord(record.executionMetadata)?.failureCode) !== undefined;
+      && (record.actionValidation)?.status === "ALLOWED"
+      && asString((record.executionMetadata)?.failureCode) !== undefined;
     // A routed action that completes the read changes the coordinator result
     // to TERMINAL after the Router event is durably accepted.  It remains an
     // executed observation, not an unexecuted proposal.
     if (record?.stepOutcome !== "EXECUTED" && record?.stepOutcome !== "TERMINAL" && !failedFactRead) return [];
-    const context = asRecord(record.decisionContext);
-    const intent = asRecord(context?.intentDraft) ?? asRecord(context?.intent);
+    const context = (record.decisionContext);
+    const intent = (context?.intentDraft) ?? (context?.intent);
     if (!observation || !intent) return [];
     const observedRequest = requestFromFinalIntent(intent);
     // SOFT wording is reviewed separately under AUTHORITATIVE_CONDITIONS.
@@ -402,13 +396,13 @@ function executedObservations(trajectories: unknown[], request: RequestShape): E
       candidateIds: strings(observation.candidateIds),
       evidenceIds: failedFactRead ? [] : strings(observation.evidenceIds),
       applicableRequest,
-      actionType: asString(asRecord(record.agentAction)?.type),
+      actionType: asString((record.agentAction)?.type),
       factSources: asArray(observation.factSourceAttempts).flatMap(value => {
-        const attempt = asRecord(value);
+        const attempt = (value);
         const candidateId = asString(attempt?.candidateId); const source = asString(attempt?.source);
         return candidateId && source ? [{ candidateId, source }] : [];
       }),
-      refresh: asRecord(record.executionMetadata)?.recheckReason === "USER_REQUESTED_REFRESH",
+      refresh: (record.executionMetadata)?.recheckReason === "USER_REQUESTED_REFRESH",
       ref: ref(`trajectories[${index}].observation`),
     }];
   });
@@ -426,39 +420,39 @@ interface RawTableCheckAssessment {
  * establish the current result.  A trace can do so only when one captured
  * post-query snapshot binds the requested date and party to an enabled slot.
  */
-function tableCheckTraceGroups(root: JsonRecord): JsonRecord[][] {
-  return [asRecord(root.diagnostics)?.browserTrace, asRecord(root.sourceTrace)?.browserTrace]
+function tableCheckTraceGroups(root: RunRecord): TraceRecord[][] {
+  return [(root.diagnostics)?.browserTrace, (root.sourceTrace)?.browserTrace]
     .map(asArray)
-    .map(items => items.map(asRecord).filter((item): item is JsonRecord => Boolean(item)))
+    .map(items => items.filter((item) => Boolean(item)))
     .filter(items => items.length > 0);
 }
-function traceSequence(entry: JsonRecord): number | undefined { const value = asNumber(entry.sequence); return value !== undefined && Number.isInteger(value) && value > 0 ? value : undefined; }
-function traceControlsForSnapshot(trace: JsonRecord[], sequence: number): JsonRecord[] | undefined {
-  const controls = trace.filter(entry => entry.kind === "CONTROLS" && asNumber(asRecord(entry.detail)?.snapshotSequence) === sequence);
+function traceSequence(entry: TraceRecord): number | undefined { const value = asNumber(entry.sequence); return value !== undefined && Number.isInteger(value) && value > 0 ? value : undefined; }
+function traceControlsForSnapshot(trace: TraceRecord[], sequence: number): ControlRecord[] | undefined {
+  const controls = trace.filter(entry => entry.kind === "CONTROLS" && asNumber((entry.detail)?.snapshotSequence) === sequence);
   const latest = controls.at(-1);
-  return latest ? asArray(asRecord(latest.detail)?.controls).map(asRecord).filter((item): item is JsonRecord => Boolean(item)) : undefined;
+  return latest ? asArray((latest.detail)?.controls).filter((item) => Boolean(item)) : undefined;
 }
-function traceControlField(control: JsonRecord): string {
-  const structure = asRecord(control.structure);
+function traceControlField(control: ControlRecord): string {
+  const structure = (control.structure);
   return normalized(asString(structure?.name) ?? asString(control.name) ?? asString(control.label));
 }
-function traceControlValues(control: JsonRecord): string[] {
+function traceControlValues(control: ControlRecord): string[] {
   const own = asString(control.value);
-  const selected = asArray(control.options).map(asRecord).filter((item): item is JsonRecord => Boolean(item?.selected))
+  const selected = asArray(control.options).filter((item) => Boolean(item?.selected))
     .flatMap(item => [asString(item.value), asString(item.label)]).filter((item): item is string => Boolean(item));
   return [...new Set([own, ...selected].filter((item): item is string => Boolean(item)))];
 }
 interface TraceServiceScope { field: string; group: string; value: string; }
-function traceServiceScope(value: unknown): TraceServiceScope | undefined {
-  const scope = asRecord(value);
+function traceServiceScope(value: ServiceScopeRecord | undefined): TraceServiceScope | undefined {
+  const scope = (value);
   const field = asString(scope?.field); const group = asString(scope?.group); const selected = asString(scope?.value);
   return field && group && selected ? { field, group, value: selected } : undefined;
 }
 function sameTraceServiceScope(left: TraceServiceScope | undefined, right: TraceServiceScope | undefined): boolean {
   return left !== undefined && right !== undefined && left.field === right.field && left.group === right.group && left.value === right.value;
 }
-function evidenceServiceScope(item: JsonRecord): TraceServiceScope | undefined {
-  const claims = asRecord(item.claims);
+function evidenceServiceScope(item: EvidenceRecord): TraceServiceScope | undefined {
+  const claims = (item.claims);
   const field = asString(claims?.serviceScopeField); const group = asString(claims?.serviceScopeGroup); const value = asString(claims?.serviceScopeValue);
   return field && group && value ? { field, group, value } : undefined;
 }
@@ -468,10 +462,10 @@ function evidenceServiceScope(item: JsonRecord): TraceServiceScope | undefined {
  * carry the same source-observed service range.  This mirrors the Domain's
  * fail-closed read assessment without using its eligibility result as oracle.
  */
-function factSupportsServiceScope(fact: JsonRecord, expected: TraceServiceScope, facts: readonly JsonRecord[]): boolean {
+function factSupportsServiceScope(fact: EvidenceRecord, expected: TraceServiceScope, facts: readonly EvidenceRecord[]): boolean {
   if (!sameTraceServiceScope(evidenceServiceScope(fact), expected)) return false;
   if (fact.provider !== "MODEL_JUDGMENT") return true;
-  const citations = strings(asRecord(fact.claims)?.supportingEvidenceIds);
+  const citations = strings((fact.claims)?.supportingEvidenceIds);
   if (!citations.length) return false;
   return citations.every((id) => {
     const source = facts.find((item) => asString(item.evidenceId) === id);
@@ -479,23 +473,23 @@ function factSupportsServiceScope(fact: JsonRecord, expected: TraceServiceScope,
       && sameTraceServiceScope(evidenceServiceScope(source), expected);
   });
 }
-function rawSelectedServiceScope(controls: readonly JsonRecord[], expected: TraceServiceScope): { state: "MATCH" | "CONFLICT" | "INCOMPLETE"; scope?: TraceServiceScope } {
+function rawSelectedServiceScope(controls: readonly ControlRecord[], expected: TraceServiceScope): { state: "MATCH" | "CONFLICT" | "INCOMPLETE"; scope?: TraceServiceScope } {
   const checked = controls.filter(control => control.kind === "RADIO" && control.checked === true
     && traceControlField(control) === normalized(expected.field)
-    && asString(asRecord(control.structure)?.radioGroupKey) === expected.group);
+    && asString((control.structure)?.radioGroupKey) === expected.group);
   if (!checked.length) return { state: "INCOMPLETE" };
   const scopes = checked.flatMap(control => {
-    const structure = asRecord(control.structure);
+    const structure = (control.structure);
     const field = asString(structure?.name); const group = asString(structure?.radioGroupKey); const value = asString(control.value);
     return field && group && value ? [{ field, group, value }] : [];
   });
   if (scopes.length !== checked.length || scopes.length !== 1) return { state: "CONFLICT" };
   return { state: "MATCH", scope: scopes[0]! };
 }
-function traceRegionSlots(detail: JsonRecord, request: RequestShape, sourceEntityId: unknown, serviceScopeValue?: string): Array<{ time: string; disabled: boolean; serviceScopeValue?: string }> {
+function traceRegionSlots(detail: TraceDetailRecord, request: RequestShape, sourceEntityId: unknown, serviceScopeValue?: string): Array<{ time: string; disabled: boolean; serviceScopeValue?: string }> {
   const slots: Array<{ time: string; disabled: boolean; serviceScopeValue?: string }> = [];
   const allowedWindow = request.permittedAlternativeTimeWindow ?? request.timeWindow;
-  for (const region of asArray(detail.queryRegions).map(asRecord).filter((item): item is JsonRecord => Boolean(item))) {
+  for (const region of asArray(detail.queryRegions).filter((item) => Boolean(item))) {
     if (region.truncated === true || region.ancestorMarkupHidden === true) continue;
     const markup = visibleQueryMarkup(asString(region.markup) ?? "");
     for (const match of markup.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/gi)) {
@@ -541,8 +535,8 @@ function visibleQueryMarkup(markup: string): string {
     return visible;
   }).join("") + markup.slice(cursor);
 }
-function traceExplicitEmpty(detail: JsonRecord, request: RequestShape): boolean {
-  return asArray(detail.queryRegions).map(asRecord).filter((item): item is JsonRecord => Boolean(item)).some(region => {
+function traceExplicitEmpty(detail: TraceDetailRecord, request: RequestShape): boolean {
+  return asArray(detail.queryRegions).filter((item) => Boolean(item)).some(region => {
     if (region.truncated === true || region.ancestorMarkupHidden === true) return false;
     const markup = visibleQueryMarkup(asString(region.markup) ?? "");
     return markup.includes(`data-reservation-empty-date="${request.date}"`) && markup.includes(`data-reservation-empty-party="${request.partySize}"`);
@@ -560,11 +554,11 @@ function traceSourceMatches(url: unknown, sourceEntityId: unknown): boolean {
     return Boolean(slug && (parts[0] === slug || (parts[0] === "shops" && parts[1] === slug)));
   } catch { return false; }
 }
-function traceReadOwners(trace: JsonRecord[]): Map<number, { stage: string; candidateId: string }> {
+function traceReadOwners(trace: TraceRecord[]): Map<number, { stage: string; candidateId: string }> {
   const owners = new Map<number, { stage: string; candidateId: string }>();
   let current: { stage: string; candidateId: string } | undefined;
   for (const entry of trace) {
-    const detail = asRecord(entry.detail) ?? {};
+    const detail = (entry.detail) ?? {};
     if (entry.kind === "SESSION_OPENED") current = undefined;
     const stage = asString(detail.stage); const candidateId = asString(detail.candidateId);
     if ((entry.kind === "EXECUTOR_DIAGNOSTIC" || entry.kind === "SNAPSHOT") && stage && candidateId) current = { stage, candidateId };
@@ -573,7 +567,7 @@ function traceReadOwners(trace: JsonRecord[]): Map<number, { stage: string; cand
   }
   return owners;
 }
-function rawTableCheckCurrentResult(root: JsonRecord, request: RequestShape, evidence: JsonRecord[], expected: "AVAILABLE" | "EMPTY", presentedTimes: string[] = [], expectedScope?: TraceServiceScope): RawTableCheckAssessment | undefined {
+function rawTableCheckCurrentResult(root: RunRecord, request: RequestShape, evidence: EvidenceRecord[], expected: "AVAILABLE" | "EMPTY", presentedTimes: string[] = [], expectedScope?: TraceServiceScope): RawTableCheckAssessment | undefined {
   const anyTableCheckEvidence = evidence.filter(item => item.provider === "TABLECHECK" && item.kind === "AVAILABILITY");
   if (!anyTableCheckEvidence.length) return undefined;
   const tableCheckEvidence = anyTableCheckEvidence.filter(item => asString(item.sourceEntityId));
@@ -590,7 +584,7 @@ function rawTableCheckCurrentResult(root: JsonRecord, request: RequestShape, evi
     const owners = traceReadOwners(ordered);
     for (const entry of ordered) {
       if (entry.kind !== "SNAPSHOT") continue;
-      const sequence = traceSequence(entry)!; const detail = asRecord(entry.detail) ?? {};
+      const sequence = traceSequence(entry)!; const detail = (entry.detail) ?? {};
       const owner = owners.get(sequence);
       const snapshotAt = Date.parse(asString(entry.at) ?? "");
       const source = tableCheckEvidence.find(item => owner?.stage === "AVAILABILITY" && owner.candidateId === item.candidateId
@@ -615,7 +609,7 @@ function rawTableCheckCurrentResult(root: JsonRecord, request: RequestShape, evi
       // production Offer/availability claim may not silently downgrade it to
       // the legacy path.
       if (expectedScope === undefined && slots.some(slot => slot.serviceScopeValue !== undefined)) state = "CONFLICT";
-      const regions = asArray(detail.queryRegions).map(asRecord).filter((item): item is JsonRecord => Boolean(item));
+      const regions = asArray(detail.queryRegions).filter((item) => Boolean(item));
       const loading = regions.some(region => region.truncated === true || /\bloading\b/i.test(asString(region.markup) ?? ""));
       const relevantSlots = presentedTimes.length ? slots.filter(slot => presentedTimes.includes(slot.time)) : slots;
       const sameSlotConflict = relevantSlots.some(slot => slot.disabled) && relevantSlots.some(slot => !slot.disabled && relevantSlots.some(other => other.time === slot.time && other.disabled));
@@ -642,7 +636,7 @@ function rawTableCheckCurrentResult(root: JsonRecord, request: RequestShape, evi
     })
     .some(entry => {
       if (entry.kind !== "SESSION_CALL") return false;
-      const detail = asRecord(entry.detail) ?? {}; const method = asString(detail.method) ?? ""; const args = asArray(detail.args);
+      const detail = (entry.detail) ?? {}; const method = asString(detail.method) ?? ""; const args = asArray(detail.args);
       if (method === "navigate" || method === "openLink") {
         const target = method === "navigate" ? args[0] : args[1];
         const returnsToLatestSource = tableCheckEvidence.some(item => traceSourceMatches(target, item.sourceEntityId));
@@ -658,10 +652,10 @@ function rawTableCheckCurrentResult(root: JsonRecord, request: RequestShape, evi
   return { status: "SATISFIED", outcome: latest.outcome, observations: [`raw TableCheck snapshot sequence ${latest.sequence} reports ${latest.outcome} for the requested date, party size, and time.`], refs: [latest.ref] };
 }
 
-function assessPresentedCandidate(candidateId: string, root: JsonRecord, domain: JsonRecord, request: RequestShape, presentedEvidenceIds: Set<string>, presentedAt: unknown, observationsByCandidate: Set<string> | undefined, executedReads?: ExecutedObservation[]): { status: DiagnosticEvaluationStatus; observations: string[]; refs: string[]; rawTableCheck?: RawTableCheckAssessment } {
-  const checks = asRecord(domain.availabilityChecks) ?? {}; const availability = asRecord(domain.availability) ?? {};
-  const allEvidence = asArray(domain.readEvidence).map(asRecord).filter((item): item is JsonRecord => Boolean(item)); const check = asRecord(checks[candidateId]);
-  const offers = asArray(availability[candidateId]).map(asRecord).filter((item): item is JsonRecord => Boolean(item));
+function assessPresentedCandidate(candidateId: string, root: RunRecord, domain: DomainRecord, request: RequestShape, presentedEvidenceIds: Set<string>, presentedAt: unknown, observationsByCandidate: Set<string> | undefined, executedReads?: ExecutedObservation[]): { status: DiagnosticEvaluationStatus; observations: string[]; refs: string[]; rawTableCheck?: RawTableCheckAssessment } {
+  const checks = (domain.availabilityChecks) ?? {}; const availability = (domain.availability) ?? {};
+  const allEvidence = asArray(domain.readEvidence).filter((item) => Boolean(item)); const check = (checks[candidateId]);
+  const offers = asArray(availability[candidateId]).filter((item) => Boolean(item));
   const listedEvidence = allEvidence.filter((item) => item.candidateId === candidateId && presentedEvidenceIds.has(asString(item.evidenceId) ?? ""));
   const requiredRefs = strings(check?.evidenceIds); const observations: string[] = []; const refs: string[] = []; const missing: string[] = []; const conflicts: string[] = [];
   const candidateReads = executedReads?.filter(read => read.applicableRequest && read.candidateIds.includes(candidateId)) ?? [];
@@ -712,15 +706,15 @@ function assessPresentedCandidate(candidateId: string, root: JsonRecord, domain:
       missing.push(`refresh source scope for cited fact ${id}`);
     }
   }
-  if (entity.length === 0) missing.push("HIGH entity evidence"); if (entity.some((item) => asRecord(item.entityMatch)?.confidence !== "HIGH")) conflicts.push("entity confidence is not HIGH");
-  const identities = entity.filter((item) => asRecord(item.entityMatch)?.confidence === "HIGH");
+  if (entity.length === 0) missing.push("HIGH entity evidence"); if (entity.some((item) => (item.entityMatch)?.confidence !== "HIGH")) conflicts.push("entity confidence is not HIGH");
+  const identities = entity.filter((item) => (item.entityMatch)?.confidence === "HIGH");
   if (identities.some((item) => !asString(item.provider) || !asString(item.sourceEntityId))) missing.push("entity source association");
   for (const item of [...facts.filter((fact) => fact.provider !== "MODEL_JUDGMENT"), ...availabilityEvidence]) {
     const associated = identities.some((identity) => item.provider === identity.provider && item.sourceEntityId === identity.sourceEntityId);
     if (!associated) conflicts.push(`grounding evidence ${asString(item.evidenceId) ?? "unknown"} is not associated with an identity source`);
   }
   for (const item of facts.filter((fact) => fact.provider === "MODEL_JUDGMENT")) {
-    const citations = strings(asRecord(item.claims)?.supportingEvidenceIds);
+    const citations = strings((item.claims)?.supportingEvidenceIds);
     const citedSources = citations.map((id) => listedEvidence.find((evidence) => evidence.evidenceId === id));
     if (!citations.length || citedSources.some((source) => !source || source.candidateId !== candidateId || source.kind !== "RESTAURANT_FACT" || source.provider === "MODEL_JUDGMENT")) {
       conflicts.push(`derived fact ${asString(item.evidenceId) ?? "unknown"} lacks a candidate-bound raw support chain`);
@@ -732,32 +726,32 @@ function assessPresentedCandidate(candidateId: string, root: JsonRecord, domain:
     }
   }
   if (discovery.length === 0) missing.push("area discovery evidence"); else if (!discovery.some((item) => {
-    const claims = asRecord(item.claims) ?? {};
+    const claims = (item.claims) ?? {};
     if (claims.areaMatch !== true) return false;
     if (request.location?.relation === "NEAR_USER") return claims.areaMatchBasis === "TASK_LOCATION_RADIUS" || claims.areaMatchBasis === "EVALUATION_LOCATION_RADIUS";
     return normalizedArea(asString(claims.areaQuery)) === normalizedArea(request.location?.value);
   })) conflicts.push("cited discovery evidence does not establish the requested area");
   const positiveHard = request.criteria.filter((criterion) => criterion.endsWith("|POSITIVE|HARD")).map((criterion) => criterion.split("|")[0]!);
-  for (const hardCriterion of positiveHard) if (!facts.some((item) => strings(asRecord(item.claims)?.verifiedHardCriteria).some((value) => normalized(value) === hardCriterion))) missing.push(`HARD criterion ${hardCriterion}`);
+  for (const hardCriterion of positiveHard) if (!facts.some((item) => strings((item.claims)?.verifiedHardCriteria).some((value) => normalized(value) === hardCriterion))) missing.push(`HARD criterion ${hardCriterion}`);
   const negativeHard = request.criteria.filter((criterion) => criterion.endsWith("|NEGATIVE|HARD")).map((criterion) => criterion.split("|")[0]!);
   for (const hardCriterion of negativeHard) {
-    if (facts.some((item) => strings(asRecord(item.claims)?.violatedNegativeCriteria).some((value) => normalized(value) === hardCriterion))) {
+    if (facts.some((item) => strings((item.claims)?.violatedNegativeCriteria).some((value) => normalized(value) === hardCriterion))) {
       conflicts.push(`negative HARD criterion ${hardCriterion} is violated by cited source fact`);
-    } else if (!facts.some((item) => strings(asRecord(item.claims)?.verifiedNegativeCriteria).some((value) => normalized(value) === hardCriterion))) {
+    } else if (!facts.some((item) => strings((item.claims)?.verifiedNegativeCriteria).some((value) => normalized(value) === hardCriterion))) {
       const categoryUnknown = facts.some((item) => item.provider === "MODEL_JUDGMENT"
-        && strings(asRecord(item.claims)?.supportingEvidenceIds).length > 0
-        && strings(asRecord(item.claims)?.supportingEvidenceIds).every((id) => facts.some((source) => source.provider !== "MODEL_JUDGMENT" && source.evidenceId === id && strings(asRecord(source.claims)?.restaurantTypeFacts).some((value) => value.trim().length > 0)))
-        && strings(asRecord(item.claims)?.categoryUnknownNegativeCriteria).some((value) => normalized(value) === hardCriterion));
+        && strings((item.claims)?.supportingEvidenceIds).length > 0
+        && strings((item.claims)?.supportingEvidenceIds).every((id) => facts.some((source) => source.provider !== "MODEL_JUDGMENT" && source.evidenceId === id && strings((source.claims)?.restaurantTypeFacts).some((value) => value.trim().length > 0)))
+        && strings((item.claims)?.categoryUnknownNegativeCriteria).some((value) => normalized(value) === hardCriterion));
       if (!categoryUnknown) missing.push(`negative HARD criterion ${hardCriterion}`);
     }
   }
   if (factOnly) {
     const applicableHours = request.date && request.timeWindow ? facts.filter((item) => {
-      const claims = asRecord(item.claims) ?? {};
+      const claims = (item.claims) ?? {};
       if (claims.openingHoursMatch !== true) return false;
       const sourceHours = strings(claims.regularOpeningHours);
       if (!sourceHours.length) { missing.push("raw opening-hours source fact"); return false; }
-      const timezone = asString(asRecord(domain.intentDraft)?.timezone);
+      const timezone = asString((domain.intentDraft)?.timezone);
       if (!timezone) { missing.push("request timezone"); return false; }
       const independentlyApplicable = openingHoursForRequest(sourceHours, request.date, request.timeWindow, timezone);
       if (independentlyApplicable?.matches !== true) { conflicts.push("opening-hours conclusion conflicts with cited source hours"); return false; }
@@ -774,7 +768,7 @@ function assessPresentedCandidate(candidateId: string, root: JsonRecord, domain:
     const allowedWindow = request.permittedAlternativeTimeWindow ?? request.timeWindow;
     if (availabilityEvidence.length === 0) missing.push("availability evidence");
     for (const item of availabilityEvidence) {
-      const claims = asRecord(item.claims) ?? {}; if (claims.date !== request.date) conflicts.push("availability evidence date conflicts with request"); if (claims.partySize !== request.partySize) conflicts.push("availability evidence party size conflicts with request");
+      const claims = (item.claims) ?? {}; if (claims.date !== request.date) conflicts.push("availability evidence date conflicts with request"); if (claims.partySize !== request.partySize) conflicts.push("availability evidence party size conflicts with request");
       const visibleSlots = asArray(claims.visibleSlots).map(parseTime).filter((slot): slot is string => Boolean(slot)); if (allowedWindow && !visibleSlots.some((slot) => slot >= allowedWindow.earliest && slot <= allowedWindow.latest)) conflicts.push("availability evidence has no slot in requested time window");
       const freshness = validDuringPresentation(item.observedAt, item.displayExpiresAt ?? item.expiresAt, presentedAt); if (freshness === "MISSING") missing.push("availability evidence observation/display freshness"); if (freshness === "INVALID") conflicts.push("availability evidence display-freshness ordering is invalid"); if (freshness === "FUTURE_OBSERVATION") conflicts.push("availability evidence was observed after presentation"); if (freshness === "EXPIRED") conflicts.push("availability evidence was expired when presented");
     }
@@ -786,24 +780,24 @@ function assessPresentedCandidate(candidateId: string, root: JsonRecord, domain:
       if (!isAlternative && offer.alternativeToRequestedTime === true) conflicts.push("requested-time offer is incorrectly labelled as an alternative");
       const matchingAvailabilityEvidence = availabilityEvidence.filter((item) => item.provider === offer.source && identities.some((identity) => identity.provider === item.provider && identity.sourceEntityId === item.sourceEntityId));
       if (availabilityEvidence.length > 0 && matchingAvailabilityEvidence.length === 0) conflicts.push("offer source is not represented by cited availability evidence");
-      if (time && matchingAvailabilityEvidence.length > 0 && !matchingAvailabilityEvidence.some((item) => strings(asRecord(item.claims)?.visibleSlots).includes(time))) conflicts.push("offer time is not present in its cited availability evidence");
+      if (time && matchingAvailabilityEvidence.length > 0 && !matchingAvailabilityEvidence.some((item) => strings((item.claims)?.visibleSlots).includes(time))) conflicts.push("offer time is not present in its cited availability evidence");
       const offerScope = traceServiceScope(offer.serviceScope);
       if (offerScope && !matchingAvailabilityEvidence.some(item => sameTraceServiceScope(evidenceServiceScope(item), offerScope))) {
         conflicts.push("offer service scope is not present in its cited availability evidence");
       }
       if (offerScope) {
         for (const hardCriterion of positiveHard) {
-          const scopedSupport = facts.some((fact) => strings(asRecord(fact.claims)?.verifiedHardCriteria)
+          const scopedSupport = facts.some((fact) => strings((fact.claims)?.verifiedHardCriteria)
             .some((value) => normalized(value) === hardCriterion)
             && factSupportsServiceScope(fact, offerScope, facts));
           if (!scopedSupport) conflicts.push(`HARD criterion ${hardCriterion} lacks a scope-bound raw support chain for the presented offer`);
         }
         for (const hardCriterion of negativeHard) {
-          const scopedNegativeSupport = facts.some((fact) => strings(asRecord(fact.claims)?.verifiedNegativeCriteria)
+          const scopedNegativeSupport = facts.some((fact) => strings((fact.claims)?.verifiedNegativeCriteria)
             .some((value) => normalized(value) === hardCriterion)
             && factSupportsServiceScope(fact, offerScope, facts));
           const scopedCategoryUnknown = facts.some((fact) => fact.provider === "MODEL_JUDGMENT"
-            && strings(asRecord(fact.claims)?.categoryUnknownNegativeCriteria).some((value) => normalized(value) === hardCriterion)
+            && strings((fact.claims)?.categoryUnknownNegativeCriteria).some((value) => normalized(value) === hardCriterion)
             && factSupportsServiceScope(fact, offerScope, facts));
           if (!scopedNegativeSupport && !scopedCategoryUnknown) conflicts.push(`negative HARD criterion ${hardCriterion} lacks a scope-bound raw support chain for the presented offer`);
         }
@@ -829,30 +823,30 @@ function assessPresentedCandidate(candidateId: string, root: JsonRecord, domain:
  * discovery is verifiable. General investigation sufficiency is not yet
  * independently encoded by the artifact, so insufficient records stay unknown.
  */
-function assessNoResult(root: JsonRecord, domain: JsonRecord, request: RequestShape): {
+function assessNoResult(root: RunRecord, domain: DomainRecord, request: RequestShape): {
   status: DiagnosticEvaluationStatus; observations: string[]; refs: string[];
 } {
-  const record = asRecord(domain.noVerifiedResult);
+  const record = (domain.noVerifiedResult);
   const endedAt = record?.endedAt ?? root.finishedAt;
-  const evidence = asArray(domain.readEvidence).map(asRecord).filter((e): e is JsonRecord => Boolean(e));
-  const candidates = asArray(domain.candidates).map(asRecord).filter((c): c is JsonRecord => Boolean(c));
-  const ids = candidates.flatMap(c => asString(asRecord(c.restaurant)?.id) ? [asString(asRecord(c.restaurant)?.id)!] : []);
-  const factChecks = asRecord(domain.factChecks) ?? {};
-  const availabilityChecks = asRecord(domain.availabilityChecks) ?? {};
+  const evidence = asArray(domain.readEvidence).filter((e) => Boolean(e));
+  const candidates = asArray(domain.candidates).filter((c) => Boolean(c));
+  const ids = candidates.flatMap(c => asString((c.restaurant)?.id) ? [asString((c.restaurant)?.id)!] : []);
+  const factChecks = (domain.factChecks) ?? {};
+  const availabilityChecks = (domain.availabilityChecks) ?? {};
   const observations = executedObservations(asArray(root.trajectories), request);
-  const loopStatus = asString(asRecord(root.loop)?.status);
+  const loopStatus = asString((root.loop)?.status);
   if (loopStatus && loopStatus !== "TERMINAL") return { status: "NOT_SATISFIED", observations: [`No-result phase conflicts with loop status ${loopStatus}.`], refs: [ref("loop.status")] };
-  if ([...Object.keys(factChecks), ...Object.keys(availabilityChecks), ...Object.keys(asRecord(domain.availability) ?? {})].some(id => !ids.includes(id))) {
+  if ([...Object.keys(factChecks), ...Object.keys(availabilityChecks), ...Object.keys((domain.availability) ?? {})].some(id => !ids.includes(id))) {
     return { status: "NOT_SATISFIED", observations: ["Current candidate checks/offers fall outside the declared candidate pool."], refs: [ref("finalSnapshot.domainState.candidates"), ref("finalSnapshot.domainState.availabilityChecks")] };
   }
   const unsupportedUnavailable = ids.filter((id) => {
-    const check = asRecord(availabilityChecks[id]);
+    const check = (availabilityChecks[id]);
     if (check?.status !== "UNAVAILABLE") return false;
     const evidenceIds = new Set(strings(check.evidenceIds));
     const currentEvidence = evidence.filter((item) => item.candidateId === id && item.kind === "AVAILABILITY" && evidenceIds.has(asString(item.evidenceId) ?? ""));
     if (currentEvidence.some(item => item.provider === "TABLECHECK")) return false;
     return !currentEvidence.some((item) => {
-      const claims = asRecord(item.claims) ?? {};
+      const claims = (item.claims) ?? {};
       // A visible empty booking result is source evidence only for this exact
       // request.  It cannot be borrowed from another date/party, nor can an
       // arbitrary AVAILABILITY record be relabelled as a no-slot result.
@@ -863,7 +857,7 @@ function assessNoResult(root: JsonRecord, domain: JsonRecord, request: RequestSh
     return { status: "NOT_SATISFIED", observations: [`Unsupported explicit no-availability conclusion for ${unsupportedUnavailable.join(", ")}: a candidate-bound, current-request inventory-negative source record is required.`], refs: [ref("finalSnapshot.domainState.availabilityChecks"), ref("finalSnapshot.domainState.readEvidence")] };
   }
   const rawUnavailable = ids.flatMap((id) => {
-    const check = asRecord(availabilityChecks[id]);
+    const check = (availabilityChecks[id]);
     if (check?.status !== "UNAVAILABLE") return [];
     const evidenceIds = new Set(strings(check.evidenceIds));
     const currentTableCheck = evidence.filter(item => item.candidateId === id && item.kind === "AVAILABILITY" && item.provider === "TABLECHECK" && evidenceIds.has(asString(item.evidenceId) ?? ""));
@@ -874,8 +868,8 @@ function assessNoResult(root: JsonRecord, domain: JsonRecord, request: RequestSh
   const incompleteUnavailable = rawUnavailable.filter(item => item.assessment.status === "NOT_EVALUATED");
   if (incompleteUnavailable.length) return { status: "NOT_EVALUATED", observations: incompleteUnavailable.flatMap(item => item.assessment.observations), refs: incompleteUnavailable.flatMap(item => item.assessment.refs) };
   const qualified = ids.filter(id => {
-    const factCheck = asRecord(factChecks[id]);
-    const availabilityCheck = asRecord(availabilityChecks[id]);
+    const factCheck = (factChecks[id]);
+    const availabilityCheck = (availabilityChecks[id]);
     // Select references from current checks, not from production provider labels
     // or the complete historical fact list. Historical identity/discovery records
     // can associate these references but cannot resurrect an old restaurant fact.
@@ -898,16 +892,16 @@ function assessNoResult(root: JsonRecord, domain: JsonRecord, request: RequestSh
   if (!loopStatus) return unknown("The execution loop status is missing.");
   const scopeIds = record.investigatedCandidateIds;
   const unresolvedIds = record.unresolvedCandidateIds;
-  const steps = root.trajectories.map(asRecord).filter((step): step is JsonRecord => Boolean(step));
+  const steps = root.trajectories.filter((step) => Boolean(step));
   const currentSteps = steps.filter(step => {
     if ((step.stepOutcome !== "EXECUTED" && step.stepOutcome !== "TERMINAL") || observedOnOrBeforePresentation(step.occurredAt, record.endedAt) !== "VALID") return false;
-    const context = asRecord(step.decisionContext);
-    const intent = asRecord(context?.intentDraft) ?? asRecord(context?.intent);
+    const context = (step.decisionContext);
+    const intent = (context?.intentDraft) ?? (context?.intent);
     if (!intent) return false;
     const observedRequest = requestFromFinalIntent(intent);
     return !observedRequest.missing.length && !observationRequestMismatches(request, observedRequest).length;
   });
-  const structured = asRecord(record.termination);
+  const structured = (record.termination);
   if (structured?.initiator === "SYSTEM") {
     const invalid = (detail: string) => ({ status: "NOT_SATISFIED" as const, observations: [detail], refs: [ref("trajectories"), ref("events"), ref("finalSnapshot.domainState.noVerifiedResult")] });
     if (!["TIMEOUT", "STEP_LIMIT", "REJECTION_LIMIT", "NO_PROGRESS"].includes(asString(structured.type) ?? "")
@@ -916,71 +910,71 @@ function assessNoResult(root: JsonRecord, domain: JsonRecord, request: RequestSh
     // A system stop has no Agent END_READ action. Tie its observation to the
     // persisted system event and final version instead of inventing that action.
     const end = steps.find(step => step.stepOutcome === "TERMINAL"
-      && asRecord(step.observation)?.type === "READ_ENDED" && !step.agentAction
+      && (step.observation)?.type === "READ_ENDED" && !step.agentAction
       && observedOnOrBeforePresentation(step.occurredAt, record.endedAt) === "VALID"
-      && step.stateVersionAfter === asRecord(root.finalSnapshot)?.version);
+      && step.stateVersionAfter === (root.finalSnapshot)?.version);
     const equal = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b);
     const sameIds = (a: unknown, b: string[]) => validIds(a) && [...a].sort().join("\n") === [...b].sort().join("\n");
-    const endObservation = asRecord(end?.observation);
-    const event = asArray(root.events).map(asRecord).find(entry => {
-      const data = asRecord(entry?.event);
+    const endObservation = (end?.observation);
+    const event = asArray(root.events).find(entry => {
+      const data = (entry?.event);
       return data?.type === "AGENT_LOOP_TERMINATED" && data.termination === structured.type
         && data.reasonCode === structured.reasonCode && entry?.occurredAt === record.endedAt
-        && asRecord(entry?.trace)?.actor === "SYSTEM";
+        && (entry?.trace)?.actor === "SYSTEM";
     });
     if (!endObservation || !event || !equal(endObservation.termination, structured)
       || !sameIds(endObservation.candidateIds, scopeIds) || !sameIds(endObservation.unresolvedCandidateIds, unresolvedIds))
       return invalid("Structured ending differs from its actual system event, final version, or READ_ENDED observation.");
-    const discovered = new Set(currentSteps.filter(step => asRecord(step.agentAction)?.type === "SEARCH_RESTAURANTS"
-      && asRecord(step.observation)?.type === "DISCOVERY" && asString(asRecord(step.executionMetadata)?.provider)
-      && !asRecord(step.executionMetadata)?.failureCode).flatMap(step => strings(asRecord(step.observation)?.candidateIds)));
+    const discovered = new Set(currentSteps.filter(step => (step.agentAction)?.type === "SEARCH_RESTAURANTS"
+      && (step.observation)?.type === "DISCOVERY" && asString((step.executionMetadata)?.provider)
+      && !(step.executionMetadata)?.failureCode).flatMap(step => strings((step.observation)?.candidateIds)));
     const readIds = new Set(currentSteps.filter(step => {
-      const action = asRecord(step.agentAction)?.type, observation = asRecord(step.observation)?.type;
+      const action = (step.agentAction)?.type, observation = (step.observation)?.type;
       return action === "CHECK_AVAILABILITY" && ["AVAILABILITY", "AVAILABILITY_UNKNOWN"].includes(asString(observation) ?? "")
         || action === "INVESTIGATE_CANDIDATE_FACTS" && ["CANDIDATE_FACTS", "CANDIDATE_FACTS_UNKNOWN"].includes(asString(observation) ?? "");
-    }).flatMap(step => strings(asRecord(step.observation)?.candidateIds).filter(id => strings(asRecord(step.agentAction)?.candidateIds).includes(id))));
+    }).flatMap(step => strings((step.observation)?.candidateIds).filter(id => strings((step.agentAction)?.candidateIds).includes(id))));
     const gapFor = (id: string) => {
-      const name = asString(asRecord(candidates.find(candidate => asRecord(candidate.restaurant)?.id === id)?.restaurant)?.outletName);
+      const name = asString((candidates.find(candidate => (candidate.restaurant)?.id === id)?.restaurant)?.outletName);
       return (record.remainingGaps as string[]).find(gap => gap.startsWith(`${id}:`) || name && gap.startsWith(`${name}:`));
     };
     if (ids.some(id => !discovered.has(id)) || [...discovered].some(id => !ids.includes(id))
       || scopeIds.some(id => !ids.includes(id) || !readIds.has(id) || !gapFor(id))
       || unresolvedIds.some(id => !ids.includes(id))
-      || scopeIds.some(id => (!availabilityChecks[id] || asRecord(availabilityChecks[id])?.status === "UNKNOWN") && !unresolvedIds.includes(id))
+      || scopeIds.some(id => (!availabilityChecks[id] || (availabilityChecks[id])?.status === "UNKNOWN") && !unresolvedIds.includes(id))
       || ids.some(id => !scopeIds.includes(id) && !/NOT_CHECKED|not (?:yet )?(?:checked|read|investigated)|unread/i.test(gapFor(id) ?? "")))
       return invalid("Structured bounded ending omits a discovered candidate, executed investigation, unresolved member, or unread gap.");
     return { status: "SATISFIED", observations: [`System ${structured.type}/${structured.reasonCode} ended a bounded read with matching scope and explicit gaps. This does not establish source exhaustion or that every restaurant has no availability.`], refs: [ref("trajectories"), ref("events"), ref("finalSnapshot.domainState.noVerifiedResult")] };
   }
-  const discoveries = currentSteps.filter(step => asRecord(step.agentAction)?.type === "SEARCH_RESTAURANTS" &&
-    asRecord(step.observation)?.type === "DISCOVERY" && validIds(asRecord(step.observation)?.candidateIds) &&
-    asString(asRecord(step.executionMetadata)?.provider) && !asRecord(step.executionMetadata)?.failureCode);
+  const discoveries = currentSteps.filter(step => (step.agentAction)?.type === "SEARCH_RESTAURANTS" &&
+    (step.observation)?.type === "DISCOVERY" && validIds((step.observation)?.candidateIds) &&
+    asString((step.executionMetadata)?.provider) && !(step.executionMetadata)?.failureCode);
   if (!discoveries.length) return unknown("No executed source discovery with an applicable request and observed candidate scope is recorded.");
-  const discoveredIds = new Set(discoveries.flatMap(step => strings(asRecord(step.observation)?.candidateIds)));
+  const discoveredIds = new Set(discoveries.flatMap(step => strings((step.observation)?.candidateIds)));
   if (scopeIds.some(id => !ids.includes(id) || !discoveredIds.has(id)) || unresolvedIds.some(id => !ids.includes(id) || !discoveredIds.has(id)) ||
       ids.some(id => !discoveredIds.has(id)) || [...discoveredIds].some(id => !ids.includes(id))) {
     return { status: "NOT_SATISFIED", observations: ["Declared no-result scope contradicts executed discovery or candidate records."], refs: [ref("trajectories"), ref("finalSnapshot.domainState.noVerifiedResult")] };
   }
-  const end = currentSteps.find(step => asRecord(step.agentAction)?.type === "END_READ" && asRecord(step.observation)?.type === "READ_ENDED");
+  const end = currentSteps.find(step => (step.agentAction)?.type === "END_READ" && (step.observation)?.type === "READ_ENDED");
   if (!end) return unknown("No executed current-request END_READ observation is recorded.");
-  const endObservation = asRecord(end.observation)!;
+  const endObservation = (end.observation)!;
   const sameIds = (left: unknown, right: string[]) => validIds(left) && [...left].sort().join("\n") === [...right].sort().join("\n");
   if (!sameIds(endObservation.candidateIds, scopeIds) || !sameIds(endObservation.unresolvedCandidateIds, unresolvedIds)) {
     return { status: "NOT_SATISFIED", observations: ["Final no-result scope differs from its executed ending observation."], refs: [ref("trajectories"), ref("finalSnapshot.domainState.noVerifiedResult")] };
   }
   const readIds = new Set(currentSteps.filter(step => {
-    const action = asRecord(step.agentAction)?.type, observation = asRecord(step.observation)?.type;
+    const action = (step.agentAction)?.type, observation = (step.observation)?.type;
     return (action === "CHECK_AVAILABILITY" && (observation === "AVAILABILITY" || observation === "AVAILABILITY_UNKNOWN"))
       || (action === "INVESTIGATE_CANDIDATE_FACTS" && (observation === "CANDIDATE_FACTS" || observation === "CANDIDATE_FACTS_UNKNOWN"));
-  }).flatMap(step => strings(asRecord(step.observation)?.candidateIds).filter(id => strings(asRecord(step.agentAction)?.candidateIds).includes(id))));
-  const checks = asRecord(domain.availabilityChecks) ?? {};
+  }).flatMap(step => strings((step.observation)?.candidateIds).filter(id => strings((step.agentAction)?.candidateIds).includes(id))));
+  const checks = (domain.availabilityChecks) ?? {};
   const gaps = record.remainingGaps as string[];
   const gapFor = (id: string) => {
-    const name = asString(asRecord(candidates.find(candidate => asRecord(candidate.restaurant)?.id === id)?.restaurant)?.outletName);
+    const name = asString((candidates.find(candidate => (candidate.restaurant)?.id === id)?.restaurant)?.outletName);
     return gaps.find(gap => gap.startsWith(`${id}:`) || (name && gap.startsWith(`${name}:`)));
   };
   if (scopeIds.some(id => !readIds.has(id))
     || ids.some(id => scopeIds.includes(id) ? !gapFor(id) : !/NOT_CHECKED|not (?:yet )?(?:checked|read|investigated)|unread/i.test(gapFor(id) ?? ""))
-    || scopeIds.some(id => (asRecord(checks[id])?.status === "UNKNOWN" || !checks[id]) && !unresolvedIds.includes(id))) {
+    || scopeIds.some(id => ((checks[id])?.status === "UNKNOWN" || !checks[id]) && !unresolvedIds.includes(id))) {
     return { status: "NOT_SATISFIED", observations: ["Declared investigated/unread scope lacks an executed reading, a per-candidate reason, or its unresolved membership."], refs: [ref("trajectories"), ref("finalSnapshot.domainState.noVerifiedResult")] };
   }
   if (endObservation.remainingGaps !== undefined && (!Array.isArray(endObservation.remainingGaps)
@@ -995,10 +989,10 @@ function assessNoResult(root: JsonRecord, domain: JsonRecord, request: RequestSh
 
 /** Deterministically diagnoses an already-written artifact; it never calls a model or a provider. */
 export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceArtifact: { path: string; sha256: string }): RestaurantHybridDiagnosticEvaluation {
-  const root = asRecord(artifact) ?? {}; const domain = asRecord(getPath(root, ["finalSnapshot", "domainState"])) ?? {}; const materialized = asRecord(root.materializedCase) ?? {};
+  const { record: root, issues: readIssues } = readDiagnosticRun(artifact); const domain = (root.finalSnapshot?.domainState) ?? {}; const materialized = (root.materializedCase) ?? {};
   // `intentDraft` is the Restaurant runtime's final authoritative intent field; do not
   // substitute a trajectory snapshot when the final state failed to record it.
-  const finalAuthoritativeIntent = asRecord(domain.intentDraft);
+  const finalAuthoritativeIntent = (domain.intentDraft);
   const expected = requestFromMaterialized(materialized); const actual = finalAuthoritativeIntent ? requestFromFinalIntent(finalAuthoritativeIntent) : undefined;
   const conditionMismatchesList = actual ? coreConditionMismatches(expected, actual).filter((item) => !expected.missing.includes(item) && !actual.missing.includes(item)) : [];
   const criteriaComparison = actual ? compareCriteria(expected, actual) : { conflicts: [], unresolved: [] };
@@ -1007,10 +1001,10 @@ export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceAr
   // This prevents historical label abbreviations from fabricating a source
   // lineage failure, while a semantic conflict still blocks final acceptance.
   const groundingRequest = requestForGrounding(expected, actual);
-  const candidates = asArray(domain.candidates).map(asRecord).filter((item): item is JsonRecord => Boolean(item)); const checks = asRecord(domain.availabilityChecks) ?? {}; const availability = asRecord(domain.availability) ?? {}; const evidence = asArray(domain.readEvidence).map(asRecord).filter((item): item is JsonRecord => Boolean(item));
-  const trajectoriesValue = root.trajectories; const trajectories = asArray(trajectoriesValue); const presented = asRecord(domain.presentedResults); const presentedIds = strings(presented?.candidateIds); const citedIds = new Set(strings(presented?.evidenceIds)); const finalPhase = asString(domain.phase); const loopStatus = asString(getPath(root, ["loop", "status"])); const presentedAt = presented?.presentedAt ?? root.finishedAt;
-  const candidateSummaries: CandidateDiagnosticSummary[] = candidates.map((candidate) => { const restaurant = asRecord(candidate.restaurant) ?? {}; const candidateId = asString(restaurant.id) ?? "UNKNOWN_CANDIDATE"; const check = asRecord(checks[candidateId]); const attempts = providerAttemptsFromTrajectories(trajectories, candidateId); const candidateEvidence = evidence.filter((item) => item.candidateId === candidateId); const reasonCode = asString(check?.reasonCode); return { candidateId, outletName: asString(restaurant.outletName) ?? "Unknown outlet", providers: [...new Set(attempts.map((attempt) => attempt.provider))], providerAttempts: attempts, result: candidateResult(check, asArray(availability[candidateId]).length), ...(reasonCode ? { reasonCode } : {}), evidenceRefs: candidateEvidence.flatMap((item) => asString(item.evidenceId) ? [ref(`finalSnapshot.domainState.readEvidence[evidenceId=${asString(item.evidenceId)}]`)] : []) }; });
-  const executionRecord = asRecord(root.execution);
+  const candidates = asArray(domain.candidates).filter((item) => Boolean(item)); const checks = (domain.availabilityChecks) ?? {}; const availability = (domain.availability) ?? {}; const evidence = asArray(domain.readEvidence).filter((item) => Boolean(item));
+  const trajectoriesValue = root.trajectories; const trajectories = asArray(trajectoriesValue); const presented = (domain.presentedResults); const presentedIds = strings(presented?.candidateIds); const citedIds = new Set(strings(presented?.evidenceIds)); const finalPhase = asString(domain.phase); const loopStatus = asString(root.loop?.status); const presentedAt = presented?.presentedAt ?? root.finishedAt;
+  const candidateSummaries: CandidateDiagnosticSummary[] = candidates.map((candidate) => { const restaurant = (candidate.restaurant) ?? {}; const candidateId = asString(restaurant.id) ?? "UNKNOWN_CANDIDATE"; const check = (checks[candidateId]); const attempts = providerAttemptsFromTrajectories(trajectories, candidateId); const candidateEvidence = evidence.filter((item) => item.candidateId === candidateId); const reasonCode = asString(check?.reasonCode); return { candidateId, outletName: asString(restaurant.outletName) ?? "Unknown outlet", providers: [...new Set(attempts.map((attempt) => attempt.provider))], providerAttempts: attempts, result: candidateResult(check, asArray(availability[candidateId]).length), ...(reasonCode ? { reasonCode } : {}), evidenceRefs: candidateEvidence.flatMap((item) => asString(item.evidenceId) ? [ref(`finalSnapshot.domainState.readEvidence[evidenceId=${asString(item.evidenceId)}]`)] : []) }; });
+  const executionRecord = (root.execution);
   const executionFailureCode = asString(executionRecord?.failureCode) ?? asString(root.failureCode);
   const observations = Array.isArray(trajectoriesValue) ? executedObservations(trajectories, groundingRequest) : undefined;
   const candidateAssessments = presentedIds.map((candidateId) => {
@@ -1024,9 +1018,9 @@ export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceAr
   const duplicateVisits = visits ? visits.filter((visit, index) => !visit.recheckReason && visits.slice(0, index).some((other) => other.candidateId === visit.candidateId && other.actionType === visit.actionType && other.requestVersion === visit.requestVersion && !other.recheckReason)) : [];
   const presentedWithoutExecutedObservation = presentedIds.length > 0 && observations !== undefined
     && !observations.some((item) => item.applicableRequest && item.candidateIds.length > 0 && item.evidenceIds.length > 0);
-  const resourceUsage = asRecord(root.resourceUsage);
+  const resourceUsage = (root.resourceUsage);
   const currentRunner = root.runCeilings !== undefined;
-  const limits = currentRunner ? asRecord(root.runCeilings) : asRecord(root.limits);
+  const limits = currentRunner ? (root.runCeilings) : (root.limits);
   const recordedModelCalls = Array.isArray(root.modelInvocations) ? root.modelInvocations.length : undefined;
   const startedModelCalls = asNumber(resourceUsage?.modelCallsStarted);
   const requiredResourceFields = ["elapsedMs", "agentDecisions", "browserModelCalls"];
@@ -1044,16 +1038,19 @@ export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceAr
     return usedValue !== undefined && limitValue !== undefined && usedValue > limitValue ? [`${used}>${limit}`] : [];
   }) : [];
   if (currentRunner && limits && recordedModelCalls !== undefined && recordedModelCalls > (asNumber(limits.maxModelCalls) ?? Number.POSITIVE_INFINITY)) overLimit.push("modelInvocations>maxModelCalls");
-  const missingConditionRecords = [...expected.missing, ...(actual?.missing ?? []), ...(finalAuthoritativeIntent ? [] : ["final authoritative intentDraft"])];
+  const missingConditionRecords = [...expected.missing, ...(actual?.missing ?? []), ...(finalAuthoritativeIntent ? [] : ["finalSnapshot.domainState.intentDraft"]), ...readIssues.filter(issue => issue.path.startsWith("materializedCase.") || issue.path.startsWith("finalSnapshot.domainState.intentDraft")).map(issue => `${issue.reason}:${issue.path}`)];
   const resourcesStatus: DiagnosticEvaluationStatus = invalidResourceFields.length || invalidLimitFields.length || overLimit.length ? "NOT_SATISFIED" : !resourceUsage || missingResourceFields.length || !limits || missingLimitFields.length ? "NOT_EVALUATED" : "SATISFIED";
   const conditionsStatus: DiagnosticEvaluationStatus = missingConditionRecords.length ? "NOT_EVALUATED" : conditionMismatchesList.length || criteriaComparison.conflicts.length ? "NOT_SATISFIED" : criteriaComparison.unresolved.length ? "NOT_EVALUATED" : "SATISFIED";
   const rawTableCheckAssessments = candidateAssessments.flatMap(item => item.rawTableCheck ? [item.rawTableCheck] : []);
   const investigationStatus: DiagnosticEvaluationStatus = !observations ? "NOT_EVALUATED" : duplicateVisits.length || rawTableCheckAssessments.some(item => item.status === "NOT_SATISFIED") ? "NOT_SATISFIED" : rawTableCheckAssessments.some(item => item.status === "NOT_EVALUATED") ? "NOT_EVALUATED" : "SATISFIED";
   const claimStatus: DiagnosticEvaluationStatus = finalPhase !== "PRESENT_RESULTS" ? "NOT_EVALUATED" : loopStatus !== "TERMINAL" ? "NOT_SATISFIED" : conditionsStatus === "NOT_SATISFIED" || evidenceStatus === "NOT_SATISFIED" || investigationStatus === "NOT_SATISFIED" ? "NOT_SATISFIED" : conditionsStatus === "NOT_EVALUATED" || evidenceStatus === "NOT_EVALUATED" || investigationStatus === "NOT_EVALUATED" ? "NOT_EVALUATED" : "SATISFIED";
-  const completion = completionKind({ phase: finalPhase, loopStatus, failure: asRecord(domain.failure), executionStatus: asString(root.status), executionFailureCode });
-  const noResultRecord = asRecord(domain.noVerifiedResult);
-  const terminalSearchFailure = asString(asRecord(domain.searchContinuation)?.lastFailureCode);
-  const noResultAssessment = completion === "NO_VERIFIED_RESULT" ? assessNoResult(root, domain, groundingRequest) : undefined;
+  const completion = completionKind({ phase: finalPhase, loopStatus, failure: (domain.failure), executionStatus: asString(root.status), executionFailureCode });
+  const noResultRecord = (domain.noVerifiedResult);
+  const terminalSearchFailure = asString((domain.searchContinuation)?.lastFailureCode);
+  const missingScope = readIssues.filter(issue => /^(trajectories|finalSnapshot.domainState.(?:candidates|readEvidence))/.test(issue.path));
+  const noResultAssessment = completion === "NO_VERIFIED_RESULT" ? missingScope.length
+    ? { status: "NOT_EVALUATED" as const, observations: missingScope.map(issue => `${issue.reason}:${issue.path}`), refs: missingScope.map(issue => issue.path) }
+    : assessNoResult(root, domain, groundingRequest) : undefined;
   const noResultStatus: DiagnosticEvaluationStatus = !noResultAssessment ? "NOT_EVALUATED" : [conditionsStatus, investigationStatus, resourcesStatus, noResultAssessment.status].includes("NOT_SATISFIED") ? "NOT_SATISFIED" : [conditionsStatus, investigationStatus, resourcesStatus, noResultAssessment.status].includes("NOT_EVALUATED") ? "NOT_EVALUATED" : "SATISFIED";
   const completionStatus: DiagnosticEvaluationStatus = completion === "INTERNAL_EXECUTION_FAILURE" ? "NOT_SATISFIED" : completion === "NOT_EVALUATED" ? "NOT_EVALUATED" : completion === "PRESENTATION_RECORDED" ? claimStatus : completion === "NO_VERIFIED_RESULT" ? noResultStatus : "SATISFIED";
   const findings: DiagnosticFinding[] = [
@@ -1069,7 +1066,7 @@ export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceAr
   // behavior can still be independently supported by conditions, execution
   // coverage, resource accounting, and an explicit bounded stop.
   const noResultSupported = noResultStatus === "SATISFIED";
-  return { schemaVersion: "1", evaluatorVersion: RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, rubricVersion: RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION, rubricStatus: "DRAFT_DIAGNOSTIC_ONLY", sourceArtifact: { path: sourceArtifact.path, sha256: sourceArtifact.sha256, ...(asString(root.runId) ? { runId: asString(root.runId)! } : {}), ...(asString(root.caseId) ? { caseId: asString(root.caseId)! } : {}) }, execution: { status: asString(root.status) ?? null, stage: asString(root.stage) ?? null,
+  return { recordReadIssues: readIssues, schemaVersion: "1", evaluatorVersion: RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, rubricVersion: RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION, rubricStatus: "DRAFT_DIAGNOSTIC_ONLY", sourceArtifact: { path: sourceArtifact.path, sha256: sourceArtifact.sha256, ...(asString(root.runId) ? { runId: asString(root.runId)! } : {}), ...(asString(root.caseId) ? { caseId: asString(root.caseId)! } : {}) }, execution: { status: asString(root.status) ?? null, stage: asString(root.stage) ?? null,
     // A source discovery failure is not an ordinary bounded empty result.
     // The runtime keeps that failure on the search continuation, so preserve
     // UNKNOWN rather than reclassifying the task as a verified no-result.

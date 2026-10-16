@@ -3563,3 +3563,7 @@ T1六项实现分别提交c256cc2／dcc1ad3／7b048bd／7626b89／4baf329／77c4
 ## DEV-2026-10-16-E1-0-INPUTS
 
 按E1指令和用户SIGKILL补充封装22条已暴露输入：20原result及2份含started／decisions／外层中断／finish／trace的原始包。manifest逐文件保存来源路径、双SHA和字节数，未伪造result；两条排除能力分母，S0仅允许trace证明。输入提交后冻结，开发集不是新用例准确率。证据e1-evaluator-20261016/report.md；T1复核通过，E1其它项继续，仅离线。
+
+## DEV-2026-10-16-E1-1
+
+类型化读取。真实h002删除两端criteria时旧评测仍SATISFIED（01-reader/red.log），类型投影后NOT_EVALUATED并带完整路径；正常产物、非法类型和缺轨迹控制通过。所有判定已移除asRecord动态取字段，仅边界读取已消费字段；evaluator@29/rubric@23，不补造旧记录。输入冻结提交3389131。 详见.eval-artifacts/e1-evaluator-20261016/report.md，仅离线，不修改生产资格或历史输入。
