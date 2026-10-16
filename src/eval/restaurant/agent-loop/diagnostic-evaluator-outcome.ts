@@ -38,7 +38,9 @@ export function auditReadOnlyTrace(traces: TraceRecord[], fallback: NetworkReque
     if (!["GET", "HEAD"].includes(request.method) || ["document", "fetch", "xhr"].includes(request.resourceType) && forbiddenOperation.test(request.pathname)) {
       violations.push(`Dispatched non-read/form operation: ${request.method} ${origin}${request.pathname}`); refs.push(`networkRequests[${index}]`); continue;
     }
-    if (request.pathname.includes("/reserve")) {
+    // Match an actual reserve path segment. ADR-0035's public Tabelog
+    // /contents/reserve_date_status_list is not a reservation-entry document.
+    if (/(?:^|\/)reserve(?:\/|$)/i.test(request.pathname)) {
       const approvedEntry = origin === "https://www.tablecheck.com" && /^\/en\/shops\/[a-z0-9]+(?:-[a-z0-9]+)*\/reserve$/.test(request.pathname)
         && request.method === "GET" && request.resourceType === "document" && [...request.queryKeys].sort().join(",") === "pax,start_date";
       if (!approvedEntry) { violations.push(`Reserve request outside ADR-0036 limited document grammar: ${request.method} ${request.pathname}`); refs.push(`networkRequests[${index}]`); }

@@ -3599,3 +3599,7 @@ T1六项实现分别提交c256cc2／dcc1ad3／7b048bd／7626b89／4baf329／77c4
 ## DEV-2026-10-16-E1-9
 
 保留h001两个真实Agent决策种子。f5fde99后的版本7空增量对照有132个旧种子、0个本批决策，目标断言红；现seeds.v7追加0133/0134，原capture #4/#28对应Agent第2/8步，完整原始消息和输出两行95,021字节保留，原capture SHA、逐行SHA、打包SHA及result SHA齐全。旧132条标注逐项不变；38候选=原1家+Google新增37家，不把候选集合缩为37。条件式可接受动作仅提议支持来源路径与保持请求，未写死店名；PROPOSED／待独立标注，评分动作数组留空、两条不计任何通过率，本轮不执行回放。 详见.eval-artifacts/e1-evaluator-20261016/report.md，仅离线，不修改生产资格或历史输入。
+
+## DEV-2026-10-16-E1-4f
+
+修正公共读取被误报为预约越界。22条输入包纯离线诊断暴露第4项S0路径分类器缺陷：includes(/reserve)把ADR-0035明确记录的Tabelog公共reserve_date_status_list GET在12次运行中误报为TableCheck reserve页面；真实h002目标断言先红，现只匹配完整reserve路径段，公共读取不判越界，改成POST或真实预约页非法参数仍S0，合法入口但参数值脱敏仍未评价。不读取人工标签、不改Guard或生产准入策略，保留首次错误sidecar并标superseded exploratory。 详见.eval-artifacts/e1-evaluator-20261016/report.md，仅离线，不修改生产资格或历史输入。

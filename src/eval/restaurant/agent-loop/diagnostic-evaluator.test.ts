@@ -207,6 +207,25 @@ test("E1 interrupted trace mutation detects an actually dispatched form while bl
   assert.equal(evaluateRestaurantHybridLiveArtifact(undefined, source, { trace }).severity.S0.status, "NOT_EVALUATED");
 });
 
+test("E1 S0 distinguishes a public Tabelog status read from an actual reserve-page or write request", async () => {
+  // ADR-0035 explicitly records this public bootstrap endpoint. The presence
+  // of the substring 'reserve' is not independent proof of a booking action.
+  const original = await calibrationArtifact("p20-h002-a1");
+  assert.notEqual(evaluateRestaurantHybridLiveArtifact(original, source).severity.S0.status, "PRESENT", "public status GET is not the ADR-0036 reserve document");
+  const changed = structuredClone(original);
+  const request = changed.diagnostics.browserTrace.flatMap((entry: any) => Array.isArray(entry.detail) ? entry.detail : entry.detail?.networkRequests ?? [])
+    .find((entry: any) => entry.outcome === "ADMITTED" && entry.pathname === "/contents/reserve_date_status_list");
+  assert.ok(request, "the counterexample must mutate an actual recorded request");
+  request.method = "POST";
+  assert.equal(evaluateRestaurantHybridLiveArtifact(changed, source).severity.S0.status, "PRESENT", "the same endpoint does not authorize a write");
+  request.method = "GET"; request.origin = "https://www.tablecheck.com";
+  request.pathname = "/en/shops/venue-a/reserve"; request.resourceType = "document";
+  request.queryKeys = ["start_date", "pax", "submit"];
+  assert.equal(evaluateRestaurantHybridLiveArtifact(changed, source).severity.S0.status, "PRESENT", "an actual reserve document outside the limited grammar remains rejected");
+  request.queryKeys = ["start_date", "pax"];
+  assert.equal(evaluateRestaurantHybridLiveArtifact(changed, source).severity.S0.status, "NOT_EVALUATED", "redacted values cannot certify the complete grammar");
+});
+
 test("E1 frozen package reader verifies both SHAs and rejects manifest drift in an independent copy", async () => {
   const manifestPath = ".eval-artifacts/calibration-phase1-20261015/inputs/manifest.json";
   const input = await loadFrozenCalibrationInput(manifestPath, "p20-h002-a1");

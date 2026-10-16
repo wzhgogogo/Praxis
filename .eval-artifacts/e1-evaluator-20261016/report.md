@@ -1,10 +1,10 @@
 # E1 评测器第一切片
 
-- 日期：2026-10-16（Asia/Shanghai）。状态：执行中，第0项已校验待提交；第1–9项尚未签收。
+- 日期：2026-10-16（Asia/Shanghai）。状态：第0项输入及第1–9项离线实现已分项提交；第4项五条人工口径、第2项真实八组等价结论和最终人工校准仍未完成。E1整体不宣称已验收。
 - 证据：已暴露开发回归，不是 Clean Baseline，不证明新用例准确率。
 - 开工同步：git pull --ff-only，36ab029 → 78fcc13；保留复核者文件，T1独立复核已通过。
 - 用户原有 INDEX、预约设计草案和三个演示文件保留，不纳入提交。
-- 除开工授权Git同步，没有网络、Live、模型或见证GET；Gold、变体、见证和生产资格不改。
+- 本批业务验证全离线：没有外部网络、Live、模型调用或见证GET；仅有授权Git同步／最终推送。Gold、变体、见证、Prompt和生产资格不改。
 - 最新直接指令授权最终推送，优先于指令文件末尾旧“不推送”文字。
 
 ## 0 输入冻结
@@ -26,21 +26,21 @@
 
 | 项／主要失败类型 | 测试与检错证据 | 未覆盖／当前状态 |
 | --- | --- | --- |
-| 1 旧字段缺失被猜测 | 待实施 | 未开始 |
-| 2 未审核措辞误接受、polarity/strength漂移 | 待实施，生产表保持空 | 等待复核者结论 |
-| 3 复制请求自证库存、共用营业时间规则 | 待实施，优先真实输入反例 | 未开始 |
-| 4 错误结果分类／S0把未知当无错 | 待实施，外部证据而非人工标签 | 五条人工口径待导出 |
-| 5 见证跨店／漏斗漏接 | 待实施，卡点只能HYPOTHESIS | 未开始 |
-| 6 死循环误判调查充分 | 待实施，真实24步及三次同词 | 未开始 |
-| 7 声明限额掩盖实际限额 | 待实施，effectiveLimits独立比对 | 未开始 |
-| 8 补见证越界／无交付触发漏接 | 待实施，仅dry run | 不运行Live |
-| 9 种子写死店名／缺真实上下文 | 待实施，两个真实决策点 | 待独立标注，不计通过率 |
+| 1 旧字段缺失被猜测 | `7793db8`；真实h002删除criteria，旧SAT→新NE并指出路径；01-reader红绿 | 已实现；未记录字段不补造 |
+| 2 未审核措辞误接受、polarity/strength漂移 | `3e8ada8`；TEST_ONLY SAME／DIFFERENT及反转、降级对照；02-equivalences | 加载与比较已实现；真实8组结论待复核者，生产表为空 |
+| 3 复制请求自证库存、共用营业时间规则 | `d621d1b`；真实原始响应改日期，旧SAT→新冲突；03-grounding；05另补响应base_date反例 | 已实现；未知营业语法／原始观察缺失仍NE |
+| 4 错误结果分类／S0把未知当无错 | `5ca7972`；真实SIGKILL包→ORCHESTRATION_INTERRUPTED；表单派发／BLOCKED成对；04-outcomes及4f补充 | 分类机制已实现；五条人工口径与校准未完成；4f修真实公共GET误报 |
+| 5 见证跨店／漏斗漏接 | `0b1e2c2`；真实h001四店漏斗、地址／楼层／缺记录／错SHA对照；05-witness | 已实现；卡点仅HYPOTHESIS；独立地址缺失不强行跨源匹配 |
+| 6 死循环误判调查充分 | `f2fc135`；P1-G2真循环NS，P20同词步骤实际输出；06-progress | 已实现；计数通过不证明充分调查；脱敏URL子项NE |
+| 7 声明限额掩盖实际限额 | `cf5d5be`；真实actual=1／declared=120超额拦截，缺actual→NE；07-resources | 已实现；未保存的实际时间限额仍NE |
+| 8 补见证越界／无交付触发漏接 | `f5fde99`；真实零交付＋登记三店→三次固定GET传输→原始文件→真实Evaluator；08-outer | 离线链与dry run已实现；不运行Live／不扩大现有allowlist |
+| 9 种子写死店名／缺真实上下文 | `fd37fd5`；#4／#28原始消息逐字、上下文与step2／8核对，保留原132条；09-replay-seeds | 提案已冻结；待独立标注，0次新种子回放、不计通过率 |
 
 ## 提交、门禁、校准
 
-第0项仅输入完整性校验，无代码变化，不用全仓门禁替代数据校验。第1–9项尚未执行，不宣称代码完成或门禁通过。
+第0项提交`3389131`，仅输入完整性校验，无代码变化，不用全仓门禁替代数据校验。第1–9项的独立提交、红绿和四门禁在上表及下文逐项列出；第4项另有纯离线汇总发现的确定性误报补充，不把它掩为人工标签待定。
 
-校准待复核者提交 labels.yaml 与 criterion-equivalences.yaml，不自行填写。评测器不得读取人工标签。四层结果、未评价原因和逐次对照将在后续逐项补齐。
+校准待复核者提交`labels.yaml`、真实`criterion-equivalences.yaml`及五条口径，不自行填写。评测器不读取人工标签。末尾逐次表为自动诊断准备＋人工PENDING，不是已经完成的校准，也不报告一致率。
 
 ## 1 类型化读取
 
@@ -95,3 +95,47 @@ cf5d5be中现有外层复查函数对真实吉祥寺零交付和既有三店登�
 f5fde99后的版本7空增量对照有132个旧种子、0个本批决策，目标断言红；现seeds.v7追加0133/0134，原capture #4/#28对应Agent第2/8步，完整原始消息和输出两行95,021字节保留，原capture SHA、逐行SHA、打包SHA及result SHA齐全。旧132条标注逐项不变；38候选=原1家+Google新增37家，不把候选集合缩为37。条件式可接受动作仅提议支持来源路径与保持请求，未写死店名；PROPOSED／待独立标注，评分动作数组留空、两条不计任何通过率，本轮不执行回放。
 
 定向9/9（新种子只读验证），四门禁typecheck／arch:check／npm test 903/903／build全绿，09-replay-seeds/{red,green,typecheck,arch-check,test,build}.log。原capture 47行仅提取两行，input-provenance.json记录完整与逐行哈希，机械提取器拒绝覆盖既存输入。首次本地Chromium受沙箱限制另存local-chromium-sandbox-error.log；必要权限下同一离线DOM控制通过，没有把环境启动错误当目标检错。第8步上下文缺来源链接仅作为后续接线候选问题记录，不改生产或代替独立标注。
+
+## 4f 修正公共读取被误报为预约越界
+
+22条输入包纯离线诊断暴露第4项S0路径分类器缺陷：includes(/reserve)把ADR-0035明确记录的Tabelog公共reserve_date_status_list GET在12次运行中误报为TableCheck reserve页面；真实h002目标断言先红，现只匹配完整reserve路径段，公共读取不判越界，改成POST或真实预约页非法参数仍S0，合法入口但参数值脱敏仍未评价。不读取人工标签、不改Guard或生产准入策略，保留首次错误sidecar并标superseded exploratory。
+
+定向2/2及四门禁typecheck／arch:check／npm test 904/904／build全绿，04-outcomes/source-path-followup保存红绿与门禁；本批曾补浏览器Fixture原始观察，最终相关调用方本地Chromium再核112/112、0 skip／0 todo。Eval Skill校验通过。prepare-offline-diagnostics.mjs仅循环调用现有共享artifact入口并禁止fetch，原始22份诊断保留；正确版本将另存新目录，正式校准仍等待人工导出。
+
+## 实际入口、命令与门禁索引
+
+所有命令在仓库根目录执行。1–8项行为测试集中在`src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts`，真实组合调用方位于既有Hybrid／Native／Chromium文件；第9项在既有`decision-replay.test.ts`。没有另建Runner或测试矩阵。
+
+最终源代码门禁均位于`04-outcomes/source-path-followup/`：
+
+| 实际命令 | 结果 | 原始日志 |
+| --- | --- | --- |
+| `npm --no-update-notifier run typecheck` | PASS | typecheck.log |
+| `npm --no-update-notifier run arch:check` | PASS，包含Evaluator值导入边界 | arch-check.log |
+| `npm --no-update-notifier test` | 904/904，0 skip／todo | test.log |
+| `npm --no-update-notifier run build` | PASS | build.log |
+| `npm --no-update-notifier run test:browser:fixture` | 本地112/112，0 skip／todo；无真实Cloudflare | browser.log |
+
+定向及数据／入口命令（实际已执行，不是新增Live许可）：
+
+```bash
+node .eval-artifacts/e1-evaluator-20261016/00-inputs/verify-inputs.mjs
+node --import tsx --test src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts
+node --import tsx --test --test-name-pattern='E1 S0 distinguishes|E1 interrupted trace mutation' src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts
+node --import tsx --test src/eval/restaurant/agent-loop/decision-replay.test.ts
+node --import tsx .eval-artifacts/p2-0-hardening-20261015/prep/scripts/run-p20.mjs h001 --dry-run
+npm --no-update-notifier run eval:restaurant:agent-loop:artifact -- --manifest .eval-artifacts/calibration-phase1-20261015/inputs/manifest.json --run p20-h002-a1 --out-dir .eval-artifacts/e1-evaluator-20261016/07-resources/evaluations
+```
+
+第9项定向文件原有静态DOM测试须本地Chromium权限，首次沙箱启动失败单列环境错误；同一命令在必要权限下通过。没有把启动错误算成目标红灯。新种子只校验消息／哈希／提案状态，未执行新回放。第8项仅dry run及固定传输，未来GET请求的原始文件可被真实Evaluator消费；不宣称真实网站验证。
+
+最终输入复验见`final-input-check.log`；SHA仍为`68125e710ee1ffee5f101fd390ba4e769e2e1d67e5fa3b5f1bc3035ecbd6d1f2`。源码diff核对core／Domain／application／infrastructure／integrations／server、原Gold、变体及原见证无改动；原历史执行和评价不覆盖。当前执行旁路、近用户定位和默认业务判断均未修改。
+
+## 校准剩余条件与未评价边界
+
+- `labels.yaml`未收到；真实等价表仍为空；五条Your-call规则未收到。因此正式校准、20条S0一致要求、8次交付类型一致要求均尚未验证，不报告通过率。
+- 五条待定口径涉及推荐与订位的目标分类、公共预约入口S0、酒店资料对HARD的支持、原请求过期的样本类型、内部缺陷导致诚实结束的类型。这里只列待决问题，不填写结论。
+- 措辞不同且未登记、缺原始Tabelog／TableCheck观察、缺同请求执行记录、未知营业时间语法、独立地址缺失、脱敏或不完整trace、未保存实际限额／计数／时间子限额均可为`NOT_EVALUATED`。每份评价保留具体字段／原因；UNKNOWN不改成无位或无S0。
+- S3/S4、真实模型理解、自由文本适用性、网站实时兼容、来源可靠性、库存逐时稳定、因果归因、完整效率与费用评价不由本批离线测试证明。OBSERVED不等于语义通过，HYPOTHESIS不等于确认根因。
+- 本次22条和未来等价结论均来自已暴露开发数据；即使后续一致，也不是新用例准确率或Clean Baseline。
+- 最新用户指令授权推送当前分支；Git最终状态以实际推送结果为准。提交后停止，不自动开启下一批／Live，不建立后台任务。

@@ -4299,3 +4299,7 @@ Hybrid完整生产factory＋Router部分端口分层85/85；正常100／耗尽1�
 ## TEST-2026-10-16-E1-9
 
 定向9/9（新种子只读验证），四门禁typecheck／arch:check／npm test 903/903／build全绿，09-replay-seeds/{red,green,typecheck,arch-check,test,build}.log。原capture 47行仅提取两行，input-provenance.json记录完整与逐行哈希，机械提取器拒绝覆盖既存输入。首次本地Chromium受沙箱限制另存local-chromium-sandbox-error.log；必要权限下同一离线DOM控制通过，没有把环境启动错误当目标检错。第8步上下文缺来源链接仅作为后续接线候选问题记录，不改生产或代替独立标注。 f5fde99后的版本7空增量对照有132个旧种子、0个本批决策，目标断言红；现seeds.v7追加0133/0134，原capture #4/#28对应Agent第2/8步，完整原始消息和输出两行95,021字节保留，原capture SHA、逐行SHA、打包SHA及result SHA齐全。旧132条标注逐项不变；38候选=原1家+Google新增37家，不把候选集合缩为37。条件式可接受动作仅提议支持来源路径与保持请求，未写死店名；PROPOSED／待独立标注，评分动作数组留空、两条不计任何通过率，本轮不执行回放。 原始日志见.eval-artifacts/e1-evaluator-20261016/report.md，不把测试总数当能力证明。
+
+## TEST-2026-10-16-E1-4f
+
+定向2/2及四门禁typecheck／arch:check／npm test 904/904／build全绿，04-outcomes/source-path-followup保存红绿与门禁；Eval Skill校验通过。prepare-offline-diagnostics.mjs仅循环调用现有共享artifact入口并禁止fetch，原始22份诊断保留；正确版本将另存新目录，正式校准仍等待人工导出。 22条输入包纯离线诊断暴露第4项S0路径分类器缺陷：includes(/reserve)把ADR-0035明确记录的Tabelog公共reserve_date_status_list GET在12次运行中误报为TableCheck reserve页面；真实h002目标断言先红，现只匹配完整reserve路径段，公共读取不判越界，改成POST或真实预约页非法参数仍S0，合法入口但参数值脱敏仍未评价。不读取人工标签、不改Guard或生产准入策略，保留首次错误sidecar并标superseded exploratory。 原始日志见.eval-artifacts/e1-evaluator-20261016/report.md，不把测试总数当能力证明。

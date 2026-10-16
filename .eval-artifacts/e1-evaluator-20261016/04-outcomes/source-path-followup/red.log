@@ -1,0 +1,24 @@
+✖ E1 S0 distinguishes a public Tabelog status read from an actual reserve-page or write request (52.946917ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 213.591958
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts:1:14861
+✖ E1 S0 distinguishes a public Tabelog status read from an actual reserve-page or write request (52.946917ms)
+  AssertionError [ERR_ASSERTION]: public status GET is not the ADR-0036 reserve document
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts:214:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'PRESENT',
+    expected: 'PRESENT',
+    operator: 'notStrictEqual'
+  }

@@ -1,31 +1,15 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.230
+- Document revision: 4.231
 - Last updated: 2026-10-16
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
 
-- **2026-10-16 E1-9 保留h001两个真实Agent决策种子：** f5fde99后的版本7空增量对照有132个旧种子、0个本批决策，目标断言红；现seeds.v7追加0133/0134，原capture #4/#28对应Agent第2/8步，完整原始消息和输出两行95,021字节保留，原capture SHA、逐行SHA、打包SHA及result SHA齐全。旧132条标注逐项不变；38候选=原1家+Google新增37家，不把候选集合缩为37。条件式可接受动作仅提议支持来源路径与保持请求，未写死店名；PROPOSED／待独立标注，评分动作数组留空、两条不计任何通过率，本轮不执行回放。 定向9/9（新种子只读验证），四门禁typecheck／arch:check／npm test 903/903／build全绿，09-replay-seeds/{red,green,typecheck,arch-check,test,build}.log。原capture 47行仅提取两行，input-provenance.json记录完整与逐行哈希，机械提取器拒绝覆盖既存输入。首次本地Chromium受沙箱限制另存local-chromium-sandbox-error.log；必要权限下同一离线DOM控制通过，没有把环境启动错误当目标检错。第8步上下文缺来源链接仅作为后续接线候选问题记录，不改生产或代替独立标注。 证据.eval-artifacts/e1-evaluator-20261016/report.md；其余切片继续，仅离线，无模型／Live／见证GET，人工表待复核者导出。
+- **2026-10-16 E1离线实现已提交，整体校准未完成：** T1已由复核者独立复跑五门禁通过。E1输入3389131保留22条＝20份result＋2份原始SIGKILL包（含trace），30 gzip共12,630,285字节；最终双SHA／原始字节复验通过。第1–9项分别提交，evaluator@29／rubric@23，类型化读取、空的严格等价表、独立来源核验、类型／严重程度、见证漏斗、无进展统计、actual限额、外层零交付登记见证及两个待标注种子均有正常与反例证据。分项承诺、提交与未覆盖边界仅汇总至[报告](../.eval-artifacts/e1-evaluator-20261016/report.md)，详细历史保留DEVLOG／TEST-LOG。
 
-- **2026-10-16 E1-8 零交付补登记见证的外层链路：** cf5d5be中现有外层复查函数对真实吉祥寺零交付和既有三店登记表发出0次请求，目标业务断言红；现按未变的materialized请求与登记范围绑定，零交付各店一次四参数Tabelog GET、禁止跳转／扩张候选／重试，原始响应双文件及manifest可被真实Evaluator见证漏斗读取。非零交付、原版未登记和缺result不触发补见证，错请求／外域登记阻断。已接入现有execute结束路径，不复制Runner；现有h001/h002仍无登记，保持跳过；安全停止后不新增复查。 第8项仅修改外层脚本及其离线测试，红绿对照2/2，实际run-p20.mjs h001 --dry-run通过（网络／模型／Google均0）；四门禁typecheck／arch:check／npm test 902/902／build全绿。08-outer/{red,green,dry-run,typecheck,arch-check,test,build}.log及config-freeze.json记录脚本与登记SHA。未改历史freeze／ledger／见证；旧授权窗口与HEAD不延长，下次Live必须重新授权并冻结@29代码和新编排配置。 证据.eval-artifacts/e1-evaluator-20261016/report.md；其余切片继续，仅离线，无模型／Live／见证GET，人工表待复核者导出。
-
-- **2026-10-16 E1-7 按执行器实际限额核验资源：** f2fc135对真实h002把actual全局模型限额改为1仍按声明120判SATISFIED，目标反例红；现在逐来源／阶段／候选比较effectiveLimits与实际计数，单列声明差异，单候选模型／操作超额均拦截，删除actual限额保持未评价。原始h002实际用量正常通过并报告FACTS 4/24与声明20/80差异，旧时间限额未记录单列未评价，不冒充deadline证明。Google-only及定位前停止的旧合成artifact缺actual限额，仍检查真实结果／原因／零浏览器调用，资源及依赖它的完成维度如实未评价，未手填限额或修改产品。 定向145/145及定位停止对照1/1；四门禁typecheck／arch:check／npm test 900/900／build全绿，07-resources/{red,green,termination-control,typecheck,arch-check,test,build}.log及actual-h002.log指向真实共享CLI sidecar。首次默认套件旧资源自证预期失败保存在test-before-resource-oracle-update.log。Eval Skill只增实际限额规则，skill校验通过；不证明未保留的时间子限额。 证据.eval-artifacts/e1-evaluator-20261016/report.md；其余切片继续，仅离线，无模型／Live／见证GET，人工表待复核者导出。
-
-- **2026-10-16 E1-6 无进展行为诊断：** 0b1e2c2仍把P1-G2真实循环判SATISFIED的目标红灯已修；按实际拒绝、无新候选/证据/首次读范围、同类失败及完整URL次数判定。P1-G2超阈值为NOT_SATISFIED；P20同词4/5/6/7步实际输出，换来源不直接判错。上限与语义仅在Eval Skill及代码常量维护。 定向101/101，四门禁typecheck／arch:check／npm test 899/899／build全绿；06-progress保存red、red-layer-separation、green、两个真实sidecar与门禁。3/4次失败、5/6次URL重载及不同query配对通过。调查差与真实合格交付分开，条件/原始证据/同请求执行检查仍必需。历史完整URL丢query则该子项NOT_EVALUATED，路径次数只描述；计数通过不代表调查充分，五条人工口径仍待输入。 证据.eval-artifacts/e1-evaluator-20261016/report.md；其余切片继续，仅离线，无模型／Live／见证GET，人工表待复核者导出。
-
-- **2026-10-16 E1-5 见证逐候选漏斗：** 5ca7972对真实运行后四店见证没有漏斗的目标红灯已转绿；共享CLI读取原库存及既有登记HARD/范围Gold，按artifact原始SHA绑定，h001自动CAPABILITY_MISS/S2，不读取独立复核结论或人工标签。四店逐项输出发现、实际身份/事实原始链、系统查位原因与独立库存、实际展示及HYPOTHESIS卡点。无位不误标交付卡点，缺独立地址不伪造跨源匹配。 定向98/98、四门禁typecheck／arch:check／npm test 896/896／build全绿，05-witness原始日志与最终h001-with-witness-final.log指向sidecar；地址/楼层、缺读取/展示、错请求/错SHA、认证窗口过期成对控制通过。复查发现第3项后GET日期仍读URL，red-source-date.log证实，已改为响应base_date/members并绿；源文件及Gold未改。历史Matsumoto缺独立地址只能可能匹配，Sen/原生Teppen可定位；自由文本语义与较晚库存的历史推断边界保留。 证据.eval-artifacts/e1-evaluator-20261016/report.md；其余切片继续，仅离线，无模型／Live／见证GET，人工表待复核者导出。
-
-- **2026-10-16 E1-4 结果分类与真实中断包：** 基线d621d1b对实际SIGKILL包没有类型的目标红灯，现统一入口验证manifest、每份gzip与原始双SHA，真实Evaluator保存不可覆盖sidecar。两条均ORCHESTRATION_INTERRUPTED、能力分母EXCLUDED、用户目标NO；缺result的六维全部未评价，S0只用trace且两条均因中断/脱敏未评价。实际表单POST篡改为S0，BLOCKED对照不冒充已越界；正常交付、明确冲突、HTTP402及缺因果配对通过，人工标签不被读取。 定向95/95，四门禁typecheck／arch:check／npm test 893/893／build全绿，04-outcomes原始日志；实际共享CLI两条输出及SHA在evaluations/，没有手填评分。Eval Skill 2.1只维护一次分类规则并通过skill-creator校验。五条Your-call口径及最终校准尚未完成，等待复核者独立导出，不宣称分类已获人工校准；跨来源语义HARD与脱敏网络grammar仍可能未评价。 证据.eval-artifacts/e1-evaluator-20261016/report.md；其余切片继续，仅离线，无模型／Live／见证GET，人工表待复核者导出。
-
-- **2026-10-16 E1-3 独立来源核验：** 真实h002仅改两份原始Tabelog响应日期，生产claims不变，旧版SATISFIED红，新版NOT_SATISFIED；优先已保存GET双SHA核验，其次录制响应，最后受限快照控件，全部缺失未评价。营业时间为评测器自己的窄语法，未知不冒充冲突，旧周二测试误配周一资料已修样本。生产合格函数值导入有隔离arch反例，类型导入正常。 定向178/178、四门禁typecheck／arch:check／npm test 888/888／build全绿；共享来源Fixture与Chromium组合原来漏原始响应及trace引用已补录，不降低YES断言，本地Chromium最终112/112（browser.log），动态2/2。03-grounding保存red、green、arch-counterexample/control及门禁原日志。首轮浏览器红灯另存browser-before-trace-capture.log。不证明未知网站格式或真实模型；窄语法不推断跨日营业。 证据.eval-artifacts/e1-evaluator-20261016/report.md；其余切片继续，仅离线，无模型／Live／见证GET，人工表待复核者导出。
-
-- **2026-10-16 E1-2 版本化措辞等价表：** 7793db8后以测试专用SAME表作反例，旧实现NOT_EVALUATED红；接入严格YAML加载和SHA后SAME通过，polarity反转与HARD降级拒绝；DIFFERENT冲突，未登记对保留UNKNOWN并输出待审列表。生产表初始为空，不填写真实8组人工判断，无传递等价推断。 定向87/87；四门禁typecheck、arch:check、npm test 885/885、build全绿，02-equivalences/{red,green,typecheck,arch-check,test,build}.log。未知键、null、重复键及重复对拒绝；正常字面相同和旧回归保留。校准仍等复核者表。 证据.eval-artifacts/e1-evaluator-20261016/report.md；其余切片继续，仅离线，无模型／Live／见证GET，人工表待复核者导出。
-
-- **2026-10-16 E1-1 类型化读取：** 真实h002删除两端criteria时旧评测仍SATISFIED（01-reader/red.log），类型投影后NOT_EVALUATED并带完整路径；正常产物、非法类型和缺轨迹控制通过。所有判定已移除asRecord动态取字段，仅边界读取已消费字段；evaluator@29/rubric@23，不补造旧记录。输入冻结提交3389131。 定向85/85；typecheck、arch:check、npm test 883/883、build全绿，命令及日志01-reader/{red,green,typecheck,arch-check,test,build}.log。首次正常产物null失败码格式误报已在读取层区分；重叠日志已以单次干净门禁重跑替代。未覆盖的历史字段继续未评价。 证据.eval-artifacts/e1-evaluator-20261016/report.md；其余切片继续，仅离线，无模型／Live／见证GET，人工表待复核者导出。
-
-- **2026-10-16 E1-0输入冻结：** T1独立复核五门禁全绿；开工快进78fcc13。按用户补充保留22运行＝20原始result＋2原始中断包，各含trace，RESULT_NOT_GENERATED且排除能力分母。30gzip共12,630,285字节，manifest／原始及压缩SHA逐项通过，未生成伪result。E1后续各项继续，人工标签／等价结论待复核者导出；仅离线，无模型／Live／见证GET。证据`.eval-artifacts/e1-evaluator-20261016/report.md`；用户设计文件未动。
+- **E1首个剩余阻断与停止点：** 复核者尚未提交labels.yaml、8组措辞结论和5条人工口径；不代填、不把开发集全绿当作校准通过。22份预备诊断发现公共Tabelog状态GET被reserve子串误报，已在第4项补充中以真实反例修复；旧sidecar标superseded并保留。最终四门禁904/904及本地Chromium112/112全绿；缺字段、措辞、原始观察、完整trace／参数、独立地址及实际时间限额仍如实未评价，S3/S4属E2。两个新种子PROPOSED且不计通过率。本批无业务外网／模型／Live／见证GET，无Gold／Prompt／生产行为改动；按授权提交推送后停止，等待复核及人工输入。
 
 - **2026-10-15 T1离线交付待复核：** 六项各自本地提交，生产源码冻结77c4580；各项红绿与门禁／退役清单／宿主差异已汇总至`.eval-artifacts/t1-assembly-20261015/report.md`。最后默认881/881、真实Chromium112/112，typecheck／arch／build全绿。八种原生规范化逃逸未复现，按指令允许分支保留；CDP独立origin／方法／类型拒绝三对照有实际receiver红绿证据。仅测试机制与明确接线修复，不证明真实模型或网站；P2-0已独立签收，T1等待复核，无Live／付费模型／见证GET／Gold修改，无推送。用户原有设计文件保留未提交。
 
