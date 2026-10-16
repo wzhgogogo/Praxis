@@ -1,0 +1,17 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/eval/restaurant/agent-loop/diagnostic-evaluator-grounding.ts(37,111): error TS2322: Type '({ time: string | undefined; outlet: string | undefined; date: string | undefined; party: number; } | { time?: never; outlet?: never; date?: never; party?: never; })[]' is not assignable to type 'Slot[]'.
+  Type '{ time: string | undefined; outlet: string | undefined; date: string | undefined; party: number; } | { time?: never; outlet?: never; date?: never; party?: never; }' is not assignable to type 'Slot' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+    Type '{ time: string | undefined; outlet: string | undefined; date: string | undefined; party: number; }' is not assignable to type 'Slot' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+      Types of property 'time' are incompatible.
+        Type 'string | undefined' is not assignable to type 'string'.
+          Type 'undefined' is not assignable to type 'string'.
+src/eval/restaurant/agent-loop/diagnostic-evaluator-grounding.ts(93,33): error TS2322: Type '{ time: string | undefined; outlet: string | undefined; date: string | undefined; party: number | undefined; }[]' is not assignable to type 'Slot[]'.
+  Type '{ time: string | undefined; outlet: string | undefined; date: string | undefined; party: number | undefined; }' is not assignable to type 'Slot' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+    Types of property 'time' are incompatible.
+      Type 'string | undefined' is not assignable to type 'string'.
+        Type 'undefined' is not assignable to type 'string'.
+src/eval/restaurant/agent-loop/diagnostic-evaluator.ts(777,79): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.

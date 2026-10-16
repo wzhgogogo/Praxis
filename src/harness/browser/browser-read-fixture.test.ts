@@ -484,10 +484,10 @@ test(`native dynamic Tabelog ${outcome} reaches formal H001 ${outcome === "AVAIL
   const { createHybridReadComposition } = await import("../../eval/restaurant/agent-loop/hybrid-read-composition.js");
   const { evaluateRestaurantHybridLiveArtifact } = await import("../../eval/restaurant/agent-loop/diagnostic-evaluator.js");
   const { loadFrozenLiveCases, RESTAURANT_READ_DEVELOPMENT_CASE_PATH } = await import("../../eval/restaurant/agent-loop/live-case-materializer.js");
-  const trace: Array<{ kind: string; detail: unknown }> = [];
+  const trace: Array<{ sequence: number; at: string; kind: string; detail: unknown }> = [];
   const rawRuntime = dynamicTabelogSourcePages({ result: outcome });
   const runtime = { openSession: async (input: { signal: AbortSignal }) => traceBrowserSession(
-    await rawRuntime.openSession(input), "TABELOG", (kind, detail) => { trace.push({ kind, detail }); return trace.length; },
+    await rawRuntime.openSession(input), "TABELOG", (kind, detail) => { const sequence = trace.length + 1; trace.push({ sequence, at: reference.toISOString(), kind, detail }); return sequence; },
   ) };
   const reply = (outputText: string, purpose: string) => ({ invocationId: purpose, provider: "FIXTURE" as const, model: "scripted-formal-browser", outputText, finishReason: "TOOL_CALLS" as const, latencyMs: 0 });
   const browserActions: string[] = [];
@@ -591,6 +591,7 @@ test(`native dynamic Tabelog ${outcome} reaches formal H001 ${outcome === "AVAIL
       schemaVersion: "1", mode: "SYNTHETIC_CONTROL", status: "SUCCEEDED", stage: "AGENT_LOOP", caseId: "h001", runId: `run:${taskId}`,
       materializedCase: frozen, semantic, finalSnapshot: composition.runtime.snapshot(taskId), trajectories: composition.trajectories.steps,
       events: composition.runtime.eventLog, loop, sourceEnvironment: { network: "OFFLINE_FIXED_TRANSPORT", browser: "LOCAL_CHROMIUM_DYNAMIC_FIXED_PAGE" },
+      sourceTrace: { browserTrace: trace },
       runCeilings: native.runCeilings,
       resourceUsage: { elapsedMs: 1, modelCallsStarted: modelCalls, browserModelCalls: browserActions.length, agentDecisions: 0, googleRequests: { total: 1, namedPlaceResolution: 1, discovery: 0, placeDetails: 0, reverseAddressObservation: 0 } },
     };

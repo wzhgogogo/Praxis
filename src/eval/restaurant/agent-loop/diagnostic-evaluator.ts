@@ -2,11 +2,12 @@ import { isRestaurantFailureCode, RESTAURANT_FAILURE_CLASSIFICATION } from "../.
 import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { basename, dirname, resolve } from "node:path";
-import { openingHoursForRequest } from "../../../domains/restaurant/read-grounding.js";
 import { readDiagnosticRun } from "./diagnostic-evaluator-record.js";
 import type { RunRecord, DomainRecord, MaterializedRecord, IntentRecord, CriterionRecord, EvidenceRecord, CheckRecord, TrajectoryRecord, TraceRecord, TraceDetailRecord, ControlRecord, ServiceScopeRecord } from "./diagnostic-evaluator-record.js";
 import { loadCriterionEquivalences, normalizeCriterion } from "./criterion-equivalences.js";
 import type { CriterionEquivalenceTable, PendingCriterionWording } from "./criterion-equivalences.js";
+import { assessRawTabelog, evaluateSourceOpeningHours } from "./diagnostic-evaluator-grounding.js";
+import type { PostDeliveryTabelogObservation } from "./diagnostic-evaluator-grounding.js";
 
 
 export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@29";
@@ -672,7 +673,7 @@ function rawTableCheckCurrentResult(root: RunRecord, request: RequestShape, evid
   return { status: "SATISFIED", outcome: latest.outcome, observations: [`raw TableCheck snapshot sequence ${latest.sequence} reports ${latest.outcome} for the requested date, party size, and time.`], refs: [latest.ref] };
 }
 
-function assessPresentedCandidate(candidateId: string, root: RunRecord, domain: DomainRecord, request: RequestShape, presentedEvidenceIds: Set<string>, presentedAt: unknown, observationsByCandidate: Set<string> | undefined, executedReads?: ExecutedObservation[]): { status: DiagnosticEvaluationStatus; observations: string[]; refs: string[]; rawTableCheck?: RawTableCheckAssessment } {
+function assessPresentedCandidate(candidateId: string, root: RunRecord, domain: DomainRecord, request: RequestShape, presentedEvidenceIds: Set<string>, presentedAt: unknown, observationsByCandidate: Set<string> | undefined, executedReads?: ExecutedObservation[], postDelivery: PostDeliveryTabelogObservation[] = []): { status: DiagnosticEvaluationStatus; observations: string[]; refs: string[]; rawTableCheck?: RawTableCheckAssessment } {
   const checks = (domain.availabilityChecks) ?? {}; const availability = (domain.availability) ?? {};
   const allEvidence = asArray(domain.readEvidence).filter((item) => Boolean(item)); const check = (checks[candidateId]);
   const offers = asArray(availability[candidateId]).filter((item) => Boolean(item));
@@ -773,8 +774,9 @@ function assessPresentedCandidate(candidateId: string, root: RunRecord, domain: 
       if (!sourceHours.length) { missing.push("raw opening-hours source fact"); return false; }
       const timezone = asString((domain.intentDraft)?.timezone);
       if (!timezone) { missing.push("request timezone"); return false; }
-      const independentlyApplicable = openingHoursForRequest(sourceHours, request.date, request.timeWindow, timezone);
-      if (independentlyApplicable?.matches !== true) { conflicts.push("opening-hours conclusion conflicts with cited source hours"); return false; }
+      const independentlyApplicable = evaluateSourceOpeningHours(sourceHours, request.date!, request.timeWindow!, timezone);
+      if (independentlyApplicable === "UNKNOWN") { missing.push("independently parseable source opening hours"); return false; }
+      if (independentlyApplicable === "CLOSED") { conflicts.push("opening-hours conclusion conflicts with cited source hours"); return false; }
       return true;
     }) : [];
     if (request.date && request.timeWindow && applicableHours.length === 0 && !conflicts.length) missing.push("applicable opening-hours fact");
@@ -832,6 +834,11 @@ function assessPresentedCandidate(candidateId: string, root: RunRecord, domain: 
   const rawTableCheck = factOnly ? undefined : rawTableCheckCurrentResult(root, request, availabilityEvidence, "AVAILABLE", tableCheckOffers.map(offer => timeFromDateTime(offer.dateTime)).filter((time): time is string => Boolean(time)), expectedScope);
   if (rawTableCheck?.status === "NOT_SATISFIED") conflicts.push(...rawTableCheck.observations);
   if (rawTableCheck?.status === "NOT_EVALUATED") missing.push(...rawTableCheck.observations);
+  const rawTabelog = factOnly ? undefined : assessRawTabelog({ root, request, evidence: availabilityEvidence,
+    times: offers.filter(offer => offer.source === "TABELOG").flatMap(offer => timeFromDateTime(offer.dateTime) ?? []), postDelivery });
+  if (rawTabelog?.status === "NOT_SATISFIED") conflicts.push(...rawTabelog.observations);
+  if (rawTabelog?.status === "NOT_EVALUATED") missing.push(...rawTabelog.observations);
+  observations.push(...(rawTabelog?.observations ?? [])); refs.push(...(rawTabelog?.refs ?? []));
   observations.push(`candidate=${candidateId}`, `citedEvidence=${listedEvidence.length}`, `offers=${offers.length}`, ...missing.map((item) => `missing=${item}`), ...conflicts.map((item) => `conflict=${item}`));
   listedEvidence.forEach((item) => refs.push(ref(`finalSnapshot.domainState.readEvidence[evidenceId=${asString(item.evidenceId) ?? "missing"}]`))); offers.forEach((item) => refs.push(ref(`finalSnapshot.domainState.availability[${candidateId}][id=${asString(item.id) ?? "missing"}]`))); refs.push(...(rawTableCheck?.refs ?? []));
   if (conflicts.length) return { status: "NOT_SATISFIED", observations, refs, ...(rawTableCheck ? { rawTableCheck } : {}) }; if (missing.length) return { status: "NOT_EVALUATED", observations, refs, ...(rawTableCheck ? { rawTableCheck } : {}) }; return { status: "SATISFIED", observations, refs, ...(rawTableCheck ? { rawTableCheck } : {}) };
@@ -881,7 +888,11 @@ function assessNoResult(root: RunRecord, domain: DomainRecord, request: RequestS
     if (check?.status !== "UNAVAILABLE") return [];
     const evidenceIds = new Set(strings(check.evidenceIds));
     const currentTableCheck = evidence.filter(item => item.candidateId === id && item.kind === "AVAILABILITY" && item.provider === "TABLECHECK" && evidenceIds.has(asString(item.evidenceId) ?? ""));
-    return currentTableCheck.length ? [{ id, assessment: rawTableCheckCurrentResult(root, request, currentTableCheck, "EMPTY")! }] : [];
+    const currentTabelog = evidence.filter(item => item.candidateId === id && item.kind === "AVAILABILITY" && item.provider === "TABELOG" && evidenceIds.has(item.evidenceId ?? ""));
+    return [
+      ...(currentTableCheck.length ? [{ id, assessment: rawTableCheckCurrentResult(root, request, currentTableCheck, "EMPTY")! }] : []),
+      ...(currentTabelog.length ? [{ id, assessment: assessRawTabelog({ root, request, evidence: currentTabelog, times: [], postDelivery: [], expected: "EMPTY" })! }] : []),
+    ];
   });
   const contradictedUnavailable = rawUnavailable.filter(item => item.assessment.status === "NOT_SATISFIED");
   if (contradictedUnavailable.length) return { status: "NOT_SATISFIED", observations: contradictedUnavailable.flatMap(item => item.assessment.observations), refs: contradictedUnavailable.flatMap(item => item.assessment.refs) };
@@ -1008,7 +1019,7 @@ function assessNoResult(root: RunRecord, domain: DomainRecord, request: RequestS
 }
 
 /** Deterministically diagnoses an already-written artifact; it never calls a model or a provider. */
-export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceArtifact: { path: string; sha256: string }, options: { criterionEquivalences?: CriterionEquivalenceTable } = {}): RestaurantHybridDiagnosticEvaluation {
+export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceArtifact: { path: string; sha256: string }, options: { criterionEquivalences?: CriterionEquivalenceTable; postDeliveryTabelog?: PostDeliveryTabelogObservation[] } = {}): RestaurantHybridDiagnosticEvaluation {
   const equivalences = options.criterionEquivalences ?? loadCriterionEquivalences();
   const { record: root, issues: readIssues } = readDiagnosticRun(artifact); const domain = (root.finalSnapshot?.domainState) ?? {}; const materialized = (root.materializedCase) ?? {};
   // `intentDraft` is the Restaurant runtime's final authoritative intent field; do not
@@ -1032,7 +1043,7 @@ export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceAr
     const observedEvidenceIds = observations === undefined ? undefined : new Set(observations
       .filter((item) => item.applicableRequest && item.candidateIds.includes(candidateId))
       .flatMap((item) => item.evidenceIds));
-    return assessPresentedCandidate(candidateId, root, domain, groundingRequest, citedIds, presentedAt, observedEvidenceIds, observations);
+    return assessPresentedCandidate(candidateId, root, domain, groundingRequest, citedIds, presentedAt, observedEvidenceIds, observations, options.postDeliveryTabelog);
   });
   const evidenceStatus: DiagnosticEvaluationStatus = candidateAssessments.length === 0 ? "NOT_EVALUATED" : candidateAssessments.some((item) => item.status === "NOT_SATISFIED") ? "NOT_SATISFIED" : candidateAssessments.some((item) => item.status === "NOT_EVALUATED") || expected.unsupportedHardCriteria.length ? "NOT_EVALUATED" : "SATISFIED";
   const visits = Array.isArray(trajectoriesValue) ? executedInvestigationVisits(trajectories) : undefined;

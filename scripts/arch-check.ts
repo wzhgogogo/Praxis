@@ -1,5 +1,6 @@
 import { readdir, readFile } from "node:fs/promises";
 import { dirname, relative, resolve, sep } from "node:path";
+import { evaluatorImportViolation } from "../src/eval/shared/evaluator-import-rule.js";
 
 const repositoryRoot = resolve(import.meta.dirname, "..");
 const sourceRoot = resolve(repositoryRoot, "src");
@@ -69,11 +70,11 @@ const failures: string[] = [];
 for (const file of await typescriptFiles(sourceRoot)) {
   const importer = sourcePath(file);
   const source = await readFile(file, "utf8");
-  const imports = source.matchAll(/(?:from\s+|import\s*)["']([^"']+)["']/g);
+  const imports = source.matchAll(/((?:import|export)\s+(?:(?:type\s+)?[\w*{},\s]+\s+from\s*)?|(?:import|require)\s*\(\s*)["']([^"']+)["']/g);
   for (const match of imports) {
-    const imported = importedSourcePath(file, match[1]!);
+    const imported = importedSourcePath(file, match[2]!);
     if (!imported) continue;
-    const reason = violation(importer, imported);
+    const reason = evaluatorImportViolation(importer, imported, match[0]) ?? violation(importer, imported);
     if (reason) failures.push(`${importer} -> ${imported}: ${reason}`);
   }
 }

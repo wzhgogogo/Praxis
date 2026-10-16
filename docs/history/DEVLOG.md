@@ -3571,3 +3571,7 @@ T1六项实现分别提交c256cc2／dcc1ad3／7b048bd／7626b89／4baf329／77c4
 ## DEV-2026-10-16-E1-2
 
 版本化措辞等价表。7793db8后以测试专用SAME表作反例，旧实现NOT_EVALUATED红；接入严格YAML加载和SHA后SAME通过，polarity反转与HARD降级拒绝；DIFFERENT冲突，未登记对保留UNKNOWN并输出待审列表。生产表初始为空，不填写真实8组人工判断，无传递等价推断。 详见.eval-artifacts/e1-evaluator-20261016/report.md，仅离线，不修改生产资格或历史输入。
+
+## DEV-2026-10-16-E1-3
+
+独立来源核验。真实h002仅改两份原始Tabelog响应日期，生产claims不变，旧版SATISFIED红，新版NOT_SATISFIED；优先已保存GET双SHA核验，其次录制响应，最后受限快照控件，全部缺失未评价。营业时间为评测器自己的窄语法，未知不冒充冲突，旧周二测试误配周一资料已修样本。生产合格函数值导入有隔离arch反例，类型导入正常。 详见.eval-artifacts/e1-evaluator-20261016/report.md，仅离线，不修改生产资格或历史输入。

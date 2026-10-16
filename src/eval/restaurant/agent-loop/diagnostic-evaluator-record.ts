@@ -92,9 +92,13 @@ const trajectory = object({ stepNumber: number, occurredAt: text, stateVersionAf
   executionMetadata: object({ provider: text, failureCode: text, recheckReason: text,
     providerAttempts: array(object({ candidateId: text, provider: text, outcome: text, failureCode: text })) }) });
 const control = object({ structure: object({ name: text, radioGroupKey: text }), name: text, label: text, kind: text,
-  checked: boolean, visible: boolean, disabled: boolean, value: text, options: array(object({ selected: boolean, value: text, label: text })) });
+  checked: boolean, selected: boolean, calendarDate: text, visible: boolean, disabled: boolean, value: text, options: array(object({ selected: boolean, value: text, label: text })) });
+const tabelogSelection = object({ time: text, link: object({ rcd: text, member: text, visit_date: text, visit_time: text }) });
+const tabelogBody = object({ base_date: object({ year: number, month: number, day: number }), members: number, selection: array(tabelogSelection) });
 const traceDetail = object({ snapshotSequence: number, controls: array(control), stage: text, candidateId: text,
-  url: text, method: text, args: array(raw), queryRegions: array(object({ truncated: boolean, ancestorMarkupHidden: boolean, markup: text })) });
+  url: text, method: text, args: array(raw), responses: array(object({ url: text, status: number, observedAt: text, body: tabelogBody })),
+  observedStateTags: array(object({ tag: text, class: text, "data-time": text, disabled: text, "aria-disabled": text })),
+  queryRegions: array(object({ truncated: boolean, ancestorMarkupHidden: boolean, markup: text })) });
 const trace = object({ sequence: number, at: text, kind: text, detail: traceDetail });
 const domain = object({ intentDraft: intent, phase: text, availabilityChecks: dictionary(check), factChecks: dictionary(check),
   availability: dictionary(array(offer)), readEvidence: array(evidence), candidates: array(candidate),

@@ -12,7 +12,24 @@ export type SourceScenario = "TABELOG_DELIVERS" | "TABLECHECK_RECOVERS" | "BOTH_
   | "TABELOG_NONEMPTY_REGION_RECOVERS" | "TABELOG_CURRENT_BATCH_DELIVERS" | "TABLECHECK_CURRENT_BATCH_DELIVERS" | "TABELOG_REOPEN_RETAINS" | "TABLECHECK_QUERY_READY" | "TABELOG_STALE_REJECTS" | "TABLECHECK_STALE_REJECTS" | "NATIVE_FACT_FOLLOWUP_DELIVERS" | "TABLECHECK_SCOPED_MENU_DELIVERS"
   | "TABELOG_RETRIEVAL_CATEGORY_DELIVERS" | "TABELOG_RESULT_PAGES_CONTINUE" | "TABELOG_REGION_REDIRECTS_ROOT" | "TABELOG_CATEGORY_REDIRECTS_ROOT" | "TABELOG_NEUTRAL_REGION_RECOVERS" | "TABELOG_REGION_HOMEPAGE_RECOVERS" | "TABELOG_REGION_HOMEPAGE_DRIFTS_NATIONAL";
 
-function page(url: string, html: string, text: string, title = "Restaurant"): BrowserSnapshot { return { url, html, text, title }; }
+function page(url: string, html: string, text: string, title = "Restaurant"): BrowserSnapshot {
+  const snapshot: BrowserSnapshot = { url, html, text, title };
+  // Static source fixtures retain their own raw calendar observation. This is
+  // derived from independently authored source HTML, never the user's request
+  // or the production Evidence claims. Dynamic Chromium uses its real response.
+  const sourceDate = html.match(/<select name="date"><option value="(\d{4}-\d{2}-\d{2})" selected>/)?.[1];
+  const members = html.match(/<select name="party"><option value="(\d+)" selected>/)?.[1];
+  const id = new URL(url).pathname.match(/\/(\d+)\/$/)?.[1];
+  if (new URL(url).hostname === "tabelog.com" && sourceDate && members && id) {
+    const [year, month, day] = sourceDate.split("-").map(Number);
+    const slots = [...html.matchAll(/<button class="slot is-available" data-time="(\d{2}:\d{2})"/g)].map(match => match[1]!);
+    snapshot.responses = [{ url: "https://tabelog.com/en/booking/calendar/find_vacancy/", status: 200, observedAt: reference.toISOString(), sequence: 1,
+      body: { base_date: { year, month, day }, members: Number(members), selection: Object.fromEntries(slots.map((time, index) => [String(index), {
+        time, url: `/en/booking/form_course/new?rcd=${id}&member=${members}&visit_date=${sourceDate.replaceAll("-", "")}&visit_time=${time.replace(":", "")}`,
+      }])) } }];
+  }
+  return snapshot;
+}
 
 class NativeFixtureSession implements BrowserSession {
   readonly metadata: BrowserSession["metadata"];

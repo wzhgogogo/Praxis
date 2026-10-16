@@ -4271,3 +4271,7 @@ Hybrid完整生产factory＋Router部分端口分层85/85；正常100／耗尽1�
 ## TEST-2026-10-16-E1-2
 
 定向87/87；四门禁typecheck、arch:check、npm test 885/885、build全绿，02-equivalences/{red,green,typecheck,arch-check,test,build}.log。未知键、null、重复键及重复对拒绝；正常字面相同和旧回归保留。校准仍等复核者表。 7793db8后以测试专用SAME表作反例，旧实现NOT_EVALUATED红；接入严格YAML加载和SHA后SAME通过，polarity反转与HARD降级拒绝；DIFFERENT冲突，未登记对保留UNKNOWN并输出待审列表。生产表初始为空，不填写真实8组人工判断，无传递等价推断。 原始日志见.eval-artifacts/e1-evaluator-20261016/report.md，不把测试总数当能力证明。
+
+## TEST-2026-10-16-E1-3
+
+定向178/178、四门禁typecheck／arch:check／npm test 888/888／build全绿；共享来源Fixture与Chromium组合原来漏原始响应及trace引用已补录，不降低YES断言，本地Chromium最终112/112（browser.log），动态2/2。03-grounding保存red、green、arch-counterexample/control及门禁原日志。首轮浏览器红灯另存browser-before-trace-capture.log。不证明未知网站格式或真实模型；窄语法不推断跨日营业。 真实h002仅改两份原始Tabelog响应日期，生产claims不变，旧版SATISFIED红，新版NOT_SATISFIED；优先已保存GET双SHA核验，其次录制响应，最后受限快照控件，全部缺失未评价。营业时间为评测器自己的窄语法，未知不冒充冲突，旧周二测试误配周一资料已修样本。生产合格函数值导入有隔离arch反例，类型导入正常。 原始日志见.eval-artifacts/e1-evaluator-20261016/report.md，不把测试总数当能力证明。

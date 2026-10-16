@@ -1200,6 +1200,7 @@ async function runScopedFailureComposition(mode: "local" | "option" | "model-bud
   const taskId = `integration:scoped-${mode}`;
   const controller = new AbortController();
   const diagnostics: BrowserExecutionDiagnostic[] = [];
+  const browserTrace: Array<{ sequence: number; at: string; kind: string; detail: unknown }> = [];
   const seenBrowserNames: string[] = [];
   const agentPools: string[][] = [];
   let agentCalls = 0;
@@ -1286,7 +1287,10 @@ async function runScopedFailureComposition(mode: "local" | "option" | "model-bud
         if (mode === "model-budget") return { url, title: "Search", text: "No public results", html: "" };
         if (mode === "option" && url.includes("tablecheck.com/en/japan/search") && name === "d") return { url, title: "Search", text: "Fixture d", html: '<a href="https://www.tablecheck.com/en/restaurant-d">Fixture d</a>' };
         if (mode === "option" && url.includes("tablecheck.com/en/restaurant-d")) return { url, title: "Fixture d", text: selectedTime ? "Fixture d 2026-09-17 2 guests 13:00" : "Fixture d 2026-09-17 2 guests Choose time", html: `<h1>Fixture d</h1><a href="tel:03-1111-1003">Call</a><p class="address">1-1 Ginza, Chuo City, Tokyo</p><div data-testid="Venue Availability" data-selected-date="2026-09-17" data-pax="2"><select aria-label="Arrival time"><option value="">Choose</option><option value="opaque-time"${selectedTime ? " selected" : ""}>1:00 PM</option></select>${selectedTime ? '<a href="/en/shops/restaurant-d/reserve?start_date=2026-09-17&num_people=2&start_time=13:00">13:00</a>' : ""}</div>` };
-        return { url, title: "Fixture d", text: selectedTime || mode !== "option" ? "Fixture d 予約 人数 13:00" : "Fixture d 予約 人数 Select time", html: `<h1>Fixture d</h1><a href="tel:03-1111-1003">Call</a><p class="rstinfo-table__address">1-1 Ginza, Chuo City, Tokyo</p><select name="party"><option value="2">2</option></select><select name="date"><option value="2026-09-17">2026-09-17</option></select>${selectedTime || mode !== "option" ? '<button class="slot is-available" data-time="13:00">13:00</button>' : '<select aria-label="Arrival time"><option value="">Choose</option><option value="opaque-time">1:00 PM</option></select>'}` };
+        return { url, title: "Fixture d", text: selectedTime || mode !== "option" ? "Fixture d 予約 人数 13:00" : "Fixture d 予約 人数 Select time", html: `<h1>Fixture d</h1><a href="tel:03-1111-1003">Call</a><p class="rstinfo-table__address">1-1 Ginza, Chuo City, Tokyo</p><select name="party"><option value="2">2</option></select><select name="date"><option value="2026-09-17">2026-09-17</option></select>${selectedTime || mode !== "option" ? '<button class="slot is-available" data-time="13:00">13:00</button>' : '<select aria-label="Arrival time"><option value="">Choose</option><option value="opaque-time">1:00 PM</option></select>'}`,
+          // Independent source response, fixed to this source fixture (not the user request).
+          responses: [{ url: "https://tabelog.com/en/booking/calendar/find_vacancy/", status: 200, observedAt: now.toISOString(), sequence: 1,
+            body: { base_date: { year: 2026, month: 9, day: 17 }, members: 2, selection: { "0": { time: "13:00", url: `/en/booking/form_course/new?rcd=1003&member=2&visit_date=20260917&visit_time=1300` } } } }] };
       },
       async observeControls() { return mode === "option" && name === "d" && url.includes("tablecheck.com/en/restaurant-d") ? [{ id: "fixture:time", stableKey: "fixture:arrival", kind: "SELECT" as const, role: "combobox", label: "Arrival time", value: selectedTime ? "opaque-time" : "", visible: true, disabled: false, options: [{ value: "", label: "Choose", selected: !selectedTime, disabled: false }, { value: "opaque-time", label: "1:00 PM", selected: selectedTime, disabled: false }] }] : []; },
       async select(_target, value) { if (mode === "option" && name === "d" && value === "opaque-time") selectedTime = true; return [value]; }, async fill() {}, async click() {}, async waitFor() {}, async waitForSettled() { return true; },
@@ -1299,7 +1303,10 @@ async function runScopedFailureComposition(mode: "local" | "option" | "model-bud
     clock,
     model,
     google: google,
-    browser: browser,
+    browser: { openSession: async input => traceBrowserSession(await browser.openSession(input), "TABELOG", (kind, detail) => {
+      const sequence = browserTrace.length + 1;
+      browserTrace.push({ sequence, at: now.toISOString(), kind, detail }); return sequence;
+    }) },
     onBrowserDiagnostic: item => diagnostics.push(item),
     config: { maxAgentSteps: 8, maxRejectedActions: 3, maxAutomaticBrowserMs: 5_000, maxStructuredReadMs: 8_000 }
   });
@@ -1310,7 +1317,7 @@ async function runScopedFailureComposition(mode: "local" | "option" | "model-bud
     return captureHybridLiveProgress({
       composition, taskId, startedAtMs: 0, nowMs: 50, modelInvocations: [], modelCallsStarted: startedModelCalls,
       googleRequestUsage: composition.google.googleRequestUsage(`${snapshot.runId}:investigation:${snapshot.domainState.investigationRevision ?? 0}`),
-      diagnostics: { tablecheckIdentity: [], tabelogIdentity: [], tabelogUserInterventions: [], browserExecution: diagnostics },
+      diagnostics: { tablecheckIdentity: [], tabelogIdentity: [], tabelogUserInterventions: [], browserExecution: diagnostics, browserTrace },
     });
   };
   let loop;
@@ -1398,7 +1405,8 @@ test("Hybrid deadline captures immutable partial browser, Google and search evid
     assert.equal(saved.partial, true);
     assert.ok(saved.resourceUsage.browserRuntimeCalls > 0, "in-flight failed operations must still count as cost");
     assert.deepEqual(saved.searchState, result.partial.searchState);
-    assert.deepEqual(saved.diagnostics, result.partial.diagnostics);
+    assert.ok(saved.diagnostics.browserTrace.length > 0, "saved partial retains the actual sanitized source chronology");
+    assert.deepEqual(saved.diagnostics, JSON.parse(JSON.stringify(result.partial.diagnostics)), "JSON omits optional undefined fields, not recorded observations");
     assert.deepEqual(saved.finalSnapshot, result.partial.finalSnapshot);
   } finally {
     await rm(directory, { recursive: true, force: true });

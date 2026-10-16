@@ -16,6 +16,8 @@ import { evaluateArtifactAfterFinish, evaluateRestaurantHybridLiveArtifact } fro
 import { snapshotRecord } from "./runners/browser-case-slice-evidence.js";
 import { readDiagnosticRun } from "./diagnostic-evaluator-record.js";
 import { loadCriterionEquivalences, parseCriterionEquivalences } from "./criterion-equivalences.js";
+import { evaluateSourceOpeningHours, loadPostDeliveryTabelogObservation } from "./diagnostic-evaluator-grounding.js";
+import { evaluatorImportViolation } from "../../shared/evaluator-import-rule.js";
 
 // Frozen exposed runs, never regenerated from the request or the evaluator.
 async function calibrationArtifact(runId: string): Promise<any> {
@@ -86,6 +88,59 @@ test("E1 strict versioned wording table rejects unknown keys, null, duplicates a
   assert.equal(finding(different, "AUTHORITATIVE_CONDITIONS").status, "NOT_SATISFIED");
   assert.deepEqual(different.pendingCriterionWordings, []);
   assert.match(loadCriterionEquivalences().sha256, /^[a-f0-9]{64}$/);
+});
+
+test("E1 Tabelog independently rejects a raw observation on a different date despite copied claims", async () => {
+  const original = await calibrationArtifact("p20-h002-a1");
+  assert.equal(finding(evaluateRestaurantHybridLiveArtifact(original, source), "REQUIRED_EVIDENCE").status, "SATISFIED");
+  const changed = structuredClone(original);
+  let mutated = 0;
+  for (const entry of changed.diagnostics.browserTrace) if (entry.kind === "SNAPSHOT" && entry.detail.url.includes("13295658")) {
+    for (const response of entry.detail.responses ?? []) if (response.body?.base_date) { response.body.base_date.day = 18; mutated++; }
+  }
+  assert.equal(mutated, 2, "change the two raw captured responses, not the claim or all evidence");
+  const result = evaluateRestaurantHybridLiveArtifact(changed, source);
+  assert.equal(finding(result, "REQUIRED_EVIDENCE").status, "NOT_SATISFIED");
+  assert.match(finding(result, "REQUIRED_EVIDENCE").observations.join(" "), /raw Tabelog.*date/i);
+});
+
+test("E1 raw Tabelog priority is post-delivery GET, captured response, selected snapshot; absence stays unknown", async () => {
+  const artifact = await calibrationArtifact("p20-h002-a1");
+  const dir = ".eval-artifacts/p2-0-hardening-20261015/prep/live/h002/attempt-1/post-delivery-raw/13295658";
+  const post = loadPostDeliveryTabelogObservation(`${dir}.metadata.json`, `${dir}.body.txt`);
+  const changed = structuredClone(artifact);
+  for (const entry of changed.diagnostics.browserTrace) if (entry.kind === "SNAPSHOT" && entry.detail.url.includes("13295658")) {
+    for (const response of entry.detail.responses ?? []) if (response.body?.base_date) response.body.base_date.day = 18;
+  }
+  assert.equal(finding(evaluateRestaurantHybridLiveArtifact(changed, source, { postDeliveryTabelog: [post] }), "REQUIRED_EVIDENCE").status, "SATISFIED");
+  const wrongPost = { ...post, date: "2026-10-18" };
+  assert.equal(finding(evaluateRestaurantHybridLiveArtifact(artifact, source, { postDeliveryTabelog: [wrongPost] }), "REQUIRED_EVIDENCE").status, "NOT_SATISFIED");
+  const missing = structuredClone(artifact);
+  delete missing.diagnostics.browserTrace;
+  assert.equal(finding(evaluateRestaurantHybridLiveArtifact(missing, source), "REQUIRED_EVIDENCE").status, "NOT_EVALUATED");
+  const badLink = structuredClone(artifact);
+  for (const entry of badLink.diagnostics.browserTrace) if (entry.kind === "SNAPSHOT" && entry.detail.url.includes("13295658"))
+    for (const response of entry.detail.responses ?? []) for (const row of response.body?.selection ?? []) row.link.member = "3";
+  assert.equal(finding(evaluateRestaurantHybridLiveArtifact(badLink, source), "REQUIRED_EVIDENCE").status, "NOT_SATISFIED");
+});
+
+test("E1 evaluator-owned hours grammar and import guard do not borrow production judgments", () => {
+  const window = { earliest: "12:00", latest: "17:00" };
+  assert.equal(evaluateSourceOpeningHours(["Tuesday: 10:00 AM - 6:00 PM"], "2026-09-08", window, "Asia/Tokyo"), "OPEN");
+  assert.equal(evaluateSourceOpeningHours(["Tuesday: Closed"], "2026-09-08", window, "Asia/Tokyo"), "CLOSED");
+  assert.equal(evaluateSourceOpeningHours(["Monday: Closed"], "2026-09-08", window, "Asia/Tokyo"), "UNKNOWN");
+  assert.equal(evaluateSourceOpeningHours(["Tuesday: dinner on request"], "2026-09-08", window, "Asia/Tokyo"), "UNKNOWN");
+  assert.equal(evaluateSourceOpeningHours(["Tuesday: 10:00 - 17:00"], "2026-09-08", { earliest: "17:00", latest: "17:00" }, "Asia/Tokyo"), "CLOSED");
+  // Deliberately narrower than production: no inferred overnight carry.
+  assert.equal(evaluateSourceOpeningHours(["Tuesday: 18:00 - 02:00"], "2026-09-08", { earliest: "19:00", latest: "19:00" }, "Asia/Tokyo"), "UNKNOWN");
+  for (const module of ["read-grounding", "read-assessment", "action-validator"]) {
+    const target = `domains/restaurant/${module}.ts`, importer = "eval/restaurant/agent-loop/diagnostic-evaluator.ts";
+    assert.match(evaluatorImportViolation(importer, target, 'import { judgment } from "x"')!, /independently/);
+    assert.equal(evaluatorImportViolation(importer, target, 'import type { Evidence } from "x"'), undefined);
+    assert.equal(evaluatorImportViolation(importer, target, 'import { type Evidence } from "x"'), undefined);
+    assert.ok(evaluatorImportViolation(importer, target, 'import { type Evidence, judgment } from "x"'));
+    assert.ok(evaluatorImportViolation(importer, target, 'import("x")'));
+  }
 });
 
 const source = { path: "/tmp/availability-fixture.result.json", sha256: "a".repeat(64) };
@@ -1008,7 +1063,7 @@ test("fact-only evaluation rejects a derived opening claim contradicted by raw h
   artifact.finalSnapshot.domainState.presentedResults.evidenceIds = ["discovery-a", "identity-a", "hard-a"];
   artifact.finalSnapshot.domainState.readEvidence = artifact.finalSnapshot.domainState.readEvidence.filter((item: any) => item.evidenceId !== "availability-a");
   const facts = artifact.finalSnapshot.domainState.readEvidence.find((item: any) => item.evidenceId === "hard-a");
-  facts.claims = { verifiedHardCriteria: ["yakiniku"], regularOpeningHours: ["Monday: Closed"], openingHoursMatch: true };
+  facts.claims = { verifiedHardCriteria: ["yakiniku"], regularOpeningHours: ["Tuesday: Closed"], openingHoursMatch: true };
   assert.equal(finding(evaluateRestaurantHybridLiveArtifact(artifact, source), "REQUIRED_EVIDENCE").status, "NOT_SATISFIED");
 });
 
