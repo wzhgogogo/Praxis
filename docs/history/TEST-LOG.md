@@ -4319,3 +4319,7 @@ Hybrid完整生产factory＋Router部分端口分层85/85；正常100／耗尽1�
 ## TEST-2026-10-16-E1-PUSH-BLOCKED
 
 `git push origin codex/feat-live-restaurant-read-path`被自动审批拒绝，Git进程未启动，无推送结果。只读检查本地origin／branch／HEAD／未推送数量，不输出凭据；没有业务网络、模型或Live增量。仅报告状态变更，复用a94d91b的现有代码门禁，不重跑相同检查。等待敏感载荷与具体目的地确认。
+
+## TEST-2026-10-16-E1-SUPPLEMENT-EQUIVALENCES
+
+真实复核表加载旧路径unknown schema先红；新路径八组逐字独立期望及原始SHA通过，107/107定向绿。typecheck、arch:check、npm test 906/906、build通过，日志supplement/equivalences-{red,green-final,typecheck,arch-check,test,build}.log。旧UNKNOWN测试显式使用测试专用空表，不让审核表改变其局部前提；真实表未改。h003原始result/capture SHA与原文核验见supplement/h003-claims.md。无浏览器执行代码变更，不重复浏览器门禁，无模型/Live/GET。

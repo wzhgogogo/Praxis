@@ -29,6 +29,25 @@ import type { WitnessOracle } from "./diagnostic-evaluator-witness.js";
 async function calibrationArtifact(runId: string): Promise<any> {
   return JSON.parse(gunzipSync(await readFile(new URL(`../../../../.eval-artifacts/calibration-phase1-20261015/inputs/${runId}.result.json.gz`, import.meta.url))).toString("utf8"));
 }
+function testEquivalences(entries: unknown[] = []) {
+  return parseCriterionEquivalences(JSON.stringify({ schema: "criterion-equivalences@1", revision: 1, status: "TEST_ONLY", rule: "Only listed pairs", entries }), "TEST_ONLY");
+}
+
+test("E1 supplement loads the actual reviewer schema without rewriting its decisions", () => {
+  const table = loadCriterionEquivalences();
+  assert.equal(table.entries.length, 8);
+  assert.equal(table.sha256, "9880c47f54540947ea73d06dd8e530241cbce46f377f9a6f325bd6e7c8271440");
+  assert.deepEqual(table.entries.map(entry => [entry.goldText, entry.systemText, entry.polarity, entry.conclusion]), [
+    ["good for a first date", "first-date restaurant", "POSITIVE", "SAME"],
+    ["good for a first date", "suitable for a first date", "POSITIVE", "SAME"],
+    ["hot pot restaurant", "hot-pot restaurants", "NEGATIVE", "SAME"],
+    ["kaiseki", "kaiseki restaurant", "POSITIVE", "SAME"],
+    ["good for meeting a friend", "suitable for meeting up with a friend", "POSITIVE", "SAME"],
+    ["sichuan/hunan cuisine", "sichuan/hunan-style cuisine where spicy food is the main focus", "NEGATIVE", "SAME"],
+    ["team dinner", "suitable for a team dinner", "POSITIVE", "SAME"],
+    ["tempura", "tempura restaurant", "POSITIVE", "SAME"],
+  ]);
+});
 
 test("E1 typed reader does not silently turn missing criteria into an empty contract", async () => {
   const original = await calibrationArtifact("p20-h002-a1");
@@ -65,8 +84,8 @@ test("E1 typed projection preserves absence and rejects invalid consumed fields 
 test("E1 reviewed wording equivalence is usable without relaxing polarity or strength", () => {
   const artifact: any = completeArtifact();
   artifact.materializedCase.semantic.criteria[0].value = "chef-led tasting";
-  const table = parseCriterionEquivalences(JSON.stringify({ schemaVersion: "1", tableVersion: "restaurant-criterion-equivalences@1", entries: [
-    { goldText: "chef-led tasting", systemText: "omakase", polarity: "POSITIVE", conclusion: "SAME", decidedBy: "TEST_ONLY", decidedAt: "2026-10-16T00:00:00Z", sourceRuns: ["synthetic-control"] },
+  const table = parseCriterionEquivalences(JSON.stringify({ schema: "criterion-equivalences@1", revision: 1, status: "TEST_ONLY", rule: "Only listed pairs", entries: [
+    { id: "test", gold: "chef-led tasting", system: "omakase", polarity: "POSITIVE", verdict: "SAME", decidedBy: "TEST_ONLY", decidedOn: "2026-10-16", sourceRuns: ["synthetic-control"] },
   ] }), "TEST_ONLY");
   const evaluate = (value: unknown) => evaluateRestaurantHybridLiveArtifact(value, source, { criterionEquivalences: table });
   assert.equal(finding(evaluate(artifact), "AUTHORITATIVE_CONDITIONS").status, "SATISFIED");
@@ -78,13 +97,13 @@ test("E1 reviewed wording equivalence is usable without relaxing polarity or str
 });
 
 test("E1 strict versioned wording table rejects unknown keys, null, duplicates and records raw SHA", () => {
-  const empty = 'schemaVersion: "1"\ntableVersion: restaurant-criterion-equivalences@1\nentries: []\n';
-  assert.equal(parseCriterionEquivalences(empty, "TEST_ONLY").sha256, "ba6f94ffe43b19bf0fefabbc2db34b4934defeb909e1d85c0edd88df42ea2f1b");
-  for (const invalid of [empty + 'extra: true\n', empty.replace('[]', 'null'), empty.replace('"1"', 'null'), empty.replace('entries: []', 'entries: []\nentries: []')])
+  const empty = 'schema: criterion-equivalences@1\nrevision: 1\nstatus: TEST_ONLY\nrule: Only listed pairs\nentries: []\n';
+  assert.equal(parseCriterionEquivalences(empty, "TEST_ONLY").sha256, createHash("sha256").update(empty).digest("hex"));
+  for (const invalid of [empty + 'extra: true\n', empty.replace('[]', 'null'), empty.replace('revision: 1', 'revision: null'), empty.replace('entries: []', 'entries: []\nentries: []')])
     assert.throws(() => parseCriterionEquivalences(invalid, "TEST_ONLY"));
-  const entry = { goldText: "test source", systemText: "test paraphrase", polarity: "POSITIVE", conclusion: "DIFFERENT", decidedBy: "TEST_ONLY", decidedAt: "2026-10-16T00:00:00Z", sourceRuns: ["synthetic"] };
-  const tableText = (entries: unknown[]) => JSON.stringify({ schemaVersion: "1", tableVersion: "restaurant-criterion-equivalences@1", entries });
-  for (const invalid of [{ ...entry, extra: true }, { ...entry, conclusion: null }, { ...entry, sourceRuns: [null] }]) assert.throws(() => parseCriterionEquivalences(tableText([invalid]), "TEST_ONLY"));
+  const entry = { id: "test", gold: "test source", system: "test paraphrase", polarity: "POSITIVE", verdict: "DIFFERENT", decidedBy: "TEST_ONLY", decidedOn: "2026-10-16", sourceRuns: ["synthetic"] };
+  const tableText = (entries: unknown[]) => JSON.stringify({ schema: "criterion-equivalences@1", revision: 1, status: "TEST_ONLY", rule: "Only listed pairs", entries });
+  for (const invalid of [{ ...entry, extra: true }, { ...entry, verdict: null }, { ...entry, sourceRuns: [null] }]) assert.throws(() => parseCriterionEquivalences(tableText([invalid]), "TEST_ONLY"));
   assert.throws(() => parseCriterionEquivalences(tableText([entry, entry]), "TEST_ONLY"), /duplicate/);
   const artifact: any = completeArtifact(); artifact.materializedCase.semantic.criteria[0].value = "test source"; artifact.finalSnapshot.domainState.intentDraft.criteria[0].text = "test paraphrase";
   const unknown = evaluateRestaurantHybridLiveArtifact(artifact, source);
@@ -1285,7 +1304,7 @@ test("H004 fact-only presentation requires applicable opening hours, not an avai
   assert.equal(finding(accepted, "REQUIRED_EVIDENCE").status, "SATISFIED", JSON.stringify(finding(accepted, "REQUIRED_EVIDENCE").observations));
   assert.equal(finding(accepted, "FINAL_CLAIM").status, "SATISFIED");
   domain.intentDraft.criteria[1].text = "suitable for meeting up with a friend";
-  const softRewrite = evaluateRestaurantHybridLiveArtifact(artifact, source);
+  const softRewrite = evaluateRestaurantHybridLiveArtifact(artifact, source, { criterionEquivalences: testEquivalences() });
   assert.equal(finding(softRewrite, "AUTHORITATIVE_CONDITIONS").status, "NOT_EVALUATED");
   assert.match(finding(softRewrite, "AUTHORITATIVE_CONDITIONS").directCause, /independent semantic review/);
   assert.ok(softRewrite.unassessedDimensions.some((item) => item.includes("Criterion text differs")));
@@ -1362,7 +1381,7 @@ test("grounding follows the actual authoritative criterion while textual Gold di
   artifact.finalSnapshot.domainState.readEvidence.find((item: any) => item.evidenceId === "hard-a").claims = {
     verifiedNegativeCriteria: ["hot-pot restaurants"],
   };
-  const result = evaluateRestaurantHybridLiveArtifact(artifact, source);
+  const result = evaluateRestaurantHybridLiveArtifact(artifact, source, { criterionEquivalences: testEquivalences() });
   assert.equal(finding(result, "AUTHORITATIVE_CONDITIONS").status, "NOT_EVALUATED");
   assert.match(finding(result, "AUTHORITATIVE_CONDITIONS").directCause, /independent semantic review/);
   assert.equal(finding(result, "REQUIRED_EVIDENCE").status, "SATISFIED");

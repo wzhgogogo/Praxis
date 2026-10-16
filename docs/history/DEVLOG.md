@@ -3619,3 +3619,7 @@ E1输入3389131及1–9项独立提交已完成，补充9eb59e8／f0dc35b／a94d
 ## DEV-2026-10-16-E1-PUSH-BLOCKED
 
 本地64038dd交付后，敏感原始评测包的远端推送被自动审批在进程创建前拒绝，未执行、未换通道重试。只读核对origin为GitHub的wzhgogogo/Praxis、指定分支不变；需用户明确确认私有及20 result＋2中断trace包／评测产物至该目的地的授权。报告与STATUS如实记录阻断，源码和评测输入不变，等待回复，不宣称已推送。
+
+## DEV-2026-10-16-E1-SUPPLEMENT-EQUIVALENCES
+
+按用户新输入先pull，分叉后rebase至308f895（含b5bed22），唯一等价表冲突完整保留复核者表；单独stash并恢复用户INDEX，其他设计文件未动。旧加载器unknown schema反例先红，改按schema/revision/id/gold/system/verdict/decidedOn实际字段，内部归一化但不兼容旧空表格式，未知键/null/重复仍拒绝。两h003真实展示及capture第47行无预算/包间满足声称，报告逐字引用并注明未存UI边界。后续仅实现R2/R5/R6及最终校准；labels未读取，生产和冻结Gold未改。

@@ -200,3 +200,17 @@ A=条件，E=结果证据，I=调查行为，F=展示claim，C=完成，R=资源
 - 原因：本次包含20份原始result、2份中断包（含trace）和评测产物，审批要求可信用户明确确认敏感载荷的具体远端目的地。已有一般推送授权，但此项额外确认未取得。
 - 只读核对本地origin：`https://github.com/wzhgogogo/Praxis`，目标分支`codex/feat-live-restaurant-read-path`；未联网核验可见性。待用户明确确认该仓库为私有，并允许上述含请求／来源页面／trace的载荷推送到该仓库与分支。
 - 没有换通道、强推或间接重试；无模型／Live增量。此处只补交付状态，不修改评测输入、源码或旧评价。
+
+## 复核输入后的补充（2026-10-16，进行中）
+
+`git pull --ff-only`实际无法快进；按原授权rebase至远端`308f895`（包含`b5bed22`）。本地15提交均保留，仅等价表add/add冲突采用复核者完整文件；用户INDEX以独立stash保存后原样恢复，备份`07c7a1fc5e089ec8005cb13989d2d768dc4aebe9`保留。上述旧提交号和日志仍指原审计检查点，rebase后的源码提交为`adaff72`；原输入字节/SHA不变。新人工标签本节开始尚未读取。
+
+先行H003核对、当前切片和覆盖表见[supplement/h003-claims.md](supplement/h003-claims.md)。两次实际展示及原始Agent outputText没有预算／包间满足声称；不据此宣称全维度无S0。原文与读取范围均已记录，不改标签。
+
+| 补充 | 具体反例 | 修改 | 对照／反例结果 | 签收状态 |
+| --- | --- | --- | --- | --- |
+| 审核等价表字段 | 真实表被旧加载器拒绝unknown key schema | criterion-equivalences.ts按审核实际字段严格解析，测试不改Gold | [红](supplement/equivalences-red.log)；107定向绿，[四门禁](supplement/equivalences-test.log)906/906；未知键/null/重复/DIFFERENT和polarity/strength拒绝仍在 | 该加载链完成，非整批校准完成 |
+
+实际命令：`node --import tsx --test --test-name-pattern='E1 supplement loads' src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts`（红），完整同文件（绿）；`npm --no-update-notifier run typecheck`、`npm --no-update-notifier run arch:check`、`npm --no-update-notifier test`、`npm --no-update-notifier run build`（日志均在supplement/equivalences-*.log）。真实表SHA `9880c47f54540947ea73d06dd8e530241cbce46f377f9a6f325bd6e7c8271440`；没有修改复核表、Gold或生产行为。
+
+R2/R5/R6与最终22条校准仍在进行；旧PENDING对照不冒充新口径结果。

@@ -13,7 +13,7 @@ export interface CriterionEquivalence {
   sourceRuns: string[];
 }
 export interface CriterionEquivalenceTable {
-  tableVersion: "restaurant-criterion-equivalences@1";
+  tableVersion: string;
   entries: CriterionEquivalence[];
   path: string;
   sha256: string;
@@ -37,23 +37,27 @@ function requiredText(value: unknown, context: string): string {
 export function parseCriterionEquivalences(bytes: string, path: string): CriterionEquivalenceTable {
   const docs = parseAllDocuments(bytes, { uniqueKeys: true });
   if (docs.length !== 1 || docs[0]!.errors.length) throw Error(`Invalid equivalence YAML: ${docs.flatMap(doc => doc.errors).join("; ")}`);
-  const root = strictObject(docs[0]!.toJS({ maxAliasCount: 0 }), ["schemaVersion", "tableVersion", "entries"], path);
-  if (root.schemaVersion !== "1" || root.tableVersion !== "restaurant-criterion-equivalences@1" || !Array.isArray(root.entries)) throw Error("Unsupported equivalence schema/version or entries");
+  const root = strictObject(docs[0]!.toJS({ maxAliasCount: 0 }), ["schema", "revision", "status", "rule", "entries"], path);
+  if (root.schema !== "criterion-equivalences@1" || !Number.isSafeInteger(root.revision) || (root.revision as number) < 1 || !Array.isArray(root.entries)) throw Error("Unsupported equivalence schema/revision or entries");
+  requiredText(root.status, `${path}.status`); requiredText(root.rule, `${path}.rule`);
   const seen = new Set<string>();
+  const ids = new Set<string>();
   const entries = root.entries.map((item, index): CriterionEquivalence => {
     const context = `entries[${index}]`;
-    const entry = strictObject(item, ["goldText", "systemText", "polarity", "conclusion", "decidedBy", "decidedAt", "sourceRuns"], context);
-    const goldText = requiredText(entry.goldText, `${context}.goldText`), systemText = requiredText(entry.systemText, `${context}.systemText`);
-    const decidedBy = requiredText(entry.decidedBy, `${context}.decidedBy`), decidedAt = requiredText(entry.decidedAt, `${context}.decidedAt`);
-    if (entry.polarity !== "POSITIVE" && entry.polarity !== "NEGATIVE" || entry.conclusion !== "SAME" && entry.conclusion !== "DIFFERENT") throw Error(`${context}: invalid polarity/conclusion`);
+    const entry = strictObject(item, ["id", "gold", "system", "polarity", "verdict", "decidedBy", "decidedOn", "sourceRuns"], context);
+    const id = requiredText(entry.id, `${context}.id`);
+    if (ids.has(id)) throw Error(`${context}: duplicate id`); ids.add(id);
+    const goldText = requiredText(entry.gold, `${context}.gold`), systemText = requiredText(entry.system, `${context}.system`);
+    const decidedBy = requiredText(entry.decidedBy, `${context}.decidedBy`), decidedAt = requiredText(entry.decidedOn, `${context}.decidedOn`);
+    if (entry.polarity !== "POSITIVE" && entry.polarity !== "NEGATIVE" || entry.verdict !== "SAME" && entry.verdict !== "DIFFERENT") throw Error(`${context}: invalid polarity/verdict`);
     if (!Number.isFinite(Date.parse(decidedAt)) || !Array.isArray(entry.sourceRuns) || !entry.sourceRuns.length) throw Error(`${context}: invalid decision time/source runs`);
     const sourceRuns = entry.sourceRuns.map((value, i) => requiredText(value, `${context}.sourceRuns[${i}]`));
     const key = JSON.stringify([normalizeCriterion(goldText), normalizeCriterion(systemText), entry.polarity]);
     if (seen.has(key)) throw Error(`${context}: duplicate equivalence pair`);
     seen.add(key);
-    return { goldText, systemText, polarity: entry.polarity, conclusion: entry.conclusion, decidedBy, decidedAt, sourceRuns };
+    return { goldText, systemText, polarity: entry.polarity, conclusion: entry.verdict, decidedBy, decidedAt, sourceRuns };
   });
-  return { tableVersion: root.tableVersion, entries, path, sha256: createHash("sha256").update(bytes).digest("hex") };
+  return { tableVersion: `${root.schema}/revision-${root.revision}`, entries, path, sha256: createHash("sha256").update(bytes).digest("hex") };
 }
 export function loadCriterionEquivalences(path = fileURLToPath(new URL("./cases/criterion-equivalences.yaml", import.meta.url))): CriterionEquivalenceTable {
   return parseCriterionEquivalences(readFileSync(path, "utf8"), path);
