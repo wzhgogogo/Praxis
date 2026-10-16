@@ -20,7 +20,7 @@ import { readDiagnosticRun } from "./diagnostic-evaluator-record.js";
 import { loadCriterionEquivalences, parseCriterionEquivalences } from "./criterion-equivalences.js";
 import { evaluateSourceOpeningHours, loadPostDeliveryTabelogObservation } from "./diagnostic-evaluator-grounding.js";
 import { evaluatorImportViolation } from "../../shared/evaluator-import-rule.js";
-import { loadFrozenCalibrationInput, loadCalibrationObservations } from "./calibration-inputs.js";
+import { loadFrozenCalibrationInput, loadCalibrationObservations, loadApprovedGoldCorrection } from "./calibration-inputs.js";
 import { evaluateFrozenCalibrationArtifact } from "./runners/run-hybrid-artifact-evaluation.js";
 import { loadWitnessOracle, loadWitnessContext } from "./diagnostic-evaluator-witness.js";
 import type { WitnessOracle } from "./diagnostic-evaluator-witness.js";
@@ -33,6 +33,69 @@ async function calibrationArtifact(runId: string): Promise<any> {
 function testEquivalences(entries: unknown[] = []) {
   return parseCriterionEquivalences(JSON.stringify({ schema: "criterion-equivalences@1", revision: 1, status: "TEST_ONLY", rule: "Only listed pairs", entries }), "TEST_ONLY");
 }
+
+test("E1 review approved rev2 Gold repairs every rev1 Part A result without changing its bytes", async () => {
+  const manifest = ".eval-artifacts/calibration-phase1-20261015/inputs/manifest.json";
+  const corrections = ".eval-artifacts/e1-evaluator-20261016/gold-corrections.json";
+  const directory = await mkdtemp(join(tmpdir(), "e1-approved-gold-"));
+  try {
+    const input = await loadFrozenCalibrationInput(manifest, "p1fA-kf-h002-a1");
+    const original = await readFile(input.sourceArtifact.path);
+    assert.equal(evaluateRestaurantHybridLiveArtifact(input.artifact, input.sourceArtifact, input.options).outcome.type, "NOT_EVALUATED", "original damaged Gold stays visible without the approved correction");
+    const { evaluation } = await evaluateFrozenCalibrationArtifact(manifest, "p1fA-kf-h002-a1", directory, undefined, undefined, corrections);
+    assert.equal(evaluation.outcome.type, "QUALIFIED_DELIVERY", "approved independent rev2 Gold must actually enter evaluation");
+    assert.equal(finding(evaluation, "AUTHORITATIVE_CONDITIONS").status, "SATISFIED");
+    const budget = evaluation.conditionStates[0]?.criteria.find(row => row.text === "around 10,000 yen per person");
+    assert.equal(budget?.status, "MET");
+    assert.deepEqual(await readFile(input.sourceArtifact.path), original);
+    assert.equal((input.artifact as any).materializedCase.semantic.criteria[1].value, "around 10", "never repair the original artifact in place");
+    for (const runId of ["p1fA-kf-h001-a1", "p1fA-kf-h004-a1", "p1fA-kagurazaka-a1", "p1fA-nakameguro-a1"]) {
+      const { evaluation } = await evaluateFrozenCalibrationArtifact(manifest, runId, directory, undefined, undefined, corrections);
+      assert.ok(evaluation.goldCorrection?.applied, `${runId}: correction applies to all rev1 results, not only the malformed budget`);
+    }
+  } finally { await rm(directory, { recursive: true, force: true }); }
+});
+
+test("E1 review Gold correction binds all affected originals and both source SHAs, not a case-name exception", async () => {
+  const manifestPath = ".eval-artifacts/calibration-phase1-20261015/inputs/manifest.json";
+  const corrections = ".eval-artifacts/e1-evaluator-20261016/gold-corrections.json";
+  const record = JSON.parse(await readFile(corrections, "utf8"));
+  const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
+  const affected: string[] = [];
+  for (const entry of manifest.entries) {
+    const file = entry.files.find((file: any) => ["RESULT", "STARTED"].includes(file.kind));
+    const artifact = JSON.parse(gunzipSync(await readFile(new URL(`../../../../.eval-artifacts/calibration-phase1-20261015/inputs/${file.path}`, import.meta.url))).toString());
+    if (artifact.runtimeContext.dataset.sha256 !== "447aaf3992014be8bb29736c179cb511aff31d0a69fad022f1c659ac5760ff27") continue;
+    affected.push(entry.runId);
+    assert.deepEqual(record.entries.find((row: any) => row.runId === entry.runId), { runId: entry.runId, kind: file.kind, caseId: artifact.caseId, artifactSha256: file.originalSha256 });
+  }
+  assert.equal(affected.length, 7, "five results and two interrupted started records used rev1");
+  assert.deepEqual(record.entries.map((row: any) => row.runId).sort(), affected.sort());
+  const input = await loadFrozenCalibrationInput(manifestPath, "p1fA-kf-h002-a1");
+  const correction = await loadApprovedGoldCorrection(corrections, input.runId, input.artifact, input.sourceArtifact.sha256);
+  assert.ok(correction);
+  await assert.rejects(loadApprovedGoldCorrection(corrections, input.runId, input.artifact, "0".repeat(64)), /different original/);
+  assert.throws(() => evaluateRestaurantHybridLiveArtifact(input.artifact, { ...input.sourceArtifact, sha256: "0".repeat(64) }, { goldCorrection: correction }), /different original/);
+  const directory = await mkdtemp(join(tmpdir(), "e1-gold-integrity-"));
+  try {
+    await copyFile(".eval-artifacts/p1-f-20261011/variants.yaml", join(directory, "rev1.yaml"));
+    await copyFile(".eval-artifacts/p1-f-20261011/variants.rev2.yaml", join(directory, "rev2.yaml"));
+    record.rev1.path = "rev1.yaml"; record.rev2.path = "rev2.yaml";
+    const path = join(directory, "corrections.json");
+    for (const mutate of [
+      (value: any) => { value.rev1.sha256 = "0".repeat(64); },
+      (value: any) => { value.rev2.sha256 = "0".repeat(64); },
+      (value: any) => { value.entries = value.entries.filter((row: any) => row.runId !== input.runId); },
+      (value: any) => { value.entries.find((row: any) => row.runId === input.runId).artifactSha256 = "0".repeat(64); },
+    ]) {
+      const wrong = structuredClone(record); mutate(wrong);
+      await writeFile(path, JSON.stringify(wrong));
+      await assert.rejects(loadApprovedGoldCorrection(path, input.runId, input.artifact, input.sourceArtifact.sha256), /SHA mismatch|Missing binding|different original/);
+    }
+    const normal = await loadFrozenCalibrationInput(manifestPath, "p20-h002-a1");
+    assert.equal(await loadApprovedGoldCorrection(corrections, normal.runId, normal.artifact, normal.sourceArtifact.sha256), undefined, "other revisions are untouched");
+  } finally { await rm(directory, { recursive: true, force: true }); }
+});
 
 test("E1 supplement loads the actual reviewer schema without rewriting its decisions", () => {
   const table = loadCriterionEquivalences();

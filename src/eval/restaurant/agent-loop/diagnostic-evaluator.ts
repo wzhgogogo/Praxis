@@ -22,7 +22,7 @@ import type { CandidateConditionStates, SoftPreferenceObservations } from "./dia
 
 
 export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@29";
-export const RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION = "restaurant-hybrid-read-diagnostic-rubric@24";
+export const RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION = "restaurant-hybrid-read-diagnostic-rubric@25";
 
 export type DiagnosticEvaluationStatus = "SATISFIED" | "NOT_SATISFIED" | "NOT_EVALUATED";
 
@@ -84,6 +84,7 @@ export interface RestaurantHybridDiagnosticEvaluation {
   witnessFunnel: WitnessFunnel[];
   investigationMetrics: InvestigationMetrics;
   effectiveResources: EffectiveResourceAssessment;
+  goldCorrection: { applied: true; artifactSha256: string; rev1Sha256: string; rev2Sha256: string; refs: string[] } | null;
 }
 
 function asArray<T>(value: T[] | undefined): T[] { return value ?? []; }
@@ -1045,11 +1046,20 @@ export interface DiagnosticEvaluationOptions {
   witnessOracle?: WitnessOracle;
   softPreferenceObservations?: SoftPreferenceObservations;
   frozenRun?: { runId: string; artifactSha256: string };
+  goldCorrection?: { artifactSha256: string; rev1Sha256: string; rev2Sha256: string; refs: string[]; materializedCase: unknown };
 }
 export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceArtifact: { path: string; sha256: string }, options: DiagnosticEvaluationOptions = {}): RestaurantHybridDiagnosticEvaluation {
   const equivalences = options.criterionEquivalences ?? loadCriterionEquivalences();
   const softPreferences = options.softPreferenceObservations ?? (options.frozenRun ? loadSoftPreferenceObservations() : undefined);
-  const { record: root, issues: readIssues } = readDiagnosticRun(artifact); const domain = (root.finalSnapshot?.domainState) ?? {}; const materialized = (root.materializedCase) ?? {};
+  const decoded = readDiagnosticRun(artifact);
+  if (options.goldCorrection) {
+    if (options.goldCorrection.artifactSha256 !== sourceArtifact.sha256) throw Error("Gold correction bound to a different original artifact");
+    const corrected = readDiagnosticRun({ materializedCase: options.goldCorrection.materializedCase });
+    if (!corrected.record.materializedCase) throw Error("Approved Gold correction is missing its materialized case");
+    decoded.record.materializedCase = corrected.record.materializedCase;
+    decoded.issues = [...decoded.issues.filter(issue => !issue.path.startsWith("materializedCase.")), ...corrected.issues.filter(issue => issue.path.startsWith("materializedCase."))];
+  }
+  const { record: root, issues: readIssues } = decoded; const domain = (root.finalSnapshot?.domainState) ?? {}; const materialized = (root.materializedCase) ?? {};
   // `intentDraft` is the Restaurant runtime's final authoritative intent field; do not
   // substitute a trajectory snapshot when the final state failed to record it.
   const finalAuthoritativeIntent = (domain.intentDraft);
@@ -1180,7 +1190,8 @@ export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceAr
     ending.evidenceRefs.push(...classification.outcome.evidenceRefs);
     ending.directCause = "Independent terminal/source/action records corroborate an internal failure; it is not an ordinary no-result.";
   }
-  return { ...classification, conditionStates, softPreferenceObservations: softPreferences ? { path: softPreferences.path, sha256: softPreferences.sha256 } : null, witnessFunnel, investigationMetrics, effectiveResources, recordReadIssues: [...readIssues, ...(externalTrace?.issues ?? [])], criterionEquivalences: { path: equivalences.path, sha256: equivalences.sha256, tableVersion: equivalences.tableVersion }, pendingCriterionWordings: criteriaComparison.pending, schemaVersion: "1", evaluatorVersion: RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, rubricVersion: RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION, rubricStatus: "DRAFT_DIAGNOSTIC_ONLY", sourceArtifact: { path: sourceArtifact.path, sha256: sourceArtifact.sha256, ...(asString(root.runId) ? { runId: asString(root.runId)! } : {}), ...(asString(root.caseId) ? { caseId: asString(root.caseId)! } : {}) }, execution: { status: asString(root.status) ?? null, stage: asString(root.stage) ?? null,
+  const goldCorrection = options.goldCorrection ? { applied: true as const, artifactSha256: options.goldCorrection.artifactSha256, rev1Sha256: options.goldCorrection.rev1Sha256, rev2Sha256: options.goldCorrection.rev2Sha256, refs: options.goldCorrection.refs } : null;
+  return { ...classification, goldCorrection, conditionStates, softPreferenceObservations: softPreferences ? { path: softPreferences.path, sha256: softPreferences.sha256 } : null, witnessFunnel, investigationMetrics, effectiveResources, recordReadIssues: [...readIssues, ...(externalTrace?.issues ?? [])], criterionEquivalences: { path: equivalences.path, sha256: equivalences.sha256, tableVersion: equivalences.tableVersion }, pendingCriterionWordings: criteriaComparison.pending, schemaVersion: "1", evaluatorVersion: RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, rubricVersion: RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION, rubricStatus: "DRAFT_DIAGNOSTIC_ONLY", sourceArtifact: { path: sourceArtifact.path, sha256: sourceArtifact.sha256, ...(asString(root.runId) ? { runId: asString(root.runId)! } : {}), ...(asString(root.caseId) ? { caseId: asString(root.caseId)! } : {}) }, execution: { status: asString(root.status) ?? null, stage: asString(root.stage) ?? null,
     // A source discovery failure is not an ordinary bounded empty result.
     // The runtime keeps that failure on the search continuation, so preserve
     // UNKNOWN rather than reclassifying the task as a verified no-result.

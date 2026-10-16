@@ -1,0 +1,7 @@
+Command: node --import tsx --test --test-name-pattern='E1 review approved rev2' src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts
+Baseline: 44e6aab, with only target regression and correction record added.
+Exit: 1
+AssertionError [ERR_ASSERTION]: approved independent rev2 Gold must actually enter evaluation
+actual: NOT_EVALUATED
+expected: QUALIFIED_DELIVERY
+Tests 1, pass 0, fail 1; not an import, environment or startup error.

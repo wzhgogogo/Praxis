@@ -2,6 +2,9 @@ import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { dirname, resolve, relative, isAbsolute } from "node:path";
 import { gunzipSync } from "node:zlib";
+import { isDeepStrictEqual } from "node:util";
+import { parseAllDocuments } from "yaml";
+import { loadFrozenLiveCases } from "./live-case-materializer.js";
 import type { DiagnosticEvaluationOptions } from "./diagnostic-evaluator.js";
 import { loadPostDeliveryTabelogObservation } from "./diagnostic-evaluator-grounding.js";
 
@@ -16,6 +19,53 @@ function object(value: unknown, allowed: string[], required: string[], path: str
 const string = (value: unknown): string => { if (typeof value !== "string" || !value) throw Error("Expected nonempty manifest string"); return value; };
 const integer = (value: unknown): number => { if (typeof value !== "number" || !Number.isInteger(value) || value < 0) throw Error("Expected manifest byte count"); return value; };
 const digest = (value: unknown): string => { const result = string(value); if (!/^[a-f0-9]{64}$/.test(result)) throw Error("Expected SHA-256"); return result; };
+
+/** User-approved oracle replacement, never a repaired execution artifact.
+ * The old malformed YAML is read only to verify provenance, not as new Gold. */
+export async function loadApprovedGoldCorrection(correctionPath: string, runId: string, artifact: unknown, artifactSha256: string): Promise<DiagnosticEvaluationOptions["goldCorrection"]> {
+  const path = resolve(correctionPath), bytes = await readFile(path);
+  const root = object(JSON.parse(bytes.toString()), ["schema", "status", "authorization", "reason", "rev1", "rev2", "entries"], ["schema", "status", "authorization", "reason", "rev1", "rev2", "entries"], "goldCorrections");
+  if (root.schema !== "restaurant-eval-gold-corrections@1" || root.status !== "USER_APPROVED" || !Array.isArray(root.entries)) throw Error("Unapproved Gold correction");
+  string(root.authorization); string(root.reason);
+  const readSource = async (value: unknown) => {
+    const reference = object(value, ["path", "sha256"], ["path", "sha256"], "Gold source");
+    if (isAbsolute(string(reference.path))) throw Error("Gold source must be manifest-relative");
+    const file = resolve(dirname(path), string(reference.path)), raw = await readFile(file);
+    if (sha(raw) !== digest(reference.sha256)) throw Error("Gold source SHA mismatch");
+    return { path: file, raw, sha256: sha(raw) };
+  };
+  const rev1 = await readSource(root.rev1), rev2 = await readSource(root.rev2);
+  const entries = root.entries.map(value => object(value, ["runId", "kind", "caseId", "artifactSha256"], ["runId", "kind", "caseId", "artifactSha256"], "Gold correction entry"));
+  for (const entry of entries) {
+    string(entry.runId); string(entry.caseId); digest(entry.artifactSha256);
+    if (entry.kind !== "RESULT" && entry.kind !== "STARTED") throw Error("Unknown corrected artifact kind");
+  }
+  if (new Set(entries.map(entry => entry.runId)).size !== entries.length) throw Error("Duplicate Gold correction binding");
+  if (!artifact || typeof artifact !== "object" || Array.isArray(artifact)) throw Error("Gold correction requires the original result");
+  const original = artifact as Record<string, any>;
+  const entry = entries.find(entry => entry.runId === runId);
+  if (!entry) {
+    if (original.runtimeContext?.dataset?.sha256 === rev1.sha256) throw Error("Missing binding for a rev1 run; cannot selectively repair Gold");
+    return undefined;
+  }
+  if (entry.kind !== "RESULT" || entry.artifactSha256 !== artifactSha256 || original.runtimeContext?.dataset?.sha256 !== rev1.sha256
+    || original.caseId !== entry.caseId || original.materializedCase?.id !== entry.caseId) throw Error("Gold correction bound to a different original artifact/revision/case");
+  const documents = parseAllDocuments(rev1.raw.toString(), { uniqueKeys: true });
+  if (documents.some(document => document.errors.length)) throw Error("Invalid original Gold YAML");
+  const oldCase = documents.map(document => document.toJS({ maxAliasCount: 0 })).find(value => value?.id === entry.caseId);
+  const newCase = (await loadFrozenLiveCases(rev2.path)).find(value => value.id === entry.caseId);
+  if (!oldCase || !newCase || !isDeepStrictEqual(oldCase.semantic, original.materializedCase.semantic)
+    || !isDeepStrictEqual(oldCase.acceptance, original.materializedCase.acceptance)) throw Error("Original frozen Gold does not match the approved rev1 entry");
+  // The approved correction changes the oracle representation, never the
+  // original request, execution reference instant, intent or source evidence.
+  for (const field of ["id", "dataset", "parent", "reference_time", "content"]) {
+    const normalized = (value: unknown) => typeof value === "string" ? value.replace(/\s+/g, " ").trim() : value;
+    if (!isDeepStrictEqual(normalized(oldCase[field]), normalized(newCase[field]))) throw Error(`Gold correction changes original ${field}`);
+  }
+  const refs = [path, rev1.path, rev2.path].map((file, index) => `${relative(process.cwd(), file)}#sha256=${[sha(bytes), rev1.sha256, rev2.sha256][index]}`);
+  return { artifactSha256, rev1Sha256: rev1.sha256, rev2Sha256: rev2.sha256, refs,
+    materializedCase: { ...structuredClone(original.materializedCase), semantic: structuredClone(newCase.semantic), acceptance: structuredClone(newCase.acceptance) } };
+}
 export interface FrozenCalibrationInput {
   runId: string;
   artifact: unknown;
