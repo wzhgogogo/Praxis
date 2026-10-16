@@ -1,5 +1,6 @@
 import type { RunRecord, TraceRecord, NetworkRequestRecord, OrchestrationRecord } from "./diagnostic-evaluator-record.js";
 import type { DiagnosticFinding } from "./diagnostic-evaluator.js";
+import type { CandidateConditionStates } from "./diagnostic-evaluator-preferences.js";
 
 export type RunOutcomeType = "QUALIFIED_DELIVERY" | "DELIVERED_UNQUALIFIED" | "HONEST_NO_RESULT" | "CAPABILITY_MISS" | "INTERNAL_FAILURE" | "ENV_FAILURE" | "ORCHESTRATION_INTERRUPTED" | "NOT_A_VALID_SAMPLE" | "NOT_EVALUATED";
 export interface RunOutcome {
@@ -56,6 +57,7 @@ export function auditReadOnlyTrace(traces: TraceRecord[], fallback: NetworkReque
 }
 
 export function classifyRunOutcome(input: { root: RunRecord; findings: DiagnosticFinding[]; expectedGoal?: string; trace: TraceRecord[];
+  conditionStates: CandidateConditionStates[];
   orchestration?: OrchestrationRecord; resultMissing: boolean; knownFeasibleWitness?: { refs: string[] }; invalidSample?: { reason: string; refs: string[] } }): { outcome: RunOutcome; severity: RunSeverity } {
   const root = input.root, domain = root.finalSnapshot?.domainState;
   const presented = domain?.presentedResults?.candidateIds ?? [];
@@ -85,6 +87,9 @@ export function classifyRunOutcome(input: { root: RunRecord; findings: Diagnosti
   if (input.resultMissing) return { outcome: make("NOT_EVALUATED", "result.json missing without sufficient outer interruption records.", input.orchestration?.refs ?? []), severity };
   if (presented.length) {
     const conditions = stage("AUTHORITATIVE_CONDITIONS"), evidence = stage("REQUIRED_EVIDENCE");
+    const unmetConditions = input.conditionStates.flatMap(row => row.criteria.filter(criterion => criterion.status === "NOT_MET" && ["HARD", "SOFT"].includes(criterion.strength))
+      .map(criterion => ({ candidateId: row.candidateId, ...criterion })));
+    if (unmetConditions.length) severity.S1 = { status: "PRESENT", reasons: unmetConditions.map(item => `${item.candidateId}: ${item.text} is independently NOT_MET (${item.strength}).`), evidenceRefs: unmetConditions.flatMap(item => item.evidenceRefs) };
     const goalConflict = Boolean(input.expectedGoal && domain?.intentDraft?.target?.goal && input.expectedGoal !== domain.intentDraft.target.goal);
     if (goalConflict) severity.S1 = { status: "PRESENT", reasons: ["Delivered under a goal conflicting with frozen semantic Gold."], evidenceRefs: ["materializedCase.semantic.target", "finalSnapshot.domainState.intentDraft.target"] };
     const explicitFalseClaim = evidence?.observations.filter(observation => /raw (?:Tabelog|TableCheck).*(?:conflict|contradict|different|reports EMPTY)/.test(observation)) ?? [];
@@ -103,6 +108,8 @@ export function classifyRunOutcome(input: { root: RunRecord; findings: Diagnosti
       }
     }
     if (explicitFalseClaim.length) severity.S0 = { status: "PRESENT", reasons: [...severity.S0.status === "PRESENT" ? severity.S0.reasons : [], ...explicitFalseClaim], evidenceRefs: evidence?.evidenceRefs ?? [] };
+    if (unmetConditions.some(item => item.strength === "HARD")) severity.S0 = { status: "PRESENT", reasons: unmetConditions.filter(item => item.strength === "HARD").flatMap(item => item.basis), evidenceRefs: unmetConditions.filter(item => item.strength === "HARD").flatMap(item => item.evidenceRefs) };
+    if (unmetConditions.length) return { outcome: make("DELIVERED_UNQUALIFIED", "At least one displayed outlet independently fails an expressed user condition (R2); NOT_CHECKED alone is not a conflict.", unmetConditions.flatMap(item => item.evidenceRefs)), severity };
     if (conditions?.status === "NOT_SATISFIED" || evidence?.status === "NOT_SATISFIED")
       return { outcome: make("DELIVERED_UNQUALIFIED", "Recorded presentation contradicts frozen request or independently checked source support.", [...conditions?.evidenceRefs ?? [], ...evidence?.evidenceRefs ?? []]), severity };
     if (stage("FINAL_CLAIM")?.status === "SATISFIED" && input.expectedGoal && severity.S0.status !== "PRESENT")

@@ -1,0 +1,38 @@
+✖ E1 R2 actual h003 deliveries report every preference and reject independently unmet budgets (80.69025ms)
+✖ E1 R2 budget Gold is candidate/request bound; unknown preferences do not become failures (50.766292ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 293.097792
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts:1:3041
+✖ E1 R2 actual h003 deliveries report every preference and reject independently unmet budgets (80.69025ms)
+  AssertionError [ERR_ASSERTION]: observed unmet SOFT budget is not qualified merely because a slot exists
+  + actual - expected
+  
+  + 'QUALIFIED_DELIVERY'
+  - 'DELIVERED_UNQUALIFIED'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts:56:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'QUALIFIED_DELIVERY',
+    expected: 'DELIVERED_UNQUALIFIED',
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts:1:4224
+✖ E1 R2 budget Gold is candidate/request bound; unknown preferences do not become failures (50.766292ms)
+  TypeError [Error]: Cannot read properties of undefined (reading '0')
+      at budget (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts:75:42)
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts:76:16)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)

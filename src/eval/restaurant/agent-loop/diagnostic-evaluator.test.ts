@@ -24,6 +24,7 @@ import { loadFrozenCalibrationInput } from "./calibration-inputs.js";
 import { evaluateFrozenCalibrationArtifact } from "./runners/run-hybrid-artifact-evaluation.js";
 import { loadWitnessOracle, loadWitnessContext } from "./diagnostic-evaluator-witness.js";
 import type { WitnessOracle } from "./diagnostic-evaluator-witness.js";
+import { loadSoftPreferenceObservations, parseSoftPreferenceObservations } from "./diagnostic-evaluator-preferences.js";
 
 // Frozen exposed runs, never regenerated from the request or the evaluator.
 async function calibrationArtifact(runId: string): Promise<any> {
@@ -47,6 +48,64 @@ test("E1 supplement loads the actual reviewer schema without rewriting its decis
     ["team dinner", "suitable for a team dinner", "POSITIVE", "SAME"],
     ["tempura", "tempura restaurant", "POSITIVE", "SAME"],
   ]);
+});
+
+test("E1 R2 actual h003 deliveries report every preference and reject independently unmet budgets", async () => {
+  for (const runId of ["p1fA-kf-h003-a2", "p1g-h003-a2"]) {
+    const input = await loadFrozenCalibrationInput(".eval-artifacts/calibration-phase1-20261015/inputs/manifest.json", runId);
+    const result = evaluateRestaurantHybridLiveArtifact(input.artifact, input.sourceArtifact, input.options);
+    assert.equal(result.outcome.type, "DELIVERED_UNQUALIFIED", "observed unmet SOFT budget is not qualified merely because a slot exists");
+    assert.equal(result.severity.S1.status, "PRESENT");
+    assert.equal(result.outcome.userGoalComplete, "NO");
+    assert.equal(finding(result, "FINAL_CLAIM").status, "SATISFIED", "an unmet preference is not a fabricated availability claim");
+    const matrix = (result as any).conditionStates;
+    assert.equal(matrix.length, runId === "p1g-h003-a2" ? 1 : 3);
+    for (const row of matrix) {
+      assert.equal(row.criteria.length, 4, "HARD/SOFT/UNSPECIFIED all remain visible");
+      assert.equal(row.criteria.find((c: any) => c.text === "around 3,000 yen per person").status, "NOT_MET");
+      assert.equal(row.criteria.find((c: any) => c.text === "private room").status, "NOT_CHECKED");
+      assert.ok(row.criteria.every((c: any) => c.basis.length && c.evidenceRefs.length));
+    }
+  }
+});
+
+test("E1 R2 budget Gold is candidate/request bound; unknown preferences do not become failures", async () => {
+  const input = await loadFrozenCalibrationInput(".eval-artifacts/calibration-phase1-20261015/inputs/manifest.json", "p20-h002-a1");
+  const accepted = evaluateRestaurantHybridLiveArtifact(input.artifact, input.sourceArtifact, input.options);
+  assert.equal(accepted.outcome.type, "QUALIFIED_DELIVERY");
+  const budget = (result: any) => result.conditionStates[0].criteria.find((c: any) => c.text === "around 10,000 yen per person");
+  assert.ok(Array.isArray(accepted.conditionStates), "every delivered outlet must expose user-condition states");
+  assert.equal(budget(accepted).status, "MET");
+  assert.match(budget(accepted).basis.join(" "), /9,800/);
+  for (const mutate of [
+    (copy: any) => { copy.finalSnapshot.domainState.candidates.find((c: any) => c.restaurant.id.endsWith("13295658")).restaurant.sourceIds.tabelog = "en/tokyo/A1301/A130101/00000000"; },
+    (copy: any) => { copy.materializedCase.semantic.date.value = "2026-10-18"; },
+  ]) {
+    const copy = structuredClone(input.artifact); mutate(copy);
+    const result = evaluateRestaurantHybridLiveArtifact(copy, { ...input.sourceArtifact, sha256: "TEST_ONLY_CHANGED_BYTES" }, input.options);
+    assert.equal(budget(result).status, "NOT_CHECKED", "Gold for different original bytes must not follow an unbound run name");
+  }
+  const noContext = evaluateRestaurantHybridLiveArtifact(input.artifact, input.sourceArtifact);
+  assert.equal(budget(noContext).status, "NOT_CHECKED", "no budget tolerance is inferred from menus or category");
+  assert.equal(noContext.outcome.type, "QUALIFIED_DELIVERY", "NOT_CHECKED is disclosed, not a fabricated conflict");
+});
+
+test("E1 R2 source observation table is strict independent Gold, not a hidden outcome label", () => {
+  const actual = loadSoftPreferenceObservations();
+  assert.equal(actual.sha256, "39226c3b079b265789d354158f09fa52e3ae7fa821eedc10e2f3606eea84c7ce");
+  assert.deepEqual(actual.observations.map(row => [row.criterion, row.status]), [
+    ["around 10,000 yen per person", "MET"], ["around 3,000 yen per person", "NOT_MET"], ["around 3,000 yen per person", "NOT_MET"],
+  ]);
+  const fixture = { schema: "soft-preference-observations@1", status: "TEST_ONLY", observedBy: "TEST_ONLY", observedOn: "2026-10-16", use: "TEST_ONLY", observations: [
+    { runIds: ["test-original"], restaurant: "Test Shop (tablecheck test-shop)", criterion: "around X yen", status: "MET", evidence: "TEST_ONLY explicit human observation" },
+  ] };
+  assert.equal(parseSoftPreferenceObservations(JSON.stringify(fixture), "TEST_ONLY").observations.length, 1);
+  for (const wrong of [
+    { ...fixture, labels: [] }, { ...fixture, observedBy: null },
+    { ...fixture, observations: [{ ...fixture.observations[0], outcome: "QUALIFIED_DELIVERY" }] },
+    { ...fixture, observations: [{ ...fixture.observations[0], status: null }] },
+    { ...fixture, observations: [fixture.observations[0], fixture.observations[0]] },
+  ]) assert.throws(() => parseSoftPreferenceObservations(JSON.stringify(wrong), "TEST_ONLY"));
 });
 
 test("E1 typed reader does not silently turn missing criteria into an empty contract", async () => {

@@ -4323,3 +4323,7 @@ Hybrid完整生产factory＋Router部分端口分层85/85；正常100／耗尽1�
 ## TEST-2026-10-16-E1-SUPPLEMENT-EQUIVALENCES
 
 真实复核表加载旧路径unknown schema先红；新路径八组逐字独立期望及原始SHA通过，107/107定向绿。typecheck、arch:check、npm test 906/906、build通过，日志supplement/equivalences-{red,green-final,typecheck,arch-check,test,build}.log。旧UNKNOWN测试显式使用测试专用空表，不让审核表改变其局部前提；真实表未改。h003原始result/capture SHA与原文核验见supplement/h003-claims.md。无浏览器执行代码变更，不重复浏览器门禁，无模型/Live/GET。
+
+## TEST-2026-10-16-E1-SUPPLEMENT-R2
+
+目标红灯r2-red.log：实际h003 QUALIFIED≠独立预算NOT_MET的预期；新矩阵缺失同时暴露。绿色110定向覆盖两个h003的全部展示候选、h002正常预算MET、错SHA/候选/请求及无Gold保持NOT_CHECKED、严格Gold拒绝坏字段；原始Gold SHA39226c3b079b265789d354158f09fa52e3ae7fa821eedc10e2f3606eea84c7ce。第一遍默认门禁4项因普通评测误读校准文件ENOENT，明确不是检错成功；修复输入边界后typecheck/arch:check/npm test 909/909/build全绿，r2-*-final.log。Skill校验通过；无浏览器代码变化，不重跑已有112本地fixture证据。labels未读。

@@ -17,10 +17,12 @@ import { measureInvestigationProgress } from "./diagnostic-evaluator-progress.js
 import type { InvestigationMetrics } from "./diagnostic-evaluator-progress.js";
 import { assessEffectiveResources } from "./diagnostic-evaluator-resources.js";
 import type { EffectiveResourceAssessment } from "./diagnostic-evaluator-resources.js";
+import { assessUserConditions, loadSoftPreferenceObservations } from "./diagnostic-evaluator-preferences.js";
+import type { CandidateConditionStates, SoftPreferenceObservations } from "./diagnostic-evaluator-preferences.js";
 
 
 export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@29";
-export const RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION = "restaurant-hybrid-read-diagnostic-rubric@23";
+export const RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION = "restaurant-hybrid-read-diagnostic-rubric@24";
 
 export type DiagnosticEvaluationStatus = "SATISFIED" | "NOT_SATISFIED" | "NOT_EVALUATED";
 
@@ -75,6 +77,8 @@ export interface RestaurantHybridDiagnosticEvaluation {
   recordReadIssues: Array<{ path: string; reason: "MISSING" | "INVALID_TYPE" }>;
   criterionEquivalences: { path: string; sha256: string; tableVersion: string };
   pendingCriterionWordings: PendingCriterionWording[];
+  conditionStates: CandidateConditionStates[];
+  softPreferenceObservations: { path: string; sha256: string } | null;
   outcome: RunOutcome;
   severity: RunSeverity;
   witnessFunnel: WitnessFunnel[];
@@ -1039,9 +1043,12 @@ export interface DiagnosticEvaluationOptions {
   orchestration?: unknown;
   trace?: unknown;
   witnessOracle?: WitnessOracle;
+  softPreferenceObservations?: SoftPreferenceObservations;
+  frozenRun?: { runId: string; artifactSha256: string };
 }
 export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceArtifact: { path: string; sha256: string }, options: DiagnosticEvaluationOptions = {}): RestaurantHybridDiagnosticEvaluation {
   const equivalences = options.criterionEquivalences ?? loadCriterionEquivalences();
+  const softPreferences = options.softPreferenceObservations ?? (options.frozenRun ? loadSoftPreferenceObservations() : undefined);
   const { record: root, issues: readIssues } = readDiagnosticRun(artifact); const domain = (root.finalSnapshot?.domainState) ?? {}; const materialized = (root.materializedCase) ?? {};
   // `intentDraft` is the Restaurant runtime's final authoritative intent field; do not
   // substitute a trajectory snapshot when the final state failed to record it.
@@ -1143,19 +1150,25 @@ export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceAr
   const resultMissing = artifact === undefined;
   const witnessFunnel = options.witnessOracle ? buildWitnessFunnel(root, sourceArtifact.sha256, options.witnessOracle, observations) : [];
   const feasibleWitnesses = witnessFunnel.filter(row => row.feasible === "SUPPORTED");
+  const conditionStates = assessUserConditions(root, equivalences, softPreferences, options.frozenRun, sourceArtifact.sha256, candidateId => {
+    const assessment = candidateAssessments[presentedIds.indexOf(candidateId)];
+    if (assessment?.status !== "SATISFIED") return [];
+    return evidence.filter(item => item.candidateId === candidateId && citedIds.has(item.evidenceId ?? "")
+      && observations?.some(read => read.applicableRequest && read.candidateIds.includes(candidateId) && read.evidenceIds.includes(item.evidenceId ?? "")));
+  });
   const witnessWindowExpired = options.witnessOracle?.applicableArtifactSha256 === sourceArtifact.sha256
     && options.witnessOracle.validUntil && root.startedAt
     && Date.parse(root.startedAt) > Date.parse(options.witnessOracle.validUntil)
     && !options.witnessOracle.rows.some(row => row.observation && Date.parse(row.observation.observedAt) >= Date.parse(root.startedAt!));
-  const classification = classifyRunOutcome({ root, findings, ...(expected.goal ? { expectedGoal: expected.goal } : {}),
+  const classification = classifyRunOutcome({ root, findings, conditionStates, ...(expected.goal ? { expectedGoal: expected.goal } : {}),
     trace: externalTrace?.entries ?? [...(root.diagnostics?.browserTrace ?? []), ...(root.sourceTrace?.browserTrace ?? [])],
     ...(orchestration ? { orchestration } : {}), ...(witnessWindowExpired ? { invalidSample: { reason: "Required witness certification expired before run start with no after-run recheck; Eval Skill §5.", refs: options.witnessOracle!.rows.flatMap(row => row.refs) } } : {}),
     ...(feasibleWitnesses.length ? { knownFeasibleWitness: { refs: feasibleWitnesses.flatMap(row => row.evidenceRefs) } } : {}), resultMissing });
-  return { ...classification, witnessFunnel, investigationMetrics, effectiveResources, recordReadIssues: [...readIssues, ...(externalTrace?.issues ?? [])], criterionEquivalences: { path: equivalences.path, sha256: equivalences.sha256, tableVersion: equivalences.tableVersion }, pendingCriterionWordings: criteriaComparison.pending, schemaVersion: "1", evaluatorVersion: RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, rubricVersion: RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION, rubricStatus: "DRAFT_DIAGNOSTIC_ONLY", sourceArtifact: { path: sourceArtifact.path, sha256: sourceArtifact.sha256, ...(asString(root.runId) ? { runId: asString(root.runId)! } : {}), ...(asString(root.caseId) ? { caseId: asString(root.caseId)! } : {}) }, execution: { status: asString(root.status) ?? null, stage: asString(root.stage) ?? null,
+  return { ...classification, conditionStates, softPreferenceObservations: softPreferences ? { path: softPreferences.path, sha256: softPreferences.sha256 } : null, witnessFunnel, investigationMetrics, effectiveResources, recordReadIssues: [...readIssues, ...(externalTrace?.issues ?? [])], criterionEquivalences: { path: equivalences.path, sha256: equivalences.sha256, tableVersion: equivalences.tableVersion }, pendingCriterionWordings: criteriaComparison.pending, schemaVersion: "1", evaluatorVersion: RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, rubricVersion: RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION, rubricStatus: "DRAFT_DIAGNOSTIC_ONLY", sourceArtifact: { path: sourceArtifact.path, sha256: sourceArtifact.sha256, ...(asString(root.runId) ? { runId: asString(root.runId)! } : {}), ...(asString(root.caseId) ? { caseId: asString(root.caseId)! } : {}) }, execution: { status: asString(root.status) ?? null, stage: asString(root.stage) ?? null,
     // A source discovery failure is not an ordinary bounded empty result.
     // The runtime keeps that failure on the search continuation, so preserve
     // UNKNOWN rather than reclassifying the task as a verified no-result.
-    taskProducedQualifiedResult: qualified ? "YES" : completion === "NO_VERIFIED_RESULT" ? terminalSearchFailure ? "UNKNOWN" : "NO" : completion === "CANCELLED" || completion === "BUDGET_OR_DEADLINE_STOP" || completion === "INTERNAL_EXECUTION_FAILURE" ? "NO" : anyNotSatisfied ? "NO" : "UNKNOWN",
+    taskProducedQualifiedResult: classification.outcome.type === "DELIVERED_UNQUALIFIED" ? "NO" : qualified ? "YES" : completion === "NO_VERIFIED_RESULT" ? terminalSearchFailure ? "UNKNOWN" : "NO" : completion === "CANCELLED" || completion === "BUDGET_OR_DEADLINE_STOP" || completion === "INTERNAL_EXECUTION_FAILURE" ? "NO" : anyNotSatisfied ? "NO" : "UNKNOWN",
     systemBehavior: anyNotSatisfied ? "NOT_SUPPORTED" : noResultSupported ? "SUPPORTED_BY_EVIDENCE" : anyNotEvaluated ? "NOT_EVALUATED" : "SUPPORTED_BY_EVIDENCE", externalConditions: candidates.length > 0 ? "OBSERVED" : "NOT_EVALUATED", evidenceSufficiency: evidenceStatus === "SATISFIED" ? "SUFFICIENT_FOR_PRESENTED_RESULT" : evidenceStatus === "NOT_SATISFIED" ? "INSUFFICIENT" : "NOT_EVALUATED", completion }, candidateSummaries, findings, unassessedDimensions: [...effectiveResources.unassessed, ...investigationMetrics.unassessed, ...(resultMissing ? ["result.json missing: result-dependent stage dimensions remain NOT_EVALUATED; only outer interruption and trace can be assessed."] : []), "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.", "Cost is not inferred without explicit configured price inputs.", "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose.", ...(criteriaComparison.unresolved.length ? ["Criterion text differs without deterministic equivalence; no LLM judge was used and independent semantic review is required."] : []), ...expected.unsupportedHardCriteria.map((criterion) => `Negative/non-positive HARD criterion '${criterion}' has no accepted source-evidence contract in this evaluator.`)] };
 }
 function evaluationOutputPath(artifactPath: string, suffix: string): string { return resolve(dirname(artifactPath), `${basename(artifactPath, ".json")}.evaluation.${suffix}-${Date.now()}.json`); }

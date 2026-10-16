@@ -214,3 +214,15 @@ A=条件，E=结果证据，I=调查行为，F=展示claim，C=完成，R=资源
 实际命令：`node --import tsx --test --test-name-pattern='E1 supplement loads' src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts`（红），完整同文件（绿）；`npm --no-update-notifier run typecheck`、`npm --no-update-notifier run arch:check`、`npm --no-update-notifier test`、`npm --no-update-notifier run build`（日志均在supplement/equivalences-*.log）。真实表SHA `9880c47f54540947ea73d06dd8e530241cbce46f377f9a6f325bd6e7c8271440`；没有修改复核表、Gold或生产行为。
 
 R2/R5/R6与最终22条校准仍在进行；旧PENDING对照不冒充新口径结果。
+
+### R2 每条件状态（rubric@24）
+
+具体反例：接真实措辞表后，两次h003原始产物的旧结果为QUALIFIED_DELIVERY，但独立预算观察明确NOT_MET。[r2-red.log](supplement/r2-red.log)的首个失败是目标业务断言（QUALIFIED≠DELIVERED_UNQUALIFIED）；另一条同时暴露缺少条件矩阵。改动`diagnostic-evaluator-preferences.ts`、Evaluator/分类器、冻结包加载器及所属测试；不改Gold、输入或产品判断。
+
+实际链：校验原始SHA的`loadFrozenCalibrationInput`→共享Evaluator→每展示候选全部原始criteria的状态/依据→端到端结果/S1。不是手填评分。外部Gold只适用于登记run＋候选＋条件且原始字节绑定；未定around容差不自行推算，model verified标签不独立当作自由语义事实。预算不符不等于虚假空位，FINAL_CLAIM仍独立；目标完成NO。未核对的包间等条件不消失，不因NOT_CHECKED改变类型。
+
+正常／反例：两个h003的3＋1家均预算NOT_MET、不合格/S1；h002预算MET仍合格；缺Gold、错上下文SHA或候选/请求为NOT_CHECKED；未知键/null/重复Gold拒绝。Gold原始SHA `39226c3b079b265789d354158f09fa52e3ae7fa821eedc10e2f3606eea84c7ce`。110定向绿见[r2-green-full.log](supplement/r2-green-full.log)；门禁后又限定校准Gold只在冻结上下文加载，普通artifact不会隐式读取此开发资料。
+
+四门禁实际命令与上节相同，最新日志`r2-{typecheck,arch-check,test,build}-final.log`，默认909/909全绿；Skill Creator校验[r2-skill-validation.log](supplement/r2-skill-validation.log)通过。首遍门禁[r2-test.log](supplement/r2-test.log)的4项失败是隔离副本缺校准文件的ENOENT，保留并明确不计检错，已修正输入边界。没有改浏览器执行路径，复用既有112/112本地fixture，不运行Live。
+
+此项机制完成；数值预算容差、自由文本适用性、未保留UI仍未被离线证明。R1/R5/R6及22条最终校准未完成，尚未读取labels。

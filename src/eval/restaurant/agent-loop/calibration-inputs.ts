@@ -58,7 +58,7 @@ export async function loadFrozenCalibrationInput(manifestPath: string, runId: st
   const common = { runId, manifestSha256: sha(bytes), fileRefs: [...files.values()].map(file => `${file.path}#sha256=${file.sha256}`) };
   if (entry.status === "RESULT_GENERATED") {
     const file = files.get("RESULT")!;
-    return { ...common, artifact: JSON.parse(file.raw.toString()), sourceArtifact: { path: file.path, sha256: file.sha256 }, options: {} };
+    return { ...common, artifact: JSON.parse(file.raw.toString()), sourceArtifact: { path: file.path, sha256: file.sha256 }, options: { frozenRun: { runId, artifactSha256: file.sha256 } } };
   }
   const finish = files.get("OUTER_FINISH")!, interruption = files.get("OUTER_INTERRUPTION")!, trace = files.get("TRACE")!;
   // Validate started/decisions JSON too; neither is repackaged as a result.

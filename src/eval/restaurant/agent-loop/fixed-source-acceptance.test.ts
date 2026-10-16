@@ -20,7 +20,8 @@ const userRequestedThree: FixedSourceExpectation = {
 function evaluation(overrides: Partial<RestaurantHybridDiagnosticEvaluation["execution"]> = {}, failedDimension?: string): RestaurantHybridDiagnosticEvaluation {
   const notScored = { status: "NOT_EVALUATED" as const, reasons: ["UNIT_ONLY_NOT_SCORED"], evidenceRefs: [] };
   return {
-    schemaVersion: "1", evaluatorVersion: "restaurant-hybrid-read-diagnostic-evaluator@29", rubricVersion: "restaurant-hybrid-read-diagnostic-rubric@23", rubricStatus: "DRAFT_DIAGNOSTIC_ONLY", recordReadIssues: [],
+    schemaVersion: "1", evaluatorVersion: "restaurant-hybrid-read-diagnostic-evaluator@29", rubricVersion: "restaurant-hybrid-read-diagnostic-rubric@24", rubricStatus: "DRAFT_DIAGNOSTIC_ONLY", recordReadIssues: [],
+    conditionStates: [], softPreferenceObservations: { path: "UNIT_ONLY_NOT_SCORED", sha256: "UNIT_ONLY_NOT_SCORED" },
     sourceArtifact: { path: "fixture", sha256: "fixture" }, criterionEquivalences: { path: "TEST_ONLY", sha256: "TEST_ONLY", tableVersion: "restaurant-criterion-equivalences@1" }, pendingCriterionWordings: [],
     // This pre-existing acceptance unit stub is not an outcome/severity score.
     outcome: { type: "NOT_EVALUATED", reasons: ["UNIT_ONLY_NOT_SCORED"], evidenceRefs: [], capabilityDenominator: "NOT_EVALUATED", userGoalComplete: "NOT_EVALUATED" },

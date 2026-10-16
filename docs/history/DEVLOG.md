@@ -3623,3 +3623,7 @@ E1输入3389131及1–9项独立提交已完成，补充9eb59e8／f0dc35b／a94d
 ## DEV-2026-10-16-E1-SUPPLEMENT-EQUIVALENCES
 
 按用户新输入先pull，分叉后rebase至308f895（含b5bed22），唯一等价表冲突完整保留复核者表；单独stash并恢复用户INDEX，其他设计文件未动。旧加载器unknown schema反例先红，改按schema/revision/id/gold/system/verdict/decidedOn实际字段，内部归一化但不兼容旧空表格式，未知键/null/重复仍拒绝。两h003真实展示及capture第47行无预算/包间满足声称，报告逐字引用并注明未存UI边界。后续仅实现R2/R5/R6及最终校准；labels未读取，生产和冻结Gold未改。
+
+## DEV-2026-10-16-E1-SUPPLEMENT-R2
+
+两次h003在真实等价表接入后仍被旧规则判QUALIFIED的反例先红。共享冻结输入加载器绑定原始SHA与run；Evaluator按每展示候选保留全部HARD/SOFT/UNSPECIFIED criteria状态和依据，接独立soft-preference-observations Gold；明确不符预算转DELIVERED_UNQUALIFIED/S1，真实空位claim仍独立成立。无Gold、错SHA/候选、缺来源自由语义为NOT_CHECKED，不推断数值容差，不读labels。rubric递增24，Eval Skill集中更新。默认门禁揭露普通artifact误加载校准Gold导致隔离控制ENOENT，已限定仅显式冻结上下文加载，不把环境错误当变异捕获；无生产行为变化。
