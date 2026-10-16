@@ -132,14 +132,15 @@ td.mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
 <div class="wrap">
   <header class="intro">
     <h1>Phase 1 Run Labels</h1>
-    <p>All 20 Phase 1 Live runs that actually started (10/11–10/15). Claude has filled in the facts from the run records and a proposed label. For each run, accept the proposal or change it. These labels become the answer key that the rebuilt evaluator (E1) has to agree with.</p>
-    <p>Five runs are flagged <b>Your call</b>: the rules give no clear answer there, so your choice sets the rule. The other 15 should be quick.</p>
+    <p>All 20 Phase 1 Live runs that actually started (10/11–10/15), plus the 2 P2-0 regression runs (10/15). Claude has filled in the facts from the run records and a proposed label. For each run, accept the proposal or change it. These labels become the answer key that the rebuilt evaluator (E1) has to agree with.</p>
+    <p>At the bottom, 8 <b>wording pairs</b>: the evaluator could not tell whether the system's phrasing means the same as the case's. Your yes/no answers become its lookup list.</p>
+    <p>Five runs are flagged <b>Your call</b>: the rules give no clear answer there, so your choice sets the rule. The other 17 should be quick.</p>
   </header>
 
   <div class="bar" role="region" aria-label="Progress">
     <div class="progress">
       <div class="meter" aria-hidden="true"><i id="meterFill"></i></div>
-      <span class="count" id="countText">0 / 20 labelled</span>
+      <span class="count" id="countText">0 / 22 labelled</span>
     </div>
     <div class="filters" role="group" aria-label="Show">
       <button type="button" data-filter="all" aria-pressed="true">All</button>
@@ -166,6 +167,12 @@ td.mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
 
   <main id="groups" class="wrap" style="gap:28px"></main>
 
+  <section class="group" aria-labelledby="pairHead">
+    <div class="group-head"><h2 id="pairHead">Wording pairs</h2><span id="pairCount">0 / 8 decided</span></div>
+    <p style="color:var(--muted);font-size:.9rem">Each pair comes from a real run where the automatic evaluator said "unknown" only because the words differ. Answer: does the system's version mean the same thing as the case's, for the purpose of judging the result? Polarity (wanted vs excluded) and strength are checked separately and must still match.</p>
+    <div id="pairs" class="group"></div>
+  </section>
+
   <section class="group" aria-labelledby="skipHead">
     <div class="group-head"><h2 id="skipHead">Not labelled: never started</h2><span>11 attempts</span></div>
     <p style="color:var(--muted);font-size:.9rem">These failed the network pre-check before the agent ran (TableCheck 503/403, Google probe 404, timeout) or exited on start-up. No agent behaviour to judge, so they're left out of the answer key.</p>
@@ -190,6 +197,7 @@ const GROUPS = [
   ["p1f-b", "P1-F Part B · original Gold cases, live dates", "commit 73bfca5"],
   ["p1g", "P1-G · close-out reruns", "commit 9b34287"],
   ["p1g2", "P1-G2 · h001 after honest-end fix", "commit b55e91c"],
+  ["p20", "P2-0 · regression after hardening", "commit 35b6bf0"],
 ];
 
 const RUNS = [
@@ -290,6 +298,17 @@ const RUNS = [
     auto: "NO_VERIFIED_RESULT · qualified = NO", evidence: "No witness; feasibility unknown. Root cause confirmed in code (P2-0 item 2).",
     question: "The user got an honest \"nothing found\", but only because of our own bug. Claude proposes: outcome HONEST_NO_RESULT (what the user saw) and record the bug in attribution. Or count it as INTERNAL_FAILURE?",
     p: { outcome: "HONEST_NO_RESULT", s0: "NO", sev: "NONE" } },
+
+  { id: "p20-h002-a1", group: "p20", time: "10/15 19:36", caseId: "h002", req: "Recommend a first-date restaurant near Higashi-Ginza for this Saturday at 6:30 PM. Around 10,000 yen per person. No hot-pot restaurants and no Sichuan/Hunan-style cuisine where spicy food is the main focus.",
+    happened: "Showed 1 shop: Ginza Sushi Sendou, 390 m, Saturday 10/17 18:30 for 2. 25 model calls, 208 s.",
+    auto: "@28: PRESENTATION_RECORDED · qualified = UNKNOWN (criteria worded differently)",
+    evidence: "Tabelog GET right after delivery lists 18:30 for 2 on 10/17 (Claude read the raw response).",
+    p: { outcome: "QUALIFIED_DELIVERY", s0: "NO", sev: "NONE" } },
+  { id: "p20-h001-a1", group: "p20", time: "10/15 20:41", caseId: "h001 (date moved to tomorrow)", req: "Looking for an omakase spot near Shibuya for 2 people tomorrow at 7 PM.",
+    happened: "No result after 11 steps, 47 model calls, 474 s. Tabelog search found only Sushi Teppen (10/16 not bookable). Sushi Matsumoto was among Google's 37 candidates but never checked; the 3 that were checked all timed out.",
+    auto: "@28: NO_VERIFIED_RESULT · qualified = NO",
+    evidence: "Seat check 76 min after the run: Shibuya Sushi Sen and Shibuya Sushi Matsumoto both list 19:00 for 2 on 10/16.",
+    p: { outcome: "CAPABILITY_MISS", s0: "NO", sev: "S2" } },
 ];
 
 const SKIPPED = [
@@ -306,6 +325,19 @@ const SKIPPED = [
   ["10/15 15:18", "P1-G2", "h001 a3", "Pre-check: TableCheck 403"],
 ];
 
+
+const PAIRS = [
+  { id: "first-date-a", gold: "good for a first date", system: "first-date restaurant", polarity: "wanted", seen: "h002 (P1-F B, P2-0), KF-H002", p: "SAME" },
+  { id: "first-date-b", gold: "good for a first date", system: "suitable for a first date", polarity: "wanted", seen: "KF-H002 (re-evaluation)", p: "SAME" },
+  { id: "hot-pot", gold: "hot pot restaurant", system: "hot-pot restaurants", polarity: "excluded", seen: "h002, KF-H002", p: "SAME" },
+  { id: "sichuan-hunan", gold: "sichuan/hunan cuisine", system: "sichuan/hunan-style cuisine where spicy food is the main focus", polarity: "excluded", seen: "h002, KF-H002", p: "SAME",
+    note: "The system's version is the user's own wording and is narrower than the case label: a Sichuan place that isn't spicy-focused would not be excluded. Claude reads the user's words as the intent." },
+  { id: "team-dinner", gold: "team dinner", system: "suitable for a team dinner", polarity: "wanted", seen: "h003 (P1-F B, P1-G), KF-H003", p: "SAME" },
+  { id: "tempura", gold: "tempura", system: "tempura restaurant", polarity: "wanted", seen: "Kichijoji (P1-F, P1-G)", p: "SAME" },
+  { id: "kaiseki", gold: "kaiseki", system: "kaiseki restaurant", polarity: "wanted", seen: "Kagurazaka", p: "SAME" },
+  { id: "meet-friend", gold: "good for meeting a friend", system: "suitable for meeting up with a friend", polarity: "wanted", seen: "h004 (P1-G)", p: "SAME" },
+];
+const pairDecisions = {};
 const labels = {};          // id -> saved label
 let db = null;
 let canWrite = false;
@@ -359,7 +391,7 @@ function renderRun(r) {
   const facts = el("dl", { class: "facts" });
   const row = (k, v) => facts.append(el("dt", { text: k }), el("dd", {}, v));
   row("What happened", r.happened);
-  row("Evaluator @27", r.auto);
+  row("Automatic evaluator", r.auto);
   row("Independent check", r.evidence);
   const prop = el("span", {}, chip(r.p.outcome), " ", el("span", { class: "chip", text: S0_TEXT[r.p.s0] }), " ", el("span", { class: "chip", text: r.p.sev === "NONE" ? "no severity" : r.p.sev }));
   row("Claude proposes", prop);
@@ -423,6 +455,57 @@ function renderRun(r) {
   return art;
 }
 
+
+function renderPairs() {
+  const root = $("#pairs");
+  root.textContent = "";
+  for (const pr of PAIRS) {
+    const art = el("article", { class: "run", id: "pair-" + pr.id });
+    art.append(el("div", { class: "run-head" }, el("span", { class: "run-id", text: "“" + pr.gold + "”  vs  “" + pr.system + "”" })));
+    const facts = el("dl", { class: "facts" });
+    const row = (k, v) => facts.append(el("dt", { text: k }), el("dd", {}, v));
+    row("Case says", pr.gold);
+    row("System said", pr.system);
+    row("Type", pr.polarity === "excluded" ? "Excluded by the user" : "Wanted by the user");
+    row("Seen in", pr.seen);
+    row("Claude proposes", el("span", { class: "chip " + (pr.p === "SAME" ? "q" : "f"), text: pr.p === "SAME" ? "Same meaning" : "Different" }));
+    art.append(facts);
+    if (pr.note) art.append(el("p", { class: "question" }, el("b", { text: "Note: " }), pr.note));
+    const same = el("button", { type: "button", class: "btn primary", text: "Same meaning" });
+    const diff = el("button", { type: "button", class: "btn", text: "Different" });
+    const state = el("span", { class: "saved" });
+    art.append(el("div", { class: "verdict" }, el("div", { class: "actions" }, same, diff, state)));
+    const fill = () => {
+      const d = pairDecisions[pr.id];
+      art.classList.toggle("done", !!d);
+      state.className = d && d.verdict !== pr.p ? "diff" : "saved";
+      state.textContent = d ? "Saved: " + (d.verdict === "SAME" ? "same meaning" : "different") : "";
+      const off = !db || !canWrite || pending.has("pair:" + pr.id);
+      same.disabled = off; diff.disabled = off;
+    };
+    art._fill = fill; fill();
+    const write = async (verdict) => {
+      if (!db) return;
+      pending.add("pair:" + pr.id); fill(); state.textContent = "Saving…";
+      try {
+        const doc = { gold: pr.gold, system: pr.system, polarity: pr.polarity, verdict, proposal: pr.p, decidedAt: new Date().toISOString() };
+        await db.collection("equivalences").doc(pr.id).set(doc);
+        pairDecisions[pr.id] = doc;
+      } catch (e) {
+        if (e && e.code === "invalid_argument") { canWrite = false; setStatus("You can view these labels but not change them.", true); }
+        else setStatus("Couldn't save that pair. Check your connection and try again.", true);
+      } finally { pending.delete("pair:" + pr.id); fill(); updatePairCount(); }
+    };
+    same.addEventListener("click", () => write("SAME"));
+    diff.addEventListener("click", () => write("DIFFERENT"));
+    root.append(art);
+  }
+}
+
+function updatePairCount() {
+  $("#pairCount").textContent = PAIRS.filter(pr => pairDecisions[pr.id]).length + " / " + PAIRS.length + " decided";
+}
+
 function updateProgress() {
   const n = RUNS.filter(r => labels[r.id]).length;
   $("#countText").textContent = n + " / " + RUNS.length + " labelled";
@@ -448,7 +531,9 @@ document.querySelectorAll(".filters button").forEach(b => b.addEventListener("cl
 
 renderSkipped();
 renderRuns();
+renderPairs();
 updateProgress();
+updatePairCount();
 
 (async () => {
   try {
@@ -462,6 +547,12 @@ updateProgress();
     for (const r of RUNS) document.getElementById("run-" + r.id)?._fill();
     updateProgress(); applyFilter();
     setStatus(canWrite ? "Labels save automatically to this page; Claude reads them from here." : "Read-only view.");
+  }, () => setStatus("Lost the connection to saved labels. Reload the page.", true));
+  db.collection("equivalences").onSnapshot(snap => {
+    for (const k of Object.keys(pairDecisions)) delete pairDecisions[k];
+    for (const d of snap.docs) if (d.exists) pairDecisions[d.id] = d.data();
+    for (const pr of PAIRS) document.getElementById("pair-" + pr.id)?._fill();
+    updatePairCount();
   }, () => setStatus("Lost the connection to saved labels. Reload the page.", true));
 })();
 </script>
