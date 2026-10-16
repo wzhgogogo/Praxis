@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
-import { basename, dirname, resolve } from "node:path";
+import { basename, dirname, resolve, isAbsolute, relative } from "node:path";
 import { loadPostDeliveryTabelogObservation } from "./diagnostic-evaluator-grounding.js";
 import type { PostDeliveryTabelogObservation } from "./diagnostic-evaluator-grounding.js";
 import type { RunRecord } from "./diagnostic-evaluator-record.js";
@@ -47,8 +47,8 @@ export function loadWitnessOracle(input: { manifestPath: string; registryPath: s
   if (!variant) throw Error("Witness roster variant not registered");
   const registered = [...array(variant.witnesses), ...(Array.isArray(variant.backupWitnesses) ? variant.backupWitnesses : [])].map(record);
   const center = variant.center === undefined ? undefined : record(variant.center);
-  const manifestRef = `${resolve(input.manifestPath)}#sha256=${hash(manifestBytes)}`;
-  const registryRef = `${resolve(input.registryPath)}#sha256=${hash(registryBytes)}`;
+  const manifestRef = `${relative(process.cwd(), resolve(input.manifestPath))}#sha256=${hash(manifestBytes)}`;
+  const registryRef = `${relative(process.cwd(), resolve(input.registryPath))}#sha256=${hash(registryBytes)}`;
   const request = typeof variant.request === "string" ? variant.request : undefined;
   const parameters = request?.match(/^(\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}) x(\d+)\b/);
   const certifiedRequest = variant.classification === "KNOWN_FEASIBLE_SUPPORTED" && parameters
@@ -61,8 +61,9 @@ export function loadWitnessOracle(input: { manifestPath: string; registryPath: s
     const original = registered.find(entry => id(text(entry.sourceUrl)) === sourceId);
     // Original absolute paths are provenance; portable reads stay beside manifest.
     const rawDirectory = input.rawDirectory ?? dirname(input.manifestPath);
-    const bodyPath = resolve(rawDirectory, basename(text(row.bodyPath)));
-    const metadataPath = resolve(rawDirectory, basename(typeof row.metadataPath === "string" ? row.metadataPath : text(row.bodyPath).replace(/\.body\.txt$/, ".metadata.json")));
+    const localPath = (value: string) => resolve(rawDirectory, isAbsolute(value) ? basename(value) : value);
+    const bodyPath = localPath(text(row.bodyPath));
+    const metadataPath = localPath(typeof row.metadataPath === "string" ? row.metadataPath : text(row.bodyPath).replace(/\.body\.txt$/, ".metadata.json"));
     const observation = loadPostDeliveryTabelogObservation(metadataPath, bodyPath);
     if (observation.sha256 !== row.sha256) throw Error("Witness manifest/raw response SHA mismatch");
     const hardEvidence = original && Array.isArray(original.hardEvidence) ? original.hardEvidence.map(value => {
@@ -71,7 +72,7 @@ export function loadWitnessOracle(input: { manifestPath: string; registryPath: s
     return { outletName: text(row.name ?? original?.outletName), sourceId, ...(typeof original?.address === "string" ? { address: original.address } : {}),
       ...(typeof original?.distanceMeters === "number" ? { distanceMeters: original.distanceMeters } : {}), hardEvidence, observation,
       ...(original && certifiedRequest ? { certifiedRequest } : {}),
-      refs: [manifestRef, registryRef, `${bodyPath}#sha256=${observation.sha256}`, `${metadataPath}#sha256=${hash(readFileSync(metadataPath))}`] };
+      refs: [manifestRef, registryRef, `${relative(process.cwd(), bodyPath)}#sha256=${observation.sha256}`, `${relative(process.cwd(), metadataPath)}#sha256=${hash(readFileSync(metadataPath))}`] };
   });
   // The independent roster defines the required witness set. A missing raw
   // observation must not shrink that set or borrow the old roster's slot text.

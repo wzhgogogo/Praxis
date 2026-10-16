@@ -1,0 +1,52 @@
+Exit 1
+✖ E1 review witness inputs resolve relative to the relocated manifest, including raw subdirectories (8.566084ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 183.160083
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts:1:47775
+✖ E1 review witness inputs resolve relative to the relocated manifest, including raw subdirectories (8.566084ms)
+  AssertionError [ERR_ASSERTION]: a valid manifest-relative raw path must work after relocation; the recorder's old machine path is not an input
+  + actual - expected
+  
+  + Error: ENOENT: no such file or directory, open '/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/e1-relocated-witness-cBC6xE/13275802.metadata.json'
+  +     at readFileSync (node:fs:435:20)
+  +     at loadPostDeliveryTabelogObservation (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/diagnostic-evaluator-grounding.ts:20:38)
+  +     at <anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/diagnostic-evaluator-witness.ts:66:25)
+  +     at Array.map (<anonymous>)
+  +     at loadWitnessOracle (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/diagnostic-evaluator-witness.ts:59:48)
+  +     at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts:660:20)
+  +     at async Test.run (node:internal/test_runner/test:1069:7)
+  +     at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+  +   code: 'ENOENT',
+  +   errno: -2,
+  +   path: '/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/e1-relocated-witness-cBC6xE/13275802.metadata.json',
+  +   syscall: 'open'
+  + }
+  - undefined
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts:662:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: Error: ENOENT: no such file or directory, open '/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/e1-relocated-witness-cBC6xE/13275802.metadata.json'
+        at readFileSync (node:fs:435:20)
+        at loadPostDeliveryTabelogObservation (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/diagnostic-evaluator-grounding.ts:20:38)
+        at <anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/diagnostic-evaluator-witness.ts:66:25)
+        at Array.map (<anonymous>)
+        at loadWitnessOracle (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/diagnostic-evaluator-witness.ts:59:48)
+        at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts:660:20)
+        at async Test.run (node:internal/test_runner/test:1069:7)
+        at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3),
+    expected: undefined,
+    operator: 'strictEqual'
+  }
+

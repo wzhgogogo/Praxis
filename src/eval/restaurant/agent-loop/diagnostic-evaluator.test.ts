@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
-import { copyFile, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { copyFile, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { basename, join } from "node:path";
+import { basename, dirname, join, resolve } from "node:path";
 import test from "node:test";
 import { gunzipSync } from "node:zlib";
 import { fileURLToPath } from "node:url";
@@ -612,8 +612,10 @@ test("E1 a missing raw recheck cannot erase a pre-registered witness or invent i
     // Independent artifact copy: remove only Sen's observation, not all raw
     // evidence or the registered roster. Other three observations stay intact.
     for (const row of manifest.rows) {
-      await copyFile(row.metadataPath, join(directory, basename(row.metadataPath)));
-      await copyFile(row.bodyPath, join(directory, basename(row.bodyPath)));
+      await copyFile(resolve(dirname(originalPath), basename(row.metadataPath)), join(directory, basename(row.metadataPath)));
+      await copyFile(resolve(dirname(originalPath), basename(row.bodyPath)), join(directory, basename(row.bodyPath)));
+      row.metadataPath = basename(row.metadataPath);
+      row.bodyPath = basename(row.bodyPath);
     }
     manifest.rows = manifest.rows.filter((row: any) => row.parameters.rst_id !== "13275802");
     await writeFile(join(directory, "manifest.json"), JSON.stringify(manifest));
@@ -638,6 +640,29 @@ test("E1 a missing raw recheck cannot erase a pre-registered witness or invent i
     const withoutHardGold = evaluateRestaurantHybridLiveArtifact(artifact, source, { witnessOracle: missingHard }).witnessFunnel.find(row => row.sourceId === "13261619")!;
     assert.equal(withoutHardGold.availability.witness, "AVAILABLE");
     assert.equal(withoutHardGold.feasible, "NOT_EVALUATED", "observed seats cannot fill a missing HARD oracle");
+  } finally { await rm(directory, { recursive: true, force: true }); }
+});
+
+test("E1 review witness inputs resolve relative to the relocated manifest, including raw subdirectories", async () => {
+  const originalPath = ".eval-artifacts/p2-0-hardening-20261015/prep/live/h001/witness-after/manifest.json";
+  const original = await readFile(originalPath), manifest = JSON.parse(original.toString());
+  const directory = await mkdtemp(join(tmpdir(), "e1-relocated-witness-"));
+  try {
+    await mkdir(join(directory, "raw"));
+    for (const row of manifest.rows) {
+      for (const field of ["metadataPath", "bodyPath"]) {
+        await copyFile(resolve(dirname(originalPath), basename(row[field])), join(directory, "raw", basename(row[field])));
+        row[field] = `raw/${basename(row[field])}`;
+      }
+    }
+    await writeFile(join(directory, "manifest.json"), JSON.stringify(manifest));
+    let failure: unknown, oracle: WitnessOracle | undefined;
+    try { oracle = loadWitnessOracle({ manifestPath: join(directory, "manifest.json"), registryPath: ".eval-artifacts/known-feasible-baseline-20261008/witnesses.prequalified-20261008.json", variantId: "kf-h001-20261022", artifactSha256: source.sha256 }); }
+    catch (error) { failure = error; }
+    assert.equal(failure, undefined, "a valid manifest-relative raw path must work after relocation; the recorder's old machine path is not an input");
+    assert.equal(oracle?.rows.length, 4);
+    assert.ok(oracle?.rows.every(row => row.observation?.complete));
+    assert.deepEqual(await readFile(originalPath), original);
   } finally { await rm(directory, { recursive: true, force: true }); }
 });
 
