@@ -77,3 +77,9 @@
 0b1e2c2仍把P1-G2真实循环判SATISFIED的目标红灯已修；按实际拒绝、无新候选/证据/首次读范围、同类失败及完整URL次数判定。P1-G2超阈值为NOT_SATISFIED；P20同词4/5/6/7步实际输出，换来源不直接判错。上限与语义仅在Eval Skill及代码常量维护。
 
 定向101/101，四门禁typecheck／arch:check／npm test 899/899／build全绿；06-progress保存red、red-layer-separation、green、两个真实sidecar与门禁。3/4次失败、5/6次URL重载及不同query配对通过。调查差与真实合格交付分开，条件/原始证据/同请求执行检查仍必需。历史完整URL丢query则该子项NOT_EVALUATED，路径次数只描述；计数通过不代表调查充分，五条人工口径仍待输入。
+
+## 7 按执行器实际限额核验资源
+
+f2fc135对真实h002把actual全局模型限额改为1仍按声明120判SATISFIED，目标反例红；现在逐来源／阶段／候选比较effectiveLimits与实际计数，单列声明差异，单候选模型／操作超额均拦截，删除actual限额保持未评价。原始h002实际用量正常通过并报告FACTS 4/24与声明20/80差异，旧时间限额未记录单列未评价，不冒充deadline证明。Google-only及定位前停止的旧合成artifact缺actual限额，仍检查真实结果／原因／零浏览器调用，资源及依赖它的完成维度如实未评价，未手填限额或修改产品。
+
+定向145/145及定位停止对照1/1；四门禁typecheck／arch:check／npm test 900/900／build全绿，07-resources/{red,green,termination-control,typecheck,arch-check,test,build}.log及actual-h002.log指向真实共享CLI sidecar。首次默认套件旧资源自证预期失败保存在test-before-resource-oracle-update.log。Eval Skill只增实际限额规则，skill校验通过；不证明未保留的时间子限额。

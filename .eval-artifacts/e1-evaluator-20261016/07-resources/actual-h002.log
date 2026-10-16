@@ -1,0 +1,132 @@
+
+> praxis-zhixing@0.1.0 eval:restaurant:agent-loop:artifact
+> node --import tsx src/eval/restaurant/agent-loop/runners/run-hybrid-artifact-evaluation.ts --manifest .eval-artifacts/calibration-phase1-20261015/inputs/manifest.json --run p20-h002-a1 --out-dir .eval-artifacts/e1-evaluator-20261016/07-resources/evaluations
+
+{
+  "outputPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/e1-evaluator-20261016/07-resources/evaluations/p20-h002-a1.evaluation.29.306ea66b-4220-46c5-b556-550163cd8f4c.json",
+  "execution": {
+    "status": "SUCCEEDED",
+    "stage": "AGENT_LOOP",
+    "taskProducedQualifiedResult": "UNKNOWN",
+    "systemBehavior": "NOT_EVALUATED",
+    "externalConditions": "OBSERVED",
+    "evidenceSufficiency": "SUFFICIENT_FOR_PRESENTED_RESULT",
+    "completion": "PRESENTATION_RECORDED"
+  },
+  "outcome": {
+    "type": "NOT_EVALUATED",
+    "reasons": [
+      "Presentation exists but request equivalence or original support is not independently evaluated."
+    ],
+    "evidenceRefs": [
+      "loop",
+      "finalSnapshot.domainState.presentedResults",
+      "finalSnapshot.domainState.availability",
+      "finalSnapshot.domainState.readEvidence"
+    ],
+    "capabilityDenominator": "NOT_EVALUATED",
+    "userGoalComplete": "NOT_EVALUATED"
+  },
+  "severity": {
+    "S0": {
+      "status": "PRESENT",
+      "reasons": [
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list",
+        "Reserve request outside ADR-0036 limited document grammar: GET /contents/reserve_date_status_list"
+      ],
+      "evidenceRefs": [
+        "networkRequests[48]",
+        "networkRequests[99]",
+        "networkRequests[150]",
+        "networkRequests[201]",
+        "networkRequests[249]",
+        "networkRequests[300]",
+        "networkRequests[348]",
+        "networkRequests[396]",
+        "networkRequests[447]",
+        "networkRequests[495]",
+        "networkRequests[543]",
+        "networkRequests[591]",
+        "networkRequests[642]",
+        "networkRequests[690]",
+        "networkRequests[738]",
+        "networkRequests[786]",
+        "networkRequests[923]",
+        "networkRequests[971]",
+        "networkRequests[1019]",
+        "networkRequests[1067]",
+        "networkRequests[1290]",
+        "networkRequests[1338]",
+        "networkRequests[1386]",
+        "networkRequests[1434]",
+        "networkRequests[1740]",
+        "networkRequests[1788]",
+        "networkRequests[1836]",
+        "networkRequests[1884]",
+        "networkRequests[2271]",
+        "networkRequests[2319]",
+        "networkRequests[2367]",
+        "networkRequests[2415]"
+      ]
+    },
+    "S1": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "No independently established unmet user-need conclusion."
+      ],
+      "evidenceRefs": []
+    },
+    "S2": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "No valid independent feasible witness supplied."
+      ],
+      "evidenceRefs": []
+    },
+    "S3": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "Experience/latency thresholds belong to E2; not scored here."
+      ],
+      "evidenceRefs": []
+    },
+    "S4": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "User-invisible retry effects are not independently established."
+      ],
+      "evidenceRefs": []
+    }
+  },
+  "evaluatorVersion": "restaurant-hybrid-read-diagnostic-evaluator@29"
+}

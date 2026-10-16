@@ -27,6 +27,7 @@ function evaluation(overrides: Partial<RestaurantHybridDiagnosticEvaluation["exe
     severity: { S0: notScored, S1: notScored, S2: notScored, S3: notScored, S4: notScored },
     execution: { status: "SUCCEEDED", stage: "AGENT_LOOP", taskProducedQualifiedResult: "YES", systemBehavior: "SUPPORTED_BY_EVIDENCE", externalConditions: "OBSERVED", evidenceSufficiency: "SUFFICIENT_FOR_PRESENTED_RESULT", completion: "PRESENTATION_RECORDED", ...overrides },
     candidateSummaries: [], witnessFunnel: [], investigationMetrics: { status: "NOT_EVALUATED", rejectedActions: 0, maxConsecutiveNoNewObservation: 0, noNewObservationRuns: [], sameFailureRuns: [], sameTermRuns: [], urls: { status: "NOT_EVALUATED", scope: "REDACTED_PATHS_ONLY", loads: [] }, violations: [], unassessed: ["UNIT_ONLY_NOT_SCORED"] },
+    effectiveResources: { status: "NOT_EVALUATED", scope: "RECORDED_EXECUTOR_LIMITS", scopes: [], declarationDifferences: [], violations: [], unassessed: ["UNIT_ONLY_NOT_SCORED"] },
     findings: allDimensions.map((dimension) => ({ dimension, status: dimension === failedDimension ? "NOT_SATISFIED" : "SATISFIED", stage: "TEST", requirement: "fixture", observations: [], directCause: "fixture", rootCauseHypothesis: "fixture", certainty: "CONFIRMED", evidenceRefs: [], downstreamImpact: "fixture" })),
     unassessedDimensions: [],
   };

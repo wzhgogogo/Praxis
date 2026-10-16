@@ -910,7 +910,12 @@ test("P1-G unresolved location NO_PROGRESS gives an honest user outcome", async 
   assert.ok(result.state.noVerifiedResult?.remainingGaps.some(gap => gap.includes("GOOGLE_LOCATION_UNRESOLVED") && gap.includes("NO_PROGRESS")));
   assert.deepEqual(result.state.noVerifiedResult?.investigatedCandidateIds, []);
   assert.equal(result.navigations.length, 0);
-  assert.equal(result.evaluation.findings.find(dimension => dimension.dimension === "COMPLETION_OUTCOME")?.status, "SATISFIED", "structured unresolved-location completion makes no source-exhaustiveness claim");
+  // No browser executor ran, so this historical artifact shape records no
+  // effectiveLimits. The bounded location failure is still the actual outcome,
+  // but declarations alone cannot prove the required budget-compliance check.
+  assert.equal(result.evaluation.findings.find(dimension => dimension.dimension === "RESOURCES")?.status, "NOT_EVALUATED");
+  assert.equal(result.evaluation.findings.find(dimension => dimension.dimension === "COMPLETION_OUTCOME")?.status, "NOT_EVALUATED");
+  assert.match(result.evaluation.findings.find(dimension => dimension.dimension === "COMPLETION_OUTCOME")!.directCause, /GOOGLE_LOCATION_UNRESOLVED/);
 });
 
 

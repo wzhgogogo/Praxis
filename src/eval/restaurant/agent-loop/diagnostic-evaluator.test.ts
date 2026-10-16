@@ -371,6 +371,31 @@ test("E1 exact URL reload counter distinguishes real query variation and unavail
   assert.equal(evaluateRestaurantHybridLiveArtifact(artifact, source).investigationMetrics.urls.status, "NOT_EVALUATED");
 });
 
+test("E1 resources honor actual executor limits, and missing effectiveLimits stays unevaluated", async () => {
+  const original = await calibrationArtifact("p20-h002-a1");
+  const control = evaluateRestaurantHybridLiveArtifact(original, source);
+  assert.equal(finding(control, "RESOURCES").status, "SATISFIED", "the original recorded counters fit their actual limits");
+  assert.match(control.effectiveResources.declarationDifferences.join(" "), /FACTS.*maxBrowserModelCallsPerCandidate=20.*maxModelCallsPerCandidate=4/);
+  assert.match(control.effectiveResources.unassessed.join(" "), /elapsed-time limit not retained/);
+  const changed = structuredClone(original);
+  for (const diagnostic of changed.diagnostics.browserExecution) if (diagnostic.effectiveLimits) diagnostic.effectiveLimits.maxModelCallsTotal = 1;
+  const exceeded = evaluateRestaurantHybridLiveArtifact(changed, source);
+  assert.equal(finding(exceeded, "RESOURCES").status, "NOT_SATISFIED", "runCeilings=120 must not conceal actual limit=1");
+  assert.match(finding(exceeded, "RESOURCES").observations.join(" "), /effective.*maxModelCallsTotal/i);
+  const legacy = structuredClone(original);
+  for (const diagnostic of legacy.diagnostics.browserExecution) delete diagnostic.effectiveLimits;
+  for (const entry of legacy.diagnostics.browserTrace) if (entry.kind === "EXECUTOR_DIAGNOSTIC") delete entry.detail.effectiveLimits;
+  assert.equal(finding(evaluateRestaurantHybridLiveArtifact(legacy, source), "RESOURCES").status, "NOT_EVALUATED");
+  for (const [counter, limit] of [["candidateModelCalls", "maxModelCallsPerCandidate"], ["candidateRuntimeOperations", "maxOperationsPerCandidate"]] as const) {
+    const overage = structuredClone(original);
+    const recorded = overage.diagnostics.browserExecution.find((entry: any) => entry.stage === "FACTS" && entry.effectiveLimits && entry.lifecycle)!;
+    recorded.lifecycle[counter] = recorded.effectiveLimits[limit] + 1;
+    const result = evaluateRestaurantHybridLiveArtifact(overage, source);
+    assert.equal(finding(result, "RESOURCES").status, "NOT_SATISFIED", `${counter} must use the actual FACTS limit`);
+    assert.ok(result.effectiveResources.violations.some(value => value.includes(counter)));
+  }
+});
+
 const source = { path: "/tmp/availability-fixture.result.json", sha256: "a".repeat(64) };
 const finding = (result: ReturnType<typeof evaluateRestaurantHybridLiveArtifact>, dimension: string) => result.findings.find((item) => item.dimension === dimension)!;
 
@@ -384,7 +409,9 @@ function completeArtifact() {
     materializedCase: { semantic: { target: { goal: "AVAILABILITY" }, date: { value: "2026-09-08" }, party_size: 2, time: { value: "19:00" }, location: { value: "Shibuya", relation: "NEAR" }, criteria: [{ value: "omakase", polarity: "POSITIVE", strength: "HARD" }] } },
     loop: { maxSteps: 12, maxRejectedActions: 3, timeoutMs: 30_000,  status: "TERMINAL" }, resourceUsage: { elapsedMs: 100, agentDecisions: 3, browserModelCalls: 2 },
     trajectories: [{ stateHashBefore: "request-v1", stepOutcome: "EXECUTED", agentAction: { type: "CHECK_AVAILABILITY", candidateIds: [candidateId] }, decisionContext: { intentDraft }, observation: { type: "AVAILABILITY", candidateIds: [candidateId], evidenceIds: ["discovery-a", "identity-a", "hard-a", "availability-a"] }, executionMetadata: { providerAttempts: [{ candidateId, provider: "TABLECHECK", outcome: "AVAILABLE" }] } }],
-    diagnostics: { browserTrace: [
+    diagnostics: { browserExecution: [{ source: "TABLECHECK", stage: "AVAILABILITY", candidateId, elapsedMs: 100,
+      effectiveLimits: { maxModelCallsPerCandidate: 20, maxModelCallsTotal: 120, maxOperationsPerCandidate: 80, maxAutomaticElapsedMs: 30_000 },
+      lifecycle: { candidateModelCalls: 2, runModelCalls: 2, candidateRuntimeOperations: 3 } }], browserTrace: [
       { sequence: 1, at: "2026-09-08T07:44:58.000Z", kind: "EXECUTOR_DIAGNOSTIC", detail: { stage: "AVAILABILITY", candidateId, event: "OPERATION_STARTED", detail: "SNAPSHOT" } },
       { sequence: 2, at: "2026-09-08T07:44:59.000Z", kind: "SNAPSHOT", detail: { stage: "AVAILABILITY", candidateId: "candidate-a", url: "https://www.tablecheck.com/en/shops/outlet-a/reserve", queryRegions: [{ markup: '<section data-testid="Venue Availability"><a data-reservation-source="/en/shops/outlet-a/reserve" data-reservation-date="2026-09-08" data-reservation-party="2" data-reservation-time="19:00">19:00</a></section>', truncated: false, ancestorMarkupHidden: false }] } },
       { sequence: 3, at: "2026-09-08T07:44:59.100Z", kind: "CONTROLS", detail: { snapshotSequence: 2, controls: [

@@ -97,7 +97,12 @@ const control = object({ structure: object({ name: text, radioGroupKey: text }),
 const tabelogSelection = object({ time: text, link: object({ rcd: text, member: text, visit_date: text, visit_time: text }) });
 const tabelogBody = object({ base_date: object({ year: number, month: number, day: number }), members: number, selection: array(tabelogSelection) });
 const networkRequest = object({ outcome: text, origin: text, pathname: text, method: text, resourceType: text, queryKeys: texts });
+const effectiveLimits = numericFields(["maxModelCallsPerCandidate", "maxModelCallsTotal", "maxOperationsPerCandidate", "maxAutomaticElapsedMs"]);
+const lifecycle = numericFields(["candidateModelCalls", "runModelCalls", "candidateRuntimeOperations", "candidateElapsedMs"]);
+const executorFields = { source: text, stage: text, event: text, candidateId: text, elapsedMs: number, effectiveLimits, lifecycle };
+const browserExecution = object(executorFields);
 const traceDetail = object({ snapshotSequence: number, controls: array(control), stage: text, candidateId: text,
+  source: text, event: text, elapsedMs: number, effectiveLimits, lifecycle,
   readNetworkBoundary: text, networkRequests: array(networkRequest),
   url: text, method: text, args: array(raw), responses: array(object({ url: text, status: number, observedAt: text, body: tabelogBody })),
   observedStateTags: array(object({ tag: text, class: text, "data-time": text, disabled: text, "aria-disabled": text })),
@@ -123,10 +128,10 @@ const domain = object({ intentDraft: intent, phase: text, availabilityChecks: di
 const run = object({ runId: text, caseId: text, status: text, stage: text, failureCode: optionalFailure, startedAt: text, finishedAt: text,
   materializedCase: object({ id: text, semantic }), finalSnapshot: object({ version: number, domainState: domain }),
   trajectories: array(trajectory), events: array(object({ occurredAt: text, event: object({ type: text, termination: text, reasonCode: text }), trace: object({ actor: text }) })),
-  diagnostics: object({ browserTrace: array(trace), networkRequests: array(networkRequest) }), sourceTrace: object({ browserTrace: array(trace), navigations: texts }),
+  diagnostics: object({ browserTrace: array(trace), networkRequests: array(networkRequest), browserExecution: array(browserExecution) }), sourceTrace: object({ browserTrace: array(trace), navigations: texts }),
   execution: object({ failureCode: text }), loop: object({ status: text }),
   resourceUsage: numericFields(["elapsedMs", "agentDecisions", "browserModelCalls", "modelCallsStarted"]),
-  runCeilings: numericFields(["maxAutomaticBrowserMs", "maxAgentSteps", "maxBrowserModelCallsTotal", "maxModelCalls"]),
+  runCeilings: numericFields(["maxAutomaticBrowserMs", "maxAgentSteps", "maxBrowserModelCallsTotal", "maxModelCalls", "maxBrowserModelCallsPerCandidate", "maxBrowserOperationsPerCandidate"]),
   limits: numericFields(["maxSteps", "maxBrowserModelCallsTotal"]), modelInvocations: array(object({ outcome: text, errorCode: text, providerStatus: number })) });
 const exit = object({ signal: text });
 const outer = object({ finish: object({ exit, exitCode: exit, formalRunStarted: boolean, preflight: object({ status: text }) }),

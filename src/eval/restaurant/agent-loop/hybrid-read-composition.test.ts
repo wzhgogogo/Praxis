@@ -673,7 +673,10 @@ test("Hybrid production composition binds an explicit evaluation location before
     resourceUsage: { elapsedMs: 0, agentDecisions: 3, browserModelCalls: 0, modelCallsStarted: 4, googleRequests: composition.google.googleRequestUsage(readRunId) },
   }, { path: "integration.result.json", sha256: "a".repeat(64) });
   assert.equal(evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(evaluation));
-  assert.ok(evaluation.findings.every((finding) => finding.status === "SATISFIED"), JSON.stringify(evaluation.findings));
+  // This Google-only artifact does not retain executor effectiveLimits. A valid
+  // supported result is not proof that the declared browser budget was enforced.
+  assert.equal(evaluation.findings.find(finding => finding.dimension === "RESOURCES")?.status, "NOT_EVALUATED");
+  assert.ok(evaluation.findings.filter(finding => finding.dimension !== "RESOURCES").every(finding => finding.status === "SATISFIED"), JSON.stringify(evaluation.findings));
 });
 
 test("a Google network failure before candidate discovery stops the Agent after one failed search (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async () => {
