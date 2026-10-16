@@ -183,6 +183,45 @@ test("E1 shared artifact entry carries verified preflight/post-GET records into 
   } finally { globalThis.fetch = previousFetch; await rm(directory, { recursive: true, force: true }); }
 });
 
+test("E1 existing historical witness records supply the registered roster and original observations", async () => {
+  const artifact = await calibrationArtifact("p1fA-kagurazaka-a1");
+  const oracle = loadWitnessOracle({
+    manifestPath: ".eval-artifacts/p1-f-20261011/continuation-20261011-part1/p1f-novel-kagurazaka-kaiseki-20261022/attempt-1.finish.json",
+    registryPath: ".eval-artifacts/p1-f-20261011/witnesses.p1f-20261011.json", variantId: "p1f-novel-kagurazaka-kaiseki-20261022", artifactSha256: source.sha256,
+    rawDirectory: ".eval-artifacts/p1-f-20261011/continuation-20261011-part1/p1f-novel-kagurazaka-kaiseki-20261022/witness-raw",
+  });
+  const result = evaluateRestaurantHybridLiveArtifact(artifact, source, { witnessOracle: oracle });
+  assert.equal(result.witnessFunnel.length, 3);
+  assert.ok(result.witnessFunnel.every(row => row.availability.witness === "AVAILABLE" && row.feasible === "SUPPORTED"));
+  assert.equal(result.outcome.type, "CAPABILITY_MISS");
+  const noRadius = structuredClone(artifact); delete noRadius.materializedCase.acceptance;
+  assert.notEqual(evaluateRestaurantHybridLiveArtifact(noRadius, source, { witnessOracle: oracle }).outcome.type, "CAPABILITY_MISS", "no implicit 1000-m default");
+  const missing = structuredClone(oracle); delete missing.rows[0]!.observation;
+  const retained = evaluateRestaurantHybridLiveArtifact(artifact, source, { witnessOracle: missing });
+  assert.equal(retained.witnessFunnel.length, 3);
+  assert.equal(retained.witnessFunnel[0]!.availability.witness, "NOT_EVALUATED");
+});
+
+test("E1 independently certified negative witness conditions cannot leak to another request scope", async () => {
+  const input = await loadFrozenCalibrationInput(".eval-artifacts/calibration-phase1-20261015/inputs/manifest.json", "p1fA-kf-h005-a1r");
+  const context = ".eval-artifacts/e1-evaluator-20261016/witness-inputs.json";
+  const oracle = loadWitnessContext(context, "p1fA-kf-h005-a1r")!;
+  const result = evaluateRestaurantHybridLiveArtifact(input.artifact, input.sourceArtifact, { ...input.options, witnessOracle: oracle });
+  assert.equal(result.witnessFunnel.length, 2);
+  assert.ok(result.witnessFunnel.every(row => row.feasible === "SUPPORTED"));
+  assert.equal(result.outcome.type, "CAPABILITY_MISS");
+  for (const mode of ["remove-independent-certification", "different-date"] as const) {
+    const copy = structuredClone(oracle);
+    for (const row of copy.rows) {
+      if (mode === "remove-independent-certification") delete row.certifiedRequest;
+      else row.certifiedRequest!.date = "2026-10-23";
+    }
+    const missing = evaluateRestaurantHybridLiveArtifact(input.artifact, input.sourceArtifact, { ...input.options, witnessOracle: copy });
+    assert.notEqual(missing.outcome.type, "CAPABILITY_MISS", "raw inventory alone cannot prove a negative HARD condition");
+    assert.ok(missing.witnessFunnel.every(row => row.availability.witness === "AVAILABLE" && row.feasible === "NOT_EVALUATED"));
+  }
+});
+
 test("E1 typed reader does not silently turn missing criteria into an empty contract", async () => {
   const original = await calibrationArtifact("p20-h002-a1");
   assert.notEqual(finding(evaluateRestaurantHybridLiveArtifact(original, source), "AUTHORITATIVE_CONDITIONS").observations.join(" ").includes("Missing"), true);

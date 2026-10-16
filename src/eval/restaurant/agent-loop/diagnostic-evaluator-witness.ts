@@ -9,6 +9,7 @@ export interface WitnessOutlet {
   outletName: string; sourceId: string; address?: string; distanceMeters?: number;
   hardEvidence: Array<{ criterion: string; quote: string }>;
   observation?: PostDeliveryTabelogObservation;
+  certifiedRequest?: { date: string; time: string; partySize: number; text: string };
   refs: string[];
 }
 export interface WitnessOracle {
@@ -39,7 +40,7 @@ const address = (value: string) => tokens(value).join(" "); // keep house/floor 
 const id = (value: string) => value.split("/").filter(Boolean).at(-1);
 
 /** Existing independently registered roster + original raw recheck, no labels. */
-export function loadWitnessOracle(input: { manifestPath: string; registryPath: string; variantId: string; artifactSha256: string }): WitnessOracle {
+export function loadWitnessOracle(input: { manifestPath: string; registryPath: string; variantId: string; artifactSha256: string; rawDirectory?: string }): WitnessOracle {
   const manifestBytes = readFileSync(input.manifestPath), registryBytes = readFileSync(input.registryPath);
   const manifest = record(JSON.parse(manifestBytes.toString())), registry = record(JSON.parse(registryBytes.toString()));
   const variant = array(registry.variants).map(record).find(entry => entry.variantId === input.variantId);
@@ -48,19 +49,28 @@ export function loadWitnessOracle(input: { manifestPath: string; registryPath: s
   const center = variant.center === undefined ? undefined : record(variant.center);
   const manifestRef = `${resolve(input.manifestPath)}#sha256=${hash(manifestBytes)}`;
   const registryRef = `${resolve(input.registryPath)}#sha256=${hash(registryBytes)}`;
-  const rows: WitnessOutlet[] = array(manifest.rows).map(value => {
+  const request = typeof variant.request === "string" ? variant.request : undefined;
+  const parameters = request?.match(/^(\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}) x(\d+)\b/);
+  const certifiedRequest = variant.classification === "KNOWN_FEASIBLE_SUPPORTED" && parameters
+    ? { date: parameters[1]!, time: parameters[2]!, partySize: Number(parameters[3]), text: request! } : undefined;
+  // These are retained historical recording fields, not alternative live
+  // runners. Missing observations still leave every registered outlet below.
+  const rawRows = manifest.rows ?? manifest.witnessRaw ?? manifest.witness;
+  const rows: WitnessOutlet[] = array(rawRows).map(value => {
     const row = record(value), params = record(row.parameters), sourceId = text(params.rst_id);
     const original = registered.find(entry => id(text(entry.sourceUrl)) === sourceId);
     // Original absolute paths are provenance; portable reads stay beside manifest.
-    const metadataPath = resolve(dirname(input.manifestPath), basename(text(row.metadataPath)));
-    const bodyPath = resolve(dirname(input.manifestPath), basename(text(row.bodyPath)));
+    const rawDirectory = input.rawDirectory ?? dirname(input.manifestPath);
+    const bodyPath = resolve(rawDirectory, basename(text(row.bodyPath)));
+    const metadataPath = resolve(rawDirectory, basename(typeof row.metadataPath === "string" ? row.metadataPath : text(row.bodyPath).replace(/\.body\.txt$/, ".metadata.json")));
     const observation = loadPostDeliveryTabelogObservation(metadataPath, bodyPath);
     if (observation.sha256 !== row.sha256) throw Error("Witness manifest/raw response SHA mismatch");
     const hardEvidence = original && Array.isArray(original.hardEvidence) ? original.hardEvidence.map(value => {
       const entry = record(value); return { criterion: text(entry.criterion), quote: text(entry.quote) };
     }) : [];
-    return { outletName: text(row.name), sourceId, ...(typeof original?.address === "string" ? { address: original.address } : {}),
+    return { outletName: text(row.name ?? original?.outletName), sourceId, ...(typeof original?.address === "string" ? { address: original.address } : {}),
       ...(typeof original?.distanceMeters === "number" ? { distanceMeters: original.distanceMeters } : {}), hardEvidence, observation,
+      ...(original && certifiedRequest ? { certifiedRequest } : {}),
       refs: [manifestRef, registryRef, `${bodyPath}#sha256=${observation.sha256}`, `${metadataPath}#sha256=${hash(readFileSync(metadataPath))}`] };
   });
   // The independent roster defines the required witness set. A missing raw
@@ -74,7 +84,7 @@ export function loadWitnessOracle(input: { manifestPath: string; registryPath: s
     rows.push({ outletName: text(original.outletName), sourceId,
       ...(typeof original.address === "string" ? { address: original.address } : {}),
       ...(typeof original.distanceMeters === "number" ? { distanceMeters: original.distanceMeters } : {}),
-      hardEvidence, refs: [manifestRef, registryRef] });
+      ...(certifiedRequest ? { certifiedRequest } : {}), hardEvidence, refs: [manifestRef, registryRef] });
   }
   return { applicableArtifactSha256: input.artifactSha256, ...(typeof center?.radiusMeters === "number" ? { radiusMeters: center.radiusMeters } : {}),
     ...(typeof registry.validUntil === "string" ? { validUntil: registry.validUntil } : {}), rows, sourceRef: manifestRef };
@@ -85,15 +95,16 @@ export function loadWitnessContext(contextPath: string, runId: string): WitnessO
   const bytes = readFileSync(contextPath), source = record(JSON.parse(bytes.toString()));
   if (Object.keys(source).some(key => !["schemaVersion", "entries"].includes(key)) || source.schemaVersion !== "1") throw Error("Invalid witness context schema/unknown key");
   const entries = array(source.entries).map(record);
-  const keys = ["runId", "artifactSha256", "manifestPath", "registryPath", "variantId"];
+  const keys = ["runId", "artifactSha256", "manifestPath", "registryPath", "variantId"], optional = ["rawDirectory"];
   for (const entry of entries) {
-    if (Object.keys(entry).some(key => !keys.includes(key)) || keys.some(key => typeof entry[key] !== "string" || !entry[key])) throw Error("Invalid witness context key/null");
+    if (Object.keys(entry).some(key => ![...keys, ...optional].includes(key)) || keys.some(key => typeof entry[key] !== "string" || !entry[key])
+      || entry.rawDirectory !== undefined && (typeof entry.rawDirectory !== "string" || !entry.rawDirectory)) throw Error("Invalid witness context key/null");
     if (!/^[a-f0-9]{64}$/.test(text(entry.artifactSha256))) throw Error("Invalid witness artifact SHA");
   }
   if (new Set(entries.map(entry => entry.runId)).size !== entries.length) throw Error("Duplicate witness run context");
   const entry = entries.find(entry => entry.runId === runId);
   if (!entry) return undefined;
-  const oracle = loadWitnessOracle({ manifestPath: text(entry.manifestPath), registryPath: text(entry.registryPath), variantId: text(entry.variantId), artifactSha256: text(entry.artifactSha256) });
+  const oracle = loadWitnessOracle({ manifestPath: text(entry.manifestPath), registryPath: text(entry.registryPath), variantId: text(entry.variantId), artifactSha256: text(entry.artifactSha256), ...(entry.rawDirectory ? { rawDirectory: text(entry.rawDirectory) } : {}) });
   oracle.rows.forEach(row => row.refs.push(`${resolve(contextPath)}#sha256=${hash(bytes)}`));
   return oracle;
 }
@@ -105,6 +116,10 @@ export function buildWitnessFunnel(root: RunRecord, sourceSha256: string, oracle
   const earliest = gold?.permittedAlternativeTimeWindow?.earliest ?? gold?.time?.value ?? gold?.time?.start;
   const latest = gold?.permittedAlternativeTimeWindow?.latest ?? gold?.time?.value ?? gold?.time?.end;
   const applicable = sourceSha256 === oracle.applicableArtifactSha256;
+  const declaredRadii = [...new Set((root.materializedCase?.acceptance?.required_claims ?? []).flatMap(claim => {
+    const match = claim.match(/\bwithin ([\d,]+) m\b/); return match ? [Number(match[1]!.replaceAll(",", ""))] : [];
+  }))];
+  const radiusMeters = oracle.radiusMeters ?? (declaredRadii.length === 1 && declaredRadii[0]! > 0 ? declaredRadii[0] : undefined);
   const discovered = new Set((root.trajectories ?? []).filter(step => ["EXECUTED", "TERMINAL"].includes(step.stepOutcome ?? "") && step.observation?.type === "DISCOVERY")
     .flatMap(step => step.observation?.candidateIds ?? []));
   const knownScope = domain?.candidates !== undefined && reads !== undefined
@@ -139,9 +154,17 @@ export function buildWitnessFunnel(root: RunRecord, sourceSha256: string, oracle
     const slots = (raw?.slots ?? []).filter(slot => slot.outlet === witness.sourceId && slot.date === gold?.date?.value && slot.party === party && slot.time === slot.linkedTime && slot.time && earliest && latest && slot.time >= earliest && slot.time <= latest);
     const available = !matching ? "NOT_EVALUATED" : slots.length ? "AVAILABLE" : "NO_MATCHING_SLOT";
     const hard = gold?.criteria?.filter(criterion => criterion.strength === "HARD") ?? [];
+    const certification = witness.certifiedRequest;
+    const certifiedScope = certification && certification.date === gold?.date?.value && certification.partySize === party && earliest && latest
+      && certification.time >= earliest && certification.time <= latest;
     const hardGold = gold?.criteria !== undefined && gold.criteria.every(criterion => criterion.value && criterion.strength && criterion.polarity)
-      && hard.every(criterion => criterion.polarity === "POSITIVE" && witness.hardEvidence.some(entry => name(entry.criterion) === name(criterion.value ?? "") && name(entry.quote).includes(name(entry.criterion))));
-    const withinArea = oracle.radiusMeters !== undefined && witness.distanceMeters !== undefined && witness.distanceMeters <= oracle.radiusMeters;
+      && hard.every(criterion => criterion.polarity === "POSITIVE"
+        // This mapping is independent reviewer Gold, not source text generated
+        // from user requirements. Its supporting quote need not repeat them.
+        ? witness.hardEvidence.some(entry => name(entry.criterion) === name(criterion.value ?? "") && entry.quote.trim())
+        : criterion.polarity === "NEGATIVE" && certification && certifiedScope
+          && (` ${tokens(certification.text).join(" ")} `).includes(` no ${tokens(criterion.value ?? "").join(" ")} `));
+    const withinArea = radiusMeters !== undefined && witness.distanceMeters !== undefined && witness.distanceMeters <= radiusMeters;
     const feasible = available === "NO_MATCHING_SLOT" ? "NOT_SUPPORTED" : available === "AVAILABLE" && hardGold && withinArea ? "SUPPORTED" : "NOT_EVALUATED";
     const claimed = candidateIds.some(candidateId => domain?.presentedResults?.candidateIds?.includes(candidateId));
     const actualPresentation = root.trajectories?.some(step => ["EXECUTED", "TERMINAL"].includes(step.stepOutcome ?? "")
@@ -157,9 +180,9 @@ export function buildWitnessFunnel(root: RunRecord, sourceSha256: string, oracle
       availability: { recorded, witness: available, observedAt: raw?.observedAt ?? null,
         reason: !raw ? "Registered witness has no raw recheck observation; old roster slot text is not current inventory."
           : available === "NOT_EVALUATED" ? "Raw recheck does not independently bind this artifact/request/source scope."
-          : "Raw recheck binds the request; reported inventory is not inferred from system check labels." }, presented, feasible,
+        : "Raw recheck binds the request; reported inventory is not inferred from system check labels." }, presented, feasible,
       blocker: { stage, certainty: "HYPOTHESIS", reason: stage === "NONE" ? "No supported slot/presentation obligation or no missing stage; no counterfactual causal claim"
         : stage === "NOT_EVALUATED" ? "Independent discovery/identity/availability Gold is incomplete; do not label an unknown stage as a confirmed bottleneck"
-        : `Candidate bottleneck at ${stage}; recorded identity/fact acceptance is not an independent correctness score or causal confirmation` }, evidenceRefs: witness.refs };
+        : `Candidate bottleneck at ${stage}; recorded identity/fact acceptance is not an independent correctness score or causal confirmation` }, evidenceRefs: [...witness.refs, ...(oracle.radiusMeters === undefined && radiusMeters !== undefined ? ["materializedCase.acceptance.required_claims"] : [])] };
   });
 }

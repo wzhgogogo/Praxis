@@ -126,7 +126,7 @@ const domain = object({ intentDraft: intent, phase: text, availabilityChecks: di
   noVerifiedResult: object({ endedAt: text, investigatedCandidateIds: texts, unresolvedCandidateIds: texts, remainingGaps: texts, termination }),
   failure: object({ code: text }), searchContinuation: object({ lastFailureCode: text }) });
 const run = object({ runId: text, caseId: text, status: text, stage: text, failureCode: optionalFailure, startedAt: text, finishedAt: text,
-  materializedCase: object({ id: text, materialization: object({ resolvedTokyoDate: text }), semantic }), finalSnapshot: object({ version: number, domainState: domain }),
+  materializedCase: object({ id: text, materialization: object({ resolvedTokyoDate: text }), acceptance: object({ required_claims: texts }), semantic }), finalSnapshot: object({ version: number, domainState: domain }),
   trajectories: array(trajectory), events: array(object({ occurredAt: text, event: object({ type: text, termination: text, reasonCode: text }), trace: object({ actor: text }) })),
   diagnostics: object({ browserTrace: array(trace), networkRequests: array(networkRequest), browserExecution: array(browserExecution) }), sourceTrace: object({ browserTrace: array(trace), navigations: texts }),
   execution: object({ failureCode: text }), loop: object({ status: text }),

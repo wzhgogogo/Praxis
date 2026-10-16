@@ -240,3 +240,13 @@ R2/R5/R6与最终22条校准仍在进行；旧PENDING对照不冒充新口径结
 实际入口继续为`evaluateFrozenCalibrationArtifact`／`npm run eval:restaurant:agent-loop:artifact -- --manifest ... --run ... --out-dir ... --source-context .eval-artifacts/e1-evaluator-20261016/calibration-observations.json`，并可组合原`--witness-context`。来源上下文只有原始文件路径/SHA与结果SHA绑定，无人工结果标签。实际测试让预检/Post-GET进真实Evaluator，校验3条外层引用、原始GET优先，错SHA拒绝；global fetch被禁止。不是只调用分类函数或手填评分。
 
 四门禁：`npm --no-update-notifier run typecheck`、`npm --no-update-notifier run arch:check`、`npm --no-update-notifier test`（913/913）、`npm --no-update-notifier run build`，日志supplement/rules-*.log；Eval Skill集中写入规则，Skill Creator验证通过。无浏览器执行代码变更，无Live／模型／外部GET，生产分类与策略不变。S0仍受原始trace脱敏/缺失约束，下一步只接现存见证引用并最终校准，labels本节仍未读取。
+
+### 历史见证引用接线及最终校准前冻结
+
+实际反例：神乐坂原始finish的`witness`字段无法进入原`rows`专用解析（[红](supplement/historical-witness-red.log)）。现最小读取现存`rows/witnessRaw/witness`，显式原始目录，逐文件核验SHA；未更改原始见证或库存。`witness-inputs.json`扩为10条路由，包含P20、P1-F登记变体与P1-G吉祥寺；缺raw的登记店仍全部输出，不从系统候选或实际行缩水。
+
+正反例：神乐坂3店raw AVAILABLE＋独立HARD/Gold明文半径→CAPABILITY_MISS；缺半径Gold不补默认，缺单店观察保留其NE。h005两店原始raw与同范围预先独立认证共同支持可行；删认证或改认证日期→仍报告库存AVAILABLE，但feasible NE，不借库存推导否定条件成立。正向登记criterion→quote来自独立Gold，不要求quote逐字复述条件；不使用生产eligible或人工run标签。
+
+入口仍为共享补评Evaluator，116定向绿[historical-witness-full.log](supplement/historical-witness-full.log)，四门禁实际命令同上，最新`historical-witness-{typecheck,arch-check,test,build}.log`（915/915），Skill验证通过。22原始包／双SHA／实际字节再次复验[input-recheck.log](supplement/input-recheck.log)；无新模型、Live、浏览器执行或见证GET。
+
+现有`prepare-offline-diagnostics.mjs`只驱动共享入口，改为要求新目录、输入/代码冻结校验，输出全部保存后才允许另行读取labels比对；不会覆盖旧评价。提交后运行自动批，校准状态仍未宣称通过。

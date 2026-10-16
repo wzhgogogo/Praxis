@@ -5,7 +5,7 @@ description: 为Praxis定义评测要支持的决定、四层评测结构（端�
 
 # Praxis Eval
 
-- Document revision: 2.3
+- Document revision: 2.4
 - Last updated: 2026-10-16
 
 Eval负责：评测要回答的问题、每层的判定口径与独立oracle、必报指标、比较方法和预先固定的门槛。功能覆盖与故障关闭属于[Test](../test/SKILL.md)。产品语义和安全边界以Accepted ADR、Domain/Architecture为准；H001–H005当前输入、Gold与人工审查边界以[当前只读验收契约](../../../src/eval/restaurant/agent-loop/cases/README.md)为准；阶段性的签收条件以当期Playbook为准。
@@ -204,6 +204,8 @@ R6对无结果记录同时要求：终态failure、search failure或remainingGap
 见证上下文按原始artifact SHA绑定，保留原始见证/库存文件SHA，不携带结果标签。跨来源同时核对名称与完整地址（保留门牌/楼层）；独立地址缺失只列可能匹配，不能用当前候选补写Gold。原生来源可按同来源门店ID＋名称关联，明确地址冲突仍否决。漏斗的identity/facts OBSERVED只报告实际同请求观察与原始支持链已记录，不等于HARD语义判断通过；原因码保留为系统记录。候选卡点一律HYPOTHESIS。运行后同一未来预约日期/人数/窗口的原始库存可与既有登记HARD/范围Gold组合为可行见证，须声明这是较晚观察，不证明历史库存逐时不变；无适用登记Gold则未评价。明确认证窗口过期且没有运行后复查时按§5排除样本，不能把未决定的“用户请求已过期”口径自动等同此规则。
 
 见证集合来自独立登记表，不能随实际复查行或系统候选池缩水。登记店缺原始观察时仍输出该店，库存、观察时间和可行性保持未评价／无时间，不用旧slot文本补造当前库存，不能据此确认卡点。
+
+历史外层`rows / witnessRaw / witness`只是已有原始观察的记录形态，按明确原始目录读取文件并核对SHA，不复制生产候选来补店名。正向HARD可采用独立登记Gold明确的criterion→原始quote映射，quote不必逐字复述用户条件；这不是用当前模型的verified标签自证。负向HARD只有在独立登记明确认证KNOWN_FEASIBLE_SUPPORTED、认证请求逐字表达对应“no …”且日期/人数/时段与当前Gold完全适用时，才可采用该预先人工认证；缺认证或范围冲突仍未评价，不从菜名缺关键词推导排除成立。范围半径取明确登记数值或冻结acceptance中唯一可读“within N m”；缺少不补1000默认值。运行后raw仍独立必要，登记classification本身不是当前库存。
 
 原始result缺失的中断包保留started、decisions、外层interruption/finish及trace各自原始路径/SHA。结果依赖的环节与用户目标完成情况全部NOT_EVALUATED并注明缺result，不能从SIGKILL推导用户目标NO；若已有真实保存结果，则仍须独立检查其实际支持，外层中断类型不能抹掉已支持的交付。S0只用trace；不能从中断名称或“保守停批”说明判断S0。两条授权中断的校准允许S0未评价并解释，其余校准要求仍按冻结任务门槛。
 

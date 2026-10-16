@@ -3631,3 +3631,7 @@ E1输入3389131及1–9项独立提交已完成，补充9eb59e8／f0dc35b／a94d
 ## DEV-2026-10-16-E1-SUPPLEMENT-RULES
 
 R1/R5/R6真实运行先红后绿。区分合格交付与目标漂移、额外非阻塞偏好的过程缺陷，保留语义环节NS但不伪造用户未得到推荐；所有原条件、HARD与原始支持仍必要。R5用同任务/配置外层失败预检与Gold明确resolvedTokyoDate时间窗推导，不能用referenceTime的+08显示偏移。R6用终态记录系统码＋真实EXECUTION_FAILURE等相应attempt互证，包含审核明确的共享浏览器额度缺陷；不读run ID或标签。扩展既有冻结补评入口接显式SHA引用的外层/post-GET记录，不新建Runner；校准上下文只含路径与SHA，无评分。后续接历史见证及最终校准，未改生产行为。
+
+## DEV-2026-10-16-E1-SUPPLEMENT-HISTORICAL-WITNESS
+
+真实神乐坂外层记录witness字段被旧rows专用加载器拒绝，现读取实际保留的rows/witnessRaw/witness三种记录，明确rawDirectory，不动原文件。10条结果SHA绑定的见证引用覆盖可用登记Gold；有位仍需同请求raw、HARD及明确范围。正向Gold的criterion→quote映射不要求逐字复述；明确人工认证的负向条件只有完全匹配认证请求才可用，不从缺关键词推断。半径来自登记或冻结acceptance唯一明文数值，缺少不补1000。现有prepare helper改为只生成新目录自动输出、冻结输入哈希，仍不读labels；随后才最终比较。

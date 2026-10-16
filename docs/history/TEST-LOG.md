@@ -4331,3 +4331,7 @@ Hybrid完整生产factory＋Router部分端口分层85/85；正常100／耗尽1�
 ## TEST-2026-10-16-E1-SUPPLEMENT-RULES
 
 rules-red.log三项实际业务断言失败：KF-H004误不合格，P1-G H004未识别环境过窗，P1-G2 H001系统失败被NE。对应正常/反例绿，改ID不改结果；删除预检、窗口内启动、缺相应失败attempt或仅孤立历史失败不能通过R5/R6；R1改日期仍不合格。真实共享CLI函数测试校验外层3refs、post-GET优先、错artifact/SHA拒绝，fetch替身禁止网络，非手填评分。114定向及四门禁typecheck/arch:check/npm test 913/913/build全绿，rules-{red,green-final,full-final,typecheck,arch-check,test,build}.log；Skill验证通过。历史失败日志保留，labels未读，校准未完成。
+
+## TEST-2026-10-16-E1-SUPPLEMENT-HISTORICAL-WITNESS
+
+旧加载器对真实神乐坂witness记录报Invalid witness source array（historical-witness-red.log），新加载器3店原始库存与独立HARD/半径进入真实Evaluator，CAPABILITY_MISS；删半径Gold不默认，删一店观察不缩水。h005独立认证对照通过，删除认证或改其日期仍AVAILABLE但feasible NE，不跨请求。116定向及typecheck/arch:check/npm test 915/915/build全绿；日志supplement/historical-witness-*。22包原始字节/双SHA重新核验通过input-recheck.log；Skill验证通过。仅历史来源引用与离线Evaluator，未动浏览器执行/Gold，无模型/Live/GET；正式校准尚未读取labels。
