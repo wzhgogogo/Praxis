@@ -139,4 +139,4 @@ E1 之后，第二阶段的每次改动都可以用可信的离线测试和评�
 
 | 批次 | 指令 | 状态 |
 | --- | --- | --- |
-| P2-1 找得到 | `.eval-artifacts/p2-1-discovery-20261016/codex-instruction.md`；开发变体草稿 `variants.draft.yaml`（rev2 只改日期，待用户批准） | 指令已写好；第一段（前置收尾、探测工具、基线探测、ADR-0042 草案）可开始，第二段等 ADR 与变体获批 |
+| P2-1 找得到 | `.eval-artifacts/p2-1-discovery-20261016/codex-instruction.md`；开发变体 `variants.yaml`（rev2 只改日期，用户 2026-10-16 22:44 批准） | 第一段（前置收尾、探测工具、基线探测、ADR-0042 草案）进行中（Codex，2026-10-16 起）；第二段等 ADR 获批 |
