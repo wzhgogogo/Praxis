@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
-import { mkdtemp, readFile, rm } from "node:fs/promises";
+import { copyFile, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { basename, join } from "node:path";
 import test from "node:test";
 import { gunzipSync } from "node:zlib";
 import { fileURLToPath } from "node:url";
@@ -277,7 +277,7 @@ test("E1 actual after-run witness produces an outlet funnel without borrowing th
   assert.equal(evaluation.outcome.type, "CAPABILITY_MISS"); assert.equal(evaluation.severity.S2.status, "PRESENT");
   assert.equal(evaluation.witnessFunnel.find(row => row.sourceId === "13308491")?.availability.witness, "NO_MATCHING_SLOT");
   const wrongRequest = structuredClone(witnessOracle);
-  wrongRequest.rows.forEach(row => { row.observation.date = "2026-10-17"; });
+  wrongRequest.rows.forEach(row => { assert.ok(row.observation); row.observation.date = "2026-10-17"; });
   const rejected = evaluateRestaurantHybridLiveArtifact(artifact, { path: "p20-h001-a1", sha256 }, { witnessOracle: wrongRequest });
   assert.notEqual(rejected.outcome.type, "CAPABILITY_MISS", "a different date cannot certify feasibility");
   assert.ok(rejected.witnessFunnel.every(row => row.availability.witness === "NOT_EVALUATED"));
@@ -289,10 +289,48 @@ test("E1 actual after-run witness produces an outlet funnel without borrowing th
   const expired = structuredClone(witnessOracle);
   // Independent explicit certification window, not request-expiry policy or a label.
   expired.validUntil = "2026-10-12T17:20:00+09:00";
-  expired.rows.forEach(row => { row.observation.observedAt = "2026-10-11T08:00:00Z"; });
+  expired.rows.forEach(row => { assert.ok(row.observation); row.observation.observedAt = "2026-10-11T08:00:00Z"; });
   const invalid = evaluateRestaurantHybridLiveArtifact(artifact, { path: "p20-h001-a1", sha256 }, { witnessOracle: expired });
   assert.equal(invalid.outcome.type, "NOT_A_VALID_SAMPLE");
   assert.equal(invalid.outcome.capabilityDenominator, "EXCLUDED");
+});
+
+test("E1 a missing raw recheck cannot erase a pre-registered witness or invent its inventory", async () => {
+  const artifact = await calibrationArtifact("p20-h001-a1");
+  const originalPath = ".eval-artifacts/p2-0-hardening-20261015/prep/live/h001/witness-after/manifest.json";
+  const originalBytes = await readFile(originalPath), manifest = JSON.parse(originalBytes.toString());
+  const directory = await mkdtemp(join(tmpdir(), "e1-witness-missing-row-"));
+  try {
+    // Independent artifact copy: remove only Sen's observation, not all raw
+    // evidence or the registered roster. Other three observations stay intact.
+    for (const row of manifest.rows) {
+      await copyFile(row.metadataPath, join(directory, basename(row.metadataPath)));
+      await copyFile(row.bodyPath, join(directory, basename(row.bodyPath)));
+    }
+    manifest.rows = manifest.rows.filter((row: any) => row.parameters.rst_id !== "13275802");
+    await writeFile(join(directory, "manifest.json"), JSON.stringify(manifest));
+    const oracle = loadWitnessOracle({ manifestPath: join(directory, "manifest.json"),
+      registryPath: ".eval-artifacts/known-feasible-baseline-20261008/witnesses.prequalified-20261008.json",
+      variantId: "kf-h001-20261022", artifactSha256: source.sha256 });
+    const evaluated = evaluateRestaurantHybridLiveArtifact(artifact, source, { witnessOracle: oracle });
+    assert.equal(evaluated.witnessFunnel.length, 4, "expected outlets come from the independent roster, not only the surviving recheck rows");
+    const missing = evaluated.witnessFunnel.find(row => row.sourceId === "13275802")!;
+    assert.equal(missing.availability.witness, "NOT_EVALUATED");
+    assert.equal(missing.availability.observedAt, null, "do not manufacture an observation time or use stale roster inventory");
+    assert.equal(missing.feasible, "NOT_EVALUATED");
+    assert.equal(missing.blocker.stage, "NOT_EVALUATED");
+    assert.equal(evaluated.witnessFunnel.find(row => row.sourceId === "13261619")?.availability.witness, "AVAILABLE", "unrelated raw evidence survives");
+    assert.deepEqual(await readFile(originalPath), originalBytes, "the historical witness is never overwritten");
+    const registry = JSON.parse(await readFile(".eval-artifacts/known-feasible-baseline-20261008/witnesses.prequalified-20261008.json", "utf8"));
+    delete registry.variants[0].witnesses.find((row: any) => row.sourceUrl.includes("13261619")).hardEvidence;
+    const registryCopy = join(directory, "registry-with-missing-hard-gold.json");
+    await writeFile(registryCopy, JSON.stringify(registry));
+    const missingHard = loadWitnessOracle({ manifestPath: originalPath, registryPath: registryCopy,
+      variantId: "kf-h001-20261022", artifactSha256: source.sha256 });
+    const withoutHardGold = evaluateRestaurantHybridLiveArtifact(artifact, source, { witnessOracle: missingHard }).witnessFunnel.find(row => row.sourceId === "13261619")!;
+    assert.equal(withoutHardGold.availability.witness, "AVAILABLE");
+    assert.equal(withoutHardGold.feasible, "NOT_EVALUATED", "observed seats cannot fill a missing HARD oracle");
+  } finally { await rm(directory, { recursive: true, force: true }); }
 });
 
 test("E1 witness cross-source identity needs independent name AND full address; floor conflict and missing reads stay visible", async () => {

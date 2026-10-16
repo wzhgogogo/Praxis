@@ -1,0 +1,27 @@
+✖ E1 a missing raw recheck cannot erase a pre-registered witness or invent its inventory (94.628083ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 289.246667
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts:1:21578
+✖ E1 a missing raw recheck cannot erase a pre-registered witness or invent its inventory (94.628083ms)
+  AssertionError [ERR_ASSERTION]: expected outlets come from the independent roster, not only the surviving recheck rows
+  
+  3 !== 4
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts:316:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 3,
+    expected: 4,
+    operator: 'strictEqual'
+  }

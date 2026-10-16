@@ -1146,7 +1146,7 @@ export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceAr
   const witnessWindowExpired = options.witnessOracle?.applicableArtifactSha256 === sourceArtifact.sha256
     && options.witnessOracle.validUntil && root.startedAt
     && Date.parse(root.startedAt) > Date.parse(options.witnessOracle.validUntil)
-    && !options.witnessOracle.rows.some(row => Date.parse(row.observation.observedAt) >= Date.parse(root.startedAt!));
+    && !options.witnessOracle.rows.some(row => row.observation && Date.parse(row.observation.observedAt) >= Date.parse(root.startedAt!));
   const classification = classifyRunOutcome({ root, findings, ...(expected.goal ? { expectedGoal: expected.goal } : {}),
     trace: externalTrace?.entries ?? [...(root.diagnostics?.browserTrace ?? []), ...(root.sourceTrace?.browserTrace ?? [])],
     ...(orchestration ? { orchestration } : {}), ...(witnessWindowExpired ? { invalidSample: { reason: "Required witness certification expired before run start with no after-run recheck; Eval Skill §5.", refs: options.witnessOracle!.rows.flatMap(row => row.refs) } } : {}),

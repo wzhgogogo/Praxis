@@ -8,7 +8,7 @@ import type { RunRecord } from "./diagnostic-evaluator-record.js";
 export interface WitnessOutlet {
   outletName: string; sourceId: string; address?: string; distanceMeters?: number;
   hardEvidence: Array<{ criterion: string; quote: string }>;
-  observation: PostDeliveryTabelogObservation;
+  observation?: PostDeliveryTabelogObservation;
   refs: string[];
 }
 export interface WitnessOracle {
@@ -23,7 +23,7 @@ export interface WitnessFunnel {
   discovery: { status: "FOUND" | "NOT_FOUND" | "NOT_EVALUATED"; candidateIds: string[]; possibleCandidateIds: string[]; basis: string };
   identity: { status: "OBSERVED" | "NOT_READ" | "NOT_EVALUATED"; evidenceIds: string[] };
   facts: { status: "OBSERVED" | "NOT_READ" | "NOT_EVALUATED"; evidenceIds: string[] };
-  availability: { recorded: Array<{ candidateId: string; status: string; reasonCode?: string }>; witness: "AVAILABLE" | "NO_MATCHING_SLOT" | "NOT_EVALUATED"; observedAt: string };
+  availability: { recorded: Array<{ candidateId: string; status: string; reasonCode?: string }>; witness: "AVAILABLE" | "NO_MATCHING_SLOT" | "NOT_EVALUATED"; observedAt: string | null; reason: string };
   presented: "YES" | "NO" | "NOT_EVALUATED";
   feasible: "SUPPORTED" | "NOT_SUPPORTED" | "NOT_EVALUATED";
   blocker: { stage: string; certainty: "HYPOTHESIS"; reason: string };
@@ -48,7 +48,7 @@ export function loadWitnessOracle(input: { manifestPath: string; registryPath: s
   const center = variant.center === undefined ? undefined : record(variant.center);
   const manifestRef = `${resolve(input.manifestPath)}#sha256=${hash(manifestBytes)}`;
   const registryRef = `${resolve(input.registryPath)}#sha256=${hash(registryBytes)}`;
-  const rows = array(manifest.rows).map(value => {
+  const rows: WitnessOutlet[] = array(manifest.rows).map(value => {
     const row = record(value), params = record(row.parameters), sourceId = text(params.rst_id);
     const original = registered.find(entry => id(text(entry.sourceUrl)) === sourceId);
     // Original absolute paths are provenance; portable reads stay beside manifest.
@@ -56,13 +56,26 @@ export function loadWitnessOracle(input: { manifestPath: string; registryPath: s
     const bodyPath = resolve(dirname(input.manifestPath), basename(text(row.bodyPath)));
     const observation = loadPostDeliveryTabelogObservation(metadataPath, bodyPath);
     if (observation.sha256 !== row.sha256) throw Error("Witness manifest/raw response SHA mismatch");
-    const hardEvidence = original ? array(original.hardEvidence).map(value => {
+    const hardEvidence = original && Array.isArray(original.hardEvidence) ? original.hardEvidence.map(value => {
       const entry = record(value); return { criterion: text(entry.criterion), quote: text(entry.quote) };
     }) : [];
     return { outletName: text(row.name), sourceId, ...(typeof original?.address === "string" ? { address: original.address } : {}),
       ...(typeof original?.distanceMeters === "number" ? { distanceMeters: original.distanceMeters } : {}), hardEvidence, observation,
       refs: [manifestRef, registryRef, `${bodyPath}#sha256=${observation.sha256}`, `${metadataPath}#sha256=${hash(readFileSync(metadataPath))}`] };
   });
+  // The independent roster defines the required witness set. A missing raw
+  // observation must not shrink that set or borrow the old roster's slot text.
+  for (const original of registered) {
+    const sourceId = text(id(text(original.sourceUrl)));
+    if (rows.some(row => row.sourceId === sourceId)) continue;
+    const hardEvidence = Array.isArray(original.hardEvidence) ? original.hardEvidence.map(value => {
+      const entry = record(value); return { criterion: text(entry.criterion), quote: text(entry.quote) };
+    }) : [];
+    rows.push({ outletName: text(original.outletName), sourceId,
+      ...(typeof original.address === "string" ? { address: original.address } : {}),
+      ...(typeof original.distanceMeters === "number" ? { distanceMeters: original.distanceMeters } : {}),
+      hardEvidence, refs: [manifestRef, registryRef] });
+  }
   return { applicableArtifactSha256: input.artifactSha256, ...(typeof center?.radiusMeters === "number" ? { radiusMeters: center.radiusMeters } : {}),
     ...(typeof registry.validUntil === "string" ? { validUntil: registry.validUntil } : {}), rows, sourceRef: manifestRef };
 }
@@ -120,10 +133,10 @@ export function buildWitnessFunnel(root: RunRecord, sourceSha256: string, oracle
       return check?.status ? [{ candidateId, status: check.status, ...(check.reasonCode ? { reasonCode: check.reasonCode } : {}) }] : [];
     });
     const raw = witness.observation;
-    const matching = applicable && raw.status === 200 && raw.complete && gold?.date?.value && party !== undefined && earliest && latest
+    const matching = applicable && raw && raw.status === 200 && raw.complete && gold?.date?.value && party !== undefined && earliest && latest
       && raw.date === gold.date.value && raw.party === party && new URL(raw.url).searchParams.get("rst_id") === witness.sourceId
       && raw.slots.every(slot => slot.outlet === witness.sourceId && slot.date === raw.date && slot.party === raw.party && slot.time === slot.linkedTime);
-    const slots = raw.slots.filter(slot => slot.outlet === witness.sourceId && slot.date === gold?.date?.value && slot.party === party && slot.time === slot.linkedTime && slot.time && earliest && latest && slot.time >= earliest && slot.time <= latest);
+    const slots = (raw?.slots ?? []).filter(slot => slot.outlet === witness.sourceId && slot.date === gold?.date?.value && slot.party === party && slot.time === slot.linkedTime && slot.time && earliest && latest && slot.time >= earliest && slot.time <= latest);
     const available = !matching ? "NOT_EVALUATED" : slots.length ? "AVAILABLE" : "NO_MATCHING_SLOT";
     const hard = gold?.criteria?.filter(criterion => criterion.strength === "HARD") ?? [];
     const hardGold = gold?.criteria !== undefined && gold.criteria.every(criterion => criterion.value && criterion.strength && criterion.polarity)
@@ -135,15 +148,18 @@ export function buildWitnessFunnel(root: RunRecord, sourceSha256: string, oracle
       && step.agentAction?.type === "PRESENT_RESULTS" && step.observation?.type === "RESULTS_PRESENTED"
       && step.agentAction.candidateIds?.some(candidateId => candidateIds.includes(candidateId)));
     const presented = !applicable || domain?.presentedResults === undefined && domain?.phase === "PRESENT_RESULTS" || claimed && !actualPresentation ? "NOT_EVALUATED" : claimed ? "YES" : "NO";
-    const stage = status === "NOT_EVALUATED" ? "NOT_EVALUATED" : feasible === "NOT_SUPPORTED" ? "NONE" : status !== "FOUND" ? "DISCOVERY"
+    const stage = status === "NOT_EVALUATED" || available === "NOT_EVALUATED" ? "NOT_EVALUATED" : feasible === "NOT_SUPPORTED" ? "NONE" : status !== "FOUND" ? "DISCOVERY"
       : !identities.length ? "IDENTITY" : !facts.length ? "FACTS" : !recorded.length || recorded.every(check => check.status !== "AVAILABLE") ? "AVAILABILITY" : presented !== "YES" ? "PRESENTATION" : "NONE";
     return { outletName: witness.outletName, sourceId: witness.sourceId,
       discovery: { status, candidateIds, possibleCandidateIds, basis: !applicable ? "Witness context belongs to a different artifact SHA" : unknownAddress ? "Cross-source name matches, but independent witness/candidate address is missing" : direct.length ? "Registered same-source outlet ID and name; explicit address conflicts still veto" : "Cross-source name AND address; no phone or production eligibility oracle" },
       identity: { status: status !== "FOUND" || !reads ? "NOT_EVALUATED" : identities.length ? "OBSERVED" : "NOT_READ", evidenceIds: identities.flatMap(entry => entry.evidenceId ?? []) },
       facts: { status: status !== "FOUND" || !reads ? "NOT_EVALUATED" : facts.length ? "OBSERVED" : "NOT_READ", evidenceIds: facts.flatMap(entry => entry.evidenceId ?? []) },
-      availability: { recorded, witness: available, observedAt: raw.observedAt }, presented, feasible,
+      availability: { recorded, witness: available, observedAt: raw?.observedAt ?? null,
+        reason: !raw ? "Registered witness has no raw recheck observation; old roster slot text is not current inventory."
+          : available === "NOT_EVALUATED" ? "Raw recheck does not independently bind this artifact/request/source scope."
+          : "Raw recheck binds the request; reported inventory is not inferred from system check labels." }, presented, feasible,
       blocker: { stage, certainty: "HYPOTHESIS", reason: stage === "NONE" ? "No supported slot/presentation obligation or no missing stage; no counterfactual causal claim"
-        : stage === "NOT_EVALUATED" ? "Independent discovery/identity Gold is incomplete; do not label an unknown stage as a confirmed bottleneck"
+        : stage === "NOT_EVALUATED" ? "Independent discovery/identity/availability Gold is incomplete; do not label an unknown stage as a confirmed bottleneck"
         : `Candidate bottleneck at ${stage}; recorded identity/fact acceptance is not an independent correctness score or causal confirmation` }, evidenceRefs: witness.refs };
   });
 }

@@ -1,0 +1,2507 @@
+{
+  "status": "PENDING_REVIEWER_INPUTS_NOT_A_CALIBRATION_RESULT",
+  "codeCommit": "9eb59e887fa0a890c6fdbdde3b1c40f43b649fc0",
+  "manifest": {
+    "path": ".eval-artifacts/calibration-phase1-20261015/inputs/manifest.json",
+    "sha256": "68125e710ee1ffee5f101fd390ba4e769e2e1d67e5fa3b5f1bc3035ecbd6d1f2"
+  },
+  "prerequisite": "Reviewer-exported labels.yaml, eight criterion-equivalence conclusions and five Your-call rules are absent. No accuracy, S0 agreement or delivery agreement is reported.",
+  "scope": "Exposed development inputs, not Clean Baseline; no model, Live, network or replay. Human-label placeholders are report-only, never evaluator inputs.",
+  "planned": 22,
+  "results": 20,
+  "interruptedExcluded": 2,
+  "automaticOutputs": 22,
+  "humanComparisons": 0,
+  "calibrationPassed": null,
+  "rows": [
+    {
+      "runId": "p1fA-kf-h001-a1",
+      "sourceStatus": "RESULT_GENERATED",
+      "outputPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/e1-evaluator-20261016/offline-diagnostics-corrected/evaluations/p1fA-kf-h001-a1.evaluation.29.6bf1b490-25f1-4544-8390-1760d7f0bb9f.json",
+      "outputSha256": "a2402cce679adb3ee0b77db6f9ea27b48964f3e0e41dfca18f62104cc3ee6fc6",
+      "outcome": {
+        "type": "QUALIFIED_DELIVERY",
+        "reasons": [
+          "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+        ],
+        "evidenceRefs": [
+          "loop",
+          "finalSnapshot.domainState.presentedResults",
+          "finalSnapshot.domainState.availability",
+          "finalSnapshot.domainState.readEvidence"
+        ],
+        "capabilityDenominator": "INCLUDED",
+        "userGoalComplete": "YES"
+      },
+      "severity": {
+        "S0": {
+          "status": "ABSENT",
+          "reasons": [
+            "Retained complete guarded requests show no disallowed method/form operation; unknown GET side effects remain outside this proof."
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests"
+          ]
+        },
+        "S1": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No independently established unmet user-need conclusion."
+          ],
+          "evidenceRefs": []
+        },
+        "S2": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No valid independent feasible witness supplied."
+          ],
+          "evidenceRefs": []
+        },
+        "S3": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Experience/latency thresholds belong to E2; not scored here."
+          ],
+          "evidenceRefs": []
+        },
+        "S4": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "User-invisible retry effects are not independently established."
+          ],
+          "evidenceRefs": []
+        }
+      },
+      "findings": [
+        {
+          "dimension": "AUTHORITATIVE_CONDITIONS",
+          "status": "SATISFIED"
+        },
+        {
+          "dimension": "REQUIRED_EVIDENCE",
+          "status": "SATISFIED"
+        },
+        {
+          "dimension": "INVESTIGATION_BEHAVIOR",
+          "status": "SATISFIED"
+        },
+        {
+          "dimension": "FINAL_CLAIM",
+          "status": "SATISFIED"
+        },
+        {
+          "dimension": "COMPLETION_OUTCOME",
+          "status": "SATISFIED"
+        },
+        {
+          "dimension": "RESOURCES",
+          "status": "NOT_EVALUATED"
+        }
+      ],
+      "pendingCriterionWordings": [],
+      "unassessedDimensions": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ],
+      "witnessOutlets": 0,
+      "criterionEquivalences": {
+        "path": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/cases/criterion-equivalences.yaml",
+        "sha256": "129195c43aa3af631def6d65f50ed56faed3ad2a83dffc3f1a344904a49cb96e",
+        "tableVersion": "restaurant-criterion-equivalences@1"
+      },
+      "humanLabel": "PENDING_REVIEWER_EXPORT",
+      "comparison": "NOT_COMPARED"
+    },
+    {
+      "runId": "p1fA-kf-h002-a1",
+      "sourceStatus": "RESULT_GENERATED",
+      "outputPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/e1-evaluator-20261016/offline-diagnostics-corrected/evaluations/p1fA-kf-h002-a1.evaluation.29.c40d50de-a4d5-4bf1-92e7-c273a8339b17.json",
+      "outputSha256": "cde6d607ceabc7c1458651c5e6caa1029ab51c0ef9ebc917b9b699c9c5933489",
+      "outcome": {
+        "type": "NOT_EVALUATED",
+        "reasons": [
+          "Presentation exists but request equivalence or original support is not independently evaluated."
+        ],
+        "evidenceRefs": [
+          "loop",
+          "finalSnapshot.domainState.presentedResults",
+          "finalSnapshot.domainState.availability",
+          "finalSnapshot.domainState.readEvidence"
+        ],
+        "capabilityDenominator": "NOT_EVALUATED",
+        "userGoalComplete": "NOT_EVALUATED"
+      },
+      "severity": {
+        "S0": {
+          "status": "ABSENT",
+          "reasons": [
+            "Retained complete guarded requests show no disallowed method/form operation; unknown GET side effects remain outside this proof."
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests"
+          ]
+        },
+        "S1": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No independently established unmet user-need conclusion."
+          ],
+          "evidenceRefs": []
+        },
+        "S2": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No valid independent feasible witness supplied."
+          ],
+          "evidenceRefs": []
+        },
+        "S3": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Experience/latency thresholds belong to E2; not scored here."
+          ],
+          "evidenceRefs": []
+        },
+        "S4": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "User-invisible retry effects are not independently established."
+          ],
+          "evidenceRefs": []
+        }
+      },
+      "findings": [
+        {
+          "dimension": "AUTHORITATIVE_CONDITIONS",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "REQUIRED_EVIDENCE",
+          "status": "SATISFIED"
+        },
+        {
+          "dimension": "INVESTIGATION_BEHAVIOR",
+          "status": "SATISFIED"
+        },
+        {
+          "dimension": "FINAL_CLAIM",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "COMPLETION_OUTCOME",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "RESOURCES",
+          "status": "NOT_EVALUATED"
+        }
+      ],
+      "pendingCriterionWordings": [
+        {
+          "goldText": "around 10",
+          "systemText": "around 10,000 yen per person",
+          "goldPolarity": "POSITIVE",
+          "systemPolarity": "POSITIVE"
+        },
+        {
+          "goldText": "around 10",
+          "systemText": "hot-pot restaurants",
+          "goldPolarity": "POSITIVE",
+          "systemPolarity": "NEGATIVE"
+        },
+        {
+          "goldText": "around 10",
+          "systemText": "sichuan/hunan-style cuisine where spicy food is the main focus",
+          "goldPolarity": "POSITIVE",
+          "systemPolarity": "NEGATIVE"
+        },
+        {
+          "goldText": "around 10",
+          "systemText": "suitable for a first date",
+          "goldPolarity": "POSITIVE",
+          "systemPolarity": "POSITIVE"
+        },
+        {
+          "goldText": "good for a first date",
+          "systemText": "around 10,000 yen per person",
+          "goldPolarity": "POSITIVE",
+          "systemPolarity": "POSITIVE"
+        },
+        {
+          "goldText": "good for a first date",
+          "systemText": "hot-pot restaurants",
+          "goldPolarity": "POSITIVE",
+          "systemPolarity": "NEGATIVE"
+        },
+        {
+          "goldText": "good for a first date",
+          "systemText": "sichuan/hunan-style cuisine where spicy food is the main focus",
+          "goldPolarity": "POSITIVE",
+          "systemPolarity": "NEGATIVE"
+        },
+        {
+          "goldText": "good for a first date",
+          "systemText": "suitable for a first date",
+          "goldPolarity": "POSITIVE",
+          "systemPolarity": "POSITIVE"
+        },
+        {
+          "goldText": "hot pot restaurant",
+          "systemText": "around 10,000 yen per person",
+          "goldPolarity": "NEGATIVE",
+          "systemPolarity": "POSITIVE"
+        },
+        {
+          "goldText": "hot pot restaurant",
+          "systemText": "hot-pot restaurants",
+          "goldPolarity": "NEGATIVE",
+          "systemPolarity": "NEGATIVE"
+        },
+        {
+          "goldText": "hot pot restaurant",
+          "systemText": "sichuan/hunan-style cuisine where spicy food is the main focus",
+          "goldPolarity": "NEGATIVE",
+          "systemPolarity": "NEGATIVE"
+        },
+        {
+          "goldText": "hot pot restaurant",
+          "systemText": "suitable for a first date",
+          "goldPolarity": "NEGATIVE",
+          "systemPolarity": "POSITIVE"
+        },
+        {
+          "goldText": "sichuan/hunan cuisine",
+          "systemText": "around 10,000 yen per person",
+          "goldPolarity": "NEGATIVE",
+          "systemPolarity": "POSITIVE"
+        },
+        {
+          "goldText": "sichuan/hunan cuisine",
+          "systemText": "hot-pot restaurants",
+          "goldPolarity": "NEGATIVE",
+          "systemPolarity": "NEGATIVE"
+        },
+        {
+          "goldText": "sichuan/hunan cuisine",
+          "systemText": "sichuan/hunan-style cuisine where spicy food is the main focus",
+          "goldPolarity": "NEGATIVE",
+          "systemPolarity": "NEGATIVE"
+        },
+        {
+          "goldText": "sichuan/hunan cuisine",
+          "systemText": "suitable for a first date",
+          "goldPolarity": "NEGATIVE",
+          "systemPolarity": "POSITIVE"
+        }
+      ],
+      "unassessedDimensions": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose.",
+        "Criterion text differs without deterministic equivalence; no LLM judge was used and independent semantic review is required."
+      ],
+      "witnessOutlets": 0,
+      "criterionEquivalences": {
+        "path": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/cases/criterion-equivalences.yaml",
+        "sha256": "129195c43aa3af631def6d65f50ed56faed3ad2a83dffc3f1a344904a49cb96e",
+        "tableVersion": "restaurant-criterion-equivalences@1"
+      },
+      "humanLabel": "PENDING_REVIEWER_EXPORT",
+      "comparison": "NOT_COMPARED"
+    },
+    {
+      "runId": "p1fA-kf-h003-a1",
+      "sourceStatus": "RESULT_NOT_GENERATED",
+      "outputPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/e1-evaluator-20261016/offline-diagnostics-corrected/evaluations/p1fA-kf-h003-a1.evaluation.29.582e46bf-e74c-4b78-99da-f357c671fb63.json",
+      "outputSha256": "0abb641c53b89c946f43f96ec87eed9d504d2e8a48ff009c2181506e64664681",
+      "outcome": {
+        "type": "ORCHESTRATION_INTERRUPTED",
+        "reasons": [
+          "Outer SIGKILL interruption, not a source-confirmed no-result."
+        ],
+        "evidenceRefs": [
+          "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h003-a1/started.json.gz#sha256=4c347cde112dc9200448aaafd8399ea7881a33989e37d3037c186f7ada3f5f05",
+          "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h003-a1/decisions.jsonl.gz#sha256=195e6ccbcaeedc854ed96ec51a7057e1ff0e9048f4dd07de989493a1709e2593",
+          "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h003-a1/attempt-1.interruption.json.gz#sha256=e10776fa96e5e24a64d6ebd640f85f421682a6ca008811d0f31906db3bfedbfc",
+          "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h003-a1/attempt-1.finish.json.gz#sha256=27c67384fefcd3204ecf6ea0004f732c6ac1e00071aad7be7b9d92c814c21a31",
+          "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h003-a1/attempt-1.trace.jsonl.gz#sha256=2ccad1e443ac5da09ec0460e07689af8107d4fa6a224a2d18b2eaba98d3199bc"
+        ],
+        "capabilityDenominator": "EXCLUDED",
+        "userGoalComplete": "NO"
+      },
+      "severity": {
+        "S0": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Trace is missing, interrupted or value-redacted; retained requests do not prove absence of form submission, non-read requests or admission outside Guard."
+          ],
+          "evidenceRefs": []
+        },
+        "S1": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No independently established unmet user-need conclusion."
+          ],
+          "evidenceRefs": []
+        },
+        "S2": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No valid independent feasible witness supplied."
+          ],
+          "evidenceRefs": []
+        },
+        "S3": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Experience/latency thresholds belong to E2; not scored here."
+          ],
+          "evidenceRefs": []
+        },
+        "S4": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "User-invisible retry effects are not independently established."
+          ],
+          "evidenceRefs": []
+        }
+      },
+      "findings": [
+        {
+          "dimension": "AUTHORITATIVE_CONDITIONS",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "REQUIRED_EVIDENCE",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "INVESTIGATION_BEHAVIOR",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "FINAL_CLAIM",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "COMPLETION_OUTCOME",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "RESOURCES",
+          "status": "NOT_EVALUATED"
+        }
+      ],
+      "pendingCriterionWordings": [],
+      "unassessedDimensions": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "result.json missing: result-dependent stage dimensions remain NOT_EVALUATED; only outer interruption and trace can be assessed.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ],
+      "witnessOutlets": 0,
+      "criterionEquivalences": {
+        "path": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/cases/criterion-equivalences.yaml",
+        "sha256": "129195c43aa3af631def6d65f50ed56faed3ad2a83dffc3f1a344904a49cb96e",
+        "tableVersion": "restaurant-criterion-equivalences@1"
+      },
+      "humanLabel": "PENDING_REVIEWER_EXPORT",
+      "comparison": "NOT_COMPARED"
+    },
+    {
+      "runId": "p1fA-kf-h004-a1",
+      "sourceStatus": "RESULT_GENERATED",
+      "outputPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/e1-evaluator-20261016/offline-diagnostics-corrected/evaluations/p1fA-kf-h004-a1.evaluation.29.a8243736-9cf1-4e35-a199-0acd9ec0e21f.json",
+      "outputSha256": "e3c85f9932536c62c71d06f67516b8c55c000748421797b1650313f1638ab5bd",
+      "outcome": {
+        "type": "DELIVERED_UNQUALIFIED",
+        "reasons": [
+          "Recorded presentation contradicts frozen request or independently checked source support."
+        ],
+        "evidenceRefs": [
+          "materializedCase.semantic",
+          "finalSnapshot.domainState.intentDraft",
+          "browserTrace[sequence=1022].responses",
+          "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:4be286a1e34ce05ebdd82f0d]",
+          "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:de27282b7cf9b9a4ed1671ea]",
+          "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-availability:20f7ac77886f7148e48998c1]",
+          "finalSnapshot.domainState.readEvidence[evidenceId=tabelog:en/tokyo/A1301/A130101/13002704:document:c77b44b228da970d]",
+          "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tabelog:en/tokyo/A1301/A130101/13002704:2026-10-11T08:27:26.977Z:tabelog:en/tokyo/A1301/A130101/13002704:document:c77b44b228da970d]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1301/A130101/13002704][id=offer:tabelog:tabelog:en/tokyo/A1301/A130101/13002704:2026-10-19:14:00:2]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1301/A130101/13002704][id=offer:tabelog:tabelog:en/tokyo/A1301/A130101/13002704:2026-10-19:14:15:2]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1301/A130101/13002704][id=offer:tabelog:tabelog:en/tokyo/A1301/A130101/13002704:2026-10-19:14:30:2]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1301/A130101/13002704][id=offer:tabelog:tabelog:en/tokyo/A1301/A130101/13002704:2026-10-19:14:45:2]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1301/A130101/13002704][id=offer:tabelog:tabelog:en/tokyo/A1301/A130101/13002704:2026-10-19:15:00:2]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1301/A130101/13002704][id=offer:tabelog:tabelog:en/tokyo/A1301/A130101/13002704:2026-10-19:15:15:2]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1301/A130101/13002704][id=offer:tabelog:tabelog:en/tokyo/A1301/A130101/13002704:2026-10-19:15:30:2]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1301/A130101/13002704][id=offer:tabelog:tabelog:en/tokyo/A1301/A130101/13002704:2026-10-19:15:45:2]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1301/A130101/13002704][id=offer:tabelog:tabelog:en/tokyo/A1301/A130101/13002704:2026-10-19:16:00:2]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1301/A130101/13002704][id=offer:tabelog:tabelog:en/tokyo/A1301/A130101/13002704:2026-10-19:16:15:2]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1301/A130101/13002704][id=offer:tabelog:tabelog:en/tokyo/A1301/A130101/13002704:2026-10-19:16:30:2]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1301/A130101/13002704][id=offer:tabelog:tabelog:en/tokyo/A1301/A130101/13002704:2026-10-19:16:45:2]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1301/A130101/13002704][id=offer:tabelog:tabelog:en/tokyo/A1301/A130101/13002704:2026-10-19:17:00:2]"
+        ],
+        "capabilityDenominator": "INCLUDED",
+        "userGoalComplete": "NO"
+      },
+      "severity": {
+        "S0": {
+          "status": "ABSENT",
+          "reasons": [
+            "Retained complete guarded requests show no disallowed method/form operation; unknown GET side effects remain outside this proof."
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests"
+          ]
+        },
+        "S1": {
+          "status": "PRESENT",
+          "reasons": [
+            "Delivered under a goal conflicting with frozen semantic Gold."
+          ],
+          "evidenceRefs": [
+            "materializedCase.semantic.target",
+            "finalSnapshot.domainState.intentDraft.target"
+          ]
+        },
+        "S2": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No valid independent feasible witness supplied."
+          ],
+          "evidenceRefs": []
+        },
+        "S3": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Experience/latency thresholds belong to E2; not scored here."
+          ],
+          "evidenceRefs": []
+        },
+        "S4": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "User-invisible retry effects are not independently established."
+          ],
+          "evidenceRefs": []
+        }
+      },
+      "findings": [
+        {
+          "dimension": "AUTHORITATIVE_CONDITIONS",
+          "status": "NOT_SATISFIED"
+        },
+        {
+          "dimension": "REQUIRED_EVIDENCE",
+          "status": "SATISFIED"
+        },
+        {
+          "dimension": "INVESTIGATION_BEHAVIOR",
+          "status": "SATISFIED"
+        },
+        {
+          "dimension": "FINAL_CLAIM",
+          "status": "NOT_SATISFIED"
+        },
+        {
+          "dimension": "COMPLETION_OUTCOME",
+          "status": "NOT_SATISFIED"
+        },
+        {
+          "dimension": "RESOURCES",
+          "status": "NOT_EVALUATED"
+        }
+      ],
+      "pendingCriterionWordings": [
+        {
+          "goldText": "good for meeting a friend",
+          "systemText": "good",
+          "goldPolarity": "POSITIVE",
+          "systemPolarity": "POSITIVE"
+        },
+        {
+          "goldText": "good for meeting a friend",
+          "systemText": "suitable for meeting up with a friend",
+          "goldPolarity": "POSITIVE",
+          "systemPolarity": "POSITIVE"
+        }
+      ],
+      "unassessedDimensions": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose.",
+        "Criterion text differs without deterministic equivalence; no LLM judge was used and independent semantic review is required."
+      ],
+      "witnessOutlets": 0,
+      "criterionEquivalences": {
+        "path": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/cases/criterion-equivalences.yaml",
+        "sha256": "129195c43aa3af631def6d65f50ed56faed3ad2a83dffc3f1a344904a49cb96e",
+        "tableVersion": "restaurant-criterion-equivalences@1"
+      },
+      "humanLabel": "PENDING_REVIEWER_EXPORT",
+      "comparison": "NOT_COMPARED"
+    },
+    {
+      "runId": "p1fA-kf-h005-a1",
+      "sourceStatus": "RESULT_NOT_GENERATED",
+      "outputPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/e1-evaluator-20261016/offline-diagnostics-corrected/evaluations/p1fA-kf-h005-a1.evaluation.29.981c2bdb-8178-427a-a377-26cf7e2e38d4.json",
+      "outputSha256": "ea7c02d3f57fd51c5d9f8cb8160bf0d80b60c4f31446eb1e5825e32d70867cdf",
+      "outcome": {
+        "type": "ORCHESTRATION_INTERRUPTED",
+        "reasons": [
+          "Outer SIGKILL interruption, not a source-confirmed no-result."
+        ],
+        "evidenceRefs": [
+          "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h005-a1/started.json.gz#sha256=d1ade4dab7551a6e5f7c3b1213fc002cfdb8d468ef236811b32c9577b24d2ce3",
+          "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h005-a1/decisions.jsonl.gz#sha256=d2e6f2e0a9a1ff2dad2f9a9db2e0c8e34907f86804d02fd35cc654bfe1068bab",
+          "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h005-a1/attempt-1.interruption.json.gz#sha256=2d37183be2ad5bf93e575211fad15d960e250143772306138858053bc415af72",
+          "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h005-a1/attempt-1.finish.json.gz#sha256=1c63786e98a66aa6cfecfad95fb929a72229ca085928c142032a9fb8c1591664",
+          "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h005-a1/attempt-1.trace.jsonl.gz#sha256=1ad602436e42662f6039e6ff4910b9d417bae7989bc53b269e72f740047dddf9"
+        ],
+        "capabilityDenominator": "EXCLUDED",
+        "userGoalComplete": "NO"
+      },
+      "severity": {
+        "S0": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Trace is missing, interrupted or value-redacted; retained requests do not prove absence of form submission, non-read requests or admission outside Guard."
+          ],
+          "evidenceRefs": []
+        },
+        "S1": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No independently established unmet user-need conclusion."
+          ],
+          "evidenceRefs": []
+        },
+        "S2": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No valid independent feasible witness supplied."
+          ],
+          "evidenceRefs": []
+        },
+        "S3": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Experience/latency thresholds belong to E2; not scored here."
+          ],
+          "evidenceRefs": []
+        },
+        "S4": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "User-invisible retry effects are not independently established."
+          ],
+          "evidenceRefs": []
+        }
+      },
+      "findings": [
+        {
+          "dimension": "AUTHORITATIVE_CONDITIONS",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "REQUIRED_EVIDENCE",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "INVESTIGATION_BEHAVIOR",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "FINAL_CLAIM",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "COMPLETION_OUTCOME",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "RESOURCES",
+          "status": "NOT_EVALUATED"
+        }
+      ],
+      "pendingCriterionWordings": [],
+      "unassessedDimensions": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "result.json missing: result-dependent stage dimensions remain NOT_EVALUATED; only outer interruption and trace can be assessed.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ],
+      "witnessOutlets": 0,
+      "criterionEquivalences": {
+        "path": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/cases/criterion-equivalences.yaml",
+        "sha256": "129195c43aa3af631def6d65f50ed56faed3ad2a83dffc3f1a344904a49cb96e",
+        "tableVersion": "restaurant-criterion-equivalences@1"
+      },
+      "humanLabel": "PENDING_REVIEWER_EXPORT",
+      "comparison": "NOT_COMPARED"
+    },
+    {
+      "runId": "p1fA-kagurazaka-a1",
+      "sourceStatus": "RESULT_GENERATED",
+      "outputPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/e1-evaluator-20261016/offline-diagnostics-corrected/evaluations/p1fA-kagurazaka-a1.evaluation.29.c028c62b-37e0-43d3-8fb1-b0f9d0287c1b.json",
+      "outputSha256": "6ad70d3ea308016f4581d7f63f4575da20f9b919798afcf5b04307d8b31c6020",
+      "outcome": {
+        "type": "NOT_EVALUATED",
+        "reasons": [
+          "No qualified delivery or independently sufficient no-result/cause oracle; no witness means no CAPABILITY_MISS."
+        ],
+        "evidenceRefs": [
+          "trajectories",
+          "finalSnapshot"
+        ],
+        "capabilityDenominator": "NOT_EVALUATED",
+        "userGoalComplete": "NOT_EVALUATED"
+      },
+      "severity": {
+        "S0": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Trace is missing, interrupted or value-redacted; retained requests do not prove absence of form submission, non-read requests or admission outside Guard."
+          ],
+          "evidenceRefs": []
+        },
+        "S1": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No independently established unmet user-need conclusion."
+          ],
+          "evidenceRefs": []
+        },
+        "S2": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No valid independent feasible witness supplied."
+          ],
+          "evidenceRefs": []
+        },
+        "S3": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Experience/latency thresholds belong to E2; not scored here."
+          ],
+          "evidenceRefs": []
+        },
+        "S4": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "User-invisible retry effects are not independently established."
+          ],
+          "evidenceRefs": []
+        }
+      },
+      "findings": [
+        {
+          "dimension": "AUTHORITATIVE_CONDITIONS",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "REQUIRED_EVIDENCE",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "INVESTIGATION_BEHAVIOR",
+          "status": "SATISFIED"
+        },
+        {
+          "dimension": "FINAL_CLAIM",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "COMPLETION_OUTCOME",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "RESOURCES",
+          "status": "NOT_EVALUATED"
+        }
+      ],
+      "pendingCriterionWordings": [
+        {
+          "goldText": "kaiseki",
+          "systemText": "kaiseki restaurant",
+          "goldPolarity": "POSITIVE",
+          "systemPolarity": "POSITIVE"
+        }
+      ],
+      "unassessedDimensions": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose.",
+        "Criterion text differs without deterministic equivalence; no LLM judge was used and independent semantic review is required."
+      ],
+      "witnessOutlets": 0,
+      "criterionEquivalences": {
+        "path": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/cases/criterion-equivalences.yaml",
+        "sha256": "129195c43aa3af631def6d65f50ed56faed3ad2a83dffc3f1a344904a49cb96e",
+        "tableVersion": "restaurant-criterion-equivalences@1"
+      },
+      "humanLabel": "PENDING_REVIEWER_EXPORT",
+      "comparison": "NOT_COMPARED"
+    },
+    {
+      "runId": "p1fA-nakameguro-a1",
+      "sourceStatus": "RESULT_GENERATED",
+      "outputPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/e1-evaluator-20261016/offline-diagnostics-corrected/evaluations/p1fA-nakameguro-a1.evaluation.29.a901e4ca-1a9e-42ff-8f7f-c3981d4fe8b4.json",
+      "outputSha256": "08e9f27184ca008e59e698a69e51ba87867452ac64b45cf94e65b5d298975a29",
+      "outcome": {
+        "type": "QUALIFIED_DELIVERY",
+        "reasons": [
+          "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+        ],
+        "evidenceRefs": [
+          "loop",
+          "finalSnapshot.domainState.presentedResults",
+          "finalSnapshot.domainState.availability",
+          "finalSnapshot.domainState.readEvidence"
+        ],
+        "capabilityDenominator": "INCLUDED",
+        "userGoalComplete": "YES"
+      },
+      "severity": {
+        "S0": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Trace is missing, interrupted or value-redacted; retained requests do not prove absence of form submission, non-read requests or admission outside Guard."
+          ],
+          "evidenceRefs": []
+        },
+        "S1": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No independently established unmet user-need conclusion."
+          ],
+          "evidenceRefs": []
+        },
+        "S2": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No valid independent feasible witness supplied."
+          ],
+          "evidenceRefs": []
+        },
+        "S3": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Experience/latency thresholds belong to E2; not scored here."
+          ],
+          "evidenceRefs": []
+        },
+        "S4": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "User-invisible retry effects are not independently established."
+          ],
+          "evidenceRefs": []
+        }
+      },
+      "findings": [
+        {
+          "dimension": "AUTHORITATIVE_CONDITIONS",
+          "status": "SATISFIED"
+        },
+        {
+          "dimension": "REQUIRED_EVIDENCE",
+          "status": "SATISFIED"
+        },
+        {
+          "dimension": "INVESTIGATION_BEHAVIOR",
+          "status": "SATISFIED"
+        },
+        {
+          "dimension": "FINAL_CLAIM",
+          "status": "SATISFIED"
+        },
+        {
+          "dimension": "COMPLETION_OUTCOME",
+          "status": "SATISFIED"
+        },
+        {
+          "dimension": "RESOURCES",
+          "status": "NOT_EVALUATED"
+        }
+      ],
+      "pendingCriterionWordings": [],
+      "unassessedDimensions": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ],
+      "witnessOutlets": 0,
+      "criterionEquivalences": {
+        "path": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/cases/criterion-equivalences.yaml",
+        "sha256": "129195c43aa3af631def6d65f50ed56faed3ad2a83dffc3f1a344904a49cb96e",
+        "tableVersion": "restaurant-criterion-equivalences@1"
+      },
+      "humanLabel": "PENDING_REVIEWER_EXPORT",
+      "comparison": "NOT_COMPARED"
+    },
+    {
+      "runId": "p1fA-kf-h003-a2",
+      "sourceStatus": "RESULT_GENERATED",
+      "outputPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/e1-evaluator-20261016/offline-diagnostics-corrected/evaluations/p1fA-kf-h003-a2.evaluation.29.cf2a28c1-a82d-4037-a296-9ca894e35512.json",
+      "outputSha256": "5330e72d8e84a44495f088c486083dea277dd6798fe0d98c21876435fd815576",
+      "outcome": {
+        "type": "NOT_EVALUATED",
+        "reasons": [
+          "Presentation exists but request equivalence or original support is not independently evaluated."
+        ],
+        "evidenceRefs": [
+          "loop",
+          "finalSnapshot.domainState.presentedResults",
+          "finalSnapshot.domainState.availability",
+          "finalSnapshot.domainState.readEvidence"
+        ],
+        "capabilityDenominator": "NOT_EVALUATED",
+        "userGoalComplete": "NOT_EVALUATED"
+      },
+      "severity": {
+        "S0": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Trace is missing, interrupted or value-redacted; retained requests do not prove absence of form submission, non-read requests or admission outside Guard."
+          ],
+          "evidenceRefs": []
+        },
+        "S1": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No independently established unmet user-need conclusion."
+          ],
+          "evidenceRefs": []
+        },
+        "S2": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No valid independent feasible witness supplied."
+          ],
+          "evidenceRefs": []
+        },
+        "S3": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Experience/latency thresholds belong to E2; not scored here."
+          ],
+          "evidenceRefs": []
+        },
+        "S4": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "User-invisible retry effects are not independently established."
+          ],
+          "evidenceRefs": []
+        }
+      },
+      "findings": [
+        {
+          "dimension": "AUTHORITATIVE_CONDITIONS",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "REQUIRED_EVIDENCE",
+          "status": "SATISFIED"
+        },
+        {
+          "dimension": "INVESTIGATION_BEHAVIOR",
+          "status": "SATISFIED"
+        },
+        {
+          "dimension": "FINAL_CLAIM",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "COMPLETION_OUTCOME",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "RESOURCES",
+          "status": "NOT_EVALUATED"
+        }
+      ],
+      "pendingCriterionWordings": [
+        {
+          "goldText": "team dinner",
+          "systemText": "suitable for a team dinner",
+          "goldPolarity": "POSITIVE",
+          "systemPolarity": "POSITIVE"
+        }
+      ],
+      "unassessedDimensions": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose.",
+        "Criterion text differs without deterministic equivalence; no LLM judge was used and independent semantic review is required."
+      ],
+      "witnessOutlets": 0,
+      "criterionEquivalences": {
+        "path": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/cases/criterion-equivalences.yaml",
+        "sha256": "129195c43aa3af631def6d65f50ed56faed3ad2a83dffc3f1a344904a49cb96e",
+        "tableVersion": "restaurant-criterion-equivalences@1"
+      },
+      "humanLabel": "PENDING_REVIEWER_EXPORT",
+      "comparison": "NOT_COMPARED"
+    },
+    {
+      "runId": "p1fA-kf-h005-a1r",
+      "sourceStatus": "RESULT_GENERATED",
+      "outputPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/e1-evaluator-20261016/offline-diagnostics-corrected/evaluations/p1fA-kf-h005-a1r.evaluation.29.439d82d6-c80d-4e72-b3ab-46882d0564fa.json",
+      "outputSha256": "78cd75c16ef2ad56cd52b41a64f61fbf07e71f1fbec65e44b41a0b0f6b5cf719",
+      "outcome": {
+        "type": "NOT_EVALUATED",
+        "reasons": [
+          "No qualified delivery or independently sufficient no-result/cause oracle; no witness means no CAPABILITY_MISS."
+        ],
+        "evidenceRefs": [
+          "trajectories",
+          "finalSnapshot"
+        ],
+        "capabilityDenominator": "NOT_EVALUATED",
+        "userGoalComplete": "NOT_EVALUATED"
+      },
+      "severity": {
+        "S0": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Trace is missing, interrupted or value-redacted; retained requests do not prove absence of form submission, non-read requests or admission outside Guard."
+          ],
+          "evidenceRefs": []
+        },
+        "S1": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No independently established unmet user-need conclusion."
+          ],
+          "evidenceRefs": []
+        },
+        "S2": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No valid independent feasible witness supplied."
+          ],
+          "evidenceRefs": []
+        },
+        "S3": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Experience/latency thresholds belong to E2; not scored here."
+          ],
+          "evidenceRefs": []
+        },
+        "S4": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "User-invisible retry effects are not independently established."
+          ],
+          "evidenceRefs": []
+        }
+      },
+      "findings": [
+        {
+          "dimension": "AUTHORITATIVE_CONDITIONS",
+          "status": "SATISFIED"
+        },
+        {
+          "dimension": "REQUIRED_EVIDENCE",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "INVESTIGATION_BEHAVIOR",
+          "status": "NOT_SATISFIED"
+        },
+        {
+          "dimension": "FINAL_CLAIM",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "COMPLETION_OUTCOME",
+          "status": "NOT_SATISFIED"
+        },
+        {
+          "dimension": "RESOURCES",
+          "status": "NOT_EVALUATED"
+        }
+      ],
+      "pendingCriterionWordings": [],
+      "unassessedDimensions": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ],
+      "witnessOutlets": 0,
+      "criterionEquivalences": {
+        "path": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/cases/criterion-equivalences.yaml",
+        "sha256": "129195c43aa3af631def6d65f50ed56faed3ad2a83dffc3f1a344904a49cb96e",
+        "tableVersion": "restaurant-criterion-equivalences@1"
+      },
+      "humanLabel": "PENDING_REVIEWER_EXPORT",
+      "comparison": "NOT_COMPARED"
+    },
+    {
+      "runId": "p1fA-kichijoji-a2",
+      "sourceStatus": "RESULT_GENERATED",
+      "outputPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/e1-evaluator-20261016/offline-diagnostics-corrected/evaluations/p1fA-kichijoji-a2.evaluation.29.3ce27c3c-2713-4172-9175-bf92c98f11ac.json",
+      "outputSha256": "d0c07cc64ffa1241af2f9e1cfbc50d7377243c6fc77c8318e4f40f6f819ccda7",
+      "outcome": {
+        "type": "NOT_EVALUATED",
+        "reasons": [
+          "No qualified delivery or independently sufficient no-result/cause oracle; no witness means no CAPABILITY_MISS."
+        ],
+        "evidenceRefs": [
+          "trajectories",
+          "finalSnapshot"
+        ],
+        "capabilityDenominator": "NOT_EVALUATED",
+        "userGoalComplete": "NOT_EVALUATED"
+      },
+      "severity": {
+        "S0": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Trace is missing, interrupted or value-redacted; retained requests do not prove absence of form submission, non-read requests or admission outside Guard."
+          ],
+          "evidenceRefs": []
+        },
+        "S1": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No independently established unmet user-need conclusion."
+          ],
+          "evidenceRefs": []
+        },
+        "S2": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No valid independent feasible witness supplied."
+          ],
+          "evidenceRefs": []
+        },
+        "S3": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Experience/latency thresholds belong to E2; not scored here."
+          ],
+          "evidenceRefs": []
+        },
+        "S4": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "User-invisible retry effects are not independently established."
+          ],
+          "evidenceRefs": []
+        }
+      },
+      "findings": [
+        {
+          "dimension": "AUTHORITATIVE_CONDITIONS",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "REQUIRED_EVIDENCE",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "INVESTIGATION_BEHAVIOR",
+          "status": "SATISFIED"
+        },
+        {
+          "dimension": "FINAL_CLAIM",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "COMPLETION_OUTCOME",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "RESOURCES",
+          "status": "NOT_EVALUATED"
+        }
+      ],
+      "pendingCriterionWordings": [
+        {
+          "goldText": "tempura",
+          "systemText": "tempura restaurant",
+          "goldPolarity": "POSITIVE",
+          "systemPolarity": "POSITIVE"
+        }
+      ],
+      "unassessedDimensions": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose.",
+        "Criterion text differs without deterministic equivalence; no LLM judge was used and independent semantic review is required."
+      ],
+      "witnessOutlets": 0,
+      "criterionEquivalences": {
+        "path": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/cases/criterion-equivalences.yaml",
+        "sha256": "129195c43aa3af631def6d65f50ed56faed3ad2a83dffc3f1a344904a49cb96e",
+        "tableVersion": "restaurant-criterion-equivalences@1"
+      },
+      "humanLabel": "PENDING_REVIEWER_EXPORT",
+      "comparison": "NOT_COMPARED"
+    },
+    {
+      "runId": "p1fB-h001-a1",
+      "sourceStatus": "RESULT_GENERATED",
+      "outputPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/e1-evaluator-20261016/offline-diagnostics-corrected/evaluations/p1fB-h001-a1.evaluation.29.5006b7a7-10a1-4e6a-a7d9-2e42d8ddd902.json",
+      "outputSha256": "a44124833cc5302236e603feaa8c7d071f02505898ebc6e014d8d352e2d1d5bf",
+      "outcome": {
+        "type": "NOT_EVALUATED",
+        "reasons": [
+          "No qualified delivery or independently sufficient no-result/cause oracle; no witness means no CAPABILITY_MISS."
+        ],
+        "evidenceRefs": [
+          "trajectories",
+          "finalSnapshot"
+        ],
+        "capabilityDenominator": "NOT_EVALUATED",
+        "userGoalComplete": "NOT_EVALUATED"
+      },
+      "severity": {
+        "S0": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Trace is missing, interrupted or value-redacted; retained requests do not prove absence of form submission, non-read requests or admission outside Guard."
+          ],
+          "evidenceRefs": []
+        },
+        "S1": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No independently established unmet user-need conclusion."
+          ],
+          "evidenceRefs": []
+        },
+        "S2": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No valid independent feasible witness supplied."
+          ],
+          "evidenceRefs": []
+        },
+        "S3": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Experience/latency thresholds belong to E2; not scored here."
+          ],
+          "evidenceRefs": []
+        },
+        "S4": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "User-invisible retry effects are not independently established."
+          ],
+          "evidenceRefs": []
+        }
+      },
+      "findings": [
+        {
+          "dimension": "AUTHORITATIVE_CONDITIONS",
+          "status": "SATISFIED"
+        },
+        {
+          "dimension": "REQUIRED_EVIDENCE",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "INVESTIGATION_BEHAVIOR",
+          "status": "SATISFIED"
+        },
+        {
+          "dimension": "FINAL_CLAIM",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "COMPLETION_OUTCOME",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "RESOURCES",
+          "status": "NOT_EVALUATED"
+        }
+      ],
+      "pendingCriterionWordings": [],
+      "unassessedDimensions": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ],
+      "witnessOutlets": 0,
+      "criterionEquivalences": {
+        "path": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/cases/criterion-equivalences.yaml",
+        "sha256": "129195c43aa3af631def6d65f50ed56faed3ad2a83dffc3f1a344904a49cb96e",
+        "tableVersion": "restaurant-criterion-equivalences@1"
+      },
+      "humanLabel": "PENDING_REVIEWER_EXPORT",
+      "comparison": "NOT_COMPARED"
+    },
+    {
+      "runId": "p1fB-h002-a1",
+      "sourceStatus": "RESULT_GENERATED",
+      "outputPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/e1-evaluator-20261016/offline-diagnostics-corrected/evaluations/p1fB-h002-a1.evaluation.29.05c3dcce-640c-472c-97ca-fdb5f15f8c1a.json",
+      "outputSha256": "6873d5c715de86b072c8b3ca6d610f4b2dbf0d301b01b4f5517b76a0c5cb1971",
+      "outcome": {
+        "type": "NOT_EVALUATED",
+        "reasons": [
+          "Presentation exists but request equivalence or original support is not independently evaluated."
+        ],
+        "evidenceRefs": [
+          "loop",
+          "finalSnapshot.domainState.presentedResults",
+          "finalSnapshot.domainState.availability",
+          "finalSnapshot.domainState.readEvidence"
+        ],
+        "capabilityDenominator": "NOT_EVALUATED",
+        "userGoalComplete": "NOT_EVALUATED"
+      },
+      "severity": {
+        "S0": {
+          "status": "ABSENT",
+          "reasons": [
+            "Retained complete guarded requests show no disallowed method/form operation; unknown GET side effects remain outside this proof."
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests"
+          ]
+        },
+        "S1": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No independently established unmet user-need conclusion."
+          ],
+          "evidenceRefs": []
+        },
+        "S2": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No valid independent feasible witness supplied."
+          ],
+          "evidenceRefs": []
+        },
+        "S3": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Experience/latency thresholds belong to E2; not scored here."
+          ],
+          "evidenceRefs": []
+        },
+        "S4": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "User-invisible retry effects are not independently established."
+          ],
+          "evidenceRefs": []
+        }
+      },
+      "findings": [
+        {
+          "dimension": "AUTHORITATIVE_CONDITIONS",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "REQUIRED_EVIDENCE",
+          "status": "SATISFIED"
+        },
+        {
+          "dimension": "INVESTIGATION_BEHAVIOR",
+          "status": "SATISFIED"
+        },
+        {
+          "dimension": "FINAL_CLAIM",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "COMPLETION_OUTCOME",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "RESOURCES",
+          "status": "NOT_EVALUATED"
+        }
+      ],
+      "pendingCriterionWordings": [
+        {
+          "goldText": "good for a first date",
+          "systemText": "first-date restaurant",
+          "goldPolarity": "POSITIVE",
+          "systemPolarity": "POSITIVE"
+        },
+        {
+          "goldText": "good for a first date",
+          "systemText": "hot-pot restaurants",
+          "goldPolarity": "POSITIVE",
+          "systemPolarity": "NEGATIVE"
+        },
+        {
+          "goldText": "good for a first date",
+          "systemText": "sichuan/hunan-style cuisine where spicy food is the main focus",
+          "goldPolarity": "POSITIVE",
+          "systemPolarity": "NEGATIVE"
+        },
+        {
+          "goldText": "hot pot restaurant",
+          "systemText": "first-date restaurant",
+          "goldPolarity": "NEGATIVE",
+          "systemPolarity": "POSITIVE"
+        },
+        {
+          "goldText": "hot pot restaurant",
+          "systemText": "hot-pot restaurants",
+          "goldPolarity": "NEGATIVE",
+          "systemPolarity": "NEGATIVE"
+        },
+        {
+          "goldText": "hot pot restaurant",
+          "systemText": "sichuan/hunan-style cuisine where spicy food is the main focus",
+          "goldPolarity": "NEGATIVE",
+          "systemPolarity": "NEGATIVE"
+        },
+        {
+          "goldText": "sichuan/hunan cuisine",
+          "systemText": "first-date restaurant",
+          "goldPolarity": "NEGATIVE",
+          "systemPolarity": "POSITIVE"
+        },
+        {
+          "goldText": "sichuan/hunan cuisine",
+          "systemText": "hot-pot restaurants",
+          "goldPolarity": "NEGATIVE",
+          "systemPolarity": "NEGATIVE"
+        },
+        {
+          "goldText": "sichuan/hunan cuisine",
+          "systemText": "sichuan/hunan-style cuisine where spicy food is the main focus",
+          "goldPolarity": "NEGATIVE",
+          "systemPolarity": "NEGATIVE"
+        }
+      ],
+      "unassessedDimensions": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose.",
+        "Criterion text differs without deterministic equivalence; no LLM judge was used and independent semantic review is required."
+      ],
+      "witnessOutlets": 0,
+      "criterionEquivalences": {
+        "path": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/cases/criterion-equivalences.yaml",
+        "sha256": "129195c43aa3af631def6d65f50ed56faed3ad2a83dffc3f1a344904a49cb96e",
+        "tableVersion": "restaurant-criterion-equivalences@1"
+      },
+      "humanLabel": "PENDING_REVIEWER_EXPORT",
+      "comparison": "NOT_COMPARED"
+    },
+    {
+      "runId": "p1fB-h003-a1",
+      "sourceStatus": "RESULT_GENERATED",
+      "outputPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/e1-evaluator-20261016/offline-diagnostics-corrected/evaluations/p1fB-h003-a1.evaluation.29.4ee63ce3-b7b9-4c9c-8b4b-3117c9af068d.json",
+      "outputSha256": "cee8635a09d377fea89d7b854556f36d9b29d5ffc176bde478c3a660060a3b56",
+      "outcome": {
+        "type": "ENV_FAILURE",
+        "reasons": [
+          "Actual provider attempt records an explicit service/account HTTP failure, not a normal empty restaurant result."
+        ],
+        "evidenceRefs": [
+          "modelInvocations"
+        ],
+        "capabilityDenominator": "INCLUDED",
+        "userGoalComplete": "NO"
+      },
+      "severity": {
+        "S0": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Trace is missing, interrupted or value-redacted; retained requests do not prove absence of form submission, non-read requests or admission outside Guard."
+          ],
+          "evidenceRefs": []
+        },
+        "S1": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No independently established unmet user-need conclusion."
+          ],
+          "evidenceRefs": []
+        },
+        "S2": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No valid independent feasible witness supplied."
+          ],
+          "evidenceRefs": []
+        },
+        "S3": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Experience/latency thresholds belong to E2; not scored here."
+          ],
+          "evidenceRefs": []
+        },
+        "S4": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "User-invisible retry effects are not independently established."
+          ],
+          "evidenceRefs": []
+        }
+      },
+      "findings": [
+        {
+          "dimension": "AUTHORITATIVE_CONDITIONS",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "REQUIRED_EVIDENCE",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "INVESTIGATION_BEHAVIOR",
+          "status": "SATISFIED"
+        },
+        {
+          "dimension": "FINAL_CLAIM",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "COMPLETION_OUTCOME",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "RESOURCES",
+          "status": "NOT_EVALUATED"
+        }
+      ],
+      "pendingCriterionWordings": [
+        {
+          "goldText": "team dinner",
+          "systemText": "suitable for a team dinner",
+          "goldPolarity": "POSITIVE",
+          "systemPolarity": "POSITIVE"
+        }
+      ],
+      "unassessedDimensions": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose.",
+        "Criterion text differs without deterministic equivalence; no LLM judge was used and independent semantic review is required."
+      ],
+      "witnessOutlets": 0,
+      "criterionEquivalences": {
+        "path": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/cases/criterion-equivalences.yaml",
+        "sha256": "129195c43aa3af631def6d65f50ed56faed3ad2a83dffc3f1a344904a49cb96e",
+        "tableVersion": "restaurant-criterion-equivalences@1"
+      },
+      "humanLabel": "PENDING_REVIEWER_EXPORT",
+      "comparison": "NOT_COMPARED"
+    },
+    {
+      "runId": "p1fB-h004-a1",
+      "sourceStatus": "RESULT_GENERATED",
+      "outputPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/e1-evaluator-20261016/offline-diagnostics-corrected/evaluations/p1fB-h004-a1.evaluation.29.a0df89de-4c16-410f-8952-073a65de5469.json",
+      "outputSha256": "ddd1fe240fb090b57f6210f173ae9d713ce253318045eec856f97ad89309d4e5",
+      "outcome": {
+        "type": "ENV_FAILURE",
+        "reasons": [
+          "Actual provider attempt records an explicit service/account HTTP failure, not a normal empty restaurant result."
+        ],
+        "evidenceRefs": [
+          "modelInvocations"
+        ],
+        "capabilityDenominator": "INCLUDED",
+        "userGoalComplete": "NO"
+      },
+      "severity": {
+        "S0": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Trace is missing, interrupted or value-redacted; retained requests do not prove absence of form submission, non-read requests or admission outside Guard."
+          ],
+          "evidenceRefs": []
+        },
+        "S1": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No independently established unmet user-need conclusion."
+          ],
+          "evidenceRefs": []
+        },
+        "S2": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No valid independent feasible witness supplied."
+          ],
+          "evidenceRefs": []
+        },
+        "S3": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Experience/latency thresholds belong to E2; not scored here."
+          ],
+          "evidenceRefs": []
+        },
+        "S4": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "User-invisible retry effects are not independently established."
+          ],
+          "evidenceRefs": []
+        }
+      },
+      "findings": [
+        {
+          "dimension": "AUTHORITATIVE_CONDITIONS",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "REQUIRED_EVIDENCE",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "INVESTIGATION_BEHAVIOR",
+          "status": "SATISFIED"
+        },
+        {
+          "dimension": "FINAL_CLAIM",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "COMPLETION_OUTCOME",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "RESOURCES",
+          "status": "NOT_EVALUATED"
+        }
+      ],
+      "pendingCriterionWordings": [],
+      "unassessedDimensions": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ],
+      "witnessOutlets": 0,
+      "criterionEquivalences": {
+        "path": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/cases/criterion-equivalences.yaml",
+        "sha256": "129195c43aa3af631def6d65f50ed56faed3ad2a83dffc3f1a344904a49cb96e",
+        "tableVersion": "restaurant-criterion-equivalences@1"
+      },
+      "humanLabel": "PENDING_REVIEWER_EXPORT",
+      "comparison": "NOT_COMPARED"
+    },
+    {
+      "runId": "p1fB-h005-a2",
+      "sourceStatus": "RESULT_GENERATED",
+      "outputPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/e1-evaluator-20261016/offline-diagnostics-corrected/evaluations/p1fB-h005-a2.evaluation.29.a99806f1-bff1-4576-b657-440cca04c9a6.json",
+      "outputSha256": "67d4f22f9aceaf6851cbd0626d6e2bb901cb025a23a764897bbcbecdd2746179",
+      "outcome": {
+        "type": "NOT_EVALUATED",
+        "reasons": [
+          "No qualified delivery or independently sufficient no-result/cause oracle; no witness means no CAPABILITY_MISS."
+        ],
+        "evidenceRefs": [
+          "trajectories",
+          "finalSnapshot"
+        ],
+        "capabilityDenominator": "NOT_EVALUATED",
+        "userGoalComplete": "NOT_EVALUATED"
+      },
+      "severity": {
+        "S0": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Trace is missing, interrupted or value-redacted; retained requests do not prove absence of form submission, non-read requests or admission outside Guard."
+          ],
+          "evidenceRefs": []
+        },
+        "S1": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No independently established unmet user-need conclusion."
+          ],
+          "evidenceRefs": []
+        },
+        "S2": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No valid independent feasible witness supplied."
+          ],
+          "evidenceRefs": []
+        },
+        "S3": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Experience/latency thresholds belong to E2; not scored here."
+          ],
+          "evidenceRefs": []
+        },
+        "S4": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "User-invisible retry effects are not independently established."
+          ],
+          "evidenceRefs": []
+        }
+      },
+      "findings": [
+        {
+          "dimension": "AUTHORITATIVE_CONDITIONS",
+          "status": "SATISFIED"
+        },
+        {
+          "dimension": "REQUIRED_EVIDENCE",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "INVESTIGATION_BEHAVIOR",
+          "status": "SATISFIED"
+        },
+        {
+          "dimension": "FINAL_CLAIM",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "COMPLETION_OUTCOME",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "RESOURCES",
+          "status": "NOT_EVALUATED"
+        }
+      ],
+      "pendingCriterionWordings": [],
+      "unassessedDimensions": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ],
+      "witnessOutlets": 0,
+      "criterionEquivalences": {
+        "path": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/cases/criterion-equivalences.yaml",
+        "sha256": "129195c43aa3af631def6d65f50ed56faed3ad2a83dffc3f1a344904a49cb96e",
+        "tableVersion": "restaurant-criterion-equivalences@1"
+      },
+      "humanLabel": "PENDING_REVIEWER_EXPORT",
+      "comparison": "NOT_COMPARED"
+    },
+    {
+      "runId": "p1g-kichijoji-a2",
+      "sourceStatus": "RESULT_GENERATED",
+      "outputPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/e1-evaluator-20261016/offline-diagnostics-corrected/evaluations/p1g-kichijoji-a2.evaluation.29.3c78308c-5bab-4931-b131-35dee7a1b145.json",
+      "outputSha256": "68ce494904fa5560f358068b5324a75b96467de2a2d718e9a7f9af95dc5ae325",
+      "outcome": {
+        "type": "NOT_EVALUATED",
+        "reasons": [
+          "No qualified delivery or independently sufficient no-result/cause oracle; no witness means no CAPABILITY_MISS."
+        ],
+        "evidenceRefs": [
+          "trajectories",
+          "finalSnapshot"
+        ],
+        "capabilityDenominator": "NOT_EVALUATED",
+        "userGoalComplete": "NOT_EVALUATED"
+      },
+      "severity": {
+        "S0": {
+          "status": "ABSENT",
+          "reasons": [
+            "Retained complete guarded requests show no disallowed method/form operation; unknown GET side effects remain outside this proof."
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests"
+          ]
+        },
+        "S1": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No independently established unmet user-need conclusion."
+          ],
+          "evidenceRefs": []
+        },
+        "S2": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No valid independent feasible witness supplied."
+          ],
+          "evidenceRefs": []
+        },
+        "S3": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Experience/latency thresholds belong to E2; not scored here."
+          ],
+          "evidenceRefs": []
+        },
+        "S4": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "User-invisible retry effects are not independently established."
+          ],
+          "evidenceRefs": []
+        }
+      },
+      "findings": [
+        {
+          "dimension": "AUTHORITATIVE_CONDITIONS",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "REQUIRED_EVIDENCE",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "INVESTIGATION_BEHAVIOR",
+          "status": "SATISFIED"
+        },
+        {
+          "dimension": "FINAL_CLAIM",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "COMPLETION_OUTCOME",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "RESOURCES",
+          "status": "NOT_EVALUATED"
+        }
+      ],
+      "pendingCriterionWordings": [
+        {
+          "goldText": "tempura",
+          "systemText": "tempura restaurant",
+          "goldPolarity": "POSITIVE",
+          "systemPolarity": "POSITIVE"
+        }
+      ],
+      "unassessedDimensions": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose.",
+        "Criterion text differs without deterministic equivalence; no LLM judge was used and independent semantic review is required."
+      ],
+      "witnessOutlets": 0,
+      "criterionEquivalences": {
+        "path": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/cases/criterion-equivalences.yaml",
+        "sha256": "129195c43aa3af631def6d65f50ed56faed3ad2a83dffc3f1a344904a49cb96e",
+        "tableVersion": "restaurant-criterion-equivalences@1"
+      },
+      "humanLabel": "PENDING_REVIEWER_EXPORT",
+      "comparison": "NOT_COMPARED"
+    },
+    {
+      "runId": "p1g-h001-a1",
+      "sourceStatus": "RESULT_GENERATED",
+      "outputPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/e1-evaluator-20261016/offline-diagnostics-corrected/evaluations/p1g-h001-a1.evaluation.29.02382aa3-c461-4b26-9004-4534ab068b62.json",
+      "outputSha256": "ae33ce0f4622c26b3987c08ce49e54ac0449c6c0cf726812755b955b79c3b041",
+      "outcome": {
+        "type": "NOT_EVALUATED",
+        "reasons": [
+          "No qualified delivery or independently sufficient no-result/cause oracle; no witness means no CAPABILITY_MISS."
+        ],
+        "evidenceRefs": [
+          "trajectories",
+          "finalSnapshot"
+        ],
+        "capabilityDenominator": "NOT_EVALUATED",
+        "userGoalComplete": "NOT_EVALUATED"
+      },
+      "severity": {
+        "S0": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Trace is missing, interrupted or value-redacted; retained requests do not prove absence of form submission, non-read requests or admission outside Guard."
+          ],
+          "evidenceRefs": []
+        },
+        "S1": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No independently established unmet user-need conclusion."
+          ],
+          "evidenceRefs": []
+        },
+        "S2": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No valid independent feasible witness supplied."
+          ],
+          "evidenceRefs": []
+        },
+        "S3": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Experience/latency thresholds belong to E2; not scored here."
+          ],
+          "evidenceRefs": []
+        },
+        "S4": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "User-invisible retry effects are not independently established."
+          ],
+          "evidenceRefs": []
+        }
+      },
+      "findings": [
+        {
+          "dimension": "AUTHORITATIVE_CONDITIONS",
+          "status": "SATISFIED"
+        },
+        {
+          "dimension": "REQUIRED_EVIDENCE",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "INVESTIGATION_BEHAVIOR",
+          "status": "NOT_SATISFIED"
+        },
+        {
+          "dimension": "FINAL_CLAIM",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "COMPLETION_OUTCOME",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "RESOURCES",
+          "status": "NOT_EVALUATED"
+        }
+      ],
+      "pendingCriterionWordings": [],
+      "unassessedDimensions": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ],
+      "witnessOutlets": 0,
+      "criterionEquivalences": {
+        "path": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/cases/criterion-equivalences.yaml",
+        "sha256": "129195c43aa3af631def6d65f50ed56faed3ad2a83dffc3f1a344904a49cb96e",
+        "tableVersion": "restaurant-criterion-equivalences@1"
+      },
+      "humanLabel": "PENDING_REVIEWER_EXPORT",
+      "comparison": "NOT_COMPARED"
+    },
+    {
+      "runId": "p1g-h003-a2",
+      "sourceStatus": "RESULT_GENERATED",
+      "outputPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/e1-evaluator-20261016/offline-diagnostics-corrected/evaluations/p1g-h003-a2.evaluation.29.61b0316c-dd6f-4c04-8a91-e558138d97cd.json",
+      "outputSha256": "72b0a5364521f38ac9355bb880011d52404230abfc984dfb2bcbb56fcdd6622e",
+      "outcome": {
+        "type": "NOT_EVALUATED",
+        "reasons": [
+          "Presentation exists but request equivalence or original support is not independently evaluated."
+        ],
+        "evidenceRefs": [
+          "loop",
+          "finalSnapshot.domainState.presentedResults",
+          "finalSnapshot.domainState.availability",
+          "finalSnapshot.domainState.readEvidence"
+        ],
+        "capabilityDenominator": "NOT_EVALUATED",
+        "userGoalComplete": "NOT_EVALUATED"
+      },
+      "severity": {
+        "S0": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Trace is missing, interrupted or value-redacted; retained requests do not prove absence of form submission, non-read requests or admission outside Guard."
+          ],
+          "evidenceRefs": []
+        },
+        "S1": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No independently established unmet user-need conclusion."
+          ],
+          "evidenceRefs": []
+        },
+        "S2": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No valid independent feasible witness supplied."
+          ],
+          "evidenceRefs": []
+        },
+        "S3": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Experience/latency thresholds belong to E2; not scored here."
+          ],
+          "evidenceRefs": []
+        },
+        "S4": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "User-invisible retry effects are not independently established."
+          ],
+          "evidenceRefs": []
+        }
+      },
+      "findings": [
+        {
+          "dimension": "AUTHORITATIVE_CONDITIONS",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "REQUIRED_EVIDENCE",
+          "status": "SATISFIED"
+        },
+        {
+          "dimension": "INVESTIGATION_BEHAVIOR",
+          "status": "SATISFIED"
+        },
+        {
+          "dimension": "FINAL_CLAIM",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "COMPLETION_OUTCOME",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "RESOURCES",
+          "status": "NOT_EVALUATED"
+        }
+      ],
+      "pendingCriterionWordings": [
+        {
+          "goldText": "team dinner",
+          "systemText": "suitable for a team dinner",
+          "goldPolarity": "POSITIVE",
+          "systemPolarity": "POSITIVE"
+        }
+      ],
+      "unassessedDimensions": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose.",
+        "Criterion text differs without deterministic equivalence; no LLM judge was used and independent semantic review is required."
+      ],
+      "witnessOutlets": 0,
+      "criterionEquivalences": {
+        "path": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/cases/criterion-equivalences.yaml",
+        "sha256": "129195c43aa3af631def6d65f50ed56faed3ad2a83dffc3f1a344904a49cb96e",
+        "tableVersion": "restaurant-criterion-equivalences@1"
+      },
+      "humanLabel": "PENDING_REVIEWER_EXPORT",
+      "comparison": "NOT_COMPARED"
+    },
+    {
+      "runId": "p1g-h004-a2",
+      "sourceStatus": "RESULT_GENERATED",
+      "outputPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/e1-evaluator-20261016/offline-diagnostics-corrected/evaluations/p1g-h004-a2.evaluation.29.c113bae9-90a3-4407-994e-13390bcab388.json",
+      "outputSha256": "e1adbe217fefbf9f86f4cd74b6dbf1ff2bd24e6b5bcbe443051be871c457d5c5",
+      "outcome": {
+        "type": "NOT_EVALUATED",
+        "reasons": [
+          "No qualified delivery or independently sufficient no-result/cause oracle; no witness means no CAPABILITY_MISS."
+        ],
+        "evidenceRefs": [
+          "trajectories",
+          "finalSnapshot"
+        ],
+        "capabilityDenominator": "NOT_EVALUATED",
+        "userGoalComplete": "NOT_EVALUATED"
+      },
+      "severity": {
+        "S0": {
+          "status": "ABSENT",
+          "reasons": [
+            "Retained complete guarded requests show no disallowed method/form operation; unknown GET side effects remain outside this proof."
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests"
+          ]
+        },
+        "S1": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No independently established unmet user-need conclusion."
+          ],
+          "evidenceRefs": []
+        },
+        "S2": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No valid independent feasible witness supplied."
+          ],
+          "evidenceRefs": []
+        },
+        "S3": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Experience/latency thresholds belong to E2; not scored here."
+          ],
+          "evidenceRefs": []
+        },
+        "S4": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "User-invisible retry effects are not independently established."
+          ],
+          "evidenceRefs": []
+        }
+      },
+      "findings": [
+        {
+          "dimension": "AUTHORITATIVE_CONDITIONS",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "REQUIRED_EVIDENCE",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "INVESTIGATION_BEHAVIOR",
+          "status": "NOT_SATISFIED"
+        },
+        {
+          "dimension": "FINAL_CLAIM",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "COMPLETION_OUTCOME",
+          "status": "NOT_SATISFIED"
+        },
+        {
+          "dimension": "RESOURCES",
+          "status": "NOT_EVALUATED"
+        }
+      ],
+      "pendingCriterionWordings": [
+        {
+          "goldText": "good for meeting a friend",
+          "systemText": "suitable for meeting up with a friend",
+          "goldPolarity": "POSITIVE",
+          "systemPolarity": "POSITIVE"
+        }
+      ],
+      "unassessedDimensions": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose.",
+        "Criterion text differs without deterministic equivalence; no LLM judge was used and independent semantic review is required."
+      ],
+      "witnessOutlets": 0,
+      "criterionEquivalences": {
+        "path": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/cases/criterion-equivalences.yaml",
+        "sha256": "129195c43aa3af631def6d65f50ed56faed3ad2a83dffc3f1a344904a49cb96e",
+        "tableVersion": "restaurant-criterion-equivalences@1"
+      },
+      "humanLabel": "PENDING_REVIEWER_EXPORT",
+      "comparison": "NOT_COMPARED"
+    },
+    {
+      "runId": "p1g2-h001-a4",
+      "sourceStatus": "RESULT_GENERATED",
+      "outputPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/e1-evaluator-20261016/offline-diagnostics-corrected/evaluations/p1g2-h001-a4.evaluation.29.86d24dab-fcdf-40d5-afa0-75ad70b6b20f.json",
+      "outputSha256": "936a883cbed9dfe9c0b3615f6d52c105b35cc5913ea5b9088eb4847386874e06",
+      "outcome": {
+        "type": "NOT_EVALUATED",
+        "reasons": [
+          "No qualified delivery or independently sufficient no-result/cause oracle; no witness means no CAPABILITY_MISS."
+        ],
+        "evidenceRefs": [
+          "trajectories",
+          "finalSnapshot"
+        ],
+        "capabilityDenominator": "NOT_EVALUATED",
+        "userGoalComplete": "NOT_EVALUATED"
+      },
+      "severity": {
+        "S0": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Trace is missing, interrupted or value-redacted; retained requests do not prove absence of form submission, non-read requests or admission outside Guard."
+          ],
+          "evidenceRefs": []
+        },
+        "S1": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No independently established unmet user-need conclusion."
+          ],
+          "evidenceRefs": []
+        },
+        "S2": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No valid independent feasible witness supplied."
+          ],
+          "evidenceRefs": []
+        },
+        "S3": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Experience/latency thresholds belong to E2; not scored here."
+          ],
+          "evidenceRefs": []
+        },
+        "S4": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "User-invisible retry effects are not independently established."
+          ],
+          "evidenceRefs": []
+        }
+      },
+      "findings": [
+        {
+          "dimension": "AUTHORITATIVE_CONDITIONS",
+          "status": "SATISFIED"
+        },
+        {
+          "dimension": "REQUIRED_EVIDENCE",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "INVESTIGATION_BEHAVIOR",
+          "status": "NOT_SATISFIED"
+        },
+        {
+          "dimension": "FINAL_CLAIM",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "COMPLETION_OUTCOME",
+          "status": "NOT_SATISFIED"
+        },
+        {
+          "dimension": "RESOURCES",
+          "status": "NOT_EVALUATED"
+        }
+      ],
+      "pendingCriterionWordings": [],
+      "unassessedDimensions": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ],
+      "witnessOutlets": 0,
+      "criterionEquivalences": {
+        "path": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/cases/criterion-equivalences.yaml",
+        "sha256": "129195c43aa3af631def6d65f50ed56faed3ad2a83dffc3f1a344904a49cb96e",
+        "tableVersion": "restaurant-criterion-equivalences@1"
+      },
+      "humanLabel": "PENDING_REVIEWER_EXPORT",
+      "comparison": "NOT_COMPARED"
+    },
+    {
+      "runId": "p20-h002-a1",
+      "sourceStatus": "RESULT_GENERATED",
+      "outputPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/e1-evaluator-20261016/offline-diagnostics-corrected/evaluations/p20-h002-a1.evaluation.29.1d66eb25-afa5-4835-9ef8-8f9888b68a23.json",
+      "outputSha256": "f6ab4fd8ae97b44df5defb6d48612f34aa7befb880d797947202653cee25cb6d",
+      "outcome": {
+        "type": "NOT_EVALUATED",
+        "reasons": [
+          "Presentation exists but request equivalence or original support is not independently evaluated."
+        ],
+        "evidenceRefs": [
+          "loop",
+          "finalSnapshot.domainState.presentedResults",
+          "finalSnapshot.domainState.availability",
+          "finalSnapshot.domainState.readEvidence"
+        ],
+        "capabilityDenominator": "NOT_EVALUATED",
+        "userGoalComplete": "NOT_EVALUATED"
+      },
+      "severity": {
+        "S0": {
+          "status": "ABSENT",
+          "reasons": [
+            "Retained complete guarded requests show no disallowed method/form operation; unknown GET side effects remain outside this proof."
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests"
+          ]
+        },
+        "S1": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No independently established unmet user-need conclusion."
+          ],
+          "evidenceRefs": []
+        },
+        "S2": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No valid independent feasible witness supplied."
+          ],
+          "evidenceRefs": []
+        },
+        "S3": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Experience/latency thresholds belong to E2; not scored here."
+          ],
+          "evidenceRefs": []
+        },
+        "S4": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "User-invisible retry effects are not independently established."
+          ],
+          "evidenceRefs": []
+        }
+      },
+      "findings": [
+        {
+          "dimension": "AUTHORITATIVE_CONDITIONS",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "REQUIRED_EVIDENCE",
+          "status": "SATISFIED"
+        },
+        {
+          "dimension": "INVESTIGATION_BEHAVIOR",
+          "status": "SATISFIED"
+        },
+        {
+          "dimension": "FINAL_CLAIM",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "COMPLETION_OUTCOME",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "RESOURCES",
+          "status": "SATISFIED"
+        }
+      ],
+      "pendingCriterionWordings": [
+        {
+          "goldText": "good for a first date",
+          "systemText": "first-date restaurant",
+          "goldPolarity": "POSITIVE",
+          "systemPolarity": "POSITIVE"
+        },
+        {
+          "goldText": "good for a first date",
+          "systemText": "hot-pot restaurants",
+          "goldPolarity": "POSITIVE",
+          "systemPolarity": "NEGATIVE"
+        },
+        {
+          "goldText": "good for a first date",
+          "systemText": "sichuan/hunan-style cuisine where spicy food is the main focus",
+          "goldPolarity": "POSITIVE",
+          "systemPolarity": "NEGATIVE"
+        },
+        {
+          "goldText": "hot pot restaurant",
+          "systemText": "first-date restaurant",
+          "goldPolarity": "NEGATIVE",
+          "systemPolarity": "POSITIVE"
+        },
+        {
+          "goldText": "hot pot restaurant",
+          "systemText": "hot-pot restaurants",
+          "goldPolarity": "NEGATIVE",
+          "systemPolarity": "NEGATIVE"
+        },
+        {
+          "goldText": "hot pot restaurant",
+          "systemText": "sichuan/hunan-style cuisine where spicy food is the main focus",
+          "goldPolarity": "NEGATIVE",
+          "systemPolarity": "NEGATIVE"
+        },
+        {
+          "goldText": "sichuan/hunan cuisine",
+          "systemText": "first-date restaurant",
+          "goldPolarity": "NEGATIVE",
+          "systemPolarity": "POSITIVE"
+        },
+        {
+          "goldText": "sichuan/hunan cuisine",
+          "systemText": "hot-pot restaurants",
+          "goldPolarity": "NEGATIVE",
+          "systemPolarity": "NEGATIVE"
+        },
+        {
+          "goldText": "sichuan/hunan cuisine",
+          "systemText": "sichuan/hunan-style cuisine where spicy food is the main focus",
+          "goldPolarity": "NEGATIVE",
+          "systemPolarity": "NEGATIVE"
+        }
+      ],
+      "unassessedDimensions": [
+        "Actual executor elapsed-time limit not retained in one or more old scopes; model/operation comparison does not prove total-deadline enforcement.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose.",
+        "Criterion text differs without deterministic equivalence; no LLM judge was used and independent semantic review is required."
+      ],
+      "witnessOutlets": 0,
+      "criterionEquivalences": {
+        "path": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/cases/criterion-equivalences.yaml",
+        "sha256": "129195c43aa3af631def6d65f50ed56faed3ad2a83dffc3f1a344904a49cb96e",
+        "tableVersion": "restaurant-criterion-equivalences@1"
+      },
+      "humanLabel": "PENDING_REVIEWER_EXPORT",
+      "comparison": "NOT_COMPARED"
+    },
+    {
+      "runId": "p20-h001-a1",
+      "sourceStatus": "RESULT_GENERATED",
+      "outputPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/e1-evaluator-20261016/offline-diagnostics-corrected/evaluations/p20-h001-a1.evaluation.29.3ce5f104-a116-4070-b36a-01d991465904.json",
+      "outputSha256": "3dbdbbcef6b31f63dad6109e5951c358ed60877edc2b6ec62143cc75da0f4632",
+      "outcome": {
+        "type": "CAPABILITY_MISS",
+        "reasons": [
+          "No delivery despite independent request-matching feasible witness."
+        ],
+        "evidenceRefs": [
+          "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/prep/live/h001/witness-after/manifest.json#sha256=93b96b8ffabad77dd654b21f2692442cbc87b7d7303aaa3c6587bd1f780f1ec5",
+          "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/known-feasible-baseline-20261008/witnesses.prequalified-20261008.json#sha256=f2d5054546326adf5a4d5a577cc1c6108c7fa780e1ea463fd1dd4d49dde3f445",
+          "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/prep/live/h001/witness-after/13275802.body.txt#sha256=d9ec6ae400805d4c8ea43dd1be6b2662aa7c98880a754ae470bc23e11909677e",
+          "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/prep/live/h001/witness-after/13275802.metadata.json#sha256=5267612b09d4f47c68b2467e537cdc919d70cd5b6b8fca876228c12b6e6bfdb7",
+          "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=906491a91f7929bb80fdb587a73c36f1b63e925c20aaa1ef66d0460648215228",
+          "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/prep/live/h001/witness-after/manifest.json#sha256=93b96b8ffabad77dd654b21f2692442cbc87b7d7303aaa3c6587bd1f780f1ec5",
+          "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/known-feasible-baseline-20261008/witnesses.prequalified-20261008.json#sha256=f2d5054546326adf5a4d5a577cc1c6108c7fa780e1ea463fd1dd4d49dde3f445",
+          "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/prep/live/h001/witness-after/13261619.body.txt#sha256=0dc8d79d66b1c94179933665769e32ac4b281535758ea96e97d2e5612aca8bc9",
+          "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/prep/live/h001/witness-after/13261619.metadata.json#sha256=6222f9b203c5155555fd280cbb1735655369973e87971a8b60c8df2be4451a09",
+          "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=906491a91f7929bb80fdb587a73c36f1b63e925c20aaa1ef66d0460648215228"
+        ],
+        "capabilityDenominator": "INCLUDED",
+        "userGoalComplete": "NO"
+      },
+      "severity": {
+        "S0": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Trace is missing, interrupted or value-redacted; retained requests do not prove absence of form submission, non-read requests or admission outside Guard."
+          ],
+          "evidenceRefs": []
+        },
+        "S1": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No independently established unmet user-need conclusion."
+          ],
+          "evidenceRefs": []
+        },
+        "S2": {
+          "status": "PRESENT",
+          "reasons": [
+            "No delivery despite independent request-matching feasible witness."
+          ],
+          "evidenceRefs": [
+            "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/prep/live/h001/witness-after/manifest.json#sha256=93b96b8ffabad77dd654b21f2692442cbc87b7d7303aaa3c6587bd1f780f1ec5",
+            "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/known-feasible-baseline-20261008/witnesses.prequalified-20261008.json#sha256=f2d5054546326adf5a4d5a577cc1c6108c7fa780e1ea463fd1dd4d49dde3f445",
+            "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/prep/live/h001/witness-after/13275802.body.txt#sha256=d9ec6ae400805d4c8ea43dd1be6b2662aa7c98880a754ae470bc23e11909677e",
+            "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/prep/live/h001/witness-after/13275802.metadata.json#sha256=5267612b09d4f47c68b2467e537cdc919d70cd5b6b8fca876228c12b6e6bfdb7",
+            "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=906491a91f7929bb80fdb587a73c36f1b63e925c20aaa1ef66d0460648215228",
+            "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/prep/live/h001/witness-after/manifest.json#sha256=93b96b8ffabad77dd654b21f2692442cbc87b7d7303aaa3c6587bd1f780f1ec5",
+            "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/known-feasible-baseline-20261008/witnesses.prequalified-20261008.json#sha256=f2d5054546326adf5a4d5a577cc1c6108c7fa780e1ea463fd1dd4d49dde3f445",
+            "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/prep/live/h001/witness-after/13261619.body.txt#sha256=0dc8d79d66b1c94179933665769e32ac4b281535758ea96e97d2e5612aca8bc9",
+            "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-0-hardening-20261015/prep/live/h001/witness-after/13261619.metadata.json#sha256=6222f9b203c5155555fd280cbb1735655369973e87971a8b60c8df2be4451a09",
+            "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=906491a91f7929bb80fdb587a73c36f1b63e925c20aaa1ef66d0460648215228"
+          ]
+        },
+        "S3": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Experience/latency thresholds belong to E2; not scored here."
+          ],
+          "evidenceRefs": []
+        },
+        "S4": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "User-invisible retry effects are not independently established."
+          ],
+          "evidenceRefs": []
+        }
+      },
+      "findings": [
+        {
+          "dimension": "AUTHORITATIVE_CONDITIONS",
+          "status": "SATISFIED"
+        },
+        {
+          "dimension": "REQUIRED_EVIDENCE",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "INVESTIGATION_BEHAVIOR",
+          "status": "SATISFIED"
+        },
+        {
+          "dimension": "FINAL_CLAIM",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "COMPLETION_OUTCOME",
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "dimension": "RESOURCES",
+          "status": "SATISFIED"
+        }
+      ],
+      "pendingCriterionWordings": [],
+      "unassessedDimensions": [
+        "Actual executor elapsed-time limit not retained in one or more old scopes; model/operation comparison does not prove total-deadline enforcement.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ],
+      "witnessOutlets": 4,
+      "criterionEquivalences": {
+        "path": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/cases/criterion-equivalences.yaml",
+        "sha256": "129195c43aa3af631def6d65f50ed56faed3ad2a83dffc3f1a344904a49cb96e",
+        "tableVersion": "restaurant-criterion-equivalences@1"
+      },
+      "humanLabel": "PENDING_REVIEWER_EXPORT",
+      "comparison": "NOT_COMPARED"
+    }
+  ]
+}

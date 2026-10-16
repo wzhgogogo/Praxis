@@ -1,15 +1,17 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.231
+- Document revision: 4.232
 - Last updated: 2026-10-16
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
 
+- **2026-10-16 E1-5f 登记见证不随复查行丢失而缩水：** 在原始h001见证的独立副本中仅删除Sen一行，保留其他三行及独立登记表，旧漏斗3行而应有4行的业务断言红；现按登记集合补出缺观察的店，库存／可行性／卡点NE、观察时间null，不借旧slot文本或候选池补值。其他门店原始库存不丢失；缺HARD Gold也只让可行性NE，不把已有席位或生产判断当HARD支持。历史源文件逐字不变。 定向106/106；typecheck／arch:check／npm test 905/905／build全绿，05-witness/roster-followup保存red／green／四门禁及skill校验。最近浏览器相关改动已在04-outcomes/source-path-followup/browser.log本地112/112通过；本补充仅改显式witness选项的离线漏斗，不涉及浏览器路径或原始观察采集，复用该项证据，不重复Live或Chromium。 证据.eval-artifacts/e1-evaluator-20261016/report.md；其余切片继续，仅离线，无模型／Live／见证GET，人工表待复核者导出。
+
 - **2026-10-16 E1离线实现已提交，整体校准未完成：** T1已由复核者独立复跑五门禁通过。E1输入3389131保留22条＝20份result＋2份原始SIGKILL包（含trace），30 gzip共12,630,285字节；最终双SHA／原始字节复验通过。第1–9项分别提交，evaluator@29／rubric@23，类型化读取、空的严格等价表、独立来源核验、类型／严重程度、见证漏斗、无进展统计、actual限额、外层零交付登记见证及两个待标注种子均有正常与反例证据。分项承诺、提交与未覆盖边界仅汇总至[报告](../.eval-artifacts/e1-evaluator-20261016/report.md)，详细历史保留DEVLOG／TEST-LOG。
 
-- **E1首个剩余阻断与停止点：** 复核者尚未提交labels.yaml、8组措辞结论和5条人工口径；不代填、不把开发集全绿当作校准通过。22份预备诊断发现公共Tabelog状态GET被reserve子串误报，已在第4项补充中以真实反例修复；旧sidecar标superseded并保留。最终四门禁904/904及本地Chromium112/112全绿；缺字段、措辞、原始观察、完整trace／参数、独立地址及实际时间限额仍如实未评价，S3/S4属E2。两个新种子PROPOSED且不计通过率。本批无业务外网／模型／Live／见证GET，无Gold／Prompt／生产行为改动；按授权提交推送后停止，等待复核及人工输入。
+- **E1首个剩余阻断与停止点：** 复核者尚未提交labels.yaml、8组措辞结论和5条人工口径；不代填、不把开发集全绿当作校准通过。22份预备诊断发现公共Tabelog状态GET被reserve子串误报，已在第4项补充中以真实反例修复；旧sidecar标superseded并保留。最新四门禁905/905全绿，最近浏览器相关路径本地112/112；登记集合不随复查缺行缩水。缺字段、措辞、原始观察、完整trace／参数、独立地址及实际时间限额仍如实未评价，S3/S4属E2。两个新种子PROPOSED且不计通过率。本批无业务外网／模型／Live／见证GET，无Gold／Prompt／生产行为改动；按授权提交推送后停止，等待复核及人工输入。
 
 - **2026-10-15 T1离线交付待复核：** 六项各自本地提交，生产源码冻结77c4580；各项红绿与门禁／退役清单／宿主差异已汇总至`.eval-artifacts/t1-assembly-20261015/report.md`。最后默认881/881、真实Chromium112/112，typecheck／arch／build全绿。八种原生规范化逃逸未复现，按指令允许分支保留；CDP独立origin／方法／类型拒绝三对照有实际receiver红绿证据。仅测试机制与明确接线修复，不证明真实模型或网站；P2-0已独立签收，T1等待复核，无Live／付费模型／见证GET／Gold修改，无推送。用户原有设计文件保留未提交。
 
