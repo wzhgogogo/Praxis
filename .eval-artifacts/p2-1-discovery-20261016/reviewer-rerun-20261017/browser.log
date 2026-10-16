@@ -1,0 +1,697 @@
+TAP version 13
+# Subtest: guarded HAR replay drives the production executor offline and keeps missing requests off the network
+ok 1 - guarded HAR replay drives the production executor offline and keeps missing requests off the network
+  ---
+  duration_ms: 3624.675295
+  type: 'test'
+  ...
+# Subtest: recorded public documents replay through the production TableCheck availability Adapter without a network escape
+ok 2 - recorded public documents replay through the production TableCheck availability Adapter without a network escape
+  ---
+  duration_ms: 1042.918274
+  type: 'test'
+  ...
+# Subtest: guarded dynamic TableCheck recording replays through the same production Adapter without receiver traffic
+ok 3 - guarded dynamic TableCheck recording replays through the same production Adapter without receiver traffic
+  ---
+  duration_ms: 3752.072969
+  type: 'test'
+  ...
+# Subtest: LOCAL applies authoritative date and party through observed DOM references
+ok 4 - LOCAL applies authoritative date and party through observed DOM references
+  ---
+  duration_ms: 1381.456275
+  type: 'test'
+  ...
+# Subtest: CLOUDFLARE_SESSION applies authoritative date and party through observed DOM references
+ok 5 - CLOUDFLARE_SESSION applies authoritative date and party through observed DOM references
+  ---
+  duration_ms: 1331.967245
+  type: 'test'
+  ...
+# Subtest: LOCAL settles delayed visible query state
+ok 6 - LOCAL settles delayed visible query state
+  ---
+  duration_ms: 962.842445
+  type: 'test'
+  ...
+# Subtest: CLOUDFLARE_SESSION settles delayed visible query state
+ok 7 - CLOUDFLARE_SESSION settles delayed visible query state
+  ---
+  duration_ms: 996.726147
+  type: 'test'
+  ...
+# Subtest: LOCAL settles hidden and property-only control mutations without treating either as inventory
+ok 8 - LOCAL settles hidden and property-only control mutations without treating either as inventory
+  ---
+  duration_ms: 677.218007
+  type: 'test'
+  ...
+# Subtest: CLOUDFLARE_SESSION settles hidden and property-only control mutations without treating either as inventory
+ok 9 - CLOUDFLARE_SESSION settles hidden and property-only control mutations without treating either as inventory
+  ---
+  duration_ms: 660.223651
+  type: 'test'
+  ...
+# Subtest: LOCAL recovers once from a visible header obstruction and re-observes before the next click
+ok 10 - LOCAL recovers once from a visible header obstruction and re-observes before the next click
+  ---
+  duration_ms: 6013.476049
+  type: 'test'
+  ...
+# Subtest: CLOUDFLARE_SESSION recovers once from a visible header obstruction and re-observes before the next click
+ok 11 - CLOUDFLARE_SESSION recovers once from a visible header obstruction and re-observes before the next click
+  ---
+  duration_ms: 6051.322689
+  type: 'test'
+  ...
+# Subtest: TableCheck real Chromium Adapter completes a dynamic scrollable guest query (party-first) within 24 operations
+ok 12 - TableCheck real Chromium Adapter completes a dynamic scrollable guest query (party-first) within 24 operations
+  ---
+  duration_ms: 3130.926054
+  type: 'test'
+  ...
+# Subtest: TableCheck real Chromium Adapter completes a dynamic scrollable guest query (date-first) within 24 operations
+ok 13 - TableCheck real Chromium Adapter completes a dynamic scrollable guest query (date-first) within 24 operations
+  ---
+  duration_ms: 2880.822041
+  type: 'test'
+  ...
+# Subtest: native Tabelog detail uses real local Chromium controls before accepting its bound vacancy response
+ok 14 - native Tabelog detail uses real local Chromium controls before accepting its bound vacancy response
+  ---
+  duration_ms: 1725.663123
+  type: 'test'
+  ...
+# Subtest: native dynamic Tabelog AVAILABLE reaches formal H001 presentation with page-owned query evidence
+ok 15 - native dynamic Tabelog AVAILABLE reaches formal H001 presentation with page-owned query evidence
+  ---
+  duration_ms: 4946.348879
+  type: 'test'
+  ...
+# Subtest: native dynamic Tabelog UNAVAILABLE reaches formal H001 TableCheck continuation and no verified result with page-owned query evidence
+ok 16 - native dynamic Tabelog UNAVAILABLE reaches formal H001 TableCheck continuation and no verified result with page-owned query evidence
+  ---
+  duration_ms: 5294.515314
+  type: 'test'
+  ...
+# Subtest: button name metadata does not replace visible time or Reserve safety label
+ok 17 - button name metadata does not replace visible time or Reserve safety label
+  ---
+  duration_ms: 586.757742
+  type: 'test'
+  ...
+# Subtest: LOCAL chooses a visible time option with an opaque native value and reads it back
+ok 18 - LOCAL chooses a visible time option with an opaque native value and reads it back
+  ---
+  duration_ms: 986.38215
+  type: 'test'
+  ...
+# Subtest: CLOUDFLARE_SESSION chooses a visible time option with an opaque native value and reads it back
+ok 19 - CLOUDFLARE_SESSION chooses a visible time option with an opaque native value and reads it back
+  ---
+  duration_ms: 1036.992378
+  type: 'test'
+  ...
+# Subtest: LOCAL binds a button combobox to its own listbox option through the strict browser wire
+ok 20 - LOCAL binds a button combobox to its own listbox option through the strict browser wire
+  ---
+  duration_ms: 1402.668772
+  type: 'test'
+  ...
+# Subtest: CLOUDFLARE_SESSION binds a button combobox to its own listbox option through the strict browser wire
+ok 21 - CLOUDFLARE_SESSION binds a button combobox to its own listbox option through the strict browser wire
+  ---
+  duration_ms: 1421.216619
+  type: 'test'
+  ...
+# Subtest: empty input reads its own selected display and confirms a changed option
+ok 22 - empty input reads its own selected display and confirms a changed option
+  ---
+  duration_ms: 1545.11976
+  type: 'test'
+  ...
+# Subtest: empty input reads its own selected display and avoids a duplicate choice
+ok 23 - empty input reads its own selected display and avoids a duplicate choice
+  ---
+  duration_ms: 648.164653
+  type: 'test'
+  ...
+# Subtest: LOCAL keeps the observed option node when unrelated buttons arrive during model decision
+ok 24 - LOCAL keeps the observed option node when unrelated buttons arrive during model decision
+  ---
+  duration_ms: 1631.907975
+  type: 'test'
+  ...
+# Subtest: CLOUDFLARE_SESSION keeps the observed option node when unrelated buttons arrive during model decision
+ok 25 - CLOUDFLARE_SESSION keeps the observed option node when unrelated buttons arrive during model decision
+  ---
+  duration_ms: 1636.598571
+  type: 'test'
+  ...
+# Subtest: changed observed option role-change is rejected before execution
+ok 26 - changed observed option role-change is rejected before execution
+  ---
+  duration_ms: 1182.744184
+  type: 'test'
+  ...
+# Subtest: changed observed option replacement is rejected before execution
+ok 27 - changed observed option replacement is rejected before execution
+  ---
+  duration_ms: 1136.624281
+  type: 'test'
+  ...
+# Subtest: changed observed option legal-replacement is rejected before execution
+ok 28 - changed observed option legal-replacement is rejected before execution
+  ---
+  duration_ms: 1626.590106
+  type: 'test'
+  ...
+# Subtest: a visible option from another listbox cannot be claimed by the expanded combobox
+ok 29 - a visible option from another listbox cannot be claimed by the expanded combobox
+  ---
+  duration_ms: 655.589108
+  type: 'test'
+  ...
+# Subtest: native option disabled cannot be signed off as a selected time
+ok 30 - native option disabled cannot be signed off as a selected time
+  ---
+  duration_ms: 594.112694
+  type: 'test'
+  ...
+# Subtest: native option unchanged cannot be signed off as a selected time
+ok 31 - native option unchanged cannot be signed off as a selected time
+  ---
+  duration_ms: 985.217427
+  type: 'test'
+  ...
+# Subtest: native option complete cannot be signed off as a selected time
+ok 32 - native option complete cannot be signed off as a selected time
+  ---
+  duration_ms: 997.525047
+  type: 'test'
+  ...
+# Subtest: an asynchronously applied option can complete after a later selected-value observation
+ok 33 - an asynchronously applied option can complete after a later selected-value observation
+  ---
+  duration_ms: 1454.329706
+  type: 'test'
+  ...
+# Subtest: an unconfirmed time choice cannot be replaced by a successful party choice
+ok 34 - an unconfirmed time choice cannot be replaced by a successful party choice
+  ---
+  duration_ms: 1077.118983
+  type: 'test'
+  ...
+# Subtest: Chromium control observation discards only a handle confirmed disconnected between reads
+ok 35 - Chromium control observation discards only a handle confirmed disconnected between reads
+  ---
+  duration_ms: 268.807284
+  type: 'test'
+  ...
+# Subtest: Chromium control observation preserves an attached control-read failure
+ok 36 - Chromium control observation preserves an attached control-read failure
+  ---
+  duration_ms: 213.233376
+  type: 'test'
+  ...
+# Subtest: Chromium control signatures ignore presentation-only classes but reject value and owner changes
+ok 37 - Chromium control signatures ignore presentation-only classes but reject value and owner changes
+  ---
+  duration_ms: 347.155278
+  type: 'test'
+  ...
+# Subtest: Chromium projects an owned default-method submit as GET without classifying bare or POST submits as public GET
+ok 38 - Chromium projects an owned default-method submit as GET without classifying bare or POST submits as public GET
+  ---
+  duration_ms: 303.098297
+  type: 'test'
+  ...
+# Subtest: LOCAL projects TableCheck search wrapper as combobox and only its native input as fillable
+ok 39 - LOCAL projects TableCheck search wrapper as combobox and only its native input as fillable
+  ---
+  duration_ms: 531.029725
+  type: 'test'
+  ...
+# Subtest: LOCAL completes an exact bound search suggestion without clicking its covered background control
+ok 40 - LOCAL completes an exact bound search suggestion without clicking its covered background control
+  ---
+  duration_ms: 1646.437019
+  type: 'test'
+  ...
+# Subtest: LOCAL opens an observed covered public result at offset 0
+ok 41 - LOCAL opens an observed covered public result at offset 0
+  ---
+  duration_ms: 5629.157143
+  type: 'test'
+  ...
+# Subtest: LOCAL opens an observed covered public result at offset 1400
+ok 42 - LOCAL opens an observed covered public result at offset 1400
+  ---
+  duration_ms: 5546.939742
+  type: 'test'
+  ...
+# Subtest: CLOUDFLARE_SESSION projects TableCheck search wrapper as combobox and only its native input as fillable
+ok 43 - CLOUDFLARE_SESSION projects TableCheck search wrapper as combobox and only its native input as fillable
+  ---
+  duration_ms: 450.147907
+  type: 'test'
+  ...
+# Subtest: CLOUDFLARE_SESSION completes an exact bound search suggestion without clicking its covered background control
+ok 44 - CLOUDFLARE_SESSION completes an exact bound search suggestion without clicking its covered background control
+  ---
+  duration_ms: 1629.296926
+  type: 'test'
+  ...
+# Subtest: CLOUDFLARE_SESSION opens an observed covered public result at offset 0
+ok 45 - CLOUDFLARE_SESSION opens an observed covered public result at offset 0
+  ---
+  duration_ms: 5568.068544
+  type: 'test'
+  ...
+# Subtest: CLOUDFLARE_SESSION opens an observed covered public result at offset 1400
+ok 46 - CLOUDFLARE_SESSION opens an observed covered public result at offset 1400
+  ---
+  duration_ms: 5568.07282
+  type: 'test'
+  ...
+# Subtest: Tabelog category discovery expands observed links and removes the keyword within the same area
+ok 47 - Tabelog category discovery expands observed links and removes the keyword within the same area
+  ---
+  duration_ms: 3787.727359
+  type: 'test'
+  ...
+# Subtest: saved Tabelog calendar keeps hidden future dates and disabled guests out of ready state
+ok 48 - saved Tabelog calendar keeps hidden future dates and disabled guests out of ready state
+  ---
+  duration_ms: 1410.491224
+  type: 'test'
+  ...
+# Subtest: Tabelog Adapter consumes loading-to-restricted calendar without model action or timeout
+ok 49 - Tabelog Adapter consumes loading-to-restricted calendar without model action or timeout
+  ---
+  duration_ms: 1845.727302
+  type: 'test'
+  ...
+# Subtest: LOCAL retires a real Chromium session after a delayed failed navigation
+ok 50 - LOCAL retires a real Chromium session after a delayed failed navigation
+  ---
+  duration_ms: 658.823386
+  type: 'test'
+  ...
+# Subtest: CLOUDFLARE_SESSION retires a real Chromium session after a delayed failed navigation
+ok 51 - CLOUDFLARE_SESSION retires a real Chromium session after a delayed failed navigation
+  ---
+  duration_ms: 642.959252
+  type: 'test'
+  ...
+# Subtest: real browser waits for the requested page update instead of reporting stale slots
+ok 52 - real browser waits for the requested page update instead of reporting stale slots
+  ---
+  duration_ms: 444.935623
+  type: 'test'
+  ...
+# Subtest: explicit fixture takeover changes the same page and rechecks identity
+ok 53 - explicit fixture takeover changes the same page and rechecks identity
+  ---
+  duration_ms: 272.451901
+  type: 'test'
+  ...
+# Subtest: a requested ready marker that never appears fails within the probe deadline
+ok 54 - a requested ready marker that never appears fails within the probe deadline
+  ---
+  duration_ms: 1667.368744
+  type: 'test'
+  ...
+# Subtest: generic controlled browser path completes a local read-only page task without a site-specific adapter method
+ok 55 - generic controlled browser path completes a local read-only page task without a site-specific adapter method
+  ---
+  duration_ms: 944.521405
+  type: 'test'
+  ...
+# Subtest: an observed public target-blank link switches the same session to a new page before reading its terms
+ok 56 - an observed public target-blank link switches the same session to a new page before reading its terms
+  ---
+  duration_ms: 1079.347945
+  type: 'test'
+  ...
+# Subtest: real DOM observation exposes an unlabelled-id role button and calendar navigation without permitting submission
+ok 57 - real DOM observation exposes an unlabelled-id role button and calendar navigation without permitting submission
+  ---
+  duration_ms: 1325.979302
+  type: 'test'
+  ...
+# Subtest: an active language dialog blocks background calendar actions until the dialog is closed
+ok 58 - an active language dialog blocks background calendar actions until the dialog is closed
+  ---
+  duration_ms: 1370.460376
+  type: 'test'
+  ...
+# Subtest: shared executor keeps unguarded public filters unavailable
+ok 59 - shared executor keeps unguarded public filters unavailable
+  ---
+  duration_ms: 610.701139
+  type: 'test'
+  ...
+# Subtest: slider observations follow native properties and ARIA state in both directions
+ok 60 - slider observations follow native properties and ARIA state in both directions
+  ---
+  duration_ms: 595.136033
+  type: 'test'
+  ...
+# Subtest: a model cannot consent by setting an unclassified checkbox
+ok 61 - a model cannot consent by setting an unclassified checkbox
+  ---
+  duration_ms: 628.942314
+  type: 'test'
+  ...
+# Subtest: nested and hidden dialogs preserve only the active layer's targets
+ok 62 - nested and hidden dialogs preserve only the active layer's targets
+  ---
+  duration_ms: 530.190101
+  type: 'test'
+  ...
+# Subtest: Web refresh replaces commercial terms and cites the displayed fact source
+ok 63 - Web refresh replaces commercial terms and cites the displayed fact source
+  ---
+  duration_ms: 451.779469
+  type: 'test'
+  ...
+# Subtest: LOCAL selects Tabelog paragraph dates and labelled guests without treating time options as slots
+ok 64 - LOCAL selects Tabelog paragraph dates and labelled guests without treating time options as slots
+  ---
+  duration_ms: 2267.899633
+  type: 'test'
+  ...
+# Subtest: CLOUDFLARE_SESSION selects Tabelog paragraph dates and labelled guests without treating time options as slots
+ok 65 - CLOUDFLARE_SESSION selects Tabelog paragraph dates and labelled guests without treating time options as slots
+  ---
+  duration_ms: 2184.859681
+  type: 'test'
+  ...
+# Subtest: TableCheck waits for its guide result and grounds exact-query empty availability
+ok 66 - TableCheck waits for its guide result and grounds exact-query empty availability
+  ---
+  duration_ms: 1710.125464
+  type: 'test'
+  ...
+# Subtest: real Chromium TableCheck source observation crosses the retired 30s provider window but completes inside 45s
+ok 67 - real Chromium TableCheck source observation crosses the retired 30s provider window but completes inside 45s
+  ---
+  duration_ms: 62635.804508
+  type: 'test'
+  ...
+# Subtest: TableCheck handles multiple current search links and reads only the identity-bound outlet
+ok 68 - TableCheck handles multiple current search links and reads only the identity-bound outlet
+  ---
+  duration_ms: 1335.686047
+  type: 'test'
+  ...
+# Subtest: TableCheck form waits past old inventory until a current same-outlet slot link appears
+ok 69 - TableCheck form waits past old inventory until a current same-outlet slot link appears
+  ---
+  duration_ms: 1572.550459
+  type: 'test'
+  ...
+# Subtest: LOCAL TableCheck changes guests through a read-only ARIA combobox without repeating the selected date
+ok 70 - LOCAL TableCheck changes guests through a read-only ARIA combobox without repeating the selected date
+  ---
+  duration_ms: 3713.102753
+  type: 'test'
+  ...
+# Subtest: CLOUDFLARE_SESSION TableCheck changes guests through a read-only ARIA combobox without repeating the selected date
+ok 71 - CLOUDFLARE_SESSION TableCheck changes guests through a read-only ARIA combobox without repeating the selected date
+  ---
+  duration_ms: 3453.620464
+  type: 'test'
+  ...
+# Subtest: LOCAL Tabelog Adapter grounds passive exact-query responses and clears them on navigation
+ok 72 - LOCAL Tabelog Adapter grounds passive exact-query responses and clears them on navigation
+  ---
+  duration_ms: 2048.112627
+  type: 'test'
+  ...
+# Subtest: CLOUDFLARE_SESSION Tabelog Adapter grounds passive exact-query responses and clears them on navigation
+ok 73 - CLOUDFLARE_SESSION Tabelog Adapter grounds passive exact-query responses and clears them on navigation
+  ---
+  duration_ms: 2048.589784
+  type: 'test'
+  ...
+# Subtest: workspace New case survives a late initial case-list response
+ok 74 - workspace New case survives a late initial case-list response
+  ---
+  duration_ms: 388.091581
+  type: 'test'
+  ...
+# Subtest: C5a one choice reveals a clipped PARTY_SIZE option inside its current list
+ok 75 - C5a one choice reveals a clipped PARTY_SIZE option inside its current list
+  ---
+  duration_ms: 1191.672294
+  type: 'test'
+  ...
+# Subtest: C5a one choice reveals a clipped TIME option inside its current list
+ok 76 - C5a one choice reveals a clipped TIME option inside its current list
+  ---
+  duration_ms: 1072.14196
+  type: 'test'
+  ...
+# Subtest: C5a excludes disabled, occluded and noncurrent list options
+ok 77 - C5a excludes disabled, occluded and noncurrent list options
+  ---
+  duration_ms: 683.355417
+  type: 'test'
+  ...
+# Subtest: C3 settles delayed date results before asking the model and never completes from stale loading stock
+ok 78 - C3 settles delayed date results before asking the model and never completes from stale loading stock
+  ---
+  duration_ms: 6592.507172
+  type: 'test'
+  ...
+# Subtest: C3 visible-state fallback settles attribute-only carousel and rejects changing text or skeleton
+ok 79 - C3 visible-state fallback settles attribute-only carousel and rejects changing text or skeleton
+  ---
+  duration_ms: 12188.305377
+  type: 'test'
+  ...
+# Subtest: C4 blocks repeated toggle state but allows the same Next control on changed pages
+ok 80 - C4 blocks repeated toggle state but allows the same Next control on changed pages
+  ---
+  duration_ms: 3015.407695
+  type: 'test'
+  ...
+# Subtest: C3b rotating suggestions accept identical bound results but changing results and skeleton remain pending
+ok 81 - C3b rotating suggestions accept identical bound results but changing results and skeleton remain pending
+  ---
+  duration_ms: 14473.838112
+  type: 'test'
+  ...
+# Subtest: C3b Chromium ignores an outstanding image once data has completed
+ok 82 - C3b Chromium ignores an outstanding image once data has completed
+  ---
+  duration_ms: 593.536222
+  type: 'test'
+  ...
+# Subtest: C2a recorded unavailable calendar dates are observed and cannot drift to other days
+ok 83 - C2a recorded unavailable calendar dates are observed and cannot drift to other days
+  ---
+  duration_ms: 3800.960166
+  type: 'test'
+  ...
+# Subtest: C2a selectable requested date retains authoritative click and blocks an ordinary other-date click
+ok 84 - C2a selectable requested date retains authoritative click and blocks an ordinary other-date click
+  ---
+  duration_ms: 1007.204279
+  type: 'test'
+  ...
+# Subtest: P1-D Chromium observes LOCATION binding and fills exactly the resolved name, excluding personal address and nameless requests
+ok 85 - P1-D Chromium observes LOCATION binding and fills exactly the resolved name, excluding personal address and nameless requests
+  ---
+  duration_ms: 1571.87898
+  type: 'test'
+  ...
+# Subtest: model full-page OPEN_LINK allows slow DOMContentLoaded and times out only within the remaining navigation budget
+ok 86 - model full-page OPEN_LINK allows slow DOMContentLoaded and times out only within the remaining navigation budget
+  ---
+  duration_ms: 9480.721903
+  type: 'test'
+  ...
+# Subtest: E1 outer body observer captures real Chromium POST bytes independently of Guard admission
+ok 87 - E1 outer body observer captures real Chromium POST bytes independently of Guard admission
+  ---
+  duration_ms: 3584.680169
+  type: 'test'
+  ...
+# Subtest: real Chromium rejects a second cross-origin redirect before receiver arrival
+ok 88 - real Chromium rejects a second cross-origin redirect before receiver arrival
+  ---
+  duration_ms: 195.738724
+  type: 'test'
+  ...
+# Subtest: real Chromium rejects a second sensitive redirect before receiver arrival
+ok 89 - real Chromium rejects a second sensitive redirect before receiver arrival
+  ---
+  duration_ms: 202.94195
+  type: 'test'
+  ...
+# Subtest: real Chromium preserves allowed redirect URL, relative links, cookies and recording of every hop
+ok 90 - real Chromium preserves allowed redirect URL, relative links, cookies and recording of every hop
+  ---
+  duration_ms: 264.918355
+  type: 'test'
+  ...
+# Subtest: real Chromium checks every fetch redirect before cross-origin dispatch
+ok 91 - real Chromium checks every fetch redirect before cross-origin dispatch
+  ---
+  duration_ms: 221.225544
+  type: 'test'
+  ...
+# Subtest: real Chromium checks every xhr redirect before cross-origin dispatch
+ok 92 - real Chromium checks every xhr redirect before cross-origin dispatch
+  ---
+  duration_ms: 223.796334
+  type: 'test'
+  ...
+# Subtest: real Chromium checks every script redirect before cross-origin dispatch
+ok 93 - real Chromium checks every script redirect before cross-origin dispatch
+  ---
+  duration_ms: 219.81224
+  type: 'test'
+  ...
+# Subtest: real Chromium checks every stylesheet redirect before cross-origin dispatch
+ok 94 - real Chromium checks every stylesheet redirect before cross-origin dispatch
+  ---
+  duration_ms: 233.55448
+  type: 'test'
+  ...
+# Subtest: real Chromium checks every image redirect before cross-origin dispatch
+ok 95 - real Chromium checks every image redirect before cross-origin dispatch
+  ---
+  duration_ms: 237.635301
+  type: 'test'
+  ...
+# Subtest: real Chromium redirect loops fail at the Guard hop bound
+ok 96 - real Chromium redirect loops fail at the Guard hop bound
+  ---
+  duration_ms: 257.371924
+  type: 'test'
+  ...
+# Subtest: real Chromium protects popup navigation before its first redirect
+ok 97 - real Chromium protects popup navigation before its first redirect
+  ---
+  duration_ms: 265.354963
+  type: 'test'
+  ...
+# Subtest: real Chromium protects iframe redirect chains
+ok 98 - real Chromium protects iframe redirect chains
+  ---
+  duration_ms: 221.414962
+  type: 'test'
+  ...
+# Subtest: real Chromium preserves normal allowed popup redirect navigation
+ok 99 - real Chromium preserves normal allowed popup redirect navigation
+  ---
+  duration_ms: 389.132612
+  type: 'test'
+  ...
+# Subtest: real Chromium protects dedicated-worker fetch redirects
+ok 100 - real Chromium protects dedicated-worker fetch redirects
+  ---
+  duration_ms: 217.809198
+  type: 'test'
+  ...
+# Subtest: reviewed stylesheet redirects preserve their URL without promoting the CDN to generic public reads
+ok 101 - reviewed stylesheet redirects preserve their URL without promoting the CDN to generic public reads
+  ---
+  duration_ms: 234.82051
+  type: 'test'
+  ...
+# Subtest: T1 native redirect URL-normalization attempts keep forbidden receivers untouched
+    # Subtest: fragment
+    ok 1 - fragment
+      ---
+      duration_ms: 217.39537
+      type: 'test'
+      ...
+    # Subtest: dot
+    ok 2 - dot
+      ---
+      duration_ms: 194.290513
+      type: 'test'
+      ...
+    # Subtest: encodedDot
+    ok 3 - encodedDot
+      ---
+      duration_ms: 192.397436
+      type: 'test'
+      ...
+    # Subtest: escaped
+    ok 4 - escaped
+      ---
+      duration_ms: 214.006233
+      type: 'test'
+      ...
+    # Subtest: queryEscape
+    ok 5 - queryEscape
+      ---
+      duration_ms: 198.78865
+      type: 'test'
+      ...
+    # Subtest: slash
+    ok 6 - slash
+      ---
+      duration_ms: 245.876531
+      type: 'test'
+      ...
+    # Subtest: unicode
+    ok 7 - unicode
+      ---
+      duration_ms: 192.294008
+      type: 'test'
+      ...
+    # Subtest: protocolRelative
+    ok 8 - protocolRelative
+      ---
+      duration_ms: 201.343375
+      type: 'test'
+      ...
+    1..8
+ok 102 - T1 native redirect URL-normalization attempts keep forbidden receivers untouched
+  ---
+  duration_ms: 1658.282866
+  type: 'test'
+  ...
+# {"form":"fragment","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+# {"form":"dot","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+# {"form":"encodedDot","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+# {"form":"escaped","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+# {"form":"queryEscape","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+# {"form":"slash","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+# {"form":"unicode","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+# {"form":"protocolRelative","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+# Subtest: T1 CDP independently rejects an unrecognized paused origin request
+ok 103 - T1 CDP independently rejects an unrecognized paused origin request
+  ---
+  duration_ms: 194.477847
+  type: 'test'
+  ...
+# Subtest: T1 CDP independently rejects an unrecognized paused method request
+ok 104 - T1 CDP independently rejects an unrecognized paused method request
+  ---
+  duration_ms: 199.797149
+  type: 'test'
+  ...
+# Subtest: T1 CDP independently rejects an unrecognized paused resource-type request
+ok 105 - T1 CDP independently rejects an unrecognized paused resource-type request
+  ---
+  duration_ms: 224.745614
+  type: 'test'
+  ...
+1..105
+# tests 113
+# suites 0
+# pass 113
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 261696.447403
