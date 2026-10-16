@@ -1,8 +1,8 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.53
-- Last updated: 2026-10-15
+- Document revision: 1.54
+- Last updated: 2026-10-16
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
 - Related documents: [Restaurant Domain](../domains/RESTAURANT-BOOKING.md), [Data & Security](../architecture/DATA-CONTEXT-SECURITY.md)
@@ -14,6 +14,8 @@ T1离线组装证据（2026-10-15）：Runner、Web和固定来源主组合共�
 T1 Hybrid迁移补充：完整Google-only来源组合也经生产SourceAware外层，Google100正常／1耗尽控制揭示并修复googleRequests／failureCode丢失；候选事实／资格不改。部分端口规则测试迁入Router harness，不把手填identity的低层控制报告为Adapter身份证明。仍仅离线能力接线证据。
 
 T1 Guard补充：CDP每个暂停请求执行原策略检查；同networkId的Network类型与Playwright一致，不新增Other或来源放行。真实Chromium正常worker／CSS与三种禁用receiver红绿通过；八种原生规范化逃逸未复现，不报告为已重现攻击。证据见T1 report／06-cdp，非外站或Cloudflare服务Live。
+
+P2-1第一段增加 eval-only 首批发现探测入口，真实来源观察、超时和未到达情况见 [批次报告](../../.eval-artifacts/p2-1-discovery-20261016/report.md)。本段未修改来源 Adapter/Pack、检索策略或网络放行规则，来源能力声明不升级；Google返回带坐标候选与原生页面详情读取分别记录，不代表空位或交付。ADR-0042仍为Proposed，搜索级空位筛选未实施。
 
 | Provider | Discovery | Availability | Execute | Cancel | Verify | Takeover | Status / 限制 |
 |---|---|---|---|---|---|---|---|

@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.246
+- Document revision: 4.247
 - Last updated: 2026-10-16
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-16 P2-1 baseline-adr：** 第一段10次发现探测完成，86模型（含2失败）/15Google/0整单Live，四TARGET见证来源ID均未进入列表；CONTROL结果与超时/未到达如实保留。冻结0a25cae与active清单未变，931/931及Chromium113/113证据复用；ADR-0042为Proposed，0037只追加。报告见.eval-artifacts/p2-1-discovery-20261016/report.md；停在第3项，不推送，不实施第4–7项。
 
 - **2026-10-16 P2-1 preflight-wiring：** 首次探测在0ms预检配置失败，0HTTP/模型/Google/来源读取；原因是eval Runner预检参数位置错误。保留原日志，CLI改为有类型初始化，离线传输有效红绿证据通过；默认931/931、typecheck/arch/build绿，浏览器相关路径未改复用113/113。自动审批拒绝移除源码冻结检查且未执行，最终两层冻结边界均保留。首次模型前重新冻结@2，原清单与失败尝试保留；生产检索与6份语义/见证/预算不变，补一次未启动的编排失败，不推送。
 

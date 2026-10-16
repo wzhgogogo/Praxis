@@ -32,11 +32,13 @@
 - 第1项工具提交 `260522e`，冻结见 `execution-freeze.json` / `baseline-freeze.json`。
 - 认证UTC 2026-10-16T15:05:55.833Z—2026-10-16T15:06:42.990Z：32次公开GET（16详情＋16四参数库存），模型/Google/整单Live均0。每例认证后有效24小时。全部16原登记店保留，13家合格：h001 2、神乐坂2、KF-H005 1、吉祥寺3、H002 3、中目黑2。未通过的具体原因见登记文件，不把它们当无位。
 - 原始库存、最小化店铺JSON-LD/原登记quote当前匹配与源字节SHA、逐店日期/人数回声校验见`witness-certification/`和`witnesses.certified.json`；全部原始库存的base_date与members独立符合请求，不以请求参数自证。未保留整页review/profile，不能静态重建完整页面。
-- 尚未开始基线模型请求。10fd06f已同步：用户2026-10-16 22:44批准variants.yaml；除头注外逐字相同。六份输入未提交/未执行时仅更新批准来源与SHA，不改实际语义字段或日期。ff-only因本地第0项提交分叉而失败，正常合并保留6924e0b。
+- 批准和输入同步在真实基线请求前完成。10fd06f已同步：用户2026-10-16 22:44批准variants.yaml；除头注外逐字相同。六份输入未提交/未执行时仅更新批准来源与SHA，不改实际语义字段或日期。ff-only因本地第0项提交分叉而失败，正常合并保留6924e0b。
 
 ## 3 ADR-0042
 
-待执行；必须保持Proposed。
+草案已写为 [ADR-0042](../../docs/decisions/0042-agent-planned-discovery-and-search-availability-hints.md)，状态 Proposed / draft, not integrated。Planner仍决定来源顺序；Agent拟选择短词/已观察类别/组合/通用列表；代码核对格式、地区、权威日期人数。稀疏/明确空状态可在详情前每来源最多改写2次；提议地区4页、检索3页，总计最多7个列表文档，原来源90秒与全局500秒/50调用不提高。搜索级筛选选择Pack URL语法并核对页面应用状态，未应用或空时回退，不形成空位或交付证据。
+
+ADR-0037只追加了有条件的Proposed部分替代说明，原文逐字保留；ADR索引、Capability Matrix（能力不升级）、既有Harness场景目录同步。根AGENTS.md是规则入口，没有场景清单，本段不新增重复清单。未经用户批准不实施第4–7项。
 
 ## 用量与边界
 
@@ -49,3 +51,103 @@
 源码冻结检查正确拒绝未提交CLI测试；该失败不算接线反例。曾尝试移除该重复检查，但自动审批以削弱防篡改边界拒绝，未执行；最终Runner和外层检查全部保留。改为测试CLI实际使用的有类型预检初始化函数，使用离线HTTP传输，红灯为DEEPSEEK配置失败（仅1个FAILED），绿灯为前三个REACHABLE、第四个受控停止，并核对fake鉴权和产物目录；不是生产网络探测。有效证据`red-preflight-environment.log` → `preflight-targeted-preflight-corrected.log`。
 
 修正仅eval预检接线，未改变发现模型输入/策略/预算/圈域/资格。最终typecheck/arch/build和npm test931/931通过；浏览器/Guard/Source Pack/组装代码未变，复用113/113日志。原冻结清单逐字存`baseline-freeze.preflight-initial.json`，首次真实模型请求前重新冻结为`baseline-freeze.json`（@2），更改点明确登记。第1次预检配置中断保留为未启动，补跑不增加计划10次或150模型上限；替换输出另存，不覆盖旧目录。
+
+
+## 基线逐次结果（发现探测）
+
+列中的原生为列表后详情读取确认坐标的候选，Google为结构化搜索返回坐标后独立算距的候选；没有新增Google Place Details调用，后者不能声称完成了门店页面详情/身份读取。跨来源不合并身份，不把Google候选名称推断为Tabelog认证ID。
+
+| 探测 | 见证进列表 / 进首批详情 | 半径内计数 | 页数 | 模型 / Google | 探测 / 含预检墙钟ms | 终止 / 来源失败 | 原始指标 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| p2-kf-h001-20261027 #1 | false / false | 1（原生1/Google0） 下界 | 3 | 10 / 0 | 180007 / 192024 | DISCOVERY_PROBE_TIMEOUT / BROWSER_ABORTED | [attempt-1-after-config-fix](baseline/p2-kf-h001-20261027/attempt-1-after-config-fix/probe-summary.json) |
+| p2-kf-h001-20261027 #2 | false / false | 34（原生1/Google33） | 4 | 1 / 2 | 82650 / 94059 | ALL_PLANNED_FIRST_BATCHES_ATTEMPTED / BROWSER_TIMEOUT | [attempt-2](baseline/p2-kf-h001-20261027/attempt-2/probe-summary.json) |
+| p2-kagurazaka-kaiseki-20261029 #1 | false / false | 40（原生0/Google40） | 5 | 12 / 2 | 128941 / 136990 | ALL_PLANNED_FIRST_BATCHES_ATTEMPTED / BROWSER_TIMEOUT,BROWSER_TIMEOUT | [attempt-1](baseline/p2-kagurazaka-kaiseki-20261029/attempt-1/probe-summary.json) |
+| p2-kagurazaka-kaiseki-20261029 #2 | false / false | 40（原生0/Google40） | 4 | 10 / 2 | 126149 / 135367 | ALL_PLANNED_FIRST_BATCHES_ATTEMPTED / DISCOVERY_SOURCE_LOCATION_UNGROUNDED,BROWSER_TIMEOUT | [attempt-2](baseline/p2-kagurazaka-kaiseki-20261029/attempt-2/probe-summary.json) |
+| p2-kf-h005-20261029 #1 | false / false | 40（原生0/Google40） | 4 | 5 / 2 | 81307 / 87606 | ALL_PLANNED_FIRST_BATCHES_ATTEMPTED / BROWSER_TIMEOUT | [attempt-1](baseline/p2-kf-h005-20261029/attempt-1/probe-summary.json) |
+| p2-kf-h005-20261029 #2 | false / false | 40（原生0/Google40） | 4 | 5 / 2 | 66162 / 75305 | ALL_PLANNED_FIRST_BATCHES_ATTEMPTED / BROWSER_TIMEOUT | [attempt-2](baseline/p2-kf-h005-20261029/attempt-2/probe-summary.json) |
+| p2-kichijoji-tempura-20261027 #1 | false / false | 0（原生0/Google0） 下界 | 6 | 14 / 0 | 180014 / 191254 | DISCOVERY_PROBE_TIMEOUT / BROWSER_TIMEOUT,BROWSER_ABORTED | [attempt-1](baseline/p2-kichijoji-tempura-20261027/attempt-1/probe-summary.json) |
+| p2-kichijoji-tempura-20261027 #2 | false / false | 40（原生0/Google40） | 4 | 12 / 2 | 116450 / 123360 | ALL_PLANNED_FIRST_BATCHES_ATTEMPTED / DISCOVERY_SOURCE_LOCATION_UNGROUNDED,BROWSER_TIMEOUT | [attempt-2](baseline/p2-kichijoji-tempura-20261027/attempt-2/probe-summary.json) |
+| p2-kf-h002-20261031 #1 | true / false | 22（原生2/Google20） | 5 | 3 / 1 | 127730 / 139106 | ALL_PLANNED_FIRST_BATCHES_ATTEMPTED / BROWSER_TIMEOUT | [attempt-1](baseline/p2-kf-h002-20261031/attempt-1/probe-summary.json) |
+| p2-nakameguro-yakiniku-20261030 #1 | false / false | 34（原生0/Google34） | 7 | 14 / 2 | 151268 / 158600 | ALL_PLANNED_FIRST_BATCHES_ATTEMPTED / EXTRACTION_FAILED,BROWSER_TIMEOUT | [attempt-1](baseline/p2-nakameguro-yakiniku-20261030/attempt-1/probe-summary.json) |
+
+### p2-kf-h001-20261027 #1
+
+- 检索序列：tabelog: omakase [20/36] → tabelog: omakase [3/3] → tabelog: omakase [3/3] → tablecheck: omakase [未知/未知]。
+- 未到达来源：google-places；独立只读审计：ABSENT，gaps=0；录制：NOT_REPLAYABLE。
+- 原始指标完整保留于 [probe-summary.json](baseline/p2-kf-h001-20261027/attempt-1-after-config-fix/probe-summary.json)，决策 [probe.decisions.jsonl](baseline/p2-kf-h001-20261027/attempt-1-after-config-fix/probe.decisions.jsonl)；trace与recording同目录。
+
+### p2-kf-h001-20261027 #2
+
+- 检索序列：tabelog: omakase [20/36] → tabelog: omakase [3/3] → tabelog: omakase [3/3] → tablecheck: omakase [未知/未知] → google-places: omakase [未知/未知]。
+- 未到达来源：无；独立只读审计：ABSENT，gaps=0；录制：REPLAYABLE。
+- 原始指标完整保留于 [probe-summary.json](baseline/p2-kf-h001-20261027/attempt-2/probe-summary.json)，决策 [probe.decisions.jsonl](baseline/p2-kf-h001-20261027/attempt-2/probe.decisions.jsonl)；trace与recording同目录。
+
+### p2-kagurazaka-kaiseki-20261029 #1
+
+- 检索序列：tabelog: kaiseki restaurant [0/未知] → tabelog: kaiseki restaurant [0/未知] → tabelog: 无关键词（类别/通用列表，按URL） [20/10368] → tablecheck: kaiseki restaurant [未知/未知] → google-places: kaiseki restaurant [未知/未知]。
+- 未到达来源：无；独立只读审计：ABSENT，gaps=0；录制：NOT_REPLAYABLE。
+- 原始指标完整保留于 [probe-summary.json](baseline/p2-kagurazaka-kaiseki-20261029/attempt-1/probe-summary.json)，决策 [probe.decisions.jsonl](baseline/p2-kagurazaka-kaiseki-20261029/attempt-1/probe.decisions.jsonl)；trace与recording同目录。
+
+### p2-kagurazaka-kaiseki-20261029 #2
+
+- 检索序列：tabelog: kaiseki restaurant [0/未知] → tablecheck: kaiseki restaurant [未知/未知] → google-places: kaiseki restaurant [未知/未知]。
+- 未到达来源：无；独立只读审计：ABSENT，gaps=0；录制：NOT_REPLAYABLE。
+- 原始指标完整保留于 [probe-summary.json](baseline/p2-kagurazaka-kaiseki-20261029/attempt-2/probe-summary.json)，决策 [probe.decisions.jsonl](baseline/p2-kagurazaka-kaiseki-20261029/attempt-2/probe.decisions.jsonl)；trace与recording同目录。
+
+### p2-kf-h005-20261029 #1
+
+- 检索序列：tabelog: local food [2/2] → tabelog: local food [0/未知] → tabelog: local food [0/未知] → tablecheck: local food [未知/未知] → google-places: local food [未知/未知]。
+- 未到达来源：无；独立只读审计：ABSENT，gaps=0；录制：REPLAYABLE。
+- 原始指标完整保留于 [probe-summary.json](baseline/p2-kf-h005-20261029/attempt-1/probe-summary.json)，决策 [probe.decisions.jsonl](baseline/p2-kf-h005-20261029/attempt-1/probe.decisions.jsonl)；trace与recording同目录。
+
+### p2-kf-h005-20261029 #2
+
+- 检索序列：tabelog: local food [2/2] → tabelog: local food [0/未知] → tabelog: local food [0/未知] → tablecheck: local food [未知/未知] → google-places: local food [未知/未知]。
+- 未到达来源：无；独立只读审计：ABSENT，gaps=0；录制：REPLAYABLE。
+- 原始指标完整保留于 [probe-summary.json](baseline/p2-kf-h005-20261029/attempt-2/probe-summary.json)，决策 [probe.decisions.jsonl](baseline/p2-kf-h005-20261029/attempt-2/probe.decisions.jsonl)；trace与recording同目录。
+
+### p2-kichijoji-tempura-20261027 #1
+
+- 检索序列：tabelog: tempura restaurant [0/未知] → tabelog: tempura restaurant [0/42] → tabelog: restaurant [0/3] → tabelog: restaurant [1/1] → tabelog: 无关键词（类别/通用列表，按URL） [0/139442] → tablecheck: tempura restaurant [未知/未知]。
+- 未到达来源：google-places；独立只读审计：ABSENT，gaps=0；录制：NOT_REPLAYABLE。
+- 原始指标完整保留于 [probe-summary.json](baseline/p2-kichijoji-tempura-20261027/attempt-1/probe-summary.json)，决策 [probe.decisions.jsonl](baseline/p2-kichijoji-tempura-20261027/attempt-1/probe.decisions.jsonl)；trace与recording同目录。
+
+### p2-kichijoji-tempura-20261027 #2
+
+- 检索序列：tabelog: tempura restaurant [0/未知] → tablecheck: tempura restaurant [未知/未知] → google-places: tempura restaurant [未知/未知]。
+- 未到达来源：无；独立只读审计：ABSENT，gaps=0；录制：NOT_REPLAYABLE。
+- 原始指标完整保留于 [probe-summary.json](baseline/p2-kichijoji-tempura-20261027/attempt-2/probe-summary.json)，决策 [probe.decisions.jsonl](baseline/p2-kichijoji-tempura-20261027/attempt-2/probe.decisions.jsonl)；trace与recording同目录。
+
+### p2-kf-h002-20261031 #1
+
+- 检索序列：tabelog: 无关键词（类别/通用列表，按URL） [20/139442] → tabelog: 无关键词（类别/通用列表，按URL） [20/6251] → tabelog: 无关键词（类别/通用列表，按URL） [20/2658] → tabelog: 无关键词（类别/通用列表，按URL） [20/5031] → tabelog: 无关键词（类别/通用列表，按URL） [20/5031] → tablecheck: 无关键词（类别/通用列表，按URL） [未知/未知] → google-places: 通用 [未知/未知]。
+- 未到达来源：无；独立只读审计：ABSENT，gaps=0；录制：NOT_REPLAYABLE。
+- 原始指标完整保留于 [probe-summary.json](baseline/p2-kf-h002-20261031/attempt-1/probe-summary.json)，决策 [probe.decisions.jsonl](baseline/p2-kf-h002-20261031/attempt-1/probe.decisions.jsonl)；trace与recording同目录。
+
+### p2-nakameguro-yakiniku-20261030 #1
+
+- 检索序列：tabelog: yakiniku [20/2872] → tabelog: yakiniku [20/51] → tabelog: yakiniku [15/15] → tabelog: yakiniku [15/15] → tablecheck: yakiniku [未知/未知] → google-places: yakiniku [未知/未知]。
+- 未到达来源：无；独立只读审计：ABSENT，gaps=0；录制：NOT_REPLAYABLE。
+- 原始指标完整保留于 [probe-summary.json](baseline/p2-nakameguro-yakiniku-20261030/attempt-1/probe-summary.json)，决策 [probe.decisions.jsonl](baseline/p2-nakameguro-yakiniku-20261030/attempt-1/probe.decisions.jsonl)；trace与recording同目录。
+
+### 指标与证据限制
+
+- `retrievalAttempts.keyword` 在原关键词被移除时会回填计划关键词；表中检索序列另按原始URL参数解码明确写为无关键词，原JSON不覆盖。Google没有浏览器listingObservations，原JSON解析数量为null；来源返回候选数与独立半径计数另列，不能把null说成零。
+- 原生结果页的解析数/页面总数完整保留；未知、超时或未到达不等于明确空状态或来源穷尽。受控Fixture证明组装和指标路径，不能替代本表当前网站证据。
+- 页数沿用生产来源漏斗；Google按生产continuation页数记录，浏览器导航/快照原始trace另存，不把页数当完整网络请求数。
+- 超时取消点配置180000ms；耗时包括取消与回收开销，超过的毫秒数按实际保留，不声称墙钟严格小于180秒。
+- 录制按既有安全策略最小化，NOT_REPLAYABLE的具体原因保留；不能据此声称可静态重建。
+- 四层口径：端到端交付NOT_APPLICABLE（未运行）；逐环节只评发现见证与坐标观测，语义/查位/事实/HARD/交付未评；S0声明NOT_APPLICABLE（无展示），S0越界按独立规则审计逐次报告，未知GET副作用仍为既有证明限制；归因仅记录可观察的检索与超时卡点，不把系统原因码升级为已确认根因。
+
+## 第一段收尾
+
+- 第0项 `6924e0b`；批准文件合并 `218e28d`（远端 `10fd06f`）；第1项 `260522e`；认证与启动前配置 `f9df634`；0模型预检接线修正 `0a25cae`。十次真实探测统一运行于完整SHA `0a25cae7d53cffc5ad71c07ce221f149aa2ce450`，active配置为 `baseline-freeze.json` @2。原始@1冻结保留，不覆盖。
+- 第2项完成10/10：四个TARGET各2次，认证见证来源ID进列表0/8、进首批详情0/8；H002 CONTROL为true/false，中目黑CONTROL为false/false。这里仅是发现探测，不给出QUALIFIED_DELIVERY或CAPABILITY_MISS端到端分数。Google结构化候选不按名称自动合并成Tabelog见证。
+- 中目黑限制：Tabelog模型选择Meguro & Shirogane & Gotanda → Meguro → Meguro Sta.，列表20→20→15→15，未读任何详情，第4次模型调用TIMEOUT（10008ms），来源EXTRACTION_FAILED；TableCheck后续BROWSER_TIMEOUT。以上是当前记录的路径和阻断，不确认因果、不修复，不宣称CONTROL通过或不退化；后续A/B应以此实际基线逐项比较。
+- 本段模型86次（84成功＋2失败，失败已计入），86条decisions；Google业务请求15次。真实探测10次，另1次未发HTTP/模型的预检接线中断保留，不当作能力失败后重跑。能力失败均未重跑。
+- 用量：当前基线86/150；本批探测额度86/450；本批总模型86/1650（阶段总额4000，本轮贡献86，不套用旧第一阶段1500分母）。见证认证32个GET另列。整单Live新增0，无查位、交付、预约或支付；第7项尚未运行。预检HTTP不混作Google业务请求或模型调用。
+- 最终代码门禁：typecheck/arch:check/build PASS，npm test931/931；真实本地Chromium113/113（222.107秒）。见 `01-probe-tool/preflight-corrected-gates.json` 与同目录日志；最后接线修正仅eval环境转发，浏览器/Guard/来源/组装未变，复用既有完整Chromium绿灯。文档与离线报告后不重复付费/Live验证。
+- 十次独立规则只读审计均ABSENT、gaps=0，未触发S0停止；保留ADR-0036未知GET副作用不完全可证明的边界，不宣称任意网站或写操作安全。S0声明未评（本段无展示）。
+- 独立产物核对 `baseline-verification.json`：summary与decisions SHA、86条调用/决策相等、trace存在与SHA、recording文件存在；全部10次均DISCOVERY_PROBE_ONLY，输入及冻结文件SHA保持。`summarize-baseline.py`只离线生成表和核对，不访问网络或模型。
+- 第3项ADR-0042为Proposed；ADR-0037原始字节前缀完整保留，只追加有条件提案说明。文档矩阵检查链接、命令、权威一致性与diff。原有INDEX、产品设计草稿和三个演示文件未纳入提交。本地提交后停止，等待用户批准ADR；不推送、不执行第4–7项。
+- 收尾核对见 `first-segment-verification.json`；原始产物逐文件SHA见 `artifact-manifest.json`。全目录逐文件gzip压缩估算约10.7 MB，低于60 MB停止线；这是估算而非另造可回放压缩包。

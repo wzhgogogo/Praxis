@@ -1,0 +1,302 @@
+{
+  "evidenceStatus": "exposed development diagnosis; not clean baseline",
+  "mode": "DISCOVERY_PROBE_ONLY",
+  "planned": 10,
+  "recorded": 10,
+  "models": 86,
+  "google": 15,
+  "formalLiveRuns": 0,
+  "checks": [
+    {
+      "caseId": "p2-kf-h001-20261027",
+      "repeat": 1,
+      "summary": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kf-h001-20261027/attempt-1-after-config-fix/probe-summary.json",
+      "summarySha256": "32f07ac1454bbb51a5574fc284d5256c668a97c66a72643f7ac0b524b04b7df5",
+      "decisionsSha256": "279ddcc7f0f678a0ecafff48eb722391aeaf58102e9e80be1b6be39a4f4ed4fb",
+      "decisionRows": 10,
+      "failedModelCalls": 0,
+      "models": 10,
+      "google": 0,
+      "nativeInRadius": 1,
+      "googleInRadius": 0,
+      "elapsedMs": 180007,
+      "wallMsIncludingPreflight": 192024,
+      "traceSha256": "fe5f378ce471b0d13ffd31df322b0a5956cd49a83096b20af1519957ecd4765a",
+      "recordingFiles": 41,
+      "boundary": {
+        "status": "ABSENT",
+        "reasons": [
+          "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+        ],
+        "evidenceRefs": [
+          ".eval-artifacts/p2-1-discovery-20261016/outer/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+          "docs/decisions/0036-generic-public-read-network-policy.md",
+          "docs/decisions/0035-browser-read-network-boundary.md"
+        ],
+        "gaps": []
+      }
+    },
+    {
+      "caseId": "p2-kf-h001-20261027",
+      "repeat": 2,
+      "summary": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kf-h001-20261027/attempt-2/probe-summary.json",
+      "summarySha256": "1071b563f9ea947e7081bafbc1a6b5b2f06623a940e7f3cfcb783a5b8def2ce3",
+      "decisionsSha256": "0ca0daac23af96a936ae233cc40c19934f0eb047233154c8448f6362e387ba6c",
+      "decisionRows": 1,
+      "failedModelCalls": 0,
+      "models": 1,
+      "google": 2,
+      "nativeInRadius": 1,
+      "googleInRadius": 33,
+      "elapsedMs": 82650,
+      "wallMsIncludingPreflight": 94059,
+      "traceSha256": "02c7db13e31517f675f3117ca74072e803af865cd0192269e03a1f27166a597a",
+      "recordingFiles": 31,
+      "boundary": {
+        "status": "ABSENT",
+        "reasons": [
+          "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+        ],
+        "evidenceRefs": [
+          ".eval-artifacts/p2-1-discovery-20261016/outer/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+          "docs/decisions/0036-generic-public-read-network-policy.md",
+          "docs/decisions/0035-browser-read-network-boundary.md"
+        ],
+        "gaps": []
+      }
+    },
+    {
+      "caseId": "p2-kagurazaka-kaiseki-20261029",
+      "repeat": 1,
+      "summary": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kagurazaka-kaiseki-20261029/attempt-1/probe-summary.json",
+      "summarySha256": "090f2926c7be4ea2d8e8757b4c8b68df85b5b7d608971270ee816e6fdbffcfdc",
+      "decisionsSha256": "69411ab292aea29945b3e34c5554ea5a6da27177c9a96572b33e6791d833f40a",
+      "decisionRows": 12,
+      "failedModelCalls": 0,
+      "models": 12,
+      "google": 2,
+      "nativeInRadius": 0,
+      "googleInRadius": 40,
+      "elapsedMs": 128941,
+      "wallMsIncludingPreflight": 136990,
+      "traceSha256": "469b4471d60349f42ee486f72e8b6d6e7ba5bed089fb287e8726eafacfff0f22",
+      "recordingFiles": 32,
+      "boundary": {
+        "status": "ABSENT",
+        "reasons": [
+          "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+        ],
+        "evidenceRefs": [
+          ".eval-artifacts/p2-1-discovery-20261016/outer/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+          "docs/decisions/0036-generic-public-read-network-policy.md",
+          "docs/decisions/0035-browser-read-network-boundary.md"
+        ],
+        "gaps": []
+      }
+    },
+    {
+      "caseId": "p2-kagurazaka-kaiseki-20261029",
+      "repeat": 2,
+      "summary": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kagurazaka-kaiseki-20261029/attempt-2/probe-summary.json",
+      "summarySha256": "467280c670e7f84fca3609ffe4f164afe2c1e4f51c3c07b50e56a4d5fce0b588",
+      "decisionsSha256": "2ef032313628646890718ab302c2fe450c220b2eeea891303372e09f8f5a7266",
+      "decisionRows": 10,
+      "failedModelCalls": 1,
+      "models": 10,
+      "google": 2,
+      "nativeInRadius": 0,
+      "googleInRadius": 40,
+      "elapsedMs": 126149,
+      "wallMsIncludingPreflight": 135367,
+      "traceSha256": "4dc64e1cb28c87e59e5d6a809e440433627e4260c0800694f662ca31ed711d8e",
+      "recordingFiles": 34,
+      "boundary": {
+        "status": "ABSENT",
+        "reasons": [
+          "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+        ],
+        "evidenceRefs": [
+          ".eval-artifacts/p2-1-discovery-20261016/outer/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+          "docs/decisions/0036-generic-public-read-network-policy.md",
+          "docs/decisions/0035-browser-read-network-boundary.md"
+        ],
+        "gaps": []
+      }
+    },
+    {
+      "caseId": "p2-kf-h005-20261029",
+      "repeat": 1,
+      "summary": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kf-h005-20261029/attempt-1/probe-summary.json",
+      "summarySha256": "c2d581316567f0e9ace29c8c55fae2c6b642b70132db92966ca23b29d8411479",
+      "decisionsSha256": "bc03cecc3fcea14fe29667212a71022e97e9723255c3c10943cd0cddabab29af",
+      "decisionRows": 5,
+      "failedModelCalls": 0,
+      "models": 5,
+      "google": 2,
+      "nativeInRadius": 0,
+      "googleInRadius": 40,
+      "elapsedMs": 81307,
+      "wallMsIncludingPreflight": 87606,
+      "traceSha256": "9b54ac166da2379eb4817de33429fddc96b13356e66ea9902315479d12473728",
+      "recordingFiles": 24,
+      "boundary": {
+        "status": "ABSENT",
+        "reasons": [
+          "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+        ],
+        "evidenceRefs": [
+          ".eval-artifacts/p2-1-discovery-20261016/outer/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+          "docs/decisions/0036-generic-public-read-network-policy.md",
+          "docs/decisions/0035-browser-read-network-boundary.md"
+        ],
+        "gaps": []
+      }
+    },
+    {
+      "caseId": "p2-kf-h005-20261029",
+      "repeat": 2,
+      "summary": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kf-h005-20261029/attempt-2/probe-summary.json",
+      "summarySha256": "7a2120a4ef6abfb1342a448c97ac736e187b8067415a8ac6087fdf34508f0c0c",
+      "decisionsSha256": "9d8fb847873960391922aa8fa56b5c78c92e4db59c56cc3507a43073edf4e326",
+      "decisionRows": 5,
+      "failedModelCalls": 0,
+      "models": 5,
+      "google": 2,
+      "nativeInRadius": 0,
+      "googleInRadius": 40,
+      "elapsedMs": 66162,
+      "wallMsIncludingPreflight": 75305,
+      "traceSha256": "d359b4bb3f576c820b23d4c66eda3446b01f3eb76431b2d1ca209e5034688b80",
+      "recordingFiles": 24,
+      "boundary": {
+        "status": "ABSENT",
+        "reasons": [
+          "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+        ],
+        "evidenceRefs": [
+          ".eval-artifacts/p2-1-discovery-20261016/outer/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+          "docs/decisions/0036-generic-public-read-network-policy.md",
+          "docs/decisions/0035-browser-read-network-boundary.md"
+        ],
+        "gaps": []
+      }
+    },
+    {
+      "caseId": "p2-kichijoji-tempura-20261027",
+      "repeat": 1,
+      "summary": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kichijoji-tempura-20261027/attempt-1/probe-summary.json",
+      "summarySha256": "426f23abec73eed5ce12d55bf06a55012e9390141ec02b92763c13ce36fd0bae",
+      "decisionsSha256": "36c2e6e490b80f9086b014e81c583322fd1253c70dee5aadf32b141d6e32502d",
+      "decisionRows": 14,
+      "failedModelCalls": 0,
+      "models": 14,
+      "google": 0,
+      "nativeInRadius": 0,
+      "googleInRadius": 0,
+      "elapsedMs": 180014,
+      "wallMsIncludingPreflight": 191254,
+      "traceSha256": "328ed5b644da70ecf550e0f21bdebc21a6483b46b17407df6c12b9c141976b42",
+      "recordingFiles": 35,
+      "boundary": {
+        "status": "ABSENT",
+        "reasons": [
+          "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+        ],
+        "evidenceRefs": [
+          ".eval-artifacts/p2-1-discovery-20261016/outer/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+          "docs/decisions/0036-generic-public-read-network-policy.md",
+          "docs/decisions/0035-browser-read-network-boundary.md"
+        ],
+        "gaps": []
+      }
+    },
+    {
+      "caseId": "p2-kichijoji-tempura-20261027",
+      "repeat": 2,
+      "summary": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kichijoji-tempura-20261027/attempt-2/probe-summary.json",
+      "summarySha256": "5def5c978b0aeb209c7ac084f46672899d08eb3d30c5487056df74a065411b1d",
+      "decisionsSha256": "9552c50b83932ee68ebc8b2bad75716b15001db68716efc5c34d2a06ae77842e",
+      "decisionRows": 12,
+      "failedModelCalls": 0,
+      "models": 12,
+      "google": 2,
+      "nativeInRadius": 0,
+      "googleInRadius": 40,
+      "elapsedMs": 116450,
+      "wallMsIncludingPreflight": 123360,
+      "traceSha256": "ff88d5188e045ae110981af7baa7129b4de5f45f830c084ea6bf1f1755db8535",
+      "recordingFiles": 35,
+      "boundary": {
+        "status": "ABSENT",
+        "reasons": [
+          "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+        ],
+        "evidenceRefs": [
+          ".eval-artifacts/p2-1-discovery-20261016/outer/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+          "docs/decisions/0036-generic-public-read-network-policy.md",
+          "docs/decisions/0035-browser-read-network-boundary.md"
+        ],
+        "gaps": []
+      }
+    },
+    {
+      "caseId": "p2-kf-h002-20261031",
+      "repeat": 1,
+      "summary": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kf-h002-20261031/attempt-1/probe-summary.json",
+      "summarySha256": "4afc5403fcadf0c6c7082f257ef21a320b7647bf806959534d0e6e2013d50f1f",
+      "decisionsSha256": "43619a8ea3d2e7e298d24be0aad4c9f5da4c33a5ea6fdb27f2203c867923649a",
+      "decisionRows": 3,
+      "failedModelCalls": 0,
+      "models": 3,
+      "google": 1,
+      "nativeInRadius": 2,
+      "googleInRadius": 20,
+      "elapsedMs": 127730,
+      "wallMsIncludingPreflight": 139106,
+      "traceSha256": "d250282e3cced5238e54809029b56c076f755cba686d015872a6f5f932621700",
+      "recordingFiles": 28,
+      "boundary": {
+        "status": "ABSENT",
+        "reasons": [
+          "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+        ],
+        "evidenceRefs": [
+          ".eval-artifacts/p2-1-discovery-20261016/outer/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+          "docs/decisions/0036-generic-public-read-network-policy.md",
+          "docs/decisions/0035-browser-read-network-boundary.md"
+        ],
+        "gaps": []
+      }
+    },
+    {
+      "caseId": "p2-nakameguro-yakiniku-20261030",
+      "repeat": 1,
+      "summary": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-nakameguro-yakiniku-20261030/attempt-1/probe-summary.json",
+      "summarySha256": "c497850f7a92050ce294ae2993ae259f4b180b3f6fccbed1a89fe19116b25fca",
+      "decisionsSha256": "5a35cc4fabdbc305714dc744f1806e746382a75df432fc976ce573f290430a6e",
+      "decisionRows": 14,
+      "failedModelCalls": 1,
+      "models": 14,
+      "google": 2,
+      "nativeInRadius": 0,
+      "googleInRadius": 34,
+      "elapsedMs": 151268,
+      "wallMsIncludingPreflight": 158600,
+      "traceSha256": "298c031b59a1ae3d2b988397a78fb3a69e48a9721c6285d51d6d6196edd7d52c",
+      "recordingFiles": 36,
+      "boundary": {
+        "status": "ABSENT",
+        "reasons": [
+          "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+        ],
+        "evidenceRefs": [
+          ".eval-artifacts/p2-1-discovery-20261016/outer/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+          "docs/decisions/0036-generic-public-read-network-policy.md",
+          "docs/decisions/0035-browser-read-network-boundary.md"
+        ],
+        "gaps": []
+      }
+    }
+  ],
+  "stop": null
+}

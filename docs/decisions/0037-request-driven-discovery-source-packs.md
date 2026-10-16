@@ -97,3 +97,7 @@ source diagnostics remain; third-source zero-core-change acceptance is Phase6.
 ## 2026-10-11 nearby radius tightening
 
 用户批准 Playbook §2 第15条：默认附近圆为1,000m，H003–H005评测点默认从3,000m收紧为1,000m。请求或评测显式指定半径仍权威。共享常量只包含默认米数，不含任何评测坐标；历史Gold、基线Playbook和评价保留原文。新评价使用运行时绑定范围，旧交付只另表重算，不覆盖旧结论。
+
+## 2026-10-16 proposed partial supersession of Decisions 2–3
+
+[ADR-0042](0042-agent-planned-discovery-and-search-availability-hints.md) 为 Proposed，提议将检索表达式从第一个正向 HARD 原文的机械投影改为 Agent 的有界选择，并增加只用于查位的搜索级空位线索。仅在用户批准并实施后，部分替代本 ADR Decision 2–3 的表达式生成方式；批准前本 ADR 继续有效。Planner 的来源顺序、Pack 职责以及身份、半径、HARD 和交付资格保持不变。以上原文及既有追加段落不改。
