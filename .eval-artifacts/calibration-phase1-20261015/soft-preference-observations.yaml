@@ -1,0 +1,26 @@
+schema: soft-preference-observations@1
+status: frozen evaluation input (Eval Skill §5); human-observed after the runs; exposed development evidence
+observedBy: user (project owner), on the restaurants' own booking pages
+observedOn: 2026-10-16
+use: >
+  External Gold for soft preferences that the run artifacts do not contain (prices).
+  The evaluator may read this file as Gold. It is not a label and says nothing about outcome type.
+observations:
+  - runIds: [p1fA-kf-h002-a1, p1fB-h002-a1, p20-h002-a1]
+    restaurant: Ginza Sushi Sendou (tabelog 13295658)
+    criterion: around 10,000 yen per person
+    status: MET
+    evidence: One dinner course at about 9,800 yen; all other courses are higher.
+  - runIds: [p1fA-kf-h003-a2, p1g-h003-a2]
+    restaurant: Aloft by Marriott Tokyo Ginza (tablecheck aloft-tokyo-ginza)
+    criterion: around 3,000 yen per person
+    status: NOT_MET
+    evidence: >
+      The 3,300 yen BBQ Free Flow is an add-on that requires a BBQ course ("Reservations consisting solely
+      of the optional menu cannot be accepted"). No dinner course near 3,000 yen; courses are typically 4,000 yen
+      or more. Lunch menus are cheaper but do not apply to an after-work dinner.
+  - runIds: [p1fA-kf-h003-a2]
+    restaurant: Restaurant Alaska Tsukijiten; Grilling and Hot Pot Festival! Amajoh
+    criterion: around 3,000 yen per person
+    status: NOT_MET
+    evidence: User's run note states no delivered place had a dinner course around 3,000 yen.

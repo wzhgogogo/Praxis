@@ -1,0 +1,191 @@
+dataset: restaurant-read-calibration-phase1@1
+status: frozen; exposed development evidence, not a Clean Baseline
+labelledBy: user (project owner), via the Phase 1 Run Labels page
+labelledOn: '2026-10-16'
+exportedBy: Claude (independent reviewer)
+use: Acceptance comparison only. The evaluator must never read this file.
+runs:
+- runId: p1fA-kf-h001-a1
+  outcome: QUALIFIED_DELIVERY
+  falseClaim: 'NO'
+  severity: NONE
+  claudeProposal:
+    outcome: QUALIFIED_DELIVERY
+    falseClaim: 'NO'
+    severity: NONE
+- runId: p1fA-kf-h002-a1
+  outcome: QUALIFIED_DELIVERY
+  falseClaim: 'NO'
+  severity: NONE
+  note: price as soft preference is not checked though one menu meet the requirement.
+  claudeProposal:
+    outcome: QUALIFIED_DELIVERY
+    falseClaim: 'NO'
+    severity: NONE
+- runId: p1fA-kf-h003-a1
+  outcome: ORCHESTRATION_INTERRUPTED
+  falseClaim: 'NO'
+  severity: NONE
+  claudeProposal:
+    outcome: ORCHESTRATION_INTERRUPTED
+    falseClaim: 'NO'
+    severity: NONE
+- runId: p1fA-kf-h004-a1
+  outcome: QUALIFIED_DELIVERY
+  falseClaim: 'NO'
+  severity: S3
+  note: recommendation handled as a seat check”. That keeps it on the Phase 2 list as a process problem.
+  claudeProposal:
+    outcome: DELIVERED_UNQUALIFIED
+    falseClaim: 'NO'
+    severity: S1
+- runId: p1fA-kf-h005-a1
+  outcome: ORCHESTRATION_INTERRUPTED
+  falseClaim: 'NO'
+  severity: NONE
+  claudeProposal:
+    outcome: ORCHESTRATION_INTERRUPTED
+    falseClaim: 'NO'
+    severity: NONE
+- runId: p1fA-kagurazaka-a1
+  outcome: CAPABILITY_MISS
+  falseClaim: 'NO'
+  severity: S2
+  claudeProposal:
+    outcome: CAPABILITY_MISS
+    falseClaim: 'NO'
+    severity: S2
+- runId: p1fA-nakameguro-a1
+  outcome: QUALIFIED_DELIVERY
+  falseClaim: 'NO'
+  severity: NONE
+  claudeProposal:
+    outcome: QUALIFIED_DELIVERY
+    falseClaim: 'NO'
+    severity: NONE
+- runId: p1fA-kf-h003-a2
+  outcome: DELIVERED_UNQUALIFIED
+  falseClaim: 'NO'
+  severity: S1
+  note: no courses are aournd 3000yen although prices are a soft preference. lunch menu are ok but they are for lunch, not
+    dinner.
+  claudeProposal:
+    outcome: QUALIFIED_DELIVERY
+    falseClaim: 'NO'
+    severity: NONE
+- runId: p1fA-kf-h005-a1r
+  outcome: CAPABILITY_MISS
+  falseClaim: 'NO'
+  severity: S2
+  note: Severity set to S2 by Claude at the user's instruction (S3 to S2 for capability misses).
+  claudeProposal:
+    outcome: CAPABILITY_MISS
+    falseClaim: 'NO'
+    severity: S2
+- runId: p1fA-kichijoji-a2
+  outcome: INTERNAL_FAILURE
+  falseClaim: 'NO'
+  severity: S2
+  claudeProposal:
+    outcome: INTERNAL_FAILURE
+    falseClaim: 'NO'
+    severity: S2
+- runId: p1fB-h001-a1
+  outcome: INTERNAL_FAILURE
+  falseClaim: 'NO'
+  severity: NONE
+  claudeProposal:
+    outcome: INTERNAL_FAILURE
+    falseClaim: 'NO'
+    severity: NONE
+- runId: p1fB-h002-a1
+  outcome: QUALIFIED_DELIVERY
+  falseClaim: 'NO'
+  severity: NONE
+  claudeProposal:
+    outcome: QUALIFIED_DELIVERY
+    falseClaim: 'NO'
+    severity: NONE
+- runId: p1fB-h003-a1
+  outcome: ENV_FAILURE
+  falseClaim: 'NO'
+  severity: NONE
+  claudeProposal:
+    outcome: ENV_FAILURE
+    falseClaim: 'NO'
+    severity: NONE
+- runId: p1fB-h004-a1
+  outcome: ENV_FAILURE
+  falseClaim: 'NO'
+  severity: NONE
+  claudeProposal:
+    outcome: ENV_FAILURE
+    falseClaim: 'NO'
+    severity: NONE
+- runId: p1fB-h005-a2
+  outcome: HONEST_NO_RESULT
+  falseClaim: 'NO'
+  severity: NONE
+  claudeProposal:
+    outcome: HONEST_NO_RESULT
+    falseClaim: 'NO'
+    severity: NONE
+- runId: p1g-kichijoji-a2
+  outcome: CAPABILITY_MISS
+  falseClaim: 'NO'
+  severity: S2
+  claudeProposal:
+    outcome: CAPABILITY_MISS
+    falseClaim: 'NO'
+    severity: S2
+- runId: p1g-h001-a1
+  outcome: INTERNAL_FAILURE
+  falseClaim: 'NO'
+  severity: NONE
+  claudeProposal:
+    outcome: INTERNAL_FAILURE
+    falseClaim: 'NO'
+    severity: NONE
+- runId: p1g-h003-a2
+  outcome: DELIVERED_UNQUALIFIED
+  falseClaim: 'NO'
+  severity: S1
+  note: no courses are aournd 3000yen although prices are a soft preference. lunch menu are ok but they are for lunch, not
+    dinner. [Severity set to S1 by Claude to match KF-H003 rerun; DELIVERED_UNQUALIFIED is S1 by definition.]
+  claudeProposal:
+    outcome: QUALIFIED_DELIVERY
+    falseClaim: 'NO'
+    severity: NONE
+- runId: p1g-h004-a2
+  outcome: ENV_FAILURE
+  falseClaim: 'NO'
+  severity: NONE
+  claudeProposal:
+    outcome: HONEST_NO_RESULT
+    falseClaim: 'NO'
+    severity: NONE
+- runId: p1g2-h001-a4
+  outcome: INTERNAL_FAILURE
+  falseClaim: 'NO'
+  severity: NONE
+  claudeProposal:
+    outcome: HONEST_NO_RESULT
+    falseClaim: 'NO'
+    severity: NONE
+- runId: p20-h002-a1
+  outcome: QUALIFIED_DELIVERY
+  falseClaim: 'NO'
+  severity: NONE
+  note: price as soft preference is not checked though one menu meet the requirement.
+  claudeProposal:
+    outcome: QUALIFIED_DELIVERY
+    falseClaim: 'NO'
+    severity: NONE
+- runId: p20-h001-a1
+  outcome: CAPABILITY_MISS
+  falseClaim: 'NO'
+  severity: S2
+  claudeProposal:
+    outcome: CAPABILITY_MISS
+    falseClaim: 'NO'
+    severity: S2

@@ -156,3 +156,38 @@ E1 验收要离线重评 22 次运行，原始 `result.json` 只在你本机的�
 - 安全维度（随预约一起做）；
 - 录制按页判定（L2）、决策回放进入每批必跑（L3）；
 - 任何 Live 运行。
+
+## 补充（2026-10-16，标签与等价表已提交）
+
+### 新提交的评测输入
+
+| 文件 | 用途 | 评测器能否读取 |
+| --- | --- | --- |
+| `.eval-artifacts/calibration-phase1-20261015/labels.yaml` | 22 条人工标签 | **不能**，只用于验收比较 |
+| `.eval-artifacts/calibration-phase1-20261015/labeling-rules.md` | 用户定下的判定口径 R1–R9 | 按它实现规则 |
+| `src/eval/restaurant/agent-loop/cases/criterion-equivalences.yaml` | 等价表，8 组，全部为 SAME | 能（Gold） |
+| `.eval-artifacts/calibration-phase1-20261015/soft-preference-observations.yaml` | 用户事后在店家页面核对的预算状态 | 能（Gold） |
+
+等价表的字段以这份文件为准，加载器按它的字段写，拒绝未知键。
+
+### 新增要求：每个条件都有状态（口径 R2）
+
+- 对每家展示的店，评测器为用户表达的每个条件（HARD、SOFT、未分级）输出：
+  - 状态：`MET` / `NOT_MET` / `NOT_CHECKED`；
+  - 依据：来源原始观察、外部 Gold 或缺失原因。
+- 判定规则：
+  - HARD 的 `NOT_MET` 仍按现有规则判为不合格；
+  - SOFT 的 `NOT_MET`（依据只能来自来源原始观察或 `soft-preference-observations.yaml`）判为 DELIVERED_UNQUALIFIED，S1；
+  - `NOT_CHECKED` 不改变结果类型，但必须列出。
+- 目前运行产物中没有价格证据，所以预算类条件在没有外部 Gold 时一律为 `NOT_CHECKED`。不要从店名、类别或评分推断价格。
+
+### 两次没有 result 的运行
+
+按此前给你的答复执行：`p1fA-kf-h003-a1`、`p1fA-kf-h005-a1` 用"原始中断记录包"，含 trace；结果类型由外层中断记录判为 ORCHESTRATION_INTERRUPTED；S0 只依据 trace 判断，不足时为 `NOT_EVALUATED`。
+
+### 验收第 2 项的补充
+
+- 口径 R5（环境延误超过时间窗为 ENV_FAILURE）和 R6（已知系统缺陷导致的无结果为 INTERNAL_FAILURE）要从运行记录推导，不能按运行 ID 写特例：
+  - R5 依据外层预检记录与请求时间窗；
+  - R6 依据状态中记录的系统类失败码（例如 `BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED`）。
+- P1-G h003 与 KF-H003 重跑：先核对 Agent 对用户的展示文字有没有声称"符合预算"或"有包间"，在报告中逐字引用。有此声称就停下报告（S0 候选），不要自行改标签。

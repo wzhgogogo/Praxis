@@ -1,0 +1,85 @@
+schema: criterion-equivalences@1
+revision: 1
+status: frozen evaluation input (Eval Skill §5); exposed development evidence
+rule: Applies only when polarity also matches; strength is compared separately. A pair not listed stays UNKNOWN.
+entries:
+- id: first-date-a
+  gold: good for a first date
+  system: first-date restaurant
+  polarity: POSITIVE
+  verdict: SAME
+  decidedBy: user
+  decidedOn: '2026-10-16'
+  sourceRuns:
+  - p1fB-h002-a1
+  - p20-h002-a1
+- id: first-date-b
+  gold: good for a first date
+  system: suitable for a first date
+  polarity: POSITIVE
+  verdict: SAME
+  decidedBy: user
+  decidedOn: '2026-10-16'
+  sourceRuns:
+  - p1fA-kf-h002-a1
+- id: hot-pot
+  gold: hot pot restaurant
+  system: hot-pot restaurants
+  polarity: NEGATIVE
+  verdict: SAME
+  decidedBy: user
+  decidedOn: '2026-10-16'
+  sourceRuns:
+  - p1fA-kf-h002-a1
+  - p1fB-h002-a1
+  - p20-h002-a1
+- id: kaiseki
+  gold: kaiseki
+  system: kaiseki restaurant
+  polarity: POSITIVE
+  verdict: SAME
+  decidedBy: user
+  decidedOn: '2026-10-16'
+  sourceRuns:
+  - p1fA-kagurazaka-a1
+- id: meet-friend
+  gold: good for meeting a friend
+  system: suitable for meeting up with a friend
+  polarity: POSITIVE
+  verdict: SAME
+  decidedBy: user
+  decidedOn: '2026-10-16'
+  sourceRuns:
+  - p1g-h004-a2
+- id: sichuan-hunan
+  gold: sichuan/hunan cuisine
+  system: sichuan/hunan-style cuisine where spicy food is the main focus
+  polarity: NEGATIVE
+  verdict: SAME
+  decidedBy: user
+  decidedOn: '2026-10-16'
+  sourceRuns:
+  - p1fA-kf-h002-a1
+  - p1fB-h002-a1
+  - p20-h002-a1
+- id: team-dinner
+  gold: team dinner
+  system: suitable for a team dinner
+  polarity: POSITIVE
+  verdict: SAME
+  decidedBy: user
+  decidedOn: '2026-10-16'
+  sourceRuns:
+  - p1fA-kf-h003-a2
+  - p1fB-h003-a1
+  - p1g-h003-a2
+- id: tempura
+  gold: tempura
+  system: tempura restaurant
+  polarity: POSITIVE
+  verdict: SAME
+  decidedBy: user
+  decidedOn: '2026-10-16'
+  sourceRuns:
+  - p1fA-kichijoji-a2
+  - p1g-kichijoji-a2
