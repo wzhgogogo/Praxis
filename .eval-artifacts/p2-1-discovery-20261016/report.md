@@ -204,3 +204,12 @@ Final local source commit: `ea7113ada8ea26ccbbd40537fcd4b36e946c7a0e`; [commit r
 B仅完成3/10发现探测：h001两次和神乐坂第1次；3条原始网络审计均ABSENT，17条决策=17模型。神乐坂第2次的首页预检与唯一预检重试均为TableCheck HTTP503、0模型/未正式启动；沿用A的1次预检失败后累计3次，触发冻结PREFLIGHT_FAILURE_LIMIT，剩余7次未跑。H002只获离线组合验证，B未到达；不能声明B10或完整交付通过。
 
 新增17模型、3正式发现、6正式Google+3预检Google；累计278/450模型、44/52探测、117Google。0完整Live，见证仍有效未额外认证；无运行中修复，旧输入/见证/录制不改。[完整报告与逐例路径](checkpoint-b-20261019/report.md)、[原始审计](checkpoint-b-20261019/audit.json)、[冻结](checkpoint-b-20261019/freeze.json)。按用户授权推送后停下待独立复核。
+
+
+## 检查点 B 三项修正与启动准备中断（2026-10-19；复核4592a1e）
+
+修复提交a37e152：同地区首页筛选、稀疏有类别时禁止KEEP（Schema@2/Prompt@5）、TableCheck筛选SKIPPED/FILTER_TRANSPORT_NOT_REVIEWED。五门禁全绿：951/951默认测试、119/119本地Chromium，其余typecheck、arch、build通过。TableCheck三份原录制显示搜索错误并有未审核open_from/open_until预检被拒绝，离线诊断0网络/模型；不是正常无餐厅。
+
+编排冻结3c4d241，322项SHA、17离线对照及6输入解析通过。第一次启动因漏部署同SHA审核文件，在预检前ENOENT退出；新B正式0/10，新增网络0、模型0。文件已补齐，原外层停止未清除。最小恢复补丁与10项离线准入正反例已准备，按Eval Skill§5等待用户批准重冻后继续。旧B三次标为B第一版，保留并排除比较；先前h001 #2跳过原因更正为QUERY_NOT_REPRESENTABLE。模型278/450、探测44/55、Google117，完整Live0；与A的新十对比较目前全部NOT_REACHED。
+
+详见[修正报告](checkpoint-b-corrected-20261019/report.md)、[有效红绿和五门禁](checkpoint-b-corrected-20261019/fixes/verification.json)、[恢复补丁](checkpoint-b-corrected-20261019/recovery/outer-setup-restore.proposed.patch)、[启动0调用证据](checkpoint-b-corrected-20261019/recovery/setup-proof.json)。尚未推送本轮提交，待恢复完成后按用户授权推送。

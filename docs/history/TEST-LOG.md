@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.176
+- Document revision: 4.177
 - Last updated: 2026-10-19
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4566,3 +4566,8 @@ current executable。按4592a1e复核及用户批准，仅修同地区首页筛�
 ## TEST-2026-10-19-P21-B-CORRECTED-FREEZE
 
 current executable。生产a37e152b4283d8f407c9650d19200708314e3362，干净宿主机p21-checkpoint-b-corrected工作树；复用已验证生产五门禁951/119。仅按批准更新外层：预检失败归零按本检查点计、TableCheck503至少600秒后一次重试、最多1800秒恢复，持续503停止。17离线对照、六个原冻结输入plan-only通过，均0模型/网络；见证仍有效至2026-10-20T03:12:46.141Z，复用不新增认证请求。SHA清单322项；execute.py SHA-256 c4e0b8fbe51496888bb6f87776919dac586f1c90da864f9e5130ef5e1098dd40。模型起点278/450、探测44/55、Google117，最多新十次×15模型≤428/450及54/55；不跑完整Live。旧B第一版3次/17模型保留且计预算、排除比较。冻结路径.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/freeze.json；计划plan.json；外层offline-controls.json。源码门禁未变不重复，编排按纯外层离线矩阵核验。
+
+
+## TEST-2026-10-19-P21-B-SETUP-RESTORE-PENDING
+
+current executable。三项修正a37e152五门禁951/119通过；外层冻结3c4d241。首个外层尝试因新工作树漏部署冻结reviewed-reads.json，在Runner读取文件处ENOENT，未创建started、预检或决策目录，新增正式探测0／网络0／模型0；不是来源环境失败。原日志、ledger备份、0调用proof保留。已补齐原SHA审核文件，生产工作树仍CLEAN，冻结脚本未改、stop未清除。按Eval Skill§5发出最小外层恢复补丁批准请求，10项离线准入正反例通过（包括已完成／已正式启动／模型及Google计费／其他stop／不同HEAD拒绝），未擅自重跑。新B0/10，比较A全部NOT_REACHED；模型278/450、探测44/55、Google117、完整Live0。报告.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/report.md及recovery/，源门禁复用，文档／证据按纯文档矩阵检查；尚未推送。
