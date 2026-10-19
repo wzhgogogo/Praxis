@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.156
+- Document revision: 4.157
 - Last updated: 2026-10-19
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -3758,3 +3758,12 @@ A冻结39fc15e、外层先提交e7e6913；输入/见证/规则SHA与干净工作
 A1原样7个类别锚点（snapshot5）旧Pack为0、新版大于0；生产组装的真实Chromium组合先红后绿，先改写再读取5家详情，原隐藏／异地区拒绝与候选保留覆盖仍通过。片段没有CSS，不当作原网站Replay；可见性由本地控件与新A来源另验。红灯red-pack.log/red-unit.log/red-composition.log，绿灯green-unit.log/green-composition.log；五门禁typecheck/arch/build通过、默认942/942、真实Chromium117/117，日志checkpoint-a-corrected-20261019/retrieval/gates/。
 
 本项0真实模型/Google/网站/探测/完整Live；累计145/450模型、21/42探测、50Google。基线acfaaffa不变，旧A1不计比较但用量保留。下一步新干净工作树从头A10；Google-only nearby留A后单独提交，P2-1b不开始。
+
+
+## DEV-2026-10-19-P21-corrected-a-freeze
+
+修正后的检查点A冻结为209ac4200a1330e0ed8e1bdcbd03dd30faac0a23，使用新的干净管理工作树p21-checkpoint-a-corrected。基线acfaaffa、10项顺序和6份输入／见证／独立审核规则同字节；仅评测预检时限与诊断按用户批准修正。已核验未过期见证（最早10/20东京12:12）和基线TARGET原生见证命中0/4，未触发基线停止条件。
+
+外层及315份源码／配置SHA冻结于checkpoint-a-corrected-20261019/freeze.json；真实模型前先提交。来源预检每次先行，只有具状态或超时证据的NO_RESPONSE／EMPTY_RESULT计停止，历史3次按复核排除；缺证仍阻止启动。每项最多1次预检专用补试，正式探测不重跑，S0即时停止。语法／停止及补试正反例、六例Runner离线空跑均通过，0网络/模型；复用修正源码五门禁942/942、Chromium117/117。
+
+累计起点145/450模型、21/42探测、50Google；本轮A10每次15模型/180秒，仅发现、不查位、不交付。Google-only nearby在A后单独提交，P2-1b及完整Live不启动。
