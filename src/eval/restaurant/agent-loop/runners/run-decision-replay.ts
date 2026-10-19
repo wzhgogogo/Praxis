@@ -10,11 +10,12 @@ import { PlaywrightControlRegistry } from "../../../../infrastructure/browser/pl
 import type { BrowserSession, BrowserSnapshot } from "../../../../infrastructure/browser/browser-runtime.js";
 import { ModelBrowserReadActionDecision, decodeBrowserReadActionWire, BROWSER_ACTION_DECISION_STRICT_WIRE_JSON_SCHEMA, BROWSER_ACTION_DECISION_SCHEMA, BROWSER_READ_HISTORY_INSTRUCTION, type BrowserReadDecisionInput, type BrowserReadHistoryStep } from "../../../../infrastructure/browser/browser-action-decision.js";
 import { normalizeRestaurantAgentActionStrictWire, RESTAURANT_AGENT_ACTION_STRICT_WIRE_JSON_SCHEMA } from "../../../../domains/restaurant/agent-action.js";
-import { restaurantDiscoveryPacks } from "../../../../integrations/restaurant-search/source-packs.js";
+import { candidateAvailabilityPath, restaurantDiscoveryPacks } from "../../../../integrations/restaurant-search/source-packs.js";
 import { tabelogQueryControlHints } from "../../../../integrations/tabelog/tabelog-query-controls.js";
 import { observedCandidateSourceCategories } from "../../../../domains/restaurant/agent-context.js";
-import { RESTAURANT_AGENT_SOURCE_CATEGORY_INSTRUCTION } from "../../../../domains/restaurant/agent-decision.js";
-import type { RestaurantReadEvidence } from "../../../../domains/restaurant/contracts.js";
+import { RESTAURANT_AGENT_AVAILABILITY_PATH_INSTRUCTION, RESTAURANT_AGENT_DECISION_PROMPT_VERSION, RESTAURANT_AGENT_SOURCE_CATEGORY_INSTRUCTION } from "../../../../domains/restaurant/agent-decision.js";
+import type { RestaurantOutlet, RestaurantReadEvidence } from "../../../../domains/restaurant/contracts.js";
+import { RESTAURANT_AGENT_CONTEXT_SCHEMA } from "../../../../domains/restaurant/agent-context.js";
 
 export interface ActionLabel { type: string; field?: string; direction?: string; targetLabel?: string | null; targetKind?: string | null; targetLabelPattern?: string; candidateIds?: string[]; excludeCandidateIds?: string[]; candidateIdsExact?: string[]; }
 export interface ReplaySeed {
@@ -28,6 +29,25 @@ export interface CapturedDecision {
   outputSchema: ModelRequest["outputSchema"]; responseFormat: ModelRequest["responseFormat"];
   timeoutMs: number; maxOutputTokens: number | null; temperature: number | null; thinking: ModelRequest["thinking"] | null;
   browser?: { recordingSnapshot?: number; observationRevision?: number; url?: string }; outputText: string | null;
+}
+
+/** Same captured messages/constraints, enriched only with source IDs observed
+ * before this turn. Independent labels and witnesses are never arguments. */
+export function availabilityPathInjectedRequest(seed: ReplaySeed, row: CapturedDecision, observed: readonly RestaurantOutlet[]): ModelRequest {
+  if (seed.level !== "AGENT") throw Error("AVAILABILITY_PATH_REQUIRES_AGENT_SEED");
+  const base = originalRequest(seed,row);
+  return { ...base, promptVersion: RESTAURANT_AGENT_DECISION_PROMPT_VERSION,
+    messages: row.messages.map(message => {
+      if (message.role === "system") return { ...message, content: message.content + "\n\n" + RESTAURANT_AGENT_AVAILABILITY_PATH_INSTRUCTION };
+      if (message.role !== "user") return message;
+      const input = JSON.parse(message.content);
+      return { ...message, content: JSON.stringify({ ...input, context: { ...input.context, schemaVersion: RESTAURANT_AGENT_CONTEXT_SCHEMA.version,
+        candidates: input.context.candidates.map((candidate: { id: string }) => {
+          const outlet = observed.find(item => item.id === candidate.id);
+          if (!outlet) throw Error(`MISSING_PRE_DECISION_SOURCE_IDS:${candidate.id}`);
+          return { ...candidate, availabilityPath: candidateAvailabilityPath(outlet) };
+        }) } }) };
+    }) };
 }
 /** Original messages plus source facts already observed at this decision, without DOM reconstruction. */
 export function categoryInjectedRequest(seed: ReplaySeed, row: CapturedDecision, evidence: RestaurantReadEvidence[]): ModelRequest {

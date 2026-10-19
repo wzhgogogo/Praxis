@@ -12,7 +12,7 @@ import { GooglePlacesClient } from "../google/google-places-client.js";
 import { GooglePlacesRestaurantSearch } from "../google/google-places-restaurant-search.js";
 import { LiveBrowserAvailability, type LiveBrowserAvailabilityOptions } from "../restaurant-availability/live-browser-availability.js";
 import { composeNativeRestaurantRead } from "./native-read-composition.js";
-import type { DiscoverySourcePack } from "./source-packs.js";
+import { candidateAvailabilityPath, restaurantDiscoveryPacks, type DiscoverySourcePack } from "./source-packs.js";
 
 export interface LiveReadAssemblyConfig extends LiveReadInvestigationBudget {
   /** Existing Pack selection; controlled sources may explicitly restrict coverage. */
@@ -56,6 +56,7 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
       maxElapsedMsPerCandidate: config.maxFactBrowserMs,
       maxElapsedMsPerProvider: config.maxFactProviderMs,
     }, packs);
+  const availabilityPacks = packs?.some(pack => pack.availability) ? packs : restaurantDiscoveryPacks;
   const availability = new LiveBrowserAvailability(transports.browser, transports.model, {
     now, browserBudget,
     maxAvailabilitySourceBrowserSessions: config.maxAvailabilitySourceBrowserSessions,
@@ -66,7 +67,7 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
     maxElapsedMsPerCandidate: config.maxCandidateBrowserMs,
     maxElapsedMsPerProvider: config.maxProviderBrowserMs,
     maxAutomaticElapsedMs: config.maxAutomaticBrowserMs,
-    ...(packs?.some(pack => pack.availability) ? { packs } : {}),
+    packs: availabilityPacks,
     ...(transports.onBrowserDiagnostic ? { onBrowserDiagnostic: transports.onBrowserDiagnostic } : {}),
     ...(transports.onTableCheckIdentityDiagnostic ? { onTableCheckIdentityDiagnostic: transports.onTableCheckIdentityDiagnostic } : {}),
     ...(transports.onTabelogIdentityDiagnostic ? { onTabelogIdentityDiagnostic: transports.onTabelogIdentityDiagnostic } : {}),
@@ -83,7 +84,7 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
     ...(transports.remainingModelCalls ? { remainingModelCalls: transports.remainingModelCalls } : {}),
   };
   const retrievalPlanner=new ModelDiscoveryRetrievalPlanner(transports.model,browserBudget);
-  const search = packs?.length===1&&packs[0]&&!packs[0].browser?{
+  const plannedSearch = packs?.length===1&&packs[0]&&!packs[0].browser?{
     executionRoute:google.executionRoute,
     googleRequestUsage:google.googleRequestUsage.bind(google),
     async search(request:RestaurantSearchRequest,signal:AbortSignal){
@@ -93,5 +94,19 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
       return {...read,...(read.continuation?{continuation:{...read.continuation,structuredRetrieval:selection}}:{})};
     },
   }:native.search;
+  const search = {
+    ...plannedSearch,
+    executionRoute: plannedSearch.executionRoute,
+    googleRequestUsage: plannedSearch.googleRequestUsage?.bind(plannedSearch),
+    async search(request: RestaurantSearchRequest, signal: AbortSignal) {
+      const read = await plannedSearch.search(request, signal);
+      return { ...read, evidence: read.evidence.map(evidence => {
+        const candidate = read.candidates.find(item => item.restaurant.id === evidence.candidateId);
+        return evidence.kind === "DISCOVERY" && candidate
+          ? { ...evidence, claims: { ...evidence.claims, availabilityPath: candidateAvailabilityPath(candidate.restaurant, availabilityPacks) } }
+          : evidence;
+      }) };
+    },
+  };
   return { ...native, search, google, availability, router, loop, browserBudget, runCeilings };
 }

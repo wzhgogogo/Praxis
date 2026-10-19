@@ -2,9 +2,26 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { readFileSync } from "node:fs";
 
-import { discoveryPackById, googlePlacesDiscoveryPack, tableCheckDiscoveryPack, tabelogDiscoveryPack } from "./source-packs.js";
+import { candidateAvailabilityPath, discoveryPackById, googlePlacesDiscoveryPack, tableCheckDiscoveryPack, tabelogDiscoveryPack } from "./source-packs.js";
 
 const query = { positiveCriteria:[], category: "restaurant", location: { latitude: 35.6697, longitude: 139.767, radiusMeters: 3_000, label: "Higashi-Ginza", areaMatchBasis: "EVALUATION_LOCATION_RADIUS" as const } };
+
+test("availability paths distinguish observed outlet entrances from source lists and unsupported booking hosts", () => {
+  for (const [website, expected] of [
+    ["https://tabelog.com/tokyo/A1303/A130301/13261619/?utm_source=google", "DIRECT_SOURCE_PAGE"],
+    ["https://tabelog.com/en/tokyo/A1303/A130301/13261619/menu/", "DIRECT_SOURCE_PAGE"],
+    ["https://www.tablecheck.com/en/venue-one", "DIRECT_SOURCE_PAGE"],
+    ["https://www.tablecheck.com/en/shops/venue-one/reserve", "DIRECT_SOURCE_PAGE"],
+    ["https://tabelog.com/en/tokyo/rstLst/", "NAME_RESOLUTION"],
+    ["https://www.tablecheck.com/en/japan/search", "NAME_RESOLUTION"],
+    ["https://yoyaku.tabelog.com/reserve/abc", "NAME_RESOLUTION"],
+    ["https://restaurant.example/", "NAME_RESOLUTION"],
+  ] as const) {
+    const outlet = { id: "observed", outletName: "Observed", address: "Tokyo", sourceIds: { googleWebsiteUri: website }, provenance: { outletName: "fixture", address: "fixture", sourceIds: "fixture" } };
+    assert.equal(candidateAvailabilityPath(outlet), expected, website);
+    assert.equal(candidateAvailabilityPath(outlet, [googlePlacesDiscoveryPack]), "NONE", "an explicit registry without availability cannot grant a path");
+  }
+});
 
 test("real source packs own URLs, reviewed reads, skills, and opaque source IDs", () => {
   assert.equal(discoveryPackById("tabelog"), tabelogDiscoveryPack);
