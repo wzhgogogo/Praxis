@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.185
+- Document revision: 4.186
 - Last updated: 2026-10-20
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4635,3 +4635,8 @@ current executable / 本次外站效果未测。修正a37e152五门禁951/119全
 ## TEST-2026-10-20-P22-REGION
 
 - Red：旧代码父页面仍可选、合法LOCATION完成后候选为0；真实观察链接投影与合成搜索明示分开，初始Fixture失败保留。Green：7项地区行为与既有生产组合；旧卡片零调查、父入口强行绕过零导航，3步可行恢复在原预算产出1家；保留同地区首页恢复、4/5替换等边界。五门禁typecheck/arch/build PASS、默认962/962、本地Chromium120/120（278349ms）；最终地区/生产组合补充回归通过。见[原日志](../../.eval-artifacts/p2-2-selection-20261019/followup/step4-gates/)。默认测试沙箱EPERM及初始类型/同地区列表误拒均保留诊断，修后重验，不作有效故障红灯。无网站、Live、真实模型追加；完整交付/真实正确神乐坂路线未评。
+
+<a id="test-2026-10-20-p22-timing-plan"></a>
+## TEST-2026-10-20-P22-TIMING-PLAN
+
+- 沿用52份旧产物（50可计时/2未评），汇总前三段为VENUE_SEARCH详情、Browser模型、查位解析；保留校准与仅发现分组，给出三个未实测节省区间/风险及同来源最小请求间隔方案。只写方案，0外站/模型、未实施、不变预算或门槛。报告：.eval-artifacts/p2-2-selection-20261019/followup/performance-proposals.md；纯文档核对原始汇总/算术/链接，复用第4段门禁。

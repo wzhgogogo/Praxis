@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.283
+- Document revision: 4.284
 - Last updated: 2026-10-20
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-20 P2-2 耗时与节奏方案：** 沿用52份旧产物（50可计时/2未评），汇总前三段为VENUE_SEARCH详情、Browser模型、查位解析；保留校准与仅发现分组，给出三个未实测节省区间/风险及同来源最小请求间隔方案。只写方案，0外站/模型、未实施、不变预算或门槛。报告：.eval-artifacts/p2-2-selection-20261019/followup/performance-proposals.md；纯文档核对原始汇总/算术/链接，复用第4段门禁。
 
 - **2026-10-20 P2-2地区修复离线验证：** 独立分支已变基主线8b70084（含a37e152）且保留发布历史；阻止已访问父入口别名循环，权威LOCATION结果更新后替换旧入口绑定。真实片段负例与合成可行恢复通过；不改ADR-0040/Gold/预算，不访问网站，不增加模型。五种子回放PASS仍为独立历史证据，真实神乐坂正确路线NOT_COVERED。
 

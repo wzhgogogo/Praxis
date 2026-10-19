@@ -51,3 +51,9 @@ Evidence status: current executable / exposed development evidence；原13a3b36�
 - 神乐坂真实正确最短路线未在已有录制中出现，本轮禁止外站和额外模型，标为NOT_COVERED；不以合成正例宣布当前神乐坂/全部地区可用。
 
 第4段五门禁：typecheck-corrected、arch、build-corrected PASS；默认962/962，真实本地Chromium120/120（278349ms）。同地区列表恢复的收敛修正另由最终region-composition-green覆盖，之后增强旧卡片断言的region-green为7/7；未改变浏览器运行时/网络协议。初次沙箱EPERM与类型错误原日志保留。
+
+## 5 耗时与请求节奏方案：完成，未实施
+
+见[分解与方案](performance-proposals.md)。50份可计时产物总计8,511,515ms；描述性汇总前三为VENUE_SEARCH详情1,212,762ms、Browser模型1,109,031ms、查位解析1,069,263ms。22次校准与三组各10次仅发现分别保留，2次中断NOT_EVALUATED。每段方案列假设减少比例、对应累计/每历史运行的秒数与正确性风险；未声称实际节省、未相加为整单承诺。未归因615,066ms不硬分配。
+
+同来源文档2秒/已审核查询1秒、Google1秒作为未来待测起点，等待计入原期限，Retry-After超过余量则停止该来源；未证明503因果、未实施节流或增加重试。纯文档核对原summary、总和、比例与路径；复用第4段门禁，0网络/模型。Evaluator不新增：这些是诊断/设计指标，不改变通过门槛。

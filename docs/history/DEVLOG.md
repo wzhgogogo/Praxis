@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.179
+- Document revision: 4.180
 - Last updated: 2026-10-20
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -3928,3 +3928,8 @@ current executable / 本次外站效果未测。修正a37e152五门禁951/119全
 ## DEV-2026-10-20-P22-REGION
 
 - Exposed development：集成主线8b70084/a37e152；仅地区阶段屏蔽已访问其他入口（Pack首页/列表别名），拒绝模型绕过，保留当前地区列表恢复。LOCATION清旧绑定，观察权威值且结果更新才重新绑定。ADR-0040、坐标/4/5/预算不变。历史旧覆盖遗漏与片段/合成控制分列[本轮报告](../../.eval-artifacts/p2-2-selection-20261019/followup/report.md#4-地区选择主线集成与离线机制修复)。0外站/新增模型；真实正确神乐坂路径未覆盖。
+
+<a id="dev-2026-10-20-p22-timing-plan"></a>
+## DEV-2026-10-20-P22-TIMING-PLAN
+
+- 沿用52份旧产物（50可计时/2未评），汇总前三段为VENUE_SEARCH详情、Browser模型、查位解析；保留校准与仅发现分组，给出三个未实测节省区间/风险及同来源最小请求间隔方案。只写方案，0外站/模型、未实施、不变预算或门槛。报告：.eval-artifacts/p2-2-selection-20261019/followup/performance-proposals.md；纯文档核对原始汇总/算术/链接，复用第4段门禁。
