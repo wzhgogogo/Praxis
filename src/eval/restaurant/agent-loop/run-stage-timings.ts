@@ -48,9 +48,14 @@ export function restaurantRunStageTimings(value: unknown, capturedDecisions: rea
     if (detail.event === "PROVIDER_FINISHED" || detail.event === "CANDIDATE_FINISHED") { scope = undefined; continue; }
     const next = points[index + 1]; if (!next) continue;
     let part = scope.stage;
-    if (part === "DISCOVERY") {
+    if (part === "DISCOVERY" && !scope.candidate.startsWith("native-discovery:") && scope.candidate !== "UNRECORDED") {
+      // Availability Adapters also use a DISCOVERY stage for name lookup.
+      // Its candidate scope separates it from finding new restaurants.
+      part = `AVAILABILITY:${scope.source}:${scope.candidate}:RESOLUTION`;
+    } else if (part === "DISCOVERY") {
       let path = ""; try { path = new URL(scope.url).pathname; } catch { /* Missing observed URL stays unclassified. */ }
-      part = /\/\d+\/(?:[^/]*)?$/.test(path) ? "DETAIL" : /rstLst|\/search/.test(path) ? "SEARCH" : path ? "REGION" : "UNCLASSIFIED";
+      const venueSearch = /VENUE_SEARCH|TABLECHECK/.test(scope.source);
+      part = /rstLst|\/search/.test(path) ? "SEARCH" : venueSearch && path ? "DETAIL" : /\/\d+\/(?:[^/]*)?$/.test(path) ? "DETAIL" : path ? "REGION_OR_HOME" : "UNCLASSIFIED";
       part = `DISCOVERY:${scope.source}:${part}`;
     } else if (part === "IDENTITY") part = `AVAILABILITY:${scope.source}:${scope.candidate}:RESOLUTION`;
     else if (part === "AVAILABILITY") part = `AVAILABILITY:${scope.source}:${scope.candidate}:REQUEST_AND_RESULT`;

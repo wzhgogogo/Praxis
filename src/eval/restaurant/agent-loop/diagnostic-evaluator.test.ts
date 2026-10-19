@@ -26,6 +26,11 @@ test("recorded timing partitions nested model, calendar and source time without 
   const missing = restaurantRunStageTimings({ browserTrace: [{ kind: "SNAPSHOT" }], modelInvocations: [{ purpose: "browser_read_decide", latencyMs: 2000 }] });
   assert.equal(missing.status, "NOT_EVALUATED");
   assert.equal(missing.modelSteps[0]?.placed, false);
+  const lookup = restaurantRunStageTimings({ startedAt: at(0), finishedAt: at(10000), browserTrace: [
+    { at: at(0), kind: "EXECUTOR_DIAGNOSTIC", detail: { source: "TABLECHECK", stage: "DISCOVERY", candidateId: "praxis:candidate-a", event: "PROVIDER_STARTED" } },
+    { at: at(10000), kind: "EXECUTOR_DIAGNOSTIC", detail: { source: "TABLECHECK", stage: "DISCOVERY", candidateId: "praxis:candidate-a", event: "PROVIDER_FINISHED" } },
+  ] });
+  assert.deepEqual(lookup.criticalPath.map(row => [row.stage,row.elapsedMs]), [["AVAILABILITY:TABLECHECK:praxis:candidate-a:RESOLUTION",10000]], "name search during a known-candidate check is availability resolution, not new restaurant discovery");
 });
 
 import { fixtureIntent } from "../../../harness/restaurant-fixtures.js";
