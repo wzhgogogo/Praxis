@@ -9,7 +9,7 @@ export function publicPriceText(markup: string): string {
 
 /** Extract complete, nested source elements without matching a child closing tag. */
 export function sourcePriceElements(html: string, accepts: (tag: string) => boolean): string[] {
-  const result: string[] = []; const stack: Array<{ name: string; start: number; selected: boolean }> = [];
+  const result: string[] = []; const stack: Array<{ name: string; start: number; selected: boolean; hidden: boolean }> = [];
   for (const token of html.matchAll(/<!--[\s\S]*?-->|<script\b[^>]*>[\s\S]*?<\/script>|<style\b[^>]*>[\s\S]*?<\/style>|<\/?[a-z][^>]*>/gi)) {
     const tag = token[0]; if (/^<!--|^<script\b|^<style\b/i.test(tag)) continue;
     const close = tag.match(/^<\/([\w-]+)/);
@@ -22,7 +22,8 @@ export function sourcePriceElements(html: string, accepts: (tag: string) => bool
     }
     const name = tag.match(/^<([\w-]+)/)?.[1]?.toLowerCase();
     if (!name || ["input", "img", "br", "hr", "meta", "link", "source", "wbr"].includes(name) || tag.endsWith("/>")) continue;
-    stack.push({ name, start: token.index, selected: accepts(tag) && !/\shidden(?:\s|=|>)/i.test(tag) && !/aria-hidden=["']true/i.test(tag) });
+    const hidden = Boolean(stack.at(-1)?.hidden) || /\shidden(?:\s|=|>)/i.test(tag) || /aria-hidden=["']true/i.test(tag);
+    stack.push({ name, start: token.index, hidden, selected: accepts(tag) && !hidden });
   }
   return result;
 }

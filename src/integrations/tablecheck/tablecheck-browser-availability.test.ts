@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
+import { readFile } from "node:fs/promises";
 
 import { RestaurantExecutionRouter } from "../../application/restaurant-execution-router.js";
 import type { RestaurantTaskState } from "../../domains/restaurant/contracts.js";
@@ -821,7 +822,13 @@ test("TableCheck native guide uses its own ID and linked booking entrance withou
     sourceIds: { tablecheck: "restaurant1", tablecheckNativeGuideUri: "https://www.tablecheck.com/en/restaurant1" } } };
   const reservation: BrowserSnapshot = { url: "https://www.tablecheck.com/en/restaurant1/reserve/landing", title: "Restaurant 1 reservation",
     text: "Restaurant 1 2 guests 2026-08-05 19:00", html: '<div data-selected-date="2026-08-05" data-pax="2"></div><section data-availability-state="complete"><button class="time-slot is-available" data-time="19:00">19:00</button></section><a href="/en/restaurant1/reserve/landing?start_date=2026-08-05&pax=2&start_time=19:00">19:00</a>' };
-  const session = new FixtureBrowserSession([matchingOutletPage(), reservation]);
+  // Genuine price elements in a synthetic identity envelope; this does not
+  // replay Aloft identity or inventory. The separate request page has no menu.
+  const menu = await readFile(new URL("../../harness/browser/fixtures/restaurant-prices/aloft-public-20261019.html", import.meta.url), "utf8");
+  const guide = matchingOutletPage();
+  guide.html += menu;
+  guide.text += " " + menu.replace(/<[^>]+>/g, " ").replace(/&amp;/g, "&").replace(/\s+/g, " ").trim();
+  const session = new FixtureBrowserSession([guide, reservation]);
   const nativeDiagnostics: Array<{ nativeContinuity?: { confirmed: boolean; reason: string; observedSourceEntityId?: string } }> = [];
   const result = await new TableCheckBrowserAvailability({ openSession: async () => session }, () => "2026-08-05T09:00:00.000Z",
     { onIdentityDiagnostic: (diagnostic) => nativeDiagnostics.push(diagnostic) })
@@ -829,6 +836,14 @@ test("TableCheck native guide uses its own ID and linked booking entrance withou
   assert.equal(session.navigations.some((value) => value.includes("/japan/search")), false);
   assert.equal(result.availabilityChecks[native.restaurant.id]?.status, "AVAILABLE", JSON.stringify({ checks: result.availabilityChecks, navigations: session.navigations }));
   assert.equal(result.evidence.some((item) => item.kind === "ENTITY_MATCH" && item.entityMatch?.matchedBy.includes("NATIVE_SOURCE_ID_AND_DETAIL")), true);
+  const priceFact = result.evidence.find(item => item.kind === "RESTAURANT_FACT" && item.priceFacts);
+  assert.deepEqual(priceFact?.priceFacts?.listedCoursePricesYen.map(item => item.amount), [7000, 7500, 9800, 3000]);
+  assert.equal(priceFact?.sourceUrl, guide.url, "the guide citation must not become the request page URL");
+  const blocked = await new TableCheckBrowserAvailability({ openSession: async () => new FixtureBrowserSession([guide,
+    { ...reservation, text: "verify you are human", html: "" }]) }, () => "2026-08-05T09:00:00.000Z")
+    .check({ ...request, candidateIds: [native.restaurant.id], candidates: [native], hardCriteria: [] }, new AbortController().signal);
+  assert.equal(blocked.availabilityChecks[native.restaurant.id]?.status, "UNKNOWN");
+  assert.equal(blocked.evidence.some(item => item.priceFacts?.listedCoursePricesYen[0]?.amount === 7000), true);
   assert.deepEqual(nativeDiagnostics[0]?.nativeContinuity, { confirmed: true, reason: "SAME_SOURCE_OUTLET",
     expectedSourceEntityId: "restaurant1", observedSourceEntityId: "restaurant1" });
   const wrong = { ...native, restaurant: { ...native.restaurant, sourceIds: { ...native.restaurant.sourceIds, tablecheck: "another-branch" } } };

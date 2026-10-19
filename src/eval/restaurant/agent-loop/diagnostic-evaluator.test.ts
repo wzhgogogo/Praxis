@@ -2045,6 +2045,11 @@ test("independent price oracle reads raw menus, detects false MET, and does not 
   const visible = html.replace(/<[^>]+>/g, " ").replace(/&amp;/g, "&").replace(/\s+/g, " ").trim();
   const regions = captureRawPriceRegions(html, visible);
   assert.deepEqual(readRawPrices(regions, "original").map(row => row.low), [5500, 8250, 11000, 3300]);
+  const aloft = await readFile(new URL("../../../harness/browser/fixtures/restaurant-prices/aloft-public-20261019.html", import.meta.url), "utf8");
+  const aloftText = aloft.replace(/<[^>]+>/g, " ").replace(/&amp;/g, "&").replace(/\s+/g, " ").trim();
+  const aloftPrices = readRawPrices(captureRawPriceRegions(aloft, aloftText), "fresh-aloft-public-page");
+  assert.deepEqual(aloftPrices.filter(item => item.meal === "DINNER").map(item => item.low), [7000, 7500, 9800]);
+  assert.equal(aloftPrices.some(item => item.low === 3300), false, "fresh source cannot stand in for the missing historical add-on capture");
   assert.equal(readRawPrices([{ markup: '<div data-testid="Menu Item Card"><p>BBQ Free Flow optional menu; reservations consisting solely of the optional menu cannot be accepted.</p><span data-price="3300.0">¥3,300</span></div>', visibleTextIncluded: true, truncated: false }], "synthetic-add-on").length, 0);
   const artifact: any = completeArtifact();
   const condition = { value: "around 3,000 yen per person", polarity: "POSITIVE", strength: "SOFT" };

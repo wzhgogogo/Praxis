@@ -727,6 +727,26 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
       let activeSelected = selected;
       let alternateRecoveryUsed = false;
       let page = activeSelected.page;
+      // Menu observations belong to the confirmed guide, even if a separate
+      // request page later has no readable inventory or menu.
+      const guidePrices = parseTableCheckPriceFacts(selectedPage);
+      const ground = (observation: TableCheckAvailabilityPageObservation) => {
+        const result = this.ground(candidate, request, observation, browser);
+        if (!guidePrices) return result;
+        const guideEvidence = this.ground(candidate, request, {
+          candidate, observedAt, sourceEntityId: selected.extraction.outlet.sourceEntityId,
+          sourceUrl: selectedPage.url, entityMatch: selected.inspection.resolution,
+          pageState: "EXTRACTION_FAILED", priceFacts: guidePrices,
+        }).evidence;
+        const added = guideEvidence.filter(item => !result.evidence.some(existing => existing.evidenceId === item.evidenceId));
+        result.evidence.push(...added);
+        result.check.evidenceIds.push(...added.map(item => item.evidenceId));
+        result.candidateFactUpdate = {
+          candidateId: candidate.restaurant.id, matchReasons: result.candidateFactUpdate?.matchReasons ?? [],
+          evidenceIds: [...new Set([...(result.candidateFactUpdate?.evidenceIds ?? []), ...guideEvidence.filter(item => item.kind === "RESTAURANT_FACT").map(item => item.evidenceId)])],
+        };
+        return result;
+      };
       // Configure passive GET capture before any lawful navigation that can
       // itself issue the source-owned availability request.  Capture is never
       // an availability oracle, but late registration loses its chronology.
@@ -744,8 +764,8 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         });
         page = await this.executor.snapshot({ source: "TABLECHECK", stage: "AVAILABILITY", signal, session });
         if (!matchesReservationPage(page, activeSelected.reservation.url)) {
-          return this.ground(candidate, request, { candidate, observedAt, entityMatch: { confidence: "LOW", matchedBy: [] },
-            pageState: "EXTRACTION_FAILED", failureCode: "TABLECHECK_ENTITY_MATCH_UNCERTAIN" }, browser);
+          return ground({ candidate, observedAt, entityMatch: { confidence: "LOW", matchedBy: [] },
+            pageState: "EXTRACTION_FAILED", failureCode: "TABLECHECK_ENTITY_MATCH_UNCERTAIN" });
         }
       }
       page = await this.resumeAfterUserIntervention(candidate, request, session, page, "AVAILABILITY", signal);
@@ -757,10 +777,10 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
           page = recovered.page;
         }
       }
-      if (hasTableCheckBotChallenge(page)) return this.ground(candidate, request, {
+      if (hasTableCheckBotChallenge(page)) return ground({
         candidate, observedAt, sourceEntityId: retainedIdentity.extraction.outlet.sourceEntityId, sourceUrl: retainedIdentity.extraction.outlet.sourceUrl,
         entityMatch: retainedIdentity.inspection.resolution, pageState: "BOT_CHALLENGE", failureCode: "BOT_CHALLENGE", excerpt: tableCheckPageExcerpt(page),
-      }, browser);
+      });
       const currentResult = (current: BrowserSnapshot, controls: readonly BrowserPageControl[]) => {
         const serviceScope = selectedServiceScope(controls);
         const requestSelected = hasTableCheckSelectedRequest(current, request.date, request.partySize, controls);
@@ -864,25 +884,25 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
           page = await this.resumeAfterUserIntervention(candidate, request, session, page, "AVAILABILITY", signal);
         }
       }
-      if (hasTableCheckBotChallenge(page)) return this.ground(candidate, request, {
+      if (hasTableCheckBotChallenge(page)) return ground({
         candidate, observedAt, sourceEntityId: retainedIdentity.extraction.outlet.sourceEntityId, sourceUrl: retainedIdentity.extraction.outlet.sourceUrl,
         entityMatch: retainedIdentity.inspection.resolution, pageState: "BOT_CHALLENGE", failureCode: "BOT_CHALLENGE", excerpt: tableCheckPageExcerpt(page),
-      }, browser);
+      });
       const assessed = currentResult(page, availabilityRead.controls);
       if (availabilityRead.status === "COMPLETED" && assessed.selected && !assessed.loading && !assessed.serviceScope
         && assessed.html.emptyMealtime && !assessed.html.queryComplete) {
-        return this.ground(candidate, request, {
+        return ground({
           candidate, observedAt: this.now(), priceFacts: parseTableCheckPriceFacts(page), sourceEntityId: activeSelected.extraction.outlet.sourceEntityId,
-          sourceUrl: activeSelected.extraction.outlet.sourceUrl, entityMatch: activeSelected.inspection.resolution,
+          sourceUrl: page.url, entityMatch: activeSelected.inspection.resolution,
           requestedDate: request.date, requestedPartySize: request.partySize, pageState: "EXTRACTION_FAILED",
           failureCode: "SELECTED_MEALTIME_EMPTY", excerpt: `${JSON.stringify(assessed.html.emptyMealtime)}; other times in the requested window remain UNKNOWN`,
-        }, browser);
+        });
       }
-      if (availabilityRead.status !== "COMPLETED" || !assessed.complete) return this.ground(candidate, request, {
-        candidate, observedAt, sourceEntityId: activeSelected.extraction.outlet.sourceEntityId, sourceUrl: activeSelected.extraction.outlet.sourceUrl,
+      if (availabilityRead.status !== "COMPLETED" || !assessed.complete) return ground({
+        candidate, observedAt, sourceEntityId: activeSelected.extraction.outlet.sourceEntityId, sourceUrl: page.url, priceFacts: parseTableCheckPriceFacts(page),
         entityMatch: activeSelected.inspection.resolution, pageState: "EXTRACTION_FAILED",
         failureCode: availabilityRead.reasonCode ?? (assessed.selected ? "AVAILABILITY_RESULT_UNOBSERVED" : "REQUEST_SELECTION_UNCONFIRMED"),
-      }, browser);
+      });
       const capturedResponse = parseTableCheckCapturedAvailability(page.responses, activeSelected.reservation, request);
       // Never turn an unclassified passive payload into slot or completion
       // evidence. The page controls/HTML must independently bind request and
@@ -893,8 +913,8 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         && slots.availableSlots.some((slot) => slot >= request.timeWindow.earliest && slot <= request.timeWindow.latest);
       const immediateSlotNotOffered = request.immediateAvailability !== undefined
         && !qualifying && !slots.explicitlyEmpty && slots.hasExplicitSlotUi;
-      return this.ground(candidate, request, {
-        candidate, observedAt: this.now(), sourceEntityId: activeSelected.extraction.outlet.sourceEntityId, sourceUrl: activeSelected.extraction.outlet.sourceUrl,
+      return ground({
+        candidate, observedAt: this.now(), sourceEntityId: activeSelected.extraction.outlet.sourceEntityId, sourceUrl: page.url, priceFacts: parseTableCheckPriceFacts(page),
         entityMatch: activeSelected.inspection.resolution, requestedDate: request.date, requestedPartySize: request.partySize,
         ...(assessed.scopeBound && assessed.serviceScope ? { serviceScope: assessed.serviceScope } : {}),
         pageState: qualifying ? "AVAILABLE" : immediateSlotNotOffered ? "EXTRACTION_FAILED" : slots.queryComplete && (slots.explicitlyEmpty || slots.hasExplicitSlotUi) ? "NO_MATCHING_SLOT" : "EXTRACTION_FAILED",
@@ -905,7 +925,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         // scoped inventory leaves HARD facts for cited source judgment.
         verifiedHardCriteria: assessed.serviceScope ? [] : parseTableCheckVerifiedHardCriteria(page, request.hardCriteria),
         excerpt: tableCheckPageExcerpt(page),
-      }, browser);
+      });
   }
 
   private ground(
