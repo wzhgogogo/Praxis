@@ -11,8 +11,10 @@ export interface SelectionRule {
   /** Exact original reviewer condition; an uncompiled condition is unassessed. */
   when: string;
   requireInRadius: boolean;
-  path: "SUPPORTED" | "DIRECT" | "DIRECT_WHEN_THREE" | "MANUAL";
+  path: "SUPPORTED" | "DIRECT" | "DIRECT_WHEN_THREE" | "REVIEWED_SELECTION" | "MANUAL";
   requireMissingHard: boolean;
+  minimumDirect?: number;
+  minimumMissingHardDirect?: number;
 }
 export interface SelectionAnnotation { seedId: string; acceptableActions: Array<{ type: string; when: string }>; }
 
@@ -50,14 +52,20 @@ export function assessSelectionReplay(actionValue: unknown, contextValue: unknow
   if (rule.requireInRadius && !selected.every(inRadius)) return { verdict: "NOT_ACCEPTABLE", reasons: ["Every selected candidate must be in radius."], metrics };
   const mustDirect = rule.path === "DIRECT" || rule.path === "DIRECT_WHEN_THREE" && directCheckable.length >= 3;
   if (mustDirect && !selected.every(isDirect)) return { verdict: "NOT_ACCEPTABLE", reasons: ["Every selected candidate must be DIRECT when the annotated direct alternatives are available."], metrics };
+  if (rule.path === "REVIEWED_SELECTION") {
+    if (directCheckable.length >= 3 && selected.filter(isDirect).length < 2) return { verdict: "NOT_ACCEPTABLE", reasons: ["The approved revision2 requires at least two DIRECT selections when three are checkable."], metrics };
+    if (directCheckable.length < 3 && directCheckable.some(candidate => !ids.includes(String(candidate.id)))) return { verdict: "NOT_ACCEPTABLE", reasons: ["With fewer than three DIRECT options, every available DIRECT candidate must be included."], metrics };
+  }
+  if (rule.minimumDirect !== undefined && selected.filter(isDirect).length < rule.minimumDirect) return { verdict: "NOT_ACCEPTABLE", reasons: ["The selection lacks the annotated minimum number of DIRECT candidates."], metrics };
   if (selected.some(candidate => !isDirect(candidate) && !["googlePlaces","tabelog","tablecheck"].some(key => typeof sourceById.get(candidate.id)?.[key] === "string"))) return { verdict: "NOT_EVALUATED", reasons: ["No observed supported source ID establishes a name-resolution path."], metrics };
   // For this registered replay, two supported availability Packs provide name
   // resolution for ordinary observed Google candidates. No source-specific
   // URL, identity, HARD or inventory success is inferred from that possibility.
-  if (rule.requireMissingHard) {
+  if (rule.requireMissingHard || rule.minimumMissingHardDirect !== undefined) {
     const intent = row(context.intent ?? context.intentDraft), hard = list(intent.criteria).filter(item => item.strength === "HARD" && item.polarity === "POSITIVE");
     if (!hard.length) return { verdict: "NOT_EVALUATED", reasons: ["Missing identity/area facts cannot be independently reconstructed from this context."], metrics };
-    if (!selected.every(candidate => hard.some(criterion => !strings(row(candidate.observedFacts).verifiedHardCriteria).some(text => normalized(text) === normalized(String(criterion.text)))))) return { verdict: "NOT_ACCEPTABLE", reasons: ["Fact investigation does not target a missing recorded HARD fact."], metrics };
+    const missing = (candidate: Row) => hard.some(criterion => !strings(row(candidate.observedFacts).verifiedHardCriteria).some(text => normalized(text) === normalized(String(criterion.text))));
+    if (rule.minimumMissingHardDirect !== undefined ? selected.filter(candidate => isDirect(candidate) && missing(candidate)).length < rule.minimumMissingHardDirect : !selected.every(missing)) return { verdict: "NOT_ACCEPTABLE", reasons: ["Fact investigation does not target the annotated missing recorded HARD facts."], metrics };
   }
   return { verdict: "ACCEPTABLE", reasons: ["All compiled reviewer conditions were checked against captured candidates, distance, source IDs, legal scope and missing facts."], metrics };
 }

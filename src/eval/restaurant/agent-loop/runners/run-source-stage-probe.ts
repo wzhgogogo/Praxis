@@ -517,7 +517,7 @@ try {
       const sampleBudget: BrowserExecutionBudget = { totalModelCalls: 0, maxModelCalls: sampleModelLimit };
       const modelTimings: Array<{ purpose: string; latencyMs: number; settledAt: string }> = [];
       const providerModel = () => DeepSeekModelGateway.fromEnvironment(effectiveEnvironment, {
-        observer: { observe: record => modelTimings.push({ purpose: record.purpose, latencyMs: record.latencyMs, settledAt: new Date().toISOString() }) },
+        observer: { observe: record => { modelTimings.push({ purpose: record.purpose, latencyMs: record.latencyMs, settledAt: new Date().toISOString() }); } },
       });
       try {
         if (sample.input.locationResolution === "UNRESOLVED" || sample.input.locationResolution === "PENDING_NAMED_LOCATION_READ") {
