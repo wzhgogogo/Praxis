@@ -19,7 +19,8 @@ try{
   const start=Date.now();
   const session=await new LocalPlaywrightChromium().openSession({signal:abort.signal,
    networkPolicy:{genericPublicRead:true,documentOrigins:[origin],staticResources:[],
-    dynamicReads:[{origin,pathname:'/data',methods:['GET'],resourceTypes:['fetch'],queryKeys:[]}]},
+    dynamicReads:[{origin,pathname:'/',methods:['GET'],resourceTypes:['document'],queryKeys:[]},
+      {origin,pathname:'/data',methods:['GET'],resourceTypes:['fetch'],queryKeys:[]}]},
    recordResponse:r=>{if(new URL(r.url).pathname==='/data')captured.push({status:r.status,atMs:Date.now()-start,bytes:r.body.byteLength});}});
   try{
    if(mode==='explicit-navigation-budget')await session.prepareNavigation?.(origin,{timeoutMs:10000});
