@@ -11,11 +11,11 @@ import { defaultBatchDeliveryWindowActive } from "./action-validator.js";
 
 export const RESTAURANT_AGENT_CONTEXT_SCHEMA = {
   name: "restaurant_agent_context",
-  version: "11",
+  version: "13",
 } as const;
 
 export interface RestaurantAgentContext {
-  schemaVersion: "11";
+  schemaVersion: "13";
   now: string;
   phase: RestaurantPhase;
   intentDraft?: RestaurantIntentDraft;
@@ -27,6 +27,7 @@ export interface RestaurantAgentContext {
     address: string;
     distanceObservation?: CandidateDistanceObservation;
     sourceCategories: Array<{ source: string; values: string[] }>;
+    availabilityPath: "DIRECT_SOURCE_PAGE" | "NAME_RESOLUTION" | "NONE";
     matchReasons: string[];
     warnings: string[];
     executionConfidence: "HIGH" | "MEDIUM" | "LOW";
@@ -101,6 +102,13 @@ export interface CandidateDistanceObservation {
   meters: number;
   centerBasis: "TASK_LOCATION_RADIUS" | "EVALUATION_LOCATION_RADIUS" | "NAMED_PLACE_RADIUS";
   source: string;
+}
+
+/** Only source-derived advisory claims; absence grants no supported path. */
+export function observedCandidateAvailabilityPath(evidence: readonly RestaurantReadEvidence[], candidateId: string, now: string): "DIRECT_SOURCE_PAGE" | "NAME_RESOLUTION" | "NONE" {
+  const paths = evidence.filter(item => item.kind === "DISCOVERY" && item.candidateId === candidateId && Date.parse(item.observedAt) <= Date.parse(now))
+    .map(item => item.claims.availabilityPath);
+  return paths.includes("DIRECT_SOURCE_PAGE") ? "DIRECT_SOURCE_PAGE" : paths.includes("NAME_RESOLUTION") ? "NAME_RESOLUTION" : "NONE";
 }
 
 /** Already grounded circle evidence only; advisory projection never changes qualification. */
@@ -185,7 +193,7 @@ export function projectRestaurantAgentContext(
     };
   };
   return {
-    schemaVersion: "11",
+    schemaVersion: "13",
     now,
     phase: state.phase,
     ...(state.intentDraft ? { intentDraft: structuredClone(state.intentDraft) } : {}),
@@ -199,6 +207,7 @@ export function projectRestaurantAgentContext(
       address: candidate.restaurant.address,
       ...observedCandidateDistance(state.readEvidence, candidate.restaurant.id, now),
       sourceCategories: observedCandidateSourceCategories(state.readEvidence, candidate.restaurant.id, now),
+      availabilityPath: observedCandidateAvailabilityPath(state.readEvidence, candidate.restaurant.id, now),
       matchReasons: [...candidate.matchReasons],
       warnings: [...candidate.warnings],
       executionConfidence: candidate.executionConfidence,

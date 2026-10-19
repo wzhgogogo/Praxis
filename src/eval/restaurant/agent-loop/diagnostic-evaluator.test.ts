@@ -6,6 +6,27 @@ import { basename, dirname, join, resolve } from "node:path";
 import test from "node:test";
 import { gunzipSync } from "node:zlib";
 import { fileURLToPath } from "node:url";
+import { restaurantRunStageTimings } from "./run-stage-timings.js";
+
+test("recorded timing partitions nested model, calendar and source time without inventing missing timestamps", () => {
+  const at = (ms: number) => new Date(Date.parse("2026-10-19T00:00:00Z") + ms).toISOString();
+  const result = restaurantRunStageTimings({ startedAt: at(0), finishedAt: at(10000), browserTrace: [
+    { at: at(1000), kind: "EXECUTOR_DIAGNOSTIC", detail: { source: "TABELOG", stage: "IDENTITY", candidateId: "candidate-a", event: "PROVIDER_STARTED" } },
+    { at: at(2000), kind: "EXECUTOR_DIAGNOSTIC", detail: { source: "TABELOG", stage: "AVAILABILITY", candidateId: "candidate-a" } },
+    { at: at(3000), kind: "CONTROLS", detail: [{ id: "calendar", label: "Date", structure: { name: "date" } }] },
+    { at: at(3500), kind: "SESSION_CALL", detail: { method: "click", args: ["calendar"] } },
+    { at: at(4000), kind: "SESSION_RETURN", detail: { method: "click" } },
+    { at: at(8000), kind: "EXECUTOR_DIAGNOSTIC", detail: { source: "TABELOG", stage: "AVAILABILITY", candidateId: "candidate-a", event: "PROVIDER_FINISHED" } },
+  ] }, [{ sequence: 1, purpose: "restaurant_semantic_interpret", startedAt: at(0), latencyMs: 500 },
+    { sequence: 2, purpose: "browser_read_decide", startedAt: at(2000), latencyMs: 1000 }]);
+  assert.equal(result.criticalPath.reduce((sum, row) => sum + row.elapsedMs, 0), 10000);
+  assert.equal(result.criticalPath.find(row => row.stage.endsWith(":CALENDAR_CONTROL"))?.elapsedMs, 500);
+  assert.equal(result.criticalPath.find(row => row.stage === "MODEL_DECISION:browser_read_decide")?.percent, 10);
+  assert.equal(result.criticalPath.find(row => row.stage === "UNATTRIBUTED")?.elapsedMs, 2500);
+  const missing = restaurantRunStageTimings({ browserTrace: [{ kind: "SNAPSHOT" }], modelInvocations: [{ purpose: "browser_read_decide", latencyMs: 2000 }] });
+  assert.equal(missing.status, "NOT_EVALUATED");
+  assert.equal(missing.modelSteps[0]?.placed, false);
+});
 
 import { fixtureIntent } from "../../../harness/restaurant-fixtures.js";
 

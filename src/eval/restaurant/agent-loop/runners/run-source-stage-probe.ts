@@ -513,7 +513,7 @@ try {
       let recording: BrowserReadRecording | undefined;
       let replayDecision: ReturnType<typeof createFrozenReplayBrowserDecision> | undefined;
       const diagnostics: Array<ReturnType<typeof safeSourceStageDiagnostic>> = [];
-      const browserTrace: Array<{ kind: string; detail: unknown }> = [];
+      const browserTrace: Array<{ kind: string; at: string; detail: unknown }> = [];
       const sampleBudget: BrowserExecutionBudget = { totalModelCalls: 0, maxModelCalls: sampleModelLimit };
       try {
         if (sample.input.locationResolution === "UNRESOLVED" || sample.input.locationResolution === "PENDING_NAMED_LOCATION_READ") {
@@ -528,7 +528,7 @@ try {
         let recordingResult: Awaited<ReturnType<BrowserReadRecording["finish"]>> | undefined;
         const recordTrace = (kind: string, detail: unknown) => {
           const safeDetail = safeSourceStageTrace(kind, detail);
-          browserTrace.push({ kind, detail: safeDetail });
+          browserTrace.push({ kind, at: new Date().toISOString(), detail: safeDetail });
           recording?.record(kind, safeDetail);
           return browserTrace.length;
         };
@@ -684,6 +684,7 @@ try {
           : recordingResult?.replay.status === "REPLAYABLE" ? "NO_COVERAGE" as const
             : manifest.recording.enabled ? "NO_COVERAGE" as const : "NOT_APPLICABLE" as const;
         await journal.finish({ status: status === "NO_COVERAGE" ? "FAILED" : status, stage: manifest.stage, elapsedMs: Date.now() - startedAt, modelCallsStarted,
+          stageTimings: restaurantRunStageTimings({ startedAt: new Date(startedAt).toISOString(), finishedAt: new Date().toISOString(), browserTrace }),
           result: { ...stageResult, diagnostics, browserTrace, ...(recordingResult ? { recording: recordingResult } : {}) } });
         attempt = { sampleId: sample.id, status, elapsedMs: Date.now() - startedAt, modelCallsStarted, ...(preflight ? { preflightArtifactPath: preflight.artifactPath } : {}),
           resultArtifactPath: journal.resultPath, ...(manifest.stage === "DISCOVERY" && discoveryCoverage ? { discoveryCoverage } : {}), guardAssessment: "NOT_ASSESSED", replay };
@@ -698,7 +699,9 @@ try {
         // rebind to the current DOM. A missing trace/HAR action is evidence of
         // coverage loss, not a failed remote source operation.
         const replayNoCoverage = manifest.stage === "REPLAY" && failureCode.startsWith("REPLAY_");
-        await journal.finish({ status: "FAILED", stage: manifest.stage, elapsedMs: Date.now() - startedAt, modelCallsStarted, failureCode, diagnostics, browserTrace, ...(manifest.stage === "REPLAY" ? { replayedDecisionCount: replayDecision?.replayedDecisionCount() ?? 0 } : {}), ...(recordingResult ? { recording: recordingResult } : {}) });
+        await journal.finish({ status: "FAILED", stage: manifest.stage, elapsedMs: Date.now() - startedAt, modelCallsStarted, failureCode, diagnostics, browserTrace,
+          stageTimings: restaurantRunStageTimings({ startedAt: new Date(startedAt).toISOString(), finishedAt: new Date().toISOString(), browserTrace }),
+          ...(manifest.stage === "REPLAY" ? { replayedDecisionCount: replayDecision?.replayedDecisionCount() ?? 0 } : {}), ...(recordingResult ? { recording: recordingResult } : {}) });
         attempt = { sampleId: sample.id, status: replayNoCoverage ? "NO_COVERAGE" : "FAILED", elapsedMs: Date.now() - startedAt, modelCallsStarted, ...(preflight ? { preflightArtifactPath: preflight.artifactPath } : {}), resultArtifactPath: journal.resultPath, failureCode, guardAssessment: "NOT_ASSESSED", replay: manifest.stage === "REPLAY" ? "NO_COVERAGE" : manifest.recording.enabled ? "NO_COVERAGE" : "NOT_APPLICABLE" };
       }
       // Keep the settled attempt before optional sidecar writes. If a sidecar
@@ -759,3 +762,4 @@ try {
   });
   throw error;
 }
+import { restaurantRunStageTimings } from "../run-stage-timings.js";

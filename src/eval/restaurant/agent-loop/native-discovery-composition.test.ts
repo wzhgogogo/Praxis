@@ -294,6 +294,9 @@ test("H001 native first batch presents three source-bound Tabelog results withou
     "a healthy Tabelog list and its three details share one browser session");
   assert.deepEqual(result.googleCalls.map((item) => item.query), ["Shibuya"]);
   assert.ok(result.state.readEvidence.some(item => item.kind === "DISCOVERY" && item.provider === "TABELOG" && Array.isArray(item.claims.sourceCategories) && item.claims.sourceCategories.includes("Sushi")));
+  const observed = result.trajectories.find(step => step.decisionContext?.candidates.length)?.decisionContext?.candidates;
+  assert.ok(observed?.length);
+  assert.ok(observed.every(candidate => candidate.availabilityPath === "DIRECT_SOURCE_PAGE"), "the production assembly must annotate before the Agent chooses, without another request");
   assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(result.evaluation.findings));
 });
 
