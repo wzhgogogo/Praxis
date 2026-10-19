@@ -1,0 +1,14 @@
+/Users/wangzhour/.codex/worktrees/p21-tablecheck-baseline/Praxis-Zhixing/src/eval/restaurant/agent-loop/source-data-preflight.ts:62
+  if(failed.length)throw new SourceDataPreflightError(failed,artifactPath);
+                         ^
+
+
+SourceDataPreflightError: ENV_FAILURE: source data unavailable: tablecheck
+    at runSourceDataPreflight (/Users/wangzhour/.codex/worktrees/p21-tablecheck-baseline/Praxis-Zhixing/src/eval/restaurant/agent-loop/source-data-preflight.ts:62:26)
+    at async <anonymous> (/Users/wangzhour/.codex/worktrees/p21-tablecheck-baseline/Praxis-Zhixing/src/eval/restaurant/agent-loop/runners/run-discovery-probe.ts:47:2) {
+  sourceIds: [ 'tablecheck' ],
+  artifactPath: '/Users/wangzhour/.codex/worktrees/p21-tablecheck-baseline/Praxis-Zhixing/.eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kagurazaka-kaiseki-20261029/attempt-2/source-data-preflight.json',
+  code: 'ENV_FAILURE'
+}
+
+Node.js v24.4.1

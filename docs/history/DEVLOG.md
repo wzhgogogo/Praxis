@@ -3703,3 +3703,10 @@ CORS补齐：实际对照两种模式均20家；地图查询的合法预检被Ch
 ## DEV-2026-10-17-P21-agent-retrieval
 
 P2-1a implemented under Accepted ADR-0042: Agent-planned positive retrieval, visible same-region categories, at most two pre-detail rewrites, retained candidates and separate page budgets. Shared initial text proposal across TableCheck/Google; old post-batch expansion retired. State@16 has no compatibility path; no database touched. Baseline-before-P2-1a is 4315ab88fbab14424968ccbf0833f980c597de51. Effective planner/refinement and resumed-page-budget red/green evidence in followup/p2-1a; final five gates typecheck/arch/build PASS, npm test937/937, real local Chromium114/114. Fixed transports and local browser only; 0 real model/Google/restaurant requests, probes or Live. Checkpoint A and P2-1b not run; no push, await independent review.
+
+
+## DEV-2026-10-19-P21-outer-preflight-resume
+
+用户批准仅重冻外层并续跑剩余7项：每项仅对0模型、未正式启动的预检ENV允许补1次，所有旧失败保留；拒绝S0、已开始/完成的正式探测和第二次预检重试。外部恢复脚本独立冻结并从主树执行，cwd为干净acfaaffa基线树；源代码、输入、原外层及15模型/180秒预算不变。当前正式3次/13模型，另1次TableCheck空结果预检不计正式；累计99/450模型、13/40探测，0整单Live。
+
+实际脚本语法与当前账本恢复正例、S0/已启动/已完成/第二次预检反例均通过，0网络/模型；证据network-restored-20261019/recovery/outer-resume-dry-run.json及freeze。源码未变，复用共同基线五门禁936/936、Chromium115/115及最终变基组合940/940、Chromium116/116；本提交先冻结外层，执行结果后续追加，不运行检查点A或完整Live。

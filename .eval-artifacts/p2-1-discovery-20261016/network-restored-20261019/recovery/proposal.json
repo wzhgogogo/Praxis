@@ -1,0 +1,19 @@
+{
+  "status": "DRAFT_NOT_INTEGRATED_NOT_EXECUTED",
+  "scope": "Only preflight-only ENV_FAILURE may retry once per planned item; preserve original failure and all formal attempts; same production acfaaffa, inputs,15-model/180s and source checks",
+  "dryRun": {
+    "status": "PASS",
+    "network": 0,
+    "models": 0,
+    "normal": 1,
+    "negativeCases": [
+      "S0-stop",
+      "already-completed",
+      "model-started",
+      "formal-started",
+      "second-env-failure"
+    ]
+  },
+  "proposedSha256": "c8a6f594796e57d28b40312550c42523d63f8defd56dcf2d33fe961e4839d958",
+  "requiresApproval": "AGENTS frozen outer orchestration; Eval Skill5.2; no actual resume before user reply"
+}

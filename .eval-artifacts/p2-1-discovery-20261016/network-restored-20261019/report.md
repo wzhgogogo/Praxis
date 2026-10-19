@@ -75,3 +75,63 @@ Actual final source comparison PASS: unguarded20 outlets/goto2997ms, guarded20 o
 Witness recertification completed with32 public GETs,0 model/Google calls. All16 original registrations retained;13 certified, with at least one in each of six cases (2/2,2/3,1/2,3/3,3/3,2/3). verification.json independently binds raw SHA, authoritative date/party and requested slot link merchant/date/party/time without opening links. Each case has a24-hour validity recorded in witnesses.certified.json. New outputs never overwrite the original certification.
 
 All six offline Runner plans parse unchanged inputs with0 network/model/Live. The current outer review configuration and fresh baseline plan/source/witnesses are frozen in baseline-freeze.json; the old preparation and original baseline freezes are historical. The mutable new ledger is intentionally untracked until execution ends, so all formal probes can run at one clean frozen HEAD. No checkpoint A or full Live.
+
+
+## Restored-network baseline progress (partial; ENV blocked)
+
+Frozen baseline: `acfaaffa73db97413f6538f161c4e837ec64316e`; rebased P2-1a: `39fc15e` (direct parent is the common baseline). The P2-1a added/deleted source patch equals the original3094193 patch; proof: gates/rebased-final/source-delta.json. Final combined gates PASS: typecheck/arch/build,940/940 default,116/116 real local Chromium. No checkpoint A or full Live.
+
+Planned10; formal-started/completed/scorable-for-discovery3; preflight-only ENV1 (excluded from formal count); remaining7 not started. No source/runtime/config edits occurred during these attempts.
+
+| Case / repeat | Source preflight | Tabelog / TableCheck / Google witness in listing | Witness first batch | In-radius parsed (lower bound) | Formal ms | Models / decision rows | Google formal + preflight | Boundary |
+|---|---|---|---|---:|---:|---|---|---|
+| p2-kf-h001-20261027 #1 | READY | false / false / true | false | 39 | 42541 | 1 / 1 | 2 + 1 | ABSENT |
+| p2-kf-h001-20261027 #2 | READY | false / false / true | false | 39 | 44102 | 1 / 1 | 2 + 1 | ABSENT |
+| p2-kagurazaka-kaiseki-20261029 #1 | READY | false / false / false | false | 45 | 93505 | 11 / 11 | 2 + 1 | ABSENT |
+| p2-kagurazaka-kaiseki-20261029 #2 | ENV_FAILURE (TableCheck count0) | — | — | — | NOT_STARTED | 0 / no stream | 0 + 1 | NOT_EVALUATED |
+
+The failed preflight observed TableCheck count0/EMPTY_RESULT after26031ms; Tabelog20 and Google1 were nonempty. It did not save an API HTTP status or full request-level Guard trace, so this observation does not identify VPN, server, Guard or parser as its cause. No model, formal-probe or Live count charged for that attempt.
+
+Google credit above is only an exact source ID parsed from googleWebsiteUri, per the approved metric; no name-only credit. Both h001 runs still lack registered witnesses in native listing metrics, so no changed-native-bottleneck stop was triggered. In-radius parsed counts are raw discovery metrics, include Google, and are not qualified deliveries or necessarily deduped real-world businesses.
+
+### Per-run retrieval facts and raw outputs
+
+- **p2-kf-h001-20261027 #1**: [summary](baseline/p2-kf-h001-20261027/attempt-1/probe-summary.json), [decisions](baseline/p2-kf-h001-20261027/attempt-1/probe.decisions.jsonl), [trace](baseline/p2-kf-h001-20261027/attempt-1/trace.jsonl), [recording](baseline/p2-kf-h001-20261027/attempt-1/recording/p2-kf-h001-20261027/recording.json), [source preflight](baseline/p2-kf-h001-20261027/attempt-1/source-data-preflight.json). Termination `ALL_PLANNED_FIRST_BATCHES_ATTEMPTED`; failure codes `[]`.
+  - tabelog: KEYWORD, term `omakase`, category `None`, parsed `20` / displayed `36`, `OBSERVED_LISTING`, `PLANNER_AND_OBSERVED_REGION_AGENT`; URL `https://tabelog.com/en/tokyo/rstLst/?sw=omakase`.
+  - tabelog: KEYWORD, term `omakase`, category `None`, parsed `3` / displayed `3`, `OBSERVED_LISTING`, `BROWSER_AGENT_OR_SOURCE_PAGINATION`; URL `https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase`.
+  - tabelog: KEYWORD, term `omakase`, category `None`, parsed `3` / displayed `3`, `OBSERVED_LISTING`, `BROWSER_AGENT_OR_SOURCE_PAGINATION`; URL `https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase`.
+  - tablecheck: KEYWORD, term `omakase`, category `None`, parsed `None` / displayed `None`, `PLANNED_URL_WITHOUT_COMPLETED_LISTING`, `PLANNER_AND_OBSERVED_REGION_AGENT`; URL `https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.6619707&geo_longitude=139.70379499999999&geo_distance=1km&auto_geolocate=false&search_text=omakase`.
+  - google-places: KEYWORD, term `omakase`, category `None`, parsed `None` / displayed `None`, `PLANNED_URL_WITHOUT_COMPLETED_LISTING`, `PLANNER_AND_OBSERVED_REGION_AGENT`; URL `google-places:text-search`.
+- **p2-kf-h001-20261027 #2**: [summary](baseline/p2-kf-h001-20261027/attempt-2/probe-summary.json), [decisions](baseline/p2-kf-h001-20261027/attempt-2/probe.decisions.jsonl), [trace](baseline/p2-kf-h001-20261027/attempt-2/trace.jsonl), [recording](baseline/p2-kf-h001-20261027/attempt-2/recording/p2-kf-h001-20261027/recording.json), [source preflight](baseline/p2-kf-h001-20261027/attempt-2/source-data-preflight.json). Termination `ALL_PLANNED_FIRST_BATCHES_ATTEMPTED`; failure codes `[]`.
+  - tabelog: KEYWORD, term `omakase`, category `None`, parsed `20` / displayed `36`, `OBSERVED_LISTING`, `PLANNER_AND_OBSERVED_REGION_AGENT`; URL `https://tabelog.com/en/tokyo/rstLst/?sw=omakase`.
+  - tabelog: KEYWORD, term `omakase`, category `None`, parsed `3` / displayed `3`, `OBSERVED_LISTING`, `BROWSER_AGENT_OR_SOURCE_PAGINATION`; URL `https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase`.
+  - tabelog: KEYWORD, term `omakase`, category `None`, parsed `3` / displayed `3`, `OBSERVED_LISTING`, `BROWSER_AGENT_OR_SOURCE_PAGINATION`; URL `https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase`.
+  - tablecheck: KEYWORD, term `omakase`, category `None`, parsed `None` / displayed `None`, `PLANNED_URL_WITHOUT_COMPLETED_LISTING`, `PLANNER_AND_OBSERVED_REGION_AGENT`; URL `https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.6619707&geo_longitude=139.70379499999999&geo_distance=1km&auto_geolocate=false&search_text=omakase`.
+  - google-places: KEYWORD, term `omakase`, category `None`, parsed `None` / displayed `None`, `PLANNED_URL_WITHOUT_COMPLETED_LISTING`, `PLANNER_AND_OBSERVED_REGION_AGENT`; URL `google-places:text-search`.
+- **p2-kagurazaka-kaiseki-20261029 #1**: [summary](baseline/p2-kagurazaka-kaiseki-20261029/attempt-1/probe-summary.json), [decisions](baseline/p2-kagurazaka-kaiseki-20261029/attempt-1/probe.decisions.jsonl), [trace](baseline/p2-kagurazaka-kaiseki-20261029/attempt-1/trace.jsonl), [recording](baseline/p2-kagurazaka-kaiseki-20261029/attempt-1/recording/p2-kagurazaka-kaiseki-20261029/recording.json), [source preflight](baseline/p2-kagurazaka-kaiseki-20261029/attempt-1/source-data-preflight.json). Termination `ALL_PLANNED_FIRST_BATCHES_ATTEMPTED`; failure codes `["EXTRACTION_FAILED"]`.
+  - tabelog: KEYWORD, term `kaiseki restaurant`, category `None`, parsed `0` / displayed `None`, `OBSERVED_LISTING`, `PLANNER_AND_OBSERVED_REGION_AGENT`; URL `https://tabelog.com/en/tokyo/rstLst/?sw=kaiseki+restaurant`.
+  - tabelog: KEYWORD, term `kaiseki restaurant`, category `None`, parsed `0` / displayed `None`, `OBSERVED_LISTING`, `BROWSER_AGENT_OR_SOURCE_PAGINATION`; URL `https://tabelog.com/en/tokyo/C13104/rstLst/?sw=kaiseki%20restaurant`.
+  - tabelog: KEYWORD, term `kaiseki restaurant`, category `None`, parsed `20` / displayed `10367`, `OBSERVED_LISTING`, `BROWSER_AGENT_OR_SOURCE_PAGINATION`; URL `https://tabelog.com/en/tokyo/C13104/rstLst/`.
+  - tablecheck: KEYWORD, term `kaiseki restaurant`, category `None`, parsed `None` / displayed `None`, `PLANNED_URL_WITHOUT_COMPLETED_LISTING`, `PLANNER_AND_OBSERVED_REGION_AGENT`; URL `https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.701459799999995&geo_longitude=139.7402946&geo_distance=1km&auto_geolocate=false&search_text=kaiseki+restaurant`.
+  - google-places: KEYWORD, term `kaiseki restaurant`, category `None`, parsed `None` / displayed `None`, `PLANNED_URL_WITHOUT_COMPLETED_LISTING`, `PLANNER_AND_OBSERVED_REGION_AGENT`; URL `google-places:text-search`.
+
+Raw ENV evidence: [source check](baseline/p2-kagurazaka-kaiseki-20261029/attempt-2/source-data-preflight.json), [failure](baseline/p2-kagurazaka-kaiseki-20261029/attempt-2/preflight-failure.json), [outer log](baseline/p2-kagurazaka-kaiseki-20261029/attempt-2.outer.log). Current mutable ledger: baseline-ledger.json; pre-recovery snapshot: recovery/baseline-ledger.before-recovery.json.
+
+### Four-layer evaluation scope
+
+1. End-to-end goal: NOT_EVALUATED / not applicable to discovery-only probes;0 availability investigations and0 deliveries by design, not HONEST_NO_RESULT/CAPABILITY_MISS conclusions.
+2. Stages: request is frozen actual semantics (not reinterpreted), fixed named-place centers and1km radius; discovery witness/listing/first-detail metrics retained per source. Raw source funnel counts and retrieval observations may have different binding scopes (e.g. TableCheck funnel parses20 while the retrieval observer marks an uncompleted/unbound listing); unknown observation is not promoted to a complete listing. Identity/HARD/inventory/Agent-decision Gold pass are not inferred from runtime reason codes.
+3. Severity: independent frozen-rule S0_BOUNDARY ABSENT for each of the3 completed traces. S0 declaration andS1–S4 are NOT_EVALUATED for this limited probe; no full user claim or delivery. Unknown GET side effects remain outside what the network-shape audit proves.
+4. Attribution: only the preflight failure stage/count is observed; underlying cause unconfirmed. Other potential bottlenecks are HYPOTHESIS pending independent review; no attribution-driven fix made.
+
+### Budget and pending outer-only proposal
+
+New model calls13 (all captured successful), cumulative99/450. Google: new formal6 plus4 readiness requests; cumulative25 including historical15. Formal probes: cumulative13/40 (historical10 + current3);0 full Live. Witness certification32 GETs and zero-model transport checks are separate from formal probe counts.
+
+The frozen original outer script stops on ENV and refuses any second attempt for the same planned index. To finish the7 unstarted formal probes, a reviewable, offline-checked proposal is in recovery/outer-env-resume.proposed.patch; DRAFT / NOT INTEGRATED / NOT EXECUTED. It only allows one preflight-only retry per item with0 models and no formal start; S0, started model/formal attempt and completed-case retries remain refused. Awaiting explicit user approval to re-freeze outer orchestration (Eval Skill5.2); no runtime ledger reset or bypass performed.
+
+
+
+## User-approved preflight-only outer recovery
+
+User explicitly replied “批准外层补丁并续跑”. The external main-worktree controller recovery/resume-baseline.py is separately committed/frozen and runs with cwd in the unchanged clean acfaaffa worktree. It preserves every failed attempt and allows exactly one preflight-only retry per planned item, refusing S0/started-model/completed-formal attempts. The original controller, source/inputs, plan, witnesses and15-model/180s settings are unchanged. New output suffix -preflight-2 prevents overwriting original preflight files; the ledger records stopHistory. SHA/approval/parent-freeze checks and offline state predicates PASS,0 network/model. Current3 formal results remain untouched; continue index3 then remaining planned entries.

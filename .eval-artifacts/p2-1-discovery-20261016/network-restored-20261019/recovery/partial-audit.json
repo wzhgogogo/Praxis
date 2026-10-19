@@ -1,0 +1,467 @@
+{
+  "status": "PARTIAL_ENV_BLOCKED",
+  "planned": 10,
+  "formalStarted": 3,
+  "completed": 3,
+  "preflightOnlyEnvFailures": 1,
+  "newModelCalls": 13,
+  "totalModelCalls": 99,
+  "modelCap": 450,
+  "newFormalGoogle": 6,
+  "newPreflightGoogle": 4,
+  "totalGoogle": 25,
+  "fullLiveRuns": 0,
+  "ledgerSha256": "0a04c60db90e23666ffd6222b71f884bab9f4504e3da096eea33394e3c97cce4",
+  "rows": [
+    {
+      "caseId": "p2-kf-h001-20261027",
+      "repeat": 1,
+      "sources": [
+        {
+          "sourceId": "tabelog",
+          "candidates": 1,
+          "failureCode": null,
+          "listings": [
+            [
+              20,
+              36
+            ],
+            [
+              3,
+              3
+            ],
+            [
+              3,
+              3
+            ]
+          ]
+        },
+        {
+          "sourceId": "tablecheck",
+          "candidates": 5,
+          "failureCode": null,
+          "listings": []
+        },
+        {
+          "sourceId": "google-places",
+          "candidates": 33,
+          "failureCode": null,
+          "listings": []
+        }
+      ],
+      "witnessInListingBySource": {
+        "tabelog": false,
+        "tablecheck": false,
+        "google-places": true
+      },
+      "firstBatchWitness": false,
+      "inRadiusParsed": 39,
+      "resources": {
+        "modelCalls": 1,
+        "browserModelCalls": 1,
+        "google": {
+          "limit": 40,
+          "total": 2,
+          "namedPlaceResolution": 0,
+          "discovery": 2,
+          "placeDetails": 0,
+          "reverseAddressObservation": 0
+        },
+        "elapsedMs": 42541,
+        "ceilings": {
+          "maxModelCalls": 15,
+          "maxDiscoveryCandidates": 10,
+          "maxGoogleRequests": 40,
+          "maxStructuredReadMs": 30000,
+          "maxAvailabilitySourceBrowserSessions": 3,
+          "maxAvailabilitySourceCandidateMatches": 3,
+          "maxAvailabilityReads": 20,
+          "maxBrowserRuntimeFallbacks": 1,
+          "maxBrowserModelCallsPerCandidate": 20,
+          "maxBrowserModelCallsTotal": 120,
+          "maxBrowserOperationsPerCandidate": 80,
+          "maxFactModelCallsPerCandidate": 4,
+          "maxFactBrowserOperationsPerCandidate": 24,
+          "maxFactBrowserMs": 45000,
+          "maxFactProviderMs": 30000,
+          "maxCandidateBrowserMs": 60000,
+          "maxProviderBrowserMs": 45000,
+          "maxAutomaticBrowserMs": 180000,
+          "maxAgentSteps": 30,
+          "maxRejectedActions": 5
+        }
+      },
+      "terminationReason": "ALL_PLANNED_FIRST_BATCHES_ATTEMPTED",
+      "failureCodes": [],
+      "retrievalAttempts": [
+        {
+          "sourceId": "tabelog",
+          "type": "KEYWORD",
+          "keyword": "omakase",
+          "categoryLabel": null,
+          "url": "https://tabelog.com/en/tokyo/rstLst/?sw=omakase",
+          "parsedCount": 20,
+          "displayedTotal": 36,
+          "observationStatus": "OBSERVED_LISTING",
+          "decidedBy": "PLANNER_AND_OBSERVED_REGION_AGENT",
+          "reason": "CURRENT_FIRST_BATCH"
+        },
+        {
+          "sourceId": "tabelog",
+          "type": "KEYWORD",
+          "keyword": "omakase",
+          "categoryLabel": null,
+          "url": "https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase",
+          "parsedCount": 3,
+          "displayedTotal": 3,
+          "observationStatus": "OBSERVED_LISTING",
+          "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+          "reason": "OBSERVED_LISTING_CONTINUATION"
+        },
+        {
+          "sourceId": "tabelog",
+          "type": "KEYWORD",
+          "keyword": "omakase",
+          "categoryLabel": null,
+          "url": "https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase",
+          "parsedCount": 3,
+          "displayedTotal": 3,
+          "observationStatus": "OBSERVED_LISTING",
+          "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+          "reason": "OBSERVED_LISTING_CONTINUATION"
+        },
+        {
+          "sourceId": "tablecheck",
+          "type": "KEYWORD",
+          "keyword": "omakase",
+          "categoryLabel": null,
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.6619707&geo_longitude=139.70379499999999&geo_distance=1km&auto_geolocate=false&search_text=omakase",
+          "parsedCount": null,
+          "displayedTotal": null,
+          "observationStatus": "PLANNED_URL_WITHOUT_COMPLETED_LISTING",
+          "decidedBy": "PLANNER_AND_OBSERVED_REGION_AGENT",
+          "reason": "CURRENT_FIRST_BATCH"
+        },
+        {
+          "sourceId": "google-places",
+          "type": "KEYWORD",
+          "keyword": "omakase",
+          "categoryLabel": null,
+          "url": "google-places:text-search",
+          "parsedCount": null,
+          "displayedTotal": null,
+          "observationStatus": "PLANNED_URL_WITHOUT_COMPLETED_LISTING",
+          "decidedBy": "PLANNER_AND_OBSERVED_REGION_AGENT",
+          "reason": "CURRENT_FIRST_BATCH"
+        }
+      ],
+      "decisionRows": 1,
+      "failedModelCalls": 0,
+      "boundary": "ABSENT",
+      "rawDirectory": "baseline/p2-kf-h001-20261027/attempt-1"
+    },
+    {
+      "caseId": "p2-kf-h001-20261027",
+      "repeat": 2,
+      "sources": [
+        {
+          "sourceId": "tabelog",
+          "candidates": 1,
+          "failureCode": null,
+          "listings": [
+            [
+              20,
+              36
+            ],
+            [
+              3,
+              3
+            ],
+            [
+              3,
+              3
+            ]
+          ]
+        },
+        {
+          "sourceId": "tablecheck",
+          "candidates": 5,
+          "failureCode": null,
+          "listings": []
+        },
+        {
+          "sourceId": "google-places",
+          "candidates": 33,
+          "failureCode": null,
+          "listings": []
+        }
+      ],
+      "witnessInListingBySource": {
+        "tabelog": false,
+        "tablecheck": false,
+        "google-places": true
+      },
+      "firstBatchWitness": false,
+      "inRadiusParsed": 39,
+      "resources": {
+        "modelCalls": 1,
+        "browserModelCalls": 1,
+        "google": {
+          "limit": 40,
+          "total": 2,
+          "namedPlaceResolution": 0,
+          "discovery": 2,
+          "placeDetails": 0,
+          "reverseAddressObservation": 0
+        },
+        "elapsedMs": 44102,
+        "ceilings": {
+          "maxModelCalls": 15,
+          "maxDiscoveryCandidates": 10,
+          "maxGoogleRequests": 40,
+          "maxStructuredReadMs": 30000,
+          "maxAvailabilitySourceBrowserSessions": 3,
+          "maxAvailabilitySourceCandidateMatches": 3,
+          "maxAvailabilityReads": 20,
+          "maxBrowserRuntimeFallbacks": 1,
+          "maxBrowserModelCallsPerCandidate": 20,
+          "maxBrowserModelCallsTotal": 120,
+          "maxBrowserOperationsPerCandidate": 80,
+          "maxFactModelCallsPerCandidate": 4,
+          "maxFactBrowserOperationsPerCandidate": 24,
+          "maxFactBrowserMs": 45000,
+          "maxFactProviderMs": 30000,
+          "maxCandidateBrowserMs": 60000,
+          "maxProviderBrowserMs": 45000,
+          "maxAutomaticBrowserMs": 180000,
+          "maxAgentSteps": 30,
+          "maxRejectedActions": 5
+        }
+      },
+      "terminationReason": "ALL_PLANNED_FIRST_BATCHES_ATTEMPTED",
+      "failureCodes": [],
+      "retrievalAttempts": [
+        {
+          "sourceId": "tabelog",
+          "type": "KEYWORD",
+          "keyword": "omakase",
+          "categoryLabel": null,
+          "url": "https://tabelog.com/en/tokyo/rstLst/?sw=omakase",
+          "parsedCount": 20,
+          "displayedTotal": 36,
+          "observationStatus": "OBSERVED_LISTING",
+          "decidedBy": "PLANNER_AND_OBSERVED_REGION_AGENT",
+          "reason": "CURRENT_FIRST_BATCH"
+        },
+        {
+          "sourceId": "tabelog",
+          "type": "KEYWORD",
+          "keyword": "omakase",
+          "categoryLabel": null,
+          "url": "https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase",
+          "parsedCount": 3,
+          "displayedTotal": 3,
+          "observationStatus": "OBSERVED_LISTING",
+          "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+          "reason": "OBSERVED_LISTING_CONTINUATION"
+        },
+        {
+          "sourceId": "tabelog",
+          "type": "KEYWORD",
+          "keyword": "omakase",
+          "categoryLabel": null,
+          "url": "https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase",
+          "parsedCount": 3,
+          "displayedTotal": 3,
+          "observationStatus": "OBSERVED_LISTING",
+          "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+          "reason": "OBSERVED_LISTING_CONTINUATION"
+        },
+        {
+          "sourceId": "tablecheck",
+          "type": "KEYWORD",
+          "keyword": "omakase",
+          "categoryLabel": null,
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.6619707&geo_longitude=139.70379499999999&geo_distance=1km&auto_geolocate=false&search_text=omakase",
+          "parsedCount": null,
+          "displayedTotal": null,
+          "observationStatus": "PLANNED_URL_WITHOUT_COMPLETED_LISTING",
+          "decidedBy": "PLANNER_AND_OBSERVED_REGION_AGENT",
+          "reason": "CURRENT_FIRST_BATCH"
+        },
+        {
+          "sourceId": "google-places",
+          "type": "KEYWORD",
+          "keyword": "omakase",
+          "categoryLabel": null,
+          "url": "google-places:text-search",
+          "parsedCount": null,
+          "displayedTotal": null,
+          "observationStatus": "PLANNED_URL_WITHOUT_COMPLETED_LISTING",
+          "decidedBy": "PLANNER_AND_OBSERVED_REGION_AGENT",
+          "reason": "CURRENT_FIRST_BATCH"
+        }
+      ],
+      "decisionRows": 1,
+      "failedModelCalls": 0,
+      "boundary": "ABSENT",
+      "rawDirectory": "baseline/p2-kf-h001-20261027/attempt-2"
+    },
+    {
+      "caseId": "p2-kagurazaka-kaiseki-20261029",
+      "repeat": 1,
+      "sources": [
+        {
+          "sourceId": "tabelog",
+          "candidates": 0,
+          "failureCode": "EXTRACTION_FAILED",
+          "listings": [
+            [
+              0,
+              null
+            ],
+            [
+              0,
+              null
+            ],
+            [
+              20,
+              10367
+            ]
+          ]
+        },
+        {
+          "sourceId": "tablecheck",
+          "candidates": 5,
+          "failureCode": null,
+          "listings": []
+        },
+        {
+          "sourceId": "google-places",
+          "candidates": 40,
+          "failureCode": null,
+          "listings": []
+        }
+      ],
+      "witnessInListingBySource": {
+        "tabelog": false,
+        "tablecheck": false,
+        "google-places": false
+      },
+      "firstBatchWitness": false,
+      "inRadiusParsed": 45,
+      "resources": {
+        "modelCalls": 11,
+        "browserModelCalls": 11,
+        "google": {
+          "limit": 40,
+          "total": 2,
+          "namedPlaceResolution": 0,
+          "discovery": 2,
+          "placeDetails": 0,
+          "reverseAddressObservation": 0
+        },
+        "elapsedMs": 93505,
+        "ceilings": {
+          "maxModelCalls": 15,
+          "maxDiscoveryCandidates": 10,
+          "maxGoogleRequests": 40,
+          "maxStructuredReadMs": 30000,
+          "maxAvailabilitySourceBrowserSessions": 3,
+          "maxAvailabilitySourceCandidateMatches": 3,
+          "maxAvailabilityReads": 20,
+          "maxBrowserRuntimeFallbacks": 1,
+          "maxBrowserModelCallsPerCandidate": 20,
+          "maxBrowserModelCallsTotal": 120,
+          "maxBrowserOperationsPerCandidate": 80,
+          "maxFactModelCallsPerCandidate": 4,
+          "maxFactBrowserOperationsPerCandidate": 24,
+          "maxFactBrowserMs": 45000,
+          "maxFactProviderMs": 30000,
+          "maxCandidateBrowserMs": 60000,
+          "maxProviderBrowserMs": 45000,
+          "maxAutomaticBrowserMs": 180000,
+          "maxAgentSteps": 30,
+          "maxRejectedActions": 5
+        }
+      },
+      "terminationReason": "ALL_PLANNED_FIRST_BATCHES_ATTEMPTED",
+      "failureCodes": [
+        "EXTRACTION_FAILED"
+      ],
+      "retrievalAttempts": [
+        {
+          "sourceId": "tabelog",
+          "type": "KEYWORD",
+          "keyword": "kaiseki restaurant",
+          "categoryLabel": null,
+          "url": "https://tabelog.com/en/tokyo/rstLst/?sw=kaiseki+restaurant",
+          "parsedCount": 0,
+          "displayedTotal": null,
+          "observationStatus": "OBSERVED_LISTING",
+          "decidedBy": "PLANNER_AND_OBSERVED_REGION_AGENT",
+          "reason": "CURRENT_FIRST_BATCH"
+        },
+        {
+          "sourceId": "tabelog",
+          "type": "KEYWORD",
+          "keyword": "kaiseki restaurant",
+          "categoryLabel": null,
+          "url": "https://tabelog.com/en/tokyo/C13104/rstLst/?sw=kaiseki%20restaurant",
+          "parsedCount": 0,
+          "displayedTotal": null,
+          "observationStatus": "OBSERVED_LISTING",
+          "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+          "reason": "OBSERVED_LISTING_CONTINUATION"
+        },
+        {
+          "sourceId": "tabelog",
+          "type": "KEYWORD",
+          "keyword": "kaiseki restaurant",
+          "categoryLabel": null,
+          "url": "https://tabelog.com/en/tokyo/C13104/rstLst/",
+          "parsedCount": 20,
+          "displayedTotal": 10367,
+          "observationStatus": "OBSERVED_LISTING",
+          "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+          "reason": "OBSERVED_LISTING_CONTINUATION"
+        },
+        {
+          "sourceId": "tablecheck",
+          "type": "KEYWORD",
+          "keyword": "kaiseki restaurant",
+          "categoryLabel": null,
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.701459799999995&geo_longitude=139.7402946&geo_distance=1km&auto_geolocate=false&search_text=kaiseki+restaurant",
+          "parsedCount": null,
+          "displayedTotal": null,
+          "observationStatus": "PLANNED_URL_WITHOUT_COMPLETED_LISTING",
+          "decidedBy": "PLANNER_AND_OBSERVED_REGION_AGENT",
+          "reason": "CURRENT_FIRST_BATCH"
+        },
+        {
+          "sourceId": "google-places",
+          "type": "KEYWORD",
+          "keyword": "kaiseki restaurant",
+          "categoryLabel": null,
+          "url": "google-places:text-search",
+          "parsedCount": null,
+          "displayedTotal": null,
+          "observationStatus": "PLANNED_URL_WITHOUT_COMPLETED_LISTING",
+          "decidedBy": "PLANNER_AND_OBSERVED_REGION_AGENT",
+          "reason": "CURRENT_FIRST_BATCH"
+        }
+      ],
+      "decisionRows": 11,
+      "failedModelCalls": 0,
+      "boundary": "ABSENT",
+      "rawDirectory": "baseline/p2-kagurazaka-kaiseki-20261029/attempt-1"
+    }
+  ],
+  "stop": {
+    "code": "ENV_FAILURE",
+    "sourceIds": [
+      "tablecheck"
+    ],
+    "index": 3
+  }
+}

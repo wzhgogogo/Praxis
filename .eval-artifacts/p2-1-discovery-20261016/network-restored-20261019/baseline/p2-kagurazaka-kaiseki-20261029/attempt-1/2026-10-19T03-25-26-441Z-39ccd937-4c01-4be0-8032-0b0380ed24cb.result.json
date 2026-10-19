@@ -1,0 +1,88 @@
+{
+  "mode": "LIVE_NETWORK_PREFLIGHT",
+  "preflightVersion": "live-network-preflight@1",
+  "runner": "SOURCE_STAGE_PROBE",
+  "plannedTargets": [
+    "DEEPSEEK",
+    "GOOGLE",
+    "TABELOG",
+    "TABLECHECK"
+  ],
+  "timeoutMs": 10000,
+  "generationModelCalls": 0,
+  "restaurantDiscoveryRequests": 0,
+  "evaluator": {
+    "applicability": "NOT_APPLICABLE",
+    "reason": "NETWORK_ONLY_DIAGNOSTIC_HAS_NO_RESTAURANT_CLAIM"
+  },
+  "network": {
+    "proxyMode": "DISABLED_BY_CLI"
+  },
+  "status": "SUCCEEDED",
+  "stage": "NETWORK_READINESS",
+  "artifactPath": "/Users/wangzhour/.codex/worktrees/p21-tablecheck-baseline/Praxis-Zhixing/.eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kagurazaka-kaiseki-20261029/attempt-1/2026-10-19T03-25-26-441Z-39ccd937-4c01-4be0-8032-0b0380ed24cb.result.json",
+  "attempts": [
+    {
+      "target": "DEEPSEEK",
+      "request": {
+        "method": "GET",
+        "url": "https://api.deepseek.com/models",
+        "range": "NONE",
+        "authorization": "PRESENT"
+      },
+      "elapsedMs": 1221,
+      "outcome": "REACHABLE",
+      "status": 200,
+      "tls": "ESTABLISHED"
+    },
+    {
+      "target": "GOOGLE",
+      "request": {
+        "method": "GET",
+        "url": "https://places.googleapis.com/",
+        "range": "NONE",
+        "authorization": "ABSENT"
+      },
+      "elapsedMs": 909,
+      "outcome": "REACHABLE",
+      "status": 404,
+      "tls": "ESTABLISHED"
+    },
+    {
+      "target": "TABELOG",
+      "request": {
+        "method": "GET",
+        "url": "https://tabelog.com/",
+        "range": "BYTES_0_0",
+        "authorization": "ABSENT"
+      },
+      "elapsedMs": 1445,
+      "outcome": "REACHABLE",
+      "status": 200,
+      "tls": "ESTABLISHED"
+    },
+    {
+      "target": "TABLECHECK",
+      "request": {
+        "method": "GET",
+        "url": "https://www.tablecheck.com/en/",
+        "range": "BYTES_0_0",
+        "authorization": "ABSENT"
+      },
+      "elapsedMs": 949,
+      "outcome": "REACHABLE",
+      "status": 206,
+      "tls": "ESTABLISHED"
+    }
+  ],
+  "elapsedMs": 4530,
+  "configuration": {
+    "proxyMode": "DISABLED_BY_CLI",
+    "googleProxyConfigured": false,
+    "browserProxyConfigured": false
+  },
+  "schemaVersion": "1",
+  "runId": "39ccd937-4c01-4be0-8032-0b0380ed24cb",
+  "startedAt": "2026-10-19T03:25:26.441Z",
+  "finishedAt": "2026-10-19T03:25:30.971Z"
+}
