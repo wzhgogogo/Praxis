@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.162
+- Document revision: 4.163
 - Last updated: 2026-10-19
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -3810,3 +3810,12 @@ A10完成并提交52ff459之后才实施Google-only nearby局部修正：地点�
 第6例KF-H005第2轮在早期LIVE_NETWORK_PREFLIGHT失败：TableCheck首页公开GET HTTP503/TLS建立，其他端点可达；0模型、未正式启动。其原始result具有状态码，但被冻结外层只读后续source-data-preflight，误作PREFLIGHT_EVIDENCE_GAP并停批；不是缺失HTTP证据，不推定VPN根因。剩余5例NOT_STARTED。最小外层恢复补丁已准备，严格只识别此公开TableCheck503、原0模型/未启动、一次补试；13个离线对照拒绝S0/已完成/模型已用/二次补试/缺状态/其他路径。补丁未应用或执行，已按Eval Skill §5请求重冻批准。
 
 部分对照、检索序列/规划耗时/页数/半径/分来源见证和所有summary/decisions/trace/recording SHA见checkpoint-a-dom-20261019/report.md、comparison.json、audit.json；29捕获等于模型数、318冻结SHA/工作树clean、1400份历史字节一致。五份独立S0_BOUNDARY为ABSENT，仅指冻结规则可核验范围，不证明任意GET无副作用。源码无新增改动，复用五门禁943/943、真实Chromium117/117，并验证本轮纯文档/JSON/链接/预算。总量含14条离线回放为241/450模型、36/42探测、94Google、0完整Live。原冻结账本预检计数仍0，拟将已有503作为1次NO_RESPONSE的重分类另存提案，不静默改账。P2-1b不开始。
+
+
+## DEV-2026-10-19-P21A-DOM-OUTER-RESUME
+
+用户批准recovery/outer-network-preflight-resume.proposed.patch，仅外层把已有TableCheck公开首页GET503/TLS已建立、0模型/未正式启动的原始网络预检，记为1次NO_RESPONSE，并使用原有1次预检补试。用patch实际应用后逐字核对与批准稿一致。13个既有离线对照重跑全通过，0模型/网络；缺状态、其他地址、非503、模型已用、S0、已完成、正式已启动、第二次重试、超出2次停止计数均拒绝。原脚本/原失败/账本快照与原提案保留。
+
+新外层SHA256为60546a05fbba4d5c4434f129730a5011666025e64cbbd8acb6158ef68b11775c，新recovery/freeze.json SHA256为5444b8d68333bbf41e252aad81ae2ea08ac0e6221140882f20e0ed6657c4b933，冻结595个文件，含已完成5例262份原始文件。生产ba20b8a、干净p21-checkpoint-a-dom、计划/6份输入/见证/预算/只读网络规则不变；见证仍有效至最早10/20东京12:12，无需再次认证。只有index5首条恢复带--recover-network-preflight和--resume-preflight-only，后续6–9正常执行；原已完成0–4禁止重跑。
+
+源码无改动，复用五门禁943/943、真实Chromium117/117，并复核原318SHA、空闲进程、budget和工作树clean；外层单独13离线对照/AST检查。累计仍241/450模型、36/42探测、94Google，恢复首条会追加计数/审批/原始SHA记录，不覆盖旧失败。先本地提交本冻结再续跑剩余KF-H005#2、吉祥寺×2、H002、中目黑。S0、来源预检及每例补试/全批>2停止边界不变；完成后按授权推送并停止，不开始P2-1b。

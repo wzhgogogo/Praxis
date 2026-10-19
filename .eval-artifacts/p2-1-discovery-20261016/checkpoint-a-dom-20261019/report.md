@@ -165,3 +165,11 @@ The frozen outer only classifies source-data-preflight.json, which was never rea
 A concrete outer-only patch and13 offline positive/negative checks are in recovery/outer-network-preflight-resume.proposed.patch and recovery/offline-controls.json. They were not applied or executed. Source ba20b8a, input bytes, budgets, one-retry bound and S0 stops remain unchanged. Approval is pending because Eval Skill §5 requires user approval and new SHA for changing frozen orchestration mid-batch.
 
 Current formal5/10, new29 models,15 Google (10 formal+5 source preflight). Including offline replay14: cumulative241/450 models,36/42 probes,94 Google,0 full Live. Five remaining planned probes are NOT_STARTED, not failures or successes. Do not infer full A quality from the partial denominator.
+
+## User-approved outer recovery freeze
+
+The human user approved the exact proposed outer patch and remaining indices5-9. Applied bytes match the proposal.13/13 offline controls rerun PASS (recovery/offline-controls.approved.log/json),0 model/network calls. No production, Prompt, Schema, input, witness or budget change.
+
+New outer SHA256 `60546a05fbba4d5c4434f129730a5011666025e64cbbd8acb6158ef68b11775c`; recovery freeze SHA256 `5444b8d68333bbf41e252aad81ae2ea08ac0e6221140882f20e0ed6657c4b933`.595 files frozen, including262 original files from the five completed formal probes; those probes cannot be rerun. Original outer/freeze and failed raw503/ledger snapshot remain immutable. Plan bytes match the first five. Existing witnesses remain valid.
+
+The first resume uses index5 with --resume-preflight-only --recover-network-preflight, classifies the recorded early TableCheck503 as1 NO_RESPONSE and appends an audit record before the sole existing preflight retry. Following indices6-9 use the same recovered outer without recovery flags. Stops and preflight-only retry limits remain unchanged. Submit this freeze before requests.
