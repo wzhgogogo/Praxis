@@ -4614,3 +4614,8 @@ current executable / 本次外站效果未测。修正a37e152五门禁951/119全
 - 0网络/模型离线计算52次：50可计时、2中断未评；30地区轨迹诊断。优先级互斥区间与独立固定算术对照通过，初版错误DISCOVERY归因保留为superseded，当前timing-results.rev2。
 - 用户批准标注revision2后，真实DeepSeek单步回放5/30调用，23491ms，101327tokens；0Google/网站/动作执行/Live。0133不退步；神乐坂NOT_ACCEPTABLE；涩谷1/3，0134 TOOL_CALLS但$.retrievalHint非法被拒，整体门槛FAIL；S0–S4全任务影响不由单步结果推断。模型合法输出不等于可接受选择。
 - 冻结290658f/319SHA，按既有仅外层授权6283843/325SHA续跑未运行3颗；生产源码/Gold/日期/半径不改，旧两次结果保留，五颗没有重复调用，源HASH及完整上下文独立比较通过。raw wire、输入、账本、旧严格对照、地域诊断和四层边界见[报告](../../.eval-artifacts/p2-2-selection-20261019/report.md)。不进入Live/检查点C，不宣称总体P2-2通过。
+
+## TEST-2026-10-19-P22-STRUCTURAL-SCOPE
+
+- P2-2首次查位结构约束离线通过：Context@14/Prompt@27与Validator同一scope，>=3未查且半径内直达时暂不提供名称解析候选；事实/显式刷新/资格不变。有效旧scope红灯、默认953/953及Chromium119/119全绿，0真实调用；本轮五种子回放留第3段。
+- 证据：[后续报告](../../.eval-artifacts/p2-2-selection-20261019/followup/report.md)。旧实验/Gold/预算不变，原始失败不覆盖。

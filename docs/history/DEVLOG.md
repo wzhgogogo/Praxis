@@ -3907,3 +3907,8 @@ current executable / 本次外站效果未测。修正a37e152五门禁951/119全
 - 两个现有Pack推导availabilityPath，生产组装附到DISCOVERY，Context@13/Prompt@26仅给选择线索，资格/排序/预算不变；最新已观察值不借旧或未来提示。旧组合路径断言有效红灯，现有正常受控组合交付3家。
 - Eval计时自动接Hybrid/来源探针成功失败产物；52份旧产物离线复算，明确未归因/缺时间；30次地区路径仅诊断，native-restaurant-search.ts未改。独立条件评分补充到原回放入口，无新平台。
 - 复核e96a493 revision2经用户批准，冻结290658f后五颗各一次；首轮外层在格式错停于2/5，按用户已授权的仅外层修正6283843续跑未运行3颗，不重跑/清洗旧输出。5/30模型，门槛FAIL，未开始Live/第5项。证据与限制见[批次报告](../../.eval-artifacts/p2-2-selection-20261019/report.md)。
+
+## DEV-2026-10-19-P22-STRUCTURAL-SCOPE
+
+- P2-2首次查位结构约束离线通过：Context@14/Prompt@27与Validator同一scope，>=3未查且半径内直达时暂不提供名称解析候选；事实/显式刷新/资格不变。有效旧scope红灯、默认953/953及Chromium119/119全绿，0真实调用；本轮五种子回放留第3段。
+- 证据：[后续报告](../../.eval-artifacts/p2-2-selection-20261019/followup/report.md)。旧实验/Gold/预算不变，原始失败不覆盖。
