@@ -1,8 +1,8 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.154
-- Last updated: 2026-10-11
+- Document revision: 4.155
+- Last updated: 2026-10-19
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
@@ -3740,3 +3740,12 @@ A冻结39fc15e、外层先提交e7e6913；输入/见证/规则SHA与干净工作
 用户要求查清TableCheck预检原因；新增3次0模型公开只读页面诊断，带回调/去回调/实际生产预检均HTTP200、122条document hits，真实预检5308ms，未复现历史失败或403。确认程序缺陷：source preflight只设page.goto30秒，未prepareNavigation，Guard仍默认5秒；本地真实Chromium6.5秒响应在默认路径READ_TIMEOUT、显式10秒预算则200。确认无响应与明确空结果都归EMPTY_RESULT且不存HTTP/Guard详情。历史两次根因因缺证仍未确认，不把5秒机制或VPN追认成事实。
 
 证据preflight-diagnosis-20261019/report.md/findings.json与三模式响应、本地timeout-fixture.json/log。首轮本地fixture缺根document审核配置导致启动失败，非目标红灯，已保留并只修fixture；真实超时对照两GET接收均验证通过。脚本语法/诊断断言通过，生产无改动，复用940/940、Chromium116/116及typecheck/arch/build，不新称完整门禁或产品修复通过。0新增模型/Google/正式探测，累计145/450、50Google、21/40，A停批账本不动；nearby/P2-1b未开始。诊断仅本地提交，不据查因请求推断新推送授权。
+
+
+## DEV-2026-10-19-P21-preflight-fix
+
+预检先调用 prepareNavigation，再以正式首批相同的35秒导航／单请求预算读取；不再把未收到搜索响应记为空结果，artifact@2分别保存 EMPTY_RESULT 与 NO_RESPONSE、HTTP状态、超时与Guard诊断。只有带状态或超时证据的失败进入停止计数；其余缺证失败仍阻止启动，留作预检诊断。
+
+真实Chromium的6.5秒响应在旧代码下 EMPTY_RESULT/count0（red.log），修后返回1家/HTTP200（green.log）；既有空200、503无响应、无状态缺证及超时反例通过。五门禁typecheck/arch/build通过、默认941/941、完整真实Chromium117/117，日志见 checkpoint-a-corrected-20261019/preflight/gates/。
+
+按aaeb088复核及用户指令，旧3次失败追加标注为“预检缺陷，原因未完全确认”，停止计数归0；旧A #1标为“P2-1a缺陷版本”并排除比较，原始字节与旧账本不改，4模型/1正式探测仍计费。探测上限42、模型450，累计145模型/21探测/50Google；本项0模型/真实网络/探测/完整Live。基线acfaaffa不变，接下来只修首页类别与规划提示，再重冻A；nearby留A后，P2-1b不开始。

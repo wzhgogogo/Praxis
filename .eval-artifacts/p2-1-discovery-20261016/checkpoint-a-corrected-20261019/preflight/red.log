@@ -1,0 +1,27 @@
+✖ P21 source preflight retains a6.5s result under the production navigation budget (20230.543959ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 20562.236458
+
+✖ failing tests:
+
+test at src/harness/browser/read-network-redirect.test.ts:1:394
+✖ P21 source preflight retains a6.5s result under the production navigation budget (20230.543959ms)
+  AssertionError [ERR_ASSERTION]: {"sourceId":"tablecheck","check":{"sourceId":"tablecheck","url":"https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.67123&geo_longitude=139.765&geo_distance=1km&auto_geolocate=false&search_text=Ginza"},"count":0,"elapsedMs":20185,"outcome":"FAILED","reason":"EMPTY_RESULT"}
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts:41:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual'
+  }

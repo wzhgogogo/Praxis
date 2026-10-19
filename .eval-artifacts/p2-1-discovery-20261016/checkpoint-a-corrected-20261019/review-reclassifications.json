@@ -1,0 +1,43 @@
+{
+  "reviewCommit": "aaeb0888996073f6e3a014e17097b9d4e8d61384",
+  "userApprovedProbeCap": 42,
+  "modelCapUnchanged": 450,
+  "originalArtifactsUnmodified": true,
+  "preflightFailures": [
+    {
+      "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kagurazaka-kaiseki-20261029/attempt-2/preflight-failure.json",
+      "sha256": "77c0246199bbbda47a4e8c1910c73a139a6b62c905d4c3fa1fbc26130156fc28",
+      "effectiveClassification": "PREFLIGHT_DEFECT",
+      "cause": "原因未完全确认；预检时限与诊断缺陷已复现",
+      "countsTowardStop": false
+    },
+    {
+      "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-20261019/runs/p2-kf-h001-20261027/attempt-2/preflight-failure.json",
+      "sha256": "77c0246199bbbda47a4e8c1910c73a139a6b62c905d4c3fa1fbc26130156fc28",
+      "effectiveClassification": "PREFLIGHT_DEFECT",
+      "cause": "原因未完全确认；预检时限与诊断缺陷已复现",
+      "countsTowardStop": false
+    },
+    {
+      "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-20261019/runs/p2-kf-h001-20261027/attempt-2-preflight-2/preflight-failure.json",
+      "sha256": "77c0246199bbbda47a4e8c1910c73a139a6b62c905d4c3fa1fbc26130156fc28",
+      "effectiveClassification": "PREFLIGHT_DEFECT",
+      "cause": "原因未完全确认；预检时限与诊断缺陷已复现",
+      "countsTowardStop": false
+    }
+  ],
+  "defectiveA": {
+    "summary": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-20261019/runs/p2-kf-h001-20261027/attempt-1/probe-summary.json",
+    "version": "P2-1a 缺陷版本",
+    "includedInComparison": false,
+    "modelsStillCharged": 4,
+    "formalProbeStillCharged": 1
+  },
+  "baselineUnchanged": "acfaaffa73db97413f6538f161c4e837ec64316e",
+  "budgetOrigin": {
+    "models": 145,
+    "formalProbes": 21,
+    "google": 50,
+    "countablePreflightFailures": 0
+  }
+}

@@ -5,6 +5,49 @@ import { test } from "node:test";
 import { chromium } from "playwright-core";
 import { PlaywrightReadNetworkGuard } from "../../infrastructure/browser/playwright-read-network-guard.js";
 
+test('P21 source preflight retains a6.5s result under the production navigation budget', async () => {
+  const {LocalPlaywrightChromium}=await import('../../infrastructure/browser/local-playwright-chromium.js');
+  const {runSourceDataPreflight}=await import('../../eval/restaurant/agent-loop/source-data-preflight.js');
+  const {TABLECHECK_PUBLIC_SEARCH_ORIGIN}=await import('../../integrations/tablecheck/tablecheck-public-query.js');
+  const {mkdtemp,readFile,rm}=await import('node:fs/promises');
+  const {join}=await import('node:path');const {tmpdir}=await import('node:os');
+  const directory=await mkdtemp(join(tmpdir(),'preflight-delay-'));
+  let received=0;const timers=new Set<ReturnType<typeof setTimeout>>();
+  const server=createServer((request,response)=>{
+    if(request.url==='/data'){
+      received++;assert.equal(request.method,'GET');
+      const timer=setTimeout(()=>{timers.delete(timer);if(!response.destroyed){response.setHeader('content-type','application/json');response.end(JSON.stringify({root:{children:[{id:'fixture',source:'public-shop',fields:{name:'Venue'}}]}}));}},6500);timers.add(timer);
+    }else{response.setHeader('content-type','text/html');response.end('<script>fetch("/data").catch(()=>{})</script><body>Public result fixture</body>');}
+  });
+  await new Promise<void>(resolve=>server.listen(0,'127.0.0.1',resolve));
+  const address=server.address();assert.ok(address&&typeof address!=='string');const origin=`http://127.0.0.1:${address.port}`;
+  // Replace only the public source URL/HTTP fixture; keep real Chromium, Guard,
+  // production response counter, preflight timing and final classification.
+  const open=LocalPlaywrightChromium.prototype.openSession;
+  LocalPlaywrightChromium.prototype.openSession=async function(input){
+    const session=await open.call(this,{...input,networkPolicy:{documentOrigins:[origin],genericPublicRead:true,staticResources:[],dynamicReads:[
+      {origin,pathname:'/',methods:['GET'],resourceTypes:['document'],queryKeys:[]},
+      {origin,pathname:'/data',methods:['GET'],resourceTypes:['fetch'],queryKeys:[]}]},
+      recordResponse:r=>input.recordResponse?.({...r,url:new URL(r.url).pathname==='/data'?TABLECHECK_PUBLIC_SEARCH_ORIGIN+'/search/':r.url})});
+    const navigate=session.navigate.bind(session),prepare=session.prepareNavigation?.bind(session);
+    session.navigate=(_url,options)=>navigate(origin+'/',options);
+    session.prepareNavigation=(_url,options)=>prepare?.(origin+'/',options)??Promise.resolve();
+    return session;
+  };
+  try{
+    await runSourceDataPreflight({sourceIds:['tablecheck'],environment:{PRAXIS_BROWSER_ENGINE:'LOCAL_CHROMIUM'},artifactDirectory:directory}).catch(()=>{});
+    const result=JSON.parse(await readFile(join(directory,'source-data-preflight.json'),'utf8'));
+    assert.equal(received,1);
+    assert.equal(result.attempts[0].count,1,JSON.stringify(result.attempts[0]));
+    assert.equal(result.classification,'READY');
+    assert.equal(result.attempts[0].responseStatus,200);
+  }finally{
+    LocalPlaywrightChromium.prototype.openSession=open;for(const t of timers)clearTimeout(t);
+    server.closeAllConnections();await new Promise<void>(resolve=>server.close(()=>resolve()));
+    await rm(directory,{recursive:true,force:true});
+  }
+});
+
 test("E1 outer body observer captures real Chromium POST bytes independently of Guard admission", async () => {
   const module = new URL("../../eval/restaurant/agent-loop/post-body-audit.mjs", import.meta.url).href;
   const { installReviewedPostObserver, postBodyStop, recordedPostMatches } = await import(module);
