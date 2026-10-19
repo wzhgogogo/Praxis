@@ -170,3 +170,8 @@ TableCheck: ENV_FAILURE in all ten probes (independent-review.md supplement). Go
 | p2-nakameguro-yakiniku-20261030 #1 | false | ENV_FAILURE | true | 13 |
 
 Evidence: followup/baseline-recomputed.json; models=0, business network requests=0.
+
+
+## 2026-10-19 TableCheck shared transport and restored baseline
+
+Current exposed-development discovery baseline: [network-restored-20261019/report.md](network-restored-20261019/report.md), frozen source `acfaaffa73db97413f6538f161c4e837ec64316e`. All10 formal probes completed,55 models and30 Google (19 formal +11 source readiness),0 complete Live. One preflight-only ENV was preserved and safely resumed under explicit human approval, no formal retries. Six-case witnesses were re-certified first (32 public GETs,13/16 certified). Prior baseline/diagnostics remain historical, not overwritten. P2-1a rebased source `39fc15e` is source-delta equivalent to original3094193 atop the shared fix; five gates940/940 and Chromium116/116 passed. New baseline awaits independent review before checkpoint A. Cumulative discovery20/40 probes,141/450 model calls,45 Google. Metrics and scope limitations are explicit in the linked report and baseline-audit.json; no qualification/availability/complete-Live signoff inferred.

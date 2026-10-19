@@ -1,0 +1,41 @@
+{
+  "version": "source-data-preflight@1",
+  "classification": "READY",
+  "generationModelCalls": 0,
+  "googleRequests": 1,
+  "attempts": [
+    {
+      "sourceId": "tabelog",
+      "check": {
+        "sourceId": "tabelog",
+        "url": "https://tabelog.com/en/tokyo/A1301/rstLst/"
+      },
+      "count": 20,
+      "elapsedMs": 7736,
+      "outcome": "NONEMPTY",
+      "reason": null
+    },
+    {
+      "sourceId": "tablecheck",
+      "check": {
+        "sourceId": "tablecheck",
+        "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.67123&geo_longitude=139.765&geo_distance=1km&auto_geolocate=false&search_text=Ginza"
+      },
+      "count": 122,
+      "elapsedMs": 4548,
+      "outcome": "NONEMPTY",
+      "reason": null
+    },
+    {
+      "sourceId": "google-places",
+      "check": {
+        "sourceId": "google-places",
+        "textQuery": "restaurants near Ginza, Tokyo"
+      },
+      "count": 1,
+      "elapsedMs": 1207,
+      "outcome": "NONEMPTY",
+      "reason": null
+    }
+  ]
+}

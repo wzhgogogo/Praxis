@@ -3710,3 +3710,10 @@ P2-1a implemented under Accepted ADR-0042: Agent-planned positive retrieval, vis
 用户批准仅重冻外层并续跑剩余7项：每项仅对0模型、未正式启动的预检ENV允许补1次，所有旧失败保留；拒绝S0、已开始/完成的正式探测和第二次预检重试。外部恢复脚本独立冻结并从主树执行，cwd为干净acfaaffa基线树；源代码、输入、原外层及15模型/180秒预算不变。当前正式3次/13模型，另1次TableCheck空结果预检不计正式；累计99/450模型、13/40探测，0整单Live。
 
 实际脚本语法与当前账本恢复正例、S0/已启动/已完成/第二次预检反例均通过，0网络/模型；证据network-restored-20261019/recovery/outer-resume-dry-run.json及freeze。源码未变，复用共同基线五门禁936/936、Chromium115/115及最终变基组合940/940、Chromium116/116；本提交先冻结外层，执行结果后续追加，不运行检查点A或完整Live。
+
+
+## DEV-2026-10-19-P21-restored-baseline-complete
+
+新的10次发现基线均在干净acfaaffa完成，新增55模型/55决策（全成功）、19正式Google＋11非空预检Google，0整单Live。仅神乐坂第2轮预检空结果停批，在用户明确批准的外层1b610a8下补1次预检后正式执行；旧失败和正式产物保留，0正式重跑。Tabelog见证列表1/10（H002 CONTROL）、TableCheck0/10、Google精确官网ID5/10；首批详情0/10。SOURCE失败码和指标观察范围限制原样报告，未把探测当交付或进行归因修复。累计20/40探测、141/450模型、45Google。
+
+CORS共同修复a60d27b和新认证准备先于基线/P2-1a，P2-1a变基为39fc15e、直接父acfaaffa；源码增删补丁与原3094193一致。推送前发现远端复核0f7d43f，六份文档/日志原样保留为bdafd2e；其Google-only与可读性非阻断意见留到后续授权切片，本轮不改。报告network-restored-20261019/report.md及baseline-audit.json为当前开发基线，原10次与失败原样保留。检查点A等待新基线复核，不进入P2-1b或完整Live。
