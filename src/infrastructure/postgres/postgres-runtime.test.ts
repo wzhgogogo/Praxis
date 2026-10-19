@@ -430,7 +430,7 @@ describe("PostgresTaskRuntime with PGlite", () => {
       });
 
       const [step] = await store.list("trajectory-context-task");
-      assert.equal(step?.contextSchemaVersion, "11");
+      assert.equal(step?.contextSchemaVersion, "13");
       assert.deepEqual(step?.decisionContext, {
         schemaVersion: "13",
         now: "2026-08-20T00:00:00.000Z",

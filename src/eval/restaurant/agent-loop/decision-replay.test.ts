@@ -6,6 +6,27 @@ import { tmpdir } from "node:os";
 import { createHash } from "node:crypto";
 import { gunzipSync } from "node:zlib";
 import { runDecisionReplay, acceptableReplayAction, reproducesRecordedAction, rebuildBrowserInput, type ReplaySeed } from "./runners/run-decision-replay.js";
+import { assessSelectionReplay } from "./selection-replay-assessment.js";
+
+test("P2-2 conditional selection oracle checks every target and leaves uncompiled reviewer conditions unassessed", async () => {
+  const root = new URL("../../../../",import.meta.url);
+  const annotations = JSON.parse(await readFile(new URL(".eval-artifacts/p2-2-selection-20261019/seed-annotations.reviewer.json",root),"utf8"));
+  const contracts = JSON.parse(await readFile(new URL(".eval-artifacts/p2-2-selection-20261019/selection-contracts.json",root),"utf8"));
+  const seed = JSON.parse(await readFile(new URL(".eval-artifacts/phase1-replay/seeds.v7.json",root),"utf8")).seeds.find((seed: ReplaySeed) => seed.seedId === "p1-seed-0134");
+  const capture = (await readFile(new URL(seed.origin.runArtifact,root),"utf8")).split(/\n/).filter(Boolean).map(line => JSON.parse(line)).find(row => row.sequence === seed.origin.decisionIndex);
+  const context = JSON.parse(capture.messages.find((message: {role:string}) => message.role === "user").content).context;
+  const artifact = JSON.parse(gunzipSync(await readFile(new URL(seed.origin.resultArtifact,root))).toString());
+  const observed = artifact.events.filter((event: any) => event.event.type === "SEARCH_COMPLETED" && event.occurredAt <= capture.startedAt).flatMap((event: any) => event.event.candidates.map((candidate: any) => candidate.restaurant));
+  const annotation = annotations.annotations.find((a: {seedId:string}) => a.seedId === seed.seedId), rules = contracts.rules.filter((rule: {seedId:string}) => rule.seedId === seed.seedId);
+  const before = assessSelectionReplay(seed.recordedAction,context,observed,annotation,rules,1000);
+  assert.equal(before.metrics.directInRadiusCheckable,8);
+  assert.equal(before.metrics.directSelected,1);
+  assert.equal(before.verdict,"NOT_ACCEPTABLE","one direct among three does not satisfy the independent all-selected condition");
+  const directIds = observed.filter((outlet: any) => outlet.sourceIds.googleWebsiteUri?.startsWith("https://tabelog.com/")).map((outlet: any) => outlet.id).slice(0,3);
+  assert.equal(assessSelectionReplay({type:"CHECK_AVAILABILITY",candidateIds:directIds},context,observed,annotation,rules,1000).verdict,"ACCEPTABLE");
+  const altered = {...annotation,acceptableActions:annotation.acceptableActions.map((action: any) => ({...action,when:action.when+" UNCOMPILED_NEW_CONDITION"}))};
+  assert.equal(assessSelectionReplay({type:"CHECK_AVAILABILITY",candidateIds:directIds},context,observed,altered,rules,1000).verdict,"NOT_EVALUATED");
+});
 
 test("E1 replay seeds retain both real h001 decisions and leave conditional proposals unscored", async () => {
   // Read/validate only. Never dispatch either new seed to runDecisionReplay.
