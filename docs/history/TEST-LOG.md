@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.183
+- Document revision: 4.184
 - Last updated: 2026-10-19
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4601,3 +4601,8 @@ current executable / 本次外站效果未测。修正a37e152五门禁951/119全
 ## TEST-2026-10-19-P21-B-USER-CONTINUE-ENV-STOP
 
 用户要求立即继续，外层2f088b8已在执行前提交；宿主机a37e152/CLEAN于UTC14:40:31.516–14:40:45.366尝试首例。TableCheck首页GET再返回503（TLS成功），DeepSeek200、Tabelog200、Google公开根路径404；NETWORK_READINESS失败，尚未进入来源搜索非空检查、浏览器或模型。21:30曾206、22:40再503仅为观测事实，不据此归因VPN、限流或网站。旧三条attempt和stopHistory前缀保持，旧账本原字节另存；本次新增1次失败，累计3触发PREFLIGHT_FAILURE_LIMIT，未自动重试、未启动其他例。0新增模型/搜索/正式探测，修正B仍0/10，累计278/450模型、44/55探测、117Google、0完整Live。复用原生产五门禁951/119及24项外层离线对照，329原冻结与2893历史SHA通过。来源非空、模型效果及B比较保持NOT_REACHED。原始result、日志与账本同步证明：[续跑结果](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/report.md)。保存提交推送后停止待复核。
+
+
+## TEST-2026-10-19-P21-B-USER-RETRY4-ENV-STOP
+
+按用户“再试一次，如果通过直接跑”，外层63a8136在运行前冻结，仅接纳当前0模型/0正式启动、历史3次失败的状态；保留旧attempt/stopHistory与userResume历史，允许这一次额外尝试，不放宽网络或来源非空检查。24项离线对照通过。UTC14:54:30.244–14:54:40.128再次尝试，TableCheck首页范围GET503（TLS成功），DeepSeek200、Tabelog200、Google公开根路径404。NETWORK_READINESS失败，来源非空和正式B均未到达，未增加自动重试。累计失败4、PREFLIGHT_FAILURE_LIMIT；本次0模型/Google搜索/正式探测，B仍0/10，累计278/450模型、44/55探测、117Google、0完整Live。复用a37e152五门禁951/119，原始HTTP元数据、账本前缀证明、冻结和历史SHA完整性均保存。报告：[本次结果](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/report.md)。提交推送后停下。

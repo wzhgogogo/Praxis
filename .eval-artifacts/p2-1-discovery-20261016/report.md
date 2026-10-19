@@ -234,3 +234,8 @@ UTC13:30:16–13:30:27独立预检通过：TableCheck206、Tabelog200、DeepSeek
 ## User-requested B continuation: ENV_FAILURE (Beijing22:40)
 
 After the successful21:30 network-only recheck, the user requested immediate continuation. The outer2f088b8 preserved both previous503 failures. AtUTC14:40:32 the unchanged Runner received another503 from TableCheck homepage; network preflight failed before source-nonempty search checks or formal discovery. Counter3 triggered PREFLIGHT_FAILURE_LIMIT; no retry. Corrected B0/10,0 new models/Google searches/probes; cumulative278/450 models,44/55 probes,117Google,0fullLive. [Report and raw paths](checkpoint-b-corrected-20261019/report.md).
+
+
+## One more user-authorized retry (Beijing22:54)
+
+The requested retry (outer63a8136/sourcea37e152) again received TableCheck homepage503 before source-data preflight. Counter4 stopped the batch; no automatic retry or formal B started.0 new models/Google searches/probes; cumulative278/450 models,44/55 probes,117Google. [Raw evidence and current report](checkpoint-b-corrected-20261019/report.md).

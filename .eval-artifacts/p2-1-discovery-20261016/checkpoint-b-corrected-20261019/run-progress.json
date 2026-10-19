@@ -1,6 +1,6 @@
 {
-  "status": "STOPPED_PREFLIGHT_FAILURE_LIMIT_AFTER_USER_CONTINUATION",
-  "at": "2026-10-19T14:40:45.366405+00:00",
+  "status": "STOPPED_PREFLIGHT_FAILURE_LIMIT_AFTER_USER_RETRY4",
+  "at": "2026-10-19T14:54:40.127711+00:00",
   "productionHead": "a37e152b4283d8f407c9650d19200708314e3362",
   "completed": [],
   "formalProbesAdded": 0,
@@ -12,7 +12,7 @@
   "stop": {
     "code": "PREFLIGHT_FAILURE_LIMIT",
     "index": 0,
-    "checkpointPreflightFailures": 3,
+    "checkpointPreflightFailures": 4,
     "sourceIds": []
   },
   "remainingFormalRuns": 10,
@@ -33,12 +33,19 @@
     "sourceDataPreflight": "NOT_RUN",
     "automaticRetryAllowed": false
   },
-  "preflightFailures": 3,
+  "preflightFailures": 4,
   "sourceDataPreflight": "NOT_REACHED",
   "userContinuation": {
     "outerCommit": "2f088b88f90da33c7ae97d25e78c2b5e342f5596",
     "summary": "user-resume-20261019/attempt-summary.json",
     "result": "ENV_FAILURE",
+    "models": 0,
+    "formalProbes": 0
+  },
+  "userRetry4": {
+    "outerCommit": "63a8136f4bd22c29c260082996f55203dbb4b9ad",
+    "summary": "user-retry-4/attempt-summary.json",
+    "status": "ENV_FAILURE",
     "models": 0,
     "formalProbes": 0
   }
