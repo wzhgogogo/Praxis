@@ -1,0 +1,155 @@
+{
+  "codeCommit": "290658fd61d4f5d1c4a990808eeba6176a4a9555",
+  "modelCalls": 2,
+  "budgetMax": 30,
+  "annotationRevision": 2,
+  "websites": 0,
+  "google": 0,
+  "live": 0,
+  "results": [
+    {
+      "seedId": "p1-seed-0133",
+      "scenario": "SINGLE_NATIVE_CANDIDATE_CONTROL",
+      "before": {
+        "verdict": "ACCEPTABLE",
+        "reasons": [
+          "All compiled reviewer conditions were checked against captured candidates, distance, source IDs, legal scope and missing facts."
+        ],
+        "metrics": {
+          "selected": 1,
+          "directSelected": 1,
+          "directInRadiusCheckable": 1,
+          "directSelectionRatio": 1
+        }
+      },
+      "after": {
+        "verdict": "ACCEPTABLE",
+        "reasons": [
+          "All compiled reviewer conditions were checked against captured candidates, distance, source IDs, legal scope and missing facts."
+        ],
+        "metrics": {
+          "selected": 1,
+          "directSelected": 1,
+          "directInRadiusCheckable": 1,
+          "directSelectionRatio": 1
+        }
+      },
+      "oldStrictComparison": {
+        "status": "EVALUATED_ON_SAME_OUTPUT_NO_ADDITIONAL_CALL",
+        "annotationRevision": 1,
+        "before": {
+          "verdict": "ACCEPTABLE",
+          "reasons": [
+            "All compiled reviewer conditions were checked against captured candidates, distance, source IDs, legal scope and missing facts."
+          ],
+          "metrics": {
+            "selected": 1,
+            "directSelected": 1,
+            "directInRadiusCheckable": 1,
+            "directSelectionRatio": 1
+          }
+        },
+        "after": {
+          "verdict": "ACCEPTABLE",
+          "reasons": [
+            "All compiled reviewer conditions were checked against captured candidates, distance, source IDs, legal scope and missing facts."
+          ],
+          "metrics": {
+            "selected": 1,
+            "directSelected": 1,
+            "directInRadiusCheckable": 1,
+            "directSelectionRatio": 1
+          }
+        }
+      },
+      "witnessSelection": {
+        "before": {
+          "status": "EVALUATED",
+          "selected": false,
+          "scope": "Historical witness selection only, not current inventory or delivery."
+        },
+        "after": {
+          "status": "EVALUATED",
+          "selected": false,
+          "scope": "Historical witness selection only, not current inventory or delivery."
+        }
+      },
+      "errorCode": null
+    },
+    {
+      "seedId": "p1-seed-0134",
+      "scenario": "SHIBUYA_OMAKASE",
+      "before": {
+        "verdict": "NOT_ACCEPTABLE",
+        "reasons": [
+          "The approved revision2 requires at least two DIRECT selections when three are checkable."
+        ],
+        "metrics": {
+          "selected": 3,
+          "directSelected": 1,
+          "directInRadiusCheckable": 8,
+          "directSelectionRatio": 0.3333333333333333
+        }
+      },
+      "after": {
+        "verdict": "NO_ACTION",
+        "reasons": [
+          "MODEL_OUTPUT_REJECTED"
+        ]
+      },
+      "oldStrictComparison": {
+        "status": "EVALUATED_ON_SAME_OUTPUT_NO_ADDITIONAL_CALL",
+        "annotationRevision": 1,
+        "before": {
+          "verdict": "NOT_ACCEPTABLE",
+          "reasons": [
+            "Every selected candidate must be DIRECT when the annotated direct alternatives are available."
+          ],
+          "metrics": {
+            "selected": 3,
+            "directSelected": 1,
+            "directInRadiusCheckable": 8,
+            "directSelectionRatio": 0.3333333333333333
+          }
+        },
+        "after": {
+          "verdict": "NO_ACTION",
+          "reasons": [
+            "MODEL_OUTPUT_REJECTED"
+          ]
+        }
+      },
+      "witnessSelection": {
+        "before": {
+          "status": "EVALUATED",
+          "selected": false,
+          "scope": "Historical witness selection only, not current inventory or delivery."
+        },
+        "after": {
+          "status": "EVALUATED",
+          "selected": false,
+          "scope": "Historical witness selection only, not current inventory or delivery."
+        }
+      },
+      "errorCode": "MODEL_OUTPUT_REJECTED"
+    }
+  ],
+  "gate": {
+    "kagurazaka": {
+      "required": 1,
+      "passed": 0
+    },
+    "shibuya": {
+      "required": 2,
+      "passed": 0,
+      "total": 3,
+      "independence": "Near-duplicates of one scenario, not three independent scenarios."
+    },
+    "control": {
+      "required": 1,
+      "passed": 1
+    },
+    "verdict": "INCOMPLETE"
+  },
+  "scope": "Captured single Agent decisions only. This selection gate does not prove current website access, inventory, full delivery or checkpoint C."
+}
