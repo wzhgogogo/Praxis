@@ -19,6 +19,9 @@ export interface BrowserReadNetworkRequestRule {
    * a cache-buster key is release-specific. All unlisted keys still fail.
    */
   queryKeyRules?: { required: readonly string[]; allowed?: readonly string[]; repeatable?: readonly string[]; allowedPatterns?: readonly string[] };
+  /** Presence of one of these fields requires the full reviewed query grammar,
+   * including under generic public GET admission. Values stay source-owned. */
+  strictQueryKeys?: readonly string[];
   /** Browser-generated, bodyless GET CORS handshake; never a standalone OPTIONS permission. */
   corsPreflight?: { requestOrigin: string; requestedHeaderNames: readonly string[] };
   /** Exact flat public JSON shape for an independently reviewed read query. */

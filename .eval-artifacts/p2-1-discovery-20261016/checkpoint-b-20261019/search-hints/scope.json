@@ -1,0 +1,52 @@
+{
+  "approvedBy": "User message after review38b058e,2026-10-19",
+  "mode": "OFFLINE_L0_L1_BEFORE_CHECKPOINT_B",
+  "realModelCalls": 0,
+  "websiteRequests": 0,
+  "newReadShapes": [
+    {
+      "origin": "https://tabelog.com",
+      "pathPrefix": "/en/tokyo/",
+      "method": "GET",
+      "resourceType": "document",
+      "additionalKeys": [
+        "vac_net",
+        "svd",
+        "svt",
+        "svps"
+      ]
+    },
+    {
+      "origin": "https://www.tablecheck.com",
+      "path": "/en/japan/search",
+      "method": "GET",
+      "resourceType": "document",
+      "additionalKeys": [
+        "date",
+        "time",
+        "num_people",
+        "availability_mode"
+      ]
+    }
+  ],
+  "networkReviewFile": "../reviewed-reads.json",
+  "sourceSpecificProductionLines": {
+    "source-packs.ts": {
+      "added": 53,
+      "removed": 1
+    },
+    "tabelog-public-query.ts": {
+      "added": 2,
+      "removed": 1
+    },
+    "tablecheck-public-query.ts": {
+      "added": 3,
+      "removed": 2
+    },
+    "net": 54
+  },
+  "lineCountScope": "From HARD correction884c56b; code-line growth disclosed. No unrelated source retirement for artificial offset. Phase-wide net-zero exit condition is not certified.",
+  "eligibility": "Unchanged; card times create no AVAILABILITY evidence or Offer",
+  "budget": "Filter and fallback consume original actual page/time limits. Reserve two slots or skip.",
+  "proof": "Local real Chromium production assembly/Guard; no model-quality, website, booking or delivery claim"
+}

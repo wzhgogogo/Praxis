@@ -2,7 +2,7 @@ import type { DiscoveryPackMetadata, DiscoveryQuery } from "../../domains/restau
 import type { GroundedAvailability, UntrustedProviderAvailabilityObservation } from "../../domains/restaurant/read-grounding.js";
 import { groundTabelogAvailability, groundTableCheckAvailability } from "../../domains/restaurant/read-grounding.js";
 import type { RestaurantAvailabilityRequest, RestaurantCandidate, RestaurantOutlet, RestaurantReadEvidenceProvider } from "../../domains/restaurant/contracts.js";
-import type { BrowserReadNetworkPolicy, BrowserReadNetworkRequestRule, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
+import type { BrowserPageControl, BrowserReadNetworkPolicy, BrowserReadNetworkRequestRule, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
 import { tabelogPublicReadNetworkPolicy } from "../tabelog/tabelog-public-query.js";
 import { tableCheckPublicReadNetworkPolicy } from "../tablecheck/tablecheck-public-query.js";
 import { tableCheckRequestedReservationUrl, type TableCheckReservationTarget } from "../tablecheck/tablecheck-page-parser.js";
@@ -63,6 +63,11 @@ export interface BrowserDiscoveryPackCapability {
   resultBusy(snapshot: BrowserSnapshot): boolean;
   retrievalExpression(url:string):string|undefined;
   parseDetailIdentity(snapshot: BrowserSnapshot, fallback: SourcePackListingOutlet): SourcePackListingOutlet | undefined;
+  /** Search hints never grant availability evidence or qualification. */
+  searchAvailability?: {
+    withRequest(url: string, request: {date:string;time:string;partySize:number}): string | undefined;
+    observe(snapshot: BrowserSnapshot, controls: readonly BrowserPageControl[]): {date?:string;time?:string;partySize?:number};
+  };
   directory?: {
     listingRoot(url: string): string | undefined;
     isRegionEntrance(url: string): boolean;
@@ -219,6 +224,30 @@ function websiteOrigin(candidate: RestaurantOutlet): string | undefined {
   try { return candidate.sourceIds.googleWebsiteUri ? new URL(candidate.sourceIds.googleWebsiteUri).hostname.toLowerCase() : undefined; } catch { return undefined; }
 }
 
+function observedSelect(controls: readonly BrowserPageControl[], name: string): string | undefined {
+  const matches=controls.filter(control=>control.visible && control.kind==='SELECT' && control.structure?.name===name);
+  return matches.length===1 ? matches[0]!.value : undefined;
+}
+
+function tableCheckSearchSelection(snapshot: BrowserSnapshot, controls: readonly BrowserPageControl[]) {
+  const field=(name:string) => {
+    const matches=[...snapshot.html.matchAll(new RegExp('<button\\b[^>]*data-testid=["\']'+name+'["\'][^>]*>([\\s\\S]*?)</button>','gi'))];
+    if(matches.length!==1)return '';
+    const label=matches[0]![1]!.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim();
+    return controls.some(control=>control.visible && control.kind==='BUTTON' && control.label.replace(/\s+/g,' ').trim()===label) ? label : '';
+  };
+  const dateField=field('Date Field'),guestsField=field('Guests Field');
+  const iso=dateField.match(/\b(\d{4}-\d{2}-\d{2})\b/)?.[1];
+  const written=dateField.match(/\b(Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\s+(\d{1,2}),?\s+(\d{4})\b/i);
+  const month=written?['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'].indexOf(written[1]!.slice(0,3).toLowerCase())+1:0;
+  const date=iso ?? (written?`${written[3]}-${String(month).padStart(2,'0')}-${written[2]!.padStart(2,'0')}`:undefined);
+  const clock=dateField.match(/\b(\d{1,2}):([0-5]\d)\s*(AM|PM)?\b/i);
+  const hour=clock?Number(clock[1]):undefined;
+  const time=clock && hour!==undefined && hour<=23 ? `${String(clock[3]?(hour%12)+(clock[3].toUpperCase()==='PM'?12:0):hour).padStart(2,'0')}:${clock[2]}`:undefined;
+  const party=guestsField.match(/\b(\d+)\s+(?:guests?|people)\b/i)?.[1];
+  return {...(date?{date}:{}),...(time?{time}:{}),...(party?{partySize:Number(party)}:{})};
+}
+
 function tabelogAvailabilityBinding(candidate: RestaurantOutlet): "EXCLUSIVE" | "PREFERRED" | "NEUTRAL" | "INAPPLICABLE" {
   if (candidate.sourceIds.tabelogNativeDetailUri) return candidate.sourceIds.tablecheckNativeGuideUri ? "INAPPLICABLE" : "EXCLUSIVE";
   return websiteOrigin(candidate) === "tabelog.com" || websiteOrigin(candidate) === "www.tabelog.com" ? "PREFERRED" : "NEUTRAL";
@@ -252,6 +281,20 @@ export const tabelogDiscoveryPack: DiscoverySourcePack = {
     ground: (candidate, request, observation, now) => groundTabelogAvailability(candidate, request, observation, now),
   },
   browser: {
+    searchAvailability: {
+      withRequest(value,request) {
+        const url=new URL(value);
+        if(url.origin!=='https://tabelog.com'||!directoryListingRoot(value)||!/[03]0$/.test(request.time))return undefined;
+        for(const [key,value] of Object.entries({vac_net:'1',svd:request.date.replaceAll('-',''),svt:request.time.replace(':',''),svps:String(request.partySize)}))url.searchParams.set(key,value);
+        return url.toString();
+      },
+      observe(snapshot,controls) {
+        const dates=[...snapshot.html.matchAll(/<span\b[^>]*>/gi)].map(m=>m[0]).filter(tag=>/\bclass=["'][^"']*\bjs-list-sidebar-cal-date\b[^"']*["']/.test(tag)&&/\bclass=["'][^"']*\bis-current\b[^"']*["']/.test(tag)).map(tag=>tag.match(/\bdata-date=["'](\d{8})["']/)?.[1]);
+        const date=dates.length===1?dates[0]?.replace(/^(\d{4})(\d{2})(\d{2})$/,'$1-$2-$3'):undefined;
+        const party=observedSelect(controls,'svps'),clock=observedSelect(controls,'svt');
+        return {...(date?{date}:{}),...(party?{partySize:Number(party)}:{}),...(clock&&/^\d{4}$/.test(clock)?{time:clock.slice(0,2)+':'+clock.slice(2)}:{})};
+      },
+    },
     retrievalExpression: value=>new URL(value).searchParams.get("sw")??undefined,
     flow: "DIRECTORY", provider: "TABELOG",
     countRawLinks: rawTabelogLinks,
@@ -333,6 +376,15 @@ export const tableCheckDiscoveryPack: DiscoverySourcePack = {
     ground: (candidate, request, observation, now) => groundTableCheckAvailability(candidate, request, observation, now),
   },
   browser: {
+    searchAvailability: {
+      withRequest(value,request) {
+        const url=new URL(value);
+        if(url.origin!=='https://www.tablecheck.com'||url.pathname!=='/en/japan/search')return undefined;
+        for(const [key,value] of Object.entries({date:request.date,time:request.time,num_people:String(request.partySize),availability_mode:'same_meal_time'}))url.searchParams.set(key,value);
+        return url.toString();
+      },
+      observe: tableCheckSearchSelection,
+    },
     retrievalExpression: value=>new URL(value).searchParams.get("search_text")??undefined,
     flow: "VENUE_SEARCH", provider: "TABLECHECK",
     countRawLinks: rawTableCheckLinks,

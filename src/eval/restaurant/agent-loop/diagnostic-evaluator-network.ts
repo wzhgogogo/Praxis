@@ -6,6 +6,7 @@ export interface ReviewedReadRule {
   origin: string; pathname?: string; pathnamePattern?: string; methods: string[]; resourceTypes: string[];
   queryKeyRules?: { required: string[]; allowed?: string[]; repeatable?: string[] };
   bodyFields?: Record<string, string>;
+  strictQueryKeys?: string[];
   corsPreflight?: { requestOrigin: string; requestedHeaderNames: string[] };
 }
 export interface ReviewedReads { rules: ReviewedReadRule[]; refs: string[]; sha256: string; }
@@ -22,11 +23,15 @@ export function parseReviewedReads(raw: Uint8Array, path: string): ReviewedReads
   const strings = (value: unknown): string[] => { if (!Array.isArray(value) || value.some(item => typeof item !== "string" || !item)) throw Error("Invalid reviewed-read strings"); return value; };
   if (!Array.isArray(rules)) throw Error("Expected reviewed-read array");
   for (const item of rules) {
-    const rule = keys(item, ["origin", "pathname", "pathnamePattern", "methods", "resourceTypes", "queryKeyRules", "bodyFields", "corsPreflight"]);
+    const rule = keys(item, ["origin", "pathname", "pathnamePattern", "methods", "resourceTypes", "queryKeyRules", "bodyFields", "corsPreflight", "strictQueryKeys"]);
     if (typeof rule.origin !== "string" || new URL(rule.origin).origin !== rule.origin || [rule.pathname, rule.pathnamePattern].filter(value => typeof value === "string").length !== 1) throw Error("Invalid reviewed-read endpoint");
     if (rule.pathnamePattern !== undefined && (typeof rule.pathnamePattern !== "string" || !rule.pathnamePattern.startsWith("^") || !rule.pathnamePattern.endsWith("$"))) throw Error("Unanchored reviewed-read path");
     if (strings(rule.methods).some(method => !["GET", "HEAD", "POST"].includes(method))) throw Error("Unsupported reviewed method");
     strings(rule.resourceTypes);
+    if(rule.strictQueryKeys!==undefined){
+      strings(rule.strictQueryKeys);
+      if(rule.queryKeyRules===undefined)throw Error('Strict query fields require reviewed grammar');
+    }
     if (rule.queryKeyRules !== undefined) {
       const query = keys(rule.queryKeyRules, ["required", "allowed", "repeatable"]);
       strings(query.required); if (query.allowed !== undefined) strings(query.allowed); if (query.repeatable !== undefined) strings(query.repeatable);
@@ -145,7 +150,10 @@ export function auditReadOnlyTrace(traces: TraceRecord[], fallback: NetworkReque
       continue;
     }
     if (["document", "fetch", "xhr"].includes(type) && /(?:^|\/)(?:booking|book|reservation)(?:\/|$)/i.test(path) && !/(?:^|\/)(?:calendar|availability|vacancy|status|search|list)(?:\/|$)/i.test(path)) { violations.push(`Sensitive booking operation: ${label}`); refs.push(ref); continue; }
-    const generic = documentOrigins.has(origin) && ["document", "fetch", "xhr", ...staticTypes].includes(type);
+    const strict = reviewed?.rules.some(candidate=>candidate.origin===origin
+      && (candidate.pathname===path||candidate.pathnamePattern&&new RegExp(candidate.pathnamePattern).test(path))
+      && candidate.strictQueryKeys?.some(key=>keys.includes(key)));
+    const generic = !strict && documentOrigins.has(origin) && ["document", "fetch", "xhr", ...staticTypes].includes(type);
     const frozenPublicGet = rule && (rule.queryKeyRules
       ? queryMatches(keys, rule.queryKeyRules.required, rule.queryKeyRules.allowed, rule.queryKeyRules.repeatable) : keys.length === 0);
     if (!generic && !frozenPublicGet && !reviewedPublicGet(origin, path, type, keys)) { violations.push(`Dispatched request outside same-origin public/read-source scope: ${label}`); refs.push(ref); }

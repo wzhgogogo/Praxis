@@ -38,7 +38,8 @@ export const tabelogPublicReadNetworkPolicy: BrowserReadNetworkPolicy = {
       pathnamePrefix: "/en/tokyo/",
       resourceTypes: ["document"],
       methods: ["GET"],
-      queryKeyRules: { required: [], allowed: ["sw"] },
+      queryKeyRules: { required: [], allowed: ["sw", "vac_net", "svd", "svt", "svps"] },
+      strictQueryKeys: ["vac_net", "svd", "svt", "svps"],
     },
     {
       // Captured on a public detail page before the calendar controls hydrate.

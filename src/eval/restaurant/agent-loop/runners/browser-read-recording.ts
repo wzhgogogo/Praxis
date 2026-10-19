@@ -154,7 +154,7 @@ export class BrowserReadRecording {
     await writeFile(resolve(path, "recording.json"), JSON.stringify(recording, null, 2), { flag: "wx" }); return { path, screenshot, replay };
   }
 }
-const safeQueryKeys = new Set(["date", "time", "num_people", "start_date", "start_time", "pax", "party", "guests", "visit_date", "visit_time", "member", "svd", "svps", "svt", "rst_id", "plan_id", "seat_only", "exclude_unavailable_time", "availability_format", "availability_mode"]);
+const safeQueryKeys = new Set(["date", "time", "num_people", "start_date", "start_time", "pax", "party", "guests", "visit_date", "visit_time", "member", "vac_net", "svd", "svps", "svt", "rst_id", "plan_id", "seat_only", "exclude_unavailable_time", "availability_format", "availability_mode"]);
 const MAX_PUBLIC_STATIC_CODE_BYTES = 2_500_000;
 /** The renewed Tabelog source pages measured at most 311KB after load. */
 const MAX_PUBLIC_DOCUMENT_BYTES = 400_000;

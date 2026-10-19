@@ -85,16 +85,18 @@ export function discoveryProbeMetrics(input: DiscoveryProbeInput, witnesses: rea
   const retrievalAttempts = reads.flatMap(row => {
     const pack = packs.find(p => p.meta.id === row.sourceId);
     const observations = (row.read?.metadata.nativeDiscoveryFunnel ?? row.failedFunnel)?.listingObservations ?? [];
+    const hint = (row.read?.metadata.nativeDiscoveryFunnel ?? row.failedFunnel)?.searchAvailabilityHint;
     const query=frozenPlan.entries.find(entry=>entry.sourceId===row.sourceId)?.query;
     const fallback=pack&&query ? [{sourceUrl:pack.buildQuery(query).url,parsedOutlets:0}] : [];
     return (observations.length ? observations : fallback).map((observation, index) => {
       const expression = pack?.browser?.retrievalExpression(observation.sourceUrl);
       const planned = query;
-      return { sourceId: row.sourceId, type: (expression ?? planned?.keyword) ? "KEYWORD" : "CATEGORY_OR_GENERAL_LIST", keyword: expression ?? planned?.keyword ?? null,
+      const filtered=hint?.status!=='SKIPPED'&&hint?.sourceUrl===observation.sourceUrl;
+      return { sourceId: row.sourceId, type: filtered ? "SEARCH_AVAILABILITY_HINT" : (expression ?? planned?.keyword) ? "KEYWORD" : "CATEGORY_OR_GENERAL_LIST", keyword: expression ?? planned?.keyword ?? null,
         categoryLabel: listings.find(l=>l.sourceId===row.sourceId&&l.url===observation.sourceUrl)?.categoryLabel ?? null, url: observation.sourceUrl, parsedCount: observations.length ? observation.parsedOutlets : null, displayedTotal: "resultCount" in observation ? observation.resultCount ?? null : null,
         observationStatus: observations.length ? "OBSERVED_LISTING" : "PLANNED_URL_WITHOUT_COMPLETED_LISTING",
-        decidedBy: index === 0 ? "PLANNER_AND_OBSERVED_REGION_AGENT" : "BROWSER_AGENT_OR_SOURCE_PAGINATION",
-        reason: row.read?.metadata.nativeDiscoveryFunnel?.queryAdjustment ?? (index === 0 ? "CURRENT_FIRST_BATCH" : "OBSERVED_LISTING_CONTINUATION") };
+        decidedBy: filtered ? "EXECUTOR_AUTHORITATIVE_REQUEST" : index === 0 ? "PLANNER_AND_OBSERVED_REGION_AGENT" : "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+        reason: filtered ? hint!.reason : row.read?.metadata.nativeDiscoveryFunnel?.queryAdjustment ?? (index === 0 ? "CURRENT_FIRST_BATCH" : "OBSERVED_LISTING_CONTINUATION") };
     });
   });
   return {

@@ -502,8 +502,8 @@ test("H001 two bounded empty source batches cannot claim inventory or results", 
   assert.equal(result.state.presentedResults, undefined);
   assert.equal(result.state.searchContinuation?.exhausted, true);
   assert.match(result.state.noVerifiedResult?.remainingGaps.join(" ") ?? "", /bounded discovery plan/);
-  assert.equal(result.navigations.filter((url) => url.includes("/rstLst/")).length, 2);
-  assert.equal(result.navigations.filter((url) => url.includes("/japan/search")).length, 1);
+  assert.equal(result.navigations.filter((url) => url.includes("/rstLst/")).length, 4);
+  assert.equal(result.navigations.filter((url) => url.includes("/japan/search")).length, 3);
   assert.deepEqual(result.googleCalls.map((item) => item.query), ["Shibuya"]);
 });
 
@@ -512,8 +512,8 @@ test("H001 both source lists reject page-owned coordinates outside the existing 
   assert.equal(result.state.candidates.length, 0);
   assert.equal(result.state.presentedResults, undefined);
   assert.equal(result.state.searchContinuation?.exhausted, true);
-  assert.equal(result.navigations.filter((url) => url.includes("/rstLst/")).length, 2);
-  assert.equal(result.navigations.filter((url) => url.includes("/japan/search")).length, 1);
+  assert.equal(result.navigations.filter((url) => url.includes("/rstLst/")).length, 4);
+  assert.equal(result.navigations.filter((url) => url.includes("/japan/search")).length, 3);
   const funnels = result.trajectories.flatMap((step) => step.executionMetadata?.nativeDiscoveryFunnel ? [step.executionMetadata.nativeDiscoveryFunnel] : []);
   assert.deepEqual(funnels.map((item) => ({ source: item.source, parsed: item.parsedOutlets, accepted: item.accepted,
     reasons: item.rejected.map((rejection) => rejection.reasonCode) })), [
@@ -540,7 +540,7 @@ test("H001 one Tabelog detail failure retains earlier candidates and continues t
 test("H001 rejects an early END_READ after an empty Tabelog batch and continues to TableCheck", async () => {
   const result = await runScenario("EARLY_END_ATTEMPT");
   assert.equal(result.trajectories.some((step) => step.agentAction?.type === "END_READ" && step.actionValidation?.status === "REJECTED"), true);
-  assert.equal(result.navigations.filter((url) => url.includes("/japan/search")).length, 1);
+  assert.equal(result.navigations.filter((url) => url.includes("/japan/search")).length, 3);
   assert.equal(result.state.searchContinuation?.exhausted, true);
   assert.equal(result.state.phase, "NO_VERIFIED_RESULT");
 });
@@ -563,7 +563,7 @@ test("H001 native TableCheck batch continues after one nonqualifying outlet and 
   assert.deepEqual(result.state.presentedResults?.candidateIds, ["tablecheck:native-omakase-2"]);
   assert.equal(result.state.availabilityChecks["tablecheck:native-omakase-1"]?.status, "UNAVAILABLE");
   assert.equal(result.state.availabilityChecks["tablecheck:native-omakase-2"]?.status, "AVAILABLE");
-  assert.equal(result.navigations.filter((url) => url.includes("/japan/search")).length, 1);
+  assert.equal(result.navigations.filter((url) => url.includes("/japan/search")).length, 3);
   assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(result.evaluation.findings));
 });
 
@@ -704,14 +704,14 @@ test("H001 presents one investigated TableCheck current-batch result without rea
     candidateIds: ["tablecheck:native-omakase-1", "tablecheck:native-omakase-2", "tablecheck:native-omakase-3", "tablecheck:native-omakase-4", "tablecheck:native-omakase-5"],
   });
   assert.deepEqual(result.state.searchContinuation?.sourceProgress?.pendingSourceIds, ["native-omakase-6"]);
-  assert.equal(result.navigations.filter((url) => url.includes("/en/japan/search")).length, 1);
+  assert.equal(result.navigations.filter((url) => url.includes("/en/japan/search")).length, 3);
   assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(result.evaluation.findings));
 });
 
 test("H001 consumes a retained Tabelog detail entrance without reopening a volatile listing", async () => {
   const result = await runScenario("TABELOG_PENDING_RESTORED");
-  assert.equal(result.navigations.filter((url) => url.includes("/rstLst/")).length, 2,
-    "the persisted source-owned entrance must not depend on a refreshed listing");
+  assert.equal(result.navigations.filter((url) => url.includes("/rstLst/")).length, 4,
+    "only the initial listing, keyword, hint and single fallback occur; retained entries do not reopen the list");
   assert.equal(result.navigations.some((url) => url.endsWith("/105/")), true,
     "the sixth observed entrance must survive the changed second listing");
   assert.equal(new Set(result.navigations.filter((url) => /\/tokyo\/A1304\/A130401\/\d+\/$/.test(url))).size, 6,
@@ -723,7 +723,7 @@ test("H001 retains unstarted Tabelog entries when a failed detail cannot reopen 
   assert.equal(result.state.phase, "PRESENT_RESULTS");
   assert.equal(result.navigations.filter((url) => url.endsWith("/100/")).length, 1, "the failed detail navigation is attempted once");
   assert.equal(result.navigations.some((url) => url.endsWith("/101/")), true, "the first unstarted entry is retained and later consumed");
-  assert.equal(result.navigations.filter((url) => url.includes("/rstLst/")).length, 2, "the retained queue does not reopen a volatile listing");
+  assert.equal(result.navigations.filter((url) => url.includes("/rstLst/")).length, 4, "retained entries add no listing navigation after the initial query, hint and single fallback");
 });
 
 test("native detail chunk continues through later observed Tabelog results before changing source", async () => {

@@ -297,6 +297,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
     const visitedListingUrls = priorProgress?.sourceId === pack.meta.id ? [...(priorProgress.visitedListingUrls ?? [])] : [];
     const listingObservations: Array<{ sourceUrl: string; parsedOutlets: number; resultCount?: number; nextPageUrl?: string }> = [];
     let queryAdjustment: string | undefined;
+    let searchAvailabilityHint: NonNullable<RestaurantSearchRead['metadata']['nativeDiscoveryFunnel']>['searchAvailabilityHint'];
     const retrieval = structuredClone(priorProgress?.retrieval ?? {rewrites:0,regionPages:0,retrievalPages:0,history:[]});
     let attemptingDetailSourceId: string | undefined;
     let detailNavigationStarted = false;
@@ -365,7 +366,53 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
       sourceElapsedMs: sourceElapsedMs(), sourceTimeLimitReached,
       pagesRead: listingPagesRead, batchLimitReached, sourceExhausted, batchEnded: true, sourceEnded,
       progressionReason: failed ? "SOURCE_FAILURE" as const : source === "DIRECTORY" ? "FIRST_SOURCE_BATCH" as const : "FIRST_SOURCE_BATCH_ENDED" as const,
-      listingObservations, retrieval, ...(queryAdjustment ? { queryAdjustment } : {}) });
+      listingObservations, retrieval, ...(queryAdjustment ? { queryAdjustment } : {}), ...(searchAvailabilityHint ? {searchAvailabilityHint} : {}) });
+    const applyAvailabilityHint = async (initial: BrowserSnapshot, outlets: ReturnType<DiscoverySourcePack['parseListing']>['outlets']) => {
+      const capability=pack.browser!.searchAvailability;
+      if(!capability)return {page:initial,outlets};
+      const intent=request.intent, unfilteredUrl=initial.url;
+      const skipped=(reason:string)=>{
+        searchAvailabilityHint={status:'SKIPPED',reason,sourceUrl:initial.url,unfilteredUrl};
+        return {page:initial,outlets};
+      };
+      if(intent.target?.goal!=='AVAILABILITY')return skipped('NOT_AVAILABILITY');
+      if(!intent.date||!intent.partySize||!intent.timeWindow)return skipped('MISSING_AUTHORITATIVE_QUERY');
+      if(intent.timeWindow.earliest!==intent.timeWindow.latest)return skipped('WINDOW_NOT_REPRESENTABLE');
+      const binding={date:intent.date,partySize:intent.partySize,time:intent.timeWindow.earliest};
+      const url=capability.withRequest(unfilteredUrl,binding);
+      if(!url)return skipped('QUERY_NOT_REPRESENTABLE');
+      // Reserve the unfiltered fallback before issuing a filter read. Both
+      // documents consume this source's existing cumulative page/time limits.
+      if(sourcePagesBefore+listingPagesRead+2>NATIVE_LISTING_PAGE_CAP[source])return skipped('SOURCE_PAGE_BUDGET');
+      await navigate(url,25_000);listingPagesRead++;
+      let page=await snapshot();recordListing(page);
+      const inspect=async(current:BrowserSnapshot)=>{
+        const observed=capability.observe(current,await session!.observeControls?.()??[]);
+        const parsed=pack.parseListing(current).outlets;
+        const matches=observed.date===binding.date&&observed.partySize===binding.partySize&&observed.time===binding.time;
+        const busy=pack.browser!.resultBusy(current);
+        return {observed,outlets:parsed,matches,busy,key:JSON.stringify([observed,parsed.map(outlet=>outlet.sourceEntityId).sort()])};
+      };
+      let result=await inspect(page);
+      let reason=result.busy?'RESULT_BUSY':!result.matches?'FILTER_NOT_CONFIRMED':!result.outlets.length?'FILTER_EMPTY':undefined;
+      if(!reason&&page.settlement==='PENDING'){
+        // C3b: compare bound results, never rotating page-wide prose. One
+        // bounded re-observation, with no model action or budget reset.
+        const {setTimeout}=await import('node:timers/promises');
+        await setTimeout(500,undefined,{signal});
+        page=await snapshot();recordListing(page);
+        const second=await inspect(page);
+        if(second.busy||!second.matches||second.key!==result.key)reason='RESULT_NOT_STABLE';
+        result=second;
+      }
+      searchAvailabilityHint={status:reason?'FALLBACK':'APPLIED',reason:reason??'OBSERVED_QUERY_MATCH',sourceUrl:url,unfilteredUrl,request:binding,observed:result.observed,parsedCount:result.outlets.length};
+      if(!reason)return {page,outlets:result.outlets};
+      await navigate(unfilteredUrl,25_000);listingPagesRead++;
+      page=await snapshot();recordListing(page);
+      // Retain the previously observed unfiltered queue and prior rewrites.
+      // Filtered card times never become inventory or source exhaustion.
+      return {page,outlets:[...new Map([...outlets,...pack.parseListing(page).outlets].map(outlet=>[outlet.sourceEntityId,outlet])).values()]};
+    };
     const planListing = async (initial: BrowserSnapshot, directoryRoot?: string) => {
       let page = initial;
       const directory = pack.browser!.directory;
@@ -702,7 +749,8 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
           observedOutlets = pack.parseListing(page).outlets;
         }
         const planned=await planListing(page,directory.listingRoot(page.url)??directory.listingRoot(currentAreaListingUrl));
-        page=planned.page;observedOutlets=planned.outlets;recordListing(page);
+        const hinted=await applyAvailabilityHint(planned.page,planned.outlets);
+        page=hinted.page;observedOutlets=hinted.outlets;recordListing(page);
 
         }
         // Keep an observed detail entrance ahead of a newly rendered list. A
@@ -833,7 +881,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
         }
         }
         if(page && retainedEntries.length===0){
-          const planned=await planListing(page);page=planned.page;links=planned.outlets.map(o=>o.sourceUrl);recordListing(page);
+          const planned=await planListing(page);const hinted=await applyAvailabilityHint(planned.page,planned.outlets);page=hinted.page;links=hinted.outlets.map(o=>o.sourceUrl);recordListing(page);
         }
         links = [...new Map(links.map((link) => [link, link])).values()];
         parsed = links.length;

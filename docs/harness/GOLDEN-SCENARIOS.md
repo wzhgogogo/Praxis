@@ -1,7 +1,7 @@
 # Golden Scenarios
 
 - Status: Accepted
-- Document revision: 0.16
+- Document revision: 0.17
 - Last updated: 2026-10-19
 - Source of truth for: 首批Harness场景目录和核心断言
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md)
@@ -124,3 +124,6 @@ Google-only nearby反例从生产createLiveReadAssembly入口驱动，旧版地�
 
 
 2026-10-19 P2-1a DOM category correction (offline): same-region Pack-valid category links in the current DOM are supplied even when CSS hides them; foreign-region links remain rejected. The local Chromium fixture now includes CSS-hidden links. Retrieval Prompt@3 supplies actual attempted expressions and requests GENERAL or a materially different word after an explicit empty result without categories. The executor records REPEATED_RETRIEVAL_EXPRESSION within the existing rewrite budget. The three-source assembly regression verifies the actual Google text-search request; saved A10 trace already contains the shared keyword, so the proposed Google regression was not reproduced. Five gates pass (943 unit tests, 117 local Chromium tests). Raw DOM counts, original-input counterfactual provenance and later model/website results are reported separately in [the batch report](../../.eval-artifacts/p2-1-discovery-20261016/p21a-dom-replay-20261019/report.md). No qualification, network permission, or P2-1b change. This supersedes the earlier CSS-visibility claim for retrieval categories only.
+
+
+2026-10-19 P2-1b：复用生产 factory/Guard 的真实本地 Chromium/HAR，双来源各覆盖应用、人数不符、筛选为空、推荐、宽窗、缺人数；核对过滤列表独立、一次回退及原列表/时间预算、无 AVAILABILITY 证据/预约路径、Recorder 参数忠实。另有生产 generic-read 下额外参数拒绝红绿，独立网络审核正反例与权威值覆盖源链接旧值的合同测试。既有 H001 当前批与保留队列测试按新增筛选/回退更新精确导航数，交付和资格断言保留。H002 真实条件的离线生产组合证明不调用共享规划且 Google Nearby；HARD 关键词与页面类别仍有正向对照。全部为 L0/L1，非真实模型回放或外站验收。

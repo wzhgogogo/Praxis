@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.165
+- Document revision: 4.166
 - Last updated: 2026-10-19
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -3835,3 +3835,8 @@ A10完成并提交52ff459之后才实施Google-only nearby局部修正：地点�
 ## DEV-2026-10-19-P21-HARD-RETRIEVAL
 
 用户按 38b058e 复核批准 ADR-0042 追加：关键词仅绑定正向 HARD；SOFT/UNSPECIFIED 只可选择观察类别。共享无正向 HARD 的规划直接 GENERAL，0 模型，Google 附近搜索保留圆心。Prompt@4/Schema@1；原 ADR 原文保留。实际生产组合 H002 旧 textQuery=first date/1规划红灯，新 Nearby/0共享规划绿灯，HARD 关键词正向及页面类别对照通过。离线 Fixture 补齐已切换的 Nearby 响应与独立地点观察，不改原始 Gold/变体。证据 `.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-20261019/hard-only/`；五门禁全绿（默认946/946，Chromium117/117），仅 L0/L1，不宣称网站/模型质量。检查点 B 与 P2-1b 待后续实施，本项0付费模型/网站/探测。
+
+
+## DEV-2026-10-19-P21B-SEARCH-HINTS
+
+按 Accepted ADR-0042 第5项接入两个真实来源的 Pack URL 筛选：仅 AVAILABILITY/权威日期人数/可完整表达的单一时刻，核对页面实际选中值；缺值、冲突、忙或空结果最多一次未筛选回退，预留回退页数，原七/三页及90秒不提高。卡片时段不建 AVAILABILITY/Offer，资格不变。真实 Chromium 生产组合正反例与额外参数拒绝先红后绿；strictQueryKeys 避免带筛选的请求经通用公开 GET 绕过完整审核语法，Guard 无站点分支。独立网络审计、冻结用新 reviewed-reads.json、Recorder vac_net 同步。五门禁全绿：typecheck/arch/build，npm test948/948，Chromium119/119。红绿/中途 Fixture 计数迁移失败均保留在 `.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-20261019/search-hints/`。证明范围 L0/L1；0网站/真实模型。来源包生产代码净增54行，未以无关删除抵消，不认证阶段通用性退出条件。检查点B随后冻结运行，无完整Live。

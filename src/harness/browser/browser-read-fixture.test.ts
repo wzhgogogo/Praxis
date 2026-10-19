@@ -606,7 +606,7 @@ test(`native dynamic Tabelog ${outcome} reaches formal H001 ${outcome === "AVAIL
     assert.equal(state.phase, "NO_VERIFIED_RESULT", JSON.stringify(state));
     assert.equal(state.presentedResults, undefined);
     assert.equal(Object.values(state.availability).flat().length, 0);
-    assert.equal(tableCheckSearches.length, 1, "Tabelog UNAVAILABLE must cause an actual second-source navigation");
+    assert.equal(tableCheckSearches.length, 3, "Tabelog UNAVAILABLE causes one second-source query, its filter read and single fallback");
     assert.equal(new URL(tableCheckSearches[0]!).pathname, "/en/japan/search");
     assert.equal(state.searchContinuation?.exhausted, true);
     assert.match(state.noVerifiedResult?.remainingGaps.join(" ") ?? "", /bounded discovery plan/);
@@ -2386,5 +2386,66 @@ test('P21 discovery uses DOM category links despite CSS and rejects foreign regi
     }else assert.equal(result.metadata.nativeDiscoveryFunnel?.retrieval?.selection?.rejectionReason,'UNOBSERVED_OR_OUTSIDE_REGION_CATEGORY');
     assert.deepEqual(intent.criteria,[{text:'kaiseki restaurant',polarity:'POSITIVE',strength:'HARD'}]);
   }finally{await rm(directory,{recursive:true,force:true});}
+ }
+});
+
+test('P21b production discovery checks search filters, falls back once, and records only read hints',async()=>{
+ const {createLiveReadAssembly}=await import('../../integrations/restaurant-search/live-read-assembly.js');
+ const {LIVE_READ_DEBUG_INVESTIGATION_BUDGET}=await import('../../application/live-read-investigation-budget.js');
+ const {GooglePlacesClient}=await import('../../integrations/google/google-places-client.js');
+ const {tabelogDiscoveryPack,tableCheckDiscoveryPack}=await import('../../integrations/restaurant-search/source-packs.js');
+ const {restaurantSearchIntentFingerprint}=await import('../../domains/restaurant/contracts.js');
+ for(const pack of [tabelogDiscoveryPack,tableCheckDiscoveryPack])for(const mode of ['applied','mismatch','empty','recommendation','wide','missing'] as const){
+  const directory=await mkdtemp(join(tmpdir(),'p21b-search-'));const harPath=join(directory,'search.har');
+  const isDirectory=!!pack.browser!.directory;
+  const root=isDirectory?'https://tabelog.com/en/tokyo/rstLst/':pack.buildQuery({category:'restaurant',positiveCriteria:[],location:{latitude:35,longitude:139,radiusMeters:1000,label:'Fixture District',areaMatchBasis:'NAMED_PLACE_RADIUS'}}).url;
+  const base=isDirectory?'https://tabelog.com/en/tokyo/A1000/A100001/rstLst/':root;
+  const filtered=new URL(base);
+  for(const [k,v] of Object.entries(isDirectory?{vac_net:'1',svd:'20261027',svt:'1900',svps:'2'}:{date:'2026-10-27',time:'19:00',num_people:'2',availability_mode:'same_meal_time'}))filtered.searchParams.set(k,v);
+  const outlet=(n:number)=>isDirectory?`https://tabelog.com/tokyo/A1000/A100001/${12345600+n}/`:`https://www.tablecheck.com/en/fixture-venue-${n}`;
+  const cards=(start:number)=>Array.from({length:5},(_,i)=>`<article><a ${isDirectory?'class="list-rst__rst-name-target"':''} href="${outlet(start+i)}">Fixture venue ${start+i}</a><span>19:00</span></article>`).join('');
+  const selected=isDirectory?`<div><span class="js-list-sidebar-cal-date calendar__day is-current" data-date="20261027">27</span><select name="svps" aria-label="Guests"><option value="${mode==='mismatch'?3:2}" selected>Guests</option></select><select name="svt" aria-label="Time"><option value="1900" selected>19:00</option></select></div>`:`<button data-testid="Date Field">Date Oct 27, 2026 7:00 PM</button><button data-testid="Guests Field">Guests ${mode==='mismatch'?3:2} guests</button>`;
+  const pages:Record<string,string>={[root]:isDirectory?`<title>Regions</title><a href="${base}">Fixture District</a>`:'<title>Unfiltered</title>'+cards(1),[base]:'<title>Unfiltered</title>'+cards(1),[filtered.toString()]:'<title>Filtered</title>'+selected+(mode==='empty'?'No restaurants found':cards(6))};
+  for(let n=1;n<=10;n++)pages[outlet(n)]=`<title>Fixture venue ${n}</title><h1>Fixture venue ${n}</h1><p class="${isDirectory?'rstinfo-table__address':'address'}">Fixture District, Tokyo</p><script type="application/ld+json">${JSON.stringify({'@type':'Restaurant',name:`Fixture venue ${n}`,address:'Fixture District, Tokyo',geo:{latitude:35,longitude:139}})}</script>`;
+  await writeFile(harPath,replayHarPages(pages));const navigations:string[]=[];const snapshots:import('../../infrastructure/browser/browser-runtime.js').BrowserSnapshot[]=[];const raw=new LocalPlaywrightChromium();
+  const runtime:BrowserRuntime={readNetworkBoundaryCapability:'ISOLATED_CONTEXT',openSession:async input=>{const session=await raw.openSession({...input,replayHarPath:harPath});return new Proxy(session,{get(target,key){if(key==='navigate')return async(...args:Parameters<typeof session.navigate>)=>{navigations.push(args[0]);return target.navigate(...args);};if(key==='snapshot')return async()=>{const snapshot=await target.snapshot();snapshots.push(snapshot);return snapshot;};const value=Reflect.get(target,key,target);return typeof value==='function'?value.bind(target):value;}});}};
+  const model:import('../../core/model/contracts.js').ModelGateway={complete:async request=>{assert.equal(request.purpose,'browser_read_decide','no keyword planner without positive HARD');const body=JSON.parse(request.messages.find(m=>m.role==='user')!.content);const ref=body.observation.targets.find((t:{label:string})=>t.label==='Fixture District')?.ref;assert.ok(ref,'only region selection is scripted');return {invocationId:'region',provider:'FIXTURE',model:'script',outputText:JSON.stringify({action:'OPEN_LINK',targetRef:ref,authoritativeField:'NONE',requestedState:'NONE',reason:'Observed region'}),finishReason:'TOOL_CALLS',latencyMs:0};}};
+  const intent:import('../../domains/restaurant/contracts.js').RestaurantSearchIntent={timezone:'Asia/Tokyo',area:{query:'Fixture District'},target:{goal:mode==='recommendation'?'RECOMMENDATION':'AVAILABILITY',query:'dinner'},date:'2026-10-27',partySize:2,timeWindow:{earliest:'19:00',latest:mode==='wide'?'21:00':'19:00'},criteria:[]};
+  // Recommendation can still use this controlled Pack; production ordering
+  // excludes reservation-only sources before any browser work.
+  const effectivePack=mode==='recommendation'?{...pack,meta:{...pack.meta,reservationOnly:false}}:pack;
+  const assembly=createLiveReadAssembly({...LIVE_READ_DEBUG_INVESTIGATION_BUDGET,maxAutomaticBrowserMs:30000,packs:[effectivePack]},{model,browser:runtime,google:new GooglePlacesClient({apiKey:'fixture',fetchImplementation:async()=>{throw Error('No external API');}}),clock:{now:()=>new Date('2026-10-19T00:00:00Z')}});
+  try{
+   if(mode==='missing')delete intent.partySize;
+   const before=structuredClone(intent);
+   const read=await assembly.search.search({intent,readRunId:'search-hints',continuation:{intentFingerprint:restaurantSearchIntentFingerprint(intent),usedPageTokens:[],pagesRead:0,exhausted:false,locationContext:{latitude:35,longitude:139,radiusMeters:1000,label:'Fixture District',areaMatchBasis:'NAMED_PLACE_RADIUS'}}},AbortSignal.timeout(30000));
+   assert.equal(navigations.includes(filtered.toString()),!['recommendation','wide','missing'].includes(mode),JSON.stringify({mode,pack:pack.meta.id,navigations,metadata:read.metadata}));
+   const selectedIds=read.candidates.map(c=>c.restaurant.sourceIds[isDirectory?'tabelog':'tablecheck']);
+   assert.equal(read.metadata.nativeDiscoveryFunnel?.searchAvailabilityHint?.status,mode==='applied'?'APPLIED':['mismatch','empty'].includes(mode)?'FALLBACK':'SKIPPED');
+   assert.ok((read.metadata.nativeDiscoveryFunnel?.pagesRead??0)<=(isDirectory?7:3));
+   assert.equal(selectedIds.length,5);assert.deepEqual(selectedIds,Array.from({length:5},(_,i)=>isDirectory?'tokyo/A1000/A100001/'+(12345600+(mode==='applied'?6:1)+i):'fixture-venue-'+((mode==='applied'?6:1)+i)));
+   if(mode==='applied')assert.ok(!navigations.includes(outlet(1)),'unfiltered cards are not mixed into a verified filtered batch');
+   if(mode==='empty'||mode==='mismatch')assert.ok(navigations.lastIndexOf(base)>navigations.indexOf(filtered.toString()),'one unfiltered fallback follows rejected hint');
+   assert.ok(!navigations.some(value=>/\/reserve|\/booking|\/confirm|\/payment/.test(value)));assert.deepEqual(intent,before);
+   assert.ok(!read.evidence.some(e=>e.kind==='AVAILABILITY'),'card times never create availability evidence');
+   const recording=new BrowserReadRecording({directory,runId:'hint-recorder',reviewedReads:pack.reviewedReads});
+   for(const snapshot of snapshots)recording.recordSnapshot(snapshot);
+   const manifest=await recording.finish();
+   if(!['recommendation','wide','missing'].includes(mode))assert.ok((await readFile(join(manifest.path,'recording.json'),'utf8')).includes(isDirectory?'vac_net=1':'availability_mode=same_meal_time'),'recorder retains reviewed filter parameters');
+  }finally{await rm(directory,{recursive:true,force:true});}
+ }
+});
+
+test('P21b guarded search filters reject unaudited parameters under the production generic-read policy',async()=>{
+ const {tabelogDiscoveryPack,tableCheckDiscoveryPack,discoveryPackNetworkPolicy}=await import('../../integrations/restaurant-search/source-packs.js');
+ for(const pack of [tabelogDiscoveryPack,tableCheckDiscoveryPack]){
+  const directory=await mkdtemp(join(tmpdir(),'p21b-network-'));const harPath=join(directory,'search.har');
+  const good=pack.meta.id==='tabelog'?'https://tabelog.com/en/tokyo/A1303/rstLst/?vac_net=1&svd=20261027&svt=1900&svps=2':'https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35&geo_longitude=139&geo_distance=1km&auto_geolocate=false&date=2026-10-27&time=19%3A00&num_people=2&availability_mode=same_meal_time';
+  const bad=good+'&unreviewed=1';await writeFile(harPath,replayHarPages({[good]:'<title>Public results</title>',[bad]:'<title>Unaudited field</title>'}));
+  const session=await new LocalPlaywrightChromium().openSession({signal:AbortSignal.timeout(10000),networkPolicy:discoveryPackNetworkPolicy([pack]),replayHarPath:harPath});
+  try{
+   await session.prepareNavigation?.(good,{timeoutMs:2000});await session.navigate(good,{timeoutMs:2000});
+   await assert.rejects(async()=>{await session.prepareNavigation?.(bad,{timeoutMs:2000});await session.navigate(bad,{timeoutMs:2000});},/admitted|blocked|failed/i);
+  }finally{await session.close();await rm(directory,{recursive:true,force:true});}
  }
 });

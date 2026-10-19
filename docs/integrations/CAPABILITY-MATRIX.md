@@ -1,7 +1,7 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.61
+- Document revision: 1.62
 - Last updated: 2026-10-19
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
@@ -288,3 +288,6 @@ The final Chromium Fetch boundary checks browser-reserved preflight headers, not
 
 
 2026-10-19 P2-1a DOM category correction (offline): same-region Pack-valid category links in the current DOM are supplied even when CSS hides them; foreign-region links remain rejected. The local Chromium fixture now includes CSS-hidden links. Retrieval Prompt@3 supplies actual attempted expressions and requests GENERAL or a materially different word after an explicit empty result without categories. The executor records REPEATED_RETRIEVAL_EXPRESSION within the existing rewrite budget. The three-source assembly regression verifies the actual Google text-search request; saved A10 trace already contains the shared keyword, so the proposed Google regression was not reproduced. Five gates pass (943 unit tests, 117 local Chromium tests). Raw DOM counts, original-input counterfactual provenance and later model/website results are reported separately in [the batch report](../../.eval-artifacts/p2-1-discovery-20261016/p21a-dom-replay-20261019/report.md). No qualification, network permission, or P2-1b change. This supersedes the earlier CSS-visibility claim for retrieval categories only.
+
+
+2026-10-19 P2-1b（本地契约）：生产发现组合在详情前用 Pack 公开 GET 参数提供搜索空位线索；只对可完整表达的 AVAILABILITY 日期/人数/时刻应用。页面选中值必须核对，未确认/冲突/空结果一次回退，实际页数与时间不重置；推荐和宽窗口跳过。Tabelog 四字段与 TableCheck 四字段采用严格查询语法，独立审核规则和 Recorder 同步。真实本地 Chromium 组合覆盖筛选、回退、不可改权威值、记录和未审核参数拒绝；不把卡片时间当库存。当前外站兼容性、见证命中及模型表现等待检查点 B，不由 Fixture 推断。证据：`.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-20261019/search-hints/`。

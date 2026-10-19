@@ -27,7 +27,7 @@ test("real source packs own URLs, reviewed reads, skills, and opaque source IDs"
   const tableCheckDocumentRule = tableCheckDiscoveryPack.reviewedReads.find(rule => rule.origin === "https://www.tablecheck.com" && rule.pathname === "/en/japan/search");
   assert.deepEqual(tableCheckDocumentRule?.resourceTypes, ["document"], "the Pack carries its public search-document grammar into guarded recording");
   assert.deepEqual(tableCheckDocumentRule?.queryKeyRules?.required, ["service_mode", "sort_by", "venue_type", "geo_latitude", "geo_longitude", "geo_distance", "auto_geolocate"]);
-  assert.deepEqual(tableCheckDocumentRule?.queryKeyRules?.allowed, ["search_text"]);
+  assert.deepEqual(tableCheckDocumentRule?.queryKeyRules?.allowed, ["search_text", "date", "time", "num_people", "availability_mode"]);
   const googleNearby = googlePlacesDiscoveryPack.buildQuery(query);
   assert.equal(googleNearby.retrievalExpression, "restaurant");
   assert.equal(googleNearby.mode, "NEARBY");
@@ -85,6 +85,19 @@ test("Tabelog region selection requires an exact source-owned region label and r
   const homepage = "https://tabelog.com/en/tokyo/A1303/A130301/";
   assert.equal(directory.isObservedRegionHomepageListing?.({ url: homepage, title: "Shibuya", text: "", html: '<a class="list-rst__rst-name-target" href="/tokyo/A1303/A130301/100/">Local outlet</a>' }, "https://tabelog.com/en/tokyo/A1303/A130301/rstLst/"), true);
   assert.equal(directory.isObservedRegionHomepageListing?.({ url: homepage, title: "Shibuya", text: "", html: '<a href="/en/rstLst/">National directory</a>' }, "https://tabelog.com/en/tokyo/A1303/A130301/rstLst/"), false);
+});
+
+test('search availability URL values overwrite source links with the authoritative request, without creating stock',()=>{
+ const binding={date:'2026-10-27',time:'19:00',partySize:2};
+ for(const [pack,url] of [[tabelogDiscoveryPack,'https://tabelog.com/en/tokyo/A1303/rstLst/?svd=19990101&svps=99&svt=1000'],[tableCheckDiscoveryPack,'https://www.tablecheck.com/en/japan/search?date=1999-01-01&time=10:00&num_people=99']] as const){
+  const capability=pack.browser!.searchAvailability!;const filtered=new URL(capability.withRequest(url,binding)!);
+  const directory=pack.meta.id==='tabelog';
+  assert.equal(filtered.searchParams.get(directory?'svd':'date'),directory?'20261027':binding.date);
+  assert.equal(filtered.searchParams.get(directory?'svt':'time'),directory?'1900':binding.time);
+  assert.equal(filtered.searchParams.get(directory?'svps':'num_people'),'2');
+  assert.deepEqual(capability.observe({url:filtered.toString(),title:'Unbound result',text:'2026-10-27 19:00 2 guests',html:'<p>2026-10-27 19:00 2 guests</p>'},[]),{},'URL/prose co-occurrence cannot confirm selected query');
+ }
+ assert.equal(tabelogDiscoveryPack.browser!.searchAvailability!.withRequest('https://tabelog.com/en/tokyo/A1303/rstLst/',{...binding,time:'19:15'}),undefined);
 });
 
 test("C8 list categories stay source-attributed to one outlet, without borrowing neighbouring or hidden text", () => {

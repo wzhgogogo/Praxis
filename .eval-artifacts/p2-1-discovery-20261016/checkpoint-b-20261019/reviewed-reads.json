@@ -1,0 +1,144 @@
+[
+  {
+    "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+    "pathname": "/catalog.json",
+    "methods": [
+      "GET"
+    ],
+    "resourceTypes": [
+      "fetch",
+      "xhr"
+    ],
+    "queryKeyRules": {
+      "required": []
+    }
+  },
+  {
+    "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+    "pathname": "/search/",
+    "methods": [
+      "GET"
+    ],
+    "resourceTypes": [
+      "fetch",
+      "xhr"
+    ],
+    "queryKeyRules": {
+      "required": [
+        "queryProfile",
+        "hits"
+      ],
+      "allowed": [
+        "scope",
+        "lat",
+        "lng",
+        "radius_km",
+        "party_size",
+        "cuisine",
+        "sort",
+        "offset",
+        "id",
+        "open_day",
+        "service_mode"
+      ]
+    },
+    "corsPreflight": {
+      "requestOrigin": "https://www.tablecheck.com",
+      "requestedHeaderNames": [
+        "x-api-key"
+      ]
+    }
+  },
+  {
+    "origin": "https://www.tablecheck.com",
+    "pathnamePattern": "^/en/shops/(?!login/|signin/|sign-in/|account/|checkout/|payment/|purchase/|cancel/|delete/|confirm/)[a-z0-9]+(?:-[a-z0-9]+)*/reserve$",
+    "resourceTypes": [
+      "document"
+    ],
+    "methods": [
+      "GET"
+    ],
+    "queryKeyRules": {
+      "required": [
+        "start_date",
+        "pax"
+      ]
+    }
+  },
+  {
+    "origin": "https://production.tablecheck.com",
+    "pathname": "/v2/hub/availability_calendar_v2",
+    "resourceTypes": [
+      "fetch"
+    ],
+    "methods": [
+      "POST"
+    ],
+    "bodyFields": {
+      "locale": "string",
+      "start_at": "string",
+      "shop_id": "string",
+      "num_people": "string"
+    }
+  },
+  {
+    "origin": "https://tabelog.com",
+    "pathnamePattern": "^/en/tokyo/.*$",
+    "methods": [
+      "GET"
+    ],
+    "resourceTypes": [
+      "document"
+    ],
+    "queryKeyRules": {
+      "required": [],
+      "allowed": [
+        "sw",
+        "vac_net",
+        "svd",
+        "svt",
+        "svps"
+      ]
+    },
+    "strictQueryKeys": [
+      "vac_net",
+      "svd",
+      "svt",
+      "svps"
+    ]
+  },
+  {
+    "origin": "https://www.tablecheck.com",
+    "pathname": "/en/japan/search",
+    "methods": [
+      "GET"
+    ],
+    "resourceTypes": [
+      "document"
+    ],
+    "queryKeyRules": {
+      "required": [
+        "service_mode",
+        "sort_by",
+        "venue_type",
+        "geo_latitude",
+        "geo_longitude",
+        "geo_distance",
+        "auto_geolocate"
+      ],
+      "allowed": [
+        "search_text",
+        "date",
+        "time",
+        "num_people",
+        "availability_mode"
+      ]
+    },
+    "strictQueryKeys": [
+      "date",
+      "time",
+      "num_people",
+      "availability_mode"
+    ]
+  }
+]

@@ -1,0 +1,27 @@
+✖ P21b production discovery checks search filters, falls back once, and records only read hints (3629.461334ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3994.074875
+
+✖ failing tests:
+
+test at src/harness/browser/browser-read-fixture.test.ts:167:23565
+✖ P21b production discovery checks search filters, falls back once, and records only read hints (3629.461334ms)
+  AssertionError [ERR_ASSERTION]: {"mode":"applied","pack":"tabelog","navigations":["https://tabelog.com/en/tokyo/rstLst/","https://tabelog.com/tokyo/A1000/A100001/12345601/","https://tabelog.com/tokyo/A1000/A100001/12345602/","https://tabelog.com/tokyo/A1000/A100001/12345603/","https://tabelog.com/tokyo/A1000/A100001/12345604/","https://tabelog.com/tokyo/A1000/A100001/12345605/"],"metadata":{"provider":"TABELOG","route":"GENERIC_BROWSER","latencyMs":3591,"nativeDiscoveryFunnel":{"directoryRegion":{"first":{"url":"https://tabelog.com/en/tokyo/A1000/A100001/rstLst/","observedOn":"https://tabelog.com/en/tokyo/rstLst/","targetRef":"observation:1:target:1","label":"Fixture District"},"firstFive":[{"sourceEntityId":"tokyo/A1000/A100001/12345601","sourceUrl":"https://tabelog.com/tokyo/A1000/A100001/12345601/","outcome":"WITHIN_RADIUS","coordinates":{"latitude":35,"longitude":139},"distanceMeters":0},{"sourceEntityId":"tokyo/A1000/A100001/12345602","sourceUrl":"https://tabelog.com/tokyo/A1000/A100001/12345602/","outcome":"WITHIN_RADIUS","coordinates":{"latitude":35,"longitude":139},"distanceMeters":0},{"sourceEntityId":"tokyo/A1000/A100001/12345603","sourceUrl":"https://tabelog.com/tokyo/A1000/A100001/12345603/","outcome":"WITHIN_RADIUS","coordinates":{"latitude":35,"longitude":139},"distanceMeters":0},{"sourceEntityId":"tokyo/A1000/A100001/12345604","sourceUrl":"https://tabelog.com/tokyo/A1000/A100001/12345604/","outcome":"WITHIN_RADIUS","coordinates":{"latitude":35,"longitude":139},"distanceMeters":0},{"sourceEntityId":"tokyo/A1000/A100001/12345605","sourceUrl":"https://tabelog.com/tokyo/A1000/A100001/12345605/","outcome":"WITHIN_RADIUS","coordinates":{"latitude":35,"longitude":139},"distanceMeters":0}]},"source":"TABELOG","rawSourceLinks":5,"parsedOutlets":5,"inspectedOutlets":5,"batchCap":5,"sourceDetailCap":10,"sourceDetailAttempts":5,"deferredByBatchCap":[],"rejected":[],"accepted":5,"sourcePageCap":7,"sourceElapsedCapMs":90000,"sourceElapsedMs":3561,"sourceTimeLimitReached":false,"pagesRead":2,"batchLimitReached":false,"sourceExhausted":"UNKNOWN","batchEnded":true,"sourceEnded":true,"progressionReason":"FIRST_SOURCE_BATCH","listingObservations":[{"sourceUrl":"https://tabelog.com/en/tokyo/rstLst/","parsedOutlets":0},{"sourceUrl":"https://tabelog.com/en/tokyo/A1000/A100001/rstLst/","parsedOutlets":5},{"sourceUrl":"https://tabelog.com/en/tokyo/A1000/A100001/rstLst/","parsedOutlets":5},{"sourceUrl":"https://tabelog.com/en/tokyo/A1000/A100001/rstLst/","parsedOutlets":5}],"retrieval":{"rewrites":0,"regionPages":2,"retrievalPages":1,"history":[{"selection":{"accepted":true,"reason":"General listing: no positive retrieval input."},"elapsedMs":1879,"parsedCount":5}],"selection":{"accepted":true,"reason":"General listing: no positive retrieval input."}}},"googleRequests":{"limit":100,"total":0,"namedPlaceResolution":0,"discovery":0,"placeDetails":0,"reverseAddressObservation":0}}}
+  
+  false !== true
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/browser-read-fixture.test.ts:2421:11)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual'
+  }

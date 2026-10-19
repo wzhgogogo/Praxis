@@ -556,6 +556,18 @@ test("E1 review generic public GET rejects sensitive and cross-origin requests, 
   assert.equal(missing.status, "NOT_EVALUATED"); assert.ok(missing.gaps.every(gap => gap.kind === "EVIDENCE_GAP"));
 });
 
+test('P21b independent frozen query grammar rejects extra search-filter fields',async()=>{
+ const path='.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-20261019/reviewed-reads.json';
+ const reviewed=parseReviewedReads(await readFile(path),path);
+ const trace=[{kind:'SESSION_OPENED',detail:{readNetworkBoundary:'INSTALLED'}}];
+ for(const rule of reviewed.rules.filter(rule=>rule.strictQueryKeys)){
+  const request={outcome:'ADMITTED',origin:rule.origin,pathname:rule.pathname??'/en/tokyo/A1303/rstLst/',method:'GET',resourceType:'document',queryKeys:[...rule.queryKeyRules!.required,...rule.queryKeyRules!.allowed!]};
+  assert.equal(auditReadOnlyTrace(trace,[request],false,reviewed).status,'ABSENT');
+  assert.equal(auditReadOnlyTrace(trace,[{...request,queryKeys:[...request.queryKeys,'unreviewed']}],false,reviewed).status,'PRESENT');
+  assert.equal(auditReadOnlyTrace(trace,[{...request,method:'POST'}],false,reviewed).status,'PRESENT');
+ }
+});
+
 test("E1 review reviewed POST requires independent complete body grammar and distinguishes evidence from rule gaps", async () => {
   const path = ".eval-artifacts/p2-0-hardening-20261015/prep/scripts/reviewed-reads.json";
   const reviewed = parseReviewedReads(await readFile(path), path);

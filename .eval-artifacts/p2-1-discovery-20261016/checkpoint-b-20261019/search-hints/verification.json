@@ -1,0 +1,53 @@
+{
+  "mode": "OFFLINE_L0_L1",
+  "gates": {
+    "typecheck-final.log": {
+      "status": "PASS",
+      "sha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294"
+    },
+    "arch-final.log": {
+      "status": "PASS",
+      "sha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122"
+    },
+    "test-final.log": {
+      "status": "PASS",
+      "sha256": "50cf6c9344d23ee4327da89aab74dcf6947a44f4c5264404ecdd9fc0139daf01"
+    },
+    "build-final.log": {
+      "status": "PASS",
+      "sha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8"
+    },
+    "browser-final.log": {
+      "status": "PASS",
+      "sha256": "bc08a0a692f6426dc569aa4e6cefd06345013485dbb3c5aecbdbb3eab3ea34c6"
+    }
+  },
+  "validRed": [
+    "red.log",
+    "network-red.log"
+  ],
+  "green": [
+    "green.log",
+    "test-final.log",
+    "browser-final.log"
+  ],
+  "intermediateFailures": "Kept in setup-diagnostic, test-gate, composition-final, browser-gate, dynamic-regression; not counted as green.",
+  "modelCalls": 0,
+  "websiteRequests": 0,
+  "sourceHashes": {
+    "src/domains/restaurant/contracts.ts": "7a9b2dfc3119f702a32cdec27847abe91ff7ab166d2faf9db8bbd6cc1c149e0f",
+    "src/eval/restaurant/agent-loop/diagnostic-evaluator-network.ts": "e7ae34ef0623d5c99583ff2796b260cff4dd12b1dc391c4ecbdfb5a8aa8f8431",
+    "src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts": "436d49f5750b29db9b798c57d3494d2c7f6081deae62a949d6710289dbb123e1",
+    "src/eval/restaurant/agent-loop/discovery-probe.ts": "a190d54c66f6095b3b973fc811e106413cfcfe98278d73e8c8c79cff40275a40",
+    "src/eval/restaurant/agent-loop/native-discovery-composition.test.ts": "61ee409e0b649a219dcdbc65b1e954a17c8d1ca8230c72606da36e991d5a9fe5",
+    "src/eval/restaurant/agent-loop/runners/browser-read-recording.ts": "4c3674c42efa31a61bb03a41166f8c7042eb6c2ef38f5fb0cd3af9cda8654e6d",
+    "src/harness/browser/browser-read-fixture.test.ts": "0cd21bff08e1e064ed9f1741bbd61a1f82ee41db834daa5a937d80985f5b0944",
+    "src/infrastructure/browser/browser-runtime.ts": "dc669466416c011110e4621f9162e90c48d4d872125f6f9b1c1488fc14f589e7",
+    "src/infrastructure/browser/playwright-read-network-guard.ts": "83480fa32ca7989ae52b1b9047b96ac77ae3e1d4813ca7a54a3dee2faaab04bf",
+    "src/integrations/restaurant-search/native-restaurant-search.ts": "22b9129e55ad1db4b876e34de9d75496f5a61bb643c20bc8be34334b25b13e75",
+    "src/integrations/restaurant-search/source-packs.test.ts": "506f45ccd1fd8842e925976e5741acf7891121adda6f9083344d38b84b3fa54f",
+    "src/integrations/restaurant-search/source-packs.ts": "20ea1ab6245c93777b063b833498783c1c2d293356a1623c9a9793cf6d96ebf5",
+    "src/integrations/tabelog/tabelog-public-query.ts": "c58af8646647b7e363dbec46fd820d12e7a74e22a34ff672914756184f87ae9b",
+    "src/integrations/tablecheck/tablecheck-public-query.ts": "f5bc79396599307fb0fff526050916f0845256df00a473c7d255bd8db2a57580"
+  }
+}

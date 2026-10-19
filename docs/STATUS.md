@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.269
+- Document revision: 4.270
 - Last updated: 2026-10-19
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-19 P2-1b 搜索空位线索离线完成：** P2-1b 搜索筛选及一次回退，严格查询/Recorder/独立审计同步；五门禁948/948与119/119，L0/L1，来源代码净增54行已披露，B待冻结。
 
 - **2026-10-19 H002 HARD 检索边界修正：** H002 关键词限制正向 HARD，实际组合红绿确认 Nearby/0共享规划，五门禁946/946与117/117；ADR追加/Prompt@4，P2-1b和B待实施。
 

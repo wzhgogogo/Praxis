@@ -1,0 +1,28 @@
+✖ native dynamic Tabelog UNAVAILABLE reaches formal H001 TableCheck continuation and no verified result with page-owned query evidence (5805.022625ms)
+✔ src/harness/browser/read-network-redirect.test.ts (359.122875ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 1
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6189.4055
+
+✖ failing tests:
+
+test at src/harness/browser/browser-read-fixture.test.ts:46:7163
+✖ native dynamic Tabelog UNAVAILABLE reaches formal H001 TableCheck continuation and no verified result with page-owned query evidence (5805.022625ms)
+  AssertionError [ERR_ASSERTION]: Tabelog UNAVAILABLE must cause an actual second-source navigation
+  
+  3 !== 1
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/browser-read-fixture.test.ts:609:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 3,
+    expected: 1,
+    operator: 'strictEqual'
+  }

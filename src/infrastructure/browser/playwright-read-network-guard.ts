@@ -408,6 +408,8 @@ export class PlaywrightReadNetworkGuard {
   /** ADR-0036 permits public GET/HEAD exploration, not sensitive endpoint or PII query shapes. */
   private sensitiveGenericRead(url: URL): boolean {
     const path = url.pathname.toLowerCase();
+    if(this.policy.dynamicReads.some(rule=>url.origin===rule.origin&&matchesPath(rule,url)
+      &&rule.strictQueryKeys?.some(key=>url.searchParams.has(key))))return true;
     // Explicit sensitive segments always win, including below a public
     // calendar namespace. Only the booking/reserve container itself gets the
     // narrow public-query exception below.

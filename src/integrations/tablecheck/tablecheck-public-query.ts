@@ -50,10 +50,11 @@ export const tableCheckPublicReadNetworkPolicy: BrowserReadNetworkPolicy = {
     // faithful recording; values remain outside policy and diagnostics.
     origin: "https://www.tablecheck.com",
     pathname: "/en/japan/search",
-    resourceTypes: ["document"],
+    resourceTypes: ["document"], methods: ["GET"],
+    strictQueryKeys: ["date", "time", "num_people", "availability_mode"],
     queryKeyRules: {
       required: ["service_mode", "sort_by", "venue_type", "geo_latitude", "geo_longitude", "geo_distance", "auto_geolocate"],
-      allowed: ["search_text"],
+      allowed: ["search_text", "date", "time", "num_people", "availability_mode"],
     },
   }, {
     // The source's public carousel continuation calls this exact GET after

@@ -527,6 +527,16 @@ export interface RestaurantReadExecutionMetadata {
     /** Source query and visible listing counts, distinct from detail admission. */
     listingObservations?: Array<{ sourceUrl: string; parsedOutlets: number; resultCount?: number; nextPageUrl?: string }>;
     queryAdjustment?: string;
+    /** Search-level observation only; never inventory or a deliverable Offer. */
+    searchAvailabilityHint?: {
+      status: "APPLIED" | "FALLBACK" | "SKIPPED";
+      reason: string;
+      sourceUrl: string;
+      unfilteredUrl: string;
+      request?: {date:string;time:string;partySize:number};
+      observed?: {date?:string;time?:string;partySize?:number};
+      parsedCount?: number;
+    };
     retrieval?: NonNullable<RestaurantSearchContinuation["sourceProgress"]>["retrieval"];
     /** Observed detail entrances deliberately left for a later bounded batch; never rejections. */
     deferredByBatchCap: Array<{ sourceUrl: string; reasonCode: "DETAIL_BATCH_CAP" }>;
