@@ -4430,3 +4430,12 @@ L0/L1：有效红绿与原生崩溃中间日志保留；共同协议版936/936�
 用户批准进行检查点A。复用刚完成的0模型有/无Guard各20家对照、有效至10/20东京12:12后的同一见证认证、acfaaffa的10次基线；S0为0、基线预检ENV1次、4 TARGET原生来源命中0例，未触发新停止条件。A仅在干净39fc15e工作树执行，输入/见证/预检/指标与基线同字节；每次15模型/180秒/40Google，外层与计划先提交冻结，6份离线空跑0网络/模型。累计起点20/40探测、141/450模型、45Google；预检失败与基线合计超过2即停。A之后才单独修Google-only nearby，P2-1b/完整Live不启动。
 
 外层状态正反例、语法、六份空跑通过；冻结sha与证据见checkpoint-a-20261019。A源代码与已通过的组合五门禁39fc15e相同，复用typecheck/arch/build绿、940/940和真实Chromium116/116；本准备0新增真实网络/模型/探测。
+
+
+## TEST-2026-10-19-P21-checkpoint-a-stopped
+
+检查点A按用户停止规则停批：仅H001第1轮正式完成，H001第2轮两次TableCheck非空预检EMPTY_RESULT，均0模型/未正式启动；连同恢复基线1次累计3＞2，剩余9次A不再启动。A新增4模型/4决策（全成功）、2正式＋3预检Google=5；累计21/40探测、145/450模型、50Google，0完整Live。
+
+A冻结39fc15e、外层先提交e7e6913；输入/见证/规则SHA与干净工作树核验通过，用户草稿未动。复用五门禁940/940、Chromium116/116和typecheck/arch/build；1份A summary/trace/录制、4行capture SHA及两次预检原始文件保存。录制NOT_REPLAYABLE，不作Replay或完整业务验收。对照及全部未运行项见checkpoint-a-20261019/report.md、comparison.json与audit.json。
+
+单个A的Tabelog见证true来自东京/涩谷通用导航列表；最终omakase3家、KEEP和首批详情与基线相同，不能把该命中解释为改写有效。3次规划5940ms/0超时，Tabelog3652ms=90秒预算4.058%，共享文本2288ms只计一次。网络形状S0_BOUNDARY为ABSENT，声明/其他严重度和9次未运行仍NE；环境根因未归因。只推送部分证据后停止，Google-only nearby修复因A未完成且命中停批规则而未开始，P2-1b不动。

@@ -1,0 +1,92 @@
+{
+  "models": 4,
+  "google": 2,
+  "preflightGoogle": 3,
+  "preflightFailures": 2,
+  "completed": [
+    0
+  ],
+  "attempts": [
+    {
+      "index": 0,
+      "caseId": "p2-kf-h001-20261027",
+      "repeat": 1,
+      "head": "39fc15e5127f4283a24dd4abb4fc10e13636b876",
+      "startedAt": "2026-10-19T03:58:46.519822+00:00",
+      "directory": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-20261019/runs/p2-kf-h001-20261027/attempt-1",
+      "status": "PROBE_RECORDED",
+      "exit": 0,
+      "preflightGoogle": 1,
+      "summary": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-20261019/runs/p2-kf-h001-20261027/attempt-1/probe-summary.json",
+      "summarySha256": "4777e40b2379f02bd31e6d18428bdb97b32cacd15286eae894cc93a393f7ee9f",
+      "models": 4,
+      "google": 2,
+      "witnessInListingBySource": {
+        "tabelog": true,
+        "tablecheck": false,
+        "google-places": false
+      },
+      "witnessInFirstBatch": false,
+      "inRadiusParsed": 39,
+      "finishedAt": "2026-10-19T04:00:10.354193+00:00"
+    },
+    {
+      "index": 1,
+      "caseId": "p2-kf-h001-20261027",
+      "repeat": 2,
+      "head": "39fc15e5127f4283a24dd4abb4fc10e13636b876",
+      "startedAt": "2026-10-19T04:00:21.325555+00:00",
+      "directory": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-20261019/runs/p2-kf-h001-20261027/attempt-2",
+      "status": "ENV_FAILURE",
+      "exit": 1,
+      "preflightGoogle": 1,
+      "models": 0,
+      "formalProbeStarted": false,
+      "sourceIds": [
+        "tablecheck"
+      ],
+      "finishedAt": "2026-10-19T04:01:03.606634+00:00"
+    },
+    {
+      "index": 1,
+      "caseId": "p2-kf-h001-20261027",
+      "repeat": 2,
+      "head": "39fc15e5127f4283a24dd4abb4fc10e13636b876",
+      "startedAt": "2026-10-19T04:01:13.502667+00:00",
+      "directory": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-20261019/runs/p2-kf-h001-20261027/attempt-2-preflight-2",
+      "status": "ENV_FAILURE",
+      "exit": 1,
+      "preflightGoogle": 1,
+      "models": 0,
+      "formalProbeStarted": false,
+      "sourceIds": [
+        "tablecheck"
+      ],
+      "finishedAt": "2026-10-19T04:01:52.592577+00:00"
+    }
+  ],
+  "stop": {
+    "code": "PREFLIGHT_FAILURE_LIMIT",
+    "index": 1,
+    "totalPreflightFailures": 3,
+    "sourceIds": [
+      "tablecheck"
+    ]
+  },
+  "formalLiveRuns": 0,
+  "compressedBytesEstimate": 12583777,
+  "stopHistory": [
+    {
+      "stop": {
+        "code": "ENV_PREFLIGHT_RETRYABLE",
+        "index": 1,
+        "totalPreflightFailures": 2,
+        "sourceIds": [
+          "tablecheck"
+        ]
+      },
+      "resolution": "APPROVED_PREFLIGHT_ONLY_RETRY",
+      "at": "2026-10-19T04:01:13.502514+00:00"
+    }
+  ]
+}

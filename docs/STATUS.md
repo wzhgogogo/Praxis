@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.256
+- Document revision: 4.257
 - Last updated: 2026-10-19
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-19 P2-1 检查点A停批／1 of10完成：** 检查点A按用户停止规则停批：仅H001第1轮正式完成，H001第2轮两次TableCheck非空预检EMPTY_RESULT，均0模型/未正式启动；连同恢复基线1次累计3＞2，剩余9次A不再启动。A新增4模型/4决策（全成功）、2正式＋3预检Google=5；累计21/40探测、145/450模型、50Google，0完整Live。 [部分对照报告](../.eval-artifacts/p2-1-discovery-20261016/checkpoint-a-20261019/report.md)逐例保留NE和预检产物。单个A的原生见证命中来自通用导航列表，最终关键词/详情未变，整体效果与CONTROL未评。冻结39fc15e/外层e7e6913，五门禁940/940、Chromium116/116已通过且源码未变；0新增产品改动。按停止条件，after-A Google-only nearby修复未开始，P2-1b/完整Live不启动；推送后等待环境恢复及独立复核。
 
 - **2026-10-19 P2-1 检查点A已批准／冻结：** 用户批准进行检查点A。复用刚完成的0模型有/无Guard各20家对照、有效至10/20东京12:12后的同一见证认证、acfaaffa的10次基线；S0为0、基线预检ENV1次、4 TARGET原生来源命中0例，未触发新停止条件。A仅在干净39fc15e工作树执行，输入/见证/预检/指标与基线同字节；每次15模型/180秒/40Google，外层与计划先提交冻结，6份离线空跑0网络/模型。累计起点20/40探测、141/450模型、45Google；预检失败与基线合计超过2即停。A之后才单独修Google-only nearby，P2-1b/完整Live不启动。
 
