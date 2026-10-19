@@ -46,3 +46,9 @@ Replay preparation commit: `4017981`. 14/14 calls succeeded; 14 charged model ca
 | 9 / #3 | KEYWORD | CATEGORY https://tabelog.com/en/tokyo/A1317/A131701/rstLst/yakiniku/?sw=yakiniku | LATER_SAME_REGION_DOM_COUNTERFACTUAL | Use the supplied Yakiniku (Japanese BBQ) category to retrieve restaurants matching the hard yakiniku criterion in Nakameguro. |
 
 Raw outputs and usage: replay/summary.json and replay/<run>-<sequence>.json. Runtime proposals were never executed. KF-H005 choices are recorded without a quality score or causal improvement claim. New A10 is authorized by the fixed gate; the next comparison still uses baseline acfaaffa and the same input bytes.
+
+## New A status / observed preflight interruption
+
+New A production ba20b8a, external freeze0195189.5/10 formal discovery probes completed,29 models; all29 captures succeeded, and source counters match.14 replay calls plus29 discovery calls give cumulative241/450 models,36/42 probes,94 Google. No full Live or P2-1b. The two h001 runs selected Sushi and the witness entered the native first batch; both Kagurazaka runs retained READ_BUDGET_EXCEEDED; KF-H005 first run selected observed Washoku on the actual homepage (57 categories), with no witness in first batch. These facts do not establish full-batch improvement.
+
+Item6 stopped before generation/formal discovery: TableCheck homepage GET HTTP503. The outer incorrectly looks only for the later source preflight and halts as PREFLIGHT_EVIDENCE_GAP. Original earlier readiness result contains the503. Minimal recovery is proposed only, requires user-approved re-freeze, and has not been run. See [new A partial paired report](../checkpoint-a-dom-20261019/report.md), its raw paths/SHA, and recovery patch/tests. Existing completed probes will not be rerun.

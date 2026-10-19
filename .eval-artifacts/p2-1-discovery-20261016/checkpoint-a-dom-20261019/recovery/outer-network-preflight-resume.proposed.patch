@@ -1,0 +1,80 @@
+--- .eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/execute.py
++++ .eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/recovery/execute.py
+@@ -19,6 +19,30 @@
+         and (a.get('responseStatus') is not None or a.get('detail') == 'TIMEOUT')
+         and a.get('countsTowardStop') is True for a in failed)
+ 
++
++def network_preflight_evidence(record):
++    if not (record.get('mode') == 'LIVE_NETWORK_PREFLIGHT' and record.get('stage') == 'NETWORK_READINESS'
++            and record.get('generationModelCalls') == 0 and record.get('restaurantDiscoveryRequests') == 0
++            and record.get('status') == 'FAILED'):
++        return None
++    failed = [a for a in record.get('attempts', []) if a.get('outcome') == 'FAILED']
++    if len(failed) != 1:
++        return None
++    a = failed[0]
++    if not (a.get('target') == 'TABLECHECK' and a.get('status') == 503 and a.get('tls') == 'ESTABLISHED'
++            and a.get('request', {}).get('method') == 'GET'
++            and a.get('request', {}).get('url') == 'https://www.tablecheck.com/en/'):
++        return None
++    return {'reason': 'NO_RESPONSE', 'responseStatus': 503, 'sourceId': 'tablecheck',
++            'outcome': 'FAILED', 'countsTowardStop': True, 'phase': 'NETWORK_READINESS'}
++
++def recoverable_network_stop(ledger, index, record, origin):
++    prior = [a for a in ledger['attempts'] if a['index'] == index]
++    stop = ledger.get('stop') or {}
++    return (stop.get('code') == 'PREFLIGHT_EVIDENCE_GAP' and stop.get('index') == index
++            and index not in ledger['completed'] and len(prior) == 1 and preflight_only(prior[0])
++            and origin + ledger['preflightFailures'] + 1 <= 2 and network_preflight_evidence(record) is not None)
++
+ config = Path(__file__).resolve().parent
+ sha = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
+ now = lambda: datetime.now(timezone.utc).isoformat()
+@@ -29,7 +53,7 @@
+ assert plan['status'] == 'FROZEN_CHECKPOINT_A_DISCOVERY_ONLY'
+ assert subprocess.check_output(['git', 'rev-parse', 'HEAD']).decode().strip() == plan['productionHead']
+ assert subprocess.check_output(['git', 'status', '--porcelain']).decode().strip() == ''
+-assert set(sys.argv[2:]).issubset({'--resume-preflight-only'})
++assert set(sys.argv[2:]).issubset({'--resume-preflight-only', '--recover-network-preflight'})
+ index = int(sys.argv[1]); assert 0 <= index < len(plan['planned'])
+ origin = plan['budgetOrigin']
+ root = Path('.eval-artifacts/p2-1-discovery-20261016')
+@@ -39,6 +63,21 @@
+     'models': 0, 'google': 0, 'preflightGoogle': 0, 'preflightFailures': 0,
+     'completed': [], 'attempts': [], 'stop': None, 'formalLiveRuns': 0}
+ resume = '--resume-preflight-only' in sys.argv[2:]
++if '--recover-network-preflight' in sys.argv[2:]:
++    assert resume
++    prior = [a for a in ledger['attempts'] if a['index'] == index]
++    records = [(p, json.loads(p.read_text())) for p in Path(prior[0]['directory']).glob('*.result.json')]
++    matches = [(p, r) for p, r in records if network_preflight_evidence(r)]
++    assert len(matches) == 1
++    proof_path, proof = matches[0]
++    assert recoverable_network_stop(ledger, index, proof, origin['preflightFailures'])
++    before = {'code': ledger['stop'], 'originalLedgerSha256': sha(ledger_path),
++              'rawResult': str(proof_path), 'rawResultSha256': sha(proof_path),
++              'classification': network_preflight_evidence(proof), 'at': now()}
++    ledger.setdefault('reclassifications', []).append(before)
++    ledger['preflightFailures'] += 1
++    ledger['stop'] = {'code': 'ENV_PREFLIGHT_RETRYABLE', 'index': index,
++                      'totalPreflightFailures': origin['preflightFailures'] + ledger['preflightFailures']}
+ if ledger['stop']:
+     if not resume or not can_resume(ledger, index, origin['preflightFailures']):
+         raise SystemExit('BATCH_STOPPED: ' + str(ledger['stop']))
+@@ -94,6 +133,15 @@
+     evidence = json.loads(preflight.read_text()) if preflight.exists() else {}
+     a['preflightEvidence'] = evidence.get('attempts', [])
+     a['countsTowardStop'] = countable_preflight(evidence)
++    if not a['countsTowardStop']:
++        records = [(p, json.loads(p.read_text())) for p in directory.glob('*.result.json')]
++        matches = [(p, r) for p, r in records if network_preflight_evidence(r)]
++        if len(matches) == 1:
++            proof_path, proof = matches[0]
++            a['preflightEvidence'] = [network_preflight_evidence(proof)]
++            a['networkPreflightResult'] = str(proof_path)
++            a['networkPreflightResultSha256'] = sha(proof_path)
++            a['countsTowardStop'] = True
+     ledger['preflightFailures'] += int(a['countsTowardStop'])
+     total = origin['preflightFailures'] + ledger['preflightFailures']
+     ledger['stop'] = {'code': ('PREFLIGHT_EVIDENCE_GAP' if not a['countsTowardStop'] else 'PREFLIGHT_FAILURE_LIMIT' if total > 2 or prior else 'ENV_PREFLIGHT_RETRYABLE'),

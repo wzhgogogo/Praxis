@@ -1,0 +1,15 @@
+{
+  "status": "PROPOSED_NOT_AUTHORIZED_OR_EXECUTED",
+  "models": 0,
+  "network": 0,
+  "failedOriginalResult": "/Users/wangzhour/.codex/worktrees/p21-checkpoint-a-dom/Praxis-Zhixing/.eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h005-20261029/attempt-2/2026-10-19T08-24-57-474Z-7b30000b-a9dc-48e5-ae51-b07189c3a2ce.result.json",
+  "failedOriginalSha256": "c1efb579abd2d18015a2038dcec68a7b76df8bace4d70f8313dcd23231351b4f",
+  "observedFailure": "TABLECHECK public homepage GET HTTP503 before source-data-preflight and any model call",
+  "formalCompleted": 5,
+  "formalRemaining": 5,
+  "modelsA": 29,
+  "cumulativeModels": 241,
+  "cumulativeProbes": 36,
+  "cumulativeGoogle": 94,
+  "effect": "Recognize this recorded early TableCheck503 as one countable NO_RESPONSE and allow the existing single preflight-only retry; all completed formal probes remain blocked from rerun; stop limits, input, source and budgets unchanged."
+}

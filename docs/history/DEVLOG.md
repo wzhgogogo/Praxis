@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.161
+- Document revision: 4.162
 - Last updated: 2026-10-19
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -3801,3 +3801,12 @@ A10完成并提交52ff459之后才实施Google-only nearby局部修正：地点�
 14条原始页面规划输入按已提交4017981的请求/审计/脚本冻结执行；只发往现有DeepSeek结构化输出端点，0网站/Google访问，14/14成功，新增14真实模型，累计212/450。6条有原规划DOM，7条用后续同地区DOM反事实注入，1条DOM缺证保留空类别；不称原样浏览器Replay。h001选sushi、吉祥寺选tempura、中目黑选yakiniku，3个不同用例达到预先固定的至少2例门槛。KF-H005仍选local cuisine/regional cuisine/regional dishes，不宣称近义词行为已改善。逐条原/新选择和理由、usage见p21a-dom-replay-20261019/report.md及replay/summary.json。
 
 新A10冻结生产ba20b8a7e0ae5d00d93838f7f19b0ae01364e2be，干净管理工作树p21-checkpoint-a-dom；基线acfaaffa、6份输入和见证字节不变。现有见证最早10/20东京12:12过期，仍有效，0重新认证请求。318份SHA、外层与10项计划在checkpoint-a-dom-20261019/freeze.json；六例Runner空跑、预检失败计数及仅预检一次补试/拒绝S0/已完成/二次补试离线对照通过。冻结脚本仅改批次目录与账本起点，停止规则不变。复用源码五门禁943/943、真实Chromium117/117；本阶段除上述14模型无其他真实调用，探测仍31/42、Google79。接下来仅A10发现阶段，每次15模型/180秒、先非空来源预检；不查位、不交付、不开始P2-1b或完整Live。
+
+
+## DEV-2026-10-19-P21A-DOM-A-PARTIAL
+
+新A冻结ba20b8a/外层0195189，干净p21-checkpoint-a-dom工作树完成5/10正式发现：h001两次、神乐坂两次、KF-H005一次。新增29真实模型/29成功捕获，10正式Google+5来源预检Google，0正式重跑。两次h001均观察5类别后选Sushi，原生见证进入首批；神乐坂均READ_BUDGET_EXCEEDED；KF-H005实际首页57类别选Washoku，见证未进首批。仅为部分发现事实，不宣称整批改进或交付。
+
+第6例KF-H005第2轮在早期LIVE_NETWORK_PREFLIGHT失败：TableCheck首页公开GET HTTP503/TLS建立，其他端点可达；0模型、未正式启动。其原始result具有状态码，但被冻结外层只读后续source-data-preflight，误作PREFLIGHT_EVIDENCE_GAP并停批；不是缺失HTTP证据，不推定VPN根因。剩余5例NOT_STARTED。最小外层恢复补丁已准备，严格只识别此公开TableCheck503、原0模型/未启动、一次补试；13个离线对照拒绝S0/已完成/模型已用/二次补试/缺状态/其他路径。补丁未应用或执行，已按Eval Skill §5请求重冻批准。
+
+部分对照、检索序列/规划耗时/页数/半径/分来源见证和所有summary/decisions/trace/recording SHA见checkpoint-a-dom-20261019/report.md、comparison.json、audit.json；29捕获等于模型数、318冻结SHA/工作树clean、1400份历史字节一致。五份独立S0_BOUNDARY为ABSENT，仅指冻结规则可核验范围，不证明任意GET无副作用。源码无新增改动，复用五门禁943/943、真实Chromium117/117，并验证本轮纯文档/JSON/链接/预算。总量含14条离线回放为241/450模型、36/42探测、94Google、0完整Live。原冻结账本预检计数仍0，拟将已有503作为1次NO_RESPONSE的重分类另存提案，不静默改账。P2-1b不开始。

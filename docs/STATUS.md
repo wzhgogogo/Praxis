@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.265
+- Document revision: 4.266
 - Last updated: 2026-10-19
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-19 P2-1a新A完成5例后在早期TableCheck503预检暂停：** 新A5/10正式完成，29模型/15Google；h001两次类别扩展后见证进入首批，神乐坂问题仍在。第6例正式启动前TableCheck首页GET503（0模型）使外层误记PREFLIGHT_EVIDENCE_GAP停批，剩5例未跑。原始503证据、部分比较和仅外层恢复提案已保存；按Eval Skill §5等待重冻批准，不改变原冻结或盲重试。累计241/450模型、36/42探测、94Google；源码五门禁仍绿，P2-1b/完整Live未开始。
 
 - **2026-10-19 P2-1a离线回放达门槛／新A已冻结：** 14条真实模型单步反事实回放全部成功，h001/吉祥寺/中目黑均选相关类别，3例达到2例门槛；KF-H005词义循环效果未证明。累计212/450模型、31/42探测、79Google。新A冻结ba20b8a、干净p21-checkpoint-a-dom及318SHA；同输入/见证/基线，六例空跑与停止规则验证通过，准备10次仅发现探测，P2-1b/完整Live不启动。
 
