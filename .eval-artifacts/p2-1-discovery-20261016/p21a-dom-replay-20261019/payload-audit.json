@@ -1,0 +1,70 @@
+{
+  "destination": "https://api.deepseek.com/beta/chat/completions",
+  "allowedCalls": 14,
+  "websiteRequests": 0,
+  "originalFiles": {
+    ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1/recording/p2-kf-h001-20261027/recording.json": "61420d0d85d54ebd2412c62c51ec62ca0a73cb2bc8a72d3068d40fc6b21c7c32",
+    ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1/probe.decisions.jsonl": "22eff28814e5f1ea4591da25b758043ea94abe9e1d3f3fd0e5217560b6473456",
+    ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1/recording/p2-kf-h001-20261027/snapshot-0005.html": "18297a4f85e8bdfd5d201a7e9bd90c76ec0123221563c2736d9ce7d625ba0054",
+    ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kf-h001-20261027/attempt-2/recording/p2-kf-h001-20261027/recording.json": "dce3bd53399762dae907a44e5f67a839ecec5c053749f756963028695c7bd06b",
+    ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kf-h001-20261027/attempt-2/probe.decisions.jsonl": "3acb9bf8bcec41356531a2c4dc74a9369e5259044f2096fdb9d49941921aed2b",
+    ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kf-h001-20261027/attempt-2/recording/p2-kf-h001-20261027/snapshot-0005.html": "24b6d9addb848eccb9381518ff727967d8886fdb19aa68c23374378cfdcb9f87",
+    ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-1/recording/p2-kagurazaka-kaiseki-20261029/recording.json": "4b584ac4b7025785cef8d3bb77ad552819d86391d215a5517852767d8c24566d",
+    ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-1/probe.decisions.jsonl": "ec85d79337d6f439ed8b2ee87fb4b3eebeb861dc11eb23f14a91cb0f32a420ee",
+    ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-2/recording/p2-kagurazaka-kaiseki-20261029/recording.json": "cd3efa8abc9ebb56b6e2425eb35bfea9c5cd49947c9cf5a84b0e236997b36535",
+    ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-2/probe.decisions.jsonl": "67fb2316f9bec973dfdc642f2b77c31f2665521bdfa6581b65cf711ee1b2957a",
+    ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kf-h005-20261029/attempt-1/recording/p2-kf-h005-20261029/recording.json": "324fae407be25e6b0f641af09b0e84103178d399e78e826766623d10c6536f02",
+    ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kf-h005-20261029/attempt-1/probe.decisions.jsonl": "92e9315fb28819754a20bf60318d606d93f6fe092b33c2ff68b2815d360c69da",
+    ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kf-h005-20261029/attempt-1/recording/p2-kf-h005-20261029/snapshot-0005.html": "ce150cb8ddbab8f7aa4b47b632b15cab7c01622d13a9682a8ff6b176ffa439f2",
+    ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kf-h005-20261029/attempt-1/recording/p2-kf-h005-20261029/snapshot-0006.html": "0a131950f4e7377bcb329f18856ab83d524b0658cc92fd9052301dd8bbdbec3f",
+    ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kf-h005-20261029/attempt-1/recording/p2-kf-h005-20261029/snapshot-0007.html": "2b8ed9bfcea32f3919cb97c493bab1d06bf2db33f2fcae330e7a52ccdf3ddb15",
+    ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kf-h005-20261029/attempt-2/recording/p2-kf-h005-20261029/recording.json": "ef80b7f459db707e71f4154c6418d62b02e5fb70e3c0b9525a23d67d22da381d",
+    ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kf-h005-20261029/attempt-2/probe.decisions.jsonl": "6fff00b9dedc832402ad2f126a9304d73f32d6ea8a0a53928272f5ccc217924c",
+    ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kf-h005-20261029/attempt-2/recording/p2-kf-h005-20261029/snapshot-0005.html": "5d767183d6932eaad6b780098a38e4acadca1f2dae591c502649cd6d989be525",
+    ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kf-h005-20261029/attempt-2/recording/p2-kf-h005-20261029/snapshot-0006.html": "1646d3c7de00989d2649407d6f30cf0367624ec5c1f868cec7e149e07afabe3b",
+    ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kf-h005-20261029/attempt-2/recording/p2-kf-h005-20261029/snapshot-0007.html": "b748db3a9483cd364c41ad6665d31eb37f24cf8d831e849de1d45d55eab0c0cc",
+    ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kichijoji-tempura-20261027/attempt-1/recording/p2-kichijoji-tempura-20261027/recording.json": "5036e675b5839355267cc289081f91eefef1253383cf52991046a1a78b774ce1",
+    ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kichijoji-tempura-20261027/attempt-1/probe.decisions.jsonl": "4bf8a259236dfe2737d27bd4d9af2cd88be371d98642b75542ec7a718eec97a0",
+    ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kichijoji-tempura-20261027/attempt-1/recording/p2-kichijoji-tempura-20261027/snapshot-0005.html": "2e958709662639b842365c4884363a63ca850f40bdb10e7d785022301628a410",
+    ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kichijoji-tempura-20261027/attempt-2/recording/p2-kichijoji-tempura-20261027/recording.json": "e9dbab417f6b97134de8b01cad5e446472b52ade30f419b0eb9fd9d1ff3d4907",
+    ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kichijoji-tempura-20261027/attempt-2/probe.decisions.jsonl": "8bc1bdcc0cc3a36f2156cb7bb8939673ccd1b1847e71dc8195d44ea0fbbe154a",
+    ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kichijoji-tempura-20261027/attempt-2/recording/p2-kichijoji-tempura-20261027/snapshot-0005.html": "0fdee8390e39b98d954d064e0d152a17b36605e92ffb9455a133617d0e44342a",
+    ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kf-h002-20261031/attempt-1/recording/p2-kf-h002-20261031/recording.json": "9a1bb627a0d173b0461460b160e9c82cbf1b45e3834ee49c54fc7816dcab765c",
+    ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kf-h002-20261031/attempt-1/probe.decisions.jsonl": "f03592db9a2fb00b2365e0811b7b99f80d3e8eb84c2f1e5dcb35c9c84f2a8153",
+    ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-nakameguro-yakiniku-20261030/attempt-1/recording/p2-nakameguro-yakiniku-20261030/recording.json": "7d53343548ad2f720cf48afb971a94958b5016afec0a4929c7945d5c9c3d09e6",
+    ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-nakameguro-yakiniku-20261030/attempt-1/probe.decisions.jsonl": "b89f9b36f362bb3bf7b40fc3a8e429f6962b06d0a730fd5334fe6226217a538d",
+    ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-nakameguro-yakiniku-20261030/attempt-1/recording/p2-nakameguro-yakiniku-20261030/snapshot-0006.html": "752104688fd9d412e703e4d1f3bd8523f820076b01d05f261e409d4418660292"
+  },
+  "changes": [
+    "System Prompt@3",
+    "DOM categories from indicated evidence",
+    "attemptedRetrievals from prior actual current fields"
+  ],
+  "limits": [
+    "Independent single-step counterfactuals; no execution of model proposals",
+    "6 exact DOM, 7 later same-region DOM, 1 missing DOM retained empty; never faithful browser replay",
+    "All same-region Pack-valid DOM categories; actual counts 5/9/9/0, no CSS gate or numeric-code filter"
+  ],
+  "predeclaredGate": {
+    "requiredDistinctCases": 2,
+    "cases": [
+      "p2-kf-h001-20261027",
+      "p2-kichijoji-tempura-20261027",
+      "p2-nakameguro-yakiniku-20261030"
+    ],
+    "acceptedChoices": [
+      "CATEGORY",
+      "COMBINED"
+    ],
+    "categoryMatch": "Exact supplied sushi/tempura/yakiniku URL for the corresponding case",
+    "scope": "Decision feasibility only; no qualification, delivery, or full-browser success claim"
+  },
+  "budgetsOrigin": {
+    "models": 198,
+    "modelLimit": 450,
+    "probes": 31,
+    "probeLimit": 42,
+    "google": 79,
+    "fullLive": 0
+  }
+}

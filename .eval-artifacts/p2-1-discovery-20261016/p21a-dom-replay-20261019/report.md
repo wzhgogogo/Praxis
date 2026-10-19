@@ -17,3 +17,9 @@ Raw DOM inventory reads the 10 saved recordings offline and calls the production
 The replay gate is fixed before calls: an accepted CATEGORY or COMBINED choice selecting the supplied sushi/tempura/yakiniku category for at least two distinct cases among h001, Kichijoji and Nakameguro. Repeats of one case count once. A gate pass permits A10 only; it does not prove improved discovery or qualification. If the gate fails, stop without website probes.
 
 Proof scope so far: L0 validation and L1 production assembly/local Chromium. L3 model replay and conditional read-only website probes are pending. End-to-end delivery, identity/HARD/availability and S0 claims are not evaluated by this offline slice. No P2-1b, booking form, payment or personal-information operation is included.
+
+## Correction commit and replay freeze
+
+Items 1-3 committed as `ba20b8a7e0ae5d00d93838f7f19b0ae01364e2be`. No Google production patch was needed; the existing keyword path is covered by the new three-source request assertion.
+
+The 14 requests, original input provenance, exact endpoint and fixed gate are frozen in prepared-requests.json, payload-audit.json and replay-freeze.json. Freeze SHA-256: `874320b9cc7151495a7f495e1a6410f23b52abb315799abe366fdde63dfed62f`. Offline empty run passed with 0 network/model calls (replay-dry-run.log). Source files still match the five-gate hashes. Only the repository configured DeepSeek beta structured-output endpoint is permitted by this one-shot replay executor.
