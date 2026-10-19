@@ -20,3 +20,22 @@ Evidence status: current executable / exposed development evidence；原13a3b36�
 - 尚无当前真实网站/翻译页身份兼容性或速度收益结论；本轮禁止外站/探测/Live。
 
 第2段最终五门禁：typecheck/arch/build PASS；默认957/957；真实本地Chromium120/120（277450ms），见step2-gates/。0网站/Google/真实模型/探测/Live。
+
+## 3 五颗单步回放：达到批准门槛
+
+- 冻结1646667及320份源码/独立标签/原输入/旧账本/外层SHA，运行前后核对全部不变。注入生产availabilityCheckSelectionScope，以原始时刻前的来源ID和圆心半径证据收敛checkable/同义legal scope；事实读取、候选顺序、请求/日期/人数和标签不变。无标签/见证文本进入模型。当前源码四门禁957/957与type/arch/build绿，第2段未变浏览器路径的120/120复用。
+- 新调用恰好5，累计10/30；每颗一次，无截断/解析拒绝/重试。均CHECK_AVAILABILITY，均仅含合法字段。0网站/Google/动作执行/Live。逐请求、wire、候选名称/路径/距离、输出理由、独立revision2判定与旧严格对照见structural-replay/，逐次成本见model-ledger.json。
+
+| 种子 | 选择 | 输出理由摘要 | 独立判定 |
+|---|---|---|---|
+|0133|Sushi Teppen|唯一候选有直达页，查精确请求并补事实|ACCEPTABLE，1/1直达|
+|0134|Sumi Sushi / Sushi Jinnan / Sushi kazumasa|半径内直达寿司候选，读取请求库存和omakase事实|ACCEPTABLE，3/3；旧严格规则亦通过|
+|001|Kagurazaka Jin / Sugata / 日本料理ほそ川神楽坂|三家合法直达候选，查3人19:30和来源事实|ACCEPTABLE，3/3|
+|002|Sumi Sushi / Sushi kazumasa / Sushi Jinnan|此前来源未知，继续查近处直达候选|ACCEPTABLE，3/3|
+|003|Sumi Sushi / Sushi Jinnan / Sushi kazumasa|查当前可查位的近处寿司候选|ACCEPTABLE，3/3|
+
+神乐坂1/1、涩谷3/3、对照1/1，门槛PASS；涩谷三颗仍是同场景近重复，不视作三个独立场景。有效直达选择13/13；相比原已记录动作4/13，但未另重跑旧配置，不能排除模型随机性或证明长期提升。历史登记见证仍0/5被选中，未当前认证或执行这些读取；本次支持结构约束，不证明见证交付。
+
+四层：端到端NOT_EVALUATED；Agent决策环节按独立when可接受；无展示/动作，S0–S4全任务影响未评，不宣称S0=0；归因仅支持合法池结构约束及字段提示在这五个反事实输入上有效，速度/库存/整体交付留后续。按授权不追加回放，继续4–6。
+
+本轮五次模型实际耗时合计22682ms，token合计96816；单次原10000ms/原输出cap不提高。
