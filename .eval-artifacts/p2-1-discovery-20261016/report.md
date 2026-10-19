@@ -193,3 +193,5 @@ Current exposed-development discovery baseline: [network-restored-20261019/repor
 [Full paired report](checkpoint-a-corrected-20261019/report.md)
 
 Google-only nearby correction was implemented separately after A, with no additional real calls: [evidence and final gates](checkpoint-a-corrected-20261019/nearby/report.md).
+
+Final local source commit: `ea7113ada8ea26ccbbd40537fcd4b36e946c7a0e`; [commit roster / handoff](checkpoint-a-corrected-20261019/handoff.json).

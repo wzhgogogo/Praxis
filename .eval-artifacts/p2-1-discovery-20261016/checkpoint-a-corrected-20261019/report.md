@@ -467,3 +467,13 @@ Whole P2-1 evidence gzip estimate: 31,077,820 bytes <60,000,000; [size check](ar
 ## After-A Google-only correction
 
 A results were committed as52ff459 before this separate source correction. [Nearbyscope, red/green and gates](nearby/report.md): default943/943, real Chromium117/117, typecheck/arch/build PASS. No new model/Google/probe or full Live calls. A worktree remains209ac42.
+
+## Local commit roster and final handoff
+
+- preflight: `484f154`
+- p21aCorrection: `209ac42`
+- outerFreeze: `ee6ebd0`
+- checkpointAResults: `52ff459`
+- afterAGoogleOnlyNearby: `ea7113ada8ea26ccbbd40537fcd4b36e946c7a0e`
+
+[Final checks and budget](handoff.json). P2-1b and full Live remain unstarted. Authorized remote push is reported only from the Git receipt.
