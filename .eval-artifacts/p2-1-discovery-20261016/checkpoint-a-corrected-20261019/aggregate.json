@@ -1,0 +1,52 @@
+{
+  "baseline": {
+    "listingBySource": {
+      "tabelog": 1,
+      "tablecheck": 0,
+      "google-places": 5
+    },
+    "firstBatchBySource": {
+      "tabelog": 0,
+      "tablecheck": 0
+    },
+    "modelCalls": 55,
+    "elapsedMs": 788353,
+    "planningCalls": 0,
+    "planningLatencyMs": 0,
+    "planningTimeouts": 0,
+    "pagePlanningCalls": 0,
+    "pagePlanningWithCategories": 0,
+    "failures": {
+      "EXTRACTION_FAILED": 2,
+      "DISCOVERY_SOURCE_LOCATION_UNGROUNDED": 2,
+      "AGENT_EXECUTION_FAILED": 1
+    },
+    "boundaries": {
+      "ABSENT": 10
+    }
+  },
+  "A": {
+    "listingBySource": {
+      "tabelog": 8,
+      "tablecheck": 0,
+      "google-places": 3
+    },
+    "firstBatchBySource": {
+      "tabelog": 3,
+      "tablecheck": 0
+    },
+    "modelCalls": 53,
+    "elapsedMs": 1062253,
+    "planningCalls": 24,
+    "planningLatencyMs": 52395,
+    "planningTimeouts": 0,
+    "pagePlanningCalls": 14,
+    "pagePlanningWithCategories": 0,
+    "failures": {
+      "READ_BUDGET_EXCEEDED": 2
+    },
+    "boundaries": {
+      "ABSENT": 10
+    }
+  }
+}

@@ -180,3 +180,14 @@ Current exposed-development discovery baseline: [network-restored-20261019/repor
 ## 2026-10-19 Checkpoint A — stopped by preflight limit
 
 [Checkpoint A report](checkpoint-a-20261019/report.md):1/10 formal probes completed on frozen39fc15e. H001 #2 had two TableCheck preflight EMPTY_RESULT failures with0 models/formal start; together with baseline1, total3 exceeded approved2 and stopped the batch. H001 #1 reported native listing true from broad navigation lists; final keyword3 and first details unchanged, no overall efficacy conclusion. New4 models/5 Google, cumulative145/450 models、21/40 probes、50 Google. Remaining9 A, after-A Google-only nearby fix and P2-1b are unstarted; no full Live. Push partial evidence and stop.
+
+
+## Corrected checkpoint A (2026-10-19)
+
+修正A10在干净209ac42全部完成，外层ee6ebd0／315冻结SHA通过；10次来源非空预检READY，0补试／0正式重跑／0计数失败，正式trace独立S0_BOUNDARY全ABSENT（不推断未知GET无副作用）。新增53模型／53成功决策、19正式Google＋10预检Google；累计198/450模型、31/42探测、79Google、0整单Live。
+
+与acfaaffa同序输入的10次基线比较：Tabelog列表见证1→8／首批0→3；TableCheck列表与首批均0→0；Google精确官网ID5→3（名称线索不计）。列表含宽地区导航，不能当最终改写成功；页面内14次规划类别仍全0，本地提取7个原始锚点与Chromium机制绿灯不能证明真实页面类别扩展有效。总模型55→53，总时长788353→1062253ms；24规划调用52395ms、0超时。两项READ_BUDGET_EXCEEDED及CONTROL候选减少按原记录报告，不归因为某项修复。
+
+逐例比较、来源序列、实际接受历史、页数、半径、规划时间、capture／trace／recording SHA及四层评价限制见checkpoint-a-corrected-20261019/report.md、comparison.json、audit.json。807份历史文件字节不变，旧A1缺陷版本不参与比较且用量保留；录制状态不冒称Replay。源码不变复用五门禁942/942、真实Chromium117/117，另验纯文档链接、JSON、diff与预算。A后只做独立Google-only nearby局部修复，不开始P2-1b／完整Live。
+
+[Full paired report](checkpoint-a-corrected-20261019/report.md)
