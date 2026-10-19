@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.174
+- Document revision: 4.175
 - Last updated: 2026-10-19
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -3880,3 +3880,8 @@ current executable / 本次外站效果未测。修正a37e152五门禁951/119全
 ## DEV-2026-10-19-P21-B-20M-RECHECK-FREEZE
 
 用户最新指令“你等20分钟再测一下”，以收到后UTC13:09:14为保守起点，不早于UTC13:29:14（北京时间21:29:14）补一次网络可达性预检。复用冻结a37e152生产函数与no-proxy，不改产品、模型、输入、原execute.py或已停止账本；两次503仍保留，不伪装为原30分钟恢复窗口内的重试。外层独立environment-recheck-20m/recheck.mjs与plan/approval已冻结，329项旧冻结验证、plan-only、提前调用拒绝均通过（0网络/模型），一次性原子目录防重复。只核对NETWORK_READINESS，不运行来源数据预检、模型或正式探测；返回结果再记录原始产物。复用a37e152五门禁951/951与Chromium119/119，来源能力和B比较仍未验证。累计278/450模型、44/55探测、117 Google、0完整Live不变。原始证据：[独立预检计划](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/environment-recheck-20m/plan.json)。
+
+
+## DEV-2026-10-19-P21-B-20M-RECHECK-RESULT
+
+按用户“你等20分钟再测一下”，冻结e691ca0后在UTC13:30:16.007–13:30:27.363执行一次runDiscoveryProbePreflight；晚于13:29:14，不提前访问。TableCheck范围GET206、Tabelog200、DeepSeek模型目录GET200、Google公开根路径404，NETWORK_READINESS PASSED，生产预检11219ms。原始HTTP元数据及摘要/SHA保存于checkpoint-b-corrected-20261019/environment-recheck-20m/attempt-1。仅4次既有预检GET，0模型生成、0Google搜索、0正式探测；没有来源非空预检、浏览器或Agent评价。原停止账本SHA不变，两次503和计数2保留；该通过不代表列表非空或B产品效果，不自动恢复B。新B仍0/10、模型278/450、探测44/55、Google117、完整Live0。复用a37e152五门禁951/951、Chromium119/119；此次冻结/历史/链接/diff与raw完整性另核。推送本批后停止待复核。报告：[追加预检结果](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/report.md)。

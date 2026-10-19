@@ -224,3 +224,8 @@ B仅完成3/10发现探测：h001两次和神乐坂第1次；3条原始网络审
 新B0/10，全部NOT_REACHED，不作改进／退步或S0通过结论；没有正式Agent结果可交diagnostic evaluator。与A的十行数据和资源逐项保留，H002单列HARD修正组，其他九行P2-1b组合；旧B第一版三次仍排除新比较且计入总预算。新增模型0、正式探测0、正式/数据预检Google0；累计278/450模型、44/55探测、117Google、0新增完整Live。按预定规则停止，不再启动后续九项或额外补试。
 
 [最终报告](checkpoint-b-corrected-20261019/report.md)、[十行对照](checkpoint-b-corrected-20261019/comparison.json)、[时间线和raw SHA](checkpoint-b-corrected-20261019/preflight-timeline.json)、[评价范围](checkpoint-b-corrected-20261019/evaluation-status.json)、[账本](checkpoint-b-corrected-20261019/ledger.json)。模型/浏览器录制均未创建，未伪造产物。源五门禁复用，最终只追加观察与文档并核验冻结/历史SHA、JSON、链接和diff。用户已授权完成后推送，结果以Git回执为准；随后停止待独立复核与环境恢复安排。
+
+
+## 用户追加20分钟后网络预检（2026-10-19 北京21:30）
+
+UTC13:30:16–13:30:27独立预检通过：TableCheck206、Tabelog200、DeepSeek200、Google公开根路径404（原冻结规则认可可达）。0模型、0Google搜索、0正式探测；只证明网络可达，不证明搜索非空或B功能。原两次503与停止账本保持，修正B仍0/10。累计278/450模型、44/55探测、117 Google、0完整Live。详情和原始result见[修正B追加预检结果](checkpoint-b-corrected-20261019/report.md)。
