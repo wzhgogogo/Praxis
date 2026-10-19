@@ -643,3 +643,44 @@ test("Tabelog applies availability controls on the resolved outlet after inspect
   assert.equal(result.offers.length, 1);
   assert.equal(session.navigated.at(-1), selected.url);
 });
+
+test("recorded source price fragments retain exact ranges, course values, tax and quotes", async () => {
+  const { parseTabelogPriceFacts } = await import("./tabelog-page-parser.js");
+  const { parseTableCheckPriceFacts } = await import("../tablecheck/tablecheck-page-parser.js");
+  const expected = JSON.parse(await readFile(new URL("../../harness/browser/fixtures/restaurant-prices/expectations.json", import.meta.url), "utf8")).expected;
+  const sourceUrls: Record<string, string> = {
+    "ginza-sushi-sendou": "https://tabelog.com/en/tokyo/A1301/A130101/13295658/",
+    "ginza-outlet-13292459": "https://tabelog.com/en/tokyo/A1301/A130103/13292459/",
+    "ginza-outlet-13277198": "https://tabelog.com/en/tokyo/A1301/A130101/13277198/",
+    "tablecheck-recorded-menu": "https://www.tablecheck.com/en/alaska-asahi",
+  };
+  for (const [name, url] of Object.entries(sourceUrls)) {
+    const html = await readFile(new URL(`../../harness/browser/fixtures/restaurant-prices/${name}.html`, import.meta.url), "utf8");
+    const text = html.replace(/<[^>]+>/g, " ").replace(/&amp;/g, "&").replace(/\s+/g, " ").trim();
+    const snapshot = { url, html, text, title: name };
+    const facts = name.startsWith("tablecheck") ? parseTableCheckPriceFacts(snapshot) : parseTabelogPriceFacts(snapshot);
+    assert.ok(facts, name);
+    assert.deepEqual(facts.listedCoursePricesYen.map(price => price.amount), expected[name].courses, name);
+    if (expected[name].dinner) assert.deepEqual([facts.dinnerBudgetRangeYen?.min, facts.dinnerBudgetRangeYen?.max], expected[name].dinner);
+    if (expected[name].lunch) assert.deepEqual([facts.lunchBudgetRangeYen?.min, facts.lunchBudgetRangeYen?.max], expected[name].lunch);
+    assert.ok(facts.listedCoursePricesYen.every(price => price.sourceUrl === url && price.quote && price.tax === "INCLUDED"));
+  }
+  assert.equal(parseTabelogPriceFacts({ url: sourceUrls["ginza-sushi-sendou"]!, title: "No price", html: "<p>Contact us</p>", text: "Contact us" }), undefined);
+});
+
+test("Tabelog existing read grounds recorded course prices even when inventory is UNKNOWN", async () => {
+  const url = "https://tabelog.com/en/tokyo/A1301/A130101/13295658/";
+  const fragment = await readFile(new URL("../../harness/browser/fixtures/restaurant-prices/ginza-sushi-sendou.html", import.meta.url), "utf8");
+  // Synthetic identity envelope, unchanged recorded price elements. This is
+  // an Adapter composition control, not a replay of original website identity.
+  const html = '<script type="application/ld+json">{"@type":"Restaurant","name":"Restaurant 1","address":{"streetAddress":"1-1 Shinjuku","addressRegion":"Tokyo"}}</script><h1>Restaurant 1</h1><p>1-1 Shinjuku, Tokyo</p><a href="tel:03-1111-2222">Phone</a>' + fragment;
+  const page = { url, title: "Restaurant 1", html, text: html.replace(/<[^>]+>/g, " ").replace(/&amp;/g, "&").replace(/\s+/g, " ").trim() };
+  const native = structuredClone(candidate);
+  native.restaurant.id = "tabelog:en/tokyo/A1301/A130101/13295658";
+  native.restaurant.sourceIds = { tabelog: "en/tokyo/A1301/A130101/13295658", tabelogNativeDetailUri: url };
+  const session = new FixtureBrowserSession([page]);
+  const read = await new TabelogBrowserAvailability({ openSession: async () => session }).check({ candidates: [native], candidateIds: [native.restaurant.id], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: 2, hardCriteria: [] }, new AbortController().signal);
+  const prices = read.evidence.find(item => item.kind === "RESTAURANT_FACT")?.priceFacts;
+  assert.equal(prices?.listedCoursePricesYen[0]?.amount, 9800, "the opened page's price must survive Adapter → grounding, without a new read");
+  assert.equal(read.offers.length, 0, "listed prices do not establish inventory");
+});

@@ -1,3 +1,4 @@
+import { publicPriceText, sourcePriceElements, quotedCoursePrice } from "../restaurant-availability/source-price-facts.js";
 import type { BrowserPageControl, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
 import { resultRegionBusy } from "../restaurant-search/result-region-busy.js";
 
@@ -885,4 +886,16 @@ export function parseTableCheckVerifiedHardCriteria(snapshot: BrowserSnapshot, h
 
 export function tableCheckPageExcerpt(snapshot: BrowserSnapshot): string {
   return snapshot.text.replace(/\s+/g, " ").trim().slice(0, 600);
+}
+
+/** Source-owned menu cards. A plan listing never asserts its current inventory. */
+export function parseTableCheckPriceFacts(snapshot: BrowserSnapshot): import("../../domains/restaurant/price-facts.js").RestaurantPriceFacts | undefined {
+  const prices: import("../../domains/restaurant/price-facts.js").RestaurantPriceFacts = { schemaVersion: "restaurant-price-facts@1", listedCoursePricesYen: [] };
+  for (const card of sourcePriceElements(snapshot.html, tag => /data-testid=["']Menu Item Card["']/.test(tag))) {
+    const quote = publicPriceText(card);
+    const raw = card.match(/data-price=["'](\d+(?:\.0+)?)["']/)?.[1];
+    const value = raw && quotedCoursePrice(quote, snapshot.url, Number(raw));
+    if (value && /¥|JPY|円/.test(quote) && snapshot.text.replace(/\s+/g, " ").includes(quote)) prices.listedCoursePricesYen.push(value);
+  }
+  return prices.listedCoursePricesYen.length ? prices : undefined;
 }

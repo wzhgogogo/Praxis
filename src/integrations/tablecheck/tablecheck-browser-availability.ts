@@ -1,3 +1,4 @@
+import { parseTableCheckPriceFacts } from "./tablecheck-page-parser.js";
 import { restaurantFailureCode, type RestaurantFailureCode } from "../../domains/restaurant/failure-codes.js";
 import { parseTableCheckCapturedAvailability, tableCheckAvailabilityResponseRule } from "./tablecheck-availability-response.js";
 import type { RestaurantAvailabilityRequest, RestaurantServiceScope } from "../../domains/restaurant/contracts.js";
@@ -871,7 +872,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
       if (availabilityRead.status === "COMPLETED" && assessed.selected && !assessed.loading && !assessed.serviceScope
         && assessed.html.emptyMealtime && !assessed.html.queryComplete) {
         return this.ground(candidate, request, {
-          candidate, observedAt: this.now(), sourceEntityId: activeSelected.extraction.outlet.sourceEntityId,
+          candidate, observedAt: this.now(), priceFacts: parseTableCheckPriceFacts(page), sourceEntityId: activeSelected.extraction.outlet.sourceEntityId,
           sourceUrl: activeSelected.extraction.outlet.sourceUrl, entityMatch: activeSelected.inspection.resolution,
           requestedDate: request.date, requestedPartySize: request.partySize, pageState: "EXTRACTION_FAILED",
           failureCode: "SELECTED_MEALTIME_EMPTY", excerpt: `${JSON.stringify(assessed.html.emptyMealtime)}; other times in the requested window remain UNKNOWN`,
@@ -923,6 +924,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
       ...(observation.serviceScope ? { serviceScope: observation.serviceScope } : {}),
       entityMatch: observation.entityMatch,
       pageState: observation.pageState,
+      ...(observation.priceFacts ? { priceFacts: observation.priceFacts } : {}),
       ...(observation.visibleSlots ? { visibleSlots: observation.visibleSlots } : {}),
       ...(observation.verifiedHardCriteria ? { verifiedHardCriteria: observation.verifiedHardCriteria } : {}),
       ...(observation.excerpt ? { excerpt: observation.excerpt } : {}),

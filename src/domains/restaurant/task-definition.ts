@@ -1,3 +1,4 @@
+import { assessRestaurantConditions } from "./condition-states.js";
 import { createHash } from "node:crypto";
 
 import type { ActionProposal } from "../../core/policy/contracts.js";
@@ -22,7 +23,7 @@ import type {
 import { restaurantAvailabilityRequestFingerprint, restaurantSearchIntentFingerprint } from "./contracts.js";
 import { applyRestaurantIntentPatch } from "./intent-state.js";
 import { restaurantIntentPatchHasChanges } from "./semantic-compiler.js";
-import { assessRestaurantRead } from "./read-assessment.js";
+import { assessRestaurantRead, restaurantCurrentFactEvidence } from "./read-assessment.js";
 import { defaultBatchDeliveryCandidateIds, validateRestaurantAction } from "./action-validator.js";
 import { restaurantReadStopIsSystem, restaurantUnverifiedReadSummary } from "./read-loop-termination.js";
 
@@ -629,7 +630,7 @@ function transition(
         state: {
           ...remaining,
           phase: "PRESENT_RESULTS",
-          presentedResults: { candidateIds: [...event.candidateIds], evidenceIds: [...event.evidenceIds], presentedAt: context.now },
+          presentedResults: { candidateIds: [...event.candidateIds], evidenceIds: [...event.evidenceIds], presentedAt: context.now, conditionStates: Object.fromEntries(event.candidateIds.map(id => [id, assessRestaurantConditions(state.intentDraft!, restaurantCurrentFactEvidence(state, id))])) },
           selectionSession: {
             deliveredCandidateIds: [...new Set([...(state.selectionSession?.deliveredCandidateIds ?? []), ...event.candidateIds])],
             viewedCandidateIds: [...(state.selectionSession?.viewedCandidateIds ?? [])],
@@ -825,7 +826,7 @@ export const restaurantBookingTaskDefinition: TaskDefinition<RestaurantTaskState
   version: "14",
   create() {
     return {
-      schemaVersion: "16",
+      schemaVersion: "17",
       phase: "UNDERSTANDING",
       candidates: [],
       availability: {},

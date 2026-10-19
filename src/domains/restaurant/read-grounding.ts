@@ -42,6 +42,7 @@ export interface UntrustedProviderAvailabilityObservation {
   visibleSlots?: string[];
   /** Source-observed complete course descriptions, not selected-plan availability. */
   listedCourseDetails?: string[];
+  priceFacts?: import("./price-facts.js").RestaurantPriceFacts | undefined;
   /** Explicit page-supported reception information; missing booking UI is not evidence of walk-in. */
   receptionMode?: RestaurantReceptionMode;
   /** A short page-derived walk-in statement when walk-in is explicitly supported. */
@@ -531,20 +532,21 @@ export function groundProviderAvailability(
     entityMatch: { confidence: "HIGH", matchedBy: [...observation.entityMatch.matchedBy] },
   };
   const listedCourseDetails = (observation.listedCourseDetails ?? []).filter(note => note.trim() && note.length <= 1600).slice(0, 3);
-  const factEvidence: RestaurantReadEvidence | undefined = observation.verifiedHardCriteria?.length || listedCourseDetails.length ? {
-    evidenceId: evidenceId(`${provider.toLocaleLowerCase("en-US")}-hard-criteria`, { candidateId: candidate.restaurant.id, observedAt: observation.observedAt, criteria: observation.verifiedHardCriteria, listedCourseDetails }),
+  const factEvidence: RestaurantReadEvidence | undefined = observation.verifiedHardCriteria?.length || listedCourseDetails.length || observation.priceFacts ? {
+    evidenceId: evidenceId(`${provider.toLocaleLowerCase("en-US")}-hard-criteria`, { candidateId: candidate.restaurant.id, observedAt: observation.observedAt, criteria: observation.verifiedHardCriteria, listedCourseDetails, priceFacts: observation.priceFacts }),
     kind: "RESTAURANT_FACT",
     provider,
     candidateId: candidate.restaurant.id,
     ...(observation.sourceEntityId ? { sourceEntityId: observation.sourceEntityId } : {}),
     ...(observation.sourceUrl ? { sourceUrl: observation.sourceUrl } : {}),
     observedAt: observation.observedAt,
-    requestFingerprint: fingerprint({ candidateId: candidate.restaurant.id, criteria: observation.verifiedHardCriteria, listedCourseDetails }),
+    requestFingerprint: fingerprint({ candidateId: candidate.restaurant.id, criteria: observation.verifiedHardCriteria, listedCourseDetails, priceFacts: observation.priceFacts }),
     claims: {
       verifiedHardCriteria: [...observation.verifiedHardCriteria ?? []],
       ...(listedCourseDetails.length ? { listedCourseDetails } : {}),
       ...(observation.serviceScope ? { serviceScopeField: observation.serviceScope.field, serviceScopeGroup: observation.serviceScope.group, serviceScopeValue: observation.serviceScope.value, serviceScopeLabel: observation.serviceScope.label } : {}),
     },
+    ...(observation.priceFacts ? { priceFacts: structuredClone(observation.priceFacts) } : {}),
     entityMatch: { confidence: "HIGH", matchedBy: [...observation.entityMatch.matchedBy] },
   } : undefined;
   const independentEvidence = [entityEvidence, ...(factEvidence ? [factEvidence] : [])];

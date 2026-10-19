@@ -13,7 +13,7 @@ export async function evaluateFrozenCalibrationArtifact(manifest: string, runId:
   const observations = sourceContext ? await loadCalibrationObservations(sourceContext, runId, input.sourceArtifact.sha256) : undefined;
   const goldCorrection = goldCorrections && input.artifact !== undefined ? await loadApprovedGoldCorrection(goldCorrections, runId, input.artifact, input.sourceArtifact.sha256) : undefined;
   const evaluation = evaluateRestaurantHybridLiveArtifact(input.artifact, input.sourceArtifact, { ...input.options, ...observations?.options, ...(witnessOracle ? { witnessOracle } : {}), ...(goldCorrection ? { goldCorrection } : {}) });
-  const outputPath = resolve(outputDirectory, `${runId}.evaluation.29.${randomUUID()}.json`);
+  const outputPath = resolve(outputDirectory, `${runId}.evaluation.${evaluation.evaluatorVersion.split("@").at(-1)}.${randomUUID()}.json`);
   await mkdir(outputDirectory, { recursive: true });
   await writeFile(outputPath, JSON.stringify({ ...evaluation, frozenInput: { manifestSha256: input.manifestSha256, fileRefs: input.fileRefs, ...(observations ? { observationContextSha256: observations.contextSha256, observationRefs: observations.refs } : {}) } }, null, 2), { flag: "wx" });
   return { evaluation, outputPath };

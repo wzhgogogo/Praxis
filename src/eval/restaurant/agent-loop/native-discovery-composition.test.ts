@@ -454,7 +454,7 @@ test("the production Router advances the default three-pack cursor and reaches G
     date, timeWindow: { earliest: "19:00", latest: "19:00" }, partySize: 2,
     area: { query: "Shibuya", coordinates: { ...center, observedAt: reference.toISOString(), source: "MANUAL_PLACE" as const } }, criteria: [],
   };
-  let state: RestaurantTaskState = { schemaVersion: "16", phase: "UNDERSTANDING", intentDraft, candidates: [], availability: {}, availabilityChecks: {}, readEvidence: [], searchRevision: 0 };
+  let state: RestaurantTaskState = { schemaVersion: "17", phase: "UNDERSTANDING", intentDraft, candidates: [], availability: {}, availabilityChecks: {}, readEvidence: [], searchRevision: 0 };
   const first = await router.execute({ type: "SEARCH_RESTAURANTS" }, state, reference.toISOString(), "phase2-router-pack");
   assert.equal(first.event?.type, "SEARCH_COMPLETED");
   if (first.event?.type !== "SEARCH_COMPLETED") throw new Error("expected first discovery result");

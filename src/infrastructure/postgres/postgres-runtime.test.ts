@@ -410,9 +410,9 @@ describe("PostgresTaskRuntime with PGlite", () => {
         stateHashBefore: "context-hash",
         causalRefs: { eventIds: [], commandIds: [], attemptIds: [], evidenceIds: [] },
         capabilities: [],
-          contextSchemaVersion: "11",
+          contextSchemaVersion: "12",
         decisionContext: {
-            schemaVersion: "11",
+            schemaVersion: "12",
           now: "2026-08-20T00:00:00.000Z",
           phase: "SEARCHING",
           missingBlockingFields: [],
@@ -430,9 +430,9 @@ describe("PostgresTaskRuntime with PGlite", () => {
       });
 
       const [step] = await store.list("trajectory-context-task");
-      assert.equal(step?.contextSchemaVersion, "11");
+      assert.equal(step?.contextSchemaVersion, "12");
       assert.deepEqual(step?.decisionContext, {
-        schemaVersion: "11",
+        schemaVersion: "12",
         now: "2026-08-20T00:00:00.000Z",
         phase: "SEARCHING",
         missingBlockingFields: [],
@@ -872,7 +872,7 @@ describe("PostgresTaskRuntime with PGlite", () => {
       });
 
       assert.equal(restored.runId, "restaurant-run-1");
-      assert.equal(restored.domainState.schemaVersion, "16");
+      assert.equal(restored.domainState.schemaVersion, "17");
       assert.equal(restored.domainState.phase, "SEARCHING");
       assert.equal(restored.version, 2);
       assert.equal(duplicate.duplicateEvent, true);

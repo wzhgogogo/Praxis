@@ -1,3 +1,4 @@
+import type { RestaurantPriceFacts } from "./price-facts.js";
 import type { RestaurantFailureCode } from "./failure-codes.js";
 import type { ExecutionResult } from "../../core/execution/contracts.js";
 import type { ActionProposal, Authorization, PolicyDenialCode } from "../../core/policy/contracts.js";
@@ -235,6 +236,8 @@ export interface RestaurantReadEvidence {
   supersedesEvidenceIds?: string[];
   requestFingerprint: string;
   claims: Record<string, string | number | boolean | string[]>;
+  /** Structured, quoted public price facts, independently versioned. */
+  priceFacts?: RestaurantPriceFacts;
   entityMatch?: {
     confidence: "HIGH" | "MEDIUM" | "LOW";
     matchedBy: string[];
@@ -692,7 +695,7 @@ export interface VerifiedReservation {
 }
 
 export interface RestaurantTaskState {
-  schemaVersion: "16";
+  schemaVersion: "17";
   phase: RestaurantPhase;
   intentDraft?: RestaurantIntentDraft;
   intent?: RestaurantSearchIntent;
@@ -728,7 +731,7 @@ export interface RestaurantTaskState {
   investigationRevision?: number;
   selectedCandidateId?: string;
   selectedOfferId?: string;
-  presentedResults?: { candidateIds: string[]; evidenceIds: string[]; presentedAt: string };
+  presentedResults?: { candidateIds: string[]; evidenceIds: string[]; presentedAt: string; conditionStates: Record<string, import("./condition-states.js").RestaurantConditionState[]> };
   /** Scoped normal read completion, never a claim that every restaurant is unavailable. */
   noVerifiedResult?: { termination: RestaurantReadTermination; endedAt: string; investigatedCandidateIds: string[]; unresolvedCandidateIds: string[]; remainingGaps: string[] };
   /** An explicit user refresh only rechecks previously displayed candidates. */

@@ -83,7 +83,7 @@ const claims = object({ serviceScopeField: text, serviceScopeGroup: text, servic
   verifiedNegativeCriteria: texts, restaurantTypeFacts: texts, categoryUnknownNegativeCriteria: texts,
   openingHoursMatch: boolean, regularOpeningHours: texts, date: text, partySize: number, visibleSlots: texts, inventoryStatus: text });
 const evidence = object({ evidenceId: text, kind: text, provider: text, candidateId: text, sourceEntityId: text,
-  observedAt: text, displayExpiresAt: text, expiresAt: text, claims, entityMatch: object({ confidence: text }) });
+  sourceUrl: text, observedAt: text, displayExpiresAt: text, expiresAt: text, claims, entityMatch: object({ confidence: text }) });
 const check = object({ status: text, reasonCode: text, evidenceIds: texts });
 const offer = object({ id: text, restaurantId: text, source: text, dateTime: text, partySize: number, checkedAt: text,
   displayExpiresAt: text, expiresAt: text, alternativeToRequestedTime: boolean, serviceScope });
@@ -115,6 +115,7 @@ const traceDetail = object({ snapshotSequence: number, controls: array(control),
   readNetworkBoundary: text, networkRequests: array(networkRequest),
   url: text, method: text, args: array(raw), responses: array(object({ url: text, status: number, observedAt: text, body: tabelogBody })),
   observedStateTags: array(object({ tag: text, class: text, "data-time": text, disabled: text, "aria-disabled": text })),
+  priceRegions: array(object({ markup: text, truncated: boolean, visibleTextIncluded: boolean })),
   queryRegions: array(object({ truncated: boolean, ancestorMarkupHidden: boolean, markup: text })) });
 const traceHeader = object({ sequence: number, at: text, kind: text });
 type ParsedTrace = Value<typeof traceHeader> & { detail?: Value<typeof traceDetail>; networkRequests?: Value<typeof networkRequest>[] };
@@ -131,7 +132,7 @@ const trace: Decoder<ParsedTrace> = (value, path, issues) => {
 };
 const domain = object({ intentDraft: intent, phase: text, availabilityChecks: dictionary(check), factChecks: dictionary(check),
   availability: dictionary(array(offer)), readEvidence: array(evidence), candidates: array(candidate),
-  presentedResults: object({ candidateIds: texts, evidenceIds: texts, presentedAt: text }),
+  presentedResults: object({ candidateIds: texts, evidenceIds: texts, presentedAt: text, conditionStates: dictionary(array(object({ text, polarity: text, strength: text, status: text, explanation: text, evidenceIds: texts, sources: array(object({ sourceUrl: text, quote: text })) }))) }),
   noVerifiedResult: object({ endedAt: text, investigatedCandidateIds: texts, unresolvedCandidateIds: texts, remainingGaps: texts, termination }),
   failure: object({ code: text }), searchContinuation: object({ lastFailureCode: text }) });
 const run = object({ runId: text, caseId: text, status: text, stage: text, failureCode: optionalFailure, startedAt: text, finishedAt: text,

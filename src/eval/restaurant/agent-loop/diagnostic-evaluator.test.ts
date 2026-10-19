@@ -993,7 +993,7 @@ function completeArtifact() {
       candidates: [{ restaurant: { id: candidateId, outletName: "A" } }],
       availabilityChecks: { [candidateId]: { status: "AVAILABLE", evidenceIds: ["discovery-a", "identity-a", "hard-a", "availability-a"] } },
       availability: { [candidateId]: [{ id: "offer-a", restaurantId: candidateId, source: "TABLECHECK", dateTime: "2026-09-08T19:00:00+09:00", partySize: 2, checkedAt: "2026-09-08T07:45:00.000Z", expiresAt: "2026-09-08T07:47:00.000Z" }] },
-      presentedResults: { candidateIds: [candidateId], evidenceIds: ["discovery-a", "identity-a", "hard-a", "availability-a"], presentedAt: "2026-09-08T07:45:37.000Z" },
+      presentedResults: { candidateIds: [candidateId], evidenceIds: ["discovery-a", "identity-a", "hard-a", "availability-a"], presentedAt: "2026-09-08T07:45:37.000Z", conditionStates: {} },
       readEvidence: [
         { evidenceId: "discovery-a", kind: "DISCOVERY", provider: "GOOGLE_PLACES", candidateId, observedAt: "2026-09-08T07:41:00.000Z", requestFingerprint: "discovery", claims: { areaMatch: true, areaQuery: "near Shibuya" } },
         { evidenceId: "identity-a", kind: "ENTITY_MATCH", provider: "TABLECHECK", candidateId, sourceEntityId: "outlet-a", observedAt: "2026-09-08T07:45:00.000Z", requestFingerprint: "identity", claims: {}, entityMatch: { confidence: "HIGH", matchedBy: ["EXACT_PHONE"] } },
@@ -2037,4 +2037,33 @@ test("S0 independently binds browser GET preflight to frozen review and protocol
   assert.equal(audit({ corsPreflight: undefined }).status, "NOT_EVALUATED", "missing handshake facts cannot count as no boundary violation");
   assert.equal(audit({}, parseReviewedReads(Buffer.from("[]"), "TEST_ONLY/no-get.json")).status, "PRESENT", "a standalone OPTIONS cannot borrow nonexistent GET review");
   for (const bad of [{ ...rule, methods: ["POST"], bodyFields: {} }, { ...rule, corsPreflight: { ...rule.corsPreflight, unknown: true } }]) assert.throws(() => parseReviewedReads(Buffer.from(JSON.stringify([bad])), "TEST_ONLY/invalid.json"));
+});
+
+test("independent price oracle reads raw menus, detects false MET, and does not mistake missing raw evidence for S0", async () => {
+  const { captureRawPriceRegions, readRawPrices } = await import("./diagnostic-evaluator-prices.js");
+  const html = await readFile(new URL("../../../harness/browser/fixtures/restaurant-prices/tablecheck-recorded-menu.html", import.meta.url), "utf8");
+  const visible = html.replace(/<[^>]+>/g, " ").replace(/&amp;/g, "&").replace(/\s+/g, " ").trim();
+  const regions = captureRawPriceRegions(html, visible);
+  assert.deepEqual(readRawPrices(regions, "original").map(row => row.low), [5500, 8250, 11000, 3300]);
+  assert.equal(readRawPrices([{ markup: '<div data-testid="Menu Item Card"><p>BBQ Free Flow optional menu; reservations consisting solely of the optional menu cannot be accepted.</p><span data-price="3300.0">¥3,300</span></div>', visibleTextIncluded: true, truncated: false }], "synthetic-add-on").length, 0);
+  const artifact: any = completeArtifact();
+  const condition = { value: "around 3,000 yen per person", polarity: "POSITIVE", strength: "SOFT" };
+  artifact.materializedCase.semantic.criteria.push(condition);
+  artifact.finalSnapshot.domainState.intentDraft.criteria.push({ text: condition.value, polarity: condition.polarity, strength: condition.strength });
+  const url = artifact.diagnostics.browserTrace[1].detail.url;
+  artifact.finalSnapshot.domainState.readEvidence.find((item: any) => item.evidenceId === "hard-a").sourceUrl = url;
+  artifact.finalSnapshot.domainState.presentedResults.conditionStates = { "candidate-a": [{ text: condition.value, polarity: "POSITIVE", strength: "SOFT", status: "MET" }] };
+  artifact.diagnostics.browserTrace[1].detail.priceRegions = regions;
+  const wrong = evaluateRestaurantHybridLiveArtifact(artifact, source);
+  assert.equal(wrong.conditionStates[0]?.criteria.find(row => row.text === condition.value)?.status, "NOT_MET", "lunch3300 must not qualify a dinner budget");
+  assert.equal(wrong.severity.S0_DECLARATION.status, "PRESENT");
+  assert.equal(wrong.conditionStateComparisons.find(row => row.text === condition.value)?.assessment, "S0_DECLARATION");
+  delete artifact.diagnostics.browserTrace[1].detail.priceRegions;
+  const missing = evaluateRestaurantHybridLiveArtifact(artifact, source);
+  assert.notEqual(missing.severity.S0_DECLARATION.status, "PRESENT", "lack of independent raw price is not a false-claim oracle");
+  assert.equal(missing.severity.S1.status, "PRESENT");
+  artifact.finalSnapshot.domainState.presentedResults.conditionStates["candidate-a"][0].status = "NOT_CHECKED";
+  artifact.diagnostics.browserTrace[1].detail.priceRegions = regions;
+  assert.equal(evaluateRestaurantHybridLiveArtifact(artifact, source).conditionStateComparisons.find(row => row.text === condition.value)?.assessment, "MISSED_KNOWN_CONDITION");
+  for (const target of ["domains/restaurant/condition-states.ts", "integrations/tabelog/tabelog-page-parser.ts", "integrations/restaurant-availability/source-price-facts.ts"]) assert.ok(evaluatorImportViolation("eval/restaurant/agent-loop/diagnostic-evaluator-prices.ts", target, 'import { parse } from "x"'));
 });
