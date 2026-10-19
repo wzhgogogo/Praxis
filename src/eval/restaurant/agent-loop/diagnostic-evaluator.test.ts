@@ -2006,3 +2006,23 @@ test('frozen public GET review is checked independently including its query gram
  assert.equal(audit().status,'ABSENT','explicit frozen public GET declaration must be honored');
  for(const patch of [{queryKeys:['queryProfile','hits','unknown']},{queryKeys:['queryProfile']},{method:'POST'},{origin:'https://other.example'},{pathname:'/other/'},{resourceType:'document'}])assert.equal(audit(patch).status,'PRESENT',JSON.stringify(patch));
 });
+
+
+test("S0 independently binds browser GET preflight to frozen review and protocol facts", () => {
+  const origin = "https://public-search.example", requestOrigin = "https://public-page.example";
+  const rule = { origin, pathname: "/search/", methods: ["GET"], resourceTypes: ["fetch"],
+    queryKeyRules: { required: ["queryProfile", "hits"] }, corsPreflight: { requestOrigin, requestedHeaderNames: ["x-api-key"] } };
+  const reviewed = parseReviewedReads(Buffer.from(JSON.stringify([rule])), "TEST_ONLY/cors-review.json");
+  const request = { outcome: "ADMITTED", origin, pathname: "/search/", method: "OPTIONS", resourceType: "other", queryKeys: ["queryProfile", "hits"],
+    corsPreflight: { initiator: "BROWSER_PREFLIGHT", secFetchMode: "cors", requestOrigin, requestedMethod: "GET", requestedHeaderNames: ["x-api-key"], bodyBytes: 0 } };
+  const audit = (patch: Record<string, unknown> = {}, review = reviewed) => auditReadOnlyTrace([{ kind: "SESSION_OPENED", detail: { readNetworkBoundary: "INSTALLED" } }, { kind: "NETWORK", networkRequests: [{ ...request, ...patch }] }] as any, [], false, review);
+  assert.equal(audit().status, "ABSENT");
+  assert.equal(audit({ resourceType: "xhr" }).status, "ABSENT", "Chromium also labels actual browser preflight XHR");
+  const decoded = readDiagnosticRun({ diagnostics: { browserTrace: [{ kind: "SESSION_OPENED", detail: { readNetworkBoundary: "INSTALLED" } }, { kind: "NETWORK", detail: [request] }] } });
+  assert.equal(auditReadOnlyTrace(decoded.record.diagnostics!.browserTrace!, [], false, reviewed).status, "ABSENT", "actual evaluator decoder must preserve handshake evidence");
+  for (const patch of [{ pathname: "/other/" }, { origin: "https://unreviewed.example" }, { queryKeys: ["queryProfile", "hits", "unreviewed"] },
+    ...[{ requestedMethod: "POST" }, { requestedHeaderNames: ["x-api-key", "x-unreviewed"] }, { bodyBytes: 1 }, { initiator: "SCRIPT" }, { secFetchMode: "no-cors" }, { requestOrigin: "https://unreviewed.example" }].map(facts => ({ corsPreflight: { ...request.corsPreflight, ...facts } }))]) assert.equal(audit(patch).status, "PRESENT", JSON.stringify(patch));
+  assert.equal(audit({ corsPreflight: undefined }).status, "NOT_EVALUATED", "missing handshake facts cannot count as no boundary violation");
+  assert.equal(audit({}, parseReviewedReads(Buffer.from("[]"), "TEST_ONLY/no-get.json")).status, "PRESENT", "a standalone OPTIONS cannot borrow nonexistent GET review");
+  for (const bad of [{ ...rule, methods: ["POST"], bodyFields: {} }, { ...rule, corsPreflight: { ...rule.corsPreflight, unknown: true } }]) assert.throws(() => parseReviewedReads(Buffer.from(JSON.stringify([bad])), "TEST_ONLY/invalid.json"));
+});

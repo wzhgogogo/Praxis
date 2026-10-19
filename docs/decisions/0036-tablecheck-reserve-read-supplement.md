@@ -28,3 +28,12 @@ Guard 形态对照验证 GET document 放行；POST/HEAD/fetch、额外/重复/�
 独立复核在 kf-h003 #28 与 kf-h001 Sushi Teppen 录制中确认预约文档已放行，但 CDN 静态资源被拦导致空白。追加 source-owned 静态规则：仅 `https://cdn0.tablecheck.com` 至 `https://cdn3.tablecheck.com` 下 `/assets/table_check/` 的 script、stylesheet、font、image，方法 GET/HEAD。其他路径不因本规则获得许可，POST、fetch、document、cdn4 与第三方 googletagmanager/sentry 仍拒绝。旧 /common/ 独立规则不扩大。不得因此推进任何预约下一步。
 
 Guard 正反例验证所有四个 CDN 与四种资源类型及拒绝形态；来源响应为固定传输，只证明网络准入，不证明预约页完整渲染或库存。真实效果留待重新认证后的独立 Live。
+
+
+## TableCheck 新搜索接口的 GET 预检例外（用户 2026-10-19 批准）
+
+TableCheck 改用 `https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/` 公共搜索接口；页面自己的 GET 带 `x-api-key` 头，浏览器先生成 CORS 预检。用户于 2026-10-19 批准追加最窄例外：只允许依附于同一 origin、同一路径和同一查询字段语法的已审核 GET 规则的 OPTIONS。当前路径精确为 `/search/`，不扩大到 catalog、其他子路径、其他域名或普通 OPTIONS。
+
+在 Chromium Fetch 请求暂停边界核对浏览器保留的 `Origin`、`Access-Control-Request-*` 和 `Sec-Fetch-Mode: cors`（页面 JavaScript 不能伪造这些头）；不依赖可能缺失或迟到的 Network initiator 标记。页面 Origin `https://www.tablecheck.com`、`Access-Control-Request-Method: GET`、空请求体，以及 `Access-Control-Request-Headers` 中每个头名均属于实际观察到的 `x-api-key`。POST 预检、额外头、无对应 GET 规则、重定向或不完整观察均拒绝。代码不发起 OPTIONS，也不注入或保存 API key 的值；网站自己的请求继续使用浏览器本身提供的头。
+
+Pack、冻结的外层 reviewed-reads、Recorder 与独立 S0 网络审核同步保留该规则及无值协议事实。Playwright 的既有 route 拦截会本地应答真实浏览器预检：本地 Chromium 验证以 CDP 预检记录和后续 GET 的独立接收端为证据，不把本地应答称为网站 OPTIONS 响应。当前 sanitized HAR 未保存可忠实回放的握手，含此预检的录制如实为 NOT_REPLAYABLE；此限制不影响保留 trace。无交付资格、HARD、身份、半径、日期或库存规则变更。

@@ -1,7 +1,7 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.55
+- Document revision: 1.56
 - Last updated: 2026-10-19
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
@@ -269,3 +269,8 @@ Local Playwright Chromium与Cloudflare BrowserSession共用CDP逐跳重定向保
 ## 2026-10-19 TableCheck transport diagnosis (partial / not a restored baseline)
 
 Zero-model Chromium comparison identified the new exact tablecheck.net /catalog.json (metadata) and /search/ (public result JSON) GET transports. Narrow source rules and Recorder review grammar pass a real local receiver fixture; API readiness counts document hits, not catalog values or a DOM shell. Actual browser search additionally requires CORS OPTIONS for requested GET with x-api-key header name. That method remains blocked under the user GET-only constraint pending clarification. No restored-source or completed baseline claim; witness recertification/probes/Live not started. Evidence: .eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/report.md.
+
+
+## 2026-10-19 authorized CORS follow-up
+
+User 2026-10-19 approved GET-bound browser CORS preflight for the exact new search endpoint, with observed x-api-key header name and no body. CDP initiator, Origin, method, header names and matching GET query grammar are checked; external review/S0/Recorder are aligned. Local Chromium receiver and refusal controls pass. No code-initiated OPTIONS/header injection. Playwright locally fulfills intercepted preflights; unfaithful HAR remains NOT_REPLAYABLE. Actual source readiness and new baseline are still pending.

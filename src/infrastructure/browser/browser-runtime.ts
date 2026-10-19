@@ -19,6 +19,8 @@ export interface BrowserReadNetworkRequestRule {
    * a cache-buster key is release-specific. All unlisted keys still fail.
    */
   queryKeyRules?: { required: readonly string[]; allowed?: readonly string[]; repeatable?: readonly string[]; allowedPatterns?: readonly string[] };
+  /** Browser-generated, bodyless GET CORS handshake; never a standalone OPTIONS permission. */
+  corsPreflight?: { requestOrigin: string; requestedHeaderNames: readonly string[] };
   /** Exact flat public JSON shape for an independently reviewed read query. */
   bodyFields?: Readonly<Record<string, "string" | "number">>;
 }
@@ -39,6 +41,17 @@ export interface BrowserCapturedResponse {
   body: unknown;
 }
 
+/** Protocol facts only, never the values of requested headers. */
+export interface BrowserReadCorsPreflightObservation {
+  /** Recognized at the browser Fetch boundary from browser-reserved CORS headers. */
+  initiator: "BROWSER_PREFLIGHT";
+  secFetchMode: string;
+  requestOrigin: string;
+  requestedMethod: string;
+  requestedHeaderNames: string[];
+  bodyBytes: number;
+}
+
 /** A value-free request shape captured by an installed read boundary. */
 export interface BrowserReadNetworkObservation {
   outcome: "ADMITTED" | "BLOCKED" | "REDIRECT_BLOCKED" | "FAILED" | "TIMED_OUT";
@@ -47,6 +60,7 @@ export interface BrowserReadNetworkObservation {
   method: string;
   resourceType: string;
   queryKeys: string[];
+  corsPreflight?: BrowserReadCorsPreflightObservation;
 }
 
 export interface BrowserSettlementDiagnostics {

@@ -1,0 +1,45 @@
+preflight metadata get [{"type":"Other","initiator":"preflight"}]
+✖ TableCheck browser GET preflight is tied to its reviewed read and rejects other methods, headers and paths (152.617209ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 463.01925
+
+✖ failing tests:
+
+test at src/harness/browser/read-network-redirect.test.ts:1:20224
+✖ TableCheck browser GET preflight is tied to its reviewed read and rejects other methods, headers and paths (152.617209ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+      {
+        bytes: 0,
+  -     headerNames: 'x-api-key',
+  -     method: 'OPTIONS',
+  -     path: '/search/?queryProfile=public&hits=5',
+  -     requestedMethod: 'GET'
+  -   },
+  -   {
+  -     bytes: 0,
+        headerNames: undefined,
+        method: 'GET',
+        path: '/search/?queryProfile=public&hits=5',
+        requestedMethod: undefined
+      }
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/p21-tablecheck-baseline/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts:345:18)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ { method: 'GET', path: '/search/?queryProfile=public&hits=5', requestedMethod: undefined, headerNames: undefined, bytes: 0 } ],
+    expected: [ { method: 'OPTIONS', path: '/search/?queryProfile=public&hits=5', requestedMethod: 'GET', headerNames: 'x-api-key', bytes: 0 }, { method: 'GET', path: '/search/?queryProfile=public&hits=5', requestedMethod: undefined, headerNames: undefined, bytes: 0 } ],
+    operator: 'deepStrictEqual'
+  }

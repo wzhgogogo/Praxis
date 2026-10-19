@@ -36,11 +36,30 @@ export function recordedPostMatches(request, reviewedBytes) {
     && /^application\/json(?:;|$)/i.test(body.contentType ?? '') && fieldsMatch(body.fieldTypes, rule.bodyFields));
 }
 
+/** Independent frozen-rule audit of protocol names only. No production policy import. */
+export function recordedPreflightMatches(request, reviewedBytes) {
+  const facts = request.corsPreflight;
+  if (request.method !== 'OPTIONS' || !['other', 'fetch', 'xhr'].includes(request.resourceType) || !request.origin || !request.pathname
+    || !facts || facts.initiator !== 'BROWSER_PREFLIGHT' || facts.secFetchMode !== 'cors' || facts.requestedMethod !== 'GET' || facts.bodyBytes !== 0
+    || !Array.isArray(facts.requestedHeaderNames) || !Array.isArray(request.queryKeys)) return false;
+  let origin; try { origin = new URL(request.origin).origin; } catch { return false; }
+  return JSON.parse(reviewedBytes).some(rule => {
+    const cors = rule.corsPreflight, keys = request.queryKeys, query = rule.queryKeyRules;
+    if (!cors || !rule.methods?.includes('GET') || !rule.resourceTypes?.some(type => ['fetch', 'xhr'].includes(type))
+      || rule.origin !== origin || !(rule.pathname === request.pathname || rule.pathnamePattern && new RegExp(rule.pathnamePattern).test(request.pathname))
+      || cors.requestOrigin !== facts.requestOrigin || facts.requestedHeaderNames.some(name => !name || !cors.requestedHeaderNames.includes(name))) return false;
+    return query ? query.required.every(key => keys.includes(key))
+      && keys.every(key => [...query.required, ...(query.allowed ?? []), ...(query.repeatable ?? [])].includes(key))
+      && keys.every(key => keys.filter(value => value === key).length === 1 || query.repeatable?.includes(key)) : keys.length === 0;
+  });
+}
+
 export function postBodyStop(row, reviewedBytes) {
   if (row.kind === 'OUTER_POST_BODY' && row.detail?.status !== 'MATCH') return { code: row.detail?.status === 'MISMATCH' ? 'REVIEWED_POST_BODY_MISMATCH' : 'REVIEWED_POST_BODY_EVIDENCE_GAP', request: row.detail };
   const requests = row.kind === 'NETWORK' ? row.detail : row.detail?.networkRequests;
   for (const request of Array.isArray(requests) ? requests : []) {
     if (request.outcome !== 'ADMITTED' || ['GET','HEAD'].includes(request.method)) continue;
+    if (request.method === 'OPTIONS' && recordedPreflightMatches(request, reviewedBytes)) continue;
     const { rule } = endpoint({ ...request, url: request.origin.replace(/\/$/, '') + request.pathname }, reviewedBytes);
     if (request.method !== 'POST' || !rule || request.queryKeys?.length) return { code: 'ADMITTED_NON_READ_METHOD', request };
     // NETWORK is the canonical cumulative mirror with outerRequestId/body

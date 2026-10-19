@@ -1,7 +1,7 @@
 # Golden Scenarios
 
 - Status: Accepted
-- Document revision: 0.11
+- Document revision: 0.12
 - Last updated: 2026-10-19
 - Source of truth for: 首批Harness场景目录和核心断言
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md)
@@ -108,3 +108,8 @@ Stage 2B的`W01–W05`已作为Local HTTP/SSE + PGlite集成场景实现并通�
 ## TableCheck public JSON transport controls (2026-10-19)
 
 The real local Chromium receiver in read-network-redirect.test.ts proves exact reviewed catalog/search GETs reach the receiver and POST/HEAD, unknown query fields and other paths do not. Recorder retains safe fixture JSON via the same frozen review grammar. Source preflight tests reject metadata/facets as venue hits; external audit independently checks the frozen GET grammar. These controls do not prove the real search path restored: its CORS OPTIONS handshake is still blocked pending clarification.
+
+
+## 2026-10-19 authorized CORS follow-up
+
+read-network-redirect.test.ts additionally covers genuine browser GET preflight plus refused POST preflight, extra header, wrong path, missing GET rule and manual OPTIONS. CDP protocol facts, independent GET receiver, Live sanitization, Recorder and external observer are checked. Independent S0 covers normal, missing and contradictory facts. This local fixture is not current website or baseline evidence.

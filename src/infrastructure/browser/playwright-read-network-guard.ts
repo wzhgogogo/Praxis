@@ -1,6 +1,6 @@
 import type { BrowserContext, CDPSession, Page, Request, Route } from "playwright-core";
 
-import type { BrowserReadNetworkObservation, BrowserReadNetworkPolicy, BrowserReadNetworkRequestRule } from "./browser-runtime.js";
+import type { BrowserReadCorsPreflightObservation, BrowserReadNetworkObservation, BrowserReadNetworkPolicy, BrowserReadNetworkRequestRule } from "./browser-runtime.js";
 
 type NetworkDiagnosticCode = "BLOCKED_ENDPOINT" | "BLOCKED_FIELDS" | "BLOCKED_METHOD" | "BLOCKED_REDIRECT" | "READ_REQUEST_FAILED" | "READ_TIMEOUT";
 type NetworkDiagnostic = { code: NetworkDiagnosticCode; origin: string; pathname: string; method: string; resourceType: string; queryKeys: string[] };
@@ -191,7 +191,7 @@ export class PlaywrightReadNetworkGuard {
         const process = async () => {
           const url = new URL(event.request.url), method = event.request.method;
           const type = String(networkTypes.get(event.networkId) ?? event.resourceType).toLowerCase();
-          const request = { headerValue: async (name: string) => Object.entries(event.request.headers as Record<string, string>).find(([key]) => key.toLowerCase() === name.toLowerCase())?.[1] ?? null, postData: () => event.request.postData ?? null };
+          const request = { headerValue: async (name: string) => Object.entries(event.request.headers as Record<string, string>).find(([key]) => key.toLowerCase() === name.toLowerCase())?.[1] ?? null, postData: () => event.request.postData ?? (event.request.hasPostData ? "BODY_UNAVAILABLE" : null) };
           if (event.responseStatusCode !== undefined) {
             const entry = redirected.get(event.requestId);
             if (!entry) { await send("Fetch.continueResponse", { requestId: event.requestId }); return; }
@@ -200,7 +200,7 @@ export class PlaywrightReadNetworkGuard {
               const status = event.responseStatusCode as number;
               const location = headers.location ? new URL(headers.location, url) : undefined;
               const nextMethod = status === 303 && method !== "HEAD" || [301, 302].includes(status) && method === "POST" ? "GET" : method;
-              const targetAdmitted = location && await this.admitsRedirectRequest(location, request, nextMethod, type);
+              const targetAdmitted = method !== "OPTIONS" && location && await this.admitsRedirectRequest(location, request, nextMethod, type);
               const body = !this.recordResponse || status >= 300 && status < 400 || method === "HEAD" || status === 204
                 ? new Uint8Array() : await send("Fetch.getResponseBody", { requestId: event.requestId }).then(value => Buffer.from(value.body, value.base64Encoded ? "base64" : "utf8"));
               await this.recordResponse?.({ url: url.toString(), method, resourceType: type, status, contentType: headers["content-type"] ?? "", body,
@@ -223,14 +223,25 @@ export class PlaywrightReadNetworkGuard {
           // Redirect metadata is only for chain accounting, never authority.
           // Chromium-native redirects may bypass Playwright's ordinary route;
           // a missing marker or normalized target must not bypass this policy.
-          if (!await this.admitsRedirectRequest(url, request, method, type)) {
+          // Origin, Sec-Fetch-* and Access-Control-Request-* are browser-reserved
+          // headers: page JS cannot forge them. Read the actual paused request,
+          // not a timing-dependent Network initiator event or a model assertion.
+          const corsPreflight = method === "OPTIONS"
+            ? { initiator: "BROWSER_PREFLIGHT" as const, secFetchMode: await request.headerValue("sec-fetch-mode") ?? "", requestOrigin: await request.headerValue("origin") ?? "",
+                requestedMethod: await request.headerValue("access-control-request-method") ?? "",
+                requestedHeaderNames: (await request.headerValue("access-control-request-headers") ?? "").split(",").map(name => name.trim().toLowerCase()),
+                bodyBytes: Buffer.byteLength(request.postData() ?? "") } : undefined;
+          const admitted = method === "OPTIONS"
+            ? !isRedirect && !replay && await this.admitsPreflight(url, request, type, corsPreflight)
+            : await this.admitsRedirectRequest(url, request, method, type);
+          if (!admitted) {
             this.blocked(isRedirect ? "BLOCKED_REDIRECT" : ["GET", "HEAD"].includes(method) ? "BLOCKED_ENDPOINT" : "BLOCKED_METHOD", url, method, type);
             await send("Fetch.failRequest", { requestId: event.requestId, errorReason: "BlockedByClient" }); return;
           }
           const previous = event.redirectedRequestId ? chains.get(event.redirectedRequestId) : undefined;
           chains.set(event.requestId, expected ?? { hops: previous ? previous.hops + 1 : isRedirect ? 1 : 0, started: previous?.started ?? Date.now() });
           // An admitted unrecognized/initial request also traverses the normal route.
-          if (!isRedirect) { await send("Fetch.continueRequest", { requestId: event.requestId }); return; }
+          if (!isRedirect && method !== "OPTIONS") { await send("Fetch.continueRequest", { requestId: event.requestId }); return; }
           const chain = chains.get(event.requestId)!;
           // HAR never gets a live-network fallback for a redirect it did not
           // fulfill itself. Every request that reaches this branch is native.
@@ -238,7 +249,7 @@ export class PlaywrightReadNetworkGuard {
             this.blocked("BLOCKED_REDIRECT", url, method, type);
             await send("Fetch.failRequest", { requestId: event.requestId, errorReason: "BlockedByClient" }); return;
           }
-          this.requests.push({ outcome: "ADMITTED", origin: url.origin, pathname: url.pathname, method, resourceType: type, queryKeys: [...new Set(url.searchParams.keys())].sort() });
+          this.requests.push({ outcome: "ADMITTED", origin: url.origin, pathname: url.pathname, method, resourceType: type, queryKeys: [...new Set(url.searchParams.keys())].sort(), ...(corsPreflight ? { corsPreflight } : {}) });
           const timer = setTimeout(() => {
             this.redirectTimers.delete(timer);
             this.blocked("READ_TIMEOUT", url, method, type);
@@ -254,6 +265,20 @@ export class PlaywrightReadNetworkGuard {
       await send("Target.setAutoAttach", { autoAttach: true, waitForDebuggerOnStart: true, flatten: false });
     };
     await configure(session.send.bind(session), (method, handler) => { session.on(method as any, handler); });
+  }
+
+  private async admitsPreflight(url: URL, request: Pick<Request, "headerValue" | "postData">, type: string, facts?: BrowserReadCorsPreflightObservation): Promise<boolean> {
+    if (url.username || url.password || !/^https?:$/.test(url.protocol) || !["other", "fetch", "xhr"].includes(type)
+      || !facts || facts.secFetchMode !== "cors" || facts.requestedMethod !== "GET" || facts.bodyBytes !== 0) return false;
+    for (const rule of this.policy.dynamicReads) {
+      const cors = rule.corsPreflight;
+      if (!cors || !rule.methods?.includes("GET") || facts.requestOrigin !== cors.requestOrigin
+        || facts.requestedHeaderNames.some(name => !name || !cors.requestedHeaderNames.includes(name))) continue;
+      // Check the matching GET's full endpoint/query grammar, never invent an
+      // OPTIONS-only rule or admit unrelated resource types/origins.
+      for (const resource of ["fetch", "xhr"]) if (await allows(rule, request, url, "GET", resource)) return true;
+    }
+    return false;
   }
 
   private async admitsRedirectRequest(url: URL, request: Pick<Request, "headerValue" | "postData">, method: string, type: string): Promise<boolean> {

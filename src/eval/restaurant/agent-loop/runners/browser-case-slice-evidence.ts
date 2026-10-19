@@ -19,6 +19,12 @@ export function safeString(value: string): string {
 }
 
 export function safeRecord(value: unknown, key = ""): unknown {
+  // CORS evidence stores a canonical public Origin, not a URL to be rewritten
+  // with a slash (which would change the observed protocol field).
+  if (key === "requestOrigin" && typeof value === "string") {
+    try { const url = new URL(value); return /^https?:$/.test(url.protocol) && url.origin === value ? value : "[INVALID_ORIGIN]"; }
+    catch { return "[INVALID_ORIGIN]"; }
+  }
   if (/(?:secret|password|cookie|authorization|api[_-]?key|access[_-]?token|csrf|session[_-]?id)/i.test(key)) return "[REDACTED]";
   if ((key === "html" || key === "text") && typeof value === "string") return {
     sha256: createHash("sha256").update(value).digest("hex"), length: value.length,
@@ -361,5 +367,6 @@ export function snapshotRecord(snapshot: BrowserSnapshot): Record<string, unknow
     ...(snapshot.networkRequests?.length ? { networkRequests: snapshot.networkRequests.map(item => ({
       outcome: item.outcome, origin: item.origin, pathname: item.pathname,
       method: item.method, resourceType: item.resourceType, queryKeys: item.queryKeys,
+      ...(item.corsPreflight ? { corsPreflight: { ...item.corsPreflight, requestedHeaderNames: [...item.corsPreflight.requestedHeaderNames] } } : {}),
     })) } : {}) };
 }

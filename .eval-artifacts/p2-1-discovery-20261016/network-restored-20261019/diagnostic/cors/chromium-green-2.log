@@ -1,0 +1,38 @@
+preflight metadata get [{"type":"Other","initiator":"preflight"}]
+✖ TableCheck browser GET preflight is tied to its reviewed read and rejects other methods, headers and paths (155.068417ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 467.111167
+
+✖ failing tests:
+
+test at src/harness/browser/read-network-redirect.test.ts:1:20224
+✖ TableCheck browser GET preflight is tied to its reviewed read and rejects other methods, headers and paths (155.068417ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+      bodyBytes: 0,
+      initiator: 'BROWSER_PREFLIGHT',
+  +   requestOrigin: 'http://127.0.0.1:56796/',
+  -   requestOrigin: 'http://127.0.0.1:56796',
+      requestedHeaderNames: [
+        'x-api-key'
+      ],
+      requestedMethod: 'GET'
+    }
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/p21-tablecheck-baseline/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts:361:18)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { initiator: 'BROWSER_PREFLIGHT', requestOrigin: 'http://127.0.0.1:56796/', requestedMethod: 'GET', requestedHeaderNames: [ 'x-api-key' ], bodyBytes: 0 },
+    expected: { initiator: 'BROWSER_PREFLIGHT', requestOrigin: 'http://127.0.0.1:56796', requestedMethod: 'GET', requestedHeaderNames: [ 'x-api-key' ], bodyBytes: 0 },
+    operator: 'deepStrictEqual'
+  }

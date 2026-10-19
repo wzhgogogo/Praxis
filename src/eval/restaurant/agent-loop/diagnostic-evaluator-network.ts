@@ -6,6 +6,7 @@ export interface ReviewedReadRule {
   origin: string; pathname?: string; pathnamePattern?: string; methods: string[]; resourceTypes: string[];
   queryKeyRules?: { required: string[]; allowed?: string[]; repeatable?: string[] };
   bodyFields?: Record<string, string>;
+  corsPreflight?: { requestOrigin: string; requestedHeaderNames: string[] };
 }
 export interface ReviewedReads { rules: ReviewedReadRule[]; refs: string[]; sha256: string; }
 export interface BoundaryGap { kind: "EVIDENCE_GAP" | "RULE_GAP"; request: string; missing: string[]; evidenceRefs: string[]; }
@@ -21,7 +22,7 @@ export function parseReviewedReads(raw: Uint8Array, path: string): ReviewedReads
   const strings = (value: unknown): string[] => { if (!Array.isArray(value) || value.some(item => typeof item !== "string" || !item)) throw Error("Invalid reviewed-read strings"); return value; };
   if (!Array.isArray(rules)) throw Error("Expected reviewed-read array");
   for (const item of rules) {
-    const rule = keys(item, ["origin", "pathname", "pathnamePattern", "methods", "resourceTypes", "queryKeyRules", "bodyFields"]);
+    const rule = keys(item, ["origin", "pathname", "pathnamePattern", "methods", "resourceTypes", "queryKeyRules", "bodyFields", "corsPreflight"]);
     if (typeof rule.origin !== "string" || new URL(rule.origin).origin !== rule.origin || [rule.pathname, rule.pathnamePattern].filter(value => typeof value === "string").length !== 1) throw Error("Invalid reviewed-read endpoint");
     if (rule.pathnamePattern !== undefined && (typeof rule.pathnamePattern !== "string" || !rule.pathnamePattern.startsWith("^") || !rule.pathnamePattern.endsWith("$"))) throw Error("Unanchored reviewed-read path");
     if (strings(rule.methods).some(method => !["GET", "HEAD", "POST"].includes(method))) throw Error("Unsupported reviewed method");
@@ -34,6 +35,12 @@ export function parseReviewedReads(raw: Uint8Array, path: string): ReviewedReads
       if (!rule.bodyFields || typeof rule.bodyFields !== "object" || Array.isArray(rule.bodyFields) || Object.values(rule.bodyFields).some(value => !["string", "number", "boolean"].includes(String(value)))) throw Error("Invalid reviewed body grammar");
     }
     if ((rule.methods as string[]).includes("POST") && rule.bodyFields === undefined) throw Error("POST review needs bodyFields");
+    if (rule.corsPreflight !== undefined) {
+      const cors = keys(rule.corsPreflight, ["requestOrigin", "requestedHeaderNames"]);
+      if (!(rule.methods as string[]).includes("GET") || !(rule.resourceTypes as string[]).some(type => ["fetch", "xhr"].includes(type))
+        || typeof cors.requestOrigin !== "string" || new URL(cors.requestOrigin).origin !== cors.requestOrigin
+        || strings(cors.requestedHeaderNames).some(name => !/^[a-z0-9-]+$/.test(name))) throw Error("Invalid GET-bound CORS preflight review");
+    }
   }
   const sha256 = createHash("sha256").update(raw).digest("hex");
   return { rules: rules as ReviewedReadRule[], sha256, refs: [`${path}#sha256=${sha256}`] };
@@ -98,6 +105,24 @@ export function auditReadOnlyTrace(traces: TraceRecord[], fallback: NetworkReque
     try { path = decodeURIComponent(request.pathname); } catch { violations.push(`Malformed request path: ${label}`); refs.push(ref); continue; }
     if (!origin || sensitivePath.test(path) || keys.some(key => sensitiveField.test(key))) { violations.push(`Sensitive or non-public dispatched request: ${label}`); refs.push(ref); continue; }
     const rule = reviewed?.rules.find(rule => rule.origin === origin && (rule.pathname === path || rule.pathnamePattern && new RegExp(rule.pathnamePattern).test(path)) && rule.methods.includes(method) && rule.resourceTypes.includes(type));
+    if (method === "OPTIONS") {
+      // Bind the handshake to an independently frozen GET, never to ADMITTED.
+      const get = reviewed?.rules.find(rule => rule.origin === origin
+        && (rule.pathname === path || rule.pathnamePattern && new RegExp(rule.pathnamePattern).test(path))
+        && rule.methods.includes("GET") && rule.resourceTypes.some(value => ["fetch", "xhr"].includes(value)) && rule.corsPreflight
+        && (rule.queryKeyRules ? queryMatches(keys, rule.queryKeyRules.required, rule.queryKeyRules.allowed, rule.queryKeyRules.repeatable) : keys.length === 0));
+      if (!get?.corsPreflight) { violations.push(`Dispatched OPTIONS without matching reviewed GET: ${label}`); refs.push(ref); continue; }
+      const facts = request.corsPreflight;
+      if (!facts || facts.initiator === undefined || facts.secFetchMode === undefined || facts.requestOrigin === undefined || facts.requestedMethod === undefined || facts.requestedHeaderNames === undefined || facts.bodyBytes === undefined) {
+        gap("EVIDENCE_GAP", label, ["browser preflight initiator, origin, requested method/header names and empty-body observation"], ref); continue;
+      }
+      if (!["other", "fetch", "xhr"].includes(type) || facts.initiator !== "BROWSER_PREFLIGHT" || facts.secFetchMode !== "cors" || facts.requestedMethod !== "GET" || facts.bodyBytes !== 0
+        || facts.requestOrigin !== get.corsPreflight.requestOrigin
+        || facts.requestedHeaderNames.some(name => !name || !get.corsPreflight!.requestedHeaderNames.includes(name))) {
+        violations.push(`Dispatched CORS preflight contradicts reviewed GET: ${label}`); refs.push(ref);
+      }
+      continue;
+    }
     if (method === "POST") {
       if (!rule?.bodyFields) {
         // The public calendar is known to require review, not intrinsically a write.

@@ -4385,3 +4385,14 @@ Corrected the eval-only baseline stop predicate to use native source witness met
 Authorized commits35c5dc2/4315ab8/3094193 pushed. Zero-model real TableCheck comparison proves catalog metadata GET and actual search GET at the new tablecheck.net origin; current Guard blocks catalog. Narrow GET declarations, API-document readiness count and frozen external GET audit added with effective red/green evidence. Actual search still requires browser CORS OPTIONS (requested GET, header name x-api-key); GET-only constraint preserved while clarification is pending. This is a partial transport fix, not a completed baseline. No witness recertification/probe/checkpoint/Live started; model budget remains86/450. Isolated fix worktree only; do not replace baseline point until transport is complete.
 
 Final GET-only offline gates: typecheck/arch/build PASS, default935/935, real local Chromium114/114. Actual CORS blocker remains; no formal probes or witness requests.
+
+
+## TEST-2026-10-19-P21-tablecheck-cors
+
+L0：typecheck/arch/build通过，默认936/936；S0独立审核的合法/缺证/冲突协议事实通过。L1：真实Chromium六种预检对照通过，包括GET正常接收、POST预检/未知头/错路径/无GET规则/普通OPTIONS拒绝；Live trace与Recorder保留协议事实且无header值。有效红灯与中间接线失败均在network-restored-20261019/diagnostic/cors/保留。完整浏览器门禁115/115通过，日志gates/cors/browser.log；本条当前0新增真实模型/Google/探测/整单Live，实际网站验证单列。
+
+最终类型补齐门禁另见gates/cors-final；并行默认套件有一次PGlite/V8原生崩溃，保留日志，不推定根因，不修改无关产品/测试；浏览器完整115/115通过，默认套件串行复验936/936通过（test-serial.log）。首轮变基组合940/940及Chromium116/116通过（基于344bea7），最终组合会在共同修复冻结后再验。
+
+最终有效时序反例为diagnostic/cors/missing-marker-red.log→missing-marker-green.log；此前XHR类型字符样本并未复现缺标记，不能替代该红灯。含新Sec-Fetch-Mode事实的五门禁在gates/protocol-final/单独保存，原两轮日志保留为中间证据。
+
+最终协议头版五门禁：typecheck/arch/build全绿、npm test936/936、完整真实Chromium115/115（222.056s），gates/protocol-final/results.json。中间原生崩溃已保留，此次顺序默认/浏览器门禁无失败。

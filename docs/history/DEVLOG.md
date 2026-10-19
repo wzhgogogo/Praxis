@@ -3683,3 +3683,12 @@ Corrected the eval-only baseline stop predicate to use native source witness met
 Authorized commits35c5dc2/4315ab8/3094193 pushed. Zero-model real TableCheck comparison proves catalog metadata GET and actual search GET at the new tablecheck.net origin; current Guard blocks catalog. Narrow GET declarations, API-document readiness count and frozen external GET audit added with effective red/green evidence. Actual search still requires browser CORS OPTIONS (requested GET, header name x-api-key); GET-only constraint preserved while clarification is pending. This is a partial transport fix, not a completed baseline. No witness recertification/probe/checkpoint/Live started; model budget remains86/450. Isolated fix worktree only; do not replace baseline point until transport is complete.
 
 Final GET-only offline gates: typecheck/arch/build PASS, default935/935, real local Chromium114/114. Actual CORS blocker remains; no formal probes or witness requests.
+
+
+## DEV-2026-10-19-P21-tablecheck-cors
+
+用户于2026-10-19批准最窄CORS例外：Pack的/search/ GET规则附带页面Origin与已观察头名；Guard在CDP核对真实browser-preflight initiator、请求GET、无body及同一GET查询语法。没有独立OPTIONS规则，不发起OPTIONS或注入API key。外层、Recorder、Live脱敏trace和独立S0按同一冻结审核接线；原始头值不落盘。ADR-0036补充仅追加。真实Chromium原合法GET阻断红灯已保存，修复后六种正反例通过；Playwright既有route会本地应答预检，测试核对CDP握手与独立GET接收端，不声称上游OPTIONS返回。含握手但缺忠实HAR的录制仍为NOT_REPLAYABLE。无Prompt、Gold或交付资格变更；实际网站对照和新基线尚未运行。
+
+CORS补齐：实际对照两种模式均20家；地图查询的合法预检被Chromium记为xhr，按同一协议规则识别Other/Fetch/XHR，范围不扩到其他请求。原始误拒及独立S0反例留证；XHR本地样本仍为Other，明确不将其称为红灯。
+
+最终协议依据：独立CDP观察证明四次均为浏览器预检，其中一次在Guard暂停事件缺关联Network标记；仅放开XHR类型不足。删除额外Network标记依赖，按实际请求的浏览器保留Origin/ACR*/Sec-Fetch-Mode=cors及已审核GET形状核验。真实本地“Guard无Network诊断流”先红后绿，独立CDP与GET接收端不受替换；手工OPTIONS尝试伪造预检头仍拒绝。无其他许可扩大。

@@ -292,3 +292,99 @@ test('TableCheck public search JSON reaches an independent receiver while writes
     assert.equal(captured.length,2);assert.ok(captured.some((entry:any)=>entry.request.url.endsWith('/search/?queryProfile=public&hits=5')));
   }finally{await browser?.close();for(const server of [api,site])await new Promise<void>(resolve=>{server.close(()=>resolve());server.closeAllConnections();});await rm(directory,{recursive:true,force:true});}
 });
+
+
+// Real cross-origin browser fetches produce the OPTIONS; no test/client code
+// sends OPTIONS or forges Access-Control-Request-* headers.
+test("TableCheck browser GET preflight is tied to its reviewed read and rejects other methods, headers and paths", async () => {
+  const { tableCheckPublicSearchReads } = await import("../../integrations/tablecheck/tablecheck-public-query.js");
+  const { BrowserReadRecording } = await import("../../eval/restaurant/agent-loop/runners/browser-read-recording.js");
+  const { postBodyStop } = await import(new URL("../../eval/restaurant/agent-loop/post-body-audit.mjs", import.meta.url).href);
+  const { mkdtemp, readFile, rm } = await import("node:fs/promises");
+  const { tmpdir } = await import("node:os"); const { join } = await import("node:path");
+  const arrivals: Array<{ method: string; path: string; requestedMethod: string | undefined; headerNames: string | undefined; bytes: number }> = [];
+  const api = createServer(async (request, response) => {
+    let bytes = 0; for await (const chunk of request) bytes += chunk.length;
+    arrivals.push({ method: request.method!, path: request.url!, requestedMethod: request.headers["access-control-request-method"] as string | undefined,
+      headerNames: request.headers["access-control-request-headers"] as string | undefined, bytes });
+    response.setHeader("access-control-allow-origin", "*");
+    response.setHeader("access-control-allow-methods", "GET, POST");
+    response.setHeader("access-control-allow-headers", "x-api-key, x-unreviewed");
+    response.setHeader("access-control-max-age", "0");
+    response.setHeader("content-type", "application/json");
+    response.end(request.method === "OPTIONS" ? "" : '{"root":{"children":[{"id":"fixture-one","source":"public-shop","fields":{"id":"fixture-one"}}]}}');
+  });
+  const site = createServer((_request, response) => { response.setHeader("content-type", "text/html"); response.end("<h1>Public cross-origin search</h1>"); });
+  for (const server of [api, site]) await new Promise<void>(resolve => server.listen(0, "127.0.0.1", resolve));
+  const apiAddress = api.address(), siteAddress = site.address(); assert.ok(apiAddress && typeof apiAddress !== "string" && siteAddress && typeof siteAddress !== "string");
+  const apiOrigin = `http://127.0.0.1:${apiAddress.port}`, origin = `http://127.0.0.1:${siteAddress.port}`;
+  const directory = await mkdtemp(join(tmpdir(), "tc-preflight-"));
+  let browser: import("playwright-core").Browser | undefined;
+  try {
+    browser = await chromium.launch({ headless: true });
+    for (const mode of ["get", "xhr", "missing-network-marker", "post", "extra-header", "other-path", "no-get-rule", "manual-options"] as const) {
+      const context = await browser.newContext({ serviceWorkers: "block" });
+      try {
+        await context.grantPermissions(["local-network-access"], { origin });
+        const reads = tableCheckPublicSearchReads.filter(rule => rule.pathname === "/search/").map(rule => ({ ...rule, origin: apiOrigin,
+          ...(rule.corsPreflight ? { corsPreflight: { ...rule.corsPreflight, requestOrigin: origin } } : {}),
+          ...(mode === "no-get-rule" ? { methods: [] as const } : {}) }));
+        const recorder = new BrowserReadRecording({ directory, runId: mode, reviewedReads: reads });
+        // A real Fetch pause can lack its Network initiator event. Remove only
+        // that diagnostic stream on the Guard session; independent CDP below
+        // still observes the real browser-generated preflight.
+        const openCdp = context.newCDPSession.bind(context);
+        if (mode === "missing-network-marker") context.newCDPSession = async (...args) => {
+          const cdp = await openCdp(...args), send = cdp.send.bind(cdp);
+          cdp.send = (async (method: any, params: any) => method === "Network.enable" ? {} : send(method, params)) as typeof cdp.send;
+          return cdp;
+        };
+        const guard = new PlaywrightReadNetworkGuard({ documentOrigins: [origin], staticResources: [], dynamicReads: reads }, 5_000, response => recorder.recordResponse(response));
+        await guard.install(context); const page = await context.newPage(); await guard.preparePage(context, page); guard.prepareNavigation(origin + "/"); await page.goto(origin + "/");
+        context.newCDPSession = openCdp;
+        const metadata: unknown[] = []; const cdp = await context.newCDPSession(page);
+        cdp.on("Network.requestWillBeSent", event => { if (event.request.method === "OPTIONS") metadata.push({ type: event.type, initiator: event.initiator.type }); }); await cdp.send("Network.enable");
+        const before = arrivals.length;
+        const ok = await page.evaluate(async ({ url, mode }) => {
+          if (mode === "xhr") return new Promise<boolean>(resolve => {
+            const request = new XMLHttpRequest(); request.open("GET", url); request.setRequestHeader("x-api-key", "LOCAL_FIXTURE_ONLY"); request.timeout = 5_000;
+            request.onload = () => resolve(request.status === 200); request.onerror = request.ontimeout = () => resolve(false); request.send();
+          });
+          try { const response = await fetch(url, { method: mode === "post" ? "POST" : mode === "manual-options" ? "OPTIONS" : "GET",
+            headers: mode === "manual-options" ? { "access-control-request-method": "GET", "access-control-request-headers": "x-api-key" } : { "x-api-key": "LOCAL_FIXTURE_ONLY", ...(mode === "extra-header" ? { "x-unreviewed": "LOCAL_FIXTURE_ONLY" } : {}) } }); return response.ok; } catch { return false; }
+        }, { url: apiOrigin + (mode === "other-path" ? "/other/" : "/search/") + "?queryProfile=public&hits=5", mode });
+        console.log("preflight metadata", mode, JSON.stringify(metadata));
+        assert.equal(ok, ["get", "xhr", "missing-network-marker"].includes(mode), `${mode}: browser GET handshake must reach receiver; disallowed requests must not`);
+        if (["get", "xhr", "missing-network-marker"].includes(mode)) {
+          // Playwright's existing interception locally fulfills genuine browser
+          // preflights. The independent receiver must observe the resulting GET;
+          // a synthetic server-side OPTIONS response is not our oracle.
+          assert.deepEqual(metadata, [{ type: "Other", initiator: "preflight" }]);
+          assert.deepEqual(arrivals.slice(before), [
+            { method: "GET", path: "/search/?queryProfile=public&hits=5", requestedMethod: undefined, headerNames: undefined, bytes: 0 },
+          ]);
+          const preflight = guard.snapshotRequests().find(row => row.outcome === "ADMITTED" && row.method === "OPTIONS");
+          assert.ok(preflight, "CDP-only browser handshake must be recorded, not silently bypassed");
+          assert.deepEqual(preflight.corsPreflight, { initiator: "BROWSER_PREFLIGHT", secFetchMode: "cors", requestOrigin: origin, requestedMethod: "GET", requestedHeaderNames: ["x-api-key"], bodyBytes: 0 });
+          const reviewed = Buffer.from(JSON.stringify(reads));
+          assert.equal(postBodyStop({ kind: "NETWORK", detail: guard.snapshotRequests() }, reviewed), null, "independent outer observer accepts only the reviewed handshake");
+          assert.ok(postBodyStop({ kind: "NETWORK", detail: [{ ...preflight, corsPreflight: { ...preflight.corsPreflight, requestedMethod: "POST" } }] }, reviewed));
+          const { snapshotRecord, safeRecord } = await import("../../eval/restaurant/agent-loop/runners/browser-case-slice-evidence.js");
+          const snapshot = { url: page.url(), title: "Search", html: await page.content(), text: "Public cross-origin search", networkRequests: guard.snapshotRequests() };
+          const traced = safeRecord(snapshotRecord(snapshot)) as any;
+          assert.deepEqual(traced.networkRequests.find((row: any) => row.method === "OPTIONS").corsPreflight, preflight.corsPreflight, "Live trace sanitization retains independent handshake facts");
+          assert.equal(postBodyStop({ kind: "NETWORK", detail: traced.networkRequests }, reviewed), null);
+          recorder.recordSnapshot(snapshot);
+          const result = await recorder.finish(); const stored = JSON.parse(await readFile(join(result.path, "recording.json"), "utf8"));
+          const storedRequest = stored.entries.flatMap((entry: any) => entry.kind === "NETWORK" ? entry.detail : []).find((request: any) => request.method === "OPTIONS");
+          assert.deepEqual(storedRequest.corsPreflight, preflight.corsPreflight);
+          assert.equal(JSON.stringify(stored).includes("LOCAL_FIXTURE_ONLY"), false, "record no actual header values");
+          assert.equal(result.replay.status, "NOT_REPLAYABLE", "CORS transport without faithful handshake capture cannot claim replayability");
+        } else assert.equal(arrivals.length, before, `${mode}: no forbidden handshake or request reaches receiver`);
+      } finally { await context.close(); }
+    }
+  } finally {
+    await browser?.close(); for (const server of [api, site]) await new Promise<void>(resolve => { server.close(() => resolve()); server.closeAllConnections(); });
+    await rm(directory, { recursive: true, force: true });
+  }
+});

@@ -5,6 +5,7 @@ export const TABLECHECK_PUBLIC_SEARCH_ORIGIN = "https://search-v4.production.ap-
 export const tableCheckPublicSearchReads: readonly BrowserReadNetworkRequestRule[] = [
   { origin: TABLECHECK_PUBLIC_SEARCH_ORIGIN, pathname: "/catalog.json", methods: ["GET"], resourceTypes: ["fetch", "xhr"], queryKeys: [] },
   { origin: TABLECHECK_PUBLIC_SEARCH_ORIGIN, pathname: "/search/", methods: ["GET"], resourceTypes: ["fetch", "xhr"],
+    corsPreflight: { requestOrigin: "https://www.tablecheck.com", requestedHeaderNames: ["x-api-key"] },
     queryKeyRules: { required: ["queryProfile", "hits"], allowed: ["scope", "lat", "lng", "radius_km", "party_size", "cuisine", "sort", "offset", "id", "open_day", "service_mode"] } },
 ];
 

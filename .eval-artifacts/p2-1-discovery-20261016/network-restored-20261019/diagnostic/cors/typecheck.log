@@ -1,0 +1,8 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/harness/browser/read-network-redirect.test.ts(308,19): error TS2379: Argument of type '{ method: string; path: string; requestedMethod: string | undefined; headerNames: string | undefined; bytes: number; }' is not assignable to parameter of type '{ method: string; path: string; requestedMethod?: string; headerNames?: string; bytes: number; }' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'requestedMethod' are incompatible.
+    Type 'string | undefined' is not assignable to type 'string'.
+      Type 'undefined' is not assignable to type 'string'.

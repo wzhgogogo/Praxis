@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.250
+- Document revision: 4.251
 - Last updated: 2026-10-19
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-19 P2-1 tablecheck-cors：** 用户于2026-10-19批准最窄CORS例外：Pack的/search/ GET规则附带页面Origin与已观察头名；Guard在Chromium Fetch暂停边界核对浏览器保留预检头（Origin、ACR*、Sec-Fetch-Mode=cors）、请求GET、无body及同一GET查询语法，不依赖可能缺失的Network标记。没有独立OPTIONS规则，不发起OPTIONS或注入API key。外层、Recorder、Live脱敏trace和独立S0按同一冻结审核接线；原始头值不落盘。ADR-0036补充仅追加。真实Chromium原合法GET阻断红灯已保存，修复后六种正反例通过，五门禁936/936与Chromium115/115全绿；Playwright既有route会本地应答预检，测试核对CDP握手与独立GET接收端，不声称上游OPTIONS返回。含握手但缺忠实HAR的录制仍为NOT_REPLAYABLE。无Prompt、Gold或交付资格变更；实际网站对照和新基线尚未运行。
 
 - **2026-10-19 P2-1 tablecheck-get-draft：** Authorized commits35c5dc2/4315ab8/3094193 pushed. Zero-model real TableCheck comparison proves catalog metadata GET and actual search GET at the new tablecheck.net origin; current Guard blocks catalog. Narrow GET declarations, API-document readiness count and frozen external GET audit added with effective red/green evidence. Actual search still requires browser CORS OPTIONS (requested GET, header name x-api-key); GET-only constraint preserved while clarification is pending. This is a partial transport fix, not a completed baseline. No witness recertification/probe/checkpoint/Live started; model budget remains86/450. Isolated fix worktree only; do not replace baseline point until transport is complete.
 
