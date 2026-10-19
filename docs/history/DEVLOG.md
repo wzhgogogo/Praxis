@@ -3900,3 +3900,10 @@ current executable / 本次外站效果未测。修正a37e152五门禁951/119全
 ## DEV-2026-10-19-P21-B-USER-RETRY4-ENV-STOP
 
 按用户“再试一次，如果通过直接跑”，外层63a8136在运行前冻结，仅接纳当前0模型/0正式启动、历史3次失败的状态；保留旧attempt/stopHistory与userResume历史，允许这一次额外尝试，不放宽网络或来源非空检查。24项离线对照通过。UTC14:54:30.244–14:54:40.128再次尝试，TableCheck首页范围GET503（TLS成功），DeepSeek200、Tabelog200、Google公开根路径404。NETWORK_READINESS失败，来源非空和正式B均未到达，未增加自动重试。累计失败4、PREFLIGHT_FAILURE_LIMIT；本次0模型/Google搜索/正式探测，B仍0/10，累计278/450模型、44/55探测、117Google、0完整Live。复用a37e152五门禁951/119，原始HTTP元数据、账本前缀证明、冻结和历史SHA完整性均保存。报告：[本次结果](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/report.md)。提交推送后停下。
+
+## DEV-2026-10-19-P22-SELECTION-TIMING
+
+- Evidence status: current executable isolated feature / exposed regression；分支codex/feat-p2-2-selection，主/P2-1树不变。
+- 两个现有Pack推导availabilityPath，生产组装附到DISCOVERY，Context@13/Prompt@26仅给选择线索，资格/排序/预算不变；最新已观察值不借旧或未来提示。旧组合路径断言有效红灯，现有正常受控组合交付3家。
+- Eval计时自动接Hybrid/来源探针成功失败产物；52份旧产物离线复算，明确未归因/缺时间；30次地区路径仅诊断，native-restaurant-search.ts未改。独立条件评分补充到原回放入口，无新平台。
+- 复核e96a493 revision2经用户批准，冻结290658f后五颗各一次；首轮外层在格式错停于2/5，按用户已授权的仅外层修正6283843续跑未运行3颗，不重跑/清洗旧输出。5/30模型，门槛FAIL，未开始Live/第5项。证据与限制见[批次报告](../../.eval-artifacts/p2-2-selection-20261019/report.md)。

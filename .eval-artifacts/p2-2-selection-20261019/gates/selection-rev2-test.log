@@ -1,0 +1,44 @@
+✔ P2-2 conditional selection oracle checks every target and leaves uncompiled reviewer conditions unassessed (41.246542ms)
+✔ E1 replay seeds retain both real h001 decisions and leave conditional proposals unscored (32.23675ms)
+✔ replay excludeCandidateIds rejects intersections and accepts disjoint candidate sets (0.139625ms)
+✔ replay candidateIdsExact compares sets independently of order and rejects missing or extra candidates (0.05575ms)
+✔ replay rejects unknown match fields rather than ignoring their requirements (0.148458ms)
+✔ replay validates every matching alternative before any model call (1.197917ms)
+✔ P1-B original replay preserves complete captured messages and counts the failed call once (2.916333ms)
+✖ P1-B static saved DOM uses current Executor targets with scripts and external requests disabled (31.686333ms)
+✔ C1 injection preserves captured goals and targets and limits history to six steps in the same read (0.929916ms)
+✔ C8 raw Agent replay injects only categories observed before the decision and preserves legal actions (0.382958ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 9
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 456.807583
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/decision-replay.test.ts:1:11768
+✖ P1-B static saved DOM uses current Executor targets with scripts and external requests disabled (31.686333ms)
+  browserType.launch: Target page, context or browser has been closed
+  Browser logs:
+  
+  <launching> /Applications/Google Chrome.app/Contents/MacOS/Google Chrome --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/playwright_chromiumdev_profile-0AfcJc --remote-debugging-pipe --no-startup-window
+  <launched> pid=4897
+  Call log:
+  [2m  - <launching> /Applications/Google Chrome.app/Contents/MacOS/Google Chrome --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/playwright_chromiumdev_profile-0AfcJc --remote-debugging-pipe --no-startup-window[22m
+  [2m  - <launched> pid=4897[22m
+  [2m  - [pid=4897] <gracefully close start>[22m
+  [2m  - [pid=4897] <kill>[22m
+  [2m  - [pid=4897] <will force kill>[22m
+  [2m  - [pid=4897] exception while trying to kill process: Error: kill EPERM[22m
+  [2m  - [pid=4897] <process did exit: exitCode=null, signal=SIGABRT>[22m
+  [2m  - [pid=4897] starting temporary directories cleanup[22m
+  [2m  - [pid=4897] finished temporary directories cleanup[22m
+  [2m  - [pid=4897] <gracefully close end>[22m
+  
+      at rebuildBrowserInput (/private/tmp/praxis-p2-2-selection-20261019/src/eval/restaurant/agent-loop/runners/run-decision-replay.ts:177:34)
+      at TestContext.<anonymous> (/private/tmp/praxis-p2-2-selection-20261019/src/eval/restaurant/agent-loop/decision-replay.test.ts:130:24) {
+    log: [ '  - <launching> /Applications/Google Chrome.app/Contents/MacOS/Google Chrome --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/playwright_chromiumdev_profile-0AfcJc --remote-debugging-pipe --no-startup-window', '  - <launched> pid=4897', '  - [pid=4897] <gracefully close start>', '  - [pid=4897] <kill>', '  - [pid=4897] <will force kill>', '  - [pid=4897] exception while trying to kill process: Error: kill EPERM', '  - [pid=4897] <process did exit: exitCode=null, signal=SIGABRT>', '  - [pid=4897] starting temporary directories cleanup', '  - [pid=4897] finished temporary directories cleanup', '  - [pid=4897] <gracefully close end>' ]
+  }

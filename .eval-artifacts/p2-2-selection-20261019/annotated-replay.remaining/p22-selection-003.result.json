@@ -1,0 +1,69 @@
+{
+  "seedId": "p22-selection-003",
+  "codeCommit": "628384389637d5b78b9d5d2bee65cdc1c957ced6",
+  "inputSha256": "9eb3c9b6ea921ac1fccdf848ec62415be5f5e6907a9e6563e0ae4d76fe68738f",
+  "annotationRevision": 2,
+  "scenario": "SHIBUYA_OMAKASE",
+  "oldStrictComparison": {
+    "status": "NOT_APPLICABLE",
+    "reason": "No revision1 annotation existed for this newly annotated seed."
+  },
+  "beforeAction": {
+    "type": "CHECK_AVAILABILITY",
+    "candidateIds": [
+      "praxis:restaurant:6343d9d19c9b69881948e082",
+      "praxis:restaurant:690eacddc99105af5a3a0f53",
+      "praxis:restaurant:d7560a4b60970a42216f0c2a"
+    ],
+    "decisionSummary": "AVAILABILITY goal for omakase near Shibuya, tonight 19:00, party 2. No candidate has fresh availability yet; the two earlier source reads returned UNKNOWN. Check the nearest promising sushi candidates (189m, 209m, 197m) for request-bound slots."
+  },
+  "before": {
+    "verdict": "NOT_ACCEPTABLE",
+    "reasons": [
+      "The approved revision2 requires at least two DIRECT selections when three are checkable."
+    ],
+    "metrics": {
+      "selected": 3,
+      "directSelected": 1,
+      "directInRadiusCheckable": 9,
+      "directSelectionRatio": 0.3333333333333333
+    }
+  },
+  "afterAction": {
+    "type": "CHECK_AVAILABILITY",
+    "candidateIds": [
+      "praxis:restaurant:6343d9d19c9b69881948e082",
+      "praxis:restaurant:690eacddc99105af5a3a0f53",
+      "praxis:restaurant:d7560a4b60970a42216f0c2a"
+    ],
+    "decisionSummary": "Check request-bound availability for the three nearest sushi candidates (189m, 209m, 197m) to fill the 3-result batch for 19:00 tonight, party of 2."
+  },
+  "after": {
+    "verdict": "NOT_ACCEPTABLE",
+    "reasons": [
+      "The approved revision2 requires at least two DIRECT selections when three are checkable."
+    ],
+    "metrics": {
+      "selected": 3,
+      "directSelected": 1,
+      "directInRadiusCheckable": 9,
+      "directSelectionRatio": 0.3333333333333333
+    }
+  },
+  "finishReason": "TOOL_CALLS",
+  "wireText": "{\"type\": \"CHECK_AVAILABILITY\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"\", \"candidateIds\": [\"praxis:restaurant:6343d9d19c9b69881948e082\", \"praxis:restaurant:690eacddc99105af5a3a0f53\", \"praxis:restaurant:d7560a4b60970a42216f0c2a\"], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"Check request-bound availability for the three nearest sushi candidates (189m, 209m, 197m) to fill the 3-result batch for 19:00 tonight, party of 2.\"}",
+  "errorCode": null,
+  "witnessSelection": {
+    "before": {
+      "status": "EVALUATED",
+      "selected": false,
+      "scope": "Historical witness selection only, not current inventory or delivery."
+    },
+    "after": {
+      "status": "EVALUATED",
+      "selected": false,
+      "scope": "Historical witness selection only, not current inventory or delivery."
+    }
+  },
+  "scope": "One captured Agent decision only; no action executed, no restaurant requests or inventory acceptance."
+}

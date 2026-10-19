@@ -1,0 +1,69 @@
+{
+  "seedId": "p22-selection-002",
+  "codeCommit": "628384389637d5b78b9d5d2bee65cdc1c957ced6",
+  "inputSha256": "436dc66303c8d8fd12f94e625a122e6a9d9b48c11061f4e7ca1f90d0fedbc1ca",
+  "annotationRevision": 2,
+  "scenario": "SHIBUYA_OMAKASE",
+  "oldStrictComparison": {
+    "status": "NOT_APPLICABLE",
+    "reason": "No revision1 annotation existed for this newly annotated seed."
+  },
+  "beforeAction": {
+    "type": "CHECK_AVAILABILITY",
+    "candidateIds": [
+      "praxis:restaurant:6343d9d19c9b69881948e082",
+      "praxis:restaurant:690eacddc99105af5a3a0f53",
+      "praxis:restaurant:d7560a4b60970a42216f0c2a"
+    ],
+    "decisionSummary": "AVAILABILITY goal for 2 at 19:00; no eligible candidates yet. Two prior source attempts returned UNKNOWN (not unavailable). Checking the nearest promising sushi candidates for request-bound slots."
+  },
+  "before": {
+    "verdict": "NOT_ACCEPTABLE",
+    "reasons": [
+      "The approved revision2 requires at least two DIRECT selections when three are checkable."
+    ],
+    "metrics": {
+      "selected": 3,
+      "directSelected": 1,
+      "directInRadiusCheckable": 9,
+      "directSelectionRatio": 0.3333333333333333
+    }
+  },
+  "afterAction": {
+    "type": "CHECK_AVAILABILITY",
+    "candidateIds": [
+      "praxis:restaurant:6343d9d19c9b69881948e082",
+      "praxis:restaurant:5f4fbd6b462f17e62da5bb43",
+      "praxis:restaurant:c510b28f298c4785d5fff548"
+    ],
+    "decisionSummary": "Prior direct-source reads returned no slot evidence; check availability on three nearby sushi candidates with direct source pages for the 2026-10-12 19:00 party of 2 request."
+  },
+  "after": {
+    "verdict": "ACCEPTABLE",
+    "reasons": [
+      "All compiled reviewer conditions were checked against captured candidates, distance, source IDs, legal scope and missing facts."
+    ],
+    "metrics": {
+      "selected": 3,
+      "directSelected": 3,
+      "directInRadiusCheckable": 9,
+      "directSelectionRatio": 1
+    }
+  },
+  "finishReason": "TOOL_CALLS",
+  "wireText": "{\"type\": \"CHECK_AVAILABILITY\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"\", \"candidateIds\": [\"praxis:restaurant:6343d9d19c9b69881948e082\", \"praxis:restaurant:5f4fbd6b462f17e62da5bb43\", \"praxis:restaurant:c510b28f298c4785d5fff548\"], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"Prior direct-source reads returned no slot evidence; check availability on three nearby sushi candidates with direct source pages for the 2026-10-12 19:00 party of 2 request.\"}",
+  "errorCode": null,
+  "witnessSelection": {
+    "before": {
+      "status": "EVALUATED",
+      "selected": false,
+      "scope": "Historical witness selection only, not current inventory or delivery."
+    },
+    "after": {
+      "status": "EVALUATED",
+      "selected": false,
+      "scope": "Historical witness selection only, not current inventory or delivery."
+    }
+  },
+  "scope": "One captured Agent decision only; no action executed, no restaurant requests or inventory acceptance."
+}

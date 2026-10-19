@@ -1,0 +1,149 @@
+{
+  "id": "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+  "group": "P21_BASELINE",
+  "input": {
+    "id": "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+    "group": "P21_BASELINE",
+    "artifact": {
+      "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kagurazaka-kaiseki-20261029/attempt-1/probe-summary.json",
+      "sha256": "25b836728708d56c4b1281af5c00e357ef858dc68b67119ac831222e65b72734"
+    },
+    "trace": {
+      "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kagurazaka-kaiseki-20261029/attempt-1/trace.jsonl",
+      "sha256": "b754b4e751c4516b51beae0c513a6c23f778b53ccd891a468494947837e44196"
+    },
+    "decisions": {
+      "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kagurazaka-kaiseki-20261029/attempt-1/probe.decisions.jsonl",
+      "sha256": "361f05fc88abe3313ff7a8e30a8f0bcea0f39a7c8751fb9ccfeb490efd5e38d5"
+    }
+  },
+  "timing": {
+    "schemaVersion": "restaurant-stage-timings@1",
+    "status": "MEASURED_WITH_EXPLICIT_GAPS",
+    "elapsedMs": 109689,
+    "method": "Observed wall-time partition; model intervals override nested action/trace intervals. This is not a dependency-DAG critical-path proof.",
+    "criticalPath": [
+      {
+        "stage": "MODEL_DECISION:browser_read_decide",
+        "elapsedMs": 38978,
+        "percent": 35.53501262660795
+      },
+      {
+        "stage": "DISCOVERY:DIRECTORY:SEARCH",
+        "elapsedMs": 31115,
+        "percent": 28.36656364813245
+      },
+      {
+        "stage": "UNATTRIBUTED",
+        "elapsedMs": 16194,
+        "percent": 14.763558788939637
+      },
+      {
+        "stage": "DISCOVERY:VENUE_SEARCH:DETAIL",
+        "elapsedMs": 15675,
+        "percent": 14.29040286628559
+      },
+      {
+        "stage": "DISCOVERY:VENUE_SEARCH:SEARCH",
+        "elapsedMs": 5631,
+        "percent": 5.13360501052977
+      },
+      {
+        "stage": "DISCOVERY:google-places:SOURCE_TOTAL",
+        "elapsedMs": 1791,
+        "percent": 1.6327981839564587
+      },
+      {
+        "stage": "DISCOVERY:DIRECTORY:UNCLASSIFIED",
+        "elapsedMs": 112,
+        "percent": 0.10210686577505493
+      },
+      {
+        "stage": "DISCOVERY:VENUE_SEARCH:UNCLASSIFIED",
+        "elapsedMs": 87,
+        "percent": 0.0793151546645516
+      },
+      {
+        "stage": "DISCOVERY:tabelog:SOURCE_TOTAL",
+        "elapsedMs": 63,
+        "percent": 0.057435111998468395
+      },
+      {
+        "stage": "DISCOVERY:tablecheck:SOURCE_TOTAL",
+        "elapsedMs": 43,
+        "percent": 0.03920174311006573
+      }
+    ],
+    "modelSteps": [
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 1,
+        "latencyMs": 3877,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 2,
+        "latencyMs": 2062,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 3,
+        "latencyMs": 2352,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 4,
+        "latencyMs": 2975,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 5,
+        "latencyMs": 3635,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 6,
+        "latencyMs": 3943,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 7,
+        "latencyMs": 4709,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 8,
+        "latencyMs": 4263,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 9,
+        "latencyMs": 3359,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 10,
+        "latencyMs": 4331,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 11,
+        "latencyMs": 3472,
+        "placed": true
+      }
+    ],
+    "gaps": [
+      "CALENDAR_CONTROL measures only timestamped date/calendar operations with observed target metadata; missing target metadata remains REQUEST_AND_RESULT. Timing never establishes control or inventory success."
+    ]
+  }
+}

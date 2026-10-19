@@ -1,0 +1,45 @@
+{
+  "id": "p1fB-h004-a1",
+  "group": "CALIBRATION22",
+  "input": {
+    "id": "p1fB-h004-a1",
+    "group": "CALIBRATION22",
+    "artifact": {
+      "path": ".eval-artifacts/calibration-phase1-20261015/inputs/p1fB-h004-a1.result.json.gz",
+      "sha256": "427ee4e39a2eddcf0a4ae94c73b30f90aa60370a5c755a8c5f97fb8ce6c81087"
+    },
+    "decisions": {
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-inputs/p1fB-h004-a1.model-timings.jsonl",
+      "sha256": "a736ea0e09c1d4fbe7b976e6bd98d91f0f2319bcdc282dd40ac9785eebef55da"
+    }
+  },
+  "timing": {
+    "schemaVersion": "restaurant-stage-timings@1",
+    "status": "MEASURED_WITH_EXPLICIT_GAPS",
+    "elapsedMs": 671,
+    "method": "Observed wall-time partition; model intervals override nested action/trace intervals. This is not a dependency-DAG critical-path proof.",
+    "criticalPath": [
+      {
+        "stage": "SEMANTIC",
+        "elapsedMs": 664,
+        "percent": 98.95678092399403
+      },
+      {
+        "stage": "UNATTRIBUTED",
+        "elapsedMs": 7,
+        "percent": 1.0432190760059614
+      }
+    ],
+    "modelSteps": [
+      {
+        "purpose": "restaurant_semantic_interpret",
+        "sequence": 1,
+        "latencyMs": 664,
+        "placed": true
+      }
+    ],
+    "gaps": [
+      "CALENDAR_CONTROL measures only timestamped date/calendar operations with observed target metadata; missing target metadata remains REQUEST_AND_RESULT. Timing never establishes control or inventory success."
+    ]
+  }
+}

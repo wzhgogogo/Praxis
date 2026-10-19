@@ -4606,3 +4606,11 @@ current executable / 本次外站效果未测。修正a37e152五门禁951/119全
 ## TEST-2026-10-19-P21-B-USER-RETRY4-ENV-STOP
 
 按用户“再试一次，如果通过直接跑”，外层63a8136在运行前冻结，仅接纳当前0模型/0正式启动、历史3次失败的状态；保留旧attempt/stopHistory与userResume历史，允许这一次额外尝试，不放宽网络或来源非空检查。24项离线对照通过。UTC14:54:30.244–14:54:40.128再次尝试，TableCheck首页范围GET503（TLS成功），DeepSeek200、Tabelog200、Google公开根路径404。NETWORK_READINESS失败，来源非空和正式B均未到达，未增加自动重试。累计失败4、PREFLIGHT_FAILURE_LIMIT；本次0模型/Google搜索/正式探测，B仍0/10，累计278/450模型、44/55探测、117Google、0完整Live。复用a37e152五门禁951/119，原始HTTP元数据、账本前缀证明、冻结和历史SHA完整性均保存。报告：[本次结果](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/report.md)。提交推送后停下。
+
+## TEST-2026-10-19-P22-SELECTION-TIMING
+
+- 历史与oracle：P20/P1 Google多候选选择需查名，旧脚本化覆盖未验证预算选择；复核者revision2完整when独立评分，保留revision1同输出对照。已有native组合/Pack/Context/回放/计时断言复用；恢复旧组装的真实入口目标断言失败，修后正常控制在原预算交付，见old-assembly-path-red.log/path-timing-green.log。
+- 最终 typecheck、arch:check、build PASS；npm test952/952（gates/*rev2-final.log）。真实本地Chromium119/119（274410ms，gates/browser-final.log）复用本轮浏览器路径未再变化的结果。沙箱Chrome启动失败/旧断言/observer返回类型的调试日志保留，不算产品反例；允许本地进程权限后默认套件全绿。
+- 0网络/模型离线计算52次：50可计时、2中断未评；30地区轨迹诊断。优先级互斥区间与独立固定算术对照通过，初版错误DISCOVERY归因保留为superseded，当前timing-results.rev2。
+- 用户批准标注revision2后，真实DeepSeek单步回放5/30调用，23491ms，101327tokens；0Google/网站/动作执行/Live。0133不退步；神乐坂NOT_ACCEPTABLE；涩谷1/3，0134 TOOL_CALLS但$.retrievalHint非法被拒，整体门槛FAIL；S0–S4全任务影响不由单步结果推断。模型合法输出不等于可接受选择。
+- 冻结290658f/319SHA，按既有仅外层授权6283843/325SHA续跑未运行3颗；生产源码/Gold/日期/半径不改，旧两次结果保留，五颗没有重复调用，源HASH及完整上下文独立比较通过。raw wire、输入、账本、旧严格对照、地域诊断和四层边界见[报告](../../.eval-artifacts/p2-2-selection-20261019/report.md)。不进入Live/检查点C，不宣称总体P2-2通过。

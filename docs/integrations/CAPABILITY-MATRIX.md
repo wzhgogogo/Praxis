@@ -1,7 +1,7 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.63
+- Document revision: 1.64
 - Last updated: 2026-10-19
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
@@ -294,3 +294,9 @@ The final Chromium Fetch boundary checks browser-reserved preflight headers, not
 
 
 2026-10-19 检查点 B 修正（离线）：Tabelog 已确认同地区首页可用此前观察到的列表根应用权威筛选，缺观察／跨地区仍拒绝；真实本地 Chromium 的 302 首页落点验证实际生产 factory、Guard、筛选与详情链。稀疏且有类别且改写未耗尽时，Schema@2、Domain 和执行器拒绝 KEEP；Prompt@5 配套，无类别／额度耗尽仍允许。原三次 TableCheck 录制实际显示搜索错误，筛选预检含未审核 open_from/open_until；停用该筛选并记 SKIPPED/FILTER_TRANSPORT_NOT_REVIEWED，使用普通列表，不扩大网络权限或生成空位证据。旧双来源筛选 Fixture 中 TableCheck 的应用／回退覆盖已退役为明确跳过；既有交付、半径和 HARD 断言保留，精确导航次数移回普通搜索。离线诊断与新十次仅发现探测分列于[修正报告](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/report.md)。不证明查位或完整 Live。
+
+## P2-2 availability path advisory (2026-10-19, isolated feature)
+
+Tabelog/TableCheck existing availability Packs expose a candidate path from already-observed outlet URLs: DIRECT_SOURCE_PAGE, NAME_RESOLUTION, or NONE. The shared production assembly projects the fact into DISCOVERY evidence before the Agent decision; it changes no source access, authorization, candidate order or qualification. Pack URL grammars remain source-owned. The Agent sees Context@13 and Prompt@26 guidance; missing HARD, identity and exact-request inventory still need independent evidence.
+
+Harness mapping: source-packs.test.ts outlet/list/booking-host controls, agent-context.test.ts latest/future/cross-candidate hint controls, and native-discovery-composition.test.ts H001 production initialization (effective old-assembly red, new fixed-source delivery green). Five offline gates pass952/952 and local Chromium119/119. Real-model one-turn replay under approved independent revision2 fails its selection gate (Kagurazaka fail, Shibuya1/3, control pass; five calls, no website/action execution). This is implemented advisory metadata, not proven reliable selection, current website compatibility, faster end-to-end delivery or full P2-2 acceptance. [Report](../../.eval-artifacts/p2-2-selection-20261019/report.md).

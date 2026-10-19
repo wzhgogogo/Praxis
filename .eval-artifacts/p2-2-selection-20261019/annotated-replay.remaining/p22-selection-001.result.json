@@ -1,0 +1,69 @@
+{
+  "seedId": "p22-selection-001",
+  "codeCommit": "628384389637d5b78b9d5d2bee65cdc1c957ced6",
+  "inputSha256": "199db74e9e77aad47acaee8615122ab8e68a9149a0d0edea809596c330b296bd",
+  "annotationRevision": 2,
+  "scenario": "KAGURAZAKA_KAISEKI",
+  "oldStrictComparison": {
+    "status": "NOT_APPLICABLE",
+    "reason": "No revision1 annotation existed for this newly annotated seed."
+  },
+  "beforeAction": {
+    "type": "CHECK_AVAILABILITY",
+    "candidateIds": [
+      "praxis:restaurant:eeb6396dbd632839d53c45c8",
+      "praxis:restaurant:f10f0d8bee11fbdc94d0bc0f",
+      "praxis:restaurant:07cd0218d5b699afb55a000c"
+    ],
+    "decisionSummary": "AVAILABILITY goal for 3 at 19:30 on 2026-10-22 near Kagurazaka; no candidate yet has fresh evidenced availability. Checking the three nearest kaiseki-consistent outlets (Utou 73m, KUROSU 43m, Ishikawa 80m) to obtain request-bound offers."
+  },
+  "before": {
+    "verdict": "NOT_ACCEPTABLE",
+    "reasons": [
+      "The approved revision2 requires at least two DIRECT selections when three are checkable."
+    ],
+    "metrics": {
+      "selected": 3,
+      "directSelected": 0,
+      "directInRadiusCheckable": 3,
+      "directSelectionRatio": 0
+    }
+  },
+  "afterAction": {
+    "type": "CHECK_AVAILABILITY",
+    "candidateIds": [
+      "praxis:restaurant:eeb6396dbd632839d53c45c8",
+      "praxis:restaurant:53acda19b0d83a3ec068407c",
+      "praxis:restaurant:1db081478051e3a02544377a"
+    ],
+    "decisionSummary": "Checking request-bound availability (2026-10-22 19:30, party of 3) for the nearest kaiseki-named candidates; TableCheck outlets already checked with unobserved results."
+  },
+  "after": {
+    "verdict": "NOT_ACCEPTABLE",
+    "reasons": [
+      "The approved revision2 requires at least two DIRECT selections when three are checkable."
+    ],
+    "metrics": {
+      "selected": 3,
+      "directSelected": 0,
+      "directInRadiusCheckable": 3,
+      "directSelectionRatio": 0
+    }
+  },
+  "finishReason": "TOOL_CALLS",
+  "wireText": "{\"type\": \"CHECK_AVAILABILITY\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"\", \"candidateIds\": [\"praxis:restaurant:eeb6396dbd632839d53c45c8\", \"praxis:restaurant:53acda19b0d83a3ec068407c\", \"praxis:restaurant:1db081478051e3a02544377a\"], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"Checking request-bound availability (2026-10-22 19:30, party of 3) for the nearest kaiseki-named candidates; TableCheck outlets already checked with unobserved results.\"}",
+  "errorCode": null,
+  "witnessSelection": {
+    "before": {
+      "status": "EVALUATED",
+      "selected": false,
+      "scope": "Historical witness selection only, not current inventory or delivery."
+    },
+    "after": {
+      "status": "EVALUATED",
+      "selected": false,
+      "scope": "Historical witness selection only, not current inventory or delivery."
+    }
+  },
+  "scope": "One captured Agent decision only; no action executed, no restaurant requests or inventory acceptance."
+}
